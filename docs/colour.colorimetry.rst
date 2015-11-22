@@ -1,11 +1,6 @@
 colour.colorimetry Package
 ==========================
 
-.. automodule:: colour.colorimetry
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 Sub-Packages
 ------------
 
@@ -31,3 +26,10 @@ Sub-Modules
    colour.colorimetry.tristimulus
    colour.colorimetry.whiteness
 
+Module Contents
+---------------
+
+.. automodule:: colour.colorimetry
+    :members:
+    :undoc-members:
+    :show-inheritance:

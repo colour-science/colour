@@ -1,11 +1,6 @@
 colour.plotting Package
 =======================
 
-.. automodule:: colour.plotting
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 Sub-Packages
 ------------
 
@@ -31,3 +26,10 @@ Sub-Modules
    colour.plotting.temperature
    colour.plotting.volume
 
+Module Contents
+---------------
+
+.. automodule:: colour.plotting
+    :members:
+    :undoc-members:
+    :show-inheritance:

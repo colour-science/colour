@@ -1,11 +1,6 @@
 colour.adaptation.dataset Package
 =================================
 
-.. automodule:: colour.adaptation.dataset
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 Sub-Modules
 -----------
 
@@ -13,3 +8,10 @@ Sub-Modules
 
    colour.adaptation.dataset.cat
 
+Module Contents
+---------------
+
+.. automodule:: colour.adaptation.dataset
+    :members:
+    :undoc-members:
+    :show-inheritance:

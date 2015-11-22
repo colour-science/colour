@@ -1,11 +1,6 @@
 colour.recovery.dataset Package
 ===============================
 
-.. automodule:: colour.recovery.dataset
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 Sub-Modules
 -----------
 
@@ -13,3 +8,10 @@ Sub-Modules
 
    colour.recovery.dataset.smits1999
 
+Module Contents
+---------------
+
+.. automodule:: colour.recovery.dataset
+    :members:
+    :undoc-members:
+    :show-inheritance:

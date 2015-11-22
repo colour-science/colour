@@ -1,11 +1,6 @@
 colour.recovery Package
 =======================
 
-.. automodule:: colour.recovery
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 Sub-Packages
 ------------
 
@@ -20,3 +15,10 @@ Sub-Modules
 
    colour.recovery.smits1999
 
+Module Contents
+---------------
+
+.. automodule:: colour.recovery
+    :members:
+    :undoc-members:
+    :show-inheritance:

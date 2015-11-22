@@ -1,11 +1,6 @@
 colour.phenomenons Package
 ==========================
 
-.. automodule:: colour.phenomenons
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 Sub-Modules
 -----------
 
@@ -13,3 +8,10 @@ Sub-Modules
 
    colour.phenomenons.rayleigh
 
+Module Contents
+---------------
+
+.. automodule:: colour.phenomenons
+    :members:
+    :undoc-members:
+    :show-inheritance:

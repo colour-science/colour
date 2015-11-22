@@ -1,11 +1,6 @@
 colour.colorimetry.dataset.light_sources Package
 ================================================
 
-.. automodule:: colour.colorimetry.dataset.light_sources
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 Sub-Modules
 -----------
 
@@ -14,3 +9,10 @@ Sub-Modules
    colour.colorimetry.dataset.light_sources.chromaticity_coordinates
    colour.colorimetry.dataset.light_sources.spds
 
+Module Contents
+---------------
+
+.. automodule:: colour.colorimetry.dataset.light_sources
+    :members:
+    :undoc-members:
+    :show-inheritance:

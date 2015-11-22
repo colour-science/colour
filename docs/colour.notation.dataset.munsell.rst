@@ -1,11 +1,6 @@
 colour.notation.dataset.munsell Package
 =======================================
 
-.. automodule:: colour.notation.dataset.munsell
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 Sub-Modules
 -----------
 
@@ -15,3 +10,10 @@ Sub-Modules
    colour.notation.dataset.munsell.experimental
    colour.notation.dataset.munsell.real
 
+Module Contents
+---------------
+
+.. automodule:: colour.notation.dataset.munsell
+    :members:
+    :undoc-members:
+    :show-inheritance:

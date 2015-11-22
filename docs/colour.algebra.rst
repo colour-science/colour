@@ -1,11 +1,6 @@
 colour.algebra Package
 ======================
 
-.. automodule:: colour.algebra
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 Sub-Packages
 ------------
 
@@ -23,3 +18,10 @@ Sub-Modules
    colour.algebra.matrix
    colour.algebra.random
 
+Module Contents
+---------------
+
+.. automodule:: colour.algebra
+    :members:
+    :undoc-members:
+    :show-inheritance:

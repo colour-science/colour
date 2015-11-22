@@ -1,11 +1,6 @@
 colour.plotting.dataset Package
 ===============================
 
-.. automodule:: colour.plotting.dataset
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 Sub-Modules
 -----------
 
@@ -13,3 +8,10 @@ Sub-Modules
 
    colour.plotting.dataset.astm_g_173
 
+Module Contents
+---------------
+
+.. automodule:: colour.plotting.dataset
+    :members:
+    :undoc-members:
+    :show-inheritance:

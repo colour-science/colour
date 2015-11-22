@@ -1,11 +1,6 @@
 colour.io Package
 =================
 
-.. automodule:: colour.io
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 Sub-Modules
 -----------
 
@@ -17,3 +12,10 @@ Sub-Modules
    colour.io.tabular
    colour.io.xrite
 
+Module Contents
+---------------
+
+.. automodule:: colour.io
+    :members:
+    :undoc-members:
+    :show-inheritance:

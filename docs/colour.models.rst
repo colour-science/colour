@@ -1,11 +1,6 @@
 colour.models Package
 =====================
 
-.. automodule:: colour.models
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 Sub-Packages
 ------------
 
@@ -31,3 +26,10 @@ Sub-Modules
    colour.models.log
    colour.models.rgb
 
+Module Contents
+---------------
+
+.. automodule:: colour.models
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,11 +1,6 @@
 colour.characterisation.dataset Package
 =======================================
 
-.. automodule:: colour.characterisation.dataset
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 Sub-Packages
 ------------
 
@@ -13,3 +8,10 @@ Sub-Packages
 
     colour.characterisation.dataset.colour_checkers
 
+Module Contents
+---------------
+
+.. automodule:: colour.characterisation.dataset
+    :members:
+    :undoc-members:
+    :show-inheritance:

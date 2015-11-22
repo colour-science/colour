@@ -1,11 +1,6 @@
 colour.volume Package
 =====================
 
-.. automodule:: colour.volume
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 Sub-Packages
 ------------
 
@@ -24,3 +19,10 @@ Sub-Modules
    colour.volume.rgb
    colour.volume.spectrum
 
+Module Contents
+---------------
+
+.. automodule:: colour.volume
+    :members:
+    :undoc-members:
+    :show-inheritance:

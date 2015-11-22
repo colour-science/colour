@@ -1,11 +1,6 @@
 colour.difference Package
 =========================
 
-.. automodule:: colour.difference
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 Sub-Modules
 -----------
 
@@ -13,3 +8,10 @@ Sub-Modules
 
    colour.difference.delta_e
 
+Module Contents
+---------------
+
+.. automodule:: colour.difference
+    :members:
+    :undoc-members:
+    :show-inheritance:

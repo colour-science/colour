@@ -1,11 +1,6 @@
 colour.colorimetry.dataset Package
 ==================================
 
-.. automodule:: colour.colorimetry.dataset
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 Sub-Packages
 ------------
 
@@ -22,3 +17,10 @@ Sub-Modules
    colour.colorimetry.dataset.cmfs
    colour.colorimetry.dataset.lefs
 
+Module Contents
+---------------
+
+.. automodule:: colour.colorimetry.dataset
+    :members:
+    :undoc-members:
+    :show-inheritance:

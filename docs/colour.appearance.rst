@@ -1,11 +1,6 @@
 colour.appearance Package
 =========================
 
-.. automodule:: colour.appearance
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 Sub-Modules
 -----------
 
@@ -18,3 +13,10 @@ Sub-Modules
    colour.appearance.nayatani95
    colour.appearance.rlab
 
+Module Contents
+---------------
+
+.. automodule:: colour.appearance
+    :members:
+    :undoc-members:
+    :show-inheritance:

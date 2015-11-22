@@ -1,11 +1,6 @@
 colour.algebra.coordinates Package
 ==================================
 
-.. automodule:: colour.algebra.coordinates
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 Sub-Modules
 -----------
 
@@ -13,3 +8,10 @@ Sub-Modules
 
    colour.algebra.coordinates.transformations
 
+Module Contents
+---------------
+
+.. automodule:: colour.algebra.coordinates
+    :members:
+    :undoc-members:
+    :show-inheritance:

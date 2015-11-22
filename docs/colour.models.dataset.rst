@@ -1,11 +1,6 @@
 colour.models.dataset Package
 =============================
 
-.. automodule:: colour.models.dataset
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 Sub-Modules
 -----------
 
@@ -41,3 +36,10 @@ Sub-Modules
    colour.models.dataset.v_gamut
    colour.models.dataset.xtreme_rgb
 
+Module Contents
+---------------
+
+.. automodule:: colour.models.dataset
+    :members:
+    :undoc-members:
+    :show-inheritance:

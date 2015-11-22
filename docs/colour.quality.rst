@@ -1,11 +1,6 @@
 colour.quality Package
 ======================
 
-.. automodule:: colour.quality
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 Sub-Packages
 ------------
 
@@ -21,3 +16,10 @@ Sub-Modules
    colour.quality.cqs
    colour.quality.cri
 
+Module Contents
+---------------
+
+.. automodule:: colour.quality
+    :members:
+    :undoc-members:
+    :show-inheritance:

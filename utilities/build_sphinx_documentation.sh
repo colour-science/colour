@@ -1,6 +1,6 @@
 #!/bin/bash
 echo -------------------------------------------------------------------------------
-echo Colour - Sphinx Documentation Build
+echo Sphinx Documentation Build
 echo -------------------------------------------------------------------------------
 
 while getopts ra OPTION
@@ -41,7 +41,7 @@ if [ -n "${OPTION_GENERATE_API_FILES+1}" ]; then
     echo -------------------------------------------------------------------------------
     #! Filtering tests modules.
     export EXCLUDED_MODULES=$( find "${PACKAGE_DIRECTORY}" -name '*tests*' | xargs )
-    sphinx-apidoc -Mfe -o $SPHINX_DOCUMENTATION_DIRECTORY $PACKAGE_DIRECTORY $EXCLUDED_MODULES
+    sphinx-apidoc -fe -o $SPHINX_DOCUMENTATION_DIRECTORY $PACKAGE_DIRECTORY $EXCLUDED_MODULES
     cd $SPHINX_DOCUMENTATION_DIRECTORY
     sed -i 's/module$/Module/g; s/package$/Package/g; s/^-----------$/------------/g; s/^----------$/-----------/g; s/^Subpackages$/Sub-Packages/g; s/^Submodules$/Sub-Modules/g; s/^Module contents$/Module Contents/g' $PROJECT_NAME*.rst
     echo -------------------------------------------------------------------------------

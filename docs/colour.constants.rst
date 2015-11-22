@@ -1,11 +1,6 @@
 colour.constants Package
 ========================
 
-.. automodule:: colour.constants
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 Sub-Modules
 -----------
 
@@ -15,3 +10,10 @@ Sub-Modules
    colour.constants.codata
    colour.constants.common
 
+Module Contents
+---------------
+
+.. automodule:: colour.constants
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,11 +1,6 @@
 colour.corresponding Package
 ============================
 
-.. automodule:: colour.corresponding
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 Sub-Packages
 ------------
 
@@ -20,3 +15,10 @@ Sub-Modules
 
    colour.corresponding.prediction
 
+Module Contents
+---------------
+
+.. automodule:: colour.corresponding
+    :members:
+    :undoc-members:
+    :show-inheritance:

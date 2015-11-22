@@ -1,11 +1,6 @@
 colour.temperature Package
 ==========================
 
-.. automodule:: colour.temperature
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 Sub-Modules
 -----------
 
@@ -13,3 +8,10 @@ Sub-Modules
 
    colour.temperature.cct
 
+Module Contents
+---------------
+
+.. automodule:: colour.temperature
+    :members:
+    :undoc-members:
+    :show-inheritance:

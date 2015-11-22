@@ -1,11 +1,6 @@
 colour.characterisation Package
 ===============================
 
-.. automodule:: colour.characterisation
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 Sub-Packages
 ------------
 
@@ -20,3 +15,10 @@ Sub-Modules
 
    colour.characterisation.fitting
 
+Module Contents
+---------------
+
+.. automodule:: colour.characterisation
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,11 +1,6 @@
 colour Package
 ==============
 
-.. automodule:: colour
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 Sub-Packages
 ------------
 
@@ -30,3 +25,10 @@ Sub-Packages
     colour.utilities
     colour.volume
 
+Module Contents
+---------------
+
+.. automodule:: colour
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -1,11 +1,6 @@
 colour.adaptation Package
 =========================
 
-.. automodule:: colour.adaptation
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 Sub-Packages
 ------------
 
@@ -23,3 +18,10 @@ Sub-Modules
    colour.adaptation.fairchild1990
    colour.adaptation.vonkries
 
+Module Contents
+---------------
+
+.. automodule:: colour.adaptation
+    :members:
+    :undoc-members:
+    :show-inheritance:

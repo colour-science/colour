@@ -1,11 +1,6 @@
 colour.volume.dataset Package
 =============================
 
-.. automodule:: colour.volume.dataset
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 Sub-Modules
 -----------
 
@@ -13,3 +8,10 @@ Sub-Modules
 
    colour.volume.dataset.optimal_colour_stimuli
 
+Module Contents
+---------------
+
+.. automodule:: colour.volume.dataset
+    :members:
+    :undoc-members:
+    :show-inheritance:

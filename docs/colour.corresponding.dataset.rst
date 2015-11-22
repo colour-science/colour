@@ -1,11 +1,6 @@
 colour.corresponding.dataset Package
 ====================================
 
-.. automodule:: colour.corresponding.dataset
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 Sub-Modules
 -----------
 
@@ -13,3 +8,10 @@ Sub-Modules
 
    colour.corresponding.dataset.corresponding_chromaticities
 
+Module Contents
+---------------
+
+.. automodule:: colour.corresponding.dataset
+    :members:
+    :undoc-members:
+    :show-inheritance:
