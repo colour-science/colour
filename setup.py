@@ -8,6 +8,7 @@ Pypi Setup
 
 from __future__ import unicode_literals
 
+import os
 import sys
 
 from setuptools import setup
@@ -45,8 +46,10 @@ TESTS_REQUIREMENTS = ['coverage>=3.7.1',
                       'nose>=1.3.4']
 
 if sys.version_info[:2] <= (3, 2):
-    TESTS_REQUIREMENTS += [
-        'mock==1.0.1']
+    TESTS_REQUIREMENTS += ['mock==1.0.1']
+
+if os.environ.get('READTHEDOCS', None) == 'True':
+    INSTALLATION_REQUIREMENTS += ['matplotlib>=1.3.1']
 
 setup(name='colour-science',
       version='0.3.6',
