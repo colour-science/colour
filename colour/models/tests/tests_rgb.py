@@ -351,7 +351,7 @@ class TestXYZ_to_RGB(unittest.TestCase):
         Tests :func:`colour.models.rgb.XYZ_to_RGB` definition.
         """
 
-        for xyY, XYZ, RGB in sRGB_LINEAR_COLORCHECKER_2005:
+        for _xyY, XYZ, RGB in sRGB_LINEAR_COLORCHECKER_2005:
             np.testing.assert_almost_equal(
                 XYZ_to_RGB(
                     np.array(XYZ),
@@ -365,7 +365,7 @@ class TestXYZ_to_RGB(unittest.TestCase):
                 RGB,
                 decimal=7)
 
-        for xyY, XYZ, RGB in ACES_COLORCHECKER_2005:
+        for _xyY, XYZ, RGB in ACES_COLORCHECKER_2005:
             np.testing.assert_almost_equal(
                 XYZ_to_RGB(
                     np.array(XYZ),

@@ -831,7 +831,7 @@ def xyY_to_munsell_specification(xyY):
         hue_new, code_new = hue_angle_to_hue(hue_angle_new)
         specification_current = [hue_new, value, chroma_current, code_new]
 
-        x_current, y_current, Y_current = np.ravel(
+        x_current, y_current, _Y_current = np.ravel(
             munsell_specification_to_xyY(specification_current))
         difference = np.linalg.norm(
             np.array([x, y]) - np.array([x_current, y_current]))
@@ -839,7 +839,7 @@ def xyY_to_munsell_specification(xyY):
             return tuple(specification_current)
 
         # TODO: Consider refactoring implementation.
-        hue_current, value_current, chroma_current, code_current = (
+        hue_current, _value_current, chroma_current, code_current = (
             specification_current)
         chroma_maximum = maximum_chroma_from_renotation(hue_current,
                                                         value,
@@ -850,7 +850,7 @@ def xyY_to_munsell_specification(xyY):
         x_current, y_current, Y_current = np.ravel(
             munsell_specification_to_xyY(specification_current))
 
-        z_current, theta_current, rho_current = cartesian_to_cylindrical(
+        _z_current, theta_current, rho_current = cartesian_to_cylindrical(
             (x_current - x_center, y_current - y_center, Y_center))
 
         rho_bounds = [rho_current]
@@ -872,10 +872,10 @@ def xyY_to_munsell_specification(xyY):
 
             specification_inner = (
                 hue_current, value, chroma_inner, code_current)
-            x_inner, y_inner, Y_inner = np.ravel(
+            x_inner, y_inner, _Y_inner = np.ravel(
                 munsell_specification_to_xyY(specification_inner))
 
-            z_inner, theta_inner, rho_inner = cartesian_to_cylindrical(
+            _z_inner, theta_inner, rho_inner = cartesian_to_cylindrical(
                 (x_inner - x_center, y_inner - y_center, Y_center))
 
             rho_bounds.append(rho_inner)

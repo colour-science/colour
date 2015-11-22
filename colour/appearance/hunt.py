@@ -322,9 +322,9 @@ def XYZ_to_Hunt(XYZ,
 s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
     """
 
-    _X, Y, Z = tsplit(XYZ)
+    _X, Y, _Z = tsplit(XYZ)
     X_b, Y_b, _Z_b = tsplit(XYZ_b)
-    _X_w, Y_w, Z_w = tsplit(XYZ_w)
+    _X_w, Y_w, _Z_w = tsplit(XYZ_w)
 
     # Arguments handling.
     if XYZ_p is not None:

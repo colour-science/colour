@@ -79,7 +79,7 @@ def bandpass_correction_Stearns1988(spd):
                      (1 + 2 * ALPHA_STEARNS) *
                      values[i] - ALPHA_STEARNS * values[i + 1])
 
-    for i, (wavelength, value) in enumerate(spd):
+    for i, (wavelength, _value) in enumerate(spd):
         spd[wavelength] = values[i]
     return spd
 

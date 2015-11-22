@@ -29,8 +29,6 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np  # noqa
-
 from colour.utilities import tsplit, tstack
 
 __author__ = 'Colour Developers'
@@ -67,6 +65,7 @@ def XYZ_to_UCS(XYZ):
 
     Examples
     --------
+    >>> import numpy as np
     >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
     >>> XYZ_to_UCS(XYZ)  # doctest: +ELLIPSIS
     array([ 0.0469968...,  0.1008    ,  0.1637439...])
@@ -100,6 +99,7 @@ def UCS_to_XYZ(UVW):
 
     Examples
     --------
+    >>> import numpy as np
     >>> UVW = np.array([0.04699689, 0.10080000, 0.16374390])
     >>> UCS_to_XYZ(UVW)  # doctest: +ELLIPSIS
     array([ 0.0704953...,  0.1008    ,  0.0955831...])
@@ -134,6 +134,7 @@ def UCS_to_uv(UVW):
 
     Examples
     --------
+    >>> import numpy as np
     >>> UCS = np.array([0.04699689, 0.10080000, 0.16374390])
     >>> UCS_to_uv(UCS)  # doctest: +ELLIPSIS
     array([ 0.1508530...,  0.3235531...])
@@ -168,6 +169,7 @@ def UCS_uv_to_xy(uv):
 
     Examples
     --------
+    >>> import numpy as np
     >>> uv = np.array([0.15085308732766581, 0.3235531372954405])
     >>> UCS_uv_to_xy(uv)  # doctest: +ELLIPSIS
     array([ 0.2641477...,  0.3777000...])
