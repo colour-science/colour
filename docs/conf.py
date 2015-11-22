@@ -32,7 +32,7 @@ MOCK_MODULES = ('matplotlib',
                   'scipy.ndimage',
                   'scipy.spatial')
 
-for module in MOCK_MODULES
+for module in MOCK_MODULES:
     sys.modules[module] = mock.Mock()
 
 # If extensions (or modules to document with autodoc) are in another directory,
