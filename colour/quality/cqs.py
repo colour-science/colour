@@ -376,13 +376,13 @@ def CCT_factor(reference_data, XYZ_r):
 
 def scale_conversion(D_E_ab, CCT_f, scaling_f=3.104):
     """
-    Returns the colour quality scale for given :math:`|Delta E_{ab}` value and
+    Returns the colour quality scale for given :math:`\Delta E_{ab}` value and
     given correlated colour temperature penalizing factor.
 
     Parameters
     ----------
     D_E_ab : numeric
-        :math:`|Delta E_{ab}` value.
+        :math:`\Delta E_{ab}` value.
     CCT_f : numeric
         Correlated colour temperature penalizing factor.
     scaling_f : numeric, optional

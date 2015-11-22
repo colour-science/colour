@@ -39,7 +39,7 @@ if [ -n "${OPTION_GENERATE_API_FILES+1}" ]; then
     echo -------------------------------------------------------------------------------
     #! Filtering tests modules.
     export EXCLUDED_MODULES=$( find "${PACKAGE}" -name '*tests*' | xargs )
-    python $UTILITIES/libraries/python/apidoc.py -fe -o $SPHINX_DOCUMENTATION $PACKAGE $EXCLUDED_MODULES
+    python $UTILITIES/libraries/python/apidoc.py -Mfe -o $SPHINX_DOCUMENTATION $PACKAGE $EXCLUDED_MODULES
     echo -------------------------------------------------------------------------------
     echo API Files Generation - End
     echo -------------------------------------------------------------------------------

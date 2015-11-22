@@ -9,7 +9,7 @@ Notes
 The MonteCarlo sampling based unit tests are assuming that
 :func:`np.random.RandomState` definition will return the same sequence no
 matter which *OS* or *Python* version is used. There is however no formal
-promise about the *prng* sequence reproducibility of either *Python or *Numpy*
+promise about the *prng* sequence reproducibility of either *Python* or *Numpy*
 implementations:
 
 References

@@ -3,12 +3,16 @@
     padding: 0;
 }
 
-tt.descclassname {
+code {
+    background-color: transparent;
+    color: #4183c4;
+}
+
+code.descclassname {
     display: none;
 }
 
-tt.descname {
-    color: #333333;
+code.descname {
     font-size: 20px;
 }
 
