@@ -69,19 +69,19 @@ refl1d/numpyerrors.html
 
     context = np.errstate(**kwargs)
 
-    def wrapper(callable):
+    def wrapper(function):
         """
-        Wrapper for given callable.
+        Wrapper for given function.
         """
 
-        @functools.wraps(callable)
+        @functools.wraps(function)
         def wrapped(*args, **kwargs):
             """
-            Wrapped callable.
+            Wrapped function.
             """
 
             with context:
-                return callable(*args, **kwargs)
+                return function(*args, **kwargs)
 
         return wrapped
 
@@ -94,14 +94,14 @@ print_numpy_errors = handle_numpy_errors(all='print')
 warn_numpy_errors = handle_numpy_errors(all='warn')
 
 
-def ignore_python_warnings(callable):
+def ignore_python_warnings(function):
     """
     Decorator for ignoring *Python* warnings.
 
     Parameters
     ----------
-    callable : object
-        Callable to decorate.
+    function : object
+        Function to decorate.
 
     Returns
     -------
@@ -115,16 +115,16 @@ def ignore_python_warnings(callable):
     >>> f()
     """
 
-    @functools.wraps(callable)
+    @functools.wraps(function)
     def wrapped(*args, **kwargs):
         """
-        Wrapped callable.
+        Wrapped function.
         """
 
         with warnings.catch_warnings():
             warnings.simplefilter('ignore')
 
-            return callable(*args, **kwargs)
+            return function(*args, **kwargs)
 
     return wrapped
 
