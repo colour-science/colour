@@ -25,18 +25,6 @@ The two main references for `Colour <https://github.com/colour-science/colour>`_
 -   :doc:`API Reference <api>`
 -   `IPython Notebooks <http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/colour.ipynb>`_
 
-.. raw:: html
-
-    <div id="hidden-toctree">
-
-.. toctree::
-
-   colour
-
-.. raw:: html
-
-    </div>
-
 Contributing
 ------------
 
