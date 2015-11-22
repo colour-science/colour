@@ -38,9 +38,7 @@ OPTIONAL_REQUIREMENTS = ['scipy>=0.14.0']
 
 PLOTTING_REQUIREMENTS = ['matplotlib>=1.3.1']
 
-DOCS_REQUIREMENTS = ['sphinx>=1.2.2',
-                     'sphinxcontrib-napoleon>0.2.8',
-                     'sphinx_bootstrap_theme>0.4.1']
+DOCS_REQUIREMENTS = ['sphinx>=1.2.2']
 
 TESTS_REQUIREMENTS = ['coverage>=3.7.1',
                       'flake8>=2.1.0',
