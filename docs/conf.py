@@ -13,6 +13,7 @@
 # serve to show the default.
 
 import re
+import sys
 
 try:
     from unittest import mock
