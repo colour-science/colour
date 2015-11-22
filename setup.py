@@ -49,7 +49,7 @@ if sys.version_info[:2] <= (3, 2):
     TESTS_REQUIREMENTS += ['mock==1.0.1']
 
 if os.environ.get('READTHEDOCS', None) == 'True':
-    INSTALLATION_REQUIREMENTS += ['matplotlib>=1.3.1']
+    INSTALLATION_REQUIREMENTS = ['mock==1.0.1']
 
 setup(name='colour-science',
       version='0.3.6',
