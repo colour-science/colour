@@ -126,7 +126,8 @@ sample_spd_data = {
     775: 0.432,
     780: 0.421}
 
-# http://speclib.jpl.nasa.gov/speclibdata/jhu.becknic.manmade.roofing.metal.solid.0525uuua.spectrum.txt  # noqa
+# http://speclib.jpl.nasa.gov/speclibdata/
+# jhu.becknic.manmade.roofing.metal.solid.0525uuua.spectrum.txt  # noqa
 galvanized_steel_metal_spd_data = {
     360: 2.24,
     362: 2.25,
@@ -351,7 +352,8 @@ galvanized_steel_metal_spd_data = {
     800: 9.21,
     820: 8.59}
 
-# http://speclib.jpl.nasa.gov/speclibdata/jhu.becknic.manmade.construction.marble.solid.0722uuu.spectrum.txt  # noqa
+# http://speclib.jpl.nasa.gov/speclibdata/
+# jhu.becknic.manmade.construction.marble.solid.0722uuu.spectrum.txt
 white_marble_spd_data = {
     360: 40.93,
     362: 41.58,

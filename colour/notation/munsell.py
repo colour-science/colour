@@ -30,7 +30,8 @@ Defines various objects for *Munsell Renotation System* computations:
 See Also
 --------
 `Munsell Renotation System IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/notation/munsell.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/notation/munsell.ipynb>`_
 
 References
 ----------
@@ -45,14 +46,10 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 import re
-
-try:
-    from collections import OrderedDict
-except ImportError:
-    from ordereddict import OrderedDict
+from collections import OrderedDict
 
 from colour.algebra import (
-    Extrapolator1d,
+    Extrapolator,
     LinearInterpolator,
     cartesian_to_cylindrical)
 from colour.colorimetry import ILLUMINANTS, luminance_ASTMD153508
@@ -189,14 +186,14 @@ def _munsell_value_ASTMD153508_interpolator():
 
     Returns
     -------
-    Extrapolator1d
+    Extrapolator
         *Munsell* value interpolator for ASTM D1535-08e1 (2008) method.
     """
 
     global _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE
     munsell_values = np.arange(0, 10, 0.001)
     if _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE is None:
-        _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE = Extrapolator1d(
+        _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE = Extrapolator(
             LinearInterpolator(
                 luminance_ASTMD153508(munsell_values),
                 munsell_values))
@@ -825,7 +822,7 @@ def xyY_to_munsell_specification(xyY):
         hue_angles_differences = hue_angles_differences[
             theta_differences_indexes]
 
-        hue_angle_difference_new = Extrapolator1d(
+        hue_angle_difference_new = Extrapolator(
             LinearInterpolator(
                 theta_differences,
                 hue_angles_differences))(0) % 360

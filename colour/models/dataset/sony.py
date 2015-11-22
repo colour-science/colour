@@ -14,19 +14,23 @@ Defines the *S-Gamut*, *S-Gamut3* and *S-Gamut3.Cine* colourspaces:
 See Also
 --------
 `RGB Colourspaces IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/rgb.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
 .. [1]  Gaggioni, H., Dhanendra, P., Yamashita, J., Kawada, N., Endo, K., &
         Clark, C. (n.d.). S-Log: A new LUT for digital production mastering
         and interchange applications. Retrieved from
-        http://pro.sony.com/bbsccms/assets/files/mkt/cinema/solutions/slog_manual.pdf  # noqa
+        http://pro.sony.com/bbsccms/assets/files/mkt/cinema/solutions/\
+slog_manual.pdf
 .. [2]  Sony Corporation. (n.d.). S-Log Whitepaper. Retrieved from
         http://www.theodoropoulos.info/attachments/076_on S-Log.pdf
 .. [3]  Sony Corporation. (n.d.). Technical Summary for
         S-Gamut3.Cine/S-Log3 and S-Gamut3/S-Log3. Retrieved from
-        http://community.sony.com/sony/attachments/sony/large-sensor-camera-F5-F55/12359/2/TechnicalSummary_for_S-Gamut3Cine_S-Gamut3_S-Log3_V1_00.pdf  # noqa
+        http://community.sony.com/sony/attachments/sony/\
+large-sensor-camera-F5-F55/12359/2/\
+TechnicalSummary_for_S-Gamut3Cine_S-Gamut3_S-Log3_V1_00.pdf
 """
 
 from __future__ import division, unicode_literals

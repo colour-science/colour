@@ -8,13 +8,7 @@ Defines unit tests for :mod:`colour.temperature.cct` module.
 from __future__ import division, unicode_literals
 
 import numpy as np
-
-import sys
-
-if sys.version_info[:2] <= (2, 6):
-    import unittest2 as unittest
-else:
-    import unittest
+import unittest
 from itertools import permutations
 
 from colour.colorimetry import STANDARD_OBSERVERS_CMFS
@@ -190,16 +184,14 @@ class TestPlanckianTable(unittest.TestCase):
 
 class TestPlanckianTableMinimalDistanceIndex(unittest.TestCase):
     """
-    Defines
-    :func:`colour.temperature.cct.planckian_table_minimal_distance_index`
-    definition unit tests methods.
+    Defines :func:`colour.temperature.cct.\
+planckian_table_minimal_distance_index` definition unit tests methods.
     """
 
     def test_planckian_table_minimal_distance_index(self):
         """
-        Tests
-        :func:`colour.temperature.cct.planckian_table_minimal_distance_index`
-        definition.
+        Tests :func:`colour.temperature.cct.\
+planckian_table_minimal_distance_index` definition.
         """
 
         cmfs = STANDARD_OBSERVERS_CMFS.get(

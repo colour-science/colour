@@ -17,7 +17,8 @@ Defines the *CIE xyY* colourspace transformations:
 See Also
 --------
 `CIE xyY Colourspace IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/cie_xyy.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/models/cie_xyy.ipynb>`_
 
 References
 ----------

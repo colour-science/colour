@@ -12,7 +12,8 @@ the original 1943 renotation article (Newhall, Nickerson, & Judd, 1943).
 See Also
 --------
 `Munsell Renotation System IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/notation/munsell.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/notation/munsell.ipynb>`_
 
 References
 ----------

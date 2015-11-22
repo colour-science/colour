@@ -15,7 +15,8 @@ Defines LLAB(l:c) colour appearance model objects:
 See Also
 --------
 `LLAB(l:c) Colour Appearance Model IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/appearance/llab.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/appearance/llab.ipynb>`_
 
 References
 ----------
@@ -25,7 +26,9 @@ References
         Management – Colour Appearance and Gamut Mapping. In Conference: 5th
         International Conference on High Technology: Imaging Science and
         Technology – Evolution & Promise (pp. 136–147). Retrieved from
-        http://www.researchgate.net/publication/236348295_Two_Unsolved_Issues_in_Colour_Management__Colour_Appearance_and_Gamut_Mapping  # noqa
+        http://www.researchgate.net/publication/\
+236348295_Two_Unsolved_Issues_in_Colour_Management\
+__Colour_Appearance_and_Gamut_Mapping
 .. [3]  Luo, M. R., Lo, M.-C., & Kuo, W.-G. (1996). The LLAB (l:c) colour
         model. Color Research & Application, 21(6), 412–429.
         doi:10.1002/(SICI)1520-6378(199612)21:6<412::AID-COL4>3.0.CO;2-Z

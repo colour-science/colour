@@ -21,7 +21,7 @@ Colour Science for Python
 
 `Colour <https://github.com/colour-science/colour>`_ is a `Python <https://www.python.org/>`_ colour science package implementing a comprehensive number of colour theory transformations and algorithms.
 
-It is open source and freely available and under the `New BSD License <http://opensource.org/licenses/BSD-3-Clause>`_ terms.
+It is open source and freely available under the `New BSD License <http://opensource.org/licenses/BSD-3-Clause>`_ terms.
 
 Features
 --------
@@ -36,9 +36,9 @@ The installation procedure is described in the `Installation Guide <http://colou
 Usage
 -----
 
-The two main references for `Colour <https://github.com/colour-science/colour>`_ usage are the complete sphinx `API Reference <http://colour-science.org/api/latest/html/index.html>`_ and the `IPython Notebooks <http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/colour.ipynb>`_ with detailed historical and theoretical context and images:
+The two main references for `Colour <https://github.com/colour-science/colour>`_ usage are the complete sphinx `API Reference <http://colour.readthedocs.org/en/latest/>`_ and the `IPython Notebooks <http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/colour.ipynb>`_ with detailed historical and theoretical context and images:
 
--   `API Reference <http://colour-science.org/api/latest/html/index.html>`_
+-   `API Reference <http://colour.readthedocs.org/en/latest/>`_
 -   `IPython Notebooks <http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/colour.ipynb>`_
 
 Contributing

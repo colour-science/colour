@@ -17,15 +17,17 @@ Defines the *RED* colourspaces:
 See Also
 --------
 `RGB Colourspaces IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/rgb.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
 .. [1]  Mansencal, T. (2015). RED Colourspaces Derivation. Retrieved May 20,
-        2015, from
-        http://colour-science.org/blog_red_colourspaces_derivation.php
+        2015, from http://colour-science.org/\
+blog_red_colourspaces_derivation.php
 .. [2]  Sony Imageworks. (2012). make.py. Retrieved November 27, 2014, from
-        https://github.com/imageworks/OpenColorIO-Configs/blob/master/nuke-default/make.py  # noqa
+        https://github.com/imageworks/OpenColorIO-Configs/\
+blob/master/nuke-default/make.py
 """
 
 from __future__ import division, unicode_literals

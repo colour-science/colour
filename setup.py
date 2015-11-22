@@ -8,6 +8,7 @@ Pypi Setup
 
 from __future__ import unicode_literals
 
+import os
 import sys
 
 from setuptools import setup
@@ -34,26 +35,21 @@ LONG_DESCRIPTION = open('README.rst').read()
 
 INSTALLATION_REQUIREMENTS = ['numpy>=1.8.1']
 
-if sys.version_info[:2] <= (2, 6):
-    INSTALLATION_REQUIREMENTS += [
-        'ordereddict>=1.1',
-        'unittest2>=0.5.1']
-
 OPTIONAL_REQUIREMENTS = ['scipy>=0.14.0']
 
 PLOTTING_REQUIREMENTS = ['matplotlib>=1.3.1']
 
-DOCS_REQUIREMENTS = ['sphinx>=1.2.2',
-                     'sphinxcontrib-napoleon>0.2.8',
-                     'sphinx_bootstrap_theme>0.4.1']
+DOCS_REQUIREMENTS = ['sphinx>=1.2.2']
 
 TESTS_REQUIREMENTS = ['coverage>=3.7.1',
                       'flake8>=2.1.0',
                       'nose>=1.3.4']
 
 if sys.version_info[:2] <= (3, 2):
-    TESTS_REQUIREMENTS += [
-        'mock==1.0.1']
+    TESTS_REQUIREMENTS += ['mock==1.0.1']
+
+if os.environ.get('READTHEDOCS', None) == 'True':
+    INSTALLATION_REQUIREMENTS += ['mock==1.0.1']
 
 setup(name='colour-science',
       version='0.3.6',
@@ -79,7 +75,6 @@ setup(name='colour-science',
                    'License :: OSI Approved',
                    'Natural Language :: English',
                    'Operating System :: OS Independent',
-                   'Programming Language :: Python :: 2.6',
                    'Programming Language :: Python :: 2.7',
                    'Programming Language :: Python :: 3.4',
                    'Topic :: Scientific/Engineering'])

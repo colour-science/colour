@@ -15,7 +15,6 @@ Defines the common plotting objects:
 -   :func:`display`
 -   :func:`label_rectangles`
 -   :func:`equal_axes3d`
--   :func:`colour_parameter`
 -   :func:`colour_parameters_plot`
 -   :func:`single_colour_plot`
 -   :func:`multi_colour_plot`
@@ -29,6 +28,7 @@ import os
 from collections import namedtuple
 
 import matplotlib
+import matplotlib.cm
 import matplotlib.image
 import matplotlib.path
 import matplotlib.pyplot
@@ -70,7 +70,6 @@ __all__ = ['PLOTTING_RESOURCES_DIRECTORY',
            'get_RGB_colourspace',
            'get_cmfs',
            'get_illuminant',
-           'colour_parameter',
            'colour_parameters_plot',
            'single_colour_plot',
            'multi_colour_plot',
@@ -174,8 +173,35 @@ Default plotting OECF / transfer function: *sRGB*.
 DEFAULT_PLOTTING_OECF : object
 """
 
-ColourParameter = namedtuple('ColourParameter',
-                             ('name', 'RGB', 'x', 'y0', 'y1'))
+
+class ColourParameter(
+    namedtuple('ColourParameter',
+               ('name', 'RGB', 'x', 'y0', 'y1'))):
+    """
+    Defines a data structure for plotting a colour polygon in various spectral
+    figures.
+
+    Parameters
+    ----------
+    name : unicode, optional
+        Colour name.
+    RGB : array_like, optional
+        RGB Colour.
+    x : numeric, optional
+        X data.
+    y0 : numeric, optional
+        Y0 data.
+    y1 : numeric, optional
+        Y1 data.
+    """
+
+    def __new__(cls, name=None, RGB=None, x=None, y0=None, y1=None):
+        """
+        Returns a new instance of the :class:`ColourParameter` class.
+        """
+
+        return super(ColourParameter, cls).__new__(
+            cls, name, RGB, x, y0, y1)
 
 
 def colour_cycle(**kwargs):
@@ -184,7 +210,7 @@ def colour_cycle(**kwargs):
 
     Parameters
     ----------
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         **{'colour_cycle_map', 'colour_cycle_count'}**
         Keywords arguments such as ``{'colour_cycle_map': unicode
         (Matplotlib colormap name), 'colour_cycle_count': int}``
@@ -216,7 +242,7 @@ def canvas(**kwargs):
 
     Parameters
     ----------
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         **{'figure_size', }**
         Keywords arguments such as ``{'figure_size': array_like
         (width, height), }``
@@ -246,7 +272,7 @@ def camera(**kwargs):
 
     Parameters
     ----------
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         **{'camera_aspect', 'elevation', 'azimuth'}**
         Keywords arguments such as ``{'camera_aspect': unicode
         (Matplotlib axes aspect), 'elevation' : numeric, 'azimuth' : numeric}``
@@ -278,7 +304,7 @@ def decorate(**kwargs):
 
     Parameters
     ----------
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         **{'title', 'x_label', 'y_label', 'legend', 'legend_columns',
         'legend_location', 'x_ticker', 'y_ticker', 'x_ticker_locator',
         'y_ticker_locator', 'grid', 'grid_which', 'grid_axis', 'x_axis_line',
@@ -358,7 +384,7 @@ def boundaries(**kwargs):
 
     Parameters
     ----------
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         **{'bounding_box', 'x_tighten', 'y_tighten', 'limits', 'margins'}**
         Keywords arguments such as ``{'bounding_box': array_like
         (x min, x max, y min, y max), 'x_tighten': bool, 'y_tighten': bool,
@@ -401,7 +427,7 @@ def display(**kwargs):
 
     Parameters
     ----------
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         **{'standalone', 'filename'}**
         Keywords arguments such as ``{'standalone': bool (figure is shown),
         'filename': unicode (figure is saved as `filename`)}``
@@ -595,39 +621,12 @@ def get_illuminant(illuminant):
     return illuminant
 
 
-def colour_parameter(name=None, RGB=None, x=None, y0=None, y1=None):
-    """
-    Defines a factory for
-    :attr:`colour.plotting.plots.COLOUR_PARAMETER` attribute.
-
-    Parameters
-    ----------
-    name : unicode, optional
-        Colour name.
-    RGB : array_like, optional
-        RGB Colour.
-    x : numeric, optional
-        X data.
-    y0 : numeric, optional
-        Y0 data.
-    y1 : numeric, optional
-        Y1 data.
-
-    Returns
-    -------
-    ColourParameter
-        ColourParameter.
-    """
-
-    return ColourParameter(name, RGB, x, y0, y1)
-
-
 def colour_parameters_plot(colour_parameters,
                            y0_plot=True,
                            y1_plot=True,
                            **kwargs):
     """
-    Plots given colour colour_parameters.
+    Plots given colour colour parameters.
 
     Parameters
     ----------
@@ -637,7 +636,7 @@ def colour_parameters_plot(colour_parameters,
         Plot y0 line.
     y1_plot : bool, optional
         Plot y1 line.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -647,15 +646,15 @@ def colour_parameters_plot(colour_parameters,
 
     Examples
     --------
-    >>> cp1 = colour_parameter(
+    >>> cp1 = ColourParameter(
     ...     x=390, RGB=[0.03009021, 0, 0.12300545])
-    >>> cp2 = colour_parameter(
+    >>> cp2 = ColourParameter(
     ...     x=391, RGB=[0.03434063, 0, 0.13328537], y0=0, y1=0.25)
-    >>> cp3 = colour_parameter(
+    >>> cp3 = ColourParameter(
     ...     x=392, RGB=[0.03826312, 0, 0.14276247], y0=0, y1=0.35)
-    >>> cp4 = colour_parameter(
+    >>> cp4 = ColourParameter(
     ...     x=393, RGB=[0.04191844, 0, 0.15158707], y0=0, y1=0.05)
-    >>> cp5 = colour_parameter(
+    >>> cp5 = ColourParameter(
     ...     x=394, RGB=[0.04535085, 0, 0.15986838], y0=0, y1=-.25)
     >>> colour_parameters_plot(
     ...     [cp1, cp2, cp3, cp3, cp4, cp5])  # doctest: +SKIP
@@ -733,7 +732,7 @@ def single_colour_plot(colour_parameter, **kwargs):
     ----------
     colour_parameter : ColourParameter
         ColourParameter.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -744,7 +743,7 @@ def single_colour_plot(colour_parameter, **kwargs):
     Examples
     --------
     >>> RGB = (0.32315746, 0.32983556, 0.33640183)
-    >>> single_colour_plot(colour_parameter(RGB))  # doctest: +SKIP
+    >>> single_colour_plot(ColourParameter(RGB))  # doctest: +SKIP
     True
     """
 
@@ -781,7 +780,7 @@ def multi_colour_plot(colour_parameters,
         Colour text size.
     text_offset : numeric, optional
         Colour text offset.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -791,8 +790,8 @@ def multi_colour_plot(colour_parameters,
 
     Examples
     --------
-    >>> cp1 = colour_parameter(RGB=(0.45293517, 0.31732158, 0.26414773))
-    >>> cp2 = colour_parameter(RGB=(0.77875824, 0.57726450, 0.50453169))
+    >>> cp1 = ColourParameter(RGB=(0.45293517, 0.31732158, 0.26414773))
+    >>> cp2 = ColourParameter(RGB=(0.77875824, 0.57726450, 0.50453169))
     >>> multi_colour_plot([cp1, cp2])  # doctest: +SKIP
     True
     """
@@ -844,6 +843,8 @@ def image_plot(image,
                label_size=15,
                label_colour=None,
                label_alpha=0.85,
+               interpolation='nearest',
+               colour_map=matplotlib.cm.Greys_r,
                **kwargs):
     """
     Plots given image.
@@ -860,7 +861,14 @@ def image_plot(image,
         Image label colour.
     label_alpha: numeric, optional
         Image label alpha.
-    \*\*kwargs : \*\*
+    interpolation: unicode, optional
+        **{'nearest', None, 'none', 'bilinear', 'bicubic', 'spline16',
+        'spline36', 'hanning', 'hamming', 'hermite', 'kaiser', 'quadric',
+        'catrom', 'gaussian', 'bessel', 'mitchell', 'sinc', 'lanczos'}**
+        Image display interpolation.
+    colour_map: unicode, optional
+        Colour map used to display single channel images.
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -883,9 +891,11 @@ def image_plot(image,
 
     image = np.asarray(image)
 
-    pylab.imshow(np.clip(image, 0, 1))
+    pylab.imshow(np.clip(image, 0, 1),
+                 interpolation=interpolation,
+                 cmap=colour_map)
 
-    height, _width, _channels = image.shape
+    height = image.shape[0]
 
     pylab.text(0 + label_size,
                height - label_size,

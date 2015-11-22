@@ -12,7 +12,8 @@ Defines the *sRGB* colourspace:
 See Also
 --------
 `RGB Colourspaces IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/rgb.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
@@ -20,7 +21,8 @@ References
         the HDTV standards for production and international programme exchange
         BT Series Broadcasting service. In Recommendation ITU-R BT.709-5
         (Vol. 5, pp. 1–32). Retrieved from
-        http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.709-5-200204-I!!PDF-E.pdf  # noqa
+        http://www.itu.int/dms_pubrec/itu-r/rec/bt/\
+R-REC-BT.709-5-200204-I!!PDF-E.pdf
 """
 
 from __future__ import division, unicode_literals

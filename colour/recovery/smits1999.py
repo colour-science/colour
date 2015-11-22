@@ -10,7 +10,8 @@ Defines objects for reflectance recovery using Smits (1999) method.
 See Also
 --------
 `Smits (1999) - Reflectance Recovery IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/recovery/smits1999.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/recovery/smits1999.ipynb>`_
 
 References
 ----------
@@ -78,7 +79,7 @@ def XYZ_to_RGB_Smits1999(XYZ, chromatic_adaptation_transform='Bradford'):
     ----------
     XYZ : array_like
         *CIE XYZ* tristimulus values.
-    chromatic_adaptation_method : unicode, optional
+    chromatic_adaptation_transform : unicode, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
         'Fairchild, 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
         'Bianco PC'}**,

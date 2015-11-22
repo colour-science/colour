@@ -67,7 +67,7 @@ def colour_quality_bars_plot(specifications,
         Use hatching for the bars.
     hatching_repeat : int, optional
         Hatching pattern repeat.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -173,7 +173,7 @@ def single_spd_colour_rendering_index_bars_plot(spd, **kwargs):
     spd : SpectralPowerDistribution
         Illuminant or light source spectral power distribution to plot the
         *colour rendering index*.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -203,7 +203,7 @@ def multi_spd_colour_rendering_index_bars_plot(spds, **kwargs):
     spds : array_like
         Array of illuminants or light sources spectral power distributions to
         plot the *colour rendering index*.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -264,7 +264,7 @@ def single_spd_colour_quality_scale_bars_plot(spd, **kwargs):
     spd : SpectralPowerDistribution
         Illuminant or light source spectral power distribution to plot the
         *colour quality scale*.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -294,7 +294,7 @@ def multi_spd_colour_quality_scale_bars_plot(spds, **kwargs):
     spds : array_like
         Array of illuminants or light sources spectral power distributions to
         plot the *colour quality scale*.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns

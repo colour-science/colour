@@ -72,6 +72,10 @@ def read_image(path, bit_depth='float32'):
     ndarray
         Image as a ndarray.
 
+    Notes
+    -----
+    -   For convenience, single channel images are squeezed to 2d arrays.
+
     Examples
     --------
     >>> import os
@@ -87,10 +91,11 @@ def read_image(path, bit_depth='float32'):
         image = ImageInput.open(path)
         specification = image.spec()
 
-        return np.array(image.read_image(bit_depth)).reshape(
-            (specification.height,
-             specification.width,
-             specification.nchannels))
+        shape = (specification.height,
+                 specification.width,
+                 specification.nchannels)
+
+        return np.squeeze(np.array(image.read_image(bit_depth)).reshape(shape))
 
 
 def write_image(image, path, bit_depth='float32'):
@@ -122,10 +127,6 @@ def write_image(image, path, bit_depth='float32'):
     True
     """
 
-    if image.ndim != 3:
-        raise ValueError(
-            'Image must have exactly 3 dimensions!')
-
     if is_openimageio_installed(raise_exception=True):
         from OpenImageIO import ImageOutput, ImageOutputOpenMode, ImageSpec
 
@@ -138,7 +139,11 @@ def write_image(image, path, bit_depth='float32'):
             image = np.clip(image, 0, bit_depth_specification.domain)
         image = image.astype(bit_depth_specification.numpy)
 
-        height, width, channels = image.shape
+        if image.ndim == 2:
+            height, width = image.shape
+            channels = 1
+        else:
+            height, width, channels = image.shape
         specification = ImageSpec(width, height, channels, bit_depth)
 
         image_output = ImageOutput.create(path)

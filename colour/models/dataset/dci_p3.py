@@ -13,18 +13,22 @@ Defines the *DCI-P3* and *DCI-P3+* colourspaces:
 See Also
 --------
 `RGB Colourspaces IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/rgb.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
 .. [1]  Hewlett-Packard Development Company. (2009). Understanding the HP
         DreamColor LP2480zx DCI-P3 Emulation Color Space. Retrieved from
-        http://www.hp.com/united-states/campaigns/workstations/pdfs/lp2480zx-dci--p3-emulation.pdf  # noqa
+        http://www.hp.com/united-states/campaigns/workstations/pdfs/\
+lp2480zx-dci--p3-emulation.pdf
 .. [2]  Digital Cinema Initiatives. (2007). Digital Cinema System
         Specification - Version 1.1. Retrieved from
-        http://www.dcimovies.com/archives/spec_v1_1/DCI_DCinema_System_Spec_v1_1.pdf  # noqa
+        http://www.dcimovies.com/archives/spec_v1_1/\
+DCI_DCinema_System_Spec_v1_1.pdf
 .. [3]  Canon. (2014). EOS C500 Firmware Update. Retrieved January 14, 2015,
-        from http://www.usa.canon.com/cusa/professional/standard_display/cinema-firmware-c500  # noqa
+        from http://www.usa.canon.com/cusa/professional/standard_display/\
+cinema-firmware-c500
 """
 
 from __future__ import division, unicode_literals

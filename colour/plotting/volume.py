@@ -99,7 +99,7 @@ def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
         Axis labels.
     axes : matplotlib.axes.Axes, optional
         Axes to add the grid.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         **{'grid_face_colours', 'grid_edge_colours', 'grid_face_alpha',
         'grid_edge_alpha', 'x_axis_colour', 'y_axis_colour', 'x_ticks_colour',
         'y_ticks_colour', 'x_label_colour', 'y_label_colour',
@@ -430,7 +430,7 @@ def RGB_identity_cube(plane=None,
 def RGB_colourspaces_gamuts_plot(colourspaces=None,
                                  reference_colourspace='CIE xyY',
                                  segments=8,
-                                 grid=True,
+                                 display_grid=True,
                                  grid_segments=10,
                                  spectral_locus=False,
                                  spectral_locus_colour=None,
@@ -449,7 +449,7 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
         Reference colourspace to plot the gamuts into.
     segments : int, optional
         Edge segments count for each *RGB* colourspace cubes.
-    grid : bool, optional
+    display_grid : bool, optional
         Display a grid at the bottom of the *RGB* colourspace cubes.
     grid_segments : bool, optional
         Edge segments count for the grid.
@@ -459,7 +459,7 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
         Spectral locus line colour.
     cmfs : unicode, optional
         Standard observer colour matching functions used for spectral locus.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         **{'face_colours', 'edge_colours', 'edge_alpha', 'face_alpha'}**,
         Arguments for each given colourspace where each key has an array_like
         value such as: ``{ 'face_colours': (None, (0.5, 0.5, 1.0)),
@@ -579,7 +579,7 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
     for i, axis in enumerate('xyz'):
         getattr(axes, 'set_{}label'.format(axis))(labels[i])
 
-    if grid:
+    if display_grid:
         if reference_colourspace == 'CIE Lab':
             limits = np.array([[-450, 450], [-450, 450]])
         elif reference_colourspace == 'CIE Luv':
@@ -617,7 +617,7 @@ def RGB_scatter_plot(RGB,
                      reference_colourspace='CIE xyY',
                      colourspaces=None,
                      segments=8,
-                     grid=True,
+                     display_grid=True,
                      grid_segments=10,
                      spectral_locus=False,
                      spectral_locus_colour=None,
@@ -641,7 +641,7 @@ def RGB_scatter_plot(RGB,
         *RGB* colourspaces to plot the gamuts.
     segments : int, optional
         Edge segments count for each *RGB* colourspace cubes.
-    grid : bool, optional
+    display_grid : bool, optional
         Display a grid at the bottom of the *RGB* colourspace cubes.
     grid_segments : bool, optional
         Edge segments count for the grid.
@@ -653,7 +653,7 @@ def RGB_scatter_plot(RGB,
         Scatter points size.
     cmfs : unicode, optional
         Standard observer colour matching functions used for spectral locus.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         **{'face_colours', 'edge_colours', 'edge_alpha', 'face_alpha'}**,
         Arguments for each given colourspace where each key has an array_like
         value such as: ``{ 'face_colours': (None, (0.5, 0.5, 1.0)),
@@ -703,7 +703,7 @@ def RGB_scatter_plot(RGB,
         colourspaces=colourspaces,
         reference_colourspace=reference_colourspace,
         segments=segments,
-        grid=grid,
+        display_grid=display_grid,
         grid_segments=grid_segments,
         spectral_locus=spectral_locus,
         spectral_locus_colour=spectral_locus_colour,

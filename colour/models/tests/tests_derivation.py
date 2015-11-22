@@ -9,12 +9,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 import re
-import sys
-
-if sys.version_info[:2] <= (2, 6):
-    import unittest2 as unittest
-else:
-    import unittest
+import unittest
 from itertools import permutations
 
 from colour.models import (
@@ -113,8 +108,7 @@ class TestNormalisedPrimaryMatrix(unittest.TestCase):
 
     def test_normalised_primary_matrix(self):
         """
-        Tests
-        :func:`colour.models.rgb.derivation.normalised_primary_matrix`
+        Tests :func:`colour.models.rgb.derivation.normalised_primary_matrix`
         definition.
         """
 
@@ -170,8 +164,7 @@ class TestPrimariesWhitepoint(unittest.TestCase):
 
     def test_primaries_whitepoint(self):
         """
-        Tests
-        :func:`colour.models.rgb.derivation.primaries_whitepoint`
+        Tests :func:`colour.models.rgb.derivation.primaries_whitepoint`
         definition.
         """
 

@@ -7,12 +7,7 @@ Defines unit tests for :mod:`colour.colorimetry.cmfs` module.
 
 from __future__ import division, unicode_literals
 
-import sys
-
-if sys.version_info[:2] <= (2, 6):
-    import unittest2 as unittest
-else:
-    import unittest
+import unittest
 
 from colour.colorimetry import (
     LMS_ConeFundamentals,

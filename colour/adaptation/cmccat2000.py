@@ -16,7 +16,8 @@ Defines CMCCAT2000 chromatic adaptation model objects:
 See Also
 --------
 `CMCCAT2000 Chromatic Adaptation Model IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/adaptation/cmccat2000.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/adaptation/cmccat2000.ipynb>`_
 
 References
 ----------
@@ -174,7 +175,7 @@ def CMCCAT2000_reverse(XYZ_c,
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ_c : array_like
         *CIE XYZ* tristimulus values of the stimulus to adapt.
     XYZ_w : array_like
         Test viewing condition *CIE XYZ* tristimulus values of the whitepoint.

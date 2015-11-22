@@ -26,9 +26,9 @@ from colour.phenomenons.rayleigh import (
     STANDARD_CO2_CONCENTRATION)
 from colour.plotting import (
     ASTM_G_173_ETR,
+    ColourParameter,
     boundaries,
     canvas,
-    colour_parameter,
     decorate,
     display,
     get_cmfs,
@@ -71,7 +71,7 @@ def single_rayleigh_scattering_spd_plot(
         Altitude of the site in meters.
     cmfs : unicode, optional
         Standard observer colour matching functions.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -114,7 +114,7 @@ def the_blue_sky_plot(
     ----------
     cmfs : unicode, optional
         Standard observer colour matching functions.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -165,7 +165,7 @@ def the_blue_sky_plot(
         'standalone': False}
 
     blue_sky_color = XYZ_to_sRGB(spectral_to_XYZ(spd))
-    single_colour_plot(colour_parameter('', normalise(blue_sky_color)),
+    single_colour_plot(ColourParameter('', normalise(blue_sky_color)),
                        **settings)
 
     settings = {'standalone': True}

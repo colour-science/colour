@@ -16,7 +16,8 @@ Defines CIECAM02 colour appearance model objects:
 See Also
 --------
 `CIECAM02 Colour Appearance Model IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/appearance/ciecam02.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/appearance/ciecam02.ipynb>`_
 
 References
 ----------
@@ -30,7 +31,8 @@ References
 .. [4]  Moroney, N., Fairchild, M. D., Hunt, R. W. G., Li, C., Luo, M. R., &
         Newman, T. (n.d.). The CIECAM02 Color Appearance Model. Color and
         Imaging Conference, 2002(1), 23–27. Retrieved from
-        http://www.ingentaconnect.com/content/ist/cic/2002/00002002/00000001/art00006  # noqa
+        http://www.ingentaconnect.com/content/ist/cic\
+/2002/00002002/00000001/art00006
 """
 
 from __future__ import division, unicode_literals
@@ -309,8 +311,12 @@ def CIECAM02_to_XYZ(J,
 
     Parameters
     ----------
-    CIECAM02_Specification : CIECAM02_Specification
-        CIECAM02 specification.
+    J : numeric or array_like
+        Correlate of *Lightness* :math:`J`.
+    C : numeric or array_like
+        Correlate of *chroma* :math:`C`.
+    h : numeric or array_like
+        *Hue* angle :math:`h` in degrees.
     XYZ_w : array_like
         *CIE XYZ* tristimulus values of reference white.
     L_A : numeric or array_like
@@ -684,6 +690,8 @@ def post_adaptation_non_linear_response_compression_forward(RGB, F_L):
     ----------
     RGB : array_like
         CMCCAT2000 transform sharpened *RGB* array.
+    F_L : array_like
+        *Luminance* level adaptation factor :math:`F_L`.
 
     Returns
     -------
@@ -718,6 +726,8 @@ def post_adaptation_non_linear_response_compression_reverse(RGB, F_L):
     ----------
     RGB : array_like
         CMCCAT2000 transform sharpened *RGB* array.
+    F_L : array_like
+        *Luminance* level adaptation factor :math:`F_L`.
 
     Returns
     -------
@@ -776,15 +786,15 @@ def opponent_colour_dimensions_forward(RGB):
     return ab
 
 
-def opponent_colour_dimensions_reverse(P, h):
+def opponent_colour_dimensions_reverse(P_n, h):
     """
-    Returns opponent colour dimensions from given points :math:`P` and hue
+    Returns opponent colour dimensions from given points :math:`P_n` and hue
     :math:`h` in degrees for reverse CIECAM02 implementation.
 
     Parameters
     ----------
-    P : array_like
-        Points :math:`P`.
+    P_n : array_like
+        Points :math:`P_n`.
     h : numeric or array_like
         Hue :math:`h` in degrees.
 
@@ -795,13 +805,13 @@ def opponent_colour_dimensions_reverse(P, h):
 
     Examples
     --------
-    >>> p = np.array([30162.890815335879, 24.237205467134817, 1.05])
+    >>> P_n = np.array([30162.890815335879, 24.237205467134817, 1.05])
     >>> h = -140.9515673417281
-    >>> opponent_colour_dimensions_reverse(p, h)  # doctest: +ELLIPSIS
+    >>> opponent_colour_dimensions_reverse(P_n, h)  # doctest: +ELLIPSIS
     array([-0.0006241..., -0.0005062...])
     """
 
-    P_1, P_2, P_3 = tsplit(P)
+    P_1, P_2, P_3 = tsplit(P_n)
     hr = np.radians(h)
 
     sin_hr = np.sin(hr)
@@ -1349,9 +1359,9 @@ def P(N_c, N_cb, e_t, t, A, N_bb):
     P_2 = A / N_bb + 0.305
     P_3 = np.ones(P_1.shape) * (21 / 20)
 
-    P = tstack((P_1, P_2, P_3))
+    P_n = tstack((P_1, P_2, P_3))
 
-    return P
+    return P_n
 
 
 def post_adaptation_non_linear_response_compression_matrix(P_2, a, b):

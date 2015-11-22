@@ -20,7 +20,8 @@ The following methods are available:
 See Also
 --------
 `Lightness IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/colorimetry/lightness.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/colorimetry/lightness.ipynb>`_
 
 References
 ----------
@@ -58,7 +59,7 @@ def lightness_Glasser1958(Y, **kwargs):
     ----------
     Y : numeric or array_like
         *luminance* :math:`Y`.
-    \*\*kwargs : \*\*, optional
+    \**kwargs : dict, optional
         Unused parameter provided for signature compatibility with other
         *Lightness* computation objects.
 
@@ -101,7 +102,7 @@ def lightness_Wyszecki1963(Y, **kwargs):
     ----------
     Y : numeric or array_like
         *luminance* :math:`Y`.
-    \*\*kwargs : \*\*, optional
+    \**kwargs : dict, optional
         Unused parameter provided for signature compatibility with other
         *Lightness* computation objects.
 
@@ -215,7 +216,7 @@ def lightness(Y, method='CIE 1976', **kwargs):
     method : unicode, optional
         **{'CIE 1976', 'Glasser 1958', 'Wyszecki 1963'}**,
         Computation method.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns

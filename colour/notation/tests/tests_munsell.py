@@ -8,12 +8,7 @@ Defines unit tests for :mod:`colour.notation.munsell` module.
 from __future__ import division, unicode_literals
 
 import numpy as np
-import sys
-
-if sys.version_info[:2] <= (2, 6):
-    import unittest2 as unittest
-else:
-    import unittest
+import unittest
 
 from colour.notation.munsell import (
     parse_munsell_colour,
@@ -4653,16 +4648,14 @@ class TestNormalizeMunsellSpecification(unittest.TestCase):
 
 class TestMunsellColourToMunsellSpecification(unittest.TestCase):
     """
-    Defines
-    :func:`colour.notation.munsell.munsell_colour_to_munsell_specification`
-    definition unit tests methods.
+    Defines :func:`colour.notation.munsell.\
+munsell_colour_to_munsell_specification` definition unit tests methods.
     """
 
     def test_munsell_colour_to_munsell_specification(self):
         """
-        Tests
-        :func:`colour.notation.munsell.munsell_colour_to_munsell_specification`
-        definition.
+        Tests :func:`colour.notation.munsell.\
+munsell_colour_to_munsell_specification` definition.
         """
 
         self.assertTupleEqual(
@@ -4686,16 +4679,14 @@ class TestMunsellColourToMunsellSpecification(unittest.TestCase):
 
 class TestMunsellSpecificationToMunsellColour(unittest.TestCase):
     """
-    Defines
-    :func:`colour.notation.munsell.munsell_specification_to_munsell_colour`
-    definition unit tests methods.
+    Defines :func:`colour.notation.munsell.\
+munsell_specification_to_munsell_colour` definition unit tests methods.
     """
 
     def test_munsell_specification_to_munsell_colour(self):
         """
-        Tests
-        :func:`colour.notation.munsell.munsell_specification_to_munsell_colour`
-        definition.
+        Tests :func:`colour.notation.munsell.\
+munsell_specification_to_munsell_colour` definition.
         """
 
         self.assertEqual(
@@ -4820,16 +4811,14 @@ class TestHueTo_ASTM_hue(unittest.TestCase):
 
 class TestInterpolationMethodFromRenotationOvoid(unittest.TestCase):
     """
-    Defines
-    :func:`colour.notation.munsell.interpolation_method_from_renotation_ovoid`
-    definition unit tests methods.
+    Defines :func:`colour.notation.munsell.\
+interpolation_method_from_renotation_ovoid` definition unit tests methods.
     """
 
     def test_interpolation_method_from_renotation_ovoid(self):
         """
-        Tests
-        :func:`colour.notation.munsell.interpolation_method_from_renotation_ovoid`  # noqa
-        definition.
+        Tests :func:`colour.notation.munsell.\
+interpolation_method_from_renotation_ovoid` definition.
         """
 
         for i, specification in enumerate(MUNSELL_EVEN_SPECIFICATIONS):
@@ -4840,8 +4829,8 @@ class TestInterpolationMethodFromRenotationOvoid(unittest.TestCase):
 
 class Test_xy_fromRenotationOvoid(unittest.TestCase):
     """
-    Defines :func:`colour.notation.munsell.xy_from_renotation_ovoid`
-    definition unit tests methods.
+    Defines :func:`colour.notation.munsell.xy_from_renotation_ovoid` definition
+    unit tests methods.
     """
 
     def test_xy_from_renotation_ovoid(self):
@@ -4892,8 +4881,7 @@ class TestMaximumChromaFromRenotation(unittest.TestCase):
 
     def test_maximum_chroma_from_renotation(self):
         """
-        Tests
-        :func:`colour.notation.munsell.maximum_chroma_from_renotation`
+        Tests :func:`colour.notation.munsell.maximum_chroma_from_renotation`
         definition.
         """
 

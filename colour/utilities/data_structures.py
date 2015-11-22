@@ -46,7 +46,7 @@ class ArbitraryPrecisionMapping(MutableMapping):
         *dict* of data to store into the mapping at initialisation.
     key_decimals : int, optional
         Decimals count the keys will be rounded at
-    \*\*kwargs : dict
+    \**kwargs : dict, optional
         Key / Value pairs to store into the mapping at initialisation.
 
     Attributes
@@ -259,9 +259,9 @@ class Structure(dict):
 
     Parameters
     ----------
-    \*args : \*
+    \*args : list, optional
         Arguments.
-    \*\*kwargs : dict
+    \**kwargs : dict, optional
         Key / Value pairs.
 
     Methods
@@ -274,7 +274,8 @@ class Structure(dict):
     References
     ----------
     .. [1]  Mansencal, T. (n.d.). Structure. Retrieved from
-            https://github.com/KelSolaar/Foundations/blob/develop/foundations/data_structures.py  # noqa
+            https://github.com/KelSolaar/Foundations/\
+blob/develop/foundations/data_structures.py
 
     Examples
     --------
@@ -369,9 +370,9 @@ class Structure(dict):
 
         Parameters
         ----------
-        \*args : \*
+        \*args : list, optional
             Arguments.
-        \*\*kwargs : \*\*
+        \**kwargs : dict, optional
             Keywords arguments.
 
         Notes
@@ -395,7 +396,8 @@ class Lookup(dict):
     References
     ----------
     .. [2]  Mansencal, T. (n.d.). Lookup. Retrieved from
-            https://github.com/KelSolaar/Foundations/blob/develop/foundations/data_structures.py  # noqa
+            https://github.com/KelSolaar/Foundations/\
+blob/develop/foundations/data_structures.py
 
     Examples
     --------
@@ -454,7 +456,7 @@ class CaseInsensitiveMapping(MutableMapping):
     ----------
     data : dict
         *dict* of data to store into the mapping at initialisation.
-    \*\*kwargs : dict
+    \**kwargs : dict, optional
         Key / Value pairs to store into the mapping at initialisation.
 
     Methods
@@ -478,7 +480,8 @@ class CaseInsensitiveMapping(MutableMapping):
     References
     ----------
     .. [3]  Reitz, K. (n.d.). CaseInsensitiveDict. Retrieved from
-            https://github.com/kennethreitz/requests/blob/v1.2.3/requests/structures.py#L37  # noqa
+            https://github.com/kennethreitz/requests/\
+blob/v1.2.3/requests/structures.py#L37
 
     Examples
     --------

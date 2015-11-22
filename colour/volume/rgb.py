@@ -15,7 +15,8 @@ Defines various RGB colourspace volume computation objects:
 See Also
 --------
 `RGB Colourspace Volume Computation IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/volume/rgb.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/volume/rgb.ipynb>`_
 """
 
 from __future__ import division, unicode_literals
@@ -56,7 +57,7 @@ def _wrapper_RGB_colourspace_volume_MonteCarlo(args):
 
     Parameters
     ----------
-    \*args : \*
+    \*args : list, optional
         Arguments.
 
     Returns
@@ -113,16 +114,18 @@ def sample_RGB_colourspace_volume_MonteCarlo(
     The doctest is assuming that :func:`np.random.RandomState` definition will
     return the same sequence no matter which *OS* or *Python* version is used.
     There is however no formal promise about the *prng* sequence
-    reproducibility of either *Python or *Numpy* implementations: Laurent.
+    reproducibility of either *Python* or *Numpy* implementations: Laurent.
     (2012). Reproducibility of python pseudo-random numbers across systems and
-    versions? Retrieved January 20, 2015, from
-    http://stackoverflow.com/questions/8786084/reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions  # noqa
+    versions? Retrieved January 20, 2015, from http://stackoverflow.com/\
+questions/8786084/reproducibility-of-python-pseudo-random-numbers-\
+across-systems-and-versions
 
     Examples
     --------
     >>> from colour import sRGB_COLOURSPACE as sRGB
     >>> prng = np.random.RandomState(2)
-    >>> sample_RGB_colourspace_volume_MonteCarlo(sRGB, 10e3, random_state=prng)  # noqa  # doctest: +ELLIPSIS
+    >>> sample_RGB_colourspace_volume_MonteCarlo(
+    ...     sRGB, 10e3, random_state=prng)  # doctest: +ELLIPSIS
     9...
     """
 
@@ -153,7 +156,7 @@ def RGB_colourspace_limits(colourspace,
     ----------
     colourspace : RGB_Colourspace
         *RGB* colourspace to compute the volume of.
-    illuminant_Lab : array_like, optional
+    illuminant : array_like, optional
         *Lab* colourspace *illuminant* chromaticity coordinates.
 
     Returns
@@ -234,11 +237,11 @@ def RGB_colourspace_volume_MonteCarlo(
     The doctest is assuming that :func:`np.random.RandomState` definition will
     return the same sequence no matter which *OS* or *Python* version is used.
     There is however no formal promise about the *prng* sequence
-    reproducibility of either *Python or *Numpy* implementations: Laurent.
+    reproducibility of either *Python* or *Numpy* implementations: Laurent.
     (2012). Reproducibility of python pseudo-random numbers across systems and
-    versions? Retrieved January 20, 2015, from
-    http://stackoverflow.com/questions/8786084/reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions  # noqa
-
+    versions? Retrieved January 20, 2015, from http://stackoverflow.com/\
+questions/8786084/reproducibility-of-python-pseudo-random-numbers-\
+across-systems-and-versions
 
     Examples
     --------

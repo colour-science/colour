@@ -8,12 +8,7 @@ Defines unit tests for :mod:`colour.colorimetry.lefs` module.
 from __future__ import division, unicode_literals
 
 import numpy as np
-import sys
-
-if sys.version_info[:2] <= (2, 6):
-    import unittest2 as unittest
-else:
-    import unittest
+import unittest
 
 from colour.colorimetry import (
     mesopic_weighting_function,
@@ -511,16 +506,14 @@ class TestMesopicWeightingFunction(unittest.TestCase):
 
 class TestMesopicLuminousEfficiencyFunction(unittest.TestCase):
     """
-    Defines
-    :func:`colour.colorimetry.lefs.mesopic_luminous_efficiency_function`
-    definition unit tests methods.
+    Defines :func:`colour.colorimetry.lefs.\
+mesopic_luminous_efficiency_function` definition unit tests methods.
     """
 
     def test_mesopic_luminous_efficiency_function(self):
         """
-        Tests
-        :func:`colour.colorimetry.lefs.mesopic_luminous_efficiency_function`
-        definition.
+        Tests :func:`colour.colorimetry.lefs.\
+mesopic_luminous_efficiency_function` definition.
         """
 
         np.testing.assert_almost_equal(

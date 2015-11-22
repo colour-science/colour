@@ -12,7 +12,8 @@ Defines the *Rec. 2020* colourspace:
 See Also
 --------
 `RGB Colourspaces IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/rgb.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
@@ -20,7 +21,8 @@ References
         ultra-high definition television systems for production and
         international programme exchange. In Recommendation ITU-R BT.2020
         (Vol. 1, pp. 1–8). Retrieved from
-        http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-1-201406-I!!PDF-E.pdf  # noqa
+        http://www.itu.int/dms_pubrec/itu-r/rec/bt/\
+R-REC-BT.2020-1-201406-I!!PDF-E.pdf
 """
 
 from __future__ import division, unicode_literals

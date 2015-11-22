@@ -7,23 +7,15 @@ matrix:
   - python: 3.4
     env:
     - PYTHON_VERSION="3.4"
-    - NUMPY_VERSION="1.8.1"
+    - NUMPY_VERSION="1.8.2"
     - SCIPY_VERSION="0.14.0"
     - MATPLOTLIB_VERSION="1.3.1"
   - python: 2.7
     env:
     - PYTHON_VERSION="2.7"
-    - NUMPY_VERSION="1.8.1"
+    - NUMPY_VERSION="1.8.2"
     - SCIPY_VERSION="0.14.0"
     - MATPLOTLIB_VERSION="1.3.1"
-  - python: 2.6
-    env:
-    - PYTHON_VERSION="2.6"
-    - NUMPY_VERSION="1.8.1"
-    - SCIPY_VERSION="0.14.0"
-    - MATPLOTLIB_VERSION="1.3.1"
-    - UNITTEST2_VERSION="0.5.1"
-    - ORDEREDDICT_VERSION="1.1"
 
 notifications:
   slack: colour-science:Y6lPPcN7y53Js94geqUpqsAP
@@ -31,7 +23,7 @@ notifications:
 before_install:
   - wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
   - chmod +x miniconda.sh
-  - ./miniconda.sh -b
+  - ./miniconda.sh -b -p /home/travis/miniconda
   - export PATH=/home/travis/miniconda/bin:$PATH
   - conda update --yes --quiet conda
   - "export DISPLAY=:99.0"
@@ -40,8 +32,6 @@ before_install:
   - PACKAGES="${PACKAGES} numpy"; if [ ${NUMPY_VERSION} ]; then PACKAGES="${PACKAGES}=${NUMPY_VERSION}"; fi
   - PACKAGES="${PACKAGES} scipy"; if [ ${SCIPY_VERSION} ]; then PACKAGES="${PACKAGES}=${SCIPY_VERSION}"; fi
   - PACKAGES="${PACKAGES} matplotlib"; if [ ${MATPLOTLIB_VERSION} ]; then PACKAGES="${PACKAGES}=${MATPLOTLIB_VERSION}"; fi
-  - if [ ${UNITTEST2_VERSION} ]; then PACKAGES="${PACKAGES} unittest2=${UNITTEST2_VERSION}"; fi
-  - if [ ${ORDEREDDICT_VERSION} ]; then PACKAGES="${PACKAGES} ordereddict=${ORDEREDDICT_VERSION}"; fi
 
 install:
   - conda create --yes --quiet -n colour-test ${PACKAGES} pip setuptools nose

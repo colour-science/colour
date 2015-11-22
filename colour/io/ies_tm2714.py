@@ -19,7 +19,6 @@ from __future__ import division, unicode_literals
 
 import os
 import re
-import sys
 from collections import namedtuple
 from xml.etree import ElementTree
 from xml.dom import minidom
@@ -62,6 +61,8 @@ class IES_TM2714_ElementSpecification(
         Associated attribute name.
     element : unicode
         Element name.
+    type_ : unicode
+        Element type.
     attribute : object
         Element type.
     required : bool
@@ -75,7 +76,7 @@ class IES_TM2714_ElementSpecification(
     def __new__(cls,
                 element,
                 attribute,
-                type=str,
+                type_=str,
                 required=False,
                 read_conversion=format,
                 write_conversion=(
@@ -88,7 +89,7 @@ class IES_TM2714_ElementSpecification(
             cls,
             element,
             attribute,
-            type,
+            type_,
             required,
             read_conversion,
             write_conversion)
@@ -1008,22 +1009,16 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
 
         self.name = os.path.splitext(os.path.basename(self.__path))[0]
 
-        # *Element.iter* does not exist in *Python 2.6* and text must be
-        # stripped.
-        if sys.version_info[:2] <= (2, 6):
-            iterator = root.getiterator
-            text_conversion = lambda x: x.strip()
-        else:
-            iterator = root.iter
-            text_conversion = lambda x: x
+        iterator = root.iter
+        text_conversion = lambda x: x
 
-        for object in (self.header, self):
-            mapping = object.mapping
+        for header_element in (self.header, self):
+            mapping = header_element.mapping
             for specification in mapping.elements:
                 element = root.find(formatter.format(
                     namespace, mapping.element, specification.element))
                 if element is not None:
-                    setattr(object,
+                    setattr(header_element,
                             specification.attribute,
                             specification.read_conversion(
                                 text_conversion(element.text)))
@@ -1068,16 +1063,16 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
                        'version': IES_TM2714_VERSION}
 
         spectral_distribution = None
-        for object in (self.header, self):
-            mapping = object.mapping
+        for header_element in (self.header, self):
+            mapping = header_element.mapping
             element = ElementTree.SubElement(root, mapping.element)
             for specification in mapping.elements:
                 element_child = ElementTree.SubElement(element,
                                                        specification.element)
-                value = getattr(object, specification.attribute)
+                value = getattr(header_element, specification.attribute)
                 element_child.text = specification.write_conversion(value)
 
-            if object is self:
+            if header_element is self:
                 spectral_distribution = element
 
         # Writing spectral data.

@@ -7,12 +7,7 @@ Defines unit tests for :mod:`colour.quality.cqs` module.
 
 from __future__ import division, unicode_literals
 
-import sys
-
-if sys.version_info[:2] <= (2, 6):
-    import unittest2 as unittest
-else:
-    import unittest
+import unittest
 
 from colour.quality import colour_quality_scale
 from colour.colorimetry import (

@@ -8,12 +8,7 @@ Defines unit tests for :mod:`colour.colorimetry.tristimulus` module.
 from __future__ import division, unicode_literals
 
 import numpy as np
-import sys
-
-if sys.version_info[:2] <= (2, 6):
-    import unittest2 as unittest
-else:
-    import unittest
+import unittest
 
 from colour.colorimetry import (
     CMFS,
@@ -183,8 +178,8 @@ class TestWavelength_to_XYZ(unittest.TestCase):
 
     def test_wavelength_to_XYZ(self):
         """
-        Tests
-        :func:`colour.colorimetry.tristimulus.wavelength_to_XYZ` definition.
+        Tests :func:`colour.colorimetry.tristimulus.wavelength_to_XYZ`
+        definition.
         """
 
         np.testing.assert_almost_equal(
@@ -234,9 +229,8 @@ class TestWavelength_to_XYZ(unittest.TestCase):
 
     def test_n_dimensional_wavelength_to_XYZ(self):
         """
-        Tests
-        :func:`colour.colorimetry.tristimulus.wavelength_to_XYZ` definition
-        n-dimensional arrays support.
+        Tests :func:`colour.colorimetry.tristimulus.wavelength_to_XYZ`
+        definition n-dimensional arrays support.
         """
 
         cmfs = CMFS.get('CIE 1931 2 Degree Standard Observer')

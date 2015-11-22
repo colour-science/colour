@@ -77,14 +77,13 @@ def corresponding_chromaticities_prediction_plot(
 
     Parameters
     ----------
+    experiment : int, optional
+        Corresponding chromaticities prediction experiment number.
     model : unicode, optional
-        Corresponding chromaticities prediction models name.
-    model : unicode, optional
-        Corresponding chromaticities prediction models name.
+        Corresponding chromaticities prediction model name.
     transform : unicode, optional
         Transformation to use with Von Kries chromatic adaptation model.
-
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns

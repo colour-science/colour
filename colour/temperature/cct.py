@@ -36,7 +36,8 @@ Defines correlated colour temperature :math:`T_{cp}` computations objects:
 See Also
 --------
 `Colour Temperature & Correlated Colour Temperature IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/temperature/cct.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/temperature/cct.ipynb>`_
 
 References
 ----------
@@ -231,14 +232,14 @@ Ti=1010.0, ui=0.4456812..., vi=0.3548261..., di=0.2515196...)]
     return table
 
 
-def planckian_table_minimal_distance_index(planckian_table):
+def planckian_table_minimal_distance_index(planckian_table_):
     """
     Returns the shortest distance index in given planckian table using
     Ohno (2013) method.
 
     Parameters
     ----------
-    planckian_table : list
+    planckian_table_ : list
         Planckian table.
 
     Returns
@@ -257,7 +258,7 @@ def planckian_table_minimal_distance_index(planckian_table):
     9
     """
 
-    distances = [x.di for x in planckian_table]
+    distances = [x.di for x in planckian_table_]
     return distances.index(min(distances))
 
 
@@ -630,7 +631,7 @@ def uv_to_CCT(uv, method='Ohno 2013', **kwargs):
     method : unicode, optional
         **{'Ohno 2013', 'Robertson 1968'}**,
         Computation method.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -700,7 +701,7 @@ def CCT_to_uv(CCT, D_uv=0, method='Ohno 2013', **kwargs):
     method : unicode, optional
         **{'Ohno 2013', 'Robertson 1968'}**,
         Computation method.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -983,7 +984,7 @@ def xy_to_CCT(xy, method='McCamy 1992', **kwargs):
     method : unicode, optional
         **{'McCamy 1992', 'Hernandez 1999'}**,
         Computation method.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns

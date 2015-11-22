@@ -37,12 +37,14 @@ Defines various *linear* to *log* and *log* to *linear* conversion functions:
 See Also
 --------
 `Log Conversion IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/log.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/models/log.ipynb>`_
 
 References
 ----------
 .. [1]  Sony Imageworks. (2012). make.py. Retrieved November 27, 2014, from
-        https://github.com/imageworks/OpenColorIO-Configs/blob/master/nuke-default/make.py  # noqa
+        https://github.com/imageworks/OpenColorIO-Configs/\
+blob/master/nuke-default/make.py
 """
 
 from __future__ import division, unicode_literals
@@ -122,7 +124,7 @@ def linear_to_cineon(value, black_offset=10 ** ((95 - 685) / 300), **kwargs):
         *Linear* value.
     black_offset : numeric or array_like
         Black offset.
-    \*\*kwargs : \*\*, optional
+    \**kwargs : dict, optional
         Unused parameter provided for signature compatibility with other
         *linear* / *log* conversion objects.
 
@@ -153,7 +155,7 @@ def cineon_to_linear(value, black_offset=10 ** ((95 - 685) / 300), **kwargs):
         *Cineon* value.
     black_offset : numeric or array_like
         Black offset.
-    \*\*kwargs : \*\*, optional
+    \**kwargs : dict, optional
         Unused parameter provided for signature compatibility with other
         *linear* / *log* conversion objects.
 
@@ -184,7 +186,7 @@ def linear_to_panalog(value, black_offset=10 ** ((64 - 681) / 444), **kwargs):
         *Linear* value.
     black_offset : numeric or array_like
         Black offset.
-    \*\*kwargs : \*\*, optional
+    \**kwargs : dict, optional
         Unused parameter provided for signature compatibility with other
         *linear* / *log* conversion objects.
 
@@ -215,7 +217,7 @@ def panalog_to_linear(value, black_offset=10 ** ((64 - 681) / 444), **kwargs):
         *Panalog* value.
     black_offset : numeric or array_like
         Black offset.
-    \*\*kwargs : \*\*, optional
+    \**kwargs : dict, optional
         Unused parameter provided for signature compatibility with other
         *linear* / *log* conversion objects.
 
@@ -244,7 +246,7 @@ def linear_to_viper_log(value, **kwargs):
     ----------
     value : numeric or array_like
         *Linear* value.
-    \*\*kwargs : \*\*, optional
+    \**kwargs : dict, optional
         Unused parameter provided for signature compatibility with other
         *linear* / *log* conversion objects.
 
@@ -272,7 +274,7 @@ def viper_log_to_linear(value, **kwargs):
     ----------
     value : numeric or array_like
         *ViperLog* value.
-    \*\*kwargs : \*\*, optional
+    \**kwargs : dict, optional
         Unused parameter provided for signature compatibility with other
         *linear* / *log* conversion objects.
 
@@ -377,7 +379,7 @@ def linear_to_c_log(value, **kwargs):
     ----------
     value : numeric or array_like
         *Linear* value.
-    \*\*kwargs : \*\*, optional
+    \**kwargs : dict, optional
         Unused parameter provided for signature compatibility with other
         *linear* / *log* conversion objects.
 
@@ -389,7 +391,8 @@ def linear_to_c_log(value, **kwargs):
     References
     ----------
     .. [2]  Thorpe, L. (2012). CANON-LOG TRANSFER CHARACTERISTIC. Retrieved
-            from http://downloads.canon.com/CDLC/Canon-Log_Transfer_Characteristic_6-20-2012.pdf  # noqa
+            from http://downloads.canon.com/CDLC/\
+Canon-Log_Transfer_Characteristic_6-20-2012.pdf
 
     Examples
     --------
@@ -410,7 +413,7 @@ def c_log_to_linear(value, **kwargs):
     ----------
     value : numeric or array_like
         *Canon Log* value.
-    \*\*kwargs : \*\*, optional
+    \**kwargs : dict, optional
         Unused parameter provided for signature compatibility with other
         *linear* / *log* conversion objects.
 
@@ -439,7 +442,7 @@ def linear_to_aces_cc(value, **kwargs):
     ----------
     value : numeric or array_like
         *Linear* value.
-    \*\*kwargs : \*\*, optional
+    \**kwargs : dict, optional
         Unused parameter provided for signature compatibility with other
         *linear* / *log* conversion objects.
 
@@ -465,7 +468,7 @@ def aces_cc_to_linear(value, **kwargs):
     ----------
     value : numeric or array_like
         *ACEScc* value.
-    \*\*kwargs : \*\*, optional
+    \**kwargs : dict, optional
         Unused parameter provided for signature compatibility with other
         *linear* / *log* conversion objects.
 
@@ -491,7 +494,7 @@ def linear_to_alexa_log_c(value, **kwargs):
     ----------
     value : numeric or array_like
         *Linear* value.
-    \*\*kwargs : \*\*, optional
+    \**kwargs : dict, optional
         Unused parameter provided for signature compatibility with other
         *linear* / *log* conversion objects.
 
@@ -517,7 +520,7 @@ def alexa_log_c_to_linear(value, **kwargs):
     ----------
     value : numeric or array_like
         *ALEXA Log C* value.
-    \*\*kwargs : \*\*, optional
+    \**kwargs : dict, optional
         Unused parameter provided for signature compatibility with other
         *linear* / *log* conversion objects.
 
@@ -543,7 +546,7 @@ def linear_to_dci_p3_log(value, **kwargs):
     ----------
     value : numeric or array_like
         *Linear* value.
-    \*\*kwargs : \*\*, optional
+    \**kwargs : dict, optional
         Unused parameter provided for signature compatibility with other
         *linear* / *log* conversion objects.
 
@@ -569,7 +572,7 @@ def dci_p3_log_to_linear(value, **kwargs):
     ----------
     value : numeric or array_like
         *DCI-P3* value.
-    \*\*kwargs : \*\*, optional
+    \**kwargs : dict, optional
         Unused parameter provided for signature compatibility with other
         *linear* / *log* conversion objects.
 
@@ -599,7 +602,7 @@ def linear_to_red_log_film(value,
         *Linear* value.
     black_offset : numeric or array_like
         Black offset.
-    \*\*kwargs : \*\*, optional
+    \**kwargs : dict, optional
         Unused parameter provided for signature compatibility with other
         *linear* / *log* conversion objects.
 
@@ -629,7 +632,7 @@ def red_log_film_to_linear(value,
         *REDLogFilm* value.
     black_offset : numeric or array_like
         Black offset.
-    \*\*kwargs : \*\*, optional
+    \**kwargs : dict, optional
         Unused parameter provided for signature compatibility with other
         *linear* / *log* conversion objects.
 
@@ -655,7 +658,7 @@ def linear_to_s_log(value, **kwargs):
     ----------
     value : numeric or array_like
         *Linear* value.
-    \*\*kwargs : \*\*, optional
+    \**kwargs : dict, optional
         Unused parameter provided for signature compatibility with other
         *linear* / *log* conversion objects.
 
@@ -681,7 +684,7 @@ def s_log_to_linear(value, **kwargs):
     ----------
     value : numeric or array_like
         *S-Log* value.
-    \*\*kwargs : \*\*, optional
+    \**kwargs : dict, optional
         Unused parameter provided for signature compatibility with other
         *linear* / *log* conversion objects.
 
@@ -707,7 +710,7 @@ def linear_to_s_log2(value, **kwargs):
     ----------
     value : numeric or array_like
         *Linear* value.
-    \*\*kwargs : \*\*, optional
+    \**kwargs : dict, optional
         Unused parameter provided for signature compatibility with other
         *linear* / *log* conversion objects.
 
@@ -733,7 +736,7 @@ def s_log2_to_linear(value, **kwargs):
     ----------
     value : numeric or array_like
         *S-Log2* value.
-    \*\*kwargs : \*\*, optional
+    \**kwargs : dict, optional
         Unused parameter provided for signature compatibility with other
         *linear* / *log* conversion objects.
 
@@ -759,7 +762,7 @@ def linear_to_s_log3(value, **kwargs):
     ----------
     value : numeric or array_like
         *Linear* value.
-    \*\*kwargs : \*\*, optional
+    \**kwargs : dict, optional
         Unused parameter provided for signature compatibility with other
         *linear* / *log* conversion objects.
 
@@ -785,7 +788,7 @@ def s_log3_to_linear(value, **kwargs):
     ----------
     value : numeric or array_like
         *S-Log3* value.
-    \*\*kwargs : \*\*, optional
+    \**kwargs : dict, optional
         Unused parameter provided for signature compatibility with other
         *linear* / *log* conversion objects.
 
@@ -811,7 +814,7 @@ def linear_to_v_log(value, **kwargs):
     ----------
     value : numeric or array_like
         *Linear* value.
-    \*\*kwargs : \*\*, optional
+    \**kwargs : dict, optional
         Unused parameter provided for signature compatibility with other
         *linear* / *log* conversion objects.
 
@@ -837,7 +840,7 @@ def v_log_to_linear(value, **kwargs):
     ----------
     value : numeric or array_like
         *V-Log* value.
-    \*\*kwargs : \*\*, optional
+    \**kwargs : dict, optional
         Unused parameter provided for signature compatibility with other
         *linear* / *log* conversion objects.
 
@@ -892,7 +895,7 @@ def linear_to_log(value, method='Cineon', **kwargs):
         'ALEXA Log C', 'REDLogFilm', 'DCI-P3', 'S-Log', 'S-Log2', 'S-Log3',
         'V-Log'}**,
         Computation method.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -953,7 +956,7 @@ def log_to_linear(value, method='Cineon', **kwargs):
         'ALEXA Log C', 'DCI-P3', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3',
         'V-Log'}**,
         Computation method.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -965,7 +968,8 @@ def log_to_linear(value, method='Cineon', **kwargs):
     --------
     >>> log_to_linear(0.45731961308541841)  # doctest: +ELLIPSIS
     0.18...
-    >>> log_to_linear(0.41358840249244228, method='ACEScc')  # noqa # doctest: +ELLIPSIS
+    >>> log_to_linear(0.41358840249244228,
+    ...     method='ACEScc')  # doctest: +ELLIPSIS
     array(0.18...)
     >>> log_to_linear(  # doctest: +ELLIPSIS
     ...     0.39100684261974583, method='PLog', log_reference=400)

@@ -44,7 +44,7 @@ def handle_numpy_errors(**kwargs):
 
     Parameters
     ----------
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -55,7 +55,8 @@ def handle_numpy_errors(**kwargs):
     ----------
     .. [1]  Kienzle, P., Patel, N., & Krycka, J. (2011). refl1d.numpyerrors -
             Refl1D v0.6.19 documentation. Retrieved January 30, 2015, from
-            http://www.reflectometry.org/danse/docs/refl1d/_modules/refl1d/numpyerrors.html  # noqa
+            http://www.reflectometry.org/danse/docs/refl1d/_modules/\
+refl1d/numpyerrors.html
 
     Examples
     --------
