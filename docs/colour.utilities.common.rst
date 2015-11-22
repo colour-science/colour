@@ -1,4 +1,4 @@
-colour.utilities.common module
+colour.utilities.common Module
 ==============================
 
 .. automodule:: colour.utilities.common

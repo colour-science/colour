@@ -1,4 +1,4 @@
-colour.constants package
+colour.constants Package
 ========================
 
 .. automodule:: colour.constants
@@ -6,8 +6,8 @@ colour.constants package
     :undoc-members:
     :show-inheritance:
 
-Submodules
-----------
+Sub-Modules
+-----------
 
 .. toctree::
 

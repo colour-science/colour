@@ -1,4 +1,4 @@
-colour.recovery.dataset package
+colour.recovery.dataset Package
 ===============================
 
 .. automodule:: colour.recovery.dataset
@@ -6,8 +6,8 @@ colour.recovery.dataset package
     :undoc-members:
     :show-inheritance:
 
-Submodules
-----------
+Sub-Modules
+-----------
 
 .. toctree::
 

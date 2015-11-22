@@ -1,4 +1,4 @@
-colour.models.dataset.sony module
+colour.models.dataset.sony Module
 =================================
 
 .. automodule:: colour.models.dataset.sony

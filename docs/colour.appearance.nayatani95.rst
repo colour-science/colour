@@ -1,4 +1,4 @@
-colour.appearance.nayatani95 module
+colour.appearance.nayatani95 Module
 ===================================
 
 .. automodule:: colour.appearance.nayatani95

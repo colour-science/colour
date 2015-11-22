@@ -1,4 +1,4 @@
-colour.models.dataset.cinema_gamut module
+colour.models.dataset.cinema_gamut Module
 =========================================
 
 .. automodule:: colour.models.dataset.cinema_gamut

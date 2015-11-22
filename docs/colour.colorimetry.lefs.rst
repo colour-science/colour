@@ -1,4 +1,4 @@
-colour.colorimetry.lefs module
+colour.colorimetry.lefs Module
 ==============================
 
 .. automodule:: colour.colorimetry.lefs

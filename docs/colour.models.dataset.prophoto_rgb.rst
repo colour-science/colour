@@ -1,4 +1,4 @@
-colour.models.dataset.prophoto_rgb module
+colour.models.dataset.prophoto_rgb Module
 =========================================
 
 .. automodule:: colour.models.dataset.prophoto_rgb

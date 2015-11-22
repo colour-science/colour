@@ -1,4 +1,4 @@
-colour.temperature package
+colour.temperature Package
 ==========================
 
 .. automodule:: colour.temperature
@@ -6,8 +6,8 @@ colour.temperature package
     :undoc-members:
     :show-inheritance:
 
-Submodules
-----------
+Sub-Modules
+-----------
 
 .. toctree::
 

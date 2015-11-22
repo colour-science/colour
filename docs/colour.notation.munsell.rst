@@ -1,4 +1,4 @@
-colour.notation.munsell module
+colour.notation.munsell Module
 ==============================
 
 .. automodule:: colour.notation.munsell

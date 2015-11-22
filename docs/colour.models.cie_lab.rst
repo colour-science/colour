@@ -1,4 +1,4 @@
-colour.models.cie_lab module
+colour.models.cie_lab Module
 ============================
 
 .. automodule:: colour.models.cie_lab

@@ -1,4 +1,4 @@
-colour.colorimetry.spectrum module
+colour.colorimetry.spectrum Module
 ==================================
 
 .. automodule:: colour.colorimetry.spectrum

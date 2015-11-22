@@ -1,4 +1,4 @@
-colour.corresponding.prediction module
+colour.corresponding.prediction Module
 ======================================
 
 .. automodule:: colour.corresponding.prediction

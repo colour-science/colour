@@ -1,4 +1,4 @@
-colour.adaptation.vonkries module
+colour.adaptation.vonkries Module
 =================================
 
 .. automodule:: colour.adaptation.vonkries

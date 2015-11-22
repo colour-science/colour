@@ -1,4 +1,4 @@
-colour.plotting.volume module
+colour.plotting.volume Module
 =============================
 
 .. automodule:: colour.plotting.volume

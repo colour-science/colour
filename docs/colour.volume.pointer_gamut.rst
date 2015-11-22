@@ -1,4 +1,4 @@
-colour.volume.pointer_gamut module
+colour.volume.pointer_gamut Module
 ==================================
 
 .. automodule:: colour.volume.pointer_gamut

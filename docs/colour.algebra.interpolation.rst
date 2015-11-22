@@ -1,4 +1,4 @@
-colour.algebra.interpolation module
+colour.algebra.interpolation Module
 ===================================
 
 .. automodule:: colour.algebra.interpolation

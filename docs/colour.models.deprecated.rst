@@ -1,4 +1,4 @@
-colour.models.deprecated module
+colour.models.deprecated Module
 ===============================
 
 .. automodule:: colour.models.deprecated

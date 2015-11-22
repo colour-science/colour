@@ -1,4 +1,4 @@
-colour.algebra.matrix module
+colour.algebra.matrix Module
 ============================
 
 .. automodule:: colour.algebra.matrix

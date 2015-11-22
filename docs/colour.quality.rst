@@ -1,4 +1,4 @@
-colour.quality package
+colour.quality Package
 ======================
 
 .. automodule:: colour.quality
@@ -6,15 +6,15 @@ colour.quality package
     :undoc-members:
     :show-inheritance:
 
-Subpackages
------------
+Sub-Packages
+------------
 
 .. toctree::
 
     colour.quality.dataset
 
-Submodules
-----------
+Sub-Modules
+-----------
 
 .. toctree::
 

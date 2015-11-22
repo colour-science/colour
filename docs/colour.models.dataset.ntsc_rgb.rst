@@ -1,4 +1,4 @@
-colour.models.dataset.ntsc_rgb module
+colour.models.dataset.ntsc_rgb Module
 =====================================
 
 .. automodule:: colour.models.dataset.ntsc_rgb

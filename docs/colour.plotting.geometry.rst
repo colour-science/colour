@@ -1,4 +1,4 @@
-colour.plotting.geometry module
+colour.plotting.geometry Module
 ===============================
 
 .. automodule:: colour.plotting.geometry

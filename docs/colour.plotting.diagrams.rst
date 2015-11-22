@@ -1,4 +1,4 @@
-colour.plotting.diagrams module
+colour.plotting.diagrams Module
 ===============================
 
 .. automodule:: colour.plotting.diagrams

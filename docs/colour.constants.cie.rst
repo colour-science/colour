@@ -1,4 +1,4 @@
-colour.constants.cie module
+colour.constants.cie Module
 ===========================
 
 .. automodule:: colour.constants.cie

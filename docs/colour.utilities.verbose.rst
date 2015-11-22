@@ -1,4 +1,4 @@
-colour.utilities.verbose module
+colour.utilities.verbose Module
 ===============================
 
 .. automodule:: colour.utilities.verbose

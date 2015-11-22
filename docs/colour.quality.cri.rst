@@ -1,4 +1,4 @@
-colour.quality.cri module
+colour.quality.cri Module
 =========================
 
 .. automodule:: colour.quality.cri

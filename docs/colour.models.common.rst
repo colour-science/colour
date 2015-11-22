@@ -1,4 +1,4 @@
-colour.models.common module
+colour.models.common Module
 ===========================
 
 .. automodule:: colour.models.common

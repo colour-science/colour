@@ -1,4 +1,4 @@
-colour.colorimetry.dataset.light_sources package
+colour.colorimetry.dataset.light_sources Package
 ================================================
 
 .. automodule:: colour.colorimetry.dataset.light_sources
@@ -6,8 +6,8 @@ colour.colorimetry.dataset.light_sources package
     :undoc-members:
     :show-inheritance:
 
-Submodules
-----------
+Sub-Modules
+-----------
 
 .. toctree::
 

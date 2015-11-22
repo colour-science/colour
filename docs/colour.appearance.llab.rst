@@ -1,4 +1,4 @@
-colour.appearance.llab module
+colour.appearance.llab Module
 =============================
 
 .. automodule:: colour.appearance.llab

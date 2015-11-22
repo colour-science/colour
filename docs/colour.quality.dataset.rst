@@ -1,4 +1,4 @@
-colour.quality.dataset package
+colour.quality.dataset Package
 ==============================
 
 .. automodule:: colour.quality.dataset
@@ -6,8 +6,8 @@ colour.quality.dataset package
     :undoc-members:
     :show-inheritance:
 
-Submodules
-----------
+Sub-Modules
+-----------
 
 .. toctree::
 

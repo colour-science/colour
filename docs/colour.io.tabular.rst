@@ -1,4 +1,4 @@
-colour.io.tabular module
+colour.io.tabular Module
 ========================
 
 .. automodule:: colour.io.tabular

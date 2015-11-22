@@ -1,4 +1,4 @@
-colour.phenomenons.rayleigh module
+colour.phenomenons.rayleigh Module
 ==================================
 
 .. automodule:: colour.phenomenons.rayleigh

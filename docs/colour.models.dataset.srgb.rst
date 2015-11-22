@@ -1,4 +1,4 @@
-colour.models.dataset.srgb module
+colour.models.dataset.srgb Module
 =================================
 
 .. automodule:: colour.models.dataset.srgb

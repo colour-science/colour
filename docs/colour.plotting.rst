@@ -1,4 +1,4 @@
-colour.plotting package
+colour.plotting Package
 =======================
 
 .. automodule:: colour.plotting
@@ -6,15 +6,15 @@ colour.plotting package
     :undoc-members:
     :show-inheritance:
 
-Subpackages
------------
+Sub-Packages
+------------
 
 .. toctree::
 
     colour.plotting.dataset
 
-Submodules
-----------
+Sub-Modules
+-----------
 
 .. toctree::
 

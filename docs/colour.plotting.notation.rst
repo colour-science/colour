@@ -1,4 +1,4 @@
-colour.plotting.notation module
+colour.plotting.notation Module
 ===============================
 
 .. automodule:: colour.plotting.notation

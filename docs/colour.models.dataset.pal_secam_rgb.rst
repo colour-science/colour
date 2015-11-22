@@ -1,4 +1,4 @@
-colour.models.dataset.pal_secam_rgb module
+colour.models.dataset.pal_secam_rgb Module
 ==========================================
 
 .. automodule:: colour.models.dataset.pal_secam_rgb

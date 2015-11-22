@@ -1,4 +1,4 @@
-colour.colorimetry.tristimulus module
+colour.colorimetry.tristimulus Module
 =====================================
 
 .. automodule:: colour.colorimetry.tristimulus

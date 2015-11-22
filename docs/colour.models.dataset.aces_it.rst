@@ -1,4 +1,4 @@
-colour.models.dataset.aces_it module
+colour.models.dataset.aces_it Module
 ====================================
 
 .. automodule:: colour.models.dataset.aces_it

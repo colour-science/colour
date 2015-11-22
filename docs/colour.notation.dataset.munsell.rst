@@ -1,4 +1,4 @@
-colour.notation.dataset.munsell package
+colour.notation.dataset.munsell Package
 =======================================
 
 .. automodule:: colour.notation.dataset.munsell
@@ -6,8 +6,8 @@ colour.notation.dataset.munsell package
     :undoc-members:
     :show-inheritance:
 
-Submodules
-----------
+Sub-Modules
+-----------
 
 .. toctree::
 

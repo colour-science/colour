@@ -1,4 +1,4 @@
-colour.models.log module
+colour.models.log Module
 ========================
 
 .. automodule:: colour.models.log

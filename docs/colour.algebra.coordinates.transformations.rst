@@ -1,4 +1,4 @@
-colour.algebra.coordinates.transformations module
+colour.algebra.coordinates.transformations Module
 =================================================
 
 .. automodule:: colour.algebra.coordinates.transformations

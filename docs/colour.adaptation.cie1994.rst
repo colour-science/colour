@@ -1,4 +1,4 @@
-colour.adaptation.cie1994 module
+colour.adaptation.cie1994 Module
 ================================
 
 .. automodule:: colour.adaptation.cie1994

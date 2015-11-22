@@ -1,4 +1,4 @@
-colour.colorimetry.luminance module
+colour.colorimetry.luminance Module
 ===================================
 
 .. automodule:: colour.colorimetry.luminance

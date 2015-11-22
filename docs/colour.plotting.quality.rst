@@ -1,4 +1,4 @@
-colour.plotting.quality module
+colour.plotting.quality Module
 ==============================
 
 .. automodule:: colour.plotting.quality

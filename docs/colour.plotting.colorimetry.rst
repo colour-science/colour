@@ -1,4 +1,4 @@
-colour.plotting.colorimetry module
+colour.plotting.colorimetry Module
 ==================================
 
 .. automodule:: colour.plotting.colorimetry

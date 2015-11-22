@@ -1,4 +1,4 @@
-colour.algebra.random module
+colour.algebra.random Module
 ============================
 
 .. automodule:: colour.algebra.random

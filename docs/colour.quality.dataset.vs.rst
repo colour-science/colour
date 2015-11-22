@@ -1,4 +1,4 @@
-colour.quality.dataset.vs module
+colour.quality.dataset.vs Module
 ================================
 
 .. automodule:: colour.quality.dataset.vs

@@ -1,4 +1,4 @@
-colour.models.dataset.xtreme_rgb module
+colour.models.dataset.xtreme_rgb Module
 =======================================
 
 .. automodule:: colour.models.dataset.xtreme_rgb

@@ -1,4 +1,4 @@
-colour.colorimetry.dataset.cmfs module
+colour.colorimetry.dataset.cmfs Module
 ======================================
 
 .. automodule:: colour.colorimetry.dataset.cmfs

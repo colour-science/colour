@@ -1,4 +1,4 @@
-colour.volume.rgb module
+colour.volume.rgb Module
 ========================
 
 .. automodule:: colour.volume.rgb

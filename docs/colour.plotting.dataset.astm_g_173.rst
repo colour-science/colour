@@ -1,4 +1,4 @@
-colour.plotting.dataset.astm_g_173 module
+colour.plotting.dataset.astm_g_173 Module
 =========================================
 
 .. automodule:: colour.plotting.dataset.astm_g_173

@@ -1,4 +1,4 @@
-colour.plotting.characterisation module
+colour.plotting.characterisation Module
 =======================================
 
 .. automodule:: colour.plotting.characterisation

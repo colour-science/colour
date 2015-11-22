@@ -1,4 +1,4 @@
-colour.models.dataset.apple_rgb module
+colour.models.dataset.apple_rgb Module
 ======================================
 
 .. automodule:: colour.models.dataset.apple_rgb

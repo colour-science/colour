@@ -1,4 +1,4 @@
-colour.quality.cqs module
+colour.quality.cqs Module
 =========================
 
 .. automodule:: colour.quality.cqs

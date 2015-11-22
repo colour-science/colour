@@ -1,4 +1,4 @@
-colour.models.cie_luv module
+colour.models.cie_luv Module
 ============================
 
 .. automodule:: colour.models.cie_luv

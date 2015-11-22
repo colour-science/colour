@@ -1,4 +1,4 @@
-colour.phenomenons package
+colour.phenomenons Package
 ==========================
 
 .. automodule:: colour.phenomenons
@@ -6,8 +6,8 @@ colour.phenomenons package
     :undoc-members:
     :show-inheritance:
 
-Submodules
-----------
+Sub-Modules
+-----------
 
 .. toctree::
 

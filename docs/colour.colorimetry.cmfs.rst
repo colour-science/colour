@@ -1,4 +1,4 @@
-colour.colorimetry.cmfs module
+colour.colorimetry.cmfs Module
 ==============================
 
 .. automodule:: colour.colorimetry.cmfs

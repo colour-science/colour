@@ -1,4 +1,4 @@
-colour.colorimetry.dataset.light_sources.chromaticity_coordinates module
+colour.colorimetry.dataset.light_sources.chromaticity_coordinates Module
 ========================================================================
 
 .. automodule:: colour.colorimetry.dataset.light_sources.chromaticity_coordinates

@@ -1,4 +1,4 @@
-colour.colorimetry.transformations module
+colour.colorimetry.transformations Module
 =========================================
 
 .. automodule:: colour.colorimetry.transformations

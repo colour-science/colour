@@ -1,4 +1,4 @@
-colour.models.ipt module
+colour.models.ipt Module
 ========================
 
 .. automodule:: colour.models.ipt

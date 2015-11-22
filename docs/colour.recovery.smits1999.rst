@@ -1,4 +1,4 @@
-colour.recovery.smits1999 module
+colour.recovery.smits1999 Module
 ================================
 
 .. automodule:: colour.recovery.smits1999

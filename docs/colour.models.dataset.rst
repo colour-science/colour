@@ -1,4 +1,4 @@
-colour.models.dataset package
+colour.models.dataset Package
 =============================
 
 .. automodule:: colour.models.dataset
@@ -6,8 +6,8 @@ colour.models.dataset package
     :undoc-members:
     :show-inheritance:
 
-Submodules
-----------
+Sub-Modules
+-----------
 
 .. toctree::
 

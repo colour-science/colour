@@ -1,4 +1,4 @@
-colour.models.rgb module
+colour.models.rgb Module
 ========================
 
 .. automodule:: colour.models.rgb

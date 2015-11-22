@@ -1,4 +1,4 @@
-colour.volume package
+colour.volume Package
 =====================
 
 .. automodule:: colour.volume
@@ -6,15 +6,15 @@ colour.volume package
     :undoc-members:
     :show-inheritance:
 
-Subpackages
------------
+Sub-Packages
+------------
 
 .. toctree::
 
     colour.volume.dataset
 
-Submodules
-----------
+Sub-Modules
+-----------
 
 .. toctree::
 

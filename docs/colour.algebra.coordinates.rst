@@ -1,4 +1,4 @@
-colour.algebra.coordinates package
+colour.algebra.coordinates Package
 ==================================
 
 .. automodule:: colour.algebra.coordinates
@@ -6,8 +6,8 @@ colour.algebra.coordinates package
     :undoc-members:
     :show-inheritance:
 
-Submodules
-----------
+Sub-Modules
+-----------
 
 .. toctree::
 

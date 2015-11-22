@@ -1,4 +1,4 @@
-colour.volume.mesh module
+colour.volume.mesh Module
 =========================
 
 .. automodule:: colour.volume.mesh

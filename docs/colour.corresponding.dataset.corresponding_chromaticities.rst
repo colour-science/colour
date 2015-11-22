@@ -1,4 +1,4 @@
-colour.corresponding.dataset.corresponding_chromaticities module
+colour.corresponding.dataset.corresponding_chromaticities Module
 ================================================================
 
 .. automodule:: colour.corresponding.dataset.corresponding_chromaticities

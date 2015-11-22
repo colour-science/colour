@@ -1,4 +1,4 @@
-colour.volume.spectrum module
+colour.volume.spectrum Module
 =============================
 
 .. automodule:: colour.volume.spectrum

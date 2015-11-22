@@ -1,4 +1,4 @@
-colour.models.cie_uvw module
+colour.models.cie_uvw Module
 ============================
 
 .. automodule:: colour.models.cie_uvw

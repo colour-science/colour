@@ -1,4 +1,4 @@
-colour.appearance package
+colour.appearance Package
 =========================
 
 .. automodule:: colour.appearance
@@ -6,8 +6,8 @@ colour.appearance package
     :undoc-members:
     :show-inheritance:
 
-Submodules
-----------
+Sub-Modules
+-----------
 
 .. toctree::
 

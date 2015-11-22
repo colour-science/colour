@@ -1,4 +1,4 @@
-colour.constants.codata module
+colour.constants.codata Module
 ==============================
 
 .. automodule:: colour.constants.codata

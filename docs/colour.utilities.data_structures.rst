@@ -1,4 +1,4 @@
-colour.utilities.data_structures module
+colour.utilities.data_structures Module
 =======================================
 
 .. automodule:: colour.utilities.data_structures

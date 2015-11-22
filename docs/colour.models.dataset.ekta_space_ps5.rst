@@ -1,4 +1,4 @@
-colour.models.dataset.ekta_space_ps5 module
+colour.models.dataset.ekta_space_ps5 Module
 ===========================================
 
 .. automodule:: colour.models.dataset.ekta_space_ps5

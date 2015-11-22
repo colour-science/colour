@@ -1,4 +1,4 @@
-colour.notation.triplet module
+colour.notation.triplet Module
 ==============================
 
 .. automodule:: colour.notation.triplet

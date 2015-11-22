@@ -1,4 +1,4 @@
-colour.appearance.rlab module
+colour.appearance.rlab Module
 =============================
 
 .. automodule:: colour.appearance.rlab

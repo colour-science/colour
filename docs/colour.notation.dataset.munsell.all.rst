@@ -1,4 +1,4 @@
-colour.notation.dataset.munsell.all module
+colour.notation.dataset.munsell.all Module
 ==========================================
 
 .. automodule:: colour.notation.dataset.munsell.all

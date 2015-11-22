@@ -1,4 +1,4 @@
-colour.quality.dataset.tcs module
+colour.quality.dataset.tcs Module
 =================================
 
 .. automodule:: colour.quality.dataset.tcs

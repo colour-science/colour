@@ -1,4 +1,4 @@
-colour.models.derivation module
+colour.models.derivation Module
 ===============================
 
 .. automodule:: colour.models.derivation

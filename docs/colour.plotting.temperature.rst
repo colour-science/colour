@@ -1,4 +1,4 @@
-colour.plotting.temperature module
+colour.plotting.temperature Module
 ==================================
 
 .. automodule:: colour.plotting.temperature

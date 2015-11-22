@@ -1,4 +1,4 @@
-colour.difference.delta_e module
+colour.difference.delta_e Module
 ================================
 
 .. automodule:: colour.difference.delta_e

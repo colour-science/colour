@@ -1,4 +1,4 @@
-colour.models.dataset.dci_p3 module
+colour.models.dataset.dci_p3 Module
 ===================================
 
 .. automodule:: colour.models.dataset.dci_p3

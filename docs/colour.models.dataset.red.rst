@@ -1,4 +1,4 @@
-colour.models.dataset.red module
+colour.models.dataset.red Module
 ================================
 
 .. automodule:: colour.models.dataset.red

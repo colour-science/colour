@@ -1,4 +1,4 @@
-colour.characterisation.dataset.colour_checkers.spds module
+colour.characterisation.dataset.colour_checkers.spds Module
 ===========================================================
 
 .. automodule:: colour.characterisation.dataset.colour_checkers.spds

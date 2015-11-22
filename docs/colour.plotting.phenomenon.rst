@@ -1,4 +1,4 @@
-colour.plotting.phenomenon module
+colour.plotting.phenomenon Module
 =================================
 
 .. automodule:: colour.plotting.phenomenon

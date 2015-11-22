@@ -1,4 +1,4 @@
-colour.plotting.models module
+colour.plotting.models Module
 =============================
 
 .. automodule:: colour.plotting.models

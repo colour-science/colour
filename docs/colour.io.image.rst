@@ -1,4 +1,4 @@
-colour.io.image module
+colour.io.image Module
 ======================
 
 .. automodule:: colour.io.image

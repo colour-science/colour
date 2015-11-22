@@ -1,4 +1,4 @@
-colour.algebra.extrapolation module
+colour.algebra.extrapolation Module
 ===================================
 
 .. automodule:: colour.algebra.extrapolation

@@ -1,4 +1,4 @@
-colour.colorimetry.dataset.lefs module
+colour.colorimetry.dataset.lefs Module
 ======================================
 
 .. automodule:: colour.colorimetry.dataset.lefs

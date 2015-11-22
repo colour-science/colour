@@ -1,4 +1,4 @@
-colour.volume.macadam_limits module
+colour.volume.macadam_limits Module
 ===================================
 
 .. automodule:: colour.volume.macadam_limits

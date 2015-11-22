@@ -1,4 +1,4 @@
-colour.notation.dataset.munsell.real module
+colour.notation.dataset.munsell.real Module
 ===========================================
 
 .. automodule:: colour.notation.dataset.munsell.real

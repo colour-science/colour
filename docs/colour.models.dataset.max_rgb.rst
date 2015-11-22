@@ -1,4 +1,4 @@
-colour.models.dataset.max_rgb module
+colour.models.dataset.max_rgb Module
 ====================================
 
 .. automodule:: colour.models.dataset.max_rgb

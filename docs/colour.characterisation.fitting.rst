@@ -1,4 +1,4 @@
-colour.characterisation.fitting module
+colour.characterisation.fitting Module
 ======================================
 
 .. automodule:: colour.characterisation.fitting

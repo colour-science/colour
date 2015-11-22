@@ -1,4 +1,4 @@
-colour.models.dataset.smptec_rgb module
+colour.models.dataset.smptec_rgb Module
 =======================================
 
 .. automodule:: colour.models.dataset.smptec_rgb

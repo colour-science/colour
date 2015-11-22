@@ -1,4 +1,4 @@
-colour.utilities.array module
+colour.utilities.array Module
 =============================
 
 .. automodule:: colour.utilities.array

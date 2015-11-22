@@ -1,4 +1,4 @@
-colour.io.xrite module
+colour.io.xrite Module
 ======================
 
 .. automodule:: colour.io.xrite

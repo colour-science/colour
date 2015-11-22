@@ -1,4 +1,4 @@
-colour.adaptation.cmccat2000 module
+colour.adaptation.cmccat2000 Module
 ===================================
 
 .. automodule:: colour.adaptation.cmccat2000

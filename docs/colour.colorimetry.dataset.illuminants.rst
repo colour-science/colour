@@ -1,4 +1,4 @@
-colour.colorimetry.dataset.illuminants package
+colour.colorimetry.dataset.illuminants Package
 ==============================================
 
 .. automodule:: colour.colorimetry.dataset.illuminants
@@ -6,8 +6,8 @@ colour.colorimetry.dataset.illuminants package
     :undoc-members:
     :show-inheritance:
 
-Submodules
-----------
+Sub-Modules
+-----------
 
 .. toctree::
 

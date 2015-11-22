@@ -1,4 +1,4 @@
-colour.colorimetry package
+colour.colorimetry Package
 ==========================
 
 .. automodule:: colour.colorimetry
@@ -6,15 +6,15 @@ colour.colorimetry package
     :undoc-members:
     :show-inheritance:
 
-Subpackages
------------
+Sub-Packages
+------------
 
 .. toctree::
 
     colour.colorimetry.dataset
 
-Submodules
-----------
+Sub-Modules
+-----------
 
 .. toctree::
 

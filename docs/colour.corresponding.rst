@@ -1,4 +1,4 @@
-colour.corresponding package
+colour.corresponding Package
 ============================
 
 .. automodule:: colour.corresponding
@@ -6,15 +6,15 @@ colour.corresponding package
     :undoc-members:
     :show-inheritance:
 
-Subpackages
------------
+Sub-Packages
+------------
 
 .. toctree::
 
     colour.corresponding.dataset
 
-Submodules
-----------
+Sub-Modules
+-----------
 
 .. toctree::
 

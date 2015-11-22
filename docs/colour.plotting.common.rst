@@ -1,4 +1,4 @@
-colour.plotting.common module
+colour.plotting.common Module
 =============================
 
 .. automodule:: colour.plotting.common

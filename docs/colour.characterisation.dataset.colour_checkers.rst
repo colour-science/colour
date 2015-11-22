@@ -1,4 +1,4 @@
-colour.characterisation.dataset.colour_checkers package
+colour.characterisation.dataset.colour_checkers Package
 =======================================================
 
 .. automodule:: colour.characterisation.dataset.colour_checkers
@@ -6,8 +6,8 @@ colour.characterisation.dataset.colour_checkers package
     :undoc-members:
     :show-inheritance:
 
-Submodules
-----------
+Sub-Modules
+-----------
 
 .. toctree::
 

@@ -1,4 +1,4 @@
-colour.colorimetry.correction module
+colour.colorimetry.correction Module
 ====================================
 
 .. automodule:: colour.colorimetry.correction

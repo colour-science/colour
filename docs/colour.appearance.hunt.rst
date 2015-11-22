@@ -1,4 +1,4 @@
-colour.appearance.hunt module
+colour.appearance.hunt Module
 =============================
 
 .. automodule:: colour.appearance.hunt

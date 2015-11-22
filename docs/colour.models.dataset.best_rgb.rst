@@ -1,4 +1,4 @@
-colour.models.dataset.best_rgb module
+colour.models.dataset.best_rgb Module
 =====================================
 
 .. automodule:: colour.models.dataset.best_rgb

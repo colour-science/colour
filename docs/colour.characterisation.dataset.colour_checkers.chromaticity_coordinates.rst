@@ -1,4 +1,4 @@
-colour.characterisation.dataset.colour_checkers.chromaticity_coordinates module
+colour.characterisation.dataset.colour_checkers.chromaticity_coordinates Module
 ===============================================================================
 
 .. automodule:: colour.characterisation.dataset.colour_checkers.chromaticity_coordinates

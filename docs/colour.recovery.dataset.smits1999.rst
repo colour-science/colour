@@ -1,4 +1,4 @@
-colour.recovery.dataset.smits1999 module
+colour.recovery.dataset.smits1999 Module
 ========================================
 
 .. automodule:: colour.recovery.dataset.smits1999

@@ -1,4 +1,4 @@
-colour.constants.common module
+colour.constants.common Module
 ==============================
 
 .. automodule:: colour.constants.common

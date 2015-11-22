@@ -1,4 +1,4 @@
-colour.models.cie_ucs module
+colour.models.cie_ucs Module
 ============================
 
 .. automodule:: colour.models.cie_ucs

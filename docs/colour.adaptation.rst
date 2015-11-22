@@ -1,4 +1,4 @@
-colour.adaptation package
+colour.adaptation Package
 =========================
 
 .. automodule:: colour.adaptation
@@ -6,15 +6,15 @@ colour.adaptation package
     :undoc-members:
     :show-inheritance:
 
-Subpackages
------------
+Sub-Packages
+------------
 
 .. toctree::
 
     colour.adaptation.dataset
 
-Submodules
-----------
+Sub-Modules
+-----------
 
 .. toctree::
 

@@ -1,4 +1,4 @@
-colour.models.aces_it module
+colour.models.aces_it Module
 ============================
 
 .. automodule:: colour.models.aces_it

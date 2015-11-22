@@ -1,4 +1,4 @@
-colour.io.common module
+colour.io.common Module
 =======================
 
 .. automodule:: colour.io.common

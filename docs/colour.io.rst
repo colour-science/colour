@@ -1,4 +1,4 @@
-colour.io package
+colour.io Package
 =================
 
 .. automodule:: colour.io
@@ -6,8 +6,8 @@ colour.io package
     :undoc-members:
     :show-inheritance:
 
-Submodules
-----------
+Sub-Modules
+-----------
 
 .. toctree::
 

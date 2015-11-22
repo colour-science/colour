@@ -1,4 +1,4 @@
-colour.colorimetry.blackbody module
+colour.colorimetry.blackbody Module
 ===================================
 
 .. automodule:: colour.colorimetry.blackbody

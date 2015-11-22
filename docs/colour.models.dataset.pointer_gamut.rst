@@ -1,4 +1,4 @@
-colour.models.dataset.pointer_gamut module
+colour.models.dataset.pointer_gamut Module
 ==========================================
 
 .. automodule:: colour.models.dataset.pointer_gamut

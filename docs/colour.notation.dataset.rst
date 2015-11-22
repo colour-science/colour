@@ -1,4 +1,4 @@
-colour.notation.dataset package
+colour.notation.dataset Package
 ===============================
 
 .. automodule:: colour.notation.dataset
@@ -6,8 +6,8 @@ colour.notation.dataset package
     :undoc-members:
     :show-inheritance:
 
-Subpackages
------------
+Sub-Packages
+------------
 
 .. toctree::
 

@@ -1,4 +1,4 @@
-colour.characterisation.dataset package
+colour.characterisation.dataset Package
 =======================================
 
 .. automodule:: colour.characterisation.dataset
@@ -6,8 +6,8 @@ colour.characterisation.dataset package
     :undoc-members:
     :show-inheritance:
 
-Subpackages
------------
+Sub-Packages
+------------
 
 .. toctree::
 

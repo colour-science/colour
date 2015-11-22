@@ -1,4 +1,4 @@
-colour.temperature.cct module
+colour.temperature.cct Module
 =============================
 
 .. automodule:: colour.temperature.cct

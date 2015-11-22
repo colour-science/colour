@@ -1,4 +1,4 @@
-colour.difference package
+colour.difference Package
 =========================
 
 .. automodule:: colour.difference
@@ -6,8 +6,8 @@ colour.difference package
     :undoc-members:
     :show-inheritance:
 
-Submodules
-----------
+Sub-Modules
+-----------
 
 .. toctree::
 

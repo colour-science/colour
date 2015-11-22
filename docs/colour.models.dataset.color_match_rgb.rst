@@ -1,4 +1,4 @@
-colour.models.dataset.color_match_rgb module
+colour.models.dataset.color_match_rgb Module
 ============================================
 
 .. automodule:: colour.models.dataset.color_match_rgb

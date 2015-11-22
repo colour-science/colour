@@ -1,4 +1,4 @@
-colour.colorimetry.photometry module
+colour.colorimetry.photometry Module
 ====================================
 
 .. automodule:: colour.colorimetry.photometry

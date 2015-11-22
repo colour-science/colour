@@ -1,4 +1,4 @@
-colour.notation package
+colour.notation Package
 =======================
 
 .. automodule:: colour.notation
@@ -6,15 +6,15 @@ colour.notation package
     :undoc-members:
     :show-inheritance:
 
-Subpackages
------------
+Sub-Packages
+------------
 
 .. toctree::
 
     colour.notation.dataset
 
-Submodules
-----------
+Sub-Modules
+-----------
 
 .. toctree::
 

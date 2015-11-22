@@ -1,4 +1,4 @@
-colour.colorimetry.whiteness module
+colour.colorimetry.whiteness Module
 ===================================
 
 .. automodule:: colour.colorimetry.whiteness

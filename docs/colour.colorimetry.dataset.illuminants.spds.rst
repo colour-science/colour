@@ -1,4 +1,4 @@
-colour.colorimetry.dataset.illuminants.spds module
+colour.colorimetry.dataset.illuminants.spds Module
 ==================================================
 
 .. automodule:: colour.colorimetry.dataset.illuminants.spds

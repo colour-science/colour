@@ -1,4 +1,4 @@
-colour.models.dataset.v_gamut module
+colour.models.dataset.v_gamut Module
 ====================================
 
 .. automodule:: colour.models.dataset.v_gamut

@@ -1,4 +1,4 @@
-colour.plotting.corresponding module
+colour.plotting.corresponding Module
 ====================================
 
 .. automodule:: colour.plotting.corresponding
