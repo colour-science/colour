@@ -17,7 +17,11 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  International Telecommunication Union. (2002). Parameter values for
+.. [1]  International Electrotechnical Commission. (1999). IEC 61966-2-1:1999 -
+        Multimedia systems and equipment - Colour measurement and management -
+        Part 2-1: Colour management - Default RGB colour space - sRGB, 51.
+        Retrieved from https://webstore.iec.ch/publication/6169
+.. [2]  International Telecommunication Union. (2002). Parameter values for
         the HDTV standards for production and international programme exchange
         BT Series Broadcasting service. In Recommendation ITU-R BT.709-5
         (Vol. 5, pp. 1–32). Retrieved from
