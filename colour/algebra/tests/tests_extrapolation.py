@@ -11,7 +11,11 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.algebra import Extrapolator, LinearInterpolator
+from colour.algebra import (
+    Extrapolator,
+    LinearInterpolator,
+    CubicSplineInterpolator,
+    PchipInterpolator)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -91,6 +95,22 @@ class TestExtrapolator(unittest.TestCase):
         np.testing.assert_almost_equal(extrapolator((0.1, 0.2, 8, 9)),
                                        (1., 1., 0., 0.))
         self.assertEqual(extrapolator(9), 0.)
+
+        extrapolator = Extrapolator(
+            CubicSplineInterpolator(
+                np.array([3, 4, 5, 6]),
+                np.array([1, 2, 3, 4])))
+        np.testing.assert_almost_equal(extrapolator((0.1, 0.2, 8, 9)),
+                                       (-1.9, -1.8, 6., 7.))
+        self.assertEqual(extrapolator(9), 7.)
+
+        extrapolator = Extrapolator(
+            PchipInterpolator(
+                np.array([3, 4, 5]),
+                np.array([1, 2, 3])))
+        np.testing.assert_almost_equal(extrapolator((0.1, 0.2, 8, 9)),
+                                       (-1.9, -1.8, 6., 7.))
+        self.assertEqual(extrapolator(9), 7.)
 
     @ignore_numpy_errors
     def test_nan__call__(self):

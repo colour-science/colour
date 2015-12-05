@@ -524,34 +524,7 @@ if is_scipy_installed():
         def __init__(self, x=None, y=None, *args, **kwargs):
             super(PchipInterpolator, self).__init__(x, y, *args, **kwargs)
 
-            self.__x = x
             self.__y = y
-
-        @property
-        def x(self):
-            """
-            Property for **self.__x** private attribute.
-
-            Returns
-            -------
-            array_like
-                self.__x
-            """
-
-            return self.__x
-
-        @x.setter
-        def x(self, value):
-            """
-            Setter for **self.__x** private attribute.
-
-            Parameters
-            ----------
-            value : array_like
-                Attribute value.
-            """
-
-            raise AttributeError('"{0}" attribute is read only!'.format('x'))
 
         @property
         def y(self):
