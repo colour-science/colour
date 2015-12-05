@@ -61,11 +61,12 @@ class RGB_Colourspace(object):
     XYZ_to_RGB_matrix : array_like, optional
         Transformation matrix from *CIE XYZ* tristimulus values to colourspace.
     transfer_function : object, optional
-        *RGB* colourspace opto-electronic conversion function from linear to
-        colourspace.
+        Opto-electronic conversion function (OECF) that maps estimated
+        tristimulus values in a scene to :math:`R'G'B'` video component signal
+        value.
     inverse_transfer_function : object, optional
-        *RGB* colourspace inverse opto-electronic conversion function from
-        colourspace to linear.
+        Electro-optical conversion function (EOCF) that maps an :math:`R'G'B'`
+        video component signal to a tristimulus values at the display.
     """
 
     def __init__(self,

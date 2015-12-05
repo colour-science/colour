@@ -23,8 +23,7 @@ blob/master/notebooks/models/rgb.ipynb>`_
 References
 ----------
 .. [1]  Mansencal, T. (2015). RED Colourspaces Derivation. Retrieved May 20,
-        2015, from http://colour-science.org/\
-blog_red_colourspaces_derivation.php
+        2015, from http://colour-science.org/posts/red-colourspaces-derivation
 .. [2]  Sony Imageworks. (2012). make.py. Retrieved November 27, 2014, from
         https://github.com/imageworks/OpenColorIO-Configs/\
 blob/master/nuke-default/make.py
