@@ -133,8 +133,9 @@ class TestReadSpectralDataFromCsvFile(unittest.TestCase):
         colour_checker_n_ohta = os.path.join(RESOURCES_DIRECTORY,
                                              'colorchecker_n_ohta.csv')
         data = read_spectral_data_from_csv_file(colour_checker_n_ohta)
-        self.assertListEqual(sorted(data),
-                             sorted([unicode(x) for x in range(1, 25)]))  # noqa
+        self.assertListEqual(
+            sorted(data),
+            sorted([unicode(x) for x in range(1, 25)]))  # noqa
         self.assertDictEqual(data['1'], COLOURCHECKER_N_OHTA_1)
 
         linss2_10e_5 = os.path.join(RESOURCES_DIRECTORY,

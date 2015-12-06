@@ -44,8 +44,8 @@ __all__ = ['REC_709_PRIMARIES',
            'REC_709_ILLUMINANT',
            'REC_709_TO_XYZ_MATRIX',
            'XYZ_TO_REC_709_MATRIX',
-           'REC_709_TRANSFER_FUNCTION',
-           'REC_709_INVERSE_TRANSFER_FUNCTION',
+           'REC_709_OECF',
+           'REC_709_EOCF',
            'REC_709_COLOURSPACE']
 
 REC_709_PRIMARIES = np.array(
@@ -91,9 +91,9 @@ XYZ_TO_REC_709_MATRIX : array_like, (3, 3)
 """
 
 
-def _rec_709_transfer_function(value):
+def _rec_709_OECF(value):
     """
-    Defines the *Rec. 709* colourspace transfer function.
+    Defines the *Rec. 709* colourspace opto-electronic conversion function.
 
     Parameters
     ----------
@@ -113,9 +113,9 @@ def _rec_709_transfer_function(value):
                     1.099 * (value ** 0.45) - 0.099)
 
 
-def _rec_709_inverse_transfer_function(value):
+def _rec_709_EOCF(value):
     """
-    Defines the *Rec. 709* colourspace inverse transfer function.
+    Defines the *Rec. 709* colourspace electro-optical conversion function.
 
     Parameters
     ----------
@@ -130,23 +130,23 @@ def _rec_709_inverse_transfer_function(value):
 
     value = np.asarray(value)
 
-    return np.where(value < _rec_709_transfer_function(0.018),
+    return np.where(value < _rec_709_OECF(0.018),
                     value / 4.5,
                     ((value + 0.099) / 1.099) ** (1 / 0.45))
 
 
-REC_709_TRANSFER_FUNCTION = _rec_709_transfer_function
+REC_709_OECF = _rec_709_OECF
 """
-Transfer function from linear to *Rec. 709* colourspace.
+Opto-electronic conversion function of *Rec. 709* colourspace.
 
-REC_709_TRANSFER_FUNCTION : object
+REC_709_OECF : object
 """
 
-REC_709_INVERSE_TRANSFER_FUNCTION = _rec_709_inverse_transfer_function
+REC_709_EOCF = _rec_709_EOCF
 """
-Inverse transfer function from *Rec. 709* colourspace to linear.
+Electro-optical conversion function of *Rec. 709* colourspace.
 
-REC_709_INVERSE_TRANSFER_FUNCTION : object
+REC_709_EOCF : object
 """
 
 REC_709_COLOURSPACE = RGB_Colourspace(
@@ -156,8 +156,8 @@ REC_709_COLOURSPACE = RGB_Colourspace(
     REC_709_ILLUMINANT,
     REC_709_TO_XYZ_MATRIX,
     XYZ_TO_REC_709_MATRIX,
-    REC_709_TRANSFER_FUNCTION,
-    REC_709_INVERSE_TRANSFER_FUNCTION)
+    REC_709_OECF,
+    REC_709_EOCF)
 """
 *Rec. 709* colourspace.
 

@@ -31,7 +31,7 @@ __all__ = ['XYZ_to_sRGB', 'sRGB_to_XYZ']
 def XYZ_to_sRGB(XYZ,
                 illuminant=RGB_COLOURSPACES.get('sRGB').whitepoint,
                 chromatic_adaptation_transform='CAT02',
-                transfer_function=True):
+                apply_OECF=True):
     """
     Converts from *CIE XYZ* tristimulus values to *sRGB* colourspace.
 
@@ -46,8 +46,8 @@ def XYZ_to_sRGB(XYZ,
         'Fairchild, 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
         'Bianco PC'}**,
         *Chromatic adaptation* transform.
-    transfer_function : bool, optional
-        Apply *sRGB* *transfer function*.
+    apply_OECF : bool, optional
+        Apply *sRGB* *opto-electronic conversion function*.
 
     Returns
     -------
@@ -72,13 +72,13 @@ def XYZ_to_sRGB(XYZ,
                       sRGB.whitepoint,
                       sRGB.XYZ_to_RGB_matrix,
                       chromatic_adaptation_transform,
-                      sRGB.transfer_function if transfer_function else None)
+                      sRGB.OECF if apply_OECF else None)
 
 
 def sRGB_to_XYZ(RGB,
                 illuminant=RGB_COLOURSPACES.get('sRGB').whitepoint,
                 chromatic_adaptation_method='CAT02',
-                inverse_transfer_function=True):
+                apply_EOCF=True):
     """
     Converts from *sRGB* colourspace to *CIE XYZ* tristimulus values.
 
@@ -93,8 +93,8 @@ def sRGB_to_XYZ(RGB,
         'Fairchild, 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
         'Bianco PC'}**,
         *Chromatic adaptation* method.
-    inverse_transfer_function : bool, optional
-        Apply *sRGB* *inverse transfer function*.
+    apply_EOCF : bool, optional
+        Apply *sRGB* *electro-optical conversion function*.
 
     Returns
     -------
@@ -119,5 +119,4 @@ def sRGB_to_XYZ(RGB,
                       illuminant,
                       sRGB.RGB_to_XYZ_matrix,
                       chromatic_adaptation_method,
-                      (sRGB.inverse_transfer_function
-                       if inverse_transfer_function else None))
+                      sRGB.EOCF if apply_EOCF else None)

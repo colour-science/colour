@@ -60,11 +60,11 @@ class RGB_Colourspace(object):
         Transformation matrix from colourspace to *CIE XYZ* tristimulus values.
     XYZ_to_RGB_matrix : array_like, optional
         Transformation matrix from *CIE XYZ* tristimulus values to colourspace.
-    transfer_function : object, optional
+    OECF : object, optional
         Opto-electronic conversion function (OECF) that maps estimated
         tristimulus values in a scene to :math:`R'G'B'` video component signal
         value.
-    inverse_transfer_function : object, optional
+    EOCF : object, optional
         Electro-optical conversion function (EOCF) that maps an :math:`R'G'B'`
         video component signal to a tristimulus values at the display.
     """
@@ -76,8 +76,8 @@ class RGB_Colourspace(object):
                  illuminant=None,
                  RGB_to_XYZ_matrix=None,
                  XYZ_to_RGB_matrix=None,
-                 transfer_function=None,
-                 inverse_transfer_function=None):
+                 OECF=None,
+                 EOCF=None):
         self.__name = None
         self.name = name
         self.__primaries = None
@@ -90,10 +90,10 @@ class RGB_Colourspace(object):
         self.RGB_to_XYZ_matrix = RGB_to_XYZ_matrix
         self.__XYZ_to_RGB_matrix = None
         self.XYZ_to_RGB_matrix = XYZ_to_RGB_matrix
-        self.__transfer_function = None
-        self.transfer_function = transfer_function
-        self.__inverse_transfer_function = None
-        self.inverse_transfer_function = inverse_transfer_function
+        self.__OECF = None
+        self.OECF = OECF
+        self.__EOCF = None
+        self.EOCF = EOCF
 
     @property
     def name(self):
@@ -270,22 +270,22 @@ class RGB_Colourspace(object):
         self.__XYZ_to_RGB_matrix = value
 
     @property
-    def transfer_function(self):
+    def OECF(self):
         """
-        Property for **self.__transfer_function** private attribute.
+        Property for **self.__OECF** private attribute.
 
         Returns
         -------
         object
-            self.__transfer_function.
+            self.__OECF.
         """
 
-        return self.__transfer_function
+        return self.__OECF
 
-    @transfer_function.setter
-    def transfer_function(self, value):
+    @OECF.setter
+    def OECF(self, value):
         """
-        Setter for **self.__transfer_function** private attribute.
+        Setter for **self.__OECF** private attribute.
 
         Parameters
         ----------
@@ -296,26 +296,26 @@ class RGB_Colourspace(object):
         if value is not None:
             assert hasattr(value, '__call__'), (
                 '"{0}" attribute: "{1}" is not callable!'.format(
-                    'transfer_function', value))
-        self.__transfer_function = value
+                    'OECF', value))
+        self.__OECF = value
 
     @property
-    def inverse_transfer_function(self):
+    def EOCF(self):
         """
-        Property for **self.__inverse_transfer_function** private attribute.
+        Property for **self.__EOCF** private attribute.
 
         Returns
         -------
         object
-            self.__inverse_transfer_function.
+            self.__EOCF.
         """
 
-        return self.__inverse_transfer_function
+        return self.__EOCF
 
-    @inverse_transfer_function.setter
-    def inverse_transfer_function(self, value):
+    @EOCF.setter
+    def EOCF(self, value):
         """
-        Setter for **self.__inverse_transfer_function** private attribute.
+        Setter for **self.__EOCF** private attribute.
 
         Parameters
         ----------
@@ -326,8 +326,8 @@ class RGB_Colourspace(object):
         if value is not None:
             assert hasattr(value, '__call__'), (
                 '"{0}" attribute: "{1}" is not callable!'.format(
-                    'inverse_transfer_function', value))
-        self.__inverse_transfer_function = value
+                    'EOCF', value))
+        self.__EOCF = value
 
 
 def XYZ_to_RGB(XYZ,
@@ -335,7 +335,7 @@ def XYZ_to_RGB(XYZ,
                illuminant_RGB,
                XYZ_to_RGB_matrix,
                chromatic_adaptation_transform='CAT02',
-               transfer_function=None):
+               OECF=None):
     """
     Converts from *CIE XYZ* tristimulus values to given *RGB* colourspace.
 
@@ -356,8 +356,8 @@ def XYZ_to_RGB(XYZ,
         'Fairchild, 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
         'Bianco PC'}**,
         *Chromatic adaptation* transform.
-    transfer_function : object, optional
-        *Transfer function*.
+    OECF : object, optional
+        *Opto-electronic conversion function*.
 
     Returns
     -------
@@ -401,8 +401,8 @@ def XYZ_to_RGB(XYZ,
 
     RGB = dot_vector(XYZ_to_RGB_matrix, XYZ_a)
 
-    if transfer_function is not None:
-        RGB = transfer_function(RGB)
+    if OECF is not None:
+        RGB = OECF(RGB)
 
     return RGB
 
@@ -412,7 +412,7 @@ def RGB_to_XYZ(RGB,
                illuminant_XYZ,
                RGB_to_XYZ_matrix,
                chromatic_adaptation_transform='CAT02',
-               inverse_transfer_function=None):
+               EOCF=None):
     """
     Converts from given *RGB* colourspace to *CIE XYZ* tristimulus values.
 
@@ -433,8 +433,8 @@ def RGB_to_XYZ(RGB,
         'Fairchild, 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
         'Bianco PC'}**,
         *Chromatic adaptation* transform.
-    inverse_transfer_function : object, optional
-        *Inverse transfer function*.
+    EOCF : object, optional
+        *Electro-optical conversion function*.
 
     Returns
     -------
@@ -469,8 +469,8 @@ def RGB_to_XYZ(RGB,
     array([ 0.0704953...,  0.1008    ,  0.0955831...])
     """
 
-    if inverse_transfer_function is not None:
-        RGB = inverse_transfer_function(RGB)
+    if EOCF is not None:
+        RGB = EOCF(RGB)
 
     M = chromatic_adaptation_matrix_VonKries(
         xyY_to_XYZ(xy_to_xyY(illuminant_RGB)),

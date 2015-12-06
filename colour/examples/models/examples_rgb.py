@@ -27,10 +27,10 @@ print(('\nNormalised primary matrix to "CIE XYZ" '
     colourspace.RGB_to_XYZ_matrix))
 print('\nNormalised primary matrix to "ACES2065-1":\n{0}'.format(
     colourspace.XYZ_to_RGB_matrix))
-print('\nTransfer function from linear to colourspace:\n{0}'.format(
-    colourspace.transfer_function))
-print('\nInverse transfer function from colourspace to linear:\n{0}'.format(
-    colourspace.inverse_transfer_function))
+print('\nOpto-electronic conversion function from '
+      'linear to colourspace:\n{0}'.format(colourspace.OECF))
+print('\nElectro-optical conversion function from '
+      'colourspace to linear:\n{0}'.format(colourspace.EOCF))
 
 print('\n')
 

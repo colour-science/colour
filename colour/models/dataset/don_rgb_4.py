@@ -40,8 +40,8 @@ __all__ = ['DON_RGB_4_PRIMARIES',
            'DON_RGB_4_WHITEPOINT',
            'DON_RGB_4_TO_XYZ_MATRIX',
            'XYZ_TO_DON_RGB_4_MATRIX',
-           'DON_RGB_4_TRANSFER_FUNCTION',
-           'DON_RGB_4_INVERSE_TRANSFER_FUNCTION',
+           'DON_RGB_4_OECF',
+           'DON_RGB_4_EOCF',
            'DON_RGB_4_COLOURSPACE']
 
 DON_RGB_4_PRIMARIES = np.array(
@@ -85,9 +85,9 @@ XYZ_TO_DON_RGB_4_MATRIX : array_like, (3, 3)
 """
 
 
-def _don_rgb_4_transfer_function(value):
+def _don_rgb_4_OECF(value):
     """
-    Defines the *Don RGB 4* colourspace transfer function.
+    Defines the *Don RGB 4* colourspace opto-electronic conversion function.
 
     Parameters
     ----------
@@ -105,9 +105,9 @@ def _don_rgb_4_transfer_function(value):
     return value ** (1 / 2.2)
 
 
-def _don_rgb_4_inverse_transfer_function(value):
+def _don_rgb_4_EOCF(value):
     """
-    Defines the *Don RGB 4* colourspace inverse transfer function.
+    Defines the *Don RGB 4* colourspace electro-optical conversion function.
 
     Parameters
     ----------
@@ -125,18 +125,18 @@ def _don_rgb_4_inverse_transfer_function(value):
     return value ** 2.2
 
 
-DON_RGB_4_TRANSFER_FUNCTION = _don_rgb_4_transfer_function
+DON_RGB_4_OECF = _don_rgb_4_OECF
 """
-Transfer function from linear to *Don RGB 4* colourspace.
+Opto-electronic conversion function of *Don RGB 4* colourspace.
 
-DON_RGB_4_TRANSFER_FUNCTION : object
+DON_RGB_4_OECF : object
 """
 
-DON_RGB_4_INVERSE_TRANSFER_FUNCTION = _don_rgb_4_inverse_transfer_function
+DON_RGB_4_EOCF = _don_rgb_4_EOCF
 """
-Inverse transfer function from *Don RGB 4* colourspace to linear.
+Electro-optical conversion function of *Don RGB 4* colourspace.
 
-DON_RGB_4_INVERSE_TRANSFER_FUNCTION : object
+DON_RGB_4_EOCF : object
 """
 
 DON_RGB_4_COLOURSPACE = RGB_Colourspace(
@@ -146,8 +146,8 @@ DON_RGB_4_COLOURSPACE = RGB_Colourspace(
     DON_RGB_4_ILLUMINANT,
     DON_RGB_4_TO_XYZ_MATRIX,
     XYZ_TO_DON_RGB_4_MATRIX,
-    DON_RGB_4_TRANSFER_FUNCTION,
-    DON_RGB_4_INVERSE_TRANSFER_FUNCTION)
+    DON_RGB_4_OECF,
+    DON_RGB_4_EOCF)
 """
 *Don RGB 4* colourspace.
 

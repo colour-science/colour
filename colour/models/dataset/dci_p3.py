@@ -53,8 +53,8 @@ __all__ = ['DCI_P3_PRIMARIES',
            'XYZ_TO_DCI_P3_MATRIX',
            'DCI_P3_P_TO_XYZ_MATRIX',
            'XYZ_TO_DCI_P3_P_MATRIX',
-           'DCI_P3_TRANSFER_FUNCTION',
-           'DCI_P3_INVERSE_TRANSFER_FUNCTION',
+           'DCI_P3_OECF',
+           'DCI_P3_EOCF',
            'DCI_P3_COLOURSPACE',
            'DCI_P3_P_COLOURSPACE']
 
@@ -132,9 +132,9 @@ XYZ_TO_DCI_P3_P_MATRIX : array_like, (3, 3)
 """
 
 
-def _dci_p3_transfer_function(value):
+def _dci_p3_OECF(value):
     """
-    Defines the *DCI-P3* colourspace transfer function.
+    Defines the *DCI-P3* colourspace opto-electronic conversion function.
 
     Parameters
     ----------
@@ -152,9 +152,9 @@ def _dci_p3_transfer_function(value):
     return 4095 * (value / 52.37) ** (1 / 2.6)
 
 
-def _dci_p3_inverse_transfer_function(value):
+def _dci_p3_EOCF(value):
     """
-    Defines the *DCI-P3* colourspace inverse transfer function.
+    Defines the *DCI-P3* colourspace electro-optical conversion function.
 
     Parameters
     ----------
@@ -172,18 +172,18 @@ def _dci_p3_inverse_transfer_function(value):
     return 52.37 * (value / 4095) ** 2.6
 
 
-DCI_P3_TRANSFER_FUNCTION = _dci_p3_transfer_function
+DCI_P3_OECF = _dci_p3_OECF
 """
-Transfer function from linear to *DCI-P3* colourspace.
+Opto-electronic conversion function of *DCI-P3* colourspace.
 
-DCI_P3_TRANSFER_FUNCTION : object
+DCI_P3_OECF : object
 """
 
-DCI_P3_INVERSE_TRANSFER_FUNCTION = _dci_p3_inverse_transfer_function
+DCI_P3_EOCF = _dci_p3_EOCF
 """
-Inverse transfer function from *DCI-P3* colourspace to linear.
+Electro-optical conversion function of *DCI-P3* colourspace.
 
-DCI_P3_INVERSE_TRANSFER_FUNCTION : object
+DCI_P3_EOCF : object
 """
 
 DCI_P3_COLOURSPACE = RGB_Colourspace(
@@ -193,8 +193,8 @@ DCI_P3_COLOURSPACE = RGB_Colourspace(
     DCI_P3_ILLUMINANT,
     DCI_P3_TO_XYZ_MATRIX,
     XYZ_TO_DCI_P3_MATRIX,
-    DCI_P3_TRANSFER_FUNCTION,
-    DCI_P3_INVERSE_TRANSFER_FUNCTION)
+    DCI_P3_OECF,
+    DCI_P3_EOCF)
 """
 *DCI-P3* colourspace.
 
@@ -208,8 +208,8 @@ DCI_P3_P_COLOURSPACE = RGB_Colourspace(
     DCI_P3_ILLUMINANT,
     DCI_P3_P_TO_XYZ_MATRIX,
     XYZ_TO_DCI_P3_P_MATRIX,
-    DCI_P3_TRANSFER_FUNCTION,
-    DCI_P3_INVERSE_TRANSFER_FUNCTION)
+    DCI_P3_OECF,
+    DCI_P3_EOCF)
 """
 *DCI-P3+* colourspace.
 

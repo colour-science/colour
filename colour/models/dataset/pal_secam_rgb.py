@@ -42,8 +42,8 @@ __all__ = ['PAL_SECAM_RGB_PRIMARIES',
            'PAL_SECAM_RGB_WHITEPOINT',
            'PAL_SECAM_RGB_TO_XYZ_MATRIX',
            'XYZ_TO_PAL_SECAM_RGB_MATRIX',
-           'PAL_SECAM_RGB_TRANSFER_FUNCTION',
-           'PAL_SECAM_RGB_INVERSE_TRANSFER_FUNCTION',
+           'PAL_SECAM_RGB_OECF',
+           'PAL_SECAM_RGB_EOCF',
            'PAL_SECAM_RGB_COLOURSPACE']
 
 PAL_SECAM_RGB_PRIMARIES = np.array(
@@ -87,9 +87,10 @@ XYZ_TO_PAL_SECAM_RGB_MATRIX : array_like, (3, 3)
 """
 
 
-def _pal_secam_rgb_transfer_function(value):
+def _pal_secam_rgb_OECF(value):
     """
-    Defines the *Pal/Secam RGB* colourspace transfer function.
+    Defines the *Pal/Secam RGB* colourspace opto-electronic conversion
+    function.
 
     Parameters
     ----------
@@ -107,9 +108,10 @@ def _pal_secam_rgb_transfer_function(value):
     return value ** (1 / 2.8)
 
 
-def _pal_secam_rgb_inverse_transfer_function(value):
+def _pal_secam_rgb_EOCF(value):
     """
-    Defines the *Pal/Secam RGB* colourspace inverse transfer function.
+    Defines the *Pal/Secam RGB* colourspace electro-optical conversion
+    function.
 
     Parameters
     ----------
@@ -127,19 +129,19 @@ def _pal_secam_rgb_inverse_transfer_function(value):
     return value ** 2.8
 
 
-PAL_SECAM_RGB_TRANSFER_FUNCTION = _pal_secam_rgb_transfer_function
+PAL_SECAM_RGB_OECF = _pal_secam_rgb_OECF
 """
-Transfer function from linear to *Pal/Secam RGB* colourspace.
+Opto-electronic conversion function of *Pal/Secam RGB* colourspace.
 
-PAL_SECAM_RGB_TRANSFER_FUNCTION : object
+PAL_SECAM_RGB_OECF : object
 """
 
-PAL_SECAM_RGB_INVERSE_TRANSFER_FUNCTION = (
-    _pal_secam_rgb_inverse_transfer_function)
+PAL_SECAM_RGB_EOCF = (
+    _pal_secam_rgb_EOCF)
 """
-Inverse transfer function from *Pal/Secam RGB* colourspace to linear.
+Electro-optical conversion function of *Pal/Secam RGB* colourspace.
 
-PAL_SECAM_RGB_INVERSE_TRANSFER_FUNCTION : object
+PAL_SECAM_RGB_EOCF : object
 """
 
 PAL_SECAM_RGB_COLOURSPACE = RGB_Colourspace(
@@ -149,8 +151,8 @@ PAL_SECAM_RGB_COLOURSPACE = RGB_Colourspace(
     PAL_SECAM_RGB_ILLUMINANT,
     PAL_SECAM_RGB_TO_XYZ_MATRIX,
     XYZ_TO_PAL_SECAM_RGB_MATRIX,
-    PAL_SECAM_RGB_TRANSFER_FUNCTION,
-    PAL_SECAM_RGB_INVERSE_TRANSFER_FUNCTION)
+    PAL_SECAM_RGB_OECF,
+    PAL_SECAM_RGB_EOCF)
 """
 *Pal/Secam RGB* colourspace.
 

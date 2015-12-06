@@ -120,7 +120,7 @@ def single_spd_plot(spd,
     colours = XYZ_to_sRGB(
         wavelength_to_XYZ(wavelengths, cmfs),
         ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['E'],
-        transfer_function=False)
+        apply_OECF=False)
 
     if not out_of_gamut_clipping:
         colours += np.abs(np.min(colours))
@@ -444,7 +444,7 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
     colours = XYZ_to_sRGB(
         wavelength_to_XYZ(wavelengths, cmfs),
         ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['E'],
-        transfer_function=False)
+        apply_OECF=False)
 
     if not out_of_gamut_clipping:
         colours += np.abs(np.min(colours))

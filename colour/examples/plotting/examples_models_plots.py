@@ -79,10 +79,12 @@ RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(['Rec. 709', 'Awful RGB'])
 
 print('\n')
 
-message_box('Plotting a single "RGB" colourspace transfer function.')
-single_transfer_function_plot('Rec. 709')
+message_box('Plotting a single "RGB" '
+            'colourspace opto-electronic conversion function.')
+single_conversion_function_plot('Rec. 709')
 
 print('\n')
 
-message_box('Plotting multiple "RGB" colourspaces transfer functions.')
-multi_transfer_function_plot(['Rec. 709', 'sRGB'])
+message_box('Plotting multiple "RGB" colourspaces '
+            'opto-electronic conversion functions.')
+multi_conversion_function_plot(['Rec. 709', 'sRGB'])
