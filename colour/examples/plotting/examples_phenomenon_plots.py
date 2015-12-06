@@ -33,5 +33,5 @@ multi_spd_plot(rayleigh_spds,
 
 print('\n')
 
-message_box('Plotting "The blue Sky".')
+message_box('Plotting "The Blue Sky".')
 the_blue_sky_plot()

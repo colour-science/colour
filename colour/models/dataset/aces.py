@@ -77,20 +77,20 @@ __all__ = ['AP0',
            'XYZ_TO_AP0_MATRIX',
            'AP1_TO_XYZ_MATRIX',
            'XYZ_TO_AP1_MATRIX',
-           'ACES_2065_1_TRANSFER_FUNCTION',
-           'ACES_2065_1_INVERSE_TRANSFER_FUNCTION',
+           'ACES_2065_1_OECF',
+           'ACES_2065_1_EOCF',
            'ACES_2065_1_COLOURSPACE',
-           'ACES_CG_TRANSFER_FUNCTION',
-           'ACES_CG_INVERSE_TRANSFER_FUNCTION',
+           'ACES_CG_OECF',
+           'ACES_CG_EOCF',
            'ACES_CG_COLOURSPACE',
-           'ACES_CC_TRANSFER_FUNCTION',
-           'ACES_CC_INVERSE_TRANSFER_FUNCTION',
+           'ACES_CC_OECF',
+           'ACES_CC_EOCF',
            'ACES_CC_COLOURSPACE',
            'ACES_PROXY_10_CONSTANTS',
            'ACES_PROXY_12_CONSTANTS',
            'ACES_PROXY_CONSTANTS',
-           'ACES_PROXY_TRANSFER_FUNCTION',
-           'ACES_PROXY_INVERSE_TRANSFER_FUNCTION',
+           'ACES_PROXY_OECF',
+           'ACES_PROXY_EOCF',
            'ACES_PROXY_COLOURSPACE']
 
 AP0 = np.array(
@@ -161,9 +161,9 @@ XYZ_TO_AP1_MATRIX : array_like, (3, 3)
 """
 
 
-def _aces_2065_1_transfer_function(value):
+def _aces_2065_1_OECF(value):
     """
-    Defines the *ACES2065-1* colourspace transfer function.
+    Defines the *ACES2065-1* colourspace opto-electronic conversion function.
 
     Parameters
     ----------
@@ -179,9 +179,9 @@ def _aces_2065_1_transfer_function(value):
     return value
 
 
-def _aces_2065_1_inverse_transfer_function(value):
+def _aces_2065_1_EOCF(value):
     """
-    Defines the *ACES2065-1* colourspace inverse transfer function.
+    Defines the *ACES2065-1* colourspace electro-optical conversion function.
 
     Parameters
     ----------
@@ -197,18 +197,18 @@ def _aces_2065_1_inverse_transfer_function(value):
     return value
 
 
-ACES_2065_1_TRANSFER_FUNCTION = _aces_2065_1_transfer_function
+ACES_2065_1_OECF = _aces_2065_1_OECF
 """
-Transfer function from linear to *ACES2065-1* colourspace.
+Opto-electronic conversion function of *ACES2065-1* colourspace.
 
-ACES_2065_1_TRANSFER_FUNCTION : object
+ACES_2065_1_OECF : object
 """
 
-ACES_2065_1_INVERSE_TRANSFER_FUNCTION = _aces_2065_1_inverse_transfer_function
+ACES_2065_1_EOCF = _aces_2065_1_EOCF
 """
-Inverse transfer function from *ACES2065-1* colourspace to linear.
+Electro-optical conversion function of *ACES2065-1* colourspace.
 
-ACES_2065_1_INVERSE_TRANSFER_FUNCTION : object
+ACES_2065_1_EOCF : object
 """
 
 ACES_2065_1_COLOURSPACE = RGB_Colourspace(
@@ -218,8 +218,8 @@ ACES_2065_1_COLOURSPACE = RGB_Colourspace(
     ACES_ILLUMINANT,
     AP0_TO_XYZ_MATRIX,
     XYZ_TO_AP0_MATRIX,
-    ACES_2065_1_TRANSFER_FUNCTION,
-    ACES_2065_1_INVERSE_TRANSFER_FUNCTION)
+    ACES_2065_1_OECF,
+    ACES_2065_1_EOCF)
 """
 *ACES2065-1* colourspace, base encoding, used for exchange of full fidelity
 images and archiving.
@@ -228,9 +228,9 @@ ACES_2065_1_COLOURSPACE : RGB_Colourspace
 """
 
 
-def _aces_cg_transfer_function(value):
+def _aces_cg_OECF(value):
     """
-    Defines the *ACEScg* colourspace transfer function.
+    Defines the *ACEScg* colourspace opto-electronic conversion function.
 
     Parameters
     ----------
@@ -246,9 +246,9 @@ def _aces_cg_transfer_function(value):
     return value
 
 
-def _aces_cg_inverse_transfer_function(value):
+def _aces_cg_EOCF(value):
     """
-    Defines the *ACEScg* colourspace inverse transfer function.
+    Defines the *ACEScg* colourspace electro-optical conversion function.
 
     Parameters
     ----------
@@ -264,18 +264,18 @@ def _aces_cg_inverse_transfer_function(value):
     return value
 
 
-ACES_CG_TRANSFER_FUNCTION = _aces_cg_transfer_function
+ACES_CG_OECF = _aces_cg_OECF
 """
-Transfer function from linear to *ACEScg* colourspace.
+Opto-electronic conversion function of *ACEScg* colourspace.
 
-ACES_CG_TRANSFER_FUNCTION : object
+ACES_CG_OECF : object
 """
 
-ACES_CG_INVERSE_TRANSFER_FUNCTION = _aces_cg_inverse_transfer_function
+ACES_CG_EOCF = _aces_cg_EOCF
 """
-Inverse transfer function from *ACEScg* colourspace to linear.
+Electro-optical conversion function of *ACEScg* colourspace.
 
-ACES_CG_INVERSE_TRANSFER_FUNCTION : object
+ACES_CG_EOCF : object
 """
 
 ACES_CG_COLOURSPACE = RGB_Colourspace(
@@ -285,8 +285,8 @@ ACES_CG_COLOURSPACE = RGB_Colourspace(
     ACES_ILLUMINANT,
     AP1_TO_XYZ_MATRIX,
     XYZ_TO_AP1_MATRIX,
-    ACES_CG_TRANSFER_FUNCTION,
-    ACES_CG_INVERSE_TRANSFER_FUNCTION)
+    ACES_CG_OECF,
+    ACES_CG_EOCF)
 """
 *ACEScg* colourspace, a working space for paint/compositor applications that
 don’t support ACES2065-1 or ACEScc.
@@ -295,9 +295,9 @@ ACES_CG_COLOURSPACE : RGB_Colourspace
 """
 
 
-def _aces_cc_transfer_function(value):
+def _aces_cc_OECF(value):
     """
-    Defines the *ACEScc* colourspace transfer function.
+    Defines the *ACEScc* colourspace opto-electronic conversion function.
 
     Parameters
     ----------
@@ -322,9 +322,9 @@ def _aces_cc_transfer_function(value):
     return output
 
 
-def _aces_cc_inverse_transfer_function(value):
+def _aces_cc_EOCF(value):
     """
-    Defines the *ACEScc* colourspace inverse transfer function.
+    Defines the *ACEScc* colourspace electro-optical conversion function.
 
     Parameters
     ----------
@@ -349,19 +349,19 @@ def _aces_cc_inverse_transfer_function(value):
     return output
 
 
-ACES_CC_TRANSFER_FUNCTION = _aces_cc_transfer_function
+ACES_CC_OECF = _aces_cc_OECF
 """
-Transfer function from linear to *ACEScc* colourspace.
+Opto-electronic conversion function of *ACEScc* colourspace.
 
-ACES_CC_TRANSFER_FUNCTION : object
+ACES_CC_OECF : object
 """
 
-ACES_CC_INVERSE_TRANSFER_FUNCTION = (
-    _aces_cc_inverse_transfer_function)
+ACES_CC_EOCF = (
+    _aces_cc_EOCF)
 """
-Inverse transfer function from *ACEScc* colourspace to linear.
+Electro-optical conversion function of *ACEScc* colourspace.
 
-ACES_CC_INVERSE_TRANSFER_FUNCTION : object
+ACES_CC_EOCF : object
 """
 
 ACES_CC_COLOURSPACE = RGB_Colourspace(
@@ -371,8 +371,8 @@ ACES_CC_COLOURSPACE = RGB_Colourspace(
     ACES_ILLUMINANT,
     AP1_TO_XYZ_MATRIX,
     XYZ_TO_AP1_MATRIX,
-    ACES_CC_TRANSFER_FUNCTION,
-    ACES_CC_INVERSE_TRANSFER_FUNCTION)
+    ACES_CC_OECF,
+    ACES_CC_EOCF)
 """
 *ACEScc* colourspace, a working space for color correctors, target for ASC-CDL
 values created on-set.
@@ -415,9 +415,9 @@ ACES_PROXY_CONSTANTS : CaseInsensitiveMapping
 """
 
 
-def _aces_proxy_transfer_function(value, bit_depth='10 Bit'):
+def _aces_proxy_OECF(value, bit_depth='10 Bit'):
     """
-    Defines the *ACESproxy* colourspace transfer function.
+    Defines the *ACESproxy* colourspace opto-electronic conversion function.
 
     Parameters
     ----------
@@ -450,9 +450,9 @@ def _aces_proxy_transfer_function(value, bit_depth='10 Bit'):
     return output
 
 
-def _aces_proxy_inverse_transfer_function(value, bit_depth='10 Bit'):
+def _aces_proxy_EOCF(value, bit_depth='10 Bit'):
     """
-    Defines the *ACESproxy* colourspace inverse transfer function.
+    Defines the *ACESproxy* colourspace electro-optical conversion function.
 
     Parameters
     ----------
@@ -476,30 +476,30 @@ def _aces_proxy_inverse_transfer_function(value, bit_depth='10 Bit'):
                    constants.steps_per_stop - constants.mid_log_offset)))
 
 
-ACES_PROXY_TRANSFER_FUNCTION = _aces_proxy_transfer_function
+ACES_PROXY_OECF = _aces_proxy_OECF
 """
-Transfer function from linear to *ACESproxy* colourspace.
+Opto-electronic conversion function of *ACESproxy* colourspace.
 
-ACES_PROXY_TRANSFER_FUNCTION : object
+ACES_PROXY_OECF : object
 """
 
-ACES_PROXY_INVERSE_TRANSFER_FUNCTION = (
-    _aces_proxy_inverse_transfer_function)
+ACES_PROXY_EOCF = (
+    _aces_proxy_EOCF)
 """
-Inverse transfer function from *ACESproxy* colourspace to linear.
+Electro-optical conversion function of *ACESproxy* colourspace.
 
-ACES_PROXY_INVERSE_TRANSFER_FUNCTION : object
+ACES_PROXY_EOCF : object
 """
 
 ACES_PROXY_COLOURSPACE = RGB_Colourspace(
     'ACESproxy',
-    AP0,
+    AP1,
     ACES_WHITEPOINT,
     ACES_ILLUMINANT,
-    AP0_TO_XYZ_MATRIX,
-    XYZ_TO_AP0_MATRIX,
-    ACES_PROXY_TRANSFER_FUNCTION,
-    ACES_PROXY_INVERSE_TRANSFER_FUNCTION)
+    AP1_TO_XYZ_MATRIX,
+    XYZ_TO_AP1_MATRIX,
+    ACES_PROXY_OECF,
+    ACES_PROXY_EOCF)
 """
 *ACESproxy* colourspace, a lightweight encoding for transmission over HD-SDI
 (or other production transmission schemes), onset look management. Not

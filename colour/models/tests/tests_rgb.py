@@ -20,8 +20,8 @@ from colour.models import (
     RGB_to_RGB,
     normalised_primary_matrix)
 from colour.models.dataset.srgb import (
-    _srgb_transfer_function,
-    _srgb_inverse_transfer_function)
+    _srgb_OECF,
+    _srgb_EOCF)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -33,8 +33,8 @@ __status__ = 'Production'
 
 __all__ = ['sRGB_LINEAR_COLORCHECKER_2005',
            'ACES_COLORCHECKER_2005',
-           'sRGB_TRANSFER_FUNCTION',
-           'sRGB_INVERSE_TRANSFER_FUNCTION',
+           'sRGB_OECF',
+           'sRGB_EOCF',
            'TestRGB_COLOURSPACES',
            'TestRGB_Colourspace',
            'TestXYZ_to_RGB',
@@ -189,9 +189,9 @@ ACES_COLORCHECKER_2005 = (
      (0.02994815, 0.03110000, 0.02687947),
      (0.03111895, 0.03126787, 0.03256784)))
 
-sRGB_TRANSFER_FUNCTION = _srgb_transfer_function
+sRGB_OECF = _srgb_OECF
 
-sRGB_INVERSE_TRANSFER_FUNCTION = _srgb_inverse_transfer_function
+sRGB_EOCF = _srgb_EOCF
 
 
 class TestRGB_COLOURSPACES(unittest.TestCase):
@@ -233,10 +233,10 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
             if colourspace.name in aces_proxy_colourspaces:
                 continue
 
-            samples_oecf = [colourspace.transfer_function(sample)
+            samples_oecf = [colourspace.OECF(sample)
                             for sample in samples]
             samples_inverse_oecf = [
-                colourspace.inverse_transfer_function(sample)
+                colourspace.EOCF(sample)
                 for sample in samples_oecf]
 
             np.testing.assert_almost_equal(samples,
@@ -245,10 +245,10 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
 
         for colourspace in aces_proxy_colourspaces:
             colourspace = RGB_COLOURSPACES.get(colourspace)
-            samples_oecf = [colourspace.transfer_function(sample)
+            samples_oecf = [colourspace.OECF(sample)
                             for sample in samples]
             samples_inverse_oecf = [
-                colourspace.inverse_transfer_function(sample)
+                colourspace.EOCF(sample)
                 for sample in samples_oecf]
 
             np.testing.assert_allclose(samples,
@@ -265,8 +265,8 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
 
         for colourspace in RGB_COLOURSPACES.values():
             value_oecf = 0.5
-            value_inverse_oecf = colourspace.inverse_transfer_function(
-                colourspace.transfer_function(value_oecf))
+            value_inverse_oecf = colourspace.EOCF(
+                colourspace.OECF(value_oecf))
             np.testing.assert_almost_equal(
                 value_oecf,
                 value_inverse_oecf,
@@ -304,8 +304,8 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         for colourspace in RGB_COLOURSPACES.values():
             for case in cases:
-                colourspace.transfer_function(case)
-                colourspace.inverse_transfer_function(case)
+                colourspace.OECF(case)
+                colourspace.EOCF(case)
 
     def test_pickle(self):
         """
@@ -333,8 +333,8 @@ class TestRGB_Colourspace(unittest.TestCase):
                                'illuminant',
                                'RGB_to_XYZ_matrix',
                                'XYZ_to_RGB_matrix',
-                               'transfer_function',
-                               'inverse_transfer_function',)
+                               'OECF',
+                               'EOCF',)
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(RGB_Colourspace))
@@ -351,7 +351,7 @@ class TestXYZ_to_RGB(unittest.TestCase):
         Tests :func:`colour.models.rgb.XYZ_to_RGB` definition.
         """
 
-        for xyY, XYZ, RGB in sRGB_LINEAR_COLORCHECKER_2005:
+        for _xyY, XYZ, RGB in sRGB_LINEAR_COLORCHECKER_2005:
             np.testing.assert_almost_equal(
                 XYZ_to_RGB(
                     np.array(XYZ),
@@ -361,11 +361,11 @@ class TestXYZ_to_RGB(unittest.TestCase):
                               [-0.96922426, 1.87592999, 0.04155422],
                               [0.05563942, -0.20401120, 1.05714897]]),
                     'Bradford',
-                    sRGB_TRANSFER_FUNCTION),
+                    sRGB_OECF),
                 RGB,
                 decimal=7)
 
-        for xyY, XYZ, RGB in ACES_COLORCHECKER_2005:
+        for _xyY, XYZ, RGB in ACES_COLORCHECKER_2005:
             np.testing.assert_almost_equal(
                 XYZ_to_RGB(
                     np.array(XYZ),
@@ -468,7 +468,7 @@ class TestRGB_to_XYZ(unittest.TestCase):
                          [0.21263682, 0.71518298, 0.07218020],
                          [0.01933062, 0.11919716, 0.95037259]]),
                     'Bradford',
-                    sRGB_INVERSE_TRANSFER_FUNCTION),
+                    sRGB_EOCF),
                 np.array(XYZ),
                 decimal=7)
 

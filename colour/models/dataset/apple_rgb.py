@@ -40,8 +40,8 @@ __all__ = ['APPLE_RGB_PRIMARIES',
            'APPLE_RGB_WHITEPOINT',
            'APPLE_RGB_TO_XYZ_MATRIX',
            'XYZ_TO_APPLE_RGB_MATRIX',
-           'APPLE_RGB_TRANSFER_FUNCTION',
-           'APPLE_RGB_INVERSE_TRANSFER_FUNCTION',
+           'APPLE_RGB_OECF',
+           'APPLE_RGB_EOCF',
            'APPLE_RGB_COLOURSPACE']
 
 APPLE_RGB_PRIMARIES = np.array(
@@ -85,9 +85,9 @@ XYZ_TO_APPLE_RGB_MATRIX : array_like, (3, 3)
 """
 
 
-def _apple_rgb_transfer_function(value):
+def _apple_rgb_OECF(value):
     """
-    Defines the *Apple RGB* colourspace transfer function.
+    Defines the *Apple RGB* colourspace opto-electronic conversion function.
 
     Parameters
     ----------
@@ -105,9 +105,9 @@ def _apple_rgb_transfer_function(value):
     return value ** (1 / 1.8)
 
 
-def _apple_rgb_inverse_transfer_function(value):
+def _apple_rgb_EOCF(value):
     """
-    Defines the *Apple RGB* colourspace inverse transfer function.
+    Defines the *Apple RGB* colourspace electro-optical conversion function.
 
     Parameters
     ----------
@@ -125,18 +125,18 @@ def _apple_rgb_inverse_transfer_function(value):
     return value ** 1.8
 
 
-APPLE_RGB_TRANSFER_FUNCTION = _apple_rgb_transfer_function
+APPLE_RGB_OECF = _apple_rgb_OECF
 """
-Transfer function from linear to *Apple RGB* colourspace.
+Opto-electronic conversion function of *Apple RGB* colourspace.
 
-APPLE_RGB_TRANSFER_FUNCTION : object
+APPLE_RGB_OECF : object
 """
 
-APPLE_RGB_INVERSE_TRANSFER_FUNCTION = _apple_rgb_inverse_transfer_function
+APPLE_RGB_EOCF = _apple_rgb_EOCF
 """
-Inverse transfer function from *Apple RGB* colourspace to linear.
+Electro-optical conversion function of *Apple RGB* colourspace.
 
-APPLE_RGB_INVERSE_TRANSFER_FUNCTION : object
+APPLE_RGB_EOCF : object
 """
 
 APPLE_RGB_COLOURSPACE = RGB_Colourspace(
@@ -146,8 +146,8 @@ APPLE_RGB_COLOURSPACE = RGB_Colourspace(
     APPLE_RGB_ILLUMINANT,
     APPLE_RGB_TO_XYZ_MATRIX,
     XYZ_TO_APPLE_RGB_MATRIX,
-    APPLE_RGB_TRANSFER_FUNCTION,
-    APPLE_RGB_INVERSE_TRANSFER_FUNCTION)
+    APPLE_RGB_OECF,
+    APPLE_RGB_EOCF)
 """
 *Apple RGB* colourspace.
 

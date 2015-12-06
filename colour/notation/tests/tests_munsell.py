@@ -4759,7 +4759,7 @@ class TestBoundingHuesFromRenotation(unittest.TestCase):
         """
 
         for i, specification in enumerate(MUNSELL_SPECIFICATIONS):
-            hue, value, chroma, code = specification
+            hue, _value, _chroma, code = specification
             self.assertTupleEqual(bounding_hues_from_renotation(hue, code),
                                   MUNSELL_BOUNDING_HUES[i])
 

@@ -35,7 +35,7 @@ LONG_DESCRIPTION = open('README.rst').read()
 
 INSTALLATION_REQUIREMENTS = ['numpy>=1.8.1']
 
-OPTIONAL_REQUIREMENTS = ['scipy>=0.14.0']
+OPTIONAL_REQUIREMENTS = ['scipy>=0.16.0']
 
 PLOTTING_REQUIREMENTS = ['matplotlib>=1.3.1']
 
@@ -77,4 +77,5 @@ setup(name='colour-science',
                    'Operating System :: OS Independent',
                    'Programming Language :: Python :: 2.7',
                    'Programming Language :: Python :: 3.4',
+                   'Programming Language :: Python :: 3.5',
                    'Topic :: Scientific/Engineering'])

@@ -338,10 +338,10 @@ CaseInsensitiveMapping.__delitem__` method.
 
         mapping = CaseInsensitiveMapping(John='Doe', Jane='Doe')
 
-        del (mapping['john'])
+        del mapping['john']
         self.assertNotIn('John', mapping)
 
-        del (mapping['Jane'])
+        del mapping['Jane']
         self.assertNotIn('jane', mapping)
         self.assertEqual(len(mapping), 0)
 

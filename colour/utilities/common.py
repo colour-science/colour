@@ -70,8 +70,16 @@ refl1d/numpyerrors.html
     context = np.errstate(**kwargs)
 
     def wrapper(function):
+        """
+        Wrapper for given function.
+        """
+
         @functools.wraps(function)
         def wrapped(*args, **kwargs):
+            """
+            Wrapped function.
+            """
+
             with context:
                 return function(*args, **kwargs)
 
@@ -93,7 +101,7 @@ def ignore_python_warnings(function):
     Parameters
     ----------
     function : object
-        Object to decorate.
+        Function to decorate.
 
     Returns
     -------
@@ -109,6 +117,10 @@ def ignore_python_warnings(function):
 
     @functools.wraps(function)
     def wrapped(*args, **kwargs):
+        """
+        Wrapped function.
+        """
+
         with warnings.catch_warnings():
             warnings.simplefilter('ignore')
 

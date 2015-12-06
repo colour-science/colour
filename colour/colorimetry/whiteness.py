@@ -134,7 +134,7 @@ def whiteness_Taube1960(XYZ, XYZ_0):
     """
 
     _X, Y, Z = tsplit(XYZ)
-    _X_0, Y_0, Z_0 = tsplit(XYZ_0)
+    _X_0, _Y_0, Z_0 = tsplit(XYZ_0)
 
     WI = 400 * (Z / Z_0) - 3 * Y
 

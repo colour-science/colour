@@ -40,8 +40,8 @@ __all__ = ['PROPHOTO_RGB_PRIMARIES',
            'PROPHOTO_RGB_WHITEPOINT',
            'PROPHOTO_RGB_TO_XYZ_MATRIX',
            'XYZ_TO_PROPHOTO_RGB_MATRIX',
-           'PROPHOTO_RGB_TRANSFER_FUNCTION',
-           'PROPHOTO_RGB_INVERSE_TRANSFER_FUNCTION',
+           'PROPHOTO_RGB_OECF',
+           'PROPHOTO_RGB_EOCF',
            'PROPHOTO_RGB_COLOURSPACE']
 
 PROPHOTO_RGB_PRIMARIES = np.array(
@@ -87,9 +87,9 @@ XYZ_TO_PROPHOTO_RGB_MATRIX : array_like, (3, 3)
 """
 
 
-def _prophoto_rgb_transfer_function(value):
+def _prophoto_rgb_OECF(value):
     """
-    Defines the *ProPhoto RGB* colourspace transfer function.
+    Defines the *ProPhoto RGB* colourspace opto-electronic conversion function.
 
     Parameters
     ----------
@@ -109,9 +109,9 @@ def _prophoto_rgb_transfer_function(value):
                     value ** (1 / 1.8))
 
 
-def _prophoto_rgb_inverse_transfer_function(value):
+def _prophoto_rgb_EOCF(value):
     """
-    Defines the *ProPhoto RGB* colourspace inverse transfer function.
+    Defines the *ProPhoto RGB* colourspace electro-optical conversion function.
 
     Parameters
     ----------
@@ -127,24 +127,24 @@ def _prophoto_rgb_inverse_transfer_function(value):
     value = np.asarray(value)
 
     return np.where(
-        value < _prophoto_rgb_transfer_function(0.001953),
+        value < _prophoto_rgb_OECF(0.001953),
         value / 16,
         value ** 1.8)
 
 
-PROPHOTO_RGB_TRANSFER_FUNCTION = _prophoto_rgb_transfer_function
+PROPHOTO_RGB_OECF = _prophoto_rgb_OECF
 """
-Transfer function from linear to *ProPhoto RGB* colourspace.
+Opto-electronic conversion function of *ProPhoto RGB* colourspace.
 
-PROPHOTO_RGB_TRANSFER_FUNCTION : object
+PROPHOTO_RGB_OECF : object
 """
 
-PROPHOTO_RGB_INVERSE_TRANSFER_FUNCTION = (
-    _prophoto_rgb_inverse_transfer_function)
+PROPHOTO_RGB_EOCF = (
+    _prophoto_rgb_EOCF)
 """
-Inverse transfer function from *ProPhoto RGB* colourspace to linear.
+Electro-optical conversion function of *ProPhoto RGB* colourspace.
 
-PROPHOTO_RGB_INVERSE_TRANSFER_FUNCTION : object
+PROPHOTO_RGB_EOCF : object
 """
 
 PROPHOTO_RGB_COLOURSPACE = RGB_Colourspace(
@@ -154,8 +154,8 @@ PROPHOTO_RGB_COLOURSPACE = RGB_Colourspace(
     PROPHOTO_RGB_ILLUMINANT,
     PROPHOTO_RGB_TO_XYZ_MATRIX,
     XYZ_TO_PROPHOTO_RGB_MATRIX,
-    PROPHOTO_RGB_TRANSFER_FUNCTION,
-    PROPHOTO_RGB_INVERSE_TRANSFER_FUNCTION)
+    PROPHOTO_RGB_OECF,
+    PROPHOTO_RGB_EOCF)
 """
 *ProPhoto RGB* colourspace.
 

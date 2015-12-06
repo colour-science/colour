@@ -40,8 +40,8 @@ __all__ = ['RUSSELL_RGB_PRIMARIES',
            'RUSSELL_RGB_WHITEPOINT',
            'RUSSELL_RGB_TO_XYZ_MATRIX',
            'XYZ_TO_RUSSELL_RGB_MATRIX',
-           'RUSSELL_RGB_TRANSFER_FUNCTION',
-           'RUSSELL_RGB_INVERSE_TRANSFER_FUNCTION',
+           'RUSSELL_RGB_OECF',
+           'RUSSELL_RGB_EOCF',
            'RUSSELL_RGB_COLOURSPACE']
 
 RUSSELL_RGB_PRIMARIES = np.array(
@@ -85,9 +85,9 @@ XYZ_TO_RUSSELL_RGB_MATRIX : array_like, (3, 3)
 """
 
 
-def _russell_rgb_transfer_function(value):
+def _russell_rgb_OECF(value):
     """
-    Defines the *Russell RGB* colourspace transfer function.
+    Defines the *Russell RGB* colourspace opto-electronic conversion function.
 
     Parameters
     ----------
@@ -105,9 +105,9 @@ def _russell_rgb_transfer_function(value):
     return value ** (1 / 2.2)
 
 
-def _russell_rgb_inverse_transfer_function(value):
+def _russell_rgb_EOCF(value):
     """
-    Defines the *Russell RGB* colourspace inverse transfer function.
+    Defines the *Russell RGB* colourspace electro-optical conversion function.
 
     Parameters
     ----------
@@ -125,18 +125,18 @@ def _russell_rgb_inverse_transfer_function(value):
     return value ** 2.2
 
 
-RUSSELL_RGB_TRANSFER_FUNCTION = _russell_rgb_transfer_function
+RUSSELL_RGB_OECF = _russell_rgb_OECF
 """
-Transfer function from linear to *Russell RGB* colourspace.
+Opto-electronic conversion function of *Russell RGB* colourspace.
 
-RUSSELL_RGB_TRANSFER_FUNCTION : object
+RUSSELL_RGB_OECF : object
 """
 
-RUSSELL_RGB_INVERSE_TRANSFER_FUNCTION = _russell_rgb_inverse_transfer_function
+RUSSELL_RGB_EOCF = _russell_rgb_EOCF
 """
-Inverse transfer function from *Russell RGB* colourspace to linear.
+Electro-optical conversion function of *Russell RGB* colourspace.
 
-RUSSELL_RGB_INVERSE_TRANSFER_FUNCTION : object
+RUSSELL_RGB_EOCF : object
 """
 
 RUSSELL_RGB_COLOURSPACE = RGB_Colourspace(
@@ -146,8 +146,8 @@ RUSSELL_RGB_COLOURSPACE = RGB_Colourspace(
     RUSSELL_RGB_ILLUMINANT,
     RUSSELL_RGB_TO_XYZ_MATRIX,
     XYZ_TO_RUSSELL_RGB_MATRIX,
-    RUSSELL_RGB_TRANSFER_FUNCTION,
-    RUSSELL_RGB_INVERSE_TRANSFER_FUNCTION)
+    RUSSELL_RGB_OECF,
+    RUSSELL_RGB_EOCF)
 """
 *Russell RGB* colourspace.
 

@@ -166,9 +166,9 @@ Default plotting illuminant: *CIE Illuminant D Series* *D65*.
 DEFAULT_PLOTTING_ILLUMINANT : tuple
 """
 
-DEFAULT_PLOTTING_OECF = RGB_COLOURSPACES['sRGB'].transfer_function
+DEFAULT_PLOTTING_OECF = RGB_COLOURSPACES['sRGB'].OECF
 """
-Default plotting OECF / transfer function: *sRGB*.
+Default plotting OECF / opto-electronic conversion function: *sRGB*.
 
 DEFAULT_PLOTTING_OECF : object
 """

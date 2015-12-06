@@ -83,11 +83,11 @@ def XYZ_to_UVW(XYZ,
     """
 
     xyY = XYZ_to_xyY(XYZ, xyY_to_xy(illuminant))
-    _x, y, Y = tsplit(xyY)
+    _x, _y, Y = tsplit(xyY)
 
     u, v = tsplit(UCS_to_uv(XYZ_to_UCS(XYZ)))
-    u_0, v_0 = tsplit(UCS_to_uv(XYZ_to_UCS(
-        xyY_to_XYZ(xy_to_xyY(illuminant)))))
+    u_0, v_0 = tsplit(
+        UCS_to_uv(XYZ_to_UCS(xyY_to_XYZ(xy_to_xyY(illuminant)))))
 
     W = 25 * Y ** (1 / 3) - 17
     U = 13 * W * (u - u_0)

@@ -217,7 +217,7 @@ s=2.3603053..., Q=195.3713259..., M=0.1088421..., H=array(278.0607358...), \
 HC=None)
     """
 
-    _X_w, Y_w, Z_w = tsplit(XYZ_w)
+    _X_w, Y_w, _Z_w = tsplit(XYZ_w)
     L_A = np.asarray(L_A)
     Y_b = np.asarray(Y_b)
 
@@ -354,7 +354,7 @@ def CIECAM02_to_XYZ(J,
     array([ 19.01...,  20...  ,  21.78...])
     """
 
-    _X_w, Y_w, Zw = tsplit(XYZ_w)
+    _X_w, Y_w, _Zw = tsplit(XYZ_w)
 
     n, F_L, N_bb, N_cb, z = tsplit(viewing_condition_dependent_parameters(
         Y_b, Y_w, L_A))
@@ -390,7 +390,7 @@ def CIECAM02_to_XYZ(J,
 
     # Computing *P_1* to *P_3*.
     P_n = P(surround.N_c, N_cb, e_t, t, A, N_bb)
-    _P_1, P_2, P_3 = tsplit(P_n)
+    _P_1, P_2, _P_3 = tsplit(P_n)
 
     # Computing opponent colour dimensions :math:`a` and :math:`b`.
     a, b = tsplit(opponent_colour_dimensions_reverse(P_n, h))

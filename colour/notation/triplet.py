@@ -90,6 +90,10 @@ def HEX_to_RGB(HEX):
     HEX = np.core.defchararray.lstrip(HEX, '#')
 
     def to_RGB(x):
+        """
+        Converts given hexadecimal representation to *RGB*.
+        """
+
         length = len(x)
         return [int(x[i:i + length // 3], 16)
                 for i in range(0, length, length // 3)]
