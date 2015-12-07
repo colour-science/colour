@@ -858,7 +858,7 @@ def xyY_to_munsell_specification(xyY):
 
         iterations_maximum_inner = 16
         iterations_inner = 0
-        while rho_input < min(rho_bounds) or rho_input > max(rho_bounds):
+        while not (min(rho_bounds) < rho_input < max(rho_bounds)):
             iterations_inner += 1
 
             if iterations_inner > iterations_maximum_inner:
