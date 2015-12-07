@@ -2178,7 +2178,7 @@ SpectralPowerDistribution.__iter__` method.
         """
 
         self.assertEqual(
-            dict([(key, value) for key, value in self.__spd]),
+            {key: value for key, value in self.__spd},
             SAMPLE_SPD_DATA)
 
     def test__contains__(self):
@@ -2667,7 +2667,7 @@ TriSpectralPowerDistribution.__iter__` method.
         """
 
         self.assertEqual(
-            dict([(key, tuple(value)) for key, value in self.__tri_spd]),
+            {key: tuple(value) for key, value in self.__tri_spd},
             CMFS_DATA)
 
     def test__contains__(self):
