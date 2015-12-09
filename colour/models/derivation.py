@@ -7,7 +7,13 @@ RGB Colourspace Derivation
 
 Defines objects related to *RGB* colourspace derivation, essentially
 calculating the normalised primary matrix for given *RGB* colourspace primaries
-and whitepoint.
+and whitepoint:
+
+-   :func:`normalised_primary_matrix`
+-   :func:`chromatically_adapted_primaries`
+-   :func:`primaries_whitepoint`
+-   :func:`RGB_luminance_equation`
+-   :func:`RGB_luminance`
 
 See Also
 --------
@@ -25,7 +31,8 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.models import XYZ_to_xy, xy_to_XYZ
+from colour.adaptation import chromatic_adaptation_VonKries
+from colour.models import XYZ_to_xy, XYZ_to_xyY, xy_to_XYZ
 from colour.utilities import tsplit
 
 __author__ = 'Colour Developers'
@@ -37,6 +44,7 @@ __status__ = 'Production'
 
 __all__ = ['xy_to_z',
            'normalised_primary_matrix',
+           'chromatically_adapted_primaries',
            'primaries_whitepoint',
            'RGB_luminance_equation',
            'RGB_luminance']
@@ -44,12 +52,12 @@ __all__ = ['xy_to_z',
 
 def xy_to_z(xy):
     """
-    Returns the *z* coordinate using given *xy* chromaticity coordinates.
+    Returns the *z* coordinate using given :math:`xy` chromaticity coordinates.
 
     Parameters
     ----------
     xy : array_like
-        *xy* chromaticity coordinates.
+        :math:`xy` chromaticity coordinates.
 
     Returns
     -------
@@ -72,14 +80,14 @@ def xy_to_z(xy):
 def normalised_primary_matrix(primaries, whitepoint):
     """
     Returns the *normalised primary matrix* using given *primaries* and
-    *whitepoint*.
+    *whitepoint* :math:`xy` chromaticity coordinates.
 
     Parameters
     ----------
     primaries : array_like, (3, 2)
-        Primaries chromaticity coordinates.
+        Primaries :math:`xy` chromaticity coordinates.
     whitepoint : array_like
-        Illuminant / whitepoint chromaticity coordinates.
+        Illuminant / whitepoint :math:`xy` chromaticity coordinates.
 
     Returns
     -------
@@ -88,9 +96,9 @@ def normalised_primary_matrix(primaries, whitepoint):
 
     Examples
     --------
-    >>> pms = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
+    >>> p = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
     >>> whitepoint = np.array([0.32168, 0.33767])
-    >>> normalised_primary_matrix(pms, whitepoint)  # doctest: +ELLIPSIS
+    >>> normalised_primary_matrix(p, whitepoint)  # doctest: +ELLIPSIS
     array([[  9.5255239...e-01,   0.0000000...e+00,   9.3678631...e-05],
            [  3.4396645...e-01,   7.2816609...e-01,  -7.2132546...e-02],
            [  0.0000000...e+00,   0.0000000...e+00,   1.0088251...e+00]])
@@ -111,10 +119,67 @@ def normalised_primary_matrix(primaries, whitepoint):
     return npm
 
 
+def chromatically_adapted_primaries(primaries,
+                                    whitepoint_t,
+                                    whitepoint_r,
+                                    chromatic_adaptation_transform='CAT02'):
+    """
+    Chromatically adapts given *primaries* :math:`xy` chromaticity coordinates
+    from test `whitepoint_t` to reference `whitepoint_r`.
+
+
+    Parameters
+    ----------
+    primaries : array_like, (3, 2)
+        Primaries :math:`xy` chromaticity coordinates.
+    whitepoint_t : array_like
+        Test illuminant / whitepoint :math:`xy` chromaticity coordinates.
+    whitepoint_r : array_like
+        Reference illuminant / whitepoint :math:`xy` chromaticity coordinates.
+    chromatic_adaptation_transform : unicode, optional
+        **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
+        'Fairchild, 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
+        'Bianco PC'}**,
+        *Chromatic adaptation* transform.
+
+    Returns
+    -------
+    ndarray
+        Chromatically adapted primaries :math:`xy` chromaticity coordinates.
+
+    Examples
+    --------
+    >>> p = np.array([0.64, 0.33, 0.30, 0.60, 0.15, 0.06])
+    >>> whitepoint_t = np.array([0.31271, 0.32902])
+    >>> whitepoint_r = np.array([0.34567, 0.35850])
+    >>> chromatic_adaptation_transform = 'Bradford'
+    >>> chromatically_adapted_primaries(  # doctest: +ELLIPSIS
+    ...     p,
+    ...     whitepoint_t,
+    ...     whitepoint_r,
+    ...     chromatic_adaptation_transform)
+    array([[ 0.6484318...,  0.3308548...],
+           [ 0.3211603...,  0.5978620...],
+           [ 0.1558860...,  0.0660431...]])
+    """
+
+    primaries = np.reshape(primaries, (3, 2))
+
+    XYZ_a = chromatic_adaptation_VonKries(
+        xy_to_XYZ(primaries),
+        xy_to_XYZ(whitepoint_t),
+        xy_to_XYZ(whitepoint_r),
+        chromatic_adaptation_transform)
+
+    P_a = XYZ_to_xyY(XYZ_a)[..., 0:2]
+
+    return P_a
+
+
 def primaries_whitepoint(npm):
     """
-    Returns *primaries* and *whitepoint* using given *normalised primary
-    matrix*.
+    Returns the *primaries* and *whitepoint* :math:`xy` chromaticity
+    coordinates using given *normalised primary matrix*.
 
     Parameters
     ----------
@@ -124,7 +189,7 @@ def primaries_whitepoint(npm):
     Returns
     -------
     tuple
-        *Primaries* and *whitepoint*.
+        *Primaries* and *whitepoint* :math:`xy` chromaticity coordinates.
 
     References
     ----------
@@ -174,10 +239,10 @@ def RGB_luminance_equation(primaries, whitepoint):
 
     Examples
     --------
-    >>> pms = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
+    >>> p = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
     >>> whitepoint = np.array([0.32168, 0.33767])
     >>> # Doctests skip for Python 2.x compatibility.
-    >>> RGB_luminance_equation(pms, whitepoint)  # doctest: +SKIP
+    >>> RGB_luminance_equation(p, whitepoint)  # doctest: +SKIP
     'Y = 0.3439664...(R) + 0.7281660...(G) + -0.0721325...(B)'
     """
 
@@ -207,9 +272,9 @@ def RGB_luminance(RGB, primaries, whitepoint):
     Examples
     --------
     >>> RGB = np.array([40.6, 4.2, 67.4])
-    >>> pms = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
+    >>> p = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
     >>> whitepoint = np.array([0.32168, 0.33767])
-    >>> RGB_luminance(RGB, pms, whitepoint)  # doctest: +ELLIPSIS
+    >>> RGB_luminance(RGB, p, whitepoint)  # doctest: +ELLIPSIS
     12.1616018...
     """
 
