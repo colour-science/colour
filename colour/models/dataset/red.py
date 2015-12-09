@@ -43,13 +43,19 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['RED_COLOR_2_PRIMARIES',
+__all__ = ['RED_COLOR_PRIMARIES',
+           'RED_COLOR_ILLUMINANT',
+           'RED_COLOR_WHITEPOINT',
+           'RED_COLOR_TO_XYZ_MATRIX',
+           'XYZ_TO_RED_COLOR_MATRIX',
+           'RED_LOG_FILM_OECF',
+           'RED_LOG_FILM_EOCF',
+           'RED_COLOR_COLOURSPACE',
+           'RED_COLOR_2_PRIMARIES',
            'RED_COLOR_2_ILLUMINANT',
            'RED_COLOR_2_WHITEPOINT',
            'RED_COLOR_2_TO_XYZ_MATRIX',
            'XYZ_TO_RED_COLOR_2_MATRIX',
-           'RED_LOG_FILM_OECF',
-           'RED_LOG_FILM_EOCF',
            'RED_COLOR_2_COLOURSPACE',
            'RED_COLOR_3_PRIMARIES',
            'RED_COLOR_3_ILLUMINANT',
