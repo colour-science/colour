@@ -86,7 +86,7 @@ RED_COLOR_PRIMARIES = np.array(
 RED_COLOR_PRIMARIES : ndarray, (3, 2)
 """
 
-RED_COLOR_ILLUMINANT = 'D65'
+RED_COLOR_ILLUMINANT = 'D60'
 """
 *REDcolor* colourspace whitepoint name as illuminant.
 
