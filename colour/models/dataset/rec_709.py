@@ -31,6 +31,7 @@ import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
 from colour.models import RGB_Colourspace
+from colour.utilities import warning
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -126,7 +127,19 @@ def _rec_709_EOCF(value):
     -------
     numeric or ndarray
         Companded value.
+
+    Warning
+    -------
+    *Recommendation ITU-R BT.709-5* doesn't specify an electro-optical
+    conversion function. This definition is used for symmetry in unit tests and
+    other computations but should not be used as an *EOCF* for *Rec. 709*
+    colourspace!
     """
+
+    warning(('*Recommendation ITU-R BT.709-5* doesn\'t specify an'
+             'electro-optical conversion function. This definition is used '
+             'for symmetry in unit tests and others computations but should '
+             'not be used as an *EOCF* for *Rec. 709* colourspace!'))
 
     value = np.asarray(value)
 
@@ -147,6 +160,12 @@ REC_709_EOCF = _rec_709_EOCF
 Electro-optical conversion function of *Rec. 709* colourspace.
 
 REC_709_EOCF : object
+
+Warning
+-------
+*Recommendation ITU-R BT.709-5* doesn't specify an electro-optical conversion
+function. This definition is used for symmetry in unit tests and other
+computations but should not be used as an *EOCF* for *Rec. 709* colourspace!
 """
 
 REC_709_COLOURSPACE = RGB_Colourspace(
