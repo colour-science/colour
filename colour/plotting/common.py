@@ -692,7 +692,7 @@ def colour_parameters_plot(colour_parameters,
                    color='black',
                    linewidth=2)
 
-    if all([x.y1 is not None for x in colour_parameters] and y1_plot):
+    if all([x.y1 is not None for x in colour_parameters]) and y1_plot:
         pylab.plot([x.x for x in colour_parameters],
                    [x.y1 for x in colour_parameters],
                    color='black',
