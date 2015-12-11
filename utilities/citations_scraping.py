@@ -26,7 +26,7 @@ __all__ = ['CITATION_PATTERN',
            'PREFIX_CITATION_PATTERN',
            'API_TO_APA_SUBSTITUTIONS',
            'citations_from_token',
-           'citations_from_file',
+           'citations_from_module',
            'citations_from_directory']
 
 CITATION_PATTERN = '^\s*\.\.\s+\[\d+\]\s+'
@@ -72,27 +72,27 @@ def citations_from_token(token_info):
     return citations
 
 
-def citations_from_file(path):
+def citations_from_module(module):
     """
-    Returns the citations from given file.
+    Returns the citations from given module.
 
     Parameters
     ----------
-    path : unicode
-        File path.
+    module : unicode
+        Module path.
 
     Returns
     -------
     list
-        Citations from given file.
+        Citations from given module.
     """
 
-    path = BytesIO(codecs.open(path,
-                               encoding='utf-8',
-                               errors='ignore').read().encode('utf-8'))
+    module = BytesIO(codecs.open(module,
+                                 encoding='utf-8',
+                                 errors='ignore').read().encode('utf-8'))
 
     citations = []
-    for token in tokenize(path.readline):
+    for token in tokenize(module.readline):
         token_citations = citations_from_token(token)
         if token_citations:
             citations.extend(token_citations)
@@ -118,10 +118,10 @@ def citations_from_directory(directory):
     citations = {}
     for root, dirnames, filenames in os.walk(directory):
         for filename in fnmatch.filter(filenames, '*.py'):
-            file = os.path.join(root, filename)
-            file_citations = citations_from_file(file)
-            if file_citations:
-                citations[file] = file_citations
+            module = os.path.join(root, filename)
+            module_citations = citations_from_module(module)
+            if module_citations:
+                citations[module] = module_citations
     return citations
 
 
@@ -151,8 +151,8 @@ if __name__ == '__main__':
     citations = citations_from_directory(directory)
     # pprint(sorted(citations.items()), width=2048)
 
-    for file, file_citations in citations.items():
+    for module, module_citations in citations.items():
         print('*' * 79)
-        print('{0}\n'.format(file))
-        for citation in file_citations:
+        print('{0}\n'.format(module))
+        for citation in module_citations:
             print('\t{0}'.format(API_to_APA(citation)))

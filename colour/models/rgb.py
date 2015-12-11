@@ -66,7 +66,7 @@ class RGB_Colourspace(object):
         value.
     EOCF : object, optional
         Electro-optical conversion function (EOCF) that maps an :math:`R'G'B'`
-        video component signal to a tristimulus values at the display.
+        video component signal to a tristimulus value at the display.
     """
 
     def __init__(self,

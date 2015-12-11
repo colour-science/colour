@@ -43,13 +43,19 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['RED_COLOR_2_PRIMARIES',
+__all__ = ['RED_COLOR_PRIMARIES',
+           'RED_COLOR_ILLUMINANT',
+           'RED_COLOR_WHITEPOINT',
+           'RED_COLOR_TO_XYZ_MATRIX',
+           'XYZ_TO_RED_COLOR_MATRIX',
+           'RED_LOG_FILM_OECF',
+           'RED_LOG_FILM_EOCF',
+           'RED_COLOR_COLOURSPACE',
+           'RED_COLOR_2_PRIMARIES',
            'RED_COLOR_2_ILLUMINANT',
            'RED_COLOR_2_WHITEPOINT',
            'RED_COLOR_2_TO_XYZ_MATRIX',
            'XYZ_TO_RED_COLOR_2_MATRIX',
-           'RED_LOG_FILM_OECF',
-           'RED_LOG_FILM_EOCF',
            'RED_COLOR_2_COLOURSPACE',
            'RED_COLOR_3_PRIMARIES',
            'RED_COLOR_3_ILLUMINANT',
@@ -86,7 +92,7 @@ RED_COLOR_PRIMARIES = np.array(
 RED_COLOR_PRIMARIES : ndarray, (3, 2)
 """
 
-RED_COLOR_ILLUMINANT = 'D65'
+RED_COLOR_ILLUMINANT = 'D60'
 """
 *REDcolor* colourspace whitepoint name as illuminant.
 

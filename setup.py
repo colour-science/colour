@@ -48,7 +48,7 @@ TESTS_REQUIREMENTS = ['coverage>=3.7.1',
 if sys.version_info[:2] <= (3, 2):
     TESTS_REQUIREMENTS += ['mock==1.0.1']
 
-if os.environ.get('READTHEDOCS', None) == 'True':
+if os.environ.get('READTHEDOCS') == 'True':
     INSTALLATION_REQUIREMENTS += ['mock==1.0.1']
 
 setup(name='colour-science',

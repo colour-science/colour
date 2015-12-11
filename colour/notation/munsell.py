@@ -858,7 +858,7 @@ def xyY_to_munsell_specification(xyY):
 
         iterations_maximum_inner = 16
         iterations_inner = 0
-        while rho_input < min(rho_bounds) or rho_input > max(rho_bounds):
+        while not (min(rho_bounds) < rho_input < max(rho_bounds)):
             iterations_inner += 1
 
             if iterations_inner > iterations_maximum_inner:
@@ -1546,7 +1546,7 @@ def interpolation_method_from_renotation_ovoid(specification):
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
-            elif chroma == 6 or chroma == 8 or chroma == 10:
+            elif chroma in (6, 8, 10):
                 if 7.5 < ASTM_hue < 37.5 or 57.5 < ASTM_hue < 82.5:
                     interpolation_method = 2
                 else:
@@ -1559,12 +1559,12 @@ def interpolation_method_from_renotation_ovoid(specification):
             else:
                 interpolation_method = 1
         elif value == 4:
-            if chroma == 2 or chroma == 4:
+            if chroma in (2, 4):
                 if 7.5 < ASTM_hue < 42.5 or 57.5 < ASTM_hue < 85:
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
-            elif chroma == 6 or chroma == 8:
+            elif chroma in (6, 8):
                 if 7.5 < ASTM_hue < 40 or 57.5 < ASTM_hue < 82.5:
                     interpolation_method = 2
                 else:
@@ -1582,7 +1582,7 @@ def interpolation_method_from_renotation_ovoid(specification):
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
-            elif chroma == 4 or chroma == 6 or chroma == 8:
+            elif chroma in (4, 6, 8):
                 if 2.5 < ASTM_hue < 42.5 or 55 < ASTM_hue < 85:
                     interpolation_method = 2
                 else:
@@ -1595,7 +1595,7 @@ def interpolation_method_from_renotation_ovoid(specification):
             else:
                 interpolation_method = 1
         elif value == 6:
-            if chroma == 2 or chroma == 4:
+            if chroma in (2, 4):
                 if 5 < ASTM_hue < 37.5 or 55 < ASTM_hue < 87.5:
                     interpolation_method = 2
                 else:
@@ -1605,12 +1605,12 @@ def interpolation_method_from_renotation_ovoid(specification):
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
-            elif chroma == 8 or chroma == 10:
+            elif chroma in (8, 10):
                 if 5 < ASTM_hue < 42.5 or 60 < ASTM_hue < 85:
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
-            elif chroma == 12 or chroma == 14:
+            elif chroma in (12, 14):
                 if 5 < ASTM_hue < 42.5 or 60 < ASTM_hue < 82.5:
                     interpolation_method = 2
                 else:
@@ -1623,7 +1623,7 @@ def interpolation_method_from_renotation_ovoid(specification):
             else:
                 interpolation_method = 1
         elif value == 7:
-            if chroma == 2 or chroma == 4 or chroma == 6:
+            if chroma in (2, 4, 6):
                 if 5 < ASTM_hue < 42.5 or 60 < ASTM_hue < 85:
                     interpolation_method = 2
                 else:
@@ -1657,12 +1657,7 @@ def interpolation_method_from_renotation_ovoid(specification):
             else:
                 interpolation_method = 1
         elif value == 8:
-            if (chroma == 2 or
-                    chroma == 4 or
-                    chroma == 6 or
-                    chroma == 8 or
-                    chroma == 10 or
-                    chroma == 12):
+            if chroma in (2, 4, 6, 8, 10, 12):
                 if 5 < ASTM_hue < 40 or 60 < ASTM_hue < 85:
                     interpolation_method = 2
                 else:
@@ -1677,16 +1672,12 @@ def interpolation_method_from_renotation_ovoid(specification):
             else:
                 interpolation_method = 1
         elif value == 9:
-            if chroma == 2 or chroma == 4:
+            if chroma in (2, 4):
                 if 5 < ASTM_hue < 40 or 55 < ASTM_hue < 80:
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
-            elif (chroma == 6 or
-                  chroma == 8 or
-                  chroma == 10 or
-                  chroma == 12 or
-                  chroma == 14):
+            elif chroma in (6, 8, 10, 12, 14):
                 if 5 < ASTM_hue < 42.5:
                     interpolation_method = 2
                 else:
