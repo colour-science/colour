@@ -197,7 +197,7 @@ def xy_to_xyY(xy, Y=1):
 
     x, y = tsplit(xy)
 
-    xyY = tstack((x, y, np.full(x.shape, Y)))
+    xyY = tstack((x, y, np.full(x.shape, Y, np.float_)))
 
     return xyY
 

@@ -3847,7 +3847,7 @@ def constant_spd(k,
     """
 
     wavelengths = shape.range()
-    values = np.full(len(wavelengths), k)
+    values = np.full(len(wavelengths), k, np.float_)
 
     name = '{0} Constant'.format(k)
     return SpectralPowerDistribution(
