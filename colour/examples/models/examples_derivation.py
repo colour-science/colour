@@ -47,9 +47,27 @@ print(np.linalg.inv(colour.normalised_primary_matrix(
 
 print('\n')
 
+message_box(('Computing "sRGB" colourspace primaries chromatically adapted to '
+             '"CIE Standard Illuminant D50":\n'))
+print(colour.chromatically_adapted_primaries(
+    colour.sRGB_COLOURSPACE.primaries,
+    colour.sRGB_COLOURSPACE.whitepoint,
+    colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']))
+
+print('\n')
+
+npm = np.array([[0.41238656, 0.35759149, 0.18045049],
+                [0.21263682, 0.71518298, 0.07218020],
+                [0.01933062, 0.11919716, 0.95037259]])
+message_box(('Computing the primaries and whitepoint from given '
+             'normalised primary matrix:\n'
+             '\n{0}'.format(npm)))
+print(colour.primaries_whitepoint(npm))
+
+print('\n')
+
 RGB = (56.00000000, 16.00000000, 100.00000000)
-message_box(('Computing the normalised primary matrix for "RGB" luminance of '
-             'given "RGB" values:\n'
+message_box(('Computing "RGB" luminance of given "RGB" values:\n'
              '\n\t{0}'.format(RGB)))
 print(colour.RGB_luminance(
     RGB,
