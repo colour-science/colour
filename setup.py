@@ -52,7 +52,7 @@ if os.environ.get('READTHEDOCS') == 'True':
     INSTALLATION_REQUIREMENTS += ['mock==1.0.1']
 
 setup(name='colour-science',
-      version='0.3.6',
+      version='0.3.7',
       author=__author__,
       author_email=__email__,
       include_package_data=True,
@@ -76,6 +76,6 @@ setup(name='colour-science',
                    'Natural Language :: English',
                    'Operating System :: OS Independent',
                    'Programming Language :: Python :: 2.7',
-                   'Programming Language :: Python :: 3.4',
-                   'Programming Language :: Python :: 3.5',
-                   'Topic :: Scientific/Engineering'])
+                   'Programming Language :: Python :: 3',
+                   'Topic :: Scientific/Engineering',
+                   'Topic :: Software Development'])
