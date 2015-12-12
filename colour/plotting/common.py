@@ -29,8 +29,6 @@ from collections import namedtuple
 
 import matplotlib
 import matplotlib.cm
-import matplotlib.image
-import matplotlib.path
 import matplotlib.pyplot
 import matplotlib.ticker
 import numpy as np
