@@ -156,7 +156,7 @@ pygments_style = 'sphinx'
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
-html_logo = 'Colour_Logo_Icon_001.png'
+html_logo = 'Colour_Logo_Small_001.png'
 
 # The name of an image file (within the static path) to use as favicon of the
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
