@@ -120,9 +120,9 @@ class RGB_Colourspace(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (  # noqa
-                ('"{0}" attribute: "{1}" type is not '
-                 '"str" or "unicode"!').format('name', value))
+            assert isinstance(value, basestring), (  # noqa
+                ('"{0}" attribute: "{1}" is not a '
+                 '"basestring" instance!').format('name', value))
         self.__name = value
 
     @property
@@ -178,9 +178,9 @@ class RGB_Colourspace(object):
         """
 
         if value is not None:
-            assert type(value) in (tuple, list, np.ndarray, np.matrix), (
-                ('"{0}" attribute: "{1}" type is not "tuple", "list", '
-                 '"ndarray" or "matrix"!').format('whitepoint', value))
+            assert isinstance(value, (tuple, list, np.ndarray, np.matrix)), (
+                ('"{0}" attribute: "{1}" is not a "tuple", "list", "ndarray" '
+                 'or "matrix" instance!').format('whitepoint', value))
         self.__whitepoint = value
 
     @property
@@ -208,9 +208,9 @@ class RGB_Colourspace(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (  # noqa
-                ('"{0}" attribute: "{1}" type is not '
-                 '"str" or "unicode"!').format('illuminant', value))
+            assert isinstance(value, basestring), (  # noqa
+                ('"{0}" attribute: "{1}" is not a '
+                 '"basestring" instance!').format('illuminant', value))
         self.__illuminant = value
 
     @property

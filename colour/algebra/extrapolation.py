@@ -178,10 +178,9 @@ class Extrapolator(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (  # noqa
-                ('"{0}" attribute: "{1}" type is not '
-                 '"str" or "unicode"!').format('method', value))
-
+            assert isinstance(value, basestring), (  # noqa
+                ('"{0}" attribute: "{1}" is not a '
+                 '"basestring" instance!').format('method', value))
             value = value.lower()
 
         self.__method = value
@@ -212,7 +211,7 @@ class Extrapolator(object):
 
         if value is not None:
             assert is_numeric(value), (
-                '"{0}" attribute: "{1}" type is not "numeric"!').format(
+                '"{0}" attribute: "{1}" is not a "numeric"!').format(
                 'left', value)
         self.__left = value
 
@@ -242,7 +241,7 @@ class Extrapolator(object):
 
         if value is not None:
             assert is_numeric(value), (
-                '"{0}" attribute: "{1}" type is not "numeric"!').format(
+                '"{0}" attribute: "{1}" is not a "numeric"!').format(
                 'right', value)
         self.__right = value
 
