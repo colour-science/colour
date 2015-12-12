@@ -10,12 +10,12 @@ It is open source and freely available under the `New BSD License <http://openso
 Features
 --------
 
-`Colour <https://github.com/colour-science/colour>`_ features a rich dataset and collection of objects, please see the `highlights <http://colour-science.org/features.php>`_ page for more information.
+`Colour <https://github.com/colour-science/colour>`_ features a rich dataset and collection of objects, please see the `features <http://colour-science.org/features/>`_ page for more information.
 
 Installation
 ------------
 
-The installation procedure is described in the `Installation Guide <http://colour-science.org/installation.php>`_.
+The installation procedure is described in the `Installation Guide <http://colour-science.org/installation-guide/>`_.
 
 Usage
 -----
@@ -28,7 +28,7 @@ The two main references for `Colour <https://github.com/colour-science/colour>`_
 Contributing
 ------------
 
-If you would like to contribute to `Colour <https://github.com/colour-science/colour>`_, please refer to the following `Contributing <http://colour-science.org/contributing.php>`_ guide.
+If you would like to contribute to `Colour <https://github.com/colour-science/colour>`_, please refer to the following `Contributing <http://colour-science.org/contributing>`_ guide.
 
 Changes
 -------
@@ -38,7 +38,7 @@ The changes are viewable on the `Releases <https://github.com/colour-science/col
 Bibliography
 ------------
 
-The bibliography is available on the `Bibliography <http://colour-science.org/bibliography.php>`_ page.
+The bibliography is available on the `Bibliography <http://colour-science.org/bibliography/>`_ page.
 
 It is also viewable directly from the repository in either `BibTeX <https://github.com/colour-science/colour/blob/develop/BIBLIOGRAPHY.bib>`_ format or `reStructuredText <https://github.com/colour-science/colour/blob/develop/BIBLIOGRAPHY.rst>`_.
 
