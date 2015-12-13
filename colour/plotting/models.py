@@ -13,8 +13,8 @@ Defines the colour models plotting objects:
 -   :func:`RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot`
 -   :func:`RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot`
 -   :func:`RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot`
--   :func:`single_transfer_function_plot`
--   :func:`multi_transfer_function_plot`
+-   :func:`single_conversion_function_plot`
+-   :func:`multi_conversion_function_plot`
 """
 
 from __future__ import division
@@ -64,8 +64,8 @@ __all__ = [
     'RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot',
     'RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot',
     'RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot',
-    'single_transfer_function_plot',
-    'multi_transfer_function_plot']
+    'single_conversion_function_plot',
+    'multi_conversion_function_plot']
 
 
 def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
@@ -81,7 +81,7 @@ def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
         *RGB* colourspaces to plot.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -217,7 +217,7 @@ def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
         *RGB* colourspaces to plot.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -361,7 +361,7 @@ def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
         *RGB* colourspaces to plot.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -509,7 +509,7 @@ def RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot(
         *RGB* colourspace array.
     colourspace : RGB_Colourspace
         *RGB* colourspace of the *RGB* array.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -570,7 +570,7 @@ def RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot(
         *RGB* colourspace array.
     colourspace : RGB_Colourspace
         *RGB* colourspace of the *RGB* array.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -630,7 +630,7 @@ def RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot(
         *RGB* colourspace array.
     colourspace : RGB_Colourspace
         *RGB* colourspace of the *RGB* array.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -679,15 +679,19 @@ def RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot(
     return display(**settings)
 
 
-def single_transfer_function_plot(colourspace='Rec. 709', **kwargs):
+def single_conversion_function_plot(colourspace='Rec. 709',
+                                    EOCF=False,
+                                    **kwargs):
     """
-    Plots given colourspace transfer function.
+    Plots given colourspace opto-electronic conversion function.
 
     Parameters
     ----------
     colourspace : unicode, optional
-        *RGB* Colourspace transfer function to plot.
-    \*\*kwargs : \*\*
+        *RGB* Colourspace opto-electronic conversion function to plot.
+    EOCF : bool
+        Plot electro-optical conversion function instead.
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -697,28 +701,30 @@ def single_transfer_function_plot(colourspace='Rec. 709', **kwargs):
 
     Examples
     --------
-    >>> single_transfer_function_plot()  # doctest: +SKIP
+    >>> single_conversion_function_plot()  # doctest: +SKIP
     True
     """
 
-    settings = {'title': '{0} - Transfer Function'.format(colourspace)}
+    settings = {'title': '{0} - {1} Conversion Function'.format(
+        colourspace, 'Electro-Optical' if EOCF else 'Opto-Electronic')}
     settings.update(kwargs)
 
-    return multi_transfer_function_plot([colourspace], **settings)
+    return multi_conversion_function_plot([colourspace], EOCF, **settings)
 
 
-def multi_transfer_function_plot(colourspaces=None,
-                                 inverse=False, **kwargs):
+def multi_conversion_function_plot(colourspaces=None,
+                                   EOCF=False,
+                                   **kwargs):
     """
-    Plots given colourspaces transfer functions.
+    Plots given colourspaces opto-electronic conversion functions.
 
     Parameters
     ----------
     colourspaces : array_like, optional
-        Colourspaces transfer functions to plot.
-    inverse : bool
-        Plot inverse transfer functions.
-    \*\*kwargs : \*\*
+        Colourspaces opto-electronic conversion functions to plot.
+    EOCF : bool
+        Plot electro-optical conversion functions instead.
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -728,7 +734,7 @@ def multi_transfer_function_plot(colourspaces=None,
 
     Examples
     --------
-    >>> multi_transfer_function_plot(['Rec. 709', 'sRGB'])  # doctest: +SKIP
+    >>> multi_conversion_function_plot(['Rec. 709', 'sRGB'])  # doctest: +SKIP
     True
     """
 
@@ -744,18 +750,17 @@ def multi_transfer_function_plot(colourspaces=None,
     for colourspace in colourspaces:
         colourspace = get_RGB_colourspace(colourspace)
 
-        RGBs = np.array([colourspace.inverse_transfer_function(x)
-                         if inverse else
-                         colourspace.transfer_function(x)
-                         for x in samples])
+        RGBs = colourspace.EOCF(samples) if EOCF else colourspace.OECF(samples)
+
         pylab.plot(samples,
                    RGBs,
                    label=u'{0}'.format(colourspace.name),
                    linewidth=2)
 
     settings.update({
-        'title': '{0} - Transfer Functions'.format(
-            ', '.join(colourspaces)),
+        'title': '{0} - {1} Conversion Functions'.format(
+            ', '.join(colourspaces),
+            'Electro-Optical' if EOCF else 'Opto-Electronic'),
         'x_tighten': True,
         'legend': True,
         'legend_location': 'upper left',

@@ -30,7 +30,8 @@ Defines various objects for *Munsell Renotation System* computations:
 See Also
 --------
 `Munsell Renotation System IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/notation/munsell.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/notation/munsell.ipynb>`_
 
 References
 ----------
@@ -45,14 +46,10 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 import re
-
-try:
-    from collections import OrderedDict
-except ImportError:
-    from ordereddict import OrderedDict
+from collections import OrderedDict
 
 from colour.algebra import (
-    Extrapolator1d,
+    Extrapolator,
     LinearInterpolator,
     cartesian_to_cylindrical)
 from colour.colorimetry import ILLUMINANTS, luminance_ASTMD153508
@@ -189,14 +186,14 @@ def _munsell_value_ASTMD153508_interpolator():
 
     Returns
     -------
-    Extrapolator1d
+    Extrapolator
         *Munsell* value interpolator for ASTM D1535-08e1 (2008) method.
     """
 
     global _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE
     munsell_values = np.arange(0, 10, 0.001)
     if _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE is None:
-        _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE = Extrapolator1d(
+        _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE = Extrapolator(
             LinearInterpolator(
                 luminance_ASTMD153508(munsell_values),
                 munsell_values))
@@ -825,7 +822,7 @@ def xyY_to_munsell_specification(xyY):
         hue_angles_differences = hue_angles_differences[
             theta_differences_indexes]
 
-        hue_angle_difference_new = Extrapolator1d(
+        hue_angle_difference_new = Extrapolator(
             LinearInterpolator(
                 theta_differences,
                 hue_angles_differences))(0) % 360
@@ -834,7 +831,7 @@ def xyY_to_munsell_specification(xyY):
         hue_new, code_new = hue_angle_to_hue(hue_angle_new)
         specification_current = [hue_new, value, chroma_current, code_new]
 
-        x_current, y_current, Y_current = np.ravel(
+        x_current, y_current, _Y_current = np.ravel(
             munsell_specification_to_xyY(specification_current))
         difference = np.linalg.norm(
             np.array([x, y]) - np.array([x_current, y_current]))
@@ -842,7 +839,7 @@ def xyY_to_munsell_specification(xyY):
             return tuple(specification_current)
 
         # TODO: Consider refactoring implementation.
-        hue_current, value_current, chroma_current, code_current = (
+        hue_current, _value_current, chroma_current, code_current = (
             specification_current)
         chroma_maximum = maximum_chroma_from_renotation(hue_current,
                                                         value,
@@ -853,7 +850,7 @@ def xyY_to_munsell_specification(xyY):
         x_current, y_current, Y_current = np.ravel(
             munsell_specification_to_xyY(specification_current))
 
-        z_current, theta_current, rho_current = cartesian_to_cylindrical(
+        _z_current, theta_current, rho_current = cartesian_to_cylindrical(
             (x_current - x_center, y_current - y_center, Y_center))
 
         rho_bounds = [rho_current]
@@ -861,7 +858,7 @@ def xyY_to_munsell_specification(xyY):
 
         iterations_maximum_inner = 16
         iterations_inner = 0
-        while rho_input < min(rho_bounds) or rho_input > max(rho_bounds):
+        while not (min(rho_bounds) < rho_input < max(rho_bounds)):
             iterations_inner += 1
 
             if iterations_inner > iterations_maximum_inner:
@@ -875,10 +872,10 @@ def xyY_to_munsell_specification(xyY):
 
             specification_inner = (
                 hue_current, value, chroma_inner, code_current)
-            x_inner, y_inner, Y_inner = np.ravel(
+            x_inner, y_inner, _Y_inner = np.ravel(
                 munsell_specification_to_xyY(specification_inner))
 
-            z_inner, theta_inner, rho_inner = cartesian_to_cylindrical(
+            _z_inner, theta_inner, rho_inner = cartesian_to_cylindrical(
                 (x_inner - x_center, y_inner - y_center, Y_center))
 
             rho_bounds.append(rho_inner)
@@ -1549,7 +1546,7 @@ def interpolation_method_from_renotation_ovoid(specification):
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
-            elif chroma == 6 or chroma == 8 or chroma == 10:
+            elif chroma in (6, 8, 10):
                 if 7.5 < ASTM_hue < 37.5 or 57.5 < ASTM_hue < 82.5:
                     interpolation_method = 2
                 else:
@@ -1562,12 +1559,12 @@ def interpolation_method_from_renotation_ovoid(specification):
             else:
                 interpolation_method = 1
         elif value == 4:
-            if chroma == 2 or chroma == 4:
+            if chroma in (2, 4):
                 if 7.5 < ASTM_hue < 42.5 or 57.5 < ASTM_hue < 85:
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
-            elif chroma == 6 or chroma == 8:
+            elif chroma in (6, 8):
                 if 7.5 < ASTM_hue < 40 or 57.5 < ASTM_hue < 82.5:
                     interpolation_method = 2
                 else:
@@ -1585,7 +1582,7 @@ def interpolation_method_from_renotation_ovoid(specification):
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
-            elif chroma == 4 or chroma == 6 or chroma == 8:
+            elif chroma in (4, 6, 8):
                 if 2.5 < ASTM_hue < 42.5 or 55 < ASTM_hue < 85:
                     interpolation_method = 2
                 else:
@@ -1598,7 +1595,7 @@ def interpolation_method_from_renotation_ovoid(specification):
             else:
                 interpolation_method = 1
         elif value == 6:
-            if chroma == 2 or chroma == 4:
+            if chroma in (2, 4):
                 if 5 < ASTM_hue < 37.5 or 55 < ASTM_hue < 87.5:
                     interpolation_method = 2
                 else:
@@ -1608,12 +1605,12 @@ def interpolation_method_from_renotation_ovoid(specification):
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
-            elif chroma == 8 or chroma == 10:
+            elif chroma in (8, 10):
                 if 5 < ASTM_hue < 42.5 or 60 < ASTM_hue < 85:
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
-            elif chroma == 12 or chroma == 14:
+            elif chroma in (12, 14):
                 if 5 < ASTM_hue < 42.5 or 60 < ASTM_hue < 82.5:
                     interpolation_method = 2
                 else:
@@ -1626,7 +1623,7 @@ def interpolation_method_from_renotation_ovoid(specification):
             else:
                 interpolation_method = 1
         elif value == 7:
-            if chroma == 2 or chroma == 4 or chroma == 6:
+            if chroma in (2, 4, 6):
                 if 5 < ASTM_hue < 42.5 or 60 < ASTM_hue < 85:
                     interpolation_method = 2
                 else:
@@ -1660,12 +1657,7 @@ def interpolation_method_from_renotation_ovoid(specification):
             else:
                 interpolation_method = 1
         elif value == 8:
-            if (chroma == 2 or
-                    chroma == 4 or
-                    chroma == 6 or
-                    chroma == 8 or
-                    chroma == 10 or
-                    chroma == 12):
+            if chroma in (2, 4, 6, 8, 10, 12):
                 if 5 < ASTM_hue < 40 or 60 < ASTM_hue < 85:
                     interpolation_method = 2
                 else:
@@ -1680,16 +1672,12 @@ def interpolation_method_from_renotation_ovoid(specification):
             else:
                 interpolation_method = 1
         elif value == 9:
-            if chroma == 2 or chroma == 4:
+            if chroma in (2, 4):
                 if 5 < ASTM_hue < 40 or 55 < ASTM_hue < 80:
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
-            elif (chroma == 6 or
-                  chroma == 8 or
-                  chroma == 10 or
-                  chroma == 12 or
-                  chroma == 14):
+            elif chroma in (6, 8, 10, 12, 14):
                 if 5 < ASTM_hue < 42.5:
                     interpolation_method = 2
                 else:

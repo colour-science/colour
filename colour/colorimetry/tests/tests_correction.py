@@ -8,12 +8,7 @@ Defines unit tests for :mod:`colour.colorimetry.correction` module.
 from __future__ import division, unicode_literals
 
 import numpy as np
-import sys
-
-if sys.version_info[:2] <= (2, 6):
-    import unittest2 as unittest
-else:
-    import unittest
+import unittest
 
 from colour.colorimetry import (
     SpectralPowerDistribution,
@@ -69,16 +64,14 @@ BANDPASS_CORRECTED_STEARNS_SPD_DATA = (
 
 class TestBandpassCorrectionStearns1988(unittest.TestCase):
     """
-    Defines
-    :func:`colour.colorimetry.correction.bandpass_correction_Stearns1988`
-    definition unit tests methods.
+    Defines :func:`colour.colorimetry.correction.\
+bandpass_correction_Stearns1988` definition unit tests methods.
     """
 
     def test_bandpass_correction_Stearns1988(self):
         """
-        Tests
-        :func:`colour.colorimetry.correction.bandpass_correction_Stearns1988`
-        definition.
+        Tests :func:`colour.colorimetry.correction.\
+bandpass_correction_Stearns1988` definition.
         """
 
         spd = SpectralPowerDistribution(

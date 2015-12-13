@@ -12,7 +12,8 @@ Defines the *Best RGB* colourspace:
 See Also
 --------
 `RGB Colourspaces IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/rgb.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
@@ -39,8 +40,8 @@ __all__ = ['BEST_RGB_PRIMARIES',
            'BEST_RGB_WHITEPOINT',
            'BEST_RGB_TO_XYZ_MATRIX',
            'XYZ_TO_BEST_RGB_MATRIX',
-           'BEST_RGB_TRANSFER_FUNCTION',
-           'BEST_RGB_INVERSE_TRANSFER_FUNCTION',
+           'BEST_RGB_OECF',
+           'BEST_RGB_EOCF',
            'BEST_RGB_COLOURSPACE']
 
 BEST_RGB_PRIMARIES = np.array(
@@ -84,9 +85,9 @@ XYZ_TO_BEST_RGB_MATRIX : array_like, (3, 3)
 """
 
 
-def _best_rgb_transfer_function(value):
+def _best_rgb_OECF(value):
     """
-    Defines the *Best RGB* colourspace transfer function.
+    Defines the *Best RGB* colourspace opto-electronic conversion function.
 
     Parameters
     ----------
@@ -104,9 +105,9 @@ def _best_rgb_transfer_function(value):
     return value ** (1 / 2.2)
 
 
-def _best_rgb_inverse_transfer_function(value):
+def _best_rgb_EOCF(value):
     """
-    Defines the *Best RGB* colourspace inverse transfer function.
+    Defines the *Best RGB* colourspace electro-optical conversion function.
 
     Parameters
     ----------
@@ -124,18 +125,18 @@ def _best_rgb_inverse_transfer_function(value):
     return value ** 2.2
 
 
-BEST_RGB_TRANSFER_FUNCTION = _best_rgb_transfer_function
+BEST_RGB_OECF = _best_rgb_OECF
 """
-Transfer function from linear to *Best RGB* colourspace.
+Opto-electronic conversion function of *Best RGB* colourspace.
 
-BEST_RGB_TRANSFER_FUNCTION : object
+BEST_RGB_OECF : object
 """
 
-BEST_RGB_INVERSE_TRANSFER_FUNCTION = _best_rgb_inverse_transfer_function
+BEST_RGB_EOCF = _best_rgb_EOCF
 """
-Inverse transfer function from *Best RGB* colourspace to linear.
+Electro-optical conversion function of *Best RGB* colourspace.
 
-BEST_RGB_INVERSE_TRANSFER_FUNCTION : object
+BEST_RGB_EOCF : object
 """
 
 BEST_RGB_COLOURSPACE = RGB_Colourspace(
@@ -145,8 +146,8 @@ BEST_RGB_COLOURSPACE = RGB_Colourspace(
     BEST_RGB_ILLUMINANT,
     BEST_RGB_TO_XYZ_MATRIX,
     XYZ_TO_BEST_RGB_MATRIX,
-    BEST_RGB_TRANSFER_FUNCTION,
-    BEST_RGB_INVERSE_TRANSFER_FUNCTION)
+    BEST_RGB_OECF,
+    BEST_RGB_EOCF)
 """
 *Best RGB* colourspace.
 

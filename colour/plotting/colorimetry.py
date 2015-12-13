@@ -42,11 +42,11 @@ from colour.colorimetry import (
     wavelength_to_XYZ)
 from colour.models import XYZ_to_sRGB
 from colour.plotting import (
+    ColourParameter,
     DEFAULT_PLOTTING_OECF,
     DEFAULT_FIGURE_WIDTH,
     boundaries,
     canvas,
-    colour_parameter,
     colour_parameters_plot,
     decorate,
     display,
@@ -92,7 +92,7 @@ def single_spd_plot(spd,
         gray background, less saturated and smoother. [1]_
     cmfs : unicode
         Standard observer colour matching functions used for spectrum creation.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -120,7 +120,7 @@ def single_spd_plot(spd,
     colours = XYZ_to_sRGB(
         wavelength_to_XYZ(wavelengths, cmfs),
         ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['E'],
-        transfer_function=False)
+        apply_OECF=False)
 
     if not out_of_gamut_clipping:
         colours += np.abs(np.min(colours))
@@ -136,7 +136,7 @@ def single_spd_plot(spd,
     settings.update(kwargs)
 
     return colour_parameters_plot(
-        [colour_parameter(x=x[0], y1=x[1], RGB=x[2])
+        [ColourParameter(x=x[0], y1=x[1], RGB=x[2])
          for x in tuple(zip(wavelengths, y1, colours))],
         **settings)
 
@@ -159,7 +159,7 @@ def multi_spd_plot(spds,
         Use spectral power distributions colours.
     normalise_spds_colours : bool
         Should spectral power distributions colours normalised.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -230,7 +230,7 @@ def single_cmfs_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     ----------
     cmfs : unicode, optional
         Colour matching functions to plot.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -260,7 +260,7 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
     ----------
     cmfs : array_like, optional
         Colour matching functions to plot.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -290,7 +290,8 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
         for i, cmfs_i in enumerate(cmfs):
             cmfs_i = get_cmfs(cmfs_i)
 
-            rgb = [reduce(lambda y, _: y * 0.5, range(i), x) for x in rgb]  # noqa
+            rgb = [reduce(lambda y, _: y * 0.5, range(i), x)  # noqa
+                   for x in rgb]
             wavelengths, values = tuple(
                 zip(*[(key, value) for key, value in getattr(cmfs_i, axis)]))
 
@@ -340,7 +341,7 @@ def single_illuminant_relative_spd_plot(
         Factory illuminant to plot.
     cmfs : unicode, optional
         Standard observer colour matching functions to plot.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -375,7 +376,7 @@ def multi_illuminants_relative_spd_plot(illuminants=None, **kwargs):
     ----------
     illuminants : array_like, optional
         Factory illuminants to plot.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -421,7 +422,7 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
         Out of gamut colours will be clipped if *True* otherwise, the colours
         will be offset by the absolute minimal colour leading to a rendering on
         gray background, less saturated and smoother. [1]_
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -443,7 +444,7 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
     colours = XYZ_to_sRGB(
         wavelength_to_XYZ(wavelengths, cmfs),
         ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['E'],
-        transfer_function=False)
+        apply_OECF=False)
 
     if not out_of_gamut_clipping:
         colours += np.abs(np.min(colours))
@@ -456,7 +457,7 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
         'x_tighten': True}
     settings.update(kwargs)
 
-    return colour_parameters_plot([colour_parameter(x=x[0], RGB=x[1])
+    return colour_parameters_plot([ColourParameter(x=x[0], RGB=x[1])
                                    for x in tuple(zip(wavelengths, colours))],
                                   **settings)
 
@@ -469,7 +470,7 @@ def single_lightness_function_plot(function='CIE 1976', **kwargs):
     ----------
     function : unicode, optional
         *Lightness* function to plot.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -498,7 +499,7 @@ def multi_lightness_function_plot(functions=None, **kwargs):
     ----------
     functions : array_like, optional
         *Lightness* functions to plot.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -576,7 +577,7 @@ def blackbody_spectral_radiance_plot(
         Standard observer colour matching functions.
     blackbody : unicode, optional
         Blackbody name.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -620,7 +621,7 @@ def blackbody_spectral_radiance_plot(
                 'aspect': None,
                 'standalone': False}
 
-    single_colour_plot(colour_parameter(name='', RGB=RGB), **settings)
+    single_colour_plot(ColourParameter(name='', RGB=RGB), **settings)
 
     settings = {
         'standalone': True}
@@ -643,7 +644,7 @@ def blackbody_colours_plot(shape=SpectralShape(150, 12500, 50),
         Spectral shape to use as plot boundaries.
     cmfs : unicode, optional
         Standard observer colour matching functions.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -679,6 +680,6 @@ def blackbody_colours_plot(shape=SpectralShape(150, 12500, 50),
         'y_ticker': False}
     settings.update(kwargs)
 
-    return colour_parameters_plot([colour_parameter(x=x[0], RGB=x[1])
+    return colour_parameters_plot([ColourParameter(x=x[0], RGB=x[1])
                                    for x in tuple(zip(temperatures, colours))],
                                   **settings)

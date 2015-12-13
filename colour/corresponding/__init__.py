@@ -12,7 +12,8 @@ from .prediction import (
     corresponding_chromaticities_prediction_VonKries,
     CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS)
 
-__all__ = dataset.__all__
+__all__ = []
+__all__ += dataset.__all__
 __all__ += ['corresponding_chromaticities_prediction_CIE1994',
             'corresponding_chromaticities_prediction_CMCCAT2000',
             'corresponding_chromaticities_prediction_Fairchild1990',

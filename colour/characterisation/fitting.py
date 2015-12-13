@@ -10,7 +10,8 @@ Defines various objects for colour fitting, like colour matching two images.
 See Also
 --------
 `Colour Fitting IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/characterisation/fitting.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/characterisation/fitting.ipynb>`_
 """
 
 from __future__ import division, unicode_literals

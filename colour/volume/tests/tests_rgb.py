@@ -9,23 +9,21 @@ Notes
 The MonteCarlo sampling based unit tests are assuming that
 :func:`np.random.RandomState` definition will return the same sequence no
 matter which *OS* or *Python* version is used. There is however no formal
-promise about the *prng* sequence reproducibility of either *Python or *Numpy*
+promise about the *prng* sequence reproducibility of either *Python* or *Numpy*
 implementations:
 
-Laurent. (2012). Reproducibility of python pseudo-random numbers across systems
-and versions? Retrieved January 20, 2015, from
-http://stackoverflow.com/questions/8786084/reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions  # noqa
+References
+----------
+.. [1]  Laurent. (2012). Reproducibility of python pseudo-random numbers
+        across systems and versions? Retrieved January 20, 2015, from
+        http://stackoverflow.com/questions/8786084/\
+reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
 """
 
 from __future__ import division, unicode_literals
 
 import numpy as np
-import sys
-
-if sys.version_info[:2] <= (2, 6):
-    import unittest2 as unittest
-else:
-    import unittest
+import unittest
 
 from colour.models import (
     ACES_2065_1_COLOURSPACE,
@@ -109,16 +107,14 @@ class TestRGB_colourspaceVolumeMonteCarlo(unittest.TestCase):
 
 class TestRGB_colourspace_volume_coverage_MonteCarlo(unittest.TestCase):
     """
-    Defines
-    :func:`colour.volume.rgb.RGB_colourspace_volume_coverage_MonteCarlo`
-    definition unit tests methods.
+    Defines :func:`colour.volume.rgb.\
+RGB_colourspace_volume_coverage_MonteCarlo` definition unit tests methods.
     """
 
     def test_RGB_colourspace_volume_coverage_MonteCarlo(self):
         """
-        Tests
-        :func:`colour.volume.rgb.RGB_colourspace_volume_coverage_MonteCarlo`  # noqa
-        definition.
+        Tests :func:`colour.volume.rgb.\
+RGB_colourspace_volume_coverage_MonteCarlo` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -133,16 +129,15 @@ class TestRGB_colourspace_volume_coverage_MonteCarlo(unittest.TestCase):
 
 class TestRGB_colourspacePointerGamutCoverageMonteCarlo(unittest.TestCase):
     """
-    Defines
-    :func:`colour.volume.rgb.RGB_colourspace_pointer_gamut_coverage_MonteCarlo`
-    definition unit tests methods.
+    Defines :func:`colour.volume.rgb.\
+RGB_colourspace_pointer_gamut_coverage_MonteCarlo` definition unit tests
+    methods.
     """
 
     def test_RGB_colourspace_pointer_gamut_coverage_MonteCarlo(self):
         """
-        Tests
-        :func:`colour.volume.rgb.RGB_colourspace_pointer_gamut_coverage_MonteCarlo`  # noqa
-        definition.
+        Tests :func:`colour.volume.rgb.\
+RGB_colourspace_pointer_gamut_coverage_MonteCarlo` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -156,16 +151,15 @@ class TestRGB_colourspacePointerGamutCoverageMonteCarlo(unittest.TestCase):
 
 class TestRGB_colourspaceVisibleSpectrumCoverageMonteCarlo(unittest.TestCase):
     """
-    Defines
-    :func:`colour.volume.rgb.RGB_colourspace_visible_spectrum_coverage_MonteCarlo`  # noqa
-    definition unit tests methods.
+    Defines :func:`colour.volume.rgb.\
+RGB_colourspace_visible_spectrum_coverage_MonteCarlo` definition unit tests
+    methods.
     """
 
     def test_RGB_colourspace_visible_spectrum_coverage_MonteCarlo(self):
         """
-        Tests
-        :func:`colour.volume.rgb.RGB_colourspace_visible_spectrum_coverage_MonteCarlo`  # noqa
-        definition.
+        Tests :func:`colour.volume.rgb.\
+RGB_colourspace_visible_spectrum_coverage_MonteCarlo` definition.
         """
 
         np.testing.assert_almost_equal(

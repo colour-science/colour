@@ -22,7 +22,6 @@ import os
 
 import matplotlib
 import matplotlib.image
-import matplotlib.path
 import matplotlib.pyplot
 import numpy as np
 import pylab
@@ -83,7 +82,7 @@ def CIE_1931_chromaticity_diagram_colours_plot(
         Samples count on one axis.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -150,7 +149,7 @@ def CIE_1931_chromaticity_diagram_plot(
     ----------
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -272,7 +271,7 @@ def CIE_1960_UCS_chromaticity_diagram_colours_plot(
         Samples count on one axis.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -339,7 +338,7 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
     ----------
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -458,7 +457,7 @@ def CIE_1976_UCS_chromaticity_diagram_colours_plot(
         Samples count on one axis.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -526,7 +525,7 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
     ----------
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -649,7 +648,7 @@ def spds_CIE_1931_chromaticity_diagram_plot(
     annotate : bool
         Should resulting chromaticity coordinates annotated with their
         respective spectral power distribution names.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -721,7 +720,7 @@ def spds_CIE_1960_UCS_chromaticity_diagram_plot(
     annotate : bool
         Should resulting chromaticity coordinates annotated with their
         respective spectral power distribution names.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -793,7 +792,7 @@ def spds_CIE_1976_UCS_chromaticity_diagram_plot(
     annotate : bool
         Should resulting chromaticity coordinates annotated with their
         respective spectral power distribution names.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns

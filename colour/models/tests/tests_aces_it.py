@@ -8,12 +8,7 @@ Defines unit tests for :mod:`colour.models.aces_it` module.
 from __future__ import division, unicode_literals
 
 import numpy as np
-import sys
-
-if sys.version_info[:2] <= (2, 6):
-    import unittest2 as unittest
-else:
-    import unittest
+import unittest
 
 from colour.characterisation import COLOURCHECKERS_SPDS
 from colour.colorimetry import constant_spd, ones_spd
@@ -31,16 +26,14 @@ __all__ = ['TestSpectralToAcesRelativeExposureValues']
 
 class TestSpectralToAcesRelativeExposureValues(unittest.TestCase):
     """
-    Defines
-    :func:`colour.models.aces_it.spectral_to_aces_relative_exposure_values`  # noqa
-    definition unit tests methods.
+    Defines :func:`colour.models.aces_it.\
+spectral_to_aces_relative_exposure_values` definition unit tests methods.
     """
 
     def test_spectral_to_aces_relative_exposure_values(self):
         """
-        Tests
-        :func:`colour.models.aces_it.spectral_to_aces_relative_exposure_values`  # noqa
-        definition.
+        Tests :func:`colour.models.aces_it.
+spectral_to_aces_relative_exposure_values` definition.
         """
 
         shape = ACES_RICD.shape

@@ -12,7 +12,8 @@ Defines the *Adobe Wide Gamut RGB* colourspace:
 See Also
 --------
 `RGB Colourspaces IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/rgb.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
@@ -39,8 +40,8 @@ __all__ = ['ADOBE_WIDE_GAMUT_RGB_PRIMARIES',
            'ADOBE_WIDE_GAMUT_RGB_WHITEPOINT',
            'ADOBE_WIDE_GAMUT_RGB_TO_XYZ_MATRIX',
            'XYZ_TO_ADOBE_WIDE_GAMUT_RGB_MATRIX',
-           'ADOBE_WIDE_GAMUT_RGB_TRANSFER_FUNCTION',
-           'ADOBE_WIDE_GAMUT_RGB_INVERSE_TRANSFER_FUNCTION',
+           'ADOBE_WIDE_GAMUT_RGB_OECF',
+           'ADOBE_WIDE_GAMUT_RGB_EOCF',
            'ADOBE_WIDE_GAMUT_RGB_COLOURSPACE']
 
 ADOBE_WIDE_GAMUT_RGB_PRIMARIES = np.array(
@@ -87,9 +88,10 @@ XYZ_TO_ADOBE_WIDE_GAMUT_RGB_MATRIX : array_like, (3, 3)
 """
 
 
-def _adobe_wide_gamut_rgb_transfer_function(value):
+def _adobe_wide_gamut_rgb_OECF(value):
     """
-    Defines the *Adobe Wide Gamut RGB* colourspace transfer function.
+    Defines the *Adobe Wide Gamut RGB* colourspace opto-electronic conversion
+    function.
 
     Parameters
     ----------
@@ -107,9 +109,10 @@ def _adobe_wide_gamut_rgb_transfer_function(value):
     return value ** (1 / (563 / 256))
 
 
-def _adobe_wide_gamut_rgb_inverse_transfer_function(value):
+def _adobe_wide_gamut_rgb_EOCF(value):
     """
-    Defines the *Adobe Wide Gamut RGB* colourspace inverse transfer function.
+    Defines the *Adobe Wide Gamut RGB* colourspace electro-optical conversion
+    function.
 
     Parameters
     ----------
@@ -127,20 +130,22 @@ def _adobe_wide_gamut_rgb_inverse_transfer_function(value):
     return value ** (563 / 256)
 
 
-ADOBE_WIDE_GAMUT_RGB_TRANSFER_FUNCTION = (
-    _adobe_wide_gamut_rgb_transfer_function)
+ADOBE_WIDE_GAMUT_RGB_OECF = (
+    _adobe_wide_gamut_rgb_OECF)
 """
-Transfer function from linear to *Adobe Wide Gamut RGB* colourspace.
+Opto-electronic conversion function of *Adobe Wide Gamut RGB*
+colourspace.
 
-ADOBE_WIDE_GAMUT_RGB_TRANSFER_FUNCTION : object
+ADOBE_WIDE_GAMUT_RGB_OECF : object
 """
 
-ADOBE_WIDE_GAMUT_RGB_INVERSE_TRANSFER_FUNCTION = (
-    _adobe_wide_gamut_rgb_inverse_transfer_function)
+ADOBE_WIDE_GAMUT_RGB_EOCF = (
+    _adobe_wide_gamut_rgb_EOCF)
 """
-Inverse transfer function from *Adobe Wide Gamut RGB* colourspace to linear.
+Electro-optical conversion function of *Adobe Wide Gamut RGB* colourspace to
+linear.
 
-ADOBE_WIDE_GAMUT_RGB_INVERSE_TRANSFER_FUNCTION : object
+ADOBE_WIDE_GAMUT_RGB_EOCF : object
 """
 
 ADOBE_WIDE_GAMUT_RGB_COLOURSPACE = RGB_Colourspace(
@@ -150,8 +155,8 @@ ADOBE_WIDE_GAMUT_RGB_COLOURSPACE = RGB_Colourspace(
     ADOBE_WIDE_GAMUT_RGB_ILLUMINANT,
     ADOBE_WIDE_GAMUT_RGB_TO_XYZ_MATRIX,
     XYZ_TO_ADOBE_WIDE_GAMUT_RGB_MATRIX,
-    ADOBE_WIDE_GAMUT_RGB_TRANSFER_FUNCTION,
-    ADOBE_WIDE_GAMUT_RGB_INVERSE_TRANSFER_FUNCTION)
+    ADOBE_WIDE_GAMUT_RGB_OECF,
+    ADOBE_WIDE_GAMUT_RGB_EOCF)
 """
 *Adobe Wide Gamut RGB* colourspace.
 

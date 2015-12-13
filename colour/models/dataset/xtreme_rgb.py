@@ -12,7 +12,8 @@ Defines the *Xtreme RGB* colourspace:
 See Also
 --------
 `RGB Colourspaces IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/rgb.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
@@ -39,8 +40,8 @@ __all__ = ['XTREME_RGB_PRIMARIES',
            'XTREME_RGB_WHITEPOINT',
            'XTREME_RGB_TO_XYZ_MATRIX',
            'XYZ_TO_XTREME_RGB_MATRIX',
-           'XTREME_RGB_TRANSFER_FUNCTION',
-           'XTREME_RGB_INVERSE_TRANSFER_FUNCTION',
+           'XTREME_RGB_OECF',
+           'XTREME_RGB_EOCF',
            'XTREME_RGB_COLOURSPACE']
 
 XTREME_RGB_PRIMARIES = np.array(
@@ -84,9 +85,9 @@ XYZ_TO_XTREME_RGB_MATRIX : array_like, (3, 3)
 """
 
 
-def _xtreme_rgb_transfer_function(value):
+def _xtreme_rgb_OECF(value):
     """
-    Defines the *Xtreme RGB* colourspace transfer function.
+    Defines the *Xtreme RGB* colourspace opto-electronic conversion function.
 
     Parameters
     ----------
@@ -104,9 +105,9 @@ def _xtreme_rgb_transfer_function(value):
     return value ** (1 / 2.2)
 
 
-def _xtreme_rgb_inverse_transfer_function(value):
+def _xtreme_rgb_EOCF(value):
     """
-    Defines the *Xtreme RGB* colourspace inverse transfer function.
+    Defines the *Xtreme RGB* colourspace electro-optical conversion function.
 
     Parameters
     ----------
@@ -124,18 +125,18 @@ def _xtreme_rgb_inverse_transfer_function(value):
     return value ** 2.2
 
 
-XTREME_RGB_TRANSFER_FUNCTION = _xtreme_rgb_transfer_function
+XTREME_RGB_OECF = _xtreme_rgb_OECF
 """
-Transfer function from linear to *Xtreme RGB* colourspace.
+Opto-electronic conversion function of *Xtreme RGB* colourspace.
 
-XTREME_RGB_TRANSFER_FUNCTION : object
+XTREME_RGB_OECF : object
 """
 
-XTREME_RGB_INVERSE_TRANSFER_FUNCTION = _xtreme_rgb_inverse_transfer_function
+XTREME_RGB_EOCF = _xtreme_rgb_EOCF
 """
-Inverse transfer function from *Xtreme RGB* colourspace to linear.
+Electro-optical conversion function of *Xtreme RGB* colourspace.
 
-XTREME_RGB_INVERSE_TRANSFER_FUNCTION : object
+XTREME_RGB_EOCF : object
 """
 
 XTREME_RGB_COLOURSPACE = RGB_Colourspace(
@@ -145,8 +146,8 @@ XTREME_RGB_COLOURSPACE = RGB_Colourspace(
     XTREME_RGB_ILLUMINANT,
     XTREME_RGB_TO_XYZ_MATRIX,
     XYZ_TO_XTREME_RGB_MATRIX,
-    XTREME_RGB_TRANSFER_FUNCTION,
-    XTREME_RGB_INVERSE_TRANSFER_FUNCTION)
+    XTREME_RGB_OECF,
+    XTREME_RGB_EOCF)
 """
 *Xtreme RGB* colourspace.
 

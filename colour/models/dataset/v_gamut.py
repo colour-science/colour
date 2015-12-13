@@ -12,12 +12,14 @@ Defines the *V-Gamut* colourspace:
 See Also
 --------
 `RGB Colourspaces IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/rgb.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
 .. [1]  Panasonic. (2014). VARICAM V-Log/V-Gamut. Retrieved from
-        http://pro-av.panasonic.net/en/varicam/common/pdf/VARICAM_V-Log_V-Gamut.pdf  # noqa
+        http://pro-av.panasonic.net/en/varicam/common/pdf/\
+VARICAM_V-Log_V-Gamut.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -41,8 +43,8 @@ __all__ = ['V_GAMUT_PRIMARIES',
            'V_GAMUT_TO_XYZ_MATRIX',
            'XYZ_TO_V_GAMUT_MATRIX',
            'V_LOG_CONSTANTS',
-           'V_LOG_TRANSFER_FUNCTION',
-           'V_LOG_INVERSE_TRANSFER_FUNCTION',
+           'V_LOG_OECF',
+           'V_LOG_EOCF',
            'V_GAMUT_COLOURSPACE']
 
 V_GAMUT_PRIMARIES = np.array(
@@ -157,18 +159,18 @@ def _v_log_to_linear(value):
     return value
 
 
-V_LOG_TRANSFER_FUNCTION = _linear_to_v_log
+V_LOG_OECF = _linear_to_v_log
 """
-Transfer function from linear to *V-Log*.
+Opto-electronic conversion function of *V-Log*.
 
-V_LOG_TRANSFER_FUNCTION : object
+V_LOG_OECF : object
 """
 
-V_LOG_INVERSE_TRANSFER_FUNCTION = _v_log_to_linear
+V_LOG_EOCF = _v_log_to_linear
 """
-Inverse transfer function from *V-Log* to linear.
+Electro-optical conversion function of *V-Log* to linear.
 
-V_LOG_INVERSE_TRANSFER_FUNCTION : object
+V_LOG_EOCF : object
 """
 
 V_GAMUT_COLOURSPACE = RGB_Colourspace(
@@ -178,8 +180,8 @@ V_GAMUT_COLOURSPACE = RGB_Colourspace(
     V_GAMUT_ILLUMINANT,
     V_GAMUT_TO_XYZ_MATRIX,
     XYZ_TO_V_GAMUT_MATRIX,
-    V_LOG_TRANSFER_FUNCTION,
-    V_LOG_INVERSE_TRANSFER_FUNCTION)
+    V_LOG_OECF,
+    V_LOG_EOCF)
 """
 *V-Gamut* colourspace.
 

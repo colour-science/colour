@@ -10,7 +10,8 @@ Defines objects related to visible spectrum volume computations.
 See Also
 --------
 `Spectrum IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/colorimetry/spectrum.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/colorimetry/spectrum.ipynb>`_
 """
 
 from __future__ import division, unicode_literals

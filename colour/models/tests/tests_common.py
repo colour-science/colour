@@ -8,12 +8,7 @@ Defines unit tests for :mod:`colour.models.common` module.
 from __future__ import division, unicode_literals
 
 import numpy as np
-import sys
-
-if sys.version_info[:2] <= (2, 6):
-    import unittest2 as unittest
-else:
-    import unittest
+import unittest
 
 from colour.models import XYZ_to_sRGB, sRGB_to_XYZ
 
@@ -68,7 +63,7 @@ class TestXYZ_to_sRGB(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             XYZ_to_sRGB(np.array([0.07049534, 0.10080000, 0.09558313]),
-                        transfer_function=False),
+                        apply_OECF=False),
             np.array([0.02584654, 0.12473983, 0.0844036]),
             decimal=7)
 
@@ -114,7 +109,7 @@ class TestsRGB_to_XYZ(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             sRGB_to_XYZ(np.array([0.02584654, 0.12473983, 0.08440360]),
-                        inverse_transfer_function=False),
+                        apply_EOCF=False),
             np.array([0.07049534, 0.10080000, 0.09558313]),
             decimal=7)
 

@@ -17,15 +17,16 @@ Defines the *RED* colourspaces:
 See Also
 --------
 `RGB Colourspaces IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/rgb.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
 .. [1]  Mansencal, T. (2015). RED Colourspaces Derivation. Retrieved May 20,
-        2015, from
-        http://colour-science.org/blog_red_colourspaces_derivation.php
+        2015, from http://colour-science.org/posts/red-colourspaces-derivation
 .. [2]  Sony Imageworks. (2012). make.py. Retrieved November 27, 2014, from
-        https://github.com/imageworks/OpenColorIO-Configs/blob/master/nuke-default/make.py  # noqa
+        https://github.com/imageworks/OpenColorIO-Configs/\
+blob/master/nuke-default/make.py
 """
 
 from __future__ import division, unicode_literals
@@ -42,13 +43,19 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['RED_COLOR_2_PRIMARIES',
+__all__ = ['RED_COLOR_PRIMARIES',
+           'RED_COLOR_ILLUMINANT',
+           'RED_COLOR_WHITEPOINT',
+           'RED_COLOR_TO_XYZ_MATRIX',
+           'XYZ_TO_RED_COLOR_MATRIX',
+           'RED_LOG_FILM_OECF',
+           'RED_LOG_FILM_EOCF',
+           'RED_COLOR_COLOURSPACE',
+           'RED_COLOR_2_PRIMARIES',
            'RED_COLOR_2_ILLUMINANT',
            'RED_COLOR_2_WHITEPOINT',
            'RED_COLOR_2_TO_XYZ_MATRIX',
            'XYZ_TO_RED_COLOR_2_MATRIX',
-           'RED_LOG_FILM_TRANSFER_FUNCTION',
-           'RED_LOG_FILM_INVERSE_TRANSFER_FUNCTION',
            'RED_COLOR_2_COLOURSPACE',
            'RED_COLOR_3_PRIMARIES',
            'RED_COLOR_3_ILLUMINANT',
@@ -85,7 +92,7 @@ RED_COLOR_PRIMARIES = np.array(
 RED_COLOR_PRIMARIES : ndarray, (3, 2)
 """
 
-RED_COLOR_ILLUMINANT = 'D65'
+RED_COLOR_ILLUMINANT = 'D60'
 """
 *REDcolor* colourspace whitepoint name as illuminant.
 
@@ -120,7 +127,7 @@ def _linear_to_red_log_film(
         value,
         black_offset=10 ** ((0 - 1023) / 511)):
     """
-    Defines the *REDLogFilm* transfer function.
+    Defines the *REDLogFilm* opto-electronic conversion function.
 
     Parameters
     ----------
@@ -145,7 +152,7 @@ def _red_log_film_to_linear(
         value,
         black_offset=10 ** ((0 - 1023) / 511)):
     """
-    Defines the *REDLogFilm* inverse transfer function.
+    Defines the *REDLogFilm* electro-optical conversion function.
 
     Parameters
     ----------
@@ -167,18 +174,18 @@ def _red_log_film_to_linear(
             (1 - black_offset))
 
 
-RED_LOG_FILM_TRANSFER_FUNCTION = _linear_to_red_log_film
+RED_LOG_FILM_OECF = _linear_to_red_log_film
 """
-Transfer function from linear to *REDLogFilm*.
+Opto-electronic conversion function of *REDLogFilm*.
 
-RED_LOG_FILM_TRANSFER_FUNCTION : object
+RED_LOG_FILM_OECF : object
 """
 
-RED_LOG_FILM_INVERSE_TRANSFER_FUNCTION = _red_log_film_to_linear
+RED_LOG_FILM_EOCF = _red_log_film_to_linear
 """
-Inverse transfer function from *REDLogFilm* to linear.
+Electro-optical conversion function of *REDLogFilm* to linear.
 
-RED_LOG_FILM_INVERSE_TRANSFER_FUNCTION : object
+RED_LOG_FILM_EOCF : object
 """
 
 RED_COLOR_COLOURSPACE = RGB_Colourspace(
@@ -188,8 +195,8 @@ RED_COLOR_COLOURSPACE = RGB_Colourspace(
     RED_COLOR_ILLUMINANT,
     RED_COLOR_TO_XYZ_MATRIX,
     XYZ_TO_RED_COLOR_MATRIX,
-    RED_LOG_FILM_TRANSFER_FUNCTION,
-    RED_LOG_FILM_INVERSE_TRANSFER_FUNCTION)
+    RED_LOG_FILM_OECF,
+    RED_LOG_FILM_EOCF)
 """
 *REDcolor* colourspace.
 
@@ -242,8 +249,8 @@ RED_COLOR_2_COLOURSPACE = RGB_Colourspace(
     RED_COLOR_2_ILLUMINANT,
     RED_COLOR_2_TO_XYZ_MATRIX,
     XYZ_TO_RED_COLOR_2_MATRIX,
-    RED_LOG_FILM_TRANSFER_FUNCTION,
-    RED_LOG_FILM_INVERSE_TRANSFER_FUNCTION)
+    RED_LOG_FILM_OECF,
+    RED_LOG_FILM_EOCF)
 """
 *REDcolor2* colourspace.
 
@@ -296,8 +303,8 @@ RED_COLOR_3_COLOURSPACE = RGB_Colourspace(
     RED_COLOR_3_ILLUMINANT,
     RED_COLOR_3_TO_XYZ_MATRIX,
     XYZ_TO_RED_COLOR_3_MATRIX,
-    RED_LOG_FILM_TRANSFER_FUNCTION,
-    RED_LOG_FILM_INVERSE_TRANSFER_FUNCTION)
+    RED_LOG_FILM_OECF,
+    RED_LOG_FILM_EOCF)
 """
 *REDcolor3* colourspace.
 
@@ -350,8 +357,8 @@ RED_COLOR_4_COLOURSPACE = RGB_Colourspace(
     RED_COLOR_4_ILLUMINANT,
     RED_COLOR_4_TO_XYZ_MATRIX,
     XYZ_TO_RED_COLOR_4_MATRIX,
-    RED_LOG_FILM_TRANSFER_FUNCTION,
-    RED_LOG_FILM_INVERSE_TRANSFER_FUNCTION)
+    RED_LOG_FILM_OECF,
+    RED_LOG_FILM_EOCF)
 """
 *REDcolor4* colourspace.
 
@@ -404,8 +411,8 @@ DRAGON_COLOR_COLOURSPACE = RGB_Colourspace(
     DRAGON_COLOR_ILLUMINANT,
     DRAGON_COLOR_TO_XYZ_MATRIX,
     XYZ_TO_DRAGON_COLOR_MATRIX,
-    RED_LOG_FILM_TRANSFER_FUNCTION,
-    RED_LOG_FILM_INVERSE_TRANSFER_FUNCTION)
+    RED_LOG_FILM_OECF,
+    RED_LOG_FILM_EOCF)
 """
 *DRAGONcolor* colourspace.
 
@@ -458,8 +465,8 @@ DRAGON_COLOR_2_COLOURSPACE = RGB_Colourspace(
     DRAGON_COLOR_2_ILLUMINANT,
     DRAGON_COLOR_2_TO_XYZ_MATRIX,
     XYZ_TO_DRAGON_COLOR_2_MATRIX,
-    RED_LOG_FILM_TRANSFER_FUNCTION,
-    RED_LOG_FILM_INVERSE_TRANSFER_FUNCTION)
+    RED_LOG_FILM_OECF,
+    RED_LOG_FILM_EOCF)
 """
 *DRAGONcolor2* colourspace.
 

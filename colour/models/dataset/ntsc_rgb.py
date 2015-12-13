@@ -12,13 +12,15 @@ Defines the *NTSC RGB* colourspace:
 See Also
 --------
 `RGB Colourspaces IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/rgb.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
 .. [1]  International Telecommunication Union. (1998). CONVENTIONAL TELEVISION
         SYSTEMS. In Recommendation ITU-R BT.470-6 (pp. 1–36). Retrieved from
-        http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf  # noqa
+        http://www.itu.int/dms_pubrec/itu-r/rec/bt/\
+R-REC-BT.470-6-199811-S!!PDF-E.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -40,8 +42,8 @@ __all__ = ['NTSC_RGB_PRIMARIES',
            'NTSC_RGB_WHITEPOINT',
            'NTSC_RGB_TO_XYZ_MATRIX',
            'XYZ_TO_NTSC_RGB_MATRIX',
-           'NTSC_RGB_TRANSFER_FUNCTION',
-           'NTSC_RGB_INVERSE_TRANSFER_FUNCTION',
+           'NTSC_RGB_OECF',
+           'NTSC_RGB_EOCF',
            'NTSC_RGB_COLOURSPACE']
 
 NTSC_RGB_PRIMARIES = np.array(
@@ -85,9 +87,9 @@ XYZ_TO_NTSC_RGB_MATRIX : array_like, (3, 3)
 """
 
 
-def _ntsc_rgb_transfer_function(value):
+def _ntsc_rgb_OECF(value):
     """
-    Defines the *NTSC RGB* colourspace transfer function.
+    Defines the *NTSC RGB* colourspace opto-electronic conversion function.
 
     Parameters
     ----------
@@ -105,9 +107,9 @@ def _ntsc_rgb_transfer_function(value):
     return value ** (1 / 2.2)
 
 
-def _ntsc_rgb_inverse_transfer_function(value):
+def _ntsc_rgb_EOCF(value):
     """
-    Defines the *NTSC RGB* colourspace inverse transfer function.
+    Defines the *NTSC RGB* colourspace electro-optical conversion function.
 
     Parameters
     ----------
@@ -125,18 +127,18 @@ def _ntsc_rgb_inverse_transfer_function(value):
     return value ** 2.2
 
 
-NTSC_RGB_TRANSFER_FUNCTION = _ntsc_rgb_transfer_function
+NTSC_RGB_OECF = _ntsc_rgb_OECF
 """
-Transfer function from linear to *NTSC RGB* colourspace.
+Opto-electronic conversion function of *NTSC RGB* colourspace.
 
-NTSC_RGB_TRANSFER_FUNCTION : object
+NTSC_RGB_OECF : object
 """
 
-NTSC_RGB_INVERSE_TRANSFER_FUNCTION = _ntsc_rgb_inverse_transfer_function
+NTSC_RGB_EOCF = _ntsc_rgb_EOCF
 """
-Inverse transfer function from *NTSC RGB* colourspace to linear.
+Electro-optical conversion function of *NTSC RGB* colourspace.
 
-NTSC_RGB_INVERSE_TRANSFER_FUNCTION : object
+NTSC_RGB_EOCF : object
 """
 
 NTSC_RGB_COLOURSPACE = RGB_Colourspace(
@@ -146,8 +148,8 @@ NTSC_RGB_COLOURSPACE = RGB_Colourspace(
     NTSC_RGB_ILLUMINANT,
     NTSC_RGB_TO_XYZ_MATRIX,
     XYZ_TO_NTSC_RGB_MATRIX,
-    NTSC_RGB_TRANSFER_FUNCTION,
-    NTSC_RGB_INVERSE_TRANSFER_FUNCTION)
+    NTSC_RGB_OECF,
+    NTSC_RGB_EOCF)
 """
 *NTSC RGB* colourspace.
 

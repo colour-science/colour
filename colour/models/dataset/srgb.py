@@ -12,15 +12,21 @@ Defines the *sRGB* colourspace:
 See Also
 --------
 `RGB Colourspaces IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/rgb.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  International Telecommunication Union. (2002). Parameter values for
+.. [1]  International Electrotechnical Commission. (1999). IEC 61966-2-1:1999 -
+        Multimedia systems and equipment - Colour measurement and management -
+        Part 2-1: Colour management - Default RGB colour space - sRGB, 51.
+        Retrieved from https://webstore.iec.ch/publication/6169
+.. [2]  International Telecommunication Union. (2002). Parameter values for
         the HDTV standards for production and international programme exchange
         BT Series Broadcasting service. In Recommendation ITU-R BT.709-5
         (Vol. 5, pp. 1–32). Retrieved from
-        http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.709-5-200204-I!!PDF-E.pdf  # noqa
+        http://www.itu.int/dms_pubrec/itu-r/rec/bt/\
+R-REC-BT.709-5-200204-I!!PDF-E.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -42,8 +48,8 @@ __all__ = ['sRGB_PRIMARIES',
            'sRGB_WHITEPOINT',
            'sRGB_TO_XYZ_MATRIX',
            'XYZ_TO_sRGB_MATRIX',
-           'sRGB_TRANSFER_FUNCTION',
-           'sRGB_INVERSE_TRANSFER_FUNCTION',
+           'sRGB_OECF',
+           'sRGB_EOCF',
            'sRGB_COLOURSPACE']
 
 sRGB_PRIMARIES = np.array(
@@ -89,9 +95,9 @@ XYZ_TO_sRGB_MATRIX : array_like, (3, 3)
 """
 
 
-def _srgb_transfer_function(value):
+def _srgb_OECF(value):
     """
-    Defines the *sRGB* colourspace transfer function.
+    Defines the *sRGB* colourspace opto-electronic conversion function.
 
     Parameters
     ----------
@@ -111,9 +117,9 @@ def _srgb_transfer_function(value):
                     1.055 * (value ** (1 / 2.4)) - 0.055)
 
 
-def _srgb_inverse_transfer_function(value):
+def _srgb_EOCF(value):
     """
-    Defines the *sRGB* colourspace inverse transfer function.
+    Defines the *sRGB* colourspace electro-optical conversion function.
 
     Parameters
     ----------
@@ -128,23 +134,23 @@ def _srgb_inverse_transfer_function(value):
 
     value = np.asarray(value)
 
-    return np.where(value <= _srgb_transfer_function(0.0031308),
+    return np.where(value <= _srgb_OECF(0.0031308),
                     value / 12.92,
                     ((value + 0.055) / 1.055) ** 2.4)
 
 
-sRGB_TRANSFER_FUNCTION = _srgb_transfer_function
+sRGB_OECF = _srgb_OECF
 """
-Transfer function from linear to *sRGB* colourspace.
+Opto-electronic conversion function of *sRGB* colourspace.
 
-sRGB_TRANSFER_FUNCTION : object
+sRGB_OECF : object
 """
 
-sRGB_INVERSE_TRANSFER_FUNCTION = _srgb_inverse_transfer_function
+sRGB_EOCF = _srgb_EOCF
 """
-Inverse transfer function from *sRGB* colourspace to linear.
+Electro-optical conversion function of *sRGB* colourspace.
 
-sRGB_INVERSE_TRANSFER_FUNCTION : object
+sRGB_EOCF : object
 """
 
 sRGB_COLOURSPACE = RGB_Colourspace(
@@ -154,8 +160,8 @@ sRGB_COLOURSPACE = RGB_Colourspace(
     sRGB_ILLUMINANT,
     sRGB_TO_XYZ_MATRIX,
     XYZ_TO_sRGB_MATRIX,
-    sRGB_TRANSFER_FUNCTION,
-    sRGB_INVERSE_TRANSFER_FUNCTION)
+    sRGB_OECF,
+    sRGB_EOCF)
 """
 *sRGB* colourspace.
 

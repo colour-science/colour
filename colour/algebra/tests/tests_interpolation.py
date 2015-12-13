@@ -8,17 +8,13 @@ Defines unit tests for :mod:`colour.algebra.interpolation` module.
 from __future__ import division, unicode_literals
 
 import numpy as np
-import sys
-
-if sys.version_info[:2] <= (2, 6):
-    import unittest2 as unittest
-else:
-    import unittest
+import unittest
 from itertools import permutations
 
 from colour.algebra import (
     LinearInterpolator,
-    SpragueInterpolator)
+    SpragueInterpolator,
+    PchipInterpolator)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -31,8 +27,9 @@ __status__ = 'Production'
 __all__ = ['POINTS_DATA_A',
            'LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES',
            'SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES',
-           'TestLinearInterpolator1d',
-           'TestSpragueInterpolator']
+           'TestLinearInterpolator',
+           'TestSpragueInterpolator',
+           'TestPchipInterpolator']
 
 POINTS_DATA_A = (
     9.3700,
@@ -359,10 +356,9 @@ SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES = (
     86.05000000)
 
 
-class TestLinearInterpolator1d(unittest.TestCase):
+class TestLinearInterpolator(unittest.TestCase):
     """
-    Defines
-    :func:`colour.algebra.interpolation.LinearInterpolator` class units
+    Defines :func:`colour.algebra.interpolation.LinearInterpolator` class units
     tests methods.
     """
 
@@ -389,8 +385,7 @@ class TestLinearInterpolator1d(unittest.TestCase):
 
     def test___call__(self):
         """
-        Tests
-        :func:`colour.algebra.interpolation.LinearInterpolator.__call__`
+        Tests :func:`colour.algebra.interpolation.LinearInterpolator.__call__`
         method.
         """
 
@@ -413,8 +408,7 @@ class TestLinearInterpolator1d(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan__call__(self):
         """
-        Tests
-        :func:`colour.algebra.interpolation.LinearInterpolator.__call__`
+        Tests :func:`colour.algebra.interpolation.LinearInterpolator.__call__`
         method nan support.
         """
 
@@ -484,8 +478,7 @@ class TestSpragueInterpolator(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan__call__(self):
         """
-        Tests
-        :func:`colour.algebra.interpolation.SpragueInterpolator.__call__`
+        Tests :func:`colour.algebra.interpolation.SpragueInterpolator.__call__`
         method nan support.
         """
 
@@ -501,6 +494,34 @@ class TestSpragueInterpolator(unittest.TestCase):
                 from colour.utilities import warning
 
                 warning(traceback.format_exc())
+
+
+class TestPchipInterpolator(unittest.TestCase):
+    """
+    Defines :func:`colour.algebra.interpolation.PchipInterpolator` class
+    unit tests methods.
+    """
+
+    def test_required_attributes(self):
+        """
+        Tests presence of required attributes.
+        """
+
+        required_attributes = ('x',
+                               'y')
+
+        for attribute in required_attributes:
+            self.assertIn(attribute, dir(PchipInterpolator))
+
+    def test_required_methods(self):
+        """
+        Tests presence of required methods.
+        """
+
+        required_methods = ()
+
+        for method in required_methods:
+            self.assertIn(method, dir(PchipInterpolator))
 
 
 if __name__ == '__main__':

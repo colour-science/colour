@@ -28,7 +28,8 @@ The following other illuminants are available:
 See Also
 --------
 `Illuminants IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/colorimetry/illuminants.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/colorimetry/illuminants.ipynb>`_
 
 Warning
 -------
@@ -46,11 +47,12 @@ Notes
 References
 ----------
 .. [1]  Wikipedia. (n.d.). White points of standard illuminants. Retrieved
-        February 24, 2014, from
-        http://en.wikipedia.org/wiki/Standard_illuminant#White_points_of_standard_illuminants  # noqa
+        February 24, 2014, from http://en.wikipedia.org/wiki/\
+Standard_illuminant#White_points_of_standard_illuminants
 .. [2]  Digital Cinema Initiatives. (2007). Digital Cinema System
         Specification - Version 1.1. Retrieved from
-        http://www.dcimovies.com/archives/spec_v1_1/DCI_DCinema_System_Spec_v1_1.pdf  # noqa
+        http://www.dcimovies.com/archives/spec_v1_1/\
+DCI_DCinema_System_Spec_v1_1.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -90,6 +92,7 @@ ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER = (
          'F8': (0.34588, 0.35875),
          'F9': (0.37417, 0.37281),
          'F10': (0.34609, 0.35986),
+         'F11': (0.38052, 0.37713),
          'F12': (0.43695, 0.40441)}))
 """
 *CIE* illuminant chromaticity coordinates for
@@ -137,7 +140,7 @@ ILLUMINANTS = CaseInsensitiveMapping(
 Aggregated *CIE* illuminants chromaticity coordinates.
 
 ILLUMINANTS : CaseInsensitiveMapping
-   **{'CIE 1931 2 Degree Standard Observer',
+    **{'CIE 1931 2 Degree Standard Observer',
     'CIE 1964 10 Degree Standard Observer'}**
 
 Aliases:

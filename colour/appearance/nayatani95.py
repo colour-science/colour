@@ -13,7 +13,8 @@ Defines Nayatani (1995) colour appearance model objects:
 See Also
 --------
 `Nayatani (1995) Colour Appearance Model IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/appearance/nayatani95.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/appearance/nayatani95.ipynb>`_
 
 References
 ----------

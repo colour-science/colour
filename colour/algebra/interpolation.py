@@ -17,13 +17,11 @@ Defines classes for interpolating variables.
 
 from __future__ import division, unicode_literals
 
-import bisect
 import numpy as np
 
 from colour.utilities import (
     as_numeric,
     is_scipy_installed,
-    is_uniform,
     steps,
     warning)
 
@@ -350,9 +348,6 @@ class SpragueInterpolator(object):
             assert value.ndim == 1, (
                 '"x" independent variable must have exactly one dimension!')
 
-            assert is_uniform(value), (
-                '"x" independent variable is not uniform!')
-
             value_steps = steps(value)[0]
 
             xp1 = value[0] - value_steps * 2
@@ -429,10 +424,7 @@ class SpragueInterpolator(object):
             Interpolated value(s).
         """
 
-        try:
-            return np.array([self.__evaluate(element) for element in x])
-        except TypeError:
-            return self.__evaluate(x)
+        return self.__evaluate(x)
 
     def __evaluate(self, x):
         """
@@ -449,13 +441,12 @@ class SpragueInterpolator(object):
             Interpolated point values.
         """
 
+        x = np.asarray(x)
+
         self.__validate_dimensions()
         self.__validate_interpolation_range(x)
 
-        if x in self.__x:
-            return self.__y[np.where(self.__x == x)][0]
-
-        i = bisect.bisect(self.__xp, x) - 1
+        i = np.searchsorted(self.__xp, x) - 1
         X = (x - self.__xp[i]) / (self.__xp[i + 1] - self.__xp[i])
 
         r = self.__yp
@@ -504,9 +495,9 @@ class SpragueInterpolator(object):
 
 
 if is_scipy_installed():
-    from scipy.interpolate import PchipInterpolator, interp1d
+    import scipy.interpolate
 
-    class CubicSplineInterpolator(interp1d):
+    class CubicSplineInterpolator(scipy.interpolate.interp1d):
         """
         Interpolates a 1-D function using cubic spline interpolation.
 
@@ -516,11 +507,52 @@ if is_scipy_installed():
         """
 
         def __init__(self, *args, **kwargs):
-            # TODO: Implements proper wrapper to ensure return values
-            # consistency and avoid having to cast to numeric in
-            # :meth:`SpectralPowerDistribution.interpolate` method.
             super(CubicSplineInterpolator, self).__init__(
                 kind='cubic', *args, **kwargs)
+
+    class PchipInterpolator(scipy.interpolate.PchipInterpolator):
+        """
+        Interpolates a 1-D function using Piecewise Cubic Hermite Interpolating
+        Polynomial interpolation.
+
+        Notes
+        -----
+        This class is a wrapper around *scipy.interpolate.PchipInterpolator*
+        class.
+        """
+
+        def __init__(self, x=None, y=None, *args, **kwargs):
+            super(PchipInterpolator, self).__init__(x, y, *args, **kwargs)
+
+            self.__y = y
+
+        @property
+        def y(self):
+            """
+            Property for **self.__y** private attribute.
+
+            Returns
+            -------
+            array_like
+                self.__y
+            """
+
+            return self.__y
+
+        @y.setter
+        def y(self, value):
+            """
+            Setter for **self.__y** private attribute.
+
+            Parameters
+            ----------
+            value : array_like
+                Attribute value.
+            """
+
+            raise AttributeError('"{0}" attribute is read only!'.format('y'))
+
+
 else:
     warning(('"scipy.interpolate.PchipInterpolator" and '
              '"scipy.interpolate.interp1d" interpolators are not available, '

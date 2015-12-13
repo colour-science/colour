@@ -14,10 +14,7 @@ Defines various input / output objects for CSV tabular data files:
 
 from __future__ import division, unicode_literals
 
-try:
-    from collections import OrderedDict
-except ImportError:
-    from ordereddict import OrderedDict
+from collections import OrderedDict
 import csv
 
 from colour.colorimetry import SpectralPowerDistribution

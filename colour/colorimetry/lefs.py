@@ -10,7 +10,8 @@ Defines luminous efficiency functions computation related objects.
 See Also
 --------
 `Luminous Efficiency Functions IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/colorimetry/lefs.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/colorimetry/lefs.ipynb>`_
 colour.colorimetry.dataset.lefs,
 colour.colorimetry.spectrum.SpectralPowerDistribution
 

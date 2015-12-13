@@ -12,13 +12,15 @@ Defines the *CIE RGB* colourspace:
 See Also
 --------
 `RGB Colourspaces IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/rgb.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
 .. [1]  Wikipedia. (n.d.). Construction of the CIE XYZ color space from the
         Wright–Guild data. Retrieved February 24, 2014, from
-        http://en.wikipedia.org/wiki/CIE_1931_color_space#Construction_of_the_CIE_XYZ_color_space_from_the_Wright.E2.80.93Guild_data  # noqa
+        http://en.wikipedia.org/wiki/CIE_1931_color_space#\
+Construction_of_the_CIE_XYZ_color_space_from_the_Wright.E2.80.93Guild_data
 """
 
 from __future__ import division, unicode_literals
@@ -40,8 +42,8 @@ __all__ = ['CIE_RGB_PRIMARIES',
            'CIE_RGB_WHITEPOINT',
            'CIE_RGB_TO_XYZ_MATRIX',
            'XYZ_TO_CIE_RGB_MATRIX',
-           'CIE_RGB_TRANSFER_FUNCTION',
-           'CIE_RGB_INVERSE_TRANSFER_FUNCTION',
+           'CIE_RGB_OECF',
+           'CIE_RGB_EOCF',
            'CIE_RGB_COLOURSPACE']
 
 CIE_RGB_PRIMARIES = np.array(
@@ -86,9 +88,9 @@ XYZ_TO_CIE_RGB_MATRIX : array_like, (3, 3)
 """
 
 
-def _cie_rgb_transfer_function(value):
+def _cie_rgb_OECF(value):
     """
-    Defines the *CIE RGB* colourspace transfer function.
+    Defines the *CIE RGB* colourspace opto-electronic conversion function.
 
     Parameters
     ----------
@@ -106,9 +108,9 @@ def _cie_rgb_transfer_function(value):
     return value ** (1 / 2.2)
 
 
-def _cie_rgb_inverse_transfer_function(value):
+def _cie_rgb_EOCF(value):
     """
-    Defines the *CIE RGB* colourspace inverse transfer function.
+    Defines the *CIE RGB* colourspace electro-optical conversion function.
 
     Parameters
     ----------
@@ -126,18 +128,18 @@ def _cie_rgb_inverse_transfer_function(value):
     return value ** 2.2
 
 
-CIE_RGB_TRANSFER_FUNCTION = _cie_rgb_transfer_function
+CIE_RGB_OECF = _cie_rgb_OECF
 """
-Transfer function from linear to *CIE RGB* colourspace.
+Opto-electronic conversion function of *CIE RGB* colourspace.
 
-CIE_RGB_TRANSFER_FUNCTION : object
+CIE_RGB_OECF : object
 """
 
-CIE_RGB_INVERSE_TRANSFER_FUNCTION = _cie_rgb_inverse_transfer_function
+CIE_RGB_EOCF = _cie_rgb_EOCF
 """
-Inverse transfer function from *CIE RGB* colourspace to linear.
+Electro-optical conversion function of *CIE RGB* colourspace.
 
-CIE_RGB_INVERSE_TRANSFER_FUNCTION : object
+CIE_RGB_EOCF : object
 """
 
 CIE_RGB_COLOURSPACE = RGB_Colourspace(
@@ -147,8 +149,8 @@ CIE_RGB_COLOURSPACE = RGB_Colourspace(
     CIE_RGB_ILLUMINANT,
     CIE_RGB_TO_XYZ_MATRIX,
     XYZ_TO_CIE_RGB_MATRIX,
-    CIE_RGB_TRANSFER_FUNCTION,
-    CIE_RGB_INVERSE_TRANSFER_FUNCTION)
+    CIE_RGB_OECF,
+    CIE_RGB_EOCF)
 """
 *CIE RGB* colourspace.
 

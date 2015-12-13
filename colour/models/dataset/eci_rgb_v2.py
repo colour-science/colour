@@ -12,7 +12,8 @@ Defines the *ECI RGB v2* colourspace:
 See Also
 --------
 `RGB Colourspaces IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/rgb.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
@@ -39,8 +40,8 @@ __all__ = ['ECI_RGB_V2_PRIMARIES',
            'ECI_RGB_V2_WHITEPOINT',
            'ECI_RGB_V2_TO_XYZ_MATRIX',
            'XYZ_TO_ECI_RGB_V2_MATRIX',
-           'ECI_RGB_V2_TRANSFER_FUNCTION',
-           'ECI_RGB_V2_INVERSE_TRANSFER_FUNCTION',
+           'ECI_RGB_V2_OECF',
+           'ECI_RGB_V2_EOCF',
            'ECI_RGB_V2_COLOURSPACE']
 
 ECI_RGB_V2_PRIMARIES = np.array(
@@ -84,9 +85,9 @@ XYZ_TO_ECI_RGB_V2_MATRIX : array_like, (3, 3)
 """
 
 
-def _eci_rgb_v2_transfer_function(value):
+def _eci_rgb_v2_OECF(value):
     """
-    Defines the *ECI RGB v2* colourspace transfer function.
+    Defines the *ECI RGB v2* colourspace opto-electronic conversion function.
 
     Parameters
     ----------
@@ -102,9 +103,9 @@ def _eci_rgb_v2_transfer_function(value):
     return lightness_1976(value * 100) / 100
 
 
-def _eci_rgb_v2_inverse_transfer_function(value):
+def _eci_rgb_v2_EOCF(value):
     """
-    Defines the *ECI RGB v2* colourspace inverse transfer function.
+    Defines the *ECI RGB v2* colourspace electro-optical conversion function.
 
     Parameters
     ----------
@@ -120,18 +121,18 @@ def _eci_rgb_v2_inverse_transfer_function(value):
     return luminance_1976(value * 100) / 100
 
 
-ECI_RGB_V2_TRANSFER_FUNCTION = _eci_rgb_v2_transfer_function
+ECI_RGB_V2_OECF = _eci_rgb_v2_OECF
 """
-Transfer function from linear to *ECI RGB v2* colourspace.
+Opto-electronic conversion function of *ECI RGB v2* colourspace.
 
-ECI_RGB_V2_TRANSFER_FUNCTION : object
+ECI_RGB_V2_OECF : object
 """
 
-ECI_RGB_V2_INVERSE_TRANSFER_FUNCTION = _eci_rgb_v2_inverse_transfer_function
+ECI_RGB_V2_EOCF = _eci_rgb_v2_EOCF
 """
-Inverse transfer function from *ECI RGB v2* colourspace to linear.
+Electro-optical conversion function of *ECI RGB v2* colourspace.
 
-ECI_RGB_V2_INVERSE_TRANSFER_FUNCTION : object
+ECI_RGB_V2_EOCF : object
 """
 
 ECI_RGB_V2_COLOURSPACE = RGB_Colourspace(
@@ -141,8 +142,8 @@ ECI_RGB_V2_COLOURSPACE = RGB_Colourspace(
     ECI_RGB_V_ILLUMINANT,
     ECI_RGB_V2_TO_XYZ_MATRIX,
     XYZ_TO_ECI_RGB_V2_MATRIX,
-    ECI_RGB_V2_TRANSFER_FUNCTION,
-    ECI_RGB_V2_INVERSE_TRANSFER_FUNCTION)
+    ECI_RGB_V2_OECF,
+    ECI_RGB_V2_EOCF)
 """
 *ECI RGB v2* colourspace.
 

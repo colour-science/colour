@@ -12,7 +12,8 @@ Defines the *Ekta Space PS 5* colourspace:
 See Also
 --------
 `RGB Colourspaces IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/rgb.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
@@ -39,8 +40,8 @@ __all__ = ['EKTA_SPACE_PS_5_PRIMARIES',
            'EKTA_SPACE_PS_5_WHITEPOINT',
            'EKTA_SPACE_PS_5_TO_XYZ_MATRIX',
            'XYZ_TO_EKTA_SPACE_PS_5_MATRIX',
-           'EKTA_SPACE_PS_5_TRANSFER_FUNCTION',
-           'EKTA_SPACE_PS_5_INVERSE_TRANSFER_FUNCTION',
+           'EKTA_SPACE_PS_5_OECF',
+           'EKTA_SPACE_PS_5_EOCF',
            'EKTA_SPACE_PS_5_COLOURSPACE']
 
 EKTA_SPACE_PS_5_PRIMARIES = np.array(
@@ -84,9 +85,10 @@ XYZ_TO_EKTA_SPACE_PS_5_MATRIX : array_like, (3, 3)
 """
 
 
-def _ekta_space_ps_5_transfer_function(value):
+def _ekta_space_ps_5_OECF(value):
     """
-    Defines the *Ekta Space PS 5* colourspace transfer function.
+    Defines the *Ekta Space PS 5* colourspace opto-electronic conversion
+    function.
 
     Parameters
     ----------
@@ -104,9 +106,10 @@ def _ekta_space_ps_5_transfer_function(value):
     return value ** (1 / 2.2)
 
 
-def _ekta_space_ps_5_inverse_transfer_function(value):
+def _ekta_space_ps_5_EOCF(value):
     """
-    Defines the *Ekta Space PS 5* colourspace inverse transfer function.
+    Defines the *Ekta Space PS 5* colourspace electro-optical conversion
+    function.
 
     Parameters
     ----------
@@ -124,19 +127,21 @@ def _ekta_space_ps_5_inverse_transfer_function(value):
     return value ** 2.2
 
 
-EKTA_SPACE_PS_5_TRANSFER_FUNCTION = _ekta_space_ps_5_transfer_function
+EKTA_SPACE_PS_5_OECF = _ekta_space_ps_5_OECF
 """
-Transfer function from linear to *Ekta Space PS 5* colourspace.
+Opto-electronic conversion function of *Ekta Space PS 5*
+colourspace.
 
-EKTA_SPACE_PS_5_TRANSFER_FUNCTION : object
+EKTA_SPACE_PS_5_OECF : object
 """
 
-EKTA_SPACE_PS_5_INVERSE_TRANSFER_FUNCTION = (
-    _ekta_space_ps_5_inverse_transfer_function)
+EKTA_SPACE_PS_5_EOCF = (
+    _ekta_space_ps_5_EOCF)
 """
-Inverse transfer function from *Ekta Space PS 5* colourspace to linear.
+Electro-optical conversion function of *Ekta Space PS 5* colourspace to
+linear.
 
-EKTA_SPACE_PS_5_INVERSE_TRANSFER_FUNCTION : object
+EKTA_SPACE_PS_5_EOCF : object
 """
 
 EKTA_SPACE_PS_5_COLOURSPACE = RGB_Colourspace(
@@ -146,8 +151,8 @@ EKTA_SPACE_PS_5_COLOURSPACE = RGB_Colourspace(
     EKTA_SPACE_PS_5_V_ILLUMINANT,
     EKTA_SPACE_PS_5_TO_XYZ_MATRIX,
     XYZ_TO_EKTA_SPACE_PS_5_MATRIX,
-    EKTA_SPACE_PS_5_TRANSFER_FUNCTION,
-    EKTA_SPACE_PS_5_INVERSE_TRANSFER_FUNCTION)
+    EKTA_SPACE_PS_5_OECF,
+    EKTA_SPACE_PS_5_EOCF)
 """
 *Ekta Space PS 5* colourspace.
 

@@ -12,7 +12,8 @@ Defines CIE 1994 chromatic adaptation model objects:
 See Also
 --------
 `CIE 1994 Chromatic Adaptation Model IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/adaptation/cie1994.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/adaptation/cie1994.ipynb>`_
 
 References
 ----------
@@ -38,8 +39,8 @@ __status__ = 'Production'
 __all__ = ['CIE1994_XYZ_TO_RGB_MATRIX',
            'CIE1994_RGB_TO_XYZ_MATRIX',
            'chromatic_adaptation_CIE1994',
-           'XYZ_to_RGB_cie1994',
-           'RGB_to_XYZ_cie1994',
+           'XYZ_to_RGB_CIE1994',
+           'RGB_to_XYZ_CIE1994',
            'intermediate_values',
            'effective_adapting_responses',
            'beta_1',
@@ -79,7 +80,7 @@ def chromatic_adaptation_CIE1994(XYZ_1,
 
     Parameters
     ----------
-    XYZ : array_like
+    XYZ_1 : array_like
         *CIE XYZ* tristimulus values of test sample / stimulus in domain
         [0, 100].
     xy_o1 : array_like
@@ -133,7 +134,7 @@ def chromatic_adaptation_CIE1994(XYZ_1,
         warning(('"Y_o" luminance factor must be in [18, 100] domain, '
                  'unpredictable results may occur!'))
 
-    RGB_1 = XYZ_to_RGB_cie1994(XYZ_1)
+    RGB_1 = XYZ_to_RGB_CIE1994(XYZ_1)
 
     xez_1 = intermediate_values(xy_o1)
     xez_2 = intermediate_values(xy_o2)
@@ -148,12 +149,12 @@ def chromatic_adaptation_CIE1994(XYZ_1,
 
     RGB_2 = corresponding_colour(
         RGB_1, xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, K, n)
-    XYZ_2 = RGB_to_XYZ_cie1994(RGB_2)
+    XYZ_2 = RGB_to_XYZ_CIE1994(RGB_2)
 
     return XYZ_2
 
 
-def XYZ_to_RGB_cie1994(XYZ):
+def XYZ_to_RGB_CIE1994(XYZ):
     """
     Converts from *CIE XYZ* tristimulus values to cone responses.
 
@@ -170,14 +171,14 @@ def XYZ_to_RGB_cie1994(XYZ):
     Examples
     --------
     >>> XYZ = np.array([28.00, 21.26, 5.27])
-    >>> XYZ_to_RGB_cie1994(XYZ)  # doctest: +ELLIPSIS
+    >>> XYZ_to_RGB_CIE1994(XYZ)  # doctest: +ELLIPSIS
     array([ 25.8244273...,  18.6791422...,   4.8390194...])
     """
 
     return dot_vector(CIE1994_XYZ_TO_RGB_MATRIX, XYZ)
 
 
-def RGB_to_XYZ_cie1994(RGB):
+def RGB_to_XYZ_CIE1994(RGB):
     """
     Converts from cone responses to *CIE XYZ* tristimulus values.
 
@@ -194,7 +195,7 @@ def RGB_to_XYZ_cie1994(RGB):
     Examples
     --------
     >>> RGB = np.array([25.82442730, 18.67914220, 4.83901940])
-    >>> RGB_to_XYZ_cie1994(RGB)  # doctest: +ELLIPSIS
+    >>> RGB_to_XYZ_CIE1994(RGB)  # doctest: +ELLIPSIS
     array([ 28.  ,  21.26,   5.27])
     """
 

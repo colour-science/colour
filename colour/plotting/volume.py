@@ -99,7 +99,7 @@ def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
         Axis labels.
     axes : matplotlib.axes.Axes, optional
         Axes to add the grid.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         **{'grid_face_colours', 'grid_edge_colours', 'grid_face_alpha',
         'grid_edge_alpha', 'x_axis_colour', 'y_axis_colour', 'x_ticks_colour',
         'y_ticks_colour', 'x_label_colour', 'y_label_colour',
@@ -158,11 +158,13 @@ def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
     RGB_gf = RGB_g * settings.grid_face_colours
     RGB_gf = np.hstack((RGB_gf,
                         np.full((RGB_gf.shape[0], 1),
-                                settings.grid_face_alpha)))
+                                settings.grid_face_alpha,
+                                np.float_)))
     RGB_ge = RGB_g * settings.grid_edge_colours
     RGB_ge = np.hstack((RGB_ge,
                         np.full((RGB_ge.shape[0], 1),
-                                settings.grid_edge_alpha)))
+                                settings.grid_edge_alpha,
+                                np.float_)))
 
     # Inner grid.
     quads_gs = grid(origin=(-extent / 2, -extent / 2),
@@ -173,12 +175,14 @@ def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
 
     RGB_gs = np.ones((quads_gs.shape[0], quads_gs.shape[-1]))
     RGB_gsf = RGB_gs * 0
-    RGB_gsf = np.hstack((RGB_gsf, np.full((RGB_gsf.shape[0], 1), 0)))
+    RGB_gsf = np.hstack((RGB_gsf,
+                         np.full((RGB_gsf.shape[0], 1, np.float_), 0)))
     RGB_gse = np.clip(RGB_gs *
                       settings.grid_edge_colours * 1.5, 0, 1)
     RGB_gse = np.hstack((RGB_gse,
                          np.full((RGB_gse.shape[0], 1),
-                                 settings.grid_edge_alpha / 2)))
+                                 settings.grid_edge_alpha / 2,
+                                 np.float_)))
 
     # Axis.
     thickness = extent / 1000
@@ -430,7 +434,7 @@ def RGB_identity_cube(plane=None,
 def RGB_colourspaces_gamuts_plot(colourspaces=None,
                                  reference_colourspace='CIE xyY',
                                  segments=8,
-                                 grid=True,
+                                 display_grid=True,
                                  grid_segments=10,
                                  spectral_locus=False,
                                  spectral_locus_colour=None,
@@ -449,7 +453,7 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
         Reference colourspace to plot the gamuts into.
     segments : int, optional
         Edge segments count for each *RGB* colourspace cubes.
-    grid : bool, optional
+    display_grid : bool, optional
         Display a grid at the bottom of the *RGB* colourspace cubes.
     grid_segments : bool, optional
         Edge segments count for the grid.
@@ -459,7 +463,7 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
         Spectral locus line colour.
     cmfs : unicode, optional
         Standard observer colour matching functions used for spectral locus.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         **{'face_colours', 'edge_colours', 'edge_alpha', 'face_alpha'}**,
         Arguments for each given colourspace where each key has an array_like
         value such as: ``{ 'face_colours': (None, (0.5, 0.5, 1.0)),
@@ -558,13 +562,15 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
             RGB = np.ones(RGB.shape) * settings.face_colours[i]
 
         RGB_f.extend(np.hstack(
-            (RGB, np.full((RGB.shape[0], 1), settings.face_alpha[i]))))
+            (RGB, np.full((RGB.shape[0], 1, np.float_),
+                          settings.face_alpha[i]))))
 
         if settings.edge_colours[i] is not None:
             RGB = np.ones(RGB.shape) * settings.edge_colours[i]
 
         RGB_e.extend(np.hstack(
-            (RGB, np.full((RGB.shape[0], 1), settings.edge_alpha[i]))))
+            (RGB, np.full((RGB.shape[0], 1, np.float_),
+                          settings.edge_alpha[i]))))
 
     quads = np.asarray(quads)
     quads[np.isnan(quads)] = 0
@@ -579,7 +585,7 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
     for i, axis in enumerate('xyz'):
         getattr(axes, 'set_{}label'.format(axis))(labels[i])
 
-    if grid:
+    if display_grid:
         if reference_colourspace == 'CIE Lab':
             limits = np.array([[-450, 450], [-450, 450]])
         elif reference_colourspace == 'CIE Luv':
@@ -617,7 +623,7 @@ def RGB_scatter_plot(RGB,
                      reference_colourspace='CIE xyY',
                      colourspaces=None,
                      segments=8,
-                     grid=True,
+                     display_grid=True,
                      grid_segments=10,
                      spectral_locus=False,
                      spectral_locus_colour=None,
@@ -641,7 +647,7 @@ def RGB_scatter_plot(RGB,
         *RGB* colourspaces to plot the gamuts.
     segments : int, optional
         Edge segments count for each *RGB* colourspace cubes.
-    grid : bool, optional
+    display_grid : bool, optional
         Display a grid at the bottom of the *RGB* colourspace cubes.
     grid_segments : bool, optional
         Edge segments count for the grid.
@@ -653,7 +659,7 @@ def RGB_scatter_plot(RGB,
         Scatter points size.
     cmfs : unicode, optional
         Standard observer colour matching functions used for spectral locus.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         **{'face_colours', 'edge_colours', 'edge_alpha', 'face_alpha'}**,
         Arguments for each given colourspace where each key has an array_like
         value such as: ``{ 'face_colours': (None, (0.5, 0.5, 1.0)),
@@ -703,7 +709,7 @@ def RGB_scatter_plot(RGB,
         colourspaces=colourspaces,
         reference_colourspace=reference_colourspace,
         segments=segments,
-        grid=grid,
+        display_grid=display_grid,
         grid_segments=grid_segments,
         spectral_locus=spectral_locus,
         spectral_locus_colour=spectral_locus_colour,

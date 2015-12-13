@@ -12,7 +12,8 @@ Defines the *SMPTE-C RGB* colourspace:
 See Also
 --------
 `RGB Colourspaces IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/rgb.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
@@ -39,8 +40,8 @@ __all__ = ['SMPTE_C_RGB_PRIMARIES',
            'SMPTE_C_RGB_WHITEPOINT',
            'SMPTE_C_RGB_TO_XYZ_MATRIX',
            'XYZ_TO_SMPTE_C_RGB_MATRIX',
-           'SMPTE_C_RGB_TRANSFER_FUNCTION',
-           'SMPTE_C_RGB_INVERSE_TRANSFER_FUNCTION',
+           'SMPTE_C_RGB_OECF',
+           'SMPTE_C_RGB_EOCF',
            'SMPTE_C_RGB_COLOURSPACE']
 
 SMPTE_C_RGB_PRIMARIES = np.array(
@@ -84,9 +85,9 @@ XYZ_TO_SMPTE_C_RGB_MATRIX : array_like, (3, 3)
 """
 
 
-def _smpte_c_rgb_transfer_function(value):
+def _smpte_c_rgb_OECF(value):
     """
-    Defines the *SMPTE-C RGB* colourspace transfer function.
+    Defines the *SMPTE-C RGB* colourspace opto-electronic conversion function.
 
     Parameters
     ----------
@@ -104,9 +105,9 @@ def _smpte_c_rgb_transfer_function(value):
     return value ** (1 / 2.2)
 
 
-def _smpte_c_rgb_inverse_transfer_function(value):
+def _smpte_c_rgb_EOCF(value):
     """
-    Defines the *SMPTE-C RGB* colourspace inverse transfer function.
+    Defines the *SMPTE-C RGB* colourspace electro-optical conversion function.
 
     Parameters
     ----------
@@ -124,18 +125,18 @@ def _smpte_c_rgb_inverse_transfer_function(value):
     return value ** 2.2
 
 
-SMPTE_C_RGB_TRANSFER_FUNCTION = _smpte_c_rgb_transfer_function
+SMPTE_C_RGB_OECF = _smpte_c_rgb_OECF
 """
-Transfer function from linear to *SMPTE-C RGB* colourspace.
+Opto-electronic conversion function of *SMPTE-C RGB* colourspace.
 
-SMPTE_C_RGB_TRANSFER_FUNCTION : object
+SMPTE_C_RGB_OECF : object
 """
 
-SMPTE_C_RGB_INVERSE_TRANSFER_FUNCTION = _smpte_c_rgb_inverse_transfer_function
+SMPTE_C_RGB_EOCF = _smpte_c_rgb_EOCF
 """
-Inverse transfer function from *SMPTE-C RGB* colourspace to linear.
+Electro-optical conversion function of *SMPTE-C RGB* colourspace.
 
-SMPTE_C_RGB_INVERSE_TRANSFER_FUNCTION : object
+SMPTE_C_RGB_EOCF : object
 """
 
 SMPTE_C_RGB_COLOURSPACE = RGB_Colourspace(
@@ -145,8 +146,8 @@ SMPTE_C_RGB_COLOURSPACE = RGB_Colourspace(
     SMPTE_C_RGB_ILLUMINANT,
     SMPTE_C_RGB_TO_XYZ_MATRIX,
     XYZ_TO_SMPTE_C_RGB_MATRIX,
-    SMPTE_C_RGB_TRANSFER_FUNCTION,
-    SMPTE_C_RGB_INVERSE_TRANSFER_FUNCTION)
+    SMPTE_C_RGB_OECF,
+    SMPTE_C_RGB_EOCF)
 """
 *SMPTE-C RGB* colourspace.
 

@@ -12,12 +12,14 @@ Defines the *Canon* *Cinema Gamut* colourspace:
 See Also
 --------
 `RGB Colourspaces IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/rgb.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
 .. [1]  Canon. (2014). EOS C500 Firmware Update. Retrieved January 14, 2015,
-        from http://www.usa.canon.com/cusa/professional/standard_display/cinema-firmware-c500  # noqa
+        from http://www.usa.canon.com/cusa/professional/standard_display/\
+cinema-firmware-c500
 """
 
 from __future__ import division, unicode_literals
@@ -39,8 +41,8 @@ __all__ = ['CINEMA_GAMUT_PRIMARIES',
            'CINEMA_GAMUT_WHITEPOINT',
            'CINEMA_GAMUT_TO_XYZ_MATRIX',
            'XYZ_TO_CINEMA_GAMUT_MATRIX',
-           'CINEMA_GAMUT_TRANSFER_FUNCTION',
-           'CINEMA_GAMUT_INVERSE_TRANSFER_FUNCTION',
+           'CINEMA_GAMUT_OECF',
+           'CINEMA_GAMUT_EOCF',
            'CINEMA_GAMUT_COLOURSPACE']
 
 CINEMA_GAMUT_PRIMARIES = np.array(
@@ -84,9 +86,9 @@ XYZ_TO_CINEMA_GAMUT_MATRIX : array_like, (3, 3)
 """
 
 
-def _cinema_gamut_transfer_function(value):
+def _cinema_gamut_OECF(value):
     """
-    Defines the *Cinema Gamut* colourspace transfer function.
+    Defines the *Cinema Gamut* colourspace opto-electronic conversion function.
 
     Parameters
     ----------
@@ -102,9 +104,9 @@ def _cinema_gamut_transfer_function(value):
     return value
 
 
-def _cinema_gamut_inverse_transfer_function(value):
+def _cinema_gamut_EOCF(value):
     """
-    Defines the *Cinema Gamut* colourspace inverse transfer function.
+    Defines the *Cinema Gamut* colourspace electro-optical conversion function.
 
     Parameters
     ----------
@@ -120,19 +122,19 @@ def _cinema_gamut_inverse_transfer_function(value):
     return value
 
 
-CINEMA_GAMUT_TRANSFER_FUNCTION = _cinema_gamut_transfer_function
+CINEMA_GAMUT_OECF = _cinema_gamut_OECF
 """
-Transfer function from linear to *Cinema Gamut* colourspace.
+Opto-electronic conversion function of *Cinema Gamut* colourspace.
 
-CINEMA_GAMUT_TRANSFER_FUNCTION : object
+CINEMA_GAMUT_OECF : object
 """
 
-CINEMA_GAMUT_INVERSE_TRANSFER_FUNCTION = (
-    _cinema_gamut_inverse_transfer_function)
+CINEMA_GAMUT_EOCF = (
+    _cinema_gamut_EOCF)
 """
-Inverse transfer function from *Cinema Gamut* colourspace to linear.
+Electro-optical conversion function of *Cinema Gamut* colourspace.
 
-CINEMA_GAMUT_INVERSE_TRANSFER_FUNCTION : object
+CINEMA_GAMUT_EOCF : object
 """
 
 CINEMA_GAMUT_COLOURSPACE = RGB_Colourspace(
@@ -142,8 +144,8 @@ CINEMA_GAMUT_COLOURSPACE = RGB_Colourspace(
     CINEMA_GAMUT_ILLUMINANT,
     CINEMA_GAMUT_TO_XYZ_MATRIX,
     XYZ_TO_CINEMA_GAMUT_MATRIX,
-    CINEMA_GAMUT_TRANSFER_FUNCTION,
-    CINEMA_GAMUT_INVERSE_TRANSFER_FUNCTION)
+    CINEMA_GAMUT_OECF,
+    CINEMA_GAMUT_EOCF)
 """
 *Cinema Gamut* colourspace.
 

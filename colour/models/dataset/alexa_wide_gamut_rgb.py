@@ -12,7 +12,8 @@ Defines the *ALEXA Wide Gamut RGB* colourspace:
 See Also
 --------
 `RGB Colourspaces IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/rgb.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
@@ -42,8 +43,8 @@ __all__ = ['ALEXA_LOG_C_CURVE_BCL_DATA',
            'ALEXA_WIDE_GAMUT_RGB_WHITEPOINT',
            'ALEXA_WIDE_GAMUT_RGB_TO_XYZ_MATRIX',
            'XYZ_TO_ALEXA_WIDE_GAMUT_RGB_MATRIX',
-           'ALEXA_LOG_C_TRANSFER_FUNCTION',
-           'ALEXA_LOG_C_INVERSE_TRANSFER_FUNCTION',
+           'ALEXA_LOG_C_OECF',
+           'ALEXA_LOG_C_EOCF',
            'ALEXA_WIDE_GAMUT_RGB_COLOURSPACE']
 
 ALEXA_LOG_C_CURVE_BCL_DATA = CaseInsensitiveMapping(
@@ -260,18 +261,18 @@ def _alexa_log_c_to_linear(
                     (value - f) / e)
 
 
-ALEXA_LOG_C_TRANSFER_FUNCTION = _linear_to_alexa_log_c
+ALEXA_LOG_C_OECF = _linear_to_alexa_log_c
 """
-Transfer function from linear to *ALEXA Log C*.
+Opto-electronic conversion function of *ALEXA Log C*.
 
-ALEXA_LOG_C_TRANSFER_FUNCTION : object
+ALEXA_LOG_C_OECF : object
 """
 
-ALEXA_LOG_C_INVERSE_TRANSFER_FUNCTION = _alexa_log_c_to_linear
+ALEXA_LOG_C_EOCF = _alexa_log_c_to_linear
 """
-Inverse transfer function from *ALEXA Log C* to linear.
+Electro-optical conversion function of *ALEXA Log C* to linear.
 
-ALEXA_LOG_C_INVERSE_TRANSFER_FUNCTION : object
+ALEXA_LOG_C_EOCF : object
 """
 
 ALEXA_WIDE_GAMUT_RGB_COLOURSPACE = RGB_Colourspace(
@@ -281,8 +282,8 @@ ALEXA_WIDE_GAMUT_RGB_COLOURSPACE = RGB_Colourspace(
     ALEXA_WIDE_GAMUT_RGB_ILLUMINANT,
     ALEXA_WIDE_GAMUT_RGB_TO_XYZ_MATRIX,
     XYZ_TO_ALEXA_WIDE_GAMUT_RGB_MATRIX,
-    ALEXA_LOG_C_TRANSFER_FUNCTION,
-    ALEXA_LOG_C_INVERSE_TRANSFER_FUNCTION)
+    ALEXA_LOG_C_OECF,
+    ALEXA_LOG_C_EOCF)
 """
 *ALEXA Wide Gamut RGB* colourspace.
 

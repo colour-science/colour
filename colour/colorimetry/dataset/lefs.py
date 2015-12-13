@@ -27,7 +27,8 @@ The following luminous efficiency functions are available:
 See Also
 --------
 `Luminous Efficiency Functions IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/colorimetry/lefs.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/colorimetry/lefs.ipynb>`_
 
 Notes
 -----

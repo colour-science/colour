@@ -17,7 +17,8 @@ The following methods are available:
 See Also
 --------
 `Delta E - Colour Difference IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/difference/delta_e.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/difference/delta_e.ipynb>`_
 
 References
 ----------
@@ -57,7 +58,7 @@ def delta_E_CIE1976(Lab1, Lab2, **kwargs):
         *CIE Lab* colourspace array 1.
     Lab2 : array_like
         *CIE Lab* colourspace array 2.
-    \*\*kwargs : \*\*, optional
+    \**kwargs : dict, optional
         Unused parameter provided for signature compatibility with other
         :math:`\Delta E_{ab}` computation objects.
 
@@ -97,7 +98,7 @@ def delta_E_CIE1994(Lab1, Lab2, textiles=True, **kwargs):
         *CIE Lab* colourspace array 2.
     textiles : bool, optional
         Application specific weights.
-    \*\*kwargs : \*\*, optional
+    \**kwargs : dict, optional
         Unused parameter provided for signature compatibility with other
         :math:`\Delta E_{ab}` computation objects.
 
@@ -164,7 +165,7 @@ def delta_E_CIE2000(Lab1, Lab2, **kwargs):
         *CIE Lab* colourspace array 1.
     Lab2 : array_like
         *CIE Lab* colourspace array 2.
-    \*\*kwargs : \*\*, optional
+    \**kwargs : dict, optional
         Unused parameter provided for signature compatibility with other
         :math:`\Delta E_{ab}` computation objects.
 
@@ -368,7 +369,7 @@ def delta_E(Lab1, Lab2, method='CMC', **kwargs):
     method : unicode, optional
         **{'CMC', 'CIE 1976', 'CIE 1994', 'CIE 2000'}**,
         Computation method.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns

@@ -8,12 +8,7 @@ Defines unit tests for :mod:`colour.corresponding.prediction` module.
 from __future__ import division, unicode_literals
 
 import numpy as np
-import sys
-
-if sys.version_info[:2] <= (2, 6):
-    import unittest2 as unittest
-else:
-    import unittest
+import unittest
 
 from colour.corresponding.prediction import (
     corresponding_chromaticities_prediction_VonKries,
@@ -96,16 +91,15 @@ FAIRCHILD1990_PREDICTION_DATA = (
 
 class TestCorrespondingChromaticitiesPredictionVonKries(unittest.TestCase):
     """
-    Defines
-    :func:`colour.corresponding.prediction.corresponding_chromaticities_prediction_VonKries`  # noqa
-    definition unit tests methods.
+    Defines :func:`colour.corresponding.prediction.\
+corresponding_chromaticities_prediction_VonKries` definition unit tests
+    methods.
     """
 
     def test_corresponding_chromaticities_prediction_VonKries(self):
         """
-        Tests
-        :func:`colour.corresponding.prediction.corresponding_chromaticities_prediction_VonKries`  # noqa
-        definition.
+        Tests :func:`colour.corresponding.prediction.\
+corresponding_chromaticities_prediction_VonKries` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -118,16 +112,14 @@ class TestCorrespondingChromaticitiesPredictionVonKries(unittest.TestCase):
 
 class TestCorrespondingChromaticitiesPredictionCIE1994(unittest.TestCase):
     """
-    Defines
-    :func:`colour.corresponding.prediction.corresponding_chromaticities_prediction_CIE1994`  # noqa
-    definition unit tests methods.
+    Defines :func:`colour.corresponding.prediction.\
+corresponding_chromaticities_prediction_CIE1994` definition unit tests methods.
     """
 
     def test_corresponding_chromaticities_prediction_CIE1994(self):
         """
-        Tests
-        :func:`colour.corresponding.prediction.corresponding_chromaticities_prediction_CIE1994`  # noqa
-        definition.
+        Tests :func:`colour.corresponding.prediction.\
+corresponding_chromaticities_prediction_CIE1994` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -140,16 +132,15 @@ class TestCorrespondingChromaticitiesPredictionCIE1994(unittest.TestCase):
 
 class TestCorrespondingChromaticitiesPredictionCMCCAT2000(unittest.TestCase):
     """
-    Defines
-    :func:`colour.corresponding.prediction.corresponding_chromaticities_prediction_CMCCAT2000`  # noqa
-    definition unit tests methods.
+    Defines :func:`colour.corresponding.prediction.\
+corresponding_chromaticities_prediction_CMCCAT2000` definition unit tests
+    methods.
     """
 
     def test_corresponding_chromaticities_prediction_CMCCAT2000(self):
         """
-        Tests
-        :func:`colour.corresponding.prediction.corresponding_chromaticities_prediction_CMCCAT2000`  # noqa
-        definition.
+        Tests :func:`colour.corresponding.prediction.\
+    corresponding_chromaticities_prediction_CMCCAT2000` definition.
         """
 
         np.testing.assert_almost_equal(
@@ -163,16 +154,15 @@ class TestCorrespondingChromaticitiesPredictionCMCCAT2000(unittest.TestCase):
 class TestCorrespondingChromaticitiesPredictionFairchild1990(
     unittest.TestCase):  # noqa
     """
-    Defines
-    :func:`colour.corresponding.prediction.corresponding_chromaticities_prediction_Fairchild1990`  # noqa
-    definition unit tests methods.
+    Defines :func:`colour.corresponding.prediction.\
+corresponding_chromaticities_prediction_Fairchild1990` definition unit tests
+    methods.
     """
 
     def test_corresponding_chromaticities_prediction_Fairchild1990(self):
         """
-        Tests
-        :func:`colour.corresponding.prediction.corresponding_chromaticities_prediction_Fairchild1990`  # noqa
-        definition.
+        Tests :func:`colour.corresponding.prediction.\
+corresponding_chromaticities_prediction_Fairchild1990` definition.
         """
 
         np.testing.assert_almost_equal(

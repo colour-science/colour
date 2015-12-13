@@ -2,17 +2,18 @@
 # -*- coding: utf-8 -*-
 
 """
-CIE Standard Illuminant D Series :math:`S_n(\lambda)` Spectral Power Distributions  # noqa
-==================================================================================  # noqa
+CIE Standard Illuminant D Series :math:`S_n(\lambda)` Distributions
+===================================================================
 
-Defines the *CIE Standard Illuminant D Series* :math:`S_n(\lambda)` spectral
-power distributions involved in the computation of
+Defines the *CIE Standard Illuminant D Series* :math:`S_n(\lambda)`
+distributions involved in the computation of
 *CIE Standard Illuminant D Series* relative spectral power distributions.
 
 See Also
 --------
 `Illuminants IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/colorimetry/illuminants.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/colorimetry/illuminants.ipynb>`_
 
 References
 ----------

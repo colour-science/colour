@@ -13,6 +13,7 @@ from .cie_xyy import (
 from .rgb import RGB_Colourspace
 from .derivation import (
     normalised_primary_matrix,
+    chromatically_adapted_primaries,
     primaries_whitepoint,
     RGB_luminance_equation,
     RGB_luminance)
@@ -71,6 +72,7 @@ __all__ = ['XYZ_to_xyY',
            'XYZ_to_xy']
 __all__ += ['RGB_Colourspace']
 __all__ += ['normalised_primary_matrix',
+            'chromatically_adapted_primaries',
             'primaries_whitepoint',
             'RGB_luminance_equation',
             'RGB_luminance']

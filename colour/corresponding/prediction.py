@@ -10,13 +10,15 @@ Defines objects to compute corresponding chromaticities prediction.
 See Also
 --------
 `Corresponding Chromaticities Prediction IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/corresponding/prediction.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/corresponding/prediction.ipynb>`_
 
 References
 ----------
 .. [1]  Breneman, E. J. (1987). Corresponding chromaticities for different
         states of adaptation to complex visual fields. JOSA A, 4(6). Retrieved
-        from http://www.opticsinfobase.org/josaa/fulltext.cfm?uri=josaa-4-6-1115&id=2783  # noqa
+        from http://www.opticsinfobase.org/josaa/\
+fulltext.cfm?uri=josaa-4-6-1115&id=2783
 """
 
 from __future__ import division, unicode_literals
@@ -83,7 +85,7 @@ def corresponding_chromaticities_prediction_CIE1994(experiment=1, **kwargs):
     experiment : integer, optional
         {1, 2, 3, 4, 6, 8, 9, 11, 12}
         Breneman (1987) experiment number.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -146,7 +148,7 @@ def corresponding_chromaticities_prediction_CMCCAT2000(experiment=1, **kwargs):
     experiment : integer, optional
         {1, 2, 3, 4, 6, 8, 9, 11, 12}
         Breneman (1987) experiment number.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -209,7 +211,7 @@ def corresponding_chromaticities_prediction_Fairchild1990(experiment=1,
     experiment : integer, optional
         {1, 2, 3, 4, 6, 8, 9, 11, 12}
         Breneman (1987) experiment number.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns

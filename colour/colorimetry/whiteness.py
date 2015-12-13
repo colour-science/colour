@@ -17,7 +17,8 @@ Defines *whiteness* index :math:`W` computation objects:
 See Also
 --------
 `Whiteness IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/colorimetry/whiteness.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/colorimetry/whiteness.ipynb>`_
 
 References
 ----------
@@ -25,7 +26,8 @@ References
         http://en.wikipedia.org/wiki/Whiteness
 .. [2]  X-Rite, & Pantone. (2012). Color iQC and Color iMatch Color
         Calculations Guide. Retrieved from
-        http://www.xrite.com/documents/literature/en/09_Color_Calculations_en.pdf  # noqa
+        http://www.xrite.com/documents/literature/en/\
+09_Color_Calculations_en.pdf
 .. [3]  Wyszecki, G., & Stiles, W. S. (2000). Table I(6.5.3) Whiteness
         Formulae (Whiteness Measure Denoted by W). In Color Science: Concepts
         and Methods, Quantitative Data and Formulae (pp. 837–839). Wiley.
@@ -132,7 +134,7 @@ def whiteness_Taube1960(XYZ, XYZ_0):
     """
 
     _X, Y, Z = tsplit(XYZ)
-    _X_0, Y_0, Z_0 = tsplit(XYZ_0)
+    _X_0, _Y_0, Z_0 = tsplit(XYZ_0)
 
     WI = 400 * (Z / Z_0) - 3 * Y
 
@@ -368,7 +370,7 @@ def whiteness(method='CIE 2004', **kwargs):
         **{'CIE 2004', 'Berger 1959', 'Taube 1960', 'Stensby 1968', 'ASTM 313',
         'Ganz 1979', 'CIE 2004'}**,
         Computation method.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns

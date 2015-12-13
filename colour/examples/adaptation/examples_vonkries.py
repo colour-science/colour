@@ -49,4 +49,4 @@ print(colour.chromatic_adaptation_VonKries(
     XYZ,
     colour.xy_to_XYZ(A),
     colour.xy_to_XYZ(D65),
-    transform='Von Kries'))
+    transform='Sharp'))

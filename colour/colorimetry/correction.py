@@ -15,7 +15,8 @@ The following correction methods are available:
 See Also
 --------
 `Spectral Bandpass Dependence Correction IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/colorimetry/correction.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/colorimetry/correction.ipynb>`_
 """
 
 from __future__ import division, unicode_literals
@@ -78,7 +79,7 @@ def bandpass_correction_Stearns1988(spd):
                      (1 + 2 * ALPHA_STEARNS) *
                      values[i] - ALPHA_STEARNS * values[i + 1])
 
-    for i, (wavelength, value) in enumerate(spd):
+    for i, (wavelength, _value) in enumerate(spd):
         spd[wavelength] = values[i]
     return spd
 

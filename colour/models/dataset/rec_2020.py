@@ -12,7 +12,8 @@ Defines the *Rec. 2020* colourspace:
 See Also
 --------
 `RGB Colourspaces IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/rgb.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
@@ -20,7 +21,8 @@ References
         ultra-high definition television systems for production and
         international programme exchange. In Recommendation ITU-R BT.2020
         (Vol. 1, pp. 1–8). Retrieved from
-        http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-1-201406-I!!PDF-E.pdf  # noqa
+        http://www.itu.int/dms_pubrec/itu-r/rec/bt/\
+R-REC-BT.2020-1-201406-I!!PDF-E.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -44,8 +46,8 @@ __all__ = ['REC_2020_PRIMARIES',
            'REC_2020_TO_XYZ_MATRIX',
            'XYZ_TO_REC_2020_MATRIX',
            'REC_2020_CONSTANTS',
-           'REC_2020_TRANSFER_FUNCTION',
-           'REC_2020_INVERSE_TRANSFER_FUNCTION',
+           'REC_2020_OECF',
+           'REC_2020_EOCF',
            'REC_2020_COLOURSPACE']
 
 REC_2020_PRIMARIES = np.array(
@@ -97,9 +99,9 @@ REC_2020_CONSTANTS : Structure
 """
 
 
-def _rec_2020_transfer_function(value, is_10_bits_system=True):
+def _rec_2020_OECF(value, is_10_bits_system=True):
     """
-    Defines the *Rec. 2020* colourspace transfer function.
+    Defines the *Rec. 2020* colourspace opto-electronic conversion function.
 
     Parameters
     ----------
@@ -123,9 +125,9 @@ def _rec_2020_transfer_function(value, is_10_bits_system=True):
                     a * (value ** 0.45) - (a - 1))
 
 
-def _rec_2020_inverse_transfer_function(value, is_10_bits_system=True):
+def _rec_2020_EOCF(value, is_10_bits_system=True):
     """
-    Defines the *Rec. 2020* colourspace inverse transfer function.
+    Defines the *Rec. 2020* colourspace electro-optical conversion function.
 
     Parameters
     ----------
@@ -144,23 +146,23 @@ def _rec_2020_inverse_transfer_function(value, is_10_bits_system=True):
 
     a = REC_2020_CONSTANTS.alpha(is_10_bits_system)
     b = REC_2020_CONSTANTS.beta(is_10_bits_system)
-    return np.where(value < _rec_2020_transfer_function(b),
+    return np.where(value < _rec_2020_OECF(b),
                     value / 4.5,
                     ((value + (a - 1)) / a) ** (1 / 0.45))
 
 
-REC_2020_TRANSFER_FUNCTION = _rec_2020_transfer_function
+REC_2020_OECF = _rec_2020_OECF
 """
-Transfer function from linear to *Rec. 2020* colourspace.
+Opto-electronic conversion function of *Rec. 2020* colourspace.
 
-REC_2020_TRANSFER_FUNCTION : object
+REC_2020_OECF : object
 """
 
-REC_2020_INVERSE_TRANSFER_FUNCTION = _rec_2020_inverse_transfer_function
+REC_2020_EOCF = _rec_2020_EOCF
 """
-Inverse transfer function from *Rec. 2020* colourspace to linear.
+Electro-optical conversion function of *Rec. 2020* colourspace.
 
-REC_2020_INVERSE_TRANSFER_FUNCTION : object
+REC_2020_EOCF : object
 """
 
 REC_2020_COLOURSPACE = RGB_Colourspace(
@@ -170,8 +172,8 @@ REC_2020_COLOURSPACE = RGB_Colourspace(
     REC_2020_ILLUMINANT,
     REC_2020_TO_XYZ_MATRIX,
     XYZ_TO_REC_2020_MATRIX,
-    REC_2020_TRANSFER_FUNCTION,
-    REC_2020_INVERSE_TRANSFER_FUNCTION)
+    REC_2020_OECF,
+    REC_2020_EOCF)
 """
 *Rec. 2020* colourspace.
 

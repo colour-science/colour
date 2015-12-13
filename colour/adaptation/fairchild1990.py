@@ -12,7 +12,8 @@ Defines Fairchild (1990) chromatic adaptation model objects:
 See Also
 --------
 `Fairchild (1990) Chromatic Adaptation Model IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/adaptation/fairchild1990.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/adaptation/fairchild1990.ipynb>`_
 
 References
 ----------
@@ -40,8 +41,8 @@ __status__ = 'Production'
 __all__ = ['FAIRCHILD1990_XYZ_TO_RGB_MATRIX',
            'FAIRCHILD1990_RGB_TO_XYZ_MATRIX',
            'chromatic_adaptation_Fairchild1990',
-           'XYZ_to_RGB_fairchild1990',
-           'RGB_to_XYZ_fairchild1990',
+           'XYZ_to_RGB_Fairchild1990',
+           'RGB_to_XYZ_Fairchild1990',
            'degrees_of_adaptation']
 
 FAIRCHILD1990_XYZ_TO_RGB_MATRIX = VON_KRIES_CAT
@@ -145,7 +146,7 @@ def chromatic_adaptation_Fairchild1990(XYZ_1,
     return XYZ_c
 
 
-def XYZ_to_RGB_fairchild1990(XYZ):
+def XYZ_to_RGB_Fairchild1990(XYZ):
     """
     Converts from *CIE XYZ* tristimulus values to cone responses.
 
@@ -162,14 +163,14 @@ def XYZ_to_RGB_fairchild1990(XYZ):
     Examples
     --------
     >>> XYZ = np.array([19.53, 23.07, 24.97])
-    >>> XYZ_to_RGB_fairchild1990(XYZ)  # doctest: +ELLIPSIS
+    >>> XYZ_to_RGB_Fairchild1990(XYZ)  # doctest: +ELLIPSIS
     array([ 22.1231935...,  23.6054224...,  22.9279534...])
     """
 
     return dot_vector(FAIRCHILD1990_XYZ_TO_RGB_MATRIX, XYZ)
 
 
-def RGB_to_XYZ_fairchild1990(RGB):
+def RGB_to_XYZ_Fairchild1990(RGB):
     """
     Converts from cone responses to *CIE XYZ* tristimulus values.
 
@@ -186,7 +187,7 @@ def RGB_to_XYZ_fairchild1990(RGB):
     Examples
     --------
     >>> RGB = np.array([22.12319350, 23.60542240, 22.92795340])
-    >>> RGB_to_XYZ_fairchild1990(RGB)  # doctest: +ELLIPSIS
+    >>> RGB_to_XYZ_Fairchild1990(RGB)  # doctest: +ELLIPSIS
     array([ 19.53,  23.07,  24.97])
     """
 

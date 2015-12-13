@@ -14,19 +14,23 @@ Defines the *S-Gamut*, *S-Gamut3* and *S-Gamut3.Cine* colourspaces:
 See Also
 --------
 `RGB Colourspaces IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/rgb.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
 .. [1]  Gaggioni, H., Dhanendra, P., Yamashita, J., Kawada, N., Endo, K., &
         Clark, C. (n.d.). S-Log: A new LUT for digital production mastering
         and interchange applications. Retrieved from
-        http://pro.sony.com/bbsccms/assets/files/mkt/cinema/solutions/slog_manual.pdf  # noqa
+        http://pro.sony.com/bbsccms/assets/files/mkt/cinema/solutions/\
+slog_manual.pdf
 .. [2]  Sony Corporation. (n.d.). S-Log Whitepaper. Retrieved from
         http://www.theodoropoulos.info/attachments/076_on S-Log.pdf
 .. [3]  Sony Corporation. (n.d.). Technical Summary for
         S-Gamut3.Cine/S-Log3 and S-Gamut3/S-Log3. Retrieved from
-        http://community.sony.com/sony/attachments/sony/large-sensor-camera-F5-F55/12359/2/TechnicalSummary_for_S-Gamut3Cine_S-Gamut3_S-Log3_V1_00.pdf  # noqa
+        http://community.sony.com/sony/attachments/sony/\
+large-sensor-camera-F5-F55/12359/2/\
+TechnicalSummary_for_S-Gamut3Cine_S-Gamut3_S-Log3_V1_00.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -48,13 +52,13 @@ __all__ = ['S_GAMUT_PRIMARIES',
            'S_GAMUT_WHITEPOINT',
            'S_GAMUT_TO_XYZ_MATRIX',
            'XYZ_TO_S_GAMUT_MATRIX',
-           'S_LOG_TRANSFER_FUNCTION',
-           'S_LOG_INVERSE_TRANSFER_FUNCTION',
-           'S_LOG2_TRANSFER_FUNCTION',
-           'S_LOG2_INVERSE_TRANSFER_FUNCTION',
+           'S_LOG_OECF',
+           'S_LOG_EOCF',
+           'S_LOG2_OECF',
+           'S_LOG2_EOCF',
            'S_GAMUT_COLOURSPACE',
-           'S_LOG3_TRANSFER_FUNCTION',
-           'S_LOG3_INVERSE_TRANSFER_FUNCTION',
+           'S_LOG3_OECF',
+           'S_LOG3_EOCF',
            'S_GAMUT3_COLOURSPACE',
            'S_GAMUT3_CINE_PRIMARIES',
            'S_GAMUT3_CINE_ILLUMINANT',
@@ -144,18 +148,18 @@ def _s_log_to_linear(value):
     return 10 ** ((value - 0.616596 - 0.03) / 0.432699) - 0.037584
 
 
-S_LOG_TRANSFER_FUNCTION = _linear_to_s_log
+S_LOG_OECF = _linear_to_s_log
 """
-Transfer function from linear to *S-Log*.
+Opto-electronic conversion function of *S-Log*.
 
-S_LOG_TRANSFER_FUNCTION : object
+S_LOG_OECF : object
 """
 
-S_LOG_INVERSE_TRANSFER_FUNCTION = _s_log_to_linear
+S_LOG_EOCF = _s_log_to_linear
 """
-Inverse transfer function from *S-Log* to linear.
+Electro-optical conversion function of *S-Log* to linear.
 
-S_LOG_INVERSE_TRANSFER_FUNCTION : object
+S_LOG_EOCF : object
 """
 
 
@@ -201,18 +205,18 @@ def _s_log2_to_linear(value):
                      / 0.432699)) - 0.037584) * 0.9)
 
 
-S_LOG2_TRANSFER_FUNCTION = _linear_to_s_log2
+S_LOG2_OECF = _linear_to_s_log2
 """
-Transfer function from linear to *S-Log2*.
+Opto-electronic conversion function of *S-Log2*.
 
-S_LOG2_TRANSFER_FUNCTION : object
+S_LOG2_OECF : object
 """
 
-S_LOG2_INVERSE_TRANSFER_FUNCTION = _s_log2_to_linear
+S_LOG2_EOCF = _s_log2_to_linear
 """
-Inverse transfer function from *S-Log2* to linear.
+Electro-optical conversion function of *S-Log2* to linear.
 
-S_LOG2_INVERSE_TRANSFER_FUNCTION : object
+S_LOG2_EOCF : object
 """
 
 S_GAMUT_COLOURSPACE = RGB_Colourspace(
@@ -222,8 +226,8 @@ S_GAMUT_COLOURSPACE = RGB_Colourspace(
     S_GAMUT_ILLUMINANT,
     S_GAMUT_TO_XYZ_MATRIX,
     XYZ_TO_S_GAMUT_MATRIX,
-    S_LOG2_TRANSFER_FUNCTION,
-    S_LOG2_INVERSE_TRANSFER_FUNCTION)
+    S_LOG2_OECF,
+    S_LOG2_EOCF)
 """
 *S-Gamut* colourspace.
 
@@ -277,18 +281,18 @@ def _s_log3_to_linear(value):
                     (value * 1023 - 95) * 0.01125000 / (171.2102946929 - 95))
 
 
-S_LOG3_TRANSFER_FUNCTION = _linear_to_s_log3
+S_LOG3_OECF = _linear_to_s_log3
 """
-Transfer function from linear to *S-Log3*.
+Opto-electronic conversion function of *S-Log3*.
 
-S_LOG3_TRANSFER_FUNCTION : object
+S_LOG3_OECF : object
 """
 
-S_LOG3_INVERSE_TRANSFER_FUNCTION = _s_log3_to_linear
+S_LOG3_EOCF = _s_log3_to_linear
 """
-Inverse transfer function from *S-Log3* to linear.
+Electro-optical conversion function of *S-Log3* to linear.
 
-S_LOG3_INVERSE_TRANSFER_FUNCTION : object
+S_LOG3_EOCF : object
 """
 
 S_GAMUT3_COLOURSPACE = RGB_Colourspace(
@@ -298,8 +302,8 @@ S_GAMUT3_COLOURSPACE = RGB_Colourspace(
     S_GAMUT_ILLUMINANT,
     S_GAMUT_TO_XYZ_MATRIX,
     XYZ_TO_S_GAMUT_MATRIX,
-    S_LOG3_TRANSFER_FUNCTION,
-    S_LOG3_INVERSE_TRANSFER_FUNCTION)
+    S_LOG3_OECF,
+    S_LOG3_EOCF)
 """
 *S-Gamut3* colourspace.
 
@@ -353,8 +357,8 @@ S_GAMUT3_CINE_COLOURSPACE = RGB_Colourspace(
     S_GAMUT3_CINE_ILLUMINANT,
     S_GAMUT3_CINE_TO_XYZ_MATRIX,
     XYZ_TO_S_GAMUT3_CINE_MATRIX,
-    S_LOG3_TRANSFER_FUNCTION,
-    S_LOG3_INVERSE_TRANSFER_FUNCTION)
+    S_LOG3_OECF,
+    S_LOG3_EOCF)
 """
 *S-Gamut3.Cine* colourspace.
 

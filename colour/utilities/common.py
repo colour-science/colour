@@ -44,7 +44,7 @@ def handle_numpy_errors(**kwargs):
 
     Parameters
     ----------
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -55,7 +55,8 @@ def handle_numpy_errors(**kwargs):
     ----------
     .. [1]  Kienzle, P., Patel, N., & Krycka, J. (2011). refl1d.numpyerrors -
             Refl1D v0.6.19 documentation. Retrieved January 30, 2015, from
-            http://www.reflectometry.org/danse/docs/refl1d/_modules/refl1d/numpyerrors.html  # noqa
+            http://www.reflectometry.org/danse/docs/refl1d/_modules/\
+refl1d/numpyerrors.html
 
     Examples
     --------
@@ -69,8 +70,16 @@ def handle_numpy_errors(**kwargs):
     context = np.errstate(**kwargs)
 
     def wrapper(function):
+        """
+        Wrapper for given function.
+        """
+
         @functools.wraps(function)
         def wrapped(*args, **kwargs):
+            """
+            Wrapped function.
+            """
+
             with context:
                 return function(*args, **kwargs)
 
@@ -92,7 +101,7 @@ def ignore_python_warnings(function):
     Parameters
     ----------
     function : object
-        Object to decorate.
+        Function to decorate.
 
     Returns
     -------
@@ -108,6 +117,10 @@ def ignore_python_warnings(function):
 
     @functools.wraps(function)
     def wrapped(*args, **kwargs):
+        """
+        Wrapped function.
+        """
+
         with warnings.catch_warnings():
             warnings.simplefilter('ignore')
 

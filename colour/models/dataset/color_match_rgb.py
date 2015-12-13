@@ -12,7 +12,8 @@ Defines the *ColorMatch RGB* colourspace:
 See Also
 --------
 `RGB Colourspaces IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/rgb.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
@@ -39,8 +40,8 @@ __all__ = ['COLOR_MATCH_RGB_PRIMARIES',
            'COLOR_MATCH_RGB_WHITEPOINT',
            'COLOR_MATCH_RGB_TO_XYZ_MATRIX',
            'XYZ_TO_COLOR_MATCH_RGB_MATRIX',
-           'COLOR_MATCH_RGB_TRANSFER_FUNCTION',
-           'COLOR_MATCH_RGB_INVERSE_TRANSFER_FUNCTION',
+           'COLOR_MATCH_RGB_OECF',
+           'COLOR_MATCH_RGB_EOCF',
            'COLOR_MATCH_RGB_COLOURSPACE']
 
 COLOR_MATCH_RGB_PRIMARIES = np.array(
@@ -85,9 +86,10 @@ XYZ_TO_COLOR_MATCH_RGB_MATRIX : array_like, (3, 3)
 """
 
 
-def _color_match_rgb_transfer_function(value):
+def _color_match_rgb_OECF(value):
     """
-    Defines the *ColorMatch RGB* colourspace transfer function.
+    Defines the *ColorMatch RGB* colourspace opto-electronic conversion
+    function.
 
     Parameters
     ----------
@@ -105,9 +107,10 @@ def _color_match_rgb_transfer_function(value):
     return value ** (1 / 1.8)
 
 
-def _color_match_rgb_inverse_transfer_function(value):
+def _color_match_rgb_EOCF(value):
     """
-    Defines the *ColorMatch RGB* colourspace inverse transfer function.
+    Defines the *ColorMatch RGB* colourspace electro-optical conversion
+    function.
 
     Parameters
     ----------
@@ -125,19 +128,21 @@ def _color_match_rgb_inverse_transfer_function(value):
     return value ** 1.8
 
 
-COLOR_MATCH_RGB_TRANSFER_FUNCTION = _color_match_rgb_transfer_function
+COLOR_MATCH_RGB_OECF = _color_match_rgb_OECF
 """
-Transfer function from linear to *ColorMatch RGB* colourspace.
+Opto-electronic conversion function of *ColorMatch RGB*
+colourspace.
 
-COLOR_MATCH_RGB_TRANSFER_FUNCTION : object
+COLOR_MATCH_RGB_OECF : object
 """
 
-COLOR_MATCH_RGB_INVERSE_TRANSFER_FUNCTION = (
-    _color_match_rgb_inverse_transfer_function)
+COLOR_MATCH_RGB_EOCF = (
+    _color_match_rgb_EOCF)
 """
-Inverse transfer function from *ColorMatch RGB* colourspace to linear.
+Electro-optical conversion function of *ColorMatch RGB* colourspace to
+linear.
 
-COLOR_MATCH_RGB_INVERSE_TRANSFER_FUNCTION : object
+COLOR_MATCH_RGB_EOCF : object
 """
 
 COLOR_MATCH_RGB_COLOURSPACE = RGB_Colourspace(
@@ -147,8 +152,8 @@ COLOR_MATCH_RGB_COLOURSPACE = RGB_Colourspace(
     COLOR_MATCH_RGB_ILLUMINANT,
     COLOR_MATCH_RGB_TO_XYZ_MATRIX,
     XYZ_TO_COLOR_MATCH_RGB_MATRIX,
-    COLOR_MATCH_RGB_TRANSFER_FUNCTION,
-    COLOR_MATCH_RGB_INVERSE_TRANSFER_FUNCTION)
+    COLOR_MATCH_RGB_OECF,
+    COLOR_MATCH_RGB_EOCF)
 """
 *ColorMatch RGB* colourspace.
 

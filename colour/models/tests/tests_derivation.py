@@ -9,16 +9,12 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 import re
-import sys
-
-if sys.version_info[:2] <= (2, 6):
-    import unittest2 as unittest
-else:
-    import unittest
+import unittest
 from itertools import permutations
 
 from colour.models import (
     normalised_primary_matrix,
+    chromatically_adapted_primaries,
     primaries_whitepoint,
     RGB_luminance_equation,
     RGB_luminance)
@@ -34,6 +30,7 @@ __status__ = 'Production'
 
 __all__ = ['Testxy_to_z',
            'TestNormalisedPrimaryMatrix',
+           'TestChromaticallyAdaptedPrimaries',
            'TestPrimariesWhitepoint',
            'TestRGBLuminanceEquation',
            'TestRGBLuminance']
@@ -113,8 +110,7 @@ class TestNormalisedPrimaryMatrix(unittest.TestCase):
 
     def test_normalised_primary_matrix(self):
         """
-        Tests
-        :func:`colour.models.rgb.derivation.normalised_primary_matrix`
+        Tests :func:`colour.models.rgb.derivation.normalised_primary_matrix`
         definition.
         """
 
@@ -162,6 +158,70 @@ class TestNormalisedPrimaryMatrix(unittest.TestCase):
                 warning(traceback.format_exc())
 
 
+class TestChromaticallyAdaptedPrimaries(unittest.TestCase):
+    """
+    Defines :func:`colour.models.rgb.derivation.\
+chromatically_adapted_primaries` definition unit tests methods.
+    """
+
+    def test_chromatically_adapted_primaries(self):
+        """
+        Tests :func:`colour.models.rgb.derivation.\
+chromatically_adapted_primaries` definition.
+        """
+
+        np.testing.assert_almost_equal(
+            chromatically_adapted_primaries(
+                np.array([0.73470, 0.26530,
+                          0.00000, 1.00000,
+                          0.00010, -0.07700]),
+                np.array([0.32168, 0.33767]),
+                np.array([0.34567, 0.35850])),
+            np.array([[0.7343147, 0.2669459],
+                      [0.022058, 0.9804409],
+                      [-0.0587459, -0.1256946]]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            chromatically_adapted_primaries(
+                np.array([0.640, 0.330,
+                          0.300, 0.600,
+                          0.150, 0.060]),
+                np.array([0.31271, 0.32902]),
+                np.array([0.34567, 0.35850])),
+            np.array([[0.6492148, 0.3306242],
+                      [0.3242141, 0.6023877],
+                      [0.152359, 0.0611854]]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            chromatically_adapted_primaries(
+                np.array([0.640, 0.330,
+                          0.300, 0.600,
+                          0.150, 0.060]),
+                np.array([0.31271, 0.32902]),
+                np.array([0.34567, 0.35850]),
+                'Bradford'),
+            np.array([[0.6484318, 0.3308549],
+                      [0.3211603, 0.5978621],
+                      [0.155886, 0.0660431]]),
+            decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_chromatically_adapted_primaries(self):
+        """
+        Tests :func:`colour.models.rgb.derivation.\
+chromatically_adapted_primaries` definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=2))
+        for case in cases:
+            P = np.array(np.vstack((case, case, case)))
+            W = np.array(case)
+            chromatically_adapted_primaries(P, W, W)
+
+
 class TestPrimariesWhitepoint(unittest.TestCase):
     """
     Defines :func:`colour.models.rgb.derivation.primaries_whitepoint`
@@ -170,8 +230,7 @@ class TestPrimariesWhitepoint(unittest.TestCase):
 
     def test_primaries_whitepoint(self):
         """
-        Tests
-        :func:`colour.models.rgb.derivation.primaries_whitepoint`
+        Tests :func:`colour.models.rgb.derivation.primaries_whitepoint`
         definition.
         """
 

@@ -17,7 +17,8 @@ Defines the *CIE Luv* colourspace transformations:
 See Also
 --------
 `CIE Luv Colourspace IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/cie_luv.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/models/cie_luv.ipynb>`_
 
 References
 ----------

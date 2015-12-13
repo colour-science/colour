@@ -8,13 +8,9 @@ Defines unit tests for :mod:`colour.characterisation.fitting.fitting` package.
 from __future__ import division, unicode_literals
 
 import numpy as np
-import sys
-
-if sys.version_info[:2] <= (2, 6):
-    import unittest2 as unittest
-else:
-    import unittest
+import unittest
 from itertools import permutations
+from numpy.linalg import LinAlgError
 
 from colour.characterisation.fitting import first_order_colour_fit
 from colour.utilities import ignore_numpy_errors
@@ -113,7 +109,7 @@ class TestFirstOrderColourFit(unittest.TestCase):
             try:
                 first_order_colour_fit(np.vstack((M1, case)),
                                        np.vstack((M2, case)))
-            except ValueError:
+            except (ValueError, LinAlgError):
                 import traceback
                 from colour.utilities import warning
 

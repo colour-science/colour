@@ -17,7 +17,8 @@ Defines the *CIE xyY* colourspace transformations:
 See Also
 --------
 `CIE xyY Colourspace IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/cie_xyy.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/models/cie_xyy.ipynb>`_
 
 References
 ----------
@@ -196,7 +197,7 @@ def xy_to_xyY(xy, Y=1):
 
     x, y = tsplit(xy)
 
-    xyY = tstack((x, y, np.full(x.shape, Y)))
+    xyY = tstack((x, y, np.full(x.shape, Y, np.float_)))
 
     return xyY
 

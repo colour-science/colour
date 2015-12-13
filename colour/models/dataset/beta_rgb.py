@@ -12,7 +12,8 @@ Defines the *Beta RGB* colourspace:
 See Also
 --------
 `RGB Colourspaces IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/rgb.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
@@ -39,8 +40,8 @@ __all__ = ['BETA_RGB_PRIMARIES',
            'BETA_RGB_WHITEPOINT',
            'BETA_RGB_TO_XYZ_MATRIX',
            'XYZ_TO_BETA_RGB_MATRIX',
-           'BETA_RGB_TRANSFER_FUNCTION',
-           'BETA_RGB_INVERSE_TRANSFER_FUNCTION',
+           'BETA_RGB_OECF',
+           'BETA_RGB_EOCF',
            'BETA_RGB_COLOURSPACE']
 
 BETA_RGB_PRIMARIES = np.array(
@@ -84,9 +85,9 @@ XYZ_TO_BETA_RGB_MATRIX : array_like, (3, 3)
 """
 
 
-def _beta_rgb_transfer_function(value):
+def _beta_rgb_OECF(value):
     """
-    Defines the *Beta RGB* colourspace transfer function.
+    Defines the *Beta RGB* colourspace opto-electronic conversion function.
 
     Parameters
     ----------
@@ -104,9 +105,9 @@ def _beta_rgb_transfer_function(value):
     return value ** (1 / 2.2)
 
 
-def _beta_rgb_inverse_transfer_function(value):
+def _beta_rgb_EOCF(value):
     """
-    Defines the *Beta RGB* colourspace inverse transfer function.
+    Defines the *Beta RGB* colourspace electro-optical conversion function.
 
     Parameters
     ----------
@@ -124,18 +125,18 @@ def _beta_rgb_inverse_transfer_function(value):
     return value ** 2.2
 
 
-BETA_RGB_TRANSFER_FUNCTION = _beta_rgb_transfer_function
+BETA_RGB_OECF = _beta_rgb_OECF
 """
-Transfer function from linear to *Beta RGB* colourspace.
+Opto-electronic conversion function of *Beta RGB* colourspace.
 
-BETA_RGB_TRANSFER_FUNCTION : object
+BETA_RGB_OECF : object
 """
 
-BETA_RGB_INVERSE_TRANSFER_FUNCTION = _beta_rgb_inverse_transfer_function
+BETA_RGB_EOCF = _beta_rgb_EOCF
 """
-Inverse transfer function from *Beta RGB* colourspace to linear.
+Electro-optical conversion function of *Beta RGB* colourspace.
 
-BETA_RGB_INVERSE_TRANSFER_FUNCTION : object
+BETA_RGB_EOCF : object
 """
 
 BETA_RGB_COLOURSPACE = RGB_Colourspace(
@@ -145,8 +146,8 @@ BETA_RGB_COLOURSPACE = RGB_Colourspace(
     BETA_RGB_ILLUMINANT,
     BETA_RGB_TO_XYZ_MATRIX,
     XYZ_TO_BETA_RGB_MATRIX,
-    BETA_RGB_TRANSFER_FUNCTION,
-    BETA_RGB_INVERSE_TRANSFER_FUNCTION)
+    BETA_RGB_OECF,
+    BETA_RGB_EOCF)
 """
 *Beta RGB* colourspace.
 

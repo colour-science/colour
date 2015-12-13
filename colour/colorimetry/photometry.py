@@ -10,7 +10,8 @@ Defines photometric quantities computation related objects.
 See Also
 --------
 `Photometry IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/colorimetry/photometry.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/colorimetry/photometry.ipynb>`_
 
 References
 ----------

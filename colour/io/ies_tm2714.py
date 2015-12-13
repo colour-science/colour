@@ -19,7 +19,6 @@ from __future__ import division, unicode_literals
 
 import os
 import re
-import sys
 from collections import namedtuple
 from xml.etree import ElementTree
 from xml.dom import minidom
@@ -62,6 +61,8 @@ class IES_TM2714_ElementSpecification(
         Associated attribute name.
     element : unicode
         Element name.
+    type_ : unicode
+        Element type.
     attribute : object
         Element type.
     required : bool
@@ -75,7 +76,7 @@ class IES_TM2714_ElementSpecification(
     def __new__(cls,
                 element,
                 attribute,
-                type=str,
+                type_=str,
                 required=False,
                 read_conversion=format,
                 write_conversion=(
@@ -88,7 +89,7 @@ class IES_TM2714_ElementSpecification(
             cls,
             element,
             attribute,
-            type,
+            type_,
             required,
             read_conversion,
             write_conversion)
@@ -282,9 +283,9 @@ class IES_TM2714_Header(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (  # noqa
-                ('"{0}" attribute: "{1}" type is not '
-                 '"str" or "unicode"!').format('manufacturer', value))
+            assert isinstance(value, basestring), (  # noqa
+                ('"{0}" attribute: "{1}" is not a '
+                 '"basestring" instance!').format('manufacturer', value))
         self.__manufacturer = value
 
     @property
@@ -312,9 +313,9 @@ class IES_TM2714_Header(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (  # noqa
-                ('"{0}" attribute: "{1}" type is not '
-                 '"str" or "unicode"!').format('catalog_number', value))
+            assert isinstance(value, basestring), (  # noqa
+                ('"{0}" attribute: "{1}" is not a '
+                 '"basestring" instance!').format('catalog_number', value))
         self.__catalog_number = value
 
     @property
@@ -342,9 +343,9 @@ class IES_TM2714_Header(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (  # noqa
-                ('"{0}" attribute: "{1}" type is not '
-                 '"str" or "unicode"!').format('description', value))
+            assert isinstance(value, basestring), (  # noqa
+                ('"{0}" attribute: "{1}" is not a '
+                 '"basestring" instance!').format('description', value))
         self.__description = value
 
     @property
@@ -372,9 +373,9 @@ class IES_TM2714_Header(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (  # noqa
-                ('"{0}" attribute: "{1}" type is not '
-                 '"str" or "unicode"!').format('document_creator', value))
+            assert isinstance(value, basestring), (  # noqa
+                ('"{0}" attribute: "{1}" is not a '
+                 '"basestring" instance!').format('document_creator', value))
         self.__document_creator = value
 
     @property
@@ -402,9 +403,9 @@ class IES_TM2714_Header(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (  # noqa
-                ('"{0}" attribute: "{1}" type is not '
-                 '"str" or "unicode"!').format('unique_identifier', value))
+            assert isinstance(value, basestring), (  # noqa
+                ('"{0}" attribute: "{1}" is not a '
+                 '"basestring" instance!').format('unique_identifier', value))
         self.__unique_identifier = value
 
     @property
@@ -432,9 +433,10 @@ class IES_TM2714_Header(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (  # noqa
-                ('"{0}" attribute: "{1}" type is not '
-                 '"str" or "unicode"!').format('measurement_equipment', value))
+            assert isinstance(value, basestring), (  # noqa
+                ('"{0}" attribute: "{1}" is not a '
+                 '"basestring" instance!').format(
+                    'measurement_equipment', value))
         self.__measurement_equipment = value
 
     @property
@@ -462,9 +464,9 @@ class IES_TM2714_Header(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (  # noqa
-                ('"{0}" attribute: "{1}" type is not '
-                 '"str" or "unicode"!').format('laboratory', value))
+            assert isinstance(value, basestring), (  # noqa
+                ('"{0}" attribute: "{1}" is not a '
+                 '"basestring" instance!').format('laboratory', value))
         self.__laboratory = value
 
     @property
@@ -492,9 +494,9 @@ class IES_TM2714_Header(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (  # noqa
-                ('"{0}" attribute: "{1}" type is not '
-                 '"str" or "unicode"!').format('report_number', value))
+            assert isinstance(value, basestring), (  # noqa
+                ('"{0}" attribute: "{1}" is not a '
+                 '"basestring" instance!').format('report_number', value))
         self.__report_number = value
 
     @property
@@ -522,9 +524,9 @@ class IES_TM2714_Header(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (  # noqa
-                ('"{0}" attribute: "{1}" type is not '
-                 '"str" or "unicode"!').format('report_date', value))
+            assert isinstance(value, basestring), (  # noqa
+                ('"{0}" attribute: "{1}" is not a '
+                 '"basestring" instance!').format('report_date', value))
         self.__report_date = value
 
     @property
@@ -552,10 +554,10 @@ class IES_TM2714_Header(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (  # noqa
-                ('"{0}" attribute: "{1}" type is not '
-                 '"str" or "unicode"!').format('document_creation_date',
-                                               value))
+            assert isinstance(value, basestring), (  # noqa
+                ('"{0}" attribute: "{1}" is not a '
+                 '"basestring" instance!').format(
+                    'document_creation_date', value))
         self.__document_creation_date = value
 
     @property
@@ -583,10 +585,9 @@ class IES_TM2714_Header(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (  # noqa
-                ('"{0}" attribute: "{1}" type is not '
-                 '"str" or "unicode"!').format('comments',
-                                               value))
+            assert isinstance(value, basestring), (  # noqa
+                ('"{0}" attribute: "{1}" is not a '
+                 '"basestring" instance!').format('comments', value))
         self.__comments = value
 
 
@@ -789,9 +790,9 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (  # noqa
-                ('"{0}" attribute: "{1}" type is not '
-                 '"str" or "unicode"!').format('path', value))
+            assert isinstance(value, basestring), (  # noqa
+                ('"{0}" attribute: "{1}" is not a '
+                 '"basestring" instance!').format('path', value))
         self.__path = value
 
     @property
@@ -819,9 +820,9 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
         """
 
         if value is not None:
-            assert type(value) is IES_TM2714_Header, (
-                ('"{0}" attribute: "{1}" type is not '
-                 '"IES_TM2714_Header"!').format('header', value))
+            assert isinstance(value, IES_TM2714_Header), (
+                ('"{0}" attribute: "{1}" is not a "IES_TM2714_Header" '
+                 'instance!').format('header', value))
         self.__header = value
 
     @property
@@ -849,9 +850,9 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (  # noqa
-                ('"{0}" attribute: "{1}" type is not '
-                 '"str" or "unicode"!').format('spectral_quantity', value))
+            assert isinstance(value, basestring), (  # noqa
+                ('"{0}" attribute: "{1}" is not a '
+                 '"basestring" instance!').format('spectral_quantity', value))
         self.__spectral_quantity = value
 
     @property
@@ -879,9 +880,10 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (  # noqa
-                ('"{0}" attribute: "{1}" type is not '
-                 '"str" or "unicode"!').format('reflection_geometry', value))
+            assert isinstance(value, basestring), (  # noqa
+                ('"{0}" attribute: "{1}" is not a '
+                 '"basestring" instance!').format(
+                    'reflection_geometry', value))
         self.__reflection_geometry = value
 
     @property
@@ -909,9 +911,10 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (  # noqa
-                ('"{0}" attribute: "{1}" type is not '
-                 '"str" or "unicode"!').format('transmission_geometry', value))
+            assert isinstance(value, basestring), (  # noqa
+                ('"{0}" attribute: "{1}" is not a '
+                 '"basestring" instance!').format(
+                    'transmission_geometry', value))
         self.__transmission_geometry = value
 
     @property
@@ -940,7 +943,7 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
 
         if value is not None:
             assert is_numeric(value), (
-                '"{0}" attribute: "{1}" type is not "numeric"!'.format(
+                '"{0}" attribute: "{1}" is not a "numeric"!'.format(
                     'bandwidth_FWHM', value))
 
         self.__bandwidth_FWHM = value
@@ -970,8 +973,8 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
         """
 
         if value is not None:
-            assert type(value) is bool, (
-                '"{0}" attribute: "{1}" type is not "bool"!'.format(
+            assert isinstance(value, bool), (
+                '"{0}" attribute: "{1}" is not a "bool" instance!'.format(
                     'bandwidth_corrected', value))
 
         self.__bandwidth_corrected = value
@@ -1008,22 +1011,16 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
 
         self.name = os.path.splitext(os.path.basename(self.__path))[0]
 
-        # *Element.iter* does not exist in *Python 2.6* and text must be
-        # stripped.
-        if sys.version_info[:2] <= (2, 6):
-            iterator = root.getiterator
-            text_conversion = lambda x: x.strip()
-        else:
-            iterator = root.iter
-            text_conversion = lambda x: x
+        iterator = root.iter
+        text_conversion = lambda x: x
 
-        for object in (self.header, self):
-            mapping = object.mapping
+        for header_element in (self.header, self):
+            mapping = header_element.mapping
             for specification in mapping.elements:
                 element = root.find(formatter.format(
                     namespace, mapping.element, specification.element))
                 if element is not None:
-                    setattr(object,
+                    setattr(header_element,
                             specification.attribute,
                             specification.read_conversion(
                                 text_conversion(element.text)))
@@ -1068,16 +1065,16 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
                        'version': IES_TM2714_VERSION}
 
         spectral_distribution = None
-        for object in (self.header, self):
-            mapping = object.mapping
+        for header_element in (self.header, self):
+            mapping = header_element.mapping
             element = ElementTree.SubElement(root, mapping.element)
             for specification in mapping.elements:
                 element_child = ElementTree.SubElement(element,
                                                        specification.element)
-                value = getattr(object, specification.attribute)
+                value = getattr(header_element, specification.attribute)
                 element_child.text = specification.write_conversion(value)
 
-            if object is self:
+            if header_element is self:
                 spectral_distribution = element
 
         # Writing spectral data.

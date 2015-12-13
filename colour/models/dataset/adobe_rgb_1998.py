@@ -12,7 +12,8 @@ Defines the *Adobe RGB 1998* colourspace:
 See Also
 --------
 `RGB Colourspaces IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/models/rgb.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
@@ -39,8 +40,8 @@ __all__ = ['ADOBE_RGB_1998_PRIMARIES',
            'ADOBE_RGB_1998_WHITEPOINT',
            'ADOBE_RGB_1998_TO_XYZ_MATRIX',
            'XYZ_TO_ADOBE_RGB_1998_MATRIX',
-           'ADOBE_RGB_1998_TRANSFER_FUNCTION',
-           'ADOBE_RGB_1998_INVERSE_TRANSFER_FUNCTION',
+           'ADOBE_RGB_1998_OECF',
+           'ADOBE_RGB_1998_EOCF',
            'ADOBE_RGB_1998_COLOURSPACE']
 
 ADOBE_RGB_1998_PRIMARIES = np.array(
@@ -86,9 +87,10 @@ XYZ_TO_ADOBE_RGB_1998_MATRIX : array_like, (3, 3)
 """
 
 
-def _adobe_rgb_1998_transfer_function(value):
+def _adobe_rgb_1998_OECF(value):
     """
-    Defines the *Adobe RGB 1998* colourspace transfer function.
+    Defines the *Adobe RGB 1998* colourspace opto-electronic conversion
+    function.
 
     Parameters
     ----------
@@ -106,9 +108,10 @@ def _adobe_rgb_1998_transfer_function(value):
     return value ** (1 / (563 / 256))
 
 
-def _adobe_rgb_1998_inverse_transfer_function(value):
+def _adobe_rgb_1998_EOCF(value):
     """
-    Defines the *Adobe RGB 1998* colourspace inverse transfer function.
+    Defines the *Adobe RGB 1998* colourspace electro-optical conversion
+    function.
 
     Parameters
     ----------
@@ -126,19 +129,21 @@ def _adobe_rgb_1998_inverse_transfer_function(value):
     return value ** (563 / 256)
 
 
-ADOBE_RGB_1998_TRANSFER_FUNCTION = _adobe_rgb_1998_transfer_function
+ADOBE_RGB_1998_OECF = _adobe_rgb_1998_OECF
 """
-Transfer function from linear to *Adobe RGB 1998* colourspace.
+Opto-electronic conversion function of *Adobe RGB 1998*
+colourspace.
 
-ADOBE_RGB_1998_TRANSFER_FUNCTION : object
+ADOBE_RGB_1998_OECF : object
 """
 
-ADOBE_RGB_1998_INVERSE_TRANSFER_FUNCTION = (
-    _adobe_rgb_1998_inverse_transfer_function)
+ADOBE_RGB_1998_EOCF = (
+    _adobe_rgb_1998_EOCF)
 """
-Inverse transfer function from *Adobe RGB 1998* colourspace to linear.
+Electro-optical conversion function of *Adobe RGB 1998* colourspace to
+linear.
 
-ADOBE_RGB_1998_INVERSE_TRANSFER_FUNCTION : object
+ADOBE_RGB_1998_EOCF : object
 """
 
 ADOBE_RGB_1998_COLOURSPACE = RGB_Colourspace(
@@ -148,8 +153,8 @@ ADOBE_RGB_1998_COLOURSPACE = RGB_Colourspace(
     ADOBE_RGB_1998_ILLUMINANT,
     ADOBE_RGB_1998_TO_XYZ_MATRIX,
     XYZ_TO_ADOBE_RGB_1998_MATRIX,
-    ADOBE_RGB_1998_TRANSFER_FUNCTION,
-    ADOBE_RGB_1998_INVERSE_TRANSFER_FUNCTION)
+    ADOBE_RGB_1998_OECF,
+    ADOBE_RGB_1998_EOCF)
 """
 *Adobe RGB 1998* colourspace.
 

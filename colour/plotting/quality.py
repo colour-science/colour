@@ -67,7 +67,7 @@ def colour_quality_bars_plot(specifications,
         Use hatching for the bars.
     hatching_repeat : int, optional
         Hatching pattern repeat.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -129,12 +129,13 @@ def colour_quality_bars_plot(specifications,
                                 if hatching else None),
                          label=specification.name)
 
-        labels and label_rectangles(
-            bars,
-            rotation='horizontal' if count_s == 1 else 'vertical',
-            offset=(0 if count_s == 1 else 3 / 100 * count_s + 65 / 1000,
-                    0.025),
-            text_size=-5 / 7 * count_s + 12.5)
+        if labels:
+            label_rectangles(
+                bars,
+                rotation='horizontal' if count_s == 1 else 'vertical',
+                offset=(0 if count_s == 1 else 3 / 100 * count_s + 65 / 1000,
+                        0.025),
+                text_size=-5 / 7 * count_s + 12.5)
 
     pylab.axhline(y=100, color='black', linestyle='--')
 
@@ -173,7 +174,7 @@ def single_spd_colour_rendering_index_bars_plot(spd, **kwargs):
     spd : SpectralPowerDistribution
         Illuminant or light source spectral power distribution to plot the
         *colour rendering index*.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -203,7 +204,7 @@ def multi_spd_colour_rendering_index_bars_plot(spds, **kwargs):
     spds : array_like
         Array of illuminants or light sources spectral power distributions to
         plot the *colour rendering index*.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -264,7 +265,7 @@ def single_spd_colour_quality_scale_bars_plot(spd, **kwargs):
     spd : SpectralPowerDistribution
         Illuminant or light source spectral power distribution to plot the
         *colour quality scale*.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -294,7 +295,7 @@ def multi_spd_colour_quality_scale_bars_plot(spds, **kwargs):
     spds : array_like
         Array of illuminants or light sources spectral power distributions to
         plot the *colour quality scale*.
-    \*\*kwargs : \*\*
+    \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
