@@ -14,8 +14,8 @@
     :target: https://pypi.python.org/pypi/colour-science
 .. image:: https://img.shields.io/pypi/dm/colour-science.svg
     :target: https://pypi.python.org/pypi/colour-science
-.. image:: https://zenodo.org/badge/doi/10.5281/zenodo.27234.png
-    :target: http://dx.doi.org/10.5281/zenodo.27234
+.. image:: https://zenodo.org/badge/doi/10.5281/zenodo.35309.png
+    :target: http://dx.doi.org/10.5281/zenodo.35309
 
 Colour Science for Python
 =========================
