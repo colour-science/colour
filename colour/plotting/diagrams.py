@@ -22,7 +22,6 @@ import os
 
 import matplotlib
 import matplotlib.image
-import matplotlib.path
 import matplotlib.pyplot
 import numpy as np
 import pylab

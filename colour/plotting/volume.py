@@ -158,11 +158,13 @@ def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
     RGB_gf = RGB_g * settings.grid_face_colours
     RGB_gf = np.hstack((RGB_gf,
                         np.full((RGB_gf.shape[0], 1),
-                                settings.grid_face_alpha)))
+                                settings.grid_face_alpha,
+                                np.float_)))
     RGB_ge = RGB_g * settings.grid_edge_colours
     RGB_ge = np.hstack((RGB_ge,
                         np.full((RGB_ge.shape[0], 1),
-                                settings.grid_edge_alpha)))
+                                settings.grid_edge_alpha,
+                                np.float_)))
 
     # Inner grid.
     quads_gs = grid(origin=(-extent / 2, -extent / 2),
@@ -173,12 +175,14 @@ def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
 
     RGB_gs = np.ones((quads_gs.shape[0], quads_gs.shape[-1]))
     RGB_gsf = RGB_gs * 0
-    RGB_gsf = np.hstack((RGB_gsf, np.full((RGB_gsf.shape[0], 1), 0)))
+    RGB_gsf = np.hstack((RGB_gsf,
+                         np.full((RGB_gsf.shape[0], 1, np.float_), 0)))
     RGB_gse = np.clip(RGB_gs *
                       settings.grid_edge_colours * 1.5, 0, 1)
     RGB_gse = np.hstack((RGB_gse,
                          np.full((RGB_gse.shape[0], 1),
-                                 settings.grid_edge_alpha / 2)))
+                                 settings.grid_edge_alpha / 2,
+                                 np.float_)))
 
     # Axis.
     thickness = extent / 1000
@@ -558,13 +562,15 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
             RGB = np.ones(RGB.shape) * settings.face_colours[i]
 
         RGB_f.extend(np.hstack(
-            (RGB, np.full((RGB.shape[0], 1), settings.face_alpha[i]))))
+            (RGB, np.full((RGB.shape[0], 1, np.float_),
+                          settings.face_alpha[i]))))
 
         if settings.edge_colours[i] is not None:
             RGB = np.ones(RGB.shape) * settings.edge_colours[i]
 
         RGB_e.extend(np.hstack(
-            (RGB, np.full((RGB.shape[0], 1), settings.edge_alpha[i]))))
+            (RGB, np.full((RGB.shape[0], 1, np.float_),
+                          settings.edge_alpha[i]))))
 
     quads = np.asarray(quads)
     quads[np.isnan(quads)] = 0

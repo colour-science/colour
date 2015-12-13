@@ -3,7 +3,7 @@ echo ---------------------------------------------------------------------------
 echo Sphinx Documentation Build
 echo -------------------------------------------------------------------------------
 
-while getopts mra OPTION
+while getopts ram OPTION
 do
    case "$OPTION" in
       r) OPTION_REMOVE_BUILD_AND_SOURCE_FILES=$OPTARG;;

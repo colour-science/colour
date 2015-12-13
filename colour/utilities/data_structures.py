@@ -110,8 +110,8 @@ class ArbitraryPrecisionMapping(MutableMapping):
         """
 
         if value is not None:
-            assert type(value) is int, (
-                '"{0}" attribute: "{1}" type is not "int"!').format(
+            assert isinstance(value, int), (
+                '"{0}" attribute: "{1}" is not a "int" instance!').format(
                 'key_decimals', value)
         self.__key_decimals = value
 

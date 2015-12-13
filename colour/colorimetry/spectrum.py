@@ -135,8 +135,8 @@ class SpectralMapping(ArbitraryPrecisionMapping):
         """
 
         if value is not None:
-            assert type(value) is int, (
-                '"{0}" attribute: "{1}" type is not "int"!').format(
+            assert isinstance(value, int), (
+                '"{0}" attribute: "{1}" is not a "int" instance!').format(
                 'wavelength_decimals', value)
         self.key_decimals = value
 
@@ -215,7 +215,7 @@ class SpectralShape(object):
 
         if value is not None:
             assert is_numeric(value), (
-                '"{0}" attribute: "{1}" type is not "numeric"!'.format(
+                '"{0}" attribute: "{1}" is not a "numeric"!'.format(
                     'start', value))
 
             value = round(value, DEFAULT_WAVELENGTH_DECIMALS)
@@ -257,7 +257,7 @@ class SpectralShape(object):
 
         if value is not None:
             assert is_numeric(value), (
-                '"{0}" attribute: "{1}" type is not "numeric"!'.format(
+                '"{0}" attribute: "{1}" is not a "numeric"!'.format(
                     'end', value))
 
             value = round(value, DEFAULT_WAVELENGTH_DECIMALS)
@@ -299,7 +299,7 @@ class SpectralShape(object):
 
         if value is not None:
             assert is_numeric(value), (
-                '"{0}" attribute: "{1}" type is not "numeric"!'.format(
+                '"{0}" attribute: "{1}" is not a "numeric"!'.format(
                     'steps', value))
 
             value = round(value, DEFAULT_WAVELENGTH_DECIMALS)
@@ -646,9 +646,9 @@ class SpectralPowerDistribution(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (  # noqa
-                ('"{0}" attribute: "{1}" type is not '
-                 '"str" or "unicode"!').format('name', value))
+            assert isinstance(value, basestring), (  # noqa
+                ('"{0}" attribute: "{1}" is not a '
+                 '"basestring" instance!').format('name', value))
         self.__name = value
 
     @property
@@ -676,9 +676,9 @@ class SpectralPowerDistribution(object):
         """
 
         if value is not None:
-            assert type(value) in (dict, SpectralMapping), (
-                '"{0}" attribute: "{1}" type is not "dict" or '
-                '"SpectralMapping"!'.format('data', value))
+            assert isinstance(value, (dict, SpectralMapping)), (
+                '"{0}" attribute: "{1}" is not a "dict" or "SpectralMapping" '
+                'instance!'.format('data', value))
         self.__data = SpectralMapping(value)
 
     @property
@@ -709,9 +709,9 @@ class SpectralPowerDistribution(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (  # noqa
-                ('"{0}" attribute: "{1}" type is not '
-                 '"str" or "unicode"!').format('title', value))
+            assert isinstance(value, basestring), (  # noqa
+                ('"{0}" attribute: "{1}" is not a '
+                 '"basestring" instance!').format('title', value))
         self.__title = value
 
     @property
@@ -927,7 +927,7 @@ class SpectralPowerDistribution(object):
         array([ 49.67,  69.59,  81.73,  88.19])
         """
 
-        if type(wavelength) is slice:
+        if isinstance(wavelength, slice):
             return self.values[wavelength]
         else:
             wavelength = np.asarray(wavelength)
@@ -975,7 +975,7 @@ class SpectralPowerDistribution(object):
 
         if is_numeric(wavelength) or is_iterable(wavelength):
             wavelengths = np.ravel(wavelength)
-        elif type(wavelength) is slice:
+        elif isinstance(wavelength, slice):
             wavelengths = self.wavelengths[wavelength]
         else:
             raise NotImplementedError(
@@ -2073,9 +2073,9 @@ class TriSpectralPowerDistribution(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (  # noqa
-                ('"{0}" attribute: "{1}" type is not '
-                 '"str" or "unicode"!').format('name', value))
+            assert isinstance(value, basestring), (  # noqa
+                ('"{0}" attribute: "{1}" is not a '
+                 '"basestring" instance!').format('name', value))
         self.__name = value
 
     @property
@@ -2103,8 +2103,8 @@ class TriSpectralPowerDistribution(object):
         """
 
         if value is not None:
-            assert type(value) is dict, (
-                '"{0}" attribute: "{1}" type is not "dict"!'.format(
+            assert isinstance(value, dict), (
+                '"{0}" attribute: "{1}" is not a "dict" instance!'.format(
                     'mapping', value))
             for axis in ('x', 'y', 'z'):
                 assert axis in value.keys(), (
@@ -2137,8 +2137,8 @@ class TriSpectralPowerDistribution(object):
         """
 
         if value is not None:
-            assert type(value) is dict, (
-                '"{0}" attribute: "{1}" type is not "dict"!'.format(
+            assert isinstance(value, dict), (
+                '"{0}" attribute: "{1}" is not a "dict" instance!'.format(
                     'data', value))
             for axis in ('x', 'y', 'z'):
                 assert self.__mapping.get(axis) in value.keys(), (
@@ -2198,9 +2198,9 @@ class TriSpectralPowerDistribution(object):
         """
 
         if value is not None:
-            assert type(value) in (str, unicode), (  # noqa
-                ('"{0}" attribute: "{1}" type is not '
-                 '"str" or "unicode"!').format('title', value))
+            assert isinstance(value, basestring), (  # noqa
+                ('"{0}" attribute: "{1}" is not a '
+                 '"basestring" instance!').format('title', value))
         self.__title = value
 
     @property
@@ -2231,8 +2231,8 @@ class TriSpectralPowerDistribution(object):
         """
 
         if value is not None:
-            assert type(value) is dict, (
-                '"{0}" attribute: "{1}" type is not "dict"!'.format(
+            assert isinstance(value, dict), (
+                '"{0}" attribute: "{1}" is not a "dict" instance!'.format(
                     'labels', value))
             for axis in ('x', 'y', 'z'):
                 assert axis in value.keys(), (
@@ -2593,7 +2593,7 @@ class TriSpectralPowerDistribution(object):
 
         if is_numeric(wavelength) or is_iterable(wavelength):
             wavelengths = np.ravel(wavelength)
-        elif type(wavelength) is slice:
+        elif isinstance(wavelength, slice):
             wavelengths = self.wavelengths[wavelength]
         else:
             raise NotImplementedError(
@@ -3847,7 +3847,7 @@ def constant_spd(k,
     """
 
     wavelengths = shape.range()
-    values = np.full(len(wavelengths), k)
+    values = np.full(len(wavelengths), k, np.float_)
 
     name = '{0} Constant'.format(k)
     return SpectralPowerDistribution(

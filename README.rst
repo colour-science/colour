@@ -1,18 +1,21 @@
-.. image:: https://travis-ci.org/colour-science/colour.svg?branch=master
-    :target: https://travis-ci.org/colour-science/colour
-.. image:: https://coveralls.io/repos/colour-science/colour/badge.png?branch=master
-    :target: https://coveralls.io/r/colour-science/colour?branch=master
-.. image:: https://landscape.io/github/colour-science/colour/master/landscape.png
-    :target: https://landscape.io/github/colour-science/colour/master
-    :alt: Code Health
-..  image:: https://gemnasium.com/colour-science/colour.png
-    :target: https://gemnasium.com/KelSolaar/TravisRamblings
-    :alt: Dependency Status
 .. image:: https://badge.waffle.io/colour-science/colour.svg?label=ready&title=Ready
-    :target: https://waffle.io/colour-science/colour
-    :alt: 'Stories in Ready'
-.. image:: https://zenodo.org/badge/doi/10.5281/zenodo.27234.png
-    :target: http://dx.doi.org/10.5281/zenodo.27234
+    :target: https://github.com/colour-science/colour/issues
+.. image:: https://img.shields.io/travis/colour-science/colour/develop.svg
+    :target: https://travis-ci.org/colour-science/colour
+.. image:: http://img.shields.io/coveralls/colour-science/colour/develop.svg
+    :target: https://coveralls.io/r/colour-science/colour
+.. image:: https://img.shields.io/scrutinizer/g/colour-science/colour/develop.svg
+    :target: https://scrutinizer-ci.com/g/colour-science/colour/
+.. image:: https://landscape.io/github/colour-science/colour/master/landscape.png
+    :target: https://landscape.io/github/colour-science/colour
+.. image:: https://img.shields.io/gemnasium/colour-science/colour.svg
+    :target: https://gemnasium.com/colour-science/colour
+.. image:: https://badge.fury.io/py/colour-science.svg
+    :target: https://pypi.python.org/pypi/colour-science
+.. image:: https://img.shields.io/pypi/dm/colour-science.svg
+    :target: https://pypi.python.org/pypi/colour-science
+.. image:: https://zenodo.org/badge/doi/10.5281/zenodo.35309.png
+    :target: http://dx.doi.org/10.5281/zenodo.35309
 
 Colour Science for Python
 =========================
@@ -26,12 +29,12 @@ It is open source and freely available under the `New BSD License <http://openso
 Features
 --------
 
-`Colour <https://github.com/colour-science/colour>`_ features a rich dataset and collection of objects, please see the `highlights <http://colour-science.org/features.php>`_ page for more information.
+`Colour <https://github.com/colour-science/colour>`_ features a rich dataset and collection of objects, please see the `features <http://colour-science.org/features/>`_ page for more information.
 
 Installation
 ------------
 
-The installation procedure is described in the `Installation Guide <http://colour-science.org/installation.php>`_.
+The installation procedure is described in the `Installation Guide <http://colour-science.org/installation-guide/>`_.
 
 Usage
 -----
@@ -44,7 +47,7 @@ The two main references for `Colour <https://github.com/colour-science/colour>`_
 Contributing
 ------------
 
-If you would like to contribute to `Colour <https://github.com/colour-science/colour>`_, please refer to the following `Contributing <http://colour-science.org/contributing.php>`_ guide.
+If you would like to contribute to `Colour <https://github.com/colour-science/colour>`_, please refer to the following `Contributing <http://colour-science.org/contributing/>`_ guide.
 
 Changes
 -------
@@ -54,7 +57,7 @@ The changes are viewable on the `Releases <https://github.com/colour-science/col
 Bibliography
 ------------
 
-The bibliography is available on the `Bibliography <http://colour-science.org/bibliography.php>`_ page.
+The bibliography is available on the `Bibliography <http://colour-science.org/bibliography/>`_ page.
 
 It is also viewable directly from the repository in either `BibTeX <https://github.com/colour-science/colour/blob/develop/BIBLIOGRAPHY.bib>`_ format or `reStructuredText <https://github.com/colour-science/colour/blob/develop/BIBLIOGRAPHY.rst>`_.
 
