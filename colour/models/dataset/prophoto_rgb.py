@@ -139,8 +139,7 @@ Opto-electronic conversion function of *ProPhoto RGB* colourspace.
 PROPHOTO_RGB_OECF : object
 """
 
-PROPHOTO_RGB_EOCF = (
-    _prophoto_rgb_EOCF)
+PROPHOTO_RGB_EOCF = _prophoto_rgb_EOCF
 """
 Electro-optical conversion function of *ProPhoto RGB* colourspace.
 

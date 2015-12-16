@@ -356,8 +356,7 @@ Opto-electronic conversion function of *ACEScc* colourspace.
 ACES_CC_OECF : object
 """
 
-ACES_CC_EOCF = (
-    _aces_cc_EOCF)
+ACES_CC_EOCF = _aces_cc_EOCF
 """
 Electro-optical conversion function of *ACEScc* colourspace.
 
@@ -483,8 +482,7 @@ Opto-electronic conversion function of *ACESproxy* colourspace.
 ACES_PROXY_OECF : object
 """
 
-ACES_PROXY_EOCF = (
-    _aces_proxy_EOCF)
+ACES_PROXY_EOCF = _aces_proxy_EOCF
 """
 Electro-optical conversion function of *ACESproxy* colourspace.
 

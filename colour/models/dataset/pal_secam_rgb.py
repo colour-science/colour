@@ -136,8 +136,7 @@ Opto-electronic conversion function of *Pal/Secam RGB* colourspace.
 PAL_SECAM_RGB_OECF : object
 """
 
-PAL_SECAM_RGB_EOCF = (
-    _pal_secam_rgb_EOCF)
+PAL_SECAM_RGB_EOCF = _pal_secam_rgb_EOCF
 """
 Electro-optical conversion function of *Pal/Secam RGB* colourspace.
 

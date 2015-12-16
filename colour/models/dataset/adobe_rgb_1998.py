@@ -137,8 +137,7 @@ colourspace.
 ADOBE_RGB_1998_OECF : object
 """
 
-ADOBE_RGB_1998_EOCF = (
-    _adobe_rgb_1998_EOCF)
+ADOBE_RGB_1998_EOCF = _adobe_rgb_1998_EOCF
 """
 Electro-optical conversion function of *Adobe RGB 1998* colourspace to
 linear.
