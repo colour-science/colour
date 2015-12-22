@@ -902,9 +902,7 @@ def image_plot(image,
 
     settings = {'x_ticker': False,
                 'y_ticker': False,
-                'bounding_box': (0, 1, 0, 1),
-                'bbox_inches': 'tight',
-                'pad_inches': 0}
+                'bounding_box': (0, 1, 0, 1)}
     settings.update(kwargs)
 
     canvas(**settings)
