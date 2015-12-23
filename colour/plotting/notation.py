@@ -50,14 +50,13 @@ def single_munsell_value_function_plot(
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> f = 'ASTM D1535-08'
     >>> single_munsell_value_function_plot(f)  # doctest: +SKIP
-    True
     """
 
     settings = {'title': '{0} - Munsell Value Function'.format(function)}
@@ -81,8 +80,8 @@ def multi_munsell_value_function_plot(
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Raises
     ------
@@ -94,7 +93,6 @@ def multi_munsell_value_function_plot(
     --------
     >>> fs = ('ASTM D1535-08', 'McCamy 1987')
     >>> multi_munsell_value_function_plot(fs)  # doctest: +SKIP
-    True
     """
 
     settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}

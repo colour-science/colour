@@ -87,13 +87,12 @@ def CIE_1931_chromaticity_diagram_colours_plot(
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> CIE_1931_chromaticity_diagram_colours_plot()  # doctest: +SKIP
-    True
     """
 
     if is_scipy_installed(raise_exception=True):
@@ -152,14 +151,12 @@ def CIE_1931_chromaticity_diagram_plot(
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> CIE_1931_chromaticity_diagram_plot()  # doctest: +SKIP
-    True
-
     """
 
     settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
@@ -272,13 +269,12 @@ def CIE_1960_UCS_chromaticity_diagram_colours_plot(
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> CIE_1960_UCS_chromaticity_diagram_colours_plot()  # doctest: +SKIP
-    True
     """
 
     if is_scipy_installed(raise_exception=True):
@@ -337,13 +333,12 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> CIE_1960_UCS_chromaticity_diagram_plot()  # doctest: +SKIP
-    True
     """
 
     settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
@@ -454,13 +449,12 @@ def CIE_1976_UCS_chromaticity_diagram_colours_plot(
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> CIE_1976_UCS_chromaticity_diagram_colours_plot()  # doctest: +SKIP
-    True
     """
 
     if is_scipy_installed(raise_exception=True):
@@ -520,13 +514,12 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> CIE_1976_UCS_chromaticity_diagram_plot()  # doctest: +SKIP
-    True
     """
 
     settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
@@ -641,8 +634,8 @@ def spds_CIE_1931_chromaticity_diagram_plot(
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
@@ -650,7 +643,6 @@ def spds_CIE_1931_chromaticity_diagram_plot(
     >>> A = ILLUMINANTS_RELATIVE_SPDS['A']
     >>> D65 = ILLUMINANTS_RELATIVE_SPDS['D65']
     >>> spds_CIE_1931_chromaticity_diagram_plot([A, D65])  # doctest: +SKIP
-    True
     """
 
     settings = {}
@@ -713,8 +705,8 @@ def spds_CIE_1960_UCS_chromaticity_diagram_plot(
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
@@ -722,7 +714,6 @@ def spds_CIE_1960_UCS_chromaticity_diagram_plot(
     >>> A = ILLUMINANTS_RELATIVE_SPDS['A']
     >>> D65 = ILLUMINANTS_RELATIVE_SPDS['D65']
     >>> spds_CIE_1960_UCS_chromaticity_diagram_plot([A, D65])  # doctest: +SKIP
-    True
     """
 
     settings = {}
@@ -785,8 +776,8 @@ def spds_CIE_1976_UCS_chromaticity_diagram_plot(
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
@@ -794,7 +785,6 @@ def spds_CIE_1976_UCS_chromaticity_diagram_plot(
     >>> A = ILLUMINANTS_RELATIVE_SPDS['A']
     >>> D65 = ILLUMINANTS_RELATIVE_SPDS['D65']
     >>> spds_CIE_1976_UCS_chromaticity_diagram_plot([A, D65])  # doctest: +SKIP
-    True
     """
 
     settings = {}

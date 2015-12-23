@@ -120,8 +120,7 @@ def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
 
     Examples
     --------
-    >>> c = 'Rec. 709'
-    >>> RGB_scatter_plot(c)  # doctest: +SKIP
+    >>> nadir_grid(segments=5)
     True
     """
 
@@ -485,14 +484,13 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> c = ['Rec. 709', 'ACEScg', 'S-Gamut']
     >>> RGB_colourspaces_gamuts_plot(c)  # doctest: +SKIP
-    True
     """
 
     if colourspaces is None:
@@ -681,14 +679,13 @@ def RGB_scatter_plot(RGB,
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> c = 'Rec. 709'
     >>> RGB_scatter_plot(c)  # doctest: +SKIP
-    True
     """
 
     colourspace = get_RGB_colourspace(colourspace)

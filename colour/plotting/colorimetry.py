@@ -97,8 +97,8 @@ def single_spd_plot(spd,
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
@@ -106,7 +106,6 @@ def single_spd_plot(spd,
     >>> data = {400: 0.0641, 420: 0.0645, 440: 0.0562}
     >>> spd = SpectralPowerDistribution('Custom', data)
     >>> single_spd_plot(spd)  # doctest: +SKIP
-    True
     """
 
     cmfs = get_cmfs(cmfs)
@@ -164,8 +163,8 @@ def multi_spd_plot(spds,
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
@@ -175,7 +174,6 @@ def multi_spd_plot(spds,
     >>> spd1 = SpectralPowerDistribution('Custom1', data1)
     >>> spd2 = SpectralPowerDistribution('Custom2', data2)
     >>> multi_spd_plot([spd1, spd2])  # doctest: +SKIP
-    True
     """
 
     canvas(**kwargs)
@@ -235,13 +233,12 @@ def single_cmfs_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> single_cmfs_plot()  # doctest: +SKIP
-    True
     """
 
     cmfs = get_cmfs(cmfs)
@@ -265,8 +262,8 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
@@ -274,7 +271,6 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
     ... 'CIE 1931 2 Degree Standard Observer',
     ... 'CIE 1964 10 Degree Standard Observer']
     >>> multi_cmfs_plot(cmfs)  # doctest: +SKIP
-    True
     """
 
     canvas(**kwargs)
@@ -346,13 +342,12 @@ def single_illuminant_relative_spd_plot(
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> single_illuminant_relative_spd_plot()  # doctest: +SKIP
-    True
     """
 
     cmfs = get_cmfs(cmfs)
@@ -381,13 +376,12 @@ def multi_illuminants_relative_spd_plot(illuminants=None, **kwargs):
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> multi_illuminants_relative_spd_plot(['A', 'B', 'C'])  # doctest: +SKIP
-    True
     """
 
     if illuminants is None:
@@ -427,13 +421,12 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> visible_spectrum_plot()  # doctest: +SKIP
-    True
     """
 
     cmfs = get_cmfs(cmfs)
@@ -475,13 +468,12 @@ def single_lightness_function_plot(function='CIE 1976', **kwargs):
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> single_lightness_function_plot()  # doctest: +SKIP
-    True
     """
 
     settings = {
@@ -504,8 +496,8 @@ def multi_lightness_function_plot(functions=None, **kwargs):
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Raises
     ------
@@ -517,7 +509,6 @@ def multi_lightness_function_plot(functions=None, **kwargs):
     --------
     >>> fs = ('CIE 1976', 'Wyszecki 1963')
     >>> multi_lightness_function_plot(fs)  # doctest: +SKIP
-    True
     """
 
     settings = {
@@ -582,13 +573,12 @@ def blackbody_spectral_radiance_plot(
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> blackbody_spectral_radiance_plot()  # doctest: +SKIP
-    True
     """
 
     canvas(**kwargs)
@@ -649,13 +639,12 @@ def blackbody_colours_plot(shape=SpectralShape(150, 12500, 50),
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> blackbody_colours_plot()  # doctest: +SKIP
-    True
     """
 
     cmfs = get_cmfs(cmfs)
