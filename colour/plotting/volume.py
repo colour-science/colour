@@ -120,8 +120,53 @@ def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
 
     Examples
     --------
-    >>> nadir_grid(segments=5)
-    True
+    >>> nadir_grid(segments=1)
+    (array([[[-1.   , -1.   ,  0.   ],
+            [ 1.   , -1.   ,  0.   ],
+            [ 1.   ,  1.   ,  0.   ],
+            [-1.   ,  1.   ,  0.   ]],
+    <BLANKLINE>
+           [[-1.   , -1.   ,  0.   ],
+            [ 0.   , -1.   ,  0.   ],
+            [ 0.   ,  0.   ,  0.   ],
+            [-1.   ,  0.   ,  0.   ]],
+    <BLANKLINE>
+           [[-1.   ,  0.   ,  0.   ],
+            [ 0.   ,  0.   ,  0.   ],
+            [ 0.   ,  1.   ,  0.   ],
+            [-1.   ,  1.   ,  0.   ]],
+    <BLANKLINE>
+           [[ 0.   , -1.   ,  0.   ],
+            [ 1.   , -1.   ,  0.   ],
+            [ 1.   ,  0.   ,  0.   ],
+            [ 0.   ,  0.   ,  0.   ]],
+    <BLANKLINE>
+           [[ 0.   ,  0.   ,  0.   ],
+            [ 1.   ,  0.   ,  0.   ],
+            [ 1.   ,  1.   ,  0.   ],
+            [ 0.   ,  1.   ,  0.   ]],
+    <BLANKLINE>
+           [[-1.   , -0.001,  0.   ],
+            [ 1.   , -0.001,  0.   ],
+            [ 1.   ,  0.001,  0.   ],
+            [-1.   ,  0.001,  0.   ]],
+    <BLANKLINE>
+           [[-0.001, -1.   ,  0.   ],
+            [ 0.001, -1.   ,  0.   ],
+            [ 0.001,  1.   ,  0.   ],
+            [-0.001,  1.   ,  0.   ]]]), array([[ 0.25,  0.25,  0.25,  0.1 ],
+           [ 0.  ,  0.  ,  0.  ,  0.  ],
+           [ 0.  ,  0.  ,  0.  ,  0.  ],
+           [ 0.  ,  0.  ,  0.  ,  0.  ],
+           [ 0.  ,  0.  ,  0.  ,  0.  ],
+           [ 0.  ,  0.  ,  0.  ,  1.  ],
+           [ 0.  ,  0.  ,  0.  ,  1.  ]]), array([[ 0.5 ,  0.5 ,  0.5 ,  0.5 ],
+           [ 0.75,  0.75,  0.75,  0.25],
+           [ 0.75,  0.75,  0.75,  0.25],
+           [ 0.75,  0.75,  0.75,  0.25],
+           [ 0.75,  0.75,  0.75,  0.25],
+           [ 0.  ,  0.  ,  0.  ,  1.  ],
+           [ 0.  ,  0.  ,  0.  ,  1.  ]]))
     """
 
     if limits is None:
@@ -175,7 +220,7 @@ def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
     RGB_gs = np.ones((quads_gs.shape[0], quads_gs.shape[-1]))
     RGB_gsf = RGB_gs * 0
     RGB_gsf = np.hstack((RGB_gsf,
-                         np.full((RGB_gsf.shape[0], 1, np.float_), 0)))
+                         np.full((RGB_gsf.shape[0], 1), 0, np.float_)))
     RGB_gse = np.clip(RGB_gs *
                       settings.grid_edge_colours * 1.5, 0, 1)
     RGB_gse = np.hstack((RGB_gse,
@@ -197,48 +242,49 @@ def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
     RGB_y = np.ones((quad_y.shape[0], quad_y.shape[-1] + 1))
     RGB_y = RGB_y * settings.y_axis_colour
 
-    # Ticks.
-    x_s = 1 if '+x' in settings.ticks_and_label_location else -1
-    y_s = 1 if '+y' in settings.ticks_and_label_location else -1
-    for i, axis in enumerate('xy'):
-        h_a = 'center' if axis == 'x' else 'left' if x_s == 1 else 'right'
-        v_a = 'center'
+    if axes is not None:
+        # Ticks.
+        x_s = 1 if '+x' in settings.ticks_and_label_location else -1
+        y_s = 1 if '+y' in settings.ticks_and_label_location else -1
+        for i, axis in enumerate('xy'):
+            h_a = 'center' if axis == 'x' else 'left' if x_s == 1 else 'right'
+            v_a = 'center'
 
-        ticks = list(sorted(set(quads_g[..., 0, i])))
-        ticks += [ticks[-1] + ticks[-1] - ticks[-2]]
-        for tick in ticks:
-            x = (limits[1, 1 if x_s == 1 else 0] + (x_s * extent / 25)
-                 if i else tick)
-            y = (tick if i else
-                 limits[0, 1 if y_s == 1 else 0] + (y_s * extent / 25))
+            ticks = list(sorted(set(quads_g[..., 0, i])))
+            ticks += [ticks[-1] + ticks[-1] - ticks[-2]]
+            for tick in ticks:
+                x = (limits[1, 1 if x_s == 1 else 0] + (x_s * extent / 25)
+                     if i else tick)
+                y = (tick if i else
+                     limits[0, 1 if y_s == 1 else 0] + (y_s * extent / 25))
 
-            tick = int(tick) if float(tick).is_integer() else tick
-            c = settings['{0}_ticks_colour'.format(axis)]
+                tick = int(tick) if float(tick).is_integer() else tick
+                c = settings['{0}_ticks_colour'.format(axis)]
 
-            axes.text(x, y, 0, tick, 'x',
+                axes.text(x, y, 0, tick, 'x',
+                          horizontalalignment=h_a,
+                          verticalalignment=v_a,
+                          color=c,
+                          clip_on=True)
+
+        # Labels.
+        for i, axis in enumerate('xy'):
+            h_a = 'center' if axis == 'x' else 'left' if x_s == 1 else 'right'
+            v_a = 'center'
+
+            x = (limits[1, 1 if x_s == 1 else 0] + (x_s * extent / 10)
+                 if i else 0)
+            y = (0 if i else
+                 limits[0, 1 if y_s == 1 else 0] + (y_s * extent / 10))
+
+            c = settings['{0}_label_colour'.format(axis)]
+
+            axes.text(x, y, 0, labels[i], 'x',
                       horizontalalignment=h_a,
                       verticalalignment=v_a,
                       color=c,
+                      size=20,
                       clip_on=True)
-
-    # Labels.
-    for i, axis in enumerate('xy'):
-        h_a = 'center' if axis == 'x' else 'left' if x_s == 1 else 'right'
-        v_a = 'center'
-
-        x = (limits[1, 1 if x_s == 1 else 0] + (x_s * extent / 10)
-             if i else 0)
-        y = (0 if i else
-             limits[0, 1 if y_s == 1 else 0] + (y_s * extent / 10))
-
-        c = settings['{0}_label_colour'.format(axis)]
-
-        axes.text(x, y, 0, labels[i], 'x',
-                  horizontalalignment=h_a,
-                  verticalalignment=v_a,
-                  color=c,
-                  size=20,
-                  clip_on=True)
 
     quads = np.vstack((quads_g, quads_gs, quad_x, quad_y))
     RGB_f = np.vstack((RGB_gf, RGB_gsf, RGB_x, RGB_y))
