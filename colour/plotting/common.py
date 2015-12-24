@@ -306,7 +306,7 @@ def decorate(**kwargs):
         **{'title', 'x_label', 'y_label', 'legend', 'legend_columns',
         'legend_location', 'x_ticker', 'y_ticker', 'x_ticker_locator',
         'y_ticker_locator', 'grid', 'grid_which', 'grid_axis', 'x_axis_line',
-        'y_axis_line', 'aspect', 'no_axes3d'}**
+        'y_axis_line', 'aspect', 'no_axes'}**
         Keywords arguments such as ``{'title': unicode (figure title),
         'x_label': unicode (X axis label), 'y_label': unicode (Y axis label),
         'legend': bool, 'legend_columns': int, 'legend_location': unicode
@@ -314,7 +314,7 @@ def decorate(**kwargs):
         'x_ticker_locator': Locator, 'y_ticker_locator': Locator, 'grid': bool,
         'grid_which': unicode, 'grid_axis': unicode, 'x_axis_line': bool,
         'y_axis_line': bool, 'aspect': unicode (Matplotlib axes aspect),
-        'no_axes3d': bool}``
+        'no_axes': bool}``
 
     Returns
     -------
@@ -339,7 +339,7 @@ def decorate(**kwargs):
            'x_axis_line': False,
            'y_axis_line': False,
            'aspect': None,
-           'no_axes3d': False})
+           'no_axes': False})
     settings.update(kwargs)
 
     axes = matplotlib.pyplot.gca()
@@ -370,7 +370,7 @@ def decorate(**kwargs):
         pylab.axhline(color='black', linestyle='--')
     if settings.aspect:
         matplotlib.pyplot.axes().set_aspect(settings.aspect)
-    if settings.no_axes3d:
+    if settings.no_axes:
         axes.set_axis_off()
 
     return axes
@@ -902,6 +902,7 @@ def image_plot(image,
 
     settings = {'x_ticker': False,
                 'y_ticker': False,
+                'no_axes': True,
                 'bounding_box': (0, 1, 0, 1)}
     settings.update(kwargs)
 

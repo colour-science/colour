@@ -653,7 +653,7 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
 
     settings.update({
         'camera_aspect': 'equal',
-        'no_axes3d': True})
+        'no_axes': True})
     settings.update(kwargs)
 
     camera(**settings)
