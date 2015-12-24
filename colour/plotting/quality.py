@@ -72,8 +72,8 @@ def colour_quality_bars_plot(specifications,
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
@@ -85,7 +85,6 @@ def colour_quality_bars_plot(specifications,
     >>> cqs_i = colour_quality_scale(illuminant, additional_data=True)
     >>> cqs_l = colour_quality_scale(light_source, additional_data=True)
     >>> colour_quality_bars_plot([cqs_i, cqs_l])  # doctest: +SKIP
-    True
     """
 
     settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
@@ -179,8 +178,8 @@ def single_spd_colour_rendering_index_bars_plot(spd, **kwargs):
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
@@ -188,7 +187,6 @@ def single_spd_colour_rendering_index_bars_plot(spd, **kwargs):
     >>> illuminant = ILLUMINANTS_RELATIVE_SPDS.get('F2')
     >>> single_spd_colour_rendering_index_bars_plot(  # doctest: +SKIP
     ...     illuminant)
-    True
     """
 
     return multi_spd_colour_rendering_index_bars_plot([spd], **kwargs)
@@ -209,8 +207,8 @@ def multi_spd_colour_rendering_index_bars_plot(spds, **kwargs):
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
@@ -221,7 +219,6 @@ def multi_spd_colour_rendering_index_bars_plot(spds, **kwargs):
     >>> light_source = LIGHT_SOURCES_RELATIVE_SPDS.get('Kinoton 75P')
     >>> multi_spd_colour_rendering_index_bars_plot(  # doctest: +SKIP
     ...     [illuminant, light_source])
-    True
     """
 
     settings = {}
@@ -270,8 +267,8 @@ def single_spd_colour_quality_scale_bars_plot(spd, **kwargs):
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
@@ -279,7 +276,6 @@ def single_spd_colour_quality_scale_bars_plot(spd, **kwargs):
     >>> illuminant = ILLUMINANTS_RELATIVE_SPDS.get('F2')
     >>> single_spd_colour_quality_scale_bars_plot(  # doctest: +SKIP
     ...     illuminant)
-    True
     """
 
     return multi_spd_colour_quality_scale_bars_plot([spd], **kwargs)
@@ -300,8 +296,8 @@ def multi_spd_colour_quality_scale_bars_plot(spds, **kwargs):
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
@@ -312,7 +308,6 @@ def multi_spd_colour_quality_scale_bars_plot(spds, **kwargs):
     >>> light_source = LIGHT_SOURCES_RELATIVE_SPDS.get('Kinoton 75P')
     >>> multi_spd_colour_quality_scale_bars_plot(  # doctest: +SKIP
     ...     [illuminant, light_source])
-    True
     """
 
     settings = {}

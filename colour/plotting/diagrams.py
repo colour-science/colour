@@ -87,13 +87,12 @@ def CIE_1931_chromaticity_diagram_colours_plot(
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> CIE_1931_chromaticity_diagram_colours_plot()  # doctest: +SKIP
-    True
     """
 
     if is_scipy_installed(raise_exception=True):
@@ -126,9 +125,7 @@ def CIE_1931_chromaticity_diagram_colours_plot(
         settings.update({
             'x_ticker': False,
             'y_ticker': False,
-            'bounding_box': (0, 1, 0, 1),
-            'bbox_inches': 'tight',
-            'pad_inches': 0})
+            'bounding_box': (0, 1, 0, 1)})
         settings.update(kwargs)
 
         ax = matplotlib.pyplot.gca()
@@ -154,14 +151,12 @@ def CIE_1931_chromaticity_diagram_plot(
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> CIE_1931_chromaticity_diagram_plot()  # doctest: +SKIP
-    True
-
     """
 
     settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
@@ -244,9 +239,7 @@ def CIE_1931_chromaticity_diagram_plot(
         'x_label': 'CIE x',
         'y_label': 'CIE y',
         'grid': True,
-        'bounding_box': (0, 1, 0, 1),
-        'bbox_inches': 'tight',
-        'pad_inches': 0})
+        'bounding_box': (0, 1, 0, 1)})
     settings.update(kwargs)
 
     boundaries(**settings)
@@ -276,13 +269,12 @@ def CIE_1960_UCS_chromaticity_diagram_colours_plot(
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> CIE_1960_UCS_chromaticity_diagram_colours_plot()  # doctest: +SKIP
-    True
     """
 
     if is_scipy_installed(raise_exception=True):
@@ -315,9 +307,7 @@ def CIE_1960_UCS_chromaticity_diagram_colours_plot(
         settings.update({
             'x_ticker': False,
             'y_ticker': False,
-            'bounding_box': (0, 1, 0, 1),
-            'bbox_inches': 'tight',
-            'pad_inches': 0})
+            'bounding_box': (0, 1, 0, 1)})
         settings.update(kwargs)
 
         ax = matplotlib.pyplot.gca()
@@ -343,13 +333,12 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> CIE_1960_UCS_chromaticity_diagram_plot()  # doctest: +SKIP
-    True
     """
 
     settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
@@ -430,9 +419,7 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
         'x_label': 'CIE u',
         'y_label': 'CIE v',
         'grid': True,
-        'bounding_box': (0, 1, 0, 1),
-        'bbox_inches': 'tight',
-        'pad_inches': 0})
+        'bounding_box': (0, 1, 0, 1)})
     settings.update(kwargs)
 
     boundaries(**settings)
@@ -462,13 +449,12 @@ def CIE_1976_UCS_chromaticity_diagram_colours_plot(
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> CIE_1976_UCS_chromaticity_diagram_colours_plot()  # doctest: +SKIP
-    True
     """
 
     if is_scipy_installed(raise_exception=True):
@@ -502,9 +488,7 @@ def CIE_1976_UCS_chromaticity_diagram_colours_plot(
         settings.update({
             'x_ticker': False,
             'y_ticker': False,
-            'bounding_box': (0, 1, 0, 1),
-            'bbox_inches': 'tight',
-            'pad_inches': 0})
+            'bounding_box': (0, 1, 0, 1)})
         settings.update(kwargs)
 
         ax = matplotlib.pyplot.gca()
@@ -530,13 +514,12 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> CIE_1976_UCS_chromaticity_diagram_plot()  # doctest: +SKIP
-    True
     """
 
     settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
@@ -619,9 +602,7 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
         'x_label': 'CIE u\'',
         'y_label': 'CIE v\'',
         'grid': True,
-        'bounding_box': (0, 1, 0, 1),
-        'bbox_inches': 'tight',
-        'pad_inches': 0})
+        'bounding_box': (0, 1, 0, 1)})
     settings.update(kwargs)
 
     boundaries(**settings)
@@ -653,8 +634,8 @@ def spds_CIE_1931_chromaticity_diagram_plot(
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
@@ -662,7 +643,6 @@ def spds_CIE_1931_chromaticity_diagram_plot(
     >>> A = ILLUMINANTS_RELATIVE_SPDS['A']
     >>> D65 = ILLUMINANTS_RELATIVE_SPDS['D65']
     >>> spds_CIE_1931_chromaticity_diagram_plot([A, D65])  # doctest: +SKIP
-    True
     """
 
     settings = {}
@@ -725,8 +705,8 @@ def spds_CIE_1960_UCS_chromaticity_diagram_plot(
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
@@ -734,7 +714,6 @@ def spds_CIE_1960_UCS_chromaticity_diagram_plot(
     >>> A = ILLUMINANTS_RELATIVE_SPDS['A']
     >>> D65 = ILLUMINANTS_RELATIVE_SPDS['D65']
     >>> spds_CIE_1960_UCS_chromaticity_diagram_plot([A, D65])  # doctest: +SKIP
-    True
     """
 
     settings = {}
@@ -797,8 +776,8 @@ def spds_CIE_1976_UCS_chromaticity_diagram_plot(
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
@@ -806,7 +785,6 @@ def spds_CIE_1976_UCS_chromaticity_diagram_plot(
     >>> A = ILLUMINANTS_RELATIVE_SPDS['A']
     >>> D65 = ILLUMINANTS_RELATIVE_SPDS['D65']
     >>> spds_CIE_1976_UCS_chromaticity_diagram_plot([A, D65])  # doctest: +SKIP
-    True
     """
 
     settings = {}

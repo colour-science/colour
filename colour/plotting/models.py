@@ -86,15 +86,14 @@ def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> c = ['Rec. 709', 'ACEScg', 'S-Gamut']
     >>> RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
     ...     c)  # doctest: +SKIP
-    True
     """
 
     settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
@@ -222,15 +221,14 @@ def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> c = ['Rec. 709', 'ACEScg', 'S-Gamut']
     >>> RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
     ...     c)  # doctest: +SKIP
-    True
     """
 
     settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
@@ -366,15 +364,14 @@ def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> c = ['Rec. 709', 'ACEScg', 'S-Gamut']
     >>> RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
     ...     c)  # doctest: +SKIP
-    True
     """
 
     settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
@@ -514,8 +511,8 @@ def RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot(
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
@@ -523,7 +520,6 @@ def RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot(
     >>> c = 'Rec. 709'
     >>> RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot(
     ...     RGB, c)  # doctest: +SKIP
-    True
     """
 
     settings = {}
@@ -575,8 +571,8 @@ def RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot(
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
@@ -584,7 +580,6 @@ def RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot(
     >>> c = 'Rec. 709'
     >>> RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot(
     ...     RGB, c)  # doctest: +SKIP
-    True
     """
 
     settings = {}
@@ -635,8 +630,8 @@ def RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot(
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
@@ -644,7 +639,6 @@ def RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot(
     >>> c = 'Rec. 709'
     >>> RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot(
     ...     RGB, c)  # doctest: +SKIP
-    True
     """
 
     settings = {}
@@ -696,13 +690,12 @@ def single_conversion_function_plot(colourspace='Rec. 709',
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> single_conversion_function_plot()  # doctest: +SKIP
-    True
     """
 
     settings = {'title': '{0} - {1} Conversion Function'.format(
@@ -729,13 +722,12 @@ def multi_conversion_function_plot(colourspaces=None,
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> multi_conversion_function_plot(['Rec. 709', 'sRGB'])  # doctest: +SKIP
-    True
     """
 
     settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}

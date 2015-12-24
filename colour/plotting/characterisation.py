@@ -51,8 +51,8 @@ def colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Raises
     ------
@@ -63,7 +63,6 @@ def colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
     Examples
     --------
     >>> colour_checker_plot()  # doctest: +SKIP
-    True
     """
 
     canvas(**kwargs)

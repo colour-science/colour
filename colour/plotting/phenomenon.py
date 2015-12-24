@@ -76,13 +76,12 @@ def single_rayleigh_scattering_spd_plot(
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> single_rayleigh_scattering_spd_plot()  # doctest: +SKIP
-    True
     """
 
     title = 'Rayleigh Scattering'
@@ -119,13 +118,12 @@ def the_blue_sky_plot(
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> the_blue_sky_plot()  # doctest: +SKIP
-    True
     """
 
     canvas(**kwargs)

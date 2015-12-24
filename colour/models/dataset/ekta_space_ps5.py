@@ -135,8 +135,7 @@ colourspace.
 EKTA_SPACE_PS_5_OECF : object
 """
 
-EKTA_SPACE_PS_5_EOCF = (
-    _ekta_space_ps_5_EOCF)
+EKTA_SPACE_PS_5_EOCF = _ekta_space_ps_5_EOCF
 """
 Electro-optical conversion function of *Ekta Space PS 5* colourspace to
 linear.

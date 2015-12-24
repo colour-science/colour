@@ -60,8 +60,8 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Raises
     ------
@@ -73,7 +73,6 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(
     >>> ils = ['A', 'B', 'C']
     >>> planckian_locus_CIE_1931_chromaticity_diagram_plot(
     ...     ils)  # doctest: +SKIP
-    True
     """
 
     if illuminants is None:
@@ -156,8 +155,8 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Raises
     ------
@@ -169,7 +168,6 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
     >>> ils = ['A', 'C', 'E']
     >>> planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
     ...     ils)  # doctest: +SKIP
-    True
     """
 
     if illuminants is None:

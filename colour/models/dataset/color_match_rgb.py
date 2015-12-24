@@ -136,8 +136,7 @@ colourspace.
 COLOR_MATCH_RGB_OECF : object
 """
 
-COLOR_MATCH_RGB_EOCF = (
-    _color_match_rgb_EOCF)
+COLOR_MATCH_RGB_EOCF = _color_match_rgb_EOCF
 """
 Electro-optical conversion function of *ColorMatch RGB* colourspace to
 linear.

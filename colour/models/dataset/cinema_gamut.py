@@ -129,8 +129,7 @@ Opto-electronic conversion function of *Cinema Gamut* colourspace.
 CINEMA_GAMUT_OECF : object
 """
 
-CINEMA_GAMUT_EOCF = (
-    _cinema_gamut_EOCF)
+CINEMA_GAMUT_EOCF = _cinema_gamut_EOCF
 """
 Electro-optical conversion function of *Cinema Gamut* colourspace.
 

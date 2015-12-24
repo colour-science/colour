@@ -139,8 +139,7 @@ colourspace.
 ADOBE_WIDE_GAMUT_RGB_OECF : object
 """
 
-ADOBE_WIDE_GAMUT_RGB_EOCF = (
-    _adobe_wide_gamut_rgb_EOCF)
+ADOBE_WIDE_GAMUT_RGB_EOCF = _adobe_wide_gamut_rgb_EOCF
 """
 Electro-optical conversion function of *Adobe Wide Gamut RGB* colourspace to
 linear.
