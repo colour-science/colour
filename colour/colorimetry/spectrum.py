@@ -1873,9 +1873,10 @@ class SpectralPowerDistribution(object):
 
     def align(self,
               shape,
-              method='Constant',
-              left=None,
-              right=None):
+              interpolation_method=None,
+              extrapolation_method='Constant',
+              extrapolation_left=None,
+              extrapolation_right=None):
         """
         Aligns the spectral power distribution to given spectral shape:
         Interpolates first then extrapolates to fit the given range.
@@ -1884,12 +1885,15 @@ class SpectralPowerDistribution(object):
         ----------
         shape : SpectralShape
             Spectral shape used for alignment.
-        method : unicode, optional
+        interpolation_method : unicode, optional
+            **{None, 'Cubic Spline', 'Linear', 'Pchip', 'Sprague'}**,
+            Enforce given interpolation method.
+        extrapolation_method : unicode, optional
             **{'Constant', 'Linear'}**,
             Extrapolation method.
-        left : numeric, optional
+        extrapolation_left : numeric, optional
             Value to return for low extrapolation range.
-        right : numeric, optional
+        extrapolation_right : numeric, optional
             Value to return for high extrapolation range.
 
         Returns
@@ -1939,8 +1943,11 @@ class SpectralPowerDistribution(object):
                 77.18     ...,  77.18     ...,  77.18     ...,  77.18     ...])
         """
 
-        self.interpolate(shape)
-        self.extrapolate(shape, method, left, right)
+        self.interpolate(shape, interpolation_method)
+        self.extrapolate(shape,
+                         extrapolation_method,
+                         extrapolation_left,
+                         extrapolation_right)
 
         return self
 
@@ -3690,9 +3697,10 @@ class TriSpectralPowerDistribution(object):
 
     def align(self,
               shape,
-              method='Constant',
-              left=None,
-              right=None):
+              interpolation_method=None,
+              extrapolation_method='Constant',
+              extrapolation_left=None,
+              extrapolation_right=None):
         """
         Aligns the tri-spectral power distribution to given shape: Interpolates
         first then extrapolates to fit the given range.
@@ -3701,12 +3709,15 @@ class TriSpectralPowerDistribution(object):
         ----------
         shape : SpectralShape
             Spectral shape used for alignment.
-        method : unicode, optional
+        interpolation_method : unicode, optional
+            **{None, 'Cubic Spline', 'Linear', 'Pchip', 'Sprague'}**,
+            Enforce given interpolation method.
+        extrapolation_method : unicode, optional
             **{'Constant', 'Linear'}**,
             Extrapolation method.
-        left : numeric, optional
+        extrapolation_left : numeric, optional
             Value to return for low extrapolation range.
-        right : numeric, optional
+        extrapolation_right : numeric, optional
             Value to return for high extrapolation range.
 
         Returns
@@ -3819,7 +3830,11 @@ class TriSpectralPowerDistribution(object):
         """
 
         for i in self.__mapping.keys():
-            getattr(self, i).align(shape, method, left, right)
+            getattr(self, i).align(shape,
+                                   interpolation_method,
+                                   extrapolation_method,
+                                   extrapolation_left,
+                                   extrapolation_right)
 
         return self
 
