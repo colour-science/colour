@@ -1151,18 +1151,18 @@ class SpectralPowerDistribution(object):
 
         return not (self == spd)
 
-    def __arithmetical_operation(self, x, callable, in_place=False):
+    def __arithmetical_operation(self, x, operation, in_place=False):
         """
-        Performs given operator callable arithmetical operation on :math:`x`
-        variable, the operation can be either performed on a spectral power
-        distribution clone or in-place.
+        Performs given arithmetical operation on :math:`x` variable, the
+        operation can be either performed on a spectral power distribution
+        clone or in-place.
 
         Parameters
         ----------
         x : numeric or ndarray or SpectralPowerDistribution
             Operand.
-        callable : object
-            Operator callable.
+        operation : object
+            Operation to perform.
         in_place : bool, optional
             Operation happens in place.
 
@@ -1177,7 +1177,8 @@ class SpectralPowerDistribution(object):
         elif is_iterable(x):
             x = np.atleast_1d(x)
 
-        data = SpectralMapping(zip(self.wavelengths, callable(self.values, x)))
+        data = SpectralMapping(
+            zip(self.wavelengths, operation(self.values, x)))
 
         if in_place:
             self.__data = data
@@ -2913,18 +2914,18 @@ class TriSpectralPowerDistribution(object):
 
         return not (self == tri_spd)
 
-    def __arithmetical_operation(self, x, callable, in_place=False):
+    def __arithmetical_operation(self, x, operation, in_place=False):
         """
-        Performs given operator callable arithmetical operation on :math:`x`
-        variable, the operation can be either performed on a tri-spectral power
-        distribution clone or in-place.
+        Performs given arithmetical operation on :math:`x` variable, the
+        operation can be either performed on a tri-spectral power distribution
+        clone or in-place.
 
         Parameters
         ----------
         x : numeric or ndarray or TriSpectralPowerDistribution
             Operand.
-        callable : object
-            Operator callable.
+        operation : object
+            Operation to perform.
         in_place : bool, optional
             Operation happens in place.
 
@@ -2940,7 +2941,7 @@ class TriSpectralPowerDistribution(object):
             x = np.atleast_1d(x)
 
         data = {}
-        values = callable(self.values, x)
+        values = operation(self.values, x)
         for i, axis in enumerate(('x', 'y', 'z')):
             data[self.__mapping[axis]] = SpectralMapping(
                 zip(self.wavelengths, values[..., i]))

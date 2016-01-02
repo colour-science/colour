@@ -2225,45 +2225,45 @@ SpectralPowerDistribution.__eq__` method.
 
         self.assertNotEqual(self.__spd, clone_spd)
 
-    def __arithmetical_operation(self, callable):
+    def __arithmetical_operation(self, operation):
         """
         Convenient helper to perform arithmetical operation unit tests.
 
         Parameters
         ----------
-        callable : object
-            Operator callable.
+        operation : object
+            Operation to perform.
 
         Returns
         -------
         None
         """
 
-        self.assertFalse(callable(self.__spd, 1) is self.__spd)
+        self.assertFalse(operation(self.__spd, 1) is self.__spd)
 
         values = self.__spd.values
         np.testing.assert_almost_equal(
-            callable(self.__spd, self.__phi).values,
-            callable(values, self.__phi))
+            operation(self.__spd, self.__phi).values,
+            operation(values, self.__phi))
 
         random = np.random.random(values.shape)
         np.testing.assert_almost_equal(
-            callable(self.__spd, random).values,
-            callable(values, random))
+            operation(self.__spd, random).values,
+            operation(values, random))
 
         np.testing.assert_almost_equal(
-            callable(self.__spd, self.__spd).values,
-            callable(self.__spd.values, self.__spd.values))
+            operation(self.__spd, self.__spd).values,
+            operation(self.__spd.values, self.__spd.values))
 
-    def __arithmetical_ioperation(self, callable):
+    def __arithmetical_ioperation(self, operation):
         """
         Convenient helper to perform in-place arithmetical operation unit
         tests.
 
         Parameters
         ----------
-        callable : object
-            Operator callable.
+        operation : object
+            Operation to perform.
 
         Returns
         -------
@@ -2271,26 +2271,26 @@ SpectralPowerDistribution.__eq__` method.
         """
 
         spd = self.__spd.clone()
-        self.assertTrue(callable(spd, 1) is spd)
+        self.assertTrue(operation(spd, 1) is spd)
 
         spd = self.__spd.clone()
         values = spd.values
         np.testing.assert_almost_equal(
-            callable(spd, 2).values,
-            callable(values, 2))
+            operation(spd, 2).values,
+            operation(values, 2))
 
         spd = self.__spd.clone()
         values = spd.values
         random = np.random.random(len(values))
         np.testing.assert_almost_equal(
-            callable(spd, random).values,
-            callable(values, random))
+            operation(spd, random).values,
+            operation(values, random))
 
         spd1 = self.__spd.clone()
         spd2 = self.__spd.clone()
         np.testing.assert_almost_equal(
-            callable(spd1, spd2).values,
-            callable(self.__spd.values, self.__spd.values))
+            operation(spd1, spd2).values,
+            operation(self.__spd.values, self.__spd.values))
 
     def test__add__(self):
         """
@@ -2742,45 +2742,45 @@ TriSpectralPowerDistribution.__ne__` method.
 
         self.assertNotEqual(self.__tri_spd, clone_tri_spd)
 
-    def __arithmetical_operation(self, callable):
+    def __arithmetical_operation(self, operation):
         """
         Convenient helper to perform arithmetical operation unit tests.
 
         Parameters
         ----------
-        callable : object
-            Operator callable.
+        operation : object
+            Operation to perform.
 
         Returns
         -------
         None
         """
 
-        self.assertFalse(callable(self.__tri_spd, 1) is self.__tri_spd)
+        self.assertFalse(operation(self.__tri_spd, 1) is self.__tri_spd)
 
         values = self.__tri_spd.values
         np.testing.assert_almost_equal(
-            callable(self.__tri_spd, self.__phi).values,
-            callable(values, self.__phi))
+            operation(self.__tri_spd, self.__phi).values,
+            operation(values, self.__phi))
 
         random = np.random.random(values.shape)
         np.testing.assert_almost_equal(
-            callable(self.__tri_spd, random).values,
-            callable(values, random))
+            operation(self.__tri_spd, random).values,
+            operation(values, random))
 
         np.testing.assert_almost_equal(
-            callable(self.__tri_spd, self.__tri_spd).values,
-            callable(self.__tri_spd.values, self.__tri_spd.values))
+            operation(self.__tri_spd, self.__tri_spd).values,
+            operation(self.__tri_spd.values, self.__tri_spd.values))
 
-    def __arithmetical_ioperation(self, callable):
+    def __arithmetical_ioperation(self, operation):
         """
         Convenient helper to perform in-place arithmetical operation unit
         tests.
 
         Parameters
         ----------
-        callable : object
-            Operator callable.
+        operation : object
+            Operation to perform.
 
         Returns
         -------
@@ -2788,26 +2788,26 @@ TriSpectralPowerDistribution.__ne__` method.
         """
 
         tri_spd = self.__tri_spd.clone()
-        self.assertTrue(callable(tri_spd, 1) is tri_spd)
+        self.assertTrue(operation(tri_spd, 1) is tri_spd)
 
         tri_spd = self.__tri_spd.clone()
         values = tri_spd.values
         np.testing.assert_almost_equal(
-            callable(tri_spd, self.__phi).values,
-            callable(values, self.__phi))
+            operation(tri_spd, self.__phi).values,
+            operation(values, self.__phi))
 
         tri_spd = self.__tri_spd.clone()
         values = tri_spd.values
         random = np.random.random(values.shape)
         np.testing.assert_almost_equal(
-            callable(tri_spd, random).values,
-            callable(values, random))
+            operation(tri_spd, random).values,
+            operation(values, random))
 
         tri_spd1 = self.__tri_spd.clone()
         tri_spd2 = self.__tri_spd.clone()
         np.testing.assert_almost_equal(
-            callable(tri_spd1, tri_spd2).values,
-            callable(self.__tri_spd.values, self.__tri_spd.values))
+            operation(tri_spd1, tri_spd2).values,
+            operation(self.__tri_spd.values, self.__tri_spd.values))
 
     def test__add__(self):
         """
