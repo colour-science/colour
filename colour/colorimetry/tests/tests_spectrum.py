@@ -8,6 +8,7 @@ Defines unit tests for :mod:`colour.colorimetry.spectrum` module.
 from __future__ import division, unicode_literals
 
 import numpy as np
+import operator
 import unittest
 
 from colour.colorimetry.spectrum import (
@@ -2045,8 +2046,8 @@ class TestSpectralPowerDistribution(unittest.TestCase):
         self.__spd = SpectralPowerDistribution('Sample', SAMPLE_SPD_DATA)
 
         self.__non_uniform_spd = SpectralPowerDistribution(
-            'Non Uniform Sample',
-            NON_UNIFORM_SAMPLE_SPD_DATA)
+                'Non Uniform Sample',
+                NON_UNIFORM_SAMPLE_SPD_DATA)
 
         self.__phi = (1 + np.sqrt(5)) / 2
 
@@ -2079,10 +2080,15 @@ class TestSpectralPowerDistribution(unittest.TestCase):
                             '__eq__',
                             '__ne__',
                             '__add__',
+                            '__iadd__',
                             '__sub__',
+                            '__isub__',
                             '__mul__',
+                            '__imul__',
                             '__div__',
+                            '__idiv__',
                             '__pow__',
+                            '__ipow__',
                             'get',
                             'is_uniform',
                             'extrapolate',
@@ -2102,15 +2108,15 @@ SpectralPowerDistribution.wavelengths` attribute.
         """
 
         np.testing.assert_almost_equal(
-            self.__spd.wavelengths,
-            sorted(SAMPLE_SPD_DATA))
+                self.__spd.wavelengths,
+                sorted(SAMPLE_SPD_DATA))
 
         spd = self.__spd.clone().interpolate(SpectralShape(steps=0.1))
         non_uniform_spd = self.__non_uniform_spd.clone().interpolate(
-            SpectralShape(steps=0.1))
+                SpectralShape(steps=0.1))
 
         self.assertTrue(
-            np.all(np.in1d(non_uniform_spd.wavelengths, spd.wavelengths)))
+                np.all(np.in1d(non_uniform_spd.wavelengths, spd.wavelengths)))
 
     def test_values(self):
         """
@@ -2119,8 +2125,8 @@ SpectralPowerDistribution.values` attribute.
         """
 
         np.testing.assert_almost_equal(
-            self.__spd.values,
-            [v for k, v in sorted(SAMPLE_SPD_DATA.items())])
+                self.__spd.values,
+                [v for k, v in sorted(SAMPLE_SPD_DATA.items())])
 
     def test_shape(self):
         """
@@ -2139,12 +2145,12 @@ SpectralPowerDistribution.__getitem__` method.
         self.assertEqual(self.__spd[400], 0.0641)
 
         np.testing.assert_almost_equal(
-            self.__spd[np.array([340, 620, 820])],
-            np.array([0, 0.1511, 0]))
+                self.__spd[np.array([340, 620, 820])],
+                np.array([0, 0.1511, 0]))
 
         np.testing.assert_almost_equal(
-            self.__spd[3:6],
-            np.array([0.0641, 0.0645, 0.0562]))
+                self.__spd[3:6],
+                np.array([0.0641, 0.0645, 0.0562]))
 
     def test__setitem__(self):
         """
@@ -2158,18 +2164,18 @@ SpectralPowerDistribution.__setitem__` method.
 
         spd[np.array([520, 530])] = np.array([69.59, 81.73])
         np.testing.assert_almost_equal(
-            spd.values,
-            np.array([49.67, 69.59, 81.73]))
+                spd.values,
+                np.array([49.67, 69.59, 81.73]))
 
         spd[np.array([540, 550])] = 88.19
         np.testing.assert_almost_equal(
-            spd.values,
-            np.array([49.67, 69.59, 81.73, 88.19, 88.19]))
+                spd.values,
+                np.array([49.67, 69.59, 81.73, 88.19, 88.19]))
 
         spd[:] = 49.67
         np.testing.assert_almost_equal(
-            spd.values,
-            np.array([49.67, 49.67, 49.67, 49.67, 49.67]))
+                spd.values,
+                np.array([49.67, 49.67, 49.67, 49.67, 49.67]))
 
     def test__iter__(self):
         """
@@ -2178,8 +2184,8 @@ SpectralPowerDistribution.__iter__` method.
         """
 
         self.assertEqual(
-            {key: value for key, value in self.__spd},
-            SAMPLE_SPD_DATA)
+                {key: value for key, value in self.__spd},
+                SAMPLE_SPD_DATA)
 
     def test__contains__(self):
         """
@@ -2220,28 +2226,85 @@ SpectralPowerDistribution.__eq__` method.
 
         self.assertNotEqual(self.__spd, clone_spd)
 
+    def __arithmetical_operation(self, callable):
+        """
+        Convenient helper to perform arithmetical operation unit tests.
+
+        Parameters
+        ----------
+        callable : object
+            Operator callable.
+
+        Returns
+        -------
+        None
+        """
+
+        self.assertFalse(callable(self.__spd, 1) is self.__spd)
+
+        values = self.__spd.values
+        np.testing.assert_almost_equal(
+                callable(self.__spd, self.__phi).values,
+                callable(values, self.__phi))
+
+        random = np.random.random(values.shape)
+        np.testing.assert_almost_equal(callable(self.__spd, random).values,
+                                       callable(values, random))
+
+        np.testing.assert_almost_equal(
+                callable(self.__spd, self.__spd).values,
+                callable(self.__spd.values, self.__spd.values))
+
+    def __arithmetical_ioperation(self, callable):
+        """
+        Convenient helper to perform in-place arithmetical operation unit
+        tests.
+
+        Parameters
+        ----------
+        callable : object
+            Operator callable.
+
+        Returns
+        -------
+        None
+        """
+
+        spd = self.__spd.clone()
+        self.assertTrue(callable(spd, 1) is spd)
+
+        spd = self.__spd.clone()
+        values = spd.values
+        np.testing.assert_almost_equal(callable(spd, 2).values,
+                                       callable(values, 2))
+
+        spd = self.__spd.clone()
+        values = spd.values
+        random = np.random.random(len(values))
+        np.testing.assert_almost_equal(callable(spd, random).values,
+                                       callable(values, random))
+
+        spd1 = self.__spd.clone()
+        spd2 = self.__spd.clone()
+        np.testing.assert_almost_equal(
+                callable(spd1, spd2).values,
+                callable(self.__spd.values, self.__spd.values))
+
     def test__add__(self):
         """
         Tests :func:`colour.colorimetry.spectrum.\
 SpectralPowerDistribution.__add__` method.
         """
 
-        spd = self.__spd.clone()
-        values = spd.values
-        np.testing.assert_almost_equal(
-            (spd + self.__phi).values,
-            values + self.__phi)
+        self.__arithmetical_operation(operator.add)
 
-        spd = self.__spd.clone()
-        values = spd.values
-        random = np.random.random(len(values))
-        np.testing.assert_almost_equal((spd + random).values, values + random)
+    def test__iadd__(self):
+        """
+        Tests :func:`colour.colorimetry.spectrum.\
+SpectralPowerDistribution.__iadd__` method.
+        """
 
-        spd1 = self.__spd.clone()
-        spd2 = self.__spd.clone()
-        np.testing.assert_almost_equal(
-            (spd1 + spd2).values,
-            self.__spd.values + self.__spd.values)
+        self.__arithmetical_ioperation(operator.iadd)
 
     def test__sub__(self):
         """
@@ -2249,22 +2312,15 @@ SpectralPowerDistribution.__add__` method.
 SpectralPowerDistribution.__sub__` method.
         """
 
-        spd = self.__spd.clone()
-        values = spd.values
-        np.testing.assert_almost_equal(
-            (spd - self.__phi).values,
-            values - self.__phi)
+        self.__arithmetical_operation(operator.sub)
 
-        spd = self.__spd.clone()
-        values = spd.values
-        random = np.random.random(len(values))
-        np.testing.assert_almost_equal((spd - random).values, values - random)
+    def test__isub__(self):
+        """
+        Tests :func:`colour.colorimetry.spectrum.\
+SpectralPowerDistribution.__isub__` method.
+        """
 
-        spd1 = self.__spd.clone()
-        spd2 = self.__spd.clone()
-        np.testing.assert_almost_equal(
-            (spd1 - spd2).values,
-            self.__spd.values - self.__spd.values)
+        self.__arithmetical_ioperation(operator.isub)
 
     def test__mul__(self):
         """
@@ -2272,20 +2328,15 @@ SpectralPowerDistribution.__sub__` method.
 SpectralPowerDistribution.__mul__` method.
         """
 
-        spd = self.__spd.clone()
-        values = spd.values
-        np.testing.assert_almost_equal((spd * 2).values, values * 2)
+        self.__arithmetical_operation(operator.mul)
 
-        spd = self.__spd.clone()
-        values = spd.values
-        random = np.random.random(len(values))
-        np.testing.assert_almost_equal((spd * random).values, values * random)
+    def test__imul__(self):
+        """
+        Tests :func:`colour.colorimetry.spectrum.\
+SpectralPowerDistribution.__imul__` method.
+        """
 
-        spd1 = self.__spd.clone()
-        spd2 = self.__spd.clone()
-        np.testing.assert_almost_equal(
-            (spd1 * spd2).values,
-            self.__spd.values * self.__spd.values)
+        self.__arithmetical_ioperation(operator.imul)
 
     def test__div__(self):
         """
@@ -2293,23 +2344,15 @@ SpectralPowerDistribution.__mul__` method.
 SpectralPowerDistribution.__div__` method.
         """
 
-        spd = self.__spd.clone()
-        values = spd.values
-        np.testing.assert_almost_equal((spd / 2).values, values / 2)
+        self.__arithmetical_operation(operator.truediv)
 
-        spd = self.__spd.clone()
-        values = spd.values
-        random = np.random.random(len(values))
-        np.testing.assert_almost_equal((spd / random).values, values / random)
+    def test__idiv__(self):
+        """
+        Tests :func:`colour.colorimetry.spectrum.\
+SpectralPowerDistribution.__idiv__` method.
+        """
 
-        # Avoiding zero division for testing purpose.
-        spd = self.__spd.clone() + 0.001
-
-        spd1 = spd.clone()
-        spd2 = spd.clone()
-        np.testing.assert_almost_equal(
-            (spd1 / spd2).values,
-            spd.values / spd.values)
+        self.__arithmetical_ioperation(operator.itruediv)
 
     def test__pow__(self):
         """
@@ -2317,34 +2360,15 @@ SpectralPowerDistribution.__div__` method.
 SpectralPowerDistribution.__pow__` method.
         """
 
-        spd = self.__spd.clone()
-        values = spd.values
-        np.testing.assert_almost_equal((spd ** 2).values, values ** 2)
+        self.__arithmetical_operation(operator.pow)
 
-        # Avoiding zero division for testing purpose.
-        spd = self.__spd.clone() + 0.001
-        values = spd.values
-        np.testing.assert_almost_equal((spd ** -2).values, values ** -2)
+    def test__ipow__(self):
+        """
+        Tests :func:`colour.colorimetry.spectrum.\
+SpectralPowerDistribution.__ipow__` method.
+        """
 
-        spd = self.__spd.clone()
-        values = spd.values
-        np.testing.assert_almost_equal((spd ** 0).values, values ** 0)
-
-        spd = self.__spd.clone()
-        values = spd.values
-        random = np.random.random(len(values))
-        np.testing.assert_almost_equal(
-            (spd ** random).values,
-            values ** random)
-
-        # Avoiding zero division for testing purpose.
-        spd = self.__spd.clone() + 0.001
-
-        spd1 = spd.clone()
-        spd2 = spd.clone()
-        np.testing.assert_almost_equal(
-            (spd1 ** spd2).values,
-            spd.values ** spd.values)
+        self.__arithmetical_ioperation(operator.ipow)
 
     def test_get(self):
         """
@@ -2361,8 +2385,8 @@ SpectralPowerDistribution.get` method.
         self.assertEqual(self.__spd.get(900, 0), 0)
 
         np.testing.assert_almost_equal(
-            self.__spd.get(np.array([340, 620, 820])),
-            np.array([0., 0.1511, 0.]))
+                self.__spd.get(np.array([340, 620, 820])),
+                np.array([0., 0.1511, 0.]))
 
         np.testing.assert_array_equal(self.__spd.get(400.1), np.nan)
 
@@ -2383,8 +2407,8 @@ SpectralPowerDistribution.extrapolate` method.
         """
 
         spd = SpectralPowerDistribution(
-            '',
-            dict(zip(range(25, 35), [0] * 5 + [1] * 5)))
+                '',
+                dict(zip(range(25, 35), [0] * 5 + [1] * 5)))
         spd.extrapolate(SpectralShape(10, 50))
 
         self.assertEqual(spd[10], 0)
@@ -2397,31 +2421,31 @@ SpectralPowerDistribution.interpolate` method.
         """
 
         np.testing.assert_almost_equal(
-            self.__spd.clone().interpolate(
-                SpectralShape(steps=1)).values,
-            INTERPOLATED_SAMPLE_SPD_DATA,
-            decimal=7)
+                self.__spd.clone().interpolate(
+                        SpectralShape(steps=1)).values,
+                INTERPOLATED_SAMPLE_SPD_DATA,
+                decimal=7)
 
         np.testing.assert_allclose(
-            self.__non_uniform_spd.clone().interpolate(
-                SpectralShape(steps=1)).values,
-            INTERPOLATED_NON_UNIFORM_SAMPLE_SPD_DATA,
-            rtol=0.0000001,
-            atol=0.0000001)
+                self.__non_uniform_spd.clone().interpolate(
+                        SpectralShape(steps=1)).values,
+                INTERPOLATED_NON_UNIFORM_SAMPLE_SPD_DATA,
+                rtol=0.0000001,
+                atol=0.0000001)
 
         np.testing.assert_almost_equal(
-            self.__spd.clone().interpolate(
-                SpectralShape(steps=1),
-                method='Linear')[410],
-            np.array(0.0643),
-            decimal=7)
+                self.__spd.clone().interpolate(
+                        SpectralShape(steps=1),
+                        method='Linear')[410],
+                np.array(0.0643),
+                decimal=7)
 
         np.testing.assert_almost_equal(
-            self.__spd.clone().interpolate(
-                SpectralShape(steps=1),
-                method='Pchip')[410],
-            np.array(0.06439937984496125),
-            decimal=7)
+                self.__spd.clone().interpolate(
+                        SpectralShape(steps=1),
+                        method='Pchip')[410],
+                np.array(0.06439937984496125),
+                decimal=7)
 
     def test_align(self):
         """
@@ -2442,12 +2466,12 @@ SpectralPowerDistribution.zeros` method.
         """
 
         np.testing.assert_almost_equal(
-            self.__spd.clone().zeros(SpectralShape(steps=1)).values,
-            ZEROS_SAMPLE_SPD_DATA)
+                self.__spd.clone().zeros(SpectralShape(steps=1)).values,
+                ZEROS_SAMPLE_SPD_DATA)
 
         self.assertRaises(RuntimeError,
                           lambda: self.__non_uniform_spd.clone().zeros(
-                              SpectralShape(360, 830, 1)))
+                                  SpectralShape(360, 830, 1)))
 
     def test_normalise(self):
         """
@@ -2456,8 +2480,8 @@ SpectralPowerDistribution.normalise` method.
         """
 
         np.testing.assert_almost_equal(
-            self.__spd.clone().normalise(100).values,
-            NORMALISED_SAMPLE_SPD_DATA)
+                self.__spd.clone().normalise(100).values,
+                NORMALISED_SAMPLE_SPD_DATA)
 
     def test_clone(self):
         """
@@ -2545,10 +2569,15 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
                             '__eq__',
                             '__ne__',
                             '__add__',
+                            '__iadd__',
                             '__sub__',
+                            '__isub__',
                             '__mul__',
+                            '__imul__',
                             '__div__',
+                            '__idiv__',
                             '__pow__',
+                            '__ipow__',
                             'get',
                             'is_uniform',
                             'extrapolate',
@@ -2711,143 +2740,151 @@ TriSpectralPowerDistribution.__ne__` method.
 
         self.assertNotEqual(self.__tri_spd, clone_tri_spd)
 
-    def test__add__(self):
+    def __arithmetical_operation(self, callable):
         """
-        Tests :func:`colour.colorimetry.spectrum.\
-SpectralPowerDistribution.__add__` method.
+        Convenient helper to perform arithmetical operation unit tests.
+
+        Parameters
+        ----------
+        callable : object
+            Operator callable.
+
+        Returns
+        -------
+        None
         """
+
+        self.assertFalse(callable(self.__tri_spd, 1) is self.__tri_spd)
+
+        values = self.__tri_spd.values
+        np.testing.assert_almost_equal(
+                callable(self.__tri_spd, self.__phi).values,
+                callable(values, self.__phi))
+
+        random = np.random.random(values.shape)
+        np.testing.assert_almost_equal(callable(self.__tri_spd, random).values,
+                                       callable(values, random))
+
+        np.testing.assert_almost_equal(
+                callable(self.__tri_spd, self.__tri_spd).values,
+                callable(self.__tri_spd.values, self.__tri_spd.values))
+
+    def __arithmetical_ioperation(self, callable):
+        """
+        Convenient helper to perform in-place arithmetical operation unit
+        tests.
+
+        Parameters
+        ----------
+        callable : object
+            Operator callable.
+
+        Returns
+        -------
+        None
+        """
+
+        tri_spd = self.__tri_spd.clone()
+        self.assertTrue(callable(tri_spd, 1) is tri_spd)
 
         tri_spd = self.__tri_spd.clone()
         values = tri_spd.values
         np.testing.assert_almost_equal(
-            (tri_spd + self.__phi).values,
-            values + self.__phi)
+                callable(tri_spd, self.__phi).values,
+                callable(values, self.__phi))
 
         tri_spd = self.__tri_spd.clone()
         values = tri_spd.values
         random = np.random.random(values.shape)
         np.testing.assert_almost_equal(
-            (tri_spd + random).values,
-            values + random)
+                callable(tri_spd, random).values,
+                callable(values, random))
 
         tri_spd1 = self.__tri_spd.clone()
         tri_spd2 = self.__tri_spd.clone()
         np.testing.assert_almost_equal(
-            (tri_spd1 + tri_spd2).values,
-            self.__tri_spd.values + self.__tri_spd.values)
+                callable(tri_spd1, tri_spd2).values,
+                callable(self.__tri_spd.values, self.__tri_spd.values))
+
+    def test__add__(self):
+        """
+        Tests :func:`colour.colorimetry.spectrum.\
+TriSpectralPowerDistribution.__add__` method.
+        """
+
+        self.__arithmetical_operation(operator.add)
+
+    def test__iadd__(self):
+        """
+        Tests :func:`colour.colorimetry.spectrum.\
+TriSpectralPowerDistribution.__iadd__` method.
+        """
+
+        self.__arithmetical_ioperation(operator.iadd)
 
     def test__sub__(self):
         """
         Tests :func:`colour.colorimetry.spectrum.\
-SpectralPowerDistribution.__sub__` method.
+TriSpectralPowerDistribution.__sub__` method.
         """
 
-        tri_spd = self.__tri_spd.clone()
-        values = tri_spd.values
-        np.testing.assert_almost_equal(
-            (tri_spd - self.__phi).values,
-            values - self.__phi)
+        self.__arithmetical_operation(operator.sub)
 
-        tri_spd = self.__tri_spd.clone()
-        values = tri_spd.values
-        random = np.random.random(values.shape)
-        np.testing.assert_almost_equal(
-            (tri_spd - random).values,
-            values - random)
+    def test__isub__(self):
+        """
+        Tests :func:`colour.colorimetry.spectrum.\
+TriSpectralPowerDistribution.__isub__` method.
+        """
 
-        tri_spd1 = self.__tri_spd.clone()
-        tri_spd2 = self.__tri_spd.clone()
-        np.testing.assert_almost_equal(
-            (tri_spd1 - tri_spd2).values,
-            self.__tri_spd.values - self.__tri_spd.values)
+        self.__arithmetical_ioperation(operator.isub)
 
     def test__mul__(self):
         """
         Tests :func:`colour.colorimetry.spectrum.\
-SpectralPowerDistribution.__mul__` method.
+TriSpectralPowerDistribution.__mul__` method.
         """
 
-        tri_spd = self.__tri_spd.clone()
-        values = tri_spd.values
-        np.testing.assert_almost_equal(
-            (tri_spd * self.__phi).values,
-            values * self.__phi)
+        self.__arithmetical_operation(operator.mul)
 
-        tri_spd = self.__tri_spd.clone()
-        values = tri_spd.values
-        random = np.random.random(values.shape)
-        np.testing.assert_almost_equal(
-            (tri_spd * random).values,
-            values * random)
+    def test__imul__(self):
+        """
+        Tests :func:`colour.colorimetry.spectrum.\
+TriSpectralPowerDistribution.__imul__` method.
+        """
 
-        tri_spd1 = self.__tri_spd.clone()
-        tri_spd2 = self.__tri_spd.clone()
-        np.testing.assert_almost_equal(
-            (tri_spd1 * tri_spd2).values,
-            self.__tri_spd.values * self.__tri_spd.values)
+        self.__arithmetical_ioperation(operator.imul)
 
     def test__div__(self):
         """
         Tests :func:`colour.colorimetry.spectrum.\
-SpectralPowerDistribution.__div__` method.
+TriSpectralPowerDistribution.__div__` method.
         """
 
-        tri_spd = self.__tri_spd.clone()
-        values = tri_spd.values
-        np.testing.assert_almost_equal(
-            (tri_spd / self.__phi).values,
-            values / self.__phi)
+        self.__arithmetical_operation(operator.truediv)
 
-        tri_spd = self.__tri_spd.clone()
-        values = tri_spd.values
-        random = np.random.random(values.shape)
-        np.testing.assert_almost_equal(
-            (tri_spd / random).values,
-            values / random)
+    def test__idiv__(self):
+        """
+        Tests :func:`colour.colorimetry.spectrum.\
+TriSpectralPowerDistribution.__idiv__` method.
+        """
 
-        # Avoiding zero division for testing purpose.
-        tri_spd = self.__tri_spd.clone() + 0.001
-
-        tri_spd1 = tri_spd.clone()
-        tri_spd2 = tri_spd.clone()
-        np.testing.assert_almost_equal(
-            (tri_spd1 / tri_spd2).values,
-            tri_spd.values / tri_spd.values)
+        self.__arithmetical_ioperation(operator.itruediv)
 
     def test__pow__(self):
         """
         Tests :func:`colour.colorimetry.spectrum.\
-SpectralPowerDistribution.__div__` method.
+TriSpectralPowerDistribution.__pow__` method.
         """
 
-        tri_spd = self.__tri_spd.clone()
-        values = tri_spd.values
-        np.testing.assert_almost_equal((tri_spd ** 2).values, values ** 2)
+        self.__arithmetical_operation(operator.pow)
 
-        # Avoiding zero division for testing purpose.
-        tri_spd = self.__tri_spd.clone() + 0.001
-        values = tri_spd.values
-        np.testing.assert_almost_equal((tri_spd ** -2).values, values ** -2)
+    def test__ipow__(self):
+        """
+        Tests :func:`colour.colorimetry.spectrum.\
+TriSpectralPowerDistribution.__ipow__` method.
+        """
 
-        tri_spd = self.__tri_spd.clone()
-        values = tri_spd.values
-        np.testing.assert_almost_equal((tri_spd ** 0).values, values ** 0)
-
-        tri_spd = self.__tri_spd.clone()
-        values = tri_spd.values
-        random = np.random.random(values.shape)
-        np.testing.assert_almost_equal(
-            (tri_spd ** random).values,
-            values ** random)
-
-        # Avoiding zero division for testing purpose.
-        tri_spd = self.__tri_spd.clone() + 0.001
-
-        tri_spd1 = tri_spd.clone()
-        tri_spd2 = tri_spd.clone()
-        np.testing.assert_almost_equal(
-            (tri_spd1 ** tri_spd2).values,
-            tri_spd.values ** tri_spd.values)
+        self.__arithmetical_ioperation(operator.ipow)
 
     def test_get(self):
         """
