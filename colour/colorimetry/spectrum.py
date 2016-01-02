@@ -1242,7 +1242,7 @@ class SpectralPowerDistribution(object):
 
         Usage is similar to the regular *addition* operation but make use of
         the *augmented assignement* operator such as: `spd += 10` instead of
-        `spd = spd + 10`.
+        `spd + 10`.
 
         Parameters
         ----------
@@ -1320,7 +1320,7 @@ class SpectralPowerDistribution(object):
 
         Usage is similar to the regular *subtraction* operation but make use of
         the *augmented assignement* operator such as: `spd -= 10` instead of
-        `spd = spd - 10`.
+        `spd - 10`.
 
         Parameters
         ----------
@@ -1398,7 +1398,7 @@ class SpectralPowerDistribution(object):
 
         Usage is similar to the regular *multiplication* operation but make use
         of the *augmented assignement* operator such as: `spd *= 10` instead of
-        `spd = spd * 10`.
+        `spd * 10`.
 
         Parameters
         ----------
@@ -1475,7 +1475,7 @@ class SpectralPowerDistribution(object):
 
         Usage is similar to the regular *division* operation but make use of
         the *augmented assignement*  operator such as: `spd /= 10` instead of
-        `spd = spd / 10`.
+        `spd / 10`.
 
         Parameters
         ----------
@@ -1559,7 +1559,7 @@ class SpectralPowerDistribution(object):
 
         Usage is similar to the regular *exponentiation* operation but make use
         of the *augmented assignement* operator such as: `spd **= 10` instead
-        of `spd = spd ** 10`.
+        of `spd ** 10`.
 
         Parameters
         ----------
@@ -3027,7 +3027,7 @@ class TriSpectralPowerDistribution(object):
 
         Usage is similar to the regular *addition* operation but make use of
         the *augmented assignement* operator such as: `tri_spd += 10` instead
-        of `tri_spd = tri_spd + 10`.
+        of `tri_spd + 10`.
 
         Parameters
         ----------
@@ -3123,7 +3123,7 @@ class TriSpectralPowerDistribution(object):
 
         Usage is similar to the regular *subtraction* operation but make use of
         the *augmented assignement* operator such as: `tri_spd -= 10` instead
-        of `tri_spd = tri_spd - 10`.
+        of `tri_spd - 10`.
 
         Parameters
         ----------
@@ -3219,7 +3219,7 @@ class TriSpectralPowerDistribution(object):
 
         Usage is similar to the regular *multiplication* operation but make use
         of the *augmented assignement* operator such as: `tri_spd *= 10`
-        instead of `tri_spd = tri_spd * 10`.
+        instead of `tri_spd * 10`.
 
         Parameters
         ----------
@@ -3315,7 +3315,7 @@ class TriSpectralPowerDistribution(object):
 
         Usage is similar to the regular *division* operation but make use of
         the *augmented assignement*  operator such as: `tri_spd /= 10` instead
-        of `tri_spd = tri_spd / 10`.
+        of `tri_spd / 10`.
 
         Parameters
         ----------
@@ -3416,7 +3416,7 @@ class TriSpectralPowerDistribution(object):
 
         Usage is similar to the regular *exponentiation* operation but make use
         of the *augmented assignement* operator such as: `tri_spd **= 10`
-        instead of `tri_spd = tri_spd ** 10`.
+        instead of `tri_spd ** 10`.
 
         Parameters
         ----------
