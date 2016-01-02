@@ -2943,7 +2943,7 @@ class TriSpectralPowerDistribution(object):
         values = callable(self.values, x)
         for i, axis in enumerate(('x', 'y', 'z')):
             data[self.__mapping[axis]] = SpectralMapping(
-                    zip(self.wavelengths, values[..., i]))
+                zip(self.wavelengths, values[..., i]))
 
         if in_place:
             self.data = data
