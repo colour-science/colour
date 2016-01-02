@@ -2225,152 +2225,83 @@ SpectralPowerDistribution.__eq__` method.
 
         self.assertNotEqual(self.__spd, clone_spd)
 
-    def __arithmetical_operation(self, operation):
-        """
-        Convenient helper to perform arithmetical operation unit tests.
-
-        Parameters
-        ----------
-        operation : object
-            Operation to perform.
-
-        Returns
-        -------
-        None
-        """
-
-        self.assertFalse(operation(self.__spd, 1) is self.__spd)
-
-        values = self.__spd.values
-        np.testing.assert_almost_equal(
-            operation(self.__spd, self.__phi).values,
-            operation(values, self.__phi))
-
-        random = np.random.random(values.shape)
-        np.testing.assert_almost_equal(
-            operation(self.__spd, random).values,
-            operation(values, random))
-
-        np.testing.assert_almost_equal(
-            operation(self.__spd, self.__spd).values,
-            operation(self.__spd.values, self.__spd.values))
-
-    def __arithmetical_ioperation(self, operation):
-        """
-        Convenient helper to perform in-place arithmetical operation unit
-        tests.
-
-        Parameters
-        ----------
-        operation : object
-            Operation to perform.
-
-        Returns
-        -------
-        None
-        """
-
-        spd = self.__spd.clone()
-        self.assertTrue(operation(spd, 1) is spd)
-
-        spd = self.__spd.clone()
-        values = spd.values
-        np.testing.assert_almost_equal(
-            operation(spd, 2).values,
-            operation(values, 2))
-
-        spd = self.__spd.clone()
-        values = spd.values
-        random = np.random.random(len(values))
-        np.testing.assert_almost_equal(
-            operation(spd, random).values,
-            operation(values, random))
-
-        spd1 = self.__spd.clone()
-        spd2 = self.__spd.clone()
-        np.testing.assert_almost_equal(
-            operation(spd1, spd2).values,
-            operation(self.__spd.values, self.__spd.values))
-
-    def test__add__(self):
+    def test_arithmetical_operations(self):
         """
         Tests :func:`colour.colorimetry.spectrum.\
-SpectralPowerDistribution.__add__` method.
+SpectralPowerDistribution.__add__`,
+:func:`colour.colorimetry.spectrum.SpectralPowerDistribution.__sub__`
+:func:`colour.colorimetry.spectrum.SpectralPowerDistribution.__mult__`
+:func:`colour.colorimetry.spectrum.SpectralPowerDistribution.__div__`
+:func:`colour.colorimetry.spectrum.SpectralPowerDistribution.__truediv__` and
+:func:`colour.colorimetry.spectrum.SpectralPowerDistribution.__pow__`
+        methods.
         """
 
-        self.__arithmetical_operation(operator.add)
+        operations = (
+            operator.add,
+            operator.sub,
+            operator.mul,
+            operator.truediv,
+            operator.pow)
 
-    def test__iadd__(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-SpectralPowerDistribution.__iadd__` method.
-        """
+        for operation in operations:
+            self.assertFalse(operation(self.__spd, 1) is self.__spd)
 
-        self.__arithmetical_ioperation(operator.iadd)
+            values = self.__spd.values
+            np.testing.assert_almost_equal(
+                operation(self.__spd, self.__phi).values,
+                operation(values, self.__phi))
 
-    def test__sub__(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-SpectralPowerDistribution.__sub__` method.
-        """
+            random = np.random.random(values.shape)
+            np.testing.assert_almost_equal(
+                operation(self.__spd, random).values,
+                operation(values, random))
 
-        self.__arithmetical_operation(operator.sub)
+            np.testing.assert_almost_equal(
+                operation(self.__spd, self.__spd).values,
+                operation(self.__spd.values, self.__spd.values))
 
-    def test__isub__(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-SpectralPowerDistribution.__isub__` method.
-        """
-
-        self.__arithmetical_ioperation(operator.isub)
-
-    def test__mul__(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-SpectralPowerDistribution.__mul__` method.
-        """
-
-        self.__arithmetical_operation(operator.mul)
-
-    def test__imul__(self):
+    def test_arithmetical_ioperation(self):
         """
         Tests :func:`colour.colorimetry.spectrum.\
-SpectralPowerDistribution.__imul__` method.
+SpectralPowerDistribution.__iadd__`,
+:func:`colour.colorimetry.spectrum.SpectralPowerDistribution.__isub__`
+:func:`colour.colorimetry.spectrum.SpectralPowerDistribution.__imult__`
+:func:`colour.colorimetry.spectrum.SpectralPowerDistribution.__idiv__`
+:func:`colour.colorimetry.spectrum.SpectralPowerDistribution.__itruediv__` and
+:func:`colour.colorimetry.spectrum.SpectralPowerDistribution.__ipow__`
+        methods.
         """
 
-        self.__arithmetical_ioperation(operator.imul)
+        operations = (
+            operator.iadd,
+            operator.isub,
+            operator.imul,
+            operator.itruediv,
+            operator.ipow)
 
-    def test__div__(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-SpectralPowerDistribution.__div__` method.
-        """
+        for operation in operations:
+            spd = self.__spd.clone()
+            self.assertTrue(operation(spd, 1) is spd)
 
-        self.__arithmetical_operation(operator.truediv)
+            spd = self.__spd.clone()
+            values = spd.values
+            np.testing.assert_almost_equal(
+                operation(spd, 2).values,
+                operation(values, 2))
 
-    def test__idiv__(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-SpectralPowerDistribution.__idiv__` method.
-        """
+            spd = self.__spd.clone()
+            values = spd.values
+            random = np.random.random(len(values))
+            np.testing.assert_almost_equal(
+                operation(spd, random).values,
+                operation(values, random))
 
-        self.__arithmetical_ioperation(operator.itruediv)
-
-    def test__pow__(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-SpectralPowerDistribution.__pow__` method.
-        """
-
-        self.__arithmetical_operation(operator.pow)
-
-    def test__ipow__(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-SpectralPowerDistribution.__ipow__` method.
-        """
-
-        self.__arithmetical_ioperation(operator.ipow)
+            spd1 = self.__spd.clone()
+            spd2 = self.__spd.clone()
+            np.testing.assert_almost_equal(
+                operation(spd1, spd2).values,
+                operation(self.__spd.values, self.__spd.values))
 
     def test_get(self):
         """
@@ -2742,152 +2673,83 @@ TriSpectralPowerDistribution.__ne__` method.
 
         self.assertNotEqual(self.__tri_spd, clone_tri_spd)
 
-    def __arithmetical_operation(self, operation):
-        """
-        Convenient helper to perform arithmetical operation unit tests.
-
-        Parameters
-        ----------
-        operation : object
-            Operation to perform.
-
-        Returns
-        -------
-        None
-        """
-
-        self.assertFalse(operation(self.__tri_spd, 1) is self.__tri_spd)
-
-        values = self.__tri_spd.values
-        np.testing.assert_almost_equal(
-            operation(self.__tri_spd, self.__phi).values,
-            operation(values, self.__phi))
-
-        random = np.random.random(values.shape)
-        np.testing.assert_almost_equal(
-            operation(self.__tri_spd, random).values,
-            operation(values, random))
-
-        np.testing.assert_almost_equal(
-            operation(self.__tri_spd, self.__tri_spd).values,
-            operation(self.__tri_spd.values, self.__tri_spd.values))
-
-    def __arithmetical_ioperation(self, operation):
-        """
-        Convenient helper to perform in-place arithmetical operation unit
-        tests.
-
-        Parameters
-        ----------
-        operation : object
-            Operation to perform.
-
-        Returns
-        -------
-        None
-        """
-
-        tri_spd = self.__tri_spd.clone()
-        self.assertTrue(operation(tri_spd, 1) is tri_spd)
-
-        tri_spd = self.__tri_spd.clone()
-        values = tri_spd.values
-        np.testing.assert_almost_equal(
-            operation(tri_spd, self.__phi).values,
-            operation(values, self.__phi))
-
-        tri_spd = self.__tri_spd.clone()
-        values = tri_spd.values
-        random = np.random.random(values.shape)
-        np.testing.assert_almost_equal(
-            operation(tri_spd, random).values,
-            operation(values, random))
-
-        tri_spd1 = self.__tri_spd.clone()
-        tri_spd2 = self.__tri_spd.clone()
-        np.testing.assert_almost_equal(
-            operation(tri_spd1, tri_spd2).values,
-            operation(self.__tri_spd.values, self.__tri_spd.values))
-
-    def test__add__(self):
+    def test_arithmetical_operation(self):
         """
         Tests :func:`colour.colorimetry.spectrum.\
-TriSpectralPowerDistribution.__add__` method.
+TriSpectralPowerDistribution.__add__`,
+:func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.__sub__`
+:func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.__mult__`
+:func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.__div__`
+:func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.__truediv__`
+and :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.__pow__`
+        methods.
         """
 
-        self.__arithmetical_operation(operator.add)
+        operations = (
+            operator.add,
+            operator.sub,
+            operator.mul,
+            operator.truediv,
+            operator.pow)
 
-    def test__iadd__(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-TriSpectralPowerDistribution.__iadd__` method.
-        """
+        for operation in operations:
+            self.assertFalse(operation(self.__tri_spd, 1) is self.__tri_spd)
 
-        self.__arithmetical_ioperation(operator.iadd)
+            values = self.__tri_spd.values
+            np.testing.assert_almost_equal(
+                operation(self.__tri_spd, self.__phi).values,
+                operation(values, self.__phi))
 
-    def test__sub__(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-TriSpectralPowerDistribution.__sub__` method.
-        """
+            random = np.random.random(values.shape)
+            np.testing.assert_almost_equal(
+                operation(self.__tri_spd, random).values,
+                operation(values, random))
 
-        self.__arithmetical_operation(operator.sub)
+            np.testing.assert_almost_equal(
+                operation(self.__tri_spd, self.__tri_spd).values,
+                operation(self.__tri_spd.values, self.__tri_spd.values))
 
-    def test__isub__(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-TriSpectralPowerDistribution.__isub__` method.
-        """
-
-        self.__arithmetical_ioperation(operator.isub)
-
-    def test__mul__(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-TriSpectralPowerDistribution.__mul__` method.
-        """
-
-        self.__arithmetical_operation(operator.mul)
-
-    def test__imul__(self):
+    def test_arithmetical_ioperation(self):
         """
         Tests :func:`colour.colorimetry.spectrum.\
-TriSpectralPowerDistribution.__imul__` method.
+SpectralPowerDistribution.__iadd__`,
+:func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.__isub__`
+:func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.__imult__`
+:func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.__idiv__`
+:func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.__itruediv__`
+and :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.__ipow__`
+        methods.
         """
 
-        self.__arithmetical_ioperation(operator.imul)
+        operations = (
+            operator.iadd,
+            operator.isub,
+            operator.imul,
+            operator.itruediv,
+            operator.ipow)
 
-    def test__div__(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-TriSpectralPowerDistribution.__div__` method.
-        """
+        for operation in operations:
+            tri_spd = self.__tri_spd.clone()
+            self.assertTrue(operation(tri_spd, 1) is tri_spd)
 
-        self.__arithmetical_operation(operator.truediv)
+            tri_spd = self.__tri_spd.clone()
+            values = tri_spd.values
+            np.testing.assert_almost_equal(
+                operation(tri_spd, self.__phi).values,
+                operation(values, self.__phi))
 
-    def test__idiv__(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-TriSpectralPowerDistribution.__idiv__` method.
-        """
+            tri_spd = self.__tri_spd.clone()
+            values = tri_spd.values
+            random = np.random.random(values.shape)
+            np.testing.assert_almost_equal(
+                operation(tri_spd, random).values,
+                operation(values, random))
 
-        self.__arithmetical_ioperation(operator.itruediv)
-
-    def test__pow__(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-TriSpectralPowerDistribution.__pow__` method.
-        """
-
-        self.__arithmetical_operation(operator.pow)
-
-    def test__ipow__(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-TriSpectralPowerDistribution.__ipow__` method.
-        """
-
-        self.__arithmetical_ioperation(operator.ipow)
+            tri_spd1 = self.__tri_spd.clone()
+            tri_spd2 = self.__tri_spd.clone()
+            np.testing.assert_almost_equal(
+                operation(tri_spd1, tri_spd2).values,
+                operation(self.__tri_spd.values, self.__tri_spd.values))
 
     def test_get(self):
         """
