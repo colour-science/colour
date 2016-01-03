@@ -29,6 +29,10 @@ from .cie_luv import (
     LCHuv_to_Luv)
 from .cie_ucs import XYZ_to_UCS, UCS_to_XYZ, UCS_to_uv, UCS_uv_to_xy
 from .cie_uvw import XYZ_to_UVW
+from .hunterlab1966 import (
+    XYZ_to_K_ab_HunterLab1966,
+    XYZ_to_HunterLab1966,
+    HunterLab1966_to_XYZ)
 from .ipt import XYZ_to_IPT, IPT_to_XYZ, IPT_hue_angle
 from .log import LINEAR_TO_LOG_METHODS, LOG_TO_LINEAR_METHODS
 from .log import linear_to_log, log_to_linear
@@ -86,6 +90,9 @@ __all__ += ['XYZ_to_Luv',
             'LCHuv_to_Luv']
 __all__ += ['XYZ_to_UCS', 'UCS_to_XYZ', 'UCS_to_uv', 'UCS_uv_to_xy']
 __all__ += ['XYZ_to_UVW']
+__all__ += ['XYZ_to_K_ab_HunterLab1966',
+            'XYZ_to_HunterLab1966',
+            'HunterLab1966_to_XYZ']
 __all__ += ['XYZ_to_IPT', 'IPT_to_XYZ', 'IPT_hue_angle']
 __all__ += ['LINEAR_TO_LOG_METHODS', 'LOG_TO_LINEAR_METHODS']
 __all__ += ['linear_to_log', 'log_to_linear']

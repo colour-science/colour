@@ -44,6 +44,8 @@ from .smptec_rgb import SMPTE_C_RGB_COLOURSPACE
 from .v_gamut import V_GAMUT_COLOURSPACE
 from .xtreme_rgb import XTREME_RGB_COLOURSPACE
 
+from .hunterlab1966 import HUNTERLAB1966_ILLUMINANTS
+
 from .pointer_gamut import (
     POINTER_GAMUT_ILLUMINANT,
     POINTER_GAMUT_DATA,
@@ -148,6 +150,7 @@ __all__ += ['ACES_2065_1_COLOURSPACE',
             'sRGB_COLOURSPACE',
             'V_GAMUT_COLOURSPACE',
             'XTREME_RGB_COLOURSPACE']
+__all__ += ['HUNTERLAB1966_ILLUMINANTS']
 __all__ += ['POINTER_GAMUT_ILLUMINANT',
             'POINTER_GAMUT_DATA',
             'POINTER_GAMUT_BOUNDARIES']
