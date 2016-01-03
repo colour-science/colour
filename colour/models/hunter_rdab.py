@@ -17,9 +17,8 @@ blob/master/notebooks/models/hunter_rdab.ipynb>`_
 
 References
 ----------
-.. [1]  HunterLab. (2012). Hunter Rd , a , b Color Scale –
-        History and Application. Retrieved from
-        https://hunterlabdotcom.files.wordpress.com/2012/07/\
+.. [1]  HunterLab. (2012). Hunter Rd,a,b Color Scale – History and Application.
+        Retrieved from https://hunterlabdotcom.files.wordpress.com/2012/07/\
 an-1016-hunter-rd-a-b-color-scale-update-12-07-03.pdf
 """
 
@@ -46,8 +45,7 @@ def XYZ_to_Hunter_Rdab(
         K_ab=HUNTERLAB_ILLUMINANTS.get(
             'CIE 1931 2 Degree Standard Observer').get('D50').K_ab):
     """
-    Computes the *Hunter L,a,b* :math:`R_{d} ab` colour scale from given
-    *CIE XYZ* and reference *illuminant* tristimulus values.
+    Converts from *CIE XYZ* tristimulus values to *Hunter Rd,a,b* colour scale.
 
     Parameters
     ----------
@@ -62,7 +60,7 @@ def XYZ_to_Hunter_Rdab(
     Returns
     -------
     ndarray
-        *Hunter L,a,b* :math:`R_{d} ab` colour scale array.
+        *Hunter Rd,a,b* colour scale array.
 
     Notes
     -----
