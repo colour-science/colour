@@ -25,8 +25,6 @@ an-1016-hunter-rd-a-b-color-scale-update-12-07-03.pdf
 
 from __future__ import division, unicode_literals
 
-import numpy as np
-
 from colour.colorimetry import HUNTERLAB_ILLUMINANTS
 from colour.models import XYZ_to_K_ab_HunterLab1966
 from colour.utilities import tsplit, tstack
@@ -73,6 +71,7 @@ def XYZ_to_Hunter_Rdab(
 
     Examples
     --------
+    >>> import numpy as np
     >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313]) * 100
     >>> D50 = HUNTERLAB_ILLUMINANTS.get(
     ...     'CIE 1931 2 Degree Standard Observer').get('D50')
