@@ -2,20 +2,20 @@
 # -*- coding: utf-8 -*-
 
 """
-HunterLab (1966) Colourspace
-============================
+Hunter L,a,b Colour Scale
+=========================
 
-Defines the *HunterLab (1966)* colourspace transformations:
+Defines the *Hunter L,a,b* colour scale transformations:
 
 -   :func:`XYZ_to_K_ab_HunterLab1966`
--   :func:`XYZ_to_HunterLab1966`
--   :func:`HunterLab1966_to_XYZ`
+-   :func:`XYZ_to_Hunter_Lab`
+-   :func:`Hunter_Lab_to_XYZ`
 
 See Also
 --------
-`HunterLab (1966) Colourspace IPython Notebook
+`Hunter L,a,b Colour Scale IPython Notebook
 <http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
-blob/master/notebooks/models/hunterlab1966.ipynb>`_
+blob/master/notebooks/models/hunter_lab.ipynb>`_
 
 References
 ----------
@@ -27,7 +27,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.models import HUNTERLAB1966_ILLUMINANTS
+from colour.colorimetry import HUNTERLAB_ILLUMINANTS
 from colour.utilities import tsplit, tstack
 
 __author__ = 'Colour Developers'
@@ -38,14 +38,14 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['XYZ_to_K_ab_HunterLab1966',
-           'XYZ_to_HunterLab1966',
-           'HunterLab1966_to_XYZ']
+           'XYZ_to_Hunter_Lab',
+           'Hunter_Lab_to_XYZ']
 
 
 def XYZ_to_K_ab_HunterLab1966(XYZ):
     """
     Converts from *whitepoint* *CIE XYZ* tristimulus values to
-    *HunterLab (1966)* :math:`K_{a}` and :math:`K_{b}` chromaticity
+    *Hunter L,a,b* :math:`K_{a}` and :math:`K_{b}` chromaticity
     coefficients.
 
     Parameters
@@ -56,7 +56,7 @@ def XYZ_to_K_ab_HunterLab1966(XYZ):
     Returns
     -------
     ndarray
-        *HunterLab (1966)* :math:`K_{a}` and :math:`K_{b}` chromaticity
+        *Hunter L,a,b* :math:`K_{a}` and :math:`K_{b}` chromaticity
         coefficients.
 
     Notes
@@ -87,15 +87,14 @@ def XYZ_to_K_ab_HunterLab1966(XYZ):
     return K_ab
 
 
-def XYZ_to_HunterLab1966(
+def XYZ_to_Hunter_Lab(
         XYZ,
-        XYZ_n=HUNTERLAB1966_ILLUMINANTS.get(
+        XYZ_n=HUNTERLAB_ILLUMINANTS.get(
             'CIE 1931 2 Degree Standard Observer').get('D50').XYZ_n,
-        K_ab=HUNTERLAB1966_ILLUMINANTS.get(
+        K_ab=HUNTERLAB_ILLUMINANTS.get(
             'CIE 1931 2 Degree Standard Observer').get('D50').K_ab):
     """
-    Converts from *CIE XYZ* tristimulus values to *HunterLab (1966)*
-    colourspace.
+    Converts from *CIE XYZ* tristimulus values to *Hunter L,a,b* colour scale.
 
     Parameters
     ----------
@@ -110,7 +109,7 @@ def XYZ_to_HunterLab1966(
     Returns
     -------
     ndarray
-        *HunterLab (1966)* colourspace array.
+        *Hunter L,a,b* colour scale array.
 
     Notes
     -----
@@ -121,9 +120,9 @@ def XYZ_to_HunterLab1966(
     Examples
     --------
     >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313]) * 100
-    >>> D50 = HUNTERLAB1966_ILLUMINANTS.get(
+    >>> D50 = HUNTERLAB_ILLUMINANTS.get(
     ...     'CIE 1931 2 Degree Standard Observer').get('D50')
-    >>> XYZ_to_HunterLab1966(XYZ, D50.XYZ_n, D50.K_ab)   # doctest: +ELLIPSIS
+    >>> XYZ_to_Hunter_Lab(XYZ, D50.XYZ_n, D50.K_ab)   # doctest: +ELLIPSIS
     array([ 31.7490157..., -15.1146262...,  -2.7866075...])
     """
 
@@ -145,20 +144,19 @@ def XYZ_to_HunterLab1966(
     return Lab
 
 
-def HunterLab1966_to_XYZ(
+def Hunter_Lab_to_XYZ(
         Lab,
-        XYZ_n=HUNTERLAB1966_ILLUMINANTS.get(
+        XYZ_n=HUNTERLAB_ILLUMINANTS.get(
             'CIE 1931 2 Degree Standard Observer').get('D50').XYZ_n,
-        K_ab=HUNTERLAB1966_ILLUMINANTS.get(
+        K_ab=HUNTERLAB_ILLUMINANTS.get(
             'CIE 1931 2 Degree Standard Observer').get('D50').K_ab):
     """
-    Converts from *HunterLab (1966)* colourspace to *CIE XYZ* tristimulus
-    values.
+    Converts from *Hunter L,a,b* colour scale to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
     Lab : array_like
-        *HunterLab (1966)* colourspace array.
+        *Hunter L,a,b* colour scale array.
     XYZ_n : array_like, optional
         Reference *illuminant* tristimulus values.
     K_ab : array_like, optional
@@ -180,9 +178,9 @@ def HunterLab1966_to_XYZ(
     Examples
     --------
     >>> Lab = np.array([31.74901573, -15.11462629, -2.78660758])
-    >>> D50 = HUNTERLAB1966_ILLUMINANTS.get(
+    >>> D50 = HUNTERLAB_ILLUMINANTS.get(
     ...     'CIE 1931 2 Degree Standard Observer').get('D50')
-    >>> HunterLab1966_to_XYZ(Lab, D50.XYZ_n, D50.K_ab)   # doctest: +ELLIPSIS
+    >>> Hunter_Lab_to_XYZ(Lab, D50.XYZ_n, D50.K_ab)   # doctest: +ELLIPSIS
     array([  7.049534,  10.08    ,   9.558313])
     """
 

@@ -2,21 +2,21 @@
 # -*- coding: utf-8 -*-
 
 """
-HunterLab (1966) Colourspace Dataset
-====================================
+HunterLab Dataset
+=================
 
-Defines the *HunterLab (1966)* colourspace illuminants dataset for the
+Defines the *HunterLab* illuminants dataset for the
 *CIE 1931 2 Degree Standard Observer* and
 *CIE 1964 10 Degree Standard Observer*.
 
 The currently implemented data has been extracted from [1]_, however you may
-want to use different data accordingly to the tables provided in [2]_.
+want to use different data accordingly to the tables given in [2]_.
 
 See Also
 --------
-`HunterLab (1966) Colourspace IPython Notebook
+`Illuminants IPython Notebook
 <http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
-blob/master/notebooks/models/hunterlab1966.ipynb>`_
+blob/master/notebooks/colorimetry/illuminants.ipynb>`_
 
 References
 ----------
@@ -42,18 +42,18 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'HunterLab1966_Illuminant_Specification',
-    'HUNTERLAB1966_ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER_DATA',
-    'HUNTERLAB1966_ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER',
-    'HUNTERLAB1966_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER_DATA',
-    'HUNTERLAB1966_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER',
-    'HUNTERLAB1966_ILLUMINANTS']
+    'HunterLab_Illuminant_Specification',
+    'HUNTERLAB_ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER_DATA',
+    'HUNTERLAB_ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER',
+    'HUNTERLAB_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER_DATA',
+    'HUNTERLAB_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER',
+    'HUNTERLAB_ILLUMINANTS']
 
-HunterLab1966_Illuminant_Specification = namedtuple(
-    'HunterLab1966_Illuminant_Specification',
+HunterLab_Illuminant_Specification = namedtuple(
+    'HunterLab_Illuminant_Specification',
     ('name', 'XYZ_n', 'K_ab'))
 
-HUNTERLAB1966_ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER_DATA = (
+HUNTERLAB_ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER_DATA = (
     ('A', (109.83, 100.00, 35.55), (185.20, 38.40)),
     ('C', (98.04, 100.00, 118.11), (175.00, 70.00)),
     ('D65', (95.02, 100.00, 108.82), (172.30, 67.20)),
@@ -64,19 +64,18 @@ HUNTERLAB1966_ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER_DATA = (
     ('TL 4', (101.40, 100.00, 65.90), (178.00, 52.30)),
     ('UL 3000', (107.99, 100.00, 33.91), (183.70, 37.50)))
 
-HUNTERLAB1966_ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER = (
+HUNTERLAB_ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER = (
     CaseInsensitiveMapping(dict(
-        [(x[0], HunterLab1966_Illuminant_Specification(*x)) for x in
-         HUNTERLAB1966_ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER_DATA])))  # noqa
+        [(x[0], HunterLab_Illuminant_Specification(*x)) for x in
+         HUNTERLAB_ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER_DATA])))
 """
-*HunterLab (1966) Colourspace* illuminant dataset for
-*CIE 1931 2 Degree Standard Observer*.
+*Hunter L,a,b* illuminant dataset for *CIE 1931 2 Degree Standard Observer*.
 
-HUNTERLAB1966_ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER :
+HUNTERLAB_ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER :
     CaseInsensitiveMapping
 """
 
-HUNTERLAB1966_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER_DATA = (
+HUNTERLAB_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER_DATA = (
     ('A', (111.16, 100.00, 35.19), (186.30, 38.20)),
     ('C', (97.30, 100.00, 116.14), (174.30, 69.40)),
     ('D50', (96.72, 100.00, 81.45), (173.82, 58.13)),
@@ -87,27 +86,26 @@ HUNTERLAB1966_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER_DATA = (
     ('TL 4', (103.82, 100.00, 66.90), (180.10, 52.70)),
     ('UL 3000', (111.12, 100.00, 35.21), (186.30, 38.20)))
 
-HUNTERLAB1966_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER = (
+HUNTERLAB_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER = (
     CaseInsensitiveMapping(dict(
-        [(x[0], HunterLab1966_Illuminant_Specification(*x)) for x in
-         HUNTERLAB1966_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER_DATA])))  # noqa
+        [(x[0], HunterLab_Illuminant_Specification(*x)) for x in
+         HUNTERLAB_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER_DATA])))
 """
-*HunterLab (1966) Colourspace* illuminant dataset for
-*CIE 1964 10 Degree Standard Observer*.
+*Hunter L,a,b* illuminant dataset for *CIE 1964 10 Degree Standard Observer*.
 
-HUNTERLAB1966_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER :
+HUNTERLAB_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER :
     CaseInsensitiveMapping
 """
 
-HUNTERLAB1966_ILLUMINANTS = CaseInsensitiveMapping(
+HUNTERLAB_ILLUMINANTS = CaseInsensitiveMapping(
     {'CIE 1931 2 Degree Standard Observer':
-         HUNTERLAB1966_ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER,
+        HUNTERLAB_ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER,
      'CIE 1964 10 Degree Standard Observer':
-         HUNTERLAB1966_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER})
+        HUNTERLAB_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER})
 """
-Aggregated *HunterLab (1966) Colourspace* illuminant dataset.
+Aggregated *Hunter L,a,b* illuminant dataset.
 
-HUNTERLAB1966_ILLUMINANTS : CaseInsensitiveMapping
+HUNTERLAB_ILLUMINANTS : CaseInsensitiveMapping
     **{'CIE 1931 2 Degree Standard Observer',
     'CIE 1964 10 Degree Standard Observer'}**
 
@@ -116,7 +114,7 @@ Aliases:
 -   'cie_2_1931': 'CIE 1931 2 Degree Standard Observer'
 -   'cie_10_1964': 'CIE 1964 10 Degree Standard Observer'
 """
-HUNTERLAB1966_ILLUMINANTS['cie_2_1931'] = (
-    HUNTERLAB1966_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'])
-HUNTERLAB1966_ILLUMINANTS['cie_10_1964'] = (
-    HUNTERLAB1966_ILLUMINANTS['CIE 1964 10 Degree Standard Observer'])
+HUNTERLAB_ILLUMINANTS['cie_2_1931'] = (
+    HUNTERLAB_ILLUMINANTS['CIE 1931 2 Degree Standard Observer'])
+HUNTERLAB_ILLUMINANTS['cie_10_1964'] = (
+    HUNTERLAB_ILLUMINANTS['CIE 1964 10 Degree Standard Observer'])
