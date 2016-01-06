@@ -3,12 +3,13 @@
 
 from __future__ import absolute_import
 
-from .aces_it import ACES_RICD
+from colour.utilities import CaseInsensitiveMapping
 from .aces import (
     ACES_2065_1_COLOURSPACE,
     ACES_CC_COLOURSPACE,
     ACES_CG_COLOURSPACE,
     ACES_PROXY_COLOURSPACE)
+from .aces_it import ACES_RICD
 from .adobe_rgb_1998 import ADOBE_RGB_1998_COLOURSPACE
 from .adobe_wide_gamut_rgb import ADOBE_WIDE_GAMUT_RGB_COLOURSPACE
 from .alexa_wide_gamut_rgb import ALEXA_WIDE_GAMUT_RGB_COLOURSPACE
@@ -25,9 +26,13 @@ from .ekta_space_ps5 import EKTA_SPACE_PS_5_COLOURSPACE
 from .max_rgb import MAX_RGB_COLOURSPACE
 from .ntsc_rgb import NTSC_RGB_COLOURSPACE
 from .pal_secam_rgb import PAL_SECAM_RGB_COLOURSPACE
+from .pointer_gamut import (
+    POINTER_GAMUT_ILLUMINANT,
+    POINTER_GAMUT_DATA,
+    POINTER_GAMUT_BOUNDARIES)
 from .prophoto_rgb import PROPHOTO_RGB_COLOURSPACE
-from .rec_709 import REC_709_COLOURSPACE
 from .rec_2020 import REC_2020_COLOURSPACE
+from .rec_709 import REC_709_COLOURSPACE
 from .red import (
     RED_COLOR_COLOURSPACE,
     RED_COLOR_2_COLOURSPACE,
@@ -36,20 +41,13 @@ from .red import (
     DRAGON_COLOR_COLOURSPACE,
     DRAGON_COLOR_2_COLOURSPACE)
 from .russell_rgb import RUSSELL_RGB_COLOURSPACE
-from .srgb import sRGB_COLOURSPACE
+from .smptec_rgb import SMPTE_C_RGB_COLOURSPACE
 from .sony import (S_GAMUT_COLOURSPACE,
                    S_GAMUT3_COLOURSPACE,
                    S_GAMUT3_CINE_COLOURSPACE)
-from .smptec_rgb import SMPTE_C_RGB_COLOURSPACE
+from .srgb import sRGB_COLOURSPACE
 from .v_gamut import V_GAMUT_COLOURSPACE
 from .xtreme_rgb import XTREME_RGB_COLOURSPACE
-
-from .pointer_gamut import (
-    POINTER_GAMUT_ILLUMINANT,
-    POINTER_GAMUT_DATA,
-    POINTER_GAMUT_BOUNDARIES)
-
-from colour.utilities import CaseInsensitiveMapping
 
 RGB_COLOURSPACES = CaseInsensitiveMapping(
     {ACES_2065_1_COLOURSPACE.name: ACES_2065_1_COLOURSPACE,
