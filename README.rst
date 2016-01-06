@@ -1,3 +1,5 @@
+.. image:: https://img.shields.io/gitter/room/colour-science/colour.svg
+    :target: https://gitter.im/colour-science/colour/
 .. image:: https://badge.waffle.io/colour-science/colour.svg?label=ready&title=Ready
     :target: https://github.com/colour-science/colour/issues
 .. image:: https://img.shields.io/travis/colour-science/colour/develop.svg
