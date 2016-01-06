@@ -80,3 +80,8 @@ About
 | Copyright © 2013 - 2015 – Colour Developers – `colour-science@googlegroups.com <colour-science@googlegroups.com>`_
 | This software is released under terms of New BSD License: http://opensource.org/licenses/BSD-3-Clause
 | `http://github.com/colour-science/colour <http://github.com/colour-science/colour>`_
+
+
+.. image:: https://badges.gitter.im/colour-science/colour.svg
+   :alt: Join the chat at https://gitter.im/colour-science/colour
+   :target: https://gitter.im/colour-science/colour?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
