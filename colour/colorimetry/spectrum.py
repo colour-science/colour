@@ -24,6 +24,7 @@ from __future__ import division, unicode_literals
 import copy
 import itertools
 import numpy as np
+import operator
 
 from colour.algebra import (
     Extrapolator,
@@ -586,11 +587,15 @@ class SpectralPowerDistribution(object):
     __eq__
     __ne__
     __add__
+    __iadd__
     __sub__
+    __isub__
     __mul__
+    __imul__
     __div__
-    __truediv__
+    __idiv__
     __pow__
+    __ipow__
     get
     is_uniform
     extrapolate
@@ -1146,22 +1151,25 @@ class SpectralPowerDistribution(object):
 
         return not (self == spd)
 
-    def __format_operand(self, x):
+    def __arithmetical_operation(self, x, operation, in_place=False):
         """
-        Formats given :math:`x` variable operand to *numeric* or *ndarray*.
-
-        This method is a convenient method to prepare given :math:`x` variable
-        for the arithmetic operations below.
+        Performs given arithmetical operation on :math:`x` variable, the
+        operation can be either performed on a spectral power distribution
+        clone or in-place.
 
         Parameters
         ----------
         x : numeric or ndarray or SpectralPowerDistribution
-            Variable to format.
+            Operand.
+        operation : object
+            Operation to perform.
+        in_place : bool, optional
+            Operation happens in place.
 
         Returns
         -------
-        numeric or ndarray
-            Formatted operand.
+        SpectralPowerDistribution
+            Spectral power distribution.
         """
 
         if issubclass(type(x), SpectralPowerDistribution):
@@ -1169,7 +1177,16 @@ class SpectralPowerDistribution(object):
         elif is_iterable(x):
             x = np.atleast_1d(x)
 
-        return x
+        data = SpectralMapping(
+            zip(self.wavelengths, operation(self.values, x)))
+
+        if in_place:
+            self.__data = data
+            return self
+        else:
+            clone = self.clone()
+            clone.data = data
+            return clone
 
     def __add__(self, x):
         """
@@ -1187,16 +1204,11 @@ class SpectralPowerDistribution(object):
 
         See Also
         --------
-        SpectralPowerDistribution.__sub__, SpectralPowerDistribution.__mul__,
-        SpectralPowerDistribution.__div__
+        SpectralPowerDistribution.__iadd__
 
         Notes
         -----
         -   Reimplements the :meth:`object.__add__` method.
-
-        Warning
-        -------
-        The addition operation happens in place.
 
         Examples
         --------
@@ -1204,31 +1216,54 @@ class SpectralPowerDistribution(object):
 
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
         >>> spd = SpectralPowerDistribution('Spd', data)
-        >>> spd + 10  # doctest: +ELLIPSIS
-        <...SpectralPowerDistribution object at 0x...>
+        >>> spd = spd + 10
         >>> spd.values
         array([ 59.67,  79.59,  91.73,  98.19])
 
         Adding an *array_like* variable:
 
-        >>> spd + [1, 2, 3, 4]  # doctest: +ELLIPSIS
-        <...SpectralPowerDistribution object at 0x...>
+        >>> spd = spd + [1, 2, 3, 4]
         >>> spd.values
         array([  60.67,   81.59,   94.73,  102.19])
 
         Adding a :class:`SpectralPowerDistribution` class variable:
 
         >>> spd_alternate = SpectralPowerDistribution('Spd', data)
-        >>> spd + spd_alternate  # doctest: +ELLIPSIS
-        <...SpectralPowerDistribution object at 0x...>
+        >>> spd = spd + spd_alternate
         >>> spd.values
         array([ 110.34,  151.18,  176.46,  190.38])
         """
 
-        self.__data = SpectralMapping(
-            zip(self.wavelengths, self.values + self.__format_operand(x)))
+        return self.__arithmetical_operation(x, operator.add)
 
-        return self
+    def __iadd__(self, x):
+        """
+        Implements support for in-place spectral power distribution addition.
+
+        Usage is similar to the regular *addition* operation but make use of
+        the *augmented assignement* operator such as: `spd += 10` instead of
+        `spd + 10`.
+
+        Parameters
+        ----------
+        x : numeric or array_like or SpectralPowerDistribution
+            Variable to in-place add.
+
+        Returns
+        -------
+        SpectralPowerDistribution
+            Variable in-place added spectral power distribution.
+
+        See Also
+        --------
+        SpectralPowerDistribution.__add__
+
+        Notes
+        -----
+        -   Reimplements the :meth:`object.__iadd__` method.
+        """
+
+        return self.__arithmetical_operation(x, operator.add, True)
 
     def __sub__(self, x):
         """
@@ -1246,16 +1281,11 @@ class SpectralPowerDistribution(object):
 
         See Also
         --------
-        SpectralPowerDistribution.__add__, SpectralPowerDistribution.__mul__,
-        SpectralPowerDistribution.__div__
+        SpectralPowerDistribution.__isub__
 
         Notes
         -----
         -   Reimplements the :meth:`object.__sub__` method.
-
-        Warning
-        -------
-        The subtraction operation happens in place.
 
         Examples
         --------
@@ -1263,28 +1293,55 @@ class SpectralPowerDistribution(object):
 
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
         >>> spd = SpectralPowerDistribution('Spd', data)
-        >>> spd - 10  # doctest: +ELLIPSIS
-        <...SpectralPowerDistribution object at 0x...>
+        >>> spd = spd - 10
         >>> spd.values
         array([ 39.67,  59.59,  71.73,  78.19])
 
         Subtracting an *array_like* variable:
 
-        >>> spd - [1, 2, 3, 4]  # doctest: +ELLIPSIS
-        <...SpectralPowerDistribution object at 0x...>
+        >>> spd = spd - [1, 2, 3, 4]
         >>> spd.values
         array([ 38.67,  57.59,  68.73,  74.19])
 
         Subtracting a :class:`SpectralPowerDistribution` class variable:
 
         >>> spd_alternate = SpectralPowerDistribution('Spd', data)
-        >>> spd - spd_alternate  # doctest: +ELLIPSIS
-        <...SpectralPowerDistribution object at 0x...>
+        >>> spd = spd - spd_alternate
         >>> spd.values
         array([-11., -12., -13., -14.])
         """
 
-        return self + (-self.__format_operand(x))
+        return self.__arithmetical_operation(x, operator.sub)
+
+    def __isub__(self, x):
+        """
+        Implements support for in-place spectral power distribution
+        subtraction.
+
+        Usage is similar to the regular *subtraction* operation but make use of
+        the *augmented assignement* operator such as: `spd -= 10` instead of
+        `spd - 10`.
+
+        Parameters
+        ----------
+        x : numeric or array_like or SpectralPowerDistribution
+            Variable to in-place subtract.
+
+        Returns
+        -------
+        SpectralPowerDistribution
+            Variable in-place subtracted spectral power distribution.
+
+        See Also
+        --------
+        SpectralPowerDistribution.__sub__
+
+        Notes
+        -----
+        -   Reimplements the :meth:`object.__isub__` method.
+        """
+
+        return self.__arithmetical_operation(x, operator.sub, True)
 
     def __mul__(self, x):
         """
@@ -1293,7 +1350,7 @@ class SpectralPowerDistribution(object):
         Parameters
         ----------
         x : numeric or array_like or SpectralPowerDistribution
-            Variable to multiply.
+            Variable to multiply by.
 
         Returns
         -------
@@ -1302,16 +1359,11 @@ class SpectralPowerDistribution(object):
 
         See Also
         --------
-        SpectralPowerDistribution.__add__, SpectralPowerDistribution.__sub__,
-        SpectralPowerDistribution.__div__
+        SpectralPowerDistribution.__imul__
 
         Notes
         -----
         -   Reimplements the :meth:`object.__mul__` method.
-
-        Warning
-        -------
-        The multiplication operation happens in place.
 
         Examples
         --------
@@ -1319,31 +1371,55 @@ class SpectralPowerDistribution(object):
 
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
         >>> spd = SpectralPowerDistribution('Spd', data)
-        >>> spd * 10  # doctest: +ELLIPSIS
-        <...SpectralPowerDistribution object at 0x...>
+        >>> spd = spd * 10
         >>> spd.values
         array([ 496.7,  695.9,  817.3,  881.9])
 
         Multiplying an *array_like* variable:
 
-        >>> spd * [1, 2, 3, 4]  # doctest: +ELLIPSIS
-        <...SpectralPowerDistribution object at 0x...>
+        >>> spd = spd * [1, 2, 3, 4]
         >>> spd.values
         array([  496.7,  1391.8,  2451.9,  3527.6])
 
         Multiplying a :class:`SpectralPowerDistribution` class variable:
 
         >>> spd_alternate = SpectralPowerDistribution('Spd', data)
-        >>> spd * spd_alternate  # doctest: +ELLIPSIS
-        <...SpectralPowerDistribution object at 0x...>
+        >>> spd = spd * spd_alternate
         >>> spd.values
         array([  24671.089,   96855.362,  200393.787,  311099.044])
         """
 
-        self.__data = SpectralMapping(
-            zip(self.wavelengths, self.values * self.__format_operand(x)))
+        return self.__arithmetical_operation(x, operator.mul)
 
-        return self
+    def __imul__(self, x):
+        """
+        Implements support for in-place spectral power distribution
+        multiplication.
+
+        Usage is similar to the regular *multiplication* operation but make use
+        of the *augmented assignement* operator such as: `spd *= 10` instead of
+        `spd * 10`.
+
+        Parameters
+        ----------
+        x : numeric or array_like or SpectralPowerDistribution
+            Variable to in-place multiply by.
+
+        Returns
+        -------
+        SpectralPowerDistribution
+            Variable in-place multiplied spectral power distribution.
+
+        See Also
+        --------
+        SpectralPowerDistribution.__mul__
+
+        Notes
+        -----
+        -   Reimplements the :meth:`object.__imul__` method.
+        """
+
+        return self.__arithmetical_operation(x, operator.mul, True)
 
     def __div__(self, x):
         """
@@ -1352,7 +1428,7 @@ class SpectralPowerDistribution(object):
         Parameters
         ----------
         x : numeric or array_like or SpectralPowerDistribution
-            Variable to divide.
+            Variable to divide by.
 
         Returns
         -------
@@ -1361,16 +1437,11 @@ class SpectralPowerDistribution(object):
 
         See Also
         --------
-        SpectralPowerDistribution.__add__, SpectralPowerDistribution.__sub__,
-        SpectralPowerDistribution.__mul__
+        SpectralPowerDistribution.__idiv__
 
         Notes
         -----
         -   Reimplements the :meth:`object.__div__` method.
-
-        Warning
-        -------
-        The division operation happens in place.
 
         Examples
         --------
@@ -1378,34 +1449,57 @@ class SpectralPowerDistribution(object):
 
         >>> data = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
         >>> spd = SpectralPowerDistribution('Spd', data)
-        >>> spd / 10  # doctest: +ELLIPSIS
-        <...SpectralPowerDistribution object at 0x...>
+        >>> spd = spd / 10
         >>> spd.values
         array([ 4.967,  6.959,  8.173,  8.819])
 
         Dividing an *array_like* variable:
 
-        >>> spd / [1, 2, 3, 4]  # doctest: +ELLIPSIS
-        <...SpectralPowerDistribution object at 0x...>
+        >>> spd = spd / [1, 2, 3, 4]
         >>> spd.values
         array([ 4.967     ,  3.4795    ,  2.72433333,  2.20475   ])
 
         Dividing a :class:`SpectralPowerDistribution` class variable:
 
         >>> spd_alternate = SpectralPowerDistribution('Spd', data)
-        >>> spd / spd_alternate  # doctest: +ELLIPSIS
-        <...SpectralPowerDistribution object at 0x...>
+        >>> spd = spd / spd_alternate
         >>> spd.values  # doctest: +ELLIPSIS
         array([ 0.1       ,  0.05      ,  0.0333333...,  0.025     ])
         """
 
-        self.__data = SpectralMapping(
-            zip(self.wavelengths,
-                self.values * (1 / self.__format_operand(x))))
+        return self.__arithmetical_operation(x, operator.truediv)
 
-        return self
+    def __idiv__(self, x):
+        """
+        Implements support for in-place spectral power distribution division.
+
+        Usage is similar to the regular *division* operation but make use of
+        the *augmented assignement*  operator such as: `spd /= 10` instead of
+        `spd / 10`.
+
+        Parameters
+        ----------
+        x : numeric or array_like or SpectralPowerDistribution
+            Variable to in-place divide by.
+
+        Returns
+        -------
+        SpectralPowerDistribution
+            Variable in-place divided spectral power distribution.
+
+        See Also
+        --------
+        SpectralPowerDistribution.__div__
+
+        Notes
+        -----
+        -   Reimplements the :meth:`object.__idiv_` method.
+        """
+
+        return self.__arithmetical_operation(x, operator.truediv, True)
 
     # Python 3 compatibility.
+    __itruediv__ = __idiv__
     __truediv__ = __div__
 
     def __pow__(self, x):
@@ -1424,16 +1518,11 @@ class SpectralPowerDistribution(object):
 
         See Also
         --------
-        SpectralPowerDistribution.__add__, SpectralPowerDistribution.__sub__,
-        SpectralPowerDistribution.__mul__, SpectralPowerDistribution.__div__
+        SpectralPowerDistribution.__ipow__
 
         Notes
         -----
         -   Reimplements the :meth:`object.__pow__` method.
-
-        Warning
-        -------
-        The power operation happens in place.
 
         Examples
         --------
@@ -1441,15 +1530,13 @@ class SpectralPowerDistribution(object):
 
         >>> data = {510: 1.67, 520: 2.59, 530: 3.73, 540: 4.19}
         >>> spd = SpectralPowerDistribution('Spd', data)
-        >>> spd ** 2  # doctest: +ELLIPSIS
-        <...SpectralPowerDistribution object at 0x...>
+        >>> spd = spd ** 2
         >>> spd.values
         array([  2.7889,   6.7081,  13.9129,  17.5561])
 
         Exponentiation by an *array_like* variable:
 
-        >>> spd ** [1, 2, 3, 4]  # doctest: +ELLIPSIS
-        <...SpectralPowerDistribution object at 0x...>
+        >>> spd = spd ** [1, 2, 3, 4]
         >>> spd.values  # doctest: +ELLIPSIS
         array([  2.7889000...e+00,   4.4998605...e+01,   2.6931031...e+03,
                  9.4997501...e+04])
@@ -1457,17 +1544,43 @@ class SpectralPowerDistribution(object):
         Exponentiation by a :class:`SpectralPowerDistribution` class variable:
 
         >>> spd_alternate = SpectralPowerDistribution('Spd', data)
-        >>> spd ** spd_alternate  # doctest: +ELLIPSIS
-        <...SpectralPowerDistribution object at 0x...>
+        >>> spd = spd ** spd_alternate
         >>> spd.values  # doctest: +ELLIPSIS
         array([  5.5446356...e+00,   1.9133109...e+04,   6.2351033...e+12,
                  7.1880990...e+20])
         """
 
-        self.__data = SpectralMapping(
-            zip(self.wavelengths, self.values ** self.__format_operand(x)))
+        return self.__arithmetical_operation(x, operator.pow)
 
-        return self
+    def __ipow__(self, x):
+        """
+        Implements support for in-place spectral power distribution
+        exponentiation.
+
+        Usage is similar to the regular *exponentiation* operation but make use
+        of the *augmented assignement* operator such as: `spd **= 10` instead
+        of `spd ** 10`.
+
+        Parameters
+        ----------
+        x : numeric or array_like or SpectralPowerDistribution
+            Variable to in-place exponentiate by.
+
+        Returns
+        -------
+        SpectralPowerDistribution
+            Variable in-place exponentiated spectral power distribution.
+
+        See Also
+        --------
+        SpectralPowerDistribution.__pow__
+
+        Notes
+        -----
+        -   Reimplements the :meth:`object.__ipow__` method.
+        """
+
+        return self.__arithmetical_operation(x, operator.pow, True)
 
     def get(self, wavelength, default=np.nan):
         """
@@ -1921,7 +2034,9 @@ class SpectralPowerDistribution(object):
         array([ 0.5632157...,  0.7890917...,  0.9267490...,  1.        ])
         """
 
-        return (self * (1 / max(self.values))) * factor
+        self *= 1 / max(self.values) * factor
+
+        return self
 
     def clone(self):
         """
@@ -1997,10 +2112,15 @@ class TriSpectralPowerDistribution(object):
     __eq__
     __ne__
     __add__
+    __iadd__
     __sub__
+    __isub__
     __mul__
+    __imul__
     __div__
-    __truediv__
+    __idiv__
+    __pow__
+    __ipow__
     get
     is_uniform
     extrapolate
@@ -2794,22 +2914,25 @@ class TriSpectralPowerDistribution(object):
 
         return not (self == tri_spd)
 
-    def __format_operand(self, x):
+    def __arithmetical_operation(self, x, operation, in_place=False):
         """
-        Formats given :math:`x` variable operand to *numeric* or *ndarray*.
-
-        This method is a convenient method to prepare given :math:`x` variable
-        for the arithmetic operations below.
+        Performs given arithmetical operation on :math:`x` variable, the
+        operation can be either performed on a tri-spectral power distribution
+        clone or in-place.
 
         Parameters
         ----------
         x : numeric or ndarray or TriSpectralPowerDistribution
-            Variable to format.
+            Operand.
+        operation : object
+            Operation to perform.
+        in_place : bool, optional
+            Operation happens in place.
 
         Returns
         -------
-        numeric or ndarray
-            Formatted operand.
+        TriSpectralPowerDistribution
+            Tri-spectral power distribution.
         """
 
         if issubclass(type(x), TriSpectralPowerDistribution):
@@ -2817,7 +2940,19 @@ class TriSpectralPowerDistribution(object):
         elif is_iterable(x):
             x = np.atleast_1d(x)
 
-        return x
+        data = {}
+        values = operation(self.values, x)
+        for i, axis in enumerate(('x', 'y', 'z')):
+            data[self.__mapping[axis]] = SpectralMapping(
+                zip(self.wavelengths, values[..., i]))
+
+        if in_place:
+            self.data = data
+            return self
+        else:
+            clone = self.clone()
+            clone.data = data
+            return clone
 
     def __add__(self, x):
         """
@@ -2835,9 +2970,7 @@ class TriSpectralPowerDistribution(object):
 
         See Also
         --------
-        TriSpectralPowerDistribution.__sub__,
-        TriSpectralPowerDistribution.__mul__,
-        TriSpectralPowerDistribution.__div__
+        TriSpectralPowerDistribution.__iadd__
 
         Notes
         -----
@@ -2857,8 +2990,7 @@ class TriSpectralPowerDistribution(object):
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
         >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
         >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
-        >>> tri_spd + 10  # doctest: +ELLIPSIS
-        <...TriSpectralPowerDistribution object at 0x...>
+        >>> tri_spd = tri_spd + 10
         >>> tri_spd.values
         array([[  59.67,  100.56,   22.43],
                [  79.59,   97.34,   33.15],
@@ -2867,8 +2999,7 @@ class TriSpectralPowerDistribution(object):
 
         Adding an *array_like* variable:
 
-        >>> tri_spd + [(1, 2, 3)] * 4  # doctest: +ELLIPSIS
-        <...TriSpectralPowerDistribution object at 0x...>
+        >>> tri_spd = tri_spd + [(1, 2, 3)] * 4
         >>> tri_spd.values
         array([[  60.67,  102.56,   25.43],
                [  80.59,   99.34,   36.15],
@@ -2879,8 +3010,7 @@ class TriSpectralPowerDistribution(object):
 
         >>> data1 = {'x_bar': z_bar, 'y_bar': x_bar, 'z_bar': y_bar}
         >>> tri_spd1 = TriSpectralPowerDistribution('Tri Spd', data1, mapping)
-        >>> tri_spd + tri_spd1  # doctest: +ELLIPSIS
-        <...TriSpectralPowerDistribution object at 0x...>
+        >>> tri_spd = tri_spd + tri_spd1
         >>> tri_spd.values
         array([[  73.1 ,  152.23,  115.99],
                [ 103.74,  168.93,  123.49],
@@ -2888,13 +3018,37 @@ class TriSpectralPowerDistribution(object):
                [ 189.47,  123.64,  126.73]])
         """
 
-        values = self.values + self.__format_operand(x)
+        return self.__arithmetical_operation(x, operator.add)
 
-        for i, axis in enumerate(('x', 'y', 'z')):
-            self.__data[axis].data = SpectralMapping(
-                zip(self.wavelengths, values[..., i]))
+    def __iadd__(self, x):
+        """
+        Implements support for in-place tri-spectral power distribution
+        addition.
 
-        return self
+        Usage is similar to the regular *addition* operation but make use of
+        the *augmented assignement* operator such as: `tri_spd += 10` instead
+        of `tri_spd + 10`.
+
+        Parameters
+        ----------
+        x : numeric or array_like or TriSpectralPowerDistribution
+            Variable to in-place add.
+
+        Returns
+        -------
+        TriSpectralPowerDistribution
+            Variable in-place added tri-spectral power distribution.
+
+        See Also
+        --------
+        TriSpectralPowerDistribution.__add__
+
+        Notes
+        -----
+        -   Reimplements the :meth:`object.__iadd__` method.
+        """
+
+        return self.__arithmetical_operation(x, operator.add, True)
 
     def __sub__(self, x):
         """
@@ -2912,9 +3066,7 @@ class TriSpectralPowerDistribution(object):
 
         See Also
         --------
-        TriSpectralPowerDistribution.__add__,
-        TriSpectralPowerDistribution.__mul__,
-        TriSpectralPowerDistribution.__div__
+        TriSpectralPowerDistribution.__isub__
 
         Notes
         -----
@@ -2934,8 +3086,7 @@ class TriSpectralPowerDistribution(object):
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
         >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
         >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
-        >>> tri_spd - 10  # doctest: +ELLIPSIS
-        <...TriSpectralPowerDistribution object at 0x...>
+        >>> tri_spd = tri_spd - 10
         >>> tri_spd.values
         array([[ 39.67,  80.56,   2.43],
                [ 59.59,  77.34,  13.15],
@@ -2944,8 +3095,7 @@ class TriSpectralPowerDistribution(object):
 
         Subtracting an *array_like* variable:
 
-        >>> tri_spd - [(1, 2, 3)] * 4  # doctest: +ELLIPSIS
-        <...TriSpectralPowerDistribution object at 0x...>
+        >>> tri_spd = tri_spd - [(1, 2, 3)] * 4
         >>> tri_spd.values
         array([[ 38.67,  78.56,  -0.57],
                [ 58.59,  75.34,  10.15],
@@ -2956,8 +3106,7 @@ class TriSpectralPowerDistribution(object):
 
         >>> data1 = {'x_bar': z_bar, 'y_bar': x_bar, 'z_bar': y_bar}
         >>> tri_spd1 = TriSpectralPowerDistribution('Tri Spd', data1, mapping)
-        >>> tri_spd - tri_spd1  # doctest: +ELLIPSIS
-        <...TriSpectralPowerDistribution object at 0x...>
+        >>> tri_spd = tri_spd - tri_spd1
         >>> tri_spd.values
         array([[ 26.24,  28.89, -91.13],
                [ 35.44,   5.75, -77.19],
@@ -2965,7 +3114,37 @@ class TriSpectralPowerDistribution(object):
                [-13.09, -76.74,  53.83]])
         """
 
-        return self + (-self.__format_operand(x))
+        return self.__arithmetical_operation(x, operator.sub)
+
+    def __isub__(self, x):
+        """
+        Implements support for in-place tri-spectral power distribution
+        subtraction.
+
+        Usage is similar to the regular *subtraction* operation but make use of
+        the *augmented assignement* operator such as: `tri_spd -= 10` instead
+        of `tri_spd - 10`.
+
+        Parameters
+        ----------
+        x : numeric or array_like or TriSpectralPowerDistribution
+            Variable to in-place subtract.
+
+        Returns
+        -------
+        TriSpectralPowerDistribution
+            Variable in-place subtracted tri-spectral power distribution.
+
+        See Also
+        --------
+        TriSpectralPowerDistribution.__sub__
+
+        Notes
+        -----
+        -   Reimplements the :meth:`object.__isub__` method.
+        """
+
+        return self.__arithmetical_operation(x, operator.sub, True)
 
     def __mul__(self, x):
         """
@@ -2974,7 +3153,7 @@ class TriSpectralPowerDistribution(object):
         Parameters
         ----------
         x : numeric or array_like or TriSpectralPowerDistribution
-            Variable to multiply.
+            Variable to multiply by.
 
         Returns
         -------
@@ -2983,9 +3162,7 @@ class TriSpectralPowerDistribution(object):
 
         See Also
         --------
-        TriSpectralPowerDistribution.__add__,
-        TriSpectralPowerDistribution.__sub__,
-        TriSpectralPowerDistribution.__div__
+        TriSpectralPowerDistribution.__imul__
 
         Notes
         -----
@@ -3005,8 +3182,7 @@ class TriSpectralPowerDistribution(object):
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
         >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
         >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
-        >>> tri_spd * 10  # doctest: +ELLIPSIS
-        <...TriSpectralPowerDistribution object at 0x...>
+        >>> tri_spd = tri_spd * 10
         >>> tri_spd.values
         array([[ 496.7,  905.6,  124.3],
                [ 695.9,  873.4,  231.5],
@@ -3015,8 +3191,7 @@ class TriSpectralPowerDistribution(object):
 
         Multiplying an *array_like* variable:
 
-        >>> tri_spd * [(1, 2, 3)] * 4  # doctest: +ELLIPSIS
-        <...TriSpectralPowerDistribution object at 0x...>
+        >>> tri_spd = tri_spd * [(1, 2, 3)] * 4
         >>> tri_spd.values
         array([[  1986.8,   7244.8,   1491.6],
                [  2783.6,   6987.2,   2778. ],
@@ -3027,8 +3202,7 @@ class TriSpectralPowerDistribution(object):
 
         >>> data1 = {'x_bar': z_bar, 'y_bar': x_bar, 'z_bar': y_bar}
         >>> tri_spd1 = TriSpectralPowerDistribution('Tri Spd', data1, mapping)
-        >>> tri_spd * tri_spd1  # doctest: +ELLIPSIS
-        <...TriSpectralPowerDistribution object at 0x...>
+        >>> tri_spd = tri_spd * tri_spd1
         >>> tri_spd.values
         array([[  24695.924,  359849.216,  135079.296],
                [  64440.34 ,  486239.248,  242630.52 ],
@@ -3036,13 +3210,37 @@ class TriSpectralPowerDistribution(object):
                [ 318471.728,  165444.44 ,  254047.92 ]])
         """
 
-        values = self.values * self.__format_operand(x)
+        return self.__arithmetical_operation(x, operator.mul)
 
-        for i, axis in enumerate(('x', 'y', 'z')):
-            self.__data[axis].data = SpectralMapping(
-                zip(self.wavelengths, values[..., i]))
+    def __imul__(self, x):
+        """
+        Implements support for in-place tri-spectral power distribution
+        multiplication.
 
-        return self
+        Usage is similar to the regular *multiplication* operation but make use
+        of the *augmented assignement* operator such as: `tri_spd *= 10`
+        instead of `tri_spd * 10`.
+
+        Parameters
+        ----------
+        x : numeric or array_like or TriSpectralPowerDistribution
+            Variable to in-place multiply by.
+
+        Returns
+        -------
+        TriSpectralPowerDistribution
+            Variable in-place multiplied tri-spectral power distribution.
+
+        See Also
+        --------
+        TriSpectralPowerDistribution.__mul__
+
+        Notes
+        -----
+        -   Reimplements the :meth:`object.__imul__` method.
+        """
+
+        return self.__arithmetical_operation(x, operator.mul, True)
 
     def __div__(self, x):
         """
@@ -3051,7 +3249,7 @@ class TriSpectralPowerDistribution(object):
         Parameters
         ----------
         x : numeric or array_like or TriSpectralPowerDistribution
-            Variable to divide.
+            Variable to divide by.
 
         Returns
         -------
@@ -3060,9 +3258,7 @@ class TriSpectralPowerDistribution(object):
 
         See Also
         --------
-        TriSpectralPowerDistribution.__add__,
-        TriSpectralPowerDistribution.__sub__,
-        TriSpectralPowerDistribution.__mul__
+        TriSpectralPowerDistribution.__idiv__
 
         Notes
         -----
@@ -3082,8 +3278,7 @@ class TriSpectralPowerDistribution(object):
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
         >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
         >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
-        >>> tri_spd / 10  # doctest: +ELLIPSIS
-        <...TriSpectralPowerDistribution object at 0x...>
+        >>> tri_spd = tri_spd / 10
         >>> tri_spd.values
         array([[ 4.967,  9.056,  1.243],
                [ 6.959,  8.734,  2.315],
@@ -3092,8 +3287,7 @@ class TriSpectralPowerDistribution(object):
 
         Dividing an *array_like* variable:
 
-        >>> tri_spd / [(1, 2, 3)] * 4  # doctest: +ELLIPSIS
-        <...TriSpectralPowerDistribution object at 0x...>
+        >>> tri_spd = tri_spd / [(1, 2, 3)] * 4
         >>> tri_spd.values  # doctest: +ELLIPSIS
         array([[ 19.868     ,  18.112     ,   1.6573333...],
                [ 27.836     ,  17.468     ,   3.0866666...],
@@ -3104,8 +3298,7 @@ class TriSpectralPowerDistribution(object):
 
         >>> data1 = {'x_bar': z_bar, 'y_bar': x_bar, 'z_bar': y_bar}
         >>> tri_spd1 = TriSpectralPowerDistribution('Tri Spd', data1, mapping)
-        >>> tri_spd / tri_spd1  # doctest: +ELLIPSIS
-        <...TriSpectralPowerDistribution object at 0x...>
+        >>> tri_spd = tri_spd / tri_spd1
         >>> tri_spd.values  # doctest: +ELLIPSIS
         array([[ 1.5983909...,  0.3646466...,  0.0183009...],
                [ 1.2024190...,  0.2510130...,  0.0353408...],
@@ -3113,9 +3306,40 @@ class TriSpectralPowerDistribution(object):
                [ 0.3907399...,  0.0531806...,  0.5133191...]])
         """
 
-        return self * (1 / self.__format_operand(x))
+        return self.__arithmetical_operation(x, operator.truediv)
+
+    def __idiv__(self, x):
+        """
+        Implements support for in-place tri-spectral power distribution
+        division.
+
+        Usage is similar to the regular *division* operation but make use of
+        the *augmented assignement*  operator such as: `tri_spd /= 10` instead
+        of `tri_spd / 10`.
+
+        Parameters
+        ----------
+        x : numeric or array_like or TriSpectralPowerDistribution
+            Variable to in-place divide by.
+
+        Returns
+        -------
+        TriSpectralPowerDistribution
+            Variable in-place divided tri-spectral power distribution.
+
+        See Also
+        --------
+        TriSpectralPowerDistribution.__div__
+
+        Notes
+        -----
+        -   Reimplements the :meth:`object.__idiv_` method.
+        """
+
+        return self.__arithmetical_operation(x, operator.truediv, True)
 
     # Python 3 compatibility.
+    __itruediv__ = __idiv__
     __truediv__ = __div__
 
     def __pow__(self, x):
@@ -3134,10 +3358,7 @@ class TriSpectralPowerDistribution(object):
 
         See Also
         --------
-        TriSpectralPowerDistribution.__add__,
-        TriSpectralPowerDistribution.__sub__,
-        TriSpectralPowerDistribution.__mul__,
-        TriSpectralPowerDistribution.__div__
+        TriSpectralPowerDistribution.__ipow__,
 
         Notes
         -----
@@ -3157,8 +3378,7 @@ class TriSpectralPowerDistribution(object):
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
         >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
         >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
-        >>> tri_spd ** 1.1  # doctest: +ELLIPSIS
-        <...TriSpectralPowerDistribution object at 0x...>
+        >>> tri_spd = tri_spd ** 1.1
         >>> tri_spd.values  # doctest: +ELLIPSIS
         array([[ 1.7578755...,  1.6309365...,  1.4820731...],
                [ 1.6654700...,  1.3797972...,  1.1661854...],
@@ -3167,8 +3387,7 @@ class TriSpectralPowerDistribution(object):
 
         Exponentiation by an *array_like* variable:
 
-        >>> tri_spd ** ([(1, 2, 3)] * 4)  # doctest: +ELLIPSIS
-        <...TriSpectralPowerDistribution object at 0x...>
+        >>> tri_spd = tri_spd ** ([(1, 2, 3)] * 4)
         >>> tri_spd.values  # doctest: +ELLIPSIS
         array([[ 1.7578755...,  2.6599539...,  3.2554342...],
                [ 1.6654700...,  1.9038404...,  1.5859988...],
@@ -3180,8 +3399,7 @@ class TriSpectralPowerDistribution(object):
 
         >>> data1 = {'x_bar': z_bar, 'y_bar': x_bar, 'z_bar': y_bar}
         >>> tri_spd1 = TriSpectralPowerDistribution('Tri Spd', data1, mapping)
-        >>> tri_spd ** tri_spd1  # doctest: +ELLIPSIS
-        <...TriSpectralPowerDistribution object at 0x...>
+        >>> tri_spd = tri_spd ** tri_spd1
         >>> tri_spd.values  # doctest: +ELLIPSIS
         array([[  2.2404384...,   5.1231818...,   6.3047797...],
                [  1.7979075...,   2.7836369...,   1.8552645...],
@@ -3189,13 +3407,37 @@ class TriSpectralPowerDistribution(object):
                [  1.2775271...,   2.6452177...,   3.2583647...]])
         """
 
-        values = self.values ** self.__format_operand(x)
+        return self.__arithmetical_operation(x, operator.pow)
 
-        for i, axis in enumerate(('x', 'y', 'z')):
-            self.__data[axis].data = SpectralMapping(
-                zip(self.wavelengths, values[..., i]))
+    def __ipow__(self, x):
+        """
+        Implements support for in-place tri-spectral power distribution
+        exponentiation.
 
-        return self
+        Usage is similar to the regular *exponentiation* operation but make use
+        of the *augmented assignement* operator such as: `tri_spd **= 10`
+        instead of `tri_spd ** 10`.
+
+        Parameters
+        ----------
+        x : numeric or array_like or TriSpectralPowerDistribution
+            Variable to in-place exponentiate by.
+
+        Returns
+        -------
+        TriSpectralPowerDistribution
+            Variable in-place exponentiated tri-spectral power distribution.
+
+        See Also
+        --------
+        TriSpectralPowerDistribution.__pow__
+
+        Notes
+        -----
+        -   Reimplements the :meth:`object.__ipow__` method.
+        """
+
+        return self.__arithmetical_operation(x, operator.pow, True)
 
     def get(self, wavelength, default=np.nan):
         """
@@ -3749,9 +3991,9 @@ class TriSpectralPowerDistribution(object):
                [ 0.9189739...,  0.1029112...,  1.       ...]])
         """
 
-        maximum = max(np.ravel(self.values))
+        maximum = np.max(self.values)
         for i in self.__mapping.keys():
-            getattr(self, i) * (1 / maximum) * factor
+            operator.imul(getattr(self, i), (1 / maximum) * factor)
 
         return self
 
