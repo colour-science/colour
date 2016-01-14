@@ -422,9 +422,9 @@ def corresponding_colour(RGB_1, xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, K, n=1):
     ----------
     RGB_1: array_like
         Test sample cone responses :math:`RGB_1`.
+    xez_1: array_like
         Intermediate values :math:`\\xi_1`, :math:`\eta_1`, :math:`\zeta_1` for
         the test illuminant and background.
-    xez_1: array_like
     xez_2: array_like
         Intermediate values :math:`\\xi_2`, :math:`\eta_2`, :math:`\zeta_2` for
         the reference illuminant and background.
@@ -471,13 +471,17 @@ def corresponding_colour(RGB_1, xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, K, n=1):
     Y_o = np.asarray(Y_o)
     K = np.asarray(K)
 
-    def RGBc(x1, x2, y1, y2, z): return (
-        (Y_o * x2 + n) * K ** (1 / y2) *
-        ((z + n) / (Y_o * x1 + n)) ** (y1 / y2) - n)
+    def RGB_c(x1, x2, y1, y2, z):
+        """
+        Computes the corresponding colour cone responses component.
+        """
 
-    R_2 = RGBc(xi_1, xi_2, bR_o1, bR_o2, R_1)
-    G_2 = RGBc(eta_1, eta_2, bG_o1, bG_o2, G_1)
-    B_2 = RGBc(zeta_1, zeta_2, bB_o1, bB_o2, B_1)
+        return ((Y_o * x2 + n) * K ** (1 / y2) *
+                ((z + n) / (Y_o * x1 + n)) ** (y1 / y2) - n)
+
+    R_2 = RGB_c(xi_1, xi_2, bR_o1, bR_o2, R_1)
+    G_2 = RGB_c(eta_1, eta_2, bG_o1, bG_o2, G_1)
+    B_2 = RGB_c(zeta_1, zeta_2, bB_o1, bB_o2, B_1)
 
     RGB_2 = tstack((R_2, G_2, B_2))
 
