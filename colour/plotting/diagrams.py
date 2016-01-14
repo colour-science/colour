@@ -205,7 +205,7 @@ def CIE_1931_chromaticity_diagram_plot(
         dy = (wavelengths_chromaticity_coordinates.get(right)[1] -
               wavelengths_chromaticity_coordinates.get(left)[1])
 
-        norme = lambda x: x / np.linalg.norm(x)
+        def norme(v): return v / np.linalg.norm(v)
 
         xy = np.array([x, y])
         direction = np.array([-dy, dx])
@@ -385,7 +385,7 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
         dy = (wavelengths_chromaticity_coordinates.get(right)[1] -
               wavelengths_chromaticity_coordinates.get(left)[1])
 
-        norme = lambda x: x / np.linalg.norm(x)
+        def norme(v): return v / np.linalg.norm(v)
 
         uv = np.array([u, v])
         direction = np.array([-dy, dx])
@@ -568,7 +568,7 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
         dy = (wavelengths_chromaticity_coordinates.get(right)[1] -
               wavelengths_chromaticity_coordinates.get(left)[1])
 
-        norme = lambda x: x / np.linalg.norm(x)
+        def norme(v): return v / np.linalg.norm(v)
 
         uv = np.array([u, v])
         direction = np.array([-dy, dx])

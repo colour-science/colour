@@ -188,7 +188,7 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
 
     CIE_1960_UCS_chromaticity_diagram_plot(**settings)
 
-    xy_to_uv = lambda x: UCS_to_uv(XYZ_to_UCS(xy_to_XYZ(x)))
+    def xy_to_uv(x): return UCS_to_uv(XYZ_to_UCS(xy_to_XYZ(x)))
 
     start, end = 1667, 100000
     uv = np.array([CCT_to_uv(x, 0, method='Robertson 1968')

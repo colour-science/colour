@@ -201,8 +201,8 @@ def _s_log2_to_linear(value):
 
     value = np.asarray(value)
 
-    return ((10 ** (((((value * 1023 / 4 - 16) / 219) - 0.616596 - 0.03)
-                     / 0.432699)) - 0.037584) * 0.9)
+    return ((10 ** (((((value * 1023 / 4 - 16) / 219) - 0.616596 - 0.03) /
+                     0.432699)) - 0.037584) * 0.9)
 
 
 S_LOG2_OECF = _linear_to_s_log2

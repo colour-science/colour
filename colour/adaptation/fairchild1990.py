@@ -239,8 +239,9 @@ def degrees_of_adaptation(LMS, Y_n, v=1 / 3, discount_illuminant=False):
 
     Ye_n = Y_n ** v
 
-    f_E = lambda x, y: (3 * (x / y)) / (L / L_E + M / M_E + S / S_E)
-    f_P = lambda x: (1 + Ye_n + x) / (1 + Ye_n + 1 / x)
+    def f_E(x, y): return (3 * (x / y)) / (L / L_E + M / M_E + S / S_E)
+
+    def f_P(x): return (1 + Ye_n + x) / (1 + Ye_n + 1 / x)
 
     p_L = f_P(f_E(L, L_E))
     p_M = f_P(f_E(M, M_E))

@@ -1012,7 +1012,8 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
         self.name = os.path.splitext(os.path.basename(self.__path))[0]
 
         iterator = root.iter
-        text_conversion = lambda x: x
+
+        def text_conversion(x): return x
 
         for header_element in (self.header, self):
             mapping = header_element.mapping

@@ -172,7 +172,9 @@ class TestPlanckianTable(unittest.TestCase):
 
         cmfs = STANDARD_OBSERVERS_CMFS.get(
             'CIE 1931 2 Degree Standard Observer')
-        unpack = lambda x: (x.Ti, x.ui, x.vi, x.di)
+
+        def unpack(x): return x.Ti, x.ui, x.vi, x.di
+
         np.testing.assert_almost_equal(
             [unpack(x) for x in planckian_table(np.array([0.1978, 0.3122]),
                                                 cmfs,

@@ -439,7 +439,8 @@ def _aces_proxy_OECF(value, bit_depth='10 Bit'):
     CV_min = np.resize(constants.CV_min, value.shape)
     CV_max = np.resize(constants.CV_max, value.shape)
 
-    float_2_cv = lambda x: np.maximum(CV_min, np.minimum(CV_max, np.round(x)))
+    def float_2_cv(x): return (
+        np.maximum(CV_min, np.minimum(CV_max, np.round(x))))
 
     output = np.where(value > 2 ** -9.72,
                       float_2_cv((np.log2(value) + constants.mid_log_offset) *

@@ -205,8 +205,10 @@ def tcs_colorimetry_data(spd_t,
         u_tcs, v_tcs = uv_tcs[0], uv_tcs[1]
 
         if chromatic_adaptation:
-            c = lambda x, y: (4 - x - 10 * y) / y
-            d = lambda x, y: (1.708 * y + 0.404 - 1.481 * x) / y
+
+            def c(x, y): return (4 - x - 10 * y) / y
+
+            def d(x, y): return (1.708 * y + 0.404 - 1.481 * x) / y
 
             c_t, d_t = c(u_t, v_t), d(u_t, v_t)
             c_r, d_r = (c(u_r, v_r),

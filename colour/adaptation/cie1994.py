@@ -471,7 +471,7 @@ def corresponding_colour(RGB_1, xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, K, n=1):
     Y_o = np.asarray(Y_o)
     K = np.asarray(K)
 
-    RGBc = lambda x1, x2, y1, y2, z: (
+    def RGBc(x1, x2, y1, y2, z): return (
         (Y_o * x2 + n) * K ** (1 / y2) *
         ((z + n) / (Y_o * x1 + n)) ** (y1 / y2) - n)
 
