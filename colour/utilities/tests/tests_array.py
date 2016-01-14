@@ -13,7 +13,7 @@ import unittest
 from colour.utilities import (
     as_numeric,
     closest,
-    normalise,
+    maximum_normalise,
     steps,
     is_uniform,
     in_array,
@@ -32,7 +32,7 @@ __status__ = 'Production'
 
 __all__ = ['TestAsNumeric',
            'TestClosest',
-           'TestNormalise',
+           'TestMaximumNormalise',
            'TestSteps',
            'TestIsUniform',
            'TestInArray',
@@ -87,55 +87,61 @@ class TestClosest(unittest.TestCase):
         self.assertEqual(closest(y, 51.15), 46.84480573)
 
 
-class TestNormalise(unittest.TestCase):
+class TestMaximumNormalise(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.array.normalise` definition units
+    Defines :func:`colour.utilities.array.maximum_normalise` definition units
     tests methods.
     """
 
-    def test_normalise(self):
+    def test_maximum_normalise(self):
         """
-        Tests :func:`colour.utilities.array.normalise` definition.
+        Tests :func:`colour.utilities.array.maximum_normalise` definition.
         """
 
         np.testing.assert_almost_equal(
-            normalise(np.array([0.1151847498, 0.1008000000, 0.0508937252])),
+            maximum_normalise(
+                np.array([0.1151847498, 0.1008000000, 0.0508937252])),
             np.array([1., 0.87511585, 0.4418443]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            normalise(np.array([[0.1151847498, 0.1008000000, 0.0508937252],
-                                [0.0704953400, 0.1008000000, 0.0955831300],
-                                [0.1750135800, 0.3881879500, 0.3216195500]])),
+            maximum_normalise(
+                np.array([[0.1151847498, 0.1008000000, 0.0508937252],
+                          [0.0704953400, 0.1008000000, 0.0955831300],
+                          [0.1750135800, 0.3881879500, 0.3216195500]])),
             np.array([[0.29672418, 0.25966803, 0.13110589],
                       [0.18160105, 0.25966803, 0.246229],
                       [0.45084753, 1., 0.82851503]]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            normalise(np.array([[0.1151847498, 0.1008000000, 0.0508937252],
-                                [0.0704953400, 0.1008000000, 0.0955831300],
-                                [0.1750135800, 0.3881879500, 0.3216195500]]),
-                      axis=-1),
+            maximum_normalise(
+                np.array([[0.1151847498, 0.1008000000, 0.0508937252],
+                          [0.0704953400, 0.1008000000, 0.0955831300],
+                          [0.1750135800, 0.3881879500, 0.3216195500]]),
+                axis=-1),
             np.array([[1., 0.87511585, 0.4418443],
                       [0.69935853, 1., 0.94824534],
                       [0.45084753, 1., 0.82851503]]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            normalise(np.array([0.1151847498, 0.1008000000, 0.0508937252]),
-                      factor=10),
+            maximum_normalise(
+                np.array([0.1151847498, 0.1008000000, 0.0508937252]),
+                factor=10),
             np.array([10., 8.75115848, 4.418443]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            normalise(np.array([-0.1151847498, -0.1008000000, 0.0508937252])),
+            maximum_normalise(
+                np.array([-0.1151847498, -0.1008000000, 0.0508937252])),
             np.array([0., 0., 1.]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            normalise(np.array([-0.1151847498, -0.1008000000, 0.0508937252]),
-                      clip=False),
+            maximum_normalise(
+                np.array([-0.1151847498, -0.1008000000, 0.0508937252]),
+                clip=False),
             np.array([-2.26324069, -1.9805978, 1.]),
             decimal=7)
 

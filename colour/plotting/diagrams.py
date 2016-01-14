@@ -46,7 +46,11 @@ from colour.plotting import (
     boundaries,
     display,
     get_cmfs)
-from colour.utilities import is_scipy_installed, normalise, tsplit, tstack
+from colour.utilities import (
+    is_scipy_installed,
+    maximum_normalise,
+    tsplit,
+    tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -116,7 +120,7 @@ def CIE_1931_chromaticity_diagram_colours_plot(
 
         XYZ = xy_to_XYZ(xy)
 
-        RGB = normalise(XYZ_to_sRGB(XYZ, illuminant), axis=-1)
+        RGB = maximum_normalise(XYZ_to_sRGB(XYZ, illuminant), axis=-1)
 
         x_dot, y_dot = tsplit(xy)
 
@@ -298,7 +302,7 @@ def CIE_1960_UCS_chromaticity_diagram_colours_plot(
 
         XYZ = xy_to_XYZ(UCS_uv_to_xy(xy))
 
-        RGB = normalise(XYZ_to_sRGB(XYZ, illuminant), axis=-1)
+        RGB = maximum_normalise(XYZ_to_sRGB(XYZ, illuminant), axis=-1)
 
         x_dot, y_dot = tsplit(xy)
 
@@ -479,7 +483,7 @@ def CIE_1976_UCS_chromaticity_diagram_colours_plot(
 
         XYZ = xy_to_XYZ(Luv_uv_to_xy(xy))
 
-        RGB = normalise(XYZ_to_sRGB(XYZ, illuminant), axis=-1)
+        RGB = maximum_normalise(XYZ_to_sRGB(XYZ, illuminant), axis=-1)
 
         x_dot, y_dot = tsplit(xy)
 

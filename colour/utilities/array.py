@@ -23,7 +23,7 @@ __status__ = 'Production'
 
 __all__ = ['as_numeric',
            'closest',
-           'normalise',
+           'maximum_normalise',
            'steps',
            'is_uniform',
            'in_array',
@@ -98,10 +98,10 @@ def closest(y, x):
     return y[(np.abs(np.array(y) - x)).argmin()]
 
 
-def normalise(x, axis=None, factor=1, clip=True):
+def maximum_normalise(x, axis=None, factor=1, clip=True):
     """
-    Normalises given *array_like* :math:`x` variable values and optionally clip
-    them between.
+    Normalises given *array_like* :math:`x` variable values by :math:`x`
+    variable maximum value and optionally clip them between.
 
     Parameters
     ----------
@@ -117,12 +117,12 @@ def normalise(x, axis=None, factor=1, clip=True):
     Returns
     -------
     ndarray
-        Normalised :math:`x` variable.
+        Maximum normalised :math:`x` variable.
 
     Examples
     --------
     >>> x = np.array([0.48224885, 0.31651974, 0.22070513])
-    >>> normalise(x)  # doctest: +ELLIPSIS
+    >>> maximum_normalise(x)  # doctest: +ELLIPSIS
     array([ 1.        ,  0.6563411...,  0.4576581...])
     """
 

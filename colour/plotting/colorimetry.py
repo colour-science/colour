@@ -53,7 +53,7 @@ from colour.plotting import (
     get_cmfs,
     get_illuminant,
     single_colour_plot)
-from colour.utilities import normalise
+from colour.utilities import maximum_normalise
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -124,7 +124,7 @@ def single_spd_plot(spd,
     if not out_of_gamut_clipping:
         colours += np.abs(np.min(colours))
 
-    colours = DEFAULT_PLOTTING_OECF(normalise(colours))
+    colours = DEFAULT_PLOTTING_OECF(maximum_normalise(colours))
 
     settings = {
         'title': '{0} - {1}'.format(spd.title, cmfs.title),
@@ -196,7 +196,7 @@ def multi_spd_plot(spds,
         if use_spds_colours:
             XYZ = spectral_to_XYZ(spd, cmfs, illuminant) / 100
             if normalise_spds_colours:
-                XYZ = normalise(XYZ, clip=False)
+                XYZ = maximum_normalise(XYZ, clip=False)
             RGB = np.clip(XYZ_to_sRGB(XYZ), 0, 1)
 
             pylab.plot(wavelengths, values, color=RGB, label=spd.title,
@@ -442,7 +442,7 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
     if not out_of_gamut_clipping:
         colours += np.abs(np.min(colours))
 
-    colours = DEFAULT_PLOTTING_OECF(normalise(colours))
+    colours = DEFAULT_PLOTTING_OECF(maximum_normalise(colours))
 
     settings = {
         'title': 'The Visible Spectrum - {0}'.format(cmfs.title),
@@ -601,7 +601,7 @@ def blackbody_spectral_radiance_plot(
     single_spd_plot(spd, cmfs.name, **settings)
 
     XYZ = spectral_to_XYZ(spd, cmfs)
-    RGB = normalise(XYZ_to_sRGB(XYZ / 100))
+    RGB = maximum_normalise(XYZ_to_sRGB(XYZ / 100))
 
     matplotlib.pyplot.subplot(212)
 
@@ -656,7 +656,7 @@ def blackbody_colours_plot(shape=SpectralShape(150, 12500, 50),
         spd = blackbody_spd(temperature, cmfs.shape)
 
         XYZ = spectral_to_XYZ(spd, cmfs)
-        RGB = normalise(XYZ_to_sRGB(XYZ / 100))
+        RGB = maximum_normalise(XYZ_to_sRGB(XYZ / 100))
 
         colours.append(RGB)
         temperatures.append(temperature)
