@@ -110,7 +110,12 @@ def spectral_to_aces_relative_exposure_values(
                            ACES_RICD.g_bar.values,
                            ACES_RICD.b_bar.values)
 
-    def k(x, y): return 1 / np.sum(x * y)
+    def k(x, y):
+        """
+        Computes the :math:`K_r`, :math:`K_g` or :math:`K_b` scale factors.
+        """
+
+        return 1 / np.sum(x * y)
 
     k_r = k(illuminant, r_bar)
     k_g = k(illuminant, g_bar)
