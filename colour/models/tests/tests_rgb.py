@@ -334,7 +334,9 @@ class TestRGB_Colourspace(unittest.TestCase):
                                'RGB_to_XYZ_matrix',
                                'XYZ_to_RGB_matrix',
                                'OECF',
-                               'EOCF',)
+                               'EOCF',
+                               'OETF',
+                               'EOTF')
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(RGB_Colourspace))

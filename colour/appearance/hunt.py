@@ -354,7 +354,7 @@ s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
         warning('Unspecified "L_AS" argument, using approximation from "CCT": '
                 '"{0}"'.format(L_AS))
 
-    if S is None != S_w is None:
+    if (S is None and S_w is not None) or (S is not None and S_w is None):
         raise ValueError('Either both stimulus scotopic response "S" and '
                          'reference white scotopic response "S_w" arguments '
                          'need to be specified or none of them!')

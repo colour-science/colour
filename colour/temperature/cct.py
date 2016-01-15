@@ -358,8 +358,8 @@ def uv_to_CCT_Ohno2013(uv,
         a = (Tip * (din - di) + Ti * (dip - din) + Tin * (di - dip)) * X ** -1
         b = (-(Tip ** 2 * (din - di) + Ti ** 2 * (dip - din) + Tin ** 2 *
                (di - dip)) * X ** -1)
-        c = (-(dip * (Tin - Ti) * Ti * Tin + di * (Tip - Tin) * Tip * Tin
-               + din * (Ti - Tip) * Tip * Ti) * X ** -1)
+        c = (-(dip * (Tin - Ti) * Ti * Tin + di * (Tip - Tin) * Tip * Tin +
+               din * (Ti - Tip) * Tip * Ti) * X ** -1)
 
         T = -b / (2 * a)
 

@@ -26,6 +26,7 @@ import matplotlib.pyplot
 import numpy as np
 import pylab
 
+from colour.algebra import normalise_vector
 from colour.colorimetry import spectral_to_XYZ
 from colour.models import (
     Luv_to_uv,
@@ -46,7 +47,11 @@ from colour.plotting import (
     boundaries,
     display,
     get_cmfs)
-from colour.utilities import is_scipy_installed, normalise, tsplit, tstack
+from colour.utilities import (
+    is_scipy_installed,
+    normalise_maximum,
+    tsplit,
+    tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -116,7 +121,7 @@ def CIE_1931_chromaticity_diagram_colours_plot(
 
         XYZ = xy_to_XYZ(xy)
 
-        RGB = normalise(XYZ_to_sRGB(XYZ, illuminant), axis=-1)
+        RGB = normalise_maximum(XYZ_to_sRGB(XYZ, illuminant), axis=-1)
 
         x_dot, y_dot = tsplit(xy)
 
@@ -205,16 +210,14 @@ def CIE_1931_chromaticity_diagram_plot(
         dy = (wavelengths_chromaticity_coordinates.get(right)[1] -
               wavelengths_chromaticity_coordinates.get(left)[1])
 
-        norme = lambda x: x / np.linalg.norm(x)
-
         xy = np.array([x, y])
         direction = np.array([-dy, dx])
 
         normal = (np.array([-dy, dx])
-                  if np.dot(norme(xy - equal_energy),
-                            norme(direction)) > 0 else
+                  if np.dot(normalise_vector(xy - equal_energy),
+                            normalise_vector(direction)) > 0 else
                   np.array([dy, -dx]))
-        normal = norme(normal)
+        normal = normalise_vector(normal)
         normal /= 25
 
         pylab.plot((x, x + normal[0] * 0.75),
@@ -298,7 +301,7 @@ def CIE_1960_UCS_chromaticity_diagram_colours_plot(
 
         XYZ = xy_to_XYZ(UCS_uv_to_xy(xy))
 
-        RGB = normalise(XYZ_to_sRGB(XYZ, illuminant), axis=-1)
+        RGB = normalise_maximum(XYZ_to_sRGB(XYZ, illuminant), axis=-1)
 
         x_dot, y_dot = tsplit(xy)
 
@@ -385,16 +388,14 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
         dy = (wavelengths_chromaticity_coordinates.get(right)[1] -
               wavelengths_chromaticity_coordinates.get(left)[1])
 
-        norme = lambda x: x / np.linalg.norm(x)
-
         uv = np.array([u, v])
         direction = np.array([-dy, dx])
 
         normal = (np.array([-dy, dx])
-                  if np.dot(norme(uv - equal_energy),
-                            norme(direction)) > 0 else
+                  if np.dot(normalise_vector(uv - equal_energy),
+                            normalise_vector(direction)) > 0 else
                   np.array([dy, -dx]))
-        normal = norme(normal)
+        normal = normalise_vector(normal)
         normal /= 25
 
         pylab.plot((u, u + normal[0] * 0.75),
@@ -479,7 +480,7 @@ def CIE_1976_UCS_chromaticity_diagram_colours_plot(
 
         XYZ = xy_to_XYZ(Luv_uv_to_xy(xy))
 
-        RGB = normalise(XYZ_to_sRGB(XYZ, illuminant), axis=-1)
+        RGB = normalise_maximum(XYZ_to_sRGB(XYZ, illuminant), axis=-1)
 
         x_dot, y_dot = tsplit(xy)
 
@@ -568,16 +569,14 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
         dy = (wavelengths_chromaticity_coordinates.get(right)[1] -
               wavelengths_chromaticity_coordinates.get(left)[1])
 
-        norme = lambda x: x / np.linalg.norm(x)
-
         uv = np.array([u, v])
         direction = np.array([-dy, dx])
 
         normal = (np.array([-dy, dx])
-                  if np.dot(norme(uv - equal_energy),
-                            norme(direction)) > 0 else
+                  if np.dot(normalise_vector(uv - equal_energy),
+                            normalise_vector(direction)) > 0 else
                   np.array([dy, -dx]))
-        normal = norme(normal)
+        normal = normalise_vector(normal)
         normal /= 25
 
         pylab.plot((u, u + normal[0] * 0.75),

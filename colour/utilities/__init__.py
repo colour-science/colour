@@ -20,7 +20,7 @@ from .common import (
 from .array import (
     as_numeric,
     closest,
-    normalise,
+    normalise_maximum,
     steps,
     is_uniform,
     in_array,
@@ -51,7 +51,7 @@ __all__ = ['handle_numpy_errors',
            'is_integer']
 __all__ += ['as_numeric',
             'closest',
-            'normalise',
+            'normalise_maximum',
             'steps',
             'is_uniform',
             'in_array',

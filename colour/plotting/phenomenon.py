@@ -34,7 +34,7 @@ from colour.plotting import (
     get_cmfs,
     single_colour_plot,
     single_spd_plot)
-from colour.utilities import normalise
+from colour.utilities import normalise_maximum
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -163,7 +163,7 @@ def the_blue_sky_plot(
         'standalone': False}
 
     blue_sky_color = XYZ_to_sRGB(spectral_to_XYZ(spd))
-    single_colour_plot(ColourParameter('', normalise(blue_sky_color)),
+    single_colour_plot(ColourParameter('', normalise_maximum(blue_sky_color)),
                        **settings)
 
     settings = {'standalone': True}

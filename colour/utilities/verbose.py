@@ -78,17 +78,20 @@ def message_box(message, width=79, padding=3):
     """
 
     ideal_width = width - padding * 2 - 2
-    inner = lambda text: '*{0}{1}{2}{0}*'.format(
-        ' ' * padding,
-        text,
-        (' ' * (width - len(text) - padding * 2 - 2)))
+
+    def inner(text):
+        """
+        Formats and pads inner text for the message box.
+        """
+
+        return '*{0}{1}{2}{0}*'.format(
+            ' ' * padding, text, (' ' * (width - len(text) - padding * 2 - 2)))
 
     print('=' * width)
     print(inner(''))
 
-    wrapper = TextWrapper(width=ideal_width,
-                          break_long_words=False,
-                          replace_whitespace=False)
+    wrapper = TextWrapper(
+        width=ideal_width, break_long_words=False, replace_whitespace=False)
 
     lines = [wrapper.wrap(line) for line in message.split("\n")]
     lines = [' ' if len(line) == 0 else line for line in lines]

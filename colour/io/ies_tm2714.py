@@ -1012,7 +1012,6 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
         self.name = os.path.splitext(os.path.basename(self.__path))[0]
 
         iterator = root.iter
-        text_conversion = lambda x: x
 
         for header_element in (self.header, self):
             mapping = header_element.mapping
@@ -1022,15 +1021,14 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
                 if element is not None:
                     setattr(header_element,
                             specification.attribute,
-                            specification.read_conversion(
-                                text_conversion(element.text)))
+                            specification.read_conversion(element.text))
 
         # Reading spectral data.
         for spectral_data in iterator('{{{0}}}{1}'.format(
                 namespace, self.mapping.data.element)):
             wavelength = float(spectral_data.attrib[
                 self.mapping.data.attribute])
-            value = float(text_conversion(spectral_data.text))
+            value = float(spectral_data.text)
             self[wavelength] = value
 
         return True

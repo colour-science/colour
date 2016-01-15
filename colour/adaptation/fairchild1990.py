@@ -239,12 +239,23 @@ def degrees_of_adaptation(LMS, Y_n, v=1 / 3, discount_illuminant=False):
 
     Ye_n = Y_n ** v
 
-    f_E = lambda x, y: (3 * (x / y)) / (L / L_E + M / M_E + S / S_E)
-    f_P = lambda x: (1 + Ye_n + x) / (1 + Ye_n + 1 / x)
+    def m_E(x, y):
+        """
+        Computes the :math:`m_E` term.
+        """
 
-    p_L = f_P(f_E(L, L_E))
-    p_M = f_P(f_E(M, M_E))
-    p_S = f_P(f_E(S, S_E))
+        return (3 * (x / y)) / (L / L_E + M / M_E + S / S_E)
+
+    def P_c(x):
+        """
+        Computes the :math:`P_L`, :math:`P_M` or :math:`P_S` terms.
+        """
+
+        return (1 + Ye_n + x) / (1 + Ye_n + 1 / x)
+
+    p_L = P_c(m_E(L, L_E))
+    p_M = P_c(m_E(M, M_E))
+    p_S = P_c(m_E(S, S_E))
 
     p_LMS = tstack((p_L, p_M, p_S))
 

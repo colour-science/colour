@@ -48,37 +48,37 @@ if sys.version_info[0] >= 3:
     itertools.izip = zip
 
 from .adaptation import *  # noqa
-from . import adaptation
+from . import adaptation  # noqa
 from .algebra import *  # noqa
-from . import algebra
+from . import algebra  # noqa
 from .appearance import *  # noqa
-from . import appearance
+from . import appearance  # noqa
 from .colorimetry import *  # noqa
-from . import colorimetry
+from . import colorimetry  # noqa
 from .constants import *  # noqa
-from . import constants
+from . import constants  # noqa
 from .difference import *  # noqa
-from . import difference
+from . import difference  # noqa
 from .characterisation import *  # noqa
-from . import characterisation
+from . import characterisation  # noqa
 from .io import *  # noqa
-from . import io
+from . import io  # noqa
 from .models import *  # noqa
-from . import models
+from . import models  # noqa
 from .corresponding import *  # noqa
-from . import corresponding
+from . import corresponding  # noqa
 from .phenomenons import *  # noqa
-from . import phenomenons
+from . import phenomenons  # noqa
 from .notation import *  # noqa
-from . import notation
+from . import notation  # noqa
 from .quality import *  # noqa
-from . import quality
+from . import quality  # noqa
 from .recovery import *  # noqa
-from . import recovery
+from . import recovery  # noqa
 from .temperature import *  # noqa
-from . import temperature
+from . import temperature  # noqa
 from .volume import *  # noqa
-from . import volume
+from . import volume  # noqa
 from .utilities import *  # noqa
 from . import utilities  # noqa
 

@@ -67,6 +67,19 @@ class RGB_Colourspace(object):
     EOCF : object, optional
         Electro-optical conversion function (EOCF) that maps an :math:`R'G'B'`
         video component signal to a tristimulus value at the display.
+
+    Attributes
+    ----------
+    name
+    primaries
+    whitepoint
+    illuminant
+    RGB_to_XYZ_matrix
+    XYZ_to_RGB_matrix
+    OECF
+    EOCF
+    OETF
+    EOTF
     """
 
     def __init__(self,
@@ -328,6 +341,58 @@ class RGB_Colourspace(object):
                 '"{0}" attribute: "{1}" is not callable!'.format(
                     'EOCF', value))
         self.__EOCF = value
+
+    @property
+    def OETF(self):
+        """
+        Alias property for **self.OECF** property.
+
+        Returns
+        -------
+        object
+            self.OECF
+        """
+
+        return self.OECF
+
+    @OETF.setter
+    def OETF(self, value):
+        """
+        Alias setter for **self.OECF** property.
+
+        Parameters
+        ----------
+        value : object
+            Attribute value.
+        """
+
+        self.OECF = value
+
+    @property
+    def EOTF(self):
+        """
+        Alias property for **self.EOCF** property.
+
+        Returns
+        -------
+        object
+            self.EOCF.
+        """
+
+        return self.EOCF
+
+    @EOTF.setter
+    def EOTF(self, value):
+        """
+        Alias setter for **self.EOCF** property.
+
+        Parameters
+        ----------
+        value : object
+            Attribute value.
+        """
+
+        self.EOCF = value
 
 
 def XYZ_to_RGB(XYZ,
