@@ -8,6 +8,7 @@ Geometry
 Defines objects related to geometrical computations:
 
 -   :func:`normalise_vector`
+-   :func:`euclidean_distance`
 -   :func:`line_segments_intersections`
 """
 
@@ -55,17 +56,17 @@ def normalise_vector(v):
     return v / np.linalg.norm(v)
 
 
-def euclidean_distance(xy_1, xy_2):
+def euclidean_distance(v_1, v_2):
     """
-    Returns the euclidean distance between :math:`xy_1` and :math:`xy_2` point
-    coordinates arrays.
+    Returns the euclidean distance between :math:`v_1` and :math:`v_2` vector
+    arrays.
 
     Parameters
     ----------
-    xy_1 : array_like
-        :math:`xy_1` point coordinates array.
-    xy_2 : array_like
-        :math:`xy_2` point coordinates array.
+    v_1 : array_like
+        :math:`v_1` vector array.
+    v_2 : array_like
+        :math:`v_2` vector array.
     Returns
     -------
     numeric or ndarray
@@ -73,13 +74,13 @@ def euclidean_distance(xy_1, xy_2):
 
     Examples
     --------
-    >>> xy_1 = np.array([100.00000000, 21.57210357, 272.22819350])
-    >>> xy_2 = np.array([100.00000000, 426.67945353, 72.39590835])
-    >>> euclidean_distance(xy_1, xy_2)  # doctest: +ELLIPSIS
+    >>> v_1 = np.array([100.00000000, 21.57210357, 272.22819350])
+    >>> v_2 = np.array([100.00000000, 426.67945353, 72.39590835])
+    >>> euclidean_distance(v_1, v_2)  # doctest: +ELLIPSIS
     451.7133019...
     """
 
-    return np.linalg.norm(np.asarray(xy_1) - np.asarray(xy_2), axis=-1)
+    return np.linalg.norm(np.asarray(v_1) - np.asarray(v_2), axis=-1)
 
 
 class LineSegmentsIntersections_Specification(

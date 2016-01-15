@@ -94,27 +94,27 @@ class TestEuclideanDistance(unittest.TestCase):
         n-dimensional arrays support.
         """
 
-        xy_1 = np.array([100.00000000, 21.57210357, 272.22819350])
-        xy_2 = np.array([100.00000000, 426.67945353, 72.39590835])
+        v_1 = np.array([100.00000000, 21.57210357, 272.22819350])
+        v_2 = np.array([100.00000000, 426.67945353, 72.39590835])
         distance = 451.71330197359117
         np.testing.assert_almost_equal(
-            euclidean_distance(xy_1, xy_2),
+            euclidean_distance(v_1, v_2),
             distance,
             decimal=7)
 
-        xy_1 = np.tile(xy_1, (6, 1))
-        xy_2 = np.tile(xy_2, (6, 1))
+        v_1 = np.tile(v_1, (6, 1))
+        v_2 = np.tile(v_2, (6, 1))
         distance = np.tile(distance, 6)
         np.testing.assert_almost_equal(
-            euclidean_distance(xy_1, xy_2),
+            euclidean_distance(v_1, v_2),
             distance,
             decimal=7)
 
-        xy_1 = np.reshape(xy_1, (2, 3, 3))
-        xy_2 = np.reshape(xy_2, (2, 3, 3))
+        v_1 = np.reshape(v_1, (2, 3, 3))
+        v_2 = np.reshape(v_2, (2, 3, 3))
         distance = np.reshape(distance, (2, 3))
         np.testing.assert_almost_equal(
-            euclidean_distance(xy_1, xy_2),
+            euclidean_distance(v_1, v_2),
             distance,
             decimal=7)
 
@@ -128,9 +128,9 @@ class TestEuclideanDistance(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))
         for case in cases:
-            xy_1 = np.array(case)
-            xy_2 = np.array(case)
-            euclidean_distance(xy_1, xy_2)
+            v_1 = np.array(case)
+            v_2 = np.array(case)
+            euclidean_distance(v_1, v_2)
 
 
 class TestLineSegmentsIntersections(unittest.TestCase):
