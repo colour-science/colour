@@ -27,6 +27,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
+from colour.algebra import euclidean_distance
 from colour.colorimetry import (
     D_illuminant_relative_spd,
     STANDARD_OBSERVERS_CMFS,
@@ -264,6 +265,6 @@ def colour_rendering_indexes(test_data, reference_data):
     for i, _ in enumerate(test_data):
         Q_as[i + 1] = TCS_ColourQualityScaleData(
             test_data[i].name,
-            100 - 4.6 * np.linalg.norm(
-                reference_data[i].UVW - test_data[i].UVW))
+            100 - 4.6 * euclidean_distance(reference_data[i].UVW,
+                                           test_data[i].UVW))
     return Q_as

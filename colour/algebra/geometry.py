@@ -26,6 +26,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['normalise_vector',
+           'euclidean_distance',
            'LineSegmentsIntersections_Specification',
            'line_segments_intersections']
 
@@ -52,6 +53,33 @@ def normalise_vector(v):
     """
 
     return v / np.linalg.norm(v)
+
+
+def euclidean_distance(xy_1, xy_2):
+    """
+    Returns the euclidean distance between :math:`xy_1` and :math:`xy_2` point
+    coordinates arrays.
+
+    Parameters
+    ----------
+    xy_1 : array_like
+        :math:`xy_1` point coordinates array.
+    xy_2 : array_like
+        :math:`xy_2` point coordinates array.
+    Returns
+    -------
+    numeric or ndarray
+        Euclidean distance.
+
+    Examples
+    --------
+    >>> xy_1 = np.array([100.00000000, 21.57210357, 272.22819350])
+    >>> xy_2 = np.array([100.00000000, 426.67945353, 72.39590835])
+    >>> euclidean_distance(xy_1, xy_2)  # doctest: +ELLIPSIS
+    451.7133019...
+    """
+
+    return np.linalg.norm(np.asarray(xy_1) - np.asarray(xy_2), axis=-1)
 
 
 class LineSegmentsIntersections_Specification(
@@ -147,34 +175,34 @@ def line_segments_intersections(l_1, l_2):
     l_1 = np.reshape(l_1, (-1, 4))
     l_2 = np.reshape(l_2, (-1, 4))
 
-    r1, c1 = l_1.shape[0], l_1.shape[1]
-    r2, c2 = l_2.shape[0], l_2.shape[1]
+    r_1, c_1 = l_1.shape[0], l_1.shape[1]
+    r_2, c_2 = l_2.shape[0], l_2.shape[1]
 
-    x1, y1, x2, y2 = [np.tile(l_1[:, i, np.newaxis], (1, r2))
-                      for i in range(c1)]
+    x_1, y_1, x_2, y_2 = [np.tile(l_1[:, i, np.newaxis], (1, r_2))
+                          for i in range(c_1)]
 
     l_2 = np.transpose(l_2)
 
-    x3, y3, x4, y4 = [np.tile(l_2[i, :], (r1, 1))
-                      for i in range(c2)]
+    x_3, y_3, x_4, y_4 = [np.tile(l_2[i, :], (r_1, 1))
+                          for i in range(c_2)]
 
-    x4_x3 = x4 - x3
-    y1_y3 = y1 - y3
-    y4_y3 = y4 - y3
-    x1_x3 = x1 - x3
-    x2_x1 = x2 - x1
-    y2_y1 = y2 - y1
+    x_4_x_3 = x_4 - x_3
+    y_1_y_3 = y_1 - y_3
+    y_4_y_3 = y_4 - y_3
+    x_1_x_3 = x_1 - x_3
+    x_2_x_1 = x_2 - x_1
+    y_2_y_1 = y_2 - y_1
 
-    numerator_a = x4_x3 * y1_y3 - y4_y3 * x1_x3
-    numerator_b = x2_x1 * y1_y3 - y2_y1 * x1_x3
-    denominator = y4_y3 * x2_x1 - x4_x3 * y2_y1
+    numerator_a = x_4_x_3 * y_1_y_3 - y_4_y_3 * x_1_x_3
+    numerator_b = x_2_x_1 * y_1_y_3 - y_2_y_1 * x_1_x_3
+    denominator = y_4_y_3 * x_2_x_1 - x_4_x_3 * y_2_y_1
 
     u_a = numerator_a / denominator
     u_b = numerator_b / denominator
 
     intersect = np.logical_and.reduce(
         (u_a >= 0, u_a <= 1, u_b >= 0, u_b <= 1))
-    xy = tstack((x1 + x2_x1 * u_a, y1 + y2_y1 * u_a))
+    xy = tstack((x_1 + x_2_x_1 * u_a, y_1 + y_2_y_1 * u_a))
     xy[~intersect] = np.nan
     parallel = denominator == 0
     coincident = np.logical_and.reduce(

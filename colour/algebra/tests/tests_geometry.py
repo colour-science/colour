@@ -9,8 +9,13 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 import unittest
+from itertools import permutations
 
-from colour.algebra import normalise_vector, line_segments_intersections
+from colour.algebra import (
+    normalise_vector,
+    euclidean_distance,
+    line_segments_intersections)
+from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -20,6 +25,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['TestNormaliseVector',
+           'TestEuclideanDistance',
            'TestLineSegmentsIntersections']
 
 
@@ -48,6 +54,83 @@ class TestNormaliseVector(unittest.TestCase):
             normalise_vector(np.array([0.25506814, 0.19150000, 0.08849752])),
             np.array([0.7705887, 0.5785424, 0.2673607]),
             decimal=7)
+
+
+class TestEuclideanDistance(unittest.TestCase):
+    """
+    Defines :func:`colour.algebra.geometry.euclidean_distance` definition unit
+    tests methods.
+    """
+
+    def test_euclidean_distance(self):
+        """
+        Tests :func:`colour.algebra.geometry.euclidean_distance` definition.
+        """
+
+        self.assertAlmostEqual(
+            euclidean_distance(
+                np.array([100.00000000, 21.57210357, 272.22819350]),
+                np.array([100.00000000, 426.67945353, 72.39590835])),
+            451.713301974,
+            places=7)
+
+        self.assertAlmostEqual(
+            euclidean_distance(
+                np.array([100.00000000, 21.57210357, 272.22819350]),
+                np.array([100.00000000, 74.05216981, 276.45318193])),
+            52.6498611564,
+            places=7)
+
+        self.assertAlmostEqual(
+            euclidean_distance(
+                np.array([100.00000000, 21.57210357, 272.22819350]),
+                np.array([100.00000000, 8.32281957, -73.58297716])),
+            346.064891718,
+            places=7)
+
+    def test_n_dimensional_euclidean_distance(self):
+        """
+        Tests :func:`colour.algebra.geometry.euclidean_distance` definition
+        n-dimensional arrays support.
+        """
+
+        xy_1 = np.array([100.00000000, 21.57210357, 272.22819350])
+        xy_2 = np.array([100.00000000, 426.67945353, 72.39590835])
+        distance = 451.71330197359117
+        np.testing.assert_almost_equal(
+            euclidean_distance(xy_1, xy_2),
+            distance,
+            decimal=7)
+
+        xy_1 = np.tile(xy_1, (6, 1))
+        xy_2 = np.tile(xy_2, (6, 1))
+        distance = np.tile(distance, 6)
+        np.testing.assert_almost_equal(
+            euclidean_distance(xy_1, xy_2),
+            distance,
+            decimal=7)
+
+        xy_1 = np.reshape(xy_1, (2, 3, 3))
+        xy_2 = np.reshape(xy_2, (2, 3, 3))
+        distance = np.reshape(distance, (2, 3))
+        np.testing.assert_almost_equal(
+            euclidean_distance(xy_1, xy_2),
+            distance,
+            decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_euclidean_distance(self):
+        """
+        Tests :func:`colour.algebra.geometry.euclidean_distance` definition nan
+        support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            xy_1 = np.array(case)
+            xy_2 = np.array(case)
+            euclidean_distance(xy_1, xy_2)
 
 
 class TestLineSegmentsIntersections(unittest.TestCase):

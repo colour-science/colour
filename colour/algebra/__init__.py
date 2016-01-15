@@ -8,6 +8,7 @@ from . import coordinates
 from .extrapolation import Extrapolator
 from .geometry import (
     normalise_vector,
+    euclidean_distance,
     LineSegmentsIntersections_Specification,
     line_segments_intersections)
 from .interpolation import (LinearInterpolator,
@@ -21,6 +22,7 @@ __all__ = []
 __all__ += coordinates.__all__
 __all__ += ['Extrapolator']
 __all__ += ['normalise_vector',
+            'euclidean_distance',
             'LineSegmentsIntersections_Specification',
             'line_segments_intersections']
 __all__ += ['LinearInterpolator',
