@@ -14,7 +14,8 @@ from itertools import permutations
 from colour.algebra import (
     normalise_vector,
     euclidean_distance,
-    line_segments_intersections)
+    extend_line_segment,
+    intersect_line_segments)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -26,7 +27,8 @@ __status__ = 'Production'
 
 __all__ = ['TestNormaliseVector',
            'TestEuclideanDistance',
-           'TestLineSegmentsIntersections']
+           'TestExtendLineSegment',
+           'TestIntersectLineSegments']
 
 
 class TestNormaliseVector(unittest.TestCase):
@@ -94,27 +96,27 @@ class TestEuclideanDistance(unittest.TestCase):
         n-dimensional arrays support.
         """
 
-        v_1 = np.array([100.00000000, 21.57210357, 272.22819350])
-        v_2 = np.array([100.00000000, 426.67945353, 72.39590835])
+        a = np.array([100.00000000, 21.57210357, 272.22819350])
+        b = np.array([100.00000000, 426.67945353, 72.39590835])
         distance = 451.71330197359117
         np.testing.assert_almost_equal(
-            euclidean_distance(v_1, v_2),
+            euclidean_distance(a, b),
             distance,
             decimal=7)
 
-        v_1 = np.tile(v_1, (6, 1))
-        v_2 = np.tile(v_2, (6, 1))
+        a = np.tile(a, (6, 1))
+        b = np.tile(b, (6, 1))
         distance = np.tile(distance, 6)
         np.testing.assert_almost_equal(
-            euclidean_distance(v_1, v_2),
+            euclidean_distance(a, b),
             distance,
             decimal=7)
 
-        v_1 = np.reshape(v_1, (2, 3, 3))
-        v_2 = np.reshape(v_2, (2, 3, 3))
+        a = np.reshape(a, (2, 3, 3))
+        b = np.reshape(b, (2, 3, 3))
         distance = np.reshape(distance, (2, 3))
         np.testing.assert_almost_equal(
-            euclidean_distance(v_1, v_2),
+            euclidean_distance(a, b),
             distance,
             decimal=7)
 
@@ -128,20 +130,55 @@ class TestEuclideanDistance(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))
         for case in cases:
-            v_1 = np.array(case)
-            v_2 = np.array(case)
-            euclidean_distance(v_1, v_2)
+            a = np.array(case)
+            b = np.array(case)
+            euclidean_distance(a, b)
 
 
-class TestLineSegmentsIntersections(unittest.TestCase):
+class TestExtendLineSegment(unittest.TestCase):
     """
-    Defines :func:`colour.algebra.geometry.line_segments_intersections`
-    definition unit tests methods.
+    Defines :func:`colour.algebra.geometry.extend_line_segment` definition unit
+    tests methods.
     """
 
-    def test_line_segments_intersections(self):
+    def test_extend_line_segment(self):
         """
-        Tests :func:`colour.algebra.geometry.line_segments_intersections`
+        Tests :func:`colour.algebra.geometry.extend_line_segment` definition.
+        """
+
+        np.testing.assert_almost_equal(
+            extend_line_segment(
+                np.array([0.95694934, 0.13720932]),
+                np.array([0.28382835, 0.60608318])),
+            np.array([-0.5367248, 1.1776534]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            extend_line_segment(
+                np.array([0.95694934, 0.13720932]),
+                np.array([0.28382835, 0.60608318]),
+                5),
+            np.array([-3.8189374, 3.4639343]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            extend_line_segment(
+                np.array([0.95694934, 0.13720932]),
+                np.array([0.28382835, 0.60608318]),
+                -1),
+            np.array([1.1043815, 0.0345129]),
+            decimal=7)
+
+
+class TestIntersectLineSegments(unittest.TestCase):
+    """
+    Defines :func:`colour.algebra.geometry.intersect_line_segments` definition
+    unit tests methods.
+    """
+
+    def test_intersect_line_segments(self):
+        """
+        Tests :func:`colour.algebra.geometry.intersect_line_segments`
         definition.
         """
 
@@ -158,7 +195,7 @@ class TestLineSegmentsIntersections(unittest.TestCase):
                         [[0.01457496, 0.91874701],
                          [0.90071485, 0.03342143]]])
 
-        s = line_segments_intersections(l_1, l_2)
+        s = intersect_line_segments(l_1, l_2)
 
         np.testing.assert_almost_equal(
             s.xy,

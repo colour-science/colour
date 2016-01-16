@@ -9,7 +9,8 @@ Defines objects related to geometrical computations:
 
 -   :func:`normalise_vector`
 -   :func:`euclidean_distance`
--   :func:`line_segments_intersections`
+-   :func:`extend_line_segment`
+-   :func:`intersect_line_segments`
 """
 
 from __future__ import division, unicode_literals
@@ -17,7 +18,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
-from colour.utilities import tstack
+from colour.utilities import tsplit, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -28,45 +29,47 @@ __status__ = 'Production'
 
 __all__ = ['normalise_vector',
            'euclidean_distance',
+           'extend_line_segment',
            'LineSegmentsIntersections_Specification',
-           'line_segments_intersections']
+           'intersect_line_segments']
 
 
-def normalise_vector(v):
+def normalise_vector(a):
     """
-    Normalises given vector :math:`v`.
+    Normalises given vector :math:`a`.
 
     Parameters
     ----------
-    v : array_like
-        Vector :math:`v` to normalise.
+    a : array_like
+        Vector :math:`a` to normalise.
 
     Returns
     -------
     ndarray
-        Normalised vector :math:`v`.
+        Normalised vector :math:`a`.
 
     Examples
     --------
-    >>> v = np.array([0.07049534, 0.10080000, 0.09558313])
-    >>> normalise_vector(v)  # doctest: +ELLIPSIS
+    >>> a = np.array([0.07049534, 0.10080000, 0.09558313])
+    >>> normalise_vector(a)  # doctest: +ELLIPSIS
     array([ 0.4525410...,  0.6470802...,  0.6135908...])
     """
 
-    return v / np.linalg.norm(v)
+    return a / np.linalg.norm(a)
 
 
-def euclidean_distance(v_1, v_2):
+def euclidean_distance(a, b):
     """
-    Returns the euclidean distance between :math:`v_1` and :math:`v_2` vector
-    arrays.
+    Returns the euclidean distance between point arrays :math:`a` and
+    :math:`b`.
 
     Parameters
     ----------
-    v_1 : array_like
-        :math:`v_1` vector array.
-    v_2 : array_like
-        :math:`v_2` vector array.
+    a : array_like
+        Point array :math:`a`.
+    b : array_like
+        Point array :math:`b`.
+
     Returns
     -------
     numeric or ndarray
@@ -74,13 +77,63 @@ def euclidean_distance(v_1, v_2):
 
     Examples
     --------
-    >>> v_1 = np.array([100.00000000, 21.57210357, 272.22819350])
-    >>> v_2 = np.array([100.00000000, 426.67945353, 72.39590835])
-    >>> euclidean_distance(v_1, v_2)  # doctest: +ELLIPSIS
+    >>> a = np.array([100.00000000, 21.57210357, 272.22819350])
+    >>> b = np.array([100.00000000, 426.67945353, 72.39590835])
+    >>> euclidean_distance(a, b)  # doctest: +ELLIPSIS
     451.7133019...
     """
 
-    return np.linalg.norm(np.asarray(v_1) - np.asarray(v_2), axis=-1)
+    return np.linalg.norm(np.asarray(a) - np.asarray(b), axis=-1)
+
+
+def extend_line_segment(a, b, distance=1):
+    """
+    Extends the line segment defined by point arrays :math:`a` and :math:`b` by
+    given distance and return the new end point.
+
+    Parameters
+    ----------
+    a : array_like
+        Point array :math:`a`.
+    b : array_like
+        Point array :math:`b`.
+    distance : numeric, optional
+        Distance to extend the line segment.
+
+    Returns
+    -------
+    ndarray
+        New end point.
+
+    References
+    ----------
+    .. [1]  Saeedn. (n.d.). Extend a line segment a specific distance.
+            Retrieved January 16, 2016, from http://stackoverflow.com/\
+questions/7740507/extend-a-line-segment-a-specific-distance
+
+    Notes
+    -----
+    -   Input line segment points coordinates are 2d coordinates.
+
+    Examples
+    --------
+    >>> a = np.array([0.95694934, 0.13720932])
+    >>> b = np.array([0.28382835, 0.60608318])
+    >>> extend_line_segment(a, b)  # doctest: +ELLIPSIS
+    array([-0.5367248...,  1.1776534...])
+    """
+
+    x_a, y_a = tsplit(a)
+    x_b, y_b = tsplit(b)
+
+    d = euclidean_distance(a, b)
+
+    x_c = x_b + (x_b - x_a) / d * distance
+    y_c = y_b + (y_b - y_a) / d * distance
+
+    xy_c = tstack((x_c, y_c))
+
+    return xy_c
 
 
 class LineSegmentsIntersections_Specification(
@@ -88,7 +141,7 @@ class LineSegmentsIntersections_Specification(
                ('xy', 'intersect', 'parallel', 'coincident'))):
     """
     Defines the specification for intersection of line segments :math:`l_1` and
-    :math:`l_2` returned by :func:`line_segments_intersections` definition.
+    :math:`l_2` returned by :func:`intersect_line_segments` definition.
 
     Parameters
     ----------
@@ -108,7 +161,7 @@ class LineSegmentsIntersections_Specification(
     """
 
 
-def line_segments_intersections(l_1, l_2):
+def intersect_line_segments(l_1, l_2):
     """
     Computes :math:`l_1` line segments intersections with :math:`l_2` line
     segments.
@@ -133,13 +186,17 @@ def line_segments_intersections(l_1, l_2):
 
     References
     ----------
-    .. [1]  Bourke, P. (n.d.). Intersection point of two line segments in 2
+    .. [2]  Bourke, P. (n.d.). Intersection point of two line segments in 2
             dimensions. Retrieved January 15, 2016, from
             http://paulbourke.net/geometry/pointlineplane/
-    .. [2]  Erdem, U. M. (n.d.). Fast Line Segment Intersection. Retrieved
+    .. [3]  Erdem, U. M. (n.d.). Fast Line Segment Intersection. Retrieved
             January 15, 2016, from
             http://www.mathworks.com/matlabcentral/fileexchange/\
 27205-fast-line-segment-intersection
+
+    Notes
+    -----
+    -   Input line segments points coordinates are 2d coordinates.
 
     Examples
     --------
@@ -153,7 +210,7 @@ def line_segments_intersections(l_1, l_2):
     ...                  [0.00225923, 0.52122603]],
     ...                 [[0.55203763, 0.48537741],
     ...                  [0.76813415, 0.16071675]]])
-    >>> s = line_segments_intersections(l_1, l_2)
+    >>> s = intersect_line_segments(l_1, l_2)
     >>> s.xy  # doctest: +ELLIPSIS
     array([[[        nan,         nan],
             [ 0.2279184...,  0.6006430...],

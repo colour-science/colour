@@ -9,8 +9,9 @@ from .extrapolation import Extrapolator
 from .geometry import (
     normalise_vector,
     euclidean_distance,
+    extend_line_segment,
     LineSegmentsIntersections_Specification,
-    line_segments_intersections)
+    intersect_line_segments)
 from .interpolation import (LinearInterpolator,
                             SpragueInterpolator,
                             CubicSplineInterpolator,
@@ -23,8 +24,9 @@ __all__ += coordinates.__all__
 __all__ += ['Extrapolator']
 __all__ += ['normalise_vector',
             'euclidean_distance',
+            'extend_line_segment',
             'LineSegmentsIntersections_Specification',
-            'line_segments_intersections']
+            'intersect_line_segments']
 __all__ += ['LinearInterpolator',
             'SpragueInterpolator',
             'CubicSplineInterpolator',
