@@ -24,7 +24,6 @@ __status__ = 'Production'
 __all__ = ['SHORT_DESCRIPTION',
            'LONG_DESCRIPTION',
            'INSTALLATION_REQUIREMENTS',
-           'OPTIONAL_REQUIREMENTS',
            'PLOTTING_REQUIREMENTS',
            'DOCS_REQUIREMENTS',
            'TESTS_REQUIREMENTS']
@@ -33,9 +32,7 @@ SHORT_DESCRIPTION = 'Colour Science for Python'
 
 LONG_DESCRIPTION = open('README.rst').read()
 
-INSTALLATION_REQUIREMENTS = ['numpy>=1.8.1']
-
-OPTIONAL_REQUIREMENTS = ['scipy>=0.16.0']
+INSTALLATION_REQUIREMENTS = ['scipy>=0.16.0']
 
 PLOTTING_REQUIREMENTS = ['matplotlib>=1.3.1']
 
@@ -65,7 +62,6 @@ setup(name='colour-science',
       install_requires=INSTALLATION_REQUIREMENTS,
       extras_require={
           'docs': DOCS_REQUIREMENTS,
-          'optional': OPTIONAL_REQUIREMENTS,
           'plotting': PLOTTING_REQUIREMENTS,
           'tests': TESTS_REQUIREMENTS},
       classifiers=['Development Status :: 3 - Alpha',

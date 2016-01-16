@@ -32,7 +32,6 @@ from colour.models import (
     RGB_to_XYZ,
     XYZ_to_Lab,
     XYZ_to_RGB)
-from colour.utilities import is_scipy_installed
 from colour.volume import is_within_pointer_gamut, is_within_visible_spectrum
 
 __author__ = 'Colour Developers'
@@ -318,25 +317,24 @@ def RGB_colourspace_volume_coverage_MonteCarlo(
     83...
     """
 
-    if is_scipy_installed(raise_exception=True):
-        random_state = (random_state
-                        if random_state is not None else
-                        np.random.RandomState())
+    random_state = (random_state
+                    if random_state is not None else
+                    np.random.RandomState())
 
-        # TODO: Investigate for generator yielding directly a ndarray.
-        XYZ = np.asarray(list(random_generator(
-            samples, random_state=random_state)))
-        XYZ_vs = XYZ[coverage_sampler(XYZ)]
+    # TODO: Investigate for generator yielding directly a ndarray.
+    XYZ = np.asarray(list(random_generator(
+        samples, random_state=random_state)))
+    XYZ_vs = XYZ[coverage_sampler(XYZ)]
 
-        RGB = XYZ_to_RGB(XYZ_vs,
-                         colourspace.whitepoint,
-                         colourspace.whitepoint,
-                         colourspace.XYZ_to_RGB_matrix)
+    RGB = XYZ_to_RGB(XYZ_vs,
+                     colourspace.whitepoint,
+                     colourspace.whitepoint,
+                     colourspace.XYZ_to_RGB_matrix)
 
-        RGB_c = RGB[np.logical_and(np.min(RGB, axis=-1) >= 0,
-                                   np.max(RGB, axis=-1) <= 1)]
+    RGB_c = RGB[np.logical_and(np.min(RGB, axis=-1) >= 0,
+                               np.max(RGB, axis=-1) <= 1)]
 
-        return 100 * RGB_c.size / XYZ_vs.size
+    return 100 * RGB_c.size / XYZ_vs.size
 
 
 def RGB_colourspace_pointer_gamut_coverage_MonteCarlo(

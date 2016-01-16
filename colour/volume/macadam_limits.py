@@ -17,10 +17,10 @@ blob/master/notebooks/volume/macadam_limits.ipynb>`_
 from __future__ import division, unicode_literals
 
 import numpy as np
+from scipy.spatial import Delaunay
 
 from colour.models import xyY_to_XYZ
 from colour.volume import ILLUMINANTS_OPTIMAL_COLOUR_STIMULI
-from colour.utilities import is_scipy_installed
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -99,17 +99,14 @@ def is_within_macadam_limits(xyY, illuminant, tolerance=None):
     array([ True, False], dtype=bool)
     """
 
-    if is_scipy_installed(raise_exception=True):
-        from scipy.spatial import Delaunay
+    optimal_colour_stimuli = _XYZ_optimal_colour_stimuli(illuminant)
+    triangulation = _XYZ_OPTIMAL_COLOUR_STIMULI_TRIANGULATIONS_CACHE.get(
+        illuminant)
+    if triangulation is None:
+        _XYZ_OPTIMAL_COLOUR_STIMULI_TRIANGULATIONS_CACHE[illuminant] = \
+            triangulation = Delaunay(optimal_colour_stimuli)
 
-        optimal_colour_stimuli = _XYZ_optimal_colour_stimuli(illuminant)
-        triangulation = _XYZ_OPTIMAL_COLOUR_STIMULI_TRIANGULATIONS_CACHE.get(
-            illuminant)
-        if triangulation is None:
-            _XYZ_OPTIMAL_COLOUR_STIMULI_TRIANGULATIONS_CACHE[illuminant] = \
-                triangulation = Delaunay(optimal_colour_stimuli)
+    simplex = triangulation.find_simplex(xyY_to_XYZ(xyY), tol=tolerance)
+    simplex = np.where(simplex >= 0, True, False)
 
-        simplex = triangulation.find_simplex(xyY_to_XYZ(xyY), tol=tolerance)
-        simplex = np.where(simplex >= 0, True, False)
-
-        return simplex
+    return simplex

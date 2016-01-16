@@ -18,12 +18,9 @@ Defines classes for interpolating variables.
 from __future__ import division, unicode_literals
 
 import numpy as np
+import scipy.interpolate
 
-from colour.utilities import (
-    as_numeric,
-    is_scipy_installed,
-    steps,
-    warning)
+from colour.utilities import as_numeric, steps
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -494,68 +491,58 @@ class SpragueInterpolator(object):
             raise ValueError('"{0}" is above interpolation range.'.format(x))
 
 
-if is_scipy_installed():
-    import scipy.interpolate
+class CubicSplineInterpolator(scipy.interpolate.interp1d):
+    """
+    Interpolates a 1-D function using cubic spline interpolation.
 
-    class CubicSplineInterpolator(scipy.interpolate.interp1d):
+    Notes
+    -----
+    This class is a wrapper around *scipy.interpolate.interp1d* class.
+    """
+
+    def __init__(self, *args, **kwargs):
+        super(CubicSplineInterpolator, self).__init__(
+            kind='cubic', *args, **kwargs)
+
+
+class PchipInterpolator(scipy.interpolate.PchipInterpolator):
+    """
+    Interpolates a 1-D function using Piecewise Cubic Hermite Interpolating
+    Polynomial interpolation.
+
+    Notes
+    -----
+    This class is a wrapper around *scipy.interpolate.PchipInterpolator*
+    class.
+    """
+
+    def __init__(self, x=None, y=None, *args, **kwargs):
+        super(PchipInterpolator, self).__init__(x, y, *args, **kwargs)
+
+        self.__y = y
+
+    @property
+    def y(self):
         """
-        Interpolates a 1-D function using cubic spline interpolation.
+        Property for **self.__y** private attribute.
 
-        Notes
-        -----
-        This class is a wrapper around *scipy.interpolate.interp1d* class.
+        Returns
+        -------
+        array_like
+            self.__y
         """
 
-        def __init__(self, *args, **kwargs):
-            super(CubicSplineInterpolator, self).__init__(
-                kind='cubic', *args, **kwargs)
+        return self.__y
 
-    class PchipInterpolator(scipy.interpolate.PchipInterpolator):
+    @y.setter
+    def y(self, value):
         """
-        Interpolates a 1-D function using Piecewise Cubic Hermite Interpolating
-        Polynomial interpolation.
+        Setter for **self.__y** private attribute.
 
-        Notes
-        -----
-        This class is a wrapper around *scipy.interpolate.PchipInterpolator*
-        class.
+        Parameters
+        ----------
+        value : array_like
+            Attribute value.
         """
 
-        def __init__(self, x=None, y=None, *args, **kwargs):
-            super(PchipInterpolator, self).__init__(x, y, *args, **kwargs)
-
-            self.__y = y
-
-        @property
-        def y(self):
-            """
-            Property for **self.__y** private attribute.
-
-            Returns
-            -------
-            array_like
-                self.__y
-            """
-
-            return self.__y
-
-        @y.setter
-        def y(self, value):
-            """
-            Setter for **self.__y** private attribute.
-
-            Parameters
-            ----------
-            value : array_like
-                Attribute value.
-            """
-
-            raise AttributeError('"{0}" attribute is read only!'.format('y'))
-
-
-else:
-    warning(('"scipy.interpolate.PchipInterpolator" and '
-             '"scipy.interpolate.interp1d" interpolators are not available, '
-             'using "LinearInterpolator" instead!'))
-
-    PchipInterpolator = CubicSplineInterpolator = LinearInterpolator
+        raise AttributeError('"{0}" attribute is read only!'.format('y'))

@@ -25,6 +25,7 @@ import matplotlib.image
 import matplotlib.pyplot
 import numpy as np
 import pylab
+from scipy.spatial import Delaunay
 
 from colour.algebra import normalise_vector
 from colour.colorimetry import spectral_to_XYZ
@@ -47,11 +48,7 @@ from colour.plotting import (
     boundaries,
     display,
     get_cmfs)
-from colour.utilities import (
-    is_scipy_installed,
-    normalise_maximum,
-    tsplit,
-    tstack)
+from colour.utilities import normalise_maximum, tsplit, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -100,46 +97,43 @@ def CIE_1931_chromaticity_diagram_colours_plot(
     >>> CIE_1931_chromaticity_diagram_colours_plot()  # doctest: +SKIP
     """
 
-    if is_scipy_installed(raise_exception=True):
-        from scipy.spatial import Delaunay
+    settings = {'figure_size': (64, 64)}
+    settings.update(kwargs)
 
-        settings = {'figure_size': (64, 64)}
-        settings.update(kwargs)
+    canvas(**settings)
 
-        canvas(**settings)
+    cmfs = get_cmfs(cmfs)
 
-        cmfs = get_cmfs(cmfs)
+    illuminant = DEFAULT_PLOTTING_ILLUMINANT
 
-        illuminant = DEFAULT_PLOTTING_ILLUMINANT
+    triangulation = Delaunay(XYZ_to_xy(cmfs.values, illuminant),
+                             qhull_options='QJ')
+    xx, yy = np.meshgrid(np.linspace(0, 1, samples),
+                         np.linspace(0, 1, samples))
+    xy = tstack((xx, yy))
+    xy = xy[triangulation.find_simplex(xy) > 0]
 
-        triangulation = Delaunay(XYZ_to_xy(cmfs.values, illuminant),
-                                 qhull_options='QJ')
-        xx, yy = np.meshgrid(np.linspace(0, 1, samples),
-                             np.linspace(0, 1, samples))
-        xy = tstack((xx, yy))
-        xy = xy[triangulation.find_simplex(xy) > 0]
+    XYZ = xy_to_XYZ(xy)
 
-        XYZ = xy_to_XYZ(xy)
+    RGB = normalise_maximum(XYZ_to_sRGB(XYZ, illuminant), axis=-1)
 
-        RGB = normalise_maximum(XYZ_to_sRGB(XYZ, illuminant), axis=-1)
+    x_dot, y_dot = tsplit(xy)
 
-        x_dot, y_dot = tsplit(xy)
+    pylab.scatter(x_dot, y_dot, color=RGB, s=surface)
 
-        pylab.scatter(x_dot, y_dot, color=RGB, s=surface)
+    settings.update({
+        'x_ticker': False,
+        'y_ticker': False,
+        'bounding_box': (0, 1, 0, 1)})
+    settings.update(kwargs)
 
-        settings.update({
-            'x_ticker': False,
-            'y_ticker': False,
-            'bounding_box': (0, 1, 0, 1)})
-        settings.update(kwargs)
+    ax = matplotlib.pyplot.gca()
+    matplotlib.pyplot.setp(ax, frame_on=False)
 
-        ax = matplotlib.pyplot.gca()
-        matplotlib.pyplot.setp(ax, frame_on=False)
+    boundaries(**settings)
+    decorate(**settings)
 
-        boundaries(**settings)
-        decorate(**settings)
-
-        return display(**settings)
+    return display(**settings)
 
 
 def CIE_1931_chromaticity_diagram_plot(
@@ -280,46 +274,43 @@ def CIE_1960_UCS_chromaticity_diagram_colours_plot(
     >>> CIE_1960_UCS_chromaticity_diagram_colours_plot()  # doctest: +SKIP
     """
 
-    if is_scipy_installed(raise_exception=True):
-        from scipy.spatial import Delaunay
+    settings = {'figure_size': (64, 64)}
+    settings.update(kwargs)
 
-        settings = {'figure_size': (64, 64)}
-        settings.update(kwargs)
+    canvas(**settings)
 
-        canvas(**settings)
+    cmfs = get_cmfs(cmfs)
 
-        cmfs = get_cmfs(cmfs)
+    illuminant = DEFAULT_PLOTTING_ILLUMINANT
 
-        illuminant = DEFAULT_PLOTTING_ILLUMINANT
+    triangulation = Delaunay(UCS_to_uv(XYZ_to_UCS(cmfs.values)),
+                             qhull_options='QJ')
+    xx, yy = np.meshgrid(np.linspace(0, 1, samples),
+                         np.linspace(0, 1, samples))
+    xy = tstack((xx, yy))
+    xy = xy[triangulation.find_simplex(xy) > 0]
 
-        triangulation = Delaunay(UCS_to_uv(XYZ_to_UCS(cmfs.values)),
-                                 qhull_options='QJ')
-        xx, yy = np.meshgrid(np.linspace(0, 1, samples),
-                             np.linspace(0, 1, samples))
-        xy = tstack((xx, yy))
-        xy = xy[triangulation.find_simplex(xy) > 0]
+    XYZ = xy_to_XYZ(UCS_uv_to_xy(xy))
 
-        XYZ = xy_to_XYZ(UCS_uv_to_xy(xy))
+    RGB = normalise_maximum(XYZ_to_sRGB(XYZ, illuminant), axis=-1)
 
-        RGB = normalise_maximum(XYZ_to_sRGB(XYZ, illuminant), axis=-1)
+    x_dot, y_dot = tsplit(xy)
 
-        x_dot, y_dot = tsplit(xy)
+    pylab.scatter(x_dot, y_dot, color=RGB, s=surface)
 
-        pylab.scatter(x_dot, y_dot, color=RGB, s=surface)
+    settings.update({
+        'x_ticker': False,
+        'y_ticker': False,
+        'bounding_box': (0, 1, 0, 1)})
+    settings.update(kwargs)
 
-        settings.update({
-            'x_ticker': False,
-            'y_ticker': False,
-            'bounding_box': (0, 1, 0, 1)})
-        settings.update(kwargs)
+    ax = matplotlib.pyplot.gca()
+    matplotlib.pyplot.setp(ax, frame_on=False)
 
-        ax = matplotlib.pyplot.gca()
-        matplotlib.pyplot.setp(ax, frame_on=False)
+    boundaries(**settings)
+    decorate(**settings)
 
-        boundaries(**settings)
-        decorate(**settings)
-
-        return display(**settings)
+    return display(**settings)
 
 
 def CIE_1960_UCS_chromaticity_diagram_plot(
@@ -458,47 +449,44 @@ def CIE_1976_UCS_chromaticity_diagram_colours_plot(
     >>> CIE_1976_UCS_chromaticity_diagram_colours_plot()  # doctest: +SKIP
     """
 
-    if is_scipy_installed(raise_exception=True):
-        from scipy.spatial import Delaunay
+    settings = {'figure_size': (64, 64)}
+    settings.update(kwargs)
 
-        settings = {'figure_size': (64, 64)}
-        settings.update(kwargs)
+    canvas(**settings)
 
-        canvas(**settings)
+    cmfs = get_cmfs(cmfs)
 
-        cmfs = get_cmfs(cmfs)
+    illuminant = DEFAULT_PLOTTING_ILLUMINANT
 
-        illuminant = DEFAULT_PLOTTING_ILLUMINANT
+    triangulation = Delaunay(
+        Luv_to_uv(XYZ_to_Luv(cmfs.values, illuminant), illuminant),
+        qhull_options='QJ Qf')
+    xx, yy = np.meshgrid(np.linspace(0, 1, samples),
+                         np.linspace(0, 1, samples))
+    xy = tstack((xx, yy))
+    xy = xy[triangulation.find_simplex(xy) > 0]
 
-        triangulation = Delaunay(
-            Luv_to_uv(XYZ_to_Luv(cmfs.values, illuminant), illuminant),
-            qhull_options='QJ Qf')
-        xx, yy = np.meshgrid(np.linspace(0, 1, samples),
-                             np.linspace(0, 1, samples))
-        xy = tstack((xx, yy))
-        xy = xy[triangulation.find_simplex(xy) > 0]
+    XYZ = xy_to_XYZ(Luv_uv_to_xy(xy))
 
-        XYZ = xy_to_XYZ(Luv_uv_to_xy(xy))
+    RGB = normalise_maximum(XYZ_to_sRGB(XYZ, illuminant), axis=-1)
 
-        RGB = normalise_maximum(XYZ_to_sRGB(XYZ, illuminant), axis=-1)
+    x_dot, y_dot = tsplit(xy)
 
-        x_dot, y_dot = tsplit(xy)
+    pylab.scatter(x_dot, y_dot, color=RGB, s=surface)
 
-        pylab.scatter(x_dot, y_dot, color=RGB, s=surface)
+    settings.update({
+        'x_ticker': False,
+        'y_ticker': False,
+        'bounding_box': (0, 1, 0, 1)})
+    settings.update(kwargs)
 
-        settings.update({
-            'x_ticker': False,
-            'y_ticker': False,
-            'bounding_box': (0, 1, 0, 1)})
-        settings.update(kwargs)
+    ax = matplotlib.pyplot.gca()
+    matplotlib.pyplot.setp(ax, frame_on=False)
 
-        ax = matplotlib.pyplot.gca()
-        matplotlib.pyplot.setp(ax, frame_on=False)
+    boundaries(**settings)
+    decorate(**settings)
 
-        boundaries(**settings)
-        decorate(**settings)
-
-        return display(**settings)
+    return display(**settings)
 
 
 def CIE_1976_UCS_chromaticity_diagram_plot(

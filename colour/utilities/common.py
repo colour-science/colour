@@ -31,7 +31,6 @@ __all__ = ['handle_numpy_errors',
            'ignore_python_warnings',
            'batch',
            'is_openimageio_installed',
-           'is_scipy_installed',
            'is_iterable',
            'is_string',
            'is_numeric',
@@ -182,40 +181,6 @@ def is_openimageio_installed(raise_exception=False):
     except ImportError as error:
         if raise_exception:
             raise ImportError(('"OpenImageIO" related Api features '
-                               'are not available: "{0}".').format(error))
-        return False
-
-
-def is_scipy_installed(raise_exception=False):
-    """
-    Returns if *scipy* is installed and available.
-
-    Parameters
-    ----------
-    raise_exception : bool
-        Raise exception if *scipy* is unavailable.
-
-    Returns
-    -------
-    bool
-        Is *scipy* installed.
-
-    Raises
-    ------
-    ImportError
-        If *scipy* is not installed.
-    """
-
-    try:
-        # Importing *scipy* Api features used in *Colour*.
-        import scipy.interpolate  # noqa
-        import scipy.ndimage  # noqa
-        import scipy.spatial  # noqa
-
-        return True
-    except ImportError as error:
-        if raise_exception:
-            raise ImportError(('"scipy" or specific "scipy" Api features '
                                'are not available: "{0}".').format(error))
         return False
 
