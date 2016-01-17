@@ -146,9 +146,9 @@ class LineSegmentsIntersections_Specification(
     Parameters
     ----------
     xy : array_like
-        Array storing :math:`l_1` and :math:`l_2` line segments intersections
-        coordinates. Non existing segments intersections coordinates are
-        specified using `np.nan` object.
+        Array of :math:`l_1` and :math:`l_2` line segments intersections
+        coordinates. Non existing segments intersections coordinates are set
+        with `np.nan`.
     intersect : array_like
         Array of *bool* indicating if line segments :math:`l_1` and :math:`l_2`
         intersect.
