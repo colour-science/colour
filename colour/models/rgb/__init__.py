@@ -14,9 +14,11 @@ from .derivation import (
     RGB_luminance)
 from .dataset import *  # noqa
 from . import dataset
-from .log import LINEAR_TO_LOG_METHODS, LOG_TO_LINEAR_METHODS
-from .log import linear_to_log, log_to_linear
-from .log import (
+from .conversion_functions import (
+    LINEAR_TO_LOG_METHODS,
+    LOG_TO_LINEAR_METHODS)
+from .conversion_functions import linear_to_log, log_to_linear
+from .conversion_functions import (
     linear_to_cineon,
     cineon_to_linear,
     linear_to_panalog,
