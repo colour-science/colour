@@ -471,13 +471,13 @@ def corresponding_colour(RGB_1, xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, K, n=1):
     Y_o = np.asarray(Y_o)
     K = np.asarray(K)
 
-    def RGB_c(x1, x2, y1, y2, z):
+    def RGB_c(x_1, x_2, y_1, y_2, z):
         """
         Computes the corresponding colour cone responses component.
         """
 
-        return ((Y_o * x2 + n) * K ** (1 / y2) *
-                ((z + n) / (Y_o * x1 + n)) ** (y1 / y2) - n)
+        return ((Y_o * x_2 + n) * K ** (1 / y_2) *
+                ((z + n) / (Y_o * x_1 + n)) ** (y_1 / y_2) - n)
 
     R_2 = RGB_c(xi_1, xi_2, bR_o1, bR_o2, R_1)
     G_2 = RGB_c(eta_1, eta_2, bG_o1, bG_o2, G_1)

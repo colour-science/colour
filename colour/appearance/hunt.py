@@ -229,6 +229,10 @@ class Hunt_Specification(
         *Hue* :math:`h` quadrature :math:`H`.
     HC : numeric or array_like
         *Hue* :math:`h` composition :math:`H_C`.
+
+    Notes
+    -----
+    -   This specification is the one used in the current model implementation.
     """
 
 

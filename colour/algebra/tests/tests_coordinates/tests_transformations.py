@@ -65,25 +65,25 @@ cartesian_to_spherical` definition.
 cartesian_to_spherical` definition n-dimensional arrays support.
         """
 
-        vector_i = np.array([3, 1, 6])
-        vector_o = np.array([6.78232998, 1.08574654, 0.32175055])
+        a_i = np.array([3, 1, 6])
+        a_o = np.array([6.78232998, 1.08574654, 0.32175055])
         np.testing.assert_almost_equal(
-            cartesian_to_spherical(vector_i),
-            vector_o,
+            cartesian_to_spherical(a_i),
+            a_o,
             decimal=7)
 
-        vector_i = np.tile(vector_i, (6, 1))
-        vector_o = np.tile(vector_o, (6, 1))
+        a_i = np.tile(a_i, (6, 1))
+        a_o = np.tile(a_o, (6, 1))
         np.testing.assert_almost_equal(
-            cartesian_to_spherical(vector_i),
-            vector_o,
+            cartesian_to_spherical(a_i),
+            a_o,
             decimal=7)
 
-        vector_i = np.reshape(vector_i, (2, 3, 3))
-        vector_o = np.reshape(vector_o, (2, 3, 3))
+        a_i = np.reshape(a_i, (2, 3, 3))
+        a_o = np.reshape(a_o, (2, 3, 3))
         np.testing.assert_almost_equal(
-            cartesian_to_spherical(vector_i),
-            vector_o,
+            cartesian_to_spherical(a_i),
+            a_o,
             decimal=7)
 
     @ignore_numpy_errors
@@ -96,8 +96,8 @@ cartesian_to_spherical` definition nan support.
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))
         for case in cases:
-            vector_i = np.array(case)
-            cartesian_to_spherical(vector_i)
+            a_i = np.array(case)
+            cartesian_to_spherical(a_i)
 
 
 class TestSphericalToCartesian(unittest.TestCase):
@@ -136,25 +136,25 @@ spherical_to_cartesian` definition.
 spherical_to_cartesian` definition n-dimensional arrays support.
         """
 
-        vector_i = np.array([6.78232998, 1.08574654, 0.32175055])
-        vector_o = np.array([3, 1, 6])
+        a_i = np.array([6.78232998, 1.08574654, 0.32175055])
+        a_o = np.array([3, 1, 6])
         np.testing.assert_almost_equal(
-            spherical_to_cartesian(vector_i),
-            vector_o,
+            spherical_to_cartesian(a_i),
+            a_o,
             decimal=7)
 
-        vector_i = np.tile(vector_i, (6, 1))
-        vector_o = np.tile(vector_o, (6, 1))
+        a_i = np.tile(a_i, (6, 1))
+        a_o = np.tile(a_o, (6, 1))
         np.testing.assert_almost_equal(
-            spherical_to_cartesian(vector_i),
-            vector_o,
+            spherical_to_cartesian(a_i),
+            a_o,
             decimal=7)
 
-        vector_i = np.reshape(vector_i, (2, 3, 3))
-        vector_o = np.reshape(vector_o, (2, 3, 3))
+        a_i = np.reshape(a_i, (2, 3, 3))
+        a_o = np.reshape(a_o, (2, 3, 3))
         np.testing.assert_almost_equal(
-            spherical_to_cartesian(vector_i),
-            vector_o,
+            spherical_to_cartesian(a_i),
+            a_o,
             decimal=7)
 
     @ignore_numpy_errors
@@ -167,8 +167,8 @@ spherical_to_cartesian` definition nan support.
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))
         for case in cases:
-            vector_i = np.array(case)
-            spherical_to_cartesian(vector_i)
+            a_i = np.array(case)
+            spherical_to_cartesian(a_i)
 
 
 class TestCartesianToCylindrical(unittest.TestCase):
@@ -204,25 +204,25 @@ cartesian_to_cylindrical` definition.
 cartesian_to_cylindrical` definition n-dimensional arrays support.
         """
 
-        vector_i = np.array([3, 1, 6])
-        vector_o = np.array([6.00000000, 0.32175055, 3.16227766])
+        a_i = np.array([3, 1, 6])
+        a_o = np.array([6.00000000, 0.32175055, 3.16227766])
         np.testing.assert_almost_equal(
-            cartesian_to_cylindrical(vector_i),
-            vector_o,
+            cartesian_to_cylindrical(a_i),
+            a_o,
             decimal=7)
 
-        vector_i = np.tile(vector_i, (6, 1))
-        vector_o = np.tile(vector_o, (6, 1))
+        a_i = np.tile(a_i, (6, 1))
+        a_o = np.tile(a_o, (6, 1))
         np.testing.assert_almost_equal(
-            cartesian_to_cylindrical(vector_i),
-            vector_o,
+            cartesian_to_cylindrical(a_i),
+            a_o,
             decimal=7)
 
-        vector_i = np.reshape(vector_i, (2, 3, 3))
-        vector_o = np.reshape(vector_o, (2, 3, 3))
+        a_i = np.reshape(a_i, (2, 3, 3))
+        a_o = np.reshape(a_o, (2, 3, 3))
         np.testing.assert_almost_equal(
-            cartesian_to_cylindrical(vector_i),
-            vector_o,
+            cartesian_to_cylindrical(a_i),
+            a_o,
             decimal=7)
 
     @ignore_numpy_errors
@@ -235,8 +235,8 @@ cartesian_to_cylindrical` definition nan support.
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))
         for case in cases:
-            vector_i = np.array(case)
-            cartesian_to_cylindrical(vector_i)
+            a_i = np.array(case)
+            cartesian_to_cylindrical(a_i)
 
 
 class TestCylindricalToCartesian(unittest.TestCase):
@@ -275,25 +275,25 @@ cylindrical_to_cartesian` definition.
 cylindrical_to_cartesian` definition n-dimensional arrays support.
         """
 
-        vector_i = np.array([6.00000000, 0.32175055, 3.16227766])
-        vector_o = np.array([3, 1, 6])
+        a_i = np.array([6.00000000, 0.32175055, 3.16227766])
+        a_o = np.array([3, 1, 6])
         np.testing.assert_almost_equal(
-            cylindrical_to_cartesian(vector_i),
-            vector_o,
+            cylindrical_to_cartesian(a_i),
+            a_o,
             decimal=7)
 
-        vector_i = np.tile(vector_i, (6, 1))
-        vector_o = np.tile(vector_o, (6, 1))
+        a_i = np.tile(a_i, (6, 1))
+        a_o = np.tile(a_o, (6, 1))
         np.testing.assert_almost_equal(
-            cylindrical_to_cartesian(vector_i),
-            vector_o,
+            cylindrical_to_cartesian(a_i),
+            a_o,
             decimal=7)
 
-        vector_i = np.reshape(vector_i, (2, 3, 3))
-        vector_o = np.reshape(vector_o, (2, 3, 3))
+        a_i = np.reshape(a_i, (2, 3, 3))
+        a_o = np.reshape(a_o, (2, 3, 3))
         np.testing.assert_almost_equal(
-            cylindrical_to_cartesian(vector_i),
-            vector_o,
+            cylindrical_to_cartesian(a_i),
+            a_o,
             decimal=7)
 
     @ignore_numpy_errors
@@ -306,8 +306,8 @@ cylindrical_to_cartesian` definition nan support.
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))
         for case in cases:
-            vector_i = np.array(case)
-            cylindrical_to_cartesian(vector_i)
+            a_i = np.array(case)
+            cylindrical_to_cartesian(a_i)
 
 
 if __name__ == '__main__':

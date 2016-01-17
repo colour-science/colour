@@ -28,10 +28,10 @@ __status__ = 'Production'
 __all__ = ['first_order_colour_fit']
 
 
-def first_order_colour_fit(m1, m2):
+def first_order_colour_fit(m_1, m_2):
     """
-    Performs a first order colour fit from given :math:`m1` colour array to
-    :math:`m2` colour array. The resulting colour fitting matrix is computed
+    Performs a first order colour fit from given :math:`m_1` colour array to
+    :math:`m_2` colour array. The resulting colour fitting matrix is computed
     using multiple linear regression.
 
     The purpose of that object is for example the matching of two
@@ -39,10 +39,10 @@ def first_order_colour_fit(m1, m2):
 
     Parameters
     ----------
-    m1 : array_like, (3, n)
-        Test array :math:`m1` to fit onto array :math:`m2`.
-    m2 : array_like, (3, n)
-        Reference array the array :math:`m1` will be colour fitted against.
+    m_1 : array_like, (3, n)
+        Test array :math:`m_1` to fit onto array :math:`m_2`.
+    m_2 : array_like, (3, n)
+        Reference array the array :math:`m_1` will be colour fitted against.
 
     Returns
     -------
@@ -51,7 +51,7 @@ def first_order_colour_fit(m1, m2):
 
     Examples
     --------
-    >>> m1 = np.array([
+    >>> m_1 = np.array([
     ...     [0.17224810, 0.09170660, 0.06416938],
     ...     [0.49189645, 0.27802050, 0.21923399],
     ...     [0.10999751, 0.18658946, 0.29938611],
@@ -76,7 +76,7 @@ def first_order_colour_fit(m1, m2):
     ...     [0.17976704, 0.18000531, 0.17991488],
     ...     [0.09351417, 0.09510603, 0.09675027],
     ...     [0.03405071, 0.03295077, 0.03702047]])
-    >>> m2 = np.array([
+    >>> m_2 = np.array([
     ...     [0.15579559, 0.09715755, 0.07514556],
     ...     [0.39113140, 0.25943419, 0.21266708],
     ...     [0.12824821, 0.18463570, 0.31508023],
@@ -101,10 +101,10 @@ def first_order_colour_fit(m1, m2):
     ...     [0.18001305, 0.17978567, 0.18004416],
     ...     [0.10283975, 0.10424680, 0.10384975],
     ...     [0.04742204, 0.04772203, 0.04914226]])
-    >>> first_order_colour_fit(m1, m2)  # doctest: +ELLIPSIS
+    >>> first_order_colour_fit(m_1, m_2)  # doctest: +ELLIPSIS
     array([[ 0.6982266...,  0.0307162...,  0.1621042...],
            [ 0.0689349...,  0.6757961...,  0.1643038...],
            [-0.0631495...,  0.0921247...,  0.9713415...]])
     """
 
-    return np.transpose(np.linalg.lstsq(m1, m2)[0])
+    return np.transpose(np.linalg.lstsq(m_1, m_2)[0])

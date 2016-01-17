@@ -100,10 +100,6 @@ class ATD95_Specification(
     appearance models in :mod:`colour.appearance` but diverge from Fairchild
     (2013) reference.
 
-    Notes
-    -----
-    -   This specification is the one used in the current model implementation.
-
     Parameters
     ----------
     h : numeric or array_like
@@ -128,6 +124,10 @@ class ATD95_Specification(
         Second stage :math:`A_2` response.
     D_2 : numeric or array_like
         Second stage :math:`D_2` response.
+
+    Notes
+    -----
+    -   This specification is the one used in the current model implementation.
     """
 
 

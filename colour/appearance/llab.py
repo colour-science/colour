@@ -210,6 +210,10 @@ class LLAB_Specification(
         Opponent signal :math:`A_L`.
     b : numeric or array_like
         Opponent signal :math:`B_L`.
+
+    Notes
+    -----
+    -   This specification is the one used in the current model implementation.
     """
 
 
