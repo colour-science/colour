@@ -202,7 +202,7 @@ print(colour.LCHab_to_Lab(LCHab))
 
 print('\n')
 
-XYZ = (112.47665529, 100.00000000, 38.78727112)
+XYZ = (114.17634600, 100.00000000, 49.81520600)
 message_box(('Converting to "Hunter L,a,b" colour scale from given "CIE XYZ" '
              'tristimulus values:\n'
              '\n\t{0}'.format(XYZ)))
@@ -210,6 +210,7 @@ print(colour.XYZ_to_Hunter_Lab(XYZ))
 
 print('\n')
 
+Lab = (100.00000000, 32.03822364, 23.14715286)
 message_box(('Converting to "CIE XYZ" tristimulus values from given '
              '"Hunter L,a,b" colour scale values:\n'
              '\n\t{0}'.format(Lab)))
@@ -221,5 +222,21 @@ message_box(('Converting to "Hunter Rd,a,b" colour scale from given "CIE XYZ" '
              'tristimulus values:\n'
              '\n\t{0}'.format(XYZ)))
 print(colour.XYZ_to_Hunter_Rdab(XYZ))
+
+print('\n')
+
+XYZ = (1.14176346, 1.00000000, 0.49815206)
+message_box(('Converting to "IPT" colourspace from given "CIE XYZ" '
+             'tristimulus values:\n'
+             '\n\t{0}'.format(XYZ)))
+print(colour.XYZ_to_IPT(XYZ))
+
+print('\n')
+
+IPT = (0.9494884, 0.28747522, 0.36109201)
+message_box(('Converting to "CIE XYZ" tristimulus values from given "IPT" '
+             'colourspace values:\n'
+             '\n\t{0}'.format(IPT)))
+print(colour.IPT_to_XYZ(IPT))
 
 print('\n')
