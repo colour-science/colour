@@ -606,15 +606,17 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
             RGB = np.ones(RGB.shape) * settings.face_colours[i]
 
         RGB_f.extend(np.hstack(
-            (RGB, np.full((RGB.shape[0], 1, np.float_),
-                          settings.face_alpha[i]))))
+            (RGB, np.full((RGB.shape[0], 1),
+                          settings.face_alpha[i],
+                          np.float_))))
 
         if settings.edge_colours[i] is not None:
             RGB = np.ones(RGB.shape) * settings.edge_colours[i]
 
         RGB_e.extend(np.hstack(
-            (RGB, np.full((RGB.shape[0], 1, np.float_),
-                          settings.edge_alpha[i]))))
+            (RGB, np.full((RGB.shape[0], 1),
+                          settings.edge_alpha[i],
+                          np.float_))))
 
     quads = np.asarray(quads)
     quads[np.isnan(quads)] = 0
