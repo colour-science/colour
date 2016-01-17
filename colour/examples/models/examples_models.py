@@ -199,3 +199,27 @@ message_box(('Converting to "CIE Lab" colourspace from given "CIE LCHab" '
              'colourspace values:\n'
              '\n\t{0}'.format(LCHab)))
 print(colour.LCHab_to_Lab(LCHab))
+
+print('\n')
+
+XYZ = (112.47665529, 100.00000000, 38.78727112)
+message_box(('Converting to "Hunter L,a,b" colour scale from given "CIE XYZ" '
+             'tristimulus values:\n'
+             '\n\t{0}'.format(XYZ)))
+print(colour.XYZ_to_Hunter_Lab(XYZ))
+
+print('\n')
+
+message_box(('Converting to "CIE XYZ" tristimulus values from given '
+             '"Hunter L,a,b" colour scale values:\n'
+             '\n\t{0}'.format(Lab)))
+print(colour.Hunter_Lab_to_XYZ(Lab))
+
+print('\n')
+
+message_box(('Converting to "Hunter Rd,a,b" colour scale from given "CIE XYZ" '
+             'tristimulus values:\n'
+             '\n\t{0}'.format(XYZ)))
+print(colour.XYZ_to_Hunter_Rdab(XYZ))
+
+print('\n')
