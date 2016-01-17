@@ -5,7 +5,7 @@
 Showcases deprecated colour models computations.
 """
 
-import colour.models.deprecated
+import colour.models.rgb.deprecated
 from colour.utilities.verbose import message_box
 
 message_box(('Deprecated Colour Models Computations\n'
