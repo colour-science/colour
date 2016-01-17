@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines unit tests for :mod:`colour.models.rgb.rgb` module.
+Defines unit tests for :mod:`colour.models.rgb.rgb_colourspace` module.
 """
 
 from __future__ import division, unicode_literals
@@ -194,15 +194,15 @@ sRGB_EOCF = _srgb_EOCF
 
 class TestRGB_COLOURSPACES(unittest.TestCase):
     """
-    Defines :attr:`colour.models.rgb.RGB_COLOURSPACES` attribute unit tests
-    methods.
+    Defines :attr:`colour.models.rgb.rgb_colourspace.RGB_COLOURSPACES`
+    attribute unit tests methods.
     """
 
     def test_transformation_matrices(self):
         """
         Tests the transformations matrices from the
-        :attr:`colour.models.rgb.RGB_COLOURSPACES` attribute colourspace
-        models.
+        :attr:`colour.models.rgb.rgb_colourspace.RGB_COLOURSPACES` attribute
+        colourspace models.
         """
 
         XYZ_r = np.array([0.5, 0.5, 0.5]).reshape((3, 1))
@@ -222,45 +222,32 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
     def test_opto_electronic_conversion_functions(self):
         """
         Tests opto-electronic conversion functions from the
-        :attr:`colour.models.rgb.RGB_COLOURSPACES` attribute colourspace
-        models.
+        :attr:`colour.models.rgb.rgb_colourspace.RGB_COLOURSPACES` attribute
+        colourspace models.
         """
 
         aces_proxy_colourspaces = ('ACESproxy', 'ACEScg')
 
         samples = np.linspace(0, 1, 1000)
         for colourspace in RGB_COLOURSPACES.values():
-            if colourspace.name in aces_proxy_colourspaces:
-                continue
+            samples_oecf = colourspace.OECF(samples)
+            samples_inverse_oecf = colourspace.EOCF(samples_oecf)
 
-            samples_oecf = [colourspace.OECF(sample)
-                            for sample in samples]
-            samples_inverse_oecf = [
-                colourspace.EOCF(sample)
-                for sample in samples_oecf]
-
-            np.testing.assert_almost_equal(samples,
+            if colourspace.name not in aces_proxy_colourspaces:
+                np.testing.assert_almost_equal(samples,
+                                               samples_inverse_oecf,
+                                               decimal=7)
+            else:
+                np.testing.assert_allclose(samples,
                                            samples_inverse_oecf,
-                                           decimal=7)
-
-        for colourspace in aces_proxy_colourspaces:
-            colourspace = RGB_COLOURSPACES.get(colourspace)
-            samples_oecf = [colourspace.OECF(sample)
-                            for sample in samples]
-            samples_inverse_oecf = [
-                colourspace.EOCF(sample)
-                for sample in samples_oecf]
-
-            np.testing.assert_allclose(samples,
-                                       samples_inverse_oecf,
-                                       rtol=0.01,
-                                       atol=0.01)
+                                           rtol=0.01,
+                                           atol=0.01)
 
     def test_n_dimensional_opto_electronic_conversion_functions(self):
         """
         Tests opto-electronic conversion functions from the
-        :attr:`colour.models.rgb.RGB_COLOURSPACES` attribute colourspace models
-        n-dimensional arrays support.
+        :attr:`colour.models.rgb.rgb_colourspace.RGB_COLOURSPACES` attribute
+        colourspace models n-dimensional arrays support.
         """
 
         for colourspace in RGB_COLOURSPACES.values():
@@ -297,8 +284,8 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
     def test_nan_opto_electronic_conversion_functions(self):
         """
         Tests opto-electronic conversion functions from the
-        :attr:`colour.models.rgb.RGB_COLOURSPACES` attribute colourspace models
-        nan support.
+        :attr:`colour.models.rgb.rgb_colourspace.RGB_COLOURSPACES` attribute
+        colourspace models nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -344,13 +331,13 @@ class TestRGB_Colourspace(unittest.TestCase):
 
 class TestXYZ_to_RGB(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.XYZ_to_RGB` definition unit tests
-    methods.
+    Defines :func:`colour.models.rgb.rgb_colourspace.XYZ_to_RGB` definition
+    unit tests methods.
     """
 
     def test_XYZ_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.XYZ_to_RGB` definition.
+        Tests :func:`colour.models.rgb.rgb_colourspace.XYZ_to_RGB` definition.
         """
 
         for _xyY, XYZ, RGB in sRGB_LINEAR_COLORCHECKER_2005:
@@ -393,8 +380,8 @@ class TestXYZ_to_RGB(unittest.TestCase):
 
     def test_n_dimensional_XYZ_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.XYZ_to_RGB` definition n-dimensions
-        support.
+        Tests :func:`colour.models.rgb.rgb_colourspace.XYZ_to_RGB` definition
+        n-dimensions support.
         """
 
         XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
@@ -435,7 +422,8 @@ class TestXYZ_to_RGB(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_XYZ_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.XYZ_to_RGB` definition nan support.
+        Tests :func:`colour.models.rgb.rgb_colourspace.XYZ_to_RGB` definition
+        nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -450,13 +438,13 @@ class TestXYZ_to_RGB(unittest.TestCase):
 
 class TestRGB_to_XYZ(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.RGB_to_XYZ` definition unit tests
-    methods.
+    Defines :func:`colour.models.rgb.rgb_colourspace.RGB_to_XYZ` definition
+    unit tests methods.
     """
 
     def test_RGB_to_XYZ(self):
         """
-        Tests :func:`colour.models.rgb.RGB_to_XYZ` definition.
+        Tests :func:`colour.models.rgb.rgb_colourspace.RGB_to_XYZ` definition.
         """
 
         for xyY, XYZ, RGB in sRGB_LINEAR_COLORCHECKER_2005:
@@ -501,8 +489,8 @@ class TestRGB_to_XYZ(unittest.TestCase):
 
     def test_n_dimensional_RGB_to_XYZ(self):
         """
-        Tests :func:`colour.models.rgb.RGB_to_XYZ` definition n-dimensions
-        support.
+        Tests :func:`colour.models.rgb.rgb_colourspace.RGB_to_XYZ` definition
+        n-dimensions support.
         """
 
         RGB = np.array([0.86969452, 1.00516431, 1.41715848])
@@ -544,7 +532,8 @@ class TestRGB_to_XYZ(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_RGB_to_XYZ(self):
         """
-        Tests :func:`colour.models.rgb.RGB_to_XYZ` definition nan support.
+        Tests :func:`colour.models.rgb.rgb_colourspace.RGB_to_XYZ` definition
+        nan support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
@@ -559,13 +548,13 @@ class TestRGB_to_XYZ(unittest.TestCase):
 
 class TestRGB_to_RGB(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.RGB_to_RGB` definition unit tests
-    methods.
+    Defines :func:`colour.models.rgb.rgb_colourspace.RGB_to_RGB` definition
+    unit tests methods.
     """
 
     def test_RGB_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.RGB_to_RGB` definition.
+        Tests :func:`colour.models.rgb.rgb_colourspace.RGB_to_RGB` definition.
         """
 
         aces_2065_1_colourspace = RGB_COLOURSPACES.get('ACES2065-1')
@@ -595,8 +584,8 @@ class TestRGB_to_RGB(unittest.TestCase):
 
     def test_n_dimensional_RGB_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.RGB_to_RGB` definition n-dimensions
-        support.
+        Tests :func:`colour.models.rgb.rgb_colourspace.RGB_to_RGB` definition
+        n-dimensions support.
         """
 
         aces_2065_1_colourspace = RGB_COLOURSPACES.get('ACES2065-1')
@@ -625,7 +614,8 @@ class TestRGB_to_RGB(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_RGB_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.RGB_to_RGB` definition nan support.
+        Tests :func:`colour.models.rgb.rgb_colourspace.RGB_to_RGB` definition
+        nan support.
         """
 
         aces_2065_1_colourspace = RGB_COLOURSPACES.get('ACES2065-1')
