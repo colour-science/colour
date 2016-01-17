@@ -172,7 +172,7 @@ def dominant_wavelength(xy,
     >>> xy_n = np.array([0.31271, 0.32902])
     >>> cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
     >>> pprint(dominant_wavelength(xy, xy_n, cmfs))  # doctest: +ELLIPSIS
-    (array(504),
+    (array(504...),
      array([ 0.0036953...,  0.6387983...]),
      array([ 0.0036953...,  0.6387983...]))
 
@@ -181,7 +181,7 @@ def dominant_wavelength(xy,
 
     >>> xy = np.array([0.35000, 0.25000])
     >>> pprint(dominant_wavelength(xy, xy_n, cmfs))  # doctest: +ELLIPSIS
-    (array(-520),
+    (array(-520...),
      array([ 0.4133044...,  0.1158537...]),
      array([ 0.0744965...,  0.8338102...]))
     """
@@ -259,7 +259,7 @@ def complementary_wavelength(xy,
     >>> xy_n = np.array([0.31271, 0.32902])
     >>> cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
     >>> pprint(complementary_wavelength(xy, xy_n, cmfs))  # doctest: +ELLIPSIS
-    (array(520),
+    (array(520...),
      array([ 0.0744965...,  0.8338102...]),
      array([ 0.0744965...,  0.8338102...]))
 
@@ -268,7 +268,7 @@ def complementary_wavelength(xy,
 
     >>> xy = np.array([0.26415, 0.37770])
     >>> pprint(complementary_wavelength(xy, xy_n, cmfs))  # doctest: +ELLIPSIS
-    (array(-504),
+    (array(-504...),
      array([ 0.4898445...,  0.1514477...]),
      array([ 0.0036953...,  0.6387983...]))
     """
