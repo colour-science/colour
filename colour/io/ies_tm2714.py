@@ -621,22 +621,6 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
         Specifies if bandwidth correction has been applied to the measured
         data.
 
-    Attributes
-    ----------
-    mapping
-    path
-    header
-    spectral_quantity
-    reflection_geometry
-    transmission_geometry
-    bandwidth_FWHM
-    bandwidth_corrected
-
-    Methods
-    -------
-    read
-    write
-
     Notes
     -----
     *Reflection Geometry*
@@ -663,6 +647,22 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
     -	0:de: Normal / diffuse, regular component excluded.
     -	d:d: Diffuse / diffuse.
     -	other: User-specified in comments.
+
+    Attributes
+    ----------
+    mapping
+    path
+    header
+    spectral_quantity
+    reflection_geometry
+    transmission_geometry
+    bandwidth_FWHM
+    bandwidth_corrected
+
+    Methods
+    -------
+    read
+    write
 
     Examples
     --------

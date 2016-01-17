@@ -142,6 +142,10 @@ class Nayatani95_Specification(
         *Hue* :math:`h` composition :math:`H_C`.
     Lstar_N : numeric or array_like
         Correlate of *normalised achromatic Lightness* :math:`L_n^\star`.
+
+    Notes
+    -----
+    -   This specification is the one used in the current model implementation.
     """
 
 

@@ -47,17 +47,6 @@ def planck_law(wavelength, temperature, c1=C1, c2=C2, n=N):
     Returns the spectral radiance of a blackbody at thermodynamic temperature
     :math:`T[K]` in a medium having index of refraction :math:`n`.
 
-    Notes
-    -----
-    The following form implementation is expressed in term of wavelength.
-    The SI unit of radiance is *watts per steradian per square metre*.
-
-    References
-    ----------
-    .. [1]  CIE TC 1-48. (2004). APPENDIX E. INFORMATION ON THE USE OF
-            PLANCK’S EQUATION FOR STANDARD AIR. In CIE 015:2004 Colorimetry,
-            3rd Edition (pp. 77–82). ISBN:978-3-901-90633-6
-
     Parameters
     ----------
     wavelength : numeric or array_like
@@ -84,6 +73,17 @@ def planck_law(wavelength, temperature, c1=C1, c2=C2, n=N):
     -------
     numeric or ndarray
         Radiance in *watts per steradian per square metre*.
+
+    Notes
+    -----
+    The following form implementation is expressed in term of wavelength.
+    The SI unit of radiance is *watts per steradian per square metre*.
+
+    References
+    ----------
+    .. [1]  CIE TC 1-48. (2004). APPENDIX E. INFORMATION ON THE USE OF
+            PLANCK’S EQUATION FOR STANDARD AIR. In CIE 015:2004 Colorimetry,
+            3rd Edition (pp. 77–82). ISBN:978-3-901-90633-6
 
     Examples
     --------

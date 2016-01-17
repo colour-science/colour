@@ -155,6 +155,10 @@ class RLAB_Specification(
         Red–green chromatic response :math:`a^R`.
     b : numeric or array_like
         Yellow–blue chromatic response :math:`b^R`.
+
+    Notes
+    -----
+    -   This specification is the one used in the current model implementation.
     """
 
 
