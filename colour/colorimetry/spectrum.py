@@ -38,7 +38,7 @@ from colour.utilities import (
     is_numeric,
     is_string,
     is_uniform,
-    steps,
+    interval,
     tstack,
     warning)
 
@@ -152,14 +152,14 @@ class SpectralShape(object):
         Wavelength :math:`\lambda_{i}` range start in nm.
     end : numeric, optional
         Wavelength :math:`\lambda_{i}` range end in nm.
-    steps : numeric, optional
-        Wavelength :math:`\lambda_{i}` range steps.
+    interval : numeric, optional
+        Wavelength :math:`\lambda_{i}` range interval.
 
     Attributes
     ----------
     start
     end
-    steps
+    interval
 
     Methods
     -------
@@ -179,16 +179,16 @@ class SpectralShape(object):
     SpectralShape(360, 830, 1)
     """
 
-    def __init__(self, start=None, end=None, steps=None):
+    def __init__(self, start=None, end=None, interval=None):
         # Attribute storing the spectral shape range for caching purpose.
         self.__range = None
 
         self.__start = None
         self.__end = None
-        self.__steps = None
+        self.__interval = None
         self.start = start
         self.end = end
-        self.steps = steps
+        self.interval = interval
 
     @property
     def start(self):
@@ -275,22 +275,22 @@ class SpectralShape(object):
         self.__end = value
 
     @property
-    def steps(self):
+    def interval(self):
         """
-        Property for **self.__steps** private attribute.
+        Property for **self.__interval** private attribute.
 
         Returns
         -------
         numeric
-            self.__steps.
+            self.__interval.
         """
 
-        return self.__steps
+        return self.__interval
 
-    @steps.setter
-    def steps(self, value):
+    @interval.setter
+    def interval(self, value):
         """
-        Setter for **self.__steps** private attribute.
+        Setter for **self.__interval** private attribute.
 
         Parameters
         ----------
@@ -301,15 +301,15 @@ class SpectralShape(object):
         if value is not None:
             assert is_numeric(value), (
                 '"{0}" attribute: "{1}" is not a "numeric"!'.format(
-                    'steps', value))
+                    'interval', value))
 
             value = round(value, DEFAULT_WAVELENGTH_DECIMALS)
 
         # Invalidating the *range* cache.
-        if value != self.__steps:
+        if value != self.__interval:
             self.__range = None
 
-        self.__steps = value
+        self.__interval = value
 
     def __str__(self):
         """
@@ -323,7 +323,7 @@ class SpectralShape(object):
 
         return '({0}, {1}, {2})'.format(self.__start,
                                         self.__end,
-                                        self.__steps)
+                                        self.__interval)
 
     def __repr__(self):
         """
@@ -337,7 +337,7 @@ class SpectralShape(object):
 
         return 'SpectralShape({0}, {1}, {2})'.format(self.__start,
                                                      self.__end,
-                                                     self.__steps)
+                                                     self.__interval)
 
     def __iter__(self):
         """
@@ -502,7 +502,7 @@ class SpectralShape(object):
         Raises
         ------
         RuntimeError
-            If one of spectral shape *start*, *end* or *steps* attributes is
+            If one of spectral shape *start*, *end* or *interval* attributes is
             not defined.
 
         Examples
@@ -522,23 +522,23 @@ class SpectralShape(object):
                  9.9,  10. ])
         """
 
-        if None in (self.__start, self.__end, self.__steps):
+        if None in (self.__start, self.__end, self.__interval):
             raise RuntimeError(('One of the spectral shape "start", "end" or '
-                                '"steps" attributes is not defined!'))
+                                '"interval" attributes is not defined!'))
 
         if self.__range is None:
-            samples = round(
-                (self.__steps + self.__end - self.__start) / self.__steps)
-            range_, current_steps = np.linspace(
+            samples = round((self.__interval + self.__end - self.__start) /
+                            self.__interval)
+            range_, current_interval = np.linspace(
                 self.__start, self.__end, samples, retstep=True)
             self.__range = np.around(range_, DEFAULT_WAVELENGTH_DECIMALS)
 
-            if current_steps != self.__steps:
-                self.__steps = current_steps
+            if current_interval != self.__interval:
+                self.__interval = current_interval
                 warning(('"{0}" shape could not be honored, using '
                          '"{1}"!').format((self.__start,
                                            self.__end,
-                                           self.__steps),
+                                           self.__interval),
                                           self))
         return self.__range
 
@@ -828,9 +828,9 @@ class SpectralPowerDistribution(object):
         Notes
         -----
         -   A non uniform spectral power distribution may will have multiple
-            different steps, in that case
-            :attr:`SpectralPowerDistribution.shape` returns the *minimum* steps
-            size.
+            different interval, in that case
+            :attr:`SpectralPowerDistribution.shape` returns the *minimum*
+            interval size.
 
         Warning
         -------
@@ -854,7 +854,7 @@ class SpectralPowerDistribution(object):
 
         return SpectralShape(min(self.data.keys()),
                              max(self.data.keys()),
-                             min(steps(self.wavelengths)))
+                             min(interval(self.wavelengths)))
 
     @shape.setter
     def shape(self, value):
@@ -1642,7 +1642,7 @@ class SpectralPowerDistribution(object):
         >>> spd.is_uniform()
         True
 
-        Breaking the steps by introducing a new wavelength :math:`\lambda`
+        Breaking the interval by introducing a new wavelength :math:`\lambda`
         value:
 
         >>> spd[511] = 3.1415
@@ -1709,12 +1709,12 @@ class SpectralPowerDistribution(object):
 
         spd_shape = self.shape
         for i in np.arange(spd_shape.start,
-                           shape.start - spd_shape.steps,
-                           -spd_shape.steps):
+                           shape.start - spd_shape.interval,
+                           -spd_shape.interval):
             self[i] = extrapolator(float(i))
         for i in np.arange(spd_shape.end,
-                           shape.end + spd_shape.steps,
-                           spd_shape.steps):
+                           shape.end + spd_shape.interval,
+                           spd_shape.interval):
             self[i] = extrapolator(float(i))
 
         return self
@@ -1792,7 +1792,7 @@ class SpectralPowerDistribution(object):
         ...     550: 86.26,
         ...     560: 77.18}
         >>> spd = SpectralPowerDistribution('Spd', data)
-        >>> spd.interpolate(SpectralShape(steps=1))  # doctest: +ELLIPSIS
+        >>> spd.interpolate(SpectralShape(interval=1))  # doctest: +ELLIPSIS
         <...SpectralPowerDistribution object at 0x...>
         >>> spd[515]  # doctest: +ELLIPSIS
         array(60.3121800...)
@@ -1801,7 +1801,7 @@ class SpectralPowerDistribution(object):
 
         >>> spd = SpectralPowerDistribution('Spd', data)
         >>> spd[511] = 31.41
-        >>> spd.interpolate(SpectralShape(steps=1))  # doctest: +ELLIPSIS
+        >>> spd.interpolate(SpectralShape(interval=1))  # doctest: +ELLIPSIS
         <...SpectralPowerDistribution object at 0x...>
         >>> spd[515]  # doctest: +ELLIPSIS
         array(21.4792222...)
@@ -1810,7 +1810,7 @@ class SpectralPowerDistribution(object):
 
         >>> spd = SpectralPowerDistribution('Spd', data)
         >>> spd.interpolate(  # doctest: +ELLIPSIS
-        ...     SpectralShape(steps=1), method='Linear')
+        ...     SpectralShape(interval=1), method='Linear')
         <...SpectralPowerDistribution object at 0x...>
         >>> spd[515]  # doctest: +ELLIPSIS
         array(59.63...)
@@ -1819,20 +1819,20 @@ class SpectralPowerDistribution(object):
 
         >>> spd = SpectralPowerDistribution('Spd', data)
         >>> spd.interpolate(  # doctest: +ELLIPSIS
-        ...     SpectralShape(steps=1), method='Pchip')
+        ...     SpectralShape(interval=1), method='Pchip')
         <...SpectralPowerDistribution object at 0x...>
         >>> spd[515]  # doctest: +ELLIPSIS
         array(58.8173260...)
         """
 
         spd_shape = self.shape
-        boundaries = zip((shape.start, shape.end, shape.steps),
-                         (spd_shape.start, spd_shape.end, spd_shape.steps))
+        boundaries = zip((shape.start, shape.end, shape.interval),
+                         (spd_shape.start, spd_shape.end, spd_shape.interval))
         boundaries = [x[0] if x[0] is not None else x[1] for x in boundaries]
         shape = SpectralShape(*boundaries)
 
         # Defining proper interpolation bounds.
-        # TODO: Provide support for fractional steps like 0.1, etc...
+        # TODO: Provide support for fractional interval like 0.1, etc...
         shape.start = max(shape.start, np.ceil(spd_shape.start))
         shape.end = min(shape.end, np.floor(spd_shape.end))
 
@@ -1995,8 +1995,8 @@ class SpectralPowerDistribution(object):
         """
 
         spd_shape = self.shape
-        boundaries = zip((shape.start, shape.end, shape.steps),
-                         (spd_shape.start, spd_shape.end, spd_shape.steps))
+        boundaries = zip((shape.start, shape.end, shape.interval),
+                         (spd_shape.start, spd_shape.end, spd_shape.interval))
         boundaries = [x[0] if x[0] is not None else x[1] for x in boundaries]
         shape = SpectralShape(*boundaries)
 
@@ -3523,7 +3523,7 @@ class TriSpectralPowerDistribution(object):
         >>> tri_spd.is_uniform()
         True
 
-        Breaking the steps by introducing new wavelength :math:`\lambda`
+        Breaking the interval by introducing new wavelength :math:`\lambda`
         values:
 
         >>> tri_spd[511] = np.array([49.6700, 49.6700, 49.6700])
@@ -3651,7 +3651,8 @@ class TriSpectralPowerDistribution(object):
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
         >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
         >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
-        >>> tri_spd.interpolate(SpectralShape(steps=1))  # doctest: +ELLIPSIS
+        >>> tri_spd.interpolate(  # doctest: +ELLIPSIS
+        ...     SpectralShape(interval=1))
         <...TriSpectralPowerDistribution object at 0x...>
         >>> tri_spd[515]  # doctest: +ELLIPSIS
         array([ 60.3033208...,  93.2716331...,  13.8605136...])
@@ -3662,7 +3663,8 @@ class TriSpectralPowerDistribution(object):
         >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
         >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
         >>> tri_spd[511] = np.array([31.41, 95.27, 15.06])
-        >>> tri_spd.interpolate(SpectralShape(steps=1))  # doctest: +ELLIPSIS
+        >>> tri_spd.interpolate(  # doctest: +ELLIPSIS
+        ...     SpectralShape(interval=1))
         <...TriSpectralPowerDistribution object at 0x...>
         >>> tri_spd[515]  # doctest: +ELLIPSIS
         array([  21.4710405...,  100.6430015...,   18.8165196...])
@@ -3673,7 +3675,7 @@ class TriSpectralPowerDistribution(object):
         >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
         >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
         >>> tri_spd.interpolate(  # doctest: +ELLIPSIS
-        ...     SpectralShape(steps=1), method='Linear')
+        ...     SpectralShape(interval=1), method='Linear')
         <...TriSpectralPowerDistribution object at 0x...>
         >>> tri_spd[515]  # doctest: +ELLIPSIS
         array([ 59.63...,  88.95...,  17.79...])
@@ -3684,7 +3686,7 @@ class TriSpectralPowerDistribution(object):
         >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
         >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
         >>> tri_spd.interpolate(  # doctest: +ELLIPSIS
-        ...     SpectralShape(steps=1), method='Pchip')
+        ...     SpectralShape(interval=1), method='Pchip')
         <...TriSpectralPowerDistribution object at 0x...>
         >>> tri_spd[515]  # doctest: +ELLIPSIS
         array([ 58.8173260...,  89.4355596...,  16.4545683...])

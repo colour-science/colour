@@ -139,7 +139,7 @@ def mesopic_luminous_efficiency_function(
     shape = SpectralShape(
         max(photopic_lef_shape.start, scotopic_lef_shape.start),
         min(photopic_lef_shape.end, scotopic_lef_shape.end),
-        max(photopic_lef_shape.steps, scotopic_lef_shape.steps))
+        max(photopic_lef_shape.interval, scotopic_lef_shape.interval))
 
     wavelengths = shape.range()
 

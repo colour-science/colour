@@ -389,12 +389,12 @@ class TestLinearInterpolator(unittest.TestCase):
         method.
         """
 
-        steps = 0.1
+        interval = 0.1
         x = np.arange(len(POINTS_DATA_A))
         linear_interpolator = LinearInterpolator(x, POINTS_DATA_A)
 
         for i, value in enumerate(
-                np.arange(0, len(POINTS_DATA_A) - 1 + steps, steps)):
+                np.arange(0, len(POINTS_DATA_A) - 1 + interval, interval)):
             self.assertAlmostEqual(
                 LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES[i],
                 linear_interpolator(value),
@@ -402,7 +402,7 @@ class TestLinearInterpolator(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             linear_interpolator(
-                np.arange(0, len(POINTS_DATA_A) - 1 + steps, steps)),
+                np.arange(0, len(POINTS_DATA_A) - 1 + interval, interval)),
             LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES)
 
     @ignore_numpy_errors
@@ -459,12 +459,12 @@ class TestSpragueInterpolator(unittest.TestCase):
         method.
         """
 
-        steps = 0.1
+        interval = 0.1
         x = np.arange(len(POINTS_DATA_A))
         sprague_interpolator = SpragueInterpolator(x, POINTS_DATA_A)
 
         for i, value in enumerate(
-                np.arange(0, len(POINTS_DATA_A) - 1 + steps, steps)):
+                np.arange(0, len(POINTS_DATA_A) - 1 + interval, interval)):
             self.assertAlmostEqual(
                 SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES[i],
                 sprague_interpolator(value),
@@ -472,7 +472,7 @@ class TestSpragueInterpolator(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             sprague_interpolator(
-                np.arange(0, len(POINTS_DATA_A) - 1 + steps, steps)),
+                np.arange(0, len(POINTS_DATA_A) - 1 + interval, interval)),
             SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES)
 
     @ignore_numpy_errors

@@ -36,11 +36,11 @@ blob/master/notebooks/colorimetry/cmfs.ipynb>`_
 Notes
 -----
 -   Stockman and Sharpe *LMS* colour matching functions are provided at 1 nm
-    steps.
+    interval.
 -   *Wright & Guild* and *Stiles & Burch* *CIE RGB* colour matching functions
-    are provided at 5 nm steps.
+    are provided at 5 nm interval.
 -   *CIE* Standard Observers *XYZ* colour matching functions are provided at 5
-    nm steps.
+    nm interval.
 
 References
 ----------

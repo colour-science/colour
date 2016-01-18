@@ -20,7 +20,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 import scipy.interpolate
 
-from colour.utilities import as_numeric, steps
+from colour.utilities import as_numeric, interval
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -345,12 +345,12 @@ class SpragueInterpolator(object):
             assert value.ndim == 1, (
                 '"x" independent variable must have exactly one dimension!')
 
-            value_steps = steps(value)[0]
+            value_interval = interval(value)[0]
 
-            xp1 = value[0] - value_steps * 2
-            xp2 = value[0] - value_steps
-            xp3 = value[-1] + value_steps
-            xp4 = value[-1] + value_steps * 2
+            xp1 = value[0] - value_interval * 2
+            xp2 = value[0] - value_interval
+            xp3 = value[-1] + value_interval
+            xp4 = value[-1] + value_interval * 2
 
             self.__xp = np.concatenate(((xp1, xp2), value, (xp3, xp4)))
 

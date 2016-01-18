@@ -1918,7 +1918,7 @@ class TestSpectralShape(unittest.TestCase):
 
         required_attributes = ('start',
                                'end',
-                               'steps')
+                               'interval')
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(SpectralShape))
@@ -1964,13 +1964,13 @@ class TestSpectralShape(unittest.TestCase):
 
         self.assertRaises(AssertionError, lambda: SpectralShape(830, 0, 1))
 
-    def test_steps(self):
+    def test_interval(self):
         """
-        Tests :attr:`colour.colorimetry.spectrum.SpectralShape.steps`
+        Tests :attr:`colour.colorimetry.spectrum.SpectralShape.interval`
         attribute.
         """
 
-        self.assertEqual(SpectralShape(360, 830, 1).steps, 1)
+        self.assertEqual(SpectralShape(360, 830, 1).interval, 1)
 
     def test__iter__(self):
         """
@@ -2110,9 +2110,9 @@ SpectralPowerDistribution.wavelengths` attribute.
             self.__spd.wavelengths,
             sorted(SAMPLE_SPD_DATA))
 
-        spd = self.__spd.clone().interpolate(SpectralShape(steps=0.1))
+        spd = self.__spd.clone().interpolate(SpectralShape(interval=0.1))
         non_uniform_spd = self.__non_uniform_spd.clone().interpolate(
-            SpectralShape(steps=0.1))
+            SpectralShape(interval=0.1))
 
         self.assertTrue(
             np.all(np.in1d(non_uniform_spd.wavelengths, spd.wavelengths)))
@@ -2354,27 +2354,27 @@ SpectralPowerDistribution.interpolate` method.
 
         np.testing.assert_almost_equal(
             self.__spd.clone().interpolate(
-                SpectralShape(steps=1)).values,
+                SpectralShape(interval=1)).values,
             INTERPOLATED_SAMPLE_SPD_DATA,
             decimal=7)
 
         np.testing.assert_allclose(
             self.__non_uniform_spd.clone().interpolate(
-                SpectralShape(steps=1)).values,
+                SpectralShape(interval=1)).values,
             INTERPOLATED_NON_UNIFORM_SAMPLE_SPD_DATA,
             rtol=0.0000001,
             atol=0.0000001)
 
         np.testing.assert_almost_equal(
             self.__spd.clone().interpolate(
-                SpectralShape(steps=1),
+                SpectralShape(interval=1),
                 method='Linear')[410],
             np.array(0.0643),
             decimal=7)
 
         np.testing.assert_almost_equal(
             self.__spd.clone().interpolate(
-                SpectralShape(steps=1),
+                SpectralShape(interval=1),
                 method='Pchip')[410],
             np.array(0.06439937984496125),
             decimal=7)
@@ -2398,7 +2398,7 @@ SpectralPowerDistribution.zeros` method.
         """
 
         np.testing.assert_almost_equal(
-            self.__spd.clone().zeros(SpectralShape(steps=1)).values,
+            self.__spd.clone().zeros(SpectralShape(interval=1)).values,
             ZEROS_SAMPLE_SPD_DATA)
 
         self.assertRaises(
@@ -2828,7 +2828,7 @@ TriSpectralPowerDistribution.interpolate` method.
 
         tri_spd = self.__sample_tri_spd.clone()
 
-        tri_spd.interpolate(SpectralShape(steps=1))
+        tri_spd.interpolate(SpectralShape(interval=1))
         for i in sorted(self.__mapping.keys()):
             np.testing.assert_almost_equal(
                 getattr(tri_spd, i).values,
@@ -2837,7 +2837,7 @@ TriSpectralPowerDistribution.interpolate` method.
 
         tri_spd = self.__non_uniform_sample_tri_spd.clone()
 
-        tri_spd.interpolate(SpectralShape(steps=1))
+        tri_spd.interpolate(SpectralShape(interval=1))
         for i in sorted(self.__mapping.keys()):
             np.testing.assert_allclose(
                 getattr(tri_spd, i).values,
@@ -2847,14 +2847,14 @@ TriSpectralPowerDistribution.interpolate` method.
 
         np.testing.assert_almost_equal(
             self.__tri_spd.clone().interpolate(
-                SpectralShape(steps=1),
+                SpectralShape(interval=1),
                 method='Linear')[411],
             np.array([0.050334, 0.001404, 0.24018]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             self.__tri_spd.clone().interpolate(
-                SpectralShape(steps=1),
+                SpectralShape(interval=1),
                 method='Pchip')[411],
             np.array([0.04895501, 0.00136229, 0.23349933]),
             decimal=7)
@@ -2887,7 +2887,7 @@ TriSpectralPowerDistribution.zeros` method.
                   'z_bar': SAMPLE_SPD_DATA},
             labels=self.__labels).clone()
 
-        tri_spd.zeros(SpectralShape(steps=1))
+        tri_spd.zeros(SpectralShape(interval=1))
         for i in self.__mapping.keys():
             np.testing.assert_almost_equal(
                 getattr(tri_spd, i).values,
