@@ -51,7 +51,8 @@ from collections import OrderedDict
 from colour.algebra import (
     Extrapolator,
     LinearInterpolator,
-    cartesian_to_cylindrical)
+    cartesian_to_cylindrical,
+    euclidean_distance)
 from colour.colorimetry import ILLUMINANTS, luminance_ASTMD153508
 from colour.constants import (
     INTEGER_THRESHOLD,
@@ -833,8 +834,7 @@ def xyY_to_munsell_specification(xyY):
 
         x_current, y_current, _Y_current = np.ravel(
             munsell_specification_to_xyY(specification_current))
-        difference = np.linalg.norm(
-            np.array([x, y]) - np.array([x_current, y_current]))
+        difference = euclidean_distance((x, y), (x_current, y_current))
         if difference < convergence_threshold:
             return tuple(specification_current)
 
@@ -893,8 +893,7 @@ def xyY_to_munsell_specification(xyY):
         specification_current = [hue_current, value, chroma_new, code_current]
         x_current, y_current, Y_current = np.ravel(
             munsell_specification_to_xyY(specification_current))
-        difference = np.linalg.norm(
-            np.array([x, y]) - np.array([x_current, y_current]))
+        difference = euclidean_distance((x, y), (x_current, y_current))
         if difference < convergence_threshold:
             return tuple(specification_current)
 
