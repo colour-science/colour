@@ -160,6 +160,7 @@ class SpectralShape(object):
     start
     end
     interval
+    boundaries
 
     Methods
     -------
@@ -310,6 +311,43 @@ class SpectralShape(object):
             self.__range = None
 
         self.__interval = value
+
+    @property
+    def boundaries(self):
+        """
+        Property for **self.__start** and **self.__end** private attributes.
+
+        Returns
+        -------
+        tuple
+            self.__start, self.__end.
+        """
+
+        return self.__start, self.__end
+
+    @boundaries.setter
+    def boundaries(self, value):
+        """
+        Setter for **self.__boundaries** private attribute.
+
+        Parameters
+        ----------
+        value : array_like
+            Attribute value.
+        """
+
+        if value is not None:
+            assert is_iterable(value), (
+                '"{0}" attribute: "{1}" is not an "iterable"!'.format(
+                    'boundaries', value))
+
+            assert len(value) == 2, (
+                '"{0}" attribute: "{1}" must have exactly '
+                'two elements!'.format('boundaries', value))
+
+            start, end = value
+            self.start = start
+            self.end = end
 
     def __str__(self):
         """

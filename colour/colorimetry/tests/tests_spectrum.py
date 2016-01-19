@@ -1918,7 +1918,8 @@ class TestSpectralShape(unittest.TestCase):
 
         required_attributes = ('start',
                                'end',
-                               'interval')
+                               'interval',
+                               'boundaries')
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(SpectralShape))
@@ -1971,6 +1972,18 @@ class TestSpectralShape(unittest.TestCase):
         """
 
         self.assertEqual(SpectralShape(360, 830, 1).interval, 1)
+
+    def test_boundaries(self):
+        """
+        Tests :attr:`colour.colorimetry.spectrum.SpectralShape.boundaries`
+        attribute.
+        """
+
+        shape = SpectralShape()
+        shape.boundaries = (360, 830)
+
+        self.assertEqual(shape.start, 360)
+        self.assertEqual(shape.end, 830)
 
     def test__iter__(self):
         """
