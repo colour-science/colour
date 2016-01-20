@@ -14,6 +14,7 @@ Sub-Modules
 .. toctree::
 
    colour.algebra.extrapolation
+   colour.algebra.geometry
    colour.algebra.interpolation
    colour.algebra.matrix
    colour.algebra.random
