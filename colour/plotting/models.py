@@ -504,7 +504,7 @@ def RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot(
     ----------
     RGB : array_like
         *RGB* colourspace array.
-    colourspace : RGB_Colourspace
+    colourspace : unicode
         *RGB* colourspace of the *RGB* array.
     \**kwargs : dict, optional
         Keywords arguments.
@@ -526,8 +526,9 @@ def RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot(
     settings.update(kwargs)
     settings.update({'standalone': False})
 
+    colourspace, name = get_RGB_colourspace(colourspace), colourspace
     settings['colourspaces'] = (
-        [colourspace.name] + settings.get('colourspaces', []))
+        [name] + settings.get('colourspaces', []))
 
     RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(**settings)
 
@@ -564,7 +565,7 @@ def RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot(
     ----------
     RGB : array_like
         *RGB* colourspace array.
-    colourspace : RGB_Colourspace
+    colourspace : unicode
         *RGB* colourspace of the *RGB* array.
     \**kwargs : dict, optional
         Keywords arguments.
@@ -586,8 +587,9 @@ def RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot(
     settings.update(kwargs)
     settings.update({'standalone': False})
 
+    colourspace, name = get_RGB_colourspace(colourspace), colourspace
     settings['colourspaces'] = (
-        [colourspace.name] + settings.get('colourspaces', []))
+        [name] + settings.get('colourspaces', []))
 
     RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(**settings)
 
@@ -623,7 +625,7 @@ def RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot(
     ----------
     RGB : array_like
         *RGB* colourspace array.
-    colourspace : RGB_Colourspace
+    colourspace : unicode
         *RGB* colourspace of the *RGB* array.
     \**kwargs : dict, optional
         Keywords arguments.
@@ -645,8 +647,9 @@ def RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot(
     settings.update(kwargs)
     settings.update({'standalone': False})
 
+    colourspace, name = get_RGB_colourspace(colourspace), colourspace
     settings['colourspaces'] = (
-        [colourspace.name] + settings.get('colourspaces', []))
+        [name] + settings.get('colourspaces', []))
 
     RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(**settings)
 
