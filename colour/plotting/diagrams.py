@@ -137,7 +137,9 @@ def CIE_1931_chromaticity_diagram_colours_plot(
 
 
 def CIE_1931_chromaticity_diagram_plot(
-        cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
+        cmfs='CIE 1931 2 Degree Standard Observer',
+        show_diagram_colours=True,
+        **kwargs):
     """
     Plots the *CIE 1931 Chromaticity Diagram*.
 
@@ -145,6 +147,8 @@ def CIE_1931_chromaticity_diagram_plot(
     ----------
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
+    show_diagram_colours : bool, optional
+        Display the chromaticity diagram background colours.
     \**kwargs : dict, optional
         Keywords arguments.
 
@@ -167,11 +171,12 @@ def CIE_1931_chromaticity_diagram_plot(
 
     illuminant = DEFAULT_PLOTTING_ILLUMINANT
 
-    image = matplotlib.image.imread(
-        os.path.join(PLOTTING_RESOURCES_DIRECTORY,
-                     'CIE_1931_Chromaticity_Diagram_{0}.png'.format(
-                         cmfs.name.replace(' ', '_'))))
-    pylab.imshow(image, interpolation=None, extent=(0, 1, 0, 1))
+    if show_diagram_colours:
+        image = matplotlib.image.imread(
+            os.path.join(PLOTTING_RESOURCES_DIRECTORY,
+                         'CIE_1931_Chromaticity_Diagram_{0}.png'.format(
+                             cmfs.name.replace(' ', '_'))))
+        pylab.imshow(image, interpolation=None, extent=(0, 1, 0, 1))
 
     labels = (
         390, 460, 470, 480, 490, 500, 510, 520, 540, 560, 580, 600, 620, 700)
@@ -314,7 +319,9 @@ def CIE_1960_UCS_chromaticity_diagram_colours_plot(
 
 
 def CIE_1960_UCS_chromaticity_diagram_plot(
-        cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
+        cmfs='CIE 1931 2 Degree Standard Observer',
+        show_diagram_colours=True,
+        **kwargs):
     """
     Plots the *CIE 1960 UCS Chromaticity Diagram*.
 
@@ -322,6 +329,8 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
     ----------
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
+    show_diagram_colours : bool, optional
+        Display the chromaticity diagram background colours.
     \**kwargs : dict, optional
         Keywords arguments.
 
@@ -342,11 +351,12 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
 
     cmfs = get_cmfs(cmfs)
 
-    image = matplotlib.image.imread(
-        os.path.join(PLOTTING_RESOURCES_DIRECTORY,
-                     'CIE_1960_UCS_Chromaticity_Diagram_{0}.png'.format(
-                         cmfs.name.replace(' ', '_'))))
-    pylab.imshow(image, interpolation=None, extent=(0, 1, 0, 1))
+    if show_diagram_colours:
+        image = matplotlib.image.imread(
+            os.path.join(PLOTTING_RESOURCES_DIRECTORY,
+                         'CIE_1960_UCS_Chromaticity_Diagram_{0}.png'.format(
+                             cmfs.name.replace(' ', '_'))))
+        pylab.imshow(image, interpolation=None, extent=(0, 1, 0, 1))
 
     labels = (420, 430, 440, 450, 460, 470, 480, 490, 500, 510, 520, 530,
               540, 550, 560, 570, 580, 590, 600, 610, 620, 630, 640, 680)
@@ -490,7 +500,9 @@ def CIE_1976_UCS_chromaticity_diagram_colours_plot(
 
 
 def CIE_1976_UCS_chromaticity_diagram_plot(
-        cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
+        cmfs='CIE 1931 2 Degree Standard Observer',
+        show_diagram_colours=True,
+        **kwargs):
     """
     Plots the *CIE 1976 UCS Chromaticity Diagram*.
 
@@ -498,6 +510,8 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
     ----------
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
+    show_diagram_colours : bool, optional
+        Display the chromaticity diagram background colours.
     \**kwargs : dict, optional
         Keywords arguments.
 
@@ -520,11 +534,12 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
 
     illuminant = DEFAULT_PLOTTING_ILLUMINANT
 
-    image = matplotlib.image.imread(
-        os.path.join(PLOTTING_RESOURCES_DIRECTORY,
-                     'CIE_1976_UCS_Chromaticity_Diagram_{0}.png'.format(
-                         cmfs.name.replace(' ', '_'))))
-    pylab.imshow(image, interpolation=None, extent=(0, 1, 0, 1))
+    if show_diagram_colours:
+        image = matplotlib.image.imread(
+            os.path.join(PLOTTING_RESOURCES_DIRECTORY,
+                         'CIE_1976_UCS_Chromaticity_Diagram_{0}.png'.format(
+                             cmfs.name.replace(' ', '_'))))
+        pylab.imshow(image, interpolation=None, extent=(0, 1, 0, 1))
 
     labels = (420, 430, 440, 450, 460, 470, 480, 490, 500, 510, 520, 530,
               540, 550, 560, 570, 580, 590, 600, 610, 620, 630, 640, 680)
