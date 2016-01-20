@@ -2106,6 +2106,7 @@ class TestSpectralPowerDistribution(unittest.TestCase):
                             'extrapolate',
                             'interpolate',
                             'align',
+                            'trim',
                             'zeros',
                             'normalise',
                             'clone')
@@ -2404,6 +2405,19 @@ SpectralPowerDistribution.align` method.
         shape = SpectralShape(600, 650, 1)
         self.assertEqual(self.__spd.clone().align(shape).shape, shape)
 
+    def test_trim(self):
+        """
+        Tests :func:`colour.colorimetry.spectrum.\
+SpectralPowerDistribution.trim` method.
+        """
+
+        shape = SpectralShape(400, 700, 20)
+        self.assertEqual(self.__spd.clone().trim(shape).shape, shape)
+
+        shape = SpectralShape(200, 900, 1)
+        self.assertEqual(self.__spd.clone().trim(shape).shape,
+                         self.__spd.shape)
+
     def test_zeros(self):
         """
         Tests :func:`colour.colorimetry.spectrum.\
@@ -2529,6 +2543,7 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
                             'extrapolate',
                             'interpolate',
                             'align',
+                            'trim',
                             'zeros',
                             'normalise',
                             'clone')
@@ -2885,6 +2900,19 @@ TriSpectralPowerDistribution.align` method.
 
         shape = SpectralShape(600, 650, 1)
         self.assertEqual(tri_spd.align(shape).shape, shape)
+
+    def test_trim(self):
+        """
+        Tests :func:`colour.colorimetry.spectrum.\
+TriSpectralPowerDistribution.trim` method.
+        """
+
+        shape = SpectralShape(400, 700, 20)
+        self.assertEqual(self.__tri_spd.clone().trim(shape).shape, shape)
+
+        shape = SpectralShape(200, 900, 1)
+        self.assertEqual(self.__tri_spd.clone().trim(shape).shape,
+                         self.__tri_spd.shape)
 
     def test_zeros(self):
         """

@@ -639,6 +639,7 @@ class SpectralPowerDistribution(object):
     extrapolate
     interpolate
     align
+    trim
     zeros
     normalise
     clone
@@ -1989,6 +1990,44 @@ class SpectralPowerDistribution(object):
 
         return self
 
+    def trim(self, shape):
+        """
+        Trims the spectral power distribution to given spectral shape.
+
+        Parameters
+        ----------
+        shape : SpectralShape
+            Spectral shape used for trimming.
+
+        Returns
+        -------
+        SpectralPowerDistribution
+            Trimed spectral power distribution.
+
+        Examples
+        --------
+        >>> data = {
+        ...     510: 49.67,
+        ...     520: 69.59,
+        ...     530: 81.73,
+        ...     540: 88.19,
+        ...     550: 86.26,
+        ...     560: 77.18}
+        >>> spd = SpectralPowerDistribution('Spd', data)
+        >>> spd.trim(SpectralShape(520, 550, 10))  # doctest: +ELLIPSIS
+        <...SpectralPowerDistribution object at 0x...>
+        >>> # Doctests skip for Python 2.x compatibility.
+        >>> spd.wavelengths  # doctest: +SKIP
+        array([ 520.,  530.,  540.,  550.])
+        """
+
+        wavelengths = list(set(self.shape.range()).intersection(shape.range()))
+        values = self[wavelengths]
+
+        self.data = SpectralMapping(zip(wavelengths, values))
+
+        return self
+
     def zeros(self, shape=SpectralShape()):
         """
         Zeros fills the spectral power distribution: Missing values will be
@@ -2171,6 +2210,7 @@ class TriSpectralPowerDistribution(object):
     extrapolate
     interpolate
     align
+    trim
     zeros
     normalise
     clone
@@ -3875,6 +3915,58 @@ class TriSpectralPowerDistribution(object):
                                    extrapolation_method,
                                    extrapolation_left,
                                    extrapolation_right)
+
+        return self
+
+    def trim(self, shape):
+        """
+        Trims the tri-spectral power distribution to given shape.
+
+        Parameters
+        ----------
+        shape : SpectralShape
+            Spectral shape used for trimming.
+
+        Returns
+        -------
+        TriSpectralPowerDistribution
+            Trimmed tri-spectral power distribution.
+
+        Examples
+        --------
+        >>> x_bar = {
+        ...     510: 49.67,
+        ...     520: 69.59,
+        ...     530: 81.73,
+        ...     540: 88.19,
+        ...     550: 89.76,
+        ...     560: 90.28}
+        >>> y_bar = {
+        ...     510: 90.56,
+        ...     520: 87.34,
+        ...     530: 45.76,
+        ...     540: 23.45,
+        ...     550: 15.34,
+        ...     560: 10.11}
+        >>> z_bar = {
+        ...     510: 12.43,
+        ...     520: 23.15,
+        ...     530: 67.98,
+        ...     540: 90.28,
+        ...     550: 91.61,
+        ...     560: 98.24}
+        >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
+        >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        >>> tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
+        >>> tri_spd.trim(SpectralShape(520, 550, 10))  # doctest: +ELLIPSIS
+        <...TriSpectralPowerDistribution object at 0x...>
+        >>> # Doctests skip for Python 2.x compatibility.
+        >>> tri_spd.wavelengths  # doctest: +SKIP
+        array([ 520.,  530.,  540.,  550.])
+        """
+
+        for i in self.__mapping.keys():
+            getattr(self, i).trim(shape)
 
         return self
 
