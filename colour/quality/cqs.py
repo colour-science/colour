@@ -444,10 +444,10 @@ def colour_quality_scales(test_data, reference_data, CCT_f):
     """
 
     Q_as = {}
+    from colour.algebra import euclidean_distance
     for i, _ in enumerate(test_data):
         D_C_ab = test_data[i].C - reference_data[i].C
-        D_E_ab = np.sqrt(
-            np.sum((test_data[i].Lab - reference_data[i].Lab) ** 2))
+        D_E_ab = euclidean_distance(test_data[i].Lab, reference_data[i].Lab)
 
         if D_C_ab > 0:
             D_Ep_ab = np.sqrt(D_E_ab ** 2 - D_C_ab ** 2)

@@ -9,8 +9,14 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 import unittest
+from itertools import permutations
 
-from colour.algebra import normalise_vector
+from colour.algebra import (
+    normalise_vector,
+    euclidean_distance,
+    extend_line_segment,
+    intersect_line_segments)
+from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -19,7 +25,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestNormaliseVector']
+__all__ = ['TestNormaliseVector',
+           'TestEuclideanDistance',
+           'TestExtendLineSegment',
+           'TestIntersectLineSegments']
 
 
 class TestNormaliseVector(unittest.TestCase):
@@ -47,6 +56,174 @@ class TestNormaliseVector(unittest.TestCase):
             normalise_vector(np.array([0.25506814, 0.19150000, 0.08849752])),
             np.array([0.7705887, 0.5785424, 0.2673607]),
             decimal=7)
+
+
+class TestEuclideanDistance(unittest.TestCase):
+    """
+    Defines :func:`colour.algebra.geometry.euclidean_distance` definition unit
+    tests methods.
+    """
+
+    def test_euclidean_distance(self):
+        """
+        Tests :func:`colour.algebra.geometry.euclidean_distance` definition.
+        """
+
+        self.assertAlmostEqual(
+            euclidean_distance(
+                np.array([100.00000000, 21.57210357, 272.22819350]),
+                np.array([100.00000000, 426.67945353, 72.39590835])),
+            451.713301974,
+            places=7)
+
+        self.assertAlmostEqual(
+            euclidean_distance(
+                np.array([100.00000000, 21.57210357, 272.22819350]),
+                np.array([100.00000000, 74.05216981, 276.45318193])),
+            52.6498611564,
+            places=7)
+
+        self.assertAlmostEqual(
+            euclidean_distance(
+                np.array([100.00000000, 21.57210357, 272.22819350]),
+                np.array([100.00000000, 8.32281957, -73.58297716])),
+            346.064891718,
+            places=7)
+
+    def test_n_dimensional_euclidean_distance(self):
+        """
+        Tests :func:`colour.algebra.geometry.euclidean_distance` definition
+        n-dimensional arrays support.
+        """
+
+        a = np.array([100.00000000, 21.57210357, 272.22819350])
+        b = np.array([100.00000000, 426.67945353, 72.39590835])
+        distance = 451.71330197359117
+        np.testing.assert_almost_equal(
+            euclidean_distance(a, b),
+            distance,
+            decimal=7)
+
+        a = np.tile(a, (6, 1))
+        b = np.tile(b, (6, 1))
+        distance = np.tile(distance, 6)
+        np.testing.assert_almost_equal(
+            euclidean_distance(a, b),
+            distance,
+            decimal=7)
+
+        a = np.reshape(a, (2, 3, 3))
+        b = np.reshape(b, (2, 3, 3))
+        distance = np.reshape(distance, (2, 3))
+        np.testing.assert_almost_equal(
+            euclidean_distance(a, b),
+            distance,
+            decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_euclidean_distance(self):
+        """
+        Tests :func:`colour.algebra.geometry.euclidean_distance` definition nan
+        support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            a = np.array(case)
+            b = np.array(case)
+            euclidean_distance(a, b)
+
+
+class TestExtendLineSegment(unittest.TestCase):
+    """
+    Defines :func:`colour.algebra.geometry.extend_line_segment` definition unit
+    tests methods.
+    """
+
+    def test_extend_line_segment(self):
+        """
+        Tests :func:`colour.algebra.geometry.extend_line_segment` definition.
+        """
+
+        np.testing.assert_almost_equal(
+            extend_line_segment(
+                np.array([0.95694934, 0.13720932]),
+                np.array([0.28382835, 0.60608318])),
+            np.array([-0.5367248, 1.1776534]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            extend_line_segment(
+                np.array([0.95694934, 0.13720932]),
+                np.array([0.28382835, 0.60608318]),
+                5),
+            np.array([-3.8189374, 3.4639343]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            extend_line_segment(
+                np.array([0.95694934, 0.13720932]),
+                np.array([0.28382835, 0.60608318]),
+                -1),
+            np.array([1.1043815, 0.0345129]),
+            decimal=7)
+
+
+class TestIntersectLineSegments(unittest.TestCase):
+    """
+    Defines :func:`colour.algebra.geometry.intersect_line_segments` definition
+    unit tests methods.
+    """
+
+    def test_intersect_line_segments(self):
+        """
+        Tests :func:`colour.algebra.geometry.intersect_line_segments`
+        definition.
+        """
+
+        l_1 = np.array([[[0.15416284, 0.7400497],
+                         [0.26331502, 0.53373939]],
+                        [[0.01457496, 0.91874701],
+                         [0.90071485, 0.03342143]]])
+        l_2 = np.array([[[0.95694934, 0.13720932],
+                         [0.28382835, 0.60608318]],
+                        [[0.94422514, 0.85273554],
+                         [0.00225923, 0.52122603]],
+                        [[0.55203763, 0.48537741],
+                         [0.76813415, 0.16071675]],
+                        [[0.01457496, 0.91874701],
+                         [0.90071485, 0.03342143]]])
+
+        s = intersect_line_segments(l_1, l_2)
+
+        np.testing.assert_almost_equal(
+            s.xy,
+            np.array([[[np.nan, np.nan],
+                       [0.22791841, 0.60064309],
+                       [np.nan, np.nan],
+                       [np.nan, np.nan]],
+
+                      [[0.42814517, 0.50555685],
+                       [0.30560559, 0.62798382],
+                       [0.7578749, 0.17613012],
+                       [np.nan, np.nan]]]),
+            decimal=7)
+
+        np.testing.assert_array_equal(
+            s.intersect,
+            np.array([[False, True, False, False],
+                      [True, True, True, False]], dtype=bool))
+
+        np.testing.assert_array_equal(
+            s.parallel,
+            np.array([[False, False, False, False],
+                      [False, False, False, True]], dtype=bool))
+
+        np.testing.assert_array_equal(
+            s.coincident,
+            np.array([[False, False, False, False],
+                      [False, False, False, True]], dtype=bool))
 
 
 if __name__ == '__main__':

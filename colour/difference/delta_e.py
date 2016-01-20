@@ -30,6 +30,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.algebra import euclidean_distance
 from colour.utilities import CaseInsensitiveMapping, tsplit
 
 __author__ = 'Colour Developers'
@@ -67,6 +68,10 @@ def delta_E_CIE1976(Lab_1, Lab_2, **kwargs):
     numeric or ndarray
         Colour difference :math:`\Delta E_{ab}`.
 
+    See Also
+    --------
+    colour.euclidean_distance
+
     References
     ----------
     .. [2]  Lindbloom, B. (2003). Delta E (CIE 1976). Retrieved February 24,
@@ -80,7 +85,7 @@ def delta_E_CIE1976(Lab_1, Lab_2, **kwargs):
     451.7133019...
     """
 
-    d_E = np.linalg.norm(np.asarray(Lab_1) - np.asarray(Lab_2), axis=-1)
+    d_E = euclidean_distance(Lab_1, Lab_2)
 
     return d_E
 
@@ -197,8 +202,8 @@ def delta_E_CIE2000(Lab_1, Lab_2, **kwargs):
 
     l_bar_prime = 0.5 * (L_1 + L_2)
 
-    c_1 = np.sqrt(a_1 * a_1 + b_1 * b_1)
-    c_2 = np.sqrt(a_2 * a_2 + b_2 * b_2)
+    c_1 = np.sqrt(a_1 ** 2 + b_1 ** 2)
+    c_2 = np.sqrt(a_2 ** 2 + b_2 ** 2)
 
     c_bar = 0.5 * (c_1 + c_2)
     c_bar7 = np.power(c_bar, 7)
@@ -207,8 +212,8 @@ def delta_E_CIE2000(Lab_1, Lab_2, **kwargs):
 
     a_1_prime = a_1 * (1 + g)
     a_2_prime = a_2 * (1 + g)
-    c_1_prime = np.sqrt(a_1_prime * a_1_prime + b_1 * b_1)
-    c_2_prime = np.sqrt(a_2_prime * a_2_prime + b_2 * b_2)
+    c_1_prime = np.sqrt(a_1_prime ** 2 + b_1 ** 2)
+    c_2_prime = np.sqrt(a_2_prime ** 2 + b_2 ** 2)
     c_bar_prime = 0.5 * (c_1_prime + c_2_prime)
 
     h_1_prime = np.asarray(np.rad2deg(np.arctan2(b_1, a_1_prime)))
@@ -249,9 +254,9 @@ def delta_E_CIE2000(Lab_1, Lab_2, **kwargs):
     r_T = -2 * r_C * np.sin(np.deg2rad(2 * delta_theta))
 
     d_E = np.sqrt(
-        (delta_L_prime / (k_L * s_L)) * (delta_L_prime / (k_L * s_L)) +
-        (delta_C_prime / (k_C * s_C)) * (delta_C_prime / (k_C * s_C)) +
-        (delta_H_prime / (k_H * s_H)) * (delta_H_prime / (k_H * s_H)) +
+        (delta_L_prime / (k_L * s_L)) ** 2 +
+        (delta_C_prime / (k_C * s_C)) ** 2 +
+        (delta_H_prime / (k_H * s_H)) ** 2 +
         (delta_C_prime / (k_C * s_C)) * (delta_H_prime / (k_H * s_H)) * r_T)
 
     return d_E
@@ -299,8 +304,8 @@ def delta_E_CMC(Lab_1, Lab_2, l=2, c=1):
     L_1, a_1, b_1 = tsplit(Lab_1)
     L_2, a_2, b_2 = tsplit(Lab_2)
 
-    c_1 = np.sqrt(a_1 * a_1 + b_1 * b_1)
-    c_2 = np.sqrt(a_2 * a_2 + b_2 * b_2)
+    c_1 = np.sqrt(a_1 ** 2 + b_1 ** 2)
+    c_2 = np.sqrt(a_2 ** 2 + b_2 ** 2)
     s_l = np.where(L_1 < 16, 0.511, (0.040975 * L_1) / (1 + 0.01765 * L_1))
     s_c = 0.0638 * c_1 / (1 + 0.0131 * c_1) + 0.638
     h_1 = np.where(c_1 < 0.000001, 0, np.rad2deg(np.arctan2(b_1, a_1)))
@@ -329,7 +334,7 @@ def delta_E_CMC(Lab_1, Lab_2, l=2, c=1):
     v_2 = delta_C / (c * s_c)
     v_3 = s_h
 
-    d_E = np.sqrt(v_1 * v_1 + v_2 * v_2 + (delta_H2 / (v_3 * v_3)))
+    d_E = np.sqrt(v_1 ** 2 + v_2 ** 2 + (delta_H2 / (v_3 * v_3)))
 
     return d_E
 

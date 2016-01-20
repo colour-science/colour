@@ -17,6 +17,7 @@ from colour.difference import (
     delta_E_CIE2000,
     delta_E_CMC)
 
+from colour.algebra import euclidean_distance
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -36,6 +37,12 @@ class TestDelta_E_CIE1976(unittest.TestCase):
     """
     Defines :func:`colour.difference.delta_e.delta_E_CIE1976` definition unit
     tests methods.
+
+    Notes
+    -----
+    -   :func:`colour.difference.delta_e.delta_E_CIE1976` definition is a
+        wrapper around :func:`colour.algebra.geometry.euclidean_distance`
+        definition, thus unit tests are not entirely implemented.
     """
 
     def test_delta_E_CIE1976(self):
@@ -43,26 +50,15 @@ class TestDelta_E_CIE1976(unittest.TestCase):
         Tests :func:`colour.difference.delta_e.delta_E_CIE1976` definition.
         """
 
-        self.assertAlmostEqual(
-            delta_E_CIE1976(
-                np.array([100.00000000, 21.57210357, 272.22819350]),
-                np.array([100.00000000, 426.67945353, 72.39590835])),
-            451.713301974,
-            places=7)
+        Lab_1 = np.array([100.00000000, 21.57210357, 272.22819350])
+        Lab_2 = np.array([100.00000000, 426.67945353, 72.39590835])
+        Lab_1 = np.tile(Lab_1, (6, 1)).reshape((2, 3, 3))
+        Lab_2 = np.tile(Lab_2, (6, 1)).reshape((2, 3, 3))
 
-        self.assertAlmostEqual(
-            delta_E_CIE1976(
-                np.array([100.00000000, 21.57210357, 272.22819350]),
-                np.array([100.00000000, 74.05216981, 276.45318193])),
-            52.6498611564,
-            places=7)
-
-        self.assertAlmostEqual(
-            delta_E_CIE1976(
-                np.array([100.00000000, 21.57210357, 272.22819350]),
-                np.array([100.00000000, 8.32281957, -73.58297716])),
-            346.064891718,
-            places=7)
+        np.testing.assert_almost_equal(
+            delta_E_CIE1976(Lab_1, Lab_2),
+            euclidean_distance(Lab_1, Lab_2),
+            decimal=7)
 
     def test_n_dimensional_delta_E_CIE1976(self):
         """
@@ -70,29 +66,7 @@ class TestDelta_E_CIE1976(unittest.TestCase):
         n-dimensional arrays support.
         """
 
-        Lab1 = np.array([100.00000000, 21.57210357, 272.22819350])
-        Lab2 = np.array([100.00000000, 426.67945353, 72.39590835])
-        delta_E = 451.71330197359117
-        np.testing.assert_almost_equal(
-            delta_E_CIE1976(Lab1, Lab2),
-            delta_E,
-            decimal=7)
-
-        Lab1 = np.tile(Lab1, (6, 1))
-        Lab2 = np.tile(Lab2, (6, 1))
-        delta_E = np.tile(delta_E, 6)
-        np.testing.assert_almost_equal(
-            delta_E_CIE1976(Lab1, Lab2),
-            delta_E,
-            decimal=7)
-
-        Lab1 = np.reshape(Lab1, (2, 3, 3))
-        Lab2 = np.reshape(Lab2, (2, 3, 3))
-        delta_E = np.reshape(delta_E, (2, 3))
-        np.testing.assert_almost_equal(
-            delta_E_CIE1976(Lab1, Lab2),
-            delta_E,
-            decimal=7)
+        pass
 
     @ignore_numpy_errors
     def test_nan_delta_E_CIE1976(self):
@@ -101,12 +75,7 @@ class TestDelta_E_CIE1976(unittest.TestCase):
         support.
         """
 
-        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            Lab1 = np.array(case)
-            Lab2 = np.array(case)
-            delta_E_CIE1976(Lab1, Lab2)
+        pass
 
 
 class TestDelta_E_CIE1994(unittest.TestCase):
@@ -171,27 +140,27 @@ class TestDelta_E_CIE1994(unittest.TestCase):
         n-dimensional arrays support.
         """
 
-        Lab1 = np.array([100.00000000, 21.57210357, 272.22819350])
-        Lab2 = np.array([100.00000000, 426.67945353, 72.39590835])
+        Lab_1 = np.array([100.00000000, 21.57210357, 272.22819350])
+        Lab_2 = np.array([100.00000000, 426.67945353, 72.39590835])
         delta_E = 88.335553057506502
         np.testing.assert_almost_equal(
-            delta_E_CIE1994(Lab1, Lab2),
+            delta_E_CIE1994(Lab_1, Lab_2),
             delta_E,
             decimal=7)
 
-        Lab1 = np.tile(Lab1, (6, 1))
-        Lab2 = np.tile(Lab2, (6, 1))
+        Lab_1 = np.tile(Lab_1, (6, 1))
+        Lab_2 = np.tile(Lab_2, (6, 1))
         delta_E = np.tile(delta_E, 6)
         np.testing.assert_almost_equal(
-            delta_E_CIE1994(Lab1, Lab2),
+            delta_E_CIE1994(Lab_1, Lab_2),
             delta_E,
             decimal=7)
 
-        Lab1 = np.reshape(Lab1, (2, 3, 3))
-        Lab2 = np.reshape(Lab2, (2, 3, 3))
+        Lab_1 = np.reshape(Lab_1, (2, 3, 3))
+        Lab_2 = np.reshape(Lab_2, (2, 3, 3))
         delta_E = np.reshape(delta_E, (2, 3))
         np.testing.assert_almost_equal(
-            delta_E_CIE1994(Lab1, Lab2),
+            delta_E_CIE1994(Lab_1, Lab_2),
             delta_E,
             decimal=7)
 
@@ -205,9 +174,9 @@ class TestDelta_E_CIE1994(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))
         for case in cases:
-            Lab1 = np.array(case)
-            Lab2 = np.array(case)
-            delta_E_CIE1994(Lab1, Lab2)
+            Lab_1 = np.array(case)
+            Lab_2 = np.array(case)
+            delta_E_CIE1994(Lab_1, Lab_2)
 
 
 class TestDelta_E_CIE2000(unittest.TestCase):
@@ -248,27 +217,27 @@ class TestDelta_E_CIE2000(unittest.TestCase):
         n-dimensional arrays support.
         """
 
-        Lab1 = np.array([100.00000000, 21.57210357, 272.22819350])
-        Lab2 = np.array([100.00000000, 426.67945353, 72.39590835])
+        Lab_1 = np.array([100.00000000, 21.57210357, 272.22819350])
+        Lab_2 = np.array([100.00000000, 426.67945353, 72.39590835])
         delta_E = 94.035649026659485
         np.testing.assert_almost_equal(
-            delta_E_CIE2000(Lab1, Lab2),
+            delta_E_CIE2000(Lab_1, Lab_2),
             delta_E,
             decimal=7)
 
-        Lab1 = np.tile(Lab1, (6, 1))
-        Lab2 = np.tile(Lab2, (6, 1))
+        Lab_1 = np.tile(Lab_1, (6, 1))
+        Lab_2 = np.tile(Lab_2, (6, 1))
         delta_E = np.tile(delta_E, 6)
         np.testing.assert_almost_equal(
-            delta_E_CIE2000(Lab1, Lab2),
+            delta_E_CIE2000(Lab_1, Lab_2),
             delta_E,
             decimal=7)
 
-        Lab1 = np.reshape(Lab1, (2, 3, 3))
-        Lab2 = np.reshape(Lab2, (2, 3, 3))
+        Lab_1 = np.reshape(Lab_1, (2, 3, 3))
+        Lab_2 = np.reshape(Lab_2, (2, 3, 3))
         delta_E = np.reshape(delta_E, (2, 3))
         np.testing.assert_almost_equal(
-            delta_E_CIE2000(Lab1, Lab2),
+            delta_E_CIE2000(Lab_1, Lab_2),
             delta_E,
             decimal=7)
 
@@ -282,9 +251,9 @@ class TestDelta_E_CIE2000(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))
         for case in cases:
-            Lab1 = np.array(case)
-            Lab2 = np.array(case)
-            delta_E_CIE2000(Lab1, Lab2)
+            Lab_1 = np.array(case)
+            Lab_2 = np.array(case)
+            delta_E_CIE2000(Lab_1, Lab_2)
 
     def test_delta_E_CIE2000_Sharma2004(self):
         """
@@ -299,7 +268,7 @@ class TestDelta_E_CIE2000(unittest.TestCase):
                 Application, 30(1), 21–30. doi:10.1002/col.20070
         """
 
-        Lab1 = np.array(
+        Lab_1 = np.array(
             [[50.0000, 2.6772, -79.7751],
              [50.0000, 3.1571, -77.2803],
              [50.0000, 2.8361, -74.0200],
@@ -335,7 +304,7 @@ class TestDelta_E_CIE2000(unittest.TestCase):
              [6.7747, -0.2908, -2.4247],
              [2.0776, 0.0795, -1.1350]])
 
-        Lab2 = np.array(
+        Lab_2 = np.array(
             [[50.0000, 0.0000, -82.7485],
              [50.0000, 0.0000, -82.7485],
              [50.0000, 0.0000, -82.7485],
@@ -408,7 +377,7 @@ class TestDelta_E_CIE2000(unittest.TestCase):
              0.9082])
 
         np.testing.assert_almost_equal(
-            delta_E_CIE2000(Lab1, Lab2),
+            delta_E_CIE2000(Lab_1, Lab_2),
             d_E,
             decimal=4)
 
@@ -475,27 +444,27 @@ class TestDelta_E_CMC(unittest.TestCase):
         n-dimensional arrays support.
         """
 
-        Lab1 = np.array([100.00000000, 21.57210357, 272.22819350])
-        Lab2 = np.array([100.00000000, 426.67945353, 72.39590835])
+        Lab_1 = np.array([100.00000000, 21.57210357, 272.22819350])
+        Lab_2 = np.array([100.00000000, 426.67945353, 72.39590835])
         delta_E = 172.70477128656015
         np.testing.assert_almost_equal(
-            delta_E_CMC(Lab1, Lab2),
+            delta_E_CMC(Lab_1, Lab_2),
             delta_E,
             decimal=7)
 
-        Lab1 = np.tile(Lab1, (6, 1))
-        Lab2 = np.tile(Lab2, (6, 1))
+        Lab_1 = np.tile(Lab_1, (6, 1))
+        Lab_2 = np.tile(Lab_2, (6, 1))
         delta_E = np.tile(delta_E, 6)
         np.testing.assert_almost_equal(
-            delta_E_CMC(Lab1, Lab2),
+            delta_E_CMC(Lab_1, Lab_2),
             delta_E,
             decimal=7)
 
-        Lab1 = np.reshape(Lab1, (2, 3, 3))
-        Lab2 = np.reshape(Lab2, (2, 3, 3))
+        Lab_1 = np.reshape(Lab_1, (2, 3, 3))
+        Lab_2 = np.reshape(Lab_2, (2, 3, 3))
         delta_E = np.reshape(delta_E, (2, 3))
         np.testing.assert_almost_equal(
-            delta_E_CMC(Lab1, Lab2),
+            delta_E_CMC(Lab_1, Lab_2),
             delta_E,
             decimal=7)
 
@@ -509,9 +478,9 @@ class TestDelta_E_CMC(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))
         for case in cases:
-            Lab1 = np.array(case)
-            Lab2 = np.array(case)
-            delta_E_CMC(Lab1, Lab2)
+            Lab_1 = np.array(case)
+            Lab_2 = np.array(case)
+            delta_E_CMC(Lab_1, Lab_2)
 
 
 if __name__ == '__main__':

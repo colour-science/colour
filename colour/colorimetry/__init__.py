@@ -42,6 +42,11 @@ from .luminance import (
     luminance_Newhall1943,
     luminance_ASTMD153508,
     luminance_1976)
+from .dominant import (
+    dominant_wavelength,
+    complementary_wavelength,
+    excitation_purity,
+    colorimetric_purity)
 from .photometry import (
     luminous_flux,
     luminous_efficacy)
@@ -93,6 +98,10 @@ __all__ += ['luminance']
 __all__ += ['luminance_Newhall1943',
             'luminance_ASTMD153508',
             'luminance_1976']
+__all__ += ['dominant_wavelength',
+            'complementary_wavelength',
+            'excitation_purity',
+            'colorimetric_purity']
 __all__ += ['luminous_flux',
             'luminous_efficacy']
 __all__ += ['RGB_10_degree_cmfs_to_LMS_10_degree_cmfs']

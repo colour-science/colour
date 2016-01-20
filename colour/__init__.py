@@ -51,10 +51,10 @@ from .adaptation import *  # noqa
 from . import adaptation  # noqa
 from .algebra import *  # noqa
 from . import algebra  # noqa
-from .appearance import *  # noqa
-from . import appearance  # noqa
 from .colorimetry import *  # noqa
 from . import colorimetry  # noqa
+from .appearance import *  # noqa
+from . import appearance  # noqa
 from .constants import *  # noqa
 from . import constants  # noqa
 from .difference import *  # noqa
@@ -92,11 +92,11 @@ __status__ = 'Production'
 __all__ = []
 __all__ += adaptation.__all__
 __all__ += algebra.__all__
-__all__ += appearance.__all__
-__all__ += characterisation.__all__
 __all__ += colorimetry.__all__
+__all__ += appearance.__all__
 __all__ += constants.__all__
 __all__ += difference.__all__
+__all__ += characterisation.__all__
 __all__ += io.__all__
 __all__ += models.__all__
 __all__ += corresponding.__all__
