@@ -14,7 +14,8 @@ from itertools import permutations
 from colour.algebra import (
     LinearInterpolator,
     SpragueInterpolator,
-    PchipInterpolator)
+    PchipInterpolator,
+    lagrange_coefficients)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -27,9 +28,11 @@ __status__ = 'Production'
 __all__ = ['POINTS_DATA_A',
            'LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES',
            'SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES',
+           'LAGRANGE_COEFFICIENTS',
            'TestLinearInterpolator',
            'TestSpragueInterpolator',
-           'TestPchipInterpolator']
+           'TestPchipInterpolator',
+           'TestLagrangeCoefficients']
 
 POINTS_DATA_A = (
     9.3700,
@@ -355,6 +358,28 @@ SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES = (
     86.45733945,
     86.05000000)
 
+LAGRANGE_COEFFICIENTS = np.array(
+    [[1.0000, 0.0000, -0.0000, 0.0000],
+     [0.8265, 0.2755, -0.1305, 0.0285],
+     [0.6720, 0.5040, -0.2240, 0.0480],
+     [0.5355, 0.6885, -0.2835, 0.0595],
+     [0.4160, 0.8320, -0.3120, 0.0640],
+     [0.3125, 0.9375, -0.3125, 0.0625],
+     [0.2240, 1.0080, -0.2880, 0.0560],
+     [0.1495, 1.0465, -0.2415, 0.0455],
+     [0.0880, 1.0560, -0.1760, 0.0320],
+     [0.0385, 1.0395, -0.0945, 0.0165],
+     [-0.0000, 1.0000, 0.0000, -0.0000],
+     [-0.0285, 0.9405, 0.1045, -0.0165],
+     [-0.0480, 0.8640, 0.2160, -0.0320],
+     [-0.0595, 0.7735, 0.3315, -0.0455],
+     [-0.0640, 0.6720, 0.4480, -0.0560],
+     [-0.0625, 0.5625, 0.5625, -0.0625],
+     [-0.0560, 0.4480, 0.6720, -0.0640],
+     [-0.0455, 0.3315, 0.7735, -0.0595],
+     [-0.0320, 0.2160, 0.8640, -0.0480],
+     [-0.0165, 0.1045, 0.9405, -0.0285]])
+
 
 class TestLinearInterpolator(unittest.TestCase):
     """
@@ -522,6 +547,22 @@ class TestPchipInterpolator(unittest.TestCase):
 
         for method in required_methods:
             self.assertIn(method, dir(PchipInterpolator))
+
+
+class TestLagrangeCoefficients(unittest.TestCase):
+    """
+    Defines :func:`colour.algebra.interpolation.lagrange_coefficients`
+    definition unit tests methods.
+    """
+
+    def test_lagrange_coefficients(self):
+        """
+        Tests :func:`colour.algebra.interpolation.lagrange_coefficients`
+        definition.
+        """
+
+        lc = [lagrange_coefficients(i) for i in np.arange(0, 2, 0.1)]
+        np.testing.assert_almost_equal(lc, LAGRANGE_COEFFICIENTS, decimal=7)
 
 
 if __name__ == '__main__':
