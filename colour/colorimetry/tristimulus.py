@@ -25,9 +25,10 @@ from colour.algebra import (
     CubicSplineInterpolator,
     LinearInterpolator,
     PchipInterpolator,
-    SpragueInterpolator)
+    SpragueInterpolator,
+    lagrange_coefficients)
 from colour.colorimetry import STANDARD_OBSERVERS_CMFS, ones_spd
-from colour.utilities import is_string
+from colour.utilities import CaseInsensitiveMapping, is_string
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -36,8 +37,84 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['spectral_to_XYZ',
+__all__ = ['lagrange_coefficients_ASTME202211',
+           'spectral_to_XYZ',
            'wavelength_to_XYZ']
+
+_TRISTIMULUS_WEIGHTING_FACTORS_CACHE = None
+
+_LAGRANGE_INTERPOLATING_COEFFICIENTS_CACHE = None
+
+
+def lagrange_coefficients_ASTME202211(
+        interval=10,
+        interval_type='inner'):
+    """
+    Computes the *Lagrange Coefficients* accordingly to
+    *ASTM Designation: E2022 – 11* method for given interval size.
+
+    Parameters
+    ----------
+    interval : int
+        Interval size in nm.
+    interval_type : unicode, optional
+        **{'inner', 'boundary'}**,
+        If the interval is an *inner* interval *Lagrange Coefficients* are
+        computed for degree 4. Degree 3 is used for a *boundary* interval.
+
+    Returns
+    -------
+    ndarray
+        *Lagrange Coefficients*.
+
+    See Also
+    --------
+    colour.lagrange_coefficients
+
+    Examples
+    --------
+    >>> lagrange_coefficients_ASTME202211(  # doctest: +ELLIPSIS
+    ...     10, 'inner')
+    array([[-0.028...,  0.940...,  0.104..., -0.016...],
+           [-0.048...,  0.864...,  0.216..., -0.032...],
+           [-0.059...,  0.773...,  0.331..., -0.045...],
+           [-0.064...,  0.672...,  0.448..., -0.056...],
+           [-0.062...,  0.562...,  0.562..., -0.062...],
+           [-0.056...,  0.448...,  0.672..., -0.064...],
+           [-0.045...,  0.331...,  0.773..., -0.059...],
+           [-0.032...,  0.216...,  0.864..., -0.048...],
+           [-0.016...,  0.104...,  0.940..., -0.028...]])
+    >>> lagrange_coefficients_ASTME202211(  # doctest: +ELLIPSIS
+    ...     10, 'boundary')
+    array([[ 0.85...,  0.19..., -0.04...],
+           [ 0.72...,  0.36..., -0.08...],
+           [ 0.59...,  0.51..., -0.10...],
+           [ 0.48...,  0.64..., -0.12...],
+           [ 0.37...,  0.75..., -0.12...],
+           [ 0.28...,  0.84..., -0.12...],
+           [ 0.19...,  0.91..., -0.10...],
+           [ 0.12...,  0.96..., -0.08...],
+           [ 0.05...,  0.99..., -0.04...]])
+    """
+
+    global _LAGRANGE_INTERPOLATING_COEFFICIENTS_CACHE
+    if _LAGRANGE_INTERPOLATING_COEFFICIENTS_CACHE is None:
+        _LAGRANGE_INTERPOLATING_COEFFICIENTS_CACHE = CaseInsensitiveMapping()
+
+    name_lica = ', '.join((str(interval), interval_type))
+    if name_lica in _LAGRANGE_INTERPOLATING_COEFFICIENTS_CACHE:
+        return _LAGRANGE_INTERPOLATING_COEFFICIENTS_CACHE[name_lica]
+
+    r_n = np.linspace(1 / interval, 1 - (1 / interval), interval - 1)
+    d = 3
+    if interval_type.lower() == 'inner':
+        r_n += 1
+        d = 4
+
+    lica = _LAGRANGE_INTERPOLATING_COEFFICIENTS_CACHE[name_lica] = (
+        np.asarray([lagrange_coefficients(r, d) for r in r_n]))
+
+    return lica
 
 
 def spectral_to_XYZ(spd,

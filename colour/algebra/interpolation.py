@@ -586,6 +586,6 @@ def lagrange_coefficients(r, n=4):
     for j in range(len(r_i)):
         basis = [(r - r_i[i]) / (r_i[j] - r_i[i])
                  for i in range(len(r_i)) if i != j]
-        L_n.append(reduce(lambda x, y: x * y, basis))
+        L_n.append(reduce(lambda x, y: x * y, basis))  # noqa
 
     return np.array(L_n)

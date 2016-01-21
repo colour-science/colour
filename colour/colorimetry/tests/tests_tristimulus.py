@@ -14,6 +14,7 @@ from colour.colorimetry import (
     CMFS,
     ILLUMINANTS_RELATIVE_SPDS,
     SpectralPowerDistribution,
+    lagrange_coefficients_ASTME202211,
     spectral_to_XYZ,
     wavelength_to_XYZ)
 
@@ -25,6 +26,9 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['RELATIVE_SPD_DATA',
+           'LAGRANGE_COEFFICIENTS_A',
+           'LAGRANGE_COEFFICIENTS_B',
+           'TestLagrangeCoefficientsASTME202211',
            'TestSpectral_to_XYZ',
            'TestWavelength_to_XYZ']
 
@@ -129,6 +133,51 @@ RELATIVE_SPD_DATA = SpectralPowerDistribution(
         820: 0.0000,
         825: 0.0000,
         830: 0.0000})
+
+LAGRANGE_COEFFICIENTS_A = np.array(
+    [[-0.0285, 0.9405, 0.1045, -0.0165],
+     [-0.0480, 0.8640, 0.2160, -0.0320],
+     [-0.0595, 0.7735, 0.3315, -0.0455],
+     [-0.0640, 0.6720, 0.4480, -0.0560],
+     [-0.0625, 0.5625, 0.5625, -0.0625],
+     [-0.0560, 0.4480, 0.6720, -0.0640],
+     [-0.0455, 0.3315, 0.7735, -0.0595],
+     [-0.0320, 0.2160, 0.8640, -0.0480],
+     [-0.0165, 0.1045, 0.9405, -0.0285]])
+
+LAGRANGE_COEFFICIENTS_B = np.array(
+    [[0.8550, 0.1900, -0.0450],
+     [0.7200, 0.3600, -0.0800],
+     [0.5950, 0.5100, -0.1050],
+     [0.4800, 0.6400, -0.1200],
+     [0.3750, 0.7500, -0.1250],
+     [0.2800, 0.8400, -0.1200],
+     [0.1950, 0.9100, -0.1050],
+     [0.1200, 0.9600, -0.0800],
+     [0.0550, 0.9900, -0.0450]])
+
+
+class TestLagrangeCoefficientsASTME202211(unittest.TestCase):
+    """
+    Defines :func:`colour.colorimetry.tristimulus.\
+lagrange_coefficients_ASTME202211` definition unit tests methods.
+    """
+
+    def test_lagrange_coefficients(self):
+        """
+        Tests :func:`colour.colorimetry.tristimulus.\
+    lagrange_coefficients_ASTME202211` definition.
+        """
+
+        np.testing.assert_almost_equal(
+            lagrange_coefficients_ASTME202211(10, 'inner'),
+            LAGRANGE_COEFFICIENTS_A,
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            lagrange_coefficients_ASTME202211(10, 'boundary'),
+            LAGRANGE_COEFFICIENTS_B,
+            decimal=7)
 
 
 class TestSpectral_to_XYZ(unittest.TestCase):
