@@ -12,9 +12,13 @@ import unittest
 
 from colour.colorimetry import (
     CMFS,
+    CIE_standard_illuminant_A,
     ILLUMINANTS_RELATIVE_SPDS,
     SpectralPowerDistribution,
+    SpectralShape)
+from colour.colorimetry import (
     lagrange_coefficients_ASTME202211,
+    tristimulus_weighting_factors_ASTME202211,
     spectral_to_XYZ,
     wavelength_to_XYZ)
 
@@ -28,7 +32,11 @@ __status__ = 'Production'
 __all__ = ['RELATIVE_SPD_DATA',
            'LAGRANGE_COEFFICIENTS_A',
            'LAGRANGE_COEFFICIENTS_B',
+           'A_CIE_1964_10_TWF',
+           'A_CIE_1964_20_TWF',
+           'D65_CIE_1931_2_TWF',
            'TestLagrangeCoefficientsASTME202211',
+           'TestTristimulusWeightingFactorsASTME202211',
            'TestSpectral_to_XYZ',
            'TestWavelength_to_XYZ']
 
@@ -156,6 +164,108 @@ LAGRANGE_COEFFICIENTS_B = np.array(
      [0.1200, 0.9600, -0.0800],
      [0.0550, 0.9900, -0.0450]])
 
+A_CIE_1964_10_TWF = np.array(
+    [[-0.000, -0.000, -0.000],
+     [-0.000, -0.000, -0.000],
+     [-0.000, -0.000, -0.000],
+     [0.002, 0.000, 0.008],
+     [0.025, 0.003, 0.110],
+     [0.134, 0.014, 0.615],
+     [0.377, 0.039, 1.792],
+     [0.686, 0.084, 3.386],
+     [0.964, 0.156, 4.944],
+     [1.080, 0.259, 5.806],
+     [1.006, 0.424, 5.812],
+     [0.731, 0.696, 4.919],
+     [0.343, 1.082, 3.300],
+     [0.078, 1.616, 1.973],
+     [0.022, 2.422, 1.152],
+     [0.218, 3.529, 0.658],
+     [0.750, 4.840, 0.382],
+     [1.642, 6.100, 0.211],
+     [2.842, 7.250, 0.102],
+     [4.336, 8.114, 0.032],
+     [6.200, 8.758, 0.001],
+     [8.262, 8.988, -0.000],
+     [10.227, 8.760, 0.000],
+     [11.945, 8.304, 0.000],
+     [12.746, 7.468, 0.000],
+     [12.337, 6.323, 0.000],
+     [10.817, 5.033, 0.000],
+     [8.560, 3.744, 0.000],
+     [6.014, 2.506, 0.000],
+     [3.887, 1.560, 0.000],
+     [2.309, 0.911, 0.000],
+     [1.276, 0.499, 0.000],
+     [0.666, 0.259, 0.000],
+     [0.336, 0.130, 0.000],
+     [0.166, 0.065, 0.000],
+     [0.082, 0.032, 0.000],
+     [0.040, 0.016, 0.000],
+     [0.020, 0.008, 0.000],
+     [0.010, 0.004, 0.000],
+     [0.005, 0.002, 0.000],
+     [0.003, 0.001, 0.000],
+     [0.001, 0.001, 0.000],
+     [0.001, 0.000, 0.000],
+     [0.000, 0.000, 0.000],
+     [0.000, 0.000, 0.000],
+     [0.000, 0.000, 0.000],
+     [0.000, 0.000, 0.000],
+     [0.000, 0.000, 0.000]])
+
+A_CIE_1964_20_TWF = np.array(
+    [[-0.000, -0.000, -0.001],
+     [-0.009, -0.001, -0.041],
+     [0.060, 0.005, 0.257],
+     [0.773, 0.078, 3.697],
+     [1.900, 0.304, 9.755],
+     [1.971, 0.855, 11.487],
+     [0.718, 2.146, 6.785],
+     [0.043, 4.899, 2.321],
+     [1.522, 9.647, 0.743],
+     [5.677, 14.461, 0.196],
+     [12.445, 17.474, 0.005],
+     [20.554, 17.584, -0.003],
+     [25.332, 14.896, 0.000],
+     [21.571, 10.080, 0.000],
+     [12.179, 5.068, 0.000],
+     [4.668, 1.830, 0.000],
+     [1.324, 0.513, 0.000],
+     [0.318, 0.123, 0.000],
+     [0.075, 0.029, 0.000],
+     [0.018, 0.007, 0.000],
+     [0.005, 0.002, 0.000],
+     [0.001, 0.001, 0.000],
+     [0.000, 0.000, 0.000],
+     [0.000, 0.000, 0.000]])
+
+D65_CIE_1931_2_TWF = np.array(
+    [[-0.001, -0.000, -0.005],
+     [-0.008, -0.000, -0.039],
+     [0.179, 0.002, 0.829],
+     [2.542, 0.071, 12.203],
+     [6.670, 0.453, 33.637],
+     [6.333, 1.316, 36.334],
+     [2.213, 2.933, 18.278],
+     [0.052, 6.866, 5.543],
+     [1.348, 14.106, 1.611],
+     [5.767, 18.981, 0.382],
+     [11.301, 18.863, 0.068],
+     [16.256, 15.455, 0.025],
+     [17.933, 10.699, 0.013],
+     [14.020, 6.277, 0.003],
+     [7.057, 2.743, 0.000],
+     [2.527, 0.927, -0.000],
+     [0.670, 0.242, -0.000],
+     [0.140, 0.050, 0.000],
+     [0.035, 0.013, 0.000],
+     [0.008, 0.003, 0.000],
+     [0.002, 0.001, 0.000],
+     [0.000, 0.000, 0.000],
+     [0.000, 0.000, 0.000],
+     [0.000, 0.000, 0.000]])
+
 
 class TestLagrangeCoefficientsASTME202211(unittest.TestCase):
     """
@@ -163,7 +273,7 @@ class TestLagrangeCoefficientsASTME202211(unittest.TestCase):
 lagrange_coefficients_ASTME202211` definition unit tests methods.
     """
 
-    def test_lagrange_coefficients(self):
+    def test_lagrange_coefficients_ASTME202211(self):
         """
         Tests :func:`colour.colorimetry.tristimulus.\
     lagrange_coefficients_ASTME202211` definition.
@@ -178,6 +288,59 @@ lagrange_coefficients_ASTME202211` definition unit tests methods.
             lagrange_coefficients_ASTME202211(10, 'boundary'),
             LAGRANGE_COEFFICIENTS_B,
             decimal=7)
+
+
+class TestTristimulusWeightingFactorsASTME202211(unittest.TestCase):
+    """
+    Defines :func:`colour.colorimetry.tristimulus.\
+tristimulus_weighting_factors_ASTME202211` definition unit tests methods.
+    """
+
+    def test_tristimulus_weighting_factors_ASTME202211(self):
+        """
+        Tests :func:`colour.colorimetry.tristimulus.\
+tristimulus_weighting_factors_ASTME202211` definition.
+
+        Notes
+        -----
+        :attr:`A_CIE_1964_10_TWF`, :attr:`A_CIE_1964_20_TWF` and
+        :attr:`D65_CIE_1931_2_TWF` attributes data is matching [1]_.
+
+        References
+        ----------
+        .. [1]  ASTM International. (2015). ASTM E308–15 - Standard Practice
+                for Computing the Colors of Objects by Using the CIE System,
+                1–47. doi:10.1520/E0308-15
+        """
+
+        cmfs = CMFS.get('CIE 1964 10 Degree Standard Observer')
+        wl = cmfs.shape.range()
+        A = SpectralPowerDistribution(
+            'A', dict(zip(wl, CIE_standard_illuminant_A(wl))))
+
+        twf = tristimulus_weighting_factors_ASTME202211(
+            cmfs, A, SpectralShape(360, 830, 10))
+        np.testing.assert_almost_equal(
+            np.round(twf, 3),
+            A_CIE_1964_10_TWF,
+            decimal=3)
+
+        twf = tristimulus_weighting_factors_ASTME202211(
+            cmfs, A, SpectralShape(360, 830, 20))
+        np.testing.assert_almost_equal(
+            np.round(twf, 3),
+            A_CIE_1964_20_TWF,
+            decimal=3)
+
+        cmfs = CMFS.get('CIE 1931 2 Degree Standard Observer')
+        D65 = ILLUMINANTS_RELATIVE_SPDS['D65'].clone().align(
+            cmfs.shape, interpolation_method='Linear')
+        twf = tristimulus_weighting_factors_ASTME202211(
+            cmfs, D65, SpectralShape(360, 830, 20))
+        np.testing.assert_almost_equal(
+            np.round(twf, 3),
+            D65_CIE_1931_2_TWF,
+            decimal=3)
 
 
 class TestSpectral_to_XYZ(unittest.TestCase):
