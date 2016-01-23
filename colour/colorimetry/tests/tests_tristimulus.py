@@ -47,7 +47,7 @@ __all__ = ['SAMPLE_SPD',
            'TestWavelength_to_XYZ']
 
 SAMPLE_SPD = SpectralPowerDistribution(
-    'Custom', {
+    'Sample', {
         340: 0.0000,
         345: 0.0000,
         350: 0.0000,
@@ -340,7 +340,7 @@ tristimulus_weighting_factors_ASTME202211` definition.
         cmfs = CMFS.get('CIE 1964 10 Degree Standard Observer')
         wl = cmfs.shape.range()
         A = SpectralPowerDistribution(
-            'A', dict(zip(wl, CIE_standard_illuminant_A(wl))))
+            'A (360, 830, 1)', dict(zip(wl, CIE_standard_illuminant_A(wl))))
 
         twf = tristimulus_weighting_factors_ASTME202211(
             cmfs, A, SpectralShape(360, 830, 10))
@@ -448,7 +448,7 @@ spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815`
                 SAMPLE_SPD,
                 cmfs,
                 ILLUMINANTS_RELATIVE_SPDS.get('A')),
-            np.array([14.4636674, 10.8582855, 2.0466371]),
+            np.array([14.4636634, 10.8582851, 2.0466379]),
             decimal=7)
 
         cmfs = CMFS.get('CIE 1964 10 Degree Standard Observer')
@@ -511,7 +511,7 @@ class TestSpectral_to_XYZ_ASTME30815(unittest.TestCase):
         self.__cmfs = CMFS.get('CIE 1931 2 Degree Standard Observer')
         wl = self.__cmfs.shape.range()
         self.__A = SpectralPowerDistribution(
-            'A', dict(zip(wl, CIE_standard_illuminant_A(wl))))
+            'A (360, 830, 1)', dict(zip(wl, CIE_standard_illuminant_A(wl))))
 
     def test_spectral_to_XYZ_ASTME30815_mi_1nm(self):
         """

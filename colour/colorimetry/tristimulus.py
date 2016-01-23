@@ -56,9 +56,9 @@ __all__ = ['lagrange_coefficients_ASTME202211',
            'spectral_to_XYZ',
            'wavelength_to_XYZ']
 
-_TRISTIMULUS_WEIGHTING_FACTORS_CACHE = None
-
 _LAGRANGE_INTERPOLATING_COEFFICIENTS_CACHE = None
+
+_TRISTIMULUS_WEIGHTING_FACTORS_CACHE = None
 
 
 def lagrange_coefficients_ASTME202211(
@@ -160,6 +160,17 @@ def tristimulus_weighting_factors_ASTME202211(cmfs, illuminant, shape):
         If the colour matching functions or illuminant intervals are not equal
         to 1 nm.
 
+    Warning
+    -------
+    -   The tables of tristimulus weighting factors are cached in
+        :attr:`_TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their
+        identifier key is defined by the colour matching functions and
+        illuminant names along the current shape such as:
+        `CIE 1964 10 Degree Standard Observer, A, (360.0, 830.0, 10.0)`
+        Considering the above, one should be mindful that using similar colour
+        matching functions and illuminant names but with different spectral
+        data will lead to unexpected behaviour.
+
     Notes
     -----
     -   Input colour matching functions and illuminant intervals are expected
@@ -179,7 +190,7 @@ def tristimulus_weighting_factors_ASTME202211(cmfs, illuminant, shape):
     >>> cmfs = CMFS.get('CIE 1964 10 Degree Standard Observer')
     >>> wl = cmfs.shape.range()
     >>> A = SpectralPowerDistribution(
-    ...     'A', dict(zip(wl, CIE_standard_illuminant_A(wl))))
+    ...     'A (360, 830, 1)', dict(zip(wl, CIE_standard_illuminant_A(wl))))
     >>> tristimulus_weighting_factors_ASTME202211(  # doctest: +ELLIPSIS
     ...     cmfs, A, SpectralShape(360, 830, 20))
     array([[ -2.9816934...e-04,  -3.1709762...e-05,  -1.3301218...e-03],
@@ -309,7 +320,7 @@ def adjust_tristimulus_weighting_factors_ASTME30815(W, shape_r, shape_t):
     >>> cmfs = CMFS.get('CIE 1964 10 Degree Standard Observer')
     >>> wl = cmfs.shape.range()
     >>> A = SpectralPowerDistribution(
-    ...     'A', dict(zip(wl, CIE_standard_illuminant_A(wl))))
+    ...     'A (360, 830, 1)', dict(zip(wl, CIE_standard_illuminant_A(wl))))
     >>> W = tristimulus_weighting_factors_ASTME202211(
     ...     cmfs, A, SpectralShape(360, 830, 20))
     >>> adjust_tristimulus_weighting_factors_ASTME30815(  # doctest: +ELLIPSIS
@@ -574,7 +585,15 @@ def spectral_to_XYZ_ASTME30815(
 
     Warning
     -------
-    The output domain of that definition is non standard!
+    -   The tables of tristimulus weighting factors are cached in
+        :attr:`_TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their
+        identifier key is defined by the colour matching functions and
+        illuminant names along the current shape such as:
+        `CIE 1964 10 Degree Standard Observer, A, (360.0, 830.0, 10.0)`
+        Considering the above, one should be mindful that using similar colour
+        matching functions and illuminant names but with different spectral
+        data will lead to unexpected behaviour.
+    -   The output domain of that definition is non standard!
 
     Notes
     -----
