@@ -36,7 +36,7 @@ from colour.algebra import (
     PchipInterpolator,
     SpragueInterpolator,
     lagrange_coefficients)
-from colour.colorimetry import STANDARD_OBSERVERS_CMFS, ones_spd
+from colour.colorimetry import SpectralShape, STANDARD_OBSERVERS_CMFS, ones_spd
 from colour.utilities import CaseInsensitiveMapping, is_string, tsplit, warning
 
 __author__ = 'Colour Developers'
@@ -50,6 +50,7 @@ __all__ = ['lagrange_coefficients_ASTME202211',
            'tristimulus_weighting_factors_ASTME202211',
            'adjust_tristimulus_weighting_factors_ASTME30815',
            'spectral_to_XYZ_integration',
+           'spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815',
            'spectral_to_XYZ',
            'wavelength_to_XYZ']
 
@@ -59,8 +60,8 @@ _LAGRANGE_INTERPOLATING_COEFFICIENTS_CACHE = None
 
 
 def lagrange_coefficients_ASTME202211(
-        interval=10,
-        interval_type='inner'):
+    interval=10,
+    interval_type='inner'):
     """
     Computes the *Lagrange Coefficients* for given interval size using
     *ASTM Designation: E2022 – 11* method [1]_.
@@ -131,10 +132,10 @@ def lagrange_coefficients_ASTME202211(
 
 def tristimulus_weighting_factors_ASTME202211(cmfs, illuminant, shape):
     """
-    Returns a table (array) of tristimulus weighting factors for given colour
-    matching functions and illuminant using *ASTM Designation: E2022 – 11*
-    method [1]_. The computed table of tristimulus weighting factors should be
-    used with spectral data that have been corrected for bandpass dependence.
+    Returns a table of tristimulus weighting factors for given colour matching
+    functions and illuminant using *ASTM Designation: E2022 – 11* method [1]_.
+    The computed table of tristimulus weighting factors should be used with
+    spectral data that has been corrected for spectral bandpass dependence.
 
     Parameters
     ----------
@@ -274,8 +275,8 @@ def tristimulus_weighting_factors_ASTME202211(cmfs, illuminant, shape):
 
 def adjust_tristimulus_weighting_factors_ASTME30815(W, shape_r, shape_t):
     """
-    Adjusts given table (array) of tristimulus weighting factors to account for
-    a shorter wavelengths range of the test spectral shape compared to the
+    Adjusts given table of tristimulus weighting factors to account for a
+    shorter wavelengths range of the test spectral shape compared to the
     reference spectral shape using *ASTM Designation: E308 – 15* method [2]_:
     weights at the wavelengths for which data are not available are added to
     the weights at the shortest and longest wavelength for which spectral data
@@ -404,8 +405,9 @@ def spectral_to_XYZ_integration(
     ...     700: 0.2852}
     >>> spd = SpectralPowerDistribution('Custom', data)
     >>> illuminant = ILLUMINANTS_RELATIVE_SPDS.get('D50')
-    >>> spectral_to_XYZ(spd, cmfs, illuminant)  # doctest: +ELLIPSIS
-    array([ 2.9076471...,  2.4997134...,  1.1880927...])
+    >>> spectral_to_XYZ_integration(  # doctest: +ELLIPSIS
+    ...     spd, cmfs, illuminant)
+    array([ 11.5296285...,   9.9499467...,   4.7066079...])
     """
 
     if illuminant.shape != cmfs.shape:
@@ -430,6 +432,92 @@ def spectral_to_XYZ_integration(
     Z_p = R * z_bar * S * dw
 
     XYZ = k * np.sum(np.array([X_p, Y_p, Z_p]), axis=-1)
+
+    return XYZ
+
+
+def spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
+    spd,
+    cmfs=STANDARD_OBSERVERS_CMFS.get(
+        'CIE 1931 2 Degree Standard Observer'),
+    illuminant=ones_spd(STANDARD_OBSERVERS_CMFS.get(
+        'CIE 1931 2 Degree Standard Observer').shape)):
+    """
+    Converts given spectral power distribution to *CIE XYZ* tristimulus values
+    using given colour matching functions and illuminant using a table
+    of tristimulus weighting factors accordingly to
+    *ASTM Designation: E308 – 15* method [2]_.
+
+    Parameters
+    ----------
+    spd : SpectralPowerDistribution
+        Spectral power distribution.
+    cmfs : XYZ_ColourMatchingFunctions
+        Standard observer colour matching functions.
+    illuminant : SpectralPowerDistribution, optional
+        *Illuminant* spectral power distribution.
+
+    Returns
+    -------
+    ndarray, (3,)
+        *CIE XYZ* tristimulus values.
+
+    Warning
+    -------
+    The output domain of that definition is non standard!
+
+    Notes
+    -----
+    -   Output *CIE XYZ* tristimulus values are in domain [0, 100].
+
+    Examples
+    --------
+    >>> from colour import (
+    ...     CMFS, ILLUMINANTS_RELATIVE_SPDS, SpectralPowerDistribution)
+    >>> cmfs = CMFS.get('CIE 1931 2 Degree Standard Observer')
+    >>> data = {
+    ...     400: 0.0641,
+    ...     420: 0.0645,
+    ...     440: 0.0562,
+    ...     460: 0.0537,
+    ...     480: 0.0559,
+    ...     500: 0.0651,
+    ...     520: 0.0705,
+    ...     540: 0.0772,
+    ...     560: 0.0870,
+    ...     580: 0.1128,
+    ...     600: 0.1360,
+    ...     620: 0.1511,
+    ...     640: 0.1688,
+    ...     660: 0.1996,
+    ...     680: 0.2397,
+    ...     700: 0.2852}
+    >>> spd = SpectralPowerDistribution('Custom', data)
+    >>> illuminant = ILLUMINANTS_RELATIVE_SPDS.get('D50')
+    >>> spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
+    ...     spd, cmfs, illuminant)  # doctest: +ELLIPSIS
+    array([ 11.5296311...,   9.9505845...,   4.7098037...])
+    """
+
+    if illuminant.shape != cmfs.shape:
+        warning('Aligning "{0}" illuminant shape to "{1}" colour matching '
+                'functions shape.'.format(illuminant, cmfs))
+        illuminant = illuminant.clone().align(cmfs.shape)
+
+    if spd.shape.boundaries != cmfs.shape.boundaries:
+        warning('Trimming "{0}" spectral power distribution shape to "{1}" '
+                'colour matching functions shape.'.format(illuminant, cmfs))
+        spd = spd.clone().trim(cmfs.shape)
+
+    W = tristimulus_weighting_factors_ASTME202211(
+        cmfs, illuminant, SpectralShape(interval=spd.shape.interval))
+    start_w = cmfs.shape.start
+    end_w = cmfs.shape.start + spd.shape.interval * (W.shape[0] - 1)
+    W = adjust_tristimulus_weighting_factors_ASTME30815(
+        W, SpectralShape(start_w, end_w, spd.shape.interval), spd.shape)
+    R = spd.values
+
+    XYZ = np.sum(W * R[..., np.newaxis], axis=0)
 
     return XYZ
 
@@ -600,7 +688,7 @@ def wavelength_to_XYZ(wavelength,
 
     cmfs_shape = cmfs.shape
     if (np.min(wavelength) < cmfs_shape.start or
-            np.max(wavelength) > cmfs_shape.end):
+                np.max(wavelength) > cmfs_shape.end):
         raise ValueError(
             '"{0} nm" wavelength is not in "[{1}, {2}]" domain!'.format(
                 wavelength, cmfs_shape.start, cmfs_shape.end))

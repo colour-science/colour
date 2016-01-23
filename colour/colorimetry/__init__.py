@@ -62,6 +62,7 @@ from .tristimulus import (
     tristimulus_weighting_factors_ASTME202211,
     adjust_tristimulus_weighting_factors_ASTME30815,
     spectral_to_XYZ_integration,
+    spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815,
     spectral_to_XYZ,
     wavelength_to_XYZ)
 from .whiteness import WHITENESS_METHODS
@@ -122,6 +123,7 @@ __all__ += ['lagrange_coefficients_ASTME202211',
             'tristimulus_weighting_factors_ASTME202211',
             'adjust_tristimulus_weighting_factors_ASTME30815',
             'spectral_to_XYZ_integration',
+            'spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815',
             'spectral_to_XYZ',
             'wavelength_to_XYZ']
 __all__ += ['WHITENESS_METHODS']
