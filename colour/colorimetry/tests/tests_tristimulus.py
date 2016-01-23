@@ -19,6 +19,7 @@ from colour.colorimetry import (
 from colour.colorimetry import (
     lagrange_coefficients_ASTME202211,
     tristimulus_weighting_factors_ASTME202211,
+    adjust_tristimulus_weighting_factors_ASTME30815,
     spectral_to_XYZ,
     wavelength_to_XYZ)
 
@@ -32,11 +33,13 @@ __status__ = 'Production'
 __all__ = ['RELATIVE_SPD_DATA',
            'LAGRANGE_COEFFICIENTS_A',
            'LAGRANGE_COEFFICIENTS_B',
-           'A_CIE_1964_10_TWF',
-           'A_CIE_1964_20_TWF',
-           'D65_CIE_1931_2_TWF',
+           'A_CIE_1964_10_10_TWF',
+           'A_CIE_1964_10_20_TWF',
+           'D65_CIE_1931_2_20_TWF',
+           'D65_CIE_1931_2_20_ATWF',
            'TestLagrangeCoefficientsASTME202211',
            'TestTristimulusWeightingFactorsASTME202211',
+           'TestAdjustTristimulusWeightingFactorsASTME30815',
            'TestSpectral_to_XYZ',
            'TestWavelength_to_XYZ']
 
@@ -164,7 +167,7 @@ LAGRANGE_COEFFICIENTS_B = np.array(
      [0.1200, 0.9600, -0.0800],
      [0.0550, 0.9900, -0.0450]])
 
-A_CIE_1964_10_TWF = np.array(
+A_CIE_1964_10_10_TWF = np.array(
     [[-0.000, -0.000, -0.000],
      [-0.000, -0.000, -0.000],
      [-0.000, -0.000, -0.000],
@@ -214,7 +217,7 @@ A_CIE_1964_10_TWF = np.array(
      [0.000, 0.000, 0.000],
      [0.000, 0.000, 0.000]])
 
-A_CIE_1964_20_TWF = np.array(
+A_CIE_1964_10_20_TWF = np.array(
     [[-0.000, -0.000, -0.001],
      [-0.009, -0.001, -0.041],
      [0.060, 0.005, 0.257],
@@ -240,7 +243,7 @@ A_CIE_1964_20_TWF = np.array(
      [0.000, 0.000, 0.000],
      [0.000, 0.000, 0.000]])
 
-D65_CIE_1931_2_TWF = np.array(
+D65_CIE_1931_2_20_TWF = np.array(
     [[-0.001, -0.000, -0.005],
      [-0.008, -0.000, -0.039],
      [0.179, 0.002, 0.829],
@@ -265,6 +268,24 @@ D65_CIE_1931_2_TWF = np.array(
      [0.000, 0.000, 0.000],
      [0.000, 0.000, 0.000],
      [0.000, 0.000, 0.000]])
+
+D65_CIE_1931_2_20_ATWF = np.array(
+    [[0.170, 0.002, 0.785],
+     [2.542, 0.071, 12.203],
+     [6.670, 0.453, 33.637],
+     [6.333, 1.316, 36.334],
+     [2.213, 2.933, 18.278],
+     [0.052, 6.866, 5.543],
+     [1.348, 14.106, 1.611],
+     [5.767, 18.981, 0.382],
+     [11.301, 18.863, 0.068],
+     [16.256, 15.455, 0.025],
+     [17.933, 10.699, 0.013],
+     [14.020, 6.277, 0.003],
+     [7.057, 2.743, 0.000],
+     [2.527, 0.927, -0.000],
+     [0.670, 0.242, -0.000],
+     [0.185, 0.067, 0.000]])
 
 
 class TestLagrangeCoefficientsASTME202211(unittest.TestCase):
@@ -303,8 +324,8 @@ tristimulus_weighting_factors_ASTME202211` definition.
 
         Notes
         -----
-        :attr:`A_CIE_1964_10_TWF`, :attr:`A_CIE_1964_20_TWF` and
-        :attr:`D65_CIE_1931_2_TWF` attributes data is matching [1]_.
+        :attr:`A_CIE_1964_10_10_TWF`, :attr:`A_CIE_1964_10_20_TWF` and
+        :attr:`D65_CIE_1931_2_20_TWF` attributes data is matching [1]_.
 
         References
         ----------
@@ -322,14 +343,14 @@ tristimulus_weighting_factors_ASTME202211` definition.
             cmfs, A, SpectralShape(360, 830, 10))
         np.testing.assert_almost_equal(
             np.round(twf, 3),
-            A_CIE_1964_10_TWF,
+            A_CIE_1964_10_10_TWF,
             decimal=3)
 
         twf = tristimulus_weighting_factors_ASTME202211(
             cmfs, A, SpectralShape(360, 830, 20))
         np.testing.assert_almost_equal(
             np.round(twf, 3),
-            A_CIE_1964_20_TWF,
+            A_CIE_1964_10_20_TWF,
             decimal=3)
 
         cmfs = CMFS.get('CIE 1931 2 Degree Standard Observer')
@@ -339,7 +360,27 @@ tristimulus_weighting_factors_ASTME202211` definition.
             cmfs, D65, SpectralShape(360, 830, 20))
         np.testing.assert_almost_equal(
             np.round(twf, 3),
-            D65_CIE_1931_2_TWF,
+            D65_CIE_1931_2_20_TWF,
+            decimal=3)
+
+
+class TestAdjustTristimulusWeightingFactorsASTME30815(unittest.TestCase):
+    """
+    Defines :func:`colour.colorimetry.tristimulus.\
+adjust_tristimulus_weighting_factors_ASTME30815` definition unit tests methods.
+    """
+
+    def test_adjust_tristimulus_weighting_factors_ASTME30815(self):
+        """
+        Tests :func:`colour.colorimetry.tristimulus.\
+adjust_tristimulus_weighting_factors_ASTME30815` definition.
+        """
+
+        np.testing.assert_almost_equal(
+            adjust_tristimulus_weighting_factors_ASTME30815(
+                D65_CIE_1931_2_20_TWF, SpectralShape(360, 830, 20),
+                SpectralShape(400, 700, 20)),
+            D65_CIE_1931_2_20_ATWF,
             decimal=3)
 
 
