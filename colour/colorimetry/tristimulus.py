@@ -9,7 +9,7 @@ Defines objects for tristimulus values computation from spectral data.
 
 References
 ----------
-.. [1]  ASTM International. (2011). ASTM E2022 – 11 - Standard Practice for
+.. [1]  ASTM International. (2011). ASTM E2022–11 - Standard Practice for
         Calculation of Weighting Factors for Tristimulus Integration, i, 1–10.
         doi:10.1520/E2022-11
 .. [2]  ASTM International. (2015). ASTM E308–15 - Standard Practice for
@@ -65,7 +65,7 @@ def lagrange_coefficients_ASTME202211(
         interval_type='inner'):
     """
     Computes the *Lagrange Coefficients* for given interval size using practise
-    *ASTM Designation: E2022 – 11* method [1]_.
+    *ASTM E2022–11* method [1]_.
 
     Parameters
     ----------
@@ -134,8 +134,7 @@ def lagrange_coefficients_ASTME202211(
 def tristimulus_weighting_factors_ASTME202211(cmfs, illuminant, shape):
     """
     Returns a table of tristimulus weighting factors for given colour matching
-    functions and illuminant using practise *ASTM Designation: E2022 – 11*
-    method [1]_.
+    functions and illuminant using practise *ASTM E2022–11* method [1]_.
 
     The computed table of tristimulus weighting factors should be used with
     spectral data that has been corrected for spectral bandpass dependence.
@@ -280,10 +279,10 @@ def adjust_tristimulus_weighting_factors_ASTME30815(W, shape_r, shape_t):
     """
     Adjusts given table of tristimulus weighting factors to account for a
     shorter wavelengths range of the test spectral shape compared to the
-    reference spectral shape using practise  *ASTM Designation: E308 – 15*
-    method [2]_: Weights at the wavelengths for which data are not available
-    are added to the weights at the shortest and longest wavelength for which
-    spectral data are available.
+    reference spectral shape using practise  *ASTM E308–15* method [2]_:
+    Weights at the wavelengths for which data are not available are added to
+    the weights at the shortest and longest wavelength for which spectral data
+    are available.
 
     Parameters
     ----------
@@ -449,7 +448,7 @@ def spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
     Converts given spectral power distribution to *CIE XYZ* tristimulus values
     using given colour matching functions and illuminant using a table
     of tristimulus weighting factors accordingly to practise
-    *ASTM Designation: E308 – 15* method [2]_.
+    *ASTM E308–15* method [2]_.
 
     Parameters
     ----------
@@ -539,7 +538,7 @@ def spectral_to_XYZ_ASTME30815(
     """
     Converts given spectral power distribution to *CIE XYZ* tristimulus values
     using given colour matching functions and illuminant accordingly to
-    practise *ASTM Designation: E308 – 15* method [2]_.
+    practise *ASTM E308–15* method [2]_.
 
     Parameters
     ----------
@@ -550,9 +549,9 @@ def spectral_to_XYZ_ASTME30815(
     illuminant : SpectralPowerDistribution, optional
         Illuminant spectral power distribution.
     use_practice_range : bool, optional
-        Practise *ASTM Designation: E308 – 15*  working wavelengths range is
-        [360, 780], if `True` this argument will trim the colour matching
-        functions appropriately.
+        Practise *ASTM E308–15*  working wavelengths range is [360, 780],
+        if `True` this argument will trim the colour matching functions
+        appropriately.
     mi_5nm_omission_method : bool, optional
         5 nm measurement intervals spectral power distribution conversion to
         tristimulus values will use a 5 nm version of the colour matching
@@ -607,8 +606,8 @@ def spectral_to_XYZ_ASTME30815(
     if spd.shape.interval not in (1, 5, 10, 20):
         raise ValueError(
             'Tristimulus values conversion from spectral data accordingly to '
-            'practise *ASTM Designation E308-15* should be performed on '
-            'spectral data with measurement interval of 1, 5, 10 or 20nm!')
+            'practise *ASTM E308-15* should be performed on spectral data with '
+            'measurement interval of 1, 5, 10 or 20nm!')
 
     if use_practice_range:
         cmfs = cmfs.clone().trim(SpectralShape(360, 780, 1))
