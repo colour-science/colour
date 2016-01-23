@@ -110,7 +110,7 @@ def colour_rendering_index(spd_test, additional_data=False):
     >>> from colour import ILLUMINANTS_RELATIVE_SPDS
     >>> spd = ILLUMINANTS_RELATIVE_SPDS.get('F2')
     >>> colour_rendering_index(spd)  # doctest: +ELLIPSIS
-    64.1507331...
+    64.1515202...
     """
 
     cmfs = STANDARD_OBSERVERS_CMFS.get('CIE 1931 2 Degree Standard Observer')

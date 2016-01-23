@@ -150,7 +150,7 @@ def colour_quality_scale(spd_test, additional_data=False):
     >>> from colour import ILLUMINANTS_RELATIVE_SPDS
     >>> spd = ILLUMINANTS_RELATIVE_SPDS.get('F2')
     >>> colour_quality_scale(spd)  # doctest: +ELLIPSIS
-    64.6860580...
+    64.6864169...
     """
 
     cmfs = STANDARD_OBSERVERS_CMFS.get(
