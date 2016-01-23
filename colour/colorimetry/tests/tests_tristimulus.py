@@ -20,6 +20,7 @@ from colour.colorimetry import (
     lagrange_coefficients_ASTME202211,
     tristimulus_weighting_factors_ASTME202211,
     adjust_tristimulus_weighting_factors_ASTME30815,
+    spectral_to_XYZ_integration,
     spectral_to_XYZ,
     wavelength_to_XYZ)
 
@@ -40,6 +41,7 @@ __all__ = ['RELATIVE_SPD_DATA',
            'TestLagrangeCoefficientsASTME202211',
            'TestTristimulusWeightingFactorsASTME202211',
            'TestAdjustTristimulusWeightingFactorsASTME30815',
+           'TestSpectral_to_XYZ_integration',
            'TestSpectral_to_XYZ',
            'TestWavelength_to_XYZ']
 
@@ -382,6 +384,46 @@ adjust_tristimulus_weighting_factors_ASTME30815` definition.
                 SpectralShape(400, 700, 20)),
             D65_CIE_1931_2_20_ATWF,
             decimal=3)
+
+
+class TestSpectral_to_XYZ_integration(unittest.TestCase):
+    """
+    Defines :func:`colour.colorimetry.tristimulus.spectral_to_XYZ_integration`
+    definition unit tests methods.
+    """
+
+    def test_spectral_to_XYZ_integration(self):
+        """
+        Tests :func:`colour.colorimetry.tristimulus.\
+spectral_to_XYZ_integration`
+        definition.
+        """
+
+        cmfs = CMFS.get('CIE 1931 2 Degree Standard Observer')
+        np.testing.assert_almost_equal(
+            spectral_to_XYZ_integration(
+                RELATIVE_SPD_DATA.zeros(cmfs.shape),
+                cmfs,
+                ILLUMINANTS_RELATIVE_SPDS.get('A').clone().zeros(cmfs.shape)),
+            np.array([14.46371626, 10.85832347, 2.04664796]),
+            decimal=7)
+
+        cmfs = CMFS.get('CIE 1964 10 Degree Standard Observer')
+        np.testing.assert_almost_equal(
+            spectral_to_XYZ_integration(
+                RELATIVE_SPD_DATA.zeros(cmfs.shape),
+                cmfs,
+                ILLUMINANTS_RELATIVE_SPDS.get('C').clone().zeros(cmfs.shape)),
+            np.array([10.7704252, 9.44870313, 6.62742289]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            spectral_to_XYZ_integration(
+                RELATIVE_SPD_DATA.zeros(cmfs.shape),
+                cmfs,
+                ILLUMINANTS_RELATIVE_SPDS.get('F2').clone().zeros(cmfs.shape)),
+            np.array([11.57830745, 9.98744967, 3.95396539]),
+            decimal=7)
 
 
 class TestSpectral_to_XYZ(unittest.TestCase):

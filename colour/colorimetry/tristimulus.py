@@ -37,7 +37,7 @@ from colour.algebra import (
     SpragueInterpolator,
     lagrange_coefficients)
 from colour.colorimetry import STANDARD_OBSERVERS_CMFS, ones_spd
-from colour.utilities import CaseInsensitiveMapping, is_string
+from colour.utilities import CaseInsensitiveMapping, is_string, tsplit, warning
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -49,6 +49,7 @@ __status__ = 'Production'
 __all__ = ['lagrange_coefficients_ASTME202211',
            'tristimulus_weighting_factors_ASTME202211',
            'adjust_tristimulus_weighting_factors_ASTME30815',
+           'spectral_to_XYZ_integration',
            'spectral_to_XYZ',
            'wavelength_to_XYZ']
 
@@ -338,6 +339,99 @@ def adjust_tristimulus_weighting_factors_ASTME30815(W, shape_r, shape_t):
         W[-end_index - 1] += W[-i - 1]
 
     return W[start_index:-end_index or None, ...]
+
+
+def spectral_to_XYZ_integration(
+    spd,
+    cmfs=STANDARD_OBSERVERS_CMFS.get(
+        'CIE 1931 2 Degree Standard Observer'),
+    illuminant=ones_spd(STANDARD_OBSERVERS_CMFS.get(
+        'CIE 1931 2 Degree Standard Observer').shape)):
+    """
+    Converts given spectral power distribution to *CIE XYZ* tristimulus values
+    using given colour matching functions and illuminant using classical
+    integration method.
+
+    Parameters
+    ----------
+    spd : SpectralPowerDistribution
+        Spectral power distribution.
+    cmfs : XYZ_ColourMatchingFunctions
+        Standard observer colour matching functions.
+    illuminant : SpectralPowerDistribution, optional
+        *Illuminant* spectral power distribution.
+
+    Returns
+    -------
+    ndarray, (3,)
+        *CIE XYZ* tristimulus values.
+
+    Warning
+    -------
+    The output domain of that definition is non standard!
+
+    Notes
+    -----
+    -   Output *CIE XYZ* tristimulus values are in domain [0, 100].
+
+    References
+    ----------
+    .. [3]  Wyszecki, G., & Stiles, W. S. (2000). Integration Replace by
+            Summation. In Color Science: Concepts and Methods, Quantitative
+            Data and Formulae (pp. 158–163). Wiley. ISBN:978-0471399186
+
+    Examples
+    --------
+    >>> from colour import (
+    ...     CMFS, ILLUMINANTS_RELATIVE_SPDS, SpectralPowerDistribution)
+    >>> cmfs = CMFS.get('CIE 1931 2 Degree Standard Observer')
+    >>> data = {
+    ...     400: 0.0641,
+    ...     420: 0.0645,
+    ...     440: 0.0562,
+    ...     460: 0.0537,
+    ...     480: 0.0559,
+    ...     500: 0.0651,
+    ...     520: 0.0705,
+    ...     540: 0.0772,
+    ...     560: 0.0870,
+    ...     580: 0.1128,
+    ...     600: 0.1360,
+    ...     620: 0.1511,
+    ...     640: 0.1688,
+    ...     660: 0.1996,
+    ...     680: 0.2397,
+    ...     700: 0.2852}
+    >>> spd = SpectralPowerDistribution('Custom', data)
+    >>> illuminant = ILLUMINANTS_RELATIVE_SPDS.get('D50')
+    >>> spectral_to_XYZ(spd, cmfs, illuminant)  # doctest: +ELLIPSIS
+    array([ 2.9076471...,  2.4997134...,  1.1880927...])
+    """
+
+    if illuminant.shape != cmfs.shape:
+        warning('Aligning "{0}" illuminant shape to "{1}" colour matching '
+                'functions shape.'.format(illuminant, cmfs))
+        illuminant = illuminant.clone().align(cmfs.shape)
+
+    if spd.shape != cmfs.shape:
+        warning('Aligning "{0}" spectral power distribution shape to "{1}" '
+                'colour matching functions shape.'.format(spd, cmfs))
+        spd = spd.clone().align(cmfs.shape)
+
+    S = illuminant.values
+    x_bar, y_bar, z_bar = tsplit(cmfs.values)
+    R = spd.values
+    dw = cmfs.shape.interval
+
+    k = 100 / (np.sum(y_bar * S) * dw)
+
+    X_p = R * x_bar * S * dw
+    Y_p = R * y_bar * S * dw
+    Z_p = R * z_bar * S * dw
+
+    XYZ = k * np.sum(np.array([X_p, Y_p, Z_p]), axis=-1)
+
+    return XYZ
 
 
 def spectral_to_XYZ(spd,
