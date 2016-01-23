@@ -57,6 +57,8 @@ from .transformations import RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs
 from .transformations import RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs
 from .transformations import LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs
 from .transformations import LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs
+from .tristimulus import SPECTRAL_TO_XYZ_METHODS
+from .tristimulus import spectral_to_XYZ
 from .tristimulus import (
     lagrange_coefficients_ASTME202211,
     tristimulus_weighting_factors_ASTME202211,
@@ -64,7 +66,6 @@ from .tristimulus import (
     spectral_to_XYZ_integration,
     spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815,
     spectral_to_XYZ_ASTME30815,
-    spectral_to_XYZ,
     wavelength_to_XYZ)
 from .whiteness import WHITENESS_METHODS
 from .whiteness import whiteness
@@ -120,13 +121,14 @@ __all__ += ['RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs']
 __all__ += ['RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs']
 __all__ += ['LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs']
 __all__ += ['LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs']
+__all__ += ['SPECTRAL_TO_XYZ_METHODS']
+__all__ += ['spectral_to_XYZ']
 __all__ += ['lagrange_coefficients_ASTME202211',
             'tristimulus_weighting_factors_ASTME202211',
             'adjust_tristimulus_weighting_factors_ASTME30815',
             'spectral_to_XYZ_integration',
             'spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815',
             'spectral_to_XYZ_ASTME30815',
-            'spectral_to_XYZ',
             'wavelength_to_XYZ']
 __all__ += ['WHITENESS_METHODS']
 __all__ += ['whiteness']
