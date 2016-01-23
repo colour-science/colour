@@ -51,6 +51,7 @@ __all__ = ['lagrange_coefficients_ASTME202211',
            'adjust_tristimulus_weighting_factors_ASTME30815',
            'spectral_to_XYZ_integration',
            'spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815',
+           'spectral_to_XYZ_ASTME30815',
            'spectral_to_XYZ',
            'wavelength_to_XYZ']
 
@@ -63,7 +64,7 @@ def lagrange_coefficients_ASTME202211(
         interval=10,
         interval_type='inner'):
     """
-    Computes the *Lagrange Coefficients* for given interval size using
+    Computes the *Lagrange Coefficients* for given interval size using practise
     *ASTM Designation: E2022 – 11* method [1]_.
 
     Parameters
@@ -133,7 +134,9 @@ def lagrange_coefficients_ASTME202211(
 def tristimulus_weighting_factors_ASTME202211(cmfs, illuminant, shape):
     """
     Returns a table of tristimulus weighting factors for given colour matching
-    functions and illuminant using *ASTM Designation: E2022 – 11* method [1]_.
+    functions and illuminant using practise *ASTM Designation: E2022 – 11*
+    method [1]_.
+
     The computed table of tristimulus weighting factors should be used with
     spectral data that has been corrected for spectral bandpass dependence.
 
@@ -277,10 +280,10 @@ def adjust_tristimulus_weighting_factors_ASTME30815(W, shape_r, shape_t):
     """
     Adjusts given table of tristimulus weighting factors to account for a
     shorter wavelengths range of the test spectral shape compared to the
-    reference spectral shape using *ASTM Designation: E308 – 15* method [2]_:
-    weights at the wavelengths for which data are not available are added to
-    the weights at the shortest and longest wavelength for which spectral data
-    are available.
+    reference spectral shape using practise  *ASTM Designation: E308 – 15*
+    method [2]_: Weights at the wavelengths for which data are not available
+    are added to the weights at the shortest and longest wavelength for which
+    spectral data are available.
 
     Parameters
     ----------
@@ -350,8 +353,8 @@ def spectral_to_XYZ_integration(
         'CIE 1931 2 Degree Standard Observer').shape)):
     """
     Converts given spectral power distribution to *CIE XYZ* tristimulus values
-    using given colour matching functions and illuminant following classical
-    integration method.
+    using given colour matching functions and illuminant accordingly to
+    classical integration method.
 
     Parameters
     ----------
@@ -445,7 +448,7 @@ def spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
     """
     Converts given spectral power distribution to *CIE XYZ* tristimulus values
     using given colour matching functions and illuminant using a table
-    of tristimulus weighting factors accordingly to
+    of tristimulus weighting factors accordingly to practise
     *ASTM Designation: E308 – 15* method [2]_.
 
     Parameters
@@ -510,7 +513,8 @@ def spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
         spd = spd.clone().trim(cmfs.shape)
 
     W = tristimulus_weighting_factors_ASTME202211(
-        cmfs, illuminant, SpectralShape(interval=spd.shape.interval))
+        cmfs, illuminant, SpectralShape(
+            cmfs.shape.start, cmfs.shape.end, spd.shape.interval))
     start_w = cmfs.shape.start
     end_w = cmfs.shape.start + spd.shape.interval * (W.shape[0] - 1)
     W = adjust_tristimulus_weighting_factors_ASTME30815(
@@ -518,6 +522,135 @@ def spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
     R = spd.values
 
     XYZ = np.sum(W * R[..., np.newaxis], axis=0)
+
+    return XYZ
+
+
+def spectral_to_XYZ_ASTME30815(
+        spd,
+        cmfs=STANDARD_OBSERVERS_CMFS.get(
+            'CIE 1931 2 Degree Standard Observer'),
+        illuminant=ones_spd(
+            STANDARD_OBSERVERS_CMFS.get(
+                'CIE 1931 2 Degree Standard Observer').shape),
+        use_practice_range=True,
+        mi_5nm_omission_method=True,
+        mi_20nm_interpolation_method=True):
+    """
+    Converts given spectral power distribution to *CIE XYZ* tristimulus values
+    using given colour matching functions and illuminant accordingly to
+    practise *ASTM Designation: E308 – 15* method [2]_.
+
+    Parameters
+    ----------
+    spd : SpectralPowerDistribution
+        Spectral power distribution.
+    cmfs : XYZ_ColourMatchingFunctions
+        Standard observer colour matching functions.
+    illuminant : SpectralPowerDistribution, optional
+        Illuminant spectral power distribution.
+    use_practice_range : bool, optional
+        Practise *ASTM Designation: E308 – 15*  working wavelengths range is
+        [360, 780], if `True` this argument will trim the colour matching
+        functions appropriately.
+    mi_5nm_omission_method : bool, optional
+        5 nm measurement intervals spectral power distribution conversion to
+        tristimulus values will use a 5 nm version of the colour matching
+        functions instead of a table of tristimulus weighting factors.
+    mi_20nm_interpolation_method : bool, optional
+        20 nm measurement intervals spectral power distribution conversion to
+        tristimulus values will use a dedicated interpolation method instead
+        of a table of tristimulus weighting factors.
+
+    Returns
+    -------
+    ndarray, (3,)
+        *CIE XYZ* tristimulus values.
+
+    Warning
+    -------
+    The output domain of that definition is non standard!
+
+    Notes
+    -----
+    -   Output *CIE XYZ* tristimulus values are in domain [0, 100].
+
+    Examples
+    --------
+    >>> from colour import (
+    ...     CMFS, ILLUMINANTS_RELATIVE_SPDS, SpectralPowerDistribution)
+    >>> cmfs = CMFS.get('CIE 1931 2 Degree Standard Observer')
+    >>> data = {
+    ...     400: 0.0641,
+    ...     420: 0.0645,
+    ...     440: 0.0562,
+    ...     460: 0.0537,
+    ...     480: 0.0559,
+    ...     500: 0.0651,
+    ...     520: 0.0705,
+    ...     540: 0.0772,
+    ...     560: 0.0870,
+    ...     580: 0.1128,
+    ...     600: 0.1360,
+    ...     620: 0.1511,
+    ...     640: 0.1688,
+    ...     660: 0.1996,
+    ...     680: 0.2397,
+    ...     700: 0.2852}
+    >>> spd = SpectralPowerDistribution('Custom', data)
+    >>> illuminant = ILLUMINANTS_RELATIVE_SPDS.get('D50')
+    >>> spectral_to_XYZ_ASTME30815(
+    ...     spd, cmfs, illuminant)  # doctest: +ELLIPSIS
+    array([ 11.5290265...,   9.9502091...,   4.7098882...])
+    """
+
+    if spd.shape.interval not in (1, 5, 10, 20):
+        raise ValueError(
+            'Tristimulus values conversion from spectral data accordingly to '
+            'practise *ASTM Designation E308-15* should be performed on '
+            'spectral data with measurement interval of 1, 5, 10 or 20nm!')
+
+    if use_practice_range:
+        cmfs = cmfs.clone().trim(SpectralShape(360, 780, 1))
+
+    method = spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815
+    if spd.shape.interval == 1:
+        method = spectral_to_XYZ_integration
+    elif spd.shape.interval == 5 and mi_5nm_omission_method:
+        if cmfs.shape.interval != 5:
+            cmfs = cmfs.clone().interpolate(SpectralShape(interval=5))
+        method = spectral_to_XYZ_integration
+    elif spd.shape.interval == 20 and mi_20nm_interpolation_method:
+        spd = spd.clone()
+        if spd.shape.boundaries != cmfs.shape.boundaries:
+            warning(
+                'Trimming "{0}" spectral power distribution shape to "{1}" '
+                'colour matching functions shape.'.format(illuminant, cmfs))
+            spd.trim(cmfs.shape)
+
+        # Extrapolation of additional 20nm padding intervals.
+        spd.align(SpectralShape(spd.shape.start - 20, spd.shape.end + 20, 10))
+        for i in range(2):
+            spd[spd.wavelengths[i]] = (3 * spd.values[i + 2] -
+                                       3 * spd.values[i + 4] +
+                                       spd.values[i + 6])
+            i_e = len(spd) - 1 - i
+            spd[spd.wavelengths[i_e]] = (spd.values[i_e - 6] -
+                                         3 * spd.values[i_e - 4] +
+                                         3 * spd.values[i_e - 2])
+
+        # Interpolating every odd numbered values.
+        # TODO: Investigate code vectorisation.
+        for i in range(3, len(spd) - 3, 2):
+            spd[spd.wavelengths[i]] = (-0.0625 * spd.values[i - 3] +
+                                       0.5625 * spd.values[i - 1] +
+                                       0.5625 * spd.values[i + 1] -
+                                       0.0625 * spd.values[i + 3])
+
+        # Discarding the additional 20nm padding intervals.
+        spd.trim(SpectralShape(spd.shape.start + 20, spd.shape.end - 20, 10))
+
+    XYZ = method(spd, cmfs, illuminant)
 
     return XYZ
 
