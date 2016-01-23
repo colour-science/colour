@@ -22,7 +22,6 @@ from colour.colorimetry import (
     adjust_tristimulus_weighting_factors_ASTME30815,
     spectral_to_XYZ_integration,
     spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815,
-    spectral_to_XYZ,
     wavelength_to_XYZ)
 
 __author__ = 'Colour Developers'
@@ -428,7 +427,7 @@ spectral_to_XYZ_integration`
 
 
 class TestSpectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
-    unittest.TestCase):
+        unittest.TestCase):
     """
     Defines :func:`colour.colorimetry.tristimulus.\
 spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815`
@@ -466,6 +465,33 @@ spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815`
                 cmfs,
                 ILLUMINANTS_RELATIVE_SPDS.get('F2')),
             np.array([11.5783713, 9.9873451, 3.9549952]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
+                RELATIVE_SPD_DATA.clone().trim(
+                    SpectralShape(400, 700, 5)),
+                cmfs,
+                ILLUMINANTS_RELATIVE_SPDS.get('A')),
+            np.array([14.3818083, 10.7451291, 2.0157913]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
+                RELATIVE_SPD_DATA.clone().interpolate(
+                    SpectralShape(400, 700, 10)),
+                cmfs,
+                ILLUMINANTS_RELATIVE_SPDS.get('A')),
+            np.array([14.382844, 10.7457795, 2.0155372]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
+                RELATIVE_SPD_DATA.clone().interpolate(
+                    SpectralShape(400, 700, 20)),
+                cmfs,
+                ILLUMINANTS_RELATIVE_SPDS.get('A')),
+            np.array([14.3835685, 10.7461329, 2.0152642]),
             decimal=7)
 
 
@@ -507,6 +533,7 @@ class TestSpectral_to_XYZ(unittest.TestCase):
         #     np.array([11.57830745, 9.98744967, 3.95396539]),
         #     decimal=7)
         #
+
 
 class TestWavelength_to_XYZ(unittest.TestCase):
     """

@@ -60,8 +60,8 @@ _LAGRANGE_INTERPOLATING_COEFFICIENTS_CACHE = None
 
 
 def lagrange_coefficients_ASTME202211(
-    interval=10,
-    interval_type='inner'):
+        interval=10,
+        interval_type='inner'):
     """
     Computes the *Lagrange Coefficients* for given interval size using
     *ASTM Designation: E2022 – 11* method [1]_.
@@ -350,7 +350,7 @@ def spectral_to_XYZ_integration(
         'CIE 1931 2 Degree Standard Observer').shape)):
     """
     Converts given spectral power distribution to *CIE XYZ* tristimulus values
-    using given colour matching functions and illuminant using classical
+    using given colour matching functions and illuminant following classical
     integration method.
 
     Parameters
@@ -360,7 +360,7 @@ def spectral_to_XYZ_integration(
     cmfs : XYZ_ColourMatchingFunctions
         Standard observer colour matching functions.
     illuminant : SpectralPowerDistribution, optional
-        *Illuminant* spectral power distribution.
+        Illuminant spectral power distribution.
 
     Returns
     -------
@@ -455,7 +455,7 @@ def spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
     cmfs : XYZ_ColourMatchingFunctions
         Standard observer colour matching functions.
     illuminant : SpectralPowerDistribution, optional
-        *Illuminant* spectral power distribution.
+        Illuminant spectral power distribution.
 
     Returns
     -------
@@ -537,7 +537,7 @@ def spectral_to_XYZ(spd,
     cmfs : XYZ_ColourMatchingFunctions
         Standard observer colour matching functions.
     illuminant : SpectralPowerDistribution, optional
-        *Illuminant* spectral power distribution.
+        Illuminant spectral power distribution.
 
     Returns
     -------
@@ -688,7 +688,7 @@ def wavelength_to_XYZ(wavelength,
 
     cmfs_shape = cmfs.shape
     if (np.min(wavelength) < cmfs_shape.start or
-                np.max(wavelength) > cmfs_shape.end):
+            np.max(wavelength) > cmfs_shape.end):
         raise ValueError(
             '"{0} nm" wavelength is not in "[{1}, {2}]" domain!'.format(
                 wavelength, cmfs_shape.start, cmfs_shape.end))
