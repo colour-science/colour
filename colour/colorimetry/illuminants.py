@@ -68,8 +68,9 @@ def D_illuminant_relative_spd(xy):
     Examples
     --------
     >>> xy = np.array([0.34567, 0.35850])
-    >>> D_illuminant_relative_spd(xy)  # doctest: +ELLIPSIS
-    <colour.colorimetry.spectrum.SpectralPowerDistribution object at 0x...>
+    >>> print(D_illuminant_relative_spd(xy))
+    SpectralPowerDistribution(\
+'CIE Standard Illuminant D Series', (300.0, 830.0, 10.0))
     """
 
     M = 0.0241 + 0.2562 * xy[0] - 0.7341 * xy[1]

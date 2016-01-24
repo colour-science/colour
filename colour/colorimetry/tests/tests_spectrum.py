@@ -2083,7 +2083,9 @@ class TestSpectralPowerDistribution(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__hash__',
+        required_methods = ('__str__',
+                            '__repr__',
+                            '__hash__',
                             '__getitem__',
                             '__setitem__',
                             '__iter__',
@@ -2148,6 +2150,21 @@ SpectralPowerDistribution.shape` attribute.
         """
 
         self.assertEqual(self.__spd.shape, SpectralShape(340, 820, 20))
+
+    def test__str__(self):
+        """
+        Tests :func:`colour.colorimetry.spectrum.\
+SpectralPowerDistribution.__str__` method.
+        """
+
+        try:
+            self.assertEqual(
+                str(self.__spd),
+                'SpectralPowerDistribution(\'Sample\', (340, 820, 20))')
+        except AssertionError:
+            self.assertEqual(
+                str(self.__spd),
+                'SpectralPowerDistribution(\'Sample\', (340.0, 820.0, 20.0))')
 
     def test__getitem__(self):
         """
@@ -2472,13 +2489,13 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
                          'z': 'z_bar'}
 
         self.__tri_spd = TriSpectralPowerDistribution(
-            name='Tri Spd',
+            name='Observer',
             data=CIE_1931_2_DEGREE_STANDARD_OBSERVER,
             mapping=self.__mapping,
             labels=self.__labels)
 
         self.__sample_tri_spd = TriSpectralPowerDistribution(
-            name='Sample Tri Spd',
+            name='Sample Observer',
             data={'x_bar': SAMPLE_SPD_DATA,
                   'y_bar': SAMPLE_SPD_DATA,
                   'z_bar': SAMPLE_SPD_DATA},
@@ -2486,7 +2503,7 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
             labels=self.__labels)
 
         self.__non_uniform_sample_tri_spd = TriSpectralPowerDistribution(
-            name='Non Uniform Sample Tri spd',
+            name='Non Uniform Sample Observer',
             data={'x_bar': NON_UNIFORM_SAMPLE_SPD_DATA,
                   'y_bar': NON_UNIFORM_SAMPLE_SPD_DATA,
                   'z_bar': NON_UNIFORM_SAMPLE_SPD_DATA},
@@ -2520,7 +2537,9 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__hash__',
+        required_methods = ('__str__',
+                            '__repr__',
+                            '__hash__',
                             '__getitem__',
                             '__setitem__',
                             '__iter__',
@@ -2585,6 +2604,22 @@ TriSpectralPowerDistribution.shape` attribute.
 
         self.assertEqual(self.__tri_spd.shape, SpectralShape(380, 780, 5))
 
+    def test__str__(self):
+        """
+        Tests :func:`colour.colorimetry.spectrum.\
+TriSpectralPowerDistribution.__str__` method.
+        """
+
+        try:
+            self.assertEqual(
+                str(self.__tri_spd),
+                'TriSpectralPowerDistribution(\'Observer\', (380, 780, 5))')
+        except AssertionError:
+            self.assertEqual(
+                str(self.__tri_spd),
+                'TriSpectralPowerDistribution(\'Observer\', '
+                '(380.0, 780.0, 5.0))')
+
     def test__getitem__(self):
         """
         Tests :func:`colour.colorimetry.spectrum.\
@@ -2618,7 +2653,7 @@ TriSpectralPowerDistribution.__setitem__` method.
         z_bar = {}
         data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
         mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
-        tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
+        tri_spd = TriSpectralPowerDistribution('Observer', data, mapping)
         tri_spd[510] = np.array([49.67, 49.67, 49.67])
         np.testing.assert_almost_equal(
             tri_spd.values,

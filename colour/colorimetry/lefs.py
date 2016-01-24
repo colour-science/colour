@@ -130,8 +130,9 @@ def mesopic_luminous_efficiency_function(
 
     Examples
     --------
-    >>> mesopic_luminous_efficiency_function(0.2)  # doctest: +ELLIPSIS
-    <colour.colorimetry.spectrum.SpectralPowerDistribution object at 0x...>
+    >>> print(mesopic_luminous_efficiency_function(0.2))
+    SpectralPowerDistribution(\
+'0.2 Lp Mesopic Luminous Efficiency Function', (380.0, 780.0, 1.0))
     """
 
     photopic_lef_shape = photopic_lef.shape
