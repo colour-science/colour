@@ -5,7 +5,16 @@
 Tristimulus Values
 ==================
 
-Defines objects for tristimulus values computation from spectral data.
+Defines objects for tristimulus values computation from spectral data:
+
+-   :func:`tristimulus_weighting_factors_ASTME202211`
+-   :func:`spectral_to_XYZ_integration`
+-   :func:`spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815`
+-   :func:`spectral_to_XYZ_ASTME30815`
+-   :func:`spectral_to_XYZ`
+-   :func:`wavelength_to_XYZ`
+
+The default implementation is based on practise *ASTM E308–15* method [2]_.
 
 References
 ----------
