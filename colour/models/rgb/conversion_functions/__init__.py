@@ -3,6 +3,7 @@
 
 from __future__ import absolute_import
 
+from .bt_1886 import BT_1886_EOCF
 from .log import (
     LINEAR_TO_LOG_METHODS,
     LOG_TO_LINEAR_METHODS)
@@ -35,7 +36,8 @@ from .log import (
     linear_to_v_log,
     v_log_to_linear)
 
-__all__ = ['LINEAR_TO_LOG_METHODS', 'LOG_TO_LINEAR_METHODS']
+__all__ = ['BT_1886_EOCF']
+__all__ += ['LINEAR_TO_LOG_METHODS', 'LOG_TO_LINEAR_METHODS']
 __all__ += ['linear_to_log', 'log_to_linear']
 __all__ += ['linear_to_cineon',
             'cineon_to_linear',
