@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines unit tests for :mod:`colour.models.rgb.conversion_functions`odule.
+Defines unit tests for :mod:`colour.models.rgb.conversion_functions.log`
+module.
 """
 
 from __future__ import division, unicode_literals
@@ -10,7 +11,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.models import (
+from colour.models.rgb.conversion_functions import (
     linear_to_cineon,
     cineon_to_linear,
     linear_to_panalog,
@@ -76,14 +77,14 @@ __all__ = ['TestLinearToCineon',
 
 class TestLinearToCineon(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.linear_to_cineon`
+    Defines :func:`colour.models.rgb.conversion_functions.log.linear_to_cineon`
     definition unit tests methods.
     """
 
     def test_linear_to_cineon(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.linear_to_cineon`
-        definition.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+linear_to_cineon` definition.
         """
 
         self.assertAlmostEqual(
@@ -103,8 +104,8 @@ class TestLinearToCineon(unittest.TestCase):
 
     def test_n_dimensional_linear_to_cineon(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.linear_to_cineon`
-        definition n-dimensional arrays support.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+linear_to_cineon` definition n-dimensional arrays support.
         """
 
         linear = 0.18
@@ -138,8 +139,8 @@ class TestLinearToCineon(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_linear_to_cineon(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.linear_to_cineon`
-        definition nan support.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+linear_to_cineon` definition nan support.
         """
 
         linear_to_cineon(
@@ -148,14 +149,14 @@ class TestLinearToCineon(unittest.TestCase):
 
 class TestCineonToLinear(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.cineon_to_linear`
+    Defines :func:`colour.models.rgb.conversion_functions.log.cineon_to_linear`
     definition unit tests methods.
     """
 
     def test_cineon_to_linear(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.cineon_to_linear`
-        definition.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+cineon_to_linear` definition.
         """
 
         self.assertAlmostEqual(
@@ -175,8 +176,8 @@ class TestCineonToLinear(unittest.TestCase):
 
     def test_n_dimensional_cineon_to_linear(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.cineon_to_linear`
-        definition n-dimensional arrays support.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+cineon_to_linear` definition n-dimensional arrays support.
         """
 
         log = 0.45731961308541841
@@ -210,8 +211,8 @@ class TestCineonToLinear(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_cineon_to_linear(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.cineon_to_linear`
-        definition nan support.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+cineon_to_linear` definition nan support.
         """
 
         cineon_to_linear(
@@ -220,14 +221,14 @@ class TestCineonToLinear(unittest.TestCase):
 
 class TestLinearToPanalog(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.linear_to_panalog`
-    definition unit tests methods.
+    Defines :func:`colour.models.rgb.conversion_functions.log.\
+linear_to_panalog` definition unit tests methods.
     """
 
     def test_linear_to_panalog(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.linear_to_panalog`
-        definition.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+linear_to_panalog` definition.
         """
 
         self.assertAlmostEqual(
@@ -247,8 +248,8 @@ class TestLinearToPanalog(unittest.TestCase):
 
     def test_n_dimensional_linear_to_panalog(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.linear_to_panalog`
-        definition n-dimensional arrays support.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+linear_to_panalog` definition n-dimensional arrays support.
         """
 
         linear = 0.18
@@ -282,8 +283,8 @@ class TestLinearToPanalog(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_linear_to_panalog(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.linear_to_panalog`
-        definition nan support.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+linear_to_panalog` definition nan support.
         """
 
         linear_to_panalog(
@@ -292,14 +293,14 @@ class TestLinearToPanalog(unittest.TestCase):
 
 class TestPanalogToLinear(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.panalog_to_linear`
-    definition unit tests methods.
+    Defines :func:`colour.models.rgb.conversion_functions.log.\
+panalog_to_linear` definition unit tests methods.
     """
 
     def test_panalog_to_linear(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.panalog_to_linear`
-        definition.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+panalog_to_linear` definition.
         """
 
         self.assertAlmostEqual(
@@ -319,8 +320,8 @@ class TestPanalogToLinear(unittest.TestCase):
 
     def test_n_dimensional_panalog_to_linear(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.panalog_to_linear`
-        definition n-dimensional arrays support.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+panalog_to_linear` definition n-dimensional arrays support.
         """
 
         log = 0.37457679138229816
@@ -354,8 +355,8 @@ class TestPanalogToLinear(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_panalog_to_linear(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.panalog_to_linear`
-        definition nan support.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+panalog_to_linear` definition nan support.
         """
 
         panalog_to_linear(
@@ -364,13 +365,13 @@ class TestPanalogToLinear(unittest.TestCase):
 
 class TestLinearToViperLog(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.linear_to_viper_log`
-    definition unit tests methods.
+    Defines :func:`colour.models.rgb.conversion_functions.log.\
+linear_to_viper_log` definition unit tests methods.
     """
 
     def test_linear_to_viper_log(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.\
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
 linear_to_viper_log` definition.
         """
 
@@ -391,7 +392,7 @@ linear_to_viper_log` definition.
 
     def test_n_dimensional_linear_to_viper_log(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.\
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
 linear_to_viper_log` definition n-dimensional arrays support.
         """
 
@@ -426,7 +427,7 @@ linear_to_viper_log` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_linear_to_viper_log(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.\
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
 linear_to_viper_log` definition nan support.
         """
 
@@ -436,13 +437,13 @@ linear_to_viper_log` definition nan support.
 
 class TestViperLogToLinear(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.viper_log_to_linear`
-    definition unit tests methods.
+    Defines :func:`colour.models.rgb.conversion_functions.log.\
+viper_log_to_linear` definition unit tests methods.
     """
 
     def test_viper_log_to_linear(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.\
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
 viper_log_to_linear` definition.
         """
 
@@ -463,7 +464,7 @@ viper_log_to_linear` definition.
 
     def test_n_dimensional_viper_log_to_linear(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.\
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
 viper_log_to_linear` definition n-dimensional arrays support.
         """
 
@@ -498,7 +499,7 @@ viper_log_to_linear` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_viper_log_to_linear(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.\
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
 viper_log_to_linear` definition nan support.
         """
 
@@ -508,13 +509,13 @@ viper_log_to_linear` definition nan support.
 
 class TestLinearToPivotedLog(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.\
+    Defines :func:`colour.models.rgb.conversion_functions.log.\
 linear_to_pivoted_log` definition unit tests methods.
     """
 
     def test_linear_to_pivoted_log(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.\
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
 linear_to_pivoted_log` definition.
         """
 
@@ -535,7 +536,7 @@ linear_to_pivoted_log` definition.
 
     def test_n_dimensional_linear_to_pivoted_log(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.\
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
 linear_to_pivoted_log` definition n-dimensional arrays support.
         """
 
@@ -570,7 +571,7 @@ linear_to_pivoted_log` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_linear_to_pivoted_log(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.\
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
 linear_to_pivoted_log` definition nan support.
         """
 
@@ -580,13 +581,13 @@ linear_to_pivoted_log` definition nan support.
 
 class TestPivotedLogToLinear(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.\
+    Defines :func:`colour.models.rgb.conversion_functions.log.\
 pivoted_log_to_linear` definition unit tests methods.
     """
 
     def test_pivoted_log_to_linear(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.\
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
 pivoted_log_to_linear` definition.
         """
 
@@ -607,7 +608,7 @@ pivoted_log_to_linear` definition.
 
     def test_n_dimensional_pivoted_log_to_linear(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.\
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
 pivoted_log_to_linear` definition n-dimensional arrays support.
         """
 
@@ -642,7 +643,7 @@ pivoted_log_to_linear` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_pivoted_log_to_linear(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.\
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
 pivoted_log_to_linear` definition nan support.
         """
 
@@ -652,14 +653,14 @@ pivoted_log_to_linear` definition nan support.
 
 class TestLinearToCLog(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.linear_to_c_log`
+    Defines :func:`colour.models.rgb.conversion_functions.log.linear_to_c_log`
     definition unit tests methods.
     """
 
     def test_linear_to_c_log(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.linear_to_c_log`
-        definition.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+linear_to_c_log` definition.
         """
 
         self.assertAlmostEqual(
@@ -679,8 +680,8 @@ class TestLinearToCLog(unittest.TestCase):
 
     def test_n_dimensional_linear_to_c_log(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.linear_to_c_log`
-        definition n-dimensional arrays support.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+linear_to_c_log` definition n-dimensional arrays support.
         """
 
         linear = 0.18
@@ -714,8 +715,8 @@ class TestLinearToCLog(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_linear_to_c_log(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.linear_to_c_log`
-        definition nan support.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+linear_to_c_log` definition nan support.
         """
 
         linear_to_c_log(
@@ -724,14 +725,14 @@ class TestLinearToCLog(unittest.TestCase):
 
 class TestCLogToLinear(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.c_log_to_linear`
+    Defines :func:`colour.models.rgb.conversion_functions.log.c_log_to_linear`
     definition unit tests methods.
     """
 
     def test_c_log_to_linear(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.c_log_to_linear`
-        definition.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+c_log_to_linear` definition.
         """
 
         self.assertAlmostEqual(
@@ -751,8 +752,8 @@ class TestCLogToLinear(unittest.TestCase):
 
     def test_n_dimensional_c_log_to_linear(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.c_log_to_linear`
-        definition n-dimensional arrays support.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+c_log_to_linear` definition n-dimensional arrays support.
         """
 
         log = 0.31201285555039493
@@ -786,8 +787,8 @@ class TestCLogToLinear(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_c_log_to_linear(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.c_log_to_linear`
-        definition nan support.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+c_log_to_linear` definition nan support.
         """
 
         c_log_to_linear(
@@ -796,14 +797,14 @@ class TestCLogToLinear(unittest.TestCase):
 
 class TestLinearToAcesCc(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.linear_to_aces_cc`
-    definition unit tests methods.
+    Defines :func:`colour.models.rgb.conversion_functions.log.\
+linear_to_aces_cc` definition unit tests methods.
     """
 
     def test_linear_to_aces_cc(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.linear_to_aces_cc`
-        definition.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+linear_to_aces_cc` definition.
         """
 
         self.assertAlmostEqual(
@@ -823,8 +824,8 @@ class TestLinearToAcesCc(unittest.TestCase):
 
     def test_n_dimensional_linear_to_aces_cc(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.linear_to_aces_cc`
-        definition n-dimensional arrays support.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+linear_to_aces_cc` definition n-dimensional arrays support.
         """
 
         linear = 0.18
@@ -858,8 +859,8 @@ class TestLinearToAcesCc(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_linear_to_aces_cc(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.linear_to_aces_cc`
-        definition nan support.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+linear_to_aces_cc` definition nan support.
         """
 
         linear_to_aces_cc(
@@ -868,14 +869,14 @@ class TestLinearToAcesCc(unittest.TestCase):
 
 class TestAcesCcToLinear(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.aces_cc_to_linear`
-    definition unit tests methods.
+    Defines :func:`colour.models.rgb.conversion_functions.log.\
+aces_cc_to_linear` definition unit tests methods.
     """
 
     def test_aces_cc_to_linear(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.aces_cc_to_linear`
-        definition.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+aces_cc_to_linear` definition.
         """
 
         self.assertAlmostEqual(
@@ -895,8 +896,8 @@ class TestAcesCcToLinear(unittest.TestCase):
 
     def test_n_dimensional_aces_cc_to_linear(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.aces_cc_to_linear`
-        definition n-dimensional arrays support.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+aces_cc_to_linear` definition n-dimensional arrays support.
         """
 
         log = 0.41358840249244228
@@ -930,8 +931,8 @@ class TestAcesCcToLinear(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_aces_cc_to_linear(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.aces_cc_to_linear`
-        definition nan support.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+aces_cc_to_linear` definition nan support.
         """
 
         aces_cc_to_linear(
@@ -940,13 +941,13 @@ class TestAcesCcToLinear(unittest.TestCase):
 
 class TestLinearToAlexaLogC(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.\
+    Defines :func:`colour.models.rgb.conversion_functions.log.\
 linear_to_alexa_log_c` definition unit tests methods.
     """
 
     def test_linear_to_alexa_log_c(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.\
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
 linear_to_alexa_log_c` definition.
         """
 
@@ -967,7 +968,7 @@ linear_to_alexa_log_c` definition.
 
     def test_n_dimensional_linear_to_alexa_log_c(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.\
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
 linear_to_alexa_log_c` definition n-dimensional arrays support.
         """
 
@@ -1002,7 +1003,7 @@ linear_to_alexa_log_c` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_linear_to_alexa_log_c(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.\
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
 linear_to_alexa_log_c` definition nan support.
         """
 
@@ -1012,13 +1013,13 @@ linear_to_alexa_log_c` definition nan support.
 
 class TestAlexaLogCToLinear(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.\
+    Defines :func:`colour.models.rgb.conversion_functions.log.\
 alexa_log_c_to_linear` definition unit tests methods.
     """
 
     def test_alexa_log_c_to_linear(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.\
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
 alexa_log_c_to_linear` definition.
         """
 
@@ -1039,7 +1040,7 @@ alexa_log_c_to_linear` definition.
 
     def test_n_dimensional_alexa_log_c_to_linear(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.\
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
 alexa_log_c_to_linear` definition n-dimensional arrays support.
         """
 
@@ -1074,7 +1075,7 @@ alexa_log_c_to_linear` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_alexa_log_c_to_linear(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.\
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
 alexa_log_c_to_linear` definition nan support.
         """
 
@@ -1084,13 +1085,13 @@ alexa_log_c_to_linear` definition nan support.
 
 class TestLinearToDciP3Log(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.\
+    Defines :func:`colour.models.rgb.conversion_functions.log.\
 linear_to_dci_p3_log` definition unit tests methods.
     """
 
     def test_linear_to_dci_p3_log(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.\
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
 linear_to_dci_p3_log` definition.
         """
 
@@ -1111,7 +1112,7 @@ linear_to_dci_p3_log` definition.
 
     def test_n_dimensional_linear_to_dci_p3_log(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.\
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
 linear_to_dci_p3_log` definition n-dimensional arrays support.
         """
 
@@ -1146,7 +1147,7 @@ linear_to_dci_p3_log` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_linear_to_dci_p3_log(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.\
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
 linear_to_dci_p3_log` definition nan support.
         """
 
@@ -1156,13 +1157,13 @@ linear_to_dci_p3_log` definition nan support.
 
 class TestDciP3LogToLinear(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.\
+    Defines :func:`colour.models.rgb.conversion_functions.log.\
 dci_p3_log_to_linear` definition unit tests methods.
     """
 
     def test_dci_p3_log_to_linear(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.\
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
 dci_p3_log_to_linear` definition.
         """
 
@@ -1183,7 +1184,7 @@ dci_p3_log_to_linear` definition.
 
     def test_n_dimensional_dci_p3_log_to_linear(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.\
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
 dci_p3_log_to_linear` definition n-dimensional arrays support.
         """
 
@@ -1218,7 +1219,7 @@ dci_p3_log_to_linear` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_dci_p3_log_to_linear(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.\
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
 dci_p3_log_to_linear` definition nan support.
         """
 
@@ -1228,13 +1229,13 @@ dci_p3_log_to_linear` definition nan support.
 
 class TestLinearToRedLogFilm(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.\
+    Defines :func:`colour.models.rgb.conversion_functions.log.\
 linear_to_red_log_film` definition unit tests methods.
     """
 
     def test_linear_to_red_log_film(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.\
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
 linear_to_red_log_film` definition.
         """
 
@@ -1255,7 +1256,7 @@ linear_to_red_log_film` definition.
 
     def test_n_dimensional_linear_to_red_log_film(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.\
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
 linear_to_red_log_film` definition n-dimensional arrays support.
         """
 
@@ -1290,7 +1291,7 @@ linear_to_red_log_film` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_linear_to_red_log_film(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.\
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
 linear_to_red_log_film` definition nan support.
         """
 
@@ -1300,13 +1301,13 @@ linear_to_red_log_film` definition nan support.
 
 class TestRedLogFilmToLinear(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.\
+    Defines :func:`colour.models.rgb.conversion_functions.log.\
 red_log_film_to_linear` definition unit tests methods.
     """
 
     def test_red_log_film_to_linear(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.\
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
 red_log_film_to_linear` definition.
         """
 
@@ -1327,7 +1328,7 @@ red_log_film_to_linear` definition.
 
     def test_n_dimensional_red_log_film_to_linear(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.\
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
 red_log_film_to_linear` definition n-dimensional arrays support.
         """
 
@@ -1362,7 +1363,7 @@ red_log_film_to_linear` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_red_log_film_to_linear(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.\
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
 red_log_film_to_linear` definition nan support.
         """
 
@@ -1372,14 +1373,14 @@ red_log_film_to_linear` definition nan support.
 
 class TestLinearToSLog(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.linear_to_s_log`
+    Defines :func:`colour.models.rgb.conversion_functions.log.linear_to_s_log`
     definition unit tests methods.
     """
 
     def test_linear_to_s_log(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.linear_to_s_log`
-        definition.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+linear_to_s_log` definition.
         """
 
         self.assertAlmostEqual(
@@ -1399,8 +1400,8 @@ class TestLinearToSLog(unittest.TestCase):
 
     def test_n_dimensional_linear_to_s_log(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.linear_to_s_log`
-        definition n-dimensional arrays support.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+linear_to_s_log` definition n-dimensional arrays support.
         """
 
         linear = 0.18
@@ -1434,8 +1435,8 @@ class TestLinearToSLog(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_linear_to_s_log(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.linear_to_s_log`
-        definition nan support.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+linear_to_s_log` definition nan support.
         """
 
         linear_to_s_log(
@@ -1444,14 +1445,14 @@ class TestLinearToSLog(unittest.TestCase):
 
 class TestSLogToLinear(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.s_log_to_linear`
+    Defines :func:`colour.models.rgb.conversion_functions.log.s_log_to_linear`
     definition unit tests methods.
     """
 
     def test_s_log_to_linear(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.s_log_to_linear`
-        definition.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+s_log_to_linear` definition.
         """
 
         self.assertAlmostEqual(
@@ -1471,8 +1472,8 @@ class TestSLogToLinear(unittest.TestCase):
 
     def test_n_dimensional_s_log_to_linear(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.s_log_to_linear`
-        definition n-dimensional arrays support.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+s_log_to_linear` definition n-dimensional arrays support.
         """
 
         log = 0.35998784642215442
@@ -1506,8 +1507,8 @@ class TestSLogToLinear(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_s_log_to_linear(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.s_log_to_linear`
-        definition nan support.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+s_log_to_linear` definition nan support.
         """
 
         s_log_to_linear(
@@ -1516,14 +1517,14 @@ class TestSLogToLinear(unittest.TestCase):
 
 class TestLinearToSLog2(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.linear_to_s_log2`
+    Defines :func:`colour.models.rgb.conversion_functions.log.linear_to_s_log2`
     definition unit tests methods.
     """
 
     def test_linear_to_s_log2(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.linear_to_s_log2`
-        definition.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+linear_to_s_log2` definition.
         """
 
         self.assertAlmostEqual(
@@ -1543,8 +1544,8 @@ class TestLinearToSLog2(unittest.TestCase):
 
     def test_n_dimensional_linear_to_s_log2(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.linear_to_s_log2`
-        definition n-dimensional arrays support.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+linear_to_s_log2` definition n-dimensional arrays support.
         """
 
         linear = 0.18
@@ -1578,8 +1579,8 @@ class TestLinearToSLog2(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_linear_to_s_log2(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.linear_to_s_log2`
-        definition nan support.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+linear_to_s_log2` definition nan support.
         """
 
         linear_to_s_log2(
@@ -1588,14 +1589,14 @@ class TestLinearToSLog2(unittest.TestCase):
 
 class TestSLog2ToLinear(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.s_log2_to_linear`
+    Defines :func:`colour.models.rgb.conversion_functions.log.s_log2_to_linear`
     definition unit tests methods.
     """
 
     def test_s_log2_to_linear(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.s_log2_to_linear`
-        definition.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+s_log2_to_linear` definition.
         """
 
         self.assertAlmostEqual(
@@ -1615,8 +1616,8 @@ class TestSLog2ToLinear(unittest.TestCase):
 
     def test_n_dimensional_s_log2_to_linear(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.s_log2_to_linear`
-        definition n-dimensional arrays support.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+s_log2_to_linear` definition n-dimensional arrays support.
         """
 
         log = 0.38497081592867027
@@ -1650,8 +1651,8 @@ class TestSLog2ToLinear(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_s_log2_to_linear(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.s_log2_to_linear`
-        definition nan support.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+s_log2_to_linear` definition nan support.
         """
 
         s_log2_to_linear(
@@ -1660,14 +1661,14 @@ class TestSLog2ToLinear(unittest.TestCase):
 
 class TestLinearToSLog3(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.linear_to_s_log3`
+    Defines :func:`colour.models.rgb.conversion_functions.log.linear_to_s_log3`
     definition unit tests methods.
     """
 
     def test_linear_to_s_log3(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.linear_to_s_log3`
-        definition.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+linear_to_s_log3` definition.
         """
 
         self.assertAlmostEqual(
@@ -1687,8 +1688,8 @@ class TestLinearToSLog3(unittest.TestCase):
 
     def test_n_dimensional_linear_to_s_log3(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.linear_to_s_log3`
-        definition n-dimensional arrays support.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+linear_to_s_log3` definition n-dimensional arrays support.
         """
 
         linear = 0.18
@@ -1722,8 +1723,8 @@ class TestLinearToSLog3(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_linear_to_s_log3(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.linear_to_s_log3`
-        definition nan support.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+linear_to_s_log3` definition nan support.
         """
 
         linear_to_s_log3(
@@ -1732,14 +1733,14 @@ class TestLinearToSLog3(unittest.TestCase):
 
 class TestSLog3ToLinear(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.s_log3_to_linear`
+    Defines :func:`colour.models.rgb.conversion_functions.log.s_log3_to_linear`
     definition unit tests methods.
     """
 
     def test_s_log3_to_linear(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.s_log3_to_linear`
-        definition.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+s_log3_to_linear` definition.
         """
 
         self.assertAlmostEqual(
@@ -1759,8 +1760,8 @@ class TestSLog3ToLinear(unittest.TestCase):
 
     def test_n_dimensional_s_log3_to_linear(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.s_log3_to_linear`
-        definition n-dimensional arrays support.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+s_log3_to_linear` definition n-dimensional arrays support.
         """
 
         log = 0.41055718475073316
@@ -1794,8 +1795,8 @@ class TestSLog3ToLinear(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_s_log3_to_linear(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.s_log3_to_linear`
-        definition nan support.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+s_log3_to_linear` definition nan support.
         """
 
         s_log3_to_linear(
@@ -1804,14 +1805,14 @@ class TestSLog3ToLinear(unittest.TestCase):
 
 class TestLinearToVLog(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.linear_to_v_log`
+    Defines :func:`colour.models.rgb.conversion_functions.log.linear_to_v_log`
     definition unit tests methods.
     """
 
     def test_linear_to_v_log(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.linear_to_v_log`
-        definition.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+linear_to_v_log` definition.
         """
 
         self.assertAlmostEqual(
@@ -1831,8 +1832,8 @@ class TestLinearToVLog(unittest.TestCase):
 
     def test_n_dimensional_linear_to_v_log(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.linear_to_v_log`
-        definition n-dimensional arrays support.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+linear_to_v_log` definition n-dimensional arrays support.
         """
 
         linear = 0.18
@@ -1866,8 +1867,8 @@ class TestLinearToVLog(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_linear_to_v_log(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.linear_to_v_log`
-        definition nan support.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+linear_to_v_log` definition nan support.
         """
 
         linear_to_v_log(
@@ -1876,14 +1877,14 @@ class TestLinearToVLog(unittest.TestCase):
 
 class TestVLogToLinear(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.v_log_to_linear`
+    Defines :func:`colour.models.rgb.conversion_functions.log.v_log_to_linear`
     definition unit tests methods.
     """
 
     def test_v_log_to_linear(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.v_log_to_linear`
-        definition.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+v_log_to_linear` definition.
         """
 
         self.assertAlmostEqual(
@@ -1903,8 +1904,8 @@ class TestVLogToLinear(unittest.TestCase):
 
     def test_n_dimensional_v_log_to_linear(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.v_log_to_linear`
-        definition n-dimensional arrays support.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+v_log_to_linear` definition n-dimensional arrays support.
         """
 
         log = 0.42331144876013616
@@ -1938,8 +1939,8 @@ class TestVLogToLinear(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_v_log_to_linear(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.v_log_to_linear`
-        definition nan support.
+        Tests :func:`colour.models.rgb.conversion_functions.log.\
+v_log_to_linear` definition nan support.
         """
 
         v_log_to_linear(
