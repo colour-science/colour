@@ -35,6 +35,7 @@ from .log import (
     s_log3_to_linear,
     linear_to_v_log,
     v_log_to_linear)
+from .st_2084 import ST_2084_EOCF, ST_2084_OECF
 
 __all__ = ['BT_1886_EOCF']
 __all__ += ['LINEAR_TO_LOG_METHODS', 'LOG_TO_LINEAR_METHODS']
@@ -65,3 +66,4 @@ __all__ += ['linear_to_cineon',
             's_log3_to_linear',
             'linear_to_v_log',
             'v_log_to_linear']
+__all__ += ['ST_2084_EOCF', 'ST_2084_OECF']

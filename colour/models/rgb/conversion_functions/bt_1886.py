@@ -38,7 +38,7 @@ __all__ = ['BT_1886_EOCF']
 
 def BT_1886_EOCF(V, L_W=940, L_B=64):
     """
-    Defines *Recommendation ITU-R BT.1886* Electro-optical transfer function
+    Defines *Recommendation ITU-R BT.1886* electro-optical transfer function
     (EOTF / EOCF).
 
     Parameters
