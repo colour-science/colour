@@ -150,18 +150,13 @@ def colour_quality_scale(spd_test, additional_data=False):
     >>> from colour import ILLUMINANTS_RELATIVE_SPDS
     >>> spd = ILLUMINANTS_RELATIVE_SPDS.get('F2')
     >>> colour_quality_scale(spd)  # doctest: +ELLIPSIS
-    64.6864169...
+    64.6781117...
     """
 
     cmfs = STANDARD_OBSERVERS_CMFS.get(
         'CIE 1931 2 Degree Standard Observer')
 
     shape = cmfs.shape
-    spd_test = spd_test.clone().align(shape)
-
-    vs_spds = {}
-    for index, vs_spd in VS_SPDS.items():
-        vs_spds[index] = vs_spd.clone().align(shape)
 
     XYZ = spectral_to_XYZ(spd_test, cmfs)
     uv = UCS_to_uv(XYZ_to_UCS(XYZ))
@@ -177,14 +172,14 @@ def colour_quality_scale(spd_test, additional_data=False):
     test_vs_colorimetry_data = vs_colorimetry_data(
         spd_test,
         spd_reference,
-        vs_spds,
+        VS_SPDS,
         cmfs,
         chromatic_adaptation=True)
 
     reference_vs_colorimetry_data = vs_colorimetry_data(
         spd_reference,
         spd_reference,
-        vs_spds,
+        VS_SPDS,
         cmfs)
 
     XYZ_r = spectral_to_XYZ(spd_reference, cmfs)

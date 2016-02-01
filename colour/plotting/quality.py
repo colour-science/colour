@@ -79,9 +79,11 @@ def colour_quality_bars_plot(specifications,
     --------
     >>> from colour import (
     ...     ILLUMINANTS_RELATIVE_SPDS,
-    ...     LIGHT_SOURCES_RELATIVE_SPDS)
+    ...     LIGHT_SOURCES_RELATIVE_SPDS,
+    ...     SpectralShape)
     >>> illuminant = ILLUMINANTS_RELATIVE_SPDS.get('F2')
     >>> light_source = LIGHT_SOURCES_RELATIVE_SPDS.get('Kinoton 75P')
+    >>> light_source = light_source.clone().align(SpectralShape(360, 830, 1))
     >>> cqs_i = colour_quality_scale(illuminant, additional_data=True)
     >>> cqs_l = colour_quality_scale(light_source, additional_data=True)
     >>> colour_quality_bars_plot([cqs_i, cqs_l])  # doctest: +SKIP

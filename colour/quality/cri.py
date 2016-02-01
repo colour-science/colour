@@ -110,17 +110,12 @@ def colour_rendering_index(spd_test, additional_data=False):
     >>> from colour import ILLUMINANTS_RELATIVE_SPDS
     >>> spd = ILLUMINANTS_RELATIVE_SPDS.get('F2')
     >>> colour_rendering_index(spd)  # doctest: +ELLIPSIS
-    64.1515202...
+    64.1495478...
     """
 
     cmfs = STANDARD_OBSERVERS_CMFS.get('CIE 1931 2 Degree Standard Observer')
 
     shape = cmfs.shape
-    spd_test = spd_test.clone().align(shape)
-
-    tcs_spds = {}
-    for index, tcs_spd in TCS_SPDS.items():
-        tcs_spds[index] = tcs_spd.clone().align(shape)
 
     XYZ = spectral_to_XYZ(spd_test, cmfs)
     uv = UCS_to_uv(XYZ_to_UCS(XYZ))
@@ -136,14 +131,14 @@ def colour_rendering_index(spd_test, additional_data=False):
     test_tcs_colorimetry_data = tcs_colorimetry_data(
         spd_test,
         spd_reference,
-        tcs_spds,
+        TCS_SPDS,
         cmfs,
         chromatic_adaptation=True)
 
     reference_tcs_colorimetry_data = tcs_colorimetry_data(
         spd_reference,
         spd_reference,
-        tcs_spds,
+        TCS_SPDS,
         cmfs)
 
     Q_as = colour_rendering_indexes(

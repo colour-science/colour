@@ -120,19 +120,19 @@ class TestColourRenderingIndex(unittest.TestCase):
 
         self.assertAlmostEqual(
             colour_rendering_index(ILLUMINANTS_RELATIVE_SPDS.get('F2')),
-            64.151520202967902,
+            64.149547892010048,
             places=7)
 
         self.assertAlmostEqual(
             colour_rendering_index(ILLUMINANTS_RELATIVE_SPDS.get('A')),
-            99.996732643006084,
+            99.996736287811871,
             places=7)
 
         self.assertAlmostEqual(
             colour_rendering_index(SpectralPowerDistribution(
                 'Sample',
                 SAMPLE_SPD_DATA)),
-            70.805386906878681,
+            70.802983572028324,
             places=7)
 
 
