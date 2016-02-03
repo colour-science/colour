@@ -51,38 +51,43 @@ ST_2084_EOCF` definition.
             10000.0,
             places=7)
 
+        self.assertAlmostEqual(
+            ST_2084_EOCF(0.5, 5000),
+            46.122854497032634,
+            places=7)
+
     def test_n_dimensional_ST_2084_EOCF(self):
         """
         Tests :func:`colour.models.rgb.conversion_functions.st_2084.\
 ST_2084_EOCF` definition n-dimensional arrays support.
         """
 
-        V = 0.50
-        Y = 92.245708994065268
+        N = 0.50
+        C = 92.245708994065268
         np.testing.assert_almost_equal(
-            ST_2084_EOCF(V),
-            Y,
+            ST_2084_EOCF(N),
+            C,
             decimal=7)
 
-        V = np.tile(V, 6)
-        Y = np.tile(Y, 6)
+        N = np.tile(N, 6)
+        C = np.tile(C, 6)
         np.testing.assert_almost_equal(
-            ST_2084_EOCF(V),
-            Y,
+            ST_2084_EOCF(N),
+            C,
             decimal=7)
 
-        V = np.reshape(V, (2, 3))
-        Y = np.reshape(Y, (2, 3))
+        N = np.reshape(N, (2, 3))
+        C = np.reshape(C, (2, 3))
         np.testing.assert_almost_equal(
-            ST_2084_EOCF(V),
-            Y,
+            ST_2084_EOCF(N),
+            C,
             decimal=7)
 
-        V = np.reshape(V, (2, 3, 1))
-        Y = np.reshape(Y, (2, 3, 1))
+        N = np.reshape(N, (2, 3, 1))
+        C = np.reshape(C, (2, 3, 1))
         np.testing.assert_almost_equal(
-            ST_2084_EOCF(V),
-            Y,
+            ST_2084_EOCF(N),
+            C,
             decimal=7)
 
     @ignore_numpy_errors
@@ -123,38 +128,43 @@ ST_2084_OECF` definition.
             1.0,
             places=7)
 
+        self.assertAlmostEqual(
+            ST_2084_OECF(92.245708994065268, 5000),
+            0.57071924098752402,
+            places=7)
+
     def test_n_dimensional_ST_2084_OECF(self):
         """
         Tests :func:`colour.models.rgb.conversion_functions.st_2084.\
 ST_2084_OECF` definition n-dimensional arrays support.
         """
 
-        Y = 92.245708994065268
-        V = 0.50000000000000067
+        C = 92.245708994065268
+        N = 0.50000000000000067
         np.testing.assert_almost_equal(
-            ST_2084_OECF(Y),
-            V,
+            ST_2084_OECF(C),
+            N,
             decimal=7)
 
-        Y = np.tile(Y, 6)
-        V = np.tile(V, 6)
+        C = np.tile(C, 6)
+        N = np.tile(N, 6)
         np.testing.assert_almost_equal(
-            ST_2084_OECF(Y),
-            V,
+            ST_2084_OECF(C),
+            N,
             decimal=7)
 
-        Y = np.reshape(Y, (2, 3))
-        V = np.reshape(V, (2, 3))
+        C = np.reshape(C, (2, 3))
+        N = np.reshape(N, (2, 3))
         np.testing.assert_almost_equal(
-            ST_2084_OECF(Y),
-            V,
+            ST_2084_OECF(C),
+            N,
             decimal=7)
 
-        Y = np.reshape(Y, (2, 3, 1))
-        V = np.reshape(V, (2, 3, 1))
+        C = np.reshape(C, (2, 3, 1))
+        N = np.reshape(N, (2, 3, 1))
         np.testing.assert_almost_equal(
-            ST_2084_OECF(Y),
-            V,
+            ST_2084_OECF(C),
+            N,
             decimal=7)
 
     @ignore_numpy_errors

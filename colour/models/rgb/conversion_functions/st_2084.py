@@ -56,7 +56,7 @@ ST_2084_CONSTANTS : Structure
 """
 
 
-def ST_2084_EOCF(V, L=10000):
+def ST_2084_EOCF(N, L_p=10000):
     """
     Defines *SMPTE ST 2084:2014* optimised perceptual electro-optical transfer
     function (EOTF / EOCF). This perceptual quantizer (PQ) has been modeled by
@@ -64,15 +64,19 @@ def ST_2084_EOCF(V, L=10000):
 
     Parameters
     ----------
-    V : numeric or array_like
-        Input video signal level.
-    L : numeric, optional
+    N : numeric or array_like
+        Color value abbreviated as :math:`N`, normalized to the range [0, 1],
+        that is directly proportional to the encoded signal representation,
+        and which is not directly proportional to the optical output of a
+        display device.
+    L_p : numeric, optional
         Display peak luminance :math:`cd/m^2`.
 
     Returns
     -------
     numeric or ndarray
-         Absolute display luminance levels in :math:`cd/m^2`.
+          Target optical output :math:`C` in :math:`cd/m^2` of the ideal
+          reference display.
 
     Examples
     --------
@@ -80,39 +84,43 @@ def ST_2084_EOCF(V, L=10000):
     92.2457089...
     """
 
-    V = np.asarray(V)
-    C = ST_2084_CONSTANTS
+    N = np.asarray(N)
 
-    m_1_d = 1 / C.m_1
-    m_2_d = 1 / C.m_2
+    m_1_d = 1 / ST_2084_CONSTANTS.m_1
+    m_2_d = 1 / ST_2084_CONSTANTS.m_2
 
-    V_p = V ** m_2_d
+    V_p = N ** m_2_d
 
-    n = V_p - C.c_1
+    n = V_p - ST_2084_CONSTANTS.c_1
     # Preventing *nan*.
     n = np.where(n < 0, 0, n)
 
-    Y = L * (n / (C.c_2 - C.c_3 * V_p)) ** m_1_d
+    L = (n / (ST_2084_CONSTANTS.c_2 - ST_2084_CONSTANTS.c_3 * V_p)) ** m_1_d
+    C = L_p * L
 
-    return Y
+    return C
 
 
-def ST_2084_OECF(Y, L=10000):
+def ST_2084_OECF(C, L_p=10000):
     """
     Defines *SMPTE ST 2084:2014* optimised perceptual opto-electronic transfer
     function (OETF / OECF).
 
     Parameters
     ----------
-    Y : numeric or array_like
-        Absolute display luminance levels in :math:`cd/m^2`.
-    L : numeric, optional
+    C : numeric or array_like
+        Target optical output :math:`C` in :math:`cd/m^2` of the ideal
+        reference display.
+    L_p : numeric, optional
         Display peak luminance :math:`cd/m^2`.
 
     Returns
     -------
     numeric or ndarray
-        Input video signal level.
+        Color value abbreviated as :math:`N`, normalized to the range [0, 1],
+        that is directly proportional to the encoded signal representation,
+        and which is not directly proportional to the optical output of a
+        display device.
 
     Examples
     --------
@@ -120,11 +128,11 @@ def ST_2084_OECF(Y, L=10000):
     0.5000000...
     """
 
-    Y = np.asarray(Y)
-    C = ST_2084_CONSTANTS
+    C = np.asarray(C)
 
-    Y_p = (Y / L) ** C.m_1
+    Y_p = (C / L_p) ** ST_2084_CONSTANTS.m_1
 
-    V = ((C.c_1 + C.c_2 * Y_p) / (C.c_3 * Y_p + 1)) ** C.m_2
+    N = ((ST_2084_CONSTANTS.c_1 + ST_2084_CONSTANTS.c_2 * Y_p) /
+         (ST_2084_CONSTANTS.c_3 * Y_p + 1)) ** ST_2084_CONSTANTS.m_2
 
-    return V
+    return N
