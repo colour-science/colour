@@ -278,7 +278,7 @@ def write_spds_to_csv_file(spds,
                                 'with different shapes to CSV file!'))
 
     wavelengths = tuple(spds.values())[0].wavelengths
-    with open(path, 'w') as csv_file:
+    with open(path, 'wb') as csv_file:
         fields = list(fields) if fields is not None else sorted(spds.keys())
         writer = csv.DictWriter(csv_file,
                                 delimiter=str(delimiter),
