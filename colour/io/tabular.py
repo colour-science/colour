@@ -282,7 +282,8 @@ def write_spds_to_csv_file(spds,
         fields = list(fields) if fields is not None else sorted(spds.keys())
         writer = csv.DictWriter(csv_file,
                                 delimiter=str(delimiter),
-                                fieldnames=['wavelength'] + fields)
+                                fieldnames=['wavelength'] + fields,
+                                lineterminator='\n')
         # Python 2.7.x / 3.4.x only.
         # writer.writeheader()
         writer.writerow(dict((name, name) for name in writer.fieldnames))
