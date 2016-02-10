@@ -52,6 +52,16 @@ Special Mentions
 
 -   **Aurélia Sellier**, *Line Producer @ Cube Creative*
 
+Others
+------
+
+-   Nick Spiker
+-   fangjy88
+-   henczati
+-   Ron04
+-   scooperly
+-   zachlewis
+
 About
 -----
 
