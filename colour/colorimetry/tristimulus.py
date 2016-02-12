@@ -535,7 +535,7 @@ def spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
     if spd.shape.boundaries != cmfs.shape.boundaries:
         warning('Trimming "{0}" spectral power distribution shape to "{1}" '
                 'colour matching functions shape.'.format(illuminant, cmfs))
-        spd = spd.clone().trim(cmfs.shape)
+        spd = spd.clone().trim_wavelengths(cmfs.shape)
 
     W = tristimulus_weighting_factors_ASTME202211(
         cmfs, illuminant, SpectralShape(
@@ -644,7 +644,7 @@ def spectral_to_XYZ_ASTME30815(
             'with measurement interval of 1, 5, 10 or 20nm!')
 
     if use_practice_range:
-        cmfs = cmfs.clone().trim(SpectralShape(360, 780, 1))
+        cmfs = cmfs.clone().trim_wavelengths(SpectralShape(360, 780, 1))
 
     method = spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815
     if spd.shape.interval == 1:
@@ -659,7 +659,7 @@ def spectral_to_XYZ_ASTME30815(
             warning(
                 'Trimming "{0}" spectral power distribution shape to "{1}" '
                 'colour matching functions shape.'.format(illuminant, cmfs))
-            spd.trim(cmfs.shape)
+            spd.trim_wavelengths(cmfs.shape)
 
         # Extrapolation of additional 20nm padding intervals.
         spd.align(SpectralShape(spd.shape.start - 20, spd.shape.end + 20, 10))
@@ -681,7 +681,9 @@ def spectral_to_XYZ_ASTME30815(
                                        0.0625 * spd.values[i + 3])
 
         # Discarding the additional 20nm padding intervals.
-        spd.trim(SpectralShape(spd.shape.start + 20, spd.shape.end - 20, 10))
+        spd.trim_wavelengths(SpectralShape(spd.shape.start + 20,
+                                           spd.shape.end - 20,
+                                           10))
 
     XYZ = method(spd, cmfs, illuminant)
 

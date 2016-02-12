@@ -643,7 +643,7 @@ class SpectralPowerDistribution(object):
     extrapolate
     interpolate
     align
-    trim
+    trim_wavelengths
     zeros
     normalise
     clone
@@ -2058,9 +2058,10 @@ class SpectralPowerDistribution(object):
 
         return self
 
-    def trim(self, shape):
+    def trim_wavelengths(self, shape):
         """
-        Trims the spectral power distribution to given spectral shape.
+        Trims the spectral power distribution wavelengths to given spectral
+        shape.
 
         Parameters
         ----------
@@ -2082,7 +2083,7 @@ class SpectralPowerDistribution(object):
         ...     550: 86.26,
         ...     560: 77.18}
         >>> spd = SpectralPowerDistribution('Sample', data)
-        >>> print(spd.trim(SpectralShape(520, 550, 10)))
+        >>> print(spd.trim_wavelengths(SpectralShape(520, 550, 10)))
         SpectralPowerDistribution('Sample', (520.0, 550.0, 10.0))
         >>> # Doctests skip for Python 2.x compatibility.
         >>> spd.wavelengths  # doctest: +SKIP
@@ -2285,7 +2286,7 @@ class TriSpectralPowerDistribution(object):
     extrapolate
     interpolate
     align
-    trim
+    trim_wavelengths
     zeros
     normalise
     clone
@@ -4080,9 +4081,9 @@ class TriSpectralPowerDistribution(object):
 
         return self
 
-    def trim(self, shape):
+    def trim_wavelengths(self, shape):
         """
-        Trims the tri-spectral power distribution to given shape.
+        Trims the tri-spectral power distribution wavelengths to given shape.
 
         Parameters
         ----------
@@ -4120,7 +4121,7 @@ class TriSpectralPowerDistribution(object):
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
         >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
         >>> tri_spd = TriSpectralPowerDistribution('Observer', data, mapping)
-        >>> print(tri_spd.trim(SpectralShape(520, 550, 10)))
+        >>> print(tri_spd.trim_wavelengths(SpectralShape(520, 550, 10)))
         TriSpectralPowerDistribution('Observer', (520.0, 550.0, 10.0))
         >>> # Doctests skip for Python 2.x compatibility.
         >>> tri_spd.wavelengths  # doctest: +SKIP
@@ -4128,7 +4129,7 @@ class TriSpectralPowerDistribution(object):
         """
 
         for i in self.__mapping.keys():
-            getattr(self, i).trim(shape)
+            getattr(self, i).trim_wavelengths(shape)
 
         return self
 

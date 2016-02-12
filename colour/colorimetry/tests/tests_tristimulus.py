@@ -470,7 +470,7 @@ spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815`
 
         np.testing.assert_almost_equal(
             spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
-                SAMPLE_SPD.clone().trim(
+                SAMPLE_SPD.clone().trim_wavelengths(
                     SpectralShape(400, 700, 5)),
                 cmfs,
                 ILLUMINANTS_RELATIVE_SPDS.get('A')),
