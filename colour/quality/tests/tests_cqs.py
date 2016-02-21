@@ -38,37 +38,37 @@ class TestColourQualityScale(unittest.TestCase):
         self.assertAlmostEqual(
             colour_quality_scale(
                 ILLUMINANTS_RELATIVE_SPDS.get('F1')),
-            75.342060410089019,
+            75.334361226715345,
             places=7)
 
         self.assertAlmostEqual(
             colour_quality_scale(
                 ILLUMINANTS_RELATIVE_SPDS.get('F2')),
-            64.686058037115245,
+            64.678111793396397,
             places=7)
 
         self.assertAlmostEqual(
             colour_quality_scale(
                 LIGHT_SOURCES_RELATIVE_SPDS.get('Neodimium Incandescent')),
-            87.659381222366406,
+            87.658976437863089,
             places=7)
 
         self.assertAlmostEqual(
             colour_quality_scale(
                 LIGHT_SOURCES_RELATIVE_SPDS.get('F32T8/TL841 (Triphosphor)')),
-            83.179667074336621,
+            83.175799064274571,
             places=7)
 
         self.assertAlmostEqual(
             colour_quality_scale(
                 LIGHT_SOURCES_RELATIVE_SPDS.get('H38HT-100 (Mercury)')),
-            22.869936010810584,
+            22.847928690340929,
             places=7)
 
         self.assertAlmostEqual(
             colour_quality_scale(
                 LIGHT_SOURCES_RELATIVE_SPDS.get('Luxeon WW 2880')),
-            84.883777827678131,
+            84.883888269059682,
             places=7)
 
 

@@ -79,9 +79,11 @@ def colour_quality_bars_plot(specifications,
     --------
     >>> from colour import (
     ...     ILLUMINANTS_RELATIVE_SPDS,
-    ...     LIGHT_SOURCES_RELATIVE_SPDS)
+    ...     LIGHT_SOURCES_RELATIVE_SPDS,
+    ...     SpectralShape)
     >>> illuminant = ILLUMINANTS_RELATIVE_SPDS.get('F2')
     >>> light_source = LIGHT_SOURCES_RELATIVE_SPDS.get('Kinoton 75P')
+    >>> light_source = light_source.clone().align(SpectralShape(360, 830, 1))
     >>> cqs_i = colour_quality_scale(illuminant, additional_data=True)
     >>> cqs_l = colour_quality_scale(light_source, additional_data=True)
     >>> colour_quality_bars_plot([cqs_i, cqs_l])  # doctest: +SKIP
@@ -93,7 +95,7 @@ def colour_quality_bars_plot(specifications,
     canvas(**settings)
 
     bar_width = 0.5
-    y_ticks_steps = 10
+    y_ticks_interval = 10
     count_s, count_Q_as = len(specifications), 0
     patterns = cycle(DEFAULT_HATCH_PATTERNS)
     if hatching is None:
@@ -143,7 +145,7 @@ def colour_quality_bars_plot(specifications,
                   bar_width + (count_s * bar_width / 2)),
                  ['Qa'] + ['Q{0}'.format(index + 1)
                            for index in range(0, count_Q_as + 1, 1)])
-    pylab.yticks(range(0, 100 + y_ticks_steps, y_ticks_steps))
+    pylab.yticks(range(0, 100 + y_ticks_interval, y_ticks_interval))
 
     settings.update({
         'title': 'Colour Quality',

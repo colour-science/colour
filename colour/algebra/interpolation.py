@@ -13,6 +13,7 @@ Defines classes for interpolating variables.
 -   :class:`CubicSplineInterpolator`: 1-D function cubic spline interpolation.
 -   :class:`PchipInterpolator`: 1-D function piecewise cube Hermite
     interpolation.
+-   :func:`lagrange_coefficients`: Computation of *Lagrange Coefficients*.
 """
 
 from __future__ import division, unicode_literals
@@ -20,7 +21,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 import scipy.interpolate
 
-from colour.utilities import as_numeric, steps
+from colour.utilities import as_numeric, interval
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -32,7 +33,8 @@ __status__ = 'Production'
 __all__ = ['LinearInterpolator',
            'SpragueInterpolator',
            'CubicSplineInterpolator',
-           'PchipInterpolator']
+           'PchipInterpolator',
+           'lagrange_coefficients']
 
 
 class LinearInterpolator(object):
@@ -345,12 +347,12 @@ class SpragueInterpolator(object):
             assert value.ndim == 1, (
                 '"x" independent variable must have exactly one dimension!')
 
-            value_steps = steps(value)[0]
+            value_interval = interval(value)[0]
 
-            xp1 = value[0] - value_steps * 2
-            xp2 = value[0] - value_steps
-            xp3 = value[-1] + value_steps
-            xp4 = value[-1] + value_steps * 2
+            xp1 = value[0] - value_interval * 2
+            xp2 = value[0] - value_interval
+            xp3 = value[-1] + value_interval
+            xp4 = value[-1] + value_interval * 2
 
             self.__xp = np.concatenate(((xp1, xp2), value, (xp3, xp4)))
 
@@ -546,3 +548,44 @@ class PchipInterpolator(scipy.interpolate.PchipInterpolator):
         """
 
         raise AttributeError('"{0}" attribute is read only!'.format('y'))
+
+
+def lagrange_coefficients(r, n=4):
+    """
+    Computes the *Lagrange Coefficients* at given point :math:`r` for degree
+    :math:`n`.
+
+    Parameters
+    ----------
+    r : numeric
+        Point to get the *Lagrange Coefficients* at.
+    n : int, optional
+        Degree of the *Lagrange Coefficients* being calculated.
+
+    Returns
+    -------
+    ndarray
+
+    References
+    ----------
+    .. [4]  Fairman, H. S. (1985). The calculation of weight factors for
+            tristimulus integration. Color Research & Application, 10(4),
+            199–203. doi:10.1002/col.5080100407
+    .. [5]  Wikipedia. (n.d.). Lagrange polynomial - Definition. Retrieved
+            January 20, 2016, from
+            https://en.wikipedia.org/wiki/Lagrange_polynomial#Definition
+
+    Examples
+    --------
+    >>> lagrange_coefficients(0.1)
+    array([ 0.8265,  0.2755, -0.1305,  0.0285])
+    """
+
+    r_i = np.arange(n)
+    L_n = []
+    for j in range(len(r_i)):
+        basis = [(r - r_i[i]) / (r_i[j] - r_i[i])
+                 for i in range(len(r_i)) if i != j]
+        L_n.append(reduce(lambda x, y: x * y, basis))  # noqa
+
+    return np.array(L_n)

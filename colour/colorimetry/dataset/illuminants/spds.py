@@ -34,7 +34,7 @@ blob/master/notebooks/colorimetry/illuminants.ipynb>`_
 
 Notes
 -----
--   The relative spectral power distributions are provided at 5 nm steps.
+-   The relative spectral power distributions are provided at 5 nm interval.
 -   *CIE Illuminant D Series* *D60* relative spectral power
     distribution is calculated using
     :func:`colour.colorimetry.illuminants.D_illuminant_relative_spd`

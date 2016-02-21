@@ -24,7 +24,7 @@ __status__ = 'Production'
 __all__ = ['as_numeric',
            'closest',
            'normalise_maximum',
-           'steps',
+           'interval',
            'is_uniform',
            'in_array',
            'tstack',
@@ -134,32 +134,32 @@ def normalise_maximum(x, axis=None, factor=1, clip=True):
     return np.clip(x, 0, factor) if clip else x
 
 
-def steps(distribution):
+def interval(distribution):
     """
-    Returns the steps of given distribution.
+    Returns the interval size of given distribution.
 
     Parameters
     ----------
     distribution : array_like
-        Distribution to retrieve the steps.
+        Distribution to retrieve the interval.
 
     Returns
     -------
     ndarray
-        Distribution steps.
+        Distribution interval.
 
     Examples
     --------
     Uniformly spaced variable:
 
     >>> y = np.array([1, 2, 3, 4, 5])
-    >>> steps(y)
+    >>> interval(y)
     array([1])
 
     Non-uniformly spaced variable:
 
     >>> y = np.array([1, 2, 3, 4, 8])
-    >>> steps(y)
+    >>> interval(y)
     array([1, 4])
     """
 
@@ -198,7 +198,7 @@ def is_uniform(distribution):
     False
     """
 
-    return True if len(steps(distribution)) == 1 else False
+    return True if len(interval(distribution)) == 1 else False
 
 
 def in_array(a, b, tolerance=EPSILON):

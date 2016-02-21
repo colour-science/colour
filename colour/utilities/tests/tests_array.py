@@ -14,7 +14,7 @@ from colour.utilities import (
     as_numeric,
     closest,
     normalise_maximum,
-    steps,
+    interval,
     is_uniform,
     in_array,
     tstack,
@@ -33,7 +33,7 @@ __status__ = 'Production'
 __all__ = ['TestAsNumeric',
            'TestClosest',
            'TestNormaliseMaximum',
-           'TestSteps',
+           'TestInterval',
            'TestIsUniform',
            'TestInArray',
            'TestTstack',
@@ -146,21 +146,23 @@ class TestNormaliseMaximum(unittest.TestCase):
             decimal=7)
 
 
-class TestSteps(unittest.TestCase):
+class TestInterval(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.array.steps` definition unit tests
+    Defines :func:`colour.utilities.array.interval` definition unit tests
     methods.
     """
 
-    def test_steps(self):
+    def test_interval(self):
         """
-        Tests :func:`colour.utilities.array.steps` definition.
+        Tests :func:`colour.utilities.array.interval` definition.
         """
-
-        np.testing.assert_almost_equal(steps(range(0, 10, 2)), np.array([2]))
 
         np.testing.assert_almost_equal(
-            steps([1, 2, 3, 4, 6, 6.5]),
+            interval(range(0, 10, 2)),
+            np.array([2]))
+
+        np.testing.assert_almost_equal(
+            interval([1, 2, 3, 4, 6, 6.5]),
             np.array([0.5, 1, 2]))
 
 
