@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
-Conversion Functions
-====================
+Log Conversion Functions
+========================
 
-Defines various conversion functions:
+Defines various log conversion functions:
 
 -   :attr:`linear_to_cineon`
 -   :attr:`cineon_to_linear`
@@ -36,7 +36,7 @@ Defines various conversion functions:
 
 See Also
 --------
-`Conversion Functions IPython Notebook
+`Log Conversion Functions IPython Notebook
 <http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
 blob/master/notebooks/models/log.ipynb>`_
 
