@@ -357,7 +357,7 @@ def single_illuminant_relative_spd_plot(
 
     settings = {
         'title': title,
-        'y_label': 'Relative Spectral Power Distribution'}
+        'y_label': 'Relative Power'}
     settings.update(kwargs)
 
     return single_spd_plot(illuminant, **settings)
@@ -395,7 +395,7 @@ def multi_illuminants_relative_spd_plot(illuminants=None, **kwargs):
         'title': (
             '{0} - Illuminants Relative Spectral Power Distribution').format(
             ', '.join([spd.title for spd in spds])),
-        'y_label': 'Relative Spectral Power Distribution'}
+        'y_label': 'Relative Power'}
     settings.update(kwargs)
 
     return multi_spd_plot(spds, **settings)
@@ -447,7 +447,9 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
     settings = {
         'title': 'The Visible Spectrum - {0}'.format(cmfs.title),
         'x_label': 'Wavelength $\\lambda$ (nm)',
-        'x_tighten': True}
+        'y_label': False,
+        'x_tighten': True,
+        'y_ticker': False}
     settings.update(kwargs)
 
     return colour_parameters_plot([ColourParameter(x=x[0], RGB=x[1])
