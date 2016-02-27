@@ -2220,6 +2220,9 @@ class SpectralPowerDistribution(object):
 
         clone.name = '{0} ({1})'.format(clone.name, id(clone))
 
+        if self.__title is None:
+            clone.title = self.__name
+
         return clone
 
 
@@ -4357,6 +4360,9 @@ class TriSpectralPowerDistribution(object):
         clone = copy.deepcopy(self)
 
         clone.name = '{0} ({1})'.format(clone.name, id(clone))
+
+        if self.__title is None:
+            clone.title = self.__name
 
         return clone
 

@@ -2468,6 +2468,7 @@ SpectralPowerDistribution.clone` method.
         """
 
         self.assertFalse(self.__spd is self.__spd.clone())
+        self.assertEqual(self.__spd.title, self.__spd.clone().title)
 
 
 class TestTriSpectralPowerDistribution(unittest.TestCase):
@@ -2988,6 +2989,7 @@ TriSpectralPowerDistribution.clone` method.
         """
 
         self.assertFalse(self.__tri_spd is self.__tri_spd.clone())
+        self.assertEqual(self.__tri_spd.title, self.__tri_spd.clone().title)
 
 
 class TestConstantSpd(unittest.TestCase):
