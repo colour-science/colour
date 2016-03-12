@@ -26,6 +26,8 @@ colour.colorimetry.spectrum.TriSpectralPowerDistribution
 
 from __future__ import division, unicode_literals
 
+import pprint
+
 from colour.colorimetry import TriSpectralPowerDistribution
 
 __author__ = 'Colour Developers'
@@ -38,6 +40,36 @@ __status__ = 'Production'
 __all__ = ['LMS_ConeFundamentals',
            'RGB_ColourMatchingFunctions',
            'XYZ_ColourMatchingFunctions']
+
+
+def _format_cmfs(self):
+    """
+    Helper definition returning the formatted string representation of the
+    tri-spectral power distribution instance.
+
+    Parameters
+    ----------
+    self : object
+        Tri-spectral power distribution instance.
+
+    Returns
+    -------
+    basestring
+        Formatted string representation.
+    """
+
+    mapping = self.mapping
+    data = {mapping['x']: dict(self.x.data),
+            mapping['y']: dict(self.y.data),
+            mapping['z']: dict(self.z.data)}
+
+    return '{0}(\n    \'{1}\',\n    {2},\n    {3})'.format(
+        self.__class__.__name__,
+        self.name,
+        pprint.pformat(data).replace('\n', '\n    '),
+        ('\'{0}\''.format(self.title)
+         if self.title is not None else
+         self.title))
 
 
 class LMS_ConeFundamentals(TriSpectralPowerDistribution):
@@ -165,6 +197,41 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
 
         raise AttributeError('"{0}" attribute is read only!'.format('s_bar'))
 
+    def __repr__(self):
+        """
+        Returns a formatted string representation of the *LMS* cone
+        fundamentals colour matching functions.
+
+        Returns
+        -------
+        basestring
+            Formatted string representation.
+
+        Notes
+        -----
+        -   Reimplements the :meth:`object.__repr__` method.
+
+        Examples
+        --------
+        >>> l_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
+        >>> m_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
+        >>> s_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
+        >>> data = {'l_bar': l_bar, 'm_bar': m_bar, 's_bar': s_bar}
+        >>> LMS_ConeFundamentals(  # doctest: +ELLIPSIS
+        ...     'LMS CMFS', data, '*LMS* Cone Fundamentals')
+        LMS_ConeFundamentals(
+            'LMS CMFS',
+            {...'l_bar': \
+{510...: 49.67, 520...: 69.59, 530...: 81.73, 540...: 88.19},
+             ...'m_bar': \
+{510...: 90.56, 520...: 87.34, 530...: 45.76, 540...: 23.45},
+             ...'s_bar': \
+{510...: 12.43, 520...: 23.15, 530...: 67.98, 540...: 90.28}},
+            '*LMS* Cone Fundamentals')
+        """
+
+        return _format_cmfs(self)
+
 
 class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
     """
@@ -290,6 +357,41 @@ class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
 
         raise AttributeError('"{0}" attribute is read only!'.format('b_bar'))
 
+    def __repr__(self):
+        """
+        Returns a formatted string representation of the *CIE RGB* colour
+        matching functions.
+
+        Returns
+        -------
+        basestring
+            Formatted string representation.
+
+        Notes
+        -----
+        -   Reimplements the :meth:`object.__repr__` method.
+
+        Examples
+        --------
+        >>> r_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
+        >>> g_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
+        >>> b_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
+        >>> data = {'r_bar': r_bar, 'g_bar': g_bar, 'b_bar': b_bar}
+        >>> RGB_ColourMatchingFunctions(  # doctest: +ELLIPSIS
+        ...     'RGB CMFS', data, '*RGB* CMFS')
+        RGB_ColourMatchingFunctions(
+            'RGB CMFS',
+            {...'b_bar': \
+{510...: 12.43, 520...: 23.15, 530...: 67.98, 540...: 90.28},
+             ...'g_bar': \
+{510...: 90.56, 520...: 87.34, 530...: 45.76, 540...: 23.45},
+             ...'r_bar': \
+{510...: 49.67, 520...: 69.59, 530...: 81.73, 540...: 88.19}},
+            '*RGB* CMFS')
+        """
+
+        return _format_cmfs(self)
+
 
 class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
     """
@@ -414,3 +516,38 @@ class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
         """
 
         raise AttributeError('"{0}" attribute is read only!'.format('z_bar'))
+
+    def __repr__(self):
+        """
+        Returns a formatted string representation of the *XYZ* colour matching
+        functions.
+
+        Returns
+        -------
+        basestring
+            Formatted string representation.
+
+        Notes
+        -----
+        -   Reimplements the :meth:`object.__repr__` method.
+
+        Examples
+        --------
+        >>> x_bar = {510: 49.67, 520: 69.59, 530: 81.73, 540: 88.19}
+        >>> y_bar = {510: 90.56, 520: 87.34, 530: 45.76, 540: 23.45}
+        >>> z_bar = {510: 12.43, 520: 23.15, 530: 67.98, 540: 90.28}
+        >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
+        >>> XYZ_ColourMatchingFunctions(  # doctest: +ELLIPSIS
+        ...     'XYZ CMFS', data, '*XYZ* CMFS')
+        XYZ_ColourMatchingFunctions(
+            'XYZ CMFS',
+            {...'x_bar': \
+{510...: 49.67, 520...: 69.59, 530...: 81.73, 540...: 88.19},
+             ...'y_bar': \
+{510...: 90.56, 520...: 87.34, 530...: 45.76, 540...: 23.45},
+             ...'z_bar': \
+{510...: 12.43, 520...: 23.15, 530...: 67.98, 540...: 90.28}},
+            '*XYZ* CMFS')
+        """
+
+        return _format_cmfs(self)

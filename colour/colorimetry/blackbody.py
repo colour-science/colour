@@ -146,8 +146,8 @@ def blackbody_spd(temperature,
     >>> from colour import STANDARD_OBSERVERS_CMFS
     >>> cmfs = STANDARD_OBSERVERS_CMFS.get(
     ...     'CIE 1931 2 Degree Standard Observer')
-    >>> blackbody_spd(5000, cmfs.shape)  # doctest: +ELLIPSIS
-    <colour.colorimetry.spectrum.SpectralPowerDistribution object at 0x...>
+    >>> print(blackbody_spd(5000, cmfs.shape))
+    SpectralPowerDistribution('5000K Blackbody', (360.0, 830.0, 1.0))
     """
 
     wavelengths = shape.range()

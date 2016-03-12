@@ -1918,7 +1918,8 @@ class TestSpectralShape(unittest.TestCase):
 
         required_attributes = ('start',
                                'end',
-                               'steps')
+                               'interval',
+                               'boundaries')
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(SpectralShape))
@@ -1964,13 +1965,25 @@ class TestSpectralShape(unittest.TestCase):
 
         self.assertRaises(AssertionError, lambda: SpectralShape(830, 0, 1))
 
-    def test_steps(self):
+    def test_interval(self):
         """
-        Tests :attr:`colour.colorimetry.spectrum.SpectralShape.steps`
+        Tests :attr:`colour.colorimetry.spectrum.SpectralShape.interval`
         attribute.
         """
 
-        self.assertEqual(SpectralShape(360, 830, 1).steps, 1)
+        self.assertEqual(SpectralShape(360, 830, 1).interval, 1)
+
+    def test_boundaries(self):
+        """
+        Tests :attr:`colour.colorimetry.spectrum.SpectralShape.boundaries`
+        attribute.
+        """
+
+        shape = SpectralShape()
+        shape.boundaries = (360, 830)
+
+        self.assertEqual(shape.start, 360)
+        self.assertEqual(shape.end, 830)
 
     def test__iter__(self):
         """
@@ -2070,7 +2083,9 @@ class TestSpectralPowerDistribution(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__hash__',
+        required_methods = ('__str__',
+                            '__repr__',
+                            '__hash__',
                             '__getitem__',
                             '__setitem__',
                             '__iter__',
@@ -2093,6 +2108,7 @@ class TestSpectralPowerDistribution(unittest.TestCase):
                             'extrapolate',
                             'interpolate',
                             'align',
+                            'trim_wavelengths',
                             'zeros',
                             'normalise',
                             'clone')
@@ -2110,9 +2126,9 @@ SpectralPowerDistribution.wavelengths` attribute.
             self.__spd.wavelengths,
             sorted(SAMPLE_SPD_DATA))
 
-        spd = self.__spd.clone().interpolate(SpectralShape(steps=0.1))
+        spd = self.__spd.clone().interpolate(SpectralShape(interval=0.1))
         non_uniform_spd = self.__non_uniform_spd.clone().interpolate(
-            SpectralShape(steps=0.1))
+            SpectralShape(interval=0.1))
 
         self.assertTrue(
             np.all(np.in1d(non_uniform_spd.wavelengths, spd.wavelengths)))
@@ -2134,6 +2150,21 @@ SpectralPowerDistribution.shape` attribute.
         """
 
         self.assertEqual(self.__spd.shape, SpectralShape(340, 820, 20))
+
+    def test__str__(self):
+        """
+        Tests :func:`colour.colorimetry.spectrum.\
+SpectralPowerDistribution.__str__` method.
+        """
+
+        try:
+            self.assertEqual(
+                str(self.__spd),
+                'SpectralPowerDistribution(\'Sample\', (340, 820, 20))')
+        except AssertionError:
+            self.assertEqual(
+                str(self.__spd),
+                'SpectralPowerDistribution(\'Sample\', (340.0, 820.0, 20.0))')
 
     def test__getitem__(self):
         """
@@ -2354,27 +2385,27 @@ SpectralPowerDistribution.interpolate` method.
 
         np.testing.assert_almost_equal(
             self.__spd.clone().interpolate(
-                SpectralShape(steps=1)).values,
+                SpectralShape(interval=1)).values,
             INTERPOLATED_SAMPLE_SPD_DATA,
             decimal=7)
 
         np.testing.assert_allclose(
             self.__non_uniform_spd.clone().interpolate(
-                SpectralShape(steps=1)).values,
+                SpectralShape(interval=1)).values,
             INTERPOLATED_NON_UNIFORM_SAMPLE_SPD_DATA,
             rtol=0.0000001,
             atol=0.0000001)
 
         np.testing.assert_almost_equal(
             self.__spd.clone().interpolate(
-                SpectralShape(steps=1),
+                SpectralShape(interval=1),
                 method='Linear')[410],
             np.array(0.0643),
             decimal=7)
 
         np.testing.assert_almost_equal(
             self.__spd.clone().interpolate(
-                SpectralShape(steps=1),
+                SpectralShape(interval=1),
                 method='Pchip')[410],
             np.array(0.06439937984496125),
             decimal=7)
@@ -2391,6 +2422,20 @@ SpectralPowerDistribution.align` method.
         shape = SpectralShape(600, 650, 1)
         self.assertEqual(self.__spd.clone().align(shape).shape, shape)
 
+    def test_trim_wavelengths(self):
+        """
+        Tests :func:`colour.colorimetry.spectrum.\
+SpectralPowerDistribution.trim_wavelengths` method.
+        """
+
+        shape = SpectralShape(400, 700, 20)
+        self.assertEqual(self.__spd.clone().trim_wavelengths(shape).shape,
+                         shape)
+
+        shape = SpectralShape(200, 900, 1)
+        self.assertEqual(self.__spd.clone().trim_wavelengths(shape).shape,
+                         self.__spd.shape)
+
     def test_zeros(self):
         """
         Tests :func:`colour.colorimetry.spectrum.\
@@ -2398,7 +2443,7 @@ SpectralPowerDistribution.zeros` method.
         """
 
         np.testing.assert_almost_equal(
-            self.__spd.clone().zeros(SpectralShape(steps=1)).values,
+            self.__spd.clone().zeros(SpectralShape(interval=1)).values,
             ZEROS_SAMPLE_SPD_DATA)
 
         self.assertRaises(
@@ -2445,13 +2490,13 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
                          'z': 'z_bar'}
 
         self.__tri_spd = TriSpectralPowerDistribution(
-            name='Tri Spd',
+            name='Observer',
             data=CIE_1931_2_DEGREE_STANDARD_OBSERVER,
             mapping=self.__mapping,
             labels=self.__labels)
 
         self.__sample_tri_spd = TriSpectralPowerDistribution(
-            name='Sample Tri Spd',
+            name='Sample Observer',
             data={'x_bar': SAMPLE_SPD_DATA,
                   'y_bar': SAMPLE_SPD_DATA,
                   'z_bar': SAMPLE_SPD_DATA},
@@ -2459,7 +2504,7 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
             labels=self.__labels)
 
         self.__non_uniform_sample_tri_spd = TriSpectralPowerDistribution(
-            name='Non Uniform Sample Tri spd',
+            name='Non Uniform Sample Observer',
             data={'x_bar': NON_UNIFORM_SAMPLE_SPD_DATA,
                   'y_bar': NON_UNIFORM_SAMPLE_SPD_DATA,
                   'z_bar': NON_UNIFORM_SAMPLE_SPD_DATA},
@@ -2493,7 +2538,9 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__hash__',
+        required_methods = ('__str__',
+                            '__repr__',
+                            '__hash__',
                             '__getitem__',
                             '__setitem__',
                             '__iter__',
@@ -2516,6 +2563,7 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
                             'extrapolate',
                             'interpolate',
                             'align',
+                            'trim_wavelengths',
                             'zeros',
                             'normalise',
                             'clone')
@@ -2557,6 +2605,22 @@ TriSpectralPowerDistribution.shape` attribute.
 
         self.assertEqual(self.__tri_spd.shape, SpectralShape(380, 780, 5))
 
+    def test__str__(self):
+        """
+        Tests :func:`colour.colorimetry.spectrum.\
+TriSpectralPowerDistribution.__str__` method.
+        """
+
+        try:
+            self.assertEqual(
+                str(self.__tri_spd),
+                'TriSpectralPowerDistribution(\'Observer\', (380, 780, 5))')
+        except AssertionError:
+            self.assertEqual(
+                str(self.__tri_spd),
+                'TriSpectralPowerDistribution(\'Observer\', '
+                '(380.0, 780.0, 5.0))')
+
     def test__getitem__(self):
         """
         Tests :func:`colour.colorimetry.spectrum.\
@@ -2590,7 +2654,7 @@ TriSpectralPowerDistribution.__setitem__` method.
         z_bar = {}
         data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
         mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
-        tri_spd = TriSpectralPowerDistribution('Tri Spd', data, mapping)
+        tri_spd = TriSpectralPowerDistribution('Observer', data, mapping)
         tri_spd[510] = np.array([49.67, 49.67, 49.67])
         np.testing.assert_almost_equal(
             tri_spd.values,
@@ -2828,7 +2892,7 @@ TriSpectralPowerDistribution.interpolate` method.
 
         tri_spd = self.__sample_tri_spd.clone()
 
-        tri_spd.interpolate(SpectralShape(steps=1))
+        tri_spd.interpolate(SpectralShape(interval=1))
         for i in sorted(self.__mapping.keys()):
             np.testing.assert_almost_equal(
                 getattr(tri_spd, i).values,
@@ -2837,7 +2901,7 @@ TriSpectralPowerDistribution.interpolate` method.
 
         tri_spd = self.__non_uniform_sample_tri_spd.clone()
 
-        tri_spd.interpolate(SpectralShape(steps=1))
+        tri_spd.interpolate(SpectralShape(interval=1))
         for i in sorted(self.__mapping.keys()):
             np.testing.assert_allclose(
                 getattr(tri_spd, i).values,
@@ -2847,14 +2911,14 @@ TriSpectralPowerDistribution.interpolate` method.
 
         np.testing.assert_almost_equal(
             self.__tri_spd.clone().interpolate(
-                SpectralShape(steps=1),
+                SpectralShape(interval=1),
                 method='Linear')[411],
             np.array([0.050334, 0.001404, 0.24018]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             self.__tri_spd.clone().interpolate(
-                SpectralShape(steps=1),
+                SpectralShape(interval=1),
                 method='Pchip')[411],
             np.array([0.04895501, 0.00136229, 0.23349933]),
             decimal=7)
@@ -2873,6 +2937,20 @@ TriSpectralPowerDistribution.align` method.
         shape = SpectralShape(600, 650, 1)
         self.assertEqual(tri_spd.align(shape).shape, shape)
 
+    def test_trim_wavelengths(self):
+        """
+        Tests :func:`colour.colorimetry.spectrum.\
+TriSpectralPowerDistribution.trim_wavelengths` method.
+        """
+
+        shape = SpectralShape(400, 700, 20)
+        self.assertEqual(self.__tri_spd.clone().trim_wavelengths(shape).shape,
+                         shape)
+
+        shape = SpectralShape(200, 900, 1)
+        self.assertEqual(self.__tri_spd.clone().trim_wavelengths(shape).shape,
+                         self.__tri_spd.shape)
+
     def test_zeros(self):
         """
         Tests :func:`colour.colorimetry.spectrum.\
@@ -2887,7 +2965,7 @@ TriSpectralPowerDistribution.zeros` method.
                   'z_bar': SAMPLE_SPD_DATA},
             labels=self.__labels).clone()
 
-        tri_spd.zeros(SpectralShape(steps=1))
+        tri_spd.zeros(SpectralShape(interval=1))
         for i in self.__mapping.keys():
             np.testing.assert_almost_equal(
                 getattr(tri_spd, i).values,

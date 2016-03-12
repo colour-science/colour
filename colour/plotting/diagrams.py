@@ -651,13 +651,9 @@ def spds_CIE_1931_chromaticity_diagram_plot(
     settings.update(kwargs)
     settings.update({'standalone': False})
 
-    CIE_1931_chromaticity_diagram_plot(**settings)
-
-    cmfs = get_cmfs(cmfs)
-    cmfs_shape = cmfs.shape
+    CIE_1931_chromaticity_diagram_plot(cmfs=cmfs, **settings)
 
     for spd in spds:
-        spd = spd.clone().align(cmfs_shape)
         XYZ = spectral_to_XYZ(spd) / 100
         xy = XYZ_to_xy(XYZ)
 
@@ -722,13 +718,9 @@ def spds_CIE_1960_UCS_chromaticity_diagram_plot(
     settings.update(kwargs)
     settings.update({'standalone': False})
 
-    CIE_1960_UCS_chromaticity_diagram_plot(**settings)
-
-    cmfs = get_cmfs(cmfs)
-    cmfs_shape = cmfs.shape
+    CIE_1960_UCS_chromaticity_diagram_plot(cmfs=cmfs, **settings)
 
     for spd in spds:
-        spd = spd.clone().align(cmfs_shape)
         XYZ = spectral_to_XYZ(spd) / 100
         uv = UCS_to_uv(XYZ_to_UCS(XYZ))
 
@@ -793,13 +785,9 @@ def spds_CIE_1976_UCS_chromaticity_diagram_plot(
     settings.update(kwargs)
     settings.update({'standalone': False})
 
-    CIE_1976_UCS_chromaticity_diagram_plot(**settings)
-
-    cmfs = get_cmfs(cmfs)
-    cmfs_shape = cmfs.shape
+    CIE_1976_UCS_chromaticity_diagram_plot(cmfs=cmfs, **settings)
 
     for spd in spds:
-        spd = spd.clone().align(cmfs_shape)
         XYZ = spectral_to_XYZ(spd) / 100
         uv = Luv_to_uv(XYZ_to_Luv(XYZ))
 

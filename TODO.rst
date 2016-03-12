@@ -35,7 +35,7 @@ TODO
 
         - spectrum.py
 
-            - (1722, 11) # TODO: Provide support for fractional steps like 0.1, etc...
+            - (1722, 11) # TODO: Provide support for fractional interval like 0.1, etc...
 
     - models (2 item in 2 file)
 

@@ -32,7 +32,7 @@ blob/master/notebooks/colorimetry/lefs.ipynb>`_
 
 Notes
 -----
--   The luminous efficiency functions are provided at 1 nm steps.
+-   The luminous efficiency functions are provided at 1 nm interval.
 -   The mesopic luminous efficiency function is calculated using the
     *CIE 1924 Photopic Standard Observer* and
     *CIE 1951 Scotopic Standard Observer* luminous efficiency functions with
