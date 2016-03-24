@@ -538,8 +538,8 @@ def multi_lightness_function_plot(functions=None, **kwargs):
 
     settings.update({
         'title': '{0} - Lightness Functions'.format(', '.join(functions)),
-        'x_label': 'Luminance Y',
-        'y_label': 'Lightness L*',
+        'x_label': 'Relative Luminance Y',
+        'y_label': 'Lightness',
         'x_tighten': True,
         'legend': True,
         'legend_location': 'upper left',

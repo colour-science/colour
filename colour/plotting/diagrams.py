@@ -226,6 +226,7 @@ def CIE_1931_chromaticity_diagram_plot(
         pylab.text(x + normal[0],
                    y + normal[1],
                    label,
+                   color='black',
                    clip_on=True,
                    ha='left' if normal[0] >= 0 else 'right',
                    va='center',
@@ -406,6 +407,7 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
         pylab.text(u + normal[0],
                    v + normal[1],
                    label,
+                   color='black',
                    clip_on=True,
                    ha='left' if normal[0] >= 0 else 'right',
                    va='center',
@@ -589,6 +591,7 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
         pylab.text(u + normal[0],
                    v + normal[1],
                    label,
+                   color='black',
                    clip_on=True,
                    ha='left' if normal[0] >= 0 else 'right',
                    va='center',
@@ -663,6 +666,7 @@ def spds_CIE_1931_chromaticity_diagram_plot(
             pylab.annotate(spd.name,
                            xy=xy,
                            xytext=(50, 30),
+                           color='black',
                            textcoords='offset points',
                            arrowprops=dict(arrowstyle='->',
                                            connectionstyle='arc3, rad=0.2'))
@@ -730,6 +734,7 @@ def spds_CIE_1960_UCS_chromaticity_diagram_plot(
             pylab.annotate(spd.name,
                            xy=uv,
                            xytext=(50, 30),
+                           color='black',
                            textcoords='offset points',
                            arrowprops=dict(arrowstyle='->',
                                            connectionstyle='arc3, rad=0.2'))
@@ -797,6 +802,7 @@ def spds_CIE_1976_UCS_chromaticity_diagram_plot(
             pylab.annotate(spd.name,
                            xy=uv,
                            xytext=(50, 30),
+                           color='black',
                            textcoords='offset points',
                            arrowprops=dict(arrowstyle='->',
                                            connectionstyle='arc3, rad=0.2'))

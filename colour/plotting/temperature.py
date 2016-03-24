@@ -106,6 +106,7 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(
         pylab.annotate('{0}K'.format(i),
                        xy=(x0, y0),
                        xytext=(0, -10),
+                       color='black',
                        textcoords='offset points',
                        size='x-small')
 
@@ -122,6 +123,7 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(
         pylab.annotate(illuminant,
                        xy=(xy[0], xy[1]),
                        xytext=(-50, 30),
+                       color='black',
                        textcoords='offset points',
                        arrowprops=dict(arrowstyle='->',
                                        connectionstyle='arc3, rad=-0.2'))
@@ -201,6 +203,7 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
         pylab.annotate('{0}K'.format(i),
                        xy=(u0, v0),
                        xytext=(0, -10),
+                       color='black',
                        textcoords='offset points',
                        size='x-small')
 
@@ -219,6 +222,7 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
         pylab.annotate(illuminant,
                        xy=(uv[0], uv[1]),
                        xytext=(-50, 30),
+                       color='black',
                        textcoords='offset points',
                        arrowprops=dict(arrowstyle='->',
                                        connectionstyle='arc3, rad=-0.2'))
