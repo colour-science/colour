@@ -506,8 +506,8 @@ ACES_PROXY_COLOURSPACE = RGB_Colourspace(
 """
 *ACESproxy* colourspace, a lightweight encoding for transmission over HD-SDI
 (or other production transmission schemes), onset look management. Not
-intended to be stored or used in production imagery or for final color
-grading/mastering.
+intended to be stored or used in production imagery or for final colour
+grading / mastering.
 
 ACES_PROXY_COLOURSPACE : RGB_Colourspace
 """
