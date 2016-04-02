@@ -25,7 +25,10 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import ILLUMINANTS, lightness_CIE1976, luminance_CIE1976
+from colour.colorimetry import (
+    ILLUMINANTS,
+    lightness_CIE1976,
+    luminance_CIE1976)
 from colour.models.rgb import RGB_Colourspace, normalised_primary_matrix
 
 __author__ = 'Colour Developers'
