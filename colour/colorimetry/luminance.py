@@ -14,7 +14,7 @@ The following methods are available:
     method.
 -   :func:`luminance_ASTMD153508`: *luminance* :math:`Y` computation of given
     *Munsell* value :math:`V` using ASTM D1535-08e1 (2008) method.
--   :func:`luminance_1976`: *luminance* :math:`Y` computation of given
+-   :func:`luminance_CIE1976`: *luminance* :math:`Y` computation of given
     *Lightness* :math:`L^*` as per *CIE Lab* implementation.
 
 See Also
@@ -40,7 +40,7 @@ __status__ = 'Production'
 
 __all__ = ['luminance_Newhall1943',
            'luminance_ASTMD153508',
-           'luminance_1976',
+           'luminance_CIE1976',
            'LUMINANCE_METHODS',
            'luminance']
 
@@ -131,7 +131,7 @@ def luminance_ASTMD153508(V, **kwargs):
     return Y
 
 
-def luminance_1976(Lstar, Y_n=100):
+def luminance_CIE1976(Lstar, Y_n=100):
     """
     Returns the *luminance* :math:`Y` of given *Lightness* :math:`L^*` with
     given reference white *luminance* :math:`Y_n`.
@@ -165,9 +165,9 @@ def luminance_1976(Lstar, Y_n=100):
 
     Examples
     --------
-    >>> luminance_1976(37.9856290977)  # doctest: +ELLIPSIS
+    >>> luminance_CIE1976(37.9856290977)  # doctest: +ELLIPSIS
     array(10.0800000...)
-    >>> luminance_1976(37.9856290977, 95)  # doctest: +ELLIPSIS
+    >>> luminance_CIE1976(37.9856290977, 95)  # doctest: +ELLIPSIS
     array(9.5760000...)
     """
 
@@ -184,7 +184,7 @@ def luminance_1976(Lstar, Y_n=100):
 LUMINANCE_METHODS = CaseInsensitiveMapping(
     {'Newhall 1943': luminance_Newhall1943,
      'ASTM D1535-08': luminance_ASTMD153508,
-     'CIE 1976': luminance_1976})
+     'CIE 1976': luminance_CIE1976})
 """
 Supported *luminance* computations methods.
 

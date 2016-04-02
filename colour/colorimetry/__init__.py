@@ -43,7 +43,7 @@ from .luminance import luminance
 from .luminance import (
     luminance_Newhall1943,
     luminance_ASTMD153508,
-    luminance_1976)
+    luminance_CIE1976)
 from .dominant import (
     dominant_wavelength,
     complementary_wavelength,
@@ -109,7 +109,7 @@ __all__ += ['LUMINANCE_METHODS']
 __all__ += ['luminance']
 __all__ += ['luminance_Newhall1943',
             'luminance_ASTMD153508',
-            'luminance_1976']
+            'luminance_CIE1976']
 __all__ += ['dominant_wavelength',
             'complementary_wavelength',
             'excitation_purity',
