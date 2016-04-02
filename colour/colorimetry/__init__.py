@@ -37,7 +37,7 @@ from .lightness import lightness
 from .lightness import (
     lightness_Glasser1958,
     lightness_Wyszecki1963,
-    lightness_1976)
+    lightness_CIE1976)
 from .luminance import LUMINANCE_METHODS
 from .luminance import luminance
 from .luminance import (
@@ -104,7 +104,7 @@ __all__ += ['LIGHTNESS_METHODS']
 __all__ += ['lightness']
 __all__ += ['lightness_Glasser1958',
             'lightness_Wyszecki1963',
-            'lightness_1976']
+            'lightness_CIE1976']
 __all__ += ['LUMINANCE_METHODS']
 __all__ += ['luminance']
 __all__ += ['luminance_Newhall1943',

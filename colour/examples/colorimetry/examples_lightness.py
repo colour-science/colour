@@ -43,5 +43,5 @@ print('\n')
 message_box(('Computing "Lightness" using CIE 1976 method for '
              'given "luminance" value:\n'
              '\n\t{0}'.format(Y)))
-print(colour.lightness_1976(Y))
+print(colour.lightness_CIE1976(Y))
 print(colour.lightness(Y, method='CIE 1976'))
