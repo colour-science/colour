@@ -51,7 +51,7 @@ from .dominant import (
     colorimetric_purity)
 from .photometry import (
     luminous_flux,
-    luminous_efficacy)
+    luminous_efficiency)
 from .transformations import RGB_10_degree_cmfs_to_LMS_10_degree_cmfs
 from .transformations import RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs
 from .transformations import RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs
@@ -115,7 +115,7 @@ __all__ += ['dominant_wavelength',
             'excitation_purity',
             'colorimetric_purity']
 __all__ += ['luminous_flux',
-            'luminous_efficacy']
+            'luminous_efficiency']
 __all__ += ['RGB_10_degree_cmfs_to_LMS_10_degree_cmfs']
 __all__ += ['RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs']
 __all__ += ['RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs']

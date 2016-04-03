@@ -13,7 +13,7 @@ from colour.colorimetry import (
     ILLUMINANTS_RELATIVE_SPDS,
     LIGHT_SOURCES_RELATIVE_SPDS,
     luminous_flux,
-    luminous_efficacy)
+    luminous_efficiency)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -23,7 +23,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['TestLuminousFlux',
-           'TestLuminousEfficacy']
+           'TestLuminousEfficiency']
 
 
 class TestLuminousFlux(unittest.TestCase):
@@ -56,32 +56,32 @@ class TestLuminousFlux(unittest.TestCase):
             places=7)
 
 
-class TestLuminousEfficacy(unittest.TestCase):
+class TestLuminousEfficiency(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.photometry.luminous_efficacy` definition
-    unit tests methods.
+    Defines :func:`colour.colorimetry.photometry.luminous_efficiency`
+    definition unit tests methods.
     """
 
-    def test_luminous_efficacy(self):
+    def test_luminous_efficiency(self):
         """
-        Tests :func:`colour.colorimetry.photometry.luminous_efficacy`
+        Tests :func:`colour.colorimetry.photometry.luminous_efficiency`
         definition.
         """
 
         self.assertAlmostEqual(
-            luminous_efficacy(
+            luminous_efficiency(
                 ILLUMINANTS_RELATIVE_SPDS.get('F2').clone().normalise()),
             0.493176239758,
             places=7)
 
         self.assertAlmostEqual(
-            luminous_efficacy(LIGHT_SOURCES_RELATIVE_SPDS.get(
+            luminous_efficiency(LIGHT_SOURCES_RELATIVE_SPDS.get(
                 'Neodimium Incandescent')),
             0.199439356245,
             places=7)
 
         self.assertAlmostEqual(
-            luminous_efficacy(LIGHT_SOURCES_RELATIVE_SPDS.get(
+            luminous_efficiency(LIGHT_SOURCES_RELATIVE_SPDS.get(
                 'F32T8/TL841 (Triphosphor)')),
             0.510809188121,
             places=7)
