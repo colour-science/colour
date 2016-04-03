@@ -38,7 +38,8 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['luminous_flux',
-           'luminous_efficiency']
+           'luminous_efficiency',
+           'luminous_efficacy']
 
 
 def luminous_flux(spd,
@@ -47,7 +48,7 @@ def luminous_flux(spd,
                   K_m=K_M):
     """
     Returns the *luminous flux* for given spectral power distribution using
-    the given luminous efficiency function.
+    given luminous efficiency function.
 
     Parameters
     ----------
@@ -61,7 +62,7 @@ def luminous_flux(spd,
     Returns
     -------
     numeric
-        Luminous flux
+        Luminous flux.
 
     Examples
     --------
@@ -86,7 +87,7 @@ def luminous_efficiency(spd,
                             'CIE 1924 Photopic Standard Observer')):
     """
     Returns the *luminous efficiency* of given spectral power distribution
-    using the given luminous efficiency function.
+    using given luminous efficiency function.
 
     Parameters
     ----------
@@ -98,7 +99,7 @@ def luminous_efficiency(spd,
     Returns
     -------
     numeric
-        Luminous efficiency
+        Luminous efficiency.
 
     Examples
     --------
@@ -117,3 +118,35 @@ def luminous_efficiency(spd,
                   np.trapz(spd.values, spd.wavelengths))
 
     return efficiency
+
+
+def luminous_efficacy(spd,
+                      lef=PHOTOPIC_LEFS.get(
+                            'CIE 1924 Photopic Standard Observer')):
+    """
+    Returns the *luminous efficacy* in :math:`lm\cdot W^{-1}` of given spectral
+    power distribution using given luminous efficiency function.
+
+    Parameters
+    ----------
+    spd : SpectralPowerDistribution
+        test spectral power distribution
+    lef : SpectralPowerDistribution, optional
+        :math:`V(\lambda)` luminous efficiency function.
+
+    Returns
+    -------
+    numeric
+        Luminous efficacy in :math:`lm\cdot W^{-1}`.
+
+    Examples
+    --------
+    >>> from colour import LIGHT_SOURCES_RELATIVE_SPDS
+    >>> spd = LIGHT_SOURCES_RELATIVE_SPDS.get('Neodimium Incandescent')
+    >>> luminous_efficacy(spd)  # doctest: +ELLIPSIS
+    136.2170803...
+    """
+
+    efficacy = K_M * luminous_efficiency(spd, lef)
+
+    return efficacy
