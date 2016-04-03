@@ -136,7 +136,7 @@ def _rec_709_EOCF(value):
     colourspace!
     """
 
-    warning(('*Recommendation ITU-R BT.709-5* doesn\'t specify an'
+    warning(('*Recommendation ITU-R BT.709-5* doesn\'t specify an '
              'electro-optical conversion function. This definition is used '
              'for symmetry in unit tests and others computations but should '
              'not be used as an *EOCF* for *Rec. 709* colourspace!'))
