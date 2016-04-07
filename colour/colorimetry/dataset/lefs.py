@@ -20,8 +20,8 @@ The following luminous efficiency functions are available:
 -   Judd Modified CIE 1951 Photopic Standard Observer [1]_
 -   Judd-Vos Modified CIE 1978 Photopic Standard Observer [1]_
 -   CIE 1964 Photopic 10 Degree Standard Observer [2]_
--   CIE 2008 2 Degree Physiologically Relevant LEF [3]_
--   CIE 2008 10 Degree Physiologically Relevant LEF [3]_
+-   CIE 2008 2 Degree Physiologically Relevant LEF [1]_
+-   CIE 2008 10 Degree Physiologically Relevant LEF [1]_
 -   CIE 1951 Scotopic Standard Observer [1]_
 
 See Also

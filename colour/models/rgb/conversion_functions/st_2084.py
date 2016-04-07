@@ -60,7 +60,7 @@ def ST_2084_EOCF(N, L_p=10000):
     """
     Defines *SMPTE ST 2084:2014* optimised perceptual electro-optical transfer
     function (EOTF / EOCF). This perceptual quantizer (PQ) has been modeled by
-    Dolby Laboratories by using Barten (1999) contrast sensitivity function.
+    Dolby Laboratories using Barten (1999) contrast sensitivity function.
 
     Parameters
     ----------

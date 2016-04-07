@@ -25,7 +25,10 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import ILLUMINANTS, lightness_1976, luminance_1976
+from colour.colorimetry import (
+    ILLUMINANTS,
+    lightness_CIE1976,
+    luminance_CIE1976)
 from colour.models.rgb import RGB_Colourspace, normalised_primary_matrix
 
 __author__ = 'Colour Developers'
@@ -100,7 +103,7 @@ def _eci_rgb_v2_OECF(value):
         Companded value.
     """
 
-    return lightness_1976(value * 100) / 100
+    return lightness_CIE1976(value * 100) / 100
 
 
 def _eci_rgb_v2_EOCF(value):
@@ -118,7 +121,7 @@ def _eci_rgb_v2_EOCF(value):
         Companded value.
     """
 
-    return luminance_1976(value * 100) / 100
+    return luminance_CIE1976(value * 100) / 100
 
 
 ECI_RGB_V2_OECF = _eci_rgb_v2_OECF

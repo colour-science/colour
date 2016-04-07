@@ -137,6 +137,7 @@ def corresponding_chromaticities_prediction_plot(
         'y_tighten': True,
         'limits': (-0.1, 0.7, -0.1, 0.7),
         'standalone': True})
+    settings.update(kwargs)
 
     boundaries(**settings)
     decorate(**settings)

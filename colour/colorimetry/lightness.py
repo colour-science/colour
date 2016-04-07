@@ -14,7 +14,7 @@ The following methods are available:
     Glasser, Mckinney, Reilly and Schnelle (1958)⁠⁠⁠ method.
 -   :func:`lightness_Wyszecki1963`: *Lightness* :math:`W` computation of
     given *luminance* :math:`Y` using Wyszecki (1963)⁠⁠⁠⁠ method.
--   :func:`lightness_1976`: *Lightness* :math:`L^*` computation of given
+-   :func:`lightness_CIE1976`: *Lightness* :math:`L^*` computation of given
     *luminance* :math:`Y` as per *CIE Lab* implementation.
 
 See Also
@@ -45,7 +45,7 @@ __status__ = 'Production'
 
 __all__ = ['lightness_Glasser1958',
            'lightness_Wyszecki1963',
-           'lightness_1976',
+           'lightness_CIE1976',
            'LIGHTNESS_METHODS',
            'lightness']
 
@@ -138,7 +138,7 @@ def lightness_Wyszecki1963(Y, **kwargs):
     return W
 
 
-def lightness_1976(Y, Y_n=100):
+def lightness_CIE1976(Y, Y_n=100):
     """
     Returns the *Lightness* :math:`L^*` of given *luminance* :math:`Y` using
     given reference white *luminance* :math:`Y_n` as per *CIE Lab*
@@ -172,7 +172,7 @@ def lightness_1976(Y, Y_n=100):
 
     Examples
     --------
-    >>> lightness_1976(10.08)  # doctest: +ELLIPSIS
+    >>> lightness_CIE1976(10.08)  # doctest: +ELLIPSIS
     array(37.9856290...)
     """
 
@@ -191,7 +191,7 @@ def lightness_1976(Y, Y_n=100):
 LIGHTNESS_METHODS = CaseInsensitiveMapping(
     {'Glasser 1958': lightness_Glasser1958,
      'Wyszecki 1963': lightness_Wyszecki1963,
-     'CIE 1976': lightness_1976})
+     'CIE 1976': lightness_CIE1976})
 """
 Supported *Lightness* computations methods.
 

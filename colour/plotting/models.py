@@ -547,6 +547,7 @@ def RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot(
                   marker='+')
 
     settings.update({'standalone': True})
+    settings.update(kwargs)
 
     boundaries(**settings)
     decorate(**settings)
@@ -607,6 +608,7 @@ def RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot(
                   marker='+')
 
     settings.update({'standalone': True})
+    settings.update(kwargs)
 
     boundaries(**settings)
     decorate(**settings)
@@ -669,6 +671,7 @@ def RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot(
                   marker='+')
 
     settings.update({'standalone': True})
+    settings.update(kwargs)
 
     boundaries(**settings)
     decorate(**settings)

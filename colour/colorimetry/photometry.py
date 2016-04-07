@@ -17,8 +17,9 @@ References
 ----------
 .. [1]  Wikipedia. (n.d.). Luminosity function. Retrieved October 20, 2014,
         from https://en.wikipedia.org/wiki/Luminosity_function#Details
-
-.. [2]  Ohno, Y., & Davis, W. (2008). NIST CQS simulation 7.4. Retrieved from
+.. [2]  Wikipedia. (n.d.). Luminous Efficacy. Retrieved April 3, 2016, from
+        https://en.wikipedia.org/wiki/Luminous_efficacy
+.. [3]  Ohno, Y., & Davis, W. (2008). NIST CQS simulation 7.4. Retrieved from
         http://cie2.nist.gov/TC1-69/NIST CQS simulation 7.4.xls
 """
 
@@ -37,6 +38,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['luminous_flux',
+           'luminous_efficiency',
            'luminous_efficacy']
 
 
@@ -46,7 +48,7 @@ def luminous_flux(spd,
                   K_m=K_M):
     """
     Returns the *luminous flux* for given spectral power distribution using
-    the given luminous efficiency function.
+    given luminous efficiency function.
 
     Parameters
     ----------
@@ -60,7 +62,7 @@ def luminous_flux(spd,
     Returns
     -------
     numeric
-        Luminous flux
+        Luminous flux.
 
     Examples
     --------
@@ -80,12 +82,12 @@ def luminous_flux(spd,
     return flux
 
 
-def luminous_efficacy(spd,
-                      lef=PHOTOPIC_LEFS.get(
-                          'CIE 1924 Photopic Standard Observer')):
+def luminous_efficiency(spd,
+                        lef=PHOTOPIC_LEFS.get(
+                            'CIE 1924 Photopic Standard Observer')):
     """
-    Returns the *luminous efficacy* for given spectral power distribution using
-    the given luminous efficiency function.
+    Returns the *luminous efficiency* of given spectral power distribution
+    using given luminous efficiency function.
 
     Parameters
     ----------
@@ -97,13 +99,13 @@ def luminous_efficacy(spd,
     Returns
     -------
     numeric
-        Luminous efficacy
+        Luminous efficiency.
 
     Examples
     --------
     >>> from colour import LIGHT_SOURCES_RELATIVE_SPDS
     >>> spd = LIGHT_SOURCES_RELATIVE_SPDS.get('Neodimium Incandescent')
-    >>> luminous_efficacy(spd)  # doctest: +ELLIPSIS
+    >>> luminous_efficiency(spd)  # doctest: +ELLIPSIS
     0.1994393...
     """
 
@@ -112,7 +114,39 @@ def luminous_efficacy(spd,
                             extrapolation_right=0)
     spd = spd.clone()
 
-    efficacy = (np.trapz(lef.values * spd.values, spd.wavelengths) /
-                np.trapz(spd.values, spd.wavelengths))
+    efficiency = (np.trapz(lef.values * spd.values, spd.wavelengths) /
+                  np.trapz(spd.values, spd.wavelengths))
+
+    return efficiency
+
+
+def luminous_efficacy(spd,
+                      lef=PHOTOPIC_LEFS.get(
+                            'CIE 1924 Photopic Standard Observer')):
+    """
+    Returns the *luminous efficacy* in :math:`lm\cdot W^{-1}` of given spectral
+    power distribution using given luminous efficiency function.
+
+    Parameters
+    ----------
+    spd : SpectralPowerDistribution
+        test spectral power distribution
+    lef : SpectralPowerDistribution, optional
+        :math:`V(\lambda)` luminous efficiency function.
+
+    Returns
+    -------
+    numeric
+        Luminous efficacy in :math:`lm\cdot W^{-1}`.
+
+    Examples
+    --------
+    >>> from colour import LIGHT_SOURCES_RELATIVE_SPDS
+    >>> spd = LIGHT_SOURCES_RELATIVE_SPDS.get('Neodimium Incandescent')
+    >>> luminous_efficacy(spd)  # doctest: +ELLIPSIS
+    136.2170803...
+    """
+
+    efficacy = K_M * luminous_efficiency(spd, lef)
 
     return efficacy

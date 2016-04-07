@@ -27,7 +27,7 @@ L = 37.9856290977
 message_box(('Computing "luminance" using CIE Lab (1976) method for given '
              '"Lightness":\n'
              '\n\t{0}'.format(L)))
-print(colour.luminance_1976(L))
+print(colour.luminance_CIE1976(L))
 print(colour.luminance(L))
 
 print('\n')

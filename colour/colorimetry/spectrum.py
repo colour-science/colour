@@ -1929,7 +1929,7 @@ class SpectralPowerDistribution(object):
         ...     SpectralShape(interval=1), method='Pchip'))
         SpectralPowerDistribution('Sample', (510.0, 560.0, 1.0))
         >>> spd[515]  # doctest: +ELLIPSIS
-        array(58.8173260...)
+        array(60.7204982...)
         """
 
         spd_shape = self.shape
@@ -2219,6 +2219,9 @@ class SpectralPowerDistribution(object):
         clone = copy.deepcopy(self)
 
         clone.name = '{0} ({1})'.format(clone.name, id(clone))
+
+        if self.__title is None:
+            clone.title = self.__name
 
         return clone
 
@@ -3930,7 +3933,7 @@ class TriSpectralPowerDistribution(object):
         ...     SpectralShape(interval=1), method='Pchip'))
         TriSpectralPowerDistribution('Observer', (510.0, 560.0, 1.0))
         >>> tri_spd[515]  # doctest: +ELLIPSIS
-        array([ 58.8173260...,  89.4355596...,  16.4545683...])
+        array([ 60.7204982...,  89.6971406...,  15.6271845...])
         """
 
         for i in self.__mapping.keys():
@@ -4357,6 +4360,9 @@ class TriSpectralPowerDistribution(object):
         clone = copy.deepcopy(self)
 
         clone.name = '{0} ({1})'.format(clone.name, id(clone))
+
+        if self.__title is None:
+            clone.title = self.__name
 
         return clone
 
