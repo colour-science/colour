@@ -51,6 +51,7 @@ __status__ = 'Production'
 
 __all__ = ['REFERENCE_COLOURSPACES',
            'REFERENCE_COLOURSPACES_TO_LABELS',
+           'common_colourspace_model_axis_reorder',
            'nadir_grid',
            'XYZ_to_reference_colourspace',
            'RGB_identity_cube',
@@ -69,7 +70,7 @@ REFERENCE_COLOURSPACES = (
 REFERENCE_COLOURSPACES_TO_LABELS = {
     'CIE XYZ': ('X', 'Y', 'Z'),
     'CIE xyY': ('x', 'y', 'Y'),
-    'CIE Lab': ('a', 'b', '$L^*$'),
+    'CIE Lab': ('$a^*$', '^*b^*$', '$L^*$'),
     'CIE Luv': ('$u^\prime$', '$v^\prime$', '$L^*$'),
     'CIE UCS': ('U', 'V', 'W'),
     'CIE UVW': ('U', 'V', 'W'),
@@ -81,6 +82,49 @@ REFERENCE_COLOURSPACES_TO_LABELS : dict
     **{'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE Luv', 'CIE UCS', 'CIE UVW',
     'IPT'}**
 """
+
+
+def common_colourspace_model_axis_reorder(a, model=None):
+    """
+    Reorder axis of given colourspace model :math:`a` values accordingly to its
+    most common volume plotting axis order.
+
+    Parameters
+    ----------
+    a : array_like
+        Colourspace model values :math:`a`.
+    model : unicode, optional
+        **{'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE Luv', 'CIE UCS', 'CIE UVW',
+        'IPT'}**
+        Colourspace model.
+
+    Returns
+    -------
+    Figure
+        Reordered colourspace model values.
+
+    Examples
+    --------
+    >>> a = np.array([0, 1, 2])
+    >>> common_colourspace_model_axis_reorder(a)
+    array([0, 1, 2])
+    >>> common_colourspace_model_axis_reorder(a, 'CIE Lab')
+    array([1, 2, 0])
+    >>> common_colourspace_model_axis_reorder(a, 'CIE LCHab')
+    array([1, 2, 0])
+    >>> common_colourspace_model_axis_reorder(a, 'CIE Luv')
+    array([1, 2, 0])
+    >>> common_colourspace_model_axis_reorder(a, 'CIE LCHab')
+    array([1, 2, 0])
+    >>> common_colourspace_model_axis_reorder(a, 'IPT')
+    array([1, 2, 0])
+    """
+
+    if model in ('CIE Lab', 'CIE LCHab', 'CIE Luv', 'CIE LCHuv', 'IPT'):
+        i, j, k = tsplit(a)
+        a = tstack((j, k, i))
+
+    return a
 
 
 def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
@@ -356,45 +400,38 @@ def XYZ_to_reference_colourspace(XYZ,
     array([-0.1111479...,  0.0159474...,  0.3657112...])
     """
 
-    value = None
+    values = None
     if reference_colourspace == 'CIE XYZ':
-        value = XYZ
+        values = XYZ
     if reference_colourspace == 'CIE xyY':
-        value = XYZ_to_xyY(XYZ, illuminant)
+        values = XYZ_to_xyY(XYZ, illuminant)
     if reference_colourspace == 'CIE xy':  # Used for Chromaticity Diagram.
-        value = XYZ_to_xy(XYZ, illuminant)
+        values = XYZ_to_xy(XYZ, illuminant)
     if reference_colourspace == 'CIE Lab':
-        L, a, b = tsplit(XYZ_to_Lab(XYZ, illuminant))
-        value = tstack((a, b, L))
+        values = XYZ_to_Lab(XYZ, illuminant)
     if reference_colourspace == 'CIE LCHab':
-        L, CH, ab = tsplit(Lab_to_LCHab(XYZ_to_Lab(XYZ, illuminant)))
-        value = tstack((CH, ab, L))
+        values = Lab_to_LCHab(XYZ_to_Lab(XYZ, illuminant))
     if reference_colourspace == 'CIE Luv':
-        L, u, v = tsplit(XYZ_to_Luv(XYZ, illuminant))
-        value = tstack((u, v, L))
+        values = XYZ_to_Luv(XYZ, illuminant)
     if reference_colourspace == 'CIE Luv uv':  # Used for Chromaticity Diagram.
-        u, v = tsplit(Luv_to_uv(XYZ_to_Luv(XYZ, illuminant), illuminant))
-        value = tstack((u, v))
+        values = Luv_to_uv(XYZ_to_Luv(XYZ, illuminant), illuminant)
     if reference_colourspace == 'CIE LCHuv':
-        L, CH, uv = tsplit(Luv_to_LCHuv(XYZ_to_Luv(XYZ, illuminant)))
-        value = tstack((CH, uv, L))
+        values = Luv_to_LCHuv(XYZ_to_Luv(XYZ, illuminant))
     if reference_colourspace == 'CIE UCS':
-        value = XYZ_to_UCS(XYZ)
+        values = XYZ_to_UCS(XYZ)
     if reference_colourspace == 'CIE UCS uv':  # Used for Chromaticity Diagram.
-        u, v = tsplit(UCS_to_uv(XYZ_to_UCS(XYZ)))
-        value = tstack((u, v))
+        values = UCS_to_uv(XYZ_to_UCS(XYZ))
     if reference_colourspace == 'CIE UVW':
-        value = XYZ_to_UVW(XYZ * 100, illuminant)
+        values = XYZ_to_UVW(XYZ * 100, illuminant)
     if reference_colourspace == 'IPT':
-        I, P, T = tsplit(XYZ_to_IPT(XYZ))
-        value = tstack((P, T, I))
+        values = XYZ_to_IPT(XYZ)
 
-    if value is None:
+    if values is None:
         raise ValueError(
             ('"{0}" not found in reference colourspace models: '
              '"{1}".').format(reference_colourspace,
                               ', '.join(REFERENCE_COLOURSPACES)))
-    return value
+    return values
 
 
 def RGB_identity_cube(plane=None,
@@ -562,9 +599,10 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
         cmfs = get_cmfs(cmfs)
         XYZ = cmfs.values
 
-        points = XYZ_to_reference_colourspace(XYZ,
-                                              illuminant,
-                                              reference_colourspace)
+        points = common_colourspace_model_axis_reorder(
+            XYZ_to_reference_colourspace(
+                XYZ, illuminant, reference_colourspace),
+            reference_colourspace)
 
         points[np.isnan(points)] = 0
 
@@ -598,9 +636,10 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
             colourspace.whitepoint,
             colourspace.RGB_to_XYZ_matrix)
 
-        quads.extend(XYZ_to_reference_colourspace(XYZ,
-                                                  colourspace.whitepoint,
-                                                  reference_colourspace))
+        quads.extend(common_colourspace_model_axis_reorder(
+            XYZ_to_reference_colourspace(
+                XYZ, colourspace.whitepoint, reference_colourspace),
+            reference_colourspace))
 
         if settings.face_colours[i] is not None:
             RGB = np.ones(RGB.shape) * settings.face_colours[i]
@@ -767,9 +806,10 @@ def RGB_scatter_plot(RGB,
         colourspace.whitepoint,
         colourspace.RGB_to_XYZ_matrix)
 
-    points = XYZ_to_reference_colourspace(XYZ,
-                                          colourspace.whitepoint,
-                                          reference_colourspace)
+    points = common_colourspace_model_axis_reorder(
+        XYZ_to_reference_colourspace(
+            XYZ, colourspace.whitepoint, reference_colourspace),
+        reference_colourspace)
 
     axes = matplotlib.pyplot.gca()
     axes.scatter(points[..., 0],
