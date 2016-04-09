@@ -26,6 +26,10 @@ from .hunter_lab import (
     Hunter_Lab_to_XYZ)
 from .hunter_rdab import XYZ_to_Hunter_Rdab
 from .ipt import XYZ_to_IPT, IPT_to_XYZ, IPT_hue_angle
+from .common import (
+    COLOURSPACE_MODELS,
+    COLOURSPACE_MODELS_LABELS,
+    XYZ_to_colourspace_model)
 from .dataset import *  # noqa
 from . import dataset
 from .rgb import *  # noqa
@@ -52,5 +56,8 @@ __all__ += ['XYZ_to_K_ab_HunterLab1966',
             'XYZ_to_Hunter_Rdab']
 __all__ += ['XYZ_to_Hunter_Rdab']
 __all__ += ['XYZ_to_IPT', 'IPT_to_XYZ', 'IPT_hue_angle']
+__all__ += ['COLOURSPACE_MODELS',
+            'COLOURSPACE_MODELS_LABELS',
+            'XYZ_to_colourspace_model']
 __all__ += dataset.__all__
 __all__ += rgb.__all__
