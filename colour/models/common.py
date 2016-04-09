@@ -98,19 +98,19 @@ def XYZ_to_colourspace_model(XYZ, illuminant, model):
     array([ 0.2641477...,  0.3777000...])
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
     ... XYZ, W, 'CIE Lab')
-    array([-23.6230288...,  -4.4141703...,  37.9856291...])
+    array([ 37.9856291..., -23.6230288...,  -4.4141703...])
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
     ... XYZ, W, 'CIE LCHab')
-    array([  24.0319036...,  190.5841597...,   37.9856291...])
+    array([  37.9856291...,   24.0319036...,  190.5841597...])
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
     ... XYZ, W, 'CIE Luv')
-    array([-28.7922944...,  -1.3558195...,  37.9856291...])
+    array([ 37.9856291..., -28.7922944...,  -1.3558195...])
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
     ... XYZ, W, 'CIE Luv uv')
     array([ 0.1508531...,  0.4853297...])
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
     ... XYZ, W, 'CIE LCHuv')
-    array([  28.82419932,  182.69604747,   37.9856291 ])
+    array([  37.9856291...,   28.8241993...,  182.6960474...])
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
     ... XYZ, W, 'CIE UCS uv')
     array([ 0.1508531...,  0.32355314...])
@@ -119,7 +119,7 @@ def XYZ_to_colourspace_model(XYZ, illuminant, model):
     array([-28.0483277...,  -0.8805242...,  37.0041149...])
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
     ... XYZ, W, 'IPT')
-    array([-0.1111479...,  0.0159474...,  0.3657112...])
+    array([ 0.3657112..., -0.1111479...,  0.0159474...])
     """
 
     values = None
