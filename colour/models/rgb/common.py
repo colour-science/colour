@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
-Common Colour Models Utilities
-==============================
+Common RGB Colour Models Utilities
+==================================
 
-Defines various colour models common utilities.
+Defines various RGB colour models common utilities.
 
 See Also
 --------
