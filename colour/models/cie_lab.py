@@ -5,6 +5,11 @@
 CIE Lab Colourspace
 ===================
 
+Defines the *CIE Lab* colourspace models:
+
+-   :attr:`CIE_Lab`.
+-   :attr:`CIE_LCHab`.
+
 Defines the *CIE Lab* colourspace transformations:
 
 -   :func:`XYZ_to_Lab`
@@ -30,7 +35,7 @@ import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
 from colour.constants import CIE_E, CIE_K
-from colour.models import xy_to_xyY, xyY_to_XYZ
+from colour.models import ColourspaceModel, xy_to_xyY, xyY_to_XYZ
 from colour.utilities import tsplit, tstack
 
 __author__ = 'Colour Developers'
@@ -42,8 +47,10 @@ __status__ = 'Production'
 
 __all__ = ['XYZ_to_Lab',
            'Lab_to_XYZ',
+           'CIE_Lab',
            'Lab_to_LCHab',
-           'LCHab_to_Lab']
+           'LCHab_to_Lab',
+           'CIE_LCHab']
 
 
 def XYZ_to_Lab(XYZ,
@@ -158,6 +165,20 @@ def Lab_to_XYZ(Lab,
     return XYZ
 
 
+CIE_Lab = ColourspaceModel(
+    'CIE Lab',
+    {0: 'L', 1: 'a', 2: 'b'},
+    XYZ_to_Lab,
+    Lab_to_XYZ,
+    '$CIE L^*a^*b^*$',
+    {0: '$L^*$', 1: '$a^*$', 2: '$b^*$'})
+"""
+*CIE Lab* colourspace model.
+
+CIE_Lab : ColourspaceModel
+"""
+
+
 def Lab_to_LCHab(Lab):
     """
     Converts from *CIE Lab* colourspace to *CIE LCHab* colourspace.
@@ -235,3 +256,75 @@ def LCHab_to_Lab(LCHab):
                   C * np.sin(np.radians(H))))
 
     return Lab
+
+
+def _XYZ_to_LCHab(XYZ,
+                  illuminant=ILLUMINANTS.get(
+                      'CIE 1931 2 Degree Standard Observer').get('D50')):
+    """
+    Converts from *CIE XYZ* tristimulus values to *CIE LCHab* colourspace.
+
+    Parameters
+    ----------
+    XYZ : array_like
+     *CIE XYZ* tristimulus values.
+    illuminant : array_like, optional
+     Reference *illuminant* *xy* chromaticity coordinates or *CIE xyY*
+     colourspace array.
+
+    Returns
+    -------
+    ndarray
+     *CIE LCHab* colourspace array.
+
+    Examples
+    --------
+    >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
+    >>> _XYZ_to_LCHab(XYZ)  # doctest: +ELLIPSIS
+    array([  37.9856291...,   24.0319036...,  190.5841597...])
+    """
+
+    return Lab_to_LCHab(XYZ_to_Lab(XYZ, illuminant))
+
+
+def _LCHab_to_XYZ(LCHab,
+                  illuminant=ILLUMINANTS.get(
+                      'CIE 1931 2 Degree Standard Observer').get('D50')):
+    """
+    Converts from *CIE LCHab* colourspace to *CIE XYZ* tristimulus values.
+
+    Parameters
+    ----------
+    LCHab : array_like
+        *CIE LCHab* colourspace array.
+    illuminant : array_like, optional
+        Reference *illuminant* *xy* chromaticity coordinates or *CIE xyY*
+        colourspace array.
+
+    Returns
+    -------
+    ndarray
+        *CIE XYZ* tristimulus values.
+
+    Examples
+    --------
+    >>> LCHab = np.array([37.9856291, 24.03190365, 190.58415972])
+    >>> _LCHab_to_XYZ(LCHab)  # doctest: +ELLIPSIS
+    array([ 0.0704953...,  0.1008    ,  0.0955831...])
+    """
+
+    return Lab_to_XYZ(LCHab_to_Lab(LCHab), illuminant)
+
+
+CIE_LCHab = ColourspaceModel(
+    'CIE LCHab',
+    {0: 'LCH', 1: 'a', 2: 'b'},
+    _XYZ_to_LCHab,
+    _LCHab_to_XYZ,
+    '$CIE LCHa^*b^*$',
+    {0: '$LCH$', 1: '$a^*$', 2: '$b^*$'})
+"""
+*CIE LCHab* colourspace model.
+
+CIE_LCHab : ColourspaceModel
+"""

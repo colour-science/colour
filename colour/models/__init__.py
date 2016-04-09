@@ -3,6 +3,7 @@
 
 from __future__ import absolute_import
 
+from .colourspace_model import ColourspaceModel
 from .cie_xyy import (
     XYZ_to_xyY,
     xyY_to_XYZ,
@@ -10,7 +11,13 @@ from .cie_xyy import (
     xyY_to_xy,
     xy_to_XYZ,
     XYZ_to_xy)
-from .cie_lab import XYZ_to_Lab, Lab_to_XYZ, Lab_to_LCHab, LCHab_to_Lab
+from .cie_lab import (
+    XYZ_to_Lab,
+    Lab_to_XYZ,
+    CIE_Lab,
+    Lab_to_LCHab,
+    LCHab_to_Lab,
+    CIE_LCHab)
 from .cie_luv import (
     XYZ_to_Luv,
     Luv_to_XYZ,
@@ -35,13 +42,19 @@ from . import dataset
 from .rgb import *  # noqa
 from . import rgb
 
-__all__ = ['XYZ_to_xyY',
-           'xyY_to_XYZ',
-           'xy_to_xyY',
-           'xyY_to_xy',
-           'xy_to_XYZ',
-           'XYZ_to_xy']
-__all__ += ['XYZ_to_Lab', 'Lab_to_XYZ', 'Lab_to_LCHab', 'LCHab_to_Lab']
+__all__ = ['ColourspaceModel']
+__all__ += ['XYZ_to_xyY',
+            'xyY_to_XYZ',
+            'xy_to_xyY',
+            'xyY_to_xy',
+            'xy_to_XYZ',
+            'XYZ_to_xy']
+__all__ += ['XYZ_to_Lab',
+            'Lab_to_XYZ',
+            'CIE_Lab',
+            'Lab_to_LCHab',
+            'LCHab_to_Lab',
+            'CIE_LCHab']
 __all__ += ['XYZ_to_Luv',
             'Luv_to_XYZ',
             'Luv_to_uv',
