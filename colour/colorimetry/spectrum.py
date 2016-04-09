@@ -2324,7 +2324,8 @@ class TriSpectralPowerDistribution(object):
     def __init__(self, name, data, mapping, title=None, labels=None):
         self.__name = None
         self.name = name
-        self.__mapping = mapping
+        self.__mapping = None
+        self.mapping = mapping
         self.__data = None
         self.data = data
         self.__title = None
