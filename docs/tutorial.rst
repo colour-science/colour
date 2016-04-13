@@ -45,6 +45,7 @@ around various sub-packages:
 -  :doc:`difference <colour.difference>`: Colour difference computations.
 -  *examples*: Examples for the sub-packages.
 -  :doc:`io <colour.io>`: Input / output objects for reading and writing data.
+-  :doc:`metadata <colour.metadata>`: Metadata management.
 -  :doc:`models <colour.models>`: Colour models.
 -  :doc:`notation <colour.notation>`: Colour notation systems.
 -  :doc:`phenomena <colour.phenomena>`: Computation of various optical phenomena.
@@ -82,8 +83,9 @@ The various sub-packages also expose their public API:
     for sub_package in ('adaptation', 'algebra', 'appearance', 'biochemistry',
                         'characterisation', 'colorimetry', 'constants',
                         'continuous', 'corresponding', 'difference', 'io',
-                        'models', 'notation', 'phenomena', 'plotting', 'quality',
-                        'recovery', 'temperature', 'utilities', 'volume'):
+                        'metadata', 'models', 'notation', 'phenomena',
+                        'plotting', 'quality', 'recovery', 'temperature',
+                        'utilities', 'volume'):
         print(sub_package.title())
         pprint(getattr(colour, sub_package).__all__[:5] + ['...'])
         print('\n')
@@ -175,6 +177,10 @@ The various sub-packages also expose their public API:
      'read_spectral_data_from_csv_file',
      'read_spds_from_csv_file',
      '...']
+
+
+    Metadata
+    ['filter_metadata_registry', 'install_metadata', '...']
 
 
     Models

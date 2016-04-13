@@ -20,6 +20,7 @@ Sub-packages
 -   difference: Colour difference computations.
 -   examples: Examples for the sub-packages.
 -   io: Input / output objects for reading and writing data.
+-   metadata: Metadata management.
 -   models: Colour models.
 -   notation: Colour notation systems.
 -   phenomena: Computation of various optical phenomena.
@@ -125,6 +126,7 @@ from .volume import (
     RGB_colourspace_volume_MonteCarlo,
     RGB_colourspace_volume_coverage_MonteCarlo, is_within_macadam_limits,
     is_within_mesh_volume, is_within_pointer_gamut, is_within_visible_spectrum)
+from .metadata import filter_metadata_registry, install_metadata
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -239,6 +241,8 @@ __all__ += [
     'is_within_mesh_volume', 'is_within_pointer_gamut',
     'is_within_visible_spectrum'
 ]
+__all__ += ['filter_metadata_registry']
+
 __application_name__ = 'Colour'
 
 __major_version__ = '0'
@@ -1580,6 +1584,10 @@ def _setup_api_changes():
         API_CHANGES[name.split('.')[-1]] = Renamed(name, access)  # noqa
     API_CHANGES.pop('Renamed')
 
+
+install_metadata()  # noqa
+
+del install_metadata
 
 if not is_documentation_building():
     _setup_api_changes()

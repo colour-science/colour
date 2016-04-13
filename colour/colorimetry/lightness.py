@@ -88,17 +88,20 @@ def lightness_Glasser1958(Y):
     Parameters
     ----------
     Y : numeric or array_like
+        metadata : {'type': 'Luminance', 'symbol': 'Y', 'extent': (0, 100)}
         *luminance* :math:`Y`.
 
     Returns
     -------
     numeric or array_like
+        metadata : {'type': 'Lightness', 'symbol': 'L', 'extent': (0, 100)}
         *Lightness* :math:`L`.
 
     Notes
     -----
-    -   Input *luminance* :math:`Y` is in domain [0, 100].
-    -   Output *Lightness* :math:`L` is in range [0, 100].
+    -   metadata : {'classifier': 'Lightness Conversion Function',
+        'method_name': 'Glasser 1958', 'method_strict_name':
+        'Glasser et al. (1958)'}
 
     References
     ----------
@@ -122,21 +125,23 @@ def lightness_Wyszecki1963(Y):
     Returns the *Lightness* :math:`W` of given *luminance* :math:`Y` using
     *Wyszecki (1963)* method.
 
-
     Parameters
     ----------
     Y : numeric or array_like
+        metadata : {'type': 'Luminance', 'symbol': 'Y', 'extent': (0, 100)}
         *luminance* :math:`Y`.
 
     Returns
     -------
     numeric or array_like
+        metadata : {'type': 'Lightness', 'symbol': 'W', 'extent': (0, 100)}
         *Lightness* :math:`W`.
 
     Notes
     -----
-    -   Input *luminance* :math:`Y` is in domain [0, 100].
-    -   Output *Lightness* :math:`W` is in range [0, 100].
+    -   metadata : {'classifier': 'Lightness Conversion Function',
+        'method_name': 'Wyszecki 1963', 'method_strict_name':
+        'Wyszecki (1963)'}
 
     References
     ----------
@@ -168,19 +173,23 @@ def lightness_CIE1976(Y, Y_n=100):
     Parameters
     ----------
     Y : numeric or array_like
+        metadata : {'type': 'Luminance', 'symbol': 'Y', 'extent': (0, 100)}
         *luminance* :math:`Y`.
     Y_n : numeric or array_like, optional
+        metadata : {'type': 'Luminance', 'symbol': 'Y', 'extent': (0, 100)}
         White reference *luminance* :math:`Y_n`.
 
     Returns
     -------
     numeric or array_like
+        metadata : {'type': 'Lightness', 'symbol': 'L^\star',
+        'extent': (0, 100)}
         *Lightness* :math:`L^*`.
 
     Notes
     -----
-    -   Input *luminance* :math:`Y` and :math:`Y_n` are in domain [0, 100].
-    -   Output *Lightness* :math:`L^*` is in range [0, 100].
+    -   metadata : {'classifier': 'Lightness Conversion Function',
+        'method_name': 'CIE 1976', 'method_strict_name': 'CIE 1976'}
 
     References
     ----------
@@ -213,22 +222,24 @@ def lightness_Fairchild2010(Y, epsilon=1.836):
     Parameters
     ----------
     Y : array_like
+        metadata : {'type': 'Luminance', 'symbol': 'Y', 'extent': (0, 1)}
         *luminance* :math:`Y`.
     epsilon : numeric or array_like, optional
+        metadata : {'type': 'Factor', 'symbol': '\epsilon', 'extent': (0, 1)}
         :math:`\epsilon` exponent.
 
     Returns
     -------
     array_like
+        metadata : {'type': 'Lightness', 'symbol': 'L\_\{hdr\}',
+        'extent': (0, 100)}
         *Lightness* :math:`L_{hdr}`.
-
-    Warning
-    -------
-    The input domain of that definition is non standard!
 
     Notes
     -----
-    -   Input *luminance* :math:`Y` is in domain [0, :math:`\infty`].
+    -   metadata : {'classifier': 'Lightness Conversion Function',
+        'method_name': 'Fairchild 2010', 'method_strict_name':
+        'Fairchild and Wyble (2010)'}
 
     References
     ----------
@@ -259,8 +270,10 @@ def lightness_Fairchild2011(Y, epsilon=0.710, method='hdr-CIELAB'):
     Parameters
     ----------
     Y : array_like
+        metadata : {'type': 'Luminance', 'symbol': 'Y', 'extent': (0, 1)}
         *luminance* :math:`Y`.
     epsilon : numeric or array_like, optional
+        metadata : {'type': 'Factor', 'symbol': '\epsilon', 'extent': (0, 1)}
         :math:`\epsilon` exponent.
     method : unicode, optional
         **{'hdr-CIELAB', 'hdr-IPT'}**,
@@ -269,15 +282,15 @@ def lightness_Fairchild2011(Y, epsilon=0.710, method='hdr-CIELAB'):
     Returns
     -------
     array_like
+        metadata : {'type': 'Lightness', 'symbol': 'L\_\{hdr\}',
+        'extent': (0, 100)}
         *Lightness* :math:`L_{hdr}`.
-
-    Warning
-    -------
-    The input domain of that definition is non standard!
 
     Notes
     -----
-    -   Input *luminance* :math:`Y` is in domain [0, :math:`\infty`].
+    -   metadata : {'classifier': 'Lightness Conversion Function',
+        'method_name': 'Fairchild 2011', 'method_strict_name':
+        'Fairchild and Chen (2011)'}
 
     References
     ----------
@@ -362,12 +375,6 @@ def lightness(Y, method='CIE 1976', **kwargs):
     -------
     numeric or array_like
         *Lightness* :math:`L`.
-
-    Notes
-    -----
-    -   Input *luminance* :math:`Y` and optional :math:`Y_n` are in domain
-        [0, 100] or [0, :math:`\infty`].
-    -   Output *Lightness* :math:`L` is in range [0, 100].
 
     References
     ----------

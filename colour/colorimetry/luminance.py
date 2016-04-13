@@ -87,17 +87,20 @@ def luminance_Newhall1943(V):
     Parameters
     ----------
     V : numeric or array_like
+        metadata : {'type': 'Munsell Value', 'symbol': 'V', 'extent': (0, 10)}
         *Munsell* value :math:`V`.
 
     Returns
     -------
     numeric or array_like
+        metadata : {'type': 'Luminance', 'symbol': 'R_Y', 'extent': (0, 100)}
         *luminance* :math:`R_Y`.
 
     Notes
     -----
-    -   Input *Munsell* value :math:`V` is in domain [0, 10].
-    -   Output *luminance* :math:`R_Y` is in range [0, 100].
+    -   metadata : {'classifier': 'Luminance Conversion Function',
+        'method_name': 'Newhall 1943', 'method_strict_name':
+        'Newhall et al. (1943)'}
 
     References
     ----------
@@ -125,17 +128,20 @@ def luminance_ASTMD153508(V):
     Parameters
     ----------
     V : numeric or array_like
+        metadata : {'type': 'Munsell Value', 'symbol': 'V', 'extent': (0, 10)}
         *Munsell* value :math:`V`.
 
     Returns
     -------
     numeric or array_like
+        metadata : {'type': 'Luminance', 'symbol': 'Y', 'extent': (0, 100)}
         *luminance* :math:`Y`.
 
     Notes
     -----
-    -   Input *Munsell* value :math:`V` is in domain [0, 10].
-    -   Output *luminance* :math:`Y` is in range [0, 100].
+    -   metadata : {'classifier': 'Luminance Conversion Function',
+        'method_name': 'ASTM D1535-08', 'method_strict_name':
+        'ASTM D1535-08e1'}
 
     References
     ----------
@@ -163,20 +169,22 @@ def luminance_CIE1976(Lstar, Y_n=100):
     Parameters
     ----------
     Lstar : numeric or array_like
-        *Lightness* :math:`L^*`
-    Y_n : numeric or array_like
+        metadata : {'type': 'Lightness', 'symbol': 'L^\star',
+        'extent': (0, 100)}
+        *Lightness* :math:`L^\star`
+    Y_n : numeric or array_like, optional
+        metadata : {'type': 'Luminance', 'symbol': 'Y', 'extent': (0, 100)}
         White reference *luminance* :math:`Y_n`.
 
     Returns
     -------
     numeric or array_like
-        *luminance* :math:`Y`.
+        metadata : {'type': 'Luminance', 'symbol': 'Y', 'extent': (0, 100)}
 
     Notes
     -----
-    -   Input *Lightness* :math:`L^*` and reference white *luminance*
-        :math:`Y_n` are in domain [0, 100].
-    -   Output *luminance* :math:`Y` is in range [0, 100].
+    -   metadata : {'classifier': 'Luminance Conversion Function',
+        'method_name': 'CIE 1976', 'method_strict_name': 'CIE 1976'}
 
     References
     ----------
@@ -210,22 +218,25 @@ def luminance_Fairchild2010(L_hdr, epsilon=1.836):
     Parameters
     ----------
     L_hdr : array_like
+        metadata : {'type': 'Lightness', 'symbol': 'L\_\{hdr\}',
+        'extent': (0, 100)}
         *Lightness* :math:`L_{hdr}`.
     epsilon : numeric or array_like, optional
+        metadata : {'type': 'Factor', 'symbol': '\epsilon', 'extent': (0, 1)}
         :math:`\epsilon` exponent.
 
     Returns
     -------
     array_like
         *luminance* :math:`Y`.
-
-    Warning
-    -------
-    The output range of that definition is non standard!
+        metadata : {'type': 'Luminance', 'symbol': 'Y', 'extent': (0, 1)}
+        *luminance* :math:`Y`.
 
     Notes
     -----
-    -   Output *luminance* :math:`Y` is in range [0, math:`\infty`].
+    -   metadata : {'classifier': 'Luminance Conversion Function',
+        'method_name': 'Fairchild 2010', 'method_strict_name':
+        'Fairchild and Wyble (2010)'}
 
     References
     ----------
@@ -257,8 +268,11 @@ def luminance_Fairchild2011(L_hdr, epsilon=0.710, method='hdr-CIELAB'):
     Parameters
     ----------
     L_hdr : array_like
+        metadata : {'type': 'Lightness', 'symbol': 'L\_\{hdr\}',
+        'extent': (0, 100)}
         *Lightness* :math:`L_{hdr}`.
     epsilon : numeric or array_like, optional
+        metadata : {'type': 'Factor', 'symbol': '\epsilon', 'extent': (0, 1)}
         :math:`\epsilon` exponent.
     method : unicode, optional
         **{'hdr-CIELAB', 'hdr-IPT'}**,
@@ -267,15 +281,14 @@ def luminance_Fairchild2011(L_hdr, epsilon=0.710, method='hdr-CIELAB'):
     Returns
     -------
     array_like
+        metadata : {'type': 'Luminance', 'symbol': 'Y', 'extent': (0, 1)}
         *luminance* :math:`Y`.
-
-    Warning
-    -------
-    The output range of that definition is non standard!
 
     Notes
     -----
-    -   Output *luminance* :math:`Y` is in range [0, math:`\infty`].
+    -   metadata : {'classifier': 'Luminance Conversion Function',
+        'method_name': 'Fairchild 2011', 'method_strict_name':
+        'Fairchild and Chen (2011)'}
 
     References
     ----------
@@ -364,13 +377,6 @@ def luminance(LV, method='CIE 1976', **kwargs):
     -------
     numeric or array_like
         *luminance* :math:`Y`.
-
-    Notes
-    -----
-    -   Input *LV* is in domain [0, 100], [0, 10] or [0, 1] and optional
-        *luminance* :math:`Y_n` is in domain [0, 100].
-    -   Output *luminance* :math:`Y` is in range [0, 100] or
-        [0, math:`\infty`].
 
     References
     ----------

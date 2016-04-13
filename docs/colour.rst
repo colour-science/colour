@@ -16,6 +16,7 @@ Colour
     colour.difference
     colour.io
     colour.models
+    colour.metadata
     colour.notation
     colour.phenomena
     colour.plotting
