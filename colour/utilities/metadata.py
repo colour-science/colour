@@ -9,6 +9,7 @@ Defines the objects implementing the base metadata system support:
 
 -   :class:`Metadata`
 -   :class:`UnitMetadata`
+-   :class:`CallableMetadata`
 -   :class:`FunctionMetadata`
 """
 
@@ -25,6 +26,7 @@ __status__ = 'Production'
 
 __all__ = ['Metadata',
            'UnitMetadata',
+           'CallableMetadata',
            'FunctionMetadata']
 
 
@@ -67,7 +69,8 @@ class Metadata(object):
     --------
     >>> Metadata('Lambda', '$\Lambda$')
     Metadata('Lambda', '$\Lambda$')
-    >>> Metadata('Lambda', '$\Lambda$').family
+    >>> # Doctests skip for Python 2.x compatibility.
+    >>> Metadata('Lambda', '$\Lambda$').family  # doctest: +SKIP
     'Metadata'
     """
 
@@ -119,6 +122,8 @@ class Metadata(object):
         return instance
 
     def __init__(self, name, strict_name=None):
+        self.__identity = None
+
         self.__name = None
         self.name = name
         self.__strict_name = None
@@ -341,7 +346,77 @@ class UnitMetadata(Metadata):
     """
 
 
-class FunctionMetadata(Metadata):
+class CallableMetadata(Metadata):
+    """
+    Defines the metadata class for callable objects.
+
+    Parameters
+    ----------
+    name : unicode
+        Metadata object name.
+    strict_name : unicode, optional
+        Metadata strict object name, the scientific name for use in diagrams,
+        figures, etc...
+    callable_ : callable, optional
+        Callable to store within the metadata.
+
+    Attributes
+    ----------
+    callable
+
+    Examples
+    --------
+    >>> CallableMetadata(  # doctest: +ELLIPSIS
+    ...     'Lambda', '$\Lambda$', lambda x: x).callable
+    <function <lambda> at 0x...>
+    """
+
+    __family = 'Callable'
+    """
+    Metadata class family.
+
+    __family : unicode
+    """
+
+    def __init__(self, name, strict_name=None, callable_=None):
+        super(CallableMetadata, self).__init__(name, strict_name)
+
+        self.__callable = None
+        self.callable = callable_
+
+    @property
+    def callable(self):
+        """
+        Property for **self.__callable** private attribute.
+
+        Returns
+        -------
+        UnitMetadata
+            self.__callable.
+        """
+
+        return self.__callable
+
+    @callable.setter
+    def callable(self, value):
+        """
+        Setter for **self.__callable** private attribute.
+
+        Parameters
+        ----------
+        value : UnitMetadata
+            Attribute value.
+        """
+
+        if value is not None:
+            assert hasattr(value, '__call__'), (
+                '"{0}" attribute: "{1}" is not a "callable"!'.format(
+                    'callable', value))
+
+        self.__callable = value
+
+
+class FunctionMetadata(CallableMetadata):
     """
     Defines the metadata class for function converting an input unit of
     measurement into an output unit of measurement using a given method.
@@ -357,6 +432,8 @@ class FunctionMetadata(Metadata):
     strict_method : unicode, optional
         Strict method name, the scientific name for use in diagrams,
         figures, etc...
+    callable_ : callable, optional
+        Callable to store within the metadata.
 
     Attributes
     ----------
@@ -387,7 +464,8 @@ UnitMetadata('Lightness', '$L^\star$'), 'CIE 1976', '$CIE 1976$')
                  input_unit,
                  output_unit,
                  method,
-                 strict_method=None):
+                 strict_method=None,
+                 callable_=None):
 
         self.__input_unit = None
         self.input_unit = input_unit
@@ -403,7 +481,7 @@ UnitMetadata('Lightness', '$L^\star$'), 'CIE 1976', '$CIE 1976$')
         strict_name = '{0} to {1} - {2}'.format(
             input_unit.strict_name, output_unit.strict_name, strict_method)
 
-        super(FunctionMetadata, self).__init__(name, strict_name)
+        super(FunctionMetadata, self).__init__(name, strict_name, callable_)
 
     @property
     def input_unit(self):

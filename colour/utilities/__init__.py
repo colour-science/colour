@@ -17,6 +17,11 @@ from .common import (
     is_numeric,
     is_integer,
     filter_kwargs)
+from .metadata import (
+    Metadata,
+    UnitMetadata,
+    CallableMetadata,
+    FunctionMetadata)
 from .array import (
     as_numeric,
     closest,
@@ -51,6 +56,10 @@ __all__ = ['handle_numpy_errors',
            'is_numeric',
            'is_integer',
            'filter_kwargs']
+__all__ += ['Metadata',
+            'UnitMetadata',
+            'CallableMetadata',
+            'FunctionMetadata']
 __all__ += ['as_numeric',
             'closest',
             'normalise_maximum',
