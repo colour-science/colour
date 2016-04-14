@@ -14,9 +14,7 @@ Defines the objects implementing the base metadata system support:
 
 from __future__ import division, unicode_literals
 
-from weakref import WeakValueDictionary
-
-from colour import basestring
+import colour  # noqa
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -80,18 +78,18 @@ class Metadata(object):
     __family : unicode
     """
 
-    __instance_id = 1
+    __instance_id = 0
     """
     Metadata instance id number.
 
     __instance_id : integer
     """
 
-    __instances = WeakValueDictionary()
+    __instances = dict()
     """
     Metadata instances.
 
-    __instances : WeakValueDictionary
+    __instances : dict
     """
 
     def __new__(cls, *args, **kwargs):
@@ -113,10 +111,10 @@ class Metadata(object):
 
         instance = super(Metadata, cls).__new__(cls)
 
-        instance._Metadata__identity = Metadata._Metadata__instance_id
-
-        Metadata._Metadata__instances[instance.__identity] = instance
-        Metadata._Metadata__instance_id += 1
+        instance_id = getattr(Metadata, '_Metadata__instance_id')
+        setattr(instance, '_Metadata__identity', instance_id)
+        getattr(Metadata, '_Metadata__instances')[instance.identity] = instance
+        setattr(Metadata, '_Metadata__instance_id', instance_id + 1)
 
         return instance
 
@@ -152,6 +150,33 @@ class Metadata(object):
         """
 
         raise AttributeError('"{0}" attribute is read only!'.format('family'))
+
+    @property
+    def identity(self):
+        """
+        Property for **self.__identity** private attribute.
+
+        Returns
+        -------
+        unicode
+            self.__identity.
+        """
+
+        return self.__identity
+
+    @identity.setter
+    def identity(self, value):
+        """
+        Setter for **self.__identity** private attribute.
+
+        Parameters
+        ----------
+        value : unicode
+            Attribute value.
+        """
+
+        raise AttributeError(
+            '"{0}" attribute is read only!'.format('identity'))
 
     @property
     def instances(self):
