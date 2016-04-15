@@ -40,8 +40,8 @@ class TestMetadata(unittest.TestCase):
         """
 
         required_attributes = ('family',
-                               'identity',
                                'instances',
+                               'index',
                                'name',
                                'strict_name')
 

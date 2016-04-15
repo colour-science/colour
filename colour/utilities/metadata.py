@@ -56,7 +56,7 @@ class Metadata(object):
     Attributes
     ----------
     family
-    identity
+    index
     instances
     name
     strict_name
@@ -83,19 +83,18 @@ class Metadata(object):
 
     _FAMILY : unicode
     """
-
-    _INSTANCE_ID = 0
-    """
-    Metadata instance id number.
-
-    _INSTANCE_ID : integer
-    """
-
     _INSTANCES = WeakValueDictionary()
     """
     Metadata instances.
 
     _INSTANCES : WeakValueDictionary
+    """
+
+    _INSTANCES_COUNTER = 0
+    """
+    Metadata instances counter.
+
+    _INSTANCES_COUNTER : integer
     """
 
     def __new__(cls, *args, **kwargs):
@@ -117,16 +116,14 @@ class Metadata(object):
 
         instance = super(Metadata, cls).__new__(cls)
 
-        instance_id = cls._INSTANCE_ID
-        instance._identity = instance_id
-        Metadata._INSTANCES[instance.identity] = instance
-        Metadata._INSTANCE_ID = instance_id + 1
+        index = cls._INSTANCES_COUNTER
+        instance._index = index
+        Metadata._INSTANCES[instance.index] = instance
+        Metadata._INSTANCES_COUNTER = index + 1
 
         return instance
 
     def __init__(self, name, strict_name=None):
-        self._identity = None
-
         self._name = None
         self.name = name
         self._strict_name = None
@@ -159,33 +156,6 @@ class Metadata(object):
         raise AttributeError('"{0}" attribute is read only!'.format('family'))
 
     @property
-    def identity(self):
-        """
-        Property for **self._identity** private attribute.
-
-        Returns
-        -------
-        unicode
-            self._identity.
-        """
-
-        return self._identity
-
-    @identity.setter
-    def identity(self, value):
-        """
-        Setter for **self._identity** private attribute.
-
-        Parameters
-        ----------
-        value : object
-            Attribute value.
-        """
-
-        raise AttributeError(
-            '"{0}" attribute is read only!'.format('identity'))
-
-    @property
     def instances(self):
         """
         Property for **self._INSTANCES** private attribute.
@@ -211,6 +181,33 @@ class Metadata(object):
 
         raise AttributeError(
             '"{0}" attribute is read only!'.format('instances'))
+
+    @property
+    def index(self):
+        """
+        Property for **self._index** private attribute.
+
+        Returns
+        -------
+        unicode
+            self._index.
+        """
+
+        return self._index
+
+    @index.setter
+    def index(self, value):
+        """
+        Setter for **self._index** private attribute.
+
+        Parameters
+        ----------
+        value : object
+            Attribute value.
+        """
+
+        raise AttributeError(
+            '"{0}" attribute is read only!'.format('index'))
 
     @property
     def name(self):
