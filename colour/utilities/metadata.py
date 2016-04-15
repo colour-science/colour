@@ -77,25 +77,25 @@ class Metadata(object):
     'Metadata'
     """
 
-    __family = 'Metadata'
+    __FAMILY = 'Metadata'
     """
     Metadata class family.
 
-    __family : unicode
+    __FAMILY : unicode
     """
 
-    __instance_id = 0
+    __INSTANCE_ID = 0
     """
     Metadata instance id number.
 
-    __instance_id : integer
+    __INSTANCE_ID : integer
     """
 
-    __instances = WeakValueDictionary()
+    __INSTANCES = WeakValueDictionary()
     """
     Metadata instances.
 
-    __instances : WeakValueDictionary
+    __INSTANCES : WeakValueDictionary
     """
 
     def __new__(cls, *args, **kwargs):
@@ -117,10 +117,10 @@ class Metadata(object):
 
         instance = super(Metadata, cls).__new__(cls)
 
-        instance_id = getattr(Metadata, '_Metadata__instance_id')
+        instance_id = getattr(Metadata, '_Metadata__INSTANCE_ID')
         setattr(instance, '_Metadata__identity', instance_id)
-        getattr(Metadata, '_Metadata__instances')[instance.identity] = instance
-        setattr(Metadata, '_Metadata__instance_id', instance_id + 1)
+        getattr(Metadata, '_Metadata__INSTANCES')[instance.identity] = instance
+        setattr(Metadata, '_Metadata__INSTANCE_ID', instance_id + 1)
 
         return instance
 
@@ -135,21 +135,21 @@ class Metadata(object):
     @property
     def family(self):
         """
-        Property for **self.__family** private attribute.
+        Property for **self.__FAMILY** private attribute.
 
         Returns
         -------
         unicode
-            self.__family.
+            self.__FAMILY.
         """
 
         return getattr(self,
-                       "_{0}__{1}".format(self.__class__.__name__, "family"))
+                       "_{0}{1}".format(self.__class__.__name__, "__FAMILY"))
 
     @family.setter
     def family(self, value):
         """
-        Setter for **self.__family** private attribute.
+        Setter for **self.__FAMILY** private attribute.
 
         Parameters
         ----------
@@ -189,20 +189,20 @@ class Metadata(object):
     @property
     def instances(self):
         """
-        Property for **self.__instances** private attribute.
+        Property for **self.__INSTANCES** private attribute.
 
         Returns
         -------
         WeakValueDictionary
-            self.__instances.
+            self.__INSTANCES.
         """
 
-        return self.__instances
+        return self.__INSTANCES
 
     @instances.setter
     def instances(self, value):
         """
-        Setter for **self.__instances** private attribute.
+        Setter for **self.__INSTANCES** private attribute.
 
         Parameters
         ----------
@@ -341,11 +341,11 @@ class UnitMetadata(Metadata):
     Defines the metadata class used for unit of measurement.
     """
 
-    __family = 'Unit'
+    __FAMILY = 'Unit'
     """
     Metadata class family.
 
-    __family : unicode
+    __FAMILY : unicode
     """
 
 
@@ -378,11 +378,11 @@ class CallableMetadata(Metadata):
     <function <lambda> at 0x...>
     """
 
-    __family = 'Callable'
+    __FAMILY = 'Callable'
     """
     Metadata class family.
 
-    __family : unicode
+    __FAMILY : unicode
     """
 
     def __init__(self, name, strict_name=None, callable_=None):
@@ -466,11 +466,11 @@ class FunctionMetadata(CallableMetadata):
 UnitMetadata('Lightness', '$L^\star$'), 'CIE 1976', '$CIE 1976$')
     """
 
-    __family = 'Function'
+    __FAMILY = 'Function'
     """
     Metadata class family.
 
-    __family : unicode
+    __FAMILY : unicode
     """
 
     def __init__(self,
