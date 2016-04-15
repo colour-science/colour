@@ -921,7 +921,7 @@ class SpectralPowerDistribution(object):
 
         Returns
         -------
-        basestring
+        unicode
             Pretty formatted string representation.
 
         See Also
@@ -951,7 +951,7 @@ class SpectralPowerDistribution(object):
 
         Returns
         -------
-        basestring
+        unicode
             Formatted string representation.
 
         See Also
@@ -2761,7 +2761,7 @@ class TriSpectralPowerDistribution(object):
 
         Returns
         -------
-        basestring
+        unicode
             Pretty formatted string representation.
 
         See Also
@@ -2795,7 +2795,7 @@ class TriSpectralPowerDistribution(object):
 
         Returns
         -------
-        basestring
+        unicode
             Formatted string representation.
 
         See Also

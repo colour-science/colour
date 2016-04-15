@@ -54,7 +54,7 @@ def _format_cmfs(self):
 
     Returns
     -------
-    basestring
+    unicode
         Formatted string representation.
     """
 
@@ -204,7 +204,7 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
 
         Returns
         -------
-        basestring
+        unicode
             Formatted string representation.
 
         Notes
@@ -364,7 +364,7 @@ class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
 
         Returns
         -------
-        basestring
+        unicode
             Formatted string representation.
 
         Notes
@@ -524,7 +524,7 @@ class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
 
         Returns
         -------
-        basestring
+        unicode
             Formatted string representation.
 
         Notes
