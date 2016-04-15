@@ -77,25 +77,25 @@ class Metadata(object):
     'Metadata'
     """
 
-    __FAMILY = 'Metadata'
+    _FAMILY = 'Metadata'
     """
     Metadata class family.
 
-    __FAMILY : unicode
+    _FAMILY : unicode
     """
 
-    __INSTANCE_ID = 0
+    _INSTANCE_ID = 0
     """
     Metadata instance id number.
 
-    __INSTANCE_ID : integer
+    _INSTANCE_ID : integer
     """
 
-    __INSTANCES = WeakValueDictionary()
+    _INSTANCES = WeakValueDictionary()
     """
     Metadata instances.
 
-    __INSTANCES : WeakValueDictionary
+    _INSTANCES : WeakValueDictionary
     """
 
     def __new__(cls, *args, **kwargs):
@@ -117,39 +117,38 @@ class Metadata(object):
 
         instance = super(Metadata, cls).__new__(cls)
 
-        instance_id = getattr(Metadata, '_Metadata__INSTANCE_ID')
-        setattr(instance, '_Metadata__identity', instance_id)
-        getattr(Metadata, '_Metadata__INSTANCES')[instance.identity] = instance
-        setattr(Metadata, '_Metadata__INSTANCE_ID', instance_id + 1)
+        instance_id = cls._INSTANCE_ID
+        instance._identity = instance_id
+        Metadata._INSTANCES[instance.identity] = instance
+        Metadata._INSTANCE_ID = instance_id + 1
 
         return instance
 
     def __init__(self, name, strict_name=None):
-        self.__identity = None
+        self._identity = None
 
-        self.__name = None
+        self._name = None
         self.name = name
-        self.__strict_name = None
+        self._strict_name = None
         self.strict_name = strict_name
 
     @property
     def family(self):
         """
-        Property for **self.__FAMILY** private attribute.
+        Property for **self._FAMILY** private attribute.
 
         Returns
         -------
         unicode
-            self.__FAMILY.
+            self._FAMILY.
         """
 
-        return getattr(self,
-                       "_{0}{1}".format(self.__class__.__name__, "__FAMILY"))
+        return self._FAMILY
 
     @family.setter
     def family(self, value):
         """
-        Setter for **self.__FAMILY** private attribute.
+        Setter for **self._FAMILY** private attribute.
 
         Parameters
         ----------
@@ -162,20 +161,20 @@ class Metadata(object):
     @property
     def identity(self):
         """
-        Property for **self.__identity** private attribute.
+        Property for **self._identity** private attribute.
 
         Returns
         -------
         unicode
-            self.__identity.
+            self._identity.
         """
 
-        return self.__identity
+        return self._identity
 
     @identity.setter
     def identity(self, value):
         """
-        Setter for **self.__identity** private attribute.
+        Setter for **self._identity** private attribute.
 
         Parameters
         ----------
@@ -189,20 +188,20 @@ class Metadata(object):
     @property
     def instances(self):
         """
-        Property for **self.__INSTANCES** private attribute.
+        Property for **self._INSTANCES** private attribute.
 
         Returns
         -------
         WeakValueDictionary
-            self.__INSTANCES.
+            self._INSTANCES.
         """
 
-        return self.__INSTANCES
+        return self._INSTANCES
 
     @instances.setter
     def instances(self, value):
         """
-        Setter for **self.__INSTANCES** private attribute.
+        Setter for **self._INSTANCES** private attribute.
 
         Parameters
         ----------
@@ -216,20 +215,20 @@ class Metadata(object):
     @property
     def name(self):
         """
-        Property for **self.__name** private attribute.
+        Property for **self._name** private attribute.
 
         Returns
         -------
         unicode
-            self.__name.
+            self._name.
         """
 
-        return self.__name
+        return self._name
 
     @name.setter
     def name(self, value):
         """
-        Setter for **self.__name** private attribute.
+        Setter for **self._name** private attribute.
 
         Parameters
         ----------
@@ -241,28 +240,28 @@ class Metadata(object):
             assert isinstance(value, basestring), (  # noqa
                 ('"{0}" attribute: "{1}" is not a '
                  '"basestring" instance!').format('name', value))
-        self.__name = value
+        self._name = value
 
     @property
     def strict_name(self):
         """
-        Property for **self.__strict_name** private attribute.
+        Property for **self._strict_name** private attribute.
 
         Returns
         -------
         unicode
-            self.__strict_name.
+            self._strict_name.
         """
 
-        if self.__strict_name is not None:
-            return self.__strict_name
+        if self._strict_name is not None:
+            return self._strict_name
         else:
-            return self.__name
+            return self._name
 
     @strict_name.setter
     def strict_name(self, value):
         """
-        Setter for **self.__strict_name** private attribute.
+        Setter for **self._strict_name** private attribute.
 
         Parameters
         ----------
@@ -274,7 +273,7 @@ class Metadata(object):
             assert isinstance(value, basestring), (  # noqa
                 ('"{0}" attribute: "{1}" is not a '
                  '"basestring" instance!').format('strict_name', value))
-        self.__strict_name = value
+        self._strict_name = value
 
     def __str__(self):
         """
@@ -303,7 +302,7 @@ class Metadata(object):
 
         text = self.family
         text += '\n    Name        : {0}\n    Strict name : {1}'.format(
-            self.__name, self.__strict_name)
+            self._name, self._strict_name)
 
         return text
 
@@ -331,7 +330,7 @@ class Metadata(object):
         """
 
         text = '{0}(\'{1}\', \'{2}\')'.format(
-            self.__class__.__name__, self.__name, self.__strict_name)
+            self.__class__.__name__, self._name, self._strict_name)
 
         return text
 
@@ -341,11 +340,11 @@ class UnitMetadata(Metadata):
     Defines the metadata class used for unit of measurement.
     """
 
-    __FAMILY = 'Unit'
+    _FAMILY = 'Unit'
     """
     Metadata class family.
 
-    __FAMILY : unicode
+    _FAMILY : unicode
     """
 
 
@@ -378,36 +377,36 @@ class CallableMetadata(Metadata):
     <function <lambda> at 0x...>
     """
 
-    __FAMILY = 'Callable'
+    _FAMILY = 'Callable'
     """
     Metadata class family.
 
-    __FAMILY : unicode
+    _FAMILY : unicode
     """
 
     def __init__(self, name, strict_name=None, callable_=None):
         super(CallableMetadata, self).__init__(name, strict_name)
 
-        self.__callable = None
+        self._callable = None
         self.callable = callable_
 
     @property
     def callable(self):
         """
-        Property for **self.__callable** private attribute.
+        Property for **self._callable** private attribute.
 
         Returns
         -------
         UnitMetadata
-            self.__callable.
+            self._callable.
         """
 
-        return self.__callable
+        return self._callable
 
     @callable.setter
     def callable(self, value):
         """
-        Setter for **self.__callable** private attribute.
+        Setter for **self._callable** private attribute.
 
         Parameters
         ----------
@@ -420,7 +419,7 @@ class CallableMetadata(Metadata):
                 '"{0}" attribute: "{1}" is not a "callable"!'.format(
                     'callable', value))
 
-        self.__callable = value
+        self._callable = value
 
 
 class FunctionMetadata(CallableMetadata):
@@ -466,11 +465,11 @@ class FunctionMetadata(CallableMetadata):
 UnitMetadata('Lightness', '$L^\star$'), 'CIE 1976', '$CIE 1976$')
     """
 
-    __FAMILY = 'Function'
+    _FAMILY = 'Function'
     """
     Metadata class family.
 
-    __FAMILY : unicode
+    _FAMILY : unicode
     """
 
     def __init__(self,
@@ -480,13 +479,13 @@ UnitMetadata('Lightness', '$L^\star$'), 'CIE 1976', '$CIE 1976$')
                  strict_method=None,
                  callable_=None):
 
-        self.__input_unit = None
+        self._input_unit = None
         self.input_unit = input_unit
-        self.__output_unit = None
+        self._output_unit = None
         self.output_unit = output_unit
-        self.__method = None
+        self._method = None
         self.method = method
-        self.__strict_method = None
+        self._strict_method = None
         self.strict_method = strict_method
 
         name = '{0} to {1} - {2}'.format(
@@ -499,20 +498,20 @@ UnitMetadata('Lightness', '$L^\star$'), 'CIE 1976', '$CIE 1976$')
     @property
     def input_unit(self):
         """
-        Property for **self.__input_unit** private attribute.
+        Property for **self._input_unit** private attribute.
 
         Returns
         -------
         UnitMetadata
-            self.__input_unit.
+            self._input_unit.
         """
 
-        return self.__input_unit
+        return self._input_unit
 
     @input_unit.setter
     def input_unit(self, value):
         """
-        Setter for **self.__input_unit** private attribute.
+        Setter for **self._input_unit** private attribute.
 
         Parameters
         ----------
@@ -525,25 +524,25 @@ UnitMetadata('Lightness', '$L^\star$'), 'CIE 1976', '$CIE 1976$')
                 ('"{0}" attribute: "{1}" is not a '
                  '"UnitMetadata" instance!').format('input_unit', value))
 
-        self.__input_unit = value
+        self._input_unit = value
 
     @property
     def output_unit(self):
         """
-        Property for **self.__output_unit** private attribute.
+        Property for **self._output_unit** private attribute.
 
         Returns
         -------
         UnitMetadata
-            self.__output_unit.
+            self._output_unit.
         """
 
-        return self.__output_unit
+        return self._output_unit
 
     @output_unit.setter
     def output_unit(self, value):
         """
-        Setter for **self.__output_unit** private attribute.
+        Setter for **self._output_unit** private attribute.
 
         Parameters
         ----------
@@ -556,25 +555,25 @@ UnitMetadata('Lightness', '$L^\star$'), 'CIE 1976', '$CIE 1976$')
                 ('"{0}" attribute: "{1}" is not a '
                  '"UnitMetadata" instance!').format('output_unit', value))
 
-        self.__output_unit = value
+        self._output_unit = value
 
     @property
     def method(self):
         """
-        Property for **self.__method** private attribute.
+        Property for **self._method** private attribute.
 
         Returns
         -------
         unicode
-            self.__method.
+            self._method.
         """
 
-        return self.__method
+        return self._method
 
     @method.setter
     def method(self, value):
         """
-        Setter for **self.__method** private attribute.
+        Setter for **self._method** private attribute.
 
         Parameters
         ----------
@@ -586,28 +585,28 @@ UnitMetadata('Lightness', '$L^\star$'), 'CIE 1976', '$CIE 1976$')
             assert isinstance(value, basestring), (  # noqa
                 ('"{0}" attribute: "{1}" is not a '
                  '"basestring" instance!').format('method', value))
-        self.__method = value
+        self._method = value
 
     @property
     def strict_method(self):
         """
-        Property for **self.__strict_method** private attribute.
+        Property for **self._strict_method** private attribute.
 
         Returns
         -------
         unicode
-            self.__strict_method.
+            self._strict_method.
         """
 
-        if self.__strict_method is not None:
-            return self.__strict_method
+        if self._strict_method is not None:
+            return self._strict_method
         else:
-            return self.__method
+            return self._method
 
     @strict_method.setter
     def strict_method(self, value):
         """
-        Setter for **self.__strict_method** private attribute.
+        Setter for **self._strict_method** private attribute.
 
         Parameters
         ----------
@@ -619,7 +618,7 @@ UnitMetadata('Lightness', '$L^\star$'), 'CIE 1976', '$CIE 1976$')
             assert isinstance(value, basestring), (  # noqa
                 ('"{0}" attribute: "{1}" is not a '
                  '"basestring" instance!').format('strict_method', value))
-        self.__strict_method = value
+        self._strict_method = value
 
     def __str__(self):
         """
@@ -662,11 +661,11 @@ UnitMetadata('Lightness', '$L^\star$'), 'CIE 1976', '$CIE 1976$')
         text += '\n    Name          : {0}'.format(self.name)
         text += '\n    Strict name   : {0}'.format(self.strict_name)
         text += '\n    '
-        text += str(self.__input_unit).replace('\n', '\n    ')
+        text += str(self._input_unit).replace('\n', '\n    ')
         text += '\n    '
-        text += str(self.__output_unit).replace('\n', '\n    ')
-        text += '\n    Method        : {0}'.format(self.__method)
-        text += '\n    Strict method : {0}'.format(self.__strict_method)
+        text += str(self._output_unit).replace('\n', '\n    ')
+        text += '\n    Method        : {0}'.format(self._method)
+        text += '\n    Strict method : {0}'.format(self._strict_method)
 
         return text
 
@@ -700,8 +699,8 @@ UnitMetadata('Lightness', '$L^\star$'), 'CIE 1976', '$CIE 1976$')
 
         text = '{0}({1}, {2}, \'{3}\', \'{4}\')'.format(
             self.__class__.__name__,
-            repr(self.__input_unit),
-            repr(self.__output_unit),
+            repr(self._input_unit),
+            repr(self._output_unit),
             self.method,
             self.strict_method)
 
