@@ -370,7 +370,7 @@ autoclass_content = 'both'
 intersphinx_mapping = {'python': ('https://docs.python.org/3.5', None)}
 
 
-# def __autodoc_process_docstring(app,
+# def _autodoc_process_docstring(app,
 #                                 what,
 #                                 name,
 #                                 obj,
@@ -404,7 +404,7 @@ intersphinx_mapping = {'python': ('https://docs.python.org/3.5', None)}
 #     offset[0] += len(references)
 
 
-def __autodoc_process_docstring(app,
+def _autodoc_process_docstring(app,
                                 what,
                                 name,
                                 obj,
@@ -418,4 +418,4 @@ def __autodoc_process_docstring(app,
 
 
 def setup(app):
-    app.connect('autodoc-process-docstring', __autodoc_process_docstring)
+    app.connect('autodoc-process-docstring', _autodoc_process_docstring)

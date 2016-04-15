@@ -53,7 +53,7 @@ closest_spectral_locus_wavelength` definition units tests methods.
         Initialises common tests attributes.
         """
 
-        self.__xy_s = XYZ_to_xy(CIE_2_1931_CMFS.values)
+        self._xy_s = XYZ_to_xy(CIE_2_1931_CMFS.values)
 
     def test_closest_spectral_locus_wavelength(self):
         """
@@ -63,14 +63,14 @@ closest_spectral_locus_wavelength` definition.
 
         xy = np.array([0.26415, 0.37770])
         xy_n = D65
-        i_wl, xy_wl = closest_spectral_locus_wavelength(xy, xy_n, self.__xy_s)
+        i_wl, xy_wl = closest_spectral_locus_wavelength(xy, xy_n, self._xy_s)
 
         self.assertEqual(i_wl, 144)
         np.testing.assert_almost_equal(
             xy_wl, np.array([0.0036953, 0.6387983]), decimal=7)
 
         xy = np.array([0.35000, 0.25000])
-        i_wl, xy_wl = closest_spectral_locus_wavelength(xy, xy_n, self.__xy_s)
+        i_wl, xy_wl = closest_spectral_locus_wavelength(xy, xy_n, self._xy_s)
 
         self.assertEqual(i_wl, 0)
         np.testing.assert_almost_equal(
@@ -84,7 +84,7 @@ closest_spectral_locus_wavelength` definition n-dimensional arrays support.
 
         xy = np.array([0.26415, 0.37770])
         xy_n = D65
-        i_wl, xy_wl = closest_spectral_locus_wavelength(xy, xy_n, self.__xy_s)
+        i_wl, xy_wl = closest_spectral_locus_wavelength(xy, xy_n, self._xy_s)
         i_wl_r, xy_wl_r = 144, np.array([0.0036953, 0.6387983])
         np.testing.assert_almost_equal(
             i_wl, i_wl_r, decimal=7)
@@ -92,7 +92,7 @@ closest_spectral_locus_wavelength` definition n-dimensional arrays support.
 
         xy = np.tile(xy, (6, 1))
         xy_n = np.tile(xy_n, (6, 1))
-        i_wl, xy_wl = closest_spectral_locus_wavelength(xy, xy_n, self.__xy_s)
+        i_wl, xy_wl = closest_spectral_locus_wavelength(xy, xy_n, self._xy_s)
         i_wl_r = np.tile(i_wl_r, 6)
         xy_wl_r = np.tile(xy_wl_r, (6, 1))
         np.testing.assert_almost_equal(
@@ -101,7 +101,7 @@ closest_spectral_locus_wavelength` definition n-dimensional arrays support.
 
         xy = np.reshape(xy, (2, 3, 2))
         xy_n = np.reshape(xy_n, (2, 3, 2))
-        i_wl, xy_wl = closest_spectral_locus_wavelength(xy, xy_n, self.__xy_s)
+        i_wl, xy_wl = closest_spectral_locus_wavelength(xy, xy_n, self._xy_s)
         i_wl_r = np.reshape(i_wl_r, (2, 3))
         xy_wl_r = np.reshape(xy_wl_r, (2, 3, 2))
         np.testing.assert_almost_equal(
@@ -119,7 +119,7 @@ closest_spectral_locus_wavelength` definition n-dimensional arrays support.
         cases = set(permutations(cases * 3, r=2))
         for case in cases:
             try:
-                closest_spectral_locus_wavelength(case, case, self.__xy_s)
+                closest_spectral_locus_wavelength(case, case, self._xy_s)
             except ValueError:
                 pass
 

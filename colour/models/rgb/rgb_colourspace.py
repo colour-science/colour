@@ -91,40 +91,40 @@ class RGB_Colourspace(object):
                  XYZ_to_RGB_matrix=None,
                  OECF=None,
                  EOCF=None):
-        self.__name = None
+        self._name = None
         self.name = name
-        self.__primaries = None
+        self._primaries = None
         self.primaries = primaries
-        self.__whitepoint = None
+        self._whitepoint = None
         self.whitepoint = whitepoint
-        self.__illuminant = None
+        self._illuminant = None
         self.illuminant = illuminant
-        self.__RGB_to_XYZ_matrix = None
+        self._RGB_to_XYZ_matrix = None
         self.RGB_to_XYZ_matrix = RGB_to_XYZ_matrix
-        self.__XYZ_to_RGB_matrix = None
+        self._XYZ_to_RGB_matrix = None
         self.XYZ_to_RGB_matrix = XYZ_to_RGB_matrix
-        self.__OECF = None
+        self._OECF = None
         self.OECF = OECF
-        self.__EOCF = None
+        self._EOCF = None
         self.EOCF = EOCF
 
     @property
     def name(self):
         """
-        Property for **self.__name** private attribute.
+        Property for **self._name** private attribute.
 
         Returns
         -------
         unicode
-            self.__name.
+            self._name.
         """
 
-        return self.__name
+        return self._name
 
     @name.setter
     def name(self, value):
         """
-        Setter for **self.__name** private attribute.
+        Setter for **self._name** private attribute.
 
         Parameters
         ----------
@@ -136,25 +136,25 @@ class RGB_Colourspace(object):
             assert isinstance(value, basestring), (  # noqa
                 ('"{0}" attribute: "{1}" is not a '
                  '"basestring" instance!').format('name', value))
-        self.__name = value
+        self._name = value
 
     @property
     def primaries(self):
         """
-        Property for **self.__primaries** private attribute.
+        Property for **self._primaries** private attribute.
 
         Returns
         -------
         array_like, (3, 2)
-            self.__primaries.
+            self._primaries.
         """
 
-        return self.__primaries
+        return self._primaries
 
     @primaries.setter
     def primaries(self, value):
         """
-        Setter for **self.__primaries** private attribute.
+        Setter for **self._primaries** private attribute.
 
         Parameters
         ----------
@@ -164,25 +164,25 @@ class RGB_Colourspace(object):
 
         if value is not None:
             value = np.asarray(value)
-        self.__primaries = value
+        self._primaries = value
 
     @property
     def whitepoint(self):
         """
-        Property for **self.__whitepoint** private attribute.
+        Property for **self._whitepoint** private attribute.
 
         Returns
         -------
         array_like
-            self.__whitepoint.
+            self._whitepoint.
         """
 
-        return self.__whitepoint
+        return self._whitepoint
 
     @whitepoint.setter
     def whitepoint(self, value):
         """
-        Setter for **self.__whitepoint** private attribute.
+        Setter for **self._whitepoint** private attribute.
 
         Parameters
         ----------
@@ -194,25 +194,25 @@ class RGB_Colourspace(object):
             assert isinstance(value, (tuple, list, np.ndarray, np.matrix)), (
                 ('"{0}" attribute: "{1}" is not a "tuple", "list", "ndarray" '
                  'or "matrix" instance!').format('whitepoint', value))
-        self.__whitepoint = value
+        self._whitepoint = value
 
     @property
     def illuminant(self):
         """
-        Property for **self.__illuminant** private attribute.
+        Property for **self._illuminant** private attribute.
 
         Returns
         -------
         unicode
-            self.__illuminant.
+            self._illuminant.
         """
 
-        return self.__illuminant
+        return self._illuminant
 
     @illuminant.setter
     def illuminant(self, value):
         """
-        Setter for **self.__illuminant** private attribute.
+        Setter for **self._illuminant** private attribute.
 
         Parameters
         ----------
@@ -224,25 +224,25 @@ class RGB_Colourspace(object):
             assert isinstance(value, basestring), (  # noqa
                 ('"{0}" attribute: "{1}" is not a '
                  '"basestring" instance!').format('illuminant', value))
-        self.__illuminant = value
+        self._illuminant = value
 
     @property
     def RGB_to_XYZ_matrix(self):
         """
-        Property for **self.__to_XYZ** private attribute.
+        Property for **self._to_XYZ** private attribute.
 
         Returns
         -------
         array_like, (3, 3)
-            self.__to_XYZ.
+            self._to_XYZ.
         """
 
-        return self.__RGB_to_XYZ_matrix
+        return self._RGB_to_XYZ_matrix
 
     @RGB_to_XYZ_matrix.setter
     def RGB_to_XYZ_matrix(self, value):
         """
-        Setter for **self.__to_XYZ** private attribute.
+        Setter for **self._to_XYZ** private attribute.
 
         Parameters
         ----------
@@ -252,25 +252,25 @@ class RGB_Colourspace(object):
 
         if value is not None:
             value = np.asarray(value)
-        self.__RGB_to_XYZ_matrix = value
+        self._RGB_to_XYZ_matrix = value
 
     @property
     def XYZ_to_RGB_matrix(self):
         """
-        Property for **self.__to_RGB** private attribute.
+        Property for **self._to_RGB** private attribute.
 
         Returns
         -------
         array_like, (3, 3)
-            self.__to_RGB.
+            self._to_RGB.
         """
 
-        return self.__XYZ_to_RGB_matrix
+        return self._XYZ_to_RGB_matrix
 
     @XYZ_to_RGB_matrix.setter
     def XYZ_to_RGB_matrix(self, value):
         """
-        Setter for **self.__to_RGB** private attribute.
+        Setter for **self._to_RGB** private attribute.
 
         Parameters
         ----------
@@ -280,25 +280,25 @@ class RGB_Colourspace(object):
 
         if value is not None:
             value = np.asarray(value)
-        self.__XYZ_to_RGB_matrix = value
+        self._XYZ_to_RGB_matrix = value
 
     @property
     def OECF(self):
         """
-        Property for **self.__OECF** private attribute.
+        Property for **self._OECF** private attribute.
 
         Returns
         -------
         object
-            self.__OECF.
+            self._OECF.
         """
 
-        return self.__OECF
+        return self._OECF
 
     @OECF.setter
     def OECF(self, value):
         """
-        Setter for **self.__OECF** private attribute.
+        Setter for **self._OECF** private attribute.
 
         Parameters
         ----------
@@ -310,25 +310,25 @@ class RGB_Colourspace(object):
             assert hasattr(value, '__call__'), (
                 '"{0}" attribute: "{1}" is not callable!'.format(
                     'OECF', value))
-        self.__OECF = value
+        self._OECF = value
 
     @property
     def EOCF(self):
         """
-        Property for **self.__EOCF** private attribute.
+        Property for **self._EOCF** private attribute.
 
         Returns
         -------
         object
-            self.__EOCF.
+            self._EOCF.
         """
 
-        return self.__EOCF
+        return self._EOCF
 
     @EOCF.setter
     def EOCF(self, value):
         """
-        Setter for **self.__EOCF** private attribute.
+        Setter for **self._EOCF** private attribute.
 
         Parameters
         ----------
@@ -340,7 +340,7 @@ class RGB_Colourspace(object):
             assert hasattr(value, '__call__'), (
                 '"{0}" attribute: "{1}" is not callable!'.format(
                     'EOCF', value))
-        self.__EOCF = value
+        self._EOCF = value
 
     @property
     def OETF(self):

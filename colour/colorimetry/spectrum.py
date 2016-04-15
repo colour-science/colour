@@ -183,11 +183,11 @@ class SpectralShape(object):
 
     def __init__(self, start=None, end=None, interval=None):
         # Attribute storing the spectral shape range for caching purpose.
-        self.__range = None
+        self._range = None
 
-        self.__start = None
-        self.__end = None
-        self.__interval = None
+        self._start = None
+        self._end = None
+        self._interval = None
         self.start = start
         self.end = end
         self.interval = interval
@@ -195,20 +195,20 @@ class SpectralShape(object):
     @property
     def start(self):
         """
-        Property for **self.__start** private attribute.
+        Property for **self._start** private attribute.
 
         Returns
         -------
         numeric
-            self.__start.
+            self._start.
         """
 
-        return self.__start
+        return self._start
 
     @start.setter
     def start(self, value):
         """
-        Setter for **self.__start** private attribute.
+        Setter for **self._start** private attribute.
 
         Parameters
         ----------
@@ -223,34 +223,34 @@ class SpectralShape(object):
 
             value = round(value, DEFAULT_WAVELENGTH_DECIMALS)
 
-            if self.__end is not None:
-                assert value < self.__end, (
+            if self._end is not None:
+                assert value < self._end, (
                     '"{0}" attribute value must be strictly less than '
-                    '"{1}"!'.format('start', self.__end))
+                    '"{1}"!'.format('start', self._end))
 
         # Invalidating the *range* cache.
-        if value != self.__start:
-            self.__range = None
+        if value != self._start:
+            self._range = None
 
-        self.__start = value
+        self._start = value
 
     @property
     def end(self):
         """
-        Property for **self.__end** private attribute.
+        Property for **self._end** private attribute.
 
         Returns
         -------
         numeric
-            self.__end.
+            self._end.
         """
 
-        return self.__end
+        return self._end
 
     @end.setter
     def end(self, value):
         """
-        Setter for **self.__end** private attribute.
+        Setter for **self._end** private attribute.
 
         Parameters
         ----------
@@ -265,34 +265,34 @@ class SpectralShape(object):
 
             value = round(value, DEFAULT_WAVELENGTH_DECIMALS)
 
-            if self.__start is not None:
-                assert value > self.__start, (
+            if self._start is not None:
+                assert value > self._start, (
                     '"{0}" attribute value must be strictly greater than '
-                    '"{1}"!'.format('end', self.__start))
+                    '"{1}"!'.format('end', self._start))
 
         # Invalidating the *range* cache.
-        if value != self.__end:
-            self.__range = None
+        if value != self._end:
+            self._range = None
 
-        self.__end = value
+        self._end = value
 
     @property
     def interval(self):
         """
-        Property for **self.__interval** private attribute.
+        Property for **self._interval** private attribute.
 
         Returns
         -------
         numeric
-            self.__interval.
+            self._interval.
         """
 
-        return self.__interval
+        return self._interval
 
     @interval.setter
     def interval(self, value):
         """
-        Setter for **self.__interval** private attribute.
+        Setter for **self._interval** private attribute.
 
         Parameters
         ----------
@@ -308,28 +308,28 @@ class SpectralShape(object):
             value = round(value, DEFAULT_WAVELENGTH_DECIMALS)
 
         # Invalidating the *range* cache.
-        if value != self.__interval:
-            self.__range = None
+        if value != self._interval:
+            self._range = None
 
-        self.__interval = value
+        self._interval = value
 
     @property
     def boundaries(self):
         """
-        Property for **self.__start** and **self.__end** private attributes.
+        Property for **self._start** and **self._end** private attributes.
 
         Returns
         -------
         tuple
-            self.__start, self.__end.
+            self._start, self._end.
         """
 
-        return self.__start, self.__end
+        return self._start, self._end
 
     @boundaries.setter
     def boundaries(self, value):
         """
-        Setter for **self.__boundaries** private attribute.
+        Setter for **self._boundaries** private attribute.
 
         Parameters
         ----------
@@ -360,9 +360,9 @@ class SpectralShape(object):
             Nice formatted string representation.
         """
 
-        return '({0}, {1}, {2})'.format(self.__start,
-                                        self.__end,
-                                        self.__interval)
+        return '({0}, {1}, {2})'.format(self._start,
+                                        self._end,
+                                        self._interval)
 
     def __repr__(self):
         """
@@ -374,9 +374,9 @@ class SpectralShape(object):
             Formatted string representation.
         """
 
-        return 'SpectralShape({0}, {1}, {2})'.format(self.__start,
-                                                     self.__end,
-                                                     self.__interval)
+        return 'SpectralShape({0}, {1}, {2})'.format(self._start,
+                                                     self._end,
+                                                     self._interval)
 
     def __iter__(self):
         """
@@ -561,25 +561,25 @@ class SpectralShape(object):
                  9.9,  10. ])
         """
 
-        if None in (self.__start, self.__end, self.__interval):
+        if None in (self._start, self._end, self._interval):
             raise RuntimeError(('One of the spectral shape "start", "end" or '
                                 '"interval" attributes is not defined!'))
 
-        if self.__range is None:
-            samples = round((self.__interval + self.__end - self.__start) /
-                            self.__interval)
+        if self._range is None:
+            samples = round((self._interval + self._end - self._start) /
+                            self._interval)
             range_, current_interval = np.linspace(
-                self.__start, self.__end, samples, retstep=True)
-            self.__range = np.around(range_, DEFAULT_WAVELENGTH_DECIMALS)
+                self._start, self._end, samples, retstep=True)
+            self._range = np.around(range_, DEFAULT_WAVELENGTH_DECIMALS)
 
-            if current_interval != self.__interval:
-                self.__interval = current_interval
+            if current_interval != self._interval:
+                self._interval = current_interval
                 warning(('"{0}" shape could not be honored, using '
-                         '"{1}"!').format((self.__start,
-                                           self.__end,
-                                           self.__interval),
+                         '"{1}"!').format((self._start,
+                                           self._end,
+                                           self._interval),
                                           self))
-        return self.__range
+        return self._range
 
 
 class SpectralPowerDistribution(object):
@@ -662,30 +662,30 @@ class SpectralPowerDistribution(object):
     """
 
     def __init__(self, name, data, title=None):
-        self.__name = None
+        self._name = None
         self.name = name
-        self.__data = None
+        self._data = None
         self.data = data
-        self.__title = None
+        self._title = None
         self.title = title
 
     @property
     def name(self):
         """
-        Property for **self.__name** private attribute.
+        Property for **self._name** private attribute.
 
         Returns
         -------
         unicode
-            self.__name.
+            self._name.
         """
 
-        return self.__name
+        return self._name
 
     @name.setter
     def name(self, value):
         """
-        Setter for **self.__name** private attribute.
+        Setter for **self._name** private attribute.
 
         Parameters
         ----------
@@ -697,25 +697,25 @@ class SpectralPowerDistribution(object):
             assert isinstance(value, basestring), (  # noqa
                 ('"{0}" attribute: "{1}" is not a '
                  '"basestring" instance!').format('name', value))
-        self.__name = value
+        self._name = value
 
     @property
     def data(self):
         """
-        Property for **self.__data** private attribute.
+        Property for **self._data** private attribute.
 
         Returns
         -------
         SpectralMapping
-            self.__data.
+            self._data.
         """
 
-        return self.__data
+        return self._data
 
     @data.setter
     def data(self, value):
         """
-        Setter for **self.__data** private attribute.
+        Setter for **self._data** private attribute.
 
         Parameters
         ----------
@@ -727,28 +727,28 @@ class SpectralPowerDistribution(object):
             assert isinstance(value, (dict, SpectralMapping)), (
                 '"{0}" attribute: "{1}" is not a "dict" or "SpectralMapping" '
                 'instance!'.format('data', value))
-        self.__data = SpectralMapping(value)
+        self._data = SpectralMapping(value)
 
     @property
     def title(self):
         """
-        Property for **self.__title** private attribute.
+        Property for **self._title** private attribute.
 
         Returns
         -------
         unicode
-            self.__title.
+            self._title.
         """
 
-        if self.__title is not None:
-            return self.__title
+        if self._title is not None:
+            return self._title
         else:
-            return self.__name
+            return self._name
 
     @title.setter
     def title(self, value):
         """
-        Setter for **self.__title** private attribute.
+        Setter for **self._title** private attribute.
 
         Parameters
         ----------
@@ -760,7 +760,7 @@ class SpectralPowerDistribution(object):
             assert isinstance(value, basestring), (  # noqa
                 ('"{0}" attribute: "{1}" is not a '
                  '"basestring" instance!').format('title', value))
-        self.__title = value
+        self._title = value
 
     @property
     def wavelengths(self):
@@ -777,7 +777,7 @@ class SpectralPowerDistribution(object):
         :attr:`SpectralPowerDistribution.wavelengths` is read only.
         """
 
-        return np.array(sorted(self.__data.keys()))
+        return np.array(sorted(self._data.keys()))
 
     @wavelengths.setter
     def wavelengths(self, value):
@@ -941,7 +941,7 @@ class SpectralPowerDistribution(object):
         """
 
         return '{0}(\'{1}\', {2})'.format(self.__class__.__name__,
-                                          self.__name,
+                                          self._name,
                                           str(self.shape))
 
     def __repr__(self):
@@ -973,7 +973,7 @@ class SpectralPowerDistribution(object):
 
         return '{0}(\n    \'{1}\',\n    {2})'.format(
             self.__class__.__name__,
-            self.__name,
+            self._name,
             pprint.pformat(dict(self.data)).replace('\n', '\n    '))
 
     def __hash__(self):
@@ -1002,7 +1002,7 @@ class SpectralPowerDistribution(object):
                 08, 2014, from http://stackoverflow.com/a/16162138/931625
         """
 
-        return hash(frozenset(self.__data))
+        return hash(frozenset(self._data))
 
     def __getitem__(self, wavelength):
         """
@@ -1096,7 +1096,7 @@ class SpectralPowerDistribution(object):
 
         values = np.resize(value, wavelengths.shape)
         for i in range(len(wavelengths)):
-            self.__data.__setitem__(wavelengths[i], values[i])
+            self._data.__setitem__(wavelengths[i], values[i])
 
     def __iter__(self):
         """
@@ -1124,7 +1124,7 @@ class SpectralPowerDistribution(object):
         (540, 88.1...)
         """
 
-        return iter(sorted(self.__data.items()))
+        return iter(sorted(self._data.items()))
 
     def __contains__(self, wavelength):
         """
@@ -1188,7 +1188,7 @@ class SpectralPowerDistribution(object):
         4
         """
 
-        return len(self.__data)
+        return len(self._data)
 
     def __eq__(self, spd):
         """
@@ -1258,43 +1258,6 @@ class SpectralPowerDistribution(object):
 
         return not (self == spd)
 
-    def __arithmetical_operation(self, x, operation, in_place=False):
-        """
-        Performs given arithmetical operation on :math:`x` variable, the
-        operation can be either performed on a spectral power distribution
-        clone or in-place.
-
-        Parameters
-        ----------
-        x : numeric or ndarray or SpectralPowerDistribution
-            Operand.
-        operation : object
-            Operation to perform.
-        in_place : bool, optional
-            Operation happens in place.
-
-        Returns
-        -------
-        SpectralPowerDistribution
-            Spectral power distribution.
-        """
-
-        if issubclass(type(x), SpectralPowerDistribution):
-            x = x.values
-        elif is_iterable(x):
-            x = np.atleast_1d(x)
-
-        data = SpectralMapping(
-            zip(self.wavelengths, operation(self.values, x)))
-
-        if in_place:
-            self.__data = data
-            return self
-        else:
-            clone = self.clone()
-            clone.data = data
-            return clone
-
     def __add__(self, x):
         """
         Implements support for spectral power distribution addition.
@@ -1341,7 +1304,7 @@ class SpectralPowerDistribution(object):
         array([ 110.34,  151.18,  176.46,  190.38])
         """
 
-        return self.__arithmetical_operation(x, operator.add)
+        return self._arithmetical_operation(x, operator.add)
 
     def __iadd__(self, x):
         """
@@ -1370,7 +1333,7 @@ class SpectralPowerDistribution(object):
         -   Reimplements the :meth:`object.__iadd__` method.
         """
 
-        return self.__arithmetical_operation(x, operator.add, True)
+        return self._arithmetical_operation(x, operator.add, True)
 
     def __sub__(self, x):
         """
@@ -1418,7 +1381,7 @@ class SpectralPowerDistribution(object):
         array([-11., -12., -13., -14.])
         """
 
-        return self.__arithmetical_operation(x, operator.sub)
+        return self._arithmetical_operation(x, operator.sub)
 
     def __isub__(self, x):
         """
@@ -1448,7 +1411,7 @@ class SpectralPowerDistribution(object):
         -   Reimplements the :meth:`object.__isub__` method.
         """
 
-        return self.__arithmetical_operation(x, operator.sub, True)
+        return self._arithmetical_operation(x, operator.sub, True)
 
     def __mul__(self, x):
         """
@@ -1496,7 +1459,7 @@ class SpectralPowerDistribution(object):
         array([  24671.089,   96855.362,  200393.787,  311099.044])
         """
 
-        return self.__arithmetical_operation(x, operator.mul)
+        return self._arithmetical_operation(x, operator.mul)
 
     def __imul__(self, x):
         """
@@ -1526,7 +1489,7 @@ class SpectralPowerDistribution(object):
         -   Reimplements the :meth:`object.__imul__` method.
         """
 
-        return self.__arithmetical_operation(x, operator.mul, True)
+        return self._arithmetical_operation(x, operator.mul, True)
 
     def __div__(self, x):
         """
@@ -1574,7 +1537,7 @@ class SpectralPowerDistribution(object):
         array([ 0.1       ,  0.05      ,  0.0333333...,  0.025     ])
         """
 
-        return self.__arithmetical_operation(x, operator.truediv)
+        return self._arithmetical_operation(x, operator.truediv)
 
     def __idiv__(self, x):
         """
@@ -1603,7 +1566,7 @@ class SpectralPowerDistribution(object):
         -   Reimplements the :meth:`object.__idiv_` method.
         """
 
-        return self.__arithmetical_operation(x, operator.truediv, True)
+        return self._arithmetical_operation(x, operator.truediv, True)
 
     # Python 3 compatibility.
     __itruediv__ = __idiv__
@@ -1657,7 +1620,7 @@ class SpectralPowerDistribution(object):
                  7.1880990...e+20])
         """
 
-        return self.__arithmetical_operation(x, operator.pow)
+        return self._arithmetical_operation(x, operator.pow)
 
     def __ipow__(self, x):
         """
@@ -1687,7 +1650,44 @@ class SpectralPowerDistribution(object):
         -   Reimplements the :meth:`object.__ipow__` method.
         """
 
-        return self.__arithmetical_operation(x, operator.pow, True)
+        return self._arithmetical_operation(x, operator.pow, True)
+
+    def _arithmetical_operation(self, x, operation, in_place=False):
+        """
+        Performs given arithmetical operation on :math:`x` variable, the
+        operation can be either performed on a spectral power distribution
+        clone or in-place.
+
+        Parameters
+        ----------
+        x : numeric or ndarray or SpectralPowerDistribution
+            Operand.
+        operation : object
+            Operation to perform.
+        in_place : bool, optional
+            Operation happens in place.
+
+        Returns
+        -------
+        SpectralPowerDistribution
+            Spectral power distribution.
+        """
+
+        if issubclass(type(x), SpectralPowerDistribution):
+            x = x.values
+        elif is_iterable(x):
+            x = np.atleast_1d(x)
+
+        data = SpectralMapping(
+            zip(self.wavelengths, operation(self.values, x)))
+
+        if in_place:
+            self._data = data
+            return self
+        else:
+            clone = self.clone()
+            clone.data = data
+            return clone
 
     def get(self, wavelength, default=np.nan):
         """
@@ -1972,7 +1972,7 @@ class SpectralPowerDistribution(object):
                 'Undefined "{0}" interpolator!'.format(method))
 
         interpolator = interpolator(wavelengths, values)
-        self.__data = SpectralMapping(
+        self._data = SpectralMapping(
             [(wavelength, float(interpolator(wavelength)))
              for wavelength in shape])
 
@@ -2158,7 +2158,7 @@ class SpectralPowerDistribution(object):
             raise RuntimeError(('"{0}" cannot be zeros filled using "{1}" '
                                 'shape!').format(self, shape))
         else:
-            self.__data = data
+            self._data = data
 
             return self
 
@@ -2220,8 +2220,8 @@ class SpectralPowerDistribution(object):
 
         clone.name = '{0} ({1})'.format(clone.name, id(clone))
 
-        if self.__title is None:
-            clone.title = self.__name
+        if self._title is None:
+            clone.title = self._name
 
         return clone
 
@@ -2322,34 +2322,34 @@ class TriSpectralPowerDistribution(object):
     """
 
     def __init__(self, name, data, mapping, title=None, labels=None):
-        self.__name = None
+        self._name = None
         self.name = name
-        self.__mapping = None
+        self._mapping = None
         self.mapping = mapping
-        self.__data = None
+        self._data = None
         self.data = data
-        self.__title = None
+        self._title = None
         self.title = title
-        self.__labels = None
+        self._labels = None
         self.labels = labels
 
     @property
     def name(self):
         """
-        Property for **self.__name** private attribute.
+        Property for **self._name** private attribute.
 
         Returns
         -------
         unicode
-            self.__name.
+            self._name.
         """
 
-        return self.__name
+        return self._name
 
     @name.setter
     def name(self, value):
         """
-        Setter for **self.__name** private attribute.
+        Setter for **self._name** private attribute.
 
         Parameters
         ----------
@@ -2361,25 +2361,25 @@ class TriSpectralPowerDistribution(object):
             assert isinstance(value, basestring), (  # noqa
                 ('"{0}" attribute: "{1}" is not a '
                  '"basestring" instance!').format('name', value))
-        self.__name = value
+        self._name = value
 
     @property
     def mapping(self):
         """
-        Property for **self.__mapping** private attribute.
+        Property for **self._mapping** private attribute.
 
         Returns
         -------
         dict
-            self.__mapping.
+            self._mapping.
         """
 
-        return self.__mapping
+        return self._mapping
 
     @mapping.setter
     def mapping(self, value):
         """
-        Setter for **self.__mapping** private attribute.
+        Setter for **self._mapping** private attribute.
 
         Parameters
         ----------
@@ -2395,25 +2395,25 @@ class TriSpectralPowerDistribution(object):
                 assert axis in value.keys(), (
                     '"{0}" attribute: "{1}" axis label is missing!'.format(
                         'mapping', axis))
-        self.__mapping = value
+        self._mapping = value
 
     @property
     def data(self):
         """
-        Property for **self.__data** private attribute.
+        Property for **self._data** private attribute.
 
         Returns
         -------
         dict
-            self.__data.
+            self._data.
         """
 
-        return self.__data
+        return self._data
 
     @data.setter
     def data(self, value):
         """
-        Setter for **self.__data** private attribute.
+        Setter for **self._data** private attribute.
 
         Parameters
         ----------
@@ -2426,55 +2426,55 @@ class TriSpectralPowerDistribution(object):
                 '"{0}" attribute: "{1}" is not a "dict" instance!'.format(
                     'data', value))
             for axis in ('x', 'y', 'z'):
-                assert self.__mapping.get(axis) in value.keys(), (
+                assert self._mapping.get(axis) in value.keys(), (
                     '"{0}" attribute: "{1}" axis is missing!'.format(
                         'data', axis))
 
             data = {}
             for axis in ('x', 'y', 'z'):
                 data[axis] = SpectralPowerDistribution(
-                    self.__mapping.get(axis),
-                    value.get(self.__mapping.get(axis)))
+                    self._mapping.get(axis),
+                    value.get(self._mapping.get(axis)))
 
             np.testing.assert_almost_equal(
                 data['x'].wavelengths,
                 data['y'].wavelengths,
                 err_msg=('"{0}" attribute: "{1}" and "{2}" wavelengths are '
                          'different!').format('data',
-                                              self.__mapping.get('x'),
-                                              self.__mapping.get('y')))
+                                              self._mapping.get('x'),
+                                              self._mapping.get('y')))
             np.testing.assert_almost_equal(
                 data['x'].wavelengths,
                 data['z'].wavelengths,
                 err_msg=('"{0}" attribute: "{1}" and "{2}" wavelengths are '
                          'different!').format('data',
-                                              self.__mapping.get('x'),
-                                              self.__mapping.get('z')))
+                                              self._mapping.get('x'),
+                                              self._mapping.get('z')))
 
-            self.__data = data
+            self._data = data
         else:
-            self.__data = None
+            self._data = None
 
     @property
     def title(self):
         """
-        Property for **self.__title** private attribute.
+        Property for **self._title** private attribute.
 
         Returns
         -------
         unicode
-            self.__title.
+            self._title.
         """
 
-        if self.__title is not None:
-            return self.__title
+        if self._title is not None:
+            return self._title
         else:
-            return self.__name
+            return self._name
 
     @title.setter
     def title(self, value):
         """
-        Setter for **self.__title** private attribute.
+        Setter for **self._title** private attribute.
 
         Parameters
         ----------
@@ -2486,28 +2486,28 @@ class TriSpectralPowerDistribution(object):
             assert isinstance(value, basestring), (  # noqa
                 ('"{0}" attribute: "{1}" is not a '
                  '"basestring" instance!').format('title', value))
-        self.__title = value
+        self._title = value
 
     @property
     def labels(self):
         """
-        Property for **self.__labels** private attribute.
+        Property for **self._labels** private attribute.
 
         Returns
         -------
         dict
-            self.__labels.
+            self._labels.
         """
 
-        if self.__labels is not None:
-            return self.__labels
+        if self._labels is not None:
+            return self._labels
         else:
-            return self.__mapping
+            return self._mapping
 
     @labels.setter
     def labels(self, value):
         """
-        Setter for **self.__labels** private attribute.
+        Setter for **self._labels** private attribute.
 
         Parameters
         ----------
@@ -2523,7 +2523,7 @@ class TriSpectralPowerDistribution(object):
                 assert axis in value.keys(), (
                     '"{0}" attribute: "{1}" axis label is missing!'.format(
                         'labels', axis))
-        self.__labels = value
+        self._labels = value
 
     @property
     def x(self):
@@ -2540,7 +2540,7 @@ class TriSpectralPowerDistribution(object):
         :attr:`TriSpectralPowerDistribution.x` is read only.
         """
 
-        return self.__data.get('x')
+        return self._data.get('x')
 
     @x.setter
     def x(self, value):
@@ -2570,7 +2570,7 @@ class TriSpectralPowerDistribution(object):
         :attr:`TriSpectralPowerDistribution.y` is read only.
         """
 
-        return self.__data.get('y')
+        return self._data.get('y')
 
     @y.setter
     def y(self, value):
@@ -2600,7 +2600,7 @@ class TriSpectralPowerDistribution(object):
         :attr:`TriSpectralPowerDistribution.z` is read only.
         """
 
-        return self.__data.get('z')
+        return self._data.get('z')
 
     @z.setter
     def z(self, value):
@@ -2785,7 +2785,7 @@ class TriSpectralPowerDistribution(object):
         """
 
         return '{0}(\'{1}\', {2})'.format(self.__class__.__name__,
-                                          self.__name,
+                                          self._name,
                                           str(self.shape))
 
     def __repr__(self):
@@ -2835,13 +2835,13 @@ class TriSpectralPowerDistribution(object):
         return '{0}(\n    \'{1}\',\n    {2},\n    {3},\n    {4},' \
                '\n    {5})'.format(
                 self.__class__.__name__,
-                self.__name,
+                self._name,
                 pprint.pformat(data).replace('\n', '\n    '),
                 pprint.pformat(self.mapping),
-                ('\'{0}\''.format(self.__title)
-                 if self.__title is not None else
-                 self.__title),
-                pprint.pformat(self.__labels))
+                ('\'{0}\''.format(self._title)
+                 if self._title is not None else
+                 self._title),
+                pprint.pformat(self._labels))
 
     def __hash__(self):
         """
@@ -2861,9 +2861,9 @@ class TriSpectralPowerDistribution(object):
         See :meth:`SpectralPowerDistribution.__hash__` method warning section.
         """
 
-        return hash((frozenset(self.__data.get('x')),
-                     frozenset(self.__data.get('y')),
-                     frozenset(self.__data.get('z'))))
+        return hash((frozenset(self._data.get('x')),
+                     frozenset(self._data.get('y')),
+                     frozenset(self._data.get('z'))))
 
     def __getitem__(self, wavelength):
         """
@@ -3125,7 +3125,7 @@ class TriSpectralPowerDistribution(object):
             return False
 
         equality = True
-        for axis in self.__mapping:
+        for axis in self._mapping:
             equality *= getattr(self, axis) == getattr(tri_spd, axis)
 
         return bool(equality)
@@ -3167,46 +3167,6 @@ class TriSpectralPowerDistribution(object):
         """
 
         return not (self == tri_spd)
-
-    def __arithmetical_operation(self, x, operation, in_place=False):
-        """
-        Performs given arithmetical operation on :math:`x` variable, the
-        operation can be either performed on a tri-spectral power distribution
-        clone or in-place.
-
-        Parameters
-        ----------
-        x : numeric or ndarray or TriSpectralPowerDistribution
-            Operand.
-        operation : object
-            Operation to perform.
-        in_place : bool, optional
-            Operation happens in place.
-
-        Returns
-        -------
-        TriSpectralPowerDistribution
-            Tri-spectral power distribution.
-        """
-
-        if issubclass(type(x), TriSpectralPowerDistribution):
-            x = x.values
-        elif is_iterable(x):
-            x = np.atleast_1d(x)
-
-        data = {}
-        values = operation(self.values, x)
-        for i, axis in enumerate(('x', 'y', 'z')):
-            data[self.__mapping[axis]] = SpectralMapping(
-                zip(self.wavelengths, values[..., i]))
-
-        if in_place:
-            self.data = data
-            return self
-        else:
-            clone = self.clone()
-            clone.data = data
-            return clone
 
     def __add__(self, x):
         """
@@ -3272,7 +3232,7 @@ class TriSpectralPowerDistribution(object):
                [ 189.47,  123.64,  126.73]])
         """
 
-        return self.__arithmetical_operation(x, operator.add)
+        return self._arithmetical_operation(x, operator.add)
 
     def __iadd__(self, x):
         """
@@ -3302,7 +3262,7 @@ class TriSpectralPowerDistribution(object):
         -   Reimplements the :meth:`object.__iadd__` method.
         """
 
-        return self.__arithmetical_operation(x, operator.add, True)
+        return self._arithmetical_operation(x, operator.add, True)
 
     def __sub__(self, x):
         """
@@ -3368,7 +3328,7 @@ class TriSpectralPowerDistribution(object):
                [-13.09, -76.74,  53.83]])
         """
 
-        return self.__arithmetical_operation(x, operator.sub)
+        return self._arithmetical_operation(x, operator.sub)
 
     def __isub__(self, x):
         """
@@ -3398,7 +3358,7 @@ class TriSpectralPowerDistribution(object):
         -   Reimplements the :meth:`object.__isub__` method.
         """
 
-        return self.__arithmetical_operation(x, operator.sub, True)
+        return self._arithmetical_operation(x, operator.sub, True)
 
     def __mul__(self, x):
         """
@@ -3464,7 +3424,7 @@ class TriSpectralPowerDistribution(object):
                [ 318471.728,  165444.44 ,  254047.92 ]])
         """
 
-        return self.__arithmetical_operation(x, operator.mul)
+        return self._arithmetical_operation(x, operator.mul)
 
     def __imul__(self, x):
         """
@@ -3494,7 +3454,7 @@ class TriSpectralPowerDistribution(object):
         -   Reimplements the :meth:`object.__imul__` method.
         """
 
-        return self.__arithmetical_operation(x, operator.mul, True)
+        return self._arithmetical_operation(x, operator.mul, True)
 
     def __div__(self, x):
         """
@@ -3560,7 +3520,7 @@ class TriSpectralPowerDistribution(object):
                [ 0.3907399...,  0.0531806...,  0.5133191...]])
         """
 
-        return self.__arithmetical_operation(x, operator.truediv)
+        return self._arithmetical_operation(x, operator.truediv)
 
     def __idiv__(self, x):
         """
@@ -3590,7 +3550,7 @@ class TriSpectralPowerDistribution(object):
         -   Reimplements the :meth:`object.__idiv_` method.
         """
 
-        return self.__arithmetical_operation(x, operator.truediv, True)
+        return self._arithmetical_operation(x, operator.truediv, True)
 
     # Python 3 compatibility.
     __itruediv__ = __idiv__
@@ -3661,7 +3621,7 @@ class TriSpectralPowerDistribution(object):
                [  1.2775271...,   2.6452177...,   3.2583647...]])
         """
 
-        return self.__arithmetical_operation(x, operator.pow)
+        return self._arithmetical_operation(x, operator.pow)
 
     def __ipow__(self, x):
         """
@@ -3691,7 +3651,47 @@ class TriSpectralPowerDistribution(object):
         -   Reimplements the :meth:`object.__ipow__` method.
         """
 
-        return self.__arithmetical_operation(x, operator.pow, True)
+        return self._arithmetical_operation(x, operator.pow, True)
+
+    def _arithmetical_operation(self, x, operation, in_place=False):
+        """
+        Performs given arithmetical operation on :math:`x` variable, the
+        operation can be either performed on a tri-spectral power distribution
+        clone or in-place.
+
+        Parameters
+        ----------
+        x : numeric or ndarray or TriSpectralPowerDistribution
+            Operand.
+        operation : object
+            Operation to perform.
+        in_place : bool, optional
+            Operation happens in place.
+
+        Returns
+        -------
+        TriSpectralPowerDistribution
+            Tri-spectral power distribution.
+        """
+
+        if issubclass(type(x), TriSpectralPowerDistribution):
+            x = x.values
+        elif is_iterable(x):
+            x = np.atleast_1d(x)
+
+        data = {}
+        values = operation(self.values, x)
+        for i, axis in enumerate(('x', 'y', 'z')):
+            data[self._mapping[axis]] = SpectralMapping(
+                zip(self.wavelengths, values[..., i]))
+
+        if in_place:
+            self.data = data
+            return self
+        else:
+            clone = self.clone()
+            clone.data = data
+            return clone
 
     def get(self, wavelength, default=np.nan):
         """
@@ -3778,7 +3778,7 @@ class TriSpectralPowerDistribution(object):
         False
         """
 
-        for i in self.__mapping.keys():
+        for i in self._mapping.keys():
             if not getattr(self, i).is_uniform():
                 return False
         return True
@@ -3830,7 +3830,7 @@ class TriSpectralPowerDistribution(object):
         array([ 88.19,  23.45,  90.28])
         """
 
-        for i in self.__mapping.keys():
+        for i in self._mapping.keys():
             getattr(self, i).extrapolate(shape, method, left, right)
 
         return self
@@ -3937,7 +3937,7 @@ class TriSpectralPowerDistribution(object):
         array([ 60.7204982...,  89.6971406...,  15.6271845...])
         """
 
-        for i in self.__mapping.keys():
+        for i in self._mapping.keys():
             getattr(self, i).interpolate(shape, method)
 
         return self
@@ -4076,7 +4076,7 @@ class TriSpectralPowerDistribution(object):
                [ 90.28     ...,  10.11     ...,  98.24     ...]])
         """
 
-        for i in self.__mapping.keys():
+        for i in self._mapping.keys():
             getattr(self, i).align(shape,
                                    interpolation_method,
                                    extrapolation_method,
@@ -4132,7 +4132,7 @@ class TriSpectralPowerDistribution(object):
         array([ 520.,  530.,  540.,  550.])
         """
 
-        for i in self.__mapping.keys():
+        for i in self._mapping.keys():
             getattr(self, i).trim_wavelengths(shape)
 
         return self
@@ -4244,7 +4244,7 @@ class TriSpectralPowerDistribution(object):
                [  0.  ,   0.  ,   0.  ]])
         """
 
-        for i in self.__mapping.keys():
+        for i in self._mapping.keys():
             getattr(self, i).zeros(shape)
 
         return self
@@ -4306,7 +4306,7 @@ class TriSpectralPowerDistribution(object):
         """
 
         maximum = np.max(self.values)
-        for i in self.__mapping.keys():
+        for i in self._mapping.keys():
             operator.imul(getattr(self, i), (1 / maximum) * factor)
 
         return self
@@ -4362,8 +4362,8 @@ class TriSpectralPowerDistribution(object):
 
         clone.name = '{0} ({1})'.format(clone.name, id(clone))
 
-        if self.__title is None:
-            clone.title = self.__name
+        if self._title is None:
+            clone.title = self._name
 
         return clone
 

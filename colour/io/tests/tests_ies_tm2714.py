@@ -169,14 +169,14 @@ class TestIES_TM2714_Spd(unittest.TestCase):
         Initialises common tests attributes.
         """
 
-        self.__temporary_directory = tempfile.mkdtemp()
+        self._temporary_directory = tempfile.mkdtemp()
 
     def tearDown(self):
         """
         After tests actions.
         """
 
-        shutil.rmtree(self.__temporary_directory)
+        shutil.rmtree(self._temporary_directory)
 
     def test_required_attributes(self):
         """
@@ -241,7 +241,7 @@ class TestIES_TM2714_Spd(unittest.TestCase):
 
         spd_r.read()
 
-        spd_r.path = os.path.join(self.__temporary_directory,
+        spd_r.path = os.path.join(self._temporary_directory,
                                   'Fluorescent.spdx')
         self.assertTrue(spd_r.write())
         spd_t = IES_TM2714_Spd(spd_r.path)

@@ -164,7 +164,7 @@ class IES_TM2714_Header(object):
                  document_creation_date=None,
                  comments=None):
 
-        self.__mapping = Structure(**{
+        self._mapping = Structure(**{
             'element': 'Header',
             'elements': (
                 IES_TM2714_ElementSpecification(
@@ -205,27 +205,27 @@ class IES_TM2714_Header(object):
                     'comments',
                     False))})
 
-        self.__manufacturer = None
+        self._manufacturer = None
         self.manufacturer = manufacturer
-        self.__catalog_number = None
+        self._catalog_number = None
         self.catalog_number = catalog_number
-        self.__description = None
+        self._description = None
         self.description = description
-        self.__document_creator = None
+        self._document_creator = None
         self.document_creator = document_creator
-        self.__unique_identifier = None
+        self._unique_identifier = None
         self.unique_identifier = unique_identifier
-        self.__measurement_equipment = None
+        self._measurement_equipment = None
         self.measurement_equipment = measurement_equipment
-        self.__laboratory = None
+        self._laboratory = None
         self.laboratory = laboratory
-        self.__report_number = None
+        self._report_number = None
         self.report_number = report_number
-        self.__report_date = None
+        self._report_date = None
         self.report_date = report_date
-        self.__document_creation_date = None
+        self._document_creation_date = None
         self.document_creation_date = document_creation_date
-        self.__comments = None
+        self._comments = None
         self.comments = comments
 
     @property
@@ -242,7 +242,7 @@ class IES_TM2714_Header(object):
         :attr:`IES_TM2714_Header.mapping` is read only.
         """
 
-        return self.__mapping
+        return self._mapping
 
     @mapping.setter
     def mapping(self, value):
@@ -261,20 +261,20 @@ class IES_TM2714_Header(object):
     @property
     def manufacturer(self):
         """
-        Property for **self.__manufacturer** private attribute.
+        Property for **self._manufacturer** private attribute.
 
         Returns
         -------
         unicode
-            self.__manufacturer.
+            self._manufacturer.
         """
 
-        return self.__manufacturer
+        return self._manufacturer
 
     @manufacturer.setter
     def manufacturer(self, value):
         """
-        Setter for **self.__manufacturer** private attribute.
+        Setter for **self._manufacturer** private attribute.
 
         Parameters
         ----------
@@ -286,25 +286,25 @@ class IES_TM2714_Header(object):
             assert isinstance(value, basestring), (  # noqa
                 ('"{0}" attribute: "{1}" is not a '
                  '"basestring" instance!').format('manufacturer', value))
-        self.__manufacturer = value
+        self._manufacturer = value
 
     @property
     def catalog_number(self):
         """
-        Property for **self.__catalog_number** private attribute.
+        Property for **self._catalog_number** private attribute.
 
         Returns
         -------
         unicode
-            self.__catalog_number.
+            self._catalog_number.
         """
 
-        return self.__catalog_number
+        return self._catalog_number
 
     @catalog_number.setter
     def catalog_number(self, value):
         """
-        Setter for **self.__catalog_number** private attribute.
+        Setter for **self._catalog_number** private attribute.
 
         Parameters
         ----------
@@ -316,25 +316,25 @@ class IES_TM2714_Header(object):
             assert isinstance(value, basestring), (  # noqa
                 ('"{0}" attribute: "{1}" is not a '
                  '"basestring" instance!').format('catalog_number', value))
-        self.__catalog_number = value
+        self._catalog_number = value
 
     @property
     def description(self):
         """
-        Property for **self.__description** private attribute.
+        Property for **self._description** private attribute.
 
         Returns
         -------
         unicode
-            self.__description.
+            self._description.
         """
 
-        return self.__description
+        return self._description
 
     @description.setter
     def description(self, value):
         """
-        Setter for **self.__description** private attribute.
+        Setter for **self._description** private attribute.
 
         Parameters
         ----------
@@ -346,25 +346,25 @@ class IES_TM2714_Header(object):
             assert isinstance(value, basestring), (  # noqa
                 ('"{0}" attribute: "{1}" is not a '
                  '"basestring" instance!').format('description', value))
-        self.__description = value
+        self._description = value
 
     @property
     def document_creator(self):
         """
-        Property for **self.__document_creator** private attribute.
+        Property for **self._document_creator** private attribute.
 
         Returns
         -------
         unicode
-            self.__document_creator.
+            self._document_creator.
         """
 
-        return self.__document_creator
+        return self._document_creator
 
     @document_creator.setter
     def document_creator(self, value):
         """
-        Setter for **self.__document_creator** private attribute.
+        Setter for **self._document_creator** private attribute.
 
         Parameters
         ----------
@@ -376,25 +376,25 @@ class IES_TM2714_Header(object):
             assert isinstance(value, basestring), (  # noqa
                 ('"{0}" attribute: "{1}" is not a '
                  '"basestring" instance!').format('document_creator', value))
-        self.__document_creator = value
+        self._document_creator = value
 
     @property
     def unique_identifier(self):
         """
-        Property for **self.__unique_identifier** private attribute.
+        Property for **self._unique_identifier** private attribute.
 
         Returns
         -------
         unicode
-            self.__unique_identifier.
+            self._unique_identifier.
         """
 
-        return self.__unique_identifier
+        return self._unique_identifier
 
     @unique_identifier.setter
     def unique_identifier(self, value):
         """
-        Setter for **self.__unique_identifier** private attribute.
+        Setter for **self._unique_identifier** private attribute.
 
         Parameters
         ----------
@@ -406,25 +406,25 @@ class IES_TM2714_Header(object):
             assert isinstance(value, basestring), (  # noqa
                 ('"{0}" attribute: "{1}" is not a '
                  '"basestring" instance!').format('unique_identifier', value))
-        self.__unique_identifier = value
+        self._unique_identifier = value
 
     @property
     def measurement_equipment(self):
         """
-        Property for **self.__measurement_equipment** private attribute.
+        Property for **self._measurement_equipment** private attribute.
 
         Returns
         -------
         unicode
-            self.__measurement_equipment.
+            self._measurement_equipment.
         """
 
-        return self.__measurement_equipment
+        return self._measurement_equipment
 
     @measurement_equipment.setter
     def measurement_equipment(self, value):
         """
-        Setter for **self.__measurement_equipment** private attribute.
+        Setter for **self._measurement_equipment** private attribute.
 
         Parameters
         ----------
@@ -437,25 +437,25 @@ class IES_TM2714_Header(object):
                 ('"{0}" attribute: "{1}" is not a '
                  '"basestring" instance!').format(
                     'measurement_equipment', value))
-        self.__measurement_equipment = value
+        self._measurement_equipment = value
 
     @property
     def laboratory(self):
         """
-        Property for **self.__laboratory** private attribute.
+        Property for **self._laboratory** private attribute.
 
         Returns
         -------
         unicode
-            self.__laboratory.
+            self._laboratory.
         """
 
-        return self.__laboratory
+        return self._laboratory
 
     @laboratory.setter
     def laboratory(self, value):
         """
-        Setter for **self.__laboratory** private attribute.
+        Setter for **self._laboratory** private attribute.
 
         Parameters
         ----------
@@ -467,25 +467,25 @@ class IES_TM2714_Header(object):
             assert isinstance(value, basestring), (  # noqa
                 ('"{0}" attribute: "{1}" is not a '
                  '"basestring" instance!').format('laboratory', value))
-        self.__laboratory = value
+        self._laboratory = value
 
     @property
     def report_number(self):
         """
-        Property for **self.__report_number** private attribute.
+        Property for **self._report_number** private attribute.
 
         Returns
         -------
         unicode
-            self.__report_number.
+            self._report_number.
         """
 
-        return self.__report_number
+        return self._report_number
 
     @report_number.setter
     def report_number(self, value):
         """
-        Setter for **self.__report_number** private attribute.
+        Setter for **self._report_number** private attribute.
 
         Parameters
         ----------
@@ -497,25 +497,25 @@ class IES_TM2714_Header(object):
             assert isinstance(value, basestring), (  # noqa
                 ('"{0}" attribute: "{1}" is not a '
                  '"basestring" instance!').format('report_number', value))
-        self.__report_number = value
+        self._report_number = value
 
     @property
     def report_date(self):
         """
-        Property for **self.__report_date** private attribute.
+        Property for **self._report_date** private attribute.
 
         Returns
         -------
         unicode
-            self.__report_date.
+            self._report_date.
         """
 
-        return self.__report_date
+        return self._report_date
 
     @report_date.setter
     def report_date(self, value):
         """
-        Setter for **self.__report_date** private attribute.
+        Setter for **self._report_date** private attribute.
 
         Parameters
         ----------
@@ -527,25 +527,25 @@ class IES_TM2714_Header(object):
             assert isinstance(value, basestring), (  # noqa
                 ('"{0}" attribute: "{1}" is not a '
                  '"basestring" instance!').format('report_date', value))
-        self.__report_date = value
+        self._report_date = value
 
     @property
     def document_creation_date(self):
         """
-        Property for **self.__document_creation_date** private attribute.
+        Property for **self._document_creation_date** private attribute.
 
         Returns
         -------
         unicode
-            self.__document_creation_date.
+            self._document_creation_date.
         """
 
-        return self.__document_creation_date
+        return self._document_creation_date
 
     @document_creation_date.setter
     def document_creation_date(self, value):
         """
-        Setter for **self.__document_creation_date** private attribute.
+        Setter for **self._document_creation_date** private attribute.
 
         Parameters
         ----------
@@ -558,25 +558,25 @@ class IES_TM2714_Header(object):
                 ('"{0}" attribute: "{1}" is not a '
                  '"basestring" instance!').format(
                     'document_creation_date', value))
-        self.__document_creation_date = value
+        self._document_creation_date = value
 
     @property
     def comments(self):
         """
-        Property for **self.__comments** private attribute.
+        Property for **self._comments** private attribute.
 
         Returns
         -------
         unicode
-            self.__comments.
+            self._comments.
         """
 
-        return self.__comments
+        return self._comments
 
     @comments.setter
     def comments(self, value):
         """
-        Setter for **self.__comments** private attribute.
+        Setter for **self._comments** private attribute.
 
         Parameters
         ----------
@@ -588,7 +588,7 @@ class IES_TM2714_Header(object):
             assert isinstance(value, basestring), (  # noqa
                 ('"{0}" attribute: "{1}" is not a '
                  '"basestring" instance!').format('comments', value))
-        self.__comments = value
+        self._comments = value
 
 
 class IES_TM2714_Spd(SpectralPowerDistribution):
@@ -689,7 +689,7 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
 
         super(IES_TM2714_Spd, self).__init__(name=None, data={})
 
-        self.__mapping = Structure(**{
+        self._mapping = Structure(**{
             'element': 'SpectralDistribution',
             'elements': (
                 IES_TM2714_ElementSpecification(
@@ -720,19 +720,19 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
                 'wavelength',
                 required=True)})
 
-        self.__path = None
+        self._path = None
         self.path = path
-        self.__header = None
+        self._header = None
         self.header = header if header is not None else IES_TM2714_Header()
-        self.__spectral_quantity = None
+        self._spectral_quantity = None
         self.spectral_quantity = spectral_quantity
-        self.__reflection_geometry = None
+        self._reflection_geometry = None
         self.reflection_geometry = reflection_geometry
-        self.__transmission_geometry = None
+        self._transmission_geometry = None
         self.transmission_geometry = transmission_geometry
-        self.__bandwidth_FWHM = None
+        self._bandwidth_FWHM = None
         self.bandwidth_FWHM = bandwidth_FWHM
-        self.__bandwidth_corrected = None
+        self._bandwidth_corrected = None
         self.bandwidth_corrected = bandwidth_corrected
 
     @property
@@ -749,7 +749,7 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
         :attr:`IES_TM2714_Spd.mapping` is read only.
         """
 
-        return self.__mapping
+        return self._mapping
 
     @mapping.setter
     def mapping(self, value):
@@ -768,20 +768,20 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
     @property
     def path(self):
         """
-        Property for **self.__path** private attribute.
+        Property for **self._path** private attribute.
 
         Returns
         -------
         unicode
-            self.__path.
+            self._path.
         """
 
-        return self.__path
+        return self._path
 
     @path.setter
     def path(self, value):
         """
-        Setter for **self.__path** private attribute.
+        Setter for **self._path** private attribute.
 
         Parameters
         ----------
@@ -793,25 +793,25 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
             assert isinstance(value, basestring), (  # noqa
                 ('"{0}" attribute: "{1}" is not a '
                  '"basestring" instance!').format('path', value))
-        self.__path = value
+        self._path = value
 
     @property
     def header(self):
         """
-        Property for **self.__header** private attribute.
+        Property for **self._header** private attribute.
 
         Returns
         -------
         IES_TM2714_Header
-            self.__header.
+            self._header.
         """
 
-        return self.__header
+        return self._header
 
     @header.setter
     def header(self, value):
         """
-        Setter for **self.__header** private attribute.
+        Setter for **self._header** private attribute.
 
         Parameters
         ----------
@@ -823,25 +823,25 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
             assert isinstance(value, IES_TM2714_Header), (
                 ('"{0}" attribute: "{1}" is not a "IES_TM2714_Header" '
                  'instance!').format('header', value))
-        self.__header = value
+        self._header = value
 
     @property
     def spectral_quantity(self):
         """
-        Property for **self.__spectral_quantity** private attribute.
+        Property for **self._spectral_quantity** private attribute.
 
         Returns
         -------
         unicode
-            self.__spectral_quantity.
+            self._spectral_quantity.
         """
 
-        return self.__spectral_quantity
+        return self._spectral_quantity
 
     @spectral_quantity.setter
     def spectral_quantity(self, value):
         """
-        Setter for **self.__spectral_quantity** private attribute.
+        Setter for **self._spectral_quantity** private attribute.
 
         Parameters
         ----------
@@ -853,25 +853,25 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
             assert isinstance(value, basestring), (  # noqa
                 ('"{0}" attribute: "{1}" is not a '
                  '"basestring" instance!').format('spectral_quantity', value))
-        self.__spectral_quantity = value
+        self._spectral_quantity = value
 
     @property
     def reflection_geometry(self):
         """
-        Property for **self.__reflection_geometry** private attribute.
+        Property for **self._reflection_geometry** private attribute.
 
         Returns
         -------
         unicode
-            self.__reflection_geometry.
+            self._reflection_geometry.
         """
 
-        return self.__reflection_geometry
+        return self._reflection_geometry
 
     @reflection_geometry.setter
     def reflection_geometry(self, value):
         """
-        Setter for **self.__reflection_geometry** private attribute.
+        Setter for **self._reflection_geometry** private attribute.
 
         Parameters
         ----------
@@ -884,25 +884,25 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
                 ('"{0}" attribute: "{1}" is not a '
                  '"basestring" instance!').format(
                     'reflection_geometry', value))
-        self.__reflection_geometry = value
+        self._reflection_geometry = value
 
     @property
     def transmission_geometry(self):
         """
-        Property for **self.__transmission_geometry** private attribute.
+        Property for **self._transmission_geometry** private attribute.
 
         Returns
         -------
         unicode
-            self.__transmission_geometry.
+            self._transmission_geometry.
         """
 
-        return self.__transmission_geometry
+        return self._transmission_geometry
 
     @transmission_geometry.setter
     def transmission_geometry(self, value):
         """
-        Setter for **self.__transmission_geometry** private attribute.
+        Setter for **self._transmission_geometry** private attribute.
 
         Parameters
         ----------
@@ -915,25 +915,25 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
                 ('"{0}" attribute: "{1}" is not a '
                  '"basestring" instance!').format(
                     'transmission_geometry', value))
-        self.__transmission_geometry = value
+        self._transmission_geometry = value
 
     @property
     def bandwidth_FWHM(self):
         """
-        Property for **self.__bandwidth_FWHM** private attribute.
+        Property for **self._bandwidth_FWHM** private attribute.
 
         Returns
         -------
         numeric
-            self.__bandwidth_FWHM.
+            self._bandwidth_FWHM.
         """
 
-        return self.__bandwidth_FWHM
+        return self._bandwidth_FWHM
 
     @bandwidth_FWHM.setter
     def bandwidth_FWHM(self, value):
         """
-        Setter for **self.__bandwidth_FWHM** private attribute.
+        Setter for **self._bandwidth_FWHM** private attribute.
 
         Parameters
         ----------
@@ -946,25 +946,25 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
                 '"{0}" attribute: "{1}" is not a "numeric"!'.format(
                     'bandwidth_FWHM', value))
 
-        self.__bandwidth_FWHM = value
+        self._bandwidth_FWHM = value
 
     @property
     def bandwidth_corrected(self):
         """
-        Property for **self.__bandwidth_corrected** private attribute.
+        Property for **self._bandwidth_corrected** private attribute.
 
         Returns
         -------
         bool
-            self.__bandwidth_corrected.
+            self._bandwidth_corrected.
         """
 
-        return self.__bandwidth_corrected
+        return self._bandwidth_corrected
 
     @bandwidth_corrected.setter
     def bandwidth_corrected(self, value):
         """
-        Setter for **self.__bandwidth_corrected** private attribute.
+        Setter for **self._bandwidth_corrected** private attribute.
 
         Parameters
         ----------
@@ -977,7 +977,7 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
                 '"{0}" attribute: "{1}" is not a "bool" instance!'.format(
                     'bandwidth_corrected', value))
 
-        self.__bandwidth_corrected = value
+        self._bandwidth_corrected = value
 
     def read(self):
         """
@@ -1004,12 +1004,12 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
 
         formatter = './{{{0}}}{1}/{{{0}}}{2}'
 
-        tree = ElementTree.parse(self.__path)
+        tree = ElementTree.parse(self._path)
         root = tree.getroot()
 
         namespace = re.match('\{(.*)\}', root.tag).group(1)
 
-        self.name = os.path.splitext(os.path.basename(self.__path))[0]
+        self.name = os.path.splitext(os.path.basename(self._path))[0]
 
         iterator = root.iter
 
@@ -1086,7 +1086,7 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
 
         xml = minidom.parseString(ElementTree.tostring(root)).toprettyxml()
 
-        with open(self.__path, 'w') as file:
+        with open(self._path, 'w') as file:
             file.write(xml)
 
         return True

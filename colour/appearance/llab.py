@@ -28,7 +28,7 @@ References
         Technology – Evolution & Promise (pp. 136–147). Retrieved from
         http://www.researchgate.net/publication/\
 236348295_Two_Unsolved_Issues_in_Colour_Management\
-__Colour_Appearance_and_Gamut_Mapping
+_Colour_Appearance_and_Gamut_Mapping
 .. [3]  Luo, M. R., Lo, M.-C., & Kuo, W.-G. (1996). The LLAB (l:c) colour
         model. Color Research & Application, 21(6), 412–429.
         doi:10.1002/(SICI)1520-6378(199612)21:6<412::AID-COL4>3.0.CO;2-Z

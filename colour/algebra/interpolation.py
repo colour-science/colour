@@ -91,7 +91,7 @@ class LinearInterpolator(object):
         self.__y = None
         self.y = y
 
-        self.__validate_dimensions()
+        self._validate_dimensions()
 
     @property
     def x(self):
@@ -175,11 +175,11 @@ class LinearInterpolator(object):
 
         x = np.atleast_1d(x).astype(np.float_)
 
-        xi = as_numeric(self.__evaluate(x))
+        xi = as_numeric(self._evaluate(x))
 
         return xi
 
-    def __evaluate(self, x):
+    def _evaluate(self, x):
         """
         Performs the interpolating polynomial evaluation at given points.
 
@@ -194,12 +194,12 @@ class LinearInterpolator(object):
             Interpolated points values.
         """
 
-        self.__validate_dimensions()
-        self.__validate_interpolation_range(x)
+        self._validate_dimensions()
+        self._validate_interpolation_range(x)
 
         return np.interp(x, self.__x, self.__y)
 
-    def __validate_dimensions(self):
+    def _validate_dimensions(self):
         """
         Validates variables dimensions to be the same.
         """
@@ -210,7 +210,7 @@ class LinearInterpolator(object):
                  'dimensions: "{0}", "{1}"').format(len(self.__x),
                                                     len(self.__y)))
 
-    def __validate_interpolation_range(self, x):
+    def _validate_interpolation_range(self, x):
         """
         Validates given point to be in interpolation range.
         """
@@ -307,15 +307,15 @@ class SpragueInterpolator(object):
     """
 
     def __init__(self, x=None, y=None):
-        self.__xp = None
-        self.__yp = None
+        self._xp = None
+        self._yp = None
 
         self.__x = None
         self.x = x
         self.__y = None
         self.y = y
 
-        self.__validate_dimensions()
+        self._validate_dimensions()
 
     @property
     def x(self):
@@ -354,7 +354,7 @@ class SpragueInterpolator(object):
             xp3 = value[-1] + value_interval
             xp4 = value[-1] + value_interval * 2
 
-            self.__xp = np.concatenate(((xp1, xp2), value, (xp3, xp4)))
+            self._xp = np.concatenate(((xp1, xp2), value, (xp3, xp4)))
 
         self.__x = value
 
@@ -404,7 +404,7 @@ class SpragueInterpolator(object):
                 self.SPRAGUE_C_COEFFICIENTS[3],
                 np.array(value[-6:]).reshape((6, 1)))) / 209)[0]
 
-            self.__yp = np.concatenate(((yp1, yp2), value, (yp3, yp4)))
+            self._yp = np.concatenate(((yp1, yp2), value, (yp3, yp4)))
 
         self.__y = value
 
@@ -423,9 +423,9 @@ class SpragueInterpolator(object):
             Interpolated value(s).
         """
 
-        return self.__evaluate(x)
+        return self._evaluate(x)
 
-    def __evaluate(self, x):
+    def _evaluate(self, x):
         """
         Performs the interpolating polynomial evaluation at given point.
 
@@ -442,13 +442,13 @@ class SpragueInterpolator(object):
 
         x = np.asarray(x)
 
-        self.__validate_dimensions()
-        self.__validate_interpolation_range(x)
+        self._validate_dimensions()
+        self._validate_interpolation_range(x)
 
-        i = np.searchsorted(self.__xp, x) - 1
-        X = (x - self.__xp[i]) / (self.__xp[i + 1] - self.__xp[i])
+        i = np.searchsorted(self._xp, x) - 1
+        X = (x - self._xp[i]) / (self._xp[i + 1] - self._xp[i])
 
-        r = self.__yp
+        r = self._yp
 
         a0p = r[i]
         a1p = ((2 * r[i - 2] - 16 * r[i - 1] + 16 * r[i + 1] - 2 *
@@ -467,7 +467,7 @@ class SpragueInterpolator(object):
 
         return y
 
-    def __validate_dimensions(self):
+    def _validate_dimensions(self):
         """
         Validates variables dimensions to be the same.
         """
@@ -478,7 +478,7 @@ class SpragueInterpolator(object):
                  'dimensions: "{0}", "{1}"').format(len(self.__x),
                                                     len(self.__y)))
 
-    def __validate_interpolation_range(self, x):
+    def _validate_interpolation_range(self, x):
         """
         Validates given point to be in interpolation range.
         """
