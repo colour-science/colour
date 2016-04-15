@@ -15,6 +15,8 @@ Defines the objects implementing the base metadata system support:
 
 from __future__ import division, unicode_literals
 
+from weakref import WeakValueDictionary
+
 import colour  # noqa
 
 __author__ = 'Colour Developers'
@@ -54,16 +56,17 @@ class Metadata(object):
     Attributes
     ----------
     family
+    identity
     instances
     name
     strict_name
 
     Methods
     -------
-    __str__
-    __repr__
     __new__
     __init__
+    __str__
+    __repr__
 
     Examples
     --------
@@ -88,11 +91,11 @@ class Metadata(object):
     __instance_id : integer
     """
 
-    __instances = dict()
+    __instances = WeakValueDictionary()
     """
     Metadata instances.
 
-    __instances : dict
+    __instances : WeakValueDictionary
     """
 
     def __new__(cls, *args, **kwargs):
@@ -150,7 +153,7 @@ class Metadata(object):
 
         Parameters
         ----------
-        value : unicode
+        value : object
             Attribute value.
         """
 
@@ -176,7 +179,7 @@ class Metadata(object):
 
         Parameters
         ----------
-        value : unicode
+        value : object
             Attribute value.
         """
 
@@ -203,7 +206,7 @@ class Metadata(object):
 
         Parameters
         ----------
-        value : unicode
+        value : object
             Attribute value.
         """
 
@@ -315,11 +318,11 @@ class Metadata(object):
 
         See Also
         --------
-        Metadata.__repr__
+        Metadata.__str__
 
         Notes
         -----
-        -   Reimplements the :meth:`object.__str__` method.
+        -   Reimplements the :meth:`object.__repr__` method.
 
         Examples
         --------
@@ -363,6 +366,10 @@ class CallableMetadata(Metadata):
     Attributes
     ----------
     callable
+
+    Methods
+    -------
+    __init__
 
     Examples
     --------
@@ -441,6 +448,12 @@ class FunctionMetadata(CallableMetadata):
     output_unit
     method
     strict_method
+
+    Methods
+    -------
+    __init__
+    __str__
+    __repr__
 
     Examples
     --------
@@ -608,6 +621,55 @@ UnitMetadata('Lightness', '$L^\star$'), 'CIE 1976', '$CIE 1976$')
                  '"basestring" instance!').format('strict_method', value))
         self.__strict_method = value
 
+    def __str__(self):
+        """
+        Returns a pretty formatted string representation of the metadata.
+
+        Returns
+        -------
+        unicode
+            Pretty formatted string representation.
+
+        See Also
+        --------
+        FunctionMetadata.__repr__
+
+        Notes
+        -----
+        -   Reimplements the :meth:`object.__str__` method.
+
+        Examples
+        --------
+        >>> print(FunctionMetadata(
+        ... UnitMetadata('Luminance', '$Y$'),
+        ... UnitMetadata('Lightness', '$L^\star$'),
+        ... 'CIE 1976',
+        ... '$CIE 1976$'))
+        Function
+            Name          : Luminance to Lightness - CIE 1976
+            Strict name   : $Y$ to $L^\star$ - $CIE 1976$
+            Unit
+                Name        : Luminance
+                Strict name : $Y$
+            Unit
+                Name        : Lightness
+                Strict name : $L^\star$
+            Method        : CIE 1976
+            Strict method : $CIE 1976$
+        """
+
+        text = self.family
+        text += '\n    Name          : {0}'.format(self.name)
+        text += '\n    Strict name   : {0}'.format(self.strict_name)
+        text += '\n    '
+        text += str(self.__input_unit).replace('\n', '\n    ')
+        text += '\n    '
+        text += str(self.__output_unit).replace('\n', '\n    ')
+        text += '\n    Method        : {0}'.format(self.__method)
+        text += '\n    Strict method : {0}'.format(self.__strict_method)
+
+        return text
+
     def __repr__(self):
         """
         Returns a formatted string representation of the metadata.
@@ -619,11 +681,11 @@ UnitMetadata('Lightness', '$L^\star$'), 'CIE 1976', '$CIE 1976$')
 
         See Also
         --------
-        Metadata.__repr__
+        FunctionMetadata.__repr__
 
         Notes
         -----
-        -   Reimplements the :meth:`object.__str__` method.
+        -   Reimplements the :meth:`object.__repr__` method.
 
         Examples
         --------
