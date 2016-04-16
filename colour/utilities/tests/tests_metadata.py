@@ -13,7 +13,8 @@ from colour.utilities import (
     Metadata,
     UnitMetadata,
     CallableMetadata,
-    FunctionMetadata)
+    FunctionMetadata,
+    set_metadata)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -25,7 +26,8 @@ __status__ = 'Production'
 __all__ = ['TestMetadata',
            'TestUnitMetadata',
            'TestCallableMetadata',
-           'TestFunctionMetadata']
+           'TestFunctionMetadata',
+           'TestSetMetadata']
 
 
 class TestMetadata(unittest.TestCase):
@@ -208,6 +210,32 @@ Method        : CIE 1976\n    Strict method : $CIE 1976$')
                 '$CIE 1976$')),
             "FunctionMetadata(UnitMetadata('Luminance', '$Y$'), \
 UnitMetadata('Lightness', '$L^\star$'), 'CIE 1976', '$CIE 1976$')")
+
+
+class TestSetMetadata(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.metadata.set_metadata` definition units
+    tests methods.
+    """
+
+    def test_set_metadata(self):
+        """
+        Tests :func:`colour.utilities.metadata.set_metadata` definition.
+        """
+
+        @set_metadata(Metadata, 'Lambda', '$\Lambda$')
+        def f():
+            pass
+
+        self.assertTrue(hasattr(f, '__metadata__'))
+
+        m = Metadata('Gamma', '$\Gamma$')
+
+        @set_metadata(m)
+        def f():
+            pass
+
+        self.assertIs(f.__metadata__, m)
 
 
 if __name__ == '__main__':

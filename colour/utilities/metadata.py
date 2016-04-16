@@ -11,10 +11,12 @@ Defines the objects implementing the base metadata system support:
 -   :class:`UnitMetadata`
 -   :class:`CallableMetadata`
 -   :class:`FunctionMetadata`
+-   :def:`set_metadata`
 """
 
 from __future__ import division, unicode_literals
 
+import functools
 from weakref import WeakValueDictionary
 
 import colour  # noqa
@@ -29,7 +31,8 @@ __status__ = 'Production'
 __all__ = ['Metadata',
            'UnitMetadata',
            'CallableMetadata',
-           'FunctionMetadata']
+           'FunctionMetadata',
+           'set_metadata']
 
 
 class Metadata(object):
@@ -56,8 +59,8 @@ class Metadata(object):
     Attributes
     ----------
     family
-    index
     instances
+    index
     name
     strict_name
 
@@ -702,3 +705,56 @@ UnitMetadata('Lightness', '$L^\star$'), 'CIE 1976', '$CIE 1976$')
             self.strict_method)
 
         return text
+
+
+def set_metadata(metadata, *args, **kwargs):
+    """
+    Decorator setting given metadata to decorated object.
+
+    Parameters
+    ----------
+    \*args : list, optional
+        Arguments.
+    \**kwargs : dict, optional
+        Keywords arguments.
+
+    Returns
+    -------
+    object
+
+    Examples
+    --------
+    >>> @set_metadata(Metadata, 'Lambda', '$\Lambda$')
+    ... def f():
+    ...     pass
+    >>> f.__metadata__
+    Metadata('Lambda', '$\Lambda$')
+    >>> m = Metadata('Gamma', '$\Gamma$')
+    >>> @set_metadata(m)
+    ... def f():
+    ...     pass
+    >>> f.__metadata__
+    Metadata('Gamma', '$\Gamma$')
+    """
+
+    if not isinstance(metadata, Metadata):
+        metadata = metadata(*args, **kwargs)
+
+    def wrapper(function):
+        """
+        Wrapper for given function.
+        """
+
+        function.__metadata__ = metadata
+
+        @functools.wraps(function)
+        def wrapped(*args, **kwargs):
+            """
+            Wrapped function.
+            """
+
+            return function(*args, **kwargs)
+
+        return wrapped
+
+    return wrapper
