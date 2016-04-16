@@ -224,18 +224,26 @@ class TestSetMetadata(unittest.TestCase):
         """
 
         @set_metadata(Metadata, 'Lambda', '$\Lambda$')
-        def f():
+        def f1():
+            """
+            Dummy function for unit tests.
+            """
+
             pass
 
-        self.assertTrue(hasattr(f, '__metadata__'))
+        self.assertTrue(hasattr(f1, '__metadata__'))
 
         m = Metadata('Gamma', '$\Gamma$')
 
         @set_metadata(m)
-        def f():
+        def f2():
+            """
+            Dummy function for unit tests.
+            """
+
             pass
 
-        self.assertIs(f.__metadata__, m)
+        self.assertIs(f2.__metadata__, m)
 
 
 if __name__ == '__main__':
