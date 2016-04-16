@@ -34,7 +34,8 @@ MOCK_MODULES = (
     'scipy',
     'scipy.interpolate',
     'scipy.ndimage',
-    'scipy.spatial')
+    'scipy.spatial',
+    'scipy.spatial.distance')
 
 for module in MOCK_MODULES:
     sys.modules[module] = mock.Mock()
