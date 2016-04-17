@@ -12,7 +12,7 @@ import unittest
 
 from colour.colorimetry import (
     D_illuminant_relative_spd,
-    CIE_standard_illuminant_A)
+    CIE_standard_illuminant_A_function)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -24,7 +24,7 @@ __status__ = 'Production'
 __all__ = ['D60_SPD_DATA',
            'A_DATA',
            'TestD_illuminantRelativeSpd',
-           'TestCIEStandardIlluminantA']
+           'TestCIEStandardIlluminantAFunction']
 
 D60_SPD_DATA = {
     300: 0.02937075817492288549,
@@ -198,20 +198,20 @@ class TestD_illuminantRelativeSpd(unittest.TestCase):
             decimal=7)
 
 
-class TestCIEStandardIlluminantA(unittest.TestCase):
+class TestCIEStandardIlluminantAFunction(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.illuminants.CIE_standard_illuminant_A`
-    definition unit tests methods.
+    Defines :func:`colour.colorimetry.illuminants.\
+CIE_standard_illuminant_A_function` definition unit tests methods.
     """
 
-    def test_CIE_standard_illuminant_A(self):
+    def test_CIE_standard_illuminant_A_function(self):
         """
-        Tests :func:`colour.colorimetry.illuminants.CIE_standard_illuminant_A`
-        definition.
+        Tests :func:`colour.colorimetry.illuminants.\
+CIE_standard_illuminant_A_function` definition.
         """
 
         np.testing.assert_almost_equal(
-            CIE_standard_illuminant_A(np.arange(360, 830, 5)),
+            CIE_standard_illuminant_A_function(np.arange(360, 830, 5)),
             A_DATA,
             decimal=7)
 

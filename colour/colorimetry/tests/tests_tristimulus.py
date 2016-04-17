@@ -12,7 +12,7 @@ import unittest
 
 from colour.colorimetry import (
     CMFS,
-    CIE_standard_illuminant_A,
+    CIE_standard_illuminant_A_function,
     ILLUMINANTS_RELATIVE_SPDS,
     SpectralPowerDistribution,
     SpectralShape)
@@ -340,7 +340,7 @@ tristimulus_weighting_factors_ASTME202211` definition.
         cmfs = CMFS.get('CIE 1964 10 Degree Standard Observer')
         wl = cmfs.shape.range()
         A = SpectralPowerDistribution(
-            'A (360, 830, 1)', dict(zip(wl, CIE_standard_illuminant_A(wl))))
+            'A (360, 830, 1)', dict(zip(wl, CIE_standard_illuminant_A_function(wl))))
 
         twf = tristimulus_weighting_factors_ASTME202211(
             cmfs, A, SpectralShape(360, 830, 10))
@@ -511,7 +511,7 @@ class TestSpectral_to_XYZ_ASTME30815(unittest.TestCase):
         self._cmfs = CMFS.get('CIE 1931 2 Degree Standard Observer')
         wl = self._cmfs.shape.range()
         self.__A = SpectralPowerDistribution(
-            'A (360, 830, 1)', dict(zip(wl, CIE_standard_illuminant_A(wl))))
+            'A (360, 830, 1)', dict(zip(wl, CIE_standard_illuminant_A_function(wl))))
 
     def test_spectral_to_XYZ_ASTME30815_mi_1nm(self):
         """
