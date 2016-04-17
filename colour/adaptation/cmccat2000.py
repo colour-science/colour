@@ -9,8 +9,8 @@ Defines CMCCAT2000 chromatic adaptation model objects:
 
 -   :class:`CMCCAT2000_InductionFactors`
 -   :class:`CMCCAT2000_VIEWING_CONDITIONS`
--   :func:`CMCCAT2000_forward`
--   :func:`CMCCAT2000_reverse`
+-   :func:`chromatic_adaptation_forward_CMCCAT2000`
+-   :func:`chromatic_adaptation_reverse_CMCCAT2000`
 -   :func:`chromatic_adaptation_CMCCAT2000`
 
 See Also
@@ -47,8 +47,8 @@ __status__ = 'Production'
 __all__ = ['CMCCAT2000_INVERSE_CAT',
            'CMCCAT2000_InductionFactors',
            'CMCCAT2000_VIEWING_CONDITIONS',
-           'CMCCAT2000_forward',
-           'CMCCAT2000_reverse',
+           'chromatic_adaptation_forward_CMCCAT2000',
+           'chromatic_adaptation_reverse_CMCCAT2000',
            'chromatic_adaptation_CMCCAT2000']
 
 CMCCAT2000_INVERSE_CAT = np.linalg.inv(CMCCAT2000_CAT)
@@ -84,12 +84,13 @@ CMCCAT2000_VIEWING_CONDITIONS : CaseInsensitiveMapping
 """
 
 
-def CMCCAT2000_forward(XYZ,
-                       XYZ_w,
-                       XYZ_wr,
-                       L_A1,
-                       L_A2,
-                       surround=CMCCAT2000_VIEWING_CONDITIONS.get('Average')):
+def chromatic_adaptation_forward_CMCCAT2000(
+        XYZ,
+        XYZ_w,
+        XYZ_wr,
+        L_A1,
+        L_A2,
+        surround=CMCCAT2000_VIEWING_CONDITIONS.get('Average')):
     """
     Adapts given stimulus *CIE XYZ* tristimulus values from test viewing
     conditions to reference viewing conditions using CMCCAT2000 forward
@@ -133,7 +134,7 @@ def CMCCAT2000_forward(XYZ,
     >>> XYZ_wr = np.array([94.81, 100.00, 107.30])
     >>> L_A1 = 200
     >>> L_A2 = 200
-    >>> CMCCAT2000_forward(  # doctest: +ELLIPSIS
+    >>> chromatic_adaptation_forward_CMCCAT2000(  # doctest: +ELLIPSIS
     ...     XYZ, XYZ_w, XYZ_wr, L_A1, L_A2)
     array([ 19.5269832...,  23.0683396...,  24.9717522...])
     """
@@ -162,12 +163,13 @@ def CMCCAT2000_forward(XYZ,
     return XYZ_c
 
 
-def CMCCAT2000_reverse(XYZ_c,
-                       XYZ_w,
-                       XYZ_wr,
-                       L_A1,
-                       L_A2,
-                       surround=CMCCAT2000_VIEWING_CONDITIONS.get('Average')):
+def chromatic_adaptation_reverse_CMCCAT2000(
+        XYZ_c,
+        XYZ_w,
+        XYZ_wr,
+        L_A1,
+        L_A2,
+        surround=CMCCAT2000_VIEWING_CONDITIONS.get('Average')):
     """
     Adapts given stimulus corresponding colour *CIE XYZ* tristimulus values
     from reference viewing conditions to test viewing conditions using
@@ -211,7 +213,7 @@ def CMCCAT2000_reverse(XYZ_c,
     >>> XYZ_wr = np.array([94.81, 100.00, 107.30])
     >>> L_A1 = 200
     >>> L_A2 = 200
-    >>> CMCCAT2000_reverse(  # doctest: +ELLIPSIS
+    >>> chromatic_adaptation_reverse_CMCCAT2000(  # doctest: +ELLIPSIS
     ...     XYZ_c, XYZ_w, XYZ_wr, L_A1, L_A2)
     array([ 22.4839876...,  22.7419485...,   8.5393392...])
     """
@@ -252,8 +254,9 @@ def chromatic_adaptation_CMCCAT2000(
     Adapts given stimulus *CIE XYZ* tristimulus values using given viewing
     conditions.
 
-    This definition is a convenient wrapper around :func:`CMCCAT2000_forward`
-    and :func:`CMCCAT2000_reverse`.
+    This definition is a convenient wrapper around
+    :func:`chromatic_adaptation_forward_CMCCAT2000`
+    and :func:`chromatic_adaptation_reverse_CMCCAT2000`.
 
     Parameters
     ----------
@@ -314,6 +317,8 @@ def chromatic_adaptation_CMCCAT2000(
     """
 
     if method.lower() == 'forward':
-        return CMCCAT2000_forward(XYZ, XYZ_w, XYZ_wr, L_A1, L_A2, surround)
+        return chromatic_adaptation_forward_CMCCAT2000(
+            XYZ, XYZ_w, XYZ_wr, L_A1, L_A2, surround)
     else:
-        return CMCCAT2000_reverse(XYZ, XYZ_w, XYZ_wr, L_A1, L_A2, surround)
+        return chromatic_adaptation_reverse_CMCCAT2000(
+            XYZ, XYZ_w, XYZ_wr, L_A1, L_A2, surround)
