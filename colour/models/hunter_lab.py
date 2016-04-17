@@ -115,7 +115,7 @@ def XYZ_to_Hunter_Lab(
     -----
     -   Input *CIE XYZ* and reference *illuminant* tristimulus values are in
         domain [0, 100].
-    -   Output *Lightness* :math:`L^*` is in domain [0, 100].
+    -   Output *Lightness* :math:`L^*` is in range [0, 100].
 
     Examples
     --------
@@ -173,7 +173,7 @@ def Hunter_Lab_to_XYZ(
     -   Input *Lightness* :math:`L^*` is in domain [0, 100].
     -   Input *CIE XYZ* and reference *illuminant* tristimulus values are in
         domain [0, 100].
-    -   Output *CIE XYZ* tristimulus values are in domain [0, 100].
+    -   Output *CIE XYZ* tristimulus values are in range [0, 100].
 
     Examples
     --------

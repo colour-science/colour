@@ -54,7 +54,6 @@ def is_within_visible_spectrum(XYZ,
     Notes
     -----
     -   Input *CIE XYZ* tristimulus values are in domain [0, 1].
-    -   This definition requires *scipy* to be installed.
 
     Examples
     --------

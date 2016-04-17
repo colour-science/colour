@@ -248,7 +248,7 @@ def XYZ_to_LLAB(
 
     Warning
     -------
-    The output domain of that definition is non standard!
+    The output range of that definition is non standard!
 
     Notes
     -----

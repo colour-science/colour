@@ -193,13 +193,14 @@ def tristimulus_weighting_factors_ASTME202211(cmfs, illuminant, shape):
     --------
     >>> from colour import (
     ...     CMFS,
-    ...     CIE_standard_illuminant_A,
+    ...     CIE_standard_illuminant_A_function,
     ...     SpectralPowerDistribution,
     ...     SpectralShape)
     >>> cmfs = CMFS.get('CIE 1964 10 Degree Standard Observer')
     >>> wl = cmfs.shape.range()
     >>> A = SpectralPowerDistribution(
-    ...     'A (360, 830, 1)', dict(zip(wl, CIE_standard_illuminant_A(wl))))
+    ...     'A (360, 830, 1)',
+    ...     dict(zip(wl, CIE_standard_illuminant_A_function(wl))))
     >>> tristimulus_weighting_factors_ASTME202211(  # doctest: +ELLIPSIS
     ...     cmfs, A, SpectralShape(360, 830, 20))
     array([[ -2.9816934...e-04,  -3.1709762...e-05,  -1.3301218...e-03],
@@ -323,13 +324,14 @@ def adjust_tristimulus_weighting_factors_ASTME30815(W, shape_r, shape_t):
     --------
     >>> from colour import (
     ...     CMFS,
-    ...     CIE_standard_illuminant_A,
+    ...     CIE_standard_illuminant_A_function,
     ...     SpectralPowerDistribution,
     ...     SpectralShape)
     >>> cmfs = CMFS.get('CIE 1964 10 Degree Standard Observer')
     >>> wl = cmfs.shape.range()
     >>> A = SpectralPowerDistribution(
-    ...     'A (360, 830, 1)', dict(zip(wl, CIE_standard_illuminant_A(wl))))
+    ...     'A (360, 830, 1)',
+    ...     dict(zip(wl, CIE_standard_illuminant_A_function(wl))))
     >>> W = tristimulus_weighting_factors_ASTME202211(
     ...     cmfs, A, SpectralShape(360, 830, 20))
     >>> adjust_tristimulus_weighting_factors_ASTME30815(  # doctest: +ELLIPSIS
@@ -397,11 +399,11 @@ def spectral_to_XYZ_integration(
 
     Warning
     -------
-    The output domain of that definition is non standard!
+    The output range of that definition is non standard!
 
     Notes
     -----
-    -   Output *CIE XYZ* tristimulus values are in domain [0, 100].
+    -   Output *CIE XYZ* tristimulus values are in range [0, 100].
 
     References
     ----------
@@ -492,11 +494,11 @@ def spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
 
     Warning
     -------
-    The output domain of that definition is non standard!
+    The output range of that definition is non standard!
 
     Notes
     -----
-    -   Output *CIE XYZ* tristimulus values are in domain [0, 100].
+    -   Output *CIE XYZ* tristimulus values are in range [0, 100].
 
     Examples
     --------
@@ -602,11 +604,11 @@ def spectral_to_XYZ_ASTME30815(
         Considering the above, one should be mindful that using similar colour
         matching functions and illuminant names but with different spectral
         data will lead to unexpected behaviour.
-    -   The output domain of that definition is non standard!
+    -   The output range of that definition is non standard!
 
     Notes
     -----
-    -   Output *CIE XYZ* tristimulus values are in domain [0, 100].
+    -   Output *CIE XYZ* tristimulus values are in range [0, 100].
 
     Examples
     --------
@@ -741,11 +743,11 @@ def spectral_to_XYZ(
 
     Warning
     -------
-    The output domain of that definition is non standard!
+    The output range of that definition is non standard!
 
     Notes
     -----
-    -   Output *CIE XYZ* tristimulus values are in domain [0, 100].
+    -   Output *CIE XYZ* tristimulus values are in range [0, 100].
 
     Examples
     --------
@@ -826,7 +828,7 @@ def wavelength_to_XYZ(wavelength,
 
     Notes
     -----
-    -   Output *CIE XYZ* tristimulus values are in domain [0, 1].
+    -   Output *CIE XYZ* tristimulus values are in range [0, 1].
     -   If *scipy* is not unavailable the *Cubic Spline* method will fallback
         to legacy *Linear* interpolation.
     -   Sprague (1880) interpolator cannot be used for interpolating

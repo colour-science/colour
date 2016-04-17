@@ -78,7 +78,7 @@ def HEX_to_RGB(HEX):
 
     Notes
     -----
-    -   Output *RGB* colourspace array is in domain [0, 1].
+    -   Output *RGB* colourspace array is in range [0, 1].
 
     Examples
     --------

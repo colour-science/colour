@@ -111,7 +111,7 @@ def chromatic_adaptation_CIE1994(XYZ_1,
     Notes
     -----
     -   Input *CIE XYZ_1* tristimulus values are in domain [0, 100].
-    -   Output *CIE XYZ_2* tristimulus values are in domain [0, 100].
+    -   Output *CIE XYZ_2* tristimulus values are in range [0, 100].
 
     Examples
     --------

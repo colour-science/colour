@@ -67,7 +67,7 @@ def luminance_Newhall1943(V, **kwargs):
     Notes
     -----
     -   Input *Munsell* value :math:`V` is in domain [0, 10].
-    -   Output *luminance* :math:`R_Y` is in domain [0, 100].
+    -   Output *luminance* :math:`R_Y` is in range [0, 100].
 
     References
     ----------
@@ -110,7 +110,7 @@ def luminance_ASTMD153508(V, **kwargs):
     Notes
     -----
     -   Input *Munsell* value :math:`V` is in domain [0, 10].
-    -   Output *luminance* :math:`Y` is in domain [0, 100].
+    -   Output *luminance* :math:`Y` is in range [0, 100].
 
     References
     ----------
@@ -152,7 +152,7 @@ def luminance_CIE1976(Lstar, Y_n=100):
     -----
     -   Input *Lightness* :math:`L^*` and reference white *luminance*
         :math:`Y_n` are in domain [0, 100].
-    -   Output *luminance* :math:`Y` is in domain [0, 100].
+    -   Output *luminance* :math:`Y` is in range [0, 100].
 
     References
     ----------
@@ -226,7 +226,7 @@ def luminance(LV, method='CIE 1976', **kwargs):
     -----
     -   Input *LV* is in domain [0, 100] or [0, 10] and optional *luminance*
         :math:`Y_n` is in domain [0, 100].
-    -   Output *luminance* :math:`Y` is in domain [0, 100].
+    -   Output *luminance* :math:`Y` is in range [0, 100].
 
     Examples
     --------

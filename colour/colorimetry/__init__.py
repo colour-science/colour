@@ -28,7 +28,7 @@ from .correction import bandpass_correction
 from .correction import bandpass_correction_Stearns1988
 from .illuminants import (
     D_illuminant_relative_spd,
-    CIE_standard_illuminant_A)
+    CIE_standard_illuminant_A_function)
 from .lefs import (
     mesopic_luminous_efficiency_function,
     mesopic_weighting_function)
@@ -98,7 +98,7 @@ __all__ += ['BANDPASS_CORRECTION_METHODS']
 __all__ += ['bandpass_correction']
 __all__ += ['bandpass_correction_Stearns1988']
 __all__ += ['D_illuminant_relative_spd',
-            'CIE_standard_illuminant_A']
+            'CIE_standard_illuminant_A_function']
 __all__ += ['mesopic_luminous_efficiency_function',
             'mesopic_weighting_function']
 __all__ += ['LIGHTNESS_METHODS']

@@ -8,7 +8,7 @@ Illuminants
 Defines *CIE* illuminants computation related objects:
 
 -   :func:`D_illuminant_relative_spd`
--   :func:`CIE_standard_illuminant_A`
+-   :func:`CIE_standard_illuminant_A_function`
 
 See Also
 --------
@@ -35,7 +35,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['D_illuminant_relative_spd',
-           'CIE_standard_illuminant_A']
+           'CIE_standard_illuminant_A_function']
 
 
 def D_illuminant_relative_spd(xy):
@@ -88,7 +88,7 @@ def D_illuminant_relative_spd(xy):
                                      distribution)
 
 
-def CIE_standard_illuminant_A(wl):
+def CIE_standard_illuminant_A_function(wl):
     """
     *CIE Standard Illuminant A* is intended to represent typical, domestic,
     tungsten-filament lighting. Its relative spectral power distribution is
@@ -116,7 +116,7 @@ def CIE_standard_illuminant_A(wl):
     Examples
     --------
     >>> wl = np.array([560, 580, 581.5])
-    >>> CIE_standard_illuminant_A(wl)  # doctest: +ELLIPSIS
+    >>> CIE_standard_illuminant_A_function(wl)  # doctest: +ELLIPSIS
     array([ 100.        ,  114.4363383...,  115.5285063...])
     """
 

@@ -87,7 +87,6 @@ def is_within_macadam_limits(xyY, illuminant, tolerance=None):
     Notes
     -----
     -   Input *CIE xyY* colourspace array is in domain [0, 1].
-    -   This definition requires *scipy* to be installed.
 
     Examples
     --------

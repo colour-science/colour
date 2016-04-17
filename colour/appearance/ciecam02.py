@@ -335,12 +335,12 @@ def CIECAM02_to_XYZ(J,
 
     Warning
     -------
-    The output domain of that definition is non standard!
+    The output range of that definition is non standard!
 
     Notes
     -----
     -   Input *CIE XYZ_w* tristimulus values are in domain [0, 100].
-    -   Output *CIE XYZ* tristimulus values are in domain [0, 100].
+    -   Output *CIE XYZ* tristimulus values are in range [0, 100].
 
     Examples
     --------

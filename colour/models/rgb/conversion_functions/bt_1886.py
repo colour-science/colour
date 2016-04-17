@@ -36,7 +36,7 @@ __status__ = 'Production'
 __all__ = ['BT_1886_EOCF']
 
 
-def BT_1886_EOCF(V, L_W=940, L_B=64):
+def BT_1886_EOCF(V, L_B=64, L_W=940):
     """
     Defines *Recommendation ITU-R BT.1886* electro-optical transfer function
     (EOTF / EOCF).
@@ -49,10 +49,10 @@ def BT_1886_EOCF(V, L_W=940, L_B=64):
         *Recommendation ITU-R BT.709*, 10-bit digital code values :math:`D` map
         into values of :math:`V` per the following equation:
         :math:`V = (D–64)/876`
-    L_W : numeric, optional
-        Screen luminance for white.
     L_B : numeric, optional
         Screen luminance for black.
+    L_W : numeric, optional
+        Screen luminance for white.
 
     Returns
     -------

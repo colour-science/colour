@@ -301,10 +301,6 @@ def RGB_colourspace_volume_coverage_MonteCarlo(
     float
         Percentage coverage of volume.
 
-    Notes
-    -----
-    -   This definition requires *scipy* to be installed.
-
     Examples
     --------
     >>> from colour import sRGB_COLOURSPACE as sRGB
@@ -363,10 +359,6 @@ def RGB_colourspace_pointer_gamut_coverage_MonteCarlo(
     float
         Percentage coverage of Pointer's Gamut volume.
 
-    Notes
-    -----
-    -   This definition requires *scipy* to be installed.
-
     Examples
     --------
     >>> from colour import sRGB_COLOURSPACE as sRGB
@@ -411,10 +403,6 @@ def RGB_colourspace_visible_spectrum_coverage_MonteCarlo(
     -------
     float
         Percentage coverage of visible spectrum volume.
-
-    Notes
-    -----
-    -   This definition requires *scipy* to be installed.
 
     Examples
     --------

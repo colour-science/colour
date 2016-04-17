@@ -74,7 +74,7 @@ def XYZ_to_Luv(XYZ,
     -   Input *CIE XYZ* tristimulus values are in domain [0, 1].
     -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
         colourspace array are in domain [0, :math:`\infty`].
-    -   Output :math:`L^*` is in domain [0, 100].
+    -   Output :math:`L^*` is in range [0, 100].
 
     References
     ----------
@@ -129,7 +129,7 @@ def Luv_to_XYZ(Luv,
     -   Input :math:`L^*` is in domain [0, 100].
     -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
         colourspace array are in domain [0, :math:`\infty`].
-    -   Output *CIE XYZ* tristimulus values are in domain [0, 1].
+    -   Output *CIE XYZ* tristimulus values are in range [0, 1].
 
     References
     ----------
@@ -188,7 +188,7 @@ def Luv_to_uv(Luv,
     -   Input :math:`L^*` is in domain [0, 100].
     -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
         colourspace array are in domain [0, :math:`\infty`].
-    -   Output :math:`uv^p` chromaticity coordinates are in domain [0, 1].
+    -   Output :math:`uv^p` chromaticity coordinates are in range [0, 1].
 
     References
     ----------
@@ -229,7 +229,7 @@ def Luv_uv_to_xy(uv):
     Notes
     -----
     -   Input :math:`uv^p` chromaticity coordinates are in domain [0, 1].
-    -   Output *xy* is in domain [0, 1].
+    -   Output *xy* is in range [0, 1].
 
     References
     ----------
@@ -267,7 +267,7 @@ def Luv_to_LCHuv(Luv):
 
     Notes
     -----
-    -   :math:`L^*` is in domain [0, 100].
+    -   Input / output :math:`L^*` is in domain / range [0, 100].
 
     References
     ----------
@@ -307,7 +307,7 @@ def LCHuv_to_Luv(LCHuv):
 
     Notes
     -----
-    -   :math:`L^*` is in domain [0, 100].
+    -   Input / output :math:`L^*` is in domain / range [0, 100].
 
     References
     ----------

@@ -436,7 +436,7 @@ def XYZ_to_RGB(XYZ,
         colourspace array are in domain [0, :math:`\infty`].
     -   Input *illuminant_RGB* *xy* chromaticity coordinates or *CIE xyY*
         colourspace array are in domain [0, :math:`\infty`].
-    -   Output *RGB* colourspace array is in domain [0, 1].
+    -   Output *RGB* colourspace array is in range [0, 1].
 
     Examples
     --------
@@ -513,7 +513,7 @@ def RGB_to_XYZ(RGB,
         colourspace array are in domain [0, :math:`\infty`].
     -   Input *illuminant_XYZ* *xy* chromaticity coordinates or *CIE xyY*
         colourspace array are in domain [0, :math:`\infty`].
-    -   Output *CIE XYZ* tristimulus values are in domain [0, 1].
+    -   Output *CIE XYZ* tristimulus values are in range [0, 1].
 
     Examples
     --------
@@ -578,7 +578,7 @@ def RGB_to_RGB(RGB,
 
     Notes
     -----
-    -   *RGB* colourspace arrays are in domain [0, 1].
+    -   Input / output *RGB* colourspace arrays are in domain / range [0, 1].
 
     Examples
     --------

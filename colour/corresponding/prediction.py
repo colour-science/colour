@@ -53,7 +53,8 @@ __all__ = ['CorrespondingChromaticitiesPrediction',
            'corresponding_chromaticities_prediction_CMCCAT2000',
            'corresponding_chromaticities_prediction_Fairchild1990',
            'corresponding_chromaticities_prediction_VonKries',
-           'CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS']
+           'CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS',
+           'corresponding_chromaticities_prediction']
 
 
 class CorrespondingChromaticitiesPrediction(
@@ -343,3 +344,50 @@ Aliases:
 """
 CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS['vonkries'] = (
     CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS['Von Kries'])
+
+
+def corresponding_chromaticities_prediction(experiment=1,
+                                            model='Von Kries',
+                                            **kwargs):
+    """
+    Returns the corresponding chromaticities prediction for given chromatic
+    adaptation model.
+
+    Parameters
+    ----------
+    experiment : integer, optional
+        {1, 2, 3, 4, 6, 8, 9, 11, 12}
+        Breneman (1987) experiment number.
+    model : unicode, optional
+        {'Von Kries', 'CIE 1994', 'CMCCAT2000', 'Fairchild 1990'}
+        Chromatic adaptation model.
+    \**kwargs : dict, optional
+        Keywords arguments.
+
+    Returns
+    -------
+    tuple
+        Corresponding chromaticities prediction.
+
+    Examples
+    --------
+    >>> from pprint import pprint
+    >>> pr = corresponding_chromaticities_prediction(2, 'CMCCAT2000')
+    >>> pr = [(p.uvp_m, p.uvp_p) for p in pr]
+    >>> pprint(pr)  # doctest: +SKIP
+    [((0.207, 0.486), (0.20832101929657834, 0.47271680534693694)),
+     ((0.449, 0.511), (0.44592707020371486, 0.50777351504395707)),
+     ((0.263, 0.505), (0.26402624712986333, 0.4955361681706304)),
+     ((0.322, 0.545), (0.33168840090358015, 0.54315801981008516)),
+     ((0.316, 0.537), (0.32226245779851387, 0.53576245377085929)),
+     ((0.265, 0.553), (0.27107058097430181, 0.5501997842556422)),
+     ((0.221, 0.538), (0.22618269421847523, 0.52947407170848704)),
+     ((0.135, 0.532), (0.14396930475660724, 0.51909841743126817)),
+     ((0.145, 0.472), (0.14948357434418671, 0.45567605010224305)),
+     ((0.163, 0.331), (0.15631720730028753, 0.31641514460738623)),
+     ((0.176, 0.431), (0.17631993066748047, 0.41275893424542082)),
+     ((0.244, 0.349), (0.22876382018951744, 0.3499324084859976))]
+    """
+
+    return CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS.get(model)(
+        experiment, **kwargs)

@@ -16,6 +16,7 @@ Sub-Modules
    colour.colorimetry.blackbody
    colour.colorimetry.cmfs
    colour.colorimetry.correction
+   colour.colorimetry.dominant
    colour.colorimetry.illuminants
    colour.colorimetry.lefs
    colour.colorimetry.lightness
