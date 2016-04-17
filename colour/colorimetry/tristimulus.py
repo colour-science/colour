@@ -397,11 +397,11 @@ def spectral_to_XYZ_integration(
 
     Warning
     -------
-    The output domain of that definition is non standard!
+    The output range of that definition is non standard!
 
     Notes
     -----
-    -   Output *CIE XYZ* tristimulus values are in domain [0, 100].
+    -   Output *CIE XYZ* tristimulus values are in range [0, 100].
 
     References
     ----------
@@ -492,11 +492,11 @@ def spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
 
     Warning
     -------
-    The output domain of that definition is non standard!
+    The output range of that definition is non standard!
 
     Notes
     -----
-    -   Output *CIE XYZ* tristimulus values are in domain [0, 100].
+    -   Output *CIE XYZ* tristimulus values are in range [0, 100].
 
     Examples
     --------
@@ -602,11 +602,11 @@ def spectral_to_XYZ_ASTME30815(
         Considering the above, one should be mindful that using similar colour
         matching functions and illuminant names but with different spectral
         data will lead to unexpected behaviour.
-    -   The output domain of that definition is non standard!
+    -   The output range of that definition is non standard!
 
     Notes
     -----
-    -   Output *CIE XYZ* tristimulus values are in domain [0, 100].
+    -   Output *CIE XYZ* tristimulus values are in range [0, 100].
 
     Examples
     --------
@@ -741,11 +741,11 @@ def spectral_to_XYZ(
 
     Warning
     -------
-    The output domain of that definition is non standard!
+    The output range of that definition is non standard!
 
     Notes
     -----
-    -   Output *CIE XYZ* tristimulus values are in domain [0, 100].
+    -   Output *CIE XYZ* tristimulus values are in range [0, 100].
 
     Examples
     --------
@@ -826,7 +826,7 @@ def wavelength_to_XYZ(wavelength,
 
     Notes
     -----
-    -   Output *CIE XYZ* tristimulus values are in domain [0, 1].
+    -   Output *CIE XYZ* tristimulus values are in range [0, 1].
     -   If *scipy* is not unavailable the *Cubic Spline* method will fallback
         to legacy *Linear* interpolation.
     -   Sprague (1880) interpolator cannot be used for interpolating

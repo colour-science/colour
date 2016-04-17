@@ -42,10 +42,6 @@ def is_within_mesh_volume(points, mesh, tolerance=None):
     bool
         Is within mesh volume.
 
-    Notes
-    -----
-    -   This definition requires *scipy* to be installed.
-
     Examples
     --------
     >>> mesh = np.array([[-1.0, -1.0, 1.0],

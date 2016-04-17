@@ -77,7 +77,7 @@ def RGB_to_HSV(RGB):
     Notes
     -----
     -   Input *RGB* colourspace array is in domain [0, 1].
-    -   Output *HSV* colourspace array is in domain [0, 1].
+    -   Output *HSV* colourspace array is in range [0, 1].
 
     References
     ----------
@@ -134,7 +134,7 @@ def HSV_to_RGB(HSV):
     Notes
     -----
     -   Input *HSV* colourspace array is in domain [0, 1].
-    -   Output *RGB* colourspace array is in domain [0, 1].
+    -   Output *RGB* colourspace array is in range [0, 1].
 
     References
     ----------
@@ -189,7 +189,7 @@ def RGB_to_HSL(RGB):
     Notes
     -----
     -   Input *RGB* colourspace array is in domain [0, 1].
-    -   Output *HSL* colourspace array is in domain [0, 1].
+    -   Output *HSL* colourspace array is in range [0, 1].
 
     References
     ----------
@@ -249,7 +249,7 @@ def HSL_to_RGB(HSL):
     Notes
     -----
     -   Input *HSL* colourspace array is in domain [0, 1].
-    -   Output *RGB* colourspace array is in domain [0, 1].
+    -   Output *RGB* colourspace array is in range [0, 1].
 
     References
     ----------
@@ -323,7 +323,7 @@ def RGB_to_CMY(RGB):
     Notes
     -----
     -   Input *RGB* colourspace array is in domain [0, 1].
-    -   Output *CMY* colourspace array is in domain [0, 1].
+    -   Output *CMY* colourspace array is in range [0, 1].
 
     References
     ----------
@@ -359,7 +359,7 @@ def CMY_to_RGB(CMY):
     Notes
     -----
     -   Input *CMY* colourspace array is in domain [0, 1].
-    -   Output *RGB* colourspace array is in domain [0, 1].
+    -   Output *RGB* colourspace array is in range [0, 1].
 
     References
     ----------
@@ -395,7 +395,7 @@ def CMY_to_CMYK(CMY):
     Notes
     -----
     -   Input *CMY* colourspace array is in domain [0, 1].
-    -   Output*CMYK* colourspace array is in domain [0, 1].
+    -   Output*CMYK* colourspace array is in range [0, 1].
 
     References
     ----------
@@ -446,7 +446,7 @@ def CMYK_to_CMY(CMYK):
     Notes
     -----
     -   Input *CMYK* colourspace array is in domain [0, 1].
-    -   Output *CMY* colourspace array is in domain [0, 1].
+    -   Output *CMY* colourspace array is in range [0, 1].
 
     References
     ----------

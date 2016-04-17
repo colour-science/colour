@@ -68,7 +68,7 @@ def XYZ_to_UVW(XYZ,
     -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
     -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
         colourspace array are in domain [0, :math:`\infty`].
-    -   Output *CIE UVW* colourspace array is in domain [0, 100].
+    -   Output *CIE UVW* colourspace array is in range [0, 100].
 
     Warning
     -------

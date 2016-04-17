@@ -61,7 +61,7 @@ def XYZ_to_UCS(XYZ):
     Notes
     -----
     -   Input *CIE XYZ* tristimulus values are in domain [0, 1].
-    -   Output *CIE UCS* colourspace array is in domain [0, 1].
+    -   Output *CIE UCS* colourspace array is in range [0, 1].
 
     Examples
     --------
@@ -95,7 +95,7 @@ def UCS_to_XYZ(UVW):
     Notes
     -----
     -   Input *CIE UCS* colourspace array is in domain [0, 1].
-    -   Output *CIE XYZ* tristimulus values are in domain [0, 1].
+    -   Output *CIE XYZ* tristimulus values are in range [0, 1].
 
     Examples
     --------
@@ -130,7 +130,7 @@ def UCS_to_uv(UVW):
     Notes
     -----
     -   Input *CIE UCS* colourspace array is in domain [0, 1].
-    -   Output *uv* chromaticity coordinates are in domain [0, 1].
+    -   Output *uv* chromaticity coordinates are in range [0, 1].
 
     Examples
     --------
@@ -165,7 +165,7 @@ def UCS_uv_to_xy(uv):
     Notes
     -----
     -   Input *uv* chromaticity coordinates are in domain [0, 1].
-    -   Output *xy* chromaticity coordinates are in domain [0, 1].
+    -   Output *xy* chromaticity coordinates are in range [0, 1].
 
     Examples
     --------

@@ -53,7 +53,6 @@ def is_within_pointer_gamut(XYZ, tolerance=None):
     Notes
     -----
     -   Input *CIE XYZ* tristimulus values are in domain [0, 1].
-    -   This definition requires *scipy* to be installed.
 
     Examples
     --------

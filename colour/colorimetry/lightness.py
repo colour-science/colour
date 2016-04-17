@@ -71,7 +71,7 @@ def lightness_Glasser1958(Y, **kwargs):
     Notes
     -----
     -   Input *luminance* :math:`Y` is in domain [0, 100].
-    -   Output *Lightness* :math:`L` is in domain [0, 100].
+    -   Output *Lightness* :math:`L` is in range [0, 100].
 
     References
     ----------
@@ -114,7 +114,7 @@ def lightness_Wyszecki1963(Y, **kwargs):
     Notes
     -----
     -   Input *luminance* :math:`Y` is in domain [0, 100].
-    -   Output *Lightness* :math:`W` is in domain [0, 100].
+    -   Output *Lightness* :math:`W` is in range [0, 100].
 
     References
     ----------
@@ -159,7 +159,7 @@ def lightness_CIE1976(Y, Y_n=100):
     Notes
     -----
     -   Input *luminance* :math:`Y` and :math:`Y_n` are in domain [0, 100].
-    -   Output *Lightness* :math:`L^*` is in domain [0, 100].
+    -   Output *Lightness* :math:`L^*` is in range [0, 100].
 
     References
     ----------
@@ -228,7 +228,7 @@ def lightness(Y, method='CIE 1976', **kwargs):
     -----
     -   Input *luminance* :math:`Y` and optional :math:`Y_n` are in domain
         [0, 100].
-    -   Output *Lightness* :math:`L^*` is in domain [0, 100].
+    -   Output *Lightness* :math:`L^*` is in range [0, 100].
 
     Examples
     --------

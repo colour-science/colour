@@ -100,7 +100,7 @@ def chromatic_adaptation_Fairchild1990(XYZ_1,
     -----
     -   Input *CIE XYZ_1*, *CIE XYZ_n* and *CIE XYZ_r* tristimulus values are
         in domain [0, 100].
-    -   Output *CIE XYZ_2* tristimulus values are in domain [0, 100].
+    -   Output *CIE XYZ_2* tristimulus values are in range [0, 100].
 
     Examples
     --------

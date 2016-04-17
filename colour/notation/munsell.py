@@ -248,7 +248,7 @@ def munsell_value_Priest1920(Y):
     Notes
     -----
     -   Input *Y* is in domain [0, 100].
-    -   Output *V* is in domain [0, 10].
+    -   Output *V* is in range [0, 10].
 
     References
     ----------
@@ -286,7 +286,7 @@ def munsell_value_Munsell1933(Y):
     Notes
     -----
     -   Input *Y* is in domain [0, 100].
-    -   Output *V* is in domain [0, 10].
+    -   Output *V* is in range [0, 10].
 
     Examples
     --------
@@ -320,7 +320,7 @@ def munsell_value_Moon1943(Y):
     Notes
     -----
     -   Input *Y* is in domain [0, 100].
-    -   Output *V* is in domain [0, 10].
+    -   Output *V* is in range [0, 10].
 
     Examples
     --------
@@ -353,7 +353,7 @@ def munsell_value_Saunderson1944(Y):
     Notes
     -----
     -   Input *Y* is in domain [0, 100].
-    -   Output *V* is in domain [0, 10].
+    -   Output *V* is in range [0, 10].
 
     Examples
     --------
@@ -386,7 +386,7 @@ def munsell_value_Ladd1955(Y):
     Notes
     -----
     -   Input *Y* is in domain [0, 100].
-    -   Output *V* is in domain [0, 10].
+    -   Output *V* is in range [0, 10].
 
     Examples
     --------
@@ -419,7 +419,7 @@ def munsell_value_McCamy1987(Y):
     Notes
     -----
     -   Input *Y* is in domain [0, 100].
-    -   Output *V* is in domain [0, 10].
+    -   Output *V* is in range [0, 10].
 
     References
     ----------
@@ -465,7 +465,7 @@ def munsell_value_ASTMD153508(Y):
     Notes
     -----
     -   Input *Y* is in domain [0, 100].
-    -   Output *V* is in domain [0, 10].
+    -   Output *V* is in range [0, 10].
 
     Examples
     --------
@@ -525,7 +525,7 @@ def munsell_value(Y, method='ASTM D1535-08'):
     Notes
     -----
     -   Input *Y* is in domain [0, 100].
-    -   Output *V* is in domain [0, 10].
+    -   Output *V* is in range [0, 10].
 
     Examples
     --------
@@ -568,7 +568,7 @@ def munsell_specification_to_xyY(specification):
     -   Input *Munsell* *Colorlab* specification hue must be in domain [0, 10].
     -   Input *Munsell* *Colorlab* specification value must be in domain
         [0, 10].
-    -   Output *CIE xyY* colourspace array is in domain [0, 1].
+    -   Output *CIE xyY* colourspace array is in range [0, 1].
 
     References
     ----------
@@ -644,7 +644,7 @@ def munsell_colour_to_xyY(munsell_colour):
 
     Notes
     -----
-    -   Output *CIE xyY* colourspace array is in domain [0, 1].
+    -   Output *CIE xyY* colourspace array is in range [0, 1].
 
     Examples
     --------
@@ -1371,7 +1371,7 @@ def hue_angle_to_hue(hue_angle):
 def hue_to_ASTM_hue(hue, code):
     """
     Converts from the *Munsell* *Colorlab* specification hue to *ASTM* hue
-    number in domain [0, 100].
+    number in range [0, 100].
 
     Parameters
     ----------
@@ -1998,7 +1998,7 @@ def munsell_specification_to_xy(specification):
     -----
     -   Input *Munsell* *Colorlab* specification value must be an integer in
         domain [0, 10].
-    -   Output *xy* chromaticity coordinates are in domain [0, 1].
+    -   Output *xy* chromaticity coordinates are in range [0, 1].
 
     References
     ----------
