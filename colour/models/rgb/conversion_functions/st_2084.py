@@ -14,7 +14,7 @@ See Also
 --------
 `SMPTE ST 2084:2014 EOTF / EOCF and OETF / EOCF IPython Notebook
 <http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
-blob/master/notebooks/models/st_2084.ipynb>`_
+blob/master/notebooks/models/rgb/conversion_functions/st_2084.ipynb>`_
 
 References
 ----------

@@ -13,7 +13,7 @@ See Also
 --------
 `ITU-R BT.1886 EOTF / EOCF IPython Notebook
 <http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
-blob/master/notebooks/models/bt_1886.ipynb>`_
+blob/master/notebooks/models/rgb/conversion_functions/bt_1886.ipynb>`_
 
 References
 ----------

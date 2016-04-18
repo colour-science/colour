@@ -38,7 +38,7 @@ See Also
 --------
 `Log Conversion Functions IPython Notebook
 <http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
-blob/master/notebooks/models/log.ipynb>`_
+blob/master/notebooks/models/rgb/conversion_functions/log.ipynb>`_
 
 References
 ----------
