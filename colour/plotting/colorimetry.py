@@ -43,7 +43,7 @@ from colour.colorimetry import (
 from colour.models import XYZ_to_sRGB
 from colour.plotting import (
     ColourParameter,
-    DEFAULT_PLOTTING_OECF,
+    DEFAULT_PLOTTING_ENCODING_CCTF,
     DEFAULT_FIGURE_WIDTH,
     boundaries,
     canvas,
@@ -119,12 +119,12 @@ def single_spd_plot(spd,
     colours = XYZ_to_sRGB(
         wavelength_to_XYZ(wavelengths, cmfs),
         ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['E'],
-        apply_OECF=False)
+        apply_encoding_cctf=False)
 
     if not out_of_gamut_clipping:
         colours += np.abs(np.min(colours))
 
-    colours = DEFAULT_PLOTTING_OECF(normalise_maximum(colours))
+    colours = DEFAULT_PLOTTING_ENCODING_CCTF(normalise_maximum(colours))
 
     settings = {
         'title': '{0} - {1}'.format(spd.title, cmfs.title),
@@ -437,12 +437,12 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
     colours = XYZ_to_sRGB(
         wavelength_to_XYZ(wavelengths, cmfs),
         ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['E'],
-        apply_OECF=False)
+        apply_encoding_cctf=False)
 
     if not out_of_gamut_clipping:
         colours += np.abs(np.min(colours))
 
-    colours = DEFAULT_PLOTTING_OECF(normalise_maximum(colours))
+    colours = DEFAULT_PLOTTING_ENCODING_CCTF(normalise_maximum(colours))
 
     settings = {
         'title': 'The Visible Spectrum - {0}'.format(cmfs.title),

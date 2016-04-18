@@ -712,7 +712,7 @@ def single_conversion_function_plot(colourspace='Rec. 709',
 
 
 def multi_conversion_function_plot(colourspaces=None,
-                                   EOCF=False,
+                                   decoding_cctf=False,
                                    **kwargs):
     """
     Plots given colourspaces opto-electronic conversion functions.
@@ -721,8 +721,9 @@ def multi_conversion_function_plot(colourspaces=None,
     ----------
     colourspaces : array_like, optional
         Colourspaces opto-electronic conversion functions to plot.
-    EOCF : bool
-        Plot electro-optical conversion functions instead.
+    decoding_cctf : bool
+        Plot decoding colour component transfer function / electro-optical
+        conversion functions instead.
     \**kwargs : dict, optional
         Keywords arguments.
 
@@ -748,7 +749,8 @@ def multi_conversion_function_plot(colourspaces=None,
     for colourspace in colourspaces:
         colourspace = get_RGB_colourspace(colourspace)
 
-        RGBs = colourspace.EOCF(samples) if EOCF else colourspace.OECF(samples)
+        RGBs = (colourspace.decoding_cctf(samples)
+                if decoding_cctf else colourspace.encoding_cctf(samples))
 
         pylab.plot(samples,
                    RGBs,
@@ -758,7 +760,7 @@ def multi_conversion_function_plot(colourspaces=None,
     settings.update({
         'title': '{0} - {1} Conversion Functions'.format(
             ', '.join(colourspaces),
-            'Electro-Optical' if EOCF else 'Opto-Electronic'),
+            'Electro-Optical' if decoding_cctf else 'Opto-Electronic'),
         'x_tighten': True,
         'legend': True,
         'legend_location': 'upper left',

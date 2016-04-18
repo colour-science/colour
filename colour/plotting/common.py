@@ -55,7 +55,7 @@ __all__ = ['PLOTTING_RESOURCES_DIRECTORY',
            'DEFAULT_HATCH_PATTERNS',
            'DEFAULT_PARAMETERS',
            'DEFAULT_PLOTTING_ILLUMINANT',
-           'DEFAULT_PLOTTING_OECF',
+           'DEFAULT_PLOTTING_ENCODING_CCTF',
            'ColourParameter',
            'colour_cycle',
            'canvas',
@@ -164,11 +164,12 @@ Default plotting illuminant: *CIE Illuminant D Series* *D65*.
 DEFAULT_PLOTTING_ILLUMINANT : tuple
 """
 
-DEFAULT_PLOTTING_OECF = RGB_COLOURSPACES['sRGB'].OECF
+DEFAULT_PLOTTING_ENCODING_CCTF = RGB_COLOURSPACES['sRGB'].encoding_cctf
 """
-Default plotting OECF / opto-electronic conversion function: *sRGB*.
+Default plotting encoding colour component transfer function / opto-electronic
+conversion function: *sRGB*.
 
-DEFAULT_PLOTTING_OECF : object
+DEFAULT_PLOTTING_ENCODING_CCTF : object
 """
 
 

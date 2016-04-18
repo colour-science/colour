@@ -63,7 +63,7 @@ print(colour.XYZ_to_RGB(
     colour.sRGB_COLOURSPACE.whitepoint,
     colour.sRGB_COLOURSPACE.XYZ_to_RGB_matrix,
     'Bradford',
-    colour.sRGB_COLOURSPACE.OECF))
+    colour.sRGB_COLOURSPACE.encoding_cctf))
 
 print('\n')
 
@@ -77,7 +77,7 @@ print(colour.RGB_to_XYZ(
     colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50'],
     colour.sRGB_COLOURSPACE.RGB_to_XYZ_matrix,
     'Bradford',
-    colour.sRGB_COLOURSPACE.EOCF))
+    colour.sRGB_COLOURSPACE.decoding_cctf))
 
 print('\n')
 

@@ -219,9 +219,9 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
             XYZ = np.dot(colourspace.RGB_to_XYZ_matrix, RGB)
             np.testing.assert_almost_equal(XYZ_r, XYZ, decimal=7)
 
-    def test_opto_electronic_conversion_functions(self):
+    def test_cctf(self):
         """
-        Tests opto-electronic conversion functions from the
+        Tests colour component transfer functions from the
         :attr:`colour.models.rgb.rgb_colourspace.RGB_COLOURSPACES` attribute
         colourspace models.
         """
@@ -230,60 +230,60 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
 
         samples = np.linspace(0, 1, 1000)
         for colourspace in RGB_COLOURSPACES.values():
-            samples_oecf = colourspace.OECF(samples)
-            samples_inverse_oecf = colourspace.EOCF(samples_oecf)
+            encoding_cctf_s = colourspace.encoding_cctf(samples)
+            decoding_cctf_s = colourspace.decoding_cctf(encoding_cctf_s)
 
             if colourspace.name not in aces_proxy_colourspaces:
                 np.testing.assert_almost_equal(samples,
-                                               samples_inverse_oecf,
+                                               decoding_cctf_s,
                                                decimal=7)
             else:
                 np.testing.assert_allclose(samples,
-                                           samples_inverse_oecf,
+                                           decoding_cctf_s,
                                            rtol=0.01,
                                            atol=0.01)
 
-    def test_n_dimensional_opto_electronic_conversion_functions(self):
+    def test_n_dimensional_cctf(self):
         """
-        Tests opto-electronic conversion functions from the
+        Tests colour component transfer functions from the
         :attr:`colour.models.rgb.rgb_colourspace.RGB_COLOURSPACES` attribute
         colourspace models n-dimensional arrays support.
         """
 
         for colourspace in RGB_COLOURSPACES.values():
-            value_oecf = 0.5
-            value_inverse_oecf = colourspace.EOCF(
-                colourspace.OECF(value_oecf))
+            value_encoding_cctf = 0.5
+            value_decoding_cctf = colourspace.decoding_cctf(
+                colourspace.encoding_cctf(value_encoding_cctf))
             np.testing.assert_almost_equal(
-                value_oecf,
-                value_inverse_oecf,
+                value_encoding_cctf,
+                value_decoding_cctf,
                 decimal=7)
 
-            value_oecf = np.tile(value_oecf, 6)
-            value_inverse_oecf = np.tile(value_inverse_oecf, 6)
+            value_encoding_cctf = np.tile(value_encoding_cctf, 6)
+            value_decoding_cctf = np.tile(value_decoding_cctf, 6)
             np.testing.assert_almost_equal(
-                value_oecf,
-                value_inverse_oecf,
+                value_encoding_cctf,
+                value_decoding_cctf,
                 decimal=7)
 
-            value_oecf = np.reshape(value_oecf, (3, 2))
-            value_inverse_oecf = np.reshape(value_inverse_oecf, (3, 2))
+            value_encoding_cctf = np.reshape(value_encoding_cctf, (3, 2))
+            value_decoding_cctf = np.reshape(value_decoding_cctf, (3, 2))
             np.testing.assert_almost_equal(
-                value_oecf,
-                value_inverse_oecf,
+                value_encoding_cctf,
+                value_decoding_cctf,
                 decimal=7)
 
-            value_oecf = np.reshape(value_oecf, (3, 2, 1))
-            value_inverse_oecf = np.reshape(value_inverse_oecf, (3, 2, 1))
+            value_encoding_cctf = np.reshape(value_encoding_cctf, (3, 2, 1))
+            value_decoding_cctf = np.reshape(value_decoding_cctf, (3, 2, 1))
             np.testing.assert_almost_equal(
-                value_oecf,
-                value_inverse_oecf,
+                value_encoding_cctf,
+                value_decoding_cctf,
                 decimal=7)
 
     @ignore_numpy_errors
-    def test_nan_opto_electronic_conversion_functions(self):
+    def test_nan_cctf(self):
         """
-        Tests opto-electronic conversion functions from the
+        Tests colour component transfer functions from the
         :attr:`colour.models.rgb.rgb_colourspace.RGB_COLOURSPACES` attribute
         colourspace models nan support.
         """
@@ -291,8 +291,8 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         for colourspace in RGB_COLOURSPACES.values():
             for case in cases:
-                colourspace.OECF(case)
-                colourspace.EOCF(case)
+                colourspace.encoding_cctf(case)
+                colourspace.decoding_cctf(case)
 
     def test_pickle(self):
         """
@@ -320,10 +320,8 @@ class TestRGB_Colourspace(unittest.TestCase):
                                'illuminant',
                                'RGB_to_XYZ_matrix',
                                'XYZ_to_RGB_matrix',
-                               'OECF',
-                               'EOCF',
-                               'OETF',
-                               'EOTF')
+                               'encoding_cctf',
+                               'decoding_cctf')
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(RGB_Colourspace))

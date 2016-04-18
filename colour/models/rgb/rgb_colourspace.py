@@ -60,13 +60,15 @@ class RGB_Colourspace(object):
         Transformation matrix from colourspace to *CIE XYZ* tristimulus values.
     XYZ_to_RGB_matrix : array_like, optional
         Transformation matrix from *CIE XYZ* tristimulus values to colourspace.
-    OECF : object, optional
+    encoding_cctf : object, optional
+        Encoding colour component transfer function (Encoding CCTF) /
         Opto-electronic conversion function (OECF) that maps estimated
         tristimulus values in a scene to :math:`R'G'B'` video component signal
         value.
-    EOCF : object, optional
+    decoding_cctf : object, optional
+        Decoding colour component transfer function (Decoding CCTF) /
         Electro-optical conversion function (EOCF) that maps an :math:`R'G'B'`
-        video component signal to a tristimulus value at the display.
+        video component signal to tristimulus values at the display.
 
     Attributes
     ----------
@@ -76,10 +78,8 @@ class RGB_Colourspace(object):
     illuminant
     RGB_to_XYZ_matrix
     XYZ_to_RGB_matrix
-    OECF
-    EOCF
-    OETF
-    EOTF
+    encoding_cctf
+    decoding_cctf
     """
 
     def __init__(self,
@@ -89,8 +89,8 @@ class RGB_Colourspace(object):
                  illuminant=None,
                  RGB_to_XYZ_matrix=None,
                  XYZ_to_RGB_matrix=None,
-                 OECF=None,
-                 EOCF=None):
+                 encoding_cctf=None,
+                 decoding_cctf=None):
         self._name = None
         self.name = name
         self._primaries = None
@@ -103,10 +103,10 @@ class RGB_Colourspace(object):
         self.RGB_to_XYZ_matrix = RGB_to_XYZ_matrix
         self._XYZ_to_RGB_matrix = None
         self.XYZ_to_RGB_matrix = XYZ_to_RGB_matrix
-        self._OECF = None
-        self.OECF = OECF
-        self._EOCF = None
-        self.EOCF = EOCF
+        self._encoding_cctf = None
+        self.encoding_cctf = encoding_cctf
+        self._decoding_cctf = None
+        self.decoding_cctf = decoding_cctf
 
     @property
     def name(self):
@@ -283,22 +283,22 @@ class RGB_Colourspace(object):
         self._XYZ_to_RGB_matrix = value
 
     @property
-    def OECF(self):
+    def encoding_cctf(self):
         """
-        Property for **self._OECF** private attribute.
+        Property for **self._encoding_cctf** private attribute.
 
         Returns
         -------
         object
-            self._OECF.
+            self._encoding_cctf.
         """
 
-        return self._OECF
+        return self._encoding_cctf
 
-    @OECF.setter
-    def OECF(self, value):
+    @encoding_cctf.setter
+    def encoding_cctf(self, value):
         """
-        Setter for **self._OECF** private attribute.
+        Setter for **self._encoding_cctf** private attribute.
 
         Parameters
         ----------
@@ -309,26 +309,26 @@ class RGB_Colourspace(object):
         if value is not None:
             assert hasattr(value, '__call__'), (
                 '"{0}" attribute: "{1}" is not callable!'.format(
-                    'OECF', value))
-        self._OECF = value
+                    'encoding_cctf', value))
+        self._encoding_cctf = value
 
     @property
-    def EOCF(self):
+    def decoding_cctf(self):
         """
-        Property for **self._EOCF** private attribute.
+        Property for **self._decoding_cctf** private attribute.
 
         Returns
         -------
         object
-            self._EOCF.
+            self._decoding_cctf.
         """
 
-        return self._EOCF
+        return self._decoding_cctf
 
-    @EOCF.setter
-    def EOCF(self, value):
+    @decoding_cctf.setter
+    def decoding_cctf(self, value):
         """
-        Setter for **self._EOCF** private attribute.
+        Setter for **self._decoding_cctf** private attribute.
 
         Parameters
         ----------
@@ -339,60 +339,8 @@ class RGB_Colourspace(object):
         if value is not None:
             assert hasattr(value, '__call__'), (
                 '"{0}" attribute: "{1}" is not callable!'.format(
-                    'EOCF', value))
-        self._EOCF = value
-
-    @property
-    def OETF(self):
-        """
-        Alias property for **self.OECF** property.
-
-        Returns
-        -------
-        object
-            self.OECF
-        """
-
-        return self.OECF
-
-    @OETF.setter
-    def OETF(self, value):
-        """
-        Alias setter for **self.OECF** property.
-
-        Parameters
-        ----------
-        value : object
-            Attribute value.
-        """
-
-        self.OECF = value
-
-    @property
-    def EOTF(self):
-        """
-        Alias property for **self.EOCF** property.
-
-        Returns
-        -------
-        object
-            self.EOCF.
-        """
-
-        return self.EOCF
-
-    @EOTF.setter
-    def EOTF(self, value):
-        """
-        Alias setter for **self.EOCF** property.
-
-        Parameters
-        ----------
-        value : object
-            Attribute value.
-        """
-
-        self.EOCF = value
+                    'decoding_cctf', value))
+        self._decoding_cctf = value
 
 
 def XYZ_to_RGB(XYZ,
@@ -400,7 +348,7 @@ def XYZ_to_RGB(XYZ,
                illuminant_RGB,
                XYZ_to_RGB_matrix,
                chromatic_adaptation_transform='CAT02',
-               OECF=None):
+               encoding_cctf=None):
     """
     Converts from *CIE XYZ* tristimulus values to given *RGB* colourspace.
 
@@ -421,8 +369,9 @@ def XYZ_to_RGB(XYZ,
         'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
         'Bianco PC'}**,
         *Chromatic adaptation* transform.
-    OECF : object, optional
-        *Opto-electronic conversion function*.
+    encoding_cctf : object, optional
+        Encoding colour component transfer function (Encoding CCTF) or
+        Opto-electronic conversion function (OECF).
 
     Returns
     -------
@@ -466,8 +415,8 @@ def XYZ_to_RGB(XYZ,
 
     RGB = dot_vector(XYZ_to_RGB_matrix, XYZ_a)
 
-    if OECF is not None:
-        RGB = OECF(RGB)
+    if encoding_cctf is not None:
+        RGB = encoding_cctf(RGB)
 
     return RGB
 
@@ -477,7 +426,7 @@ def RGB_to_XYZ(RGB,
                illuminant_XYZ,
                RGB_to_XYZ_matrix,
                chromatic_adaptation_transform='CAT02',
-               EOCF=None):
+               decoding_cctf=None):
     """
     Converts from given *RGB* colourspace to *CIE XYZ* tristimulus values.
 
@@ -498,8 +447,9 @@ def RGB_to_XYZ(RGB,
         'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
         'Bianco PC'}**,
         *Chromatic adaptation* transform.
-    EOCF : object, optional
-        *Electro-optical conversion function*.
+    decoding_cctf : object, optional
+        Decoding colour component transfer function (Decoding CCTF) or
+        Electro-optical conversion function (EOCF).
 
     Returns
     -------
@@ -534,8 +484,8 @@ def RGB_to_XYZ(RGB,
     array([ 0.0704953...,  0.1008    ,  0.0955831...])
     """
 
-    if EOCF is not None:
-        RGB = EOCF(RGB)
+    if decoding_cctf is not None:
+        RGB = decoding_cctf(RGB)
 
     M = chromatic_adaptation_matrix_VonKries(
         xyY_to_XYZ(xy_to_xyY(illuminant_RGB)),
@@ -579,6 +529,8 @@ def RGB_to_RGB(RGB,
     Notes
     -----
     -   Input / output *RGB* colourspace arrays are in domain / range [0, 1].
+    -   Input / output *RGB* colourspace arrays are assumed to be representing
+        linear light values.
 
     Examples
     --------
