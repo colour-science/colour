@@ -7,14 +7,14 @@ SMPTE ST 2084:2014 EOTF / EOCF and OETF / EOCF
 
 Defines *SMPTE ST 2084:2014* EOTF / EOCF and OETF / EOCF:
 
--   :func:`ST_2084_EOCF`
--   :func:`ST_2084_OECF`
+-   :func:`eocf_ST2084`
+-   :func:`oecf_ST2084`
 
 See Also
 --------
-`SMPTE ST 2084:2014 EOTF / EOCF and OETF / EOCF IPython Notebook
+`RGB Colourspaces IPython Notebook
 <http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
-blob/master/notebooks/models/rgb/conversion_functions/st_2084.ipynb>`_
+blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
@@ -41,8 +41,8 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['ST_2084_CONSTANTS',
-           'ST_2084_EOCF',
-           'ST_2084_OECF']
+           'oecf_ST2084',
+           'eocf_ST2084']
 
 ST_2084_CONSTANTS = Structure(m_1=2610 / 4096 * (1 / 4),
                               m_2=2523 / 4096 * 128,
@@ -56,7 +56,44 @@ ST_2084_CONSTANTS : Structure
 """
 
 
-def ST_2084_EOCF(N, L_p=10000):
+def oecf_ST2084(C, L_p=10000):
+    """
+    Defines *SMPTE ST 2084:2014* optimised perceptual opto-electronic transfer
+    function (OETF / OECF).
+
+    Parameters
+    ----------
+    C : numeric or array_like
+        Target optical output :math:`C` in :math:`cd/m^2` of the ideal
+        reference display.
+    L_p : numeric, optional
+        Display peak luminance :math:`cd/m^2`.
+
+    Returns
+    -------
+    numeric or ndarray
+        Color value abbreviated as :math:`N`, normalized to the range [0, 1],
+        that is directly proportional to the encoded signal representation,
+        and which is not directly proportional to the optical output of a
+        display device.
+
+    Examples
+    --------
+    >>> oecf_ST2084(0.18)  # doctest: +ELLIPSIS
+    0.0794209...
+    """
+
+    C = np.asarray(C)
+
+    Y_p = (C / L_p) ** ST_2084_CONSTANTS.m_1
+
+    N = ((ST_2084_CONSTANTS.c_1 + ST_2084_CONSTANTS.c_2 * Y_p) /
+         (ST_2084_CONSTANTS.c_3 * Y_p + 1)) ** ST_2084_CONSTANTS.m_2
+
+    return N
+
+
+def eocf_ST2084(N, L_p=10000):
     """
     Defines *SMPTE ST 2084:2014* optimised perceptual electro-optical transfer
     function (EOTF / EOCF). This perceptual quantizer (PQ) has been modeled by
@@ -80,8 +117,8 @@ def ST_2084_EOCF(N, L_p=10000):
 
     Examples
     --------
-    >>> ST_2084_EOCF(0.5)  # doctest: +ELLIPSIS
-    92.2457089...
+    >>> eocf_ST2084(0.079420969944927269)  # doctest: +ELLIPSIS
+    0.1...
     """
 
     N = np.asarray(N)
@@ -99,40 +136,3 @@ def ST_2084_EOCF(N, L_p=10000):
     C = L_p * L
 
     return C
-
-
-def ST_2084_OECF(C, L_p=10000):
-    """
-    Defines *SMPTE ST 2084:2014* optimised perceptual opto-electronic transfer
-    function (OETF / OECF).
-
-    Parameters
-    ----------
-    C : numeric or array_like
-        Target optical output :math:`C` in :math:`cd/m^2` of the ideal
-        reference display.
-    L_p : numeric, optional
-        Display peak luminance :math:`cd/m^2`.
-
-    Returns
-    -------
-    numeric or ndarray
-        Color value abbreviated as :math:`N`, normalized to the range [0, 1],
-        that is directly proportional to the encoded signal representation,
-        and which is not directly proportional to the optical output of a
-        display device.
-
-    Examples
-    --------
-    >>> ST_2084_OECF(92.245708994065268)  # doctest: +ELLIPSIS
-    0.5000000...
-    """
-
-    C = np.asarray(C)
-
-    Y_p = (C / L_p) ** ST_2084_CONSTANTS.m_1
-
-    N = ((ST_2084_CONSTANTS.c_1 + ST_2084_CONSTANTS.c_2 * Y_p) /
-         (ST_2084_CONSTANTS.c_3 * Y_p + 1)) ** ST_2084_CONSTANTS.m_2
-
-    return N

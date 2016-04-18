@@ -24,9 +24,13 @@ References
 from __future__ import division, unicode_literals
 
 import numpy as np
+from functools import partial
 
 from colour.colorimetry.dataset import ILLUMINANTS
-from colour.models.rgb import RGB_Colourspace, normalised_primary_matrix
+from colour.models.rgb import (
+    RGB_Colourspace,
+    gamma_function,
+    normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -40,8 +44,6 @@ __all__ = ['RUSSELL_RGB_PRIMARIES',
            'RUSSELL_RGB_WHITEPOINT',
            'RUSSELL_RGB_TO_XYZ_MATRIX',
            'XYZ_TO_RUSSELL_RGB_MATRIX',
-           'RUSSELL_RGB_OECF',
-           'RUSSELL_RGB_EOCF',
            'RUSSELL_RGB_COLOURSPACE']
 
 RUSSELL_RGB_PRIMARIES = np.array(
@@ -84,61 +86,6 @@ XYZ_TO_RUSSELL_RGB_MATRIX = np.linalg.inv(RUSSELL_RGB_TO_XYZ_MATRIX)
 XYZ_TO_RUSSELL_RGB_MATRIX : array_like, (3, 3)
 """
 
-
-def _russell_rgb_OECF(value):
-    """
-    Defines the *Russell RGB* colourspace opto-electronic conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Companded value.
-    """
-
-    value = np.asarray(value)
-
-    return value ** (1 / 2.2)
-
-
-def _russell_rgb_EOCF(value):
-    """
-    Defines the *Russell RGB* colourspace electro-optical conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Companded value.
-    """
-
-    value = np.asarray(value)
-
-    return value ** 2.2
-
-
-RUSSELL_RGB_OECF = _russell_rgb_OECF
-"""
-Opto-electronic conversion function of *Russell RGB* colourspace.
-
-RUSSELL_RGB_OECF : object
-"""
-
-RUSSELL_RGB_EOCF = _russell_rgb_EOCF
-"""
-Electro-optical conversion function of *Russell RGB* colourspace.
-
-RUSSELL_RGB_EOCF : object
-"""
-
 RUSSELL_RGB_COLOURSPACE = RGB_Colourspace(
     'Russell RGB',
     RUSSELL_RGB_PRIMARIES,
@@ -146,8 +93,8 @@ RUSSELL_RGB_COLOURSPACE = RGB_Colourspace(
     RUSSELL_RGB_ILLUMINANT,
     RUSSELL_RGB_TO_XYZ_MATRIX,
     XYZ_TO_RUSSELL_RGB_MATRIX,
-    RUSSELL_RGB_OECF,
-    RUSSELL_RGB_EOCF)
+    partial(gamma_function, exponent=1 / 2.2),
+    partial(gamma_function, exponent=2.2))
 """
 *Russell RGB* colourspace.
 

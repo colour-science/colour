@@ -24,9 +24,10 @@ References
 from __future__ import division, unicode_literals
 
 import numpy as np
+from functools import partial
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import RGB_Colourspace
+from colour.models.rgb import RGB_Colourspace, gamma_function
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -40,8 +41,6 @@ __all__ = ['ADOBE_RGB_1998_PRIMARIES',
            'ADOBE_RGB_1998_WHITEPOINT',
            'ADOBE_RGB_1998_TO_XYZ_MATRIX',
            'XYZ_TO_ADOBE_RGB_1998_MATRIX',
-           'ADOBE_RGB_1998_OECF',
-           'ADOBE_RGB_1998_EOCF',
            'ADOBE_RGB_1998_COLOURSPACE']
 
 ADOBE_RGB_1998_PRIMARIES = np.array(
@@ -86,65 +85,6 @@ XYZ_TO_ADOBE_RGB_1998_MATRIX = np.linalg.inv(ADOBE_RGB_1998_TO_XYZ_MATRIX)
 XYZ_TO_ADOBE_RGB_1998_MATRIX : array_like, (3, 3)
 """
 
-
-def _adobe_rgb_1998_OECF(value):
-    """
-    Defines the *Adobe RGB 1998* colourspace opto-electronic conversion
-    function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Companded value.
-    """
-
-    value = np.asarray(value)
-
-    return value ** (1 / (563 / 256))
-
-
-def _adobe_rgb_1998_EOCF(value):
-    """
-    Defines the *Adobe RGB 1998* colourspace electro-optical conversion
-    function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Companded value.
-    """
-
-    value = np.asarray(value)
-
-    return value ** (563 / 256)
-
-
-ADOBE_RGB_1998_OECF = _adobe_rgb_1998_OECF
-"""
-Opto-electronic conversion function of *Adobe RGB 1998*
-colourspace.
-
-ADOBE_RGB_1998_OECF : object
-"""
-
-ADOBE_RGB_1998_EOCF = _adobe_rgb_1998_EOCF
-"""
-Electro-optical conversion function of *Adobe RGB 1998* colourspace to
-linear.
-
-ADOBE_RGB_1998_EOCF : object
-"""
-
 ADOBE_RGB_1998_COLOURSPACE = RGB_Colourspace(
     'Adobe RGB 1998',
     ADOBE_RGB_1998_PRIMARIES,
@@ -152,8 +92,8 @@ ADOBE_RGB_1998_COLOURSPACE = RGB_Colourspace(
     ADOBE_RGB_1998_ILLUMINANT,
     ADOBE_RGB_1998_TO_XYZ_MATRIX,
     XYZ_TO_ADOBE_RGB_1998_MATRIX,
-    ADOBE_RGB_1998_OECF,
-    ADOBE_RGB_1998_EOCF)
+    partial(gamma_function, exponent=1 / (563 / 256)),
+    partial(gamma_function, exponent=563 / 256))
 """
 *Adobe RGB 1998* colourspace.
 

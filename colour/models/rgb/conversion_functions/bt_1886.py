@@ -7,13 +7,13 @@ ITU-R BT.1886 EOTF / EOCF
 
 Defines *Recommendation ITU-R BT.1886* EOTF / EOCF:
 
--   :func:`BT_1886_EOCF`
+-   :func:`eocf_BT1886`
 
 See Also
 --------
-`ITU-R BT.1886 EOTF / EOCF IPython Notebook
+`RGB Colourspaces IPython Notebook
 <http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
-blob/master/notebooks/models/rgb/conversion_functions/bt_1886.ipynb>`_
+blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
@@ -33,13 +33,12 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['BT_1886_EOCF']
+__all__ = ['eocf_BT1886']
 
 
-def BT_1886_EOCF(V, L_B=64, L_W=940):
+def eocf_BT1886(V, L_B=64, L_W=940):
     """
-    Defines *Recommendation ITU-R BT.1886* electro-optical transfer function
-    (EOTF / EOCF).
+    Defines *Recommendation ITU-R BT.1886* electro-optical transfer function.
 
     Parameters
     ----------
@@ -61,8 +60,8 @@ def BT_1886_EOCF(V, L_B=64, L_W=940):
 
     Examples
     --------
-    >>> BT_1886_EOCF(0.5)  # doctest: +ELLIPSIS
-    350.8224951...
+    >>> eocf_BT1886(0.18)  # doctest: +ELLIPSIS
+    136.5861795...
     """
 
     V = np.asarray(V)

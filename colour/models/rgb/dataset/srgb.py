@@ -23,10 +23,8 @@ References
         Retrieved from https://webstore.iec.ch/publication/6169
 .. [2]  International Telecommunication Union. (2002). Parameter values for
         the HDTV standards for production and international programme exchange
-        BT Series Broadcasting service. In Recommendation ITU-R BT.709-5
-        (Vol. 5, pp. 1–32). Retrieved from
-        http://www.itu.int/dms_pubrec/itu-r/rec/bt/\
-R-REC-BT.709-5-200204-I!!PDF-E.pdf
+        BT Series Broadcasting service. In Recommendation ITU-R BT.709-6
+        (Vol. 5, pp. 1–32). ISBN:9519982000
 """
 
 from __future__ import division, unicode_literals
@@ -107,7 +105,7 @@ def _srgb_OECF(value):
     Returns
     -------
     numeric or ndarray
-        Companded value.
+        Encoded value.
     """
 
     value = np.asarray(value)
@@ -129,7 +127,7 @@ def _srgb_EOCF(value):
     Returns
     -------
     numeric or ndarray
-        Companded value.
+        Decoded value.
     """
 
     value = np.asarray(value)

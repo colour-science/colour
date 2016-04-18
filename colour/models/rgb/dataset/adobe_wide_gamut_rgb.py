@@ -24,9 +24,13 @@ References
 from __future__ import division, unicode_literals
 
 import numpy as np
+from functools import partial
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import RGB_Colourspace, normalised_primary_matrix
+from colour.models.rgb import (
+    RGB_Colourspace,
+    gamma_function,
+    normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -40,8 +44,6 @@ __all__ = ['ADOBE_WIDE_GAMUT_RGB_PRIMARIES',
            'ADOBE_WIDE_GAMUT_RGB_WHITEPOINT',
            'ADOBE_WIDE_GAMUT_RGB_TO_XYZ_MATRIX',
            'XYZ_TO_ADOBE_WIDE_GAMUT_RGB_MATRIX',
-           'ADOBE_WIDE_GAMUT_RGB_OECF',
-           'ADOBE_WIDE_GAMUT_RGB_EOCF',
            'ADOBE_WIDE_GAMUT_RGB_COLOURSPACE']
 
 ADOBE_WIDE_GAMUT_RGB_PRIMARIES = np.array(
@@ -87,66 +89,6 @@ XYZ_TO_ADOBE_WIDE_GAMUT_RGB_MATRIX = np.linalg.inv(
 XYZ_TO_ADOBE_WIDE_GAMUT_RGB_MATRIX : array_like, (3, 3)
 """
 
-
-def _adobe_wide_gamut_rgb_OECF(value):
-    """
-    Defines the *Adobe Wide Gamut RGB* colourspace opto-electronic conversion
-    function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Companded value.
-    """
-
-    value = np.asarray(value)
-
-    return value ** (1 / (563 / 256))
-
-
-def _adobe_wide_gamut_rgb_EOCF(value):
-    """
-    Defines the *Adobe Wide Gamut RGB* colourspace electro-optical conversion
-    function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Companded value.
-    """
-
-    value = np.asarray(value)
-
-    return value ** (563 / 256)
-
-
-ADOBE_WIDE_GAMUT_RGB_OECF = (
-    _adobe_wide_gamut_rgb_OECF)
-"""
-Opto-electronic conversion function of *Adobe Wide Gamut RGB*
-colourspace.
-
-ADOBE_WIDE_GAMUT_RGB_OECF : object
-"""
-
-ADOBE_WIDE_GAMUT_RGB_EOCF = _adobe_wide_gamut_rgb_EOCF
-"""
-Electro-optical conversion function of *Adobe Wide Gamut RGB* colourspace to
-linear.
-
-ADOBE_WIDE_GAMUT_RGB_EOCF : object
-"""
-
 ADOBE_WIDE_GAMUT_RGB_COLOURSPACE = RGB_Colourspace(
     'Adobe Wide Gamut RGB',
     ADOBE_WIDE_GAMUT_RGB_PRIMARIES,
@@ -154,8 +96,8 @@ ADOBE_WIDE_GAMUT_RGB_COLOURSPACE = RGB_Colourspace(
     ADOBE_WIDE_GAMUT_RGB_ILLUMINANT,
     ADOBE_WIDE_GAMUT_RGB_TO_XYZ_MATRIX,
     XYZ_TO_ADOBE_WIDE_GAMUT_RGB_MATRIX,
-    ADOBE_WIDE_GAMUT_RGB_OECF,
-    ADOBE_WIDE_GAMUT_RGB_EOCF)
+    partial(gamma_function, exponent=1 / (563 / 256)),
+    partial(gamma_function, exponent=563 / 256))
 """
 *Adobe Wide Gamut RGB* colourspace.
 

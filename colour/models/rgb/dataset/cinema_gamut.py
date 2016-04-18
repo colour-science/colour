@@ -27,7 +27,10 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import RGB_Colourspace, normalised_primary_matrix
+from colour.models.rgb import (
+    RGB_Colourspace,
+    normalised_primary_matrix,
+    linear_function)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -41,8 +44,6 @@ __all__ = ['CINEMA_GAMUT_PRIMARIES',
            'CINEMA_GAMUT_WHITEPOINT',
            'CINEMA_GAMUT_TO_XYZ_MATRIX',
            'XYZ_TO_CINEMA_GAMUT_MATRIX',
-           'CINEMA_GAMUT_OECF',
-           'CINEMA_GAMUT_EOCF',
            'CINEMA_GAMUT_COLOURSPACE']
 
 CINEMA_GAMUT_PRIMARIES = np.array(
@@ -85,57 +86,6 @@ XYZ_TO_CINEMA_GAMUT_MATRIX = np.linalg.inv(CINEMA_GAMUT_TO_XYZ_MATRIX)
 XYZ_TO_CINEMA_GAMUT_MATRIX : array_like, (3, 3)
 """
 
-
-def _cinema_gamut_OECF(value):
-    """
-    Defines the *Cinema Gamut* colourspace opto-electronic conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Companded value.
-    """
-
-    return value
-
-
-def _cinema_gamut_EOCF(value):
-    """
-    Defines the *Cinema Gamut* colourspace electro-optical conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Companded value.
-    """
-
-    return value
-
-
-CINEMA_GAMUT_OECF = _cinema_gamut_OECF
-"""
-Opto-electronic conversion function of *Cinema Gamut* colourspace.
-
-CINEMA_GAMUT_OECF : object
-"""
-
-CINEMA_GAMUT_EOCF = _cinema_gamut_EOCF
-"""
-Electro-optical conversion function of *Cinema Gamut* colourspace.
-
-CINEMA_GAMUT_EOCF : object
-"""
-
 CINEMA_GAMUT_COLOURSPACE = RGB_Colourspace(
     'Cinema Gamut',
     CINEMA_GAMUT_PRIMARIES,
@@ -143,8 +93,8 @@ CINEMA_GAMUT_COLOURSPACE = RGB_Colourspace(
     CINEMA_GAMUT_ILLUMINANT,
     CINEMA_GAMUT_TO_XYZ_MATRIX,
     XYZ_TO_CINEMA_GAMUT_MATRIX,
-    CINEMA_GAMUT_OECF,
-    CINEMA_GAMUT_EOCF)
+    linear_function,
+    linear_function)
 """
 *Cinema Gamut* colourspace.
 

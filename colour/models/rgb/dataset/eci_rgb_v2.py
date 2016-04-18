@@ -24,6 +24,7 @@ References
 from __future__ import division, unicode_literals
 
 import numpy as np
+from functools import partial
 
 from colour.colorimetry import (
     ILLUMINANTS,
@@ -43,8 +44,6 @@ __all__ = ['ECI_RGB_V2_PRIMARIES',
            'ECI_RGB_V2_WHITEPOINT',
            'ECI_RGB_V2_TO_XYZ_MATRIX',
            'XYZ_TO_ECI_RGB_V2_MATRIX',
-           'ECI_RGB_V2_OECF',
-           'ECI_RGB_V2_EOCF',
            'ECI_RGB_V2_COLOURSPACE']
 
 ECI_RGB_V2_PRIMARIES = np.array(
@@ -88,55 +87,27 @@ XYZ_TO_ECI_RGB_V2_MATRIX : array_like, (3, 3)
 """
 
 
-def _eci_rgb_v2_OECF(value):
+def _scale_domain_0_100_range_0_1(value, callable_):
     """
-    Defines the *ECI RGB v2* colourspace opto-electronic conversion function.
+    Scales the domain of given callable to [0, 100] and its range to [0, 1].
 
     Parameters
     ----------
     value : numeric or array_like
         Value.
+    callable_ : callable
+        Object to call.
 
     Returns
     -------
     numeric or ndarray
-        Companded value.
+        Scaled callable value.
     """
 
-    return lightness_CIE1976(value * 100) / 100
+    value = np.asarray(value)
 
+    return callable_(value * 100) / 100
 
-def _eci_rgb_v2_EOCF(value):
-    """
-    Defines the *ECI RGB v2* colourspace electro-optical conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Companded value.
-    """
-
-    return luminance_CIE1976(value * 100) / 100
-
-
-ECI_RGB_V2_OECF = _eci_rgb_v2_OECF
-"""
-Opto-electronic conversion function of *ECI RGB v2* colourspace.
-
-ECI_RGB_V2_OECF : object
-"""
-
-ECI_RGB_V2_EOCF = _eci_rgb_v2_EOCF
-"""
-Electro-optical conversion function of *ECI RGB v2* colourspace.
-
-ECI_RGB_V2_EOCF : object
-"""
 
 ECI_RGB_V2_COLOURSPACE = RGB_Colourspace(
     'ECI RGB v2',
@@ -145,8 +116,8 @@ ECI_RGB_V2_COLOURSPACE = RGB_Colourspace(
     ECI_RGB_V_ILLUMINANT,
     ECI_RGB_V2_TO_XYZ_MATRIX,
     XYZ_TO_ECI_RGB_V2_MATRIX,
-    ECI_RGB_V2_OECF,
-    ECI_RGB_V2_EOCF)
+    partial(_scale_domain_0_100_range_0_1, callable_=lightness_CIE1976),
+    partial(_scale_domain_0_100_range_0_1, callable_=luminance_CIE1976))
 """
 *ECI RGB v2* colourspace.
 

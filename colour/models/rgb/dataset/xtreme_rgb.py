@@ -24,9 +24,13 @@ References
 from __future__ import division, unicode_literals
 
 import numpy as np
+from functools import partial
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import RGB_Colourspace, normalised_primary_matrix
+from colour.models.rgb import (
+    RGB_Colourspace,
+    gamma_function,
+    normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -40,8 +44,6 @@ __all__ = ['XTREME_RGB_PRIMARIES',
            'XTREME_RGB_WHITEPOINT',
            'XTREME_RGB_TO_XYZ_MATRIX',
            'XYZ_TO_XTREME_RGB_MATRIX',
-           'XTREME_RGB_OECF',
-           'XTREME_RGB_EOCF',
            'XTREME_RGB_COLOURSPACE']
 
 XTREME_RGB_PRIMARIES = np.array(
@@ -84,61 +86,6 @@ XYZ_TO_XTREME_RGB_MATRIX = np.linalg.inv(XTREME_RGB_TO_XYZ_MATRIX)
 XYZ_TO_XTREME_RGB_MATRIX : array_like, (3, 3)
 """
 
-
-def _xtreme_rgb_OECF(value):
-    """
-    Defines the *Xtreme RGB* colourspace opto-electronic conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Companded value.
-    """
-
-    value = np.asarray(value)
-
-    return value ** (1 / 2.2)
-
-
-def _xtreme_rgb_EOCF(value):
-    """
-    Defines the *Xtreme RGB* colourspace electro-optical conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Companded value.
-    """
-
-    value = np.asarray(value)
-
-    return value ** 2.2
-
-
-XTREME_RGB_OECF = _xtreme_rgb_OECF
-"""
-Opto-electronic conversion function of *Xtreme RGB* colourspace.
-
-XTREME_RGB_OECF : object
-"""
-
-XTREME_RGB_EOCF = _xtreme_rgb_EOCF
-"""
-Electro-optical conversion function of *Xtreme RGB* colourspace.
-
-XTREME_RGB_EOCF : object
-"""
-
 XTREME_RGB_COLOURSPACE = RGB_Colourspace(
     'Xtreme RGB',
     XTREME_RGB_PRIMARIES,
@@ -146,8 +93,8 @@ XTREME_RGB_COLOURSPACE = RGB_Colourspace(
     XTREME_RGB_ILLUMINANT,
     XTREME_RGB_TO_XYZ_MATRIX,
     XYZ_TO_XTREME_RGB_MATRIX,
-    XTREME_RGB_OECF,
-    XTREME_RGB_EOCF)
+    partial(gamma_function, exponent=1 / 2.2),
+    partial(gamma_function, exponent=2.2))
 """
 *Xtreme RGB* colourspace.
 

@@ -120,7 +120,7 @@ def _linear_to_s_log(value):
     Returns
     -------
     numeric or ndarray
-        Companded value.
+        Encoded value.
     """
 
     value = np.asarray(value)
@@ -140,7 +140,7 @@ def _s_log_to_linear(value):
     Returns
     -------
     numeric or ndarray
-        Companded value.
+        Decoded value.
     """
 
     value = np.asarray(value)
@@ -175,7 +175,7 @@ def _linear_to_s_log2(value):
     Returns
     -------
     numeric or ndarray
-        Companded value.
+        Encoded value.
     """
 
     value = np.asarray(value)
@@ -196,7 +196,7 @@ def _s_log2_to_linear(value):
     Returns
     -------
     numeric or ndarray
-        Companded value.
+        Decoded value.
     """
 
     value = np.asarray(value)
@@ -247,7 +247,7 @@ def _linear_to_s_log3(value):
     Returns
     -------
     numeric or ndarray
-        Companded value.
+        Encoded value.
     """
 
     value = np.asarray(value)
@@ -270,7 +270,7 @@ def _s_log3_to_linear(value):
     Returns
     -------
     numeric or ndarray
-        Companded value.
+        Decoded value.
     """
 
     value = np.asarray(value)

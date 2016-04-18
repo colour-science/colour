@@ -114,7 +114,7 @@ def _linear_to_v_log(value):
     Returns
     -------
     numeric or ndarray
-        Companded value.
+        Encoded value.
     """
 
     value = np.asarray(value)
@@ -142,7 +142,7 @@ def _v_log_to_linear(value):
     Returns
     -------
     numeric or ndarray
-        Companded value.
+        Decoded value.
     """
 
     value = np.asarray(value)

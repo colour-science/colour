@@ -26,9 +26,13 @@ R-REC-BT.470-6-199811-S!!PDF-E.pdf
 from __future__ import division, unicode_literals
 
 import numpy as np
+from functools import partial
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import RGB_Colourspace, normalised_primary_matrix
+from colour.models.rgb import (
+    RGB_Colourspace,
+    gamma_function,
+    normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -42,8 +46,6 @@ __all__ = ['PAL_SECAM_RGB_PRIMARIES',
            'PAL_SECAM_RGB_WHITEPOINT',
            'PAL_SECAM_RGB_TO_XYZ_MATRIX',
            'XYZ_TO_PAL_SECAM_RGB_MATRIX',
-           'PAL_SECAM_RGB_OECF',
-           'PAL_SECAM_RGB_EOCF',
            'PAL_SECAM_RGB_COLOURSPACE']
 
 PAL_SECAM_RGB_PRIMARIES = np.array(
@@ -86,63 +88,6 @@ XYZ_TO_PAL_SECAM_RGB_MATRIX = np.linalg.inv(PAL_SECAM_RGB_TO_XYZ_MATRIX)
 XYZ_TO_PAL_SECAM_RGB_MATRIX : array_like, (3, 3)
 """
 
-
-def _pal_secam_rgb_OECF(value):
-    """
-    Defines the *Pal/Secam RGB* colourspace opto-electronic conversion
-    function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Companded value.
-    """
-
-    value = np.asarray(value)
-
-    return value ** (1 / 2.8)
-
-
-def _pal_secam_rgb_EOCF(value):
-    """
-    Defines the *Pal/Secam RGB* colourspace electro-optical conversion
-    function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Companded value.
-    """
-
-    value = np.asarray(value)
-
-    return value ** 2.8
-
-
-PAL_SECAM_RGB_OECF = _pal_secam_rgb_OECF
-"""
-Opto-electronic conversion function of *Pal/Secam RGB* colourspace.
-
-PAL_SECAM_RGB_OECF : object
-"""
-
-PAL_SECAM_RGB_EOCF = _pal_secam_rgb_EOCF
-"""
-Electro-optical conversion function of *Pal/Secam RGB* colourspace.
-
-PAL_SECAM_RGB_EOCF : object
-"""
-
 PAL_SECAM_RGB_COLOURSPACE = RGB_Colourspace(
     'Pal/Secam RGB',
     PAL_SECAM_RGB_PRIMARIES,
@@ -150,8 +95,8 @@ PAL_SECAM_RGB_COLOURSPACE = RGB_Colourspace(
     PAL_SECAM_RGB_ILLUMINANT,
     PAL_SECAM_RGB_TO_XYZ_MATRIX,
     XYZ_TO_PAL_SECAM_RGB_MATRIX,
-    PAL_SECAM_RGB_OECF,
-    PAL_SECAM_RGB_EOCF)
+    partial(gamma_function, exponent=1 / 2.8),
+    partial(gamma_function, exponent=2.8))
 """
 *Pal/Secam RGB* colourspace.
 

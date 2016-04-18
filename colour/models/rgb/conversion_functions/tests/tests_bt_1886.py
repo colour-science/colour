@@ -11,7 +11,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.models.rgb.conversion_functions import BT_1886_EOCF
+from colour.models.rgb.conversion_functions import eocf_BT1886
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -21,78 +21,78 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestBT_1886_EOCF']
+__all__ = ['TestEocf_BT1886']
 
 
-class TestBT_1886_EOCF(unittest.TestCase):
+class TestEocf_BT1886(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.bt_1886.BT_1886_EOCF`
+    Defines :func:`colour.models.rgb.conversion_functions.bt_1886.eocf_BT1886`
     definition unit tests methods.
     """
 
-    def test_BT_1886_EOCF(self):
+    def test_eocf_BT1886(self):
         """
         Tests :func:`colour.models.rgb.conversion_functions.bt_1886.\
-BT_1886_EOCF` definition.
+eocf_BT1886` definition.
         """
 
         self.assertAlmostEqual(
-            BT_1886_EOCF(0.00),
+            eocf_BT1886(0.0),
             64.0,
             places=7)
 
         self.assertAlmostEqual(
-            BT_1886_EOCF(0.50),
-            350.82249515639683,
+            eocf_BT1886(0.18),
+            136.58617957264661,
             places=7)
 
         self.assertAlmostEqual(
-            BT_1886_EOCF(1.00),
+            eocf_BT1886(1.0),
             939.99999999999989,
             places=7)
 
-    def test_n_dimensional_BT_1886_EOCF(self):
+    def test_n_dimensional_eocf_BT1886(self):
         """
         Tests :func:`colour.models.rgb.conversion_functions.bt_1886.\
-BT_1886_EOCF` definition n-dimensional arrays support.
+eocf_BT1886` definition n-dimensional arrays support.
         """
 
-        V = 0.50
-        L = 350.82249515639683
+        V = 0.18
+        L = 136.58617957264661
         np.testing.assert_almost_equal(
-            BT_1886_EOCF(V),
+            eocf_BT1886(V),
             L,
             decimal=7)
 
         V = np.tile(V, 6)
         L = np.tile(L, 6)
         np.testing.assert_almost_equal(
-            BT_1886_EOCF(V),
+            eocf_BT1886(V),
             L,
             decimal=7)
 
         V = np.reshape(V, (2, 3))
         L = np.reshape(L, (2, 3))
         np.testing.assert_almost_equal(
-            BT_1886_EOCF(V),
+            eocf_BT1886(V),
             L,
             decimal=7)
 
         V = np.reshape(V, (2, 3, 1))
         L = np.reshape(L, (2, 3, 1))
         np.testing.assert_almost_equal(
-            BT_1886_EOCF(V),
+            eocf_BT1886(V),
             L,
             decimal=7)
 
     @ignore_numpy_errors
-    def test_nan_BT_1886_EOCF(self):
+    def test_nan_eocf_BT1886(self):
         """
         Tests :func:`colour.models.rgb.conversion_functions.bt_1886.\
-BT_1886_EOCF` definition nan support.
+eocf_BT1886` definition nan support.
         """
 
-        BT_1886_EOCF(
+        eocf_BT1886(
             np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 

@@ -26,9 +26,10 @@ Construction_of_the_CIE_XYZ_color_space_from_the_Wright.E2.80.93Guild_data
 from __future__ import division, unicode_literals
 
 import numpy as np
+from functools import partial
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import RGB_Colourspace
+from colour.models.rgb import RGB_Colourspace, gamma_function
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -42,8 +43,6 @@ __all__ = ['CIE_RGB_PRIMARIES',
            'CIE_RGB_WHITEPOINT',
            'CIE_RGB_TO_XYZ_MATRIX',
            'XYZ_TO_CIE_RGB_MATRIX',
-           'CIE_RGB_OECF',
-           'CIE_RGB_EOCF',
            'CIE_RGB_COLOURSPACE']
 
 CIE_RGB_PRIMARIES = np.array(
@@ -87,61 +86,6 @@ XYZ_TO_CIE_RGB_MATRIX = np.linalg.inv(CIE_RGB_TO_XYZ_MATRIX)
 XYZ_TO_CIE_RGB_MATRIX : array_like, (3, 3)
 """
 
-
-def _cie_rgb_OECF(value):
-    """
-    Defines the *CIE RGB* colourspace opto-electronic conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Companded value.
-    """
-
-    value = np.asarray(value)
-
-    return value ** (1 / 2.2)
-
-
-def _cie_rgb_EOCF(value):
-    """
-    Defines the *CIE RGB* colourspace electro-optical conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Companded value.
-    """
-
-    value = np.asarray(value)
-
-    return value ** 2.2
-
-
-CIE_RGB_OECF = _cie_rgb_OECF
-"""
-Opto-electronic conversion function of *CIE RGB* colourspace.
-
-CIE_RGB_OECF : object
-"""
-
-CIE_RGB_EOCF = _cie_rgb_EOCF
-"""
-Electro-optical conversion function of *CIE RGB* colourspace.
-
-CIE_RGB_EOCF : object
-"""
-
 CIE_RGB_COLOURSPACE = RGB_Colourspace(
     'CIE RGB',
     CIE_RGB_PRIMARIES,
@@ -149,8 +93,8 @@ CIE_RGB_COLOURSPACE = RGB_Colourspace(
     CIE_RGB_ILLUMINANT,
     CIE_RGB_TO_XYZ_MATRIX,
     XYZ_TO_CIE_RGB_MATRIX,
-    CIE_RGB_OECF,
-    CIE_RGB_EOCF)
+    partial(gamma_function, exponent=1 / 2.2),
+    partial(gamma_function, exponent=2.2))
 """
 *CIE RGB* colourspace.
 
