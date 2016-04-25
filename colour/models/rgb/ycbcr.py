@@ -5,7 +5,7 @@
 Y'CbCr Colour Encoding
 ======================
 
-Defines the Y'CbCr colour encoding (Y'CbCr is not a colour space) transformations:
+Defines the Y'CbCr encoding (Y'CbCr is not a colour space) transformations:
 
 -   :func:`rgb_to_YCbCr`
 -   :func:`YCbCr_to_rgb`
@@ -16,16 +16,18 @@ References
 ----------
 .. [1]  Wikipedia. YCbCr. Retrieved February 29, 2016, from
         https://en.wikipedia.org/wiki/YCbCr
-.. [2]  Recommendation ITU-R BT.709-6(06/2015). Retrieved February 29, 2016, from
-        https://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.709-6-201506-I!!PDF-E.pdf
-.. [3]  Recommendation ITU-R BT.2020(08/2012). Retrieved February 29, 2016, from
-        https://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-S!!PDF-E.pdf
+.. [2]  Recommendation ITU-R BT.709-6(06/2015). Retrieved February 29, 2016,
+        from https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
+        R-REC-BT.709-6-201506-I!!PDF-E.pdf
+.. [3]  Recommendation ITU-R BT.2020(08/2012). Retrieved February 29, 2016,
+        from https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
+        R-REC-BT.2020-0-201208-S!!PDF-E.pdf
 """
 
 import numpy as np
 
 from colour.utilities import tsplit, tstack, CaseInsensitiveMapping
-from colour.models.rgb import *
+from colour.models.rgb import REC_2020_COLOURSPACE
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2016 - Colour Developers'
@@ -42,9 +44,9 @@ __all__ = ['WEIGHT',
            'YcCbcCrc_to_rgb']
 
 WEIGHT = (CaseInsensitiveMapping(
-        {'Rec.601' : [0.299, 0.114],
-         'Rec.709' : [0.2126, 0.0722],
-         'Rec.2020' : [0.2627, 0.0593]}))
+        {'Rec.601': [0.299, 0.114],
+         'Rec.709': [0.2126, 0.0722],
+         'Rec.2020': [0.2627, 0.0593]}))
 """
 List of preset luma weightings:
     'Rec.601' : [0.299, 0.114]
@@ -53,20 +55,20 @@ List of preset luma weightings:
 """
 
 RANGE = (CaseInsensitiveMapping(
-        {'legal_12' : [256./4095, 3760./4095],
-         'legal_12_YC' : [256./4095, 3760./4095, 256./4095, 3840./4095],
-         'legal_12_int' : [256, 3760],
-         'legal_12_YC_int' : [256, 3760, 256, 3840],
-         'legal_10' : [64./1023, 940./1023],
-         'legal_10_YC' : [64./1023, 940./1023, 64./1023, 960./1023],
-         'legal_10_int' : [64, 940],
-         'legal_10_YC_int' : [64, 940, 64, 960],
-         'legal_8' : [16./255, 235./255],
-         'legal_8_YC' : [16./255, 235./255, 16./255, 240./255],
-         'legal_8_int' : [16, 235],
-         'legal_8_YC_int' : [16, 235, 16, 240],
-         'full' : [0.0, 1.0],
-         'YPbPr' : [0.0, 1.0, -0.5, 0.5]}))
+        {'legal_12': [256./4095, 3760./4095],
+         'legal_12_YC': [256./4095, 3760./4095, 256./4095, 3840./4095],
+         'legal_12_int': [256, 3760],
+         'legal_12_YC_int': [256, 3760, 256, 3840],
+         'legal_10': [64./1023, 940./1023],
+         'legal_10_YC': [64./1023, 940./1023, 64./1023, 960./1023],
+         'legal_10_int': [64, 940],
+         'legal_10_YC_int': [64, 940, 64, 960],
+         'legal_8': [16./255, 235./255],
+         'legal_8_YC': [16./255, 235./255, 16./255, 240./255],
+         'legal_8_int': [16, 235],
+         'legal_8_YC_int': [16, 235, 16, 240],
+         'full': [0.0, 1.0],
+         'YPbPr': [0.0, 1.0, -0.5, 0.5]}))
 """
 List of preset ranges:
     'legal_12' : [256./4095, 3760./4095]
@@ -85,15 +87,18 @@ List of preset ranges:
     'YPbPr' : [0.0, 1.0, -0.5, 0.5]
 """
 
-def rgb_to_YCbCr(rgb, K = WEIGHT['Rec.709'], inRange = RANGE['full'], outRange = RANGE['legal_10_YC']):
+
+def rgb_to_YCbCr(rgb, K=WEIGHT['Rec.709'], inRange=RANGE['full'],
+                 outRange=RANGE['legal_10_YC']):
     """
     Converts an array of R'G'B' values to the corresponding Y'CbCr values.
-    
-    Note: For ITU-R BT.2020 (Rec.2020) the rgb_to_YCbCr function is only applicable to
-    the non-constant luminance implementation.
-    The rgb_to_YcCbcCrc function should be used for the constant luminance case.
-    See https://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-S!!PDF-E.pdf
-    
+
+    Note: For ITU-R BT.2020 (Rec.2020) the rgb_to_YCbCr function is only
+    applicable tothe non-constant luminance implementation.
+    The rgb_to_YcCbcCrc function should be used for the constant luminance case
+    See https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
+    R-REC-BT.2020-0-201208-S!!PDF-E.pdf
+
     Parameters
     ----------
     rgb : array_like
@@ -110,36 +115,41 @@ def rgb_to_YCbCr(rgb, K = WEIGHT['Rec.709'], inRange = RANGE['full'], outRange =
         and the minimum and maximum values of Cb and Cr.
         These may be floats or integer code values.
         Default: RANGE['legal_10_YC']
-    
+
     Returns
     -------
     ndarray
         Y'CbCr array.
-        These may be floats or integer code values, depending on the parameter values
-        given for outRange.
-    
+        These may be floats or integer code values, depending on the parameter
+        values given for outRange.
+
     Examples
     --------
     >>> RGB = np.array([1.0, 1.0, 1.0])
-    >>> rgb_to_YCbCr(RGB)
+    >>> rgb_to_YCbCr(RGB)  # doctest: +ELLIPSIS
     array([ 0.91886608,  0.50048876,  0.50048876])
     >>> rgb_to_YCbCr(RGB, outRange=RANGE['legal_10_YC_int'])
     array([940, 512, 512])
-    
+
     For the JFIF JPEG conversion shown on https://en.wikipedia.org/wiki/YCbCr:
-    
+
     >>> RGB = np.array([102, 0, 51])
-    >>> rgb_to_YCbCr(RGB, K=WEIGHT['Rec.601'], inRange=[0, 255], outRange=[0, 255, 0, 256])
+    >>> rgb_to_YCbCr(RGB,
+    ...              K=WEIGHT['Rec.601'],
+    ...              inRange=[0, 255],
+    ...              outRange=[0, 255, 0, 256])  # doctest: +ELLIPSIS
     array([ 36, 136, 175])
-    
-    Note the use of 256 for the max Cb/Cr value, which is required so that the Cb and Cr
-    output is centred about 128. Using 255 would centre them about 127.5 meaning that
-    there was no integer code value to represent neutral colours. This does however create
-    the possibility of output values of 256, which cannot be stored in an 8-bit integer.
+
+    Note the use of 256 for the max Cb/Cr value, which is required so that the
+    Cb and Cr output is centred about 128. Using 255 would centre them about
+    127.5 meaning that there was no integer code value to represent neutral
+    colours. This does however create the possibility of output values of 256,
+    which cannot be stored in an 8-bit integer.
     """
     Kr = K[0]
     Kb = K[1]
-    intOut = isinstance(outRange[0], int) and isinstance(outRange[1], int) and isinstance(outRange[2], int) and isinstance(outRange[3], int)
+    intOut = (isinstance(outRange[0], int) and isinstance(outRange[1], int) and
+              isinstance(outRange[2], int) and isinstance(outRange[3], int))
     rgb_float = (rgb.astype(float) - inRange[0])
     rgb_float *= 1.0/(inRange[1] - inRange[0])
     r, g, b = tsplit(rgb_float)
@@ -159,15 +169,18 @@ def rgb_to_YCbCr(rgb, K = WEIGHT['Rec.709'], inRange = RANGE['full'], outRange =
     YCbCr = tstack((Y, Cb, Cr))
     return YCbCr
 
-def YCbCr_to_rgb(YCbCr, K = WEIGHT['Rec.709'], inRange = RANGE['legal_10_YC'], outRange = RANGE['full']):
+
+def YCbCr_to_rgb(YCbCr, K=WEIGHT['Rec.709'], inRange=RANGE['legal_10_YC'],
+                 outRange=RANGE['full']):
     """
     Converts an array of Y'CbCr values to the corresponding R'G'B' values.
-    
-    Note: For ITU-R BT.2020 (Rec.2020) the YCbCr_to_rgb function is only applicable to
-    the non-constant luminance implementation.
-    The YcCbcCrc_to_rgb function should be used for the constant luminance case.
-    See https://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-S!!PDF-E.pdf
-    
+
+    Note: For ITU-R BT.2020 (Rec.2020) the YCbCr_to_rgb function is only
+    applicable to the non-constant luminance implementation.
+    The YcCbcCrc_to_rgb function should be used for the constant luminance case
+    See https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
+    R-REC-BT.2020-0-201208-S!!PDF-E.pdf
+
     Parameters
     ----------
     YCbCr : array_like
@@ -184,18 +197,19 @@ def YCbCr_to_rgb(YCbCr, K = WEIGHT['Rec.709'], inRange = RANGE['legal_10_YC'], o
         The values of R', G' and B' corresponding to 0 IRE and 100 IRE.
         These may be floats or integer code values.
         Default: RANGE['full']
-    
+
     Returns
     -------
     ndarray
         R'G'B' array.
-        These may be floats or integer code values, depending on the parameter values
-        given for outRange.
-    
+        These may be floats or integer code values, depending on the parameter
+        values given for outRange.
+
     Examples
     --------
     >>> YCbCr = np.array([502, 512, 512])
-    >>> YCbCr_to_rgb(YCbCr, inRange=RANGE['legal_10_YC_int'])
+    >>> YCbCr_to_rgb(YCbCr,
+    ...              inRange=RANGE['legal_10_YC_int'])  # doctest: +ELLIPSIS
     array([ 0.5,  0.5,  0.5])
     """
     Kr = K[0]
@@ -210,7 +224,7 @@ def YCbCr_to_rgb(YCbCr, K = WEIGHT['Rec.709'], inRange = RANGE['legal_10_YC'], o
     Cr *= 1.0/(inRange[3] - inRange[2])
     r = Y + (2.0 - 2.0*Kr)*Cr
     b = Y + (2.0 - 2.0*Kb)*Cb
-    g = (Y - Kr*r - Kb*b)/(1.0 - Kr -Kb)
+    g = (Y - Kr*r - Kb*b)/(1.0 - Kr - Kb)
     r *= outRange[1] - outRange[0]
     g *= outRange[1] - outRange[0]
     b *= outRange[1] - outRange[0]
@@ -224,14 +238,18 @@ def YCbCr_to_rgb(YCbCr, K = WEIGHT['Rec.709'], inRange = RANGE['legal_10_YC'], o
     rgb = tstack((r, g, b))
     return rgb
 
-def rgb_to_YcCbcCrc(rgb, outRange = RANGE['legal_10_YC'], is_10_bits_system = True):
+
+def rgb_to_YcCbcCrc(rgb, outRange=RANGE['legal_10_YC'],
+                    is_10_bits_system=True):
     """
-    Converts an array of RGB (linear) values to the corresponding Yc'Cbc'Crc' values.
-    
-    Note: This fuction is specifically for use with ITU-R BT.2020 (Rec.2020) when using
-    the constant luminance implementation.
-    See https://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-S!!PDF-E.pdf
-    
+    Converts an array of RGB (linear) values to the corresponding Yc'Cbc'Crc'
+    values.
+
+    Note: This fuction is specifically for use with ITU-R BT.2020 (Rec.2020)
+    when using the constant luminance implementation.
+    See https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
+    R-REC-BT.2020-0-201208-S!!PDF-E.pdf
+
     Parameters
     ----------
     rgb : array_like
@@ -244,21 +262,26 @@ def rgb_to_YcCbcCrc(rgb, outRange = RANGE['legal_10_YC'], is_10_bits_system = Tr
     is_10_bits_system : bool (optional)
         The Rec.2020 OECF varies slightly for 10 and 12 bit systems.
         Default: True
-    
+
     Returns
     -------
     ndarray
         Yc'Cbc'Crc' array.
-        These may be floats or integer code values, depending on the parameter values
-        given for outRange.
-    
+        These may be floats or integer code values, depending on the parameter
+        values given for outRange.
+
     Examples
     --------
     >>> rgb = np.array([0.18, 0.18, 0.18])
-    >>> rgb_to_YcCbcCrc(rgb, outRange=RANGE['legal_10_YC_int'], is_10_bits_system = True)
+    >>> rgb_to_YcCbcCrc(rgb,
+    ...                 outRange=RANGE['legal_10_YC_int'],
+    ...                 is_10_bits_system = True)  # doctest: +ELLIPSIS
     array([422, 512, 512])
     """
-    intOut = isinstance(outRange[0], int) and isinstance(outRange[1], int) and isinstance(outRange[2], int) and isinstance(outRange[3], int)
+    intOut = (isinstance(outRange[0], int) and
+              isinstance(outRange[1], int) and
+              isinstance(outRange[2], int) and
+              isinstance(outRange[3], int))
     r, g, b = tsplit(rgb)
     Yc = 0.2627*r + 0.6780*g + 0.0593*b
     Yc = REC_2020_COLOURSPACE.OECF(Yc, is_10_bits_system=is_10_bits_system)
@@ -279,14 +302,18 @@ def rgb_to_YcCbcCrc(rgb, outRange = RANGE['legal_10_YC'], is_10_bits_system = Tr
     YcCbcCrc = tstack((Yc, Cbc, Crc))
     return YcCbcCrc
 
-def YcCbcCrc_to_rgb(YcCbcCrc, inRange = RANGE['legal_10_YC'], is_10_bits_system = True):
+
+def YcCbcCrc_to_rgb(YcCbcCrc, inRange=RANGE['legal_10_YC'],
+                    is_10_bits_system=True):
     """
-    Converts an array of Yc'Cbc'Crc' values to the corresponding RGB (linear) values.
-    
-    Note: This fuction is specifically for use with ITU-R BT.2020 (Rec.2020) when using
-    the constant luminance implementation.
-    See https://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-0-201208-S!!PDF-E.pdf
-    
+    Converts an array of Yc'Cbc'Crc' values to the corresponding RGB (linear)
+    values.
+
+    Note: This fuction is specifically for use with ITU-R BT.2020 (Rec.2020)
+    when using the constant luminance implementation.
+    See https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
+    R-REC-BT.2020-0-201208-S!!PDF-E.pdf
+
     Parameters
     ----------
     YcCbcCrc : array_like
@@ -300,17 +327,19 @@ def YcCbcCrc_to_rgb(YcCbcCrc, inRange = RANGE['legal_10_YC'], is_10_bits_system 
         The Rec.2020 EOCF varies slightly for 10 and 12 bit systems.
         Default: True
 
-    
+
     Returns
     -------
     ndarray
         RGB values corresponding to the input colour.
         These will be floating point linear values.
-    
+
     Examples
     --------
     >>> YcCbcCrc = np.array([1689, 2048, 2048])
-    >>> YcCbcCrc_to_rgb(YcCbcCrc, inRange=RANGE['legal_12_YC_int'], is_10_bits_system = False)
+    >>> YcCbcCrc_to_rgb(YcCbcCrc,
+    ...                 inRange=RANGE['legal_12_YC_int'],
+    ...                 is_10_bits_system=False)  # doctest: +ELLIPSIS
     array([ 0.18009037,  0.18009037,  0.18009037])
     """
     Yc, Cbc, Crc = tsplit(YcCbcCrc.astype(float))
@@ -328,4 +357,3 @@ def YcCbcCrc_to_rgb(YcCbcCrc, inRange = RANGE['legal_10_YC'], is_10_bits_system 
     g = (Yc - 0.0593*b - 0.2627*r)/0.6780
     rgb = tstack((r, g, b))
     return rgb
-    
