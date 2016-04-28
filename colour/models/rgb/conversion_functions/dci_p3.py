@@ -39,7 +39,7 @@ __all__ = ['log_encoding_DCIP3',
            'log_decoding_DCIP3']
 
 
-def log_encoding_DCIP3(value, **kwargs):
+def log_encoding_DCIP3(value):
     """
     Defines the *DCI-P3* colourspace opto-electronic conversion function.
 
@@ -47,9 +47,6 @@ def log_encoding_DCIP3(value, **kwargs):
     ----------
     value : numeric or array_like
         Value.
-    \**kwargs : dict, optional
-        Unused parameter provided for signature compatibility with other
-        *log* encoding curves.
 
     Returns
     -------
@@ -67,7 +64,7 @@ def log_encoding_DCIP3(value, **kwargs):
     return 4095 * (value / 52.37) ** (1 / 2.6)
 
 
-def log_decoding_DCIP3(value, **kwargs):
+def log_decoding_DCIP3(value):
     """
     Defines the *DCI-P3* colourspace electro-optical conversion function.
 
@@ -75,9 +72,6 @@ def log_decoding_DCIP3(value, **kwargs):
     ----------
     value : numeric or array_like
         Value.
-    \**kwargs : dict, optional
-        Unused parameter provided for signature compatibility with other
-        *log* decoding curves.
 
     Returns
     -------

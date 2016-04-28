@@ -129,7 +129,13 @@ def log_encoding_curve(value, method='Cineon', **kwargs):
     0.3599878...
     """
 
-    return LOG_ENCODING_METHODS.get(method)(value, **kwargs)
+    func = LOG_ENCODING_METHODS[method]
+    args = func.func_code.co_varnames
+    args = set(kwargs.keys()) - set(args)
+    for key in args:
+        kwargs.pop(key)
+
+    return func(value, **kwargs)
 
 
 LOG_DECODING_METHODS = CaseInsensitiveMapping(
@@ -194,8 +200,13 @@ def log_decoding_curve(value, method='Cineon', **kwargs):
     0.1...
     """
 
-    return LOG_DECODING_METHODS.get(method)(value, **kwargs)
+    func = LOG_DECODING_METHODS[method]
+    args = func.func_code.co_varnames
+    args = set(kwargs.keys()) - set(args)
+    for key in args:
+        kwargs.pop(key)
 
+    return func(value, **kwargs)
 
 __all__ += ['LOG_ENCODING_METHODS', 'LOG_DECODING_METHODS']
 __all__ += ['log_encoding_curve', 'log_decoding_curve']

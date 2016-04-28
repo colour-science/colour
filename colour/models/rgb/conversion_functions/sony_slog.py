@@ -52,7 +52,7 @@ __all__ = ['log_encoding_SLog',
            'log_decoding_SLog3']
 
 
-def log_encoding_SLog(value, **kwargs):
+def log_encoding_SLog(value):
     """
     Defines the *Sony S-Log* log encoding curve / opto-electronic conversion
     function.
@@ -61,9 +61,6 @@ def log_encoding_SLog(value, **kwargs):
     ----------
     value : numeric or array_like
         Value.
-    \**kwargs : dict, optional
-        Unused parameter provided for signature compatibility with other
-        *log* encoding curves.
 
     Returns
     -------
@@ -81,7 +78,7 @@ def log_encoding_SLog(value, **kwargs):
     return (0.432699 * np.log10(value + 0.037584) + 0.616596) + 0.03
 
 
-def log_decoding_SLog(value, **kwargs):
+def log_decoding_SLog(value):
     """
     Defines the *Sony S-Log* log decoding curve / electro-optical conversion
     function.
@@ -90,9 +87,6 @@ def log_decoding_SLog(value, **kwargs):
     ----------
     value : numeric or array_like
         Value.
-    \**kwargs : dict, optional
-        Unused parameter provided for signature compatibility with other
-        *log* decoding curves.
 
     Returns
     -------
@@ -110,7 +104,7 @@ def log_decoding_SLog(value, **kwargs):
     return 10 ** ((value - 0.616596 - 0.03) / 0.432699) - 0.037584
 
 
-def log_encoding_SLog2(value, **kwargs):
+def log_encoding_SLog2(value):
     """
     Defines the *Sony S-Log2* log encoding curve / opto-electronic conversion
     function.
@@ -119,9 +113,6 @@ def log_encoding_SLog2(value, **kwargs):
     ----------
     value : numeric or array_like
         Value.
-    \**kwargs : dict, optional
-        Unused parameter provided for signature compatibility with other
-        *log* encoding curves.
 
     Returns
     -------
@@ -140,7 +131,7 @@ def log_encoding_SLog2(value, **kwargs):
                               (np.log10(0.037584 + value / 0.9))))) / 1023)
 
 
-def log_decoding_SLog2(value, **kwargs):
+def log_decoding_SLog2(value):
     """
     Defines the *Sony S-Log2* log decoding curve / electro-optical conversion
     function.
@@ -149,9 +140,6 @@ def log_decoding_SLog2(value, **kwargs):
     ----------
     value : numeric or array_like
         Value.
-    \**kwargs : dict, optional
-        Unused parameter provided for signature compatibility with other
-        *log* decoding curves.
 
     Returns
     -------
@@ -170,7 +158,7 @@ def log_decoding_SLog2(value, **kwargs):
                      0.432699)) - 0.037584) * 0.9)
 
 
-def log_encoding_SLog3(value, **kwargs):
+def log_encoding_SLog3(value):
     """
     Defines the *Sony S-Log3* log encoding curve / opto-electronic conversion
     function.
@@ -179,9 +167,6 @@ def log_encoding_SLog3(value, **kwargs):
     ----------
     value : numeric or array_like
         Value.
-    \**kwargs : dict, optional
-        Unused parameter provided for signature compatibility with other
-        *log* encoding curves.
 
     Returns
     -------
@@ -203,7 +188,7 @@ def log_encoding_SLog3(value, **kwargs):
                  (value * (171.2102946929 - 95) / 0.01125000 + 95) / 1023))
 
 
-def log_decoding_SLog3(value, **kwargs):
+def log_decoding_SLog3(value):
     """
     Defines the *Sony S-Log3* log decoding curve / electro-optical conversion
     function.
@@ -212,9 +197,6 @@ def log_decoding_SLog3(value, **kwargs):
     ----------
     value : numeric or array_like
         Value.
-    \**kwargs : dict, optional
-        Unused parameter provided for signature compatibility with other
-        *log* decoding curves.
 
     Returns
     -------

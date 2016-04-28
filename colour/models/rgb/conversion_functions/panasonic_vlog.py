@@ -52,7 +52,7 @@ V_LOG_CONSTANTS : Structure
 """
 
 
-def log_encoding_VLog(value, **kwargs):
+def log_encoding_VLog(value):
     """
     Defines the *V-Log* log encoding curve / opto-electronic conversion
     function.
@@ -61,9 +61,6 @@ def log_encoding_VLog(value, **kwargs):
     ----------
     value : numeric or array_like
         Value.
-    \**kwargs : dict, optional
-        Unused parameter provided for signature compatibility with other
-        *log* encoding curves.
 
     Returns
     -------
@@ -90,7 +87,7 @@ def log_encoding_VLog(value, **kwargs):
     return as_numeric(value)
 
 
-def log_decoding_VLog(value, **kwargs):
+def log_decoding_VLog(value):
     """
     Defines the *V-Log* log decoding curve / electro-optical conversion
     function.
@@ -99,9 +96,6 @@ def log_decoding_VLog(value, **kwargs):
     ----------
     value : numeric or array_like
         Value.
-    \**kwargs : dict, optional
-        Unused parameter provided for signature compatibility with other
-        *log* decoding curves.
 
     Returns
     -------

@@ -38,7 +38,7 @@ __all__ = ['log_encoding_CLog',
            'log_decoding_CLog']
 
 
-def log_encoding_CLog(value, **kwargs):
+def log_encoding_CLog(value):
     """
     Defines the *Canon C-Log* log encoding curve / opto-electronic conversion
     function.
@@ -47,9 +47,6 @@ def log_encoding_CLog(value, **kwargs):
     ----------
     value : numeric or array_like
         Value.
-    \**kwargs : dict, optional
-        Unused parameter provided for signature compatibility with other
-        *log* encoding curves.
 
     Returns
     -------
@@ -67,7 +64,7 @@ def log_encoding_CLog(value, **kwargs):
     return 0.529136 * np.log10(10.1596 * value + 1) + 0.0730597
 
 
-def log_decoding_CLog(value, **kwargs):
+def log_decoding_CLog(value):
     """
     Defines the *Canon C-Log* log decoding curve / electro-optical conversion
     function.
@@ -76,9 +73,6 @@ def log_decoding_CLog(value, **kwargs):
     ----------
     value : numeric or array_like
         Value.
-    \**kwargs : dict, optional
-        Unused parameter provided for signature compatibility with other
-        *log* encoding curves.
 
     Returns
     -------

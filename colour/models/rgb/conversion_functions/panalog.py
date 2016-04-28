@@ -39,8 +39,7 @@ __all__ = ['log_encoding_Panalog',
 
 
 def log_encoding_Panalog(value,
-                         black_offset=10 ** ((64 - 681) / 444),
-                         **kwargs):
+                         black_offset=10 ** ((64 - 681) / 444)):
     """
     Defines the *Panalog* log encoding curve / opto-electronic conversion
     function.
@@ -51,9 +50,6 @@ def log_encoding_Panalog(value,
         Value.
     black_offset : numeric or array_like
         Black offset.
-    \**kwargs : dict, optional
-        Unused parameter provided for signature compatibility with other
-        *log* encoding curves.
 
     Returns
     -------
@@ -73,8 +69,7 @@ def log_encoding_Panalog(value,
 
 
 def log_decoding_Panalog(value,
-                         black_offset=10 ** ((64 - 681) / 444),
-                         **kwargs):
+                         black_offset=10 ** ((64 - 681) / 444)):
     """
     Defines the *Panalog* log decoding curve / electro-optical conversion
     function.
@@ -85,9 +80,6 @@ def log_decoding_Panalog(value,
         Value.
     black_offset : numeric or array_like
         Black offset.
-    \**kwargs : dict, optional
-        Unused parameter provided for signature compatibility with other
-        *log* decoding curves.
 
     Returns
     -------

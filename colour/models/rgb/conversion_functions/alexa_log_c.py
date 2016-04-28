@@ -182,8 +182,7 @@ ALEXA_LOG_C_CURVE_CONVERSION_DATA : CaseInsensitiveMapping
 def log_encoding_ALEXALogC(value,
                            firmware='SUP 3.x',
                            method='Linear Scene Exposure Factor',
-                           EI=800,
-                           **kwargs):
+                           EI=800):
     """
     Defines the *ALEXA Log C* log encoding curve / opto-electronic conversion
     function.
@@ -200,9 +199,6 @@ def log_encoding_ALEXALogC(value,
         Conversion method.
     EI : int,  optional
         Ei.
-    \**kwargs : dict, optional
-        Unused parameter provided for signature compatibility with other
-        *log* encoding curves.
 
     Returns
     -------
@@ -228,8 +224,7 @@ def log_encoding_ALEXALogC(value,
 def log_decoding_ALEXALogC(value,
                            firmware='SUP 3.x',
                            method='Linear Scene Exposure Factor',
-                           EI=800,
-                           **kwargs):
+                           EI=800):
     """
     Defines the *ALEXA Log C* log decoding curve / electro-optical conversion
     function.
@@ -246,9 +241,6 @@ def log_decoding_ALEXALogC(value,
         Conversion method.
     EI : int,  optional
         Ei.
-    \**kwargs : dict, optional
-        Unused parameter provided for signature compatibility with other
-        *log* decoding curves.
 
     Returns
     -------

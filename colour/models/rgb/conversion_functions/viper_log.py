@@ -38,7 +38,7 @@ __all__ = ['log_encoding_ViperLog',
            'log_decoding_ViperLog']
 
 
-def log_encoding_ViperLog(value, **kwargs):
+def log_encoding_ViperLog(value):
     """
     Defines the *Viper Log* log encoding curve / opto-electronic conversion
     function.
@@ -47,9 +47,6 @@ def log_encoding_ViperLog(value, **kwargs):
     ----------
     value : numeric or array_like
         Value.
-    \**kwargs : dict, optional
-        Unused parameter provided for signature compatibility with other
-        *log* encoding curves.
 
     Returns
     -------
@@ -67,7 +64,7 @@ def log_encoding_ViperLog(value, **kwargs):
     return (1023 + 500 * np.log10(value)) / 1023
 
 
-def log_decoding_ViperLog(value, **kwargs):
+def log_decoding_ViperLog(value):
     """
     Defines the *Viper Log* log decoding curve / electro-optical conversion
     function.
@@ -76,9 +73,6 @@ def log_decoding_ViperLog(value, **kwargs):
     ----------
     value : numeric or array_like
         Value.
-    \**kwargs : dict, optional
-        Unused parameter provided for signature compatibility with other
-        *log* decoding curves.
 
     Returns
     -------

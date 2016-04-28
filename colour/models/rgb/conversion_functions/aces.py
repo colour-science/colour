@@ -100,7 +100,7 @@ ACES_PROXY_CONSTANTS : CaseInsensitiveMapping
 """
 
 
-def log_encoding_ACESproxy(value, bit_depth='10 Bit', **kwargs):
+def log_encoding_ACESproxy(value, bit_depth='10 Bit'):
     """
     Defines the *ACESproxy* colourspace log encoding curve / opto-electronic
     conversion function.
@@ -112,9 +112,6 @@ def log_encoding_ACESproxy(value, bit_depth='10 Bit', **kwargs):
     bit_depth : unicode, optional
         **{'10 Bit', '12 Bit'}**,
         *ACESproxy* bit depth.
-    \**kwargs : dict, optional
-        Unused parameter provided for signature compatibility with other
-        *log* encoding curves.
 
     Returns
     -------
@@ -150,7 +147,7 @@ def log_encoding_ACESproxy(value, bit_depth='10 Bit', **kwargs):
     return as_numeric(output, int)
 
 
-def log_decoding_ACESproxy(value, bit_depth='10 Bit', **kwargs):
+def log_decoding_ACESproxy(value, bit_depth='10 Bit'):
     """
     Defines the *ACESproxy* colourspace log decoding curve / electro-optical
     conversion function.
@@ -162,9 +159,6 @@ def log_decoding_ACESproxy(value, bit_depth='10 Bit', **kwargs):
     bit_depth : unicode, optional
         **{'10 Bit', '12 Bit'}**,
         *ACESproxy* bit depth.
-    \**kwargs : dict, optional
-        Unused parameter provided for signature compatibility with other
-        *log* decoding curves.
 
     Returns
     -------
@@ -185,7 +179,7 @@ def log_decoding_ACESproxy(value, bit_depth='10 Bit', **kwargs):
                    constants.steps_per_stop - constants.mid_log_offset)))
 
 
-def log_encoding_ACEScc(value, **kwargs):
+def log_encoding_ACEScc(value):
     """
     Defines the *ACEScc* colourspace log encoding / opto-electronic conversion
     function.
@@ -194,9 +188,6 @@ def log_encoding_ACEScc(value, **kwargs):
     ----------
     value : numeric or array_like
         Value.
-    \**kwargs : dict, optional
-        Unused parameter provided for signature compatibility with other
-        *log* encoding curves.
 
     Returns
     -------
@@ -221,7 +212,7 @@ def log_encoding_ACEScc(value, **kwargs):
     return as_numeric(output)
 
 
-def log_decoding_ACEScc(value, **kwargs):
+def log_decoding_ACEScc(value):
     """
     Defines the *ACEScc* colourspace log decoding / electro-optical conversion
     function.
@@ -235,9 +226,6 @@ def log_decoding_ACEScc(value, **kwargs):
     -------
     numeric or ndarray
         Decoded value.
-    \**kwargs : dict, optional
-        Unused parameter provided for signature compatibility with other
-        *log* decoding curves.
 
     Examples
     --------

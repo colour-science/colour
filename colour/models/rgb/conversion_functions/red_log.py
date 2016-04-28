@@ -45,8 +45,7 @@ __all__ = ['log_encoding_REDLog',
 
 
 def log_encoding_REDLog(value,
-                        black_offset=10 ** ((0 - 1023) / 511),
-                        **kwargs):
+                        black_offset=10 ** ((0 - 1023) / 511)):
     """
     Defines the *REDLog* log encoding curve / opto-electronic conversion
     function.
@@ -57,9 +56,6 @@ def log_encoding_REDLog(value,
         Value.
     black_offset : numeric or array_like
         Black offset.
-    \**kwargs : dict, optional
-        Unused parameter provided for signature compatibility with other
-        *log* encoding curves.
 
     Returns
     -------
@@ -79,8 +75,7 @@ def log_encoding_REDLog(value,
 
 
 def log_decoding_REDLog(value,
-                        black_offset=10 ** ((0 - 1023) / 511),
-                        **kwargs):
+                        black_offset=10 ** ((0 - 1023) / 511)):
     """
     Defines the *REDLog* log decoding curve / electro-optical conversion
     function.
@@ -91,9 +86,6 @@ def log_decoding_REDLog(value,
         Value.
     black_offset : numeric or array_like
         Black offset.
-    \**kwargs : dict, optional
-        Unused parameter provided for signature compatibility with other
-        *log* decoding curves.
 
     Returns
     -------
@@ -114,8 +106,7 @@ def log_decoding_REDLog(value,
 
 
 def log_encoding_REDLogFilm(value,
-                            black_offset=10 ** ((95 - 685) / 300),
-                            **kwargs):
+                            black_offset=10 ** ((95 - 685) / 300)):
     """
     Defines the *REDLogFilm* log encoding curve / opto-electronic conversion
     function.
@@ -126,9 +117,6 @@ def log_encoding_REDLogFilm(value,
         Value.
     black_offset : numeric or array_like
         Black offset.
-    \**kwargs : dict, optional
-        Unused parameter provided for signature compatibility with other
-        *log* encoding curves.
 
     Returns
     -------
@@ -145,8 +133,7 @@ def log_encoding_REDLogFilm(value,
 
 
 def log_decoding_REDLogFilm(value,
-                            black_offset=10 ** ((95 - 685) / 300),
-                            **kwargs):
+                            black_offset=10 ** ((95 - 685) / 300)):
     """
     Defines the *REDLogFilm* log decoding curve / electro-optical conversion
     function.
@@ -157,9 +144,6 @@ def log_decoding_REDLogFilm(value,
         Value.
     black_offset : numeric or array_like
         Black offset.
-    \**kwargs : dict, optional
-        Unused parameter provided for signature compatibility with other
-        *log* decoding curves.
 
     Returns
     -------

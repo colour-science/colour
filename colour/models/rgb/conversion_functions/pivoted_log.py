@@ -42,8 +42,7 @@ def log_encoding_PivotedLog(value,
                             log_reference=445,
                             linear_reference=0.18,
                             negative_gamma=0.6,
-                            density_per_code_value=0.002,
-                            **kwargs):
+                            density_per_code_value=0.002):
     """
     Defines the *Josh Pines* style *Pivoted Log* log encoding curve /
     opto-electronic conversion function.
@@ -60,9 +59,6 @@ def log_encoding_PivotedLog(value,
         Negative gamma.
     density_per_code_value : numeric or array_like
         Density per code value.
-    \**kwargs : dict, optional
-        Unused parameter provided for signature compatibility with other
-        *log* encoding curves.
 
     Returns
     -------
@@ -85,8 +81,7 @@ def log_decoding_PivotedLog(value,
                             log_reference=445,
                             linear_reference=0.18,
                             negative_gamma=0.6,
-                            density_per_code_value=0.002,
-                            **kwargs):
+                            density_per_code_value=0.002):
     """
     Defines the *Josh Pines* style *Pivoted Log* log decoding curve /
     electro-optical conversion function.
@@ -103,9 +98,6 @@ def log_decoding_PivotedLog(value,
         Negative gamma.
     density_per_code_value : numeric or array_like
         Density per code value.
-    \**kwargs : dict, optional
-        Unused parameter provided for signature compatibility with other
-        *log* decoding curves.
 
     Returns
     -------
