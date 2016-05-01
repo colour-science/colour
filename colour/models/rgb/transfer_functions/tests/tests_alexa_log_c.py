@@ -3,7 +3,7 @@
 
 """
 Defines unit tests for
-:mod:`colour.models.rgb.conversion_functions.alexa_log_c` module.
+:mod:`colour.models.rgb.transfer_functions.alexa_log_c` module.
 """
 
 from __future__ import division, unicode_literals
@@ -11,7 +11,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.models.rgb.conversion_functions import (
+from colour.models.rgb.transfer_functions import (
     log_encoding_ALEXALogC,
     log_decoding_ALEXALogC)
 from colour.utilities import ignore_numpy_errors
@@ -29,13 +29,13 @@ __all__ = ['TestLogEncoding_ALEXALogC',
 
 class TestLogEncoding_ALEXALogC(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.alexa_log_c.\
+    Defines :func:`colour.models.rgb.transfer_functions.alexa_log_c.\
 log_encoding_ALEXALogC` definition unit tests methods.
     """
 
     def test_log_encoding_ALEXALogC(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.alexa_log_c.\
+        Tests :func:`colour.models.rgb.transfer_functions.alexa_log_c.\
 log_encoding_ALEXALogC` definition.
         """
 
@@ -56,7 +56,7 @@ log_encoding_ALEXALogC` definition.
 
     def test_n_dimensional_log_encoding_ALEXALogC(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.alexa_log_c.\
+        Tests :func:`colour.models.rgb.transfer_functions.alexa_log_c.\
 log_encoding_ALEXALogC` definition n-dimensional arrays support.
         """
 
@@ -91,7 +91,7 @@ log_encoding_ALEXALogC` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_log_encoding_ALEXALogC(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.alexa_log_c.\
+        Tests :func:`colour.models.rgb.transfer_functions.alexa_log_c.\
 log_encoding_ALEXALogC` definition nan support.
         """
 
@@ -101,13 +101,13 @@ log_encoding_ALEXALogC` definition nan support.
 
 class TestLogDecoding_ALEXALogC(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.alexa_log_c.\
+    Defines :func:`colour.models.rgb.transfer_functions.alexa_log_c.\
 log_decoding_ALEXALogC` definition unit tests methods.
     """
 
     def test_log_decoding_ALEXALogC(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.alexa_log_c.\
+        Tests :func:`colour.models.rgb.transfer_functions.alexa_log_c.\
 log_decoding_ALEXALogC` definition.
         """
 
@@ -128,7 +128,7 @@ log_decoding_ALEXALogC` definition.
 
     def test_n_dimensional_log_decoding_ALEXALogC(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.alexa_log_c.\
+        Tests :func:`colour.models.rgb.transfer_functions.alexa_log_c.\
 log_decoding_ALEXALogC` definition n-dimensional arrays support.
         """
 
@@ -163,7 +163,7 @@ log_decoding_ALEXALogC` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_log_decoding_ALEXALogC(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.alexa_log_c.\
+        Tests :func:`colour.models.rgb.transfer_functions.alexa_log_c.\
 log_decoding_ALEXALogC` definition nan support.
         """
 

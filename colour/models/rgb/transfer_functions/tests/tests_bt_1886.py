@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines unit tests for :mod:`colour.models.rgb.conversion_functions.bt_1886`
+Defines unit tests for :mod:`colour.models.rgb.transfer_functions.bt_1886`
 module.
 """
 
@@ -11,7 +11,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.models.rgb.conversion_functions import eocf_BT1886
+from colour.models.rgb.transfer_functions import eocf_BT1886
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -26,13 +26,13 @@ __all__ = ['TestEocf_BT1886']
 
 class TestEocf_BT1886(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.bt_1886.eocf_BT1886`
+    Defines :func:`colour.models.rgb.transfer_functions.bt_1886.eocf_BT1886`
     definition unit tests methods.
     """
 
     def test_eocf_BT1886(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.bt_1886.\
+        Tests :func:`colour.models.rgb.transfer_functions.bt_1886.\
 eocf_BT1886` definition.
         """
 
@@ -53,7 +53,7 @@ eocf_BT1886` definition.
 
     def test_n_dimensional_eocf_BT1886(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.bt_1886.\
+        Tests :func:`colour.models.rgb.transfer_functions.bt_1886.\
 eocf_BT1886` definition n-dimensional arrays support.
         """
 
@@ -88,7 +88,7 @@ eocf_BT1886` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_eocf_BT1886(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.bt_1886.\
+        Tests :func:`colour.models.rgb.transfer_functions.bt_1886.\
 eocf_BT1886` definition nan support.
         """
 

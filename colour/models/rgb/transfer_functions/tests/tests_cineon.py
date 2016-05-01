@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines unit tests for :mod:`colour.models.rgb.conversion_functions.bt_709`
+Defines unit tests for :mod:`colour.models.rgb.transfer_functions.cineon`
 module.
 """
 
@@ -11,7 +11,9 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.models.rgb.conversion_functions import oecf_BT709, eocf_BT709
+from colour.models.rgb.transfer_functions import (
+    log_encoding_Cineon,
+    log_decoding_Cineon)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -21,151 +23,151 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestOecf_BT709',
-           'TestEocf_BT709']
+__all__ = ['TestLogEncoding_Cineon',
+           'TestLogDecoding_Cineon']
 
 
-class TestOecf_BT709(unittest.TestCase):
+class TestLogEncoding_Cineon(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.bt_709.oecf_BT709`
-    definition unit tests methods.
+    Defines :func:`colour.models.rgb.transfer_functions.cineon.\
+log_encoding_Cineon` definition unit tests methods.
     """
 
-    def test_oecf_BT709(self):
+    def test_log_encoding_Cineon(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.bt_709.\
-oecf_BT709` definition.
+        Tests :func:`colour.models.rgb.transfer_functions.cineon.\
+log_encoding_Cineon` definition.
         """
 
         self.assertAlmostEqual(
-            oecf_BT709(0.0),
-            0.0,
+            log_encoding_Cineon(0.0),
+            0.092864125122189639,
             places=7)
 
         self.assertAlmostEqual(
-            oecf_BT709(0.18),
-            0.4090077288641504,
+            log_encoding_Cineon(0.18),
+            0.45731961308541841,
             places=7)
 
         self.assertAlmostEqual(
-            oecf_BT709(1.0),
-            1.0,
+            log_encoding_Cineon(1.0),
+            0.66959921798631472,
             places=7)
 
-    def test_n_dimensional_oecf_BT709(self):
+    def test_n_dimensional_log_encoding_Cineon(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.bt_709.\
-oecf_BT709` definition n-dimensional arrays support.
+        Tests :func:`colour.models.rgb.transfer_functions.cineon.\
+log_encoding_Cineon` definition n-dimensional arrays support.
         """
 
         L = 0.18
-        V = 0.4090077288641504
+        V = 0.45731961308541841
         np.testing.assert_almost_equal(
-            oecf_BT709(L),
+            log_encoding_Cineon(L),
             V,
             decimal=7)
 
         L = np.tile(L, 6)
         V = np.tile(V, 6)
         np.testing.assert_almost_equal(
-            oecf_BT709(L),
+            log_encoding_Cineon(L),
             V,
             decimal=7)
 
         L = np.reshape(L, (2, 3))
         V = np.reshape(V, (2, 3))
         np.testing.assert_almost_equal(
-            oecf_BT709(L),
+            log_encoding_Cineon(L),
             V,
             decimal=7)
 
         L = np.reshape(L, (2, 3, 1))
         V = np.reshape(V, (2, 3, 1))
         np.testing.assert_almost_equal(
-            oecf_BT709(L),
+            log_encoding_Cineon(L),
             V,
             decimal=7)
 
     @ignore_numpy_errors
-    def test_nan_oecf_BT709(self):
+    def test_nan_log_encoding_Cineon(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.bt_709.\
-oecf_BT709` definition nan support.
+        Tests :func:`colour.models.rgb.transfer_functions.cineon.\
+log_encoding_Cineon` definition nan support.
         """
 
-        oecf_BT709(
+        log_encoding_Cineon(
             np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestEocf_BT709(unittest.TestCase):
+class TestLogDecoding_Cineon(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.bt_709.eocf_BT709`
-    definition unit tests methods.
+    Defines :func:`colour.models.rgb.transfer_functions.cineon.\
+log_decoding_Cineon` definition unit tests methods.
     """
 
-    def test_eocf_BT709(self):
+    def test_log_decoding_Cineon(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.bt_709.\
-eocf_BT709` definition.
+        Tests :func:`colour.models.rgb.transfer_functions.cineon.\
+log_decoding_Cineon` definition.
         """
 
         self.assertAlmostEqual(
-            eocf_BT709(0.0),
+            log_decoding_Cineon(0.092864125122189639),
             0.0,
             places=7)
 
         self.assertAlmostEqual(
-            eocf_BT709(0.4090077288641504),
+            log_decoding_Cineon(0.45731961308541841),
             0.18,
             places=7)
 
         self.assertAlmostEqual(
-            eocf_BT709(1.0),
+            log_decoding_Cineon(0.66959921798631472),
             1.0,
             places=7)
 
-    def test_n_dimensional_eocf_BT709(self):
+    def test_n_dimensional_log_decoding_Cineon(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.bt_709.\
-eocf_BT709` definition n-dimensional arrays support.
+        Tests :func:`colour.models.rgb.transfer_functions.cineon.\
+log_decoding_Cineon` definition n-dimensional arrays support.
         """
 
-        V = 0.4090077288641504
+        V = 0.45731961308541841
         L = 0.18
         np.testing.assert_almost_equal(
-            eocf_BT709(V),
+            log_decoding_Cineon(V),
             L,
             decimal=7)
 
         V = np.tile(V, 6)
         L = np.tile(L, 6)
         np.testing.assert_almost_equal(
-            eocf_BT709(V),
+            log_decoding_Cineon(V),
             L,
             decimal=7)
 
         V = np.reshape(V, (2, 3))
         L = np.reshape(L, (2, 3))
         np.testing.assert_almost_equal(
-            eocf_BT709(V),
+            log_decoding_Cineon(V),
             L,
             decimal=7)
 
         V = np.reshape(V, (2, 3, 1))
         L = np.reshape(L, (2, 3, 1))
         np.testing.assert_almost_equal(
-            eocf_BT709(V),
+            log_decoding_Cineon(V),
             L,
             decimal=7)
 
     @ignore_numpy_errors
-    def test_nan_eocf_BT709(self):
+    def test_nan_log_decoding_Cineon(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.bt_709.\
-eocf_BT709` definition nan support.
+        Tests :func:`colour.models.rgb.transfer_functions.cineon.\
+log_decoding_Cineon` definition nan support.
         """
 
-        eocf_BT709(
+        log_decoding_Cineon(
             np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 

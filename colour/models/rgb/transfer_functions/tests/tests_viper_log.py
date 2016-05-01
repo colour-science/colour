@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines unit tests for :mod:`colour.models.rgb.conversion_functions.viper_log`
+Defines unit tests for :mod:`colour.models.rgb.transfer_functions.viper_log`
 module.
 """
 
@@ -11,7 +11,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.models.rgb.conversion_functions import (
+from colour.models.rgb.transfer_functions import (
     log_encoding_ViperLog,
     log_decoding_ViperLog)
 from colour.utilities import ignore_numpy_errors
@@ -29,13 +29,13 @@ __all__ = ['TestLogEncoding_ViperLog',
 
 class TestLogEncoding_ViperLog(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.viper_log.\
+    Defines :func:`colour.models.rgb.transfer_functions.viper_log.\
 log_encoding_ViperLog` definition unit tests methods.
     """
 
     def test_log_encoding_ViperLog(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.viper_log.\
+        Tests :func:`colour.models.rgb.transfer_functions.viper_log.\
 log_encoding_ViperLog` definition.
         """
 
@@ -56,7 +56,7 @@ log_encoding_ViperLog` definition.
 
     def test_n_dimensional_log_encoding_ViperLog(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.viper_log.\
+        Tests :func:`colour.models.rgb.transfer_functions.viper_log.\
 log_encoding_ViperLog` definition n-dimensional arrays support.
         """
 
@@ -91,7 +91,7 @@ log_encoding_ViperLog` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_log_encoding_ViperLog(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.viper_log.\
+        Tests :func:`colour.models.rgb.transfer_functions.viper_log.\
 log_encoding_ViperLog` definition nan support.
         """
 
@@ -101,13 +101,13 @@ log_encoding_ViperLog` definition nan support.
 
 class TestLogDecoding_ViperLog(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.viper_log.\
+    Defines :func:`colour.models.rgb.transfer_functions.viper_log.\
 log_decoding_ViperLog` definition unit tests methods.
     """
 
     def test_log_decoding_ViperLog(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.viper_log.\
+        Tests :func:`colour.models.rgb.transfer_functions.viper_log.\
 log_decoding_ViperLog` definition.
         """
 
@@ -128,7 +128,7 @@ log_decoding_ViperLog` definition.
 
     def test_n_dimensional_log_decoding_ViperLog(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.viper_log.\
+        Tests :func:`colour.models.rgb.transfer_functions.viper_log.\
 log_decoding_ViperLog` definition n-dimensional arrays support.
         """
 
@@ -163,7 +163,7 @@ log_decoding_ViperLog` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_log_decoding_ViperLog(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.viper_log.\
+        Tests :func:`colour.models.rgb.transfer_functions.viper_log.\
 log_decoding_ViperLog` definition nan support.
         """
 

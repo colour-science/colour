@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines unit tests for :mod:`colour.models.rgb.conversion_functions.st_2084`
+Defines unit tests for :mod:`colour.models.rgb.transfer_functions.st_2084`
 module.
 """
 
@@ -11,7 +11,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.models.rgb.conversion_functions import oecf_ST2084, eocf_ST2084
+from colour.models.rgb.transfer_functions import oecf_ST2084, eocf_ST2084
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -27,13 +27,13 @@ __all__ = ['TestOecf_ST2084',
 
 class TestOecf_ST2084(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.st_2084.oecf_ST2084`
+    Defines :func:`colour.models.rgb.transfer_functions.st_2084.oecf_ST2084`
     definition unit tests methods.
     """
 
     def test_oecf_ST2084(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.st_2084.\
+        Tests :func:`colour.models.rgb.transfer_functions.st_2084.\
 oecf_ST2084` definition.
         """
 
@@ -59,7 +59,7 @@ oecf_ST2084` definition.
 
     def test_n_dimensional_oecf_ST2084(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.st_2084.\
+        Tests :func:`colour.models.rgb.transfer_functions.st_2084.\
 oecf_ST2084` definition n-dimensional arrays support.
         """
 
@@ -94,7 +94,7 @@ oecf_ST2084` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_oecf_ST2084(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.st_2084.\
+        Tests :func:`colour.models.rgb.transfer_functions.st_2084.\
 oecf_ST2084` definition nan support.
         """
 
@@ -104,13 +104,13 @@ oecf_ST2084` definition nan support.
 
 class TestEocf_ST2084(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.st_2084.eocf_ST2084`
+    Defines :func:`colour.models.rgb.transfer_functions.st_2084.eocf_ST2084`
     definition unit tests methods.
     """
 
     def test_eocf_ST2084(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.st_2084.\
+        Tests :func:`colour.models.rgb.transfer_functions.st_2084.\
 eocf_ST2084` definition.
         """
 
@@ -136,7 +136,7 @@ eocf_ST2084` definition.
 
     def test_n_dimensional_eocf_ST2084(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.st_2084.\
+        Tests :func:`colour.models.rgb.transfer_functions.st_2084.\
 eocf_ST2084` definition n-dimensional arrays support.
         """
 
@@ -171,7 +171,7 @@ eocf_ST2084` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_eocf_ST2084(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.st_2084.\
+        Tests :func:`colour.models.rgb.transfer_functions.st_2084.\
 eocf_ST2084` definition nan support.
         """
 

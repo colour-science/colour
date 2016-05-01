@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines unit tests for :mod:`colour.models.rgb.conversion_functions.aces`
+Defines unit tests for :mod:`colour.models.rgb.transfer_functions.aces`
 module.
 """
 
@@ -11,7 +11,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.models.rgb.conversion_functions import (
+from colour.models.rgb.transfer_functions import (
     log_encoding_ACESproxy,
     log_decoding_ACESproxy,
     log_encoding_ACEScc,
@@ -33,14 +33,14 @@ __all__ = ['TestLogEncoding_ACESproxy',
 
 class TestLogEncoding_ACESproxy(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.aces.\
+    Defines :func:`colour.models.rgb.transfer_functions.aces.\
 log_encoding_ACESproxy`
     definition unit tests methods.
     """
 
     def test_log_encoding_ACESproxy(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.aces.\
+        Tests :func:`colour.models.rgb.transfer_functions.aces.\
 log_encoding_ACESproxy` definition.
         """
 
@@ -52,7 +52,7 @@ log_encoding_ACESproxy` definition.
 
     def test_n_dimensional_log_encoding_ACESproxy(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.aces.\
+        Tests :func:`colour.models.rgb.transfer_functions.aces.\
 log_encoding_ACESproxy` definition n-dimensional arrays support.
         """
 
@@ -83,7 +83,7 @@ log_encoding_ACESproxy` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_log_encoding_ACESproxy(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.aces.\
+        Tests :func:`colour.models.rgb.transfer_functions.aces.\
 log_encoding_ACESproxy` definition nan support.
         """
 
@@ -93,14 +93,14 @@ log_encoding_ACESproxy` definition nan support.
 
 class TestLogDecoding_ACESproxy(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.aces.\
+    Defines :func:`colour.models.rgb.transfer_functions.aces.\
 log_decoding_ACESproxy`
     definition unit tests methods.
     """
 
     def test_log_decoding_ACESproxy(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.aces.\
+        Tests :func:`colour.models.rgb.transfer_functions.aces.\
 log_decoding_ACESproxy` definition.
         """
 
@@ -121,7 +121,7 @@ log_decoding_ACESproxy` definition.
 
     def test_n_dimensional_log_decoding_ACESproxy(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.aces.\
+        Tests :func:`colour.models.rgb.transfer_functions.aces.\
 log_decoding_ACESproxy` definition n-dimensional arrays support.
         """
 
@@ -156,7 +156,7 @@ log_decoding_ACESproxy` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_log_decoding_ACESproxy(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.aces.\
+        Tests :func:`colour.models.rgb.transfer_functions.aces.\
 log_decoding_ACESproxy` definition nan support.
         """
 
@@ -166,13 +166,13 @@ log_decoding_ACESproxy` definition nan support.
 
 class TestLogEncoding_ACEScc(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.aces.\
+    Defines :func:`colour.models.rgb.transfer_functions.aces.\
 log_encoding_ACEScc` definition unit tests methods.
     """
 
     def test_log_encoding_ACEScc(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.aces.\
+        Tests :func:`colour.models.rgb.transfer_functions.aces.\
 log_encoding_ACEScc` definition.
         """
 
@@ -193,7 +193,7 @@ log_encoding_ACEScc` definition.
 
     def test_n_dimensional_log_encoding_ACEScc(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.aces.\
+        Tests :func:`colour.models.rgb.transfer_functions.aces.\
 log_encoding_ACEScc` definition n-dimensional arrays support.
         """
 
@@ -228,7 +228,7 @@ log_encoding_ACEScc` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_log_encoding_ACEScc(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.aces.\
+        Tests :func:`colour.models.rgb.transfer_functions.aces.\
 log_encoding_ACEScc` definition nan support.
         """
 
@@ -238,13 +238,13 @@ log_encoding_ACEScc` definition nan support.
 
 class TestLogDecoding_ACEScc(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.aces.\
+    Defines :func:`colour.models.rgb.transfer_functions.aces.\
 log_decoding_ACEScc` definition unit tests methods.
     """
 
     def test_log_decoding_ACEScc(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.aces.\
+        Tests :func:`colour.models.rgb.transfer_functions.aces.\
 log_decoding_ACEScc` definition.
         """
 
@@ -265,7 +265,7 @@ log_decoding_ACEScc` definition.
 
     def test_n_dimensional_log_decoding_ACEScc(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.aces.\
+        Tests :func:`colour.models.rgb.transfer_functions.aces.\
 log_decoding_ACEScc` definition n-dimensional arrays support.
         """
 
@@ -300,7 +300,7 @@ log_decoding_ACEScc` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_log_decoding_ACEScc(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.aces.\
+        Tests :func:`colour.models.rgb.transfer_functions.aces.\
 log_decoding_ACEScc` definition nan support.
         """
 

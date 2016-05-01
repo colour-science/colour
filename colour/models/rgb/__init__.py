@@ -12,8 +12,8 @@ from .derivation import (
     primaries_whitepoint,
     RGB_luminance_equation,
     RGB_luminance)
-from .conversion_functions import *  # noqa
-from . import conversion_functions
+from .transfer_functions import *  # noqa
+from . import transfer_functions
 from .dataset import *  # noqa
 from . import dataset
 from .common import XYZ_to_sRGB, sRGB_to_XYZ
@@ -27,7 +27,7 @@ __all__ += ['normalised_primary_matrix',
             'primaries_whitepoint',
             'RGB_luminance_equation',
             'RGB_luminance']
-__all__ += conversion_functions.__all__
+__all__ += transfer_functions.__all__
 __all__ += dataset.__all__
 __all__ += ['XYZ_to_sRGB', 'sRGB_to_XYZ']
 __all__ += ['spectral_to_aces_relative_exposure_values']

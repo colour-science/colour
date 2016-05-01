@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines unit tests for :mod:`colour.models.rgb.conversion_functions.red_log`
+Defines unit tests for :mod:`colour.models.rgb.transfer_functions.red_log`
 module.
 """
 
@@ -11,7 +11,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.models.rgb.conversion_functions import (
+from colour.models.rgb.transfer_functions import (
     log_encoding_REDLog,
     log_decoding_REDLog,
     log_encoding_REDLogFilm,
@@ -33,13 +33,13 @@ __all__ = ['TestLogEncoding_REDLog',
 
 class TestLogEncoding_REDLog(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.red_log.\
+    Defines :func:`colour.models.rgb.transfer_functions.red_log.\
 log_encoding_REDLog` definition unit tests methods.
     """
 
     def test_log_encoding_REDLog(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.red_log.\
+        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
 log_encoding_REDLog` definition.
         """
 
@@ -60,7 +60,7 @@ log_encoding_REDLog` definition.
 
     def test_n_dimensional_log_encoding_REDLog(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.red_log.\
+        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
 log_encoding_REDLog` definition n-dimensional arrays support.
         """
 
@@ -95,7 +95,7 @@ log_encoding_REDLog` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_log_encoding_REDLog(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.red_log.\
+        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
 log_encoding_REDLog` definition nan support.
         """
 
@@ -105,13 +105,13 @@ log_encoding_REDLog` definition nan support.
 
 class TestLogDecoding_REDLog(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.red_log.\
+    Defines :func:`colour.models.rgb.transfer_functions.red_log.\
 log_decoding_REDLog` definition unit tests methods.
     """
 
     def test_log_decoding_REDLog(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.red_log.\
+        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
 log_decoding_REDLog` definition.
         """
 
@@ -132,7 +132,7 @@ log_decoding_REDLog` definition.
 
     def test_n_dimensional_log_decoding_REDLog(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.red_log.\
+        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
 log_decoding_REDLog` definition n-dimensional arrays support.
         """
 
@@ -167,7 +167,7 @@ log_decoding_REDLog` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_log_decoding_REDLog(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.red_log.\
+        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
 log_decoding_REDLog` definition nan support.
         """
 
@@ -177,13 +177,13 @@ log_decoding_REDLog` definition nan support.
 
 class TestLogEncoding_REDLogFilm(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.red_log.\
+    Defines :func:`colour.models.rgb.transfer_functions.red_log.\
 log_encoding_REDLogFilm` definition unit tests methods.
     """
 
     def test_log_encoding_REDLogFilm(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.red_log.\
+        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
 log_encoding_REDLogFilm` definition.
         """
 
@@ -204,7 +204,7 @@ log_encoding_REDLogFilm` definition.
 
     def test_n_dimensional_log_encoding_REDLogFilm(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.red_log.\
+        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
 log_encoding_REDLogFilm` definition n-dimensional arrays support.
         """
 
@@ -239,7 +239,7 @@ log_encoding_REDLogFilm` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_log_encoding_REDLogFilm(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.red_log.\
+        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
 log_encoding_REDLogFilm` definition nan support.
         """
 
@@ -249,13 +249,13 @@ log_encoding_REDLogFilm` definition nan support.
 
 class TestLogDecoding_REDLogFilm(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.red_log.\
+    Defines :func:`colour.models.rgb.transfer_functions.red_log.\
 log_decoding_REDLogFilm` definition unit tests methods.
     """
 
     def test_log_decoding_REDLogFilm(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.red_log.\
+        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
 log_decoding_REDLogFilm` definition.
         """
 
@@ -276,7 +276,7 @@ log_decoding_REDLogFilm` definition.
 
     def test_n_dimensional_log_decoding_REDLogFilm(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.red_log.\
+        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
 log_decoding_REDLogFilm` definition n-dimensional arrays support.
         """
 
@@ -311,7 +311,7 @@ log_decoding_REDLogFilm` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_log_decoding_REDLogFilm(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.red_log.\
+        Tests :func:`colour.models.rgb.transfer_functions.red_log.\
 log_decoding_REDLogFilm` definition nan support.
         """
 

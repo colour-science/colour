@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines unit tests for :mod:`colour.models.rgb.conversion_functions.gamma`
+Defines unit tests for :mod:`colour.models.rgb.transfer_functions.gamma`
 module.
 """
 
@@ -11,7 +11,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.models.rgb.conversion_functions import gamma_function
+from colour.models.rgb.transfer_functions import gamma_function
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -26,13 +26,13 @@ __all__ = ['TestGammaFunction']
 
 class TestGammaFunction(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.gamma.gamma_function`
+    Defines :func:`colour.models.rgb.transfer_functions.gamma.gamma_function`
     definition unit tests methods.
     """
 
     def test_gamma_function(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.gamma.\
+        Tests :func:`colour.models.rgb.transfer_functions.gamma.\
 gamma_function` definition.
         """
 
@@ -53,7 +53,7 @@ gamma_function` definition.
 
     def test_n_dimensional_gamma_function(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.gamma.\
+        Tests :func:`colour.models.rgb.transfer_functions.gamma.\
 gamma_function` definition n-dimensional arrays support.
         """
 
@@ -88,7 +88,7 @@ gamma_function` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_gamma_function(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.gamma.\
+        Tests :func:`colour.models.rgb.transfer_functions.gamma.\
 gamma_function` definition nan support.
         """
 

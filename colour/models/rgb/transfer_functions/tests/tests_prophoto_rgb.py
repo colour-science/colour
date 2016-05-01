@@ -3,7 +3,7 @@
 
 """
 Defines unit tests for
-:mod:`colour.models.rgb.conversion_functions.prophoto_rgb` module.
+:mod:`colour.models.rgb.transfer_functions.prophoto_rgb` module.
 """
 
 from __future__ import division, unicode_literals
@@ -11,7 +11,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.models.rgb.conversion_functions import (
+from colour.models.rgb.transfer_functions import (
     log_encoding_ProPhotoRGB,
     log_decoding_ProPhotoRGB)
 from colour.utilities import ignore_numpy_errors
@@ -29,13 +29,13 @@ __all__ = ['TestLogEncoding_ProPhotoRGB',
 
 class TestLogEncoding_ProPhotoRGB(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.prophoto_rgb.\
+    Defines :func:`colour.models.rgb.transfer_functions.prophoto_rgb.\
 log_encoding_ProPhotoRGB` definition unit tests methods.
     """
 
     def test_log_encoding_ProPhotoRGB(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.prophoto_rgb.\
+        Tests :func:`colour.models.rgb.transfer_functions.prophoto_rgb.\
 log_encoding_ProPhotoRGB` definition.
         """
 
@@ -56,7 +56,7 @@ log_encoding_ProPhotoRGB` definition.
 
     def test_n_dimensional_log_encoding_ProPhotoRGB(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.prophoto_rgb.\
+        Tests :func:`colour.models.rgb.transfer_functions.prophoto_rgb.\
 log_encoding_ProPhotoRGB` definition n-dimensional arrays support.
         """
 
@@ -91,7 +91,7 @@ log_encoding_ProPhotoRGB` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_log_encoding_ProPhotoRGB(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.prophoto_rgb.\
+        Tests :func:`colour.models.rgb.transfer_functions.prophoto_rgb.\
 log_encoding_ProPhotoRGB` definition nan support.
         """
 
@@ -101,13 +101,13 @@ log_encoding_ProPhotoRGB` definition nan support.
 
 class TestLogDecoding_ProPhotoRGB(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.prophoto_rgb.
+    Defines :func:`colour.models.rgb.transfer_functions.prophoto_rgb.
 log_decoding_ProPhotoRGB` definition unit tests methods.
     """
 
     def test_log_decoding_ProPhotoRGB(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.prophoto_rgb.\
+        Tests :func:`colour.models.rgb.transfer_functions.prophoto_rgb.\
 log_decoding_ProPhotoRGB` definition.
         """
 
@@ -128,7 +128,7 @@ log_decoding_ProPhotoRGB` definition.
 
     def test_n_dimensional_log_decoding_ProPhotoRGB(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.prophoto_rgb.\
+        Tests :func:`colour.models.rgb.transfer_functions.prophoto_rgb.\
 log_decoding_ProPhotoRGB` definition n-dimensional arrays support.
         """
 
@@ -163,7 +163,7 @@ log_decoding_ProPhotoRGB` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_log_decoding_ProPhotoRGB(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.prophoto_rgb.\
+        Tests :func:`colour.models.rgb.transfer_functions.prophoto_rgb.\
 log_decoding_ProPhotoRGB` definition nan support.
         """
 

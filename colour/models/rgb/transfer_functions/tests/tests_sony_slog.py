@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines unit tests for :mod:`colour.models.rgb.conversion_functions.sRGB`
+Defines unit tests for :mod:`colour.models.rgb.transfer_functions.sony_slog`
 module.
 """
 
@@ -11,7 +11,9 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.models.rgb.conversion_functions import oecf_sRGB, eocf_sRGB
+from colour.models.rgb.transfer_functions import (
+    log_encoding_SLog,
+    log_decoding_SLog)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -21,151 +23,151 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestOecf_sRGB',
-           'TestEocf_sRGB']
+__all__ = ['TestLogEncoding_SLog',
+           'TestLogDecoding_SLog']
 
 
-class TestOecf_sRGB(unittest.TestCase):
+class TestLogEncoding_SLog(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.sRGB.oecf_sRGB`
-    definition unit tests methods.
+    Defines :func:`colour.models.rgb.transfer_functions.sony_slog.\
+log_encoding_SLog` definition unit tests methods.
     """
 
-    def test_oecf_sRGB(self):
+    def test_log_encoding_SLog(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.sRGB.\
-oecf_sRGB` definition.
+        Tests :func:`colour.models.rgb.transfer_functions.sony_slog.\
+log_encoding_SLog` definition.
         """
 
         self.assertAlmostEqual(
-            oecf_sRGB(0.0),
-            0.0,
+            log_encoding_SLog(0.0),
+            0.030001222851889303,
             places=7)
 
         self.assertAlmostEqual(
-            oecf_sRGB(0.18),
-            0.46135612950044164,
+            log_encoding_SLog(0.18),
+            0.35998784642215442,
             places=7)
 
         self.assertAlmostEqual(
-            oecf_sRGB(1.0),
-            1.0,
+            log_encoding_SLog(1.0),
+            0.65352925122530825,
             places=7)
 
-    def test_n_dimensional_oecf_sRGB(self):
+    def test_n_dimensional_log_encoding_SLog(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.sRGB.\
-oecf_sRGB` definition n-dimensional arrays support.
+        Tests :func:`colour.models.rgb.transfer_functions.sony_slog.\
+log_encoding_SLog` definition n-dimensional arrays support.
         """
 
         L = 0.18
-        V = 0.46135612950044164
+        V = 0.35998784642215442
         np.testing.assert_almost_equal(
-            oecf_sRGB(L),
+            log_encoding_SLog(L),
             V,
             decimal=7)
 
         L = np.tile(L, 6)
         V = np.tile(V, 6)
         np.testing.assert_almost_equal(
-            oecf_sRGB(L),
+            log_encoding_SLog(L),
             V,
             decimal=7)
 
         L = np.reshape(L, (2, 3))
         V = np.reshape(V, (2, 3))
         np.testing.assert_almost_equal(
-            oecf_sRGB(L),
+            log_encoding_SLog(L),
             V,
             decimal=7)
 
         L = np.reshape(L, (2, 3, 1))
         V = np.reshape(V, (2, 3, 1))
         np.testing.assert_almost_equal(
-            oecf_sRGB(L),
+            log_encoding_SLog(L),
             V,
             decimal=7)
 
     @ignore_numpy_errors
-    def test_nan_oecf_sRGB(self):
+    def test_nan_log_encoding_SLog(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.sRGB.\
-oecf_sRGB` definition nan support.
+        Tests :func:`colour.models.rgb.transfer_functions.sony_slog.\
+log_encoding_SLog` definition nan support.
         """
 
-        oecf_sRGB(
+        log_encoding_SLog(
             np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestEocf_sRGB(unittest.TestCase):
+class TestLogDecoding_SLog(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.sRGB.eocf_sRGB`
-    definition unit tests methods.
+    Defines :func:`colour.models.rgb.transfer_functions.sony_slog.\
+log_decoding_SLog` definition unit tests methods.
     """
 
-    def test_eocf_sRGB(self):
+    def test_log_decoding_SLog(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.sRGB.\
-eocf_sRGB` definition.
+        Tests :func:`colour.models.rgb.transfer_functions.sony_slog.\
+log_decoding_SLog` definition.
         """
 
         self.assertAlmostEqual(
-            eocf_sRGB(0.0),
-            0.0,
+            log_decoding_SLog(0.0),
+            -0.0055458144460765538,
             places=7)
 
         self.assertAlmostEqual(
-            eocf_sRGB(0.46135612950044164),
+            log_decoding_SLog(0.35998784642215442),
             0.18,
             places=7)
 
         self.assertAlmostEqual(
-            eocf_sRGB(1.0),
+            log_decoding_SLog(0.65352925122530825),
             1.0,
             places=7)
 
-    def test_n_dimensional_eocf_sRGB(self):
+    def test_n_dimensional_log_decoding_SLog(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.sRGB.\
-eocf_sRGB` definition n-dimensional arrays support.
+        Tests :func:`colour.models.rgb.transfer_functions.sony_slog.\
+log_decoding_SLog` definition n-dimensional arrays support.
         """
 
-        V = 0.46135612950044164
+        V = 0.35998784642215442
         L = 0.18
         np.testing.assert_almost_equal(
-            eocf_sRGB(V),
+            log_decoding_SLog(V),
             L,
             decimal=7)
 
         V = np.tile(V, 6)
         L = np.tile(L, 6)
         np.testing.assert_almost_equal(
-            eocf_sRGB(V),
+            log_decoding_SLog(V),
             L,
             decimal=7)
 
         V = np.reshape(V, (2, 3))
         L = np.reshape(L, (2, 3))
         np.testing.assert_almost_equal(
-            eocf_sRGB(V),
+            log_decoding_SLog(V),
             L,
             decimal=7)
 
         V = np.reshape(V, (2, 3, 1))
         L = np.reshape(L, (2, 3, 1))
         np.testing.assert_almost_equal(
-            eocf_sRGB(V),
+            log_decoding_SLog(V),
             L,
             decimal=7)
 
     @ignore_numpy_errors
-    def test_nan_eocf_sRGB(self):
+    def test_nan_log_decoding_SLog(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.sRGB.\
-eocf_sRGB` definition nan support.
+        Tests :func:`colour.models.rgb.transfer_functions.sony_slog.\
+log_decoding_SLog` definition nan support.
         """
 
-        eocf_sRGB(
+        log_decoding_SLog(
             np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines unit tests for :mod:`colour.models.rgb.conversion_functions.\
+Defines unit tests for :mod:`colour.models.rgb.transfer_functions.\
 pivoted_log` module.
 """
 
@@ -11,7 +11,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.models.rgb.conversion_functions import (
+from colour.models.rgb.transfer_functions import (
     log_encoding_PivotedLog,
     log_decoding_PivotedLog)
 from colour.utilities import ignore_numpy_errors
@@ -29,13 +29,13 @@ __all__ = ['TestLogEncoding_PivotedLog',
 
 class TestLogEncoding_PivotedLog(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.pivoted_log.\
+    Defines :func:`colour.models.rgb.transfer_functions.pivoted_log.\
 log_encoding_PivotedLog` definition unit tests methods.
     """
 
     def test_log_encoding_PivotedLog(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.pivoted_log.\
+        Tests :func:`colour.models.rgb.transfer_functions.pivoted_log.\
 log_encoding_PivotedLog` definition.
         """
 
@@ -56,7 +56,7 @@ log_encoding_PivotedLog` definition.
 
     def test_n_dimensional_log_encoding_PivotedLog(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.pivoted_log.\
+        Tests :func:`colour.models.rgb.transfer_functions.pivoted_log.\
 log_encoding_PivotedLog` definition n-dimensional arrays support.
         """
 
@@ -91,7 +91,7 @@ log_encoding_PivotedLog` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_log_encoding_PivotedLog(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.pivoted_log.\
+        Tests :func:`colour.models.rgb.transfer_functions.pivoted_log.\
 log_encoding_PivotedLog` definition nan support.
         """
 
@@ -101,13 +101,13 @@ log_encoding_PivotedLog` definition nan support.
 
 class TestLogDecoding_PivotedLog(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.conversion_functions.pivoted_log.\
+    Defines :func:`colour.models.rgb.transfer_functions.pivoted_log.\
 log_decoding_PivotedLog` definition unit tests methods.
     """
 
     def test_log_decoding_PivotedLog(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.pivoted_log.\
+        Tests :func:`colour.models.rgb.transfer_functions.pivoted_log.\
 log_decoding_PivotedLog` definition.
         """
 
@@ -128,7 +128,7 @@ log_decoding_PivotedLog` definition.
 
     def test_n_dimensional_log_decoding_PivotedLog(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.pivoted_log.\
+        Tests :func:`colour.models.rgb.transfer_functions.pivoted_log.\
 log_decoding_PivotedLog` definition n-dimensional arrays support.
         """
 
@@ -163,7 +163,7 @@ log_decoding_PivotedLog` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_log_decoding_PivotedLog(self):
         """
-        Tests :func:`colour.models.rgb.conversion_functions.pivoted_log.\
+        Tests :func:`colour.models.rgb.transfer_functions.pivoted_log.\
 log_decoding_PivotedLog` definition nan support.
         """
 

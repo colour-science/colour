@@ -27,7 +27,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.models.rgb.conversion_functions import (
+from colour.models.rgb.transfer_functions import (
     log_encoding_Cineon,
     log_decoding_Cineon)
 
