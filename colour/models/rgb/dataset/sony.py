@@ -38,7 +38,13 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import RGB_Colourspace, normalised_primary_matrix
+from colour.models.rgb import (
+    RGB_Colourspace,
+    log_encoding_SLog2,
+    log_decoding_SLog2,
+    log_encoding_SLog3,
+    log_decoding_SLog3,
+    normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -107,118 +113,6 @@ XYZ_TO_S_GAMUT_MATRIX = np.linalg.inv(S_GAMUT_TO_XYZ_MATRIX)
 XYZ_TO_S_GAMUT_MATRIX : array_like, (3, 3)
 """
 
-
-def _linear_to_s_log(value):
-    """
-    Defines the *linear* to *S-Log* conversion function. [1]_
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Encoded value.
-    """
-
-    value = np.asarray(value)
-
-    return (0.432699 * np.log10(value + 0.037584) + 0.616596) + 0.03
-
-
-def _s_log_to_linear(value):
-    """
-    Defines the *S-Log* to *linear* conversion function. [1]_
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Decoded value.
-    """
-
-    value = np.asarray(value)
-
-    return 10 ** ((value - 0.616596 - 0.03) / 0.432699) - 0.037584
-
-
-S_LOG_OECF = _linear_to_s_log
-"""
-Opto-electronic conversion function of *S-Log*.
-
-S_LOG_OECF : object
-"""
-
-S_LOG_EOCF = _s_log_to_linear
-"""
-Electro-optical conversion function of *S-Log* to linear.
-
-S_LOG_EOCF : object
-"""
-
-
-def _linear_to_s_log2(value):
-    """
-    Defines the *linear* to *S-Log2* conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Encoded value.
-    """
-
-    value = np.asarray(value)
-
-    return ((4 * (16 + 219 * (0.616596 + 0.03 + 0.432699 *
-                              (np.log10(0.037584 + value / 0.9))))) / 1023)
-
-
-def _s_log2_to_linear(value):
-    """
-    Defines the *S-Log2* to *linear* conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Decoded value.
-    """
-
-    value = np.asarray(value)
-
-    return ((10 ** (((((value * 1023 / 4 - 16) / 219) - 0.616596 - 0.03) /
-                     0.432699)) - 0.037584) * 0.9)
-
-
-S_LOG2_OECF = _linear_to_s_log2
-"""
-Opto-electronic conversion function of *S-Log2*.
-
-S_LOG2_OECF : object
-"""
-
-S_LOG2_EOCF = _s_log2_to_linear
-"""
-Electro-optical conversion function of *S-Log2* to linear.
-
-S_LOG2_EOCF : object
-"""
-
 S_GAMUT_COLOURSPACE = RGB_Colourspace(
     'S-Gamut',
     S_GAMUT_PRIMARIES,
@@ -226,73 +120,12 @@ S_GAMUT_COLOURSPACE = RGB_Colourspace(
     S_GAMUT_ILLUMINANT,
     S_GAMUT_TO_XYZ_MATRIX,
     XYZ_TO_S_GAMUT_MATRIX,
-    S_LOG2_OECF,
-    S_LOG2_EOCF)
+    log_encoding_SLog2,
+    log_decoding_SLog2)
 """
 *S-Gamut* colourspace.
 
 S_GAMUT_COLOURSPACE : RGB_Colourspace
-"""
-
-
-def _linear_to_s_log3(value):
-    """
-    Defines the *linear* to *S-Log3* conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Encoded value.
-    """
-
-    value = np.asarray(value)
-
-    return np.where(value >= 0.01125000,
-                    (420 + np.log10((value + 0.01) /
-                                    (0.18 + 0.01)) * 261.5) / 1023,
-                    (value * (171.2102946929 - 95) / 0.01125000 + 95) / 1023)
-
-
-def _s_log3_to_linear(value):
-    """
-    Defines the *S-Log3* to *linear* conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Decoded value.
-    """
-
-    value = np.asarray(value)
-
-    return np.where(value >= 171.2102946929 / 1023,
-                    ((10 ** ((value * 1023 - 420) / 261.5)) *
-                     (0.18 + 0.01) - 0.01),
-                    (value * 1023 - 95) * 0.01125000 / (171.2102946929 - 95))
-
-
-S_LOG3_OECF = _linear_to_s_log3
-"""
-Opto-electronic conversion function of *S-Log3*.
-
-S_LOG3_OECF : object
-"""
-
-S_LOG3_EOCF = _s_log3_to_linear
-"""
-Electro-optical conversion function of *S-Log3* to linear.
-
-S_LOG3_EOCF : object
 """
 
 S_GAMUT3_COLOURSPACE = RGB_Colourspace(
@@ -302,8 +135,8 @@ S_GAMUT3_COLOURSPACE = RGB_Colourspace(
     S_GAMUT_ILLUMINANT,
     S_GAMUT_TO_XYZ_MATRIX,
     XYZ_TO_S_GAMUT_MATRIX,
-    S_LOG3_OECF,
-    S_LOG3_EOCF)
+    log_encoding_SLog3,
+    log_decoding_SLog3)
 """
 *S-Gamut3* colourspace.
 
@@ -357,8 +190,8 @@ S_GAMUT3_CINE_COLOURSPACE = RGB_Colourspace(
     S_GAMUT3_CINE_ILLUMINANT,
     S_GAMUT3_CINE_TO_XYZ_MATRIX,
     XYZ_TO_S_GAMUT3_CINE_MATRIX,
-    S_LOG3_OECF,
-    S_LOG3_EOCF)
+    log_encoding_SLog3,
+    log_decoding_SLog3)
 """
 *S-Gamut3.Cine* colourspace.
 
