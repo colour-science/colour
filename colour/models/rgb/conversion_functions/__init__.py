@@ -3,7 +3,7 @@
 
 from __future__ import absolute_import
 
-from colour.utilities import CaseInsensitiveMapping
+from colour.utilities import CaseInsensitiveMapping, filter_kwargs
 
 from .aces import (
     log_encoding_ACESproxy,
@@ -130,10 +130,8 @@ def log_encoding_curve(value, method='Cineon', **kwargs):
     """
 
     func = LOG_ENCODING_METHODS[method]
-    args = func.func_code.co_varnames
-    args = set(kwargs.keys()) - set(args)
-    for key in args:
-        kwargs.pop(key)
+
+    filter_kwargs(func, **kwargs)
 
     return func(value, **kwargs)
 
@@ -201,10 +199,8 @@ def log_decoding_curve(value, method='Cineon', **kwargs):
     """
 
     func = LOG_DECODING_METHODS[method]
-    args = func.func_code.co_varnames
-    args = set(kwargs.keys()) - set(args)
-    for key in args:
-        kwargs.pop(key)
+
+    filter_kwargs(func, **kwargs)
 
     return func(value, **kwargs)
 

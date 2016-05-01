@@ -15,7 +15,8 @@ from colour.utilities import (
     is_iterable,
     is_string,
     is_numeric,
-    is_integer)
+    is_integer,
+    filter_kwargs)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -28,7 +29,8 @@ __all__ = ['TestBatch',
            'TestIsIterable',
            'TestIsString',
            'TestIsNumeric',
-           'TestIsInteger']
+           'TestIsInteger',
+           'TestFilterKwargs']
 
 
 class TestBatch(unittest.TestCase):
@@ -145,6 +147,50 @@ class TestIsInteger(unittest.TestCase):
         self.assertTrue(is_integer(1.001))
 
         self.assertFalse(is_integer(1.01))
+
+
+class TestFilterKwargs(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.common.filter_kwargs` definition units
+    tests methods.
+    """
+
+    def test_filter_kwargs(self):
+        """
+        Tests :func:`colour.utilities.common.filter_kwargs` definition.
+        """
+
+        def func_a(a):
+            """
+            :def:`filter_kwargs` unit tests :def:`func_a`.
+            """
+            return a
+
+        def func_b(a, b=0):
+            """
+            :def:`filter_kwargs` unit tests :def:`func_b`.
+            """
+
+            return a, b
+
+        def func_c(a, b=0, c=0):
+            """
+            :def:`filter_kwargs` unit tests :def:`func_c`.
+            """
+
+            return a, b, c
+
+        self.assertEqual(
+            1,
+            func_a(1, **filter_kwargs(func_a, b=2, c=3)))
+
+        self.assertTupleEqual(
+            (1, 2),
+            func_b(1, **filter_kwargs(func_b, b=2, c=3)))
+
+        self.assertTupleEqual(
+            (1, 2, 3),
+            func_c(1, **filter_kwargs(func_c, b=2, c=3)))
 
 
 if __name__ == '__main__':
