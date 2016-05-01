@@ -3,7 +3,7 @@
 
 """
 ITU-R BT.709-6 EOTF / EOCF and OETF / EOCF
-==============================================
+==========================================
 
 Defines *ITU-R BT.709-6* EOTF / EOCF and OETF / EOCF:
 
@@ -43,7 +43,8 @@ __all__ = ['oecf_BT709',
 
 def oecf_BT709(value):
     """
-    Defines the *Rec. 709* colourspace opto-electronic conversion function.
+    Defines *Recommendation ITU-R BT.709-6* opto-electronic conversion
+    function.
 
     Parameters
     ----------
@@ -70,7 +71,8 @@ def oecf_BT709(value):
 
 def eocf_BT709(value):
     """
-    Defines the *Rec. 709* colourspace electro-optical conversion function.
+    Defines *Recommendation ITU-R BT.709-6* electro-optical conversion
+    function.
 
     Parameters
     ----------
@@ -98,7 +100,7 @@ def eocf_BT709(value):
     warning(('*Recommendation ITU-R BT.709-6* doesn\'t specify an '
              'electro-optical conversion function. This definition is used '
              'for symmetry in unit tests and others computations but should '
-             'not be used as an *EOCF* for *Rec. 709* colourspace!'))
+             'not be used as an *EOCF*!'))
 
     value = np.asarray(value)
 
