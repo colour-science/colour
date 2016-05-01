@@ -14,7 +14,7 @@ from .alexa_log_c import (
     log_encoding_ALEXALogC,
     log_decoding_ALEXALogC)
 from .bt_709 import oecf_BT709, eocf_BT709
-from .bt_1886 import eocf_BT1886
+from .bt_1886 import oecf_BT1886, eocf_BT1886
 from .bt_2020 import oecf_BT2020, eocf_BT2020
 from .canon_clog import log_encoding_CLog, log_decoding_CLog
 from .cineon import log_encoding_Cineon, log_decoding_Cineon
@@ -47,7 +47,7 @@ __all__ = ['log_encoding_ACESproxy',
            'log_decoding_ACEScc']
 __all__ += ['log_encoding_ALEXALogC', 'log_decoding_ALEXALogC']
 __all__ += ['oecf_BT709', 'eocf_BT709']
-__all__ += ['eocf_BT1886']
+__all__ += ['oecf_BT1886', 'eocf_BT1886']
 __all__ += ['oecf_BT2020', 'eocf_BT2020']
 __all__ += ['log_encoding_CLog', 'log_decoding_CLog']
 __all__ += ['log_encoding_Cineon', 'log_decoding_Cineon']
@@ -203,6 +203,7 @@ def log_decoding_curve(value, method='Cineon', **kwargs):
     filter_kwargs(func, **kwargs)
 
     return func(value, **kwargs)
+
 
 __all__ += ['LOG_ENCODING_METHODS', 'LOG_DECODING_METHODS']
 __all__ += ['log_encoding_curve', 'log_decoding_curve']

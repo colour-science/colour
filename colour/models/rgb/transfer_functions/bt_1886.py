@@ -2,11 +2,12 @@
 # -*- coding: utf-8 -*-
 
 """
-ITU-R BT.1886 EOTF / EOCF
-=========================
+ITU-R BT.1886 EOTF / EOCF and OETF / EOCF
+=========================================
 
-Defines *Recommendation ITU-R BT.1886* EOTF / EOCF:
+Defines *Recommendation ITU-R BT.1886* EOTF / EOCF and OETF / EOCF:
 
+-   :func:`oecf_BT1886`
 -   :func:`eocf_BT1886`
 
 See Also
@@ -26,6 +27,8 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.utilities import warning
+
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
@@ -33,7 +36,52 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['eocf_BT1886']
+__all__ = ['oecf_BT1886',
+           'eocf_BT1886']
+
+
+def oecf_BT1886(L, L_B=64, L_W=940):
+    """
+    Defines *Recommendation ITU-R BT.1886* opto-electrical transfer function.
+
+    Parameters
+    ----------
+    L : numeric or array_like
+        Screen luminance in :math:`cd/m^2`.
+    L_B : numeric, optional
+        Screen luminance for black.
+    L_W : numeric, optional
+        Screen luminance for white.
+
+    Returns
+    -------
+    numeric or ndarray
+        Input video signal level (normalized, black at :math:`V = 0`, to white
+        at :math:`V = 1`.
+
+    Examples
+    --------
+    >>> oecf_BT1886(136.58617957264661)  # doctest: +ELLIPSIS
+    136.5861795...
+    """
+
+    warning(('*Recommendation ITU-R BT.1886* doesn\'t specify an '
+             'opto-electrical conversion function. This definition is used '
+             'for symmetry in unit tests and others computations but should '
+             'not be used as an *OECF*!'))
+
+    L = np.asarray(L)
+
+    gamma = 2.40
+    gamma_d = 1 / gamma
+
+    n = L_W ** gamma_d - L_B ** gamma_d
+    a = n ** gamma
+    b = L_B ** gamma_d / n
+
+    V = (L / a) ** gamma_d - b
+
+    return V
 
 
 def eocf_BT1886(V, L_B=64, L_W=940):
