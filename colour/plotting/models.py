@@ -683,14 +683,14 @@ def single_conversion_function_plot(colourspace='Rec. 709',
                                     EOCF=False,
                                     **kwargs):
     """
-    Plots given colourspace opto-electronic conversion function.
+    Plots given colourspace opto-electronic transfer function.
 
     Parameters
     ----------
     colourspace : unicode, optional
-        *RGB* Colourspace opto-electronic conversion function to plot.
+        *RGB* Colourspace opto-electronic transfer function to plot.
     EOCF : bool
-        Plot electro-optical conversion function instead.
+        Plot electro-optical transfer function instead.
     \**kwargs : dict, optional
         Keywords arguments.
 
@@ -715,15 +715,15 @@ def multi_conversion_function_plot(colourspaces=None,
                                    decoding_cctf=False,
                                    **kwargs):
     """
-    Plots given colourspaces opto-electronic conversion functions.
+    Plots given colourspaces opto-electronic transfer functions.
 
     Parameters
     ----------
     colourspaces : array_like, optional
-        Colourspaces opto-electronic conversion functions to plot.
+        Colourspaces opto-electronic transfer functions to plot.
     decoding_cctf : bool
         Plot decoding colour component transfer function / electro-optical
-        conversion functions instead.
+        transfer functions instead.
     \**kwargs : dict, optional
         Keywords arguments.
 

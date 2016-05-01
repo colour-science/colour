@@ -7,8 +7,8 @@ ITU-R BT.709-6 EOTF / EOCF and OETF / EOCF
 
 Defines *ITU-R BT.709-6* EOTF / EOCF and OETF / EOCF:
 
--   :func:`oecf_BT709`
--   :func:`eocf_BT709`
+-   :func:`oetf_BT709`
+-   :func:`eotf_BT709`
 
 See Also
 --------
@@ -37,13 +37,13 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['oecf_BT709',
-           'eocf_BT709']
+__all__ = ['oetf_BT709',
+           'eotf_BT709']
 
 
-def oecf_BT709(value):
+def oetf_BT709(value):
     """
-    Defines *Recommendation ITU-R BT.709-6* opto-electronic conversion
+    Defines *Recommendation ITU-R BT.709-6* opto-electronic transfer
     function.
 
     Parameters
@@ -58,7 +58,7 @@ def oecf_BT709(value):
 
     Examples
     --------
-    >>> oecf_BT709(0.18)  # doctest: +ELLIPSIS
+    >>> oetf_BT709(0.18)  # doctest: +ELLIPSIS
     0.4090077...
     """
 
@@ -69,9 +69,9 @@ def oecf_BT709(value):
                                1.099 * (value ** 0.45) - 0.099))
 
 
-def eocf_BT709(value):
+def eotf_BT709(value):
     """
-    Defines *Recommendation ITU-R BT.709-6* electro-optical conversion
+    Defines *Recommendation ITU-R BT.709-6* electro-optical transfer
     function.
 
     Parameters
@@ -87,23 +87,23 @@ def eocf_BT709(value):
     Warning
     -------
     *Recommendation ITU-R BT.709-6* doesn't specify an electro-optical
-    conversion function. This definition is used for symmetry in unit tests and
+    transfer function. This definition is used for symmetry in unit tests and
     other computations but should not be used as an *EOCF* for *Rec. 709*
     colourspace!
 
     Examples
     --------
-    >>> eocf_BT709(0.4090077288641504)  # doctest: +ELLIPSIS
+    >>> eotf_BT709(0.4090077288641504)  # doctest: +ELLIPSIS
     0.1...
     """
 
     warning(('*Recommendation ITU-R BT.709-6* doesn\'t specify an '
-             'electro-optical conversion function. This definition is used '
+             'electro-optical transfer function. This definition is used '
              'for symmetry in unit tests and others computations but should '
              'not be used as an *EOCF*!'))
 
     value = np.asarray(value)
 
-    return as_numeric(np.where(value < oecf_BT709(0.018),
+    return as_numeric(np.where(value < oetf_BT709(0.018),
                                value / 4.5,
                                ((value + 0.099) / 1.099) ** (1 / 0.45)))

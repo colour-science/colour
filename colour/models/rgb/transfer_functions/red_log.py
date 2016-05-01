@@ -47,7 +47,7 @@ __all__ = ['log_encoding_REDLog',
 def log_encoding_REDLog(value,
                         black_offset=10 ** ((0 - 1023) / 511)):
     """
-    Defines the *REDLog* log encoding curve / opto-electronic conversion
+    Defines the *REDLog* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
@@ -77,7 +77,7 @@ def log_encoding_REDLog(value,
 def log_decoding_REDLog(value,
                         black_offset=10 ** ((0 - 1023) / 511)):
     """
-    Defines the *REDLog* log decoding curve / electro-optical conversion
+    Defines the *REDLog* log decoding curve / electro-optical transfer
     function.
 
     Parameters
@@ -108,7 +108,7 @@ def log_decoding_REDLog(value,
 def log_encoding_REDLogFilm(value,
                             black_offset=10 ** ((95 - 685) / 300)):
     """
-    Defines the *REDLogFilm* log encoding curve / opto-electronic conversion
+    Defines the *REDLogFilm* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
@@ -135,7 +135,7 @@ def log_encoding_REDLogFilm(value,
 def log_decoding_REDLogFilm(value,
                             black_offset=10 ** ((95 - 685) / 300)):
     """
-    Defines the *REDLogFilm* log decoding curve / electro-optical conversion
+    Defines the *REDLogFilm* log decoding curve / electro-optical transfer
     function.
 
     Parameters

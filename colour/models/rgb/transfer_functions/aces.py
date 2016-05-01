@@ -103,7 +103,7 @@ ACES_PROXY_CONSTANTS : CaseInsensitiveMapping
 def log_encoding_ACESproxy(value, bit_depth='10 Bit'):
     """
     Defines the *ACESproxy* colourspace log encoding curve / opto-electronic
-    conversion function.
+    transfer function.
 
     Parameters
     ----------
@@ -150,7 +150,7 @@ def log_encoding_ACESproxy(value, bit_depth='10 Bit'):
 def log_decoding_ACESproxy(value, bit_depth='10 Bit'):
     """
     Defines the *ACESproxy* colourspace log decoding curve / electro-optical
-    conversion function.
+    transfer function.
 
     Parameters
     ----------
@@ -181,7 +181,7 @@ def log_decoding_ACESproxy(value, bit_depth='10 Bit'):
 
 def log_encoding_ACEScc(value):
     """
-    Defines the *ACEScc* colourspace log encoding / opto-electronic conversion
+    Defines the *ACEScc* colourspace log encoding / opto-electronic transfer
     function.
 
     Parameters
@@ -214,7 +214,7 @@ def log_encoding_ACEScc(value):
 
 def log_decoding_ACEScc(value):
     """
-    Defines the *ACEScc* colourspace log decoding / electro-optical conversion
+    Defines the *ACEScc* colourspace log decoding / electro-optical transfer
     function.
 
     Parameters

@@ -7,8 +7,8 @@ ITU-R BT.2020 EOTF / EOCF and OETF / EOCF
 
 Defines *ITU-R BT.2020* EOTF / EOCF and OETF / EOCF:
 
--   :func:`oecf_BT2020`
--   :func:`eocf_BT2020`
+-   :func:`oetf_BT2020`
+-   :func:`eotf_BT2020`
 
 See Also
 --------
@@ -40,8 +40,8 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['BT_2020_CONSTANTS',
-           'oecf_BT2020',
-           'eocf_BT2020']
+           'oetf_BT2020',
+           'eotf_BT2020']
 
 BT_2020_CONSTANTS = Structure(alpha=lambda x: 1.099 if x else 1.0993,
                               beta=lambda x: 0.018 if x else 0.0181)
@@ -52,7 +52,7 @@ BT_2020_CONSTANTS : Structure
 """
 
 
-def oecf_BT2020(value, is_10_bits_system=True):
+def oetf_BT2020(value, is_10_bits_system=True):
     """
     Defines *Recommendation ITU-R BT.2020* opto-electrical transfer function.
 
@@ -70,7 +70,7 @@ def oecf_BT2020(value, is_10_bits_system=True):
 
     Examples
     --------
-    >>> oecf_BT2020(0.18)  # doctest: +ELLIPSIS
+    >>> oetf_BT2020(0.18)  # doctest: +ELLIPSIS
     0.4090077...
     """
 
@@ -84,7 +84,7 @@ def oecf_BT2020(value, is_10_bits_system=True):
                                a * (value ** 0.45) - (a - 1)))
 
 
-def eocf_BT2020(value, is_10_bits_system=True):
+def eotf_BT2020(value, is_10_bits_system=True):
     """
     Defines *Recommendation ITU-R BT.2020* electro-optical transfer function.
 
@@ -102,7 +102,7 @@ def eocf_BT2020(value, is_10_bits_system=True):
 
     Examples
     --------
-    >>> eocf_BT2020(0.7055150899221212)  # doctest: +ELLIPSIS
+    >>> eotf_BT2020(0.7055150899221212)  # doctest: +ELLIPSIS
     0.5...
     """
 
@@ -111,6 +111,6 @@ def eocf_BT2020(value, is_10_bits_system=True):
     a = BT_2020_CONSTANTS.alpha(is_10_bits_system)
     b = BT_2020_CONSTANTS.beta(is_10_bits_system)
 
-    return as_numeric(np.where(value < oecf_BT2020(b),
+    return as_numeric(np.where(value < oetf_BT2020(b),
                                value / 4.5,
                                ((value + (a - 1)) / a) ** (1 / 0.45)))

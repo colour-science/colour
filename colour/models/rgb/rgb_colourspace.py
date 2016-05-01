@@ -62,12 +62,12 @@ class RGB_Colourspace(object):
         Transformation matrix from *CIE XYZ* tristimulus values to colourspace.
     encoding_cctf : object, optional
         Encoding colour component transfer function (Encoding CCTF) /
-        Opto-electronic conversion function (OECF) that maps estimated
+        Opto-electronic transfer function (OETF) that maps estimated
         tristimulus values in a scene to :math:`R'G'B'` video component signal
         value.
     decoding_cctf : object, optional
         Decoding colour component transfer function (Decoding CCTF) /
-        Electro-optical conversion function (EOCF) that maps an :math:`R'G'B'`
+        Electro-optical transfer function (EOTF) that maps an :math:`R'G'B'`
         video component signal to tristimulus values at the display.
 
     Attributes
@@ -371,7 +371,7 @@ def XYZ_to_RGB(XYZ,
         *Chromatic adaptation* transform.
     encoding_cctf : object, optional
         Encoding colour component transfer function (Encoding CCTF) or
-        Opto-electronic conversion function (OECF).
+        Opto-electronic transfer function (OETF).
 
     Returns
     -------
@@ -449,7 +449,7 @@ def RGB_to_XYZ(RGB,
         *Chromatic adaptation* transform.
     decoding_cctf : object, optional
         Decoding colour component transfer function (Decoding CCTF) or
-        Electro-optical conversion function (EOCF).
+        Electro-optical transfer function (EOTF).
 
     Returns
     -------

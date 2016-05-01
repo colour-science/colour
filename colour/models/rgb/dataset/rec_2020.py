@@ -33,8 +33,8 @@ from colour.colorimetry import ILLUMINANTS
 from colour.models.rgb import (
     RGB_Colourspace,
     normalised_primary_matrix,
-    oecf_BT2020,
-    eocf_BT2020)
+    oetf_BT2020,
+    eotf_BT2020)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -97,8 +97,8 @@ REC_2020_COLOURSPACE = RGB_Colourspace(
     REC_2020_ILLUMINANT,
     REC_2020_TO_XYZ_MATRIX,
     XYZ_TO_REC_2020_MATRIX,
-    oecf_BT2020,
-    eocf_BT2020)
+    oetf_BT2020,
+    eotf_BT2020)
 """
 *Rec. 2020* colourspace.
 

@@ -48,7 +48,7 @@ def XYZ_to_sRGB(XYZ,
         *Chromatic adaptation* transform.
     apply_encoding_cctf : bool, optional
         Apply *sRGB* encoding colour component transfer function /
-        opto-electronic conversion function.
+        opto-electronic transfer function.
 
     Returns
     -------
@@ -96,7 +96,7 @@ def sRGB_to_XYZ(RGB,
         *Chromatic adaptation* method.
     apply_decoding_cctf : bool, optional
         Apply *sRGB* decoding colour component transfer function  /
-        electro-optical conversion function.
+        electro-optical transfer function.
 
     Returns
     -------

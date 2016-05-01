@@ -7,8 +7,8 @@ ITU-R BT.1886 EOTF / EOCF and OETF / EOCF
 
 Defines *Recommendation ITU-R BT.1886* EOTF / EOCF and OETF / EOCF:
 
--   :func:`oecf_BT1886`
--   :func:`eocf_BT1886`
+-   :func:`oetf_BT1886`
+-   :func:`eotf_BT1886`
 
 See Also
 --------
@@ -36,11 +36,11 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['oecf_BT1886',
-           'eocf_BT1886']
+__all__ = ['oetf_BT1886',
+           'eotf_BT1886']
 
 
-def oecf_BT1886(L, L_B=64, L_W=940):
+def oetf_BT1886(L, L_B=64, L_W=940):
     """
     Defines *Recommendation ITU-R BT.1886* opto-electrical transfer function.
 
@@ -61,12 +61,12 @@ def oecf_BT1886(L, L_B=64, L_W=940):
 
     Examples
     --------
-    >>> oecf_BT1886(136.58617957264661)  # doctest: +ELLIPSIS
-    136.5861795...
+    >>> oetf_BT1886(136.58617957264661)  # doctest: +ELLIPSIS
+    0.1800000...
     """
 
     warning(('*Recommendation ITU-R BT.1886* doesn\'t specify an '
-             'opto-electrical conversion function. This definition is used '
+             'opto-electrical transfer function. This definition is used '
              'for symmetry in unit tests and others computations but should '
              'not be used as an *OECF*!'))
 
@@ -84,7 +84,7 @@ def oecf_BT1886(L, L_B=64, L_W=940):
     return V
 
 
-def eocf_BT1886(V, L_B=64, L_W=940):
+def eotf_BT1886(V, L_B=64, L_W=940):
     """
     Defines *Recommendation ITU-R BT.1886* electro-optical transfer function.
 
@@ -108,7 +108,7 @@ def eocf_BT1886(V, L_B=64, L_W=940):
 
     Examples
     --------
-    >>> eocf_BT1886(0.18)  # doctest: +ELLIPSIS
+    >>> eotf_BT1886(0.18)  # doctest: +ELLIPSIS
     136.5861795...
     """
 

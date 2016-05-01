@@ -18,8 +18,9 @@ from colour.models import (
     XYZ_to_RGB,
     RGB_to_XYZ,
     RGB_to_RGB,
-    normalised_primary_matrix)
-from colour.models.rgb.dataset.srgb import _srgb_OECF, _srgb_EOCF
+    normalised_primary_matrix,
+    oetf_sRGB,
+    eotf_sRGB)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -31,8 +32,6 @@ __status__ = 'Production'
 
 __all__ = ['sRGB_LINEAR_COLORCHECKER_2005',
            'ACES_COLORCHECKER_2005',
-           'sRGB_OECF',
-           'sRGB_EOCF',
            'TestRGB_COLOURSPACES',
            'TestRGB_Colourspace',
            'TestXYZ_to_RGB',
@@ -187,10 +186,6 @@ ACES_COLORCHECKER_2005 = (
      (0.02994815, 0.03110000, 0.02687947),
      (0.03111895, 0.03126787, 0.03256784)))
 
-sRGB_OECF = _srgb_OECF
-
-sRGB_EOCF = _srgb_EOCF
-
 
 class TestRGB_COLOURSPACES(unittest.TestCase):
     """
@@ -237,11 +232,11 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
                 np.testing.assert_almost_equal(samples,
                                                decoding_cctf_s,
                                                decimal=7)
-            # else:
-            #     np.testing.assert_allclose(samples,
-            #                                decoding_cctf_s,
-            #                                rtol=0.01,
-            #                                atol=0.01)
+                # else:
+                #     np.testing.assert_allclose(samples,
+                #                                decoding_cctf_s,
+                #                                rtol=0.01,
+                #                                atol=0.01)
 
     def test_n_dimensional_cctf(self):
         """
@@ -348,7 +343,7 @@ class TestXYZ_to_RGB(unittest.TestCase):
                               [-0.96922426, 1.87592999, 0.04155422],
                               [0.05563942, -0.20401120, 1.05714897]]),
                     'Bradford',
-                    sRGB_OECF),
+                    oetf_sRGB),
                 RGB,
                 decimal=7)
 
@@ -456,7 +451,7 @@ class TestRGB_to_XYZ(unittest.TestCase):
                          [0.21263682, 0.71518298, 0.07218020],
                          [0.01933062, 0.11919716, 0.95037259]]),
                     'Bradford',
-                    sRGB_EOCF),
+                    eotf_sRGB),
                 np.array(XYZ),
                 decimal=7)
 

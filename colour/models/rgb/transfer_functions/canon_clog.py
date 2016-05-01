@@ -40,7 +40,7 @@ __all__ = ['log_encoding_CLog',
 
 def log_encoding_CLog(value):
     """
-    Defines the *Canon C-Log* log encoding curve / opto-electronic conversion
+    Defines the *Canon C-Log* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
@@ -66,7 +66,7 @@ def log_encoding_CLog(value):
 
 def log_decoding_CLog(value):
     """
-    Defines the *Canon C-Log* log decoding curve / electro-optical conversion
+    Defines the *Canon C-Log* log decoding curve / electro-optical transfer
     function.
 
     Parameters

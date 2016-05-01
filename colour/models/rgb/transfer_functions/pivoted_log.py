@@ -45,7 +45,7 @@ def log_encoding_PivotedLog(value,
                             density_per_code_value=0.002):
     """
     Defines the *Josh Pines* style *Pivoted Log* log encoding curve /
-    opto-electronic conversion function.
+    opto-electronic transfer function.
 
     Parameters
     ----------
@@ -84,7 +84,7 @@ def log_decoding_PivotedLog(value,
                             density_per_code_value=0.002):
     """
     Defines the *Josh Pines* style *Pivoted Log* log decoding curve /
-    electro-optical conversion function.
+    electro-optical transfer function.
 
     Parameters
     ----------

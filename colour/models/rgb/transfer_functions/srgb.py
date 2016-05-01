@@ -7,8 +7,8 @@ sRGB EOTF / EOCF and OETF / EOCF
 
 Defines *sRGB* EOTF / EOCF and OETF / EOCF:
 
--   :func:`oecf_sRGB`
--   :func:`eocf_sRGB`
+-   :func:`oetf_sRGB`
+-   :func:`eotf_sRGB`
 
 See Also
 --------
@@ -41,13 +41,13 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['oecf_sRGB',
-           'eocf_sRGB']
+__all__ = ['oetf_sRGB',
+           'eotf_sRGB']
 
 
-def oecf_sRGB(value):
+def oetf_sRGB(value):
     """
-    Defines the *sRGB* colourspace opto-electronic conversion function.
+    Defines the *sRGB* colourspace opto-electronic transfer function.
 
     Parameters
     ----------
@@ -61,7 +61,7 @@ def oecf_sRGB(value):
 
     Examples
     --------
-    >>> oecf_sRGB(0.18)  # doctest: +ELLIPSIS
+    >>> oetf_sRGB(0.18)  # doctest: +ELLIPSIS
     0.4613561...
     """
 
@@ -72,9 +72,9 @@ def oecf_sRGB(value):
                                1.055 * (value ** (1 / 2.4)) - 0.055))
 
 
-def eocf_sRGB(value):
+def eotf_sRGB(value):
     """
-    Defines the *sRGB* colourspace electro-optical conversion function.
+    Defines the *sRGB* colourspace electro-optical transfer function.
 
     Parameters
     ----------
@@ -88,12 +88,12 @@ def eocf_sRGB(value):
 
     Examples
     --------
-    >>> eocf_sRGB(0.46135612950044164)  # doctest: +ELLIPSIS
+    >>> eotf_sRGB(0.46135612950044164)  # doctest: +ELLIPSIS
     0.18...
     """
 
     value = np.asarray(value)
 
-    return as_numeric(np.where(value <= oecf_sRGB(0.0031308),
+    return as_numeric(np.where(value <= oetf_sRGB(0.0031308),
                                value / 12.92,
                                ((value + 0.055) / 1.055) ** 2.4))

@@ -167,7 +167,7 @@ DEFAULT_PLOTTING_ILLUMINANT : tuple
 DEFAULT_PLOTTING_ENCODING_CCTF = RGB_COLOURSPACES['sRGB'].encoding_cctf
 """
 Default plotting encoding colour component transfer function / opto-electronic
-conversion function: *sRGB*.
+transfer function: *sRGB*.
 
 DEFAULT_PLOTTING_ENCODING_CCTF : object
 """

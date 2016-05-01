@@ -54,7 +54,7 @@ __all__ = ['log_encoding_SLog',
 
 def log_encoding_SLog(value):
     """
-    Defines the *Sony S-Log* log encoding curve / opto-electronic conversion
+    Defines the *Sony S-Log* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
@@ -80,7 +80,7 @@ def log_encoding_SLog(value):
 
 def log_decoding_SLog(value):
     """
-    Defines the *Sony S-Log* log decoding curve / electro-optical conversion
+    Defines the *Sony S-Log* log decoding curve / electro-optical transfer
     function.
 
     Parameters
@@ -106,7 +106,7 @@ def log_decoding_SLog(value):
 
 def log_encoding_SLog2(value):
     """
-    Defines the *Sony S-Log2* log encoding curve / opto-electronic conversion
+    Defines the *Sony S-Log2* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
@@ -133,7 +133,7 @@ def log_encoding_SLog2(value):
 
 def log_decoding_SLog2(value):
     """
-    Defines the *Sony S-Log2* log decoding curve / electro-optical conversion
+    Defines the *Sony S-Log2* log decoding curve / electro-optical transfer
     function.
 
     Parameters
@@ -160,7 +160,7 @@ def log_decoding_SLog2(value):
 
 def log_encoding_SLog3(value):
     """
-    Defines the *Sony S-Log3* log encoding curve / opto-electronic conversion
+    Defines the *Sony S-Log3* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
@@ -190,7 +190,7 @@ def log_encoding_SLog3(value):
 
 def log_decoding_SLog3(value):
     """
-    Defines the *Sony S-Log3* log decoding curve / electro-optical conversion
+    Defines the *Sony S-Log3* log decoding curve / electro-optical transfer
     function.
 
     Parameters

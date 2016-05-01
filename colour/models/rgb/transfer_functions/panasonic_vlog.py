@@ -54,7 +54,7 @@ V_LOG_CONSTANTS : Structure
 
 def log_encoding_VLog(value):
     """
-    Defines the *V-Log* log encoding curve / opto-electronic conversion
+    Defines the *V-Log* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
@@ -89,7 +89,7 @@ def log_encoding_VLog(value):
 
 def log_decoding_VLog(value):
     """
-    Defines the *V-Log* log decoding curve / electro-optical conversion
+    Defines the *V-Log* log decoding curve / electro-optical transfer
     function.
 
     Parameters

@@ -41,7 +41,7 @@ __all__ = ['log_encoding_ProPhotoRGB',
 
 def log_encoding_ProPhotoRGB(value):
     """
-    Defines the *ProPhoto RGB* colourspace opto-electronic conversion function.
+    Defines the *ProPhoto RGB* colourspace opto-electronic transfer function.
 
     Parameters
     ----------
@@ -68,7 +68,7 @@ def log_encoding_ProPhotoRGB(value):
 
 def log_decoding_ProPhotoRGB(value):
     """
-    Defines the *ProPhoto RGB* colourspace electro-optical conversion function.
+    Defines the *ProPhoto RGB* colourspace electro-optical transfer function.
 
     Parameters
     ----------

@@ -41,7 +41,7 @@ __all__ = ['log_encoding_DCIP3',
 
 def log_encoding_DCIP3(value):
     """
-    Defines the *DCI-P3* colourspace opto-electronic conversion function.
+    Defines the *DCI-P3* colourspace opto-electronic transfer function.
 
     Parameters
     ----------
@@ -66,7 +66,7 @@ def log_encoding_DCIP3(value):
 
 def log_decoding_DCIP3(value):
     """
-    Defines the *DCI-P3* colourspace electro-optical conversion function.
+    Defines the *DCI-P3* colourspace electro-optical transfer function.
 
     Parameters
     ----------

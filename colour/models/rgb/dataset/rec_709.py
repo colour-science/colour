@@ -30,8 +30,8 @@ import numpy as np
 from colour.colorimetry import ILLUMINANTS
 from colour.models.rgb import (
     RGB_Colourspace,
-    oecf_BT709,
-    eocf_BT709)
+    oetf_BT709,
+    eotf_BT709)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -96,8 +96,8 @@ REC_709_COLOURSPACE = RGB_Colourspace(
     REC_709_ILLUMINANT,
     REC_709_TO_XYZ_MATRIX,
     XYZ_TO_REC_709_MATRIX,
-    oecf_BT709,
-    eocf_BT709)
+    oetf_BT709,
+    eotf_BT709)
 """
 *Rec. 709* colourspace.
 

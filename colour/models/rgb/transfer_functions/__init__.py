@@ -13,9 +13,9 @@ from .aces import (
 from .alexa_log_c import (
     log_encoding_ALEXALogC,
     log_decoding_ALEXALogC)
-from .bt_709 import oecf_BT709, eocf_BT709
-from .bt_1886 import oecf_BT1886, eocf_BT1886
-from .bt_2020 import oecf_BT2020, eocf_BT2020
+from .bt_709 import oetf_BT709, eotf_BT709
+from .bt_1886 import oetf_BT1886, eotf_BT1886
+from .bt_2020 import oetf_BT2020, eotf_BT2020
 from .canon_clog import log_encoding_CLog, log_decoding_CLog
 from .cineon import log_encoding_Cineon, log_decoding_Cineon
 from .dci_p3 import log_encoding_DCIP3, log_decoding_DCIP3
@@ -30,7 +30,7 @@ from .red_log import (
     log_decoding_REDLog,
     log_encoding_REDLogFilm,
     log_decoding_REDLogFilm)
-from .srgb import oecf_sRGB, eocf_sRGB
+from .srgb import oetf_sRGB, eotf_sRGB
 from .sony_slog import (
     log_encoding_SLog,
     log_decoding_SLog,
@@ -38,7 +38,7 @@ from .sony_slog import (
     log_decoding_SLog2,
     log_encoding_SLog3,
     log_decoding_SLog3)
-from .st_2084 import oecf_ST2084, eocf_ST2084
+from .st_2084 import oetf_ST2084, eotf_ST2084
 from .viper_log import log_encoding_ViperLog, log_decoding_ViperLog
 
 __all__ = ['log_encoding_ACESproxy',
@@ -46,16 +46,16 @@ __all__ = ['log_encoding_ACESproxy',
            'log_encoding_ACEScc',
            'log_decoding_ACEScc']
 __all__ += ['log_encoding_ALEXALogC', 'log_decoding_ALEXALogC']
-__all__ += ['oecf_BT709', 'eocf_BT709']
-__all__ += ['oecf_BT1886', 'eocf_BT1886']
-__all__ += ['oecf_BT2020', 'eocf_BT2020']
+__all__ += ['oetf_BT709', 'eotf_BT709']
+__all__ += ['oetf_BT1886', 'eotf_BT1886']
+__all__ += ['oetf_BT2020', 'eotf_BT2020']
 __all__ += ['log_encoding_CLog', 'log_decoding_CLog']
 __all__ += ['log_encoding_Cineon', 'log_decoding_Cineon']
 __all__ += ['log_encoding_DCIP3', 'log_decoding_DCIP3']
 __all__ += ['gamma_function']
 __all__ += ['linear_function']
 __all__ += ['log_encoding_Panalog', 'log_decoding_Panalog']
-__all__ += ['log_decoding_VLog', 'log_decoding_VLog']
+__all__ += ['log_encoding_VLog', 'log_decoding_VLog']
 __all__ += ['log_encoding_PivotedLog', 'log_decoding_PivotedLog']
 __all__ += ['log_encoding_ProPhotoRGB', 'log_decoding_ProPhotoRGB']
 __all__ += ['log_encoding_REDLog', 'log_decoding_REDLog']
@@ -65,8 +65,8 @@ __all__ += ['log_encoding_SLog',
             'log_decoding_SLog2',
             'log_encoding_SLog3',
             'log_decoding_SLog3']
-__all__ += ['oecf_sRGB', 'eocf_sRGB']
-__all__ += ['oecf_ST2084', 'eocf_ST2084']
+__all__ += ['oetf_sRGB', 'eotf_sRGB']
+__all__ += ['oetf_ST2084', 'eotf_ST2084']
 __all__ += ['log_decoding_ViperLog', 'log_decoding_ViperLog']
 
 LOG_ENCODING_METHODS = CaseInsensitiveMapping(

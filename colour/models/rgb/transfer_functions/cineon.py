@@ -41,7 +41,7 @@ __all__ = ['log_encoding_Cineon',
 def log_encoding_Cineon(value,
                         black_offset=10 ** ((95 - 685) / 300)):
     """
-    Defines the *Cineon* log encoding curve / opto-electronic conversion
+    Defines the *Cineon* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
@@ -71,7 +71,7 @@ def log_encoding_Cineon(value,
 def log_decoding_Cineon(value,
                         black_offset=10 ** ((95 - 685) / 300)):
     """
-    Defines the *Cineon* log decoding curve / electro-optical conversion
+    Defines the *Cineon* log decoding curve / electro-optical transfer
     function.
 
     Parameters

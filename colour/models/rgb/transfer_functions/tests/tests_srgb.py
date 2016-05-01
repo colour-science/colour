@@ -11,7 +11,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.models.rgb.transfer_functions import oecf_sRGB, eocf_sRGB
+from colour.models.rgb.transfer_functions import oetf_sRGB, eotf_sRGB
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -21,151 +21,151 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestOecf_sRGB',
-           'TestEocf_sRGB']
+__all__ = ['TestOetf_sRGB',
+           'TestEotf_sRGB']
 
 
-class TestOecf_sRGB(unittest.TestCase):
+class TestOetf_sRGB(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.sRGB.oecf_sRGB`
+    Defines :func:`colour.models.rgb.transfer_functions.sRGB.oetf_sRGB`
     definition unit tests methods.
     """
 
-    def test_oecf_sRGB(self):
+    def test_oetf_sRGB(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.sRGB.\
-oecf_sRGB` definition.
+oetf_sRGB` definition.
         """
 
         self.assertAlmostEqual(
-            oecf_sRGB(0.0),
+            oetf_sRGB(0.0),
             0.0,
             places=7)
 
         self.assertAlmostEqual(
-            oecf_sRGB(0.18),
+            oetf_sRGB(0.18),
             0.46135612950044164,
             places=7)
 
         self.assertAlmostEqual(
-            oecf_sRGB(1.0),
+            oetf_sRGB(1.0),
             1.0,
             places=7)
 
-    def test_n_dimensional_oecf_sRGB(self):
+    def test_n_dimensional_oetf_sRGB(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.sRGB.\
-oecf_sRGB` definition n-dimensional arrays support.
+oetf_sRGB` definition n-dimensional arrays support.
         """
 
         L = 0.18
         V = 0.46135612950044164
         np.testing.assert_almost_equal(
-            oecf_sRGB(L),
+            oetf_sRGB(L),
             V,
             decimal=7)
 
         L = np.tile(L, 6)
         V = np.tile(V, 6)
         np.testing.assert_almost_equal(
-            oecf_sRGB(L),
+            oetf_sRGB(L),
             V,
             decimal=7)
 
         L = np.reshape(L, (2, 3))
         V = np.reshape(V, (2, 3))
         np.testing.assert_almost_equal(
-            oecf_sRGB(L),
+            oetf_sRGB(L),
             V,
             decimal=7)
 
         L = np.reshape(L, (2, 3, 1))
         V = np.reshape(V, (2, 3, 1))
         np.testing.assert_almost_equal(
-            oecf_sRGB(L),
+            oetf_sRGB(L),
             V,
             decimal=7)
 
     @ignore_numpy_errors
-    def test_nan_oecf_sRGB(self):
+    def test_nan_oetf_sRGB(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.sRGB.\
-oecf_sRGB` definition nan support.
+oetf_sRGB` definition nan support.
         """
 
-        oecf_sRGB(
+        oetf_sRGB(
             np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestEocf_sRGB(unittest.TestCase):
+class TestEotf_sRGB(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.sRGB.eocf_sRGB`
+    Defines :func:`colour.models.rgb.transfer_functions.sRGB.eotf_sRGB`
     definition unit tests methods.
     """
 
-    def test_eocf_sRGB(self):
+    def test_eotf_sRGB(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.sRGB.\
-eocf_sRGB` definition.
+eotf_sRGB` definition.
         """
 
         self.assertAlmostEqual(
-            eocf_sRGB(0.0),
+            eotf_sRGB(0.0),
             0.0,
             places=7)
 
         self.assertAlmostEqual(
-            eocf_sRGB(0.46135612950044164),
+            eotf_sRGB(0.46135612950044164),
             0.18,
             places=7)
 
         self.assertAlmostEqual(
-            eocf_sRGB(1.0),
+            eotf_sRGB(1.0),
             1.0,
             places=7)
 
-    def test_n_dimensional_eocf_sRGB(self):
+    def test_n_dimensional_eotf_sRGB(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.sRGB.\
-eocf_sRGB` definition n-dimensional arrays support.
+eotf_sRGB` definition n-dimensional arrays support.
         """
 
         V = 0.46135612950044164
         L = 0.18
         np.testing.assert_almost_equal(
-            eocf_sRGB(V),
+            eotf_sRGB(V),
             L,
             decimal=7)
 
         V = np.tile(V, 6)
         L = np.tile(L, 6)
         np.testing.assert_almost_equal(
-            eocf_sRGB(V),
+            eotf_sRGB(V),
             L,
             decimal=7)
 
         V = np.reshape(V, (2, 3))
         L = np.reshape(L, (2, 3))
         np.testing.assert_almost_equal(
-            eocf_sRGB(V),
+            eotf_sRGB(V),
             L,
             decimal=7)
 
         V = np.reshape(V, (2, 3, 1))
         L = np.reshape(L, (2, 3, 1))
         np.testing.assert_almost_equal(
-            eocf_sRGB(V),
+            eotf_sRGB(V),
             L,
             decimal=7)
 
     @ignore_numpy_errors
-    def test_nan_eocf_sRGB(self):
+    def test_nan_eotf_sRGB(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.sRGB.\
-eocf_sRGB` definition nan support.
+eotf_sRGB` definition nan support.
         """
 
-        eocf_sRGB(
+        eotf_sRGB(
             np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 

@@ -184,7 +184,7 @@ def log_encoding_ALEXALogC(value,
                            method='Linear Scene Exposure Factor',
                            EI=800):
     """
-    Defines the *ALEXA Log C* log encoding curve / opto-electronic conversion
+    Defines the *ALEXA Log C* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
@@ -226,7 +226,7 @@ def log_decoding_ALEXALogC(value,
                            method='Linear Scene Exposure Factor',
                            EI=800):
     """
-    Defines the *ALEXA Log C* log decoding curve / electro-optical conversion
+    Defines the *ALEXA Log C* log decoding curve / electro-optical transfer
     function.
 
     Parameters

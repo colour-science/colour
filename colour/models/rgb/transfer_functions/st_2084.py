@@ -7,8 +7,8 @@ SMPTE ST 2084:2014 EOTF / EOCF and OETF / EOCF
 
 Defines *SMPTE ST 2084:2014* EOTF / EOCF and OETF / EOCF:
 
--   :func:`eocf_ST2084`
--   :func:`oecf_ST2084`
+-   :func:`eotf_ST2084`
+-   :func:`oetf_ST2084`
 
 See Also
 --------
@@ -41,8 +41,8 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['ST_2084_CONSTANTS',
-           'oecf_ST2084',
-           'eocf_ST2084']
+           'oetf_ST2084',
+           'eotf_ST2084']
 
 ST_2084_CONSTANTS = Structure(m_1=2610 / 4096 * (1 / 4),
                               m_2=2523 / 4096 * 128,
@@ -56,7 +56,7 @@ ST_2084_CONSTANTS : Structure
 """
 
 
-def oecf_ST2084(C, L_p=10000):
+def oetf_ST2084(C, L_p=10000):
     """
     Defines *SMPTE ST 2084:2014* optimised perceptual opto-electronic transfer
     function (OETF / OECF).
@@ -79,7 +79,7 @@ def oecf_ST2084(C, L_p=10000):
 
     Examples
     --------
-    >>> oecf_ST2084(0.18)  # doctest: +ELLIPSIS
+    >>> oetf_ST2084(0.18)  # doctest: +ELLIPSIS
     0.0794209...
     """
 
@@ -93,7 +93,7 @@ def oecf_ST2084(C, L_p=10000):
     return N
 
 
-def eocf_ST2084(N, L_p=10000):
+def eotf_ST2084(N, L_p=10000):
     """
     Defines *SMPTE ST 2084:2014* optimised perceptual electro-optical transfer
     function (EOTF / EOCF). This perceptual quantizer (PQ) has been modeled by
@@ -117,7 +117,7 @@ def eocf_ST2084(N, L_p=10000):
 
     Examples
     --------
-    >>> eocf_ST2084(0.079420969944927269)  # doctest: +ELLIPSIS
+    >>> eotf_ST2084(0.079420969944927269)  # doctest: +ELLIPSIS
     0.1...
     """
 

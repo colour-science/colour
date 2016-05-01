@@ -46,8 +46,6 @@ __all__ = ['sRGB_PRIMARIES',
            'sRGB_WHITEPOINT',
            'sRGB_TO_XYZ_MATRIX',
            'XYZ_TO_sRGB_MATRIX',
-           'sRGB_OECF',
-           'sRGB_EOCF',
            'sRGB_COLOURSPACE']
 
 sRGB_PRIMARIES = np.array(

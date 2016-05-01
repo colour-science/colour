@@ -11,7 +11,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.models.rgb.transfer_functions import oecf_ST2084, eocf_ST2084
+from colour.models.rgb.transfer_functions import oetf_ST2084, eotf_ST2084
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -21,161 +21,161 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestOecf_ST2084',
-           'TestEocf_ST2084']
+__all__ = ['TestOetf_ST2084',
+           'TestEotf_ST2084']
 
 
-class TestOecf_ST2084(unittest.TestCase):
+class TestOetf_ST2084(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.st_2084.oecf_ST2084`
+    Defines :func:`colour.models.rgb.transfer_functions.st_2084.oetf_ST2084`
     definition unit tests methods.
     """
 
-    def test_oecf_ST2084(self):
+    def test_oetf_ST2084(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.st_2084.\
-oecf_ST2084` definition.
+oetf_ST2084` definition.
         """
 
         self.assertAlmostEqual(
-            oecf_ST2084(0.0),
+            oetf_ST2084(0.0),
             7.3095590257839665e-07,
             places=7)
 
         self.assertAlmostEqual(
-            oecf_ST2084(0.18),
+            oetf_ST2084(0.18),
             0.079420969944927269,
             places=7)
 
         self.assertAlmostEqual(
-            oecf_ST2084(1),
+            oetf_ST2084(1),
             0.14994573210018022,
             places=7)
 
         self.assertAlmostEqual(
-            oecf_ST2084(5000, 5000),
+            oetf_ST2084(5000, 5000),
             1.0,
             places=7)
 
-    def test_n_dimensional_oecf_ST2084(self):
+    def test_n_dimensional_oetf_ST2084(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.st_2084.\
-oecf_ST2084` definition n-dimensional arrays support.
+oetf_ST2084` definition n-dimensional arrays support.
         """
 
         C = 0.18
         N = 0.079420969944927269
         np.testing.assert_almost_equal(
-            oecf_ST2084(C),
+            oetf_ST2084(C),
             N,
             decimal=7)
 
         C = np.tile(C, 6)
         N = np.tile(N, 6)
         np.testing.assert_almost_equal(
-            oecf_ST2084(C),
+            oetf_ST2084(C),
             N,
             decimal=7)
 
         C = np.reshape(C, (2, 3))
         N = np.reshape(N, (2, 3))
         np.testing.assert_almost_equal(
-            oecf_ST2084(C),
+            oetf_ST2084(C),
             N,
             decimal=7)
 
         C = np.reshape(C, (2, 3, 1))
         N = np.reshape(N, (2, 3, 1))
         np.testing.assert_almost_equal(
-            oecf_ST2084(C),
+            oetf_ST2084(C),
             N,
             decimal=7)
 
     @ignore_numpy_errors
-    def test_nan_oecf_ST2084(self):
+    def test_nan_oetf_ST2084(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.st_2084.\
-oecf_ST2084` definition nan support.
+oetf_ST2084` definition nan support.
         """
 
-        oecf_ST2084(
+        oetf_ST2084(
             np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestEocf_ST2084(unittest.TestCase):
+class TestEotf_ST2084(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.st_2084.eocf_ST2084`
+    Defines :func:`colour.models.rgb.transfer_functions.st_2084.eotf_ST2084`
     definition unit tests methods.
     """
 
-    def test_eocf_ST2084(self):
+    def test_eotf_ST2084(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.st_2084.\
-eocf_ST2084` definition.
+eotf_ST2084` definition.
         """
 
         self.assertAlmostEqual(
-            eocf_ST2084(0.0),
+            eotf_ST2084(0.0),
             0.0,
             places=7)
 
         self.assertAlmostEqual(
-            eocf_ST2084(0.079420969944927269),
+            eotf_ST2084(0.079420969944927269),
             0.18,
             places=7)
 
         self.assertAlmostEqual(
-            eocf_ST2084(0.14994573210018022),
+            eotf_ST2084(0.14994573210018022),
             1.0,
             places=7)
 
         self.assertAlmostEqual(
-            eocf_ST2084(1.0, 5000),
+            eotf_ST2084(1.0, 5000),
             5000.0,
             places=7)
 
-    def test_n_dimensional_eocf_ST2084(self):
+    def test_n_dimensional_eotf_ST2084(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.st_2084.\
-eocf_ST2084` definition n-dimensional arrays support.
+eotf_ST2084` definition n-dimensional arrays support.
         """
 
         N = 0.18
         C = 1.7385804910848062
         np.testing.assert_almost_equal(
-            eocf_ST2084(N),
+            eotf_ST2084(N),
             C,
             decimal=7)
 
         N = np.tile(N, 6)
         C = np.tile(C, 6)
         np.testing.assert_almost_equal(
-            eocf_ST2084(N),
+            eotf_ST2084(N),
             C,
             decimal=7)
 
         N = np.reshape(N, (2, 3))
         C = np.reshape(C, (2, 3))
         np.testing.assert_almost_equal(
-            eocf_ST2084(N),
+            eotf_ST2084(N),
             C,
             decimal=7)
 
         N = np.reshape(N, (2, 3, 1))
         C = np.reshape(C, (2, 3, 1))
         np.testing.assert_almost_equal(
-            eocf_ST2084(N),
+            eotf_ST2084(N),
             C,
             decimal=7)
 
     @ignore_numpy_errors
-    def test_nan_eocf_ST2084(self):
+    def test_nan_eotf_ST2084(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.st_2084.\
-eocf_ST2084` definition nan support.
+eotf_ST2084` definition nan support.
         """
 
-        eocf_ST2084(
+        eotf_ST2084(
             np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 

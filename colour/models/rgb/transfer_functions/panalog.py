@@ -41,7 +41,7 @@ __all__ = ['log_encoding_Panalog',
 def log_encoding_Panalog(value,
                          black_offset=10 ** ((64 - 681) / 444)):
     """
-    Defines the *Panalog* log encoding curve / opto-electronic conversion
+    Defines the *Panalog* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
@@ -71,7 +71,7 @@ def log_encoding_Panalog(value,
 def log_decoding_Panalog(value,
                          black_offset=10 ** ((64 - 681) / 444)):
     """
-    Defines the *Panalog* log decoding curve / electro-optical conversion
+    Defines the *Panalog* log decoding curve / electro-optical transfer
     function.
 
     Parameters

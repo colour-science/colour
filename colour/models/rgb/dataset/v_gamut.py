@@ -44,9 +44,6 @@ __all__ = ['V_GAMUT_PRIMARIES',
            'V_GAMUT_WHITEPOINT',
            'V_GAMUT_TO_XYZ_MATRIX',
            'XYZ_TO_V_GAMUT_MATRIX',
-           'V_LOG_CONSTANTS',
-           'V_LOG_OECF',
-           'V_LOG_EOCF',
            'V_GAMUT_COLOURSPACE']
 
 V_GAMUT_PRIMARIES = np.array(
