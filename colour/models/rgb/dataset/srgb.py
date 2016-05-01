@@ -32,7 +32,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import RGB_Colourspace
+from colour.models.rgb import RGB_Colourspace, oetf_sRGB, eotf_sRGB
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -92,65 +92,6 @@ XYZ_TO_sRGB_MATRIX = np.linalg.inv(sRGB_TO_XYZ_MATRIX)
 XYZ_TO_sRGB_MATRIX : array_like, (3, 3)
 """
 
-
-def _srgb_OECF(value):
-    """
-    Defines the *sRGB* colourspace opto-electronic conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Encoded value.
-    """
-
-    value = np.asarray(value)
-
-    return np.where(value <= 0.0031308,
-                    value * 12.92,
-                    1.055 * (value ** (1 / 2.4)) - 0.055)
-
-
-def _srgb_EOCF(value):
-    """
-    Defines the *sRGB* colourspace electro-optical conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Decoded value.
-    """
-
-    value = np.asarray(value)
-
-    return np.where(value <= _srgb_OECF(0.0031308),
-                    value / 12.92,
-                    ((value + 0.055) / 1.055) ** 2.4)
-
-
-sRGB_OECF = _srgb_OECF
-"""
-Opto-electronic conversion function of *sRGB* colourspace.
-
-sRGB_OECF : object
-"""
-
-sRGB_EOCF = _srgb_EOCF
-"""
-Electro-optical conversion function of *sRGB* colourspace.
-
-sRGB_EOCF : object
-"""
-
 sRGB_COLOURSPACE = RGB_Colourspace(
     'sRGB',
     sRGB_PRIMARIES,
@@ -158,8 +99,8 @@ sRGB_COLOURSPACE = RGB_Colourspace(
     sRGB_ILLUMINANT,
     sRGB_TO_XYZ_MATRIX,
     XYZ_TO_sRGB_MATRIX,
-    sRGB_OECF,
-    sRGB_EOCF)
+    oetf_sRGB,
+    eotf_sRGB)
 """
 *sRGB* colourspace.
 
