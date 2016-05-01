@@ -27,8 +27,10 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import RGB_Colourspace
-from colour.utilities import Structure
+from colour.models.rgb import (
+    RGB_Colourspace,
+    log_encoding_VLog,
+    log_decoding_VLog)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -90,89 +92,6 @@ XYZ_TO_V_GAMUT_MATRIX = np.linalg.inv(
 XYZ_TO_V_GAMUT_MATRIX : array_like, (3, 3)
 """
 
-V_LOG_CONSTANTS = Structure(cut1=0.01,
-                            cut2=0.181,
-                            b=0.00873,
-                            c=0.241514,
-                            d=0.598206)
-"""
-*V-Log* colourspace constants.
-
-V_LOG_CONSTANTS : Structure
-"""
-
-
-def _linear_to_v_log(value):
-    """
-    Defines the *linear* to *V-Log* conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Encoded value.
-    """
-
-    value = np.asarray(value)
-
-    cut1 = V_LOG_CONSTANTS.cut1
-    b = V_LOG_CONSTANTS.b
-    c = V_LOG_CONSTANTS.c
-    d = V_LOG_CONSTANTS.d
-
-    value = np.where(value < cut1,
-                     5.6 * value + 0.125,
-                     c * np.log10(value + b) + d)
-    return value
-
-
-def _v_log_to_linear(value):
-    """
-    Defines the *V-Log* to *linear* conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Decoded value.
-    """
-
-    value = np.asarray(value)
-
-    cut2 = V_LOG_CONSTANTS.cut2
-    b = V_LOG_CONSTANTS.b
-    c = V_LOG_CONSTANTS.c
-    d = V_LOG_CONSTANTS.d
-
-    value = np.where(value < cut2,
-                     (value - 0.125) / 5.6,
-                     np.power(10, ((value - d) / c)) - b)
-
-    return value
-
-
-V_LOG_OECF = _linear_to_v_log
-"""
-Opto-electronic conversion function of *V-Log*.
-
-V_LOG_OECF : object
-"""
-
-V_LOG_EOCF = _v_log_to_linear
-"""
-Electro-optical conversion function of *V-Log* to linear.
-
-V_LOG_EOCF : object
-"""
-
 V_GAMUT_COLOURSPACE = RGB_Colourspace(
     'V-Gamut',
     V_GAMUT_PRIMARIES,
@@ -180,8 +99,8 @@ V_GAMUT_COLOURSPACE = RGB_Colourspace(
     V_GAMUT_ILLUMINANT,
     V_GAMUT_TO_XYZ_MATRIX,
     XYZ_TO_V_GAMUT_MATRIX,
-    V_LOG_OECF,
-    V_LOG_EOCF)
+    log_encoding_VLog,
+    log_decoding_VLog)
 """
 *V-Gamut* colourspace.
 
