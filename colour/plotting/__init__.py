@@ -65,8 +65,8 @@ from .models import (
     RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot,
     RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot,
     RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot,
-    single_conversion_function_plot,
-    multi_conversion_function_plot)
+    single_cctf_plot,
+    multi_cctf_plot)
 from .notation import (
     single_munsell_value_function_plot,
     multi_munsell_value_function_plot)
@@ -145,8 +145,8 @@ __all__ += [
     'RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot',
     'RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot',
     'RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot',
-    'single_conversion_function_plot',
-    'multi_conversion_function_plot']
+    'single_cctf_plot',
+    'multi_cctf_plot']
 __all__ += [
     'single_munsell_value_function_plot',
     'multi_munsell_value_function_plot']

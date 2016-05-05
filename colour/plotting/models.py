@@ -13,8 +13,8 @@ Defines the colour models plotting objects:
 -   :func:`RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot`
 -   :func:`RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot`
 -   :func:`RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot`
--   :func:`single_conversion_function_plot`
--   :func:`multi_conversion_function_plot`
+-   :func:`single_cctf_plot`
+-   :func:`multi_cctf_plot`
 """
 
 from __future__ import division
@@ -64,8 +64,8 @@ __all__ = [
     'RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot',
     'RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot',
     'RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot',
-    'single_conversion_function_plot',
-    'multi_conversion_function_plot']
+    'single_cctf_plot',
+    'multi_cctf_plot']
 
 
 def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
@@ -679,18 +679,16 @@ def RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot(
     return display(**settings)
 
 
-def single_conversion_function_plot(colourspace='Rec. 709',
-                                    EOCF=False,
-                                    **kwargs):
+def single_cctf_plot(colourspace='Rec. 709', decoding_cctf=False, **kwargs):
     """
-    Plots given colourspace opto-electronic transfer function.
+    Plots given colourspace colour component transfer function.
 
     Parameters
     ----------
     colourspace : unicode, optional
-        *RGB* Colourspace opto-electronic transfer function to plot.
-    EOCF : bool
-        Plot electro-optical transfer function instead.
+        *RGB* Colourspace colour component transfer function to plot.
+    decoding_cctf : bool
+        Plot decoding colour component transfer function instead.
     \**kwargs : dict, optional
         Keywords arguments.
 
@@ -701,29 +699,26 @@ def single_conversion_function_plot(colourspace='Rec. 709',
 
     Examples
     --------
-    >>> single_conversion_function_plot()  # doctest: +SKIP
+    >>> single_cctf_plot()  # doctest: +SKIP
     """
 
-    settings = {'title': '{0} - {1} Conversion Function'.format(
-        colourspace, 'Electro-Optical' if EOCF else 'Opto-Electronic')}
+    settings = {'title': '{0} - {1} CCTF'.format(
+        colourspace, 'Decoding' if decoding_cctf else 'Encoding')}
     settings.update(kwargs)
 
-    return multi_conversion_function_plot([colourspace], EOCF, **settings)
+    return multi_cctf_plot([colourspace], decoding_cctf, **settings)
 
 
-def multi_conversion_function_plot(colourspaces=None,
-                                   decoding_cctf=False,
-                                   **kwargs):
+def multi_cctf_plot(colourspaces=None, decoding_cctf=False, **kwargs):
     """
-    Plots given colourspaces opto-electronic transfer functions.
+    Plots given colourspaces colour component transfer functions.
 
     Parameters
     ----------
     colourspaces : array_like, optional
-        Colourspaces opto-electronic transfer functions to plot.
+        Colourspaces colour component transfer function to plot.
     decoding_cctf : bool
-        Plot decoding colour component transfer function / electro-optical
-        transfer functions instead.
+        Plot decoding colour component transfer function instead.
     \**kwargs : dict, optional
         Keywords arguments.
 
@@ -734,7 +729,7 @@ def multi_conversion_function_plot(colourspaces=None,
 
     Examples
     --------
-    >>> multi_conversion_function_plot(['Rec. 709', 'sRGB'])  # doctest: +SKIP
+    >>> multi_cctf_plot(['Rec. 709', 'sRGB'])  # doctest: +SKIP
     """
 
     settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
@@ -758,10 +753,12 @@ def multi_conversion_function_plot(colourspaces=None,
                    linewidth=2)
 
     settings.update({
-        'title': '{0} - {1} Conversion Functions'.format(
+        'title': '{0} - {1} CCTFs'.format(
             ', '.join(colourspaces),
-            'Electro-Optical' if decoding_cctf else 'Opto-Electronic'),
+            'Decoding' if decoding_cctf else 'Encoding'),
         'x_tighten': True,
+        'x_label': 'Signal Value' if decoding_cctf else 'Tristimulus Value',
+        'y_label': 'Tristimulus Value' if decoding_cctf else 'Signal Value',
         'legend': True,
         'legend_location': 'upper left',
         'grid': True,
