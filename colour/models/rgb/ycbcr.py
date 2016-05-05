@@ -8,10 +8,10 @@ Y'CbCr Colour Encoding
 Defines the Y'CbCr encoding (Y'CbCr is not an absolute colourspace)
 transformations:
 
--   :func:`rgb_to_YCbCr`
--   :func:`YCbCr_to_rgb`
--   :func:`rgb_to_YcCbcCrc`
--   :func:`YcCbcCrc_to_rgb`
+-   :func:`RGB_to_YCbCr`
+-   :func:`YCbCr_to_RGB`
+-   :func:`RGB_to_YcCbcCrc`
+-   :func:`YcCbcCrc_to_RGB`
 
 References
 ----------
@@ -155,7 +155,7 @@ def RGB_to_YCbCr(rgb,
     -----
     -   For ITU-R BT.2020 (Rec.2020) the RGB_to_YCbCr function is only
         applicable tothe non-constant luminance implementation. The
-        rgb_to_YcCbcCrc function should be used for the constant luminance case
+        RGB_to_YcCbcCrc function should be used for the constant luminance case
         See https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
         R-REC-BT.2020-0-201208-S!!PDF-E.pdf
 
@@ -179,9 +179,10 @@ def RGB_to_YCbCr(rgb,
     Examples
     --------
     >>> rgb = np.array([1.0, 1.0, 1.0])
-    >>> RGB_to_YCbCr(rgb)  # doctest: +ELLIPSIS
-    array([ 0.9188660...,  0.5004887...,  0.5004887...])
-    >>> rgb_to_YCbCr(RGB, out_range=RANGE['legal_10_YC_int'])
+    >>> RGB_to_YCbCr(  # doctest: +ELLIPSIS
+    ...              rgb)
+    array([ 0.9215686...,  0.5019607...,  0.5019607...])
+    >>> RGB_to_YCbCr(rgb, out_legal=True, out_bits=10, out_int=True)
     array([940, 512, 512])
 
     For JFIF JPEG conversion as per http://www.w3.org/Graphics/JPEG/jfif3.pdf:
@@ -299,8 +300,10 @@ def YCbCr_to_RGB(YCbCr,
     Examples
     --------
     >>> YCbCr = np.array([502, 512, 512])
-    >>> YCbCr_to_rgb(YCbCr,
-    ...              in_range=RANGE['legal_10_YC_int'])
+    >>> YCbCr_to_RGB(YCbCr,
+    ...              in_bits=10,
+    ...              in_legal=True,
+    ...              in_int=True)
     array([ 0.5,  0.5,  0.5])
     """
     Kr = K[0]
@@ -379,8 +382,10 @@ def RGB_to_YcCbcCrc(rgb,
     Examples
     --------
     >>> rgb = np.array([0.18, 0.18, 0.18])
-    >>> rgb_to_YcCbcCrc(rgb,
-    ...                 out_range=RANGE['legal_10_YC_int'],
+    >>> RGB_to_YcCbcCrc(rgb,
+    ...                 out_legal=True,
+    ...                 out_bits=10,
+    ...                 out_int=True,
     ...                 is_10_bits_system = True)
     array([422, 512, 512])
     """
@@ -458,10 +463,13 @@ def YcCbcCrc_to_RGB(YcCbcCrc,
     Examples
     --------
     >>> YcCbcCrc = np.array([1689, 2048, 2048])
-    >>> YcCbcCrc_to_rgb(YcCbcCrc,
-    ...                 in_range=RANGE['legal_12_YC_int'],
-    ...                 is_10_bits_system=False)  # doctest: +ELLIPSIS
-    array([ 0.18009037,  0.18009037,  0.18009037])
+    >>> YcCbcCrc_to_RGB(  # doctest: +ELLIPSIS
+    ...                 YcCbcCrc,
+    ...                 in_legal=True,
+    ...                 in_bits=12,
+    ...                 in_int=True,
+    ...                 is_10_bits_system=False)
+    array([ 0.1800903..., 0.1800903..., 0.1800903...])
     """
     if in_range is None:
         in_range = YCBCR_RANGES(in_bits, in_legal, in_int)
