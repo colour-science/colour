@@ -82,9 +82,9 @@ class TestRGB_to_YCbCr(unittest.TestCase):
             YCbCr)
 
         rgb = np.tile(rgb, 4)
-        rgb = np.reshape(rgb, (4,3))
+        rgb = np.reshape(rgb, (4, 3))
         YCbCr = np.tile(YCbCr, 4)
-        YCbCr = np.reshape(YCbCr, (4,3))
+        YCbCr = np.reshape(YCbCr, (4, 3))
         np.testing.assert_almost_equal(
             RGB_to_YCbCr(rgb),
             YCbCr)
@@ -150,7 +150,6 @@ class TestYCbCr_to_RGB(unittest.TestCase):
             np.array([208, 131, 99]),
             decimal=7)
 
-
     def test_n_dimensional_YCbCr_to_RGB(self):
         """
         Tests :func:`colour.models.rgb.ycbcr.YCbCr_to_RGB` definition
@@ -163,9 +162,9 @@ class TestYCbCr_to_RGB(unittest.TestCase):
             rgb)
 
         rgb = np.tile(rgb, 4)
-        rgb = np.reshape(rgb, (4,3))
+        rgb = np.reshape(rgb, (4, 3))
         YCbCr = np.tile(YCbCr, 4)
-        YCbCr = np.reshape(YCbCr, (4,3))
+        YCbCr = np.reshape(YCbCr, (4, 3))
         np.testing.assert_almost_equal(
             YCbCr_to_RGB(YCbCr),
             rgb)
@@ -233,9 +232,9 @@ class TestRGB_to_YcCbcCrc(unittest.TestCase):
             YcCbcCrc)
 
         rgb = np.tile(rgb, 4)
-        rgb = np.reshape(rgb, (4,3))
+        rgb = np.reshape(rgb, (4, 3))
         YcCbcCrc = np.tile(YcCbcCrc, 4)
-        YcCbcCrc = np.reshape(YcCbcCrc, (4,3))
+        YcCbcCrc = np.reshape(YcCbcCrc, (4, 3))
         np.testing.assert_almost_equal(
             RGB_to_YcCbcCrc(rgb),
             YcCbcCrc)
@@ -303,9 +302,9 @@ class TestYcCbcCrc_to_RGB(unittest.TestCase):
             rgb)
 
         rgb = np.tile(rgb, 4)
-        rgb = np.reshape(rgb, (4,3))
+        rgb = np.reshape(rgb, (4, 3))
         YcCbcCrc = np.tile(YcCbcCrc, 4)
-        YcCbcCrc = np.reshape(YcCbcCrc, (4,3))
+        YcCbcCrc = np.reshape(YcCbcCrc, (4, 3))
         np.testing.assert_almost_equal(
             YcCbcCrc_to_RGB(YcCbcCrc),
             rgb)
