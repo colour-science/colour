@@ -68,8 +68,8 @@ def oetf_BT1886(L, L_B=64, L_W=940):
 
     Examples
     --------
-    >>> oetf_BT1886(136.58617957264661)  # doctest: +ELLIPSIS
-    0.1800000...
+    >>> oetf_BT1886(277.98159179331145)  # doctest: +ELLIPSIS
+    0.4090077...
     """
 
     warning(('*Recommendation ITU-R BT.1886* doesn\'t specify an '
@@ -116,8 +116,8 @@ def eotf_BT1886(V, L_B=64, L_W=940):
 
     Examples
     --------
-    >>> eotf_BT1886(0.18)  # doctest: +ELLIPSIS
-    136.5861795...
+    >>> eotf_BT1886(0.4090077288641504)  # doctest: +ELLIPSIS
+    277.9815917...
     """
 
     V = np.asarray(V)

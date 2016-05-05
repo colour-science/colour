@@ -10,40 +10,51 @@ from colour.utilities.verbose import message_box
 
 message_box('Colour Component Transfer Functions (CCTF) Computations')
 
-linear = 18 / 100
+C = 18 / 100
 
-message_box(('Encoding to "BT.709" using given linear light value:\n'
-             '\n\t{0}'.format(linear)))
-print(colour.oetf_BT709(linear))
-
-print('\n')
-
-message_box(('Encoding to "Cineon" using given linear light value:\n'
-             '\n\t{0}'.format(linear)))
-print(colour.log_encoding_Cineon(linear))
-print(colour.log_encoding_curve(linear, method='Cineon'))
+message_box(('Encoding to video component signal value using "BT.709" OETF '
+             'and given linear-light value:\n'
+             '\n\t{0}'.format(C)))
+print(colour.oetf_BT709(C))
+print(colour.oetf(C, function='BT.709'))
 
 print('\n')
 
-log = 0.457319613085
-message_box(('Decoding to linear light using given "Cineon" code value:\n'
-             '\n\t{0}'.format(log)))
-print(colour.log_decoding_Cineon(log))
-print(colour.log_decoding_curve(log, method='Cineon'))
+N = 0.4090077288641504
+message_box(('Decoding to linear-light value using "BT.1886" EOTF and given '
+             ' video component signal value:\n'
+             '\n\t{0}'.format(N)))
+print(colour.eotf_BT1886(N))
+print(colour.eotf(N, function='BT.1886'))
 
 print('\n')
 
-message_box(('Encoding to "PLog" using given linear light value:\n'
-             '\n\t{0}'.format(linear)))
-print(colour.log_encoding_PivotedLog(linear))
-print(colour.log_encoding_curve(linear, method='PLog'))
+message_box(('Encoding to "Cineon" using given linear-light value:\n'
+             '\n\t{0}'.format(C)))
+print(colour.log_encoding_Cineon(C))
+print(colour.log_encoding_curve(C, curve='Cineon'))
 
 print('\n')
 
-log = 0.434995112414
-message_box(('Decoding to linear light value using given "PLog" code value:\n'
-             '\n\t{0}'.format(log)))
-print(colour.log_decoding_PivotedLog(log))
-print(colour.log_decoding_curve(log, method='PLog'))
+N = 0.457319613085
+message_box(('Decoding to linear-light using given "Cineon" code value:\n'
+             '\n\t{0}'.format(N)))
+print(colour.log_decoding_Cineon(N))
+print(colour.log_decoding_curve(N, curve='Cineon'))
+
+print('\n')
+
+message_box(('Encoding to "PLog" using given linear-light value:\n'
+             '\n\t{0}'.format(C)))
+print(colour.log_encoding_PivotedLog(C))
+print(colour.log_encoding_curve(C, curve='PLog'))
+
+print('\n')
+
+N = 0.434995112414
+message_box(('Decoding to linear-light value using given "PLog" code value:\n'
+             '\n\t{0}'.format(N)))
+print(colour.log_decoding_PivotedLog(N))
+print(colour.log_decoding_curve(N, curve='PLog'))
 
 print('\n')

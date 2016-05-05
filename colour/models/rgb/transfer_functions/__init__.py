@@ -85,7 +85,7 @@ LOG_ENCODING_CURVES = CaseInsensitiveMapping(
      'S-Log3': log_encoding_SLog3,
      'V-Log': log_encoding_VLog})
 """
-Supported *log* encoding computations methods.
+Supported *log* encoding curves.
 
 LOG_ENCODING_CURVES : CaseInsensitiveMapping
     **{'Cineon', 'Panalog', 'ViperLog', 'PLog', 'C-Log', 'ACEScc', 'ACESproxy'
@@ -94,7 +94,7 @@ LOG_ENCODING_CURVES : CaseInsensitiveMapping
 """
 
 
-def log_encoding_curve(value, method='Cineon', **kwargs):
+def log_encoding_curve(value, curve='Cineon', **kwargs):
     """
     Encodes linear-light values to :math:`R'G'B'` video component signal
     value using given *log* curve.
@@ -103,11 +103,11 @@ def log_encoding_curve(value, method='Cineon', **kwargs):
     ----------
     value : numeric or array_like
         Value.
-    method : unicode, optional
+    curve : unicode, optional
         **{'Cineon', 'Panalog', 'ViperLog', 'PLog', 'C-Log', 'ACEScc',
         'ACESproxy', 'ALEXA Log C', 'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2',
         'S-Log3', 'V-Log'}**,
-        Computation method.
+        Computation curve.
     \**kwargs : dict, optional
         Keywords arguments.
 
@@ -120,16 +120,16 @@ def log_encoding_curve(value, method='Cineon', **kwargs):
     --------
     >>> log_encoding_curve(0.18)  # doctest: +ELLIPSIS
     0.4573196...
-    >>> log_encoding_curve(0.18, method='ACEScc')  # doctest: +ELLIPSIS
+    >>> log_encoding_curve(0.18, curve='ACEScc')  # doctest: +ELLIPSIS
     0.4135884...
     >>> log_encoding_curve(  # doctest: +ELLIPSIS
-    ...     0.18, method='PLog', log_reference=400)
+    ...     0.18, curve='PLog', log_reference=400)
     0.3910068...
-    >>> log_encoding_curve(0.18, method='S-Log')  # doctest: +ELLIPSIS
+    >>> log_encoding_curve(0.18, curve='S-Log')  # doctest: +ELLIPSIS
     0.3599878...
     """
 
-    function = LOG_ENCODING_CURVES[method]
+    function = LOG_ENCODING_CURVES[curve]
 
     filter_kwargs(function, **kwargs)
 
@@ -152,7 +152,7 @@ LOG_DECODING_CURVES = CaseInsensitiveMapping(
      'S-Log3': log_decoding_SLog3,
      'V-Log': log_decoding_VLog})
 """
-Supported *log* decoding computations methods.
+Supported *log* decoding curves.
 
 LOG_DECODING_CURVES : CaseInsensitiveMapping
     **{'Cineon', 'Panalog', 'ViperLog', 'PLog', 'C-Log', 'ACEScc', 'ACESproxy'
@@ -161,7 +161,7 @@ LOG_DECODING_CURVES : CaseInsensitiveMapping
 """
 
 
-def log_decoding_curve(value, method='Cineon', **kwargs):
+def log_decoding_curve(value, curve='Cineon', **kwargs):
     """
     Decodes :math:`R'G'B'` video component signal value to linear-light values
     using given *log* curve.
@@ -170,11 +170,11 @@ def log_decoding_curve(value, method='Cineon', **kwargs):
     ----------
     value : numeric or array_like
         Value.
-    method : unicode, optional
+    curve : unicode, optional
         **{'Cineon', 'Panalog', 'ViperLog', 'PLog', 'C-Log', 'ACEScc',
         'ACESproxy', 'ALEXA Log C', 'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2',
         'S-Log3', 'V-Log'}**,
-        Computation method.
+        Computation curve.
     \**kwargs : dict, optional
         Keywords arguments.
 
@@ -188,17 +188,17 @@ def log_decoding_curve(value, method='Cineon', **kwargs):
     >>> log_decoding_curve(0.45731961308541841)  # doctest: +ELLIPSIS
     0.1...
     >>> log_decoding_curve(0.41358840249244228,
-    ...     method='ACEScc')  # doctest: +ELLIPSIS
+    ...     curve='ACEScc')  # doctest: +ELLIPSIS
     0.1...
     >>> log_decoding_curve(  # doctest: +ELLIPSIS
-    ...     0.39100684261974583, method='PLog', log_reference=400)
+    ...     0.39100684261974583, curve='PLog', log_reference=400)
     0.1...
     >>> log_decoding_curve(  # doctest: +ELLIPSIS
-    ...     0.35998784642215442, method='S-Log')
+    ...     0.35998784642215442, curve='S-Log')
     0.1...
     """
 
-    function = LOG_DECODING_CURVES[method]
+    function = LOG_DECODING_CURVES[curve]
 
     filter_kwargs(function, **kwargs)
 
@@ -279,8 +279,8 @@ EOTFS : CaseInsensitiveMapping
 
 def eotf(value, function='sRGB', **kwargs):
     """
-    Decodes :math:`R'G'B'` video component signal to tristimulus values at the
-    display using given EOTF (EOCF) electro-optical transfer function.
+    Decodes :math:`R'G'B'` video component signal value to tristimulus values
+    at the display using given EOTF (EOCF) electro-optical transfer function.
 
     Parameters
     ----------

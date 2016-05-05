@@ -68,7 +68,7 @@ class RGB_Colourspace(object):
     decoding_cctf : object, optional
         Decoding colour component transfer function (Decoding CCTF) / EOTF
         (EOCF) electro-optical transfer function that maps an :math:`R'G'B'`
-        video component signal to tristimulus values at the display.
+        video component signal value to tristimulus values at the display.
 
     Attributes
     ----------
