@@ -39,8 +39,8 @@ from colour.colorimetry import ILLUMINANTS
 from colour.models.rgb import (
     RGB_Colourspace,
     normalised_primary_matrix,
-    log_encoding_DCIP3,
-    log_decoding_DCIP3)
+    oetf_DCIP3,
+    eotf_DCIP3)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -140,8 +140,8 @@ DCI_P3_COLOURSPACE = RGB_Colourspace(
     DCI_P3_ILLUMINANT,
     DCI_P3_TO_XYZ_MATRIX,
     XYZ_TO_DCI_P3_MATRIX,
-    log_encoding_DCIP3,
-    log_decoding_DCIP3)
+    oetf_DCIP3,
+    eotf_DCIP3)
 """
 *DCI-P3* colourspace.
 
@@ -155,8 +155,8 @@ DCI_P3_P_COLOURSPACE = RGB_Colourspace(
     DCI_P3_ILLUMINANT,
     DCI_P3_P_TO_XYZ_MATRIX,
     XYZ_TO_DCI_P3_P_MATRIX,
-    log_encoding_DCIP3,
-    log_decoding_DCIP3)
+    oetf_DCIP3,
+    eotf_DCIP3)
 """
 *DCI-P3+* colourspace.
 

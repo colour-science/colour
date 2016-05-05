@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
-ITU-R BT.2020 EOTF / EOCF and OETF / EOCF
+ITU-R BT.2020 OETF (OECF) and EOTF (EOCF)
 =========================================
 
-Defines *ITU-R BT.2020* EOTF / EOCF and OETF / EOCF:
+Defines *ITU-R BT.2020* OETF (OECF) and EOTF (EOCF):
 
 -   :func:`oetf_BT2020`
 -   :func:`eotf_BT2020`
@@ -54,7 +54,8 @@ BT_2020_CONSTANTS : Structure
 
 def oetf_BT2020(value, is_10_bits_system=True):
     """
-    Defines *Recommendation ITU-R BT.2020* opto-electrical transfer function.
+    Defines *Recommendation ITU-R BT.2020* OETF (OECF) opto-electrical
+    transfer function.
 
     Parameters
     ----------
@@ -86,7 +87,8 @@ def oetf_BT2020(value, is_10_bits_system=True):
 
 def eotf_BT2020(value, is_10_bits_system=True):
     """
-    Defines *Recommendation ITU-R BT.2020* electro-optical transfer function.
+    Defines *Recommendation ITU-R BT.2020* EOTF (EOCF) electro-optical
+    transfer function.
 
     Parameters
     ----------

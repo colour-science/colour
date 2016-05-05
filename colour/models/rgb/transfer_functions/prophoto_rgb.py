@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-ProPhoto RGB EOTF / EOCF and OETF / EOCF
+ProPhoto RGB OETF (OECF) and EOTF (EOCF)
 ========================================
 
 Defines the *ProPhoto RGB* log encoding:

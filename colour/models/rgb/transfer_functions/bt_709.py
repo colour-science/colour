@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
-ITU-R BT.709-6 EOTF / EOCF and OETF / EOCF
+ITU-R BT.709-6 OETF (OECF) and EOTF (EOCF)
 ==========================================
 
-Defines *ITU-R BT.709-6* EOTF / EOCF and OETF / EOCF:
+Defines *ITU-R BT.709-6* OETF (OECF) and EOTF (EOCF):
 
 -   :func:`oetf_BT709`
 -   :func:`eotf_BT709`
@@ -43,8 +43,8 @@ __all__ = ['oetf_BT709',
 
 def oetf_BT709(value):
     """
-    Defines *Recommendation ITU-R BT.709-6* opto-electronic transfer
-    function.
+    Defines *Recommendation ITU-R BT.709-6* OETF (OECF) opto-electronic
+    transfer function.
 
     Parameters
     ----------
@@ -71,8 +71,8 @@ def oetf_BT709(value):
 
 def eotf_BT709(value):
     """
-    Defines *Recommendation ITU-R BT.709-6* electro-optical transfer
-    function.
+    Defines *Recommendation ITU-R BT.709-6* EOTF (EOCF) electro-optical
+    transfer function.
 
     Parameters
     ----------
@@ -88,8 +88,7 @@ def eotf_BT709(value):
     -------
     *Recommendation ITU-R BT.709-6* doesn't specify an electro-optical
     transfer function. This definition is used for symmetry in unit tests and
-    other computations but should not be used as an *EOCF* for *Rec. 709*
-    colourspace!
+    other computations but should not be used as an *EOTF*.
 
     Examples
     --------
@@ -100,7 +99,7 @@ def eotf_BT709(value):
     warning(('*Recommendation ITU-R BT.709-6* doesn\'t specify an '
              'electro-optical transfer function. This definition is used '
              'for symmetry in unit tests and others computations but should '
-             'not be used as an *EOCF*!'))
+             'not be used as an *EOTF*!'))
 
     value = np.asarray(value)
 

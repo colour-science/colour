@@ -325,17 +325,17 @@ def filter_kwargs(function, **kwargs):
 
     Examples
     --------
-    >>> def func_a(a):
+    >>> def fn_a(a):
     ...     return a
-    >>> def func_b(a, b=0):
+    >>> def fn_b(a, b=0):
     ...     return a, b
-    >>> def func_c(a, b=0, c=0):
+    >>> def fn_c(a, b=0, c=0):
     ...     return a, b, c
-    >>> func_a(1, **filter_kwargs(func_a, b=2, c=3))
+    >>> fn_a(1, **filter_kwargs(fn_a, b=2, c=3))
     1
-    >>> func_b(1, **filter_kwargs(func_b, b=2, c=3))
+    >>> fn_b(1, **filter_kwargs(fn_b, b=2, c=3))
     (1, 2)
-    >>> func_c(1, **filter_kwargs(func_c, b=2, c=3))
+    >>> fn_c(1, **filter_kwargs(fn_c, b=2, c=3))
     (1, 2, 3)
     """
 

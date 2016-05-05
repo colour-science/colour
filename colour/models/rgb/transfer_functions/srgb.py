@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
-sRGB EOTF / EOCF and OETF / EOCF
+sRGB OETF (OECF) and EOTF (EOCF)
 ================================
 
-Defines *sRGB* EOTF / EOCF and OETF / EOCF:
+Defines *sRGB* OETF (OECF) and EOTF (EOCF):
 
 -   :func:`oetf_sRGB`
 -   :func:`eotf_sRGB`
@@ -47,7 +47,8 @@ __all__ = ['oetf_sRGB',
 
 def oetf_sRGB(value):
     """
-    Defines the *sRGB* colourspace opto-electronic transfer function.
+    Defines the *sRGB* colourspace OETF (OECF) opto-electronic transfer
+    function.
 
     Parameters
     ----------
@@ -74,7 +75,8 @@ def oetf_sRGB(value):
 
 def eotf_sRGB(value):
     """
-    Defines the *sRGB* colourspace electro-optical transfer function.
+    Defines the *sRGB* colourspace EOTF (EOCF) electro-optical transfer
+    function.
 
     Parameters
     ----------

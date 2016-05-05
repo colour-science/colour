@@ -2,13 +2,13 @@
 # -*- coding: utf-8 -*-
 
 """
-DCI-P3 EOTF / EOCF and OETF / EOCF
+DCI-P3 OETF (OECF) and EOTF (EOCF)
 ==================================
 
-Defines the *DCI-P3* log encoding:
+Defines the *DCI-P3* OETF (OECF) and EOTF (EOCF):
 
--   :def:`log_encoding_DCIP3`
--   :def:`log_decoding_DCIP3`
+-   :def:`oetf_DCIP3`
+-   :def:`eotf_DCIP3`
 
 See Also
 --------
@@ -35,13 +35,14 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['log_encoding_DCIP3',
-           'log_decoding_DCIP3']
+__all__ = ['oetf_DCIP3',
+           'eotf_DCIP3']
 
 
-def log_encoding_DCIP3(value):
+def oetf_DCIP3(value):
     """
-    Defines the *DCI-P3* colourspace opto-electronic transfer function.
+    Defines the *DCI-P3* OETF (OECF) colourspace opto-electronic transfer
+    function.
 
     Parameters
     ----------
@@ -55,7 +56,7 @@ def log_encoding_DCIP3(value):
 
     Examples
     --------
-    >>> log_encoding_DCIP3(0.18)  # doctest: +ELLIPSIS
+    >>> oetf_DCIP3(0.18)  # doctest: +ELLIPSIS
     461.9922059...
     """
 
@@ -64,9 +65,10 @@ def log_encoding_DCIP3(value):
     return 4095 * (value / 52.37) ** (1 / 2.6)
 
 
-def log_decoding_DCIP3(value):
+def eotf_DCIP3(value):
     """
-    Defines the *DCI-P3* colourspace electro-optical transfer function.
+    Defines the *DCI-P3* colourspace EOTF (EOCF) electro-optical transfer
+    function.
 
     Parameters
     ----------
@@ -80,7 +82,7 @@ def log_decoding_DCIP3(value):
 
     Examples
     --------
-    >>> log_decoding_DCIP3(461.99220597484737)  # doctest: +ELLIPSIS
+    >>> eotf_DCIP3(461.99220597484737)  # doctest: +ELLIPSIS
     0.18...
     """
 

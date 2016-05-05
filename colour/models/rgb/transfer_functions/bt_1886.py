@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
-ITU-R BT.1886 EOTF / EOCF and OETF / EOCF
+ITU-R BT.1886 OETF (OECF) and EOTF (EOCF)
 =========================================
 
-Defines *Recommendation ITU-R BT.1886* EOTF / EOCF and OETF / EOCF:
+Defines *Recommendation ITU-R BT.1886* OETF (OECF) and EOTF (EOCF):
 
 -   :func:`oetf_BT1886`
 -   :func:`eotf_BT1886`
@@ -42,7 +42,8 @@ __all__ = ['oetf_BT1886',
 
 def oetf_BT1886(L, L_B=64, L_W=940):
     """
-    Defines *Recommendation ITU-R BT.1886* opto-electrical transfer function.
+    Defines *Recommendation ITU-R BT.1886* OETF (OECF) opto-electrical
+    transfer function.
 
     Parameters
     ----------
@@ -59,6 +60,12 @@ def oetf_BT1886(L, L_B=64, L_W=940):
         Input video signal level (normalized, black at :math:`V = 0`, to white
         at :math:`V = 1`.
 
+    Warning
+    -------
+    *Recommendation ITU-R BT.1886* doesn't specify an opto-electrical
+    transfer function. This definition is used for symmetry in unit tests and
+    other computations but should not be used as an *OETF*.
+
     Examples
     --------
     >>> oetf_BT1886(136.58617957264661)  # doctest: +ELLIPSIS
@@ -68,7 +75,7 @@ def oetf_BT1886(L, L_B=64, L_W=940):
     warning(('*Recommendation ITU-R BT.1886* doesn\'t specify an '
              'opto-electrical transfer function. This definition is used '
              'for symmetry in unit tests and others computations but should '
-             'not be used as an *OECF*!'))
+             'not be used as an *OETF*!'))
 
     L = np.asarray(L)
 
@@ -86,7 +93,8 @@ def oetf_BT1886(L, L_B=64, L_W=940):
 
 def eotf_BT1886(V, L_B=64, L_W=940):
     """
-    Defines *Recommendation ITU-R BT.1886* electro-optical transfer function.
+    Defines *Recommendation ITU-R BT.1886* EOTF (EOCF) electro-optical
+    transfer function.
 
     Parameters
     ----------

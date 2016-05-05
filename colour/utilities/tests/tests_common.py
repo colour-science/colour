@@ -160,37 +160,37 @@ class TestFilterKwargs(unittest.TestCase):
         Tests :func:`colour.utilities.common.filter_kwargs` definition.
         """
 
-        def func_a(a):
+        def fn_a(a):
             """
-            :def:`filter_kwargs` unit tests :def:`func_a`.
+            :def:`filter_kwargs` unit tests :def:`fn_a`.
             """
             return a
 
-        def func_b(a, b=0):
+        def fn_b(a, b=0):
             """
-            :def:`filter_kwargs` unit tests :def:`func_b`.
+            :def:`filter_kwargs` unit tests :def:`fn_b`.
             """
 
             return a, b
 
-        def func_c(a, b=0, c=0):
+        def fn_c(a, b=0, c=0):
             """
-            :def:`filter_kwargs` unit tests :def:`func_c`.
+            :def:`filter_kwargs` unit tests :def:`fn_c`.
             """
 
             return a, b, c
 
         self.assertEqual(
             1,
-            func_a(1, **filter_kwargs(func_a, b=2, c=3)))
+            fn_a(1, **filter_kwargs(fn_a, b=2, c=3)))
 
         self.assertTupleEqual(
             (1, 2),
-            func_b(1, **filter_kwargs(func_b, b=2, c=3)))
+            fn_b(1, **filter_kwargs(fn_b, b=2, c=3)))
 
         self.assertTupleEqual(
             (1, 2, 3),
-            func_c(1, **filter_kwargs(func_c, b=2, c=3)))
+            fn_c(1, **filter_kwargs(fn_c, b=2, c=3)))
 
 
 if __name__ == '__main__':
