@@ -24,7 +24,7 @@ from .linear import linear_function
 from .panalog import log_encoding_Panalog, log_decoding_Panalog
 from .panasonic_vlog import log_encoding_VLog, log_decoding_VLog
 from .pivoted_log import log_encoding_PivotedLog, log_decoding_PivotedLog
-from .prophoto_rgb import log_encoding_ProPhotoRGB, log_decoding_ProPhotoRGB
+from .prophoto_rgb import oetf_ProPhotoRGB, eotf_ProPhotoRGB
 from .red_log import (
     log_encoding_REDLog,
     log_decoding_REDLog,
@@ -57,7 +57,7 @@ __all__ += ['linear_function']
 __all__ += ['log_encoding_Panalog', 'log_decoding_Panalog']
 __all__ += ['log_encoding_VLog', 'log_decoding_VLog']
 __all__ += ['log_encoding_PivotedLog', 'log_decoding_PivotedLog']
-__all__ += ['log_encoding_ProPhotoRGB', 'log_decoding_ProPhotoRGB']
+__all__ += ['oetf_ProPhotoRGB', 'eotf_ProPhotoRGB']
 __all__ += ['log_encoding_REDLog', 'log_decoding_REDLog']
 __all__ += ['log_encoding_SLog',
             'log_decoding_SLog',
@@ -213,13 +213,15 @@ OETFS = CaseInsensitiveMapping(
      'BT.2020': oetf_BT2020,
      'BT.709': oetf_BT709,
      'DCI-P3': oetf_DCIP3,
+     'ProPhoto RGB': oetf_ProPhotoRGB,
      'ST 2084': oetf_ST2084,
      'sRGB': oetf_sRGB})
 """
 Supported electro-optical transfer functions OETF (OECF).
 
 OETFS : CaseInsensitiveMapping
-    **{'sRGB', 'BT.1886', 'BT.2020', 'BT.709', 'DCI-P3', 'ST 2084'}**
+    **{'sRGB', 'BT.1886', 'BT.2020', 'BT.709', 'DCI-P3', 'ProPhoto RGB',
+    'ST 2084'}**
 """
 
 
@@ -234,7 +236,8 @@ def oetf(value, function='sRGB', **kwargs):
     value : numeric or array_like
         Value.
     function : unicode, optional
-        **{'sRGB', 'BT.1886', 'BT.2020', 'BT.709', 'DCI-P3', 'ST 2084'}**,
+        **{'sRGB', 'BT.1886', 'BT.2020', 'BT.709', 'DCI-P3', 'ProPhoto RGB',
+        'ST 2084'}**,
         Computation function.
     \**kwargs : dict, optional
         Keywords arguments.
@@ -267,13 +270,15 @@ EOTFS = CaseInsensitiveMapping(
      'BT.2020': eotf_BT2020,
      'BT.709': eotf_BT709,
      'DCI-P3': eotf_DCIP3,
+     'ProPhoto RGB': eotf_ProPhotoRGB,
      'ST 2084': eotf_ST2084,
      'sRGB': eotf_sRGB})
 """
 Supported opto-electrical transfer functions EOTF (EOCF).
 
 EOTFS : CaseInsensitiveMapping
-    **{'sRGB', 'BT.1886', 'BT.2020', 'BT.709', 'DCI-P3', 'ST 2084'}**
+    **{'sRGB', 'BT.1886', 'BT.2020', 'BT.709', 'DCI-P3', 'ProPhoto RGB',
+    'ST 2084'}**
 """
 
 
@@ -287,7 +292,8 @@ def eotf(value, function='sRGB', **kwargs):
     value : numeric or array_like
         Value.
     function : unicode, optional
-        **{'sRGB', 'BT.1886', 'BT.2020', 'BT.709', 'DCI-P3', 'ST 2084'}**,
+        **{'sRGB', 'BT.1886', 'BT.2020', 'BT.709', 'DCI-P3', 'ProPhoto RGB',
+        'ST 2084'}**,
         Computation function.
     \**kwargs : dict, optional
         Keywords arguments.

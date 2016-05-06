@@ -28,8 +28,8 @@ import numpy as np
 from colour.colorimetry import ILLUMINANTS
 from colour.models.rgb import (
     RGB_Colourspace,
-    log_encoding_ProPhotoRGB,
-    log_decoding_ProPhotoRGB)
+    oetf_ProPhotoRGB,
+    eotf_ProPhotoRGB)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -95,8 +95,8 @@ PROPHOTO_RGB_COLOURSPACE = RGB_Colourspace(
     PROPHOTO_RGB_ILLUMINANT,
     PROPHOTO_RGB_TO_XYZ_MATRIX,
     XYZ_TO_PROPHOTO_RGB_MATRIX,
-    log_encoding_ProPhotoRGB,
-    log_decoding_ProPhotoRGB)
+    oetf_ProPhotoRGB,
+    eotf_ProPhotoRGB)
 """
 *ProPhoto RGB* colourspace.
 
