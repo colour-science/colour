@@ -7,8 +7,8 @@ ALEXA Log C Log Encoding
 
 Defines the *ALEXA Log C* log encoding:
 
--   :def:`log_encoding_ALEXALogC`
--   :def:`log_decoding_ALEXALogC`
+-   :func:`log_encoding_ALEXALogC`
+-   :func:`log_decoding_ALEXALogC`
 
 See Also
 --------

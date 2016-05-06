@@ -5,10 +5,10 @@
 ProPhoto RGB OETF (OECF) and EOTF (EOCF)
 ========================================
 
-Defines the *ProPhoto RGB* log encoding:
+Defines the *ProPhoto RGB* OETF (OECF) and EOTF (EOCF):
 
--   :def:`log_encoding_ProPhotoRGB`
--   :def:`log_decoding_ProPhotoRGB`
+-   :func:`oetf_ProPhotoRGB`
+-   :func:`eotf_ProPhotoRGB`
 
 See Also
 --------
@@ -35,11 +35,11 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['log_encoding_ProPhotoRGB',
-           'log_decoding_ProPhotoRGB']
+__all__ = ['oetf_ProPhotoRGB',
+           'eotf_ProPhotoRGB']
 
 
-def log_encoding_ProPhotoRGB(value):
+def oetf_ProPhotoRGB(value):
     """
     Defines the *ProPhoto RGB* colourspace opto-electronic transfer function.
 
@@ -55,7 +55,7 @@ def log_encoding_ProPhotoRGB(value):
 
     Examples
     --------
-    >>> log_encoding_ProPhotoRGB(0.18)  # doctest: +ELLIPSIS
+    >>> oetf_ProPhotoRGB(0.18)  # doctest: +ELLIPSIS
     0.3857114...
     """
 
@@ -66,7 +66,7 @@ def log_encoding_ProPhotoRGB(value):
                                value ** (1 / 1.8)))
 
 
-def log_decoding_ProPhotoRGB(value):
+def eotf_ProPhotoRGB(value):
     """
     Defines the *ProPhoto RGB* colourspace electro-optical transfer function.
 
@@ -82,13 +82,13 @@ def log_decoding_ProPhotoRGB(value):
 
     Examples
     --------
-    >>> log_decoding_ProPhotoRGB(0.3857114247511376)  # doctest: +ELLIPSIS
+    >>> eotf_ProPhotoRGB(0.3857114247511376)  # doctest: +ELLIPSIS
     0.18...
     """
 
     value = np.asarray(value)
 
     return as_numeric(np.where(
-        value < log_encoding_ProPhotoRGB(0.001953),
+        value < oetf_ProPhotoRGB(0.001953),
         value / 16,
         value ** 1.8))

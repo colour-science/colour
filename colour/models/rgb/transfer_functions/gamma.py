@@ -8,7 +8,7 @@ Gamma Colour Component Transfer Function
 Defines gamma encoding / decoding colour component transfer function related
 objects:
 
-- :def:`gamma_function`
+- :func:`gamma_function`
 
 See Also
 --------

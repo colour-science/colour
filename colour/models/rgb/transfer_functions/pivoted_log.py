@@ -7,8 +7,8 @@ Pivoted Log Encoding
 
 Defines the *Pivoted Log* encoding:
 
--   :def:`log_encoding_PivotedLog`
--   :def:`log_decoding_PivotedLog`
+-   :func:`log_encoding_PivotedLog`
+-   :func:`log_decoding_PivotedLog`
 
 See Also
 --------

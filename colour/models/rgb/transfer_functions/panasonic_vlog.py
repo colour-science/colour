@@ -7,8 +7,8 @@ V-Log Log Encoding
 
 Defines the *V-Log* log encoding:
 
--   :def:`log_encoding_VLog`
--   :def:`log_decoding_VLog`
+-   :func:`log_encoding_VLog`
+-   :func:`log_decoding_VLog`
 
 See Also
 --------

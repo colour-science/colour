@@ -7,8 +7,8 @@ RED Log Encodings
 
 Defines the *RED* log encodings:
 
--   :def:`log_encoding_REDLog`
--   :def:`log_decoding_REDLog`
+-   :func:`log_encoding_REDLog`
+-   :func:`log_decoding_REDLog`
 
 See Also
 --------

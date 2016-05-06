@@ -7,8 +7,8 @@ DCI-P3 OETF (OECF) and EOTF (EOCF)
 
 Defines the *DCI-P3* OETF (OECF) and EOTF (EOCF):
 
--   :def:`oetf_DCIP3`
--   :def:`eotf_DCIP3`
+-   :func:`oetf_DCIP3`
+-   :func:`eotf_DCIP3`
 
 See Also
 --------

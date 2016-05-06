@@ -7,8 +7,8 @@ Kodak Cineon Encoding
 
 Defines the *Kodak Cineon* encoding:
 
--   :def:`log_encoding_Cineon`
--   :def:`log_decoding_Cineon`
+-   :func:`log_encoding_Cineon`
+-   :func:`log_decoding_Cineon`
 
 See Also
 --------

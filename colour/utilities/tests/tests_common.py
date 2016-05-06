@@ -162,20 +162,20 @@ class TestFilterKwargs(unittest.TestCase):
 
         def fn_a(a):
             """
-            :def:`filter_kwargs` unit tests :def:`fn_a`.
+            :func:`filter_kwargs` unit tests :func:`fn_a`.
             """
             return a
 
         def fn_b(a, b=0):
             """
-            :def:`filter_kwargs` unit tests :def:`fn_b`.
+            :func:`filter_kwargs` unit tests :func:`fn_b`.
             """
 
             return a, b
 
         def fn_c(a, b=0, c=0):
             """
-            :def:`filter_kwargs` unit tests :def:`fn_c`.
+            :func:`filter_kwargs` unit tests :func:`fn_c`.
             """
 
             return a, b, c

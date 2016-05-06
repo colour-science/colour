@@ -7,8 +7,8 @@ Canon C-Log Encoding
 
 Defines the *Canon C-Log* encoding:
 
--   :def:`log_encoding_CLog`
--   :def:`log_decoding_CLog`
+-   :func:`log_encoding_CLog`
+-   :func:`log_decoding_CLog`
 
 See Also
 --------

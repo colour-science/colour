@@ -7,8 +7,8 @@ Sony S-Log Encodings
 
 Defines the *Sony S-Log* log encodings:
 
--   :def:`log_encoding_SLog`
--   :def:`log_decoding_SLog`
+-   :func:`log_encoding_SLog`
+-   :func:`log_decoding_SLog`
 
 See Also
 --------

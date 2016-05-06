@@ -7,8 +7,8 @@ Panalog Encoding
 
 Defines the *Panalog* encoding:
 
--   :def:`log_encoding_Panalog`
--   :def:`log_decoding_Panalog`
+-   :func:`log_encoding_Panalog`
+-   :func:`log_decoding_Panalog`
 
 See Also
 --------
