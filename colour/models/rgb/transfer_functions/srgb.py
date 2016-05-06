@@ -32,7 +32,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import as_numeric
+from colour.utilities import as_numeric, warning
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -93,6 +93,14 @@ def eotf_sRGB(value):
     >>> eotf_sRGB(0.46135612950044164)  # doctest: +ELLIPSIS
     0.18...
     """
+
+    warning(('*sRGB* *OETF* is a piece-wise function: in order to reduce '
+             'noise in dark region, a line segment limits the slope of the '
+             'power function (slope of a power function is infinite at zero). '
+             'This is not needed for *sRGB* *EOTF*, a pure gamma 2.2 function '
+             'should be use instead. This definition is used for symmetry in '
+             'unit tests and others computations but should not be used as an '
+             '*EOTF*!'))
 
     value = np.asarray(value)
 
