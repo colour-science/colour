@@ -61,9 +61,9 @@ __all__ = ['DCI_P3_PRIMARIES',
            'DCI_P3_P_COLOURSPACE']
 
 DCI_P3_PRIMARIES = np.array(
-    [[0.680, 0.320],
-     [0.265, 0.690],
-     [0.150, 0.060]])
+    [[0.6800, 0.3200],
+     [0.2650, 0.6900],
+     [0.1500, 0.0600]])
 """
 *DCI-P3* colourspace primaries.
 

@@ -17,8 +17,8 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  Lindbloom, B. (2014). RGB Working Space Information. Retrieved April
-        11, 2014, from http://www.brucelindbloom.com/WorkingSpaceInfo.html
+.. [1]  Susstrunk, S., Buckley, R., & Swen, S. (1999). Standard RGB Color
+        Spaces. New York, 127–134. ISBN:2166-9635
 """
 
 from __future__ import division, unicode_literals

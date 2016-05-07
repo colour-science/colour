@@ -18,7 +18,10 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  ANSI. (2003). Specification of ROMM RGB. Retrieved from
+.. [1]  Spaulding, K. E., Woolfe, G. J., & Giorgianni, E. J. (2000). Reference
+        Input/Output Medium Metric RGB Color Encodings (RIMM/ROMM RGB), 1–8.
+        Retrieved from http://www.photo-lovers.org/pdf/color/romm.pdf
+.. [3]  ANSI. (2003). Specification of ROMM RGB. Retrieved from
         http://www.color.org/ROMMRGB.pdf
 """
 

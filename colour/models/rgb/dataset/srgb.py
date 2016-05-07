@@ -33,7 +33,11 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import RGB_Colourspace, oetf_sRGB, eotf_sRGB
+from colour.models.rgb import (
+    RGB_Colourspace,
+    oetf_sRGB,
+    eotf_sRGB,
+    normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -74,10 +78,8 @@ sRGB_WHITEPOINT = ILLUMINANTS.get(
 sRGB_WHITEPOINT : tuple
 """
 
-sRGB_TO_XYZ_MATRIX = np.array(
-    [[0.41238656, 0.35759149, 0.18045049],
-     [0.21263682, 0.71518298, 0.0721802],
-     [0.01933062, 0.11919716, 0.95037259]])
+sRGB_TO_XYZ_MATRIX = normalised_primary_matrix(
+    sRGB_PRIMARIES, sRGB_WHITEPOINT)
 """
 *sRGB* colourspace to *CIE XYZ* tristimulus values matrix.
 
