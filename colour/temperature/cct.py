@@ -55,7 +55,12 @@ from colour.colorimetry import (
     blackbody_spd,
     spectral_to_XYZ)
 from colour.models import UCS_to_uv, XYZ_to_UCS
-from colour.utilities import CaseInsensitiveMapping, tsplit, tstack, warning
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    as_numeric,
+    tsplit,
+    tstack,
+    warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -761,9 +766,9 @@ def xy_to_CCT_McCamy1992(xy):
 
     Examples
     --------
-    >>> xy = np.array([0.31271, 0.32902])
+    >>> xy = np.array([0.31270, 0.32900])
     >>> xy_to_CCT_McCamy1992(xy)  # doctest: +ELLIPSIS
-    6504.3893830...
+    6505.0805913...
     """
 
     x, y = tsplit(xy)
@@ -799,9 +804,9 @@ def xy_to_CCT_Hernandez1999(xy):
 
     Examples
     --------
-    >>> xy = np.array([0.31271, 0.32902])
+    >>> xy = np.array([0.31270, 0.32900])
     >>> xy_to_CCT_Hernandez1999(xy)  # doctest: +ELLIPSIS
-    array(6500.0421533...)
+    6500.7420431...
     """
 
     x, y = tsplit(xy)
@@ -821,7 +826,7 @@ def xy_to_CCT_Hernandez1999(xy):
                    5.4535e-36 * np.exp(-n / 0.01543),
                    CCT)
 
-    return CCT
+    return as_numeric(CCT)
 
 
 def CCT_to_xy_Kang2002(CCT):

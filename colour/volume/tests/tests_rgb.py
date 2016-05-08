@@ -64,23 +64,23 @@ class TestRGB_colourspaceLimits(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             RGB_colourspace_limits(REC_709_COLOURSPACE),
-            np.array([[0., 100.],
-                      [-79.22637417, 94.66574917],
-                      [-114.78462716, 96.71351991]]),
+            np.array([[0.00000000, 100.00000000],
+                      [-79.2287317, 94.6661884],
+                      [-114.7852684, 96.719387]]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             RGB_colourspace_limits(REC_2020_COLOURSPACE),
-            np.array([[0., 100.],
-                      [-159.61691594, 127.33819164],
-                      [-129.73792222, 142.12971261]]),
+            np.array([[0.00000000, 100.00000000],
+                      [-159.6198898, 127.338901],
+                      [-129.739616, 142.1353768]]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             RGB_colourspace_limits(ACES_2065_1_COLOURSPACE),
-            np.array([[-79.44256015, 103.30554311],
-                      [-461.8341805, 176.445741],
-                      [-309.6704667, 184.8212395]]),
+            np.array([[-79.44256021, 103.30554309],
+                      [-461.83418126, 176.44574044],
+                      [-309.67046710, 184.82123946]]),
             decimal=7)
 
 

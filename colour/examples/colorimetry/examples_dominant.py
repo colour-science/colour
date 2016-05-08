@@ -15,7 +15,7 @@ from colour.utilities.verbose import message_box
 message_box('Dominant Wavelength and Purity')
 
 xy = np.array([0.26415, 0.37770])
-xy_n = np.array([0.31271, 0.32902])
+xy_n = np.array([0.31270, 0.32900])
 cmfs = colour.CMFS['CIE 1931 2 Degree Standard Observer']
 message_box(('Computing the "dominant wavelength" for colour stimulus "xy" '
              'and achromatic stimulus "xy_n" chromaticity coordinates:\n'

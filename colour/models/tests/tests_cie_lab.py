@@ -61,8 +61,8 @@ class TestXYZ_to_Lab(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             XYZ_to_Lab(np.array([0.07049534, 0.10080000, 0.09558313]),
-                       np.array([0.31271, 0.32902])),
-            np.array([37.98562910, -22.61718913, 4.19383056]),
+                       np.array([0.31270, 0.32900])),
+            np.array([37.98562910, -22.61920654,  4.19811236]),
             decimal=7)
 
         np.testing.assert_almost_equal(
@@ -159,8 +159,8 @@ class TestLab_to_XYZ(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            Lab_to_XYZ(np.array([37.98562910, -22.61718913, 4.19383056]),
-                       np.array([0.31271, 0.32902])),
+            Lab_to_XYZ(np.array([37.98562910, -22.61920654,  4.19811236]),
+                       np.array([0.31270, 0.32900])),
             np.array([0.07049534, 0.10080000, 0.09558313]),
             decimal=7)
 

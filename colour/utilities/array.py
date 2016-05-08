@@ -123,9 +123,9 @@ def normalise_maximum(x, axis=None, factor=1, clip=True):
 
     Examples
     --------
-    >>> x = np.array([0.48224885, 0.31651974, 0.22070513])
+    >>> x = np.array([0.48224655, 0.31652283, 0.22068584])
     >>> normalise_maximum(x)  # doctest: +ELLIPSIS
-    array([ 1.        ,  0.6563411...,  0.4576581...])
+    array([ 1.        ,  0.6563506...,  0.4576203...])
     """
 
     x = np.asarray(x)

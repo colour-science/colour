@@ -48,7 +48,7 @@ print(colour.XYZ_to_Lab(XYZ, illuminant=illuminant))
 
 print('\n')
 
-xy = np.tile((0.31271, 0.32902), (6, 1))
+xy = np.tile((0.31270, 0.32900), (6, 1))
 message_box(('Definitions return value may lose a dimension with respect to '
              'the parameter(s):\n'
              '\n{0}'.format(xy)))

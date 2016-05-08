@@ -64,7 +64,7 @@ def XYZ_to_sRGB(XYZ,
     >>> import numpy as np
     >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
     >>> XYZ_to_sRGB(XYZ)  # doctest: +ELLIPSIS
-    array([ 0.1750135...,  0.3881879...,  0.3216195...])
+    array([ 0.1750126...,  0.3881916...,  0.3215932...])
     """
 
     sRGB = RGB_COLOURSPACES.get('sRGB')
@@ -110,7 +110,7 @@ def sRGB_to_XYZ(RGB,
     Examples
     --------
     >>> import numpy as np
-    >>> RGB = np.array([0.17501358, 0.38818795, 0.32161955])
+    >>> RGB = np.array([0.17501260, 0.38819164, 0.32159321])
     >>> sRGB_to_XYZ(RGB)  # doctest: +ELLIPSIS
     array([ 0.0704953...,  0.1008    ,  0.0955831...])
     """

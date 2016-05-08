@@ -168,8 +168,8 @@ def RGB_colourspace_limits(colourspace,
     >>> from colour import sRGB_COLOURSPACE as sRGB
     >>> RGB_colourspace_limits(sRGB)  # doctest: +ELLIPSIS
     array([[   0...        ,  100...        ],
-           [ -79.2263741...,   94.6657491...],
-           [-114.7846271...,   96.7135199...]])
+           [ -79.2287317...,   94.6661883...],
+           [-114.7852684...,   96.7193869...]])
     """
 
     Lab = []
