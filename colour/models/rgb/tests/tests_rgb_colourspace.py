@@ -52,12 +52,22 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
 
         XYZ_r = np.array([0.5, 0.5, 0.5]).reshape((3, 1))
         for colourspace in RGB_COLOURSPACES.values():
+            if colourspace.name == 'Adobe RGB (1998)':
+                tolerance = 1e-5
+            elif colourspace.name in ('ALEXA Wide Gamut RGB', 'V-Gamut'):
+                tolerance = 1e-6
+            elif colourspace.name == 'sRGB':
+                tolerance = 1e-4
+            else:
+                tolerance = 1e-7
+
             M = normalised_primary_matrix(colourspace.primaries,
                                           colourspace.whitepoint)
+
             np.testing.assert_allclose(colourspace.RGB_to_XYZ_matrix,
                                        M,
-                                       rtol=0.00001,
-                                       atol=0.00001,
+                                       rtol=tolerance,
+                                       atol=tolerance,
                                        verbose=False)
 
             RGB = np.dot(colourspace.XYZ_to_RGB_matrix, XYZ_r)
@@ -403,11 +413,11 @@ class TestRGB_to_RGB(unittest.TestCase):
             RGB_to_RGB(np.array([0.35521588, 0.41000000, 0.24177934]),
                        aces_2065_1_colourspace,
                        sRGB_colourspace),
-            np.array([0.33658798, 0.44096344, 0.21510510]),
+            np.array([0.33653829, 0.44097338, 0.21512063]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            RGB_to_RGB(np.array([0.33658798, 0.44096344, 0.21510510]),
+            RGB_to_RGB(np.array([0.33653829, 0.44097338, 0.21512063]),
                        sRGB_colourspace,
                        aces_2065_1_colourspace),
             np.array([0.35521588, 0.41000000, 0.24177934]),
@@ -418,7 +428,7 @@ class TestRGB_to_RGB(unittest.TestCase):
                        aces_2065_1_colourspace,
                        sRGB_colourspace,
                        'Bradford'),
-            np.array([0.33704643, 0.44133613, 0.21430129]),
+            np.array([0.33699675, 0.44134608, 0.21431681]),
             decimal=7)
 
     def test_n_dimensional_RGB_to_RGB(self):
@@ -430,7 +440,7 @@ class TestRGB_to_RGB(unittest.TestCase):
         aces_2065_1_colourspace = RGB_COLOURSPACES.get('ACES2065-1')
         sRGB_colourspace = RGB_COLOURSPACES.get('sRGB')
         RGB_i = np.array([0.35521588, 0.41000000, 0.24177934])
-        RGB_o = np.array([0.33658798, 0.44096344, 0.21510510])
+        RGB_o = np.array([0.33653829, 0.44097338, 0.21512063])
         np.testing.assert_almost_equal(
             RGB_to_RGB(RGB_i, aces_2065_1_colourspace, sRGB_colourspace),
             RGB_o,
