@@ -40,17 +40,17 @@ class TestXYZ_to_Lab(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             XYZ_to_Lab(np.array([0.07049534, 0.10080000, 0.09558313])),
-            np.array([37.98562910, -23.62302887, -4.41417036]),
+            np.array([37.98562910, -23.62907688, -4.41746615]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_Lab(np.array([0.47097710, 0.34950000, 0.11301649])),
-            np.array([65.70971880, 41.57577646, 37.78652063]),
+            np.array([65.70971880, 41.56438554, 37.78303554]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_Lab(np.array([0.25506814, 0.19150000, 0.08849752])),
-            np.array([50.86223896, 32.77078577, 20.25804815]),
+            np.array([50.86223896, 32.76150086, 20.25483590]),
             decimal=7)
 
         np.testing.assert_almost_equal(
@@ -84,8 +84,8 @@ class TestXYZ_to_Lab(unittest.TestCase):
         """
 
         XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
-        illuminant = np.array([0.34567, 0.35850])
-        Lab = np.array([37.98562910, -23.62302887, -4.41417036])
+        illuminant = np.array([0.34570, 0.35850])
+        Lab = np.array([37.98562910, -23.62907688, -4.41746615])
         np.testing.assert_almost_equal(
             XYZ_to_Lab(XYZ, illuminant),
             Lab,
@@ -138,17 +138,17 @@ class TestLab_to_XYZ(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            Lab_to_XYZ(np.array([37.98562910, -23.62302887, -4.41417036])),
+            Lab_to_XYZ(np.array([37.98562910, -23.62907688, -4.41746615])),
             np.array([0.07049534, 0.10080000, 0.09558313]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            Lab_to_XYZ(np.array([65.70971880, 41.57577646, 37.78652063])),
+            Lab_to_XYZ(np.array([65.70971880, 41.56438554, 37.78303554])),
             np.array([0.47097710, 0.34950000, 0.11301649]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            Lab_to_XYZ(np.array([50.86223896, 32.77078577, 20.25804815])),
+            Lab_to_XYZ(np.array([50.86223896, 32.76150086, 20.25483590])),
             np.array([0.25506814, 0.19150000, 0.08849752]),
             decimal=7)
 
@@ -182,8 +182,8 @@ class TestLab_to_XYZ(unittest.TestCase):
         support.
         """
 
-        Lab = np.array([37.98562910, -23.62302887, -4.41417036])
-        illuminant = np.array([0.34567, 0.35850])
+        Lab = np.array([37.98562910, -23.62907688, -4.41746615])
+        illuminant = np.array([0.34570, 0.35850])
         XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
         np.testing.assert_almost_equal(
             Lab_to_XYZ(Lab, illuminant),
@@ -237,18 +237,18 @@ class TestLab_to_LCHab(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            Lab_to_LCHab(np.array([37.98562910, -23.62302887, -4.41417036])),
-            np.array([37.98562910, 24.03190365, 190.58415972]),
+            Lab_to_LCHab(np.array([37.98562910, -23.62907688, -4.41746615])),
+            np.array([37.98562910, 24.03845422, 190.58923377]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            Lab_to_LCHab(np.array([65.70971880, 41.57577646, 37.78652063])),
-            np.array([65.70971880, 56.18154795, 42.26641468]),
+            Lab_to_LCHab(np.array([65.70971880, 41.56438554, 37.78303554])),
+            np.array([65.70971880, 56.17077461, 42.27159870]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            Lab_to_LCHab(np.array([50.86223896, 32.77078577, 20.25804815])),
-            np.array([50.86223896, 38.52678179, 31.7232794]),
+            Lab_to_LCHab(np.array([50.86223896, 32.76150086, 20.25483590])),
+            np.array([50.86223896, 38.51719507, 31.72647736]),
             decimal=7)
 
     def test_n_dimensional_Lab_to_LCHab(self):
@@ -257,8 +257,8 @@ class TestLab_to_LCHab(unittest.TestCase):
         n-dimensional arrays support.
         """
 
-        Lab = np.array([37.98562910, -23.62302887, -4.41417036])
-        LCHab = np.array([37.98562910, 24.03190365, 190.58415972])
+        Lab = np.array([37.98562910, -23.62907688, -4.41746615])
+        LCHab = np.array([37.98562910, 24.03845422, 190.58923377])
         np.testing.assert_almost_equal(
             Lab_to_LCHab(Lab),
             LCHab,
@@ -304,18 +304,18 @@ class TestLCHab_to_Lab(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            LCHab_to_Lab(np.array([37.98562910, 24.03190365, 190.58415972])),
-            np.array([37.98562910, -23.62302887, -4.41417036]),
+            LCHab_to_Lab(np.array([37.98562910, 24.03845422, 190.58923377])),
+            np.array([37.98562910, -23.62907688, -4.41746615]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            LCHab_to_Lab(np.array([65.70971880, 56.18154795, 42.26641468])),
-            np.array([65.70971880, 41.57577646, 37.78652063]),
+            LCHab_to_Lab(np.array([65.70971880, 56.17077461, 42.27159870])),
+            np.array([65.70971880, 41.56438554, 37.78303554]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            LCHab_to_Lab(np.array([50.86223896, 38.52678179, 31.72327940])),
-            np.array([50.86223896, 32.77078577, 20.25804815]),
+            LCHab_to_Lab(np.array([50.86223896, 38.51719507, 31.726477360])),
+            np.array([50.86223896, 32.76150086, 20.25483590]),
             decimal=7)
 
     def test_n_dimensional_LCHab_to_Lab(self):
@@ -324,8 +324,8 @@ class TestLCHab_to_Lab(unittest.TestCase):
         n-dimensional arrays support.
         """
 
-        LCHab = np.array([37.98562910, 24.03190365, 190.58415972])
-        Lab = np.array([37.98562910, -23.62302887, -4.41417036])
+        LCHab = np.array([37.98562910, 24.03845422, 190.58923377])
+        Lab = np.array([37.98562910, -23.62907688, -4.41746615])
         np.testing.assert_almost_equal(
             LCHab_to_Lab(LCHab),
             Lab,

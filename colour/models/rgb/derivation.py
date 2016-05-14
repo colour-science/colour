@@ -151,16 +151,16 @@ def chromatically_adapted_primaries(primaries,
     --------
     >>> p = np.array([0.64, 0.33, 0.30, 0.60, 0.15, 0.06])
     >>> whitepoint_t = np.array([0.31270, 0.32900])
-    >>> whitepoint_r = np.array([0.34567, 0.35850])
+    >>> whitepoint_r = np.array([0.34570, 0.35850])
     >>> chromatic_adaptation_transform = 'Bradford'
     >>> chromatically_adapted_primaries(  # doctest: +ELLIPSIS
     ...     p,
     ...     whitepoint_t,
     ...     whitepoint_r,
     ...     chromatic_adaptation_transform)
-    array([[ 0.6484335...,  0.3308565...],
-           [ 0.3211592...,  0.5978703...],
-           [ 0.1558888...,  0.0660467...]])
+    array([[ 0.6484414...,  0.3308533...],
+           [ 0.3211951...,  0.5978443...],
+           [ 0.1558932...,  0.0660492...]])
     """
 
     primaries = np.reshape(primaries, (3, 2))

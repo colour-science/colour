@@ -79,7 +79,7 @@ def XYZ_to_UVW(XYZ,
     >>> import numpy as np
     >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313]) * 100
     >>> XYZ_to_UVW(XYZ)  # doctest: +ELLIPSIS
-    array([-28.0483277...,  -0.8805242...,  37.0041149...])
+    array([-28.0579733...,  -0.8819449...,  37.0041149...])
     """
 
     xyY = XYZ_to_xyY(XYZ, xyY_to_xy(illuminant))

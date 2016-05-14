@@ -391,20 +391,20 @@ def XYZ_to_RGB(XYZ,
     Examples
     --------
     >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
-    >>> illuminant_XYZ = np.array([0.34567, 0.35850])
+    >>> illuminant_XYZ = np.array([0.34570, 0.35850])
     >>> illuminant_RGB = np.array([0.31270, 0.32900])
     >>> chromatic_adaptation_transform = 'Bradford'
     >>> XYZ_to_RGB_matrix = np.array([
-    ...     [3.24100326, -1.53739899, -0.49861587],
-    ...     [-0.96922426, 1.87592999, 0.04155422],
-    ...     [0.05563942, -0.20401120, 1.05714897]])
+    ...     [3.24062548, -1.53720797, -0.49862860],
+    ...     [-0.96893071, 1.87575606, 0.04151752],
+    ...     [0.05571012, -0.20402105, 1.05699594]])
     >>> XYZ_to_RGB(
     ...     XYZ,
     ...     illuminant_XYZ,
     ...     illuminant_RGB,
     ...     XYZ_to_RGB_matrix,
     ...     chromatic_adaptation_transform)  # doctest: +ELLIPSIS
-    array([ 0.0110374...,  0.1273422...,  0.1163297...])
+    array([ 0.0110015...,  0.1273504...,  0.1163271...])
     """
 
     M = chromatic_adaptation_matrix_VonKries(
@@ -468,14 +468,14 @@ def RGB_to_XYZ(RGB,
 
     Examples
     --------
-    >>> RGB = np.array([0.01103742, 0.12734226, 0.11632971])
+    >>> RGB = np.array([0.01100154,  0.12735048,  0.11632713])
     >>> illuminant_RGB = np.array([0.31270, 0.32900])
-    >>> illuminant_XYZ = np.array([0.34567, 0.35850])
+    >>> illuminant_XYZ = np.array([0.34570, 0.35850])
     >>> chromatic_adaptation_transform = 'Bradford'
     >>> RGB_to_XYZ_matrix = np.array([
-    ...     [0.41238656, 0.35759149, 0.18045049],
-    ...     [0.21263682, 0.71518298, 0.07218020],
-    ...     [0.01933062, 0.11919716, 0.95037259]])
+    ...     [0.41240000, 0.35760000, 0.18050000],
+    ...     [0.21260000, 0.71520000, 0.07220000],
+    ...     [0.01930000, 0.11920000, 0.95050000]])
     >>> RGB_to_XYZ(
     ...     RGB,
     ...     illuminant_RGB,
@@ -541,7 +541,7 @@ def RGB_to_RGB(RGB,
     ...     RGB,
     ...     sRGB_COLOURSPACE,
     ...     PROPHOTO_RGB_COLOURSPACE)  # doctest: +ELLIPSIS
-    array([ 0.0643409...,  0.1157387...,  0.1157750...)
+    array([ 0.0643509...,  0.1157328...,  0.1157634...)
     """
 
     cat = chromatic_adaptation_matrix_VonKries(

@@ -47,17 +47,17 @@ class TestXYZ_to_Luv(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             XYZ_to_Luv(np.array([0.07049534, 0.10080000, 0.09558313])),
-            np.array([37.98562910, -28.79229446, -1.35581950]),
+            np.array([37.98562910, -28.80219593, -1.35800706]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_Luv(np.array([0.47097710, 0.34950000, 0.11301649])),
-            np.array([65.70971880, 87.21709531, 27.01490816]),
+            np.array([65.70971880, 87.19996716, 27.01112399]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_Luv(np.array([0.25506814, 0.19150000, 0.08849752])),
-            np.array([50.86223896, 60.52359443, 13.14030896]),
+            np.array([50.86223896, 60.51033649, 13.13737985]),
             decimal=7)
 
         np.testing.assert_almost_equal(
@@ -91,8 +91,8 @@ class TestXYZ_to_Luv(unittest.TestCase):
         """
 
         XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
-        illuminant = np.array([0.34567, 0.35850])
-        Luv = np.array([37.98562910, -28.79229446, -1.35581950])
+        illuminant = np.array([0.34570, 0.35850])
+        Luv = np.array([37.98562910, -28.80219593, -1.35800706])
         np.testing.assert_almost_equal(
             XYZ_to_Luv(XYZ, illuminant),
             Luv,
@@ -145,17 +145,17 @@ class TestLuv_to_XYZ(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            Luv_to_XYZ(np.array([37.98562910, -28.79229446, -1.35581950])),
+            Luv_to_XYZ(np.array([37.98562910, -28.80219593, -1.35800706])),
             np.array([0.07049534, 0.10080000, 0.09558313]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            Luv_to_XYZ(np.array([65.70971880, 87.21709531, 27.01490816])),
+            Luv_to_XYZ(np.array([65.70971880, 87.19996716, 27.01112399])),
             np.array([0.47097710, 0.34950000, 0.11301649]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            Luv_to_XYZ(np.array([50.86223896, 60.52359443, 13.14030896])),
+            Luv_to_XYZ(np.array([50.86223896, 60.51033649, 13.13737985])),
             np.array([0.25506814, 0.19150000, 0.08849752]),
             decimal=7)
 
@@ -189,8 +189,8 @@ class TestLuv_to_XYZ(unittest.TestCase):
         support.
         """
 
-        Luv = np.array([37.98562910, -28.79229446, -1.35581950])
-        illuminant = np.array([0.34567, 0.35850])
+        Luv = np.array([37.98562910, -28.80219593, -1.35800706])
+        illuminant = np.array([0.34570, 0.35850])
         XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
         np.testing.assert_almost_equal(
             Luv_to_XYZ(Luv, illuminant),
@@ -244,17 +244,17 @@ class TestLuv_to_uv(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            Luv_to_uv(np.array([37.98562910, -28.79229446, -1.35581950])),
+            Luv_to_uv(np.array([37.98562910, -28.80219593, -1.35800706])),
             np.array([0.15085310, 0.48532971]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            Luv_to_uv(np.array([65.70971880, 87.21709531, 27.01490816])),
+            Luv_to_uv(np.array([65.70971880, 87.19996716, 27.01112399])),
             np.array([0.31125983, 0.51970032]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            Luv_to_uv(np.array([50.86223896, 60.52359443, 13.14030896])),
+            Luv_to_uv(np.array([50.86223896, 60.51033649, 13.13737985])),
             np.array([0.30069387, 0.50794847]),
             decimal=7)
 
@@ -288,8 +288,8 @@ class TestLuv_to_uv(unittest.TestCase):
         support.
         """
 
-        Luv = np.array([37.98562910, -28.79229446, -1.35581950])
-        illuminant = np.array([0.34567, 0.35850])
+        Luv = np.array([37.98562910, -28.80219593, -1.35800706])
+        illuminant = np.array([0.34570, 0.35850])
         uv = np.array([0.15085310, 0.48532971])
         np.testing.assert_almost_equal(
             Luv_to_uv(Luv, illuminant),
@@ -343,18 +343,18 @@ class TestLuv_to_LCHuv(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            Luv_to_LCHuv(np.array([37.98562910, -28.79229446, -1.35581950])),
-            np.array([37.98562910, 28.82419933, 182.69604747]),
+            Luv_to_LCHuv(np.array([37.98562910, -28.80219593, -1.35800706])),
+            np.array([37.98562910, 28.83419279, 182.69946404]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            Luv_to_LCHuv(np.array([65.70971880, 87.21709531, 27.01490816])),
-            np.array([65.70971880, 91.30513117, 17.21001524]),
+            Luv_to_LCHuv(np.array([65.70971880, 87.19996716, 27.01112399])),
+            np.array([65.70971880, 91.28765027, 17.21092723]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            Luv_to_LCHuv(np.array([50.86223896, 60.52359443, 13.14030896])),
-            np.array([50.86223896, 61.93361932, 12.24941097]),
+            Luv_to_LCHuv(np.array([50.86223896, 60.51033649, 13.13737985])),
+            np.array([50.86223896, 61.92004176, 12.24936515]),
             decimal=7)
 
     def test_n_dimensional_Luv_to_LCHuv(self):
@@ -363,8 +363,8 @@ class TestLuv_to_LCHuv(unittest.TestCase):
         n-dimensional arrays support.
         """
 
-        Luv = np.array([37.98562910, -28.79229446, -1.35581950])
-        LCHuv = np.array([37.98562910, 28.82419933, 182.69604747])
+        Luv = np.array([37.98562910, -28.80219593, -1.35800706])
+        LCHuv = np.array([37.98562910, 28.83419279, 182.69946404])
         np.testing.assert_almost_equal(
             Luv_to_LCHuv(Luv),
             LCHuv,
@@ -410,18 +410,18 @@ class TestLCHuv_to_Luv(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            LCHuv_to_Luv(np.array([37.98562910, 28.82419933, 182.69604747])),
-            np.array([37.98562910, -28.79229446, -1.35581950]),
+            LCHuv_to_Luv(np.array([37.98562910, 28.83419279, 182.69946404])),
+            np.array([37.98562910, -28.80219593, -1.35800706]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            LCHuv_to_Luv(np.array([65.70971880, 91.30513117, 17.21001524])),
-            np.array([65.70971880, 87.21709531, 27.01490816]),
+            LCHuv_to_Luv(np.array([65.70971880, 91.28765027, 17.21092723])),
+            np.array([65.70971880, 87.19996716, 27.01112399]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            LCHuv_to_Luv(np.array([50.86223896, 61.93361932, 12.24941097])),
-            np.array([50.86223896, 60.52359443, 13.14030896]),
+            LCHuv_to_Luv(np.array([50.86223896, 61.92004176, 12.24936515])),
+            np.array([50.86223896, 60.51033649, 13.13737985]),
             decimal=7)
 
     def test_n_dimensional_LCHuv_to_Luv(self):
@@ -430,8 +430,8 @@ class TestLCHuv_to_Luv(unittest.TestCase):
         n-dimensional arrays support.
         """
 
-        LCHuv = np.array([37.98562910, 28.82419933, 182.69604747])
-        Luv = np.array([37.98562910, -28.79229446, -1.35581950])
+        LCHuv = np.array([37.98562910, 28.83419279, 182.69946404])
+        Luv = np.array([37.98562910, -28.80219593, -1.35800706])
         np.testing.assert_almost_equal(
             LCHuv_to_Luv(LCHuv),
             Luv,

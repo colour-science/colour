@@ -65,22 +65,22 @@ class TestRGB_colourspaceLimits(unittest.TestCase):
         np.testing.assert_almost_equal(
             RGB_colourspace_limits(REC_709_COLOURSPACE),
             np.array([[0.00000000, 100.00000000],
-                      [-79.2287317, 94.6661884],
-                      [-114.7852684, 96.719387]]),
+                      [-79.21854477, 94.65669508],
+                      [-114.78759841, 96.72026446]]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             RGB_colourspace_limits(REC_2020_COLOURSPACE),
             np.array([[0.00000000, 100.00000000],
-                      [-159.6198898, 127.338901],
-                      [-129.739616, 142.1353768]]),
+                      [-159.59726205, 127.32669335],
+                      [-129.74325643, 142.13784519]]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             RGB_colourspace_limits(ACES_2065_1_COLOURSPACE),
-            np.array([[-79.44256021, 103.30554309],
-                      [-461.83418126, 176.44574044],
-                      [-309.67046710, 184.82123946]]),
+            np.array([[-79.45116285, 103.30589122],
+                      [-461.76531700, 176.36321555],
+                      [-309.68548384, 184.82616441]]),
             decimal=7)
 
 
@@ -102,7 +102,7 @@ class TestRGB_colourspaceVolumeMonteCarlo(unittest.TestCase):
                 10e3,
                 random_state=np.random.RandomState(2),
                 processes=1),
-            859500.0)
+            858600.0)
 
 
 class TestRGB_colourspace_volume_coverage_MonteCarlo(unittest.TestCase):

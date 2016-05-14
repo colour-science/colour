@@ -56,9 +56,9 @@ print(colour.chromatically_adapted_primaries(
 
 print('\n')
 
-npm = np.array([[0.41238656, 0.35759149, 0.18045049],
-                [0.21263682, 0.71518298, 0.07218020],
-                [0.01933062, 0.11919716, 0.95037259]])
+npm = np.array([[0.41240000, 0.35760000, 0.18050000],
+                [0.21260000, 0.71520000, 0.07220000],
+                [0.01930000, 0.11920000, 0.95050000]])
 message_box(('Computing the primaries and whitepoint from given '
              'normalised primary matrix:\n'
              '\n{0}'.format(npm)))
