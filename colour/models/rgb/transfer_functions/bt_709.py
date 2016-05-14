@@ -18,10 +18,11 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  International Telecommunication Union. (2002). Parameter values for
+.. [1]  International Telecommunication Union. (2015). Parameter values for
         the HDTV standards for production and international programme exchange
         BT Series Broadcasting service. In Recommendation ITU-R BT.709-6
-        (Vol. 5, pp. 1–32). ISBN:9519982000
+        (Vol. 5, pp. 1–32). Retrieved from https://www.itu.int/dms_pubrec/\
+itu-r/rec/bt/R-REC-BT.709-6-201506-I!!PDF-E.pdf
 """
 
 from __future__ import division, unicode_literals
