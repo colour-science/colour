@@ -52,12 +52,15 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
 
         XYZ_r = np.array([0.5, 0.5, 0.5]).reshape((3, 1))
         for colourspace in RGB_COLOURSPACES.values():
-            if colourspace.name == 'Adobe RGB (1998)':
+            if colourspace.name in (
+                    'ProPhoto RGB', 'ERIMM RGB', 'RIMM RGB', 'ROMM RGB'):
+                tolerance = 1e-3
+            elif colourspace.name in ('sRGB',):
+                tolerance = 1e-4
+            elif colourspace.name in ('Adobe RGB (1998)',):
                 tolerance = 1e-5
             elif colourspace.name in ('ALEXA Wide Gamut RGB', 'V-Gamut'):
                 tolerance = 1e-6
-            elif colourspace.name in ('ProPhoto RGB', 'sRGB'):
-                tolerance = 1e-4
             else:
                 tolerance = 1e-7
 
