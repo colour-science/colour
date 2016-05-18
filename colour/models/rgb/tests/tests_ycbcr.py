@@ -66,7 +66,7 @@ class TestRGB_to_YCbCr(unittest.TestCase):
         np.testing.assert_almost_equal(
             RGB_to_YCbCr(np.array([0.75, 0.0, 0.75]),
                          K=YCBCR_WEIGHTS['Rec. 709'],
-                         out_range=(16./255, 235./255, 15.5/255, 239.5/255)),
+                         out_range=(16/255, 235/255, 15.5/255, 239.5/255)),
             np.array([0.2461898, 0.75392897, 0.79920662]),
             decimal=7)
 

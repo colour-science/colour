@@ -69,7 +69,7 @@ def RGB_RANGE(bits, is_legal, is_int):
         range = np.array([0, 2**bits - 1])
     if not(is_int):
         range = range.astype(float)/(2**bits - 1)
-    return range
+    return tuple(range)
 
 
 def YCBCR_RANGES(bits, is_legal, is_int):
@@ -85,19 +85,18 @@ def YCBCR_RANGES(bits, is_legal, is_int):
     if (not(is_int) and not(is_legal)):
         ranges[2] = -0.5
         ranges[3] = 0.5
-    return ranges
+    return tuple(ranges)
 
 
 def RGB_to_YCbCr(rgb,
                  K=YCBCR_WEIGHTS['Rec. 709'],
-                 in_range=None,
-                 out_range=None,
                  in_bits=10,
                  in_legal=False,
                  in_int=False,
                  out_bits=8,
                  out_legal=True,
-                 out_int=False):
+                 out_int=False,
+                 **kwargs):
     """
     Converts an array of R'G'B' values to the corresponding Y'CbCr values.
 
@@ -110,17 +109,6 @@ def RGB_to_YCbCr(rgb,
         YCBCR_WEIGHTS(colourspace) for presets
         **{'Rec. 601', 'Rec. 709', 'Rec. 2020','SMPTE-240M'}**
         Default: YCBCR_WEIGHTS['Rec. 709']
-    in_range : array_like (optional)
-        The values of R', G' and B' corresponding to 0 IRE and 100 IRE.
-        These may be floats or integer code values. If values are given here
-        they take precedence over values calculated from in_legal, in_float
-        and in_bits.
-    out_range : array_like (optional)
-        The values of Y' corresponding to 0 IRE and 100 IRE
-        and the minimum and maximum values of Cb and Cr.
-        These may be floats or integer code values. If values are given here
-        they take precedence over values calculated from out_legal, out_float
-        and out_bits.
     in_bits : int (optional)
         The bit depth for integer input, or used in the calculation of the
         denominator for legal range float values, i.e. 8 bit means the float
@@ -144,6 +132,11 @@ def RGB_to_YCbCr(rgb,
     out_int : bool (optional)
         Whether to return values as out_bits integer code values.
         Default : False
+    \**kwargs : dict, optional
+        **{'in_range', 'out_range'}**
+        Keyword arguments to override the calculated ranges. RGB ranges are a
+        tuple of two values (RGBMin, RGBMax) and Y'CbCr ranges are a tuple of
+        four values (YMin, YMax, CMin, CMax)
 
     Returns
     -------
@@ -154,7 +147,7 @@ def RGB_to_YCbCr(rgb,
     Notes
     -----
     -   For ITU-R BT.2020 (Rec.2020) the RGB_to_YCbCr function is only
-        applicable tothe non-constant luminance implementation. The
+        applicable to the non-constant luminance implementation. The
         RGB_to_YcCbcCrc function should be used for the constant luminance case
         See https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
         R-REC-BT.2020-0-201208-S!!PDF-E.pdf
@@ -174,7 +167,7 @@ def RGB_to_YCbCr(rgb,
         set (out_legal=False, out_int=False)
 
     -   To create integer code values as per standard 10-bit SDI, set
-        (out_bits=8, out_legal=True, out_int=True)
+        (out_bits=10, out_legal=True, out_int=True)
 
     Examples
     --------
@@ -201,13 +194,16 @@ def RGB_to_YCbCr(rgb,
     colours. This does however create the possibility of output values of 256,
     which cannot be stored in an 8-bit integer. The JPEG document specifies
     these should be clamped to 255.
+
+    These JFIF JPEG ranges are also the result of using:
+    in_bits=8, in_int=True, out_legal=False, out_int=True
     """
     Kr = K[0]
     Kb = K[1]
-    if in_range is None:
-        in_range = RGB_RANGE(in_bits, in_legal, in_int)
-    if out_range is None:
-        out_range = YCBCR_RANGES(out_bits, out_legal, out_int)
+    in_range = kwargs.get('in_range',
+                          RGB_RANGE(in_bits, in_legal, in_int))
+    out_range = kwargs.get('out_range',
+                           YCBCR_RANGES(out_bits, out_legal, out_int))
     rgb_float = (rgb.astype(float) - in_range[0])
     rgb_float *= 1.0/(in_range[1] - in_range[0])
     r, g, b = tsplit(rgb_float)
@@ -228,14 +224,13 @@ def RGB_to_YCbCr(rgb,
 
 def YCbCr_to_RGB(YCbCr,
                  K=YCBCR_WEIGHTS['Rec. 709'],
-                 in_range=None,
-                 out_range=None,
                  in_bits=8,
                  in_legal=True,
                  in_int=False,
                  out_bits=10,
                  out_legal=False,
-                 out_int=False):
+                 out_int=False,
+                 **kwargs):
     """
     Converts an array of Y'CbCr values to the corresponding R'G'B' values.
 
@@ -248,17 +243,6 @@ def YCbCr_to_RGB(YCbCr,
         YCBCR_WEIGHTS(colourspace) for presets
         **{'Rec. 601', 'Rec. 709', 'Rec. 2020','SMPTE-240M'}**
         Default: YCBCR_WEIGHTS['Rec. 709']
-    in_range : array_like (optional)
-        The values of Y' corresponding to 0 IRE and 100 IRE
-        and the minimum and maximum values of Cb and Cr.
-        These may be floats or integer code values. If values are given here
-        they take precedence over values calculated from in_legal, in_float
-        and in_bits.
-    out_range : array_like (optional)
-        The values of R', G' and B' corresponding to 0 IRE and 100 IRE.
-        These may be floats or integer code values. If values are given here
-        they take precedence over values calculated from out_legal, out_float
-        and out_bits.
     in_bits : int (optional)
         The bit depth for integer input, or used in the calculation of the
         denominator for legal range float values, i.e. 8 bit means the float
@@ -282,6 +266,11 @@ def YCbCr_to_RGB(YCbCr,
     out_int : bool (optional)
         Whether to return values as out_bits integer code values.
         Default : False
+    \**kwargs : dict, optional
+        **{'in_range', 'out_range'}**
+        Keyword arguments to override the calculated ranges. RGB ranges are a
+        tuple of two values (RGBMin, RGBMax) and Y'CbCr ranges are a tuple of
+        four values (YMin, YMax, CMin, CMax)
 
     Returns
     -------
@@ -308,10 +297,10 @@ def YCbCr_to_RGB(YCbCr,
     """
     Kr = K[0]
     Kb = K[1]
-    if out_range is None:
-        out_range = RGB_RANGE(out_bits, out_legal, out_int)
-    if in_range is None:
-        in_range = YCBCR_RANGES(in_bits, in_legal, in_int)
+    in_range = kwargs.get('in_range',
+                          YCBCR_RANGES(in_bits, in_legal, in_int))
+    out_range = kwargs.get('out_range',
+                           RGB_RANGE(out_bits, out_legal, out_int))
     Y, Cb, Cr = tsplit(YCbCr.astype(float))
     Y -= in_range[0]
     Cb -= (in_range[3] + in_range[2])/2.0
@@ -331,11 +320,11 @@ def YCbCr_to_RGB(YCbCr,
 
 
 def RGB_to_YcCbcCrc(rgb,
-                    out_range=None,
                     out_bits=8,
                     out_legal=True,
                     out_int=False,
-                    is_10_bits_system=True):
+                    is_10_bits_system=True,
+                    **kwargs):
     """
     Converts an array of RGB (linear) values to the corresponding Yc'Cbc'Crc'
     values.
@@ -344,12 +333,6 @@ def RGB_to_YcCbcCrc(rgb,
     ----------
     rgb : array_like
         Input RGB floating point linear values.
-    out_range : array_like (optional)
-        The values of Y' corresponding to 0 IRE and 100 IRE
-        and the minimum and maximum values of Cb and Cr.
-        These may be floats or integer code values. If values are given here
-        they take precedence over values calculated from out_legal, out_float
-        and out_bits.
     out_bits : int (optional)
         The bit depth for integer output, or used in the calculation of the
         denominator for legal range float values, i.e. 8 bit means the float
@@ -365,6 +348,10 @@ def RGB_to_YcCbcCrc(rgb,
     is_10_bits_system : bool (optional)
         The Rec.2020 OECF varies slightly for 10 and 12 bit systems.
         Default: True
+    \**kwargs : dict, optional
+        **{'out_range'}**
+        Keyword argument to override the calculated ranges.
+        Use ``out_range=(YMin, YMax, CMin, CMax)``
 
     Returns
     -------
@@ -389,8 +376,8 @@ def RGB_to_YcCbcCrc(rgb,
     ...                 is_10_bits_system = True)
     array([422, 512, 512])
     """
-    if out_range is None:
-        out_range = YCBCR_RANGES(out_bits, out_legal, out_int)
+    out_range = kwargs.get('out_range',
+                           YCBCR_RANGES(out_bits, out_legal, out_int))
     r, g, b = tsplit(rgb)
     Yc = 0.2627*r + 0.6780*g + 0.0593*b
     Yc = REC_2020_COLOURSPACE.OECF(Yc, is_10_bits_system=is_10_bits_system)
@@ -411,11 +398,11 @@ def RGB_to_YcCbcCrc(rgb,
 
 
 def YcCbcCrc_to_RGB(YcCbcCrc,
-                    in_range=None,
                     in_bits=8,
                     in_legal=True,
                     in_int=False,
-                    is_10_bits_system=True):
+                    is_10_bits_system=True,
+                    **kwargs):
     """
     Converts an array of Yc'Cbc'Crc' values to the corresponding RGB (linear)
     values.
@@ -424,12 +411,6 @@ def YcCbcCrc_to_RGB(YcCbcCrc,
     ----------
     YcCbcCrc : array_like
         Input Yc'Cbc'Crc' values. These may be floats or integers.
-    in_range : array_like (optional)
-        The values of Y' corresponding to 0 IRE and 100 IRE
-        and the minimum and maximum values of Cb and Cr.
-        These may be floats or integer code values. If values are given here
-        they take precedence over values calculated from in_legal, in_float
-        and in_bits.
     out_bits : int (optional)
         The bit depth for integer output, or used in the calculation of the
         denominator for legal range float values, i.e. 8 bit means the float
@@ -445,6 +426,10 @@ def YcCbcCrc_to_RGB(YcCbcCrc,
     is_10_bits_system : bool (optional)
         The Rec.2020 EOCF varies slightly for 10 and 12 bit systems.
         Default: True
+    \**kwargs : dict, optional
+        **{'in_range'}**
+        Keyword argument to override the calculated ranges.
+        Use ``in_range=(YMin, YMax, CMin, CMax)``
 
 
     Returns
@@ -471,8 +456,8 @@ def YcCbcCrc_to_RGB(YcCbcCrc,
     ...                 is_10_bits_system=False)
     array([ 0.1800903..., 0.1800903..., 0.1800903...])
     """
-    if in_range is None:
-        in_range = YCBCR_RANGES(in_bits, in_legal, in_int)
+    in_range = kwargs.get('out_range',
+                          YCBCR_RANGES(in_bits, in_legal, in_int))
     Yc, Cbc, Crc = tsplit(YcCbcCrc.astype(float))
     Yc -= in_range[0]
     Cbc -= (in_range[3] + in_range[2])/2.0
