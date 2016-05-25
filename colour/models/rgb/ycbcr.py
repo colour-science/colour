@@ -30,9 +30,10 @@ itu-r/rec/bt/R-REC-BT.709-6-201506-I!!PDF-E.pdf
         international programme exchange. In *Recommendation ITU-R BT.2020*
         (Vol. 1, pp. 1–8). Retrieved from https://www.itu.int/dms_pubrec/\
 itu-r/rec/bt/R-REC-BT.2020-2-201510-I!!PDF-E.pdf
-.. [4]  Ford, A., & Roberts, A. (1998). Colour space conversions. Westminster
-        University, London, 1998, 1–31. Retrieved from
-        http://herakles.fav.zcu.cz/research/night_road/westminster.pdf
+.. [4]  ANSI/SMPTE 240M-1995: Television – Signal Parameters – 1125-Line
+        High-Definition Production Systems.
+        Retrieved from http://car.france3.mars.free.fr/HD/\
+        INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/s240m.pdf
 .. [5]  International Telecommunication Union. (2011). Recommendation ITU-T
         T.871 - Information technology – Digital compression and coding of
         continuous-tone still images: JPEG File Interchange Format (JFIF).
@@ -54,7 +55,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Development'
 
 __all__ = ['YCBCR_WEIGHTS',
-           'RGB_ranges',
+           'RGB_range',
            'YCbCr_ranges',
            'RGB_to_YCbCr',
            'YCbCr_to_RGB',
@@ -74,7 +75,7 @@ YCBCR_WEIGHTS : dict
 """
 
 
-def RGB_ranges(bits, is_legal, is_int):
+def RGB_range(bits, is_legal, is_int):
     """"
     Returns the *RGB* ranges array for given bit depth, range legality and
     representation.
@@ -95,11 +96,11 @@ def RGB_ranges(bits, is_legal, is_int):
 
     Examples
     --------
-    >>> RGB_ranges(8, True, True)
+    >>> RGB_range(8, True, True)
     array([ 16, 235])
-    >>> RGB_ranges(8, True, False)  # doctest: +ELLIPSIS
+    >>> RGB_range(8, True, False)  # doctest: +ELLIPSIS
     array([ 0.0627451...,  0.9215686...])
-    >>> RGB_ranges(10, False, False)
+    >>> RGB_range(10, False, False)
     array([ 0.,  1.])
     """
 
@@ -183,7 +184,8 @@ def RGB_to_YCbCr(RGB,
         Input *R'G'B'* array of floats or integer values.
     K : array_like, optional
         Luma weighting coefficients of red and blue. See :attr:
-        `YCBCR_WEIGHTS` for presets. Default is `(0.2126, 0.0722)`.
+        `YCBCR_WEIGHTS` for presets. Default is `(0.2126, 0.0722)`, the
+        weightings for Rec. 709.
     in_bits : int, optional
         Bit depth for integer input, or used in the calculation of the
         denominator for legal range float values, i.e. 8-bit means the float
@@ -291,7 +293,7 @@ def RGB_to_YCbCr(RGB,
 
     Kr, Kb = K
     RGB_min, RGB_max = kwargs.get(
-        'in_range', RGB_ranges(in_bits, in_legal, in_int))
+        'in_range', RGB_range(in_bits, in_legal, in_int))
     Y_min, Y_max, C_min, C_max = kwargs.get(
         'out_range', YCbCr_ranges(out_bits, out_legal, out_int))
 
@@ -334,7 +336,8 @@ def YCbCr_to_RGB(YCbCr,
         Input *Y'CbCr* colour encoding array of integer or float values.
     K : array_like, optional
         Luma weighting coefficients of red and blue. See :attr:
-        `YCBCR_WEIGHTS` for presets. Default is `(0.2126, 0.0722)`.
+        `YCBCR_WEIGHTS` for presets. Default is `(0.2126, 0.0722)`, the
+        weightings for Rec. 709.
     in_bits : int, optional
         Bit depth for integer input, or used in the calculation of the
         denominator for legal range float values, i.e. 8-bit means the float
@@ -388,7 +391,7 @@ def YCbCr_to_RGB(YCbCr,
     Y_min, Y_max, C_min, C_max = kwargs.get(
         'in_range', YCbCr_ranges(in_bits, in_legal, in_int))
     RGB_min, RGB_max = kwargs.get(
-        'out_range', RGB_ranges(out_bits, out_legal, out_int))
+        'out_range', RGB_range(out_bits, out_legal, out_int))
 
     Y -= Y_min
     Cb -= (C_max + C_min) / 2
