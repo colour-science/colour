@@ -90,7 +90,7 @@ def delta_E_CIE1976(Lab_1, Lab_2, **kwargs):
     return d_E
 
 
-def delta_E_CIE1994(Lab_1, Lab_2, textiles=True, **kwargs):
+def delta_E_CIE1994(Lab_1, Lab_2, textiles=False, **kwargs):
     """
     Returns the difference :math:`\Delta E_{ab}` between two given *CIE Lab*
     colourspace arrays using CIE 1994 recommendation.
@@ -102,7 +102,9 @@ def delta_E_CIE1994(Lab_1, Lab_2, textiles=True, **kwargs):
     Lab_2 : array_like
         *CIE Lab* colourspace array 2.
     textiles : bool, optional
-        Application specific weights.
+        Textiles application specific parametric factors
+        :math:`k_L=2,\ k_C=k_H=1,\ k_1=0.048,\ k_2=0.014` weights are used
+        instead of :math:`k_L=k_C=k_H=1,\ k_1=0.045,\ k_2=0.015`.
     \**kwargs : dict, optional
         Unused parameter provided for signature compatibility with other
         :math:`\Delta E_{ab}` computation objects.
@@ -129,9 +131,9 @@ def delta_E_CIE1994(Lab_1, Lab_2, textiles=True, **kwargs):
     >>> Lab_1 = np.array([100.00000000, 21.57210357, 272.22819350])
     >>> Lab_2 = np.array([100.00000000, 426.67945353, 72.39590835])
     >>> delta_E_CIE1994(Lab_1, Lab_2)  # doctest: +ELLIPSIS
-    88.3355530...
-    >>> delta_E_CIE1994(Lab_1, Lab_2, textiles=False)  # doctest: +ELLIPSIS
     83.7792255...
+    >>> delta_E_CIE1994(Lab_1, Lab_2, textiles=True)  # doctest: +ELLIPSIS
+    88.3355530...
     """
 
     k_1 = 0.048 if textiles else 0.045
@@ -166,7 +168,7 @@ def delta_E_CIE1994(Lab_1, Lab_2, textiles=True, **kwargs):
     return d_E
 
 
-def delta_E_CIE2000(Lab_1, Lab_2, **kwargs):
+def delta_E_CIE2000(Lab_1, Lab_2, textiles=False, **kwargs):
     """
     Returns the difference :math:`\Delta E_{ab}` between two given *CIE Lab*
     colourspace arrays using CIE 2000 recommendation.
@@ -177,6 +179,10 @@ def delta_E_CIE2000(Lab_1, Lab_2, **kwargs):
         *CIE Lab* colourspace array 1.
     Lab_2 : array_like
         *CIE Lab* colourspace array 2.
+    textiles : bool, optional
+        Textiles application specific parametric factors
+        :math:`k_L=2,\ k_C=k_H=1` weights are used instead of
+        :math:`k_L=k_C=k_H=1`.
     \**kwargs : dict, optional
         Unused parameter provided for signature compatibility with other
         :math:`\Delta E_{ab}` computation objects.
@@ -188,16 +194,30 @@ def delta_E_CIE2000(Lab_1, Lab_2, **kwargs):
 
     Notes
     -----
-    CIE 2000 colour differences are not symmetrical: difference between
-    `Lab_1` and `Lab_2` may not be the same as difference between `Lab_2` and
-    `Lab_1` thus one colour must be understood to be the reference against
-    which a sample colour is compared.
+    -   CIE 2000 colour differences are not symmetrical: difference between
+        `Lab_1` and `Lab_2` may not be the same as difference between `Lab_2`
+        and `Lab_1` thus one colour must be understood to be the reference
+        against which a sample colour is compared.
+    -   Parametric factors :math:`k_L=k_C=k_H=1` weights under
+    *reference conditions*: [5]_
+        -   Illumination: D65 source
+        -   Illuminance: 1000 lx
+        -   Observer: Normal colour vision
+        -   Background field: Uniform, neutral gray with :math:`L^*=50`
+        -   Viewing mode: Object
+        -   Sample size: Greater than 4 degrees
+        -   Sample separation: Direct edge contact
+        -   Sample colour-difference magnitude: Lower than 5.0
+            :math:`\Delta E_{ab}`
+        -   Sample structure: Homogeneous (without texture)
 
     References
     ----------
-
     .. [4]  Lindbloom, B. (2009). Delta E (CIE 2000). Retrieved February 24,
             2014, from http://brucelindbloom.com/Eqn_DeltaE_CIE2000.html
+    .. [5]  Melgosa, M. (2013). CIE / ISO new standard: CIEDE2000, 2013(July).
+            Retrieved from http://www.color.org/events/colorimetry/\
+Melgosa_CIEDE2000_Workshop-July4.pdf
 
     Examples
     --------
@@ -205,9 +225,14 @@ def delta_E_CIE2000(Lab_1, Lab_2, **kwargs):
     >>> Lab_2 = np.array([100.00000000, 426.67945353, 72.39590835])
     >>> delta_E_CIE2000(Lab_1, Lab_2)  # doctest: +ELLIPSIS
     94.0356490...
+    >>> Lab_2 = np.array([50.00000000, 426.67945353, 72.39590835])
+    >>> delta_E_CIE2000(Lab_1, Lab_2)  # doctest: +ELLIPSIS
+    100.8779470...
+    >>> delta_E_CIE2000(Lab_1, Lab_2, textiles=True)  # doctest: +ELLIPSIS
+    95.7920535...
     """
 
-    k_L = 1
+    k_L = 2 if textiles else 1
     k_C = 1
     k_H = 1
 
@@ -406,7 +431,7 @@ def delta_E(Lab_1, Lab_2, method='CMC', **kwargs):
     >>> delta_E(Lab_1, Lab_2, method='CIE 1976')  # doctest: +ELLIPSIS
     451.7133019...
     >>> delta_E(Lab_1, Lab_2, method='CIE 1994')  # doctest: +ELLIPSIS
-    88.3355530...
+    83.7792255...
     >>> delta_E(  # doctest: +ELLIPSIS
     ...     Lab_1, Lab_2, method='CIE 1994', textiles=False)
     83.7792255...

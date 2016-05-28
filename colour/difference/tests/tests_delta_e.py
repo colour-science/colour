@@ -93,45 +93,45 @@ class TestDelta_E_CIE1994(unittest.TestCase):
             delta_E_CIE1994(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 426.67945353, 72.39590835])),
-            88.3355530575,
+            83.779225500887094,
             places=7)
 
         self.assertAlmostEqual(
             delta_E_CIE1994(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 74.05216981, 276.45318193])),
-            10.61265789,
+            10.053931954553839,
             places=7)
 
         self.assertAlmostEqual(
             delta_E_CIE1994(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 8.32281957, -73.58297716])),
-            60.3686872611,
+            57.535453706667425,
             places=7)
 
         self.assertAlmostEqual(
             delta_E_CIE1994(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 426.67945353, 72.39590835]),
-                textiles=False),
-            83.7792255009,
+                textiles=True),
+            88.335553057506502,
             places=7)
 
         self.assertAlmostEqual(
             delta_E_CIE1994(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 74.05216981, 276.45318193]),
-                textiles=False),
-            10.0539319546,
+                textiles=True),
+            10.612657890048272,
             places=7)
 
         self.assertAlmostEqual(
             delta_E_CIE1994(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 8.32281957, -73.58297716]),
-                textiles=False),
-            57.5354537067,
+                textiles=True),
+            60.368687261063329,
             places=7)
 
     def test_n_dimensional_delta_E_CIE1994(self):
@@ -142,7 +142,7 @@ class TestDelta_E_CIE1994(unittest.TestCase):
 
         Lab_1 = np.array([100.00000000, 21.57210357, 272.22819350])
         Lab_2 = np.array([100.00000000, 426.67945353, 72.39590835])
-        delta_E = 88.335553057506502
+        delta_E = 83.779225500887094
         np.testing.assert_almost_equal(
             delta_E_CIE1994(Lab_1, Lab_2),
             delta_E,
@@ -209,6 +209,30 @@ class TestDelta_E_CIE2000(unittest.TestCase):
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 8.32281957, -73.58297716])),
             68.2309487895,
+            places=7)
+
+        self.assertAlmostEqual(
+            delta_E_CIE2000(
+                np.array([100.00000000, 21.57210357, 272.22819350]),
+                np.array([50.00000000, 426.67945353, 72.39590835]),
+                textiles=True),
+            95.792053524049422,
+            places=7)
+
+        self.assertAlmostEqual(
+            delta_E_CIE2000(
+                np.array([100.00000000, 21.57210357, 272.22819350]),
+                np.array([50.00000000, 74.05216981, 276.45318193]),
+                textiles=True),
+            23.554209427829978,
+            places=7)
+
+        self.assertAlmostEqual(
+            delta_E_CIE2000(
+                np.array([100.00000000, 21.57210357, 272.22819350]),
+                np.array([50.00000000, 8.32281957, -73.58297716]),
+                textiles=True),
+            70.631980031759809,
             places=7)
 
     def test_n_dimensional_delta_E_CIE2000(self):
