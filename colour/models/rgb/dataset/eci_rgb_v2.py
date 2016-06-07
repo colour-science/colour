@@ -87,26 +87,31 @@ XYZ_TO_ECI_RGB_V2_MATRIX : array_like, (3, 3)
 """
 
 
-def _scale_domain_0_100_range_0_1(value, callable_):
+def _scale_domain_0_100_range_0_1(a, callable_):
     """
-    Scales the domain of given callable to [0, 100] and its range to [0, 1].
+    Scales the input domain of given *luminance* :math:`Y` or *Lightness*
+    :math:`L^*` array to [0, 100], call the given callable, and
+    scales the output range to [0, 1].
 
     Parameters
     ----------
-    value : numeric or array_like
-        Value.
+    a : numeric or array_like
+        *Luminance* :math:`Y` or *Lightness* :math:`L^*` array.
     callable_ : callable
-        Object to call.
+        *Luminance* :math:`Y` or *Lightness* :math:`L^*` computation
+        definition, i.e., :func:`colour.lightness_CIE1976` or
+        :func:`colour.luminance_CIE1976`. Reference white *luminance*
+        :math:`Y_n` has implicit value of :math:`100\ cd/m^2`.
 
     Returns
     -------
     numeric or ndarray
-        Scaled callable value.
+        Scaled *luminance* :math:`Y` or *Lightness* :math:`L^*` array.
     """
 
-    value = np.asarray(value)
+    a = np.asarray(a)
 
-    return callable_(value * 100) / 100
+    return callable_(a * 100, Y_n=100) / 100
 
 
 ECI_RGB_V2_COLOURSPACE = RGB_Colourspace(
