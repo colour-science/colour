@@ -21,7 +21,8 @@ from colour.utilities import (
     tsplit,
     row_as_diagonal,
     dot_vector,
-    dot_matrix)
+    dot_matrix,
+    orient)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -40,7 +41,8 @@ __all__ = ['TestAsNumeric',
            'TestTsplit',
            'TestRowAsDiagonal',
            'TestDotVector',
-           'TestDotMatrix']
+           'TestDotMatrix',
+           'TestOrient']
 
 
 class TestAsNumeric(unittest.TestCase):
@@ -440,6 +442,70 @@ class TestDotMatrix(unittest.TestCase):
                       [[0.23424208, 1.04184824, -0.27609032],
                        [-1.70994078, 2.57932265, 0.13061813],
                        [-0.00442036, 0.03774904, 0.96667132]]]),
+            decimal=7)
+
+
+class TestOrient(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.array.orient` definition unit tests
+    methods.
+    """
+
+    def test_orient(self):
+        """
+        Tests :func:`colour.utilities.array.orient` definition.
+        """
+
+        a = np.tile(np.arange(5), (5, 1))
+
+        np.testing.assert_almost_equal(
+            orient(a, 'Null'),
+            a,
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            orient(a, 'Flip'),
+            np.array([[4, 3, 2, 1, 0],
+                      [4, 3, 2, 1, 0],
+                      [4, 3, 2, 1, 0],
+                      [4, 3, 2, 1, 0],
+                      [4, 3, 2, 1, 0]]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            orient(a, 'Flop'),
+            np.array([[0, 1, 2, 3, 4],
+                      [0, 1, 2, 3, 4],
+                      [0, 1, 2, 3, 4],
+                      [0, 1, 2, 3, 4],
+                      [0, 1, 2, 3, 4]]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            orient(a, '90 CW'),
+            np.array([[0, 0, 0, 0, 0],
+                      [1, 1, 1, 1, 1],
+                      [2, 2, 2, 2, 2],
+                      [3, 3, 3, 3, 3],
+                      [4, 4, 4, 4, 4]]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            orient(a, '90 CCW'),
+            np.array([[4, 4, 4, 4, 4],
+                      [3, 3, 3, 3, 3],
+                      [2, 2, 2, 2, 2],
+                      [1, 1, 1, 1, 1],
+                      [0, 0, 0, 0, 0]]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            orient(a, '180'),
+            np.array([[4, 3, 2, 1, 0],
+                      [4, 3, 2, 1, 0],
+                      [4, 3, 2, 1, 0],
+                      [4, 3, 2, 1, 0],
+                      [4, 3, 2, 1, 0]]),
             decimal=7)
 
 

@@ -31,7 +31,8 @@ __all__ = ['as_numeric',
            'tsplit',
            'row_as_diagonal',
            'dot_vector',
-           'dot_matrix']
+           'dot_matrix',
+           'orient']
 
 
 def as_numeric(x, type_=float):
@@ -509,3 +510,57 @@ def dot_matrix(a, b):
     """
 
     return np.einsum('...ij,...jk->...ik', a, b)
+
+
+def orient(a, orientation):
+    """
+    Orient given array accordingly to given `orientation` value.
+
+    Parameters
+    ----------
+    a : array_like
+        Array to perform the orientation onto.
+    orientation : unicode, optional
+        **{'Flip', 'Flop', '90 CW', '90 CCW', '180'}**
+        Orientation to perform.
+
+    Returns
+    -------
+    ndarray
+        Oriented array.
+
+    Examples
+    --------
+    >>> a = np.tile(np.arange(5), (5, 1))
+    >>> a
+    array([[0, 1, 2, 3, 4],
+           [0, 1, 2, 3, 4],
+           [0, 1, 2, 3, 4],
+           [0, 1, 2, 3, 4],
+           [0, 1, 2, 3, 4]])
+    >>> orient(a, '90 CW')
+    array([[0, 0, 0, 0, 0],
+           [1, 1, 1, 1, 1],
+           [2, 2, 2, 2, 2],
+           [3, 3, 3, 3, 3],
+           [4, 4, 4, 4, 4]])
+    >>> orient(a, 'Flip')
+    array([[4, 3, 2, 1, 0],
+           [4, 3, 2, 1, 0],
+           [4, 3, 2, 1, 0],
+           [4, 3, 2, 1, 0],
+           [4, 3, 2, 1, 0]])
+    """
+
+    if orientation.lower() == 'flip':
+        return np.fliplr(a)
+    elif orientation.lower() == 'flop':
+        return np.flipud(a)
+    elif orientation.lower() == '90 cw':
+        return np.rot90(a, 3)
+    elif orientation.lower() == '90 ccw':
+        return np.rot90(a)
+    elif orientation.lower() == '180':
+        return np.rot90(a, 2)
+    else:
+        return a

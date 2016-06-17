@@ -28,7 +28,8 @@ from .array import (
     tsplit,
     row_as_diagonal,
     dot_vector,
-    dot_matrix)
+    dot_matrix,
+    orient)
 from .data_structures import (
     ArbitraryPrecisionMapping,
     Lookup,
@@ -59,7 +60,8 @@ __all__ += ['as_numeric',
             'tsplit',
             'row_as_diagonal',
             'dot_vector',
-            'dot_matrix']
+            'dot_matrix',
+            'orient']
 __all__ += ['ArbitraryPrecisionMapping',
             'Lookup',
             'Structure',
