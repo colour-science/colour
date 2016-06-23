@@ -22,7 +22,8 @@ from colour.utilities import (
     row_as_diagonal,
     dot_vector,
     dot_matrix,
-    orient)
+    orient,
+    centroid)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -42,7 +43,8 @@ __all__ = ['TestAsNumeric',
            'TestRowAsDiagonal',
            'TestDotVector',
            'TestDotMatrix',
-           'TestOrient']
+           'TestOrient',
+           'TestCentroid']
 
 
 class TestAsNumeric(unittest.TestCase):
@@ -507,6 +509,38 @@ class TestOrient(unittest.TestCase):
                       [4, 3, 2, 1, 0],
                       [4, 3, 2, 1, 0]]),
             decimal=7)
+
+
+class TestCentroid(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.array.centroid` definition unit tests
+    methods.
+    """
+
+    def test_centroid(self):
+        """
+        Tests :func:`colour.utilities.array.centroid` definition.
+        """
+
+        a = np.arange(5)
+        np.testing.assert_array_equal(
+            centroid(a),
+            np.array([3]))
+
+        a = np.tile(a, (5, 1))
+        np.testing.assert_array_equal(
+            centroid(a),
+            np.array([2, 3]))
+
+        a = np.tile(np.linspace(0, 1, 10), (10, 1))
+        np.testing.assert_array_equal(
+            centroid(a),
+            np.array([4, 6]))
+
+        a = tstack((a, a, a))
+        np.testing.assert_array_equal(
+            centroid(a),
+            np.array([4, 6, 1]))
 
 
 if __name__ == '__main__':

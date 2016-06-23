@@ -32,7 +32,8 @@ __all__ = ['as_numeric',
            'row_as_diagonal',
            'dot_vector',
            'dot_matrix',
-           'orient']
+           'orient',
+           'centroid']
 
 
 def as_numeric(x, type_=float):
@@ -564,3 +565,43 @@ def orient(a, orientation):
         return np.rot90(a, 2)
     else:
         return a
+
+
+def centroid(a):
+    """
+    Computes the centroid indexes of given :math:`a` array.
+
+    Parameters
+    ----------
+    a : array_like
+        :math:`a` array to compute the centroid indexes.
+
+    Returns
+    -------
+    ndarray
+        :math:`a` array centroid indexes.
+
+    Examples
+    --------
+    >>> a = np.tile(np.arange(0, 5), (5, 1))
+    >>> centroid(a)
+    array([2, 3])
+    """
+
+    a = np.asarray(a)
+
+    a_s = np.sum(a)
+
+    ranges = [np.arange(0, a.shape[i]) for i in range(a.ndim)]
+    coordinates = np.meshgrid(*ranges)
+
+    a_ci = []
+    for axis in coordinates:
+        axis = np.transpose(axis)
+        # Aligning axis for N-D arrays where N is in range [3, :math:`\infty`]
+        for i in range(axis.ndim - 2, 0, -1):
+            axis = np.rollaxis(axis, i - 1, axis.ndim)
+
+        a_ci.append(np.sum(axis * a) // a_s)
+
+    return np.array(a_ci).astype(np.int_)

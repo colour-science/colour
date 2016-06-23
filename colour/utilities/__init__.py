@@ -29,7 +29,8 @@ from .array import (
     row_as_diagonal,
     dot_vector,
     dot_matrix,
-    orient)
+    orient,
+    centroid)
 from .data_structures import (
     ArbitraryPrecisionMapping,
     Lookup,
@@ -61,7 +62,8 @@ __all__ += ['as_numeric',
             'row_as_diagonal',
             'dot_vector',
             'dot_matrix',
-            'orient']
+            'orient',
+            'centroid']
 __all__ += ['ArbitraryPrecisionMapping',
             'Lookup',
             'Structure',
