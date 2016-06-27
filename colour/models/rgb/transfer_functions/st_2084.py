@@ -2,10 +2,11 @@
 # -*- coding: utf-8 -*-
 
 """
-SMPTE ST 2084:2014 OETF (OECF) and EOTF (EOCF)
-==============================================
+SMPTE ST 2084:2014
+==================
 
-Defines *SMPTE ST 2084:2014* OETF (OECF) and EOTF (EOCF):
+Defines *SMPTE ST 2084:2014* opto-electrical transfer function (OETF / OECF)
+and electro-optical transfer function (EOTF / EOCF):
 
 -   :func:`eotf_ST2084`
 -   :func:`oetf_ST2084`
@@ -50,7 +51,8 @@ ST_2084_CONSTANTS = Structure(m_1=2610 / 4096 * (1 / 4),
                               c_2=2413 / 4096 * 32,
                               c_3=2392 / 4096 * 32)
 """
-*SMPTE ST 2084:2014* OETF (OECF) and EOTF (EOCF) constants.
+*SMPTE ST 2084:2014* opto-electrical transfer function (OETF / OECF) and
+electro-optical transfer function (EOTF / EOCF) constants.
 
 ST_2084_CONSTANTS : Structure
 """
@@ -58,8 +60,8 @@ ST_2084_CONSTANTS : Structure
 
 def oetf_ST2084(C, L_p=10000):
     """
-    Defines *SMPTE ST 2084:2014* optimised perceptual OETF (OECF)
-    opto-electronic transfer function.
+    Defines *SMPTE ST 2084:2014* optimised perceptual opto-electronic transfer
+    function (OETF / OECF).
 
     Parameters
     ----------
@@ -95,8 +97,8 @@ def oetf_ST2084(C, L_p=10000):
 
 def eotf_ST2084(N, L_p=10000):
     """
-    Defines *SMPTE ST 2084:2014* optimised perceptual EOTF (EOCF)
-    electro-optical transfer function.
+    Defines *SMPTE ST 2084:2014* optimised perceptual electro-optical transfer
+    function (EOTF / EOCF).
 
     This perceptual quantizer (PQ) has been modeled by Dolby Laboratories
     using Barten (1999) contrast sensitivity function.

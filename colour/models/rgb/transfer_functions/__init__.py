@@ -217,7 +217,7 @@ OETFS = CaseInsensitiveMapping(
      'ST 2084': oetf_ST2084,
      'sRGB': oetf_sRGB})
 """
-Supported electro-optical transfer functions OETF (OECF).
+Supported opto-electrical transfer functions (OETF / OECF).
 
 OETFS : CaseInsensitiveMapping
     **{'sRGB', 'BT.1886', 'BT.2020', 'BT.709', 'DCI-P3', 'ProPhoto RGB',
@@ -228,8 +228,8 @@ OETFS : CaseInsensitiveMapping
 def oetf(value, function='sRGB', **kwargs):
     """
     Encodes estimated tristimulus values in a scene to :math:`R'G'B'` video
-    component signal value using given OETF (OECF) opto-electronic transfer
-    function.
+    component signal value using given opto-electronic transfer function
+    (OETF / OECF).
 
     Parameters
     ----------
@@ -274,7 +274,7 @@ EOTFS = CaseInsensitiveMapping(
      'ST 2084': eotf_ST2084,
      'sRGB': eotf_sRGB})
 """
-Supported opto-electrical transfer functions EOTF (EOCF).
+Supported electro-optical transfer functions (EOTF / EOCF).
 
 EOTFS : CaseInsensitiveMapping
     **{'sRGB', 'BT.1886', 'BT.2020', 'BT.709', 'DCI-P3', 'ProPhoto RGB',
@@ -285,7 +285,7 @@ EOTFS : CaseInsensitiveMapping
 def eotf(value, function='sRGB', **kwargs):
     """
     Decodes :math:`R'G'B'` video component signal value to tristimulus values
-    at the display using given EOTF (EOCF) electro-optical transfer function.
+    at the display using given electro-optical transfer function (EOTF / EOCF).
 
     Parameters
     ----------

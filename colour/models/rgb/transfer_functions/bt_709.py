@@ -2,10 +2,11 @@
 # -*- coding: utf-8 -*-
 
 """
-ITU-R BT.709-6 OETF (OECF) and EOTF (EOCF)
-==========================================
+ITU-R BT.709-6
+==============
 
-Defines *ITU-R BT.709-6* OETF (OECF) and EOTF (EOCF):
+Defines *ITU-R BT.709-6* opto-electrical transfer function (OETF / OECF) and
+electro-optical transfer function (EOTF / EOCF):
 
 -   :func:`oetf_BT709`
 -   :func:`eotf_BT709`
@@ -44,8 +45,8 @@ __all__ = ['oetf_BT709',
 
 def oetf_BT709(value):
     """
-    Defines *Recommendation ITU-R BT.709-6* OETF (OECF) opto-electronic
-    transfer function.
+    Defines *Recommendation ITU-R BT.709-6* opto-electronic transfer function
+    (OETF / OECF).
 
     Parameters
     ----------
@@ -72,8 +73,8 @@ def oetf_BT709(value):
 
 def eotf_BT709(value):
     """
-    Defines *Recommendation ITU-R BT.709-6* EOTF (EOCF) electro-optical
-    transfer function.
+    Defines *Recommendation ITU-R BT.709-6* electro-optical transfer function
+    (EOTF / EOCF).
 
     Parameters
     ----------

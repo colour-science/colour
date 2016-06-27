@@ -2,10 +2,11 @@
 # -*- coding: utf-8 -*-
 
 """
-ITU-R BT.1886 OETF (OECF) and EOTF (EOCF)
-=========================================
+ITU-R BT.1886
+=============
 
-Defines *Recommendation ITU-R BT.1886* OETF (OECF) and EOTF (EOCF):
+Defines *Recommendation ITU-R BT.1886* opto-electrical transfer function
+(OETF / OECF) and electro-optical transfer function (EOTF / EOCF):
 
 -   :func:`oetf_BT1886`
 -   :func:`eotf_BT1886`
@@ -42,8 +43,8 @@ __all__ = ['oetf_BT1886',
 
 def oetf_BT1886(L, L_B=64, L_W=940):
     """
-    Defines *Recommendation ITU-R BT.1886* OETF (OECF) opto-electrical
-    transfer function.
+    Defines *Recommendation ITU-R BT.1886* opto-electrical transfer function
+    (OETF / OECF).
 
     Parameters
     ----------
@@ -93,8 +94,8 @@ def oetf_BT1886(L, L_B=64, L_W=940):
 
 def eotf_BT1886(V, L_B=64, L_W=940):
     """
-    Defines *Recommendation ITU-R BT.1886* EOTF (EOCF) electro-optical
-    transfer function.
+    Defines *Recommendation ITU-R BT.1886* electro-optical transfer function
+    (EOTF / EOCF).
 
     Parameters
     ----------

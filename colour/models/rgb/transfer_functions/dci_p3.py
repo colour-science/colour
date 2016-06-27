@@ -2,10 +2,11 @@
 # -*- coding: utf-8 -*-
 
 """
-DCI-P3 OETF (OECF) and EOTF (EOCF)
-==================================
+DCI-P3 Colourspace
+==================
 
-Defines the *DCI-P3* OETF (OECF) and EOTF (EOCF):
+Defines the *DCI-P3* colourspace opto-electrical transfer function
+(OETF / OECF) and electro-optical transfer function (EOTF / EOCF):
 
 -   :func:`oetf_DCIP3`
 -   :func:`eotf_DCIP3`
@@ -41,8 +42,8 @@ __all__ = ['oetf_DCIP3',
 
 def oetf_DCIP3(value):
     """
-    Defines the *DCI-P3* OETF (OECF) colourspace opto-electronic transfer
-    function.
+    Defines the *DCI-P3* colourspace opto-electronic transfer function
+    (OETF / OECF).
 
     Parameters
     ----------
@@ -67,8 +68,8 @@ def oetf_DCIP3(value):
 
 def eotf_DCIP3(value):
     """
-    Defines the *DCI-P3* colourspace EOTF (EOCF) electro-optical transfer
-    function.
+    Defines the *DCI-P3* colourspace electro-optical transfer function
+    (EOTF / EOCF).
 
     Parameters
     ----------
