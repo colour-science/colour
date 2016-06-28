@@ -59,8 +59,14 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import RGB_Colourspace, normalised_primary_matrix
-from colour.utilities import CaseInsensitiveMapping, Structure
+from colour.models.rgb import (
+    RGB_Colourspace,
+    normalised_primary_matrix,
+    linear_function,
+    log_encoding_ACEScc,
+    log_decoding_ACEScc,
+    log_encoding_ACESproxy,
+    log_decoding_ACESproxy)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -77,20 +83,9 @@ __all__ = ['AP0',
            'XYZ_TO_AP0_MATRIX',
            'AP1_TO_XYZ_MATRIX',
            'XYZ_TO_AP1_MATRIX',
-           'ACES_2065_1_OECF',
-           'ACES_2065_1_EOCF',
            'ACES_2065_1_COLOURSPACE',
-           'ACES_CG_OECF',
-           'ACES_CG_EOCF',
            'ACES_CG_COLOURSPACE',
-           'ACES_CC_OECF',
-           'ACES_CC_EOCF',
            'ACES_CC_COLOURSPACE',
-           'ACES_PROXY_10_CONSTANTS',
-           'ACES_PROXY_12_CONSTANTS',
-           'ACES_PROXY_CONSTANTS',
-           'ACES_PROXY_OECF',
-           'ACES_PROXY_EOCF',
            'ACES_PROXY_COLOURSPACE']
 
 AP0 = np.array(
@@ -160,57 +155,6 @@ XYZ_TO_AP1_MATRIX = np.linalg.inv(AP1_TO_XYZ_MATRIX)
 XYZ_TO_AP1_MATRIX : array_like, (3, 3)
 """
 
-
-def _aces_2065_1_OECF(value):
-    """
-    Defines the *ACES2065-1* colourspace opto-electronic conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Companded value.
-    """
-
-    return value
-
-
-def _aces_2065_1_EOCF(value):
-    """
-    Defines the *ACES2065-1* colourspace electro-optical conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Companded value.
-    """
-
-    return value
-
-
-ACES_2065_1_OECF = _aces_2065_1_OECF
-"""
-Opto-electronic conversion function of *ACES2065-1* colourspace.
-
-ACES_2065_1_OECF : object
-"""
-
-ACES_2065_1_EOCF = _aces_2065_1_EOCF
-"""
-Electro-optical conversion function of *ACES2065-1* colourspace.
-
-ACES_2065_1_EOCF : object
-"""
-
 ACES_2065_1_COLOURSPACE = RGB_Colourspace(
     'ACES2065-1',
     AP0,
@@ -218,64 +162,13 @@ ACES_2065_1_COLOURSPACE = RGB_Colourspace(
     ACES_ILLUMINANT,
     AP0_TO_XYZ_MATRIX,
     XYZ_TO_AP0_MATRIX,
-    ACES_2065_1_OECF,
-    ACES_2065_1_EOCF)
+    linear_function,
+    linear_function)
 """
 *ACES2065-1* colourspace, base encoding, used for exchange of full fidelity
 images and archiving.
 
 ACES_2065_1_COLOURSPACE : RGB_Colourspace
-"""
-
-
-def _aces_cg_OECF(value):
-    """
-    Defines the *ACEScg* colourspace opto-electronic conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Companded value.
-    """
-
-    return value
-
-
-def _aces_cg_EOCF(value):
-    """
-    Defines the *ACEScg* colourspace electro-optical conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Companded value.
-    """
-
-    return value
-
-
-ACES_CG_OECF = _aces_cg_OECF
-"""
-Opto-electronic conversion function of *ACEScg* colourspace.
-
-ACES_CG_OECF : object
-"""
-
-ACES_CG_EOCF = _aces_cg_EOCF
-"""
-Electro-optical conversion function of *ACEScg* colourspace.
-
-ACES_CG_EOCF : object
 """
 
 ACES_CG_COLOURSPACE = RGB_Colourspace(
@@ -285,82 +178,13 @@ ACES_CG_COLOURSPACE = RGB_Colourspace(
     ACES_ILLUMINANT,
     AP1_TO_XYZ_MATRIX,
     XYZ_TO_AP1_MATRIX,
-    ACES_CG_OECF,
-    ACES_CG_EOCF)
+    linear_function,
+    linear_function)
 """
 *ACEScg* colourspace, a working space for paint/compositor applications that
 don’t support ACES2065-1 or ACEScc.
 
 ACES_CG_COLOURSPACE : RGB_Colourspace
-"""
-
-
-def _aces_cc_OECF(value):
-    """
-    Defines the *ACEScc* colourspace opto-electronic conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Companded value.
-    """
-
-    value = np.asarray(value)
-
-    output = np.where(value < 0,
-                      (np.log2(2 ** -15 * 0.5) + 9.72) / 17.52,
-                      (np.log2(2 ** -16 + value * 0.5) + 9.72) / 17.52)
-    output = np.where(value >= 2 ** -15,
-                      (np.log2(value) + 9.72) / 17.52,
-                      output)
-
-    return output
-
-
-def _aces_cc_EOCF(value):
-    """
-    Defines the *ACEScc* colourspace electro-optical conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Companded value.
-    """
-
-    value = np.asarray(value)
-
-    output = np.where(value < (9.72 - 15) / 17.52,
-                      (2 ** (value * 17.52 - 9.72) - 2 ** -16) * 2,
-                      2 ** (value * 17.52 - 9.72))
-    output = np.where(value >= (np.log2(65504) + 9.72) / 17.52,
-                      65504,
-                      output)
-
-    return output
-
-
-ACES_CC_OECF = _aces_cc_OECF
-"""
-Opto-electronic conversion function of *ACEScc* colourspace.
-
-ACES_CC_OECF : object
-"""
-
-ACES_CC_EOCF = _aces_cc_EOCF
-"""
-Electro-optical conversion function of *ACEScc* colourspace.
-
-ACES_CC_EOCF : object
 """
 
 ACES_CC_COLOURSPACE = RGB_Colourspace(
@@ -370,128 +194,13 @@ ACES_CC_COLOURSPACE = RGB_Colourspace(
     ACES_ILLUMINANT,
     AP1_TO_XYZ_MATRIX,
     XYZ_TO_AP1_MATRIX,
-    ACES_CC_OECF,
-    ACES_CC_EOCF)
+    log_encoding_ACEScc,
+    log_decoding_ACEScc)
 """
 *ACEScc* colourspace, a working space for color correctors, target for ASC-CDL
 values created on-set.
 
 ACES_CC_COLOURSPACE : RGB_Colourspace
-"""
-
-ACES_PROXY_10_CONSTANTS = Structure(
-    CV_min=64,
-    CV_max=940,
-    steps_per_stop=50,
-    mid_CV_offset=425,
-    mid_log_offset=2.5)
-"""
-*ACESproxy* 10 bit colourspace constants.
-
-ACES_PROXY_10_CONSTANTS : Structure
-"""
-
-ACES_PROXY_12_CONSTANTS = Structure(
-    CV_min=256,
-    CV_max=3760,
-    steps_per_stop=200,
-    mid_CV_offset=1700,
-    mid_log_offset=2.5)
-"""
-*ACESproxy* 12 bit colourspace constants.
-
-ACES_PROXY_12_CONSTANTS : Structure
-"""
-
-ACES_PROXY_CONSTANTS = CaseInsensitiveMapping(
-    {'10 Bit': ACES_PROXY_10_CONSTANTS,
-     '12 Bit': ACES_PROXY_12_CONSTANTS})
-"""
-Aggregated *ACESproxy* colourspace constants.
-
-ACES_PROXY_CONSTANTS : CaseInsensitiveMapping
-    **{'10 Bit', '12 Bit'}**
-"""
-
-
-def _aces_proxy_OECF(value, bit_depth='10 Bit'):
-    """
-    Defines the *ACESproxy* colourspace opto-electronic conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-    bit_depth : unicode, optional
-        **{'10 Bit', '12 Bit'}**,
-        *ACESproxy* bit depth.
-
-    Returns
-    -------
-    numeric or ndarray
-        Companded value.
-    """
-
-    value = np.asarray(value)
-
-    constants = ACES_PROXY_CONSTANTS.get(bit_depth)
-
-    CV_min = np.resize(constants.CV_min, value.shape)
-    CV_max = np.resize(constants.CV_max, value.shape)
-
-    def float_2_cv(x):
-        """
-        Converts given numeric to code value.
-        """
-
-        return np.maximum(CV_min, np.minimum(CV_max, np.round(x)))
-
-    output = np.where(value > 2 ** -9.72,
-                      float_2_cv((np.log2(value) + constants.mid_log_offset) *
-                                 constants.steps_per_stop +
-                                 constants.mid_CV_offset),
-                      np.resize(CV_min, value.shape))
-    return output
-
-
-def _aces_proxy_EOCF(value, bit_depth='10 Bit'):
-    """
-    Defines the *ACESproxy* colourspace electro-optical conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-    bit_depth : unicode, optional
-        **{'10 Bit', '12 Bit'}**,
-        *ACESproxy* bit depth.
-
-    Returns
-    -------
-    numeric or ndarray
-        Companded value.
-    """
-
-    value = np.asarray(value)
-
-    constants = ACES_PROXY_CONSTANTS.get(bit_depth)
-
-    return (2 ** (((value - constants.mid_CV_offset) /
-                   constants.steps_per_stop - constants.mid_log_offset)))
-
-
-ACES_PROXY_OECF = _aces_proxy_OECF
-"""
-Opto-electronic conversion function of *ACESproxy* colourspace.
-
-ACES_PROXY_OECF : object
-"""
-
-ACES_PROXY_EOCF = _aces_proxy_EOCF
-"""
-Electro-optical conversion function of *ACESproxy* colourspace.
-
-ACES_PROXY_EOCF : object
 """
 
 ACES_PROXY_COLOURSPACE = RGB_Colourspace(
@@ -501,8 +210,8 @@ ACES_PROXY_COLOURSPACE = RGB_Colourspace(
     ACES_ILLUMINANT,
     AP1_TO_XYZ_MATRIX,
     XYZ_TO_AP1_MATRIX,
-    ACES_PROXY_OECF,
-    ACES_PROXY_EOCF)
+    log_encoding_ACESproxy,
+    log_decoding_ACESproxy)
 """
 *ACESproxy* colourspace, a lightweight encoding for transmission over HD-SDI
 (or other production transmission schemes), onset look management. Not

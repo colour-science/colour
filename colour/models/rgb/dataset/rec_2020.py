@@ -17,12 +17,11 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  International Telecommunication Union. (2014). Parameter values for
+.. [1]  International Telecommunication Union. (2015). Parameter values for
         ultra-high definition television systems for production and
         international programme exchange. In Recommendation ITU-R BT.2020
-        (Vol. 1, pp. 1–8). Retrieved from
-        http://www.itu.int/dms_pubrec/itu-r/rec/bt/\
-R-REC-BT.2020-1-201406-I!!PDF-E.pdf
+        (Vol. 1, pp. 1–8). Retrieved from https://www.itu.int/dms_pubrec/\
+itu-r/rec/bt/R-REC-BT.2020-2-201510-I!!PDF-E.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -30,8 +29,11 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import RGB_Colourspace, normalised_primary_matrix
-from colour.utilities import Structure
+from colour.models.rgb import (
+    RGB_Colourspace,
+    normalised_primary_matrix,
+    oetf_BT2020,
+    eotf_BT2020)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -45,9 +47,6 @@ __all__ = ['REC_2020_PRIMARIES',
            'REC_2020_WHITEPOINT',
            'REC_2020_TO_XYZ_MATRIX',
            'XYZ_TO_REC_2020_MATRIX',
-           'REC_2020_CONSTANTS',
-           'REC_2020_OECF',
-           'REC_2020_EOCF',
            'REC_2020_COLOURSPACE']
 
 REC_2020_PRIMARIES = np.array(
@@ -90,81 +89,6 @@ XYZ_TO_REC_2020_MATRIX = np.linalg.inv(REC_2020_TO_XYZ_MATRIX)
 XYZ_TO_REC_2020_MATRIX : array_like, (3, 3)
 """
 
-REC_2020_CONSTANTS = Structure(alpha=lambda x: 1.099 if x else 1.0993,
-                               beta=lambda x: 0.018 if x else 0.0181)
-"""
-*Rec. 2020* colourspace constants.
-
-REC_2020_CONSTANTS : Structure
-"""
-
-
-def _rec_2020_OECF(value, is_10_bits_system=True):
-    """
-    Defines the *Rec. 2020* colourspace opto-electronic conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-    is_10_bits_system : bool
-        *Rec. 709* *alpha* and *beta* constants are used if system is 10 bit.
-
-    Returns
-    -------
-    numeric or ndarray
-        Companded value.
-    """
-
-    value = np.asarray(value)
-
-    a = REC_2020_CONSTANTS.alpha(is_10_bits_system)
-    b = REC_2020_CONSTANTS.beta(is_10_bits_system)
-    return np.where(value < b,
-                    value * 4.5,
-                    a * (value ** 0.45) - (a - 1))
-
-
-def _rec_2020_EOCF(value, is_10_bits_system=True):
-    """
-    Defines the *Rec. 2020* colourspace electro-optical conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-    is_10_bits_system : bool
-        *Rec. 709* *alpha* and *beta* constants are used if system is 10 bit.
-
-    Returns
-    -------
-    numeric or ndarray
-        Companded value.
-    """
-
-    value = np.asarray(value)
-
-    a = REC_2020_CONSTANTS.alpha(is_10_bits_system)
-    b = REC_2020_CONSTANTS.beta(is_10_bits_system)
-    return np.where(value < _rec_2020_OECF(b),
-                    value / 4.5,
-                    ((value + (a - 1)) / a) ** (1 / 0.45))
-
-
-REC_2020_OECF = _rec_2020_OECF
-"""
-Opto-electronic conversion function of *Rec. 2020* colourspace.
-
-REC_2020_OECF : object
-"""
-
-REC_2020_EOCF = _rec_2020_EOCF
-"""
-Electro-optical conversion function of *Rec. 2020* colourspace.
-
-REC_2020_EOCF : object
-"""
-
 REC_2020_COLOURSPACE = RGB_Colourspace(
     'Rec. 2020',
     REC_2020_PRIMARIES,
@@ -172,8 +96,8 @@ REC_2020_COLOURSPACE = RGB_Colourspace(
     REC_2020_ILLUMINANT,
     REC_2020_TO_XYZ_MATRIX,
     XYZ_TO_REC_2020_MATRIX,
-    REC_2020_OECF,
-    REC_2020_EOCF)
+    oetf_BT2020,
+    eotf_BT2020)
 """
 *Rec. 2020* colourspace.
 

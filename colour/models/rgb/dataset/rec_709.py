@@ -17,12 +17,11 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  International Telecommunication Union. (2002). Parameter values for
+.. [1]  International Telecommunication Union. (2015). Parameter values for
         the HDTV standards for production and international programme exchange
-        BT Series Broadcasting service. In Recommendation ITU-R BT.709-5
-        (Vol. 5, pp. 1–32). Retrieved from
-        http://www.itu.int/dms_pubrec/itu-r/rec/bt/\
-R-REC-BT.709-5-200204-I!!PDF-E.pdf
+        BT Series Broadcasting service. In Recommendation ITU-R BT.709-6
+        (Vol. 5, pp. 1–32). Retrieved from https://www.itu.int/dms_pubrec/\
+itu-r/rec/bt/R-REC-BT.709-6-201506-I!!PDF-E.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -30,8 +29,10 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import RGB_Colourspace
-from colour.utilities import warning
+from colour.models.rgb import (
+    RGB_Colourspace,
+    oetf_BT709,
+    eotf_BT709)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -45,8 +46,6 @@ __all__ = ['REC_709_PRIMARIES',
            'REC_709_ILLUMINANT',
            'REC_709_TO_XYZ_MATRIX',
            'XYZ_TO_REC_709_MATRIX',
-           'REC_709_OECF',
-           'REC_709_EOCF',
            'REC_709_COLOURSPACE']
 
 REC_709_PRIMARIES = np.array(
@@ -91,83 +90,6 @@ XYZ_TO_REC_709_MATRIX = np.linalg.inv(REC_709_TO_XYZ_MATRIX)
 XYZ_TO_REC_709_MATRIX : array_like, (3, 3)
 """
 
-
-def _rec_709_OECF(value):
-    """
-    Defines the *Rec. 709* colourspace opto-electronic conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Companded value.
-    """
-
-    value = np.asarray(value)
-
-    return np.where(value < 0.018,
-                    value * 4.5,
-                    1.099 * (value ** 0.45) - 0.099)
-
-
-def _rec_709_EOCF(value):
-    """
-    Defines the *Rec. 709* colourspace electro-optical conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Companded value.
-
-    Warning
-    -------
-    *Recommendation ITU-R BT.709-5* doesn't specify an electro-optical
-    conversion function. This definition is used for symmetry in unit tests and
-    other computations but should not be used as an *EOCF* for *Rec. 709*
-    colourspace!
-    """
-
-    warning(('*Recommendation ITU-R BT.709-5* doesn\'t specify an '
-             'electro-optical conversion function. This definition is used '
-             'for symmetry in unit tests and others computations but should '
-             'not be used as an *EOCF* for *Rec. 709* colourspace!'))
-
-    value = np.asarray(value)
-
-    return np.where(value < _rec_709_OECF(0.018),
-                    value / 4.5,
-                    ((value + 0.099) / 1.099) ** (1 / 0.45))
-
-
-REC_709_OECF = _rec_709_OECF
-"""
-Opto-electronic conversion function of *Rec. 709* colourspace.
-
-REC_709_OECF : object
-"""
-
-REC_709_EOCF = _rec_709_EOCF
-"""
-Electro-optical conversion function of *Rec. 709* colourspace.
-
-REC_709_EOCF : object
-
-Warning
--------
-*Recommendation ITU-R BT.709-5* doesn't specify an electro-optical conversion
-function. This definition is used for symmetry in unit tests and other
-computations but should not be used as an *EOCF* for *Rec. 709* colourspace!
-"""
-
 REC_709_COLOURSPACE = RGB_Colourspace(
     'Rec. 709',
     REC_709_PRIMARIES,
@@ -175,8 +97,8 @@ REC_709_COLOURSPACE = RGB_Colourspace(
     REC_709_ILLUMINANT,
     REC_709_TO_XYZ_MATRIX,
     XYZ_TO_REC_709_MATRIX,
-    REC_709_OECF,
-    REC_709_EOCF)
+    oetf_BT709,
+    eotf_BT709)
 """
 *Rec. 709* colourspace.
 

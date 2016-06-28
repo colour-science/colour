@@ -61,6 +61,10 @@ class TestAsNumeric(unittest.TestCase):
         np.testing.assert_almost_equal(as_numeric(np.array([1, 2, 3])),
                                        np.array([1, 2, 3]))
 
+        self.assertIsInstance(as_numeric(1), float)
+
+        self.assertIsInstance(as_numeric(1, int), int)
+
 
 class TestClosest(unittest.TestCase):
     """

@@ -34,7 +34,7 @@ __all__ = ['as_numeric',
            'dot_matrix']
 
 
-def as_numeric(x):
+def as_numeric(x, type_=float):
     """
     Converts given :math:`x` variable to *numeric*. In the event where
     :math:`x` cannot be converted, it is passed as is.
@@ -43,6 +43,8 @@ def as_numeric(x):
     ----------
     x : object
         Variable to convert.
+    type_ : object
+        Type to use for conversion.
 
     Returns
     -------
@@ -62,7 +64,7 @@ def as_numeric(x):
     """
 
     try:
-        return float(x)
+        return type_(x)
     except TypeError:
         return x
 

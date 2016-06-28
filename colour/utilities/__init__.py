@@ -15,7 +15,8 @@ from .common import (
     is_iterable,
     is_string,
     is_numeric,
-    is_integer)
+    is_integer,
+    filter_kwargs)
 from .array import (
     as_numeric,
     closest,
@@ -46,7 +47,8 @@ __all__ = ['handle_numpy_errors',
            'is_iterable',
            'is_string',
            'is_numeric',
-           'is_integer']
+           'is_integer',
+           'filter_kwargs']
 __all__ += ['as_numeric',
             'closest',
             'normalise_maximum',

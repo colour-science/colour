@@ -24,9 +24,13 @@ References
 from __future__ import division, unicode_literals
 
 import numpy as np
+from functools import partial
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import RGB_Colourspace, normalised_primary_matrix
+from colour.models.rgb import (
+    RGB_Colourspace,
+    gamma_function,
+    normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -40,8 +44,6 @@ __all__ = ['MAX_RGB_PRIMARIES',
            'MAX_RGB_WHITEPOINT',
            'MAX_RGB_TO_XYZ_MATRIX',
            'XYZ_TO_MAX_RGB_MATRIX',
-           'MAX_RGB_OECF',
-           'MAX_RGB_EOCF',
            'MAX_RGB_COLOURSPACE']
 
 MAX_RGB_PRIMARIES = np.array(
@@ -84,61 +86,6 @@ XYZ_TO_MAX_RGB_MATRIX = np.linalg.inv(MAX_RGB_TO_XYZ_MATRIX)
 XYZ_TO_MAX_RGB_MATRIX : array_like, (3, 3)
 """
 
-
-def _max_rgb_OECF(value):
-    """
-    Defines the *Max RGB* colourspace opto-electronic conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Companded value.
-    """
-
-    value = np.asarray(value)
-
-    return value ** (1 / 2.2)
-
-
-def _max_rgb_EOCF(value):
-    """
-    Defines the *Max RGB* colourspace electro-optical conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Companded value.
-    """
-
-    value = np.asarray(value)
-
-    return value ** 2.2
-
-
-MAX_RGB_OECF = _max_rgb_OECF
-"""
-Opto-electronic conversion function of *Max RGB* colourspace.
-
-MAX_RGB_OECF : object
-"""
-
-MAX_RGB_EOCF = _max_rgb_EOCF
-"""
-Electro-optical conversion function of *Max RGB* colourspace.
-
-MAX_RGB_EOCF : object
-"""
-
 MAX_RGB_COLOURSPACE = RGB_Colourspace(
     'Max RGB',
     MAX_RGB_PRIMARIES,
@@ -146,8 +93,8 @@ MAX_RGB_COLOURSPACE = RGB_Colourspace(
     MAX_RGB_ILLUMINANT,
     MAX_RGB_TO_XYZ_MATRIX,
     XYZ_TO_MAX_RGB_MATRIX,
-    MAX_RGB_OECF,
-    MAX_RGB_EOCF)
+    partial(gamma_function, exponent=1 / 2.2),
+    partial(gamma_function, exponent=2.2))
 """
 *Max RGB* colourspace.
 

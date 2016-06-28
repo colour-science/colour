@@ -36,7 +36,11 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import RGB_Colourspace, normalised_primary_matrix
+from colour.models.rgb import (
+    RGB_Colourspace,
+    normalised_primary_matrix,
+    oetf_DCIP3,
+    eotf_DCIP3)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -53,8 +57,6 @@ __all__ = ['DCI_P3_PRIMARIES',
            'XYZ_TO_DCI_P3_MATRIX',
            'DCI_P3_P_TO_XYZ_MATRIX',
            'XYZ_TO_DCI_P3_P_MATRIX',
-           'DCI_P3_OECF',
-           'DCI_P3_EOCF',
            'DCI_P3_COLOURSPACE',
            'DCI_P3_P_COLOURSPACE']
 
@@ -131,61 +133,6 @@ XYZ_TO_DCI_P3_P_MATRIX = np.linalg.inv(DCI_P3_P_TO_XYZ_MATRIX)
 XYZ_TO_DCI_P3_P_MATRIX : array_like, (3, 3)
 """
 
-
-def _dci_p3_OECF(value):
-    """
-    Defines the *DCI-P3* colourspace opto-electronic conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Companded value.
-    """
-
-    value = np.asarray(value)
-
-    return 4095 * (value / 52.37) ** (1 / 2.6)
-
-
-def _dci_p3_EOCF(value):
-    """
-    Defines the *DCI-P3* colourspace electro-optical conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Companded value.
-    """
-
-    value = np.asarray(value)
-
-    return 52.37 * (value / 4095) ** 2.6
-
-
-DCI_P3_OECF = _dci_p3_OECF
-"""
-Opto-electronic conversion function of *DCI-P3* colourspace.
-
-DCI_P3_OECF : object
-"""
-
-DCI_P3_EOCF = _dci_p3_EOCF
-"""
-Electro-optical conversion function of *DCI-P3* colourspace.
-
-DCI_P3_EOCF : object
-"""
-
 DCI_P3_COLOURSPACE = RGB_Colourspace(
     'DCI-P3',
     DCI_P3_PRIMARIES,
@@ -193,8 +140,8 @@ DCI_P3_COLOURSPACE = RGB_Colourspace(
     DCI_P3_ILLUMINANT,
     DCI_P3_TO_XYZ_MATRIX,
     XYZ_TO_DCI_P3_MATRIX,
-    DCI_P3_OECF,
-    DCI_P3_EOCF)
+    oetf_DCIP3,
+    eotf_DCIP3)
 """
 *DCI-P3* colourspace.
 
@@ -208,8 +155,8 @@ DCI_P3_P_COLOURSPACE = RGB_Colourspace(
     DCI_P3_ILLUMINANT,
     DCI_P3_P_TO_XYZ_MATRIX,
     XYZ_TO_DCI_P3_P_MATRIX,
-    DCI_P3_OECF,
-    DCI_P3_EOCF)
+    oetf_DCIP3,
+    eotf_DCIP3)
 """
 *DCI-P3+* colourspace.
 

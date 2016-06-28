@@ -21,12 +21,11 @@ References
         Multimedia systems and equipment - Colour measurement and management -
         Part 2-1: Colour management - Default RGB colour space - sRGB, 51.
         Retrieved from https://webstore.iec.ch/publication/6169
-.. [2]  International Telecommunication Union. (2002). Parameter values for
+.. [2]  International Telecommunication Union. (2015). Parameter values for
         the HDTV standards for production and international programme exchange
-        BT Series Broadcasting service. In Recommendation ITU-R BT.709-5
-        (Vol. 5, pp. 1–32). Retrieved from
-        http://www.itu.int/dms_pubrec/itu-r/rec/bt/\
-R-REC-BT.709-5-200204-I!!PDF-E.pdf
+        BT Series Broadcasting service. In Recommendation ITU-R BT.709-6
+        (Vol. 5, pp. 1–32). Retrieved from https://www.itu.int/dms_pubrec/\
+itu-r/rec/bt/R-REC-BT.709-6-201506-I!!PDF-E.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -34,7 +33,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import RGB_Colourspace
+from colour.models.rgb import RGB_Colourspace, oetf_sRGB, eotf_sRGB
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -48,8 +47,6 @@ __all__ = ['sRGB_PRIMARIES',
            'sRGB_WHITEPOINT',
            'sRGB_TO_XYZ_MATRIX',
            'XYZ_TO_sRGB_MATRIX',
-           'sRGB_OECF',
-           'sRGB_EOCF',
            'sRGB_COLOURSPACE']
 
 sRGB_PRIMARIES = np.array(
@@ -94,65 +91,6 @@ XYZ_TO_sRGB_MATRIX = np.linalg.inv(sRGB_TO_XYZ_MATRIX)
 XYZ_TO_sRGB_MATRIX : array_like, (3, 3)
 """
 
-
-def _srgb_OECF(value):
-    """
-    Defines the *sRGB* colourspace opto-electronic conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Companded value.
-    """
-
-    value = np.asarray(value)
-
-    return np.where(value <= 0.0031308,
-                    value * 12.92,
-                    1.055 * (value ** (1 / 2.4)) - 0.055)
-
-
-def _srgb_EOCF(value):
-    """
-    Defines the *sRGB* colourspace electro-optical conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Companded value.
-    """
-
-    value = np.asarray(value)
-
-    return np.where(value <= _srgb_OECF(0.0031308),
-                    value / 12.92,
-                    ((value + 0.055) / 1.055) ** 2.4)
-
-
-sRGB_OECF = _srgb_OECF
-"""
-Opto-electronic conversion function of *sRGB* colourspace.
-
-sRGB_OECF : object
-"""
-
-sRGB_EOCF = _srgb_EOCF
-"""
-Electro-optical conversion function of *sRGB* colourspace.
-
-sRGB_EOCF : object
-"""
-
 sRGB_COLOURSPACE = RGB_Colourspace(
     'sRGB',
     sRGB_PRIMARIES,
@@ -160,8 +98,8 @@ sRGB_COLOURSPACE = RGB_Colourspace(
     sRGB_ILLUMINANT,
     sRGB_TO_XYZ_MATRIX,
     XYZ_TO_sRGB_MATRIX,
-    sRGB_OECF,
-    sRGB_EOCF)
+    oetf_sRGB,
+    eotf_sRGB)
 """
 *sRGB* colourspace.
 

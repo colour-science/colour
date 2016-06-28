@@ -34,7 +34,11 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import RGB_Colourspace, normalised_primary_matrix
+from colour.models.rgb import (
+    RGB_Colourspace,
+    normalised_primary_matrix,
+    log_encoding_REDLog,
+    log_decoding_REDLog)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -48,8 +52,6 @@ __all__ = ['RED_COLOR_PRIMARIES',
            'RED_COLOR_WHITEPOINT',
            'RED_COLOR_TO_XYZ_MATRIX',
            'XYZ_TO_RED_COLOR_MATRIX',
-           'RED_LOG_OECF',
-           'RED_LOG_EOCF',
            'RED_COLOR_COLOURSPACE',
            'RED_COLOR_2_PRIMARIES',
            'RED_COLOR_2_ILLUMINANT',
@@ -122,72 +124,6 @@ XYZ_TO_RED_COLOR_MATRIX = np.linalg.inv(RED_COLOR_TO_XYZ_MATRIX)
 XYZ_TO_RED_COLOR_MATRIX : array_like, (3, 3)
 """
 
-
-def _linear_to_red_log(
-        value,
-        black_offset=10 ** ((0 - 1023) / 511)):
-    """
-    Defines the *REDLog* opto-electronic conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-    black_offset : numeric or array_like
-        Black offset.
-
-    Returns
-    -------
-    numeric or ndarray
-        Companded value.
-    """
-
-    value = np.asarray(value)
-
-    return ((1023 +
-             511 * np.log10(value * (1 - black_offset) + black_offset)) / 1023)
-
-
-def _red_log_to_linear(
-        value,
-        black_offset=10 ** ((0 - 1023) / 511)):
-    """
-    Defines the *REDLog* electro-optical conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-    black_offset : numeric or array_like
-        Black offset.
-
-    Returns
-    -------
-    numeric or ndarray
-        Companded value.
-    """
-
-    value = np.asarray(value)
-
-    return (((10 **
-              ((1023 * value - 1023) / 511)) - black_offset) /
-            (1 - black_offset))
-
-
-RED_LOG_OECF = _linear_to_red_log
-"""
-Opto-electronic conversion function of *REDLog*.
-
-RED_LOG_OECF : object
-"""
-
-RED_LOG_EOCF = _red_log_to_linear
-"""
-Electro-optical conversion function of *REDLog* to linear.
-
-RED_LOG_EOCF : object
-"""
-
 RED_COLOR_COLOURSPACE = RGB_Colourspace(
     'REDcolor',
     RED_COLOR_PRIMARIES,
@@ -195,8 +131,8 @@ RED_COLOR_COLOURSPACE = RGB_Colourspace(
     RED_COLOR_ILLUMINANT,
     RED_COLOR_TO_XYZ_MATRIX,
     XYZ_TO_RED_COLOR_MATRIX,
-    RED_LOG_OECF,
-    RED_LOG_EOCF)
+    log_encoding_REDLog,
+    log_decoding_REDLog)
 """
 *REDcolor* colourspace.
 
@@ -249,8 +185,8 @@ RED_COLOR_2_COLOURSPACE = RGB_Colourspace(
     RED_COLOR_2_ILLUMINANT,
     RED_COLOR_2_TO_XYZ_MATRIX,
     XYZ_TO_RED_COLOR_2_MATRIX,
-    RED_LOG_OECF,
-    RED_LOG_EOCF)
+    log_encoding_REDLog,
+    log_decoding_REDLog)
 """
 *REDcolor2* colourspace.
 
@@ -303,8 +239,8 @@ RED_COLOR_3_COLOURSPACE = RGB_Colourspace(
     RED_COLOR_3_ILLUMINANT,
     RED_COLOR_3_TO_XYZ_MATRIX,
     XYZ_TO_RED_COLOR_3_MATRIX,
-    RED_LOG_OECF,
-    RED_LOG_EOCF)
+    log_encoding_REDLog,
+    log_decoding_REDLog)
 """
 *REDcolor3* colourspace.
 
@@ -357,8 +293,8 @@ RED_COLOR_4_COLOURSPACE = RGB_Colourspace(
     RED_COLOR_4_ILLUMINANT,
     RED_COLOR_4_TO_XYZ_MATRIX,
     XYZ_TO_RED_COLOR_4_MATRIX,
-    RED_LOG_OECF,
-    RED_LOG_EOCF)
+    log_encoding_REDLog,
+    log_decoding_REDLog)
 """
 *REDcolor4* colourspace.
 
@@ -411,8 +347,8 @@ DRAGON_COLOR_COLOURSPACE = RGB_Colourspace(
     DRAGON_COLOR_ILLUMINANT,
     DRAGON_COLOR_TO_XYZ_MATRIX,
     XYZ_TO_DRAGON_COLOR_MATRIX,
-    RED_LOG_OECF,
-    RED_LOG_EOCF)
+    log_encoding_REDLog,
+    log_decoding_REDLog)
 """
 *DRAGONcolor* colourspace.
 
@@ -465,8 +401,8 @@ DRAGON_COLOR_2_COLOURSPACE = RGB_Colourspace(
     DRAGON_COLOR_2_ILLUMINANT,
     DRAGON_COLOR_2_TO_XYZ_MATRIX,
     XYZ_TO_DRAGON_COLOR_2_MATRIX,
-    RED_LOG_OECF,
-    RED_LOG_EOCF)
+    log_encoding_REDLog,
+    log_decoding_REDLog)
 """
 *DRAGONcolor2* colourspace.
 

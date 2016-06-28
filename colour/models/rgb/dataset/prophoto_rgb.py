@@ -26,7 +26,10 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import RGB_Colourspace
+from colour.models.rgb import (
+    RGB_Colourspace,
+    oetf_ProPhotoRGB,
+    eotf_ProPhotoRGB)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -40,8 +43,6 @@ __all__ = ['PROPHOTO_RGB_PRIMARIES',
            'PROPHOTO_RGB_WHITEPOINT',
            'PROPHOTO_RGB_TO_XYZ_MATRIX',
            'XYZ_TO_PROPHOTO_RGB_MATRIX',
-           'PROPHOTO_RGB_OECF',
-           'PROPHOTO_RGB_EOCF',
            'PROPHOTO_RGB_COLOURSPACE']
 
 PROPHOTO_RGB_PRIMARIES = np.array(
@@ -87,65 +88,6 @@ XYZ_TO_PROPHOTO_RGB_MATRIX : array_like, (3, 3)
 """
 
 
-def _prophoto_rgb_OECF(value):
-    """
-    Defines the *ProPhoto RGB* colourspace opto-electronic conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Companded value.
-    """
-
-    value = np.asarray(value)
-
-    return np.where(value < 0.001953,
-                    value * 16,
-                    value ** (1 / 1.8))
-
-
-def _prophoto_rgb_EOCF(value):
-    """
-    Defines the *ProPhoto RGB* colourspace electro-optical conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Companded value.
-    """
-
-    value = np.asarray(value)
-
-    return np.where(
-        value < _prophoto_rgb_OECF(0.001953),
-        value / 16,
-        value ** 1.8)
-
-
-PROPHOTO_RGB_OECF = _prophoto_rgb_OECF
-"""
-Opto-electronic conversion function of *ProPhoto RGB* colourspace.
-
-PROPHOTO_RGB_OECF : object
-"""
-
-PROPHOTO_RGB_EOCF = _prophoto_rgb_EOCF
-"""
-Electro-optical conversion function of *ProPhoto RGB* colourspace.
-
-PROPHOTO_RGB_EOCF : object
-"""
-
 PROPHOTO_RGB_COLOURSPACE = RGB_Colourspace(
     'ProPhoto RGB',
     PROPHOTO_RGB_PRIMARIES,
@@ -153,8 +95,8 @@ PROPHOTO_RGB_COLOURSPACE = RGB_Colourspace(
     PROPHOTO_RGB_ILLUMINANT,
     PROPHOTO_RGB_TO_XYZ_MATRIX,
     XYZ_TO_PROPHOTO_RGB_MATRIX,
-    PROPHOTO_RGB_OECF,
-    PROPHOTO_RGB_EOCF)
+    oetf_ProPhotoRGB,
+    eotf_ProPhotoRGB)
 """
 *ProPhoto RGB* colourspace.
 

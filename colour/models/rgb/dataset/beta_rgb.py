@@ -24,9 +24,13 @@ References
 from __future__ import division, unicode_literals
 
 import numpy as np
+from functools import partial
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import RGB_Colourspace, normalised_primary_matrix
+from colour.models.rgb import (
+    RGB_Colourspace,
+    gamma_function,
+    normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -40,8 +44,6 @@ __all__ = ['BETA_RGB_PRIMARIES',
            'BETA_RGB_WHITEPOINT',
            'BETA_RGB_TO_XYZ_MATRIX',
            'XYZ_TO_BETA_RGB_MATRIX',
-           'BETA_RGB_OECF',
-           'BETA_RGB_EOCF',
            'BETA_RGB_COLOURSPACE']
 
 BETA_RGB_PRIMARIES = np.array(
@@ -84,61 +86,6 @@ XYZ_TO_BETA_RGB_MATRIX = np.linalg.inv(BETA_RGB_TO_XYZ_MATRIX)
 XYZ_TO_BETA_RGB_MATRIX : array_like, (3, 3)
 """
 
-
-def _beta_rgb_OECF(value):
-    """
-    Defines the *Beta RGB* colourspace opto-electronic conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Companded value.
-    """
-
-    value = np.asarray(value)
-
-    return value ** (1 / 2.2)
-
-
-def _beta_rgb_EOCF(value):
-    """
-    Defines the *Beta RGB* colourspace electro-optical conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Companded value.
-    """
-
-    value = np.asarray(value)
-
-    return value ** 2.2
-
-
-BETA_RGB_OECF = _beta_rgb_OECF
-"""
-Opto-electronic conversion function of *Beta RGB* colourspace.
-
-BETA_RGB_OECF : object
-"""
-
-BETA_RGB_EOCF = _beta_rgb_EOCF
-"""
-Electro-optical conversion function of *Beta RGB* colourspace.
-
-BETA_RGB_EOCF : object
-"""
-
 BETA_RGB_COLOURSPACE = RGB_Colourspace(
     'Beta RGB',
     BETA_RGB_PRIMARIES,
@@ -146,8 +93,8 @@ BETA_RGB_COLOURSPACE = RGB_Colourspace(
     BETA_RGB_ILLUMINANT,
     BETA_RGB_TO_XYZ_MATRIX,
     XYZ_TO_BETA_RGB_MATRIX,
-    BETA_RGB_OECF,
-    BETA_RGB_EOCF)
+    partial(gamma_function, exponent=1 / 2.2),
+    partial(gamma_function, exponent=2.2))
 """
 *Beta RGB* colourspace.
 

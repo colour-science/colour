@@ -26,9 +26,13 @@ R-REC-BT.470-6-199811-S!!PDF-E.pdf
 from __future__ import division, unicode_literals
 
 import numpy as np
+from functools import partial
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import RGB_Colourspace, normalised_primary_matrix
+from colour.models.rgb import (
+    RGB_Colourspace,
+    gamma_function,
+    normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -42,8 +46,6 @@ __all__ = ['NTSC_RGB_PRIMARIES',
            'NTSC_RGB_WHITEPOINT',
            'NTSC_RGB_TO_XYZ_MATRIX',
            'XYZ_TO_NTSC_RGB_MATRIX',
-           'NTSC_RGB_OECF',
-           'NTSC_RGB_EOCF',
            'NTSC_RGB_COLOURSPACE']
 
 NTSC_RGB_PRIMARIES = np.array(
@@ -86,61 +88,6 @@ XYZ_TO_NTSC_RGB_MATRIX = np.linalg.inv(NTSC_RGB_TO_XYZ_MATRIX)
 XYZ_TO_NTSC_RGB_MATRIX : array_like, (3, 3)
 """
 
-
-def _ntsc_rgb_OECF(value):
-    """
-    Defines the *NTSC RGB* colourspace opto-electronic conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Companded value.
-    """
-
-    value = np.asarray(value)
-
-    return value ** (1 / 2.2)
-
-
-def _ntsc_rgb_EOCF(value):
-    """
-    Defines the *NTSC RGB* colourspace electro-optical conversion function.
-
-    Parameters
-    ----------
-    value : numeric or array_like
-        Value.
-
-    Returns
-    -------
-    numeric or ndarray
-        Companded value.
-    """
-
-    value = np.asarray(value)
-
-    return value ** 2.2
-
-
-NTSC_RGB_OECF = _ntsc_rgb_OECF
-"""
-Opto-electronic conversion function of *NTSC RGB* colourspace.
-
-NTSC_RGB_OECF : object
-"""
-
-NTSC_RGB_EOCF = _ntsc_rgb_EOCF
-"""
-Electro-optical conversion function of *NTSC RGB* colourspace.
-
-NTSC_RGB_EOCF : object
-"""
-
 NTSC_RGB_COLOURSPACE = RGB_Colourspace(
     'NTSC RGB',
     NTSC_RGB_PRIMARIES,
@@ -148,8 +95,8 @@ NTSC_RGB_COLOURSPACE = RGB_Colourspace(
     NTSC_RGB_ILLUMINANT,
     NTSC_RGB_TO_XYZ_MATRIX,
     XYZ_TO_NTSC_RGB_MATRIX,
-    NTSC_RGB_OECF,
-    NTSC_RGB_EOCF)
+    partial(gamma_function, exponent=1 / 2.2),
+    partial(gamma_function, exponent=2.2))
 """
 *NTSC RGB* colourspace.
 
