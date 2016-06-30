@@ -167,9 +167,9 @@ def RGB_colourspace_limits(colourspace,
     --------
     >>> from colour import sRGB_COLOURSPACE as sRGB
     >>> RGB_colourspace_limits(sRGB)  # doctest: +ELLIPSIS
-    array([[   0...        ,  100...        ],
-           [ -79.2263741...,   94.6657491...],
-           [-114.7846271...,   96.7135199...]])
+    array([[   0...        ,  100.0000848...],
+           [ -79.2197012...,   94.6760011...],
+           [-114.7814393...,   96.7261797...]])
     """
 
     Lab = []
@@ -249,7 +249,7 @@ across-systems-and-versions
     >>> processes = 1
     >>> RGB_colourspace_volume_MonteCarlo(  # doctest: +ELLIPSIS
     ...     sRGB, 10e3, random_state=prng, processes=processes)
-    859...
+    858...
     """
 
     cpu_count = processes if processes else multiprocessing.cpu_count()

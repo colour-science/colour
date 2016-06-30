@@ -67,7 +67,7 @@ def D_illuminant_relative_spd(xy):
 
     Examples
     --------
-    >>> xy = np.array([0.34567, 0.35850])
+    >>> xy = np.array([0.34570, 0.35850])
     >>> print(D_illuminant_relative_spd(xy))
     SpectralPowerDistribution(\
 'CIE Standard Illuminant D Series', (300.0, 830.0, 10.0))

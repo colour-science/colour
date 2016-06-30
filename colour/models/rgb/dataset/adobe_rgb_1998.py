@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
-Adobe RGB 1998 Colourspace
-==========================
+Adobe RGB (1998) Colourspace
+============================
 
-Defines the *Adobe RGB 1998* colourspace:
+Defines the *Adobe RGB (1998)* colourspace:
 
 -   :attr:`ADOBE_RGB_1998_COLOURSPACE`.
 
@@ -48,14 +48,14 @@ ADOBE_RGB_1998_PRIMARIES = np.array(
      [0.2100, 0.7100],
      [0.1500, 0.0600]])
 """
-*Adobe RGB 1998* colourspace primaries.
+*Adobe RGB (1998)* colourspace primaries.
 
 ADOBE_RGB_1998_PRIMARIES : ndarray, (3, 2)
 """
 
 ADOBE_RGB_1998_ILLUMINANT = 'D65'
 """
-*Adobe RGB 1998* colourspace whitepoint name as illuminant.
+*Adobe RGB (1998)* colourspace whitepoint name as illuminant.
 
 ADOBE_RGB_1998_ILLUMINANT : unicode
 """
@@ -63,30 +63,31 @@ ADOBE_RGB_1998_ILLUMINANT : unicode
 ADOBE_RGB_1998_WHITEPOINT = ILLUMINANTS.get(
     'CIE 1931 2 Degree Standard Observer').get(ADOBE_RGB_1998_ILLUMINANT)
 """
-*Adobe RGB 1998* colourspace whitepoint.
+*Adobe RGB (1998)* colourspace whitepoint.
 
 ADOBE_RGB_1998_WHITEPOINT : tuple
 """
 
 ADOBE_RGB_1998_TO_XYZ_MATRIX = np.array(
-    [[0.57666809, 0.18556195, 0.1881985],
-     [0.29734449, 0.62737611, 0.0752794],
-     [0.02703132, 0.07069027, 0.99117879]])
+    [[0.57667, 0.18556, 0.18823],
+     [0.29734, 0.62736, 0.07529],
+     [0.02703, 0.07069, 0.99134]])
 """
-*Adobe RGB 1998* colourspace to *CIE XYZ* tristimulus values matrix.
+*Adobe RGB (1998)* colourspace to *CIE XYZ* tristimulus values matrix defined
+as per [1].
 
 ADOBE_RGB_1998_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
 XYZ_TO_ADOBE_RGB_1998_MATRIX = np.linalg.inv(ADOBE_RGB_1998_TO_XYZ_MATRIX)
 """
-*CIE XYZ* tristimulus values to *Adobe RGB 1998* colourspace matrix.
+*CIE XYZ* tristimulus values to *Adobe RGB (1998)* colourspace matrix.
 
 XYZ_TO_ADOBE_RGB_1998_MATRIX : array_like, (3, 3)
 """
 
 ADOBE_RGB_1998_COLOURSPACE = RGB_Colourspace(
-    'Adobe RGB 1998',
+    'Adobe RGB (1998)',
     ADOBE_RGB_1998_PRIMARIES,
     ADOBE_RGB_1998_WHITEPOINT,
     ADOBE_RGB_1998_ILLUMINANT,
@@ -95,7 +96,7 @@ ADOBE_RGB_1998_COLOURSPACE = RGB_Colourspace(
     partial(gamma_function, exponent=1 / (563 / 256)),
     partial(gamma_function, exponent=563 / 256))
 """
-*Adobe RGB 1998* colourspace.
+*Adobe RGB (1998)* colourspace.
 
 ADOBE_RGB_1998_COLOURSPACE : RGB_Colourspace
 """

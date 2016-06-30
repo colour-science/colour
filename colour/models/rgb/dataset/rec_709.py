@@ -32,7 +32,8 @@ from colour.colorimetry import ILLUMINANTS
 from colour.models.rgb import (
     RGB_Colourspace,
     oetf_BT709,
-    eotf_BT709)
+    eotf_BT709,
+    normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -73,10 +74,8 @@ REC_709_WHITEPOINT = ILLUMINANTS.get(
 REC_709_WHITEPOINT : tuple
 """
 
-REC_709_TO_XYZ_MATRIX = np.array(
-    [[0.41238656, 0.35759149, 0.18045049],
-     [0.21263682, 0.71518298, 0.0721802],
-     [0.01933062, 0.11919716, 0.95037259]])
+REC_709_TO_XYZ_MATRIX = normalised_primary_matrix(
+    REC_709_PRIMARIES, REC_709_WHITEPOINT)
 """
 *Rec. 709* colourspace to *CIE XYZ* tristimulus values matrix.
 

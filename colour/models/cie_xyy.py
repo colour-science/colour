@@ -274,7 +274,7 @@ def xy_to_XYZ(xy):
 
     Examples
     --------
-    >>> xy = np.array([0.26414772236966133, 0.37770000704815188])
+    >>> xy = np.array([0.26414772, 0.37770001])
     >>> xy_to_XYZ(xy)  # doctest: +ELLIPSIS
     array([ 0.6993585...,  1.        ,  0.9482453...])
     """

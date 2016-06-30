@@ -17,7 +17,7 @@ message_box('Overall "Colour" Examples')
 message_box('N-Dimensional Arrays Support')
 
 XYZ = (0.07049534, 0.10080000, 0.09558313)
-illuminant = (0.34567, 0.35850)
+illuminant = (0.34570, 0.35850)
 message_box('Using 1d "array_like" parameter:\n'
             '\n{0}'.format(XYZ))
 print(colour.XYZ_to_Lab(XYZ, illuminant=illuminant))
@@ -48,7 +48,7 @@ print(colour.XYZ_to_Lab(XYZ, illuminant=illuminant))
 
 print('\n')
 
-xy = np.tile((0.31271, 0.32902), (6, 1))
+xy = np.tile((0.31270, 0.32900), (6, 1))
 message_box(('Definitions return value may lose a dimension with respect to '
              'the parameter(s):\n'
              '\n{0}'.format(xy)))

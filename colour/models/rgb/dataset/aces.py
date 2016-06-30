@@ -99,9 +99,9 @@ AP0 : ndarray, (3, 2)
 """
 
 AP1 = np.array(
-    [[0.713, 0.293],
-     [0.165, 0.830],
-     [0.128, 0.044]])
+    [[0.71300, 0.29300],
+     [0.16500, 0.83000],
+     [0.12800, 0.04400]])
 """
 *ACES Primaries 1* or *AP1* primaries (known as *Rec. 2020+* primaries prior
 to *ACES* 1.0 release).
@@ -125,12 +125,11 @@ ACES_WHITEPOINT : tuple
 """
 
 AP0_TO_XYZ_MATRIX = np.array(
-    [[9.52552396e-01, 0.00000000e+00, 9.36786317e-05],
-     [3.43966450e-01, 7.28166097e-01, -7.21325464e-02],
-     [0.00000000e+00, 0.00000000e+00, 1.00882518e+00]])
+    [[0.9525523959, 0.0000000000, 0.0000936786],
+     [0.3439664498, 0.7281660966, -0.0721325464],
+     [0.0000000000, 0.0000000000, 1.0088251844]])
 """
-*ACES Primaries 0* to *CIE XYZ* tristimulus values matrix.
-
+*ACES Primaries 0* to *CIE XYZ* tristimulus values matrix defined as per [2].
 AP0_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 

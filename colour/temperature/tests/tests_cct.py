@@ -311,8 +311,8 @@ class Testxy_to_CCT_McCamy1992(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            xy_to_CCT_McCamy1992(np.array([0.31271, 0.32902])),
-            6504.38938305,
+            xy_to_CCT_McCamy1992(np.array([0.31270, 0.32900])),
+            6505.0805913074782,
             places=7)
 
         self.assertAlmostEqual(
@@ -332,8 +332,8 @@ class Testxy_to_CCT_McCamy1992(unittest.TestCase):
         n-dimensional arrays support.
         """
 
-        xy = np.array([0.31271, 0.32902])
-        CCT = 6504.38938305
+        xy = np.array([0.31270, 0.32900])
+        CCT = 6505.0805913074782
         np.testing.assert_almost_equal(
             xy_to_CCT_McCamy1992(xy),
             CCT,
@@ -378,8 +378,8 @@ class Testxy_to_CCT_Hernandez1999(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            xy_to_CCT_Hernandez1999(np.array([0.31271, 0.32902])),
-            6500.04215334,
+            xy_to_CCT_Hernandez1999(np.array([0.31270, 0.32900])),
+            6500.742043178653,
             places=7)
 
         self.assertAlmostEqual(
@@ -399,8 +399,8 @@ class Testxy_to_CCT_Hernandez1999(unittest.TestCase):
         n-dimensional arrays support.
         """
 
-        xy = np.array([0.31271, 0.32902])
-        CCT = 6500.04215334
+        xy = np.array([0.31270, 0.32900])
+        CCT = 6500.742043178653
         np.testing.assert_almost_equal(
             xy_to_CCT_Hernandez1999(xy),
             CCT,
