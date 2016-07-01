@@ -33,7 +33,7 @@ import numpy as np
 
 from colour.adaptation import chromatic_adaptation_VonKries
 from colour.models import XYZ_to_xy, XYZ_to_xyY, xy_to_XYZ
-from colour.utilities import tsplit
+from colour.utilities import dot_vector, tsplit
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -278,10 +278,7 @@ def RGB_luminance(RGB, primaries, whitepoint):
     12.1616018...
     """
 
-    R, G, B = tsplit(RGB)
-
-    X, Y, Z = np.ravel(normalised_primary_matrix(primaries, whitepoint))[3:6]
-
-    L = X * R + Y * G + Z * B
+    L = np.sum(
+        normalised_primary_matrix(primaries, whitepoint)[1] * RGB, axis=-1)
 
     return L
