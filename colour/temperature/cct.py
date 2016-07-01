@@ -971,7 +971,7 @@ XY_TO_CCT_METHODS['mccamy1992'] = XY_TO_CCT_METHODS['McCamy 1992']
 XY_TO_CCT_METHODS['hernandez1999'] = XY_TO_CCT_METHODS['Hernandez 1999']
 
 
-def xy_to_CCT(xy, method='McCamy 1992', **kwargs):
+def xy_to_CCT(xy, method='McCamy 1992'):
     """
     Returns the correlated colour temperature :math:`T_{cp}` from given
     *CIE XYZ* tristimulus values *xy* chromaticity coordinates using given
@@ -984,8 +984,6 @@ def xy_to_CCT(xy, method='McCamy 1992', **kwargs):
     method : unicode, optional
         **{'McCamy 1992', 'Hernandez 1999'}**,
         Computation method.
-    \**kwargs : dict, optional
-        Keywords arguments.
 
     Returns
     -------
