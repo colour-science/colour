@@ -22,8 +22,7 @@ Defines various objects for *Munsell Renotation System* computations:
 -   :func:`munsell_value_McCamy1987`: *Munsell* value :math:`V` computation of
     given *luminance* :math:`Y` using McCamy (1987)  method.
 -   :func:`munsell_value_ASTMD153508` [1]_ [2]_: *Munsell* value :math:`V`
-    computation of given *luminance* :math:`Y` using ASTM D1535-08e1 (2008)
-    method.
+    computation of given *luminance* :math:`Y` using *ASTM D1535-08e1* method.
 -   :func:`munsell_colour_to_xyY` [1]_ [2]_
 -   :func:`xyY_to_munsell_colour` [1]_ [2]_
 
@@ -182,13 +181,13 @@ def _munsell_specifications():
 
 def _munsell_value_ASTMD153508_interpolator():
     """
-    Returns the *Munsell* value interpolator for ASTM D1535-08e1 (2008) method
-    and caches it if not existing.
+    Returns the *Munsell* value interpolator for *ASTM D1535-08e1* method and
+    caches it if not existing.
 
     Returns
     -------
     Extrapolator
-        *Munsell* value interpolator for ASTM D1535-08e1 (2008) method.
+        *Munsell* value interpolator for *ASTM D1535-08e1* method.
     """
 
     global _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE
@@ -450,7 +449,7 @@ def munsell_value_McCamy1987(Y):
 def munsell_value_ASTMD153508(Y):
     """
     Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
-    a reverse lookup table from ASTM D1535-08e1 (2008) method.
+    a reverse lookup table from *ASTM D1535-08e1* method.
 
     Parameters
     ----------

@@ -32,8 +32,8 @@ print(colour.luminance(L))
 
 print('\n')
 
-message_box(('Computing "luminance" using ASTM D1535-08e1 (2008) method for '
-             'given "Munsell" value:\n'
+message_box(('Computing "luminance" using "ASTM D1535-08e1" method for given '
+             '"Munsell" value:\n'
              '\n\t{0}'.format(V)))
 print(colour.luminance_ASTMD153508(V))
 print(colour.luminance(V, method='ASTM D1535-08'))

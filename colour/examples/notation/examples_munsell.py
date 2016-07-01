@@ -61,7 +61,7 @@ print(colour.munsell_value(Y, method='McCamy 1987'))
 
 print('\n')
 
-message_box(('Computing "Munsell" value using ASTM D1535-08e1 (2008) method '
+message_box(('Computing "Munsell" value using "ASTM D1535-08e1" method '
              'for given "luminance" value:\n'
              '\n\t{0}'.format(Y)))
 print(colour.munsell_value_ASTMD153508(Y))
