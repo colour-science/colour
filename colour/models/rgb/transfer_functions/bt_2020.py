@@ -39,16 +39,16 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['BT_2020_CONSTANTS',
+__all__ = ['BT2020_CONSTANTS',
            'oetf_BT2020',
            'eotf_BT2020']
 
-BT_2020_CONSTANTS = Structure(alpha=lambda x: 1.099 if x else 1.0993,
-                              beta=lambda x: 0.018 if x else 0.0181)
+BT2020_CONSTANTS = Structure(alpha=lambda x: 1.099 if x else 1.0993,
+                             beta=lambda x: 0.018 if x else 0.0181)
 """
 *BT.2020* colourspace constants.
 
-BT_2020_CONSTANTS : Structure
+BT2020_CONSTANTS : Structure
 """
 
 
@@ -77,8 +77,8 @@ def oetf_BT2020(value, is_10_bits_system=True):
 
     value = np.asarray(value)
 
-    a = BT_2020_CONSTANTS.alpha(is_10_bits_system)
-    b = BT_2020_CONSTANTS.beta(is_10_bits_system)
+    a = BT2020_CONSTANTS.alpha(is_10_bits_system)
+    b = BT2020_CONSTANTS.beta(is_10_bits_system)
 
     return as_numeric(np.where(value < b,
                                value * 4.5,
@@ -110,8 +110,8 @@ def eotf_BT2020(value, is_10_bits_system=True):
 
     value = np.asarray(value)
 
-    a = BT_2020_CONSTANTS.alpha(is_10_bits_system)
-    b = BT_2020_CONSTANTS.beta(is_10_bits_system)
+    a = BT2020_CONSTANTS.alpha(is_10_bits_system)
+    b = BT2020_CONSTANTS.beta(is_10_bits_system)
 
     return as_numeric(np.where(value < oetf_BT2020(b),
                                value / 4.5,

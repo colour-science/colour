@@ -41,20 +41,20 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['ST_2084_CONSTANTS',
+__all__ = ['ST2084_CONSTANTS',
            'oetf_ST2084',
            'eotf_ST2084']
 
-ST_2084_CONSTANTS = Structure(m_1=2610 / 4096 * (1 / 4),
-                              m_2=2523 / 4096 * 128,
-                              c_1=3424 / 4096,
-                              c_2=2413 / 4096 * 32,
-                              c_3=2392 / 4096 * 32)
+ST2084_CONSTANTS = Structure(m_1=2610 / 4096 * (1 / 4),
+                             m_2=2523 / 4096 * 128,
+                             c_1=3424 / 4096,
+                             c_2=2413 / 4096 * 32,
+                             c_3=2392 / 4096 * 32)
 """
 *SMPTE ST 2084:2014* opto-electrical transfer function (OETF / OECF) and
 electro-optical transfer function (EOTF / EOCF) constants.
 
-ST_2084_CONSTANTS : Structure
+ST2084_CONSTANTS : Structure
 """
 
 
@@ -87,10 +87,10 @@ def oetf_ST2084(C, L_p=10000):
 
     C = np.asarray(C)
 
-    Y_p = (C / L_p) ** ST_2084_CONSTANTS.m_1
+    Y_p = (C / L_p) ** ST2084_CONSTANTS.m_1
 
-    N = ((ST_2084_CONSTANTS.c_1 + ST_2084_CONSTANTS.c_2 * Y_p) /
-         (ST_2084_CONSTANTS.c_3 * Y_p + 1)) ** ST_2084_CONSTANTS.m_2
+    N = ((ST2084_CONSTANTS.c_1 + ST2084_CONSTANTS.c_2 * Y_p) /
+         (ST2084_CONSTANTS.c_3 * Y_p + 1)) ** ST2084_CONSTANTS.m_2
 
     return N
 
@@ -127,16 +127,16 @@ def eotf_ST2084(N, L_p=10000):
 
     N = np.asarray(N)
 
-    m_1_d = 1 / ST_2084_CONSTANTS.m_1
-    m_2_d = 1 / ST_2084_CONSTANTS.m_2
+    m_1_d = 1 / ST2084_CONSTANTS.m_1
+    m_2_d = 1 / ST2084_CONSTANTS.m_2
 
     V_p = N ** m_2_d
 
-    n = V_p - ST_2084_CONSTANTS.c_1
+    n = V_p - ST2084_CONSTANTS.c_1
     # Preventing *nan*.
     n = np.where(n < 0, 0, n)
 
-    L = (n / (ST_2084_CONSTANTS.c_2 - ST_2084_CONSTANTS.c_3 * V_p)) ** m_1_d
+    L = (n / (ST2084_CONSTANTS.c_2 - ST2084_CONSTANTS.c_3 * V_p)) ** m_1_d
     C = L_p * L
 
     return C

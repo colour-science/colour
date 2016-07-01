@@ -36,19 +36,19 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['V_LOG_CONSTANTS',
+__all__ = ['VLOG_CONSTANTS',
            'log_encoding_VLog',
            'log_decoding_VLog']
 
-V_LOG_CONSTANTS = Structure(cut1=0.01,
-                            cut2=0.181,
-                            b=0.00873,
-                            c=0.241514,
-                            d=0.598206)
+VLOG_CONSTANTS = Structure(cut1=0.01,
+                           cut2=0.181,
+                           b=0.00873,
+                           c=0.241514,
+                           d=0.598206)
 """
 *V-Log* colourspace constants.
 
-V_LOG_CONSTANTS : Structure
+VLOG_CONSTANTS : Structure
 """
 
 
@@ -75,10 +75,10 @@ def log_encoding_VLog(value):
 
     value = np.asarray(value)
 
-    cut1 = V_LOG_CONSTANTS.cut1
-    b = V_LOG_CONSTANTS.b
-    c = V_LOG_CONSTANTS.c
-    d = V_LOG_CONSTANTS.d
+    cut1 = VLOG_CONSTANTS.cut1
+    b = VLOG_CONSTANTS.b
+    c = VLOG_CONSTANTS.c
+    d = VLOG_CONSTANTS.d
 
     value = np.where(value < cut1,
                      5.6 * value + 0.125,
@@ -110,10 +110,10 @@ def log_decoding_VLog(value):
 
     value = np.asarray(value)
 
-    cut2 = V_LOG_CONSTANTS.cut2
-    b = V_LOG_CONSTANTS.b
-    c = V_LOG_CONSTANTS.c
-    d = V_LOG_CONSTANTS.d
+    cut2 = VLOG_CONSTANTS.cut2
+    b = VLOG_CONSTANTS.b
+    c = VLOG_CONSTANTS.c
+    d = VLOG_CONSTANTS.d
 
     value = np.where(value < cut2,
                      (value - 0.125) / 5.6,
