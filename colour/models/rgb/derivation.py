@@ -33,7 +33,7 @@ import numpy as np
 
 from colour.adaptation import chromatic_adaptation_VonKries
 from colour.models import XYZ_to_xy, XYZ_to_xyY, xy_to_XYZ
-from colour.utilities import dot_vector, tsplit
+from colour.utilities import tsplit
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
