@@ -38,7 +38,7 @@ __all__ = ['log_encoding_Panalog',
            'log_decoding_Panalog']
 
 
-def log_encoding_Panalog(value,
+def log_encoding_Panalog(x,
                          black_offset=10 ** ((64 - 681) / 444)):
     """
     Defines the *Panalog* log encoding curve / opto-electronic transfer
@@ -46,15 +46,20 @@ def log_encoding_Panalog(value,
 
     Parameters
     ----------
-    value : numeric or array_like
-        Value.
+    x : numeric or array_like
+        Linear data :math:`x`.
     black_offset : numeric or array_like
         Black offset.
 
     Returns
     -------
     numeric or ndarray
-        Encoded value.
+        Non-linear data :math:`y`.
+
+    Warnings
+    --------
+    These are estimations known to be close enough, the actual log encoding
+    curves are not published.
 
     Examples
     --------
@@ -62,13 +67,13 @@ def log_encoding_Panalog(value,
     0.3745767...
     """
 
-    value = np.asarray(value)
+    x = np.asarray(x)
 
     return ((681 + 444 *
-             np.log10(value * (1 - black_offset) + black_offset)) / 1023)
+             np.log10(x * (1 - black_offset) + black_offset)) / 1023)
 
 
-def log_decoding_Panalog(value,
+def log_decoding_Panalog(y,
                          black_offset=10 ** ((64 - 681) / 444)):
     """
     Defines the *Panalog* log decoding curve / electro-optical transfer
@@ -76,15 +81,20 @@ def log_decoding_Panalog(value,
 
     Parameters
     ----------
-    value : numeric or array_like
-        Value.
+    y : numeric or array_like
+        Non-linear data :math:`y`.
     black_offset : numeric or array_like
         Black offset.
 
     Returns
     -------
     numeric or ndarray
-        Decoded value.
+        Linear data :math:`x`.
+
+    Warnings
+    --------
+    These are estimations known to be close enough, the actual log encoding
+    curves are not published.
 
     Examples
     --------
@@ -92,7 +102,7 @@ def log_decoding_Panalog(value,
     0.1...
     """
 
-    value = np.asarray(value)
+    y = np.asarray(y)
 
-    return ((10 ** ((1023 * value - 681) / 444) - black_offset) /
+    return ((10 ** ((1023 * y - 681) / 444) - black_offset) /
             (1 - black_offset))

@@ -38,20 +38,20 @@ __all__ = ['log_encoding_ViperLog',
            'log_decoding_ViperLog']
 
 
-def log_encoding_ViperLog(value):
+def log_encoding_ViperLog(x):
     """
     Defines the *Viper Log* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
     ----------
-    value : numeric or array_like
-        Value.
+    x : numeric or array_like
+        Linear data :math:`x`.
 
     Returns
     -------
     numeric or ndarray
-        Encoded value.
+        Non-linear data :math:`y`.
 
     Examples
     --------
@@ -59,25 +59,25 @@ def log_encoding_ViperLog(value):
     0.6360080...
     """
 
-    value = np.asarray(value)
+    x = np.asarray(x)
 
-    return (1023 + 500 * np.log10(value)) / 1023
+    return (1023 + 500 * np.log10(x)) / 1023
 
 
-def log_decoding_ViperLog(value):
+def log_decoding_ViperLog(y):
     """
     Defines the *Viper Log* log decoding curve / electro-optical transfer
     function.
 
     Parameters
     ----------
-    value : numeric or array_like
-        Value.
+    y : numeric or array_like
+        Non-linear data :math:`y`.
 
     Returns
     -------
     numeric or ndarray
-        Decoded value.
+        Linear data :math:`x`.
 
     Examples
     --------
@@ -85,6 +85,6 @@ def log_decoding_ViperLog(value):
     0.1799999...
     """
 
-    value = np.asarray(value)
+    y = np.asarray(y)
 
-    return 10 ** ((1023 * value - 1023) / 500)
+    return 10 ** ((1023 * y - 1023) / 500)

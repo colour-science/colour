@@ -9,6 +9,10 @@ Defines the *Sony S-Log* log encodings:
 
 -   :func:`log_encoding_SLog`
 -   :func:`log_decoding_SLog`
+-   :func:`log_encoding_SLog2`
+-   :func:`log_decoding_SLog2`
+-   :func:`log_encoding_SLog3`
+-   :func:`log_decoding_SLog3`
 
 See Also
 --------
@@ -52,20 +56,20 @@ __all__ = ['log_encoding_SLog',
            'log_decoding_SLog3']
 
 
-def log_encoding_SLog(value):
+def log_encoding_SLog(t):
     """
     Defines the *Sony S-Log* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
     ----------
-    value : numeric or array_like
-        Value.
+    t : numeric or array_like
+        Input light level :math:`t` to a camera.
 
     Returns
     -------
     numeric or ndarray
-        Encoded value.
+        Camera output code :math:`y`.
 
     Examples
     --------
@@ -73,25 +77,25 @@ def log_encoding_SLog(value):
     0.3599878...
     """
 
-    value = np.asarray(value)
+    t = np.asarray(t)
 
-    return (0.432699 * np.log10(value + 0.037584) + 0.616596) + 0.03
+    return (0.432699 * np.log10(t + 0.037584) + 0.616596) + 0.03
 
 
-def log_decoding_SLog(value):
+def log_decoding_SLog(y):
     """
     Defines the *Sony S-Log* log decoding curve / electro-optical transfer
     function.
 
     Parameters
     ----------
-    value : numeric or array_like
-        Value.
+    y : numeric or array_like
+        Camera output code :math:`y`.
 
     Returns
     -------
     numeric or ndarray
-        Decoded value.
+        Input light level :math:`t` to a camera.
 
     Examples
     --------
@@ -99,25 +103,25 @@ def log_decoding_SLog(value):
     0.1...
     """
 
-    value = np.asarray(value)
+    y = np.asarray(y)
 
-    return 10 ** ((value - 0.616596 - 0.03) / 0.432699) - 0.037584
+    return 10 ** ((y - 0.616596 - 0.03) / 0.432699) - 0.037584
 
 
-def log_encoding_SLog2(value):
+def log_encoding_SLog2(t):
     """
     Defines the *Sony S-Log2* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
     ----------
-    value : numeric or array_like
-        Value.
+    t : numeric or array_like
+        Input light level :math:`t` to a camera.
 
     Returns
     -------
     numeric or ndarray
-        Encoded value.
+        Camera output code :math:`y`.
 
     Examples
     --------
@@ -125,26 +129,26 @@ def log_encoding_SLog2(value):
     0.3849708...
     """
 
-    value = np.asarray(value)
+    t = np.asarray(t)
 
     return ((4 * (16 + 219 * (0.616596 + 0.03 + 0.432699 *
-                              (np.log10(0.037584 + value / 0.9))))) / 1023)
+                              (np.log10(0.037584 + t / 0.9))))) / 1023)
 
 
-def log_decoding_SLog2(value):
+def log_decoding_SLog2(y):
     """
     Defines the *Sony S-Log2* log decoding curve / electro-optical transfer
     function.
 
     Parameters
     ----------
-    value : numeric or array_like
-        Value.
+    y : numeric or array_like
+        Camera output code :math:`y`.
 
     Returns
     -------
     numeric or ndarray
-        Decoded value.
+        Input light level :math:`t` to a camera.
 
     Examples
     --------
@@ -152,26 +156,26 @@ def log_decoding_SLog2(value):
     0.1...
     """
 
-    value = np.asarray(value)
+    y = np.asarray(y)
 
-    return ((10 ** (((((value * 1023 / 4 - 16) / 219) - 0.616596 - 0.03) /
+    return ((10 ** (((((y * 1023 / 4 - 16) / 219) - 0.616596 - 0.03) /
                      0.432699)) - 0.037584) * 0.9)
 
 
-def log_encoding_SLog3(value):
+def log_encoding_SLog3(t):
     """
     Defines the *Sony S-Log3* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
     ----------
-    value : numeric or array_like
-        Value.
+    t : numeric or array_like
+        Input light level :math:`t` to a camera.
 
     Returns
     -------
     numeric or ndarray
-        Encoded value.
+        Camera output code :math:`y`.
 
     Examples
     --------
@@ -179,29 +183,29 @@ def log_encoding_SLog3(value):
     0.4105571...
     """
 
-    value = np.asarray(value)
+    t = np.asarray(t)
 
     return as_numeric(
-        np.where(value >= 0.01125000,
-                 (420 + np.log10((value + 0.01) /
+        np.where(t >= 0.01125000,
+                 (420 + np.log10((t + 0.01) /
                                  (0.18 + 0.01)) * 261.5) / 1023,
-                 (value * (171.2102946929 - 95) / 0.01125000 + 95) / 1023))
+                 (t * (171.2102946929 - 95) / 0.01125000 + 95) / 1023))
 
 
-def log_decoding_SLog3(value):
+def log_decoding_SLog3(y):
     """
     Defines the *Sony S-Log3* log decoding curve / electro-optical transfer
     function.
 
     Parameters
     ----------
-    value : numeric or array_like
-        Value.
+    y : numeric or array_like
+        Camera output code :math:`y`.
 
     Returns
     -------
     numeric or ndarray
-        Decoded value.
+        Input light level :math:`t` to a camera.
 
     Examples
     --------
@@ -209,10 +213,10 @@ def log_decoding_SLog3(value):
     0.1...
     """
 
-    value = np.asarray(value)
+    y = np.asarray(y)
 
     return as_numeric(
-        np.where(value >= 171.2102946929 / 1023,
-                 ((10 ** ((value * 1023 - 420) / 261.5)) *
+        np.where(y >= 171.2102946929 / 1023,
+                 ((10 ** ((y * 1023 - 420) / 261.5)) *
                   (0.18 + 0.01) - 0.01),
-                 (value * 1023 - 95) * 0.01125000 / (171.2102946929 - 95)))
+                 (y * 1023 - 95) * 0.01125000 / (171.2102946929 - 95)))

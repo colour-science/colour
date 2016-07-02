@@ -43,20 +43,20 @@ __all__ = ['oetf_BT709',
            'eotf_BT709']
 
 
-def oetf_BT709(value):
+def oetf_BT709(L):
     """
     Defines *Recommendation ITU-R BT.709-6* opto-electronic transfer function
     (OETF / OECF).
 
     Parameters
     ----------
-    value : numeric or array_like
-        Value.
+    L : numeric or array_like
+        *Luminance* :math:`L` of the image.
 
     Returns
     -------
     numeric or ndarray
-        Encoded value.
+        Corresponding electrical signal :math:`V`.
 
     Examples
     --------
@@ -64,27 +64,27 @@ def oetf_BT709(value):
     0.4090077...
     """
 
-    value = np.asarray(value)
+    L = np.asarray(L)
 
-    return as_numeric(np.where(value < 0.018,
-                               value * 4.5,
-                               1.099 * (value ** 0.45) - 0.099))
+    return as_numeric(np.where(L < 0.018,
+                               L * 4.5,
+                               1.099 * (L ** 0.45) - 0.099))
 
 
-def eotf_BT709(value):
+def eotf_BT709(V):
     """
     Defines *Recommendation ITU-R BT.709-6* electro-optical transfer function
     (EOTF / EOCF).
 
     Parameters
     ----------
-    value : numeric or array_like
-        Value.
+    V : numeric or array_like
+        Electrical signal :math:`V`.
 
     Returns
     -------
     numeric or ndarray
-        Decoded value.
+        Corresponding *luminance* :math:`L` of the image.
 
     Warning
     -------
@@ -103,8 +103,8 @@ def eotf_BT709(value):
              'for symmetry in unit tests and others computations but should '
              'not be used as an *EOTF*!'))
 
-    value = np.asarray(value)
+    V = np.asarray(V)
 
-    return as_numeric(np.where(value < oetf_BT709(0.018),
-                               value / 4.5,
-                               ((value + 0.099) / 1.099) ** (1 / 0.45)))
+    return as_numeric(np.where(V < oetf_BT709(0.018),
+                               V / 4.5,
+                               ((V + 0.099) / 1.099) ** (1 / 0.45)))

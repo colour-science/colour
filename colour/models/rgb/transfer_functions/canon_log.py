@@ -2,13 +2,13 @@
 # -*- coding: utf-8 -*-
 
 """
-Canon C-Log Encoding
-====================
+Canon Log Encoding
+==================
 
-Defines the *Canon C-Log* encoding:
+Defines the *Canon Log* encoding:
 
--   :func:`log_encoding_CLog`
--   :func:`log_decoding_CLog`
+-   :func:`log_encoding_CanonLog`
+-   :func:`log_decoding_CanonLog`
 
 See Also
 --------
@@ -34,58 +34,57 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['log_encoding_CLog',
-           'log_decoding_CLog']
+__all__ = ['log_encoding_CanonLog',
+           'log_decoding_CanonLog']
 
 
-def log_encoding_CLog(value):
+def log_encoding_CanonLog(x):
     """
-    Defines the *Canon C-Log* log encoding curve / opto-electronic transfer
+    Defines the *Canon Log* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
     ----------
-    value : numeric or array_like
-        Value.
+    x : numeric or array_like
+        Linear data :math:`x`.
 
     Returns
     -------
     numeric or ndarray
-        Encoded value.
+        Non-linear data :math:`y`.
 
     Examples
     --------
-    >>> log_encoding_CLog(0.20) * 100  # doctest: +ELLIPSIS
+    >>> log_encoding_CanonLog(0.20) * 100  # doctest: +ELLIPSIS
     32.7953896...
     """
 
-    value = np.asarray(value)
+    x = np.asarray(x)
 
-    return 0.529136 * np.log10(10.1596 * value + 1) + 0.0730597
+    return 0.529136 * np.log10(10.1596 * x + 1) + 0.0730597
 
 
-def log_decoding_CLog(value):
+def log_decoding_CanonLog(y):
     """
-    Defines the *Canon C-Log* log decoding curve / electro-optical transfer
+    Defines the *Canon Log* log decoding curve / electro-optical transfer
     function.
 
     Parameters
     ----------
-    value : numeric or array_like
-        Value.
+    y : numeric or array_like
+        Non-linear data :math:`y`.
 
     Returns
     -------
     numeric or ndarray
-        Decoded value.
+        Linear data :math:`x`.
 
     Examples
     --------
-    >>> log_decoding_CLog(32.795389693580908 / 100)  # doctest: +ELLIPSIS
+    >>> log_decoding_CanonLog(32.795389693580908 / 100)  # doctest: +ELLIPSIS
     0.19999999...
     """
 
-    value = np.asarray(value)
+    y = np.asarray(y)
 
-    return (-0.071622555735168 *
-            (1.3742747797867 - np.exp(1) ** (4.3515940948906 * value)))
+    return (10 ** ((y - 0.0730597) / 0.529136) - 1) / 10.1596

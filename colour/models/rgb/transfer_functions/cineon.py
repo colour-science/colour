@@ -38,7 +38,7 @@ __all__ = ['log_encoding_Cineon',
            'log_decoding_Cineon']
 
 
-def log_encoding_Cineon(value,
+def log_encoding_Cineon(x,
                         black_offset=10 ** ((95 - 685) / 300)):
     """
     Defines the *Cineon* log encoding curve / opto-electronic transfer
@@ -46,15 +46,15 @@ def log_encoding_Cineon(value,
 
     Parameters
     ----------
-    value : numeric or array_like
-        Value.
+    x : numeric or array_like
+        Linear data :math:`x`.
     black_offset : numeric or array_like
         Black offset.
 
     Returns
     -------
     numeric or ndarray
-        Encoded value.
+        Non-linear data :math:`y`.
 
     Examples
     --------
@@ -62,13 +62,13 @@ def log_encoding_Cineon(value,
     0.4573196...
     """
 
-    value = np.asarray(value)
+    x = np.asarray(x)
 
     return ((685 + 300 *
-             np.log10(value * (1 - black_offset) + black_offset)) / 1023)
+             np.log10(x * (1 - black_offset) + black_offset)) / 1023)
 
 
-def log_decoding_Cineon(value,
+def log_decoding_Cineon(y,
                         black_offset=10 ** ((95 - 685) / 300)):
     """
     Defines the *Cineon* log decoding curve / electro-optical transfer
@@ -76,15 +76,15 @@ def log_decoding_Cineon(value,
 
     Parameters
     ----------
-    value : numeric or array_like
-        Value.
+    y : numeric or array_like
+        Non-linear data :math:`y`.
     black_offset : numeric or array_like
         Black offset.
 
     Returns
     -------
     numeric or ndarray
-        Decoded value.
+        Linear data :math:`x`.
 
     Examples
     --------
@@ -92,7 +92,7 @@ def log_decoding_Cineon(value,
     0.18...
     """
 
-    value = np.asarray(value)
+    y = np.asarray(y)
 
-    return ((10 ** ((1023 * value - 685) / 300) - black_offset) /
+    return ((10 ** ((1023 * y - 685) / 300) - black_offset) /
             (1 - black_offset))

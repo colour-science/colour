@@ -100,15 +100,15 @@ ACES_PROXY_CONSTANTS : CaseInsensitiveMapping
 """
 
 
-def log_encoding_ACESproxy(value, bit_depth='10 Bit'):
+def log_encoding_ACESproxy(ACESproxy_l, bit_depth='10 Bit'):
     """
     Defines the *ACESproxy* colourspace log encoding curve / opto-electronic
     transfer function.
 
     Parameters
     ----------
-    value : numeric or array_like
-        Value.
+    ACESproxy_l : numeric or array_like
+        *ACESproxyLin* linear value.
     bit_depth : unicode, optional
         **{'10 Bit', '12 Bit'}**,
         *ACESproxy* bit depth.
@@ -116,7 +116,7 @@ def log_encoding_ACESproxy(value, bit_depth='10 Bit'):
     Returns
     -------
     numeric or ndarray
-        Encoded value.
+        *ACESproxy* non-linear value.
 
     Examples
     --------
@@ -124,12 +124,12 @@ def log_encoding_ACESproxy(value, bit_depth='10 Bit'):
     426
     """
 
-    value = np.asarray(value)
+    ACESproxy_l = np.asarray(ACESproxy_l)
 
     constants = ACES_PROXY_CONSTANTS.get(bit_depth)
 
-    CV_min = np.resize(constants.CV_min, value.shape)
-    CV_max = np.resize(constants.CV_max, value.shape)
+    CV_min = np.resize(constants.CV_min, ACESproxy_l.shape)
+    CV_max = np.resize(constants.CV_max, ACESproxy_l.shape)
 
     def float_2_cv(x):
         """
@@ -138,24 +138,25 @@ def log_encoding_ACESproxy(value, bit_depth='10 Bit'):
 
         return np.maximum(CV_min, np.minimum(CV_max, np.round(x)))
 
-    output = np.where(value > 2 ** -9.72,
-                      float_2_cv((np.log2(value) + constants.mid_log_offset) *
+    output = np.where(ACESproxy_l > 2 ** -9.72,
+                      float_2_cv((np.log2(ACESproxy_l) +
+                                  constants.mid_log_offset) *
                                  constants.steps_per_stop +
                                  constants.mid_CV_offset),
-                      np.resize(CV_min, value.shape))
+                      np.resize(CV_min, ACESproxy_l.shape))
 
     return as_numeric(output, int)
 
 
-def log_decoding_ACESproxy(value, bit_depth='10 Bit'):
+def log_decoding_ACESproxy(ACESproxy, bit_depth='10 Bit'):
     """
     Defines the *ACESproxy* colourspace log decoding curve / electro-optical
     transfer function.
 
     Parameters
     ----------
-    value : numeric or array_like
-        Value.
+    ACESproxy : numeric or array_like
+        *ACESproxy* non-linear value.
     bit_depth : unicode, optional
         **{'10 Bit', '12 Bit'}**,
         *ACESproxy* bit depth.
@@ -163,7 +164,7 @@ def log_decoding_ACESproxy(value, bit_depth='10 Bit'):
     Returns
     -------
     numeric or ndarray
-        Decoded value.
+        *ACESproxyLin* linear value.
 
     Examples
     --------
@@ -171,28 +172,28 @@ def log_decoding_ACESproxy(value, bit_depth='10 Bit'):
     0.1792444...
     """
 
-    value = np.asarray(value).astype(np.int)
+    ACESproxy = np.asarray(ACESproxy).astype(np.int)
 
     constants = ACES_PROXY_CONSTANTS.get(bit_depth)
 
-    return (2 ** (((value - constants.mid_CV_offset) /
+    return (2 ** (((ACESproxy - constants.mid_CV_offset) /
                    constants.steps_per_stop - constants.mid_log_offset)))
 
 
-def log_encoding_ACEScc(value):
+def log_encoding_ACEScc(ACEScc_l):
     """
     Defines the *ACEScc* colourspace log encoding / opto-electronic transfer
     function.
 
     Parameters
     ----------
-    value : numeric or array_like
-        Value.
+    ACEScc_l : numeric or array_like
+        *ACESccLin* linear value.
 
     Returns
     -------
     numeric or ndarray
-        Encoded value.
+        *ACEScc* non-linear value.
 
     Examples
     --------
@@ -200,32 +201,32 @@ def log_encoding_ACEScc(value):
     0.4135884...
     """
 
-    value = np.asarray(value)
+    ACEScc_l = np.asarray(ACEScc_l)
 
-    output = np.where(value < 0,
+    output = np.where(ACEScc_l < 0,
                       (np.log2(2 ** -15 * 0.5) + 9.72) / 17.52,
-                      (np.log2(2 ** -16 + value * 0.5) + 9.72) / 17.52)
-    output = np.where(value >= 2 ** -15,
-                      (np.log2(value) + 9.72) / 17.52,
+                      (np.log2(2 ** -16 + ACEScc_l * 0.5) + 9.72) / 17.52)
+    output = np.where(ACEScc_l >= 2 ** -15,
+                      (np.log2(ACEScc_l) + 9.72) / 17.52,
                       output)
 
     return as_numeric(output)
 
 
-def log_decoding_ACEScc(value):
+def log_decoding_ACEScc(ACEScc):
     """
     Defines the *ACEScc* colourspace log decoding / electro-optical transfer
     function.
 
     Parameters
     ----------
-    value : numeric or array_like
-        Value.
+    ACEScc : numeric or array_like
+        *ACEScc* non-linear value.
 
     Returns
     -------
     numeric or ndarray
-        Decoded value.
+        *ACESccLin* linear value.
 
     Examples
     --------
@@ -233,12 +234,12 @@ def log_decoding_ACEScc(value):
     0.18...
     """
 
-    value = np.asarray(value)
+    ACEScc = np.asarray(ACEScc)
 
-    output = np.where(value < (9.72 - 15) / 17.52,
-                      (2 ** (value * 17.52 - 9.72) - 2 ** -16) * 2,
-                      2 ** (value * 17.52 - 9.72))
-    output = np.where(value >= (np.log2(65504) + 9.72) / 17.52,
+    output = np.where(ACEScc < (9.72 - 15) / 17.52,
+                      (2 ** (ACEScc * 17.52 - 9.72) - 2 ** -16) * 2,
+                      2 ** (ACEScc * 17.52 - 9.72))
+    output = np.where(ACEScc >= (np.log2(65504) + 9.72) / 17.52,
                       65504,
                       output)
 

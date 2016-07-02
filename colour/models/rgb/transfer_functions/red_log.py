@@ -44,7 +44,7 @@ __all__ = ['log_encoding_REDLog',
            'log_decoding_REDLogFilm']
 
 
-def log_encoding_REDLog(value,
+def log_encoding_REDLog(x,
                         black_offset=10 ** ((0 - 1023) / 511)):
     """
     Defines the *REDLog* log encoding curve / opto-electronic transfer
@@ -52,15 +52,15 @@ def log_encoding_REDLog(value,
 
     Parameters
     ----------
-    value : numeric or array_like
-        Value.
+    x : numeric or array_like
+        Linear data :math:`x`.
     black_offset : numeric or array_like
         Black offset.
 
     Returns
     -------
     numeric or ndarray
-        Encoded value.
+        Non-linear data :math:`y`.
 
     Examples
     --------
@@ -68,13 +68,13 @@ def log_encoding_REDLog(value,
     0.6376218...
     """
 
-    value = np.asarray(value)
+    x = np.asarray(x)
 
     return ((1023 +
-             511 * np.log10(value * (1 - black_offset) + black_offset)) / 1023)
+             511 * np.log10(x * (1 - black_offset) + black_offset)) / 1023)
 
 
-def log_decoding_REDLog(value,
+def log_decoding_REDLog(y,
                         black_offset=10 ** ((0 - 1023) / 511)):
     """
     Defines the *REDLog* log decoding curve / electro-optical transfer
@@ -82,15 +82,15 @@ def log_decoding_REDLog(value,
 
     Parameters
     ----------
-    value : numeric or array_like
-        Value.
+    y : numeric or array_like
+        Non-linear data :math:`y`.
     black_offset : numeric or array_like
         Black offset.
 
     Returns
     -------
     numeric or ndarray
-        Decoded value.
+        Linear data :math:`x`.
 
     Examples
     --------
@@ -98,14 +98,14 @@ def log_decoding_REDLog(value,
     0.1...
     """
 
-    value = np.asarray(value)
+    y = np.asarray(y)
 
     return (((10 **
-              ((1023 * value - 1023) / 511)) - black_offset) /
+              ((1023 * y - 1023) / 511)) - black_offset) /
             (1 - black_offset))
 
 
-def log_encoding_REDLogFilm(value,
+def log_encoding_REDLogFilm(x,
                             black_offset=10 ** ((95 - 685) / 300)):
     """
     Defines the *REDLogFilm* log encoding curve / opto-electronic transfer
@@ -113,15 +113,15 @@ def log_encoding_REDLogFilm(value,
 
     Parameters
     ----------
-    value : numeric or array_like
-        Value.
+    x : numeric or array_like
+        Linear data :math:`x`.
     black_offset : numeric or array_like
         Black offset.
 
     Returns
     -------
     numeric or ndarray
-        Encoded value.
+        Non-linear data :math:`y`.
 
     Examples
     --------
@@ -129,10 +129,10 @@ def log_encoding_REDLogFilm(value,
     0.4573196...
     """
 
-    return log_encoding_Cineon(value, black_offset)
+    return log_encoding_Cineon(x, black_offset)
 
 
-def log_decoding_REDLogFilm(value,
+def log_decoding_REDLogFilm(y,
                             black_offset=10 ** ((95 - 685) / 300)):
     """
     Defines the *REDLogFilm* log decoding curve / electro-optical transfer
@@ -140,15 +140,15 @@ def log_decoding_REDLogFilm(value,
 
     Parameters
     ----------
-    value : numeric or array_like
-        Value.
+    y : numeric or array_like
+        Non-linear data :math:`y`.
     black_offset : numeric or array_like
         Black offset.
 
     Returns
     -------
     numeric or ndarray
-        Decoded value.
+        Linear data :math:`x`.
 
     Examples
     --------
@@ -156,4 +156,4 @@ def log_decoding_REDLogFilm(value,
     0.18...
     """
 
-    return log_decoding_Cineon(value, black_offset)
+    return log_decoding_Cineon(y, black_offset)

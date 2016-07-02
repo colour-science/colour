@@ -52,22 +52,24 @@ BT2020_CONSTANTS : Structure
 """
 
 
-def oetf_BT2020(value, is_10_bits_system=True):
+def oetf_BT2020(E, is_10_bits_system=True):
     """
     Defines *Recommendation ITU-R BT.2020* opto-electrical transfer function
     (OETF / OECF).
 
     Parameters
     ----------
-    value : numeric or array_like
-        Value.
+    E : numeric or array_like
+        Voltage :math:`E` normalized by the reference white level and
+        proportional to the implicit light intensity that would be detected
+        with a reference camera colour channel R, G, B.
     is_10_bits_system : bool
         *BT.709* *alpha* and *beta* constants are used if system is 10 bit.
 
     Returns
     -------
     numeric or ndarray
-        Encoded value.
+        Resulting non-linear signal :math:`E'`.
 
     Examples
     --------
@@ -75,32 +77,32 @@ def oetf_BT2020(value, is_10_bits_system=True):
     0.4090077...
     """
 
-    value = np.asarray(value)
+    E = np.asarray(E)
 
     a = BT2020_CONSTANTS.alpha(is_10_bits_system)
     b = BT2020_CONSTANTS.beta(is_10_bits_system)
 
-    return as_numeric(np.where(value < b,
-                               value * 4.5,
-                               a * (value ** 0.45) - (a - 1)))
+    return as_numeric(np.where(E < b,
+                               E * 4.5,
+                               a * (E ** 0.45) - (a - 1)))
 
 
-def eotf_BT2020(value, is_10_bits_system=True):
+def eotf_BT2020(E_p, is_10_bits_system=True):
     """
     Defines *Recommendation ITU-R BT.2020* electro-optical transfer function
     (EOTF / EOCF).
 
     Parameters
     ----------
-    value : numeric or array_like
-        Value.
+    E_p : numeric or array_like
+        Non-linear signal :math:`E'`.
     is_10_bits_system : bool
         *BT.709* *alpha* and *beta* constants are used if system is 10 bit.
 
     Returns
     -------
     numeric or ndarray
-        Decoded value.
+        Resulting voltage :math:`E`.
 
     Examples
     --------
@@ -108,11 +110,11 @@ def eotf_BT2020(value, is_10_bits_system=True):
     0.5...
     """
 
-    value = np.asarray(value)
+    E_p = np.asarray(E_p)
 
     a = BT2020_CONSTANTS.alpha(is_10_bits_system)
     b = BT2020_CONSTANTS.beta(is_10_bits_system)
 
-    return as_numeric(np.where(value < oetf_BT2020(b),
-                               value / 4.5,
-                               ((value + (a - 1)) / a) ** (1 / 0.45)))
+    return as_numeric(np.where(E_p < oetf_BT2020(b),
+                               E_p / 4.5,
+                               ((E_p + (a - 1)) / a) ** (1 / 0.45)))

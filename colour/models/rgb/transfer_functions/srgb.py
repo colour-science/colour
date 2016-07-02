@@ -47,20 +47,20 @@ __all__ = ['oetf_sRGB',
            'eotf_sRGB']
 
 
-def oetf_sRGB(value):
+def oetf_sRGB(L):
     """
     Defines the *sRGB* colourspace opto-electronic transfer function
     (OETF / OECF).
 
     Parameters
     ----------
-    value : numeric or array_like
-        Value.
+    L : numeric or array_like
+        *Luminance* :math:`L` of the image.
 
     Returns
     -------
     numeric or ndarray
-        Encoded value.
+        Corresponding electrical signal :math:`V`.
 
     Examples
     --------
@@ -68,27 +68,27 @@ def oetf_sRGB(value):
     0.4613561...
     """
 
-    value = np.asarray(value)
+    L = np.asarray(L)
 
-    return as_numeric(np.where(value <= 0.0031308,
-                               value * 12.92,
-                               1.055 * (value ** (1 / 2.4)) - 0.055))
+    return as_numeric(np.where(L <= 0.0031308,
+                               L * 12.92,
+                               1.055 * (L ** (1 / 2.4)) - 0.055))
 
 
-def eotf_sRGB(value):
+def eotf_sRGB(V):
     """
     Defines the *sRGB* colourspace electro-optical transfer function
     (EOTF / EOCF).
 
     Parameters
     ----------
-    value : numeric or array_like
-        Value.
+    V : numeric or array_like
+        Electrical signal :math:`V`..
 
     Returns
     -------
     numeric or ndarray
-        Decoded value.
+        Corresponding *luminance* :math:`L` of the image.
 
     Examples
     --------
@@ -104,8 +104,8 @@ def eotf_sRGB(value):
              'unit tests and others computations but should not be used as an '
              '*EOTF*!'))
 
-    value = np.asarray(value)
+    V = np.asarray(V)
 
-    return as_numeric(np.where(value <= oetf_sRGB(0.0031308),
-                               value / 12.92,
-                               ((value + 0.055) / 1.055) ** 2.4))
+    return as_numeric(np.where(V <= oetf_sRGB(0.0031308),
+                               V / 12.92,
+                               ((V + 0.055) / 1.055) ** 2.4))

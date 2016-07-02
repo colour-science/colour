@@ -40,20 +40,20 @@ __all__ = ['oetf_DCIP3',
            'eotf_DCIP3']
 
 
-def oetf_DCIP3(value):
+def oetf_DCIP3(XYZ):
     """
     Defines the *DCI-P3* colourspace opto-electronic transfer function
     (OETF / OECF).
 
     Parameters
     ----------
-    value : numeric or array_like
-        Value.
+    XYZ : numeric or array_like
+        *CIE XYZ* tristimulus values.
 
     Returns
     -------
     numeric or ndarray
-        Encoded value.
+        Non-linear *CIE XYZ'* tristimulus values.
 
     Examples
     --------
@@ -61,25 +61,25 @@ def oetf_DCIP3(value):
     461.9922059...
     """
 
-    value = np.asarray(value)
+    XYZ = np.asarray(XYZ)
 
-    return 4095 * (value / 52.37) ** (1 / 2.6)
+    return 4095 * (XYZ / 52.37) ** (1 / 2.6)
 
 
-def eotf_DCIP3(value):
+def eotf_DCIP3(XYZ_p):
     """
     Defines the *DCI-P3* colourspace electro-optical transfer function
     (EOTF / EOCF).
 
     Parameters
     ----------
-    value : numeric or array_like
-        Value.
+    XYZ_p : numeric or array_like
+        Non-linear *CIE XYZ'* tristimulus values.
 
     Returns
     -------
     numeric or ndarray
-        Decoded value.
+        *CIE XYZ* tristimulus values.
 
     Examples
     --------
@@ -87,6 +87,6 @@ def eotf_DCIP3(value):
     0.18...
     """
 
-    value = np.asarray(value)
+    XYZ_p = np.asarray(XYZ_p)
 
-    return 52.37 * (value / 4095) ** 2.6
+    return 52.37 * (XYZ_p / 4095) ** 2.6
