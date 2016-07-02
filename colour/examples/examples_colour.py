@@ -56,7 +56,7 @@ print(colour.xy_to_CCT_McCamy1992(xy))
 
 print('\n')
 
-CCT = np.tile(6504.389383, 6)
+CCT = np.tile(6504.38938305, 6)
 message_box(('Definitions return value may gain a dimension with respect to '
              'the parameter(s):\n'
              '\n{0}'.format(CCT)))

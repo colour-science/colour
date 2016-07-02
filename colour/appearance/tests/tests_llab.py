@@ -125,7 +125,7 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
         normalised cone responses matrix.
         """
 
-        start = np.array([1., 1., 1.])
+        start = np.array([1, 1, 1])
         result = np.array(start)
         for _ in range(100000):
             result = llab.LLAB_RGB_TO_XYZ_MATRIX.dot(result)

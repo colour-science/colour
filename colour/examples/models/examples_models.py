@@ -233,7 +233,7 @@ print(colour.XYZ_to_IPT(XYZ))
 
 print('\n')
 
-IPT = (0.9494884, 0.28747522, 0.36109201)
+IPT = (0.94948840, 0.28747522, 0.36109201)
 message_box(('Converting to "CIE XYZ" tristimulus values from given "IPT" '
              'colourspace values:\n'
              '\n\t{0}'.format(IPT)))

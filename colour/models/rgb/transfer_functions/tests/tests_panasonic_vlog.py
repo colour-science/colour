@@ -46,12 +46,12 @@ log_encoding_VLog` definition.
 
         self.assertAlmostEqual(
             log_encoding_VLog(0.18),
-            0.42331144876013616,
+            0.423311448760136,
             places=7)
 
         self.assertAlmostEqual(
             log_encoding_VLog(1.0),
-            0.5991177001581459,
+            0.599117700158146,
             places=7)
 
     def test_n_dimensional_log_encoding_VLog(self):
@@ -61,7 +61,7 @@ log_encoding_VLog` definition n-dimensional arrays support.
         """
 
         L = 0.18
-        V = 0.42331144876013616
+        V = 0.423311448760136
         np.testing.assert_almost_equal(
             log_encoding_VLog(L),
             V,
@@ -117,12 +117,12 @@ log_decoding_VLog` definition.
             places=7)
 
         self.assertAlmostEqual(
-            log_decoding_VLog(0.42331144876013616),
+            log_decoding_VLog(0.423311448760136),
             0.18,
             places=7)
 
         self.assertAlmostEqual(
-            log_decoding_VLog(0.5991177001581459),
+            log_decoding_VLog(0.599117700158146),
             1.0,
             places=7)
 
@@ -132,7 +132,7 @@ log_decoding_VLog` definition.
 log_decoding_VLog` definition n-dimensional arrays support.
         """
 
-        V = 0.42331144876013616
+        V = 0.423311448760136
         L = 0.18
         np.testing.assert_almost_equal(
             log_decoding_VLog(V),

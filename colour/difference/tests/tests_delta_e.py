@@ -194,21 +194,21 @@ class TestDelta_E_CIE2000(unittest.TestCase):
             delta_E_CIE2000(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 426.67945353, 72.39590835])),
-            94.0356490267,
+            94.03564903,
             places=7)
 
         self.assertAlmostEqual(
             delta_E_CIE2000(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 74.05216981, 276.45318193])),
-            14.8790641937,
+            14.87906419,
             places=7)
 
         self.assertAlmostEqual(
             delta_E_CIE2000(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 8.32281957, -73.58297716])),
-            68.2309487895,
+            68.23094879,
             places=7)
 
         self.assertAlmostEqual(
@@ -421,21 +421,21 @@ class TestDelta_E_CMC(unittest.TestCase):
             delta_E_CMC(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 426.67945353, 72.39590835])),
-            172.704771287,
+            172.70477129,
             places=7)
 
         self.assertAlmostEqual(
             delta_E_CMC(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 74.05216981, 276.45318193])),
-            20.5973271674,
+            20.59732717,
             places=7)
 
         self.assertAlmostEqual(
             delta_E_CMC(
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 8.32281957, -73.58297716])),
-            121.718414791,
+            121.71841479,
             places=7)
 
         self.assertAlmostEqual(
@@ -443,7 +443,7 @@ class TestDelta_E_CMC(unittest.TestCase):
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 426.67945353, 72.39590835]),
                 l=1),
-            172.704771287,
+            172.70477129,
             places=7)
 
         self.assertAlmostEqual(
@@ -451,7 +451,7 @@ class TestDelta_E_CMC(unittest.TestCase):
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 74.05216981, 276.45318193]),
                 l=1),
-            20.5973271674,
+            20.59732717,
             places=7)
 
         self.assertAlmostEqual(
@@ -459,7 +459,7 @@ class TestDelta_E_CMC(unittest.TestCase):
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([100.00000000, 8.32281957, -73.58297716]),
                 l=1),
-            121.718414791,
+            121.71841479,
             places=7)
 
     def test_n_dimensional_delta_E_CMC(self):
@@ -470,7 +470,7 @@ class TestDelta_E_CMC(unittest.TestCase):
 
         Lab_1 = np.array([100.00000000, 21.57210357, 272.22819350])
         Lab_2 = np.array([100.00000000, 426.67945353, 72.39590835])
-        delta_E = 172.70477128656015
+        delta_E = 172.70477129
         np.testing.assert_almost_equal(
             delta_E_CMC(Lab_1, Lab_2),
             delta_E,

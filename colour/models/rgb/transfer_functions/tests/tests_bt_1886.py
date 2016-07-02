@@ -44,12 +44,12 @@ oetf_BT1886` definition.
 
         self.assertAlmostEqual(
             oetf_BT1886(184.32),
-            0.26840136372655432,
+            0.268401363726554,
             places=7)
 
         self.assertAlmostEqual(
             oetf_BT1886(940),
-            0.99999999999999989,
+            1.000000000000000,
             places=7)
 
     def test_n_dimensional_oetf_BT1886(self):
@@ -59,7 +59,7 @@ oetf_BT1886` definition n-dimensional arrays support.
         """
 
         L = 184.32
-        V = 0.26840136372655432
+        V = 0.268401363726554
         np.testing.assert_almost_equal(
             oetf_BT1886(L),
             V,
@@ -116,12 +116,12 @@ eotf_BT1886` definition.
 
         self.assertAlmostEqual(
             eotf_BT1886(0.18),
-            136.58617957264661,
+            136.58617957,
             places=7)
 
         self.assertAlmostEqual(
             eotf_BT1886(1.0),
-            939.99999999999989,
+            940.00000000,
             places=7)
 
     def test_n_dimensional_eotf_BT1886(self):
@@ -131,7 +131,7 @@ eotf_BT1886` definition n-dimensional arrays support.
         """
 
         V = 0.18
-        L = 136.58617957264661
+        L = 136.58617957
         np.testing.assert_almost_equal(
             eotf_BT1886(V),
             L,

@@ -41,18 +41,18 @@ class TestLuminanceNewhall1943(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            luminance_Newhall1943(3.74629715382),
-            10.4089874577,
+            luminance_Newhall1943(3.74629715),
+            10.40898746,
             places=7)
 
         self.assertAlmostEqual(
-            luminance_Newhall1943(8.64728711385),
-            71.3174801757,
+            luminance_Newhall1943(8.64728711),
+            71.31748010,
             places=7)
 
         self.assertAlmostEqual(
-            luminance_Newhall1943(1.52569021578),
-            2.06998750444,
+            luminance_Newhall1943(1.52569022),
+            2.06998750,
             places=7)
 
     def test_n_dimensional_luminance_Newhall1943(self):
@@ -61,7 +61,7 @@ class TestLuminanceNewhall1943(unittest.TestCase):
         definition n-dimensional arrays support.
         """
 
-        V = 3.74629715382
+        V = 3.74629715
         Y = 10.408987457743208
         np.testing.assert_almost_equal(
             luminance_Newhall1943(V),
@@ -113,18 +113,18 @@ class TestLuminanceASTMD153508(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            luminance_ASTMD153508(3.74629715382),
-            10.1488096782,
+            luminance_ASTMD153508(3.74629715),
+            10.14880968,
             places=7)
 
         self.assertAlmostEqual(
-            luminance_ASTMD153508(8.64728711385),
-            69.5324092373,
+            luminance_ASTMD153508(8.64728711),
+            69.53240916,
             places=7)
 
         self.assertAlmostEqual(
-            luminance_ASTMD153508(1.52569021578),
-            2.01830631474,
+            luminance_ASTMD153508(1.52569022),
+            2.01830631,
             places=7)
 
     def test_n_dimensional_luminance_ASTMD153508(self):
@@ -133,7 +133,7 @@ class TestLuminanceASTMD153508(unittest.TestCase):
         definition n-dimensional arrays support.
         """
 
-        V = 3.74629715382
+        V = 3.74629715
         Y = 10.148809678226682
         np.testing.assert_almost_equal(
             luminance_ASTMD153508(V),
@@ -185,33 +185,33 @@ class TestLuminanceCIE1976(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            luminance_CIE1976(37.9856290977),
-            10.08,
+            luminance_CIE1976(37.98562910),
+            10.08000000,
             places=7)
 
         self.assertAlmostEqual(
-            luminance_CIE1976(80.0444155585),
-            56.76,
+            luminance_CIE1976(80.04441556),
+            56.76000000,
             places=7)
 
         self.assertAlmostEqual(
-            luminance_CIE1976(99.3467279026),
-            98.32,
+            luminance_CIE1976(99.34672790),
+            98.32000000,
             places=7)
 
         self.assertAlmostEqual(
-            luminance_CIE1976(37.9856290977, 50),
-            5.040000000013152,
+            luminance_CIE1976(37.98562910, 50),
+            5.04000000,
             places=7)
 
         self.assertAlmostEqual(
-            luminance_CIE1976(37.9856290977, 75),
-            7.560000000019728,
+            luminance_CIE1976(37.98562910, 75),
+            7.56000000,
             places=7)
 
         self.assertAlmostEqual(
-            luminance_CIE1976(37.9856290977, 95),
-            9.576000000024989,
+            luminance_CIE1976(37.98562910, 95),
+            9.57600000,
             places=7)
 
     def test_n_dimensional_luminance_CIE1976(self):
@@ -220,7 +220,7 @@ class TestLuminanceCIE1976(unittest.TestCase):
         definition n-dimensional arrays support.
         """
 
-        Lstar = 37.9856290977
+        Lstar = 37.98562910
         Y = 10.080000000026304
         np.testing.assert_almost_equal(
             luminance_CIE1976(Lstar),

@@ -70,9 +70,10 @@ CIE_RGB_WHITEPOINT = ILLUMINANTS.get(
 CIE_RGB_WHITEPOINT : tuple
 """
 
-CIE_RGB_TO_XYZ_MATRIX = np.array([[0.4887180, 0.3106803, 0.2006017],
-                                  [0.1762044, 0.8129847, 0.0108109],
-                                  [0.0000000, 0.0102048, 0.9897952]])
+CIE_RGB_TO_XYZ_MATRIX = np.array(
+    [[0.4887180, 0.3106803, 0.2006017],
+     [0.1762044, 0.8129847, 0.0108109],
+     [0.0000000, 0.0102048, 0.9897952]])
 """
 *CIE RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 

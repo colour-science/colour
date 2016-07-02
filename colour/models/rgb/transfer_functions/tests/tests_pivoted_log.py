@@ -46,12 +46,12 @@ log_encoding_PivotedLog` definition.
 
         self.assertAlmostEqual(
             log_encoding_PivotedLog(0.18),
-            0.43499511241446726,
+            0.434995112414467,
             places=7)
 
         self.assertAlmostEqual(
             log_encoding_PivotedLog(1.0),
-            0.6533902722082191,
+            0.653390272208219,
             places=7)
 
     def test_n_dimensional_log_encoding_PivotedLog(self):
@@ -61,7 +61,7 @@ log_encoding_PivotedLog` definition n-dimensional arrays support.
         """
 
         L = 0.18
-        V = 0.43499511241446726
+        V = 0.434995112414467
         np.testing.assert_almost_equal(
             log_encoding_PivotedLog(L),
             V,
@@ -117,12 +117,12 @@ log_decoding_PivotedLog` definition.
             places=7)
 
         self.assertAlmostEqual(
-            log_decoding_PivotedLog(0.43499511241446726),
+            log_decoding_PivotedLog(0.434995112414467),
             0.18,
             places=7)
 
         self.assertAlmostEqual(
-            log_decoding_PivotedLog(0.6533902722082191),
+            log_decoding_PivotedLog(0.653390272208219),
             1.0,
             places=7)
 
@@ -132,7 +132,7 @@ log_decoding_PivotedLog` definition.
 log_decoding_PivotedLog` definition n-dimensional arrays support.
         """
 
-        V = 0.43499511241446726
+        V = 0.434995112414467
         L = 0.18
         np.testing.assert_almost_equal(
             log_decoding_PivotedLog(V),

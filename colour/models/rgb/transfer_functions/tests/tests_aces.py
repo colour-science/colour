@@ -106,12 +106,12 @@ log_decoding_ACESproxy` definition.
 
         self.assertAlmostEqual(
             log_decoding_ACESproxy(64),
-            0.0011857371917920389,
+            0.001185737191792,
             places=7)
 
         self.assertAlmostEqual(
             log_decoding_ACESproxy(426),
-            0.17924440600197841,
+            0.179244406001978,
             places=7)
 
         self.assertAlmostEqual(
@@ -126,7 +126,7 @@ log_decoding_ACESproxy` definition n-dimensional arrays support.
         """
 
         log = 426.0
-        linear = 0.17924440600197841
+        linear = 0.179244406001978
         np.testing.assert_almost_equal(
             log_decoding_ACESproxy(log),
             linear,
@@ -178,17 +178,17 @@ log_encoding_ACEScc` definition.
 
         self.assertAlmostEqual(
             log_encoding_ACEScc(0.0),
-            -0.35844748858447484,
+            -0.358447488584475,
             places=7)
 
         self.assertAlmostEqual(
             log_encoding_ACEScc(0.18),
-            0.4135884024924423,
+            0.413588402492442,
             places=7)
 
         self.assertAlmostEqual(
             log_encoding_ACEScc(1.0),
-            0.5547945205479452,
+            0.554794520547945,
             places=7)
 
     def test_n_dimensional_log_encoding_ACEScc(self):
@@ -198,7 +198,7 @@ log_encoding_ACEScc` definition n-dimensional arrays support.
         """
 
         linear = 0.18
-        log = 0.4135884024924423
+        log = 0.413588402492442
         np.testing.assert_almost_equal(
             log_encoding_ACEScc(linear),
             log,
@@ -249,17 +249,17 @@ log_decoding_ACEScc` definition.
         """
 
         self.assertAlmostEqual(
-            log_decoding_ACEScc(-0.35844748858447484),
+            log_decoding_ACEScc(-0.358447488584475),
             0.0,
             places=7)
 
         self.assertAlmostEqual(
-            log_decoding_ACEScc(0.4135884024924423),
+            log_decoding_ACEScc(0.413588402492442),
             0.18,
             places=7)
 
         self.assertAlmostEqual(
-            log_decoding_ACEScc(0.5547945205479452),
+            log_decoding_ACEScc(0.554794520547945),
             1.0,
             places=7)
 
@@ -269,7 +269,7 @@ log_decoding_ACEScc` definition.
 log_decoding_ACEScc` definition n-dimensional arrays support.
         """
 
-        log = 0.4135884024924423
+        log = 0.413588402492442
         linear = 0.18
         np.testing.assert_almost_equal(
             log_decoding_ACEScc(log),

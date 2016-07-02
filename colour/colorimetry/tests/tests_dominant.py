@@ -313,13 +313,13 @@ class TestExcitationPurity(unittest.TestCase):
 
         self.assertAlmostEqual(
             excitation_purity(xy, xy_n, CIE_2_1931_CMFS),
-            0.15711818699352484,
+            0.157118186993525,
             places=7)
 
         xy = np.array([0.35000, 0.25000])
         self.assertAlmostEqual(
             excitation_purity(xy, xy_n, CIE_2_1931_CMFS),
-            0.37065942413560876,
+            0.370659424135609,
             places=7)
 
     def test_n_dimensional_excitation_purity(self):
@@ -330,7 +330,7 @@ class TestExcitationPurity(unittest.TestCase):
 
         xy = np.array([0.26415, 0.37770])
         xy_n = D65
-        P_e = 0.15711818699352484
+        P_e = 0.157118186993525
         np.testing.assert_almost_equal(
             excitation_purity(xy, xy_n, CIE_2_1931_CMFS),
             P_e,
@@ -385,13 +385,13 @@ class TestColorimetricPurity(unittest.TestCase):
 
         self.assertAlmostEqual(
             colorimetric_purity(xy, xy_n, CIE_2_1931_CMFS),
-            0.26579794419081187,
+            0.265797944190812,
             places=7)
 
         xy = np.array([0.35000, 0.25000])
         self.assertAlmostEqual(
             colorimetric_purity(xy, xy_n, CIE_2_1931_CMFS),
-            0.17178780216246106,
+            0.171787802162461,
             places=7)
 
     def test_n_dimensional_colorimetric_purity(self):
@@ -402,7 +402,7 @@ class TestColorimetricPurity(unittest.TestCase):
 
         xy = np.array([0.26415, 0.37770])
         xy_n = D65
-        P_e = 0.26579794419081187
+        P_e = 0.265797944190812
         np.testing.assert_almost_equal(
             colorimetric_purity(xy, xy_n, CIE_2_1931_CMFS),
             P_e,

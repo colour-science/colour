@@ -50,7 +50,7 @@ log_encoding_REDLog` definition.
 
         self.assertAlmostEqual(
             log_encoding_REDLog(0.18),
-            0.63762184598817484,
+            0.637621845988175,
             places=7)
 
         self.assertAlmostEqual(
@@ -65,7 +65,7 @@ log_encoding_REDLog` definition n-dimensional arrays support.
         """
 
         L = 0.18
-        V = 0.63762184598817484
+        V = 0.637621845988175
         np.testing.assert_almost_equal(
             log_encoding_REDLog(L),
             V,
@@ -121,7 +121,7 @@ log_decoding_REDLog` definition.
             places=7)
 
         self.assertAlmostEqual(
-            log_decoding_REDLog(0.63762184598817484),
+            log_decoding_REDLog(0.637621845988175),
             0.18,
             places=7)
 
@@ -136,7 +136,7 @@ log_decoding_REDLog` definition.
 log_decoding_REDLog` definition n-dimensional arrays support.
         """
 
-        V = 0.63762184598817484
+        V = 0.637621845988175
         L = 0.18
         np.testing.assert_almost_equal(
             log_decoding_REDLog(V),
@@ -189,17 +189,17 @@ log_encoding_REDLogFilm` definition.
 
         self.assertAlmostEqual(
             log_encoding_REDLogFilm(0.0),
-            0.092864125122189639,
+            0.092864125122190,
             places=7)
 
         self.assertAlmostEqual(
             log_encoding_REDLogFilm(0.18),
-            0.45731961308541841,
+            0.457319613085418,
             places=7)
 
         self.assertAlmostEqual(
             log_encoding_REDLogFilm(1.0),
-            0.66959921798631472,
+            0.669599217986315,
             places=7)
 
     def test_n_dimensional_log_encoding_REDLogFilm(self):
@@ -209,7 +209,7 @@ log_encoding_REDLogFilm` definition n-dimensional arrays support.
         """
 
         L = 0.18
-        V = 0.45731961308541841
+        V = 0.457319613085418
         np.testing.assert_almost_equal(
             log_encoding_REDLogFilm(L),
             V,
@@ -260,17 +260,17 @@ log_decoding_REDLogFilm` definition.
         """
 
         self.assertAlmostEqual(
-            log_decoding_REDLogFilm(0.092864125122189639),
+            log_decoding_REDLogFilm(0.092864125122190),
             0.0,
             places=7)
 
         self.assertAlmostEqual(
-            log_decoding_REDLogFilm(0.45731961308541841),
+            log_decoding_REDLogFilm(0.457319613085418),
             0.18,
             places=7)
 
         self.assertAlmostEqual(
-            log_decoding_REDLogFilm(0.66959921798631472),
+            log_decoding_REDLogFilm(0.669599217986315),
             1.0,
             places=7)
 
@@ -280,7 +280,7 @@ log_decoding_REDLogFilm` definition.
 log_decoding_REDLogFilm` definition n-dimensional arrays support.
         """
 
-        V = 0.45731961308541841
+        V = 0.457319613085418
         L = 0.18
         np.testing.assert_almost_equal(
             log_decoding_REDLogFilm(V),

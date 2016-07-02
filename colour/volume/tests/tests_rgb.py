@@ -123,7 +123,7 @@ RGB_colourspace_volume_coverage_MonteCarlo` definition.
                 is_within_pointer_gamut,
                 10e3,
                 random_state=np.random.RandomState(2)),
-            83.02013422818791,
+            83.02013423,
             decimal=7)
 
 
@@ -145,7 +145,7 @@ RGB_colourspace_pointer_gamut_coverage_MonteCarlo` definition.
                 REC_709_COLOURSPACE,
                 10e3,
                 random_state=np.random.RandomState(2)),
-            83.02013422818791,
+            83.02013423,
             decimal=7)
 
 
@@ -167,7 +167,7 @@ RGB_colourspace_visible_spectrum_coverage_MonteCarlo` definition.
                 REC_709_COLOURSPACE,
                 10e3,
                 random_state=np.random.RandomState(2)),
-            36.48383937316356,
+            36.48383937,
             decimal=7)
 
 

@@ -46,7 +46,7 @@ oetf_ProPhotoRGB` definition.
 
         self.assertAlmostEqual(
             oetf_ProPhotoRGB(0.18),
-            0.3857114247511376,
+            0.385711424751138,
             places=7)
 
         self.assertAlmostEqual(
@@ -61,7 +61,7 @@ oetf_ProPhotoRGB` definition n-dimensional arrays support.
         """
 
         L = 0.18
-        V = 0.3857114247511376
+        V = 0.385711424751138
         np.testing.assert_almost_equal(
             oetf_ProPhotoRGB(L),
             V,
@@ -117,7 +117,7 @@ eotf_ProPhotoRGB` definition.
             places=7)
 
         self.assertAlmostEqual(
-            eotf_ProPhotoRGB(0.3857114247511376),
+            eotf_ProPhotoRGB(0.385711424751138),
             0.18,
             places=7)
 
@@ -132,7 +132,7 @@ eotf_ProPhotoRGB` definition.
 eotf_ProPhotoRGB` definition n-dimensional arrays support.
         """
 
-        L = 0.3857114247511376
+        L = 0.385711424751138
         V = 0.18
         np.testing.assert_almost_equal(
             eotf_ProPhotoRGB(L),

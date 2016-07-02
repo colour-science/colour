@@ -43,11 +43,11 @@ gamma_function` definition.
 
         self.assertAlmostEqual(
             gamma_function(0.18, 2.2),
-            0.022993204992706778,
+            0.022993204992707,
             places=7)
 
         self.assertAlmostEqual(
-            gamma_function(0.022993204992706778, 1.0 / 2.2),
+            gamma_function(0.022993204992707, 1.0 / 2.2),
             0.18,
             places=7)
 
@@ -58,7 +58,7 @@ gamma_function` definition n-dimensional arrays support.
         """
 
         a = 0.18
-        a_p = 0.022993204992706778
+        a_p = 0.022993204992707
         np.testing.assert_almost_equal(
             gamma_function(a, 2.2),
             a_p,

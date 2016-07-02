@@ -41,17 +41,17 @@ log_encoding_Cineon` definition.
 
         self.assertAlmostEqual(
             log_encoding_Cineon(0.0),
-            0.092864125122189639,
+            0.092864125122190,
             places=7)
 
         self.assertAlmostEqual(
             log_encoding_Cineon(0.18),
-            0.45731961308541841,
+            0.457319613085418,
             places=7)
 
         self.assertAlmostEqual(
             log_encoding_Cineon(1.0),
-            0.66959921798631472,
+            0.669599217986315,
             places=7)
 
     def test_n_dimensional_log_encoding_Cineon(self):
@@ -61,7 +61,7 @@ log_encoding_Cineon` definition n-dimensional arrays support.
         """
 
         L = 0.18
-        V = 0.45731961308541841
+        V = 0.457319613085418
         np.testing.assert_almost_equal(
             log_encoding_Cineon(L),
             V,
@@ -112,17 +112,17 @@ log_decoding_Cineon` definition.
         """
 
         self.assertAlmostEqual(
-            log_decoding_Cineon(0.092864125122189639),
+            log_decoding_Cineon(0.092864125122190),
             0.0,
             places=7)
 
         self.assertAlmostEqual(
-            log_decoding_Cineon(0.45731961308541841),
+            log_decoding_Cineon(0.457319613085418),
             0.18,
             places=7)
 
         self.assertAlmostEqual(
-            log_decoding_Cineon(0.66959921798631472),
+            log_decoding_Cineon(0.669599217986315),
             1.0,
             places=7)
 
@@ -132,7 +132,7 @@ log_decoding_Cineon` definition.
 log_decoding_Cineon` definition n-dimensional arrays support.
         """
 
-        V = 0.45731961308541841
+        V = 0.457319613085418
         L = 0.18
         np.testing.assert_almost_equal(
             log_decoding_Cineon(V),

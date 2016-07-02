@@ -46,7 +46,7 @@ log_encoding_ViperLog` definition.
 
         self.assertAlmostEqual(
             log_encoding_ViperLog(0.18),
-            0.63600806701041346,
+            0.636008067010413,
             places=7)
 
         self.assertAlmostEqual(
@@ -61,7 +61,7 @@ log_encoding_ViperLog` definition n-dimensional arrays support.
         """
 
         L = 0.18
-        V = 0.63600806701041346
+        V = 0.636008067010413
         np.testing.assert_almost_equal(
             log_encoding_ViperLog(L),
             V,
@@ -117,7 +117,7 @@ log_decoding_ViperLog` definition.
             places=7)
 
         self.assertAlmostEqual(
-            log_decoding_ViperLog(0.63600806701041346),
+            log_decoding_ViperLog(0.636008067010413),
             0.18,
             places=7)
 
@@ -132,7 +132,7 @@ log_decoding_ViperLog` definition.
 log_decoding_ViperLog` definition n-dimensional arrays support.
         """
 
-        V = 0.63600806701041346
+        V = 0.636008067010413
         L = 0.18
         np.testing.assert_almost_equal(
             log_decoding_ViperLog(V),
