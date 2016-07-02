@@ -93,7 +93,7 @@ def eotf_sRGB(value):
     Examples
     --------
     >>> eotf_sRGB(0.46135612950044164)  # doctest: +ELLIPSIS
-    0.18...
+    0.1...
     """
 
     warning(('*sRGB* *OETF* is a piece-wise function: in order to reduce '

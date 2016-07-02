@@ -83,7 +83,7 @@ def eotf_ProPhotoRGB(value):
     Examples
     --------
     >>> eotf_ProPhotoRGB(0.3857114247511376)  # doctest: +ELLIPSIS
-    0.18...
+    0.1...
     """
 
     value = np.asarray(value)

@@ -81,18 +81,18 @@ class TestClosest(unittest.TestCase):
         Tests :func:`colour.utilities.array.closest` definition.
         """
 
-        y = np.array([24.31357115,
+        a = np.array([24.31357115,
                       63.62396289,
                       55.71528816,
                       62.70988028,
                       46.84480573,
                       25.40026416])
 
-        self.assertEqual(closest(y, 63.05), 62.70988028)
+        self.assertEqual(closest(a, 63.05), 62.70988028)
 
-        self.assertEqual(closest(y, 24.90), 25.40026416)
+        self.assertEqual(closest(a, 24.90), 25.40026416)
 
-        self.assertEqual(closest(y, 51.15), 46.84480573)
+        self.assertEqual(closest(a, 51.15), 46.84480573)
 
 
 class TestNormaliseMaximum(unittest.TestCase):

@@ -36,14 +36,14 @@ __all__ = ['as_numeric',
            'centroid']
 
 
-def as_numeric(x, type_=float):
+def as_numeric(a, type_=np.float_):
     """
-    Converts given :math:`x` variable to *numeric*. In the event where
-    :math:`x` cannot be converted, it is passed as is.
+    Converts given :math:`a` variable to *numeric*. In the event where
+    :math:`a` cannot be converted, it is passed as is.
 
     Parameters
     ----------
-    x : object
+    a : object
         Variable to convert.
     type_ : object
         Type to use for conversion.
@@ -51,7 +51,7 @@ def as_numeric(x, type_=float):
     Returns
     -------
     ndarray
-        :math:`x` variable converted to *numeric*.
+        :math:`a` variable converted to *numeric*.
 
     See Also
     --------
@@ -62,55 +62,55 @@ def as_numeric(x, type_=float):
     >>> as_numeric(np.array([1]))
     1.0
     >>> as_numeric(np.arange(10))
-    array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+    array([ 0.,  1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.])
     """
 
     try:
-        return type_(x)
+        return type_(a)
     except TypeError:
-        return x
+        return a
 
 
-def closest(y, x):
+def closest(a, b):
     """
-    Returns closest :math:`y` variable element to reference :math:`x` variable.
+    Returns closest :math:`a` variable element to reference :math:`b` variable.
 
     Parameters
     ----------
-    y : array_like
+    a : array_like
         Variable to search for the closest element.
-    x : numeric
+    b : numeric
         Reference variable.
 
     Returns
     -------
     numeric
-        Closest :math:`y` variable element.
+        Closest :math:`a` variable element.
 
     Examples
     --------
-    >>> y = np.array([24.31357115,
+    >>> a = np.array([24.31357115,
     ...               63.62396289,
     ...               55.71528816,
     ...               62.70988028,
     ...               46.84480573,
     ...               25.40026416])
-    >>> closest(y, 63)
+    >>> closest(a, 63)
     62.70988028
     """
 
-    return y[(np.abs(np.array(y) - x)).argmin()]
+    return a[(np.abs(np.array(a) - b)).argmin()]
 
 
-def normalise_maximum(x, axis=None, factor=1, clip=True):
+def normalise_maximum(a, axis=None, factor=1, clip=True):
     """
-    Normalises given *array_like* :math:`x` variable values by :math:`x`
+    Normalises given *array_like* :math:`a` variable values by :math:`a`
     variable maximum value and optionally clip them between.
 
     Parameters
     ----------
-    x : array_like
-        :math:`x` variable to normalise.
+    a : array_like
+        :math:`a` variable to normalise.
     axis : numeric, optional
         Normalization axis.
     factor : numeric, optional
@@ -121,21 +121,21 @@ def normalise_maximum(x, axis=None, factor=1, clip=True):
     Returns
     -------
     ndarray
-        Maximum normalised :math:`x` variable.
+        Maximum normalised :math:`a` variable.
 
     Examples
     --------
-    >>> x = np.array([0.48224885, 0.31651974, 0.22070513])
-    >>> normalise_maximum(x)  # doctest: +ELLIPSIS
+    >>> a = np.array([0.48224885, 0.31651974, 0.22070513])
+    >>> normalise_maximum(a)  # doctest: +ELLIPSIS
     array([ 1.        ,  0.6563411...,  0.4576581...])
     """
 
-    x = np.asarray(x)
+    a = np.asarray(a)
 
-    maximum = np.max(x, axis=axis)
-    x *= (1 / maximum[..., np.newaxis]) * factor
+    maximum = np.max(a, axis=axis)
+    a *= (1 / maximum[..., np.newaxis]) * factor
 
-    return np.clip(x, 0, factor) if clip else x
+    return np.clip(a, 0, factor) if clip else a
 
 
 def interval(distribution):
@@ -191,14 +191,14 @@ def is_uniform(distribution):
     --------
     Uniformly spaced variable:
 
-    >>> y = np.array([1, 2, 3, 4, 5])
-    >>> is_uniform(y)
+    >>> a = np.array([1, 2, 3, 4, 5])
+    >>> is_uniform(a)
     True
 
     Non-uniformly spaced variable:
 
-    >>> y = np.array([1, 2, 3.1415, 4, 5])
-    >>> is_uniform(y)
+    >>> a = np.array([1, 2, 3.1415, 4, 5])
+    >>> is_uniform(a)
     False
     """
 
