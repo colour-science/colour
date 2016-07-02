@@ -39,7 +39,7 @@ from colour.models import (
     XYZ_to_Luv,
     XYZ_to_xy,
     xy_to_XYZ)
-from colour.utilities import CaseInsensitiveMapping
+from colour.utilities import CaseInsensitiveMapping, filter_kwargs
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -76,7 +76,7 @@ class CorrespondingChromaticitiesPrediction(
     """
 
 
-def corresponding_chromaticities_prediction_CIE1994(experiment=1, **kwargs):
+def corresponding_chromaticities_prediction_CIE1994(experiment=1):
     """
     Returns the corresponding chromaticities prediction for CIE 1994
     chromatic adaptation model.
@@ -86,8 +86,6 @@ def corresponding_chromaticities_prediction_CIE1994(experiment=1, **kwargs):
     experiment : integer, optional
         {1, 2, 3, 4, 6, 8, 9, 11, 12}
         Breneman (1987) experiment number.
-    \**kwargs : dict, optional
-        Keywords arguments.
 
     Returns
     -------
@@ -139,7 +137,7 @@ def corresponding_chromaticities_prediction_CIE1994(experiment=1, **kwargs):
     return tuple(prediction)
 
 
-def corresponding_chromaticities_prediction_CMCCAT2000(experiment=1, **kwargs):
+def corresponding_chromaticities_prediction_CMCCAT2000(experiment=1):
     """
     Returns the corresponding chromaticities prediction for CMCCAT2000
     chromatic adaptation model.
@@ -149,8 +147,6 @@ def corresponding_chromaticities_prediction_CMCCAT2000(experiment=1, **kwargs):
     experiment : integer, optional
         {1, 2, 3, 4, 6, 8, 9, 11, 12}
         Breneman (1987) experiment number.
-    \**kwargs : dict, optional
-        Keywords arguments.
 
     Returns
     -------
@@ -201,8 +197,7 @@ def corresponding_chromaticities_prediction_CMCCAT2000(experiment=1, **kwargs):
     return tuple(prediction)
 
 
-def corresponding_chromaticities_prediction_Fairchild1990(experiment=1,
-                                                          **kwargs):
+def corresponding_chromaticities_prediction_Fairchild1990(experiment=1):
     """
     Returns the corresponding chromaticities prediction for Fairchild (1990)
     chromatic adaptation model.
@@ -212,8 +207,6 @@ def corresponding_chromaticities_prediction_Fairchild1990(experiment=1,
     experiment : integer, optional
         {1, 2, 3, 4, 6, 8, 9, 11, 12}
         Breneman (1987) experiment number.
-    \**kwargs : dict, optional
-        Keywords arguments.
 
     Returns
     -------
@@ -389,5 +382,8 @@ def corresponding_chromaticities_prediction(experiment=1,
      ((0.244, 0.349), (0.22876382018951744, 0.3499324084859976))]
     """
 
-    return CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS.get(model)(
-        experiment, **kwargs)
+    function = CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS[model]
+
+    filter_kwargs(function, **kwargs)
+
+    return function(experiment, **kwargs)

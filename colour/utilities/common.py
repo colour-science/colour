@@ -188,19 +188,19 @@ def is_openimageio_installed(raise_exception=False):
         return False
 
 
-def is_iterable(x):
+def is_iterable(a):
     """
-    Returns if given :math:`x` variable is iterable.
+    Returns if given :math:`a` variable is iterable.
 
     Parameters
     ----------
-    x : object
+    a : object
         Variable to check the iterability.
 
     Returns
     -------
     bool
-        :math:`x` variable iterability.
+        :math:`a` variable iterability.
 
     Examples
     --------
@@ -211,26 +211,26 @@ def is_iterable(x):
     """
 
     try:
-        for _ in x:
+        for _ in a:
             break
         return True
     except TypeError:
         return False
 
 
-def is_string(data):
+def is_string(a):
     """
-    Returns if given data is a *string_like* variable.
+    Returns if given :math:`a` variable is a *string_like* variable.
 
     Parameters
     ----------
-    data : object
+    a : object
         Data to test.
 
     Returns
     -------
     bool
-        Is *string_like* variable.
+        Is :math:`a` variable a *string_like* variable.
 
     Examples
     --------
@@ -240,22 +240,22 @@ def is_string(data):
     False
     """
 
-    return True if isinstance(data, basestring) else False  # noqa
+    return True if isinstance(a, basestring) else False  # noqa
 
 
-def is_numeric(x):
+def is_numeric(a):
     """
-    Returns if given :math:`x` variable is a number.
+    Returns if given :math:`a` variable is a number.
 
     Parameters
     ----------
-    x : object
+    a : object
         Variable to check.
 
     Returns
     -------
     bool
-        Is :math:`x` variable a number.
+        Is :math:`a` variable a number.
 
     See Also
     --------
@@ -269,23 +269,23 @@ def is_numeric(x):
     False
     """
 
-    return isinstance(x, (int, float, complex,
+    return isinstance(a, (int, float, complex,
                           np.integer, np.floating, np.complex))
 
 
-def is_integer(x):
+def is_integer(a):
     """
-    Returns if given :math:`x` variable is an integer under given threshold.
+    Returns if given :math:`a` variable is an integer under given threshold.
 
     Parameters
     ----------
-    x : object
+    a : object
         Variable to check.
 
     Returns
     -------
     bool
-        Is :math:`x` variable an integer.
+        Is :math:`a` variable an integer.
 
     Notes
     -----
@@ -304,7 +304,7 @@ def is_integer(x):
     False
     """
 
-    return abs(x - round(x)) <= INTEGER_THRESHOLD
+    return abs(a - round(a)) <= INTEGER_THRESHOLD
 
 
 def filter_kwargs(function, **kwargs):

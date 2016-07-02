@@ -179,7 +179,7 @@ ALEXA_LOG_C_CURVE_CONVERSION_DATA : CaseInsensitiveMapping
 """
 
 
-def log_encoding_ALEXALogC(value,
+def log_encoding_ALEXALogC(x,
                            firmware='SUP 3.x',
                            method='Linear Scene Exposure Factor',
                            EI=800):
@@ -189,8 +189,8 @@ def log_encoding_ALEXALogC(value,
 
     Parameters
     ----------
-    value : numeric or array_like
-        Value.
+    x : numeric or array_like
+        Linear data :math:`x`.
     firmware : unicode, optional
         **{'SUP 3.x', 'SUP 2.x'}**,
         Alexa firmware version.
@@ -203,7 +203,7 @@ def log_encoding_ALEXALogC(value,
     Returns
     -------
     numeric or ndarray
-        Encoded value.
+        *ALEXA Log C* encoded data :math:`t`.
 
     Examples
     --------
@@ -211,17 +211,17 @@ def log_encoding_ALEXALogC(value,
     0.3910068...
     """
 
-    value = np.asarray(value)
+    x = np.asarray(x)
 
     cut, a, b, c, d, e, f, _e_cut_f = ALEXA_LOG_C_CURVE_CONVERSION_DATA.get(
         firmware).get(method).get(EI)
 
-    return as_numeric(np.where(value > cut,
-                               c * np.log10(a * value + b) + d,
-                               e * value + f))
+    return as_numeric(np.where(x > cut,
+                               c * np.log10(a * x + b) + d,
+                               e * x + f))
 
 
-def log_decoding_ALEXALogC(value,
+def log_decoding_ALEXALogC(t,
                            firmware='SUP 3.x',
                            method='Linear Scene Exposure Factor',
                            EI=800):
@@ -231,8 +231,8 @@ def log_decoding_ALEXALogC(value,
 
     Parameters
     ----------
-    value : numeric or array_like
-        Value.
+    t : numeric or array_like
+        *ALEXA Log C* encoded data :math:`t`.
     firmware : unicode, optional
         **{'SUP 3.x', 'SUP 2.x'}**,
         Alexa firmware version.
@@ -245,7 +245,7 @@ def log_decoding_ALEXALogC(value,
     Returns
     -------
     numeric or ndarray
-        Decoded value.
+        Linear data :math:`x`.
 
     Examples
     --------
@@ -253,11 +253,11 @@ def log_decoding_ALEXALogC(value,
     0.18...
     """
 
-    value = np.asarray(value)
+    t = np.asarray(t)
 
     cut, a, b, c, d, e, f, _e_cut_f = (
         ALEXA_LOG_C_CURVE_CONVERSION_DATA.get(firmware).get(method).get(EI))
 
-    return as_numeric(np.where(value > e * cut + f,
-                               (np.power(10, (value - d) / c) - b) / a,
-                               (value - f) / e))
+    return as_numeric(np.where(t > e * cut + f,
+                               (np.power(10, (t - d) / c) - b) / a,
+                               (t - f) / e))

@@ -110,7 +110,7 @@ def colour_quality_bars_plot(specifications,
                                 for x in colorimetry_data[0]])
 
         x = (i + np.arange(0, (count_Q_as + 1) * (count_s + 1), (count_s + 1),
-                           dtype=np.float)) * bar_width
+                           dtype=np.float_)) * bar_width
         y = [s[1].Q_a for s in sorted(Q_as.items(), key=lambda s: s[0])]
         y = np.array([Q_a] + list(y))
 
@@ -141,7 +141,7 @@ def colour_quality_bars_plot(specifications,
     pylab.axhline(y=100, color='black', linestyle='--')
 
     pylab.xticks((np.arange(0, (count_Q_as + 1) * (count_s + 1), (count_s + 1),
-                            dtype=np.float) *
+                            dtype=np.float_) *
                   bar_width + (count_s * bar_width / 2)),
                  ['Qa'] + ['Q{0}'.format(index + 1)
                            for index in range(0, count_Q_as + 1, 1)])

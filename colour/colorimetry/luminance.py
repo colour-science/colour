@@ -10,10 +10,10 @@ Defines *luminance* :math:`Y` computation objects.
 The following methods are available:
 
 -   :func:`luminance_Newhall1943`: *luminance* :math:`Y` computation of given
-    *Munsell* value :math:`V` using Newhall, Nickerson, and Judd (1943)
+    *Munsell* value :math:`V` using *Newhall, Nickerson, and Judd (1943)*
     method.
 -   :func:`luminance_ASTMD153508`: *luminance* :math:`Y` computation of given
-    *Munsell* value :math:`V` using ASTM D1535-08e1 (2008) method.
+    *Munsell* value :math:`V` using *ASTM D1535-08e1* method.
 -   :func:`luminance_CIE1976`: *luminance* :math:`Y` computation of given
     *Lightness* :math:`L^*` as per *CIE Lab* implementation.
 
@@ -29,7 +29,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.constants import CIE_E, CIE_K
-from colour.utilities import CaseInsensitiveMapping
+from colour.utilities import CaseInsensitiveMapping, filter_kwargs
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -45,19 +45,15 @@ __all__ = ['luminance_Newhall1943',
            'luminance']
 
 
-def luminance_Newhall1943(V, **kwargs):
+def luminance_Newhall1943(V):
     """
     Returns the *luminance* :math:`R_Y` of given *Munsell* value :math:`V`
-    using *Sidney M. Newhall, Dorothy Nickerson, and Deane B. Judd (1943)*
-    method.
+    using *Newhall, Nickerson, and Judd (1943)* method.
 
     Parameters
     ----------
     V : numeric or array_like
         *Munsell* value :math:`V`.
-    \**kwargs : dict, optional
-        Unused parameter provided for signature compatibility with other
-        *luminance* computation objects.
 
     Returns
     -------
@@ -89,18 +85,15 @@ def luminance_Newhall1943(V, **kwargs):
     return R_Y
 
 
-def luminance_ASTMD153508(V, **kwargs):
+def luminance_ASTMD153508(V):
     """
     Returns the *luminance* :math:`Y` of given *Munsell* value :math:`V` using
-    ASTM D1535-08e1 (2008) method.
+    *ASTM D1535-08e1* method.
 
     Parameters
     ----------
     V : numeric or array_like
         *Munsell* value :math:`V`.
-    \**kwargs : dict, optional
-        Unused parameter provided for signature compatibility with other
-        *luminance* computation objects.
 
     Returns
     -------
@@ -242,4 +235,8 @@ def luminance(LV, method='CIE 1976', **kwargs):
     10.1488096...
     """
 
-    return LUMINANCE_METHODS.get(method)(LV, **kwargs)
+    function = LUMINANCE_METHODS[method]
+
+    filter_kwargs(function, **kwargs)
+
+    return function(LV, **kwargs)

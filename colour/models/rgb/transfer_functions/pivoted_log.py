@@ -38,7 +38,7 @@ __all__ = ['log_encoding_PivotedLog',
            'log_decoding_PivotedLog']
 
 
-def log_encoding_PivotedLog(value,
+def log_encoding_PivotedLog(x,
                             log_reference=445,
                             linear_reference=0.18,
                             negative_gamma=0.6,
@@ -49,8 +49,8 @@ def log_encoding_PivotedLog(value,
 
     Parameters
     ----------
-    value : numeric or array_like
-        *Linear* value.
+    x : numeric or array_like
+        Linear data :math:`x`.
     log_reference : numeric or array_like
         Log reference.
     linear_reference : numeric or array_like
@@ -63,7 +63,7 @@ def log_encoding_PivotedLog(value,
     Returns
     -------
     numeric or ndarray
-        *Josh Pines* style pivoted log value.
+        Non-linear data :math:`y`.
 
     Examples
     --------
@@ -71,13 +71,13 @@ def log_encoding_PivotedLog(value,
     0.4349951...
     """
 
-    value = np.asarray(value)
+    x = np.asarray(x)
 
-    return ((log_reference + np.log10(value / linear_reference) /
+    return ((log_reference + np.log10(x / linear_reference) /
              (density_per_code_value / negative_gamma)) / 1023)
 
 
-def log_decoding_PivotedLog(value,
+def log_decoding_PivotedLog(y,
                             log_reference=445,
                             linear_reference=0.18,
                             negative_gamma=0.6,
@@ -88,8 +88,8 @@ def log_decoding_PivotedLog(value,
 
     Parameters
     ----------
-    value : numeric or array_like
-        *Josh Pines* style pivoted log value.
+    y : numeric or array_like
+        Non-linear data :math:`y`.
     log_reference : numeric or array_like
         Log reference.
     linear_reference : numeric or array_like
@@ -102,7 +102,7 @@ def log_decoding_PivotedLog(value,
     Returns
     -------
     numeric or ndarray
-        *Linear* value.
+        Linear data :math:`x`.
 
     Examples
     --------
@@ -110,8 +110,8 @@ def log_decoding_PivotedLog(value,
     0.1...
     """
 
-    value = np.asarray(value)
+    y = np.asarray(y)
 
-    return (10 ** ((value * 1023 - log_reference) *
+    return (10 ** ((y * 1023 - log_reference) *
                    (density_per_code_value / negative_gamma)) *
             linear_reference)

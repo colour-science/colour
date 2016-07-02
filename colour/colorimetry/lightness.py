@@ -34,7 +34,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.constants import CIE_E, CIE_K
-from colour.utilities import CaseInsensitiveMapping, warning
+from colour.utilities import CaseInsensitiveMapping, filter_kwargs, warning
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -50,7 +50,7 @@ __all__ = ['lightness_Glasser1958',
            'lightness']
 
 
-def lightness_Glasser1958(Y, **kwargs):
+def lightness_Glasser1958(Y):
     """
     Returns the *Lightness* :math:`L` of given *luminance* :math:`Y` using
     *Glasser, Mckinney, Reilly and Schnelle (1958)* method.
@@ -59,9 +59,6 @@ def lightness_Glasser1958(Y, **kwargs):
     ----------
     Y : numeric or array_like
         *luminance* :math:`Y`.
-    \**kwargs : dict, optional
-        Unused parameter provided for signature compatibility with other
-        *Lightness* computation objects.
 
     Returns
     -------
@@ -92,7 +89,7 @@ def lightness_Glasser1958(Y, **kwargs):
     return L
 
 
-def lightness_Wyszecki1963(Y, **kwargs):
+def lightness_Wyszecki1963(Y):
     """
     Returns the *Lightness* :math:`W` of given *luminance* :math:`Y` using
     *Wyszecki (1963)* method.
@@ -102,9 +99,6 @@ def lightness_Wyszecki1963(Y, **kwargs):
     ----------
     Y : numeric or array_like
         *luminance* :math:`Y`.
-    \**kwargs : dict, optional
-        Unused parameter provided for signature compatibility with other
-        *Lightness* computation objects.
 
     Returns
     -------
@@ -244,4 +238,8 @@ def lightness(Y, method='CIE 1976', **kwargs):
     37.0041149...
     """
 
-    return LIGHTNESS_METHODS.get(method)(Y, **kwargs)
+    function = LIGHTNESS_METHODS[method]
+
+    filter_kwargs(function, **kwargs)
+
+    return function(Y, **kwargs)

@@ -46,7 +46,12 @@ from colour.algebra import (
     SpragueInterpolator,
     lagrange_coefficients)
 from colour.colorimetry import SpectralShape, STANDARD_OBSERVERS_CMFS, ones_spd
-from colour.utilities import CaseInsensitiveMapping, is_string, tsplit, warning
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    filter_kwargs,
+    is_string,
+    tsplit,
+    warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -372,8 +377,7 @@ def spectral_to_XYZ_integration(
         cmfs=STANDARD_OBSERVERS_CMFS.get(
             'CIE 1931 2 Degree Standard Observer'),
         illuminant=ones_spd(STANDARD_OBSERVERS_CMFS.get(
-            'CIE 1931 2 Degree Standard Observer').shape),
-        **kwargs):
+            'CIE 1931 2 Degree Standard Observer').shape)):
     """
     Converts given spectral power distribution to *CIE XYZ* tristimulus values
     using given colour matching functions and illuminant accordingly to
@@ -387,10 +391,6 @@ def spectral_to_XYZ_integration(
         Standard observer colour matching functions.
     illuminant : SpectralPowerDistribution, optional
         Illuminant spectral power distribution.
-    \**kwargs : dict, optional
-        Unused parameter provided for signature compatibility with other
-        spectral power distribution to *CIE XYZ* tristimulus values computation
-        objects.
 
     Returns
     -------
@@ -784,7 +784,11 @@ def spectral_to_XYZ(
     array([ 11.5296285...,   9.9499467...,   4.7066079...])
     """
 
-    return SPECTRAL_TO_XYZ_METHODS.get(method)(spd, cmfs, illuminant, **kwargs)
+    function = SPECTRAL_TO_XYZ_METHODS[method]
+
+    filter_kwargs(function, **kwargs)
+
+    return function(spd, cmfs, illuminant, **kwargs)
 
 
 def wavelength_to_XYZ(wavelength,

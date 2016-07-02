@@ -27,7 +27,7 @@ Usage
 -----
 
 The two main references for `Colour <https://github.com/colour-science/colour>`_
-usage are the complete Sphinx `API Reference <http://colour.readthedocs.org/en/latest/>`_
+usage are the complete Sphinx `API Reference <http://colour.readthedocs.io/en/latest/>`_
 and the `IPython Notebooks <http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/colour.ipynb>`_
 with detailed historical and theoretical context and images:
 

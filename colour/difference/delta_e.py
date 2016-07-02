@@ -31,7 +31,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.algebra import euclidean_distance
-from colour.utilities import CaseInsensitiveMapping, tsplit
+from colour.utilities import CaseInsensitiveMapping, filter_kwargs, tsplit
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -48,7 +48,7 @@ __all__ = ['delta_E_CIE1976',
            'delta_E']
 
 
-def delta_E_CIE1976(Lab_1, Lab_2, **kwargs):
+def delta_E_CIE1976(Lab_1, Lab_2):
     """
     Returns the difference :math:`\Delta E_{ab}` between two given
     *CIE Lab* colourspace arrays using CIE 1976 recommendation.
@@ -59,9 +59,6 @@ def delta_E_CIE1976(Lab_1, Lab_2, **kwargs):
         *CIE Lab* colourspace array 1.
     Lab_2 : array_like
         *CIE Lab* colourspace array 2.
-    \**kwargs : dict, optional
-        Unused parameter provided for signature compatibility with other
-        :math:`\Delta E_{ab}` computation objects.
 
     Returns
     -------
@@ -90,7 +87,7 @@ def delta_E_CIE1976(Lab_1, Lab_2, **kwargs):
     return d_E
 
 
-def delta_E_CIE1994(Lab_1, Lab_2, textiles=False, **kwargs):
+def delta_E_CIE1994(Lab_1, Lab_2, textiles=False):
     """
     Returns the difference :math:`\Delta E_{ab}` between two given *CIE Lab*
     colourspace arrays using CIE 1994 recommendation.
@@ -105,9 +102,6 @@ def delta_E_CIE1994(Lab_1, Lab_2, textiles=False, **kwargs):
         Textiles application specific parametric factors
         :math:`k_L=2,\ k_C=k_H=1,\ k_1=0.048,\ k_2=0.014` weights are used
         instead of :math:`k_L=k_C=k_H=1,\ k_1=0.045,\ k_2=0.015`.
-    \**kwargs : dict, optional
-        Unused parameter provided for signature compatibility with other
-        :math:`\Delta E_{ab}` computation objects.
 
     Returns
     -------
@@ -168,7 +162,7 @@ def delta_E_CIE1994(Lab_1, Lab_2, textiles=False, **kwargs):
     return d_E
 
 
-def delta_E_CIE2000(Lab_1, Lab_2, textiles=False, **kwargs):
+def delta_E_CIE2000(Lab_1, Lab_2, textiles=False):
     """
     Returns the difference :math:`\Delta E_{ab}` between two given *CIE Lab*
     colourspace arrays using CIE 2000 recommendation.
@@ -183,9 +177,6 @@ def delta_E_CIE2000(Lab_1, Lab_2, textiles=False, **kwargs):
         Textiles application specific parametric factors
         :math:`k_L=2,\ k_C=k_H=1` weights are used instead of
         :math:`k_L=k_C=k_H=1`.
-    \**kwargs : dict, optional
-        Unused parameter provided for signature compatibility with other
-        :math:`\Delta E_{ab}` computation objects.
 
     Returns
     -------
@@ -439,4 +430,8 @@ def delta_E(Lab_1, Lab_2, method='CMC', **kwargs):
     94.0356490...
     """
 
-    return DELTA_E_METHODS.get(method)(Lab_1, Lab_2, **kwargs)
+    function = DELTA_E_METHODS[method]
+
+    filter_kwargs(function, **kwargs)
+
+    return function(Lab_1, Lab_2, **kwargs)

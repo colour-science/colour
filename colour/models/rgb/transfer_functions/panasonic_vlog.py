@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
-V-Log Log Encoding
-==================
+Panasonic V-Log Log Encoding
+============================
 
-Defines the *V-Log* log encoding:
+Defines the *Panasonic V-Log* log encoding:
 
 -   :func:`log_encoding_VLog`
 -   :func:`log_decoding_VLog`
@@ -36,36 +36,36 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['V_LOG_CONSTANTS',
+__all__ = ['VLOG_CONSTANTS',
            'log_encoding_VLog',
            'log_decoding_VLog']
 
-V_LOG_CONSTANTS = Structure(cut1=0.01,
-                            cut2=0.181,
-                            b=0.00873,
-                            c=0.241514,
-                            d=0.598206)
+VLOG_CONSTANTS = Structure(cut1=0.01,
+                           cut2=0.181,
+                           b=0.00873,
+                           c=0.241514,
+                           d=0.598206)
 """
-*V-Log* colourspace constants.
+*Panasonic V-Log* colourspace constants.
 
-V_LOG_CONSTANTS : Structure
+VLOG_CONSTANTS : Structure
 """
 
 
-def log_encoding_VLog(value):
+def log_encoding_VLog(L_in):
     """
-    Defines the *V-Log* log encoding curve / opto-electronic transfer
+    Defines the *Panasonic V-Log* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
     ----------
-    value : numeric or array_like
-        Value.
+    L_in : numeric or array_like
+        Linear reflection data :math`L_{in}`.
 
     Returns
     -------
     numeric or ndarray
-        Encoded value.
+        Non-linear data :math:`V_{out}`.
 
     Examples
     --------
@@ -73,34 +73,34 @@ def log_encoding_VLog(value):
     0.4233114...
     """
 
-    value = np.asarray(value)
+    L_in = np.asarray(L_in)
 
-    cut1 = V_LOG_CONSTANTS.cut1
-    b = V_LOG_CONSTANTS.b
-    c = V_LOG_CONSTANTS.c
-    d = V_LOG_CONSTANTS.d
+    cut1 = VLOG_CONSTANTS.cut1
+    b = VLOG_CONSTANTS.b
+    c = VLOG_CONSTANTS.c
+    d = VLOG_CONSTANTS.d
 
-    value = np.where(value < cut1,
-                     5.6 * value + 0.125,
-                     c * np.log10(value + b) + d)
+    L_in = np.where(L_in < cut1,
+                    5.6 * L_in + 0.125,
+                    c * np.log10(L_in + b) + d)
 
-    return as_numeric(value)
+    return as_numeric(L_in)
 
 
-def log_decoding_VLog(value):
+def log_decoding_VLog(V_out):
     """
-    Defines the *V-Log* log decoding curve / electro-optical transfer
+    Defines the *Panasonic V-Log* log decoding curve / electro-optical transfer
     function.
 
     Parameters
     ----------
-    value : numeric or array_like
-        Value.
+    V_out : numeric or array_like
+        Non-linear data :math:`V_{out}`.
 
     Returns
     -------
     numeric or ndarray
-        Decoded value.
+        Linear reflection data :math`L_{in}`.
 
     Examples
     --------
@@ -108,15 +108,15 @@ def log_decoding_VLog(value):
     0.1799999...
     """
 
-    value = np.asarray(value)
+    V_out = np.asarray(V_out)
 
-    cut2 = V_LOG_CONSTANTS.cut2
-    b = V_LOG_CONSTANTS.b
-    c = V_LOG_CONSTANTS.c
-    d = V_LOG_CONSTANTS.d
+    cut2 = VLOG_CONSTANTS.cut2
+    b = VLOG_CONSTANTS.b
+    c = VLOG_CONSTANTS.c
+    d = VLOG_CONSTANTS.d
 
-    value = np.where(value < cut2,
-                     (value - 0.125) / 5.6,
-                     np.power(10, ((value - d) / c)) - b)
+    V_out = np.where(V_out < cut2,
+                     (V_out - 0.125) / 5.6,
+                     np.power(10, ((V_out - d) / c)) - b)
 
-    return as_numeric(value)
+    return as_numeric(V_out)

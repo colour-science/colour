@@ -21,7 +21,9 @@ from colour.utilities import (
     tsplit,
     row_as_diagonal,
     dot_vector,
-    dot_matrix)
+    dot_matrix,
+    orient,
+    centroid)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -40,7 +42,9 @@ __all__ = ['TestAsNumeric',
            'TestTsplit',
            'TestRowAsDiagonal',
            'TestDotVector',
-           'TestDotMatrix']
+           'TestDotMatrix',
+           'TestOrient',
+           'TestCentroid']
 
 
 class TestAsNumeric(unittest.TestCase):
@@ -61,7 +65,7 @@ class TestAsNumeric(unittest.TestCase):
         np.testing.assert_almost_equal(as_numeric(np.array([1, 2, 3])),
                                        np.array([1, 2, 3]))
 
-        self.assertIsInstance(as_numeric(1), float)
+        self.assertIsInstance(as_numeric(1), np.float_)
 
         self.assertIsInstance(as_numeric(1, int), int)
 
@@ -77,18 +81,18 @@ class TestClosest(unittest.TestCase):
         Tests :func:`colour.utilities.array.closest` definition.
         """
 
-        y = np.array([24.31357115,
+        a = np.array([24.31357115,
                       63.62396289,
                       55.71528816,
                       62.70988028,
                       46.84480573,
                       25.40026416])
 
-        self.assertEqual(closest(y, 63.05), 62.70988028)
+        self.assertEqual(closest(a, 63.05), 62.70988028)
 
-        self.assertEqual(closest(y, 24.90), 25.40026416)
+        self.assertEqual(closest(a, 24.90), 25.40026416)
 
-        self.assertEqual(closest(y, 51.15), 46.84480573)
+        self.assertEqual(closest(a, 51.15), 46.84480573)
 
 
 class TestNormaliseMaximum(unittest.TestCase):
@@ -441,6 +445,102 @@ class TestDotMatrix(unittest.TestCase):
                        [-1.70994078, 2.57932265, 0.13061813],
                        [-0.00442036, 0.03774904, 0.96667132]]]),
             decimal=7)
+
+
+class TestOrient(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.array.orient` definition unit tests
+    methods.
+    """
+
+    def test_orient(self):
+        """
+        Tests :func:`colour.utilities.array.orient` definition.
+        """
+
+        a = np.tile(np.arange(5), (5, 1))
+
+        np.testing.assert_almost_equal(
+            orient(a, 'Null'),
+            a,
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            orient(a, 'Flip'),
+            np.array([[4, 3, 2, 1, 0],
+                      [4, 3, 2, 1, 0],
+                      [4, 3, 2, 1, 0],
+                      [4, 3, 2, 1, 0],
+                      [4, 3, 2, 1, 0]]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            orient(a, 'Flop'),
+            np.array([[0, 1, 2, 3, 4],
+                      [0, 1, 2, 3, 4],
+                      [0, 1, 2, 3, 4],
+                      [0, 1, 2, 3, 4],
+                      [0, 1, 2, 3, 4]]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            orient(a, '90 CW'),
+            np.array([[0, 0, 0, 0, 0],
+                      [1, 1, 1, 1, 1],
+                      [2, 2, 2, 2, 2],
+                      [3, 3, 3, 3, 3],
+                      [4, 4, 4, 4, 4]]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            orient(a, '90 CCW'),
+            np.array([[4, 4, 4, 4, 4],
+                      [3, 3, 3, 3, 3],
+                      [2, 2, 2, 2, 2],
+                      [1, 1, 1, 1, 1],
+                      [0, 0, 0, 0, 0]]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            orient(a, '180'),
+            np.array([[4, 3, 2, 1, 0],
+                      [4, 3, 2, 1, 0],
+                      [4, 3, 2, 1, 0],
+                      [4, 3, 2, 1, 0],
+                      [4, 3, 2, 1, 0]]),
+            decimal=7)
+
+
+class TestCentroid(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.array.centroid` definition unit tests
+    methods.
+    """
+
+    def test_centroid(self):
+        """
+        Tests :func:`colour.utilities.array.centroid` definition.
+        """
+
+        a = np.arange(5)
+        np.testing.assert_array_equal(
+            centroid(a),
+            np.array([3]))
+
+        a = np.tile(a, (5, 1))
+        np.testing.assert_array_equal(
+            centroid(a),
+            np.array([2, 3]))
+
+        a = np.tile(np.linspace(0, 1, 10), (10, 1))
+        np.testing.assert_array_equal(
+            centroid(a),
+            np.array([4, 6]))
+
+        a = tstack((a, a, a))
+        np.testing.assert_array_equal(
+            centroid(a),
+            np.array([4, 6, 1]))
 
 
 if __name__ == '__main__':

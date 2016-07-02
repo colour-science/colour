@@ -1818,11 +1818,11 @@ class SpectralPowerDistribution(object):
         for i in np.arange(spd_shape.start,
                            shape.start - spd_shape.interval,
                            -spd_shape.interval):
-            self[i] = extrapolator(float(i))
+            self[i] = extrapolator(np.float_(i))
         for i in np.arange(spd_shape.end,
                            shape.end + spd_shape.interval,
                            spd_shape.interval):
-            self[i] = extrapolator(float(i))
+            self[i] = extrapolator(np.float_(i))
 
         return self
 
@@ -1973,7 +1973,7 @@ class SpectralPowerDistribution(object):
 
         interpolator = interpolator(wavelengths, values)
         self._data = SpectralMapping(
-            [(wavelength, float(interpolator(wavelength)))
+            [(wavelength, np.float_(interpolator(wavelength)))
              for wavelength in shape])
 
         return self

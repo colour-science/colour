@@ -56,7 +56,7 @@ def _wrapper_RGB_colourspace_volume_MonteCarlo(args):
 
     Parameters
     ----------
-    \*args : list, optional
+    args : list, optional
         Arguments.
 
     Returns
