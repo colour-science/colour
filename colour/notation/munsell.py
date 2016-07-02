@@ -975,14 +975,14 @@ def parse_munsell_colour(munsell_colour):
                      munsell_colour,
                      flags=re.IGNORECASE)
     if match:
-        return float(match.group('value'))
+        return np.float_(match.group('value'))
     match = re.match(MUNSELL_COLOUR_PATTERN,
                      munsell_colour,
                      flags=re.IGNORECASE)
     if match:
-        return (float(match.group('hue')),
-                float(match.group('value')),
-                float(match.group('chroma')),
+        return (np.float_(match.group('hue')),
+                np.float_(match.group('value')),
+                np.float_(match.group('chroma')),
                 MUNSELL_HUE_LETTER_CODES.get(match.group('letter').upper()))
 
     raise ValueError(

@@ -14,6 +14,7 @@ Defines various input / output objects for CSV tabular data files:
 
 from __future__ import division, unicode_literals
 
+import numpy as np
 from collections import OrderedDict
 import csv
 
@@ -134,11 +135,11 @@ def read_spectral_data_from_csv_file(path,
         for line in reader:
             for field in fields:
                 try:
-                    value = float(line[field])
+                    value = np.float_(line[field])
                 except ValueError:
                     value = default
 
-                data[field][float(line[wavelength])] = value
+                data[field][np.float_(line[wavelength])] = value
         return data
 
 

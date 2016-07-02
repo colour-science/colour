@@ -17,6 +17,7 @@ References
 
 from __future__ import division, unicode_literals
 
+import numpy as np
 import os
 import re
 from collections import namedtuple
@@ -705,7 +706,7 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
                 IES_TM2714_ElementSpecification(
                     'BandwidthFWHM',
                     'bandwidth_FWHM',
-                    read_conversion=float),
+                    read_conversion=np.float_),
                 IES_TM2714_ElementSpecification(
                     'BandwidthCorrected',
                     'bandwidth_corrected',
@@ -1026,9 +1027,9 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
         # Reading spectral data.
         for spectral_data in iterator('{{{0}}}{1}'.format(
                 namespace, self.mapping.data.element)):
-            wavelength = float(spectral_data.attrib[
+            wavelength = np.float_(spectral_data.attrib[
                 self.mapping.data.attribute])
-            value = float(spectral_data.text)
+            value = np.float_(spectral_data.text)
             self[wavelength] = value
 
         return True

@@ -85,7 +85,7 @@ class ColourAppearanceModelTest(object):
             for case_data in csv.DictReader(in_file):
                 for key in case_data:
                     try:
-                        case_data[key] = float(case_data[key])
+                        case_data[key] = np.float_(case_data[key])
                     except ValueError:
                         pass
                 result.append(case_data)

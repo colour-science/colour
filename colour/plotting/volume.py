@@ -265,7 +265,7 @@ def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
                 y = (tick if i else
                      limits[0, 1 if y_s == 1 else 0] + (y_s * extent / 25))
 
-                tick = int(tick) if float(tick).is_integer() else tick
+                tick = int(tick) if np.float_(tick).is_integer() else tick
                 c = settings['{0}_ticks_colour'.format(axis)]
 
                 axes.text(x, y, 0, tick, 'x',
