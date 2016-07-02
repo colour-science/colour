@@ -85,7 +85,7 @@ def eotf_ProPhotoRGB(value):
 
     Examples
     --------
-    >>> eotf_ProPhotoRGB(0.3857114247511376)  # doctest: +ELLIPSIS
+    >>> eotf_ProPhotoRGB(0.385711424751138)  # doctest: +ELLIPSIS
     0.1...
     """
 

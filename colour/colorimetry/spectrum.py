@@ -98,7 +98,7 @@ class SpectralMapping(ArbitraryPrecisionMapping):
     >>> mapping = SpectralMapping(data1, wavelength_decimals=10)
     >>> # Doctests skip for Python 2.x compatibility.
     >>> tuple(mapping.keys())  # doctest: +SKIP
-    (380.1999999998, 380.2)
+    (380.1999999..., 380.2)
     >>> mapping = SpectralMapping(data1, wavelength_decimals=7)
     >>> # Doctests skip for Python 2.x compatibility.
     >>> tuple(mapping.keys())  # doctest: +SKIP

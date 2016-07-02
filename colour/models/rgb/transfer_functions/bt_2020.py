@@ -106,8 +106,8 @@ def eotf_BT2020(E_p, is_10_bits_system=True):
 
     Examples
     --------
-    >>> eotf_BT2020(0.7055150899221212)  # doctest: +ELLIPSIS
-    0.5...
+    >>> eotf_BT2020(0.705515089922121)  # doctest: +ELLIPSIS
+    0.4999999...
     """
 
     E_p = np.asarray(E_p)

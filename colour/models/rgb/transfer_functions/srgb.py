@@ -92,7 +92,7 @@ def eotf_sRGB(V):
 
     Examples
     --------
-    >>> eotf_sRGB(0.46135612950044164)  # doctest: +ELLIPSIS
+    >>> eotf_sRGB(0.461356129500442)  # doctest: +ELLIPSIS
     0.1...
     """
 

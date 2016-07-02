@@ -94,7 +94,7 @@ def eotf_BT709(V):
 
     Examples
     --------
-    >>> eotf_BT709(0.4090077288641504)  # doctest: +ELLIPSIS
+    >>> eotf_BT709(0.409007728864150)  # doctest: +ELLIPSIS
     0.1...
     """
 

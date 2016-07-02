@@ -88,8 +88,8 @@ def log_decoding_Cineon(y,
 
     Examples
     --------
-    >>> log_decoding_Cineon(0.45731961308541841)  # doctest: +ELLIPSIS
-    0.18...
+    >>> log_decoding_Cineon(0.457319613085418)  # doctest: +ELLIPSIS
+    0.1799999...
     """
 
     y = np.asarray(y)

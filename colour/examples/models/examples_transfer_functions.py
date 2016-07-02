@@ -20,7 +20,7 @@ print(colour.oetf(C, function='BT.709'))
 
 print('\n')
 
-N = 0.4090077288641504
+N = 0.409007728864150
 message_box(('Decoding to linear-light value using "BT.1886" EOTF and given '
              ' video component signal value:\n'
              '\n\t{0}'.format(N)))

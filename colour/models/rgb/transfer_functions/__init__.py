@@ -185,16 +185,16 @@ def log_decoding_curve(value, curve='Cineon', **kwargs):
 
     Examples
     --------
-    >>> log_decoding_curve(0.45731961308541841)  # doctest: +ELLIPSIS
+    >>> log_decoding_curve(0.457319613085418)  # doctest: +ELLIPSIS
     0.1...
-    >>> log_decoding_curve(0.41358840249244228,
+    >>> log_decoding_curve(0.413588402492442,
     ...     curve='ACEScc')  # doctest: +ELLIPSIS
     0.1...
     >>> log_decoding_curve(  # doctest: +ELLIPSIS
-    ...     0.39100684261974583, curve='PLog', log_reference=400)
+    ...     0.391006842619746, curve='PLog', log_reference=400)
     0.1...
     >>> log_decoding_curve(  # doctest: +ELLIPSIS
-    ...     0.35998784642215442, curve='S-Log')
+    ...     0.359987846422154, curve='S-Log')
     0.1...
     """
 
@@ -305,13 +305,13 @@ def eotf(value, function='sRGB', **kwargs):
 
     Examples
     --------
-    >>> eotf(0.46135612950044164)  # doctest: +ELLIPSIS
+    >>> eotf(0.461356129500442)  # doctest: +ELLIPSIS
     0.1...
-    >>> eotf(0.4090077288641504,
+    >>> eotf(0.409007728864150,
     ...     function='BT.2020')  # doctest: +ELLIPSIS
     0.1...
     >>> eotf(  # doctest: +ELLIPSIS
-    ...     0.18201153285000843, function='ST 2084', L_p=1000)
+    ...     0.182011532850008, function='ST 2084', L_p=1000)
     0.1...
     """
 

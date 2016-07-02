@@ -81,7 +81,7 @@ def log_decoding_ViperLog(y):
 
     Examples
     --------
-    >>> log_decoding_ViperLog(0.63600806701041346)  # doctest: +ELLIPSIS
+    >>> log_decoding_ViperLog(0.636008067010413)  # doctest: +ELLIPSIS
     0.1799999...
     """
 

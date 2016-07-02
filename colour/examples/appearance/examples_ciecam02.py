@@ -25,7 +25,7 @@ print(specification)
 print('\n')
 
 J = 41.731091132513917
-C = 0.1047077571711053
+C = 0.104707757171105
 h = 219.04843265827190
 message_box(('Converting to "CIE XYZ" tristimulus values using given '
              'parameters:\n'

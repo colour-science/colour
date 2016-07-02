@@ -170,7 +170,7 @@ def UCS_uv_to_xy(uv):
     Examples
     --------
     >>> import numpy as np
-    >>> uv = np.array([0.15085308732766581, 0.3235531372954405])
+    >>> uv = np.array([0.150853087327666, 0.323553137295440])
     >>> UCS_uv_to_xy(uv)  # doctest: +ELLIPSIS
     array([ 0.2641477...,  0.3777000...])
     """
