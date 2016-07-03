@@ -58,7 +58,7 @@ def common_colourspace_model_axis_reorder(a, model=None):
         Colourspace model values :math:`a`.
     model : unicode, optional
         **{'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE Luv', 'CIE UCS', 'CIE UVW',
-        'IPT'}**
+        'IPT', 'Hunter Lab', 'Hunter Rdab'}**
         Colourspace model.
 
     Returns
@@ -83,7 +83,8 @@ def common_colourspace_model_axis_reorder(a, model=None):
     array([1, 2, 0])
     """
 
-    if model in ('CIE Lab', 'CIE LCHab', 'CIE Luv', 'CIE LCHuv', 'IPT'):
+    if model in ('CIE Lab', 'CIE LCHab', 'CIE Luv', 'CIE LCHuv', 'IPT',
+                 'Hunter Lab', 'Hunter Rdab'):
         i, j, k = tsplit(a)
         a = tstack((j, k, i))
 
@@ -397,7 +398,7 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
         *RGB* colourspaces to plot the gamuts.
     reference_colourspace : unicode, optional
         **{'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE Luv', 'CIE UCS', 'CIE UVW',
-        'IPT'}**,
+        'IPT', 'Hunter Lab', 'Hunter Rdab'}**,
         Reference colourspace to plot the gamuts into.
     segments : int, optional
         Edge segments count for each *RGB* colourspace cubes.
@@ -543,6 +544,8 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
             limits = np.array([[-650, 650], [-650, 650]])
         elif reference_colourspace == 'CIE UVW':
             limits = np.array([[-850, 850], [-850, 850]])
+        elif reference_colourspace in ('Hunter Lab', 'Hunter Rdab'):
+            limits = np.array([[-250, 250], [-250, 250]])
         else:
             limits = np.array([[-1.5, 1.5], [-1.5, 1.5]])
 
@@ -592,7 +595,7 @@ def RGB_scatter_plot(RGB,
         *RGB* colourspace of the *RGB* array.
     reference_colourspace : unicode, optional
         **{'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE Luv', 'CIE UCS', 'CIE UVW',
-        'IPT'}**,
+        'IPT', 'Hunter Lab', 'Hunter Rdab'}**,
         Reference colourspace for colour conversion.
     colourspaces : array_like, optional
         *RGB* colourspaces to plot the gamuts.

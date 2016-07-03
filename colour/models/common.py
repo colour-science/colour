@@ -16,12 +16,15 @@ from colour.models import (
     Luv_to_uv,
     UCS_to_uv,
     XYZ_to_IPT,
+    XYZ_to_Hunter_Lab,
+    XYZ_to_Hunter_Rdab,
     XYZ_to_Lab,
     XYZ_to_Luv,
     XYZ_to_UCS,
     XYZ_to_UVW,
     XYZ_to_xy,
-    XYZ_to_xyY)
+    XYZ_to_xyY,
+    xy_to_XYZ)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
@@ -41,7 +44,9 @@ COLOURSPACE_MODELS = (
     'CIE Luv',
     'CIE UCS',
     'CIE UVW',
-    'IPT')
+    'IPT',
+    'Hunter Lab',
+    'Hunter Rdab')
 
 COLOURSPACE_MODELS_LABELS = {
     'CIE XYZ': ('X', 'Y', 'Z'),
@@ -50,14 +55,16 @@ COLOURSPACE_MODELS_LABELS = {
     'CIE Luv': ('$u^\prime$', '$v^\prime$', '$L^*$'),
     'CIE UCS': ('U', 'V', 'W'),
     'CIE UVW': ('U', 'V', 'W'),
-    'IPT': ('P', 'T', 'I')}
+    'IPT': ('P', 'T', 'I'),
+    'Hunter Lab': ('$a^*$', '$b^*$', '$L^*$'),
+    'Hunter Rdab': ('$a$', '$b$', '$Rd$')}
 
 """
 Colourspace models labels mapping.
 
 COLOURSPACE_MODELS_LABELS : dict
     **{'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE Luv', 'CIE UCS', 'CIE UVW',
-    'IPT'}**
+    'IPT', 'Hunter Lab', 'Hunter Rdab'}**
 """
 
 
@@ -74,7 +81,8 @@ def XYZ_to_colourspace_model(XYZ, illuminant, model):
         coordinates.
     model : unicode
         **{'CIE XYZ', 'CIE xyY', 'CIE xy', 'CIE Lab', 'CIE Luv', 'CIE Luv uv',
-        'CIE UCS', 'CIE UCS uv', 'CIE UVW', 'IPT'}**,
+        'CIE UCS', 'CIE UCS uv', 'CIE UVW', 'IPT', 'Hunter Lab',
+        'Hunter Rdab'}**,
         Colourspace model to convert the *CIE XYZ* tristimulus values to.
 
     Returns
@@ -120,33 +128,43 @@ def XYZ_to_colourspace_model(XYZ, illuminant, model):
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
     ... XYZ, W, 'IPT')
     array([ 0.3657112..., -0.1111479...,  0.0159474...])
+    >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
+    ... XYZ, W, 'Hunter Lab')
+    array([ 31.7490157..., -15.1351736...,  -2.7709606...])
+    >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
+    ... XYZ, W, 'Hunter Rdab')
+    array([ 10.08..., -18.7019271...,  -3.4239649...])
     """
 
     values = None
     if model == 'CIE XYZ':
         values = XYZ
-    if model == 'CIE xyY':
+    elif model == 'CIE xyY':
         values = XYZ_to_xyY(XYZ, illuminant)
-    if model == 'CIE xy':
+    elif model == 'CIE xy':
         values = XYZ_to_xy(XYZ, illuminant)
-    if model == 'CIE Lab':
+    elif model == 'CIE Lab':
         values = XYZ_to_Lab(XYZ, illuminant)
-    if model == 'CIE LCHab':
+    elif model == 'CIE LCHab':
         values = Lab_to_LCHab(XYZ_to_Lab(XYZ, illuminant))
-    if model == 'CIE Luv':
+    elif model == 'CIE Luv':
         values = XYZ_to_Luv(XYZ, illuminant)
-    if model == 'CIE Luv uv':
+    elif model == 'CIE Luv uv':
         values = Luv_to_uv(XYZ_to_Luv(XYZ, illuminant), illuminant)
-    if model == 'CIE LCHuv':
+    elif model == 'CIE LCHuv':
         values = Luv_to_LCHuv(XYZ_to_Luv(XYZ, illuminant))
-    if model == 'CIE UCS':
+    elif model == 'CIE UCS':
         values = XYZ_to_UCS(XYZ)
-    if model == 'CIE UCS uv':
+    elif model == 'CIE UCS uv':
         values = UCS_to_uv(XYZ_to_UCS(XYZ))
-    if model == 'CIE UVW':
+    elif model == 'CIE UVW':
         values = XYZ_to_UVW(XYZ * 100, illuminant)
-    if model == 'IPT':
+    elif model == 'IPT':
         values = XYZ_to_IPT(XYZ)
+    elif model == 'Hunter Lab':
+        values = XYZ_to_Hunter_Lab(XYZ * 100, xy_to_XYZ(illuminant) * 100)
+    elif model == 'Hunter Rdab':
+        values = XYZ_to_Hunter_Rdab(XYZ * 100, xy_to_XYZ(illuminant) * 100)
 
     if values is None:
         raise ValueError(
