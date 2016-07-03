@@ -187,8 +187,8 @@ def log_decoding_curve(value, curve='Cineon', **kwargs):
     --------
     >>> log_decoding_curve(0.457319613085418)  # doctest: +ELLIPSIS
     0.1...
-    >>> log_decoding_curve(0.413588402492442,
-    ...     curve='ACEScc')  # doctest: +ELLIPSIS
+    >>> log_decoding_curve(  # doctest: +ELLIPSIS
+    ...     0.413588402492442, curve='ACEScc')
     0.1...
     >>> log_decoding_curve(  # doctest: +ELLIPSIS
     ...     0.391006842619746, curve='PLog', log_reference=400)
