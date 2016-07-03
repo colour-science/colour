@@ -10,7 +10,7 @@ from colour.utilities.verbose import message_box
 
 message_box('Hexadecimal Triplet Computations')
 
-RGB = (0.490196078431373, 0.980392156862745, 0.250980392156863)
+RGB = (0.49019608, 0.98039216, 0.25098039)
 message_box(('Converting to "hex triplet" representation from given "RGB" '
              'colourspace values:\n'
              '\n\t{0}'.format(RGB)))

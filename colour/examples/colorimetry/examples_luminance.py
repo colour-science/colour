@@ -13,7 +13,7 @@ from colour.utilities.verbose import message_box
 
 message_box('"Luminance" Computations')
 
-V = 3.74629715382
+V = 3.74629715
 message_box(('Computing "luminance" using '
              'Newhall, Nickerson, and Judd (1943) method for given '
              '"Munsell" value:\n'
@@ -23,7 +23,7 @@ print(colour.luminance(V, method='Newhall 1943'))
 
 print('\n')
 
-L = 37.9856290977
+L = 37.98562910
 message_box(('Computing "luminance" using CIE Lab (1976) method for given '
              '"Lightness":\n'
              '\n\t{0}'.format(L)))

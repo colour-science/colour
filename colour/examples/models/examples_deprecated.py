@@ -11,7 +11,7 @@ from colour.utilities.verbose import message_box
 message_box(('Deprecated Colour Models Computations\n'
              '\nDon\'t use that! Seriously...'))
 
-RGB = (0.490196078431373, 0.980392156862745, 0.250980392156863)
+RGB = (0.49019608, 0.98039216, 0.25098039)
 message_box(('Converting to "HSV" colourspace from given "RGB" colourspace '
              'values:\n'
              '\n\t{0}'.format(RGB)))

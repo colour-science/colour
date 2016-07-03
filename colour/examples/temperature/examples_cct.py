@@ -35,7 +35,7 @@ print(colour.uv_to_CCT(uv, method='Robertson 1968'))
 
 print('\n')
 
-CCT, D_uv = 6503.4925414981535, 0.003205978717114
+CCT, D_uv = 6503.49254150, 0.00320598
 message_box(('Converting to "CIE UCS" colourspace "uv" chromaticity '
              'coordinates from given "CCT" and "D_uv" using '
              'Ohno (2013) method:\n'
@@ -71,7 +71,7 @@ print(colour.xy_to_CCT(xy, method='Hernandez 1999'))
 
 print('\n')
 
-CCT = 6503.4925414981535
+CCT = 6503.49254150
 message_box(('Converting to "xy" chromaticity coordinates from given "CCT" '
              'using Kang et al. (2002) method:\n'
              '\n\t{0}'.format(CCT)))
