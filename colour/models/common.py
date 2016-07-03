@@ -41,8 +41,12 @@ COLOURSPACE_MODELS = (
     'CIE XYZ',
     'CIE xyY',
     'CIE Lab',
+    'CIE LCHab',
     'CIE Luv',
+    'CIE Luv uv',
+    'CIE LCHuv',
     'CIE UCS',
+    'CIE UCS uv',
     'CIE UVW',
     'IPT',
     'Hunter Lab',
@@ -52,19 +56,23 @@ COLOURSPACE_MODELS_LABELS = {
     'CIE XYZ': ('X', 'Y', 'Z'),
     'CIE xyY': ('x', 'y', 'Y'),
     'CIE Lab': ('$a^*$', '$b^*$', '$L^*$'),
+    'CIE LCHab': ('CH', 'ab', '$L^*$'),
     'CIE Luv': ('$u^\prime$', '$v^\prime$', '$L^*$'),
+    'CIE Luv uv': ('$u^\prime$', '$v^\prime$'),
+    'CIE LCHuv': ('CH', 'uv', '$L^*$'),
     'CIE UCS': ('U', 'V', 'W'),
+    'CIE UCS uv': ('$u$', '$v$'),
     'CIE UVW': ('U', 'V', 'W'),
     'IPT': ('P', 'T', 'I'),
     'Hunter Lab': ('$a^*$', '$b^*$', '$L^*$'),
     'Hunter Rdab': ('$a$', '$b$', '$Rd$')}
-
 """
 Colourspace models labels mapping.
 
 COLOURSPACE_MODELS_LABELS : dict
-    **{'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE Luv', 'CIE UCS', 'CIE UVW',
-    'IPT', 'Hunter Lab', 'Hunter Rdab'}**
+    **{'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE LCHab, 'CIE Luv', 'CIE Luv uv',
+    'CIE LCHuv', 'CIE UCS', 'CIE UCS uv', 'CIE UVW', 'IPT', 'Hunter Lab',
+    'Hunter Rdab'}**
 """
 
 
@@ -80,9 +88,9 @@ def XYZ_to_colourspace_model(XYZ, illuminant, model):
         *CIE XYZ* tristimulus values *illuminant* *xy* chromaticity
         coordinates.
     model : unicode
-        **{'CIE XYZ', 'CIE xyY', 'CIE xy', 'CIE Lab', 'CIE Luv', 'CIE Luv uv',
-        'CIE UCS', 'CIE UCS uv', 'CIE UVW', 'IPT', 'Hunter Lab',
-        'Hunter Rdab'}**,
+        **{'CIE XYZ', 'CIE xyY', 'CIE xy', 'CIE Lab', 'CIE LCHab', 'CIE Luv',
+        'CIE Luv uv', 'CIE LCHuv', 'CIE UCS', 'CIE UCS uv', 'CIE UVW', 'IPT',
+        'Hunter Lab', 'Hunter Rdab'}**,
         Colourspace model to convert the *CIE XYZ* tristimulus values to.
 
     Returns
