@@ -45,7 +45,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.utilities import CaseInsensitiveMapping, tsplit, tstack
-from colour.models.rgb import REC_2020_COLOURSPACE
+from colour.models.rgb.transfer_functions import oetf_BT2020, eotf_BT2020
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013 - 2016 - Colour Developers'
@@ -471,9 +471,9 @@ def RGB_to_YcCbcCrc(RGB,
         'out_range', YCbCr_ranges(out_bits, out_legal, out_int))
 
     Yc = 0.2627 * R + 0.6780 * G + 0.0593 * B
-    Yc = REC_2020_COLOURSPACE.OECF(Yc, is_10_bits_system=is_10_bits_system)
-    R = REC_2020_COLOURSPACE.OECF(R, is_10_bits_system=is_10_bits_system)
-    B = REC_2020_COLOURSPACE.OECF(B, is_10_bits_system=is_10_bits_system)
+    Yc = oetf_BT2020(Yc, is_10_bits_system=is_10_bits_system)
+    R = oetf_BT2020(R, is_10_bits_system=is_10_bits_system)
+    B = oetf_BT2020(B, is_10_bits_system=is_10_bits_system)
     Cbc = np.where((B - Yc) <= 0, (B - Yc) / 1.9404, (B - Yc) / 1.5816)
     Crc = np.where((R - Yc) <= 0, (R - Yc) / 1.7184, (R - Yc) / 0.9936)
     Yc *= Y_max - Y_min
@@ -555,9 +555,9 @@ def YcCbcCrc_to_RGB(YcCbcCrc,
     Crc *= 1 / (C_max - C_min)
     B = np.where(Cbc <= 0, Cbc * 1.9404 + Yc, Cbc * 1.5816 + Yc)
     R = np.where(Crc <= 0, Crc * 1.7184 + Yc, Crc * 0.9936 + Yc)
-    Yc = REC_2020_COLOURSPACE.EOCF(Yc, is_10_bits_system=is_10_bits_system)
-    B = REC_2020_COLOURSPACE.EOCF(B, is_10_bits_system=is_10_bits_system)
-    R = REC_2020_COLOURSPACE.EOCF(R, is_10_bits_system=is_10_bits_system)
+    Yc = eotf_BT2020(Yc, is_10_bits_system=is_10_bits_system)
+    B = eotf_BT2020(B, is_10_bits_system=is_10_bits_system)
+    R = eotf_BT2020(R, is_10_bits_system=is_10_bits_system)
     G = (Yc - 0.0593 * B - 0.2627 * R) / 0.6780
 
     RGB = tstack((R, G, B))
