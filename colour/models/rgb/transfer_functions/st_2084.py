@@ -121,7 +121,7 @@ def eotf_ST2084(N, L_p=10000):
 
     Examples
     --------
-    >>> eotf_ST2084(0.079420969944927269)  # doctest: +ELLIPSIS
+    >>> eotf_ST2084(0.079420969944927)  # doctest: +ELLIPSIS
     0.1...
     """
 

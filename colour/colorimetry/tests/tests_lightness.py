@@ -42,17 +42,17 @@ class TestLightnessGlasser1958(unittest.TestCase):
 
         self.assertAlmostEqual(
             lightness_Glasser1958(10.08),
-            36.2505626458,
+            36.25056265,
             places=7)
 
         self.assertAlmostEqual(
             lightness_Glasser1958(56.76),
-            78.8117999039,
+            78.81179990,
             places=7)
 
         self.assertAlmostEqual(
             lightness_Glasser1958(98.32),
-            98.3447052593,
+            98.34470526,
             places=7)
 
     def test_n_dimensional_lightness_Glasser1958(self):
@@ -62,7 +62,7 @@ class TestLightnessGlasser1958(unittest.TestCase):
         """
 
         Y = 10.08
-        L = 36.2505626458
+        L = 36.25056265
         np.testing.assert_almost_equal(
             lightness_Glasser1958(Y),
             L,
@@ -114,17 +114,17 @@ class TestLightnessWyszecki1963(unittest.TestCase):
 
         self.assertAlmostEqual(
             lightness_Wyszecki1963(10.08),
-            37.0041149128,
+            37.00411491,
             places=7)
 
         self.assertAlmostEqual(
             lightness_Wyszecki1963(56.76),
-            79.0773031869,
+            79.07730319,
             places=7)
 
         self.assertAlmostEqual(
             lightness_Wyszecki1963(98.32),
-            98.3862250488,
+            98.38622505,
             places=7)
 
     def test_n_dimensional_lightness_Wyszecki1963(self):
@@ -186,32 +186,32 @@ class TestLightnessCIE1976(unittest.TestCase):
 
         self.assertAlmostEqual(
             lightness_CIE1976(10.08),
-            37.9856290977,
+            37.98562910,
             places=7)
 
         self.assertAlmostEqual(
             lightness_CIE1976(56.76),
-            80.0444155585,
+            80.04441556,
             places=7)
 
         self.assertAlmostEqual(
             lightness_CIE1976(98.32),
-            99.3467279026,
+            99.34672790,
             places=7)
 
         self.assertAlmostEqual(
             lightness_CIE1976(10.08, 50),
-            52.01763049195023,
+            52.01763049,
             places=7)
 
         self.assertAlmostEqual(
             lightness_CIE1976(10.08, 75),
-            43.41887325541973,
+            43.41887326,
             places=7)
 
         self.assertAlmostEqual(
             lightness_CIE1976(10.08, 95),
-            38.91659875709282,
+            38.91659876,
             places=7)
 
     def test_n_dimensional_lightness_CIE1976(self):
@@ -221,7 +221,7 @@ class TestLightnessCIE1976(unittest.TestCase):
         """
 
         Y = 10.08
-        Lstar = 37.98562909765304
+        Lstar = 37.98562910
         np.testing.assert_almost_equal(
             lightness_CIE1976(Y),
             Lstar,

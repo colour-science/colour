@@ -39,17 +39,17 @@ oetf_ST2084` definition.
 
         self.assertAlmostEqual(
             oetf_ST2084(0.0),
-            7.3095590257839665e-07,
+            0.000000730955903,
             places=7)
 
         self.assertAlmostEqual(
             oetf_ST2084(0.18),
-            0.079420969944927269,
+            0.079420969944927,
             places=7)
 
         self.assertAlmostEqual(
             oetf_ST2084(1),
-            0.14994573210018022,
+            0.149945732100180,
             places=7)
 
         self.assertAlmostEqual(
@@ -64,7 +64,7 @@ oetf_ST2084` definition n-dimensional arrays support.
         """
 
         C = 0.18
-        N = 0.079420969944927269
+        N = 0.079420969944927
         np.testing.assert_almost_equal(
             oetf_ST2084(C),
             N,
@@ -120,12 +120,12 @@ eotf_ST2084` definition.
             places=7)
 
         self.assertAlmostEqual(
-            eotf_ST2084(0.079420969944927269),
+            eotf_ST2084(0.079420969944927),
             0.18,
             places=7)
 
         self.assertAlmostEqual(
-            eotf_ST2084(0.14994573210018022),
+            eotf_ST2084(0.149945732100180),
             1.0,
             places=7)
 
@@ -141,7 +141,7 @@ eotf_ST2084` definition n-dimensional arrays support.
         """
 
         N = 0.18
-        C = 1.7385804910848062
+        C = 1.738580491084806
         np.testing.assert_almost_equal(
             eotf_ST2084(N),
             C,

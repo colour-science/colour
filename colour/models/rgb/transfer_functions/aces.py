@@ -230,8 +230,8 @@ def log_decoding_ACEScc(ACEScc):
 
     Examples
     --------
-    >>> log_decoding_ACEScc(0.4135884024924423)  # doctest: +ELLIPSIS
-    0.18...
+    >>> log_decoding_ACEScc(0.413588402492442)  # doctest: +ELLIPSIS
+    0.1799999...
     """
 
     ACEScc = np.asarray(ACEScc)

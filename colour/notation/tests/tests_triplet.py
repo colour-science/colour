@@ -100,12 +100,12 @@ class TestHEX_to_RGB(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             HEX_to_RGB('#000000'),
-            np.array([0., 0., 0.]),
+            np.array([0.00000000, 0.00000000, 0.00000000]),
             decimal=2)
 
         np.testing.assert_almost_equal(
             HEX_to_RGB('#ffffff'),
-            np.array([1., 1., 1.]),
+            np.array([1.00000000, 1.00000000, 1.00000000]),
             decimal=2)
 
     def test_n_dimensional_HEX_to_RGB(self):

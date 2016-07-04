@@ -49,17 +49,17 @@ class Testxy_to_z(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             xy_to_z(np.array([0.2500, 0.2500])),
-            0.5,
+            0.50000000,
             decimal=7)
 
         np.testing.assert_almost_equal(
             xy_to_z(np.array([0.0001, -0.0770])),
-            1.0769,
+            1.07690000,
             decimal=7)
 
         np.testing.assert_almost_equal(
             xy_to_z(np.array([0.0000, 1.0000])),
-            0.0,
+            0.00000000,
             decimal=7)
 
     def test_n_dimensional_xy_to_z(self):
@@ -120,9 +120,9 @@ class TestNormalisedPrimaryMatrix(unittest.TestCase):
                           0.00000, 1.00000,
                           0.00010, -0.07700]),
                 np.array([0.32168, 0.33767])),
-            np.array([[0.9525523959, 0.0000000000, 0.0000936786],
-                      [0.3439664498, 0.7281660966, -0.0721325464],
-                      [0.0000000000, 0.0000000000, 1.0088251844]]),
+            np.array([[0.95255240, 0.00000000, 0.00009368],
+                      [0.34396645, 0.72816610, -0.07213255],
+                      [0.00000000, 0.00000000, 1.00882518]]),
             decimal=7)
 
         np.testing.assert_almost_equal(
@@ -234,9 +234,9 @@ class TestPrimariesWhitepoint(unittest.TestCase):
         """
 
         self.whitepoint = primaries_whitepoint(np.array(
-            [[0.9525523959, 0.0000000000, 0.0000936786],
-             [0.3439664498, 0.7281660966, -0.0721325464],
-             [0.0000000000, 0.0000000000, 1.0088251844]]))
+            [[0.95255240, 0.00000000, 0.00009368],
+             [0.34396645, 0.72816610, -0.07213255],
+             [0.00000000, 0.00000000, 1.00882518]]))
         P, W = self.whitepoint
         np.testing.assert_almost_equal(
             P,
@@ -329,7 +329,7 @@ class TestRGBLuminance(unittest.TestCase):
                           0.00000, 1.00000,
                           0.00010, -0.07700]),
                 np.array([0.32168, 0.33767])),
-            50.,
+            50.00000000,
             places=7)
 
         self.assertAlmostEqual(
@@ -339,7 +339,7 @@ class TestRGBLuminance(unittest.TestCase):
                           0.00000, 1.00000,
                           0.00010, -0.07700]),
                 np.array([0.32168, 0.33767])),
-            30.1701166701,
+            30.17011667,
             places=7)
 
         self.assertAlmostEqual(
@@ -349,7 +349,7 @@ class TestRGBLuminance(unittest.TestCase):
                           0.00000, 1.00000,
                           0.00010, -0.07700]),
                 np.array([0.32168, 0.33767])),
-            12.1616018403,
+            12.16160184,
             places=7)
 
     def test_n_dimensional_RGB_luminance(self):

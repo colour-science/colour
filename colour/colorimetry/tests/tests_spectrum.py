@@ -2176,7 +2176,7 @@ SpectralPowerDistribution.__getitem__` method.
 
         np.testing.assert_almost_equal(
             self._spd[np.array([340, 620, 820])],
-            np.array([0, 0.1511, 0]))
+            np.array([0.0000, 0.1511, 0.0000]))
 
         np.testing.assert_almost_equal(
             self._spd[3:6],
@@ -2350,7 +2350,7 @@ SpectralPowerDistribution.get` method.
 
         np.testing.assert_almost_equal(
             self._spd.get(np.array([340, 620, 820])),
-            np.array([0., 0.1511, 0.]))
+            np.array([0.0000, 0.1511, 0.0000]))
 
         np.testing.assert_array_equal(self._spd.get(400.1), np.nan)
 
@@ -2407,7 +2407,7 @@ SpectralPowerDistribution.interpolate` method.
             self._spd.clone().interpolate(
                 SpectralShape(interval=1),
                 method='Pchip')[410],
-            np.array(0.06439937984496125),
+            np.array(0.064399379844961),
             decimal=7)
 
     def test_align(self):
@@ -2642,7 +2642,7 @@ TriSpectralPowerDistribution.__getitem__` method.
             self._tri_spd[3:6],
             np.array([[0.00765, 0.000217, 0.03621],
                       [0.01431, 0.000396, 0.06785],
-                      [0.02319, 0.00064, 0.1102]]))
+                      [0.02319, 0.000640, 0.1102]]))
 
     def test__setitem__(self):
         """
@@ -2828,11 +2828,11 @@ TriSpectralPowerDistribution.get` method.
 
         np.testing.assert_almost_equal(
             self._tri_spd.get(600),
-            np.array([1.0622, 0.631, 0.0008]))
+            np.array([1.0622, 0.6310, 0.0008]))
 
         np.testing.assert_almost_equal(
             self._tri_spd.get(700),
-            np.array([0.011359, 0.004102, 0.]))
+            np.array([0.011359, 0.004102, 0.000000]))
 
         np.testing.assert_almost_equal(
             self._tri_spd.get(900, np.array([0, 0, 0])),

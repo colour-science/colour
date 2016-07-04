@@ -74,7 +74,7 @@ class TestXYZ_to_Lab(unittest.TestCase):
         np.testing.assert_almost_equal(
             XYZ_to_Lab(np.array([0.07049534, 0.10080000, 0.09558313]),
                        np.array([0.37208, 0.37529, 0.10080])),
-            np.array([100., -54.91100935, -24.19758201]),
+            np.array([100.00000000, -54.91100935, -24.19758201]),
             decimal=7)
 
     def test_n_dimensional_XYZ_to_Lab(self):
@@ -314,7 +314,7 @@ class TestLCHab_to_Lab(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            LCHab_to_Lab(np.array([50.86223896, 38.51719507, 31.726477360])),
+            LCHab_to_Lab(np.array([50.86223896, 38.51719507, 31.72647736])),
             np.array([50.86223896, 32.76150086, 20.25483590]),
             decimal=7)
 

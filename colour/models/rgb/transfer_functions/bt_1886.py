@@ -117,7 +117,7 @@ def eotf_BT1886(V, L_B=64, L_W=940):
 
     Examples
     --------
-    >>> eotf_BT1886(0.4090077288641504)  # doctest: +ELLIPSIS
+    >>> eotf_BT1886(0.409007728864150)  # doctest: +ELLIPSIS
     277.9815917...
     """
 

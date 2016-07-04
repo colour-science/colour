@@ -420,7 +420,7 @@ def f(x, F_S):
     Examples
     --------
     >>> x = np.array([0.23350512, 0.23351103, 0.23355179])
-    >>> f(0.20000918623399996, 3)  # doctest: +ELLIPSIS
+    >>> f(0.200009186234000, 3)  # doctest: +ELLIPSIS
     array(0.5848125...)
     """
 
@@ -574,7 +574,7 @@ def colourfulness_correlate(L, L_L, Ch_L, F_C):
     --------
     >>> L = 318.31
     >>> L_L = 37.368047493928195
-    >>> Ch_L = 0.0086506620517144972
+    >>> Ch_L = 0.008650662051714
     >>> F_C = 1.0
     >>> colourfulness_correlate(L, L_L, Ch_L, F_C)  # doctest: +ELLIPSIS
     0.0183832...
@@ -610,7 +610,7 @@ def saturation_correlate(Ch_L, L_L):
 
     Examples
     --------
-    >>> Ch_L = 0.0086506620517144972
+    >>> Ch_L = 0.008650662051714
     >>> L_L = 37.368047493928195
     >>> saturation_correlate(Ch_L, L_L)  # doctest: +ELLIPSIS
     0.0002314...

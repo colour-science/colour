@@ -44,7 +44,7 @@ class TestXYZ_to_IPT(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             XYZ_to_IPT(np.array([0.47097710, 0.34950000, 0.11301649])),
-            np.array([0.5916803, 0.34150712, 0.33282621]),
+            np.array([0.59168030, 0.34150712, 0.33282621]),
             decimal=7)
 
         np.testing.assert_almost_equal(
@@ -105,17 +105,17 @@ class TestIPT_to_XYZ(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             IPT_to_XYZ(np.array([1.00300825, 0.01906918, -0.01369292])),
-            np.array([0.96907232, 1., 1.12179215]),
+            np.array([0.96907232, 1.00000000, 1.12179215]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             IPT_to_XYZ(np.array([0.73974548, 0.95333412, 1.71951212])),
-            np.array([1.92001986, 1., -0.1241347]),
+            np.array([1.92001986, 1.00000000, -0.12413470]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             IPT_to_XYZ(np.array([1.06406598, -0.08075812, -0.39625384])),
-            np.array([1.0131677, 1., 2.11217686]),
+            np.array([1.01316770, 1.00000000, 2.11217686]),
             decimal=7)
 
     def test_n_dimensional_IPT_to_XYZ(self):
@@ -171,17 +171,17 @@ class TestIPTHueAngle(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             IPT_hue_angle(np.array([0.07049534, 0.10080000, 0.09558313])),
-            0.7588396531961388,
+            0.758839653196139,
             decimal=7)
 
         np.testing.assert_almost_equal(
             IPT_hue_angle(np.array([0.47097710, 0.34950000, 0.11301649])),
-            0.3127534819420748,
+            0.312753481942075,
             decimal=7)
 
         np.testing.assert_almost_equal(
             IPT_hue_angle(np.array([0.25506814, 0.19150000, 0.08849752])),
-            0.4328937107187537,
+            0.432893710718754,
             decimal=7)
 
     def test_n_dimensional_IPT_hue_angle(self):
@@ -191,7 +191,7 @@ class TestIPTHueAngle(unittest.TestCase):
         """
 
         IPT = np.array([0.07049534, 0.10080000, 0.09558313])
-        hue = 0.7588396531961388
+        hue = 0.758839653196139
         np.testing.assert_almost_equal(
             IPT_hue_angle(IPT),
             hue,

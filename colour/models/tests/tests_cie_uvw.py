@@ -53,7 +53,7 @@ class TestXYZ_to_UVW(unittest.TestCase):
         np.testing.assert_almost_equal(
             XYZ_to_UVW(np.array([0.07049534, 0.10080000, 0.09558313]) * 100,
                        np.array([0.44757, 0.40745])),
-            np.array([-50.56405108, -12.4960054, 37.00411491]),
+            np.array([-50.56405108, -12.49600540, 37.00411491]),
             decimal=7)
 
         np.testing.assert_almost_equal(

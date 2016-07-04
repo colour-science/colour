@@ -41,17 +41,17 @@ log_encoding_Panalog` definition.
 
         self.assertAlmostEqual(
             log_encoding_Panalog(0.0),
-            0.062561094819159335,
+            0.062561094819159,
             places=7)
 
         self.assertAlmostEqual(
             log_encoding_Panalog(0.18),
-            0.37457679138229816,
+            0.374576791382298,
             places=7)
 
         self.assertAlmostEqual(
             log_encoding_Panalog(1.0),
-            0.66568914956011727,
+            0.665689149560117,
             places=7)
 
     def test_n_dimensional_log_encoding_Panalog(self):
@@ -61,7 +61,7 @@ log_encoding_Panalog` definition n-dimensional arrays support.
         """
 
         L = 0.18
-        V = 0.37457679138229816
+        V = 0.374576791382298
         np.testing.assert_almost_equal(
             log_encoding_Panalog(L),
             V,
@@ -112,17 +112,17 @@ log_decoding_Panalog` definition.
         """
 
         self.assertAlmostEqual(
-            log_decoding_Panalog(0.062561094819159335),
+            log_decoding_Panalog(0.062561094819159),
             0.0,
             places=7)
 
         self.assertAlmostEqual(
-            log_decoding_Panalog(0.37457679138229816),
+            log_decoding_Panalog(0.374576791382298),
             0.18,
             places=7)
 
         self.assertAlmostEqual(
-            log_decoding_Panalog(0.66568914956011727),
+            log_decoding_Panalog(0.665689149560117),
             1.0,
             places=7)
 
@@ -132,7 +132,7 @@ log_decoding_Panalog` definition.
 log_decoding_Panalog` definition n-dimensional arrays support.
         """
 
-        V = 0.37457679138229816
+        V = 0.374576791382298
         L = 0.18
         np.testing.assert_almost_equal(
             log_decoding_Panalog(V),

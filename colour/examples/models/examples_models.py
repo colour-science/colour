@@ -46,7 +46,7 @@ print(colour.XYZ_to_xy(XYZ))
 
 print('\n')
 
-xy = (0.43249999995420696, 0.378800000065942)
+xy = (0.43250000, 0.37880000)
 message_box(('Converting to "CIE XYZ" tristimulus values from given "xy" '
              'chromaticity coordinates:\n'
              '\n\t{0}'.format(xy)))
@@ -112,7 +112,7 @@ print(colour.UCS_to_uv(UCS))
 
 print('\n')
 
-uv = (0.25895877536258677, 0.34020896328551287)
+uv = (0.25895878, 0.34020896)
 message_box(('Converting to "xy" chromaticity coordinates from given '
              '"CIE UCS" colourspace "uv" chromaticity coordinates:\n'
              '\n\t{0}'.format(uv)))
@@ -149,7 +149,7 @@ print(colour.Luv_to_uv(Luv))
 
 print('\n')
 
-uv = (0.25895877536234663, 0.51031344493132547)
+uv = (0.25895878, 0.51031344)
 message_box(('Converting to "xy" chromaticity coordinates from given '
              '"CIE Luv" colourspace "u"v"" chromaticity coordinates:\n'
              '\n\t{0}'.format(uv)))
@@ -233,7 +233,7 @@ print(colour.XYZ_to_IPT(XYZ))
 
 print('\n')
 
-IPT = (0.9494884, 0.28747522, 0.36109201)
+IPT = (0.94948840, 0.28747522, 0.36109201)
 message_box(('Converting to "CIE XYZ" tristimulus values from given "IPT" '
              'colourspace values:\n'
              '\n\t{0}'.format(IPT)))

@@ -46,12 +46,12 @@ oetf_DCIP3` definition.
 
         self.assertAlmostEqual(
             oetf_DCIP3(0.18),
-            461.99220597484737,
+            461.99220597,
             places=7)
 
         self.assertAlmostEqual(
             oetf_DCIP3(1.0),
-            893.44598340527841,
+            893.44598341,
             places=7)
 
     def test_n_dimensional_oetf_DCIP3(self):
@@ -61,7 +61,7 @@ oetf_DCIP3` definition n-dimensional arrays support.
         """
 
         L = 0.18
-        V = 461.99220597484737
+        V = 461.99220597
         np.testing.assert_almost_equal(
             oetf_DCIP3(L),
             V,
@@ -117,12 +117,12 @@ eotf_DCIP3` definition.
             places=7)
 
         self.assertAlmostEqual(
-            eotf_DCIP3(461.99220597484737),
+            eotf_DCIP3(461.99220597),
             0.18,
             places=7)
 
         self.assertAlmostEqual(
-            eotf_DCIP3(893.44598340527841),
+            eotf_DCIP3(893.44598341),
             1.0,
             places=7)
 
@@ -132,7 +132,7 @@ eotf_DCIP3` definition.
 eotf_DCIP3` definition n-dimensional arrays support.
         """
 
-        V = 461.99220597484737
+        V = 461.99220597
         L = 0.18
         np.testing.assert_almost_equal(
             eotf_DCIP3(V),

@@ -98,7 +98,7 @@ def log_decoding_Panalog(y,
 
     Examples
     --------
-    >>> log_decoding_Panalog(0.37457679138229816)  # doctest: +ELLIPSIS
+    >>> log_decoding_Panalog(0.374576791382298)  # doctest: +ELLIPSIS
     0.1...
     """
 

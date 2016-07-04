@@ -41,17 +41,17 @@ log_encoding_ALEXALogC` definition.
 
         self.assertAlmostEqual(
             log_encoding_ALEXALogC(0.0),
-            0.092809,
+            0.092809000000000,
             places=7)
 
         self.assertAlmostEqual(
             log_encoding_ALEXALogC(0.18),
-            0.39100683203408376,
+            0.391006832034084,
             places=7)
 
         self.assertAlmostEqual(
             log_encoding_ALEXALogC(1.0),
-            0.5706315581204173,
+            0.570631558120417,
             places=7)
 
     def test_n_dimensional_log_encoding_ALEXALogC(self):
@@ -61,7 +61,7 @@ log_encoding_ALEXALogC` definition n-dimensional arrays support.
         """
 
         L = 0.18
-        V = 0.39100683203408376
+        V = 0.391006832034084
         np.testing.assert_almost_equal(
             log_encoding_ALEXALogC(L),
             V,
@@ -117,12 +117,12 @@ log_decoding_ALEXALogC` definition.
             places=7)
 
         self.assertAlmostEqual(
-            log_decoding_ALEXALogC(0.39100683203408376),
+            log_decoding_ALEXALogC(0.391006832034084),
             0.18,
             places=7)
 
         self.assertAlmostEqual(
-            log_decoding_ALEXALogC(0.5706315581204173),
+            log_decoding_ALEXALogC(0.570631558120417),
             1.0,
             places=7)
 
@@ -132,7 +132,7 @@ log_decoding_ALEXALogC` definition.
 log_decoding_ALEXALogC` definition n-dimensional arrays support.
         """
 
-        V = 0.39100683203408376
+        V = 0.391006832034084
         L = 0.18
         np.testing.assert_almost_equal(
             log_decoding_ALEXALogC(V),

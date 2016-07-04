@@ -94,7 +94,7 @@ def log_decoding_REDLog(y,
 
     Examples
     --------
-    >>> log_decoding_REDLog(0.63762184598817484)  # doctest: +ELLIPSIS
+    >>> log_decoding_REDLog(0.637621845988175)  # doctest: +ELLIPSIS
     0.1...
     """
 
@@ -152,8 +152,8 @@ def log_decoding_REDLogFilm(y,
 
     Examples
     --------
-    >>> log_decoding_REDLogFilm(0.45731961308541841)  # doctest: +ELLIPSIS
-    0.18...
+    >>> log_decoding_REDLogFilm(0.457319613085418)  # doctest: +ELLIPSIS
+    0.1799999...
     """
 
     return log_decoding_Cineon(y, black_offset)

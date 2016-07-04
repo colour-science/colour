@@ -44,7 +44,7 @@ oetf_sRGB` definition.
 
         self.assertAlmostEqual(
             oetf_sRGB(0.18),
-            0.46135612950044164,
+            0.461356129500442,
             places=7)
 
         self.assertAlmostEqual(
@@ -59,7 +59,7 @@ oetf_sRGB` definition n-dimensional arrays support.
         """
 
         L = 0.18
-        V = 0.46135612950044164
+        V = 0.461356129500442
         np.testing.assert_almost_equal(
             oetf_sRGB(L),
             V,
@@ -115,7 +115,7 @@ eotf_sRGB` definition.
             places=7)
 
         self.assertAlmostEqual(
-            eotf_sRGB(0.46135612950044164),
+            eotf_sRGB(0.461356129500442),
             0.18,
             places=7)
 
@@ -130,7 +130,7 @@ eotf_sRGB` definition.
 eotf_sRGB` definition n-dimensional arrays support.
         """
 
-        V = 0.46135612950044164
+        V = 0.461356129500442
         L = 0.18
         np.testing.assert_almost_equal(
             eotf_sRGB(V),

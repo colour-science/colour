@@ -115,7 +115,7 @@ spherical_to_cartesian` definition.
         np.testing.assert_almost_equal(
             spherical_to_cartesian(
                 np.array([6.78232998, 1.08574654, 0.32175055])),
-            np.array([3., 0.99999999, 6.]),
+            np.array([3.00000000, 0.99999999, 6.00000000]),
             decimal=7)
 
         np.testing.assert_almost_equal(
@@ -195,7 +195,7 @@ cartesian_to_cylindrical` definition.
 
         np.testing.assert_almost_equal(
             cartesian_to_cylindrical(np.array([6.3434, -0.9345, 18.5675])),
-            np.array([18.5675, -0.1462664, 6.41186508]),
+            np.array([18.56750000, -0.14626640, 6.41186508]),
             decimal=7)
 
     def test_n_dimensional_cartesian_to_cylindrical(self):
@@ -266,7 +266,7 @@ cylindrical_to_cartesian` definition.
         np.testing.assert_almost_equal(
             cylindrical_to_cartesian(
                 np.array([19.64342307, 1.23829030, -0.14626640])),
-            np.array([-0.04774323, -0.138255, 19.64342307]),
+            np.array([-0.04774323, -0.13825500, 19.64342307]),
             decimal=7)
 
     def test_n_dimensional_cylindrical_to_cartesian(self):

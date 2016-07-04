@@ -249,7 +249,7 @@ def log_decoding_ALEXALogC(t,
 
     Examples
     --------
-    >>> log_decoding_ALEXALogC(0.39100683203408376)  # doctest: +ELLIPSIS
+    >>> log_decoding_ALEXALogC(0.391006832034084)  # doctest: +ELLIPSIS
     0.18...
     """
 

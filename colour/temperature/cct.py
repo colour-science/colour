@@ -407,7 +407,7 @@ def CCT_to_uv_Ohno2013(CCT,
     >>> cmfs = 'CIE 1931 2 Degree Standard Observer'
     >>> cmfs = STANDARD_OBSERVERS_CMFS.get(cmfs)
     >>> CCT = 6507.4342201047066
-    >>> D_uv = 0.003223690901512735
+    >>> D_uv = 0.003223690901513
     >>> CCT_to_uv_Ohno2013(CCT, D_uv, cmfs)  # doctest: +ELLIPSIS
     array([ 0.1977999...,  0.3122004...])
     """
@@ -468,7 +468,7 @@ def uv_to_CCT_Robertson1968(uv):
 
     Examples
     --------
-    >>> uv = np.array([0.19374137599822966, 0.31522104394059397])
+    >>> uv = np.array([0.193741375998230, 0.315221043940594])
     >>> uv_to_CCT_Robertson1968(uv)  # doctest: +ELLIPSIS
     array([  6.5000162...e+03,   8.3333289...e-03])
     """
@@ -561,7 +561,7 @@ def CCT_to_uv_Robertson1968(CCT, D_uv=0):
     Examples
     --------
     >>> CCT = 6500.0081378199056
-    >>> D_uv = 0.0083333312442250979
+    >>> D_uv = 0.008333331244225
     >>> CCT_to_uv_Robertson1968(CCT, D_uv)  # doctest: +ELLIPSIS
     array([ 0.1937413...,  0.3152210...])
     """
@@ -725,7 +725,7 @@ def CCT_to_uv(CCT, D_uv=0, method='Ohno 2013', **kwargs):
     >>> cmfs = 'CIE 1931 2 Degree Standard Observer'
     >>> cmfs = STANDARD_OBSERVERS_CMFS.get(cmfs)
     >>> CCT = 6507.4342201047066
-    >>> D_uv = 0.003223690901512735
+    >>> D_uv = 0.003223690901513
     >>> CCT_to_uv(CCT, D_uv, cmfs=cmfs)  # doctest: +ELLIPSIS
     array([ 0.1977999...,  0.3122004...])
     """

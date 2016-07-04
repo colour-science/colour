@@ -106,7 +106,7 @@ def log_decoding_PivotedLog(y,
 
     Examples
     --------
-    >>> log_decoding_PivotedLog(0.43499511241446726)  # doctest: +ELLIPSIS
+    >>> log_decoding_PivotedLog(0.434995112414467)  # doctest: +ELLIPSIS
     0.1...
     """
 

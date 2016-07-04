@@ -99,7 +99,7 @@ def log_decoding_SLog(y):
 
     Examples
     --------
-    >>> log_decoding_SLog(0.35998784642215442)  # doctest: +ELLIPSIS
+    >>> log_decoding_SLog(0.359987846422154)  # doctest: +ELLIPSIS
     0.1...
     """
 
@@ -152,7 +152,7 @@ def log_decoding_SLog2(y):
 
     Examples
     --------
-    >>> log_decoding_SLog2(0.38497081592867027)  # doctest: +ELLIPSIS
+    >>> log_decoding_SLog2(0.384970815928670)  # doctest: +ELLIPSIS
     0.1...
     """
 
@@ -209,7 +209,7 @@ def log_decoding_SLog3(y):
 
     Examples
     --------
-    >>> log_decoding_SLog3(0.41055718475073316)  # doctest: +ELLIPSIS
+    >>> log_decoding_SLog3(0.410557184750733)  # doctest: +ELLIPSIS
     0.1...
     """
 

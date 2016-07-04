@@ -104,7 +104,7 @@ def log_decoding_VLog(V_out):
 
     Examples
     --------
-    >>> log_decoding_VLog(0.42331144876013616)  # doctest: +ELLIPSIS
+    >>> log_decoding_VLog(0.423311448760136)  # doctest: +ELLIPSIS
     0.1799999...
     """
 

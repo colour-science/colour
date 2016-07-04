@@ -53,7 +53,7 @@ class TestXYZ_to_xyY(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             XYZ_to_xyY(np.array([0.47097710, 0.34950000, 0.11301649])),
-            np.array([0.50453169, 0.374400000000, 0.34950000]),
+            np.array([0.50453169, 0.37440000, 0.34950000]),
             decimal=7)
 
         np.testing.assert_almost_equal(
@@ -68,7 +68,7 @@ class TestXYZ_to_xyY(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             XYZ_to_xyY(np.array([0.00000000, 0.00000000, 1.00000000])),
-            np.array([0, 0, 0]),
+            np.array([0.00000000, 0.00000000, 0.00000000]),
             decimal=7)
 
         np.testing.assert_almost_equal(
@@ -146,7 +146,7 @@ class TestxyY_to_XYZ(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            xyY_to_XYZ(np.array([0.50453169, 0.374400000000, 0.34950000])),
+            xyY_to_XYZ(np.array([0.50453169, 0.37440000, 0.34950000])),
             np.array([0.47097710, 0.34950000, 0.11301649]),
             decimal=7)
 
@@ -157,7 +157,7 @@ class TestxyY_to_XYZ(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             xyY_to_XYZ(np.array([0.34567, 0.3585, 0.00000000])),
-            np.array([0., 0., 0.]),
+            np.array([0.00000000, 0.00000000, 0.00000000]),
             decimal=7)
 
     def test_n_dimensional_xyY_to_XYZ(self):
@@ -284,17 +284,17 @@ class Testxy_to_xyY(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             xy_to_xyY(np.array([0.26414772, 0.37770001])),
-            np.array([0.26414772, 0.37770001, 1.]),
+            np.array([0.26414772, 0.37770001, 1.00000000]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             xy_to_xyY(np.array([0.50453169, 0.37440000])),
-            np.array([0.50453169, 0.3744, 1.]),
+            np.array([0.50453169, 0.37440000, 1.00000000]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             xy_to_xyY(np.array([0.47670437, 0.35790000])),
-            np.array([0.47670437, 0.3579, 1.]),
+            np.array([0.47670437, 0.35790000, 1.00000000]),
             decimal=7)
 
         np.testing.assert_almost_equal(

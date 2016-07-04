@@ -44,7 +44,7 @@ oetf_BT709` definition.
 
         self.assertAlmostEqual(
             oetf_BT709(0.18),
-            0.4090077288641504,
+            0.409007728864150,
             places=7)
 
         self.assertAlmostEqual(
@@ -59,7 +59,7 @@ oetf_BT709` definition n-dimensional arrays support.
         """
 
         L = 0.18
-        V = 0.4090077288641504
+        V = 0.409007728864150
         np.testing.assert_almost_equal(
             oetf_BT709(L),
             V,
@@ -115,7 +115,7 @@ eotf_BT709` definition.
             places=7)
 
         self.assertAlmostEqual(
-            eotf_BT709(0.4090077288641504),
+            eotf_BT709(0.409007728864150),
             0.18,
             places=7)
 
@@ -130,7 +130,7 @@ eotf_BT709` definition.
 eotf_BT709` definition n-dimensional arrays support.
         """
 
-        V = 0.4090077288641504
+        V = 0.409007728864150
         L = 0.18
         np.testing.assert_almost_equal(
             eotf_BT709(V),

@@ -20,7 +20,7 @@ print(colour.oetf(C, function='BT.709'))
 
 print('\n')
 
-N = 0.4090077288641504
+N = 0.40900773
 message_box(('Decoding to linear-light value using "BT.1886" EOTF and given '
              ' video component signal value:\n'
              '\n\t{0}'.format(N)))
@@ -36,7 +36,7 @@ print(colour.log_encoding_curve(C, curve='Cineon'))
 
 print('\n')
 
-N = 0.457319613085
+N = 0.45731961
 message_box(('Decoding to linear-light using given "Cineon" code value:\n'
              '\n\t{0}'.format(N)))
 print(colour.log_decoding_Cineon(N))
@@ -51,7 +51,7 @@ print(colour.log_encoding_curve(C, curve='PLog'))
 
 print('\n')
 
-N = 0.434995112414
+N = 0.43499511
 message_box(('Decoding to linear-light value using given "PLog" code value:\n'
              '\n\t{0}'.format(N)))
 print(colour.log_decoding_PivotedLog(N))
@@ -66,7 +66,7 @@ print(colour.gamma_function(C, 1 / 2.2))
 
 print('\n')
 
-N = 0.458656446864
+N = 0.45865645
 message_box(('Decoding to linear-light value using a pure gamma function and '
              'given video component signal value:\n'
              '\n\t{0}'.format(N)))
