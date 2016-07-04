@@ -102,8 +102,8 @@ def eotf_ROMMRGB(X_p):
 
     Examples
     --------
-    >>> eotf_ROMMRGB(0.3857114247511376)  # doctest: +ELLIPSIS
-    0.18...
+    >>> eotf_ROMMRGB(0.3857114247511376) # doctest: +ELLIPSIS
+    0.1...
     """
 
     X_p = np.asarray(X_p)
@@ -278,8 +278,8 @@ def log_decoding_ERIMMRGB(X_p,
 
     Examples
     --------
-    >>> log_decoding_ERIMMRGB(104.56335932049294)  # doctest: +ELLIPSIS
-    0.18...
+    >>> log_decoding_ERIMMRGB(104.56335932049294) # doctest: +ELLIPSIS
+    0.1...
     """
 
     X_p = np.asarray(X_p)
