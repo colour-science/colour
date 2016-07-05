@@ -62,7 +62,7 @@ class TestRGB_to_YCbCr(unittest.TestCase):
                 K=YCBCR_WEIGHTS['Rec. 2020'],
                 out_int=False,
                 out_legal=False),
-            np.array([0.552975, 0.10472255, -0.375]),
+            np.array([0.55297500, 0.10472255, -0.37500000]),
             decimal=7)
 
         np.testing.assert_almost_equal(
@@ -70,7 +70,7 @@ class TestRGB_to_YCbCr(unittest.TestCase):
                 np.array([0.75, 0.0, 0.75]),
                 K=YCBCR_WEIGHTS['Rec. 709'],
                 out_range=(16 / 255, 235 / 255, 15.5 / 255, 239.5 / 255)),
-            np.array([0.2461898, 0.75392897, 0.79920662]),
+            np.array([0.24618980, 0.75392897, 0.79920662]),
             decimal=7)
 
     def test_n_dimensional_RGB_to_YCbCr(self):
