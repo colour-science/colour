@@ -16,6 +16,12 @@ Notes
 -----
 -   *Y'CbCr* is not an absolute colourspace.
 
+See Also
+--------
+`YCbCr Colours Encoding IPython Notebook
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/models/ycbcr.ipynb>`_
+
 References
 ----------
 .. [1]  Wikipedia. (n.d.). YCbCr. Retrieved February 29, 2016, from
@@ -40,6 +46,7 @@ itu-r/rec/bt/R-REC-BT.2020-2-201510-I!!PDF-E.pdf
         Retrieved from https://www.itu.int/rec/dologin_pub.asp?lang=e&\
 id=T-REC-T.871-201105-I!!PDF-E&type=items
 """
+
 from __future__ import division, unicode_literals
 
 import numpy as np

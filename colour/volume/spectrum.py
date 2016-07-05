@@ -9,9 +9,9 @@ Defines objects related to visible spectrum volume computations.
 
 See Also
 --------
-`Spectrum IPython Notebook
+`Spectrum Volume Computations IPython Notebook
 <http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
-blob/master/notebooks/colorimetry/spectrum.ipynb>`_
+blob/master/notebooks/volume/spectrum.ipynb>`_
 """
 
 from __future__ import division, unicode_literals
