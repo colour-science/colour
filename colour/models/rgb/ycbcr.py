@@ -298,6 +298,7 @@ def RGB_to_YCbCr(RGB,
     array([ 36, 136, 175])
     """
 
+    RGB = np.asarray(RGB)
     Kr, Kb = K
     RGB_min, RGB_max = kwargs.get(
         'in_range', RGB_range(in_bits, in_legal, in_int))
@@ -393,6 +394,7 @@ def YCbCr_to_RGB(YCbCr,
     array([ 0.5,  0.5,  0.5])
     """
 
+    YCbCr = np.asarray(YCbCr)
     Y, Cb, Cr = tsplit(YCbCr.astype(np.float_))
     Kr, Kb = K
     Y_min, Y_max, C_min, C_max = kwargs.get(
@@ -469,10 +471,11 @@ def RGB_to_YcCbcCrc(RGB,
     ...     out_legal=True,
     ...     out_bits=10,
     ...     out_int=True,
-    ...     is_10_bits_system = True)
+    ...     is_10_bits_system=True)
     array([422, 512, 512])
     """
 
+    RGB = np.asarray(RGB)
     R, G, B = tsplit(RGB)
     Y_min, Y_max, C_min, C_max = kwargs.get(
         'out_range', YCbCr_ranges(out_bits, out_legal, out_int))
@@ -550,6 +553,7 @@ def YcCbcCrc_to_RGB(YcCbcCrc,
     array([ 0.1800903...,  0.1800903...,  0.1800903...])
     """
 
+    YcCbcCrc = np.asarray(YcCbcCrc)
     Yc, Cbc, Crc = tsplit(YcCbcCrc.astype(np.float_))
     Y_min, Y_max, C_min, C_max = kwargs.get(
         'in_range', YCbCr_ranges(in_bits, in_legal, in_int))
