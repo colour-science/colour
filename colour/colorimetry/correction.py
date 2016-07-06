@@ -15,7 +15,7 @@ The following correction methods are available:
 See Also
 --------
 `Spectral Bandpass Dependence Correction IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/correction.ipynb>`_
 """
 

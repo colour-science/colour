@@ -19,7 +19,7 @@ Notes
 See Also
 --------
 `YCbCr Colours Encoding IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/ycbcr.ipynb>`_
 
 References

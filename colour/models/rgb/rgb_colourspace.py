@@ -16,7 +16,7 @@ colourspace transformations:
 See Also
 --------
 `RGB Colourspaces IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/blob/\
 master/notebooks/models/rgb.ipynb>`_
 """
 

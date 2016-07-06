@@ -10,7 +10,7 @@ Defines objects related to visible spectrum volume computations.
 See Also
 --------
 `Spectrum Volume Computations IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/volume/spectrum.ipynb>`_
 """
 

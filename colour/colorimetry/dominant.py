@@ -16,7 +16,7 @@ and related quantities:
 See Also
 --------
 `Dominant Wavelength and Purity Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/dominant_wavelength.ipynb>`_
 
 References

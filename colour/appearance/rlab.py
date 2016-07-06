@@ -15,7 +15,7 @@ Defines RLAB colour appearance model objects:
 See Also
 --------
 `RLAB Colour Appearance Model IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/appearance/rlab.ipynb>`_
 
 References

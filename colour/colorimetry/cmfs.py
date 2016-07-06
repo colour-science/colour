@@ -18,7 +18,7 @@ Defines colour matching functions classes for the dataset from
 See Also
 --------
 `Colour Matching Functions IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/cmfs.ipynb>`_
 colour.colorimetry.dataset.cmfs,
 colour.colorimetry.spectrum.TriSpectralPowerDistribution

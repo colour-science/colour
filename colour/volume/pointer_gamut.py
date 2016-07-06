@@ -10,7 +10,7 @@ Defines objects related to Pointer's Gamut volume computations.
 See Also
 --------
 `Pointer's Gamut Volume Computations IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/volume/pointer_gamut.ipynb>`_
 """
 

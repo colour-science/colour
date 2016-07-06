@@ -14,7 +14,7 @@ Defines the *Hunter L,a,b* colour scale transformations:
 See Also
 --------
 `Hunter L,a,b Colour Scale IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/hunter_lab.ipynb>`_
 
 References

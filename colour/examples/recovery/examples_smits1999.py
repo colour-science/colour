@@ -21,5 +21,5 @@ print('\n')
 message_box((
     'An analysis of Smits (1999) method is available at the '
     'following url : '
-    'http://nbviewer.ipython.org/github/colour-science/colour-website/'
+    'http://nbviewer.jupyter.org/github/colour-science/colour-website/'
     'blob/master/ipython/about_reflectance_recovery.ipynb'))

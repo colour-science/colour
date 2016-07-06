@@ -13,7 +13,7 @@ Defines Von Kries chromatic adaptation model objects:
 See Also
 --------
 `Chromatic Adaptation IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/adaptation/vonkries.ipynb>`_
 
 References

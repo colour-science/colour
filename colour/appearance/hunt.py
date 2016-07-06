@@ -15,7 +15,7 @@ Defines Hunt colour appearance model objects:
 See Also
 --------
 `Hunt Colour Appearance Model IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/
 blob/master/notebooks/appearance/hunt.ipynb>`_
 
 References

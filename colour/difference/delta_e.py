@@ -17,7 +17,7 @@ The following methods are available:
 See Also
 --------
 `Delta E - Colour Difference IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/difference/delta_e.ipynb>`_
 
 References

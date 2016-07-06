@@ -16,7 +16,7 @@ Defines CMCCAT2000 chromatic adaptation model objects:
 See Also
 --------
 `CMCCAT2000 Chromatic Adaptation Model IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/adaptation/cmccat2000.ipynb>`_
 
 References

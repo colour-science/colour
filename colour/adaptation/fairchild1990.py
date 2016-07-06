@@ -12,7 +12,7 @@ Defines Fairchild (1990) chromatic adaptation model objects:
 See Also
 --------
 `Fairchild (1990) Chromatic Adaptation Model IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/adaptation/fairchild1990.ipynb>`_
 
 References

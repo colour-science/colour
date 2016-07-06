@@ -12,7 +12,7 @@ Defines the *NTSC RGB* colourspace:
 See Also
 --------
 `RGB Colourspaces IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/rgb.ipynb>`_
 
 References

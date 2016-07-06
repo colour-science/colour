@@ -12,7 +12,7 @@ distributions involved in the computation of
 See Also
 --------
 `Illuminants IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/illuminants.ipynb>`_
 
 References
