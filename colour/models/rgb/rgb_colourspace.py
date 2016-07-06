@@ -541,7 +541,7 @@ def RGB_to_RGB(RGB,
     ...     RGB,
     ...     sRGB_COLOURSPACE,
     ...     PROPHOTO_RGB_COLOURSPACE)  # doctest: +ELLIPSIS
-    array([ 0.0643509...,  0.1157328...,  0.1157634...)
+    array([ 0.0643538...,  0.1157289...,  0.1158038...])
     """
 
     cat = chromatic_adaptation_matrix_VonKries(

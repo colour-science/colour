@@ -24,12 +24,20 @@ from .linear import linear_function
 from .panalog import log_encoding_Panalog, log_decoding_Panalog
 from .panasonic_vlog import log_encoding_VLog, log_decoding_VLog
 from .pivoted_log import log_encoding_PivotedLog, log_decoding_PivotedLog
-from .prophoto_rgb import oetf_ProPhotoRGB, eotf_ProPhotoRGB
 from .red_log import (
     log_encoding_REDLog,
     log_decoding_REDLog,
     log_encoding_REDLogFilm,
     log_decoding_REDLogFilm)
+from .rimm_romm_rgb import (
+    oetf_ROMMRGB,
+    eotf_ROMMRGB,
+    oetf_ProPhotoRGB,
+    eotf_ProPhotoRGB,
+    oetf_RIMMRGB,
+    eotf_RIMMRGB,
+    log_encoding_ERIMMRGB,
+    log_decoding_ERIMMRGB)
 from .srgb import oetf_sRGB, eotf_sRGB
 from .sony_slog import (
     log_encoding_SLog,
@@ -57,8 +65,15 @@ __all__ += ['linear_function']
 __all__ += ['log_encoding_Panalog', 'log_decoding_Panalog']
 __all__ += ['log_encoding_VLog', 'log_decoding_VLog']
 __all__ += ['log_encoding_PivotedLog', 'log_decoding_PivotedLog']
-__all__ += ['oetf_ProPhotoRGB', 'eotf_ProPhotoRGB']
 __all__ += ['log_encoding_REDLog', 'log_decoding_REDLog']
+__all__ += ['oetf_ROMMRGB',
+            'eotf_ROMMRGB',
+            'oetf_ProPhotoRGB',
+            'eotf_ProPhotoRGB',
+            'oetf_RIMMRGB',
+            'eotf_RIMMRGB',
+            'log_encoding_ERIMMRGB',
+            'log_decoding_ERIMMRGB']
 __all__ += ['log_encoding_SLog',
             'log_decoding_SLog',
             'log_encoding_SLog2',
