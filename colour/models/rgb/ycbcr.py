@@ -26,15 +26,15 @@ References
 ----------
 .. [1]  Wikipedia. (n.d.). YCbCr. Retrieved February 29, 2016, from
         https://en.wikipedia.org/wiki/YCbCr
-.. [2]  International Telecommunication Union. (2015). Parameter values for
-        the HDTV standards for production and international programme exchange
-        BT Series Broadcasting service. In Recommendation ITU-R BT.709-6
-        (Vol. 5, pp. 1–32). Retrieved from https://www.itu.int/dms_pubrec/\
+.. [2]  International Telecommunication Union. (2015). Recommendation
+        ITU-R BT.709-6 - Parameter values for the HDTV standards for
+        production and international programme exchange BT Series Broadcasting
+        service (Vol. 5). Retrieved from https://www.itu.int/dms_pubrec/\
 itu-r/rec/bt/R-REC-BT.709-6-201506-I!!PDF-E.pdf
-.. [3]  International Telecommunication Union. (2015). Parameter values for
-        ultra-high definition television systems for production and
-        international programme exchange. In *Recommendation ITU-R BT.2020*
-        (Vol. 1, pp. 1–8). Retrieved from https://www.itu.int/dms_pubrec/\
+.. [3]  International Telecommunication Union. (2015). Recommendation
+        ITU-R BT.2020 - Parameter values for ultra-high definition television
+        systems for production and international programme exchange (Vol. 1).
+        Retrieved from https://www.itu.int/dms_pubrec/\
 itu-r/rec/bt/R-REC-BT.2020-2-201510-I!!PDF-E.pdf
 .. [4]  ANSI/SMPTE 240M-1995: Television – Signal Parameters – 1125-Line
         High-Definition Production Systems.
