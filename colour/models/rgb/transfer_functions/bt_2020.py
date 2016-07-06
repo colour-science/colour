@@ -43,8 +43,8 @@ __all__ = ['BT2020_CONSTANTS',
            'oetf_BT2020',
            'eotf_BT2020']
 
-BT2020_CONSTANTS = Structure(alpha=lambda x: 1.099 if x else 1.0993,
-                             beta=lambda x: 0.018 if x else 0.0181)
+BT2020_CONSTANTS = Structure(alpha=lambda x: 1.0993 if x else 1.099,
+                             beta=lambda x: 0.0181 if x else 0.018)
 """
 *BT.2020* colourspace constants.
 
@@ -52,7 +52,7 @@ BT2020_CONSTANTS : Structure
 """
 
 
-def oetf_BT2020(E, is_10_bits_system=True):
+def oetf_BT2020(E, is_12_bits_system=False):
     """
     Defines *Recommendation ITU-R BT.2020* opto-electrical transfer function
     (OETF / OECF).
@@ -63,8 +63,8 @@ def oetf_BT2020(E, is_10_bits_system=True):
         Voltage :math:`E` normalized by the reference white level and
         proportional to the implicit light intensity that would be detected
         with a reference camera colour channel R, G, B.
-    is_10_bits_system : bool
-        *BT.709* *alpha* and *beta* constants are used if system is 10 bit.
+    is_12_bits_system : bool
+        *BT.709* *alpha* and *beta* constants are used if system is not 12-bit.
 
     Returns
     -------
@@ -79,15 +79,15 @@ def oetf_BT2020(E, is_10_bits_system=True):
 
     E = np.asarray(E)
 
-    a = BT2020_CONSTANTS.alpha(is_10_bits_system)
-    b = BT2020_CONSTANTS.beta(is_10_bits_system)
+    a = BT2020_CONSTANTS.alpha(is_12_bits_system)
+    b = BT2020_CONSTANTS.beta(is_12_bits_system)
 
     return as_numeric(np.where(E < b,
                                E * 4.5,
                                a * (E ** 0.45) - (a - 1)))
 
 
-def eotf_BT2020(E_p, is_10_bits_system=True):
+def eotf_BT2020(E_p, is_12_bits_system=False):
     """
     Defines *Recommendation ITU-R BT.2020* electro-optical transfer function
     (EOTF / EOCF).
@@ -96,8 +96,8 @@ def eotf_BT2020(E_p, is_10_bits_system=True):
     ----------
     E_p : numeric or array_like
         Non-linear signal :math:`E'`.
-    is_10_bits_system : bool
-        *BT.709* *alpha* and *beta* constants are used if system is 10 bit.
+    is_12_bits_system : bool
+        *BT.709* *alpha* and *beta* constants are used if system is not 12-bit.
 
     Returns
     -------
@@ -112,8 +112,8 @@ def eotf_BT2020(E_p, is_10_bits_system=True):
 
     E_p = np.asarray(E_p)
 
-    a = BT2020_CONSTANTS.alpha(is_10_bits_system)
-    b = BT2020_CONSTANTS.beta(is_10_bits_system)
+    a = BT2020_CONSTANTS.alpha(is_12_bits_system)
+    b = BT2020_CONSTANTS.beta(is_12_bits_system)
 
     return as_numeric(np.where(E_p < oetf_BT2020(b),
                                E_p / 4.5,

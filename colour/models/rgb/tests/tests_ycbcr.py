@@ -9,12 +9,14 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 import unittest
+from itertools import permutations
 
-from colour.models.rgb.ycbcr import (RGB_to_YCbCr,
-                                     YCbCr_to_RGB,
-                                     RGB_to_YcCbcCrc,
-                                     YcCbcCrc_to_RGB,
-                                     YCBCR_WEIGHTS)
+from colour.models.rgb.ycbcr import (
+    RGB_to_YCbCr,
+    YCbCr_to_RGB,
+    RGB_to_YcCbcCrc,
+    YcCbcCrc_to_RGB,
+    YCBCR_WEIGHTS)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -116,7 +118,11 @@ class TestRGB_to_YCbCr(unittest.TestCase):
         support.
         """
 
-        RGB_to_YCbCr(np.array([-np.inf, np.inf, np.nan]))
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            RGB = np.array(case)
+            RGB_to_YCbCr(RGB)
 
 
 class TestYCbCr_to_RGB(unittest.TestCase):
@@ -199,7 +205,11 @@ class TestYCbCr_to_RGB(unittest.TestCase):
         support.
         """
 
-        YCbCr_to_RGB(np.array([-np.inf, np.inf, np.nan]))
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            YCbCr = np.array(case)
+            YCbCr_to_RGB(YCbCr)
 
 
 class TestRGB_to_YcCbcCrc(unittest.TestCase):
@@ -215,7 +225,7 @@ class TestRGB_to_YcCbcCrc(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             RGB_to_YcCbcCrc(np.array([0.123, 0.456, 0.789])),
-            np.array([0.59433183, 0.65184256, 0.35373582]),
+            np.array([0.59258892, 0.64993099, 0.35269847]),
             decimal=7)
 
         np.testing.assert_almost_equal(
@@ -224,7 +234,7 @@ class TestRGB_to_YcCbcCrc(unittest.TestCase):
                 out_bits=10,
                 out_legal=True,
                 out_int=True,
-                is_10_bits_system=True),
+                is_12_bits_system=False),
             np.array([422, 512, 512]),
             decimal=7)
 
@@ -235,10 +245,11 @@ class TestRGB_to_YcCbcCrc(unittest.TestCase):
         """
 
         RGB = np.array([0.75, 0.5, 0.25])
-        YcCbcCrc = np.array([0.69943807, 0.38814348, 0.61264549])
+        YcCbcCrc = np.array([0.69738693, 0.38700523, 0.61084888])
         np.testing.assert_almost_equal(
             RGB_to_YcCbcCrc(RGB),
-            YcCbcCrc)
+            YcCbcCrc,
+            decimal=7)
 
         RGB = np.tile(RGB, 4)
         RGB = np.reshape(RGB, (4, 3))
@@ -246,7 +257,8 @@ class TestRGB_to_YcCbcCrc(unittest.TestCase):
         YcCbcCrc = np.reshape(YcCbcCrc, (4, 3))
         np.testing.assert_almost_equal(
             RGB_to_YcCbcCrc(RGB),
-            YcCbcCrc)
+            YcCbcCrc,
+            decimal=7)
 
         RGB = np.tile(RGB, 4)
         RGB = np.reshape(RGB, (4, 4, 3))
@@ -254,7 +266,8 @@ class TestRGB_to_YcCbcCrc(unittest.TestCase):
         YcCbcCrc = np.reshape(YcCbcCrc, (4, 4, 3))
         np.testing.assert_almost_equal(
             RGB_to_YcCbcCrc(RGB),
-            YcCbcCrc)
+            YcCbcCrc,
+            decimal=7)
 
         RGB = np.tile(RGB, 4)
         RGB = np.reshape(RGB, (4, 4, 4, 3))
@@ -262,7 +275,8 @@ class TestRGB_to_YcCbcCrc(unittest.TestCase):
         YcCbcCrc = np.reshape(YcCbcCrc, (4, 4, 4, 3))
         np.testing.assert_almost_equal(
             RGB_to_YcCbcCrc(RGB),
-            YcCbcCrc)
+            YcCbcCrc,
+            decimal=7)
 
     @ignore_numpy_errors
     def test_nan_RGB_to_YcCbcCrc(self):
@@ -271,7 +285,11 @@ class TestRGB_to_YcCbcCrc(unittest.TestCase):
         support.
         """
 
-        RGB_to_YcCbcCrc(np.array([-np.inf, np.inf, np.nan]))
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            RGB = np.array(case)
+            RGB_to_YcCbcCrc(RGB)
 
 
 class TestYcCbcCrc_to_RGB(unittest.TestCase):
@@ -291,13 +309,13 @@ class TestYcCbcCrc_to_RGB(unittest.TestCase):
                 in_bits=12,
                 in_legal=True,
                 in_int=True,
-                is_10_bits_system=False),
+                is_12_bits_system=True),
             np.array([0.18009037, 0.18009037, 0.18009037]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             YcCbcCrc_to_RGB(np.array([0.678, 0.4, 0.6])),
-            np.array([0.68390184, 0.47285022, 0.25116003]),
+            np.array([0.69100667, 0.47450469, 0.25583733]),
             decimal=7)
 
     def test_n_dimensional_YcCbcCrc_to_RGB(self):
@@ -307,10 +325,11 @@ class TestYcCbcCrc_to_RGB(unittest.TestCase):
         """
 
         YcCbcCrc = np.array([0.69943807, 0.38814348, 0.61264549])
-        RGB = np.array([0.75, 0.5, 0.25])
+        RGB = np.array([0.75767423, 0.50177402, 0.25466201])
         np.testing.assert_almost_equal(
             YcCbcCrc_to_RGB(YcCbcCrc),
-            RGB)
+            RGB,
+            decimal=7)
 
         RGB = np.tile(RGB, 4)
         RGB = np.reshape(RGB, (4, 3))
@@ -318,7 +337,8 @@ class TestYcCbcCrc_to_RGB(unittest.TestCase):
         YcCbcCrc = np.reshape(YcCbcCrc, (4, 3))
         np.testing.assert_almost_equal(
             YcCbcCrc_to_RGB(YcCbcCrc),
-            RGB)
+            RGB,
+            decimal=7)
 
         RGB = np.tile(RGB, 4)
         RGB = np.reshape(RGB, (4, 4, 3))
@@ -326,7 +346,8 @@ class TestYcCbcCrc_to_RGB(unittest.TestCase):
         YcCbcCrc = np.reshape(YcCbcCrc, (4, 4, 3))
         np.testing.assert_almost_equal(
             YcCbcCrc_to_RGB(YcCbcCrc),
-            RGB)
+            RGB,
+            decimal=7)
 
         RGB = np.tile(RGB, 4)
         RGB = np.reshape(RGB, (4, 4, 4, 3))
@@ -334,7 +355,8 @@ class TestYcCbcCrc_to_RGB(unittest.TestCase):
         YcCbcCrc = np.reshape(YcCbcCrc, (4, 4, 4, 3))
         np.testing.assert_almost_equal(
             YcCbcCrc_to_RGB(YcCbcCrc),
-            RGB)
+            RGB,
+            decimal=7)
 
     @ignore_numpy_errors
     def test_nan_YcCbcCrc_to_RGB(self):
@@ -343,7 +365,11 @@ class TestYcCbcCrc_to_RGB(unittest.TestCase):
         support.
         """
 
-        YcCbcCrc_to_RGB(np.array([-np.inf, np.inf, np.nan]))
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            YcCbcCrc = np.array(case)
+            YcCbcCrc_to_RGB(YcCbcCrc)
 
 
 if __name__ == '__main__':

@@ -421,10 +421,10 @@ def YCbCr_to_RGB(YCbCr,
 
 
 def RGB_to_YcCbcCrc(RGB,
-                    out_bits=8,
+                    out_bits=10,
                     out_legal=True,
                     out_int=False,
-                    is_10_bits_system=True,
+                    is_12_bits_system=False,
                     **kwargs):
     """
     Converts an array of *RGB* linear values to the corresponding *Yc'Cbc'Crc'*
@@ -438,15 +438,15 @@ def RGB_to_YcCbcCrc(RGB,
         Bit depth for integer output, or used in the calculation of the
         denominator for legal range float values, i.e. 8-bit means the float
         value for legal white is `235 / 255`. Ignored if `out_legal` and
-        `out_int` are both False. Default is `8`.
+        `out_int` are both False. Default is `10`.
     out_legal : bool, optional
         Whether to return legal range values. Default is `True`.
     out_int : bool, optional
         Whether to return values as `out_bits` integer code values. Default is
         `False`.
-    is_10_bits_system : bool, optional
+    is_12_bits_system : bool, optional
         *Recommendation ITU-R BT.2020* OETF (OECF) adopts different parameters
-        for 10 and 12 bit systems. Default is `True`.
+        for 10 and 12 bit systems. Default is `False`.
     \**kwargs : dict, optional
         **{'out_range'}**
         Keyword arguments to override the calculated ranges such as
@@ -471,7 +471,7 @@ def RGB_to_YcCbcCrc(RGB,
     ...     out_legal=True,
     ...     out_bits=10,
     ...     out_int=True,
-    ...     is_10_bits_system=True)
+    ...     is_12_bits_system=False)
     array([422, 512, 512])
     """
 
@@ -481,9 +481,9 @@ def RGB_to_YcCbcCrc(RGB,
         'out_range', YCbCr_ranges(out_bits, out_legal, out_int))
 
     Yc = 0.2627 * R + 0.6780 * G + 0.0593 * B
-    Yc = oetf_BT2020(Yc, is_10_bits_system=is_10_bits_system)
-    R = oetf_BT2020(R, is_10_bits_system=is_10_bits_system)
-    B = oetf_BT2020(B, is_10_bits_system=is_10_bits_system)
+    Yc = oetf_BT2020(Yc, is_12_bits_system=is_12_bits_system)
+    R = oetf_BT2020(R, is_12_bits_system=is_12_bits_system)
+    B = oetf_BT2020(B, is_12_bits_system=is_12_bits_system)
     Cbc = np.where((B - Yc) <= 0, (B - Yc) / 1.9404, (B - Yc) / 1.5816)
     Crc = np.where((R - Yc) <= 0, (R - Yc) / 1.7184, (R - Yc) / 0.9936)
     Yc *= Y_max - Y_min
@@ -500,10 +500,10 @@ def RGB_to_YcCbcCrc(RGB,
 
 
 def YcCbcCrc_to_RGB(YcCbcCrc,
-                    in_bits=8,
+                    in_bits=10,
                     in_legal=True,
                     in_int=False,
-                    is_10_bits_system=True,
+                    is_12_bits_system=False,
                     **kwargs):
     """
     Converts an array of *Yc'Cbc'Crc'* colour encoding values to the
@@ -522,9 +522,9 @@ def YcCbcCrc_to_RGB(YcCbcCrc,
     in_int : bool, optional
         Whether to treat the input values as `in_bits` integer code values.
         Default is `False`.
-    is_10_bits_system : bool, optional
+    is_12_bits_system : bool, optional
         *Recommendation ITU-R BT.2020* EOTF (EOCF) adopts different parameters
-        for 10 and 12 bit systems. Default is `True`.
+        for 10 and 12 bit systems. Default is `False`.
     \**kwargs : dict, optional
         **{'in_range'}**
         Keyword arguments to override the calculated ranges such as
@@ -549,7 +549,7 @@ def YcCbcCrc_to_RGB(YcCbcCrc,
     ...     in_legal=True,
     ...     in_bits=12,
     ...     in_int=True,
-    ...     is_10_bits_system=False)
+    ...     is_12_bits_system=True)
     array([ 0.1800903...,  0.1800903...,  0.1800903...])
     """
 
@@ -566,9 +566,9 @@ def YcCbcCrc_to_RGB(YcCbcCrc,
     Crc *= 1 / (C_max - C_min)
     B = np.where(Cbc <= 0, Cbc * 1.9404 + Yc, Cbc * 1.5816 + Yc)
     R = np.where(Crc <= 0, Crc * 1.7184 + Yc, Crc * 0.9936 + Yc)
-    Yc = eotf_BT2020(Yc, is_10_bits_system=is_10_bits_system)
-    B = eotf_BT2020(B, is_10_bits_system=is_10_bits_system)
-    R = eotf_BT2020(R, is_10_bits_system=is_10_bits_system)
+    Yc = eotf_BT2020(Yc, is_12_bits_system=is_12_bits_system)
+    B = eotf_BT2020(B, is_12_bits_system=is_12_bits_system)
+    R = eotf_BT2020(R, is_12_bits_system=is_12_bits_system)
     G = (Yc - 0.0593 * B - 0.2627 * R) / 0.6780
 
     RGB = tstack((R, G, B))
