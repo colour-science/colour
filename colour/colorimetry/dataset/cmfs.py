@@ -50,8 +50,8 @@ References
 .. [1]  CVRL. (n.d.). Cone Fundamentals. Retrieved June 23, 2014,
         from http://www.cvrl.org/cones.htm
 .. [2]  Machado, G. (2010). A model for simulation of color vision deficiency
-        and a color contrast enhancement technique for dichromats, (September).
-        Retrieved from http://www.lume.ufrgs.br/handle/10183/26950
+        and a color contrast enhancement technique for dichromats. Retrieved
+        from http://www.lume.ufrgs.br/handle/10183/26950
 .. [3]  Broadbent, A. D. (2009). Calculation from the original experimental
         data of the CIE 1931 RGB standard observer spectral chromaticity
         co-ordinates and color matching functions. Retrieved June 12, 2014,

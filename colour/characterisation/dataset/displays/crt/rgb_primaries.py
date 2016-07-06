@@ -22,13 +22,14 @@ The following *CRT* displays are available:
 See Also
 --------
 `Displays IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/characterisation/displays.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/characterisation/displays.ipynb>`_
 
 References
 ----------
 .. [1]  Machado, G. (2010). A model for simulation of color vision deficiency
-        and a color contrast enhancement technique for dichromats, (September).
-        Retrieved from http://www.lume.ufrgs.br/handle/10183/26950
+        and a color contrast enhancement technique for dichromats. Retrieved
+        from http://www.lume.ufrgs.br/handle/10183/26950
 """
 
 from __future__ import division, unicode_literals

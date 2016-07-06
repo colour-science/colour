@@ -22,13 +22,14 @@ The following *LCD* displays are available:
 See Also
 --------
 `Displays IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/master/notebooks/characterisation/displays.ipynb>`_  # noqa
+<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+blob/master/notebooks/characterisation/displays.ipynb>`_
 
 References
 ----------
 .. [1]  Machado, G. (2010). A model for simulation of color vision deficiency
-        and a color contrast enhancement technique for dichromats, (September).
-        Retrieved from http://www.lume.ufrgs.br/handle/10183/26950
+        and a color contrast enhancement technique for dichromats. Retrieved
+        from http://www.lume.ufrgs.br/handle/10183/26950
 .. [2]  Fairchild, M., & Wyble, D. (1998). Colorimetric Characterization of
         The Apple Studio Display (flat panel LCD), 22. Retrieved from
         https://ritdml.rit.edu/handle/1850/4368
