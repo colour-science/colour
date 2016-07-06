@@ -71,7 +71,6 @@ class TestRGB_DisplayPrimaries(unittest.TestCase):
                             'interpolate',
                             'align',
                             'zeros',
-                            'shift',
                             'normalise',
                             'clone')
 
