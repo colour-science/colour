@@ -128,7 +128,7 @@ DEFAULT_COLOUR_CYCLE = ('r', 'g', 'b', 'c', 'm', 'y', 'k')
 Default colour cycle for plots.
 
 DEFAULT_COLOUR_CYCLE : tuple
-{'r', 'g', 'b', 'c', 'm', 'y', 'k'}
+**{'r', 'g', 'b', 'c', 'm', 'y', 'k'}**
 """
 
 DEFAULT_HATCH_PATTERNS = ('\\\\', 'o', 'x', '.', '*', '//')

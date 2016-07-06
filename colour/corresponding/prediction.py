@@ -352,7 +352,7 @@ def corresponding_chromaticities_prediction(experiment=1,
         {1, 2, 3, 4, 6, 8, 9, 11, 12}
         Breneman (1987) experiment number.
     model : unicode, optional
-        {'Von Kries', 'CIE 1994', 'CMCCAT2000', 'Fairchild 1990'}
+        **{'Von Kries', 'CIE 1994', 'CMCCAT2000', 'Fairchild 1990'}**,
         Chromatic adaptation model.
     \**kwargs : dict, optional
         Keywords arguments.

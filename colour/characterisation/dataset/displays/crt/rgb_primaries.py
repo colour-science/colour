@@ -304,5 +304,5 @@ CRT_DISPLAYS_RGB_PRIMARIES = CaseInsensitiveMapping(
 *CRT* displays *RGB* primaries tri-spectral power distributions.
 
 CRT_DISPLAYS_RGB_PRIMARIES : CaseInsensitiveMapping
-    {'Typical CRT Brainard 1997'}
+    **{'Typical CRT Brainard 1997'}**
 """

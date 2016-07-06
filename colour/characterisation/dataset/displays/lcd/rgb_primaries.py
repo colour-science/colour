@@ -307,5 +307,5 @@ LCD_DISPLAYS_RGB_PRIMARIES = CaseInsensitiveMapping(
 *LCD* displays *RGB* primaries tri-spectral power distributions.
 
 LCD_DISPLAYS_RGB_PRIMARIES : CaseInsensitiveMapping
-    {'Apple Studio Display'}
+    **{'Apple Studio Display'}**
 """

@@ -84,7 +84,7 @@ YCBCR_WEIGHTS : dict
 
 def RGB_range(bits, is_legal, is_int):
     """"
-    Returns the *RGB* ranges array for given bit depth, range legality and
+    Returns the *RGB* range array for given bit depth, range legality and
     representation.
 
     Parameters
