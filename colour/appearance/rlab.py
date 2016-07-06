@@ -41,7 +41,7 @@ from colour.utilities import (
     row_as_diagonal)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'GPL V3.0 - http://www.gnu.org/licenses/'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
