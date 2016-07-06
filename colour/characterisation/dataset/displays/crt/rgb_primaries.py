@@ -44,7 +44,8 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = []
+__all__ = ['CRT_DISPLAYS_RGB_PRIMARIES_DATA',
+           'CRT_DISPLAYS_RGB_PRIMARIES']
 
 CRT_DISPLAYS_RGB_PRIMARIES_DATA = {
     'Typical CRT Brainard 1997': {

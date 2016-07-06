@@ -47,7 +47,8 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = []
+__all__ = ['LCD_DISPLAYS_RGB_PRIMARIES_DATA',
+           'LCD_DISPLAYS_RGB_PRIMARIES']
 
 LCD_DISPLAYS_RGB_PRIMARIES_DATA = {
     'Apple Studio Display': {
