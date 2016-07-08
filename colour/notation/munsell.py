@@ -1255,7 +1255,6 @@ def bounding_hues_from_renotation(hue, code):
         hue_ccw = (hue_cw + 2.5) % 10
         if hue_ccw == 0:
             hue_ccw = 10
-        code_ccw = code
 
         if hue_cw == 0:
             hue_cw = 10
