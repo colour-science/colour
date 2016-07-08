@@ -24,10 +24,10 @@ Sub-Modules
    colour.models.rgb.dataset.max_rgb
    colour.models.rgb.dataset.ntsc_rgb
    colour.models.rgb.dataset.pal_secam_rgb
-   colour.models.rgb.dataset.prophoto_rgb
    colour.models.rgb.dataset.rec_2020
    colour.models.rgb.dataset.rec_709
    colour.models.rgb.dataset.red
+   colour.models.rgb.dataset.rimm_romm_rgb
    colour.models.rgb.dataset.russell_rgb
    colour.models.rgb.dataset.smptec_rgb
    colour.models.rgb.dataset.sony
