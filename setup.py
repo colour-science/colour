@@ -49,7 +49,7 @@ if os.environ.get('READTHEDOCS') == 'True':
     INSTALLATION_REQUIREMENTS = ['numpy>=1.8.1', 'mock==1.0.1']
 
 setup(name='colour-science',
-      version='0.3.7',
+      version='0.3.8',
       author=__author__,
       author_email=__email__,
       include_package_data=True,
