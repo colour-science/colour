@@ -526,7 +526,7 @@ class TestSpectral_to_XYZ_ASTME30815(unittest.TestCase):
                 self._spd.clone().align(self._cmfs.shape),
                 self._cmfs,
                 self.__A),
-            np.array([14.46372680,  10.85832950,   2.04663200]),
+            np.array([14.46372680, 10.85832950, 2.04663200]),
             decimal=7)
 
         np.testing.assert_almost_equal(
@@ -748,7 +748,7 @@ class TestSpectral_to_XYZ_ASTME30815(unittest.TestCase):
                 self.__A,
                 use_practice_range=False,
                 mi_20nm_interpolation_method=False),
-            np.array([14.54272240,  10.88702210,   2.04918701]),
+            np.array([14.54272240, 10.88702210, 2.04918701]),
             decimal=7)
 
 

@@ -233,11 +233,10 @@ class TestPrimariesWhitepoint(unittest.TestCase):
         definition.
         """
 
-        self.whitepoint = primaries_whitepoint(np.array(
+        P, W = primaries_whitepoint(np.array(
             [[0.95255240, 0.00000000, 0.00009368],
              [0.34396645, 0.72816610, -0.07213255],
              [0.00000000, 0.00000000, 1.00882518]]))
-        P, W = self.whitepoint
         np.testing.assert_almost_equal(
             P,
             np.array([[0.73470, 0.26530],

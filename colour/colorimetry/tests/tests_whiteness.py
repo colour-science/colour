@@ -347,7 +347,7 @@ class TestWhitenessGanz1979(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             whiteness_Ganz1979(np.array([0.3139, 0.3311]), 100),
-            np.array([99.33176520,   1.76108290]),
+            np.array([99.33176520, 1.76108290]),
             decimal=7)
 
         np.testing.assert_almost_equal(
