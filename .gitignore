@@ -4,6 +4,7 @@
 .DS_Store
 .idea
 __pycache__
+build
 dist
 docs/_build
 references
