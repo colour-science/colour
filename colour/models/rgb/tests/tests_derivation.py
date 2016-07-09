@@ -22,7 +22,7 @@ from colour.models.rgb.derivation import xy_to_z
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -233,11 +233,10 @@ class TestPrimariesWhitepoint(unittest.TestCase):
         definition.
         """
 
-        self.whitepoint = primaries_whitepoint(np.array(
+        P, W = primaries_whitepoint(np.array(
             [[0.95255240, 0.00000000, 0.00009368],
              [0.34396645, 0.72816610, -0.07213255],
              [0.00000000, 0.00000000, 1.00882518]]))
-        P, W = self.whitepoint
         np.testing.assert_almost_equal(
             P,
             np.array([[0.73470, 0.26530],

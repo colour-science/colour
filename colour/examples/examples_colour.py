@@ -8,9 +8,38 @@ Showcases overall *Colour* examples.
 from __future__ import division, unicode_literals
 
 import numpy as np
+import warnings
 
 import colour
-from colour.utilities.verbose import message_box
+from colour.utilities.verbose import message_box, warning
+
+message_box('Filter "Colour" Warnings')
+
+warning('This is a first warning and it can be filtered!')
+
+colour.filter_warnings(True)
+
+warning('This is a second warning and it has been filtered!')
+
+colour.filter_warnings(False)
+
+warning('This is a third warning and it has not been filtered!')
+
+message_box('All Python can be filtered by setting the '
+            '"colour.filter_warnings" definition "colour_warnings_only" '
+            'argument.')
+
+warnings.warn('This is a fourth warning and it has not been filtered!')
+
+colour.filter_warnings(True, colour_warnings_only=False)
+
+warning('This is a fifth warning and it has been filtered!')
+
+colour.filter_warnings(False, colour_warnings_only=False)
+
+warning('This is a sixth warning and it has not been filtered!')
+
+print('\n')
 
 message_box('Overall "Colour" Examples')
 

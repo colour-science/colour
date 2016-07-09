@@ -2,6 +2,7 @@ include COPYING
 include LICENSE
 include *.bib
 include *.rst
+graft colour/appearance/tests/fixtures
 graft colour/examples
 graft colour/io
 graft colour/plotting

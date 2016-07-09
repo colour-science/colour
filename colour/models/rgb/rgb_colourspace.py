@@ -16,7 +16,7 @@ colourspace transformations:
 See Also
 --------
 `RGB Colourspaces IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/blob/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/blob/\
 master/notebooks/models/rgb.ipynb>`_
 """
 
@@ -29,7 +29,7 @@ from colour.adaptation import chromatic_adaptation_matrix_VonKries
 from colour.utilities import dot_matrix, dot_vector
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'

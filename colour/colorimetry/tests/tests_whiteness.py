@@ -21,7 +21,7 @@ from colour.colorimetry import (
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -347,7 +347,7 @@ class TestWhitenessGanz1979(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             whiteness_Ganz1979(np.array([0.3139, 0.3311]), 100),
-            np.array([99.33176520,   1.76108290]),
+            np.array([99.33176520, 1.76108290]),
             decimal=7)
 
         np.testing.assert_almost_equal(

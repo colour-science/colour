@@ -12,13 +12,14 @@ Defines the *SMPTE-C RGB* colourspace:
 See Also
 --------
 `RGB Colourspaces IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  SMPTE. (2004). SMPTE C Color Monitor Colorimetry. In RP 145:2004
-        (Vol. RP 145:200). doi:10.5594/S9781614821649
+.. [1]  Society of Motion Picture and Television Engineers. (2004). SMPTE C
+        Color Monitor Colorimetry. In RP 145:2004 (Vol. RP 145:200).
+        doi:10.5594/S9781614821649
 """
 
 from __future__ import division, unicode_literals
@@ -33,7 +34,7 @@ from colour.models.rgb import (
     normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'

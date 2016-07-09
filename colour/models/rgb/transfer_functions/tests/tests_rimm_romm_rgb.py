@@ -21,7 +21,7 @@ from colour.models.rgb.transfer_functions import (
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -54,7 +54,7 @@ oetf_ROMMRGB` definition.
 
         self.assertAlmostEqual(
             oetf_ROMMRGB(0.18),
-            0.3857114247511376,
+            0.385711424751138,
             places=7)
 
         self.assertAlmostEqual(
@@ -69,7 +69,7 @@ oetf_ROMMRGB` definition n-dimensional arrays support.
         """
 
         L = 0.18
-        V = 0.3857114247511376
+        V = 0.385711424751138
         np.testing.assert_almost_equal(
             oetf_ROMMRGB(L),
             V,
@@ -125,7 +125,7 @@ eotf_ROMMRGB` definition.
             places=7)
 
         self.assertAlmostEqual(
-            eotf_ROMMRGB(0.3857114247511376),
+            eotf_ROMMRGB(0.385711424751138),
             0.18,
             places=7)
 
@@ -140,7 +140,7 @@ eotf_ROMMRGB` definition.
 eotf_ROMMRGB` definition n-dimensional arrays support.
         """
 
-        L = 0.3857114247511376
+        L = 0.385711424751138
         V = 0.18
         np.testing.assert_almost_equal(
             eotf_ROMMRGB(L),
@@ -198,12 +198,12 @@ oetf_RIMMRGB` definition.
 
         self.assertAlmostEqual(
             oetf_RIMMRGB(0.18),
-            74.37680178131521,
+            74.376801781315210,
             places=7)
 
         self.assertAlmostEqual(
             oetf_RIMMRGB(1.0),
-            181.84693474586894,
+            181.846934745868940,
             places=7)
 
     def test_n_dimensional_oetf_RIMMRGB(self):
@@ -213,7 +213,7 @@ oetf_RIMMRGB` definition n-dimensional arrays support.
         """
 
         L = 0.18
-        V = 74.37680178131521
+        V = 74.376801781315210
         np.testing.assert_almost_equal(
             oetf_RIMMRGB(L),
             V,
@@ -269,12 +269,12 @@ eotf_RIMMRGB` definition.
             places=7)
 
         self.assertAlmostEqual(
-            eotf_RIMMRGB(74.37680178131521),
+            eotf_RIMMRGB(74.376801781315210),
             0.18,
             places=7)
 
         self.assertAlmostEqual(
-            eotf_RIMMRGB(181.84693474586894),
+            eotf_RIMMRGB(181.846934745868940),
             1.0,
             places=7)
 
@@ -284,7 +284,7 @@ eotf_RIMMRGB` definition.
 eotf_RIMMRGB` definition n-dimensional arrays support.
         """
 
-        L = 74.37680178131521
+        L = 74.376801781315210
         V = 0.18
         np.testing.assert_almost_equal(
             eotf_RIMMRGB(L),
@@ -342,12 +342,12 @@ log_encoding_ERIMMRGB` definition.
 
         self.assertAlmostEqual(
             log_encoding_ERIMMRGB(0.18),
-            104.56335932049294,
+            104.563359320492940,
             places=7)
 
         self.assertAlmostEqual(
             log_encoding_ERIMMRGB(1.0),
-            139.0918734883037,
+            139.09187348830370,
             places=7)
 
     def test_n_dimensional_log_encoding_ERIMMRGB(self):
@@ -357,7 +357,7 @@ log_encoding_ERIMMRGB` definition n-dimensional arrays support.
         """
 
         L = 0.18
-        V = 104.56335932049294
+        V = 104.563359320492940
         np.testing.assert_almost_equal(
             log_encoding_ERIMMRGB(L),
             V,
@@ -413,12 +413,12 @@ log_decoding_ERIMMRGB` definition.
             places=7)
 
         self.assertAlmostEqual(
-            log_decoding_ERIMMRGB(104.56335932049294),
+            log_decoding_ERIMMRGB(104.563359320492940),
             0.18,
             places=7)
 
         self.assertAlmostEqual(
-            log_decoding_ERIMMRGB(139.0918734883037),
+            log_decoding_ERIMMRGB(139.09187348830370),
             1.0,
             places=7)
 
@@ -428,7 +428,7 @@ log_decoding_ERIMMRGB` definition.
 log_decoding_ERIMMRGB` definition n-dimensional arrays support.
         """
 
-        L = 104.56335932049294
+        L = 104.563359320492940
         V = 0.18
         np.testing.assert_almost_equal(
             log_decoding_ERIMMRGB(L),

@@ -10,7 +10,7 @@ Defines objects to compute corresponding chromaticities prediction.
 See Also
 --------
 `Corresponding Chromaticities Prediction IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/corresponding/prediction.ipynb>`_
 
 References
@@ -42,7 +42,7 @@ from colour.models import (
 from colour.utilities import CaseInsensitiveMapping, filter_kwargs
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -352,7 +352,7 @@ def corresponding_chromaticities_prediction(experiment=1,
         {1, 2, 3, 4, 6, 8, 9, 11, 12}
         Breneman (1987) experiment number.
     model : unicode, optional
-        {'Von Kries', 'CIE 1994', 'CMCCAT2000', 'Fairchild 1990'}
+        **{'Von Kries', 'CIE 1994', 'CMCCAT2000', 'Fairchild 1990'}**,
         Chromatic adaptation model.
     \**kwargs : dict, optional
         Keywords arguments.

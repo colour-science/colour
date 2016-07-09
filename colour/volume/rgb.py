@@ -15,7 +15,7 @@ Defines various RGB colourspace volume computation objects:
 See Also
 --------
 `RGB Colourspace Volume Computation IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/volume/rgb.ipynb>`_
 """
 

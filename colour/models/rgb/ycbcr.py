@@ -16,30 +16,38 @@ Notes
 -----
 -   *Y'CbCr* is not an absolute colourspace.
 
+See Also
+--------
+`YCbCr Colours Encoding IPython Notebook
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
+blob/master/notebooks/models/ycbcr.ipynb>`_
+
 References
 ----------
 .. [1]  Wikipedia. (n.d.). YCbCr. Retrieved February 29, 2016, from
         https://en.wikipedia.org/wiki/YCbCr
-.. [2]  International Telecommunication Union. (2015). Parameter values for
-        the HDTV standards for production and international programme exchange
-        BT Series Broadcasting service. In Recommendation ITU-R BT.709-6
-        (Vol. 5, pp. 1–32). Retrieved from https://www.itu.int/dms_pubrec/\
+.. [2]  International Telecommunication Union. (2015). Recommendation
+        ITU-R BT.709-6 - Parameter values for the HDTV standards for
+        production and international programme exchange BT Series Broadcasting
+        service (Vol. 5). Retrieved from https://www.itu.int/dms_pubrec/\
 itu-r/rec/bt/R-REC-BT.709-6-201506-I!!PDF-E.pdf
-.. [3]  International Telecommunication Union. (2015). Parameter values for
-        ultra-high definition television systems for production and
-        international programme exchange. In *Recommendation ITU-R BT.2020*
-        (Vol. 1, pp. 1–8). Retrieved from https://www.itu.int/dms_pubrec/\
+.. [3]  International Telecommunication Union. (2015). Recommendation
+        ITU-R BT.2020 - Parameter values for ultra-high definition television
+        systems for production and international programme exchange (Vol. 1).
+        Retrieved from https://www.itu.int/dms_pubrec/\
 itu-r/rec/bt/R-REC-BT.2020-2-201510-I!!PDF-E.pdf
-.. [4]  ANSI/SMPTE 240M-1995: Television – Signal Parameters – 1125-Line
-        High-Definition Production Systems.
-        Retrieved from http://car.france3.mars.free.fr/HD/\
-        INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/s240m.pdf
+.. [4]  Society of Motion Picture and Television Engineers. (1999).
+        ANSI/SMPTE 240M-1995 - Signal Parameters - 1125-Line High-Definition
+        Production Systems, 1–7. Retrieved from
+        http://car.france3.mars.free.fr/\
+HD/INA- 26 jan 06/SMPTE normes et confs/s240m.pdf
 .. [5]  International Telecommunication Union. (2011). Recommendation ITU-T
         T.871 - Information technology – Digital compression and coding of
         continuous-tone still images: JPEG File Interchange Format (JFIF).
         Retrieved from https://www.itu.int/rec/dologin_pub.asp?lang=e&\
 id=T-REC-T.871-201105-I!!PDF-E&type=items
 """
+
 from __future__ import division, unicode_literals
 
 import numpy as np
@@ -77,7 +85,7 @@ YCBCR_WEIGHTS : dict
 
 def RGB_range(bits, is_legal, is_int):
     """"
-    Returns the *RGB* ranges array for given bit depth, range legality and
+    Returns the *RGB* range array for given bit depth, range legality and
     representation.
 
     Parameters
@@ -291,6 +299,7 @@ def RGB_to_YCbCr(RGB,
     array([ 36, 136, 175])
     """
 
+    RGB = np.asarray(RGB)
     Kr, Kb = K
     RGB_min, RGB_max = kwargs.get(
         'in_range', RGB_range(in_bits, in_legal, in_int))
@@ -386,6 +395,7 @@ def YCbCr_to_RGB(YCbCr,
     array([ 0.5,  0.5,  0.5])
     """
 
+    YCbCr = np.asarray(YCbCr)
     Y, Cb, Cr = tsplit(YCbCr.astype(np.float_))
     Kr, Kb = K
     Y_min, Y_max, C_min, C_max = kwargs.get(
@@ -412,10 +422,10 @@ def YCbCr_to_RGB(YCbCr,
 
 
 def RGB_to_YcCbcCrc(RGB,
-                    out_bits=8,
+                    out_bits=10,
                     out_legal=True,
                     out_int=False,
-                    is_10_bits_system=True,
+                    is_12_bits_system=False,
                     **kwargs):
     """
     Converts an array of *RGB* linear values to the corresponding *Yc'Cbc'Crc'*
@@ -429,15 +439,15 @@ def RGB_to_YcCbcCrc(RGB,
         Bit depth for integer output, or used in the calculation of the
         denominator for legal range float values, i.e. 8-bit means the float
         value for legal white is `235 / 255`. Ignored if `out_legal` and
-        `out_int` are both False. Default is `8`.
+        `out_int` are both False. Default is `10`.
     out_legal : bool, optional
         Whether to return legal range values. Default is `True`.
     out_int : bool, optional
         Whether to return values as `out_bits` integer code values. Default is
         `False`.
-    is_10_bits_system : bool, optional
+    is_12_bits_system : bool, optional
         *Recommendation ITU-R BT.2020* OETF (OECF) adopts different parameters
-        for 10 and 12 bit systems. Default is `True`.
+        for 10 and 12 bit systems. Default is `False`.
     \**kwargs : dict, optional
         **{'out_range'}**
         Keyword arguments to override the calculated ranges such as
@@ -462,18 +472,19 @@ def RGB_to_YcCbcCrc(RGB,
     ...     out_legal=True,
     ...     out_bits=10,
     ...     out_int=True,
-    ...     is_10_bits_system = True)
+    ...     is_12_bits_system=False)
     array([422, 512, 512])
     """
 
+    RGB = np.asarray(RGB)
     R, G, B = tsplit(RGB)
     Y_min, Y_max, C_min, C_max = kwargs.get(
         'out_range', YCbCr_ranges(out_bits, out_legal, out_int))
 
     Yc = 0.2627 * R + 0.6780 * G + 0.0593 * B
-    Yc = oetf_BT2020(Yc, is_10_bits_system=is_10_bits_system)
-    R = oetf_BT2020(R, is_10_bits_system=is_10_bits_system)
-    B = oetf_BT2020(B, is_10_bits_system=is_10_bits_system)
+    Yc = oetf_BT2020(Yc, is_12_bits_system=is_12_bits_system)
+    R = oetf_BT2020(R, is_12_bits_system=is_12_bits_system)
+    B = oetf_BT2020(B, is_12_bits_system=is_12_bits_system)
     Cbc = np.where((B - Yc) <= 0, (B - Yc) / 1.9404, (B - Yc) / 1.5816)
     Crc = np.where((R - Yc) <= 0, (R - Yc) / 1.7184, (R - Yc) / 0.9936)
     Yc *= Y_max - Y_min
@@ -490,10 +501,10 @@ def RGB_to_YcCbcCrc(RGB,
 
 
 def YcCbcCrc_to_RGB(YcCbcCrc,
-                    in_bits=8,
+                    in_bits=10,
                     in_legal=True,
                     in_int=False,
-                    is_10_bits_system=True,
+                    is_12_bits_system=False,
                     **kwargs):
     """
     Converts an array of *Yc'Cbc'Crc'* colour encoding values to the
@@ -512,9 +523,9 @@ def YcCbcCrc_to_RGB(YcCbcCrc,
     in_int : bool, optional
         Whether to treat the input values as `in_bits` integer code values.
         Default is `False`.
-    is_10_bits_system : bool, optional
+    is_12_bits_system : bool, optional
         *Recommendation ITU-R BT.2020* EOTF (EOCF) adopts different parameters
-        for 10 and 12 bit systems. Default is `True`.
+        for 10 and 12 bit systems. Default is `False`.
     \**kwargs : dict, optional
         **{'in_range'}**
         Keyword arguments to override the calculated ranges such as
@@ -539,10 +550,11 @@ def YcCbcCrc_to_RGB(YcCbcCrc,
     ...     in_legal=True,
     ...     in_bits=12,
     ...     in_int=True,
-    ...     is_10_bits_system=False)
+    ...     is_12_bits_system=True)
     array([ 0.1800903...,  0.1800903...,  0.1800903...])
     """
 
+    YcCbcCrc = np.asarray(YcCbcCrc)
     Yc, Cbc, Crc = tsplit(YcCbcCrc.astype(np.float_))
     Y_min, Y_max, C_min, C_max = kwargs.get(
         'in_range', YCbCr_ranges(in_bits, in_legal, in_int))
@@ -555,9 +567,9 @@ def YcCbcCrc_to_RGB(YcCbcCrc,
     Crc *= 1 / (C_max - C_min)
     B = np.where(Cbc <= 0, Cbc * 1.9404 + Yc, Cbc * 1.5816 + Yc)
     R = np.where(Crc <= 0, Crc * 1.7184 + Yc, Crc * 0.9936 + Yc)
-    Yc = eotf_BT2020(Yc, is_10_bits_system=is_10_bits_system)
-    B = eotf_BT2020(B, is_10_bits_system=is_10_bits_system)
-    R = eotf_BT2020(R, is_10_bits_system=is_10_bits_system)
+    Yc = eotf_BT2020(Yc, is_12_bits_system=is_12_bits_system)
+    B = eotf_BT2020(B, is_12_bits_system=is_12_bits_system)
+    R = eotf_BT2020(R, is_12_bits_system=is_12_bits_system)
     G = (Yc - 0.0593 * B - 0.2627 * R) / 0.6780
 
     RGB = tstack((R, G, B))

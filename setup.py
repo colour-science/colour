@@ -15,7 +15,7 @@ from setuptools import setup
 from setuptools import find_packages
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -49,7 +49,7 @@ if os.environ.get('READTHEDOCS') == 'True':
     INSTALLATION_REQUIREMENTS = ['numpy>=1.8.1', 'mock==1.0.1']
 
 setup(name='colour-science',
-      version='0.3.7',
+      version='0.3.8',
       author=__author__,
       author_email=__email__,
       include_package_data=True,

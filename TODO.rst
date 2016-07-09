@@ -15,27 +15,31 @@ TODO
 
         - hunt.py
 
-            - (414, 7) # TODO: Implement hue quadrature & composition computation.
-            - (445, 7) # TODO: Implement whiteness-blackness :math:`Q_{wb}` computation.
+            - (418, 7) # TODO: Implement hue quadrature & composition computation.
+            - (449, 7) # TODO: Implement whiteness-blackness :math:`Q_{wb}` computation.
 
         - llab.py
 
-            - (305, 7) # TODO: Implement hue composition computation.
+            - (309, 7) # TODO: Implement hue composition computation.
 
         - nayatani95.py
 
-            - (267, 7) # TODO: Implement hue quadrature & composition computation.
-            - (285, 7) # TODO: Investigate components usage.
+            - (271, 7) # TODO: Implement hue quadrature & composition computation.
+            - (289, 7) # TODO: Investigate components usage.
 
         - rlab.py
 
-            - (242, 7) # TODO: Implement hue composition computation.
+            - (246, 7) # TODO: Implement hue composition computation.
 
     - colorimetry (1 item in 1 file)
 
         - spectrum.py
 
-            - (1722, 11) # TODO: Provide support for fractional interval like 0.1, etc...
+            - (1942, 11) # TODO: Provide support for fractional interval like 0.1, etc...
+
+        - tristimulus.py
+
+            - (678, 11) # TODO: Investigate code vectorisation.
 
     - models (2 item in 2 file)
 
@@ -43,7 +47,7 @@ TODO
 
             - tests_derivation.py
 
-                - (302, 15) # TODO: Simplify that monster.
+                - (301, 15) # TODO: Simplify that monster.
 
         - derivation.py
 
@@ -61,19 +65,19 @@ TODO
 
         - munsell.py
 
-            - (841, 11) # TODO: Consider refactoring implementation.
-            - (1181, 11) # TODO: Should raise KeyError, need to check the tests.
+            - (840, 11) # TODO: Consider refactoring implementation.
+            - (1179, 11) # TODO: Should raise KeyError, need to check the tests.
 
     - volume (1 item in 1 file)
         
         -  rgb.py
             
-            - (326, 11) # TODO: Investigate for generator yielding directly a ndarray.
+            - (320, 7) # TODO: Investigate for generator yielding directly a ndarray.
 
 About
 -----
 
-| **Colour** by Colour Developers - 2013 - 2015
-| Copyright © 2013 - 2015 – Colour Developers – `colour-science@googlegroups.com <colour-science@googlegroups.com>`_
+| **Colour** by Colour Developers - 2013-2016
+| Copyright © 2013-2016 – Colour Developers – `colour-science@googlegroups.com <colour-science@googlegroups.com>`_
 | This software is released under terms of New BSD License: http://opensource.org/licenses/BSD-3-Clause
 | `http://github.com/colour-science/colour <http://github.com/colour-science/colour>`_

@@ -15,7 +15,7 @@ Defines LLAB(l:c) colour appearance model objects:
 See Also
 --------
 `LLAB(l:c) Colour Appearance Model IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/appearance/llab.ipynb>`_
 
 References
@@ -42,8 +42,8 @@ from collections import namedtuple
 from colour.utilities import CaseInsensitiveMapping, dot_vector, tsplit, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
-__license__ = 'GPL V3.0 - http://www.gnu.org/licenses/'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
@@ -264,7 +264,7 @@ def XYZ_to_LLAB(
     >>> surround = LLAB_VIEWING_CONDITIONS['ref_average_4_minus']
     >>> XYZ_to_LLAB(XYZ, XYZ_0, Y_b, L, surround)  # doctest: +ELLIPSIS
     LLAB_Specification(J=37.3668650..., C=0.0089496..., h=270..., \
-s=0.0002395..., M=0.0190185..., HC=None, a=-3.4936555..., b=-0.0190185...)
+s=0.0002395..., M=0.0190185..., HC=None, a=..., b=-0.0190185...)
     """
 
     _X, Y, _Z = tsplit(XYZ)

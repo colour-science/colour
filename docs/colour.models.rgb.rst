@@ -6,8 +6,8 @@ Sub-Packages
 
 .. toctree::
 
-    colour.models.rgb.conversion_functions
     colour.models.rgb.dataset
+    colour.models.rgb.transfer_functions
 
 Sub-Modules
 -----------
@@ -19,6 +19,7 @@ Sub-Modules
    colour.models.rgb.deprecated
    colour.models.rgb.derivation
    colour.models.rgb.rgb_colourspace
+   colour.models.rgb.ycbcr
 
 Module Contents
 ---------------
