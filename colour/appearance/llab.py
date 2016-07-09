@@ -264,7 +264,7 @@ def XYZ_to_LLAB(
     >>> surround = LLAB_VIEWING_CONDITIONS['ref_average_4_minus']
     >>> XYZ_to_LLAB(XYZ, XYZ_0, Y_b, L, surround)  # doctest: +ELLIPSIS
     LLAB_Specification(J=37.3668650..., C=0.0089496..., h=270..., \
-s=0.0002395..., M=0.0190185..., HC=None, a=-3.4936555..., b=-0.0190185...)
+s=0.0002395..., M=0.0190185..., HC=None, a=..., b=-0.0190185...)
     """
 
     _X, Y, _Z = tsplit(XYZ)
