@@ -36,7 +36,7 @@ from .data_structures import (
     Lookup,
     Structure,
     CaseInsensitiveMapping)
-from .verbose import message_box, warning
+from .verbose import ColourWarning, message_box, warning, filter_warnings
 
 __all__ = ['handle_numpy_errors',
            'ignore_numpy_errors',
@@ -68,4 +68,4 @@ __all__ += ['ArbitraryPrecisionMapping',
             'Lookup',
             'Structure',
             'CaseInsensitiveMapping']
-__all__ += ['message_box', 'warning']
+__all__ += ['ColourWarning', 'message_box', 'warning', 'filter_warnings']
