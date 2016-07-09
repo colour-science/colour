@@ -13,7 +13,7 @@ Defines ATD (1995) colour vision model objects:
 See Also
 --------
 `ATD (1995) Colour Vision Model IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/appearance/atd95.ipynb>`_
 
 Notes
@@ -39,8 +39,8 @@ from collections import namedtuple
 from colour.utilities.array import tsplit, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
-__license__ = 'GPL V3.0 - http://www.gnu.org/licenses/'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
@@ -100,10 +100,6 @@ class ATD95_Specification(
     appearance models in :mod:`colour.appearance` but diverge from Fairchild
     (2013) reference.
 
-    Notes
-    -----
-    -   This specification is the one used in the current model implementation.
-
     Parameters
     ----------
     h : numeric or array_like
@@ -128,6 +124,10 @@ class ATD95_Specification(
         Second stage :math:`A_2` response.
     D_2 : numeric or array_like
         Second stage :math:`D_2` response.
+
+    Notes
+    -----
+    -   This specification is the one used in the current model implementation.
     """
 
 

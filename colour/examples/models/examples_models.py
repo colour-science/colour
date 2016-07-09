@@ -46,7 +46,7 @@ print(colour.XYZ_to_xy(XYZ))
 
 print('\n')
 
-xy = (0.43249999995420696, 0.378800000065942)
+xy = (0.43250000, 0.37880000)
 message_box(('Converting to "CIE XYZ" tristimulus values from given "xy" '
              'chromaticity coordinates:\n'
              '\n\t{0}'.format(xy)))
@@ -63,7 +63,7 @@ print(colour.XYZ_to_RGB(
     colour.sRGB_COLOURSPACE.whitepoint,
     colour.sRGB_COLOURSPACE.XYZ_to_RGB_matrix,
     'Bradford',
-    colour.sRGB_COLOURSPACE.OECF))
+    colour.sRGB_COLOURSPACE.encoding_cctf))
 
 print('\n')
 
@@ -77,7 +77,7 @@ print(colour.RGB_to_XYZ(
     colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50'],
     colour.sRGB_COLOURSPACE.RGB_to_XYZ_matrix,
     'Bradford',
-    colour.sRGB_COLOURSPACE.EOCF))
+    colour.sRGB_COLOURSPACE.decoding_cctf))
 
 print('\n')
 
@@ -112,7 +112,7 @@ print(colour.UCS_to_uv(UCS))
 
 print('\n')
 
-uv = (0.25895877536258677, 0.34020896328551287)
+uv = (0.25895878, 0.34020896)
 message_box(('Converting to "xy" chromaticity coordinates from given '
              '"CIE UCS" colourspace "uv" chromaticity coordinates:\n'
              '\n\t{0}'.format(uv)))
@@ -149,7 +149,7 @@ print(colour.Luv_to_uv(Luv))
 
 print('\n')
 
-uv = (0.25895877536234663, 0.51031344493132547)
+uv = (0.25895878, 0.51031344)
 message_box(('Converting to "xy" chromaticity coordinates from given '
              '"CIE Luv" colourspace "u"v"" chromaticity coordinates:\n'
              '\n\t{0}'.format(uv)))
@@ -199,3 +199,44 @@ message_box(('Converting to "CIE Lab" colourspace from given "CIE LCHab" '
              'colourspace values:\n'
              '\n\t{0}'.format(LCHab)))
 print(colour.LCHab_to_Lab(LCHab))
+
+print('\n')
+
+XYZ = (114.17634600, 100.00000000, 49.81520600)
+message_box(('Converting to "Hunter L,a,b" colour scale from given "CIE XYZ" '
+             'tristimulus values:\n'
+             '\n\t{0}'.format(XYZ)))
+print(colour.XYZ_to_Hunter_Lab(XYZ))
+
+print('\n')
+
+Lab = (100.00000000, 32.03822364, 23.14715286)
+message_box(('Converting to "CIE XYZ" tristimulus values from given '
+             '"Hunter L,a,b" colour scale values:\n'
+             '\n\t{0}'.format(Lab)))
+print(colour.Hunter_Lab_to_XYZ(Lab))
+
+print('\n')
+
+message_box(('Converting to "Hunter Rd,a,b" colour scale from given "CIE XYZ" '
+             'tristimulus values:\n'
+             '\n\t{0}'.format(XYZ)))
+print(colour.XYZ_to_Hunter_Rdab(XYZ))
+
+print('\n')
+
+XYZ = (1.14176346, 1.00000000, 0.49815206)
+message_box(('Converting to "IPT" colourspace from given "CIE XYZ" '
+             'tristimulus values:\n'
+             '\n\t{0}'.format(XYZ)))
+print(colour.XYZ_to_IPT(XYZ))
+
+print('\n')
+
+IPT = (0.94948840, 0.28747522, 0.36109201)
+message_box(('Converting to "CIE XYZ" tristimulus values from given "IPT" '
+             'colourspace values:\n'
+             '\n\t{0}'.format(IPT)))
+print(colour.IPT_to_XYZ(IPT))
+
+print('\n')

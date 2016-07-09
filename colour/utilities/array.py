@@ -15,7 +15,7 @@ import numpy as np
 from colour.constants import EPSILON
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -23,31 +23,35 @@ __status__ = 'Production'
 
 __all__ = ['as_numeric',
            'closest',
-           'normalise',
-           'steps',
+           'normalise_maximum',
+           'interval',
            'is_uniform',
            'in_array',
            'tstack',
            'tsplit',
            'row_as_diagonal',
            'dot_vector',
-           'dot_matrix']
+           'dot_matrix',
+           'orient',
+           'centroid']
 
 
-def as_numeric(x):
+def as_numeric(a, type_=np.float_):
     """
-    Converts given :math:`x` variable to *numeric*. In the event where
-    :math:`x` cannot be converted, it is passed as is.
+    Converts given :math:`a` variable to *numeric*. In the event where
+    :math:`a` cannot be converted, it is passed as is.
 
     Parameters
     ----------
-    x : object
+    a : object
         Variable to convert.
+    type_ : object
+        Type to use for conversion.
 
     Returns
     -------
     ndarray
-        :math:`x` variable converted to *numeric*.
+        :math:`a` variable converted to *numeric*.
 
     See Also
     --------
@@ -58,55 +62,55 @@ def as_numeric(x):
     >>> as_numeric(np.array([1]))
     1.0
     >>> as_numeric(np.arange(10))
-    array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+    array([ 0.,  1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.])
     """
 
     try:
-        return float(x)
+        return type_(a)
     except TypeError:
-        return x
+        return a
 
 
-def closest(y, x):
+def closest(a, b):
     """
-    Returns closest :math:`y` variable element to reference :math:`x` variable.
+    Returns closest :math:`a` variable element to reference :math:`b` variable.
 
     Parameters
     ----------
-    y : array_like
+    a : array_like
         Variable to search for the closest element.
-    x : numeric
+    b : numeric
         Reference variable.
 
     Returns
     -------
     numeric
-        Closest :math:`y` variable element.
+        Closest :math:`a` variable element.
 
     Examples
     --------
-    >>> y = np.array([24.31357115,
+    >>> a = np.array([24.31357115,
     ...               63.62396289,
     ...               55.71528816,
     ...               62.70988028,
     ...               46.84480573,
     ...               25.40026416])
-    >>> closest(y, 63)
+    >>> closest(a, 63)
     62.70988028
     """
 
-    return y[(np.abs(np.array(y) - x)).argmin()]
+    return a[(np.abs(np.array(a) - b)).argmin()]
 
 
-def normalise(x, axis=None, factor=1, clip=True):
+def normalise_maximum(a, axis=None, factor=1, clip=True):
     """
-    Normalises given *array_like* :math:`x` variable values and optionally clip
-    them between.
+    Normalises given *array_like* :math:`a` variable values by :math:`a`
+    variable maximum value and optionally clip them between.
 
     Parameters
     ----------
-    x : array_like
-        :math:`x` variable to normalise.
+    a : array_like
+        :math:`a` variable to normalise.
     axis : numeric, optional
         Normalization axis.
     factor : numeric, optional
@@ -117,49 +121,49 @@ def normalise(x, axis=None, factor=1, clip=True):
     Returns
     -------
     ndarray
-        Normalised :math:`x` variable.
+        Maximum normalised :math:`a` variable.
 
     Examples
     --------
-    >>> x = np.array([0.48224885, 0.31651974, 0.22070513])
-    >>> normalise(x)  # doctest: +ELLIPSIS
-    array([ 1.        ,  0.6563411...,  0.4576581...])
+    >>> a = np.array([0.48222001, 0.31654775, 0.22070353])
+    >>> normalise_maximum(a)  # doctest: +ELLIPSIS
+    array([ 1.        ,  0.6564384...,  0.4576822...])
     """
 
-    x = np.asarray(x)
+    a = np.asarray(a)
 
-    maximum = np.max(x, axis=axis)
-    x *= (1 / maximum[..., np.newaxis]) * factor
+    maximum = np.max(a, axis=axis)
+    a *= (1 / maximum[..., np.newaxis]) * factor
 
-    return np.clip(x, 0, factor) if clip else x
+    return np.clip(a, 0, factor) if clip else a
 
 
-def steps(distribution):
+def interval(distribution):
     """
-    Returns the steps of given distribution.
+    Returns the interval size of given distribution.
 
     Parameters
     ----------
     distribution : array_like
-        Distribution to retrieve the steps.
+        Distribution to retrieve the interval.
 
     Returns
     -------
     ndarray
-        Distribution steps.
+        Distribution interval.
 
     Examples
     --------
     Uniformly spaced variable:
 
     >>> y = np.array([1, 2, 3, 4, 5])
-    >>> steps(y)
+    >>> interval(y)
     array([1])
 
     Non-uniformly spaced variable:
 
     >>> y = np.array([1, 2, 3, 4, 8])
-    >>> steps(y)
+    >>> interval(y)
     array([1, 4])
     """
 
@@ -187,18 +191,18 @@ def is_uniform(distribution):
     --------
     Uniformly spaced variable:
 
-    >>> y = np.array([1, 2, 3, 4, 5])
-    >>> is_uniform(y)
+    >>> a = np.array([1, 2, 3, 4, 5])
+    >>> is_uniform(a)
     True
 
     Non-uniformly spaced variable:
 
-    >>> y = np.array([1, 2, 3.1415, 4, 5])
-    >>> is_uniform(y)
+    >>> a = np.array([1, 2, 3.1415, 4, 5])
+    >>> is_uniform(a)
     False
     """
 
-    return True if len(steps(distribution)) == 1 else False
+    return True if len(interval(distribution)) == 1 else False
 
 
 def in_array(a, b, tolerance=EPSILON):
@@ -507,3 +511,97 @@ def dot_matrix(a, b):
     """
 
     return np.einsum('...ij,...jk->...ik', a, b)
+
+
+def orient(a, orientation):
+    """
+    Orient given array accordingly to given `orientation` value.
+
+    Parameters
+    ----------
+    a : array_like
+        Array to perform the orientation onto.
+    orientation : unicode, optional
+        **{'Flip', 'Flop', '90 CW', '90 CCW', '180'}**
+        Orientation to perform.
+
+    Returns
+    -------
+    ndarray
+        Oriented array.
+
+    Examples
+    --------
+    >>> a = np.tile(np.arange(5), (5, 1))
+    >>> a
+    array([[0, 1, 2, 3, 4],
+           [0, 1, 2, 3, 4],
+           [0, 1, 2, 3, 4],
+           [0, 1, 2, 3, 4],
+           [0, 1, 2, 3, 4]])
+    >>> orient(a, '90 CW')
+    array([[0, 0, 0, 0, 0],
+           [1, 1, 1, 1, 1],
+           [2, 2, 2, 2, 2],
+           [3, 3, 3, 3, 3],
+           [4, 4, 4, 4, 4]])
+    >>> orient(a, 'Flip')
+    array([[4, 3, 2, 1, 0],
+           [4, 3, 2, 1, 0],
+           [4, 3, 2, 1, 0],
+           [4, 3, 2, 1, 0],
+           [4, 3, 2, 1, 0]])
+    """
+
+    if orientation.lower() == 'flip':
+        return np.fliplr(a)
+    elif orientation.lower() == 'flop':
+        return np.flipud(a)
+    elif orientation.lower() == '90 cw':
+        return np.rot90(a, 3)
+    elif orientation.lower() == '90 ccw':
+        return np.rot90(a)
+    elif orientation.lower() == '180':
+        return np.rot90(a, 2)
+    else:
+        return a
+
+
+def centroid(a):
+    """
+    Computes the centroid indexes of given :math:`a` array.
+
+    Parameters
+    ----------
+    a : array_like
+        :math:`a` array to compute the centroid indexes.
+
+    Returns
+    -------
+    ndarray
+        :math:`a` array centroid indexes.
+
+    Examples
+    --------
+    >>> a = np.tile(np.arange(0, 5), (5, 1))
+    >>> centroid(a)
+    array([2, 3])
+    """
+
+    a = np.asarray(a)
+
+    a_s = np.sum(a)
+
+    ranges = [np.arange(0, a.shape[i]) for i in range(a.ndim)]
+    coordinates = np.meshgrid(*ranges)
+
+    a_ci = []
+    for axis in coordinates:
+        axis = np.transpose(axis)
+        # Aligning axis for N-D arrays where N is in range [3, :math:`\infty`]
+        for i in range(axis.ndim - 2, 0, -1):
+            axis = np.rollaxis(axis, i - 1, axis.ndim)
+
+        a_ci.append(np.sum(axis * a) // a_s)
+
+    return np.array(a_ci).astype(np.int_)

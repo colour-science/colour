@@ -15,7 +15,7 @@ from setuptools import setup
 from setuptools import find_packages
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -24,7 +24,6 @@ __status__ = 'Production'
 __all__ = ['SHORT_DESCRIPTION',
            'LONG_DESCRIPTION',
            'INSTALLATION_REQUIREMENTS',
-           'OPTIONAL_REQUIREMENTS',
            'PLOTTING_REQUIREMENTS',
            'DOCS_REQUIREMENTS',
            'TESTS_REQUIREMENTS']
@@ -33,9 +32,7 @@ SHORT_DESCRIPTION = 'Colour Science for Python'
 
 LONG_DESCRIPTION = open('README.rst').read()
 
-INSTALLATION_REQUIREMENTS = ['numpy>=1.8.1']
-
-OPTIONAL_REQUIREMENTS = ['scipy>=0.16.0']
+INSTALLATION_REQUIREMENTS = ['scipy>=0.16.0']
 
 PLOTTING_REQUIREMENTS = ['matplotlib>=1.3.1']
 
@@ -49,10 +46,10 @@ if sys.version_info[:2] <= (3, 2):
     TESTS_REQUIREMENTS += ['mock==1.0.1']
 
 if os.environ.get('READTHEDOCS') == 'True':
-    INSTALLATION_REQUIREMENTS += ['mock==1.0.1']
+    INSTALLATION_REQUIREMENTS = ['numpy>=1.8.1', 'mock==1.0.1']
 
 setup(name='colour-science',
-      version='0.3.7',
+      version='0.3.8',
       author=__author__,
       author_email=__email__,
       include_package_data=True,
@@ -65,7 +62,6 @@ setup(name='colour-science',
       install_requires=INSTALLATION_REQUIREMENTS,
       extras_require={
           'docs': DOCS_REQUIREMENTS,
-          'optional': OPTIONAL_REQUIREMENTS,
           'plotting': PLOTTING_REQUIREMENTS,
           'tests': TESTS_REQUIREMENTS},
       classifiers=['Development Status :: 3 - Alpha',

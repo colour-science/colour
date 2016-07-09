@@ -13,6 +13,7 @@ Sub-Modules
 
 .. toctree::
 
+   colour.characterisation.displays
    colour.characterisation.fitting
 
 Module Contents

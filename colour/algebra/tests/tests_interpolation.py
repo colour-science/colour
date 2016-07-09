@@ -14,11 +14,12 @@ from itertools import permutations
 from colour.algebra import (
     LinearInterpolator,
     SpragueInterpolator,
-    PchipInterpolator)
+    PchipInterpolator,
+    lagrange_coefficients)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -27,9 +28,12 @@ __status__ = 'Production'
 __all__ = ['POINTS_DATA_A',
            'LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES',
            'SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES',
+           'LAGRANGE_COEFFICIENTS_A',
+           'LAGRANGE_COEFFICIENTS_B',
            'TestLinearInterpolator',
            'TestSpragueInterpolator',
-           'TestPchipInterpolator']
+           'TestPchipInterpolator',
+           'TestLagrangeCoefficients']
 
 POINTS_DATA_A = (
     9.3700,
@@ -355,6 +359,48 @@ SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES = (
     86.45733945,
     86.05000000)
 
+LAGRANGE_COEFFICIENTS_A = np.array(
+    [[0.92625, 0.09750, -0.02375],
+     [0.85500, 0.19000, -0.04500],
+     [0.78625, 0.27750, -0.06375],
+     [0.72000, 0.36000, -0.08000],
+     [0.65625, 0.43750, -0.09375],
+     [0.59500, 0.51000, -0.10500],
+     [0.53625, 0.57750, -0.11375],
+     [0.48000, 0.64000, -0.12000],
+     [0.42625, 0.69750, -0.12375],
+     [0.37500, 0.75000, -0.12500],
+     [0.32625, 0.79750, -0.12375],
+     [0.28000, 0.84000, -0.12000],
+     [0.23625, 0.87750, -0.11375],
+     [0.19500, 0.91000, -0.10500],
+     [0.15625, 0.93750, -0.09375],
+     [0.12000, 0.96000, -0.08000],
+     [0.08625, 0.97750, -0.06375],
+     [0.05500, 0.99000, -0.04500],
+     [0.02625, 0.99750, -0.02375]])
+
+LAGRANGE_COEFFICIENTS_B = np.array(
+    [[-0.0154375, 0.9725625, 0.0511875, -0.0083125],
+     [-0.0285000, 0.9405000, 0.1045000, -0.0165000],
+     [-0.0393125, 0.9041875, 0.1595625, -0.0244375],
+     [-0.0480000, 0.8640000, 0.2160000, -0.0320000],
+     [-0.0546875, 0.8203125, 0.2734375, -0.0390625],
+     [-0.0595000, 0.7735000, 0.3315000, -0.0455000],
+     [-0.0625625, 0.7239375, 0.3898125, -0.0511875],
+     [-0.0640000, 0.6720000, 0.4480000, -0.0560000],
+     [-0.0639375, 0.6180625, 0.5056875, -0.0598125],
+     [-0.0625000, 0.5625000, 0.5625000, -0.0625000],
+     [-0.0598125, 0.5056875, 0.6180625, -0.0639375],
+     [-0.0560000, 0.4480000, 0.6720000, -0.0640000],
+     [-0.0511875, 0.3898125, 0.7239375, -0.0625625],
+     [-0.0455000, 0.3315000, 0.7735000, -0.0595000],
+     [-0.0390625, 0.2734375, 0.8203125, -0.0546875],
+     [-0.0320000, 0.2160000, 0.8640000, -0.0480000],
+     [-0.0244375, 0.1595625, 0.9041875, -0.0393125],
+     [-0.0165000, 0.1045000, 0.9405000, -0.0285000],
+     [-0.0083125, 0.0511875, 0.9725625, -0.0154375]])
+
 
 class TestLinearInterpolator(unittest.TestCase):
     """
@@ -389,12 +435,12 @@ class TestLinearInterpolator(unittest.TestCase):
         method.
         """
 
-        steps = 0.1
+        interval = 0.1
         x = np.arange(len(POINTS_DATA_A))
         linear_interpolator = LinearInterpolator(x, POINTS_DATA_A)
 
         for i, value in enumerate(
-                np.arange(0, len(POINTS_DATA_A) - 1 + steps, steps)):
+                np.arange(0, len(POINTS_DATA_A) - 1 + interval, interval)):
             self.assertAlmostEqual(
                 LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES[i],
                 linear_interpolator(value),
@@ -402,7 +448,7 @@ class TestLinearInterpolator(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             linear_interpolator(
-                np.arange(0, len(POINTS_DATA_A) - 1 + steps, steps)),
+                np.arange(0, len(POINTS_DATA_A) - 1 + interval, interval)),
             LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES)
 
     @ignore_numpy_errors
@@ -459,12 +505,12 @@ class TestSpragueInterpolator(unittest.TestCase):
         method.
         """
 
-        steps = 0.1
+        interval = 0.1
         x = np.arange(len(POINTS_DATA_A))
         sprague_interpolator = SpragueInterpolator(x, POINTS_DATA_A)
 
         for i, value in enumerate(
-                np.arange(0, len(POINTS_DATA_A) - 1 + steps, steps)):
+                np.arange(0, len(POINTS_DATA_A) - 1 + interval, interval)):
             self.assertAlmostEqual(
                 SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES[i],
                 sprague_interpolator(value),
@@ -472,7 +518,7 @@ class TestSpragueInterpolator(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             sprague_interpolator(
-                np.arange(0, len(POINTS_DATA_A) - 1 + steps, steps)),
+                np.arange(0, len(POINTS_DATA_A) - 1 + interval, interval)),
             SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES)
 
     @ignore_numpy_errors
@@ -522,6 +568,38 @@ class TestPchipInterpolator(unittest.TestCase):
 
         for method in required_methods:
             self.assertIn(method, dir(PchipInterpolator))
+
+
+class TestLagrangeCoefficients(unittest.TestCase):
+    """
+    Defines :func:`colour.algebra.interpolation.lagrange_coefficients`
+    definition unit tests methods.
+    """
+
+    def test_lagrange_coefficients(self):
+        """
+        Tests :func:`colour.algebra.interpolation.lagrange_coefficients`
+        definition.
+
+        Notes
+        -----
+        :attr:`LAGRANGE_COEFFICIENTS_A` and :attr:`LAGRANGE_COEFFICIENTS_B`
+        attributes data is matching [1]_.
+
+        References
+        ----------
+        .. [1]  Fairman, H. S. (1985). The calculation of weight factors for
+                tristimulus integration. Color Research & Application, 10(4),
+                199–203. doi:10.1002/col.5080100407
+        """
+
+        lc = [lagrange_coefficients(i, 3)
+              for i in np.linspace(0.05, 0.95, 19)]
+        np.testing.assert_almost_equal(lc, LAGRANGE_COEFFICIENTS_A, decimal=7)
+
+        lc = [lagrange_coefficients(i, 4)
+              for i in np.linspace(1.05, 1.95, 19)]
+        np.testing.assert_almost_equal(lc, LAGRANGE_COEFFICIENTS_B, decimal=7)
 
 
 if __name__ == '__main__':

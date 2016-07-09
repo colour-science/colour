@@ -14,13 +14,13 @@ The following methods are available:
     Glasser, Mckinney, Reilly and Schnelle (1958)⁠⁠⁠ method.
 -   :func:`lightness_Wyszecki1963`: *Lightness* :math:`W` computation of
     given *luminance* :math:`Y` using Wyszecki (1963)⁠⁠⁠⁠ method.
--   :func:`lightness_1976`: *Lightness* :math:`L^*` computation of given
+-   :func:`lightness_CIE1976`: *Lightness* :math:`L^*` computation of given
     *luminance* :math:`Y` as per *CIE Lab* implementation.
 
 See Also
 --------
 `Lightness IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/lightness.ipynb>`_
 
 References
@@ -34,10 +34,10 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.constants import CIE_E, CIE_K
-from colour.utilities import CaseInsensitiveMapping, warning
+from colour.utilities import CaseInsensitiveMapping, filter_kwargs, warning
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -45,12 +45,12 @@ __status__ = 'Production'
 
 __all__ = ['lightness_Glasser1958',
            'lightness_Wyszecki1963',
-           'lightness_1976',
+           'lightness_CIE1976',
            'LIGHTNESS_METHODS',
            'lightness']
 
 
-def lightness_Glasser1958(Y, **kwargs):
+def lightness_Glasser1958(Y):
     """
     Returns the *Lightness* :math:`L` of given *luminance* :math:`Y` using
     *Glasser, Mckinney, Reilly and Schnelle (1958)* method.
@@ -59,9 +59,6 @@ def lightness_Glasser1958(Y, **kwargs):
     ----------
     Y : numeric or array_like
         *luminance* :math:`Y`.
-    \**kwargs : dict, optional
-        Unused parameter provided for signature compatibility with other
-        *Lightness* computation objects.
 
     Returns
     -------
@@ -71,7 +68,7 @@ def lightness_Glasser1958(Y, **kwargs):
     Notes
     -----
     -   Input *luminance* :math:`Y` is in domain [0, 100].
-    -   Output *Lightness* :math:`L` is in domain [0, 100].
+    -   Output *Lightness* :math:`L` is in range [0, 100].
 
     References
     ----------
@@ -92,7 +89,7 @@ def lightness_Glasser1958(Y, **kwargs):
     return L
 
 
-def lightness_Wyszecki1963(Y, **kwargs):
+def lightness_Wyszecki1963(Y):
     """
     Returns the *Lightness* :math:`W` of given *luminance* :math:`Y` using
     *Wyszecki (1963)* method.
@@ -102,9 +99,6 @@ def lightness_Wyszecki1963(Y, **kwargs):
     ----------
     Y : numeric or array_like
         *luminance* :math:`Y`.
-    \**kwargs : dict, optional
-        Unused parameter provided for signature compatibility with other
-        *Lightness* computation objects.
 
     Returns
     -------
@@ -114,7 +108,7 @@ def lightness_Wyszecki1963(Y, **kwargs):
     Notes
     -----
     -   Input *luminance* :math:`Y` is in domain [0, 100].
-    -   Output *Lightness* :math:`W` is in domain [0, 100].
+    -   Output *Lightness* :math:`W` is in range [0, 100].
 
     References
     ----------
@@ -138,7 +132,7 @@ def lightness_Wyszecki1963(Y, **kwargs):
     return W
 
 
-def lightness_1976(Y, Y_n=100):
+def lightness_CIE1976(Y, Y_n=100):
     """
     Returns the *Lightness* :math:`L^*` of given *luminance* :math:`Y` using
     given reference white *luminance* :math:`Y_n` as per *CIE Lab*
@@ -159,7 +153,7 @@ def lightness_1976(Y, Y_n=100):
     Notes
     -----
     -   Input *luminance* :math:`Y` and :math:`Y_n` are in domain [0, 100].
-    -   Output *Lightness* :math:`L^*` is in domain [0, 100].
+    -   Output *Lightness* :math:`L^*` is in range [0, 100].
 
     References
     ----------
@@ -172,7 +166,7 @@ def lightness_1976(Y, Y_n=100):
 
     Examples
     --------
-    >>> lightness_1976(10.08)  # doctest: +ELLIPSIS
+    >>> lightness_CIE1976(10.08)  # doctest: +ELLIPSIS
     array(37.9856290...)
     """
 
@@ -191,7 +185,7 @@ def lightness_1976(Y, Y_n=100):
 LIGHTNESS_METHODS = CaseInsensitiveMapping(
     {'Glasser 1958': lightness_Glasser1958,
      'Wyszecki 1963': lightness_Wyszecki1963,
-     'CIE 1976': lightness_1976})
+     'CIE 1976': lightness_CIE1976})
 """
 Supported *Lightness* computations methods.
 
@@ -228,7 +222,7 @@ def lightness(Y, method='CIE 1976', **kwargs):
     -----
     -   Input *luminance* :math:`Y` and optional :math:`Y_n` are in domain
         [0, 100].
-    -   Output *Lightness* :math:`L^*` is in domain [0, 100].
+    -   Output *Lightness* :math:`L^*` is in range [0, 100].
 
     Examples
     --------
@@ -244,4 +238,8 @@ def lightness(Y, method='CIE 1976', **kwargs):
     37.0041149...
     """
 
-    return LIGHTNESS_METHODS.get(method)(Y, **kwargs)
+    function = LIGHTNESS_METHODS[method]
+
+    filter_kwargs(function, **kwargs)
+
+    return function(Y, **kwargs)

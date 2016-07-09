@@ -17,7 +17,7 @@ Defines the *CIE Luv* colourspace transformations:
 See Also
 --------
 `CIE Luv Colourspace IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/cie_luv.ipynb>`_
 
 References
@@ -36,7 +36,7 @@ from colour.models import xy_to_xyY, xyY_to_XYZ
 from colour.utilities import tsplit, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -74,7 +74,7 @@ def XYZ_to_Luv(XYZ,
     -   Input *CIE XYZ* tristimulus values are in domain [0, 1].
     -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
         colourspace array are in domain [0, :math:`\infty`].
-    -   Output :math:`L^*` is in domain [0, 100].
+    -   Output :math:`L^*` is in range [0, 100].
 
     References
     ----------
@@ -85,7 +85,7 @@ def XYZ_to_Luv(XYZ,
     --------
     >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
     >>> XYZ_to_Luv(XYZ)  # doctest: +ELLIPSIS
-    array([ 37.9856291..., -28.7922944...,  -1.3558195...])
+    array([ 37.9856291..., -28.8021959...,  -1.3580070...])
     """
 
     X, Y, Z = tsplit(XYZ)
@@ -129,7 +129,7 @@ def Luv_to_XYZ(Luv,
     -   Input :math:`L^*` is in domain [0, 100].
     -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
         colourspace array are in domain [0, :math:`\infty`].
-    -   Output *CIE XYZ* tristimulus values are in domain [0, 1].
+    -   Output *CIE XYZ* tristimulus values are in range [0, 1].
 
     References
     ----------
@@ -138,7 +138,7 @@ def Luv_to_XYZ(Luv,
 
     Examples
     --------
-    >>> Luv = np.array([37.98562910, -28.79229446, -1.35581950])
+    >>> Luv = np.array([37.9856291 , -28.80219593,  -1.35800706])
     >>> Luv_to_XYZ(Luv)  # doctest: +ELLIPSIS
     array([ 0.0704953...,  0.1008    ,  0.0955831...])
     """
@@ -188,7 +188,7 @@ def Luv_to_uv(Luv,
     -   Input :math:`L^*` is in domain [0, 100].
     -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
         colourspace array are in domain [0, :math:`\infty`].
-    -   Output :math:`uv^p` chromaticity coordinates are in domain [0, 1].
+    -   Output :math:`uv^p` chromaticity coordinates are in range [0, 1].
 
     References
     ----------
@@ -198,7 +198,7 @@ def Luv_to_uv(Luv,
 
     Examples
     --------
-    >>> Luv = np.array([37.98562910, -28.79229446, -1.35581950])
+    >>> Luv = np.array([37.9856291 , -28.80219593,  -1.35800706])
     >>> Luv_to_uv(Luv)  # doctest: +ELLIPSIS
     array([ 0.1508531...,  0.4853297...])
     """
@@ -229,7 +229,7 @@ def Luv_uv_to_xy(uv):
     Notes
     -----
     -   Input :math:`uv^p` chromaticity coordinates are in domain [0, 1].
-    -   Output *xy* is in domain [0, 1].
+    -   Output *xy* is in range [0, 1].
 
     References
     ----------
@@ -238,7 +238,7 @@ def Luv_uv_to_xy(uv):
 
     Examples
     --------
-    >>> uv = np.array([0.15085309882985695, 0.48532970854318019])
+    >>> uv = np.array([0.150853098829857, 0.485329708543180])
     >>> Luv_uv_to_xy(uv)  # doctest: +ELLIPSIS
     array([ 0.2641477...,  0.3777000...])
     """
@@ -267,7 +267,7 @@ def Luv_to_LCHuv(Luv):
 
     Notes
     -----
-    -   :math:`L^*` is in domain [0, 100].
+    -   Input / output :math:`L^*` is in domain / range [0, 100].
 
     References
     ----------
@@ -276,9 +276,9 @@ def Luv_to_LCHuv(Luv):
 
     Examples
     --------
-    >>> Luv = np.array([37.98562910, -28.79229446, -1.35581950])
+    >>> Luv = np.array([37.9856291 , -28.80219593,  -1.35800706])
     >>> Luv_to_LCHuv(Luv)  # doctest: +ELLIPSIS
-    array([  37.9856291...,   28.8241993...,  182.6960474...])
+    array([  37.9856291...,   28.8341927...,  182.6994640...])
     """
 
     L, u, v = tsplit(Luv)
@@ -307,7 +307,7 @@ def LCHuv_to_Luv(LCHuv):
 
     Notes
     -----
-    -   :math:`L^*` is in domain [0, 100].
+    -   Input / output :math:`L^*` is in domain / range [0, 100].
 
     References
     ----------
@@ -316,9 +316,9 @@ def LCHuv_to_Luv(LCHuv):
 
     Examples
     --------
-    >>> LCHuv = np.array([37.98562910, 28.82419933, 182.69604747])
+    >>> LCHuv = np.array([37.98562910, 28.83419279, 182.69946404])
     >>> LCHuv_to_Luv(LCHuv)  # doctest: +ELLIPSIS
-    array([ 37.9856291..., -28.7922944...,  -1.3558195...])
+    array([ 37.9856291..., -28.8021959...,  -1.3580070...])
     """
 
     L, C, H = tsplit(LCHuv)

@@ -15,7 +15,7 @@ The following correction methods are available:
 See Also
 --------
 `Spectral Bandpass Dependence Correction IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/correction.ipynb>`_
 """
 
@@ -24,7 +24,7 @@ from __future__ import division, unicode_literals
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -42,15 +42,6 @@ def bandpass_correction_Stearns1988(spd):
     Implements spectral bandpass dependence correction on given spectral power
     distribution using Stearns and Stearns (1988)⁠⁠ method.
 
-    References
-    ----------
-    .. [1]  Westland, S., Ripamonti, C., & Cheung, V. (2012). Correction for
-            Spectral Bandpass. In Computational Colour Science Using MATLAB
-            (2nd ed., p. 38). ISBN:978-0-470-66569-5
-    .. [2]  Stearns, E. I., & Stearns, R. E. (1988). An example of a method
-            for correcting radiance data for Bandpass error. Color Research &
-            Application, 13(4), 257–259. doi:10.1002/col.5080130410
-
     Parameters
     ----------
     spd : SpectralPowerDistribution
@@ -60,6 +51,15 @@ def bandpass_correction_Stearns1988(spd):
     -------
     SpectralPowerDistribution
         Spectral bandpass dependence corrected spectral power distribution.
+
+    References
+    ----------
+    .. [1]  Westland, S., Ripamonti, C., & Cheung, V. (2012). Correction for
+            Spectral Bandpass. In Computational Colour Science Using MATLAB
+            (2nd ed., p. 38). ISBN:978-0-470-66569-5
+    .. [2]  Stearns, E. I., & Stearns, R. E. (1988). An example of a method
+            for correcting radiance data for Bandpass error. Color Research &
+            Application, 13(4), 257–259. doi:10.1002/col.5080130410
 
     Examples
     --------

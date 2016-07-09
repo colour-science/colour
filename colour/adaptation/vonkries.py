@@ -13,7 +13,7 @@ Defines Von Kries chromatic adaptation model objects:
 See Also
 --------
 `Chromatic Adaptation IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/adaptation/vonkries.ipynb>`_
 
 References
@@ -30,7 +30,7 @@ from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
 from colour.utilities import dot_matrix, dot_vector, row_as_diagonal
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -53,7 +53,7 @@ def chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
         Reference viewing condition *CIE XYZ* tristimulus values of whitepoint.
     transform : unicode, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
-        'Fairchild, 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
+        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
         'Bianco PC'}**,
         Chromatic adaptation transform.
 
@@ -125,7 +125,7 @@ def chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, transform='CAT02'):
         Reference viewing condition *CIE XYZ* tristimulus values of whitepoint.
     transform : unicode, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
-        'Fairchild, 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
+        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
         'Bianco PC'}**,
         Chromatic adaptation transform.
 

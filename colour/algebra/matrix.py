@@ -13,7 +13,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -22,14 +22,14 @@ __status__ = 'Production'
 __all__ = ['is_identity']
 
 
-def is_identity(x, n=3):
+def is_identity(a, n=3):
     """
-    Returns if given *array_like* variable :math:`x` is an identity matrix.
+    Returns if :math:`a` array is an identity matrix.
 
     Parameters
     ----------
-    x : array_like, (N)
-        Variable :math:`x` to test.
+    a : array_like, (N)
+        Variable :math:`a` to test.
     n : int, optional
         Matrix dimension.
 
@@ -46,4 +46,4 @@ def is_identity(x, n=3):
     False
     """
 
-    return np.array_equal(np.identity(n), x)
+    return np.array_equal(np.identity(n), a)

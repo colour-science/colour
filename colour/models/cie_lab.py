@@ -15,7 +15,7 @@ Defines the *CIE Lab* colourspace transformations:
 See Also
 --------
 `CIE Lab Colourspace IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/cie_lab.ipynb>`_
 
 References
@@ -34,7 +34,7 @@ from colour.models import xy_to_xyY, xyY_to_XYZ
 from colour.utilities import tsplit, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -70,7 +70,7 @@ def XYZ_to_Lab(XYZ,
     -   Input *CIE XYZ* tristimulus values are in domain [0, 1].
     -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
         colourspace array are in domain [0, :math:`\infty`].
-    -   Output *Lightness* :math:`L^*` is in domain [0, 100].
+    -   Output *Lightness* :math:`L^*` is in range [0, 100].
 
     References
     ----------
@@ -81,7 +81,7 @@ def XYZ_to_Lab(XYZ,
     --------
     >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
     >>> XYZ_to_Lab(XYZ)  # doctest: +ELLIPSIS
-    array([ 37.9856291..., -23.6230288...,  -4.4141703...])
+    array([ 37.9856291..., -23.6290768...,  -4.4174661...])
     """
 
     XYZ = np.asarray(XYZ)
@@ -128,7 +128,7 @@ def Lab_to_XYZ(Lab,
     -   Input *Lightness* :math:`L^*` is in domain [0, 100].
     -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
         colourspace array are in domain [0, :math:`\infty`].
-    -   Output *CIE XYZ* tristimulus values are in domain [0, 1].
+    -   Output *CIE XYZ* tristimulus values are in range [0, 1].
 
     References
     ----------
@@ -137,7 +137,7 @@ def Lab_to_XYZ(Lab,
 
     Examples
     --------
-    >>> Lab = np.array([37.98562910, -23.62302887, -4.41417036])
+    >>> Lab = np.array([37.98562910, -23.62907688, -4.41746615])
     >>> Lab_to_XYZ(Lab)  # doctest: +ELLIPSIS
     array([ 0.0704953...,  0.1008    ,  0.0955831...])
     """
@@ -183,9 +183,9 @@ def Lab_to_LCHab(Lab):
 
     Examples
     --------
-    >>> Lab = np.array([37.98562910, -23.62302887, -4.41417036])
+    >>> Lab = np.array([37.98562910, -23.62907688, -4.41746615])
     >>> Lab_to_LCHab(Lab)  # doctest: +ELLIPSIS
-    array([  37.9856291...,   24.0319036...,  190.5841597...])
+    array([  37.9856291...,   24.0384542...,  190.5892337...])
     """
 
     L, a, b = tsplit(Lab)
@@ -223,9 +223,9 @@ def LCHab_to_Lab(LCHab):
 
     Examples
     --------
-    >>> LCHab = np.array([37.98562910, 24.03190365, 190.58415972])
+    >>> LCHab = np.array([37.98562910, 24.03845422, 190.58923377])
     >>> LCHab_to_Lab(LCHab)  # doctest: +ELLIPSIS
-    array([ 37.9856291..., -23.6230288...,  -4.4141703...])
+    array([ 37.9856291..., -23.6290768...,  -4.4174661...])
     """
 
     L, C, H = tsplit(LCHab)

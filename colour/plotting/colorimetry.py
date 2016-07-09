@@ -43,7 +43,7 @@ from colour.colorimetry import (
 from colour.models import XYZ_to_sRGB
 from colour.plotting import (
     ColourParameter,
-    DEFAULT_PLOTTING_OECF,
+    DEFAULT_PLOTTING_ENCODING_CCTF,
     DEFAULT_FIGURE_WIDTH,
     boundaries,
     canvas,
@@ -53,10 +53,10 @@ from colour.plotting import (
     get_cmfs,
     get_illuminant,
     single_colour_plot)
-from colour.utilities import normalise
+from colour.utilities import normalise_maximum
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -97,8 +97,8 @@ def single_spd_plot(spd,
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
@@ -106,7 +106,6 @@ def single_spd_plot(spd,
     >>> data = {400: 0.0641, 420: 0.0645, 440: 0.0562}
     >>> spd = SpectralPowerDistribution('Custom', data)
     >>> single_spd_plot(spd)  # doctest: +SKIP
-    True
     """
 
     cmfs = get_cmfs(cmfs)
@@ -120,12 +119,12 @@ def single_spd_plot(spd,
     colours = XYZ_to_sRGB(
         wavelength_to_XYZ(wavelengths, cmfs),
         ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['E'],
-        apply_OECF=False)
+        apply_encoding_cctf=False)
 
     if not out_of_gamut_clipping:
         colours += np.abs(np.min(colours))
 
-    colours = DEFAULT_PLOTTING_OECF(normalise(colours))
+    colours = DEFAULT_PLOTTING_ENCODING_CCTF(normalise_maximum(colours))
 
     settings = {
         'title': '{0} - {1}'.format(spd.title, cmfs.title),
@@ -164,8 +163,8 @@ def multi_spd_plot(spds,
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
@@ -175,7 +174,6 @@ def multi_spd_plot(spds,
     >>> spd1 = SpectralPowerDistribution('Custom1', data1)
     >>> spd2 = SpectralPowerDistribution('Custom2', data2)
     >>> multi_spd_plot([spd1, spd2])  # doctest: +SKIP
-    True
     """
 
     canvas(**kwargs)
@@ -198,7 +196,7 @@ def multi_spd_plot(spds,
         if use_spds_colours:
             XYZ = spectral_to_XYZ(spd, cmfs, illuminant) / 100
             if normalise_spds_colours:
-                XYZ = normalise(XYZ, clip=False)
+                XYZ = normalise_maximum(XYZ, clip=False)
             RGB = np.clip(XYZ_to_sRGB(XYZ), 0, 1)
 
             pylab.plot(wavelengths, values, color=RGB, label=spd.title,
@@ -235,13 +233,12 @@ def single_cmfs_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> single_cmfs_plot()  # doctest: +SKIP
-    True
     """
 
     cmfs = get_cmfs(cmfs)
@@ -265,8 +262,8 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
@@ -274,7 +271,6 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
     ... 'CIE 1931 2 Degree Standard Observer',
     ... 'CIE 1964 10 Degree Standard Observer']
     >>> multi_cmfs_plot(cmfs)  # doctest: +SKIP
-    True
     """
 
     canvas(**kwargs)
@@ -346,13 +342,12 @@ def single_illuminant_relative_spd_plot(
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> single_illuminant_relative_spd_plot()  # doctest: +SKIP
-    True
     """
 
     cmfs = get_cmfs(cmfs)
@@ -362,7 +357,7 @@ def single_illuminant_relative_spd_plot(
 
     settings = {
         'title': title,
-        'y_label': 'Relative Spectral Power Distribution'}
+        'y_label': 'Relative Power'}
     settings.update(kwargs)
 
     return single_spd_plot(illuminant, **settings)
@@ -381,13 +376,12 @@ def multi_illuminants_relative_spd_plot(illuminants=None, **kwargs):
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> multi_illuminants_relative_spd_plot(['A', 'B', 'C'])  # doctest: +SKIP
-    True
     """
 
     if illuminants is None:
@@ -401,7 +395,7 @@ def multi_illuminants_relative_spd_plot(illuminants=None, **kwargs):
         'title': (
             '{0} - Illuminants Relative Spectral Power Distribution').format(
             ', '.join([spd.title for spd in spds])),
-        'y_label': 'Relative Spectral Power Distribution'}
+        'y_label': 'Relative Power'}
     settings.update(kwargs)
 
     return multi_spd_plot(spds, **settings)
@@ -427,13 +421,12 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> visible_spectrum_plot()  # doctest: +SKIP
-    True
     """
 
     cmfs = get_cmfs(cmfs)
@@ -444,17 +437,19 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
     colours = XYZ_to_sRGB(
         wavelength_to_XYZ(wavelengths, cmfs),
         ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['E'],
-        apply_OECF=False)
+        apply_encoding_cctf=False)
 
     if not out_of_gamut_clipping:
         colours += np.abs(np.min(colours))
 
-    colours = DEFAULT_PLOTTING_OECF(normalise(colours))
+    colours = DEFAULT_PLOTTING_ENCODING_CCTF(normalise_maximum(colours))
 
     settings = {
         'title': 'The Visible Spectrum - {0}'.format(cmfs.title),
         'x_label': 'Wavelength $\\lambda$ (nm)',
-        'x_tighten': True}
+        'y_label': False,
+        'x_tighten': True,
+        'y_ticker': False}
     settings.update(kwargs)
 
     return colour_parameters_plot([ColourParameter(x=x[0], RGB=x[1])
@@ -475,13 +470,12 @@ def single_lightness_function_plot(function='CIE 1976', **kwargs):
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> single_lightness_function_plot()  # doctest: +SKIP
-    True
     """
 
     settings = {
@@ -504,8 +498,8 @@ def multi_lightness_function_plot(functions=None, **kwargs):
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Raises
     ------
@@ -517,7 +511,6 @@ def multi_lightness_function_plot(functions=None, **kwargs):
     --------
     >>> fs = ('CIE 1976', 'Wyszecki 1963')
     >>> multi_lightness_function_plot(fs)  # doctest: +SKIP
-    True
     """
 
     settings = {
@@ -545,8 +538,8 @@ def multi_lightness_function_plot(functions=None, **kwargs):
 
     settings.update({
         'title': '{0} - Lightness Functions'.format(', '.join(functions)),
-        'x_label': 'Luminance Y',
-        'y_label': 'Lightness L*',
+        'x_label': 'Relative Luminance Y',
+        'y_label': 'Lightness',
         'x_tighten': True,
         'legend': True,
         'legend_location': 'upper left',
@@ -582,13 +575,12 @@ def blackbody_spectral_radiance_plot(
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> blackbody_spectral_radiance_plot()  # doctest: +SKIP
-    True
     """
 
     canvas(**kwargs)
@@ -611,7 +603,7 @@ def blackbody_spectral_radiance_plot(
     single_spd_plot(spd, cmfs.name, **settings)
 
     XYZ = spectral_to_XYZ(spd, cmfs)
-    RGB = normalise(XYZ_to_sRGB(XYZ / 100))
+    RGB = normalise_maximum(XYZ_to_sRGB(XYZ / 100))
 
     matplotlib.pyplot.subplot(212)
 
@@ -649,13 +641,12 @@ def blackbody_colours_plot(shape=SpectralShape(150, 12500, 50),
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> blackbody_colours_plot()  # doctest: +SKIP
-    True
     """
 
     cmfs = get_cmfs(cmfs)
@@ -667,7 +658,7 @@ def blackbody_colours_plot(shape=SpectralShape(150, 12500, 50),
         spd = blackbody_spd(temperature, cmfs.shape)
 
         XYZ = spectral_to_XYZ(spd, cmfs)
-        RGB = normalise(XYZ_to_sRGB(XYZ / 100))
+        RGB = normalise_maximum(XYZ_to_sRGB(XYZ / 100))
 
         colours.append(RGB)
         temperatures.append(temperature)

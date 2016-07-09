@@ -64,23 +64,23 @@ class TestRGB_colourspaceLimits(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             RGB_colourspace_limits(REC_709_COLOURSPACE),
-            np.array([[0., 100.],
-                      [-79.22637417, 94.66574917],
-                      [-114.78462716, 96.71351991]]),
+            np.array([[0.00000000, 100.00000000],
+                      [-79.21854477, 94.65669508],
+                      [-114.78759841, 96.72026446]]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             RGB_colourspace_limits(REC_2020_COLOURSPACE),
-            np.array([[0., 100.],
-                      [-159.61691594, 127.33819164],
-                      [-129.73792222, 142.12971261]]),
+            np.array([[0.00000000, 100.00000000],
+                      [-159.59726205, 127.32669335],
+                      [-129.74325643, 142.13784519]]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             RGB_colourspace_limits(ACES_2065_1_COLOURSPACE),
-            np.array([[-79.44256015, 103.30554311],
-                      [-461.8341805, 176.445741],
-                      [-309.6704667, 184.8212395]]),
+            np.array([[-79.45116285, 103.30589122],
+                      [-461.76531700, 176.36321555],
+                      [-309.68548384, 184.82616441]]),
             decimal=7)
 
 
@@ -102,7 +102,7 @@ class TestRGB_colourspaceVolumeMonteCarlo(unittest.TestCase):
                 10e3,
                 random_state=np.random.RandomState(2),
                 processes=1),
-            859500.0)
+            858600.0)
 
 
 class TestRGB_colourspace_volume_coverage_MonteCarlo(unittest.TestCase):
@@ -123,7 +123,7 @@ RGB_colourspace_volume_coverage_MonteCarlo` definition.
                 is_within_pointer_gamut,
                 10e3,
                 random_state=np.random.RandomState(2)),
-            83.02013422818791,
+            83.02013423,
             decimal=7)
 
 
@@ -145,7 +145,7 @@ RGB_colourspace_pointer_gamut_coverage_MonteCarlo` definition.
                 REC_709_COLOURSPACE,
                 10e3,
                 random_state=np.random.RandomState(2)),
-            83.02013422818791,
+            83.02013423,
             decimal=7)
 
 
@@ -167,7 +167,7 @@ RGB_colourspace_visible_spectrum_coverage_MonteCarlo` definition.
                 REC_709_COLOURSPACE,
                 10e3,
                 random_state=np.random.RandomState(2)),
-            36.48383937316356,
+            36.48383937,
             decimal=7)
 
 

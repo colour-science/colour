@@ -52,10 +52,22 @@ Special Mentions
 
 -   **Aurélia Sellier**, *Line Producer @ Cube Creative*
 
+Others
+------
+
+-   Nick Spiker
+-   fangjy88
+-   henczati
+-   Nick-Shaw
+-   Ron024
+-   scooperly
+-   sobotka
+-   zachlewis
+
 About
 -----
 
-| **Colour** by Colour Developers - 2013 - 2015
-| Copyright © 2013 - 2015 – Colour Developers – `colour-science@googlegroups.com <colour-science@googlegroups.com>`_
+| **Colour** by Colour Developers - 2013-2016
+| Copyright © 2013-2016 – Colour Developers – `colour-science@googlegroups.com <colour-science@googlegroups.com>`_
 | This software is released under terms of New BSD License: http://opensource.org/licenses/BSD-3-Clause
 | `http://github.com/colour-science/colour <http://github.com/colour-science/colour>`_

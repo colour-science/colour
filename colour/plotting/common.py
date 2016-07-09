@@ -39,7 +39,7 @@ from colour.models import RGB_COLOURSPACES
 from colour.utilities import Structure
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -55,7 +55,7 @@ __all__ = ['PLOTTING_RESOURCES_DIRECTORY',
            'DEFAULT_HATCH_PATTERNS',
            'DEFAULT_PARAMETERS',
            'DEFAULT_PLOTTING_ILLUMINANT',
-           'DEFAULT_PLOTTING_OECF',
+           'DEFAULT_PLOTTING_ENCODING_CCTF',
            'ColourParameter',
            'colour_cycle',
            'canvas',
@@ -128,7 +128,7 @@ DEFAULT_COLOUR_CYCLE = ('r', 'g', 'b', 'c', 'm', 'y', 'k')
 Default colour cycle for plots.
 
 DEFAULT_COLOUR_CYCLE : tuple
-{'r', 'g', 'b', 'c', 'm', 'y', 'k'}
+**{'r', 'g', 'b', 'c', 'm', 'y', 'k'}**
 """
 
 DEFAULT_HATCH_PATTERNS = ('\\\\', 'o', 'x', '.', '*', '//')
@@ -164,11 +164,12 @@ Default plotting illuminant: *CIE Illuminant D Series* *D65*.
 DEFAULT_PLOTTING_ILLUMINANT : tuple
 """
 
-DEFAULT_PLOTTING_OECF = RGB_COLOURSPACES['sRGB'].OECF
+DEFAULT_PLOTTING_ENCODING_CCTF = RGB_COLOURSPACES['sRGB'].encoding_cctf
 """
-Default plotting OECF / opto-electronic conversion function: *sRGB*.
+Default plotting encoding colour component transfer function / opto-electronic
+transfer function: *sRGB*.
 
-DEFAULT_PLOTTING_OECF : object
+DEFAULT_PLOTTING_ENCODING_CCTF : object
 """
 
 
@@ -277,8 +278,8 @@ def camera(**kwargs):
 
     Returns
     -------
-    bool
-        Definition success.
+    Axes
+        Current axes.
     """
 
     settings = Structure(
@@ -293,7 +294,7 @@ def camera(**kwargs):
 
     axes.view_init(elev=settings.elevation, azim=settings.azimuth)
 
-    return True
+    return axes
 
 
 def decorate(**kwargs):
@@ -306,7 +307,7 @@ def decorate(**kwargs):
         **{'title', 'x_label', 'y_label', 'legend', 'legend_columns',
         'legend_location', 'x_ticker', 'y_ticker', 'x_ticker_locator',
         'y_ticker_locator', 'grid', 'grid_which', 'grid_axis', 'x_axis_line',
-        'y_axis_line', 'aspect', 'no_axes3d'}**
+        'y_axis_line', 'aspect', 'no_axes'}**
         Keywords arguments such as ``{'title': unicode (figure title),
         'x_label': unicode (X axis label), 'y_label': unicode (Y axis label),
         'legend': bool, 'legend_columns': int, 'legend_location': unicode
@@ -314,12 +315,12 @@ def decorate(**kwargs):
         'x_ticker_locator': Locator, 'y_ticker_locator': Locator, 'grid': bool,
         'grid_which': unicode, 'grid_axis': unicode, 'x_axis_line': bool,
         'y_axis_line': bool, 'aspect': unicode (Matplotlib axes aspect),
-        'no_axes3d': bool}``
+        'no_axes': bool}``
 
     Returns
     -------
-    bool
-        Definition success.
+    Axes
+        Current axes.
     """
 
     settings = Structure(
@@ -339,7 +340,7 @@ def decorate(**kwargs):
            'x_axis_line': False,
            'y_axis_line': False,
            'aspect': None,
-           'no_axes3d': False})
+           'no_axes': False})
     settings.update(kwargs)
 
     axes = matplotlib.pyplot.gca()
@@ -370,10 +371,10 @@ def decorate(**kwargs):
         pylab.axhline(color='black', linestyle='--')
     if settings.aspect:
         matplotlib.pyplot.axes().set_aspect(settings.aspect)
-    if settings.no_axes3d:
+    if settings.no_axes:
         axes.set_axis_off()
 
-    return True
+    return axes
 
 
 def boundaries(**kwargs):
@@ -391,8 +392,8 @@ def boundaries(**kwargs):
 
     Returns
     -------
-    bool
-        Definition success.
+    Axes
+        Current axes.
     """
 
     settings = Structure(
@@ -403,6 +404,7 @@ def boundaries(**kwargs):
            'margins': (0, 0, 0, 0)})
     settings.update(kwargs)
 
+    axes = matplotlib.pyplot.gca()
     if settings.bounding_box is None:
         x_limit_min, x_limit_max, y_limit_min, y_limit_max = (
             settings.limits)
@@ -416,7 +418,7 @@ def boundaries(**kwargs):
         pylab.xlim(settings.bounding_box[0], settings.bounding_box[1])
         pylab.ylim(settings.bounding_box[2], settings.bounding_box[3])
 
-    return True
+    return axes
 
 
 def display(**kwargs):
@@ -432,8 +434,8 @@ def display(**kwargs):
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
     """
 
     settings = Structure(
@@ -441,6 +443,7 @@ def display(**kwargs):
            'filename': None})
     settings.update(kwargs)
 
+    figure = matplotlib.pyplot.gcf()
     if settings.standalone:
         if settings.filename is not None:
             pylab.savefig(**kwargs)
@@ -448,7 +451,9 @@ def display(**kwargs):
             pylab.show()
         pylab.close()
 
-    return True
+        return None
+    else:
+        return figure
 
 
 def label_rectangles(rectangles,
@@ -639,8 +644,8 @@ def colour_parameters_plot(colour_parameters,
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
@@ -656,7 +661,6 @@ def colour_parameters_plot(colour_parameters,
     ...     x=394, RGB=[0.04535085, 0, 0.15986838], y0=0, y1=-.25)
     >>> colour_parameters_plot(
     ...     [cp1, cp2, cp3, cp3, cp4, cp5])  # doctest: +SKIP
-    True
     """
 
     canvas(**kwargs)
@@ -733,14 +737,13 @@ def single_colour_plot(colour_parameter, **kwargs):
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> RGB = (0.32315746, 0.32983556, 0.33640183)
     >>> single_colour_plot(ColourParameter(RGB))  # doctest: +SKIP
-    True
     """
 
     return multi_colour_plot((colour_parameter,), **kwargs)
@@ -781,15 +784,14 @@ def multi_colour_plot(colour_parameters,
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> cp1 = ColourParameter(RGB=(0.45293517, 0.31732158, 0.26414773))
     >>> cp2 = ColourParameter(RGB=(0.77875824, 0.57726450, 0.50453169))
     >>> multi_colour_plot([cp1, cp2])  # doctest: +SKIP
-    True
     """
 
     canvas(**kwargs)
@@ -869,8 +871,8 @@ def image_plot(image,
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
@@ -882,7 +884,6 @@ def image_plot(image,
     ...     '_CIE_1931_2_Degree_Standard_Observer.png'))
     >>> image = read_image(path)  # doctest: +SKIP
     >>> image_plot(image)  # doctest: +SKIP
-    True
     """
 
     image = np.asarray(image)
@@ -902,9 +903,8 @@ def image_plot(image,
 
     settings = {'x_ticker': False,
                 'y_ticker': False,
-                'bounding_box': (0, 1, 0, 1),
-                'bbox_inches': 'tight',
-                'pad_inches': 0}
+                'no_axes': True,
+                'bounding_box': (0, 1, 0, 1)}
     settings.update(kwargs)
 
     canvas(**settings)

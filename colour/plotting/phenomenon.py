@@ -34,10 +34,10 @@ from colour.plotting import (
     get_cmfs,
     single_colour_plot,
     single_spd_plot)
-from colour.utilities import normalise
+from colour.utilities import normalise_maximum
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -76,13 +76,12 @@ def single_rayleigh_scattering_spd_plot(
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> single_rayleigh_scattering_spd_plot()  # doctest: +SKIP
-    True
     """
 
     title = 'Rayleigh Scattering'
@@ -119,13 +118,12 @@ def the_blue_sky_plot(
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> the_blue_sky_plot()  # doctest: +SKIP
-    True
     """
 
     canvas(**kwargs)
@@ -165,7 +163,7 @@ def the_blue_sky_plot(
         'standalone': False}
 
     blue_sky_color = XYZ_to_sRGB(spectral_to_XYZ(spd))
-    single_colour_plot(ColourParameter('', normalise(blue_sky_color)),
+    single_colour_plot(ColourParameter('', normalise_maximum(blue_sky_color)),
                        **settings)
 
     settings = {'standalone': True}

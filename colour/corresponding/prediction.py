@@ -10,7 +10,7 @@ Defines objects to compute corresponding chromaticities prediction.
 See Also
 --------
 `Corresponding Chromaticities Prediction IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/corresponding/prediction.ipynb>`_
 
 References
@@ -39,10 +39,10 @@ from colour.models import (
     XYZ_to_Luv,
     XYZ_to_xy,
     xy_to_XYZ)
-from colour.utilities import CaseInsensitiveMapping
+from colour.utilities import CaseInsensitiveMapping, filter_kwargs
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -53,7 +53,8 @@ __all__ = ['CorrespondingChromaticitiesPrediction',
            'corresponding_chromaticities_prediction_CMCCAT2000',
            'corresponding_chromaticities_prediction_Fairchild1990',
            'corresponding_chromaticities_prediction_VonKries',
-           'CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS']
+           'CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS',
+           'corresponding_chromaticities_prediction']
 
 
 class CorrespondingChromaticitiesPrediction(
@@ -75,7 +76,7 @@ class CorrespondingChromaticitiesPrediction(
     """
 
 
-def corresponding_chromaticities_prediction_CIE1994(experiment=1, **kwargs):
+def corresponding_chromaticities_prediction_CIE1994(experiment=1):
     """
     Returns the corresponding chromaticities prediction for CIE 1994
     chromatic adaptation model.
@@ -85,8 +86,6 @@ def corresponding_chromaticities_prediction_CIE1994(experiment=1, **kwargs):
     experiment : integer, optional
         {1, 2, 3, 4, 6, 8, 9, 11, 12}
         Breneman (1987) experiment number.
-    \**kwargs : dict, optional
-        Keywords arguments.
 
     Returns
     -------
@@ -99,18 +98,18 @@ def corresponding_chromaticities_prediction_CIE1994(experiment=1, **kwargs):
     >>> pr = corresponding_chromaticities_prediction_CIE1994(2)
     >>> pr = [(p.uvp_m, p.uvp_p) for p in pr]
     >>> pprint(pr)  # doctest: +SKIP
-    [((0.207, 0.486), (0.21339093279517196, 0.49397945742298016)),
-     ((0.449, 0.511), (0.4450345313098153, 0.5120939085633327)),
-     ((0.263, 0.505), (0.26932620724691858, 0.50832124608390727)),
-     ((0.322, 0.545), (0.33085939370840811, 0.54439408389253441)),
-     ((0.316, 0.537), (0.3225195584183046, 0.53778269440789594)),
-     ((0.265, 0.553), (0.2709737181087471, 0.5513666373694861)),
-     ((0.221, 0.538), (0.22807869730753863, 0.53515923458385406)),
-     ((0.135, 0.532), (0.14394366662060523, 0.53035769204585748)),
-     ((0.145, 0.472), (0.15007438031976222, 0.48428958620888679)),
-     ((0.163, 0.331), (0.15599555781959967, 0.37723798698131394)),
-     ((0.176, 0.431), (0.18063180902005657, 0.45184759430042898)),
-     ((0.244, 0.349), (0.24544456656434688, 0.40180048388092021))]
+    [((0.207, 0.486), (0.2133909..., 0.4939794...)),
+     ((0.449, 0.511), (0.4450345..., 0.5120939...)),
+     ((0.263, 0.505), (0.2693262..., 0.5083212...)),
+     ((0.322, 0.545), (0.3308593..., 0.5443940...)),
+     ((0.316, 0.537), (0.3225195..., 0.5377826...)),
+     ((0.265, 0.553), (0.2709737..., 0.5513666...)),
+     ((0.221, 0.538), (0.2280786..., 0.5351592...)),
+     ((0.135, 0.532), (0.1439436..., 0.5303576...)),
+     ((0.145, 0.472), (0.1500743..., 0.4842895...)),
+     ((0.163, 0.331), (0.1559955..., 0.3772379...)),
+     ((0.176, 0.431), (0.1806318..., 0.4518475...)),
+     ((0.244, 0.349), (0.2454445..., 0.4018004...))]
     """
 
     experiment_results = list(BRENEMAN_EXPERIMENTS.get(experiment))
@@ -138,7 +137,7 @@ def corresponding_chromaticities_prediction_CIE1994(experiment=1, **kwargs):
     return tuple(prediction)
 
 
-def corresponding_chromaticities_prediction_CMCCAT2000(experiment=1, **kwargs):
+def corresponding_chromaticities_prediction_CMCCAT2000(experiment=1):
     """
     Returns the corresponding chromaticities prediction for CMCCAT2000
     chromatic adaptation model.
@@ -148,8 +147,6 @@ def corresponding_chromaticities_prediction_CMCCAT2000(experiment=1, **kwargs):
     experiment : integer, optional
         {1, 2, 3, 4, 6, 8, 9, 11, 12}
         Breneman (1987) experiment number.
-    \**kwargs : dict, optional
-        Keywords arguments.
 
     Returns
     -------
@@ -162,18 +159,18 @@ def corresponding_chromaticities_prediction_CMCCAT2000(experiment=1, **kwargs):
     >>> pr = corresponding_chromaticities_prediction_CMCCAT2000(2)
     >>> pr = [(p.uvp_m, p.uvp_p) for p in pr]
     >>> pprint(pr)  # doctest: +SKIP
-    [((0.207, 0.486), (0.20832101929657834, 0.47271680534693694)),
-     ((0.449, 0.511), (0.44592707020371486, 0.50777351504395707)),
-     ((0.263, 0.505), (0.26402624712986333, 0.4955361681706304)),
-     ((0.322, 0.545), (0.33168840090358015, 0.54315801981008516)),
-     ((0.316, 0.537), (0.32226245779851387, 0.53576245377085929)),
-     ((0.265, 0.553), (0.27107058097430181, 0.5501997842556422)),
-     ((0.221, 0.538), (0.22618269421847523, 0.52947407170848704)),
-     ((0.135, 0.532), (0.14396930475660724, 0.51909841743126817)),
-     ((0.145, 0.472), (0.14948357434418671, 0.45567605010224305)),
-     ((0.163, 0.331), (0.15631720730028753, 0.31641514460738623)),
-     ((0.176, 0.431), (0.17631993066748047, 0.41275893424542082)),
-     ((0.244, 0.349), (0.22876382018951744, 0.3499324084859976))]
+    [((0.207, 0.486), (0.2083210..., 0.4727168...)),
+     ((0.449, 0.511), (0.4459270..., 0.5077735...)),
+     ((0.263, 0.505), (0.2640262..., 0.4955361...)),
+     ((0.322, 0.545), (0.3316884..., 0.5431580...)),
+     ((0.316, 0.537), (0.3222624..., 0.5357624...)),
+     ((0.265, 0.553), (0.2710705..., 0.5501997...)),
+     ((0.221, 0.538), (0.2261826..., 0.5294740...)),
+     ((0.135, 0.532), (0.1439693..., 0.5190984...)),
+     ((0.145, 0.472), (0.1494835..., 0.4556760...)),
+     ((0.163, 0.331), (0.1563172..., 0.3164151...)),
+     ((0.176, 0.431), (0.1763199..., 0.4127589...)),
+     ((0.244, 0.349), (0.2287638..., 0.3499324...))]
     """
 
     experiment_results = list(BRENEMAN_EXPERIMENTS.get(experiment))
@@ -200,8 +197,7 @@ def corresponding_chromaticities_prediction_CMCCAT2000(experiment=1, **kwargs):
     return tuple(prediction)
 
 
-def corresponding_chromaticities_prediction_Fairchild1990(experiment=1,
-                                                          **kwargs):
+def corresponding_chromaticities_prediction_Fairchild1990(experiment=1):
     """
     Returns the corresponding chromaticities prediction for Fairchild (1990)
     chromatic adaptation model.
@@ -211,8 +207,6 @@ def corresponding_chromaticities_prediction_Fairchild1990(experiment=1,
     experiment : integer, optional
         {1, 2, 3, 4, 6, 8, 9, 11, 12}
         Breneman (1987) experiment number.
-    \**kwargs : dict, optional
-        Keywords arguments.
 
     Returns
     -------
@@ -225,18 +219,18 @@ def corresponding_chromaticities_prediction_Fairchild1990(experiment=1,
     >>> pr = corresponding_chromaticities_prediction_Fairchild1990(2)
     >>> pr = [(p.uvp_m, p.uvp_p) for p in pr]
     >>> pprint(pr)  # doctest: +SKIP
-    [((0.207, 0.486), (0.2089528677990308, 0.47240345174230519)),
-     ((0.449, 0.511), (0.43756528098582792, 0.51210303139041924)),
-     ((0.263, 0.505), (0.26213623665658092, 0.49725385033264224)),
-     ((0.322, 0.545), (0.3235312762825191, 0.54756652922585702)),
-     ((0.316, 0.537), (0.3151390992740366, 0.53983332031574016)),
-     ((0.265, 0.553), (0.26347459238415272, 0.55443357809543037)),
-     ((0.221, 0.538), (0.22115956537655593, 0.53244703908294599)),
-     ((0.135, 0.532), (0.13969494108553854, 0.52072342107668024)),
-     ((0.145, 0.472), (0.1512288710743511, 0.45330415352961834)),
-     ((0.163, 0.331), (0.17156913711903982, 0.30262647410866889)),
-     ((0.176, 0.431), (0.18257922398137369, 0.40778921192793854)),
-     ((0.244, 0.349), (0.24189049501108895, 0.34134012046930529))]
+    [((0.207, 0.486), (0.2089528..., 0.4724034...)),
+     ((0.449, 0.511), (0.4375652..., 0.5121030...)),
+     ((0.263, 0.505), (0.2621362..., 0.4972538...)),
+     ((0.322, 0.545), (0.3235312..., 0.5475665...)),
+     ((0.316, 0.537), (0.3151390..., 0.5398333...)),
+     ((0.265, 0.553), (0.2634745..., 0.5544335...)),
+     ((0.221, 0.538), (0.2211595..., 0.5324470...)),
+     ((0.135, 0.532), (0.1396949..., 0.5207234...)),
+     ((0.145, 0.472), (0.1512288..., 0.4533041...)),
+     ((0.163, 0.331), (0.1715691..., 0.3026264...)),
+     ((0.176, 0.431), (0.1825792..., 0.4077892...)),
+     ((0.244, 0.349), (0.2418904..., 0.3413401...))]
     """
 
     experiment_results = list(BRENEMAN_EXPERIMENTS.get(experiment))
@@ -275,7 +269,7 @@ def corresponding_chromaticities_prediction_VonKries(experiment=1,
         Breneman (1987) experiment number.
     transform : unicode, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
-        'Fairchild, 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
+        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
         'Bianco PC'}**,
         Chromatic adaptation transform.
 
@@ -290,18 +284,18 @@ def corresponding_chromaticities_prediction_VonKries(experiment=1,
     >>> pr = corresponding_chromaticities_prediction_VonKries(2, 'Bradford')
     >>> pr = [(p.uvp_m, p.uvp_p) for p in pr]
     >>> pprint(pr)  # doctest: +SKIP
-    [((0.207, 0.486), (0.20820148430638033, 0.47229226819364528)),
-     ((0.449, 0.511), (0.44891022948064191, 0.50716028901449561)),
-     ((0.263, 0.505), (0.26435459360846608, 0.49596314494922683)),
-     ((0.322, 0.545), (0.33487309037107632, 0.54712207251983425)),
-     ((0.316, 0.537), (0.32487581236911361, 0.53905899356457776)),
-     ((0.265, 0.553), (0.27331050571632376, 0.55550280647813977)),
-     ((0.221, 0.538), (0.22714800102072819, 0.53313179748041983)),
-     ((0.135, 0.532), (0.14427303768336433, 0.52268044497913713)),
-     ((0.145, 0.472), (0.14987451889726533, 0.45507852741116867)),
-     ((0.163, 0.331), (0.15649757464732098, 0.31487959772753954)),
-     ((0.176, 0.431), (0.17605936460371163, 0.41037722722471409)),
-     ((0.244, 0.349), (0.22598059059292835, 0.34652914678030416))]
+    [((0.207, 0.486), (0.2082014..., 0.4722922...)),
+     ((0.449, 0.511), (0.4489102..., 0.5071602...)),
+     ((0.263, 0.505), (0.2643545..., 0.4959631...)),
+     ((0.322, 0.545), (0.3348730..., 0.5471220...)),
+     ((0.316, 0.537), (0.3248758..., 0.5390589...)),
+     ((0.265, 0.553), (0.2733105..., 0.5555028...)),
+     ((0.221, 0.538), (0.2271480..., 0.5331317...)),
+     ((0.135, 0.532), (0.1442730..., 0.5226804...)),
+     ((0.145, 0.472), (0.1498745..., 0.4550785...)),
+     ((0.163, 0.331), (0.1564975..., 0.3148795...)),
+     ((0.176, 0.431), (0.1760593..., 0.4103772...)),
+     ((0.244, 0.349), (0.2259805..., 0.3465291...))]
     """
 
     experiment_results = list(BRENEMAN_EXPERIMENTS.get(experiment))
@@ -343,3 +337,53 @@ Aliases:
 """
 CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS['vonkries'] = (
     CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS['Von Kries'])
+
+
+def corresponding_chromaticities_prediction(experiment=1,
+                                            model='Von Kries',
+                                            **kwargs):
+    """
+    Returns the corresponding chromaticities prediction for given chromatic
+    adaptation model.
+
+    Parameters
+    ----------
+    experiment : integer, optional
+        {1, 2, 3, 4, 6, 8, 9, 11, 12}
+        Breneman (1987) experiment number.
+    model : unicode, optional
+        **{'Von Kries', 'CIE 1994', 'CMCCAT2000', 'Fairchild 1990'}**,
+        Chromatic adaptation model.
+    \**kwargs : dict, optional
+        Keywords arguments.
+
+    Returns
+    -------
+    tuple
+        Corresponding chromaticities prediction.
+
+    Examples
+    --------
+    >>> from pprint import pprint
+    >>> pr = corresponding_chromaticities_prediction(2, 'CMCCAT2000')
+    >>> pr = [(p.uvp_m, p.uvp_p) for p in pr]
+    >>> pprint(pr)  # doctest: +SKIP
+    [((0.207, 0.486), (0.2083210..., 0.4727168...)),
+     ((0.449, 0.511), (0.4459270..., 0.5077735...)),
+     ((0.263, 0.505), (0.2640262..., 0.4955361...)),
+     ((0.322, 0.545), (0.3316884..., 0.5431580...)),
+     ((0.316, 0.537), (0.3222624..., 0.5357624...)),
+     ((0.265, 0.553), (0.2710705..., 0.5501997...)),
+     ((0.221, 0.538), (0.2261826..., 0.5294740...)),
+     ((0.135, 0.532), (0.1439693..., 0.5190984...)),
+     ((0.145, 0.472), (0.1494835..., 0.4556760...)),
+     ((0.163, 0.331), (0.1563172..., 0.3164151...)),
+     ((0.176, 0.431), (0.1763199..., 0.4127589...)),
+     ((0.244, 0.349), (0.2287638..., 0.3499324...))]
+    """
+
+    function = CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS[model]
+
+    filter_kwargs(function, **kwargs)
+
+    return function(experiment, **kwargs)

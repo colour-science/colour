@@ -12,17 +12,27 @@ from __future__ import division, unicode_literals
 
 from itertools import chain
 from textwrap import TextWrapper
-from warnings import warn
+from warnings import filterwarnings, warn
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['message_box',
-           'warning']
+__all__ = ['ColourWarning',
+           'message_box',
+           'warning',
+           'filter_warnings']
+
+
+class ColourWarning(Warning):
+    """
+    This is the base class of *Colour* warnings. It is a subclass of `Warning`.
+    """
+
+    pass
 
 
 def message_box(message, width=79, padding=3):
@@ -78,17 +88,20 @@ def message_box(message, width=79, padding=3):
     """
 
     ideal_width = width - padding * 2 - 2
-    inner = lambda text: '*{0}{1}{2}{0}*'.format(
-        ' ' * padding,
-        text,
-        (' ' * (width - len(text) - padding * 2 - 2)))
+
+    def inner(text):
+        """
+        Formats and pads inner text for the message box.
+        """
+
+        return '*{0}{1}{2}{0}*'.format(
+            ' ' * padding, text, (' ' * (width - len(text) - padding * 2 - 2)))
 
     print('=' * width)
     print(inner(''))
 
-    wrapper = TextWrapper(width=ideal_width,
-                          break_long_words=False,
-                          replace_whitespace=False)
+    wrapper = TextWrapper(
+        width=ideal_width, break_long_words=False, replace_whitespace=False)
 
     lines = [wrapper.wrap(line) for line in message.split("\n")]
     lines = [' ' if len(line) == 0 else line for line in lines]
@@ -118,9 +131,46 @@ def warning(*args, **kwargs):
 
     Examples
     --------
-    >>> colour.utilities.warning('This is a warning!')  # doctest: +SKIP
-    /Users/.../colour/utilities/verbose.py:42: UserWarning: This is a warning!
+    >>> warning('This is a warning!')  # doctest: +SKIP
+    /Users/.../colour/utilities/verbose.py:132: UserWarning: This is a warning!
     """
 
+    kwargs['category'] = ColourWarning
     warn(*args, **kwargs)
+
+    return True
+
+
+def filter_warnings(state=True, colour_warnings_only=True):
+    """
+    Filters *Colour* and also optionally overall Python warnings.
+
+    Parameters
+    ----------
+    state : bool, optional
+        Warnings filter state.
+    colour_warnings_only : bool, optional
+        Whether to only filter *Colour* warnings or also overall Python
+        warnings.
+
+    Returns
+    -------
+    bool
+        Definition success.
+
+    Examples
+    --------
+    # Filtering *Colour* only warnings:
+    >>> filter_warnings()
+    True
+
+    # Filtering *Colour* and also Python warnings:
+    >>> filter_warnings(colour_warnings_only=False)
+    True
+    """
+
+    filterwarnings(
+        'ignore' if state else 'default',
+        category=ColourWarning if colour_warnings_only else Warning)
+
     return True

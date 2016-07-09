@@ -23,7 +23,7 @@ from collections import Mapping, MutableMapping
 from colour.utilities import is_numeric
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -76,8 +76,8 @@ class ArbitraryPrecisionMapping(MutableMapping):
     """
 
     def __init__(self, data=None, key_decimals=0, **kwargs):
-        self.__data = dict()
-        self.__key_decimals = None
+        self._data = dict()
+        self._key_decimals = None
         self.key_decimals = key_decimals
 
         if data is None:
@@ -88,20 +88,20 @@ class ArbitraryPrecisionMapping(MutableMapping):
     @property
     def key_decimals(self):
         """
-        Property for **self.__key_decimals** private attribute.
+        Property for **self._key_decimals** private attribute.
 
         Returns
         -------
         unicode
-            self.__key_decimals.
+            self._key_decimals.
         """
 
-        return self.__key_decimals
+        return self._key_decimals
 
     @key_decimals.setter
     def key_decimals(self, value):
         """
-        Setter for **self.__key_decimals** private attribute.
+        Setter for **self._key_decimals** private attribute.
 
         Parameters
         ----------
@@ -113,9 +113,9 @@ class ArbitraryPrecisionMapping(MutableMapping):
             assert isinstance(value, int), (
                 '"{0}" attribute: "{1}" is not a "int" instance!').format(
                 'key_decimals', value)
-        self.__key_decimals = value
+        self._key_decimals = value
 
-    def __round(self, item):
+    def _round(self, item):
         """
         Rounds given item if numeric.
 
@@ -135,7 +135,7 @@ class ArbitraryPrecisionMapping(MutableMapping):
         """
 
         if is_numeric(item):
-            return round(item, self.__key_decimals)
+            return round(item, self._key_decimals)
         else:
             return item
 
@@ -160,7 +160,7 @@ class ArbitraryPrecisionMapping(MutableMapping):
         -   Reimplements the :meth:`MutableMapping.__setitem__` method.
         """
 
-        self.__data[self.__round(item)] = value
+        self._data[self._round(item)] = value
 
     def __getitem__(self, item):
         """
@@ -181,7 +181,7 @@ class ArbitraryPrecisionMapping(MutableMapping):
         -   Reimplements the :meth:`MutableMapping.__getitem__` method.
         """
 
-        return self.__data[self.__round(item)]
+        return self._data[self._round(item)]
 
     def __delitem__(self, item):
         """
@@ -197,7 +197,7 @@ class ArbitraryPrecisionMapping(MutableMapping):
         -   Reimplements the :meth:`MutableMapping.__delitem__` method.
         """
 
-        del self.__data[self.__round(item)]
+        del self._data[self._round(item)]
 
     def __contains__(self, item):
         """
@@ -218,7 +218,7 @@ class ArbitraryPrecisionMapping(MutableMapping):
         -   Reimplements the :meth:`MutableMapping.__contains__` method.
         """
 
-        return self.__round(item) in self.__data
+        return self._round(item) in self._data
 
     def __iter__(self):
         """
@@ -234,7 +234,7 @@ class ArbitraryPrecisionMapping(MutableMapping):
         -   Reimplements the :meth:`MutableMapping.__iter__` method.
         """
 
-        return iter(self.__data)
+        return iter(self._data)
 
     def __len__(self):
         """
@@ -250,7 +250,7 @@ class ArbitraryPrecisionMapping(MutableMapping):
         -   Reimplements the :meth:`MutableMapping.__iter__` method.
         """
 
-        return len(self.__data)
+        return len(self._data)
 
 
 class Structure(dict):
@@ -491,7 +491,7 @@ blob/v1.2.3/requests/structures.py#L37
     """
 
     def __init__(self, data=None, **kwargs):
-        self.__data = dict()
+        self._data = dict()
 
         if data is None:
             data = {}
@@ -519,7 +519,7 @@ blob/v1.2.3/requests/structures.py#L37
         -   Reimplements the :meth:`MutableMapping.__setitem__` method.
         """
 
-        self.__data[item.lower()] = (item, value)
+        self._data[item.lower()] = (item, value)
 
     def __getitem__(self, item):
         """
@@ -542,7 +542,7 @@ blob/v1.2.3/requests/structures.py#L37
         -   Reimplements the :meth:`MutableMapping.__getitem__` method.
         """
 
-        return self.__data[item.lower()][1]
+        return self._data[item.lower()][1]
 
     def __delitem__(self, item):
         """
@@ -560,7 +560,7 @@ blob/v1.2.3/requests/structures.py#L37
         -   Reimplements the :meth:`MutableMapping.__delitem__` method.
         """
 
-        del self.__data[item.lower()]
+        del self._data[item.lower()]
 
     def __contains__(self, item):
         """
@@ -581,7 +581,7 @@ blob/v1.2.3/requests/structures.py#L37
         -   Reimplements the :meth:`MutableMapping.__contains__` method.
         """
 
-        return item.lower() in self.__data
+        return item.lower() in self._data
 
     def __iter__(self):
         """
@@ -599,7 +599,7 @@ blob/v1.2.3/requests/structures.py#L37
         -   Reimplements the :meth:`MutableMapping.__iter__` method.
         """
 
-        return (item for item, value in self.__data.values())
+        return (item for item, value in self._data.values())
 
     def __len__(self):
         """
@@ -615,7 +615,7 @@ blob/v1.2.3/requests/structures.py#L37
         -   Reimplements the :meth:`MutableMapping.__iter__` method.
         """
 
-        return len(self.__data)
+        return len(self._data)
 
     def __eq__(self, item):
         """
@@ -695,7 +695,7 @@ blob/v1.2.3/requests/structures.py#L37
             *copy* not a *deepcopy*.
         """
 
-        return CaseInsensitiveMapping(self.__data.values())
+        return CaseInsensitiveMapping(self._data.values())
 
     def lower_items(self):
         """
@@ -707,4 +707,4 @@ blob/v1.2.3/requests/structures.py#L37
             Lower item names.
         """
 
-        return ((item, value[1]) for (item, value) in self.__data.items())
+        return ((item, value[1]) for (item, value) in self._data.items())

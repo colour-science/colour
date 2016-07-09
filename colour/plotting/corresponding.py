@@ -13,7 +13,7 @@ Defines corresponding chromaticities prediction plotting objects:
 from __future__ import division
 import pylab
 
-from colour.corresponding import CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS
+from colour.corresponding import corresponding_chromaticities_prediction
 from colour.plotting import (
     CIE_1976_UCS_chromaticity_diagram_plot,
     DEFAULT_FIGURE_WIDTH,
@@ -23,47 +23,13 @@ from colour.plotting import (
     display)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['get_corresponding_chromaticities_prediction_model',
-           'corresponding_chromaticities_prediction_plot']
-
-
-def get_corresponding_chromaticities_prediction_model(model):
-    """
-    Returns the corresponding chromaticities prediction model with given name.
-
-    Parameters
-    ----------
-    model : unicode
-        Corresponding chromaticities prediction models name.
-
-    Returns
-    -------
-    object
-        Corresponding chromaticities prediction models.
-
-    Raises
-    ------
-    KeyError
-        If the given corresponding chromaticities prediction model is not found
-        in the factory corresponding chromaticities prediction models.
-    """
-
-    model, name = (
-        CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS.get(model), model)
-    if model is None:
-        models = ', '.join(
-            sorted(CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS.keys()))
-        raise KeyError(
-            ('"{0}" not found in factory corresponding chromaticities '
-             'prediction models: "{1}".').format(name, models))
-
-    return model
+__all__ = ['corresponding_chromaticities_prediction_plot']
 
 
 def corresponding_chromaticities_prediction_plot(
@@ -88,13 +54,12 @@ def corresponding_chromaticities_prediction_plot(
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> corresponding_chromaticities_prediction_plot()  # doctest: +SKIP
-    True
     """
 
     settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
@@ -102,23 +67,21 @@ def corresponding_chromaticities_prediction_plot(
 
     canvas(**settings)
 
-    model, name = (
-        get_corresponding_chromaticities_prediction_model(model), model)
-
     settings.update({
         'title': (('Corresponding Chromaticities Prediction\n{0} ({1}) - '
                    'Experiment {2}\nCIE 1976 UCS Chromaticity Diagram').format(
-            name, transform, experiment)
-            if name.lower() in ('von kries', 'vonkries') else
+            model, transform, experiment)
+            if model.lower() in ('von kries', 'vonkries') else
             ('Corresponding Chromaticities Prediction\n{0} - '
                 'Experiment {1}\nCIE 1976 UCS Chromaticity Diagram').format(
-                    name, experiment)),
+                    model, experiment)),
         'standalone': False})
     settings.update(kwargs)
 
     CIE_1976_UCS_chromaticity_diagram_plot(**settings)
 
-    results = model(experiment, transform=transform)
+    results = corresponding_chromaticities_prediction(
+        experiment, transform=transform)
 
     for result in results:
         name, uvp_t, uvp_m, uvp_p = result
@@ -138,6 +101,7 @@ def corresponding_chromaticities_prediction_plot(
         'y_tighten': True,
         'limits': (-0.1, 0.7, -0.1, 0.7),
         'standalone': True})
+    settings.update(kwargs)
 
     boundaries(**settings)
     decorate(**settings)

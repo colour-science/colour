@@ -10,7 +10,7 @@ Defines objects for reflectance recovery using Smits (1999) method.
 See Also
 --------
 `Smits (1999) - Reflectance Recovery IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/recovery/smits1999.ipynb>`_
 
 References
@@ -32,7 +32,7 @@ from colour.models import (
 from colour.recovery import SMITS_1999_SPDS
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -81,7 +81,7 @@ def XYZ_to_RGB_Smits1999(XYZ, chromatic_adaptation_transform='Bradford'):
         *CIE XYZ* tristimulus values.
     chromatic_adaptation_transform : unicode, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
-        'Fairchild, 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
+        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
         'Bianco PC'}**,
         *Chromatic adaptation* method.
 
@@ -106,7 +106,7 @@ def XYZ_to_RGB_Smits1999(XYZ, chromatic_adaptation_transform='Bradford'):
                       SMITS1999_WHITEPOINT,
                       SMITS1999_XYZ_TO_RGB_MATRIX,
                       chromatic_adaptation_transform,
-                      OECF=None)
+                      encoding_cctf=None)
 
 
 def RGB_to_spectral_Smits1999(RGB):
@@ -127,8 +127,8 @@ def RGB_to_spectral_Smits1999(RGB):
     Examples
     --------
     >>> RGB = np.array([0.02144962, 0.13154603, 0.09287601])
-    >>> RGB_to_spectral_Smits1999(RGB)  # doctest: +ELLIPSIS
-    <...SpectralPowerDistribution object at 0x...>
+    >>> print(RGB_to_spectral_Smits1999(RGB))  # doctest: +ELLIPSIS
+    SpectralPowerDistribution('0 Constant', (380.0, 720.0, 37.7777777...))
     """
 
     white_spd = SMITS_1999_SPDS.get('white').clone()

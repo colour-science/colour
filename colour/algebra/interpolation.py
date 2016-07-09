@@ -13,20 +13,18 @@ Defines classes for interpolating variables.
 -   :class:`CubicSplineInterpolator`: 1-D function cubic spline interpolation.
 -   :class:`PchipInterpolator`: 1-D function piecewise cube Hermite
     interpolation.
+-   :func:`lagrange_coefficients`: Computation of *Lagrange Coefficients*.
 """
 
 from __future__ import division, unicode_literals
 
 import numpy as np
+import scipy.interpolate
 
-from colour.utilities import (
-    as_numeric,
-    is_scipy_installed,
-    steps,
-    warning)
+from colour.utilities import as_numeric, interval
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -35,7 +33,8 @@ __status__ = 'Production'
 __all__ = ['LinearInterpolator',
            'SpragueInterpolator',
            'CubicSplineInterpolator',
-           'PchipInterpolator']
+           'PchipInterpolator',
+           'lagrange_coefficients']
 
 
 class LinearInterpolator(object):
@@ -92,7 +91,7 @@ class LinearInterpolator(object):
         self.__y = None
         self.y = y
 
-        self.__validate_dimensions()
+        self._validate_dimensions()
 
     @property
     def x(self):
@@ -176,11 +175,11 @@ class LinearInterpolator(object):
 
         x = np.atleast_1d(x).astype(np.float_)
 
-        xi = as_numeric(self.__evaluate(x))
+        xi = as_numeric(self._evaluate(x))
 
         return xi
 
-    def __evaluate(self, x):
+    def _evaluate(self, x):
         """
         Performs the interpolating polynomial evaluation at given points.
 
@@ -195,12 +194,12 @@ class LinearInterpolator(object):
             Interpolated points values.
         """
 
-        self.__validate_dimensions()
-        self.__validate_interpolation_range(x)
+        self._validate_dimensions()
+        self._validate_interpolation_range(x)
 
         return np.interp(x, self.__x, self.__y)
 
-    def __validate_dimensions(self):
+    def _validate_dimensions(self):
         """
         Validates variables dimensions to be the same.
         """
@@ -211,7 +210,7 @@ class LinearInterpolator(object):
                  'dimensions: "{0}", "{1}"').format(len(self.__x),
                                                     len(self.__y)))
 
-    def __validate_interpolation_range(self, x):
+    def _validate_interpolation_range(self, x):
         """
         Validates given point to be in interpolation range.
         """
@@ -308,15 +307,15 @@ class SpragueInterpolator(object):
     """
 
     def __init__(self, x=None, y=None):
-        self.__xp = None
-        self.__yp = None
+        self._xp = None
+        self._yp = None
 
         self.__x = None
         self.x = x
         self.__y = None
         self.y = y
 
-        self.__validate_dimensions()
+        self._validate_dimensions()
 
     @property
     def x(self):
@@ -348,14 +347,14 @@ class SpragueInterpolator(object):
             assert value.ndim == 1, (
                 '"x" independent variable must have exactly one dimension!')
 
-            value_steps = steps(value)[0]
+            value_interval = interval(value)[0]
 
-            xp1 = value[0] - value_steps * 2
-            xp2 = value[0] - value_steps
-            xp3 = value[-1] + value_steps
-            xp4 = value[-1] + value_steps * 2
+            xp1 = value[0] - value_interval * 2
+            xp2 = value[0] - value_interval
+            xp3 = value[-1] + value_interval
+            xp4 = value[-1] + value_interval * 2
 
-            self.__xp = np.concatenate(((xp1, xp2), value, (xp3, xp4)))
+            self._xp = np.concatenate(((xp1, xp2), value, (xp3, xp4)))
 
         self.__x = value
 
@@ -405,7 +404,7 @@ class SpragueInterpolator(object):
                 self.SPRAGUE_C_COEFFICIENTS[3],
                 np.array(value[-6:]).reshape((6, 1)))) / 209)[0]
 
-            self.__yp = np.concatenate(((yp1, yp2), value, (yp3, yp4)))
+            self._yp = np.concatenate(((yp1, yp2), value, (yp3, yp4)))
 
         self.__y = value
 
@@ -424,9 +423,9 @@ class SpragueInterpolator(object):
             Interpolated value(s).
         """
 
-        return self.__evaluate(x)
+        return self._evaluate(x)
 
-    def __evaluate(self, x):
+    def _evaluate(self, x):
         """
         Performs the interpolating polynomial evaluation at given point.
 
@@ -443,13 +442,13 @@ class SpragueInterpolator(object):
 
         x = np.asarray(x)
 
-        self.__validate_dimensions()
-        self.__validate_interpolation_range(x)
+        self._validate_dimensions()
+        self._validate_interpolation_range(x)
 
-        i = np.searchsorted(self.__xp, x) - 1
-        X = (x - self.__xp[i]) / (self.__xp[i + 1] - self.__xp[i])
+        i = np.searchsorted(self._xp, x) - 1
+        X = (x - self._xp[i]) / (self._xp[i + 1] - self._xp[i])
 
-        r = self.__yp
+        r = self._yp
 
         a0p = r[i]
         a1p = ((2 * r[i - 2] - 16 * r[i - 1] + 16 * r[i + 1] - 2 *
@@ -468,7 +467,7 @@ class SpragueInterpolator(object):
 
         return y
 
-    def __validate_dimensions(self):
+    def _validate_dimensions(self):
         """
         Validates variables dimensions to be the same.
         """
@@ -479,7 +478,7 @@ class SpragueInterpolator(object):
                  'dimensions: "{0}", "{1}"').format(len(self.__x),
                                                     len(self.__y)))
 
-    def __validate_interpolation_range(self, x):
+    def _validate_interpolation_range(self, x):
         """
         Validates given point to be in interpolation range.
         """
@@ -494,68 +493,99 @@ class SpragueInterpolator(object):
             raise ValueError('"{0}" is above interpolation range.'.format(x))
 
 
-if is_scipy_installed():
-    import scipy.interpolate
+class CubicSplineInterpolator(scipy.interpolate.interp1d):
+    """
+    Interpolates a 1-D function using cubic spline interpolation.
 
-    class CubicSplineInterpolator(scipy.interpolate.interp1d):
+    Notes
+    -----
+    This class is a wrapper around *scipy.interpolate.interp1d* class.
+    """
+
+    def __init__(self, *args, **kwargs):
+        super(CubicSplineInterpolator, self).__init__(
+            kind='cubic', *args, **kwargs)
+
+
+class PchipInterpolator(scipy.interpolate.PchipInterpolator):
+    """
+    Interpolates a 1-D function using Piecewise Cubic Hermite Interpolating
+    Polynomial interpolation.
+
+    Notes
+    -----
+    This class is a wrapper around *scipy.interpolate.PchipInterpolator*
+    class.
+    """
+
+    def __init__(self, x=None, y=None, *args, **kwargs):
+        super(PchipInterpolator, self).__init__(x, y, *args, **kwargs)
+
+        self.__y = y
+
+    @property
+    def y(self):
         """
-        Interpolates a 1-D function using cubic spline interpolation.
+        Property for **self.__y** private attribute.
 
-        Notes
-        -----
-        This class is a wrapper around *scipy.interpolate.interp1d* class.
+        Returns
+        -------
+        array_like
+            self.__y
         """
 
-        def __init__(self, *args, **kwargs):
-            super(CubicSplineInterpolator, self).__init__(
-                kind='cubic', *args, **kwargs)
+        return self.__y
 
-    class PchipInterpolator(scipy.interpolate.PchipInterpolator):
+    @y.setter
+    def y(self, value):
         """
-        Interpolates a 1-D function using Piecewise Cubic Hermite Interpolating
-        Polynomial interpolation.
+        Setter for **self.__y** private attribute.
 
-        Notes
-        -----
-        This class is a wrapper around *scipy.interpolate.PchipInterpolator*
-        class.
+        Parameters
+        ----------
+        value : array_like
+            Attribute value.
         """
 
-        def __init__(self, x=None, y=None, *args, **kwargs):
-            super(PchipInterpolator, self).__init__(x, y, *args, **kwargs)
-
-            self.__y = y
-
-        @property
-        def y(self):
-            """
-            Property for **self.__y** private attribute.
-
-            Returns
-            -------
-            array_like
-                self.__y
-            """
-
-            return self.__y
-
-        @y.setter
-        def y(self, value):
-            """
-            Setter for **self.__y** private attribute.
-
-            Parameters
-            ----------
-            value : array_like
-                Attribute value.
-            """
-
-            raise AttributeError('"{0}" attribute is read only!'.format('y'))
+        raise AttributeError('"{0}" attribute is read only!'.format('y'))
 
 
-else:
-    warning(('"scipy.interpolate.PchipInterpolator" and '
-             '"scipy.interpolate.interp1d" interpolators are not available, '
-             'using "LinearInterpolator" instead!'))
+def lagrange_coefficients(r, n=4):
+    """
+    Computes the *Lagrange Coefficients* at given point :math:`r` for degree
+    :math:`n`.
 
-    PchipInterpolator = CubicSplineInterpolator = LinearInterpolator
+    Parameters
+    ----------
+    r : numeric
+        Point to get the *Lagrange Coefficients* at.
+    n : int, optional
+        Degree of the *Lagrange Coefficients* being calculated.
+
+    Returns
+    -------
+    ndarray
+
+    References
+    ----------
+    .. [4]  Fairman, H. S. (1985). The calculation of weight factors for
+            tristimulus integration. Color Research & Application, 10(4),
+            199–203. doi:10.1002/col.5080100407
+    .. [5]  Wikipedia. (n.d.). Lagrange polynomial - Definition. Retrieved
+            January 20, 2016, from
+            https://en.wikipedia.org/wiki/Lagrange_polynomial#Definition
+
+    Examples
+    --------
+    >>> lagrange_coefficients(0.1)
+    array([ 0.8265,  0.2755, -0.1305,  0.0285])
+    """
+
+    r_i = np.arange(n)
+    L_n = []
+    for j in range(len(r_i)):
+        basis = [(r - r_i[i]) / (r_i[j] - r_i[i])
+                 for i in range(len(r_i)) if i != j]
+        L_n.append(reduce(lambda x, y: x * y, basis))  # noqa
+
+    return np.array(L_n)

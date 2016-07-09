@@ -15,7 +15,7 @@ Defines Hunt colour appearance model objects:
 See Also
 --------
 `Hunt Colour Appearance Model IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/
 blob/master/notebooks/appearance/hunt.ipynb>`_
 
 References
@@ -39,8 +39,8 @@ from colour.utilities import (
     warning)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
-__license__ = 'GPL V3.0 - http://www.gnu.org/licenses/'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
@@ -229,6 +229,10 @@ class Hunt_Specification(
         *Hue* :math:`h` quadrature :math:`H`.
     HC : numeric or array_like
         *Hue* :math:`h` composition :math:`H_C`.
+
+    Notes
+    -----
+    -   This specification is the one used in the current model implementation.
     """
 
 
@@ -354,7 +358,7 @@ s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
         warning('Unspecified "L_AS" argument, using approximation from "CCT": '
                 '"{0}"'.format(L_AS))
 
-    if S is None != S_w is None:
+    if (S is None and S_w is not None) or (S is not None and S_w is None):
         raise ValueError('Either both stimulus scotopic response "S" and '
                          'reference white scotopic response "S_w" arguments '
                          'need to be specified or none of them!')
@@ -801,9 +805,10 @@ def hue_angle(C):
 
     Examples
     --------
-    >>> C = np.array([-5.3658655819965873e-05,
-    ...               -0.00057169938364687312,
-    ...               0.00062535803946683899])
+    >>> C = np.array([
+    ...     -5.365865581996587e-05,
+    ...     -0.000571699383647,
+    ...     0.000625358039467])
     >>> hue_angle(C)  # doctest: +ELLIPSIS
     269.2737594...
     """
@@ -899,12 +904,13 @@ def yellowness_blueness_response(C, e_s, N_c, N_cb, F_t):
 
     Examples
     --------
-    >>> C = np.array([-5.3658655819965873e-05,
-    ...               -0.00057169938364687312,
-    ...               0.00062535803946683899])
-    >>> e_s = 1.1108365048626296
+    >>> C = np.array([
+    ...     -5.365865581996587e-05,
+    ...     -0.000571699383647,
+    ...     0.000625358039467])
+    >>> e_s = 1.110836504862630
     >>> N_c = 1.0
-    >>> N_cb = 0.72499999999999998
+    >>> N_cb = 0.725000000000000
     >>> F_t = 0.99968593951195
     >>> yellowness_blueness_response(  # doctest: +ELLIPSIS
     ...     C, e_s, N_c, N_cb, F_t)
@@ -945,12 +951,13 @@ def redness_greenness_response(C, e_s, N_c, N_cb):
 
     Examples
     --------
-    >>> C = np.array([-5.3658655819965873e-05,
-    ...               -0.00057169938364687312,
-    ...               0.00062535803946683899])
-    >>> e_s = 1.1108365048626296
+    >>> C = np.array([
+    ...     -5.365865581996587e-05,
+    ...     -0.000571699383647,
+    ...     0.000625358039467])
+    >>> e_s = 1.110836504862630
     >>> N_c = 1.0
-    >>> N_cb = 0.72499999999999998
+    >>> N_cb = 0.725000000000000
     >>> redness_greenness_response(C, e_s, N_c, N_cb)  # doctest: +ELLIPSIS
     -0.0001044...
     """
@@ -983,8 +990,8 @@ def overall_chromatic_response(M_yb, M_rg):
 
     Examples
     --------
-    >>> M_yb = -0.008237223618824608
-    >>> M_rg = -0.00010444758327626432
+    >>> M_yb = -0.008237223618825
+    >>> M_rg = -0.000104447583276
     >>> overall_chromatic_response(M_yb, M_rg)  # doctest: +ELLIPSIS
     0.0082378...
     """
@@ -1016,7 +1023,7 @@ def saturation_correlate(M, rgb_a):
 
     Examples
     --------
-    >>> M = 0.008237885787274198
+    >>> M = 0.008237885787274
     >>> rgb_a = np.array([6.89594549, 6.89599915, 6.89657085])
     >>> saturation_correlate(M, rgb_a)  # doctest: +ELLIPSIS
     0.0199093...
@@ -1057,7 +1064,7 @@ def achromatic_signal(L_AS, S, S_w, N_bb, A_a):
     >>> L_AS = 769.9376286541402
     >>> S = 20.0
     >>> S_w = 100.0
-    >>> N_bb = 0.72499999999999998
+    >>> N_bb = 0.725000000000000
     >>> A_a = 18.982718664838487
     >>> achromatic_signal(L_AS, S, S_w, N_bb, A_a)  # doctest: +ELLIPSIS
     15.5068546...
@@ -1112,7 +1119,7 @@ def brightness_correlate(A, A_w, M, N_b):
     --------
     >>> A = 15.506854623621885
     >>> A_w = 35.718916676317086
-    >>> M = 0.0082378857872741976
+    >>> M = 0.008237885787274
     >>> N_b = 75.0
     >>> brightness_correlate(A, A_w, M, N_b)  # doctest: +ELLIPSIS
     22.2097654...
@@ -1236,7 +1243,7 @@ def colourfulness_correlate(F_L, C_94):
     Examples
     --------
     >>> F_L = 1.16754446414718
-    >>> C_94 = 0.12105083993617581
+    >>> C_94 = 0.121050839936176
     >>> colourfulness_correlate(F_L, C_94)  # doctest: +ELLIPSIS
     0.1238964...
     """

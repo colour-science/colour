@@ -14,13 +14,14 @@ Defines various input / output objects for CSV tabular data files:
 
 from __future__ import division, unicode_literals
 
+import numpy as np
 from collections import OrderedDict
 import csv
 
 from colour.colorimetry import SpectralPowerDistribution
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -134,11 +135,11 @@ def read_spectral_data_from_csv_file(path,
         for line in reader:
             for field in fields:
                 try:
-                    value = float(line[field])
+                    value = np.float_(line[field])
                 except ValueError:
                     value = default
 
-                data[field][float(line[wavelength])] = value
+                data[field][np.float_(line[wavelength])] = value
         return data
 
 
@@ -179,55 +180,11 @@ def read_spds_from_csv_file(path,
     ...     'resources',
     ...     'colorchecker_n_ohta.csv')
     >>> spds = read_spds_from_csv_file(csv_file)
-    >>> pprint(tuple(spds.items()))  # doctest: +ELLIPSIS
-    (('1',
-      <...SpectralPowerDistribution object at 0x...>),
-     ('2',
-      <...SpectralPowerDistribution object at 0x...>),
-     ('3',
-      <...SpectralPowerDistribution object at 0x...>),
-     ('4',
-      <...SpectralPowerDistribution object at 0x...>),
-     ('5',
-      <...SpectralPowerDistribution object at 0x...>),
-     ('6',
-      <...SpectralPowerDistribution object at 0x...>),
-     ('7',
-      <...SpectralPowerDistribution object at 0x...>),
-     ('8',
-      <...SpectralPowerDistribution object at 0x...>),
-     ('9',
-      <...SpectralPowerDistribution object at 0x...>),
-     ('10',
-      <...SpectralPowerDistribution object at 0x...>),
-     ('11',
-      <...SpectralPowerDistribution object at 0x...>),
-     ('12',
-      <...SpectralPowerDistribution object at 0x...>),
-     ('13',
-      <...SpectralPowerDistribution object at 0x...>),
-     ('14',
-      <...SpectralPowerDistribution object at 0x...>),
-     ('15',
-      <...SpectralPowerDistribution object at 0x...>),
-     ('16',
-      <...SpectralPowerDistribution object at 0x...>),
-     ('17',
-      <...SpectralPowerDistribution object at 0x...>),
-     ('18',
-      <...SpectralPowerDistribution object at 0x...>),
-     ('19',
-      <...SpectralPowerDistribution object at 0x...>),
-     ('20',
-      <...SpectralPowerDistribution object at 0x...>),
-     ('21',
-      <...SpectralPowerDistribution object at 0x...>),
-     ('22',
-      <...SpectralPowerDistribution object at 0x...>),
-     ('23',
-      <...SpectralPowerDistribution object at 0x...>),
-     ('24',
-      <...SpectralPowerDistribution object at 0x...>))
+    >>> print(tuple(spds.keys()))
+    ('1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', \
+'14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24')
+    >>> print(spds['1'])
+    SpectralPowerDistribution('1', (380.0, 780.0, 5.0))
     """
 
     data = read_spectral_data_from_csv_file(path,
@@ -282,7 +239,8 @@ def write_spds_to_csv_file(spds,
         fields = list(fields) if fields is not None else sorted(spds.keys())
         writer = csv.DictWriter(csv_file,
                                 delimiter=str(delimiter),
-                                fieldnames=['wavelength'] + fields)
+                                fieldnames=['wavelength'] + fields,
+                                lineterminator='\n')
         # Python 2.7.x / 3.4.x only.
         # writer.writeheader()
         writer.writerow(dict((name, name) for name in writer.fieldnames))

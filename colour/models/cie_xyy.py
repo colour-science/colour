@@ -17,7 +17,7 @@ Defines the *CIE xyY* colourspace transformations:
 See Also
 --------
 `CIE xyY Colourspace IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/cie_xyy.ipynb>`_
 
 References
@@ -34,7 +34,7 @@ from colour.colorimetry import ILLUMINANTS
 from colour.utilities import tsplit, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -70,7 +70,7 @@ def XYZ_to_xyY(XYZ,
     Notes
     -----
     -   Input *CIE XYZ* tristimulus values are in domain [0, 1].
-    -   Output *CIE xyY* colourspace array is in domain [0, 1].
+    -   Output *CIE xyY* colourspace array is in range [0, 1].
 
     References
     ----------
@@ -116,7 +116,7 @@ def xyY_to_XYZ(xyY):
     Notes
     -----
     -   Input *CIE xyY* colourspace array is in domain [0, 1].
-    -   Output *CIE XYZ* tristimulus values are in domain [0, 1].
+    -   Output *CIE XYZ* tristimulus values are in range [0, 1].
 
     References
     ----------
@@ -172,7 +172,7 @@ def xy_to_xyY(xy, Y=1):
         package objects such as :func:`colour.models.Lab_to_XYZ` or
         :func:`colour.models.Luv_to_XYZ`.
     -   Input *xy* chromaticity coordinates are in domain [0, 1].
-    -   Output *CIE xyY* colourspace array is in domain [0, 1].
+    -   Output *CIE xyY* colourspace array is in range [0, 1].
 
     Examples
     --------
@@ -227,7 +227,7 @@ def xyY_to_xy(xyY):
     Notes
     -----
     -   Input *CIE xyY* colourspace array is in domain [0, 1].
-    -   Output *xy* chromaticity coordinates are in domain [0, 1].
+    -   Output *xy* chromaticity coordinates are in range [0, 1].
 
     Examples
     --------
@@ -270,11 +270,11 @@ def xy_to_XYZ(xy):
     Notes
     -----
     -   Input *xy* chromaticity coordinates are in domain [0, 1].
-    -   Output *CIE XYZ* tristimulus values are in domain [0, 1].
+    -   Output *CIE XYZ* tristimulus values are in range [0, 1].
 
     Examples
     --------
-    >>> xy = np.array([0.26414772236966133, 0.37770000704815188])
+    >>> xy = np.array([0.26414772, 0.37770001])
     >>> xy_to_XYZ(xy)  # doctest: +ELLIPSIS
     array([ 0.6993585...,  1.        ,  0.9482453...])
     """
@@ -306,7 +306,7 @@ def XYZ_to_xy(XYZ,
     Notes
     -----
     -   Input *CIE XYZ* tristimulus values are in domain [0, 1].
-    -   Output *xy* chromaticity coordinates are in domain [0, 1].
+    -   Output *xy* chromaticity coordinates are in range [0, 1].
 
     Examples
     --------

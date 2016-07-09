@@ -20,19 +20,19 @@ The following luminous efficiency functions are available:
 -   Judd Modified CIE 1951 Photopic Standard Observer [1]_
 -   Judd-Vos Modified CIE 1978 Photopic Standard Observer [1]_
 -   CIE 1964 Photopic 10 Degree Standard Observer [2]_
--   CIE 2008 2 Degree Physiologically Relevant LEF [3]_
--   CIE 2008 10 Degree Physiologically Relevant LEF [3]_
+-   CIE 2008 2 Degree Physiologically Relevant LEF [1]_
+-   CIE 2008 10 Degree Physiologically Relevant LEF [1]_
 -   CIE 1951 Scotopic Standard Observer [1]_
 
 See Also
 --------
 `Luminous Efficiency Functions IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/lefs.ipynb>`_
 
 Notes
 -----
--   The luminous efficiency functions are provided at 1 nm steps.
+-   The luminous efficiency functions are provided at 1 nm interval.
 -   The mesopic luminous efficiency function is calculated using the
     *CIE 1924 Photopic Standard Observer* and
     *CIE 1951 Scotopic Standard Observer* luminous efficiency functions with
@@ -59,7 +59,7 @@ from colour.colorimetry import SpectralPowerDistribution
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'

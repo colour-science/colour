@@ -7,6 +7,8 @@ Showcases colour spectrum computations.
 
 from __future__ import division, unicode_literals
 
+import numpy as np
+
 import colour
 from colour.utilities.verbose import message_box
 
@@ -110,10 +112,47 @@ print('\n')
 message_box(('Sample spectral power distribution cloning:\n'
              '\n\t("Original Id", "Clone Id")\n'
              '\nCloning is a convenient way to get a copy of the spectral '
-             'power distribution, this an important feature because most '
+             'power distribution, this an important feature because some '
              'operations happen in place.'))
 clone_spd = spd.clone()
 print(id(spd), id(clone_spd))
+
+print('\n')
+
+message_box('Sample spectral power distribution arithmetical operations.')
+message_box('Regular arithmetical operation: adding a constant.')
+clone_spd_alternate = clone_spd + 10
+print(clone_spd[380], clone_spd_alternate[380])
+
+print('\n')
+
+message_box('Regular arithmetical operation: adding an array.')
+print((clone_spd + np.linspace(0, 1, len(clone_spd))).values)
+
+print('\n')
+
+message_box('Regular arithmetical operation: adding a spectral power '
+            'distribution.')
+print((clone_spd + clone_spd).values)
+
+print('\n')
+
+message_box('In-place arithmetical operation: adding a constant.')
+clone_spd += 10
+print(clone_spd[380])
+
+print('\n')
+
+message_box('In-place arithmetical operation: adding an array.')
+clone_spd += np.linspace(0, 1, len(clone_spd))
+print(clone_spd.values)
+
+print('\n')
+
+message_box('In-place arithmetical operation: adding a spectral power '
+            'distribution.')
+clone_spd += clone_spd
+print(clone_spd.values)
 
 print('\n')
 

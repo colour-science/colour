@@ -189,14 +189,14 @@ class TestWriteSpdsToCsvFile(unittest.TestCase):
         Initialises common tests attributes.
         """
 
-        self.__temporary_directory = tempfile.mkdtemp()
+        self._temporary_directory = tempfile.mkdtemp()
 
     def tearDown(self):
         """
         After tests actions.
         """
 
-        shutil.rmtree(self.__temporary_directory)
+        shutil.rmtree(self._temporary_directory)
 
     def test_write_spds_to_csv_file(self):
         """
@@ -206,7 +206,7 @@ class TestWriteSpdsToCsvFile(unittest.TestCase):
         colour_checker_n_ohta = os.path.join(RESOURCES_DIRECTORY,
                                              'colorchecker_n_ohta.csv')
         spds = read_spds_from_csv_file(colour_checker_n_ohta)
-        colour_checker_n_ohta_test = os.path.join(self.__temporary_directory,
+        colour_checker_n_ohta_test = os.path.join(self._temporary_directory,
                                                   'colorchecker_n_ohta.csv')
         write_spds_to_csv_file(spds, colour_checker_n_ohta_test)
         spds_test = read_spds_from_csv_file(colour_checker_n_ohta_test)

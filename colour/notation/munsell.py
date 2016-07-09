@@ -22,15 +22,14 @@ Defines various objects for *Munsell Renotation System* computations:
 -   :func:`munsell_value_McCamy1987`: *Munsell* value :math:`V` computation of
     given *luminance* :math:`Y` using McCamy (1987)  method.
 -   :func:`munsell_value_ASTMD153508` [1]_ [2]_: *Munsell* value :math:`V`
-    computation of given *luminance* :math:`Y` using ASTM D1535-08e1 (2008)
-    method.
+    computation of given *luminance* :math:`Y` using *ASTM D1535-08e1* method.
 -   :func:`munsell_colour_to_xyY` [1]_ [2]_
 -   :func:`xyY_to_munsell_colour` [1]_ [2]_
 
 See Also
 --------
 `Munsell Renotation System IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/notation/munsell.ipynb>`_
 
 References
@@ -51,7 +50,8 @@ from collections import OrderedDict
 from colour.algebra import (
     Extrapolator,
     LinearInterpolator,
-    cartesian_to_cylindrical)
+    cartesian_to_cylindrical,
+    euclidean_distance)
 from colour.colorimetry import ILLUMINANTS, luminance_ASTMD153508
 from colour.constants import (
     INTEGER_THRESHOLD,
@@ -66,7 +66,7 @@ from colour.utilities import (
     is_numeric)
 
 __author__ = 'Colour Developers, Paul Centore'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -181,13 +181,13 @@ def _munsell_specifications():
 
 def _munsell_value_ASTMD153508_interpolator():
     """
-    Returns the *Munsell* value interpolator for ASTM D1535-08e1 (2008) method
-    and caches it if not existing.
+    Returns the *Munsell* value interpolator for *ASTM D1535-08e1* method and
+    caches it if not existing.
 
     Returns
     -------
     Extrapolator
-        *Munsell* value interpolator for ASTM D1535-08e1 (2008) method.
+        *Munsell* value interpolator for *ASTM D1535-08e1* method.
     """
 
     global _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE
@@ -247,7 +247,7 @@ def munsell_value_Priest1920(Y):
     Notes
     -----
     -   Input *Y* is in domain [0, 100].
-    -   Output *V* is in domain [0, 10].
+    -   Output *V* is in range [0, 10].
 
     References
     ----------
@@ -285,7 +285,7 @@ def munsell_value_Munsell1933(Y):
     Notes
     -----
     -   Input *Y* is in domain [0, 100].
-    -   Output *V* is in domain [0, 10].
+    -   Output *V* is in range [0, 10].
 
     Examples
     --------
@@ -319,7 +319,7 @@ def munsell_value_Moon1943(Y):
     Notes
     -----
     -   Input *Y* is in domain [0, 100].
-    -   Output *V* is in domain [0, 10].
+    -   Output *V* is in range [0, 10].
 
     Examples
     --------
@@ -352,7 +352,7 @@ def munsell_value_Saunderson1944(Y):
     Notes
     -----
     -   Input *Y* is in domain [0, 100].
-    -   Output *V* is in domain [0, 10].
+    -   Output *V* is in range [0, 10].
 
     Examples
     --------
@@ -385,7 +385,7 @@ def munsell_value_Ladd1955(Y):
     Notes
     -----
     -   Input *Y* is in domain [0, 100].
-    -   Output *V* is in domain [0, 10].
+    -   Output *V* is in range [0, 10].
 
     Examples
     --------
@@ -418,7 +418,7 @@ def munsell_value_McCamy1987(Y):
     Notes
     -----
     -   Input *Y* is in domain [0, 100].
-    -   Output *V* is in domain [0, 10].
+    -   Output *V* is in range [0, 10].
 
     References
     ----------
@@ -449,7 +449,7 @@ def munsell_value_McCamy1987(Y):
 def munsell_value_ASTMD153508(Y):
     """
     Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
-    a reverse lookup table from ASTM D1535-08e1 (2008) method.
+    a reverse lookup table from *ASTM D1535-08e1* method.
 
     Parameters
     ----------
@@ -464,7 +464,7 @@ def munsell_value_ASTMD153508(Y):
     Notes
     -----
     -   Input *Y* is in domain [0, 100].
-    -   Output *V* is in domain [0, 10].
+    -   Output *V* is in range [0, 10].
 
     Examples
     --------
@@ -524,7 +524,7 @@ def munsell_value(Y, method='ASTM D1535-08'):
     Notes
     -----
     -   Input *Y* is in domain [0, 100].
-    -   Output *V* is in domain [0, 10].
+    -   Output *V* is in range [0, 10].
 
     Examples
     --------
@@ -567,7 +567,7 @@ def munsell_specification_to_xyY(specification):
     -   Input *Munsell* *Colorlab* specification hue must be in domain [0, 10].
     -   Input *Munsell* *Colorlab* specification value must be in domain
         [0, 10].
-    -   Output *CIE xyY* colourspace array is in domain [0, 1].
+    -   Output *CIE xyY* colourspace array is in range [0, 1].
 
     References
     ----------
@@ -643,7 +643,7 @@ def munsell_colour_to_xyY(munsell_colour):
 
     Notes
     -----
-    -   Output *CIE xyY* colourspace array is in domain [0, 1].
+    -   Output *CIE xyY* colourspace array is in range [0, 1].
 
     Examples
     --------
@@ -833,8 +833,7 @@ def xyY_to_munsell_specification(xyY):
 
         x_current, y_current, _Y_current = np.ravel(
             munsell_specification_to_xyY(specification_current))
-        difference = np.linalg.norm(
-            np.array([x, y]) - np.array([x_current, y_current]))
+        difference = euclidean_distance((x, y), (x_current, y_current))
         if difference < convergence_threshold:
             return tuple(specification_current)
 
@@ -893,8 +892,7 @@ def xyY_to_munsell_specification(xyY):
         specification_current = [hue_current, value, chroma_new, code_current]
         x_current, y_current, Y_current = np.ravel(
             munsell_specification_to_xyY(specification_current))
-        difference = np.linalg.norm(
-            np.array([x, y]) - np.array([x_current, y_current]))
+        difference = euclidean_distance((x, y), (x_current, y_current))
         if difference < convergence_threshold:
             return tuple(specification_current)
 
@@ -977,14 +975,14 @@ def parse_munsell_colour(munsell_colour):
                      munsell_colour,
                      flags=re.IGNORECASE)
     if match:
-        return float(match.group('value'))
+        return np.float_(match.group('value'))
     match = re.match(MUNSELL_COLOUR_PATTERN,
                      munsell_colour,
                      flags=re.IGNORECASE)
     if match:
-        return (float(match.group('hue')),
-                float(match.group('value')),
-                float(match.group('chroma')),
+        return (np.float_(match.group('hue')),
+                np.float_(match.group('value')),
+                np.float_(match.group('chroma')),
                 MUNSELL_HUE_LETTER_CODES.get(match.group('letter').upper()))
 
     raise ValueError(
@@ -1257,7 +1255,6 @@ def bounding_hues_from_renotation(hue, code):
         hue_ccw = (hue_cw + 2.5) % 10
         if hue_ccw == 0:
             hue_ccw = 10
-        code_ccw = code
 
         if hue_cw == 0:
             hue_cw = 10
@@ -1372,7 +1369,7 @@ def hue_angle_to_hue(hue_angle):
 def hue_to_ASTM_hue(hue, code):
     """
     Converts from the *Munsell* *Colorlab* specification hue to *ASTM* hue
-    number in domain [0, 100].
+    number in range [0, 100].
 
     Parameters
     ----------
@@ -1999,7 +1996,7 @@ def munsell_specification_to_xy(specification):
     -----
     -   Input *Munsell* *Colorlab* specification value must be an integer in
         domain [0, 10].
-    -   Output *xy* chromaticity coordinates are in domain [0, 1].
+    -   Output *xy* chromaticity coordinates are in range [0, 1].
 
     References
     ----------

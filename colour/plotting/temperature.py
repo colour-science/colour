@@ -34,7 +34,7 @@ from colour.plotting import (
     display)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -60,8 +60,8 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Raises
     ------
@@ -73,7 +73,6 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(
     >>> ils = ['A', 'B', 'C']
     >>> planckian_locus_CIE_1931_chromaticity_diagram_plot(
     ...     ils)  # doctest: +SKIP
-    True
     """
 
     if illuminants is None:
@@ -107,6 +106,7 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(
         pylab.annotate('{0}K'.format(i),
                        xy=(x0, y0),
                        xytext=(0, -10),
+                       color='black',
                        textcoords='offset points',
                        size='x-small')
 
@@ -123,6 +123,7 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(
         pylab.annotate(illuminant,
                        xy=(xy[0], xy[1]),
                        xytext=(-50, 30),
+                       color='black',
                        textcoords='offset points',
                        arrowprops=dict(arrowstyle='->',
                                        connectionstyle='arc3, rad=-0.2'))
@@ -156,8 +157,8 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Raises
     ------
@@ -169,7 +170,6 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
     >>> ils = ['A', 'C', 'E']
     >>> planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
     ...     ils)  # doctest: +SKIP
-    True
     """
 
     if illuminants is None:
@@ -190,8 +190,6 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
 
     CIE_1960_UCS_chromaticity_diagram_plot(**settings)
 
-    xy_to_uv = lambda x: UCS_to_uv(XYZ_to_UCS(xy_to_XYZ(x)))
-
     start, end = 1667, 100000
     uv = np.array([CCT_to_uv(x, 0, method='Robertson 1968')
                    for x in np.arange(start, end + 250, 250)])
@@ -205,6 +203,7 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
         pylab.annotate('{0}K'.format(i),
                        xy=(u0, v0),
                        xytext=(0, -10),
+                       color='black',
                        textcoords='offset points',
                        size='x-small')
 
@@ -216,13 +215,14 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
                  '"{1}".').format(illuminant,
                                   sorted(ILLUMINANTS.get(cmfs.name).keys())))
 
-        uv = xy_to_uv(xy)
+        uv = UCS_to_uv(XYZ_to_UCS(xy_to_XYZ(xy)))
 
         pylab.plot(uv[0], uv[1], 'o', color='white', linewidth=2)
 
         pylab.annotate(illuminant,
                        xy=(uv[0], uv[1]),
                        xytext=(-50, 30),
+                       color='black',
                        textcoords='offset points',
                        arrowprops=dict(arrowstyle='->',
                                        connectionstyle='arc3, rad=-0.2'))

@@ -12,7 +12,7 @@ Defines the *CIE U\*V\*W\** colourspace transformations:
 See Also
 --------
 `CIE UVW Colourspace IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/cie_uvw.ipynb>`_
 
 References
@@ -34,7 +34,7 @@ from colour.models import (
 from colour.utilities import tsplit, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -68,7 +68,7 @@ def XYZ_to_UVW(XYZ,
     -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
     -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
         colourspace array are in domain [0, :math:`\infty`].
-    -   Output *CIE UVW* colourspace array is in domain [0, 100].
+    -   Output *CIE UVW* colourspace array is in range [0, 100].
 
     Warning
     -------
@@ -79,7 +79,7 @@ def XYZ_to_UVW(XYZ,
     >>> import numpy as np
     >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313]) * 100
     >>> XYZ_to_UVW(XYZ)  # doctest: +ELLIPSIS
-    array([-28.0483277...,  -0.8805242...,  37.0041149...])
+    array([-28.0579733...,  -0.8819449...,  37.0041149...])
     """
 
     xyY = XYZ_to_xyY(XYZ, xyY_to_xy(illuminant))

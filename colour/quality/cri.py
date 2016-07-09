@@ -13,7 +13,7 @@ Defines *colour rendering index* computation objects:
 See Also
 --------
 `Colour Rendering Index IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/quality/cri.ipynb>`_
 
 References
@@ -27,6 +27,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
+from colour.algebra import euclidean_distance
 from colour.colorimetry import (
     D_illuminant_relative_spd,
     STANDARD_OBSERVERS_CMFS,
@@ -37,7 +38,7 @@ from colour.models import UCS_to_uv, XYZ_to_UCS, XYZ_to_xyY
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Robertson1968
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -109,17 +110,12 @@ def colour_rendering_index(spd_test, additional_data=False):
     >>> from colour import ILLUMINANTS_RELATIVE_SPDS
     >>> spd = ILLUMINANTS_RELATIVE_SPDS.get('F2')
     >>> colour_rendering_index(spd)  # doctest: +ELLIPSIS
-    64.1507331...
+    64.1495478...
     """
 
     cmfs = STANDARD_OBSERVERS_CMFS.get('CIE 1931 2 Degree Standard Observer')
 
     shape = cmfs.shape
-    spd_test = spd_test.clone().align(shape)
-
-    tcs_spds = {}
-    for index, tcs_spd in TCS_SPDS.items():
-        tcs_spds[index] = tcs_spd.clone().align(shape)
 
     XYZ = spectral_to_XYZ(spd_test, cmfs)
     uv = UCS_to_uv(XYZ_to_UCS(XYZ))
@@ -135,14 +131,14 @@ def colour_rendering_index(spd_test, additional_data=False):
     test_tcs_colorimetry_data = tcs_colorimetry_data(
         spd_test,
         spd_reference,
-        tcs_spds,
+        TCS_SPDS,
         cmfs,
         chromatic_adaptation=True)
 
     reference_tcs_colorimetry_data = tcs_colorimetry_data(
         spd_reference,
         spd_reference,
-        tcs_spds,
+        TCS_SPDS,
         cmfs)
 
     Q_as = colour_rendering_indexes(
@@ -205,12 +201,23 @@ def tcs_colorimetry_data(spd_t,
         u_tcs, v_tcs = uv_tcs[0], uv_tcs[1]
 
         if chromatic_adaptation:
-            c = lambda x, y: (4 - x - 10 * y) / y
-            d = lambda x, y: (1.708 * y + 0.404 - 1.481 * x) / y
+
+            def c(x, y):
+                """
+                Computes the :math:`c` term.
+                """
+
+                return (4 - x - 10 * y) / y
+
+            def d(x, y):
+                """
+                Computes the :math:`d` term.
+                """
+
+                return (1.708 * y + 0.404 - 1.481 * x) / y
 
             c_t, d_t = c(u_t, v_t), d(u_t, v_t)
-            c_r, d_r = (c(u_r, v_r),
-                        d(u_r, v_r))
+            c_r, d_r = c(u_r, v_r), d(u_r, v_r)
             tcs_c, tcs_d = c(u_tcs, v_tcs), d(u_tcs, v_tcs)
             u_tcs = ((10.872 + 0.404 * c_r / c_t * tcs_c - 4 *
                       d_r / d_t * tcs_d) /
@@ -253,6 +260,6 @@ def colour_rendering_indexes(test_data, reference_data):
     for i, _ in enumerate(test_data):
         Q_as[i + 1] = TCS_ColourQualityScaleData(
             test_data[i].name,
-            100 - 4.6 * np.linalg.norm(
-                reference_data[i].UVW - test_data[i].UVW))
+            100 - 4.6 * euclidean_distance(reference_data[i].UVW,
+                                           test_data[i].UVW))
     return Q_as

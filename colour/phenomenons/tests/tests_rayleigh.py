@@ -32,7 +32,7 @@ from colour.phenomenons import (
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -527,7 +527,7 @@ RAYLEIGH_SCATTERING_SPD_DATA = (
     0.01994505,
     0.01984806,
     0.01975166,
-    0.019655853)
+    0.01965585)
 
 
 class TestAirRefractionIndexPenndorf1957(unittest.TestCase):
@@ -544,7 +544,7 @@ air_refraction_index_Penndorf1957` definition.
 
         self.assertAlmostEqual(
             air_refraction_index_Penndorf1957(0.360),
-            1.0002853167951464,
+            1.000285316795146,
             places=10)
 
         self.assertAlmostEqual(
@@ -564,7 +564,7 @@ air_refraction_index_Penndorf1957` definition n-dimensional arrays support.
         """
 
         wl = 0.360
-        n = 1.0002853167951464
+        n = 1.000285316795146
         np.testing.assert_almost_equal(
             air_refraction_index_Penndorf1957(wl),
             n,
@@ -626,7 +626,7 @@ rayleigh.air_refraction_index_Edlen1966` definition.
 
         self.assertAlmostEqual(
             air_refraction_index_Edlen1966(0.830),
-            1.0002748622188347,
+            1.000274862218835,
             places=10)
 
     def test_n_dimensional_air_refraction_index_Edlen1966(self):
@@ -688,17 +688,17 @@ class TestAirRefractionIndexPeck1972(unittest.TestCase):
 
         self.assertAlmostEqual(
             air_refraction_index_Peck1972(0.360),
-            1.0002853102850557,
+            1.000285310285056,
             places=10)
 
         self.assertAlmostEqual(
             air_refraction_index_Peck1972(0.555),
-            1.0002777265414837,
+            1.000277726541484,
             places=10)
 
         self.assertAlmostEqual(
             air_refraction_index_Peck1972(0.830),
-            1.0002748591448039,
+            1.000274859144804,
             places=10)
 
     def test_n_dimensional_air_refraction_index_Peck1972(self):
@@ -708,7 +708,7 @@ class TestAirRefractionIndexPeck1972(unittest.TestCase):
         """
 
         wl = 0.360
-        n = 1.0002853102850557
+        n = 1.000285310285056
         np.testing.assert_almost_equal(
             air_refraction_index_Peck1972(wl),
             n,
@@ -760,32 +760,32 @@ air_refraction_index_Bodhaine1999` definition.
 
         self.assertAlmostEqual(
             air_refraction_index_Bodhaine1999(0.360),
-            1.0002853102850557,
+            1.000285310285056,
             places=10)
 
         self.assertAlmostEqual(
             air_refraction_index_Bodhaine1999(0.555),
-            1.0002777265414837,
+            1.000277726541484,
             places=10)
 
         self.assertAlmostEqual(
             air_refraction_index_Bodhaine1999(0.830),
-            1.0002748591448039,
+            1.000274859144804,
             places=10)
 
         self.assertAlmostEqual(
             air_refraction_index_Bodhaine1999(0.360, 0),
-            1.0002852640647895,
+            1.000285264064789,
             places=10)
 
         self.assertAlmostEqual(
             air_refraction_index_Bodhaine1999(0.555, 360),
-            1.0002777355398236,
+            1.000277735539824,
             places=10)
 
         self.assertAlmostEqual(
             air_refraction_index_Bodhaine1999(0.830, 620),
-            1.0002749066404641,
+            1.000274906640464,
             places=10)
 
     def test_n_dimensional_air_refraction_index_Bodhaine1999(self):
@@ -795,7 +795,7 @@ air_refraction_index_Bodhaine1999` definition n-dimensional arrays support.
         """
 
         wl = 0.360
-        n = 1.0002853102850557
+        n = 1.000285310285056
         np.testing.assert_almost_equal(
             air_refraction_index_Bodhaine1999(wl),
             n,
@@ -855,7 +855,7 @@ class TestN2Depolarisation(unittest.TestCase):
 
         self.assertAlmostEqual(
             N2_depolarisation(0.555),
-            1.0350291372453535,
+            1.035029137245354,
             places=7)
 
         self.assertAlmostEqual(
@@ -926,12 +926,12 @@ class TestO2Depolarisation(unittest.TestCase):
 
         self.assertAlmostEqual(
             O2_depolarisation(0.555),
-            1.1020225362010714,
+            1.102022536201071,
             places=7)
 
         self.assertAlmostEqual(
             O2_depolarisation(0.830),
-            1.0983155612690134,
+            1.098315561269013,
             places=7)
 
     def test_n_dimensional_O2_depolarisation(self):
@@ -1119,7 +1119,7 @@ class TestF_airBates1984(unittest.TestCase):
 
         self.assertAlmostEqual(
             F_air_Bates1984(0.830),
-            1.0469470686005893,
+            1.046947068600589,
             places=7)
 
     def test_n_dimensional_F_air_Bates1984(self):
@@ -1186,27 +1186,27 @@ class TestF_airBodhaine1999(unittest.TestCase):
 
         self.assertAlmostEqual(
             F_air_Bodhaine1999(0.555),
-            1.1246916702401561,
+            1.124691670240156,
             places=7)
 
         self.assertAlmostEqual(
             F_air_Bodhaine1999(0.830),
-            1.1243864557835395,
+            1.124386455783539,
             places=7)
 
         self.assertAlmostEqual(
             F_air_Bodhaine1999(0.360, 0),
-            1.0526297923139392,
+            1.052629792313939,
             places=7)
 
         self.assertAlmostEqual(
             F_air_Bodhaine1999(0.555, 360),
-            1.1279930150966895,
+            1.127993015096689,
             places=7)
 
         self.assertAlmostEqual(
             F_air_Bodhaine1999(0.830, 620),
-            1.13577082243141,
+            1.13577082,
             places=7)
 
     def test_n_dimensional_F_air_Bodhaine1999(self):
@@ -1272,17 +1272,17 @@ class TestMolecularDensity(unittest.TestCase):
         self.assertAlmostEqual(
             molecular_density(200),
             3.669449208173649e+19,
-            places=24)
+            delta=10000)
 
         self.assertAlmostEqual(
             molecular_density(300),
             2.4462994721157665e+19,
-            places=24)
+            delta=10000)
 
         self.assertAlmostEqual(
             molecular_density(400),
-            1.8347246040868246e+19,
-            places=24)
+            1.834724604086825e+19,
+            delta=10000)
 
     def test_n_dimensional_molecular_density(self):
         """
@@ -1414,17 +1414,17 @@ class TestGravityList1968(unittest.TestCase):
 
         self.assertAlmostEqual(
             gravity_List1968(0, 0),
-            978.0356070576,
+            978.03560706,
             places=7)
 
         self.assertAlmostEqual(
             gravity_List1968(45, 1500),
-            980.1533438638013,
+            980.15334386,
             places=7)
 
         self.assertAlmostEqual(
             gravity_List1968(48.8567, 35),
-            980.9524178426182,
+            980.95241784,
             places=7)
 
     def test_n_dimensional_gravity_List1968(self):
@@ -1433,7 +1433,7 @@ class TestGravityList1968(unittest.TestCase):
         definition n-dimensional arrays support.
         """
 
-        g = 978.03560705760003
+        g = 978.03560706
         np.testing.assert_almost_equal(
             gravity_List1968(),
             g,
@@ -1486,7 +1486,7 @@ class TestScatteringCrossSection(unittest.TestCase):
 
         self.assertAlmostEqual(
             scattering_cross_section(360 * 10e-8),
-            2.7812892348020306e-26,
+            2.781289234802031e-26,
             places=32)
 
         self.assertAlmostEqual(
@@ -1496,12 +1496,12 @@ class TestScatteringCrossSection(unittest.TestCase):
 
         self.assertAlmostEqual(
             scattering_cross_section(830 * 10e-8),
-            9.12510035221888e-28,
+            9.125100352218880e-28,
             places=32)
 
         self.assertAlmostEqual(
             scattering_cross_section(555 * 10e-8, 0),
-            4.3465433368391025e-27,
+            4.346543336839102e-27,
             places=32)
 
         self.assertAlmostEqual(
@@ -1521,12 +1521,12 @@ class TestScatteringCrossSection(unittest.TestCase):
 
         self.assertAlmostEqual(
             scattering_cross_section(555 * 10e-8, temperature=300),
-            5.05260323359651e-27,
+            5.052603233596510e-27,
             places=32)
 
         self.assertAlmostEqual(
             scattering_cross_section(555 * 10e-8, temperature=400),
-            8.98240574861602e-27,
+            8.982405748616020e-27,
             places=32)
 
     def test_n_dimensional_scattering_cross_section(self):
@@ -1536,7 +1536,7 @@ class TestScatteringCrossSection(unittest.TestCase):
         """
 
         wl = 360 * 10e-8
-        sigma = 2.7812892348020306e-26
+        sigma = 2.781289234802031e-26
         np.testing.assert_almost_equal(
             scattering_cross_section(wl),
             sigma,
@@ -1591,77 +1591,77 @@ class TestRayleighOpticalDepth(unittest.TestCase):
 
         self.assertAlmostEqual(
             rayleigh_optical_depth(360 * 10e-8),
-            0.5991013368480278,
+            0.599101336848028,
             places=7)
 
         self.assertAlmostEqual(
             rayleigh_optical_depth(555 * 10e-8),
-            0.10040701772896546,
+            0.100407017728965,
             places=7)
 
         self.assertAlmostEqual(
             rayleigh_optical_depth(830 * 10e-8),
-            0.019655847912113555,
+            0.019655847912114,
             places=7)
 
         self.assertAlmostEqual(
             rayleigh_optical_depth(555 * 10e-8, 0),
-            0.09364096434804903,
+            0.093640964348049,
             places=7)
 
         self.assertAlmostEqual(
             rayleigh_optical_depth(555 * 10e-8, 360),
-            0.10069860517689733,
+            0.100698605176897,
             places=7)
 
         self.assertAlmostEqual(
             rayleigh_optical_depth(555 * 10e-8, 620),
-            0.10139438226086347,
+            0.101394382260863,
             places=7)
 
         self.assertAlmostEqual(
             rayleigh_optical_depth(555 * 10e-8, temperature=200),
-            0.0483711944156206,
+            0.048371194415621,
             places=7)
 
         self.assertAlmostEqual(
             rayleigh_optical_depth(555 * 10e-8, temperature=300),
-            0.10883518743514632,
+            0.108835187435146,
             places=7)
 
         self.assertAlmostEqual(
             rayleigh_optical_depth(555 * 10e-8, temperature=400),
-            0.1934847776624824,
+            0.193484777662482,
             places=7)
 
         self.assertAlmostEqual(
             rayleigh_optical_depth(555 * 10e-8, pressure=101325),
-            0.10040701772896546,
+            0.100407017728965,
             places=7)
 
         self.assertAlmostEqual(
             rayleigh_optical_depth(555 * 10e-8, pressure=100325),
-            0.0994160775095826,
+            0.099416077509583,
             places=7)
 
         self.assertAlmostEqual(
             rayleigh_optical_depth(555 * 10e-8, pressure=99325),
-            0.09842513729019979,
+            0.098425137290200,
             places=7)
 
         self.assertAlmostEqual(
             rayleigh_optical_depth(555 * 10e-8, latitude=0, altitude=0),
-            0.10040701772896546,
+            0.100407017728965,
             places=10)
 
         self.assertAlmostEqual(
             rayleigh_optical_depth(555 * 10e-8, latitude=45, altitude=1500),
-            0.10019007653463426,
+            0.100190076534634,
             places=10)
 
         self.assertAlmostEqual(
             rayleigh_optical_depth(555 * 10e-8, latitude=48.8567, altitude=35),
-            0.10010846270542267,
+            0.100108462705423,
             places=10)
 
     def test_n_dimensional_rayleigh_optical_depth(self):
@@ -1671,7 +1671,7 @@ class TestRayleighOpticalDepth(unittest.TestCase):
         """
 
         wl = 360 * 10e-8
-        T_R = 0.5991013368480278
+        T_R = 0.599101336848028
         np.testing.assert_almost_equal(
             rayleigh_optical_depth(wl),
             T_R,

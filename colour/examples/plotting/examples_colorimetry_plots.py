@@ -914,7 +914,7 @@ message_box('Comparing theoretical and measured "Sun" spectral distributions.')
 # :func:`colour.spectral_to_XYZ` definition.
 ASTM_G_173_spd = ASTM_G_173_ETR.clone() * 1.37905559e+13
 
-ASTM_G_173_spd.interpolate(colour.SpectralShape(steps=5), method='Linear')
+ASTM_G_173_spd.interpolate(colour.SpectralShape(interval=5), method='Linear')
 
 blackbody_spd = colour.blackbody_spd(
     5778,

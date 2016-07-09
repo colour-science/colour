@@ -18,19 +18,10 @@ import numpy as np
 import pylab
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
-from colour.models import (
-    Lab_to_LCHab,
-    Luv_to_LCHuv,
-    Luv_to_uv,
-    UCS_to_uv,
-    RGB_to_XYZ,
-    XYZ_to_IPT,
-    XYZ_to_Lab,
-    XYZ_to_Luv,
-    XYZ_to_UCS,
-    XYZ_to_UVW,
-    XYZ_to_xy,
-    XYZ_to_xyY)
+from colour.models import RGB_to_XYZ
+from colour.models.common import (
+    COLOURSPACE_MODELS_LABELS,
+    XYZ_to_colourspace_model)
 from colour.plotting import (
     DEFAULT_PLOTTING_ILLUMINANT,
     camera,
@@ -43,44 +34,61 @@ from colour.plotting import (
 from colour.utilities import Structure, tsplit, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['REFERENCE_COLOURSPACES',
-           'REFERENCE_COLOURSPACES_TO_LABELS',
+__all__ = ['common_colourspace_model_axis_reorder',
            'nadir_grid',
-           'XYZ_to_reference_colourspace',
            'RGB_identity_cube',
            'RGB_colourspaces_gamuts_plot',
            'RGB_scatter_plot']
 
-REFERENCE_COLOURSPACES = (
-    'CIE XYZ',
-    'CIE xyY',
-    'CIE Lab',
-    'CIE Luv',
-    'CIE UCS',
-    'CIE UVW',
-    'IPT')
 
-REFERENCE_COLOURSPACES_TO_LABELS = {
-    'CIE XYZ': ('X', 'Y', 'Z'),
-    'CIE xyY': ('x', 'y', 'Y'),
-    'CIE Lab': ('a', 'b', '$L^*$'),
-    'CIE Luv': ('$u^\prime$', '$v^\prime$', '$L^*$'),
-    'CIE UCS': ('U', 'V', 'W'),
-    'CIE UVW': ('U', 'V', 'W'),
-    'IPT': ('P', 'T', 'I')}
-"""
-Reference colourspaces to labels mapping.
+def common_colourspace_model_axis_reorder(a, model=None):
+    """
+    Reorder axis of given colourspace model :math:`a` values accordingly to its
+    most common volume plotting axis order.
 
-REFERENCE_COLOURSPACES_TO_LABELS : dict
-    **{'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE Luv', 'CIE UCS', 'CIE UVW',
-    'IPT'}**
-"""
+    Parameters
+    ----------
+    a : array_like
+        Colourspace model values :math:`a`.
+    model : unicode, optional
+        **{'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE Luv', 'CIE UCS', 'CIE UVW',
+        'IPT', 'Hunter Lab', 'Hunter Rdab'}**
+        Colourspace model.
+
+    Returns
+    -------
+    Figure
+        Reordered colourspace model values.
+
+    Examples
+    --------
+    >>> a = np.array([0, 1, 2])
+    >>> common_colourspace_model_axis_reorder(a)
+    array([0, 1, 2])
+    >>> common_colourspace_model_axis_reorder(a, 'CIE Lab')
+    array([1, 2, 0])
+    >>> common_colourspace_model_axis_reorder(a, 'CIE LCHab')
+    array([1, 2, 0])
+    >>> common_colourspace_model_axis_reorder(a, 'CIE Luv')
+    array([1, 2, 0])
+    >>> common_colourspace_model_axis_reorder(a, 'CIE LCHab')
+    array([1, 2, 0])
+    >>> common_colourspace_model_axis_reorder(a, 'IPT')
+    array([1, 2, 0])
+    """
+
+    if model in ('CIE Lab', 'CIE LCHab', 'CIE Luv', 'CIE LCHuv', 'IPT',
+                 'Hunter Lab', 'Hunter Rdab'):
+        i, j, k = tsplit(a)
+        a = tstack((j, k, i))
+
+    return a
 
 
 def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
@@ -120,9 +128,53 @@ def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
 
     Examples
     --------
-    >>> c = 'Rec. 709'
-    >>> RGB_scatter_plot(c)  # doctest: +SKIP
-    True
+    >>> nadir_grid(segments=1)
+    (array([[[-1.   , -1.   ,  0.   ],
+            [ 1.   , -1.   ,  0.   ],
+            [ 1.   ,  1.   ,  0.   ],
+            [-1.   ,  1.   ,  0.   ]],
+    <BLANKLINE>
+           [[-1.   , -1.   ,  0.   ],
+            [ 0.   , -1.   ,  0.   ],
+            [ 0.   ,  0.   ,  0.   ],
+            [-1.   ,  0.   ,  0.   ]],
+    <BLANKLINE>
+           [[-1.   ,  0.   ,  0.   ],
+            [ 0.   ,  0.   ,  0.   ],
+            [ 0.   ,  1.   ,  0.   ],
+            [-1.   ,  1.   ,  0.   ]],
+    <BLANKLINE>
+           [[ 0.   , -1.   ,  0.   ],
+            [ 1.   , -1.   ,  0.   ],
+            [ 1.   ,  0.   ,  0.   ],
+            [ 0.   ,  0.   ,  0.   ]],
+    <BLANKLINE>
+           [[ 0.   ,  0.   ,  0.   ],
+            [ 1.   ,  0.   ,  0.   ],
+            [ 1.   ,  1.   ,  0.   ],
+            [ 0.   ,  1.   ,  0.   ]],
+    <BLANKLINE>
+           [[-1.   , -0.001,  0.   ],
+            [ 1.   , -0.001,  0.   ],
+            [ 1.   ,  0.001,  0.   ],
+            [-1.   ,  0.001,  0.   ]],
+    <BLANKLINE>
+           [[-0.001, -1.   ,  0.   ],
+            [ 0.001, -1.   ,  0.   ],
+            [ 0.001,  1.   ,  0.   ],
+            [-0.001,  1.   ,  0.   ]]]), array([[ 0.25,  0.25,  0.25,  0.1 ],
+           [ 0.  ,  0.  ,  0.  ,  0.  ],
+           [ 0.  ,  0.  ,  0.  ,  0.  ],
+           [ 0.  ,  0.  ,  0.  ,  0.  ],
+           [ 0.  ,  0.  ,  0.  ,  0.  ],
+           [ 0.  ,  0.  ,  0.  ,  1.  ],
+           [ 0.  ,  0.  ,  0.  ,  1.  ]]), array([[ 0.5 ,  0.5 ,  0.5 ,  0.5 ],
+           [ 0.75,  0.75,  0.75,  0.25],
+           [ 0.75,  0.75,  0.75,  0.25],
+           [ 0.75,  0.75,  0.75,  0.25],
+           [ 0.75,  0.75,  0.75,  0.25],
+           [ 0.  ,  0.  ,  0.  ,  1.  ],
+           [ 0.  ,  0.  ,  0.  ,  1.  ]]))
     """
 
     if limits is None:
@@ -176,7 +228,7 @@ def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
     RGB_gs = np.ones((quads_gs.shape[0], quads_gs.shape[-1]))
     RGB_gsf = RGB_gs * 0
     RGB_gsf = np.hstack((RGB_gsf,
-                         np.full((RGB_gsf.shape[0], 1, np.float_), 0)))
+                         np.full((RGB_gsf.shape[0], 1), 0, np.float_)))
     RGB_gse = np.clip(RGB_gs *
                       settings.grid_edge_colours * 1.5, 0, 1)
     RGB_gse = np.hstack((RGB_gse,
@@ -198,158 +250,55 @@ def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
     RGB_y = np.ones((quad_y.shape[0], quad_y.shape[-1] + 1))
     RGB_y = RGB_y * settings.y_axis_colour
 
-    # Ticks.
-    x_s = 1 if '+x' in settings.ticks_and_label_location else -1
-    y_s = 1 if '+y' in settings.ticks_and_label_location else -1
-    for i, axis in enumerate('xy'):
-        h_a = 'center' if axis == 'x' else 'left' if x_s == 1 else 'right'
-        v_a = 'center'
+    if axes is not None:
+        # Ticks.
+        x_s = 1 if '+x' in settings.ticks_and_label_location else -1
+        y_s = 1 if '+y' in settings.ticks_and_label_location else -1
+        for i, axis in enumerate('xy'):
+            h_a = 'center' if axis == 'x' else 'left' if x_s == 1 else 'right'
+            v_a = 'center'
 
-        ticks = list(sorted(set(quads_g[..., 0, i])))
-        ticks += [ticks[-1] + ticks[-1] - ticks[-2]]
-        for tick in ticks:
-            x = (limits[1, 1 if x_s == 1 else 0] + (x_s * extent / 25)
-                 if i else tick)
-            y = (tick if i else
-                 limits[0, 1 if y_s == 1 else 0] + (y_s * extent / 25))
+            ticks = list(sorted(set(quads_g[..., 0, i])))
+            ticks += [ticks[-1] + ticks[-1] - ticks[-2]]
+            for tick in ticks:
+                x = (limits[1, 1 if x_s == 1 else 0] + (x_s * extent / 25)
+                     if i else tick)
+                y = (tick if i else
+                     limits[0, 1 if y_s == 1 else 0] + (y_s * extent / 25))
 
-            tick = int(tick) if float(tick).is_integer() else tick
-            c = settings['{0}_ticks_colour'.format(axis)]
+                tick = int(tick) if np.float_(tick).is_integer() else tick
+                c = settings['{0}_ticks_colour'.format(axis)]
 
-            axes.text(x, y, 0, tick, 'x',
+                axes.text(x, y, 0, tick, 'x',
+                          horizontalalignment=h_a,
+                          verticalalignment=v_a,
+                          color=c,
+                          clip_on=True)
+
+        # Labels.
+        for i, axis in enumerate('xy'):
+            h_a = 'center' if axis == 'x' else 'left' if x_s == 1 else 'right'
+            v_a = 'center'
+
+            x = (limits[1, 1 if x_s == 1 else 0] + (x_s * extent / 10)
+                 if i else 0)
+            y = (0 if i else
+                 limits[0, 1 if y_s == 1 else 0] + (y_s * extent / 10))
+
+            c = settings['{0}_label_colour'.format(axis)]
+
+            axes.text(x, y, 0, labels[i], 'x',
                       horizontalalignment=h_a,
                       verticalalignment=v_a,
                       color=c,
+                      size=20,
                       clip_on=True)
-
-    # Labels.
-    for i, axis in enumerate('xy'):
-        h_a = 'center' if axis == 'x' else 'left' if x_s == 1 else 'right'
-        v_a = 'center'
-
-        x = (limits[1, 1 if x_s == 1 else 0] + (x_s * extent / 10)
-             if i else 0)
-        y = (0 if i else
-             limits[0, 1 if y_s == 1 else 0] + (y_s * extent / 10))
-
-        c = settings['{0}_label_colour'.format(axis)]
-
-        axes.text(x, y, 0, labels[i], 'x',
-                  horizontalalignment=h_a,
-                  verticalalignment=v_a,
-                  color=c,
-                  size=20,
-                  clip_on=True)
 
     quads = np.vstack((quads_g, quads_gs, quad_x, quad_y))
     RGB_f = np.vstack((RGB_gf, RGB_gsf, RGB_x, RGB_y))
     RGB_e = np.vstack((RGB_ge, RGB_gse, RGB_x, RGB_y))
 
     return quads, RGB_f, RGB_e
-
-
-def XYZ_to_reference_colourspace(XYZ,
-                                 illuminant,
-                                 reference_colourspace):
-    """
-    Converts from *CIE XYZ* tristimulus values to given reference colourspace.
-
-    Parameters
-    ----------
-    XYZ : array_like
-        *CIE XYZ* tristimulus values.
-    illuminant : array_like
-        *CIE XYZ* tristimulus values *illuminant* *xy* chromaticity
-        coordinates.
-    reference_colourspace : unicode
-        **{'CIE XYZ', 'CIE xyY', 'CIE xy', 'CIE Lab', 'CIE Luv', 'CIE Luv uv',
-        'CIE UCS', 'CIE UCS uv', 'CIE UVW', 'IPT'}**,
-        Reference colourspace to convert the *CIE XYZ* tristimulus values to.
-
-    Returns
-    -------
-    ndarray
-        Reference colourspace values.
-
-    Examples
-    --------
-    >>> import numpy as np
-    >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
-    >>> W = np.array([0.34567, 0.35850])
-    >>> XYZ_to_reference_colourspace(  # doctest: +ELLIPSIS
-    ... XYZ, W, 'CIE XYZ')
-    array([ 0.0704953...,  0.1008    ,  0.0955831...])
-    >>> XYZ_to_reference_colourspace(  # doctest: +ELLIPSIS
-    ... XYZ, W, 'CIE xyY')
-    array([ 0.2641477...,  0.3777000...,  0.1008    ])
-    >>> XYZ_to_reference_colourspace(  # doctest: +ELLIPSIS
-    ... XYZ, W, 'CIE xy')
-    array([ 0.2641477...,  0.3777000...])
-    >>> XYZ_to_reference_colourspace(  # doctest: +ELLIPSIS
-    ... XYZ, W, 'CIE Lab')
-    array([-23.6230288...,  -4.4141703...,  37.9856291...])
-    >>> XYZ_to_reference_colourspace(  # doctest: +ELLIPSIS
-    ... XYZ, W, 'CIE LCHab')
-    array([  24.0319036...,  190.5841597...,   37.9856291...])
-    >>> XYZ_to_reference_colourspace(  # doctest: +ELLIPSIS
-    ... XYZ, W, 'CIE Luv')
-    array([-28.7922944...,  -1.3558195...,  37.9856291...])
-    >>> XYZ_to_reference_colourspace(  # doctest: +ELLIPSIS
-    ... XYZ, W, 'CIE Luv uv')
-    array([ 0.1508531...,  0.4853297...])
-    >>> XYZ_to_reference_colourspace(  # doctest: +ELLIPSIS
-    ... XYZ, W, 'CIE LCHuv')
-    array([  28.82419932,  182.69604747,   37.9856291 ])
-    >>> XYZ_to_reference_colourspace(  # doctest: +ELLIPSIS
-    ... XYZ, W, 'CIE UCS uv')
-    array([ 0.1508531...,  0.32355314...])
-    >>> XYZ_to_reference_colourspace(  # doctest: +ELLIPSIS
-    ... XYZ, W, 'CIE UVW')
-    array([-28.0483277...,  -0.8805242...,  37.0041149...])
-    >>> XYZ_to_reference_colourspace(  # doctest: +ELLIPSIS
-    ... XYZ, W, 'IPT')
-    array([-0.1111479...,  0.0159474...,  0.3657112...])
-    """
-
-    value = None
-    if reference_colourspace == 'CIE XYZ':
-        value = XYZ
-    if reference_colourspace == 'CIE xyY':
-        value = XYZ_to_xyY(XYZ, illuminant)
-    if reference_colourspace == 'CIE xy':  # Used for Chromaticity Diagram.
-        value = XYZ_to_xy(XYZ, illuminant)
-    if reference_colourspace == 'CIE Lab':
-        L, a, b = tsplit(XYZ_to_Lab(XYZ, illuminant))
-        value = tstack((a, b, L))
-    if reference_colourspace == 'CIE LCHab':
-        L, CH, ab = tsplit(Lab_to_LCHab(XYZ_to_Lab(XYZ, illuminant)))
-        value = tstack((CH, ab, L))
-    if reference_colourspace == 'CIE Luv':
-        L, u, v = tsplit(XYZ_to_Luv(XYZ, illuminant))
-        value = tstack((u, v, L))
-    if reference_colourspace == 'CIE Luv uv':  # Used for Chromaticity Diagram.
-        u, v = tsplit(Luv_to_uv(XYZ_to_Luv(XYZ, illuminant), illuminant))
-        value = tstack((u, v))
-    if reference_colourspace == 'CIE LCHuv':
-        L, CH, uv = tsplit(Luv_to_LCHuv(XYZ_to_Luv(XYZ, illuminant)))
-        value = tstack((CH, uv, L))
-    if reference_colourspace == 'CIE UCS':
-        value = XYZ_to_UCS(XYZ)
-    if reference_colourspace == 'CIE UCS uv':  # Used for Chromaticity Diagram.
-        u, v = tsplit(UCS_to_uv(XYZ_to_UCS(XYZ)))
-        value = tstack((u, v))
-    if reference_colourspace == 'CIE UVW':
-        value = XYZ_to_UVW(XYZ * 100, illuminant)
-    if reference_colourspace == 'IPT':
-        I, P, T = tsplit(XYZ_to_IPT(XYZ))
-        value = tstack((P, T, I))
-
-    if value is None:
-        raise ValueError(
-            ('"{0}" not found in reference colourspace models: '
-             '"{1}".').format(reference_colourspace,
-                              ', '.join(REFERENCE_COLOURSPACES)))
-    return value
 
 
 def RGB_identity_cube(plane=None,
@@ -449,7 +398,7 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
         *RGB* colourspaces to plot the gamuts.
     reference_colourspace : unicode, optional
         **{'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE Luv', 'CIE UCS', 'CIE UVW',
-        'IPT'}**,
+        'IPT', 'Hunter Lab', 'Hunter Rdab'}**,
         Reference colourspace to plot the gamuts into.
     segments : int, optional
         Edge segments count for each *RGB* colourspace cubes.
@@ -485,14 +434,13 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> c = ['Rec. 709', 'ACEScg', 'S-Gamut']
     >>> RGB_colourspaces_gamuts_plot(c)  # doctest: +SKIP
-    True
     """
 
     if colourspaces is None:
@@ -518,9 +466,10 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
         cmfs = get_cmfs(cmfs)
         XYZ = cmfs.values
 
-        points = XYZ_to_reference_colourspace(XYZ,
-                                              illuminant,
-                                              reference_colourspace)
+        points = common_colourspace_model_axis_reorder(
+            XYZ_to_colourspace_model(
+                XYZ, illuminant, reference_colourspace),
+            reference_colourspace)
 
         points[np.isnan(points)] = 0
 
@@ -554,23 +503,26 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
             colourspace.whitepoint,
             colourspace.RGB_to_XYZ_matrix)
 
-        quads.extend(XYZ_to_reference_colourspace(XYZ,
-                                                  colourspace.whitepoint,
-                                                  reference_colourspace))
+        quads.extend(common_colourspace_model_axis_reorder(
+            XYZ_to_colourspace_model(
+                XYZ, colourspace.whitepoint, reference_colourspace),
+            reference_colourspace))
 
         if settings.face_colours[i] is not None:
             RGB = np.ones(RGB.shape) * settings.face_colours[i]
 
         RGB_f.extend(np.hstack(
-            (RGB, np.full((RGB.shape[0], 1, np.float_),
-                          settings.face_alpha[i]))))
+            (RGB, np.full((RGB.shape[0], 1),
+                          settings.face_alpha[i],
+                          np.float_))))
 
         if settings.edge_colours[i] is not None:
             RGB = np.ones(RGB.shape) * settings.edge_colours[i]
 
         RGB_e.extend(np.hstack(
-            (RGB, np.full((RGB.shape[0], 1, np.float_),
-                          settings.edge_alpha[i]))))
+            (RGB, np.full((RGB.shape[0], 1),
+                          settings.edge_alpha[i],
+                          np.float_))))
 
     quads = np.asarray(quads)
     quads[np.isnan(quads)] = 0
@@ -581,7 +533,7 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
             max_a = np.max(np.vstack((quads[..., i], points[..., i])))
             getattr(axes, 'set_{}lim'.format(axis))((min_a, max_a))
 
-    labels = REFERENCE_COLOURSPACES_TO_LABELS[reference_colourspace]
+    labels = COLOURSPACE_MODELS_LABELS[reference_colourspace]
     for i, axis in enumerate('xyz'):
         getattr(axes, 'set_{}label'.format(axis))(labels[i])
 
@@ -592,6 +544,8 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
             limits = np.array([[-650, 650], [-650, 650]])
         elif reference_colourspace == 'CIE UVW':
             limits = np.array([[-850, 850], [-850, 850]])
+        elif reference_colourspace in ('Hunter Lab', 'Hunter Rdab'):
+            limits = np.array([[-250, 250], [-250, 250]])
         else:
             limits = np.array([[-1.5, 1.5], [-1.5, 1.5]])
 
@@ -609,7 +563,7 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
 
     settings.update({
         'camera_aspect': 'equal',
-        'no_axes3d': True})
+        'no_axes': True})
     settings.update(kwargs)
 
     camera(**settings)
@@ -641,7 +595,7 @@ def RGB_scatter_plot(RGB,
         *RGB* colourspace of the *RGB* array.
     reference_colourspace : unicode, optional
         **{'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE Luv', 'CIE UCS', 'CIE UVW',
-        'IPT'}**,
+        'IPT', 'Hunter Lab', 'Hunter Rdab'}**,
         Reference colourspace for colour conversion.
     colourspaces : array_like, optional
         *RGB* colourspaces to plot the gamuts.
@@ -681,14 +635,13 @@ def RGB_scatter_plot(RGB,
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> c = 'Rec. 709'
     >>> RGB_scatter_plot(c)  # doctest: +SKIP
-    True
     """
 
     colourspace = get_RGB_colourspace(colourspace)
@@ -722,9 +675,10 @@ def RGB_scatter_plot(RGB,
         colourspace.whitepoint,
         colourspace.RGB_to_XYZ_matrix)
 
-    points = XYZ_to_reference_colourspace(XYZ,
-                                          colourspace.whitepoint,
-                                          reference_colourspace)
+    points = common_colourspace_model_axis_reorder(
+        XYZ_to_colourspace_model(
+            XYZ, colourspace.whitepoint, reference_colourspace),
+        reference_colourspace)
 
     axes = matplotlib.pyplot.gca()
     axes.scatter(points[..., 0],

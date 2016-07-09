@@ -15,7 +15,7 @@ from colour.models import XYZ_to_UVW
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -37,29 +37,29 @@ class TestXYZ_to_UVW(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             XYZ_to_UVW(np.array([0.07049534, 0.10080000, 0.09558313]) * 100),
-            np.array([-28.04832770, -0.88052424, 37.00411491]),
+            np.array([-28.05797333, -0.88194493, 37.00411491]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_UVW(np.array([0.47097710, 0.34950000, 0.11301649]) * 100),
-            np.array([85.92692334, 17.74352405, 64.73769793]),
+            np.array([85.91004857, 17.74103859, 64.73769793]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_UVW(np.array([0.25506814, 0.19150000, 0.08849752]) * 100),
-            np.array([59.36088697, 8.5919153, 49.88513399]),
+            np.array([59.34788373, 8.59000007, 49.88513399]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_UVW(np.array([0.07049534, 0.10080000, 0.09558313]) * 100,
                        np.array([0.44757, 0.40745])),
-            np.array([-50.56405108, -12.4960054, 37.00411491]),
+            np.array([-50.56405108, -12.49600540, 37.00411491]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_UVW(np.array([0.07049534, 0.10080000, 0.09558313]) * 100,
-                       np.array([0.31271, 0.32902])),
-            np.array([-22.59813763, 5.45115077, 37.00411491]),
+                       np.array([0.31270, 0.32900])),
+            np.array([-22.59840563, 5.45505477, 37.00411491]),
             decimal=7)
 
         np.testing.assert_almost_equal(
@@ -81,8 +81,8 @@ class TestXYZ_to_UVW(unittest.TestCase):
         """
 
         XYZ = np.array([0.07049534, 0.10080000, 0.09558313]) * 100
-        illuminant = np.array([0.34567, 0.35850])
-        UVW = np.array([-28.04832770, -0.88052424, 37.00411491])
+        illuminant = np.array([0.34570, 0.35850])
+        UVW = np.array([-28.05797333, -0.88194493, 37.00411491])
         np.testing.assert_almost_equal(
             XYZ_to_UVW(XYZ, illuminant),
             UVW,

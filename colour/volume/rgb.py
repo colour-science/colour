@@ -15,7 +15,7 @@ Defines various RGB colourspace volume computation objects:
 See Also
 --------
 `RGB Colourspace Volume Computation IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/volume/rgb.ipynb>`_
 """
 
@@ -32,7 +32,6 @@ from colour.models import (
     RGB_to_XYZ,
     XYZ_to_Lab,
     XYZ_to_RGB)
-from colour.utilities import is_scipy_installed
 from colour.volume import is_within_pointer_gamut, is_within_visible_spectrum
 
 __author__ = 'Colour Developers'
@@ -57,7 +56,7 @@ def _wrapper_RGB_colourspace_volume_MonteCarlo(args):
 
     Parameters
     ----------
-    \*args : list, optional
+    args : list, optional
         Arguments.
 
     Returns
@@ -94,7 +93,7 @@ def sample_RGB_colourspace_volume_MonteCarlo(
         *Lab* colourspace *illuminant* chromaticity coordinates.
     chromatic_adaptation_method : unicode, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
-        'Fairchild, 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
+        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
         'Bianco PC'}**,
         *Chromatic adaptation* method.
     random_generator : generator, optional
@@ -168,9 +167,9 @@ def RGB_colourspace_limits(colourspace,
     --------
     >>> from colour import sRGB_COLOURSPACE as sRGB
     >>> RGB_colourspace_limits(sRGB)  # doctest: +ELLIPSIS
-    array([[   0...        ,  100...        ],
-           [ -79.2263741...,   94.6657491...],
-           [-114.7846271...,   96.7135199...]])
+    array([[   0...        ,  100.0000848...],
+           [ -79.2197012...,   94.6760011...],
+           [-114.7814393...,   96.7261797...]])
     """
 
     Lab = []
@@ -214,7 +213,7 @@ def RGB_colourspace_volume_MonteCarlo(
         *Lab* colourspace *illuminant* chromaticity coordinates.
     chromatic_adaptation_method : unicode, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
-        'Fairchild, 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
+        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
         'Bianco PC'}**,
         *Chromatic adaptation* method.
     random_generator : generator, optional
@@ -250,7 +249,7 @@ across-systems-and-versions
     >>> processes = 1
     >>> RGB_colourspace_volume_MonteCarlo(  # doctest: +ELLIPSIS
     ...     sRGB, 10e3, random_state=prng, processes=processes)
-    859...
+    858...
     """
 
     cpu_count = processes if processes else multiprocessing.cpu_count()
@@ -302,10 +301,6 @@ def RGB_colourspace_volume_coverage_MonteCarlo(
     float
         Percentage coverage of volume.
 
-    Notes
-    -----
-    -   This definition requires *scipy* to be installed.
-
     Examples
     --------
     >>> from colour import sRGB_COLOURSPACE as sRGB
@@ -318,25 +313,24 @@ def RGB_colourspace_volume_coverage_MonteCarlo(
     83...
     """
 
-    if is_scipy_installed(raise_exception=True):
-        random_state = (random_state
-                        if random_state is not None else
-                        np.random.RandomState())
+    random_state = (random_state
+                    if random_state is not None else
+                    np.random.RandomState())
 
-        # TODO: Investigate for generator yielding directly a ndarray.
-        XYZ = np.asarray(list(random_generator(
-            samples, random_state=random_state)))
-        XYZ_vs = XYZ[coverage_sampler(XYZ)]
+    # TODO: Investigate for generator yielding directly a ndarray.
+    XYZ = np.asarray(list(random_generator(
+        samples, random_state=random_state)))
+    XYZ_vs = XYZ[coverage_sampler(XYZ)]
 
-        RGB = XYZ_to_RGB(XYZ_vs,
-                         colourspace.whitepoint,
-                         colourspace.whitepoint,
-                         colourspace.XYZ_to_RGB_matrix)
+    RGB = XYZ_to_RGB(XYZ_vs,
+                     colourspace.whitepoint,
+                     colourspace.whitepoint,
+                     colourspace.XYZ_to_RGB_matrix)
 
-        RGB_c = RGB[np.logical_and(np.min(RGB, axis=-1) >= 0,
-                                   np.max(RGB, axis=-1) <= 1)]
+    RGB_c = RGB[np.logical_and(np.min(RGB, axis=-1) >= 0,
+                               np.max(RGB, axis=-1) <= 1)]
 
-        return 100 * RGB_c.size / XYZ_vs.size
+    return 100 * RGB_c.size / XYZ_vs.size
 
 
 def RGB_colourspace_pointer_gamut_coverage_MonteCarlo(
@@ -364,10 +358,6 @@ def RGB_colourspace_pointer_gamut_coverage_MonteCarlo(
     -------
     float
         Percentage coverage of Pointer's Gamut volume.
-
-    Notes
-    -----
-    -   This definition requires *scipy* to be installed.
 
     Examples
     --------
@@ -413,10 +403,6 @@ def RGB_colourspace_visible_spectrum_coverage_MonteCarlo(
     -------
     float
         Percentage coverage of visible spectrum volume.
-
-    Notes
-    -----
-    -   This definition requires *scipy* to be installed.
 
     Examples
     --------

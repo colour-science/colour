@@ -15,7 +15,7 @@ Defines the *CIE UCS* colourspace transformations:
 See Also
 --------
 `CIE UCS Colourspace IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/cie_ucs.ipynb>`_
 
 References
@@ -32,7 +32,7 @@ from __future__ import division, unicode_literals
 from colour.utilities import tsplit, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -61,7 +61,7 @@ def XYZ_to_UCS(XYZ):
     Notes
     -----
     -   Input *CIE XYZ* tristimulus values are in domain [0, 1].
-    -   Output *CIE UCS* colourspace array is in domain [0, 1].
+    -   Output *CIE UCS* colourspace array is in range [0, 1].
 
     Examples
     --------
@@ -95,7 +95,7 @@ def UCS_to_XYZ(UVW):
     Notes
     -----
     -   Input *CIE UCS* colourspace array is in domain [0, 1].
-    -   Output *CIE XYZ* tristimulus values are in domain [0, 1].
+    -   Output *CIE XYZ* tristimulus values are in range [0, 1].
 
     Examples
     --------
@@ -130,7 +130,7 @@ def UCS_to_uv(UVW):
     Notes
     -----
     -   Input *CIE UCS* colourspace array is in domain [0, 1].
-    -   Output *uv* chromaticity coordinates are in domain [0, 1].
+    -   Output *uv* chromaticity coordinates are in range [0, 1].
 
     Examples
     --------
@@ -165,12 +165,12 @@ def UCS_uv_to_xy(uv):
     Notes
     -----
     -   Input *uv* chromaticity coordinates are in domain [0, 1].
-    -   Output *xy* chromaticity coordinates are in domain [0, 1].
+    -   Output *xy* chromaticity coordinates are in range [0, 1].
 
     Examples
     --------
     >>> import numpy as np
-    >>> uv = np.array([0.15085308732766581, 0.3235531372954405])
+    >>> uv = np.array([0.150853087327666, 0.323553137295440])
     >>> UCS_uv_to_xy(uv)  # doctest: +ELLIPSIS
     array([ 0.2641477...,  0.3777000...])
     """

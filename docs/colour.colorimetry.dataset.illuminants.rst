@@ -8,6 +8,7 @@ Sub-Modules
 
    colour.colorimetry.dataset.illuminants.chromaticity_coordinates
    colour.colorimetry.dataset.illuminants.d_illuminants_s_spds
+   colour.colorimetry.dataset.illuminants.hunterlab
    colour.colorimetry.dataset.illuminants.spds
 
 Module Contents

@@ -10,14 +10,16 @@ Defines common utilities objects that don't fall in any specific category.
 
 from __future__ import division, unicode_literals
 
+from copy import deepcopy
 import functools
 import numpy as np
+import sys
 import warnings
 
 from colour.constants import INTEGER_THRESHOLD
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -31,11 +33,11 @@ __all__ = ['handle_numpy_errors',
            'ignore_python_warnings',
            'batch',
            'is_openimageio_installed',
-           'is_scipy_installed',
            'is_iterable',
            'is_string',
            'is_numeric',
-           'is_integer']
+           'is_integer',
+           'filter_kwargs']
 
 
 def handle_numpy_errors(**kwargs):
@@ -186,53 +188,19 @@ def is_openimageio_installed(raise_exception=False):
         return False
 
 
-def is_scipy_installed(raise_exception=False):
+def is_iterable(a):
     """
-    Returns if *scipy* is installed and available.
+    Returns if given :math:`a` variable is iterable.
 
     Parameters
     ----------
-    raise_exception : bool
-        Raise exception if *scipy* is unavailable.
-
-    Returns
-    -------
-    bool
-        Is *scipy* installed.
-
-    Raises
-    ------
-    ImportError
-        If *scipy* is not installed.
-    """
-
-    try:
-        # Importing *scipy* Api features used in *Colour*.
-        import scipy.interpolate  # noqa
-        import scipy.ndimage  # noqa
-        import scipy.spatial  # noqa
-
-        return True
-    except ImportError as error:
-        if raise_exception:
-            raise ImportError(('"scipy" or specific "scipy" Api features '
-                               'are not available: "{0}".').format(error))
-        return False
-
-
-def is_iterable(x):
-    """
-    Returns if given :math:`x` variable is iterable.
-
-    Parameters
-    ----------
-    x : object
+    a : object
         Variable to check the iterability.
 
     Returns
     -------
     bool
-        :math:`x` variable iterability.
+        :math:`a` variable iterability.
 
     Examples
     --------
@@ -243,26 +211,26 @@ def is_iterable(x):
     """
 
     try:
-        for _ in x:
+        for _ in a:
             break
         return True
     except TypeError:
         return False
 
 
-def is_string(data):
+def is_string(a):
     """
-    Returns if given data is a *string_like* variable.
+    Returns if given :math:`a` variable is a *string_like* variable.
 
     Parameters
     ----------
-    data : object
+    a : object
         Data to test.
 
     Returns
     -------
     bool
-        Is *string_like* variable.
+        Is :math:`a` variable a *string_like* variable.
 
     Examples
     --------
@@ -272,22 +240,22 @@ def is_string(data):
     False
     """
 
-    return True if isinstance(data, basestring) else False  # noqa
+    return True if isinstance(a, basestring) else False  # noqa
 
 
-def is_numeric(x):
+def is_numeric(a):
     """
-    Returns if given :math:`x` variable is a number.
+    Returns if given :math:`a` variable is a number.
 
     Parameters
     ----------
-    x : object
+    a : object
         Variable to check.
 
     Returns
     -------
     bool
-        Is :math:`x` variable a number.
+        Is :math:`a` variable a number.
 
     See Also
     --------
@@ -301,23 +269,23 @@ def is_numeric(x):
     False
     """
 
-    return isinstance(x, (int, float, complex,
+    return isinstance(a, (int, float, complex,
                           np.integer, np.floating, np.complex))
 
 
-def is_integer(x):
+def is_integer(a):
     """
-    Returns if given :math:`x` variable is an integer under given threshold.
+    Returns if given :math:`a` variable is an integer under given threshold.
 
     Parameters
     ----------
-    x : object
+    a : object
         Variable to check.
 
     Returns
     -------
     bool
-        Is :math:`x` variable an integer.
+        Is :math:`a` variable an integer.
 
     Notes
     -----
@@ -336,4 +304,49 @@ def is_integer(x):
     False
     """
 
-    return abs(x - round(x)) <= INTEGER_THRESHOLD
+    return abs(a - round(a)) <= INTEGER_THRESHOLD
+
+
+def filter_kwargs(function, **kwargs):
+    """
+    Filters keyword arguments incompatible with the given function signature.
+
+    Parameters
+    ----------
+    function : callable
+        Callable to filter the incompatible keyword arguments.
+    \**kwargs : dict, optional
+        Keywords arguments.
+
+    Returns
+    -------
+    dict
+        Filtered keyword arguments.
+
+    Examples
+    --------
+    >>> def fn_a(a):
+    ...     return a
+    >>> def fn_b(a, b=0):
+    ...     return a, b
+    >>> def fn_c(a, b=0, c=0):
+    ...     return a, b, c
+    >>> fn_a(1, **filter_kwargs(fn_a, b=2, c=3))
+    1
+    >>> fn_b(1, **filter_kwargs(fn_b, b=2, c=3))
+    (1, 2)
+    >>> fn_c(1, **filter_kwargs(fn_c, b=2, c=3))
+    (1, 2, 3)
+    """
+
+    kwargs = deepcopy(kwargs)
+    if sys.version_info[0] >= 3:
+        args = function.__code__.co_varnames
+    else:
+        args = function.func_code.co_varnames
+
+    args = set(kwargs.keys()) - set(args)
+    for key in args:
+        kwargs.pop(key)
+
+    return kwargs

@@ -35,7 +35,7 @@ from colour.plotting import (
 from colour.utilities import warning
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -72,20 +72,21 @@ def colour_quality_bars_plot(specifications,
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> from colour import (
     ...     ILLUMINANTS_RELATIVE_SPDS,
-    ...     LIGHT_SOURCES_RELATIVE_SPDS)
+    ...     LIGHT_SOURCES_RELATIVE_SPDS,
+    ...     SpectralShape)
     >>> illuminant = ILLUMINANTS_RELATIVE_SPDS.get('F2')
     >>> light_source = LIGHT_SOURCES_RELATIVE_SPDS.get('Kinoton 75P')
+    >>> light_source = light_source.clone().align(SpectralShape(360, 830, 1))
     >>> cqs_i = colour_quality_scale(illuminant, additional_data=True)
     >>> cqs_l = colour_quality_scale(light_source, additional_data=True)
     >>> colour_quality_bars_plot([cqs_i, cqs_l])  # doctest: +SKIP
-    True
     """
 
     settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
@@ -94,7 +95,7 @@ def colour_quality_bars_plot(specifications,
     canvas(**settings)
 
     bar_width = 0.5
-    y_ticks_steps = 10
+    y_ticks_interval = 10
     count_s, count_Q_as = len(specifications), 0
     patterns = cycle(DEFAULT_HATCH_PATTERNS)
     if hatching is None:
@@ -109,7 +110,7 @@ def colour_quality_bars_plot(specifications,
                                 for x in colorimetry_data[0]])
 
         x = (i + np.arange(0, (count_Q_as + 1) * (count_s + 1), (count_s + 1),
-                           dtype=np.float)) * bar_width
+                           dtype=np.float_)) * bar_width
         y = [s[1].Q_a for s in sorted(Q_as.items(), key=lambda s: s[0])]
         y = np.array([Q_a] + list(y))
 
@@ -140,11 +141,11 @@ def colour_quality_bars_plot(specifications,
     pylab.axhline(y=100, color='black', linestyle='--')
 
     pylab.xticks((np.arange(0, (count_Q_as + 1) * (count_s + 1), (count_s + 1),
-                            dtype=np.float) *
+                            dtype=np.float_) *
                   bar_width + (count_s * bar_width / 2)),
                  ['Qa'] + ['Q{0}'.format(index + 1)
                            for index in range(0, count_Q_as + 1, 1)])
-    pylab.yticks(range(0, 100 + y_ticks_steps, y_ticks_steps))
+    pylab.yticks(range(0, 100 + y_ticks_interval, y_ticks_interval))
 
     settings.update({
         'title': 'Colour Quality',
@@ -179,8 +180,8 @@ def single_spd_colour_rendering_index_bars_plot(spd, **kwargs):
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
@@ -188,7 +189,6 @@ def single_spd_colour_rendering_index_bars_plot(spd, **kwargs):
     >>> illuminant = ILLUMINANTS_RELATIVE_SPDS.get('F2')
     >>> single_spd_colour_rendering_index_bars_plot(  # doctest: +SKIP
     ...     illuminant)
-    True
     """
 
     return multi_spd_colour_rendering_index_bars_plot([spd], **kwargs)
@@ -209,8 +209,8 @@ def multi_spd_colour_rendering_index_bars_plot(spds, **kwargs):
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
@@ -221,7 +221,6 @@ def multi_spd_colour_rendering_index_bars_plot(spds, **kwargs):
     >>> light_source = LIGHT_SOURCES_RELATIVE_SPDS.get('Kinoton 75P')
     >>> multi_spd_colour_rendering_index_bars_plot(  # doctest: +SKIP
     ...     [illuminant, light_source])
-    True
     """
 
     settings = {}
@@ -270,8 +269,8 @@ def single_spd_colour_quality_scale_bars_plot(spd, **kwargs):
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
@@ -279,7 +278,6 @@ def single_spd_colour_quality_scale_bars_plot(spd, **kwargs):
     >>> illuminant = ILLUMINANTS_RELATIVE_SPDS.get('F2')
     >>> single_spd_colour_quality_scale_bars_plot(  # doctest: +SKIP
     ...     illuminant)
-    True
     """
 
     return multi_spd_colour_quality_scale_bars_plot([spd], **kwargs)
@@ -300,8 +298,8 @@ def multi_spd_colour_quality_scale_bars_plot(spds, **kwargs):
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
@@ -312,7 +310,6 @@ def multi_spd_colour_quality_scale_bars_plot(spds, **kwargs):
     >>> light_source = LIGHT_SOURCES_RELATIVE_SPDS.get('Kinoton 75P')
     >>> multi_spd_colour_quality_scale_bars_plot(  # doctest: +SKIP
     ...     [illuminant, light_source])
-    True
     """
 
     settings = {}

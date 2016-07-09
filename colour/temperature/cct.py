@@ -36,7 +36,7 @@ Defines correlated colour temperature :math:`T_{cp}` computations objects:
 See Also
 --------
 `Colour Temperature & Correlated Colour Temperature IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/temperature/cct.ipynb>`_
 
 References
@@ -55,10 +55,15 @@ from colour.colorimetry import (
     blackbody_spd,
     spectral_to_XYZ)
 from colour.models import UCS_to_uv, XYZ_to_UCS
-from colour.utilities import CaseInsensitiveMapping, tsplit, tstack, warning
+from colour.utilities import (
+    CaseInsensitiveMapping,
+    as_numeric,
+    tsplit,
+    tstack,
+    warning)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -193,26 +198,26 @@ def planckian_table(uv, cmfs, start, end, count):
     >>> uv = np.array([0.1978, 0.3122])
     >>> pprint(planckian_table(  # doctest: +ELLIPSIS
     ...     uv, cmfs, 1000, 1010, 10))
-    [PlanckianTable_Tuvdi(\
-Ti=1000.0, ui=0.4480108..., vi=0.3546249..., di=0.2537821...),
-     PlanckianTable_Tuvdi(\
-Ti=1001.1111111..., ui=0.4477508..., vi=0.3546475..., di=0.2535294...),
-     PlanckianTable_Tuvdi(\
-Ti=1002.2222222..., ui=0.4474910..., vi=0.3546700..., di=0.2532771...),
-     PlanckianTable_Tuvdi(\
-Ti=1003.3333333..., ui=0.4472316..., vi=0.3546924..., di=0.2530251...),
-     PlanckianTable_Tuvdi(\
-Ti=1004.4444444..., ui=0.4469724..., vi=0.3547148..., di=0.2527734...),
-     PlanckianTable_Tuvdi(\
-Ti=1005.5555555..., ui=0.4467136..., vi=0.3547372..., di=0.2525220...),
-     PlanckianTable_Tuvdi(\
-Ti=1006.6666666..., ui=0.4464550..., vi=0.3547595..., di=0.2522710...),
-     PlanckianTable_Tuvdi(\
-Ti=1007.7777777..., ui=0.4461968..., vi=0.3547817..., di=0.2520202...),
-     PlanckianTable_Tuvdi(\
-Ti=1008.8888888..., ui=0.4459389..., vi=0.3548040..., di=0.2517697...),
-     PlanckianTable_Tuvdi(\
-Ti=1010.0, ui=0.4456812..., vi=0.3548261..., di=0.2515196...)]
+    [PlanckianTable_Tuvdi(Ti=1000.0, \
+ui=0.4479628..., vi=0.3546296..., di=0.2537355...),
+     PlanckianTable_Tuvdi(Ti=1001.1111111..., \
+ui=0.4477030..., vi=0.3546521..., di=0.2534831...),
+     PlanckianTable_Tuvdi(Ti=1002.2222222..., \
+ui=0.4474434..., vi=0.3546746..., di=0.2532310...),
+     PlanckianTable_Tuvdi(Ti=1003.3333333..., \
+ui=0.4471842..., vi=0.3546970..., di=0.2529792...),
+     PlanckianTable_Tuvdi(Ti=1004.4444444..., \
+ui=0.4469252..., vi=0.3547194..., di=0.2527277...),
+     PlanckianTable_Tuvdi(Ti=1005.5555555..., \
+ui=0.4466666..., vi=0.3547417..., di=0.2524765...),
+     PlanckianTable_Tuvdi(Ti=1006.6666666..., \
+ui=0.4464083..., vi=0.3547640..., di=0.2522256...),
+     PlanckianTable_Tuvdi(Ti=1007.7777777..., \
+ui=0.4461502..., vi=0.3547862..., di=0.2519751...),
+     PlanckianTable_Tuvdi(Ti=1008.8888888..., \
+ui=0.4458925..., vi=0.3548084..., di=0.2517248...),
+     PlanckianTable_Tuvdi(Ti=1010.0, \
+ui=0.4456351..., vi=0.3548306..., di=0.2514749...)]
     """
 
     ux, vx = uv
@@ -311,7 +316,7 @@ def uv_to_CCT_Ohno2013(uv,
     >>> cmfs = STANDARD_OBSERVERS_CMFS.get(cmfs)
     >>> uv = np.array([0.1978, 0.3122])
     >>> uv_to_CCT_Ohno2013(uv, cmfs)  # doctest: +ELLIPSIS
-    array([  6.5075470...e+03,   3.2236908...e-03])
+    array([  6.5075128...e+03,   3.2233587...e-03])
     """
 
     # Ensuring we do at least one iteration to initialise variables.
@@ -358,8 +363,8 @@ def uv_to_CCT_Ohno2013(uv,
         a = (Tip * (din - di) + Ti * (dip - din) + Tin * (di - dip)) * X ** -1
         b = (-(Tip ** 2 * (din - di) + Ti ** 2 * (dip - din) + Tin ** 2 *
                (di - dip)) * X ** -1)
-        c = (-(dip * (Tin - Ti) * Ti * Tin + di * (Tip - Tin) * Tip * Tin
-               + din * (Ti - Tip) * Tip * Ti) * X ** -1)
+        c = (-(dip * (Tin - Ti) * Ti * Tin + di * (Tip - Tin) * Tip * Tin +
+               din * (Ti - Tip) * Tip * Ti) * X ** -1)
 
         T = -b / (2 * a)
 
@@ -402,9 +407,9 @@ def CCT_to_uv_Ohno2013(CCT,
     >>> cmfs = 'CIE 1931 2 Degree Standard Observer'
     >>> cmfs = STANDARD_OBSERVERS_CMFS.get(cmfs)
     >>> CCT = 6507.4342201047066
-    >>> D_uv = 0.003223690901512735
+    >>> D_uv = 0.003223690901513
     >>> CCT_to_uv_Ohno2013(CCT, D_uv, cmfs)  # doctest: +ELLIPSIS
-    array([ 0.1978003...,  0.3122005...])
+    array([ 0.1977999...,  0.3122004...])
     """
 
     shape = cmfs.shape
@@ -463,7 +468,7 @@ def uv_to_CCT_Robertson1968(uv):
 
     Examples
     --------
-    >>> uv = np.array([0.19374137599822966, 0.31522104394059397])
+    >>> uv = np.array([0.193741375998230, 0.315221043940594])
     >>> uv_to_CCT_Robertson1968(uv)  # doctest: +ELLIPSIS
     array([  6.5000162...e+03,   8.3333289...e-03])
     """
@@ -556,7 +561,7 @@ def CCT_to_uv_Robertson1968(CCT, D_uv=0):
     Examples
     --------
     >>> CCT = 6500.0081378199056
-    >>> D_uv = 0.0083333312442250979
+    >>> D_uv = 0.008333331244225
     >>> CCT_to_uv_Robertson1968(CCT, D_uv)  # doctest: +ELLIPSIS
     array([ 0.1937413...,  0.3152210...])
     """
@@ -651,7 +656,7 @@ def uv_to_CCT(uv, method='Ohno 2013', **kwargs):
     >>> cmfs = STANDARD_OBSERVERS_CMFS.get(cmfs)
     >>> uv = np.array([0.1978, 0.3122])
     >>> uv_to_CCT(uv, cmfs=cmfs)  # doctest: +ELLIPSIS
-    array([  6.5075470...e+03,   3.2236908...e-03])
+    array([  6.5075128...e+03,   3.2233587...e-03])
     """
 
     if method == 'Ohno 2013':
@@ -720,9 +725,9 @@ def CCT_to_uv(CCT, D_uv=0, method='Ohno 2013', **kwargs):
     >>> cmfs = 'CIE 1931 2 Degree Standard Observer'
     >>> cmfs = STANDARD_OBSERVERS_CMFS.get(cmfs)
     >>> CCT = 6507.4342201047066
-    >>> D_uv = 0.003223690901512735
+    >>> D_uv = 0.003223690901513
     >>> CCT_to_uv(CCT, D_uv, cmfs=cmfs)  # doctest: +ELLIPSIS
-    array([ 0.1978003...,  0.3122005...])
+    array([ 0.1977999...,  0.3122004...])
     """
 
     if method == 'Ohno 2013':
@@ -761,9 +766,9 @@ def xy_to_CCT_McCamy1992(xy):
 
     Examples
     --------
-    >>> xy = np.array([0.31271, 0.32902])
+    >>> xy = np.array([0.31270, 0.32900])
     >>> xy_to_CCT_McCamy1992(xy)  # doctest: +ELLIPSIS
-    6504.3893830...
+    6505.0805913...
     """
 
     x, y = tsplit(xy)
@@ -799,9 +804,9 @@ def xy_to_CCT_Hernandez1999(xy):
 
     Examples
     --------
-    >>> xy = np.array([0.31271, 0.32902])
+    >>> xy = np.array([0.31270, 0.32900])
     >>> xy_to_CCT_Hernandez1999(xy)  # doctest: +ELLIPSIS
-    array(6500.0421533...)
+    6500.7420431...
     """
 
     x, y = tsplit(xy)
@@ -821,7 +826,7 @@ def xy_to_CCT_Hernandez1999(xy):
                    5.4535e-36 * np.exp(-n / 0.01543),
                    CCT)
 
-    return CCT
+    return as_numeric(CCT)
 
 
 def CCT_to_xy_Kang2002(CCT):
@@ -971,7 +976,7 @@ XY_TO_CCT_METHODS['mccamy1992'] = XY_TO_CCT_METHODS['McCamy 1992']
 XY_TO_CCT_METHODS['hernandez1999'] = XY_TO_CCT_METHODS['Hernandez 1999']
 
 
-def xy_to_CCT(xy, method='McCamy 1992', **kwargs):
+def xy_to_CCT(xy, method='McCamy 1992'):
     """
     Returns the correlated colour temperature :math:`T_{cp}` from given
     *CIE XYZ* tristimulus values *xy* chromaticity coordinates using given
@@ -984,8 +989,6 @@ def xy_to_CCT(xy, method='McCamy 1992', **kwargs):
     method : unicode, optional
         **{'McCamy 1992', 'Hernandez 1999'}**,
         Computation method.
-    \**kwargs : dict, optional
-        Keywords arguments.
 
     Returns
     -------

@@ -7,27 +7,18 @@ matrix:
   - python: 3.5
     env:
     - PYTHON_VERSION="3.5"
-    - NUMPY_VERSION="1.10.1"
-    - SCIPY_VERSION="0.16.0"
-    - MATPLOTLIB_VERSION="1.4.3"
   - python: 3.4
     env:
     - PYTHON_VERSION="3.4"
-    - NUMPY_VERSION="1.10.1"
-    - SCIPY_VERSION="0.16.0"
-    - MATPLOTLIB_VERSION="1.4.3"
   - python: 2.7
     env:
     - PYTHON_VERSION="2.7"
-    - NUMPY_VERSION="1.10.1"
-    - SCIPY_VERSION="0.16.0"
-    - MATPLOTLIB_VERSION="1.4.3"
 
 notifications:
   slack: colour-science:Y6lPPcN7y53Js94geqUpqsAP
 
 before_install:
-  - wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
+  - if [ ${TRAVIS_PYTHON_VERSION:O:1} == "2" ]; then wget http://repo.continuum.io/miniconda/Miniconda2-3.19.0-Linux-x86_64.sh -O miniconda.sh; else wget http://repo.continuum.io/miniconda/Miniconda3-3.19.0-Linux-x86_64.sh -O miniconda.sh; fi
   - chmod +x miniconda.sh
   - ./miniconda.sh -b -p /home/travis/miniconda
   - export PATH=/home/travis/miniconda/bin:$PATH
@@ -44,8 +35,11 @@ install:
   - source activate colour-test
   - pip install coverage coveralls flake8 mock==1.0.1
 
+before_script:
+  - export PYTHONWARNINGS=ignore
+
 script:
-  - flake8 colour
+  - flake8 colour --exclude=examples
   - nosetests --nocapture --with-doctest --doctest-options=+ELLIPSIS,+NORMALIZE_WHITESPACE --with-coverage --cover-package=colour -exclude-dir=
 
 after_success:

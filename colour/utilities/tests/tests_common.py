@@ -15,10 +15,11 @@ from colour.utilities import (
     is_iterable,
     is_string,
     is_numeric,
-    is_integer)
+    is_integer,
+    filter_kwargs)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2008 - 2014 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -28,7 +29,8 @@ __all__ = ['TestBatch',
            'TestIsIterable',
            'TestIsString',
            'TestIsNumeric',
-           'TestIsInteger']
+           'TestIsInteger',
+           'TestFilterKwargs']
 
 
 class TestBatch(unittest.TestCase):
@@ -145,6 +147,50 @@ class TestIsInteger(unittest.TestCase):
         self.assertTrue(is_integer(1.001))
 
         self.assertFalse(is_integer(1.01))
+
+
+class TestFilterKwargs(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.common.filter_kwargs` definition units
+    tests methods.
+    """
+
+    def test_filter_kwargs(self):
+        """
+        Tests :func:`colour.utilities.common.filter_kwargs` definition.
+        """
+
+        def fn_a(a):
+            """
+            :func:`filter_kwargs` unit tests :func:`fn_a`.
+            """
+            return a
+
+        def fn_b(a, b=0):
+            """
+            :func:`filter_kwargs` unit tests :func:`fn_b`.
+            """
+
+            return a, b
+
+        def fn_c(a, b=0, c=0):
+            """
+            :func:`filter_kwargs` unit tests :func:`fn_c`.
+            """
+
+            return a, b, c
+
+        self.assertEqual(
+            1,
+            fn_a(1, **filter_kwargs(fn_a, b=2, c=3)))
+
+        self.assertTupleEqual(
+            (1, 2),
+            fn_b(1, **filter_kwargs(fn_b, b=2, c=3)))
+
+        self.assertTupleEqual(
+            (1, 2, 3),
+            fn_c(1, **filter_kwargs(fn_c, b=2, c=3)))
 
 
 if __name__ == '__main__':

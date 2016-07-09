@@ -14,7 +14,7 @@ from abc import abstractmethod
 from collections import defaultdict
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -85,7 +85,7 @@ class ColourAppearanceModelTest(object):
             for case_data in csv.DictReader(in_file):
                 for key in case_data:
                     try:
-                        case_data[key] = float(case_data[key])
+                        case_data[key] = np.float_(case_data[key])
                     except ValueError:
                         pass
                 result.append(case_data)

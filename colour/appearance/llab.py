@@ -15,7 +15,7 @@ Defines LLAB(l:c) colour appearance model objects:
 See Also
 --------
 `LLAB(l:c) Colour Appearance Model IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/appearance/llab.ipynb>`_
 
 References
@@ -28,7 +28,7 @@ References
         Technology – Evolution & Promise (pp. 136–147). Retrieved from
         http://www.researchgate.net/publication/\
 236348295_Two_Unsolved_Issues_in_Colour_Management\
-__Colour_Appearance_and_Gamut_Mapping
+_Colour_Appearance_and_Gamut_Mapping
 .. [3]  Luo, M. R., Lo, M.-C., & Kuo, W.-G. (1996). The LLAB (l:c) colour
         model. Color Research & Application, 21(6), 412–429.
         doi:10.1002/(SICI)1520-6378(199612)21:6<412::AID-COL4>3.0.CO;2-Z
@@ -42,8 +42,8 @@ from collections import namedtuple
 from colour.utilities import CaseInsensitiveMapping, dot_vector, tsplit, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
-__license__ = 'GPL V3.0 - http://www.gnu.org/licenses/'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
@@ -210,6 +210,10 @@ class LLAB_Specification(
         Opponent signal :math:`A_L`.
     b : numeric or array_like
         Opponent signal :math:`B_L`.
+
+    Notes
+    -----
+    -   This specification is the one used in the current model implementation.
     """
 
 
@@ -244,7 +248,7 @@ def XYZ_to_LLAB(
 
     Warning
     -------
-    The output domain of that definition is non standard!
+    The output range of that definition is non standard!
 
     Notes
     -----
@@ -259,8 +263,8 @@ def XYZ_to_LLAB(
     >>> L = 318.31
     >>> surround = LLAB_VIEWING_CONDITIONS['ref_average_4_minus']
     >>> XYZ_to_LLAB(XYZ, XYZ_0, Y_b, L, surround)  # doctest: +ELLIPSIS
-    LLAB_Specification(J=37.3668650..., C=0.0089496..., h=270.0000000..., \
-s=0.0002395..., M=0.0190185..., HC=None, a=1.4742890..., b=-0.0190185...)
+    LLAB_Specification(J=37.3668650..., C=0.0089496..., h=270..., \
+s=0.0002395..., M=0.0190185..., HC=None, a=..., b=-0.0190185...)
     """
 
     _X, Y, _Z = tsplit(XYZ)
@@ -416,7 +420,7 @@ def f(x, F_S):
     Examples
     --------
     >>> x = np.array([0.23350512, 0.23351103, 0.23355179])
-    >>> f(0.20000918623399996, 3)  # doctest: +ELLIPSIS
+    >>> f(0.200009186234000, 3)  # doctest: +ELLIPSIS
     array(0.5848125...)
     """
 
@@ -570,7 +574,7 @@ def colourfulness_correlate(L, L_L, Ch_L, F_C):
     --------
     >>> L = 318.31
     >>> L_L = 37.368047493928195
-    >>> Ch_L = 0.0086506620517144972
+    >>> Ch_L = 0.008650662051714
     >>> F_C = 1.0
     >>> colourfulness_correlate(L, L_L, Ch_L, F_C)  # doctest: +ELLIPSIS
     0.0183832...
@@ -606,7 +610,7 @@ def saturation_correlate(Ch_L, L_L):
 
     Examples
     --------
-    >>> Ch_L = 0.0086506620517144972
+    >>> Ch_L = 0.008650662051714
     >>> L_L = 37.368047493928195
     >>> saturation_correlate(Ch_L, L_L)  # doctest: +ELLIPSIS
     0.0002314...

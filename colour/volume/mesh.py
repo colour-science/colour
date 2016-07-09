@@ -11,11 +11,10 @@ Defines helpers objects related to volume computations.
 from __future__ import division, unicode_literals
 
 import numpy as np
-
-from colour.utilities import is_scipy_installed
+from scipy.spatial import Delaunay
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -43,10 +42,6 @@ def is_within_mesh_volume(points, mesh, tolerance=None):
     bool
         Is within mesh volume.
 
-    Notes
-    -----
-    -   This definition requires *scipy* to be installed.
-
     Examples
     --------
     >>> mesh = np.array([[-1.0, -1.0, 1.0],
@@ -62,12 +57,9 @@ def is_within_mesh_volume(points, mesh, tolerance=None):
     array([ True, False], dtype=bool)
     """
 
-    if is_scipy_installed(raise_exception=True):
-        from scipy.spatial import Delaunay
+    triangulation = Delaunay(mesh)
 
-        triangulation = Delaunay(mesh)
+    simplex = triangulation.find_simplex(points, tol=tolerance)
+    simplex = np.where(simplex >= 0, True, False)
 
-        simplex = triangulation.find_simplex(points, tol=tolerance)
-        simplex = np.where(simplex >= 0, True, False)
-
-        return simplex
+    return simplex

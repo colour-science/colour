@@ -19,46 +19,52 @@ The following colour matching functions are available:
 
 -   Stockman & Sharpe 2 Degree Cone Fundamentals [1]_
 -   Stockman & Sharpe 10 Degree Cone Fundamentals [1]_
--   Wright & Guild 1931 2 Degree RGB CMFs [2]_
--   Stiles & Burch 1955 2 Degree RGB CMFs [3]_
--   Stiles & Burch 1959 10 Degree RGB CMFs [4]_
--   CIE 1931 2 Degree Standard Observer [5]_
--   CIE 1964 10 Degree Standard Observer [5]_
--   CIE 2012 10 Degree Standard Observer [6]_
--   CIE 2012 2 Degree Standard Observer [6]_
+-   Smith & Pokorny 1975 Normal Trichromats [2]_
+-   Wright & Guild 1931 2 Degree RGB CMFs [3]_
+-   Stiles & Burch 1955 2 Degree RGB CMFs [4]_
+-   Stiles & Burch 1959 10 Degree RGB CMFs [5]_
+-   CIE 1931 2 Degree Standard Observer [6]_
+-   CIE 1964 10 Degree Standard Observer [6]_
+-   CIE 2012 10 Degree Standard Observer [7]_
+-   CIE 2012 2 Degree Standard Observer [7]_
 
 See Also
 --------
 `Colour Matching Functions IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/cmfs.ipynb>`_
 
 Notes
 -----
--   Stockman and Sharpe *LMS* colour matching functions are provided at 1 nm
-    steps.
+-   *Stockman & Sharpe* *LMS* colour matching functions are provided at 1 nm
+    interval.
+-   *Smith & Pokorny* normal trichromats colour matching functions are provided
+    at 5 nm steps.
 -   *Wright & Guild* and *Stiles & Burch* *CIE RGB* colour matching functions
-    are provided at 5 nm steps.
+    are provided at 5 nm interval.
 -   *CIE* Standard Observers *XYZ* colour matching functions are provided at 5
-    nm steps.
+    nm interval.
 
 References
 ----------
 .. [1]  CVRL. (n.d.). Cone Fundamentals. Retrieved June 23, 2014,
         from http://www.cvrl.org/cones.htm
-.. [2]  Broadbent, A. D. (2009). Calculation from the original experimental
+.. [2]  Machado, G. (2010). A model for simulation of color vision deficiency
+        and a color contrast enhancement technique for dichromats. Retrieved
+        from http://www.lume.ufrgs.br/handle/10183/26950
+.. [3]  Broadbent, A. D. (2009). Calculation from the original experimental
         data of the CIE 1931 RGB standard observer spectral chromaticity
         co-ordinates and color matching functions. Retrieved June 12, 2014,
         from http://www.cis.rit.edu/mcsl/research/1931.php
-.. [3]  CVRL. (n.d.). Stiles & Burch individual 10-deg colour matching data.
+.. [4]  CVRL. (n.d.). Stiles & Burch individual 10-deg colour matching data.
         Retrieved February 24, 2014, from
         http://www.cvrl.org/stilesburch10_ind.htm
-.. [4]  CVRL. (n.d.). Stiles & Burch individual 2-deg colour matching data.
+.. [5]  CVRL. (n.d.). Stiles & Burch individual 2-deg colour matching data.
         Retrieved February 24, 2014, from
         http://www.cvrl.org/stilesburch2_ind.htm
-.. [5]  CVRL. (n.d.). Older CIE Standards. Retrieved February 24, 2014, from
+.. [6]  CVRL. (n.d.). Older CIE Standards. Retrieved February 24, 2014, from
         http://cvrl.ioo.ucl.ac.uk/cie.htm
-.. [6]  CVRL. (n.d.). New CIE XYZ functions transformed from the CIE (2006)
+.. [7]  CVRL. (n.d.). New CIE XYZ functions transformed from the CIE (2006)
         LMS functions. Retrieved February 24, 2014, from
         http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm
 """
@@ -72,7 +78,7 @@ from colour.colorimetry import (
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -2742,7 +2748,254 @@ LMS_CMFS_DATA = {
             827: 0.000000000,
             828: 0.000000000,
             829: 0.000000000,
-            830: 0.000000000}}}
+            830: 0.000000000}},
+    'Smith & Pokorny 1975 Normal Trichromats': {
+        'l_bar': {
+            380: 0.0000,
+            385: 0.0000,
+            390: 0.0000,
+            395: 0.0000,
+            400: 0.0027,
+            405: 0.0044,
+            410: 0.0069,
+            415: 0.0108,
+            420: 0.0158,
+            425: 0.0200,
+            430: 0.0233,
+            435: 0.0268,
+            440: 0.0301,
+            445: 0.0324,
+            450: 0.0343,
+            455: 0.0368,
+            460: 0.0412,
+            465: 0.0502,
+            470: 0.0627,
+            475: 0.0798,
+            480: 0.1020,
+            485: 0.1280,
+            490: 0.1620,
+            495: 0.2060,
+            500: 0.2630,
+            505: 0.3370,
+            510: 0.4230,
+            515: 0.5200,
+            520: 0.6170,
+            525: 0.7000,
+            530: 0.7730,
+            535: 0.8340,
+            540: 0.8830,
+            545: 0.9230,
+            550: 0.9540,
+            555: 0.9770,
+            560: 0.9930,
+            565: 1.0000,
+            570: 0.9970,
+            575: 0.9860,
+            580: 0.9650,
+            585: 0.9340,
+            590: 0.8940,
+            595: 0.8480,
+            600: 0.7950,
+            605: 0.7350,
+            610: 0.6700,
+            615: 0.6020,
+            620: 0.5300,
+            625: 0.4540,
+            630: 0.3800,
+            635: 0.3150,
+            640: 0.2560,
+            645: 0.2040,
+            650: 0.1590,
+            655: 0.1220,
+            660: 0.0914,
+            665: 0.0670,
+            670: 0.0482,
+            675: 0.0350,
+            680: 0.0257,
+            685: 0.0180,
+            690: 0.0124,
+            695: 0.0087,
+            700: 0.0062,
+            705: 0.0000,
+            710: 0.0000,
+            715: 0.0000,
+            720: 0.0000,
+            725: 0.0000,
+            730: 0.0000,
+            735: 0.0000,
+            740: 0.0000,
+            745: 0.0000,
+            750: 0.0000,
+            755: 0.0000,
+            760: 0.0000,
+            765: 0.0000,
+            770: 0.0000,
+            775: 0.0000,
+            780: 0.0000},
+        'm_bar': {
+            380: 0.0000,
+            385: 0.0000,
+            390: 0.0000,
+            395: 0.0000,
+            400: 0.0028,
+            405: 0.0047,
+            410: 0.0077,
+            415: 0.0124,
+            420: 0.0189,
+            425: 0.0254,
+            430: 0.0317,
+            435: 0.0395,
+            440: 0.0477,
+            445: 0.0555,
+            450: 0.0635,
+            455: 0.0731,
+            460: 0.0860,
+            465: 0.1070,
+            470: 0.1300,
+            475: 0.1570,
+            480: 0.1890,
+            485: 0.2240,
+            490: 0.2670,
+            495: 0.3240,
+            500: 0.3960,
+            505: 0.4910,
+            510: 0.5950,
+            515: 0.7060,
+            520: 0.8080,
+            525: 0.8840,
+            530: 0.9410,
+            535: 0.9780,
+            540: 0.9970,
+            545: 0.9990,
+            550: 0.9870,
+            555: 0.9610,
+            560: 0.9220,
+            565: 0.8700,
+            570: 0.8060,
+            575: 0.7320,
+            580: 0.6510,
+            585: 0.5640,
+            590: 0.4770,
+            595: 0.3930,
+            600: 0.3180,
+            605: 0.2500,
+            610: 0.1930,
+            615: 0.1470,
+            620: 0.1100,
+            625: 0.0808,
+            630: 0.0583,
+            635: 0.0418,
+            640: 0.0296,
+            645: 0.0207,
+            650: 0.0144,
+            655: 0.0101,
+            660: 0.0070,
+            665: 0.0049,
+            670: 0.0033,
+            675: 0.0023,
+            680: 0.0016,
+            685: 0.0011,
+            690: 0.0008,
+            695: 0.0005,
+            700: 0.0004,
+            705: 0.0000,
+            710: 0.0000,
+            715: 0.0000,
+            720: 0.0000,
+            725: 0.0000,
+            730: 0.0000,
+            735: 0.0000,
+            740: 0.0000,
+            745: 0.0000,
+            750: 0.0000,
+            755: 0.0000,
+            760: 0.0000,
+            765: 0.0000,
+            770: 0.0000,
+            775: 0.0000,
+            780: 0.0000},
+        's_bar': {
+            380: 0.0000,
+            385: 0.0000,
+            390: 0.0000,
+            395: 0.0000,
+            400: 0.1080,
+            405: 0.1790,
+            410: 0.2850,
+            415: 0.4530,
+            420: 0.6590,
+            425: 0.8130,
+            430: 0.9080,
+            435: 0.9770,
+            440: 1.0000,
+            445: 0.9700,
+            450: 0.9100,
+            455: 0.8500,
+            460: 0.7990,
+            465: 0.7750,
+            470: 0.6890,
+            475: 0.5820,
+            480: 0.4680,
+            485: 0.3620,
+            490: 0.2760,
+            495: 0.2120,
+            500: 0.1640,
+            505: 0.1280,
+            510: 0.0956,
+            515: 0.0676,
+            520: 0.0474,
+            525: 0.0347,
+            530: 0.0256,
+            535: 0.0182,
+            540: 0.0124,
+            545: 0.0083,
+            550: 0.0055,
+            555: 0.0037,
+            560: 0.0025,
+            565: 0.0018,
+            570: 0.0014,
+            575: 0.0013,
+            580: 0.0012,
+            585: 0.0010,
+            590: 0.0008,
+            595: 0.0007,
+            600: 0.0006,
+            605: 0.0005,
+            610: 0.0003,
+            615: 0.0002,
+            620: 0.0002,
+            625: 0.0001,
+            630: 0.0001,
+            635: 0.0001,
+            640: 0.0001,
+            645: 0.0000,
+            650: 0.0000,
+            655: 0.0000,
+            660: 0.0000,
+            665: 0.0000,
+            670: 0.0000,
+            675: 0.0000,
+            680: 0.0000,
+            685: 0.0000,
+            690: 0.0000,
+            695: 0.0000,
+            700: 0.0000,
+            705: 0.0000,
+            710: 0.0000,
+            715: 0.0000,
+            720: 0.0000,
+            725: 0.0000,
+            730: 0.0000,
+            735: 0.0000,
+            740: 0.0000,
+            745: 0.0000,
+            750: 0.0000,
+            755: 0.0000,
+            760: 0.0000,
+            765: 0.0000,
+            770: 0.0000,
+            775: 0.0000,
+            780: 0.0000}}}
 
 LMS_CMFS = CaseInsensitiveMapping(
     {'Stockman & Sharpe 2 Degree Cone Fundamentals': LMS_ConeFundamentals(
@@ -2752,13 +3005,18 @@ LMS_CMFS = CaseInsensitiveMapping(
      'Stockman & Sharpe 10 Degree Cone Fundamentals': LMS_ConeFundamentals(
          'Stockman & Sharpe 10 Degree Cone Fundamentals',
          LMS_CMFS_DATA.get('Stockman & Sharpe 10 Degree Cone Fundamentals'),
-         'Stockman & Sharpe 10$^\\circ$ Cone Fundamentals')})
+         'Stockman & Sharpe 10$^\\circ$ Cone Fundamentals'),
+     'Smith & Pokorny 1975 Normal Trichromats': LMS_ConeFundamentals(
+         'Smith & Pokorny 1975 Normal Trichromats',
+         LMS_CMFS_DATA.get('Smith & Pokorny 1975 Normal Trichromats'),
+         'Smith & Pokorny 1975 Normal Trichromats')})
 """
 *LMS* colour matching functions.
 
 LMS_CMFS : CaseInsensitiveMapping
-    **{'Stockman & Sharpe 2 Degree Cone Fundamentals',
-    'Stockman & Sharpe 10 Degree Cone Fundamentals'}**
+    {'Stockman & Sharpe 2 Degree Cone Fundamentals',
+    'Stockman & Sharpe 10 Degree Cone Fundamentals',
+    'Smith & Pokorny 1975 Normal Trichromats'}
 """
 
 RGB_CMFS_DATA = {

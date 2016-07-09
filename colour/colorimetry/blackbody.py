@@ -11,7 +11,7 @@ its spectral power distribution.
 See Also
 --------
 `Blackbody IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/blackbody.ipynb>`_
 """
 
@@ -24,7 +24,7 @@ from colour.colorimetry import (
     SpectralPowerDistribution)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -46,17 +46,6 @@ def planck_law(wavelength, temperature, c1=C1, c2=C2, n=N):
     """
     Returns the spectral radiance of a blackbody at thermodynamic temperature
     :math:`T[K]` in a medium having index of refraction :math:`n`.
-
-    Notes
-    -----
-    The following form implementation is expressed in term of wavelength.
-    The SI unit of radiance is *watts per steradian per square metre*.
-
-    References
-    ----------
-    .. [1]  CIE TC 1-48. (2004). APPENDIX E. INFORMATION ON THE USE OF
-            PLANCK’S EQUATION FOR STANDARD AIR. In CIE 015:2004 Colorimetry,
-            3rd Edition (pp. 77–82). ISBN:978-3-901-90633-6
 
     Parameters
     ----------
@@ -84,6 +73,17 @@ def planck_law(wavelength, temperature, c1=C1, c2=C2, n=N):
     -------
     numeric or ndarray
         Radiance in *watts per steradian per square metre*.
+
+    Notes
+    -----
+    The following form implementation is expressed in term of wavelength.
+    The SI unit of radiance is *watts per steradian per square metre*.
+
+    References
+    ----------
+    .. [1]  CIE TC 1-48. (2004). APPENDIX E. INFORMATION ON THE USE OF
+            PLANCK’S EQUATION FOR STANDARD AIR. In CIE 015:2004 Colorimetry,
+            3rd Edition (pp. 77–82). ISBN:978-3-901-90633-6
 
     Examples
     --------
@@ -146,8 +146,8 @@ def blackbody_spd(temperature,
     >>> from colour import STANDARD_OBSERVERS_CMFS
     >>> cmfs = STANDARD_OBSERVERS_CMFS.get(
     ...     'CIE 1931 2 Degree Standard Observer')
-    >>> blackbody_spd(5000, cmfs.shape)  # doctest: +ELLIPSIS
-    <colour.colorimetry.spectrum.SpectralPowerDistribution object at 0x...>
+    >>> print(blackbody_spd(5000, cmfs.shape))
+    SpectralPowerDistribution('5000K Blackbody', (360.0, 830.0, 1.0))
     """
 
     wavelengths = shape.range()

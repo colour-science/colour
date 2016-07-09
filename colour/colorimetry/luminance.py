@@ -10,17 +10,17 @@ Defines *luminance* :math:`Y` computation objects.
 The following methods are available:
 
 -   :func:`luminance_Newhall1943`: *luminance* :math:`Y` computation of given
-    *Munsell* value :math:`V` using Newhall, Nickerson, and Judd (1943)
+    *Munsell* value :math:`V` using *Newhall, Nickerson, and Judd (1943)*
     method.
 -   :func:`luminance_ASTMD153508`: *luminance* :math:`Y` computation of given
-    *Munsell* value :math:`V` using ASTM D1535-08e1 (2008) method.
--   :func:`luminance_1976`: *luminance* :math:`Y` computation of given
+    *Munsell* value :math:`V` using *ASTM D1535-08e1* method.
+-   :func:`luminance_CIE1976`: *luminance* :math:`Y` computation of given
     *Lightness* :math:`L^*` as per *CIE Lab* implementation.
 
 See Also
 --------
 `Luminance IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/luminance.ipynb>`_
 """
 
@@ -29,10 +29,10 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.constants import CIE_E, CIE_K
-from colour.utilities import CaseInsensitiveMapping
+from colour.utilities import CaseInsensitiveMapping, filter_kwargs
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -40,24 +40,20 @@ __status__ = 'Production'
 
 __all__ = ['luminance_Newhall1943',
            'luminance_ASTMD153508',
-           'luminance_1976',
+           'luminance_CIE1976',
            'LUMINANCE_METHODS',
            'luminance']
 
 
-def luminance_Newhall1943(V, **kwargs):
+def luminance_Newhall1943(V):
     """
     Returns the *luminance* :math:`R_Y` of given *Munsell* value :math:`V`
-    using *Sidney M. Newhall, Dorothy Nickerson, and Deane B. Judd (1943)*
-    method.
+    using *Newhall, Nickerson, and Judd (1943)* method.
 
     Parameters
     ----------
     V : numeric or array_like
         *Munsell* value :math:`V`.
-    \**kwargs : dict, optional
-        Unused parameter provided for signature compatibility with other
-        *luminance* computation objects.
 
     Returns
     -------
@@ -67,7 +63,7 @@ def luminance_Newhall1943(V, **kwargs):
     Notes
     -----
     -   Input *Munsell* value :math:`V` is in domain [0, 10].
-    -   Output *luminance* :math:`R_Y` is in domain [0, 100].
+    -   Output *luminance* :math:`R_Y` is in range [0, 100].
 
     References
     ----------
@@ -89,18 +85,15 @@ def luminance_Newhall1943(V, **kwargs):
     return R_Y
 
 
-def luminance_ASTMD153508(V, **kwargs):
+def luminance_ASTMD153508(V):
     """
     Returns the *luminance* :math:`Y` of given *Munsell* value :math:`V` using
-    ASTM D1535-08e1 (2008) method.
+    *ASTM D1535-08e1* method.
 
     Parameters
     ----------
     V : numeric or array_like
         *Munsell* value :math:`V`.
-    \**kwargs : dict, optional
-        Unused parameter provided for signature compatibility with other
-        *luminance* computation objects.
 
     Returns
     -------
@@ -110,7 +103,7 @@ def luminance_ASTMD153508(V, **kwargs):
     Notes
     -----
     -   Input *Munsell* value :math:`V` is in domain [0, 10].
-    -   Output *luminance* :math:`Y` is in domain [0, 100].
+    -   Output *luminance* :math:`Y` is in range [0, 100].
 
     References
     ----------
@@ -131,7 +124,7 @@ def luminance_ASTMD153508(V, **kwargs):
     return Y
 
 
-def luminance_1976(Lstar, Y_n=100):
+def luminance_CIE1976(Lstar, Y_n=100):
     """
     Returns the *luminance* :math:`Y` of given *Lightness* :math:`L^*` with
     given reference white *luminance* :math:`Y_n`.
@@ -152,7 +145,7 @@ def luminance_1976(Lstar, Y_n=100):
     -----
     -   Input *Lightness* :math:`L^*` and reference white *luminance*
         :math:`Y_n` are in domain [0, 100].
-    -   Output *luminance* :math:`Y` is in domain [0, 100].
+    -   Output *luminance* :math:`Y` is in range [0, 100].
 
     References
     ----------
@@ -165,9 +158,9 @@ def luminance_1976(Lstar, Y_n=100):
 
     Examples
     --------
-    >>> luminance_1976(37.9856290977)  # doctest: +ELLIPSIS
+    >>> luminance_CIE1976(37.98562910)  # doctest: +ELLIPSIS
     array(10.0800000...)
-    >>> luminance_1976(37.9856290977, 95)  # doctest: +ELLIPSIS
+    >>> luminance_CIE1976(37.98562910, 95)  # doctest: +ELLIPSIS
     array(9.5760000...)
     """
 
@@ -184,7 +177,7 @@ def luminance_1976(Lstar, Y_n=100):
 LUMINANCE_METHODS = CaseInsensitiveMapping(
     {'Newhall 1943': luminance_Newhall1943,
      'ASTM D1535-08': luminance_ASTMD153508,
-     'CIE 1976': luminance_1976})
+     'CIE 1976': luminance_CIE1976})
 """
 Supported *luminance* computations methods.
 
@@ -226,20 +219,24 @@ def luminance(LV, method='CIE 1976', **kwargs):
     -----
     -   Input *LV* is in domain [0, 100] or [0, 10] and optional *luminance*
         :math:`Y_n` is in domain [0, 100].
-    -   Output *luminance* :math:`Y` is in domain [0, 100].
+    -   Output *luminance* :math:`Y` is in range [0, 100].
 
     Examples
     --------
-    >>> luminance(37.9856290977)  # doctest: +ELLIPSIS
+    >>> luminance(37.98562910)  # doctest: +ELLIPSIS
     array(10.0800000...)
-    >>> luminance(37.9856290977, Y_n=100)  # doctest: +ELLIPSIS
+    >>> luminance(37.98562910, Y_n=100)  # doctest: +ELLIPSIS
     array(10.0800000...)
-    >>> luminance(37.9856290977, Y_n=95)  # doctest: +ELLIPSIS
+    >>> luminance(37.98562910, Y_n=95)  # doctest: +ELLIPSIS
     array(9.5760000...)
-    >>> luminance(3.74629715382, method='Newhall 1943')  # doctest: +ELLIPSIS
+    >>> luminance(3.74629715, method='Newhall 1943')  # doctest: +ELLIPSIS
     10.4089874...
-    >>> luminance(3.74629715382, method='ASTM D1535-08')  # doctest: +ELLIPSIS
+    >>> luminance(3.74629715, method='ASTM D1535-08')  # doctest: +ELLIPSIS
     10.1488096...
     """
 
-    return LUMINANCE_METHODS.get(method)(LV, **kwargs)
+    function = LUMINANCE_METHODS[method]
+
+    filter_kwargs(function, **kwargs)
+
+    return function(LV, **kwargs)

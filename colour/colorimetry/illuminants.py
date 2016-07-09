@@ -5,12 +5,15 @@
 Illuminants
 ===========
 
-Defines *CIE* illuminants computation related objects.
+Defines *CIE* illuminants computation related objects:
+
+-   :func:`D_illuminant_relative_spd`
+-   :func:`CIE_standard_illuminant_A_function`
 
 See Also
 --------
 `Illuminants IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/illuminants.ipynb>`_
 colour.colorimetry.dataset.illuminants.d_illuminants_s_spds,
 colour.colorimetry.spectrum.SpectralPowerDistribution
@@ -18,18 +21,21 @@ colour.colorimetry.spectrum.SpectralPowerDistribution
 
 from __future__ import division, unicode_literals
 
+import numpy as np
+
 from colour.colorimetry import (
     D_ILLUMINANTS_S_SPDS,
     SpectralPowerDistribution)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['D_illuminant_relative_spd']
+__all__ = ['D_illuminant_relative_spd',
+           'CIE_standard_illuminant_A_function']
 
 
 def D_illuminant_relative_spd(xy):
@@ -61,10 +67,10 @@ def D_illuminant_relative_spd(xy):
 
     Examples
     --------
-    >>> import numpy as np
-    >>> xy = np.array([0.34567, 0.35850])
-    >>> D_illuminant_relative_spd(xy)  # doctest: +ELLIPSIS
-    <colour.colorimetry.spectrum.SpectralPowerDistribution object at 0x...>
+    >>> xy = np.array([0.34570, 0.35850])
+    >>> print(D_illuminant_relative_spd(xy))
+    SpectralPowerDistribution(\
+'CIE Standard Illuminant D Series', (300.0, 830.0, 10.0))
     """
 
     M = 0.0241 + 0.2562 * xy[0] - 0.7341 * xy[1]
@@ -80,3 +86,42 @@ def D_illuminant_relative_spd(xy):
 
     return SpectralPowerDistribution('CIE Standard Illuminant D Series',
                                      distribution)
+
+
+def CIE_standard_illuminant_A_function(wl):
+    """
+    *CIE Standard Illuminant A* is intended to represent typical, domestic,
+    tungsten-filament lighting. Its relative spectral power distribution is
+    that of a Planckian radiator at a temperature of approximately 2856 K.
+    CIE Standard Illuminant A should be used in all applications of
+    colorimetry involving the use of incandescent lighting, unless there are
+    specific reasons for using a different illuminant.
+
+    Parameters
+    ----------
+    wl : array_like
+        Wavelength to evaluate the function at.
+
+    Returns
+    -------
+    ndarray
+        *CIE Standard Illuminant A* value at given wavelength.
+
+    References
+    ----------
+    .. [1]  CIE TC 1-48. (2004). 3.1 Recommendations concerning standard
+            physical data of illuminants. In CIE 015:2004 Colorimetry, 3rd
+            Edition (pp. 12–13). ISBN:978-3-901-90633-6
+
+    Examples
+    --------
+    >>> wl = np.array([560, 580, 581.5])
+    >>> CIE_standard_illuminant_A_function(wl)  # doctest: +ELLIPSIS
+    array([ 100.        ,  114.4363383...,  115.5285063...])
+    """
+
+    wl = np.asarray(wl)
+
+    return (100 * (560 / wl) ** 5 * (
+        ((np.exp((1.435 * 10 ** 7) / (2848 * 560)) - 1) /
+         (np.exp((1.435 * 10 ** 7) / (2848 * wl)) - 1))))

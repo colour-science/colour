@@ -43,7 +43,7 @@ message_box('Plotting "RGB" chromaticity coordinates in '
             '"CIE 1931 Chromaticity Diagram".')
 RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot(
     RGB,
-    colour.REC_709_COLOURSPACE,
+    'Rec. 709',
     colourspaces=['ACEScg', 'S-Gamut', 'Pointer Gamut'])
 
 print('\n')
@@ -52,7 +52,7 @@ message_box('Plotting "RGB" chromaticity coordinates in '
             '"CIE 1960 UCS Chromaticity Diagram".')
 RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot(
     RGB,
-    colour.REC_709_COLOURSPACE,
+    'Rec. 709',
     colourspaces=['ACEScg', 'S-Gamut', 'Pointer Gamut'])
 
 print('\n')
@@ -61,7 +61,7 @@ message_box('Plotting "RGB" chromaticity coordinates in '
             '"CIE 1976 UCS Chromaticity Diagram".')
 RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot(
     RGB,
-    colour.REC_709_COLOURSPACE,
+    'Rec. 709',
     colourspaces=['ACEScg', 'S-Gamut', 'Pointer Gamut'])
 
 print('\n')
@@ -79,12 +79,16 @@ RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(['Rec. 709', 'Awful RGB'])
 
 print('\n')
 
-message_box(('Plotting a single "RGB" '
-             'colourspace opto-electronic conversion function.'))
-single_conversion_function_plot('Rec. 709')
+message_box(('Plotting a single "RGB" colourspace encoding colour component '
+             'transfer function.'))
+single_cctf_plot('Rec. 709')
 
 print('\n')
 
-message_box(('Plotting multiple "RGB" colourspaces '
-             'opto-electronic conversion functions.'))
-multi_conversion_function_plot(['Rec. 709', 'sRGB'])
+message_box(('Plotting multiple "RGB" colourspaces encoding colour component '
+             'transfer functions.'))
+multi_cctf_plot(['Rec. 709', 'sRGB'])
+
+message_box(('Plotting multiple "RGB" colourspaces decoding colour component '
+             'transfer functions.'))
+multi_cctf_plot(['ACES2065-1', 'ProPhoto RGB'], decoding_cctf=True)

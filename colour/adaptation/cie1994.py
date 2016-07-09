@@ -12,7 +12,7 @@ Defines CIE 1994 chromatic adaptation model objects:
 See Also
 --------
 `CIE 1994 Chromatic Adaptation Model IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/adaptation/cie1994.ipynb>`_
 
 References
@@ -30,7 +30,7 @@ from colour.adaptation import VON_KRIES_CAT
 from colour.utilities import dot_vector, tsplit, tstack, warning
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -111,7 +111,7 @@ def chromatic_adaptation_CIE1994(XYZ_1,
     Notes
     -----
     -   Input *CIE XYZ_1* tristimulus values are in domain [0, 100].
-    -   Output *CIE XYZ_2* tristimulus values are in domain [0, 100].
+    -   Output *CIE XYZ_2* tristimulus values are in range [0, 100].
 
     Examples
     --------
@@ -422,9 +422,9 @@ def corresponding_colour(RGB_1, xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, K, n=1):
     ----------
     RGB_1: array_like
         Test sample cone responses :math:`RGB_1`.
+    xez_1: array_like
         Intermediate values :math:`\\xi_1`, :math:`\eta_1`, :math:`\zeta_1` for
         the test illuminant and background.
-    xez_1: array_like
     xez_2: array_like
         Intermediate values :math:`\\xi_2`, :math:`\eta_2`, :math:`\zeta_2` for
         the reference illuminant and background.
@@ -471,13 +471,17 @@ def corresponding_colour(RGB_1, xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, K, n=1):
     Y_o = np.asarray(Y_o)
     K = np.asarray(K)
 
-    RGBc = lambda x1, x2, y1, y2, z: (
-        (Y_o * x2 + n) * K ** (1 / y2) *
-        ((z + n) / (Y_o * x1 + n)) ** (y1 / y2) - n)
+    def RGB_c(x_1, x_2, y_1, y_2, z):
+        """
+        Computes the corresponding colour cone responses component.
+        """
 
-    R_2 = RGBc(xi_1, xi_2, bR_o1, bR_o2, R_1)
-    G_2 = RGBc(eta_1, eta_2, bG_o1, bG_o2, G_1)
-    B_2 = RGBc(zeta_1, zeta_2, bB_o1, bB_o2, B_1)
+        return ((Y_o * x_2 + n) * K ** (1 / y_2) *
+                ((z + n) / (Y_o * x_1 + n)) ** (y_1 / y_2) - n)
+
+    R_2 = RGB_c(xi_1, xi_2, bR_o1, bR_o2, R_1)
+    G_2 = RGB_c(eta_1, eta_2, bG_o1, bG_o2, G_1)
+    B_2 = RGB_c(zeta_1, zeta_2, bB_o1, bB_o2, B_1)
 
     RGB_2 = tstack((R_2, G_2, B_2))
 

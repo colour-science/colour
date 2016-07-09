@@ -21,7 +21,7 @@ from colour.colorimetry import (
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -51,14 +51,14 @@ class TestWhitenessBerger1959(unittest.TestCase):
             whiteness_Berger1959(
                 np.array([95.00000000, 100.00000000, 105.00000000]),
                 np.array([94.80966767, 100.00000000, 107.30513595])),
-            30.36380178871724,
+            30.36380179,
             places=7)
 
         self.assertAlmostEqual(
             whiteness_Berger1959(
                 np.array([105.00000000, 100.00000000, 95.00000000]),
                 np.array([94.80966767, 100.00000000, 107.30513595])),
-            5.5304692806739411,
+            5.530469280673941,
             places=7)
 
         self.assertAlmostEqual(
@@ -76,7 +76,7 @@ class TestWhitenessBerger1959(unittest.TestCase):
 
         XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
         XYZ_0 = np.array([94.80966767, 100.00000000, 107.30513595])
-        W = 30.36380178871724
+        W = 30.36380179
         np.testing.assert_almost_equal(
             whiteness_Berger1959(XYZ, XYZ_0),
             W,
@@ -206,19 +206,19 @@ class TestWhitenessStensby1968(unittest.TestCase):
         self.assertAlmostEqual(
             whiteness_Stensby1968(
                 np.array([100.00000000, -2.46875131, -16.72486654])),
-            142.76834569000002,
+            142.76834569,
             places=7)
 
         self.assertAlmostEqual(
             whiteness_Stensby1968(
                 np.array([100.00000000, 14.40943727, -9.61394885])),
-            172.07015836000002,
+            172.07015836,
             places=7)
 
         self.assertAlmostEqual(
             whiteness_Stensby1968(
-                np.array([1.00000000, 1.00000000, 1.00000000])),
-            1.0,
+                np.array([1, 1, 1])),
+            1.00000000,
             places=7)
 
     def test_n_dimensional_whiteness_Stensby1968(self):
@@ -228,7 +228,7 @@ class TestWhitenessStensby1968(unittest.TestCase):
         """
 
         Lab = np.array([100.00000000, -2.46875131, -16.72486654])
-        WI = 142.76834569000002
+        WI = 142.76834569
         np.testing.assert_almost_equal(
             whiteness_Stensby1968(Lab),
             WI,
@@ -347,17 +347,17 @@ class TestWhitenessGanz1979(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             whiteness_Ganz1979(np.array([0.3139, 0.3311]), 100),
-            np.array([99.3317652, 1.7610829]),
+            np.array([99.33176520, 1.76108290]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             whiteness_Ganz1979(np.array([0.3500, 0.3334]), 100),
-            np.array([23.385254, -32.6618256]),
+            np.array([23.38525400, -32.66182560]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             whiteness_Ganz1979(np.array([0.3334, 0.3334]), 100),
-            np.array([54.3993992, -16.0415238]),
+            np.array([54.39939920, -16.04152380]),
             decimal=7)
 
     def test_n_dimensional_whiteness_Ganz1979(self):
@@ -426,21 +426,21 @@ class TestWhitenessCIE2004(unittest.TestCase):
             whiteness_CIE2004(np.array([0.3139, 0.3311]),
                               100,
                               np.array([0.3139, 0.3311])),
-            np.array([100., 0.]),
+            np.array([100.00000000, 0.00000000]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             whiteness_CIE2004(np.array([0.3500, 0.3334]),
                               100,
                               np.array([0.3139, 0.3311])),
-            np.array([67.21, -34.605]),
+            np.array([67.21000000, -34.60500000]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             whiteness_CIE2004(np.array([0.3334, 0.3334]),
                               100,
                               np.array([0.3139, 0.3311])),
-            np.array([80.49, -18.005]),
+            np.array([80.49000000, -18.00500000]),
             decimal=7)
 
     def test_n_dimensional_whiteness_CIE2004(self):
@@ -452,7 +452,7 @@ class TestWhitenessCIE2004(unittest.TestCase):
         xy = np.array([0.3167, 0.3334])
         Y = 100
         xy_n = np.array([0.3139, 0.3311])
-        WT = np.array([93.85, -1.305])
+        WT = np.array([93.8500000, -1.30500000])
         np.testing.assert_almost_equal(
             whiteness_CIE2004(xy, Y, xy_n),
             WT,

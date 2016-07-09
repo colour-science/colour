@@ -16,7 +16,7 @@ from colour.colorimetry import (
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -444,7 +444,7 @@ class TestMesopicWeightingFunction(unittest.TestCase):
 
         self.assertAlmostEqual(
             mesopic_weighting_function(500, 0.2),
-            0.7052200000000001,
+            0.70522000,
             places=7)
 
         self.assertAlmostEqual(
@@ -452,7 +452,7 @@ class TestMesopicWeightingFunction(unittest.TestCase):
                                        0.2,
                                        source='Red Heavy',
                                        method='LRC'),
-            0.9095099999999999,
+            0.90951000,
             places=7)
 
         self.assertAlmostEqual(
@@ -460,7 +460,7 @@ class TestMesopicWeightingFunction(unittest.TestCase):
                                        10,
                                        source='Red Heavy',
                                        method='LRC'),
-            0.004102,
+            0.00410200,
             places=7)
 
     def test_n_dimensional_planck_law(self):
@@ -470,7 +470,7 @@ class TestMesopicWeightingFunction(unittest.TestCase):
         """
 
         wl = 500
-        Vm = 0.7052200000000001
+        Vm = 0.70522000
         np.testing.assert_almost_equal(
             mesopic_weighting_function(wl, 0.2),
             Vm)

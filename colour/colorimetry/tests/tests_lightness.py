@@ -13,11 +13,11 @@ import unittest
 from colour.colorimetry import (
     lightness_Glasser1958,
     lightness_Wyszecki1963,
-    lightness_1976)
+    lightness_CIE1976)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -25,7 +25,7 @@ __status__ = 'Production'
 
 __all__ = ['TestLightnessGlasser1958',
            'TestLightnessWyszecki1963',
-           'TestLightness1976']
+           'TestLightnessCIE1976']
 
 
 class TestLightnessGlasser1958(unittest.TestCase):
@@ -42,17 +42,17 @@ class TestLightnessGlasser1958(unittest.TestCase):
 
         self.assertAlmostEqual(
             lightness_Glasser1958(10.08),
-            36.2505626458,
+            36.25056265,
             places=7)
 
         self.assertAlmostEqual(
             lightness_Glasser1958(56.76),
-            78.8117999039,
+            78.81179990,
             places=7)
 
         self.assertAlmostEqual(
             lightness_Glasser1958(98.32),
-            98.3447052593,
+            98.34470526,
             places=7)
 
     def test_n_dimensional_lightness_Glasser1958(self):
@@ -62,7 +62,7 @@ class TestLightnessGlasser1958(unittest.TestCase):
         """
 
         Y = 10.08
-        L = 36.2505626458
+        L = 36.25056265
         np.testing.assert_almost_equal(
             lightness_Glasser1958(Y),
             L,
@@ -114,17 +114,17 @@ class TestLightnessWyszecki1963(unittest.TestCase):
 
         self.assertAlmostEqual(
             lightness_Wyszecki1963(10.08),
-            37.0041149128,
+            37.00411491,
             places=7)
 
         self.assertAlmostEqual(
             lightness_Wyszecki1963(56.76),
-            79.0773031869,
+            79.07730319,
             places=7)
 
         self.assertAlmostEqual(
             lightness_Wyszecki1963(98.32),
-            98.3862250488,
+            98.38622505,
             places=7)
 
     def test_n_dimensional_lightness_Wyszecki1963(self):
@@ -172,89 +172,90 @@ class TestLightnessWyszecki1963(unittest.TestCase):
             np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLightness1976(unittest.TestCase):
+class TestLightnessCIE1976(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.lightness.lightness_1976` definition
+    Defines :func:`colour.colorimetry.lightness.lightness_CIE1976` definition
     unit tests methods.
     """
 
-    def test_lightness_1976(self):
+    def test_lightness_CIE1976(self):
         """
-        Tests :func:`colour.colorimetry.lightness.lightness_1976` definition.
+        Tests :func:`colour.colorimetry.lightness.lightness_CIE1976`
+        definition.
         """
 
         self.assertAlmostEqual(
-            lightness_1976(10.08),
-            37.9856290977,
+            lightness_CIE1976(10.08),
+            37.98562910,
             places=7)
 
         self.assertAlmostEqual(
-            lightness_1976(56.76),
-            80.0444155585,
+            lightness_CIE1976(56.76),
+            80.04441556,
             places=7)
 
         self.assertAlmostEqual(
-            lightness_1976(98.32),
-            99.3467279026,
+            lightness_CIE1976(98.32),
+            99.34672790,
             places=7)
 
         self.assertAlmostEqual(
-            lightness_1976(10.08, 50),
-            52.01763049195023,
+            lightness_CIE1976(10.08, 50),
+            52.01763049,
             places=7)
 
         self.assertAlmostEqual(
-            lightness_1976(10.08, 75),
-            43.41887325541973,
+            lightness_CIE1976(10.08, 75),
+            43.41887326,
             places=7)
 
         self.assertAlmostEqual(
-            lightness_1976(10.08, 95),
-            38.91659875709282,
+            lightness_CIE1976(10.08, 95),
+            38.91659876,
             places=7)
 
-    def test_n_dimensional_lightness_1976(self):
+    def test_n_dimensional_lightness_CIE1976(self):
         """
-        Tests :func:`colour.colorimetry.lightness.lightness_1976`
+        Tests :func:`colour.colorimetry.lightness.lightness_CIE1976`
         definition n-dimensional arrays support.
         """
 
         Y = 10.08
-        Lstar = 37.98562909765304
+        Lstar = 37.98562910
         np.testing.assert_almost_equal(
-            lightness_1976(Y),
+            lightness_CIE1976(Y),
             Lstar,
             decimal=7)
 
         Y = np.tile(Y, 6)
         Lstar = np.tile(Lstar, 6)
         np.testing.assert_almost_equal(
-            lightness_1976(Y),
+            lightness_CIE1976(Y),
             Lstar,
             decimal=7)
 
         Y = np.reshape(Y, (2, 3))
         Lstar = np.reshape(Lstar, (2, 3))
         np.testing.assert_almost_equal(
-            lightness_1976(Y),
+            lightness_CIE1976(Y),
             Lstar,
             decimal=7)
 
         Y = np.reshape(Y, (2, 3, 1))
         Lstar = np.reshape(Lstar, (2, 3, 1))
         np.testing.assert_almost_equal(
-            lightness_1976(Y),
+            lightness_CIE1976(Y),
             Lstar,
             decimal=7)
 
     @ignore_numpy_errors
-    def test_nan_lightness_1976(self):
+    def test_nan_lightness_CIE1976(self):
         """
-        Tests :func:`colour.colorimetry.lightness.lightness_1976`
+        Tests :func:`colour.colorimetry.lightness.lightness_CIE1976`
         definition nan support.
         """
 
-        lightness_1976(
+        lightness_CIE1976(
             np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 

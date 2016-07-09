@@ -10,7 +10,7 @@ Defines luminous efficiency functions computation related objects.
 See Also
 --------
 `Luminous Efficiency Functions IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/lefs.ipynb>`_
 colour.colorimetry.dataset.lefs,
 colour.colorimetry.spectrum.SpectralPowerDistribution
@@ -33,7 +33,7 @@ from colour.colorimetry.dataset.lefs import MESOPIC_X_DATA
 from colour.utilities import closest
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -130,8 +130,9 @@ def mesopic_luminous_efficiency_function(
 
     Examples
     --------
-    >>> mesopic_luminous_efficiency_function(0.2)  # doctest: +ELLIPSIS
-    <colour.colorimetry.spectrum.SpectralPowerDistribution object at 0x...>
+    >>> print(mesopic_luminous_efficiency_function(0.2))
+    SpectralPowerDistribution(\
+'0.2 Lp Mesopic Luminous Efficiency Function', (380.0, 780.0, 1.0))
     """
 
     photopic_lef_shape = photopic_lef.shape
@@ -139,7 +140,7 @@ def mesopic_luminous_efficiency_function(
     shape = SpectralShape(
         max(photopic_lef_shape.start, scotopic_lef_shape.start),
         min(photopic_lef_shape.end, scotopic_lef_shape.end),
-        max(photopic_lef_shape.steps, scotopic_lef_shape.steps))
+        max(photopic_lef_shape.interval, scotopic_lef_shape.interval))
 
     wavelengths = shape.range()
 

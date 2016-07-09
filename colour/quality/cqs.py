@@ -13,7 +13,7 @@ Defines *colour quality scale* computation objects:
 See Also
 --------
 `Colour Quality Scale IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/quality/cqs.ipynb>`_
 
 References
@@ -49,7 +49,7 @@ from colour.adaptation import chromatic_adaptation_VonKries
 from colour.utilities import tsplit
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -150,18 +150,13 @@ def colour_quality_scale(spd_test, additional_data=False):
     >>> from colour import ILLUMINANTS_RELATIVE_SPDS
     >>> spd = ILLUMINANTS_RELATIVE_SPDS.get('F2')
     >>> colour_quality_scale(spd)  # doctest: +ELLIPSIS
-    64.6860580...
+    64.6781117...
     """
 
     cmfs = STANDARD_OBSERVERS_CMFS.get(
         'CIE 1931 2 Degree Standard Observer')
 
     shape = cmfs.shape
-    spd_test = spd_test.clone().align(shape)
-
-    vs_spds = {}
-    for index, vs_spd in VS_SPDS.items():
-        vs_spds[index] = vs_spd.clone().align(shape)
 
     XYZ = spectral_to_XYZ(spd_test, cmfs)
     uv = UCS_to_uv(XYZ_to_UCS(XYZ))
@@ -177,14 +172,14 @@ def colour_quality_scale(spd_test, additional_data=False):
     test_vs_colorimetry_data = vs_colorimetry_data(
         spd_test,
         spd_reference,
-        vs_spds,
+        VS_SPDS,
         cmfs,
         chromatic_adaptation=True)
 
     reference_vs_colorimetry_data = vs_colorimetry_data(
         spd_reference,
         spd_reference,
-        vs_spds,
+        VS_SPDS,
         cmfs)
 
     XYZ_r = spectral_to_XYZ(spd_reference, cmfs)
@@ -444,10 +439,10 @@ def colour_quality_scales(test_data, reference_data, CCT_f):
     """
 
     Q_as = {}
+    from colour.algebra import euclidean_distance
     for i, _ in enumerate(test_data):
         D_C_ab = test_data[i].C - reference_data[i].C
-        D_E_ab = np.sqrt(
-            np.sum((test_data[i].Lab - reference_data[i].Lab) ** 2))
+        D_E_ab = euclidean_distance(test_data[i].Lab, reference_data[i].Lab)
 
         if D_C_ab > 0:
             D_Ep_ab = np.sqrt(D_E_ab ** 2 - D_C_ab ** 2)

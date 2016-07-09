@@ -17,7 +17,7 @@ from colour.adaptation import (
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -184,7 +184,7 @@ class TestChromaticAdaptationVonKries(unittest.TestCase):
                 np.array([1.09846607, 1.00000000, 0.35582280]),
                 np.array([0.95042855, 1.00000000, 1.08890037]),
                 transform='XYZ Scaling'),
-            np.array([0.06099486, 0.1008, 0.29250657]),
+            np.array([0.06099486, 0.10080000, 0.29250657]),
             decimal=7)
 
         np.testing.assert_almost_equal(

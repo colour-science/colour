@@ -13,18 +13,20 @@ import unittest
 from colour.utilities import (
     as_numeric,
     closest,
-    normalise,
-    steps,
+    normalise_maximum,
+    interval,
     is_uniform,
     in_array,
     tstack,
     tsplit,
     row_as_diagonal,
     dot_vector,
-    dot_matrix)
+    dot_matrix,
+    orient,
+    centroid)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -32,15 +34,17 @@ __status__ = 'Production'
 
 __all__ = ['TestAsNumeric',
            'TestClosest',
-           'TestNormalise',
-           'TestSteps',
+           'TestNormaliseMaximum',
+           'TestInterval',
            'TestIsUniform',
            'TestInArray',
            'TestTstack',
            'TestTsplit',
            'TestRowAsDiagonal',
            'TestDotVector',
-           'TestDotMatrix']
+           'TestDotMatrix',
+           'TestOrient',
+           'TestCentroid']
 
 
 class TestAsNumeric(unittest.TestCase):
@@ -61,6 +65,10 @@ class TestAsNumeric(unittest.TestCase):
         np.testing.assert_almost_equal(as_numeric(np.array([1, 2, 3])),
                                        np.array([1, 2, 3]))
 
+        self.assertIsInstance(as_numeric(1), np.float_)
+
+        self.assertIsInstance(as_numeric(1, int), int)
+
 
 class TestClosest(unittest.TestCase):
     """
@@ -73,88 +81,96 @@ class TestClosest(unittest.TestCase):
         Tests :func:`colour.utilities.array.closest` definition.
         """
 
-        y = np.array([24.31357115,
+        a = np.array([24.31357115,
                       63.62396289,
                       55.71528816,
                       62.70988028,
                       46.84480573,
                       25.40026416])
 
-        self.assertEqual(closest(y, 63.05), 62.70988028)
+        self.assertEqual(closest(a, 63.05), 62.70988028)
 
-        self.assertEqual(closest(y, 24.90), 25.40026416)
+        self.assertEqual(closest(a, 24.90), 25.40026416)
 
-        self.assertEqual(closest(y, 51.15), 46.84480573)
+        self.assertEqual(closest(a, 51.15), 46.84480573)
 
 
-class TestNormalise(unittest.TestCase):
+class TestNormaliseMaximum(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.array.normalise` definition units
+    Defines :func:`colour.utilities.array.normalise_maximum` definition units
     tests methods.
     """
 
-    def test_normalise(self):
+    def test_normalise_maximum(self):
         """
-        Tests :func:`colour.utilities.array.normalise` definition.
+        Tests :func:`colour.utilities.array.normalise_maximum` definition.
         """
 
         np.testing.assert_almost_equal(
-            normalise(np.array([0.1151847498, 0.1008000000, 0.0508937252])),
-            np.array([1., 0.87511585, 0.4418443]),
+            normalise_maximum(
+                np.array([0.11518475, 0.10080000, 0.05089373])),
+            np.array([1.00000000, 0.87511585, 0.4418443]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            normalise(np.array([[0.1151847498, 0.1008000000, 0.0508937252],
-                                [0.0704953400, 0.1008000000, 0.0955831300],
-                                [0.1750135800, 0.3881879500, 0.3216195500]])),
+            normalise_maximum(
+                np.array([[0.11518475, 0.10080000, 0.05089373],
+                          [0.07049534, 0.10080000, 0.09558313],
+                          [0.17501358, 0.38818795, 0.32161955]])),
             np.array([[0.29672418, 0.25966803, 0.13110589],
                       [0.18160105, 0.25966803, 0.246229],
-                      [0.45084753, 1., 0.82851503]]),
+                      [0.45084753, 1.00000000, 0.82851503]]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            normalise(np.array([[0.1151847498, 0.1008000000, 0.0508937252],
-                                [0.0704953400, 0.1008000000, 0.0955831300],
-                                [0.1750135800, 0.3881879500, 0.3216195500]]),
-                      axis=-1),
-            np.array([[1., 0.87511585, 0.4418443],
-                      [0.69935853, 1., 0.94824534],
-                      [0.45084753, 1., 0.82851503]]),
+            normalise_maximum(
+                np.array([[0.11518475, 0.10080000, 0.05089373],
+                          [0.07049534, 0.10080000, 0.09558313],
+                          [0.17501358, 0.38818795, 0.32161955]]),
+                axis=-1),
+            np.array([[1.00000000, 0.87511585, 0.4418443],
+                      [0.69935852, 1.00000000, 0.94824533],
+                      [0.45084753, 1.00000000, 0.82851503]]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            normalise(np.array([0.1151847498, 0.1008000000, 0.0508937252]),
-                      factor=10),
-            np.array([10., 8.75115848, 4.418443]),
+            normalise_maximum(
+                np.array([0.11518475, 0.10080000, 0.05089373]),
+                factor=10),
+            np.array([10.00000000, 8.75115850, 4.4184434]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            normalise(np.array([-0.1151847498, -0.1008000000, 0.0508937252])),
-            np.array([0., 0., 1.]),
+            normalise_maximum(
+                np.array([-0.11518475, -0.10080000, 0.05089373])),
+            np.array([0.00000000, 0.00000000, 1.00000000]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            normalise(np.array([-0.1151847498, -0.1008000000, 0.0508937252]),
-                      clip=False),
-            np.array([-2.26324069, -1.9805978, 1.]),
+            normalise_maximum(
+                np.array([-0.11518475, -0.10080000, 0.05089373]),
+                clip=False),
+            np.array([-2.26324048, -1.98059761, 1.00000000]),
             decimal=7)
 
 
-class TestSteps(unittest.TestCase):
+class TestInterval(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.array.steps` definition unit tests
+    Defines :func:`colour.utilities.array.interval` definition unit tests
     methods.
     """
 
-    def test_steps(self):
+    def test_interval(self):
         """
-        Tests :func:`colour.utilities.array.steps` definition.
+        Tests :func:`colour.utilities.array.interval` definition.
         """
-
-        np.testing.assert_almost_equal(steps(range(0, 10, 2)), np.array([2]))
 
         np.testing.assert_almost_equal(
-            steps([1, 2, 3, 4, 6, 6.5]),
+            interval(range(0, 10, 2)),
+            np.array([2]))
+
+        np.testing.assert_almost_equal(
+            interval([1, 2, 3, 4, 6, 6.5]),
             np.array([0.5, 1, 2]))
 
 
@@ -343,21 +359,21 @@ class TestRowAsDiagonal(unittest.TestCase):
                                       [0.71061831, 0.67718718, 0.09562581],
                                       [0.71588836, 0.76772047, 0.15476079],
                                       [0.92985142, 0.22263399, 0.88027331]])),
-            np.array([[[0.25891593, 0., 0.],
-                       [0., 0.07299478, 0.],
-                       [0., 0., 0.36586996]],
-                      [[0.30851087, 0., 0.],
-                       [0., 0.37131459, 0.],
-                       [0., 0., 0.16274825]],
-                      [[0.71061831, 0., 0.],
-                       [0., 0.67718718, 0.],
-                       [0., 0., 0.09562581]],
-                      [[0.71588836, 0., 0.],
-                       [0., 0.76772047, 0.],
-                       [0., 0., 0.15476079]],
-                      [[0.92985142, 0., 0.],
-                       [0., 0.22263399, 0.],
-                       [0., 0., 0.88027331]]]))
+            np.array([[[0.25891593, 0.00000000, 0.00000000],
+                       [0.00000000, 0.07299478, 0.00000000],
+                       [0.00000000, 0.00000000, 0.36586996]],
+                      [[0.30851087, 0.00000000, 0.00000000],
+                       [0.00000000, 0.37131459, 0.00000000],
+                       [0.00000000, 0.00000000, 0.16274825]],
+                      [[0.71061831, 0.00000000, 0.00000000],
+                       [0.00000000, 0.67718718, 0.00000000],
+                       [0.00000000, 0.00000000, 0.09562581]],
+                      [[0.71588836, 0.00000000, 0.00000000],
+                       [0.00000000, 0.76772047, 0.00000000],
+                       [0.00000000, 0.00000000, 0.15476079]],
+                      [[0.92985142, 0.00000000, 0.00000000],
+                       [0.00000000, 0.22263399, 0.00000000],
+                       [0.00000000, 0.00000000, 0.88027331]]]))
 
 
 class TestDotVector(unittest.TestCase):
@@ -429,6 +445,102 @@ class TestDotMatrix(unittest.TestCase):
                        [-1.70994078, 2.57932265, 0.13061813],
                        [-0.00442036, 0.03774904, 0.96667132]]]),
             decimal=7)
+
+
+class TestOrient(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.array.orient` definition unit tests
+    methods.
+    """
+
+    def test_orient(self):
+        """
+        Tests :func:`colour.utilities.array.orient` definition.
+        """
+
+        a = np.tile(np.arange(5), (5, 1))
+
+        np.testing.assert_almost_equal(
+            orient(a, 'Null'),
+            a,
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            orient(a, 'Flip'),
+            np.array([[4, 3, 2, 1, 0],
+                      [4, 3, 2, 1, 0],
+                      [4, 3, 2, 1, 0],
+                      [4, 3, 2, 1, 0],
+                      [4, 3, 2, 1, 0]]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            orient(a, 'Flop'),
+            np.array([[0, 1, 2, 3, 4],
+                      [0, 1, 2, 3, 4],
+                      [0, 1, 2, 3, 4],
+                      [0, 1, 2, 3, 4],
+                      [0, 1, 2, 3, 4]]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            orient(a, '90 CW'),
+            np.array([[0, 0, 0, 0, 0],
+                      [1, 1, 1, 1, 1],
+                      [2, 2, 2, 2, 2],
+                      [3, 3, 3, 3, 3],
+                      [4, 4, 4, 4, 4]]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            orient(a, '90 CCW'),
+            np.array([[4, 4, 4, 4, 4],
+                      [3, 3, 3, 3, 3],
+                      [2, 2, 2, 2, 2],
+                      [1, 1, 1, 1, 1],
+                      [0, 0, 0, 0, 0]]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            orient(a, '180'),
+            np.array([[4, 3, 2, 1, 0],
+                      [4, 3, 2, 1, 0],
+                      [4, 3, 2, 1, 0],
+                      [4, 3, 2, 1, 0],
+                      [4, 3, 2, 1, 0]]),
+            decimal=7)
+
+
+class TestCentroid(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.array.centroid` definition unit tests
+    methods.
+    """
+
+    def test_centroid(self):
+        """
+        Tests :func:`colour.utilities.array.centroid` definition.
+        """
+
+        a = np.arange(5)
+        np.testing.assert_array_equal(
+            centroid(a),
+            np.array([3]))
+
+        a = np.tile(a, (5, 1))
+        np.testing.assert_array_equal(
+            centroid(a),
+            np.array([2, 3]))
+
+        a = np.tile(np.linspace(0, 1, 10), (10, 1))
+        np.testing.assert_array_equal(
+            centroid(a),
+            np.array([4, 6]))
+
+        a = tstack((a, a, a))
+        np.testing.assert_array_equal(
+            centroid(a),
+            np.array([4, 6, 1]))
 
 
 if __name__ == '__main__':

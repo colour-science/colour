@@ -28,7 +28,7 @@ import numpy as np
 from colour.utilities import tsplit, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -40,19 +40,19 @@ __all__ = ['cartesian_to_spherical',
            'cylindrical_to_cartesian']
 
 
-def cartesian_to_spherical(vector):
+def cartesian_to_spherical(a):
     """
-    Transforms given Cartesian coordinates vector to Spherical coordinates.
+    Transforms given Cartesian coordinates array to Spherical coordinates.
 
     Parameters
     ----------
-    vector : array_like
-        Cartesian coordinates vector (x, y, z) to transform.
+    a : array_like
+        Cartesian coordinates array (x, y, z) to transform.
 
     Returns
     -------
     ndarray
-        Spherical coordinates vector (r, theta, phi).
+        Spherical coordinates array (r, theta, phi).
 
     See Also
     --------
@@ -60,14 +60,14 @@ def cartesian_to_spherical(vector):
 
     Examples
     --------
-    >>> vector = np.array([3, 1, 6])
-    >>> cartesian_to_spherical(vector)  # doctest: +ELLIPSIS
+    >>> a = np.array([3, 1, 6])
+    >>> cartesian_to_spherical(a)  # doctest: +ELLIPSIS
     array([ 6.7823299...,  1.0857465...,  0.3217505...])
     """
 
-    x, y, z = tsplit(vector)
+    x, y, z = tsplit(a)
 
-    r = np.linalg.norm(vector, axis=-1)
+    r = np.linalg.norm(a, axis=-1)
     theta = np.arctan2(z, np.linalg.norm(tstack((x, y)), axis=-1))
     phi = np.arctan2(y, x)
 
@@ -76,19 +76,19 @@ def cartesian_to_spherical(vector):
     return rtp
 
 
-def spherical_to_cartesian(vector):
+def spherical_to_cartesian(a):
     """
-    Transforms given Spherical coordinates vector to Cartesian coordinates.
+    Transforms given Spherical coordinates array to Cartesian coordinates.
 
     Parameters
     ----------
-    vector : array_like
-        Spherical coordinates vector (r, theta, phi) to transform.
+    a : array_like
+        Spherical coordinates array (r, theta, phi) to transform.
 
     Returns
     -------
     ndarray
-        Cartesian coordinates vector (x, y, z).
+        Cartesian coordinates array (x, y, z).
 
     See Also
     --------
@@ -96,12 +96,12 @@ def spherical_to_cartesian(vector):
 
     Examples
     --------
-    >>> vector = np.array([6.78232998, 1.08574654, 0.32175055])
-    >>> spherical_to_cartesian(vector)  # doctest: +ELLIPSIS
+    >>> a = np.array([6.78232998, 1.08574654, 0.32175055])
+    >>> spherical_to_cartesian(a)  # doctest: +ELLIPSIS
     array([ 3.        ,  0.9999999...,  6.        ])
     """
 
-    r, theta, phi = tsplit(vector)
+    r, theta, phi = tsplit(a)
 
     x = r * np.cos(theta) * np.cos(phi)
     y = r * np.cos(theta) * np.sin(phi)
@@ -112,19 +112,19 @@ def spherical_to_cartesian(vector):
     return xyz
 
 
-def cartesian_to_cylindrical(vector):
+def cartesian_to_cylindrical(a):
     """
-    Transforms given Cartesian coordinates vector to Cylindrical coordinates.
+    Transforms given Cartesian coordinates array to Cylindrical coordinates.
 
     Parameters
     ----------
-    vector : array_like
-        Cartesian coordinates vector (x, y, z) to transform.
+    a : array_like
+        Cartesian coordinates array (x, y, z) to transform.
 
     Returns
     -------
     ndarray
-        Cylindrical coordinates vector (z, theta, rho).
+        Cylindrical coordinates array (z, theta, rho).
 
     See Also
     --------
@@ -132,12 +132,12 @@ def cartesian_to_cylindrical(vector):
 
     Examples
     --------
-    >>> vector = np.array([3, 1, 6])
-    >>> cartesian_to_cylindrical(vector)  # doctest: +ELLIPSIS
+    >>> a = np.array([3, 1, 6])
+    >>> cartesian_to_cylindrical(a)  # doctest: +ELLIPSIS
     array([ 6.        ,  0.3217505...,  3.1622776...])
     """
 
-    x, y, z = tsplit(vector)
+    x, y, z = tsplit(a)
 
     theta = np.arctan2(y, x)
     rho = np.linalg.norm(tstack((x, y)), axis=-1)
@@ -145,19 +145,19 @@ def cartesian_to_cylindrical(vector):
     return tstack((z, theta, rho))
 
 
-def cylindrical_to_cartesian(vector):
+def cylindrical_to_cartesian(a):
     """
-    Transforms given Cylindrical coordinates vector to Cartesian coordinates.
+    Transforms given Cylindrical coordinates array to Cartesian coordinates.
 
     Parameters
     ----------
-    vector : array_like
-        Cylindrical coordinates vector (z, theta, rho) to transform.
+    a : array_like
+        Cylindrical coordinates array (z, theta, rho) to transform.
 
     Returns
     -------
     ndarray
-        Cartesian coordinates vector (x, y, z).
+        Cartesian coordinates array (x, y, z).
 
     See Also
     --------
@@ -165,12 +165,12 @@ def cylindrical_to_cartesian(vector):
 
     Examples
     --------
-    >>> vector = np.array([6.00000000, 0.32175055, 3.16227766])
-    >>> cylindrical_to_cartesian(vector)  # doctest: +ELLIPSIS
+    >>> a = np.array([6.00000000, 0.32175055, 3.16227766])
+    >>> cylindrical_to_cartesian(a)  # doctest: +ELLIPSIS
     array([ 3.        ,  0.9999999...,  6.        ])
     """
 
-    z, theta, rho = tsplit(vector)
+    z, theta, rho = tsplit(a)
 
     x = rho * np.cos(theta)
     y = rho * np.sin(theta)

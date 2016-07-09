@@ -13,8 +13,8 @@ Defines the colour models plotting objects:
 -   :func:`RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot`
 -   :func:`RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot`
 -   :func:`RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot`
--   :func:`single_conversion_function_plot`
--   :func:`multi_conversion_function_plot`
+-   :func:`single_cctf_plot`
+-   :func:`multi_cctf_plot`
 """
 
 from __future__ import division
@@ -51,7 +51,7 @@ from colour.plotting import (
     get_cmfs)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -64,8 +64,8 @@ __all__ = [
     'RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot',
     'RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot',
     'RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot',
-    'single_conversion_function_plot',
-    'multi_conversion_function_plot']
+    'single_cctf_plot',
+    'multi_cctf_plot']
 
 
 def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
@@ -86,15 +86,14 @@ def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> c = ['Rec. 709', 'ACEScg', 'S-Gamut']
     >>> RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
     ...     c)  # doctest: +SKIP
-    True
     """
 
     settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
@@ -222,15 +221,14 @@ def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> c = ['Rec. 709', 'ACEScg', 'S-Gamut']
     >>> RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
     ...     c)  # doctest: +SKIP
-    True
     """
 
     settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
@@ -366,15 +364,14 @@ def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> c = ['Rec. 709', 'ACEScg', 'S-Gamut']
     >>> RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
     ...     c)  # doctest: +SKIP
-    True
     """
 
     settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
@@ -507,15 +504,15 @@ def RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot(
     ----------
     RGB : array_like
         *RGB* colourspace array.
-    colourspace : RGB_Colourspace
+    colourspace : unicode
         *RGB* colourspace of the *RGB* array.
     \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
@@ -523,15 +520,15 @@ def RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot(
     >>> c = 'Rec. 709'
     >>> RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot(
     ...     RGB, c)  # doctest: +SKIP
-    True
     """
 
     settings = {}
     settings.update(kwargs)
     settings.update({'standalone': False})
 
+    colourspace, name = get_RGB_colourspace(colourspace), colourspace
     settings['colourspaces'] = (
-        [colourspace.name] + settings.get('colourspaces', []))
+        [name] + settings.get('colourspaces', []))
 
     RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(**settings)
 
@@ -550,6 +547,7 @@ def RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot(
                   marker='+')
 
     settings.update({'standalone': True})
+    settings.update(kwargs)
 
     boundaries(**settings)
     decorate(**settings)
@@ -568,15 +566,15 @@ def RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot(
     ----------
     RGB : array_like
         *RGB* colourspace array.
-    colourspace : RGB_Colourspace
+    colourspace : unicode
         *RGB* colourspace of the *RGB* array.
     \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
@@ -584,15 +582,15 @@ def RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot(
     >>> c = 'Rec. 709'
     >>> RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot(
     ...     RGB, c)  # doctest: +SKIP
-    True
     """
 
     settings = {}
     settings.update(kwargs)
     settings.update({'standalone': False})
 
+    colourspace, name = get_RGB_colourspace(colourspace), colourspace
     settings['colourspaces'] = (
-        [colourspace.name] + settings.get('colourspaces', []))
+        [name] + settings.get('colourspaces', []))
 
     RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(**settings)
 
@@ -610,6 +608,7 @@ def RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot(
                   marker='+')
 
     settings.update({'standalone': True})
+    settings.update(kwargs)
 
     boundaries(**settings)
     decorate(**settings)
@@ -628,15 +627,15 @@ def RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot(
     ----------
     RGB : array_like
         *RGB* colourspace array.
-    colourspace : RGB_Colourspace
+    colourspace : unicode
         *RGB* colourspace of the *RGB* array.
     \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
@@ -644,15 +643,15 @@ def RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot(
     >>> c = 'Rec. 709'
     >>> RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot(
     ...     RGB, c)  # doctest: +SKIP
-    True
     """
 
     settings = {}
     settings.update(kwargs)
     settings.update({'standalone': False})
 
+    colourspace, name = get_RGB_colourspace(colourspace), colourspace
     settings['colourspaces'] = (
-        [colourspace.name] + settings.get('colourspaces', []))
+        [name] + settings.get('colourspaces', []))
 
     RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(**settings)
 
@@ -672,6 +671,7 @@ def RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot(
                   marker='+')
 
     settings.update({'standalone': True})
+    settings.update(kwargs)
 
     boundaries(**settings)
     decorate(**settings)
@@ -679,63 +679,57 @@ def RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot(
     return display(**settings)
 
 
-def single_conversion_function_plot(colourspace='Rec. 709',
-                                    EOCF=False,
-                                    **kwargs):
+def single_cctf_plot(colourspace='Rec. 709', decoding_cctf=False, **kwargs):
     """
-    Plots given colourspace opto-electronic conversion function.
+    Plots given colourspace colour component transfer function.
 
     Parameters
     ----------
     colourspace : unicode, optional
-        *RGB* Colourspace opto-electronic conversion function to plot.
-    EOCF : bool
-        Plot electro-optical conversion function instead.
+        *RGB* Colourspace colour component transfer function to plot.
+    decoding_cctf : bool
+        Plot decoding colour component transfer function instead.
     \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
-    >>> single_conversion_function_plot()  # doctest: +SKIP
-    True
+    >>> single_cctf_plot()  # doctest: +SKIP
     """
 
-    settings = {'title': '{0} - {1} Conversion Function'.format(
-        colourspace, 'Electro-Optical' if EOCF else 'Opto-Electronic')}
+    settings = {'title': '{0} - {1} CCTF'.format(
+        colourspace, 'Decoding' if decoding_cctf else 'Encoding')}
     settings.update(kwargs)
 
-    return multi_conversion_function_plot([colourspace], EOCF, **settings)
+    return multi_cctf_plot([colourspace], decoding_cctf, **settings)
 
 
-def multi_conversion_function_plot(colourspaces=None,
-                                   EOCF=False,
-                                   **kwargs):
+def multi_cctf_plot(colourspaces=None, decoding_cctf=False, **kwargs):
     """
-    Plots given colourspaces opto-electronic conversion functions.
+    Plots given colourspaces colour component transfer functions.
 
     Parameters
     ----------
     colourspaces : array_like, optional
-        Colourspaces opto-electronic conversion functions to plot.
-    EOCF : bool
-        Plot electro-optical conversion functions instead.
+        Colourspaces colour component transfer function to plot.
+    decoding_cctf : bool
+        Plot decoding colour component transfer function instead.
     \**kwargs : dict, optional
         Keywords arguments.
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
-    >>> multi_conversion_function_plot(['Rec. 709', 'sRGB'])  # doctest: +SKIP
-    True
+    >>> multi_cctf_plot(['Rec. 709', 'sRGB'])  # doctest: +SKIP
     """
 
     settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
@@ -750,7 +744,8 @@ def multi_conversion_function_plot(colourspaces=None,
     for colourspace in colourspaces:
         colourspace = get_RGB_colourspace(colourspace)
 
-        RGBs = colourspace.EOCF(samples) if EOCF else colourspace.OECF(samples)
+        RGBs = (colourspace.decoding_cctf(samples)
+                if decoding_cctf else colourspace.encoding_cctf(samples))
 
         pylab.plot(samples,
                    RGBs,
@@ -758,10 +753,12 @@ def multi_conversion_function_plot(colourspaces=None,
                    linewidth=2)
 
     settings.update({
-        'title': '{0} - {1} Conversion Functions'.format(
+        'title': '{0} - {1} CCTFs'.format(
             ', '.join(colourspaces),
-            'Electro-Optical' if EOCF else 'Opto-Electronic'),
+            'Decoding' if decoding_cctf else 'Encoding'),
         'x_tighten': True,
+        'x_label': 'Signal Value' if decoding_cctf else 'Tristimulus Value',
+        'y_label': 'Tristimulus Value' if decoding_cctf else 'Signal Value',
         'legend': True,
         'legend_location': 'upper left',
         'grid': True,

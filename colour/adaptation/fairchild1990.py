@@ -12,7 +12,7 @@ Defines Fairchild (1990) chromatic adaptation model objects:
 See Also
 --------
 `Fairchild (1990) Chromatic Adaptation Model IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/adaptation/fairchild1990.ipynb>`_
 
 References
@@ -32,7 +32,7 @@ from colour.adaptation import VON_KRIES_CAT
 from colour.utilities import dot_vector, row_as_diagonal, tsplit, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -100,7 +100,7 @@ def chromatic_adaptation_Fairchild1990(XYZ_1,
     -----
     -   Input *CIE XYZ_1*, *CIE XYZ_n* and *CIE XYZ_r* tristimulus values are
         in domain [0, 100].
-    -   Output *CIE XYZ_2* tristimulus values are in domain [0, 100].
+    -   Output *CIE XYZ_2* tristimulus values are in range [0, 100].
 
     Examples
     --------
@@ -239,12 +239,23 @@ def degrees_of_adaptation(LMS, Y_n, v=1 / 3, discount_illuminant=False):
 
     Ye_n = Y_n ** v
 
-    f_E = lambda x, y: (3 * (x / y)) / (L / L_E + M / M_E + S / S_E)
-    f_P = lambda x: (1 + Ye_n + x) / (1 + Ye_n + 1 / x)
+    def m_E(x, y):
+        """
+        Computes the :math:`m_E` term.
+        """
 
-    p_L = f_P(f_E(L, L_E))
-    p_M = f_P(f_E(M, M_E))
-    p_S = f_P(f_E(S, S_E))
+        return (3 * (x / y)) / (L / L_E + M / M_E + S / S_E)
+
+    def P_c(x):
+        """
+        Computes the :math:`P_L`, :math:`P_M` or :math:`P_S` terms.
+        """
+
+        return (1 + Ye_n + x) / (1 + Ye_n + 1 / x)
+
+    p_L = P_c(m_E(L, L_E))
+    p_M = P_c(m_E(M, M_E))
+    p_S = P_c(m_E(S, S_E))
 
     p_LMS = tstack((p_L, p_M, p_S))
 

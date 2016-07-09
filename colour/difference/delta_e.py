@@ -17,7 +17,7 @@ The following methods are available:
 See Also
 --------
 `Delta E - Colour Difference IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/difference/delta_e.ipynb>`_
 
 References
@@ -30,10 +30,11 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import CaseInsensitiveMapping, tsplit
+from colour.algebra import euclidean_distance
+from colour.utilities import CaseInsensitiveMapping, filter_kwargs, tsplit
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -47,25 +48,26 @@ __all__ = ['delta_E_CIE1976',
            'delta_E']
 
 
-def delta_E_CIE1976(Lab1, Lab2, **kwargs):
+def delta_E_CIE1976(Lab_1, Lab_2):
     """
     Returns the difference :math:`\Delta E_{ab}` between two given
     *CIE Lab* colourspace arrays using CIE 1976 recommendation.
 
     Parameters
     ----------
-    Lab1 : array_like
+    Lab_1 : array_like
         *CIE Lab* colourspace array 1.
-    Lab2 : array_like
+    Lab_2 : array_like
         *CIE Lab* colourspace array 2.
-    \**kwargs : dict, optional
-        Unused parameter provided for signature compatibility with other
-        :math:`\Delta E_{ab}` computation objects.
 
     Returns
     -------
     numeric or ndarray
         Colour difference :math:`\Delta E_{ab}`.
+
+    See Also
+    --------
+    colour.euclidean_distance
 
     References
     ----------
@@ -74,38 +76,44 @@ def delta_E_CIE1976(Lab1, Lab2, **kwargs):
 
     Examples
     --------
-    >>> Lab1 = np.array([100.00000000, 21.57210357, 272.22819350])
-    >>> Lab2 = np.array([100.00000000, 426.67945353, 72.39590835])
-    >>> delta_E_CIE1976(Lab1, Lab2)  # doctest: +ELLIPSIS
+    >>> Lab_1 = np.array([100.00000000, 21.57210357, 272.22819350])
+    >>> Lab_2 = np.array([100.00000000, 426.67945353, 72.39590835])
+    >>> delta_E_CIE1976(Lab_1, Lab_2)  # doctest: +ELLIPSIS
     451.7133019...
     """
 
-    d_E = np.linalg.norm(np.asarray(Lab1) - np.asarray(Lab2), axis=-1)
+    d_E = euclidean_distance(Lab_1, Lab_2)
 
     return d_E
 
 
-def delta_E_CIE1994(Lab1, Lab2, textiles=True, **kwargs):
+def delta_E_CIE1994(Lab_1, Lab_2, textiles=False):
     """
     Returns the difference :math:`\Delta E_{ab}` between two given *CIE Lab*
     colourspace arrays using CIE 1994 recommendation.
 
     Parameters
     ----------
-    Lab1 : array_like
+    Lab_1 : array_like
         *CIE Lab* colourspace array 1.
-    Lab2 : array_like
+    Lab_2 : array_like
         *CIE Lab* colourspace array 2.
     textiles : bool, optional
-        Application specific weights.
-    \**kwargs : dict, optional
-        Unused parameter provided for signature compatibility with other
-        :math:`\Delta E_{ab}` computation objects.
+        Textiles application specific parametric factors
+        :math:`k_L=2,\ k_C=k_H=1,\ k_1=0.048,\ k_2=0.014` weights are used
+        instead of :math:`k_L=k_C=k_H=1,\ k_1=0.045,\ k_2=0.015`.
 
     Returns
     -------
     numeric or ndarray
         Colour difference :math:`\Delta E_{ab}`.
+
+    Notes
+    -----
+    CIE 1994 colour differences are not symmetrical: difference between
+    `Lab_1` and `Lab_2` may not be the same as difference between `Lab_2` and
+    `Lab_1` thus one colour must be understood to be the reference against
+    which a sample colour is compared.
 
     References
     ----------
@@ -114,150 +122,177 @@ def delta_E_CIE1994(Lab1, Lab2, textiles=True, **kwargs):
 
     Examples
     --------
-    >>> Lab1 = np.array([100.00000000, 21.57210357, 272.22819350])
-    >>> Lab2 = np.array([100.00000000, 426.67945353, 72.39590835])
-    >>> delta_E_CIE1994(Lab1, Lab2)  # doctest: +ELLIPSIS
-    88.3355530...
-    >>> delta_E_CIE1994(Lab1, Lab2, textiles=False)  # doctest: +ELLIPSIS
+    >>> Lab_1 = np.array([100.00000000, 21.57210357, 272.22819350])
+    >>> Lab_2 = np.array([100.00000000, 426.67945353, 72.39590835])
+    >>> delta_E_CIE1994(Lab_1, Lab_2)  # doctest: +ELLIPSIS
     83.7792255...
+    >>> delta_E_CIE1994(Lab_1, Lab_2, textiles=True)  # doctest: +ELLIPSIS
+    88.3355530...
     """
 
-    k1 = 0.048 if textiles else 0.045
-    k2 = 0.014 if textiles else 0.015
-    kL = 2 if textiles else 1
-    kC = 1
-    kH = 1
+    k_1 = 0.048 if textiles else 0.045
+    k_2 = 0.014 if textiles else 0.015
+    k_L = 2 if textiles else 1
+    k_C = 1
+    k_H = 1
 
-    L1, a1, b1 = tsplit(Lab1)
-    L2, a2, b2 = tsplit(Lab2)
+    L_1, a_1, b_1 = tsplit(Lab_1)
+    L_2, a_2, b_2 = tsplit(Lab_2)
 
-    C1 = np.sqrt(a1 ** 2 + b1 ** 2)
-    C2 = np.sqrt(a2 ** 2 + b2 ** 2)
+    C_1 = np.sqrt(a_1 ** 2 + b_1 ** 2)
+    C_2 = np.sqrt(a_2 ** 2 + b_2 ** 2)
 
-    sL = 1
-    sC = 1 + k1 * C1
-    sH = 1 + k2 * C1
+    s_L = 1
+    s_C = 1 + k_1 * C_1
+    s_H = 1 + k_2 * C_1
 
-    delta_L = L1 - L2
-    delta_C = C1 - C2
-    delta_A = a1 - a2
-    delta_B = b1 - b2
+    delta_L = L_1 - L_2
+    delta_C = C_1 - C_2
+    delta_A = a_1 - a_2
+    delta_B = b_1 - b_2
 
     delta_H = np.sqrt(delta_A ** 2 + delta_B ** 2 - delta_C ** 2)
 
-    L = (delta_L / (kL * sL)) ** 2
-    C = (delta_C / (kC * sC)) ** 2
-    H = (delta_H / (kH * sH)) ** 2
+    L = (delta_L / (k_L * s_L)) ** 2
+    C = (delta_C / (k_C * s_C)) ** 2
+    H = (delta_H / (k_H * s_H)) ** 2
 
     d_E = np.sqrt(L + C + H)
 
     return d_E
 
 
-def delta_E_CIE2000(Lab1, Lab2, **kwargs):
+def delta_E_CIE2000(Lab_1, Lab_2, textiles=False):
     """
     Returns the difference :math:`\Delta E_{ab}` between two given *CIE Lab*
     colourspace arrays using CIE 2000 recommendation.
 
     Parameters
     ----------
-    Lab1 : array_like
+    Lab_1 : array_like
         *CIE Lab* colourspace array 1.
-    Lab2 : array_like
+    Lab_2 : array_like
         *CIE Lab* colourspace array 2.
-    \**kwargs : dict, optional
-        Unused parameter provided for signature compatibility with other
-        :math:`\Delta E_{ab}` computation objects.
+    textiles : bool, optional
+        Textiles application specific parametric factors
+        :math:`k_L=2,\ k_C=k_H=1` weights are used instead of
+        :math:`k_L=k_C=k_H=1`.
 
     Returns
     -------
     numeric or ndarray
         Colour difference :math:`\Delta E_{ab}`.
 
+    Notes
+    -----
+    -   CIE 2000 colour differences are not symmetrical: difference between
+        `Lab_1` and `Lab_2` may not be the same as difference between `Lab_2`
+        and `Lab_1` thus one colour must be understood to be the reference
+        against which a sample colour is compared.
+    -   Parametric factors :math:`k_L=k_C=k_H=1` weights under
+    *reference conditions*: [5]_
+        -   Illumination: D65 source
+        -   Illuminance: 1000 lx
+        -   Observer: Normal colour vision
+        -   Background field: Uniform, neutral gray with :math:`L^*=50`
+        -   Viewing mode: Object
+        -   Sample size: Greater than 4 degrees
+        -   Sample separation: Direct edge contact
+        -   Sample colour-difference magnitude: Lower than 5.0
+            :math:`\Delta E_{ab}`
+        -   Sample structure: Homogeneous (without texture)
+
     References
     ----------
-
     .. [4]  Lindbloom, B. (2009). Delta E (CIE 2000). Retrieved February 24,
             2014, from http://brucelindbloom.com/Eqn_DeltaE_CIE2000.html
+    .. [5]  Melgosa, M. (2013). CIE / ISO new standard: CIEDE2000, 2013(July).
+            Retrieved from http://www.color.org/events/colorimetry/\
+Melgosa_CIEDE2000_Workshop-July4.pdf
 
     Examples
     --------
-    >>> Lab1 = np.array([100.00000000, 21.57210357, 272.22819350])
-    >>> Lab2 = np.array([100.00000000, 426.67945353, 72.39590835])
-    >>> delta_E_CIE2000(Lab1, Lab2)  # doctest: +ELLIPSIS
+    >>> Lab_1 = np.array([100.00000000, 21.57210357, 272.22819350])
+    >>> Lab_2 = np.array([100.00000000, 426.67945353, 72.39590835])
+    >>> delta_E_CIE2000(Lab_1, Lab_2)  # doctest: +ELLIPSIS
     94.0356490...
+    >>> Lab_2 = np.array([50.00000000, 426.67945353, 72.39590835])
+    >>> delta_E_CIE2000(Lab_1, Lab_2)  # doctest: +ELLIPSIS
+    100.8779470...
+    >>> delta_E_CIE2000(Lab_1, Lab_2, textiles=True)  # doctest: +ELLIPSIS
+    95.7920535...
     """
 
-    kL = 1
-    kC = 1
-    kH = 1
+    k_L = 2 if textiles else 1
+    k_C = 1
+    k_H = 1
 
-    L1, a1, b1 = tsplit(Lab1)
-    L2, a2, b2 = tsplit(Lab2)
+    L_1, a_1, b_1 = tsplit(Lab_1)
+    L_2, a_2, b_2 = tsplit(Lab_2)
 
-    l_bar_prime = 0.5 * (L1 + L2)
+    l_bar_prime = 0.5 * (L_1 + L_2)
 
-    c1 = np.sqrt(a1 * a1 + b1 * b1)
-    c2 = np.sqrt(a2 * a2 + b2 * b2)
+    c_1 = np.sqrt(a_1 ** 2 + b_1 ** 2)
+    c_2 = np.sqrt(a_2 ** 2 + b_2 ** 2)
 
-    c_bar = 0.5 * (c1 + c2)
+    c_bar = 0.5 * (c_1 + c_2)
     c_bar7 = np.power(c_bar, 7)
 
     g = 0.5 * (1 - np.sqrt(c_bar7 / (c_bar7 + 25 ** 7)))
 
-    a1_prime = a1 * (1 + g)
-    a2_prime = a2 * (1 + g)
-    c1_prime = np.sqrt(a1_prime * a1_prime + b1 * b1)
-    c2_prime = np.sqrt(a2_prime * a2_prime + b2 * b2)
-    c_bar_prime = 0.5 * (c1_prime + c2_prime)
+    a_1_prime = a_1 * (1 + g)
+    a_2_prime = a_2 * (1 + g)
+    c_1_prime = np.sqrt(a_1_prime ** 2 + b_1 ** 2)
+    c_2_prime = np.sqrt(a_2_prime ** 2 + b_2 ** 2)
+    c_bar_prime = 0.5 * (c_1_prime + c_2_prime)
 
-    h1_prime = np.asarray(np.rad2deg(np.arctan2(b1, a1_prime)))
-    h1_prime[np.asarray(h1_prime < 0.0)] += 360
+    h_1_prime = np.asarray(np.rad2deg(np.arctan2(b_1, a_1_prime)))
+    h_1_prime[np.asarray(h_1_prime < 0.0)] += 360
 
-    h2_prime = np.asarray(np.rad2deg(np.arctan2(b2, a2_prime)))
-    h2_prime[np.asarray(h2_prime < 0.0)] += 360
+    h_2_prime = np.asarray(np.rad2deg(np.arctan2(b_2, a_2_prime)))
+    h_2_prime[np.asarray(h_2_prime < 0.0)] += 360
 
-    h_bar_prime = np.where(np.fabs(h1_prime - h2_prime) <= 180,
-                           0.5 * (h1_prime + h2_prime),
-                           (0.5 * (h1_prime + h2_prime + 360)))
+    h_bar_prime = np.where(np.fabs(h_1_prime - h_2_prime) <= 180,
+                           0.5 * (h_1_prime + h_2_prime),
+                           (0.5 * (h_1_prime + h_2_prime + 360)))
 
     t = (1 - 0.17 * np.cos(np.deg2rad(h_bar_prime - 30)) +
          0.24 * np.cos(np.deg2rad(2 * h_bar_prime)) +
          0.32 * np.cos(np.deg2rad(3 * h_bar_prime + 6)) -
          0.20 * np.cos(np.deg2rad(4 * h_bar_prime - 63)))
 
-    h = h2_prime - h1_prime
-    delta_h_prime = np.where(h2_prime <= h1_prime, h - 360, h + 360)
+    h = h_2_prime - h_1_prime
+    delta_h_prime = np.where(h_2_prime <= h_1_prime, h - 360, h + 360)
     delta_h_prime = np.where(np.fabs(h) <= 180, h, delta_h_prime)
 
-    delta_L_prime = L2 - L1
-    delta_C_prime = c2_prime - c1_prime
-    delta_H_prime = (2 * np.sqrt(c1_prime * c2_prime) *
+    delta_L_prime = L_2 - L_1
+    delta_C_prime = c_2_prime - c_1_prime
+    delta_H_prime = (2 * np.sqrt(c_1_prime * c_2_prime) *
                      np.sin(np.deg2rad(0.5 * delta_h_prime)))
 
-    sL = 1 + ((0.015 * (l_bar_prime - 50) * (l_bar_prime - 50)) /
-              np.sqrt(20 + (l_bar_prime - 50) * (l_bar_prime - 50)))
-    sC = 1 + 0.045 * c_bar_prime
-    sH = 1 + 0.015 * c_bar_prime * t
+    s_L = 1 + ((0.015 * (l_bar_prime - 50) * (l_bar_prime - 50)) /
+               np.sqrt(20 + (l_bar_prime - 50) * (l_bar_prime - 50)))
+    s_C = 1 + 0.045 * c_bar_prime
+    s_H = 1 + 0.015 * c_bar_prime * t
 
     delta_theta = (30 * np.exp(-((h_bar_prime - 275) / 25) *
                                ((h_bar_prime - 275) / 25)))
 
     c_bar_prime7 = c_bar_prime ** 7
 
-    rC = np.sqrt(c_bar_prime7 / (c_bar_prime7 + 25 ** 7))
-    rT = -2 * rC * np.sin(np.deg2rad(2 * delta_theta))
+    r_C = np.sqrt(c_bar_prime7 / (c_bar_prime7 + 25 ** 7))
+    r_T = -2 * r_C * np.sin(np.deg2rad(2 * delta_theta))
 
     d_E = np.sqrt(
-        (delta_L_prime / (kL * sL)) * (delta_L_prime / (kL * sL)) +
-        (delta_C_prime / (kC * sC)) * (delta_C_prime / (kC * sC)) +
-        (delta_H_prime / (kH * sH)) * (delta_H_prime / (kH * sH)) +
-        (delta_C_prime / (kC * sC)) * (delta_H_prime / (kH * sH)) * rT)
+        (delta_L_prime / (k_L * s_L)) ** 2 +
+        (delta_C_prime / (k_C * s_C)) ** 2 +
+        (delta_H_prime / (k_H * s_H)) ** 2 +
+        (delta_C_prime / (k_C * s_C)) * (delta_H_prime / (k_H * s_H)) * r_T)
 
     return d_E
 
 
-def delta_E_CMC(Lab1, Lab2, l=2, c=1):
+def delta_E_CMC(Lab_1, Lab_2, l=2, c=1):
     """
     Returns the difference :math:`\Delta E_{ab}` between two given *CIE Lab*
     colourspace arrays using *Colour Measurement Committee* recommendation.
@@ -269,9 +304,9 @@ def delta_E_CMC(Lab1, Lab2, l=2, c=1):
 
     Parameters
     ----------
-    Lab1 : array_like
+    Lab_1 : array_like
         *CIE Lab* colourspace array 1.
-    Lab2 : array_like
+    Lab_2 : array_like
         *CIE Lab* colourspace array 2.
     l : numeric, optional
         Lightness weighting factor.
@@ -290,46 +325,46 @@ def delta_E_CMC(Lab1, Lab2, l=2, c=1):
 
     Examples
     --------
-    >>> Lab1 = np.array([100.00000000, 21.57210357, 272.22819350])
-    >>> Lab2 = np.array([100.00000000, 426.67945353, 72.39590835])
-    >>> delta_E_CMC(Lab1, Lab2)  # doctest: +ELLIPSIS
+    >>> Lab_1 = np.array([100.00000000, 21.57210357, 272.22819350])
+    >>> Lab_2 = np.array([100.00000000, 426.67945353, 72.39590835])
+    >>> delta_E_CMC(Lab_1, Lab_2)  # doctest: +ELLIPSIS
     172.7047712...
     """
 
-    L1, a1, b1 = tsplit(Lab1)
-    L2, a2, b2 = tsplit(Lab2)
+    L_1, a_1, b_1 = tsplit(Lab_1)
+    L_2, a_2, b_2 = tsplit(Lab_2)
 
-    c1 = np.sqrt(a1 * a1 + b1 * b1)
-    c2 = np.sqrt(a2 * a2 + b2 * b2)
-    sl = np.where(L1 < 16, 0.511, (0.040975 * L1) / (1 + 0.01765 * L1))
-    sc = 0.0638 * c1 / (1 + 0.0131 * c1) + 0.638
-    h1 = np.where(c1 < 0.000001, 0, np.rad2deg(np.arctan2(b1, a1)))
+    c_1 = np.sqrt(a_1 ** 2 + b_1 ** 2)
+    c_2 = np.sqrt(a_2 ** 2 + b_2 ** 2)
+    s_l = np.where(L_1 < 16, 0.511, (0.040975 * L_1) / (1 + 0.01765 * L_1))
+    s_c = 0.0638 * c_1 / (1 + 0.0131 * c_1) + 0.638
+    h_1 = np.where(c_1 < 0.000001, 0, np.rad2deg(np.arctan2(b_1, a_1)))
 
-    while np.any(h1 < 0):
-        h1[np.asarray(h1 < 0)] += 360
+    while np.any(h_1 < 0):
+        h_1[np.asarray(h_1 < 0)] += 360
 
-    while np.any(h1 >= 360):
-        h1[np.asarray(h1 >= 360)] -= 360
+    while np.any(h_1 >= 360):
+        h_1[np.asarray(h_1 >= 360)] -= 360
 
-    t = np.where(np.logical_and(h1 >= 164, h1 <= 345),
-                 0.56 + np.fabs(0.2 * np.cos(np.deg2rad(h1 + 168))),
-                 0.36 + np.fabs(0.4 * np.cos(np.deg2rad(h1 + 35))))
+    t = np.where(np.logical_and(h_1 >= 164, h_1 <= 345),
+                 0.56 + np.fabs(0.2 * np.cos(np.deg2rad(h_1 + 168))),
+                 0.36 + np.fabs(0.4 * np.cos(np.deg2rad(h_1 + 35))))
 
-    c4 = c1 * c1 * c1 * c1
-    f = np.sqrt(c4 / (c4 + 1900))
-    sh = sc * (f * t + 1 - f)
+    c_4 = c_1 * c_1 * c_1 * c_1
+    f = np.sqrt(c_4 / (c_4 + 1900))
+    s_h = s_c * (f * t + 1 - f)
 
-    delta_L = L1 - L2
-    delta_C = c1 - c2
-    delta_A = a1 - a2
-    delta_B = b1 - b2
+    delta_L = L_1 - L_2
+    delta_C = c_1 - c_2
+    delta_A = a_1 - a_2
+    delta_B = b_1 - b_2
     delta_H2 = delta_A * delta_A + delta_B * delta_B - delta_C * delta_C
 
-    v1 = delta_L / (l * sl)
-    v2 = delta_C / (c * sc)
-    v3 = sh
+    v_1 = delta_L / (l * s_l)
+    v_2 = delta_C / (c * s_c)
+    v_3 = s_h
 
-    d_E = np.sqrt(v1 * v1 + v2 * v2 + (delta_H2 / (v3 * v3)))
+    d_E = np.sqrt(v_1 ** 2 + v_2 ** 2 + (delta_H2 / (v_3 * v_3)))
 
     return d_E
 
@@ -356,15 +391,16 @@ DELTA_E_METHODS['cie1994'] = DELTA_E_METHODS['CIE 1994']
 DELTA_E_METHODS['cie2000'] = DELTA_E_METHODS['CIE 2000']
 
 
-def delta_E(Lab1, Lab2, method='CMC', **kwargs):
+def delta_E(Lab_1, Lab_2, method='CMC', **kwargs):
     """
-    Returns the *Lightness* :math:`L^*` using given method.
+    Returns the difference :math:`\Delta E_{ab}` between two given *CIE Lab*
+    colourspace arrays using given method.
 
     Parameters
     ----------
-    Lab1 : array_like
+    Lab_1 : array_like
         *CIE Lab* colourspace array 1.
-    Lab2 : array_like
+    Lab_2 : array_like
         *CIE Lab* colourspace array 2.
     method : unicode, optional
         **{'CMC', 'CIE 1976', 'CIE 1994', 'CIE 2000'}**,
@@ -379,19 +415,23 @@ def delta_E(Lab1, Lab2, method='CMC', **kwargs):
 
     Examples
     --------
-    >>> Lab1 = np.array([100.00000000, 21.57210357, 272.22819350])
-    >>> Lab2 = np.array([100.00000000, 426.67945353, 72.39590835])
-    >>> delta_E(Lab1, Lab2)  # doctest: +ELLIPSIS
+    >>> Lab_1 = np.array([100.00000000, 21.57210357, 272.22819350])
+    >>> Lab_2 = np.array([100.00000000, 426.67945353, 72.39590835])
+    >>> delta_E(Lab_1, Lab_2)  # doctest: +ELLIPSIS
     172.7047712...
-    >>> delta_E(Lab1, Lab2, method='CIE 1976')  # doctest: +ELLIPSIS
+    >>> delta_E(Lab_1, Lab_2, method='CIE 1976')  # doctest: +ELLIPSIS
     451.7133019...
-    >>> delta_E(Lab1, Lab2, method='CIE 1994')  # doctest: +ELLIPSIS
-    88.3355530...
-    >>> delta_E(  # doctest: +ELLIPSIS
-    ...     Lab1, Lab2, method='CIE 1994', textiles=False)
+    >>> delta_E(Lab_1, Lab_2, method='CIE 1994')  # doctest: +ELLIPSIS
     83.7792255...
-    >>> delta_E(Lab1, Lab2, method='CIE 2000')  # doctest: +ELLIPSIS
+    >>> delta_E(  # doctest: +ELLIPSIS
+    ...     Lab_1, Lab_2, method='CIE 1994', textiles=False)
+    83.7792255...
+    >>> delta_E(Lab_1, Lab_2, method='CIE 2000')  # doctest: +ELLIPSIS
     94.0356490...
     """
 
-    return DELTA_E_METHODS.get(method)(Lab1, Lab2, **kwargs)
+    function = DELTA_E_METHODS[method]
+
+    filter_kwargs(function, **kwargs)
+
+    return function(Lab_1, Lab_2, **kwargs)

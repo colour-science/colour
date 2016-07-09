@@ -12,29 +12,31 @@ from .common import (
     ignore_python_warnings,
     batch,
     is_openimageio_installed,
-    is_scipy_installed,
     is_iterable,
     is_string,
     is_numeric,
-    is_integer)
+    is_integer,
+    filter_kwargs)
 from .array import (
     as_numeric,
     closest,
-    normalise,
-    steps,
+    normalise_maximum,
+    interval,
     is_uniform,
     in_array,
     tstack,
     tsplit,
     row_as_diagonal,
     dot_vector,
-    dot_matrix)
+    dot_matrix,
+    orient,
+    centroid)
 from .data_structures import (
     ArbitraryPrecisionMapping,
     Lookup,
     Structure,
     CaseInsensitiveMapping)
-from .verbose import message_box, warning
+from .verbose import ColourWarning, message_box, warning, filter_warnings
 
 __all__ = ['handle_numpy_errors',
            'ignore_numpy_errors',
@@ -44,24 +46,26 @@ __all__ = ['handle_numpy_errors',
            'ignore_python_warnings',
            'batch',
            'is_openimageio_installed',
-           'is_scipy_installed',
            'is_iterable',
            'is_string',
            'is_numeric',
-           'is_integer']
+           'is_integer',
+           'filter_kwargs']
 __all__ += ['as_numeric',
             'closest',
-            'normalise',
-            'steps',
+            'normalise_maximum',
+            'interval',
             'is_uniform',
             'in_array',
             'tstack',
             'tsplit',
             'row_as_diagonal',
             'dot_vector',
-            'dot_matrix']
+            'dot_matrix',
+            'orient',
+            'centroid']
 __all__ += ['ArbitraryPrecisionMapping',
             'Lookup',
             'Structure',
             'CaseInsensitiveMapping']
-__all__ += ['message_box', 'warning']
+__all__ += ['ColourWarning', 'message_box', 'warning', 'filter_warnings']

@@ -29,7 +29,7 @@ from colour.plotting import (
     multi_colour_plot)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -51,8 +51,8 @@ def colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Raises
     ------
@@ -63,7 +63,6 @@ def colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
     Examples
     --------
     >>> colour_checker_plot()  # doctest: +SKIP
-    True
     """
 
     canvas(**kwargs)

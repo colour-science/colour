@@ -25,7 +25,7 @@ from colour.plotting import (
     display)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -50,14 +50,13 @@ def single_munsell_value_function_plot(
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Examples
     --------
     >>> f = 'ASTM D1535-08'
     >>> single_munsell_value_function_plot(f)  # doctest: +SKIP
-    True
     """
 
     settings = {'title': '{0} - Munsell Value Function'.format(function)}
@@ -81,8 +80,8 @@ def multi_munsell_value_function_plot(
 
     Returns
     -------
-    bool
-        Definition success.
+    Figure
+        Current figure or None.
 
     Raises
     ------
@@ -94,7 +93,6 @@ def multi_munsell_value_function_plot(
     --------
     >>> fs = ('ASTM D1535-08', 'McCamy 1987')
     >>> multi_munsell_value_function_plot(fs)  # doctest: +SKIP
-    True
     """
 
     settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}

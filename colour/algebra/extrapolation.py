@@ -17,7 +17,7 @@ import numpy as np
 from colour.utilities import as_numeric, is_numeric
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -112,32 +112,32 @@ class Extrapolator(object):
                  left=None,
                  right=None):
 
-        self.__interpolator = None
+        self._interpolator = None
         self.interpolator = interpolator
-        self.__method = None
+        self._method = None
         self.method = method
-        self.__right = None
+        self._right = None
         self.right = right
-        self.__left = None
+        self._left = None
         self.left = left
 
     @property
     def interpolator(self):
         """
-        Property for **self.__interpolator** private attribute.
+        Property for **self._interpolator** private attribute.
 
         Returns
         -------
         object
-            self.__interpolator
+            self._interpolator
         """
 
-        return self.__interpolator
+        return self._interpolator
 
     @interpolator.setter
     def interpolator(self, value):
         """
-        Setter for **self.__interpolator** private attribute.
+        Setter for **self._interpolator** private attribute.
 
         Parameters
         ----------
@@ -151,25 +151,25 @@ class Extrapolator(object):
             assert hasattr(value, 'y'), (
                 '"{0}" interpolator has no "y" attribute!'.format(value))
 
-        self.__interpolator = value
+        self._interpolator = value
 
     @property
     def method(self):
         """
-        Property for **self.__method** private attribute.
+        Property for **self._method** private attribute.
 
         Returns
         -------
         unicode
-            self.__method
+            self._method
         """
 
-        return self.__method
+        return self._method
 
     @method.setter
     def method(self, value):
         """
-        Setter for **self.__method** private attribute.
+        Setter for **self._method** private attribute.
 
         Parameters
         ----------
@@ -183,25 +183,25 @@ class Extrapolator(object):
                  '"basestring" instance!').format('method', value))
             value = value.lower()
 
-        self.__method = value
+        self._method = value
 
     @property
     def left(self):
         """
-        Property for **self.__left** private attribute.
+        Property for **self._left** private attribute.
 
         Returns
         -------
         numeric
-            self.__left
+            self._left
         """
 
-        return self.__left
+        return self._left
 
     @left.setter
     def left(self, value):
         """
-        Setter for **self.__left** private attribute.
+        Setter for **self._left** private attribute.
 
         Parameters
         ----------
@@ -213,25 +213,25 @@ class Extrapolator(object):
             assert is_numeric(value), (
                 '"{0}" attribute: "{1}" is not a "numeric"!').format(
                 'left', value)
-        self.__left = value
+        self._left = value
 
     @property
     def right(self):
         """
-        Property for **self.__right** private attribute.
+        Property for **self._right** private attribute.
 
         Returns
         -------
         numeric
-            self.__right
+            self._right
         """
 
-        return self.__right
+        return self._right
 
     @right.setter
     def right(self, value):
         """
-        Setter for **self.__right** private attribute.
+        Setter for **self._right** private attribute.
 
         Parameters
         ----------
@@ -243,7 +243,7 @@ class Extrapolator(object):
             assert is_numeric(value), (
                 '"{0}" attribute: "{1}" is not a "numeric"!').format(
                 'right', value)
-        self.__right = value
+        self._right = value
 
     def __call__(self, x):
         """
@@ -262,11 +262,11 @@ class Extrapolator(object):
 
         x = np.atleast_1d(x).astype(np.float_)
 
-        xe = as_numeric(self.__evaluate(x))
+        xe = as_numeric(self._evaluate(x))
 
         return xe
 
-    def __evaluate(self, x):
+    def _evaluate(self, x):
         """
         Performs the extrapolating evaluation at given points.
 
@@ -281,26 +281,26 @@ class Extrapolator(object):
             Extrapolated points values.
         """
 
-        xi = self.__interpolator.x
-        yi = self.__interpolator.y
+        xi = self._interpolator.x
+        yi = self._interpolator.y
 
         y = np.empty_like(x)
 
-        if self.__method == 'linear':
+        if self._method == 'linear':
             y[x < xi[0]] = (yi[0] + (x[x < xi[0]] - xi[0]) *
                             (yi[1] - yi[0]) / (xi[1] - xi[0]))
             y[x > xi[-1]] = (yi[-1] + (x[x > xi[-1]] - xi[-1]) *
                              (yi[-1] - yi[-2]) / (xi[-1] - xi[-2]))
-        elif self.__method == 'constant':
+        elif self._method == 'constant':
             y[x < xi[0]] = yi[0]
             y[x > xi[-1]] = yi[-1]
 
-        if self.__left is not None:
-            y[x < xi[0]] = self.__left
-        if self.__right is not None:
-            y[x > xi[-1]] = self.__right
+        if self._left is not None:
+            y[x < xi[0]] = self._left
+        if self._right is not None:
+            y[x > xi[-1]] = self._right
 
         in_range = np.logical_and(x >= xi[0], x <= xi[-1])
-        y[in_range] = self.__interpolator(x[in_range])
+        y[in_range] = self._interpolator(x[in_range])
 
         return y

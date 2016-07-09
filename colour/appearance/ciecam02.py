@@ -16,7 +16,7 @@ Defines CIECAM02 colour appearance model objects:
 See Also
 --------
 `CIECAM02 Colour Appearance Model IPython Notebook
-<http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/appearance/ciecam02.ipynb>`_
 
 References
@@ -53,7 +53,7 @@ from colour.utilities import (
     tstack)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -335,17 +335,17 @@ def CIECAM02_to_XYZ(J,
 
     Warning
     -------
-    The output domain of that definition is non standard!
+    The output range of that definition is non standard!
 
     Notes
     -----
     -   Input *CIE XYZ_w* tristimulus values are in domain [0, 100].
-    -   Output *CIE XYZ* tristimulus values are in domain [0, 100].
+    -   Output *CIE XYZ* tristimulus values are in range [0, 100].
 
     Examples
     --------
     >>> J = 41.731091132513917
-    >>> C = 0.1047077571711053
+    >>> C = 0.104707757171105
     >>> h = 219.04843265827190
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
@@ -805,8 +805,8 @@ def opponent_colour_dimensions_reverse(P_n, h):
 
     Examples
     --------
-    >>> P_n = np.array([30162.890815335879, 24.237205467134817, 1.05])
-    >>> h = -140.9515673417281
+    >>> P_n = np.array([30162.89081534, 24.23720547, 1.05000000])
+    >>> h = -140.95156734
     >>> opponent_colour_dimensions_reverse(P_n, h)  # doctest: +ELLIPSIS
     array([-0.0006241..., -0.0005062...])
     """
@@ -862,8 +862,8 @@ def hue_angle(a, b):
 
     Examples
     --------
-    >>> a = -0.0006241120682426434
-    >>> b = -0.0005062701067729668
+    >>> a = -0.000624112068243
+    >>> b = -0.000506270106773
     >>> hue_angle(a, b)  # doctest: +ELLIPSIS
     219.0484326...
     """
@@ -973,7 +973,7 @@ def achromatic_response_forward(RGB, N_bb):
     Examples
     --------
     >>> RGB = np.array([7.94632020, 7.94711528, 7.94899595])
-    >>> N_bb = 1.0003040045593807
+    >>> N_bb = 1.000304004559381
     >>> achromatic_response_forward(RGB, N_bb)  # doctest: +ELLIPSIS
     23.9394809...
     """
@@ -1013,7 +1013,7 @@ def achromatic_response_reverse(A_w, J, c, z):
     >>> A_w = 46.1882087914
     >>> J = 41.73109113251392
     >>> c = 0.69
-    >>> z = 1.9272135954999579
+    >>> z = 1.927213595499958
     >>> achromatic_response_reverse(A_w, J, c, z)  # doctest: +ELLIPSIS
     23.9394809...
     """
@@ -1137,7 +1137,7 @@ def temporary_magnitude_quantity_forward(N_c, N_cb, e_t, a, b, RGB_a):
     --------
     >>> N_c = 1.0
     >>> N_cb = 1.00030400456
-    >>> e_t = 1.1740054728519145
+    >>> e_t = 1.174005472851914
     >>> a = -0.000624112068243
     >>> b = -0.000506270106773
     >>> RGB_a = np.array([7.94632020, 7.94711528, 7.94899595])
@@ -1340,7 +1340,7 @@ def P(N_c, N_cb, e_t, t, A, N_bb):
     --------
     >>> N_c = 1.0
     >>> N_cb = 1.00030400456
-    >>> e_t = 1.1740054728519145
+    >>> e_t = 1.174005472851914
     >>> t = 0.149746202921
     >>> A = 23.9394809667
     >>> N_bb = 1.00030400456

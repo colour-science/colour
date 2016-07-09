@@ -12,12 +12,12 @@ import unittest
 
 from colour.colorimetry.luminance import (
     luminance_Newhall1943,
-    luminance_1976,
+    luminance_CIE1976,
     luminance_ASTMD153508)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -25,7 +25,7 @@ __status__ = 'Production'
 
 __all__ = ['TestLuminanceNewhall1943',
            'TestLuminanceASTMD153508',
-           'TestLuminance1976']
+           'TestLuminanceCIE1976']
 
 
 class TestLuminanceNewhall1943(unittest.TestCase):
@@ -41,18 +41,18 @@ class TestLuminanceNewhall1943(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            luminance_Newhall1943(3.74629715382),
-            10.4089874577,
+            luminance_Newhall1943(3.74629715),
+            10.40898746,
             places=7)
 
         self.assertAlmostEqual(
-            luminance_Newhall1943(8.64728711385),
-            71.3174801757,
+            luminance_Newhall1943(8.64728711),
+            71.31748010,
             places=7)
 
         self.assertAlmostEqual(
-            luminance_Newhall1943(1.52569021578),
-            2.06998750444,
+            luminance_Newhall1943(1.52569022),
+            2.06998750,
             places=7)
 
     def test_n_dimensional_luminance_Newhall1943(self):
@@ -61,7 +61,7 @@ class TestLuminanceNewhall1943(unittest.TestCase):
         definition n-dimensional arrays support.
         """
 
-        V = 3.74629715382
+        V = 3.74629715
         Y = 10.408987457743208
         np.testing.assert_almost_equal(
             luminance_Newhall1943(V),
@@ -113,18 +113,18 @@ class TestLuminanceASTMD153508(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            luminance_ASTMD153508(3.74629715382),
-            10.1488096782,
+            luminance_ASTMD153508(3.74629715),
+            10.14880968,
             places=7)
 
         self.assertAlmostEqual(
-            luminance_ASTMD153508(8.64728711385),
-            69.5324092373,
+            luminance_ASTMD153508(8.64728711),
+            69.53240916,
             places=7)
 
         self.assertAlmostEqual(
-            luminance_ASTMD153508(1.52569021578),
-            2.01830631474,
+            luminance_ASTMD153508(1.52569022),
+            2.01830631,
             places=7)
 
     def test_n_dimensional_luminance_ASTMD153508(self):
@@ -133,7 +133,7 @@ class TestLuminanceASTMD153508(unittest.TestCase):
         definition n-dimensional arrays support.
         """
 
-        V = 3.74629715382
+        V = 3.74629715
         Y = 10.148809678226682
         np.testing.assert_almost_equal(
             luminance_ASTMD153508(V),
@@ -172,89 +172,90 @@ class TestLuminanceASTMD153508(unittest.TestCase):
             np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestLuminance1976(unittest.TestCase):
+class TestLuminanceCIE1976(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.luminance.luminance_1976` definition
+    Defines :func:`colour.colorimetry.luminance.luminance_CIE1976` definition
     unit tests methods.
     """
 
-    def test_luminance_1976(self):
+    def test_luminance_CIE1976(self):
         """
-        Tests :func:`colour.colorimetry.luminance.luminance_1976` definition.
+        Tests :func:`colour.colorimetry.luminance.luminance_CIE1976`
+        definition.
         """
 
         self.assertAlmostEqual(
-            luminance_1976(37.9856290977),
-            10.08,
+            luminance_CIE1976(37.98562910),
+            10.08000000,
             places=7)
 
         self.assertAlmostEqual(
-            luminance_1976(80.0444155585),
-            56.76,
+            luminance_CIE1976(80.04441556),
+            56.76000000,
             places=7)
 
         self.assertAlmostEqual(
-            luminance_1976(99.3467279026),
-            98.32,
+            luminance_CIE1976(99.34672790),
+            98.32000000,
             places=7)
 
         self.assertAlmostEqual(
-            luminance_1976(37.9856290977, 50),
-            5.040000000013152,
+            luminance_CIE1976(37.98562910, 50),
+            5.04000000,
             places=7)
 
         self.assertAlmostEqual(
-            luminance_1976(37.9856290977, 75),
-            7.560000000019728,
+            luminance_CIE1976(37.98562910, 75),
+            7.56000000,
             places=7)
 
         self.assertAlmostEqual(
-            luminance_1976(37.9856290977, 95),
-            9.576000000024989,
+            luminance_CIE1976(37.98562910, 95),
+            9.57600000,
             places=7)
 
-    def test_n_dimensional_luminance_1976(self):
+    def test_n_dimensional_luminance_CIE1976(self):
         """
-        Tests :func:`colour.colorimetry.lightness.luminance_1976`
+        Tests :func:`colour.colorimetry.lightness.luminance_CIE1976`
         definition n-dimensional arrays support.
         """
 
-        Lstar = 37.9856290977
+        Lstar = 37.98562910
         Y = 10.080000000026304
         np.testing.assert_almost_equal(
-            luminance_1976(Lstar),
+            luminance_CIE1976(Lstar),
             Y,
             decimal=7)
 
         Lstar = np.tile(Lstar, 6)
         Y = np.tile(Y, 6)
         np.testing.assert_almost_equal(
-            luminance_1976(Lstar),
+            luminance_CIE1976(Lstar),
             Y,
             decimal=7)
 
         Lstar = np.reshape(Lstar, (2, 3))
         Y = np.reshape(Y, (2, 3))
         np.testing.assert_almost_equal(
-            luminance_1976(Lstar),
+            luminance_CIE1976(Lstar),
             Y,
             decimal=7)
 
         Lstar = np.reshape(Lstar, (2, 3, 1))
         Y = np.reshape(Y, (2, 3, 1))
         np.testing.assert_almost_equal(
-            luminance_1976(Lstar),
+            luminance_CIE1976(Lstar),
             Y,
             decimal=7)
 
     @ignore_numpy_errors
-    def test_nan_luminance_1976(self):
+    def test_nan_luminance_CIE1976(self):
         """
-        Tests :func:`colour.colorimetry.luminance.luminance_1976`
+        Tests :func:`colour.colorimetry.luminance.luminance_CIE1976`
         definition nan support.
         """
 
-        luminance_1976(
+        luminance_CIE1976(
             np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 

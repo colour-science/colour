@@ -48,42 +48,42 @@ if sys.version_info[0] >= 3:
     itertools.izip = zip
 
 from .adaptation import *  # noqa
-from . import adaptation
+from . import adaptation  # noqa
 from .algebra import *  # noqa
-from . import algebra
-from .appearance import *  # noqa
-from . import appearance
+from . import algebra  # noqa
 from .colorimetry import *  # noqa
-from . import colorimetry
+from . import colorimetry  # noqa
+from .appearance import *  # noqa
+from . import appearance  # noqa
 from .constants import *  # noqa
-from . import constants
+from . import constants  # noqa
 from .difference import *  # noqa
-from . import difference
+from . import difference  # noqa
 from .characterisation import *  # noqa
-from . import characterisation
+from . import characterisation  # noqa
 from .io import *  # noqa
-from . import io
+from . import io  # noqa
 from .models import *  # noqa
-from . import models
+from . import models  # noqa
 from .corresponding import *  # noqa
-from . import corresponding
+from . import corresponding  # noqa
 from .phenomenons import *  # noqa
-from . import phenomenons
+from . import phenomenons  # noqa
 from .notation import *  # noqa
-from . import notation
+from . import notation  # noqa
 from .quality import *  # noqa
-from . import quality
+from . import quality  # noqa
 from .recovery import *  # noqa
-from . import recovery
+from . import recovery  # noqa
 from .temperature import *  # noqa
-from . import temperature
+from . import temperature  # noqa
 from .volume import *  # noqa
-from . import volume
+from . import volume  # noqa
 from .utilities import *  # noqa
 from . import utilities  # noqa
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -92,11 +92,11 @@ __status__ = 'Production'
 __all__ = []
 __all__ += adaptation.__all__
 __all__ += algebra.__all__
-__all__ += appearance.__all__
-__all__ += characterisation.__all__
 __all__ += colorimetry.__all__
+__all__ += appearance.__all__
 __all__ += constants.__all__
 __all__ += difference.__all__
+__all__ += characterisation.__all__
 __all__ += io.__all__
 __all__ += models.__all__
 __all__ += corresponding.__all__
@@ -111,7 +111,7 @@ __application_name__ = 'Colour'
 
 __major_version__ = '0'
 __minor_version__ = '3'
-__change_version__ = '7'
+__change_version__ = '8'
 __version__ = '.'.join((__major_version__,
                         __minor_version__,
                         __change_version__))

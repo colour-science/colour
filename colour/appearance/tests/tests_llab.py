@@ -21,7 +21,7 @@ from colour.appearance.tests.common import ColourAppearanceModelTest
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -125,7 +125,7 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
         normalised cone responses matrix.
         """
 
-        start = np.array([1., 1., 1.])
+        start = np.array([1, 1, 1])
         result = np.array(start)
         for _ in range(100000):
             result = llab.LLAB_RGB_TO_XYZ_MATRIX.dot(result)
