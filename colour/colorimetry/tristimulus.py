@@ -27,10 +27,10 @@ References
 
 See Also
 --------
-`Colour Matching Functions IPython Notebook
+`Colour Matching Functions Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/cmfs.ipynb>`_
-`Spectrum IPython Notebook
+`Spectrum Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/spectrum.ipynb>`_
 """

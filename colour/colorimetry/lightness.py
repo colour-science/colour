@@ -19,7 +19,7 @@ The following methods are available:
 
 See Also
 --------
-`Lightness IPython Notebook
+`Lightness Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/lightness.ipynb>`_
 

@@ -12,7 +12,7 @@ Defines *colour quality scale* computation objects:
 
 See Also
 --------
-`Colour Quality Scale IPython Notebook
+`Colour Quality Scale Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/quality/cqs.ipynb>`_
 

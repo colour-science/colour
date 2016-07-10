@@ -13,7 +13,7 @@ Defines the *DCI-P3* colourspace opto-electrical transfer function
 
 See Also
 --------
-`RGB Colourspaces IPython Notebook
+`RGB Colourspaces Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/rgb.ipynb>`_
 

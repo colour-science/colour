@@ -12,7 +12,7 @@ Defines *colour rendering index* computation objects:
 
 See Also
 --------
-`Colour Rendering Index IPython Notebook
+`Colour Rendering Index Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/quality/cri.ipynb>`_
 

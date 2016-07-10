@@ -12,7 +12,7 @@ Defines the *DCI-P3* and *DCI-P3+* colourspaces:
 
 See Also
 --------
-`RGB Colourspaces IPython Notebook
+`RGB Colourspaces Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/rgb.ipynb>`_
 

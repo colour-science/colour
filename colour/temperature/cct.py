@@ -35,7 +35,7 @@ Defines correlated colour temperature :math:`T_{cp}` computations objects:
 
 See Also
 --------
-`Colour Temperature & Correlated Colour Temperature IPython Notebook
+`Colour Temperature & Correlated Colour Temperature Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/temperature/cct.ipynb>`_
 

@@ -11,7 +11,7 @@ Defines the *Hunter Rd,a,b* colour scale transformations:
 
 See Also
 --------
-`Hunter Rd,a,b Colour Scale IPython Notebook
+`Hunter Rd,a,b Colour Scale Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/hunter_rdab.ipynb>`_
 

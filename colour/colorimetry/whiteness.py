@@ -16,7 +16,7 @@ Defines *whiteness* index :math:`W` computation objects:
 
 See Also
 --------
-`Whiteness IPython Notebook
+`Whiteness Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/whiteness.ipynb>`_
 

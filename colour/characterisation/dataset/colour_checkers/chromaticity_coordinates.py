@@ -23,7 +23,7 @@ The following *ColourCheckers* data is available:
 
 See Also
 --------
-`Colour Fitting IPython Notebook
+`Colour Fitting Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/characterisation/fitting.ipynb>`_
 

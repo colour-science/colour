@@ -12,7 +12,7 @@ Defines Nayatani (1995) colour appearance model objects:
 
 See Also
 --------
-`Nayatani (1995) Colour Appearance Model IPython Notebook
+`Nayatani (1995) Colour Appearance Model Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/appearance/nayatani95.ipynb>`_
 

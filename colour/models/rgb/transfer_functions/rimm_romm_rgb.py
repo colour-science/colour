@@ -19,7 +19,7 @@ Defines the *RIMM / ROMM / ERIMM* encodings opto-electrical transfer functions
 
 See Also
 --------
-`RGB Colourspaces IPython Notebook
+`RGB Colourspaces Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/rgb.ipynb>`_
 

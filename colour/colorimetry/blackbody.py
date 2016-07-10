@@ -10,7 +10,7 @@ its spectral power distribution.
 
 See Also
 --------
-`Blackbody IPython Notebook
+`Blackbody Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/blackbody.ipynb>`_
 """
