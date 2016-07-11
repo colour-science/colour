@@ -1795,7 +1795,7 @@ def xy_from_renotation_ovoid(specification):
         upper_hue_angle = hue_to_hue_angle(hue_plus, code_plus)
 
         if theta_minus - theta_plus > 180:
-            theta_plus += +360
+            theta_plus += 360
 
         if lower_hue_angle == 0:
             lower_hue_angle = 360
