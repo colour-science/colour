@@ -26,6 +26,13 @@ from .hunter_lab import (
     Hunter_Lab_to_XYZ)
 from .hunter_rdab import XYZ_to_Hunter_Rdab
 from .ipt import XYZ_to_IPT, IPT_to_XYZ, IPT_hue_angle
+from .ucs_luo2006 import (
+    JMh_CIECAM02_to_CAM02LCD,
+    CAM02LCD_to_JMh_CIECAM02,
+    JMh_CIECAM02_to_CAM02SCD,
+    CAM02SCD_to_JMh_CIECAM02,
+    JMh_CIECAM02_to_CAM02UCS,
+    CAM02UCS_to_JMh_CIECAM02)
 from .common import (
     COLOURSPACE_MODELS,
     COLOURSPACE_MODELS_LABELS,
@@ -56,6 +63,12 @@ __all__ += ['XYZ_to_K_ab_HunterLab1966',
             'XYZ_to_Hunter_Rdab']
 __all__ += ['XYZ_to_Hunter_Rdab']
 __all__ += ['XYZ_to_IPT', 'IPT_to_XYZ', 'IPT_hue_angle']
+__all__ += ['JMh_CIECAM02_to_CAM02LCD',
+            'CAM02LCD_to_JMh_CIECAM02',
+            'JMh_CIECAM02_to_CAM02SCD',
+            'CAM02SCD_to_JMh_CIECAM02',
+            'JMh_CIECAM02_to_CAM02UCS',
+            'CAM02UCS_to_JMh_CIECAM02']
 __all__ += ['COLOURSPACE_MODELS',
             'COLOURSPACE_MODELS_LABELS',
             'XYZ_to_colourspace_model']
