@@ -2,37 +2,36 @@
 # -*- coding: utf-8 -*-
 
 """
-Metadata
-========
+Common Metadata
+===============
 
 Defines the objects implementing the base metadata system support:
 
 -   :class:`Metadata`
--   :class:`UnitMetadata`
+-   :class:`TypeMetadata`
 -   :class:`CallableMetadata`
--   :class:`FunctionMetadata`
--   :def:`set_metadata`
+-   :class:`CallableMetadata`
+-   :func:`set_callable_metadata`
 """
 
 from __future__ import division, unicode_literals
 
 import functools
 from weakref import WeakValueDictionary
-
-import colour  # noqa
+from colour.utilities import CaseInsensitiveMapping, is_iterable
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['Metadata',
-           'UnitMetadata',
+           'TypeMetadata',
            'CallableMetadata',
-           'FunctionMetadata',
-           'set_metadata']
+           'TYPES',
+           'metadata']
 
 
 class Metadata(object):
@@ -45,7 +44,7 @@ class Metadata(object):
     used for plotting purposes and other usages.
 
     It is for example quite convenient to define (in a programmatically
-    usable way) that `colour.lightness_CIE1976` has output unit of measurement
+    usable way) that `colour.lightness_CIE1976` has output type
     :math:`CIE L^\star`.
 
     Parameters
@@ -302,7 +301,7 @@ class Metadata(object):
 
         text = self.family
         text += '\n    Name        : {0}\n    Strict name : {1}'.format(
-            self._name, self._strict_name)
+            self.name, self.strict_name)
 
         return text
 
@@ -330,27 +329,14 @@ class Metadata(object):
         """
 
         text = '{0}(\'{1}\', \'{2}\')'.format(
-            self.__class__.__name__, self._name, self._strict_name)
+            self.__class__.__name__, self.name, self.strict_name)
 
         return text
 
 
-class UnitMetadata(Metadata):
+class TypeMetadata(Metadata):
     """
-    Defines the metadata class used for unit of measurement.
-    """
-
-    _FAMILY = 'Unit'
-    """
-    Metadata class family.
-
-    _FAMILY : unicode
-    """
-
-
-class CallableMetadata(Metadata):
-    """
-    Defines the metadata class for callable objects.
+    Defines the metadata class used for types.
 
     Parameters
     ----------
@@ -359,94 +345,12 @@ class CallableMetadata(Metadata):
     strict_name : unicode, optional
         Metadata strict object name, the scientific name for use in diagrams,
         figures, etc...
-    callable_ : callable, optional
-        Callable to store within the metadata.
+    constraint : array_like, optional
+        Input domain or output range constraint.
 
     Attributes
     ----------
-    callable
-
-    Methods
-    -------
-    __init__
-
-    Examples
-    --------
-    >>> CallableMetadata(  # doctest: +ELLIPSIS
-    ...     'Lambda', '$\Lambda$', lambda x: x).callable
-    <function <lambda> at 0x...>
-    """
-
-    _FAMILY = 'Callable'
-    """
-    Metadata class family.
-
-    _FAMILY : unicode
-    """
-
-    def __init__(self, name, strict_name=None, callable_=None):
-        super(CallableMetadata, self).__init__(name, strict_name)
-
-        self._callable = None
-        self.callable = callable_
-
-    @property
-    def callable(self):
-        """
-        Property for **self._callable** private attribute.
-
-        Returns
-        -------
-        UnitMetadata
-            self._callable.
-        """
-
-        return self._callable
-
-    @callable.setter
-    def callable(self, value):
-        """
-        Setter for **self._callable** private attribute.
-
-        Parameters
-        ----------
-        value : UnitMetadata
-            Attribute value.
-        """
-
-        if value is not None:
-            assert hasattr(value, '__call__'), (
-                '"{0}" attribute: "{1}" is not a "callable"!'.format(
-                    'callable', value))
-
-        self._callable = value
-
-
-class FunctionMetadata(CallableMetadata):
-    """
-    Defines the metadata class for function converting an input unit of
-    measurement into an output unit of measurement using a given method.
-
-    Parameters
-    ----------
-    input_unit : UnitMetadata
-        Input unit of measurement metadata.
-    output_unit : UnitMetadata
-        Output unit of measurement.
-    method : unicode
-        Method used by the function.
-    strict_method : unicode, optional
-        Strict method name, the scientific name for use in diagrams,
-        figures, etc...
-    callable_ : callable, optional
-        Callable to store within the metadata.
-
-    Attributes
-    ----------
-    input_unit
-    output_unit
-    method
-    strict_method
+    constraint
 
     Methods
     -------
@@ -456,13 +360,172 @@ class FunctionMetadata(CallableMetadata):
 
     Examples
     --------
-    >>> FunctionMetadata(
-    ... UnitMetadata('Luminance', '$Y$'),
-    ... UnitMetadata('Lightness', '$L^\star$'),
-    ... 'CIE 1976',
-    ... '$CIE 1976$')
-    FunctionMetadata(UnitMetadata('Luminance', '$Y$'), \
-UnitMetadata('Lightness', '$L^\star$'), 'CIE 1976', '$CIE 1976$')
+    >>> TypeMetadata('Luminance', '$Luminance (Y)$', (0, 100))
+    TypeMetadata('Luminance', '$Luminance (Y)$', (0, 100))
+    """
+
+    _FAMILY = 'Type'
+    """
+    Metadata class family.
+
+    _FAMILY : unicode
+    """
+
+    def __init__(self,
+                 name,
+                 strict_name=None,
+                 constraint=None):
+        self._constraint = None
+        self.constraint = constraint
+
+        super(TypeMetadata, self).__init__(name, strict_name)
+
+    @property
+    def constraint(self):
+        """
+        Property for **self._constraint** private attribute.
+
+        Returns
+        -------
+        TypeMetadata
+            self._constraint.
+        """
+
+        return self._constraint
+
+    @constraint.setter
+    def constraint(self, value):
+        """
+        Setter for **self._constraint** private attribute.
+
+        Parameters
+        ----------
+        value : array_like
+            Attribute value.
+        """
+
+        if value is not None:
+            assert is_iterable(value), (
+                '"{0}" attribute: "{1}" is not an "iterable"!'.format(
+                    'constraint', value))
+
+            assert len(value) == 2, (
+                '"{0}" attribute: "{1}" must have exactly '
+                'two elements!'.format('constraint', value))
+
+        self._constraint = value
+
+    def __str__(self):
+        """
+        Returns a pretty formatted string representation of the metadata.
+
+        Returns
+        -------
+        unicode
+            Pretty formatted string representation.
+
+        See Also
+        --------
+        TypeMetadata.__repr__
+
+        Notes
+        -----
+        -   Reimplements the :meth:`Metadata.__str__` method.
+
+        Examples
+        --------
+        >>> print(TypeMetadata('Luminance', '$Luminance (Y)$', (0, 100)))
+        Type
+            Name          : Luminance
+            Strict name   : $Luminance (Y)$
+            Constraint    : (0, 100)
+        """
+
+        text = self.family
+        text += '\n    Name          : {0}'.format(self.name)
+        text += '\n    Strict name   : {0}'.format(self.strict_name)
+        if self.constraint is not None:
+            text += '\n    Constraint    : {0}'.format(self.constraint)
+
+        return text
+
+    def __repr__(self):
+        """
+        Returns a formatted string representation of the metadata.
+
+        Returns
+        -------
+        unicode
+            Formatted string representation.
+
+        See Also
+        --------
+        TypeMetadata.__repr__
+
+        Notes
+        -----
+        -   Reimplements the :meth:`Metadata.__repr__` method.
+
+        Examples
+        --------
+        >>> TypeMetadata('Luminance', '$Luminance (Y)$', (0, 100))
+        TypeMetadata('Luminance', '$Luminance (Y)$', (0, 100))
+        >>> TypeMetadata('Luminance', '$Luminance (Y)$')
+        TypeMetadata('Luminance', '$Luminance (Y)$', None)
+        """
+
+        text = '{0}({1}, {2}, {3})'.format(
+            self.__class__.__name__,
+            repr(self.name),
+            repr(self.strict_name),
+            repr(self.constraint))
+
+        return text
+
+
+class CallableMetadata(Metadata):
+    """
+    Defines the metadata class for callable converting an input type into
+    an output type using a given method.
+
+    Parameters
+    ----------
+    input_type : TypeMetadata
+        Input type.
+    output_type : TypeMetadata
+        Output type.
+    method : unicode, optional
+        Method used by the function.
+    strict_method : unicode, optional
+        Strict method name, the scientific name for use in diagrams,
+        figures, etc...
+    callable_ : callable, optional
+        Callable to store within the metadata.
+
+    Attributes
+    ----------
+    input_type
+    output_type
+    method
+    strict_method
+    callable
+
+    Methods
+    -------
+    __init__
+    __str__
+    __repr__
+
+    Examples
+    --------
+    >>> CallableMetadata(
+    ...     TypeMetadata('Luminance', '$Luminance (Y)$', (0, 100)),
+    ...     TypeMetadata('Lightness', '$Lightness (L^*)', (0, 100)),
+    ...     'CIE 1976',
+    ...     '$CIE 1976$')
+    CallableMetadata(TypeMetadata('Luminance', '$Luminance (Y)$', (0, 100)), \
+TypeMetadata('Lightness', '$Lightness (L^*)', (0, 100)), \
+'CIE 1976', '$CIE 1976$')
     """
 
     _FAMILY = 'Function'
@@ -473,89 +536,102 @@ UnitMetadata('Lightness', '$L^\star$'), 'CIE 1976', '$CIE 1976$')
     """
 
     def __init__(self,
-                 input_unit,
-                 output_unit,
-                 method,
+                 input_type,
+                 output_type,
+                 method=None,
                  strict_method=None,
                  callable_=None):
 
-        self._input_unit = None
-        self.input_unit = input_unit
-        self._output_unit = None
-        self.output_unit = output_unit
+        self._input_type = None
+        self.input_type = input_type
+        self._output_type = None
+        self.output_type = output_type
         self._method = None
         self.method = method
         self._strict_method = None
         self.strict_method = strict_method
+        self._callable = None
+        self.callable = callable_
 
-        name = '{0} to {1} - {2}'.format(
-            input_unit.name, output_unit.name, method)
-        strict_name = '{0} to {1} - {2}'.format(
-            input_unit.strict_name, output_unit.strict_name, strict_method)
+        constraint_i = str(list(input_type.constraint))
+        constraint_o = str(list(output_type.constraint))
+        name = '{0} {1} to {2} {3}'.format(
+            input_type.name, constraint_i,
+            output_type.name, constraint_o)
+        if method:
+            name = '{0} - {1}'.format(name, method)
 
-        super(FunctionMetadata, self).__init__(name, strict_name, callable_)
+        strict_name = '{0} {1} to {2} {3}'.format(
+            input_type.strict_name, constraint_i,
+            output_type.strict_name, constraint_o)
+        if strict_method:
+            strict_name = '{0} - {1}'.format(strict_name, strict_method)
+
+        super(CallableMetadata, self).__init__(name, strict_name)
 
     @property
-    def input_unit(self):
+    def input_type(self):
         """
-        Property for **self._input_unit** private attribute.
+        Property for **self._input_type** private attribute.
 
         Returns
         -------
-        UnitMetadata
-            self._input_unit.
+        TypeMetadata
+            self._input_type.
         """
 
-        return self._input_unit
+        return self._input_type
 
-    @input_unit.setter
-    def input_unit(self, value):
+    @input_type.setter
+    def input_type(self, value):
         """
-        Setter for **self._input_unit** private attribute.
+        Setter for **self._input_type** private attribute.
 
         Parameters
         ----------
-        value : UnitMetadata
+        value : TypeMetadata
             Attribute value.
         """
 
         if value is not None:
-            assert isinstance(value, UnitMetadata), (
+            assert issubclass(type(value), TypeMetadata), (
                 ('"{0}" attribute: "{1}" is not a '
-                 '"UnitMetadata" instance!').format('input_unit', value))
+                 '"TypeMetadata" instance!').format(
+                    'input_type', value))
 
-        self._input_unit = value
+        self._input_type = value
 
     @property
-    def output_unit(self):
+    def output_type(self):
         """
-        Property for **self._output_unit** private attribute.
+        Property for **self._output_type** private attribute.
 
         Returns
         -------
-        UnitMetadata
-            self._output_unit.
+        TypeMetadata
+            self._output_type.
         """
 
-        return self._output_unit
+        return self._output_type
 
-    @output_unit.setter
-    def output_unit(self, value):
+    @output_type.setter
+    def output_type(self, value):
         """
-        Setter for **self._output_unit** private attribute.
+        Setter for **self._output_type** private attribute.
 
         Parameters
         ----------
-        value : UnitMetadata
+        value : TypeMetadata
             Attribute value.
         """
 
         if value is not None:
-            assert isinstance(value, UnitMetadata), (
+            assert issubclass(type(value), TypeMetadata), (
                 ('"{0}" attribute: "{1}" is not a '
-                 '"UnitMetadata" instance!').format('output_unit', value))
+                 '"TypeMetadata" instance!').format(
+                    'output_type', value))
 
-        self._output_unit = value
+        self._output_type = value
 
     @property
     def method(self):
@@ -620,6 +696,37 @@ UnitMetadata('Lightness', '$L^\star$'), 'CIE 1976', '$CIE 1976$')
                  '"basestring" instance!').format('strict_method', value))
         self._strict_method = value
 
+    @property
+    def callable(self):
+        """
+        Property for **self._callable** private attribute.
+
+        Returns
+        -------
+        TypeMetadata
+            self._callable.
+        """
+
+        return self._callable
+
+    @callable.setter
+    def callable(self, value):
+        """
+        Setter for **self._callable** private attribute.
+
+        Parameters
+        ----------
+        value : TypeMetadata
+            Attribute value.
+        """
+
+        if value is not None:
+            assert hasattr(value, '__call__'), (
+                '"{0}" attribute: "{1}" is not a "callable"!'.format(
+                    'callable', value))
+
+        self._callable = value
+
     def __str__(self):
         """
         Returns a pretty formatted string representation of the metadata.
@@ -631,28 +738,32 @@ UnitMetadata('Lightness', '$L^\star$'), 'CIE 1976', '$CIE 1976$')
 
         See Also
         --------
-        FunctionMetadata.__repr__
+        CallableMetadata.__repr__
 
         Notes
         -----
-        -   Reimplements the :meth:`object.__str__` method.
+        -   Reimplements the :meth:`Metadata.__str__` method.
 
         Examples
         --------
-        >>> print(FunctionMetadata(
-        ... UnitMetadata('Luminance', '$Y$'),
-        ... UnitMetadata('Lightness', '$L^\star$'),
+        >>> print(CallableMetadata(
+        ... TypeMetadata('Luminance', '$Luminance (Y)$', (0, 100)),
+        ... TypeMetadata('Lightness', '$Lightness (L^*)', (0, 100)),
         ... 'CIE 1976',
         ... '$CIE 1976$'))
         Function
-            Name          : Luminance to Lightness - CIE 1976
-            Strict name   : $Y$ to $L^\star$ - $CIE 1976$
-            Unit
-                Name        : Luminance
-                Strict name : $Y$
-            Unit
-                Name        : Lightness
-                Strict name : $L^\star$
+            Name          : \
+Luminance [0, 100] to Lightness [0, 100] - CIE 1976
+            Strict name   : \
+$Luminance (Y)$ [0, 100] to $Lightness (L^*) [0, 100] - $CIE 1976$
+            Type
+                Name          : Luminance
+                Strict name   : $Luminance (Y)$
+                Constraint    : (0, 100)
+            Type
+                Name          : Lightness
+                Strict name   : $Lightness (L^*)
+                Constraint    : (0, 100)
             Method        : CIE 1976
             Strict method : $CIE 1976$
         """
@@ -661,11 +772,11 @@ UnitMetadata('Lightness', '$L^\star$'), 'CIE 1976', '$CIE 1976$')
         text += '\n    Name          : {0}'.format(self.name)
         text += '\n    Strict name   : {0}'.format(self.strict_name)
         text += '\n    '
-        text += str(self._input_unit).replace('\n', '\n    ')
+        text += str(self.input_type).replace('\n', '\n    ')
         text += '\n    '
-        text += str(self._output_unit).replace('\n', '\n    ')
-        text += '\n    Method        : {0}'.format(self._method)
-        text += '\n    Strict method : {0}'.format(self._strict_method)
+        text += str(self.output_type).replace('\n', '\n    ')
+        text += '\n    Method        : {0}'.format(self.method)
+        text += '\n    Strict method : {0}'.format(self.strict_method)
 
         return text
 
@@ -680,34 +791,55 @@ UnitMetadata('Lightness', '$L^\star$'), 'CIE 1976', '$CIE 1976$')
 
         See Also
         --------
-        FunctionMetadata.__repr__
+        CallableMetadata.__repr__
 
         Notes
         -----
-        -   Reimplements the :meth:`object.__repr__` method.
+        -   Reimplements the :meth:`Metadata.__repr__` method.
 
         Examples
         --------
-        >>> FunctionMetadata(
-        ... UnitMetadata('Luminance', '$Y$'),
-        ... UnitMetadata('Lightness', '$L^\star$'),
-        ... 'CIE 1976',
-        ... '$CIE 1976$')
-        FunctionMetadata(UnitMetadata('Luminance', '$Y$'), \
-UnitMetadata('Lightness', '$L^\star$'), 'CIE 1976', '$CIE 1976$')
+        >>> CallableMetadata(
+        ...     TypeMetadata('Luminance', '$Luminance (Y)$', (0, 100)),
+        ...     TypeMetadata('Lightness', '$Lightness (L^*)', (0, 100)),
+        ...     'CIE 1976',
+        ...     '$CIE 1976$')
+        CallableMetadata(\
+TypeMetadata('Luminance', '$Luminance (Y)$', (0, 100)), \
+TypeMetadata('Lightness', '$Lightness (L^*)', (0, 100)), \
+'CIE 1976', '$CIE 1976$')
         """
 
         text = '{0}({1}, {2}, \'{3}\', \'{4}\')'.format(
             self.__class__.__name__,
-            repr(self._input_unit),
-            repr(self._output_unit),
+            repr(self.input_type),
+            repr(self.output_type),
             self.method,
             self.strict_method)
 
         return text
 
 
-def set_metadata(metadata, *args, **kwargs):
+TYPES = CaseInsensitiveMapping(
+    {'CIE Lab': TypeMetadata('CIE Lab', '$CIE L^*a^*b^*$'),
+     'CIE LCHab': TypeMetadata('CIE LCHab', '$CIE LCH^*a^*b^*$'),
+     'CIE XYZ': TypeMetadata('CIE XYZ', '$CIE XYZ$'),
+     'Lightness Lstar': TypeMetadata('Lightness Lstar',
+                                     '$Lightness (L^*)$'),
+     'Lightness L': TypeMetadata('Lightness L', '$Lightness (L)$'),
+     'Lightness W': TypeMetadata('Lightness W', '$Lightness (W)$'),
+     'Luminance Y': TypeMetadata('Luminance Y', '$Luminance (Y)$'),
+     'Luminance R_Y': TypeMetadata('Luminance R_Y',
+                                   '$Luminance (R_Y)$'),
+     'Munsell Value': TypeMetadata('Munsell Value',
+                                   '$Munsell Value (V)$'),
+     'Video Signal': TypeMetadata('Video Signal',
+                                  "$Video Signal (V')$"),
+     'Tristimulus Value': TypeMetadata('Tristimulus Value',
+                                       '$Tristimulus Value (L)$')})
+
+
+def metadata(*args, **kwargs):
     """
     Decorator setting given metadata to decorated object.
 
@@ -724,28 +856,29 @@ def set_metadata(metadata, *args, **kwargs):
 
     Examples
     --------
-    >>> @set_metadata(Metadata, 'Lambda', '$\Lambda$')
+    >>> @metadata(Metadata, 'Lambda', '$\Lambda$')
     ... def f():
     ...     pass
     >>> f.__metadata__
     Metadata('Lambda', '$\Lambda$')
     >>> m = Metadata('Gamma', '$\Gamma$')
-    >>> @set_metadata(m)
+    >>> @metadata(m)
     ... def f():
     ...     pass
     >>> f.__metadata__
     Metadata('Gamma', '$\Gamma$')
     """
 
-    if not isinstance(metadata, Metadata):
-        metadata = metadata(*args, **kwargs)
+    # if not isinstance(metadata, Metadata):
+    #     metadata = metadata(*args, **kwargs)
 
     def wrapper(function):
         """
         Wrapper for given function.
         """
 
-        function.__metadata__ = metadata
+        # function.__metadata__ = metadata
+        # function.__metadata__.callable = function
 
         @functools.wraps(function)
         def wrapped(*args, **kwargs):
