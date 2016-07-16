@@ -2,37 +2,37 @@
 # -*- coding: utf-8 -*-
 
 """
-Defines unit tests for :mod:`colour.utilities.metadata` module.
+Defines unit tests for :mod:`colour.metadata.common` module.
 """
 
 from __future__ import division, unicode_literals
 
 import unittest
 
-from colour.utilities import (
+from colour.metadata import (
     Metadata,
-    UnitMetadata,
+    EntityMetadata,
     CallableMetadata,
     FunctionMetadata,
-    set_metadata)
+    set_callable_metadata)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['TestMetadata',
-           'TestUnitMetadata',
+           'TestEntityMetadata',
            'TestCallableMetadata',
            'TestFunctionMetadata',
-           'TestSetMetadata']
+           'TestSetCallableMetadata']
 
 
 class TestMetadata(unittest.TestCase):
     """
-    Defines :class:`colour.utilities.metadata.Metadata` class unit tests
+    Defines :class:`colour.metadata.common.Metadata` class unit tests
     methods.
     """
 
@@ -63,14 +63,14 @@ class TestMetadata(unittest.TestCase):
 
     def test_family(self):
         """
-        Tests :attr:`colour.utilities.metadata.Metadata.family` attribute.
+        Tests :attr:`colour.metadata.common.Metadata.family` attribute.
         """
 
         self.assertEqual(Metadata('Lambda', '$\Lambda$').family, 'Metadata')
 
     def test_instances(self):
         """
-        Tests :attr:`colour.utilities.metadata.Metadata.instances` attribute
+        Tests :attr:`colour.metadata.common.Metadata.instances` attribute
         and behaviour regarding instances reference tracking.
         """
 
@@ -85,7 +85,7 @@ class TestMetadata(unittest.TestCase):
 
     def test__str__(self):
         """
-        Tests :func:`colour.utilities.metadata.Metadata.__str__` method.
+        Tests :func:`colour.metadata.common.Metadata.__str__` method.
         """
 
         self.assertEqual(
@@ -94,7 +94,7 @@ class TestMetadata(unittest.TestCase):
 
     def test__repr__(self):
         """
-        Tests :func:`colour.utilities.metadata.Metadata.__repr__` method.
+        Tests :func:`colour.metadata.common.Metadata.__repr__` method.
         """
 
         self.assertEqual(
@@ -102,25 +102,25 @@ class TestMetadata(unittest.TestCase):
             "Metadata('Lambda', '$\\Lambda$')")
 
 
-class TestUnitMetadata(unittest.TestCase):
+class TestEntityMetadata(unittest.TestCase):
     """
-    Defines :class:`colour.utilities.metadata.UnitMetadata` class unit tests
+    Defines :class:`colour.metadata.common.EntityMetadata` class unit tests
     methods.
     """
 
     def test_family(self):
         """
-        Tests :attr:`colour.utilities.metadata.UnitMetadata.family` attribute.
+        Tests :attr:`colour.metadata.common.EntityMetadata.family` attribute.
         """
 
         self.assertEqual(
-            UnitMetadata('Lambda', '$\Lambda$').family,
-            'Unit')
+            EntityMetadata('Lambda', '$\Lambda$').family,
+            'Entity')
 
 
 class TestCallableMetadata(unittest.TestCase):
     """
-    Defines :class:`colour.utilities.metadata.CallableMetadata` class unit
+    Defines :class:`colour.metadata.common.CallableMetadata` class unit
     tests methods.
     """
 
@@ -136,7 +136,7 @@ class TestCallableMetadata(unittest.TestCase):
 
     def test_family(self):
         """
-        Tests :attr:`colour.utilities.metadata.CallableMetadata.family`
+        Tests :attr:`colour.metadata.common.CallableMetadata.family`
         attribute.
         """
 
@@ -147,7 +147,7 @@ class TestCallableMetadata(unittest.TestCase):
 
 class TestFunctionMetadata(unittest.TestCase):
     """
-    Defines :class:`colour.utilities.metadata.FunctionMetadata` class unit
+    Defines :class:`colour.metadata.common.FunctionMetadata` class unit
     tests methods.
     """
 
@@ -156,8 +156,8 @@ class TestFunctionMetadata(unittest.TestCase):
         Tests presence of required attributes.
         """
 
-        required_attributes = ('input_unit',
-                               'output_unit',
+        required_attributes = ('input_entity',
+                               'output_entity',
                                'method',
                                'strict_method')
 
@@ -166,64 +166,71 @@ class TestFunctionMetadata(unittest.TestCase):
 
     def test_family(self):
         """
-        Tests :attr:`colour.utilities.metadata.FunctionMetadata.family`
+        Tests :attr:`colour.metadata.common.FunctionMetadata.family`
         attribute.
         """
 
         self.assertEqual(
             FunctionMetadata(
-                UnitMetadata('Luminance', '$Y$'),
-                UnitMetadata('Lightness', '$L^\star$'),
+                EntityMetadata('Luminance', '$Y$'),
+                EntityMetadata('Lightness', '$L^\star$'),
+                (0, 100),
+                (0, 100),
                 'CIE 1976',
                 '$CIE 1976$').family,
             'Function')
 
     def test__str__(self):
         """
-        Tests :func:`colour.utilities.metadata.FunctionMetadata.__str__`
+        Tests :func:`colour.metadata.common.FunctionMetadata.__str__`
         method.
         """
 
         self.assertEqual(
             str(FunctionMetadata(
-                UnitMetadata('Luminance', '$Y$'),
-                UnitMetadata('Lightness', '$L^\star$'),
+                EntityMetadata('Luminance', '$Y$'),
+                EntityMetadata('Lightness', '$L^\star$'),
+                (0, 100),
+                (0, 100),
                 'CIE 1976',
                 '$CIE 1976$')),
-            'Function\n    Name          : Luminance to Lightness - \
-CIE 1976\n    Strict name   : $Y$ to $L^\\star$ - $CIE 1976$\n    \
-Unit\n        Name        : Luminance\n        Strict name : $Y$\n    \
-Unit\n        Name        : Lightness\n        Strict name : $L^\\star$\n    \
-Method        : CIE 1976\n    Strict method : $CIE 1976$')
+            'Function\n    Name          : Luminance [0, 100] to \
+Lightness [0, 100] - CIE 1976\n    Strict name   : $Y$ [0, 100] to \
+$L^\\star$ [0, 100] - $CIE 1976$\n    Entity\n        Name        : \
+Luminance\n        Strict name : $Y$\n    Entity\n        Name        : \
+Lightness\n        Strict name : $L^\\star$\n    Method        : \
+CIE 1976\n    Strict method : $CIE 1976$')
 
     def test__repr__(self):
         """
-        Tests :func:`colour.utilities.metadata.FunctionMetadata.__repr__`
+        Tests :func:`colour.metadata.common.FunctionMetadata.__repr__`
         method.
         """
 
         self.assertEqual(
             repr(FunctionMetadata(
-                UnitMetadata('Luminance', '$Y$'),
-                UnitMetadata('Lightness', '$L^\star$'),
+                EntityMetadata('Luminance', '$Y$'),
+                EntityMetadata('Lightness', '$L^\star$'),
+                (0, 100),
+                (0, 100),
                 'CIE 1976',
                 '$CIE 1976$')),
-            "FunctionMetadata(UnitMetadata('Luminance', '$Y$'), \
-UnitMetadata('Lightness', '$L^\star$'), 'CIE 1976', '$CIE 1976$')")
+            "FunctionMetadata(EntityMetadata('Luminance', '$Y$'), \
+EntityMetadata('Lightness', '$L^\\star$'), \
+(0, 100), (0, 100), 'CIE 1976', '$CIE 1976$')")
 
 
-class TestSetMetadata(unittest.TestCase):
+class TestSetCallableMetadata(unittest.TestCase):
     """
-    Defines :func:`colour.utilities.metadata.set_metadata` definition units
-    tests methods.
+    Defines :func:`colour.metadata.common.set_callable_metadata` definition
+    units tests methods.
     """
 
-    def test_set_metadata(self):
+    def test_set_callable_metadata(self):
         """
-        Tests :func:`colour.utilities.metadata.set_metadata` definition.
+        Tests :func:`colour.metadata.common.set_callable_metadata` definition.
         """
 
-        @set_metadata(Metadata, 'Lambda', '$\Lambda$')
         def f1():
             """
             Dummy function for unit tests.
@@ -231,19 +238,17 @@ class TestSetMetadata(unittest.TestCase):
 
             pass
 
+        self.assertFalse(hasattr(f1, '__metadata__'))
+        set_callable_metadata(
+            f1, FunctionMetadata,
+            EntityMetadata('Luminance', '$Y$'),
+            EntityMetadata('Lightness', '$L^\star$'),
+            (0, 100),
+            (0, 100),
+            'CIE 1976',
+            '$CIE 1976$')
         self.assertTrue(hasattr(f1, '__metadata__'))
-
-        m = Metadata('Gamma', '$\Gamma$')
-
-        @set_metadata(m)
-        def f2():
-            """
-            Dummy function for unit tests.
-            """
-
-            pass
-
-        self.assertIs(f2.__metadata__, m)
+        self.assertEquals(f1.__metadata__.callable, f1)
 
 
 if __name__ == '__main__':
