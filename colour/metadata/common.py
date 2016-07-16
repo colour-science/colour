@@ -2,34 +2,33 @@
 # -*- coding: utf-8 -*-
 
 """
-Metadata
-========
+Common Metadata
+===============
 
 Defines the objects implementing the base metadata system support:
 
 -   :class:`Metadata`
--   :class:`UnitMetadata`
+-   :class:`EntityMetadata`
 -   :class:`CallableMetadata`
 -   :class:`FunctionMetadata`
--   :def:`set_metadata`
+-   :func:`set_callable_metadata`
 """
 
 from __future__ import division, unicode_literals
 
 import functools
 from weakref import WeakValueDictionary
-
-import colour  # noqa
+from colour.utilities import is_iterable
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['Metadata',
-           'UnitMetadata',
+           'EntityMetadata',
            'CallableMetadata',
            'FunctionMetadata',
            'set_metadata']
@@ -45,7 +44,7 @@ class Metadata(object):
     used for plotting purposes and other usages.
 
     It is for example quite convenient to define (in a programmatically
-    usable way) that `colour.lightness_CIE1976` has output unit of measurement
+    usable way) that `colour.lightness_CIE1976` has output entity
     :math:`CIE L^\star`.
 
     Parameters
@@ -302,7 +301,7 @@ class Metadata(object):
 
         text = self.family
         text += '\n    Name        : {0}\n    Strict name : {1}'.format(
-            self._name, self._strict_name)
+            self.name, self.strict_name)
 
         return text
 
@@ -330,17 +329,17 @@ class Metadata(object):
         """
 
         text = '{0}(\'{1}\', \'{2}\')'.format(
-            self.__class__.__name__, self._name, self._strict_name)
+            self.__class__.__name__, self.name, self.strict_name)
 
         return text
 
 
-class UnitMetadata(Metadata):
+class EntityMetadata(Metadata):
     """
-    Defines the metadata class used for unit of measurement.
+    Defines the metadata class used for entities.
     """
 
-    _FAMILY = 'Unit'
+    _FAMILY = 'Entity'
     """
     Metadata class family.
 
@@ -397,7 +396,7 @@ class CallableMetadata(Metadata):
 
         Returns
         -------
-        UnitMetadata
+        EntityMetadata
             self._callable.
         """
 
@@ -410,7 +409,7 @@ class CallableMetadata(Metadata):
 
         Parameters
         ----------
-        value : UnitMetadata
+        value : EntityMetadata
             Attribute value.
         """
 
@@ -424,16 +423,20 @@ class CallableMetadata(Metadata):
 
 class FunctionMetadata(CallableMetadata):
     """
-    Defines the metadata class for function converting an input unit of
-    measurement into an output unit of measurement using a given method.
+    Defines the metadata class for function converting an input entity into
+    an output entity using a given method.
 
     Parameters
     ----------
-    input_unit : UnitMetadata
-        Input unit of measurement metadata.
-    output_unit : UnitMetadata
-        Output unit of measurement.
-    method : unicode
+    input_entity : EntityMetadata
+        Input entity.
+    output_entity : EntityMetadata
+        Output entity.
+    input_domain : array_like
+        Input domain.
+    output_range : array_like
+        Output range.
+    method : unicode, optional
         Method used by the function.
     strict_method : unicode, optional
         Strict method name, the scientific name for use in diagrams,
@@ -443,8 +446,10 @@ class FunctionMetadata(CallableMetadata):
 
     Attributes
     ----------
-    input_unit
-    output_unit
+    input_entity
+    output_entity
+    input_domain
+    output_range
     method
     strict_method
 
@@ -457,12 +462,15 @@ class FunctionMetadata(CallableMetadata):
     Examples
     --------
     >>> FunctionMetadata(
-    ... UnitMetadata('Luminance', '$Y$'),
-    ... UnitMetadata('Lightness', '$L^\star$'),
-    ... 'CIE 1976',
-    ... '$CIE 1976$')
-    FunctionMetadata(UnitMetadata('Luminance', '$Y$'), \
-UnitMetadata('Lightness', '$L^\star$'), 'CIE 1976', '$CIE 1976$')
+    ...     EntityMetadata('Luminance', '$Luminance (Y)$'),
+    ...     EntityMetadata('Lightness', '$Lightness (L^*)$'),
+    ...     (0, 100),
+    ...     (0, 100),
+    ...     'CIE 1976',
+    ...     '$CIE 1976$')
+    FunctionMetadata(EntityMetadata('Luminance', '$Luminance (Y)$'), \
+EntityMetadata('Lightness', '$Lightness (L^*)$'), (0, 100), (0, 100), \
+'CIE 1976', '$CIE 1976$')
     """
 
     _FAMILY = 'Function'
@@ -473,89 +481,174 @@ UnitMetadata('Lightness', '$L^\star$'), 'CIE 1976', '$CIE 1976$')
     """
 
     def __init__(self,
-                 input_unit,
-                 output_unit,
-                 method,
+                 input_entity,
+                 output_entity,
+                 input_domain,
+                 output_range,
+                 method=None,
                  strict_method=None,
                  callable_=None):
 
-        self._input_unit = None
-        self.input_unit = input_unit
-        self._output_unit = None
-        self.output_unit = output_unit
+        self._input_entity = None
+        self.input_entity = input_entity
+        self._output_entity = None
+        self.output_entity = output_entity
+        self._input_domain = None
+        self.input_domain = input_domain
+        self._output_range = None
+        self.output_range = output_range
         self._method = None
         self.method = method
         self._strict_method = None
         self.strict_method = strict_method
 
-        name = '{0} to {1} - {2}'.format(
-            input_unit.name, output_unit.name, method)
-        strict_name = '{0} to {1} - {2}'.format(
-            input_unit.strict_name, output_unit.strict_name, strict_method)
+        name = '{0} {1} to {2} {3}'.format(
+            input_entity.name, '[{0}, {1}]'.format(*input_domain),
+            output_entity.name, '[{0}, {1}]'.format(*output_range))
+        if method:
+            name = '{0} - {1}'.format(name, method)
+
+        strict_name = '{0} {1} to {2} {3}'.format(
+            input_entity.strict_name, '[{0}, {1}]'.format(*input_domain),
+            output_entity.strict_name, '[{0}, {1}]'.format(*output_range))
+        if strict_method:
+            strict_name = '{0} - {1}'.format(strict_name, strict_method)
 
         super(FunctionMetadata, self).__init__(name, strict_name, callable_)
 
     @property
-    def input_unit(self):
+    def input_entity(self):
         """
-        Property for **self._input_unit** private attribute.
+        Property for **self._input_entity** private attribute.
 
         Returns
         -------
-        UnitMetadata
-            self._input_unit.
+        EntityMetadata
+            self._input_entity.
         """
 
-        return self._input_unit
+        return self._input_entity
 
-    @input_unit.setter
-    def input_unit(self, value):
+    @input_entity.setter
+    def input_entity(self, value):
         """
-        Setter for **self._input_unit** private attribute.
+        Setter for **self._input_entity** private attribute.
 
         Parameters
         ----------
-        value : UnitMetadata
+        value : EntityMetadata
             Attribute value.
         """
 
         if value is not None:
-            assert isinstance(value, UnitMetadata), (
+            assert issubclass(type(value), EntityMetadata), (
                 ('"{0}" attribute: "{1}" is not a '
-                 '"UnitMetadata" instance!').format('input_unit', value))
+                 '"EntityMetadata" instance!').format(
+                    'input_entity', value))
 
-        self._input_unit = value
+        self._input_entity = value
 
     @property
-    def output_unit(self):
+    def output_entity(self):
         """
-        Property for **self._output_unit** private attribute.
+        Property for **self._output_entity** private attribute.
 
         Returns
         -------
-        UnitMetadata
-            self._output_unit.
+        EntityMetadata
+            self._output_entity.
         """
 
-        return self._output_unit
+        return self._output_entity
 
-    @output_unit.setter
-    def output_unit(self, value):
+    @output_entity.setter
+    def output_entity(self, value):
         """
-        Setter for **self._output_unit** private attribute.
+        Setter for **self._output_entity** private attribute.
 
         Parameters
         ----------
-        value : UnitMetadata
+        value : EntityMetadata
             Attribute value.
         """
 
         if value is not None:
-            assert isinstance(value, UnitMetadata), (
+            assert issubclass(type(value), EntityMetadata), (
                 ('"{0}" attribute: "{1}" is not a '
-                 '"UnitMetadata" instance!').format('output_unit', value))
+                 '"EntityMetadata" instance!').format(
+                    'output_entity', value))
 
-        self._output_unit = value
+        self._output_entity = value
+
+    @property
+    def input_domain(self):
+        """
+        Property for **self._input_domain** private attribute.
+
+        Returns
+        -------
+        EntityMetadata
+            self._input_domain.
+        """
+
+        return self._input_domain
+
+    @input_domain.setter
+    def input_domain(self, value):
+        """
+        Setter for **self._input_domain** private attribute.
+
+        Parameters
+        ----------
+        value : array_like
+            Attribute value.
+        """
+
+        if value is not None:
+            assert is_iterable(value), (
+                '"{0}" attribute: "{1}" is not an "iterable"!'.format(
+                    'input_domain', value))
+
+            assert len(value) == 2, (
+                '"{0}" attribute: "{1}" must have exactly '
+                'two elements!'.format('input_domain', value))
+
+        self._input_domain = value
+
+    @property
+    def output_range(self):
+        """
+        Property for **self._output_range** private attribute.
+
+        Returns
+        -------
+        EntityMetadata
+            self._output_range.
+        """
+
+        return self._output_range
+
+    @output_range.setter
+    def output_range(self, value):
+        """
+        Setter for **self._output_range** private attribute.
+
+        Parameters
+        ----------
+        value : EntityMetadata
+            Attribute value.
+        """
+
+        if value is not None:
+            assert is_iterable(value), (
+                '"{0}" attribute: "{1}" is not an "iterable"!'.format(
+                    'output_range', value))
+
+            assert len(value) == 2, (
+                '"{0}" attribute: "{1}" must have exactly '
+                'two elements!'.format('output_range', value))
+
+        self._output_range = value
 
     @property
     def method(self):
@@ -635,24 +728,27 @@ UnitMetadata('Lightness', '$L^\star$'), 'CIE 1976', '$CIE 1976$')
 
         Notes
         -----
-        -   Reimplements the :meth:`object.__str__` method.
+        -   Reimplements the :meth:`Metadata.__str__` method.
 
         Examples
         --------
         >>> print(FunctionMetadata(
-        ... UnitMetadata('Luminance', '$Y$'),
-        ... UnitMetadata('Lightness', '$L^\star$'),
+        ... EntityMetadata('Luminance', '$Luminance (Y)$'),
+        ... EntityMetadata('Lightness', '$Lightness (L^*)'),
+        ... (0, 100),
+        ... (0, 100),
         ... 'CIE 1976',
         ... '$CIE 1976$'))
         Function
-            Name          : Luminance to Lightness - CIE 1976
-            Strict name   : $Y$ to $L^\star$ - $CIE 1976$
-            Unit
+            Name          : Luminance [0, 100] to Lightness [0, 100] - CIE 1976
+            Strict name   : $Luminance (Y)$ [0, 100] to \
+$Lightness (L^*) [0, 100] - $CIE 1976$
+            Entity
                 Name        : Luminance
-                Strict name : $Y$
-            Unit
+                Strict name : $Luminance (Y)$
+            Entity
                 Name        : Lightness
-                Strict name : $L^\star$
+                Strict name : $Lightness (L^*)
             Method        : CIE 1976
             Strict method : $CIE 1976$
         """
@@ -661,11 +757,11 @@ UnitMetadata('Lightness', '$L^\star$'), 'CIE 1976', '$CIE 1976$')
         text += '\n    Name          : {0}'.format(self.name)
         text += '\n    Strict name   : {0}'.format(self.strict_name)
         text += '\n    '
-        text += str(self._input_unit).replace('\n', '\n    ')
+        text += str(self.input_entity).replace('\n', '\n    ')
         text += '\n    '
-        text += str(self._output_unit).replace('\n', '\n    ')
-        text += '\n    Method        : {0}'.format(self._method)
-        text += '\n    Strict method : {0}'.format(self._strict_method)
+        text += str(self.output_entity).replace('\n', '\n    ')
+        text += '\n    Method        : {0}'.format(self.method)
+        text += '\n    Strict method : {0}'.format(self.strict_method)
 
         return text
 
@@ -684,23 +780,28 @@ UnitMetadata('Lightness', '$L^\star$'), 'CIE 1976', '$CIE 1976$')
 
         Notes
         -----
-        -   Reimplements the :meth:`object.__repr__` method.
+        -   Reimplements the :meth:`Metadata.__repr__` method.
 
         Examples
         --------
         >>> FunctionMetadata(
-        ... UnitMetadata('Luminance', '$Y$'),
-        ... UnitMetadata('Lightness', '$L^\star$'),
+        ... EntityMetadata('Luminance', '$Y$'),
+        ... EntityMetadata('Lightness', '$L^\star$'),
+        ... (0, 100),
+        ... (0, 100),
         ... 'CIE 1976',
         ... '$CIE 1976$')
-        FunctionMetadata(UnitMetadata('Luminance', '$Y$'), \
-UnitMetadata('Lightness', '$L^\star$'), 'CIE 1976', '$CIE 1976$')
+        FunctionMetadata(EntityMetadata('Luminance', '$Y$'), \
+EntityMetadata('Lightness', '$L^\star$'), \
+(0, 100), (0, 100), 'CIE 1976', '$CIE 1976$')
         """
 
-        text = '{0}({1}, {2}, \'{3}\', \'{4}\')'.format(
+        text = '{0}({1}, {2}, {3}, {4}, \'{5}\', \'{6}\')'.format(
             self.__class__.__name__,
-            repr(self._input_unit),
-            repr(self._output_unit),
+            repr(self.input_entity),
+            repr(self.output_entity),
+            repr(self.input_domain),
+            repr(self.output_range),
             self.method,
             self.strict_method)
 
@@ -746,6 +847,7 @@ def set_metadata(metadata, *args, **kwargs):
         """
 
         function.__metadata__ = metadata
+        function.__metadata__.callable = function
 
         @functools.wraps(function)
         def wrapped(*args, **kwargs):

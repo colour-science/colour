@@ -34,6 +34,10 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.constants import CIE_E, CIE_K
+from colour.metadata import (
+    ENTITIES,
+    LightnessFunctionMetadata,
+    set_metadata)
 from colour.utilities import CaseInsensitiveMapping, filter_kwargs, warning
 
 __author__ = 'Colour Developers'
@@ -50,6 +54,9 @@ __all__ = ['lightness_Glasser1958',
            'lightness']
 
 
+@set_metadata(LightnessFunctionMetadata,
+              ENTITIES['Luminance Y'], ENTITIES['Lightness L'],
+              (0, 100), (0, 100), 'Glasser 1958', 'Glasser (1958)')
 def lightness_Glasser1958(Y):
     """
     Returns the *Lightness* :math:`L` of given *luminance* :math:`Y` using
@@ -89,6 +96,9 @@ def lightness_Glasser1958(Y):
     return L
 
 
+@set_metadata(LightnessFunctionMetadata,
+              ENTITIES['Luminance Y'], ENTITIES['Lightness W'],
+              (0, 100), (0, 100), 'Wyszecki 1963', 'Wyszecki (1963)')
 def lightness_Wyszecki1963(Y):
     """
     Returns the *Lightness* :math:`W` of given *luminance* :math:`Y` using
@@ -132,6 +142,9 @@ def lightness_Wyszecki1963(Y):
     return W
 
 
+@set_metadata(LightnessFunctionMetadata,
+              ENTITIES['Luminance Y'], ENTITIES['Lightness Lstar'],
+              (0, 100), (0, 100), 'CIE 1976', 'CIE 1976')
 def lightness_CIE1976(Y, Y_n=100):
     """
     Returns the *Lightness* :math:`L^*` of given *luminance* :math:`Y` using
