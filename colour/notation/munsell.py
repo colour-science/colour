@@ -711,10 +711,9 @@ def xyY_to_munsell_specification(xyY):
 
     x_center, y_center, Y_center = np.ravel(
         munsell_specification_to_xyY(value))
-    _z_input, theta_input, rho_input = cartesian_to_cylindrical((x - x_center,
-                                                                 y - y_center,
-                                                                 Y_center))
-    theta_input = np.degrees(theta_input)
+    phi_input, rho_input, _z_input = cartesian_to_cylindrical(
+        (x - x_center, y - y_center, Y_center))
+    phi_input = np.degrees(phi_input)
 
     grey_threshold = 0.001
     if rho_input < grey_threshold:
@@ -756,16 +755,14 @@ def xyY_to_munsell_specification(xyY):
         x_current, y_current, _Y_current = np.ravel(
             munsell_specification_to_xyY(specification_current))
 
-        _z_current, theta_current, rho_current = cartesian_to_cylindrical(
-            (x_current - x_center,
-             y_current - y_center,
-             Y_center))
-        theta_current = np.degrees(theta_current)
-        theta_current_difference = (360 - theta_input + theta_current) % 360
-        if theta_current_difference > 180:
-            theta_current_difference -= 360
+        phi_current, rho_current, _z_current = cartesian_to_cylindrical(
+            (x_current - x_center, y_current - y_center, Y_center))
+        phi_current = np.degrees(phi_current)
+        phi_current_difference = (360 - phi_input + phi_current) % 360
+        if phi_current_difference > 180:
+            phi_current_difference -= 360
 
-        theta_differences = [theta_current_difference]
+        phi_differences = [phi_current_difference]
         hue_angles = [hue_angle_current]
         hue_angles_differences = [0]
 
@@ -773,8 +770,8 @@ def xyY_to_munsell_specification(xyY):
         iterations_inner = 0
         extrapolate = False
 
-        while np.sign(min(theta_differences)) == np.sign(
-                max(theta_differences)) and extrapolate is False:
+        while np.sign(min(phi_differences)) == np.sign(
+                max(phi_differences)) and extrapolate is False:
             iterations_inner += 1
 
             if iterations_inner > iterations_maximum_inner:
@@ -782,9 +779,9 @@ def xyY_to_munsell_specification(xyY):
                                     'without convergence!'))
 
             hue_angle_inner = ((hue_angle_current + iterations_inner *
-                                (theta_input - theta_current)) % 360)
+                                (phi_input - phi_current)) % 360)
             hue_angle_difference_inner = (iterations_inner *
-                                          (theta_input - theta_current) % 360)
+                                          (phi_input - phi_current) % 360)
             if hue_angle_difference_inner > 180:
                 hue_angle_difference_inner -= 360
 
@@ -795,36 +792,34 @@ def xyY_to_munsell_specification(xyY):
                                               chroma_current,
                                               code_inner)))
 
-            if len(theta_differences) >= 2:
+            if len(phi_differences) >= 2:
                 extrapolate = True
 
             if extrapolate is False:
-                _z_inner, theta_inner, rho_inner = cartesian_to_cylindrical(
-                    (x_inner - x_center,
-                     y_inner - y_center,
-                     Y_center))
-                theta_inner = np.degrees(theta_inner)
-                theta_inner_difference = (
-                    (360 - theta_input + theta_inner) % 360)
-                if theta_inner_difference > 180:
-                    theta_inner_difference -= 360
+                phi_inner, rho_inner, _z_inner = cartesian_to_cylindrical(
+                    (x_inner - x_center, y_inner - y_center, Y_center))
+                phi_inner = np.degrees(phi_inner)
+                phi_inner_difference = (
+                    (360 - phi_input + phi_inner) % 360)
+                if phi_inner_difference > 180:
+                    phi_inner_difference -= 360
 
-                theta_differences.append(theta_inner_difference)
+                phi_differences.append(phi_inner_difference)
                 hue_angles.append(hue_angle_inner)
                 hue_angles_differences.append(hue_angle_difference_inner)
 
-        theta_differences = np.array(theta_differences)
+        phi_differences = np.array(phi_differences)
         hue_angles_differences = np.array(hue_angles_differences)
 
-        theta_differences_indexes = theta_differences.argsort()
+        phi_differences_indexes = phi_differences.argsort()
 
-        theta_differences = theta_differences[theta_differences_indexes]
+        phi_differences = phi_differences[phi_differences_indexes]
         hue_angles_differences = hue_angles_differences[
-            theta_differences_indexes]
+            phi_differences_indexes]
 
         hue_angle_difference_new = Extrapolator(
             LinearInterpolator(
-                theta_differences,
+                phi_differences,
                 hue_angles_differences))(0) % 360
         hue_angle_new = (hue_angle_current + hue_angle_difference_new) % 360
 
@@ -849,7 +844,7 @@ def xyY_to_munsell_specification(xyY):
         x_current, y_current, Y_current = np.ravel(
             munsell_specification_to_xyY(specification_current))
 
-        _z_current, theta_current, rho_current = cartesian_to_cylindrical(
+        phi_current, rho_current, _z_current = cartesian_to_cylindrical(
             (x_current - x_center, y_current - y_center, Y_center))
 
         rho_bounds = [rho_current]
@@ -874,7 +869,7 @@ def xyY_to_munsell_specification(xyY):
             x_inner, y_inner, _Y_inner = np.ravel(
                 munsell_specification_to_xyY(specification_inner))
 
-            _z_inner, theta_inner, rho_inner = cartesian_to_cylindrical(
+            phi_inner, rho_inner, _z_inner = cartesian_to_cylindrical(
                 (x_inner - x_center, y_inner - y_center, Y_center))
 
             rho_bounds.append(rho_inner)
@@ -1780,22 +1775,22 @@ def xy_from_renotation_ovoid(specification):
         specification_minus = (hue_minus, value, chroma, code_minus)
         x_minus, y_minus, Y_minus = xyY_from_renotation(
             specification_minus)
-        _z_minus, theta_minus, rho_minus = cartesian_to_cylindrical(
+        phi_minus, rho_minus, _z_minus = cartesian_to_cylindrical(
             (x_minus - x_grey, y_minus - y_grey, Y_minus))
-        theta_minus = np.degrees(theta_minus)
+        phi_minus = np.degrees(phi_minus)
 
         specification_plus = (hue_plus, value, chroma, code_plus)
         x_plus, y_plus, Y_plus = xyY_from_renotation(specification_plus)
-        _z_plus, theta_plus, rho_plus = cartesian_to_cylindrical(
+        phi_plus, rho_plus, _z_plus = cartesian_to_cylindrical(
             (x_plus - x_grey, y_plus - y_grey, Y_plus))
-        theta_plus = np.degrees(theta_plus)
+        phi_plus = np.degrees(phi_plus)
 
         lower_hue_angle = hue_to_hue_angle(hue_minus, code_minus)
         hue_angle = hue_to_hue_angle(hue, code)
         upper_hue_angle = hue_to_hue_angle(hue_plus, code_plus)
 
-        if theta_minus - theta_plus > 180:
-            theta_plus += 360
+        if phi_minus - phi_plus > 180:
+            phi_plus += 360
 
         if lower_hue_angle == 0:
             lower_hue_angle = 360
@@ -1817,7 +1812,7 @@ def xy_from_renotation_ovoid(specification):
                                    (y_minus, y_plus))(hue_angle)
         elif interpolation_method == 'radial':
             theta = LinearInterpolator((lower_hue_angle, upper_hue_angle),
-                                       (theta_minus, theta_plus))(hue_angle)
+                                       (phi_minus, phi_plus))(hue_angle)
             rho = LinearInterpolator((lower_hue_angle, upper_hue_angle),
                                      (rho_minus, rho_plus))(hue_angle)
 

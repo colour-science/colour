@@ -17,8 +17,10 @@ The following transformations are available:
 References
 ----------
 .. [1]  Wikipedia. (n.d.). List of common coordinate transformations.
-        Retrieved from
-        http://en.wikipedia.org/wiki/List_of_common_coordinate_transformations
+        Retrieved from http://en.wikipedia.org/wiki/\
+List_of_common_coordinate_transformations
+.. [2]  Wikipedia. (n.d.). ISO 31-11. misc. Retrieved from
+        https://en.wikipedia.org/wiki/ISO_31-11
 """
 
 from __future__ import division, unicode_literals
@@ -42,17 +44,19 @@ __all__ = ['cartesian_to_spherical',
 
 def cartesian_to_spherical(a):
     """
-    Transforms given Cartesian coordinates array to Spherical coordinates.
+    Transforms given Cartesian coordinates array :math:`xyz` to Spherical
+    coordinates array :math:`\rho\theta\phi` (radial distance, inclination or
+    elevation, and azimuth).
 
     Parameters
     ----------
     a : array_like
-        Cartesian coordinates array (x, y, z) to transform.
+        Cartesian coordinates array :math:`xyz` to transform.
 
     Returns
     -------
     ndarray
-        Spherical coordinates array (r, theta, phi).
+        Spherical coordinates array :math:`\rho\theta\phi`.
 
     See Also
     --------
@@ -78,17 +82,19 @@ def cartesian_to_spherical(a):
 
 def spherical_to_cartesian(a):
     """
-    Transforms given Spherical coordinates array to Cartesian coordinates.
+    Transforms given Spherical coordinates array :math:`\rho\theta\phi`
+    (radial distance, inclination or elevation, and azimuth) to Cartesian
+    coordinates array :math:`xyz`.
 
     Parameters
     ----------
     a : array_like
-        Spherical coordinates array (r, theta, phi) to transform.
+        Spherical coordinates array :math:`\rho\theta\phi` to transform.
 
     Returns
     -------
     ndarray
-        Cartesian coordinates array (x, y, z).
+        Cartesian coordinates array :math:`xyz`.
 
     See Also
     --------
@@ -114,17 +120,19 @@ def spherical_to_cartesian(a):
 
 def cartesian_to_cylindrical(a):
     """
-    Transforms given Cartesian coordinates array to Cylindrical coordinates.
+    Transforms given Cartesian coordinates array :math:`xyz` to Cylindrical
+    coordinates array :math:`\phi\rho\z` (radial distance, azimuth, and
+    height).
 
     Parameters
     ----------
     a : array_like
-        Cartesian coordinates array (x, y, z) to transform.
+        Cartesian coordinates array :math:`xyz` to transform.
 
     Returns
     -------
     ndarray
-        Cylindrical coordinates array (z, theta, rho).
+        Cylindrical coordinates array :math:`\phi\rho\z`.
 
     See Also
     --------
@@ -134,30 +142,31 @@ def cartesian_to_cylindrical(a):
     --------
     >>> a = np.array([3, 1, 6])
     >>> cartesian_to_cylindrical(a)  # doctest: +ELLIPSIS
-    array([ 6.        ,  0.3217505...,  3.1622776...])
+    array([ 0.3217505...,  3.1622776...,  6.        ])
     """
 
     x, y, z = tsplit(a)
 
-    theta = np.arctan2(y, x)
+    phi = np.arctan2(y, x)
     rho = np.linalg.norm(tstack((x, y)), axis=-1)
 
-    return tstack((z, theta, rho))
+    return tstack((phi, rho, z))
 
 
 def cylindrical_to_cartesian(a):
     """
-    Transforms given Cylindrical coordinates array to Cartesian coordinates.
+    Transforms given Cylindrical coordinates array :math:`\phi\rho\z` (radial
+    distance, azimuth, and height) to Cartesian coordinates array :math:`xyz`.
 
     Parameters
     ----------
     a : array_like
-        Cylindrical coordinates array (z, theta, rho) to transform.
+        Cylindrical coordinates array :math:`\phi\rho\z` to transform.
 
     Returns
     -------
     ndarray
-        Cartesian coordinates array (x, y, z).
+        Cartesian coordinates array :math:`xyz`.
 
     See Also
     --------
@@ -165,14 +174,14 @@ def cylindrical_to_cartesian(a):
 
     Examples
     --------
-    >>> a = np.array([6.00000000, 0.32175055, 3.16227766])
+    >>> a = np.array([0.32175055, 3.16227766, 6.00000000])
     >>> cylindrical_to_cartesian(a)  # doctest: +ELLIPSIS
     array([ 3.        ,  0.9999999...,  6.        ])
     """
 
-    z, theta, rho = tsplit(a)
+    phi, rho, z = tsplit(a)
 
-    x = rho * np.cos(theta)
-    y = rho * np.sin(theta)
+    x = rho * np.cos(phi)
+    y = rho * np.sin(phi)
 
     return tstack((x, y, z))
