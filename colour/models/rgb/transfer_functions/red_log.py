@@ -9,6 +9,8 @@ Defines the *RED* log encodings:
 
 -   :func:`log_encoding_REDLog`
 -   :func:`log_decoding_REDLog`
+-   :func:`log_encoding_REDLogFilm`
+-   :func:`log_decoding_REDLogFilm`
 
 See Also
 --------
