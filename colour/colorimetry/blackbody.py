@@ -55,7 +55,7 @@ def planck_law(wavelength, temperature, c1=C1, c2=C2, n=N):
         Temperature :math:`T[K]` in kelvin degrees.
     c1 : numeric or array_like, optional
         The official value of :math:`c1` is provided by the Committee on Data
-        for Science and Technology (CODATA), and is
+        for Science and Technology (CODATA) and is
         :math:`c1=3,741771x10.16\ W/m_2` (Mohr and Taylor, 2000).
     c2 : numeric or array_like, optional
         Since :math:`T` is measured on the International Temperature Scale,
@@ -122,7 +122,7 @@ def blackbody_spd(temperature,
         planckian radiator.
     c1 : numeric, optional
         The official value of :math:`c1` is provided by the Committee on Data
-        for Science and Technology (CODATA), and is
+        for Science and Technology (CODATA) and is
         :math:`c1=3,741771x10.16\ W/m_2` (Mohr and Taylor, 2000).
     c2 : numeric, optional
         Since :math:`T` is measured on the International Temperature Scale,

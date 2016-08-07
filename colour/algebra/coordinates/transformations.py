@@ -46,7 +46,7 @@ def cartesian_to_spherical(a):
     """
     Transforms given Cartesian coordinates array :math:`xyz` to Spherical
     coordinates array :math:`\rho\theta\phi` (radial distance, inclination or
-    elevation, and azimuth).
+    elevation and azimuth).
 
     Parameters
     ----------
@@ -83,7 +83,7 @@ def cartesian_to_spherical(a):
 def spherical_to_cartesian(a):
     """
     Transforms given Spherical coordinates array :math:`\rho\theta\phi`
-    (radial distance, inclination or elevation, and azimuth) to Cartesian
+    (radial distance, inclination or elevation and azimuth) to Cartesian
     coordinates array :math:`xyz`.
 
     Parameters
@@ -156,7 +156,7 @@ def cartesian_to_cylindrical(a):
 def cylindrical_to_cartesian(a):
     """
     Transforms given Cylindrical coordinates array :math:`\phi\rho\z` (radial
-    distance, azimuth, and height) to Cartesian coordinates array :math:`xyz`.
+    distance, azimuth and height) to Cartesian coordinates array :math:`xyz`.
 
     Parameters
     ----------

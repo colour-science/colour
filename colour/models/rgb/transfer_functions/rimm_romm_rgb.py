@@ -133,7 +133,7 @@ def oetf_RIMMRGB(X, I_max=255, E_clip=2.0):
     X : numeric or array_like
         Linear data :math:`X_{RIMM}`.
     I_max : numeric, optional
-        Maximum code value: 255, 4095, and 650535 for respectively 8-bit,
+        Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
         12-bit and 16-bit per channel.
     E_clip : numeric, optional
         Maximum exposure level.
@@ -173,7 +173,7 @@ def eotf_RIMMRGB(X_p, I_max=255, E_clip=2.0):
     X_p : numeric or array_like
         Non-linear data :math:`X'_{RIMM}`.
     I_max : numeric, optional
-        Maximum code value: 255, 4095, and 650535 for respectively 8-bit,
+        Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
         12-bit and 16-bit per channel.
     E_clip : numeric, optional
         Maximum exposure level.
@@ -215,7 +215,7 @@ def log_encoding_ERIMMRGB(X,
     X : numeric or array_like
         Linear data :math:`X_{ERIMM}`.
     I_max : numeric, optional
-        Maximum code value: 255, 4095, and 650535 for respectively 8-bit,
+        Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
         12-bit and 16-bit per channel.
     E_min : numeric, optional
         Minimum exposure limit.
@@ -264,7 +264,7 @@ def log_decoding_ERIMMRGB(X_p,
     X_p : numeric or array_like
         Non-linear data :math:`X'_{ERIMM}`.
     I_max : numeric, optional
-        Maximum code value: 255, 4095, and 650535 for respectively 8-bit,
+        Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
         12-bit and 16-bit per channel.
     E_min : numeric, optional
         Minimum exposure limit.

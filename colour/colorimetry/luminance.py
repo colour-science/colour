@@ -10,7 +10,7 @@ Defines *luminance* :math:`Y` computation objects.
 The following methods are available:
 
 -   :func:`luminance_Newhall1943`: *luminance* :math:`Y` computation of given
-    *Munsell* value :math:`V` using *Newhall, Nickerson, and Judd (1943)*
+    *Munsell* value :math:`V` using *Newhall, Nickerson and Judd (1943)*
     method.
 -   :func:`luminance_ASTMD153508`: *luminance* :math:`Y` computation of given
     *Munsell* value :math:`V` using *ASTM D1535-08e1* method.
@@ -48,7 +48,7 @@ __all__ = ['luminance_Newhall1943',
 def luminance_Newhall1943(V):
     """
     Returns the *luminance* :math:`R_Y` of given *Munsell* value :math:`V`
-    using *Newhall, Nickerson, and Judd (1943)* method.
+    using *Newhall, Nickerson and Judd (1943)* method.
 
     Parameters
     ----------
