@@ -12,6 +12,7 @@ from .array import (as_numeric, as_namedtuple, closest_indexes, closest,
                     tsplit, row_as_diagonal, dot_vector, dot_matrix, orient,
                     centroid, linear_conversion, fill_nan, ndarray_write)
 from .data_structures import Lookup, Structure, CaseInsensitiveMapping
+from .iterators import Peekable
 from .verbose import (ColourWarning, message_box, warning, filter_warnings,
                       suppress_warnings, numpy_print_options)
 
@@ -28,6 +29,7 @@ __all__ += [
     'centroid', 'linear_conversion', 'fill_nan', 'ndarray_write'
 ]
 __all__ += ['Lookup', 'Structure', 'CaseInsensitiveMapping']
+__all__ += ['Peekable']
 __all__ += [
     'ColourWarning', 'message_box', 'warning', 'filter_warnings',
     'suppress_warnings', 'numpy_print_options'
