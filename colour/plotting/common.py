@@ -56,6 +56,7 @@ __all__ = ['PLOTTING_RESOURCES_DIRECTORY',
            'DEFAULT_PARAMETERS',
            'DEFAULT_PLOTTING_ILLUMINANT',
            'DEFAULT_PLOTTING_ENCODING_CCTF',
+           'colour_plotting_defaults',
            'ColourParameter',
            'colour_cycle',
            'canvas',
@@ -154,8 +155,6 @@ Default plotting parameters.
 DEFAULT_PARAMETERS : dict
 """
 
-pylab.rcParams.update(DEFAULT_PARAMETERS)
-
 DEFAULT_PLOTTING_ILLUMINANT = ILLUMINANTS.get(
     'CIE 1931 2 Degree Standard Observer').get('D65')
 """
@@ -171,6 +170,26 @@ transfer function: *sRGB*.
 
 DEFAULT_PLOTTING_ENCODING_CCTF : object
 """
+
+
+def colour_plotting_defaults(parameters=DEFAULT_PARAMETERS):
+    """
+    Enables *Colour* default plotting parameters.
+
+    Parameters
+    ----------
+    parameters : dict, optional
+        Parameters to use for plotting.
+
+    Returns
+    -------
+    bool
+        Definition success.
+    """
+
+    pylab.rcParams.update(parameters)
+
+    return True
 
 
 class ColourParameter(
