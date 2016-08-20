@@ -45,7 +45,7 @@ __all__ = ['cartesian_to_spherical',
 def cartesian_to_spherical(a):
     """
     Transforms given Cartesian coordinates array :math:`xyz` to Spherical
-    coordinates array :math:`\rho\theta\phi` (radial distance, inclination or
+    coordinates array :math:`\\rho\\theta\phi` (radial distance, inclination or
     elevation and azimuth).
 
     Parameters
@@ -56,7 +56,7 @@ def cartesian_to_spherical(a):
     Returns
     -------
     ndarray
-        Spherical coordinates array :math:`\rho\theta\phi`.
+        Spherical coordinates array :math:`\\rho\\theta\phi`.
 
     See Also
     --------
@@ -82,14 +82,14 @@ def cartesian_to_spherical(a):
 
 def spherical_to_cartesian(a):
     """
-    Transforms given Spherical coordinates array :math:`\rho\theta\phi`
+    Transforms given Spherical coordinates array :math:`\\rho\\theta\phi`
     (radial distance, inclination or elevation and azimuth) to Cartesian
     coordinates array :math:`xyz`.
 
     Parameters
     ----------
     a : array_like
-        Spherical coordinates array :math:`\rho\theta\phi` to transform.
+        Spherical coordinates array :math:`\\rho\\theta\phi` to transform.
 
     Returns
     -------
@@ -121,7 +121,7 @@ def spherical_to_cartesian(a):
 def cartesian_to_cylindrical(a):
     """
     Transforms given Cartesian coordinates array :math:`xyz` to Cylindrical
-    coordinates array :math:`\phi\rho\z` (radial distance, azimuth, and
+    coordinates array :math:`\phi\\rho z` (radial distance, azimuth, and
     height).
 
     Parameters
@@ -132,7 +132,7 @@ def cartesian_to_cylindrical(a):
     Returns
     -------
     ndarray
-        Cylindrical coordinates array :math:`\phi\rho\z`.
+        Cylindrical coordinates array :math:`\phi\\rho z`.
 
     See Also
     --------
@@ -155,13 +155,13 @@ def cartesian_to_cylindrical(a):
 
 def cylindrical_to_cartesian(a):
     """
-    Transforms given Cylindrical coordinates array :math:`\phi\rho\z` (radial
+    Transforms given Cylindrical coordinates array :math:`\phi\\rho z` (radial
     distance, azimuth and height) to Cartesian coordinates array :math:`xyz`.
 
     Parameters
     ----------
     a : array_like
-        Cylindrical coordinates array :math:`\phi\rho\z` to transform.
+        Cylindrical coordinates array :math:`\phi\\rho z` to transform.
 
     Returns
     -------

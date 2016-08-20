@@ -76,8 +76,8 @@ def planck_law(wavelength, temperature, c1=C1, c2=C2, n=N):
 
     Notes
     -----
-    The following form implementation is expressed in term of wavelength.
-    The SI unit of radiance is *watts per steradian per square metre*.
+    -   The following form implementation is expressed in term of wavelength.
+    -   The SI unit of radiance is *watts per steradian per square metre*.
 
     References
     ----------

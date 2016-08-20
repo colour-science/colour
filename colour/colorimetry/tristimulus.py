@@ -317,7 +317,7 @@ def adjust_tristimulus_weighting_factors_ASTME30815(W, shape_r, shape_t):
         Tristimulus weighting factors table.
     shape_r : SpectralShape
         Reference spectral shape.
-    shape_t
+    shape_t : SpectralShape
         Test spectral shape.
 
     Returns
