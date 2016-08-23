@@ -16,7 +16,13 @@ from .alexa_log_c import (
 from .bt_709 import oetf_BT709, eotf_BT709
 from .bt_1886 import oetf_BT1886, eotf_BT1886
 from .bt_2020 import oetf_BT2020, eotf_BT2020
-from .canon_log import log_encoding_CanonLog, log_decoding_CanonLog
+from .canon_log import (
+    log_encoding_CanonLog,
+    log_decoding_CanonLog,
+    log_encoding_CanonLog2,
+    log_decoding_CanonLog2,
+    log_encoding_CanonLog3,
+    log_decoding_CanonLog3)
 from .cineon import log_encoding_Cineon, log_decoding_Cineon
 from .dci_p3 import oetf_DCIP3, eotf_DCIP3
 from .gamma import gamma_function
@@ -57,7 +63,12 @@ __all__ += ['log_encoding_ALEXALogC', 'log_decoding_ALEXALogC']
 __all__ += ['oetf_BT709', 'eotf_BT709']
 __all__ += ['oetf_BT1886', 'eotf_BT1886']
 __all__ += ['oetf_BT2020', 'eotf_BT2020']
-__all__ += ['log_encoding_CanonLog', 'log_decoding_CanonLog']
+__all__ += ['log_encoding_CanonLog',
+            'log_decoding_CanonLog',
+            'log_encoding_CanonLog2',
+            'log_decoding_CanonLog2',
+            'log_encoding_CanonLog3',
+            'log_decoding_CanonLog3']
 __all__ += ['log_encoding_Cineon', 'log_decoding_Cineon']
 __all__ += ['oetf_DCIP3', 'eotf_DCIP3']
 __all__ += ['gamma_function']
