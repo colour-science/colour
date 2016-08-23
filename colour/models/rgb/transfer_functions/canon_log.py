@@ -25,9 +25,16 @@ References
 .. [1]  Thorpe, L. (2012). CANON-LOG TRANSFER CHARACTERISTIC. Retrieved
         from http://downloads.canon.com/CDLC/\
 Canon-Log_Transfer_Characteristic_6-20-2012.pdf
-.. [2]  Canon. (n.d.). EOS C300 Mark II. Retrieved August 23, 2016, from
-        https://www.usa.canon.com/internet/portal/us/home/support/details/\
-cameras/cinema-eos/eos-c300-mark-ii
+.. [2]  Canon. (n.d.). EOS C300 Mark II - EOS C300 Mark II Input Transform
+        Version 2.0 (for Cinema Gamut / BT.2020). Retrieved August 23, 2016,
+        from https://www.usa.canon.com/internet/portal/us/home/support/\
+details/cameras/cinema-eos/eos-c300-mark-ii
+
+Notes
+-----
+-   [2]_ is available as a *Drivers & Downloads* *Software*  for Windows 10
+    (x64) *Operating System*, a copy of the archive is hosted at this url:
+    https://drive.google.com/open?id=0B_IQZQdc4Vy8ZGYyY29pMEVwZU0
 """
 
 from __future__ import division, unicode_literals
