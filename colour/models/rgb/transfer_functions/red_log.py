@@ -9,6 +9,10 @@ Defines the *RED* log encodings:
 
 -   :func:`log_encoding_REDLog`
 -   :func:`log_decoding_REDLog`
+-   :func:`log_encoding_REDLogFilm`
+-   :func:`log_decoding_REDLogFilm`
+-   :func:`log_encoding_Log3G10`
+-   :func:`log_decoding_Log3G10`
 
 See Also
 --------
@@ -21,6 +25,7 @@ References
 .. [1]  Sony Imageworks. (2012). make.py. Retrieved November 27, 2014, from
         https://github.com/imageworks/OpenColorIO-Configs/\
 blob/master/nuke-default/make.py
+.. [2]  Conversations with Graeme Nattress, August 23, 2016
 """
 
 from __future__ import division, unicode_literals
@@ -36,12 +41,14 @@ __copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
-__status__ = 'Production'
+__status__ = 'Development'
 
 __all__ = ['log_encoding_REDLog',
            'log_decoding_REDLog',
            'log_encoding_REDLogFilm',
-           'log_decoding_REDLogFilm']
+           'log_decoding_REDLogFilm',
+           'log_encoding_Log3G10',
+           'log_decoding_Log3G10']
 
 
 def log_encoding_REDLog(x,
@@ -157,3 +164,55 @@ def log_decoding_REDLogFilm(y,
     """
 
     return log_decoding_Cineon(y, black_offset)
+
+
+def log_encoding_Log3G10(x):
+    """
+    Defines the *Log3G10* log encoding curve / opto-electronic transfer
+    function.
+
+    Parameters
+    ----------
+    x : numeric or array_like
+        Linear data :math:`x`.
+
+    Returns
+    -------
+    numeric or ndarray
+        Non-linear data :math:`y`.
+
+    Examples
+    --------
+    >>> log_encoding_Log3G10(0.18)  # doctest: +ELLIPSIS
+    0.3333336...
+    """
+
+    x = np.asarray(x)
+
+    return np.sign(x) * 0.222497 * np.log10((np.abs(x) * 169.379333) + 1.0)
+
+
+def log_decoding_Log3G10(y):
+    """
+    Defines the *Log3G10* log decoding curve / electro-optical transfer
+    function.
+
+    Parameters
+    ----------
+    y : numeric or array_like
+        Non-linear data :math:`y`.
+
+    Returns
+    -------
+    numeric or ndarray
+        Linear data :math:`x`.
+
+    Examples
+    --------
+    >>> log_decoding_Log3G10(1.0 / 3)  # doctest: +ELLIPSIS
+    0.1799994...
+    """
+
+    y = np.asarray(y)
+
+    return (np.power(10.0, y / 0.222497) - 1.0) / 169.379333
