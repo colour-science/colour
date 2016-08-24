@@ -14,6 +14,15 @@ Defines the *RED* log encodings:
 -   :func:`log_encoding_Log3G10`
 -   :func:`log_decoding_Log3G10`
 
+Notes
+-----
+-   The intent of *Log3G10* is that zero maps to zero, 0.18 maps to 1/3, and
+    10 stops above 0.18 maps to 1.0. The name indicates this in a similar way
+    to the naming conventions of Sony HyperGamma curves. The constants used in
+    the functions do not in fact quite hit these values, but rather than
+    use corrected constants, the functions here use the official Red values,
+    in order to match the output of the Red SDK.
+
 See Also
 --------
 `RGB Colourspaces IPython Notebook
@@ -215,4 +224,4 @@ def log_decoding_Log3G10(y):
 
     y = np.asarray(y)
 
-    return (np.power(10.0, y / 0.222497) - 1.0) / 169.379333
+    return np.sign(y) * (np.power(10.0, np.abs(y) / 0.222497) - 1.0) / 169.379333
