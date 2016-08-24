@@ -39,8 +39,8 @@ from colour.colorimetry import ILLUMINANTS
 from colour.models.rgb import (
     RGB_Colourspace,
     normalised_primary_matrix,
-    log_encoding_REDLog,
-    log_decoding_REDLog,
+    log_encoding_REDLogFilm,
+    log_decoding_REDLogFilm,
     log_encoding_Log3G10,
     log_decoding_Log3G10)
 
@@ -141,8 +141,8 @@ RED_COLOR_COLOURSPACE = RGB_Colourspace(
     RED_COLOR_ILLUMINANT,
     RED_COLOR_TO_XYZ_MATRIX,
     XYZ_TO_RED_COLOR_MATRIX,
-    log_encoding_REDLog,
-    log_decoding_REDLog)
+    log_encoding_REDLogFilm,
+    log_decoding_REDLogFilm)
 """
 *REDcolor* colourspace.
 
@@ -195,8 +195,8 @@ RED_COLOR_2_COLOURSPACE = RGB_Colourspace(
     RED_COLOR_2_ILLUMINANT,
     RED_COLOR_2_TO_XYZ_MATRIX,
     XYZ_TO_RED_COLOR_2_MATRIX,
-    log_encoding_REDLog,
-    log_decoding_REDLog)
+    log_encoding_REDLogFilm,
+    log_decoding_REDLogFilm)
 """
 *REDcolor2* colourspace.
 
@@ -249,8 +249,8 @@ RED_COLOR_3_COLOURSPACE = RGB_Colourspace(
     RED_COLOR_3_ILLUMINANT,
     RED_COLOR_3_TO_XYZ_MATRIX,
     XYZ_TO_RED_COLOR_3_MATRIX,
-    log_encoding_REDLog,
-    log_decoding_REDLog)
+    log_encoding_REDLogFilm,
+    log_decoding_REDLogFilm)
 """
 *REDcolor3* colourspace.
 
@@ -303,8 +303,8 @@ RED_COLOR_4_COLOURSPACE = RGB_Colourspace(
     RED_COLOR_4_ILLUMINANT,
     RED_COLOR_4_TO_XYZ_MATRIX,
     XYZ_TO_RED_COLOR_4_MATRIX,
-    log_encoding_REDLog,
-    log_decoding_REDLog)
+    log_encoding_REDLogFilm,
+    log_decoding_REDLogFilm)
 """
 *REDcolor4* colourspace.
 
@@ -357,8 +357,8 @@ DRAGON_COLOR_COLOURSPACE = RGB_Colourspace(
     DRAGON_COLOR_ILLUMINANT,
     DRAGON_COLOR_TO_XYZ_MATRIX,
     XYZ_TO_DRAGON_COLOR_MATRIX,
-    log_encoding_REDLog,
-    log_decoding_REDLog)
+    log_encoding_REDLogFilm,
+    log_decoding_REDLogFilm)
 """
 *DRAGONcolor* colourspace.
 
@@ -411,8 +411,8 @@ DRAGON_COLOR_2_COLOURSPACE = RGB_Colourspace(
     DRAGON_COLOR_2_ILLUMINANT,
     DRAGON_COLOR_2_TO_XYZ_MATRIX,
     XYZ_TO_DRAGON_COLOR_2_MATRIX,
-    log_encoding_REDLog,
-    log_decoding_REDLog)
+    log_encoding_REDLogFilm,
+    log_decoding_REDLogFilm)
 """
 *DRAGONcolor2* colourspace.
 

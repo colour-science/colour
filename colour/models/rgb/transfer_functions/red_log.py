@@ -18,10 +18,21 @@ Notes
 -----
 -   The intent of *Log3G10* is that zero maps to zero, 0.18 maps to 1/3, and
     10 stops above 0.18 maps to 1.0. The name indicates this in a similar way
-    to the naming conventions of Sony HyperGamma curves. The constants used in
-    the functions do not in fact quite hit these values, but rather than
-    use corrected constants, the functions here use the official Red values,
-    in order to match the output of the Red SDK.
+    to the naming conventions of Sony HyperGamma curves.
+
+    The constants used in the functions do not in fact quite hit these values,
+    but rather than use corrected constants, the functions here use the
+    official Red values, in order to match the output of the Red SDK.
+
+    For those interested, solving for constants which exactly hit 1/3 and 1.0
+    yields the following values:
+
+    B = 25.0 * (np.sqrt(4093.0) - 3) / 9.0
+    A = 1.0 / np.log10(B * 184.32 + 1.0)
+
+    where the function takes the form:
+
+    Log3G10(x) = A * np.log10(B * x + 1)
 
 See Also
 --------
