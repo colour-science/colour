@@ -13,6 +13,7 @@ Defines the *RED* colourspaces:
 -   :attr:`RED_COLOR_4_COLOURSPACE`
 -   :attr:`DRAGON_COLOR_COLOURSPACE`
 -   :attr:`DRAGON_COLOR_2_COLOURSPACE`
+-   :attr:`RED_WIDE_GAMUT_RGB_COLOURSPACE`
 
 See Also
 --------
@@ -27,6 +28,7 @@ References
 .. [2]  Sony Imageworks. (2012). make.py. Retrieved November 27, 2014, from
         https://github.com/imageworks/OpenColorIO-Configs/\
 blob/master/nuke-default/make.py
+.. [3]  Conversations with Graeme Nattress, August 23, 2016
 """
 
 from __future__ import division, unicode_literals
@@ -38,14 +40,16 @@ from colour.models.rgb import (
     RGB_Colourspace,
     normalised_primary_matrix,
     log_encoding_REDLog,
-    log_decoding_REDLog)
+    log_decoding_REDLog,
+    log_encoding_Log3G10,
+    log_decoding_Log3G10)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
-__status__ = 'Production'
+__status__ = 'Development'
 
 __all__ = ['RED_COLOR_PRIMARIES',
            'RED_COLOR_ILLUMINANT',
@@ -82,7 +86,13 @@ __all__ = ['RED_COLOR_PRIMARIES',
            'DRAGON_COLOR_2_WHITEPOINT',
            'DRAGON_COLOR_2_TO_XYZ_MATRIX',
            'XYZ_TO_DRAGON_COLOR_2_MATRIX',
-           'DRAGON_COLOR_2_COLOURSPACE']
+           'DRAGON_COLOR_2_COLOURSPACE',
+           'RED_WIDE_GAMUT_RGB_PRIMARIES',
+           'RED_WIDE_GAMUT_RGB_ILLUMINANT',
+           'RED_WIDE_GAMUT_RGB_WHITEPOINT',
+           'RED_WIDE_GAMUT_RGB_TO_XYZ_MATRIX',
+           'XYZ_TO_RED_WIDE_GAMUT_RGB_MATRIX',
+           'RED_WIDE_GAMUT_RGB_COLOURSPACE']
 
 RED_COLOR_PRIMARIES = np.array(
     [[0.699747001290731, 0.329046930312637],
@@ -407,4 +417,62 @@ DRAGON_COLOR_2_COLOURSPACE = RGB_Colourspace(
 *DRAGONcolor2* colourspace.
 
 DRAGON_COLOR_2_COLOURSPACE : RGB_Colourspace
+"""
+
+RED_WIDE_GAMUT_RGB_PRIMARIES = np.array(
+    [[ 0.780308,  0.304253 ],
+     [ 0.121595,  1.493994 ],
+     [ 0.095612, -0.084589 ]])
+"""
+*REDWideGamutRGB* colourspace primaries.
+
+RED_WIDE_GAMUT_RGB_PRIMARIES : ndarray, (3, 2)
+"""
+
+RED_WIDE_GAMUT_RGB_ILLUMINANT = 'D65'
+"""
+*REDWideGamutRGB* colourspace whitepoint name as illuminant.
+
+RED_WIDE_GAMUT_RGB_ILLUMINANT : unicode
+"""
+
+RED_WIDE_GAMUT_RGB_WHITEPOINT = ILLUMINANTS.get(
+    'CIE 1931 2 Degree Standard Observer').get(RED_WIDE_GAMUT_RGB_ILLUMINANT)
+"""
+*REDWideGamutRGB* colourspace whitepoint.
+
+RED_WIDE_GAMUT_RGB_WHITEPOINT : tuple
+"""
+
+RED_WIDE_GAMUT_RGB_TO_XYZ_MATRIX = np.array([[0.735275, 0.068609, 0.146571],
+                                             [0.286694, 0.842979, -0.129673],
+                                             [-0.079681, -0.347343, 1.516082]])
+"""
+*REDWideGamutRGB* colourspace to *CIE XYZ* tristimulus values matrix.
+
+RED_WIDE_GAMUT_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
+"""
+
+XYZ_TO_RED_WIDE_GAMUT_RGB_MATRIX = np.array([[1.412807, -0.177523, -0.151771],
+                                             [-0.486203, 1.290697, 0.157401],
+                                             [-0.037139, 0.286376, 0.687680]])
+"""
+*CIE XYZ* tristimulus values to *REDWideGamutRGB* colourspace matrix.
+
+XYZ_TO_RED_WIDE_GAMUT_RGB_MATRIX : array_like, (3, 3)
+"""
+
+RED_WIDE_GAMUT_RGB_COLOURSPACE = RGB_Colourspace(
+    'REDWideGamutRGB',
+    RED_WIDE_GAMUT_RGB_PRIMARIES,
+    RED_WIDE_GAMUT_RGB_WHITEPOINT,
+    RED_WIDE_GAMUT_RGB_ILLUMINANT,
+    RED_WIDE_GAMUT_RGB_TO_XYZ_MATRIX,
+    XYZ_TO_RED_WIDE_GAMUT_RGB_MATRIX,
+    log_encoding_Log3G10,
+    log_decoding_Log3G10)
+"""
+*REDWideGamutRGB* colourspace.
+
+RED_WIDE_GAMUT_RGB_COLOURSPACE : RGB_Colourspace
 """
