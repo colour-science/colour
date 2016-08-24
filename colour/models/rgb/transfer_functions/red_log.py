@@ -224,4 +224,5 @@ def log_decoding_Log3G10(y):
 
     y = np.asarray(y)
 
-    return np.sign(y) * (np.power(10.0, np.abs(y) / 0.222497) - 1.0) / 169.379333
+    return (np.sign(y) *
+            (np.power(10.0, np.abs(y) / 0.222497) - 1.0) / 169.379333)

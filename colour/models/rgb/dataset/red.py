@@ -420,9 +420,9 @@ DRAGON_COLOR_2_COLOURSPACE : RGB_Colourspace
 """
 
 RED_WIDE_GAMUT_RGB_PRIMARIES = np.array(
-    [[ 0.780308,  0.304253 ],
-     [ 0.121595,  1.493994 ],
-     [ 0.095612, -0.084589 ]])
+    [[0.780308, 0.304253],
+     [0.121595, 1.493994],
+     [0.095612, -0.084589]])
 """
 *REDWideGamutRGB* colourspace primaries.
 
