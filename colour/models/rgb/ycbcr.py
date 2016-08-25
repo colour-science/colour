@@ -40,7 +40,7 @@ itu-r/rec/bt/R-REC-BT.2020-2-201510-I!!PDF-E.pdf
         ANSI/SMPTE 240M-1995 - Signal Parameters - 1125-Line High-Definition
         Production Systems, 1–7. Retrieved from
         http://car.france3.mars.free.fr/\
-HD/INA- 26 jan 06/SMPTE normes et confs/s240m.pdf
+HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/s240m.pdf
 .. [5]  International Telecommunication Union. (2011). Recommendation ITU-T
         T.871 - Information technology – Digital compression and coding of
         continuous-tone still images: JPEG File Interchange Format (JFIF).
