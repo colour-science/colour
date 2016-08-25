@@ -17,6 +17,7 @@ from colour.models import (
     RGB_Colourspace,
     XYZ_to_RGB,
     RGB_to_XYZ,
+    RGB_to_RGB_matrix,
     RGB_to_RGB,
     normalised_primary_matrix,
     oetf_sRGB,
@@ -34,6 +35,7 @@ __all__ = ['TestRGB_COLOURSPACES',
            'TestRGB_Colourspace',
            'TestXYZ_to_RGB',
            'TestRGB_to_XYZ',
+           'TestRGB_to_RGB_matrix',
            'TestRGB_to_RGB']
 
 
@@ -386,6 +388,48 @@ class TestRGB_to_XYZ(unittest.TestCase):
             W_T = np.array(case[0:2])
             M = np.vstack((case, case, case)).reshape((3, 3))
             RGB_to_XYZ(RGB, W_R, W_T, M)
+
+
+class TestRGB_to_RGB_matrix(unittest.TestCase):
+    """
+    Defines :func:`colour.models.rgb.rgb_colourspace.RGB_to_RGB_matrix`
+    definition unit tests methods.
+    """
+
+    def test_RGB_to_RGB_matrix(self):
+        """
+        Tests :func:`colour.models.rgb.rgb_colourspace.RGB_to_RGB_matrix`
+        definition.
+        """
+
+        aces_2065_1_colourspace = RGB_COLOURSPACES.get('ACES2065-1')
+        aces_cg_colourspace = RGB_COLOURSPACES.get('ACEScg')
+        sRGB_colourspace = RGB_COLOURSPACES.get('sRGB')
+
+        np.testing.assert_almost_equal(
+            RGB_to_RGB_matrix(aces_2065_1_colourspace,
+                              sRGB_colourspace),
+            np.array([[2.52167063, -1.13689452, -0.38494773],
+                      [-0.27525722, 1.36967339, -0.09437106],
+                      [-0.01592263, -0.14782174, 1.16380296]]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            RGB_to_RGB_matrix(sRGB_colourspace,
+                              aces_2065_1_colourspace),
+            np.array([[0.43958564, 0.38392940, 0.17653274],
+                      [0.08953957, 0.81474984, 0.09568361],
+                      [0.01738718, 0.10873911, 0.87382059]]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            RGB_to_RGB_matrix(aces_2065_1_colourspace,
+                              aces_cg_colourspace,
+                              'Bradford'),
+            np.array([[1.45143932, -0.23651075, -0.21492857],
+                      [-0.07655377, 1.17622970, -0.09967593],
+                      [0.00831615, -0.00603245, 0.99771630]]),
+            decimal=7)
 
 
 class TestRGB_to_RGB(unittest.TestCase):

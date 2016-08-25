@@ -7,10 +7,11 @@ RGB Colourspace & Transformations
 
 Defines the :class:`RGB_Colourspace` class for the *RGB* colourspaces dataset
 from :mod:`colour.models.dataset.aces_rgb`, etc... and the following *RGB*
-colourspace transformations:
+colourspace transformations or helper definitions:
 
 -   :func:`XYZ_to_RGB`
 -   :func:`RGB_to_XYZ`
+-   :func:`RGB_to_RGB_matrix`
 -   :func:`RGB_to_RGB`
 
 See Also
@@ -38,6 +39,7 @@ __status__ = 'Production'
 __all__ = ['RGB_Colourspace',
            'XYZ_to_RGB',
            'RGB_to_XYZ',
+           'RGB_to_RGB_matrix',
            'RGB_to_RGB']
 
 
@@ -500,6 +502,54 @@ def RGB_to_XYZ(RGB,
     return XYZ_a
 
 
+def RGB_to_RGB_matrix(input_colourspace,
+                      output_colourspace,
+                      chromatic_adaptation_transform='CAT02'):
+    """
+    Computes the matrix :math:`M` converting from given input *RGB*
+    colourspace to output *RGB* colourspace using given *chromatic
+    adaptation* method.
+
+    Parameters
+    ----------
+    input_colourspace : RGB_Colourspace
+        *RGB* input colourspace.
+    output_colourspace : RGB_Colourspace
+        *RGB* output colourspace.
+    chromatic_adaptation_transform : unicode, optional
+        **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
+        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
+        'Bianco PC'}**,
+        *Chromatic adaptation* transform.
+
+    Returns
+    -------
+    ndarray
+        Conversion matrix :math:`M`.
+
+    Examples
+    --------
+    >>> from colour import sRGB_COLOURSPACE, PROPHOTO_RGB_COLOURSPACE
+    >>> RGB = np.array([0.01103742, 0.12734226, 0.11632971])
+    >>> RGB_to_RGB_matrix(
+    ...     sRGB_COLOURSPACE,
+    ...     PROPHOTO_RGB_COLOURSPACE)  # doctest: +ELLIPSIS
+    array([[ 0.5287748...,  0.3340201...,  0.1373909...],
+           [ 0.0975583...,  0.8789770...,  0.0233924...],
+           [ 0.0163594...,  0.1066096...,  0.8772254...]])
+    """
+
+    cat = chromatic_adaptation_matrix_VonKries(
+        xy_to_XYZ(input_colourspace.whitepoint),
+        xy_to_XYZ(output_colourspace.whitepoint),
+        chromatic_adaptation_transform)
+
+    M = dot_matrix(cat, input_colourspace.RGB_to_XYZ_matrix)
+    M = dot_matrix(output_colourspace.XYZ_to_RGB_matrix, M)
+
+    return M
+
+
 def RGB_to_RGB(RGB,
                input_colourspace,
                output_colourspace,
@@ -544,13 +594,9 @@ def RGB_to_RGB(RGB,
     array([ 0.0643538...,  0.1157289...,  0.1158038...])
     """
 
-    cat = chromatic_adaptation_matrix_VonKries(
-        xy_to_XYZ(input_colourspace.whitepoint),
-        xy_to_XYZ(output_colourspace.whitepoint),
-        chromatic_adaptation_transform)
-
-    M = dot_matrix(cat, input_colourspace.RGB_to_XYZ_matrix)
-    M = dot_matrix(output_colourspace.XYZ_to_RGB_matrix, M)
+    M = RGB_to_RGB_matrix(input_colourspace,
+                          output_colourspace,
+                          chromatic_adaptation_transform)
 
     RGB = dot_vector(M, RGB)
 
