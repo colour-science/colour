@@ -45,7 +45,7 @@ References
 .. [1]  Sony Imageworks. (2012). make.py. Retrieved November 27, 2014, from
         https://github.com/imageworks/OpenColorIO-Configs/\
 blob/master/nuke-default/make.py
-.. [2]  Conversations with Graeme Nattress, August 23, 2016
+.. [2]  Nattress, G. (2016). Private Discussion with Shaw, N.
 """
 
 from __future__ import division, unicode_literals
@@ -209,7 +209,7 @@ def log_encoding_Log3G10(x):
 
     x = np.asarray(x)
 
-    return np.sign(x) * 0.222497 * np.log10((np.abs(x) * 169.379333) + 1.0)
+    return np.sign(x) * 0.222497 * np.log10((np.abs(x) * 169.379333) + 1)
 
 
 def log_decoding_Log3G10(y):
@@ -236,4 +236,4 @@ def log_decoding_Log3G10(y):
     y = np.asarray(y)
 
     return (np.sign(y) *
-            (np.power(10.0, np.abs(y) / 0.222497) - 1.0) / 169.379333)
+            (np.power(10.0, np.abs(y) / 0.222497) - 1) / 169.379333)

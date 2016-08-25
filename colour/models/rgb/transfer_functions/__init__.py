@@ -68,6 +68,7 @@ __all__ += ['log_encoding_Panalog', 'log_decoding_Panalog']
 __all__ += ['log_encoding_VLog', 'log_decoding_VLog']
 __all__ += ['log_encoding_PivotedLog', 'log_decoding_PivotedLog']
 __all__ += ['log_encoding_REDLog', 'log_decoding_REDLog']
+__all__ += ['log_encoding_REDLogFilm', 'log_decoding_REDLogFilm']
 __all__ += ['log_encoding_Log3G10', 'log_decoding_Log3G10']
 __all__ += ['oetf_ROMMRGB',
             'eotf_ROMMRGB',

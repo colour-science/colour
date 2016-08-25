@@ -28,7 +28,7 @@ References
 .. [2]  Sony Imageworks. (2012). make.py. Retrieved November 27, 2014, from
         https://github.com/imageworks/OpenColorIO-Configs/\
 blob/master/nuke-default/make.py
-.. [3]  Conversations with Graeme Nattress, August 23, 2016
+.. [3]  Nattress, G. (2016). Private Discussion with Shaw, N.
 """
 
 from __future__ import division, unicode_literals
@@ -444,18 +444,18 @@ RED_WIDE_GAMUT_RGB_WHITEPOINT = ILLUMINANTS.get(
 RED_WIDE_GAMUT_RGB_WHITEPOINT : tuple
 """
 
-RED_WIDE_GAMUT_RGB_TO_XYZ_MATRIX = np.array([[0.735275, 0.068609, 0.146571],
-                                             [0.286694, 0.842979, -0.129673],
-                                             [-0.079681, -0.347343, 1.516082]])
+RED_WIDE_GAMUT_RGB_TO_XYZ_MATRIX = np.array(
+    [[0.735275, 0.068609, 0.146571],
+     [0.286694, 0.842979, -0.129673],
+     [-0.079681, -0.347343, 1.516082]])
 """
 *REDWideGamutRGB* colourspace to *CIE XYZ* tristimulus values matrix.
 
 RED_WIDE_GAMUT_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
-XYZ_TO_RED_WIDE_GAMUT_RGB_MATRIX = np.array([[1.412807, -0.177523, -0.151771],
-                                             [-0.486203, 1.290697, 0.157401],
-                                             [-0.037139, 0.286376, 0.687680]])
+XYZ_TO_RED_WIDE_GAMUT_RGB_MATRIX = np.linalg.inv(
+    RED_WIDE_GAMUT_RGB_TO_XYZ_MATRIX)
 """
 *CIE XYZ* tristimulus values to *REDWideGamutRGB* colourspace matrix.
 
