@@ -15,7 +15,7 @@ Defines CIECAM02 colour appearance model objects:
 
 See Also
 --------
-`CIECAM02 Colour Appearance Model IPython Notebook
+`CIECAM02 Colour Appearance Model Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/appearance/ciecam02.ipynb>`_
 

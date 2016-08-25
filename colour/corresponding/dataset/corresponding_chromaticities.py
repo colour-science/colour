@@ -9,7 +9,7 @@ Defines Breneman (1987) results for corresponding chromaticities experiments.
 
 See Also
 --------
-`Corresponding Chromaticities Prediction IPython Notebook
+`Corresponding Chromaticities Prediction Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/corresponding/prediction.ipynb>`_
 

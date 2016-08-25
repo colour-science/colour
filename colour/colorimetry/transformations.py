@@ -16,7 +16,7 @@ transformations:
 
 See Also
 --------
-`Colour Matching Functions IPython Notebook
+`Colour Matching Functions Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/cmfs.ipynb>`_
 """

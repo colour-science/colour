@@ -21,7 +21,7 @@ The following *CRT* displays are available:
 
 See Also
 --------
-`Displays IPython Notebook
+`Displays Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/characterisation/displays.ipynb>`_
 

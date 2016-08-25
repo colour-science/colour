@@ -27,10 +27,10 @@ References
 
 See Also
 --------
-`Colour Matching Functions IPython Notebook
+`Colour Matching Functions Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/cmfs.ipynb>`_
-`Spectrum IPython Notebook
+`Spectrum Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/spectrum.ipynb>`_
 """
@@ -317,7 +317,7 @@ def adjust_tristimulus_weighting_factors_ASTME30815(W, shape_r, shape_t):
         Tristimulus weighting factors table.
     shape_r : SpectralShape
         Reference spectral shape.
-    shape_t
+    shape_t : SpectralShape
         Test spectral shape.
 
     Returns

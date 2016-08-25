@@ -9,10 +9,12 @@ Defines the *RED* log encodings:
 
 -   :func:`log_encoding_REDLog`
 -   :func:`log_decoding_REDLog`
+-   :func:`log_encoding_REDLogFilm`
+-   :func:`log_decoding_REDLogFilm`
 
 See Also
 --------
-`RGB Colourspaces IPython Notebook
+`RGB Colourspaces Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/rgb.ipynb>`_
 

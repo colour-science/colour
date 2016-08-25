@@ -18,7 +18,7 @@ Notes
 
 See Also
 --------
-`YCbCr Colours Encoding IPython Notebook
+`YCbCr Colours Encoding Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/ycbcr.ipynb>`_
 

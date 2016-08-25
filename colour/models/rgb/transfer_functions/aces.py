@@ -14,7 +14,7 @@ Defines the *Academy Color Encoding System* (ACES) log encodings:
 
 See Also
 --------
-`RGB Colourspaces IPython Notebook
+`RGB Colourspaces Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/rgb.ipynb>`_
 
@@ -100,15 +100,15 @@ ACES_PROXY_CONSTANTS : CaseInsensitiveMapping
 """
 
 
-def log_encoding_ACESproxy(ACESproxy_l, bit_depth='10 Bit'):
+def log_encoding_ACESproxy(lin_AP1, bit_depth='10 Bit'):
     """
     Defines the *ACESproxy* colourspace log encoding curve / opto-electronic
     transfer function.
 
     Parameters
     ----------
-    ACESproxy_l : numeric or array_like
-        *ACESproxyLin* linear value.
+    lin_AP1 : numeric or array_like
+        *lin_AP1* value.
     bit_depth : unicode, optional
         **{'10 Bit', '12 Bit'}**,
         *ACESproxy* bit depth.
@@ -124,12 +124,12 @@ def log_encoding_ACESproxy(ACESproxy_l, bit_depth='10 Bit'):
     426
     """
 
-    ACESproxy_l = np.asarray(ACESproxy_l)
+    lin_AP1 = np.asarray(lin_AP1)
 
     constants = ACES_PROXY_CONSTANTS.get(bit_depth)
 
-    CV_min = np.resize(constants.CV_min, ACESproxy_l.shape)
-    CV_max = np.resize(constants.CV_max, ACESproxy_l.shape)
+    CV_min = np.resize(constants.CV_min, lin_AP1.shape)
+    CV_max = np.resize(constants.CV_max, lin_AP1.shape)
 
     def float_2_cv(x):
         """
@@ -138,12 +138,12 @@ def log_encoding_ACESproxy(ACESproxy_l, bit_depth='10 Bit'):
 
         return np.maximum(CV_min, np.minimum(CV_max, np.round(x)))
 
-    output = np.where(ACESproxy_l > 2 ** -9.72,
-                      float_2_cv((np.log2(ACESproxy_l) +
+    output = np.where(lin_AP1 > 2 ** -9.72,
+                      float_2_cv((np.log2(lin_AP1) +
                                   constants.mid_log_offset) *
                                  constants.steps_per_stop +
                                  constants.mid_CV_offset),
-                      np.resize(CV_min, ACESproxy_l.shape))
+                      np.resize(CV_min, lin_AP1.shape))
 
     return as_numeric(output, int)
 
@@ -164,7 +164,7 @@ def log_decoding_ACESproxy(ACESproxy, bit_depth='10 Bit'):
     Returns
     -------
     numeric or ndarray
-        *ACESproxyLin* linear value.
+        *lin_AP1* value.
 
     Examples
     --------
@@ -180,15 +180,15 @@ def log_decoding_ACESproxy(ACESproxy, bit_depth='10 Bit'):
                    constants.steps_per_stop - constants.mid_log_offset)))
 
 
-def log_encoding_ACEScc(ACEScc_l):
+def log_encoding_ACEScc(lin_AP1):
     """
     Defines the *ACEScc* colourspace log encoding / opto-electronic transfer
     function.
 
     Parameters
     ----------
-    ACEScc_l : numeric or array_like
-        *ACESccLin* linear value.
+    lin_AP1 : numeric or array_like
+        *lin_AP1* value.
 
     Returns
     -------
@@ -201,13 +201,13 @@ def log_encoding_ACEScc(ACEScc_l):
     0.4135884...
     """
 
-    ACEScc_l = np.asarray(ACEScc_l)
+    lin_AP1 = np.asarray(lin_AP1)
 
-    output = np.where(ACEScc_l < 0,
+    output = np.where(lin_AP1 < 0,
                       (np.log2(2 ** -15 * 0.5) + 9.72) / 17.52,
-                      (np.log2(2 ** -16 + ACEScc_l * 0.5) + 9.72) / 17.52)
-    output = np.where(ACEScc_l >= 2 ** -15,
-                      (np.log2(ACEScc_l) + 9.72) / 17.52,
+                      (np.log2(2 ** -16 + lin_AP1 * 0.5) + 9.72) / 17.52)
+    output = np.where(lin_AP1 >= 2 ** -15,
+                      (np.log2(lin_AP1) + 9.72) / 17.52,
                       output)
 
     return as_numeric(output)
@@ -226,7 +226,7 @@ def log_decoding_ACEScc(ACEScc):
     Returns
     -------
     numeric or ndarray
-        *ACESccLin* linear value.
+        *lin_AP1* value.
 
     Examples
     --------

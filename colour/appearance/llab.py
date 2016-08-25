@@ -14,7 +14,7 @@ Defines LLAB(l:c) colour appearance model objects:
 
 See Also
 --------
-`LLAB(l:c) Colour Appearance Model IPython Notebook
+`LLAB(l:c) Colour Appearance Model Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/appearance/llab.ipynb>`_
 

@@ -11,7 +11,7 @@ Defines the *CIE U\*V\*W\** colourspace transformations:
 
 See Also
 --------
-`CIE UVW Colourspace IPython Notebook
+`CIE UVW Colourspace Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/cie_uvw.ipynb>`_
 

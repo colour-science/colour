@@ -16,7 +16,7 @@ Defines *whiteness* index :math:`W` computation objects:
 
 See Also
 --------
-`Whiteness IPython Notebook
+`Whiteness Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/whiteness.ipynb>`_
 
@@ -79,7 +79,7 @@ def whiteness_Berger1959(XYZ, XYZ_0):
     -   Input *CIE XYZ* and *CIE XYZ_0* tristimulus values are in domain
         [0, 100].
     -   *Whiteness* :math:`WI` values larger than 33.33 indicate a bluish
-        white, and values smaller than 33.33 indicate a yellowish white.
+        white and values smaller than 33.33 indicate a yellowish white.
 
     Warning
     -------
@@ -123,7 +123,7 @@ def whiteness_Taube1960(XYZ, XYZ_0):
     -   Input *CIE XYZ* and *CIE XYZ_0* tristimulus values are in domain
         [0, 100].
     -   *Whiteness* :math:`WI` values larger than 100 indicate a bluish
-        white, and values smaller than 100 indicate a yellowish white.
+        white and values smaller than 100 indicate a yellowish white.
 
     Examples
     --------
@@ -160,7 +160,7 @@ def whiteness_Stensby1968(Lab):
     -----
     -   Input *CIE Lab* colourspace array is in domain [0, 100].
     -   *Whiteness* :math:`WI` values larger than 100 indicate a bluish
-        white, and values smaller than 100 indicate a yellowish white.
+        white and values smaller than 100 indicate a yellowish white.
 
     Examples
     --------

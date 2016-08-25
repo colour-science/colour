@@ -14,7 +14,7 @@ Defines the classes handling spectral data computation:
 
 See Also
 --------
-`Spectrum IPython Notebook
+`Spectrum Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/spectrum.ipynb>`_
 """

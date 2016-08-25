@@ -9,7 +9,7 @@ Defines luminous efficiency functions computation related objects.
 
 See Also
 --------
-`Luminous Efficiency Functions IPython Notebook
+`Luminous Efficiency Functions Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/lefs.ipynb>`_
 colour.colorimetry.dataset.lefs,

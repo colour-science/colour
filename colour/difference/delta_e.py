@@ -16,7 +16,7 @@ The following methods are available:
 
 See Also
 --------
-`Delta E - Colour Difference IPython Notebook
+`Delta E - Colour Difference Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/difference/delta_e.ipynb>`_
 
@@ -110,10 +110,10 @@ def delta_E_CIE1994(Lab_1, Lab_2, textiles=False):
 
     Notes
     -----
-    CIE 1994 colour differences are not symmetrical: difference between
-    `Lab_1` and `Lab_2` may not be the same as difference between `Lab_2` and
-    `Lab_1` thus one colour must be understood to be the reference against
-    which a sample colour is compared.
+    -   CIE 1994 colour differences are not symmetrical: difference between
+        `Lab_1` and `Lab_2` may not be the same as difference between `Lab_2`
+        and `Lab_1` thus one colour must be understood to be the reference
+        against which a sample colour is compared.
 
     References
     ----------
@@ -190,7 +190,8 @@ def delta_E_CIE2000(Lab_1, Lab_2, textiles=False):
         and `Lab_1` thus one colour must be understood to be the reference
         against which a sample colour is compared.
     -   Parametric factors :math:`k_L=k_C=k_H=1` weights under
-    *reference conditions*: [5]_
+        *reference conditions*: [5]_
+
         -   Illumination: D65 source
         -   Illuminance: 1000 lx
         -   Observer: Normal colour vision

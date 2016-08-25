@@ -12,7 +12,7 @@ Defines ATD (1995) colour vision model objects:
 
 See Also
 --------
-`ATD (1995) Colour Vision Model IPython Notebook
+`ATD (1995) Colour Vision Model Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/appearance/atd95.ipynb>`_
 
@@ -164,7 +164,7 @@ def XYZ_to_ATD95(XYZ, XYZ_0, Y_0, k_1, k_2, sigma=300):
     -----
     -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
     -   Input *CIE XYZ_0* tristimulus values are in domain [0, 100].
-    -   For unrelated colors, there is only self-adaptation, and :math:`k_1` is
+    -   For unrelated colors, there is only self-adaptation and :math:`k_1` is
         set to 1.0 while :math:`k_2` is set to 0.0. For related colors such as
         typical colorimetric applications, :math:`k_1` is set to 0.0 and
         :math:`k_2` is set to a value between 15 and 50 *(Guth, 1995)*.

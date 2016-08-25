@@ -13,7 +13,7 @@ Defines the *Hunter L,a,b* colour scale transformations:
 
 See Also
 --------
-`Hunter L,a,b Colour Scale IPython Notebook
+`Hunter L,a,b Colour Scale Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/hunter_lab.ipynb>`_
 
