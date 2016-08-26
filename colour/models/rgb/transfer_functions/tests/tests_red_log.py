@@ -350,6 +350,11 @@ log_encoding_Log3G10` definition.
             0.496483569056003,
             places=7)
 
+        self.assertAlmostEqual(
+            log_encoding_Log3G10(0.18 * 2 ** 10),
+            1.000000927572914,
+            places=7)
+
     def test_n_dimensional_log_encoding_Log3G10(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.red_log.\
@@ -420,6 +425,11 @@ log_decoding_Log3G10` definition.
         self.assertAlmostEqual(
             log_decoding_Log3G10(0.496483569056003),
             1.0,
+            places=7)
+
+        self.assertAlmostEqual(
+            log_decoding_Log3G10(1.0),
+            184.31823060875,
             places=7)
 
     def test_n_dimensional_log_decoding_Log3G10(self):
