@@ -110,7 +110,11 @@ ROMM_RGB_TO_XYZ_MATRIX = np.array(
 ROMM_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
-XYZ_TO_ROMM_RGB_MATRIX = np.linalg.inv(ROMM_RGB_TO_XYZ_MATRIX)
+XYZ_TO_ROMM_RGB_MATRIX = np.array(
+    [[1.3460, -0.2556, -0.0511],
+     [-0.5446, 1.5082, 0.0205],
+     [0.0000, 0.0000, 1.2123]])
+
 """
 *CIE XYZ* tristimulus values to *ROMM RGB* colourspace matrix.
 

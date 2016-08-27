@@ -26,9 +26,9 @@ lp2480zx-dci--p3-emulation.pdf
         Specification - Version 1.1. Retrieved from
         http://www.dcimovies.com/archives/spec_v1_1/\
 DCI_DCinema_System_Spec_v1_1.pdf
-.. [3]  Canon. (2014). EOS C500 Firmware Update. Retrieved January 14, 2015,
-        from http://www.usa.canon.com/cusa/professional/standard_display/\
-cinema-firmware-c500
+.. [3]  Canon. (2014). EOS C500 Firmware Update. Retrieved August 27, 2016,
+        from https://www.usa.canon.com/internet/portal/us/home/explore/\
+product-showcases/cameras-and-lenses/cinema-eos-firmware/c500
 """
 
 from __future__ import division, unicode_literals

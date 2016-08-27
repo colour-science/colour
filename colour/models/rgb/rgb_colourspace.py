@@ -773,9 +773,9 @@ def RGB_to_RGB_matrix(input_colourspace,
     >>> RGB_to_RGB_matrix(
     ...     sRGB_COLOURSPACE,
     ...     PROPHOTO_RGB_COLOURSPACE)  # doctest: +ELLIPSIS
-    array([[ 0.5287748...,  0.3340201...,  0.1373909...],
-           [ 0.0975583...,  0.8789770...,  0.0233924...],
-           [ 0.0163594...,  0.1066096...,  0.8772254...]])
+    array([[ 0.5288241...,  0.3340609...,  0.1373616...],
+           [ 0.0975294...,  0.8790074...,  0.0233981...],
+           [ 0.0163599...,  0.1066124...,  0.8772485...]])
     """
 
     cat = chromatic_adaptation_matrix_VonKries(
@@ -830,7 +830,7 @@ def RGB_to_RGB(RGB,
     ...     RGB,
     ...     sRGB_COLOURSPACE,
     ...     PROPHOTO_RGB_COLOURSPACE)  # doctest: +ELLIPSIS
-    array([ 0.0643538...,  0.1157289...,  0.1158038...])
+    array([ 0.0643561...,  0.1157331...,  0.1158069...])
     """
 
     M = RGB_to_RGB_matrix(input_colourspace,

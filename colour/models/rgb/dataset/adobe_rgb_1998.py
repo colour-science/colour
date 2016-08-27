@@ -79,7 +79,10 @@ as per [1].
 ADOBE_RGB_1998_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
-XYZ_TO_ADOBE_RGB_1998_MATRIX = np.linalg.inv(ADOBE_RGB_1998_TO_XYZ_MATRIX)
+XYZ_TO_ADOBE_RGB_1998_MATRIX = np.array(
+    [[2.04159, -0.56501, -0.34473],
+     [-0.96924, 1.87597, 0.04156],
+     [0.01344, -0.11836, 1.01517]])
 """
 *CIE XYZ* tristimulus values to *Adobe RGB (1998)* colourspace matrix.
 

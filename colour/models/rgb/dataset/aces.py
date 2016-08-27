@@ -133,7 +133,10 @@ AP0_TO_XYZ_MATRIX = np.array(
 AP0_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
-XYZ_TO_AP0_MATRIX = np.linalg.inv(AP0_TO_XYZ_MATRIX)
+XYZ_TO_AP0_MATRIX = np.array(
+    [[1.0498110175, 0.0000000000, -0.0000974845],
+     [- 0.4959030231, 1.3733130458, 0.0982400361],
+     [0.0000000000, 0.0000000000, 0.9912520182]])
 """
 *CIE XYZ* tristimulus values to *ACES Primaries 0* matrix.
 

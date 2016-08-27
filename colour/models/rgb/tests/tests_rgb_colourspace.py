@@ -10,6 +10,7 @@ from __future__ import division, unicode_literals
 import pickle
 import numpy as np
 import unittest
+from copy import deepcopy
 from itertools import permutations
 
 from colour.models import (
@@ -54,6 +55,7 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
 
         XYZ_r = np.array([0.5, 0.5, 0.5]).reshape((3, 1))
         for colourspace in RGB_COLOURSPACES.values():
+            # Instantiation transformation matrices.
             if colourspace.name in (
                     'ProPhoto RGB', 'ERIMM RGB', 'RIMM RGB', 'ROMM RGB'):
                 tolerance = 1e-3
@@ -75,6 +77,17 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
                                        atol=tolerance,
                                        verbose=False)
 
+            RGB = np.dot(colourspace.XYZ_to_RGB_matrix, XYZ_r)
+            XYZ = np.dot(colourspace.RGB_to_XYZ_matrix, RGB)
+            np.testing.assert_allclose(XYZ_r,
+                                       XYZ,
+                                       rtol=tolerance,
+                                       atol=tolerance,
+                                       verbose=False)
+
+            # Derived transformation matrices.
+            colourspace = deepcopy(colourspace)
+            colourspace.use_derived_transformation_matrices(True)
             RGB = np.dot(colourspace.XYZ_to_RGB_matrix, XYZ_r)
             XYZ = np.dot(colourspace.RGB_to_XYZ_matrix, RGB)
             np.testing.assert_almost_equal(XYZ_r, XYZ, decimal=7)
