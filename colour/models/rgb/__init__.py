@@ -3,15 +3,15 @@
 
 from __future__ import absolute_import
 
-from .rgb_colourspace import RGB_Colourspace
-from .rgb_colourspace import XYZ_to_RGB, RGB_to_XYZ
-from .rgb_colourspace import RGB_to_RGB_matrix, RGB_to_RGB
 from .derivation import (
     normalised_primary_matrix,
     chromatically_adapted_primaries,
     primaries_whitepoint,
     RGB_luminance_equation,
     RGB_luminance)
+from .rgb_colourspace import RGB_Colourspace
+from .rgb_colourspace import XYZ_to_RGB, RGB_to_XYZ
+from .rgb_colourspace import RGB_to_RGB_matrix, RGB_to_RGB
 from .transfer_functions import *  # noqa
 from . import transfer_functions
 from .dataset import *  # noqa
@@ -34,14 +34,14 @@ from .ycbcr import (
     RGB_to_YcCbcCrc,
     YcCbcCrc_to_RGB)
 
-__all__ = ['RGB_Colourspace']
+__all__ = ['normalised_primary_matrix',
+           'chromatically_adapted_primaries',
+           'primaries_whitepoint',
+           'RGB_luminance_equation',
+           'RGB_luminance']
+__all__ += ['RGB_Colourspace']
 __all__ += ['XYZ_to_RGB', 'RGB_to_XYZ']
 __all__ += ['RGB_to_RGB_matrix', 'RGB_to_RGB']
-__all__ += ['normalised_primary_matrix',
-            'chromatically_adapted_primaries',
-            'primaries_whitepoint',
-            'RGB_luminance_equation',
-            'RGB_luminance']
 __all__ += transfer_functions.__all__
 __all__ += dataset.__all__
 __all__ += ['XYZ_to_sRGB', 'sRGB_to_XYZ']
