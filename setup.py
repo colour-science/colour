@@ -32,7 +32,7 @@ SHORT_DESCRIPTION = 'Colour Science for Python'
 
 LONG_DESCRIPTION = open('README.rst').read()
 
-INSTALLATION_REQUIREMENTS = ['scipy>=0.16.0']
+INSTALLATION_REQUIREMENTS = ['six>=1.10.0', 'scipy>=0.16.0']
 
 PLOTTING_REQUIREMENTS = ['matplotlib>=1.3.1']
 

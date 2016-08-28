@@ -11,6 +11,7 @@ import numpy as np
 import re
 import unittest
 from itertools import permutations
+from six import text_type
 
 from colour.models import (
     normalised_primary_matrix,
@@ -295,7 +296,7 @@ class TestRGBLuminanceEquation(unittest.TestCase):
                           0.00000, 1.00000,
                           0.00010, -0.07700]),
                 np.array([0.32168, 0.33767])),
-            unicode)  # noqa
+            text_type)
 
         self.assertTrue(re.match(
             # TODO: Simplify that monster.

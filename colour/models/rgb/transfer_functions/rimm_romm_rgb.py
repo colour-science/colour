@@ -55,7 +55,7 @@ __all__ = ['oetf_ROMMRGB',
            'log_decoding_ERIMMRGB']
 
 
-def oetf_ROMMRGB(X):
+def oetf_ROMMRGB(X, I_max=255):
     """
     Defines the *ROMM RGB* encoding opto-electronic transfer function
     (OETF / OECF).
@@ -64,6 +64,9 @@ def oetf_ROMMRGB(X):
     ----------
     X : numeric or array_like
         Linear data :math:`X_{ROMM}`.
+    I_max : numeric, optional
+        Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
+        12-bit and 16-bit per channel.
 
     Returns
     -------
@@ -73,19 +76,20 @@ def oetf_ROMMRGB(X):
     Examples
     --------
     >>> oetf_ROMMRGB(0.18)  # doctest: +ELLIPSIS
-    0.3857114...
+    98.3564133...
     """
 
     X = np.asarray(X)
 
     E_t = 16 ** (1.8 / (1 - 1.8))
 
-    return as_numeric(np.where(X < E_t,
-                               X * 16,
-                               X ** (1 / 1.8)))
+    return as_numeric(np.clip(
+        np.where(X < E_t,
+                 X * 16 * I_max,
+                 X ** (1 / 1.8) * I_max), 0, I_max))
 
 
-def eotf_ROMMRGB(X_p):
+def eotf_ROMMRGB(X_p, I_max=255):
     """
     Defines the *ROMM RGB* encoding electro-optical transfer function
     (EOTF / EOCF).
@@ -94,6 +98,9 @@ def eotf_ROMMRGB(X_p):
     ----------
     X_p : numeric or array_like
         Non-linear data :math:`X'_{ROMM}`.
+    I_max : numeric, optional
+        Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
+        12-bit and 16-bit per channel.
 
     Returns
     -------
@@ -102,7 +109,7 @@ def eotf_ROMMRGB(X_p):
 
     Examples
     --------
-    >>> eotf_ROMMRGB(0.3857114247511376) # doctest: +ELLIPSIS
+    >>> eotf_ROMMRGB(98.356413311540095) # doctest: +ELLIPSIS
     0.1...
     """
 
@@ -111,9 +118,9 @@ def eotf_ROMMRGB(X_p):
     E_t = 16 ** (1.8 / (1 - 1.8))
 
     return as_numeric(np.where(
-        X_p < oetf_ROMMRGB(E_t),
-        X_p / 16,
-        X_p ** 1.8))
+        X_p < 16 * E_t * I_max,
+        X_p / (16 * I_max),
+        (X_p / I_max) ** 1.8))
 
 
 oetf_ProPhotoRGB = oetf_ROMMRGB

@@ -27,7 +27,7 @@ import numpy as np
 
 from colour.models import xy_to_XYZ, xy_to_xyY, xyY_to_XYZ
 from colour.adaptation import chromatic_adaptation_matrix_VonKries
-from colour.utilities import dot_matrix, dot_vector
+from colour.utilities import dot_matrix, dot_vector, is_string
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
@@ -136,9 +136,9 @@ class RGB_Colourspace(object):
         """
 
         if value is not None:
-            assert isinstance(value, basestring), (  # noqa
+            assert is_string(value), (
                 ('"{0}" attribute: "{1}" is not a '
-                 '"basestring" instance!').format('name', value))
+                 '"string" like object!').format('name', value))
         self._name = value
 
     @property
@@ -224,9 +224,9 @@ class RGB_Colourspace(object):
         """
 
         if value is not None:
-            assert isinstance(value, basestring), (  # noqa
+            assert is_string(value), (
                 ('"{0}" attribute: "{1}" is not a '
-                 '"basestring" instance!').format('illuminant', value))
+                 '"string" like object!').format('illuminant', value))
         self._illuminant = value
 
     @property

@@ -22,10 +22,10 @@ blob/master/notebooks/colorimetry/spectrum.ipynb>`_
 from __future__ import division, unicode_literals
 
 import copy
-import itertools
 import numpy as np
 import operator
 import pprint
+from six.moves import zip
 
 from colour.algebra import (
     Extrapolator,
@@ -85,6 +85,9 @@ class SpectralMapping(ArbitraryPrecisionMapping):
         wavelength :math:`\lambda_{i+n}`: value}
     wavelength_decimals : int, optional
         Decimals count the keys will be rounded at.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
         Key / Value pairs to store into the mapping at initialisation.
 
@@ -694,9 +697,9 @@ class SpectralPowerDistribution(object):
         """
 
         if value is not None:
-            assert isinstance(value, basestring), (  # noqa
+            assert is_string(value), (
                 ('"{0}" attribute: "{1}" is not a '
-                 '"basestring" instance!').format('name', value))
+                 '"string" like object!').format('name', value))
         self._name = value
 
     @property
@@ -757,9 +760,9 @@ class SpectralPowerDistribution(object):
         """
 
         if value is not None:
-            assert isinstance(value, basestring), (  # noqa
+            assert is_string(value), (
                 ('"{0}" attribute: "{1}" is not a '
-                 '"basestring" instance!').format('title', value))
+                 '"string" like object!').format('title', value))
         self._title = value
 
     @property
@@ -2358,9 +2361,9 @@ class TriSpectralPowerDistribution(object):
         """
 
         if value is not None:
-            assert isinstance(value, basestring), (  # noqa
+            assert is_string(value), (
                 ('"{0}" attribute: "{1}" is not a '
-                 '"basestring" instance!').format('name', value))
+                 '"string" like object!').format('name', value))
         self._name = value
 
     @property
@@ -2483,9 +2486,9 @@ class TriSpectralPowerDistribution(object):
         """
 
         if value is not None:
-            assert isinstance(value, basestring), (  # noqa
+            assert is_string(value), (
                 ('"{0}" attribute: "{1}" is not a '
-                 '"basestring" instance!').format('title', value))
+                 '"string" like object!').format('title', value))
         self._title = value
 
     @property
@@ -3010,7 +3013,7 @@ class TriSpectralPowerDistribution(object):
         (540, array([ 88.19,  23.45,  90.28]))
         """
 
-        return itertools.izip(self.wavelengths, self.values)
+        return zip(self.wavelengths, self.values)
 
     def __contains__(self, wavelength):
         """

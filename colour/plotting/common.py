@@ -226,12 +226,12 @@ def colour_cycle(**kwargs):
     """
     Returns a colour cycle iterator using given colour map.
 
-    Parameters
-    ----------
-    \**kwargs : dict, optional
-        **{'colour_cycle_map', 'colour_cycle_count'}**
-        Keywords arguments such as ``{'colour_cycle_map': unicode
-        (Matplotlib colormap name), 'colour_cycle_count': int}``
+    Other Parameters
+    ----------------
+    colour_cycle_map : unicode, optional
+        Matplotlib colourmap name.
+    colour_cycle_count : int, optional
+        Colours count to pick in the colourmap.
 
     Returns
     -------
@@ -258,12 +258,11 @@ def canvas(**kwargs):
     """
     Sets the figure size.
 
-    Parameters
-    ----------
-    \**kwargs : dict, optional
-        **{'figure_size', }**
-        Keywords arguments such as ``{'figure_size': array_like
-        (width, height), }``
+    Other Parameters
+    ----------------
+    figure_size : array_like, optional
+        Array defining figure `width` and `height` such as
+        `figure_size = (width, height)`.
 
     Returns
     -------
@@ -288,12 +287,14 @@ def camera(**kwargs):
     """
     Sets the camera settings.
 
-    Parameters
-    ----------
-    \**kwargs : dict, optional
-        **{'camera_aspect', 'elevation', 'azimuth'}**
-        Keywords arguments such as ``{'camera_aspect': unicode
-        (Matplotlib axes aspect), 'elevation' : numeric, 'azimuth' : numeric}``
+    Other Parameters
+    ----------------
+    camera_aspect : unicode, optional
+        Matplotlib axes aspect. Default is `equal`.
+    elevation : numeric, optional
+        Camera elevation.
+    azimuth : numeric, optional
+        Camera azimuth.
 
     Returns
     -------
@@ -320,21 +321,43 @@ def decorate(**kwargs):
     """
     Sets the figure decorations.
 
-    Parameters
-    ----------
-    \**kwargs : dict, optional
-        **{'title', 'x_label', 'y_label', 'legend', 'legend_columns',
-        'legend_location', 'x_ticker', 'y_ticker', 'x_ticker_locator',
-        'y_ticker_locator', 'grid', 'grid_which', 'grid_axis', 'x_axis_line',
-        'y_axis_line', 'aspect', 'no_axes'}**
-        Keywords arguments such as ``{'title': unicode (figure title),
-        'x_label': unicode (X axis label), 'y_label': unicode (Y axis label),
-        'legend': bool, 'legend_columns': int, 'legend_location': unicode
-        (Matplotlib legend location), 'x_ticker': bool, 'y_ticker': bool,
-        'x_ticker_locator': Locator, 'y_ticker_locator': Locator, 'grid': bool,
-        'grid_which': unicode, 'grid_axis': unicode, 'x_axis_line': bool,
-        'y_axis_line': bool, 'aspect': unicode (Matplotlib axes aspect),
-        'no_axes': bool}``
+    Other Parameters
+    ----------------
+    title : unicode, optional
+        Figure title.
+    x_label : unicode, optional
+        *X* axis label.
+    y_label : unicode, optional
+        *Y* axis label.
+    legend : bool, optional
+        Whether to display the legend. Default is `False`.
+    legend_columns : int, optional
+        Number of columns in the legend. Default is `1`.
+    legend_location : unicode, optional
+        Matplotlib legend location. Default is `upper right`.
+    x_ticker : bool, optional
+        Whether to display the *X* axis ticker. Default is `True`.
+    y_ticker : bool, optional
+        Whether to display the *Y* axis ticker. Default is `True`.
+    x_ticker_locator : Locator, optional
+        Locator type for the *X* axis ticker.
+    y_ticker_locator : Locator, optional
+        Locator type for the *Y* axis ticker.
+    grid : bool, optional
+        Whether to display the grid. Default is `False`.
+    grid_which : unicode, optional
+        Controls whether major tick grids, minor tick grids, or both are
+        affected. Default is `both`.
+    grid_axis : unicode, optional
+        Controls which set of grid-lines are drawn. Default is `both`.
+    x_axis_line : bool, optional
+        Whether to draw the *X* axis line. Default is `False`.
+    y_axis_line : bool, optional
+        Whether to draw the *Y* axis line. Default is `False`.
+    aspect : unicode, optional
+        Matplotlib axes aspect.
+    no_axes : bool, optional
+        Whether to turn off the axes. Default is `False`.
 
     Returns
     -------
@@ -400,14 +423,25 @@ def boundaries(**kwargs):
     """
     Sets the plot boundaries.
 
-    Parameters
-    ----------
-    \**kwargs : dict, optional
-        **{'bounding_box', 'x_tighten', 'y_tighten', 'limits', 'margins'}**
-        Keywords arguments such as ``{'bounding_box': array_like
-        (x min, x max, y min, y max), 'x_tighten': bool, 'y_tighten': bool,
-        'limits': array_like (x min, x max, y min, y max), 'limits': array_like
-        (x min, x max, y min, y max)}``
+    Other Parameters
+    ----------------
+    bounding_box : array_like, optional
+        Array defining current axes limits such
+        `bounding_box = (x min, x max, y min, y max)`.
+    x_tighten : bool, optional
+        Whether to tighten the *X* axis limit. Default is `False`.
+    y_tighten : bool, optional
+        Whether to tighten the *Y* axis limit. Default is `False`.
+    limits : array_like, optional
+        Array defining current axes limits such as
+        `limits = (x limit min, x limit max, y limit min, y limit max)`.
+        `limits` argument values are added to the `margins` argument values to
+        define the final bounding box for the current axes.
+    margins : array_like, optional
+        Array defining current axes margins such as
+        `margins = (x margin min, x margin max, y margin min, y margin max)`.
+        `margins` argument values are added to the `limits` argument values to
+        define the final bounding box for the current axes.
 
     Returns
     -------
@@ -444,12 +478,12 @@ def display(**kwargs):
     """
     Sets the figure display.
 
-    Parameters
-    ----------
-    \**kwargs : dict, optional
-        **{'standalone', 'filename'}**
-        Keywords arguments such as ``{'standalone': bool (figure is shown),
-        'filename': unicode (figure is saved as `filename`)}``
+    Other Parameters
+    ----------------
+    standalone : bool, optional
+        Whether to show the figure.
+    filename : unicode, optional
+        Figure will be saved using given `filename` argument.
 
     Returns
     -------
@@ -655,11 +689,16 @@ def colour_parameters_plot(colour_parameters,
     colour_parameters : list
         ColourParameter sequence.
     y0_plot : bool, optional
-        Plot y0 line.
+        Whether to plot *y0* line.
     y1_plot : bool, optional
-        Plot y1 line.
+        Whether to plot *y1* line.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
@@ -751,8 +790,34 @@ def single_colour_plot(colour_parameter, **kwargs):
     ----------
     colour_parameter : ColourParameter
         ColourParameter.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
+    width : numeric, optional
+        {:func:`multi_colour_plot`},
+        Colour polygon width.
+    height : numeric, optional
+        {:func:`multi_colour_plot`},
+        Colour polygon height.
+    spacing : numeric, optional
+        {:func:`multi_colour_plot`},
+        Colour polygons spacing.
+    across : int, optional
+        {:func:`multi_colour_plot`},
+        Colour polygons count per row.
+    text_display : bool, optional
+        {:func:`multi_colour_plot`},
+        Display colour text.
+    text_size : numeric, optional
+        {:func:`multi_colour_plot`},
+        Colour text size.
+    text_offset : numeric, optional
+        {:func:`multi_colour_plot`},
+        Colour text offset.
 
     Returns
     -------
@@ -798,8 +863,13 @@ def multi_colour_plot(colour_parameters,
         Colour text size.
     text_offset : numeric, optional
         Colour text offset.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
@@ -885,8 +955,13 @@ def image_plot(image,
         Image display interpolation.
     colour_map: unicode, optional
         Colour map used to display single channel images.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
