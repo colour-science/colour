@@ -95,6 +95,7 @@ LOG_ENCODING_CURVES = CaseInsensitiveMapping(
      'ALEXA Log C': log_encoding_ALEXALogC,
      'REDLog': log_encoding_REDLog,
      'REDLogFilm': log_encoding_REDLogFilm,
+     'ERIMM RGB': log_encoding_ERIMMRGB,
      'S-Log': log_encoding_SLog,
      'S-Log2': log_encoding_SLog2,
      'S-Log3': log_encoding_SLog3,
@@ -104,8 +105,8 @@ Supported *log* encoding curves.
 
 LOG_ENCODING_CURVES : CaseInsensitiveMapping
     **{'Cineon', 'Panalog', 'ViperLog', 'PLog', 'Canon Log', 'ACEScc',
-    'ACESproxy', 'ALEXA Log C', 'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2',
-    'S-Log3', 'V-Log'}**
+    'ACESproxy', 'ALEXA Log C', 'REDLog', 'REDLogFilm', 'ERIMM RGB,
+    'S-Log', 'S-Log2', 'S-Log3', 'V-Log'}**
 """
 
 
@@ -120,8 +121,8 @@ def log_encoding_curve(value, curve='Cineon', **kwargs):
         Value.
     curve : unicode, optional
         **{'Cineon', 'Panalog', 'ViperLog', 'PLog', 'Canon Log', 'ACEScc',
-        'ACESproxy', 'ALEXA Log C', 'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2',
-        'S-Log3', 'V-Log'}**,
+        'ACESproxy', 'ALEXA Log C', 'REDLog', 'REDLogFilm', 'ERIMM RGB,
+        'S-Log', 'S-Log2', 'S-Log3', 'V-Log'}**,
         Computation curve.
     \**kwargs : dict, optional
         Keywords arguments.
@@ -162,6 +163,7 @@ LOG_DECODING_CURVES = CaseInsensitiveMapping(
      'ALEXA Log C': log_decoding_ALEXALogC,
      'REDLog': log_decoding_REDLog,
      'REDLogFilm': log_decoding_REDLogFilm,
+     'ERIMM RGB': log_decoding_ERIMMRGB,
      'S-Log': log_decoding_SLog,
      'S-Log2': log_decoding_SLog2,
      'S-Log3': log_decoding_SLog3,
@@ -171,8 +173,8 @@ Supported *log* decoding curves.
 
 LOG_DECODING_CURVES : CaseInsensitiveMapping
     **{'Cineon', 'Panalog', 'ViperLog', 'PLog', 'Canon Log', 'ACEScc',
-    'ACESproxy', 'ALEXA Log C', 'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2',
-    'S-Log3', 'V-Log'}**
+    'ACESproxy', 'ALEXA Log C', 'REDLog', 'REDLogFilm', 'ERIMM RGB,
+    'S-Log', 'S-Log2', 'S-Log3', 'V-Log'}**
 """
 
 
@@ -187,8 +189,8 @@ def log_decoding_curve(value, curve='Cineon', **kwargs):
         Value.
     curve : unicode, optional
         **{'Cineon', 'Panalog', 'ViperLog', 'PLog', 'Canon Log', 'ACEScc',
-        'ACESproxy', 'ALEXA Log C', 'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2',
-        'S-Log3', 'V-Log'}**,
+        'ACESproxy', 'ALEXA Log C', 'REDLog', 'REDLogFilm', 'ERIMM RGB,
+        'S-Log', 'S-Log2', 'S-Log3', 'V-Log'}**,
         Computation curve.
     \**kwargs : dict, optional
         Keywords arguments.
@@ -228,15 +230,17 @@ OETFS = CaseInsensitiveMapping(
      'BT.2020': oetf_BT2020,
      'BT.709': oetf_BT709,
      'DCI-P3': oetf_DCIP3,
+     'ROMM RGB': oetf_ROMMRGB,
      'ProPhoto RGB': oetf_ProPhotoRGB,
+     'RIMM RGB': oetf_RIMMRGB,
      'ST 2084': oetf_ST2084,
      'sRGB': oetf_sRGB})
 """
 Supported opto-electrical transfer functions (OETF / OECF).
 
 OETFS : CaseInsensitiveMapping
-    **{'sRGB', 'BT.1886', 'BT.2020', 'BT.709', 'DCI-P3', 'ProPhoto RGB',
-    'ST 2084'}**
+    **{'sRGB', 'BT.1886', 'BT.2020', 'BT.709', 'DCI-P3', 'ROMM RGB',
+    'ProPhoto RGB', 'RIMM RGB', 'ST 2084'}**
 """
 
 
@@ -251,8 +255,8 @@ def oetf(value, function='sRGB', **kwargs):
     value : numeric or array_like
         Value.
     function : unicode, optional
-        **{'sRGB', 'BT.1886', 'BT.2020', 'BT.709', 'DCI-P3', 'ProPhoto RGB',
-        'ST 2084'}**,
+        **{'sRGB', 'BT.1886', 'BT.2020', 'BT.709', 'DCI-P3', 'ROMM RGB',
+        'ProPhoto RGB', 'RIMM RGB', 'ST 2084'}**,
         Computation function.
     \**kwargs : dict, optional
         Keywords arguments.
@@ -285,15 +289,17 @@ EOTFS = CaseInsensitiveMapping(
      'BT.2020': eotf_BT2020,
      'BT.709': eotf_BT709,
      'DCI-P3': eotf_DCIP3,
+     'ROMM RGB': eotf_ROMMRGB,
      'ProPhoto RGB': eotf_ProPhotoRGB,
+     'RIMM RGB': eotf_RIMMRGB,
      'ST 2084': eotf_ST2084,
      'sRGB': eotf_sRGB})
 """
 Supported electro-optical transfer functions (EOTF / EOCF).
 
 EOTFS : CaseInsensitiveMapping
-    **{'sRGB', 'BT.1886', 'BT.2020', 'BT.709', 'DCI-P3', 'ProPhoto RGB',
-    'ST 2084'}**
+    **{'sRGB', 'BT.1886', 'BT.2020', 'BT.709', 'DCI-P3', 'ROMM RGB',
+    'ProPhoto RGB', 'RIMM RGB', 'ST 2084'}**
 """
 
 
@@ -307,8 +313,8 @@ def eotf(value, function='sRGB', **kwargs):
     value : numeric or array_like
         Value.
     function : unicode, optional
-        **{'sRGB', 'BT.1886', 'BT.2020', 'BT.709', 'DCI-P3', 'ProPhoto RGB',
-        'ST 2084'}**,
+        **{'sRGB', 'BT.1886', 'BT.2020', 'BT.709', 'DCI-P3', 'ROMM RGB',
+        'ProPhoto RGB', 'RIMM RGB', 'ST 2084'}**,
         Computation function.
     \**kwargs : dict, optional
         Keywords arguments.
