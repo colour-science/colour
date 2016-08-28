@@ -207,8 +207,12 @@ def luminance(LV, method='CIE 1976', **kwargs):
     method : unicode, optional
         **{'CIE 1976', 'Newhall 1943', 'ASTM D1535-08'}**,
         Computation method.
-    \**kwargs : dict, optional
-        Keywords arguments.
+
+    Other Parameters
+    ----------------
+    Y_n : numeric or array_like, optional
+        {:func:`luminance_CIE1976`},
+        White reference *luminance* :math:`Y_n`.
 
     Returns
     -------

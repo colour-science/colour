@@ -733,8 +733,24 @@ def spectral_to_XYZ(
     method : unicode, optional
         **{'ASTM E308–15', 'Integration'}**,
         Computation method.
-    \**kwargs : dict, optional
-        Keywords arguments.
+
+    Other Parameters
+    ----------------
+    use_practice_range : bool, optional
+        {:func:`spectral_to_XYZ_ASTME30815`},
+        Practise *ASTM E308–15*  working wavelengths range is [360, 780],
+        if `True` this argument will trim the colour matching functions
+        appropriately.
+    mi_5nm_omission_method : bool, optional
+        {:func:`spectral_to_XYZ_ASTME30815`},
+        5 nm measurement intervals spectral power distribution conversion to
+        tristimulus values will use a 5 nm version of the colour matching
+        functions instead of a table of tristimulus weighting factors.
+    mi_20nm_interpolation_method : bool, optional
+        {:func:`spectral_to_XYZ_ASTME30815`},
+        20 nm measurement intervals spectral power distribution conversion to
+        tristimulus values will use a dedicated interpolation method instead
+        of a table of tristimulus weighting factors.
 
     Returns
     -------

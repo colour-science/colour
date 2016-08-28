@@ -213,11 +213,18 @@ def RGB_to_YCbCr(RGB,
     out_int : bool, optional
         Whether to return values as `out_bits` integer code values. Default is
         `False`.
-    \**kwargs : dict, optional
-        **{'in_range', 'out_range'}**
-        Keyword arguments to override the calculated ranges such as
-        ``{'in_range' : array_like (RGB_min, RGB_max), 'out_range' :
-        array_like (Y_min, Y_max, C_min, C_max)}``.
+
+    Other Parameters
+    ----------------
+    in_range : array_like, optional
+        Array overriding the computed range such as
+        `in_range = (RGB_min, RGB_max)`. If `in_range` is undefined, `RGB_min`
+        and `RGB_max` will be computed using :func:`RGB_range` definition.
+    out_range : array_like, optional
+        Array overriding the computed range such as
+        `out_range = (Y_min, Y_max, C_min, C_max)`. If `out_range` is
+        undefined, `Y_min`, `Y_max`, `C_min` and `C_max` will be computed
+        using :func:`YCbCr_ranges` definition.
 
     Returns
     -------
@@ -366,11 +373,19 @@ def YCbCr_to_RGB(YCbCr,
     out_int : bool, optional
         Whether to return values as `out_bits` integer code values. Default is
         `False`.
-    \**kwargs : dict, optional
-        **{'in_range', 'out_range'}**
-        Keyword arguments to override the calculated ranges such as
-        ``{'in_range' : array_like (Y_min, Y_max, C_min, C_max), 'out_range' :
-        array_like (RGB_min, RGB_max)}``.
+
+    Other Parameters
+    ----------------
+    in_range : array_like, optional
+        Array overriding the computed range such as
+        `in_range = (Y_min, Y_max, C_min, C_max)`. If `in_range` is undefined,
+        `Y_min`, `Y_max`, `C_min` and `C_max` will be computed using
+        :func:`YCbCr_ranges` definition.
+    out_range : array_like, optional
+        Array overriding the computed range such as
+        `out_range = (RGB_min, RGB_max)`. If `out_range` is undefined,
+        `RGB_min` and `RGB_max` will be computed using :func:`RGB_range`
+        definition.
 
     Returns
     -------
@@ -448,10 +463,14 @@ def RGB_to_YcCbcCrc(RGB,
     is_12_bits_system : bool, optional
         *Recommendation ITU-R BT.2020* OETF (OECF) adopts different parameters
         for 10 and 12 bit systems. Default is `False`.
-    \**kwargs : dict, optional
-        **{'out_range'}**
-        Keyword arguments to override the calculated ranges such as
-        ``{'out_range' : array_like (Y_min, Y_max, C_min, C_max)}``
+
+    Other Parameters
+    ----------------
+    out_range : array_like, optional
+        Array overriding the computed range such as
+        `out_range = (Y_min, Y_max, C_min, C_max)`. If `out_range` is
+        undefined, `Y_min`, `Y_max`, `C_min` and `C_max` will be computed
+        using :func:`YCbCr_ranges` definition.
 
     Returns
     -------
@@ -526,10 +545,14 @@ def YcCbcCrc_to_RGB(YcCbcCrc,
     is_12_bits_system : bool, optional
         *Recommendation ITU-R BT.2020* EOTF (EOCF) adopts different parameters
         for 10 and 12 bit systems. Default is `False`.
-    \**kwargs : dict, optional
-        **{'in_range'}**
-        Keyword arguments to override the calculated ranges such as
-        ``{'in_range' : array_like (Y_min, Y_max, C_min, C_max)}``
+
+    Other Parameters
+    ----------------
+    in_range : array_like, optional
+        Array overriding the computed range such as
+        `in_range = (Y_min, Y_max, C_min, C_max)`. If `in_range` is undefined,
+        `Y_min`, `Y_max`, `C_min` and `C_max` will be computed using
+        :func:`YCbCr_ranges` definition.
 
     Returns
     -------

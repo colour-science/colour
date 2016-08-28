@@ -45,8 +45,8 @@ def handle_numpy_errors(**kwargs):
     """
     Decorator for handling *Numpy* errors.
 
-    Parameters
-    ----------
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
         Keywords arguments.
 
@@ -316,6 +316,9 @@ def filter_kwargs(function, **kwargs):
     ----------
     function : callable
         Callable to filter the incompatible keyword arguments.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
         Keywords arguments.
 

@@ -45,8 +45,13 @@ def single_munsell_value_function_plot(
     ----------
     function : unicode, optional
         *Munsell* value function to plot.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
@@ -75,8 +80,13 @@ def multi_munsell_value_function_plot(
     ----------
     functions : array_like, optional
         *Munsell* value functions to plot.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------

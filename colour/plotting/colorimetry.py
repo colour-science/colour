@@ -87,13 +87,24 @@ def single_spd_plot(spd,
     spd : SpectralPowerDistribution
         Spectral power distribution to plot.
     out_of_gamut_clipping : bool, optional
-        Out of gamut colours will be clipped if *True* otherwise, the colours
-        will be offset by the absolute minimal colour leading to a rendering on
+        Whether to clip out of gamut colours otherwise, the colours will be
+        offset by the absolute minimal colour leading to a rendering on
         gray background, less saturated and smoother. [1]_
     cmfs : unicode
         Standard observer colour matching functions used for spectrum creation.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
+    y0_plot : bool, optional
+        {:func:`colour_parameters_plot`},
+        Whether to plot *y0* line.
+    y1_plot : bool, optional
+        {:func:`colour_parameters_plot`},
+        Whether to plot *y1* line.
 
     Returns
     -------
@@ -155,11 +166,16 @@ def multi_spd_plot(spds,
     cmfs : unicode, optional
         Standard observer colour matching functions used for spectrum creation.
     use_spds_colours : bool, optional
-        Use spectral power distributions colours.
+        Whether to use spectral power distributions colours.
     normalise_spds_colours : bool
-        Should spectral power distributions colours normalised.
+        Whether to normalise spectral power distributions colours.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
@@ -228,8 +244,13 @@ def single_cmfs_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     ----------
     cmfs : unicode, optional
         Colour matching functions to plot.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
@@ -257,8 +278,13 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
     ----------
     cmfs : array_like, optional
         Colour matching functions to plot.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
@@ -337,8 +363,18 @@ def single_illuminant_relative_spd_plot(
         Factory illuminant to plot.
     cmfs : unicode, optional
         Standard observer colour matching functions to plot.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
+    out_of_gamut_clipping : bool, optional
+        {:func:`single_spd_plot`},
+        Whether to clip out of gamut colours otherwise, the colours will be
+        offset by the absolute minimal colour leading to a rendering on
+        gray background, less saturated and smoother. [1]_
 
     Returns
     -------
@@ -371,8 +407,19 @@ def multi_illuminants_relative_spd_plot(illuminants=None, **kwargs):
     ----------
     illuminants : array_like, optional
         Factory illuminants to plot.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
+    use_spds_colours : bool, optional
+        {:func:`multi_spd_plot`}
+        Whether to use spectral power distributions colours.
+    normalise_spds_colours : bool
+        {:func:`multi_spd_plot`}
+        Whether to normalise spectral power distributions colours.
 
     Returns
     -------
@@ -413,11 +460,22 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
     cmfs : unicode, optional
         Standard observer colour matching functions used for spectrum creation.
     out_of_gamut_clipping : bool, optional
-        Out of gamut colours will be clipped if *True* otherwise, the colours
-        will be offset by the absolute minimal colour leading to a rendering on
+        Whether to clip out of gamut colours otherwise, the colours will be
+        offset by the absolute minimal colour leading to a rendering on
         gray background, less saturated and smoother. [1]_
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
+    y0_plot : bool, optional
+        {:func:`colour_parameters_plot`},
+        Whether to plot *y0* line.
+    y1_plot : bool, optional
+        {:func:`colour_parameters_plot`},
+        Whether to plot *y1* line.
 
     Returns
     -------
@@ -465,8 +523,13 @@ def single_lightness_function_plot(function='CIE 1976', **kwargs):
     ----------
     function : unicode, optional
         *Lightness* function to plot.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
@@ -493,8 +556,13 @@ def multi_lightness_function_plot(functions=None, **kwargs):
     ----------
     functions : array_like, optional
         *Lightness* functions to plot.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
@@ -570,8 +638,13 @@ def blackbody_spectral_radiance_plot(
         Standard observer colour matching functions.
     blackbody : unicode, optional
         Blackbody name.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
@@ -636,8 +709,19 @@ def blackbody_colours_plot(shape=SpectralShape(150, 12500, 50),
         Spectral shape to use as plot boundaries.
     cmfs : unicode, optional
         Standard observer colour matching functions.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
+    y0_plot : bool, optional
+        {:func:`colour_parameters_plot`},
+        Whether to plot *y0* line.
+    y1_plot : bool, optional
+        {:func:`colour_parameters_plot`},
+        Whether to plot *y1* line.
 
     Returns
     -------

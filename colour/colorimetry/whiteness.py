@@ -370,8 +370,34 @@ def whiteness(method='CIE 2004', **kwargs):
         **{'CIE 2004', 'Berger 1959', 'Taube 1960', 'Stensby 1968', 'ASTM 313',
         'Ganz 1979', 'CIE 2004'}**,
         Computation method.
-    \**kwargs : dict, optional
-        Keywords arguments.
+
+    Other Parameters
+    ----------------
+    XYZ : array_like
+        {:func:`whiteness_Berger1959`, :func:`whiteness_Taube1960`,
+        :func:`whiteness_ASTM313`},
+        *CIE XYZ* tristimulus values of sample.
+    XYZ_0 : array_like
+        {:func:`whiteness_Berger1959`, :func:`whiteness_Taube1960`},
+        *CIE XYZ* tristimulus values of reference white.
+    Lab : array_like
+        {:func:`whiteness_Stensby1968`},
+        *CIE Lab* colourspace array of sample.
+    xy : array_like
+        {:func:`whiteness_Ganz1979`, :func:`whiteness_CIE2004`},
+        Chromaticity coordinates *xy* of sample.
+    Y : numeric or array_like
+        {:func:`whiteness_Ganz1979`, :func:`whiteness_CIE2004`},
+        Tristimulus :math:`Y` value of sample.
+    xy_n : array_like
+        {:func:`whiteness_CIE2004`},
+        Chromaticity coordinates *xy_n* of perfect diffuser.
+    observer : unicode, optional
+        {:func:`whiteness_CIE2004`},
+        **{'CIE 1931 2 Degree Standard Observer',
+        'CIE 1964 10 Degree Standard Observer'}**,
+        *CIE Standard Observer* used for computations, *tint* :math:`T` or
+        :math:`T_{10}` value is dependent on viewing field angular subtense.
 
     Returns
     -------
