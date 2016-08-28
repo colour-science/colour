@@ -25,7 +25,7 @@ from xml.etree import ElementTree
 from xml.dom import minidom
 
 from colour.colorimetry import SpectralPowerDistribution
-from colour.utilities import Structure, is_numeric
+from colour.utilities import Structure, is_numeric, is_string
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
@@ -284,9 +284,9 @@ class IES_TM2714_Header(object):
         """
 
         if value is not None:
-            assert isinstance(value, basestring), (  # noqa
+            assert is_string(value), (
                 ('"{0}" attribute: "{1}" is not a '
-                 '"basestring" instance!').format('manufacturer', value))
+                 '"string" like object!').format('manufacturer', value))
         self._manufacturer = value
 
     @property
@@ -314,9 +314,9 @@ class IES_TM2714_Header(object):
         """
 
         if value is not None:
-            assert isinstance(value, basestring), (  # noqa
+            assert is_string(value), (
                 ('"{0}" attribute: "{1}" is not a '
-                 '"basestring" instance!').format('catalog_number', value))
+                 '"string" like object!').format('catalog_number', value))
         self._catalog_number = value
 
     @property
@@ -344,9 +344,9 @@ class IES_TM2714_Header(object):
         """
 
         if value is not None:
-            assert isinstance(value, basestring), (  # noqa
+            assert is_string(value), (
                 ('"{0}" attribute: "{1}" is not a '
-                 '"basestring" instance!').format('description', value))
+                 '"string" like object!').format('description', value))
         self._description = value
 
     @property
@@ -374,9 +374,9 @@ class IES_TM2714_Header(object):
         """
 
         if value is not None:
-            assert isinstance(value, basestring), (  # noqa
+            assert is_string(value), (
                 ('"{0}" attribute: "{1}" is not a '
-                 '"basestring" instance!').format('document_creator', value))
+                 '"string" like object!').format('document_creator', value))
         self._document_creator = value
 
     @property
@@ -404,9 +404,9 @@ class IES_TM2714_Header(object):
         """
 
         if value is not None:
-            assert isinstance(value, basestring), (  # noqa
+            assert is_string(value), (
                 ('"{0}" attribute: "{1}" is not a '
-                 '"basestring" instance!').format('unique_identifier', value))
+                 '"string" like object!').format('unique_identifier', value))
         self._unique_identifier = value
 
     @property
@@ -434,9 +434,9 @@ class IES_TM2714_Header(object):
         """
 
         if value is not None:
-            assert isinstance(value, basestring), (  # noqa
+            assert is_string(value), (
                 ('"{0}" attribute: "{1}" is not a '
-                 '"basestring" instance!').format(
+                 '"string" like object!').format(
                     'measurement_equipment', value))
         self._measurement_equipment = value
 
@@ -465,9 +465,9 @@ class IES_TM2714_Header(object):
         """
 
         if value is not None:
-            assert isinstance(value, basestring), (  # noqa
+            assert is_string(value), (
                 ('"{0}" attribute: "{1}" is not a '
-                 '"basestring" instance!').format('laboratory', value))
+                 '"string" like object!').format('laboratory', value))
         self._laboratory = value
 
     @property
@@ -495,9 +495,9 @@ class IES_TM2714_Header(object):
         """
 
         if value is not None:
-            assert isinstance(value, basestring), (  # noqa
+            assert is_string(value), (
                 ('"{0}" attribute: "{1}" is not a '
-                 '"basestring" instance!').format('report_number', value))
+                 '"string" like object!').format('report_number', value))
         self._report_number = value
 
     @property
@@ -525,9 +525,9 @@ class IES_TM2714_Header(object):
         """
 
         if value is not None:
-            assert isinstance(value, basestring), (  # noqa
+            assert is_string(value), (
                 ('"{0}" attribute: "{1}" is not a '
-                 '"basestring" instance!').format('report_date', value))
+                 '"string" like object!').format('report_date', value))
         self._report_date = value
 
     @property
@@ -555,9 +555,9 @@ class IES_TM2714_Header(object):
         """
 
         if value is not None:
-            assert isinstance(value, basestring), (  # noqa
+            assert is_string(value), (
                 ('"{0}" attribute: "{1}" is not a '
-                 '"basestring" instance!').format(
+                 '"string" like object!').format(
                     'document_creation_date', value))
         self._document_creation_date = value
 
@@ -586,9 +586,9 @@ class IES_TM2714_Header(object):
         """
 
         if value is not None:
-            assert isinstance(value, basestring), (  # noqa
+            assert is_string(value), (
                 ('"{0}" attribute: "{1}" is not a '
-                 '"basestring" instance!').format('comments', value))
+                 '"string" like object!').format('comments', value))
         self._comments = value
 
 
@@ -791,9 +791,9 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
         """
 
         if value is not None:
-            assert isinstance(value, basestring), (  # noqa
+            assert is_string(value), (
                 ('"{0}" attribute: "{1}" is not a '
-                 '"basestring" instance!').format('path', value))
+                 '"string" like object!').format('path', value))
         self._path = value
 
     @property
@@ -851,9 +851,9 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
         """
 
         if value is not None:
-            assert isinstance(value, basestring), (  # noqa
+            assert is_string(value), (
                 ('"{0}" attribute: "{1}" is not a '
-                 '"basestring" instance!').format('spectral_quantity', value))
+                 '"string" like object!').format('spectral_quantity', value))
         self._spectral_quantity = value
 
     @property
@@ -881,9 +881,9 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
         """
 
         if value is not None:
-            assert isinstance(value, basestring), (  # noqa
+            assert is_string(value), (
                 ('"{0}" attribute: "{1}" is not a '
-                 '"basestring" instance!').format(
+                 '"string" like object!').format(
                     'reflection_geometry', value))
         self._reflection_geometry = value
 
@@ -912,9 +912,9 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
         """
 
         if value is not None:
-            assert isinstance(value, basestring), (  # noqa
+            assert is_string(value), (
                 ('"{0}" attribute: "{1}" is not a '
-                 '"basestring" instance!').format(
+                 '"string" like object!').format(
                     'transmission_geometry', value))
         self._transmission_geometry = value
 

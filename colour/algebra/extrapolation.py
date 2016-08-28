@@ -14,7 +14,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import as_numeric, is_numeric
+from colour.utilities import as_numeric, is_numeric, is_string
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
@@ -178,9 +178,9 @@ class Extrapolator(object):
         """
 
         if value is not None:
-            assert isinstance(value, basestring), (  # noqa
+            assert is_string(value), (
                 ('"{0}" attribute: "{1}" is not a '
-                 '"basestring" instance!').format('method', value))
+                 '"string" like object!').format('method', value))
             value = value.lower()
 
         self._method = value
