@@ -16,26 +16,33 @@ Development & Technical Support
 
     Continuous technical support.
 
+-   **Nick Shaw**, *Workflow Consultant @ Antler Post*
+
+    YCbCr Colour Encoding, RED Colourspaces Derivation.
+
 -   **Luke Canavan**
 
     Colour Quality Scale, Luminous Flux.
 
+-   **Sean Cooper**, *Colour Scientist*
+
+    Technical support.
+
 Acknowledgements
 ----------------
+-   **Steve Agland**, *Supervising Lighting Technical Director @ Animal Logic*
+
+    Technical support.
 
 -   **Paul Centore**, *Mathematician & Colour Scientist*
 
     Matlab *Munsell Renotation System* implementation.
 
--   **Yoshi Ohno**, *Mathematician & Colour Scientist*.
+-   **Scott Dyer**, *Image Engineering @ Academy of Motion Picture Arts and Sciences*
 
-    *Ohno (2013)* correlated colour temperature calculation technical support.
+    *ACES RGB IDT* technical support.
 
 -   **Mark D. Fairchild**, *Director @ Munsell Color Science Lab, Director @ Program of Color Science*
-
-    Technical support.
-
--   **Charles Poynton**, *Mathematician & Colour Scientist*
 
     Technical support.
 
@@ -43,9 +50,17 @@ Acknowledgements
 
     *ACES RGB IDT* technical support.
 
--   **Scott Dyer**, *Image Engineering @ Academy of Motion Picture Arts and Sciences*
+-   **Charles Poynton**, *Mathematician & Colour Scientist*
 
-    *ACES RGB IDT* technical support.
+    Technical support.
+
+-   **Yoshi Ohno**, *Mathematician & Colour Scientist*
+
+    *Ohno (2013)* correlated colour temperature calculation technical support.
+
+-   **Kevin Wheatley**, *Head of Imaging at Framestore @ Framestore*
+
+    Technical support.
 
 Special Mentions
 ----------------
@@ -58,9 +73,8 @@ Others
 -   Nick Spiker
 -   fangjy88
 -   henczati
--   Nick-Shaw
+-   jaguarondi
 -   Ron024
--   scooperly
 -   sobotka
 -   zachlewis
 
