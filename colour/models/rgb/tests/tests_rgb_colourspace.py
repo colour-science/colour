@@ -61,7 +61,8 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
                 tolerance = 1e-4
             elif colourspace.name in ('Adobe RGB (1998)',):
                 tolerance = 1e-5
-            elif colourspace.name in ('ALEXA Wide Gamut RGB', 'V-Gamut'):
+            elif colourspace.name in (
+                    'ALEXA Wide Gamut RGB', 'V-Gamut', 'REDWideGamutRGB'):
                 tolerance = 1e-6
             else:
                 tolerance = 1e-7
