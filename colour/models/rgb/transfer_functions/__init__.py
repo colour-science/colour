@@ -16,7 +16,13 @@ from .alexa_log_c import (
 from .bt_709 import oetf_BT709, eotf_BT709
 from .bt_1886 import oetf_BT1886, eotf_BT1886
 from .bt_2020 import oetf_BT2020, eotf_BT2020
-from .canon_log import log_encoding_CanonLog, log_decoding_CanonLog
+from .canon_log import (
+    log_encoding_CanonLog,
+    log_decoding_CanonLog,
+    log_encoding_CanonLog2,
+    log_decoding_CanonLog2,
+    log_encoding_CanonLog3,
+    log_decoding_CanonLog3)
 from .cineon import log_encoding_Cineon, log_decoding_Cineon
 from .dci_p3 import oetf_DCIP3, eotf_DCIP3
 from .gamma import gamma_function
@@ -57,7 +63,12 @@ __all__ += ['log_encoding_ALEXALogC', 'log_decoding_ALEXALogC']
 __all__ += ['oetf_BT709', 'eotf_BT709']
 __all__ += ['oetf_BT1886', 'eotf_BT1886']
 __all__ += ['oetf_BT2020', 'eotf_BT2020']
-__all__ += ['log_encoding_CanonLog', 'log_decoding_CanonLog']
+__all__ += ['log_encoding_CanonLog',
+            'log_decoding_CanonLog',
+            'log_encoding_CanonLog2',
+            'log_decoding_CanonLog2',
+            'log_encoding_CanonLog3',
+            'log_decoding_CanonLog3']
 __all__ += ['log_encoding_Cineon', 'log_decoding_Cineon']
 __all__ += ['oetf_DCIP3', 'eotf_DCIP3']
 __all__ += ['gamma_function']
@@ -95,6 +106,7 @@ LOG_ENCODING_CURVES = CaseInsensitiveMapping(
      'ALEXA Log C': log_encoding_ALEXALogC,
      'REDLog': log_encoding_REDLog,
      'REDLogFilm': log_encoding_REDLogFilm,
+     'ERIMM RGB': log_encoding_ERIMMRGB,
      'S-Log': log_encoding_SLog,
      'S-Log2': log_encoding_SLog2,
      'S-Log3': log_encoding_SLog3,
@@ -104,8 +116,8 @@ Supported *log* encoding curves.
 
 LOG_ENCODING_CURVES : CaseInsensitiveMapping
     **{'Cineon', 'Panalog', 'ViperLog', 'PLog', 'Canon Log', 'ACEScc',
-    'ACESproxy', 'ALEXA Log C', 'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2',
-    'S-Log3', 'V-Log'}**
+    'ACESproxy', 'ALEXA Log C', 'REDLog', 'REDLogFilm', 'ERIMM RGB,
+    'S-Log', 'S-Log2', 'S-Log3', 'V-Log'}**
 """
 
 
@@ -120,11 +132,53 @@ def log_encoding_curve(value, curve='Cineon', **kwargs):
         Value.
     curve : unicode, optional
         **{'Cineon', 'Panalog', 'ViperLog', 'PLog', 'Canon Log', 'ACEScc',
-        'ACESproxy', 'ALEXA Log C', 'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2',
-        'S-Log3', 'V-Log'}**,
+        'ACESproxy', 'ALEXA Log C', 'REDLog', 'REDLogFilm', 'ERIMM RGB,
+        'S-Log', 'S-Log2', 'S-Log3', 'V-Log'}**,
         Computation curve.
-    \**kwargs : dict, optional
-        Keywords arguments.
+
+    Other Parameters
+    ----------------
+    black_offset : numeric or array_like
+        {:func:`log_encoding_Cineon`, :func:`log_encoding_Panalog`,
+        :func:`log_encoding_REDLog`, :func:`log_encoding_REDLogFilm`},
+        Black offset.
+    log_reference : numeric or array_like
+        {:func:`log_encoding_PivotedLog`},
+        Log reference.
+    linear_reference : numeric or array_like
+        {:func:`log_encoding_PivotedLog`},
+        Linear reference.
+    negative_gamma : numeric or array_like
+        {:func:`log_encoding_PivotedLog`},
+        Negative gamma.
+    density_per_code_value : numeric or array_like
+        {:func:`log_encoding_PivotedLog`},
+        Density per code value.
+    bit_depth : unicode, optional
+        {:func:`log_encoding_ACESproxy`},
+        **{'10 Bit', '12 Bit'}**,
+        *ACESproxy* bit depth.
+    firmware : unicode, optional
+        {:func:`log_encoding_ALEXALogC`},
+        **{'SUP 3.x', 'SUP 2.x'}**,
+        Alexa firmware version.
+    method : unicode, optional
+        {:func:`log_encoding_ALEXALogC`},
+        **{'Linear Scene Exposure Factor', 'Normalised Sensor Signal'}**,
+        Conversion method.
+    EI : int,  optional
+        {:func:`log_encoding_ALEXALogC`},
+        Ei.
+    I_max : numeric, optional
+        {:func:`log_encoding_ERIMMRGB`},
+        Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
+        12-bit and 16-bit per channel.
+    E_min : numeric, optional
+        {:func:`log_encoding_ERIMMRGB`},
+        Minimum exposure limit.
+    E_clip : numeric, optional
+        {:func:`log_encoding_ERIMMRGB`},
+        Maximum exposure limit.
 
     Returns
     -------
@@ -162,6 +216,7 @@ LOG_DECODING_CURVES = CaseInsensitiveMapping(
      'ALEXA Log C': log_decoding_ALEXALogC,
      'REDLog': log_decoding_REDLog,
      'REDLogFilm': log_decoding_REDLogFilm,
+     'ERIMM RGB': log_decoding_ERIMMRGB,
      'S-Log': log_decoding_SLog,
      'S-Log2': log_decoding_SLog2,
      'S-Log3': log_decoding_SLog3,
@@ -171,8 +226,8 @@ Supported *log* decoding curves.
 
 LOG_DECODING_CURVES : CaseInsensitiveMapping
     **{'Cineon', 'Panalog', 'ViperLog', 'PLog', 'Canon Log', 'ACEScc',
-    'ACESproxy', 'ALEXA Log C', 'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2',
-    'S-Log3', 'V-Log'}**
+    'ACESproxy', 'ALEXA Log C', 'REDLog', 'REDLogFilm', 'ERIMM RGB,
+    'S-Log', 'S-Log2', 'S-Log3', 'V-Log'}**
 """
 
 
@@ -187,11 +242,53 @@ def log_decoding_curve(value, curve='Cineon', **kwargs):
         Value.
     curve : unicode, optional
         **{'Cineon', 'Panalog', 'ViperLog', 'PLog', 'Canon Log', 'ACEScc',
-        'ACESproxy', 'ALEXA Log C', 'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2',
-        'S-Log3', 'V-Log'}**,
+        'ACESproxy', 'ALEXA Log C', 'REDLog', 'REDLogFilm', 'ERIMM RGB,
+        'S-Log', 'S-Log2', 'S-Log3', 'V-Log'}**,
         Computation curve.
-    \**kwargs : dict, optional
-        Keywords arguments.
+
+    Other Parameters
+    ----------------
+    black_offset : numeric or array_like
+        {:func:`log_decoding_Cineon`, :func:`log_decoding_Panalog`,
+        :func:`log_decoding_REDLog`, :func:`log_decoding_REDLogFilm`},
+        Black offset.
+    log_reference : numeric or array_like
+        {:func:`log_decoding_PivotedLog`},
+        Log reference.
+    linear_reference : numeric or array_like
+        {:func:`log_decoding_PivotedLog`},
+        Linear reference.
+    negative_gamma : numeric or array_like
+        {:func:`log_decoding_PivotedLog`},
+        Negative gamma.
+    density_per_code_value : numeric or array_like
+        {:func:`log_decoding_PivotedLog`},
+        Density per code value.
+    bit_depth : unicode, optional
+        {:func:`log_decoding_ACESproxy`},
+        **{'10 Bit', '12 Bit'}**,
+        *ACESproxy* bit depth.
+    firmware : unicode, optional
+        {:func:`log_decoding_ALEXALogC`},
+        **{'SUP 3.x', 'SUP 2.x'}**,
+        Alexa firmware version.
+    method : unicode, optional
+        {:func:`log_decoding_ALEXALogC`},
+        **{'Linear Scene Exposure Factor', 'Normalised Sensor Signal'}**,
+        Conversion method.
+    EI : int,  optional
+        {:func:`log_decoding_ALEXALogC`},
+        Ei.
+    I_max : numeric, optional
+        {:func:`log_decoding_ERIMMRGB`},
+        Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
+        12-bit and 16-bit per channel.
+    E_min : numeric, optional
+        {:func:`log_decoding_ERIMMRGB`},
+        Minimum exposure limit.
+    E_clip : numeric, optional
+        {:func:`log_decoding_ERIMMRGB`},
+        Maximum exposure limit.
 
     Returns
     -------
@@ -228,15 +325,17 @@ OETFS = CaseInsensitiveMapping(
      'BT.2020': oetf_BT2020,
      'BT.709': oetf_BT709,
      'DCI-P3': oetf_DCIP3,
+     'ROMM RGB': oetf_ROMMRGB,
      'ProPhoto RGB': oetf_ProPhotoRGB,
+     'RIMM RGB': oetf_RIMMRGB,
      'ST 2084': oetf_ST2084,
      'sRGB': oetf_sRGB})
 """
 Supported opto-electrical transfer functions (OETF / OECF).
 
 OETFS : CaseInsensitiveMapping
-    **{'sRGB', 'BT.1886', 'BT.2020', 'BT.709', 'DCI-P3', 'ProPhoto RGB',
-    'ST 2084'}**
+    **{'sRGB', 'BT.1886', 'BT.2020', 'BT.709', 'DCI-P3', 'ROMM RGB',
+    'ProPhoto RGB', 'RIMM RGB', 'ST 2084'}**
 """
 
 
@@ -251,11 +350,31 @@ def oetf(value, function='sRGB', **kwargs):
     value : numeric or array_like
         Value.
     function : unicode, optional
-        **{'sRGB', 'BT.1886', 'BT.2020', 'BT.709', 'DCI-P3', 'ProPhoto RGB',
-        'ST 2084'}**,
+        **{'sRGB', 'BT.1886', 'BT.2020', 'BT.709', 'DCI-P3', 'ROMM RGB',
+        'ProPhoto RGB', 'RIMM RGB', 'ST 2084'}**,
         Computation function.
-    \**kwargs : dict, optional
-        Keywords arguments.
+
+    Other Parameters
+    ----------------
+    L_B : numeric, optional
+        {:func:`oetf_BT1886`},
+        Screen luminance for black.
+    L_W : numeric, optional
+        {:func:`oetf_BT1886`},
+        Screen luminance for white.
+    is_12_bits_system : bool
+        {:func:`oetf_BT2020`},
+        *BT.709* *alpha* and *beta* constants are used if system is not 12-bit.
+    I_max : numeric, optional
+        {:func:`oetf_ROMMRGB`, :func:`oetf_RIMMRGB`},
+        Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
+        12-bit and 16-bit per channel.
+    E_clip : numeric, optional
+        {:func:`oetf_RIMMRGB`},
+        Maximum exposure level.
+    L_p : numeric, optional
+        {:func:`oetf_ST2084`},
+        Display peak luminance :math:`cd/m^2`.
 
     Returns
     -------
@@ -285,15 +404,17 @@ EOTFS = CaseInsensitiveMapping(
      'BT.2020': eotf_BT2020,
      'BT.709': eotf_BT709,
      'DCI-P3': eotf_DCIP3,
+     'ROMM RGB': eotf_ROMMRGB,
      'ProPhoto RGB': eotf_ProPhotoRGB,
+     'RIMM RGB': eotf_RIMMRGB,
      'ST 2084': eotf_ST2084,
      'sRGB': eotf_sRGB})
 """
 Supported electro-optical transfer functions (EOTF / EOCF).
 
 EOTFS : CaseInsensitiveMapping
-    **{'sRGB', 'BT.1886', 'BT.2020', 'BT.709', 'DCI-P3', 'ProPhoto RGB',
-    'ST 2084'}**
+    **{'sRGB', 'BT.1886', 'BT.2020', 'BT.709', 'DCI-P3', 'ROMM RGB',
+    'ProPhoto RGB', 'RIMM RGB', 'ST 2084'}**
 """
 
 
@@ -307,11 +428,31 @@ def eotf(value, function='sRGB', **kwargs):
     value : numeric or array_like
         Value.
     function : unicode, optional
-        **{'sRGB', 'BT.1886', 'BT.2020', 'BT.709', 'DCI-P3', 'ProPhoto RGB',
-        'ST 2084'}**,
+        **{'sRGB', 'BT.1886', 'BT.2020', 'BT.709', 'DCI-P3', 'ROMM RGB',
+        'ProPhoto RGB', 'RIMM RGB', 'ST 2084'}**,
         Computation function.
-    \**kwargs : dict, optional
-        Keywords arguments.
+
+    Other Parameters
+    ----------------
+    L_B : numeric, optional
+        {:func:`eotf_BT1886`},
+        Screen luminance for black.
+    L_W : numeric, optional
+        {:func:`eotf_BT1886`},
+        Screen luminance for white.
+    is_12_bits_system : bool
+        {:func:`eotf_BT2020`},
+        *BT.709* *alpha* and *beta* constants are used if system is not 12-bit.
+    I_max : numeric, optional
+        {:func:`eotf_ROMMRGB`, :func:`eotf_RIMMRGB`},
+        Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
+        12-bit and 16-bit per channel.
+    E_clip : numeric, optional
+        {:func:`eotf_RIMMRGB`},
+        Maximum exposure level.
+    L_p : numeric, optional
+        {:func:`eotf_ST2084`},
+        Display peak luminance :math:`cd/m^2`.
 
     Returns
     -------

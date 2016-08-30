@@ -35,7 +35,7 @@ Defines correlated colour temperature :math:`T_{cp}` computations objects:
 
 See Also
 --------
-`Colour Temperature & Correlated Colour Temperature IPython Notebook
+`Colour Temperature & Correlated Colour Temperature Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/temperature/cct.ipynb>`_
 
@@ -636,8 +636,24 @@ def uv_to_CCT(uv, method='Ohno 2013', **kwargs):
     method : unicode, optional
         **{'Ohno 2013', 'Robertson 1968'}**,
         Computation method.
-    \**kwargs : dict, optional
-        Keywords arguments.
+
+    Other Parameters
+    ----------------
+    cmfs : XYZ_ColourMatchingFunctions, optional
+        {:func:`uv_to_CCT_Ohno2013`},
+        Standard observer colour matching functions.
+    start : numeric, optional
+        {:func:`uv_to_CCT_Ohno2013`},
+        Temperature range start in kelvins.
+    end : numeric, optional
+        {:func:`uv_to_CCT_Ohno2013`},
+        Temperature range end in kelvins.
+    count : int, optional
+        {:func:`uv_to_CCT_Ohno2013`},
+        Temperatures count in the planckian tables.
+    iterations : int, optional
+        {:func:`uv_to_CCT_Ohno2013`},
+        Number of planckian tables to generate.
 
     Returns
     -------
@@ -706,8 +722,12 @@ def CCT_to_uv(CCT, D_uv=0, method='Ohno 2013', **kwargs):
     method : unicode, optional
         **{'Ohno 2013', 'Robertson 1968'}**,
         Computation method.
-    \**kwargs : dict, optional
-        Keywords arguments.
+
+    Other Parameters
+    ----------------
+    cmfs : XYZ_ColourMatchingFunctions, optional
+        {:func:`CCT_to_uv_Ohno2013`},
+        Standard observer colour matching functions.
 
     Returns
     -------

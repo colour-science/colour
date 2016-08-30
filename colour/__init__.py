@@ -34,19 +34,8 @@ Subpackages
 
 from __future__ import absolute_import
 
-import sys
-
-if sys.version_info[0] >= 3:
-    # Python 3 compatibility hacks.
-    import builtins
-    import itertools
-    import functools
-
-    builtins.basestring = str
-    builtins.unicode = str
-    builtins.reduce = functools.reduce
-    itertools.izip = zip
-
+from .utilities import *  # noqa
+from . import utilities  # noqa
 from .adaptation import *  # noqa
 from . import adaptation  # noqa
 from .algebra import *  # noqa
@@ -79,8 +68,6 @@ from .temperature import *  # noqa
 from . import temperature  # noqa
 from .volume import *  # noqa
 from . import volume  # noqa
-from .utilities import *  # noqa
-from . import utilities  # noqa
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
@@ -90,6 +77,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = []
+__all__ += utilities.__all__
 __all__ += adaptation.__all__
 __all__ += algebra.__all__
 __all__ += colorimetry.__all__

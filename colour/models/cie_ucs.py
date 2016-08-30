@@ -14,7 +14,7 @@ Defines the *CIE UCS* colourspace transformations:
 
 See Also
 --------
-`CIE UCS Colourspace IPython Notebook
+`CIE UCS Colourspace Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/cie_ucs.ipynb>`_
 

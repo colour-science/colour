@@ -19,7 +19,7 @@ The following methods are available:
 
 See Also
 --------
-`Lightness IPython Notebook
+`Lightness Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/lightness.ipynb>`_
 
@@ -210,8 +210,12 @@ def lightness(Y, method='CIE 1976', **kwargs):
     method : unicode, optional
         **{'CIE 1976', 'Glasser 1958', 'Wyszecki 1963'}**,
         Computation method.
-    \**kwargs : dict, optional
-        Keywords arguments.
+
+    Other Parameters
+    ----------------
+    Y_n : numeric or array_like, optional
+        {:func:`lightness_CIE1976`},
+        White reference *luminance* :math:`Y_n`.
 
     Returns
     -------

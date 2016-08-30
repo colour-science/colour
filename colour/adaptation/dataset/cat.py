@@ -22,7 +22,7 @@ Defines various chromatic adaptation transforms (CAT):
 
 See Also
 --------
-`Chromatic Adaptation IPython Notebook
+`Chromatic Adaptation Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/adaptation/vonkries.ipynb>`_
 

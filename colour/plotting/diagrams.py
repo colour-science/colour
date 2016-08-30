@@ -84,8 +84,13 @@ def CIE_1931_chromaticity_diagram_colours_plot(
         Samples count on one axis.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
@@ -148,9 +153,14 @@ def CIE_1931_chromaticity_diagram_plot(
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
     show_diagram_colours : bool, optional
-        Display the chromaticity diagram background colours.
+        Whether to display the chromaticity diagram background colours.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
@@ -267,8 +277,13 @@ def CIE_1960_UCS_chromaticity_diagram_colours_plot(
         Samples count on one axis.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
@@ -331,9 +346,14 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
     show_diagram_colours : bool, optional
-        Display the chromaticity diagram background colours.
+        Whether to display the chromaticity diagram background colours.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
@@ -448,8 +468,13 @@ def CIE_1976_UCS_chromaticity_diagram_colours_plot(
         Samples count on one axis.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
@@ -513,9 +538,14 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
     show_diagram_colours : bool, optional
-        Display the chromaticity diagram background colours.
+        Whether to display the chromaticity diagram background colours.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
@@ -634,8 +664,16 @@ def spds_CIE_1931_chromaticity_diagram_plot(
     annotate : bool
         Should resulting chromaticity coordinates annotated with their
         respective spectral power distribution names.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
+    show_diagram_colours : bool, optional
+        {:func:`CIE_1931_chromaticity_diagram_plot`},
+        Whether to display the chromaticity diagram background colours.
 
     Returns
     -------
@@ -702,8 +740,16 @@ def spds_CIE_1960_UCS_chromaticity_diagram_plot(
     annotate : bool
         Should resulting chromaticity coordinates annotated with their
         respective spectral power distribution names.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
+    show_diagram_colours : bool, optional
+        {:func:`CIE_1960_UCS_chromaticity_diagram_plot`},
+        Whether to display the chromaticity diagram background colours.
 
     Returns
     -------
@@ -770,8 +816,16 @@ def spds_CIE_1976_UCS_chromaticity_diagram_plot(
     annotate : bool
         Should resulting chromaticity coordinates annotated with their
         respective spectral power distribution names.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
+    show_diagram_colours : bool, optional
+        {:func:`CIE_1976_UCS_chromaticity_diagram_plot`},
+        Whether to display the chromaticity diagram background colours.
 
     Returns
     -------

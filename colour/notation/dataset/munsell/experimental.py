@@ -11,7 +11,7 @@ scaling experiments leading to the 1943 renotation.
 
 See Also
 --------
-`Munsell Renotation System IPython Notebook
+`Munsell Renotation System Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/notation/munsell.ipynb>`_
 

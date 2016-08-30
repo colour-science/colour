@@ -9,7 +9,7 @@ Defines photometric quantities computation related objects.
 
 See Also
 --------
-`Photometry IPython Notebook
+`Photometry Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/photometry.ipynb>`_
 

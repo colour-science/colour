@@ -11,7 +11,7 @@ Defines CIE 1994 chromatic adaptation model objects:
 
 See Also
 --------
-`CIE 1994 Chromatic Adaptation Model IPython Notebook
+`CIE 1994 Chromatic Adaptation Model Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/adaptation/cie1994.ipynb>`_
 

@@ -13,7 +13,7 @@ Defines spectral power distributions classes for the dataset from
 
 See Also
 --------
-`Displays IPython Notebook
+`Displays Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/characterisation/displays.ipynb>`_
 """

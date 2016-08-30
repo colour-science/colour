@@ -9,7 +9,7 @@ Defines objects related to optimal colour stimuli computations.
 
 See Also
 --------
-`Optimal Colour Stimuli - MacAdam Limits IPython Notebook
+`Optimal Colour Stimuli - MacAdam Limits Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/volume/macadam_limits.ipynb>`_
 """

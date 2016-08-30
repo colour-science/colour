@@ -55,8 +55,16 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(
     ----------
     illuminants : array_like, optional
         Factory illuminants to plot.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
+    show_diagram_colours : bool, optional
+        {:func:`CIE_1931_chromaticity_diagram_plot`},
+        Whether to display the chromaticity diagram background colours.
 
     Returns
     -------
@@ -152,8 +160,16 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
     ----------
     illuminants : array_like, optional
         Factory illuminants to plot.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
+    show_diagram_colours : bool, optional
+        {:func:`CIE_1960_UCS_chromaticity_diagram_plot`},
+        Whether to display the chromaticity diagram background colours.
 
     Returns
     -------
