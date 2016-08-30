@@ -36,7 +36,7 @@ The following light sources are available:
 
 See Also
 --------
-`Light Sources IPython Notebook
+`Light Sources Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/light_sources.ipynb>`_
 """

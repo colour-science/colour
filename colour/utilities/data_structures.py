@@ -46,6 +46,9 @@ class ArbitraryPrecisionMapping(MutableMapping):
         *dict* of data to store into the mapping at initialisation.
     key_decimals : int, optional
         Decimals count the keys will be rounded at
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
         Key / Value pairs to store into the mapping at initialisation.
 
@@ -257,8 +260,8 @@ class Structure(dict):
     """
     Defines an object similar to C/C++ structured type.
 
-    Parameters
-    ----------
+    Other Parameters
+    ----------------
     \*args : list, optional
         Arguments.
     \**kwargs : dict, optional
@@ -368,8 +371,8 @@ blob/develop/foundations/data_structures.py
         """
         Updates both keys and sibling attributes.
 
-        Parameters
-        ----------
+        Other Parameters
+        ----------------
         \*args : list, optional
             Arguments.
         \**kwargs : dict, optional
@@ -456,6 +459,9 @@ class CaseInsensitiveMapping(MutableMapping):
     ----------
     data : dict
         *dict* of data to store into the mapping at initialisation.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
         Key / Value pairs to store into the mapping at initialisation.
 

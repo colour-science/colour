@@ -67,8 +67,13 @@ def colour_quality_bars_plot(specifications,
         Use hatching for the bars.
     hatching_repeat : int, optional
         Hatching pattern repeat.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
@@ -175,8 +180,22 @@ def single_spd_colour_rendering_index_bars_plot(spd, **kwargs):
     spd : SpectralPowerDistribution
         Illuminant or light source spectral power distribution to plot the
         *colour rendering index*.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
+    labels : bool, optional
+        {:func:`colour_quality_bars_plot`},
+        Add labels above bars.
+    hatching : bool or None, optional
+        {:func:`colour_quality_bars_plot`},
+        Use hatching for the bars.
+    hatching_repeat : int, optional
+        {:func:`colour_quality_bars_plot`},
+        Hatching pattern repeat.
 
     Returns
     -------
@@ -204,8 +223,22 @@ def multi_spd_colour_rendering_index_bars_plot(spds, **kwargs):
     spds : array_like
         Array of illuminants or light sources spectral power distributions to
         plot the *colour rendering index*.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
+    labels : bool, optional
+        {:func:`colour_quality_bars_plot`},
+        Add labels above bars.
+    hatching : bool or None, optional
+        {:func:`colour_quality_bars_plot`},
+        Use hatching for the bars.
+    hatching_repeat : int, optional
+        {:func:`colour_quality_bars_plot`},
+        Hatching pattern repeat.
 
     Returns
     -------
@@ -264,8 +297,22 @@ def single_spd_colour_quality_scale_bars_plot(spd, **kwargs):
     spd : SpectralPowerDistribution
         Illuminant or light source spectral power distribution to plot the
         *colour quality scale*.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
+    labels : bool, optional
+        {:func:`colour_quality_bars_plot`},
+        Add labels above bars.
+    hatching : bool or None, optional
+        {:func:`colour_quality_bars_plot`},
+        Use hatching for the bars.
+    hatching_repeat : int, optional
+        {:func:`colour_quality_bars_plot`},
+        Hatching pattern repeat.
 
     Returns
     -------
@@ -293,8 +340,22 @@ def multi_spd_colour_quality_scale_bars_plot(spds, **kwargs):
     spds : array_like
         Array of illuminants or light sources spectral power distributions to
         plot the *colour quality scale*.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
+    labels : bool, optional
+        {:func:`colour_quality_bars_plot`},
+        Add labels above bars.
+    hatching : bool or None, optional
+        {:func:`colour_quality_bars_plot`},
+        Use hatching for the bars.
+    hatching_repeat : int, optional
+        {:func:`colour_quality_bars_plot`},
+        Hatching pattern repeat.
 
     Returns
     -------

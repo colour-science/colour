@@ -13,7 +13,7 @@ Implements rayleigh scattering / optical depth in the atmosphere computation:
 
 See Also
 --------
-`Rayleigh Optical Depth - Scattering in the Atmosphere IPython Notebook
+`Rayleigh Optical Depth - Scattering in the Atmosphere Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/phenomenons/rayleigh.ipynb>`_
 
@@ -111,6 +111,9 @@ def air_refraction_index_Penndorf1957(wavelength, *args):
     ----------
     wavelength : numeric or array_like
         Wavelength :math:`\lambda` in micrometers (:math:`\mu m`).
+
+    Other Parameters
+    ----------------
     \*args : list, optional
         Arguments.
 
@@ -148,6 +151,9 @@ def air_refraction_index_Edlen1966(wavelength, *args):
     ----------
     wavelength : numeric or array_like
         Wavelength :math:`\lambda` in micrometers (:math:`\mu m`).
+
+    Other Parameters
+    ----------------
     \*args : list, optional
         Arguments.
 
@@ -186,6 +192,9 @@ def air_refraction_index_Peck1972(wavelength, *args):
     ----------
     wavelength : numeric or array_like
         Wavelength :math:`\lambda` in micrometers (:math:`\mu m`).
+
+    Other Parameters
+    ----------------
     \*args : list, optional
         Arguments.
 
@@ -321,6 +330,9 @@ def F_air_Penndorf1957(wavelength, *args):
     ----------
     wavelength : numeric or array_like
         Wavelength :math:`\lambda` in micrometers (:math:`\mu m`).
+
+    Other Parameters
+    ----------------
     \*args : list, optional
         Arguments.
 
@@ -359,6 +371,9 @@ def F_air_Young1981(wavelength, *args):
     ----------
     wavelength : numeric or array_like
         Wavelength :math:`\lambda` in micrometers (:math:`\mu m`).
+
+    Other Parameters
+    ----------------
     \*args : list, optional
         Arguments.
 

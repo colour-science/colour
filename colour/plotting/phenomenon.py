@@ -71,8 +71,18 @@ def single_rayleigh_scattering_spd_plot(
         Altitude of the site in meters.
     cmfs : unicode, optional
         Standard observer colour matching functions.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
+    out_of_gamut_clipping : bool, optional
+        {:func:`single_spd_plot`},
+        Whether to clip out of gamut colours otherwise, the colours will be
+        offset by the absolute minimal colour leading to a rendering on
+        gray background, less saturated and smoother. [1]_
 
     Returns
     -------
@@ -113,8 +123,13 @@ def the_blue_sky_plot(
     ----------
     cmfs : unicode, optional
         Standard observer colour matching functions.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------

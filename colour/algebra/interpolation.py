@@ -20,6 +20,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 import scipy.interpolate
+from six.moves import reduce
 
 from colour.utilities import as_numeric, interval
 

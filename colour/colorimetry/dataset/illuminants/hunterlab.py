@@ -14,7 +14,7 @@ want to use different data accordingly to the tables given in [2]_.
 
 See Also
 --------
-`Illuminants IPython Notebook
+`Illuminants Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/illuminants.ipynb>`_
 

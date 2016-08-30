@@ -14,7 +14,7 @@ Defines the *CIE Lab* colourspace transformations:
 
 See Also
 --------
-`CIE Lab Colourspace IPython Notebook
+`CIE Lab Colourspace Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/cie_lab.ipynb>`_
 

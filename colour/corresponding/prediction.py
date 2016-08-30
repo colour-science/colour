@@ -9,7 +9,7 @@ Defines objects to compute corresponding chromaticities prediction.
 
 See Also
 --------
-`Corresponding Chromaticities Prediction IPython Notebook
+`Corresponding Chromaticities Prediction Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/corresponding/prediction.ipynb>`_
 
@@ -354,8 +354,15 @@ def corresponding_chromaticities_prediction(experiment=1,
     model : unicode, optional
         **{'Von Kries', 'CIE 1994', 'CMCCAT2000', 'Fairchild 1990'}**,
         Chromatic adaptation model.
-    \**kwargs : dict, optional
-        Keywords arguments.
+
+    Other Parameters
+    ----------------
+    transform : unicode, optional
+        {:func:`corresponding_chromaticities_prediction_VonKries`},
+        **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
+        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
+        'Bianco PC'}**,
+        Chromatic adaptation transform.
 
     Returns
     -------

@@ -12,7 +12,7 @@ Defines *CIE* illuminants computation related objects:
 
 See Also
 --------
-`Illuminants IPython Notebook
+`Illuminants Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/illuminants.ipynb>`_
 colour.colorimetry.dataset.illuminants.d_illuminants_s_spds,

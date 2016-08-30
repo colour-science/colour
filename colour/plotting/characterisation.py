@@ -46,8 +46,34 @@ def colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
     ----------
     colour_checker : unicode, optional
         Color checker name.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
+    width : numeric, optional
+        {:func:`multi_colour_plot`},
+        Colour polygon width.
+    height : numeric, optional
+        {:func:`multi_colour_plot`},
+        Colour polygon height.
+    spacing : numeric, optional
+        {:func:`multi_colour_plot`},
+        Colour polygons spacing.
+    across : int, optional
+        {:func:`multi_colour_plot`},
+        Colour polygons count per row.
+    text_display : bool, optional
+        {:func:`multi_colour_plot`},
+        Display colour text.
+    text_size : numeric, optional
+        {:func:`multi_colour_plot`},
+        Colour text size.
+    text_offset : numeric, optional
+        {:func:`multi_colour_plot`},
+        Colour text offset.
 
     Returns
     -------

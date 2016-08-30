@@ -5,7 +5,7 @@ from __future__ import absolute_import
 
 from .rgb_colourspace import RGB_Colourspace
 from .rgb_colourspace import XYZ_to_RGB, RGB_to_XYZ
-from .rgb_colourspace import RGB_to_RGB
+from .rgb_colourspace import RGB_to_RGB_matrix, RGB_to_RGB
 from .derivation import (
     normalised_primary_matrix,
     chromatically_adapted_primaries,
@@ -27,7 +27,7 @@ from .ycbcr import (
 
 __all__ = ['RGB_Colourspace']
 __all__ += ['XYZ_to_RGB', 'RGB_to_XYZ']
-__all__ += ['RGB_to_RGB']
+__all__ += ['RGB_to_RGB_matrix', 'RGB_to_RGB']
 __all__ += ['normalised_primary_matrix',
             'chromatically_adapted_primaries',
             'primaries_whitepoint',

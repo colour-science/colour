@@ -117,8 +117,8 @@ def warning(*args, **kwargs):
     """
     Issues a warning.
 
-    Parameters
-    ----------
+    Other Parameters
+    ----------------
     \*args : list, optional
         Arguments.
     \**kwargs : dict, optional
