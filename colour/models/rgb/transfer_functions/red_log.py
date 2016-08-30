@@ -13,6 +13,8 @@ Defines the *RED* log encodings:
 -   :func:`log_decoding_REDLogFilm`
 -   :func:`log_encoding_Log3G10`
 -   :func:`log_decoding_Log3G10`
+-   :func:`log_encoding_Log3G12`
+-   :func:`log_decoding_Log3G12`
 
 Notes
 -----
@@ -27,12 +29,17 @@ Notes
     For those interested, solving for constants which exactly hit 1/3 and 1.0
     yields the following values:
 
-    B = 25.0 * (np.sqrt(4093.0) - 3) / 9.0
-    A = 1.0 / np.log10(B * 184.32 + 1.0)
+    B = 25 * (np.sqrt(4093.0) - 3) / 9
+    A = 1 / np.log10(B * 184.32 + 1)
 
     where the function takes the form:
 
     Log3G10(x) = A * np.log10(B * x + 1)
+
+    Similarly for Log3G12, the values which hit exactly 1/3 and 1.0 are:
+
+    B = 25 * (np.sqrt(16381.0) - 3) / 9
+    A = 1 / np.log10(B * 737.28 + 1)
 
 See Also
 --------
@@ -68,7 +75,9 @@ __all__ = ['log_encoding_REDLog',
            'log_encoding_REDLogFilm',
            'log_decoding_REDLogFilm',
            'log_encoding_Log3G10',
-           'log_decoding_Log3G10']
+           'log_decoding_Log3G10',
+           'log_encoding_Log3G12',
+           'log_decoding_Log3G12']
 
 
 def log_encoding_REDLog(x,
@@ -237,3 +246,56 @@ def log_decoding_Log3G10(y):
 
     return (np.sign(y) *
             (np.power(10.0, np.abs(y) / 0.222497) - 1) / 169.379333)
+
+
+def log_encoding_Log3G12(x):
+    """
+    Defines the *Log3G12* log encoding curve / opto-electronic transfer
+    function.
+
+    Parameters
+    ----------
+    x : numeric or array_like
+        Linear data :math:`x`.
+
+    Returns
+    -------
+    numeric or ndarray
+        Non-linear data :math:`y`.
+
+    Examples
+    --------
+    >>> log_encoding_Log3G12(0.18)  # doctest: +ELLIPSIS
+    0.3333326...
+    """
+
+    x = np.asarray(x)
+
+    return np.sign(x) * 0.184904 * np.log10((np.abs(x) * 347.189667) + 1)
+
+
+def log_decoding_Log3G12(y):
+    """
+    Defines the *Log3G12* log decoding curve / electro-optical transfer
+    function.
+
+    Parameters
+    ----------
+    y : numeric or array_like
+        Non-linear data :math:`y`.
+
+    Returns
+    -------
+    numeric or ndarray
+        Linear data :math:`x`.
+
+    Examples
+    --------
+    >>> log_decoding_Log3G12(1.0 / 3)  # doctest: +ELLIPSIS
+    0.1800015...
+    """
+
+    y = np.asarray(y)
+
+    return (np.sign(y) *
+            (np.power(10.0, np.abs(y) / 0.184904) - 1) / 347.189667)
