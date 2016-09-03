@@ -130,7 +130,7 @@ def log_decoding_CanonLog(clog_ire):
 
 def log_encoding_CanonLog2(x):
     """
-    Defines the *Canon Log2* log encoding curve / opto-electronic transfer
+    Defines the *Canon Log 2* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
@@ -141,10 +141,10 @@ def log_encoding_CanonLog2(x):
     Returns
     -------
     numeric or ndarray
-        *Canon Log2* non-linear *IRE* data.
+        *Canon Log 2* non-linear *IRE* data.
     Notes
     -----
-    -   Output *Canon Log2* non-linear *IRE* data should be converted to code
+    -   Output *Canon Log 2* non-linear *IRE* data should be converted to code
         value *CV* as follows: `CV = IRE * (940 - 64) + 64`.
 
     Examples
@@ -165,13 +165,13 @@ def log_encoding_CanonLog2(x):
 
 def log_decoding_CanonLog2(clog2_ire):
     """
-    Defines the *Canon Log2* log decoding curve / electro-optical transfer
+    Defines the *Canon Log 2* log decoding curve / electro-optical transfer
     function.
 
     Parameters
     ----------
     clog2_ire : numeric or array_like
-        *Canon Log2* non-linear *IRE* data.
+        *Canon Log 2* non-linear *IRE* data.
 
     Returns
     -------
@@ -180,7 +180,7 @@ def log_decoding_CanonLog2(clog2_ire):
 
     Notes
     -----
-    -   Input *Canon Log2* non-linear *IRE* data should be converted from code
+    -   Input *Canon Log 2* non-linear *IRE* data should be converted from code
         value *CV* to *IRE* as follows: `IRE = (CV - 64) / (940 - 64)`.
 
     Examples
@@ -201,7 +201,7 @@ def log_decoding_CanonLog2(clog2_ire):
 
 def log_encoding_CanonLog3(x):
     """
-    Defines the *Canon Log3* log encoding curve / opto-electronic transfer
+    Defines the *Canon Log 3* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
@@ -212,10 +212,10 @@ def log_encoding_CanonLog3(x):
     Returns
     -------
     numeric or ndarray
-        *Canon Log3* non-linear *IRE* data.
+        *Canon Log 3* non-linear *IRE* data.
     Notes
     -----
-    -   Output *Canon Log3* non-linear *IRE* data should be converted to code
+    -   Output *Canon Log 3* non-linear *IRE* data should be converted to code
         value *CV* as follows: `CV = IRE * (940 - 64) + 64`.
 
     Examples
@@ -239,13 +239,13 @@ def log_encoding_CanonLog3(x):
 
 def log_decoding_CanonLog3(clog3_ire):
     """
-    Defines the *Canon Log3* log decoding curve / electro-optical transfer
+    Defines the *Canon Log 3* log decoding curve / electro-optical transfer
     function.
 
     Parameters
     ----------
     clog3_ire : numeric or array_like
-        *Canon Log3* non-linear *IRE* data.
+        *Canon Log 3* non-linear *IRE* data.
 
     Returns
     -------
@@ -254,7 +254,7 @@ def log_decoding_CanonLog3(clog3_ire):
 
     Notes
     -----
-    -   Input *Canon Log3* non-linear *IRE* data should be converted from code
+    -   Input *Canon Log 3* non-linear *IRE* data should be converted from code
         value *CV* to *IRE* as follows: `IRE = (CV - 64) / (940 - 64)`.
 
     Examples
