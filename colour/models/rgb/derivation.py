@@ -279,7 +279,7 @@ def RGB_luminance(RGB, primaries, whitepoint):
     12.1616018...
     """
 
-    L = np.sum(
+    Y = np.sum(
         normalised_primary_matrix(primaries, whitepoint)[1] * RGB, axis=-1)
 
-    return L
+    return Y

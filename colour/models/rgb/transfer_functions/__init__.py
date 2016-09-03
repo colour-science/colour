@@ -101,6 +101,8 @@ LOG_ENCODING_CURVES = CaseInsensitiveMapping(
      'ViperLog': log_encoding_ViperLog,
      'PLog': log_encoding_PivotedLog,
      'Canon Log': log_encoding_CanonLog,
+     'Canon Log 2': log_encoding_CanonLog2,
+     'Canon Log 3': log_encoding_CanonLog3,
      'ACEScc': log_encoding_ACEScc,
      'ACESproxy': log_encoding_ACESproxy,
      'ALEXA Log C': log_encoding_ALEXALogC,
@@ -115,9 +117,9 @@ LOG_ENCODING_CURVES = CaseInsensitiveMapping(
 Supported *log* encoding curves.
 
 LOG_ENCODING_CURVES : CaseInsensitiveMapping
-    **{'Cineon', 'Panalog', 'ViperLog', 'PLog', 'Canon Log', 'ACEScc',
-    'ACESproxy', 'ALEXA Log C', 'REDLog', 'REDLogFilm', 'ERIMM RGB,
-    'S-Log', 'S-Log2', 'S-Log3', 'V-Log'}**
+    **{'Cineon', 'Panalog', 'ViperLog', 'PLog', 'Canon Log', 'Canon Log 2',
+    'Canon Log 3', 'ACEScc', 'ACESproxy', 'ALEXA Log C', 'REDLog',
+    'REDLogFilm', 'ERIMM RGB, 'S-Log', 'S-Log2', 'S-Log3', 'V-Log'}**
 """
 
 
@@ -131,9 +133,10 @@ def log_encoding_curve(value, curve='Cineon', **kwargs):
     value : numeric or array_like
         Value.
     curve : unicode, optional
-        **{'Cineon', 'Panalog', 'ViperLog', 'PLog', 'Canon Log', 'ACEScc',
-        'ACESproxy', 'ALEXA Log C', 'REDLog', 'REDLogFilm', 'ERIMM RGB,
-        'S-Log', 'S-Log2', 'S-Log3', 'V-Log'}**,
+        **{'Cineon', 'Panalog', 'ViperLog', 'PLog', 'Canon Log',
+        'Canon Log 2', 'Canon Log 3', 'ACEScc', 'ACESproxy', 'ALEXA Log C',
+        'REDLog', 'REDLogFilm', 'ERIMM RGB, 'S-Log', 'S-Log2', 'S-Log3',
+        'V-Log'}**,
         Computation curve.
 
     Other Parameters
@@ -211,6 +214,8 @@ LOG_DECODING_CURVES = CaseInsensitiveMapping(
      'ViperLog': log_decoding_ViperLog,
      'PLog': log_decoding_PivotedLog,
      'Canon Log': log_decoding_CanonLog,
+     'Canon Log 2': log_decoding_CanonLog2,
+     'Canon Log 3': log_decoding_CanonLog3,
      'ACEScc': log_decoding_ACEScc,
      'ACESproxy': log_decoding_ACESproxy,
      'ALEXA Log C': log_decoding_ALEXALogC,
@@ -225,9 +230,9 @@ LOG_DECODING_CURVES = CaseInsensitiveMapping(
 Supported *log* decoding curves.
 
 LOG_DECODING_CURVES : CaseInsensitiveMapping
-    **{'Cineon', 'Panalog', 'ViperLog', 'PLog', 'Canon Log', 'ACEScc',
-    'ACESproxy', 'ALEXA Log C', 'REDLog', 'REDLogFilm', 'ERIMM RGB,
-    'S-Log', 'S-Log2', 'S-Log3', 'V-Log'}**
+    **{'Cineon', 'Panalog', 'ViperLog', 'PLog', 'Canon Log', 'Canon Log 2',
+    'Canon Log 3', 'ACEScc', 'ACESproxy', 'ALEXA Log C', 'REDLog',
+    'REDLogFilm', 'ERIMM RGB, 'S-Log', 'S-Log2', 'S-Log3', 'V-Log'}**
 """
 
 
@@ -241,9 +246,10 @@ def log_decoding_curve(value, curve='Cineon', **kwargs):
     value : numeric or array_like
         Value.
     curve : unicode, optional
-        **{'Cineon', 'Panalog', 'ViperLog', 'PLog', 'Canon Log', 'ACEScc',
-        'ACESproxy', 'ALEXA Log C', 'REDLog', 'REDLogFilm', 'ERIMM RGB,
-        'S-Log', 'S-Log2', 'S-Log3', 'V-Log'}**,
+        **{'Cineon', 'Panalog', 'ViperLog', 'PLog', 'Canon Log',
+        'Canon Log 2', 'Canon Log 3', 'ACEScc', 'ACESproxy', 'ALEXA Log C',
+        'REDLog', 'REDLogFilm', 'ERIMM RGB, 'S-Log', 'S-Log2', 'S-Log3',
+        'V-Log'}**,
         Computation curve.
 
     Other Parameters
