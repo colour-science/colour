@@ -139,8 +139,8 @@ def delta_E_CIE1994(Lab_1, Lab_2, textiles=False):
     L_1, a_1, b_1 = tsplit(Lab_1)
     L_2, a_2, b_2 = tsplit(Lab_2)
 
-    C_1 = np.sqrt(a_1 ** 2 + b_1 ** 2)
-    C_2 = np.sqrt(a_2 ** 2 + b_2 ** 2)
+    C_1 = np.hypot(a_1, b_1)
+    C_2 = np.hypot(a_2, b_2)
 
     s_L = 1
     s_C = 1 + k_1 * C_1
@@ -233,8 +233,8 @@ Melgosa_CIEDE2000_Workshop-July4.pdf
 
     l_bar_prime = 0.5 * (L_1 + L_2)
 
-    c_1 = np.sqrt(a_1 ** 2 + b_1 ** 2)
-    c_2 = np.sqrt(a_2 ** 2 + b_2 ** 2)
+    c_1 = np.hypot(a_1, b_1)
+    c_2 = np.hypot(a_2, b_2)
 
     c_bar = 0.5 * (c_1 + c_2)
     c_bar7 = np.power(c_bar, 7)
@@ -243,8 +243,8 @@ Melgosa_CIEDE2000_Workshop-July4.pdf
 
     a_1_prime = a_1 * (1 + g)
     a_2_prime = a_2 * (1 + g)
-    c_1_prime = np.sqrt(a_1_prime ** 2 + b_1 ** 2)
-    c_2_prime = np.sqrt(a_2_prime ** 2 + b_2 ** 2)
+    c_1_prime = np.hypot(a_1_prime, b_1)
+    c_2_prime = np.hypot(a_2_prime, b_2)
     c_bar_prime = 0.5 * (c_1_prime + c_2_prime)
 
     h_1_prime = np.asarray(np.rad2deg(np.arctan2(b_1, a_1_prime)))
@@ -335,8 +335,8 @@ def delta_E_CMC(Lab_1, Lab_2, l=2, c=1):
     L_1, a_1, b_1 = tsplit(Lab_1)
     L_2, a_2, b_2 = tsplit(Lab_2)
 
-    c_1 = np.sqrt(a_1 ** 2 + b_1 ** 2)
-    c_2 = np.sqrt(a_2 ** 2 + b_2 ** 2)
+    c_1 = np.hypot(a_1, b_1)
+    c_2 = np.hypot(a_2, b_2)
     s_l = np.where(L_1 < 16, 0.511, (0.040975 * L_1) / (1 + 0.01765 * L_1))
     s_c = 0.0638 * c_1 / (1 + 0.0131 * c_1) + 0.638
     h_1 = np.where(c_1 < 0.000001, 0, np.rad2deg(np.arctan2(b_1, a_1)))

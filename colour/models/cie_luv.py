@@ -286,7 +286,7 @@ def Luv_to_LCHuv(Luv):
     H = np.array(180 * np.arctan2(v, u) / np.pi)
     H[np.array(H < 0)] += 360
 
-    LCHuv = tstack((L, np.sqrt(u ** 2 + v ** 2), H))
+    LCHuv = tstack((L, np.hypot(u, v), H))
 
     return LCHuv
 

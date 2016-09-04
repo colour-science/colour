@@ -806,7 +806,7 @@ def saturation_correlate(S_RG, S_YB):
     S_RG = np.asarray(S_RG)
     S_YB = np.asarray(S_YB)
 
-    S = np.sqrt((S_RG ** 2) + (S_YB ** 2))
+    S = np.hypot(S_RG, S_YB)
 
     return S
 

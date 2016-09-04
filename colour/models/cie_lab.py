@@ -193,7 +193,7 @@ def Lab_to_LCHab(Lab):
     H = np.array(180 * np.arctan2(b, a) / np.pi)
     H[np.array(H < 0)] += 360
 
-    LCHab = tstack((L, np.sqrt(a ** 2 + b ** 2), H))
+    LCHab = tstack((L, np.hypot(a, b), H))
 
     return LCHab
 
