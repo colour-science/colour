@@ -11,6 +11,8 @@ The following transformations are available:
 
 -   :func:`cartesian_to_spherical`: Cartesian to Spherical transformation.
 -   :func:`spherical_to_cartesian`: Spherical to Cartesian transformation.
+-   :func:`cartesian_to_polar`: Cartesian to Polar transformation.
+-   :func:`polar_to_cartesian`: Polar to Cartesian transformation.
 -   :func:`cartesian_to_cylindrical`: Cartesian to Cylindrical transformation.
 -   :func:`cylindrical_to_cartesian`: Cylindrical to Cartesian transformation.
 
@@ -38,6 +40,8 @@ __status__ = 'Production'
 
 __all__ = ['cartesian_to_spherical',
            'spherical_to_cartesian',
+           'cartesian_to_polar',
+           'polar_to_cartesian',
            'cartesian_to_cylindrical',
            'cylindrical_to_cartesian']
 
@@ -60,7 +64,8 @@ def cartesian_to_spherical(a):
 
     See Also
     --------
-    spherical_to_cartesian, cartesian_to_cylindrical, cylindrical_to_cartesian
+    spherical_to_cartesian, cartesian_to_polar, polar_to_cartesian,
+    cartesian_to_cylindrical, cylindrical_to_cartesian
 
     Examples
     --------
@@ -98,7 +103,8 @@ def spherical_to_cartesian(a):
 
     See Also
     --------
-    cartesian_to_spherical, cartesian_to_cylindrical, cylindrical_to_cartesian
+    cartesian_to_spherical, cartesian_to_polar, polar_to_cartesian,
+    cartesian_to_cylindrical, cylindrical_to_cartesian
 
     Examples
     --------
@@ -118,10 +124,81 @@ def spherical_to_cartesian(a):
     return xyz
 
 
+def cartesian_to_polar(a):
+    """
+    Transforms given Cartesian coordinates array :math:`xy` to Polar
+    coordinates array :math:`\\rho\phi` (radial coordinate, angular
+    coordinate).
+
+    Parameters
+    ----------
+    a : array_like
+        Cartesian coordinates array :math:`xy` to transform.
+
+    Returns
+    -------
+    ndarray
+        Polar coordinates array :math:`\\rho\phi`.
+
+    See Also
+    --------
+    cartesian_to_spherical, spherical_to_cartesian, polar_to_cartesian,
+    cartesian_to_cylindrical, cylindrical_to_cartesian
+
+    Examples
+    --------
+    >>> a = np.array([3, 1])
+    >>> cartesian_to_polar(a)  # doctest: +ELLIPSIS
+    array([ 3.1622776...,  0.3217505...])
+    """
+
+    x, y = tsplit(a)
+
+    rho = np.hypot(x, y)
+    phi = np.arctan2(y, x)
+
+    return tstack((rho, phi))
+
+
+def polar_to_cartesian(a):
+    """
+    Transforms given Polar coordinates array :math:`\\rho\phi` (radial
+    coordinate, angular coordinate) to Cartesian coordinates array :math:`xy`.
+
+    Parameters
+    ----------
+    a : array_like
+        Polar coordinates array :math:`\\rho\phi` to transform.
+
+    Returns
+    -------
+    ndarray
+        Cartesian coordinates array :math:`xy`.
+
+    See Also
+    --------
+    cartesian_to_spherical, spherical_to_cartesian, cartesian_to_polar,
+    cartesian_to_cylindrical, cylindrical_to_cartesian
+
+    Examples
+    --------
+    >>> a = np.array([3.16227766, 0.32175055])
+    >>> polar_to_cartesian(a)  # doctest: +ELLIPSIS
+    array([ 3.        ,  0.9999999...])
+    """
+
+    rho, phi = tsplit(a)
+
+    x = rho * np.cos(phi)
+    y = rho * np.sin(phi)
+
+    return tstack((x, y))
+
+
 def cartesian_to_cylindrical(a):
     """
     Transforms given Cartesian coordinates array :math:`xyz` to Cylindrical
-    coordinates array :math:`\\rho\phi z` (azimuth, radial distance, and
+    coordinates array :math:`\\rho\phi z` (azimuth, radial distance and
     height).
 
     Parameters
@@ -136,7 +213,8 @@ def cartesian_to_cylindrical(a):
 
     See Also
     --------
-    cartesian_to_spherical, spherical_to_cartesian, cylindrical_to_cartesian
+    cartesian_to_spherical, spherical_to_cartesian, cartesian_to_polar,
+    polar_to_cartesian, cylindrical_to_cartesian
 
     Examples
     --------
@@ -145,12 +223,11 @@ def cartesian_to_cylindrical(a):
     array([ 3.1622776...,  0.3217505...,  6.        ])
     """
 
-    x, y, z = tsplit(a)
+    a = np.asarray(a)
 
-    rho = np.linalg.norm(tstack((x, y)), axis=-1)
-    phi = np.arctan2(y, x)
+    rho, phi = tsplit(cartesian_to_polar(a[..., 0:2]))
 
-    return tstack((rho, phi, z))
+    return tstack((rho, phi, a[..., -1]))
 
 
 def cylindrical_to_cartesian(a):
@@ -171,7 +248,8 @@ def cylindrical_to_cartesian(a):
 
     See Also
     --------
-    cartesian_to_spherical, spherical_to_cartesian, cartesian_to_cylindrical
+    cartesian_to_spherical, spherical_to_cartesian, cartesian_to_polar,
+    polar_to_cartesian, cartesian_to_cylindrical
 
     Examples
     --------
@@ -180,9 +258,8 @@ def cylindrical_to_cartesian(a):
     array([ 3.        ,  0.9999999...,  6.        ])
     """
 
-    rho, phi, z = tsplit(a)
+    a = np.asarray(a)
 
-    x = rho * np.cos(phi)
-    y = rho * np.sin(phi)
+    x, y = tsplit(polar_to_cartesian(a[..., 0:2]))
 
-    return tstack((x, y, z))
+    return tstack((x, y, a[..., -1]))

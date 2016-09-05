@@ -15,6 +15,8 @@ from itertools import permutations
 from colour.algebra import (
     cartesian_to_spherical,
     spherical_to_cartesian,
+    cartesian_to_polar,
+    polar_to_cartesian,
     cartesian_to_cylindrical,
     cylindrical_to_cartesian)
 from colour.utilities import ignore_numpy_errors
@@ -28,6 +30,8 @@ __status__ = 'Production'
 
 __all__ = ['TestCartesianToSpherical',
            'TestSphericalToCartesian',
+           'TestCartesianToPolar',
+           'TestPolarToCartesian',
            'TestCartesianToCylindrical',
            'TestCylindricalToCartesian']
 
@@ -169,6 +173,145 @@ spherical_to_cartesian` definition nan support.
         for case in cases:
             a_i = np.array(case)
             spherical_to_cartesian(a_i)
+
+
+class TestCartesianToPolar(unittest.TestCase):
+    """
+    Defines :func:`colour.algebra.coordinates.transformations.\
+cartesian_to_polar` definition unit tests methods.
+    """
+
+    def test_cartesian_to_polar(self):
+        """
+        Tests :func:`colour.algebra.coordinates.transformations.\
+cartesian_to_polar` definition.
+        """
+
+        np.testing.assert_almost_equal(
+            cartesian_to_polar(np.array([3, 1])),
+            np.array([3.16227766, 0.32175055]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            cartesian_to_polar(np.array([-1, 9])),
+            np.array([9.05538514, 1.68145355]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            cartesian_to_polar(np.array([6.3434, -0.9345])),
+            np.array([6.41186508, -0.14626640]),
+            decimal=7)
+
+    def test_n_dimensional_cartesian_to_polar(self):
+        """
+        Tests :func:`colour.algebra.coordinates.transformations.\
+cartesian_to_polar` definition n-dimensional arrays support.
+        """
+
+        a_i = np.array([3, 1])
+        a_o = np.array([3.16227766, 0.32175055])
+        np.testing.assert_almost_equal(
+            cartesian_to_polar(a_i),
+            a_o,
+            decimal=7)
+
+        a_i = np.tile(a_i, (6, 1))
+        a_o = np.tile(a_o, (6, 1))
+        np.testing.assert_almost_equal(
+            cartesian_to_polar(a_i),
+            a_o,
+            decimal=7)
+
+        a_i = np.reshape(a_i, (2, 3, 2))
+        a_o = np.reshape(a_o, (2, 3, 2))
+        np.testing.assert_almost_equal(
+            cartesian_to_polar(a_i),
+            a_o,
+            decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_cartesian_to_polar(self):
+        """
+        Tests :func:`colour.algebra.coordinates.transformations.\
+cartesian_to_polar` definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=2))
+        for case in cases:
+            a_i = np.array(case)
+            cartesian_to_polar(a_i)
+
+
+class TestPolarToCartesian(unittest.TestCase):
+    """
+    Defines :func:`colour.algebra.coordinates.transformations.\
+polar_to_cartesian` definition unit tests methods.
+    """
+
+    def test_polar_to_cartesian(self):
+        """
+        Tests :func:`colour.algebra.coordinates.transformations.\
+polar_to_cartesian` definition.
+        """
+
+        np.testing.assert_almost_equal(
+            polar_to_cartesian(
+                np.array([0.32175055, 1.08574654])),
+            np.array([0.15001697, 0.28463718]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            polar_to_cartesian(
+                np.array([1.68145355, 1.05578119])),
+            np.array([0.82819662, 1.46334425]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            polar_to_cartesian(
+                np.array([-0.14626640, 1.23829030])),
+            np.array([-0.04774323, -0.13825500]),
+            decimal=7)
+
+    def test_n_dimensional_polar_to_cartesian(self):
+        """
+        Tests :func:`colour.algebra.coordinates.transformations.\
+polar_to_cartesian` definition n-dimensional arrays support.
+        """
+
+        a_i = np.array([3.16227766, 0.32175055])
+        a_o = np.array([3, 1])
+        np.testing.assert_almost_equal(
+            polar_to_cartesian(a_i),
+            a_o,
+            decimal=7)
+
+        a_i = np.tile(a_i, (6, 1))
+        a_o = np.tile(a_o, (6, 1))
+        np.testing.assert_almost_equal(
+            polar_to_cartesian(a_i),
+            a_o,
+            decimal=7)
+
+        a_i = np.reshape(a_i, (2, 3, 2))
+        a_o = np.reshape(a_o, (2, 3, 2))
+        np.testing.assert_almost_equal(
+            polar_to_cartesian(a_i),
+            a_o,
+            decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_polar_to_cartesian(self):
+        """
+        Tests :func:`colour.algebra.coordinates.transformations.\
+polar_to_cartesian` definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=2))
+        for case in cases:
+            a_i = np.array(case)
+            polar_to_cartesian(a_i)
 
 
 class TestCartesianToCylindrical(unittest.TestCase):
