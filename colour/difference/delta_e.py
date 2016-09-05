@@ -247,11 +247,8 @@ Melgosa_CIEDE2000_Workshop-July4.pdf
     c_2_prime = np.hypot(a_2_prime, b_2)
     c_bar_prime = 0.5 * (c_1_prime + c_2_prime)
 
-    h_1_prime = np.asarray(np.rad2deg(np.arctan2(b_1, a_1_prime)))
-    h_1_prime[np.asarray(h_1_prime < 0.0)] += 360
-
-    h_2_prime = np.asarray(np.rad2deg(np.arctan2(b_2, a_2_prime)))
-    h_2_prime[np.asarray(h_2_prime < 0.0)] += 360
+    h_1_prime = np.degrees(np.arctan2(b_1, a_1_prime)) % 360
+    h_2_prime = np.degrees(np.arctan2(b_2, a_2_prime)) % 360
 
     h_bar_prime = np.where(np.fabs(h_1_prime - h_2_prime) <= 180,
                            0.5 * (h_1_prime + h_2_prime),
@@ -339,13 +336,7 @@ def delta_E_CMC(Lab_1, Lab_2, l=2, c=1):
     c_2 = np.hypot(a_2, b_2)
     s_l = np.where(L_1 < 16, 0.511, (0.040975 * L_1) / (1 + 0.01765 * L_1))
     s_c = 0.0638 * c_1 / (1 + 0.0131 * c_1) + 0.638
-    h_1 = np.where(c_1 < 0.000001, 0, np.rad2deg(np.arctan2(b_1, a_1)))
-
-    while np.any(h_1 < 0):
-        h_1[np.asarray(h_1 < 0)] += 360
-
-    while np.any(h_1 >= 360):
-        h_1[np.asarray(h_1 >= 360)] -= 360
+    h_1 = np.degrees(np.arctan2(b_1, a_1)) % 360
 
     t = np.where(np.logical_and(h_1 >= 164, h_1 <= 345),
                  0.56 + np.fabs(0.2 * np.cos(np.deg2rad(h_1 + 168))),
@@ -359,7 +350,7 @@ def delta_E_CMC(Lab_1, Lab_2, l=2, c=1):
     delta_C = c_1 - c_2
     delta_A = a_1 - a_2
     delta_B = b_1 - b_2
-    delta_H2 = delta_A * delta_A + delta_B * delta_B - delta_C * delta_C
+    delta_H2 = delta_A ** 2 + delta_B ** 2 - delta_C ** 2
 
     v_1 = delta_L / (l * s_l)
     v_2 = delta_C / (c * s_c)
