@@ -51,6 +51,7 @@ from colour.algebra import (
     Extrapolator,
     LinearInterpolator,
     cartesian_to_cylindrical,
+    polar_to_cartesian,
     euclidean_distance)
 from colour.colorimetry import ILLUMINANTS, luminance_ASTMD153508
 from colour.constants import (
@@ -63,7 +64,8 @@ from colour.utilities import (
     CaseInsensitiveMapping,
     Lookup,
     is_integer,
-    is_numeric)
+    is_numeric,
+    tsplit)
 
 __author__ = 'Colour Developers, Paul Centore'
 __copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
@@ -1816,8 +1818,8 @@ def xy_from_renotation_ovoid(specification):
             rho = LinearInterpolator((lower_hue_angle, upper_hue_angle),
                                      (rho_minus, rho_plus))(hue_angle)
 
-            x = rho * np.cos(np.radians(theta)) + x_grey
-            y = rho * np.sin(np.radians(theta)) + y_grey
+            x, y = tsplit(polar_to_cartesian((rho, np.radians(theta))) +
+                          np.asarray((x_grey, y_grey)))
         else:
             raise ValueError(
                 'Invalid interpolation method: "{0}"'.format(

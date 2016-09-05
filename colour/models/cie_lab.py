@@ -28,6 +28,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.algebra import cartesian_to_polar, polar_to_cartesian
 from colour.colorimetry import ILLUMINANTS
 from colour.constants import CIE_E, CIE_K
 from colour.models import xy_to_xyY, xyY_to_XYZ
@@ -190,10 +191,9 @@ def Lab_to_LCHab(Lab):
 
     L, a, b = tsplit(Lab)
 
-    H = np.array(180 * np.arctan2(b, a) / np.pi)
-    H[np.array(H < 0)] += 360
+    C, H = tsplit(cartesian_to_polar(tstack((a, b))))
 
-    LCHab = tstack((L, np.hypot(a, b), H))
+    LCHab = tstack((L, C, np.degrees(H) % 360))
 
     return LCHab
 
@@ -230,8 +230,8 @@ def LCHab_to_Lab(LCHab):
 
     L, C, H = tsplit(LCHab)
 
-    Lab = tstack((L,
-                  C * np.cos(np.radians(H)),
-                  C * np.sin(np.radians(H))))
+    a, b = tsplit(polar_to_cartesian(tstack((C, np.radians(H)))))
+
+    Lab = tstack((L, a, b))
 
     return Lab

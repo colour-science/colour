@@ -39,6 +39,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
+from colour.algebra import polar_to_cartesian
 from colour.utilities import CaseInsensitiveMapping, dot_vector, tsplit, tstack
 
 __author__ = 'Colour Developers'
@@ -648,12 +649,6 @@ def final_opponent_signals(C_L, h_L):
     array([-0.0119478..., -0.0139711...])
     """
 
-    C_L = np.asarray(C_L)
-    h_L = np.asarray(h_L)
-
-    A_L = C_L * np.cos(h_L)
-    B_L = C_L * np.sin(h_L)
-
-    AB_L = tstack((A_L, B_L))
+    AB_L = polar_to_cartesian(tstack((C_L, h_L)))
 
     return AB_L
