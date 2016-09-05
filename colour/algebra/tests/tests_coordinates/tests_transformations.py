@@ -185,17 +185,17 @@ cartesian_to_cylindrical` definition.
 
         np.testing.assert_almost_equal(
             cartesian_to_cylindrical(np.array([3, 1, 6])),
-            np.array([0.32175055, 3.16227766, 6.00000000]),
+            np.array([3.16227766, 0.32175055, 6.00000000]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             cartesian_to_cylindrical(np.array([-1, 9, 16])),
-            np.array([1.68145355, 9.05538514, 16.00000000]),
+            np.array([9.05538514, 1.68145355, 16.00000000]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             cartesian_to_cylindrical(np.array([6.3434, -0.9345, 18.5675])),
-            np.array([-0.14626640, 6.41186508, 18.56750000]),
+            np.array([6.41186508, -0.14626640, 18.56750000]),
             decimal=7)
 
     def test_n_dimensional_cartesian_to_cylindrical(self):
@@ -205,7 +205,7 @@ cartesian_to_cylindrical` definition n-dimensional arrays support.
         """
 
         a_i = np.array([3, 1, 6])
-        a_o = np.array([0.32175055, 3.16227766, 6.00000000])
+        a_o = np.array([3.16227766, 0.32175055, 6.00000000])
         np.testing.assert_almost_equal(
             cartesian_to_cylindrical(a_i),
             a_o,
@@ -253,19 +253,19 @@ cylindrical_to_cartesian` definition.
 
         np.testing.assert_almost_equal(
             cylindrical_to_cartesian(
-                np.array([1.08574654, 0.32175055, 6.78232998])),
+                np.array([0.32175055, 1.08574654, 6.78232998])),
             np.array([0.15001697, 0.28463718, 6.78232998]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             cylindrical_to_cartesian(
-                np.array([1.05578119, 1.68145355, 18.38477631])),
+                np.array([1.68145355, 1.05578119, 18.38477631])),
             np.array([0.82819662, 1.46334425, 18.38477631]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             cylindrical_to_cartesian(
-                np.array([1.23829030, -0.14626640, 19.64342307])),
+                np.array([-0.14626640, 1.23829030, 19.64342307])),
             np.array([-0.04774323, -0.13825500, 19.64342307]),
             decimal=7)
 
@@ -275,7 +275,7 @@ cylindrical_to_cartesian` definition.
 cylindrical_to_cartesian` definition n-dimensional arrays support.
         """
 
-        a_i = np.array([0.32175055, 3.16227766, 6.00000000])
+        a_i = np.array([3.16227766, 0.32175055, 6.00000000])
         a_o = np.array([3, 1, 6])
         np.testing.assert_almost_equal(
             cylindrical_to_cartesian(a_i),

@@ -71,11 +71,11 @@ def cartesian_to_spherical(a):
 
     x, y, z = tsplit(a)
 
-    r = np.linalg.norm(a, axis=-1)
+    rho = np.linalg.norm(a, axis=-1)
     theta = np.arctan2(z, np.linalg.norm(tstack((x, y)), axis=-1))
     phi = np.arctan2(y, x)
 
-    rtp = tstack((r, theta, phi))
+    rtp = tstack((rho, theta, phi))
 
     return rtp
 
@@ -107,11 +107,11 @@ def spherical_to_cartesian(a):
     array([ 3.        ,  0.9999999...,  6.        ])
     """
 
-    r, theta, phi = tsplit(a)
+    rho, theta, phi = tsplit(a)
 
-    x = r * np.cos(theta) * np.cos(phi)
-    y = r * np.cos(theta) * np.sin(phi)
-    z = r * np.sin(theta)
+    x = rho * np.cos(theta) * np.cos(phi)
+    y = rho * np.cos(theta) * np.sin(phi)
+    z = rho * np.sin(theta)
 
     xyz = tstack((x, y, z))
 
@@ -121,7 +121,7 @@ def spherical_to_cartesian(a):
 def cartesian_to_cylindrical(a):
     """
     Transforms given Cartesian coordinates array :math:`xyz` to Cylindrical
-    coordinates array :math:`\phi\\rho z` (radial distance, azimuth, and
+    coordinates array :math:`\\rho\phi z` (azimuth, radial distance, and
     height).
 
     Parameters
@@ -132,7 +132,7 @@ def cartesian_to_cylindrical(a):
     Returns
     -------
     ndarray
-        Cylindrical coordinates array :math:`\phi\\rho z`.
+        Cylindrical coordinates array :math:`\\rho\phi z`.
 
     See Also
     --------
@@ -142,26 +142,27 @@ def cartesian_to_cylindrical(a):
     --------
     >>> a = np.array([3, 1, 6])
     >>> cartesian_to_cylindrical(a)  # doctest: +ELLIPSIS
-    array([ 0.3217505...,  3.1622776...,  6.        ])
+    array([ 3.1622776...,  0.3217505...,  6.        ])
     """
 
     x, y, z = tsplit(a)
 
-    phi = np.arctan2(y, x)
     rho = np.linalg.norm(tstack((x, y)), axis=-1)
+    phi = np.arctan2(y, x)
 
-    return tstack((phi, rho, z))
+    return tstack((rho, phi, z))
 
 
 def cylindrical_to_cartesian(a):
     """
-    Transforms given Cylindrical coordinates array :math:`\phi\\rho z` (radial
-    distance, azimuth and height) to Cartesian coordinates array :math:`xyz`.
+    Transforms given Cylindrical coordinates array :math:`\\rho\phi z`
+    (azimuth, radial distance and height) to Cartesian coordinates array
+    :math:`xyz`.
 
     Parameters
     ----------
     a : array_like
-        Cylindrical coordinates array :math:`\phi\\rho z` to transform.
+        Cylindrical coordinates array :math:`\\rho\phi z` to transform.
 
     Returns
     -------
@@ -174,12 +175,12 @@ def cylindrical_to_cartesian(a):
 
     Examples
     --------
-    >>> a = np.array([0.32175055, 3.16227766, 6.00000000])
+    >>> a = np.array([3.16227766, 0.32175055, 6.00000000])
     >>> cylindrical_to_cartesian(a)  # doctest: +ELLIPSIS
     array([ 3.        ,  0.9999999...,  6.        ])
     """
 
-    phi, rho, z = tsplit(a)
+    rho, phi, z = tsplit(a)
 
     x = rho * np.cos(phi)
     y = rho * np.sin(phi)
