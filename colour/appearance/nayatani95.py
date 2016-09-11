@@ -703,12 +703,13 @@ def hue_angle(p, t):
 def chromatic_strength_function(theta):
     """
     Defines the chromatic strength function :math:`E_s(\\theta)` used to
-    correct saturation scale as function of hue angle :math:`\\theta`.
+    correct saturation scale as function of hue angle :math:`\\theta` in
+    degrees.
 
     Parameters
     ----------
     theta : numeric or array_like
-        Hue angle :math:`\\theta`
+        Hue angle :math:`\\theta` in degrees.
 
     Returns
     -------
@@ -717,11 +718,12 @@ def chromatic_strength_function(theta):
 
     Examples
     --------
-    >>> chromatic_strength_function(4.49462820973)  # doctest: +ELLIPSIS
+    >>> h = 257.52322689806243
+    >>> chromatic_strength_function(h)  # doctest: +ELLIPSIS
     1.2267869...
     """
 
-    theta = np.asarray(theta)
+    theta = np.radians(theta)
 
     E_s = 0.9394
     E_s += -0.2478 * np.sin(1 * theta)
@@ -772,7 +774,7 @@ def saturation_components(h, bL_or, t, p):
     t = np.asarray(t)
     p = np.asarray(p)
 
-    E_s = chromatic_strength_function(np.radians(h))
+    E_s = chromatic_strength_function(h)
     S_RG = (488.93 / bL_or) * E_s * t
     S_YB = (488.93 / bL_or) * E_s * p
 
