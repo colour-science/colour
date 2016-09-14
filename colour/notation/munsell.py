@@ -51,6 +51,7 @@ from colour.algebra import (
     Extrapolator,
     LinearInterpolator,
     cartesian_to_cylindrical,
+    polar_to_cartesian,
     euclidean_distance)
 from colour.colorimetry import ILLUMINANTS, luminance_ASTMD153508
 from colour.constants import (
@@ -63,7 +64,8 @@ from colour.utilities import (
     CaseInsensitiveMapping,
     Lookup,
     is_integer,
-    is_numeric)
+    is_numeric,
+    tsplit)
 
 __author__ = 'Colour Developers, Paul Centore'
 __copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
@@ -711,7 +713,7 @@ def xyY_to_munsell_specification(xyY):
 
     x_center, y_center, Y_center = np.ravel(
         munsell_specification_to_xyY(value))
-    phi_input, rho_input, _z_input = cartesian_to_cylindrical(
+    rho_input, phi_input, _z_input = cartesian_to_cylindrical(
         (x - x_center, y - y_center, Y_center))
     phi_input = np.degrees(phi_input)
 
@@ -755,7 +757,7 @@ def xyY_to_munsell_specification(xyY):
         x_current, y_current, _Y_current = np.ravel(
             munsell_specification_to_xyY(specification_current))
 
-        phi_current, rho_current, _z_current = cartesian_to_cylindrical(
+        rho_current, phi_current, _z_current = cartesian_to_cylindrical(
             (x_current - x_center, y_current - y_center, Y_center))
         phi_current = np.degrees(phi_current)
         phi_current_difference = (360 - phi_input + phi_current) % 360
@@ -796,7 +798,7 @@ def xyY_to_munsell_specification(xyY):
                 extrapolate = True
 
             if extrapolate is False:
-                phi_inner, rho_inner, _z_inner = cartesian_to_cylindrical(
+                rho_inner, phi_inner, _z_inner = cartesian_to_cylindrical(
                     (x_inner - x_center, y_inner - y_center, Y_center))
                 phi_inner = np.degrees(phi_inner)
                 phi_inner_difference = (
@@ -844,7 +846,7 @@ def xyY_to_munsell_specification(xyY):
         x_current, y_current, Y_current = np.ravel(
             munsell_specification_to_xyY(specification_current))
 
-        phi_current, rho_current, _z_current = cartesian_to_cylindrical(
+        rho_current, phi_current, _z_current = cartesian_to_cylindrical(
             (x_current - x_center, y_current - y_center, Y_center))
 
         rho_bounds = [rho_current]
@@ -869,7 +871,7 @@ def xyY_to_munsell_specification(xyY):
             x_inner, y_inner, _Y_inner = np.ravel(
                 munsell_specification_to_xyY(specification_inner))
 
-            phi_inner, rho_inner, _z_inner = cartesian_to_cylindrical(
+            rho_inner, phi_inner, _z_inner = cartesian_to_cylindrical(
                 (x_inner - x_center, y_inner - y_center, Y_center))
 
             rho_bounds.append(rho_inner)
@@ -1775,13 +1777,13 @@ def xy_from_renotation_ovoid(specification):
         specification_minus = (hue_minus, value, chroma, code_minus)
         x_minus, y_minus, Y_minus = xyY_from_renotation(
             specification_minus)
-        phi_minus, rho_minus, _z_minus = cartesian_to_cylindrical(
+        rho_minus, phi_minus, _z_minus = cartesian_to_cylindrical(
             (x_minus - x_grey, y_minus - y_grey, Y_minus))
         phi_minus = np.degrees(phi_minus)
 
         specification_plus = (hue_plus, value, chroma, code_plus)
         x_plus, y_plus, Y_plus = xyY_from_renotation(specification_plus)
-        phi_plus, rho_plus, _z_plus = cartesian_to_cylindrical(
+        rho_plus, phi_plus, _z_plus = cartesian_to_cylindrical(
             (x_plus - x_grey, y_plus - y_grey, Y_plus))
         phi_plus = np.degrees(phi_plus)
 
@@ -1816,8 +1818,8 @@ def xy_from_renotation_ovoid(specification):
             rho = LinearInterpolator((lower_hue_angle, upper_hue_angle),
                                      (rho_minus, rho_plus))(hue_angle)
 
-            x = rho * np.cos(np.radians(theta)) + x_grey
-            y = rho * np.sin(np.radians(theta)) + y_grey
+            x, y = tsplit(polar_to_cartesian((rho, np.radians(theta))) +
+                          np.asarray((x_grey, y_grey)))
         else:
             raise ValueError(
                 'Invalid interpolation method: "{0}"'.format(

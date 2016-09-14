@@ -790,8 +790,8 @@ def colour_difference_signals(rgb):
 
 def hue_angle(C):
     """
-    Returns the *hue* angle :math:`h` from given colour difference signals
-    :math:`C`.
+    Returns the *hue* angle :math:`h` in degrees from given colour difference
+    signals :math:`C`.
 
     Parameters
     ----------
@@ -801,7 +801,7 @@ def hue_angle(C):
     Returns
     -------
     numeric or ndarray
-        *Hue* angle :math:`h`.
+        *Hue* angle :math:`h` in degrees.
 
     Examples
     --------
@@ -822,12 +822,13 @@ def hue_angle(C):
 
 def eccentricity_factor(hue):
     """
-    Returns eccentricity factor :math:`e_s` from given hue angle :math:`h`.
+    Returns eccentricity factor :math:`e_s` from given hue angle :math:`h`
+    in degrees.
 
     Parameters
     ----------
     hue : numeric or array_like
-        Hue angle :math:`h`.
+        Hue angle :math:`h` in degrees.
 
     Returns
     -------

@@ -30,6 +30,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.algebra import cartesian_to_polar, polar_to_cartesian
 from colour.colorimetry import ILLUMINANTS
 from colour.constants import CIE_E, CIE_K
 from colour.models import xy_to_xyY, xyY_to_XYZ
@@ -283,10 +284,9 @@ def Luv_to_LCHuv(Luv):
 
     L, u, v = tsplit(Luv)
 
-    H = np.array(180 * np.arctan2(v, u) / np.pi)
-    H[np.array(H < 0)] += 360
+    C, H = tsplit(cartesian_to_polar(tstack((u, v))))
 
-    LCHuv = tstack((L, np.sqrt(u ** 2 + v ** 2), H))
+    LCHuv = tstack((L, C, np.degrees(H) % 360))
 
     return LCHuv
 
@@ -323,6 +323,8 @@ def LCHuv_to_Luv(LCHuv):
 
     L, C, H = tsplit(LCHuv)
 
-    Luv = tstack((L, C * np.cos(np.radians(H)), C * np.sin(np.radians(H))))
+    u, v = tsplit(polar_to_cartesian(tstack((C, np.radians(H)))))
+
+    Luv = tstack((L, u, v))
 
     return Luv

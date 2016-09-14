@@ -39,6 +39,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
+from colour.algebra import polar_to_cartesian
 from colour.utilities import CaseInsensitiveMapping, dot_vector, tsplit, tstack
 
 __author__ = 'Colour Developers'
@@ -305,13 +306,12 @@ s=0.0002395..., M=0.0190185..., HC=None, a=..., b=-0.0190185...)
     # Computing the *hue* angle :math:`h_L`.
     # -------------------------------------------------------------------------
     h_L = hue_angle(a, b)
-    h_Lr = np.radians(h_L)
     # TODO: Implement hue composition computation.
 
     # -------------------------------------------------------------------------
     # Computing final opponent signals.
     # -------------------------------------------------------------------------
-    A_L, B_L = tsplit(final_opponent_signals(C_L, h_Lr))
+    A_L, B_L = tsplit(final_opponent_signals(C_L, h_L))
 
     return LLAB_Specification(L_L, Ch_L, h_L, s_L, C_L, None, A_L, B_L)
 
@@ -633,7 +633,7 @@ def final_opponent_signals(C_L, h_L):
     C_L : numeric or array_like
         Correlate of *colourfulness* :math:`C_L`.
     h_L : numeric or array_like
-        Correlate of *hue* :math:`h_L` in radians.
+        Correlate of *hue* :math:`h_L` in degrees.
 
     Returns
     -------
@@ -643,17 +643,11 @@ def final_opponent_signals(C_L, h_L):
     Examples
     --------
     >>> C_L = 0.0183832899143
-    >>> h_L = 4.004894857014253
+    >>> h_L = 229.46357270858391
     >>> final_opponent_signals(C_L, h_L)  # doctest: +ELLIPSIS
     array([-0.0119478..., -0.0139711...])
     """
 
-    C_L = np.asarray(C_L)
-    h_L = np.asarray(h_L)
-
-    A_L = C_L * np.cos(h_L)
-    B_L = C_L * np.sin(h_L)
-
-    AB_L = tstack((A_L, B_L))
+    AB_L = polar_to_cartesian(tstack((C_L, np.radians(h_L))))
 
     return AB_L
