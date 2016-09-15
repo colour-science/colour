@@ -231,7 +231,7 @@ ui=0.4456351..., vi=0.3548306..., di=0.2514749...)]
         XYZ *= 1 / np.max(XYZ)
         UVW = XYZ_to_UCS(XYZ)
         ui, vi = UCS_to_uv(UVW)
-        di = np.sqrt((ux - ui) ** 2 + (vx - vi) ** 2)
+        di = np.hypot(ux - ui, vx - vi)
         table.append(PLANCKIAN_TABLE_TUVD(Ti, ui, vi, di))
 
     return table
@@ -349,7 +349,7 @@ def uv_to_CCT_Ohno2013(uv,
     Tin, uin, vin, din = Tuvdin.Ti, Tuvdin.ui, Tuvdin.vi, Tuvdin.di
 
     # Triangular solution.
-    l = np.sqrt((uin - uip) ** 2 + (vin - vip) ** 2)
+    l = np.hypot(uin - uip, vin - vip)
     x = (dip ** 2 - din ** 2 + l ** 2) / (2 * l)
     T = Tip + (Tin - Tip) * (x / l)
 
@@ -433,8 +433,8 @@ def CCT_to_uv_Ohno2013(CCT,
         du = u0 - u1
         dv = v0 - v1
 
-        u = u0 - D_uv * (dv / np.sqrt(du ** 2 + dv ** 2))
-        v = v0 + D_uv * (du / np.sqrt(du ** 2 + dv ** 2))
+        u = u0 - D_uv * (dv / np.hypot(du, dv))
+        v = v0 + D_uv * (du / np.hypot(du, dv))
 
         return np.array([u, v])
 
@@ -484,7 +484,7 @@ def uv_to_CCT_Robertson1968(uv):
         du = 1.0
         dv = wr_ruvt.t
 
-        length = np.sqrt(1 + dv * dv)
+        length = np.hypot(1, dv)
 
         du /= length
         dv /= length
@@ -513,7 +513,7 @@ def uv_to_CCT_Robertson1968(uv):
             du = du * (1 - f) + last_du * f
             dv = dv * (1 - f) + last_dv * f
 
-            length = np.sqrt(du * du + dv * dv)
+            length = np.hypot(du, dv)
 
             du /= length
             dv /= length
@@ -581,8 +581,8 @@ def CCT_to_uv_Robertson1968(CCT, D_uv=0):
             uu1 = uu2 = 1.0
             vv1, vv2 = wr_ruvt.t, wr_ruvt_next.t
 
-            length1 = np.sqrt(1 + vv1 * vv1)
-            length2 = np.sqrt(1 + vv2 * vv2)
+            length1 = np.hypot(1, vv1)
+            length2 = np.hypot(1, vv2)
 
             uu1 /= length1
             vv1 /= length1

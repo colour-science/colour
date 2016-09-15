@@ -141,7 +141,7 @@ def IPT_to_XYZ(IPT):
 
 def IPT_hue_angle(IPT):
     """
-    Computes the hue angle from *IPT* colourspace.
+    Computes the hue angle in degrees from *IPT* colourspace.
 
     Parameters
     ----------
@@ -151,17 +151,17 @@ def IPT_hue_angle(IPT):
     Returns
     -------
     numeric or ndarray
-        Hue angle.
+        Hue angle in degrees.
 
     Examples
     --------
     >>> IPT = np.array([0.96907232, 1, 1.12179215])
     >>> IPT_hue_angle(IPT)  # doctest: +ELLIPSIS
-    0.8427358...
+    48.2852074...
     """
 
     _I, P, T = tsplit(IPT)
 
-    hue = np.arctan2(T, P)
+    hue = np.degrees(np.arctan2(T, P)) % 360
 
     return hue

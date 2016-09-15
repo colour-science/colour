@@ -927,7 +927,7 @@ def hue_quadrature(h):
 def eccentricity_factor(h):
     """
     Returns the eccentricity factor :math:`e_t` from given hue :math:`h` angle
-    for forward CIECAM02 implementation.
+    in degrees for forward CIECAM02 implementation.
 
     Parameters
     ----------
