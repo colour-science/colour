@@ -7,6 +7,7 @@ Common Plotting
 
 Defines the common plotting objects:
 
+-   :func:`colour_plotting_defaults`
 -   :func:`colour_cycle`
 -   :func:`canvas`
 -   :func:`camera`

@@ -76,9 +76,6 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
 
         return specification
 
-    @mock.patch('colour.appearance.llab.LLAB_RGB_TO_XYZ_MATRIX',
-                np.around(np.linalg.inv(llab.LLAB_XYZ_TO_RGB_MATRIX),
-                          decimals=4))
     def test_examples(self):
         """
         Tests the colour appearance model implementation.
@@ -93,12 +90,13 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
         :attr:`colour.appearance.llab.LLAB_RGB_TO_XYZ_MATRIX`, therefore a
         patched version is used for unit tests.
         """
+        with mock.patch('colour.appearance.llab.LLAB_RGB_TO_XYZ_MATRIX',
+                        np.around(np.linalg.inv(llab.LLAB_XYZ_TO_RGB_MATRIX),
+                                  decimals=4)):
+            for test in super(TestLLABColourAppearanceModel,
+                              self).test_examples():
+                yield test
 
-        super(TestLLABColourAppearanceModel, self).test_examples()
-
-    @mock.patch('colour.appearance.llab.LLAB_RGB_TO_XYZ_MATRIX',
-                np.around(np.linalg.inv(llab.LLAB_XYZ_TO_RGB_MATRIX),
-                          decimals=4))
     def test_n_dimensional_examples(self):
         """
         Tests the colour appearance model implementation n-dimensional arrays
@@ -115,8 +113,12 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
         patched version is used for unit tests.
         """
 
-        super(TestLLABColourAppearanceModel,
-              self).test_n_dimensional_examples()
+        with mock.patch('colour.appearance.llab.LLAB_RGB_TO_XYZ_MATRIX',
+                        np.around(np.linalg.inv(llab.LLAB_XYZ_TO_RGB_MATRIX),
+                                  decimals=4)):
+            for test in super(TestLLABColourAppearanceModel,
+                              self).test_n_dimensional_examples():
+                yield test
 
     def test_colourspace_conversion_matrices_precision(self):
         """

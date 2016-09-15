@@ -30,6 +30,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
+from colour.algebra import euclidean_distance
 from colour.colorimetry import (
     D_illuminant_relative_spd,
     ILLUMINANTS,
@@ -439,7 +440,6 @@ def colour_quality_scales(test_data, reference_data, CCT_f):
     """
 
     Q_as = {}
-    from colour.algebra import euclidean_distance
     for i, _ in enumerate(test_data):
         D_C_ab = test_data[i].C - reference_data[i].C
         D_E_ab = euclidean_distance(test_data[i].Lab, reference_data[i].Lab)
