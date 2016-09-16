@@ -514,9 +514,7 @@ VARICAM_V-Log_V-Gamut.pdf
             Attribute value.
         """
 
-        assert isinstance(value, bool), (
-            '"{0}" attribute: "{1}" is not a bool!'.format(
-                'use_derived_RGB_to_XYZ_matrix', value))
+        # TODO: Revisit for potential behaviour / type checking.
         self._use_derived_RGB_to_XYZ_matrix = value
 
     @property
@@ -543,9 +541,7 @@ VARICAM_V-Log_V-Gamut.pdf
             Attribute value.
         """
 
-        assert isinstance(value, bool), (
-            '"{0}" attribute: "{1}" is not a bool!'.format(
-                'use_derived_XYZ_to_RGB_matrix', value))
+        # TODO: Revisit for potential behaviour / type checking.
         self._use_derived_XYZ_to_RGB_matrix = value
 
     def _derive_transformation_matrices(self):
