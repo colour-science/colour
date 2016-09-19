@@ -90,6 +90,7 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
         :attr:`colour.appearance.llab.LLAB_RGB_TO_XYZ_MATRIX`, therefore a
         patched version is used for unit tests.
         """
+
         with mock.patch('colour.appearance.llab.LLAB_RGB_TO_XYZ_MATRIX',
                         np.around(np.linalg.inv(llab.LLAB_XYZ_TO_RGB_MATRIX),
                                   decimals=4)):
