@@ -80,8 +80,10 @@ ALEXA_WIDE_GAMUT_RGB_TO_XYZ_MATRIX = np.array(
 ALEXA_WIDE_GAMUT_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
-XYZ_TO_ALEXA_WIDE_GAMUT_RGB_MATRIX = np.linalg.inv(
-    ALEXA_WIDE_GAMUT_RGB_TO_XYZ_MATRIX)
+XYZ_TO_ALEXA_WIDE_GAMUT_RGB_MATRIX = np.array(
+    [[1.789066, -0.482534, -0.200076],
+     [-0.639849, 1.396400, 0.194432],
+     [-0.041532, 0.082335, 0.878868]])
 """
 *CIE XYZ* tristimulus values to *ALEXA Wide Gamut RGB* colourspace matrix.
 

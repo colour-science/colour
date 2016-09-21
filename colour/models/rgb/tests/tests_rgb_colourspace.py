@@ -10,6 +10,7 @@ from __future__ import division, unicode_literals
 import pickle
 import numpy as np
 import unittest
+from copy import deepcopy
 from itertools import permutations
 
 from colour.models import (
@@ -54,6 +55,7 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
 
         XYZ_r = np.array([0.5, 0.5, 0.5]).reshape((3, 1))
         for colourspace in RGB_COLOURSPACES.values():
+            # Instantiation transformation matrices.
             if colourspace.name in (
                     'ProPhoto RGB', 'ERIMM RGB', 'RIMM RGB', 'ROMM RGB'):
                 tolerance = 1e-3
@@ -75,6 +77,17 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
                                        atol=tolerance,
                                        verbose=False)
 
+            RGB = np.dot(colourspace.XYZ_to_RGB_matrix, XYZ_r)
+            XYZ = np.dot(colourspace.RGB_to_XYZ_matrix, RGB)
+            np.testing.assert_allclose(XYZ_r,
+                                       XYZ,
+                                       rtol=tolerance,
+                                       atol=tolerance,
+                                       verbose=False)
+
+            # Derived transformation matrices.
+            colourspace = deepcopy(colourspace)
+            colourspace.use_derived_transformation_matrices(True)
             RGB = np.dot(colourspace.XYZ_to_RGB_matrix, XYZ_r)
             XYZ = np.dot(colourspace.RGB_to_XYZ_matrix, RGB)
             np.testing.assert_almost_equal(XYZ_r, XYZ, decimal=7)
@@ -176,10 +189,71 @@ class TestRGB_Colourspace(unittest.TestCase):
                                'RGB_to_XYZ_matrix',
                                'XYZ_to_RGB_matrix',
                                'encoding_cctf',
-                               'decoding_cctf')
+                               'decoding_cctf',
+                               'use_derived_RGB_to_XYZ_matrix',
+                               'use_derived_XYZ_to_RGB_matrix')
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(RGB_Colourspace))
+
+    def test_required_methods(self):
+        """
+        Tests presence of required methods.
+        """
+
+        required_methods = ('use_derived_transformation_matrices',)
+
+        for method in required_methods:
+            self.assertIn(method, dir(RGB_Colourspace))
+
+    def test_use_derived_transformation_matrices(self):
+        """
+        Tests :func:`colour.models.rgb.rgb_colourspace.RGB_Colourspace.range.\
+use_derived_transformation_matrices` method.
+        """
+
+        p = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
+        whitepoint = np.array([0.32168, 0.33767])
+        RGB_to_XYZ_matrix = np.identity(3)
+        XYZ_to_RGB_matrix = np.identity(3)
+        colourspace = RGB_Colourspace(
+            'RGB Colourspace',
+            p,
+            whitepoint,
+            'D60',
+            RGB_to_XYZ_matrix,
+            XYZ_to_RGB_matrix)
+
+        np.testing.assert_array_equal(
+            colourspace.RGB_to_XYZ_matrix,
+            np.identity(3))
+        np.testing.assert_array_equal(
+            colourspace.XYZ_to_RGB_matrix,
+            np.identity(3))
+
+        self.assertTrue(colourspace.use_derived_transformation_matrices())
+
+        np.testing.assert_almost_equal(
+            colourspace.RGB_to_XYZ_matrix,
+            np.array([[0.95255240, 0.00000000, 0.00009368],
+                      [0.34396645, 0.72816610, -0.07213255],
+                      [0.00000000, 0.00000000, 1.00882518]]),
+            decimal=7)
+        np.testing.assert_almost_equal(
+            colourspace.XYZ_to_RGB_matrix,
+            np.array([[1.04981102, 0.00000000, -0.00009748],
+                      [-0.49590302, 1.37331305, 0.09824004],
+                      [0.00000000, 0.00000000, 0.99125202]]),
+            decimal=7)
+
+        colourspace.use_derived_RGB_to_XYZ_matrix = False
+        np.testing.assert_array_equal(
+            colourspace.RGB_to_XYZ_matrix,
+            np.identity(3))
+        colourspace.use_derived_XYZ_to_RGB_matrix = False
+        np.testing.assert_array_equal(
+            colourspace.XYZ_to_RGB_matrix,
+            np.identity(3))
 
 
 class TestXYZ_to_RGB(unittest.TestCase):

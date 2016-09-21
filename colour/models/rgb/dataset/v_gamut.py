@@ -81,8 +81,10 @@ V_GAMUT_TO_XYZ_MATRIX = np.array(
 V_GAMUT_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
-XYZ_TO_V_GAMUT_MATRIX = np.linalg.inv(
-    V_GAMUT_TO_XYZ_MATRIX)
+XYZ_TO_V_GAMUT_MATRIX = np.array(
+    [[1.589012, -0.313204, -0.180965],
+     [-0.534053, 1.396011, 0.102458],
+     [0.011179, 0.003194, 0.905535]])
 """
 *CIE XYZ* tristimulus values to *V-Gamut* colourspace matrix.
 
