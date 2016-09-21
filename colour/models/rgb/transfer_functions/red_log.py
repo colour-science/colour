@@ -18,6 +18,12 @@ Defines the *RED* log encodings:
 
 Notes
 -----
+-   The original v1 of the Log3G10 curve is the one used in REDCINE-X beta 42,
+    which introduced the Log3G10 curve. Resolve 12.5.2 also uses the v1 curve.
+    But RED plan to use v2 of the curve in the release SDK. Use the
+    `legacy_curve=True` argument to use the v1 curve for compatibility with
+    the current (as of September 21, 2016) RED SDK.
+
 -   The intent of *Log3G10* is that zero maps to zero, 0.18 maps to 1/3, and
     10 stops above 0.18 maps to 1.0. The name indicates this in a similar way
     to the naming conventions of Sony HyperGamma curves.
@@ -195,7 +201,7 @@ def log_decoding_REDLogFilm(y,
     return log_decoding_Cineon(y, black_offset)
 
 
-def log_encoding_Log3G10(x):
+def log_encoding_Log3G10(x, legacy_curve=False):
     """
     Defines the *Log3G10* log encoding curve / opto-electronic transfer
     function.
@@ -204,6 +210,8 @@ def log_encoding_Log3G10(x):
     ----------
     x : numeric or array_like
         Linear data :math:`x`.
+    legacy_curve : bool, optional
+        Whether to use the v1 Log3G10 curve. Default is `False`.
 
     Returns
     -------
@@ -212,16 +220,21 @@ def log_encoding_Log3G10(x):
 
     Examples
     --------
-    >>> log_encoding_Log3G10(0.18)  # doctest: +ELLIPSIS
+    >>> log_encoding_Log3G10(0.18, legacy_curve=True)  # doctest: +ELLIPSIS
     0.3333336...
+    >>> log_encoding_Log3G10(0.0)  # doctest: +ELLIPSIS
+    0.0915514...
     """
 
     x = np.asarray(x)
 
-    return np.sign(x) * 0.222497 * np.log10((np.abs(x) * 169.379333) + 1)
+    if legacy_curve:
+        return np.sign(x) * 0.222497 * np.log10((np.abs(x) * 169.379333) + 1)
+    x += 0.01
+    return np.sign(x) * 0.224282 * np.log10((np.abs(x) * 155.975327) + 1)
 
 
-def log_decoding_Log3G10(y):
+def log_decoding_Log3G10(y, legacy_curve=False):
     """
     Defines the *Log3G10* log decoding curve / electro-optical transfer
     function.
@@ -230,6 +243,8 @@ def log_decoding_Log3G10(y):
     ----------
     y : numeric or array_like
         Non-linear data :math:`y`.
+    legacy_curve : bool, optional
+        Whether to use the v1 Log3G10 curve. Default is `False`.
 
     Returns
     -------
@@ -238,14 +253,19 @@ def log_decoding_Log3G10(y):
 
     Examples
     --------
-    >>> log_decoding_Log3G10(1.0 / 3)  # doctest: +ELLIPSIS
+    >>> log_decoding_Log3G10(1.0 / 3, legacy_curve=True)  # doctest: +ELLIPSIS
     0.1799994...
+    >>> log_decoding_Log3G10(1.0)  # doctest: +ELLIPSIS
+    184.3223476...
     """
 
     y = np.asarray(y)
 
+    if legacy_curve:
+        return (np.sign(y) *
+                (np.power(10.0, np.abs(y) / 0.222497) - 1) / 169.379333)
     return (np.sign(y) *
-            (np.power(10.0, np.abs(y) / 0.222497) - 1) / 169.379333)
+            (np.power(10.0, np.abs(y) / 0.224282) - 1) / 155.975327) - 0.01
 
 
 def log_encoding_Log3G12(x):
