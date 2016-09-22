@@ -230,8 +230,8 @@ def log_encoding_Log3G10(x, legacy_curve=False):
 
     if legacy_curve:
         return np.sign(x) * 0.222497 * np.log10((np.abs(x) * 169.379333) + 1)
-    x += 0.01
-    return np.sign(x) * 0.224282 * np.log10((np.abs(x) * 155.975327) + 1)
+    return (np.sign(x + 0.01) *
+            0.224282 * np.log10((np.abs(x + 0.01) * 155.975327) + 1))
 
 
 def log_decoding_Log3G10(y, legacy_curve=False):
