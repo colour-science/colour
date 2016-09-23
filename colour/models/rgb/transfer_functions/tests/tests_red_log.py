@@ -340,6 +340,11 @@ log_encoding_Log3G10` definition.
         """
 
         self.assertAlmostEqual(
+            log_encoding_Log3G10(-1.0, legacy_curve=True),
+            -0.496483569056003,
+            places=7)
+
+        self.assertAlmostEqual(
             log_encoding_Log3G10(0.0, legacy_curve=True),
             0.0,
             places=7)
@@ -350,13 +355,18 @@ log_encoding_Log3G10` definition.
             places=7)
 
         self.assertAlmostEqual(
-            log_encoding_Log3G10(1.0),
-            0.493448519770682,
+            log_encoding_Log3G10(-1.0, legacy_curve=False),
+            -0.491512777522511,
             places=7)
 
         self.assertAlmostEqual(
-            log_encoding_Log3G10(0.18 * 2 ** 10, legacy_curve=True),
-            1.000000927572914,
+            log_encoding_Log3G10(0.0, legacy_curve=False),
+            0.091551487714745,
+            places=7)
+
+        self.assertAlmostEqual(
+            log_encoding_Log3G10(0.18, legacy_curve=False),
+            0.333332912025992,
             places=7)
 
     def test_n_dimensional_log_encoding_Log3G10(self):
@@ -366,31 +376,51 @@ log_encoding_Log3G10` definition n-dimensional arrays support.
         """
 
         L = 0.18
-        V = 0.333333644207707
+        V1 = 0.333333644207707
+        V2 = 0.333332912025992
         np.testing.assert_almost_equal(
             log_encoding_Log3G10(L, legacy_curve=True),
-            V,
+            V1,
+            decimal=7)
+        np.testing.assert_almost_equal(
+            log_encoding_Log3G10(L, legacy_curve=False),
+            V2,
             decimal=7)
 
         L = np.tile(L, 6)
-        V = np.tile(V, 6)
+        V1 = np.tile(V1, 6)
+        V2 = np.tile(V2, 6)
         np.testing.assert_almost_equal(
             log_encoding_Log3G10(L, legacy_curve=True),
-            V,
+            V1,
+            decimal=7)
+        np.testing.assert_almost_equal(
+            log_encoding_Log3G10(L, legacy_curve=False),
+            V2,
             decimal=7)
 
         L = np.reshape(L, (2, 3))
-        V = np.reshape(V, (2, 3))
+        V1 = np.reshape(V1, (2, 3))
+        V2 = np.reshape(V2, (2, 3))
         np.testing.assert_almost_equal(
             log_encoding_Log3G10(L, legacy_curve=True),
-            V,
+            V1,
+            decimal=7)
+        np.testing.assert_almost_equal(
+            log_encoding_Log3G10(L, legacy_curve=False),
+            V2,
             decimal=7)
 
         L = np.reshape(L, (2, 3, 1))
-        V = np.reshape(V, (2, 3, 1))
+        V1 = np.reshape(V1, (2, 3, 1))
+        V2 = np.reshape(V2, (2, 3, 1))
         np.testing.assert_almost_equal(
             log_encoding_Log3G10(L, legacy_curve=True),
-            V,
+            V1,
+            decimal=7)
+        np.testing.assert_almost_equal(
+            log_encoding_Log3G10(L, legacy_curve=False),
+            V2,
             decimal=7)
 
     @ignore_numpy_errors
@@ -401,7 +431,11 @@ log_encoding_Log3G10` definition nan support.
         """
 
         log_encoding_Log3G10(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]),
+                legacy_curve=True)
+        log_encoding_Log3G10(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]),
+                legacy_curve=False)
 
 
 class TestLogDecoding_Log3G10(unittest.TestCase):
@@ -417,6 +451,11 @@ log_decoding_Log3G10` definition.
         """
 
         self.assertAlmostEqual(
+            log_decoding_Log3G10(-0.496483569056003, legacy_curve=True),
+            -1.0,
+            places=7)
+
+        self.assertAlmostEqual(
             log_decoding_Log3G10(0.0, legacy_curve=True),
             0.0,
             places=7)
@@ -427,13 +466,18 @@ log_decoding_Log3G10` definition.
             places=7)
 
         self.assertAlmostEqual(
-            log_decoding_Log3G10(0.493448519770682),
-            1.0,
+            log_decoding_Log3G10(-0.491512777522511, legacy_curve=False),
+            -1.0,
             places=7)
 
         self.assertAlmostEqual(
-            log_decoding_Log3G10(1.0, legacy_curve=True),
-            184.31823060875,
+            log_decoding_Log3G10(0.091551487714745, legacy_curve=False),
+            0.0,
+            places=7)
+
+        self.assertAlmostEqual(
+            log_decoding_Log3G10(0.333332912025992, legacy_curve=False),
+            0.18,
             places=7)
 
     def test_n_dimensional_log_decoding_Log3G10(self):
@@ -442,31 +486,51 @@ log_decoding_Log3G10` definition.
 log_decoding_Log3G10` definition n-dimensional arrays support.
         """
 
-        V = 0.333333644207707
+        V1 = 0.333333644207707
+        V2 = 0.333332912025992
         L = 0.18
         np.testing.assert_almost_equal(
-            log_decoding_Log3G10(V, legacy_curve=True),
+            log_decoding_Log3G10(V1, legacy_curve=True),
+            L,
+            decimal=7)
+        np.testing.assert_almost_equal(
+            log_decoding_Log3G10(V2, legacy_curve=False),
             L,
             decimal=7)
 
-        V = np.tile(V, 6)
+        V1 = np.tile(V1, 6)
+        V2 = np.tile(V2, 6)
         L = np.tile(L, 6)
         np.testing.assert_almost_equal(
-            log_decoding_Log3G10(V, legacy_curve=True),
+            log_decoding_Log3G10(V1, legacy_curve=True),
+            L,
+            decimal=7)
+        np.testing.assert_almost_equal(
+            log_decoding_Log3G10(V2, legacy_curve=False),
             L,
             decimal=7)
 
-        V = np.reshape(V, (2, 3))
+        V1 = np.reshape(V1, (2, 3))
+        V2 = np.reshape(V2, (2, 3))
         L = np.reshape(L, (2, 3))
         np.testing.assert_almost_equal(
-            log_decoding_Log3G10(V, legacy_curve=True),
+            log_decoding_Log3G10(V1, legacy_curve=True),
+            L,
+            decimal=7)
+        np.testing.assert_almost_equal(
+            log_decoding_Log3G10(V2, legacy_curve=False),
             L,
             decimal=7)
 
-        V = np.reshape(V, (2, 3, 1))
+        V1 = np.reshape(V1, (2, 3, 1))
+        V2 = np.reshape(V2, (2, 3, 1))
         L = np.reshape(L, (2, 3, 1))
         np.testing.assert_almost_equal(
-            log_decoding_Log3G10(V, legacy_curve=True),
+            log_decoding_Log3G10(V1, legacy_curve=True),
+            L,
+            decimal=7)
+        np.testing.assert_almost_equal(
+            log_decoding_Log3G10(V2, legacy_curve=False),
             L,
             decimal=7)
 
@@ -478,7 +542,11 @@ log_decoding_Log3G10` definition nan support.
         """
 
         log_decoding_Log3G10(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]),
+                legacy_curve=True)
+        log_decoding_Log3G10(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]),
+                legacy_curve=False)
 
 
 class TestLogEncoding_Log3G12(unittest.TestCase):
