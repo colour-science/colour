@@ -432,10 +432,10 @@ log_encoding_Log3G10` definition nan support.
 
         log_encoding_Log3G10(
             np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]),
-                legacy_curve=True)
+            legacy_curve=True)
         log_encoding_Log3G10(
             np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]),
-                legacy_curve=False)
+            legacy_curve=False)
 
 
 class TestLogDecoding_Log3G10(unittest.TestCase):
@@ -543,10 +543,10 @@ log_decoding_Log3G10` definition nan support.
 
         log_decoding_Log3G10(
             np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]),
-                legacy_curve=True)
+            legacy_curve=True)
         log_decoding_Log3G10(
             np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]),
-                legacy_curve=False)
+            legacy_curve=False)
 
 
 class TestLogEncoding_Log3G12(unittest.TestCase):
