@@ -182,9 +182,10 @@ def XYZ_to_CIECAM02(XYZ,
     XYZ_w : array_like
         *CIE XYZ* tristimulus values of reference white in domain [0, 100].
     L_A : numeric or array_like
-        Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`.
+        Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`, (often taken
+        to be 20% of the luminance of a white object in the scene).
     Y_b : numeric or array_like
-        Adapting field *Y* tristimulus value :math:`Y_b`.
+        Relative luminance of background :math:`Y_b` in :math:`cd/m^2`.
     surround : CIECAM02_InductionFactors, optional
         Surround viewing conditions induction factors.
     discount_illuminant : bool, optional
@@ -252,10 +253,9 @@ HC=None)
     # Converting to preliminary cartesian coordinates.
     a, b = tsplit(opponent_colour_dimensions_forward(RGB_a))
 
-    # -------------------------------------------------------------------------
     # Computing the *hue* angle :math:`h`.
     h = hue_angle(a, b)
-    # -------------------------------------------------------------------------
+
     # Computing hue :math:`h` quadrature :math:`H`.
     H = hue_quadrature(h)
     # TODO: Compute hue composition.
@@ -267,29 +267,19 @@ HC=None)
     A = achromatic_response_forward(RGB_a, N_bb)
     A_w = achromatic_response_forward(RGB_aw, N_bb)
 
-    # -------------------------------------------------------------------------
     # Computing the correlate of *Lightness* :math:`J`.
-    # -------------------------------------------------------------------------
     J = lightness_correlate(A, A_w, surround.c, z)
 
-    # -------------------------------------------------------------------------
     # Computing the correlate of *brightness* :math:`Q`.
-    # -------------------------------------------------------------------------
     Q = brightness_correlate(surround.c, J, A_w, F_L)
 
-    # -------------------------------------------------------------------------
     # Computing the correlate of *chroma* :math:`C`.
-    # -------------------------------------------------------------------------
     C = chroma_correlate(J, n, surround.N_c, N_cb, e_t, a, b, RGB_a)
 
-    # -------------------------------------------------------------------------
     # Computing the correlate of *colourfulness* :math:`M`.
-    # -------------------------------------------------------------------------
     M = colourfulness_correlate(C, F_L)
 
-    # -------------------------------------------------------------------------
     # Computing the correlate of *saturation* :math:`s`.
-    # -------------------------------------------------------------------------
     s = saturation_correlate(M, Q)
 
     return CIECAM02_Specification(J, C, h, s, Q, M, H, None)
@@ -320,9 +310,10 @@ def CIECAM02_to_XYZ(J,
     XYZ_w : array_like
         *CIE XYZ* tristimulus values of reference white.
     L_A : numeric or array_like
-        Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`.
+        Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`, (often taken
+        to be 20% of the luminance of a white object in the scene).
     Y_b : numeric or array_like
-        Adapting field *Y* tristimulus value :math:`Y_b`.
+        Relative luminance of background :math:`Y_b` in :math:`cd/m^2`.
     surround : CIECAM02_Surround, optional
         Surround viewing conditions.
     discount_illuminant : bool, optional
@@ -366,7 +357,7 @@ def CIECAM02_to_XYZ(J,
     # Computing degree of adaptation :math:`D`.
     D = degree_of_adaptation(surround.F, L_A) if not discount_illuminant else 1
 
-    # Computation full chromatic adaptation.
+    # Computing full chromatic adaptation.
     RGB_wc = full_chromatic_adaptation_forward(RGB_w, RGB_w, Y_w, D)
 
     # Converting to *Hunt-Pointer-Estevez* colourspace.
@@ -376,7 +367,7 @@ def CIECAM02_to_XYZ(J,
     RGB_aw = post_adaptation_non_linear_response_compression_forward(
         RGB_pw, F_L)
 
-    # Computing achromatic responses for the stimulus and the whitepoint.
+    # Computing achromatic response for the whitepoint.
     A_w = achromatic_response_forward(RGB_aw, N_bb)
 
     # Computing temporary magnitude quantity :math:`t`.
@@ -438,10 +429,10 @@ def chromatic_induction_factors(n):
 
     n = np.asarray(n)
 
-    N_cbb = 0.725 * (1 / n) ** 0.2
-    N_cbb = tstack((N_cbb, N_cbb))
+    N_bb = N_cb = 0.725 * (1 / n) ** 0.2
+    N_bbcb = tstack((N_bb, N_cb))
 
-    return N_cbb
+    return N_bbcb
 
 
 def base_exponential_non_linearity(n):
