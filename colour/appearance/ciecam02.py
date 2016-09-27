@@ -47,6 +47,7 @@ from colour.appearance.hunt import (
     luminance_level_adaptation_factor)
 from colour.utilities import (
     CaseInsensitiveMapping,
+    as_numeric,
     dot_matrix,
     dot_vector,
     tsplit,
@@ -214,8 +215,7 @@ def XYZ_to_CIECAM02(XYZ,
     >>> surround = CIECAM02_VIEWING_CONDITIONS['Average']
     >>> XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround)  # doctest: +ELLIPSIS
     CIECAM02_Specification(J=41.7310911..., C=0.1047077..., h=219.0484326..., \
-s=2.3603053..., Q=195.3713259..., M=0.1088421..., H=array(278.0607358...), \
-HC=None)
+s=2.3603053..., Q=195.3713259..., M=0.1088421..., H=278.0607358..., HC=None)
     """
 
     _X_w, Y_w, _Z_w = tsplit(XYZ_w)
@@ -231,8 +231,7 @@ HC=None)
     RGB_w = dot_vector(CAT02_CAT, XYZ_w)
 
     # Computing degree of adaptation :math:`D`.
-    D = degree_of_adaptation(surround.F,
-                             L_A) if not discount_illuminant else 1
+    D = degree_of_adaptation(surround.F, L_A) if not discount_illuminant else 1
 
     # Computing full chromatic adaptation.
     RGB_c = full_chromatic_adaptation_forward(
@@ -884,7 +883,7 @@ def hue_quadrature(h):
     Examples
     --------
     >>> hue_quadrature(219.0484326582719)  # doctest: +ELLIPSIS
-    array(278.0607358...)
+    278.0607358...
     """
 
     h = np.asarray(h)
@@ -912,7 +911,7 @@ def hue_quadrature(h):
                  H_ii + ((85.9 * (h - h_ii) / e_ii) /
                          ((h - h_ii) / e_ii + (360 - h) / 0.856)),
                  H)
-    return H
+    return as_numeric(H)
 
 
 def eccentricity_factor(h):
