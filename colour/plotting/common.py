@@ -842,6 +842,7 @@ def multi_colour_plot(colour_parameters,
                       text_display=True,
                       text_size='large',
                       text_offset=0.075,
+                      background_colour=(1.0, 1.0, 1.0),
                       **kwargs):
     """
     Plots given colours.
@@ -864,6 +865,8 @@ def multi_colour_plot(colour_parameters,
         Colour text size.
     text_offset : numeric, optional
         Colour text offset.
+    background_colour : array_like or unicode, optional
+        Background colour.
 
     Other Parameters
     ----------------
@@ -910,6 +913,8 @@ def multi_colour_plot(colour_parameters,
     x_limit_max = min(len(colour_parameters), across)
     x_limit_max = x_limit_max * width + x_limit_max * spacing - spacing
     y_limit_min = offsetY
+
+    matplotlib.pyplot.gca().patch.set_facecolor(background_colour)
 
     settings = {
         'x_tighten': True,
