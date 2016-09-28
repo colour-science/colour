@@ -16,37 +16,6 @@ Defines the *RED* log encodings:
 -   :func:`log_encoding_Log3G12`
 -   :func:`log_decoding_Log3G12`
 
-Notes
------
--   The original v1 of the Log3G10 curve is the one used in REDCINE-X beta 42,
-    which introduced the Log3G10 curve. Resolve 12.5.2 also uses the v1 curve.
-    But RED plan to use v2 of the curve in the release SDK. Use the
-    `legacy_curve=True` argument to use the v1 curve for compatibility with
-    the current (as of September 21, 2016) RED SDK.
-
--   The intent of *Log3G10* is that zero maps to zero, 0.18 maps to 1/3, and
-    10 stops above 0.18 maps to 1.0. The name indicates this in a similar way
-    to the naming conventions of Sony HyperGamma curves.
-
-    The constants used in the functions do not in fact quite hit these values,
-    but rather than use corrected constants, the functions here use the
-    official Red values, in order to match the output of the Red SDK.
-
-    For those interested, solving for constants which exactly hit 1/3 and 1.0
-    yields the following values:
-
-    B = 25 * (np.sqrt(4093.0) - 3) / 9
-    A = 1 / np.log10(B * 184.32 + 1)
-
-    where the function takes the form:
-
-    Log3G10(x) = A * np.log10(B * x + 1)
-
-    Similarly for Log3G12, the values which hit exactly 1/3 and 1.0 are:
-
-    B = 25 * (np.sqrt(16381.0) - 3) / 9
-    A = 1 / np.log10(B * 737.28 + 1)
-
 See Also
 --------
 `RGB Colourspaces Jupyter Notebook
@@ -211,12 +180,47 @@ def log_encoding_Log3G10(x, legacy_curve=False):
     x : numeric or array_like
         Linear data :math:`x`.
     legacy_curve : bool, optional
-        Whether to use the v1 Log3G10 curve. Default is `False`.
+        Whether to use the v1 *Log3G10* log encoding curve. Default is `False`.
 
     Returns
     -------
     numeric or ndarray
         Non-linear data :math:`y`.
+
+    Notes
+    -----
+    -   The v1 *Log3G10* log encoding curve is the one used in *REDCINE-X beta
+        42*. *Resolve 12.5.2* also uses the v1 curve. *RED* is planning to use
+        v2 *Log3G10* log encoding curve in the release version of the
+        *RED SDK*.
+        Use the `legacy_curve=True` argument to switch to the v1 curve for
+        compatibility with the current (as of September 21, 2016) *RED SDK*.
+
+    -   The intent of the v1 *Log3G10* log encoding curve is that zero maps to
+        zero, 0.18 maps to 1/3, and 10 stops above 0.18 maps to 1.0.
+        The name indicates this in a similar way to the naming conventions of
+        *Sony HyperGamma* curves.
+
+        The constants used in the functions do not in fact quite hit these
+        values, but rather than use corrected constants, the functions here
+        use the official *RED* values, in order to match the output of the
+        *RED SDK*.
+
+        For those interested, solving for constants which exactly hit 1/3
+        and 1.0 yields the following values::
+
+            B = 25 * (np.sqrt(4093.0) - 3) / 9
+            A = 1 / np.log10(B * 184.32 + 1)
+
+        where the function takes the form::
+
+            Log3G10(x) = A * np.log10(B * x + 1)
+
+        Similarly for *Log3G12*, the values which hit exactly 1/3 and 1.0
+        are::
+
+            B = 25 * (np.sqrt(16381.0) - 3) / 9
+            A = 1 / np.log10(B * 737.28 + 1)
 
     Examples
     --------
@@ -245,7 +249,7 @@ def log_decoding_Log3G10(y, legacy_curve=False):
     y : numeric or array_like
         Non-linear data :math:`y`.
     legacy_curve : bool, optional
-        Whether to use the v1 Log3G10 curve. Default is `False`.
+        Whether to use the v1 *Log3G10* log encoding curve. Default is `False`.
 
     Returns
     -------
