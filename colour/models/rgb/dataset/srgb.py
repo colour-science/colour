@@ -87,7 +87,10 @@ sRGB_TO_XYZ_MATRIX = np.array(
 sRGB_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
-XYZ_TO_sRGB_MATRIX = np.linalg.inv(sRGB_TO_XYZ_MATRIX)
+XYZ_TO_sRGB_MATRIX = np.array(
+    [[3.2406, -1.5372, -0.4986],
+     [-0.9689, 1.8758, 0.0415],
+     [0.0557, -0.2040, 1.0570]])
 """
 *CIE XYZ* tristimulus values to *sRGB* colourspace matrix.
 
