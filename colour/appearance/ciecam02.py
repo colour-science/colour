@@ -47,6 +47,7 @@ from colour.appearance.hunt import (
     luminance_level_adaptation_factor)
 from colour.utilities import (
     CaseInsensitiveMapping,
+    as_numeric,
     dot_matrix,
     dot_vector,
     tsplit,
@@ -182,9 +183,10 @@ def XYZ_to_CIECAM02(XYZ,
     XYZ_w : array_like
         *CIE XYZ* tristimulus values of reference white in domain [0, 100].
     L_A : numeric or array_like
-        Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`.
+        Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`, (often taken
+        to be 20% of the luminance of a white object in the scene).
     Y_b : numeric or array_like
-        Adapting field *Y* tristimulus value :math:`Y_b`.
+        Relative luminance of background :math:`Y_b` in :math:`cd/m^2`.
     surround : CIECAM02_InductionFactors, optional
         Surround viewing conditions induction factors.
     discount_illuminant : bool, optional
@@ -213,8 +215,7 @@ def XYZ_to_CIECAM02(XYZ,
     >>> surround = CIECAM02_VIEWING_CONDITIONS['Average']
     >>> XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround)  # doctest: +ELLIPSIS
     CIECAM02_Specification(J=41.7310911..., C=0.1047077..., h=219.0484326..., \
-s=2.3603053..., Q=195.3713259..., M=0.1088421..., H=array(278.0607358...), \
-HC=None)
+s=2.3603053..., Q=195.3713259..., M=0.1088421..., H=278.0607358..., HC=None)
     """
 
     _X_w, Y_w, _Z_w = tsplit(XYZ_w)
@@ -230,8 +231,7 @@ HC=None)
     RGB_w = dot_vector(CAT02_CAT, XYZ_w)
 
     # Computing degree of adaptation :math:`D`.
-    D = degree_of_adaptation(surround.F,
-                             L_A) if not discount_illuminant else 1
+    D = degree_of_adaptation(surround.F, L_A) if not discount_illuminant else 1
 
     # Computing full chromatic adaptation.
     RGB_c = full_chromatic_adaptation_forward(
@@ -252,10 +252,9 @@ HC=None)
     # Converting to preliminary cartesian coordinates.
     a, b = tsplit(opponent_colour_dimensions_forward(RGB_a))
 
-    # -------------------------------------------------------------------------
     # Computing the *hue* angle :math:`h`.
     h = hue_angle(a, b)
-    # -------------------------------------------------------------------------
+
     # Computing hue :math:`h` quadrature :math:`H`.
     H = hue_quadrature(h)
     # TODO: Compute hue composition.
@@ -267,29 +266,19 @@ HC=None)
     A = achromatic_response_forward(RGB_a, N_bb)
     A_w = achromatic_response_forward(RGB_aw, N_bb)
 
-    # -------------------------------------------------------------------------
     # Computing the correlate of *Lightness* :math:`J`.
-    # -------------------------------------------------------------------------
     J = lightness_correlate(A, A_w, surround.c, z)
 
-    # -------------------------------------------------------------------------
     # Computing the correlate of *brightness* :math:`Q`.
-    # -------------------------------------------------------------------------
     Q = brightness_correlate(surround.c, J, A_w, F_L)
 
-    # -------------------------------------------------------------------------
     # Computing the correlate of *chroma* :math:`C`.
-    # -------------------------------------------------------------------------
     C = chroma_correlate(J, n, surround.N_c, N_cb, e_t, a, b, RGB_a)
 
-    # -------------------------------------------------------------------------
     # Computing the correlate of *colourfulness* :math:`M`.
-    # -------------------------------------------------------------------------
     M = colourfulness_correlate(C, F_L)
 
-    # -------------------------------------------------------------------------
     # Computing the correlate of *saturation* :math:`s`.
-    # -------------------------------------------------------------------------
     s = saturation_correlate(M, Q)
 
     return CIECAM02_Specification(J, C, h, s, Q, M, H, None)
@@ -320,9 +309,10 @@ def CIECAM02_to_XYZ(J,
     XYZ_w : array_like
         *CIE XYZ* tristimulus values of reference white.
     L_A : numeric or array_like
-        Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`.
+        Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`, (often taken
+        to be 20% of the luminance of a white object in the scene).
     Y_b : numeric or array_like
-        Adapting field *Y* tristimulus value :math:`Y_b`.
+        Relative luminance of background :math:`Y_b` in :math:`cd/m^2`.
     surround : CIECAM02_Surround, optional
         Surround viewing conditions.
     discount_illuminant : bool, optional
@@ -366,7 +356,7 @@ def CIECAM02_to_XYZ(J,
     # Computing degree of adaptation :math:`D`.
     D = degree_of_adaptation(surround.F, L_A) if not discount_illuminant else 1
 
-    # Computation full chromatic adaptation.
+    # Computing full chromatic adaptation.
     RGB_wc = full_chromatic_adaptation_forward(RGB_w, RGB_w, Y_w, D)
 
     # Converting to *Hunt-Pointer-Estevez* colourspace.
@@ -376,7 +366,7 @@ def CIECAM02_to_XYZ(J,
     RGB_aw = post_adaptation_non_linear_response_compression_forward(
         RGB_pw, F_L)
 
-    # Computing achromatic responses for the stimulus and the whitepoint.
+    # Computing achromatic response for the whitepoint.
     A_w = achromatic_response_forward(RGB_aw, N_bb)
 
     # Computing temporary magnitude quantity :math:`t`.
@@ -438,10 +428,10 @@ def chromatic_induction_factors(n):
 
     n = np.asarray(n)
 
-    N_cbb = 0.725 * (1 / n) ** 0.2
-    N_cbb = tstack((N_cbb, N_cbb))
+    N_bb = N_cb = 0.725 * (1 / n) ** 0.2
+    N_bbcb = tstack((N_bb, N_cb))
 
-    return N_cbb
+    return N_bbcb
 
 
 def base_exponential_non_linearity(n):
@@ -893,7 +883,7 @@ def hue_quadrature(h):
     Examples
     --------
     >>> hue_quadrature(219.0484326582719)  # doctest: +ELLIPSIS
-    array(278.0607358...)
+    278.0607358...
     """
 
     h = np.asarray(h)
@@ -921,7 +911,7 @@ def hue_quadrature(h):
                  H_ii + ((85.9 * (h - h_ii) / e_ii) /
                          ((h - h_ii) / e_ii + (360 - h) / 0.856)),
                  H)
-    return H
+    return as_numeric(H)
 
 
 def eccentricity_factor(h):

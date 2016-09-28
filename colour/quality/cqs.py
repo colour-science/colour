@@ -74,7 +74,7 @@ D65_GAMUT_AREA = 8210
 class VS_ColorimetryData(namedtuple('VS_ColorimetryData',
                                     ('name', 'XYZ', 'Lab', 'C'))):
     """
-    Defines the the class holding *VS test colour samples* colorimetry data.
+    Defines the the class storing *VS test colour samples* colorimetry data.
     """
 
 
@@ -82,7 +82,7 @@ class VS_ColourQualityScaleData(
     namedtuple('VS_ColourQualityScaleData',
                ('name', 'Q_a', 'D_C_ab', 'D_E_ab', 'D_Ep_ab'))):
     """
-    Defines the the class holding *VS test colour samples* colour quality
+    Defines the the class storing *VS test colour samples* colour quality
     scale data.
     """
 

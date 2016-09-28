@@ -55,7 +55,7 @@ __all__ = ['TCS_ColorimetryData',
 class TCS_ColorimetryData(namedtuple('TCS_ColorimetryData',
                                      ('name', 'XYZ', 'uv', 'UVW'))):
     """
-    Defines the the class holding *test colour samples* colorimetry data.
+    Defines the the class storing *test colour samples* colorimetry data.
     """
 
 
@@ -63,7 +63,7 @@ class TCS_ColourQualityScaleData(
     namedtuple('TCS_ColourQualityScaleData',
                ('name', 'Q_a'))):
     """
-    Defines the the class holding *test colour samples* colour rendering
+    Defines the the class storing *test colour samples* colour rendering
     index data.
     """
 

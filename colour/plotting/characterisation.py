@@ -12,8 +12,6 @@ Defines the characterisation plotting objects:
 
 from __future__ import division
 
-import matplotlib
-import matplotlib.pyplot
 import numpy as np
 import pylab
 
@@ -110,8 +108,6 @@ def colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
             ColourParameter(label.title(), np.clip(np.ravel(RGB), 0, 1)))
 
     background_colour = '0.1'
-    matplotlib.pyplot.gca().patch.set_facecolor(background_colour)
-
     width = height = 1.0
     spacing = 0.25
     across = 6
@@ -123,6 +119,7 @@ def colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
         'spacing': spacing,
         'across': across,
         'text_size': 8,
+        'background_colour': background_colour,
         'margins': (-0.125, 0.125, -0.5, 0.125)}
     settings.update(kwargs)
 
