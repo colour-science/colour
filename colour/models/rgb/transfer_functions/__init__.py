@@ -9,7 +9,9 @@ from .aces import (
     log_encoding_ACESproxy,
     log_decoding_ACESproxy,
     log_encoding_ACEScc,
-    log_decoding_ACEScc)
+    log_decoding_ACEScc,
+    log_encoding_ACEScct,
+    log_decoding_ACEScct)
 from .alexa_log_c import (
     log_encoding_ALEXALogC,
     log_decoding_ALEXALogC)
@@ -62,7 +64,9 @@ from .viper_log import log_encoding_ViperLog, log_decoding_ViperLog
 __all__ = ['log_encoding_ACESproxy',
            'log_decoding_ACESproxy',
            'log_encoding_ACEScc',
-           'log_decoding_ACEScc']
+           'log_decoding_ACEScc',
+           'log_encoding_ACEScct',
+           'log_decoding_ACEScct']
 __all__ += ['log_encoding_ALEXALogC', 'log_decoding_ALEXALogC']
 __all__ += ['oetf_BT709', 'eotf_BT709']
 __all__ += ['oetf_BT1886', 'eotf_BT1886']
@@ -115,6 +119,7 @@ LOG_ENCODING_CURVES = CaseInsensitiveMapping(
      'Canon Log 2': log_encoding_CanonLog2,
      'Canon Log 3': log_encoding_CanonLog3,
      'ACEScc': log_encoding_ACEScc,
+     'ACEScct': log_encoding_ACEScct,
      'ACESproxy': log_encoding_ACESproxy,
      'ALEXA Log C': log_encoding_ALEXALogC,
      'REDLog': log_encoding_REDLog,
@@ -131,7 +136,7 @@ Supported *log* encoding curves.
 
 LOG_ENCODING_CURVES : CaseInsensitiveMapping
     **{'Cineon', 'Panalog', 'ViperLog', 'PLog', 'Canon Log', 'Canon Log 2',
-    'Canon Log 3', 'ACEScc', 'ACESproxy', 'ALEXA Log C', 'REDLog',
+    'Canon Log 3', 'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'REDLog',
     'REDLogFilm', 'Log3G10', 'Log3G12', 'ERIMM RGB, 'S-Log', 'S-Log2',
     'S-Log3', 'V-Log'}**
 """
@@ -148,9 +153,9 @@ def log_encoding_curve(value, curve='Cineon', **kwargs):
         Value.
     curve : unicode, optional
         **{'Cineon', 'Panalog', 'ViperLog', 'PLog', 'Canon Log', 'Canon Log 2',
-        'Canon Log 3', 'ACEScc', 'ACESproxy', 'ALEXA Log C', 'REDLog',
-        'REDLogFilm', 'Log3G10', 'Log3G12', 'ERIMM RGB, 'S-Log', 'S-Log2',
-        'S-Log3', 'V-Log'}**, Computation curve.
+        'Canon Log 3', 'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C',
+        'REDLog', 'REDLogFilm', 'Log3G10', 'Log3G12', 'ERIMM RGB, 'S-Log',
+        'S-Log2', 'S-Log3', 'V-Log'}**, Computation curve.
 
     Other Parameters
     ----------------
@@ -230,6 +235,7 @@ LOG_DECODING_CURVES = CaseInsensitiveMapping(
      'Canon Log 2': log_decoding_CanonLog2,
      'Canon Log 3': log_decoding_CanonLog3,
      'ACEScc': log_decoding_ACEScc,
+     'ACEScct': log_decoding_ACEScct,
      'ACESproxy': log_decoding_ACESproxy,
      'ALEXA Log C': log_decoding_ALEXALogC,
      'REDLog': log_decoding_REDLog,
@@ -246,7 +252,7 @@ Supported *log* decoding curves.
 
 LOG_DECODING_CURVES : CaseInsensitiveMapping
     **{'Cineon', 'Panalog', 'ViperLog', 'PLog', 'Canon Log', 'Canon Log 2',
-    'Canon Log 3', 'ACEScc', 'ACESproxy', 'ALEXA Log C', 'REDLog',
+    'Canon Log 3', 'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'REDLog',
     'REDLogFilm', 'Log3G10', 'Log3G12', 'ERIMM RGB, 'S-Log', 'S-Log2',
     'S-Log3', 'V-Log'}**
 """
@@ -263,9 +269,9 @@ def log_decoding_curve(value, curve='Cineon', **kwargs):
         Value.
     curve : unicode, optional
         **{'Cineon', 'Panalog', 'ViperLog', 'PLog', 'Canon Log', 'Canon Log 2',
-        'Canon Log 3', 'ACEScc', 'ACESproxy', 'ALEXA Log C', 'REDLog',
-        'REDLogFilm', 'Log3G10', 'Log3G12', 'ERIMM RGB, 'S-Log', 'S-Log2',
-        'S-Log3', 'V-Log'}**, Computation curve.
+        'Canon Log 3', 'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C',
+        'REDLog', 'REDLogFilm', 'Log3G10', 'Log3G12', 'ERIMM RGB, 'S-Log',
+        'S-Log2', 'S-Log3', 'V-Log'}**, Computation curve.
 
     Other Parameters
     ----------------
