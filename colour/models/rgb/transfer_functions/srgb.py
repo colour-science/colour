@@ -83,7 +83,7 @@ def eotf_sRGB(V):
     Parameters
     ----------
     V : numeric or array_like
-        Electrical signal :math:`V`..
+        Electrical signal :math:`V`.
 
     Returns
     -------
