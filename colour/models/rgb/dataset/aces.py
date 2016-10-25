@@ -53,11 +53,10 @@ References
         Subcommittee. (2014). Technical Bulletin TB-2014-012 - Academy Color
         Encoding System Version 1.0 Component Names. Retrieved from
         https://github.com/ampas/aces-dev/tree/master/documents
-.. [7]  The Academy of Motion Picture Arts and Sciences, Science and
-        Technology Council, & Academy Color Encoding System (ACES) Project
-        Subcommittee. (2016). Specification S-2016-001 - ACEScct , A
-        Quasi-Logarithmic Encoding of ACES Data for use within
-        Color Grading Systems. Retrieved from
+.. [7]  The Academy of Motion Picture Arts and Sciences. (2016).
+        Specification S-2016-001 - ACEScct, A Quasi-Logarithmic
+        Encoding of ACES Data for use within Color Grading Systems.
+        Retrieved October 10, 2016, from
         https://github.com/ampas/aces-dev/tree/v1.0.3/documents
 """
 

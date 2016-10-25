@@ -44,11 +44,10 @@ References
         Subcommittee. (2014). Specification S-2013-001 - ACESproxy , an
         Integer Log Encoding of ACES Image Data. Retrieved from
         https://github.com/ampas/aces-dev/tree/master/documents
-.. [5]  The Academy of Motion Picture Arts and Sciences, Science and
-        Technology Council, & Academy Color Encoding System (ACES) Project
-        Subcommittee. (2016). Specification S-2016-001 - ACEScct , A
-        Quasi-Logarithmic Encoding of ACES Data for use within
-        Color Grading Systems. Retrieved from
+.. [5]  The Academy of Motion Picture Arts and Sciences. (2016).
+        Specification S-2016-001 - ACEScct, A Quasi-Logarithmic
+        Encoding of ACES Data for use within Color Grading Systems.
+        Retrieved October 10, 2016, from
         https://github.com/ampas/aces-dev/tree/v1.0.3/documents
 """
 

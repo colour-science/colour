@@ -375,7 +375,9 @@ log_encoding_ACEScct` definition n-dimensional arrays support.
     def test_ACEScc_equivalency_log_encoding_ACEScct(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.aces.\
-log_decoding_ACEScct` definition ACEScc equivalency.
+log_encoding_ACEScct` definition ACEScc equivalency, and explicit requirement
+specified by AMPAS ACES specification S-2016-001 (https://github.com/ampas/\
+aces-dev/blob/v1.0.3/documents/LaTeX/S-2016-001/introduction.tex#L14)
         """
 
         equiv = np.linspace(0.0078125, 222.86094420380761, 100)
@@ -459,7 +461,9 @@ log_decoding_ACEScct` definition n-dimensional arrays support.
     def test_ACEScc_equivalency_log_decoding_ACEScct(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.aces.\
-log_decoding_ACEScct` definition ACEScc equivalency.
+log_decoding_ACEScct` definition ACEScc equivalency, and explicit requirement
+specified by AMPAS ACES specification S-2016-001 (https://github.com/ampas/\
+aces-dev/blob/v1.0.3/documents/LaTeX/S-2016-001/introduction.tex#L14)
         """
 
         equiv = np.linspace(0.15525114155251146, 1.0, 100)
