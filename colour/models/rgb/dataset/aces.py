@@ -10,6 +10,7 @@ Defines the *Academy Color Encoding System* (ACES) related encodings:
 -   :attr:`ACES_2065_1_COLOURSPACE`
 -   :attr:`ACES_CG_COLOURSPACE`
 -   :attr:`ACES_CC_COLOURSPACE`
+-   :attr:'ACES_CCT_COLOURSPACE'
 -   :attr:`ACES_PROXY_COLOURSPACE`
 
 See Also
@@ -52,6 +53,11 @@ References
         Subcommittee. (2014). Technical Bulletin TB-2014-012 - Academy Color
         Encoding System Version 1.0 Component Names. Retrieved from
         https://github.com/ampas/aces-dev/tree/master/documents
+.. [7]  The Academy of Motion Picture Arts and Sciences. (2016).
+        Specification S-2016-001 - ACEScct, A Quasi-Logarithmic
+        Encoding of ACES Data for use within Color Grading Systems.
+        Retrieved October 10, 2016, from
+        https://github.com/ampas/aces-dev/tree/v1.0.3/documents
 """
 
 from __future__ import division, unicode_literals
@@ -65,6 +71,8 @@ from colour.models.rgb import (
     linear_function,
     log_encoding_ACEScc,
     log_decoding_ACEScc,
+    log_encoding_ACEScct,
+    log_decoding_ACEScct,
     log_encoding_ACESproxy,
     log_decoding_ACESproxy)
 
@@ -86,6 +94,7 @@ __all__ = ['AP0',
            'ACES_2065_1_COLOURSPACE',
            'ACES_CG_COLOURSPACE',
            'ACES_CC_COLOURSPACE',
+           'ACES_CCT_COLOURSPACE',
            'ACES_PROXY_COLOURSPACE']
 
 AP0 = np.array(
@@ -203,6 +212,23 @@ ACES_CC_COLOURSPACE = RGB_Colourspace(
 values created on-set.
 
 ACES_CC_COLOURSPACE : RGB_Colourspace
+"""
+
+ACES_CCT_COLOURSPACE = RGB_Colourspace(
+    'ACEScct',
+    AP1,
+    ACES_WHITEPOINT,
+    ACES_ILLUMINANT,
+    AP1_TO_XYZ_MATRIX,
+    XYZ_TO_AP1_MATRIX,
+    log_encoding_ACEScct,
+    log_decoding_ACEScct)
+"""
+*ACEScct* colourspace, an alternative working space for colour correctors,
+intended to be transient and internal to software or hardware systems,
+and is specifically not intended for interchange or archiving.
+
+ACES_CCT_COLOURSPACE : RGB_Colourspace
 """
 
 ACES_PROXY_COLOURSPACE = RGB_Colourspace(

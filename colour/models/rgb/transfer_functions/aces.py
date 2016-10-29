@@ -11,6 +11,8 @@ Defines the *Academy Color Encoding System* (ACES) log encodings:
 -   :func:`log_decoding_ACESproxy`
 -   :func:`log_encoding_ACEScc`
 -   :func:`log_decoding_ACEScc`
+-   :func:'log_encoding_ACEScct'
+-   :func:'log_decoding_ACEScct'
 
 See Also
 --------
@@ -42,7 +44,13 @@ References
         Subcommittee. (2014). Specification S-2013-001 - ACESproxy , an
         Integer Log Encoding of ACES Image Data. Retrieved from
         https://github.com/ampas/aces-dev/tree/master/documents
+.. [5]  The Academy of Motion Picture Arts and Sciences. (2016).
+        Specification S-2016-001 - ACEScct, A Quasi-Logarithmic
+        Encoding of ACES Data for use within Color Grading Systems.
+        Retrieved October 10, 2016, from
+        https://github.com/ampas/aces-dev/tree/v1.0.3/documents
 """
+
 
 from __future__ import division, unicode_literals
 
@@ -60,10 +68,13 @@ __status__ = 'Production'
 __all__ = ['ACES_PROXY_10_CONSTANTS',
            'ACES_PROXY_12_CONSTANTS',
            'ACES_PROXY_CONSTANTS',
+           'ACES_CCT_CONSTANTS',
            'log_encoding_ACESproxy',
            'log_decoding_ACESproxy',
            'log_encoding_ACEScc',
-           'log_decoding_ACEScc']
+           'log_decoding_ACEScc',
+           'log_encoding_ACEScct',
+           'log_decoding_ACEScct']
 
 ACES_PROXY_10_CONSTANTS = Structure(
     CV_min=64,
@@ -97,6 +108,17 @@ Aggregated *ACESproxy* colourspace constants.
 
 ACES_PROXY_CONSTANTS : CaseInsensitiveMapping
     **{'10 Bit', '12 Bit'}**
+"""
+
+ACES_CCT_CONSTANTS = Structure(
+    X_BRK=0.0078125,
+    Y_BRK=0.155251141552511,
+    A=10.5402377416545,
+    B=0.0729055341958355)
+"""
+*ACEScct* colourspace constants.
+
+ACES_CCT_CONSTANTS : Structure
 """
 
 
@@ -242,5 +264,69 @@ def log_decoding_ACEScc(ACEScc):
     output = np.where(ACEScc >= (np.log2(65504) + 9.72) / 17.52,
                       65504,
                       output)
+
+    return as_numeric(output)
+
+
+def log_encoding_ACEScct(lin_AP1):
+    """
+    Defines the *ACEScct* colourspace log encoding / opto-electronic transfer
+    function.
+
+    Parameters
+    ----------
+    lin_AP1 : numeric or array_like
+        *lin_AP1* value.
+
+    Returns
+    -------
+    numeric or ndarray
+        *ACEScct* non-linear value.
+
+    Examples
+    --------
+    >>> log_encoding_ACEScct(0.18)  # doctest: +ELLIPSIS
+    0.4135884...
+    """
+
+    constants = ACES_CCT_CONSTANTS
+
+    lin_AP1 = np.asarray(lin_AP1)
+
+    output = np.where(lin_AP1 <= constants.X_BRK,
+                      constants.A * lin_AP1 + constants.B,
+                      (np.log2(lin_AP1) + 9.72) / 17.52)
+
+    return as_numeric(output)
+
+
+def log_decoding_ACEScct(ACEScct):
+    """
+    Defines the *ACEScct* colourspace log decoding / electro-optical transfer
+    function.
+
+    Parameters
+    ----------
+    ACEScct : numeric or array_like
+        *ACEScct* non-linear value.
+
+    Returns
+    -------
+    numeric or ndarray
+        *lin_AP1* value.
+
+    Examples
+    --------
+    >>> log_decoding_ACEScct(0.413588402492442)  # doctest: +ELLIPSIS
+    0.1799999...
+    """
+
+    constants = ACES_CCT_CONSTANTS
+
+    ACEScct = np.asarray(ACEScct)
+
+    output = np.where(ACEScct > constants.Y_BRK,
+                      2 ** (ACEScct * 17.52 - 9.72),
+                      (ACEScct - constants.B) / constants.A)
 
     return as_numeric(output)
