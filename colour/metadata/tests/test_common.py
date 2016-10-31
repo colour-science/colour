@@ -187,7 +187,8 @@ class TestFilterMetadataRegistry(unittest.TestCase):
                 colour.colorimetry.lightness_CIE1976,
                 colour.colorimetry.lightness_Fairchild2010,
                 colour.colorimetry.lightness_Fairchild2011,
-                colour.colorimetry.luminance_CIE1976
+                colour.colorimetry.luminance_CIE1976,
+                colour.xy_to_xyY
             ]))
 
         self.assertSetEqual(
@@ -239,7 +240,8 @@ class TestFilterMetadataRegistry(unittest.TestCase):
                 colour.colorimetry.luminance_Newhall1943,
                 colour.colorimetry.luminance_CIE1976,
                 colour.colorimetry.luminance_Fairchild2010,
-                colour.colorimetry.luminance_Fairchild2011
+                colour.colorimetry.luminance_Fairchild2011,
+                colour.xy_to_xyY
             ]))
 
         self.assertSetEqual(

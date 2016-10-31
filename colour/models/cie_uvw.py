@@ -46,14 +46,18 @@ def XYZ_to_UVW(
     Parameters
     ----------
     XYZ : array_like
+        metadata : {'type': 'CIE XYZ', 'symbol': 'XYZ', 'extent': (0, 100)}
         *CIE XYZ* tristimulus values.
     illuminant : array_like, optional
+        metadata : {'type': 'CIE xyY', 'symbol': 'xyY', 'extent': (0, 100)}
         Reference *illuminant* *xy* chromaticity coordinates or *CIE xyY*
         colourspace array.
 
     Returns
     -------
     ndarray
+        metadata : {'type': 'CIE UVW', 'symbol': 'U\*V\*W\*', 'extent':
+        (0, 100)}
         *CIE 1964 U\*V\*W\** colourspace array.
 
     Warning
@@ -62,10 +66,8 @@ def XYZ_to_UVW(
 
     Notes
     -----
-    -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
-    -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
-        colourspace array are in domain [0, :math:`\infty`].
-    -   Output *CIE 1964 U\*V\*W\** colourspace array is in range [0, 100].
+    -   metadata : {'classifier': 'Colour Model Conversion Function',
+        'method_name': 'CIE 1964', 'method_strict_name': 'CIE 1964'}
 
     References
     ----------
