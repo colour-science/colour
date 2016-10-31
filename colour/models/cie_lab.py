@@ -68,7 +68,7 @@ def XYZ_to_Lab(
 
     Notes
     -----
-    metadata : {'classifier': 'Colour Model Conversion Function',
+    -   metadata : {'classifier': 'Colour Model Conversion Function',
         'method_name': 'CIE 1976', 'method_strict_name': 'CIE 1976'}
 
     References
@@ -126,7 +126,7 @@ def Lab_to_XYZ(
 
     Notes
     -----
-    metadata : {'classifier': 'Colour Model Conversion Function',
+    -   metadata : {'classifier': 'Colour Model Conversion Function',
         'method_name': 'CIE 1976', 'method_strict_name': 'CIE 1976'}
 
     References
@@ -176,7 +176,7 @@ def Lab_to_LCHab(Lab):
 
     Notes
     -----
-    metadata : {'classifier': 'Colour Model Conversion Function',
+    -   metadata : {'classifier': 'Colour Model Conversion Function',
         'method_name': 'CIE 1976', 'method_strict_name': 'CIE 1976'}
 
     References
@@ -219,7 +219,7 @@ def LCHab_to_Lab(LCHab):
 
     Notes
     -----
-    metadata : {'classifier': 'Colour Model Conversion Function',
+    -   metadata : {'classifier': 'Colour Model Conversion Function',
         'method_name': 'CIE 1976', 'method_strict_name': 'CIE 1976'}
 
     References

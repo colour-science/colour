@@ -81,7 +81,7 @@ def XYZ_to_Luv(
 
     Notes
     -----
-    metadata : {'classifier': 'Colour Model Conversion Function',
+    -   metadata : {'classifier': 'Colour Model Conversion Function',
         'method_name': 'CIE 1976', 'method_strict_name': 'CIE 1976'}
 
     References
@@ -138,7 +138,7 @@ def Luv_to_XYZ(
 
     Notes
     -----
-    metadata : {'classifier': 'Colour Model Conversion Function',
+    -   metadata : {'classifier': 'Colour Model Conversion Function',
         'method_name': 'CIE 1976', 'method_strict_name': 'CIE 1976'}
 
     References
@@ -199,7 +199,7 @@ def Luv_to_uv(
 
     Notes
     -----
-    metadata : {'classifier': 'Colour Model Conversion Function',
+    -   metadata : {'classifier': 'Colour Model Conversion Function',
         'method_name': 'CIE 1976', 'method_strict_name': 'CIE 1976'}
 
     References
@@ -239,7 +239,7 @@ def Luv_uv_to_xy(uv):
 
     Notes
     -----
-    metadata : {'classifier': 'Colour Model Conversion Function',
+    -   metadata : {'classifier': 'Colour Model Conversion Function',
         'method_name': 'CIE 1976', 'method_strict_name': 'CIE 1976'}
 
     References
@@ -280,7 +280,7 @@ def Luv_to_LCHuv(Luv):
 
     Notes
     -----
-    metadata : {'classifier': 'Colour Model Conversion Function',
+    -   metadata : {'classifier': 'Colour Model Conversion Function',
         'method_name': 'CIE 1976', 'method_strict_name': 'CIE 1976'}
 
     References
@@ -323,7 +323,7 @@ def LCHuv_to_Luv(LCHuv):
 
     Notes
     -----
-    metadata : {'classifier': 'Colour Model Conversion Function',
+    -   metadata : {'classifier': 'Colour Model Conversion Function',
         'method_name': 'CIE 1976', 'method_strict_name': 'CIE 1976'}
 
     References

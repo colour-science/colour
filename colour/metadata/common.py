@@ -196,7 +196,7 @@ def set_metadata(callable_):
     ...
     ...     Notes
     ...     -----
-    ...     metadata : {'classifier': 'classifier', 'method_name':
+    ...     -   metadata : {'classifier': 'classifier', 'method_name':
     ...         'method_name', 'method_strict_name': 'method_strict_name'}
     ...     '''
     ...

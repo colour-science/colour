@@ -46,17 +46,19 @@ def XYZ_to_UCS(XYZ):
     Parameters
     ----------
     XYZ : array_like
+        metadata : {'type': 'CIE XYZ', 'symbol': 'XYZ', 'extent': (0, 1)}
         *CIE XYZ* tristimulus values.
 
     Returns
     -------
     ndarray
+        metadata : {'type': 'CIE UCS', 'symbol': 'UCS', 'extent': (0, 1)}
         *CIE UCS* colourspace array.
 
     Notes
     -----
-    -   Input *CIE XYZ* tristimulus values are in domain [0, 1].
-    -   Output *CIE UCS* colourspace array is in range [0, 1].
+    -   metadata : {'classifier': 'Colour Model Conversion Function',
+        'method_name': 'CIE 1960', 'method_strict_name': 'CIE 1960'}
 
     References
     ----------
@@ -85,17 +87,19 @@ def UCS_to_XYZ(UVW):
     Parameters
     ----------
     UVW : array_like
+        metadata : {'type': 'CIE UCS', 'symbol': 'UCS', 'extent': (0, 1)}
         *CIE UCS* colourspace array.
 
     Returns
     -------
     ndarray
+        metadata : {'type': 'CIE XYZ', 'symbol': 'XYZ', 'extent': (0, 1)}
         *CIE XYZ* tristimulus values.
 
     Notes
     -----
-    -   Input *CIE UCS* colourspace array is in domain [0, 1].
-    -   Output *CIE XYZ* tristimulus values are in range [0, 1].
+    -   metadata : {'classifier': 'Colour Model Conversion Function',
+        'method_name': 'CIE 1960', 'method_strict_name': 'CIE 1960'}
 
     References
     ----------
@@ -125,17 +129,19 @@ def UCS_to_uv(UVW):
     Parameters
     ----------
     UVW : array_like
+        metadata : {'type': 'CIE UCS', 'symbol': 'UCS', 'extent': (0, 1)}
         *CIE UCS* colourspace array.
 
     Returns
     -------
     ndarray
+        metadata : {'type': 'CIE uv', 'symbol': 'uv', 'extent': (0, 1)}
         *uv* chromaticity coordinates.
 
     Notes
     -----
-    -   Input *CIE UCS* colourspace array is in domain [0, 1].
-    -   Output *uv* chromaticity coordinates are in range [0, 1].
+    -   metadata : {'classifier': 'Colour Model Conversion Function',
+        'method_name': 'CIE 1960', 'method_strict_name': 'CIE 1960'}
 
     References
     ----------
@@ -164,17 +170,19 @@ def UCS_uv_to_xy(uv):
     Parameters
     ----------
     uv : array_like
+        metadata : {'type': 'CIE uv', 'symbol': 'uv', 'extent': (0, 1)}
         *CIE UCS uv* chromaticity coordinates.
 
     Returns
     -------
     ndarray
+        metadata : {'type': 'CIE xy', 'symbol': 'xy', 'extent': (0, 1)}
         *xy* chromaticity coordinates.
 
     Notes
     -----
-    -   Input *uv* chromaticity coordinates are in domain [0, 1].
-    -   Output *xy* chromaticity coordinates are in range [0, 1].
+    -   metadata : {'classifier': 'Colour Model Conversion Function',
+        'method_name': 'CIE 1960', 'method_strict_name': 'CIE 1960'}
 
     References
     ----------
