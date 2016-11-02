@@ -48,10 +48,14 @@ def XYZ_to_Hunter_Rdab(XYZ,
     Parameters
     ----------
     XYZ : array_like
+        metadata : {'type': 'CIE XYZ', 'symbol': 'XYZ', 'extent': (0, 100)}
         *CIE XYZ* tristimulus values.
     XYZ_n : array_like, optional
+        metadata : {'type': 'CIE XYZ', 'symbol': 'XYZ', 'extent': (0, 100)}
         Reference *illuminant* tristimulus values.
     K_ab : array_like, optional
+        metadata : {'type': 'Hunter K_ab', 'symbol': 'K\_\{ab\}', 'extent':
+        (0, 100)}
         Reference *illuminant* chromaticity coefficients, if ``K_ab`` is set to
         *None* it will be computed using
         :func:`colour.XYZ_to_K_ab_HunterLab1966`.
@@ -59,12 +63,14 @@ def XYZ_to_Hunter_Rdab(XYZ,
     Returns
     -------
     ndarray
+        metadata : {'type': 'Hunter Rdab', 'symbol': 'Rd,a,b', 'extent':
+        ((0, 100), (-100, 100), (-100, 100))}
         *Hunter Rd,a,b* colour scale array.
 
     Notes
     -----
-    -   Input *CIE XYZ* and reference *illuminant* tristimulus values are in
-        domain [0, 100].
+    -   metadata : {'classifier': 'Colour Model Conversion Function',
+        'method_name': 'Hunter 1943', 'method_strict_name': 'Hunter (1943)'}
 
     References
     ----------
