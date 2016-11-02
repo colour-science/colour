@@ -86,17 +86,22 @@ def XYZ_to_IPT(XYZ):
     Parameters
     ----------
     XYZ : array_like
+        metadata : {'type': 'CIE XYZ', 'symbol': 'XYZ', 'extent': (0, 1)}
         *CIE XYZ* tristimulus values.
 
     Returns
     -------
     ndarray
+        metadata : {'type': 'IPT', 'symbol': 'IPT', 'extent': (0, 1)}
         *IPT* colourspace array.
 
     Notes
     -----
-    -   Input *CIE XYZ* tristimulus values needs to be adapted for
-        *CIE Standard Illuminant D Series* *D65*.
+    -   metadata : {'classifier': 'Colour Model Conversion Function',
+        'method_name': 'Fairchild 1998', 'method_strict_name':
+        'Fairchild (1998)'}
+    -   Input *CIE XYZ* tristimulus values needs to be chromatically adapted
+        to *CIE Standard Illuminant D Series* *D65*.
 
     References
     ----------
@@ -123,12 +128,20 @@ def IPT_to_XYZ(IPT):
     Parameters
     ----------
     IPT : array_like
+        metadata : {'type': 'IPT', 'symbol': 'IPT', 'extent': (0, 1)}
         *IPT* colourspace array.
 
     Returns
     -------
     ndarray
+        metadata : {'type': 'CIE XYZ', 'symbol': 'XYZ', 'extent': (0, 1)}
         *CIE XYZ* tristimulus values.
+
+    Notes
+    -----
+    -   metadata : {'classifier': 'Colour Model Conversion Function',
+        'method_name': 'Fairchild 1998', 'method_strict_name':
+        'Fairchild (1998)'}
 
     References
     ----------
@@ -150,17 +163,25 @@ def IPT_to_XYZ(IPT):
 
 def IPT_hue_angle(IPT):
     """
-    Computes the hue angle in degrees from *IPT* colourspace.
+    Computes the hue angle :math:`h` in degrees from *IPT* colourspace.
 
     Parameters
     ----------
     IPT : array_like
-        *IPT* colourspace array.
+         metadata : {'type': 'IPT', 'symbol': 'IPT', 'extent': (0, 1)}
+       *IPT* colourspace array.
 
     Returns
     -------
     numeric or ndarray
-        Hue angle in degrees.
+        metadata : {'type': 'hue', 'symbol': 'h', 'extent': (0, 360)}
+        Hue angle :math:`h` in degrees.
+
+    Notes
+    -----
+    -   metadata : {'classifier': 'Colour Model Conversion Function',
+        'method_name': 'Fairchild 1998', 'method_strict_name':
+        'Fairchild (1998)'}
 
     References
     ----------
