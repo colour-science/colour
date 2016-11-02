@@ -54,17 +54,21 @@ def XYZ_to_K_ab_HunterLab1966(XYZ):
     Parameters
     ----------
     XYZ : array_like
+        metadata : {'type': 'CIE XYZ', 'symbol': 'XYZ', 'extent': (0, 100)}
         *Whitepoint* *CIE XYZ* tristimulus values.
 
     Returns
     -------
     ndarray
+        metadata : {'type': 'Hunter K_ab', 'symbol': 'K\_\{ab\}', 'extent':
+        (0, 100)}
         *Hunter L,a,b* :math:`K_{a}` and :math:`K_{b}` chromaticity
         coefficients.
 
     Notes
     -----
-    -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
+    -   metadata : {'classifier': 'Colour Model Conversion Function',
+        'method_name': 'Hunter 1966', 'method_strict_name': 'Hunter (1966)'}
 
     References
     ----------
@@ -98,10 +102,14 @@ def XYZ_to_Hunter_Lab(XYZ,
     Parameters
     ----------
     XYZ : array_like
+        metadata : {'type': 'CIE XYZ', 'symbol': 'XYZ', 'extent': (0, 100)}
         *CIE XYZ* tristimulus values.
     XYZ_n : array_like, optional
+        metadata : {'type': 'CIE XYZ', 'symbol': 'XYZ', 'extent': (0, 100)}
         Reference *illuminant* tristimulus values.
     K_ab : array_like, optional
+        metadata : {'type': 'Hunter K_ab', 'symbol': 'K\_\{ab\}', 'extent':
+        (0, 100)}
         Reference *illuminant* chromaticity coefficients, if ``K_ab`` is set to
         *None* it will be computed using
         :func:`colour.XYZ_to_K_ab_HunterLab1966`.
@@ -109,13 +117,14 @@ def XYZ_to_Hunter_Lab(XYZ,
     Returns
     -------
     ndarray
+        metadata : {'type': 'Hunter Lab', 'symbol': 'L,a,b', 'extent':
+        ((0, 100), (-100, 100), (-100, 100))}
         *Hunter L,a,b* colour scale array.
 
     Notes
     -----
-    -   Input *CIE XYZ* and reference *illuminant* tristimulus values are in
-        domain [0, 100].
-    -   Output *Lightness* :math:`L^*` is in range [0, 100].
+    -   metadata : {'classifier': 'Colour Model Conversion Function',
+        'method_name': 'Hunter 1966', 'method_strict_name': 'Hunter (1966)'}
 
     References
     ----------
@@ -158,10 +167,15 @@ def Hunter_Lab_to_XYZ(Lab,
     Parameters
     ----------
     Lab : array_like
+        metadata : {'type': 'Hunter Lab', 'symbol': 'L,a,b', 'extent':
+        ((0, 100), (-100, 100), (-100, 100))}
         *Hunter L,a,b* colour scale array.
     XYZ_n : array_like, optional
+        metadata : {'type': 'CIE XYZ', 'symbol': 'XYZ', 'extent': (0, 100)}
         Reference *illuminant* tristimulus values.
     K_ab : array_like, optional
+        metadata : {'type': 'Hunter K_ab', 'symbol': 'K\_\{ab\}', 'extent':
+        (0, 100)}
         Reference *illuminant* chromaticity coefficients, if ``K_ab`` is set to
         *None* it will be computed using
         :func:`colour.XYZ_to_K_ab_HunterLab1966`.
@@ -169,14 +183,13 @@ def Hunter_Lab_to_XYZ(Lab,
     Returns
     -------
     ndarray
+        metadata : {'type': 'CIE XYZ', 'symbol': 'XYZ', 'extent': (0, 100)}
         *CIE XYZ* tristimulus values.
 
     Notes
     -----
-    -   Input *Lightness* :math:`L^*` is in domain [0, 100].
-    -   Input *CIE XYZ* and reference *illuminant* tristimulus values are in
-        domain [0, 100].
-    -   Output *CIE XYZ* tristimulus values are in range [0, 100].
+    -   metadata : {'classifier': 'Colour Model Conversion Function',
+        'method_name': 'Hunter 1966', 'method_strict_name': 'Hunter (1966)'}
 
     References
     ----------
