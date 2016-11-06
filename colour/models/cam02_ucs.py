@@ -86,6 +86,8 @@ def JMh_CIECAM02_to_UCS_Luo2006(JMh, coefficients):
     Parameters
     ----------
     JMh : array_like
+        metadata : {'type': 'CIECAM02 JMh', 'symbol': 'JMh', 'extent':
+        ((0, 100), (0, 100), (0, 360))}
         *CIECAM02* correlates array :math:`JMh`.
     coefficients : array_like
         Coefficients of one of the *Luo et alii (2006)* *CAM02-LCD*,
@@ -94,8 +96,15 @@ def JMh_CIECAM02_to_UCS_Luo2006(JMh, coefficients):
     Returns
     -------
     ndarray
+        metadata : {'type': 'Jpapbp', 'symbol': "J'a'b'", 'extent':
+        ((0, 100), (-1, 1), (-1, 1))}
         *Luo et alii (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS*
         colourspaces :math:`J'a'b'` array.
+
+    Notes
+    -----
+    -   metadata : {'classifier': 'Colour Model Conversion Function',
+        'method_name': 'Luo 2006', 'method_strict_name': 'Luo et al. (2006)'}
 
     Examples
     --------
@@ -135,6 +144,8 @@ def UCS_Luo2006_to_JMh_CIECAM02(Jpapbp, coefficients):
     Parameters
     ----------
     Jpapbp : array_like
+        metadata : {'type': 'Jpapbp', 'symbol': "J'a'b'", 'extent':
+        ((0, 100), (-1, 1), (-1, 1))}
         *Luo et alii (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS*
         colourspaces :math:`J'a'b'` array.
     coefficients : array_like
@@ -144,7 +155,14 @@ def UCS_Luo2006_to_JMh_CIECAM02(Jpapbp, coefficients):
     Returns
     -------
     ndarray
+        metadata : {'type': 'CIECAM02 JMh', 'symbol': 'JMh', 'extent':
+        ((0, 100), (0, 100), (0, 360))}
         *CIECAM02* correlates array :math:`JMh`.
+
+    Notes
+    -----
+    -   metadata : {'classifier': 'Colour Model Conversion Function',
+        'method_name': 'Luo 2006', 'method_strict_name': 'Luo et al. (2006)'}
 
     Examples
     --------
