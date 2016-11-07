@@ -131,6 +131,8 @@ def log_encoding_ACESproxy(lin_AP1, bit_depth=10):
     Parameters
     ----------
     lin_AP1 : numeric or array_like
+        metadata : {'type': 'lin AP1', 'symbol': 'lin\_\{AP1\}',
+        'extent': (-65504, 65504)}
         *lin_AP1* value.
     bit_depth : int, optional
         **{10, 12}**,
@@ -139,7 +141,14 @@ def log_encoding_ACESproxy(lin_AP1, bit_depth=10):
     Returns
     -------
     numeric or ndarray
-        *ACESproxy* non-linear value.
+        metadata : {'type': 'ACESproxy', 'symbol': 'ACES\_\{proxy\}',
+        'extent': (64, 940)}
+        :math:`ACES_{proxy}` non-linear value.
+
+    Notes
+    -----
+    -   metadata : {'classifier': 'Log Encoding Curve', 'method_name':
+        'ACESproxy', 'method_strict_name': 'ACES\_\{proxy\}'}
 
     References
     ----------
@@ -185,6 +194,8 @@ def log_decoding_ACESproxy(ACESproxy, bit_depth=10):
     Parameters
     ----------
     ACESproxy : numeric or array_like
+        metadata : {'type': 'ACESproxy', 'symbol': 'ACES\_\{proxy\}',
+        'extent': (64, 940)}
         *ACESproxy* non-linear value.
     bit_depth : int, optional
         **{10, 12}**,
@@ -193,7 +204,14 @@ def log_decoding_ACESproxy(ACESproxy, bit_depth=10):
     Returns
     -------
     numeric or ndarray
-        *lin_AP1* value.
+        metadata : {'type': 'lin AP1', 'symbol': 'lin\_\{AP1\}',
+        'extent': (-65504, 65504)}
+        :math:`lin_{AP1}` value.
+
+    Notes
+    -----
+    -   metadata : {'classifier': 'Log Decoding Curve', 'method_name':
+        'ACESproxy', 'method_strict_name': 'ACES\_\{proxy\}'}
 
     References
     ----------
@@ -225,12 +243,21 @@ def log_encoding_ACEScc(lin_AP1):
     Parameters
     ----------
     lin_AP1 : numeric or array_like
-        *lin_AP1* value.
+        metadata : {'type': 'lin AP1', 'symbol': 'lin\_\{AP1\}',
+        'extent': (-65504, 65504)}
+        :math:`lin_{AP1}` value.
 
     Returns
     -------
     numeric or ndarray
-        *ACEScc* non-linear value.
+        metadata : {'type': 'ACEScc', 'symbol': 'ACES\_\{cc\}',
+        'extent': (-0.358447488584475, 1.467996312044715)}
+        :math:`ACES_{cc}` non-linear value.
+
+    Notes
+    -----
+    -   metadata : {'classifier': 'Log Encoding Curve', 'method_name':
+        'ACEScc', 'method_strict_name': 'ACES\_\{cc\}'}
 
     References
     ----------
@@ -251,7 +278,6 @@ def log_encoding_ACEScc(lin_AP1):
                       (np.log2(2 ** -16 + lin_AP1 * 0.5) + 9.72) / 17.52)
     output = np.where(lin_AP1 >= 2 ** -15, (np.log2(lin_AP1) + 9.72) / 17.52,
                       output)
-
     return as_numeric(output)
 
 
@@ -263,12 +289,21 @@ def log_decoding_ACEScc(ACEScc):
     Parameters
     ----------
     ACEScc : numeric or array_like
-        *ACEScc* non-linear value.
+        metadata : {'type': 'ACEScc', 'symbol': 'ACES\_\{cc\}',
+        'extent': (-0.358447488584475, 1.467996312044715)}
+        :math:`ACES_{cc}` non-linear value.
 
     Returns
     -------
     numeric or ndarray
-        *lin_AP1* value.
+        metadata : {'type': 'lin AP1', 'symbol': 'lin\_\{AP1\}',
+        'extent': (-65504, 65504)}
+        :math:`lin_{AP1}` value.
+
+    Notes
+    -----
+    -   metadata : {'classifier': 'Log Decoding Curve', 'method_name':
+        'ACEScc', 'method_strict_name': 'ACES\_\{cc\}'}
 
     References
     ----------
@@ -301,12 +336,21 @@ def log_encoding_ACEScct(lin_AP1):
     Parameters
     ----------
     lin_AP1 : numeric or array_like
-        *lin_AP1* value.
+        metadata : {'type': 'lin AP1', 'symbol': 'lin\_\{AP1\}',
+        'extent': (-65504, 65504)}
+        :math:`lin_AP1` value.
 
     Returns
     -------
     numeric or ndarray
-        *ACEScct* non-linear value.
+        metadata : {'type': 'ACEScct', 'symbol': 'ACES\_\{cct\}',
+        'extent': (-690427.660123802255839, 1.467996312044715)}
+        :math:`ACES_{cct}` non-linear value.
+
+    Notes
+    -----
+    -   metadata : {'classifier': 'Log Encoding Curve', 'method_name':
+        'ACEScct', 'method_strict_name': 'ACES\_\{cct\}'}
 
     References
     ----------
@@ -340,12 +384,21 @@ def log_decoding_ACEScct(ACEScct):
     Parameters
     ----------
     ACEScct : numeric or array_like
-        *ACEScct* non-linear value.
+        metadata : {'type': 'ACEScct', 'symbol': 'ACES\_\{cct\}',
+        'extent': (-690427.660123802255839, 1.467996312044715)}
+        :math:`ACES_{cct}` non-linear value.
 
     Returns
     -------
     numeric or ndarray
-        *lin_AP1* value.
+        metadata : {'type': 'lin AP1', 'symbol': 'lin\_\{AP1\}',
+        'extent': (-65504, 65504)}
+        :math:`lin_AP1` value.
+
+    Notes
+    -----
+    -   metadata : {'classifier': 'Log Decoding Curve', 'method_name':
+        'ACEScct', 'method_strict_name': 'ACES\_\{cct\}'}
 
     References
     ----------
