@@ -80,7 +80,7 @@ def read_image(path, bit_depth='float32'):
     --------
     >>> import os
     >>> path = os.path.join('tests', 'resources', 'CMSTestPattern.exr')
-    >>> image = read_image_as_array(path)  # doctest: +SKIP
+    >>> image = read_image(path)  # doctest: +SKIP
     """
 
     if is_openimageio_installed(raise_exception=True):
