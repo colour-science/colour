@@ -33,7 +33,8 @@ __all__ = ['as_numeric',
            'dot_vector',
            'dot_matrix',
            'orient',
-           'centroid']
+           'centroid',
+           'linear_conversion']
 
 
 def as_numeric(a, type_=np.float_):
@@ -605,3 +606,37 @@ def centroid(a):
         a_ci.append(np.sum(axis * a) // a_s)
 
     return np.array(a_ci).astype(np.int_)
+
+
+def linear_conversion(a, old_range, new_range):
+    """
+    Performs a simple linear conversion of given array between the old and new
+    ranges.
+
+    Parameters
+    ----------
+    a : array_like
+        Array to perform the linear conversion onto.
+    old_range : array_like
+        Old range.
+    new_range : array_like
+        New range.
+
+    Returns
+    -------
+    ndarray
+
+    Examples
+    --------
+    >>> a = np.linspace(0, 1, 10)
+    >>> linear_conversion(a, np.array([0, 1]), np.array([1, 10]))
+    array([  1.,   2.,   3.,   4.,   5.,   6.,   7.,   8.,   9.,  10.])
+    """
+
+    a = np.asarray(a)
+
+    in_min, in_max = tsplit(old_range)
+    out_min, out_max = tsplit(new_range)
+
+    return (((a - in_min) / (in_max - in_min)) *
+            (out_max - out_min) + out_min)
