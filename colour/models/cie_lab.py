@@ -20,8 +20,8 @@ blob/master/notebooks/models/cie_lab.ipynb>`_
 
 References
 ----------
-.. [1]  Wikipedia. (n.d.). Lab color space. Retrieved February 24, 2014, from
-        http://en.wikipedia.org/wiki/Lab_color_space
+.. [1]  CIE TC 1-48. (2004). CIE 1976 uniform colour spaces. In CIE 015:2004
+        Colorimetry, 3rd Edition (p. 24). ISBN:978-3-901-90633-6
 """
 
 from __future__ import division, unicode_literals
@@ -72,11 +72,6 @@ def XYZ_to_Lab(XYZ,
     -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
         colourspace array are in domain [0, :math:`\infty`].
     -   Output *Lightness* :math:`L^*` is in range [0, 100].
-
-    References
-    ----------
-    .. [2]  Lindbloom, B. (2003). XYZ to Lab. Retrieved February 24, 2014,
-            from http://www.brucelindbloom.com/Eqn_XYZ_to_Lab.html
 
     Examples
     --------
@@ -131,11 +126,6 @@ def Lab_to_XYZ(Lab,
         colourspace array are in domain [0, :math:`\infty`].
     -   Output *CIE XYZ* tristimulus values are in range [0, 1].
 
-    References
-    ----------
-    .. [3]  Lindbloom, B. (2008). Lab to XYZ. Retrieved February 24, 2014,
-            from http://www.brucelindbloom.com/Eqn_Lab_to_XYZ.html
-
     Examples
     --------
     >>> Lab = np.array([37.98562910, -23.62907688, -4.41746615])
@@ -177,11 +167,6 @@ def Lab_to_LCHab(Lab):
     -----
     -   *Lightness* :math:`L^*` is in domain [0, 100].
 
-    References
-    ----------
-    .. [4]  Lindbloom, B. (2007). Lab to LCH(ab). Retrieved February 24, 2014,
-            from http://www.brucelindbloom.com/Eqn_Lab_to_LCH.html
-
     Examples
     --------
     >>> Lab = np.array([37.98562910, -23.62907688, -4.41746615])
@@ -215,11 +200,6 @@ def LCHab_to_Lab(LCHab):
     Notes
     -----
     -   *Lightness* :math:`L^*` is in domain [0, 100].
-
-    References
-    ----------
-    .. [5]  Lindbloom, B. (2006). LCH(ab) to Lab. Retrieved February 24, 2014,
-            from http://www.brucelindbloom.com/Eqn_LCH_to_Lab.html
 
     Examples
     --------
