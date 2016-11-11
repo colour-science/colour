@@ -22,8 +22,11 @@ blob/master/notebooks/models/cie_luv.ipynb>`_
 
 References
 ----------
-.. [1]  Wikipedia. (n.d.). CIELUV. Retrieved February 24, 2014, from
-        http://en.wikipedia.org/wiki/CIELUV
+.. [1]  CIE TC 1-48. (2004). CIE 1976 uniform colour spaces. In CIE 015:2004
+        Colorimetry, 3rd Edition (p. 24). ISBN:978-3-901-90633-6
+.. [2]  CIE TC 1-48. (2004). CIE 1976 uniform chromaticity scale diagram (UCS
+        diagram). In CIE 015:2004 Colorimetry, 3rd Edition (p. 24).
+        ISBN:978-3-901-90633-6
 """
 
 from __future__ import division, unicode_literals
@@ -77,11 +80,6 @@ def XYZ_to_Luv(XYZ,
         colourspace array are in domain [0, :math:`\infty`].
     -   Output :math:`L^*` is in range [0, 100].
 
-    References
-    ----------
-    .. [2]  Lindbloom, B. (2003). XYZ to Luv. Retrieved February 24, 2014,
-            from http://brucelindbloom.com/Eqn_XYZ_to_Luv.html
-
     Examples
     --------
     >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
@@ -131,11 +129,6 @@ def Luv_to_XYZ(Luv,
     -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
         colourspace array are in domain [0, :math:`\infty`].
     -   Output *CIE XYZ* tristimulus values are in range [0, 1].
-
-    References
-    ----------
-    .. [3]  Lindbloom, B. (2003). Luv to XYZ. Retrieved February 24, 2014,
-            from http://brucelindbloom.com/Eqn_Luv_to_XYZ.html
 
     Examples
     --------
@@ -191,12 +184,6 @@ def Luv_to_uv(Luv,
         colourspace array are in domain [0, :math:`\infty`].
     -   Output :math:`uv^p` chromaticity coordinates are in range [0, 1].
 
-    References
-    ----------
-    .. [4]  Wikipedia. (n.d.). The forward transformation. Retrieved February
-            24, 2014, from
-            http://en.wikipedia.org/wiki/CIELUV#The_forward_transformation
-
     Examples
     --------
     >>> Luv = np.array([37.9856291 , -28.80219593,  -1.35800706])
@@ -234,7 +221,7 @@ def Luv_uv_to_xy(uv):
 
     References
     ----------
-    .. [5]  Wikipedia. (n.d.). The reverse transformation. Retrieved from
+    .. [3]  Wikipedia. (n.d.). The reverse transformation. Retrieved from
             http://en.wikipedia.org/wiki/CIELUV#The_reverse_transformation
 
     Examples
@@ -270,11 +257,6 @@ def Luv_to_LCHuv(Luv):
     -----
     -   Input / output :math:`L^*` is in domain / range [0, 100].
 
-    References
-    ----------
-    .. [6]  Lindbloom, B. (2003). Luv to LCH(uv). Retrieved February 24, 2014,
-            from http://www.brucelindbloom.com/Eqn_Luv_to_LCH.html
-
     Examples
     --------
     >>> Luv = np.array([37.9856291 , -28.80219593,  -1.35800706])
@@ -308,11 +290,6 @@ def LCHuv_to_Luv(LCHuv):
     Notes
     -----
     -   Input / output :math:`L^*` is in domain / range [0, 100].
-
-    References
-    ----------
-    .. [7]  Lindbloom, B. (2006). LCH(uv) to Luv. Retrieved February 24, 2014,
-            from http://www.brucelindbloom.com/Eqn_LCH_to_Luv.html
 
     Examples
     --------
