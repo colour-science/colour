@@ -35,7 +35,7 @@ from colour.models import (
 from colour.volume import is_within_pointer_gamut, is_within_visible_spectrum
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -345,7 +345,7 @@ def RGB_colourspace_pointer_gamut_coverage_MonteCarlo(
     Parameters
     ----------
     colourspace : RGB_Colourspace
-        *RGB* colourspace to compute the Pointer's Gamut coverage percentage.
+        *RGB* colourspace to compute the *Pointer's Gamut* coverage percentage.
     samples : numeric, optional
         Samples count.
     random_generator : generator, optional
@@ -357,7 +357,7 @@ def RGB_colourspace_pointer_gamut_coverage_MonteCarlo(
     Returns
     -------
     float
-        Percentage coverage of Pointer's Gamut volume.
+        Percentage coverage of *Pointer's Gamut* volume.
 
     Examples
     --------

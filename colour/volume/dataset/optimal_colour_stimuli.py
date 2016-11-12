@@ -5,10 +5,10 @@
 Optimal Colour Stimuli
 ======================
 
-Defines MacAdam optimal colour stimuli for various illuminants in *CIE xyY*
+Defines *MacAdam Optimal Colour Stimuli* for various illuminants in *CIE xyY*
 colourspace.
 
-The optimal colour stimuli data is in the form of a *dict* of
+The *Optimal Colour Stimuli* data is in the form of a *dict* of
 *tuple* as follows::
 
     {'name': tuple, ..., 'name': tuple}
@@ -270,7 +270,7 @@ A_OPTIMAL_COLOUR_STIMULI = (
     (0.4254, 0.4180, 95),
     (0.4475, 0.4075, 100))
 """
-*CIE Standard Illuminant A* optimal colour stimuli.
+*CIE Standard Illuminant A* *Optimal Colour Stimuli*.
 
 A_OPTIMAL_COLOUR_STIMULI : tuple
 
@@ -482,7 +482,7 @@ C_OPTIMAL_COLOUR_STIMULI = (
     (0.3053, 0.3096, 95),
     (0.31006, 0.31616, 100))
 """
-*CIE Illuminant C* optimal colour stimuli.
+*CIE Illuminant C* *Optimal Colour Stimuli*.
 
 C_OPTIMAL_COLOUR_STIMULI : tuple
 
@@ -736,7 +736,7 @@ D65_OPTIMAL_COLOUR_STIMULI = (
     (0.2900, 0.3308, 95),
     (0.3127, 0.3290, 100))
 """
-*CIE Standard Illuminant D Series D65* optimal colour stimuli.
+*CIE Standard Illuminant D Series D65* *Optimal Colour Stimuli*.
 
 D65_OPTIMAL_COLOUR_STIMULI : tuple
 
@@ -752,7 +752,7 @@ ILLUMINANTS_OPTIMAL_COLOUR_STIMULI = CaseInsensitiveMapping(
      'C': C_OPTIMAL_COLOUR_STIMULI,
      'D65': D65_OPTIMAL_COLOUR_STIMULI})
 """
-Illuminants optimal colour stimuli.
+Illuminants *Optimal Colour Stimuli*.
 
 ILLUMINANTS_OPTIMAL_COLOUR_STIMULI : CaseInsensitiveMapping
     **{'A', 'C', 'D65'}**

@@ -32,7 +32,7 @@ details/cameras/cinema-eos/eos-c300-mark-ii
 
 Notes
 -----
--   [2]_ is available as a *Drivers & Downloads* *Software*  for Windows 10
+-   [2]_ is available as a *Drivers & Downloads* *Software* for Windows 10
     (x64) *Operating System*, a copy of the archive is hosted at this url:
     https://drive.google.com/open?id=0B_IQZQdc4Vy8ZGYyY29pMEVwZU0
 """

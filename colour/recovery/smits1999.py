@@ -5,7 +5,7 @@
 Smits (1999) - Reflectance Recovery
 ===================================
 
-Defines objects for reflectance recovery using Smits (1999) method.
+Defines objects for reflectance recovery using *Smits (1999)* method.
 
 See Also
 --------
@@ -46,7 +46,7 @@ __all__ = ['SMITS1999_PRIMARIES',
 
 SMITS1999_PRIMARIES = sRGB_COLOURSPACE.primaries
 """
-Current Smits (1999) method implementation colourspace primaries.
+Current *Smits (1999)* method implementation colourspace primaries.
 
 SMITS1999_PRIMARIES : ndarray, (3, 2)
 """
@@ -54,7 +54,7 @@ SMITS1999_PRIMARIES : ndarray, (3, 2)
 SMITS1999_WHITEPOINT = ILLUMINANTS.get(
     'CIE 1931 2 Degree Standard Observer').get('E')
 """
-Current Smits (1999) method implementation colourspace whitepoint.
+Current *Smits (1999)* method implementation colourspace whitepoint.
 
 SMITS1999_WHITEPOINT : tuple
 """
@@ -62,7 +62,7 @@ SMITS1999_WHITEPOINT : tuple
 SMITS1999_XYZ_TO_RGB_MATRIX = np.linalg.inv(
     normalised_primary_matrix(SMITS1999_PRIMARIES, SMITS1999_WHITEPOINT))
 """
-Current Smits (1999) method implementation *RGB* colourspace to
+Current *Smits (1999)* method implementation *RGB* colourspace to
 *CIE XYZ* tristimulus values matrix.
 
 SMITS1999_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
@@ -72,7 +72,7 @@ SMITS1999_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
 def XYZ_to_RGB_Smits1999(XYZ, chromatic_adaptation_transform='Bradford'):
     """
     Convenient object to convert from *CIE XYZ* tristimulus values to *RGB*
-    colourspace in conditions required by the current Smits (1999) method
+    colourspace in conditions required by the current *Smits (1999)* method
     implementation.
 
     Parameters
@@ -112,7 +112,7 @@ def XYZ_to_RGB_Smits1999(XYZ, chromatic_adaptation_transform='Bradford'):
 def RGB_to_spectral_Smits1999(RGB):
     """
     Recovers the spectral power distribution of given *RGB* colourspace array
-    using Smits (1999) method.
+    using *Smits (1999)* method.
 
     Parameters
     ----------

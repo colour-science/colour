@@ -5,7 +5,7 @@
 Hunt Colour Appearance Model
 ============================
 
-Defines Hunt colour appearance model objects:
+Defines *Hunt* colour appearance model objects:
 
 -   :class:`Hunt_InductionFactors`
 -   :attr:`HUNT_VIEWING_CONDITIONS`
@@ -79,7 +79,7 @@ class Hunt_InductionFactors(
     namedtuple('Hunt_InductionFactors',
                ('N_c', 'N_b', 'N_cb', 'N_bb'))):
     """
-    Hunt colour appearance model induction factors.
+    *Hunt* colour appearance model induction factors.
 
     Parameters
     ----------
@@ -118,7 +118,7 @@ HUNT_VIEWING_CONDITIONS = CaseInsensitiveMapping(
      'Projected Transparencies, Dark Surrounds': (
          Hunt_InductionFactors(0.7, 10))})
 """
-Reference Hunt colour appearance model viewing conditions.
+Reference *Hunt* colour appearance model viewing conditions.
 
 HUNT_VIEWING_CONDITIONS : CaseInsensitiveMapping
     **{'Small Areas, Uniform Background & Surrounds',
@@ -156,7 +156,7 @@ XYZ_TO_HPE_MATRIX = np.array(
      [-0.22981, 1.18340, 0.04641],
      [0.00000, 0.00000, 1.00000]])
 """
-Hunt colour appearance model *CIE XYZ* tristimulus values to
+*Hunt* colour appearance model *CIE XYZ* tristimulus values to
 *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` colourspace matrix.
 
 XYZ_TO_HPE_MATRIX : array_like, (3, 3)
@@ -164,7 +164,7 @@ XYZ_TO_HPE_MATRIX : array_like, (3, 3)
 
 HPE_TO_XYZ_MATRIX = np.linalg.inv(XYZ_TO_HPE_MATRIX)
 """
-Hunt colour appearance model *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta`
+*Hunt* colour appearance model *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta`
 colourspace to *CIE XYZ* tristimulus values matrix.
 
 HPE_TO_XYZ_MATRIX : array_like, (3, 3)
@@ -175,9 +175,9 @@ class Hunt_ReferenceSpecification(
     namedtuple('Hunt_ReferenceSpecification',
                ('J', 'C_94', 'h_S', 's', 'Q', 'M_94', 'H', 'H_C'))):
     """
-    Defines the Hunt colour appearance model reference specification.
+    Defines the *Hunt* colour appearance model reference specification.
 
-    This specification has field names consistent with Fairchild (2013)
+    This specification has field names consistent with *Fairchild (2013)*
     reference.
 
     Parameters
@@ -205,11 +205,11 @@ class Hunt_Specification(
     namedtuple('Hunt_Specification',
                ('J', 'C', 'h', 's', 'Q', 'M', 'H', 'HC'))):
     """
-    Defines the Hunt colour appearance model specification.
+    Defines the *Hunt* colour appearance model specification.
 
     This specification has field names consistent with the remaining colour
-    appearance models in :mod:`colour.appearance` but diverge from Fairchild
-    (2013) reference.
+    appearance models in :mod:`colour.appearance` but diverge from
+    *Fairchild (2013)* reference.
 
     Parameters
     ----------
@@ -250,7 +250,7 @@ def XYZ_to_Hunt(XYZ,
                 helson_judd_effect=False,
                 discount_illuminant=True):
     """
-    Computes the Hunt colour appearance model correlates.
+    Computes the *Hunt* colour appearance model correlates.
 
     Parameters
     ----------
@@ -305,7 +305,7 @@ def XYZ_to_Hunt(XYZ,
     Returns
     -------
     Hunt_Specification
-        Hunt colour appearance model specification.
+        *Hunt* colour appearance model specification.
 
     Raises
     ------
@@ -553,7 +553,7 @@ def XYZ_to_rgb(XYZ):
 
 def f_n(x):
     """
-    Defines the nonlinear response function of the Hunt colour appearance
+    Defines the nonlinear response function of the *Hunt* colour appearance
     model used to model the nonlinear behavior of various visual responses.
 
     Parameters

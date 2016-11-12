@@ -5,7 +5,7 @@
 IES TM-27-14 Data Input / Output
 ================================
 
-Defines the :class:`IES_TM2714_Spd` class handling IES TM-27-14 spectral data
+Defines the :class:`IES_TM2714_Spd` class handling *IES TM-27-14* spectral data
 XML files.
 
 References
@@ -54,7 +54,7 @@ class IES_TM2714_ElementSpecification(
          'read_conversion',
          'write_conversion'))):
     """
-    IES TM-27-14 spectral data XML file element specification.
+    *IES TM-27-14* spectral data XML file element specification.
 
     Parameters
     ----------
@@ -98,7 +98,7 @@ class IES_TM2714_ElementSpecification(
 
 class IES_TM2714_Header(object):
     """
-    Defines the header object for a IES TM-27-14 spectral power distribution.
+    Defines the header object for a *IES TM-27-14* spectral power distribution.
 
     Parameters
     ----------
@@ -594,16 +594,16 @@ class IES_TM2714_Header(object):
 
 class IES_TM2714_Spd(SpectralPowerDistribution):
     """
-    Defines a IES TM-27-14 spectral power distribution.
+    Defines a *IES TM-27-14* spectral power distribution.
 
-    This class can read and write IES TM-27-14 spectral data XML files.
+    This class can read and write *IES TM-27-14* spectral data XML files.
 
     Parameters
     ----------
     path : unicode, optional
         Spectral data XML file path.
     header : IES_TM2714_Header, optional
-        IES TM-27-14 spectral power distribution header.
+        *IES TM-27-14* spectral power distribution header.
     spectral_quantity : unicode, optional
         **{'flux', 'absorptance', 'transmittance', 'reflectance', 'intensity',
         'irradiance', 'radiance', 'exitance', 'R-Factor', 'T-Factor',

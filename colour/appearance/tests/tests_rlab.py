@@ -27,7 +27,7 @@ __all__ = ['TestRLABColourAppearanceModel']
 class TestRLABColourAppearanceModel(ColourAppearanceModelTest):
     """
     Defines :mod:`colour.appearance.rlab` module unit tests methods for
-    RLAB colour appearance model.
+    *RLAB* colour appearance model.
     """
 
     FIXTURE_BASENAME = 'rlab.csv'
@@ -41,7 +41,7 @@ class TestRLABColourAppearanceModel(ColourAppearanceModelTest):
 
     def output_specification_from_data(self, data):
         """
-        Returns the RLAB colour appearance model output specification
+        Returns the *RLAB* colour appearance model output specification
         from given data.
 
         Parameters
@@ -52,7 +52,7 @@ class TestRLABColourAppearanceModel(ColourAppearanceModelTest):
         Returns
         -------
         RLAB_Specification
-            RLAB colour appearance model specification.
+            *RLAB* colour appearance model specification.
         """
 
         XYZ = tstack((data['X'], data['Y'], data['Z']))

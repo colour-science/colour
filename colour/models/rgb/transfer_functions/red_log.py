@@ -195,7 +195,6 @@ def log_encoding_Log3G10(x, legacy_curve=False):
         *RED SDK*.
         Use the `legacy_curve=True` argument to switch to the v1 curve for
         compatibility with the current (as of September 21, 2016) *RED SDK*.
-
     -   The intent of the v1 *Log3G10* log encoding curve is that zero maps to
         zero, 0.18 maps to 1/3, and 10 stops above 0.18 maps to 1.0.
         The name indicates this in a similar way to the naming conventions of

@@ -5,7 +5,7 @@
 Optimal Colour Stimuli - MacAdam Limits
 =======================================
 
-Defines objects related to optimal colour stimuli computations.
+Defines objects related to *Optimal Colour Stimuli* computations.
 
 See Also
 --------
@@ -37,7 +37,7 @@ _XYZ_OPTIMAL_COLOUR_STIMULI_TRIANGULATIONS_CACHE = {}
 
 def _XYZ_optimal_colour_stimuli(illuminant):
     """
-    Returns given illuminant optimal colour stimuli in *CIE XYZ* tristimulus
+    Returns given illuminant *Optimal Colour Stimuli* in *CIE XYZ* tristimulus
     values and caches it if not existing.
 
     Parameters
@@ -48,14 +48,15 @@ def _XYZ_optimal_colour_stimuli(illuminant):
     Returns
     -------
     tuple
-        Illuminant optimal colour stimuli.
+        Illuminant *Optimal Colour Stimuli*.
     """
 
     optimal_colour_stimuli = ILLUMINANTS_OPTIMAL_COLOUR_STIMULI.get(illuminant)
 
     if optimal_colour_stimuli is None:
         raise KeyError(
-            '"{0}" not found in factory optimal colour stimuli: "{1}".'.format(
+            '"{0}" not found in factory '
+            '"Optimal Colour Stimuli": "{1}".'.format(
                 illuminant, sorted(ILLUMINANTS_OPTIMAL_COLOUR_STIMULI.keys())))
 
     cached_ocs = _XYZ_OPTIMAL_COLOUR_STIMULI_CACHE.get(illuminant)

@@ -60,7 +60,7 @@ __all__ = ['whiteness_Berger1959',
 def whiteness_Berger1959(XYZ, XYZ_0):
     """
     Returns the *whiteness* index :math:`WI` of given sample *CIE XYZ*
-    tristimulus values using Berger (1959) method. [2]_
+    tristimulus values using *Berger (1959)* method. [2]_
 
     Parameters
     ----------
@@ -104,7 +104,7 @@ def whiteness_Berger1959(XYZ, XYZ_0):
 def whiteness_Taube1960(XYZ, XYZ_0):
     """
     Returns the *whiteness* index :math:`WI` of given sample *CIE XYZ*
-    tristimulus values using Taube (1960) method. [2]_
+    tristimulus values using *Taube (1960)* method. [2]_
 
     Parameters
     ----------
@@ -144,7 +144,7 @@ def whiteness_Taube1960(XYZ, XYZ_0):
 def whiteness_Stensby1968(Lab):
     """
     Returns the *whiteness* index :math:`WI` of given sample *CIE Lab*
-    colourspace array using Stensby (1968) method. [2]_
+    colourspace array using *Stensby (1968)* method. [2]_
 
     Parameters
     ----------
@@ -179,7 +179,7 @@ def whiteness_Stensby1968(Lab):
 def whiteness_ASTM313(XYZ):
     """
     Returns the *whiteness* index :math:`WI` of given sample *CIE XYZ*
-    tristimulus values using ASTM 313 method. [2]_
+    tristimulus values using *ASTM 313* method. [2]_
 
     Parameters
     ----------
@@ -216,7 +216,7 @@ def whiteness_ASTM313(XYZ):
 def whiteness_Ganz1979(xy, Y):
     """
     Returns the *whiteness* index :math:`W` and *tint* :math:`T` of given
-    sample *xy* chromaticity coordinates using Ganz and Griesser (1979)
+    sample *xy* chromaticity coordinates using *Ganz and Griesser (1979)*
     method. [2]_
 
     Parameters
@@ -273,7 +273,7 @@ def whiteness_CIE2004(xy,
     """
     Returns the *whiteness* :math:`W` or :math:`W_{10}` and *tint* :math:`T`
     or :math:`T_{10}` of given sample *xy* chromaticity coordinates using
-    CIE 2004 method.
+    *CIE 2004* method.
 
     Parameters
     ----------

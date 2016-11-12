@@ -5,7 +5,7 @@
 Nayatani (1995) Colour Appearance Model
 =======================================
 
-Defines Nayatani (1995) colour appearance model objects:
+Defines *Nayatani (1995)* colour appearance model objects:
 
 -   :class:`Nayatani95_Specification`
 -   :func:`XYZ_to_Nayatani95`
@@ -71,7 +71,7 @@ __all__ = ['NAYATANI95_XYZ_TO_RGB_MATRIX',
 
 NAYATANI95_XYZ_TO_RGB_MATRIX = CIE1994_XYZ_TO_RGB_MATRIX
 """
-Nayatani (1995) colour appearance model *CIE XYZ* tristimulus values to cone
+*Nayatani (1995)* colour appearance model *CIE XYZ* tristimulus values to cone
 responses matrix.
 
 NAYATANI95_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
@@ -83,10 +83,10 @@ class Nayatani95_ReferenceSpecification(
         'Nayatani95_ReferenceSpecification',
         ('Lstar_P', 'C', 'theta', 'S', 'B_r', 'M', 'H', 'H_C', 'Lstar_N'))):
     """
-    Defines the Nayatani (1995) colour appearance model reference
+    Defines the *Nayatani (1995)* colour appearance model reference
     specification.
 
-    This specification has field names consistent with Fairchild (2013)
+    This specification has field names consistent with *Fairchild (2013)*
     reference.
 
     Parameters
@@ -116,11 +116,11 @@ class Nayatani95_Specification(
     namedtuple('Nayatani95_Specification',
                ('Lstar_P', 'C', 'h', 's', 'Q', 'M', 'H', 'HC', 'Lstar_N'))):
     """
-    Defines the Nayatani (1995) colour appearance model specification.
+    Defines the *Nayatani (1995)* colour appearance model specification.
 
     This specification has field names consistent with the remaining colour
-    appearance models in :mod:`colour.appearance` but diverge from Fairchild
-    (2013) reference.
+    appearance models in :mod:`colour.appearance` but diverge from
+    *Fairchild (2013)* reference.
 
     Parameters
     ----------
@@ -156,7 +156,7 @@ def XYZ_to_Nayatani95(XYZ,
                       E_or,
                       n=1):
     """
-    Computes the Nayatani (1995) colour appearance model correlates.
+    Computes the *Nayatani (1995)* colour appearance model correlates.
 
     Parameters
     ----------
@@ -179,7 +179,7 @@ def XYZ_to_Nayatani95(XYZ,
     Returns
     -------
     Nayatani95_Specification
-        Nayatani (1995) colour appearance model specification.
+        *Nayatani (1995)* colour appearance model specification.
 
     Warning
     -------

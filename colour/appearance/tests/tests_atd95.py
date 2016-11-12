@@ -27,7 +27,7 @@ __all__ = ['TestATD95ColourAppearanceModel']
 class TestATD95ColourAppearanceModel(ColourAppearanceModelTest):
     """
     Defines :mod:`colour.appearance.atd95` module unit tests methods for
-    ATD (1995) colour vision model.
+    *ATD (1995)* colour vision model.
     """
 
     FIXTURE_BASENAME = 'atd95.csv'
@@ -45,7 +45,7 @@ class TestATD95ColourAppearanceModel(ColourAppearanceModelTest):
 
     def output_specification_from_data(self, data):
         """
-        Returns the ATD (1995) colour vision model output specification from
+        Returns the *ATD (1995)* colour vision model output specification from
         given data.
 
         Parameters
@@ -56,7 +56,7 @@ class TestATD95ColourAppearanceModel(ColourAppearanceModelTest):
         Returns
         -------
         ATD95_Specification
-            ATD (1995) colour vision model specification.
+            *ATD (1995)* colour vision model specification.
         """
 
         XYZ = tstack((data['X'], data['Y'], data['Z']))

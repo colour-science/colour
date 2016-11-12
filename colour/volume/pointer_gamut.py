@@ -5,7 +5,7 @@
 Pointer's Gamut Volume Computations
 ===================================
 
-Defines objects related to Pointer's Gamut volume computations.
+Defines objects related to *Pointer's Gamut* volume computations.
 
 See Also
 --------

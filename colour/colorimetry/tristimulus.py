@@ -190,9 +190,10 @@ def tristimulus_weighting_factors_ASTME202211(cmfs, illuminant, shape):
     -   Input colour matching functions and illuminant intervals are expected
         to be equal to 1 nm. If the illuminant data is not available at 1 nm
         interval, it needs to be interpolated using *CIE* recommendations:
-        The method developed by Sprague (1880) should be used for interpolating
-        functions having a uniformly spaced independent variable and a
-        *Cubic Spline* method for non-uniformly spaced independent variable.
+        The method developed by *Sprague (1880)* should be used for
+        interpolating functions having a uniformly spaced independent variable
+        and a *Cubic Spline* method for non-uniformly spaced independent
+        variable.
 
     Examples
     --------
@@ -577,7 +578,7 @@ def spectral_to_XYZ_ASTME30815(
     illuminant : SpectralPowerDistribution, optional
         Illuminant spectral power distribution.
     use_practice_range : bool, optional
-        Practise *ASTM E308–15*  working wavelengths range is [360, 780],
+        Practise *ASTM E308–15* working wavelengths range is [360, 780],
         if `True` this argument will trim the colour matching functions
         appropriately.
     mi_5nm_omission_method : bool, optional
@@ -642,7 +643,7 @@ def spectral_to_XYZ_ASTME30815(
     if spd.shape.interval not in (1, 5, 10, 20):
         raise ValueError(
             'Tristimulus values conversion from spectral data accordingly to '
-            'practise *ASTM E308-15* should be performed on spectral data '
+            'practise "ASTM E308-15" should be performed on spectral data '
             'with measurement interval of 1, 5, 10 or 20nm!')
 
     if use_practice_range:
@@ -738,7 +739,7 @@ def spectral_to_XYZ(
     ----------------
     use_practice_range : bool, optional
         {:func:`spectral_to_XYZ_ASTME30815`},
-        Practise *ASTM E308–15*  working wavelengths range is [360, 780],
+        Practise *ASTM E308–15* working wavelengths range is [360, 780],
         if `True` this argument will trim the colour matching functions
         appropriately.
     mi_5nm_omission_method : bool, optional
@@ -817,7 +818,7 @@ def wavelength_to_XYZ(wavelength,
 
     If the wavelength :math:`\lambda` is not available in the colour matching
     function, its value will be calculated using *CIE* recommendations:
-    The method developed by Sprague (1880) should be used for interpolating
+    The method developed by *Sprague (1880)* should be used for interpolating
     functions having a uniformly spaced independent variable and a
     *Cubic Spline* method for non-uniformly spaced independent variable.
 
@@ -839,7 +840,7 @@ def wavelength_to_XYZ(wavelength,
     Raises
     ------
     RuntimeError
-        If Sprague (1880) interpolation method is forced with a
+        If *Sprague (1880)* interpolation method is forced with a
         non-uniformly spaced independent variable.
     ValueError
         If the interpolation method is not defined or if wavelength
@@ -851,7 +852,7 @@ def wavelength_to_XYZ(wavelength,
     -   Output *CIE XYZ* tristimulus values are in range [0, 1].
     -   If *scipy* is not unavailable the *Cubic Spline* method will fallback
         to legacy *Linear* interpolation.
-    -   Sprague (1880) interpolator cannot be used for interpolating
+    -   *Sprague (1880)* interpolator cannot be used for interpolating
         functions having a non-uniformly spaced independent variable.
 
     Warning
@@ -864,12 +865,12 @@ def wavelength_to_XYZ(wavelength,
         for interpolation.
     -   *Pchip* interpolator requires at least 2 wavelengths :math:`\lambda_n`
         for interpolation.
-    -   Sprague (1880) interpolator requires at least 6 wavelengths
+    -   *Sprague (1880)* interpolator requires at least 6 wavelengths
         :math:`\lambda_n` for interpolation.
 
     Examples
     --------
-    Uniform data is using Sprague (1880) interpolation by default:
+    Uniform data is using *Sprague (1880)* interpolation by default:
 
     >>> from colour import CMFS
     >>> cmfs = CMFS.get('CIE 1931 2 Degree Standard Observer')

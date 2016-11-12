@@ -172,14 +172,14 @@ def colour_quality_bars_plot(specifications,
 
 def single_spd_colour_rendering_index_bars_plot(spd, **kwargs):
     """
-    Plots the *colour rendering index* of given illuminant or light source
-    spectral power distribution.
+    Plots the *Colour Rendering Index* (CRI) of given illuminant or light
+    source spectral power distribution.
 
     Parameters
     ----------
     spd : SpectralPowerDistribution
         Illuminant or light source spectral power distribution to plot the
-        *colour rendering index*.
+        *Colour Rendering Index* (CRI).
 
     Other Parameters
     ----------------
@@ -215,14 +215,14 @@ def single_spd_colour_rendering_index_bars_plot(spd, **kwargs):
 
 def multi_spd_colour_rendering_index_bars_plot(spds, **kwargs):
     """
-    Plots the *colour rendering index* of given illuminants or light sources
-    spectral power distributions.
+    Plots the *Colour Rendering Index* (CRI) of given illuminants or light
+    sources spectral power distributions.
 
     Parameters
     ----------
     spds : array_like
         Array of illuminants or light sources spectral power distributions to
-        plot the *colour rendering index*.
+        plot the *Colour Rendering Index* (CRI).
 
     Other Parameters
     ----------------
@@ -289,14 +289,14 @@ def multi_spd_colour_rendering_index_bars_plot(spds, **kwargs):
 
 def single_spd_colour_quality_scale_bars_plot(spd, **kwargs):
     """
-    Plots the *colour quality scale* of given illuminant or light source
+    Plots the *Colour Quality Scale* (CQS) of given illuminant or light source
     spectral power distribution.
 
     Parameters
     ----------
     spd : SpectralPowerDistribution
         Illuminant or light source spectral power distribution to plot the
-        *colour quality scale*.
+        *Colour Quality Scale* (CQS).
 
     Other Parameters
     ----------------
@@ -332,14 +332,14 @@ def single_spd_colour_quality_scale_bars_plot(spd, **kwargs):
 
 def multi_spd_colour_quality_scale_bars_plot(spds, **kwargs):
     """
-    Plots the *colour quality scale* of given illuminants or light sources
-    spectral power distributions.
+    Plots the *Colour Quality Scale* (CQS) of given illuminants or light
+    sources spectral power distributions.
 
     Parameters
     ----------
     spds : array_like
         Array of illuminants or light sources spectral power distributions to
-        plot the *colour quality scale*.
+        plot the *Colour Quality Scale* (CQS).
 
     Other Parameters
     ----------------

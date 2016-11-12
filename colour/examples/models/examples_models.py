@@ -19,7 +19,7 @@ print(colour.XYZ_to_xyY(XYZ))
 print('\n')
 
 message_box(('The default illuminant if X == Y == Z == 0 is '
-             'CIE Standard Illuminant D Series D50".'))
+             '"CIE Standard Illuminant D Series D50".'))
 print(colour.XYZ_to_xyY((0.00000000, 0.00000000, 0.00000000)))
 
 print('\n')

@@ -2,11 +2,11 @@
 # -*- coding: utf-8 -*-
 
 """
-:math:`\Delta E'` - Delta E Colour Difference - Luo (2006)
-==========================================================
+:math:`\Delta E'` - Delta E Colour Difference - Luo, Cui and Li (2006)
+======================================================================
 
 Defines :math:`\Delta E'` colour difference computation objects based on
-Luo (2006) *CAM02-LCD*, *CAM02-SCD*, and *CAM02-UCS* colourspaces:
+*Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, and *CAM02-UCS* colourspaces:
 
 The following objects are available:
 
@@ -50,21 +50,21 @@ __all__ = ['delta_E_Luo2006',
 
 def delta_E_Luo2006(Jpapbp_1, Jpapbp_2, coefficients):
     """
-    Returns the difference :math:`\Delta E'` between two given Luo (2016)
-    *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS* colourspaces :math:`J'a'b'`
-    arrays.
+    Returns the difference :math:`\Delta E'` between two given
+    *Luo et al. (2016)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS* colourspaces
+    :math:`J'a'b'` arrays.
 
     Parameters
     ----------
     Jpapbp_1 : array_like
-        Standard / reference Luo (2016) *CAM02-LCD*, *CAM02-SCD*, or
+        Standard / reference *Luo et al.* (2016) *CAM02-LCD*, *CAM02-SCD*, or
         *CAM02-UCS* colourspaces :math:`J'a'b'` array.
     Jpapbp_2 : array_like
-        Sample / test Luo (2016) *CAM02-LCD*, *CAM02-SCD*, or
+        Sample / test *Luo et al. (2016)* *CAM02-LCD*, *CAM02-SCD*, or
         *CAM02-UCS* colourspaces :math:`J'a'b'` array.
     coefficients : array_like
-        Coefficients of one of the Luo (2016) *CAM02-LCD*, *CAM02-SCD*, or
-        *CAM02-UCS* colourspaces.
+        Coefficients of one of the *Luo et al. (2016)* *CAM02-LCD*,
+        *CAM02-SCD*, or *CAM02-UCS* colourspaces.
 
     Returns
     -------

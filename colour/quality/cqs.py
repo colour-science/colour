@@ -5,7 +5,7 @@
 Colour Quality Scale
 ====================
 
-Defines *colour quality scale* computation objects:
+Defines *Colour Quality Scale* (CQS) computation objects:
 
 -   :class:`CQS_Specification`
 -   :func:`colour_quality_scale`
@@ -99,7 +99,7 @@ class CQS_Specification(
          'Q_as',
          'colorimetry_data'))):
     """
-    Defines the *CQS* colour quality specification.
+    Defines the *Colour Quality Scale* (CQS) colour quality specification.
 
     Parameters
     ----------
@@ -124,7 +124,7 @@ class CQS_Specification(
     Q_d : numeric
         Relative gamut area scale :math:`Q_d`.
     Q_as : dict
-        Individual *CQS* data for each sample.
+        Individual *Colour Quality Scale* (CQS) data for each sample.
     colorimetry_data : tuple
         Colorimetry data for the test and reference computations.
     """
@@ -132,7 +132,8 @@ class CQS_Specification(
 
 def colour_quality_scale(spd_test, additional_data=False):
     """
-    Returns the *colour quality scale* of given spectral power distribution.
+    Returns the *Colour Quality Scale* (CQS) of given spectral power
+    distribution.
 
     Parameters
     ----------
@@ -372,8 +373,8 @@ def CCT_factor(reference_data, XYZ_r):
 
 def scale_conversion(D_E_ab, CCT_f, scaling_f=3.104):
     """
-    Returns the colour quality scale for given :math:`\Delta E_{ab}` value and
-    given correlated colour temperature penalizing factor.
+    Returns the *Colour Quality Scale* (CQS) for given :math:`\Delta E_{ab}`
+    value and given correlated colour temperature penalizing factor.
 
     Parameters
     ----------
@@ -387,7 +388,7 @@ def scale_conversion(D_E_ab, CCT_f, scaling_f=3.104):
     Returns
     -------
     numeric
-        Colour quality scale.
+        *Colour Quality Scale* (CQS).
     """
 
     Q_a = 10 * np.log(np.exp((100 - scaling_f * D_E_ab) / 10) + 1) * CCT_f
@@ -397,12 +398,13 @@ def scale_conversion(D_E_ab, CCT_f, scaling_f=3.104):
 
 def delta_E_RMS(cqs_data, attribute):
     """
-    Computes the root-mean-square average for given *CQS* data.
+    Computes the root-mean-square average for given *Colour Quality Scale*
+    (CQS) data.
 
     Parameters
     ----------
     cqs_data : VS_ColourQualityScaleData
-        *CQS* data.
+        *Colour Quality Scale* (CQS) data.
     attribute : unicode
         Colorimetry data attribute to use to compute the root-mean-square
         average.

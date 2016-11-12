@@ -48,7 +48,7 @@ def corresponding_chromaticities_prediction_plot(
     model : unicode, optional
         Corresponding chromaticities prediction model name.
     transform : unicode, optional
-        Transformation to use with Von Kries chromatic adaptation model.
+        Transformation to use with *Von Kries* chromatic adaptation model.
 
     Other Parameters
     ----------------

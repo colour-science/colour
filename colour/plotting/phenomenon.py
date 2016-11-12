@@ -55,7 +55,7 @@ def single_rayleigh_scattering_spd_plot(
         cmfs='CIE 1931 2 Degree Standard Observer',
         **kwargs):
     """
-    Plots a single rayleigh scattering spectral power distribution.
+    Plots a single *Rayleigh* scattering spectral power distribution.
 
     Parameters
     ----------

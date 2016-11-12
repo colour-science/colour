@@ -33,7 +33,7 @@ __all__ = ['TestLLABColourAppearanceModel']
 class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
     """
     Defines :mod:`colour.appearance.llab` module unit tests methods for
-    LLAB(l:c) colour appearance model.
+    *LLAB(l:c)* colour appearance model.
     """
 
     FIXTURE_BASENAME = 'llab.csv'
@@ -48,7 +48,7 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
 
     def output_specification_from_data(self, data):
         """
-        Returns the LLAB(l:c) colour appearance model output specification
+        Returns the *LLAB(l:c)* colour appearance model output specification
         from given data.
 
         Parameters
@@ -59,7 +59,7 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
         Returns
         -------
         LLAB_Specification
-            LLAB(l:c) colour appearance model specification.
+            *LLAB(l:c)* colour appearance model specification.
         """
 
         XYZ = tstack((data['X'], data['Y'], data['Z']))
@@ -124,7 +124,7 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
     def test_colourspace_conversion_matrices_precision(self):
         """
         Tests for loss of precision in conversion between
-        LLAB(l:c) colour appearance model *CIE XYZ* tristimulus values and
+        *LLAB(l:c)* colour appearance model *CIE XYZ* tristimulus values and
         normalised cone responses matrix.
         """
 
