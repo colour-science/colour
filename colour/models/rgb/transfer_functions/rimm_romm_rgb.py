@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
-RIMM / ROMM / ERIMM Encodings
-=============================
+RIMM, ROMM and ERIMM Encodings
+==============================
 
-Defines the *RIMM / ROMM / ERIMM* encodings opto-electrical transfer functions
+Defines the *RIMM, ROMM and ERIMM* encodings opto-electrical transfer functions
 (OETF / OECF) and electro-optical transfer functions (EOTF / EOCF):
 
 -   :func:`oetf_ROMMRGB`

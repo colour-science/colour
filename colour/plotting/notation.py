@@ -111,8 +111,7 @@ def multi_munsell_value_function_plot(
     canvas(**settings)
 
     if functions is None:
-        functions = ('ASTM D1535-08',
-                     'McCamy 1987')
+        functions = ('ASTM D1535-08', 'McCamy 1987')
 
     samples = np.linspace(0, 100, 1000)
     for function in functions:

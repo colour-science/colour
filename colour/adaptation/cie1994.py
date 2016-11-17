@@ -5,7 +5,7 @@
 CIE 1994 Chromatic Adaptation Model
 ===================================
 
-Defines CIE 1994 chromatic adaptation model objects:
+Defines *CIE 1994* chromatic adaptation model objects:
 
 -   :func:`chromatic_adaptation_CIE1994`
 
@@ -51,7 +51,7 @@ __all__ = ['CIE1994_XYZ_TO_RGB_MATRIX',
 
 CIE1994_XYZ_TO_RGB_MATRIX = VON_KRIES_CAT
 """
-CIE 1994 colour appearance model *CIE XYZ* tristimulus values to cone
+*CIE 1994* colour appearance model *CIE XYZ* tristimulus values to cone
 responses matrix.
 
 CIE1994_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
@@ -59,7 +59,7 @@ CIE1994_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
 
 CIE1994_RGB_TO_XYZ_MATRIX = np.linalg.inv(CIE1994_XYZ_TO_RGB_MATRIX)
 """
-CIE 1994 colour appearance model cone responses to *CIE XYZ* tristimulus
+*CIE 1994* colour appearance model cone responses to *CIE XYZ* tristimulus
 values matrix.
 
 CIE1994_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
@@ -75,7 +75,7 @@ def chromatic_adaptation_CIE1994(XYZ_1,
                                  n=1):
     """
     Adapts given stimulus *CIE XYZ_1* tristimulus values from test viewing
-    conditions to reference viewing conditions using CIE 1994 chromatic
+    conditions to reference viewing conditions using *CIE 1994* chromatic
     adaptation model.
 
     Parameters

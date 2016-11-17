@@ -5,7 +5,7 @@
 CIECAM02 Colour Appearance Model
 ================================
 
-Defines CIECAM02 colour appearance model objects:
+Defines *CIECAM02* colour appearance model objects:
 
 -   :class:`CIECAM02_InductionFactors`
 -   :attr:`CIECAM02_VIEWING_CONDITIONS`
@@ -106,7 +106,7 @@ class CIECAM02_InductionFactors(
     namedtuple('CIECAM02_InductionFactors',
                ('F', 'c', 'N_c'))):
     """
-    CIECAM02 colour appearance model induction factors.
+    *CIECAM02* colour appearance model induction factors.
 
     Parameters
     ----------
@@ -124,7 +124,7 @@ CIECAM02_VIEWING_CONDITIONS = CaseInsensitiveMapping(
      'Dim': CIECAM02_InductionFactors(0.9, 0.59, 0.95),
      'Dark': CIECAM02_InductionFactors(0.8, 0.525, 0.8)})
 """
-Reference CIECAM02 colour appearance model viewing conditions.
+Reference *CIECAM02* colour appearance model viewing conditions.
 
 CIECAM02_VIEWING_CONDITIONS : CaseInsensitiveMapping
     **{'Average', 'Dim', 'Dark'}**
@@ -140,7 +140,7 @@ class CIECAM02_Specification(
     namedtuple('CIECAM02_Specification',
                ('J', 'C', 'h', 's', 'Q', 'M', 'H', 'HC'))):
     """
-    Defines the CIECAM02 colour appearance model specification.
+    Defines the *CIECAM02* colour appearance model specification.
 
     Parameters
     ----------
@@ -170,7 +170,7 @@ def XYZ_to_CIECAM02(XYZ,
                     surround=CIECAM02_VIEWING_CONDITIONS.get('Average'),
                     discount_illuminant=False):
     """
-    Computes the CIECAM02 colour appearance model correlates from given
+    Computes the *CIECAM02* colour appearance model correlates from given
     *CIE XYZ* tristimulus values.
 
     This is the *forward* implementation.
@@ -195,7 +195,7 @@ def XYZ_to_CIECAM02(XYZ,
     Returns
     -------
     CIECAM02_Specification
-        CIECAM02 colour appearance model specification.
+        *CIECAM02* colour appearance model specification.
 
     Warning
     -------
@@ -225,7 +225,7 @@ s=2.3603053..., Q=195.3713259..., M=0.1088421..., H=278.0607358..., HC=None)
     n, F_L, N_bb, N_cb, z = tsplit(viewing_condition_dependent_parameters(
         Y_b, Y_w, L_A))
 
-    # Converting *CIE XYZ* tristimulus values to CMCCAT2000 transform
+    # Converting *CIE XYZ* tristimulus values to *CMCCAT2000* transform
     # sharpened *RGB* values.
     RGB = dot_vector(CAT02_CAT, XYZ)
     RGB_w = dot_vector(CAT02_CAT, XYZ_w)
@@ -294,7 +294,7 @@ def CIECAM02_to_XYZ(J,
                         'Average'),
                     discount_illuminant=False):
     """
-    Converts CIECAM02 specification to *CIE XYZ* tristimulus values.
+    Converts *CIECAM02* specification to *CIE XYZ* tristimulus values.
 
     This is the *reverse* implementation.
 
@@ -349,7 +349,7 @@ def CIECAM02_to_XYZ(J,
     n, F_L, N_bb, N_cb, z = tsplit(viewing_condition_dependent_parameters(
         Y_b, Y_w, L_A))
 
-    # Converting *CIE XYZ* tristimulus values to CMCCAT2000 transform
+    # Converting *CIE XYZ* tristimulus values to *CMCCAT2000* transform
     # sharpened *RGB* values.
     RGB_w = dot_vector(CAT02_CAT, XYZ_w)
 
@@ -399,7 +399,7 @@ def CIECAM02_to_XYZ(J,
     # Applying reverse full chromatic adaptation.
     RGB = full_chromatic_adaptation_reverse(RGB_c, RGB_w, Y_w, D)
 
-    # Converting CMCCAT2000 transform sharpened *RGB* values to *CIE XYZ*
+    # Converting *CMCCAT2000* transform sharpened *RGB* values to *CIE XYZ*
     # tristimulus values.
     XYZ = dot_vector(CAT02_INVERSE_CAT, RGB)
 
@@ -532,16 +532,16 @@ def degree_of_adaptation(F, L_A):
 
 def full_chromatic_adaptation_forward(RGB, RGB_w, Y_w, D):
     """
-    Applies full chromatic adaptation to given CMCCAT2000 transform sharpened
-    *RGB* array using given CMCCAT2000 transform sharpened whitepoint
+    Applies full chromatic adaptation to given *CMCCAT2000* transform sharpened
+    *RGB* array using given *CMCCAT2000* transform sharpened whitepoint
     *RGB_w* array.
 
     Parameters
     ----------
     RGB : array_like
-        CMCCAT2000 transform sharpened *RGB* array.
+        *CMCCAT2000* transform sharpened *RGB* array.
     RGB_w : array_like
-        CMCCAT2000 transform sharpened whitepoint *RGB_w* array.
+        *CMCCAT2000* transform sharpened whitepoint *RGB_w* array.
     Y_w : numeric or array_like
         Whitepoint *Y* tristimulus value :math:`Y_w`.
     D : numeric or array_like
@@ -576,16 +576,16 @@ def full_chromatic_adaptation_forward(RGB, RGB_w, Y_w, D):
 
 def full_chromatic_adaptation_reverse(RGB, RGB_w, Y_w, D):
     """
-    Reverts full chromatic adaptation of given CMCCAT2000 transform sharpened
-    *RGB* array using given CMCCAT2000 transform sharpened whitepoint
+    Reverts full chromatic adaptation of given *CMCCAT2000* transform sharpened
+    *RGB* array using given *CMCCAT2000* transform sharpened whitepoint
     *RGB_w* array.
 
     Parameters
     ----------
     RGB : array_like
-        CMCCAT2000 transform sharpened *RGB* array.
+        *CMCCAT2000* transform sharpened *RGB* array.
     RGB_w : array_like
-        CMCCAT2000 transform sharpened whitepoint *RGB_w* array.
+        *CMCCAT2000* transform sharpened whitepoint *RGB_w* array.
     Y_w : numeric or array_like
         Whitepoint *Y* tristimulus value :math:`Y_w`.
     D : numeric or array_like
@@ -673,20 +673,20 @@ def rgb_to_RGB(rgb):
 
 def post_adaptation_non_linear_response_compression_forward(RGB, F_L):
     """
-    Returns given CMCCAT2000 transform sharpened *RGB* array with post
+    Returns given *CMCCAT2000* transform sharpened *RGB* array with post
     adaptation non linear response compression.
 
     Parameters
     ----------
     RGB : array_like
-        CMCCAT2000 transform sharpened *RGB* array.
+        *CMCCAT2000* transform sharpened *RGB* array.
     F_L : array_like
         *Luminance* level adaptation factor :math:`F_L`.
 
     Returns
     -------
     ndarray
-        Compressed CMCCAT2000 transform sharpened *RGB* array.
+        Compressed *CMCCAT2000* transform sharpened *RGB* array.
 
     Examples
     --------
@@ -709,20 +709,20 @@ def post_adaptation_non_linear_response_compression_forward(RGB, F_L):
 
 def post_adaptation_non_linear_response_compression_reverse(RGB, F_L):
     """
-    Returns given CMCCAT2000 transform sharpened *RGB* array without post
+    Returns given *CMCCAT2000* transform sharpened *RGB* array without post
     adaptation non linear response compression.
 
     Parameters
     ----------
     RGB : array_like
-        CMCCAT2000 transform sharpened *RGB* array.
+        *CMCCAT2000* transform sharpened *RGB* array.
     F_L : array_like
         *Luminance* level adaptation factor :math:`F_L`.
 
     Returns
     -------
     ndarray
-        Uncompressed CMCCAT2000 transform sharpened *RGB* array.
+        Uncompressed *CMCCAT2000* transform sharpened *RGB* array.
 
     Examples
     --------
@@ -746,13 +746,13 @@ def post_adaptation_non_linear_response_compression_reverse(RGB, F_L):
 
 def opponent_colour_dimensions_forward(RGB):
     """
-    Returns opponent colour dimensions from given compressed CMCCAT2000
-    transform sharpened *RGB* array for forward CIECAM02 implementation
+    Returns opponent colour dimensions from given compressed *CMCCAT2000*
+    transform sharpened *RGB* array for forward *CIECAM02* implementation.
 
     Parameters
     ----------
     RGB : array_like
-        Compressed CMCCAT2000 transform sharpened *RGB* array.
+        Compressed *CMCCAT2000* transform sharpened *RGB* array.
 
     Returns
     -------
@@ -779,7 +779,7 @@ def opponent_colour_dimensions_forward(RGB):
 def opponent_colour_dimensions_reverse(P_n, h):
     """
     Returns opponent colour dimensions from given points :math:`P_n` and hue
-    :math:`h` in degrees for reverse CIECAM02 implementation.
+    :math:`h` in degrees for reverse *CIECAM02* implementation.
 
     Parameters
     ----------
@@ -917,7 +917,7 @@ def hue_quadrature(h):
 def eccentricity_factor(h):
     """
     Returns the eccentricity factor :math:`e_t` from given hue :math:`h` angle
-    in degrees for forward CIECAM02 implementation.
+    in degrees for forward *CIECAM02* implementation.
 
     Parameters
     ----------
@@ -945,13 +945,13 @@ def eccentricity_factor(h):
 def achromatic_response_forward(RGB, N_bb):
     """
     Returns the achromatic response :math:`A` from given compressed
-    CMCCAT2000 transform sharpened *RGB* array and :math:`N_{bb}` chromatic
-    induction factor for forward CIECAM02 implementation.
+    *CMCCAT2000* transform sharpened *RGB* array and :math:`N_{bb}` chromatic
+    induction factor for forward *CIECAM02* implementation.
 
     Parameters
     ----------
     RGB : array_like
-        Compressed CMCCAT2000 transform sharpened *RGB* array.
+        Compressed *CMCCAT2000* transform sharpened *RGB* array.
     N_bb : numeric or array_like
         Chromatic induction factor :math:`N_{bb}`.
 
@@ -980,7 +980,7 @@ def achromatic_response_reverse(A_w, J, c, z):
     Returns the achromatic response :math:`A` from given achromatic response
     :math:`A_w` for the whitepoint, *Lightness* correlate :math:`J`, surround
     exponential non linearity :math:`c` and base exponential non linearity
-    :math:`z` for reverse CIECAM02 implementation.
+    :math:`z` for reverse *CIECAM02* implementation.
 
     Parameters
     ----------
@@ -1100,7 +1100,7 @@ def brightness_correlate(c, J, A_w, F_L):
 
 def temporary_magnitude_quantity_forward(N_c, N_cb, e_t, a, b, RGB_a):
     """
-    Returns the temporary magnitude quantity :math:`t`. for forward CIECAM02
+    Returns the temporary magnitude quantity :math:`t`. for forward *CIECAM02*
     implementation.
 
     Parameters
@@ -1116,7 +1116,7 @@ def temporary_magnitude_quantity_forward(N_c, N_cb, e_t, a, b, RGB_a):
     b : numeric or array_like
         Opponent colour dimension :math:`b`.
     RGB_a : array_like
-        Compressed stimulus CMCCAT2000 transform sharpened *RGB* array.
+        Compressed stimulus *CMCCAT2000* transform sharpened *RGB* array.
 
     Returns
     -------
@@ -1151,7 +1151,7 @@ def temporary_magnitude_quantity_forward(N_c, N_cb, e_t, a, b, RGB_a):
 
 def temporary_magnitude_quantity_reverse(C, J, n):
     """
-    Returns the temporary magnitude quantity :math:`t`. for reverse CIECAM02
+    Returns the temporary magnitude quantity :math:`t`. for reverse *CIECAM02*
     implementation.
 
     Parameters
@@ -1207,7 +1207,7 @@ def chroma_correlate(J, n, N_c, N_cb, e_t, a, b, RGB_a):
     b : numeric or array_like
         Opponent colour dimension :math:`b`.
     RGB_a : array_like
-        Compressed stimulus CMCCAT2000 transform sharpened *RGB* array.
+        Compressed stimulus *CMCCAT2000* transform sharpened *RGB* array.
 
     Returns
     -------

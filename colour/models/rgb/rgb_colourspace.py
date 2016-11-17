@@ -788,7 +788,9 @@ def RGB_to_RGB_matrix(input_colourspace,
 def RGB_to_RGB(RGB,
                input_colourspace,
                output_colourspace,
-               chromatic_adaptation_transform='CAT02'):
+               chromatic_adaptation_transform='CAT02',
+               apply_decoding_cctf=False,
+               apply_encoding_cctf=False):
     """
     Converts from given input *RGB* colourspace to output *RGB* colourspace
     using given *chromatic adaptation* method.
@@ -806,6 +808,12 @@ def RGB_to_RGB(RGB,
         'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
         'Bianco PC'}**,
         *Chromatic adaptation* transform.
+    apply_decoding_cctf : bool, optional
+        Apply input colourpace decoding colour component transfer function  /
+        electro-optical transfer function.
+    apply_encoding_cctf : bool, optional
+        Apply output colourpace encoding colour component transfer function /
+        opto-electronic transfer function.
 
     Returns
     -------
@@ -829,10 +837,16 @@ def RGB_to_RGB(RGB,
     array([ 0.0643561...,  0.1157331...,  0.1158069...])
     """
 
+    if apply_decoding_cctf:
+        RGB = input_colourspace.decoding_cctf(RGB)
+
     M = RGB_to_RGB_matrix(input_colourspace,
                           output_colourspace,
                           chromatic_adaptation_transform)
 
     RGB = dot_vector(M, RGB)
+
+    if apply_encoding_cctf:
+        RGB = output_colourspace.encoding_cctf(RGB)
 
     return RGB

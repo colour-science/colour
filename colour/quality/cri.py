@@ -5,7 +5,7 @@
 Colour Rendering Index
 ======================
 
-Defines *colour rendering index* computation objects:
+Defines *Colour Rendering Index* (CRI) computation objects:
 
 -   :class:`CRI_Specification`
 -   :func:`colour_rendering_index`
@@ -73,14 +73,14 @@ class CRI_Specification(
         'CRI_Specification',
         ('name', 'Q_a', 'Q_as', 'colorimetry_data'))):
     """
-    Defines the *colour rendering index* colour quality specification.
+    Defines the *Colour Rendering Index* (CRI) colour quality specification.
 
     Parameters
     ----------
     name : unicode
         Name of the test spectral power distribution.
     Q_a : numeric
-        *Colour rendering index* :math:`Q_a`.
+        *Colour Rendering Index* (CRI) :math:`Q_a`.
     Q_as : dict
         Individual *colour rendering indexes* data for each sample.
     colorimetry_data : tuple
@@ -90,8 +90,8 @@ class CRI_Specification(
 
 def colour_rendering_index(spd_test, additional_data=False):
     """
-    Returns the *colour rendering index* :math:`Q_a` of given spectral power
-    distribution.
+    Returns the *Colour Rendering Index* (CRI) :math:`Q_a` of given spectral
+    power distribution.
 
     Parameters
     ----------
@@ -103,7 +103,7 @@ def colour_rendering_index(spd_test, additional_data=False):
     Returns
     -------
     numeric or CRI_Specification
-        Colour rendering index.
+        *Colour Rendering Index* (CRI).
 
     Examples
     --------
@@ -253,7 +253,7 @@ def colour_rendering_indexes(test_data, reference_data):
     Returns
     -------
     dict
-        *Test colour samples* colour rendering indexes.
+        *Test colour samples* *Colour Rendering Index* (CRI).
     """
 
     Q_as = {}

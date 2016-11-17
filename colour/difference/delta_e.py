@@ -50,8 +50,8 @@ __all__ = ['delta_E_CIE1976',
 
 def delta_E_CIE1976(Lab_1, Lab_2):
     """
-    Returns the difference :math:`\Delta E_{ab}` between two given
-    *CIE Lab* colourspace arrays using CIE 1976 recommendation.
+    Returns the difference :math:`\Delta E_{ab}` between two given *CIE Lab*
+    colourspace arrays using *CIE 1976* recommendation.
 
     Parameters
     ----------
@@ -90,7 +90,7 @@ def delta_E_CIE1976(Lab_1, Lab_2):
 def delta_E_CIE1994(Lab_1, Lab_2, textiles=False):
     """
     Returns the difference :math:`\Delta E_{ab}` between two given *CIE Lab*
-    colourspace arrays using CIE 1994 recommendation.
+    colourspace arrays using *CIE 1994* recommendation.
 
     Parameters
     ----------
@@ -110,7 +110,7 @@ def delta_E_CIE1994(Lab_1, Lab_2, textiles=False):
 
     Notes
     -----
-    -   CIE 1994 colour differences are not symmetrical: difference between
+    -   *CIE 1994* colour differences are not symmetrical: difference between
         `Lab_1` and `Lab_2` may not be the same as difference between `Lab_2`
         and `Lab_1` thus one colour must be understood to be the reference
         against which a sample colour is compared.
@@ -165,7 +165,7 @@ def delta_E_CIE1994(Lab_1, Lab_2, textiles=False):
 def delta_E_CIE2000(Lab_1, Lab_2, textiles=False):
     """
     Returns the difference :math:`\Delta E_{ab}` between two given *CIE Lab*
-    colourspace arrays using CIE 2000 recommendation.
+    colourspace arrays using *CIE 2000* recommendation.
 
     Parameters
     ----------
@@ -185,7 +185,7 @@ def delta_E_CIE2000(Lab_1, Lab_2, textiles=False):
 
     Notes
     -----
-    -   CIE 2000 colour differences are not symmetrical: difference between
+    -   *CIE 2000* colour differences are not symmetrical: difference between
         `Lab_1` and `Lab_2` may not be the same as difference between `Lab_2`
         and `Lab_1` thus one colour must be understood to be the reference
         against which a sample colour is compared.

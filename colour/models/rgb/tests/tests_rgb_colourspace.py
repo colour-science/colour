@@ -543,6 +543,27 @@ class TestRGB_to_RGB(unittest.TestCase):
             np.array([0.33699893, 0.44136948, 0.21432296]),
             decimal=7)
 
+        aces_cg_colourspace = RGB_COLOURSPACES.get('ACEScg')
+        aces_cc_colourspace = RGB_COLOURSPACES.get('ACEScc')
+
+        np.testing.assert_almost_equal(
+            RGB_to_RGB(np.array([0.35521588, 0.41000000, 0.24177934]),
+                       aces_cg_colourspace,
+                       aces_cc_colourspace,
+                       apply_decoding_cctf=True,
+                       apply_encoding_cctf=True),
+            np.array([0.46956438, 0.48137533, 0.43788601]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            RGB_to_RGB(np.array([0.46956438, 0.48137533, 0.43788601]),
+                       aces_cc_colourspace,
+                       sRGB_colourspace,
+                       apply_decoding_cctf=True,
+                       apply_encoding_cctf=True),
+            np.array([0.60983062, 0.67896356, 0.50435764]),
+            decimal=7)
+
     def test_n_dimensional_RGB_to_RGB(self):
         """
         Tests :func:`colour.models.rgb.rgb_colourspace.RGB_to_RGB` definition

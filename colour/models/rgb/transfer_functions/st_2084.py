@@ -101,7 +101,7 @@ def eotf_ST2084(N, L_p=10000):
     function (EOTF / EOCF).
 
     This perceptual quantizer (PQ) has been modeled by Dolby Laboratories
-    using Barten (1999) contrast sensitivity function.
+    using *Barten (1999)* contrast sensitivity function.
 
     Parameters
     ----------

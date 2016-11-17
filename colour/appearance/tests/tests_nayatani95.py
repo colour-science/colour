@@ -27,7 +27,7 @@ __all__ = ['TestNayatani95ColourAppearanceModel']
 class TestNayatani95ColourAppearanceModel(ColourAppearanceModelTest):
     """
     Defines :mod:`colour.appearance.nayatani95` module unit tests methods for
-    Nayatani (1995) colour appearance model.
+    *Nayatani (1995)* colour appearance model.
     """
 
     FIXTURE_BASENAME = 'nayatani95.csv'
@@ -42,7 +42,7 @@ class TestNayatani95ColourAppearanceModel(ColourAppearanceModelTest):
 
     def output_specification_from_data(self, data):
         """
-        Returns the Nayatani (1995) colour appearance model output
+        Returns the *Nayatani (1995)* colour appearance model output
         specification from given data.
 
         Parameters
@@ -53,7 +53,7 @@ class TestNayatani95ColourAppearanceModel(ColourAppearanceModelTest):
         Returns
         -------
         Nayatani95_Specification
-            Nayatani (1995) colour appearance model specification.
+            *Nayatani (1995)* colour appearance model specification.
         """
 
         XYZ = tstack((data['X'], data['Y'], data['Z']))

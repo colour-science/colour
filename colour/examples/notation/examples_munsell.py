@@ -12,7 +12,7 @@ message_box('"Munsell Renotation System" Computations')
 
 Y = 10.08
 message_box(('Computing "Munsell" value using '
-             'Priest, Gibson and MacNicholas (1920) method for given '
+             '"Priest, Gibson and MacNicholas (1920)" method for given '
              '"luminance" value:\n'
              '\n\t{0}'.format(Y)))
 print(colour.munsell_value_Priest1920(Y))
@@ -21,7 +21,7 @@ print(colour.munsell_value(Y, method='Priest 1920'))
 print('\n')
 
 message_box(('Computing "Munsell" value using '
-             'Munsell, Sloan and Godlove (1933) method for given '
+             '"Munsell, Sloan and Godlove (1933)" method for given '
              '"luminance" value:\n'
              '\n\t{0}'.format(Y)))
 print(colour.munsell_value_Munsell1933(Y))
@@ -29,7 +29,7 @@ print(colour.munsell_value(Y, method='Munsell 1933'))
 
 print('\n')
 
-message_box(('Computing "Munsell" value using Moon and Spencer (1943) '
+message_box(('Computing "Munsell" value using "Moon and Spencer (1943)" '
              'method for given "luminance" value:\n'
              '\n\t{0}'.format(Y)))
 print(colour.munsell_value_Moon1943(Y))
@@ -37,7 +37,7 @@ print(colour.munsell_value(Y, method='Moon 1943'))
 
 print('\n')
 
-message_box(('Computing "Munsell" value using Saunderson and Milner (1944) '
+message_box(('Computing "Munsell" value using "Saunderson and Milner (1944)" '
              'method for given "luminance" value:\n'
              '\n\t{0}'.format(Y)))
 print(colour.munsell_value_Saunderson1944(Y))
@@ -45,7 +45,7 @@ print(colour.munsell_value(Y, method='Saunderson 1944'))
 
 print('\n')
 
-message_box(('Computing "Munsell" value using Ladd and Pinney (1955) method '
+message_box(('Computing "Munsell" value using "Ladd and Pinney (1955)" method '
              'for given "luminance" value:\n'
              '\n\t{0}'.format(Y)))
 print(colour.munsell_value_Ladd1955(Y))
@@ -53,7 +53,7 @@ print(colour.munsell_value(Y, method='Ladd 1955'))
 
 print('\n')
 
-message_box(('Computing "Munsell" value using McCamy (1987) method for '
+message_box(('Computing "Munsell" value using "McCamy (1987)" method for '
              'given "luminance" value:\n'
              '\n\t{0}'.format(Y)))
 print(colour.munsell_value_McCamy1987(Y))

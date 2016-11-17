@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
-RIMM / ROMM / ERIMM Encodings
-=============================
+RIMM, ROMM and ERIMM Encodings
+==============================
 
-Defines the *RIMM / ROMM / ERIMM* encodings:
+Defines the *RIMM, ROMM and ERIMM* encodings:
 
 -   :attr:`ROMM_RGB_COLOURSPACE`.
 -   :attr:`RIMM_RGB_COLOURSPACE`.

@@ -2056,7 +2056,7 @@ COLORCHECKER_N_OHTA_SPDS = dict(
     (key, SpectralPowerDistribution(key, value)) for key, value in
     COLORCHECKER_N_OHTA_SPDS_DATA.items())
 """
-Measured by Ohta (1997).
+Measured by *Ohta (1997)*.
 
 COLORCHECKER_N_OHTA_SPDS : dict
 """

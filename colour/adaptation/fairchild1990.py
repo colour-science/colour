@@ -5,7 +5,7 @@
 Fairchild (1990) Chromatic Adaptation Model
 ===========================================
 
-Defines Fairchild (1990) chromatic adaptation model objects:
+Defines *Fairchild (1990)* chromatic adaptation model objects:
 
 -   :func:`chromatic_adaptation_Fairchild1990`
 
@@ -47,7 +47,7 @@ __all__ = ['FAIRCHILD1990_XYZ_TO_RGB_MATRIX',
 
 FAIRCHILD1990_XYZ_TO_RGB_MATRIX = VON_KRIES_CAT
 """
-Fairchild (1990) colour appearance model *CIE XYZ* tristimulus values to cone
+*Fairchild (1990)* colour appearance model *CIE XYZ* tristimulus values to cone
 responses matrix.
 
 FAIRCHILD1990_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
@@ -55,7 +55,7 @@ FAIRCHILD1990_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
 
 FAIRCHILD1990_RGB_TO_XYZ_MATRIX = np.linalg.inv(VON_KRIES_CAT)
 """
-Fairchild (1990) colour appearance model cone responses to *CIE XYZ*
+*Fairchild (1990)* colour appearance model cone responses to *CIE XYZ*
 tristimulus values matrix.
 
 FAIRCHILD1990_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
@@ -69,8 +69,8 @@ def chromatic_adaptation_Fairchild1990(XYZ_1,
                                        discount_illuminant=False):
     """
     Adapts given stimulus *CIE XYZ_1* tristimulus values from test viewing
-    conditions to reference viewing conditions using Fairchild (1990) chromatic
-    adaptation model.
+    conditions to reference viewing conditions using *Fairchild (1990)*
+    chromatic adaptation model.
 
     Parameters
     ----------

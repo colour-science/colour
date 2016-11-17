@@ -7,18 +7,20 @@ Chromatic Adaptation Transforms
 
 Defines various chromatic adaptation transforms (CAT):
 
--   :attr:`XYZ_SCALING_CAT`: XYZ Scaling CAT [1]_
--   :attr:`VON_KRIES_CAT`: Von Kries CAT [1]_
--   :attr:`BRADFORD_CAT`: Bradford CAT [1]_
--   :attr:`SHARP_CAT`: Sharp CAT [4]_
--   :attr:`FAIRCHILD_CAT`: Fairchild CAT [2]_
--   :attr:`CMCCAT97_CAT`: CMCCAT97 CAT [5]_
--   :attr:`CMCCAT2000_CAT`: CMCCAT2000 CAT [5]_
--   :attr:`CAT02_CAT`: CAT02 CAT [3]_
--   :attr:`CAT02_BRILL_CAT`: Brill and Süsstrunk (2008) corrected CAT02
-    CAT [6]_ [7]_
--   :attr:`BS_CAT`: Bianco and Schettini (2010) CAT [4]_
--   :attr:`BS_PC_CAT`: Bianco and Schettini PC (2010) CAT [4]_
+-   :attr:`XYZ_SCALING_CAT`: *XYZ Scaling* chromatic adaptation transform [1]_
+-   :attr:`VON_KRIES_CAT`: *Von Kries* chromatic adaptation transform [1]_
+-   :attr:`BRADFORD_CAT`: *Bradford* chromatic adaptation transform [1]_
+-   :attr:`SHARP_CAT`: *Sharp* chromatic adaptation transform [4]_
+-   :attr:`FAIRCHILD_CAT`: *Fairchild* chromatic adaptation transform [2]_
+-   :attr:`CMCCAT97_CAT`: *CMCCAT97* chromatic adaptation transform [5]_
+-   :attr:`CMCCAT2000_CAT`: *CMCCAT2000* chromatic adaptation transform [5]_
+-   :attr:`CAT02_CAT`: *CAT02* chromatic adaptation transform [3]_
+-   :attr:`CAT02_BRILL_CAT`: *Brill and Süsstrunk (2008)* corrected CAT02
+    chromatic adaptation transform [6]_ [7]_
+-   :attr:`BS_CAT`: *Bianco and Schettini (2010)* chromatic adaptation
+    transform [4]_
+-   :attr:`BS_PC_CAT`: *Bianco and Schettini PC (2010)* chromatic adaptation
+    transform [4]_
 
 See Also
 --------
@@ -75,7 +77,7 @@ __all__ = ['XYZ_SCALING_CAT',
 
 XYZ_SCALING_CAT = np.array(np.identity(3)).reshape((3, 3))
 """
-XYZ Scaling chromatic adaptation transform. [1]_
+*XYZ Scaling* chromatic adaptation transform. [1]_
 
 XYZ_SCALING_CAT : array_like, (3, 3)
 """
@@ -85,7 +87,7 @@ VON_KRIES_CAT = np.array(
      [-0.2263000, 1.1653200, 0.0457000],
      [0.0000000, 0.0000000, 0.9182200]])
 """
-Von Kries chromatic adaptation transform. [1]_
+*Von Kries* chromatic adaptation transform. [1]_
 
 VON_KRIES_CAT : array_like, (3, 3)
 """
@@ -95,7 +97,7 @@ BRADFORD_CAT = np.array(
      [-0.7502000, 1.7135000, 0.0367000],
      [0.0389000, -0.0685000, 1.0296000]])
 """
-Bradford chromatic adaptation transform. [1]_
+*Bradford* chromatic adaptation transform. [1]_
 
 BRADFORD_CAT : array_like, (3, 3)
 """
@@ -105,7 +107,7 @@ SHARP_CAT = np.array(
      [-0.8364, 1.8006, 0.0357],
      [0.0297, -0.0315, 1.0018]])
 """
-Sharp chromatic adaptation transform. [4]_
+*Sharp* chromatic adaptation transform. [4]_
 
 SHARP_CAT : array_like, (3, 3)
 """
@@ -115,7 +117,7 @@ FAIRCHILD_CAT = np.array(
      [-0.8360, 1.8327, 0.0033],
      [0.0357, -0.0469, 1.0112]])
 """
-Fairchild chromatic adaptation transform. [2]_
+*Fairchild* chromatic adaptation transform. [2]_
 
 FAIRCHILD_CAT : array_like, (3, 3)
 """
@@ -125,7 +127,7 @@ CMCCAT97_CAT = np.array(
      [0.2664, 1.7135, 0.0685],
      [-0.1614, 0.0367, 1.0296]])
 """
-CMCCAT97 chromatic adaptation transform. [5]_
+*CMCCAT97* chromatic adaptation transform. [5]_
 
 CMCCAT97_CAT : array_like, (3, 3)
 """
@@ -135,7 +137,7 @@ CMCCAT2000_CAT = np.array(
      [-0.5918, 1.5512, 0.0406],
      [0.0008, 0.0239, 0.9753]])
 """
-CMCCAT2000 chromatic adaptation transform. [5]_
+*CMCCAT2000* chromatic adaptation transform. [5]_
 
 CMCCAT2000_CAT : array_like, (3, 3)
 """
@@ -145,7 +147,7 @@ CAT02_CAT = np.array(
      [-0.7036, 1.6975, 0.0061],
      [0.0030, 0.0136, 0.9834]])
 """
-CAT02 chromatic adaptation transform. [3]_
+*CAT02* chromatic adaptation transform. [3]_
 
 CAT02_CAT : array_like, (3, 3)
 """
@@ -155,7 +157,7 @@ CAT02_BRILL_CAT = np.array(
      [-0.7036, 1.6975, 0.0061],
      [0.0000, 0.0000, 1.0000]])
 """
-Brill and Süsstrunk (2008) corrected CAT02 chromatic adaptation
+*Brill and Süsstrunk (2008)* corrected CAT02 chromatic adaptation
 transform. [6]_ [7]
 
 CAT02_BRILL_CAT : array_like, (3, 3)
@@ -166,7 +168,7 @@ BS_CAT = np.array(
      [-0.8904, 1.8709, 0.0195],
      [-0.0061, 0.0162, 0.9899]])
 """
-Bianco and Schettini (2010) chromatic adaptation transform. [4]_
+*Bianco and Schettini (2010)* chromatic adaptation transform. [4]_
 
 BS_CAT : array_like, (3, 3)
 """
@@ -176,7 +178,7 @@ BS_PC_CAT = np.array(
      [-0.3775, 1.3055, 0.0720],
      [-0.0271, 0.0888, 0.9383]])
 """
-Bianco and Schettini PC (2010) chromatic adaptation transform. [4]_
+*Bianco and Schettini PC (2010)* chromatic adaptation transform. [4]_
 
 BS_PC_CAT : array_like, (3, 3)
 

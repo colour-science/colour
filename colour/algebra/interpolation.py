@@ -9,7 +9,7 @@ Defines classes for interpolating variables.
 
 -   :class:`LinearInterpolator`: 1-D function linear interpolation.
 -   :class:`SpragueInterpolator`: 1-D function fifth-order polynomial
-    interpolation.
+    interpolation using *Sprague (1880)* method.
 -   :class:`CubicSplineInterpolator`: 1-D function cubic spline interpolation.
 -   :class:`PchipInterpolator`: 1-D function piecewise cube Hermite
     interpolation.
@@ -231,7 +231,7 @@ class SpragueInterpolator(object):
     Constructs a fifth-order polynomial that passes through :math:`y` dependent
     variable.
 
-    Sprague (1880) method is recommended by the *CIE* for interpolating
+    *Sprague (1880)* method is recommended by the *CIE* for interpolating
     functions having a uniformly spaced independent variable.
 
     Parameters

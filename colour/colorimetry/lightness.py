@@ -11,11 +11,11 @@ The following methods are available:
 
 -   :func:`lightness_Glasser1958`: *Lightness* :math:`L^*` computation of given
     *luminance* :math:`Y` using
-    Glasser, Mckinney, Reilly and Schnelle (1958)⁠⁠⁠ method.
+    *Glasser, Mckinney, Reilly and Schnelle (1958)*⁠ method.
 -   :func:`lightness_Wyszecki1963`: *Lightness* :math:`W` computation of
-    given *luminance* :math:`Y` using Wyszecki (1963)⁠⁠⁠⁠ method.
+    given *luminance* :math:`Y` using *Wyszecki (1963)⁠⁠⁠⁠* method.
 -   :func:`lightness_CIE1976`: *Lightness* :math:`L^*` computation of given
-    *luminance* :math:`Y` as per *CIE Lab* implementation.
+    *luminance* :math:`Y` as per *CIE 1976* recommendation.
 
 See Also
 --------
@@ -53,7 +53,7 @@ __all__ = ['lightness_Glasser1958',
 def lightness_Glasser1958(Y):
     """
     Returns the *Lightness* :math:`L` of given *luminance* :math:`Y` using
-    *Glasser, Mckinney, Reilly and Schnelle (1958)* method.
+    *Glasser et al. (1958)* method.
 
     Parameters
     ----------
@@ -135,8 +135,8 @@ def lightness_Wyszecki1963(Y):
 def lightness_CIE1976(Y, Y_n=100):
     """
     Returns the *Lightness* :math:`L^*` of given *luminance* :math:`Y` using
-    given reference white *luminance* :math:`Y_n` as per *CIE Lab*
-    implementation.
+    given reference white *luminance* :math:`Y_n` as per *CIE 1976*
+    recommendation.
 
     Parameters
     ----------

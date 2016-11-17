@@ -8,19 +8,19 @@ Munsell Renotation System
 Defines various objects for *Munsell Renotation System* computations:
 
 -   :func:`munsell_value_Priest1920`: *Munsell* value :math:`V` computation of
-    given *luminance* :math:`Y` using Priest, Gibson and MacNicholas (1920)
+    given *luminance* :math:`Y` using *Priest, Gibson and MacNicholas (1920)*
     method.
 -   :func:`munsell_value_Munsell1933`: *Munsell* value :math:`V` computation of
-    given *luminance* :math:`Y` using ⁠Munsell, Sloan and Godlove (1933)⁠
+    given *luminance* :math:`Y` using ⁠*Munsell, Sloan and Godlove (1933)⁠*
     method.
 -   :func:`munsell_value_Moon1943`: *Munsell* value :math:`V` computation of
-    given *luminance* :math:`Y` using Moon and Spencer (1943) method.
+    given *luminance* :math:`Y` using *Moon and Spencer (1943)* method.
 -   :func:`munsell_value_Saunderson1944`: *Munsell* value :math:`V` computation
-    of given *luminance* :math:`Y` using Saunderson and Milner (1944) method.
+    of given *luminance* :math:`Y` using *Saunderson and Milner (1944)* method.
 -   :func:`munsell_value_Ladd1955`: *Munsell* value :math:`V` computation of
-    given *luminance* :math:`Y` using Ladd and Pinney (1955)  method.
+    given *luminance* :math:`Y` using *Ladd and Pinney (1955)* method.
 -   :func:`munsell_value_McCamy1987`: *Munsell* value :math:`V` computation of
-    given *luminance* :math:`Y` using McCamy (1987)  method.
+    given *luminance* :math:`Y` using *McCamy (1987)* method.
 -   :func:`munsell_value_ASTMD153508` [1]_ [2]_: *Munsell* value :math:`V`
     computation of given *luminance* :math:`Y` using *ASTM D1535-08e1* method.
 -   :func:`munsell_colour_to_xyY` [1]_ [2]_
@@ -234,7 +234,7 @@ def _munsell_maximum_chromas_from_renotation():
 def munsell_value_Priest1920(Y):
     """
     Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
-    *⁠⁠⁠⁠⁠Priest, Gibson and MacNicholas (1920)* method.
+    *⁠⁠⁠⁠⁠Priest et al. (1920)* method.
 
     Parameters
     ----------
@@ -272,7 +272,7 @@ def munsell_value_Priest1920(Y):
 def munsell_value_Munsell1933(Y):
     """
     Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
-    *⁠Munsell, Sloan and Godlove (1933)* method. [3]_
+    *⁠Munsell et al. (1933)* method. [3]_
 
     Parameters
     ----------
@@ -305,7 +305,7 @@ def munsell_value_Munsell1933(Y):
 def munsell_value_Moon1943(Y):
     """
     Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
-    Moon and Spencer (1943) method. [3]_
+    *Moon and Spencer (1943)* method. [3]_
 
 
     Parameters
@@ -339,7 +339,7 @@ def munsell_value_Moon1943(Y):
 def munsell_value_Saunderson1944(Y):
     """
     Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
-    Saunderson and Milner (1944) method. [3]_
+    *Saunderson and Milner (1944)* method. [3]_
 
     Parameters
     ----------
@@ -372,7 +372,7 @@ def munsell_value_Saunderson1944(Y):
 def munsell_value_Ladd1955(Y):
     """
     Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
-    Ladd and Pinney (1955)  method. [3]_
+    *Ladd and Pinney (1955)* method. [3]_
 
     Parameters
     ----------
@@ -405,7 +405,7 @@ def munsell_value_Ladd1955(Y):
 def munsell_value_McCamy1987(Y):
     """
     Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
-    McCamy (1987)  method.
+    *McCamy (1987)* method.
 
     Parameters
     ----------

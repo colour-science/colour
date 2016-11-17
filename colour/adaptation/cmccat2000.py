@@ -5,7 +5,7 @@
 CMCCAT2000 Chromatic Adaptation Model
 =====================================
 
-Defines CMCCAT2000 chromatic adaptation model objects:
+Defines *CMCCAT2000* chromatic adaptation model objects:
 
 -   :class:`CMCCAT2000_InductionFactors`
 -   :class:`CMCCAT2000_VIEWING_CONDITIONS`
@@ -53,7 +53,7 @@ __all__ = ['CMCCAT2000_INVERSE_CAT',
 
 CMCCAT2000_INVERSE_CAT = np.linalg.inv(CMCCAT2000_CAT)
 """
-Inverse CMCCAT2000_CAT chromatic adaptation transform.
+Inverse *CMCCAT2000* chromatic adaptation transform.
 
 CMCCAT2000_INVERSE_CAT : array_like, (3, 3)
 """
@@ -63,7 +63,7 @@ class CMCCAT2000_InductionFactors(
     namedtuple('CMCCAT2000_InductionFactors',
                ('F',))):
     """
-    CMCCAT2000 chromatic adaptation model induction factors.
+    *CMCCAT2000* chromatic adaptation model induction factors.
 
     Parameters
     ----------
@@ -77,7 +77,7 @@ CMCCAT2000_VIEWING_CONDITIONS = CaseInsensitiveMapping(
      'Dim': CMCCAT2000_InductionFactors(0.8),
      'Dark': CMCCAT2000_InductionFactors(0.8)})
 """
-Reference CMCCAT2000 chromatic adaptation model viewing conditions.
+Reference *CMCCAT2000* chromatic adaptation model viewing conditions.
 
 CMCCAT2000_VIEWING_CONDITIONS : CaseInsensitiveMapping
     ('Average', 'Dim', 'Dark')
@@ -93,7 +93,7 @@ def chromatic_adaptation_forward_CMCCAT2000(
         surround=CMCCAT2000_VIEWING_CONDITIONS.get('Average')):
     """
     Adapts given stimulus *CIE XYZ* tristimulus values from test viewing
-    conditions to reference viewing conditions using CMCCAT2000 forward
+    conditions to reference viewing conditions using *CMCCAT2000* forward
     chromatic adaptation model.
 
     Parameters
@@ -173,7 +173,7 @@ def chromatic_adaptation_reverse_CMCCAT2000(
     """
     Adapts given stimulus corresponding colour *CIE XYZ* tristimulus values
     from reference viewing conditions to test viewing conditions using
-    CMCCAT2000 reverse chromatic adaptation model.
+    *CMCCAT2000* reverse chromatic adaptation model.
 
     Parameters
     ----------
@@ -255,8 +255,8 @@ def chromatic_adaptation_CMCCAT2000(
     conditions.
 
     This definition is a convenient wrapper around
-    :func:`chromatic_adaptation_forward_CMCCAT2000`
-    and :func:`chromatic_adaptation_reverse_CMCCAT2000`.
+    :func:`chromatic_adaptation_forward_CMCCAT2000` and
+    :func:`chromatic_adaptation_reverse_CMCCAT2000`.
 
     Parameters
     ----------
@@ -304,7 +304,7 @@ def chromatic_adaptation_CMCCAT2000(
     ...     XYZ, XYZ_w, XYZ_wr, L_A1, L_A2, method='Forward')
     array([ 19.5269832...,  23.0683396...,  24.9717522...])
 
-    Using the CMCCAT2000 reverse model:
+    Using the *CMCCAT2000* reverse model:
 
     >>> XYZ = np.array([19.52698326, 23.06833960, 24.97175229])
     >>> XYZ_w = np.array([111.15, 100.00, 35.20])

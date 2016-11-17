@@ -2,21 +2,21 @@
 # -*- coding: utf-8 -*-
 
 """
-Showcases Nayatani (1995) colour appearance model computations.
+Showcases *Nayatani (1995)* colour appearance model computations.
 """
 
 import colour
 from colour.appearance.nayatani95 import Nayatani95_ReferenceSpecification
 from colour.utilities.verbose import message_box
 
-message_box('Nayatani (1995) Colour Appearance Model Computations')
+message_box('"Nayatani (1995)" Colour Appearance Model Computations')
 
 XYZ = (19.01, 20.00, 21.78)
 XYZ_n = (95.05, 100.00, 108.88)
 Y_o = 20.0
 E_o = 5000.0
 E_or = 1000.0
-message_box(('Converting to Nayatani (1995) colour appearance model '
+message_box(('Converting to "Nayatani (1995)" colour appearance model '
              'specification using given parameters:\n'
              '\n\tXYZ: {0}\n\tXYZ_n: {1}\n\tY_o: {2}\n\tE_o: {3}'
              '\n\tE_or: {4}'.format(XYZ, XYZ_n, Y_o, E_o, E_or)))
@@ -25,7 +25,7 @@ print(specification)
 
 print('\n')
 
-message_box(('Broadcasting current output Nayatani (1995) colour appearance '
+message_box(('Broadcasting current output "Nayatani (1995)" colour appearance '
              'model specification to reference specification.\n'
              'The intent of this reference specification is to provide names '
              'as closest as possible to "Mark D. Fairchild" reference.\n'
