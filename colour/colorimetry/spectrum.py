@@ -4370,6 +4370,7 @@ class TriSpectralPowerDistribution(object):
 
         return clone
 
+
 DEFAULT_SPECTRAL_SHAPE = SpectralShape(360, 830, 1)
 """
 Default spectral shape using the shape of
