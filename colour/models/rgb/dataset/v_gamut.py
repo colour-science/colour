@@ -68,7 +68,7 @@ V_GAMUT_WHITEPOINT = ILLUMINANTS.get(
 """
 *V-Gamut* colourspace whitepoint.
 
-V_GAMUT_WHITEPOINT : tuple
+V_GAMUT_WHITEPOINT : ndarray
 """
 
 V_GAMUT_TO_XYZ_MATRIX = np.array(

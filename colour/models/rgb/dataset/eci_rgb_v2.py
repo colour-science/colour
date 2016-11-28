@@ -68,7 +68,7 @@ ECI_RGB_V2_WHITEPOINT = ILLUMINANTS.get(
 """
 *ECI RGB v2* colourspace whitepoint.
 
-ECI_RGB_V2_WHITEPOINT : tuple
+ECI_RGB_V2_WHITEPOINT : ndarray
 """
 
 ECI_RGB_V2_TO_XYZ_MATRIX = normalised_primary_matrix(ECI_RGB_V2_PRIMARIES,

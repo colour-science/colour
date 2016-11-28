@@ -69,7 +69,7 @@ ADOBE_WIDE_GAMUT_RGB_WHITEPOINT = ILLUMINANTS.get(
 """
 *Adobe Wide Gamut RGB* colourspace whitepoint.
 
-ADOBE_WIDE_GAMUT_RGB_WHITEPOINT : tuple
+ADOBE_WIDE_GAMUT_RGB_WHITEPOINT : ndarray
 """
 
 ADOBE_WIDE_GAMUT_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(

@@ -67,7 +67,7 @@ EKTA_SPACE_PS_5_WHITEPOINT = ILLUMINANTS.get(
 """
 *Ekta Space PS 5* colourspace whitepoint.
 
-EKTA_SPACE_PS_5_WHITEPOINT : tuple
+EKTA_SPACE_PS_5_WHITEPOINT : ndarray
 """
 
 EKTA_SPACE_PS_5_TO_XYZ_MATRIX = normalised_primary_matrix(

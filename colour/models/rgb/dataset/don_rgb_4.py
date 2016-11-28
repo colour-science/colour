@@ -68,7 +68,7 @@ DON_RGB_4_WHITEPOINT = ILLUMINANTS.get(
 """
 *Don RGB 4* colourspace whitepoint.
 
-DON_RGB_4_WHITEPOINT : tuple
+DON_RGB_4_WHITEPOINT : ndarray
 """
 
 DON_RGB_4_TO_XYZ_MATRIX = normalised_primary_matrix(DON_RGB_4_PRIMARIES,

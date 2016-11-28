@@ -56,7 +56,7 @@ SMITS1999_WHITEPOINT = ILLUMINANTS.get(
 """
 Current *Smits (1999)* method implementation colourspace whitepoint.
 
-SMITS1999_WHITEPOINT : tuple
+SMITS1999_WHITEPOINT : ndarray
 """
 
 SMITS1999_XYZ_TO_RGB_MATRIX = np.linalg.inv(

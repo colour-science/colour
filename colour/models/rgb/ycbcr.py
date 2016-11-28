@@ -71,10 +71,10 @@ __all__ = ['YCBCR_WEIGHTS',
            'YcCbcCrc_to_RGB']
 
 YCBCR_WEIGHTS = CaseInsensitiveMapping(
-    {'Rec. 601': (0.2990, 0.1140),
-     'Rec. 709': (0.2126, 0.0722),
-     'Rec. 2020': (0.2627, 0.0593),
-     'SMPTE-240M': (0.2122, 0.0865)})
+    {'Rec. 601': np.array([0.2990, 0.1140]),
+     'Rec. 709': np.array([0.2126, 0.0722]),
+     'Rec. 2020': np.array([0.2627, 0.0593]),
+     'SMPTE-240M': np.array([0.2122, 0.0865])})
 """
 Luma weightings presets.
 

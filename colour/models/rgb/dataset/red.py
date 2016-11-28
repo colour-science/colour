@@ -116,7 +116,7 @@ RED_COLOR_WHITEPOINT = ILLUMINANTS.get(
 """
 *REDcolor* colourspace whitepoint.
 
-RED_COLOR_WHITEPOINT : tuple
+RED_COLOR_WHITEPOINT : ndarray
 """
 
 RED_COLOR_TO_XYZ_MATRIX = normalised_primary_matrix(
@@ -170,7 +170,7 @@ RED_COLOR_2_WHITEPOINT = RED_COLOR_WHITEPOINT
 """
 *REDcolor2* colourspace whitepoint.
 
-RED_COLOR_2_WHITEPOINT : tuple
+RED_COLOR_2_WHITEPOINT : ndarray
 """
 
 RED_COLOR_2_TO_XYZ_MATRIX = normalised_primary_matrix(
@@ -224,7 +224,7 @@ RED_COLOR_3_WHITEPOINT = RED_COLOR_WHITEPOINT
 """
 *REDcolor3* colourspace whitepoint.
 
-RED_COLOR_3_WHITEPOINT : tuple
+RED_COLOR_3_WHITEPOINT : ndarray
 """
 
 RED_COLOR_3_TO_XYZ_MATRIX = normalised_primary_matrix(
@@ -278,7 +278,7 @@ RED_COLOR_4_WHITEPOINT = RED_COLOR_WHITEPOINT
 """
 *REDcolor4* colourspace whitepoint.
 
-RED_COLOR_4_WHITEPOINT : tuple
+RED_COLOR_4_WHITEPOINT : ndarray
 """
 
 RED_COLOR_4_TO_XYZ_MATRIX = normalised_primary_matrix(
@@ -332,7 +332,7 @@ DRAGON_COLOR_WHITEPOINT = RED_COLOR_WHITEPOINT
 """
 *DRAGONcolor* colourspace whitepoint.
 
-DRAGON_COLOR_WHITEPOINT : tuple
+DRAGON_COLOR_WHITEPOINT : ndarray
 """
 
 DRAGON_COLOR_TO_XYZ_MATRIX = normalised_primary_matrix(
@@ -386,7 +386,7 @@ DRAGON_COLOR_2_WHITEPOINT = RED_COLOR_WHITEPOINT
 """
 *DRAGONcolor2* colourspace whitepoint.
 
-DRAGON_COLOR_2_WHITEPOINT : tuple
+DRAGON_COLOR_2_WHITEPOINT : ndarray
 """
 
 DRAGON_COLOR_2_TO_XYZ_MATRIX = normalised_primary_matrix(
@@ -441,7 +441,7 @@ RED_WIDE_GAMUT_RGB_WHITEPOINT = ILLUMINANTS.get(
 """
 *REDWideGamutRGB* colourspace whitepoint.
 
-RED_WIDE_GAMUT_RGB_WHITEPOINT : tuple
+RED_WIDE_GAMUT_RGB_WHITEPOINT : ndarray
 """
 
 RED_WIDE_GAMUT_RGB_TO_XYZ_MATRIX = np.array(

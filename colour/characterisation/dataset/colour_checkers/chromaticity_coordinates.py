@@ -99,7 +99,7 @@ BABELCOLOR_AVERAGE_ILLUMINANT = ILLUMINANTS.get(
 """
 *BabelColor Average* illuminant.
 
-BABELCOLOR_AVERAGE_ILLUMINANT : tuple
+BABELCOLOR_AVERAGE_ILLUMINANT : ndarray
 """
 
 BABELCOLOR_AVERAGE = [ColourChecker_Specification(*x) for x in
@@ -141,7 +141,7 @@ COLORCHECKER_2005_ILLUMINANT = ILLUMINANTS.get(
 """
 *ColorChecker 2005* illuminant.
 
-COLORCHECKER_2005_ILLUMINANT : tuple
+COLORCHECKER_2005_ILLUMINANT : ndarray
 """
 
 COLORCHECKER_2005 = [ColourChecker_Specification(*x) for x in
@@ -183,7 +183,7 @@ COLORCHECKER_1976_ILLUMINANT = ILLUMINANTS.get(
 """
 *ColorChecker 1976* illuminant.
 
-COLORCHECKER_1976_ILLUMINANT : tuple
+COLORCHECKER_1976_ILLUMINANT : ndarray
 """
 
 COLORCHECKER_1976 = [ColourChecker_Specification(*x) for x in

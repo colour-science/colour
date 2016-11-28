@@ -65,7 +65,7 @@ ADOBE_RGB_1998_WHITEPOINT = ILLUMINANTS.get(
 """
 *Adobe RGB (1998)* colourspace whitepoint.
 
-ADOBE_RGB_1998_WHITEPOINT : tuple
+ADOBE_RGB_1998_WHITEPOINT : ndarray
 """
 
 ADOBE_RGB_1998_TO_XYZ_MATRIX = np.array(

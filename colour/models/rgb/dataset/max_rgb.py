@@ -68,7 +68,7 @@ MAX_RGB_WHITEPOINT = ILLUMINANTS.get(
 """
 *Max RGB* colourspace whitepoint.
 
-MAX_RGB_WHITEPOINT : tuple
+MAX_RGB_WHITEPOINT : ndarray
 """
 
 MAX_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(MAX_RGB_PRIMARIES,

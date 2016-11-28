@@ -68,7 +68,7 @@ XTREME_RGB_WHITEPOINT = ILLUMINANTS.get(
 """
 *Xtreme RGB* colourspace whitepoint.
 
-XTREME_RGB_WHITEPOINT : tuple
+XTREME_RGB_WHITEPOINT : ndarray
 """
 
 XTREME_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(XTREME_RGB_PRIMARIES,
