@@ -74,7 +74,7 @@ sRGB_WHITEPOINT = ILLUMINANTS.get(
 """
 *sRGB* colourspace whitepoint.
 
-sRGB_WHITEPOINT : tuple
+sRGB_WHITEPOINT : ndarray
 """
 
 sRGB_TO_XYZ_MATRIX = np.array(

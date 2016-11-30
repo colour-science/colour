@@ -98,7 +98,7 @@ DCI_P3_WHITEPOINT = ILLUMINANTS.get(
 """
 *DCI-P3* colourspace whitepoint.
 
-DCI_P3_WHITEPOINT : tuple
+DCI_P3_WHITEPOINT : ndarray
 """
 
 DCI_P3_TO_XYZ_MATRIX = normalised_primary_matrix(

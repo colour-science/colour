@@ -70,7 +70,7 @@ NTSC_RGB_WHITEPOINT = ILLUMINANTS.get(
 """
 *NTSC RGB* colourspace whitepoint.
 
-NTSC_RGB_WHITEPOINT : tuple
+NTSC_RGB_WHITEPOINT : ndarray
 """
 
 NTSC_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(NTSC_RGB_PRIMARIES,

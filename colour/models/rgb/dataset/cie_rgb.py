@@ -74,7 +74,7 @@ CIE_RGB_WHITEPOINT = ILLUMINANTS.get(
 """
 *CIE RGB* colourspace whitepoint.
 
-CIE_RGB_WHITEPOINT : tuple
+CIE_RGB_WHITEPOINT : ndarray
 """
 
 CIE_RGB_TO_XYZ_MATRIX = np.array(

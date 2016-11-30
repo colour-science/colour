@@ -100,8 +100,8 @@ def colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
 
     _name, data, illuminant = colour_checker
     colour_parameters = []
-    for _index, label, x, y, Y in data:
-        XYZ = xyY_to_XYZ((x, y, Y))
+    for _index, label, xyY in data:
+        XYZ = xyY_to_XYZ(xyY)
         RGB = XYZ_to_sRGB(XYZ, illuminant)
 
         colour_parameters.append(

@@ -70,7 +70,7 @@ PAL_SECAM_RGB_WHITEPOINT = ILLUMINANTS.get(
 """
 *Pal/Secam RGB* colourspace whitepoint.
 
-PAL_SECAM_RGB_WHITEPOINT : tuple
+PAL_SECAM_RGB_WHITEPOINT : ndarray
 """
 
 PAL_SECAM_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(

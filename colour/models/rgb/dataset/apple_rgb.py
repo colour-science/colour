@@ -68,7 +68,7 @@ APPLE_RGB_WHITEPOINT = ILLUMINANTS.get(
 """
 *Apple RGB* colourspace whitepoint.
 
-APPLE_RGB_WHITEPOINT : tuple
+APPLE_RGB_WHITEPOINT : ndarray
 """
 
 APPLE_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(APPLE_RGB_PRIMARIES,

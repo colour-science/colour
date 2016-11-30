@@ -68,7 +68,7 @@ CINEMA_GAMUT_WHITEPOINT = ILLUMINANTS.get(
 """
 *Cinema Gamut* colourspace whitepoint.
 
-CINEMA_GAMUT_WHITEPOINT : tuple
+CINEMA_GAMUT_WHITEPOINT : ndarray
 """
 
 CINEMA_GAMUT_TO_XYZ_MATRIX = normalised_primary_matrix(CINEMA_GAMUT_PRIMARIES,

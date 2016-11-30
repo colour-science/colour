@@ -68,7 +68,7 @@ BETA_RGB_WHITEPOINT = ILLUMINANTS.get(
 """
 *Beta RGB* colourspace whitepoint.
 
-BETA_RGB_WHITEPOINT : tuple
+BETA_RGB_WHITEPOINT : ndarray
 """
 
 BETA_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(BETA_RGB_PRIMARIES,

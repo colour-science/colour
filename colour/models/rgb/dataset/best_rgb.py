@@ -68,7 +68,7 @@ BEST_RGB_WHITEPOINT = ILLUMINANTS.get(
 """
 *Best RGB* colourspace whitepoint.
 
-BEST_RGB_WHITEPOINT : tuple
+BEST_RGB_WHITEPOINT : ndarray
 """
 
 BEST_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(BEST_RGB_PRIMARIES,

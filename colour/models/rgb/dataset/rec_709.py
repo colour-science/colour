@@ -71,7 +71,7 @@ REC_709_WHITEPOINT = ILLUMINANTS.get(
 """
 *Rec. 709* colourspace whitepoint.
 
-REC_709_WHITEPOINT : tuple
+REC_709_WHITEPOINT : ndarray
 """
 
 REC_709_TO_XYZ_MATRIX = normalised_primary_matrix(

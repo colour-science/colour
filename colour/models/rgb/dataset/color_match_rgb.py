@@ -68,7 +68,7 @@ COLOR_MATCH_RGB_WHITEPOINT = ILLUMINANTS.get(
 """
 *ColorMatch RGB* colourspace whitepoint.
 
-COLOR_MATCH_RGB_WHITEPOINT : tuple
+COLOR_MATCH_RGB_WHITEPOINT : ndarray
 """
 
 COLOR_MATCH_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(

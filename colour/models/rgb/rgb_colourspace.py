@@ -334,6 +334,7 @@ VARICAM_V-Log_V-Gamut.pdf
             assert isinstance(value, (tuple, list, np.ndarray, np.matrix)), (
                 ('"{0}" attribute: "{1}" is not a "tuple", "list", "ndarray" '
                  'or "matrix" instance!').format('whitepoint', value))
+            value = np.asarray(value)
         self._whitepoint = value
 
         self._derive_transformation_matrices()

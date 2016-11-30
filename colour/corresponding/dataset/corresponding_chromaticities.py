@@ -23,6 +23,8 @@ fulltext.cfm?uri=josaa-4-6-1115&id=2783
 
 from __future__ import division, unicode_literals
 
+import numpy as np
+
 from collections import namedtuple
 
 __author__ = 'Colour Developers'
@@ -81,7 +83,13 @@ class BrenemanExperimentResult(
         """
 
         return super(BrenemanExperimentResult, cls).__new__(
-            cls, name, uvp_t, uvp_m, s_uvp, d_uvp_i, d_uvp_g)
+            cls,
+            name,
+            np.array(uvp_t),
+            np.array(uvp_m),
+            np.array(s_uvp),
+            np.array(d_uvp_i),
+            np.array(d_uvp_g))
 
 
 class PrimariesChromaticityCoordinates(
@@ -113,7 +121,13 @@ class PrimariesChromaticityCoordinates(
         """
 
         return super(PrimariesChromaticityCoordinates, cls).__new__(
-            cls, name, uvp_t, uvp_m, s_uvp, d_uvp_i, d_uvp_g)
+            cls,
+            name,
+            np.array(uvp_t),
+            np.array(uvp_m),
+            np.array(s_uvp),
+            np.array(d_uvp_i),
+            np.array(d_uvp_g))
 
 
 BRENEMAN_EXPERIMENT_1_RESULTS = (

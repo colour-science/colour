@@ -92,7 +92,7 @@ S_GAMUT_WHITEPOINT = ILLUMINANTS.get(
 """
 *S-Gamut* colourspace whitepoint.
 
-S_GAMUT_WHITEPOINT : tuple
+S_GAMUT_WHITEPOINT : ndarray
 """
 
 S_GAMUT_TO_XYZ_MATRIX = np.array(
@@ -166,7 +166,7 @@ S_GAMUT3_CINE_WHITEPOINT = S_GAMUT_WHITEPOINT
 """
 *S-Gamut3.Cine* colourspace whitepoint.
 
-S_GAMUT3_CINE_WHITEPOINT : tuple
+S_GAMUT3_CINE_WHITEPOINT : ndarray
 """
 
 S_GAMUT3_CINE_TO_XYZ_MATRIX = np.array(

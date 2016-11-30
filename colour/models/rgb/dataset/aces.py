@@ -130,7 +130,7 @@ ACES_WHITEPOINT = ILLUMINANTS.get(
 """
 *ACES2065-1* colourspace whitepoint.
 
-ACES_WHITEPOINT : tuple
+ACES_WHITEPOINT : ndarray
 """
 
 AP0_TO_XYZ_MATRIX = np.array(

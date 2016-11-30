@@ -1154,7 +1154,7 @@ def xyY_from_renotation(specification):
 
     Returns
     -------
-    tuple
+    ndarray
         *CIE xyY* colourspace vector.
 
     Raises
@@ -1166,7 +1166,7 @@ def xyY_from_renotation(specification):
     Examples
     --------
     >>> xyY_from_renotation((2.5, 0.2, 2.0, 4))  # doctest: +ELLIPSIS
-    (0.71..., 1.41..., 0.23...)
+    array([ 0.71...,  1.41...,  0.23...])
     """
 
     specifications = _munsell_specifications()
@@ -1702,7 +1702,7 @@ def xy_from_renotation_ovoid(specification):
 
     Returns
     -------
-    tuple
+    ndarray
         *xy* chromaticity coordinates.
 
     Raises
@@ -1727,9 +1727,9 @@ def xy_from_renotation_ovoid(specification):
     Examples
     --------
     >>> xy_from_renotation_ovoid((2.5, 5.0, 12.0, 4))  # doctest: +ELLIPSIS
-    (0.4333..., 0.5602...)
-    >>> xy_from_renotation_ovoid(8)
-    (0.31006, 0.31616)
+    array([ 0.4333...,  0.5602...])
+    >>> xy_from_renotation_ovoid(8)  # doctest: +ELLIPSIS
+    array([ 0.31006...,  0.31616...])
     """
 
     if is_grey_munsell_colour(specification):
@@ -1766,7 +1766,7 @@ def xy_from_renotation_ovoid(specification):
                 abs(hue - 10) < threshold):
             hue = 2.5 * round(hue / 2.5)
             x, y, _Y = xyY_from_renotation((hue, value, chroma, code))
-            return x, y
+            return np.array([x, y])
 
         hue_cw, hue_ccw = bounding_hues_from_renotation(hue, code)
         hue_minus, code_minus = hue_cw
@@ -1825,7 +1825,7 @@ def xy_from_renotation_ovoid(specification):
                 'Invalid interpolation method: "{0}"'.format(
                     interpolation_method))
 
-        return x, y
+        return np.array([x, y])
 
 
 def LCHab_to_munsell_specification(LCHab):
@@ -1986,7 +1986,7 @@ def munsell_specification_to_xy(specification):
 
     Returns
     -------
-    tuple
+    ndarray
         *xy* chromaticity coordinates.
 
     Notes
@@ -2006,9 +2006,9 @@ def munsell_specification_to_xy(specification):
     --------
     >>> # Doctests ellipsis for Python 2.x compatibility.
     >>> munsell_specification_to_xy((2.1, 8.0, 17.9, 4))  # doctest: +ELLIPSIS
-    (0.440063..., 0.552242...)
+    array([ 0.440063...,  0.5522428...])
     >>> munsell_specification_to_xy(8)  # doctest: +ELLIPSIS
-    (0.31006..., 0.31616...)
+    array([ 0.31006...,  0.31616...])
     """
 
     if is_grey_munsell_colour(specification):
@@ -2052,4 +2052,4 @@ def munsell_specification_to_xy(specification):
             y = LinearInterpolator((chroma_minus, chroma_plus),
                                    (y_minus, y_plus))(chroma)
 
-        return x, y
+        return np.array([x, y])

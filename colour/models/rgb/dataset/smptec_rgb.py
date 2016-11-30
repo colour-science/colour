@@ -69,7 +69,7 @@ SMPTE_C_RGB_WHITEPOINT = ILLUMINANTS.get(
 """
 *SMPTE-C RGB* colourspace whitepoint.
 
-SMPTE_C_RGB_WHITEPOINT : tuple
+SMPTE_C_RGB_WHITEPOINT : ndarray
 """
 
 SMPTE_C_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(

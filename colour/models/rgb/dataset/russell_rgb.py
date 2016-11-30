@@ -68,7 +68,7 @@ RUSSELL_RGB_WHITEPOINT = ILLUMINANTS.get(
 """
 *Russell RGB* colourspace whitepoint.
 
-RUSSELL_RGB_WHITEPOINT : tuple
+RUSSELL_RGB_WHITEPOINT : ndarray
 """
 
 RUSSELL_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(

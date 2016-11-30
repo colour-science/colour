@@ -71,7 +71,7 @@ REC_2020_WHITEPOINT = ILLUMINANTS.get(
 """
 *Rec. 2020* colourspace whitepoint.
 
-REC_2020_WHITEPOINT : tuple
+REC_2020_WHITEPOINT : ndarray
 """
 
 REC_2020_TO_XYZ_MATRIX = normalised_primary_matrix(REC_2020_PRIMARIES,
