@@ -554,7 +554,7 @@ def XYZ_to_rgb(XYZ):
 def f_n(x):
     """
     Defines the nonlinear response function of the *Hunt* colour appearance
-    model used to model the nonlinear behavior of various visual responses.
+    model used to model the nonlinear behaviour of various visual responses.
 
     Parameters
     ----------

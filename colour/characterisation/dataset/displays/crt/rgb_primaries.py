@@ -8,12 +8,12 @@ CRT Displays RGB Primaries
 Defines *CRT* displays *RGB* primaries tri-spectral power distributions.
 
 Each *CRT* display data is in the form of a *dict* of
-:class:`colour.colorimetry.spectrum.TriSpectralPowerDistribution` classes as
+:class:`colour.characterisation.displays.RGB_DisplayPrimaries` classes as
 follows::
 
-    {'name': TriSpectralPowerDistribution,
+    {'name': RGB_DisplayPrimaries,
     ...,
-    'name': TriSpectralPowerDistribution}
+    'name': RGB_DisplayPrimaries}
 
 The following *CRT* displays are available:
 
