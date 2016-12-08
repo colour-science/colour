@@ -52,16 +52,13 @@ class RGB_DisplayPrimaries(TriSpectralPowerDistribution):
     """
 
     def __init__(self, name, data):
-        TriSpectralPowerDistribution.__init__(self,
-                                              name,
-                                              data,
-                                              mapping={'x': 'red',
-                                                       'y': 'green',
-                                                       'z': 'blue'},
-                                              labels={'x': 'R',
-                                                      'y': 'G',
-                                                      'z': 'B'},
-                                              title=name)
+        TriSpectralPowerDistribution.__init__(
+            self,
+            name,
+            data,
+            mapping={'x': 'red', 'y': 'green', 'z': 'blue'},
+            labels={'x': 'R', 'y': 'G', 'z': 'B'},
+            title=name)
 
     @property
     def red(self):
