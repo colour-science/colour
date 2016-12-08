@@ -15,6 +15,7 @@ from colour.colorimetry import STANDARD_OBSERVERS_CMFS
 from colour.temperature import (
     CCT_to_uv_Ohno2013,
     CCT_to_uv_Robertson1968,
+    CCT_to_uv_Krystek1985,
     uv_to_CCT_Ohno2013,
     uv_to_CCT_Robertson1968,
     CCT_to_xy_Kang2002,
@@ -39,6 +40,7 @@ __all__ = ['TestPlanckianTable',
            'TestCCT_to_uv_Ohno2013',
            'Testuv_to_CCT_Robertson1968',
            'TestCCT_to_uv_Robertson1968',
+           'TestCCT_to_uv_Krystek1985',
            'Testxy_to_CCT_McCamy1992',
            'Testxy_to_CCT_Hernandez1999',
            'TestCCT_to_xy_Kang2002',
@@ -297,6 +299,72 @@ class TestCCT_to_uv_Robertson1968(unittest.TestCase):
                 CCT_to_uv_Robertson1968(*key),
                 value,
                 decimal=7)
+
+
+class TestCCT_to_uv_Krystek1985(unittest.TestCase):
+    """
+    Defines :func:`colour.temperature.cct.CCT_to_uv_Krystek1985` definition
+    units tests methods.
+    """
+
+    def test_CCT_to_uv_Krystek1985(self):
+        """
+        Tests :func:`colour.temperature.cct.CCT_to_uv_Krystek1985` definition.
+        """
+
+        np.testing.assert_almost_equal(
+            CCT_to_uv_Krystek1985(1000),
+            np.array([0.223421163527869, 0.499258998136231]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            CCT_to_uv_Krystek1985(7000),
+            np.array([0.183513095046506, 0.305827773965731]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            CCT_to_uv_Krystek1985(15000),
+            np.array([0.182148234861937, 0.281354360914682]),
+            decimal=7)
+
+    def test_n_dimensional_CCT_to_uv_Krystek1985(self):
+        """
+        Tests :func:`colour.temperature.cct.CCT_to_uv_Krystek1985` definition
+        n-dimensional arrays support.
+        """
+
+        CCT = 7000
+        xy = np.array([0.183513095046506, 0.305827773965731])
+        np.testing.assert_almost_equal(
+            CCT_to_uv_Krystek1985(CCT),
+            xy,
+            decimal=7)
+
+        CCT = np.tile(CCT, 6)
+        xy = np.tile(xy, (6, 1))
+        np.testing.assert_almost_equal(
+            CCT_to_uv_Krystek1985(CCT),
+            xy,
+            decimal=7)
+
+        CCT = np.reshape(CCT, (2, 3))
+        xy = np.reshape(xy, (2, 3, 2))
+        np.testing.assert_almost_equal(
+            CCT_to_uv_Krystek1985(CCT),
+            xy,
+            decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_CCT_to_uv_Krystek1985(self):
+        """
+        Tests :func:`colour.temperature.cct.CCT_to_uv_Krystek1985` definition
+        nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=2))
+        for case in cases:
+            CCT_to_uv_Krystek1985(case)
 
 
 class Testxy_to_CCT_McCamy1992(unittest.TestCase):

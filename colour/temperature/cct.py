@@ -19,6 +19,9 @@ Defines correlated colour temperature :math:`T_{cp}` computations objects:
 -   :func:`CCT_to_uv_Robertson1968`: *CIE UCS* colourspace *uv* chromaticity
     coordinates computation of given correlated colour temperature
     :math:`T_{cp}` and :math:`\Delta_{uv}` using *Robertson (1968)* method.
+-   :func:`CCT_to_uv_Krystek1985`: *CIE UCS* colourspace *uv* chromaticity
+    coordinates computation of given correlated colour temperature
+    :math:`T_{cp}` using *Krystek (1985)* method.
 -   :func:`xy_to_CCT_McCamy1992`: Correlated colour temperature :math:`T_{cp}`
     computation of given *CIE XYZ* tristimulus values *xy* chromaticity
     coordinates using *McCamy (1992)* method.
@@ -58,6 +61,7 @@ from colour.models import UCS_to_uv, XYZ_to_UCS
 from colour.utilities import (
     CaseInsensitiveMapping,
     as_numeric,
+    filter_kwargs,
     tsplit,
     tstack,
     warning)
@@ -83,6 +87,7 @@ __all__ = ['PLANCKIAN_TABLE_TUVD',
            'CCT_to_uv_Ohno2013',
            'uv_to_CCT_Robertson1968',
            'CCT_to_uv_Robertson1968',
+           'CCT_to_uv_Krystek1985',
            'UV_TO_CCT_METHODS',
            'uv_to_CCT',
            'CCT_TO_UV_METHODS',
@@ -604,6 +609,48 @@ def CCT_to_uv_Robertson1968(CCT, D_uv=0):
             return np.array([u, v])
 
 
+def CCT_to_uv_Krystek1985(CCT):
+    """
+    Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
+    correlated colour temperature :math:`T_{cp}` using *Krystek (1985)* method.
+
+    Parameters
+    ----------
+    CCT : numeric
+        Correlated colour temperature :math:`T_{cp}`.
+
+    Returns
+    -------
+    ndarray
+        *CIE UCS* colourspace *uv* chromaticity coordinates.
+
+    Notes
+    -----
+    -   *Krystek (1985)* method computations are valid for correlated colour
+        temperature :math:`T_{cp}` in domain [1000, 15000].
+
+    References
+    ----------
+    .. [9]  Krystek, M. (1985). An algorithm to calculate correlated colour
+            temperature. Color Research & Application, 10(1), 38–40.
+            doi:10.1002/col.5080100109
+
+    Examples
+    --------
+    >>> CCT_to_uv_Krystek1985(6504.38938305)  # doctest: +ELLIPSIS
+    array([ 0.1837669...,  0.3093443...])
+    """
+
+    T = np.asarray(CCT)
+
+    u = ((0.860117757 + 1.54118254 * 10e-4 * T + 1.28641212 * 10e-7 * T ** 2) /
+         (1 + 8.42420235 * 10e-4 * T + 7.08145163 * 10e-7 * T ** 2))
+    v = ((0.317398726 + 4.22806245 * 10e-5 * T + 4.20481691 * 10e-8 * T ** 2) /
+         (1 - 2.89741816 * 10e-5 * T + 1.61456053 * 10e-7 * T ** 2))
+
+    return tstack((u, v))
+
+
 UV_TO_CCT_METHODS = CaseInsensitiveMapping(
     {'Ohno 2013': uv_to_CCT_Ohno2013,
      'Robertson 1968': uv_to_CCT_Robertson1968})
@@ -660,11 +707,6 @@ def uv_to_CCT(uv, method='Ohno 2013', **kwargs):
     ndarray
         Correlated colour temperature :math:`T_{cp}`, :math:`\Delta_{uv}`.
 
-    Raises
-    ------
-    ValueError
-        If the computation method is not defined.
-
     Examples
     --------
     >>> from colour import STANDARD_OBSERVERS_CMFS
@@ -675,28 +717,23 @@ def uv_to_CCT(uv, method='Ohno 2013', **kwargs):
     array([  6.5075128...e+03,   3.2233587...e-03])
     """
 
-    if method == 'Ohno 2013':
-        return UV_TO_CCT_METHODS.get(method)(uv, **kwargs)
-    else:
-        if 'cmfs' in kwargs:
-            if kwargs.get('cmfs').name != (
-                    'CIE 1931 2 Degree Standard Observer'):
-                raise ValueError(
-                    ('"Robertson (1968)" method is only valid for '
-                     '"CIE 1931 2 Degree Standard Observer"!'))
+    function = UV_TO_CCT_METHODS[method]
 
-        return UV_TO_CCT_METHODS.get(method)(uv)
+    filter_kwargs(function, **kwargs)
+
+    return function(uv, **kwargs)
 
 
 CCT_TO_UV_METHODS = CaseInsensitiveMapping(
     {'Ohno 2013': CCT_to_uv_Ohno2013,
-     'Robertson 1968': CCT_to_uv_Robertson1968})
+     'Robertson 1968': CCT_to_uv_Robertson1968,
+     'Krystek 1985': CCT_to_uv_Krystek1985})
 """
 Supported correlated colour temperature :math:`T_{cp}` to *CIE UCS* colourspace
 *uv* chromaticity coordinates computation methods.
 
 CCT_TO_UV_METHODS : CaseInsensitiveMapping
-    **{'Ohno 2013', 'Robertson 1968'}**
+    **{'Ohno 2013', 'Robertson 1968', 'Krystek 1985}**
 
 Aliases:
 
@@ -707,24 +744,24 @@ CCT_TO_UV_METHODS['ohno2013'] = CCT_TO_UV_METHODS['Ohno 2013']
 CCT_TO_UV_METHODS['robertson1968'] = CCT_TO_UV_METHODS['Robertson 1968']
 
 
-def CCT_to_uv(CCT, D_uv=0, method='Ohno 2013', **kwargs):
+def CCT_to_uv(CCT, method='Ohno 2013', **kwargs):
     """
     Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
-    correlated colour temperature :math:`T_{cp}` and :math:`\Delta_{uv}` using
-    given method.
+    correlated colour temperature :math:`T_{cp}` using given method.
 
     Parameters
     ----------
     CCT : numeric
         Correlated colour temperature :math:`T_{cp}`.
-    D_uv : numeric
-        :math:`\Delta_{uv}`.
     method : unicode, optional
-        **{'Ohno 2013', 'Robertson 1968'}**,
+        **{'Ohno 2013', 'Robertson 1968', 'Krystek 1985}**,
         Computation method.
 
     Other Parameters
     ----------------
+    D_uv : numeric
+       {:func:`CCT_to_uv_Ohno2013, CCT_to_uv_Robertson1968`},
+       :math:`\Delta_{uv}`.
     cmfs : XYZ_ColourMatchingFunctions, optional
         {:func:`CCT_to_uv_Ohno2013`},
         Standard observer colour matching functions.
@@ -734,11 +771,6 @@ def CCT_to_uv(CCT, D_uv=0, method='Ohno 2013', **kwargs):
     ndarray
         *CIE UCS* colourspace *uv* chromaticity coordinates.
 
-    Raises
-    ------
-    ValueError
-        If the computation method is not defined.
-
     Examples
     --------
     >>> from colour import STANDARD_OBSERVERS_CMFS
@@ -746,21 +778,15 @@ def CCT_to_uv(CCT, D_uv=0, method='Ohno 2013', **kwargs):
     >>> cmfs = STANDARD_OBSERVERS_CMFS.get(cmfs)
     >>> CCT = 6507.4342201047066
     >>> D_uv = 0.003223690901513
-    >>> CCT_to_uv(CCT, D_uv, cmfs=cmfs)  # doctest: +ELLIPSIS
+    >>> CCT_to_uv(CCT, D_uv=D_uv, cmfs=cmfs)  # doctest: +ELLIPSIS
     array([ 0.1977999...,  0.3122004...])
     """
 
-    if method == 'Ohno 2013':
-        return CCT_TO_UV_METHODS.get(method)(CCT, D_uv, **kwargs)
-    else:
-        if 'cmfs' in kwargs:
-            if kwargs.get('cmfs').name != (
-                    'CIE 1931 2 Degree Standard Observer'):
-                raise ValueError(
-                    ('"Robertson (1968)" method is only valid for '
-                     '"CIE 1931 2 Degree Standard Observer"!'))
+    function = CCT_TO_UV_METHODS[method]
 
-        return CCT_TO_UV_METHODS.get(method)(CCT, D_uv)
+    filter_kwargs(function, **kwargs)
+
+    return function(CCT, **kwargs)
 
 
 def xy_to_CCT_McCamy1992(xy):
@@ -781,7 +807,7 @@ def xy_to_CCT_McCamy1992(xy):
 
     References
     ----------
-    .. [9]  Wikipedia. (n.d.). Approximation. Retrieved June 28, 2014, from
+    .. [10] Wikipedia. (n.d.). Approximation. Retrieved June 28, 2014, from
             http://en.wikipedia.org/wiki/Color_temperature#Approximation
 
     Examples
@@ -817,7 +843,7 @@ def xy_to_CCT_Hernandez1999(xy):
 
     References
     ----------
-    .. [10] Hernández-Andrés, J., Lee, R. L., & Romero, J. (1999).
+    .. [11] Hernández-Andrés, J., Lee, R. L., & Romero, J. (1999).
             Calculating correlated color temperatures across the entire gamut
             of daylight and skylight chromaticities. Applied Optics, 38(27),
             5703–5709. doi:10.1364/AO.38.005703
@@ -872,7 +898,7 @@ def CCT_to_xy_Kang2002(CCT):
 
     References
     ----------
-    .. [11] Kang, B., Moon, O., Hong, C., Lee, H., Cho, B., & Kim, Y. (2002).
+    .. [12] Kang, B., Moon, O., Hong, C., Lee, H., Cho, B., & Kim, Y. (2002).
             Design of advanced color: Temperature control system for HDTV
             applications. Journal of the Korean …, 41(6), 865–871. Retrieved
             from http://cat.inist.fr/?aModele=afficheN&cpsidt=14448733
@@ -943,7 +969,7 @@ def CCT_to_xy_CIE_D(CCT):
 
     References
     ----------
-    .. [12] Wyszecki, G., & Stiles, W. S. (2000). CIE Method of Calculating
+    .. [13] Wyszecki, G., & Stiles, W. S. (2000). CIE Method of Calculating
             D-Illuminants. In Color Science: Concepts and Methods,
             Quantitative Data and Formulae (pp. 145–146). Wiley.
             ISBN:978-0471399186
