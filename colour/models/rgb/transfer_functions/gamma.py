@@ -64,6 +64,11 @@ def gamma_function(a,
     numeric or ndarray
         Encoded / decoded array.
 
+    Raises
+    ------
+    ValueError
+        If the negative number handling method is not defined.
+
     Examples
     --------
     >>> gamma_function(0.18, 2.2)  # doctest: +ELLIPSIS
@@ -92,3 +97,7 @@ def gamma_function(a,
         return as_numeric(np.where(a < 0, a, a ** exponent))
     elif negative_number_handling == 'clamp':
         return as_numeric(np.where(a < 0, 0, a ** exponent))
+    else:
+        raise ValueError(
+            'Undefined negative number handling method: "{0}".'.format(
+                negative_number_handling))
