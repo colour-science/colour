@@ -51,6 +51,30 @@ gamma_function` definition.
             0.18,
             places=7)
 
+        self.assertAlmostEqual(
+            gamma_function(-0.18, 2.0),
+            0.0323999999999998,
+            places=7)
+
+        np.testing.assert_array_equal(
+            gamma_function(-0.18, 2.2),
+            np.nan)
+
+        self.assertAlmostEqual(
+            gamma_function(-0.18, 2.2, 'Mirror'),
+            -0.022993204992707,
+            places=7)
+
+        self.assertAlmostEqual(
+            gamma_function(-0.18, 2.2, 'Preserve'),
+            -0.18,
+            places=7)
+
+        self.assertAlmostEqual(
+            gamma_function(-0.18, 2.2, 'Clamp'),
+            0,
+            places=7)
+
     def test_n_dimensional_gamma_function(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.gamma.\
