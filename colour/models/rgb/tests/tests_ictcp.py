@@ -11,7 +11,7 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.models import XYZ_to_ICTPT, ICTPT_to_XYZ, ICTPT_hue_angle
+from colour.models.rgb import RGB_to_ICTCP, ICTCP_to_RGB
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -21,141 +21,150 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestXYZ_to_ICTPT',
-           'TestICTPT_to_XYZ',
-           'TestICTPTHueAngle']
+__all__ = ['TestRGB_to_ICTCP',
+           'TestICTCP_to_RGB']
 
 
-class TestXYZ_to_ICTPT(unittest.TestCase):
+class TestRGB_to_ICTCP(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.ictpt.TestXYZ_to_ICTPT` definition unit tests
-    methods.
+    Defines :func:`colour.models.rgb.ictpt.TestRGB_to_ICTCP` definition unit
+    tests methods.
     """
 
-    def test_XYZ_to_ICTPT(self):
+    def test_RGB_to_ICTCP(self):
         """
-        Tests :func:`colour.models.rgb.ictpt.XYZ_to_ICTPT` definition.
-        """
-
-        np.testing.assert_almost_equal(
-            XYZ_to_ICTPT(np.array([0.07049534, 0.10080000, 0.09558313])),
-            np.array([0.36571124, -0.11114798, 0.01594746]),
-            decimal=7)
-
-        np.testing.assert_almost_equal(
-            XYZ_to_ICTPT(np.array([0.47097710, 0.34950000, 0.11301649])),
-            np.array([0.59168030, 0.34150712, 0.33282621]),
-            decimal=7)
-
-        np.testing.assert_almost_equal(
-            XYZ_to_ICTPT(np.array([0.25506814, 0.19150000, 0.08849752])),
-            np.array([0.46626813, 0.25471184, 0.19904068]),
-            decimal=7)
-
-    def test_n_dimensional_XYZ_to_ICTPT(self):
-        """
-        Tests :func:`colour.models.rgb.ictpt.XYZ_to_ICTPT` definition n-dimensions
-        support.
+        Tests :func:`colour.models.rgb.ictpt.RGB_to_ICTCP` definition.
         """
 
-        XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
-        ICTPT = np.array([0.36571124, -0.11114798, 0.01594746])
         np.testing.assert_almost_equal(
-            XYZ_to_ICTPT(XYZ),
-            ICTPT,
+            RGB_to_ICTCP(np.array([0.35181454, 0.26934757, 0.21288023])),
+            np.array([0.09554079, -0.00890639, 0.01389286]),
             decimal=7)
 
-        XYZ = np.tile(XYZ, (6, 1))
-        ICTPT = np.tile(ICTPT, (6, 1))
         np.testing.assert_almost_equal(
-            XYZ_to_ICTPT(XYZ),
-            ICTPT,
+            RGB_to_ICTCP(
+                np.array([0.35181454, 0.26934757, 0.21288023]),
+                4000),
+            np.array([0.13385341, -0.01151831, 0.01780776]),
             decimal=7)
 
-        XYZ = np.reshape(XYZ, (2, 3, 3))
-        ICTPT = np.reshape(ICTPT, (2, 3, 3))
         np.testing.assert_almost_equal(
-            XYZ_to_ICTPT(XYZ),
-            ICTPT,
+            RGB_to_ICTCP(
+                np.array([0.35181454, 0.26934757, 0.21288023]),
+                1000),
+            np.array([0.21071460, -0.01586417, 0.02421400]),
+            decimal=7)
+
+    def test_n_dimensional_RGB_to_ICTCP(self):
+        """
+        Tests :func:`colour.models.rgb.ictpt.RGB_to_ICTCP` definition
+        n-dimensions support.
+        """
+
+        RGB = np.array([0.35181454, 0.26934757, 0.21288023])
+        ICTCP = np.array([0.09554079, -0.00890639, 0.01389286])
+        np.testing.assert_almost_equal(
+            RGB_to_ICTCP(RGB),
+            ICTCP,
+            decimal=7)
+
+        RGB = np.tile(RGB, (6, 1))
+        ICTCP = np.tile(ICTCP, (6, 1))
+        np.testing.assert_almost_equal(
+            RGB_to_ICTCP(RGB),
+            ICTCP,
+            decimal=7)
+
+        RGB = np.reshape(RGB, (2, 3, 3))
+        ICTCP = np.reshape(ICTCP, (2, 3, 3))
+        np.testing.assert_almost_equal(
+            RGB_to_ICTCP(RGB),
+            ICTCP,
             decimal=7)
 
     @ignore_numpy_errors
-    def test_nan_XYZ_to_ICTPT(self):
+    def test_nan_RGB_to_ICTCP(self):
         """
-        Tests :func:`colour.models.rgb.ictpt.XYZ_to_ICTPT` definition nan support.
+        Tests :func:`colour.models.rgb.ictpt.RGB_to_ICTCP` definition nan
+        support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))
         for case in cases:
-            XYZ = np.array(case)
-            XYZ_to_ICTPT(XYZ)
+            RGB = np.array(case)
+            RGB_to_ICTCP(RGB)
 
 
-class TestICTPT_to_XYZ(unittest.TestCase):
+class TestICTCP_to_RGB(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.ictpt.ICTPT_to_XYZ` definition unit tests
+    Defines :func:`colour.models.rgb.ictpt.ICTCP_to_RGB` definition unit tests
     methods.
     """
 
-    def test_ICTPT_to_XYZ(self):
+    def test_ICTCP_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.ictpt.ICTPT_to_XYZ` definition.
-        """
-
-        np.testing.assert_almost_equal(
-            ICTPT_to_XYZ(np.array([1.00300825, 0.01906918, -0.01369292])),
-            np.array([0.96907232, 1.00000000, 1.12179215]),
-            decimal=7)
-
-        np.testing.assert_almost_equal(
-            ICTPT_to_XYZ(np.array([0.73974548, 0.95333412, 1.71951212])),
-            np.array([1.92001986, 1.00000000, -0.12413470]),
-            decimal=7)
-
-        np.testing.assert_almost_equal(
-            ICTPT_to_XYZ(np.array([1.06406598, -0.08075812, -0.39625384])),
-            np.array([1.01316770, 1.00000000, 2.11217686]),
-            decimal=7)
-
-    def test_n_dimensional_ICTPT_to_XYZ(self):
-        """
-        Tests :func:`colour.models.rgb.ictpt.ICTPT_to_XYZ` definition n-dimensions
-        support.
+        Tests :func:`colour.models.rgb.ictpt.ICTCP_to_RGB` definition.
         """
 
-        ICTPT = np.array([0.36571124, -0.11114798, 0.01594746])
-        XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
         np.testing.assert_almost_equal(
-            ICTPT_to_XYZ(ICTPT),
-            XYZ,
+            ICTCP_to_RGB(np.array([0.09554079, -0.00890639, 0.01389286])),
+            np.array([0.35181454, 0.26934757, 0.21288023]),
             decimal=7)
 
-        ICTPT = np.tile(ICTPT, (6, 1))
-        XYZ = np.tile(XYZ, (6, 1))
         np.testing.assert_almost_equal(
-            ICTPT_to_XYZ(ICTPT),
-            XYZ,
+            ICTCP_to_RGB(
+                np.array([0.13385341, -0.01151831, 0.01780776]),
+                4000),
+            np.array([0.35181454, 0.26934757, 0.21288023]),
             decimal=7)
 
-        ICTPT = np.reshape(ICTPT, (2, 3, 3))
-        XYZ = np.reshape(XYZ, (2, 3, 3))
         np.testing.assert_almost_equal(
-            ICTPT_to_XYZ(ICTPT),
-            XYZ,
+            ICTCP_to_RGB(
+                np.array([0.21071460, -0.01586417, 0.02421400]),
+                1000),
+            np.array([0.35181454, 0.26934757, 0.21288023]),
+            decimal=7)
+
+    def test_n_dimensional_ICTCP_to_RGB(self):
+        """
+        Tests :func:`colour.models.rgb.ictpt.ICTCP_to_RGB` definition
+        n-dimensions support.
+        """
+
+        ICTCP = np.array([0.09554079, -0.00890639, 0.01389286])
+        RGB = np.array([0.35181454, 0.26934757, 0.21288023])
+        np.testing.assert_almost_equal(
+            ICTCP_to_RGB(ICTCP),
+            RGB,
+            decimal=7)
+
+        ICTCP = np.tile(ICTCP, (6, 1))
+        RGB = np.tile(RGB, (6, 1))
+        np.testing.assert_almost_equal(
+            ICTCP_to_RGB(ICTCP),
+            RGB,
+            decimal=7)
+
+        ICTCP = np.reshape(ICTCP, (2, 3, 3))
+        RGB = np.reshape(RGB, (2, 3, 3))
+        np.testing.assert_almost_equal(
+            ICTCP_to_RGB(ICTCP),
+            RGB,
             decimal=7)
 
     @ignore_numpy_errors
-    def test_nan_ICTPT_to_XYZ(self):
+    def test_nan_ICTCP_to_RGB(self):
         """
-        Tests :func:`colour.models.rgb.ictpt.ICTPT_to_XYZ` definition nan support.
+        Tests :func:`colour.models.rgb.ictpt.ICTCP_to_RGB` definition nan
+        support.
         """
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))
         for case in cases:
-            ICTPT = np.array(case)
-            ICTPT_to_XYZ(ICTPT)
+            ICTCP = np.array(case)
+            ICTCP_to_RGB(ICTCP)
 
 
 if __name__ == '__main__':

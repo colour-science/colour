@@ -2,29 +2,31 @@
 # -*- coding: utf-8 -*-
 
 """
-IPT Colourspace
-===============
+:math:`IC_TC_P` Colour Encoding
+===============================
 
-Defines the *IPT* colourspace transformations:
+Defines the :math:`IC_TC_P` colour encoding related transformations:
 
--   :func:`XYZ_to_IPT`
--   :func:`IPT_to_XYZ`
-
-And computation of correlates:
-
--   :func:`IPT_hue_angle`
+-   :func:`RGB_to_ICTCP`
+-   :func:`ICTCP_to_RGB`
 
 References
 ----------
-.. [1]  Fairchild, M. D. (2013). IPT Colourspace. In Color Appearance Models
-        (3rd ed., pp. 8492–8567). Wiley. ISBN:B00DAYO8E2
+.. [1]  Dolby. (2016). WHAT IS ICTCP? - INTRODUCTION. Retrieved from
+        https://www.dolby.com/us/en/technologies/dolby-vision/
+ICtCp-white-paper.pdf
+.. [2]  Lu, T., Pu, F., Yin, P., Chen, T., Husak, W., Pytlarz, J., … Su, G.-M.
+        (2016). ICTCP Colour Space and Its Compression Performance for High
+        Dynamic Range and Wide Colour Gamut Video Distribution. ZTE
+        Communications, 14(1), 32–38. doi:10.3969/j.
 """
 
 from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import dot_vector, tsplit
+from colour.models.rgb.transfer_functions import oetf_ST2084, eotf_ST2084
+from colour.utilities import dot_vector
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
@@ -33,135 +35,108 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['IPT_XYZ_TO_LMS_MATRIX',
-           'IPT_LMS_TO_XYZ_MATRIX',
-           'IPT_LMS_TO_IPT_MATRIX',
-           'IPT_IPT_TO_LMS_MATRIX',
-           'XYZ_to_IPT',
-           'IPT_to_XYZ',
-           'IPT_hue_angle']
+__all__ = ['ICTCP_RGB_TO_LMS_MATRIX',
+           'ICTCP_LMS_TO_RGB_MATRIX',
+           'ICTCP_LMS_P_TO_ICTCP_MATRIX',
+           'ICTCP_ICTCP_TO_LMS_P_MATRIX',
+           'RGB_to_ICTCP',
+           'ICTCP_to_RGB']
 
-IPT_XYZ_TO_LMS_MATRIX = np.array([
-    [0.4002, 0.7075, -0.0807],
-    [-0.2280, 1.1500, 0.0612],
-    [0.0000, 0.0000, 0.9184]])
+ICTCP_RGB_TO_LMS_MATRIX = np.array([
+    [1688, 2146, 262],
+    [683, 2951, 462],
+    [99, 309, 3688]]) / 4096
 """
-*CIE XYZ* tristimulus values to *IPT* colourspace normalised cone responses
-matrix.
+*Rec. 2020* colourspace to normalised cone responses matrix.
 
-IPT_XYZ_TO_LMS_MATRIX : array_like, (3, 3)
+ICTCP_RGB_TO_LMS_MATRIX : array_like, (3, 3)
 """
 
-IPT_LMS_TO_XYZ_MATRIX = np.linalg.inv(IPT_XYZ_TO_LMS_MATRIX)
+ICTCP_LMS_TO_RGB_MATRIX = np.linalg.inv(ICTCP_RGB_TO_LMS_MATRIX)
 """
-*IPT* colourspace normalised cone responses to *CIE XYZ* tristimulus values
-matrix.
+:math:`IC_TC_P` colourspace normalised cone responses to *Rec. 2020*
+colourspace matrix.
 
-IPT_LMS_TO_XYZ_MATRIX : array_like, (3, 3)
-"""
-
-IPT_LMS_TO_IPT_MATRIX = np.array([
-    [0.4000, 0.4000, 0.2000],
-    [4.4550, -4.8510, 0.3960],
-    [0.8056, 0.3572, -1.1628]])
-"""
-*IPT* colourspace normalised cone responses to *IPT* colourspace matrix.
-
-IPT_LMS_TO_IPT_MATRIX : array_like, (3, 3)
+ICTCP_LMS_TO_RGB_MATRIX : array_like, (3, 3)
 """
 
-IPT_IPT_TO_LMS_MATRIX = np.linalg.inv(IPT_LMS_TO_IPT_MATRIX)
+ICTCP_LMS_P_TO_ICTCP_MATRIX = np.array([
+    [2048, 2048, 0],
+    [6610, -13613, 7003],
+    [17933, -17390, -543]]) / 4096
 """
-*IPT* colourspace to *IPT* colourspace normalised cone responses matrix.
+:math:`LMS_p` *SMPTE ST 2084:2014* encoded normalised cone responses to
+:math:`IC_TC_P` colour encoding matrix.
 
-IPT_IPT_TO_LMS_MATRIX : array_like, (3, 3)
+ICTCP_LMS_P_TO_ICTCP_MATRIX : array_like, (3, 3)
+"""
+
+ICTCP_ICTCP_TO_LMS_P_MATRIX = np.linalg.inv(ICTCP_LMS_P_TO_ICTCP_MATRIX)
+"""
+:math:`IC_TC_P` colour encoding to :math:`LMS_p` *SMPTE ST 2084:2014* encoded
+normalised cone responses matrix.
+
+ICTCP_ICTCP_TO_LMS_P_MATRIX : array_like, (3, 3)
 """
 
 
-def XYZ_to_IPT(XYZ):
+def RGB_to_ICTCP(RGB, L_p=10000):
     """
-    Converts from *CIE XYZ* tristimulus values to *IPT* colourspace.
+    Converts from *Rec. 2020* colourspace to :math:`IC_TC_P` colour encoding.
 
     Parameters
     ----------
-    XYZ : array_like
-        *CIE XYZ* tristimulus values.
+    RGB : array_like
+        *Rec. 2020* colourspace array.
+    L_p : numeric, optional
+        Display peak luminance :math:`cd/m^2` for *SMPTE ST 2084:2014*
+        non-linear encoding.
 
     Returns
     -------
     ndarray
-        *IPT* colourspace array.
-
-    Notes
-    -----
-    -   Input *CIE XYZ* tristimulus values needs to be adapted for
-        *CIE Standard Illuminant D Series* *D65*.
+        :math:`IC_TC_P` colour encoding array.
 
     Examples
     --------
-    >>> XYZ = np.array([0.96907232, 1, 1.12179215])
-    >>> XYZ_to_IPT(XYZ)  # doctest: +ELLIPSIS
-    array([ 1.0030082...,  0.0190691..., -0.0136929...])
+    >>> RGB = np.array([0.35181454, 0.26934757, 0.21288023])
+    >>> RGB_to_ICTCP(RGB)  # doctest: +ELLIPSIS
+    array([ 0.0955407..., -0.0089063...,  0.0138928...])
     """
 
-    LMS = dot_vector(IPT_XYZ_TO_LMS_MATRIX, XYZ)
-    LMS_prime = np.sign(LMS) * np.abs(LMS) ** 0.43
-    IPT = dot_vector(IPT_LMS_TO_IPT_MATRIX, LMS_prime)
+    LMS = dot_vector(ICTCP_RGB_TO_LMS_MATRIX, RGB)
+    LMS_p = oetf_ST2084(LMS, L_p)
+    ICTCP = dot_vector(ICTCP_LMS_P_TO_ICTCP_MATRIX, LMS_p)
 
-    return IPT
+    return ICTCP
 
 
-def IPT_to_XYZ(IPT):
+def ICTCP_to_RGB(ICTCP, L_p=10000):
     """
-    Converts from *IPT* colourspace to *CIE XYZ* tristimulus values.
+    Converts from :math:`IC_TC_P` colour encoding to *Rec. 2020* colourspace.
 
     Parameters
     ----------
-    IPT : array_like
-        *IPT* colourspace array.
+    ICTCP : array_like
+        :math:`IC_TC_P` colour encoding array.
+    L_p : numeric, optional
+        Display peak luminance :math:`cd/m^2` for *SMPTE ST 2084:2014*
+        non-linear encoding.
 
     Returns
     -------
     ndarray
-        *CIE XYZ* tristimulus values.
+        *Rec. 2020* colourspace array.
 
     Examples
     --------
-    >>> IPT = np.array([1.00300825, 0.01906918, -0.01369292])
-    >>> IPT_to_XYZ(IPT)  # doctest: +ELLIPSIS
-    array([ 0.9690723...,  1.        ,  1.1217921...])
+    >>> ICTCP = np.array([0.09554079, -0.00890639, 0.01389286])
+    >>> ICTCP_to_RGB(ICTCP)  # doctest: +ELLIPSIS
+    array([ 0.3518145...,  0.2693475...,  0.2128802...])
     """
 
-    LMS = dot_vector(IPT_IPT_TO_LMS_MATRIX, IPT)
-    LMS_prime = np.sign(LMS) * np.abs(LMS) ** (1 / 0.43)
-    XYZ = dot_vector(IPT_LMS_TO_XYZ_MATRIX, LMS_prime)
+    LMS_p = dot_vector(ICTCP_ICTCP_TO_LMS_P_MATRIX, ICTCP)
+    LMS = eotf_ST2084(LMS_p, L_p)
+    RGB = dot_vector(ICTCP_LMS_TO_RGB_MATRIX, LMS)
 
-    return XYZ
-
-
-def IPT_hue_angle(IPT):
-    """
-    Computes the hue angle in degrees from *IPT* colourspace.
-
-    Parameters
-    ----------
-    IPT : array_like
-        *IPT* colourspace array.
-
-    Returns
-    -------
-    numeric or ndarray
-        Hue angle in degrees.
-
-    Examples
-    --------
-    >>> IPT = np.array([0.96907232, 1, 1.12179215])
-    >>> IPT_hue_angle(IPT)  # doctest: +ELLIPSIS
-    48.2852074...
-    """
-
-    _I, P, T = tsplit(IPT)
-
-    hue = np.degrees(np.arctan2(T, P)) % 360
-
-    return hue
+    return RGB
