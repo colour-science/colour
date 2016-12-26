@@ -45,6 +45,11 @@ log_encoding_CanonLog` definition.
         """
 
         self.assertAlmostEqual(
+            log_encoding_CanonLog(-0.1),
+            -0.088052640318143,
+            places=7)
+
+        self.assertAlmostEqual(
             log_encoding_CanonLog(0.0),
             0.073059700000000,
             places=7)
@@ -115,6 +120,11 @@ log_decoding_CanonLog` definition unit tests methods.
         Tests :func:`colour.models.rgb.transfer_functions.canon_log.\
 log_decoding_CanonLog` definition.
         """
+
+        self.assertAlmostEqual(
+            log_decoding_CanonLog(-0.088052640318143),
+            -0.1,
+            places=7)
 
         self.assertAlmostEqual(
             log_decoding_CanonLog(0.073059700000000),
@@ -189,6 +199,11 @@ log_encoding_CanonLog2` definition.
         """
 
         self.assertAlmostEqual(
+            log_encoding_CanonLog2(-0.1),
+            -0.242871750266172,
+            places=7)
+
+        self.assertAlmostEqual(
             log_encoding_CanonLog2(0.0),
             0.035388127999999,
             places=7)
@@ -259,6 +274,11 @@ log_decoding_CanonLog2` definition unit tests methods.
         Tests :func:`colour.models.rgb.transfer_functions.canon_log.\
 log_decoding_CanonLog2` definition.
         """
+
+        self.assertAlmostEqual(
+            log_decoding_CanonLog2(-0.242871750266172),
+            -0.1,
+            places=7)
 
         self.assertAlmostEqual(
             log_decoding_CanonLog2(0.035388127999999),
@@ -333,6 +353,11 @@ log_encoding_CanonLog3` definition.
         """
 
         self.assertAlmostEqual(
+            log_encoding_CanonLog3(-0.1),
+            -0.100664645796433,
+            places=7)
+
+        self.assertAlmostEqual(
             log_encoding_CanonLog3(0.0),
             0.073059361000000,
             places=7)
@@ -403,6 +428,11 @@ log_decoding_CanonLog3` definition unit tests methods.
         Tests :func:`colour.models.rgb.transfer_functions.canon_log.\
 log_decoding_CanonLog3` definition.
         """
+
+        self.assertAlmostEqual(
+            log_decoding_CanonLog3(-0.100664645796433),
+            -0.1,
+            places=7)
 
         self.assertAlmostEqual(
             log_decoding_CanonLog3(0.073059361000000),

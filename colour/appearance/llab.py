@@ -402,7 +402,7 @@ def chromatic_adaptation(RGB, RGB_0, RGB_0r, Y, D=1):
 def f(x, F_S):
     """
     Defines the nonlinear response function of the *LLAB(l:c)* colour
-    appearance model used to model the nonlinear behavior of various visual
+    appearance model used to model the nonlinear behaviour of various visual
     responses.
 
     Parameters

@@ -6,7 +6,7 @@ RGB Displays
 ============
 
 Defines spectral power distributions classes for the dataset from
-:mod:`colour.characterisation.dataset.displays`:
+:mod:`colour.characterisation.dataset.displays` module:
 
 -   :class:`RGB_DisplayPrimaries`: Implements support for a *RGB* display (such
     as a *CRT* or *LCD*) primaries tri-spectral power distributions.
@@ -52,16 +52,13 @@ class RGB_DisplayPrimaries(TriSpectralPowerDistribution):
     """
 
     def __init__(self, name, data):
-        TriSpectralPowerDistribution.__init__(self,
-                                              name,
-                                              data,
-                                              mapping={'x': 'red',
-                                                       'y': 'green',
-                                                       'z': 'blue'},
-                                              labels={'x': 'R',
-                                                      'y': 'G',
-                                                      'z': 'B'},
-                                              title=name)
+        TriSpectralPowerDistribution.__init__(
+            self,
+            name,
+            data,
+            mapping={'x': 'red', 'y': 'green', 'z': 'blue'},
+            labels={'x': 'R', 'y': 'G', 'z': 'B'},
+            title=name)
 
     @property
     def red(self):

@@ -480,13 +480,13 @@ def uv_to_CCT_Robertson1968(uv):
 
     u, v = uv
 
-    last_dt = last_dv = last_du = 0.0
+    last_dt = last_dv = last_du = 0
 
     for i in range(1, 31):
         wr_ruvt = ROBERTSON_ISOTEMPERATURE_LINES[i]
         wr_ruvt_previous = ROBERTSON_ISOTEMPERATURE_LINES[i - 1]
 
-        du = 1.0
+        du = 1
         dv = wr_ruvt.t
 
         length = np.hypot(1, dv)
@@ -500,15 +500,12 @@ def uv_to_CCT_Robertson1968(uv):
         dt = -uu * dv + vv * du
 
         if dt <= 0 or i == 30:
-            if dt > 0.0:
-                dt = 0.0
+            if dt > 0:
+                dt = 0
 
             dt = -dt
 
-            if i == 1:
-                f = 0.0
-            else:
-                f = dt / (last_dt + dt)
+            f = 0 if i == 1 else dt / (last_dt + dt)
 
             T = 1.0e6 / (wr_ruvt_previous.r * f + wr_ruvt.r * (1 - f))
 
