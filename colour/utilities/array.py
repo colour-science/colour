@@ -168,10 +168,10 @@ def interval(distribution):
     array([1, 4])
     """
 
-    distribution = sorted(distribution)
+    distribution = np.sort(distribution)
+    i = np.arange(distribution.size - 1)
 
-    return np.unique([distribution[i + 1] - distribution[i]
-                      for i in range(len(distribution) - 1)])
+    return np.unique(distribution[i + 1] - distribution[i])
 
 
 def is_uniform(distribution):
@@ -203,7 +203,7 @@ def is_uniform(distribution):
     False
     """
 
-    return True if len(interval(distribution)) == 1 else False
+    return True if interval(distribution).size == 1 else False
 
 
 def in_array(a, b, tolerance=EPSILON):

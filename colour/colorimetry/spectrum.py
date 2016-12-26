@@ -39,6 +39,7 @@ from colour.utilities import (
     is_string,
     is_uniform,
     interval,
+    tsplit,
     tstack,
     warning)
 
@@ -899,9 +900,11 @@ class SpectralPowerDistribution(object):
         SpectralShape(512.3, 545.7, 7...)
         """
 
-        return SpectralShape(min(self.data.keys()),
-                             max(self.data.keys()),
-                             min(interval(self.wavelengths)))
+        wavelengths = self.wavelengths
+
+        return SpectralShape(min(wavelengths),
+                             max(wavelengths),
+                             min(interval(wavelengths)))
 
     @shape.setter
     def shape(self, value):
@@ -1119,7 +1122,7 @@ class SpectralPowerDistribution(object):
         >>> spd = SpectralPowerDistribution('Sample', data)
         >>> # Doctests ellipsis for Python 2.x compatibility.
         >>> for wavelength, value in spd:  # doctest: +SKIP
-        ...     print((wavelength, value))
+        ...     print(wavelength, value)
         (510, 49.6...)
         (520, 69.5...)
         (530, 81.7...)
@@ -1945,7 +1948,7 @@ class SpectralPowerDistribution(object):
         shape.start = max(shape.start, np.ceil(spd_shape.start))
         shape.end = min(shape.end, np.floor(spd_shape.end))
 
-        wavelengths, values = self.wavelengths, self.values
+        wavelengths, values = tsplit(list(self.items))
         uniform = self.is_uniform()
 
         if is_string(method):
@@ -1974,9 +1977,10 @@ class SpectralPowerDistribution(object):
                 'Undefined "{0}" interpolator!'.format(method))
 
         interpolator = interpolator(wavelengths, values)
+        wavelengths = shape.range()
+
         self._data = SpectralMapping(
-            [(wavelength, np.float_(interpolator(wavelength)))
-             for wavelength in shape])
+            zip(wavelengths, interpolator(wavelengths)))
 
         return self
 
@@ -3004,7 +3008,7 @@ class TriSpectralPowerDistribution(object):
         >>> tri_spd = TriSpectralPowerDistribution('Observer', data, mapping)
         >>> # Doctests skip for Python 2.x compatibility.
         >>> for wavelength, value in tri_spd:  # doctest: +SKIP
-        ...     print((wavelength, value))
+        ...     print(wavelength, value)
         (510, array([ 49.67,  90.56,  12.43]))
         (520, array([ 69.59,  87.34,  23.15]))
         (530, array([ 81.73,  45.76,  67.98]))
