@@ -938,7 +938,7 @@ def wavelength_to_XYZ(wavelength,
 
         XYZ = np.dstack([i(np.ravel(wavelength)) for i in interpolators])
     else:
-        XYZ = cmfs.get(wavelength)
+        XYZ = cmfs[wavelength]
 
     XYZ = np.reshape(XYZ, np.asarray(wavelength).shape + (3,))
 

@@ -21,7 +21,6 @@ blob/master/notebooks/colorimetry/spectrum.ipynb>`_
 
 from __future__ import division, unicode_literals
 
-import copy
 import numpy as np
 import operator
 import pprint
@@ -2219,7 +2218,8 @@ class SpectralPowerDistribution(object):
         SpectralPowerDistribution('Sample (...)', (510..., 540..., 10...))
         """
 
-        clone = copy.deepcopy(self)
+        clone = SpectralPowerDistribution(
+            self.name, self.data.data, self.title)
 
         clone.name = '{0} ({1})'.format(clone.name, id(clone))
 
@@ -2429,30 +2429,28 @@ class TriSpectralPowerDistribution(object):
                 '"{0}" attribute: "{1}" is not a "dict" instance!'.format(
                     'data', value))
             for axis in ('x', 'y', 'z'):
-                assert self._mapping.get(axis) in value.keys(), (
+                assert self._mapping[axis] in value.keys(), (
                     '"{0}" attribute: "{1}" axis is missing!'.format(
                         'data', axis))
 
             data = {}
             for axis in ('x', 'y', 'z'):
                 data[axis] = SpectralPowerDistribution(
-                    self._mapping.get(axis),
-                    value.get(self._mapping.get(axis)))
+                    self._mapping[axis],
+                    value[self._mapping[axis]])
 
             np.testing.assert_almost_equal(
                 data['x'].wavelengths,
                 data['y'].wavelengths,
                 err_msg=('"{0}" attribute: "{1}" and "{2}" wavelengths are '
-                         'different!').format('data',
-                                              self._mapping.get('x'),
-                                              self._mapping.get('y')))
+                         'different!').format(
+                    'data', self._mapping['x'], self._mapping['y']))
             np.testing.assert_almost_equal(
                 data['x'].wavelengths,
                 data['z'].wavelengths,
                 err_msg=('"{0}" attribute: "{1}" and "{2}" wavelengths are '
-                         'different!').format('data',
-                                              self._mapping.get('x'),
-                                              self._mapping.get('z')))
+                         'different!').format(
+                    'data', self._mapping['x'], self._mapping['z']))
 
             self._data = data
         else:
@@ -2543,7 +2541,7 @@ class TriSpectralPowerDistribution(object):
         :attr:`TriSpectralPowerDistribution.x` is read only.
         """
 
-        return self._data.get('x')
+        return self._data['x']
 
     @x.setter
     def x(self, value):
@@ -2573,7 +2571,7 @@ class TriSpectralPowerDistribution(object):
         :attr:`TriSpectralPowerDistribution.y` is read only.
         """
 
-        return self._data.get('y')
+        return self._data['y']
 
     @y.setter
     def y(self, value):
@@ -2603,7 +2601,7 @@ class TriSpectralPowerDistribution(object):
         :attr:`TriSpectralPowerDistribution.z` is read only.
         """
 
-        return self._data.get('z')
+        return self._data['z']
 
     @z.setter
     def z(self, value):
@@ -2864,9 +2862,9 @@ class TriSpectralPowerDistribution(object):
         See :meth:`SpectralPowerDistribution.__hash__` method warning section.
         """
 
-        return hash((frozenset(self._data.get('x')),
-                     frozenset(self._data.get('y')),
-                     frozenset(self._data.get('z'))))
+        return hash((frozenset(self._data['x']),
+                     frozenset(self._data['y']),
+                     frozenset(self._data['z'])))
 
     def __getitem__(self, wavelength):
         """
@@ -4361,7 +4359,13 @@ class TriSpectralPowerDistribution(object):
         TriSpectralPowerDistribution('Observer (...)', (510..., 560..., 10...))
         """
 
-        clone = copy.deepcopy(self)
+        data = {self.mapping['x']: self.x.data.data,
+                self.mapping['y']: self.y.data.data,
+                self.mapping['z']: self.z.data.data}
+        mapping = self.mapping.copy()
+        labels = self.labels.copy()
+        clone = TriSpectralPowerDistribution(
+            self.name, data, mapping, self.title, labels)
 
         clone.name = '{0} ({1})'.format(clone.name, id(clone))
 
