@@ -178,11 +178,6 @@ class ArbitraryPrecisionMapping(MutableMapping):
         value : object
             Value.
 
-        Returns
-        -------
-        object
-            Item value (rounded if numeric).
-
         Notes
         -----
         -   Reimplements the :meth:`MutableMapping.__setitem__` method.
