@@ -479,10 +479,10 @@ def spectral_to_XYZ_integration(
 
 
 def spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
-    spd,
-    cmfs=STANDARD_OBSERVERS_CMFS.get(
-        'CIE 1931 2 Degree Standard Observer'),
-    illuminant=ones_spd(ASTME30815_PRACTISE_SHAPE)):
+        spd,
+        cmfs=STANDARD_OBSERVERS_CMFS.get(
+            'CIE 1931 2 Degree Standard Observer'),
+        illuminant=ones_spd(ASTME30815_PRACTISE_SHAPE)):
     """
     Converts given spectral power distribution to *CIE XYZ* tristimulus values
     using given colour matching functions and illuminant using a table

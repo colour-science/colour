@@ -2085,7 +2085,8 @@ class SpectralPowerDistribution(object):
         ...     550: 86.26,
         ...     560: 77.18}
         >>> spd = SpectralPowerDistribution('Sample', data)
-        >>> print(spd.trim_wavelengths(SpectralShape(520, 550, 10)))
+        >>> print(spd.trim_wavelengths(  # doctest: +SKIP
+        ...     SpectralShape(520, 550, 10)))
         SpectralPowerDistribution('Sample', (520.0, 550.0, 10.0))
         >>> # Doctests skip for Python 2.x compatibility.
         >>> spd.wavelengths  # doctest: +SKIP
@@ -4121,9 +4122,10 @@ class TriSpectralPowerDistribution(object):
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
         >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
         >>> tri_spd = TriSpectralPowerDistribution('Observer', data, mapping)
-        >>> print(tri_spd.trim_wavelengths(SpectralShape(520, 550, 10)))
-        TriSpectralPowerDistribution('Observer', (520.0, 550.0, 10.0))
         >>> # Doctests skip for Python 2.x compatibility.
+        >>> print(tri_spd.trim_wavelengths(  # doctest: +SKIP
+        ...     SpectralShape(520, 550, 10)))
+        TriSpectralPowerDistribution('Observer', (520.0, 550.0, 10.0))
         >>> tri_spd.wavelengths  # doctest: +SKIP
         array([ 520.,  530.,  540.,  550.])
         """
@@ -4404,7 +4406,7 @@ def constant_spd(k, shape=DEFAULT_SPECTRAL_SHAPE):
     --------
     >>> spd = constant_spd(100)
     >>> spd.shape
-    SpectralShape(360.0, 830.0, 1.0)
+    SpectralShape(360.0, 780.0, 1.0)
     >>> spd[400]
     array(100.0)
     """
@@ -4445,7 +4447,7 @@ def zeros_spd(shape=DEFAULT_SPECTRAL_SHAPE):
     --------
     >>> spd = zeros_spd()
     >>> spd.shape
-    SpectralShape(360.0, 830.0, 1.0)
+    SpectralShape(360.0, 780.0, 1.0)
     >>> spd[400]
     array(0.0)
     """
@@ -4481,7 +4483,7 @@ def ones_spd(shape=DEFAULT_SPECTRAL_SHAPE):
     --------
     >>> spd = ones_spd()
     >>> spd.shape
-    SpectralShape(360.0, 830.0, 1.0)
+    SpectralShape(360.0, 780.0, 1.0)
     >>> spd[400]
     array(1.0)
     """
