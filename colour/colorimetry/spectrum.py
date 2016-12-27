@@ -4370,17 +4370,15 @@ class TriSpectralPowerDistribution(object):
         return clone
 
 
-DEFAULT_SPECTRAL_SHAPE = SpectralShape(360, 830, 1)
+DEFAULT_SPECTRAL_SHAPE = SpectralShape(360, 780, 1)
 """
-Default spectral shape using the shape of
-*CIE 1931 2 Degree Standard Observer*.
+Default spectral shape using *ASTM E308–15* practise shape.
 
 DEFAULT_SPECTRAL_SHAPE : SpectralShape
 """
 
 
-def constant_spd(k,
-                 shape=DEFAULT_SPECTRAL_SHAPE):
+def constant_spd(k, shape=DEFAULT_SPECTRAL_SHAPE):
     """
     Returns a spectral power distribution of given spectral shape filled with
     constant :math:`k` values.

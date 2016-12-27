@@ -45,7 +45,10 @@ from colour.algebra import (
     PchipInterpolator,
     SpragueInterpolator,
     lagrange_coefficients)
-from colour.colorimetry import SpectralShape, STANDARD_OBSERVERS_CMFS, ones_spd
+from colour.colorimetry import (
+    DEFAULT_SPECTRAL_SHAPE,
+    SpectralShape,
+    STANDARD_OBSERVERS_CMFS, ones_spd)
 from colour.utilities import (
     CaseInsensitiveMapping,
     filter_kwargs,
@@ -71,9 +74,9 @@ __all__ = ['ASTME30815_PRACTISE_SHAPE',
            'spectral_to_XYZ',
            'wavelength_to_XYZ']
 
-ASTME30815_PRACTISE_SHAPE = SpectralShape(360, 780, 1)
+ASTME30815_PRACTISE_SHAPE = DEFAULT_SPECTRAL_SHAPE
 """
-*ASTM E308–15* practise shape.
+*ASTM E308–15* practise shape: (360, 780, 1).
 
 ASTME30815_PRACTISE_SHAPE : SpectralShape
 """
@@ -479,8 +482,7 @@ def spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
     spd,
     cmfs=STANDARD_OBSERVERS_CMFS.get(
         'CIE 1931 2 Degree Standard Observer'),
-    illuminant=ones_spd(STANDARD_OBSERVERS_CMFS.get(
-        'CIE 1931 2 Degree Standard Observer').shape)):
+    illuminant=ones_spd(ASTME30815_PRACTISE_SHAPE)):
     """
     Converts given spectral power distribution to *CIE XYZ* tristimulus values
     using given colour matching functions and illuminant using a table
@@ -566,9 +568,7 @@ def spectral_to_XYZ_ASTME30815(
         spd,
         cmfs=STANDARD_OBSERVERS_CMFS.get(
             'CIE 1931 2 Degree Standard Observer'),
-        illuminant=ones_spd(
-            STANDARD_OBSERVERS_CMFS.get(
-                'CIE 1931 2 Degree Standard Observer').shape),
+        illuminant=ones_spd(ASTME30815_PRACTISE_SHAPE),
         use_practice_range=True,
         mi_5nm_omission_method=True,
         mi_20nm_interpolation_method=True):
@@ -723,8 +723,7 @@ def spectral_to_XYZ(
         spd,
         cmfs=STANDARD_OBSERVERS_CMFS.get(
             'CIE 1931 2 Degree Standard Observer'),
-        illuminant=ones_spd(STANDARD_OBSERVERS_CMFS.get(
-            'CIE 1931 2 Degree Standard Observer').shape),
+        illuminant=ones_spd(ASTME30815_PRACTISE_SHAPE),
         method='ASTM E308–15',
         **kwargs):
     """
