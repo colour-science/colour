@@ -29,6 +29,7 @@ from collections import namedtuple
 
 from colour.algebra import euclidean_distance
 from colour.colorimetry import (
+    ASTME30815_PRACTISE_SHAPE,
     D_illuminant_relative_spd,
     STANDARD_OBSERVERS_CMFS,
     blackbody_spd,
@@ -110,12 +111,19 @@ def colour_rendering_index(spd_test, additional_data=False):
     >>> from colour import ILLUMINANTS_RELATIVE_SPDS
     >>> spd = ILLUMINANTS_RELATIVE_SPDS.get('F2')
     >>> colour_rendering_index(spd)  # doctest: +ELLIPSIS
-    64.1495478...
+    64.1515202...
     """
 
-    cmfs = STANDARD_OBSERVERS_CMFS.get('CIE 1931 2 Degree Standard Observer')
+    cmfs = STANDARD_OBSERVERS_CMFS[
+        'CIE 1931 2 Degree Standard Observer'].clone().trim_wavelengths(
+        ASTME30815_PRACTISE_SHAPE)
 
     shape = cmfs.shape
+
+    spd_test = spd_test.clone().align(shape)
+
+    tcs_spds = {spd.name: spd.clone().align(shape)
+                for spd in TCS_SPDS.values()}
 
     XYZ = spectral_to_XYZ(spd_test, cmfs)
     uv = UCS_to_uv(XYZ_to_UCS(XYZ))
@@ -131,14 +139,14 @@ def colour_rendering_index(spd_test, additional_data=False):
     test_tcs_colorimetry_data = tcs_colorimetry_data(
         spd_test,
         spd_reference,
-        TCS_SPDS,
+        tcs_spds,
         cmfs,
         chromatic_adaptation=True)
 
     reference_tcs_colorimetry_data = tcs_colorimetry_data(
         spd_reference,
         spd_reference,
-        TCS_SPDS,
+        tcs_spds,
         cmfs)
 
     Q_as = colour_rendering_indexes(
@@ -185,19 +193,19 @@ def tcs_colorimetry_data(spd_t,
     """
 
     XYZ_t = spectral_to_XYZ(spd_t, cmfs)
-    uv_t = np.ravel(UCS_to_uv(XYZ_to_UCS(XYZ_t)))
+    uv_t = UCS_to_uv(XYZ_to_UCS(XYZ_t))
     u_t, v_t = uv_t[0], uv_t[1]
 
     XYZ_r = spectral_to_XYZ(spd_r, cmfs)
-    uv_r = np.ravel(UCS_to_uv(XYZ_to_UCS(XYZ_r)))
+    uv_r = UCS_to_uv(XYZ_to_UCS(XYZ_r))
     u_r, v_r = uv_r[0], uv_r[1]
 
     tcs_data = []
     for _key, value in sorted(TCS_INDEXES_TO_NAMES.items()):
-        spd_tcs = spds_tcs.get(value)
+        spd_tcs = spds_tcs[value]
         XYZ_tcs = spectral_to_XYZ(spd_tcs, cmfs, spd_t)
-        xyY_tcs = np.ravel(XYZ_to_xyY(XYZ_tcs))
-        uv_tcs = np.ravel(UCS_to_uv(XYZ_to_UCS(XYZ_tcs)))
+        xyY_tcs = XYZ_to_xyY(XYZ_tcs)
+        uv_tcs = UCS_to_uv(XYZ_to_UCS(XYZ_tcs))
         u_tcs, v_tcs = uv_tcs[0], uv_tcs[1]
 
         if chromatic_adaptation:

@@ -777,7 +777,7 @@ class SpectralPowerDistribution(object):
         :attr:`SpectralPowerDistribution.wavelengths` is read only.
         """
 
-        return np.sort(self._data.keys())
+        return np.array(sorted(self._data.keys()))
 
     @wavelengths.setter
     def wavelengths(self, value):

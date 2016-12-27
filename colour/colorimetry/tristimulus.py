@@ -60,7 +60,8 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['lagrange_coefficients_ASTME202211',
+__all__ = ['ASTME30815_PRACTISE_SHAPE',
+           'lagrange_coefficients_ASTME202211',
            'tristimulus_weighting_factors_ASTME202211',
            'adjust_tristimulus_weighting_factors_ASTME30815',
            'spectral_to_XYZ_integration',
@@ -69,6 +70,13 @@ __all__ = ['lagrange_coefficients_ASTME202211',
            'SPECTRAL_TO_XYZ_METHODS',
            'spectral_to_XYZ',
            'wavelength_to_XYZ']
+
+ASTME30815_PRACTISE_SHAPE = SpectralShape(360, 780, 1)
+"""
+*ASTM E308–15* practise shape.
+
+ASTME30815_PRACTISE_SHAPE : SpectralShape
+"""
 
 _LAGRANGE_INTERPOLATING_COEFFICIENTS_CACHE = None
 
@@ -647,7 +655,7 @@ def spectral_to_XYZ_ASTME30815(
             'with measurement interval of 1, 5, 10 or 20nm!')
 
     if use_practice_range:
-        cmfs = cmfs.clone().trim_wavelengths(SpectralShape(360, 780, 1))
+        cmfs = cmfs.clone().trim_wavelengths(ASTME30815_PRACTISE_SHAPE)
 
     method = spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815
     if spd.shape.interval == 1:
