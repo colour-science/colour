@@ -46,16 +46,14 @@ IPT_XYZ_TO_LMS_MATRIX = np.array([
     [-0.2280, 1.1500, 0.0612],
     [0.0000, 0.0000, 0.9184]])
 """
-*CIE XYZ* tristimulus values to *IPT* colourspace normalised cone responses
-matrix.
+*CIE XYZ* tristimulus values to normalised cone responses matrix.
 
 IPT_XYZ_TO_LMS_MATRIX : array_like, (3, 3)
 """
 
 IPT_LMS_TO_XYZ_MATRIX = np.linalg.inv(IPT_XYZ_TO_LMS_MATRIX)
 """
-*IPT* colourspace normalised cone responses to *CIE XYZ* tristimulus values
-matrix.
+Normalised cone responses to *CIE XYZ* tristimulus values matrix.
 
 IPT_LMS_TO_XYZ_MATRIX : array_like, (3, 3)
 """
@@ -65,14 +63,14 @@ IPT_LMS_TO_IPT_MATRIX = np.array([
     [4.4550, -4.8510, 0.3960],
     [0.8056, 0.3572, -1.1628]])
 """
-*IPT* colourspace normalised cone responses to *IPT* colourspace matrix.
+Normalised cone responses to *IPT* colourspace matrix.
 
 IPT_LMS_TO_IPT_MATRIX : array_like, (3, 3)
 """
 
 IPT_IPT_TO_LMS_MATRIX = np.linalg.inv(IPT_LMS_TO_IPT_MATRIX)
 """
-*IPT* colourspace to *IPT* colourspace normalised cone responses matrix.
+*IPT* colourspace to normalised cone responses matrix.
 
 IPT_IPT_TO_LMS_MATRIX : array_like, (3, 3)
 """
@@ -99,7 +97,7 @@ def XYZ_to_IPT(XYZ):
 
     Examples
     --------
-    >>> XYZ = np.array([0.96907232, 1, 1.12179215])
+    >>> XYZ = np.array([0.96907232, 1.00000000, 1.12179215])
     >>> XYZ_to_IPT(XYZ)  # doctest: +ELLIPSIS
     array([ 1.0030082...,  0.0190691..., -0.0136929...])
     """
