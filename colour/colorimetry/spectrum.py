@@ -831,8 +831,8 @@ class SpectralPowerDistribution(object):
 
         Returns
         -------
-        generator
-            Spectral power distribution data generator.
+        ndarray
+            Spectral power distribution data.
         """
 
         return np.array(list(self.__iter__()))
@@ -2684,8 +2684,8 @@ class TriSpectralPowerDistribution(object):
 
         Returns
         -------
-        generator
-            Tri-spectral power distribution data generator.
+        ndarray
+            Tri-spectral power distribution data.
         """
 
         return np.array(list(self.__iter__()))
