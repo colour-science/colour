@@ -121,7 +121,7 @@ def write_image(image, path, bit_depth='float32'):
     --------
     >>> import os
     >>> path = os.path.join('tests', 'resources', 'CMSTestPattern.exr')
-    >>> image = read_image_as_array(path)  # doctest: +SKIP
+    >>> image = read_image(path)  # doctest: +SKIP
     >>> path = os.path.join('tests', 'resources', 'CMSTestPattern.png')
     >>> write_image(image, path, 'uint8')  # doctest: +SKIP
     True
