@@ -73,8 +73,7 @@ COLOR_MATCH_RGB_WHITEPOINT : ndarray
 """
 
 COLOR_MATCH_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(
-    COLOR_MATCH_RGB_PRIMARIES,
-    COLOR_MATCH_RGB_WHITEPOINT)
+    COLOR_MATCH_RGB_PRIMARIES, COLOR_MATCH_RGB_WHITEPOINT)
 """
 *ColorMatch RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 

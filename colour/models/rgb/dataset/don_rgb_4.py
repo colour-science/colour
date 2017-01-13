@@ -71,8 +71,8 @@ DON_RGB_4_WHITEPOINT = (
 DON_RGB_4_WHITEPOINT : ndarray
 """
 
-DON_RGB_4_TO_XYZ_MATRIX = normalised_primary_matrix(DON_RGB_4_PRIMARIES,
-                                                    DON_RGB_4_WHITEPOINT)
+DON_RGB_4_TO_XYZ_MATRIX = normalised_primary_matrix(
+    DON_RGB_4_PRIMARIES, DON_RGB_4_WHITEPOINT)
 """
 *Don RGB 4* colourspace to *CIE XYZ* tristimulus values matrix.
 

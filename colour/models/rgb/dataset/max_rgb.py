@@ -71,8 +71,8 @@ MAX_RGB_WHITEPOINT = (
 MAX_RGB_WHITEPOINT : ndarray
 """
 
-MAX_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(MAX_RGB_PRIMARIES,
-                                                  MAX_RGB_WHITEPOINT)
+MAX_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(
+    MAX_RGB_PRIMARIES, MAX_RGB_WHITEPOINT)
 """
 *Max RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 

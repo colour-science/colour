@@ -71,8 +71,8 @@ BEST_RGB_WHITEPOINT = (
 BEST_RGB_WHITEPOINT : ndarray
 """
 
-BEST_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(BEST_RGB_PRIMARIES,
-                                                   BEST_RGB_WHITEPOINT)
+BEST_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(
+    BEST_RGB_PRIMARIES, BEST_RGB_WHITEPOINT)
 """
 *Best RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 

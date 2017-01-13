@@ -73,8 +73,8 @@ NTSC_RGB_WHITEPOINT = (
 NTSC_RGB_WHITEPOINT : ndarray
 """
 
-NTSC_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(NTSC_RGB_PRIMARIES,
-                                                   NTSC_RGB_WHITEPOINT)
+NTSC_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(
+    NTSC_RGB_PRIMARIES, NTSC_RGB_WHITEPOINT)
 """
 *NTSC RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 

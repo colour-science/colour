@@ -72,8 +72,8 @@ CINEMA_GAMUT_WHITEPOINT = (
 CINEMA_GAMUT_WHITEPOINT : ndarray
 """
 
-CINEMA_GAMUT_TO_XYZ_MATRIX = normalised_primary_matrix(CINEMA_GAMUT_PRIMARIES,
-                                                       CINEMA_GAMUT_WHITEPOINT)
+CINEMA_GAMUT_TO_XYZ_MATRIX = normalised_primary_matrix(
+    CINEMA_GAMUT_PRIMARIES, CINEMA_GAMUT_WHITEPOINT)
 """
 *Cinema Gamut* colourspace to *CIE XYZ* tristimulus values matrix.
 

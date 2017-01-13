@@ -71,8 +71,8 @@ ECI_RGB_V2_WHITEPOINT = (
 ECI_RGB_V2_WHITEPOINT : ndarray
 """
 
-ECI_RGB_V2_TO_XYZ_MATRIX = normalised_primary_matrix(ECI_RGB_V2_PRIMARIES,
-                                                     ECI_RGB_V2_WHITEPOINT)
+ECI_RGB_V2_TO_XYZ_MATRIX = normalised_primary_matrix(
+    ECI_RGB_V2_PRIMARIES, ECI_RGB_V2_WHITEPOINT)
 """
 *ECI RGB v2* colourspace to *CIE XYZ* tristimulus values matrix.
 

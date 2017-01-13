@@ -74,8 +74,8 @@ REC_2020_WHITEPOINT = (
 REC_2020_WHITEPOINT : ndarray
 """
 
-REC_2020_TO_XYZ_MATRIX = normalised_primary_matrix(REC_2020_PRIMARIES,
-                                                   REC_2020_WHITEPOINT)
+REC_2020_TO_XYZ_MATRIX = normalised_primary_matrix(
+    REC_2020_PRIMARIES, REC_2020_WHITEPOINT)
 """
 *Rec. 2020* colourspace to *CIE XYZ* tristimulus values matrix.
 

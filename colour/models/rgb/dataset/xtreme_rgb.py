@@ -71,8 +71,8 @@ XTREME_RGB_WHITEPOINT = (
 XTREME_RGB_WHITEPOINT : ndarray
 """
 
-XTREME_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(XTREME_RGB_PRIMARIES,
-                                                     XTREME_RGB_WHITEPOINT)
+XTREME_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(
+    XTREME_RGB_PRIMARIES, XTREME_RGB_WHITEPOINT)
 """
 *Xtreme RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 

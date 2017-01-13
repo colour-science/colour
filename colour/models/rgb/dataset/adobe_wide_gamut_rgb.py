@@ -73,8 +73,7 @@ ADOBE_WIDE_GAMUT_RGB_WHITEPOINT : ndarray
 """
 
 ADOBE_WIDE_GAMUT_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(
-    ADOBE_WIDE_GAMUT_RGB_PRIMARIES,
-    ADOBE_WIDE_GAMUT_RGB_WHITEPOINT)
+    ADOBE_WIDE_GAMUT_RGB_PRIMARIES, ADOBE_WIDE_GAMUT_RGB_WHITEPOINT)
 """
 *Adobe Wide Gamut RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 

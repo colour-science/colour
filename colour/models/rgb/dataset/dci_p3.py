@@ -102,8 +102,7 @@ DCI_P3_WHITEPOINT : ndarray
 """
 
 DCI_P3_TO_XYZ_MATRIX = normalised_primary_matrix(
-    DCI_P3_PRIMARIES,
-    DCI_P3_WHITEPOINT)
+    DCI_P3_PRIMARIES, DCI_P3_WHITEPOINT)
 """
 *DCI-P3* colourspace to *CIE XYZ* tristimulus values matrix.
 
@@ -118,8 +117,7 @@ XYZ_TO_DCI_P3_MATRIX : array_like, (3, 3)
 """
 
 DCI_P3_P_TO_XYZ_MATRIX = normalised_primary_matrix(
-    DCI_P3_P_PRIMARIES,
-    DCI_P3_WHITEPOINT)
+    DCI_P3_P_PRIMARIES, DCI_P3_WHITEPOINT)
 """
 *DCI-P3+* colourspace to *CIE XYZ* tristimulus values matrix.
 

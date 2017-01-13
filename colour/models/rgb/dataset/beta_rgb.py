@@ -71,8 +71,8 @@ BETA_RGB_WHITEPOINT = (
 BETA_RGB_WHITEPOINT : ndarray
 """
 
-BETA_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(BETA_RGB_PRIMARIES,
-                                                   BETA_RGB_WHITEPOINT)
+BETA_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(
+    BETA_RGB_PRIMARIES, BETA_RGB_WHITEPOINT)
 """
 *Beta RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 
