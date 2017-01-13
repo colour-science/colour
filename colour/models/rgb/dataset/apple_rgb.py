@@ -63,8 +63,8 @@ APPLE_RGB_ILLUMINANT = 'D65'
 APPLE_RGB_ILLUMINANT : unicode
 """
 
-APPLE_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(APPLE_RGB_ILLUMINANT)
+APPLE_RGB_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][APPLE_RGB_ILLUMINANT])
 """
 *Apple RGB* colourspace whitepoint.
 

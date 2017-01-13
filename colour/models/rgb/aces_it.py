@@ -59,7 +59,7 @@ S_FLARE_FACTOR = 0.18000 / (0.18000 + FLARE_PERCENTAGE)
 
 def spectral_to_aces_relative_exposure_values(
         spd,
-        illuminant=ILLUMINANTS_RELATIVE_SPDS.get('D60')):
+        illuminant=ILLUMINANTS_RELATIVE_SPDS['D60']):
     """
     Converts given spectral power distribution to *ACES2065-1* colourspace
     relative exposure values.

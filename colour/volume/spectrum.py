@@ -29,10 +29,10 @@ __status__ = 'Production'
 __all__ = ['is_within_visible_spectrum']
 
 
-def is_within_visible_spectrum(XYZ,
-                               cmfs=STANDARD_OBSERVERS_CMFS.get(
-                                   'CIE 1931 2 Degree Standard Observer'),
-                               tolerance=None):
+def is_within_visible_spectrum(
+        XYZ,
+        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
+        tolerance=None):
     """
     Returns if given *CIE XYZ* tristimulus values are within visible spectrum
     volume / given colour matching functions volume.

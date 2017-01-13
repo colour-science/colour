@@ -198,8 +198,7 @@ def planckian_table(uv, cmfs, start, end, count):
     --------
     >>> from colour import STANDARD_OBSERVERS_CMFS
     >>> from pprint import pprint
-    >>> cmfs = 'CIE 1931 2 Degree Standard Observer'
-    >>> cmfs = STANDARD_OBSERVERS_CMFS.get(cmfs)
+    >>> cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
     >>> uv = np.array([0.1978, 0.3122])
     >>> pprint(planckian_table(  # doctest: +ELLIPSIS
     ...     uv, cmfs, 1000, 1010, 10))
@@ -260,8 +259,7 @@ def planckian_table_minimal_distance_index(planckian_table_):
     Examples
     --------
     >>> from colour import STANDARD_OBSERVERS_CMFS
-    >>> cmfs = 'CIE 1931 2 Degree Standard Observer'
-    >>> cmfs = STANDARD_OBSERVERS_CMFS.get(cmfs)
+    >>> cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
     >>> uv = np.array([0.1978, 0.3122])
     >>> table = planckian_table(uv, cmfs, 1000, 1010, 10)
     >>> planckian_table_minimal_distance_index(table)
@@ -272,13 +270,13 @@ def planckian_table_minimal_distance_index(planckian_table_):
     return distances.index(min(distances))
 
 
-def uv_to_CCT_Ohno2013(uv,
-                       cmfs=STANDARD_OBSERVERS_CMFS.get(
-                           'CIE 1931 2 Degree Standard Observer'),
-                       start=CCT_MINIMAL,
-                       end=CCT_MAXIMAL,
-                       count=CCT_SAMPLES,
-                       iterations=CCT_CALCULATION_ITERATIONS):
+def uv_to_CCT_Ohno2013(
+        uv,
+        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
+        start=CCT_MINIMAL,
+        end=CCT_MAXIMAL,
+        count=CCT_SAMPLES,
+        iterations=CCT_CALCULATION_ITERATIONS):
     """
     Returns the correlated colour temperature :math:`T_{cp}` and
     :math:`\Delta_{uv}` from given *CIE UCS* colourspace *uv* chromaticity
@@ -317,8 +315,7 @@ def uv_to_CCT_Ohno2013(uv,
     Examples
     --------
     >>> from colour import STANDARD_OBSERVERS_CMFS
-    >>> cmfs = 'CIE 1931 2 Degree Standard Observer'
-    >>> cmfs = STANDARD_OBSERVERS_CMFS.get(cmfs)
+    >>> cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
     >>> uv = np.array([0.1978, 0.3122])
     >>> uv_to_CCT_Ohno2013(uv, cmfs)  # doctest: +ELLIPSIS
     array([  6.5075128...e+03,   3.2233587...e-03])
@@ -378,10 +375,10 @@ def uv_to_CCT_Ohno2013(uv,
     return np.array([T, D_uv])
 
 
-def CCT_to_uv_Ohno2013(CCT,
-                       D_uv=0,
-                       cmfs=STANDARD_OBSERVERS_CMFS.get(
-                           'CIE 1931 2 Degree Standard Observer')):
+def CCT_to_uv_Ohno2013(
+        CCT,
+        D_uv=0,
+        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']):
     """
     Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
     correlated colour temperature :math:`T_{cp}`, :math:`\Delta_{uv}` and
@@ -409,8 +406,7 @@ def CCT_to_uv_Ohno2013(CCT,
     Examples
     --------
     >>> from colour import STANDARD_OBSERVERS_CMFS
-    >>> cmfs = 'CIE 1931 2 Degree Standard Observer'
-    >>> cmfs = STANDARD_OBSERVERS_CMFS.get(cmfs)
+    >>> cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
     >>> CCT = 6507.4342201047066
     >>> D_uv = 0.003223690901513
     >>> CCT_to_uv_Ohno2013(CCT, D_uv, cmfs)  # doctest: +ELLIPSIS
@@ -707,8 +703,7 @@ def uv_to_CCT(uv, method='Ohno 2013', **kwargs):
     Examples
     --------
     >>> from colour import STANDARD_OBSERVERS_CMFS
-    >>> cmfs = 'CIE 1931 2 Degree Standard Observer'
-    >>> cmfs = STANDARD_OBSERVERS_CMFS.get(cmfs)
+    >>> cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
     >>> uv = np.array([0.1978, 0.3122])
     >>> uv_to_CCT(uv, cmfs=cmfs)  # doctest: +ELLIPSIS
     array([  6.5075128...e+03,   3.2233587...e-03])
@@ -771,8 +766,7 @@ def CCT_to_uv(CCT, method='Ohno 2013', **kwargs):
     Examples
     --------
     >>> from colour import STANDARD_OBSERVERS_CMFS
-    >>> cmfs = 'CIE 1931 2 Degree Standard Observer'
-    >>> cmfs = STANDARD_OBSERVERS_CMFS.get(cmfs)
+    >>> cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
     >>> CCT = 6507.4342201047066
     >>> D_uv = 0.003223690901513
     >>> CCT_to_uv(CCT, D_uv=D_uv, cmfs=cmfs)  # doctest: +ELLIPSIS

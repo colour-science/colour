@@ -51,8 +51,8 @@ Current *Smits (1999)* method implementation colourspace primaries.
 SMITS1999_PRIMARIES : ndarray, (3, 2)
 """
 
-SMITS1999_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get('E')
+SMITS1999_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['E'])
 """
 Current *Smits (1999)* method implementation colourspace whitepoint.
 
@@ -131,16 +131,16 @@ def RGB_to_spectral_Smits1999(RGB):
     SpectralPowerDistribution('0 Constant', (380.0, 720.0, 37.7777777...))
     """
 
-    white_spd = SMITS_1999_SPDS.get('white').clone()
-    cyan_spd = SMITS_1999_SPDS.get('cyan').clone()
-    magenta_spd = SMITS_1999_SPDS.get('magenta').clone()
-    yellow_spd = SMITS_1999_SPDS.get('yellow').clone()
-    red_spd = SMITS_1999_SPDS.get('red').clone()
-    green_spd = SMITS_1999_SPDS.get('green').clone()
-    blue_spd = SMITS_1999_SPDS.get('blue').clone()
+    white_spd = SMITS_1999_SPDS['white'].clone()
+    cyan_spd = SMITS_1999_SPDS['cyan'].clone()
+    magenta_spd = SMITS_1999_SPDS['magenta'].clone()
+    yellow_spd = SMITS_1999_SPDS['yellow'].clone()
+    red_spd = SMITS_1999_SPDS['red'].clone()
+    green_spd = SMITS_1999_SPDS['green'].clone()
+    blue_spd = SMITS_1999_SPDS['blue'].clone()
 
     R, G, B = np.ravel(RGB)
-    spd = zeros_spd(SMITS_1999_SPDS.get('white').shape)
+    spd = zeros_spd(SMITS_1999_SPDS['white'].shape)
 
     if R <= G and R <= B:
         spd += white_spd * R

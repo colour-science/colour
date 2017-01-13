@@ -40,10 +40,10 @@ __all__ = ['XYZ_to_Hunter_Rdab']
 
 def XYZ_to_Hunter_Rdab(
         XYZ,
-        XYZ_n=HUNTERLAB_ILLUMINANTS.get(
-            'CIE 1931 2 Degree Standard Observer').get('D50').XYZ_n,
-        K_ab=HUNTERLAB_ILLUMINANTS.get(
-            'CIE 1931 2 Degree Standard Observer').get('D50').K_ab):
+        XYZ_n=HUNTERLAB_ILLUMINANTS[
+            'CIE 1931 2 Degree Standard Observer']['D50'].XYZ_n,
+        K_ab=HUNTERLAB_ILLUMINANTS[
+            'CIE 1931 2 Degree Standard Observer']['D50'].K_ab):
     """
     Converts from *CIE XYZ* tristimulus values to *Hunter Rd,a,b* colour scale.
 
@@ -71,8 +71,8 @@ def XYZ_to_Hunter_Rdab(
     --------
     >>> import numpy as np
     >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313]) * 100
-    >>> D50 = HUNTERLAB_ILLUMINANTS.get(
-    ...     'CIE 1931 2 Degree Standard Observer').get('D50')
+    >>> D50 = HUNTERLAB_ILLUMINANTS[
+    ...     'CIE 1931 2 Degree Standard Observer']['D50']
     >>> XYZ_to_Hunter_Rdab(
     ...     XYZ,
     ...     D50.XYZ_n,

@@ -125,8 +125,8 @@ ACES_ILLUMINANT = 'D60'
 ACES_ILLUMINANT : unicode
 """
 
-ACES_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(ACES_ILLUMINANT)
+ACES_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][ACES_ILLUMINANT])
 """
 *ACES2065-1* colourspace whitepoint.
 

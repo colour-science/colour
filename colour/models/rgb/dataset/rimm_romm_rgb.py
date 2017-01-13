@@ -92,8 +92,8 @@ ROMM_RGB_ILLUMINANT = 'D50'
 ROMM_RGB_ILLUMINANT : unicode
 """
 
-ROMM_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(ROMM_RGB_ILLUMINANT)
+ROMM_RGB_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][ROMM_RGB_ILLUMINANT])
 """
 *ROMM RGB* colourspace whitepoint.
 

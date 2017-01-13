@@ -302,7 +302,7 @@ LCD_DISPLAYS_RGB_PRIMARIES_DATA = {
 LCD_DISPLAYS_RGB_PRIMARIES = CaseInsensitiveMapping(
     {'Apple Studio Display': RGB_DisplayPrimaries(
         'Apple Studio Display',
-        LCD_DISPLAYS_RGB_PRIMARIES_DATA.get('Apple Studio Display'))})
+        LCD_DISPLAYS_RGB_PRIMARIES_DATA['Apple Studio Display'])})
 """
 *LCD* displays *RGB* primaries tri-spectral power distributions.
 

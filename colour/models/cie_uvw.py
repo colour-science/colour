@@ -43,9 +43,9 @@ __status__ = 'Production'
 __all__ = ['XYZ_to_UVW']
 
 
-def XYZ_to_UVW(XYZ,
-               illuminant=ILLUMINANTS.get(
-                   'CIE 1931 2 Degree Standard Observer').get('D50')):
+def XYZ_to_UVW(
+        XYZ,
+        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']):
     """
     Converts from *CIE XYZ* tristimulus values to *CIE 1964 U\*V\*W\**
     colourspace.

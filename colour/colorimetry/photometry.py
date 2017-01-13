@@ -42,10 +42,10 @@ __all__ = ['luminous_flux',
            'luminous_efficacy']
 
 
-def luminous_flux(spd,
-                  lef=PHOTOPIC_LEFS.get(
-                      'CIE 1924 Photopic Standard Observer'),
-                  K_m=K_M):
+def luminous_flux(
+        spd,
+        lef=PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer'],
+        K_m=K_M):
     """
     Returns the *luminous flux* for given spectral power distribution using
     given luminous efficiency function.
@@ -67,7 +67,7 @@ def luminous_flux(spd,
     Examples
     --------
     >>> from colour import LIGHT_SOURCES_RELATIVE_SPDS
-    >>> spd = LIGHT_SOURCES_RELATIVE_SPDS.get('Neodimium Incandescent')
+    >>> spd = LIGHT_SOURCES_RELATIVE_SPDS['Neodimium Incandescent']
     >>> luminous_flux(spd)  # doctest: +ELLIPSIS
     23807.6555273...
     """
@@ -82,9 +82,9 @@ def luminous_flux(spd,
     return flux
 
 
-def luminous_efficiency(spd,
-                        lef=PHOTOPIC_LEFS.get(
-                            'CIE 1924 Photopic Standard Observer')):
+def luminous_efficiency(
+        spd,
+        lef=PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer']):
     """
     Returns the *luminous efficiency* of given spectral power distribution
     using given luminous efficiency function.
@@ -104,7 +104,7 @@ def luminous_efficiency(spd,
     Examples
     --------
     >>> from colour import LIGHT_SOURCES_RELATIVE_SPDS
-    >>> spd = LIGHT_SOURCES_RELATIVE_SPDS.get('Neodimium Incandescent')
+    >>> spd = LIGHT_SOURCES_RELATIVE_SPDS['Neodimium Incandescent']
     >>> luminous_efficiency(spd)  # doctest: +ELLIPSIS
     0.1994393...
     """
@@ -120,9 +120,9 @@ def luminous_efficiency(spd,
     return efficiency
 
 
-def luminous_efficacy(spd,
-                      lef=PHOTOPIC_LEFS.get(
-                            'CIE 1924 Photopic Standard Observer')):
+def luminous_efficacy(
+        spd,
+        lef=PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer']):
     """
     Returns the *luminous efficacy* in :math:`lm\cdot W^{-1}` of given spectral
     power distribution using given luminous efficiency function.
@@ -142,7 +142,7 @@ def luminous_efficacy(spd,
     Examples
     --------
     >>> from colour import LIGHT_SOURCES_RELATIVE_SPDS
-    >>> spd = LIGHT_SOURCES_RELATIVE_SPDS.get('Neodimium Incandescent')
+    >>> spd = LIGHT_SOURCES_RELATIVE_SPDS['Neodimium Incandescent']
     >>> luminous_efficacy(spd)  # doctest: +ELLIPSIS
     136.2170803...
     """

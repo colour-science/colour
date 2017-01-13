@@ -63,8 +63,8 @@ MAX_RGB_ILLUMINANT = 'D50'
 MAX_RGB_ILLUMINANT : unicode
 """
 
-MAX_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(MAX_RGB_ILLUMINANT)
+MAX_RGB_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][MAX_RGB_ILLUMINANT])
 """
 *Max RGB* colourspace whitepoint.
 

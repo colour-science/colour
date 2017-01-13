@@ -63,8 +63,9 @@ CINEMA_GAMUT_ILLUMINANT = 'D65'
 CINEMA_GAMUT_ILLUMINANT : unicode
 """
 
-CINEMA_GAMUT_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(CINEMA_GAMUT_ILLUMINANT)
+CINEMA_GAMUT_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+        CINEMA_GAMUT_ILLUMINANT])
 """
 *Cinema Gamut* colourspace whitepoint.
 

@@ -26,7 +26,7 @@ print('\n')
 
 message_box(('Plotting "BabelColor Average" colour rendition charts spectral '
              'power distributions.'))
-multi_spd_plot([colour.COLOURCHECKERS_SPDS.get('BabelColor Average').get(value)
+multi_spd_plot([colour.COLOURCHECKERS_SPDS['BabelColor Average'][value]
                 for key, value in
                 sorted(COLOURCHECKER_INDEXES_TO_NAMES_MAPPING.items())],
                use_spds_colours=True,

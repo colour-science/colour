@@ -48,9 +48,9 @@ __all__ = ['XYZ_to_xyY',
            'XYZ_to_xy']
 
 
-def XYZ_to_xyY(XYZ,
-               illuminant=ILLUMINANTS.get(
-                   'CIE 1931 2 Degree Standard Observer').get('D50')):
+def XYZ_to_xyY(
+        XYZ,
+        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']):
     """
     Converts from *CIE XYZ* tristimulus values to *CIE xyY* colourspace and
     reference *illuminant*.
@@ -284,9 +284,9 @@ def xy_to_XYZ(xy):
     return XYZ
 
 
-def XYZ_to_xy(XYZ,
-              illuminant=ILLUMINANTS.get(
-                  'CIE 1931 2 Degree Standard Observer').get('D50')):
+def XYZ_to_xy(
+        XYZ,
+        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']):
     """
     Returns the *xy* chromaticity coordinates from given *CIE XYZ* tristimulus
     values.

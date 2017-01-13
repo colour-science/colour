@@ -52,7 +52,6 @@ def _XYZ_optimal_colour_stimuli(illuminant):
     """
 
     optimal_colour_stimuli = ILLUMINANTS_OPTIMAL_COLOUR_STIMULI.get(illuminant)
-
     if optimal_colour_stimuli is None:
         raise KeyError(
             '"{0}" not found in factory '

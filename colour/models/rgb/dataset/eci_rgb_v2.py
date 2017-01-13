@@ -63,8 +63,8 @@ ECI_RGB_V_ILLUMINANT = 'D50'
 ECI_RGB_V_ILLUMINANT : unicode
 """
 
-ECI_RGB_V2_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(ECI_RGB_V_ILLUMINANT)
+ECI_RGB_V2_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][ECI_RGB_V_ILLUMINANT])
 """
 *ECI RGB v2* colourspace whitepoint.
 

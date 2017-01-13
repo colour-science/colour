@@ -299,7 +299,7 @@ CRT_DISPLAYS_RGB_PRIMARIES_DATA = {
 CRT_DISPLAYS_RGB_PRIMARIES = CaseInsensitiveMapping(
     {'Typical CRT Brainard 1997': RGB_DisplayPrimaries(
         'Typical CRT Brainard 1997',
-        CRT_DISPLAYS_RGB_PRIMARIES_DATA.get('Typical CRT Brainard 1997'))})
+        CRT_DISPLAYS_RGB_PRIMARIES_DATA['Typical CRT Brainard 1997'])})
 """
 *CRT* displays *RGB* primaries tri-spectral power distributions.
 

@@ -86,7 +86,7 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(
     if illuminants is None:
         illuminants = ('A', 'B', 'C')
 
-    cmfs = CMFS.get('CIE 1931 2 Degree Standard Observer')
+    cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
 
     settings = {
         'title': ('{0} Illuminants - Planckian Locus\n'
@@ -124,7 +124,7 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(
             raise KeyError(
                 ('Illuminant "{0}" not found in factory illuminants: '
                  '"{1}".').format(illuminant,
-                                  sorted(ILLUMINANTS.get(cmfs.name).keys())))
+                                  sorted(ILLUMINANTS[cmfs.name].keys())))
 
         pylab.plot(xy[0], xy[1], 'o', color='white', linewidth=2)
 
@@ -191,7 +191,7 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
     if illuminants is None:
         illuminants = ('A', 'C', 'E')
 
-    cmfs = CMFS.get('CIE 1931 2 Degree Standard Observer')
+    cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
 
     settings = {
         'title': ('{0} Illuminants - Planckian Locus\n'
@@ -229,7 +229,7 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
             raise KeyError(
                 ('Illuminant "{0}" not found in factory illuminants: '
                  '"{1}".').format(illuminant,
-                                  sorted(ILLUMINANTS.get(cmfs.name).keys())))
+                                  sorted(ILLUMINANTS[cmfs.name].keys())))
 
         uv = UCS_to_uv(XYZ_to_UCS(xy_to_XYZ(xy)))
 

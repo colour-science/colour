@@ -63,8 +63,8 @@ RUSSELL_RGB_ILLUMINANT = 'D55'
 RUSSELL_RGB_ILLUMINANT : unicode
 """
 
-RUSSELL_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(RUSSELL_RGB_ILLUMINANT)
+RUSSELL_RGB_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][RUSSELL_RGB_ILLUMINANT])
 """
 *Russell RGB* colourspace whitepoint.
 

@@ -2580,7 +2580,7 @@ TriSpectralPowerDistribution.wavelengths` attribute.
 
         np.testing.assert_almost_equal(
             self._tri_spd.wavelengths,
-            sorted(CIE_1931_2_DEGREE_STANDARD_OBSERVER.get('x_bar')))
+            sorted(CIE_1931_2_DEGREE_STANDARD_OBSERVER['x_bar']))
 
     def test_values(self):
         """
@@ -2591,12 +2591,12 @@ TriSpectralPowerDistribution.values` attribute.
         np.testing.assert_almost_equal(
             self._tri_spd.values,
             tstack((
-                [v for k, v in sorted(CIE_1931_2_DEGREE_STANDARD_OBSERVER.get(
-                    'x_bar').items())],
-                [v for k, v in sorted(CIE_1931_2_DEGREE_STANDARD_OBSERVER.get(
-                    'y_bar').items())],
-                [v for k, v in sorted(CIE_1931_2_DEGREE_STANDARD_OBSERVER.get(
-                    'z_bar').items())])))
+                [v for k, v in sorted(
+                    CIE_1931_2_DEGREE_STANDARD_OBSERVER['x_bar'].items())],
+                [v for k, v in sorted(
+                    CIE_1931_2_DEGREE_STANDARD_OBSERVER['y_bar'].items())],
+                [v for k, v in sorted(
+                    CIE_1931_2_DEGREE_STANDARD_OBSERVER['z_bar'].items())])))
 
     def test_shape(self):
         """

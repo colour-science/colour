@@ -111,8 +111,8 @@ RED_COLOR_ILLUMINANT = 'D60'
 RED_COLOR_ILLUMINANT : unicode
 """
 
-RED_COLOR_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(RED_COLOR_ILLUMINANT)
+RED_COLOR_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][RED_COLOR_ILLUMINANT])
 """
 *REDcolor* colourspace whitepoint.
 
@@ -436,8 +436,9 @@ RED_WIDE_GAMUT_RGB_ILLUMINANT = 'D65'
 RED_WIDE_GAMUT_RGB_ILLUMINANT : unicode
 """
 
-RED_WIDE_GAMUT_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(RED_WIDE_GAMUT_RGB_ILLUMINANT)
+RED_WIDE_GAMUT_RGB_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+        RED_WIDE_GAMUT_RGB_ILLUMINANT])
 """
 *REDWideGamutRGB* colourspace whitepoint.
 

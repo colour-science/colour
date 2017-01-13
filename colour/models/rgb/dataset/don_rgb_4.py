@@ -63,8 +63,8 @@ DON_RGB_4_ILLUMINANT = 'D50'
 DON_RGB_4_ILLUMINANT : unicode
 """
 
-DON_RGB_4_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(DON_RGB_4_ILLUMINANT)
+DON_RGB_4_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][DON_RGB_4_ILLUMINANT])
 """
 *Don RGB 4* colourspace whitepoint.
 

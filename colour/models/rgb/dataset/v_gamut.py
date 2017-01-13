@@ -63,8 +63,8 @@ V_GAMUT_ILLUMINANT = 'D65'
 V_GAMUT_WHITEPOINT : unicode
 """
 
-V_GAMUT_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(V_GAMUT_ILLUMINANT)
+V_GAMUT_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][V_GAMUT_ILLUMINANT])
 """
 *V-Gamut* colourspace whitepoint.
 

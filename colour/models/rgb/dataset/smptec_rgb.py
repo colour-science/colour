@@ -64,8 +64,8 @@ SMPTE_C_RGB_ILLUMINANT = 'D65'
 SMPTE_C_RGB_ILLUMINANT : unicode
 """
 
-SMPTE_C_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(SMPTE_C_RGB_ILLUMINANT)
+SMPTE_C_RGB_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][SMPTE_C_RGB_ILLUMINANT])
 """
 *SMPTE-C RGB* colourspace whitepoint.
 

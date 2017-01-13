@@ -60,8 +60,9 @@ ADOBE_RGB_1998_ILLUMINANT = 'D65'
 ADOBE_RGB_1998_ILLUMINANT : unicode
 """
 
-ADOBE_RGB_1998_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(ADOBE_RGB_1998_ILLUMINANT)
+ADOBE_RGB_1998_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+        ADOBE_RGB_1998_ILLUMINANT])
 """
 *Adobe RGB (1998)* colourspace whitepoint.
 

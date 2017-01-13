@@ -29,7 +29,7 @@ __all__ = ['XYZ_to_sRGB', 'sRGB_to_XYZ']
 
 
 def XYZ_to_sRGB(XYZ,
-                illuminant=RGB_COLOURSPACES.get('sRGB').whitepoint,
+                illuminant=RGB_COLOURSPACES['sRGB'].whitepoint,
                 chromatic_adaptation_transform='CAT02',
                 apply_encoding_cctf=True):
     """
@@ -67,7 +67,7 @@ def XYZ_to_sRGB(XYZ,
     array([ 0.1749881...,  0.3881947...,  0.3216031...])
     """
 
-    sRGB = RGB_COLOURSPACES.get('sRGB')
+    sRGB = RGB_COLOURSPACES['sRGB']
     return XYZ_to_RGB(XYZ,
                       illuminant,
                       sRGB.whitepoint,
@@ -77,7 +77,7 @@ def XYZ_to_sRGB(XYZ,
 
 
 def sRGB_to_XYZ(RGB,
-                illuminant=RGB_COLOURSPACES.get('sRGB').whitepoint,
+                illuminant=RGB_COLOURSPACES['sRGB'].whitepoint,
                 chromatic_adaptation_method='CAT02',
                 apply_decoding_cctf=True):
     """
@@ -115,7 +115,7 @@ def sRGB_to_XYZ(RGB,
     array([ 0.0704953...,  0.1008...,  0.0955831...])
     """
 
-    sRGB = RGB_COLOURSPACES.get('sRGB')
+    sRGB = RGB_COLOURSPACES['sRGB']
     return RGB_to_XYZ(RGB,
                       sRGB.whitepoint,
                       illuminant,

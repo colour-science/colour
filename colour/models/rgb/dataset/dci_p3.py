@@ -93,8 +93,8 @@ official reference spectral measurement for this whitepoint. The closest
 matching spectral power distribution is Kinoton 75P projector.
 """
 
-DCI_P3_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(DCI_P3_ILLUMINANT)
+DCI_P3_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][DCI_P3_ILLUMINANT])
 """
 *DCI-P3* colourspace whitepoint.
 

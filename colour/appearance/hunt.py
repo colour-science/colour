@@ -240,7 +240,7 @@ def XYZ_to_Hunt(XYZ,
                 XYZ_w,
                 XYZ_b,
                 L_A,
-                surround=HUNT_VIEWING_CONDITIONS.get('Normal Scenes'),
+                surround=HUNT_VIEWING_CONDITIONS['Normal Scenes'],
                 L_AS=None,
                 CCT_w=None,
                 XYZ_p=None,
@@ -843,8 +843,8 @@ def eccentricity_factor(hue):
 
     hue = np.asarray(hue)
 
-    h_s = HUE_DATA_FOR_HUE_QUADRATURE.get('h_s')
-    e_s = HUE_DATA_FOR_HUE_QUADRATURE.get('e_s')
+    h_s = HUE_DATA_FOR_HUE_QUADRATURE['h_s']
+    e_s = HUE_DATA_FOR_HUE_QUADRATURE['e_s']
 
     x = np.interp(hue, h_s, e_s)
     x = np.where(hue < 20.14, 0.856 - (hue / 20.14) * 0.056, x)

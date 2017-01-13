@@ -78,14 +78,14 @@ def D_illuminant_relative_spd(xy):
     M2 = (0.0300 - 31.4424 * xy[0] + 30.0717 * xy[1]) / M
 
     distribution = {}
-    for i in D_ILLUMINANTS_S_SPDS.get('S0').shape:
-        S0 = D_ILLUMINANTS_S_SPDS.get('S0').get(i)
-        S1 = D_ILLUMINANTS_S_SPDS.get('S1').get(i)
-        S2 = D_ILLUMINANTS_S_SPDS.get('S2').get(i)
+    for i in D_ILLUMINANTS_S_SPDS['S0'].shape:
+        S0 = D_ILLUMINANTS_S_SPDS['S0'][i]
+        S1 = D_ILLUMINANTS_S_SPDS['S1'][i]
+        S2 = D_ILLUMINANTS_S_SPDS['S2'][i]
         distribution[i] = S0 + M1 * S1 + M2 * S2
 
-    return SpectralPowerDistribution('CIE Standard Illuminant D Series',
-                                     distribution)
+    return SpectralPowerDistribution(
+        'CIE Standard Illuminant D Series', distribution)
 
 
 def CIE_standard_illuminant_A_function(wl):

@@ -392,12 +392,10 @@ DSL_CAMERAS_RGB_SPECTRAL_SENSITIVITIES_DATA = {
 DSL_CAMERAS_RGB_SPECTRAL_SENSITIVITIES = CaseInsensitiveMapping({
     'Nikon 5100 (NPL)': RGB_SpectralSensitivities(
         'Nikon 5100 (NPL)',
-        DSL_CAMERAS_RGB_SPECTRAL_SENSITIVITIES_DATA.get(
-            'Nikon 5100 (NPL)')),
+        DSL_CAMERAS_RGB_SPECTRAL_SENSITIVITIES_DATA['Nikon 5100 (NPL)']),
     'Sigma SDMerill (NPL)': RGB_SpectralSensitivities(
         'Sigma SDMerill (NPL)',
-        DSL_CAMERAS_RGB_SPECTRAL_SENSITIVITIES_DATA.get(
-            'Sigma SDMerill (NPL)'))})
+        DSL_CAMERAS_RGB_SPECTRAL_SENSITIVITIES_DATA['Sigma SDMerill (NPL)'])})
 """
 *DSLR* cameras *RGB* spectral sensitivities.
 

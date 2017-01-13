@@ -148,7 +148,7 @@ def log_encoding_ACESproxy(lin_AP1, bit_depth='10 Bit'):
 
     lin_AP1 = np.asarray(lin_AP1)
 
-    constants = ACES_PROXY_CONSTANTS.get(bit_depth)
+    constants = ACES_PROXY_CONSTANTS[bit_depth]
 
     CV_min = np.resize(constants.CV_min, lin_AP1.shape)
     CV_max = np.resize(constants.CV_max, lin_AP1.shape)
@@ -196,7 +196,7 @@ def log_decoding_ACESproxy(ACESproxy, bit_depth='10 Bit'):
 
     ACESproxy = np.asarray(ACESproxy).astype(np.int)
 
-    constants = ACES_PROXY_CONSTANTS.get(bit_depth)
+    constants = ACES_PROXY_CONSTANTS[bit_depth]
 
     return (2 ** (((ACESproxy - constants.mid_CV_offset) /
                    constants.steps_per_stop - constants.mid_log_offset)))

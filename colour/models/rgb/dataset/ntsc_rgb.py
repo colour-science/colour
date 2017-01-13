@@ -65,8 +65,8 @@ NTSC_RGB_ILLUMINANT = 'C'
 NTSC_RGB_ILLUMINANT : unicode
 """
 
-NTSC_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(NTSC_RGB_ILLUMINANT)
+NTSC_RGB_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][NTSC_RGB_ILLUMINANT])
 """
 *NTSC RGB* colourspace whitepoint.
 

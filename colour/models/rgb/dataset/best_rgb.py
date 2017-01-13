@@ -63,8 +63,8 @@ BEST_RGB_ILLUMINANT = 'D50'
 BEST_RGB_ILLUMINANT : unicode
 """
 
-BEST_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(BEST_RGB_ILLUMINANT)
+BEST_RGB_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][BEST_RGB_ILLUMINANT])
 """
 *Best RGB* colourspace whitepoint.
 

@@ -54,9 +54,9 @@ __all__ = ['XYZ_to_Luv',
            'LCHuv_to_Luv']
 
 
-def XYZ_to_Luv(XYZ,
-               illuminant=ILLUMINANTS.get(
-                   'CIE 1931 2 Degree Standard Observer').get('D50')):
+def XYZ_to_Luv(
+        XYZ,
+        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']):
     """
     Converts from *CIE XYZ* tristimulus values to *CIE Luv* colourspace.
 
@@ -104,9 +104,9 @@ def XYZ_to_Luv(XYZ,
     return Luv
 
 
-def Luv_to_XYZ(Luv,
-               illuminant=ILLUMINANTS.get(
-                   'CIE 1931 2 Degree Standard Observer').get('D50')):
+def Luv_to_XYZ(
+        Luv,
+        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']):
     """
     Converts from *CIE Luv* colourspace to *CIE XYZ* tristimulus values.
 
@@ -157,9 +157,9 @@ def Luv_to_XYZ(Luv,
     return XYZ
 
 
-def Luv_to_uv(Luv,
-              illuminant=ILLUMINANTS.get(
-                  'CIE 1931 2 Degree Standard Observer').get('D50')):
+def Luv_to_uv(
+        Luv,
+        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']):
     """
     Returns the :math:`uv^p` chromaticity coordinates from given *CIE Luv*
     colourspace array.

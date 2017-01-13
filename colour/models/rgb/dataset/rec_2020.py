@@ -66,8 +66,8 @@ REC_2020_ILLUMINANT = 'D65'
 REC_2020_ILLUMINANT : unicode
 """
 
-REC_2020_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(REC_2020_ILLUMINANT)
+REC_2020_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][REC_2020_ILLUMINANT])
 """
 *Rec. 2020* colourspace whitepoint.
 

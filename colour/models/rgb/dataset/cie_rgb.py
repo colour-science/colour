@@ -69,8 +69,8 @@ CIE_RGB_ILLUMINANT = 'E'
 CIE_RGB_ILLUMINANT : unicode
 """
 
-CIE_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(CIE_RGB_ILLUMINANT)
+CIE_RGB_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][CIE_RGB_ILLUMINANT])
 """
 *CIE RGB* colourspace whitepoint.
 

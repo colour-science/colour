@@ -112,15 +112,15 @@ def corresponding_chromaticities_prediction_CIE1994(experiment=1):
      ((0.244, 0.349), (0.2454445..., 0.4018004...))]
     """
 
-    experiment_results = list(BRENEMAN_EXPERIMENTS.get(experiment))
+    experiment_results = list(BRENEMAN_EXPERIMENTS[experiment])
 
     illuminants = experiment_results.pop(0)
     xy_o1 = Luv_uv_to_xy(illuminants.uvp_t)
     xy_o2 = Luv_uv_to_xy(illuminants.uvp_m)
     # :math:`Y_o` is set to an arbitrary value in domain [18, 100].
     Y_o = 18
-    E_o1 = E_o2 = BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES.get(
-        experiment).Y
+    E_o1 = E_o2 = BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES[
+        experiment].Y
 
     prediction = []
     for result in experiment_results:
@@ -173,14 +173,14 @@ def corresponding_chromaticities_prediction_CMCCAT2000(experiment=1):
      ((0.244, 0.349), (0.2287638..., 0.3499324...))]
     """
 
-    experiment_results = list(BRENEMAN_EXPERIMENTS.get(experiment))
+    experiment_results = list(BRENEMAN_EXPERIMENTS[experiment])
 
     illuminants = experiment_results.pop(0)
     XYZ_w = xy_to_XYZ(Luv_uv_to_xy(illuminants.uvp_t)) * 100
     XYZ_wr = xy_to_XYZ(Luv_uv_to_xy(illuminants.uvp_m)) * 100
     xy_wr = XYZ_to_xy(XYZ_wr)
-    L_A1 = L_A2 = BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES.get(
-        experiment).Y
+    L_A1 = L_A2 = BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES[
+        experiment].Y
 
     prediction = []
     for result in experiment_results:
@@ -233,13 +233,13 @@ def corresponding_chromaticities_prediction_Fairchild1990(experiment=1):
      ((0.244, 0.349), (0.2418904..., 0.3413401...))]
     """
 
-    experiment_results = list(BRENEMAN_EXPERIMENTS.get(experiment))
+    experiment_results = list(BRENEMAN_EXPERIMENTS[experiment])
 
     illuminants = experiment_results.pop(0)
     XYZ_n = xy_to_XYZ(Luv_uv_to_xy(illuminants.uvp_t)) * 100
     XYZ_r = xy_to_XYZ(Luv_uv_to_xy(illuminants.uvp_m)) * 100
     xy_r = XYZ_to_xy(XYZ_r)
-    Y_n = BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES.get(experiment).Y
+    Y_n = BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES[experiment].Y
 
     prediction = []
     for result in experiment_results:
@@ -298,7 +298,7 @@ def corresponding_chromaticities_prediction_VonKries(experiment=1,
      ((0.244, 0.349), (0.2259805..., 0.3465291...))]
     """
 
-    experiment_results = list(BRENEMAN_EXPERIMENTS.get(experiment))
+    experiment_results = list(BRENEMAN_EXPERIMENTS[experiment])
 
     illuminants = experiment_results.pop(0)
     XYZ_w = xy_to_XYZ(Luv_uv_to_xy(illuminants.uvp_t))

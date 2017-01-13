@@ -86,7 +86,7 @@ def read_image(path, bit_depth='float32'):
     if is_openimageio_installed(raise_exception=True):
         from OpenImageIO import ImageInput
 
-        bit_depth = BIT_DEPTH_MAPPING.get(bit_depth).openimageio
+        bit_depth = BIT_DEPTH_MAPPING[bit_depth].openimageio
 
         image = ImageInput.open(path)
         specification = image.spec()
@@ -130,7 +130,7 @@ def write_image(image, path, bit_depth='float32'):
     if is_openimageio_installed(raise_exception=True):
         from OpenImageIO import ImageOutput, ImageOutputOpenMode, ImageSpec
 
-        bit_depth_specification = BIT_DEPTH_MAPPING.get(bit_depth)
+        bit_depth_specification = BIT_DEPTH_MAPPING[bit_depth]
         bit_depth = bit_depth_specification.openimageio
 
         image = np.asarray(image)

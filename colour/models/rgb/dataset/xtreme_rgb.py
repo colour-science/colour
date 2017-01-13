@@ -63,8 +63,8 @@ XTREME_RGB_ILLUMINANT = 'D50'
 XTREME_RGB_WHITEPOINT : unicode
 """
 
-XTREME_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(XTREME_RGB_ILLUMINANT)
+XTREME_RGB_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][XTREME_RGB_ILLUMINANT])
 """
 *Xtreme RGB* colourspace whitepoint.
 

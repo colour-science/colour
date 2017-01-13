@@ -172,8 +172,7 @@ class TestPlanckianTable(unittest.TestCase):
         Tests :func:`colour.temperature.cct.planckian_table` definition.
         """
 
-        cmfs = STANDARD_OBSERVERS_CMFS.get(
-            'CIE 1931 2 Degree Standard Observer')
+        cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
 
         np.testing.assert_almost_equal(
             [(x.Ti, x.ui, x.vi, x.di) for x in planckian_table(
@@ -193,8 +192,7 @@ planckian_table_minimal_distance_index` definition unit tests methods.
 planckian_table_minimal_distance_index` definition.
         """
 
-        cmfs = STANDARD_OBSERVERS_CMFS.get(
-            'CIE 1931 2 Degree Standard Observer')
+        cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
         self.assertEqual(
             planckian_table_minimal_distance_index(
                 planckian_table(
@@ -213,8 +211,7 @@ class Testuv_to_CCT_Ohno2013(unittest.TestCase):
         Tests :func:`colour.temperature.cct.uv_to_CCT_Ohno2013` definition.
         """
 
-        cmfs = STANDARD_OBSERVERS_CMFS.get(
-            'CIE 1931 2 Degree Standard Observer')
+        cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
         np.testing.assert_almost_equal(
             uv_to_CCT_Ohno2013(np.array([0.1978, 0.3122]), cmfs),
             np.array([6507.51282029, 0.00322336]),
@@ -242,8 +239,7 @@ class TestCCT_to_uv_Ohno2013(unittest.TestCase):
         Tests :func:`colour.temperature.cct.CCT_to_uv_Ohno2013` definition.
         """
 
-        cmfs = STANDARD_OBSERVERS_CMFS.get(
-            'CIE 1931 2 Degree Standard Observer')
+        cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
         np.testing.assert_almost_equal(
             CCT_to_uv_Ohno2013(
                 6507.43422010, 0.003223690901513, cmfs),

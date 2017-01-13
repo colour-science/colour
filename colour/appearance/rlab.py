@@ -165,8 +165,8 @@ class RLAB_Specification(
 def XYZ_to_RLAB(XYZ,
                 XYZ_n,
                 Y_n,
-                sigma=RLAB_VIEWING_CONDITIONS.get('Average'),
-                D=RLAB_D_FACTOR.get('Hard Copy Images')):
+                sigma=RLAB_VIEWING_CONDITIONS['Average'],
+                D=RLAB_D_FACTOR['Hard Copy Images']):
     """
     Computes the *RLAB* model color appearance correlates.
 

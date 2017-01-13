@@ -69,8 +69,8 @@ sRGB_ILLUMINANT = 'D65'
 sRGB_WHITEPOINT : unicode
 """
 
-sRGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(sRGB_ILLUMINANT)
+sRGB_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][sRGB_ILLUMINANT])
 """
 *sRGB* colourspace whitepoint.
 

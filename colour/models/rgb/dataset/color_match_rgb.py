@@ -63,8 +63,9 @@ COLOR_MATCH_RGB_ILLUMINANT = 'D50'
 COLOR_MATCH_RGB_ILLUMINANT : unicode
 """
 
-COLOR_MATCH_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(COLOR_MATCH_RGB_ILLUMINANT)
+COLOR_MATCH_RGB_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+        COLOR_MATCH_RGB_ILLUMINANT])
 """
 *ColorMatch RGB* colourspace whitepoint.
 

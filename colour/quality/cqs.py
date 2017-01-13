@@ -150,13 +150,12 @@ def colour_quality_scale(spd_test, additional_data=False):
     Examples
     --------
     >>> from colour import ILLUMINANTS_RELATIVE_SPDS
-    >>> spd = ILLUMINANTS_RELATIVE_SPDS.get('F2')
+    >>> spd = ILLUMINANTS_RELATIVE_SPDS['F2']
     >>> colour_quality_scale(spd)  # doctest: +ELLIPSIS
     64.6781117...
     """
 
-    cmfs = STANDARD_OBSERVERS_CMFS.get(
-        'CIE 1931 2 Degree Standard Observer')
+    cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
 
     shape = cmfs.shape
 
@@ -312,7 +311,7 @@ def vs_colorimetry_data(spd_test,
 
     vs_data = []
     for _key, value in sorted(VS_INDEXES_TO_NAMES.items()):
-        spd_vs = spds_vs.get(value)
+        spd_vs = spds_vs[value]
         XYZ_vs = spectral_to_XYZ(spd_vs, cmfs, spd_test)
         XYZ_vs /= 100
 
@@ -351,7 +350,7 @@ def CCT_factor(reference_data, XYZ_r):
         Correlated colour temperature factor.
     """
 
-    xy_w = ILLUMINANTS.get('CIE 1931 2 Degree Standard Observer').get('D65')
+    xy_w = ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']
     XYZ_w = xy_to_XYZ(xy_w)
 
     Labs = []

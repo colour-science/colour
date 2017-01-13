@@ -65,8 +65,9 @@ PAL_SECAM_RGB_ILLUMINANT = 'D65'
 PAL_SECAM_RGB_ILLUMINANT : unicode
 """
 
-PAL_SECAM_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(PAL_SECAM_RGB_ILLUMINANT)
+PAL_SECAM_RGB_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+        PAL_SECAM_RGB_ILLUMINANT])
 """
 *Pal/Secam RGB* colourspace whitepoint.
 

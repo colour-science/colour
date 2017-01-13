@@ -63,8 +63,8 @@ BETA_RGB_ILLUMINANT = 'D50'
 BETA_RGB_ILLUMINANT : unicode
 """
 
-BETA_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(BETA_RGB_ILLUMINANT)
+BETA_RGB_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][BETA_RGB_ILLUMINANT])
 """
 *Beta RGB* colourspace whitepoint.
 

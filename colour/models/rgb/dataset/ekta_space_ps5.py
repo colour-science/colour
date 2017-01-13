@@ -62,8 +62,9 @@ EKTA_SPACE_PS_5_V_ILLUMINANT = 'D50'
 EKTA_SPACE_PS_5_V_ILLUMINANT : unicode
 """
 
-EKTA_SPACE_PS_5_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(EKTA_SPACE_PS_5_V_ILLUMINANT)
+EKTA_SPACE_PS_5_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+        EKTA_SPACE_PS_5_V_ILLUMINANT])
 """
 *Ekta Space PS 5* colourspace whitepoint.
 
