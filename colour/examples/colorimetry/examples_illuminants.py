@@ -5,8 +5,6 @@
 Showcases illuminants dataset.
 """
 
-from __future__ import division, unicode_literals
-
 from pprint import pprint
 
 import colour

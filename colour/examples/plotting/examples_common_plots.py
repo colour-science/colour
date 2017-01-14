@@ -11,9 +11,10 @@ from colour.utilities.verbose import message_box
 message_box('Common Plots')
 
 message_box('Plotting a single colour.')
-single_colour_plot(ColourParameter('Neutral 5 (.70 D)',
-                                   RGB=(0.32315746, 0.32983556, 0.33640183)),
-                   text_size=32)
+single_colour_plot(
+    ColourParameter(
+        'Neutral 5 (.70 D)', RGB=(0.32315746, 0.32983556, 0.33640183)),
+    text_size=32)
 
 print('\n')
 

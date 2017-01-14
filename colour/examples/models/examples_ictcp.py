@@ -5,9 +5,6 @@
 Showcases *ICTCP* *colour encoding* computations.
 """
 
-import numpy as np
-from pprint import pprint
-
 import colour
 from colour.utilities.verbose import message_box
 

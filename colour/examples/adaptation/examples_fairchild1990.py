@@ -5,8 +5,6 @@
 Showcases *Fairchild (1990)* chromatic adaptation model computations.
 """
 
-from __future__ import division, unicode_literals
-
 import colour
 from colour.utilities.verbose import message_box
 

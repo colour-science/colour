@@ -5,8 +5,6 @@
 Showcases *Von Kries* chromatic adaptation model computations.
 """
 
-from __future__ import division, unicode_literals
-
 import colour
 from colour.utilities.verbose import message_box
 
@@ -16,8 +14,8 @@ XYZ_w = (1.09846607, 1.00000000, 0.35582280)
 XYZ_wr = (1.09846607, 1.00000000, 0.35582280)
 message_box(('Computing the chromatic adaptation matrix from two source '
              '"CIE XYZ" tristimulus values arrays, default CAT is "CAT02".\n'
-             '\n\t"XYZ_w":\n\t\t{0}\n\t"XYZ_wr":\n\t\t{1}'.format(XYZ_w,
-                                                                  XYZ_wr)))
+             '\n\t"XYZ_w":\n\t\t{0}\n\t"XYZ_wr":\n\t\t{1}'.format(
+    XYZ_w, XYZ_wr)))
 print(colour.chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr))
 
 print('\n')
