@@ -17,7 +17,7 @@ And computation of correlates:
 References
 ----------
 .. [1]  Fairchild, M. D. (2013). IPT Colourspace. In Color Appearance Models
-        (3rd ed., pp. 8492–8567). Wiley. ISBN:B00DAYO8E2
+        (3rd ed., pp. 6197–6223). Wiley. ISBN:B00DAYO8E2
 """
 
 from __future__ import division, unicode_literals
