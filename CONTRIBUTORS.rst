@@ -81,7 +81,7 @@ Others
 About
 -----
 
-| **Colour** by Colour Developers - 2013-2016
-| Copyright © 2013-2016 – Colour Developers – `colour-science@googlegroups.com <colour-science@googlegroups.com>`_
+| **Colour** by Colour Developers - 2013-2017
+| Copyright © 2013-2017 – Colour Developers – `colour-science@googlegroups.com <colour-science@googlegroups.com>`_
 | This software is released under terms of New BSD License: http://opensource.org/licenses/BSD-3-Clause
 | `http://github.com/colour-science/colour <http://github.com/colour-science/colour>`_
