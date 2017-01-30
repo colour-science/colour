@@ -32,6 +32,7 @@ from collections import namedtuple
 
 from colour.algebra import euclidean_distance
 from colour.colorimetry import (
+    ASTME30815_PRACTISE_SHAPE,
     D_illuminant_relative_spd,
     ILLUMINANTS,
     STANDARD_OBSERVERS_CMFS,
@@ -152,13 +153,15 @@ def colour_quality_scale(spd_test, additional_data=False):
     >>> from colour import ILLUMINANTS_RELATIVE_SPDS
     >>> spd = ILLUMINANTS_RELATIVE_SPDS.get('F2')
     >>> colour_quality_scale(spd)  # doctest: +ELLIPSIS
-    64.6781117...
+    64.6864169...
     """
 
-    cmfs = STANDARD_OBSERVERS_CMFS.get(
-        'CIE 1931 2 Degree Standard Observer')
-
+    cmfs = STANDARD_OBSERVERS_CMFS[
+        'CIE 1931 2 Degree Standard Observer'].clone().trim_wavelengths(
+        ASTME30815_PRACTISE_SHAPE)
     shape = cmfs.shape
+    spd_test = spd_test.clone().align(shape)
+    vs_spds = {spd.name: spd.clone().align(shape) for spd in VS_SPDS.values()}
 
     XYZ = spectral_to_XYZ(spd_test, cmfs)
     uv = UCS_to_uv(XYZ_to_UCS(XYZ))
@@ -174,14 +177,14 @@ def colour_quality_scale(spd_test, additional_data=False):
     test_vs_colorimetry_data = vs_colorimetry_data(
         spd_test,
         spd_reference,
-        VS_SPDS,
+        vs_spds,
         cmfs,
         chromatic_adaptation=True)
 
     reference_vs_colorimetry_data = vs_colorimetry_data(
         spd_reference,
         spd_reference,
-        VS_SPDS,
+        vs_spds,
         cmfs)
 
     XYZ_r = spectral_to_XYZ(spd_reference, cmfs)

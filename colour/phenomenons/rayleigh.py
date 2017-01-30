@@ -777,7 +777,7 @@ def rayleigh_scattering_spd(shape=DEFAULT_SPECTRAL_SHAPE,
     --------
     >>> print(rayleigh_scattering_spd())
     SpectralPowerDistribution('Rayleigh Scattering - 300 ppm, 288.15 K, \
-101325 Pa, 0 Degrees, 0 m', (360.0, 830.0, 1.0))
+101325 Pa, 0 Degrees, 0 m', (360.0, 780.0, 1.0))
     """
 
     wavelengths = shape.range()

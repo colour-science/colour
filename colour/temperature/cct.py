@@ -54,6 +54,7 @@ import numpy as np
 from collections import namedtuple
 
 from colour.colorimetry import (
+    ASTME30815_PRACTISE_SHAPE,
     STANDARD_OBSERVERS_CMFS,
     blackbody_spd,
     spectral_to_XYZ)
@@ -227,13 +228,15 @@ ui=0.4456351..., vi=0.3548306..., di=0.2514749...)]
 
     ux, vx = uv
 
+    cmfs = cmfs.clone().trim_wavelengths(ASTME30815_PRACTISE_SHAPE)
+
     shape = cmfs.shape
 
     table = []
     for Ti in np.linspace(start, end, count):
         spd = blackbody_spd(Ti, shape)
         XYZ = spectral_to_XYZ(spd, cmfs)
-        XYZ *= 1 / np.max(XYZ)
+        XYZ /= np.max(XYZ)
         UVW = XYZ_to_UCS(XYZ)
         ui, vi = UCS_to_uv(UVW)
         di = np.hypot(ux - ui, vx - vi)
@@ -417,7 +420,10 @@ def CCT_to_uv_Ohno2013(CCT,
     array([ 0.1977999...,  0.3122004...])
     """
 
+    cmfs = cmfs.clone().trim_wavelengths(ASTME30815_PRACTISE_SHAPE)
+
     shape = cmfs.shape
+
     delta = 0.01
 
     spd = blackbody_spd(CCT, shape)

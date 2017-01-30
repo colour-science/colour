@@ -45,7 +45,10 @@ from colour.algebra import (
     PchipInterpolator,
     SpragueInterpolator,
     lagrange_coefficients)
-from colour.colorimetry import SpectralShape, STANDARD_OBSERVERS_CMFS, ones_spd
+from colour.colorimetry import (
+    DEFAULT_SPECTRAL_SHAPE,
+    SpectralShape,
+    STANDARD_OBSERVERS_CMFS, ones_spd)
 from colour.utilities import (
     CaseInsensitiveMapping,
     filter_kwargs,
@@ -60,7 +63,8 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['lagrange_coefficients_ASTME202211',
+__all__ = ['ASTME30815_PRACTISE_SHAPE',
+           'lagrange_coefficients_ASTME202211',
            'tristimulus_weighting_factors_ASTME202211',
            'adjust_tristimulus_weighting_factors_ASTME30815',
            'spectral_to_XYZ_integration',
@@ -69,6 +73,13 @@ __all__ = ['lagrange_coefficients_ASTME202211',
            'SPECTRAL_TO_XYZ_METHODS',
            'spectral_to_XYZ',
            'wavelength_to_XYZ']
+
+ASTME30815_PRACTISE_SHAPE = DEFAULT_SPECTRAL_SHAPE
+"""
+*ASTM E308–15* practise shape: (360, 780, 1).
+
+ASTME30815_PRACTISE_SHAPE : SpectralShape
+"""
 
 _LAGRANGE_INTERPOLATING_COEFFICIENTS_CACHE = None
 
@@ -468,11 +479,10 @@ def spectral_to_XYZ_integration(
 
 
 def spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
-    spd,
-    cmfs=STANDARD_OBSERVERS_CMFS.get(
-        'CIE 1931 2 Degree Standard Observer'),
-    illuminant=ones_spd(STANDARD_OBSERVERS_CMFS.get(
-        'CIE 1931 2 Degree Standard Observer').shape)):
+        spd,
+        cmfs=STANDARD_OBSERVERS_CMFS.get(
+            'CIE 1931 2 Degree Standard Observer'),
+        illuminant=ones_spd(ASTME30815_PRACTISE_SHAPE)):
     """
     Converts given spectral power distribution to *CIE XYZ* tristimulus values
     using given colour matching functions and illuminant using a table
@@ -558,9 +568,7 @@ def spectral_to_XYZ_ASTME30815(
         spd,
         cmfs=STANDARD_OBSERVERS_CMFS.get(
             'CIE 1931 2 Degree Standard Observer'),
-        illuminant=ones_spd(
-            STANDARD_OBSERVERS_CMFS.get(
-                'CIE 1931 2 Degree Standard Observer').shape),
+        illuminant=ones_spd(ASTME30815_PRACTISE_SHAPE),
         use_practice_range=True,
         mi_5nm_omission_method=True,
         mi_20nm_interpolation_method=True):
@@ -647,7 +655,7 @@ def spectral_to_XYZ_ASTME30815(
             'with measurement interval of 1, 5, 10 or 20nm!')
 
     if use_practice_range:
-        cmfs = cmfs.clone().trim_wavelengths(SpectralShape(360, 780, 1))
+        cmfs = cmfs.clone().trim_wavelengths(ASTME30815_PRACTISE_SHAPE)
 
     method = spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815
     if spd.shape.interval == 1:
@@ -715,8 +723,7 @@ def spectral_to_XYZ(
         spd,
         cmfs=STANDARD_OBSERVERS_CMFS.get(
             'CIE 1931 2 Degree Standard Observer'),
-        illuminant=ones_spd(STANDARD_OBSERVERS_CMFS.get(
-            'CIE 1931 2 Degree Standard Observer').shape),
+        illuminant=ones_spd(ASTME30815_PRACTISE_SHAPE),
         method='ASTM E308–15',
         **kwargs):
     """
@@ -938,7 +945,7 @@ def wavelength_to_XYZ(wavelength,
 
         XYZ = np.dstack([i(np.ravel(wavelength)) for i in interpolators])
     else:
-        XYZ = cmfs.get(wavelength)
+        XYZ = cmfs[wavelength]
 
     XYZ = np.reshape(XYZ, np.asarray(wavelength).shape + (3,))
 

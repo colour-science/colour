@@ -20,8 +20,6 @@ from __future__ import division, unicode_literals
 
 from collections import Mapping, MutableMapping
 
-from colour.utilities import is_numeric
-
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
@@ -83,10 +81,37 @@ class ArbitraryPrecisionMapping(MutableMapping):
         self._key_decimals = None
         self.key_decimals = key_decimals
 
-        if data is None:
-            data = {}
+        self.update({} if data is None else data, **kwargs)
 
-        self.update(data, **kwargs)
+    @property
+    def data(self):
+        """
+        Property for **self.data** attribute.
+
+        Returns
+        -------
+        dict
+            :class:`ArbitraryPrecisionMapping` data structure.
+
+        Warning
+        -------
+        :attr:`ArbitraryPrecisionMapping.data` is read only.
+        """
+
+        return self._data
+
+    @data.setter
+    def data(self, value):
+        """
+        Setter for **self.data** attribute.
+
+        Parameters
+        ----------
+        value : object
+            Attribute value.
+        """
+
+        raise AttributeError('"{0}" attribute is read only!'.format('data'))
 
     @property
     def key_decimals(self):
@@ -137,9 +162,9 @@ class ArbitraryPrecisionMapping(MutableMapping):
         -   Reimplements the :meth:`MutableMapping.__setitem__` method.
         """
 
-        if is_numeric(item):
+        try:
             return round(item, self._key_decimals)
-        else:
+        except TypeError:
             return item
 
     def __setitem__(self, item, value):
@@ -152,11 +177,6 @@ class ArbitraryPrecisionMapping(MutableMapping):
             Attribute.
         value : object
             Value.
-
-        Returns
-        -------
-        object
-            Item value (rounded if numeric).
 
         Notes
         -----
@@ -499,10 +519,37 @@ blob/v1.2.3/requests/structures.py#L37
     def __init__(self, data=None, **kwargs):
         self._data = dict()
 
-        if data is None:
-            data = {}
+        self.update({} if data is None else data, **kwargs)
 
-        self.update(data, **kwargs)
+    @property
+    def data(self):
+        """
+        Property for **self.data** attribute.
+
+        Returns
+        -------
+        dict
+            :class:`ArbitraryPrecisionMapping` data structure.
+
+        Warning
+        -------
+        :attr:`ArbitraryPrecisionMapping.data` is read only.
+        """
+
+        return self._data
+
+    @data.setter
+    def data(self, value):
+        """
+        Setter for **self.data** attribute.
+
+        Parameters
+        ----------
+        value : object
+            Attribute value.
+        """
+
+        raise AttributeError('"{0}" attribute is read only!'.format('data'))
 
     def __setitem__(self, item, value):
         """

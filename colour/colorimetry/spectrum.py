@@ -21,7 +21,6 @@ blob/master/notebooks/colorimetry/spectrum.ipynb>`_
 
 from __future__ import division, unicode_literals
 
-import copy
 import numpy as np
 import operator
 import pprint
@@ -40,6 +39,7 @@ from colour.utilities import (
     is_string,
     is_uniform,
     interval,
+    tsplit,
     tstack,
     warning)
 
@@ -73,7 +73,7 @@ class SpectralMapping(ArbitraryPrecisionMapping):
     Defines the base mapping for spectral data.
 
     It enables usage of floating point wavelengths as keys by rounding them at
-    a specfic decimals count.
+    a specific decimals count.
 
     Parameters
     ----------
@@ -363,9 +363,8 @@ class SpectralShape(object):
             Nice formatted string representation.
         """
 
-        return '({0}, {1}, {2})'.format(self._start,
-                                        self._end,
-                                        self._interval)
+        return '({0}, {1}, {2})'.format(
+            self._start, self._end, self._interval)
 
     def __repr__(self):
         """
@@ -377,9 +376,8 @@ class SpectralShape(object):
             Formatted string representation.
         """
 
-        return 'SpectralShape({0}, {1}, {2})'.format(self._start,
-                                                     self._end,
-                                                     self._interval)
+        return 'SpectralShape({0}, {1}, {2})'.format(
+            self._start, self._end, self._interval)
 
     def __iter__(self):
         """
@@ -578,10 +576,9 @@ class SpectralShape(object):
             if current_interval != self._interval:
                 self._interval = current_interval
                 warning(('"{0}" shape could not be honored, using '
-                         '"{1}"!').format((self._start,
-                                           self._end,
-                                           self._interval),
-                                          self))
+                         '"{1}"!').format(
+                    (self._start, self._end, self._interval), self))
+
         return self._range
 
 
@@ -811,8 +808,7 @@ class SpectralPowerDistribution(object):
         :attr:`SpectralPowerDistribution.values` is read only.
         """
 
-        return np.array([self.get(wavelength)
-                         for wavelength in self.wavelengths])
+        return self[self.wavelengths]
 
     @values.setter
     def values(self, value):
@@ -835,11 +831,11 @@ class SpectralPowerDistribution(object):
 
         Returns
         -------
-        generator
-            Spectral power distribution data generator.
+        ndarray
+            Spectral power distribution data.
         """
 
-        return self.__iter__()
+        return np.array(list(self.__iter__()))
 
     @items.setter
     def items(self, value):
@@ -900,9 +896,11 @@ class SpectralPowerDistribution(object):
         SpectralShape(512.3, 545.7, 7...)
         """
 
-        return SpectralShape(min(self.data.keys()),
-                             max(self.data.keys()),
-                             min(interval(self.wavelengths)))
+        wavelengths = self.wavelengths
+
+        return SpectralShape(min(wavelengths),
+                             max(wavelengths),
+                             min(interval(wavelengths)))
 
     @shape.setter
     def shape(self, value):
@@ -1047,7 +1045,7 @@ class SpectralPowerDistribution(object):
         else:
             wavelength = np.asarray(wavelength)
 
-            value = [self.data.__getitem__(x) for x in np.ravel(wavelength)]
+            value = [self.data[x] for x in np.ravel(wavelength)]
             value = np.reshape(value, wavelength.shape)
 
             return value
@@ -1120,7 +1118,7 @@ class SpectralPowerDistribution(object):
         >>> spd = SpectralPowerDistribution('Sample', data)
         >>> # Doctests ellipsis for Python 2.x compatibility.
         >>> for wavelength, value in spd:  # doctest: +SKIP
-        ...     print((wavelength, value))
+        ...     print(wavelength, value)
         (510, 49.6...)
         (520, 69.5...)
         (530, 81.7...)
@@ -1946,7 +1944,7 @@ class SpectralPowerDistribution(object):
         shape.start = max(shape.start, np.ceil(spd_shape.start))
         shape.end = min(shape.end, np.floor(spd_shape.end))
 
-        wavelengths, values = self.wavelengths, self.values
+        wavelengths, values = tsplit(self.items)
         uniform = self.is_uniform()
 
         if is_string(method):
@@ -1975,9 +1973,10 @@ class SpectralPowerDistribution(object):
                 'Undefined "{0}" interpolator!'.format(method))
 
         interpolator = interpolator(wavelengths, values)
+        wavelengths = shape.range()
+
         self._data = SpectralMapping(
-            [(wavelength, np.float_(interpolator(wavelength)))
-             for wavelength in shape])
+            zip(wavelengths, interpolator(wavelengths)))
 
         return self
 
@@ -2086,17 +2085,16 @@ class SpectralPowerDistribution(object):
         ...     550: 86.26,
         ...     560: 77.18}
         >>> spd = SpectralPowerDistribution('Sample', data)
-        >>> print(spd.trim_wavelengths(SpectralShape(520, 550, 10)))
+        >>> print(spd.trim_wavelengths(  # doctest: +SKIP
+        ...     SpectralShape(520, 550, 10)))
         SpectralPowerDistribution('Sample', (520.0, 550.0, 10.0))
         >>> # Doctests skip for Python 2.x compatibility.
         >>> spd.wavelengths  # doctest: +SKIP
         array([ 520.,  530.,  540.,  550.])
         """
 
-        wavelengths = list(set(self.shape.range()).intersection(shape.range()))
-        values = self[wavelengths]
-
-        self.data = SpectralMapping(zip(wavelengths, values))
+        for wavelength in set(self.wavelengths).difference(set(shape.range())):
+            del self._data[wavelength]
 
         return self
 
@@ -2219,7 +2217,8 @@ class SpectralPowerDistribution(object):
         SpectralPowerDistribution('Sample (...)', (510..., 540..., 10...))
         """
 
-        clone = copy.deepcopy(self)
+        clone = SpectralPowerDistribution(
+            self.name, self.data.data, self.title)
 
         clone.name = '{0} ({1})'.format(clone.name, id(clone))
 
@@ -2429,30 +2428,27 @@ class TriSpectralPowerDistribution(object):
                 '"{0}" attribute: "{1}" is not a "dict" instance!'.format(
                     'data', value))
             for axis in ('x', 'y', 'z'):
-                assert self._mapping.get(axis) in value.keys(), (
+                assert self._mapping[axis] in value.keys(), (
                     '"{0}" attribute: "{1}" axis is missing!'.format(
                         'data', axis))
 
             data = {}
             for axis in ('x', 'y', 'z'):
                 data[axis] = SpectralPowerDistribution(
-                    self._mapping.get(axis),
-                    value.get(self._mapping.get(axis)))
+                    self._mapping[axis],
+                    value[self._mapping[axis]])
 
-            np.testing.assert_almost_equal(
-                data['x'].wavelengths,
+            wavelengths = data['x'].wavelengths
+            np.testing.assert_array_equal(
+                wavelengths,
                 data['y'].wavelengths,
-                err_msg=('"{0}" attribute: "{1}" and "{2}" wavelengths are '
-                         'different!').format('data',
-                                              self._mapping.get('x'),
-                                              self._mapping.get('y')))
-            np.testing.assert_almost_equal(
-                data['x'].wavelengths,
+                err_msg=('"{0}" attribute: "x" and "y" wavelengths are '
+                         'different!').format('data'))
+            np.testing.assert_array_equal(
+                wavelengths,
                 data['z'].wavelengths,
-                err_msg=('"{0}" attribute: "{1}" and "{2}" wavelengths are '
-                         'different!').format('data',
-                                              self._mapping.get('x'),
-                                              self._mapping.get('z')))
+                err_msg=('"{0}" attribute: "x" and "z" wavelengths are '
+                         'different!').format('data'))
 
             self._data = data
         else:
@@ -2543,7 +2539,7 @@ class TriSpectralPowerDistribution(object):
         :attr:`TriSpectralPowerDistribution.x` is read only.
         """
 
-        return self._data.get('x')
+        return self._data['x']
 
     @x.setter
     def x(self, value):
@@ -2573,7 +2569,7 @@ class TriSpectralPowerDistribution(object):
         :attr:`TriSpectralPowerDistribution.y` is read only.
         """
 
-        return self._data.get('y')
+        return self._data['y']
 
     @y.setter
     def y(self, value):
@@ -2603,7 +2599,7 @@ class TriSpectralPowerDistribution(object):
         :attr:`TriSpectralPowerDistribution.z` is read only.
         """
 
-        return self._data.get('z')
+        return self._data['z']
 
     @z.setter
     def z(self, value):
@@ -2665,8 +2661,7 @@ class TriSpectralPowerDistribution(object):
         :attr:`TriSpectralPowerDistribution.values` is read only.
         """
 
-        return np.array([self.get(wavelength)
-                         for wavelength in self.wavelengths])
+        return self[self.wavelengths]
 
     @values.setter
     def values(self, value):
@@ -2689,11 +2684,11 @@ class TriSpectralPowerDistribution(object):
 
         Returns
         -------
-        generator
-            Tri-spectral power distribution data generator.
+        ndarray
+            Tri-spectral power distribution data.
         """
 
-        return self.__iter__()
+        return np.array(list(self.__iter__()))
 
     @items.setter
     def items(self, value):
@@ -2864,9 +2859,9 @@ class TriSpectralPowerDistribution(object):
         See :meth:`SpectralPowerDistribution.__hash__` method warning section.
         """
 
-        return hash((frozenset(self._data.get('x')),
-                     frozenset(self._data.get('y')),
-                     frozenset(self._data.get('z'))))
+        return hash((frozenset(self._data['x']),
+                     frozenset(self._data['y']),
+                     frozenset(self._data['z'])))
 
     def __getitem__(self, wavelength):
         """
@@ -2910,9 +2905,8 @@ class TriSpectralPowerDistribution(object):
                [ 88.19,  23.45,  90.28]])
         """
 
-        value = tstack((np.asarray(self.x[wavelength]),
-                        np.asarray(self.y[wavelength]),
-                        np.asarray(self.z[wavelength])))
+        value = tstack(
+            (self.x[wavelength], self.y[wavelength], self.z[wavelength]))
 
         return value
 
@@ -2946,8 +2940,9 @@ class TriSpectralPowerDistribution(object):
         >>> tri_spd[510] = np.array([49.67, 49.67, 49.67])
         >>> tri_spd.values
         array([[ 49.67,  49.67,  49.67]])
-        >>> tri_spd[np.array([520, 530])] = np.array([[69.59, 69.59, 69.59],
-        ...                                           [81.73, 81.73, 81.73]])
+        >>> tri_spd[np.array([520, 530])] = np.array(
+        ... [[69.59, 69.59, 69.59],
+        ...  [81.73, 81.73, 81.73]])
         >>> tri_spd.values
         array([[ 49.67,  49.67,  49.67],
                [ 69.59,  69.59,  69.59],
@@ -2979,9 +2974,9 @@ class TriSpectralPowerDistribution(object):
 
         value = np.resize(value, (wavelengths.shape[0], 3))
 
-        self.x.__setitem__(wavelengths, value[..., 0])
-        self.y.__setitem__(wavelengths, value[..., 1])
-        self.z.__setitem__(wavelengths, value[..., 2])
+        self.x[wavelengths] = value[..., 0]
+        self.y[wavelengths] = value[..., 1]
+        self.z[wavelengths] = value[..., 2]
 
     def __iter__(self):
         """
@@ -3006,14 +3001,14 @@ class TriSpectralPowerDistribution(object):
         >>> tri_spd = TriSpectralPowerDistribution('Observer', data, mapping)
         >>> # Doctests skip for Python 2.x compatibility.
         >>> for wavelength, value in tri_spd:  # doctest: +SKIP
-        ...     print((wavelength, value))
+        ...     print(wavelength, value)
         (510, array([ 49.67,  90.56,  12.43]))
         (520, array([ 69.59,  87.34,  23.15]))
         (530, array([ 81.73,  45.76,  67.98]))
         (540, array([ 88.19,  23.45,  90.28]))
         """
 
-        return zip(self.wavelengths, self.values)
+        return iter(zip(self.wavelengths, self.values))
 
     def __contains__(self, wavelength):
         """
@@ -3739,10 +3734,9 @@ class TriSpectralPowerDistribution(object):
         wavelength = np.asarray(wavelength)
 
         default = np.resize(default, 3)
-        value = np.array([(self.x.get(x, default[0]),
-                           self.y.get(x, default[1]),
-                           self.z.get(x, default[2]))
-                          for x in np.ravel(wavelength)])
+        value = tstack([self.x.get(wavelength, default[0]),
+                        self.y.get(wavelength, default[1]),
+                        self.z.get(wavelength, default[2])])
 
         value = np.reshape(value, wavelength.shape + (3,))
 
@@ -4128,9 +4122,10 @@ class TriSpectralPowerDistribution(object):
         >>> data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
         >>> mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
         >>> tri_spd = TriSpectralPowerDistribution('Observer', data, mapping)
-        >>> print(tri_spd.trim_wavelengths(SpectralShape(520, 550, 10)))
-        TriSpectralPowerDistribution('Observer', (520.0, 550.0, 10.0))
         >>> # Doctests skip for Python 2.x compatibility.
+        >>> print(tri_spd.trim_wavelengths(  # doctest: +SKIP
+        ...     SpectralShape(520, 550, 10)))
+        TriSpectralPowerDistribution('Observer', (520.0, 550.0, 10.0))
         >>> tri_spd.wavelengths  # doctest: +SKIP
         array([ 520.,  530.,  540.,  550.])
         """
@@ -4361,7 +4356,13 @@ class TriSpectralPowerDistribution(object):
         TriSpectralPowerDistribution('Observer (...)', (510..., 560..., 10...))
         """
 
-        clone = copy.deepcopy(self)
+        data = {self.mapping['x']: self.x.data.data,
+                self.mapping['y']: self.y.data.data,
+                self.mapping['z']: self.z.data.data}
+        mapping = self.mapping.copy()
+        labels = self.labels.copy()
+        clone = TriSpectralPowerDistribution(
+            self.name, data, mapping, self.title, labels)
 
         clone.name = '{0} ({1})'.format(clone.name, id(clone))
 
@@ -4371,17 +4372,15 @@ class TriSpectralPowerDistribution(object):
         return clone
 
 
-DEFAULT_SPECTRAL_SHAPE = SpectralShape(360, 830, 1)
+DEFAULT_SPECTRAL_SHAPE = SpectralShape(360, 780, 1)
 """
-Default spectral shape using the shape of
-*CIE 1931 2 Degree Standard Observer*.
+Default spectral shape using *ASTM E308–15* practise shape.
 
 DEFAULT_SPECTRAL_SHAPE : SpectralShape
 """
 
 
-def constant_spd(k,
-                 shape=DEFAULT_SPECTRAL_SHAPE):
+def constant_spd(k, shape=DEFAULT_SPECTRAL_SHAPE):
     """
     Returns a spectral power distribution of given spectral shape filled with
     constant :math:`k` values.
@@ -4407,7 +4406,7 @@ def constant_spd(k,
     --------
     >>> spd = constant_spd(100)
     >>> spd.shape
-    SpectralShape(360.0, 830.0, 1.0)
+    SpectralShape(360.0, 780.0, 1.0)
     >>> spd[400]
     array(100.0)
     """
@@ -4448,7 +4447,7 @@ def zeros_spd(shape=DEFAULT_SPECTRAL_SHAPE):
     --------
     >>> spd = zeros_spd()
     >>> spd.shape
-    SpectralShape(360.0, 830.0, 1.0)
+    SpectralShape(360.0, 780.0, 1.0)
     >>> spd[400]
     array(0.0)
     """
@@ -4484,7 +4483,7 @@ def ones_spd(shape=DEFAULT_SPECTRAL_SHAPE):
     --------
     >>> spd = ones_spd()
     >>> spd.shape
-    SpectralShape(360.0, 830.0, 1.0)
+    SpectralShape(360.0, 780.0, 1.0)
     >>> spd[400]
     array(1.0)
     """

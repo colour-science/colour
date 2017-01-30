@@ -3012,7 +3012,7 @@ class TestConstantSpd(unittest.TestCase):
 
         self.assertEqual(spd[555], k)
 
-        self.assertEqual(spd[830], k)
+        self.assertEqual(spd[780], k)
 
 
 class TestZerosSpd(unittest.TestCase):
@@ -3029,11 +3029,11 @@ class TestZerosSpd(unittest.TestCase):
 
         spd = zeros_spd()
 
-        self.assertEqual(spd[360], 0.)
+        self.assertEqual(spd[360], 0)
 
-        self.assertEqual(spd[555], 0.)
+        self.assertEqual(spd[555], 0)
 
-        self.assertEqual(spd[830], 0.)
+        self.assertEqual(spd[780], 0)
 
 
 class TestOnes_spd(unittest.TestCase):
@@ -3050,11 +3050,11 @@ class TestOnes_spd(unittest.TestCase):
 
         spd = ones_spd()
 
-        self.assertEqual(spd[360], 1.)
+        self.assertEqual(spd[360], 1)
 
-        self.assertEqual(spd[555], 1.)
+        self.assertEqual(spd[555], 1)
 
-        self.assertEqual(spd[830], 1.)
+        self.assertEqual(spd[780], 1)
 
 
 if __name__ == '__main__':
