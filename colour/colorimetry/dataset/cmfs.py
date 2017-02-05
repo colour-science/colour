@@ -78,7 +78,7 @@ from colour.colorimetry import (
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -3000,15 +3000,15 @@ LMS_CMFS_DATA = {
 LMS_CMFS = CaseInsensitiveMapping(
     {'Stockman & Sharpe 2 Degree Cone Fundamentals': LMS_ConeFundamentals(
         'Stockman & Sharpe 2 Degree Cone Fundamentals',
-        LMS_CMFS_DATA.get('Stockman & Sharpe 2 Degree Cone Fundamentals'),
+        LMS_CMFS_DATA['Stockman & Sharpe 2 Degree Cone Fundamentals'],
         'Stockman & Sharpe 2$^\\circ$ Cone Fundamentals'),
      'Stockman & Sharpe 10 Degree Cone Fundamentals': LMS_ConeFundamentals(
          'Stockman & Sharpe 10 Degree Cone Fundamentals',
-         LMS_CMFS_DATA.get('Stockman & Sharpe 10 Degree Cone Fundamentals'),
+         LMS_CMFS_DATA['Stockman & Sharpe 10 Degree Cone Fundamentals'],
          'Stockman & Sharpe 10$^\\circ$ Cone Fundamentals'),
      'Smith & Pokorny 1975 Normal Trichromats': LMS_ConeFundamentals(
          'Smith & Pokorny 1975 Normal Trichromats',
-         LMS_CMFS_DATA.get('Smith & Pokorny 1975 Normal Trichromats'),
+         LMS_CMFS_DATA['Smith & Pokorny 1975 Normal Trichromats'],
          'Smith & Pokorny 1975 Normal Trichromats')})
 """
 *LMS* colour matching functions.
@@ -3755,15 +3755,15 @@ RGB_CMFS_DATA = {
 RGB_CMFS = CaseInsensitiveMapping(
     {'Wright & Guild 1931 2 Degree RGB CMFs': RGB_ColourMatchingFunctions(
         'Wright & Guild 1931 2 Degree RGB CMFs',
-        RGB_CMFS_DATA.get('Wright & Guild 1931 2 Degree RGB CMFs'),
+        RGB_CMFS_DATA['Wright & Guild 1931 2 Degree RGB CMFs'],
         'Wright & Guild 1931 2$^\\circ$ RGB CMFs', ),
      'Stiles & Burch 1955 2 Degree RGB CMFs': RGB_ColourMatchingFunctions(
          'Stiles & Burch 1955 2 Degree RGB CMFs',
-         RGB_CMFS_DATA.get('Stiles & Burch 1955 2 Degree RGB CMFs'),
+         RGB_CMFS_DATA['Stiles & Burch 1955 2 Degree RGB CMFs'],
          'Stiles & Burch 1955 2$^\\circ$ RGB CMFs'),
      'Stiles & Burch 1959 10 Degree RGB CMFs': RGB_ColourMatchingFunctions(
          'Stiles & Burch 1959 10 Degree RGB CMFs',
-         RGB_CMFS_DATA.get('Stiles & Burch 1959 10 Degree RGB CMFs'),
+         RGB_CMFS_DATA['Stiles & Burch 1959 10 Degree RGB CMFs'],
          'Stiles & Burch 1959 10$^\\circ$ RGB CMFs')})
 """
 *CIE RGB* colour matching functions.
@@ -9275,23 +9275,23 @@ STANDARD_OBSERVERS_CMFS_DATA = {
 STANDARD_OBSERVERS_CMFS = CaseInsensitiveMapping(
     {'CIE 1931 2 Degree Standard Observer': XYZ_ColourMatchingFunctions(
         'CIE 1931 2 Degree Standard Observer',
-        STANDARD_OBSERVERS_CMFS_DATA.get(
-            'CIE 1931 2 Degree Standard Observer'),
+        STANDARD_OBSERVERS_CMFS_DATA[
+            'CIE 1931 2 Degree Standard Observer'],
         'CIE 1931 2$^\\circ$ Standard Observer'),
      'CIE 1964 10 Degree Standard Observer': XYZ_ColourMatchingFunctions(
          'CIE 1964 10 Degree Standard Observer',
-         STANDARD_OBSERVERS_CMFS_DATA.get(
-             'CIE 1964 10 Degree Standard Observer'),
+         STANDARD_OBSERVERS_CMFS_DATA[
+             'CIE 1964 10 Degree Standard Observer'],
          'CIE 1964 10$^\\circ$ Standard Observer'),
      'CIE 2012 2 Degree Standard Observer': XYZ_ColourMatchingFunctions(
          'CIE 2012 2 Degree Standard Observer',
-         STANDARD_OBSERVERS_CMFS_DATA.get(
-             'CIE 2012 2 Degree Standard Observer'),
+         STANDARD_OBSERVERS_CMFS_DATA[
+             'CIE 2012 2 Degree Standard Observer'],
          'CIE 2012 2$^\\circ$ Standard Observer'),
      'CIE 2012 10 Degree Standard Observer': XYZ_ColourMatchingFunctions(
          'CIE 2012 10 Degree Standard Observer',
-         STANDARD_OBSERVERS_CMFS_DATA.get(
-             'CIE 2012 10 Degree Standard Observer'),
+         STANDARD_OBSERVERS_CMFS_DATA[
+             'CIE 2012 10 Degree Standard Observer'],
          'CIE 2012 10$^\\circ$ Standard Observer')})
 """
 *CIE* Standard Observers *XYZ* colour matching functions.

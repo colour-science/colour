@@ -23,7 +23,7 @@ from colour.models import xyY_to_XYZ
 from colour.volume import ILLUMINANTS_OPTIMAL_COLOUR_STIMULI
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -52,7 +52,6 @@ def _XYZ_optimal_colour_stimuli(illuminant):
     """
 
     optimal_colour_stimuli = ILLUMINANTS_OPTIMAL_COLOUR_STIMULI.get(illuminant)
-
     if optimal_colour_stimuli is None:
         raise KeyError(
             '"{0}" not found in factory '

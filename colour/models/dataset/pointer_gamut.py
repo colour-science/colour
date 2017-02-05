@@ -26,7 +26,7 @@ import numpy as np
 from colour.colorimetry import LIGHT_SOURCES
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -36,8 +36,8 @@ __all__ = ['POINTER_GAMUT_ILLUMINANT',
            'POINTER_GAMUT_DATA',
            'POINTER_GAMUT_BOUNDARIES']
 
-POINTER_GAMUT_ILLUMINANT = LIGHT_SOURCES.get(
-    'CIE 1931 2 Degree Standard Observer').get('SC')
+POINTER_GAMUT_ILLUMINANT = (
+    LIGHT_SOURCES['CIE 1931 2 Degree Standard Observer']['SC'])
 """
 *Pointer's Gamut* illuminant *SC*.
 

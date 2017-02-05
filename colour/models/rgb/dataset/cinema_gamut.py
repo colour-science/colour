@@ -33,7 +33,7 @@ from colour.models.rgb import (
     linear_function)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -63,16 +63,17 @@ CINEMA_GAMUT_ILLUMINANT = 'D65'
 CINEMA_GAMUT_ILLUMINANT : unicode
 """
 
-CINEMA_GAMUT_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(CINEMA_GAMUT_ILLUMINANT)
+CINEMA_GAMUT_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+        CINEMA_GAMUT_ILLUMINANT])
 """
 *Cinema Gamut* colourspace whitepoint.
 
 CINEMA_GAMUT_WHITEPOINT : ndarray
 """
 
-CINEMA_GAMUT_TO_XYZ_MATRIX = normalised_primary_matrix(CINEMA_GAMUT_PRIMARIES,
-                                                       CINEMA_GAMUT_WHITEPOINT)
+CINEMA_GAMUT_TO_XYZ_MATRIX = normalised_primary_matrix(
+    CINEMA_GAMUT_PRIMARIES, CINEMA_GAMUT_WHITEPOINT)
 """
 *Cinema Gamut* colourspace to *CIE XYZ* tristimulus values matrix.
 

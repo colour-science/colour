@@ -36,7 +36,7 @@ from colour.models.rgb import (
     eotf_BT2020)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -66,16 +66,16 @@ REC_2020_ILLUMINANT = 'D65'
 REC_2020_ILLUMINANT : unicode
 """
 
-REC_2020_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(REC_2020_ILLUMINANT)
+REC_2020_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][REC_2020_ILLUMINANT])
 """
 *Rec. 2020* colourspace whitepoint.
 
 REC_2020_WHITEPOINT : ndarray
 """
 
-REC_2020_TO_XYZ_MATRIX = normalised_primary_matrix(REC_2020_PRIMARIES,
-                                                   REC_2020_WHITEPOINT)
+REC_2020_TO_XYZ_MATRIX = normalised_primary_matrix(
+    REC_2020_PRIMARIES, REC_2020_WHITEPOINT)
 """
 *Rec. 2020* colourspace to *CIE XYZ* tristimulus values matrix.
 

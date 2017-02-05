@@ -43,7 +43,7 @@ from colour.models.rgb import (
     eotf_DCIP3)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -93,8 +93,8 @@ official reference spectral measurement for this whitepoint. The closest
 matching spectral power distribution is Kinoton 75P projector.
 """
 
-DCI_P3_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(DCI_P3_ILLUMINANT)
+DCI_P3_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][DCI_P3_ILLUMINANT])
 """
 *DCI-P3* colourspace whitepoint.
 
@@ -102,8 +102,7 @@ DCI_P3_WHITEPOINT : ndarray
 """
 
 DCI_P3_TO_XYZ_MATRIX = normalised_primary_matrix(
-    DCI_P3_PRIMARIES,
-    DCI_P3_WHITEPOINT)
+    DCI_P3_PRIMARIES, DCI_P3_WHITEPOINT)
 """
 *DCI-P3* colourspace to *CIE XYZ* tristimulus values matrix.
 
@@ -118,8 +117,7 @@ XYZ_TO_DCI_P3_MATRIX : array_like, (3, 3)
 """
 
 DCI_P3_P_TO_XYZ_MATRIX = normalised_primary_matrix(
-    DCI_P3_P_PRIMARIES,
-    DCI_P3_WHITEPOINT)
+    DCI_P3_P_PRIMARIES, DCI_P3_WHITEPOINT)
 """
 *DCI-P3+* colourspace to *CIE XYZ* tristimulus values matrix.
 

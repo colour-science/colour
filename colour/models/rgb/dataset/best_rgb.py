@@ -33,7 +33,7 @@ from colour.models.rgb import (
     normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -63,16 +63,16 @@ BEST_RGB_ILLUMINANT = 'D50'
 BEST_RGB_ILLUMINANT : unicode
 """
 
-BEST_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(BEST_RGB_ILLUMINANT)
+BEST_RGB_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][BEST_RGB_ILLUMINANT])
 """
 *Best RGB* colourspace whitepoint.
 
 BEST_RGB_WHITEPOINT : ndarray
 """
 
-BEST_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(BEST_RGB_PRIMARIES,
-                                                   BEST_RGB_WHITEPOINT)
+BEST_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(
+    BEST_RGB_PRIMARIES, BEST_RGB_WHITEPOINT)
 """
 *Best RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 

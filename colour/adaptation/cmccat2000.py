@@ -38,7 +38,7 @@ from colour.adaptation import CMCCAT2000_CAT
 from colour.utilities import CaseInsensitiveMapping, dot_vector
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -90,7 +90,7 @@ def chromatic_adaptation_forward_CMCCAT2000(
         XYZ_wr,
         L_A1,
         L_A2,
-        surround=CMCCAT2000_VIEWING_CONDITIONS.get('Average')):
+        surround=CMCCAT2000_VIEWING_CONDITIONS['Average']):
     """
     Adapts given stimulus *CIE XYZ* tristimulus values from test viewing
     conditions to reference viewing conditions using *CMCCAT2000* forward
@@ -169,7 +169,7 @@ def chromatic_adaptation_reverse_CMCCAT2000(
         XYZ_wr,
         L_A1,
         L_A2,
-        surround=CMCCAT2000_VIEWING_CONDITIONS.get('Average')):
+        surround=CMCCAT2000_VIEWING_CONDITIONS['Average']):
     """
     Adapts given stimulus corresponding colour *CIE XYZ* tristimulus values
     from reference viewing conditions to test viewing conditions using
@@ -248,7 +248,7 @@ def chromatic_adaptation_CMCCAT2000(
         XYZ_wr,
         L_A1,
         L_A2,
-        surround=CMCCAT2000_VIEWING_CONDITIONS.get('Average'),
+        surround=CMCCAT2000_VIEWING_CONDITIONS['Average'],
         method='Forward'):
     """
     Adapts given stimulus *CIE XYZ* tristimulus values using given viewing

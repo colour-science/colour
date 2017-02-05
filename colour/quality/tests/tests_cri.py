@@ -15,7 +15,7 @@ from colour.colorimetry import (
     SpectralPowerDistribution)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -119,12 +119,12 @@ class TestColourRenderingIndex(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            colour_rendering_index(ILLUMINANTS_RELATIVE_SPDS.get('F2')),
+            colour_rendering_index(ILLUMINANTS_RELATIVE_SPDS['F2']),
             64.151520202968015,
             places=7)
 
         self.assertAlmostEqual(
-            colour_rendering_index(ILLUMINANTS_RELATIVE_SPDS.get('A')),
+            colour_rendering_index(ILLUMINANTS_RELATIVE_SPDS['A']),
             99.996732643006169,
             places=7)
 

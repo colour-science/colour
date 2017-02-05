@@ -39,7 +39,7 @@ from colour.models import UCS_to_uv, XYZ_to_UCS, XYZ_to_xyY
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Robertson1968
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -109,7 +109,7 @@ def colour_rendering_index(spd_test, additional_data=False):
     Examples
     --------
     >>> from colour import ILLUMINANTS_RELATIVE_SPDS
-    >>> spd = ILLUMINANTS_RELATIVE_SPDS.get('F2')
+    >>> spd = ILLUMINANTS_RELATIVE_SPDS['F2']
     >>> colour_rendering_index(spd)  # doctest: +ELLIPSIS
     64.1515202...
     """
@@ -117,6 +117,7 @@ def colour_rendering_index(spd_test, additional_data=False):
     cmfs = STANDARD_OBSERVERS_CMFS[
         'CIE 1931 2 Degree Standard Observer'].clone().trim_wavelengths(
         ASTME30815_PRACTISE_SHAPE)
+
     shape = cmfs.shape
     spd_test = spd_test.clone().align(shape)
     tcs_spds = {spd.name: spd.clone().align(shape)

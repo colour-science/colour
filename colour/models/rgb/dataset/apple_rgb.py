@@ -33,7 +33,7 @@ from colour.models.rgb import (
     normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -63,16 +63,16 @@ APPLE_RGB_ILLUMINANT = 'D65'
 APPLE_RGB_ILLUMINANT : unicode
 """
 
-APPLE_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(APPLE_RGB_ILLUMINANT)
+APPLE_RGB_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][APPLE_RGB_ILLUMINANT])
 """
 *Apple RGB* colourspace whitepoint.
 
 APPLE_RGB_WHITEPOINT : ndarray
 """
 
-APPLE_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(APPLE_RGB_PRIMARIES,
-                                                    APPLE_RGB_WHITEPOINT)
+APPLE_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(
+    APPLE_RGB_PRIMARIES, APPLE_RGB_WHITEPOINT)
 """
 *Apple RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 

@@ -33,7 +33,7 @@ from colour.models.rgb import (
     normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -63,8 +63,8 @@ RUSSELL_RGB_ILLUMINANT = 'D55'
 RUSSELL_RGB_ILLUMINANT : unicode
 """
 
-RUSSELL_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(RUSSELL_RGB_ILLUMINANT)
+RUSSELL_RGB_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][RUSSELL_RGB_ILLUMINANT])
 """
 *Russell RGB* colourspace whitepoint.
 

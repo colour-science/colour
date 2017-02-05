@@ -56,7 +56,7 @@ from colour.plotting import (
 from colour.utilities import normalise_maximum
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -197,7 +197,7 @@ def multi_spd_plot(spds,
     cmfs = get_cmfs(cmfs)
 
     if use_spds_colours:
-        illuminant = ILLUMINANTS_RELATIVE_SPDS.get('D65')
+        illuminant = ILLUMINANTS_RELATIVE_SPDS['D65']
 
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
     for spd in spds:
@@ -327,7 +327,7 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
                        values,
                        color=rgb,
                        label=u'{0} - {1}'.format(
-                           cmfs_i.labels.get(axis), cmfs_i.title),
+                           cmfs_i.labels[axis], cmfs_i.title),
                        linewidth=2)
 
     settings = {

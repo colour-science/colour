@@ -29,7 +29,7 @@ import numpy as np
 from colour.utilities import CaseInsensitiveMapping, as_numeric
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -213,8 +213,8 @@ def log_encoding_ALEXALogC(x,
 
     x = np.asarray(x)
 
-    cut, a, b, c, d, e, f, _e_cut_f = ALEXA_LOG_C_CURVE_CONVERSION_DATA.get(
-        firmware).get(method).get(EI)
+    cut, a, b, c, d, e, f, _e_cut_f = (
+        ALEXA_LOG_C_CURVE_CONVERSION_DATA[firmware][method][EI])
 
     return as_numeric(np.where(x > cut,
                                c * np.log10(a * x + b) + d,
@@ -256,7 +256,7 @@ def log_decoding_ALEXALogC(t,
     t = np.asarray(t)
 
     cut, a, b, c, d, e, f, _e_cut_f = (
-        ALEXA_LOG_C_CURVE_CONVERSION_DATA.get(firmware).get(method).get(EI))
+        ALEXA_LOG_C_CURVE_CONVERSION_DATA[firmware][method][EI])
 
     return as_numeric(np.where(t > e * cut + f,
                                (np.power(10, (t - d) / c) - b) / a,

@@ -33,7 +33,7 @@ from colour.models.rgb import (
     normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -63,8 +63,9 @@ COLOR_MATCH_RGB_ILLUMINANT = 'D50'
 COLOR_MATCH_RGB_ILLUMINANT : unicode
 """
 
-COLOR_MATCH_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(COLOR_MATCH_RGB_ILLUMINANT)
+COLOR_MATCH_RGB_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+        COLOR_MATCH_RGB_ILLUMINANT])
 """
 *ColorMatch RGB* colourspace whitepoint.
 
@@ -72,8 +73,7 @@ COLOR_MATCH_RGB_WHITEPOINT : ndarray
 """
 
 COLOR_MATCH_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(
-    COLOR_MATCH_RGB_PRIMARIES,
-    COLOR_MATCH_RGB_WHITEPOINT)
+    COLOR_MATCH_RGB_PRIMARIES, COLOR_MATCH_RGB_WHITEPOINT)
 """
 *ColorMatch RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 

@@ -39,7 +39,7 @@ from colour.models.rgb import (
     eotf_sRGB)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -69,8 +69,8 @@ sRGB_ILLUMINANT = 'D65'
 sRGB_WHITEPOINT : unicode
 """
 
-sRGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(sRGB_ILLUMINANT)
+sRGB_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][sRGB_ILLUMINANT])
 """
 *sRGB* colourspace whitepoint.
 

@@ -68,7 +68,7 @@ from colour.utilities import (
     tsplit)
 
 __author__ = 'Colour Developers, Paul Centore'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -138,9 +138,9 @@ MUNSELL_HUE_LETTER_CODES = Lookup({
     'P': 9})
 
 MUNSELL_DEFAULT_ILLUMINANT = 'C'
-MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(
-    MUNSELL_DEFAULT_ILLUMINANT)
+MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+        MUNSELL_DEFAULT_ILLUMINANT])
 
 _MUNSELL_SPECIFICATIONS_CACHE = None
 _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE = None

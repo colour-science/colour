@@ -17,7 +17,7 @@ And computation of correlates:
 References
 ----------
 .. [1]  Fairchild, M. D. (2013). IPT Colourspace. In Color Appearance Models
-        (3rd ed., pp. 8492–8567). Wiley. ISBN:B00DAYO8E2
+        (3rd ed., pp. 6197–6223). Wiley. ISBN:B00DAYO8E2
 """
 
 from __future__ import division, unicode_literals
@@ -27,7 +27,7 @@ import numpy as np
 from colour.utilities import dot_vector, tsplit
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'

@@ -40,7 +40,7 @@ from colour.characterisation import RGB_SpectralSensitivities
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -392,12 +392,10 @@ DSL_CAMERAS_RGB_SPECTRAL_SENSITIVITIES_DATA = {
 DSL_CAMERAS_RGB_SPECTRAL_SENSITIVITIES = CaseInsensitiveMapping({
     'Nikon 5100 (NPL)': RGB_SpectralSensitivities(
         'Nikon 5100 (NPL)',
-        DSL_CAMERAS_RGB_SPECTRAL_SENSITIVITIES_DATA.get(
-            'Nikon 5100 (NPL)')),
+        DSL_CAMERAS_RGB_SPECTRAL_SENSITIVITIES_DATA['Nikon 5100 (NPL)']),
     'Sigma SDMerill (NPL)': RGB_SpectralSensitivities(
         'Sigma SDMerill (NPL)',
-        DSL_CAMERAS_RGB_SPECTRAL_SENSITIVITIES_DATA.get(
-            'Sigma SDMerill (NPL)'))})
+        DSL_CAMERAS_RGB_SPECTRAL_SENSITIVITIES_DATA['Sigma SDMerill (NPL)'])})
 """
 *DSLR* cameras *RGB* spectral sensitivities.
 

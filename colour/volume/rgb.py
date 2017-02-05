@@ -35,7 +35,7 @@ from colour.models import (
 from colour.volume import is_within_pointer_gamut, is_within_visible_spectrum
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -72,8 +72,8 @@ def sample_RGB_colourspace_volume_MonteCarlo(
         colourspace,
         samples=10e6,
         limits=np.array([[0, 100], [-150, 150], [-150, 150]]),
-        illuminant_Lab=ILLUMINANTS.get(
-            'CIE 1931 2 Degree Standard Observer').get('D50'),
+        illuminant_Lab=ILLUMINANTS[
+            'CIE 1931 2 Degree Standard Observer']['D50'],
         chromatic_adaptation_method='CAT02',
         random_generator=random_triplet_generator,
         random_state=None):
@@ -144,10 +144,9 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
     return len(RGB_w)
 
 
-def RGB_colourspace_limits(colourspace,
-                           illuminant=ILLUMINANTS.get(
-                               'CIE 1931 2 Degree Standard Observer').get(
-                               'D50')):
+def RGB_colourspace_limits(
+        colourspace,
+        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']):
     """
     Computes given *RGB* colourspace volume limits in *Lab* colourspace.
 
@@ -191,8 +190,8 @@ def RGB_colourspace_volume_MonteCarlo(
         colourspace,
         samples=10e6,
         limits=np.array([[0, 100], [-150, 150], [-150, 150]]),
-        illuminant_Lab=ILLUMINANTS.get(
-            'CIE 1931 2 Degree Standard Observer').get('D50'),
+        illuminant_Lab=ILLUMINANTS[
+            'CIE 1931 2 Degree Standard Observer']['D50'],
         chromatic_adaptation_method='CAT02',
         random_generator=random_triplet_generator,
         random_state=None,

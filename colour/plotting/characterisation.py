@@ -27,7 +27,7 @@ from colour.plotting import (
     multi_colour_plot)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -131,7 +131,7 @@ def colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
     pylab.text(text_x,
                text_y,
                '{0} - {1} - Colour Rendition Chart'.format(
-                   name, RGB_COLOURSPACES.get('sRGB').name),
+                   name, RGB_COLOURSPACES['sRGB'].name),
                color='0.95',
                clip_on=True,
                ha='center')

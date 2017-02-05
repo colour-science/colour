@@ -5,8 +5,6 @@
 Showcases corresponding chromaticities prediction computations.
 """
 
-from __future__ import division, unicode_literals
-
 from pprint import pprint
 
 import colour

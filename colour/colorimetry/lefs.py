@@ -33,7 +33,7 @@ from colour.colorimetry.dataset.lefs import MESOPIC_X_DATA
 from colour.utilities import closest
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -43,14 +43,13 @@ __all__ = ['mesopic_weighting_function',
            'mesopic_luminous_efficiency_function']
 
 
-def mesopic_weighting_function(wavelength,
-                               Lp,
-                               source='Blue Heavy',
-                               method='MOVE',
-                               photopic_lef=PHOTOPIC_LEFS.get(
-                                   'CIE 1924 Photopic Standard Observer'),
-                               scotopic_lef=SCOTOPIC_LEFS.get(
-                                   'CIE 1951 Scotopic Standard Observer')):
+def mesopic_weighting_function(
+        wavelength,
+        Lp,
+        source='Blue Heavy',
+        method='MOVE',
+        photopic_lef=PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer'],
+        scotopic_lef=SCOTOPIC_LEFS['CIE 1951 Scotopic Standard Observer']):
     """
     Calculates the mesopic weighting function factor at given wavelength
     :math:`\lambda` using the photopic luminance :math:`L_p`.
@@ -87,8 +86,7 @@ def mesopic_weighting_function(wavelength,
     mesopic_x_luminance_values = sorted(MESOPIC_X_DATA.keys())
     index = mesopic_x_luminance_values.index(
         closest(mesopic_x_luminance_values, Lp))
-    x = MESOPIC_X_DATA.get(
-        mesopic_x_luminance_values[index]).get(source).get(method)
+    x = MESOPIC_X_DATA[mesopic_x_luminance_values[index]][source][method]
 
     Vm = ((1 - x) *
           scotopic_lef.get(wavelength) + x * photopic_lef.get(wavelength))
@@ -100,10 +98,8 @@ def mesopic_luminous_efficiency_function(
         Lp,
         source='Blue Heavy',
         method='MOVE',
-        photopic_lef=PHOTOPIC_LEFS.get(
-            'CIE 1924 Photopic Standard Observer'),
-        scotopic_lef=SCOTOPIC_LEFS.get(
-            'CIE 1951 Scotopic Standard Observer')):
+        photopic_lef=PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer'],
+        scotopic_lef=SCOTOPIC_LEFS['CIE 1951 Scotopic Standard Observer']):
     """
     Returns the mesopic luminous efficiency function :math:`V_m(\lambda)` for
     given photopic luminance :math:`L_p`.

@@ -26,7 +26,7 @@ from colour.models import (
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -477,9 +477,9 @@ class TestRGB_to_RGB_matrix(unittest.TestCase):
         definition.
         """
 
-        aces_2065_1_colourspace = RGB_COLOURSPACES.get('ACES2065-1')
-        aces_cg_colourspace = RGB_COLOURSPACES.get('ACEScg')
-        sRGB_colourspace = RGB_COLOURSPACES.get('sRGB')
+        aces_2065_1_colourspace = RGB_COLOURSPACES['ACES2065-1']
+        aces_cg_colourspace = RGB_COLOURSPACES['ACEScg']
+        sRGB_colourspace = RGB_COLOURSPACES['sRGB']
 
         np.testing.assert_almost_equal(
             RGB_to_RGB_matrix(aces_2065_1_colourspace,
@@ -518,8 +518,8 @@ class TestRGB_to_RGB(unittest.TestCase):
         Tests :func:`colour.models.rgb.rgb_colourspace.RGB_to_RGB` definition.
         """
 
-        aces_2065_1_colourspace = RGB_COLOURSPACES.get('ACES2065-1')
-        sRGB_colourspace = RGB_COLOURSPACES.get('sRGB')
+        aces_2065_1_colourspace = RGB_COLOURSPACES['ACES2065-1']
+        sRGB_colourspace = RGB_COLOURSPACES['sRGB']
 
         np.testing.assert_almost_equal(
             RGB_to_RGB(np.array([0.35521588, 0.41000000, 0.24177934]),
@@ -543,8 +543,8 @@ class TestRGB_to_RGB(unittest.TestCase):
             np.array([0.33699893, 0.44136948, 0.21432296]),
             decimal=7)
 
-        aces_cg_colourspace = RGB_COLOURSPACES.get('ACEScg')
-        aces_cc_colourspace = RGB_COLOURSPACES.get('ACEScc')
+        aces_cg_colourspace = RGB_COLOURSPACES['ACEScg']
+        aces_cc_colourspace = RGB_COLOURSPACES['ACEScc']
 
         np.testing.assert_almost_equal(
             RGB_to_RGB(np.array([0.35521588, 0.41000000, 0.24177934]),
@@ -570,8 +570,8 @@ class TestRGB_to_RGB(unittest.TestCase):
         n-dimensions support.
         """
 
-        aces_2065_1_colourspace = RGB_COLOURSPACES.get('ACES2065-1')
-        sRGB_colourspace = RGB_COLOURSPACES.get('sRGB')
+        aces_2065_1_colourspace = RGB_COLOURSPACES['ACES2065-1']
+        sRGB_colourspace = RGB_COLOURSPACES['sRGB']
         RGB_i = np.array([0.35521588, 0.41000000, 0.24177934])
         RGB_o = np.array([0.33654049, 0.44099674, 0.21512677])
         np.testing.assert_almost_equal(
@@ -600,8 +600,8 @@ class TestRGB_to_RGB(unittest.TestCase):
         nan support.
         """
 
-        aces_2065_1_colourspace = RGB_COLOURSPACES.get('ACES2065-1')
-        sRGB_colourspace = RGB_COLOURSPACES.get('sRGB')
+        aces_2065_1_colourspace = RGB_COLOURSPACES['ACES2065-1']
+        sRGB_colourspace = RGB_COLOURSPACES['sRGB']
 
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))

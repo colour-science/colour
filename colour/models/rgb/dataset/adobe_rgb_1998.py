@@ -30,7 +30,7 @@ from colour.colorimetry import ILLUMINANTS
 from colour.models.rgb import RGB_Colourspace, gamma_function
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -60,8 +60,9 @@ ADOBE_RGB_1998_ILLUMINANT = 'D65'
 ADOBE_RGB_1998_ILLUMINANT : unicode
 """
 
-ADOBE_RGB_1998_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(ADOBE_RGB_1998_ILLUMINANT)
+ADOBE_RGB_1998_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+        ADOBE_RGB_1998_ILLUMINANT])
 """
 *Adobe RGB (1998)* colourspace whitepoint.
 

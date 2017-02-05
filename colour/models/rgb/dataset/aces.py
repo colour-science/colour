@@ -77,7 +77,7 @@ from colour.models.rgb import (
     log_decoding_ACESproxy)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -125,8 +125,8 @@ ACES_ILLUMINANT = 'D60'
 ACES_ILLUMINANT : unicode
 """
 
-ACES_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(ACES_ILLUMINANT)
+ACES_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][ACES_ILLUMINANT])
 """
 *ACES2065-1* colourspace whitepoint.
 

@@ -51,7 +51,7 @@ from colour.adaptation import chromatic_adaptation_VonKries
 from colour.utilities import tsplit
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -151,7 +151,7 @@ def colour_quality_scale(spd_test, additional_data=False):
     Examples
     --------
     >>> from colour import ILLUMINANTS_RELATIVE_SPDS
-    >>> spd = ILLUMINANTS_RELATIVE_SPDS.get('F2')
+    >>> spd = ILLUMINANTS_RELATIVE_SPDS['F2']
     >>> colour_quality_scale(spd)  # doctest: +ELLIPSIS
     64.6864169...
     """
@@ -159,6 +159,7 @@ def colour_quality_scale(spd_test, additional_data=False):
     cmfs = STANDARD_OBSERVERS_CMFS[
         'CIE 1931 2 Degree Standard Observer'].clone().trim_wavelengths(
         ASTME30815_PRACTISE_SHAPE)
+
     shape = cmfs.shape
     spd_test = spd_test.clone().align(shape)
     vs_spds = {spd.name: spd.clone().align(shape) for spd in VS_SPDS.values()}
@@ -315,7 +316,7 @@ def vs_colorimetry_data(spd_test,
 
     vs_data = []
     for _key, value in sorted(VS_INDEXES_TO_NAMES.items()):
-        spd_vs = spds_vs.get(value)
+        spd_vs = spds_vs[value]
         XYZ_vs = spectral_to_XYZ(spd_vs, cmfs, spd_test)
         XYZ_vs /= 100
 
@@ -354,7 +355,7 @@ def CCT_factor(reference_data, XYZ_r):
         Correlated colour temperature factor.
     """
 
-    xy_w = ILLUMINANTS.get('CIE 1931 2 Degree Standard Observer').get('D65')
+    xy_w = ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']
     XYZ_w = xy_to_XYZ(xy_w)
 
     Labs = []

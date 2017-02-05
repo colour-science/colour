@@ -20,7 +20,7 @@ from colour.colorimetry import STANDARD_OBSERVERS_CMFS
 from colour.volume import is_within_mesh_volume
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -29,10 +29,10 @@ __status__ = 'Production'
 __all__ = ['is_within_visible_spectrum']
 
 
-def is_within_visible_spectrum(XYZ,
-                               cmfs=STANDARD_OBSERVERS_CMFS.get(
-                                   'CIE 1931 2 Degree Standard Observer'),
-                               tolerance=None):
+def is_within_visible_spectrum(
+        XYZ,
+        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
+        tolerance=None):
     """
     Returns if given *CIE XYZ* tristimulus values are within visible spectrum
     volume / given colour matching functions volume.

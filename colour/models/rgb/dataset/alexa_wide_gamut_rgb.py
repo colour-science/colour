@@ -32,7 +32,7 @@ from colour.models.rgb import (
     log_decoding_ALEXALogC)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -62,8 +62,9 @@ ALEXA_WIDE_GAMUT_RGB_ILLUMINANT = 'D65'
 ALEXA_WIDE_GAMUT_RGB_WHITEPOINT : unicode
 """
 
-ALEXA_WIDE_GAMUT_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(ALEXA_WIDE_GAMUT_RGB_ILLUMINANT)
+ALEXA_WIDE_GAMUT_RGB_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+        ALEXA_WIDE_GAMUT_RGB_ILLUMINANT])
 """
 *ALEXA Wide Gamut RGB* colourspace whitepoint.
 

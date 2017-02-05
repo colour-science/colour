@@ -33,7 +33,7 @@ from colour.models.rgb import (
     normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -63,16 +63,16 @@ DON_RGB_4_ILLUMINANT = 'D50'
 DON_RGB_4_ILLUMINANT : unicode
 """
 
-DON_RGB_4_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(DON_RGB_4_ILLUMINANT)
+DON_RGB_4_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][DON_RGB_4_ILLUMINANT])
 """
 *Don RGB 4* colourspace whitepoint.
 
 DON_RGB_4_WHITEPOINT : ndarray
 """
 
-DON_RGB_4_TO_XYZ_MATRIX = normalised_primary_matrix(DON_RGB_4_PRIMARIES,
-                                                    DON_RGB_4_WHITEPOINT)
+DON_RGB_4_TO_XYZ_MATRIX = normalised_primary_matrix(
+    DON_RGB_4_PRIMARIES, DON_RGB_4_WHITEPOINT)
 """
 *Don RGB 4* colourspace to *CIE XYZ* tristimulus values matrix.
 

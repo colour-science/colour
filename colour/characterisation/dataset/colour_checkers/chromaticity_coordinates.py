@@ -45,7 +45,7 @@ from colour.colorimetry import ILLUMINANTS
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -95,8 +95,8 @@ BABELCOLOR_AVERAGE_DATA = (
     (23, 'neutral 3.5 (1.05 D)', np.array([0.3423, 0.3576, 0.0893])),
     (24, 'black 2 (1.5 D)', np.array([0.3439, 0.3565, 0.0320])))
 
-BABELCOLOR_AVERAGE_ILLUMINANT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get('D50')
+BABELCOLOR_AVERAGE_ILLUMINANT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50'])
 """
 *BabelColor Average* illuminant.
 
@@ -137,8 +137,8 @@ COLORCHECKER_2005_DATA = (
     (23, 'neutral 3.5 (1.05 D)', np.array([0.3401, 0.3548, 0.0883])),
     (24, 'black 2 (1.5 D)', np.array([0.3406, 0.3537, 0.0311])))
 
-COLORCHECKER_2005_ILLUMINANT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get('D50')
+COLORCHECKER_2005_ILLUMINANT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50'])
 """
 *ColorChecker 2005* illuminant.
 
@@ -179,8 +179,8 @@ COLORCHECKER_1976_DATA = (
     (23, 'neutral 3.5 (1.05 D)', np.array([0.3101, 0.3163, 0.0900])),
     (24, 'black 2 (1.5 D)', np.array([0.3101, 0.3163, 0.0313])))
 
-COLORCHECKER_1976_ILLUMINANT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get('C')
+COLORCHECKER_1976_ILLUMINANT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['C'])
 """
 *ColorChecker 1976* illuminant.
 

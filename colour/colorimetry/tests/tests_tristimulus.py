@@ -26,7 +26,7 @@ from colour.colorimetry import (
     wavelength_to_XYZ)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -337,7 +337,7 @@ tristimulus_weighting_factors_ASTME202211` definition.
                 1–47. doi:10.1520/E0308-15
         """
 
-        cmfs = CMFS.get('CIE 1964 10 Degree Standard Observer')
+        cmfs = CMFS['CIE 1964 10 Degree Standard Observer']
         wl = cmfs.shape.range()
         A = SpectralPowerDistribution(
             'A (360, 830, 1)',
@@ -357,7 +357,7 @@ tristimulus_weighting_factors_ASTME202211` definition.
             A_CIE_1964_10_20_TWF,
             decimal=3)
 
-        cmfs = CMFS.get('CIE 1931 2 Degree Standard Observer')
+        cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
         D65 = ILLUMINANTS_RELATIVE_SPDS['D65'].clone().align(
             cmfs.shape, interpolation_method='Linear')
         twf = tristimulus_weighting_factors_ASTME202211(
@@ -401,21 +401,21 @@ spectral_to_XYZ_integration`
         definition.
         """
 
-        cmfs = CMFS.get('CIE 1931 2 Degree Standard Observer')
+        cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
         np.testing.assert_almost_equal(
             spectral_to_XYZ_integration(
                 SAMPLE_SPD,
                 cmfs,
-                ILLUMINANTS_RELATIVE_SPDS.get('A')),
+                ILLUMINANTS_RELATIVE_SPDS['A']),
             np.array([14.46365624, 10.85827910, 2.04662343]),
             decimal=7)
 
-        cmfs = CMFS.get('CIE 1964 10 Degree Standard Observer')
+        cmfs = CMFS['CIE 1964 10 Degree Standard Observer']
         np.testing.assert_almost_equal(
             spectral_to_XYZ_integration(
                 SAMPLE_SPD,
                 cmfs,
-                ILLUMINANTS_RELATIVE_SPDS.get('C')),
+                ILLUMINANTS_RELATIVE_SPDS['C']),
             np.array([10.77031004, 9.44863775, 6.62745989]),
             decimal=7)
 
@@ -423,7 +423,7 @@ spectral_to_XYZ_integration`
             spectral_to_XYZ_integration(
                 SAMPLE_SPD,
                 cmfs,
-                ILLUMINANTS_RELATIVE_SPDS.get('F2')),
+                ILLUMINANTS_RELATIVE_SPDS['F2']),
             np.array([11.57834054, 9.98738373, 3.95462625]),
             decimal=7)
 
@@ -443,21 +443,21 @@ spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815`
         definition.
         """
 
-        cmfs = CMFS.get('CIE 1931 2 Degree Standard Observer')
+        cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
         np.testing.assert_almost_equal(
             spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
                 SAMPLE_SPD,
                 cmfs,
-                ILLUMINANTS_RELATIVE_SPDS.get('A')),
+                ILLUMINANTS_RELATIVE_SPDS['A']),
             np.array([14.46366344, 10.85828513, 2.04663792]),
             decimal=7)
 
-        cmfs = CMFS.get('CIE 1964 10 Degree Standard Observer')
+        cmfs = CMFS['CIE 1964 10 Degree Standard Observer']
         np.testing.assert_almost_equal(
             spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
                 SAMPLE_SPD,
                 cmfs,
-                ILLUMINANTS_RELATIVE_SPDS.get('C')),
+                ILLUMINANTS_RELATIVE_SPDS['C']),
             np.array([10.77033881, 9.44864632, 6.62758924]),
             decimal=7)
 
@@ -465,7 +465,7 @@ spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815`
             spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
                 SAMPLE_SPD,
                 cmfs,
-                ILLUMINANTS_RELATIVE_SPDS.get('F2')),
+                ILLUMINANTS_RELATIVE_SPDS['F2']),
             np.array([11.57837130, 9.98734511, 3.95499522]),
             decimal=7)
 
@@ -474,7 +474,7 @@ spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815`
                 SAMPLE_SPD.clone().trim_wavelengths(
                     SpectralShape(400, 700, 5)),
                 cmfs,
-                ILLUMINANTS_RELATIVE_SPDS.get('A')),
+                ILLUMINANTS_RELATIVE_SPDS['A']),
             np.array([14.38180830, 10.74512906, 2.01579131]),
             decimal=7)
 
@@ -483,7 +483,7 @@ spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815`
                 SAMPLE_SPD.clone().interpolate(
                     SpectralShape(400, 700, 10)),
                 cmfs,
-                ILLUMINANTS_RELATIVE_SPDS.get('A')),
+                ILLUMINANTS_RELATIVE_SPDS['A']),
             np.array([14.38284399, 10.74577954, 2.01553721]),
             decimal=7)
 
@@ -492,7 +492,7 @@ spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815`
                 SAMPLE_SPD.clone().interpolate(
                     SpectralShape(400, 700, 20)),
                 cmfs,
-                ILLUMINANTS_RELATIVE_SPDS.get('A')),
+                ILLUMINANTS_RELATIVE_SPDS['A']),
             np.array([14.38356848, 10.74613294, 2.01526418]),
             decimal=7)
 
@@ -509,7 +509,7 @@ class TestSpectral_to_XYZ_ASTME30815(unittest.TestCase):
         """
 
         self._spd = SAMPLE_SPD.clone()
-        self._cmfs = CMFS.get('CIE 1931 2 Degree Standard Observer')
+        self._cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
         wl = self._cmfs.shape.range()
         self.__A = SpectralPowerDistribution(
             'A (360, 830, 1)',
@@ -767,28 +767,28 @@ class TestWavelength_to_XYZ(unittest.TestCase):
         np.testing.assert_almost_equal(
             wavelength_to_XYZ(
                 480,
-                CMFS.get('CIE 1931 2 Degree Standard Observer')),
+                CMFS['CIE 1931 2 Degree Standard Observer']),
             np.array([0.09564, 0.13902, 0.81295]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             wavelength_to_XYZ(
                 480,
-                CMFS.get('CIE 2012 2 Degree Standard Observer')),
+                CMFS['CIE 2012 2 Degree Standard Observer']),
             np.array([0.08182895, 0.17880480, 0.75523790]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             wavelength_to_XYZ(
                 641.5,
-                CMFS.get('CIE 2012 2 Degree Standard Observer')),
+                CMFS['CIE 2012 2 Degree Standard Observer']),
             np.array([0.44575583, 0.18184213, 0.00000000]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             wavelength_to_XYZ(
                 480.5,
-                CMFS.get('CIE 2012 2 Degree Standard Observer'),
+                CMFS['CIE 2012 2 Degree Standard Observer'],
                 'Cubic Spline'),
             np.array([0.07773422, 0.18148028, 0.7337162]),
             decimal=7)
@@ -796,7 +796,7 @@ class TestWavelength_to_XYZ(unittest.TestCase):
         np.testing.assert_almost_equal(
             wavelength_to_XYZ(
                 480.5,
-                CMFS.get('CIE 2012 2 Degree Standard Observer'),
+                CMFS['CIE 2012 2 Degree Standard Observer'],
                 'Linear'),
             np.array([0.07779856, 0.18149335, 0.7340129]),
             decimal=7)
@@ -804,7 +804,7 @@ class TestWavelength_to_XYZ(unittest.TestCase):
         np.testing.assert_almost_equal(
             wavelength_to_XYZ(
                 480.5,
-                CMFS.get('CIE 2012 2 Degree Standard Observer'),
+                CMFS['CIE 2012 2 Degree Standard Observer'],
                 'Pchip'),
             np.array([0.07773515, 0.18148048, 0.73372294]),
             decimal=7)
@@ -815,7 +815,7 @@ class TestWavelength_to_XYZ(unittest.TestCase):
         definition n-dimensional arrays support.
         """
 
-        cmfs = CMFS.get('CIE 1931 2 Degree Standard Observer')
+        cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
         wl = 480
         XYZ = np.array([0.09564, 0.13902, 0.81295])
         np.testing.assert_almost_equal(

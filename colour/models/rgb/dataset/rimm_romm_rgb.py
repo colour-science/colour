@@ -44,7 +44,7 @@ from colour.models.rgb import (
     eotf_ProPhotoRGB)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -92,8 +92,8 @@ ROMM_RGB_ILLUMINANT = 'D50'
 ROMM_RGB_ILLUMINANT : unicode
 """
 
-ROMM_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(ROMM_RGB_ILLUMINANT)
+ROMM_RGB_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][ROMM_RGB_ILLUMINANT])
 """
 *ROMM RGB* colourspace whitepoint.
 

@@ -20,7 +20,7 @@ from colour.colorimetry import (
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -45,20 +45,20 @@ RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition unit tests methods.
 RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition.
         """
 
-        cmfs = CMFS.get('CIE 1931 2 Degree Standard Observer')
+        cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
         np.testing.assert_allclose(
             RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(435),
-            cmfs.get(435),
+            cmfs[435],
             atol=0.0025)
 
         np.testing.assert_allclose(
             RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(545),
-            cmfs.get(545),
+            cmfs[545],
             atol=0.0025)
 
         np.testing.assert_allclose(
             RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(700),
-            cmfs.get(700),
+            cmfs[700],
             atol=0.0025)
 
     def test_n_dimensional_RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(self):
@@ -115,20 +115,20 @@ RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition unit tests methods.
 RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition.
         """
 
-        cmfs = CMFS.get('CIE 1964 10 Degree Standard Observer')
+        cmfs = CMFS['CIE 1964 10 Degree Standard Observer']
         np.testing.assert_allclose(
             RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(435),
-            cmfs.get(435),
+            cmfs[435],
             atol=0.025)
 
         np.testing.assert_allclose(
             RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(545),
-            cmfs.get(545),
+            cmfs[545],
             atol=0.025)
 
         np.testing.assert_allclose(
             RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(700),
-            cmfs.get(700),
+            cmfs[700],
             atol=0.025)
 
     def test_n_dimensional_RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(self):
@@ -185,20 +185,20 @@ RGB_10_degree_cmfs_to_LMS_10_degree_cmfs` definition unit tests methods.
 RGB_10_degree_cmfs_to_LMS_10_degree_cmfs` definition.
         """
 
-        cmfs = CMFS.get('Stockman & Sharpe 10 Degree Cone Fundamentals')
+        cmfs = CMFS['Stockman & Sharpe 10 Degree Cone Fundamentals']
         np.testing.assert_allclose(
             RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(435),
-            cmfs.get(435),
+            cmfs[435],
             atol=0.0025)
 
         np.testing.assert_allclose(
             RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(545),
-            cmfs.get(545),
+            cmfs[545],
             atol=0.0025)
 
         np.testing.assert_allclose(
             RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(700),
-            cmfs.get(700),
+            cmfs[700],
             atol=0.0025)
 
     def test_n_dimensional_RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(self):
@@ -255,20 +255,20 @@ LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition unit tests methods.
 LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition.
         """
 
-        cmfs = CMFS.get('CIE 2012 2 Degree Standard Observer')
+        cmfs = CMFS['CIE 2012 2 Degree Standard Observer']
         np.testing.assert_allclose(
             LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(435),
-            cmfs.get(435),
+            cmfs[435],
             atol=0.00015)
 
         np.testing.assert_allclose(
             LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(545),
-            cmfs.get(545),
+            cmfs[545],
             atol=0.00015)
 
         np.testing.assert_allclose(
             LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(700),
-            cmfs.get(700),
+            cmfs[700],
             atol=0.00015)
 
     def test_n_dimensional_LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(self):
@@ -325,20 +325,20 @@ LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition unit tests methods.
 LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition.
         """
 
-        cmfs = CMFS.get('CIE 2012 10 Degree Standard Observer')
+        cmfs = CMFS['CIE 2012 10 Degree Standard Observer']
         np.testing.assert_allclose(
             LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(435),
-            cmfs.get(435),
+            cmfs[435],
             atol=0.00015)
 
         np.testing.assert_allclose(
             LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(545),
-            cmfs.get(545),
+            cmfs[545],
             atol=0.00015)
 
         np.testing.assert_allclose(
             LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(700),
-            cmfs.get(700),
+            cmfs[700],
             atol=0.00015)
 
     def test_n_dimensional_LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(self):

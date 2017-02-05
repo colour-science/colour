@@ -33,7 +33,7 @@ from colour.colorimetry import (
 from colour.models.rgb import RGB_Colourspace, normalised_primary_matrix
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -63,16 +63,16 @@ ECI_RGB_V_ILLUMINANT = 'D50'
 ECI_RGB_V_ILLUMINANT : unicode
 """
 
-ECI_RGB_V2_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(ECI_RGB_V_ILLUMINANT)
+ECI_RGB_V2_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][ECI_RGB_V_ILLUMINANT])
 """
 *ECI RGB v2* colourspace whitepoint.
 
 ECI_RGB_V2_WHITEPOINT : ndarray
 """
 
-ECI_RGB_V2_TO_XYZ_MATRIX = normalised_primary_matrix(ECI_RGB_V2_PRIMARIES,
-                                                     ECI_RGB_V2_WHITEPOINT)
+ECI_RGB_V2_TO_XYZ_MATRIX = normalised_primary_matrix(
+    ECI_RGB_V2_PRIMARIES, ECI_RGB_V2_WHITEPOINT)
 """
 *ECI RGB v2* colourspace to *CIE XYZ* tristimulus values matrix.
 

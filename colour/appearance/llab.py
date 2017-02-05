@@ -43,7 +43,7 @@ from colour.algebra import polar_to_cartesian
 from colour.utilities import CaseInsensitiveMapping, dot_vector, tsplit, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -223,8 +223,8 @@ def XYZ_to_LLAB(
         XYZ_0,
         Y_b,
         L,
-        surround=LLAB_VIEWING_CONDITIONS.get(
-            'Reference Samples & Images, Average Surround, Subtending < 4')):
+        surround=LLAB_VIEWING_CONDITIONS[
+            'Reference Samples & Images, Average Surround, Subtending < 4']):
     """
     Computes the *LLAB(l:c)* colour appearance model correlates.
 

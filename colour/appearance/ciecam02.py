@@ -54,7 +54,7 @@ from colour.utilities import (
     tstack)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -167,7 +167,7 @@ def XYZ_to_CIECAM02(XYZ,
                     XYZ_w,
                     L_A,
                     Y_b,
-                    surround=CIECAM02_VIEWING_CONDITIONS.get('Average'),
+                    surround=CIECAM02_VIEWING_CONDITIONS['Average'],
                     discount_illuminant=False):
     """
     Computes the *CIECAM02* colour appearance model correlates from given
@@ -290,8 +290,7 @@ def CIECAM02_to_XYZ(J,
                     XYZ_w,
                     L_A,
                     Y_b,
-                    surround=CIECAM02_VIEWING_CONDITIONS.get(
-                        'Average'),
+                    surround=CIECAM02_VIEWING_CONDITIONS['Average'],
                     discount_illuminant=False):
     """
     Converts *CIECAM02* specification to *CIE XYZ* tristimulus values.
@@ -888,9 +887,9 @@ def hue_quadrature(h):
 
     h = np.asarray(h)
 
-    h_i = HUE_DATA_FOR_HUE_QUADRATURE.get('h_i')
-    e_i = HUE_DATA_FOR_HUE_QUADRATURE.get('e_i')
-    H_i = HUE_DATA_FOR_HUE_QUADRATURE.get('H_i')
+    h_i = HUE_DATA_FOR_HUE_QUADRATURE['h_i']
+    e_i = HUE_DATA_FOR_HUE_QUADRATURE['e_i']
+    H_i = HUE_DATA_FOR_HUE_QUADRATURE['H_i']
 
     # *np.searchsorted* returns an erroneous index if a *nan* is used as input.
     h[np.asarray(np.isnan(h))] = 0
