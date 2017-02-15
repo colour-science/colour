@@ -27,7 +27,7 @@ References
 ----------
 .. [1]  Fairchild, M. D. (2013). ATD Model. In Color Appearance Models
         (3rd ed., pp. 5852–5991). Wiley. ASIN:B00DAYO8E2
-.. [2] Guth, S. L. (1995). Further applications of the ATD model for color
+.. [2]  Guth, S. L. (1995). Further applications of the ATD model for color
         vision. In E. Walowit (Ed.), IS&T/SPIE’s Symposium on Electronic …
         (Vol. 2414, pp. 12–26). doi:10.1117/12.206546
 """
