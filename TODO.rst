@@ -4,14 +4,14 @@ Colour - TODO
 TODO
 ----
 
-- colour (17 items in 11 files)
+- colour (20 items in 13 files)
 
     - appearance (8 items in 5 files)
 
         - ciecam02.py
 
-            - (261, 7) # TODO: Compute hue composition.
-            - (713, 7) # TODO: Check for negative values and their handling.
+            - (260, 7) # TODO: Compute hue composition.
+            - (702, 7) # TODO: Check for negative values and their handling.
 
         - hunt.py
 
@@ -31,27 +31,34 @@ TODO
 
             - (246, 7) # TODO: Implement hue composition computation.
 
-    - colorimetry (1 item in 1 file)
+    - colorimetry (2 item in 2 files)
 
         - spectrum.py
 
-            - (1942, 11) # TODO: Provide support for fractional interval like 0.1, etc...
+            - (1943, 11) # TODO: Provide support for fractional interval like 0.1, etc...
 
         - tristimulus.py
 
-            - (678, 11) # TODO: Investigate code vectorisation.
+            - (686, 11) # TODO: Investigate code vectorisation.
 
-    - models (2 item in 2 file)
+    - models (4 item in 3 file)
 
-        - tests (1 item in 1 file)
+        - rgb
 
-            - tests_derivation.py
+            - tests (1 item in 1 file)
 
-                - (301, 15) # TODO: Simplify that monster.
+                - tests_derivation.py
 
-        - derivation.py
+                    - (302, 15) # TODO: Simplify that monster.
 
-            - (219, 7) # TODO: Investigate if we return an ndarray here with primaries and whitepoint stacked together.
+            - derivation.py
+
+                - (220, 7) # TODO: Investigate if we return an ndarray here with primaries and whitepoint stacked together.
+
+            - rgb_colourspace.py
+
+                - (518, 11) # TODO: Revisit for potential behaviour / type checking.
+                - (545, 11) # TODO: Revisit for potential behaviour / type checking.
 
     - notation (5 items in 2 files)
 
@@ -65,14 +72,14 @@ TODO
 
         - munsell.py
 
-            - (840, 11) # TODO: Consider refactoring implementation.
-            - (1179, 11) # TODO: Should raise KeyError, need to check the tests.
+            - (837, 11) # TODO: Consider refactoring implementation.
+            - (1176, 11) # TODO: Should raise KeyError, need to check the tests.
 
     - volume (1 item in 1 file)
         
         -  rgb.py
             
-            - (320, 7) # TODO: Investigate for generator yielding directly a ndarray.
+            - (319, 7) # TODO: Investigate for generator yielding directly a ndarray.
 
 About
 -----
