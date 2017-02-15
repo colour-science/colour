@@ -52,7 +52,7 @@ def citations_from_token(token_info):
     """
 
     citations = []
-    if (token_info.type == 3 and token_info.type):
+    if token_info.type == 3 and token_info.type:
         in_citation = False
         for line in token_info.line.split('\n'):
             if re.match(CITATION_PATTERN, line):
@@ -63,11 +63,13 @@ def citations_from_token(token_info):
 
             if in_citation:
                 if not re.match(CITATION_PATTERN, line):
-                    citations[-1] = '{0} {1}'.format(citations[-1],
-                                                     line.strip())
+                    citations[-1] = '{0} {1}'.format(
+                        citations[-1], line.strip())
                 else:
                     citations.append(
                         re.sub(PREFIX_CITATION_PATTERN, '', line.strip()))
+
+    citations = [citation.replace('\ ', '') for citation in citations]
 
     return citations
 
