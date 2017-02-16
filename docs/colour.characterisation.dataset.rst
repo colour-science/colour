@@ -6,6 +6,7 @@ Sub-Packages
 
 .. toctree::
 
+    colour.characterisation.dataset.cameras
     colour.characterisation.dataset.colour_checkers
     colour.characterisation.dataset.displays
 

@@ -40,7 +40,7 @@ ALPHA_STEARNS = 0.083
 def bandpass_correction_Stearns1988(spd):
     """
     Implements spectral bandpass dependence correction on given spectral power
-    distribution using *Stearns and Stearns (1988)*⁠⁠ method.
+    distribution using *Stearns and Stearns (1988)* method.
 
     Parameters
     ----------

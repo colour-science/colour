@@ -13,7 +13,7 @@ Defines the :math:`IC_TC_P` colour encoding related transformations:
 References
 ----------
 .. [1]  Dolby. (2016). WHAT IS ICTCP? - INTRODUCTION. Retrieved from
-        https://www.dolby.com/us/en/technologies/dolby-vision/
+        https://www.dolby.com/us/en/technologies/dolby-vision/\
 ICtCp-white-paper.pdf
 .. [2]  Lu, T., Pu, F., Yin, P., Chen, T., Husak, W., Pytlarz, J., … Su, G.-M.
         (2016). ICTCP Colour Space and Its Compression Performance for High

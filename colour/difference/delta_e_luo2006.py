@@ -30,7 +30,6 @@ References
 from __future__ import division, unicode_literals
 
 import numpy as np
-from functools import partial
 
 from colour.utilities import tsplit
 from colour.models.ucs_luo2006 import COEFFICIENTS_UCS_LUO2006
@@ -90,14 +89,91 @@ def delta_E_Luo2006(Jpapbp_1, Jpapbp_2, coefficients):
     return d_E
 
 
-delta_E_CAM02LCD = partial(
-    delta_E_Luo2006,
-    coefficients=COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
+def delta_E_CAM02LCD(Jpapbp_1, Jpapbp_2):
+    """
+    Returns the difference :math:`\Delta E'` between two given
+    *Luo et al. (2016)* *CAM02-LCD* colourspaces :math:`J'a'b'` arrays.
 
-delta_E_CAM02SCD = partial(
-    delta_E_Luo2006,
-    coefficients=COEFFICIENTS_UCS_LUO2006['CAM02-SCD'])
+    Parameters
+    ----------
+    Jpapbp_1 : array_like
+        Standard / reference *Luo et al.* (2016) *CAM02-LCD* colourspaces
+        :math:`J'a'b'` array.
+    Jpapbp_2 : array_like
+        Sample / test *Luo et al.* (2016) *CAM02-LCD* colourspaces
+        :math:`J'a'b'` array.
 
-delta_E_CAM02UCS = partial(
-    delta_E_Luo2006,
-    coefficients=COEFFICIENTS_UCS_LUO2006['CAM02-UCS'])
+    Returns
+    -------
+    numeric or ndarray
+        Colour difference :math:`\Delta E'`.
+
+    Examples
+    --------
+    >>> Jpapbp_1 = np.array([54.90433134, -0.08450395, -0.06854831])
+    >>> Jpapbp_2 = np.array([54.90433134, -0.08442362, -0.06848314])
+    >>> delta_E_CAM02LCD(Jpapbp_1, Jpapbp_2)  # doctest: +ELLIPSIS
+    0.0001034...
+    """
+    return delta_E_Luo2006(
+        Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
+
+
+def delta_E_CAM02SCD(Jpapbp_1, Jpapbp_2):
+    """
+    Returns the difference :math:`\Delta E'` between two given
+    *Luo et al. (2016)* *CAM02-SCD* colourspaces :math:`J'a'b'` arrays.
+
+    Parameters
+    ----------
+    Jpapbp_1 : array_like
+        Standard / reference *Luo et al.* (2016) *CAM02-SCD* colourspaces
+        :math:`J'a'b'` array.
+    Jpapbp_2 : array_like
+        Sample / test *Luo et al.* (2016) *CAM02-SCD* colourspaces
+        :math:`J'a'b'` array.
+
+    Returns
+    -------
+    numeric or ndarray
+        Colour difference :math:`\Delta E'`.
+
+    Examples
+    --------
+    >>> Jpapbp_1 = np.array([54.90433134, -0.08450395, -0.06854831])
+    >>> Jpapbp_2 = np.array([54.90433134, -0.08442362, -0.06848314])
+    >>> delta_E_CAM02SCD(Jpapbp_1, Jpapbp_2)  # doctest: +ELLIPSIS
+    0.0001034...
+    """
+    return delta_E_Luo2006(
+        Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006['CAM02-SCD'])
+
+
+def delta_E_CAM02UCS(Jpapbp_1, Jpapbp_2):
+    """
+    Returns the difference :math:`\Delta E'` between two given
+    *Luo et al. (2016)* *CAM02-UCS* colourspaces :math:`J'a'b'` arrays.
+
+    Parameters
+    ----------
+    Jpapbp_1 : array_like
+        Standard / reference *Luo et al.* (2016) *CAM02-UCS* colourspaces
+        :math:`J'a'b'` array.
+    Jpapbp_2 : array_like
+        Sample / test *Luo et al.* (2016) *CAM02-UCS* colourspaces
+        :math:`J'a'b'` array.
+
+    Returns
+    -------
+    numeric or ndarray
+        Colour difference :math:`\Delta E'`.
+
+    Examples
+    --------
+    >>> Jpapbp_1 = np.array([54.90433134, -0.08450395, -0.06854831])
+    >>> Jpapbp_2 = np.array([54.90433134, -0.08442362, -0.06848314])
+    >>> delta_E_CAM02UCS(Jpapbp_1, Jpapbp_2)  # doctest: +ELLIPSIS
+    0.0001034...
+    """
+    return delta_E_Luo2006(
+        Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006['CAM02-UCS'])

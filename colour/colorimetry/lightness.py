@@ -2,16 +2,16 @@
 # -*- coding: utf-8 -*-
 
 """
-Lightness :math:`L*`
-====================
+Lightness :math:`L^*`
+=====================
 
-Defines *Lightness* :math:`L*` computation objects.
+Defines *Lightness* :math:`L^*` computation objects.
 
 The following methods are available:
 
 -   :func:`lightness_Glasser1958`: *Lightness* :math:`L^*` computation of given
-    *luminance* :math:`Y` using
-    *Glasser, Mckinney, Reilly and Schnelle (1958)*⁠ method.
+    *luminance* :math:`Y` using *Glasser, Mckinney, Reilly and Schnelle (1958)
+    method*.
 -   :func:`lightness_Wyszecki1963`: *Lightness* :math:`W` computation of
     given *luminance* :math:`Y` using *Wyszecki (1963)⁠⁠⁠⁠* method.
 -   :func:`lightness_CIE1976`: *Lightness* :math:`L^*` computation of given
