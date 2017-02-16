@@ -14,7 +14,7 @@ Defines objects for tristimulus values computation from spectral data:
 -   :func:`spectral_to_XYZ`
 -   :func:`wavelength_to_XYZ`
 
-The default implementation is based on practise *ASTM E308–15* method [2]_.
+The default implementation is based on practise *ASTM E308-15* method [2]_.
 
 References
 ----------
@@ -91,7 +91,7 @@ def lagrange_coefficients_ASTME202211(
         interval_type='inner'):
     """
     Computes the *Lagrange Coefficients* for given interval size using practise
-    *ASTM E2022–11* method [1]_.
+    *ASTM E2022-11* method [1]_.
 
     Parameters
     ----------
@@ -160,7 +160,7 @@ def lagrange_coefficients_ASTME202211(
 def tristimulus_weighting_factors_ASTME202211(cmfs, illuminant, shape):
     """
     Returns a table of tristimulus weighting factors for given colour matching
-    functions and illuminant using practise *ASTM E2022–11* method [1]_.
+    functions and illuminant using practise *ASTM E2022-11* method [1]_.
 
     The computed table of tristimulus weighting factors should be used with
     spectral data that has been corrected for spectral bandpass dependence.
@@ -318,7 +318,7 @@ def adjust_tristimulus_weighting_factors_ASTME30815(W, shape_r, shape_t):
     """
     Adjusts given table of tristimulus weighting factors to account for a
     shorter wavelengths range of the test spectral shape compared to the
-    reference spectral shape using practise  *ASTM E308–15* method [2]_:
+    reference spectral shape using practise  *ASTM E308-15* method [2]_:
     Weights at the wavelengths for which data are not available are added to
     the weights at the shortest and longest wavelength for which spectral data
     are available.
@@ -487,7 +487,7 @@ def spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
     Converts given spectral power distribution to *CIE XYZ* tristimulus values
     using given colour matching functions and illuminant using a table
     of tristimulus weighting factors accordingly to practise
-    *ASTM E308–15* method [2]_.
+    *ASTM E308-15* method [2]_.
 
     Parameters
     ----------
@@ -574,7 +574,7 @@ def spectral_to_XYZ_ASTME30815(
     """
     Converts given spectral power distribution to *CIE XYZ* tristimulus values
     using given colour matching functions and illuminant accordingly to
-    practise *ASTM E308–15* method [2]_.
+    practise *ASTM E308-15* method [2]_.
 
     Parameters
     ----------
@@ -585,7 +585,7 @@ def spectral_to_XYZ_ASTME30815(
     illuminant : SpectralPowerDistribution, optional
         Illuminant spectral power distribution.
     use_practice_range : bool, optional
-        Practise *ASTM E308–15* working wavelengths range is [360, 780],
+        Practise *ASTM E308-15* working wavelengths range is [360, 780],
         if `True` this argument will trim the colour matching functions
         appropriately.
     mi_5nm_omission_method : bool, optional
@@ -701,28 +701,28 @@ def spectral_to_XYZ_ASTME30815(
 
 
 SPECTRAL_TO_XYZ_METHODS = CaseInsensitiveMapping(
-    {'ASTM E308–15': spectral_to_XYZ_ASTME30815,
+    {'ASTM E308-15': spectral_to_XYZ_ASTME30815,
      'Integration': spectral_to_XYZ_integration})
 """
 Supported spectral power distribution to *CIE XYZ* tristimulus values
 conversion methods
 
 SPECTRAL_TO_XYZ_METHODS : CaseInsensitiveMapping
-    **{'ASTM E308–15', 'Integration'}**
+    **{'ASTM E308-15', 'Integration'}**
 
 Aliases:
 
--   'astm2015': 'ASTM E308–15'
+-   'astm2015': 'ASTM E308-15'
 """
 SPECTRAL_TO_XYZ_METHODS['astm2015'] = (
-    SPECTRAL_TO_XYZ_METHODS['ASTM E308–15'])
+    SPECTRAL_TO_XYZ_METHODS['ASTM E308-15'])
 
 
 def spectral_to_XYZ(
         spd,
         cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
         illuminant=ones_spd(ASTME30815_PRACTISE_SHAPE),
-        method='ASTM E308–15',
+        method='ASTM E308-15',
         **kwargs):
     """
     Converts given spectral power distribution to *CIE XYZ* tristimulus values
@@ -737,14 +737,14 @@ def spectral_to_XYZ(
     illuminant : SpectralPowerDistribution, optional
         Illuminant spectral power distribution.
     method : unicode, optional
-        **{'ASTM E308–15', 'Integration'}**,
+        **{'ASTM E308-15', 'Integration'}**,
         Computation method.
 
     Other Parameters
     ----------------
     use_practice_range : bool, optional
         {:func:`spectral_to_XYZ_ASTME30815`},
-        Practise *ASTM E308–15* working wavelengths range is [360, 780],
+        Practise *ASTM E308-15* working wavelengths range is [360, 780],
         if `True` this argument will trim the colour matching functions
         appropriately.
     mi_5nm_omission_method : bool, optional

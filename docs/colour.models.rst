@@ -23,6 +23,7 @@ Sub-Modules
    colour.models.hunter_lab
    colour.models.hunter_rdab
    colour.models.ipt
+   colour.models.ucs_luo2006
 
 Module Contents
 ---------------
