@@ -53,8 +53,9 @@ __all__ = ['TCS_ColorimetryData',
            'colour_rendering_indexes']
 
 
-class TCS_ColorimetryData(namedtuple('TCS_ColorimetryData',
-                                     ('name', 'XYZ', 'uv', 'UVW'))):
+class TCS_ColorimetryData(
+    namedtuple('TCS_ColorimetryData',
+               ('name', 'XYZ', 'uv', 'UVW'))):
     """
     Defines the the class storing *test colour samples* colorimetry data.
     """

@@ -72,8 +72,9 @@ __all__ = ['D65_GAMUT_AREA',
 D65_GAMUT_AREA = 8210
 
 
-class VS_ColorimetryData(namedtuple('VS_ColorimetryData',
-                                    ('name', 'XYZ', 'Lab', 'C'))):
+class VS_ColorimetryData(
+    namedtuple('VS_ColorimetryData',
+               ('name', 'XYZ', 'Lab', 'C'))):
     """
     Defines the the class storing *VS test colour samples* colorimetry data.
     """

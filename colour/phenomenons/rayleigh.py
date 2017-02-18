@@ -35,6 +35,7 @@ from colour.colorimetry import (
     DEFAULT_SPECTRAL_SHAPE,
     SpectralPowerDistribution)
 from colour.constants import AVOGADRO_CONSTANT
+from colour.utilities import filter_kwargs
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -101,7 +102,7 @@ DEFAULT_ALTITUDE : numeric
 """
 
 
-def air_refraction_index_Penndorf1957(wavelength, *args):
+def air_refraction_index_Penndorf1957(wavelength):
     """
     Returns the air refraction index :math:`n_s` from given wavelength
     :math:`\lambda` in  micrometers (:math:`\mu m`) using *Penndorf (1957)*
@@ -111,11 +112,6 @@ def air_refraction_index_Penndorf1957(wavelength, *args):
     ----------
     wavelength : numeric or array_like
         Wavelength :math:`\lambda` in micrometers (:math:`\mu m`).
-
-    Other Parameters
-    ----------------
-    \*args : list, optional
-        Arguments.
 
     Returns
     -------
@@ -142,7 +138,7 @@ def air_refraction_index_Penndorf1957(wavelength, *args):
     return n
 
 
-def air_refraction_index_Edlen1966(wavelength, *args):
+def air_refraction_index_Edlen1966(wavelength):
     """
     Returns the air refraction index :math:`n_s` from given wavelength
     :math:`\lambda` in micrometers (:math:`\mu m`) using *Edlen (1966)* method.
@@ -151,11 +147,6 @@ def air_refraction_index_Edlen1966(wavelength, *args):
     ----------
     wavelength : numeric or array_like
         Wavelength :math:`\lambda` in micrometers (:math:`\mu m`).
-
-    Other Parameters
-    ----------------
-    \*args : list, optional
-        Arguments.
 
     Returns
     -------
@@ -182,7 +173,7 @@ def air_refraction_index_Edlen1966(wavelength, *args):
     return n
 
 
-def air_refraction_index_Peck1972(wavelength, *args):
+def air_refraction_index_Peck1972(wavelength):
     """
     Returns the air refraction index :math:`n_s` from given wavelength
     :math:`\lambda` in micrometers (:math:`\mu m`) using
@@ -192,11 +183,6 @@ def air_refraction_index_Peck1972(wavelength, *args):
     ----------
     wavelength : numeric or array_like
         Wavelength :math:`\lambda` in micrometers (:math:`\mu m`).
-
-    Other Parameters
-    ----------------
-    \*args : list, optional
-        Arguments.
 
     Returns
     -------
@@ -321,7 +307,7 @@ def O2_depolarisation(wavelength):
     return O2
 
 
-def F_air_Penndorf1957(wavelength, *args):
+def F_air_Penndorf1957(wavelength):
     """
     Returns :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
     *King Factor* using *Penndorf (1957)* method.
@@ -330,11 +316,6 @@ def F_air_Penndorf1957(wavelength, *args):
     ----------
     wavelength : numeric or array_like
         Wavelength :math:`\lambda` in micrometers (:math:`\mu m`).
-
-    Other Parameters
-    ----------------
-    \*args : list, optional
-        Arguments.
 
     Returns
     -------
@@ -362,7 +343,7 @@ def F_air_Penndorf1957(wavelength, *args):
     return np.resize(np.array([1.0608]), wl.shape)
 
 
-def F_air_Young1981(wavelength, *args):
+def F_air_Young1981(wavelength):
     """
     Returns :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
     *King Factor* using *Young (1981)* method.
@@ -371,11 +352,6 @@ def F_air_Young1981(wavelength, *args):
     ----------
     wavelength : numeric or array_like
         Wavelength :math:`\lambda` in micrometers (:math:`\mu m`).
-
-    Other Parameters
-    ----------------
-    \*args : list, optional
-        Arguments.
 
     Returns
     -------
@@ -645,8 +621,11 @@ def scattering_cross_section(wavelength,
     wl_micrometers = wl * 10e3
 
     n_s = n_s(wl_micrometers)
+    # n_s = n_s(**filter_kwargs(
+    #     n_s, wavelength=wl_micrometers, CO2_concentration=CO2_c))
     N_s = molecular_density(temperature, avogadro_constant)
-    F_air = F_air(wl_micrometers, CO2_c)
+    F_air = F_air(**filter_kwargs(
+        F_air, wavelength=wl_micrometers, CO2_concentration=CO2_c))
 
     sigma = (24 * np.pi ** 3 * (n_s ** 2 - 1) ** 2 /
              (wl ** 4 * N_s ** 2 * (n_s ** 2 + 2) ** 2))

@@ -30,6 +30,7 @@ from __future__ import division
 import matplotlib.pyplot
 import numpy as np
 import pylab
+from six.moves import reduce
 
 from colour.colorimetry import (
     DEFAULT_SPECTRAL_SHAPE,
