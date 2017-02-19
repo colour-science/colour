@@ -173,7 +173,7 @@ DEFAULT_PLOTTING_ENCODING_CCTF : object
 """
 
 
-def colour_plotting_defaults(parameters=DEFAULT_PARAMETERS):
+def colour_plotting_defaults(parameters=None):
     """
     Enables *Colour* default plotting parameters.
 
@@ -187,6 +187,8 @@ def colour_plotting_defaults(parameters=DEFAULT_PARAMETERS):
     bool
         Definition success.
     """
+
+    parameters = DEFAULT_PARAMETERS if parameters is None else parameters
 
     pylab.rcParams.update(parameters)
 

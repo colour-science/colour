@@ -102,14 +102,14 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(
     CIE_1931_chromaticity_diagram_plot(**settings)
 
     start, end = 1667, 100000
-    xy = np.array([UCS_uv_to_xy(CCT_to_uv(x, 0, method='Robertson 1968'))
+    xy = np.array([UCS_uv_to_xy(CCT_to_uv(x, 'Robertson 1968', D_uv=0))
                    for x in np.arange(start, end + 250, 250)])
 
     pylab.plot(xy[..., 0], xy[..., 1], color='black', linewidth=2)
 
     for i in (1667, 2000, 2500, 3000, 4000, 6000, 10000):
-        x0, y0 = UCS_uv_to_xy(CCT_to_uv(i, -0.025, method='Robertson 1968'))
-        x1, y1 = UCS_uv_to_xy(CCT_to_uv(i, 0.025, method='Robertson 1968'))
+        x0, y0 = UCS_uv_to_xy(CCT_to_uv(i, 'Robertson 1968', D_uv=-0.025))
+        x1, y1 = UCS_uv_to_xy(CCT_to_uv(i, 'Robertson 1968', D_uv=0.025))
         pylab.plot((x0, x1), (y0, y1), color='black', linewidth=2)
         pylab.annotate('{0}K'.format(i),
                        xy=(x0, y0),
@@ -207,14 +207,14 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
     CIE_1960_UCS_chromaticity_diagram_plot(**settings)
 
     start, end = 1667, 100000
-    uv = np.array([CCT_to_uv(x, 0, method='Robertson 1968')
+    uv = np.array([CCT_to_uv(x, 'Robertson 1968', D_uv=0)
                    for x in np.arange(start, end + 250, 250)])
 
     pylab.plot(uv[..., 0], uv[..., 1], color='black', linewidth=2)
 
     for i in (1667, 2000, 2500, 3000, 4000, 6000, 10000):
-        u0, v0 = CCT_to_uv(i, -0.05, method='Robertson 1968')
-        u1, v1 = CCT_to_uv(i, 0.05, method='Robertson 1968')
+        u0, v0 = CCT_to_uv(i, 'Robertson 1968', D_uv=-0.05)
+        u1, v1 = CCT_to_uv(i, 'Robertson 1968', D_uv=0.05)
         pylab.plot((u0, u1), (v0, v1), color='black', linewidth=2)
         pylab.annotate('{0}K'.format(i),
                        xy=(u0, v0),
