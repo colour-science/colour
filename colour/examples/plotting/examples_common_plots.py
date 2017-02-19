@@ -10,6 +10,8 @@ from colour.utilities.verbose import message_box
 
 message_box('Common Plots')
 
+colour_plotting_defaults()
+
 message_box('Plotting a single colour.')
 single_colour_plot(
     ColourParameter(

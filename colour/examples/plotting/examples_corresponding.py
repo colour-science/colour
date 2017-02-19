@@ -10,6 +10,8 @@ from colour.utilities.verbose import message_box
 
 message_box('Corresponding Chromaticities Prediction Plots')
 
+colour_plotting_defaults()
+
 message_box('Plotting corresponding chromaticities prediction with '
             '"Von Kries" chromatic adaptation model for "Breneman (1987)" '
             'experiment number "2" using "Bianco" CAT.')

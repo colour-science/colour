@@ -11,6 +11,8 @@ from colour.utilities.verbose import message_box
 
 message_box('Colour Quality Plots')
 
+colour_plotting_defaults()
+
 message_box('Plotting "F2" illuminant "Colour Rendering Index (CRI)".')
 single_spd_colour_rendering_index_bars_plot(
     colour.ILLUMINANTS_RELATIVE_SPDS['F2'])
