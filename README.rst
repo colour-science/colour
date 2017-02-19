@@ -41,9 +41,6 @@ Colour Science for Python
 .. |version| image:: https://badge.fury.io/py/colour-science.svg
     :target: https://pypi.python.org/pypi/colour-science
     :alt: Package Version
-.. |downloads| image:: https://img.shields.io/pypi/dm/colour-science.svg
-    :target: https://pypi.python.org/pypi/colour-science
-    :alt: Package Downloads
 .. |zenodo| image:: https://zenodo.org/badge/doi/10.5281/zenodo.57294.png
     :target: http://dx.doi.org/10.5281/zenodo.57294
     :alt: DOI
