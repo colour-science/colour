@@ -43,10 +43,10 @@ TESTS_REQUIREMENTS = ['coverage>=3.7.1',
                       'nose>=1.3.4']
 
 if sys.version_info[:2] <= (3, 2):
-    TESTS_REQUIREMENTS += ['mock==1.0.1']
+    TESTS_REQUIREMENTS += ['mock']
 
 if os.environ.get('READTHEDOCS') == 'True':
-    INSTALLATION_REQUIREMENTS = ['numpy>=1.8.1', 'mock==1.0.1']
+    INSTALLATION_REQUIREMENTS = ['numpy>=1.8.1', 'mock']
 
 setup(name='colour-science',
       version='0.3.9',
