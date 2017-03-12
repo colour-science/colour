@@ -10,6 +10,12 @@ Defines the :math:`IC_TC_P` colour encoding related transformations:
 -   :func:`RGB_to_ICTCP`
 -   :func:`ICTCP_to_RGB`
 
+See Also
+--------
+`ICTCP Colourspace Jupyter Notebook
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
+blob/master/notebooks/models/ictcp.ipynb>`_
+
 References
 ----------
 .. [1]  Dolby. (2016). WHAT IS ICTCP? - INTRODUCTION. Retrieved from
