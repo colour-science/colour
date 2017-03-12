@@ -13,7 +13,7 @@ Defines the *Hunter L,a,b* colour scale transformations:
 
 See Also
 --------
-`Hunter L,a,b Colour Scale IPython Notebook
+`Hunter L,a,b Colour Scale Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/hunter_lab.ipynb>`_
 
@@ -31,7 +31,7 @@ from colour.colorimetry import HUNTERLAB_ILLUMINANTS
 from colour.utilities import tsplit, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -89,10 +89,10 @@ def XYZ_to_K_ab_HunterLab1966(XYZ):
 
 def XYZ_to_Hunter_Lab(
         XYZ,
-        XYZ_n=HUNTERLAB_ILLUMINANTS.get(
-            'CIE 1931 2 Degree Standard Observer').get('D50').XYZ_n,
-        K_ab=HUNTERLAB_ILLUMINANTS.get(
-            'CIE 1931 2 Degree Standard Observer').get('D50').K_ab):
+        XYZ_n=HUNTERLAB_ILLUMINANTS[
+            'CIE 1931 2 Degree Standard Observer']['D50'].XYZ_n,
+        K_ab=HUNTERLAB_ILLUMINANTS[
+            'CIE 1931 2 Degree Standard Observer']['D50'].K_ab):
     """
     Converts from *CIE XYZ* tristimulus values to *Hunter L,a,b* colour scale.
 
@@ -120,8 +120,8 @@ def XYZ_to_Hunter_Lab(
     Examples
     --------
     >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313]) * 100
-    >>> D50 = HUNTERLAB_ILLUMINANTS.get(
-    ...     'CIE 1931 2 Degree Standard Observer').get('D50')
+    >>> D50 = HUNTERLAB_ILLUMINANTS[
+    ...     'CIE 1931 2 Degree Standard Observer']['D50']
     >>> XYZ_to_Hunter_Lab(XYZ, D50.XYZ_n, D50.K_ab)   # doctest: +ELLIPSIS
     array([ 31.7490157..., -15.1146262...,  -2.7866075...])
     """
@@ -146,10 +146,10 @@ def XYZ_to_Hunter_Lab(
 
 def Hunter_Lab_to_XYZ(
         Lab,
-        XYZ_n=HUNTERLAB_ILLUMINANTS.get(
-            'CIE 1931 2 Degree Standard Observer').get('D50').XYZ_n,
-        K_ab=HUNTERLAB_ILLUMINANTS.get(
-            'CIE 1931 2 Degree Standard Observer').get('D50').K_ab):
+        XYZ_n=HUNTERLAB_ILLUMINANTS[
+            'CIE 1931 2 Degree Standard Observer']['D50'].XYZ_n,
+        K_ab=HUNTERLAB_ILLUMINANTS[
+            'CIE 1931 2 Degree Standard Observer']['D50'].K_ab):
     """
     Converts from *Hunter L,a,b* colour scale to *CIE XYZ* tristimulus values.
 
@@ -178,8 +178,8 @@ def Hunter_Lab_to_XYZ(
     Examples
     --------
     >>> Lab = np.array([31.74901573, -15.11462629, -2.78660758])
-    >>> D50 = HUNTERLAB_ILLUMINANTS.get(
-    ...     'CIE 1931 2 Degree Standard Observer').get('D50')
+    >>> D50 = HUNTERLAB_ILLUMINANTS[
+    ...     'CIE 1931 2 Degree Standard Observer']['D50']
     >>> Hunter_Lab_to_XYZ(Lab, D50.XYZ_n, D50.K_ab)   # doctest: +ELLIPSIS
     array([  7.049534,  10.08    ,   9.558313])
     """

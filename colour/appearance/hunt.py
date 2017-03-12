@@ -5,7 +5,7 @@
 Hunt Colour Appearance Model
 ============================
 
-Defines Hunt colour appearance model objects:
+Defines *Hunt* colour appearance model objects:
 
 -   :class:`Hunt_InductionFactors`
 -   :attr:`HUNT_VIEWING_CONDITIONS`
@@ -14,7 +14,7 @@ Defines Hunt colour appearance model objects:
 
 See Also
 --------
-`Hunt Colour Appearance Model IPython Notebook
+`Hunt Colour Appearance Model Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/
 blob/master/notebooks/appearance/hunt.ipynb>`_
 
@@ -39,7 +39,7 @@ from colour.utilities import (
     warning)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -79,7 +79,7 @@ class Hunt_InductionFactors(
     namedtuple('Hunt_InductionFactors',
                ('N_c', 'N_b', 'N_cb', 'N_bb'))):
     """
-    Hunt colour appearance model induction factors.
+    *Hunt* colour appearance model induction factors.
 
     Parameters
     ----------
@@ -118,7 +118,7 @@ HUNT_VIEWING_CONDITIONS = CaseInsensitiveMapping(
      'Projected Transparencies, Dark Surrounds': (
          Hunt_InductionFactors(0.7, 10))})
 """
-Reference Hunt colour appearance model viewing conditions.
+Reference *Hunt* colour appearance model viewing conditions.
 
 HUNT_VIEWING_CONDITIONS : CaseInsensitiveMapping
     **{'Small Areas, Uniform Background & Surrounds',
@@ -156,7 +156,7 @@ XYZ_TO_HPE_MATRIX = np.array(
      [-0.22981, 1.18340, 0.04641],
      [0.00000, 0.00000, 1.00000]])
 """
-Hunt colour appearance model *CIE XYZ* tristimulus values to
+*Hunt* colour appearance model *CIE XYZ* tristimulus values to
 *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` colourspace matrix.
 
 XYZ_TO_HPE_MATRIX : array_like, (3, 3)
@@ -164,7 +164,7 @@ XYZ_TO_HPE_MATRIX : array_like, (3, 3)
 
 HPE_TO_XYZ_MATRIX = np.linalg.inv(XYZ_TO_HPE_MATRIX)
 """
-Hunt colour appearance model *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta`
+*Hunt* colour appearance model *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta`
 colourspace to *CIE XYZ* tristimulus values matrix.
 
 HPE_TO_XYZ_MATRIX : array_like, (3, 3)
@@ -175,9 +175,9 @@ class Hunt_ReferenceSpecification(
     namedtuple('Hunt_ReferenceSpecification',
                ('J', 'C_94', 'h_S', 's', 'Q', 'M_94', 'H', 'H_C'))):
     """
-    Defines the Hunt colour appearance model reference specification.
+    Defines the *Hunt* colour appearance model reference specification.
 
-    This specification has field names consistent with Fairchild (2013)
+    This specification has field names consistent with *Fairchild (2013)*
     reference.
 
     Parameters
@@ -205,11 +205,11 @@ class Hunt_Specification(
     namedtuple('Hunt_Specification',
                ('J', 'C', 'h', 's', 'Q', 'M', 'H', 'HC'))):
     """
-    Defines the Hunt colour appearance model specification.
+    Defines the *Hunt* colour appearance model specification.
 
     This specification has field names consistent with the remaining colour
-    appearance models in :mod:`colour.appearance` but diverge from Fairchild
-    (2013) reference.
+    appearance models in :mod:`colour.appearance` but diverge from
+    *Fairchild (2013)* reference.
 
     Parameters
     ----------
@@ -240,7 +240,7 @@ def XYZ_to_Hunt(XYZ,
                 XYZ_w,
                 XYZ_b,
                 L_A,
-                surround=HUNT_VIEWING_CONDITIONS.get('Normal Scenes'),
+                surround=HUNT_VIEWING_CONDITIONS['Normal Scenes'],
                 L_AS=None,
                 CCT_w=None,
                 XYZ_p=None,
@@ -250,7 +250,7 @@ def XYZ_to_Hunt(XYZ,
                 helson_judd_effect=False,
                 discount_illuminant=True):
     """
-    Computes the Hunt colour appearance model correlates.
+    Computes the *Hunt* colour appearance model correlates.
 
     Parameters
     ----------
@@ -305,7 +305,7 @@ def XYZ_to_Hunt(XYZ,
     Returns
     -------
     Hunt_Specification
-        Hunt colour appearance model specification.
+        *Hunt* colour appearance model specification.
 
     Raises
     ------
@@ -553,8 +553,8 @@ def XYZ_to_rgb(XYZ):
 
 def f_n(x):
     """
-    Defines the nonlinear response function of the Hunt colour appearance
-    model used to model the nonlinear behavior of various visual responses.
+    Defines the nonlinear response function of the *Hunt* colour appearance
+    model used to model the nonlinear behaviour of various visual responses.
 
     Parameters
     ----------
@@ -790,8 +790,8 @@ def colour_difference_signals(rgb):
 
 def hue_angle(C):
     """
-    Returns the *hue* angle :math:`h` from given colour difference signals
-    :math:`C`.
+    Returns the *hue* angle :math:`h` in degrees from given colour difference
+    signals :math:`C`.
 
     Parameters
     ----------
@@ -801,7 +801,7 @@ def hue_angle(C):
     Returns
     -------
     numeric or ndarray
-        *Hue* angle :math:`h`.
+        *Hue* angle :math:`h` in degrees.
 
     Examples
     --------
@@ -822,12 +822,13 @@ def hue_angle(C):
 
 def eccentricity_factor(hue):
     """
-    Returns eccentricity factor :math:`e_s` from given hue angle :math:`h`.
+    Returns eccentricity factor :math:`e_s` from given hue angle :math:`h`
+    in degrees.
 
     Parameters
     ----------
     hue : numeric or array_like
-        Hue angle :math:`h`.
+        Hue angle :math:`h` in degrees.
 
     Returns
     -------
@@ -842,8 +843,8 @@ def eccentricity_factor(hue):
 
     hue = np.asarray(hue)
 
-    h_s = HUE_DATA_FOR_HUE_QUADRATURE.get('h_s')
-    e_s = HUE_DATA_FOR_HUE_QUADRATURE.get('e_s')
+    h_s = HUE_DATA_FOR_HUE_QUADRATURE['h_s']
+    e_s = HUE_DATA_FOR_HUE_QUADRATURE['e_s']
 
     x = np.interp(hue, h_s, e_s)
     x = np.where(hue < 20.14, 0.856 - (hue / 20.14) * 0.056, x)

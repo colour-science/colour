@@ -5,8 +5,6 @@
 Showcases colour spectral bandpass dependence correction computations.
 """
 
-from __future__ import division, unicode_literals
-
 import numpy as np
 
 import colour
@@ -15,7 +13,7 @@ from colour.utilities.verbose import message_box
 message_box('Spectral Bandpass Dependence Correction')
 
 message_box(('Applying spectral bandpass dependence correction on a sample '
-             'spectral power distribution using Stearns and Stearns (1988) '
+             'spectral power distribution using "Stearns and Stearns (1988)" '
              'method:\n'
              '\n\t("Measured Values", "Corrected Values")'))
 sample_spd_data = {

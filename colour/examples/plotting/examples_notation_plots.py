@@ -10,6 +10,8 @@ from colour.utilities.verbose import message_box
 
 message_box('Colour Notation Systems Plots')
 
+colour_plotting_defaults()
+
 message_box('Plotting a single "Munsell" value function.')
 single_munsell_value_function_plot('Ladd 1955')
 

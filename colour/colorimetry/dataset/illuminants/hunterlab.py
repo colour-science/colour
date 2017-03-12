@@ -14,7 +14,7 @@ want to use different data accordingly to the tables given in [2]_.
 
 See Also
 --------
-`Illuminants IPython Notebook
+`Illuminants Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/illuminants.ipynb>`_
 
@@ -30,12 +30,13 @@ References
 
 from __future__ import division, unicode_literals
 
+import numpy as np
 from collections import namedtuple
 
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -54,15 +55,15 @@ HunterLab_Illuminant_Specification = namedtuple(
     ('name', 'XYZ_n', 'K_ab'))
 
 HUNTERLAB_ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER_DATA = (
-    ('A', (109.83, 100.00, 35.55), (185.20, 38.40)),
-    ('C', (98.04, 100.00, 118.11), (175.00, 70.00)),
-    ('D65', (95.02, 100.00, 108.82), (172.30, 67.20)),
-    ('D50', (96.38, 100.00, 82.45), (173.51, 58.48)),
-    ('D60', (95.23, 100.00, 100.86), (172.47, 64.72)),
-    ('D75', (94.96, 100.00, 122.53), (172.22, 71.30)),
-    ('F2', (98.09, 100.00, 67.53), (175.00, 52.90)),
-    ('TL 4', (101.40, 100.00, 65.90), (178.00, 52.30)),
-    ('UL 3000', (107.99, 100.00, 33.91), (183.70, 37.50)))
+    ('A', np.array([109.83, 100.00, 35.55]), np.array([185.20, 38.40])),
+    ('C', np.array([98.04, 100.00, 118.11]), np.array([175.00, 70.00])),
+    ('D65', np.array([95.02, 100.00, 108.82]), np.array([172.30, 67.20])),
+    ('D50', np.array([96.38, 100.00, 82.45]), np.array([173.51, 58.48])),
+    ('D60', np.array([95.23, 100.00, 100.86]), np.array([172.47, 64.72])),
+    ('D75', np.array([94.96, 100.00, 122.53]), np.array([172.22, 71.30])),
+    ('F2', np.array([98.09, 100.00, 67.53]), np.array([175.00, 52.90])),
+    ('TL 4', np.array([101.40, 100.00, 65.90]), np.array([178.00, 52.30])),
+    ('UL 3000', np.array([107.99, 100.00, 33.91]), np.array([183.70, 37.50])))
 
 HUNTERLAB_ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER = (
     CaseInsensitiveMapping(dict(
@@ -76,15 +77,15 @@ HUNTERLAB_ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER :
 """
 
 HUNTERLAB_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER_DATA = (
-    ('A', (111.16, 100.00, 35.19), (186.30, 38.20)),
-    ('C', (97.30, 100.00, 116.14), (174.30, 69.40)),
-    ('D50', (96.72, 100.00, 81.45), (173.82, 58.13)),
-    ('D60', (95.21, 100.00, 99.60), (172.45, 64.28)),
-    ('D65', (94.83, 100.00, 107.38), (172.10, 66.70)),
-    ('D75', (94.45, 100.00, 120.70), (171.76, 70.76)),
-    ('F2', (102.13, 100.00, 69.37), (178.60, 53.60)),
-    ('TL 4', (103.82, 100.00, 66.90), (180.10, 52.70)),
-    ('UL 3000', (111.12, 100.00, 35.21), (186.30, 38.20)))
+    ('A', np.array([111.16, 100.00, 35.19]), np.array([186.30, 38.20])),
+    ('C', np.array([97.30, 100.00, 116.14]), np.array([174.30, 69.40])),
+    ('D50', np.array([96.72, 100.00, 81.45]), np.array([173.82, 58.13])),
+    ('D60', np.array([95.21, 100.00, 99.60]), np.array([172.45, 64.28])),
+    ('D65', np.array([94.83, 100.00, 107.38]), np.array([172.10, 66.70])),
+    ('D75', np.array([94.45, 100.00, 120.70]), np.array([171.76, 70.76])),
+    ('F2', np.array([102.13, 100.00, 69.37]), np.array([178.60, 53.60])),
+    ('TL 4', np.array([103.82, 100.00, 66.90]), np.array([180.10, 52.70])),
+    ('UL 3000', np.array([111.12, 100.00, 35.21]), np.array([186.30, 38.20])))
 
 HUNTERLAB_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER = (
     CaseInsensitiveMapping(dict(
@@ -97,10 +98,10 @@ HUNTERLAB_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER :
     CaseInsensitiveMapping
 """
 
-HUNTERLAB_ILLUMINANTS = CaseInsensitiveMapping(
-    {'CIE 1931 2 Degree Standard Observer':
+HUNTERLAB_ILLUMINANTS = CaseInsensitiveMapping({
+    'CIE 1931 2 Degree Standard Observer':
         HUNTERLAB_ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER,
-     'CIE 1964 10 Degree Standard Observer':
+    'CIE 1964 10 Degree Standard Observer':
         HUNTERLAB_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER})
 """
 Aggregated *Hunter L,a,b* illuminant dataset.

@@ -51,7 +51,7 @@ from colour.plotting import (
 from colour.utilities import normalise_maximum, tsplit, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -84,8 +84,13 @@ def CIE_1931_chromaticity_diagram_colours_plot(
         Samples count on one axis.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
@@ -148,9 +153,14 @@ def CIE_1931_chromaticity_diagram_plot(
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
     show_diagram_colours : bool, optional
-        Display the chromaticity diagram background colours.
+        Whether to display the chromaticity diagram background colours.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
@@ -195,7 +205,7 @@ def CIE_1931_chromaticity_diagram_plot(
                linewidth=2)
 
     for label in labels:
-        x, y = wavelengths_chromaticity_coordinates.get(label)
+        x, y = wavelengths_chromaticity_coordinates[label]
         pylab.plot(x, y, 'o', color='black', linewidth=2)
 
         index = bisect.bisect(wavelengths, label)
@@ -204,10 +214,10 @@ def CIE_1931_chromaticity_diagram_plot(
                  if index < len(wavelengths) else
                  wavelengths[-1])
 
-        dx = (wavelengths_chromaticity_coordinates.get(right)[0] -
-              wavelengths_chromaticity_coordinates.get(left)[0])
-        dy = (wavelengths_chromaticity_coordinates.get(right)[1] -
-              wavelengths_chromaticity_coordinates.get(left)[1])
+        dx = (wavelengths_chromaticity_coordinates[right][0] -
+              wavelengths_chromaticity_coordinates[left][0])
+        dy = (wavelengths_chromaticity_coordinates[right][1] -
+              wavelengths_chromaticity_coordinates[left][1])
 
         xy = np.array([x, y])
         direction = np.array([-dy, dx])
@@ -267,8 +277,13 @@ def CIE_1960_UCS_chromaticity_diagram_colours_plot(
         Samples count on one axis.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
@@ -331,9 +346,14 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
     show_diagram_colours : bool, optional
-        Display the chromaticity diagram background colours.
+        Whether to display the chromaticity diagram background colours.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
@@ -376,7 +396,7 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
                linewidth=2)
 
     for label in labels:
-        u, v = wavelengths_chromaticity_coordinates.get(label)
+        u, v = wavelengths_chromaticity_coordinates[label]
         pylab.plot(u, v, 'o', color='black', linewidth=2)
 
         index = bisect.bisect(wavelengths, label)
@@ -385,10 +405,10 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
                  if index < len(wavelengths) else
                  wavelengths[-1])
 
-        dx = (wavelengths_chromaticity_coordinates.get(right)[0] -
-              wavelengths_chromaticity_coordinates.get(left)[0])
-        dy = (wavelengths_chromaticity_coordinates.get(right)[1] -
-              wavelengths_chromaticity_coordinates.get(left)[1])
+        dx = (wavelengths_chromaticity_coordinates[right][0] -
+              wavelengths_chromaticity_coordinates[left][0])
+        dy = (wavelengths_chromaticity_coordinates[right][1] -
+              wavelengths_chromaticity_coordinates[left][1])
 
         uv = np.array([u, v])
         direction = np.array([-dy, dx])
@@ -448,8 +468,13 @@ def CIE_1976_UCS_chromaticity_diagram_colours_plot(
         Samples count on one axis.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
@@ -513,9 +538,14 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
     show_diagram_colours : bool, optional
-        Display the chromaticity diagram background colours.
+        Whether to display the chromaticity diagram background colours.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
@@ -560,7 +590,7 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
                linewidth=2)
 
     for label in labels:
-        u, v = wavelengths_chromaticity_coordinates.get(label)
+        u, v = wavelengths_chromaticity_coordinates[label]
         pylab.plot(u, v, 'o', color='black', linewidth=2)
 
         index = bisect.bisect(wavelengths, label)
@@ -569,10 +599,10 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
                  if index < len(wavelengths) else
                  wavelengths[-1])
 
-        dx = (wavelengths_chromaticity_coordinates.get(right)[0] -
-              wavelengths_chromaticity_coordinates.get(left)[0])
-        dy = (wavelengths_chromaticity_coordinates.get(right)[1] -
-              wavelengths_chromaticity_coordinates.get(left)[1])
+        dx = (wavelengths_chromaticity_coordinates[right][0] -
+              wavelengths_chromaticity_coordinates[left][0])
+        dy = (wavelengths_chromaticity_coordinates[right][1] -
+              wavelengths_chromaticity_coordinates[left][1])
 
         uv = np.array([u, v])
         direction = np.array([-dy, dx])
@@ -634,8 +664,16 @@ def spds_CIE_1931_chromaticity_diagram_plot(
     annotate : bool
         Should resulting chromaticity coordinates annotated with their
         respective spectral power distribution names.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
+    show_diagram_colours : bool, optional
+        {:func:`CIE_1931_chromaticity_diagram_plot`},
+        Whether to display the chromaticity diagram background colours.
 
     Returns
     -------
@@ -702,8 +740,16 @@ def spds_CIE_1960_UCS_chromaticity_diagram_plot(
     annotate : bool
         Should resulting chromaticity coordinates annotated with their
         respective spectral power distribution names.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
+    show_diagram_colours : bool, optional
+        {:func:`CIE_1960_UCS_chromaticity_diagram_plot`},
+        Whether to display the chromaticity diagram background colours.
 
     Returns
     -------
@@ -770,8 +816,16 @@ def spds_CIE_1976_UCS_chromaticity_diagram_plot(
     annotate : bool
         Should resulting chromaticity coordinates annotated with their
         respective spectral power distribution names.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
+    show_diagram_colours : bool, optional
+        {:func:`CIE_1976_UCS_chromaticity_diagram_plot`},
+        Whether to display the chromaticity diagram background colours.
 
     Returns
     -------

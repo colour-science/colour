@@ -7,12 +7,15 @@ matrix:
   - python: 3.5
     env:
     - PYTHON_VERSION="3.5"
+    - PYQT_VERSION="4.11.4"
   - python: 3.4
     env:
     - PYTHON_VERSION="3.4"
+    - PYQT_VERSION="4.11.4"
   - python: 2.7
     env:
     - PYTHON_VERSION="2.7"
+    - PYQT_VERSION="4.11.4"
 
 notifications:
   slack: colour-science:Y6lPPcN7y53Js94geqUpqsAP
@@ -26,14 +29,14 @@ before_install:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
   - PACKAGES="python=${PYTHON_VERSION}"
-  - PACKAGES="${PACKAGES} numpy"; if [ ${NUMPY_VERSION} ]; then PACKAGES="${PACKAGES}=${NUMPY_VERSION}"; fi
   - PACKAGES="${PACKAGES} scipy"; if [ ${SCIPY_VERSION} ]; then PACKAGES="${PACKAGES}=${SCIPY_VERSION}"; fi
+  - PACKAGES="${PACKAGES} pyqt"; if [ ${PYQT_VERSION} ]; then PACKAGES="${PACKAGES}=${PYQT_VERSION}"; fi
   - PACKAGES="${PACKAGES} matplotlib"; if [ ${MATPLOTLIB_VERSION} ]; then PACKAGES="${PACKAGES}=${MATPLOTLIB_VERSION}"; fi
 
 install:
   - conda create --yes --quiet -n colour-test ${PACKAGES} pip setuptools nose
   - source activate colour-test
-  - pip install coverage coveralls flake8 mock==1.0.1
+  - pip install six coverage coveralls flake8 mock==1.0.1
 
 before_script:
   - export PYTHONWARNINGS=ignore

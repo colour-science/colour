@@ -6,7 +6,7 @@ Colour Matching Functions
 =========================
 
 Defines colour matching functions classes for the dataset from
-:mod:`colour.colorimetry.dataset.cmfs`:
+:mod:`colour.colorimetry.dataset.cmfs` module:
 
 -   :class:`LMS_ConeFundamentals`: Implements support for the
     Stockman and Sharpe *LMS* cone fundamentals colour matching functions.
@@ -17,7 +17,7 @@ Defines colour matching functions classes for the dataset from
 
 See Also
 --------
-`Colour Matching Functions IPython Notebook
+`Colour Matching Functions Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/cmfs.ipynb>`_
 colour.colorimetry.dataset.cmfs,
@@ -31,7 +31,7 @@ import pprint
 from colour.colorimetry import TriSpectralPowerDistribution
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'

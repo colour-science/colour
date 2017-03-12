@@ -5,13 +5,13 @@
 Fairchild (1990) Chromatic Adaptation Model
 ===========================================
 
-Defines Fairchild (1990) chromatic adaptation model objects:
+Defines *Fairchild (1990)* chromatic adaptation model objects:
 
 -   :func:`chromatic_adaptation_Fairchild1990`
 
 See Also
 --------
-`Fairchild (1990) Chromatic Adaptation Model IPython Notebook
+`Fairchild (1990) Chromatic Adaptation Model Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/adaptation/fairchild1990.ipynb>`_
 
@@ -32,7 +32,7 @@ from colour.adaptation import VON_KRIES_CAT
 from colour.utilities import dot_vector, row_as_diagonal, tsplit, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -47,7 +47,7 @@ __all__ = ['FAIRCHILD1990_XYZ_TO_RGB_MATRIX',
 
 FAIRCHILD1990_XYZ_TO_RGB_MATRIX = VON_KRIES_CAT
 """
-Fairchild (1990) colour appearance model *CIE XYZ* tristimulus values to cone
+*Fairchild (1990)* colour appearance model *CIE XYZ* tristimulus values to cone
 responses matrix.
 
 FAIRCHILD1990_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
@@ -55,7 +55,7 @@ FAIRCHILD1990_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
 
 FAIRCHILD1990_RGB_TO_XYZ_MATRIX = np.linalg.inv(VON_KRIES_CAT)
 """
-Fairchild (1990) colour appearance model cone responses to *CIE XYZ*
+*Fairchild (1990)* colour appearance model cone responses to *CIE XYZ*
 tristimulus values matrix.
 
 FAIRCHILD1990_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
@@ -69,8 +69,8 @@ def chromatic_adaptation_Fairchild1990(XYZ_1,
                                        discount_illuminant=False):
     """
     Adapts given stimulus *CIE XYZ_1* tristimulus values from test viewing
-    conditions to reference viewing conditions using Fairchild (1990) chromatic
-    adaptation model.
+    conditions to reference viewing conditions using *Fairchild (1990)*
+    chromatic adaptation model.
 
     Parameters
     ----------

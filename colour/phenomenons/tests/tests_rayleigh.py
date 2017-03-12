@@ -32,7 +32,7 @@ from colour.phenomenons import (
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -477,57 +477,7 @@ RAYLEIGH_SCATTERING_SPD_DATA = (
     0.02565374,
     0.02552084,
     0.02538880,
-    0.02525761,
-    0.02512727,
-    0.02499778,
-    0.02486911,
-    0.02474128,
-    0.02461427,
-    0.02448807,
-    0.02436268,
-    0.02423810,
-    0.02411431,
-    0.02399131,
-    0.02386910,
-    0.02374767,
-    0.02362701,
-    0.02350711,
-    0.02338798,
-    0.02326960,
-    0.02315197,
-    0.02303509,
-    0.02291894,
-    0.02280353,
-    0.02268884,
-    0.02257487,
-    0.02246162,
-    0.02234908,
-    0.02223725,
-    0.02212612,
-    0.02201568,
-    0.02190593,
-    0.02179686,
-    0.02168847,
-    0.02158076,
-    0.02147372,
-    0.02136734,
-    0.02126162,
-    0.02115655,
-    0.02105213,
-    0.02094836,
-    0.02084523,
-    0.02074273,
-    0.02064086,
-    0.02053962,
-    0.02043900,
-    0.02033899,
-    0.02023960,
-    0.02014082,
-    0.02004263,
-    0.01994505,
-    0.01984806,
-    0.01975166,
-    0.01965585)
+    0.02525761)
 
 
 class TestAirRefractionIndexPenndorf1957(unittest.TestCase):

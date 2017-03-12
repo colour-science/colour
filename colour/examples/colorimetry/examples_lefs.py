@@ -5,8 +5,6 @@
 Showcases luminous efficiency functions computations.
 """
 
-from __future__ import division, unicode_literals
-
 from pprint import pprint
 
 import colour

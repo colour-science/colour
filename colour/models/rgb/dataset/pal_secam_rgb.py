@@ -11,7 +11,7 @@ Defines the *Pal/Secam RGB* colourspace:
 
 See Also
 --------
-`RGB Colourspaces IPython Notebook
+`RGB Colourspaces Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/rgb.ipynb>`_
 
@@ -35,7 +35,7 @@ from colour.models.rgb import (
     normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -65,12 +65,13 @@ PAL_SECAM_RGB_ILLUMINANT = 'D65'
 PAL_SECAM_RGB_ILLUMINANT : unicode
 """
 
-PAL_SECAM_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(PAL_SECAM_RGB_ILLUMINANT)
+PAL_SECAM_RGB_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+        PAL_SECAM_RGB_ILLUMINANT])
 """
 *Pal/Secam RGB* colourspace whitepoint.
 
-PAL_SECAM_RGB_WHITEPOINT : tuple
+PAL_SECAM_RGB_WHITEPOINT : ndarray
 """
 
 PAL_SECAM_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(

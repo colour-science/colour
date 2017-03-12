@@ -8,12 +8,12 @@ CRT Displays RGB Primaries
 Defines *CRT* displays *RGB* primaries tri-spectral power distributions.
 
 Each *CRT* display data is in the form of a *dict* of
-:class:`colour.colorimetry.spectrum.TriSpectralPowerDistribution` classes as
+:class:`colour.characterisation.displays.RGB_DisplayPrimaries` classes as
 follows::
 
-    {'name': TriSpectralPowerDistribution,
+    {'name': RGB_DisplayPrimaries,
     ...,
-    'name': TriSpectralPowerDistribution}
+    'name': RGB_DisplayPrimaries}
 
 The following *CRT* displays are available:
 
@@ -21,7 +21,7 @@ The following *CRT* displays are available:
 
 See Also
 --------
-`Displays IPython Notebook
+`Displays Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/characterisation/displays.ipynb>`_
 
@@ -38,7 +38,7 @@ from colour.characterisation import RGB_DisplayPrimaries
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -299,7 +299,7 @@ CRT_DISPLAYS_RGB_PRIMARIES_DATA = {
 CRT_DISPLAYS_RGB_PRIMARIES = CaseInsensitiveMapping(
     {'Typical CRT Brainard 1997': RGB_DisplayPrimaries(
         'Typical CRT Brainard 1997',
-        CRT_DISPLAYS_RGB_PRIMARIES_DATA.get('Typical CRT Brainard 1997'))})
+        CRT_DISPLAYS_RGB_PRIMARIES_DATA['Typical CRT Brainard 1997'])})
 """
 *CRT* displays *RGB* primaries tri-spectral power distributions.
 

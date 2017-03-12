@@ -16,7 +16,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -98,8 +98,8 @@ def HEX_to_RGB(HEX):
         return [int(x[i:i + length // 3], 16)
                 for i in range(0, length, length // 3)]
 
-    toRGB = np.vectorize(to_RGB, otypes=[np.ndarray])
+    to_RGB_v = np.vectorize(to_RGB, otypes=[np.ndarray])
 
-    RGB = np.asarray(toRGB(HEX).tolist()) / 255
+    RGB = np.asarray(to_RGB_v(HEX).tolist()) / 255
 
     return RGB

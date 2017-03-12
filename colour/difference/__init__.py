@@ -10,6 +10,10 @@ from .delta_e import (
     delta_E_CIE1994,
     delta_E_CIE2000,
     delta_E_CMC)
+from .delta_e_luo2006 import (
+    delta_E_CAM02LCD,
+    delta_E_CAM02SCD,
+    delta_E_CAM02UCS)
 
 __all__ = ['DELTA_E_METHODS',
            'delta_E',
@@ -17,3 +21,6 @@ __all__ = ['DELTA_E_METHODS',
            'delta_E_CIE1994',
            'delta_E_CIE2000',
            'delta_E_CMC']
+__all__ += ['delta_E_CAM02LCD',
+            'delta_E_CAM02SCD',
+            'delta_E_CAM02UCS']

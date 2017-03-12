@@ -18,7 +18,7 @@ Notes
 
 See Also
 --------
-`YCbCr Colours Encoding IPython Notebook
+`YCbCr Colours Encoding Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/ycbcr.ipynb>`_
 
@@ -40,7 +40,7 @@ itu-r/rec/bt/R-REC-BT.2020-2-201510-I!!PDF-E.pdf
         ANSI/SMPTE 240M-1995 - Signal Parameters - 1125-Line High-Definition
         Production Systems, 1–7. Retrieved from
         http://car.france3.mars.free.fr/\
-HD/INA- 26 jan 06/SMPTE normes et confs/s240m.pdf
+HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/s240m.pdf
 .. [5]  International Telecommunication Union. (2011). Recommendation ITU-T
         T.871 - Information technology – Digital compression and coding of
         continuous-tone still images: JPEG File Interchange Format (JFIF).
@@ -56,7 +56,7 @@ from colour.utilities import CaseInsensitiveMapping, tsplit, tstack
 from colour.models.rgb.transfer_functions import oetf_BT2020, eotf_BT2020
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -71,10 +71,10 @@ __all__ = ['YCBCR_WEIGHTS',
            'YcCbcCrc_to_RGB']
 
 YCBCR_WEIGHTS = CaseInsensitiveMapping(
-    {'Rec. 601': (0.2990, 0.1140),
-     'Rec. 709': (0.2126, 0.0722),
-     'Rec. 2020': (0.2627, 0.0593),
-     'SMPTE-240M': (0.2122, 0.0865)})
+    {'Rec. 601': np.array([0.2990, 0.1140]),
+     'Rec. 709': np.array([0.2126, 0.0722]),
+     'Rec. 2020': np.array([0.2627, 0.0593]),
+     'SMPTE-240M': np.array([0.2122, 0.0865])})
 """
 Luma weightings presets.
 
@@ -213,11 +213,18 @@ def RGB_to_YCbCr(RGB,
     out_int : bool, optional
         Whether to return values as `out_bits` integer code values. Default is
         `False`.
-    \**kwargs : dict, optional
-        **{'in_range', 'out_range'}**
-        Keyword arguments to override the calculated ranges such as
-        ``{'in_range' : array_like (RGB_min, RGB_max), 'out_range' :
-        array_like (Y_min, Y_max, C_min, C_max)}``.
+
+    Other Parameters
+    ----------------
+    in_range : array_like, optional
+        Array overriding the computed range such as
+        `in_range = (RGB_min, RGB_max)`. If `in_range` is undefined, `RGB_min`
+        and `RGB_max` will be computed using :func:`RGB_range` definition.
+    out_range : array_like, optional
+        Array overriding the computed range such as
+        `out_range = (Y_min, Y_max, C_min, C_max)`. If `out_range` is
+        undefined, `Y_min`, `Y_max`, `C_min` and `C_max` will be computed
+        using :func:`YCbCr_ranges` definition.
 
     Returns
     -------
@@ -366,11 +373,19 @@ def YCbCr_to_RGB(YCbCr,
     out_int : bool, optional
         Whether to return values as `out_bits` integer code values. Default is
         `False`.
-    \**kwargs : dict, optional
-        **{'in_range', 'out_range'}**
-        Keyword arguments to override the calculated ranges such as
-        ``{'in_range' : array_like (Y_min, Y_max, C_min, C_max), 'out_range' :
-        array_like (RGB_min, RGB_max)}``.
+
+    Other Parameters
+    ----------------
+    in_range : array_like, optional
+        Array overriding the computed range such as
+        `in_range = (Y_min, Y_max, C_min, C_max)`. If `in_range` is undefined,
+        `Y_min`, `Y_max`, `C_min` and `C_max` will be computed using
+        :func:`YCbCr_ranges` definition.
+    out_range : array_like, optional
+        Array overriding the computed range such as
+        `out_range = (RGB_min, RGB_max)`. If `out_range` is undefined,
+        `RGB_min` and `RGB_max` will be computed using :func:`RGB_range`
+        definition.
 
     Returns
     -------
@@ -448,10 +463,14 @@ def RGB_to_YcCbcCrc(RGB,
     is_12_bits_system : bool, optional
         *Recommendation ITU-R BT.2020* OETF (OECF) adopts different parameters
         for 10 and 12 bit systems. Default is `False`.
-    \**kwargs : dict, optional
-        **{'out_range'}**
-        Keyword arguments to override the calculated ranges such as
-        ``{'out_range' : array_like (Y_min, Y_max, C_min, C_max)}``
+
+    Other Parameters
+    ----------------
+    out_range : array_like, optional
+        Array overriding the computed range such as
+        `out_range = (Y_min, Y_max, C_min, C_max)`. If `out_range` is
+        undefined, `Y_min`, `Y_max`, `C_min` and `C_max` will be computed
+        using :func:`YCbCr_ranges` definition.
 
     Returns
     -------
@@ -526,10 +545,14 @@ def YcCbcCrc_to_RGB(YcCbcCrc,
     is_12_bits_system : bool, optional
         *Recommendation ITU-R BT.2020* EOTF (EOCF) adopts different parameters
         for 10 and 12 bit systems. Default is `False`.
-    \**kwargs : dict, optional
-        **{'in_range'}**
-        Keyword arguments to override the calculated ranges such as
-        ``{'in_range' : array_like (Y_min, Y_max, C_min, C_max)}``
+
+    Other Parameters
+    ----------------
+    in_range : array_like, optional
+        Array overriding the computed range such as
+        `in_range = (Y_min, Y_max, C_min, C_max)`. If `in_range` is undefined,
+        `Y_min`, `Y_max`, `C_min` and `C_max` will be computed using
+        :func:`YCbCr_ranges` definition.
 
     Returns
     -------

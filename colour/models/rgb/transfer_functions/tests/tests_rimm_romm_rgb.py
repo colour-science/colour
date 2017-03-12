@@ -21,7 +21,7 @@ from colour.models.rgb.transfer_functions import (
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -54,12 +54,12 @@ oetf_ROMMRGB` definition.
 
         self.assertAlmostEqual(
             oetf_ROMMRGB(0.18),
-            0.385711424751138,
+            98.356413311540095,
             places=7)
 
         self.assertAlmostEqual(
             oetf_ROMMRGB(1.0),
-            1.0,
+            255.0,
             places=7)
 
     def test_n_dimensional_oetf_ROMMRGB(self):
@@ -69,7 +69,7 @@ oetf_ROMMRGB` definition n-dimensional arrays support.
         """
 
         L = 0.18
-        V = 0.385711424751138
+        V = 98.356413311540095
         np.testing.assert_almost_equal(
             oetf_ROMMRGB(L),
             V,
@@ -125,12 +125,12 @@ eotf_ROMMRGB` definition.
             places=7)
 
         self.assertAlmostEqual(
-            eotf_ROMMRGB(0.385711424751138),
+            eotf_ROMMRGB(98.356413311540095),
             0.18,
             places=7)
 
         self.assertAlmostEqual(
-            eotf_ROMMRGB(1.0),
+            eotf_ROMMRGB(255.0),
             1.0,
             places=7)
 
@@ -140,7 +140,7 @@ eotf_ROMMRGB` definition.
 eotf_ROMMRGB` definition n-dimensional arrays support.
         """
 
-        L = 0.385711424751138
+        L = 98.356413311540095
         V = 0.18
         np.testing.assert_almost_equal(
             eotf_ROMMRGB(L),

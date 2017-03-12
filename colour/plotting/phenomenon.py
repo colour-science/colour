@@ -37,7 +37,7 @@ from colour.plotting import (
 from colour.utilities import normalise_maximum
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -55,7 +55,7 @@ def single_rayleigh_scattering_spd_plot(
         cmfs='CIE 1931 2 Degree Standard Observer',
         **kwargs):
     """
-    Plots a single rayleigh scattering spectral power distribution.
+    Plots a single *Rayleigh* scattering spectral power distribution.
 
     Parameters
     ----------
@@ -71,8 +71,18 @@ def single_rayleigh_scattering_spd_plot(
         Altitude of the site in meters.
     cmfs : unicode, optional
         Standard observer colour matching functions.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
+    out_of_gamut_clipping : bool, optional
+        {:func:`single_spd_plot`},
+        Whether to clip out of gamut colours otherwise, the colours will be
+        offset by the absolute minimal colour leading to a rendering on
+        gray background, less saturated and smoother. [1]_
 
     Returns
     -------
@@ -113,8 +123,13 @@ def the_blue_sky_plot(
     ----------
     cmfs : unicode, optional
         Standard observer colour matching functions.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------

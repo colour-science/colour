@@ -11,6 +11,7 @@ import os
 import shutil
 import unittest
 import tempfile
+from six import text_type
 
 from colour.colorimetry import SpectralPowerDistribution
 from colour.io import (
@@ -19,7 +20,7 @@ from colour.io import (
     write_spds_to_csv_file)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2008 - 2014 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -135,7 +136,7 @@ class TestReadSpectralDataFromCsvFile(unittest.TestCase):
         data = read_spectral_data_from_csv_file(colour_checker_n_ohta)
         self.assertListEqual(
             sorted(data),
-            sorted([unicode(x) for x in range(1, 25)]))  # noqa
+            sorted([text_type(x) for x in range(1, 25)]))
         self.assertDictEqual(data['1'], COLOURCHECKER_N_OHTA_1)
 
         linss2_10e_5 = os.path.join(RESOURCES_DIRECTORY,

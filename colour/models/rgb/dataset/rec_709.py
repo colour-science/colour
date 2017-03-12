@@ -11,7 +11,7 @@ Defines the *Rec. 709* colourspace:
 
 See Also
 --------
-`RGB Colourspaces IPython Notebook
+`RGB Colourspaces Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/rgb.ipynb>`_
 
@@ -36,7 +36,7 @@ from colour.models.rgb import (
     normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -66,12 +66,12 @@ REC_709_ILLUMINANT = 'D65'
 REC_709_ILLUMINANT : unicode
 """
 
-REC_709_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(REC_709_ILLUMINANT)
+REC_709_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][REC_709_ILLUMINANT])
 """
 *Rec. 709* colourspace whitepoint.
 
-REC_709_WHITEPOINT : tuple
+REC_709_WHITEPOINT : ndarray
 """
 
 REC_709_TO_XYZ_MATRIX = normalised_primary_matrix(

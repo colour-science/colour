@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
-RIMM / ROMM / ERIMM Encodings
-=============================
+RIMM, ROMM and ERIMM Encodings
+==============================
 
-Defines the *RIMM / ROMM / ERIMM* encodings:
+Defines the *RIMM, ROMM and ERIMM* encodings:
 
 -   :attr:`ROMM_RGB_COLOURSPACE`.
 -   :attr:`RIMM_RGB_COLOURSPACE`.
@@ -14,7 +14,7 @@ Defines the *RIMM / ROMM / ERIMM* encodings:
 
 See Also
 --------
-`RGB Colourspaces IPython Notebook
+`RGB Colourspaces Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/rgb.ipynb>`_
 
@@ -44,7 +44,7 @@ from colour.models.rgb import (
     eotf_ProPhotoRGB)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -92,12 +92,12 @@ ROMM_RGB_ILLUMINANT = 'D50'
 ROMM_RGB_ILLUMINANT : unicode
 """
 
-ROMM_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(ROMM_RGB_ILLUMINANT)
+ROMM_RGB_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][ROMM_RGB_ILLUMINANT])
 """
 *ROMM RGB* colourspace whitepoint.
 
-ROMM_RGB_WHITEPOINT : tuple
+ROMM_RGB_WHITEPOINT : ndarray
 """
 
 ROMM_RGB_TO_XYZ_MATRIX = np.array(
@@ -110,7 +110,11 @@ ROMM_RGB_TO_XYZ_MATRIX = np.array(
 ROMM_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
-XYZ_TO_ROMM_RGB_MATRIX = np.linalg.inv(ROMM_RGB_TO_XYZ_MATRIX)
+XYZ_TO_ROMM_RGB_MATRIX = np.array(
+    [[1.3460, -0.2556, -0.0511],
+     [-0.5446, 1.5082, 0.0205],
+     [0.0000, 0.0000, 1.2123]])
+
 """
 *CIE XYZ* tristimulus values to *ROMM RGB* colourspace matrix.
 
@@ -150,7 +154,7 @@ RIMM_RGB_WHITEPOINT = ROMM_RGB_WHITEPOINT
 """
 *RIMM RGB* colourspace whitepoint.
 
-RIMM_RGB_WHITEPOINT : tuple
+RIMM_RGB_WHITEPOINT : ndarray
 """
 
 RIMM_RGB_TO_XYZ_MATRIX = ROMM_RGB_TO_XYZ_MATRIX
@@ -202,7 +206,7 @@ ERIMM_RGB_WHITEPOINT = ROMM_RGB_WHITEPOINT
 """
 *ERIMM RGB* colourspace whitepoint.
 
-ERIMM_RGB_WHITEPOINT : tuple
+ERIMM_RGB_WHITEPOINT : ndarray
 """
 
 ERIMM_RGB_TO_XYZ_MATRIX = ROMM_RGB_TO_XYZ_MATRIX
@@ -252,7 +256,7 @@ PROPHOTO_RGB_WHITEPOINT = ROMM_RGB_WHITEPOINT
 """
 *ProPhoto RGB* colourspace whitepoint.
 
-PROPHOTO_RGB_WHITEPOINT : tuple
+PROPHOTO_RGB_WHITEPOINT : ndarray
 """
 
 PROPHOTO_RGB_TO_XYZ_MATRIX = ROMM_RGB_TO_XYZ_MATRIX

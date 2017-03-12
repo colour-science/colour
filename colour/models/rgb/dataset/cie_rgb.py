@@ -11,16 +11,17 @@ Defines the *CIE RGB* colourspace:
 
 See Also
 --------
-`RGB Colourspaces IPython Notebook
+`RGB Colourspaces Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  Wikipedia. (n.d.). Construction of the CIE XYZ color space from the
-        Wright–Guild data. Retrieved February 24, 2014, from
-        http://en.wikipedia.org/wiki/CIE_1931_color_space#\
-Construction_of_the_CIE_XYZ_color_space_from_the_Wright.E2.80.93Guild_data
+.. [1]  Fairman, H. S., Brill, M. H., & Hemmendinger, H. (1997). How the CIE
+        1931 color-matching functions were derived from Wright-Guild data.
+        Color Research & …, 22(1), 11–23. Retrieved from
+        http://doi.wiley.com/10.1002/%28SICI%291520-6378%28199702%2922%3A1\
+%3C11%3A%3AAID-COL4%3E3.0.CO%3B2-7
 """
 
 from __future__ import division, unicode_literals
@@ -32,7 +33,7 @@ from colour.colorimetry import ILLUMINANTS
 from colour.models.rgb import RGB_Colourspace, gamma_function
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -46,13 +47,19 @@ __all__ = ['CIE_RGB_PRIMARIES',
            'CIE_RGB_COLOURSPACE']
 
 CIE_RGB_PRIMARIES = np.array(
-    [[0.7350, 0.2650],
-     [0.2740, 0.7170],
-     [0.1670, 0.0090]])
+    [[0.734742840005998, 0.265257159994002],
+     [0.273779033824958, 0.717477700256116],
+     [0.166555629580280, 0.008910726182545]])
 """
 *CIE RGB* colourspace primaries.
 
 CIE_RGB_PRIMARIES : ndarray, (3, 2)
+
+Notes
+-----
+-   *CIE RGB* colourspace primaries were computed using
+    :attr:`CIE_RGB_TO_XYZ_MATRIX` attribute and
+    :func:`colour.primaries_whitepoint` definition.
 """
 
 CIE_RGB_ILLUMINANT = 'E'
@@ -62,18 +69,18 @@ CIE_RGB_ILLUMINANT = 'E'
 CIE_RGB_ILLUMINANT : unicode
 """
 
-CIE_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(CIE_RGB_ILLUMINANT)
+CIE_RGB_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][CIE_RGB_ILLUMINANT])
 """
 *CIE RGB* colourspace whitepoint.
 
-CIE_RGB_WHITEPOINT : tuple
+CIE_RGB_WHITEPOINT : ndarray
 """
 
 CIE_RGB_TO_XYZ_MATRIX = np.array(
-    [[0.4887180, 0.3106803, 0.2006017],
-     [0.1762044, 0.8129847, 0.0108109],
-     [0.0000000, 0.0102048, 0.9897952]])
+    [[0.4900, 0.3100, 0.2000],
+     [0.1769, 0.8124, 0.0107],
+     [0.0000, 0.0099, 0.9901]])
 """
 *CIE RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 

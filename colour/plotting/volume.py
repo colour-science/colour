@@ -34,7 +34,7 @@ from colour.plotting import (
 from colour.utilities import Structure, tsplit, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -107,19 +107,38 @@ def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
         Axis labels.
     axes : matplotlib.axes.Axes, optional
         Axes to add the grid.
-    \**kwargs : dict, optional
-        **{'grid_face_colours', 'grid_edge_colours', 'grid_face_alpha',
-        'grid_edge_alpha', 'x_axis_colour', 'y_axis_colour', 'x_ticks_colour',
-        'y_ticks_colour', 'x_label_colour', 'y_label_colour',
-        'ticks_and_label_location'}**,
-        Arguments for the nadir grid such as ``{'grid_face_colours':
-        (0.25, 0.25, 0.25), 'grid_edge_colours': (0.50, 0.50, 0.50),
-        'grid_face_alpha': 0.1, 'grid_edge_alpha': 0.5, 'x_axis_colour':
-        (0.0, 0.0, 0.0, 1.0), 'y_axis_colour': (0.0, 0.0, 0.0, 1.0),
-        'x_ticks_colour': (0.0, 0.0, 0.0, 0.85), 'y_ticks_colour':
-        (0.0, 0.0, 0.0, 0.85), 'x_label_colour': (0.0, 0.0, 0.0, 0.85),
-        'y_label_colour': (0.0, 0.0, 0.0, 0.85), 'ticks_and_label_location':
-        ('-x', '-y')}``
+
+    Other Parameters
+    ----------------
+    grid_face_colours : array_like, optional
+        Grid face colours array such as
+        `grid_face_colours = (0.25, 0.25, 0.25)`.
+    grid_edge_colours : array_like, optional
+        Grid edge colours array such as
+        `grid_edge_colours = (0.25, 0.25, 0.25)`.
+    grid_face_alpha : numeric, optional
+        Grid face opacity value such as `grid_face_alpha = 0.1`.
+    grid_edge_alpha : numeric, optional
+        Grid edge opacity value such as `grid_edge_alpha = 0.5`.
+    x_axis_colour : array_like, optional
+        *X* axis colour array such as `x_axis_colour = (0.0, 0.0, 0.0, 1.0)`.
+    y_axis_colour : array_like, optional
+        *Y* axis colour array such as `y_axis_colour = (0.0, 0.0, 0.0, 1.0)`.
+    x_ticks_colour : array_like, optional
+        *X* axis ticks colour array such as
+        `x_ticks_colour = (0.0, 0.0, 0.0, 0.85)`.
+    y_ticks_colour : array_like, optional
+        *Y* axis ticks colour array such as
+        `y_ticks_colour = (0.0, 0.0, 0.0, 0.85)`.
+    x_label_colour : array_like, optional
+        *X* axis label colour array such as
+        `x_label_colour = (0.0, 0.0, 0.0, 0.85)`.
+    y_label_colour : array_like, optional
+        *Y* axis label colour array such as
+        `y_label_colour = (0.0, 0.0, 0.0, 0.85)`.
+    ticks_and_label_location : array_like, optional
+        Location of the *X* and *Y* axis ticks and labels such as
+        `ticks_and_label_location = ('-x', '-y')`.
 
     Returns
     -------
@@ -412,25 +431,20 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
         Spectral locus line colour.
     cmfs : unicode, optional
         Standard observer colour matching functions used for spectral locus.
-    \**kwargs : dict, optional
-        **{'face_colours', 'edge_colours', 'edge_alpha', 'face_alpha'}**,
-        Arguments for each given colourspace where each key has an array_like
-        value such as: ``{ 'face_colours': (None, (0.5, 0.5, 1.0)),
-        'edge_colours': (None, (0.5, 0.5, 1.0)), 'edge_alpha': (0.5, 1.0),
-        'face_alpha': (0.0, 1.0)}``
 
-        **{'grid_face_colours', 'grid_edge_colours', 'grid_face_alpha',
-        'grid_edge_alpha', 'x_axis_colour', 'y_axis_colour', 'x_ticks_colour',
-        'y_ticks_colour', 'x_label_colour', 'y_label_colour',
-        'ticks_and_label_location'}**,
-        Arguments for the nadir grid such as ``{'grid_face_colours':
-        (0.25, 0.25, 0.25), 'grid_edge_colours': (0.50, 0.50, 0.50),
-        'grid_face_alpha': 0.1, 'grid_edge_alpha': 0.5, 'x_axis_colour':
-        (0.0, 0.0, 0.0, 1.0), 'y_axis_colour': (0.0, 0.0, 0.0, 1.0),
-        'x_ticks_colour': (0.0, 0.0, 0.0, 0.85), 'y_ticks_colour':
-        (0.0, 0.0, 0.0, 0.85), 'x_label_colour': (0.0, 0.0, 0.0, 0.85),
-        'y_label_colour': (0.0, 0.0, 0.0, 0.85), 'ticks_and_label_location':
-        ('-x', '-y')}``
+    Other Parameters
+    ----------------
+    \**kwargs : dict, optional
+        {:func:`nadir_grid`},
+        Please refer to the documentation of the previously listed definitions.
+    face_colours : array_like, optional
+        Face colours array such as `face_colours = (None, (0.5, 0.5, 1.0))`.
+    edge_colours : array_like, optional
+        Edge colours array such as `edge_colours = (None, (0.5, 0.5, 1.0))`.
+    face_alpha : numeric, optional
+        Face opacity value such as `face_alpha = (0.5, 1.0)`.
+    edge_alpha : numeric, optional
+        Edge opacity value such as `edge_alpha = (0.0, 1.0)`.
 
     Returns
     -------
@@ -613,25 +627,12 @@ def RGB_scatter_plot(RGB,
         Scatter points size.
     cmfs : unicode, optional
         Standard observer colour matching functions used for spectral locus.
-    \**kwargs : dict, optional
-        **{'face_colours', 'edge_colours', 'edge_alpha', 'face_alpha'}**,
-        Arguments for each given colourspace where each key has an array_like
-        value such as: ``{ 'face_colours': (None, (0.5, 0.5, 1.0)),
-        'edge_colours': (None, (0.5, 0.5, 1.0)), 'edge_alpha': (0.5, 1.0),
-        'face_alpha': (0.0, 1.0)}``
 
-        **{'grid_face_colours', 'grid_edge_colours', 'grid_face_alpha',
-        'grid_edge_alpha', 'x_axis_colour', 'y_axis_colour', 'x_ticks_colour',
-        'y_ticks_colour', 'x_label_colour', 'y_label_colour',
-        'ticks_and_label_location'}**,
-        Arguments for the nadir grid such as ``{'grid_face_colours':
-        (0.25, 0.25, 0.25), 'grid_edge_colours': (0.50, 0.50, 0.50),
-        'grid_face_alpha': 0.1, 'grid_edge_alpha': 0.5, 'x_axis_colour':
-        (0.0, 0.0, 0.0, 1.0), 'y_axis_colour': (0.0, 0.0, 0.0, 1.0),
-        'x_ticks_colour': (0.0, 0.0, 0.0, 0.85), 'y_ticks_colour':
-        (0.0, 0.0, 0.0, 0.85), 'x_label_colour': (0.0, 0.0, 0.0, 0.85),
-        'y_label_colour': (0.0, 0.0, 0.0, 0.85), 'ticks_and_label_location':
-        ('-x', '-y')}``
+    Other Parameters
+    ----------------
+    \**kwargs : dict, optional
+        {:func:`RGB_colourspaces_gamuts_plot`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------

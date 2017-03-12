@@ -21,7 +21,7 @@ from colour.appearance.tests.common import ColourAppearanceModelTest
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -33,7 +33,7 @@ __all__ = ['TestLLABColourAppearanceModel']
 class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
     """
     Defines :mod:`colour.appearance.llab` module unit tests methods for
-    LLAB(l:c) colour appearance model.
+    *LLAB(l:c)* colour appearance model.
     """
 
     FIXTURE_BASENAME = 'llab.csv'
@@ -48,7 +48,7 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
 
     def output_specification_from_data(self, data):
         """
-        Returns the LLAB(l:c) colour appearance model output specification
+        Returns the *LLAB(l:c)* colour appearance model output specification
         from given data.
 
         Parameters
@@ -59,7 +59,7 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
         Returns
         -------
         LLAB_Specification
-            LLAB(l:c) colour appearance model specification.
+            *LLAB(l:c)* colour appearance model specification.
         """
 
         XYZ = tstack((data['X'], data['Y'], data['Z']))
@@ -76,9 +76,6 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
 
         return specification
 
-    @mock.patch('colour.appearance.llab.LLAB_RGB_TO_XYZ_MATRIX',
-                np.around(np.linalg.inv(llab.LLAB_XYZ_TO_RGB_MATRIX),
-                          decimals=4))
     def test_examples(self):
         """
         Tests the colour appearance model implementation.
@@ -94,11 +91,13 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
         patched version is used for unit tests.
         """
 
-        super(TestLLABColourAppearanceModel, self).test_examples()
+        with mock.patch('colour.appearance.llab.LLAB_RGB_TO_XYZ_MATRIX',
+                        np.around(np.linalg.inv(llab.LLAB_XYZ_TO_RGB_MATRIX),
+                                  decimals=4)):
+            for test in super(TestLLABColourAppearanceModel,
+                              self).test_examples():
+                yield test
 
-    @mock.patch('colour.appearance.llab.LLAB_RGB_TO_XYZ_MATRIX',
-                np.around(np.linalg.inv(llab.LLAB_XYZ_TO_RGB_MATRIX),
-                          decimals=4))
     def test_n_dimensional_examples(self):
         """
         Tests the colour appearance model implementation n-dimensional arrays
@@ -115,13 +114,17 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
         patched version is used for unit tests.
         """
 
-        super(TestLLABColourAppearanceModel,
-              self).test_n_dimensional_examples()
+        with mock.patch('colour.appearance.llab.LLAB_RGB_TO_XYZ_MATRIX',
+                        np.around(np.linalg.inv(llab.LLAB_XYZ_TO_RGB_MATRIX),
+                                  decimals=4)):
+            for test in super(TestLLABColourAppearanceModel,
+                              self).test_n_dimensional_examples():
+                yield test
 
     def test_colourspace_conversion_matrices_precision(self):
         """
         Tests for loss of precision in conversion between
-        LLAB(l:c) colour appearance model *CIE XYZ* tristimulus values and
+        *LLAB(l:c)* colour appearance model *CIE XYZ* tristimulus values and
         normalised cone responses matrix.
         """
 

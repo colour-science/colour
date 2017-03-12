@@ -2,24 +2,24 @@
 # -*- coding: utf-8 -*-
 
 """
-Lightness :math:`L*`
-====================
+Lightness :math:`L^*`
+=====================
 
-Defines *Lightness* :math:`L*` computation objects.
+Defines *Lightness* :math:`L^*` computation objects.
 
 The following methods are available:
 
 -   :func:`lightness_Glasser1958`: *Lightness* :math:`L^*` computation of given
-    *luminance* :math:`Y` using
-    Glasser, Mckinney, Reilly and Schnelle (1958)⁠⁠⁠ method.
+    *luminance* :math:`Y` using *Glasser, Mckinney, Reilly and Schnelle (1958)
+    method*.
 -   :func:`lightness_Wyszecki1963`: *Lightness* :math:`W` computation of
-    given *luminance* :math:`Y` using Wyszecki (1963)⁠⁠⁠⁠ method.
+    given *luminance* :math:`Y` using *Wyszecki (1963)⁠⁠⁠⁠* method.
 -   :func:`lightness_CIE1976`: *Lightness* :math:`L^*` computation of given
-    *luminance* :math:`Y` as per *CIE Lab* implementation.
+    *luminance* :math:`Y` as per *CIE 1976* recommendation.
 
 See Also
 --------
-`Lightness IPython Notebook
+`Lightness Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/lightness.ipynb>`_
 
@@ -37,7 +37,7 @@ from colour.constants import CIE_E, CIE_K
 from colour.utilities import CaseInsensitiveMapping, filter_kwargs, warning
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -53,7 +53,7 @@ __all__ = ['lightness_Glasser1958',
 def lightness_Glasser1958(Y):
     """
     Returns the *Lightness* :math:`L` of given *luminance* :math:`Y` using
-    *Glasser, Mckinney, Reilly and Schnelle (1958)* method.
+    *Glasser et al. (1958)* method.
 
     Parameters
     ----------
@@ -135,8 +135,8 @@ def lightness_Wyszecki1963(Y):
 def lightness_CIE1976(Y, Y_n=100):
     """
     Returns the *Lightness* :math:`L^*` of given *luminance* :math:`Y` using
-    given reference white *luminance* :math:`Y_n` as per *CIE Lab*
-    implementation.
+    given reference white *luminance* :math:`Y_n` as per *CIE 1976*
+    recommendation.
 
     Parameters
     ----------
@@ -210,8 +210,12 @@ def lightness(Y, method='CIE 1976', **kwargs):
     method : unicode, optional
         **{'CIE 1976', 'Glasser 1958', 'Wyszecki 1963'}**,
         Computation method.
-    \**kwargs : dict, optional
-        Keywords arguments.
+
+    Other Parameters
+    ----------------
+    Y_n : numeric or array_like, optional
+        {:func:`lightness_CIE1976`},
+        White reference *luminance* :math:`Y_n`.
 
     Returns
     -------

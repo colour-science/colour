@@ -12,8 +12,6 @@ Defines the characterisation plotting objects:
 
 from __future__ import division
 
-import matplotlib
-import matplotlib.pyplot
 import numpy as np
 import pylab
 
@@ -29,7 +27,7 @@ from colour.plotting import (
     multi_colour_plot)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -46,8 +44,34 @@ def colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
     ----------
     colour_checker : unicode, optional
         Color checker name.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
+    width : numeric, optional
+        {:func:`multi_colour_plot`},
+        Colour polygon width.
+    height : numeric, optional
+        {:func:`multi_colour_plot`},
+        Colour polygon height.
+    spacing : numeric, optional
+        {:func:`multi_colour_plot`},
+        Colour polygons spacing.
+    across : int, optional
+        {:func:`multi_colour_plot`},
+        Colour polygons count per row.
+    text_display : bool, optional
+        {:func:`multi_colour_plot`},
+        Display colour text.
+    text_size : numeric, optional
+        {:func:`multi_colour_plot`},
+        Colour text size.
+    text_offset : numeric, optional
+        {:func:`multi_colour_plot`},
+        Colour text offset.
 
     Returns
     -------
@@ -76,16 +100,14 @@ def colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
 
     _name, data, illuminant = colour_checker
     colour_parameters = []
-    for _index, label, x, y, Y in data:
-        XYZ = xyY_to_XYZ((x, y, Y))
+    for _index, label, xyY in data:
+        XYZ = xyY_to_XYZ(xyY)
         RGB = XYZ_to_sRGB(XYZ, illuminant)
 
         colour_parameters.append(
             ColourParameter(label.title(), np.clip(np.ravel(RGB), 0, 1)))
 
     background_colour = '0.1'
-    matplotlib.pyplot.gca().patch.set_facecolor(background_colour)
-
     width = height = 1.0
     spacing = 0.25
     across = 6
@@ -97,6 +119,7 @@ def colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
         'spacing': spacing,
         'across': across,
         'text_size': 8,
+        'background_colour': background_colour,
         'margins': (-0.125, 0.125, -0.5, 0.125)}
     settings.update(kwargs)
 
@@ -108,7 +131,7 @@ def colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
     pylab.text(text_x,
                text_y,
                '{0} - {1} - Colour Rendition Chart'.format(
-                   name, RGB_COLOURSPACES.get('sRGB').name),
+                   name, RGB_COLOURSPACES['sRGB'].name),
                color='0.95',
                clip_on=True,
                ha='center')

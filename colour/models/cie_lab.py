@@ -14,27 +14,28 @@ Defines the *CIE Lab* colourspace transformations:
 
 See Also
 --------
-`CIE Lab Colourspace IPython Notebook
+`CIE Lab Colourspace Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/cie_lab.ipynb>`_
 
 References
 ----------
-.. [1]  Wikipedia. (n.d.). Lab color space. Retrieved February 24, 2014, from
-        http://en.wikipedia.org/wiki/Lab_color_space
+.. [1]  CIE TC 1-48. (2004). CIE 1976 uniform colour spaces. In CIE 015:2004
+        Colorimetry, 3rd Edition (p. 24). ISBN:978-3-901-90633-6
 """
 
 from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.algebra import cartesian_to_polar, polar_to_cartesian
 from colour.colorimetry import ILLUMINANTS
 from colour.constants import CIE_E, CIE_K
 from colour.models import xy_to_xyY, xyY_to_XYZ
 from colour.utilities import tsplit, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -46,9 +47,9 @@ __all__ = ['XYZ_to_Lab',
            'LCHab_to_Lab']
 
 
-def XYZ_to_Lab(XYZ,
-               illuminant=ILLUMINANTS.get(
-                   'CIE 1931 2 Degree Standard Observer').get('D50')):
+def XYZ_to_Lab(
+        XYZ,
+        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']):
     """
     Converts from *CIE XYZ* tristimulus values to *CIE Lab* colourspace.
 
@@ -71,11 +72,6 @@ def XYZ_to_Lab(XYZ,
     -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
         colourspace array are in domain [0, :math:`\infty`].
     -   Output *Lightness* :math:`L^*` is in range [0, 100].
-
-    References
-    ----------
-    .. [2]  Lindbloom, B. (2003). XYZ to Lab. Retrieved February 24, 2014,
-            from http://www.brucelindbloom.com/Eqn_XYZ_to_Lab.html
 
     Examples
     --------
@@ -104,9 +100,9 @@ def XYZ_to_Lab(XYZ,
     return Lab
 
 
-def Lab_to_XYZ(Lab,
-               illuminant=ILLUMINANTS.get(
-                   'CIE 1931 2 Degree Standard Observer').get('D50')):
+def Lab_to_XYZ(
+        Lab,
+        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']):
     """
     Converts from *CIE Lab* colourspace to *CIE XYZ* tristimulus values.
 
@@ -129,11 +125,6 @@ def Lab_to_XYZ(Lab,
     -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
         colourspace array are in domain [0, :math:`\infty`].
     -   Output *CIE XYZ* tristimulus values are in range [0, 1].
-
-    References
-    ----------
-    .. [3]  Lindbloom, B. (2008). Lab to XYZ. Retrieved February 24, 2014,
-            from http://www.brucelindbloom.com/Eqn_Lab_to_XYZ.html
 
     Examples
     --------
@@ -176,11 +167,6 @@ def Lab_to_LCHab(Lab):
     -----
     -   *Lightness* :math:`L^*` is in domain [0, 100].
 
-    References
-    ----------
-    .. [4]  Lindbloom, B. (2007). Lab to LCH(ab). Retrieved February 24, 2014,
-            from http://www.brucelindbloom.com/Eqn_Lab_to_LCH.html
-
     Examples
     --------
     >>> Lab = np.array([37.98562910, -23.62907688, -4.41746615])
@@ -190,10 +176,9 @@ def Lab_to_LCHab(Lab):
 
     L, a, b = tsplit(Lab)
 
-    H = np.array(180 * np.arctan2(b, a) / np.pi)
-    H[np.array(H < 0)] += 360
+    C, H = tsplit(cartesian_to_polar(tstack((a, b))))
 
-    LCHab = tstack((L, np.sqrt(a ** 2 + b ** 2), H))
+    LCHab = tstack((L, C, np.degrees(H) % 360))
 
     return LCHab
 
@@ -216,11 +201,6 @@ def LCHab_to_Lab(LCHab):
     -----
     -   *Lightness* :math:`L^*` is in domain [0, 100].
 
-    References
-    ----------
-    .. [5]  Lindbloom, B. (2006). LCH(ab) to Lab. Retrieved February 24, 2014,
-            from http://www.brucelindbloom.com/Eqn_LCH_to_Lab.html
-
     Examples
     --------
     >>> LCHab = np.array([37.98562910, 24.03845422, 190.58923377])
@@ -230,8 +210,8 @@ def LCHab_to_Lab(LCHab):
 
     L, C, H = tsplit(LCHab)
 
-    Lab = tstack((L,
-                  C * np.cos(np.radians(H)),
-                  C * np.sin(np.radians(H))))
+    a, b = tsplit(polar_to_cartesian(tstack((C, np.radians(H)))))
+
+    Lab = tstack((L, a, b))
 
     return Lab

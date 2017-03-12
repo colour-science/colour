@@ -16,7 +16,7 @@ Defines *whiteness* index :math:`W` computation objects:
 
 See Also
 --------
-`Whiteness IPython Notebook
+`Whiteness Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/whiteness.ipynb>`_
 
@@ -41,7 +41,7 @@ import numpy as np
 from colour.utilities import CaseInsensitiveMapping, tsplit, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -60,7 +60,7 @@ __all__ = ['whiteness_Berger1959',
 def whiteness_Berger1959(XYZ, XYZ_0):
     """
     Returns the *whiteness* index :math:`WI` of given sample *CIE XYZ*
-    tristimulus values using Berger (1959) method. [2]_
+    tristimulus values using *Berger (1959)* method. [2]_
 
     Parameters
     ----------
@@ -79,7 +79,7 @@ def whiteness_Berger1959(XYZ, XYZ_0):
     -   Input *CIE XYZ* and *CIE XYZ_0* tristimulus values are in domain
         [0, 100].
     -   *Whiteness* :math:`WI` values larger than 33.33 indicate a bluish
-        white, and values smaller than 33.33 indicate a yellowish white.
+        white and values smaller than 33.33 indicate a yellowish white.
 
     Warning
     -------
@@ -104,7 +104,7 @@ def whiteness_Berger1959(XYZ, XYZ_0):
 def whiteness_Taube1960(XYZ, XYZ_0):
     """
     Returns the *whiteness* index :math:`WI` of given sample *CIE XYZ*
-    tristimulus values using Taube (1960) method. [2]_
+    tristimulus values using *Taube (1960)* method. [2]_
 
     Parameters
     ----------
@@ -123,7 +123,7 @@ def whiteness_Taube1960(XYZ, XYZ_0):
     -   Input *CIE XYZ* and *CIE XYZ_0* tristimulus values are in domain
         [0, 100].
     -   *Whiteness* :math:`WI` values larger than 100 indicate a bluish
-        white, and values smaller than 100 indicate a yellowish white.
+        white and values smaller than 100 indicate a yellowish white.
 
     Examples
     --------
@@ -144,7 +144,7 @@ def whiteness_Taube1960(XYZ, XYZ_0):
 def whiteness_Stensby1968(Lab):
     """
     Returns the *whiteness* index :math:`WI` of given sample *CIE Lab*
-    colourspace array using Stensby (1968) method. [2]_
+    colourspace array using *Stensby (1968)* method. [2]_
 
     Parameters
     ----------
@@ -160,7 +160,7 @@ def whiteness_Stensby1968(Lab):
     -----
     -   Input *CIE Lab* colourspace array is in domain [0, 100].
     -   *Whiteness* :math:`WI` values larger than 100 indicate a bluish
-        white, and values smaller than 100 indicate a yellowish white.
+        white and values smaller than 100 indicate a yellowish white.
 
     Examples
     --------
@@ -179,7 +179,7 @@ def whiteness_Stensby1968(Lab):
 def whiteness_ASTM313(XYZ):
     """
     Returns the *whiteness* index :math:`WI` of given sample *CIE XYZ*
-    tristimulus values using ASTM 313 method. [2]_
+    tristimulus values using *ASTM 313* method. [2]_
 
     Parameters
     ----------
@@ -216,7 +216,7 @@ def whiteness_ASTM313(XYZ):
 def whiteness_Ganz1979(xy, Y):
     """
     Returns the *whiteness* index :math:`W` and *tint* :math:`T` of given
-    sample *xy* chromaticity coordinates using Ganz and Griesser (1979)
+    sample *xy* chromaticity coordinates using *Ganz and Griesser (1979)*
     method. [2]_
 
     Parameters
@@ -273,7 +273,7 @@ def whiteness_CIE2004(xy,
     """
     Returns the *whiteness* :math:`W` or :math:`W_{10}` and *tint* :math:`T`
     or :math:`T_{10}` of given sample *xy* chromaticity coordinates using
-    CIE 2004 method.
+    *CIE 2004* method.
 
     Parameters
     ----------
@@ -370,8 +370,34 @@ def whiteness(method='CIE 2004', **kwargs):
         **{'CIE 2004', 'Berger 1959', 'Taube 1960', 'Stensby 1968', 'ASTM 313',
         'Ganz 1979', 'CIE 2004'}**,
         Computation method.
-    \**kwargs : dict, optional
-        Keywords arguments.
+
+    Other Parameters
+    ----------------
+    XYZ : array_like
+        {:func:`whiteness_Berger1959`, :func:`whiteness_Taube1960`,
+        :func:`whiteness_ASTM313`},
+        *CIE XYZ* tristimulus values of sample.
+    XYZ_0 : array_like
+        {:func:`whiteness_Berger1959`, :func:`whiteness_Taube1960`},
+        *CIE XYZ* tristimulus values of reference white.
+    Lab : array_like
+        {:func:`whiteness_Stensby1968`},
+        *CIE Lab* colourspace array of sample.
+    xy : array_like
+        {:func:`whiteness_Ganz1979`, :func:`whiteness_CIE2004`},
+        Chromaticity coordinates *xy* of sample.
+    Y : numeric or array_like
+        {:func:`whiteness_Ganz1979`, :func:`whiteness_CIE2004`},
+        Tristimulus :math:`Y` value of sample.
+    xy_n : array_like
+        {:func:`whiteness_CIE2004`},
+        Chromaticity coordinates *xy_n* of perfect diffuser.
+    observer : unicode, optional
+        {:func:`whiteness_CIE2004`},
+        **{'CIE 1931 2 Degree Standard Observer',
+        'CIE 1964 10 Degree Standard Observer'}**,
+        *CIE Standard Observer* used for computations, *tint* :math:`T` or
+        :math:`T_{10}` value is dependent on viewing field angular subtense.
 
     Returns
     -------

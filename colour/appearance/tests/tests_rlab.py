@@ -15,7 +15,7 @@ from colour.appearance.tests.common import ColourAppearanceModelTest
 from colour.utilities import ignore_numpy_errors, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -27,7 +27,7 @@ __all__ = ['TestRLABColourAppearanceModel']
 class TestRLABColourAppearanceModel(ColourAppearanceModelTest):
     """
     Defines :mod:`colour.appearance.rlab` module unit tests methods for
-    RLAB colour appearance model.
+    *RLAB* colour appearance model.
     """
 
     FIXTURE_BASENAME = 'rlab.csv'
@@ -41,7 +41,7 @@ class TestRLABColourAppearanceModel(ColourAppearanceModelTest):
 
     def output_specification_from_data(self, data):
         """
-        Returns the RLAB colour appearance model output specification
+        Returns the *RLAB* colour appearance model output specification
         from given data.
 
         Parameters
@@ -52,7 +52,7 @@ class TestRLABColourAppearanceModel(ColourAppearanceModelTest):
         Returns
         -------
         RLAB_Specification
-            RLAB colour appearance model specification.
+            *RLAB* colour appearance model specification.
         """
 
         XYZ = tstack((data['X'], data['Y'], data['Z']))

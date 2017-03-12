@@ -15,7 +15,7 @@ from colour.models.rgb.transfer_functions import gamma_function
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -49,6 +49,30 @@ gamma_function` definition.
         self.assertAlmostEqual(
             gamma_function(0.022993204992707, 1.0 / 2.2),
             0.18,
+            places=7)
+
+        self.assertAlmostEqual(
+            gamma_function(-0.18, 2.0),
+            0.0323999999999998,
+            places=7)
+
+        np.testing.assert_array_equal(
+            gamma_function(-0.18, 2.2),
+            np.nan)
+
+        self.assertAlmostEqual(
+            gamma_function(-0.18, 2.2, 'Mirror'),
+            -0.022993204992707,
+            places=7)
+
+        self.assertAlmostEqual(
+            gamma_function(-0.18, 2.2, 'Preserve'),
+            -0.18,
+            places=7)
+
+        self.assertAlmostEqual(
+            gamma_function(-0.18, 2.2, 'Clamp'),
+            0,
             places=7)
 
     def test_n_dimensional_gamma_function(self):

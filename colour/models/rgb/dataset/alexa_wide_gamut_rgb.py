@@ -11,7 +11,7 @@ Defines the *ALEXA Wide Gamut RGB* colourspace:
 
 See Also
 --------
-`RGB Colourspaces IPython Notebook
+`RGB Colourspaces Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/rgb.ipynb>`_
 
@@ -32,7 +32,7 @@ from colour.models.rgb import (
     log_decoding_ALEXALogC)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -62,12 +62,13 @@ ALEXA_WIDE_GAMUT_RGB_ILLUMINANT = 'D65'
 ALEXA_WIDE_GAMUT_RGB_WHITEPOINT : unicode
 """
 
-ALEXA_WIDE_GAMUT_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(ALEXA_WIDE_GAMUT_RGB_ILLUMINANT)
+ALEXA_WIDE_GAMUT_RGB_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+        ALEXA_WIDE_GAMUT_RGB_ILLUMINANT])
 """
 *ALEXA Wide Gamut RGB* colourspace whitepoint.
 
-ALEXA_WIDE_GAMUT_RGB_WHITEPOINT : tuple
+ALEXA_WIDE_GAMUT_RGB_WHITEPOINT : ndarray
 """
 
 ALEXA_WIDE_GAMUT_RGB_TO_XYZ_MATRIX = np.array(
@@ -80,8 +81,10 @@ ALEXA_WIDE_GAMUT_RGB_TO_XYZ_MATRIX = np.array(
 ALEXA_WIDE_GAMUT_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
-XYZ_TO_ALEXA_WIDE_GAMUT_RGB_MATRIX = np.linalg.inv(
-    ALEXA_WIDE_GAMUT_RGB_TO_XYZ_MATRIX)
+XYZ_TO_ALEXA_WIDE_GAMUT_RGB_MATRIX = np.array(
+    [[1.789066, -0.482534, -0.200076],
+     [-0.639849, 1.396400, 0.194432],
+     [-0.041532, 0.082335, 0.878868]])
 """
 *CIE XYZ* tristimulus values to *ALEXA Wide Gamut RGB* colourspace matrix.
 

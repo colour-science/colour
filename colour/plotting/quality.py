@@ -35,7 +35,7 @@ from colour.plotting import (
 from colour.utilities import warning
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -67,8 +67,13 @@ def colour_quality_bars_plot(specifications,
         Use hatching for the bars.
     hatching_repeat : int, optional
         Hatching pattern repeat.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
@@ -81,8 +86,8 @@ def colour_quality_bars_plot(specifications,
     ...     ILLUMINANTS_RELATIVE_SPDS,
     ...     LIGHT_SOURCES_RELATIVE_SPDS,
     ...     SpectralShape)
-    >>> illuminant = ILLUMINANTS_RELATIVE_SPDS.get('F2')
-    >>> light_source = LIGHT_SOURCES_RELATIVE_SPDS.get('Kinoton 75P')
+    >>> illuminant = ILLUMINANTS_RELATIVE_SPDS['F2']
+    >>> light_source = LIGHT_SOURCES_RELATIVE_SPDS['Kinoton 75P']
     >>> light_source = light_source.clone().align(SpectralShape(360, 830, 1))
     >>> cqs_i = colour_quality_scale(illuminant, additional_data=True)
     >>> cqs_l = colour_quality_scale(light_source, additional_data=True)
@@ -167,16 +172,30 @@ def colour_quality_bars_plot(specifications,
 
 def single_spd_colour_rendering_index_bars_plot(spd, **kwargs):
     """
-    Plots the *colour rendering index* of given illuminant or light source
-    spectral power distribution.
+    Plots the *Colour Rendering Index* (CRI) of given illuminant or light
+    source spectral power distribution.
 
     Parameters
     ----------
     spd : SpectralPowerDistribution
         Illuminant or light source spectral power distribution to plot the
-        *colour rendering index*.
+        *Colour Rendering Index* (CRI).
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
+    labels : bool, optional
+        {:func:`colour_quality_bars_plot`},
+        Add labels above bars.
+    hatching : bool or None, optional
+        {:func:`colour_quality_bars_plot`},
+        Use hatching for the bars.
+    hatching_repeat : int, optional
+        {:func:`colour_quality_bars_plot`},
+        Hatching pattern repeat.
 
     Returns
     -------
@@ -186,7 +205,7 @@ def single_spd_colour_rendering_index_bars_plot(spd, **kwargs):
     Examples
     --------
     >>> from colour import ILLUMINANTS_RELATIVE_SPDS
-    >>> illuminant = ILLUMINANTS_RELATIVE_SPDS.get('F2')
+    >>> illuminant = ILLUMINANTS_RELATIVE_SPDS['F2']
     >>> single_spd_colour_rendering_index_bars_plot(  # doctest: +SKIP
     ...     illuminant)
     """
@@ -196,16 +215,30 @@ def single_spd_colour_rendering_index_bars_plot(spd, **kwargs):
 
 def multi_spd_colour_rendering_index_bars_plot(spds, **kwargs):
     """
-    Plots the *colour rendering index* of given illuminants or light sources
-    spectral power distributions.
+    Plots the *Colour Rendering Index* (CRI) of given illuminants or light
+    sources spectral power distributions.
 
     Parameters
     ----------
     spds : array_like
         Array of illuminants or light sources spectral power distributions to
-        plot the *colour rendering index*.
+        plot the *Colour Rendering Index* (CRI).
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
+    labels : bool, optional
+        {:func:`colour_quality_bars_plot`},
+        Add labels above bars.
+    hatching : bool or None, optional
+        {:func:`colour_quality_bars_plot`},
+        Use hatching for the bars.
+    hatching_repeat : int, optional
+        {:func:`colour_quality_bars_plot`},
+        Hatching pattern repeat.
 
     Returns
     -------
@@ -217,8 +250,8 @@ def multi_spd_colour_rendering_index_bars_plot(spds, **kwargs):
     >>> from colour import (
     ...     ILLUMINANTS_RELATIVE_SPDS,
     ...     LIGHT_SOURCES_RELATIVE_SPDS)
-    >>> illuminant = ILLUMINANTS_RELATIVE_SPDS.get('F2')
-    >>> light_source = LIGHT_SOURCES_RELATIVE_SPDS.get('Kinoton 75P')
+    >>> illuminant = ILLUMINANTS_RELATIVE_SPDS['F2']
+    >>> light_source = LIGHT_SOURCES_RELATIVE_SPDS['Kinoton 75P']
     >>> multi_spd_colour_rendering_index_bars_plot(  # doctest: +SKIP
     ...     [illuminant, light_source])
     """
@@ -256,16 +289,30 @@ def multi_spd_colour_rendering_index_bars_plot(spds, **kwargs):
 
 def single_spd_colour_quality_scale_bars_plot(spd, **kwargs):
     """
-    Plots the *colour quality scale* of given illuminant or light source
+    Plots the *Colour Quality Scale* (CQS) of given illuminant or light source
     spectral power distribution.
 
     Parameters
     ----------
     spd : SpectralPowerDistribution
         Illuminant or light source spectral power distribution to plot the
-        *colour quality scale*.
+        *Colour Quality Scale* (CQS).
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
+    labels : bool, optional
+        {:func:`colour_quality_bars_plot`},
+        Add labels above bars.
+    hatching : bool or None, optional
+        {:func:`colour_quality_bars_plot`},
+        Use hatching for the bars.
+    hatching_repeat : int, optional
+        {:func:`colour_quality_bars_plot`},
+        Hatching pattern repeat.
 
     Returns
     -------
@@ -275,7 +322,7 @@ def single_spd_colour_quality_scale_bars_plot(spd, **kwargs):
     Examples
     --------
     >>> from colour import ILLUMINANTS_RELATIVE_SPDS
-    >>> illuminant = ILLUMINANTS_RELATIVE_SPDS.get('F2')
+    >>> illuminant = ILLUMINANTS_RELATIVE_SPDS['F2']
     >>> single_spd_colour_quality_scale_bars_plot(  # doctest: +SKIP
     ...     illuminant)
     """
@@ -285,16 +332,30 @@ def single_spd_colour_quality_scale_bars_plot(spd, **kwargs):
 
 def multi_spd_colour_quality_scale_bars_plot(spds, **kwargs):
     """
-    Plots the *colour quality scale* of given illuminants or light sources
-    spectral power distributions.
+    Plots the *Colour Quality Scale* (CQS) of given illuminants or light
+    sources spectral power distributions.
 
     Parameters
     ----------
     spds : array_like
         Array of illuminants or light sources spectral power distributions to
-        plot the *colour quality scale*.
+        plot the *Colour Quality Scale* (CQS).
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
+    labels : bool, optional
+        {:func:`colour_quality_bars_plot`},
+        Add labels above bars.
+    hatching : bool or None, optional
+        {:func:`colour_quality_bars_plot`},
+        Use hatching for the bars.
+    hatching_repeat : int, optional
+        {:func:`colour_quality_bars_plot`},
+        Hatching pattern repeat.
 
     Returns
     -------
@@ -306,8 +367,8 @@ def multi_spd_colour_quality_scale_bars_plot(spds, **kwargs):
     >>> from colour import (
     ...     ILLUMINANTS_RELATIVE_SPDS,
     ...     LIGHT_SOURCES_RELATIVE_SPDS)
-    >>> illuminant = ILLUMINANTS_RELATIVE_SPDS.get('F2')
-    >>> light_source = LIGHT_SOURCES_RELATIVE_SPDS.get('Kinoton 75P')
+    >>> illuminant = ILLUMINANTS_RELATIVE_SPDS['F2']
+    >>> light_source = LIGHT_SOURCES_RELATIVE_SPDS['Kinoton 75P']
     >>> multi_spd_colour_quality_scale_bars_plot(  # doctest: +SKIP
     ...     [illuminant, light_source])
     """

@@ -13,7 +13,7 @@ import unittest
 from colour.models import XYZ_to_sRGB, sRGB_to_XYZ
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -35,12 +35,12 @@ class TestXYZ_to_sRGB(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             XYZ_to_sRGB(np.array([0.07049534, 0.10080000, 0.09558313])),
-            np.array([0.17498172, 0.38818743, 0.32159978]),
+            np.array([0.17498817, 0.38819472, 0.32160312]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_sRGB(np.array([0.47097710, 0.34950000, 0.11301649])),
-            np.array([0.96979222, 0.48891569, 0.30231574]),
+            np.array([0.96978949, 0.48894663, 0.30232185]),
             decimal=7)
 
         np.testing.assert_almost_equal(
@@ -52,19 +52,19 @@ class TestXYZ_to_sRGB(unittest.TestCase):
         np.testing.assert_almost_equal(
             XYZ_to_sRGB(np.array([0.11805834, 0.10340000, 0.05150892]),
                         np.array([0.31270, 0.32900])),
-            np.array([0.48222001, 0.31654775, 0.22070353]),
+            np.array([0.48221920, 0.31656152, 0.22070695]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_sRGB(np.array([0.07049534, 0.10080000, 0.09558313]),
                         chromatic_adaptation_transform='Bradford'),
-            np.array([0.17498172, 0.38818743, 0.32159978]),
+            np.array([0.17498817, 0.38819472, 0.32160312]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_sRGB(np.array([0.07049534, 0.10080000, 0.09558313]),
                         apply_encoding_cctf=False),
-            np.array([0.02583795, 0.12473949, 0.08439296]),
+            np.array([0.02583969, 0.12474440, 0.08439476]),
             decimal=7)
 
 

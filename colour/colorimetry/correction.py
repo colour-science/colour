@@ -9,12 +9,12 @@ Defines objects to perform spectral bandpass dependence correction.
 
 The following correction methods are available:
 
--   :func:`bandpass_correction_Stearns1988`: Stearns and Stearns (1988)⁠⁠
+-   :func:`bandpass_correction_Stearns1988`: *Stearns and Stearns (1988)⁠⁠*
     spectral bandpass dependence correction method.
 
 See Also
 --------
-`Spectral Bandpass Dependence Correction IPython Notebook
+`Spectral Bandpass Dependence Correction Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/correction.ipynb>`_
 """
@@ -24,7 +24,7 @@ from __future__ import division, unicode_literals
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -40,7 +40,7 @@ ALPHA_STEARNS = 0.083
 def bandpass_correction_Stearns1988(spd):
     """
     Implements spectral bandpass dependence correction on given spectral power
-    distribution using Stearns and Stearns (1988)⁠⁠ method.
+    distribution using *Stearns and Stearns (1988)* method.
 
     Parameters
     ----------
@@ -104,7 +104,7 @@ def bandpass_correction(spd, method='Stearns 1988'):
     spd : SpectralPowerDistribution
         Spectral power distribution.
     method : unicode, optional
-        ('Stearns 1988',)
+        ('Stearns 1988', )
         Correction method.
 
     Returns

@@ -15,6 +15,8 @@ from colour.utilities.verbose import message_box
 
 message_box('Characterisation Plots')
 
+colour_plotting_defaults()
+
 message_box('Plotting colour rendition charts.')
 pprint(sorted(colour.COLOURCHECKERS.keys()))
 colour_checker_plot('ColorChecker 1976')
@@ -26,7 +28,7 @@ print('\n')
 
 message_box(('Plotting "BabelColor Average" colour rendition charts spectral '
              'power distributions.'))
-multi_spd_plot([colour.COLOURCHECKERS_SPDS.get('BabelColor Average').get(value)
+multi_spd_plot([colour.COLOURCHECKERS_SPDS['BabelColor Average'][value]
                 for key, value in
                 sorted(COLOURCHECKER_INDEXES_TO_NAMES_MAPPING.items())],
                use_spds_colours=True,

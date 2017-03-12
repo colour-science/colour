@@ -16,7 +16,7 @@ transformations:
 
 See Also
 --------
-`Colour Matching Functions IPython Notebook
+`Colour Matching Functions Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/cmfs.ipynb>`_
 """
@@ -29,7 +29,7 @@ from colour.colorimetry import LMS_CMFS, RGB_CMFS, PHOTOPIC_LEFS
 from colour.utilities import dot_vector, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -78,7 +78,7 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     array([ 0.0113577...,  0.004102  ,  0.        ])
     """
 
-    cmfs = RGB_CMFS.get('Wright & Guild 1931 2 Degree RGB CMFs')
+    cmfs = RGB_CMFS['Wright & Guild 1931 2 Degree RGB CMFs']
 
     rgb_bar = cmfs.get(wavelength)
 
@@ -97,7 +97,7 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
 
     x, y, z = xyz[..., 0], xyz[..., 1], xyz[..., 2]
 
-    V = PHOTOPIC_LEFS.get('CIE 1924 Photopic Standard Observer').clone()
+    V = PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer'].clone()
     V.align(cmfs.shape)
     L = V.get(wavelength)
 
@@ -147,7 +147,7 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     array([  9.6432150...e-03,   3.7526317...e-03,  -4.1078830...e-06])
     """
 
-    cmfs = RGB_CMFS.get('Stiles & Burch 1959 10 Degree RGB CMFs')
+    cmfs = RGB_CMFS['Stiles & Burch 1959 10 Degree RGB CMFs']
 
     rgb_bar = cmfs.get(wavelength)
 
@@ -194,7 +194,7 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wavelength):
     array([ 0.0052860...,  0.0003252...,  0.        ])
     """
 
-    cmfs = RGB_CMFS.get('Stiles & Burch 1959 10 Degree RGB CMFs')
+    cmfs = RGB_CMFS['Stiles & Burch 1959 10 Degree RGB CMFs']
 
     rgb_bar = cmfs.get(wavelength)
 
@@ -241,7 +241,7 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     array([ 0.0109677...,  0.0041959...,  0.        ])
     """
 
-    cmfs = LMS_CMFS.get('Stockman & Sharpe 2 Degree Cone Fundamentals')
+    cmfs = LMS_CMFS['Stockman & Sharpe 2 Degree Cone Fundamentals']
 
     lms_bar = cmfs.get(wavelength)
 
@@ -287,7 +287,7 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     array([ 0.0098162...,  0.0037761...,  0.        ])
     """
 
-    cmfs = LMS_CMFS.get('Stockman & Sharpe 10 Degree Cone Fundamentals')
+    cmfs = LMS_CMFS['Stockman & Sharpe 10 Degree Cone Fundamentals']
 
     lms_bar = cmfs.get(wavelength)
 

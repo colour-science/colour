@@ -16,27 +16,31 @@ Defines the *CIE Luv* colourspace transformations:
 
 See Also
 --------
-`CIE Luv Colourspace IPython Notebook
+`CIE Luv Colourspace Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/cie_luv.ipynb>`_
 
 References
 ----------
-.. [1]  Wikipedia. (n.d.). CIELUV. Retrieved February 24, 2014, from
-        http://en.wikipedia.org/wiki/CIELUV
+.. [1]  CIE TC 1-48. (2004). CIE 1976 uniform colour spaces. In CIE 015:2004
+        Colorimetry, 3rd Edition (p. 24). ISBN:978-3-901-90633-6
+.. [2]  CIE TC 1-48. (2004). CIE 1976 uniform chromaticity scale diagram (UCS
+        diagram). In CIE 015:2004 Colorimetry, 3rd Edition (p. 24).
+        ISBN:978-3-901-90633-6
 """
 
 from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.algebra import cartesian_to_polar, polar_to_cartesian
 from colour.colorimetry import ILLUMINANTS
 from colour.constants import CIE_E, CIE_K
 from colour.models import xy_to_xyY, xyY_to_XYZ
 from colour.utilities import tsplit, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -50,9 +54,9 @@ __all__ = ['XYZ_to_Luv',
            'LCHuv_to_Luv']
 
 
-def XYZ_to_Luv(XYZ,
-               illuminant=ILLUMINANTS.get(
-                   'CIE 1931 2 Degree Standard Observer').get('D50')):
+def XYZ_to_Luv(
+        XYZ,
+        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']):
     """
     Converts from *CIE XYZ* tristimulus values to *CIE Luv* colourspace.
 
@@ -75,11 +79,6 @@ def XYZ_to_Luv(XYZ,
     -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
         colourspace array are in domain [0, :math:`\infty`].
     -   Output :math:`L^*` is in range [0, 100].
-
-    References
-    ----------
-    .. [2]  Lindbloom, B. (2003). XYZ to Luv. Retrieved February 24, 2014,
-            from http://brucelindbloom.com/Eqn_XYZ_to_Luv.html
 
     Examples
     --------
@@ -105,9 +104,9 @@ def XYZ_to_Luv(XYZ,
     return Luv
 
 
-def Luv_to_XYZ(Luv,
-               illuminant=ILLUMINANTS.get(
-                   'CIE 1931 2 Degree Standard Observer').get('D50')):
+def Luv_to_XYZ(
+        Luv,
+        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']):
     """
     Converts from *CIE Luv* colourspace to *CIE XYZ* tristimulus values.
 
@@ -130,11 +129,6 @@ def Luv_to_XYZ(Luv,
     -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
         colourspace array are in domain [0, :math:`\infty`].
     -   Output *CIE XYZ* tristimulus values are in range [0, 1].
-
-    References
-    ----------
-    .. [3]  Lindbloom, B. (2003). Luv to XYZ. Retrieved February 24, 2014,
-            from http://brucelindbloom.com/Eqn_Luv_to_XYZ.html
 
     Examples
     --------
@@ -163,9 +157,9 @@ def Luv_to_XYZ(Luv,
     return XYZ
 
 
-def Luv_to_uv(Luv,
-              illuminant=ILLUMINANTS.get(
-                  'CIE 1931 2 Degree Standard Observer').get('D50')):
+def Luv_to_uv(
+        Luv,
+        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']):
     """
     Returns the :math:`uv^p` chromaticity coordinates from given *CIE Luv*
     colourspace array.
@@ -189,12 +183,6 @@ def Luv_to_uv(Luv,
     -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
         colourspace array are in domain [0, :math:`\infty`].
     -   Output :math:`uv^p` chromaticity coordinates are in range [0, 1].
-
-    References
-    ----------
-    .. [4]  Wikipedia. (n.d.). The forward transformation. Retrieved February
-            24, 2014, from
-            http://en.wikipedia.org/wiki/CIELUV#The_forward_transformation
 
     Examples
     --------
@@ -233,7 +221,7 @@ def Luv_uv_to_xy(uv):
 
     References
     ----------
-    .. [5]  Wikipedia. (n.d.). The reverse transformation. Retrieved from
+    .. [3]  Wikipedia. (n.d.). The reverse transformation. Retrieved from
             http://en.wikipedia.org/wiki/CIELUV#The_reverse_transformation
 
     Examples
@@ -269,11 +257,6 @@ def Luv_to_LCHuv(Luv):
     -----
     -   Input / output :math:`L^*` is in domain / range [0, 100].
 
-    References
-    ----------
-    .. [6]  Lindbloom, B. (2003). Luv to LCH(uv). Retrieved February 24, 2014,
-            from http://www.brucelindbloom.com/Eqn_Luv_to_LCH.html
-
     Examples
     --------
     >>> Luv = np.array([37.9856291 , -28.80219593,  -1.35800706])
@@ -283,10 +266,9 @@ def Luv_to_LCHuv(Luv):
 
     L, u, v = tsplit(Luv)
 
-    H = np.array(180 * np.arctan2(v, u) / np.pi)
-    H[np.array(H < 0)] += 360
+    C, H = tsplit(cartesian_to_polar(tstack((u, v))))
 
-    LCHuv = tstack((L, np.sqrt(u ** 2 + v ** 2), H))
+    LCHuv = tstack((L, C, np.degrees(H) % 360))
 
     return LCHuv
 
@@ -309,11 +291,6 @@ def LCHuv_to_Luv(LCHuv):
     -----
     -   Input / output :math:`L^*` is in domain / range [0, 100].
 
-    References
-    ----------
-    .. [7]  Lindbloom, B. (2006). LCH(uv) to Luv. Retrieved February 24, 2014,
-            from http://www.brucelindbloom.com/Eqn_LCH_to_Luv.html
-
     Examples
     --------
     >>> LCHuv = np.array([37.98562910, 28.83419279, 182.69946404])
@@ -323,6 +300,8 @@ def LCHuv_to_Luv(LCHuv):
 
     L, C, H = tsplit(LCHuv)
 
-    Luv = tstack((L, C * np.cos(np.radians(H)), C * np.sin(np.radians(H))))
+    u, v = tsplit(polar_to_cartesian(tstack((C, np.radians(H)))))
+
+    Luv = tstack((L, u, v))
 
     return Luv

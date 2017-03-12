@@ -17,7 +17,7 @@ And computation of correlates:
 References
 ----------
 .. [1]  Fairchild, M. D. (2013). IPT Colourspace. In Color Appearance Models
-        (3rd ed., pp. 8492–8567). Wiley. ISBN:B00DAYO8E2
+        (3rd ed., pp. 6197–6223). Wiley. ISBN:B00DAYO8E2
 """
 
 from __future__ import division, unicode_literals
@@ -27,7 +27,7 @@ import numpy as np
 from colour.utilities import dot_vector, tsplit
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -46,16 +46,14 @@ IPT_XYZ_TO_LMS_MATRIX = np.array([
     [-0.2280, 1.1500, 0.0612],
     [0.0000, 0.0000, 0.9184]])
 """
-*CIE XYZ* tristimulus values to *IPT* colourspace normalised cone responses
-matrix.
+*CIE XYZ* tristimulus values to normalised cone responses matrix.
 
 IPT_XYZ_TO_LMS_MATRIX : array_like, (3, 3)
 """
 
 IPT_LMS_TO_XYZ_MATRIX = np.linalg.inv(IPT_XYZ_TO_LMS_MATRIX)
 """
-*IPT* colourspace normalised cone responses to *CIE XYZ* tristimulus values
-matrix.
+Normalised cone responses to *CIE XYZ* tristimulus values matrix.
 
 IPT_LMS_TO_XYZ_MATRIX : array_like, (3, 3)
 """
@@ -65,14 +63,14 @@ IPT_LMS_TO_IPT_MATRIX = np.array([
     [4.4550, -4.8510, 0.3960],
     [0.8056, 0.3572, -1.1628]])
 """
-*IPT* colourspace normalised cone responses to *IPT* colourspace matrix.
+Normalised cone responses to *IPT* colourspace matrix.
 
 IPT_LMS_TO_IPT_MATRIX : array_like, (3, 3)
 """
 
 IPT_IPT_TO_LMS_MATRIX = np.linalg.inv(IPT_LMS_TO_IPT_MATRIX)
 """
-*IPT* colourspace to *IPT* colourspace normalised cone responses matrix.
+*IPT* colourspace to normalised cone responses matrix.
 
 IPT_IPT_TO_LMS_MATRIX : array_like, (3, 3)
 """
@@ -99,7 +97,7 @@ def XYZ_to_IPT(XYZ):
 
     Examples
     --------
-    >>> XYZ = np.array([0.96907232, 1, 1.12179215])
+    >>> XYZ = np.array([0.96907232, 1.00000000, 1.12179215])
     >>> XYZ_to_IPT(XYZ)  # doctest: +ELLIPSIS
     array([ 1.0030082...,  0.0190691..., -0.0136929...])
     """
@@ -141,7 +139,7 @@ def IPT_to_XYZ(IPT):
 
 def IPT_hue_angle(IPT):
     """
-    Computes the hue angle from *IPT* colourspace.
+    Computes the hue angle in degrees from *IPT* colourspace.
 
     Parameters
     ----------
@@ -151,17 +149,17 @@ def IPT_hue_angle(IPT):
     Returns
     -------
     numeric or ndarray
-        Hue angle.
+        Hue angle in degrees.
 
     Examples
     --------
     >>> IPT = np.array([0.96907232, 1, 1.12179215])
     >>> IPT_hue_angle(IPT)  # doctest: +ELLIPSIS
-    0.8427358...
+    48.2852074...
     """
 
     _I, P, T = tsplit(IPT)
 
-    hue = np.arctan2(T, P)
+    hue = np.degrees(np.arctan2(T, P)) % 360
 
     return hue

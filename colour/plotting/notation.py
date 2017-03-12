@@ -25,7 +25,7 @@ from colour.plotting import (
     display)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -45,8 +45,13 @@ def single_munsell_value_function_plot(
     ----------
     function : unicode, optional
         *Munsell* value function to plot.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
@@ -75,8 +80,13 @@ def multi_munsell_value_function_plot(
     ----------
     functions : array_like, optional
         *Munsell* value functions to plot.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
@@ -101,8 +111,7 @@ def multi_munsell_value_function_plot(
     canvas(**settings)
 
     if functions is None:
-        functions = ('ASTM D1535-08',
-                     'McCamy 1987')
+        functions = ('ASTM D1535-08', 'McCamy 1987')
 
     samples = np.linspace(0, 100, 1000)
     for function in functions:

@@ -11,7 +11,7 @@ Defines the *Adobe Wide Gamut RGB* colourspace:
 
 See Also
 --------
-`RGB Colourspaces IPython Notebook
+`RGB Colourspaces Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/rgb.ipynb>`_
 
@@ -33,7 +33,7 @@ from colour.models.rgb import (
     normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -63,18 +63,17 @@ ADOBE_WIDE_GAMUT_RGB_ILLUMINANT = 'D50'
 ADOBE_WIDE_GAMUT_RGB_ILLUMINANT : unicode
 """
 
-ADOBE_WIDE_GAMUT_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(
-    ADOBE_WIDE_GAMUT_RGB_ILLUMINANT)
+ADOBE_WIDE_GAMUT_RGB_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+        ADOBE_WIDE_GAMUT_RGB_ILLUMINANT])
 """
 *Adobe Wide Gamut RGB* colourspace whitepoint.
 
-ADOBE_WIDE_GAMUT_RGB_WHITEPOINT : tuple
+ADOBE_WIDE_GAMUT_RGB_WHITEPOINT : ndarray
 """
 
 ADOBE_WIDE_GAMUT_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(
-    ADOBE_WIDE_GAMUT_RGB_PRIMARIES,
-    ADOBE_WIDE_GAMUT_RGB_WHITEPOINT)
+    ADOBE_WIDE_GAMUT_RGB_PRIMARIES, ADOBE_WIDE_GAMUT_RGB_WHITEPOINT)
 """
 *Adobe Wide Gamut RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 

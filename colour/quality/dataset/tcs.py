@@ -5,9 +5,9 @@
 Test Colour Samples Spectral Power Distributions
 ================================================
 
-Defines the CIE 1995 test colour samples spectral power distributions.
+Defines the *CIE 1995* test colour samples spectral power distributions.
 
-The CIE 1995 test colour samples data is in the form of a *dict* of
+The *CIE 1995* test colour samples data is in the form of a *dict* of
 :class:`colour.colorimetry.spectrum.SpectralPowerDistribution` classes as
 follows::
 
@@ -15,7 +15,7 @@ follows::
 
 See Also
 --------
-`Colour Rendering Index IPython Notebook
+`Colour Rendering Index Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/quality/cri.ipynb>`_
 
@@ -31,7 +31,7 @@ from colour.colorimetry import SpectralPowerDistribution
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'

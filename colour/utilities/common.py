@@ -15,11 +15,12 @@ import functools
 import numpy as np
 import sys
 import warnings
+from six import string_types
 
 from colour.constants import INTEGER_THRESHOLD
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -44,8 +45,8 @@ def handle_numpy_errors(**kwargs):
     """
     Decorator for handling *Numpy* errors.
 
-    Parameters
-    ----------
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
         Keywords arguments.
 
@@ -220,7 +221,7 @@ def is_iterable(a):
 
 def is_string(a):
     """
-    Returns if given :math:`a` variable is a *string_like* variable.
+    Returns if given :math:`a` variable is a *string* like variable.
 
     Parameters
     ----------
@@ -230,7 +231,7 @@ def is_string(a):
     Returns
     -------
     bool
-        Is :math:`a` variable a *string_like* variable.
+        Is :math:`a` variable a *string* like variable.
 
     Examples
     --------
@@ -240,7 +241,7 @@ def is_string(a):
     False
     """
 
-    return True if isinstance(a, basestring) else False  # noqa
+    return True if isinstance(a, string_types) else False
 
 
 def is_numeric(a):
@@ -315,6 +316,9 @@ def filter_kwargs(function, **kwargs):
     ----------
     function : callable
         Callable to filter the incompatible keyword arguments.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
         Keywords arguments.
 

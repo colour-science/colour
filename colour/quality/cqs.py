@@ -5,14 +5,14 @@
 Colour Quality Scale
 ====================
 
-Defines *colour quality scale* computation objects:
+Defines *Colour Quality Scale* (CQS) computation objects:
 
 -   :class:`CQS_Specification`
 -   :func:`colour_quality_scale`
 
 See Also
 --------
-`Colour Quality Scale IPython Notebook
+`Colour Quality Scale Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/quality/cqs.ipynb>`_
 
@@ -30,7 +30,9 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
+from colour.algebra import euclidean_distance
 from colour.colorimetry import (
+    ASTME30815_PRACTISE_SHAPE,
     D_illuminant_relative_spd,
     ILLUMINANTS,
     STANDARD_OBSERVERS_CMFS,
@@ -49,7 +51,7 @@ from colour.adaptation import chromatic_adaptation_VonKries
 from colour.utilities import tsplit
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -70,10 +72,11 @@ __all__ = ['D65_GAMUT_AREA',
 D65_GAMUT_AREA = 8210
 
 
-class VS_ColorimetryData(namedtuple('VS_ColorimetryData',
-                                    ('name', 'XYZ', 'Lab', 'C'))):
+class VS_ColorimetryData(
+    namedtuple('VS_ColorimetryData',
+               ('name', 'XYZ', 'Lab', 'C'))):
     """
-    Defines the the class holding *VS test colour samples* colorimetry data.
+    Defines the the class storing *VS test colour samples* colorimetry data.
     """
 
 
@@ -81,7 +84,7 @@ class VS_ColourQualityScaleData(
     namedtuple('VS_ColourQualityScaleData',
                ('name', 'Q_a', 'D_C_ab', 'D_E_ab', 'D_Ep_ab'))):
     """
-    Defines the the class holding *VS test colour samples* colour quality
+    Defines the the class storing *VS test colour samples* colour quality
     scale data.
     """
 
@@ -98,7 +101,7 @@ class CQS_Specification(
          'Q_as',
          'colorimetry_data'))):
     """
-    Defines the *CQS* colour quality specification.
+    Defines the *Colour Quality Scale* (CQS) colour quality specification.
 
     Parameters
     ----------
@@ -123,7 +126,7 @@ class CQS_Specification(
     Q_d : numeric
         Relative gamut area scale :math:`Q_d`.
     Q_as : dict
-        Individual *CQS* data for each sample.
+        Individual *Colour Quality Scale* (CQS) data for each sample.
     colorimetry_data : tuple
         Colorimetry data for the test and reference computations.
     """
@@ -131,7 +134,8 @@ class CQS_Specification(
 
 def colour_quality_scale(spd_test, additional_data=False):
     """
-    Returns the *colour quality scale* of given spectral power distribution.
+    Returns the *Colour Quality Scale* (CQS) of given spectral power
+    distribution.
 
     Parameters
     ----------
@@ -148,15 +152,18 @@ def colour_quality_scale(spd_test, additional_data=False):
     Examples
     --------
     >>> from colour import ILLUMINANTS_RELATIVE_SPDS
-    >>> spd = ILLUMINANTS_RELATIVE_SPDS.get('F2')
+    >>> spd = ILLUMINANTS_RELATIVE_SPDS['F2']
     >>> colour_quality_scale(spd)  # doctest: +ELLIPSIS
-    64.6781117...
+    64.6864169...
     """
 
-    cmfs = STANDARD_OBSERVERS_CMFS.get(
-        'CIE 1931 2 Degree Standard Observer')
+    cmfs = STANDARD_OBSERVERS_CMFS[
+        'CIE 1931 2 Degree Standard Observer'].clone().trim_wavelengths(
+        ASTME30815_PRACTISE_SHAPE)
 
     shape = cmfs.shape
+    spd_test = spd_test.clone().align(shape)
+    vs_spds = {spd.name: spd.clone().align(shape) for spd in VS_SPDS.values()}
 
     XYZ = spectral_to_XYZ(spd_test, cmfs)
     uv = UCS_to_uv(XYZ_to_UCS(XYZ))
@@ -172,14 +179,14 @@ def colour_quality_scale(spd_test, additional_data=False):
     test_vs_colorimetry_data = vs_colorimetry_data(
         spd_test,
         spd_reference,
-        VS_SPDS,
+        vs_spds,
         cmfs,
         chromatic_adaptation=True)
 
     reference_vs_colorimetry_data = vs_colorimetry_data(
         spd_reference,
         spd_reference,
-        VS_SPDS,
+        vs_spds,
         cmfs)
 
     XYZ_r = spectral_to_XYZ(spd_reference, cmfs)
@@ -310,7 +317,7 @@ def vs_colorimetry_data(spd_test,
 
     vs_data = []
     for _key, value in sorted(VS_INDEXES_TO_NAMES.items()):
-        spd_vs = spds_vs.get(value)
+        spd_vs = spds_vs[value]
         XYZ_vs = spectral_to_XYZ(spd_vs, cmfs, spd_test)
         XYZ_vs /= 100
 
@@ -349,7 +356,7 @@ def CCT_factor(reference_data, XYZ_r):
         Correlated colour temperature factor.
     """
 
-    xy_w = ILLUMINANTS.get('CIE 1931 2 Degree Standard Observer').get('D65')
+    xy_w = ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']
     XYZ_w = xy_to_XYZ(xy_w)
 
     Labs = []
@@ -371,8 +378,8 @@ def CCT_factor(reference_data, XYZ_r):
 
 def scale_conversion(D_E_ab, CCT_f, scaling_f=3.104):
     """
-    Returns the colour quality scale for given :math:`\Delta E_{ab}` value and
-    given correlated colour temperature penalizing factor.
+    Returns the *Colour Quality Scale* (CQS) for given :math:`\Delta E_{ab}`
+    value and given correlated colour temperature penalizing factor.
 
     Parameters
     ----------
@@ -386,7 +393,7 @@ def scale_conversion(D_E_ab, CCT_f, scaling_f=3.104):
     Returns
     -------
     numeric
-        Colour quality scale.
+        *Colour Quality Scale* (CQS).
     """
 
     Q_a = 10 * np.log(np.exp((100 - scaling_f * D_E_ab) / 10) + 1) * CCT_f
@@ -396,12 +403,13 @@ def scale_conversion(D_E_ab, CCT_f, scaling_f=3.104):
 
 def delta_E_RMS(cqs_data, attribute):
     """
-    Computes the root-mean-square average for given *CQS* data.
+    Computes the root-mean-square average for given *Colour Quality Scale*
+    (CQS) data.
 
     Parameters
     ----------
     cqs_data : VS_ColourQualityScaleData
-        *CQS* data.
+        *Colour Quality Scale* (CQS) data.
     attribute : unicode
         Colorimetry data attribute to use to compute the root-mean-square
         average.
@@ -439,7 +447,6 @@ def colour_quality_scales(test_data, reference_data, CCT_f):
     """
 
     Q_as = {}
-    from colour.algebra import euclidean_distance
     for i, _ in enumerate(test_data):
         D_C_ab = test_data[i].C - reference_data[i].C
         D_E_ab = euclidean_distance(test_data[i].Lab, reference_data[i].Lab)

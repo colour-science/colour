@@ -5,7 +5,7 @@
 LLAB(l:c) Colour Appearance Model
 =================================
 
-Defines LLAB(l:c) colour appearance model objects:
+Defines *LLAB(l:c)* colour appearance model objects:
 
 -   :class:`LLAB_InductionFactors`
 -   :attr:`LLAB_VIEWING_CONDITIONS`
@@ -14,7 +14,7 @@ Defines LLAB(l:c) colour appearance model objects:
 
 See Also
 --------
-`LLAB(l:c) Colour Appearance Model IPython Notebook
+`LLAB(l:c) Colour Appearance Model Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/appearance/llab.ipynb>`_
 
@@ -39,10 +39,11 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
+from colour.algebra import polar_to_cartesian
 from colour.utilities import CaseInsensitiveMapping, dot_vector, tsplit, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -70,7 +71,7 @@ class LLAB_InductionFactors(
     namedtuple('LLAB_InductionFactors',
                ('D', 'F_S', 'F_L', 'F_C'))):
     """
-    LLAB(l:c) colour appearance model induction factors.
+    *LLAB(l:c)* colour appearance model induction factors.
 
     Parameters
     ----------
@@ -97,7 +98,7 @@ LLAB_VIEWING_CONDITIONS = CaseInsensitiveMapping(
      '35mm Projection Transparency, Dark Surround': (
          LLAB_InductionFactors(0.7, 4, 1, 1))})
 """
-Reference LLAB(l:c) colour appearance model viewing conditions.
+Reference *LLAB(l:c)* colour appearance model viewing conditions.
 
 LLAB_VIEWING_CONDITIONS : CaseInsensitiveMapping
     **{'Reference Samples & Images, Average Surround, Subtending > 4',
@@ -156,9 +157,9 @@ class LLAB_ReferenceSpecification(
     namedtuple('LLAB_ReferenceSpecification',
                ('L_L', 'Ch_L', 'h_L', 's_L', 'C_L', 'HC', 'A_L', 'B_L'))):
     """
-    Defines the LLAB(l:c) colour appearance model reference specification.
+    Defines the *LLAB(l:c)* colour appearance model reference specification.
 
-    This specification has field names consistent with Fairchild (2013)
+    This specification has field names consistent with *Fairchild (2013)*
     reference.
 
     Parameters
@@ -186,11 +187,11 @@ class LLAB_Specification(
     namedtuple('LLAB_Specification',
                ('J', 'C', 'h', 's', 'M', 'HC', 'a', 'b'))):
     """
-    Defines the LLAB(l:c) colour appearance model specification.
+    Defines the *LLAB(l:c)* colour appearance model specification.
 
     This specification has field names consistent with the remaining colour
-    appearance models in :mod:`colour.appearance` but diverge from Fairchild
-    (2013) reference.
+    appearance models in :mod:`colour.appearance` but diverge from
+    *Fairchild (2013)* reference.
 
     Parameters
     ----------
@@ -222,10 +223,10 @@ def XYZ_to_LLAB(
         XYZ_0,
         Y_b,
         L,
-        surround=LLAB_VIEWING_CONDITIONS.get(
-            'Reference Samples & Images, Average Surround, Subtending < 4')):
+        surround=LLAB_VIEWING_CONDITIONS[
+            'Reference Samples & Images, Average Surround, Subtending < 4']):
     """
-    Computes the LLAB(l:c) colour appearance model correlates.
+    Computes the *LLAB(l:c)* colour appearance model correlates.
 
     Parameters
     ----------
@@ -244,7 +245,7 @@ def XYZ_to_LLAB(
     Returns
     -------
     LLAB_Specification
-        LLAB(l:c) colour appearance model specification.
+        *LLAB(l:c)* colour appearance model specification.
 
     Warning
     -------
@@ -305,13 +306,12 @@ s=0.0002395..., M=0.0190185..., HC=None, a=..., b=-0.0190185...)
     # Computing the *hue* angle :math:`h_L`.
     # -------------------------------------------------------------------------
     h_L = hue_angle(a, b)
-    h_Lr = np.radians(h_L)
     # TODO: Implement hue composition computation.
 
     # -------------------------------------------------------------------------
     # Computing final opponent signals.
     # -------------------------------------------------------------------------
-    A_L, B_L = tsplit(final_opponent_signals(C_L, h_Lr))
+    A_L, B_L = tsplit(final_opponent_signals(C_L, h_L))
 
     return LLAB_Specification(L_L, Ch_L, h_L, s_L, C_L, None, A_L, B_L)
 
@@ -401,8 +401,8 @@ def chromatic_adaptation(RGB, RGB_0, RGB_0r, Y, D=1):
 
 def f(x, F_S):
     """
-    Defines the nonlinear response function of the LLAB(l:c) colour
-    appearance model used to model the nonlinear behavior of various visual
+    Defines the nonlinear response function of the *LLAB(l:c)* colour
+    appearance model used to model the nonlinear behaviour of various visual
     responses.
 
     Parameters
@@ -633,7 +633,7 @@ def final_opponent_signals(C_L, h_L):
     C_L : numeric or array_like
         Correlate of *colourfulness* :math:`C_L`.
     h_L : numeric or array_like
-        Correlate of *hue* :math:`h_L` in radians.
+        Correlate of *hue* :math:`h_L` in degrees.
 
     Returns
     -------
@@ -643,17 +643,11 @@ def final_opponent_signals(C_L, h_L):
     Examples
     --------
     >>> C_L = 0.0183832899143
-    >>> h_L = 4.004894857014253
+    >>> h_L = 229.46357270858391
     >>> final_opponent_signals(C_L, h_L)  # doctest: +ELLIPSIS
     array([-0.0119478..., -0.0139711...])
     """
 
-    C_L = np.asarray(C_L)
-    h_L = np.asarray(h_L)
-
-    A_L = C_L * np.cos(h_L)
-    B_L = C_L * np.sin(h_L)
-
-    AB_L = tstack((A_L, B_L))
+    AB_L = polar_to_cartesian(tstack((C_L, np.radians(h_L))))
 
     return AB_L

@@ -12,7 +12,7 @@ Defines the *DCI-P3* and *DCI-P3+* colourspaces:
 
 See Also
 --------
-`RGB Colourspaces IPython Notebook
+`RGB Colourspaces Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/rgb.ipynb>`_
 
@@ -26,9 +26,9 @@ lp2480zx-dci--p3-emulation.pdf
         Specification - Version 1.1. Retrieved from
         http://www.dcimovies.com/archives/spec_v1_1/\
 DCI_DCinema_System_Spec_v1_1.pdf
-.. [3]  Canon. (2014). EOS C500 Firmware Update. Retrieved January 14, 2015,
-        from http://www.usa.canon.com/cusa/professional/standard_display/\
-cinema-firmware-c500
+.. [3]  Canon. (2014). EOS C500 Firmware Update. Retrieved August 27, 2016,
+        from https://www.usa.canon.com/internet/portal/us/home/explore/\
+product-showcases/cameras-and-lenses/cinema-eos-firmware/c500
 """
 
 from __future__ import division, unicode_literals
@@ -43,7 +43,7 @@ from colour.models.rgb import (
     eotf_DCIP3)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -93,17 +93,16 @@ official reference spectral measurement for this whitepoint. The closest
 matching spectral power distribution is Kinoton 75P projector.
 """
 
-DCI_P3_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(DCI_P3_ILLUMINANT)
+DCI_P3_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][DCI_P3_ILLUMINANT])
 """
 *DCI-P3* colourspace whitepoint.
 
-DCI_P3_WHITEPOINT : tuple
+DCI_P3_WHITEPOINT : ndarray
 """
 
 DCI_P3_TO_XYZ_MATRIX = normalised_primary_matrix(
-    DCI_P3_PRIMARIES,
-    DCI_P3_WHITEPOINT)
+    DCI_P3_PRIMARIES, DCI_P3_WHITEPOINT)
 """
 *DCI-P3* colourspace to *CIE XYZ* tristimulus values matrix.
 
@@ -118,8 +117,7 @@ XYZ_TO_DCI_P3_MATRIX : array_like, (3, 3)
 """
 
 DCI_P3_P_TO_XYZ_MATRIX = normalised_primary_matrix(
-    DCI_P3_P_PRIMARIES,
-    DCI_P3_WHITEPOINT)
+    DCI_P3_P_PRIMARIES, DCI_P3_WHITEPOINT)
 """
 *DCI-P3+* colourspace to *CIE XYZ* tristimulus values matrix.
 

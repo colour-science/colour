@@ -15,7 +15,7 @@ from colour.models import XYZ_to_IPT, IPT_to_XYZ, IPT_hue_angle
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -171,17 +171,17 @@ class TestIPTHueAngle(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             IPT_hue_angle(np.array([0.07049534, 0.10080000, 0.09558313])),
-            0.758839653196139,
+            43.478309455309819,
             decimal=7)
 
         np.testing.assert_almost_equal(
             IPT_hue_angle(np.array([0.47097710, 0.34950000, 0.11301649])),
-            0.312753481942075,
+            17.919454543301892,
             decimal=7)
 
         np.testing.assert_almost_equal(
             IPT_hue_angle(np.array([0.25506814, 0.19150000, 0.08849752])),
-            0.432893710718754,
+            24.802982601941753,
             decimal=7)
 
     def test_n_dimensional_IPT_hue_angle(self):
@@ -191,7 +191,7 @@ class TestIPTHueAngle(unittest.TestCase):
         """
 
         IPT = np.array([0.07049534, 0.10080000, 0.09558313])
-        hue = 0.758839653196139
+        hue = 43.478309455309819
         np.testing.assert_almost_equal(
             IPT_hue_angle(IPT),
             hue,

@@ -5,11 +5,11 @@
 Breneman Corresponding Chromaticities Dataset
 =============================================
 
-Defines Breneman (1987) results for corresponding chromaticities experiments.
+Defines *Breneman (1987)* results for corresponding chromaticities experiments.
 
 See Also
 --------
-`Corresponding Chromaticities Prediction IPython Notebook
+`Corresponding Chromaticities Prediction Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/corresponding/prediction.ipynb>`_
 
@@ -23,10 +23,12 @@ fulltext.cfm?uri=josaa-4-6-1115&id=2783
 
 from __future__ import division, unicode_literals
 
+import numpy as np
+
 from collections import namedtuple
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -81,7 +83,13 @@ class BrenemanExperimentResult(
         """
 
         return super(BrenemanExperimentResult, cls).__new__(
-            cls, name, uvp_t, uvp_m, s_uvp, d_uvp_i, d_uvp_g)
+            cls,
+            name,
+            np.array(uvp_t),
+            np.array(uvp_m),
+            np.array(s_uvp),
+            np.array(d_uvp_i),
+            np.array(d_uvp_g))
 
 
 class PrimariesChromaticityCoordinates(
@@ -113,7 +121,13 @@ class PrimariesChromaticityCoordinates(
         """
 
         return super(PrimariesChromaticityCoordinates, cls).__new__(
-            cls, name, uvp_t, uvp_m, s_uvp, d_uvp_i, d_uvp_g)
+            cls,
+            name,
+            np.array(uvp_t),
+            np.array(uvp_m),
+            np.array(s_uvp),
+            np.array(d_uvp_i),
+            np.array(d_uvp_g))
 
 
 BRENEMAN_EXPERIMENT_1_RESULTS = (
@@ -157,7 +171,7 @@ BRENEMAN_EXPERIMENT_1_RESULTS = (
         'Purple',
         (0.278, 0.456), (0.231, 0.365), (4, 25), (0, 2), (-5, 7)))
 """
-Breneman (1987) experiment 1 results.
+*Breneman (1987)* experiment 1 results.
 
 BRENEMAN_EXPERIMENT_1_RESULTS : tuple
 
@@ -209,7 +223,7 @@ BRENEMAN_EXPERIMENT_2_RESULTS = (
         'Purple',
         (0.258, 0.431), (0.244, 0.349), (4, 19), (-3, 13), (-4, 19)))
 """
-Breneman (1987) experiment 2 results.
+*Breneman (1987)* experiment 2 results.
 
 BRENEMAN_EXPERIMENT_2_RESULTS : tuple
 
@@ -261,7 +275,7 @@ BRENEMAN_EXPERIMENT_3_RESULTS = (
         'Purple',
         (0.258, 0.432), (0.238, 0.396), (4, 8), (5, 3), (4, -11)))
 """
-Breneman (1987) experiment 3 results.
+*Breneman (1987)* experiment 3 results.
 
 BRENEMAN_EXPERIMENT_3_RESULTS : tuple
 
@@ -313,7 +327,7 @@ BRENEMAN_EXPERIMENT_4_RESULTS = (
         'Purple',
         (0.278, 0.455), (0.229, 0.388), (6, 14), (1, 12), (3, 0)))
 """
-Breneman (1987) experiment 4 results.
+*Breneman (1987)* experiment 4 results.
 
 BRENEMAN_EXPERIMENT_4_RESULTS : tuple
 
@@ -362,7 +376,7 @@ BRENEMAN_EXPERIMENT_5_RESULTS = (
         'Purple',
         (0.245, 0.364), (0.239, 0.401), (4, 16)))
 """
-Breneman (1987) experiment 5 results.
+*Breneman (1987)* experiment 5 results.
 
 BRENEMAN_EXPERIMENT_5_RESULTS : tuple
 
@@ -413,7 +427,7 @@ BRENEMAN_EXPERIMENT_6_RESULTS = (
         'Purple',
         (0.276, 0.456), (0.227, 0.369), (6, 27), (-2, 4), (-3, 9)))
 """
-Breneman (1987) experiment 6 results.
+*Breneman (1987)* experiment 6 results.
 
 BRENEMAN_EXPERIMENT_6_RESULTS : tuple
 
@@ -462,7 +476,7 @@ BRENEMAN_EXPERIMENT_7_RESULTS = (
         'Purple',
         (0.245, 0.365), (0.240, 0.398), (4, 10)))
 """
-Breneman (1987) experiment 7 results.
+*Breneman (1987)* experiment 7 results.
 
 BRENEMAN_EXPERIMENT_7_RESULTS : tuple
 
@@ -513,7 +527,7 @@ BRENEMAN_EXPERIMENT_8_RESULTS = (
         'Purple',
         (0.277, 0.454), (0.226, 0.389), (4, 10), (1, 4), (1, -8)))
 """
-Breneman (1987) experiment 8 results.
+*Breneman (1987)* experiment 8 results.
 
 BRENEMAN_EXPERIMENT_8_RESULTS : tuple
 
@@ -586,7 +600,7 @@ BRENEMAN_EXPERIMENT_9_RESULTS = (
         '(Purple)h',
         (0.277, 0.456), (0.236, 0.422), (6, 11), None, (-2, -29)))
 """
-Breneman (1987) experiment 9 results.
+*Breneman (1987)* experiment 9 results.
 
 BRENEMAN_EXPERIMENT_9_RESULTS : tuple
 
@@ -637,7 +651,7 @@ BRENEMAN_EXPERIMENT_10_RESULTS = (
         'Purple',
         (0.245, 0.366), (0.240, 0.402), (3, 12)))
 """
-Breneman (1987) experiment 10 results.
+*Breneman (1987)* experiment 10 results.
 
 BRENEMAN_EXPERIMENT_10_RESULTS : tuple
 
@@ -688,7 +702,7 @@ BRENEMAN_EXPERIMENT_11_RESULTS = (
         'Purple',
         (0.245, 0.366), (0.216, 0.419), (4, 13), (-3, 8), (4, -2)))
 """
-Breneman (1987) experiment 1 results.
+*Breneman (1987)* experiment 1 results.
 
 BRENEMAN_EXPERIMENT_11_RESULTS : tuple
 
@@ -740,7 +754,7 @@ BRENEMAN_EXPERIMENT_12_RESULTS = (
         'Purple',
         (0.246, 0.366), (0.222, 0.404), (5, 15), (-4, 2), (4, 2)))
 """
-Breneman (1987) experiment 12 results.
+*Breneman (1987)* experiment 12 results.
 
 BRENEMAN_EXPERIMENT_12_RESULTS : tuple
 
@@ -780,7 +794,7 @@ BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES = {
         12, ('D55', 'green'), 75,
         (0.661, 0.505), (0.039, 0.598), (0.345, 0.127))}
 """
-Breneman (1987) experiments primaries chromaticities.
+*Breneman (1987)* experiments primaries chromaticities.
 
 BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES : dict
 """
@@ -799,7 +813,7 @@ BRENEMAN_EXPERIMENTS = {
     11: BRENEMAN_EXPERIMENT_11_RESULTS,
     12: BRENEMAN_EXPERIMENT_12_RESULTS}
 """
-Breneman (1987) experiments.
+*Breneman (1987)* experiments.
 
 BRENEMAN_EXPERIMENTS : dict
 """

@@ -13,6 +13,8 @@ from colour.utilities.verbose import message_box
 
 message_box('Colorimetry Plots')
 
+colour_plotting_defaults()
+
 message_box(('Plotting a single illuminant relative spectral power '
              'distribution.'))
 single_illuminant_relative_spd_plot('F1')

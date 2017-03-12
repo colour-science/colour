@@ -5,22 +5,23 @@
 ATD (1995) Colour Vision Model
 ==============================
 
-Defines ATD (1995) colour vision model objects:
+Defines *ATD (1995)* colour vision model objects:
 
 -   :class:`ATD95_Specification`
 -   :func:`XYZ_to_ATD95`
 
 See Also
 --------
-`ATD (1995) Colour Vision Model IPython Notebook
+`ATD (1995) Colour Vision Model Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/appearance/atd95.ipynb>`_
 
 Notes
 -----
--   According to CIE TC1-34 definition of a colour appearance model, the
-    *ATD95* model cannot be considered as a colour appearance model. It was
-    developed with different aims and is described as a model of colour vision.
+-   According to *CIE TC1-34* definition of a colour appearance model, the
+    *ATD (1995)* model cannot be considered as a colour appearance model.
+    It was developed with different aims and is described as a model of colour
+    vision.
 
 References
 ----------
@@ -39,7 +40,7 @@ from collections import namedtuple
 from colour.utilities.array import tsplit, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -58,9 +59,9 @@ class ATD95_ReferenceSpecification(
     namedtuple('ATD95_ReferenceSpecification',
                ('H', 'C', 'Br', 'A_1', 'T_1', 'D_1', 'A_2', 'T_2', 'D_2'))):
     """
-    Defines the ATD (1995) colour vision model reference specification.
+    Defines the *ATD (1995)* colour vision model reference specification.
 
-    This specification has field names consistent with Fairchild (2013)
+    This specification has field names consistent with *Fairchild (2013)*
     reference.
 
     Parameters
@@ -68,7 +69,7 @@ class ATD95_ReferenceSpecification(
     H : numeric or array_like
         *Hue* angle :math:`H` in degrees.
     C : numeric or array_like
-        Correlate of *saturation* :math:`C`. Guth (1995) incorrectly uses the
+        Correlate of *saturation* :math:`C`. *Guth (1995)* incorrectly uses the
         terms saturation and chroma interchangeably. However, :math:`C` is here
         a measure of saturation rather than chroma since it is measured
         relative to the achromatic response for the stimulus rather than that
@@ -94,18 +95,18 @@ class ATD95_Specification(
     namedtuple('ATD95_Specification',
                ('h', 'C', 'Q', 'A_1', 'T_1', 'D_1', 'A_2', 'T_2', 'D_2'))):
     """
-    Defines the ATD (1995) colour vision model specification.
+    Defines the *ATD (1995)* colour vision model specification.
 
     This specification has field names consistent with the remaining colour
-    appearance models in :mod:`colour.appearance` but diverge from Fairchild
-    (2013) reference.
+    appearance models in :mod:`colour.appearance` but diverge from
+    *Fairchild (2013)* reference.
 
     Parameters
     ----------
     h : numeric or array_like
         *Hue* angle :math:`H` in degrees.
     C : numeric or array_like
-        Correlate of *saturation* :math:`C`. Guth (1995) incorrectly uses the
+        Correlate of *saturation* :math:`C`. *Guth (1995)* incorrectly uses the
         terms saturation and chroma interchangeably. However, :math:`C` is here
         a measure of saturation rather than chroma since it is measured
         relative to the achromatic response for the stimulus rather than that
@@ -133,7 +134,7 @@ class ATD95_Specification(
 
 def XYZ_to_ATD95(XYZ, XYZ_0, Y_0, k_1, k_2, sigma=300):
     """
-    Computes the ATD (1995) colour vision model correlates.
+    Computes the *ATD (1995)* colour vision model correlates.
 
     Parameters
     ----------
@@ -154,7 +155,7 @@ def XYZ_to_ATD95(XYZ, XYZ_0, Y_0, k_1, k_2, sigma=300):
     Returns
     -------
     ATD95_Specification
-        ATD (1995) colour vision model specification.
+        *ATD (1995)* colour vision model specification.
 
     Warning
     -------
@@ -164,7 +165,7 @@ def XYZ_to_ATD95(XYZ, XYZ_0, Y_0, k_1, k_2, sigma=300):
     -----
     -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
     -   Input *CIE XYZ_0* tristimulus values are in domain [0, 100].
-    -   For unrelated colors, there is only self-adaptation, and :math:`k_1` is
+    -   For unrelated colors, there is only self-adaptation and :math:`k_1` is
         set to 1.0 while :math:`k_2` is set to 0.0. For related colors such as
         typical colorimetric applications, :math:`k_1` is set to 0.0 and
         :math:`k_2` is set to a value between 15 and 50 *(Guth, 1995)*.

@@ -51,7 +51,7 @@ from colour.plotting import (
     get_cmfs)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -81,8 +81,16 @@ def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
         *RGB* colourspaces to plot.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
+    show_diagram_colours : bool, optional
+        {:func:`CIE_1931_chromaticity_diagram_plot`},
+        Whether to display the chromaticity diagram background colours.
 
     Returns
     -------
@@ -216,8 +224,16 @@ def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
         *RGB* colourspaces to plot.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
+    show_diagram_colours : bool, optional
+        {:func:`CIE_1960_UCS_chromaticity_diagram_plot`},
+        Whether to display the chromaticity diagram background colours.
 
     Returns
     -------
@@ -359,8 +375,16 @@ def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
         *RGB* colourspaces to plot.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
+    show_diagram_colours : bool, optional
+        {:func:`CIE_1976_UCS_chromaticity_diagram_plot`},
+        Whether to display the chromaticity diagram background colours.
 
     Returns
     -------
@@ -506,8 +530,16 @@ def RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot(
         *RGB* colourspace array.
     colourspace : unicode
         *RGB* colourspace of the *RGB* array.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
+    show_diagram_colours : bool, optional
+        {:func:`CIE_1931_chromaticity_diagram_plot`},
+        Whether to display the chromaticity diagram background colours.
 
     Returns
     -------
@@ -568,8 +600,16 @@ def RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot(
         *RGB* colourspace array.
     colourspace : unicode
         *RGB* colourspace of the *RGB* array.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
+    show_diagram_colours : bool, optional
+        {:func:`CIE_1960_UCS_chromaticity_diagram_plot`},
+        Whether to display the chromaticity diagram background colours.
 
     Returns
     -------
@@ -629,8 +669,16 @@ def RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot(
         *RGB* colourspace array.
     colourspace : unicode
         *RGB* colourspace of the *RGB* array.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
+    show_diagram_colours : bool, optional
+        {:func:`CIE_1976_UCS_chromaticity_diagram_plot`},
+        Whether to display the chromaticity diagram background colours.
 
     Returns
     -------
@@ -689,8 +737,13 @@ def single_cctf_plot(colourspace='Rec. 709', decoding_cctf=False, **kwargs):
         *RGB* Colourspace colour component transfer function to plot.
     decoding_cctf : bool
         Plot decoding colour component transfer function instead.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
@@ -719,8 +772,13 @@ def multi_cctf_plot(colourspaces=None, decoding_cctf=False, **kwargs):
         Colourspaces colour component transfer function to plot.
     decoding_cctf : bool
         Plot decoding colour component transfer function instead.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------

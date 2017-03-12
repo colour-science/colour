@@ -13,10 +13,11 @@ Defines the *RED* colourspaces:
 -   :attr:`RED_COLOR_4_COLOURSPACE`
 -   :attr:`DRAGON_COLOR_COLOURSPACE`
 -   :attr:`DRAGON_COLOR_2_COLOURSPACE`
+-   :attr:`RED_WIDE_GAMUT_RGB_COLOURSPACE`
 
 See Also
 --------
-`RGB Colourspaces IPython Notebook
+`RGB Colourspaces Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/rgb.ipynb>`_
 
@@ -27,6 +28,7 @@ References
 .. [2]  Sony Imageworks. (2012). make.py. Retrieved November 27, 2014, from
         https://github.com/imageworks/OpenColorIO-Configs/\
 blob/master/nuke-default/make.py
+.. [3]  Nattress, G. (2016). Private Discussion with Shaw, N.
 """
 
 from __future__ import division, unicode_literals
@@ -37,11 +39,13 @@ from colour.colorimetry import ILLUMINANTS
 from colour.models.rgb import (
     RGB_Colourspace,
     normalised_primary_matrix,
-    log_encoding_REDLog,
-    log_decoding_REDLog)
+    log_encoding_REDLogFilm,
+    log_decoding_REDLogFilm,
+    log_encoding_Log3G10,
+    log_decoding_Log3G10)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -82,7 +86,13 @@ __all__ = ['RED_COLOR_PRIMARIES',
            'DRAGON_COLOR_2_WHITEPOINT',
            'DRAGON_COLOR_2_TO_XYZ_MATRIX',
            'XYZ_TO_DRAGON_COLOR_2_MATRIX',
-           'DRAGON_COLOR_2_COLOURSPACE']
+           'DRAGON_COLOR_2_COLOURSPACE',
+           'RED_WIDE_GAMUT_RGB_PRIMARIES',
+           'RED_WIDE_GAMUT_RGB_ILLUMINANT',
+           'RED_WIDE_GAMUT_RGB_WHITEPOINT',
+           'RED_WIDE_GAMUT_RGB_TO_XYZ_MATRIX',
+           'XYZ_TO_RED_WIDE_GAMUT_RGB_MATRIX',
+           'RED_WIDE_GAMUT_RGB_COLOURSPACE']
 
 RED_COLOR_PRIMARIES = np.array(
     [[0.699747001290731, 0.329046930312637],
@@ -101,12 +111,12 @@ RED_COLOR_ILLUMINANT = 'D60'
 RED_COLOR_ILLUMINANT : unicode
 """
 
-RED_COLOR_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(RED_COLOR_ILLUMINANT)
+RED_COLOR_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][RED_COLOR_ILLUMINANT])
 """
 *REDcolor* colourspace whitepoint.
 
-RED_COLOR_WHITEPOINT : tuple
+RED_COLOR_WHITEPOINT : ndarray
 """
 
 RED_COLOR_TO_XYZ_MATRIX = normalised_primary_matrix(
@@ -131,8 +141,8 @@ RED_COLOR_COLOURSPACE = RGB_Colourspace(
     RED_COLOR_ILLUMINANT,
     RED_COLOR_TO_XYZ_MATRIX,
     XYZ_TO_RED_COLOR_MATRIX,
-    log_encoding_REDLog,
-    log_decoding_REDLog)
+    log_encoding_REDLogFilm,
+    log_decoding_REDLogFilm)
 """
 *REDcolor* colourspace.
 
@@ -160,7 +170,7 @@ RED_COLOR_2_WHITEPOINT = RED_COLOR_WHITEPOINT
 """
 *REDcolor2* colourspace whitepoint.
 
-RED_COLOR_2_WHITEPOINT : tuple
+RED_COLOR_2_WHITEPOINT : ndarray
 """
 
 RED_COLOR_2_TO_XYZ_MATRIX = normalised_primary_matrix(
@@ -185,8 +195,8 @@ RED_COLOR_2_COLOURSPACE = RGB_Colourspace(
     RED_COLOR_2_ILLUMINANT,
     RED_COLOR_2_TO_XYZ_MATRIX,
     XYZ_TO_RED_COLOR_2_MATRIX,
-    log_encoding_REDLog,
-    log_decoding_REDLog)
+    log_encoding_REDLogFilm,
+    log_decoding_REDLogFilm)
 """
 *REDcolor2* colourspace.
 
@@ -214,7 +224,7 @@ RED_COLOR_3_WHITEPOINT = RED_COLOR_WHITEPOINT
 """
 *REDcolor3* colourspace whitepoint.
 
-RED_COLOR_3_WHITEPOINT : tuple
+RED_COLOR_3_WHITEPOINT : ndarray
 """
 
 RED_COLOR_3_TO_XYZ_MATRIX = normalised_primary_matrix(
@@ -239,8 +249,8 @@ RED_COLOR_3_COLOURSPACE = RGB_Colourspace(
     RED_COLOR_3_ILLUMINANT,
     RED_COLOR_3_TO_XYZ_MATRIX,
     XYZ_TO_RED_COLOR_3_MATRIX,
-    log_encoding_REDLog,
-    log_decoding_REDLog)
+    log_encoding_REDLogFilm,
+    log_decoding_REDLogFilm)
 """
 *REDcolor3* colourspace.
 
@@ -268,7 +278,7 @@ RED_COLOR_4_WHITEPOINT = RED_COLOR_WHITEPOINT
 """
 *REDcolor4* colourspace whitepoint.
 
-RED_COLOR_4_WHITEPOINT : tuple
+RED_COLOR_4_WHITEPOINT : ndarray
 """
 
 RED_COLOR_4_TO_XYZ_MATRIX = normalised_primary_matrix(
@@ -293,8 +303,8 @@ RED_COLOR_4_COLOURSPACE = RGB_Colourspace(
     RED_COLOR_4_ILLUMINANT,
     RED_COLOR_4_TO_XYZ_MATRIX,
     XYZ_TO_RED_COLOR_4_MATRIX,
-    log_encoding_REDLog,
-    log_decoding_REDLog)
+    log_encoding_REDLogFilm,
+    log_decoding_REDLogFilm)
 """
 *REDcolor4* colourspace.
 
@@ -322,7 +332,7 @@ DRAGON_COLOR_WHITEPOINT = RED_COLOR_WHITEPOINT
 """
 *DRAGONcolor* colourspace whitepoint.
 
-DRAGON_COLOR_WHITEPOINT : tuple
+DRAGON_COLOR_WHITEPOINT : ndarray
 """
 
 DRAGON_COLOR_TO_XYZ_MATRIX = normalised_primary_matrix(
@@ -347,8 +357,8 @@ DRAGON_COLOR_COLOURSPACE = RGB_Colourspace(
     DRAGON_COLOR_ILLUMINANT,
     DRAGON_COLOR_TO_XYZ_MATRIX,
     XYZ_TO_DRAGON_COLOR_MATRIX,
-    log_encoding_REDLog,
-    log_decoding_REDLog)
+    log_encoding_REDLogFilm,
+    log_decoding_REDLogFilm)
 """
 *DRAGONcolor* colourspace.
 
@@ -376,7 +386,7 @@ DRAGON_COLOR_2_WHITEPOINT = RED_COLOR_WHITEPOINT
 """
 *DRAGONcolor2* colourspace whitepoint.
 
-DRAGON_COLOR_2_WHITEPOINT : tuple
+DRAGON_COLOR_2_WHITEPOINT : ndarray
 """
 
 DRAGON_COLOR_2_TO_XYZ_MATRIX = normalised_primary_matrix(
@@ -401,10 +411,69 @@ DRAGON_COLOR_2_COLOURSPACE = RGB_Colourspace(
     DRAGON_COLOR_2_ILLUMINANT,
     DRAGON_COLOR_2_TO_XYZ_MATRIX,
     XYZ_TO_DRAGON_COLOR_2_MATRIX,
-    log_encoding_REDLog,
-    log_decoding_REDLog)
+    log_encoding_REDLogFilm,
+    log_decoding_REDLogFilm)
 """
 *DRAGONcolor2* colourspace.
 
 DRAGON_COLOR_2_COLOURSPACE : RGB_Colourspace
+"""
+
+RED_WIDE_GAMUT_RGB_PRIMARIES = np.array(
+    [[0.780308, 0.304253],
+     [0.121595, 1.493994],
+     [0.095612, -0.084589]])
+"""
+*REDWideGamutRGB* colourspace primaries.
+
+RED_WIDE_GAMUT_RGB_PRIMARIES : ndarray, (3, 2)
+"""
+
+RED_WIDE_GAMUT_RGB_ILLUMINANT = 'D65'
+"""
+*REDWideGamutRGB* colourspace whitepoint name as illuminant.
+
+RED_WIDE_GAMUT_RGB_ILLUMINANT : unicode
+"""
+
+RED_WIDE_GAMUT_RGB_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+        RED_WIDE_GAMUT_RGB_ILLUMINANT])
+"""
+*REDWideGamutRGB* colourspace whitepoint.
+
+RED_WIDE_GAMUT_RGB_WHITEPOINT : ndarray
+"""
+
+RED_WIDE_GAMUT_RGB_TO_XYZ_MATRIX = np.array(
+    [[0.735275, 0.068609, 0.146571],
+     [0.286694, 0.842979, -0.129673],
+     [-0.079681, -0.347343, 1.516082]])
+"""
+*REDWideGamutRGB* colourspace to *CIE XYZ* tristimulus values matrix.
+
+RED_WIDE_GAMUT_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
+"""
+
+XYZ_TO_RED_WIDE_GAMUT_RGB_MATRIX = np.linalg.inv(
+    RED_WIDE_GAMUT_RGB_TO_XYZ_MATRIX)
+"""
+*CIE XYZ* tristimulus values to *REDWideGamutRGB* colourspace matrix.
+
+XYZ_TO_RED_WIDE_GAMUT_RGB_MATRIX : array_like, (3, 3)
+"""
+
+RED_WIDE_GAMUT_RGB_COLOURSPACE = RGB_Colourspace(
+    'REDWideGamutRGB',
+    RED_WIDE_GAMUT_RGB_PRIMARIES,
+    RED_WIDE_GAMUT_RGB_WHITEPOINT,
+    RED_WIDE_GAMUT_RGB_ILLUMINANT,
+    RED_WIDE_GAMUT_RGB_TO_XYZ_MATRIX,
+    XYZ_TO_RED_WIDE_GAMUT_RGB_MATRIX,
+    log_encoding_Log3G10,
+    log_decoding_Log3G10)
+"""
+*REDWideGamutRGB* colourspace.
+
+RED_WIDE_GAMUT_RGB_COLOURSPACE : RGB_Colourspace
 """

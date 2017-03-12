@@ -5,7 +5,7 @@
 Smits (1999) - Reflectance Recovery Dataset
 ===========================================
 
-Defines the dataset for reflectance recovery using Smits (1999) method.
+Defines the dataset for reflectance recovery using *Smits (1999)* method.
 
 References
 ----------
@@ -20,7 +20,7 @@ from colour.colorimetry.spectrum import SpectralPowerDistribution
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -110,21 +110,21 @@ SMITS_1999_SPDS_DATA = {
 
 SMITS_1999_SPDS = CaseInsensitiveMapping({
     'white': SpectralPowerDistribution(
-        'white', SMITS_1999_SPDS_DATA.get('white')),
+        'white', SMITS_1999_SPDS_DATA['white']),
     'cyan': SpectralPowerDistribution(
-        'cyan', SMITS_1999_SPDS_DATA.get('cyan')),
+        'cyan', SMITS_1999_SPDS_DATA['cyan']),
     'magenta': SpectralPowerDistribution(
-        'magenta', SMITS_1999_SPDS_DATA.get('magenta')),
+        'magenta', SMITS_1999_SPDS_DATA['magenta']),
     'yellow': SpectralPowerDistribution(
-        'yellow', SMITS_1999_SPDS_DATA.get('yellow')),
+        'yellow', SMITS_1999_SPDS_DATA['yellow']),
     'red': SpectralPowerDistribution(
-        'red', SMITS_1999_SPDS_DATA.get('red')),
+        'red', SMITS_1999_SPDS_DATA['red']),
     'green': SpectralPowerDistribution(
-        'green', SMITS_1999_SPDS_DATA.get('green')),
+        'green', SMITS_1999_SPDS_DATA['green']),
     'blue': SpectralPowerDistribution(
-        'blue', SMITS_1999_SPDS_DATA.get('blue'))})
+        'blue', SMITS_1999_SPDS_DATA['blue'])})
 """
-Smits (1999) spectral power distributions.
+*Smits (1999)* spectral power distributions.
 
 SMITS_1999_SPDS : CaseInsensitiveMapping
 """

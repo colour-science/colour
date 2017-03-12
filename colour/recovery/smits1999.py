@@ -5,11 +5,11 @@
 Smits (1999) - Reflectance Recovery
 ===================================
 
-Defines objects for reflectance recovery using Smits (1999) method.
+Defines objects for reflectance recovery using *Smits (1999)* method.
 
 See Also
 --------
-`Smits (1999) - Reflectance Recovery IPython Notebook
+`Smits (1999) - Reflectance Recovery Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/recovery/smits1999.ipynb>`_
 
@@ -32,7 +32,7 @@ from colour.models import (
 from colour.recovery import SMITS_1999_SPDS
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -46,23 +46,23 @@ __all__ = ['SMITS1999_PRIMARIES',
 
 SMITS1999_PRIMARIES = sRGB_COLOURSPACE.primaries
 """
-Current Smits (1999) method implementation colourspace primaries.
+Current *Smits (1999)* method implementation colourspace primaries.
 
 SMITS1999_PRIMARIES : ndarray, (3, 2)
 """
 
-SMITS1999_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get('E')
+SMITS1999_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['E'])
 """
-Current Smits (1999) method implementation colourspace whitepoint.
+Current *Smits (1999)* method implementation colourspace whitepoint.
 
-SMITS1999_WHITEPOINT : tuple
+SMITS1999_WHITEPOINT : ndarray
 """
 
 SMITS1999_XYZ_TO_RGB_MATRIX = np.linalg.inv(
     normalised_primary_matrix(SMITS1999_PRIMARIES, SMITS1999_WHITEPOINT))
 """
-Current Smits (1999) method implementation *RGB* colourspace to
+Current *Smits (1999)* method implementation *RGB* colourspace to
 *CIE XYZ* tristimulus values matrix.
 
 SMITS1999_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
@@ -72,7 +72,7 @@ SMITS1999_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
 def XYZ_to_RGB_Smits1999(XYZ, chromatic_adaptation_transform='Bradford'):
     """
     Convenient object to convert from *CIE XYZ* tristimulus values to *RGB*
-    colourspace in conditions required by the current Smits (1999) method
+    colourspace in conditions required by the current *Smits (1999)* method
     implementation.
 
     Parameters
@@ -112,7 +112,7 @@ def XYZ_to_RGB_Smits1999(XYZ, chromatic_adaptation_transform='Bradford'):
 def RGB_to_spectral_Smits1999(RGB):
     """
     Recovers the spectral power distribution of given *RGB* colourspace array
-    using Smits (1999) method.
+    using *Smits (1999)* method.
 
     Parameters
     ----------
@@ -131,16 +131,16 @@ def RGB_to_spectral_Smits1999(RGB):
     SpectralPowerDistribution('0 Constant', (380.0, 720.0, 37.7777777...))
     """
 
-    white_spd = SMITS_1999_SPDS.get('white').clone()
-    cyan_spd = SMITS_1999_SPDS.get('cyan').clone()
-    magenta_spd = SMITS_1999_SPDS.get('magenta').clone()
-    yellow_spd = SMITS_1999_SPDS.get('yellow').clone()
-    red_spd = SMITS_1999_SPDS.get('red').clone()
-    green_spd = SMITS_1999_SPDS.get('green').clone()
-    blue_spd = SMITS_1999_SPDS.get('blue').clone()
+    white_spd = SMITS_1999_SPDS['white'].clone()
+    cyan_spd = SMITS_1999_SPDS['cyan'].clone()
+    magenta_spd = SMITS_1999_SPDS['magenta'].clone()
+    yellow_spd = SMITS_1999_SPDS['yellow'].clone()
+    red_spd = SMITS_1999_SPDS['red'].clone()
+    green_spd = SMITS_1999_SPDS['green'].clone()
+    blue_spd = SMITS_1999_SPDS['blue'].clone()
 
     R, G, B = np.ravel(RGB)
-    spd = zeros_spd(SMITS_1999_SPDS.get('white').shape)
+    spd = zeros_spd(SMITS_1999_SPDS['white'].shape)
 
     if R <= G and R <= B:
         spd += white_spd * R

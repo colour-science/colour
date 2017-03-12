@@ -11,7 +11,7 @@ Defines the *V-Gamut* colourspace:
 
 See Also
 --------
-`RGB Colourspaces IPython Notebook
+`RGB Colourspaces Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/rgb.ipynb>`_
 
@@ -33,7 +33,7 @@ from colour.models.rgb import (
     log_decoding_VLog)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -63,12 +63,12 @@ V_GAMUT_ILLUMINANT = 'D65'
 V_GAMUT_WHITEPOINT : unicode
 """
 
-V_GAMUT_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(V_GAMUT_ILLUMINANT)
+V_GAMUT_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][V_GAMUT_ILLUMINANT])
 """
 *V-Gamut* colourspace whitepoint.
 
-V_GAMUT_WHITEPOINT : tuple
+V_GAMUT_WHITEPOINT : ndarray
 """
 
 V_GAMUT_TO_XYZ_MATRIX = np.array(
@@ -81,8 +81,10 @@ V_GAMUT_TO_XYZ_MATRIX = np.array(
 V_GAMUT_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
-XYZ_TO_V_GAMUT_MATRIX = np.linalg.inv(
-    V_GAMUT_TO_XYZ_MATRIX)
+XYZ_TO_V_GAMUT_MATRIX = np.array(
+    [[1.589012, -0.313204, -0.180965],
+     [-0.534053, 1.396011, 0.102458],
+     [0.011179, 0.003194, 0.905535]])
 """
 *CIE XYZ* tristimulus values to *V-Gamut* colourspace matrix.
 

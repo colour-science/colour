@@ -8,12 +8,12 @@ LCD Displays RGB Primaries
 Defines *LCD* displays *RGB* primaries tri-spectral power distributions.
 
 Each *LCD* display data is in the form of a *dict* of
-:class:`colour.colorimetry.spectrum.TriSpectralPowerDistribution` classes as
+:class:`colour.characterisation.displays.RGB_DisplayPrimaries` classes as
 follows::
 
-    {'name': TriSpectralPowerDistribution,
+    {'name': RGB_DisplayPrimaries,
     ...,
-    'name': TriSpectralPowerDistribution}
+    'name': RGB_DisplayPrimaries}
 
 The following *LCD* displays are available:
 
@@ -21,7 +21,7 @@ The following *LCD* displays are available:
 
 See Also
 --------
-`Displays IPython Notebook
+`Displays Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/characterisation/displays.ipynb>`_
 
@@ -41,7 +41,7 @@ from colour.characterisation import RGB_DisplayPrimaries
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -302,7 +302,7 @@ LCD_DISPLAYS_RGB_PRIMARIES_DATA = {
 LCD_DISPLAYS_RGB_PRIMARIES = CaseInsensitiveMapping(
     {'Apple Studio Display': RGB_DisplayPrimaries(
         'Apple Studio Display',
-        LCD_DISPLAYS_RGB_PRIMARIES_DATA.get('Apple Studio Display'))})
+        LCD_DISPLAYS_RGB_PRIMARIES_DATA['Apple Studio Display'])})
 """
 *LCD* displays *RGB* primaries tri-spectral power distributions.
 

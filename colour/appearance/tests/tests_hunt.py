@@ -15,7 +15,7 @@ from colour.appearance.tests.common import ColourAppearanceModelTest
 from colour.utilities import ignore_numpy_errors, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -27,7 +27,7 @@ __all__ = ['TestHuntColourAppearanceModel']
 class TestHuntColourAppearanceModel(ColourAppearanceModelTest):
     """
     Defines :mod:`colour.appearance.hunt` module unit tests methods for
-    Hunt colour appearance model.
+    *Hunt* colour appearance model.
     """
 
     FIXTURE_BASENAME = 'hunt.csv'
@@ -41,7 +41,7 @@ class TestHuntColourAppearanceModel(ColourAppearanceModelTest):
 
     def output_specification_from_data(self, data):
         """
-        Returns the Hunt colour appearance model output specification
+        Returns the *Hunt* colour appearance model output specification
         from given data.
 
         Parameters

@@ -16,7 +16,7 @@ from io import BytesIO
 from tokenize import tokenize
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -52,7 +52,7 @@ def citations_from_token(token_info):
     """
 
     citations = []
-    if (token_info.type == 3 and token_info.type):
+    if token_info.type == 3 and token_info.type:
         in_citation = False
         for line in token_info.line.split('\n'):
             if re.match(CITATION_PATTERN, line):
@@ -63,11 +63,13 @@ def citations_from_token(token_info):
 
             if in_citation:
                 if not re.match(CITATION_PATTERN, line):
-                    citations[-1] = '{0} {1}'.format(citations[-1],
-                                                     line.strip())
+                    citations[-1] = '{0} {1}'.format(
+                        citations[-1], line.strip())
                 else:
                     citations.append(
                         re.sub(PREFIX_CITATION_PATTERN, '', line.strip()))
+
+    citations = [citation.replace('\ ', '') for citation in citations]
 
     return citations
 

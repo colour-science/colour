@@ -17,7 +17,7 @@ import numpy as np
 from colour.utilities import warning
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2014 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -51,14 +51,14 @@ def random_triplet_generator(size,
 
     Notes
     -----
-    The doctest is assuming that :func:`np.random.RandomState` definition will
-    return the same sequence no matter which *OS* or *Python* version is used.
-    There is however no formal promise about the *prng* sequence
-    reproducibility of either *Python* or *Numpy* implementations: Laurent.
-    (2012). Reproducibility of python pseudo-random numbers across systems and
-    versions? Retrieved January 20, 2015, from http://stackoverflow.com/\
-questions/8786084/reproducibility-of-python-pseudo-random-numbers-\
-across-systems-and-versions
+    -   The doctest is assuming that :func:`np.random.RandomState` definition
+        will return the same sequence no matter which *OS* or *Python*
+        version is used. There is however no formal promise about the *prng*
+        sequence reproducibility of either *Python* or *Numpy*
+        implementations: Laurent. (2012). Reproducibility of python
+        pseudo-random numbers across systems and versions? Retrieved January
+        20, 2015, from http://stackoverflow.com/questions/8786084/\
+reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
 
     Examples
     --------

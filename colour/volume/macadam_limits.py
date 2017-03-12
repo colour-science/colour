@@ -5,11 +5,11 @@
 Optimal Colour Stimuli - MacAdam Limits
 =======================================
 
-Defines objects related to optimal colour stimuli computations.
+Defines objects related to *Optimal Colour Stimuli* computations.
 
 See Also
 --------
-`Optimal Colour Stimuli - MacAdam Limits IPython Notebook
+`Optimal Colour Stimuli - MacAdam Limits Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/volume/macadam_limits.ipynb>`_
 """
@@ -23,7 +23,7 @@ from colour.models import xyY_to_XYZ
 from colour.volume import ILLUMINANTS_OPTIMAL_COLOUR_STIMULI
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -37,7 +37,7 @@ _XYZ_OPTIMAL_COLOUR_STIMULI_TRIANGULATIONS_CACHE = {}
 
 def _XYZ_optimal_colour_stimuli(illuminant):
     """
-    Returns given illuminant optimal colour stimuli in *CIE XYZ* tristimulus
+    Returns given illuminant *Optimal Colour Stimuli* in *CIE XYZ* tristimulus
     values and caches it if not existing.
 
     Parameters
@@ -48,14 +48,14 @@ def _XYZ_optimal_colour_stimuli(illuminant):
     Returns
     -------
     tuple
-        Illuminant optimal colour stimuli.
+        Illuminant *Optimal Colour Stimuli*.
     """
 
     optimal_colour_stimuli = ILLUMINANTS_OPTIMAL_COLOUR_STIMULI.get(illuminant)
-
     if optimal_colour_stimuli is None:
         raise KeyError(
-            '"{0}" not found in factory optimal colour stimuli: "{1}".'.format(
+            '"{0}" not found in factory '
+            '"Optimal Colour Stimuli": "{1}".'.format(
                 illuminant, sorted(ILLUMINANTS_OPTIMAL_COLOUR_STIMULI.keys())))
 
     cached_ocs = _XYZ_OPTIMAL_COLOUR_STIMULI_CACHE.get(illuminant)

@@ -21,7 +21,7 @@ The following *ColourCheckers* data is available:
 
 See Also
 --------
-`Colour Fitting IPython Notebook
+`Colour Fitting Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/characterisation/fitting.ipynb>`_
 
@@ -43,7 +43,7 @@ from colour.colorimetry import SpectralPowerDistribution
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -2056,7 +2056,7 @@ COLORCHECKER_N_OHTA_SPDS = dict(
     (key, SpectralPowerDistribution(key, value)) for key, value in
     COLORCHECKER_N_OHTA_SPDS_DATA.items())
 """
-Measured by Ohta (1997).
+Measured by *Ohta (1997)*.
 
 COLORCHECKER_N_OHTA_SPDS : dict
 """

@@ -11,15 +11,15 @@ Defines the *Canon* *Cinema Gamut* colourspace:
 
 See Also
 --------
-`RGB Colourspaces IPython Notebook
+`RGB Colourspaces Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  Canon. (2014). EOS C500 Firmware Update. Retrieved January 14, 2015,
-        from http://www.usa.canon.com/cusa/professional/standard_display/\
-cinema-firmware-c500
+.. [1]  Canon. (2014). EOS C500 Firmware Update. Retrieved August 27, 2016,
+        from https://www.usa.canon.com/internet/portal/us/home/explore/\
+product-showcases/cameras-and-lenses/cinema-eos-firmware/c500
 """
 
 from __future__ import division, unicode_literals
@@ -33,7 +33,7 @@ from colour.models.rgb import (
     linear_function)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -63,16 +63,17 @@ CINEMA_GAMUT_ILLUMINANT = 'D65'
 CINEMA_GAMUT_ILLUMINANT : unicode
 """
 
-CINEMA_GAMUT_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(CINEMA_GAMUT_ILLUMINANT)
+CINEMA_GAMUT_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+        CINEMA_GAMUT_ILLUMINANT])
 """
 *Cinema Gamut* colourspace whitepoint.
 
-CINEMA_GAMUT_WHITEPOINT : tuple
+CINEMA_GAMUT_WHITEPOINT : ndarray
 """
 
-CINEMA_GAMUT_TO_XYZ_MATRIX = normalised_primary_matrix(CINEMA_GAMUT_PRIMARIES,
-                                                       CINEMA_GAMUT_WHITEPOINT)
+CINEMA_GAMUT_TO_XYZ_MATRIX = normalised_primary_matrix(
+    CINEMA_GAMUT_PRIMARIES, CINEMA_GAMUT_WHITEPOINT)
 """
 *Cinema Gamut* colourspace to *CIE XYZ* tristimulus values matrix.
 

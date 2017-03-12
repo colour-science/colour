@@ -11,7 +11,7 @@ Defines the *CIE U\*V\*W\** colourspace transformations:
 
 See Also
 --------
-`CIE UVW Colourspace IPython Notebook
+`CIE UVW Colourspace Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/cie_uvw.ipynb>`_
 
@@ -34,7 +34,7 @@ from colour.models import (
 from colour.utilities import tsplit, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -43,9 +43,9 @@ __status__ = 'Production'
 __all__ = ['XYZ_to_UVW']
 
 
-def XYZ_to_UVW(XYZ,
-               illuminant=ILLUMINANTS.get(
-                   'CIE 1931 2 Degree Standard Observer').get('D50')):
+def XYZ_to_UVW(
+        XYZ,
+        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']):
     """
     Converts from *CIE XYZ* tristimulus values to *CIE 1964 U\*V\*W\**
     colourspace.

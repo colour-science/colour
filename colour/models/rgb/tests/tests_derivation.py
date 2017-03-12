@@ -11,6 +11,7 @@ import numpy as np
 import re
 import unittest
 from itertools import permutations
+from six import text_type
 
 from colour.models import (
     normalised_primary_matrix,
@@ -22,7 +23,7 @@ from colour.models.rgb.derivation import xy_to_z
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -295,13 +296,13 @@ class TestRGBLuminanceEquation(unittest.TestCase):
                           0.00000, 1.00000,
                           0.00010, -0.07700]),
                 np.array([0.32168, 0.33767])),
-            unicode)  # noqa
+            text_type)
 
         self.assertTrue(re.match(
             # TODO: Simplify that monster.
             ('Y\s?=\s?[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?.'
-             '\(R\)\s?[\+-]\s?[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?.'
-             '\(G\)\s?[\+-]\s?[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?.\(B\)'),
+             '\(R\)\s?[+-]\s?[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?.'
+             '\(G\)\s?[+-]\s?[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?.\(B\)'),
             RGB_luminance_equation(
                 np.array([0.73470, 0.26530,
                           0.00000, 1.00000,

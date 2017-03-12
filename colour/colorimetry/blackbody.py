@@ -10,7 +10,7 @@ its spectral power distribution.
 
 See Also
 --------
-`Blackbody IPython Notebook
+`Blackbody Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/blackbody.ipynb>`_
 """
@@ -24,7 +24,7 @@ from colour.colorimetry import (
     SpectralPowerDistribution)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -55,19 +55,19 @@ def planck_law(wavelength, temperature, c1=C1, c2=C2, n=N):
         Temperature :math:`T[K]` in kelvin degrees.
     c1 : numeric or array_like, optional
         The official value of :math:`c1` is provided by the Committee on Data
-        for Science and Technology (CODATA), and is
-        :math:`c1=3,741771x10.16\ W/m_2` (Mohr and Taylor, 2000).
+        for Science and Technology (CODATA) and is
+        :math:`c1=3,741771x10.16\ W/m_2` *(Mohr and Taylor, 2000)*.
     c2 : numeric or array_like, optional
         Since :math:`T` is measured on the International Temperature Scale,
         the value of :math:`c2` used in colorimetry should follow that adopted
         in the current International Temperature Scale (ITS-90)
-        (Preston-Thomas, 1990; Mielenz et aI., 1991), namely
+        *(Preston-Thomas, 1990; Mielenz et aI., 1991)*, namely
         :math:`c2=1,4388x10.2\ m/K`.
     n : numeric or array_like, optional
         Medium index of refraction. For dry air at 15°C and 101 325 Pa,
         containing 0,03 percent by volume of carbon dioxide, it is
         approximately 1,00028 throughout the visible region although
-        CIE 15:2004 recommends using :math:`n=1`.
+        *CIE 15:2004* recommends using :math:`n=1`.
 
     Returns
     -------
@@ -76,8 +76,8 @@ def planck_law(wavelength, temperature, c1=C1, c2=C2, n=N):
 
     Notes
     -----
-    The following form implementation is expressed in term of wavelength.
-    The SI unit of radiance is *watts per steradian per square metre*.
+    -   The following form implementation is expressed in term of wavelength.
+    -   The SI unit of radiance is *watts per steradian per square metre*.
 
     References
     ----------
@@ -122,19 +122,19 @@ def blackbody_spd(temperature,
         planckian radiator.
     c1 : numeric, optional
         The official value of :math:`c1` is provided by the Committee on Data
-        for Science and Technology (CODATA), and is
-        :math:`c1=3,741771x10.16\ W/m_2` (Mohr and Taylor, 2000).
+        for Science and Technology (CODATA) and is
+        :math:`c1=3,741771x10.16\ W/m_2` *(Mohr and Taylor, 2000)*.
     c2 : numeric, optional
         Since :math:`T` is measured on the International Temperature Scale,
         the value of :math:`c2` used in colorimetry should follow that adopted
         in the current International Temperature Scale (ITS-90)
-        (Preston-Thomas, 1990; Mielenz et aI., 1991), namely
+        *(Preston-Thomas, 1990; Mielenz et aI., 1991)*, namely
         :math:`c2=1,4388x10.2\ m/K`.
     n : numeric, optional
         Medium index of refraction. For dry air at 15°C and 101 325 Pa,
         containing 0,03 percent by volume of carbon dioxide, it is
         approximately 1,00028 throughout the visible region although
-        CIE 15:2004 recommends using :math:`n=1`.
+        *CIE 15:2004* recommends using :math:`n=1`.
 
     Returns
     -------
@@ -144,8 +144,7 @@ def blackbody_spd(temperature,
     Examples
     --------
     >>> from colour import STANDARD_OBSERVERS_CMFS
-    >>> cmfs = STANDARD_OBSERVERS_CMFS.get(
-    ...     'CIE 1931 2 Degree Standard Observer')
+    >>> cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
     >>> print(blackbody_spd(5000, cmfs.shape))
     SpectralPowerDistribution('5000K Blackbody', (360.0, 830.0, 1.0))
     """

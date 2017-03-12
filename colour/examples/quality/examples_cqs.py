@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Showcases colour quality scale computations.
+Showcases *Colour Quality Scale* (CQS) computations.
 """
 
 from pprint import pprint
@@ -10,29 +10,30 @@ from pprint import pprint
 import colour
 from colour.utilities.verbose import message_box
 
-message_box('Colour Quality Scale Computations')
+message_box('"Colour Quality Scale (CQS)" Computations')
 
-message_box('Computing "F2" illuminant colour rendering index.')
+message_box('Computing "F2" illuminant "Colour Quality Scale (CQS)".')
 print(colour.colour_quality_scale(
-    colour.ILLUMINANTS_RELATIVE_SPDS.get('F2')))
+    colour.ILLUMINANTS_RELATIVE_SPDS['F2']))
 
 print('\n')
 
-message_box(('Computing H38HT-100 mercury lamp colour quality scale with '
-             'detailed output data.'))
+message_box(('Computing "H38HT-100" mercury lamp "Colour Quality Scale (CQS)" '
+             'with detailed output data.'))
 pprint(colour.colour_quality_scale(
-    colour.LIGHT_SOURCES_RELATIVE_SPDS.get('H38HT-100 (Mercury)'),
+    colour.LIGHT_SOURCES_RELATIVE_SPDS['H38HT-100 (Mercury)'],
     additional_data=True))
 
 print('\n')
 
-message_box('Computing SDW-T 100W/LV Super HPS lamp colour quality scale.')
+message_box('Computing "SDW-T 100W/LV Super HPS" lamp '
+            '"Colour Quality Scale (CQS)".')
 print(colour.colour_quality_scale(
-    colour.LIGHT_SOURCES_RELATIVE_SPDS.get('SDW-T 100W/LV (Super HPS)')))
+    colour.LIGHT_SOURCES_RELATIVE_SPDS['SDW-T 100W/LV (Super HPS)']))
 
 print('\n')
 
-message_box('Computing sample light colour quality scale.')
+message_box('Computing sample light "Colour Quality Scale (CQS)".')
 SAMPLE_SPD_DATA = {
     380: 0.00588346,
     385: 0.00315377,

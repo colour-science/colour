@@ -9,7 +9,7 @@ Defines various RGB colour models common utilities.
 
 See Also
 --------
-`RGB Colourspaces IPython Notebook
+`RGB Colourspaces Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/rgb.ipynb>`_
 """
@@ -19,7 +19,7 @@ from __future__ import division, unicode_literals
 from colour.models.rgb import RGB_COLOURSPACES, RGB_to_XYZ, XYZ_to_RGB
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -29,7 +29,7 @@ __all__ = ['XYZ_to_sRGB', 'sRGB_to_XYZ']
 
 
 def XYZ_to_sRGB(XYZ,
-                illuminant=RGB_COLOURSPACES.get('sRGB').whitepoint,
+                illuminant=RGB_COLOURSPACES['sRGB'].whitepoint,
                 chromatic_adaptation_transform='CAT02',
                 apply_encoding_cctf=True):
     """
@@ -64,10 +64,10 @@ def XYZ_to_sRGB(XYZ,
     >>> import numpy as np
     >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
     >>> XYZ_to_sRGB(XYZ)  # doctest: +ELLIPSIS
-    array([ 0.1749817...,  0.3881874...,  0.3215997...])
+    array([ 0.1749881...,  0.3881947...,  0.3216031...])
     """
 
-    sRGB = RGB_COLOURSPACES.get('sRGB')
+    sRGB = RGB_COLOURSPACES['sRGB']
     return XYZ_to_RGB(XYZ,
                       illuminant,
                       sRGB.whitepoint,
@@ -77,7 +77,7 @@ def XYZ_to_sRGB(XYZ,
 
 
 def sRGB_to_XYZ(RGB,
-                illuminant=RGB_COLOURSPACES.get('sRGB').whitepoint,
+                illuminant=RGB_COLOURSPACES['sRGB'].whitepoint,
                 chromatic_adaptation_method='CAT02',
                 apply_decoding_cctf=True):
     """
@@ -115,7 +115,7 @@ def sRGB_to_XYZ(RGB,
     array([ 0.0704953...,  0.1008...,  0.0955831...])
     """
 
-    sRGB = RGB_COLOURSPACES.get('sRGB')
+    sRGB = RGB_COLOURSPACES['sRGB']
     return RGB_to_XYZ(RGB,
                       sRGB.whitepoint,
                       illuminant,

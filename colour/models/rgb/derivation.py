@@ -17,7 +17,7 @@ and whitepoint:
 
 See Also
 --------
-`RGB Colourspaces IPython Notebook
+`RGB Colourspaces Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/rgb.ipynb>`_
 
@@ -37,7 +37,7 @@ from colour.models import XYZ_to_xy, XYZ_to_xyY, xy_to_XYZ
 from colour.utilities import tsplit
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -279,7 +279,7 @@ def RGB_luminance(RGB, primaries, whitepoint):
     12.1616018...
     """
 
-    L = np.sum(
+    Y = np.sum(
         normalised_primary_matrix(primaries, whitepoint)[1] * RGB, axis=-1)
 
-    return L
+    return Y

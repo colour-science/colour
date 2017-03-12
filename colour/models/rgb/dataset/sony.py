@@ -13,7 +13,7 @@ Defines the *S-Gamut*, *S-Gamut3* and *S-Gamut3.Cine* colourspaces:
 
 See Also
 --------
-`RGB Colourspaces IPython Notebook
+`RGB Colourspaces Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/rgb.ipynb>`_
 
@@ -31,6 +31,10 @@ slog_manual.pdf
         http://community.sony.com/sony/attachments/sony/\
 large-sensor-camera-F5-F55/12359/2/\
 TechnicalSummary_for_S-Gamut3Cine_S-Gamut3_S-Log3_V1_00.pdf
+.. [4]  Sony Corporation. (n.d.). S-Gamut3_S-Gamut3Cine_Matrix.xlsx.
+        Retrieved from https://community.sony.com/sony/attachments/sony/\
+large-sensor-camera-F5-F55/12359/3/S-Gamut3_S-Gamut3Cine_Matrix.xlsx
+
 """
 
 from __future__ import division, unicode_literals
@@ -43,11 +47,10 @@ from colour.models.rgb import (
     log_encoding_SLog2,
     log_decoding_SLog2,
     log_encoding_SLog3,
-    log_decoding_SLog3,
-    normalised_primary_matrix)
+    log_decoding_SLog3)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -84,23 +87,28 @@ S_GAMUT_ILLUMINANT = 'D65'
 S_GAMUT_ILLUMINANT : unicode
 """
 
-S_GAMUT_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(S_GAMUT_ILLUMINANT)
+S_GAMUT_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][S_GAMUT_ILLUMINANT])
 """
 *S-Gamut* colourspace whitepoint.
 
-S_GAMUT_WHITEPOINT : tuple
+S_GAMUT_WHITEPOINT : ndarray
 """
 
-S_GAMUT_TO_XYZ_MATRIX = normalised_primary_matrix(S_GAMUT_PRIMARIES,
-                                                  S_GAMUT_WHITEPOINT)
+S_GAMUT_TO_XYZ_MATRIX = np.array(
+    [[0.7064827132, 0.1288010498, 0.1151721641],
+     [0.2709796708, 0.7866064112, -0.0575860820],
+     [-0.0096778454, 0.0046000375, 1.0941355587]])
 """
 *S-Gamut* colourspace to *CIE XYZ* tristimulus values matrix.
 
 S_GAMUT_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
-XYZ_TO_S_GAMUT_MATRIX = np.linalg.inv(S_GAMUT_TO_XYZ_MATRIX)
+XYZ_TO_S_GAMUT_MATRIX = np.array(
+    [[1.5073998991, -0.2458221374, -0.1716116808],
+     [-0.5181517271, 1.3553912409, 0.1258786682],
+     [0.0155116982, -0.0078727714, 0.9119163656]])
 """
 *CIE XYZ* tristimulus values to *S-Gamut* colourspace matrix.
 
@@ -158,19 +166,23 @@ S_GAMUT3_CINE_WHITEPOINT = S_GAMUT_WHITEPOINT
 """
 *S-Gamut3.Cine* colourspace whitepoint.
 
-S_GAMUT3_CINE_WHITEPOINT : tuple
+S_GAMUT3_CINE_WHITEPOINT : ndarray
 """
 
-S_GAMUT3_CINE_TO_XYZ_MATRIX = normalised_primary_matrix(
-    S_GAMUT3_CINE_PRIMARIES,
-    S_GAMUT3_CINE_WHITEPOINT)
+S_GAMUT3_CINE_TO_XYZ_MATRIX = np.array(
+    [[0.5990839208, 0.2489255161, 0.1024464902],
+     [0.2150758201, 0.8850685017, -0.1001443219],
+     [-0.0320658495, -0.0276583907, 1.1487819910]])
 """
 *S-Gamut3.Cine* colourspace to *CIE XYZ* tristimulus values matrix.
 
 S_GAMUT3_CINE_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
-XYZ_TO_S_GAMUT3_CINE_MATRIX = np.linalg.inv(S_GAMUT3_CINE_TO_XYZ_MATRIX)
+XYZ_TO_S_GAMUT3_CINE_MATRIX = np.array(
+    [[1.8467789693, -0.5259861230, -0.2105452114],
+     [-0.4441532629, 1.2594429028, 0.1493999729],
+     [0.0408554212, 0.0156408893, 0.8682072487]])
 """
 *CIE XYZ* tristimulus values to *S-Gamut3.Cine* colourspace matrix.
 

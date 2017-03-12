@@ -5,7 +5,7 @@
 RLAB Colour Appearance Model
 ============================
 
-Defines RLAB colour appearance model objects:
+Defines *RLAB* colour appearance model objects:
 
 -   :attr:`RLAB_VIEWING_CONDITIONS`
 -   :attr:`RLAB_D_FACTOR`
@@ -14,7 +14,7 @@ Defines RLAB colour appearance model objects:
 
 See Also
 --------
-`RLAB Colour Appearance Model IPython Notebook
+`RLAB Colour Appearance Model Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/appearance/rlab.ipynb>`_
 
@@ -41,7 +41,7 @@ from colour.utilities import (
     row_as_diagonal)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -59,7 +59,7 @@ R_MATRIX = np.array(
      [0.3612, 0.6388, 0.0000],
      [0.0000, 0.0000, 1.0000]])
 """
-RLAB colour appearance model precomputed helper matrix.
+*RLAB* colour appearance model precomputed helper matrix.
 
 R_MATRIX : array_like, (3, 3)
 """
@@ -69,7 +69,7 @@ RLAB_VIEWING_CONDITIONS = CaseInsensitiveMapping(
      'Dim': 1 / 2.9,
      'Dark': 1 / 3.5})
 """
-Reference RLAB colour appearance model viewing conditions.
+Reference *RLAB* colour appearance model viewing conditions.
 
 RLAB_VIEWING_CONDITIONS : CaseInsensitiveMapping
     **{'Average', 'Dim', 'Dark'}**
@@ -80,7 +80,7 @@ RLAB_D_FACTOR = CaseInsensitiveMapping(
      'Soft Copy Images': 0,
      'Projected Transparencies, Dark Room': 0.5})
 """
-RLAB colour appearance model *Discounting-the-Illuminant* factor values.
+*RLAB* colour appearance model *Discounting-the-Illuminant* factor values.
 
 RLAB_D_FACTOR : CaseInsensitiveMapping
     **{'Hard Copy Images',
@@ -105,9 +105,9 @@ class RLAB_ReferenceSpecification(
     namedtuple('RLAB_ReferenceSpecification',
                ('LR', 'CR', 'hR', 'sR', 'HR', 'aR', 'bR'))):
     """
-    Defines the RLAB colour appearance model reference specification.
+    Defines the *RLAB* colour appearance model reference specification.
 
-    This specification has field names consistent with Fairchild (2013)
+    This specification has field names consistent with *Fairchild (2013)*
     reference.
 
     Parameters
@@ -133,11 +133,11 @@ class RLAB_Specification(
     namedtuple('RLAB_Specification',
                ('J', 'C', 'h', 's', 'HC', 'a', 'b'))):
     """
-    Defines the RLAB colour appearance model specification.
+    Defines the *RLAB* colour appearance model specification.
 
     This specification has field names consistent with the remaining colour
-    appearance models in :mod:`colour.appearance` but diverge from Fairchild
-    (2013) reference.
+    appearance models in :mod:`colour.appearance` but diverge from
+    *Fairchild (2013)* reference.
 
     Parameters
     ----------
@@ -165,10 +165,10 @@ class RLAB_Specification(
 def XYZ_to_RLAB(XYZ,
                 XYZ_n,
                 Y_n,
-                sigma=RLAB_VIEWING_CONDITIONS.get('Average'),
-                D=RLAB_D_FACTOR.get('Hard Copy Images')):
+                sigma=RLAB_VIEWING_CONDITIONS['Average'],
+                D=RLAB_D_FACTOR['Hard Copy Images']):
     """
-    Computes the RLAB model color appearance correlates.
+    Computes the *RLAB* model color appearance correlates.
 
     Parameters
     ----------
@@ -188,7 +188,7 @@ def XYZ_to_RLAB(XYZ,
     Returns
     -------
     RLAB_Specification
-        RLAB colour appearance model specification.
+        *RLAB* colour appearance model specification.
 
     Warning
     -------
@@ -248,7 +248,7 @@ s=1.1010410..., HC=None, a=15.5711021..., b=-52.6142956...)
     # -------------------------------------------------------------------------
     # Computing the correlate of *chroma* :math:`C^R`.
     # -------------------------------------------------------------------------
-    CR = np.sqrt((aR ** 2) + (bR ** 2))
+    CR = np.hypot(aR, bR)
 
     # -------------------------------------------------------------------------
     # Computing the correlate of *saturation* :math:`s^R`.

@@ -11,7 +11,7 @@ Defines the *sRGB* colourspace:
 
 See Also
 --------
-`RGB Colourspaces IPython Notebook
+`RGB Colourspaces Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/rgb.ipynb>`_
 
@@ -39,7 +39,7 @@ from colour.models.rgb import (
     eotf_sRGB)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -69,12 +69,12 @@ sRGB_ILLUMINANT = 'D65'
 sRGB_WHITEPOINT : unicode
 """
 
-sRGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(sRGB_ILLUMINANT)
+sRGB_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][sRGB_ILLUMINANT])
 """
 *sRGB* colourspace whitepoint.
 
-sRGB_WHITEPOINT : tuple
+sRGB_WHITEPOINT : ndarray
 """
 
 sRGB_TO_XYZ_MATRIX = np.array(
@@ -87,7 +87,10 @@ sRGB_TO_XYZ_MATRIX = np.array(
 sRGB_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
-XYZ_TO_sRGB_MATRIX = np.linalg.inv(sRGB_TO_XYZ_MATRIX)
+XYZ_TO_sRGB_MATRIX = np.array(
+    [[3.2406, -1.5372, -0.4986],
+     [-0.9689, 1.8758, 0.0415],
+     [0.0557, -0.2040, 1.0570]])
 """
 *CIE XYZ* tristimulus values to *sRGB* colourspace matrix.
 

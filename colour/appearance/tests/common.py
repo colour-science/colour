@@ -14,7 +14,7 @@ from abc import abstractmethod
 from collections import defaultdict
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -29,7 +29,7 @@ class ColourAppearanceModelTest(object):
 
     Each colour appearance model is tested against a respective '.csv' file
     from which content has been generated from data of the following file by
-    Fairchild (2013): http://rit-mcsl.org/fairchild//files/AppModEx.xls
+    *Fairchild (2013)*: http://rit-mcsl.org/fairchild//files/AppModEx.xls
 
     Methods
     -------

@@ -18,6 +18,7 @@ Sub-Modules
    colour.models.rgb.common
    colour.models.rgb.deprecated
    colour.models.rgb.derivation
+   colour.models.rgb.ictcp
    colour.models.rgb.rgb_colourspace
    colour.models.rgb.ycbcr
 

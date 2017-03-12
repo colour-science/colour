@@ -5,14 +5,14 @@
 Nayatani (1995) Colour Appearance Model
 =======================================
 
-Defines Nayatani (1995) colour appearance model objects:
+Defines *Nayatani (1995)* colour appearance model objects:
 
 -   :class:`Nayatani95_Specification`
 -   :func:`XYZ_to_Nayatani95`
 
 See Also
 --------
-`Nayatani (1995) Colour Appearance Model IPython Notebook
+`Nayatani (1995) Colour Appearance Model Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/appearance/nayatani95.ipynb>`_
 
@@ -40,7 +40,7 @@ from colour.models import XYZ_to_xy
 from colour.utilities import dot_vector, tsplit, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -71,7 +71,7 @@ __all__ = ['NAYATANI95_XYZ_TO_RGB_MATRIX',
 
 NAYATANI95_XYZ_TO_RGB_MATRIX = CIE1994_XYZ_TO_RGB_MATRIX
 """
-Nayatani (1995) colour appearance model *CIE XYZ* tristimulus values to cone
+*Nayatani (1995)* colour appearance model *CIE XYZ* tristimulus values to cone
 responses matrix.
 
 NAYATANI95_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
@@ -83,10 +83,10 @@ class Nayatani95_ReferenceSpecification(
         'Nayatani95_ReferenceSpecification',
         ('Lstar_P', 'C', 'theta', 'S', 'B_r', 'M', 'H', 'H_C', 'Lstar_N'))):
     """
-    Defines the Nayatani (1995) colour appearance model reference
+    Defines the *Nayatani (1995)* colour appearance model reference
     specification.
 
-    This specification has field names consistent with Fairchild (2013)
+    This specification has field names consistent with *Fairchild (2013)*
     reference.
 
     Parameters
@@ -116,11 +116,11 @@ class Nayatani95_Specification(
     namedtuple('Nayatani95_Specification',
                ('Lstar_P', 'C', 'h', 's', 'Q', 'M', 'H', 'HC', 'Lstar_N'))):
     """
-    Defines the Nayatani (1995) colour appearance model specification.
+    Defines the *Nayatani (1995)* colour appearance model specification.
 
     This specification has field names consistent with the remaining colour
-    appearance models in :mod:`colour.appearance` but diverge from Fairchild
-    (2013) reference.
+    appearance models in :mod:`colour.appearance` but diverge from
+    *Fairchild (2013)* reference.
 
     Parameters
     ----------
@@ -156,7 +156,7 @@ def XYZ_to_Nayatani95(XYZ,
                       E_or,
                       n=1):
     """
-    Computes the Nayatani (1995) colour appearance model correlates.
+    Computes the *Nayatani (1995)* colour appearance model correlates.
 
     Parameters
     ----------
@@ -179,7 +179,7 @@ def XYZ_to_Nayatani95(XYZ,
     Returns
     -------
     Nayatani95_Specification
-        Nayatani (1995) colour appearance model specification.
+        *Nayatani (1995)* colour appearance model specification.
 
     Warning
     -------
@@ -703,12 +703,13 @@ def hue_angle(p, t):
 def chromatic_strength_function(theta):
     """
     Defines the chromatic strength function :math:`E_s(\\theta)` used to
-    correct saturation scale as function of hue angle :math:`\\theta`.
+    correct saturation scale as function of hue angle :math:`\\theta` in
+    degrees.
 
     Parameters
     ----------
     theta : numeric or array_like
-        Hue angle :math:`\\theta`
+        Hue angle :math:`\\theta` in degrees.
 
     Returns
     -------
@@ -717,11 +718,12 @@ def chromatic_strength_function(theta):
 
     Examples
     --------
-    >>> chromatic_strength_function(4.49462820973)  # doctest: +ELLIPSIS
+    >>> h = 257.52322689806243
+    >>> chromatic_strength_function(h)  # doctest: +ELLIPSIS
     1.2267869...
     """
 
-    theta = np.asarray(theta)
+    theta = np.radians(theta)
 
     E_s = 0.9394
     E_s += -0.2478 * np.sin(1 * theta)
@@ -772,7 +774,7 @@ def saturation_components(h, bL_or, t, p):
     t = np.asarray(t)
     p = np.asarray(p)
 
-    E_s = chromatic_strength_function(np.radians(h))
+    E_s = chromatic_strength_function(h)
     S_RG = (488.93 / bL_or) * E_s * t
     S_YB = (488.93 / bL_or) * E_s * p
 
@@ -806,7 +808,7 @@ def saturation_correlate(S_RG, S_YB):
     S_RG = np.asarray(S_RG)
     S_YB = np.asarray(S_YB)
 
-    S = np.sqrt((S_RG ** 2) + (S_YB ** 2))
+    S = np.hypot(S_RG, S_YB)
 
     return S
 

@@ -11,7 +11,7 @@ Defines the *Beta RGB* colourspace:
 
 See Also
 --------
-`RGB Colourspaces IPython Notebook
+`RGB Colourspaces Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/rgb.ipynb>`_
 
@@ -33,7 +33,7 @@ from colour.models.rgb import (
     normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -63,16 +63,16 @@ BETA_RGB_ILLUMINANT = 'D50'
 BETA_RGB_ILLUMINANT : unicode
 """
 
-BETA_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(BETA_RGB_ILLUMINANT)
+BETA_RGB_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][BETA_RGB_ILLUMINANT])
 """
 *Beta RGB* colourspace whitepoint.
 
-BETA_RGB_WHITEPOINT : tuple
+BETA_RGB_WHITEPOINT : ndarray
 """
 
-BETA_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(BETA_RGB_PRIMARIES,
-                                                   BETA_RGB_WHITEPOINT)
+BETA_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(
+    BETA_RGB_PRIMARIES, BETA_RGB_WHITEPOINT)
 """
 *Beta RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 

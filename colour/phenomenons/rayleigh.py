@@ -5,7 +5,7 @@
 Rayleigh Optical Depth - Scattering in the Atmosphere
 =====================================================
 
-Implements rayleigh scattering / optical depth in the atmosphere computation:
+Implements *Rayleigh* scattering / optical depth in the atmosphere computation:
 
 -   :func:`scattering_cross_section`
 -   :func:`rayleigh_optical_depth`
@@ -13,7 +13,7 @@ Implements rayleigh scattering / optical depth in the atmosphere computation:
 
 See Also
 --------
-`Rayleigh Optical Depth - Scattering in the Atmosphere IPython Notebook
+`Rayleigh Optical Depth - Scattering in the Atmosphere Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/phenomenons/rayleigh.ipynb>`_
 
@@ -35,9 +35,10 @@ from colour.colorimetry import (
     DEFAULT_SPECTRAL_SHAPE,
     SpectralPowerDistribution)
 from colour.constants import AVOGADRO_CONSTANT
+from colour.utilities import filter_kwargs
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -101,18 +102,16 @@ DEFAULT_ALTITUDE : numeric
 """
 
 
-def air_refraction_index_Penndorf1957(wavelength, *args):
+def air_refraction_index_Penndorf1957(wavelength):
     """
     Returns the air refraction index :math:`n_s` from given wavelength
-    :math:`\lambda` in  micrometers (:math:`\mu m`) using Penndorf (1957)
+    :math:`\lambda` in  micrometers (:math:`\mu m`) using *Penndorf (1957)*
     method.
 
     Parameters
     ----------
     wavelength : numeric or array_like
         Wavelength :math:`\lambda` in micrometers (:math:`\mu m`).
-    \*args : list, optional
-        Arguments.
 
     Returns
     -------
@@ -139,17 +138,15 @@ def air_refraction_index_Penndorf1957(wavelength, *args):
     return n
 
 
-def air_refraction_index_Edlen1966(wavelength, *args):
+def air_refraction_index_Edlen1966(wavelength):
     """
     Returns the air refraction index :math:`n_s` from given wavelength
-    :math:`\lambda` in micrometers (:math:`\mu m`) using Edlen (1966) method.
+    :math:`\lambda` in micrometers (:math:`\mu m`) using *Edlen (1966)* method.
 
     Parameters
     ----------
     wavelength : numeric or array_like
         Wavelength :math:`\lambda` in micrometers (:math:`\mu m`).
-    \*args : list, optional
-        Arguments.
 
     Returns
     -------
@@ -176,18 +173,16 @@ def air_refraction_index_Edlen1966(wavelength, *args):
     return n
 
 
-def air_refraction_index_Peck1972(wavelength, *args):
+def air_refraction_index_Peck1972(wavelength):
     """
     Returns the air refraction index :math:`n_s` from given wavelength
     :math:`\lambda` in micrometers (:math:`\mu m`) using
-    Peck and Reeder (1972) method.
+    *Peck and Reeder (1972)* method.
 
     Parameters
     ----------
     wavelength : numeric or array_like
         Wavelength :math:`\lambda` in micrometers (:math:`\mu m`).
-    \*args : list, optional
-        Arguments.
 
     Returns
     -------
@@ -221,7 +216,7 @@ def air_refraction_index_Bodhaine1999(
     """
     Returns the air refraction index :math:`n_s` from given wavelength
     :math:`\lambda` in micrometers (:math:`\mu m`) using
-    Bodhaine, Wood, Dutton and Slusser (1999) method.
+    *Bodhaine, Wood, Dutton and Slusser (1999)* method.
 
     Parameters
     ----------
@@ -312,17 +307,15 @@ def O2_depolarisation(wavelength):
     return O2
 
 
-def F_air_Penndorf1957(wavelength, *args):
+def F_air_Penndorf1957(wavelength):
     """
     Returns :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
-    *King Factor* using Penndorf (1957) method.
+    *King Factor* using *Penndorf (1957)* method.
 
     Parameters
     ----------
     wavelength : numeric or array_like
         Wavelength :math:`\lambda` in micrometers (:math:`\mu m`).
-    \*args : list, optional
-        Arguments.
 
     Returns
     -------
@@ -350,17 +343,15 @@ def F_air_Penndorf1957(wavelength, *args):
     return np.resize(np.array([1.0608]), wl.shape)
 
 
-def F_air_Young1981(wavelength, *args):
+def F_air_Young1981(wavelength):
     """
     Returns :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
-    *King Factor* using Young (1981) method.
+    *King Factor* using *Young (1981)* method.
 
     Parameters
     ----------
     wavelength : numeric or array_like
         Wavelength :math:`\lambda` in micrometers (:math:`\mu m`).
-    \*args : list, optional
-        Arguments.
 
     Returns
     -------
@@ -392,7 +383,7 @@ def F_air_Bates1984(wavelength):
     """
     Returns :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
     *King Factor* as function of wavelength :math:`\lambda` in micrometers
-    (:math:`\mu m`) using Bates (1984) method.
+    (:math:`\mu m`) using *Bates (1984)* method.
 
     Parameters
     ----------
@@ -431,7 +422,7 @@ def F_air_Bodhaine1999(wavelength,
     Returns :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
     *King Factor* as function of wavelength :math:`\lambda` in micrometers
     (:math:`\mu m`) and :math:`CO_2` concentration in parts per million (ppm)
-    using Bodhaine, Wood, Dutton and Slusser (1999) method.
+    using *Bodhaine, Wood, Dutton and Slusser (1999)* method.
 
     Parameters
     ----------
@@ -536,7 +527,7 @@ def gravity_List1968(latitude=DEFAULT_LATITUDE, altitude=DEFAULT_ALTITUDE):
     """
     Returns the gravity :math:`g` in :math:`cm/s_2` (gal) representative of the
     mass-weighted column of air molecules above the site of given latitude and
-    altitude using List (1968) method.
+    altitude using *List (1968)* method.
 
     Parameters
     ----------
@@ -588,7 +579,7 @@ def scattering_cross_section(wavelength,
     Returns the scattering cross section per molecule :math:`\sigma` of dry air
     as function of wavelength :math:`\lambda` in centimeters (cm) using given
     :math:`CO_2` concentration in parts per million (ppm) and temperature
-    :math:`T[K]` in kelvin degrees following Van de Hulst (1957) method.
+    :math:`T[K]` in kelvin degrees following *Van de Hulst (1957)* method.
 
     Parameters
     ----------
@@ -630,8 +621,11 @@ def scattering_cross_section(wavelength,
     wl_micrometers = wl * 10e3
 
     n_s = n_s(wl_micrometers)
+    # n_s = n_s(**filter_kwargs(
+    #     n_s, wavelength=wl_micrometers, CO2_concentration=CO2_c))
     N_s = molecular_density(temperature, avogadro_constant)
-    F_air = F_air(wl_micrometers, CO2_c)
+    F_air = F_air(**filter_kwargs(
+        F_air, wavelength=wl_micrometers, CO2_concentration=CO2_c))
 
     sigma = (24 * np.pi ** 3 * (n_s ** 2 - 1) ** 2 /
              (wl ** 4 * N_s ** 2 * (n_s ** 2 + 2) ** 2))
@@ -650,7 +644,7 @@ def rayleigh_optical_depth(wavelength,
                            n_s=air_refraction_index_Bodhaine1999,
                            F_air=F_air_Bodhaine1999):
     """
-    Returns the rayleigh optical depth :math:`T_r(\lambda)` as function of
+    Returns the *Rayleigh* optical depth :math:`T_r(\lambda)` as function of
     wavelength :math:`\lambda` in centimeters (cm).
 
     Parameters
@@ -678,7 +672,7 @@ def rayleigh_optical_depth(wavelength,
     Returns
     -------
     numeric or ndarray
-        Rayleigh optical depth :math:`T_r(\lambda)`.
+        *Rayleigh* optical depth :math:`T_r(\lambda)`.
 
     Warning
     -------
@@ -727,12 +721,13 @@ def rayleigh_scattering_spd(shape=DEFAULT_SPECTRAL_SHAPE,
                             n_s=air_refraction_index_Bodhaine1999,
                             F_air=F_air_Bodhaine1999):
     """
-    Returns the rayleigh spectral power distribution for given spectral shape.
+    Returns the *Rayleigh* spectral power distribution for given spectral
+    shape.
 
     Parameters
     ----------
     shape : SpectralShape, optional
-        Spectral shape used to create the rayleigh scattering spectral power
+        Spectral shape used to create the *Rayleigh* scattering spectral power
         distribution.
     CO2_concentration : numeric or array_like, optional
         :math:`CO_2` concentration in parts per million (ppm).
@@ -755,13 +750,13 @@ def rayleigh_scattering_spd(shape=DEFAULT_SPECTRAL_SHAPE,
     Returns
     -------
     SpectralPowerDistribution
-        Rayleigh optical depth spectral power distribution.
+        *Rayleigh* optical depth spectral power distribution.
 
     Examples
     --------
     >>> print(rayleigh_scattering_spd())
     SpectralPowerDistribution('Rayleigh Scattering - 300 ppm, 288.15 K, \
-101325 Pa, 0 Degrees, 0 m', (360.0, 830.0, 1.0))
+101325 Pa, 0 Degrees, 0 m', (360.0, 780.0, 1.0))
     """
 
     wavelengths = shape.range()

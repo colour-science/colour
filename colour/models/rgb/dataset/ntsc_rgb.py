@@ -11,7 +11,7 @@ Defines the *NTSC RGB* colourspace:
 
 See Also
 --------
-`RGB Colourspaces IPython Notebook
+`RGB Colourspaces Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/rgb.ipynb>`_
 
@@ -35,7 +35,7 @@ from colour.models.rgb import (
     normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -65,16 +65,16 @@ NTSC_RGB_ILLUMINANT = 'C'
 NTSC_RGB_ILLUMINANT : unicode
 """
 
-NTSC_RGB_WHITEPOINT = ILLUMINANTS.get(
-    'CIE 1931 2 Degree Standard Observer').get(NTSC_RGB_ILLUMINANT)
+NTSC_RGB_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][NTSC_RGB_ILLUMINANT])
 """
 *NTSC RGB* colourspace whitepoint.
 
-NTSC_RGB_WHITEPOINT : tuple
+NTSC_RGB_WHITEPOINT : ndarray
 """
 
-NTSC_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(NTSC_RGB_PRIMARIES,
-                                                   NTSC_RGB_WHITEPOINT)
+NTSC_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(
+    NTSC_RGB_PRIMARIES, NTSC_RGB_WHITEPOINT)
 """
 *NTSC RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 

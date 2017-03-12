@@ -5,11 +5,11 @@
 Pointer's Gamut Volume Computations
 ===================================
 
-Defines objects related to Pointer's Gamut volume computations.
+Defines objects related to *Pointer's Gamut* volume computations.
 
 See Also
 --------
-`Pointer's Gamut Volume Computations IPython Notebook
+`Pointer's Gamut Volume Computations Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/volume/pointer_gamut.ipynb>`_
 """
@@ -24,7 +24,7 @@ from colour.models import (
 from colour.volume import is_within_mesh_volume
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'

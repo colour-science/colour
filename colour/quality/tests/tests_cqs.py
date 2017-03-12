@@ -15,7 +15,7 @@ from colour.colorimetry import (
     LIGHT_SOURCES_RELATIVE_SPDS)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -37,38 +37,38 @@ class TestColourQualityScale(unittest.TestCase):
 
         self.assertAlmostEqual(
             colour_quality_scale(
-                ILLUMINANTS_RELATIVE_SPDS.get('F1')),
-            75.334361226715345,
+                ILLUMINANTS_RELATIVE_SPDS['F1']),
+            75.342427844068794,
             places=7)
 
         self.assertAlmostEqual(
             colour_quality_scale(
-                ILLUMINANTS_RELATIVE_SPDS.get('F2')),
-            64.678111793396397,
+                ILLUMINANTS_RELATIVE_SPDS['F2']),
+            64.686416902222192,
             places=7)
 
         self.assertAlmostEqual(
             colour_quality_scale(
-                LIGHT_SOURCES_RELATIVE_SPDS.get('Neodimium Incandescent')),
-            87.655549804699419,
+                LIGHT_SOURCES_RELATIVE_SPDS['Neodimium Incandescent']),
+            87.655035241231985,
             places=7)
 
         self.assertAlmostEqual(
             colour_quality_scale(
-                LIGHT_SOURCES_RELATIVE_SPDS.get('F32T8/TL841 (Triphosphor)')),
-            83.175799064274571,
+                LIGHT_SOURCES_RELATIVE_SPDS['F32T8/TL841 (Triphosphor)']),
+            83.179847129624022,
             places=7)
 
         self.assertAlmostEqual(
             colour_quality_scale(
-                LIGHT_SOURCES_RELATIVE_SPDS.get('H38HT-100 (Mercury)')),
-            22.847928690340929,
+                LIGHT_SOURCES_RELATIVE_SPDS['H38HT-100 (Mercury)']),
+            22.869154075340347,
             places=7)
 
         self.assertAlmostEqual(
             colour_quality_scale(
-                LIGHT_SOURCES_RELATIVE_SPDS.get('Luxeon WW 2880')),
-            84.880575409680162,
+                LIGHT_SOURCES_RELATIVE_SPDS['Luxeon WW 2880']),
+            84.880324578632809,
             places=7)
 
 

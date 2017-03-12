@@ -5,8 +5,6 @@
 Showcases blackbody / planckian radiator computations.
 """
 
-from __future__ import division, unicode_literals
-
 import colour
 from colour.utilities.verbose import message_box
 
@@ -21,8 +19,7 @@ print('\n')
 message_box(('Computing the spectral power distribution of a blackbody at '
              'temperature 5500 kelvin degrees and converting to "CIE XYZ" '
              'tristimulus values.'))
-cmfs = colour.STANDARD_OBSERVERS_CMFS.get(
-    'CIE 1931 2 Degree Standard Observer')
+cmfs = colour.STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
 blackbody_spd = colour.blackbody_spd(5500, cmfs.shape)
 print(blackbody_spd)
 XYZ = colour.spectral_to_XYZ(blackbody_spd, cmfs)

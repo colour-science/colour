@@ -6,14 +6,14 @@ RGB Displays
 ============
 
 Defines spectral power distributions classes for the dataset from
-:mod:`colour.characterisation.dataset.displays`:
+:mod:`colour.characterisation.dataset.displays` module:
 
 -   :class:`RGB_DisplayPrimaries`: Implements support for a *RGB* display (such
     as a *CRT* or *LCD*) primaries tri-spectral power distributions.
 
 See Also
 --------
-`Displays IPython Notebook
+`Displays Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/characterisation/displays.ipynb>`_
 """
@@ -23,7 +23,7 @@ from __future__ import division, unicode_literals
 from colour.colorimetry import TriSpectralPowerDistribution
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -52,16 +52,13 @@ class RGB_DisplayPrimaries(TriSpectralPowerDistribution):
     """
 
     def __init__(self, name, data):
-        TriSpectralPowerDistribution.__init__(self,
-                                              name,
-                                              data,
-                                              mapping={'x': 'red',
-                                                       'y': 'green',
-                                                       'z': 'blue'},
-                                              labels={'x': 'R',
-                                                      'y': 'G',
-                                                      'z': 'B'},
-                                              title=name)
+        TriSpectralPowerDistribution.__init__(
+            self,
+            name,
+            data,
+            mapping={'x': 'red', 'y': 'green', 'z': 'blue'},
+            labels={'x': 'R', 'y': 'G', 'z': 'B'},
+            title=name)
 
     @property
     def red(self):

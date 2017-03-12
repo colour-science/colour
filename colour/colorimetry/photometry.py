@@ -9,7 +9,7 @@ Defines photometric quantities computation related objects.
 
 See Also
 --------
-`Photometry IPython Notebook
+`Photometry Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/photometry.ipynb>`_
 
@@ -31,7 +31,7 @@ from colour.colorimetry import PHOTOPIC_LEFS
 from colour.constants import K_M
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -42,10 +42,10 @@ __all__ = ['luminous_flux',
            'luminous_efficacy']
 
 
-def luminous_flux(spd,
-                  lef=PHOTOPIC_LEFS.get(
-                      'CIE 1924 Photopic Standard Observer'),
-                  K_m=K_M):
+def luminous_flux(
+        spd,
+        lef=PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer'],
+        K_m=K_M):
     """
     Returns the *luminous flux* for given spectral power distribution using
     given luminous efficiency function.
@@ -67,7 +67,7 @@ def luminous_flux(spd,
     Examples
     --------
     >>> from colour import LIGHT_SOURCES_RELATIVE_SPDS
-    >>> spd = LIGHT_SOURCES_RELATIVE_SPDS.get('Neodimium Incandescent')
+    >>> spd = LIGHT_SOURCES_RELATIVE_SPDS['Neodimium Incandescent']
     >>> luminous_flux(spd)  # doctest: +ELLIPSIS
     23807.6555273...
     """
@@ -82,9 +82,9 @@ def luminous_flux(spd,
     return flux
 
 
-def luminous_efficiency(spd,
-                        lef=PHOTOPIC_LEFS.get(
-                            'CIE 1924 Photopic Standard Observer')):
+def luminous_efficiency(
+        spd,
+        lef=PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer']):
     """
     Returns the *luminous efficiency* of given spectral power distribution
     using given luminous efficiency function.
@@ -104,7 +104,7 @@ def luminous_efficiency(spd,
     Examples
     --------
     >>> from colour import LIGHT_SOURCES_RELATIVE_SPDS
-    >>> spd = LIGHT_SOURCES_RELATIVE_SPDS.get('Neodimium Incandescent')
+    >>> spd = LIGHT_SOURCES_RELATIVE_SPDS['Neodimium Incandescent']
     >>> luminous_efficiency(spd)  # doctest: +ELLIPSIS
     0.1994393...
     """
@@ -120,9 +120,9 @@ def luminous_efficiency(spd,
     return efficiency
 
 
-def luminous_efficacy(spd,
-                      lef=PHOTOPIC_LEFS.get(
-                            'CIE 1924 Photopic Standard Observer')):
+def luminous_efficacy(
+        spd,
+        lef=PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer']):
     """
     Returns the *luminous efficacy* in :math:`lm\cdot W^{-1}` of given spectral
     power distribution using given luminous efficiency function.
@@ -142,7 +142,7 @@ def luminous_efficacy(spd,
     Examples
     --------
     >>> from colour import LIGHT_SOURCES_RELATIVE_SPDS
-    >>> spd = LIGHT_SOURCES_RELATIVE_SPDS.get('Neodimium Incandescent')
+    >>> spd = LIGHT_SOURCES_RELATIVE_SPDS['Neodimium Incandescent']
     >>> luminous_efficacy(spd)  # doctest: +ELLIPSIS
     136.2170803...
     """

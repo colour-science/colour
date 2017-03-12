@@ -23,10 +23,11 @@ from colour.utilities import (
     dot_vector,
     dot_matrix,
     orient,
-    centroid)
+    centroid,
+    linear_conversion)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -44,7 +45,8 @@ __all__ = ['TestAsNumeric',
            'TestDotVector',
            'TestDotMatrix',
            'TestOrient',
-           'TestCentroid']
+           'TestCentroid',
+           'TestLinearConversion']
 
 
 class TestAsNumeric(unittest.TestCase):
@@ -541,6 +543,27 @@ class TestCentroid(unittest.TestCase):
         np.testing.assert_array_equal(
             centroid(a),
             np.array([4, 6, 1]))
+
+
+class TestLinearConversion(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.array.linear_conversion` definition unit
+    tests methods.
+    """
+
+    def test_linear_conversion(self):
+        """
+        Tests :func:`colour.utilities.array.linear_conversion` definition.
+        """
+
+        np.testing.assert_almost_equal(
+            linear_conversion(np.linspace(0, 1, 10),
+                              np.array([0, 1]),
+                              np.array([1, np.pi])),
+            np.array([1.00000000, 1.23795474, 1.47590948, 1.71386422,
+                      1.95181896, 2.18977370, 2.42772844, 2.66568318,
+                      2.90363791, 3.14159265]),
+            decimal=8)
 
 
 if __name__ == '__main__':

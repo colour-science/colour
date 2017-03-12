@@ -5,14 +5,14 @@
 Von Kries Chromatic Adaptation Model
 ====================================
 
-Defines Von Kries chromatic adaptation model objects:
+Defines *Von Kries* chromatic adaptation model objects:
 
 -   :func:`chromatic_adaptation_matrix_VonKries`
 -   :func:`chromatic_adaptation_VonKries`
 
 See Also
 --------
-`Chromatic Adaptation IPython Notebook
+`Chromatic Adaptation Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/adaptation/vonkries.ipynb>`_
 
@@ -30,7 +30,7 @@ from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
 from colour.utilities import dot_matrix, dot_vector, row_as_diagonal
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'

@@ -5,7 +5,7 @@
 CSV Tabular Data Input / Output
 ===============================
 
-Defines various input / output objects for CSV tabular data files:
+Defines various input / output objects for *CSV* tabular data files:
 
 -   :func:`read_spectral_data_from_csv_file`
 -   :func:`read_spds_from_csv_file`
@@ -21,7 +21,7 @@ import csv
 from colour.colorimetry import SpectralPowerDistribution
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -37,7 +37,7 @@ def read_spectral_data_from_csv_file(path,
                                      fields=None,
                                      default=0):
     """
-    Reads the spectral data from given CSV file in the following form:
+    Reads the spectral data from given *CSV* file in the following form:
 
     390,  4.15003E-04,  3.68349E-04,  9.54729E-03
     395,  1.05192E-03,  9.58658E-04,  2.38250E-02
@@ -55,11 +55,11 @@ def read_spectral_data_from_csv_file(path,
     Parameters
     ----------
     path : unicode
-        Absolute CSV file path.
+        Absolute *CSV* file path.
     delimiter : unicode, optional
-        CSV file content delimiter.
+        *CSV* file content delimiter.
     fields : array_like, optional
-        CSV file spectral data fields names. If no value is provided the
+        *CSV* file spectral data fields names. If no value is provided the
         first line of the file will be used as spectral data fields names.
     default : numeric, optional
         Default value for fields row with missing value.
@@ -67,16 +67,16 @@ def read_spectral_data_from_csv_file(path,
     Returns
     -------
     OrderedDict
-        CSV file content.
+        *CSV* file content.
 
     Raises
     ------
     RuntimeError
-        If the CSV spectral data file doesn't define the appropriate fields.
+        If the *CSV* spectral data file doesn't define the appropriate fields.
 
     Notes
     -----
-    -   A CSV spectral data file should define at least define two fields:
+    -   A *CSV* spectral data file should define at least define two fields:
         one for the wavelengths and one for the associated values of one
         spectral power distribution.
     -   If no value is provided for the fields names, the first line of the
@@ -124,7 +124,7 @@ def read_spectral_data_from_csv_file(path,
                                 delimiter=str(delimiter),
                                 fieldnames=fields)
         if len(reader.fieldnames) == 1:
-            raise RuntimeError(('A CSV spectral data file should define '
+            raise RuntimeError(('A "CSV" spectral data file should define '
                                 'the following fields: '
                                 '("wavelength", "field 1", ..., "field n")!'))
 
@@ -148,18 +148,18 @@ def read_spds_from_csv_file(path,
                             fields=None,
                             default=0):
     """
-    Reads the spectral data from given CSV file and return its content as an
+    Reads the spectral data from given *CSV* file and return its content as an
     *OrderedDict* of
     :class:`colour.colorimetry.spectrum.SpectralPowerDistribution` classes.
 
     Parameters
     ----------
     path : unicode
-        Absolute CSV file path.
+        Absolute *CSV* file path.
     delimiter : unicode, optional
-        CSV file content delimiter.
+        *CSV* file content delimiter.
     fields : array_like, optional
-        CSV file spectral data fields names. If no value is provided the
+        *CSV* file spectral data fields names. If no value is provided the
         first line of the file will be used for as spectral data fields names.
     default : numeric
         Default value for fields row with missing value.
@@ -168,12 +168,11 @@ def read_spds_from_csv_file(path,
     -------
     OrderedDict
         :class:`colour.colorimetry.spectrum.SpectralPowerDistribution`
-        classes of given CSV file.
+        classes of given *CSV* file.
 
     Examples
     --------
     >>> import os
-    >>> from pprint import pprint
     >>> csv_file = os.path.join(
     ...     os.path.dirname(__file__),
     ...     'tests',
@@ -202,18 +201,18 @@ def write_spds_to_csv_file(spds,
                            delimiter=',',
                            fields=None):
     """
-    Writes the given spectral power distributions to given CSV file.
+    Writes the given spectral power distributions to given *CSV* file.
 
     Parameters
     ----------
     spds : dict
         Spectral power distributions to write.
     path : unicode
-        Absolute CSV file path.
+        Absolute *CSV* file path.
     delimiter : unicode, optional
-        CSV file content delimiter.
+        *CSV* file content delimiter.
     fields : array_like, optional
-        CSV file spectral data fields names. If no value is provided the
+        *CSV* file spectral data fields names. If no value is provided the
         order of fields will be the one defined by the sorted spectral power
         distributions *dict*.
 
@@ -232,7 +231,7 @@ def write_spds_to_csv_file(spds,
         shapes = [spd.shape for spd in spds.values()]
         if not all(shape == shapes[0] for shape in shapes):
             raise RuntimeError(('Cannot write spectral power distributions '
-                                'with different shapes to CSV file!'))
+                                'with different shapes to "CSV" file!'))
 
     wavelengths = tuple(spds.values())[0].wavelengths
     with open(path, 'w') as csv_file:

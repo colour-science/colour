@@ -10,16 +10,16 @@ Defines *luminance* :math:`Y` computation objects.
 The following methods are available:
 
 -   :func:`luminance_Newhall1943`: *luminance* :math:`Y` computation of given
-    *Munsell* value :math:`V` using *Newhall, Nickerson, and Judd (1943)*
+    *Munsell* value :math:`V` using *Newhall, Nickerson and Judd (1943)*
     method.
 -   :func:`luminance_ASTMD153508`: *luminance* :math:`Y` computation of given
     *Munsell* value :math:`V` using *ASTM D1535-08e1* method.
 -   :func:`luminance_CIE1976`: *luminance* :math:`Y` computation of given
-    *Lightness* :math:`L^*` as per *CIE Lab* implementation.
+    *Lightness* :math:`L^*` as per *CIE 1976* recommendation.
 
 See Also
 --------
-`Luminance IPython Notebook
+`Luminance Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/luminance.ipynb>`_
 """
@@ -32,7 +32,7 @@ from colour.constants import CIE_E, CIE_K
 from colour.utilities import CaseInsensitiveMapping, filter_kwargs
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -48,7 +48,7 @@ __all__ = ['luminance_Newhall1943',
 def luminance_Newhall1943(V):
     """
     Returns the *luminance* :math:`R_Y` of given *Munsell* value :math:`V`
-    using *Newhall, Nickerson, and Judd (1943)* method.
+    using *Newhall et al. (1943)* method.
 
     Parameters
     ----------
@@ -207,8 +207,12 @@ def luminance(LV, method='CIE 1976', **kwargs):
     method : unicode, optional
         **{'CIE 1976', 'Newhall 1943', 'ASTM D1535-08'}**,
         Computation method.
-    \**kwargs : dict, optional
-        Keywords arguments.
+
+    Other Parameters
+    ----------------
+    Y_n : numeric or array_like, optional
+        {:func:`luminance_CIE1976`},
+        White reference *luminance* :math:`Y_n`.
 
     Returns
     -------

@@ -61,6 +61,7 @@ from .transformations import LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs
 from .tristimulus import SPECTRAL_TO_XYZ_METHODS
 from .tristimulus import spectral_to_XYZ
 from .tristimulus import (
+    ASTME30815_PRACTISE_SHAPE,
     lagrange_coefficients_ASTME202211,
     tristimulus_weighting_factors_ASTME202211,
     adjust_tristimulus_weighting_factors_ASTME30815,
@@ -125,7 +126,8 @@ __all__ += ['LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs']
 __all__ += ['LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs']
 __all__ += ['SPECTRAL_TO_XYZ_METHODS']
 __all__ += ['spectral_to_XYZ']
-__all__ += ['lagrange_coefficients_ASTME202211',
+__all__ += ['ASTME30815_PRACTISE_SHAPE',
+            'lagrange_coefficients_ASTME202211',
             'tristimulus_weighting_factors_ASTME202211',
             'adjust_tristimulus_weighting_factors_ASTME30815',
             'spectral_to_XYZ_integration',

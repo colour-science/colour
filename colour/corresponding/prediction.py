@@ -9,7 +9,7 @@ Defines objects to compute corresponding chromaticities prediction.
 
 See Also
 --------
-`Corresponding Chromaticities Prediction IPython Notebook
+`Corresponding Chromaticities Prediction Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/corresponding/prediction.ipynb>`_
 
@@ -42,7 +42,7 @@ from colour.models import (
 from colour.utilities import CaseInsensitiveMapping, filter_kwargs
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -78,14 +78,14 @@ class CorrespondingChromaticitiesPrediction(
 
 def corresponding_chromaticities_prediction_CIE1994(experiment=1):
     """
-    Returns the corresponding chromaticities prediction for CIE 1994
+    Returns the corresponding chromaticities prediction for *CIE 1994*
     chromatic adaptation model.
 
     Parameters
     ----------
     experiment : integer, optional
         {1, 2, 3, 4, 6, 8, 9, 11, 12}
-        Breneman (1987) experiment number.
+        *Breneman (1987)* experiment number.
 
     Returns
     -------
@@ -112,15 +112,15 @@ def corresponding_chromaticities_prediction_CIE1994(experiment=1):
      ((0.244, 0.349), (0.2454445..., 0.4018004...))]
     """
 
-    experiment_results = list(BRENEMAN_EXPERIMENTS.get(experiment))
+    experiment_results = list(BRENEMAN_EXPERIMENTS[experiment])
 
     illuminants = experiment_results.pop(0)
     xy_o1 = Luv_uv_to_xy(illuminants.uvp_t)
     xy_o2 = Luv_uv_to_xy(illuminants.uvp_m)
     # :math:`Y_o` is set to an arbitrary value in domain [18, 100].
     Y_o = 18
-    E_o1 = E_o2 = BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES.get(
-        experiment).Y
+    E_o1 = E_o2 = BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES[
+        experiment].Y
 
     prediction = []
     for result in experiment_results:
@@ -139,14 +139,14 @@ def corresponding_chromaticities_prediction_CIE1994(experiment=1):
 
 def corresponding_chromaticities_prediction_CMCCAT2000(experiment=1):
     """
-    Returns the corresponding chromaticities prediction for CMCCAT2000
+    Returns the corresponding chromaticities prediction for *CMCCAT2000*
     chromatic adaptation model.
 
     Parameters
     ----------
     experiment : integer, optional
         {1, 2, 3, 4, 6, 8, 9, 11, 12}
-        Breneman (1987) experiment number.
+        *Breneman (1987)* experiment number.
 
     Returns
     -------
@@ -173,14 +173,14 @@ def corresponding_chromaticities_prediction_CMCCAT2000(experiment=1):
      ((0.244, 0.349), (0.2287638..., 0.3499324...))]
     """
 
-    experiment_results = list(BRENEMAN_EXPERIMENTS.get(experiment))
+    experiment_results = list(BRENEMAN_EXPERIMENTS[experiment])
 
     illuminants = experiment_results.pop(0)
     XYZ_w = xy_to_XYZ(Luv_uv_to_xy(illuminants.uvp_t)) * 100
     XYZ_wr = xy_to_XYZ(Luv_uv_to_xy(illuminants.uvp_m)) * 100
     xy_wr = XYZ_to_xy(XYZ_wr)
-    L_A1 = L_A2 = BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES.get(
-        experiment).Y
+    L_A1 = L_A2 = BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES[
+        experiment].Y
 
     prediction = []
     for result in experiment_results:
@@ -199,14 +199,14 @@ def corresponding_chromaticities_prediction_CMCCAT2000(experiment=1):
 
 def corresponding_chromaticities_prediction_Fairchild1990(experiment=1):
     """
-    Returns the corresponding chromaticities prediction for Fairchild (1990)
+    Returns the corresponding chromaticities prediction for *Fairchild (1990)*
     chromatic adaptation model.
 
     Parameters
     ----------
     experiment : integer, optional
         {1, 2, 3, 4, 6, 8, 9, 11, 12}
-        Breneman (1987) experiment number.
+        *Breneman (1987)* experiment number.
 
     Returns
     -------
@@ -233,13 +233,13 @@ def corresponding_chromaticities_prediction_Fairchild1990(experiment=1):
      ((0.244, 0.349), (0.2418904..., 0.3413401...))]
     """
 
-    experiment_results = list(BRENEMAN_EXPERIMENTS.get(experiment))
+    experiment_results = list(BRENEMAN_EXPERIMENTS[experiment])
 
     illuminants = experiment_results.pop(0)
     XYZ_n = xy_to_XYZ(Luv_uv_to_xy(illuminants.uvp_t)) * 100
     XYZ_r = xy_to_XYZ(Luv_uv_to_xy(illuminants.uvp_m)) * 100
     xy_r = XYZ_to_xy(XYZ_r)
-    Y_n = BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES.get(experiment).Y
+    Y_n = BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES[experiment].Y
 
     prediction = []
     for result in experiment_results:
@@ -259,14 +259,14 @@ def corresponding_chromaticities_prediction_Fairchild1990(experiment=1):
 def corresponding_chromaticities_prediction_VonKries(experiment=1,
                                                      transform='CAT02'):
     """
-    Returns the corresponding chromaticities prediction for Von Kries
+    Returns the corresponding chromaticities prediction for *Von Kries*
     chromatic adaptation model using given transform.
 
     Parameters
     ----------
     experiment : integer, optional
         {1, 2, 3, 4, 6, 8, 9, 11, 12}
-        Breneman (1987) experiment number.
+        *Breneman (1987)* experiment number.
     transform : unicode, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
         'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
@@ -298,7 +298,7 @@ def corresponding_chromaticities_prediction_VonKries(experiment=1,
      ((0.244, 0.349), (0.2259805..., 0.3465291...))]
     """
 
-    experiment_results = list(BRENEMAN_EXPERIMENTS.get(experiment))
+    experiment_results = list(BRENEMAN_EXPERIMENTS[experiment])
 
     illuminants = experiment_results.pop(0)
     XYZ_w = xy_to_XYZ(Luv_uv_to_xy(illuminants.uvp_t))
@@ -350,12 +350,19 @@ def corresponding_chromaticities_prediction(experiment=1,
     ----------
     experiment : integer, optional
         {1, 2, 3, 4, 6, 8, 9, 11, 12}
-        Breneman (1987) experiment number.
+        *Breneman (1987)* experiment number.
     model : unicode, optional
         **{'Von Kries', 'CIE 1994', 'CMCCAT2000', 'Fairchild 1990'}**,
         Chromatic adaptation model.
-    \**kwargs : dict, optional
-        Keywords arguments.
+
+    Other Parameters
+    ----------------
+    transform : unicode, optional
+        {:func:`corresponding_chromaticities_prediction_VonKries`},
+        **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
+        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
+        'Bianco PC'}**,
+        Chromatic adaptation transform.
 
     Returns
     -------

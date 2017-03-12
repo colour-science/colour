@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Showcases colour rendering index computations.
+Showcases *Colour Rendering Index* (CRI) computations.
 """
 
 from pprint import pprint
@@ -12,27 +12,28 @@ from colour.utilities.verbose import message_box
 
 message_box('Colour Rendering Index Computations')
 
-message_box('Computing "F2" illuminant colour rendering index.')
+message_box('Computing "F2" illuminant "Colour Rendering Index (CRI)".')
 print(colour.colour_rendering_index(
-    colour.ILLUMINANTS_RELATIVE_SPDS.get('F2')))
+    colour.ILLUMINANTS_RELATIVE_SPDS['F2']))
 
 print('\n')
 
-message_box(('Computing "F2" illuminant colour rendering index with detailed '
-             'output data.'))
+message_box(('Computing "F2" illuminant "Colour Rendering Index" (CRI) with '
+             'detailed output data.'))
 pprint(colour.colour_rendering_index(
-    colour.ILLUMINANTS_RELATIVE_SPDS.get('F2'),
+    colour.ILLUMINANTS_RELATIVE_SPDS['F2'],
     additional_data=True))
 
 print('\n')
 
-message_box('Computing "CIE Standard Illuminant A" colour rendering index.')
+message_box('Computing "CIE Standard Illuminant A" '
+            '"Colour Rendering Index (CRI)".')
 print(colour.colour_rendering_index(
-    colour.ILLUMINANTS_RELATIVE_SPDS.get('A')))
+    colour.ILLUMINANTS_RELATIVE_SPDS['A']))
 
 print('\n')
 
-message_box('Computing sample light colour rendering index.')
+message_box('Computing sample light "Colour Rendering Index (CRI)".')
 SAMPLE_SPD_DATA = {
     380: 0.00588346,
     385: 0.00315377,

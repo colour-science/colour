@@ -16,7 +16,7 @@ The following methods are available:
 
 See Also
 --------
-`Delta E - Colour Difference IPython Notebook
+`Delta E - Colour Difference Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/difference/delta_e.ipynb>`_
 
@@ -34,7 +34,7 @@ from colour.algebra import euclidean_distance
 from colour.utilities import CaseInsensitiveMapping, filter_kwargs, tsplit
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2016 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -50,8 +50,8 @@ __all__ = ['delta_E_CIE1976',
 
 def delta_E_CIE1976(Lab_1, Lab_2):
     """
-    Returns the difference :math:`\Delta E_{ab}` between two given
-    *CIE Lab* colourspace arrays using CIE 1976 recommendation.
+    Returns the difference :math:`\Delta E_{ab}` between two given *CIE Lab*
+    colourspace arrays using *CIE 1976* recommendation.
 
     Parameters
     ----------
@@ -90,7 +90,7 @@ def delta_E_CIE1976(Lab_1, Lab_2):
 def delta_E_CIE1994(Lab_1, Lab_2, textiles=False):
     """
     Returns the difference :math:`\Delta E_{ab}` between two given *CIE Lab*
-    colourspace arrays using CIE 1994 recommendation.
+    colourspace arrays using *CIE 1994* recommendation.
 
     Parameters
     ----------
@@ -110,10 +110,10 @@ def delta_E_CIE1994(Lab_1, Lab_2, textiles=False):
 
     Notes
     -----
-    CIE 1994 colour differences are not symmetrical: difference between
-    `Lab_1` and `Lab_2` may not be the same as difference between `Lab_2` and
-    `Lab_1` thus one colour must be understood to be the reference against
-    which a sample colour is compared.
+    -   *CIE 1994* colour differences are not symmetrical: difference between
+        `Lab_1` and `Lab_2` may not be the same as difference between `Lab_2`
+        and `Lab_1` thus one colour must be understood to be the reference
+        against which a sample colour is compared.
 
     References
     ----------
@@ -139,8 +139,8 @@ def delta_E_CIE1994(Lab_1, Lab_2, textiles=False):
     L_1, a_1, b_1 = tsplit(Lab_1)
     L_2, a_2, b_2 = tsplit(Lab_2)
 
-    C_1 = np.sqrt(a_1 ** 2 + b_1 ** 2)
-    C_2 = np.sqrt(a_2 ** 2 + b_2 ** 2)
+    C_1 = np.hypot(a_1, b_1)
+    C_2 = np.hypot(a_2, b_2)
 
     s_L = 1
     s_C = 1 + k_1 * C_1
@@ -165,7 +165,7 @@ def delta_E_CIE1994(Lab_1, Lab_2, textiles=False):
 def delta_E_CIE2000(Lab_1, Lab_2, textiles=False):
     """
     Returns the difference :math:`\Delta E_{ab}` between two given *CIE Lab*
-    colourspace arrays using CIE 2000 recommendation.
+    colourspace arrays using *CIE 2000* recommendation.
 
     Parameters
     ----------
@@ -185,12 +185,13 @@ def delta_E_CIE2000(Lab_1, Lab_2, textiles=False):
 
     Notes
     -----
-    -   CIE 2000 colour differences are not symmetrical: difference between
+    -   *CIE 2000* colour differences are not symmetrical: difference between
         `Lab_1` and `Lab_2` may not be the same as difference between `Lab_2`
         and `Lab_1` thus one colour must be understood to be the reference
         against which a sample colour is compared.
     -   Parametric factors :math:`k_L=k_C=k_H=1` weights under
-    *reference conditions*: [5]_
+        *reference conditions*: [5]_
+
         -   Illumination: D65 source
         -   Illuminance: 1000 lx
         -   Observer: Normal colour vision
@@ -232,8 +233,8 @@ Melgosa_CIEDE2000_Workshop-July4.pdf
 
     l_bar_prime = 0.5 * (L_1 + L_2)
 
-    c_1 = np.sqrt(a_1 ** 2 + b_1 ** 2)
-    c_2 = np.sqrt(a_2 ** 2 + b_2 ** 2)
+    c_1 = np.hypot(a_1, b_1)
+    c_2 = np.hypot(a_2, b_2)
 
     c_bar = 0.5 * (c_1 + c_2)
     c_bar7 = np.power(c_bar, 7)
@@ -242,15 +243,12 @@ Melgosa_CIEDE2000_Workshop-July4.pdf
 
     a_1_prime = a_1 * (1 + g)
     a_2_prime = a_2 * (1 + g)
-    c_1_prime = np.sqrt(a_1_prime ** 2 + b_1 ** 2)
-    c_2_prime = np.sqrt(a_2_prime ** 2 + b_2 ** 2)
+    c_1_prime = np.hypot(a_1_prime, b_1)
+    c_2_prime = np.hypot(a_2_prime, b_2)
     c_bar_prime = 0.5 * (c_1_prime + c_2_prime)
 
-    h_1_prime = np.asarray(np.rad2deg(np.arctan2(b_1, a_1_prime)))
-    h_1_prime[np.asarray(h_1_prime < 0.0)] += 360
-
-    h_2_prime = np.asarray(np.rad2deg(np.arctan2(b_2, a_2_prime)))
-    h_2_prime[np.asarray(h_2_prime < 0.0)] += 360
+    h_1_prime = np.degrees(np.arctan2(b_1, a_1_prime)) % 360
+    h_2_prime = np.degrees(np.arctan2(b_2, a_2_prime)) % 360
 
     h_bar_prime = np.where(np.fabs(h_1_prime - h_2_prime) <= 180,
                            0.5 * (h_1_prime + h_2_prime),
@@ -334,17 +332,11 @@ def delta_E_CMC(Lab_1, Lab_2, l=2, c=1):
     L_1, a_1, b_1 = tsplit(Lab_1)
     L_2, a_2, b_2 = tsplit(Lab_2)
 
-    c_1 = np.sqrt(a_1 ** 2 + b_1 ** 2)
-    c_2 = np.sqrt(a_2 ** 2 + b_2 ** 2)
+    c_1 = np.hypot(a_1, b_1)
+    c_2 = np.hypot(a_2, b_2)
     s_l = np.where(L_1 < 16, 0.511, (0.040975 * L_1) / (1 + 0.01765 * L_1))
     s_c = 0.0638 * c_1 / (1 + 0.0131 * c_1) + 0.638
-    h_1 = np.where(c_1 < 0.000001, 0, np.rad2deg(np.arctan2(b_1, a_1)))
-
-    while np.any(h_1 < 0):
-        h_1[np.asarray(h_1 < 0)] += 360
-
-    while np.any(h_1 >= 360):
-        h_1[np.asarray(h_1 >= 360)] -= 360
+    h_1 = np.degrees(np.arctan2(b_1, a_1)) % 360
 
     t = np.where(np.logical_and(h_1 >= 164, h_1 <= 345),
                  0.56 + np.fabs(0.2 * np.cos(np.deg2rad(h_1 + 168))),
@@ -358,7 +350,7 @@ def delta_E_CMC(Lab_1, Lab_2, l=2, c=1):
     delta_C = c_1 - c_2
     delta_A = a_1 - a_2
     delta_B = b_1 - b_2
-    delta_H2 = delta_A * delta_A + delta_B * delta_B - delta_C * delta_C
+    delta_H2 = delta_A ** 2 + delta_B ** 2 - delta_C ** 2
 
     v_1 = delta_L / (l * s_l)
     v_2 = delta_C / (c * s_c)
@@ -405,8 +397,20 @@ def delta_E(Lab_1, Lab_2, method='CMC', **kwargs):
     method : unicode, optional
         **{'CMC', 'CIE 1976', 'CIE 1994', 'CIE 2000'}**,
         Computation method.
-    \**kwargs : dict, optional
-        Keywords arguments.
+
+    Other Parameters
+    ----------------
+    textiles : bool, optional
+        {:func:`delta_E_CIE1994`, :func:`delta_E_CIE2000`},
+        Textiles application specific parametric factors
+        :math:`k_L=2,\ k_C=k_H=1,\ k_1=0.048,\ k_2=0.014` weights are used
+        instead of :math:`k_L=k_C=k_H=1,\ k_1=0.045,\ k_2=0.015`.
+    l : numeric, optional
+        {:func:`delta_E_CIE2000`},
+        Lightness weighting factor.
+    c : numeric, optional
+        {:func:`delta_E_CIE2000`},
+        Chroma weighting factor.
 
     Returns
     -------
