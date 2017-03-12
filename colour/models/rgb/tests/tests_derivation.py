@@ -301,8 +301,8 @@ class TestRGBLuminanceEquation(unittest.TestCase):
         self.assertTrue(re.match(
             # TODO: Simplify that monster.
             ('Y\s?=\s?[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?.'
-             '\(R\)\s?[\+-]\s?[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?.'
-             '\(G\)\s?[\+-]\s?[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?.\(B\)'),
+             '\(R\)\s?[+-]\s?[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?.'
+             '\(G\)\s?[+-]\s?[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?.\(B\)'),
             RGB_luminance_equation(
                 np.array([0.73470, 0.26530,
                           0.00000, 1.00000,

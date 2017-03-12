@@ -13,6 +13,8 @@ from colour.utilities.verbose import message_box
 
 message_box('Colour Models Volume and Gamut Plots')
 
+colour_plotting_defaults()
+
 message_box(('Plotting "Rec. 709" RGB colourspace volume in "CIE xyY" '
              'colourspace.'))
 RGB_colourspaces_gamuts_plot(('Rec. 709',),

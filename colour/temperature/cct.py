@@ -325,8 +325,7 @@ def uv_to_CCT_Ohno2013(
     """
 
     # Ensuring we do at least one iteration to initialise variables.
-    if iterations <= 0:
-        iterations = 1
+    iterations = max(iterations, 1)
 
     # Planckian table creation through cascade expansion.
     for _i in range(iterations):

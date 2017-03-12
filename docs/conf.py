@@ -405,12 +405,8 @@ intersphinx_mapping = {'python': ('https://docs.python.org/3.5', None)}
 #     offset[0] += len(references)
 
 
-def _autodoc_process_docstring(app,
-                                what,
-                                name,
-                                obj,
-                                options,
-                                lines):
+def _autodoc_process_docstring(
+        app, what, name, obj, options, lines):
     """
     Process the docstrings to remove the *# noqa* *flake8* pragma.
     """

@@ -122,7 +122,7 @@ def JMh_CIECAM02_to_UCS_Luo2006(JMh, coefficients):
     """
 
     J, M, h = tsplit(JMh)
-    K_L, c_1, c_2 = tsplit(coefficients)
+    _K_L, c_1, c_2 = tsplit(coefficients)
 
     J_p = ((1 + 100 * c_1) * J) / (1 + c_1 * J)
     M_p = (1 / c_2) * np.log(1 + c_2 * M)
@@ -161,7 +161,7 @@ def UCS_Luo2006_to_JMh_CIECAM02(Jpapbp, coefficients):
     """
 
     J_p, a_p, b_p = tsplit(Jpapbp)
-    K_L, c_1, c_2 = tsplit(coefficients)
+    _K_L, c_1, c_2 = tsplit(coefficients)
 
     J = -J_p / (c_1 * J_p - 1 - 100 * c_1)
 

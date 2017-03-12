@@ -30,6 +30,7 @@ from __future__ import division
 import matplotlib.pyplot
 import numpy as np
 import pylab
+from six.moves import reduce
 
 from colour.colorimetry import (
     DEFAULT_SPECTRAL_SHAPE,
@@ -141,7 +142,8 @@ def single_spd_plot(spd,
         'title': '{0} - {1}'.format(spd.title, cmfs.title),
         'x_label': 'Wavelength $\\lambda$ (nm)',
         'y_label': 'Spectral Power Distribution',
-        'x_tighten': True}
+        'x_tighten': True,
+        'y_tighten': True}
 
     settings.update(kwargs)
 
@@ -224,6 +226,7 @@ def multi_spd_plot(spds,
         'x_label': 'Wavelength $\\lambda$ (nm)',
         'y_label': 'Spectral Power Distribution',
         'x_tighten': True,
+        'y_tighten': True,
         'legend': True,
         'legend_location': 'upper left',
         'limits': (min(x_limit_min), max(x_limit_max),
@@ -336,6 +339,7 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
         'x_label': 'Wavelength $\\lambda$ (nm)',
         'y_label': 'Tristimulus Values',
         'x_tighten': True,
+        'y_tighten': True,
         'legend': True,
         'legend_location': 'upper right',
         'grid': True,
@@ -507,6 +511,7 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
         'x_label': 'Wavelength $\\lambda$ (nm)',
         'y_label': False,
         'x_tighten': True,
+        'y_tighten': True,
         'y_ticker': False}
     settings.update(kwargs)
 
@@ -752,6 +757,7 @@ def blackbody_colours_plot(shape=SpectralShape(150, 12500, 50),
         'x_label': 'Temperature K',
         'y_label': '',
         'x_tighten': True,
+        'y_tighten': True,
         'y_ticker': False}
     settings.update(kwargs)
 

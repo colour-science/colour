@@ -15,6 +15,8 @@ from colour.utilities.verbose import message_box
 
 message_box('Characterisation Plots')
 
+colour_plotting_defaults()
+
 message_box('Plotting colour rendition charts.')
 pprint(sorted(colour.COLOURCHECKERS.keys()))
 colour_checker_plot('ColorChecker 1976')

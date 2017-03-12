@@ -11,6 +11,8 @@ from colour.utilities.verbose import message_box
 
 message_box('Optical Phenomenons Plots')
 
+colour_plotting_defaults()
+
 message_box(('Plotting a single "Rayleigh" scattering spectral power '
              'distribution.'))
 single_rayleigh_scattering_spd_plot()

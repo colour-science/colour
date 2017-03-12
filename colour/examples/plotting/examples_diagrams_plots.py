@@ -11,6 +11,8 @@ from colour.utilities.verbose import message_box
 
 message_box('"CIE" Chromaticity Diagrams Plots')
 
+colour_plotting_defaults()
+
 message_box('Plotting "CIE 1931 Chromaticity Diagram".')
 CIE_1931_chromaticity_diagram_plot()
 
