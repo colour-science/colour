@@ -28,6 +28,10 @@ Development & Technical Support
 
     Technical support.
 
+-   **Kevin Wheatley**, *Head of Imaging at Framestore @ Framestore*
+
+    Technical support.
+
 Acknowledgements
 ----------------
 -   **Steve Agland**, *Supervising Lighting Technical Director @ Animal Logic*
@@ -58,17 +62,13 @@ Acknowledgements
 
     *Ohno (2013)* correlated colour temperature calculation technical support.
 
--   **Kevin Wheatley**, *Head of Imaging at Framestore @ Framestore*
-
-    Technical support.
-
 Special Mentions
 ----------------
 
 -   **Aurélia Sellier**, *Line Producer @ Cube Creative*
 
-Others
-------
+Contributors
+------------
 
 -   Nick Spiker
 -   fangjy88
