@@ -13,7 +13,7 @@ Colour Science for Python
     * - Status
       - |waffle| |travis| |coveralls| |scrutinizer| |landscape| |gemnasium|
     * - Package
-      - |version| |downloads|
+      - |version|
     * - Citation
       - |zenodo|
 
