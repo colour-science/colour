@@ -8,14 +8,17 @@ matrix:
     env:
     - PYTHON_VERSION="3.5"
     - PYQT_VERSION="4.11.4"
+    - SCIPY_VERSION="0.18.1"
   - python: 3.4
     env:
     - PYTHON_VERSION="3.4"
     - PYQT_VERSION="4.11.4"
+    - SCIPY_VERSION="0.18.1"
   - python: 2.7
     env:
     - PYTHON_VERSION="2.7"
     - PYQT_VERSION="4.11.4"
+    - SCIPY_VERSION="0.18.1"
 
 notifications:
   slack: colour-science:Y6lPPcN7y53Js94geqUpqsAP
