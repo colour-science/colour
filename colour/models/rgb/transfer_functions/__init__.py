@@ -15,6 +15,7 @@ from .aces import (
 from .alexa_log_c import (
     log_encoding_ALEXALogC,
     log_decoding_ALEXALogC)
+from .arib_std_b67 import oetf_ARIBSTDB67, eotf_ARIBSTDB67
 from .bt_709 import oetf_BT709, eotf_BT709
 from .bt_1886 import oetf_BT1886, eotf_BT1886
 from .bt_2020 import oetf_BT2020, eotf_BT2020
@@ -68,6 +69,7 @@ __all__ = ['log_encoding_ACESproxy',
            'log_encoding_ACEScct',
            'log_decoding_ACEScct']
 __all__ += ['log_encoding_ALEXALogC', 'log_decoding_ALEXALogC']
+__all__ += ['oetf_ARIBSTDB67', 'eotf_ARIBSTDB67']
 __all__ += ['oetf_BT709', 'eotf_BT709']
 __all__ += ['oetf_BT1886', 'eotf_BT1886']
 __all__ += ['oetf_BT2020', 'eotf_BT2020']
@@ -348,7 +350,8 @@ __all__ += ['LOG_ENCODING_CURVES', 'LOG_DECODING_CURVES']
 __all__ += ['log_encoding_curve', 'log_decoding_curve']
 
 OETFS = CaseInsensitiveMapping(
-    {'BT.1886': oetf_BT1886,
+    {'ARIB STD-B67': oetf_ARIBSTDB67,
+     'BT.1886': oetf_BT1886,
      'BT.2020': oetf_BT2020,
      'BT.709': oetf_BT709,
      'DCI-P3': oetf_DCIP3,
@@ -361,8 +364,8 @@ OETFS = CaseInsensitiveMapping(
 Supported opto-electrical transfer functions (OETF / OECF).
 
 OETFS : CaseInsensitiveMapping
-    **{'sRGB', 'BT.1886', 'BT.2020', 'BT.709', 'DCI-P3', 'ROMM RGB',
-    'ProPhoto RGB', 'RIMM RGB', 'ST 2084'}**
+    **{'ARIB STD-B67', 'sRGB', 'BT.1886', 'BT.2020', 'BT.709', 'DCI-P3',
+    'ROMM RGB', 'ProPhoto RGB', 'RIMM RGB', 'ST 2084'}**
 """
 
 
@@ -377,12 +380,15 @@ def oetf(value, function='sRGB', **kwargs):
     value : numeric or array_like
         Value.
     function : unicode, optional
-        **{'sRGB', 'BT.1886', 'BT.2020', 'BT.709', 'DCI-P3', 'ROMM RGB',
-        'ProPhoto RGB', 'RIMM RGB', 'ST 2084'}**,
+        **{'ARIB STD-B67', 'sRGB', 'BT.1886', 'BT.2020', 'BT.709', 'DCI-P3',
+        'ROMM RGB', 'ProPhoto RGB', 'RIMM RGB', 'ST 2084'}**,
         Computation function.
 
     Other Parameters
     ----------------
+    r : numeric, optional
+        {:func:`oetf_ARIBSTDB67`},
+        Video level corresponding to reference white level.
     L_B : numeric, optional
         {:func:`oetf_BT1886`},
         Screen luminance for black.
@@ -427,7 +433,8 @@ def oetf(value, function='sRGB', **kwargs):
 
 
 EOTFS = CaseInsensitiveMapping(
-    {'BT.1886': eotf_BT1886,
+    {'ARIB STD-B67': eotf_ARIBSTDB67,
+     'BT.1886': eotf_BT1886,
      'BT.2020': eotf_BT2020,
      'BT.709': eotf_BT709,
      'DCI-P3': eotf_DCIP3,
@@ -440,8 +447,8 @@ EOTFS = CaseInsensitiveMapping(
 Supported electro-optical transfer functions (EOTF / EOCF).
 
 EOTFS : CaseInsensitiveMapping
-    **{'sRGB', 'BT.1886', 'BT.2020', 'BT.709', 'DCI-P3', 'ROMM RGB',
-    'ProPhoto RGB', 'RIMM RGB', 'ST 2084'}**
+    **{'ARIB STD-B67', 'sRGB', 'BT.1886', 'BT.2020', 'BT.709', 'DCI-P3',
+    'ROMM RGB', 'ProPhoto RGB', 'RIMM RGB', 'ST 2084'}**
 """
 
 
@@ -455,12 +462,15 @@ def eotf(value, function='sRGB', **kwargs):
     value : numeric or array_like
         Value.
     function : unicode, optional
-        **{'sRGB', 'BT.1886', 'BT.2020', 'BT.709', 'DCI-P3', 'ROMM RGB',
-        'ProPhoto RGB', 'RIMM RGB', 'ST 2084'}**,
+        **{'ARIB STD-B67', 'sRGB', 'BT.1886', 'BT.2020', 'BT.709', 'DCI-P3',
+        'ROMM RGB', 'ProPhoto RGB', 'RIMM RGB', 'ST 2084'}**,
         Computation function.
 
     Other Parameters
     ----------------
+    r : numeric, optional
+        {:func:`eotf_ARIBSTDB67`},
+        Video level corresponding to reference white level.
     L_B : numeric, optional
         {:func:`eotf_BT1886`},
         Screen luminance for black.
