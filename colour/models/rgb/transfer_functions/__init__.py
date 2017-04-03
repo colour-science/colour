@@ -28,6 +28,7 @@ from .canon_log import (
     log_decoding_CanonLog3)
 from .cineon import log_encoding_Cineon, log_decoding_Cineon
 from .dci_p3 import oetf_DCIP3, eotf_DCIP3
+from .dicom_gsdf import oetf_DICOMGSDF, eotf_DICOMGSDF
 from .gamma import gamma_function
 from .linear import linear_function
 from .panalog import log_encoding_Panalog, log_decoding_Panalog
@@ -81,6 +82,7 @@ __all__ += ['log_encoding_CanonLog',
             'log_decoding_CanonLog3']
 __all__ += ['log_encoding_Cineon', 'log_decoding_Cineon']
 __all__ += ['oetf_DCIP3', 'eotf_DCIP3']
+__all__ += ['oetf_DICOMGSDF', 'eotf_DICOMGSDF']
 __all__ += ['gamma_function']
 __all__ += ['linear_function']
 __all__ += ['log_encoding_Panalog', 'log_decoding_Panalog']
@@ -355,6 +357,7 @@ OETFS = CaseInsensitiveMapping(
      'BT.2020': oetf_BT2020,
      'BT.709': oetf_BT709,
      'DCI-P3': oetf_DCIP3,
+     'DICOM GSDF': oetf_DICOMGSDF,
      'ROMM RGB': oetf_ROMMRGB,
      'ProPhoto RGB': oetf_ProPhotoRGB,
      'RIMM RGB': oetf_RIMMRGB,
@@ -365,7 +368,7 @@ Supported opto-electrical transfer functions (OETF / OECF).
 
 OETFS : CaseInsensitiveMapping
     **{'ARIB STD-B67', 'sRGB', 'BT.1886', 'BT.2020', 'BT.709', 'DCI-P3',
-    'ROMM RGB', 'ProPhoto RGB', 'RIMM RGB', 'ST 2084'}**
+    'DICOM GSDF', 'ROMM RGB', 'ProPhoto RGB', 'RIMM RGB', 'ST 2084'}**
 """
 
 
@@ -381,7 +384,7 @@ def oetf(value, function='sRGB', **kwargs):
         Value.
     function : unicode, optional
         **{'ARIB STD-B67', 'sRGB', 'BT.1886', 'BT.2020', 'BT.709', 'DCI-P3',
-        'ROMM RGB', 'ProPhoto RGB', 'RIMM RGB', 'ST 2084'}**,
+        'DICOM GSDF', 'ROMM RGB', 'ProPhoto RGB', 'RIMM RGB', 'ST 2084'}**,
         Computation function.
 
     Other Parameters
@@ -438,6 +441,7 @@ EOTFS = CaseInsensitiveMapping(
      'BT.2020': eotf_BT2020,
      'BT.709': eotf_BT709,
      'DCI-P3': eotf_DCIP3,
+     'DICOM GSDF': eotf_DICOMGSDF,
      'ROMM RGB': eotf_ROMMRGB,
      'ProPhoto RGB': eotf_ProPhotoRGB,
      'RIMM RGB': eotf_RIMMRGB,
@@ -448,7 +452,7 @@ Supported electro-optical transfer functions (EOTF / EOCF).
 
 EOTFS : CaseInsensitiveMapping
     **{'ARIB STD-B67', 'sRGB', 'BT.1886', 'BT.2020', 'BT.709', 'DCI-P3',
-    'ROMM RGB', 'ProPhoto RGB', 'RIMM RGB', 'ST 2084'}**
+    'DICOM GSDF', 'ROMM RGB', 'ProPhoto RGB', 'RIMM RGB', 'ST 2084'}**
 """
 
 
@@ -463,7 +467,7 @@ def eotf(value, function='sRGB', **kwargs):
         Value.
     function : unicode, optional
         **{'ARIB STD-B67', 'sRGB', 'BT.1886', 'BT.2020', 'BT.709', 'DCI-P3',
-        'ROMM RGB', 'ProPhoto RGB', 'RIMM RGB', 'ST 2084'}**,
+        'DICOM GSDF', 'ROMM RGB', 'ProPhoto RGB', 'RIMM RGB', 'ST 2084'}**,
         Computation function.
 
     Other Parameters
