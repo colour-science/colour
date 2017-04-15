@@ -149,7 +149,7 @@ DEFAULT_PARAMETERS = {
     'legend.fontsize': DEFAULT_FONT_SIZE * 0.9,
     'xtick.labelsize': DEFAULT_FONT_SIZE,
     'ytick.labelsize': DEFAULT_FONT_SIZE,
-    'axes.color_cycle': DEFAULT_COLOUR_CYCLE}
+    'axes.prop_cycle': matplotlib.cycler(color=DEFAULT_COLOUR_CYCLE)}
 """
 Default plotting parameters.
 
