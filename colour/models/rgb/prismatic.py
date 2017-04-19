@@ -71,10 +71,11 @@ def RGB_to_Prismatic(RGB):
     RGB = np.asarray(RGB)
 
     L = np.max(RGB, axis=-1)
-    s = 1 / np.sum(RGB, axis=-1)[..., np.newaxis]
-    # Handling *NaNs* and *infs*.
-    s = np.nan_to_num(s)
-    r, g, b = tsplit(s * RGB)
+    s = np.sum(RGB, axis=-1)[..., np.newaxis]
+    one_s = 1 / s
+    # Handling zero-division *NaNs*.
+    one_s[s == 0] = 0
+    r, g, b = tsplit(one_s * RGB)
 
     return tstack((L, r, g, b))
 
@@ -104,9 +105,10 @@ def Prismatic_to_RGB(Lrgb):
     Lrgb = np.asarray(Lrgb)
 
     rgb = Lrgb[..., 1:]
-    RGB = (Lrgb[..., 0][..., np.newaxis] /
-           np.max(rgb, axis=-1)[..., np.newaxis] * rgb)
-    # Handling *NaNs* and *infs*.
-    RGB = np.nan_to_num(RGB)
+    m = np.max(rgb, axis=-1)[..., np.newaxis]
+    RGB = Lrgb[..., 0][..., np.newaxis] / m
+    # Handling zero-division *NaNs*.
+    RGB[m == 0] = 0
+    RGB = RGB * rgb
 
     return RGB
