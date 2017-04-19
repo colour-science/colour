@@ -27,6 +27,7 @@ from .deprecated import (
     CMY_to_RGB,
     CMY_to_CMYK,
     CMYK_to_CMY)
+from .prismatic import RGB_to_Prismatic, Prismatic_to_RGB
 from .ycbcr import (
     YCBCR_WEIGHTS,
     RGB_to_YCbCr,
@@ -55,6 +56,7 @@ __all__ += ['RGB_to_HSV',
             'CMY_to_RGB',
             'CMY_to_CMYK',
             'CMYK_to_CMY']
+__all__ += ['RGB_to_Prismatic', 'Prismatic_to_RGB']
 __all__ += ['YCBCR_WEIGHTS',
             'RGB_to_YCbCr',
             'YCbCr_to_RGB',
