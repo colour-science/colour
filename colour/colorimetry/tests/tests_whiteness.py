@@ -15,7 +15,7 @@ from colour.colorimetry import (
     whiteness_Berger1959,
     whiteness_Taube1960,
     whiteness_Stensby1968,
-    whiteness_ASTM313,
+    whiteness_ASTME313,
     whiteness_Ganz1979,
     whiteness_CIE2004)
 from colour.utilities import ignore_numpy_errors
@@ -264,65 +264,65 @@ class TestWhitenessStensby1968(unittest.TestCase):
 
 class TestWhitenessASTM313(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.whiteness.whiteness_ASTM313`
+    Defines :func:`colour.colorimetry.whiteness.whiteness_ASTME313`
     definition unit tests methods.
     """
 
-    def test_whiteness_ASTM313(self):
+    def test_whiteness_ASTME313(self):
         """
-        Tests :func:`colour.colorimetry.whiteness.whiteness_ASTM313`
+        Tests :func:`colour.colorimetry.whiteness.whiteness_ASTME313`
         definition.
         """
 
         self.assertAlmostEqual(
-            whiteness_ASTM313(
+            whiteness_ASTME313(
                 np.array([95.00000000, 100.00000000, 105.00000000])),
             55.740000000000009,
             places=7)
 
         self.assertAlmostEqual(
-            whiteness_ASTM313(
+            whiteness_ASTME313(
                 np.array([105.00000000, 100.00000000, 95.00000000])),
             21.860000000000014,
             places=7)
 
         self.assertAlmostEqual(
-            whiteness_ASTM313(
+            whiteness_ASTME313(
                 np.array([100.00000000, 100.00000000, 100.00000000])),
             38.800000000000011,
             places=7)
 
-    def test_n_dimensional_whiteness_ASTM313(self):
+    def test_n_dimensional_whiteness_ASTME313(self):
         """
-        Tests :func:`colour.colorimetry.whiteness.whiteness_ASTM313`
+        Tests :func:`colour.colorimetry.whiteness.whiteness_ASTME313`
         definition n_dimensional arrays support.
         """
 
         XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
         WI = 55.740000000000009
         np.testing.assert_almost_equal(
-            whiteness_ASTM313(XYZ),
+            whiteness_ASTME313(XYZ),
             WI,
             decimal=7)
 
         XYZ = np.tile(XYZ, (6, 1))
         WI = np.tile(WI, 6)
         np.testing.assert_almost_equal(
-            whiteness_ASTM313(XYZ),
+            whiteness_ASTME313(XYZ),
             WI,
             decimal=7)
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         WI = np.reshape(WI, (2, 3))
         np.testing.assert_almost_equal(
-            whiteness_ASTM313(XYZ),
+            whiteness_ASTME313(XYZ),
             WI,
             decimal=7)
 
     @ignore_numpy_errors
-    def test_nan_whiteness_ASTM313(self):
+    def test_nan_whiteness_ASTME313(self):
         """
-        Tests :func:`colour.colorimetry.whiteness.whiteness_ASTM313`
+        Tests :func:`colour.colorimetry.whiteness.whiteness_ASTME313`
         definition nan support.
         """
 
@@ -330,7 +330,7 @@ class TestWhitenessASTM313(unittest.TestCase):
         cases = set(permutations(cases * 3, r=3))
         for case in cases:
             XYZ = np.array(case)
-            whiteness_ASTM313(XYZ)
+            whiteness_ASTME313(XYZ)
 
 
 class TestWhitenessGanz1979(unittest.TestCase):

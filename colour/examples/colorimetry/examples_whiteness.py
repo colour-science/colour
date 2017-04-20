@@ -39,11 +39,11 @@ print(colour.whiteness(Lab=Lab, method='Stensby 1968'))
 
 print('\n')
 
-message_box(('Computing "whiteness" using "ASTM 313" method for '
+message_box(('Computing "whiteness" using "ASTM E313" method for '
              'given sample "CIE XYZ" tristimulus values:\n'
              '\n\t{0}'.format(XYZ)))
-print(colour.whiteness_ASTM313(XYZ))
-print(colour.whiteness(XYZ=XYZ, method='ASTM 313'))
+print(colour.whiteness_ASTME313(XYZ))
+print(colour.whiteness(XYZ=XYZ, method='ASTM E313'))
 
 print('\n')
 

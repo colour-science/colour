@@ -75,7 +75,7 @@ from .whiteness import (
     whiteness_Berger1959,
     whiteness_Taube1960,
     whiteness_Stensby1968,
-    whiteness_ASTM313,
+    whiteness_ASTME313,
     whiteness_Ganz1979,
     whiteness_CIE2004)
 
@@ -139,6 +139,6 @@ __all__ += ['whiteness']
 __all__ += ['whiteness_Berger1959',
             'whiteness_Taube1960',
             'whiteness_Stensby1968',
-            'whiteness_ASTM313',
+            'whiteness_ASTME313',
             'whiteness_Ganz1979',
             'whiteness_CIE2004']
