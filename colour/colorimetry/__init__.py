@@ -78,6 +78,11 @@ from .whiteness import (
     whiteness_ASTME313,
     whiteness_Ganz1979,
     whiteness_CIE2004)
+from .yellowness import YELLOWNESS_METHODS
+from .yellowness import yellowness
+from .yellowness import (
+    yellowness_ASTMD1925,
+    yellowness_ASTME313)
 
 __all__ = ['DEFAULT_WAVELENGTH_DECIMALS',
            'SpectralMapping',
@@ -142,3 +147,7 @@ __all__ += ['whiteness_Berger1959',
             'whiteness_ASTME313',
             'whiteness_Ganz1979',
             'whiteness_CIE2004']
+__all__ += ['YELLOWNESS_METHODS']
+__all__ += ['yellowness']
+__all__ += ['yellowness_ASTMD1925',
+            'yellowness_ASTME313']
