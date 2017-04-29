@@ -30,7 +30,7 @@ import numpy as np
 from functools import partial
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import RGB_Colourspace, gamma_function
+from colour.models.rgb import RGB_Colourspace, function_gamma
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -101,8 +101,8 @@ CIE_RGB_COLOURSPACE = RGB_Colourspace(
     CIE_RGB_ILLUMINANT,
     CIE_RGB_TO_XYZ_MATRIX,
     XYZ_TO_CIE_RGB_MATRIX,
-    partial(gamma_function, exponent=1 / 2.2),
-    partial(gamma_function, exponent=2.2))
+    partial(function_gamma, exponent=1 / 2.2),
+    partial(function_gamma, exponent=2.2))
 """
 *CIE RGB* colourspace.
 

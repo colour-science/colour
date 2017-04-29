@@ -29,7 +29,7 @@ from functools import partial
 from colour.colorimetry import ILLUMINANTS
 from colour.models.rgb import (
     RGB_Colourspace,
-    gamma_function,
+    function_gamma,
     normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
@@ -93,8 +93,8 @@ XTREME_RGB_COLOURSPACE = RGB_Colourspace(
     XTREME_RGB_ILLUMINANT,
     XTREME_RGB_TO_XYZ_MATRIX,
     XYZ_TO_XTREME_RGB_MATRIX,
-    partial(gamma_function, exponent=1 / 2.2),
-    partial(gamma_function, exponent=2.2))
+    partial(function_gamma, exponent=1 / 2.2),
+    partial(function_gamma, exponent=2.2))
 """
 *Xtreme RGB* colourspace.
 

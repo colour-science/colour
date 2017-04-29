@@ -29,7 +29,7 @@ from .canon_log import (
 from .cineon import log_encoding_Cineon, log_decoding_Cineon
 from .dci_p3 import oetf_DCIP3, eotf_DCIP3
 from .dicom_gsdf import oetf_DICOMGSDF, eotf_DICOMGSDF
-from .gamma import gamma_function
+from .gamma import function_gamma
 from .gopro import log_encoding_Protune, log_decoding_Protune
 from .linear import linear_function
 from .panalog import log_encoding_Panalog, log_decoding_Panalog
@@ -84,7 +84,7 @@ __all__ += ['log_encoding_CanonLog',
 __all__ += ['log_encoding_Cineon', 'log_decoding_Cineon']
 __all__ += ['oetf_DCIP3', 'eotf_DCIP3']
 __all__ += ['oetf_DICOMGSDF', 'eotf_DICOMGSDF']
-__all__ += ['gamma_function']
+__all__ += ['function_gamma']
 __all__ += ['log_encoding_Protune', 'log_decoding_Protune']
 __all__ += ['linear_function']
 __all__ += ['log_encoding_Panalog', 'log_decoding_Panalog']

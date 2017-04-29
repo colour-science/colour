@@ -29,7 +29,7 @@ from functools import partial
 from colour.colorimetry import ILLUMINANTS
 from colour.models.rgb import (
     RGB_Colourspace,
-    gamma_function,
+    function_gamma,
     normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
@@ -95,8 +95,8 @@ ADOBE_WIDE_GAMUT_RGB_COLOURSPACE = RGB_Colourspace(
     ADOBE_WIDE_GAMUT_RGB_ILLUMINANT,
     ADOBE_WIDE_GAMUT_RGB_TO_XYZ_MATRIX,
     XYZ_TO_ADOBE_WIDE_GAMUT_RGB_MATRIX,
-    partial(gamma_function, exponent=1 / (563 / 256)),
-    partial(gamma_function, exponent=563 / 256))
+    partial(function_gamma, exponent=1 / (563 / 256)),
+    partial(function_gamma, exponent=563 / 256))
 """
 *Adobe Wide Gamut RGB* colourspace.
 
