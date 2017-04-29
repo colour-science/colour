@@ -29,8 +29,8 @@ import numpy as np
 from colour.colorimetry import ILLUMINANTS
 from colour.models.rgb import (
     RGB_Colourspace,
-    normalised_primary_matrix,
-    linear_function)
+    function_linear,
+    normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -94,8 +94,8 @@ CINEMA_GAMUT_COLOURSPACE = RGB_Colourspace(
     CINEMA_GAMUT_ILLUMINANT,
     CINEMA_GAMUT_TO_XYZ_MATRIX,
     XYZ_TO_CINEMA_GAMUT_MATRIX,
-    linear_function,
-    linear_function)
+    function_linear,
+    function_linear)
 """
 *Cinema Gamut* colourspace.
 
