@@ -2,20 +2,22 @@
 # -*- coding: utf-8 -*-
 
 """
-Lightness :math:`L^*`
-=====================
+Lightness :math:`L`
+===================
 
-Defines *Lightness* :math:`L^*` computation objects.
+Defines *Lightness* :math:`L` computation objects.
 
 The following methods are available:
 
--   :func:`lightness_Glasser1958`: *Lightness* :math:`L^*` computation of given
-    *luminance* :math:`Y` using *Glasser, Mckinney, Reilly and Schnelle (1958)
-    method*.
+-   :func:`lightness_Glasser1958`: *Lightness* :math:`L` computation of given
+    *luminance* :math:`Y` using *Glasser, Mckinney, Reilly and Schnelle (1958)*
+    method.
 -   :func:`lightness_Wyszecki1963`: *Lightness* :math:`W` computation of
     given *luminance* :math:`Y` using *Wyszecki (1963)⁠⁠⁠⁠* method.
 -   :func:`lightness_CIE1976`: *Lightness* :math:`L^*` computation of given
     *luminance* :math:`Y` as per *CIE 1976* recommendation.
+-   :func:`lightness_Fairchild2010`: *Lightness* :math:`L_{hdr}` computation
+    of given *luminance* :math:`Y` using *Fairchild and Wyble (2010)* method.
 
 See Also
 --------
@@ -33,6 +35,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.biochemistry import reaction_rate_MichealisMenten
 from colour.constants import CIE_E, CIE_K
 from colour.utilities import CaseInsensitiveMapping, filter_kwargs, warning
 
@@ -46,6 +49,7 @@ __status__ = 'Production'
 __all__ = ['lightness_Glasser1958',
            'lightness_Wyszecki1963',
            'lightness_CIE1976',
+           'lightness_Fairchild2010',
            'LIGHTNESS_METHODS',
            'lightness']
 
@@ -182,15 +186,63 @@ def lightness_CIE1976(Y, Y_n=100):
     return Lstar
 
 
+def lightness_Fairchild2010(Y, epsilon=2):
+    """
+    Computes *Lightness* :math:`L_{hdr}` of given *luminance* :math:`Y` using
+    *Fairchild and Wyble (2010)* method accordingly to *Michealis-Menten*
+    kinetics.
+
+    Parameters
+    ----------
+    Y : array_like
+        *luminance* :math:`Y`.
+    epsilon : numeric or array_like, optional
+        :math:`\epsilon` exponent.
+
+    Returns
+    -------
+    array_like
+        *Lightness* :math:`L_{hdr}`.
+
+    Warning
+    -------
+    The input domain of that definition is non standard!
+
+    Notes
+    -----
+    -   Input *luminance* :math:`Y` is in domain [0, :math:`\infty`].
+
+    References
+    ----------
+    .. [6]  Fairchild, M. D., & Wyble, D. R. (2010). hdr-CIELAB and hdr-IPT:
+            Simple Models for Describing the Color of High-Dynamic-Range and
+            Wide-Color-Gamut Images. In Proc. of Color and Imaging Conference
+            (pp. 322–326). ISBN:9781629932156
+
+    Examples
+    --------
+    >>> lightness_Fairchild2010(10.08 / 100, 1.836)  # doctest: +ELLIPSIS
+    24.9022902...
+    """
+
+    Y = np.asarray(Y)
+
+    L_hdr = reaction_rate_MichealisMenten(
+        Y ** epsilon, 100, 0.184 ** epsilon) + 0.02
+
+    return L_hdr
+
+
 LIGHTNESS_METHODS = CaseInsensitiveMapping(
     {'Glasser 1958': lightness_Glasser1958,
      'Wyszecki 1963': lightness_Wyszecki1963,
-     'CIE 1976': lightness_CIE1976})
+     'CIE 1976': lightness_CIE1976,
+     'Fairchild 2010': lightness_Fairchild2010})
 """
 Supported *Lightness* computations methods.
 
 LIGHTNESS_METHODS : CaseInsensitiveMapping
-    **{'Glasser 1958', 'Wyszecki 1963', 'CIE 1976'}**
+    **{'Glasser 1958', 'Wyszecki 1963', 'CIE 1976', 'Fairchild 2010'}**
 
 Aliases:
 
@@ -201,14 +253,14 @@ LIGHTNESS_METHODS['Lstar1976'] = LIGHTNESS_METHODS['CIE 1976']
 
 def lightness(Y, method='CIE 1976', **kwargs):
     """
-    Returns the *Lightness* :math:`L^*` using given method.
+    Returns the *Lightness* :math:`L` using given method.
 
     Parameters
     ----------
     Y : numeric or array_like
         *luminance* :math:`Y`.
     method : unicode, optional
-        **{'CIE 1976', 'Glasser 1958', 'Wyszecki 1963'}**,
+        **{'CIE 1976', 'Glasser 1958', 'Wyszecki 1963', 'Fairchild 2010'}**,
         Computation method.
 
     Other Parameters
@@ -216,17 +268,20 @@ def lightness(Y, method='CIE 1976', **kwargs):
     Y_n : numeric or array_like, optional
         {:func:`lightness_CIE1976`},
         White reference *luminance* :math:`Y_n`.
+    epsilon : numeric or array_like, optional
+        {:func:`lightness_Fairchild2010`},
+        :math:`\epsilon` exponent.
 
     Returns
     -------
     numeric or array_like
-        *Lightness* :math:`L^*`.
+        *Lightness* :math:`L`.
 
     Notes
     -----
     -   Input *luminance* :math:`Y` and optional :math:`Y_n` are in domain
-        [0, 100].
-    -   Output *Lightness* :math:`L^*` is in range [0, 100].
+        [0, 100] or [0, :math:`\infty`].
+    -   Output *Lightness* :math:`L` is in range [0, 100].
 
     Examples
     --------
@@ -240,6 +295,11 @@ def lightness(Y, method='CIE 1976', **kwargs):
     36.2505626...
     >>> lightness(10.08, method='Wyszecki 1963')  # doctest: +ELLIPSIS
     37.0041149...
+    >>> lightness(
+    ...     10.08 / 100,
+    ...     epsilon=1.836,
+    ...     method='Fairchild 2010')  # doctest: +ELLIPSIS
+    24.9022902...
     """
 
     function = LIGHTNESS_METHODS[method]
