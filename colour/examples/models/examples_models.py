@@ -253,3 +253,18 @@ message_box(('Converting to "CIE XYZ" tristimulus values from given '
              '"hdr-CIELab" colourspace values:\n'
              '\n\t{0}'.format(Lab_hdr)))
 print(colour.hdr_CIELab_to_XYZ(Lab_hdr))
+
+print('\n')
+
+message_box(('Converting to "hdr-IPT" colourspace from given "CIE XYZ" '
+             'tristimulus values:\n'
+             '\n\t{0}'.format(XYZ)))
+print(colour.XYZ_to_hdr_IPT(XYZ))
+
+print('\n')
+
+IPT_hdr = (92.21400245, 3.0073719, 14.7243821)
+message_box(('Converting to "CIE XYZ" tristimulus values from given "hdr-IPT" '
+             'colourspace values:\n'
+             '\n\t{0}'.format(IPT_hdr)))
+print(colour.hdr_IPT_to_XYZ(IPT_hdr))
