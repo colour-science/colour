@@ -30,6 +30,15 @@ print(colour.luminance(L))
 
 print('\n')
 
+L = 23.10363383
+message_box(('Computing "luminance" using "Fairchild and Wyble (2010)" method '
+             'for given "Lightness":\n'
+             '\n\t{0}'.format(L)))
+print(colour.luminance_Fairchild2010(L) * 100)
+print(colour.luminance(L, method='Fairchild 2010') * 100)
+
+print('\n')
+
 message_box(('Computing "luminance" using "ASTM D1535-08e1" method for given '
              '"Munsell" value:\n'
              '\n\t{0}'.format(V)))

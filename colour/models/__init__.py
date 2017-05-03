@@ -20,12 +20,14 @@ from .cie_luv import (
     LCHuv_to_Luv)
 from .cie_ucs import XYZ_to_UCS, UCS_to_XYZ, UCS_to_uv, UCS_uv_to_xy
 from .cie_uvw import XYZ_to_UVW
+from .hdr_cie_lab import XYZ_to_hdr_CIELab, hdr_CIELab_to_XYZ
 from .hunter_lab import (
     XYZ_to_K_ab_HunterLab1966,
     XYZ_to_Hunter_Lab,
     Hunter_Lab_to_XYZ)
 from .hunter_rdab import XYZ_to_Hunter_Rdab
 from .ipt import XYZ_to_IPT, IPT_to_XYZ, IPT_hue_angle
+from .hdr_ipt import XYZ_to_hdr_IPT, hdr_IPT_to_XYZ
 from .ucs_luo2006 import (
     JMh_CIECAM02_to_CAM02LCD,
     CAM02LCD_to_JMh_CIECAM02,
@@ -57,12 +59,14 @@ __all__ += ['XYZ_to_Luv',
             'LCHuv_to_Luv']
 __all__ += ['XYZ_to_UCS', 'UCS_to_XYZ', 'UCS_to_uv', 'UCS_uv_to_xy']
 __all__ += ['XYZ_to_UVW']
+__all__ += ['XYZ_to_hdr_CIELab', 'hdr_CIELab_to_XYZ']
 __all__ += ['XYZ_to_K_ab_HunterLab1966',
             'XYZ_to_Hunter_Lab',
             'Hunter_Lab_to_XYZ',
             'XYZ_to_Hunter_Rdab']
 __all__ += ['XYZ_to_Hunter_Rdab']
 __all__ += ['XYZ_to_IPT', 'IPT_to_XYZ', 'IPT_hue_angle']
+__all__ += ['XYZ_to_hdr_IPT', 'hdr_IPT_to_XYZ']
 __all__ += ['JMh_CIECAM02_to_CAM02LCD',
             'CAM02LCD_to_JMh_CIECAM02',
             'JMh_CIECAM02_to_CAM02SCD',

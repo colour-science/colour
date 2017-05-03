@@ -38,6 +38,14 @@ print(colour.lightness(Y, method='Wyszecki 1963'))
 
 print('\n')
 
+message_box(('Computing "Lightness" using "Fairchild and Wyble (2010)" method '
+             'for given "luminance" value:\n'
+             '\n\t{0}'.format(Y)))
+print(colour.lightness_Fairchild2010(Y / 100.0))
+print(colour.lightness(Y / 100.0, method='Fairchild 2010'))
+
+print('\n')
+
 message_box(('Computing "Lightness" using "CIE 1976" method for '
              'given "luminance" value:\n'
              '\n\t{0}'.format(Y)))
