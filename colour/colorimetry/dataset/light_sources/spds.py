@@ -773,7 +773,7 @@ light source names cannot be accurately verified.
 
 References
 ----------
-.. [1]  Pointer, M. R. (1980). Pointer’s Gamut Data. Retrieved from
+.. [1]  Pointer, M. R. (1980). Pointer's Gamut Data. Retrieved from
         http://www.cis.rit.edu/research/mcsl2/online/PointerData.xls
 
 LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA : CaseInsensitiveMapping
