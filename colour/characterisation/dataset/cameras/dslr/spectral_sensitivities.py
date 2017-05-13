@@ -46,10 +46,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['DSL_CAMERAS_RGB_SPECTRAL_SENSITIVITIES_DATA',
-           'DSL_CAMERAS_RGB_SPECTRAL_SENSITIVITIES']
+__all__ = ['DSLR_CAMERAS_RGB_SPECTRAL_SENSITIVITIES_DATA',
+           'DSLR_CAMERAS_RGB_SPECTRAL_SENSITIVITIES']
 
-DSL_CAMERAS_RGB_SPECTRAL_SENSITIVITIES_DATA = {
+DSLR_CAMERAS_RGB_SPECTRAL_SENSITIVITIES_DATA = {
     'Nikon 5100 (NPL)': {
         'red': {
             380.0: 0.00156384299336578000,
@@ -389,16 +389,16 @@ DSL_CAMERAS_RGB_SPECTRAL_SENSITIVITIES_DATA = {
             670.0: 0.00059244446107236802,
             680.0: 0.00468563680483140980}}}
 
-DSL_CAMERAS_RGB_SPECTRAL_SENSITIVITIES = CaseInsensitiveMapping({
+DSLR_CAMERAS_RGB_SPECTRAL_SENSITIVITIES = CaseInsensitiveMapping({
     'Nikon 5100 (NPL)': RGB_SpectralSensitivities(
         'Nikon 5100 (NPL)',
-        DSL_CAMERAS_RGB_SPECTRAL_SENSITIVITIES_DATA['Nikon 5100 (NPL)']),
+        DSLR_CAMERAS_RGB_SPECTRAL_SENSITIVITIES_DATA['Nikon 5100 (NPL)']),
     'Sigma SDMerill (NPL)': RGB_SpectralSensitivities(
         'Sigma SDMerill (NPL)',
-        DSL_CAMERAS_RGB_SPECTRAL_SENSITIVITIES_DATA['Sigma SDMerill (NPL)'])})
+        DSLR_CAMERAS_RGB_SPECTRAL_SENSITIVITIES_DATA['Sigma SDMerill (NPL)'])})
 """
 *DSLR* cameras *RGB* spectral sensitivities.
 
-DSL_CAMERAS_RGB_SPECTRAL_SENSITIVITIES : CaseInsensitiveMapping
+DSLR_CAMERAS_RGB_SPECTRAL_SENSITIVITIES : CaseInsensitiveMapping
     **{Nikon 5100 (NPL), Sigma SDMerill (NPL)}**
 """
