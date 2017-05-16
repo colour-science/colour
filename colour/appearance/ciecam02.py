@@ -285,13 +285,14 @@ s=2.3603053..., Q=195.3713259..., M=0.1088421..., H=278.0607358..., HC=None)
 
 
 def CIECAM02_to_XYZ(J,
-                    C,
+                    rho,
                     h,
                     XYZ_w,
                     L_A,
                     Y_b,
                     surround=CIECAM02_VIEWING_CONDITIONS['Average'],
-                    discount_illuminant=False):
+                    discount_illuminant=False,
+                    input_correlates='JCh'):
     """
     Converts *CIECAM02* specification to *CIE XYZ* tristimulus values.
 
@@ -301,8 +302,8 @@ def CIECAM02_to_XYZ(J,
     ----------
     J : numeric or array_like
         Correlate of *Lightness* :math:`J`.
-    C : numeric or array_like
-        Correlate of *chroma* :math:`C`.
+    rho : numeric or array_like
+        Correlate of *chroma* :math:`C` or *colourfulness* :math:`M`.
     h : numeric or array_like
         *Hue* angle :math:`h` in degrees.
     XYZ_w : array_like
@@ -316,6 +317,8 @@ def CIECAM02_to_XYZ(J,
         Surround viewing conditions.
     discount_illuminant : bool, optional
         Discount the illuminant.
+    input_correlates : str, optional
+        Specifies the triple of correlates to interpret the input as.
 
     Returns
     -------
@@ -347,6 +350,14 @@ def CIECAM02_to_XYZ(J,
 
     n, F_L, N_bb, N_cb, z = tsplit(viewing_condition_dependent_parameters(
         Y_b, Y_w, L_A))
+
+    # Converting M to C if starting from M.
+    if input_correlates[1] == 'C':
+        C = rho
+    elif input_correlates[1] == 'M':
+        C = rho / F_L ** 0.25
+    else:
+        raise ValueError('Second correlate (rho) must be either C or M.')
 
     # Converting *CIE XYZ* tristimulus values to *CMCCAT2000* transform
     # sharpened *RGB* values.
