@@ -699,9 +699,8 @@ def post_adaptation_non_linear_response_compression_forward(RGB, F_L):
     RGB = np.asarray(RGB)
     F_L = np.asarray(F_L)
 
-    # TODO: Check for negative values and their handling.
-    RGB_c = ((((400 * (F_L[..., np.newaxis] * RGB / 100) ** 0.42) /
-               (27.13 + (F_L[..., np.newaxis] * RGB / 100) ** 0.42))) + 0.1)
+    RGB_c = ((((np.sign(RGB) * 400 * (F_L[..., np.newaxis] * abs(RGB) / 100) ** 0.42) /
+               (27.13 + (F_L[..., np.newaxis] * abs(RGB) / 100) ** 0.42))) + 0.1)
 
     return RGB_c
 
