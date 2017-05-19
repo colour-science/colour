@@ -5,7 +5,7 @@
 Spectrum
 ========
 
-Defines the classes handling spectral data computation:
+Defines the classes handling spectral data computations:
 
 -   :class:`SpectralMapping`
 -   :class:`SpectralShape`

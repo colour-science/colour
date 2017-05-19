@@ -151,7 +151,7 @@ Bibliography
 -   Ohno, Y., & Davis, W. (2008). NIST CQS simulation 7.4. Retrieved from http://cie2.nist.gov/TC1-69/NIST CQS simulation 7.4.xls
 -   Ohta, N. (1997). The basis of color reproduction engineering.
 -   Panasonic. (2014). VARICAM V-Log/V-Gamut. Retrieved from http://pro-av.panasonic.net/en/varicam/common/pdf/VARICAM_V-Log_V-Gamut.pdf
--   Pointer, M. R. (1980). Pointer’s Gamut Data. Retrieved from http://www.cis.rit.edu/research/mcsl2/online/PointerData.xls
+-   Pointer, M. R. (1980). Pointer's Gamut Data. Retrieved from http://www.cis.rit.edu/research/mcsl2/online/PointerData.xls
 -   Reitz, K. (n.d.). CaseInsensitiveDict. Retrieved from https://github.com/kennethreitz/requests/blob/v1.2.3/requests/structures.py#L37
 -   Renewable Resource Data Center. (2003). Reference Solar Spectral Irradiance: ASTM G-173. Retrieved August 23, 2014, from http://rredc.nrel.gov/solar/spectra/am1.5/ASTMG173/ASTMG173.html
 -   Saeedn. (n.d.). Extend a line segment a specific distance. Retrieved January 16, 2016, from http://stackoverflow.com/questions/7740507/extend-a-line-segment-a-specific-distance

@@ -3,6 +3,6 @@
 
 from __future__ import absolute_import
 
-from .spectral_sensitivities import DSL_CAMERAS_RGB_SPECTRAL_SENSITIVITIES
+from .spectral_sensitivities import DSLR_CAMERAS_RGB_SPECTRAL_SENSITIVITIES
 
-__all__ = ['DSL_CAMERAS_RGB_SPECTRAL_SENSITIVITIES']
+__all__ = ['DSLR_CAMERAS_RGB_SPECTRAL_SENSITIVITIES']
