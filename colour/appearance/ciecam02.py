@@ -33,6 +33,9 @@ References
         Imaging Conference, 2002(1), 23–27. Retrieved from
         http://www.ingentaconnect.com/content/ist/cic\
 /2002/00002002/00000001/art00006
+.. [5]  Luo, M. R., & Li, C. (2013). CIECAM02 and Its Recent Developments.
+        In Advanced Color Image Processing and Analysis (pp. 19–58).
+        doi:10.1007/978-1-4419-6190-7
 """
 
 from __future__ import division, unicode_literals
@@ -657,6 +660,10 @@ def rgb_to_RGB(rgb):
     -------
     ndarray
         *RGB* array.
+
+    Notes
+    -----
+    -   This definition implements negative values handling as per [5]_.
 
     Examples
     --------
