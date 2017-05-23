@@ -33,6 +33,9 @@ References
         Imaging Conference, 2002(1), 23–27. Retrieved from
         http://www.ingentaconnect.com/content/ist/cic\
 /2002/00002002/00000001/art00006
+.. [5]  Luo, M. R., & Li, C. (2013). CIECAM02 and Its Recent Developments.
+        In Advanced Color Image Processing and Analysis (pp. 19–58).
+        doi:10.1007/978-1-4419-6190-7
 """
 
 from __future__ import division, unicode_literals
@@ -658,6 +661,10 @@ def rgb_to_RGB(rgb):
     ndarray
         *RGB* array.
 
+    Notes
+    -----
+    -   This definition implements negative values handling as per [5]_.
+
     Examples
     --------
     >>> rgb = np.array([19.99693975, 20.00186123, 20.01350530])
@@ -699,9 +706,8 @@ def post_adaptation_non_linear_response_compression_forward(RGB, F_L):
     RGB = np.asarray(RGB)
     F_L = np.asarray(F_L)
 
-    # TODO: Check for negative values and their handling.
-    RGB_c = ((((400 * (F_L[..., np.newaxis] * RGB / 100) ** 0.42) /
-               (27.13 + (F_L[..., np.newaxis] * RGB / 100) ** 0.42))) + 0.1)
+    F_L_RGB = (F_L[..., np.newaxis] * abs(RGB) / 100) ** 0.42
+    RGB_c = ((400 * np.sign(RGB) * F_L_RGB) / (27.13 + F_L_RGB)) + 0.1
 
     return RGB_c
 
