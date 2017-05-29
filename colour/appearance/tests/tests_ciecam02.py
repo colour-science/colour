@@ -12,6 +12,7 @@ from itertools import permutations
 
 from colour.appearance import (
     CIECAM02_InductionFactors,
+    CIECAM02_Specification,
     XYZ_to_CIECAM02,
     CIECAM02_to_XYZ)
 from colour.appearance.tests.common import ColourAppearanceModelTest
@@ -105,18 +106,18 @@ class TestCIECAM02ColourAppearanceModelReverse(ColourAppearanceModelTest):
 
         XYZ_w = tstack((data['X_w'], data['Y_w'], data['Z_w']))
 
-        specification = CIECAM02_to_XYZ(data['J'],
-                                        data['C'],
-                                        data['h'],
-                                        XYZ_w,
-                                        data['L_A'],
-                                        data['Y_b'],
-                                        CIECAM02_InductionFactors(
-                                            data['F'],
-                                            data['c'],
-                                            data['N_c']))
+        XYZ = CIECAM02_to_XYZ(CIECAM02_Specification(data['J'],
+                                                     data['C'],
+                                                     data['h']),
+                              XYZ_w,
+                              data['L_A'],
+                              data['Y_b'],
+                              CIECAM02_InductionFactors(
+                                  data['F'],
+                                  data['c'],
+                                  data['N_c']))
 
-        return specification
+        return XYZ
 
     def check_specification_attribute(self, case, data, attribute, expected):
         """
@@ -134,8 +135,8 @@ class TestCIECAM02ColourAppearanceModelReverse(ColourAppearanceModelTest):
             Expected attribute value.
         """
 
-        specification = self.output_specification_from_data(data)
-        value = tsplit(specification)[attribute]
+        XYZ = self.output_specification_from_data(data)
+        value = tsplit(XYZ)[attribute]
 
         error_message = (
             'Parameter "{0}" in test case "{1}" does not match target value.\n'
@@ -188,4 +189,5 @@ class TestCIECAM02ColourAppearanceModelReverse(ColourAppearanceModelTest):
             L_A = case[0]
             Y_b = case[0]
             surround = CIECAM02_InductionFactors(case[0], case[0], case[0])
-            CIECAM02_to_XYZ(J, C, h, XYZ_w, L_A, Y_b, surround)
+            CIECAM02_to_XYZ(
+                CIECAM02_Specification(J, C, h), XYZ_w, L_A, Y_b, surround)
