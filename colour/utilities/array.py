@@ -11,6 +11,7 @@ Defines array utilities objects.
 from __future__ import division, unicode_literals
 
 import numpy as np
+from collections import Mapping
 
 from colour.constants import EPSILON
 
@@ -22,6 +23,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['as_numeric',
+           'as_namedtuple',
            'closest',
            'normalise_maximum',
            'interval',
@@ -70,6 +72,53 @@ def as_numeric(a, type_=np.float_):
         return type_(a)
     except TypeError:
         return a
+
+
+def as_namedtuple(a, named_tuple):
+    """
+    Converts given :math:`a` variable to given *namedtuple* class instance.
+
+    :math:`a` can be either a *Numpy* structured array, a *namedtuple*,
+    a *mapping*, or an *array_like* object. The definition will attempt to
+    convert it to given *namedtuple*.
+
+    Parameters
+    ----------
+    a : object
+        Variable to convert.
+    named_tuple : namedtuple
+        *namedtuple* class.
+
+    Returns
+    -------
+    namedtuple
+        math:`a` variable converted to *namedtuple*.
+
+    Examples
+    --------
+    >>> from collections import namedtuple
+    >>> a_a = 1
+    >>> a_b = 2
+    >>> a_c = 3
+    >>> NamedTuple = namedtuple('NamedTuple', 'a b c')
+    >>> as_namedtuple(NamedTuple(a=1, b=2, c=3), NamedTuple)
+    NamedTuple(a=1, b=2, c=3)
+    >>> as_namedtuple({'a': a_a, 'b': a_b, 'c': a_c}, NamedTuple)
+    NamedTuple(a=1, b=2, c=3)
+    >>> as_namedtuple([a_a, a_b, a_c], NamedTuple)
+    NamedTuple(a=1, b=2, c=3)
+    """
+
+    if isinstance(a, np.ndarray):
+        if a.dtype.fields is not None:
+            a = {field: a[field] for field in a.dtype.fields}
+
+    if isinstance(a, named_tuple):
+        return a
+    elif isinstance(a, Mapping):
+        return named_tuple(**a)
+    else:
+        return named_tuple(*a)
 
 
 def closest(a, b):

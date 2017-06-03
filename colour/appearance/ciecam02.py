@@ -50,6 +50,7 @@ from colour.appearance.hunt import (
     luminance_level_adaptation_factor)
 from colour.utilities import (
     CaseInsensitiveMapping,
+    as_namedtuple,
     as_numeric,
     dot_matrix,
     dot_vector,
@@ -344,6 +345,8 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
 
     Notes
     -----
+    -   `CIECAM02_specification` can also be passed as a compatible argument
+        :func:`colour.as_namedtuple` definition.
     -   Input *CIE XYZ_w* tristimulus values are in domain [0, 100].
     -   Output *CIE XYZ* tristimulus values are in range [0, 100].
 
@@ -360,7 +363,8 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
     array([ 19.01...,  20...  ,  21.78...])
     """
 
-    J, C, h, s, Q, M, H, HC = CIECAM02_specification
+    J, C, h, s, Q, M, H, HC = as_namedtuple(
+        CIECAM02_specification, CIECAM02_Specification)
 
     _X_w, Y_w, _Zw = tsplit(XYZ_w)
 

@@ -19,6 +19,7 @@ from .common import (
     filter_kwargs)
 from .array import (
     as_numeric,
+    as_namedtuple,
     closest,
     normalise_maximum,
     interval,
@@ -53,6 +54,7 @@ __all__ = ['handle_numpy_errors',
            'is_integer',
            'filter_kwargs']
 __all__ += ['as_numeric',
+            'as_namedtuple',
             'closest',
             'normalise_maximum',
             'interval',
