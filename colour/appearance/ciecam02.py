@@ -48,6 +48,7 @@ from colour.appearance.hunt import (
     HPE_TO_XYZ_MATRIX,
     XYZ_TO_HPE_MATRIX,
     luminance_level_adaptation_factor)
+from colour.constants import EPSILON
 from colour.utilities import (
     CaseInsensitiveMapping,
     as_numeric,
@@ -1183,7 +1184,7 @@ def temporary_magnitude_quantity_reverse(C, J, n):
    """
 
     C = np.asarray(C)
-    J = np.maximum(np.asarray(J), np.finfo(np.float_).eps)
+    J = np.maximum(J, EPSILON)
     n = np.asarray(n)
 
     t = (C / (np.sqrt(J / 100) * (1.64 - 0.29 ** n) ** 0.73)) ** (1 / 0.9)

@@ -10,6 +10,8 @@ Defines common constants objects that don't belong to any specific category.
 
 from __future__ import division, unicode_literals
 
+import numpy as np
+
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
@@ -35,7 +37,7 @@ Integer threshold value.
 INTEGER_THRESHOLD : numeric
 """
 
-EPSILON = 1e-15
+EPSILON = np.finfo(np.float_).eps
 """
 Default epsilon value for tolerance and singularities avoidance in various
 computations.
