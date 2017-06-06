@@ -662,10 +662,6 @@ def rgb_to_RGB(rgb):
     ndarray
         *RGB* array.
 
-    Notes
-    -----
-    -   This definition implements negative values handling as per [5]_.
-
     Examples
     --------
     >>> rgb = np.array([19.99693975, 20.00186123, 20.01350530])
@@ -694,6 +690,10 @@ def post_adaptation_non_linear_response_compression_forward(RGB, F_L):
     -------
     ndarray
         Compressed *CMCCAT2000* transform sharpened *RGB* array.
+
+    Notes
+    -----
+    -   This definition implements negative values handling as per [5]_.
 
     Examples
     --------
@@ -1173,6 +1173,10 @@ def temporary_magnitude_quantity_reverse(C, J, n):
     -------
     numeric or ndarray
          Temporary magnitude quantity :math:`t`.
+
+    Notes
+    -----
+    -   This definition implements negative values handling as per [5]_.
 
     Examples
     --------
