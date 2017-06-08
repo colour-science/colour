@@ -1357,8 +1357,7 @@ def P(N_c, N_cb, e_t, t, A, N_bb):
     A = np.asarray(A)
     N_bb = np.asarray(N_bb)
 
-    with np.errstate(divide='ignore'):
-        P_1 = ((50000 / 13) * N_c * N_cb * e_t) / t
+    P_1 = ((50000 / 13) * N_c * N_cb * e_t) / t
     P_2 = A / N_bb + 0.305
     P_3 = np.ones(P_1.shape) * (21 / 20)
 
