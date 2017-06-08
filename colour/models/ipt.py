@@ -14,6 +14,12 @@ And computation of correlates:
 
 -   :func:`IPT_hue_angle`
 
+See Also
+--------
+`IPT Colourspace Jupyter Notebook
+<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
+blob/master/notebooks/models/ipt.ipynb>`_
+
 References
 ----------
 .. [1]  Fairchild, M. D. (2013). IPT Colourspace. In Color Appearance Models

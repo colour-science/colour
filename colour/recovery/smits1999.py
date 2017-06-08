@@ -128,7 +128,8 @@ def RGB_to_spectral_Smits1999(RGB):
     --------
     >>> RGB = np.array([0.02144962, 0.13154603, 0.09287601])
     >>> print(RGB_to_spectral_Smits1999(RGB))  # doctest: +ELLIPSIS
-    SpectralPowerDistribution('0 Constant', (380.0, 720.0, 37.7777777...))
+    SpectralPowerDistribution('Smits (1999) - \
+[ 0.02144962  0.13154603  0.09287601]', (380.0, 720.0, 37.7777777...))
     """
 
     white_spd = SMITS_1999_SPDS['white'].clone()
@@ -141,6 +142,7 @@ def RGB_to_spectral_Smits1999(RGB):
 
     R, G, B = np.ravel(RGB)
     spd = zeros_spd(SMITS_1999_SPDS['white'].shape)
+    spd.name = 'Smits (1999) - {0}'.format(RGB)
 
     if R <= G and R <= B:
         spd += white_spd * R

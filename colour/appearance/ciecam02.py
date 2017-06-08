@@ -48,6 +48,7 @@ from colour.appearance.hunt import (
     HPE_TO_XYZ_MATRIX,
     XYZ_TO_HPE_MATRIX,
     luminance_level_adaptation_factor)
+from colour.constants import EPSILON
 from colour.utilities import (
     CaseInsensitiveMapping,
     as_numeric,
@@ -661,10 +662,6 @@ def rgb_to_RGB(rgb):
     ndarray
         *RGB* array.
 
-    Notes
-    -----
-    -   This definition implements negative values handling as per [5]_.
-
     Examples
     --------
     >>> rgb = np.array([19.99693975, 20.00186123, 20.01350530])
@@ -694,6 +691,10 @@ def post_adaptation_non_linear_response_compression_forward(RGB, F_L):
     ndarray
         Compressed *CMCCAT2000* transform sharpened *RGB* array.
 
+    Notes
+    -----
+    -   This definition implements negative values handling as per [5]_.
+
     Examples
     --------
     >>> RGB = np.array([19.99693975, 20.00186123, 20.01350530])
@@ -706,7 +707,7 @@ def post_adaptation_non_linear_response_compression_forward(RGB, F_L):
     RGB = np.asarray(RGB)
     F_L = np.asarray(F_L)
 
-    F_L_RGB = (F_L[..., np.newaxis] * abs(RGB) / 100) ** 0.42
+    F_L_RGB = (F_L[..., np.newaxis] * np.absolute(RGB) / 100) ** 0.42
     RGB_c = ((400 * np.sign(RGB) * F_L_RGB) / (27.13 + F_L_RGB)) + 0.1
 
     return RGB_c
@@ -1175,6 +1176,10 @@ def temporary_magnitude_quantity_reverse(C, J, n):
     numeric or ndarray
          Temporary magnitude quantity :math:`t`.
 
+    Notes
+    -----
+    -   This definition implements negative values handling as per [5]_.
+
     Examples
     --------
     >>> C = 68.8364136888275
@@ -1185,7 +1190,7 @@ def temporary_magnitude_quantity_reverse(C, J, n):
    """
 
     C = np.asarray(C)
-    J = np.maximum(np.asarray(J), np.finfo(np.float_).eps)
+    J = np.maximum(J, EPSILON)
     n = np.asarray(n)
 
     t = (C / (np.sqrt(J / 100) * (1.64 - 0.29 ** n) ** 0.73)) ** (1 / 0.9)
