@@ -819,20 +819,22 @@ def opponent_colour_dimensions_reverse(P_n, h):
     a = np.zeros(hr.shape)
     b = np.zeros(hr.shape)
 
-    b = np.where(np.abs(sin_hr) >= np.abs(cos_hr),
+    b = np.where(np.isfinite(P_1) * np.abs(sin_hr) >= np.abs(cos_hr),
                  (n / (P_4 + (2 + P_3) * (220 / 1403) * (cos_hr / sin_hr) -
                        (27 / 1403) + P_3 * (6300 / 1403))),
                  b)
 
-    a = np.where(np.abs(sin_hr) >= np.abs(cos_hr), b * (cos_hr / sin_hr), a)
+    a = np.where(np.isfinite(P_1) * np.abs(sin_hr) >= np.abs(cos_hr),
+                 b * (cos_hr / sin_hr), a)
 
-    a = np.where(np.abs(sin_hr) < np.abs(cos_hr),
+    a = np.where(np.isfinite(P_1) * np.abs(sin_hr) < np.abs(cos_hr),
                  (n / (P_5 + (2 + P_3) * (220 / 1403) -
                        ((27 / 1403) - P_3 * (6300 / 1403)) *
                        (sin_hr / cos_hr))),
                  a)
 
-    b = np.where(np.abs(sin_hr) < np.abs(cos_hr), a * (sin_hr / cos_hr), b)
+    b = np.where(np.isfinite(P_1) * np.abs(sin_hr) < np.abs(cos_hr),
+                 a * (sin_hr / cos_hr), b)
 
     ab = tstack((a, b))
 
@@ -1350,7 +1352,8 @@ def P(N_c, N_cb, e_t, t, A, N_bb):
     A = np.asarray(A)
     N_bb = np.asarray(N_bb)
 
-    P_1 = ((50000 / 13) * N_c * N_cb * e_t) / t
+    with np.errstate(divide='ignore'):
+        P_1 = ((50000 / 13) * N_c * N_cb * e_t) / t
     P_2 = A / N_bb + 0.305
     P_3 = np.ones(P_1.shape) * (21 / 20)
 
