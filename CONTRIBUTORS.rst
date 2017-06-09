@@ -32,6 +32,10 @@ Development & Technical Support
 
     Technical support.
 
+-   **Katherine Crowson**
+
+    CIECAM02 improvements, technical support.
+
 Acknowledgements
 ----------------
 -   **Steve Agland**, *Supervising Lighting Technical Director @ Animal Logic*
