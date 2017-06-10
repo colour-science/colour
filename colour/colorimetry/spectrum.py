@@ -2682,13 +2682,21 @@ class TriSpectralPowerDistribution(object):
         Property for **self.items** attribute. This is a convenient attribute
         used to iterate over the tri-spectral power distribution.
 
+        Notes
+        -----
+        -   In contrast to :func:`SpectralPowerDistribution.items` method,
+            :func:`TriSpectralPowerDistribution.items` returns a `list` as it
+            is not possible to convert its output to a `ndarray`. It is
+            possible to separate wavelengths from data by unpacking the return
+            value into the `zip` definition as follows: `zip(*tri_spd.items)`.
+
         Returns
         -------
-        ndarray
+        list
             Tri-spectral power distribution data.
         """
 
-        return np.array(list(self.__iter__()))
+        return list(self.__iter__())
 
     @items.setter
     def items(self, value):
