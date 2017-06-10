@@ -799,6 +799,10 @@ def opponent_colour_dimensions_reverse(P_n, h):
     ndarray
         Opponent colour dimensions.
 
+    Notes
+    -----
+    -   This definition implements negative values handling as per [5]_.
+
     Examples
     --------
     >>> P_n = np.array([30162.89081534, 24.23720547, 1.05000000])
@@ -1357,8 +1361,7 @@ def P(N_c, N_cb, e_t, t, A, N_bb):
     A = np.asarray(A)
     N_bb = np.asarray(N_bb)
 
-    with np.errstate(divide='ignore'):
-        P_1 = ((50000 / 13) * N_c * N_cb * e_t) / t
+    P_1 = ((50000 / 13) * N_c * N_cb * e_t) / t
     P_2 = A / N_bb + 0.305
     P_3 = np.ones(P_1.shape) * (21 / 20)
 

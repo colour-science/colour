@@ -2143,6 +2143,16 @@ SpectralPowerDistribution.values` attribute.
             self._spd.values,
             [v for k, v in sorted(SAMPLE_SPD_DATA.items())])
 
+    def test_items(self):
+        """
+        Tests :attr:`colour.colorimetry.spectrum.\
+SpectralPowerDistribution.items` attribute.
+        """
+
+        np.testing.assert_array_equal(
+            self._spd.items,
+            tstack((self._spd.wavelengths, self._spd.values)))
+
     def test_shape(self):
         """
         Tests :attr:`colour.colorimetry.spectrum.\
@@ -2597,6 +2607,20 @@ TriSpectralPowerDistribution.values` attribute.
                     CIE_1931_2_DEGREE_STANDARD_OBSERVER['y_bar'].items())],
                 [v for k, v in sorted(
                     CIE_1931_2_DEGREE_STANDARD_OBSERVER['z_bar'].items())])))
+
+    def test_items(self):
+        """
+        Tests :attr:`colour.colorimetry.spectrum.\
+TriSpectralPowerDistribution.items` attribute.
+        """
+
+        np.testing.assert_array_equal(
+            list(zip(*self._tri_spd.items))[0],
+            self._tri_spd.wavelengths)
+
+        np.testing.assert_array_equal(
+            list(zip(*self._tri_spd.items))[1],
+            self._tri_spd.values)
 
     def test_shape(self):
         """
