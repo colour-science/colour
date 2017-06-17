@@ -16,7 +16,7 @@ from colour.appearance import (
     XYZ_to_CIECAM02,
     CIECAM02_to_XYZ)
 from colour.appearance.tests.common import ColourAppearanceModelTest
-from colour.utilities import ignore_numpy_errors, tsplit, tstack
+from colour.utilities import as_namedtuple, ignore_numpy_errors, tsplit, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -88,27 +88,37 @@ class TestCIECAM02ColourAppearanceModelReverse(ColourAppearanceModelTest):
                          'Y': 1,
                          'Z': 2}
 
-    def output_specification_from_data(self, data):
+    def output_specification_from_data(self, data, correlates):
         """
-        Returns the *CIECAM02* colour appearance model output specification
-        from given data.
+        Returns the *CIE XYZ* tristimulus values from given *CIECAM02* colour
+        appearance model input data.
 
         Parameters
         ----------
         data : list
             Fixture data.
+        correlates : array_like
+            Correlates used to build the input *CIECAM02* colour appearance
+            model specification.
 
         Returns
         -------
-        CIECAM02_Specification
-            *CIECAM02* colour appearance model specification.
+        array_like
+            *CIE XYZ* tristimulus values
+
+        Warning
+        -------
+        The method name does not reflect the underlying implementation.
         """
 
         XYZ_w = tstack((data['X_w'], data['Y_w'], data['Z_w']))
 
-        XYZ = CIECAM02_to_XYZ(CIECAM02_Specification(data['J'],
-                                                     data['C'],
-                                                     data['h']),
+        i, j, k = correlates
+        CIECAM02_specification = as_namedtuple(
+            {i: data[i], j: data[j], k: data[k]},
+            CIECAM02_Specification)
+
+        XYZ = CIECAM02_to_XYZ(CIECAM02_specification,
                               XYZ_w,
                               data['L_A'],
                               data['Y_b'],
@@ -121,7 +131,8 @@ class TestCIECAM02ColourAppearanceModelReverse(ColourAppearanceModelTest):
 
     def check_specification_attribute(self, case, data, attribute, expected):
         """
-        Tests given colour appearance model specification attribute value.
+        Tests *CIE XYZ* tristimulus values output from *CIECAM02* colour
+        appearance model input data.
 
         Parameters
         ----------
@@ -133,27 +144,35 @@ class TestCIECAM02ColourAppearanceModelReverse(ColourAppearanceModelTest):
             Tested attribute name.
         expected : float.
             Expected attribute value.
+
+        Warning
+        -------
+        The method name does not reflect the underlying implementation.
         """
 
-        XYZ = self.output_specification_from_data(data)
-        value = tsplit(XYZ)[attribute]
+        for correlates in (('J', 'C', 'h'), ('J', 'M', 'h')):
+            XYZ = self.output_specification_from_data(data, correlates)
+            value = tsplit(XYZ)[attribute]
 
-        error_message = (
-            'Parameter "{0}" in test case "{1}" does not match target value.\n'
-            'Expected: "{2}" \n'
-            'Received "{3}"').format(attribute, case, expected, value)
+            error_message = (
+                'Parameter "{0}" in test case "{1}" '
+                'does not match target value.\n'
+                'Expected: "{2}" \n'
+                'Received "{3}"').format(attribute, case, expected, value)
 
-        np.testing.assert_allclose(value,
-                                   expected,
-                                   err_msg=error_message,
-                                   rtol=0.01,
-                                   atol=0.01,
-                                   verbose=False)
+            np.testing.assert_allclose(
+                value,
+                expected,
+                err_msg=error_message,
+                rtol=0.01,
+                atol=0.01,
+                verbose=False)
 
-        np.testing.assert_almost_equal(value,
-                                       expected,
-                                       decimal=1,
-                                       err_msg=error_message)
+            np.testing.assert_almost_equal(
+                value,
+                expected,
+                decimal=1,
+                err_msg=error_message)
 
     @ignore_numpy_errors
     def test_nan_XYZ_to_CIECAM02(self):

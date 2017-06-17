@@ -339,6 +339,12 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
     XYZ : ndarray
         *CIE XYZ* tristimulus values.
 
+    Raises
+    ------
+    ValueError
+        If neither *C* or *M* correlates have been defined in the
+        `CIECAM02_specification` argument.
+
     Warning
     -------
     The output range of that definition is non standard!
@@ -374,7 +380,7 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
     if C is None and M is not None:
         C = M / F_L ** 0.25
     elif C is None:
-        raise ValueError('Either "C" or "M" correlate must be specified in '
+        raise ValueError('Either "C" or "M" correlate must be defined in '
                          'the "CIECAM02_specification" argument!')
 
     # Converting *CIE XYZ* tristimulus values to *CMCCAT2000* transform
