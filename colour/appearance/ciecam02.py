@@ -51,6 +51,7 @@ from colour.appearance.hunt import (
 from colour.constants import EPSILON
 from colour.utilities import (
     CaseInsensitiveMapping,
+    as_namedtuple,
     as_numeric,
     dot_matrix,
     dot_vector,
@@ -165,6 +166,22 @@ class CIECAM02_Specification(
     HC : numeric or array_like
         *Hue* :math:`h` composition :math:`H^C`.
     """
+
+    def __new__(cls,
+                J=None,
+                C=None,
+                h=None,
+                s=None,
+                Q=None,
+                M=None,
+                H=None,
+                HC=None):
+        """
+        Returns a new instance of the :class:`CIECAM02_Specification` class.
+        """
+
+        return super(CIECAM02_Specification, cls).__new__(
+            cls, J, C, h, s, Q, M, H, HC)
 
 
 def XYZ_to_CIECAM02(XYZ,
@@ -288,9 +305,7 @@ s=2.3603053..., Q=195.3713259..., M=0.1088421..., H=278.0607358..., HC=None)
     return CIECAM02_Specification(J, C, h, s, Q, M, H, None)
 
 
-def CIECAM02_to_XYZ(J,
-                    C,
-                    h,
+def CIECAM02_to_XYZ(CIECAM02_specification,
                     XYZ_w,
                     L_A,
                     Y_b,
@@ -303,12 +318,11 @@ def CIECAM02_to_XYZ(J,
 
     Parameters
     ----------
-    J : numeric or array_like
-        Correlate of *Lightness* :math:`J`.
-    C : numeric or array_like
-        Correlate of *chroma* :math:`C`.
-    h : numeric or array_like
-        *Hue* angle :math:`h` in degrees.
+    CIECAM02_specification : CIECAM02_Specification
+        *CIECAM02* colour appearance model specification. Correlate of
+        *Lightness* :math:`J`, correlate of *chroma* :math:`C` or correlate of
+        *colourfulness* :math:`M` and *hue* angle :math:`h` in degrees must be
+        specified, e.g. :math:`JCh` or :math:`JMh`.
     XYZ_w : array_like
         *CIE XYZ* tristimulus values of reference white.
     L_A : numeric or array_like
@@ -326,31 +340,49 @@ def CIECAM02_to_XYZ(J,
     XYZ : ndarray
         *CIE XYZ* tristimulus values.
 
+    Raises
+    ------
+    ValueError
+        If neither *C* or *M* correlates have been defined in the
+        `CIECAM02_specification` argument.
+
     Warning
     -------
     The output range of that definition is non standard!
 
     Notes
     -----
+    -   `CIECAM02_specification` can also be passed as a compatible argument
+        :func:`colour.as_namedtuple` definition.
     -   Input *CIE XYZ_w* tristimulus values are in domain [0, 100].
     -   Output *CIE XYZ* tristimulus values are in range [0, 100].
 
     Examples
     --------
-    >>> J = 41.731091132513917
-    >>> C = 0.104707757171105
-    >>> h = 219.04843265827190
+    >>> specification = CIECAM02_Specification(
+    ...     J=41.731091132513917,
+    ...     C=0.104707757171031,
+    ...     h=219.048432658311780)
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
     >>> Y_b = 20.0
-    >>> CIECAM02_to_XYZ(J, C, h, XYZ_w, L_A, Y_b)  # doctest: +ELLIPSIS
+    >>> CIECAM02_to_XYZ(specification, XYZ_w, L_A, Y_b)  # doctest: +ELLIPSIS
     array([ 19.01...,  20...  ,  21.78...])
     """
+
+    J, C, h, s, Q, M, H, HC = as_namedtuple(
+        CIECAM02_specification, CIECAM02_Specification)
 
     _X_w, Y_w, _Zw = tsplit(XYZ_w)
 
     n, F_L, N_bb, N_cb, z = tsplit(viewing_condition_dependent_parameters(
         Y_b, Y_w, L_A))
+
+    if C is None and M is not None:
+        C = M / F_L ** 0.25
+    elif C is None:
+        raise ValueError('Either "C" or "M" correlate must be defined in '
+                         'the "CIECAM02_specification" argument!')
 
     # Converting *CIE XYZ* tristimulus values to *CMCCAT2000* transform
     # sharpened *RGB* values.

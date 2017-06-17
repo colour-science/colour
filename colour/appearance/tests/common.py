@@ -10,7 +10,7 @@ from __future__ import division, unicode_literals
 import csv
 import numpy as np
 import os
-from abc import abstractmethod
+from abc import ABCMeta, abstractmethod
 from collections import defaultdict
 
 __author__ = 'Colour Developers'
@@ -28,7 +28,7 @@ class ColourAppearanceModelTest(object):
     Defines the base class for tests of: mod:`colour.appearance` package.
 
     Each colour appearance model is tested against a respective '.csv' file
-    from which content has been generated from data of the following file by
+    whose content has been generated from data of the following file by
     *Fairchild (2013)*: http://rit-mcsl.org/fairchild//files/AppModEx.xls
 
     Methods
@@ -39,6 +39,8 @@ class ColourAppearanceModelTest(object):
     check_model_consistency
     test_forward_examples
     """
+
+    __metaclass__ = ABCMeta
 
     FIXTURE_BASENAME = None
     """
@@ -138,17 +140,19 @@ class ColourAppearanceModelTest(object):
             'Expected: "{2}" \n'
             'Received "{3}"').format(attribute, case, expected, value)
 
-        np.testing.assert_allclose(value,
-                                   expected,
-                                   err_msg=error_message,
-                                   rtol=0.01,
-                                   atol=0.01,
-                                   verbose=False)
+        np.testing.assert_allclose(
+            value,
+            expected,
+            err_msg=error_message,
+            rtol=0.01,
+            atol=0.01,
+            verbose=False)
 
-        np.testing.assert_almost_equal(value,
-                                       expected,
-                                       decimal=1,
-                                       err_msg=error_message)
+        np.testing.assert_almost_equal(
+            value,
+            expected,
+            decimal=1,
+            err_msg=error_message)
 
     def check_model_consistency(self, data, output_attributes):
         """
@@ -202,8 +206,8 @@ class ColourAppearanceModelTest(object):
         """
 
         for data in self.fixtures():
-            for test in self.check_model_consistency(data,
-                                                     self.OUTPUT_ATTRIBUTES):
+            for test in self.check_model_consistency(
+                    data, self.OUTPUT_ATTRIBUTES):
                 yield test
 
     def test_n_dimensional_examples(self):

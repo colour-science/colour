@@ -12,10 +12,11 @@ from itertools import permutations
 
 from colour.appearance import (
     CIECAM02_InductionFactors,
+    CIECAM02_Specification,
     XYZ_to_CIECAM02,
     CIECAM02_to_XYZ)
 from colour.appearance.tests.common import ColourAppearanceModelTest
-from colour.utilities import ignore_numpy_errors, tsplit, tstack
+from colour.utilities import as_namedtuple, ignore_numpy_errors, tsplit, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -89,38 +90,62 @@ class TestCIECAM02ColourAppearanceModelReverse(ColourAppearanceModelTest):
 
     def output_specification_from_data(self, data):
         """
-        Returns the *CIECAM02* colour appearance model output specification
-        from given data.
+        Returns the colour appearance model output specification from given
+        fixture data.
+
+        Parameters
+        ----------
+        data : list
+            Tested colour appearance model fixture data.
+
+        Notes
+        -----
+        -   This method is a dummy object.
+        """
+
+        pass
+
+    def _XYZ_from_data(self, data, correlates):
+        """
+        Returns the *CIE XYZ* tristimulus values from given *CIECAM02* colour
+        appearance model input data.
 
         Parameters
         ----------
         data : list
             Fixture data.
+        correlates : array_like
+            Correlates used to build the input *CIECAM02* colour appearance
+            model specification.
 
         Returns
         -------
-        CIECAM02_Specification
-            *CIECAM02* colour appearance model specification.
+        array_like
+            *CIE XYZ* tristimulus values
         """
 
         XYZ_w = tstack((data['X_w'], data['Y_w'], data['Z_w']))
 
-        specification = CIECAM02_to_XYZ(data['J'],
-                                        data['C'],
-                                        data['h'],
-                                        XYZ_w,
-                                        data['L_A'],
-                                        data['Y_b'],
-                                        CIECAM02_InductionFactors(
-                                            data['F'],
-                                            data['c'],
-                                            data['N_c']))
+        i, j, k = correlates
+        CIECAM02_specification = as_namedtuple(
+            {i: data[i], j: data[j], k: data[k]},
+            CIECAM02_Specification)
 
-        return specification
+        XYZ = CIECAM02_to_XYZ(CIECAM02_specification,
+                              XYZ_w,
+                              data['L_A'],
+                              data['Y_b'],
+                              CIECAM02_InductionFactors(
+                                  data['F'],
+                                  data['c'],
+                                  data['N_c']))
+
+        return XYZ
 
     def check_specification_attribute(self, case, data, attribute, expected):
         """
-        Tests given colour appearance model specification attribute value.
+        Tests *CIE XYZ* tristimulus values output from *CIECAM02* colour
+        appearance model input data.
 
         Parameters
         ----------
@@ -132,27 +157,35 @@ class TestCIECAM02ColourAppearanceModelReverse(ColourAppearanceModelTest):
             Tested attribute name.
         expected : float.
             Expected attribute value.
+
+        Warning
+        -------
+        The method name does not reflect the underlying implementation.
         """
 
-        specification = self.output_specification_from_data(data)
-        value = tsplit(specification)[attribute]
+        for correlates in (('J', 'C', 'h'), ('J', 'M', 'h')):
+            XYZ = self._XYZ_from_data(data, correlates)
+            value = tsplit(XYZ)[attribute]
 
-        error_message = (
-            'Parameter "{0}" in test case "{1}" does not match target value.\n'
-            'Expected: "{2}" \n'
-            'Received "{3}"').format(attribute, case, expected, value)
+            error_message = (
+                'Parameter "{0}" in test case "{1}" '
+                'does not match target value.\n'
+                'Expected: "{2}" \n'
+                'Received "{3}"').format(attribute, case, expected, value)
 
-        np.testing.assert_allclose(value,
-                                   expected,
-                                   err_msg=error_message,
-                                   rtol=0.01,
-                                   atol=0.01,
-                                   verbose=False)
+            np.testing.assert_allclose(
+                value,
+                expected,
+                err_msg=error_message,
+                rtol=0.01,
+                atol=0.01,
+                verbose=False)
 
-        np.testing.assert_almost_equal(value,
-                                       expected,
-                                       decimal=1,
-                                       err_msg=error_message)
+            np.testing.assert_almost_equal(
+                value,
+                expected,
+                decimal=1,
+                err_msg=error_message)
 
     @ignore_numpy_errors
     def test_nan_XYZ_to_CIECAM02(self):
@@ -188,4 +221,5 @@ class TestCIECAM02ColourAppearanceModelReverse(ColourAppearanceModelTest):
             L_A = case[0]
             Y_b = case[0]
             surround = CIECAM02_InductionFactors(case[0], case[0], case[0])
-            CIECAM02_to_XYZ(J, C, h, XYZ_w, L_A, Y_b, surround)
+            CIECAM02_to_XYZ(
+                CIECAM02_Specification(J, C, h), XYZ_w, L_A, Y_b, surround)

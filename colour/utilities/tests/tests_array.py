@@ -9,9 +9,11 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 import unittest
+from collections import namedtuple
 
 from colour.utilities import (
     as_numeric,
+    as_namedtuple,
     closest,
     normalise_maximum,
     interval,
@@ -34,6 +36,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = ['TestAsNumeric',
+           'TestAsNametuple',
            'TestClosest',
            'TestNormaliseMaximum',
            'TestInterval',
@@ -70,6 +73,47 @@ class TestAsNumeric(unittest.TestCase):
         self.assertIsInstance(as_numeric(1), np.float_)
 
         self.assertIsInstance(as_numeric(1, int), int)
+
+
+class TestAsNametuple(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.array.as_namedtuple` definition unit tests
+    methods.
+    """
+
+    def test_as_namedtuple(self):
+        """
+        Tests :func:`colour.utilities.array.as_namedtuple` definition.
+        """
+
+        NamedTuple = namedtuple('NamedTuple', 'a b c')
+
+        a_a = np.ones(3)
+        a_b = np.ones(3) + 1
+        a_c = np.ones(3) + 2
+
+        named_tuple = NamedTuple(a_a, a_b, a_c)
+
+        self.assertEqual(
+            named_tuple,
+            as_namedtuple(named_tuple, NamedTuple))
+
+        self.assertEqual(
+            named_tuple,
+            as_namedtuple({'a': a_a, 'b': a_b, 'c': a_c}, NamedTuple))
+
+        self.assertEqual(
+            named_tuple,
+            as_namedtuple([a_a, a_b, a_c], NamedTuple))
+
+        a_r = np.array(
+            [tuple(a) for a in np.transpose((a_a, a_b, a_c)).tolist()],
+            dtype=[(str('a'), str('f8')),
+                   (str('b'), str('f8')),
+                   (str('c'), str('f8'))])
+        np.testing.assert_array_equal(
+            np.array(named_tuple),
+            np.array(as_namedtuple(a_r, NamedTuple)))
 
 
 class TestClosest(unittest.TestCase):
