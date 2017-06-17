@@ -88,7 +88,24 @@ class TestCIECAM02ColourAppearanceModelReverse(ColourAppearanceModelTest):
                          'Y': 1,
                          'Z': 2}
 
-    def output_specification_from_data(self, data, correlates):
+    def output_specification_from_data(self, data):
+        """
+        Returns the colour appearance model output specification from given
+        fixture data.
+
+        Parameters
+        ----------
+        data : list
+            Tested colour appearance model fixture data.
+
+        Notes
+        -----
+        -   This method is a dummy object.
+        """
+
+        pass
+
+    def _XYZ_from_data(self, data, correlates):
         """
         Returns the *CIE XYZ* tristimulus values from given *CIECAM02* colour
         appearance model input data.
@@ -105,10 +122,6 @@ class TestCIECAM02ColourAppearanceModelReverse(ColourAppearanceModelTest):
         -------
         array_like
             *CIE XYZ* tristimulus values
-
-        Warning
-        -------
-        The method name does not reflect the underlying implementation.
         """
 
         XYZ_w = tstack((data['X_w'], data['Y_w'], data['Z_w']))
@@ -151,7 +164,7 @@ class TestCIECAM02ColourAppearanceModelReverse(ColourAppearanceModelTest):
         """
 
         for correlates in (('J', 'C', 'h'), ('J', 'M', 'h')):
-            XYZ = self.output_specification_from_data(data, correlates)
+            XYZ = self._XYZ_from_data(data, correlates)
             value = tsplit(XYZ)[attribute]
 
             error_message = (
