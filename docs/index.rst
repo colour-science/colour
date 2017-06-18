@@ -20,11 +20,26 @@ and collection of objects, please see the
 Installation
 ------------
 
-The installation procedure is described in the
+The detailed installation procedure is described in the
 `Installation Guide <http://colour-science.org/installation-guide/>`_.
+
+`Anaconda <https://www.continuum.io/downloads>`_ from *Continuum Analytics*
+is the Python distribution we use to develop **Colour**:
+it ships all the scientific dependencies we require and is easily deployed
+cross-platform.
+
+This *asciicast* demonstrates how to generate a pristine Python *conda*
+environment for Colour:
+
+..  image:: https://raw.githubusercontent.com/colour-science/colour-branding/master/screencasts/Colour_Conda_Installation.gif
 
 Usage
 -----
+
+At its most basic, `Colour <https://github.com/colour-science/colour>`_ only requires
+to be imported:
+
+..  image:: https://raw.githubusercontent.com/colour-science/colour-branding/master/screencasts/Colour_Science_for_Python.gif
 
 The two main references for `Colour <https://github.com/colour-science/colour>`_
 usage are the complete Sphinx `API Reference <http://colour.readthedocs.io/en/latest/>`_
