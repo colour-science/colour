@@ -264,19 +264,20 @@ def tristimulus_weighting_factors_ASTME202211(cmfs, illuminant, shape):
     Y = cmfs.values
     S = illuminant.values
 
-    W = S[::shape.interval, np.newaxis] * Y[::shape.interval, :]
+    interval_i = np.int_(shape.interval)
+    W = S[::interval_i, np.newaxis] * Y[::interval_i, :]
 
     # First and last measurement intervals *Lagrange Coefficients*.
-    c_c = lagrange_coefficients_ASTME202211(shape.interval, 'boundary')
+    c_c = lagrange_coefficients_ASTME202211(interval_i, 'boundary')
     # Intermediate measurement intervals *Lagrange Coefficients*.
-    c_b = lagrange_coefficients_ASTME202211(shape.interval, 'inner')
+    c_b = lagrange_coefficients_ASTME202211(interval_i, 'inner')
 
     # Total wavelengths count.
     w_c = len(Y)
     # Measurement interval interpolated values count.
     r_c = c_b.shape[0]
     # Last interval first interpolated wavelength.
-    w_lif = w_c - (w_c - 1) % shape.interval - 1 - r_c
+    w_lif = w_c - (w_c - 1) % interval_i - 1 - r_c
 
     # Intervals count.
     i_c = W.shape[0]
@@ -304,7 +305,7 @@ def tristimulus_weighting_factors_ASTME202211(cmfs, illuminant, shape):
                 W[j + 3, i] = W[j + 3, i] + c_b[k, 3] * S[w_i] * Y[w_i, i]
 
         # Extrapolation of potential incomplete interval.
-        for j in range(int(w_c - ((w_c - 1) % shape.interval)), w_c, 1):
+        for j in range(int(w_c - ((w_c - 1) % interval_i)), w_c, 1):
             W[i_cm, i] = W[i_cm, i] + S[j] * Y[j, i]
 
     W *= 100 / np.sum(W, axis=0)[1]
