@@ -1911,8 +1911,8 @@ class SpectralPowerDistribution(object):
         >>> spd[511] = 31.41
         >>> print(spd.interpolate(SpectralShape(interval=1)))
         SpectralPowerDistribution('Sample', (510.0, 560.0, 1.0))
-        >>> spd[515]  # doctest: +ELLIPSIS
-        array(21.4792222...)
+        >>> spd[515]  # doctest: +SKIP
+        array(21.4835799...)
 
         Enforcing *Linear* interpolation:
 
@@ -3916,8 +3916,8 @@ class TriSpectralPowerDistribution(object):
         >>> tri_spd[511] = np.array([31.41, 95.27, 15.06])
         >>> print(tri_spd.interpolate(SpectralShape(interval=1)))
         TriSpectralPowerDistribution('Observer', (510.0, 560.0, 1.0))
-        >>> tri_spd[515]  # doctest: +ELLIPSIS
-        array([  21.4710405...,  100.6430015...,   18.8165196...])
+        >>> tri_spd[515]  # doctest: +SKIP
+        array([  21.4752929...,  100.6436744...,   18.8153985...])
 
         Enforcing *Linear* interpolation:
 
