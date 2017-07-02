@@ -641,13 +641,13 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
 
     *Transmission Geometry*
 
-    -	0:0: Normal / normal.
-    -	di:0: Diffuse / normal, regular component included.
-    -	de:0: Diffuse / normal, regular component excluded.
-    -	0:di: Normal / diffuse, regular component included.
-    -	0:de: Normal / diffuse, regular component excluded.
-    -	d:d: Diffuse / diffuse.
-    -	other: User-specified in comments.
+    -   0:0: Normal / normal.
+    -   di:0: Diffuse / normal, regular component included.
+    -   de:0: Diffuse / normal, regular component excluded.
+    -   0:di: Normal / diffuse, regular component included.
+    -   0:de: Normal / diffuse, regular component excluded.
+    -   d:d: Diffuse / diffuse.
+    -   other: User-specified in comments.
 
     Attributes
     ----------
