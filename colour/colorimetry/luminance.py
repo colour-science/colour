@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Luminance :math:`Y`
 ===================
@@ -41,12 +40,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['luminance_Newhall1943',
-           'luminance_ASTMD153508',
-           'luminance_CIE1976',
-           'luminance_Fairchild2010',
-           'LUMINANCE_METHODS',
-           'luminance']
+__all__ = [
+    'luminance_Newhall1943', 'luminance_ASTMD153508', 'luminance_CIE1976',
+    'luminance_Fairchild2010', 'LUMINANCE_METHODS', 'luminance'
+]
 
 
 def luminance_Newhall1943(V):
@@ -172,8 +169,7 @@ def luminance_CIE1976(Lstar, Y_n=100):
     Y_n = np.asarray(Y_n)
 
     Y = np.where(Lstar > CIE_K * CIE_E,
-                 Y_n * ((Lstar + 16) / 116) ** 3,
-                 Y_n * (Lstar / CIE_K))
+                 Y_n * ((Lstar + 16) / 116) ** 3, Y_n * (Lstar / CIE_K))
 
     return Y
 
@@ -220,17 +216,20 @@ def luminance_Fairchild2010(L_hdr, epsilon=2):
 
     L_hdr = np.asarray(L_hdr)
 
-    Y = np.exp(np.log(substrate_concentration_MichealisMenten(
-        L_hdr - 0.02, 100, 0.184 ** epsilon)) / epsilon)
+    Y = np.exp(
+        np.log(
+            substrate_concentration_MichealisMenten(L_hdr - 0.02, 100, 0.184 **
+                                                    epsilon)) / epsilon)
 
     return Y
 
 
-LUMINANCE_METHODS = CaseInsensitiveMapping(
-    {'Newhall 1943': luminance_Newhall1943,
-     'ASTM D1535-08': luminance_ASTMD153508,
-     'CIE 1976': luminance_CIE1976,
-     'Fairchild 2010': luminance_Fairchild2010})
+LUMINANCE_METHODS = CaseInsensitiveMapping({
+    'Newhall 1943': luminance_Newhall1943,
+    'ASTM D1535-08': luminance_ASTMD153508,
+    'CIE 1976': luminance_CIE1976,
+    'Fairchild 2010': luminance_Fairchild2010
+})
 """
 Supported *luminance* computations methods.
 
@@ -242,10 +241,8 @@ Aliases:
 -   'astm2008': 'ASTM D1535-08'
 -   'cie1976': 'CIE 1976'
 """
-LUMINANCE_METHODS['astm2008'] = (
-    LUMINANCE_METHODS['ASTM D1535-08'])
-LUMINANCE_METHODS['cie1976'] = (
-    LUMINANCE_METHODS['CIE 1976'])
+LUMINANCE_METHODS['astm2008'] = (LUMINANCE_METHODS['ASTM D1535-08'])
+LUMINANCE_METHODS['cie1976'] = (LUMINANCE_METHODS['CIE 1976'])
 
 
 def luminance(LV, method='CIE 1976', **kwargs):

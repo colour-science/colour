@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Illuminants
 ===========
@@ -23,9 +22,8 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import (
-    D_ILLUMINANTS_S_SPDS,
-    SpectralPowerDistribution)
+from colour.colorimetry import (D_ILLUMINANTS_S_SPDS,
+                                SpectralPowerDistribution)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -34,8 +32,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['D_illuminant_relative_spd',
-           'CIE_standard_illuminant_A_function']
+__all__ = ['D_illuminant_relative_spd', 'CIE_standard_illuminant_A_function']
 
 
 def D_illuminant_relative_spd(xy):
@@ -84,8 +81,8 @@ def D_illuminant_relative_spd(xy):
         S2 = D_ILLUMINANTS_S_SPDS['S2'][i]
         distribution[i] = S0 + M1 * S1 + M2 * S2
 
-    return SpectralPowerDistribution(
-        'CIE Standard Illuminant D Series', distribution)
+    return SpectralPowerDistribution('CIE Standard Illuminant D Series',
+                                     distribution)
 
 
 def CIE_standard_illuminant_A_function(wl):
@@ -122,6 +119,6 @@ def CIE_standard_illuminant_A_function(wl):
 
     wl = np.asarray(wl)
 
-    return (100 * (560 / wl) ** 5 * (
-        ((np.exp((1.435 * 10 ** 7) / (2848 * 560)) - 1) /
-         (np.exp((1.435 * 10 ** 7) / (2848 * wl)) - 1))))
+    return (100 * (560 / wl) ** 5 * (((np.exp(
+        (1.435 * 10 ** 7) / (2848 * 560)) - 1) / (np.exp(
+            (1.435 * 10 ** 7) / (2848 * wl)) - 1))))

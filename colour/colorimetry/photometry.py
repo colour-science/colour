@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Photometry
 ==========
@@ -37,15 +36,12 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['luminous_flux',
-           'luminous_efficiency',
-           'luminous_efficacy']
+__all__ = ['luminous_flux', 'luminous_efficiency', 'luminous_efficacy']
 
 
-def luminous_flux(
-        spd,
-        lef=PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer'],
-        K_m=K_M):
+def luminous_flux(spd,
+                  lef=PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer'],
+                  K_m=K_M):
     """
     Returns the *luminous flux* for given spectral power distribution using
     given luminous efficiency function.
@@ -72,9 +68,8 @@ def luminous_flux(
     23807.6555273...
     """
 
-    lef = lef.clone().align(spd.shape,
-                            extrapolation_left=0,
-                            extrapolation_right=0)
+    lef = lef.clone().align(
+        spd.shape, extrapolation_left=0, extrapolation_right=0)
     spd = spd.clone() * lef
 
     flux = K_m * np.trapz(spd.values, spd.wavelengths)
@@ -83,8 +78,7 @@ def luminous_flux(
 
 
 def luminous_efficiency(
-        spd,
-        lef=PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer']):
+        spd, lef=PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer']):
     """
     Returns the *luminous efficiency* of given spectral power distribution
     using given luminous efficiency function.
@@ -109,9 +103,8 @@ def luminous_efficiency(
     0.1994393...
     """
 
-    lef = lef.clone().align(spd.shape,
-                            extrapolation_left=0,
-                            extrapolation_right=0)
+    lef = lef.clone().align(
+        spd.shape, extrapolation_left=0, extrapolation_right=0)
     spd = spd.clone()
 
     efficiency = (np.trapz(lef.values * spd.values, spd.wavelengths) /
@@ -121,8 +114,7 @@ def luminous_efficiency(
 
 
 def luminous_efficacy(
-        spd,
-        lef=PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer']):
+        spd, lef=PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer']):
     """
     Returns the *luminous efficacy* in :math:`lm\cdot W^{-1}` of given spectral
     power distribution using given luminous efficiency function.

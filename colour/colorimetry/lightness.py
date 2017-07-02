@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Lightness :math:`L`
 ===================
@@ -46,12 +45,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['lightness_Glasser1958',
-           'lightness_Wyszecki1963',
-           'lightness_CIE1976',
-           'lightness_Fairchild2010',
-           'LIGHTNESS_METHODS',
-           'lightness']
+__all__ = [
+    'lightness_Glasser1958', 'lightness_Wyszecki1963', 'lightness_CIE1976',
+    'lightness_Fairchild2010', 'LIGHTNESS_METHODS', 'lightness'
+]
 
 
 def lightness_Glasser1958(Y):
@@ -179,8 +176,7 @@ def lightness_CIE1976(Y, Y_n=100):
 
     Lstar = Y / Y_n
 
-    Lstar = np.where(Lstar <= CIE_E,
-                     CIE_K * Lstar,
+    Lstar = np.where(Lstar <= CIE_E, CIE_K * Lstar,
                      116 * Lstar ** (1 / 3) - 16)
 
     return Lstar
@@ -227,17 +223,18 @@ def lightness_Fairchild2010(Y, epsilon=2):
 
     Y = np.asarray(Y)
 
-    L_hdr = reaction_rate_MichealisMenten(
-        Y ** epsilon, 100, 0.184 ** epsilon) + 0.02
+    L_hdr = reaction_rate_MichealisMenten(Y ** epsilon, 100, 0.184 **
+                                          epsilon) + 0.02
 
     return L_hdr
 
 
-LIGHTNESS_METHODS = CaseInsensitiveMapping(
-    {'Glasser 1958': lightness_Glasser1958,
-     'Wyszecki 1963': lightness_Wyszecki1963,
-     'CIE 1976': lightness_CIE1976,
-     'Fairchild 2010': lightness_Fairchild2010})
+LIGHTNESS_METHODS = CaseInsensitiveMapping({
+    'Glasser 1958': lightness_Glasser1958,
+    'Wyszecki 1963': lightness_Wyszecki1963,
+    'CIE 1976': lightness_CIE1976,
+    'Fairchild 2010': lightness_Fairchild2010
+})
 """
 Supported *Lightness* computations methods.
 

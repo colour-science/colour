@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Dominant Wavelength and Purity
 ==============================
@@ -33,10 +32,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 import scipy.spatial.distance
 
-from colour.algebra import (
-    euclidean_distance,
-    extend_line_segment,
-    intersect_line_segments)
+from colour.algebra import (euclidean_distance, extend_line_segment,
+                            intersect_line_segments)
 from colour.colorimetry import CMFS
 from colour.models import XYZ_to_xy
 
@@ -47,11 +44,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['closest_spectral_locus_wavelength',
-           'dominant_wavelength',
-           'complementary_wavelength',
-           'excitation_purity',
-           'colorimetric_purity']
+__all__ = [
+    'closest_spectral_locus_wavelength', 'dominant_wavelength',
+    'complementary_wavelength', 'excitation_purity', 'colorimetric_purity'
+]
 
 
 def closest_spectral_locus_wavelength(xy, xy_n, xy_s, reverse=False):
@@ -98,8 +94,7 @@ def closest_spectral_locus_wavelength(xy, xy_n, xy_s, reverse=False):
     xy_s = np.asarray(xy_s)
 
     xy_e = (extend_line_segment(xy, xy_n)
-            if reverse else
-            extend_line_segment(xy_n, xy))
+            if reverse else extend_line_segment(xy_n, xy))
 
     # Closing horse-shoe shape to handle line of purples intersections.
     xy_s = np.vstack((xy_s, xy_s[0, :]))
@@ -196,11 +191,10 @@ def dominant_wavelength(xy,
     wl = cmfs.wavelengths[i_wl]
 
     xy_e = (extend_line_segment(xy, xy_n)
-            if reverse else
-            extend_line_segment(xy_n, xy))
+            if reverse else extend_line_segment(xy_n, xy))
     intersect = intersect_line_segments(
-        np.concatenate((xy_n, xy_e), -1),
-        np.hstack((xy_s[0], xy_s[-1]))).intersect
+        np.concatenate((xy_n, xy_e), -1), np.hstack((xy_s[0],
+                                                     xy_s[-1]))).intersect
     intersect = np.reshape(intersect, wl.shape)
 
     i_wl_r, xy_cwl_r = closest_spectral_locus_wavelength(

@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for :mod:`colour.colorimetry.yellowness` module.
 """
@@ -11,9 +10,7 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.colorimetry import (
-    yellowness_ASTMD1925,
-    yellowness_ASTME313)
+from colour.colorimetry import (yellowness_ASTMD1925, yellowness_ASTME313)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -23,8 +20,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestYellownessASTMD1925',
-           'TestYellownessASTM313']
+__all__ = ['TestYellownessASTMD1925', 'TestYellownessASTM313']
 
 
 class TestYellownessASTMD1925(unittest.TestCase):
@@ -66,23 +62,17 @@ class TestYellownessASTMD1925(unittest.TestCase):
         XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
         YI = 10.299999999999997
         np.testing.assert_almost_equal(
-            yellowness_ASTMD1925(XYZ),
-            YI,
-            decimal=7)
+            yellowness_ASTMD1925(XYZ), YI, decimal=7)
 
         XYZ = np.tile(XYZ, (6, 1))
         YI = np.tile(YI, 6)
         np.testing.assert_almost_equal(
-            yellowness_ASTMD1925(XYZ),
-            YI,
-            decimal=7)
+            yellowness_ASTMD1925(XYZ), YI, decimal=7)
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         YI = np.reshape(YI, (2, 3))
         np.testing.assert_almost_equal(
-            yellowness_ASTMD1925(XYZ),
-            YI,
-            decimal=7)
+            yellowness_ASTMD1925(XYZ), YI, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_yellowness_ASTMD1925(self):
@@ -136,24 +126,15 @@ class TestYellownessASTM313(unittest.TestCase):
 
         XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
         YI = 11.065000000000003
-        np.testing.assert_almost_equal(
-            yellowness_ASTME313(XYZ),
-            YI,
-            decimal=7)
+        np.testing.assert_almost_equal(yellowness_ASTME313(XYZ), YI, decimal=7)
 
         XYZ = np.tile(XYZ, (6, 1))
         YI = np.tile(YI, 6)
-        np.testing.assert_almost_equal(
-            yellowness_ASTME313(XYZ),
-            YI,
-            decimal=7)
+        np.testing.assert_almost_equal(yellowness_ASTME313(XYZ), YI, decimal=7)
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         YI = np.reshape(YI, (2, 3))
-        np.testing.assert_almost_equal(
-            yellowness_ASTME313(XYZ),
-            YI,
-            decimal=7)
+        np.testing.assert_almost_equal(yellowness_ASTME313(XYZ), YI, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_yellowness_ASTME313(self):

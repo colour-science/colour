@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Colour Matching Functions
 =========================
@@ -37,9 +36,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['LMS_ConeFundamentals',
-           'RGB_ColourMatchingFunctions',
-           'XYZ_ColourMatchingFunctions']
+__all__ = [
+    'LMS_ConeFundamentals', 'RGB_ColourMatchingFunctions',
+    'XYZ_ColourMatchingFunctions'
+]
 
 
 def _format_cmfs(self):
@@ -59,17 +59,17 @@ def _format_cmfs(self):
     """
 
     mapping = self.mapping
-    data = {mapping['x']: dict(self.x.data),
-            mapping['y']: dict(self.y.data),
-            mapping['z']: dict(self.z.data)}
+    data = {
+        mapping['x']: dict(self.x.data),
+        mapping['y']: dict(self.y.data),
+        mapping['z']: dict(self.z.data)
+    }
 
     return '{0}(\n    \'{1}\',\n    {2},\n    {3})'.format(
-        self.__class__.__name__,
-        self.name,
+        self.__class__.__name__, self.name,
         pprint.pformat(data).replace('\n', '\n    '),
         ('\'{0}\''.format(self.title)
-         if self.title is not None else
-         self.title))
+         if self.title is not None else self.title))
 
 
 class LMS_ConeFundamentals(TriSpectralPowerDistribution):
@@ -95,16 +95,17 @@ class LMS_ConeFundamentals(TriSpectralPowerDistribution):
     """
 
     def __init__(self, name, data, title=None):
-        TriSpectralPowerDistribution.__init__(self,
-                                              name,
-                                              data,
-                                              mapping={'x': 'l_bar',
-                                                       'y': 'm_bar',
-                                                       'z': 's_bar'},
-                                              labels={'x': '$\\bar{l}$',
-                                                      'y': '$\\bar{m}$',
-                                                      'z': '$\\bar{s}$'},
-                                              title=title)
+        TriSpectralPowerDistribution.__init__(
+            self,
+            name,
+            data,
+            mapping={'x': 'l_bar',
+                     'y': 'm_bar',
+                     'z': 's_bar'},
+            labels={'x': '$\\bar{l}$',
+                    'y': '$\\bar{m}$',
+                    'z': '$\\bar{s}$'},
+            title=title)
 
     @property
     def l_bar(self):
@@ -254,16 +255,17 @@ class RGB_ColourMatchingFunctions(TriSpectralPowerDistribution):
     """
 
     def __init__(self, name, data, title=None):
-        TriSpectralPowerDistribution.__init__(self,
-                                              name,
-                                              data,
-                                              mapping={'x': 'r_bar',
-                                                       'y': 'g_bar',
-                                                       'z': 'b_bar'},
-                                              labels={'x': '$\\bar{r}$',
-                                                      'y': '$\\bar{g}$',
-                                                      'z': '$\\bar{b}$'},
-                                              title=title)
+        TriSpectralPowerDistribution.__init__(
+            self,
+            name,
+            data,
+            mapping={'x': 'r_bar',
+                     'y': 'g_bar',
+                     'z': 'b_bar'},
+            labels={'x': '$\\bar{r}$',
+                    'y': '$\\bar{g}$',
+                    'z': '$\\bar{b}$'},
+            title=title)
 
     @property
     def r_bar(self):
@@ -416,16 +418,17 @@ class XYZ_ColourMatchingFunctions(TriSpectralPowerDistribution):
     """
 
     def __init__(self, name, data, title=None):
-        TriSpectralPowerDistribution.__init__(self,
-                                              name,
-                                              data,
-                                              mapping={'x': 'x_bar',
-                                                       'y': 'y_bar',
-                                                       'z': 'z_bar'},
-                                              labels={'x': '$\\bar{x}$',
-                                                      'y': '$\\bar{y}$',
-                                                      'z': '$\\bar{z}$'},
-                                              title=title)
+        TriSpectralPowerDistribution.__init__(
+            self,
+            name,
+            data,
+            mapping={'x': 'x_bar',
+                     'y': 'y_bar',
+                     'z': 'z_bar'},
+            labels={'x': '$\\bar{x}$',
+                    'y': '$\\bar{y}$',
+                    'z': '$\\bar{z}$'},
+            title=title)
 
     @property
     def x_bar(self):

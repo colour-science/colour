@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Blackbody - Planckian Radiator
 ==============================
@@ -19,9 +18,8 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import (
-    DEFAULT_SPECTRAL_SHAPE,
-    SpectralPowerDistribution)
+from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE,
+                                SpectralPowerDistribution)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -30,12 +28,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['C1',
-           'C2',
-           'N',
-           'planck_law',
-           'blackbody_spectral_radiance',
-           'blackbody_spd']
+__all__ = [
+    'C1', 'C2', 'N', 'planck_law', 'blackbody_spectral_radiance',
+    'blackbody_spd'
+]
 
 C1 = 3.741771e-16  # 2 * math.pi * PLANCK_CONSTANT * LIGHT_SPEED ** 2
 C2 = 1.4388e-2  # PLANCK_CONSTANT * LIGHT_SPEED / BOLTZMANN_CONSTANT
@@ -95,8 +91,8 @@ def planck_law(wavelength, temperature, c1=C1, c2=C2, n=N):
     l = np.asarray(wavelength)
     t = np.asarray(temperature)
 
-    p = (((c1 * n ** -2 * l ** -5) / np.pi) *
-         (np.exp(c2 / (n * l * t)) - 1) ** -1)
+    p = (((c1 * n ** -2 * l ** -5) / np.pi) * (np.exp(c2 /
+                                                      (n * l * t)) - 1) ** -1)
 
     return p
 
@@ -104,10 +100,7 @@ def planck_law(wavelength, temperature, c1=C1, c2=C2, n=N):
 blackbody_spectral_radiance = planck_law
 
 
-def blackbody_spd(temperature,
-                  shape=DEFAULT_SPECTRAL_SHAPE,
-                  c1=C1,
-                  c2=C2,
+def blackbody_spd(temperature, shape=DEFAULT_SPECTRAL_SHAPE, c1=C1, c2=C2,
                   n=N):
     """
     Returns the spectral power distribution of the planckian radiator for given
@@ -154,5 +147,4 @@ def blackbody_spd(temperature,
         name='{0}K Blackbody'.format(temperature),
         data=dict(
             zip(wavelengths,
-                planck_law(
-                    wavelengths * 1e-9, temperature, c1, c2, n))))
+                planck_law(wavelengths * 1e-9, temperature, c1, c2, n))))

@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 HunterLab Dataset
 =================
@@ -48,12 +47,13 @@ __all__ = [
     'HUNTERLAB_ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER',
     'HUNTERLAB_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER_DATA',
     'HUNTERLAB_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER',
-    'HUNTERLAB_ILLUMINANTS']
+    'HUNTERLAB_ILLUMINANTS'
+]
 
 HunterLab_Illuminant_Specification = namedtuple(
-    'HunterLab_Illuminant_Specification',
-    ('name', 'XYZ_n', 'K_ab'))
+    'HunterLab_Illuminant_Specification', ('name', 'XYZ_n', 'K_ab'))
 
+# yapf: disable
 HUNTERLAB_ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER_DATA = (
     ('A', np.array([109.83, 100.00, 35.55]), np.array([185.20, 38.40])),
     ('C', np.array([98.04, 100.00, 118.11]), np.array([175.00, 70.00])),
@@ -64,11 +64,13 @@ HUNTERLAB_ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER_DATA = (
     ('F2', np.array([98.09, 100.00, 67.53]), np.array([175.00, 52.90])),
     ('TL 4', np.array([101.40, 100.00, 65.90]), np.array([178.00, 52.30])),
     ('UL 3000', np.array([107.99, 100.00, 33.91]), np.array([183.70, 37.50])))
+# yapf: enable
 
 HUNTERLAB_ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER = (
-    CaseInsensitiveMapping(dict(
-        [(x[0], HunterLab_Illuminant_Specification(*x)) for x in
-         HUNTERLAB_ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER_DATA])))
+    CaseInsensitiveMapping({
+        x[0]: HunterLab_Illuminant_Specification(*x)
+        for x in HUNTERLAB_ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER_DATA
+    }))
 """
 *Hunter L,a,b* illuminant dataset for *CIE 1931 2 Degree Standard Observer*.
 
@@ -76,6 +78,7 @@ HUNTERLAB_ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER :
     CaseInsensitiveMapping
 """
 
+# yapf: disable
 HUNTERLAB_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER_DATA = (
     ('A', np.array([111.16, 100.00, 35.19]), np.array([186.30, 38.20])),
     ('C', np.array([97.30, 100.00, 116.14]), np.array([174.30, 69.40])),
@@ -86,11 +89,14 @@ HUNTERLAB_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER_DATA = (
     ('F2', np.array([102.13, 100.00, 69.37]), np.array([178.60, 53.60])),
     ('TL 4', np.array([103.82, 100.00, 66.90]), np.array([180.10, 52.70])),
     ('UL 3000', np.array([111.12, 100.00, 35.21]), np.array([186.30, 38.20])))
+# yapf: enable
 
 HUNTERLAB_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER = (
-    CaseInsensitiveMapping(dict(
-        [(x[0], HunterLab_Illuminant_Specification(*x)) for x in
-         HUNTERLAB_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER_DATA])))
+    CaseInsensitiveMapping({
+        x[0]: HunterLab_Illuminant_Specification(*x)
+        for x in
+        HUNTERLAB_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER_DATA
+    }))
 """
 *Hunter L,a,b* illuminant dataset for *CIE 1964 10 Degree Standard Observer*.
 
@@ -102,7 +108,8 @@ HUNTERLAB_ILLUMINANTS = CaseInsensitiveMapping({
     'CIE 1931 2 Degree Standard Observer':
         HUNTERLAB_ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER,
     'CIE 1964 10 Degree Standard Observer':
-        HUNTERLAB_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER})
+        HUNTERLAB_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER
+})
 """
 Aggregated *Hunter L,a,b* illuminant dataset.
 

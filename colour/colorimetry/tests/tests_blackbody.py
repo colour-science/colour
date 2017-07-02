@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for :mod:`colour.colorimetry.blackbody` module.
 """
@@ -11,10 +10,7 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.colorimetry import (
-    SpectralShape,
-    planck_law,
-    blackbody_spd)
+from colour.colorimetry import (SpectralShape, planck_law, blackbody_spd)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -24,10 +20,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['PLANCK_LAW_DATA',
-           'BLACKBODY_SPD_DATA',
-           'TestPlanckLaw',
-           'TestBlackbodySpd']
+__all__ = [
+    'PLANCK_LAW_DATA', 'BLACKBODY_SPD_DATA', 'TestPlanckLaw',
+    'TestBlackbodySpd'
+]
 
 PLANCK_LAW_DATA = {
     1667: {
@@ -1029,7 +1025,8 @@ PLANCK_LAW_DATA = {
         9960: 881345544.275766253471375,
         9970: 878250862.944037556648254,
         9980: 875169645.970686674118042,
-        9990: 872101823.746138095855713, },
+        9990: 872101823.746138095855713,
+    },
     5000: {
         10: 0.000000000000000,
         20: 0.000000000000000,
@@ -2029,7 +2026,8 @@ PLANCK_LAW_DATA = {
         9960: 3627545620.689677238464355,
         9970: 3613562359.002460479736328,
         9980: 3599646364.107719421386719,
-        9990: 3585797248.344646453857422, },
+        9990: 3585797248.344646453857422,
+    },
     10000: {
         10: 0.000000000000000,
         20: 0.000000002126338,
@@ -3029,7 +3027,8 @@ PLANCK_LAW_DATA = {
         9960: 7818858886.277912139892578,
         9970: 7788114277.527709007263184,
         9980: 7757520610.135956764221191,
-        9990: 7727076995.859315872192383},
+        9990: 7727076995.859315872192383
+    },
     100000: {
         10: 671890609624107008.000000000000000,
         20: 27976228265571860480.000000000000000,
@@ -4029,7 +4028,9 @@ PLANCK_LAW_DATA = {
         9960: 83512005091.210250854492188,
         9970: 83178059708.148803710937500,
         9980: 82845781868.989334106445312,
-        9990: 82515161591.536300659179688}}
+        9990: 82515161591.536300659179688
+    }
+}
 
 BLACKBODY_SPD_DATA = (
     6654278270641.816406250000000,
@@ -4502,7 +4503,7 @@ BLACKBODY_SPD_DATA = (
     9791291163110.535156250000000,
     9774601515939.068359375000000,
     9757915058392.632812500000000,
-    9741232052709.107421875000000)
+    9741232052709.107421875000000)  # yapf: disable
 
 
 class TestPlanckLaw(unittest.TestCase):
@@ -4533,27 +4534,19 @@ class TestPlanckLaw(unittest.TestCase):
 
         wl = 500 * 1e-9
         p = 20472701909806.578
-        np.testing.assert_almost_equal(
-            planck_law(wl, 5500),
-            p)
+        np.testing.assert_almost_equal(planck_law(wl, 5500), p)
 
         wl = np.tile(wl, 6)
         p = np.tile(p, 6)
-        np.testing.assert_almost_equal(
-            planck_law(wl, 5500),
-            p)
+        np.testing.assert_almost_equal(planck_law(wl, 5500), p)
 
         wl = np.reshape(wl, (2, 3))
         p = np.reshape(p, (2, 3))
-        np.testing.assert_almost_equal(
-            planck_law(wl, 5500),
-            p)
+        np.testing.assert_almost_equal(planck_law(wl, 5500), p)
 
         wl = np.reshape(wl, (2, 3, 1))
         p = np.reshape(p, (2, 3, 1))
-        np.testing.assert_almost_equal(
-            planck_law(wl, 5500),
-            p)
+        np.testing.assert_almost_equal(planck_law(wl, 5500), p)
 
     @ignore_numpy_errors
     def test_nan_planck_law(self):

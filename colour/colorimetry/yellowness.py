@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Yellowness Index :math:`Y`
 =========================
@@ -35,10 +34,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['yellowness_ASTMD1925',
-           'yellowness_ASTME313',
-           'YELLOWNESS_METHODS',
-           'yellowness']
+__all__ = [
+    'yellowness_ASTMD1925', 'yellowness_ASTME313', 'YELLOWNESS_METHODS',
+    'yellowness'
+]
 
 
 def yellowness_ASTMD1925(XYZ):
@@ -126,9 +125,10 @@ def yellowness_ASTME313(XYZ):
     return WI
 
 
-YELLOWNESS_METHODS = CaseInsensitiveMapping(
-    {'ASTM D1925': yellowness_ASTMD1925,
-     'ASTM E313': yellowness_ASTME313})
+YELLOWNESS_METHODS = CaseInsensitiveMapping({
+    'ASTM D1925': yellowness_ASTMD1925,
+    'ASTM E313': yellowness_ASTME313
+})
 """
 Supported *yellowness* computations methods.
 

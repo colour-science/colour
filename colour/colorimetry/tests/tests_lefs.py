@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for :mod:`colour.colorimetry.lefs` module.
 """
@@ -10,9 +9,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.colorimetry import (
-    mesopic_weighting_function,
-    mesopic_luminous_efficiency_function)
+from colour.colorimetry import (mesopic_weighting_function,
+                                mesopic_luminous_efficiency_function)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -22,9 +20,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['MESOPIC_LEF_SPD_DATA',
-           'TestMesopicWeightingFunction',
-           'TestMesopicLuminousEfficiencyFunction']
+__all__ = [
+    'MESOPIC_LEF_SPD_DATA', 'TestMesopicWeightingFunction',
+    'TestMesopicLuminousEfficiencyFunction'
+]
 
 MESOPIC_LEF_SPD_DATA = (
     0.000423996221042,
@@ -427,7 +426,7 @@ MESOPIC_LEF_SPD_DATA = (
     0.000009291440160,
     0.000008670655686,
     0.000008091780515,
-    0.000007551893809)
+    0.000007551893809)  # yapf: disable
 
 
 class TestMesopicWeightingFunction(unittest.TestCase):
@@ -443,23 +442,17 @@ class TestMesopicWeightingFunction(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            mesopic_weighting_function(500, 0.2),
-            0.70522000,
-            places=7)
+            mesopic_weighting_function(500, 0.2), 0.70522000, places=7)
 
         self.assertAlmostEqual(
-            mesopic_weighting_function(500,
-                                       0.2,
-                                       source='Red Heavy',
-                                       method='LRC'),
+            mesopic_weighting_function(
+                500, 0.2, source='Red Heavy', method='LRC'),
             0.90951000,
             places=7)
 
         self.assertAlmostEqual(
-            mesopic_weighting_function(700,
-                                       10,
-                                       source='Red Heavy',
-                                       method='LRC'),
+            mesopic_weighting_function(
+                700, 10, source='Red Heavy', method='LRC'),
             0.00410200,
             places=7)
 
@@ -471,27 +464,19 @@ class TestMesopicWeightingFunction(unittest.TestCase):
 
         wl = 500
         Vm = 0.70522000
-        np.testing.assert_almost_equal(
-            mesopic_weighting_function(wl, 0.2),
-            Vm)
+        np.testing.assert_almost_equal(mesopic_weighting_function(wl, 0.2), Vm)
 
         wl = np.tile(wl, 6)
         Vm = np.tile(Vm, 6)
-        np.testing.assert_almost_equal(
-            mesopic_weighting_function(wl, 0.2),
-            Vm)
+        np.testing.assert_almost_equal(mesopic_weighting_function(wl, 0.2), Vm)
 
         wl = np.reshape(wl, (2, 3))
         Vm = np.reshape(Vm, (2, 3))
-        np.testing.assert_almost_equal(
-            mesopic_weighting_function(wl, 0.2),
-            Vm)
+        np.testing.assert_almost_equal(mesopic_weighting_function(wl, 0.2), Vm)
 
         wl = np.reshape(wl, (2, 3, 1))
         Vm = np.reshape(Vm, (2, 3, 1))
-        np.testing.assert_almost_equal(
-            mesopic_weighting_function(wl, 0.2),
-            Vm)
+        np.testing.assert_almost_equal(mesopic_weighting_function(wl, 0.2), Vm)
 
     @ignore_numpy_errors
     def test_nan_mesopic_weighting_function(self):

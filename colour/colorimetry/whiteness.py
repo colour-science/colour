@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Whiteness Index :math:`W`
 =========================
@@ -47,14 +46,11 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['whiteness_Berger1959',
-           'whiteness_Taube1960',
-           'whiteness_Stensby1968',
-           'whiteness_ASTME313',
-           'whiteness_Ganz1979',
-           'whiteness_CIE2004',
-           'WHITENESS_METHODS',
-           'whiteness']
+__all__ = [
+    'whiteness_Berger1959', 'whiteness_Taube1960', 'whiteness_Stensby1968',
+    'whiteness_ASTME313', 'whiteness_Ganz1979', 'whiteness_CIE2004',
+    'WHITENESS_METHODS', 'whiteness'
+]
 
 
 def whiteness_Berger1959(XYZ, XYZ_0):
@@ -339,13 +335,14 @@ def whiteness_CIE2004(xy,
     return WT
 
 
-WHITENESS_METHODS = CaseInsensitiveMapping(
-    {'Berger 1959': whiteness_Berger1959,
-     'Taube 1960': whiteness_Taube1960,
-     'Stensby 1968': whiteness_Stensby1968,
-     'ASTM E313': whiteness_ASTME313,
-     'Ganz 1979': whiteness_Ganz1979,
-     'CIE 2004': whiteness_CIE2004})
+WHITENESS_METHODS = CaseInsensitiveMapping({
+    'Berger 1959': whiteness_Berger1959,
+    'Taube 1960': whiteness_Taube1960,
+    'Stensby 1968': whiteness_Stensby1968,
+    'ASTM E313': whiteness_ASTME313,
+    'Ganz 1979': whiteness_Ganz1979,
+    'CIE 2004': whiteness_CIE2004
+})
 """
 Supported *whiteness* computations methods.
 

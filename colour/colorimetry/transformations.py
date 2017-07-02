@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Colour Matching Functions Transformations
 =========================================
@@ -35,11 +34,13 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs',
-           'RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs',
-           'RGB_10_degree_cmfs_to_LMS_10_degree_cmfs',
-           'LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs',
-           'LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs']
+__all__ = [
+    'RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs',
+    'RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs',
+    'RGB_10_degree_cmfs_to_LMS_10_degree_cmfs',
+    'LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs',
+    'LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs'
+]
 
 
 def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
@@ -84,13 +85,15 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
 
     rgb = rgb_bar / np.sum(rgb_bar)
 
-    M1 = np.array([[0.49000, 0.31000, 0.20000],
-                   [0.17697, 0.81240, 0.01063],
-                   [0.00000, 0.01000, 0.99000]])
+    M1 = np.array(
+        [[0.49000, 0.31000, 0.20000],
+         [0.17697, 0.81240, 0.01063],
+         [0.00000, 0.01000, 0.99000]])  # yapf: disable
 
-    M2 = np.array([[0.66697, 1.13240, 1.20063],
-                   [0.66697, 1.13240, 1.20063],
-                   [0.66697, 1.13240, 1.20063]])
+    M2 = np.array(
+        [[0.66697, 1.13240, 1.20063],
+         [0.66697, 1.13240, 1.20063],
+         [0.66697, 1.13240, 1.20063]])  # yapf: disable
 
     xyz = dot_vector(M1, rgb)
     xyz /= dot_vector(M2, rgb)
@@ -151,9 +154,10 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
 
     rgb_bar = cmfs.get(wavelength)
 
-    M = np.array([[0.341080, 0.189145, 0.387529],
-                  [0.139058, 0.837460, 0.073316],
-                  [0.000000, 0.039553, 2.026200]])
+    M = np.array(
+        [[0.341080, 0.189145, 0.387529],
+         [0.139058, 0.837460, 0.073316],
+         [0.000000, 0.039553, 2.026200]])  # yapf: disable
 
     xyz_bar = dot_vector(M, rgb_bar)
 
@@ -198,9 +202,10 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wavelength):
 
     rgb_bar = cmfs.get(wavelength)
 
-    M = np.array([[0.1923252690, 0.749548882, 0.0675726702],
-                  [0.0192290085, 0.940908496, 0.113830196],
-                  [0.0000000000, 0.0105107859, 0.991427669]])
+    M = np.array(
+        [[0.1923252690, 0.749548882, 0.0675726702],
+         [0.0192290085, 0.940908496, 0.113830196],
+         [0.0000000000, 0.0105107859, 0.991427669]])  # yapf: disable
 
     lms_bar = dot_vector(M, rgb_bar)
     lms_bar[..., -1][np.asarray(np.asarray(wavelength) > 505)] = 0
@@ -245,9 +250,10 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
 
     lms_bar = cmfs.get(wavelength)
 
-    M = np.array([[1.94735469, -1.41445123, 0.36476327],
-                  [0.68990272, 0.34832189, 0.00000000],
-                  [0.00000000, 0.00000000, 1.93485343]])
+    M = np.array(
+        [[1.94735469, -1.41445123, 0.36476327],
+         [0.68990272, 0.34832189, 0.00000000],
+         [0.00000000, 0.00000000, 1.93485343]])  # yapf: disable
 
     xyz_bar = dot_vector(M, lms_bar)
 
@@ -291,9 +297,10 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
 
     lms_bar = cmfs.get(wavelength)
 
-    M = np.array([[1.93986443, -1.34664359, 0.43044935],
-                  [0.69283932, 0.34967567, 0.00000000],
-                  [0.00000000, 0.00000000, 2.14687945]])
+    M = np.array(
+        [[1.93986443, -1.34664359, 0.43044935],
+         [0.69283932, 0.34967567, 0.00000000],
+         [0.00000000, 0.00000000, 2.14687945]])  # yapf: disable
 
     xyz_bar = dot_vector(M, lms_bar)
 
