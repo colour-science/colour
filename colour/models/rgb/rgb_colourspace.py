@@ -810,10 +810,10 @@ def RGB_to_RGB(RGB,
         'Bianco PC'}**,
         *Chromatic adaptation* transform.
     apply_decoding_cctf : bool, optional
-        Apply input colourpace decoding colour component transfer function  /
+        Apply input colourspace decoding colour component transfer function /
         electro-optical transfer function.
     apply_encoding_cctf : bool, optional
-        Apply output colourpace encoding colour component transfer function /
+        Apply output colourspace encoding colour component transfer function /
         opto-electronic transfer function.
 
     Returns
