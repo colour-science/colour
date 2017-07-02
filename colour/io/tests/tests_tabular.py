@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for :mod:`colour.io.tabular` module.
 """
@@ -14,10 +13,8 @@ import tempfile
 from six import text_type
 
 from colour.colorimetry import SpectralPowerDistribution
-from colour.io import (
-    read_spectral_data_from_csv_file,
-    read_spds_from_csv_file,
-    write_spds_to_csv_file)
+from colour.io import (read_spectral_data_from_csv_file,
+                       read_spds_from_csv_file, write_spds_to_csv_file)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -26,11 +23,11 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['RESOURCES_DIRECTORY',
-           'COLOURCHECKER_N_OHTA_1',
-           'TestReadSpectralDataFromCsvFile',
-           'TestReadSpdsFromCsvFile',
-           'TestWriteSpdsToCsvFile']
+__all__ = [
+    'RESOURCES_DIRECTORY', 'COLOURCHECKER_N_OHTA_1',
+    'TestReadSpectralDataFromCsvFile', 'TestReadSpdsFromCsvFile',
+    'TestWriteSpdsToCsvFile'
+]
 
 RESOURCES_DIRECTORY = os.path.join(os.path.dirname(__file__), 'resources')
 
@@ -115,7 +112,8 @@ COLOURCHECKER_N_OHTA_1 = {
     765.0: 0.465,
     770.0: 0.448,
     775.0: 0.432,
-    780.0: 0.421}
+    780.0: 0.421
+}
 
 
 class TestReadSpectralDataFromCsvFile(unittest.TestCase):
@@ -135,25 +133,18 @@ class TestReadSpectralDataFromCsvFile(unittest.TestCase):
                                              'colorchecker_n_ohta.csv')
         data = read_spectral_data_from_csv_file(colour_checker_n_ohta)
         self.assertListEqual(
-            sorted(data),
-            sorted([text_type(x) for x in range(1, 25)]))
+            sorted(data), sorted([text_type(x) for x in range(1, 25)]))
         self.assertDictEqual(data['1'], COLOURCHECKER_N_OHTA_1)
 
-        linss2_10e_5 = os.path.join(RESOURCES_DIRECTORY,
-                                    'linss2_10e_5.csv')
-        data = read_spectral_data_from_csv_file(linss2_10e_5,
-                                                fields=['wavelength',
-                                                        'l_bar',
-                                                        'm_bar',
-                                                        's_bar'])
+        linss2_10e_5 = os.path.join(RESOURCES_DIRECTORY, 'linss2_10e_5.csv')
+        data = read_spectral_data_from_csv_file(
+            linss2_10e_5, fields=['wavelength', 'l_bar', 'm_bar', 's_bar'])
         self.assertListEqual(sorted(data), ['l_bar', 'm_bar', 's_bar'])
         self.assertEqual(data['s_bar'][760], 0)
-        data = read_spectral_data_from_csv_file(linss2_10e_5,
-                                                fields=['wavelength',
-                                                        'l_bar',
-                                                        'm_bar',
-                                                        's_bar'],
-                                                default=-1)
+        data = read_spectral_data_from_csv_file(
+            linss2_10e_5,
+            fields=['wavelength', 'l_bar', 'm_bar', 's_bar'],
+            default=-1)
         self.assertEqual(data['s_bar'][760], -1)
 
 
