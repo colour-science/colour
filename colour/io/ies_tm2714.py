@@ -1008,7 +1008,7 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
         tree = ElementTree.parse(self._path)
         root = tree.getroot()
 
-        namespace = re.match('\{(.*)\}', root.tag).group(1)
+        namespace = re.match('{(.*)}', root.tag).group(1)
 
         self.name = os.path.splitext(os.path.basename(self._path))[0]
 
