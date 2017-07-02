@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 :math:`\Delta E'` - Delta E Colour Difference - Luo, Cui and Li (2006)
 ======================================================================
@@ -41,10 +40,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['delta_E_Luo2006',
-           'delta_E_CAM02LCD',
-           'delta_E_CAM02SCD',
-           'delta_E_CAM02UCS']
+__all__ = [
+    'delta_E_Luo2006', 'delta_E_CAM02LCD', 'delta_E_CAM02SCD',
+    'delta_E_CAM02UCS'
+]
 
 
 def delta_E_Luo2006(Jpapbp_1, Jpapbp_2, coefficients):
@@ -83,8 +82,7 @@ def delta_E_Luo2006(Jpapbp_1, Jpapbp_2, coefficients):
     J_p_2, a_p_2, b_p_2 = tsplit(Jpapbp_2)
     K_L, c_1_, c_2_ = tsplit(coefficients)
 
-    d_E = np.sqrt(((J_p_1 - J_p_2) / K_L) ** 2 +
-                  (a_p_1 - a_p_2) ** 2 +
+    d_E = np.sqrt(((J_p_1 - J_p_2) / K_L) ** 2 + (a_p_1 - a_p_2) ** 2 +
                   (b_p_1 - b_p_2) ** 2)
     return d_E
 
@@ -115,8 +113,8 @@ def delta_E_CAM02LCD(Jpapbp_1, Jpapbp_2):
     >>> delta_E_CAM02LCD(Jpapbp_1, Jpapbp_2)  # doctest: +ELLIPSIS
     0.0001034...
     """
-    return delta_E_Luo2006(
-        Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
+    return delta_E_Luo2006(Jpapbp_1, Jpapbp_2,
+                           COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
 
 
 def delta_E_CAM02SCD(Jpapbp_1, Jpapbp_2):
@@ -145,8 +143,8 @@ def delta_E_CAM02SCD(Jpapbp_1, Jpapbp_2):
     >>> delta_E_CAM02SCD(Jpapbp_1, Jpapbp_2)  # doctest: +ELLIPSIS
     0.0001034...
     """
-    return delta_E_Luo2006(
-        Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006['CAM02-SCD'])
+    return delta_E_Luo2006(Jpapbp_1, Jpapbp_2,
+                           COEFFICIENTS_UCS_LUO2006['CAM02-SCD'])
 
 
 def delta_E_CAM02UCS(Jpapbp_1, Jpapbp_2):
@@ -175,5 +173,5 @@ def delta_E_CAM02UCS(Jpapbp_1, Jpapbp_2):
     >>> delta_E_CAM02UCS(Jpapbp_1, Jpapbp_2)  # doctest: +ELLIPSIS
     0.0001034...
     """
-    return delta_E_Luo2006(
-        Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006['CAM02-UCS'])
+    return delta_E_Luo2006(Jpapbp_1, Jpapbp_2,
+                           COEFFICIENTS_UCS_LUO2006['CAM02-UCS'])
