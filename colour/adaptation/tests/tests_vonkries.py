@@ -1,6 +1,5 @@
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for :mod:`colour.adaptation.vonkries` module.
 """
@@ -11,9 +10,8 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.adaptation import (
-    chromatic_adaptation_matrix_VonKries,
-    chromatic_adaptation_VonKries)
+from colour.adaptation import (chromatic_adaptation_matrix_VonKries,
+                               chromatic_adaptation_VonKries)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -23,8 +21,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestChromaticAdaptationMatrixVonKries',
-           'TestChromaticAdaptationVonKries']
+__all__ = [
+    'TestChromaticAdaptationMatrixVonKries', 'TestChromaticAdaptationVonKries'
+]
 
 
 class TestChromaticAdaptationMatrixVonKries(unittest.TestCase):
@@ -46,7 +45,7 @@ chromatic_adaptation_matrix_VonKries` definition.
             np.array([[0.86876537, -0.14165393, 0.38719611],
                       [-0.10300724, 1.05840142, 0.15386462],
                       [0.00781674, 0.02678750, 2.96081771]]),
-            decimal=7)
+            decimal=7)  # yapf: disable
 
         np.testing.assert_almost_equal(
             chromatic_adaptation_matrix_VonKries(
@@ -55,15 +54,16 @@ chromatic_adaptation_matrix_VonKries` definition.
             np.array([[1.03379528, 0.03065322, -0.04486819],
                       [0.02195826, 0.99354348, -0.01793687],
                       [-0.00102726, -0.00281712, 0.79698769]]),
-            decimal=7)
+            decimal=7)  # yapf: disable
 
         np.testing.assert_almost_equal(
             chromatic_adaptation_matrix_VonKries(
                 np.array([0.98070597, 1.00000000, 1.18224949]),
                 np.array([0.92833635, 1.00000000, 1.03664720])),
-            np.linalg.inv(chromatic_adaptation_matrix_VonKries(
-                np.array([0.92833635, 1.00000000, 1.03664720]),
-                np.array([0.98070597, 1.00000000, 1.18224949]))))
+            np.linalg.inv(
+                chromatic_adaptation_matrix_VonKries(
+                    np.array([0.92833635, 1.00000000, 1.03664720]),
+                    np.array([0.98070597, 1.00000000, 1.18224949]))))
 
         np.testing.assert_almost_equal(
             chromatic_adaptation_matrix_VonKries(
@@ -73,7 +73,7 @@ chromatic_adaptation_matrix_VonKries` definition.
             np.array([[0.86523251, 0.00000000, 0.00000000],
                       [0.00000000, 1.00000000, 0.00000000],
                       [0.00000000, 0.00000000, 3.06023214]]),
-            decimal=7)
+            decimal=7)  # yapf: disable
 
         np.testing.assert_almost_equal(
             chromatic_adaptation_matrix_VonKries(
@@ -83,7 +83,7 @@ chromatic_adaptation_matrix_VonKries` definition.
             np.array([[0.84467949, -0.11793553, 0.39489408],
                       [-0.13664085, 1.10412369, 0.12919812],
                       [0.07986716, -0.13493155, 3.19288296]]),
-            decimal=7)
+            decimal=7)  # yapf: disable
 
         np.testing.assert_almost_equal(
             chromatic_adaptation_matrix_VonKries(
@@ -93,7 +93,7 @@ chromatic_adaptation_matrix_VonKries` definition.
             np.array([[0.93949221, -0.23393727, 0.42820614],
                       [-0.02569635, 1.02638463, 0.00517656],
                       [0.00000000, 0.00000000, 3.06023214]]),
-            decimal=7)
+            decimal=7)  # yapf: disable
 
     def test_n_dimensional_chromatic_adaptation_matrix_VonKries(self):
         """
@@ -105,27 +105,21 @@ chromatic_adaptation_matrix_VonKries` definition n-dimensional arrays support.
         XYZ_wr = np.array([0.95042855, 1.00000000, 1.08890037])
         M = np.array([[0.86876537, -0.14165393, 0.38719611],
                       [-0.10300724, 1.05840142, 0.15386462],
-                      [0.00781674, 0.02678750, 2.96081771]])
+                      [0.00781674, 0.02678750, 2.96081771]])  # yapf: disable
         np.testing.assert_almost_equal(
-            chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr),
-            M,
-            decimal=7)
+            chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr), M, decimal=7)
 
         XYZ_w = np.tile(XYZ_w, (6, 1))
         XYZ_wr = np.tile(XYZ_wr, (6, 1))
         M = np.reshape(np.tile(M, (6, 1)), (6, 3, 3))
         np.testing.assert_almost_equal(
-            chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr),
-            M,
-            decimal=7)
+            chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr), M, decimal=7)
 
         XYZ_w = np.reshape(XYZ_w, (2, 3, 3))
         XYZ_wr = np.reshape(XYZ_wr, (2, 3, 3))
         M = np.reshape(M, (2, 3, 3, 3))
         np.testing.assert_almost_equal(
-            chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr),
-            M,
-            decimal=7)
+            chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr), M, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_chromatic_adaptation_matrix_VonKries(self):

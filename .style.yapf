@@ -102,7 +102,7 @@ join_multiple_lines=True
 spaces_around_default_or_named_assign=False
 
 # Use spaces around the power operator.
-spaces_around_power_operator=False
+spaces_around_power_operator=True
 
 # The number of spaces required before a trailing comment.
 spaces_before_comment=2

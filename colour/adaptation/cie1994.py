@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 CIE 1994 Chromatic Adaptation Model
 ===================================
@@ -36,18 +35,12 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['CIE1994_XYZ_TO_RGB_MATRIX',
-           'CIE1994_RGB_TO_XYZ_MATRIX',
-           'chromatic_adaptation_CIE1994',
-           'XYZ_to_RGB_CIE1994',
-           'RGB_to_XYZ_CIE1994',
-           'intermediate_values',
-           'effective_adapting_responses',
-           'beta_1',
-           'beta_2',
-           'exponential_factors',
-           'K_coefficient',
-           'corresponding_colour']
+__all__ = [
+    'CIE1994_XYZ_TO_RGB_MATRIX', 'CIE1994_RGB_TO_XYZ_MATRIX',
+    'chromatic_adaptation_CIE1994', 'XYZ_to_RGB_CIE1994', 'RGB_to_XYZ_CIE1994',
+    'intermediate_values', 'effective_adapting_responses', 'beta_1', 'beta_2',
+    'exponential_factors', 'K_coefficient', 'corresponding_colour'
+]
 
 CIE1994_XYZ_TO_RGB_MATRIX = VON_KRIES_CAT
 """
@@ -66,13 +59,7 @@ CIE1994_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
 
-def chromatic_adaptation_CIE1994(XYZ_1,
-                                 xy_o1,
-                                 xy_o2,
-                                 Y_o,
-                                 E_o1,
-                                 E_o2,
-                                 n=1):
+def chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2, n=1):
     """
     Adapts given stimulus *CIE XYZ_1* tristimulus values from test viewing
     conditions to reference viewing conditions using *CIE 1994* chromatic
@@ -147,8 +134,8 @@ def chromatic_adaptation_CIE1994(XYZ_1,
 
     K = K_coefficient(xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, n)
 
-    RGB_2 = corresponding_colour(
-        RGB_1, xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, K, n)
+    RGB_2 = corresponding_colour(RGB_1, xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, K,
+                                 n)
     XYZ_2 = RGB_to_XYZ_CIE1994(RGB_2)
 
     return XYZ_2
