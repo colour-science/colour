@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 CIE Constants
 =============
@@ -17,10 +16,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['CIE_E',
-           'CIE_K',
-           'K_M',
-           'KP_M']
+__all__ = ['CIE_E', 'CIE_K', 'K_M', 'KP_M']
 
 CIE_E = 216 / 24389
 """

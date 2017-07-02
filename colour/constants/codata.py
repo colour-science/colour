@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Fundamental Physical Constants
 ==============================
@@ -18,10 +17,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['AVOGADRO_CONSTANT',
-           'BOLTZMANN_CONSTANT',
-           'LIGHT_SPEED',
-           'PLANCK_CONSTANT']
+__all__ = [
+    'AVOGADRO_CONSTANT', 'BOLTZMANN_CONSTANT', 'LIGHT_SPEED', 'PLANCK_CONSTANT'
+]
 
 AVOGADRO_CONSTANT = 6.02214179e23
 """
