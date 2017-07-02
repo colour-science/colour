@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 CRT Displays RGB Primaries
 ==========================
@@ -44,8 +43,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['CRT_DISPLAYS_RGB_PRIMARIES_DATA',
-           'CRT_DISPLAYS_RGB_PRIMARIES']
+__all__ = ['CRT_DISPLAYS_RGB_PRIMARIES_DATA', 'CRT_DISPLAYS_RGB_PRIMARIES']
 
 CRT_DISPLAYS_RGB_PRIMARIES_DATA = {
     'Typical CRT Brainard 1997': {
@@ -130,7 +128,8 @@ CRT_DISPLAYS_RGB_PRIMARIES_DATA = {
             765.0: 0.0067,
             770.0: 0.0070,
             775.0: 0.0073,
-            780.0: 0.0066},
+            780.0: 0.0066
+        },
         'green': {
             380.0: 0.0018,
             385.0: 0.0016,
@@ -212,7 +211,8 @@ CRT_DISPLAYS_RGB_PRIMARIES_DATA = {
             765.0: 0.0018,
             770.0: 0.0021,
             775.0: 0.0015,
-            780.0: 0.0018},
+            780.0: 0.0018
+        },
         'blue': {
             380.0: 0.0219,
             385.0: 0.0336,
@@ -294,12 +294,17 @@ CRT_DISPLAYS_RGB_PRIMARIES_DATA = {
             765.0: 0.0015,
             770.0: 0.0028,
             775.0: 0.0046,
-            780.0: 0.0058}}}
+            780.0: 0.0058
+        }
+    }
+}
 
-CRT_DISPLAYS_RGB_PRIMARIES = CaseInsensitiveMapping(
-    {'Typical CRT Brainard 1997': RGB_DisplayPrimaries(
-        'Typical CRT Brainard 1997',
-        CRT_DISPLAYS_RGB_PRIMARIES_DATA['Typical CRT Brainard 1997'])})
+CRT_DISPLAYS_RGB_PRIMARIES = CaseInsensitiveMapping({
+    'Typical CRT Brainard 1997':
+        RGB_DisplayPrimaries(
+            'Typical CRT Brainard 1997',
+            CRT_DISPLAYS_RGB_PRIMARIES_DATA['Typical CRT Brainard 1997'])
+})
 """
 *CRT* displays *RGB* primaries tri-spectral power distributions.
 

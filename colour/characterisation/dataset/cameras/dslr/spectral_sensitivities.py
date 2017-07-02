@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 DSLR Cameras Spectral Sensitivities
 ===================================
@@ -46,8 +45,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['DSLR_CAMERAS_RGB_SPECTRAL_SENSITIVITIES_DATA',
-           'DSLR_CAMERAS_RGB_SPECTRAL_SENSITIVITIES']
+__all__ = [
+    'DSLR_CAMERAS_RGB_SPECTRAL_SENSITIVITIES_DATA',
+    'DSLR_CAMERAS_RGB_SPECTRAL_SENSITIVITIES'
+]
 
 DSLR_CAMERAS_RGB_SPECTRAL_SENSITIVITIES_DATA = {
     'Nikon 5100 (NPL)': {
@@ -132,7 +133,8 @@ DSLR_CAMERAS_RGB_SPECTRAL_SENSITIVITIES_DATA = {
             765.0: 0.00000000000000000000,
             770.0: 8.5599999999999994e-05,
             775.0: 0.00013831372865247499,
-            780.0: 3.6199999999999999e-05},
+            780.0: 3.6199999999999999e-05
+        },
         'green': {
             380.0: 0.00011500000000000000,
             385.0: 0.00152114360178015000,
@@ -214,7 +216,8 @@ DSLR_CAMERAS_RGB_SPECTRAL_SENSITIVITIES_DATA = {
             765.0: 0.00000000000000000000,
             770.0: 0.00013799999999999999,
             775.0: 0.0001786501727059410,
-            780.0: 4.2500000000000003e-05},
+            780.0: 4.2500000000000003e-05
+        },
         'blue': {
             380.0: 0.00180956039402335990,
             385.0: 0.00048982814544150399,
@@ -296,7 +299,9 @@ DSLR_CAMERAS_RGB_SPECTRAL_SENSITIVITIES_DATA = {
             765.0: 6.1799999999999998e-05,
             770.0: 0.00026260703183506501,
             775.0: 0.00028050537004191899,
-            780.0: 0.00000000000000000000}},
+            780.0: 0.00000000000000000000
+        }
+    },
     'Sigma SDMerill (NPL)': {
         'red': {
             400.0: 0.00562107440608700020,
@@ -327,7 +332,8 @@ DSLR_CAMERAS_RGB_SPECTRAL_SENSITIVITIES_DATA = {
             650.0: 0.92085127736137995000,
             660.0: 0.18143311631425299000,
             670.0: 0.00630978795372749960,
-            680.0: 0.00528874383171553000},
+            680.0: 0.00528874383171553000
+        },
         'green': {
             400.0: 0.00632809751263116970,
             410.0: 0.00976180459591275040,
@@ -357,7 +363,8 @@ DSLR_CAMERAS_RGB_SPECTRAL_SENSITIVITIES_DATA = {
             650.0: 0.76165184741615699000,
             660.0: 0.14052437057150499000,
             670.0: 0.00414367215817645990,
-            680.0: 0.00183198958165669010},
+            680.0: 0.00183198958165669010
+        },
         'blue': {
             400.0: 0.16215942413307899000,
             410.0: 0.28549837804628603000,
@@ -387,15 +394,22 @@ DSLR_CAMERAS_RGB_SPECTRAL_SENSITIVITIES_DATA = {
             650.0: 0.46538831744516401000,
             660.0: 0.07961907836720690000,
             670.0: 0.00059244446107236802,
-            680.0: 0.00468563680483140980}}}
+            680.0: 0.00468563680483140980
+        }
+    }
+}
 
 DSLR_CAMERAS_RGB_SPECTRAL_SENSITIVITIES = CaseInsensitiveMapping({
-    'Nikon 5100 (NPL)': RGB_SpectralSensitivities(
-        'Nikon 5100 (NPL)',
-        DSLR_CAMERAS_RGB_SPECTRAL_SENSITIVITIES_DATA['Nikon 5100 (NPL)']),
-    'Sigma SDMerill (NPL)': RGB_SpectralSensitivities(
-        'Sigma SDMerill (NPL)',
-        DSLR_CAMERAS_RGB_SPECTRAL_SENSITIVITIES_DATA['Sigma SDMerill (NPL)'])})
+    'Nikon 5100 (NPL)':
+        RGB_SpectralSensitivities(
+            'Nikon 5100 (NPL)',
+            DSLR_CAMERAS_RGB_SPECTRAL_SENSITIVITIES_DATA['Nikon 5100 (NPL)']),
+    'Sigma SDMerill (NPL)':
+        RGB_SpectralSensitivities(
+            'Sigma SDMerill (NPL)',
+            DSLR_CAMERAS_RGB_SPECTRAL_SENSITIVITIES_DATA[
+                'Sigma SDMerill (NPL)'])
+})  # yapf: disable
 """
 *DSLR* cameras *RGB* spectral sensitivities.
 
