@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 LLAB(l:c) Colour Appearance Model
 =================================
@@ -49,27 +48,18 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['LLAB_InductionFactors',
-           'LLAB_VIEWING_CONDITIONS',
-           'LLAB_XYZ_TO_RGB_MATRIX',
-           'LLAB_RGB_TO_XYZ_MATRIX',
-           'LLAB_ReferenceSpecification',
-           'LLAB_Specification',
-           'XYZ_to_LLAB',
-           'XYZ_to_RGB_LLAB',
-           'chromatic_adaptation',
-           'f',
-           'opponent_colour_dimensions',
-           'hue_angle',
-           'chroma_correlate',
-           'colourfulness_correlate',
-           'saturation_correlate',
-           'final_opponent_signals']
+__all__ = [
+    'LLAB_InductionFactors', 'LLAB_VIEWING_CONDITIONS',
+    'LLAB_XYZ_TO_RGB_MATRIX', 'LLAB_RGB_TO_XYZ_MATRIX',
+    'LLAB_ReferenceSpecification', 'LLAB_Specification', 'XYZ_to_LLAB',
+    'XYZ_to_RGB_LLAB', 'chromatic_adaptation', 'f',
+    'opponent_colour_dimensions', 'hue_angle', 'chroma_correlate',
+    'colourfulness_correlate', 'saturation_correlate', 'final_opponent_signals'
+]
 
 
 class LLAB_InductionFactors(
-    namedtuple('LLAB_InductionFactors',
-               ('D', 'F_S', 'F_L', 'F_C'))):
+        namedtuple('LLAB_InductionFactors', ('D', 'F_S', 'F_L', 'F_C'))):
     """
     *LLAB(l:c)* colour appearance model induction factors.
 
@@ -86,17 +76,18 @@ class LLAB_InductionFactors(
     """
 
 
-LLAB_VIEWING_CONDITIONS = CaseInsensitiveMapping(
-    {'Reference Samples & Images, Average Surround, Subtending > 4': (
+LLAB_VIEWING_CONDITIONS = CaseInsensitiveMapping({
+    'Reference Samples & Images, Average Surround, Subtending > 4': (
         LLAB_InductionFactors(1, 3, 0, 1)),
-     'Reference Samples & Images, Average Surround, Subtending < 4': (
-         LLAB_InductionFactors(1, 3, 1, 1)),
-     'Television & VDU Displays, Dim Surround': (
-         LLAB_InductionFactors(0.7, 3.5, 1, 1)),
-     'Cut Sheet Transparency, Dim Surround': (
-         LLAB_InductionFactors(1, 5, 1, 1.1)),
-     '35mm Projection Transparency, Dark Surround': (
-         LLAB_InductionFactors(0.7, 4, 1, 1))})
+    'Reference Samples & Images, Average Surround, Subtending < 4': (
+        LLAB_InductionFactors(1, 3, 1, 1)),
+    'Television & VDU Displays, Dim Surround': (LLAB_InductionFactors(
+        0.7, 3.5, 1, 1)),
+    'Cut Sheet Transparency, Dim Surround': (LLAB_InductionFactors(
+        1, 5, 1, 1.1)),
+    '35mm Projection Transparency, Dark Surround': (LLAB_InductionFactors(
+        0.7, 4, 1, 1))
+})
 """
 Reference *LLAB(l:c)* colour appearance model viewing conditions.
 
@@ -117,26 +108,23 @@ Aliases:
 -   'sheet_dim': 'Cut Sheet Transparency, Dim Surround'
 -   'projected_dark': '35mm Projection Transparency, Dark Surround'
 """
-LLAB_VIEWING_CONDITIONS['ref_average_4_plus'] = (
-    LLAB_VIEWING_CONDITIONS[
-        'Reference Samples & Images, Average Surround, Subtending > 4'])
-LLAB_VIEWING_CONDITIONS['ref_average_4_minus'] = (
-    LLAB_VIEWING_CONDITIONS[
-        'Reference Samples & Images, Average Surround, Subtending < 4'])
+LLAB_VIEWING_CONDITIONS['ref_average_4_plus'] = (  # yapf: disable
+    LLAB_VIEWING_CONDITIONS['Reference Samples & Images, '
+                            'Average Surround, Subtending > 4'])
+LLAB_VIEWING_CONDITIONS['ref_average_4_minus'] = (  # yapf: disable
+    LLAB_VIEWING_CONDITIONS['Reference Samples & Images, '
+                            'Average Surround, Subtending < 4'])
 LLAB_VIEWING_CONDITIONS['tv_dim'] = (
-    LLAB_VIEWING_CONDITIONS[
-        'Television & VDU Displays, Dim Surround'])
+    LLAB_VIEWING_CONDITIONS['Television & VDU Displays, Dim Surround'])
 LLAB_VIEWING_CONDITIONS['sheet_dim'] = (
-    LLAB_VIEWING_CONDITIONS[
-        'Cut Sheet Transparency, Dim Surround'])
+    LLAB_VIEWING_CONDITIONS['Cut Sheet Transparency, Dim Surround'])
 LLAB_VIEWING_CONDITIONS['projected_dark'] = (
-    LLAB_VIEWING_CONDITIONS[
-        '35mm Projection Transparency, Dark Surround'])
+    LLAB_VIEWING_CONDITIONS['35mm Projection Transparency, Dark Surround'])
 
 LLAB_XYZ_TO_RGB_MATRIX = np.array(
     [[0.8951, 0.2664, -0.1614],
      [-0.7502, 1.7135, 0.0367],
-     [0.0389, -0.0685, 1.0296]])
+     [0.0389, -0.0685, 1.0296]])  # yapf: disable
 """
 LLAB(l:c) colour appearance model *CIE XYZ* tristimulus values to normalised
 cone responses matrix.
@@ -154,8 +142,8 @@ LLAB_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
 
 
 class LLAB_ReferenceSpecification(
-    namedtuple('LLAB_ReferenceSpecification',
-               ('L_L', 'Ch_L', 'h_L', 's_L', 'C_L', 'HC', 'A_L', 'B_L'))):
+        namedtuple('LLAB_ReferenceSpecification',
+                   ('L_L', 'Ch_L', 'h_L', 's_L', 'C_L', 'HC', 'A_L', 'B_L'))):
     """
     Defines the *LLAB(l:c)* colour appearance model reference specification.
 
@@ -184,8 +172,8 @@ class LLAB_ReferenceSpecification(
 
 
 class LLAB_Specification(
-    namedtuple('LLAB_Specification',
-               ('J', 'C', 'h', 's', 'M', 'HC', 'a', 'b'))):
+        namedtuple('LLAB_Specification', ('J', 'C', 'h', 's', 'M', 'HC', 'a',
+                                          'b'))):
     """
     Defines the *LLAB(l:c)* colour appearance model specification.
 
@@ -283,8 +271,8 @@ s=0.0002395..., M=0.0190185..., HC=None, a=..., b=-0.0190185...)
     # Computing the correlate of *Lightness* :math:`L_L`.
     # -------------------------------------------------------------------------
     # Computing opponent colour dimensions.
-    L_L, a, b = tsplit(opponent_colour_dimensions(
-        XYZ_r, Y_b, surround.F_S, surround.F_L))
+    L_L, a, b = tsplit(
+        opponent_colour_dimensions(XYZ_r, Y_b, surround.F_S, surround.F_L))
 
     # Computing perceptual correlates.
     # -------------------------------------------------------------------------
@@ -429,8 +417,8 @@ def f(x, F_S):
 
     x_m = np.where(x > 0.008856,
                    x ** (1 / F_S),
-                   ((((0.008856 ** (1 / F_S)) -
-                      (16 / 116)) / 0.008856) * x + (16 / 116)))
+                   ((((0.008856 ** (1 / F_S)) - (16 / 116)) / 0.008856) * x +
+                    (16 / 116)))
 
     return x_m
 

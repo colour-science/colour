@@ -1,6 +1,5 @@
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for :mod:`colour.appearance.rlab` module.
 """
@@ -32,12 +31,14 @@ class TestRLABColourAppearanceModel(ColourAppearanceModelTest):
 
     FIXTURE_BASENAME = 'rlab.csv'
 
-    OUTPUT_ATTRIBUTES = {'LR': 'J',
-                         'CR': 'C',
-                         'hR': 'h',
-                         'sR': 's',
-                         'aR': 'a',
-                         'bR': 'b'}
+    OUTPUT_ATTRIBUTES = {
+        'LR': 'J',
+        'CR': 'C',
+        'hR': 'h',
+        'sR': 's',
+        'aR': 'a',
+        'bR': 'b'
+    }
 
     def output_specification_from_data(self, data):
         """
@@ -58,10 +59,7 @@ class TestRLABColourAppearanceModel(ColourAppearanceModelTest):
         XYZ = tstack((data['X'], data['Y'], data['Z']))
         XYZ_n = tstack((data['X_n'], data['Y_n'], data['Z_n']))
 
-        specification = XYZ_to_RLAB(XYZ,
-                                    XYZ_n,
-                                    data['Y_n2'],
-                                    data['sigma'],
+        specification = XYZ_to_RLAB(XYZ, XYZ_n, data['Y_n2'], data['sigma'],
                                     data['D'])
 
         return specification

@@ -1,6 +1,5 @@
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for :mod:`colour.appearance.ciecam02` module.
 """
@@ -10,11 +9,9 @@ from __future__ import division, unicode_literals
 import numpy as np
 from itertools import permutations
 
-from colour.appearance import (
-    CIECAM02_InductionFactors,
-    CIECAM02_Specification,
-    XYZ_to_CIECAM02,
-    CIECAM02_to_XYZ)
+from colour.appearance import (CIECAM02_InductionFactors,
+                               CIECAM02_Specification, XYZ_to_CIECAM02,
+                               CIECAM02_to_XYZ)
 from colour.appearance.tests.common import ColourAppearanceModelTest
 from colour.utilities import as_namedtuple, ignore_numpy_errors, tsplit, tstack
 
@@ -25,8 +22,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestCIECAM02ColourAppearanceModelForward',
-           'TestCIECAM02ColourAppearanceModelReverse']
+__all__ = [
+    'TestCIECAM02ColourAppearanceModelForward',
+    'TestCIECAM02ColourAppearanceModelReverse'
+]
 
 
 class TestCIECAM02ColourAppearanceModelForward(ColourAppearanceModelTest):
@@ -37,13 +36,15 @@ class TestCIECAM02ColourAppearanceModelForward(ColourAppearanceModelTest):
 
     FIXTURE_BASENAME = 'ciecam02.csv'
 
-    OUTPUT_ATTRIBUTES = {'J': 'J',
-                         'C': 'C',
-                         'h': 'h',
-                         's': 's',
-                         'Q': 'Q',
-                         'M': 'M',
-                         'H': 'H'}
+    OUTPUT_ATTRIBUTES = {
+        'J': 'J',
+        'C': 'C',
+        'h': 'h',
+        's': 's',
+        'Q': 'Q',
+        'M': 'M',
+        'H': 'H'
+    }
 
     def output_specification_from_data(self, data):
         """
@@ -64,14 +65,9 @@ class TestCIECAM02ColourAppearanceModelForward(ColourAppearanceModelTest):
         XYZ = tstack((data['X'], data['Y'], data['Z']))
         XYZ_w = tstack((data['X_w'], data['Y_w'], data['Z_w']))
 
-        specification = XYZ_to_CIECAM02(XYZ,
-                                        XYZ_w,
-                                        data['L_A'],
-                                        data['Y_b'],
+        specification = XYZ_to_CIECAM02(XYZ, XYZ_w, data['L_A'], data['Y_b'],
                                         CIECAM02_InductionFactors(
-                                            data['F'],
-                                            data['c'],
-                                            data['N_c']))
+                                            data['F'], data['c'], data['N_c']))
 
         return specification
 
@@ -84,9 +80,7 @@ class TestCIECAM02ColourAppearanceModelReverse(ColourAppearanceModelTest):
 
     FIXTURE_BASENAME = 'ciecam02.csv'
 
-    OUTPUT_ATTRIBUTES = {'X': 0,
-                         'Y': 1,
-                         'Z': 2}
+    OUTPUT_ATTRIBUTES = {'X': 0, 'Y': 1, 'Z': 2}
 
     def output_specification_from_data(self, data):
         """
@@ -127,18 +121,16 @@ class TestCIECAM02ColourAppearanceModelReverse(ColourAppearanceModelTest):
         XYZ_w = tstack((data['X_w'], data['Y_w'], data['Z_w']))
 
         i, j, k = correlates
-        CIECAM02_specification = as_namedtuple(
-            {i: data[i], j: data[j], k: data[k]},
-            CIECAM02_Specification)
+        CIECAM02_specification = as_namedtuple({
+            i: data[i],
+            j: data[j],
+            k: data[k]
+        }, CIECAM02_Specification)
 
-        XYZ = CIECAM02_to_XYZ(CIECAM02_specification,
-                              XYZ_w,
-                              data['L_A'],
+        XYZ = CIECAM02_to_XYZ(CIECAM02_specification, XYZ_w, data['L_A'],
                               data['Y_b'],
                               CIECAM02_InductionFactors(
-                                  data['F'],
-                                  data['c'],
-                                  data['N_c']))
+                                  data['F'], data['c'], data['N_c']))
 
         return XYZ
 
@@ -167,11 +159,11 @@ class TestCIECAM02ColourAppearanceModelReverse(ColourAppearanceModelTest):
             XYZ = self._XYZ_from_data(data, correlates)
             value = tsplit(XYZ)[attribute]
 
-            error_message = (
-                'Parameter "{0}" in test case "{1}" '
-                'does not match target value.\n'
-                'Expected: "{2}" \n'
-                'Received "{3}"').format(attribute, case, expected, value)
+            error_message = ('Parameter "{0}" in test case "{1}" '
+                             'does not match target value.\n'
+                             'Expected: "{2}" \n'
+                             'Received "{3}"').format(attribute, case,
+                                                      expected, value)
 
             np.testing.assert_allclose(
                 value,
@@ -182,10 +174,7 @@ class TestCIECAM02ColourAppearanceModelReverse(ColourAppearanceModelTest):
                 verbose=False)
 
             np.testing.assert_almost_equal(
-                value,
-                expected,
-                decimal=1,
-                err_msg=error_message)
+                value, expected, decimal=1, err_msg=error_message)
 
     @ignore_numpy_errors
     def test_nan_XYZ_to_CIECAM02(self):

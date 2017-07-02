@@ -1,6 +1,5 @@
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for :mod:`colour.appearance.atd95` module.
 """
@@ -41,7 +40,8 @@ class TestATD95ColourAppearanceModel(ColourAppearanceModelTest):
         'D_1': 'D_1',
         'A_2': 'A_2',
         'T_2': 'T_2',
-        'D_2': 'D_2'}
+        'D_2': 'D_2'
+    }
 
     def output_specification_from_data(self, data):
         """
@@ -62,12 +62,8 @@ class TestATD95ColourAppearanceModel(ColourAppearanceModelTest):
         XYZ = tstack((data['X'], data['Y'], data['Z']))
         XYZ_0 = tstack((data['X_0'], data['Y_0'], data['Z_0']))
 
-        specification = XYZ_to_ATD95(XYZ,
-                                     XYZ_0,
-                                     data['Y_02'],
-                                     data['K_1'],
-                                     data['K_2'],
-                                     data['sigma'])
+        specification = XYZ_to_ATD95(XYZ, XYZ_0, data['Y_02'], data['K_1'],
+                                     data['K_2'], data['sigma'])
 
         return specification
 
