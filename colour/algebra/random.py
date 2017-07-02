@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Random Numbers Utilities
 ========================
@@ -23,8 +22,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['RANDOM_STATE',
-           'random_triplet_generator']
+__all__ = ['RANDOM_STATE', 'random_triplet_generator']
 
 RANDOM_STATE = np.random.RandomState()
 
@@ -80,10 +78,11 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
 
     integer_size = int(size)
     if integer_size != size:
-        warning(('"size" has been cast to integer: {0}'.format(
-            integer_size)))
+        warning(('"size" has been cast to integer: {0}'.format(integer_size)))
 
     for _ in range(integer_size):
-        yield np.array([random_state.uniform(*limits[0]),
-                        random_state.uniform(*limits[1]),
-                        random_state.uniform(*limits[2])])
+        yield np.array([
+            random_state.uniform(*limits[0]),
+            random_state.uniform(*limits[1]),
+            random_state.uniform(*limits[2])
+        ])

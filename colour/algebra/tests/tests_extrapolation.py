@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for :mod:`colour.algebra.extrapolation` module.
 """
@@ -11,11 +10,8 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.algebra import (
-    Extrapolator,
-    LinearInterpolator,
-    CubicSplineInterpolator,
-    PchipInterpolator)
+from colour.algebra import (Extrapolator, LinearInterpolator,
+                            CubicSplineInterpolator, PchipInterpolator)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -39,7 +35,7 @@ class TestExtrapolator(unittest.TestCase):
         Tests presence of required attributes.
         """
 
-        required_attributes = ('interpolator',)
+        required_attributes = ('interpolator', )
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(Extrapolator))
@@ -61,55 +57,44 @@ class TestExtrapolator(unittest.TestCase):
         """
 
         extrapolator = Extrapolator(
-            LinearInterpolator(
-                np.array([5, 6, 7]),
-                np.array([5, 6, 7])))
+            LinearInterpolator(np.array([5, 6, 7]), np.array([5, 6, 7])))
         np.testing.assert_almost_equal(extrapolator((4, 8)), (4, 8))
         self.assertEqual(extrapolator(4), 4)
 
         extrapolator = Extrapolator(
-            LinearInterpolator(
-                np.array([3, 4, 5]),
-                np.array([1, 2, 3])),
+            LinearInterpolator(np.array([3, 4, 5]), np.array([1, 2, 3])),
             method='Constant')
-        np.testing.assert_almost_equal(extrapolator((0.1, 0.2, 8, 9)),
-                                       (1, 1, 3, 3))
+        np.testing.assert_almost_equal(
+            extrapolator((0.1, 0.2, 8, 9)), (1, 1, 3, 3))
         self.assertEqual(extrapolator(0.1), 1.)
 
         extrapolator = Extrapolator(
-            LinearInterpolator(
-                np.array([3, 4, 5]),
-                np.array([1, 2, 3])),
+            LinearInterpolator(np.array([3, 4, 5]), np.array([1, 2, 3])),
             method='Constant',
             left=0)
-        np.testing.assert_almost_equal(extrapolator((0.1, 0.2, 8, 9)),
-                                       (0, 0, 3, 3))
+        np.testing.assert_almost_equal(
+            extrapolator((0.1, 0.2, 8, 9)), (0, 0, 3, 3))
         self.assertEqual(extrapolator(0.1), 0)
 
         extrapolator = Extrapolator(
-            LinearInterpolator(
-                np.array([3, 4, 5]),
-                np.array([1, 2, 3])),
+            LinearInterpolator(np.array([3, 4, 5]), np.array([1, 2, 3])),
             method='Constant',
             right=0)
-        np.testing.assert_almost_equal(extrapolator((0.1, 0.2, 8, 9)),
-                                       (1, 1, 0, 0))
+        np.testing.assert_almost_equal(
+            extrapolator((0.1, 0.2, 8, 9)), (1, 1, 0, 0))
         self.assertEqual(extrapolator(9), 0)
 
         extrapolator = Extrapolator(
             CubicSplineInterpolator(
-                np.array([3, 4, 5, 6]),
-                np.array([1, 2, 3, 4])))
-        np.testing.assert_almost_equal(extrapolator((0.1, 0.2, 8.0, 9.0)),
-                                       (-1.9, -1.8, 6.0, 7.0))
+                np.array([3, 4, 5, 6]), np.array([1, 2, 3, 4])))
+        np.testing.assert_almost_equal(
+            extrapolator((0.1, 0.2, 8.0, 9.0)), (-1.9, -1.8, 6.0, 7.0))
         self.assertEqual(extrapolator(9), 7)
 
         extrapolator = Extrapolator(
-            PchipInterpolator(
-                np.array([3, 4, 5]),
-                np.array([1, 2, 3])))
-        np.testing.assert_almost_equal(extrapolator((0.1, 0.2, 8.0, 9.0)),
-                                       (-1.9, -1.8, 6.0, 7.0))
+            PchipInterpolator(np.array([3, 4, 5]), np.array([1, 2, 3])))
+        np.testing.assert_almost_equal(
+            extrapolator((0.1, 0.2, 8.0, 9.0)), (-1.9, -1.8, 6.0, 7.0))
         self.assertEqual(extrapolator(9), 7.)
 
     @ignore_numpy_errors

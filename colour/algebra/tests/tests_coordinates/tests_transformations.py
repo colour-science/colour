@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for :mod:`colour.algebra.coordinates.transformations`
 module.
@@ -12,13 +11,9 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.algebra import (
-    cartesian_to_spherical,
-    spherical_to_cartesian,
-    cartesian_to_polar,
-    polar_to_cartesian,
-    cartesian_to_cylindrical,
-    cylindrical_to_cartesian)
+from colour.algebra import (cartesian_to_spherical, spherical_to_cartesian,
+                            cartesian_to_polar, polar_to_cartesian,
+                            cartesian_to_cylindrical, cylindrical_to_cartesian)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -28,12 +23,11 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestCartesianToSpherical',
-           'TestSphericalToCartesian',
-           'TestCartesianToPolar',
-           'TestPolarToCartesian',
-           'TestCartesianToCylindrical',
-           'TestCylindricalToCartesian']
+__all__ = [
+    'TestCartesianToSpherical', 'TestSphericalToCartesian',
+    'TestCartesianToPolar', 'TestPolarToCartesian',
+    'TestCartesianToCylindrical', 'TestCylindricalToCartesian'
+]
 
 
 class TestCartesianToSpherical(unittest.TestCase):
@@ -72,23 +66,17 @@ cartesian_to_spherical` definition n-dimensional arrays support.
         a_i = np.array([3, 1, 6])
         a_o = np.array([6.78232998, 1.08574654, 0.32175055])
         np.testing.assert_almost_equal(
-            cartesian_to_spherical(a_i),
-            a_o,
-            decimal=7)
+            cartesian_to_spherical(a_i), a_o, decimal=7)
 
         a_i = np.tile(a_i, (6, 1))
         a_o = np.tile(a_o, (6, 1))
         np.testing.assert_almost_equal(
-            cartesian_to_spherical(a_i),
-            a_o,
-            decimal=7)
+            cartesian_to_spherical(a_i), a_o, decimal=7)
 
         a_i = np.reshape(a_i, (2, 3, 3))
         a_o = np.reshape(a_o, (2, 3, 3))
         np.testing.assert_almost_equal(
-            cartesian_to_spherical(a_i),
-            a_o,
-            decimal=7)
+            cartesian_to_spherical(a_i), a_o, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_cartesian_to_spherical(self):
@@ -143,23 +131,17 @@ spherical_to_cartesian` definition n-dimensional arrays support.
         a_i = np.array([6.78232998, 1.08574654, 0.32175055])
         a_o = np.array([3, 1, 6])
         np.testing.assert_almost_equal(
-            spherical_to_cartesian(a_i),
-            a_o,
-            decimal=7)
+            spherical_to_cartesian(a_i), a_o, decimal=7)
 
         a_i = np.tile(a_i, (6, 1))
         a_o = np.tile(a_o, (6, 1))
         np.testing.assert_almost_equal(
-            spherical_to_cartesian(a_i),
-            a_o,
-            decimal=7)
+            spherical_to_cartesian(a_i), a_o, decimal=7)
 
         a_i = np.reshape(a_i, (2, 3, 3))
         a_o = np.reshape(a_o, (2, 3, 3))
         np.testing.assert_almost_equal(
-            spherical_to_cartesian(a_i),
-            a_o,
-            decimal=7)
+            spherical_to_cartesian(a_i), a_o, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_spherical_to_cartesian(self):
@@ -210,24 +192,15 @@ cartesian_to_polar` definition n-dimensional arrays support.
 
         a_i = np.array([3, 1])
         a_o = np.array([3.16227766, 0.32175055])
-        np.testing.assert_almost_equal(
-            cartesian_to_polar(a_i),
-            a_o,
-            decimal=7)
+        np.testing.assert_almost_equal(cartesian_to_polar(a_i), a_o, decimal=7)
 
         a_i = np.tile(a_i, (6, 1))
         a_o = np.tile(a_o, (6, 1))
-        np.testing.assert_almost_equal(
-            cartesian_to_polar(a_i),
-            a_o,
-            decimal=7)
+        np.testing.assert_almost_equal(cartesian_to_polar(a_i), a_o, decimal=7)
 
         a_i = np.reshape(a_i, (2, 3, 2))
         a_o = np.reshape(a_o, (2, 3, 2))
-        np.testing.assert_almost_equal(
-            cartesian_to_polar(a_i),
-            a_o,
-            decimal=7)
+        np.testing.assert_almost_equal(cartesian_to_polar(a_i), a_o, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_cartesian_to_polar(self):
@@ -256,20 +229,17 @@ polar_to_cartesian` definition.
         """
 
         np.testing.assert_almost_equal(
-            polar_to_cartesian(
-                np.array([0.32175055, 1.08574654])),
+            polar_to_cartesian(np.array([0.32175055, 1.08574654])),
             np.array([0.15001697, 0.28463718]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            polar_to_cartesian(
-                np.array([1.68145355, 1.05578119])),
+            polar_to_cartesian(np.array([1.68145355, 1.05578119])),
             np.array([0.82819662, 1.46334425]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            polar_to_cartesian(
-                np.array([-0.14626640, 1.23829030])),
+            polar_to_cartesian(np.array([-0.14626640, 1.23829030])),
             np.array([-0.04774323, -0.13825500]),
             decimal=7)
 
@@ -281,24 +251,15 @@ polar_to_cartesian` definition n-dimensional arrays support.
 
         a_i = np.array([3.16227766, 0.32175055])
         a_o = np.array([3, 1])
-        np.testing.assert_almost_equal(
-            polar_to_cartesian(a_i),
-            a_o,
-            decimal=7)
+        np.testing.assert_almost_equal(polar_to_cartesian(a_i), a_o, decimal=7)
 
         a_i = np.tile(a_i, (6, 1))
         a_o = np.tile(a_o, (6, 1))
-        np.testing.assert_almost_equal(
-            polar_to_cartesian(a_i),
-            a_o,
-            decimal=7)
+        np.testing.assert_almost_equal(polar_to_cartesian(a_i), a_o, decimal=7)
 
         a_i = np.reshape(a_i, (2, 3, 2))
         a_o = np.reshape(a_o, (2, 3, 2))
-        np.testing.assert_almost_equal(
-            polar_to_cartesian(a_i),
-            a_o,
-            decimal=7)
+        np.testing.assert_almost_equal(polar_to_cartesian(a_i), a_o, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_polar_to_cartesian(self):
@@ -350,23 +311,17 @@ cartesian_to_cylindrical` definition n-dimensional arrays support.
         a_i = np.array([3, 1, 6])
         a_o = np.array([3.16227766, 0.32175055, 6.00000000])
         np.testing.assert_almost_equal(
-            cartesian_to_cylindrical(a_i),
-            a_o,
-            decimal=7)
+            cartesian_to_cylindrical(a_i), a_o, decimal=7)
 
         a_i = np.tile(a_i, (6, 1))
         a_o = np.tile(a_o, (6, 1))
         np.testing.assert_almost_equal(
-            cartesian_to_cylindrical(a_i),
-            a_o,
-            decimal=7)
+            cartesian_to_cylindrical(a_i), a_o, decimal=7)
 
         a_i = np.reshape(a_i, (2, 3, 3))
         a_o = np.reshape(a_o, (2, 3, 3))
         np.testing.assert_almost_equal(
-            cartesian_to_cylindrical(a_i),
-            a_o,
-            decimal=7)
+            cartesian_to_cylindrical(a_i), a_o, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_cartesian_to_cylindrical(self):
@@ -421,23 +376,17 @@ cylindrical_to_cartesian` definition n-dimensional arrays support.
         a_i = np.array([3.16227766, 0.32175055, 6.00000000])
         a_o = np.array([3, 1, 6])
         np.testing.assert_almost_equal(
-            cylindrical_to_cartesian(a_i),
-            a_o,
-            decimal=7)
+            cylindrical_to_cartesian(a_i), a_o, decimal=7)
 
         a_i = np.tile(a_i, (6, 1))
         a_o = np.tile(a_o, (6, 1))
         np.testing.assert_almost_equal(
-            cylindrical_to_cartesian(a_i),
-            a_o,
-            decimal=7)
+            cylindrical_to_cartesian(a_i), a_o, decimal=7)
 
         a_i = np.reshape(a_i, (2, 3, 3))
         a_o = np.reshape(a_o, (2, 3, 3))
         np.testing.assert_almost_equal(
-            cylindrical_to_cartesian(a_i),
-            a_o,
-            decimal=7)
+            cylindrical_to_cartesian(a_i), a_o, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_cylindrical_to_cartesian(self):
