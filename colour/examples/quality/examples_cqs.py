@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Showcases *Colour Quality Scale* (CQS) computations.
 """
@@ -13,23 +12,23 @@ from colour.utilities.verbose import message_box
 message_box('"Colour Quality Scale (CQS)" Computations')
 
 message_box('Computing "F2" illuminant "Colour Quality Scale (CQS)".')
-print(colour.colour_quality_scale(
-    colour.ILLUMINANTS_RELATIVE_SPDS['F2']))
+print(colour.colour_quality_scale(colour.ILLUMINANTS_RELATIVE_SPDS['F2']))
 
 print('\n')
 
 message_box(('Computing "H38HT-100" mercury lamp "Colour Quality Scale (CQS)" '
              'with detailed output data.'))
-pprint(colour.colour_quality_scale(
-    colour.LIGHT_SOURCES_RELATIVE_SPDS['H38HT-100 (Mercury)'],
-    additional_data=True))
+pprint(
+    colour.colour_quality_scale(
+        colour.LIGHT_SOURCES_RELATIVE_SPDS['H38HT-100 (Mercury)'],
+        additional_data=True))
 
 print('\n')
 
 message_box('Computing "SDW-T 100W/LV Super HPS" lamp '
             '"Colour Quality Scale (CQS)".')
-print(colour.colour_quality_scale(
-    colour.LIGHT_SOURCES_RELATIVE_SPDS['SDW-T 100W/LV (Super HPS)']))
+print(colour.colour_quality_scale(colour.LIGHT_SOURCES_RELATIVE_SPDS[
+    'SDW-T 100W/LV (Super HPS)']))
 
 print('\n')
 
@@ -115,7 +114,8 @@ SAMPLE_SPD_DATA = {
     765: 0.00340568,
     770: 0.00261153,
     775: 0.00258850,
-    780: 0.00293663}
+    780: 0.00293663
+}
 
 print(colour.colour_quality_scale(
     colour.SpectralPowerDistribution('Sample', SAMPLE_SPD_DATA)))

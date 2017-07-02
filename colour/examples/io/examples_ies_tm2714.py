@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Showcases input / output *IES TM-27-14* spectral data XML files related
 examples.
@@ -17,8 +16,8 @@ RESOURCES_DIRECTORY = os.path.join(os.path.dirname(__file__), 'resources')
 message_box('"IES TM-27-14" Spectral Data "XML" File IO')
 
 message_box('Reading spectral data from "IES TM-27-14" "XML" file.')
-spd = colour.IES_TM2714_Spd(os.path.join(RESOURCES_DIRECTORY,
-                                         'TM27 Sample Spectral Data.spdx'))
+spd = colour.IES_TM2714_Spd(
+    os.path.join(RESOURCES_DIRECTORY, 'TM27 Sample Spectral Data.spdx'))
 spd.read()
 print(spd)
 

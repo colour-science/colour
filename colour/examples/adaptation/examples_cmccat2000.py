@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Showcases *CMCCAT2000* chromatic adaptation model computations.
 """
@@ -19,7 +18,7 @@ message_box(('Computing chromatic adaptation using "CMCCAT200" forward '
              'chromatic adaptation model.\n'
              '\n\t"XYZ":\n\t\t{0}\n\t"XYZ_w":\n\t\t{1}\n\t"XYZ_wr":\n\t\t{2}'
              '\n\t"L_A1":\n\t\t{3}\n\t"L_A2":\n\t\t{4}'.format(
-                XYZ, XYZ_w, XYZ_wr, L_A1, L_A2)))
+                 XYZ, XYZ_w, XYZ_wr, L_A1, L_A2)))
 print(colour.chromatic_adaptation_CMCCAT2000(XYZ, XYZ_w, XYZ_wr, L_A1, L_A2))
 
 print('\n')
@@ -29,6 +28,6 @@ message_box(('Computing chromatic adaptation using "CMCCAT200" reverse '
              'chromatic adaptation model.\n'
              '\n\t"XYZ_c":\n\t\t{0}\n\t"XYZ_w":\n\t\t{1}\n\t"XYZ_wr":\n\t\t{2}'
              '\n\t"L_A1":\n\t\t{3}\n\t"L_A2":\n\t\t{4}'.format(
-                XYZ_c, XYZ_w, XYZ_wr, L_A1, L_A2)))
+                 XYZ_c, XYZ_w, XYZ_wr, L_A1, L_A2)))
 print(colour.chromatic_adaptation_CMCCAT2000(
     XYZ_c, XYZ_w, XYZ_wr, L_A1, L_A2, method='Reverse'))

@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Showcases colorimetry plotting examples.
 """
@@ -31,9 +30,8 @@ print('\n')
 
 message_box(('Plotting "CIE Standard Illuminant "A", "B", and "C" with their '
              'normalised colours.'))
-multi_illuminants_relative_spd_plot(['A', 'B', 'C'],
-                                    use_spds_colours=True,
-                                    normalise_spds_colours=True)
+multi_illuminants_relative_spd_plot(
+    ['A', 'B', 'C'], use_spds_colours=True, normalise_spds_colours=True)
 
 print('\n')
 
@@ -126,7 +124,8 @@ sample_spd_data = {
     765: 0.465,
     770: 0.448,
     775: 0.432,
-    780: 0.421}
+    780: 0.421
+}
 
 # http://speclib.jpl.nasa.gov/speclibdata/
 # jhu.becknic.manmade.roofing.metal.solid.0525uuua.spectrum.txt  # noqa
@@ -352,7 +351,8 @@ galvanized_steel_metal_spd_data = {
     796: 9.31,
     798: 9.26,
     800: 9.21,
-    820: 8.59}
+    820: 8.59
+}
 
 # http://speclib.jpl.nasa.gov/speclibdata/
 # jhu.becknic.manmade.construction.marble.solid.0722uuu.spectrum.txt
@@ -578,21 +578,22 @@ white_marble_spd_data = {
     796: 84.31,
     798: 84.34,
     800: 84.34,
-    820: 84.47}
+    820: 84.47
+}
 
 message_box('Plotting various single spectral power distributions.')
 single_spd_plot(colour.SpectralPowerDistribution('Custom', sample_spd_data))
-single_spd_plot(colour.SpectralPowerDistribution(
-    'Galvanized Steel Metal',
-    galvanized_steel_metal_spd_data))
+single_spd_plot(
+    colour.SpectralPowerDistribution('Galvanized Steel Metal',
+                                     galvanized_steel_metal_spd_data))
 
 print('\n')
 
 message_box('Plotting multiple spectral power distributions.')
-multi_spd_plot((colour.SpectralPowerDistribution(
-    'Galvanized Steel Metal',
-    galvanized_steel_metal_spd_data),
-    colour.SpectralPowerDistribution('White Marble', white_marble_spd_data)))
+multi_spd_plot(
+    (colour.SpectralPowerDistribution('Galvanized Steel Metal',
+                                      galvanized_steel_metal_spd_data),
+     colour.SpectralPowerDistribution('White Marble', white_marble_spd_data)))
 
 print('\n')
 
@@ -798,7 +799,8 @@ street_light_spd_data = {
     774: 9.2280000e-002,
     776: 9.0480000e-002,
     778: 9.0020000e-002,
-    780: 8.8190000e-002}
+    780: 8.8190000e-002
+}
 
 street_light_spd = colour.SpectralPowerDistribution('Street Light',
                                                     street_light_spd_data)
@@ -808,23 +810,28 @@ bandpass_corrected_street_light_spd.name = 'Street Light (Bandpass Corrected)'
 bandpass_corrected_street_light_spd = colour.bandpass_correction(
     bandpass_corrected_street_light_spd, method='Stearns 1988')
 
-multi_spd_plot((street_light_spd, bandpass_corrected_street_light_spd),
-               title='Stearns Bandpass Correction')
+multi_spd_plot(
+    (street_light_spd, bandpass_corrected_street_light_spd),
+    title='Stearns Bandpass Correction')
 
 print('\n')
 
 message_box('Plotting a single "cone fundamentals" colour matching functions.')
-single_cmfs_plot('Stockman & Sharpe 2 Degree Cone Fundamentals',
-                 y_label='Sensitivity',
-                 bounding_box=(390, 870, 0, 1.1))
+single_cmfs_plot(
+    'Stockman & Sharpe 2 Degree Cone Fundamentals',
+    y_label='Sensitivity',
+    bounding_box=(390, 870, 0, 1.1))
 
 print('\n')
 
 message_box('Plotting multiple "cone fundamentals" colour matching functions.')
-multi_cmfs_plot(['Stockman & Sharpe 2 Degree Cone Fundamentals',
-                 'Stockman & Sharpe 10 Degree Cone Fundamentals'],
-                y_label='Sensitivity',
-                bounding_box=(390, 870, 0, 1.1))
+multi_cmfs_plot(
+    [
+        'Stockman & Sharpe 2 Degree Cone Fundamentals',
+        'Stockman & Sharpe 10 Degree Cone Fundamentals'
+    ],
+    y_label='Sensitivity',
+    bounding_box=(390, 870, 0, 1.1))
 
 print('\n')
 
@@ -832,20 +839,28 @@ message_box('Plotting various single colour matching functions.')
 pprint(sorted(colour.CMFS.keys()))
 single_cmfs_plot('CIE 1931 2 Degree Standard Observer')
 single_cmfs_plot('CIE 1964 10 Degree Standard Observer')
-single_cmfs_plot('Stiles & Burch 1955 2 Degree RGB CMFs',
-                 bounding_box=(390, 830, -0.5, 3.5))
-single_cmfs_plot('Stiles & Burch 1959 10 Degree RGB CMFs',
-                 bounding_box=(390, 830, -0.5, 3.5))
+single_cmfs_plot(
+    'Stiles & Burch 1955 2 Degree RGB CMFs',
+    bounding_box=(390, 830, -0.5, 3.5))
+single_cmfs_plot(
+    'Stiles & Burch 1959 10 Degree RGB CMFs',
+    bounding_box=(390, 830, -0.5, 3.5))
 
 print('\n')
 
 message_box('Comparing various colour matching functions.')
-multi_cmfs_plot(['CIE 1931 2 Degree Standard Observer',
-                 'CIE 1964 10 Degree Standard Observer'])
-multi_cmfs_plot(['CIE 2012 10 Degree Standard Observer',
-                 'CIE 1964 10 Degree Standard Observer'])
-multi_cmfs_plot(['Wright & Guild 1931 2 Degree RGB CMFs',
-                 'Stiles & Burch 1955 2 Degree RGB CMFs'])
+multi_cmfs_plot([
+    'CIE 1931 2 Degree Standard Observer',
+    'CIE 1964 10 Degree Standard Observer'
+])
+multi_cmfs_plot([
+    'CIE 2012 10 Degree Standard Observer',
+    'CIE 1964 10 Degree Standard Observer'
+])
+multi_cmfs_plot([
+    'Wright & Guild 1931 2 Degree RGB CMFs',
+    'Stiles & Burch 1955 2 Degree RGB CMFs'
+])
 
 print('\n')
 
@@ -856,12 +871,13 @@ visible_spectrum_plot('CIE 2012 2 Degree Standard Observer')
 print('\n')
 
 message_box('Plotting photopic luminous efficiency functions.')
-multi_spd_plot(colour.PHOTOPIC_LEFS.values(),
-               title='Luminous Efficiency Functions',
-               y_label='Luminous Efficiency',
-               legend_location='upper right',
-               y_tighten=True,
-               margins=(0, 0, 0, .1))
+multi_spd_plot(
+    colour.PHOTOPIC_LEFS.values(),
+    title='Luminous Efficiency Functions',
+    y_label='Luminous Efficiency',
+    legend_location='upper right',
+    y_tighten=True,
+    margins=(0, 0, 0, .1))
 
 print('\n')
 
@@ -883,13 +899,14 @@ message_box(('Plotting a mesopic luminous efficiency function with given '
 mesopic_luminous_efficiency_function = (
     colour.mesopic_luminous_efficiency_function(0.2))
 
-multi_spd_plot((mesopic_luminous_efficiency_function,
-                colour.PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer'],
-                colour.SCOTOPIC_LEFS['CIE 1951 Scotopic Standard Observer']),
-               y_label='Luminous Efficiency',
-               legend_location='upper right',
-               y_tighten=True,
-               margins=(0, 0, 0, .1))
+multi_spd_plot(
+    (mesopic_luminous_efficiency_function,
+     colour.PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer'],
+     colour.SCOTOPIC_LEFS['CIE 1951 Scotopic Standard Observer']),
+    y_label='Luminous Efficiency',
+    legend_location='upper right',
+    y_tighten=True,
+    margins=(0, 0, 0, .1))
 
 print('\n')
 
@@ -904,8 +921,8 @@ multi_lightness_function_plot(['CIE 1976', 'Glasser 1958'])
 print('\n')
 
 message_box('Plotting various blackbody spectral radiance.')
-blackbody_spectral_radiance_plot(temperature=3500,
-                                 blackbody='VY Canis Majoris')
+blackbody_spectral_radiance_plot(
+    temperature=3500, blackbody='VY Canis Majoris')
 blackbody_spectral_radiance_plot(temperature=5778, blackbody='The Sun')
 blackbody_spectral_radiance_plot(temperature=12130, blackbody='Rigel')
 
@@ -918,28 +935,29 @@ ASTM_G_173_spd = ASTM_G_173_ETR.clone() * 1.37905559e+13
 
 ASTM_G_173_spd.interpolate(colour.SpectralShape(interval=5), method='Linear')
 
-blackbody_spd = colour.blackbody_spd(
-    5778,
-    ASTM_G_173_spd.shape)
+blackbody_spd = colour.blackbody_spd(5778, ASTM_G_173_spd.shape)
 blackbody_spd.name = 'The Sun - 5778K'
 
-multi_spd_plot((ASTM_G_173_spd, blackbody_spd),
-               y_label='W / (sr m$^2$) / m',
-               legend_location='upper right')
+multi_spd_plot(
+    (ASTM_G_173_spd, blackbody_spd),
+    y_label='W / (sr m$^2$) / m',
+    legend_location='upper right')
 
 print('\n')
 
 message_box('Plotting various "blackbody" spectral power distributions.')
 blackbody_spds = [
     colour.blackbody_spd(i, colour.SpectralShape(0, 10000, 10))
-    for i in range(1000, 15000, 1000)]
+    for i in range(1000, 15000, 1000)
+]
 
-multi_spd_plot(blackbody_spds,
-               y_label='W / (sr m$^2$) / m',
-               use_spds_colours=True,
-               normalise_spds_colours=True,
-               legend_location='upper right',
-               bounding_box=(0, 1250, 0, 2.5e15))
+multi_spd_plot(
+    blackbody_spds,
+    y_label='W / (sr m$^2$) / m',
+    use_spds_colours=True,
+    normalise_spds_colours=True,
+    legend_location='upper right',
+    bounding_box=(0, 1250, 0, 2.5e15))
 
 print('\n')
 
