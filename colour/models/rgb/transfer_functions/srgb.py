@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 sRGB Colourspace
 ================
@@ -43,8 +42,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['oetf_sRGB',
-           'eotf_sRGB']
+__all__ = ['oetf_sRGB', 'eotf_sRGB']
 
 
 def oetf_sRGB(L):
@@ -70,9 +68,8 @@ def oetf_sRGB(L):
 
     L = np.asarray(L)
 
-    return as_numeric(np.where(L <= 0.0031308,
-                               L * 12.92,
-                               1.055 * (L ** (1 / 2.4)) - 0.055))
+    return as_numeric(
+        np.where(L <= 0.0031308, L * 12.92, 1.055 * (L ** (1 / 2.4)) - 0.055))
 
 
 def eotf_sRGB(V):
@@ -106,6 +103,6 @@ def eotf_sRGB(V):
 
     V = np.asarray(V)
 
-    return as_numeric(np.where(V <= oetf_sRGB(0.0031308),
-                               V / 12.92,
-                               ((V + 0.055) / 1.055) ** 2.4))
+    return as_numeric(
+        np.where(V <= oetf_sRGB(0.0031308), V / 12.92, ((V + 0.055) / 1.055) **
+                 2.4))

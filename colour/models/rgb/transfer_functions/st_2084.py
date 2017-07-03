@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 SMPTE ST 2084:2014
 ==================
@@ -41,15 +40,14 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['ST2084_CONSTANTS',
-           'oetf_ST2084',
-           'eotf_ST2084']
+__all__ = ['ST2084_CONSTANTS', 'oetf_ST2084', 'eotf_ST2084']
 
-ST2084_CONSTANTS = Structure(m_1=2610 / 4096 * (1 / 4),
-                             m_2=2523 / 4096 * 128,
-                             c_1=3424 / 4096,
-                             c_2=2413 / 4096 * 32,
-                             c_3=2392 / 4096 * 32)
+ST2084_CONSTANTS = Structure(
+    m_1=2610 / 4096 * (1 / 4),
+    m_2=2523 / 4096 * 128,
+    c_1=3424 / 4096,
+    c_2=2413 / 4096 * 32,
+    c_3=2392 / 4096 * 32)
 """
 *SMPTE ST 2084:2014* opto-electrical transfer function (OETF / OECF) and
 electro-optical transfer function (EOTF / EOCF) constants.

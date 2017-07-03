@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for :mod:`colour.models.cie_uvw` module.
 """
@@ -51,26 +50,30 @@ class TestXYZ_to_UVW(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            XYZ_to_UVW(np.array([0.07049534, 0.10080000, 0.09558313]) * 100,
-                       np.array([0.44757, 0.40745])),
+            XYZ_to_UVW(
+                np.array([0.07049534, 0.10080000, 0.09558313]) * 100,
+                np.array([0.44757, 0.40745])),
             np.array([-50.56405108, -12.49600540, 37.00411491]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            XYZ_to_UVW(np.array([0.07049534, 0.10080000, 0.09558313]) * 100,
-                       np.array([0.31270, 0.32900])),
+            XYZ_to_UVW(
+                np.array([0.07049534, 0.10080000, 0.09558313]) * 100,
+                np.array([0.31270, 0.32900])),
             np.array([-22.59840563, 5.45505477, 37.00411491]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            XYZ_to_UVW(np.array([0.07049534, 0.10080000, 0.09558313]) * 100,
-                       np.array([0.37208, 0.37529])),
+            XYZ_to_UVW(
+                np.array([0.07049534, 0.10080000, 0.09558313]) * 100,
+                np.array([0.37208, 0.37529])),
             np.array([-33.35371445, -4.60753245, 37.00411491]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            XYZ_to_UVW(np.array([0.07049534, 0.10080000, 0.09558313]) * 100,
-                       np.array([0.37208, 0.37529, 0.10080])),
+            XYZ_to_UVW(
+                np.array([0.07049534, 0.10080000, 0.09558313]) * 100,
+                np.array([0.37208, 0.37529, 0.10080])),
             np.array([-33.35371445, -4.60753245, 37.00411491]),
             decimal=7)
 
@@ -84,30 +87,22 @@ class TestXYZ_to_UVW(unittest.TestCase):
         illuminant = np.array([0.34570, 0.35850])
         UVW = np.array([-28.05797333, -0.88194493, 37.00411491])
         np.testing.assert_almost_equal(
-            XYZ_to_UVW(XYZ, illuminant),
-            UVW,
-            decimal=7)
+            XYZ_to_UVW(XYZ, illuminant), UVW, decimal=7)
 
         XYZ = np.tile(XYZ, (6, 1))
         UVW = np.tile(UVW, (6, 1))
         np.testing.assert_almost_equal(
-            XYZ_to_UVW(XYZ, illuminant),
-            UVW,
-            decimal=7)
+            XYZ_to_UVW(XYZ, illuminant), UVW, decimal=7)
 
         illuminant = np.tile(illuminant, (6, 1))
         np.testing.assert_almost_equal(
-            XYZ_to_UVW(XYZ, illuminant),
-            UVW,
-            decimal=7)
+            XYZ_to_UVW(XYZ, illuminant), UVW, decimal=7)
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         illuminant = np.reshape(illuminant, (2, 3, 2))
         UVW = np.reshape(UVW, (2, 3, 3))
         np.testing.assert_almost_equal(
-            XYZ_to_UVW(XYZ, illuminant),
-            UVW,
-            decimal=7)
+            XYZ_to_UVW(XYZ, illuminant), UVW, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_XYZ_to_UVW(self):

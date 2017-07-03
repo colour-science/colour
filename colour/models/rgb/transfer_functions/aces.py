@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Academy Color Encoding System - Log Encodings
 =============================================
@@ -51,7 +50,6 @@ References
         https://github.com/ampas/aces-dev/tree/v1.0.3/documents
 """
 
-
 from __future__ import division, unicode_literals
 
 import numpy as np
@@ -65,16 +63,12 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['ACES_PROXY_10_CONSTANTS',
-           'ACES_PROXY_12_CONSTANTS',
-           'ACES_PROXY_CONSTANTS',
-           'ACES_CCT_CONSTANTS',
-           'log_encoding_ACESproxy',
-           'log_decoding_ACESproxy',
-           'log_encoding_ACEScc',
-           'log_decoding_ACEScc',
-           'log_encoding_ACEScct',
-           'log_decoding_ACEScct']
+__all__ = [
+    'ACES_PROXY_10_CONSTANTS', 'ACES_PROXY_12_CONSTANTS',
+    'ACES_PROXY_CONSTANTS', 'ACES_CCT_CONSTANTS', 'log_encoding_ACESproxy',
+    'log_decoding_ACESproxy', 'log_encoding_ACEScc', 'log_decoding_ACEScc',
+    'log_encoding_ACEScct', 'log_decoding_ACEScct'
+]
 
 ACES_PROXY_10_CONSTANTS = Structure(
     CV_min=64,
@@ -100,9 +94,10 @@ ACES_PROXY_12_CONSTANTS = Structure(
 ACES_PROXY_12_CONSTANTS : Structure
 """
 
-ACES_PROXY_CONSTANTS = CaseInsensitiveMapping(
-    {'10 Bit': ACES_PROXY_10_CONSTANTS,
-     '12 Bit': ACES_PROXY_12_CONSTANTS})
+ACES_PROXY_CONSTANTS = CaseInsensitiveMapping({
+    '10 Bit': ACES_PROXY_10_CONSTANTS,
+    '12 Bit': ACES_PROXY_12_CONSTANTS
+})
 """
 Aggregated *ACESproxy* colourspace constants.
 
@@ -160,12 +155,11 @@ def log_encoding_ACESproxy(lin_AP1, bit_depth='10 Bit'):
 
         return np.maximum(CV_min, np.minimum(CV_max, np.round(x)))
 
-    output = np.where(lin_AP1 > 2 ** -9.72,
-                      float_2_cv((np.log2(lin_AP1) +
-                                  constants.mid_log_offset) *
-                                 constants.steps_per_stop +
-                                 constants.mid_CV_offset),
-                      np.resize(CV_min, lin_AP1.shape))
+    output = np.where(
+        lin_AP1 > 2 ** -9.72,
+        float_2_cv((np.log2(lin_AP1) + constants.mid_log_offset) *
+                   constants.steps_per_stop + constants.mid_CV_offset),
+        np.resize(CV_min, lin_AP1.shape))
 
     return as_numeric(output, int)
 
@@ -198,8 +192,9 @@ def log_decoding_ACESproxy(ACESproxy, bit_depth='10 Bit'):
 
     constants = ACES_PROXY_CONSTANTS[bit_depth]
 
-    return (2 ** (((ACESproxy - constants.mid_CV_offset) /
-                   constants.steps_per_stop - constants.mid_log_offset)))
+    return (2 **
+            (((ACESproxy - constants.mid_CV_offset) / constants.steps_per_stop
+              - constants.mid_log_offset)))
 
 
 def log_encoding_ACEScc(lin_AP1):
@@ -225,11 +220,9 @@ def log_encoding_ACEScc(lin_AP1):
 
     lin_AP1 = np.asarray(lin_AP1)
 
-    output = np.where(lin_AP1 < 0,
-                      (np.log2(2 ** -15 * 0.5) + 9.72) / 17.52,
+    output = np.where(lin_AP1 < 0, (np.log2(2 ** -15 * 0.5) + 9.72) / 17.52,
                       (np.log2(2 ** -16 + lin_AP1 * 0.5) + 9.72) / 17.52)
-    output = np.where(lin_AP1 >= 2 ** -15,
-                      (np.log2(lin_AP1) + 9.72) / 17.52,
+    output = np.where(lin_AP1 >= 2 ** -15, (np.log2(lin_AP1) + 9.72) / 17.52,
                       output)
 
     return as_numeric(output)
@@ -259,11 +252,9 @@ def log_decoding_ACEScc(ACEScc):
     ACEScc = np.asarray(ACEScc)
 
     output = np.where(ACEScc < (9.72 - 15) / 17.52,
-                      (2 ** (ACEScc * 17.52 - 9.72) - 2 ** -16) * 2,
-                      2 ** (ACEScc * 17.52 - 9.72))
-    output = np.where(ACEScc >= (np.log2(65504) + 9.72) / 17.52,
-                      65504,
-                      output)
+                      (2 ** (ACEScc * 17.52 - 9.72) - 2 ** -16) * 2, 2
+                      ** (ACEScc * 17.52 - 9.72))
+    output = np.where(ACEScc >= (np.log2(65504) + 9.72) / 17.52, 65504, output)
 
     return as_numeric(output)
 
@@ -325,8 +316,7 @@ def log_decoding_ACEScct(ACEScct):
 
     ACEScct = np.asarray(ACEScct)
 
-    output = np.where(ACEScct > constants.Y_BRK,
-                      2 ** (ACEScct * 17.52 - 9.72),
+    output = np.where(ACEScct > constants.Y_BRK, 2 ** (ACEScct * 17.52 - 9.72),
                       (ACEScct - constants.B) / constants.A)
 
     return as_numeric(output)

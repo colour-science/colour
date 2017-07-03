@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 CIE Lab Colourspace
 ===================
@@ -41,10 +40,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['XYZ_to_Lab',
-           'Lab_to_XYZ',
-           'Lab_to_LCHab',
-           'LCHab_to_Lab']
+__all__ = ['XYZ_to_Lab', 'Lab_to_XYZ', 'Lab_to_LCHab', 'LCHab_to_Lab']
 
 
 def XYZ_to_Lab(
@@ -86,8 +82,7 @@ def XYZ_to_Lab(
     XYZ_f = XYZ / XYZ_r
 
     XYZ_f = np.where(XYZ_f > CIE_E,
-                     np.power(XYZ_f, 1 / 3),
-                     (CIE_K * XYZ_f + 16) / 116)
+                     np.power(XYZ_f, 1 / 3), (CIE_K * XYZ_f + 16) / 116)
 
     X_f, Y_f, Z_f = tsplit(XYZ_f)
 

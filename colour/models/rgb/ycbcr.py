@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Y'CbCr Colour Encoding
 ======================
@@ -62,19 +61,17 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Development'
 
-__all__ = ['YCBCR_WEIGHTS',
-           'RGB_range',
-           'YCbCr_ranges',
-           'RGB_to_YCbCr',
-           'YCbCr_to_RGB',
-           'RGB_to_YcCbcCrc',
-           'YcCbcCrc_to_RGB']
+__all__ = [
+    'YCBCR_WEIGHTS', 'RGB_range', 'YCbCr_ranges', 'RGB_to_YCbCr',
+    'YCbCr_to_RGB', 'RGB_to_YcCbcCrc', 'YcCbcCrc_to_RGB'
+]
 
-YCBCR_WEIGHTS = CaseInsensitiveMapping(
-    {'Rec. 601': np.array([0.2990, 0.1140]),
-     'Rec. 709': np.array([0.2126, 0.0722]),
-     'Rec. 2020': np.array([0.2627, 0.0593]),
-     'SMPTE-240M': np.array([0.2122, 0.0865])})
+YCBCR_WEIGHTS = CaseInsensitiveMapping({
+    'Rec. 601': np.array([0.2990, 0.1140]),
+    'Rec. 709': np.array([0.2126, 0.0722]),
+    'Rec. 2020': np.array([0.2627, 0.0593]),
+    'SMPTE-240M': np.array([0.2122, 0.0865])
+})
 """
 Luma weightings presets.
 
@@ -308,10 +305,11 @@ def RGB_to_YCbCr(RGB,
 
     RGB = np.asarray(RGB)
     Kr, Kb = K
-    RGB_min, RGB_max = kwargs.get(
-        'in_range', RGB_range(in_bits, in_legal, in_int))
-    Y_min, Y_max, C_min, C_max = kwargs.get(
-        'out_range', YCbCr_ranges(out_bits, out_legal, out_int))
+    RGB_min, RGB_max = kwargs.get('in_range',
+                                  RGB_range(in_bits, in_legal, in_int))
+    Y_min, Y_max, C_min, C_max = kwargs.get('out_range',
+                                            YCbCr_ranges(
+                                                out_bits, out_legal, out_int))
 
     RGB_float = RGB.astype(np.float_) - RGB_min
     RGB_float *= 1 / (RGB_max - RGB_min)
@@ -413,10 +411,11 @@ def YCbCr_to_RGB(YCbCr,
     YCbCr = np.asarray(YCbCr)
     Y, Cb, Cr = tsplit(YCbCr.astype(np.float_))
     Kr, Kb = K
-    Y_min, Y_max, C_min, C_max = kwargs.get(
-        'in_range', YCbCr_ranges(in_bits, in_legal, in_int))
-    RGB_min, RGB_max = kwargs.get(
-        'out_range', RGB_range(out_bits, out_legal, out_int))
+    Y_min, Y_max, C_min, C_max = kwargs.get('in_range',
+                                            YCbCr_ranges(
+                                                in_bits, in_legal, in_int))
+    RGB_min, RGB_max = kwargs.get('out_range',
+                                  RGB_range(out_bits, out_legal, out_int))
 
     Y -= Y_min
     Cb -= (C_max + C_min) / 2
@@ -497,8 +496,9 @@ def RGB_to_YcCbcCrc(RGB,
 
     RGB = np.asarray(RGB)
     R, G, B = tsplit(RGB)
-    Y_min, Y_max, C_min, C_max = kwargs.get(
-        'out_range', YCbCr_ranges(out_bits, out_legal, out_int))
+    Y_min, Y_max, C_min, C_max = kwargs.get('out_range',
+                                            YCbCr_ranges(
+                                                out_bits, out_legal, out_int))
 
     Yc = 0.2627 * R + 0.6780 * G + 0.0593 * B
     Yc = oetf_BT2020(Yc, is_12_bits_system=is_12_bits_system)
@@ -579,8 +579,9 @@ def YcCbcCrc_to_RGB(YcCbcCrc,
 
     YcCbcCrc = np.asarray(YcCbcCrc)
     Yc, Cbc, Crc = tsplit(YcCbcCrc.astype(np.float_))
-    Y_min, Y_max, C_min, C_max = kwargs.get(
-        'in_range', YCbCr_ranges(in_bits, in_legal, in_int))
+    Y_min, Y_max, C_min, C_max = kwargs.get('in_range',
+                                            YCbCr_ranges(
+                                                in_bits, in_legal, in_int))
 
     Yc -= Y_min
     Cbc -= (C_max + C_min) / 2

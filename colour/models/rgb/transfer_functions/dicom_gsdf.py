@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 DICOM - Grayscale Standard Display Function
 ===========================================
@@ -46,29 +45,28 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['DICOMGSDF_CONSTANTS',
-           'oetf_DICOMGSDF',
-           'eotf_DICOMGSDF']
+__all__ = ['DICOMGSDF_CONSTANTS', 'oetf_DICOMGSDF', 'eotf_DICOMGSDF']
 
-DICOMGSDF_CONSTANTS = Structure(a=-1.3011877,
-                                b=-2.5840191e-2,
-                                c=8.0242636e-2,
-                                d=-1.0320229e-1,
-                                e=1.3646699e-1,
-                                f=2.8745620e-2,
-                                g=-2.5468404e-2,
-                                h=-3.1978977e-3,
-                                k=1.2992634e-4,
-                                m=1.3635334e-3,
-                                A=71.498068,
-                                B=94.593053,
-                                C=41.912053,
-                                D=9.8247004,
-                                E=0.28175407,
-                                F=-1.1878455,
-                                G=-0.18014349,
-                                H=0.14710899,
-                                I=-0.017046845)
+DICOMGSDF_CONSTANTS = Structure(
+    a=-1.3011877,
+    b=-2.5840191e-2,
+    c=8.0242636e-2,
+    d=-1.0320229e-1,
+    e=1.3646699e-1,
+    f=2.8745620e-2,
+    g=-2.5468404e-2,
+    h=-3.1978977e-3,
+    k=1.2992634e-4,
+    m=1.3635334e-3,
+    A=71.498068,
+    B=94.593053,
+    C=41.912053,
+    D=9.8247004,
+    E=0.28175407,
+    F=-1.1878455,
+    G=-0.18014349,
+    H=0.14710899,
+    I=-0.017046845)
 """
 *DICOM Grayscale Standard Display Function* constants.
 

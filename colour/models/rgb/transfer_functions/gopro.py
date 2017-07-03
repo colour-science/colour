@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 GoPro Encodings
 ===============
@@ -34,8 +33,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['log_encoding_Protune',
-           'log_decoding_Protune']
+__all__ = ['log_encoding_Protune', 'log_decoding_Protune']
 
 
 def log_encoding_Protune(x):

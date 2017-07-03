@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for :mod:`colour.models.rgb.transfer_functions.linear`
 module.
@@ -50,31 +49,19 @@ function_linear` definition n-dimensional arrays support.
 
         a = 0.18
         a_p = 0.18
-        np.testing.assert_almost_equal(
-            function_linear(a),
-            a_p,
-            decimal=7)
+        np.testing.assert_almost_equal(function_linear(a), a_p, decimal=7)
 
         a = np.tile(a, 6)
         a_p = np.tile(a_p, 6)
-        np.testing.assert_almost_equal(
-            function_linear(a),
-            a_p,
-            decimal=7)
+        np.testing.assert_almost_equal(function_linear(a), a_p, decimal=7)
 
         a = np.reshape(a, (2, 3))
         a_p = np.reshape(a_p, (2, 3))
-        np.testing.assert_almost_equal(
-            function_linear(a),
-            a_p,
-            decimal=7)
+        np.testing.assert_almost_equal(function_linear(a), a_p, decimal=7)
 
         a = np.reshape(a, (2, 3, 1))
         a_p = np.reshape(a_p, (2, 3, 1))
-        np.testing.assert_almost_equal(
-            function_linear(a),
-            a_p,
-            decimal=7)
+        np.testing.assert_almost_equal(function_linear(a), a_p, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_function_linear(self):

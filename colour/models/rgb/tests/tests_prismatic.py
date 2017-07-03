@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for :mod:`colour.models.rgb.prismatic` module.
 """
@@ -21,8 +20,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestRGB_to_Prismatic',
-           'TestPrismatic_to_RGB']
+__all__ = ['TestRGB_to_Prismatic', 'TestPrismatic_to_RGB']
 
 
 class TestRGB_to_Prismatic(unittest.TestCase):
@@ -54,24 +52,15 @@ class TestRGB_to_Prismatic(unittest.TestCase):
 
         RGB = np.array([0.25, 0.50, 0.75])
         Lrgb = np.array([0.7500000, 0.1666667, 0.3333333, 0.5000000])
-        np.testing.assert_almost_equal(
-            RGB_to_Prismatic(RGB),
-            Lrgb,
-            decimal=7)
+        np.testing.assert_almost_equal(RGB_to_Prismatic(RGB), Lrgb, decimal=7)
 
         RGB = np.tile(RGB, (6, 1))
         Lrgb = np.tile(Lrgb, (6, 1))
-        np.testing.assert_almost_equal(
-            RGB_to_Prismatic(RGB),
-            Lrgb,
-            decimal=7)
+        np.testing.assert_almost_equal(RGB_to_Prismatic(RGB), Lrgb, decimal=7)
 
         RGB = np.reshape(RGB, (2, 3, 3))
         Lrgb = np.reshape(Lrgb, (2, 3, 4))
-        np.testing.assert_almost_equal(
-            RGB_to_Prismatic(RGB),
-            Lrgb,
-            decimal=7)
+        np.testing.assert_almost_equal(RGB_to_Prismatic(RGB), Lrgb, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_RGB_to_Prismatic(self):
@@ -117,24 +106,15 @@ class TestPrismatic_to_RGB(unittest.TestCase):
 
         Lrgb = np.array([0.7500000, 0.1666667, 0.3333333, 0.5000000])
         RGB = np.array([0.25, 0.50, 0.75])
-        np.testing.assert_almost_equal(
-            Prismatic_to_RGB(Lrgb),
-            RGB,
-            decimal=7)
+        np.testing.assert_almost_equal(Prismatic_to_RGB(Lrgb), RGB, decimal=7)
 
         Lrgb = np.tile(Lrgb, (6, 1))
         RGB = np.tile(RGB, (6, 1))
-        np.testing.assert_almost_equal(
-            Prismatic_to_RGB(Lrgb),
-            RGB,
-            decimal=7)
+        np.testing.assert_almost_equal(Prismatic_to_RGB(Lrgb), RGB, decimal=7)
 
         Lrgb = np.reshape(Lrgb, (2, 3, 4))
         RGB = np.reshape(RGB, (2, 3, 3))
-        np.testing.assert_almost_equal(
-            Prismatic_to_RGB(Lrgb),
-            RGB,
-            decimal=7)
+        np.testing.assert_almost_equal(Prismatic_to_RGB(Lrgb), RGB, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_Prismatic_to_RGB(self):

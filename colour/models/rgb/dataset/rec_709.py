@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Rec. 709 Colourspace
 ====================
@@ -29,11 +28,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import (
-    RGB_Colourspace,
-    oetf_BT709,
-    eotf_BT709,
-    normalised_primary_matrix)
+from colour.models.rgb import (RGB_Colourspace, oetf_BT709, eotf_BT709,
+                               normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -42,17 +38,15 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['REC_709_PRIMARIES',
-           'REC_709_WHITEPOINT',
-           'REC_709_ILLUMINANT',
-           'REC_709_TO_XYZ_MATRIX',
-           'XYZ_TO_REC_709_MATRIX',
-           'REC_709_COLOURSPACE']
+__all__ = [
+    'REC_709_PRIMARIES', 'REC_709_WHITEPOINT', 'REC_709_ILLUMINANT',
+    'REC_709_TO_XYZ_MATRIX', 'XYZ_TO_REC_709_MATRIX', 'REC_709_COLOURSPACE'
+]
 
 REC_709_PRIMARIES = np.array(
     [[0.6400, 0.3300],
      [0.3000, 0.6000],
-     [0.1500, 0.0600]])
+     [0.1500, 0.0600]])  # yapf: disable
 """
 *Rec. 709* colourspace primaries.
 
@@ -74,8 +68,8 @@ REC_709_WHITEPOINT = (
 REC_709_WHITEPOINT : ndarray
 """
 
-REC_709_TO_XYZ_MATRIX = normalised_primary_matrix(
-    REC_709_PRIMARIES, REC_709_WHITEPOINT)
+REC_709_TO_XYZ_MATRIX = normalised_primary_matrix(REC_709_PRIMARIES,
+                                                  REC_709_WHITEPOINT)
 """
 *Rec. 709* colourspace to *CIE XYZ* tristimulus values matrix.
 
@@ -97,7 +91,7 @@ REC_709_COLOURSPACE = RGB_Colourspace(
     REC_709_TO_XYZ_MATRIX,
     XYZ_TO_REC_709_MATRIX,
     oetf_BT709,
-    eotf_BT709)
+    eotf_BT709)  # yapf: disable
 """
 *Rec. 709* colourspace.
 

@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Gamma Colour Component Transfer Function
 ========================================
@@ -33,9 +32,7 @@ __status__ = 'Production'
 __all__ = ['function_gamma']
 
 
-def function_gamma(a,
-                   exponent=1,
-                   negative_number_handling='indeterminate'):
+def function_gamma(a, exponent=1, negative_number_handling='indeterminate'):
     """
     Defines a typical gamma encoding / decoding function.
 
@@ -98,6 +95,5 @@ def function_gamma(a,
     elif negative_number_handling == 'clamp':
         return as_numeric(np.where(a < 0, 0, a ** exponent))
     else:
-        raise ValueError(
-            'Undefined negative number handling method: "{0}".'.format(
-                negative_number_handling))
+        raise ValueError('Undefined negative number handling method: "{0}".'.
+                         format(negative_number_handling))

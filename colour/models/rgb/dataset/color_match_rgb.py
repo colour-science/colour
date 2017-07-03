@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 ColorMatch RGB Colourspace
 ==========================
@@ -27,10 +26,8 @@ import numpy as np
 from functools import partial
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import (
-    RGB_Colourspace,
-    function_gamma,
-    normalised_primary_matrix)
+from colour.models.rgb import (RGB_Colourspace, function_gamma,
+                               normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -39,17 +36,16 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['COLOR_MATCH_RGB_PRIMARIES',
-           'COLOR_MATCH_RGB_ILLUMINANT',
-           'COLOR_MATCH_RGB_WHITEPOINT',
-           'COLOR_MATCH_RGB_TO_XYZ_MATRIX',
-           'XYZ_TO_COLOR_MATCH_RGB_MATRIX',
-           'COLOR_MATCH_RGB_COLOURSPACE']
+__all__ = [
+    'COLOR_MATCH_RGB_PRIMARIES', 'COLOR_MATCH_RGB_ILLUMINANT',
+    'COLOR_MATCH_RGB_WHITEPOINT', 'COLOR_MATCH_RGB_TO_XYZ_MATRIX',
+    'XYZ_TO_COLOR_MATCH_RGB_MATRIX', 'COLOR_MATCH_RGB_COLOURSPACE'
+]
 
 COLOR_MATCH_RGB_PRIMARIES = np.array(
     [[0.6300, 0.3400],
      [0.2950, 0.6050],
-     [0.1500, 0.0750]])
+     [0.1500, 0.0750]])  # yapf: disable
 """
 *ColorMatch RGB* colourspace primaries.
 
@@ -64,8 +60,8 @@ COLOR_MATCH_RGB_ILLUMINANT : unicode
 """
 
 COLOR_MATCH_RGB_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
-        COLOR_MATCH_RGB_ILLUMINANT])
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
+    [COLOR_MATCH_RGB_ILLUMINANT])  # yapf: disable
 """
 *ColorMatch RGB* colourspace whitepoint.
 
@@ -95,7 +91,7 @@ COLOR_MATCH_RGB_COLOURSPACE = RGB_Colourspace(
     COLOR_MATCH_RGB_TO_XYZ_MATRIX,
     XYZ_TO_COLOR_MATCH_RGB_MATRIX,
     partial(function_gamma, exponent=1 / 1.8),
-    partial(function_gamma, exponent=1.8))
+    partial(function_gamma, exponent=1.8))  # yapf: disable
 """
 *ColorMatch RGB* colourspace.
 

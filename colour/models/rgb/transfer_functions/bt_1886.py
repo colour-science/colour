@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 ITU-R BT.1886
 =============
@@ -37,8 +36,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['oetf_BT1886',
-           'eotf_BT1886']
+__all__ = ['oetf_BT1886', 'eotf_BT1886']
 
 
 def oetf_BT1886(L, L_B=0, L_W=1):

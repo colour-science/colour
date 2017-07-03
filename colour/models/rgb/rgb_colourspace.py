@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 RGB Colourspace & Transformations
 =================================
@@ -25,10 +24,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.models import (
-    xy_to_XYZ,
-    xy_to_xyY,
-    xyY_to_XYZ)
+from colour.models import (xy_to_XYZ, xy_to_xyY, xyY_to_XYZ)
 from colour.models.rgb import normalised_primary_matrix
 from colour.adaptation import chromatic_adaptation_matrix_VonKries
 from colour.utilities import dot_matrix, dot_vector, is_string
@@ -40,11 +36,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['RGB_Colourspace',
-           'XYZ_to_RGB',
-           'RGB_to_XYZ',
-           'RGB_to_RGB_matrix',
-           'RGB_to_RGB']
+__all__ = [
+    'RGB_Colourspace', 'XYZ_to_RGB', 'RGB_to_XYZ', 'RGB_to_RGB_matrix',
+    'RGB_to_RGB'
+]
 
 
 class RGB_Colourspace(object):
@@ -272,8 +267,8 @@ VARICAM_V-Log_V-Gamut.pdf
 
         if value is not None:
             assert is_string(value), (
-                ('"{0}" attribute: "{1}" is not a '
-                 '"string" like object!').format('name', value))
+                ('"{0}" attribute: "{1}" is not a "string" like object!'
+                 ).format('name', value))
         self._name = value
 
     @property
@@ -331,9 +326,9 @@ VARICAM_V-Log_V-Gamut.pdf
         """
 
         if value is not None:
-            assert isinstance(value, (tuple, list, np.ndarray, np.matrix)), (
-                ('"{0}" attribute: "{1}" is not a "tuple", "list", "ndarray" '
-                 'or "matrix" instance!').format('whitepoint', value))
+            assert isinstance(value, (tuple, list, np.ndarray, np.matrix)), ((
+                '"{0}" attribute: "{1}" is not a "tuple", "list", "ndarray" '
+                'or "matrix" instance!').format('whitepoint', value))
             value = np.asarray(value)
         self._whitepoint = value
 
@@ -364,9 +359,9 @@ VARICAM_V-Log_V-Gamut.pdf
         """
 
         if value is not None:
-            assert is_string(value), (
-                ('"{0}" attribute: "{1}" is not a '
-                 '"string" like object!').format('illuminant', value))
+            assert is_string(value), (('"{0}" attribute: "{1}" is not a '
+                                       '"string" like object!').format(
+                                           'illuminant', value))
         self._illuminant = value
 
     @property
@@ -456,8 +451,9 @@ VARICAM_V-Log_V-Gamut.pdf
         """
 
         if value is not None:
-            assert hasattr(value, '__call__'), (
-                '"{0}" attribute: "{1}" is not callable!'.format(
+            assert hasattr(
+                value,
+                '__call__'), ('"{0}" attribute: "{1}" is not callable!'.format(
                     'encoding_cctf', value))
         self._encoding_cctf = value
 
@@ -486,8 +482,9 @@ VARICAM_V-Log_V-Gamut.pdf
         """
 
         if value is not None:
-            assert hasattr(value, '__call__'), (
-                '"{0}" attribute: "{1}" is not callable!'.format(
+            assert hasattr(
+                value,
+                '__call__'), ('"{0}" attribute: "{1}" is not callable!'.format(
                     'decoding_cctf', value))
         self._decoding_cctf = value
 
@@ -553,8 +550,8 @@ VARICAM_V-Log_V-Gamut.pdf
 
         if hasattr(self, '_primaries') and hasattr(self, '_whitepoint'):
             if self._primaries is not None and self._whitepoint is not None:
-                npm = normalised_primary_matrix(
-                    self._primaries, self._whitepoint)
+                npm = normalised_primary_matrix(self._primaries,
+                                                self._whitepoint)
 
                 self._derived_RGB_to_XYZ_matrix = npm
                 self._derived_XYZ_to_RGB_matrix = np.linalg.inv(npm)
@@ -841,8 +838,7 @@ def RGB_to_RGB(RGB,
     if apply_decoding_cctf:
         RGB = input_colourspace.decoding_cctf(RGB)
 
-    M = RGB_to_RGB_matrix(input_colourspace,
-                          output_colourspace,
+    M = RGB_to_RGB_matrix(input_colourspace, output_colourspace,
                           chromatic_adaptation_transform)
 
     RGB = dot_vector(M, RGB)

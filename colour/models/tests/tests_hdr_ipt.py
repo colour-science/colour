@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for :mod:`colour.models.hdr_ipt` module.
 """
@@ -22,9 +21,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestXYZ_to_hdr_IPT',
-           'TestHdr_IPT_to_XYZ',
-           'TestExponent_hdr_IPT']
+__all__ = ['TestXYZ_to_hdr_IPT', 'TestHdr_IPT_to_XYZ', 'TestExponent_hdr_IPT']
 
 
 class TestXYZ_to_hdr_IPT(unittest.TestCase):
@@ -39,22 +36,19 @@ class TestXYZ_to_hdr_IPT(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            XYZ_to_hdr_IPT(
-                np.array([0.07049534, 0.10080000, 0.09558313])),
+            XYZ_to_hdr_IPT(np.array([0.07049534, 0.10080000, 0.09558313])),
             np.array([25.18261761, -22.62111297, 3.18511729]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_hdr_IPT(
-                np.array([0.07049534, 0.10080000, 0.09558313]),
-                Y_s=0.5),
+                np.array([0.07049534, 0.10080000, 0.09558313]), Y_s=0.5),
             np.array([34.60312115, -15.70974390, 2.26601353]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_hdr_IPT(
-                np.array([0.25506814, 0.19150000, 0.08849752]),
-                Y_abs=1000),
+                np.array([0.25506814, 0.19150000, 0.08849752]), Y_abs=1000),
             np.array([47.18074546, 32.38073691, 29.13827648]),
             decimal=7)
 
@@ -69,32 +63,24 @@ class TestXYZ_to_hdr_IPT(unittest.TestCase):
         Y_abs = 100
         IPT_hdr = np.array([25.18261761, -22.62111297, 3.18511729])
         np.testing.assert_almost_equal(
-            XYZ_to_hdr_IPT(XYZ, Y_s, Y_abs),
-            IPT_hdr,
-            decimal=7)
+            XYZ_to_hdr_IPT(XYZ, Y_s, Y_abs), IPT_hdr, decimal=7)
 
         XYZ = np.tile(XYZ, (6, 1))
         IPT_hdr = np.tile(IPT_hdr, (6, 1))
         np.testing.assert_almost_equal(
-            XYZ_to_hdr_IPT(XYZ, Y_s, Y_abs),
-            IPT_hdr,
-            decimal=7)
+            XYZ_to_hdr_IPT(XYZ, Y_s, Y_abs), IPT_hdr, decimal=7)
 
         Y_s = np.tile(Y_s, 6)
         Y_abs = np.tile(Y_abs, 6)
         np.testing.assert_almost_equal(
-            XYZ_to_hdr_IPT(XYZ, Y_s, Y_abs),
-            IPT_hdr,
-            decimal=7)
+            XYZ_to_hdr_IPT(XYZ, Y_s, Y_abs), IPT_hdr, decimal=7)
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         Y_s = np.reshape(Y_s, (2, 3))
         Y_abs = np.reshape(Y_abs, (2, 3))
         IPT_hdr = np.reshape(IPT_hdr, (2, 3, 3))
         np.testing.assert_almost_equal(
-            XYZ_to_hdr_IPT(XYZ, Y_s, Y_abs),
-            IPT_hdr,
-            decimal=7)
+            XYZ_to_hdr_IPT(XYZ, Y_s, Y_abs), IPT_hdr, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_XYZ_to_hdr_IPT(self):
@@ -124,22 +110,19 @@ class TestHdr_IPT_to_XYZ(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            hdr_IPT_to_XYZ(
-                np.array([25.18261761, -22.62111297, 3.18511729])),
+            hdr_IPT_to_XYZ(np.array([25.18261761, -22.62111297, 3.18511729])),
             np.array([0.07049534, 0.10080000, 0.09558313]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             hdr_IPT_to_XYZ(
-                np.array([34.60312115, -15.70974390, 2.26601353]),
-                Y_s=0.5),
+                np.array([34.60312115, -15.70974390, 2.26601353]), Y_s=0.5),
             np.array([0.07049534, 0.10080000, 0.09558313]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             hdr_IPT_to_XYZ(
-                np.array([47.18074546, 32.38073691, 29.13827648]),
-                Y_abs=1000),
+                np.array([47.18074546, 32.38073691, 29.13827648]), Y_abs=1000),
             np.array([0.25506814, 0.19150000, 0.08849752]),
             decimal=7)
 
@@ -154,32 +137,24 @@ class TestHdr_IPT_to_XYZ(unittest.TestCase):
         Y_abs = 100
         XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
         np.testing.assert_almost_equal(
-            hdr_IPT_to_XYZ(IPT_hdr, Y_s, Y_abs),
-            XYZ,
-            decimal=7)
+            hdr_IPT_to_XYZ(IPT_hdr, Y_s, Y_abs), XYZ, decimal=7)
 
         IPT_hdr = np.tile(IPT_hdr, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
         np.testing.assert_almost_equal(
-            hdr_IPT_to_XYZ(IPT_hdr, Y_s, Y_abs),
-            XYZ,
-            decimal=7)
+            hdr_IPT_to_XYZ(IPT_hdr, Y_s, Y_abs), XYZ, decimal=7)
 
         Y_s = np.tile(Y_s, 6)
         Y_abs = np.tile(Y_abs, 6)
         np.testing.assert_almost_equal(
-            hdr_IPT_to_XYZ(IPT_hdr, Y_s, Y_abs),
-            XYZ,
-            decimal=7)
+            hdr_IPT_to_XYZ(IPT_hdr, Y_s, Y_abs), XYZ, decimal=7)
 
         IPT_hdr = np.reshape(IPT_hdr, (2, 3, 3))
         Y_s = np.reshape(Y_s, (2, 3))
         Y_abs = np.reshape(Y_abs, (2, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
         np.testing.assert_almost_equal(
-            hdr_IPT_to_XYZ(IPT_hdr, Y_s, Y_abs),
-            XYZ,
-            decimal=7)
+            hdr_IPT_to_XYZ(IPT_hdr, Y_s, Y_abs), XYZ, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_hdr_IPT_to_XYZ(self):
@@ -210,19 +185,13 @@ class TestExponent_hdr_IPT(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            exponent_hdr_IPT(0.2, 100),
-            1.689138305989492,
-            places=7)
+            exponent_hdr_IPT(0.2, 100), 1.689138305989492, places=7)
 
         self.assertAlmostEqual(
-            exponent_hdr_IPT(0.4, 100),
-            1.219933220992410,
-            places=7)
+            exponent_hdr_IPT(0.4, 100), 1.219933220992410, places=7)
 
         self.assertAlmostEqual(
-            exponent_hdr_IPT(0.2, 1000),
-            1.126092203992995,
-            places=7)
+            exponent_hdr_IPT(0.2, 1000), 1.126092203992995, places=7)
 
     def test_n_dimensional_exponent_hdr_IPT(self):
         """
@@ -234,33 +203,25 @@ class TestExponent_hdr_IPT(unittest.TestCase):
         Y_abs = 100
         e = 1.689138305989492
         np.testing.assert_almost_equal(
-            exponent_hdr_IPT(Y_s, Y_abs),
-            e,
-            decimal=7)
+            exponent_hdr_IPT(Y_s, Y_abs), e, decimal=7)
 
         Y_s = np.tile(Y_s, 6)
         Y_abs = np.tile(Y_abs, 6)
         e = np.tile(e, 6)
         np.testing.assert_almost_equal(
-            exponent_hdr_IPT(Y_s, Y_abs),
-            e,
-            decimal=7)
+            exponent_hdr_IPT(Y_s, Y_abs), e, decimal=7)
 
         Y_s = np.reshape(Y_s, (2, 3))
         Y_abs = np.reshape(Y_abs, (2, 3))
         e = np.reshape(e, (2, 3))
         np.testing.assert_almost_equal(
-            exponent_hdr_IPT(Y_s, Y_abs),
-            e,
-            decimal=7)
+            exponent_hdr_IPT(Y_s, Y_abs), e, decimal=7)
 
         Y_s = np.reshape(Y_s, (2, 3, 1))
         Y_abs = np.reshape(Y_abs, (2, 3, 1))
         e = np.reshape(e, (2, 3, 1))
         np.testing.assert_almost_equal(
-            exponent_hdr_IPT(Y_s, Y_abs),
-            e,
-            decimal=7)
+            exponent_hdr_IPT(Y_s, Y_abs), e, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_exponent_hdr_IPT(self):

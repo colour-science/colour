@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Academy Color Encoding System - Input Transform Dataset
 =======================================================
@@ -44,8 +43,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['ACES_RICD_DATA',
-           'ACES_RICD']
+__all__ = ['ACES_RICD_DATA', 'ACES_RICD']
 
 ACES_RICD_DATA = {
     'r_bar': {
@@ -519,7 +517,8 @@ ACES_RICD_DATA = {
         827.0: 0.0000000,
         828.0: 0.0000000,
         829.0: 0.0000000,
-        830.0: 0.0000000},
+        830.0: 0.0000000
+    },
     'g_bar': {
         360.0: 0.0000000,
         361.0: 0.0000000,
@@ -991,7 +990,8 @@ ACES_RICD_DATA = {
         827.0: 0.0000000,
         828.0: 0.0000000,
         829.0: 0.0000000,
-        830.0: 0.0000000},
+        830.0: 0.0000000
+    },
     'b_bar': {
         360.0: 5.70e-06,
         361.0: 6.40e-06,
@@ -1463,7 +1463,9 @@ ACES_RICD_DATA = {
         827.0: 0.0000000,
         828.0: 0.0000000,
         829.0: 0.0000000,
-        830.0: 0.0000000}}
+        830.0: 0.0000000
+    }
+}
 
 ACES_RICD = RGB_ColourMatchingFunctions('ACES RICD', ACES_RICD_DATA)
 """

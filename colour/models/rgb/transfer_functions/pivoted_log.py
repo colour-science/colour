@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Pivoted Log Encoding
 ====================
@@ -34,8 +33,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['log_encoding_PivotedLog',
-           'log_decoding_PivotedLog']
+__all__ = ['log_encoding_PivotedLog', 'log_decoding_PivotedLog']
 
 
 def log_encoding_PivotedLog(x,
@@ -112,6 +110,6 @@ def log_decoding_PivotedLog(y,
 
     y = np.asarray(y)
 
-    return (10 ** ((y * 1023 - log_reference) *
-                   (density_per_code_value / negative_gamma)) *
-            linear_reference)
+    return (10 **
+            ((y * 1023 - log_reference) *
+             (density_per_code_value / negative_gamma)) * linear_reference)

@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Panasonic V-Log Log Encoding
 ============================
@@ -36,15 +35,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['VLOG_CONSTANTS',
-           'log_encoding_VLog',
-           'log_decoding_VLog']
+__all__ = ['VLOG_CONSTANTS', 'log_encoding_VLog', 'log_decoding_VLog']
 
-VLOG_CONSTANTS = Structure(cut1=0.01,
-                           cut2=0.181,
-                           b=0.00873,
-                           c=0.241514,
-                           d=0.598206)
+VLOG_CONSTANTS = Structure(
+    cut1=0.01, cut2=0.181, b=0.00873, c=0.241514, d=0.598206)
 """
 *Panasonic V-Log* colourspace constants.
 
@@ -80,8 +74,7 @@ def log_encoding_VLog(L_in):
     c = VLOG_CONSTANTS.c
     d = VLOG_CONSTANTS.d
 
-    L_in = np.where(L_in < cut1,
-                    5.6 * L_in + 0.125,
+    L_in = np.where(L_in < cut1, 5.6 * L_in + 0.125,
                     c * np.log10(L_in + b) + d)
 
     return as_numeric(L_in)
@@ -115,8 +108,7 @@ def log_decoding_VLog(V_out):
     c = VLOG_CONSTANTS.c
     d = VLOG_CONSTANTS.d
 
-    V_out = np.where(V_out < cut2,
-                     (V_out - 0.125) / 5.6,
+    V_out = np.where(V_out < cut2, (V_out - 0.125) / 5.6,
                      np.power(10, ((V_out - d) / c)) - b)
 
     return as_numeric(V_out)

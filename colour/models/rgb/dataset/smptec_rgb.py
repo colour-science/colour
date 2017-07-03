@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 SMPTE-C RGB Colourspace
 =======================
@@ -28,10 +27,8 @@ import numpy as np
 from functools import partial
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import (
-    RGB_Colourspace,
-    function_gamma,
-    normalised_primary_matrix)
+from colour.models.rgb import (RGB_Colourspace, function_gamma,
+                               normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -40,17 +37,16 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['SMPTE_C_RGB_PRIMARIES',
-           'SMPTE_C_RGB_ILLUMINANT',
-           'SMPTE_C_RGB_WHITEPOINT',
-           'SMPTE_C_RGB_TO_XYZ_MATRIX',
-           'XYZ_TO_SMPTE_C_RGB_MATRIX',
-           'SMPTE_C_RGB_COLOURSPACE']
+__all__ = [
+    'SMPTE_C_RGB_PRIMARIES', 'SMPTE_C_RGB_ILLUMINANT',
+    'SMPTE_C_RGB_WHITEPOINT', 'SMPTE_C_RGB_TO_XYZ_MATRIX',
+    'XYZ_TO_SMPTE_C_RGB_MATRIX', 'SMPTE_C_RGB_COLOURSPACE'
+]
 
 SMPTE_C_RGB_PRIMARIES = np.array(
     [[0.630, 0.340],
      [0.310, 0.595],
-     [0.155, 0.070]])
+     [0.155, 0.070]])  # yapf: disable
 """
 *SMPTE-C RGB* colourspace primaries.
 
@@ -72,8 +68,8 @@ SMPTE_C_RGB_WHITEPOINT = (
 SMPTE_C_RGB_WHITEPOINT : ndarray
 """
 
-SMPTE_C_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(
-    SMPTE_C_RGB_PRIMARIES, SMPTE_C_RGB_WHITEPOINT)
+SMPTE_C_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(SMPTE_C_RGB_PRIMARIES,
+                                                      SMPTE_C_RGB_WHITEPOINT)
 """
 *SMPTE-C RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 
@@ -95,7 +91,7 @@ SMPTE_C_RGB_COLOURSPACE = RGB_Colourspace(
     SMPTE_C_RGB_TO_XYZ_MATRIX,
     XYZ_TO_SMPTE_C_RGB_MATRIX,
     partial(function_gamma, exponent=1 / 2.2),
-    partial(function_gamma, exponent=2.2))
+    partial(function_gamma, exponent=2.2))  # yapf: disable
 """
 *SMPTE-C RGB* colourspace.
 

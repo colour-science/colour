@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Prismatic Colourspace
 =====================
@@ -35,8 +34,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['RGB_to_Prismatic',
-           'Prismatic_to_RGB']
+__all__ = ['RGB_to_Prismatic', 'Prismatic_to_RGB']
 
 
 def RGB_to_Prismatic(RGB):

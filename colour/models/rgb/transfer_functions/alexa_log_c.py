@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 ALEXA Log C Log Encoding
 ========================
@@ -35,10 +34,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['ALEXA_LOG_C_CURVE_BCL_DATA',
-           'ALEXA_LOG_C_CURVE_CONVERSION_DATA',
-           'log_encoding_ALEXALogC',
-           'log_decoding_ALEXALogC']
+__all__ = [
+    'ALEXA_LOG_C_CURVE_BCL_DATA', 'ALEXA_LOG_C_CURVE_CONVERSION_DATA',
+    'log_encoding_ALEXALogC', 'log_decoding_ALEXALogC'
+]
 
 ALEXA_LOG_C_CURVE_BCL_DATA = CaseInsensitiveMapping({
     'SUP 3.x': {
@@ -55,7 +54,8 @@ ALEXA_LOG_C_CURVE_BCL_DATA = CaseInsensitiveMapping({
         1600: (0.0928, 1.0000),
         2000: (0.0928, 1.0000),
         2560: (0.0928, 1.0000),
-        3200: (0.0928, 1.0000)},
+        3200: (0.0928, 1.0000)
+    },
     'SUP 2.x': {
         160: (0.1083, 0.8110),
         200: (0.1115, 0.8320),
@@ -67,7 +67,9 @@ ALEXA_LOG_C_CURVE_BCL_DATA = CaseInsensitiveMapping({
         800: (0.1311, 0.9494),
         1000: (0.1343, 0.9662),
         1280: (0.1378, 0.9841),
-        1600: (0.1409, 0.9997)}})
+        1600: (0.1409, 0.9997)
+    }
+})
 """
 *ALEXA Log C* curve *Ei, Black, Clipping Level* data.
 
@@ -99,7 +101,8 @@ ALEXA_LOG_C_CURVE_CONVERSION_DATA = CaseInsensitiveMapping({
             1280: (0.004120, 320.0, -1.207168, 0.240810,
                    0.386590, 301.197380, -1.084020, 0.156799),
             1600: (0.004088, 400.0, -1.524256, 0.237781,
-                   0.387093, 371.761171, -1.359723, 0.160192)},
+                   0.387093, 371.761171, -1.359723, 0.160192)
+        },
         'Linear Scene Exposure Factor': {
             160: (0.005561, 5.555556, 0.080216, 0.269036,
                   0.381991, 5.842037, 0.092778, 0.125266),
@@ -122,7 +125,9 @@ ALEXA_LOG_C_CURVE_CONVERSION_DATA = CaseInsensitiveMapping({
             1280: (0.012235, 5.555556, 0.043137, 0.240810,
                    0.386590, 5.229121, 0.092819, 0.156799),
             1600: (0.013047, 5.555556, 0.038625, 0.237781,
-                   0.387093, 5.163350, 0.092824, 0.16019)}}),
+                   0.387093, 5.163350, 0.092824, 0.16019)
+        }
+    }),
     'SUP 2.x': CaseInsensitiveMapping({
         'Normalised Sensor Signal': {
             160: (0.003907, 36.439829, -0.053366, 0.269035,
@@ -146,7 +151,8 @@ ALEXA_LOG_C_CURVE_CONVERSION_DATA = CaseInsensitiveMapping({
             1280: (0.003907, 291.518630, -1.049959, 0.240810,
                    0.391007, 251.689459, -0.845336, 0.13801),
             1600: (0.003907, 364.398287, -1.334700, 0.237781,
-                   0.391007, 293.073575, -1.003841, 0.14119)},
+                   0.391007, 293.073575, -1.003841, 0.14119)
+        },
         'Linear Scene Exposure Factor': {
             160: (0.000000, 5.061087, 0.089004, 0.269035,
                   0.391007, 6.332427, 0.108361, 0.108361),
@@ -169,7 +175,9 @@ ALEXA_LOG_C_CURVE_CONVERSION_DATA = CaseInsensitiveMapping({
             1280: (0.000000, 5.061087, 0.089004, 0.240810,
                    0.391007, 4.369609, 0.138015, 0.138015),
             1600: (0.000000, 5.061087, 0.089004, 0.237781,
-                   0.391007, 4.070466, 0.141197, 0.14119)}})})
+                   0.391007, 4.070466, 0.141197, 0.14119)}
+    })
+})  # yapf: disable
 """
 *ALEXA Log C* curve conversion data between signal and linear scene exposure
 factor for *SUP 3.x* and signal and normalized sensor signal for *SUP 2.x*.
@@ -216,9 +224,8 @@ def log_encoding_ALEXALogC(x,
     cut, a, b, c, d, e, f, _e_cut_f = (
         ALEXA_LOG_C_CURVE_CONVERSION_DATA[firmware][method][EI])
 
-    return as_numeric(np.where(x > cut,
-                               c * np.log10(a * x + b) + d,
-                               e * x + f))
+    return as_numeric(
+        np.where(x > cut, c * np.log10(a * x + b) + d, e * x + f))
 
 
 def log_decoding_ALEXALogC(t,
@@ -258,6 +265,6 @@ def log_decoding_ALEXALogC(t,
     cut, a, b, c, d, e, f, _e_cut_f = (
         ALEXA_LOG_C_CURVE_CONVERSION_DATA[firmware][method][EI])
 
-    return as_numeric(np.where(t > e * cut + f,
-                               (np.power(10, (t - d) / c) - b) / a,
-                               (t - f) / e))
+    return as_numeric(
+        np.where(t > e * cut + f, (np.power(10, (t - d) / c) - b) / a, (t - f)
+                 / e))
