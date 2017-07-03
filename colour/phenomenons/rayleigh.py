@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Rayleigh Optical Depth - Scattering in the Atmosphere
 =====================================================
@@ -31,9 +30,8 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import (
-    DEFAULT_SPECTRAL_SHAPE,
-    SpectralPowerDistribution)
+from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE,
+                                SpectralPowerDistribution)
 from colour.constants import AVOGADRO_CONSTANT
 from colour.utilities import filter_kwargs
 
@@ -44,27 +42,16 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['STANDARD_AIR_TEMPERATURE',
-           'STANDARD_CO2_CONCENTRATION',
-           'AVERAGE_PRESSURE_MEAN_SEA_LEVEL',
-           'DEFAULT_LATITUDE',
-           'DEFAULT_ALTITUDE',
-           'air_refraction_index_Penndorf1957',
-           'air_refraction_index_Edlen1966',
-           'air_refraction_index_Peck1972',
-           'air_refraction_index_Bodhaine1999',
-           'N2_depolarisation',
-           'O2_depolarisation',
-           'F_air_Penndorf1957',
-           'F_air_Young1981',
-           'F_air_Bates1984',
-           'F_air_Bodhaine1999',
-           'molecular_density',
-           'mean_molecular_weights',
-           'gravity_List1968',
-           'scattering_cross_section',
-           'rayleigh_optical_depth',
-           'rayleigh_scattering']
+__all__ = [
+    'STANDARD_AIR_TEMPERATURE', 'STANDARD_CO2_CONCENTRATION',
+    'AVERAGE_PRESSURE_MEAN_SEA_LEVEL', 'DEFAULT_LATITUDE', 'DEFAULT_ALTITUDE',
+    'air_refraction_index_Penndorf1957', 'air_refraction_index_Edlen1966',
+    'air_refraction_index_Peck1972', 'air_refraction_index_Bodhaine1999',
+    'N2_depolarisation', 'O2_depolarisation', 'F_air_Penndorf1957',
+    'F_air_Young1981', 'F_air_Bates1984', 'F_air_Bodhaine1999',
+    'molecular_density', 'mean_molecular_weights', 'gravity_List1968',
+    'scattering_cross_section', 'rayleigh_optical_depth', 'rayleigh_scattering'
+]
 
 STANDARD_AIR_TEMPERATURE = 288.15
 """
@@ -133,7 +120,7 @@ def air_refraction_index_Penndorf1957(wavelength):
 
     n = 6432.8 + 2949810 / (146 - wl ** (-2)) + 25540 / (41 - wl ** (-2))
     n /= 1.0e8
-    n += + 1
+    n += +1
 
     return n
 
@@ -168,7 +155,7 @@ def air_refraction_index_Edlen1966(wavelength):
 
     n = 8342.13 + 2406030 / (130 - wl ** (-2)) + 15997 / (38.9 - wl ** (-2))
     n /= 1.0e8
-    n += + 1
+    n += +1
 
     return n
 
@@ -205,14 +192,13 @@ def air_refraction_index_Peck1972(wavelength):
     n = (8060.51 + 2480990 / (132.274 - wl ** (-2)) + 17455.7 /
          (39.32957 - wl ** (-2)))
     n /= 1.0e8
-    n += + 1
+    n += +1
 
     return n
 
 
 def air_refraction_index_Bodhaine1999(
-        wavelength,
-        CO2_concentration=STANDARD_CO2_CONCENTRATION):
+        wavelength, CO2_concentration=STANDARD_CO2_CONCENTRATION):
     """
     Returns the air refraction index :math:`n_s` from given wavelength
     :math:`\lambda` in micrometers (:math:`\mu m`) using
@@ -627,8 +613,8 @@ def scattering_cross_section(wavelength,
     F_air = F_air(**filter_kwargs(
         F_air, wavelength=wl_micrometers, CO2_concentration=CO2_c))
 
-    sigma = (24 * np.pi ** 3 * (n_s ** 2 - 1) ** 2 /
-             (wl ** 4 * N_s ** 2 * (n_s ** 2 + 2) ** 2))
+    sigma = (24 * np.pi ** 3 * (n_s ** 2 - 1) ** 2 / (wl ** 4 * N_s ** 2 *
+                                                      (n_s ** 2 + 2) ** 2))
     sigma *= F_air
 
     return sigma
@@ -693,12 +679,8 @@ def rayleigh_optical_depth(wavelength,
     # Conversion from pascal to dyne/cm2.
     P = np.asarray(pressure * 10)
 
-    sigma = scattering_cross_section(wavelength,
-                                     CO2_c,
-                                     temperature,
-                                     avogadro_constant,
-                                     n_s,
-                                     F_air)
+    sigma = scattering_cross_section(wavelength, CO2_c, temperature,
+                                     avogadro_constant, n_s, F_air)
 
     m_a = mean_molecular_weights(CO2_c)
     g = gravity_List1968(latitude, altitude)
@@ -762,18 +744,11 @@ def rayleigh_scattering_spd(shape=DEFAULT_SPECTRAL_SHAPE,
     wavelengths = shape.range()
     return SpectralPowerDistribution(
         name=('Rayleigh Scattering - {0} ppm, {1} K, {2} Pa, {3} Degrees, '
-              '{4} m').format(CO2_concentration,
-                              temperature,
-                              pressure,
-                              latitude,
-                              altitude),
-        data=dict(zip(wavelengths,
-                      rayleigh_optical_depth(wavelengths * 10e-8,
-                                             CO2_concentration,
-                                             temperature,
-                                             pressure,
-                                             latitude,
-                                             altitude,
-                                             avogadro_constant,
-                                             n_s,
-                                             F_air))))
+              '{4} m').format(CO2_concentration, temperature, pressure,
+                              latitude, altitude),
+        data=dict(
+            zip(wavelengths,
+                rayleigh_optical_depth(wavelengths * 10e-8, CO2_concentration,
+                                       temperature, pressure, latitude,
+                                       altitude, avogadro_constant, n_s,
+                                       F_air))))
