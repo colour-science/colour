@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for :mod:`colour.recovery.meng2015` module.
 """
@@ -10,10 +9,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.colorimetry import (
-    STANDARD_OBSERVERS_CMFS,
-    SpectralShape,
-    spectral_to_XYZ_integration)
+from colour.colorimetry import (STANDARD_OBSERVERS_CMFS, SpectralShape,
+                                spectral_to_XYZ_integration)
 from colour.recovery import XYZ_to_spectral_Meng2015
 
 __author__ = 'Colour Developers'
@@ -45,8 +42,7 @@ class TestXYZ_to_spectral_Meng2015(unittest.TestCase):
         XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
         np.testing.assert_almost_equal(
             spectral_to_XYZ_integration(
-                XYZ_to_spectral_Meng2015(XYZ),
-                cmfs=cmfs_c),
+                XYZ_to_spectral_Meng2015(XYZ), cmfs=cmfs_c),
             XYZ,
             decimal=7)
 
@@ -55,8 +51,7 @@ class TestXYZ_to_spectral_Meng2015(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             spectral_to_XYZ_integration(
-                XYZ_to_spectral_Meng2015(XYZ, interval=10),
-                cmfs=cmfs_c),
+                XYZ_to_spectral_Meng2015(XYZ, interval=10), cmfs=cmfs_c),
             XYZ,
             decimal=7)
 
@@ -71,8 +66,7 @@ class TestXYZ_to_spectral_Meng2015(unittest.TestCase):
         cmfs_c = cmfs.clone().align(shape)
         np.testing.assert_almost_equal(
             spectral_to_XYZ_integration(
-                XYZ_to_spectral_Meng2015(XYZ, cmfs=cmfs_c),
-                cmfs=cmfs_c),
+                XYZ_to_spectral_Meng2015(XYZ, cmfs=cmfs_c), cmfs=cmfs_c),
             XYZ,
             decimal=7)
 

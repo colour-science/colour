@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Meng et al. (2015) - Reflectance Recovery
 =========================================
@@ -28,12 +27,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 from scipy.optimize import minimize
 
-from colour import (
-    STANDARD_OBSERVERS_CMFS,
-    SpectralPowerDistribution,
-    SpectralShape,
-    ones_spd,
-    spectral_to_XYZ_integration)
+from colour import (STANDARD_OBSERVERS_CMFS, SpectralPowerDistribution,
+                    SpectralShape, ones_spd, spectral_to_XYZ_integration)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -119,9 +114,7 @@ def XYZ_to_spectral_Meng2015(
     wavelengths = spd.wavelengths
     bins = wavelengths.size
 
-    constraints = {
-        'type': 'eq',
-        'fun': function_constraint}
+    constraints = {'type': 'eq', 'fun': function_constraint}
 
     bounds = np.tile(np.array([0, 1000]), (bins, 1))
 
@@ -131,12 +124,13 @@ def XYZ_to_spectral_Meng2015(
         method='SLSQP',
         constraints=constraints,
         bounds=bounds,
-        options={'ftol': tolerance, 'maxiter': maximum_iterations})
+        options={'ftol': tolerance,
+                 'maxiter': maximum_iterations})
 
     if not result.success:
         raise RuntimeError(
             'Optimization failed for {0} after {1} iterations: "{2}".'.format(
                 XYZ, result.nit, result.message))
 
-    return SpectralPowerDistribution(
-        'Meng (2015) - {0}'.format(XYZ), dict(zip(wavelengths, result.x)))
+    return SpectralPowerDistribution('Meng (2015) - {0}'.format(XYZ),
+                                     dict(zip(wavelengths, result.x)))

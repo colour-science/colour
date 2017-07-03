@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Smits (1999) - Reflectance Recovery
 ===================================
@@ -25,10 +24,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS, zeros_spd
-from colour.models import (
-    XYZ_to_RGB,
-    normalised_primary_matrix,
-    sRGB_COLOURSPACE)
+from colour.models import (XYZ_to_RGB, normalised_primary_matrix,
+                           sRGB_COLOURSPACE)
 from colour.recovery import SMITS_1999_SPDS
 
 __author__ = 'Colour Developers'
@@ -38,11 +35,11 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['SMITS1999_PRIMARIES',
-           'SMITS1999_WHITEPOINT',
-           'SMITS1999_XYZ_TO_RGB_MATRIX',
-           'XYZ_to_RGB_Smits1999',
-           'RGB_to_spectral_Smits1999']
+__all__ = [
+    'SMITS1999_PRIMARIES', 'SMITS1999_WHITEPOINT',
+    'SMITS1999_XYZ_TO_RGB_MATRIX', 'XYZ_to_RGB_Smits1999',
+    'RGB_to_spectral_Smits1999'
+]
 
 SMITS1999_PRIMARIES = sRGB_COLOURSPACE.primaries
 """
@@ -101,12 +98,13 @@ def XYZ_to_RGB_Smits1999(XYZ, chromatic_adaptation_transform='Bradford'):
     array([ 0.0214496...,  0.1315460...,  0.0928760...])
     """
 
-    return XYZ_to_RGB(XYZ,
-                      SMITS1999_WHITEPOINT,
-                      SMITS1999_WHITEPOINT,
-                      SMITS1999_XYZ_TO_RGB_MATRIX,
-                      chromatic_adaptation_transform,
-                      encoding_cctf=None)
+    return XYZ_to_RGB(
+        XYZ,
+        SMITS1999_WHITEPOINT,
+        SMITS1999_WHITEPOINT,
+        SMITS1999_XYZ_TO_RGB_MATRIX,
+        chromatic_adaptation_transform,
+        encoding_cctf=None)
 
 
 def RGB_to_spectral_Smits1999(RGB):
