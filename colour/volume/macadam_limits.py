@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Optimal Colour Stimuli - MacAdam Limits
 =======================================
@@ -53,10 +52,10 @@ def _XYZ_optimal_colour_stimuli(illuminant):
 
     optimal_colour_stimuli = ILLUMINANTS_OPTIMAL_COLOUR_STIMULI.get(illuminant)
     if optimal_colour_stimuli is None:
-        raise KeyError(
-            '"{0}" not found in factory '
-            '"Optimal Colour Stimuli": "{1}".'.format(
-                illuminant, sorted(ILLUMINANTS_OPTIMAL_COLOUR_STIMULI.keys())))
+        raise KeyError('"{0}" not found in factory '
+                       '"Optimal Colour Stimuli": "{1}".'.format(
+                           illuminant,
+                           sorted(ILLUMINANTS_OPTIMAL_COLOUR_STIMULI.keys())))
 
     cached_ocs = _XYZ_OPTIMAL_COLOUR_STIMULI_CACHE.get(illuminant)
     if cached_ocs is None:
