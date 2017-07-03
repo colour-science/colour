@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Data Structures
 ===============
@@ -27,10 +26,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['ArbitraryPrecisionMapping',
-           'Structure',
-           'Lookup',
-           'CaseInsensitiveMapping']
+__all__ = [
+    'ArbitraryPrecisionMapping', 'Structure', 'Lookup',
+    'CaseInsensitiveMapping'
+]
 
 
 class ArbitraryPrecisionMapping(MutableMapping):
@@ -140,7 +139,7 @@ class ArbitraryPrecisionMapping(MutableMapping):
         if value is not None:
             assert isinstance(value, int), (
                 '"{0}" attribute: "{1}" is not a "int" instance!').format(
-                'key_decimals', value)
+                    'key_decimals', value)
         self._key_decimals = value
 
     def _round(self, item):
