@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for :mod:`colour.temperature.cct` module.
 """
@@ -13,18 +12,11 @@ from itertools import permutations
 
 from colour.colorimetry import STANDARD_OBSERVERS_CMFS
 from colour.temperature import (
-    CCT_to_uv_Ohno2013,
-    CCT_to_uv_Robertson1968,
-    CCT_to_uv_Krystek1985,
-    uv_to_CCT_Ohno2013,
-    uv_to_CCT_Robertson1968,
-    CCT_to_xy_Kang2002,
-    CCT_to_xy_CIE_D,
-    xy_to_CCT_McCamy1992,
-    xy_to_CCT_Hernandez1999)
-from colour.temperature.cct import (
-    planckian_table,
-    planckian_table_minimal_distance_index)
+    CCT_to_uv_Ohno2013, CCT_to_uv_Robertson1968, CCT_to_uv_Krystek1985,
+    uv_to_CCT_Ohno2013, uv_to_CCT_Robertson1968, CCT_to_xy_Kang2002,
+    CCT_to_xy_CIE_D, xy_to_CCT_McCamy1992, xy_to_CCT_Hernandez1999)
+from colour.temperature.cct import (planckian_table,
+                                    planckian_table_minimal_distance_index)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -34,29 +26,26 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestPlanckianTable',
-           'TestPlanckianTableMinimalDistanceIndex',
-           'Testuv_to_CCT_Ohno2013',
-           'TestCCT_to_uv_Ohno2013',
-           'Testuv_to_CCT_Robertson1968',
-           'TestCCT_to_uv_Robertson1968',
-           'TestCCT_to_uv_Krystek1985',
-           'Testxy_to_CCT_McCamy1992',
-           'Testxy_to_CCT_Hernandez1999',
-           'TestCCT_to_xy_Kang2002',
-           'TestCCT_to_xy_CIE_D']
+__all__ = [
+    'TestPlanckianTable', 'TestPlanckianTableMinimalDistanceIndex',
+    'Testuv_to_CCT_Ohno2013', 'TestCCT_to_uv_Ohno2013',
+    'Testuv_to_CCT_Robertson1968', 'TestCCT_to_uv_Robertson1968',
+    'TestCCT_to_uv_Krystek1985', 'Testxy_to_CCT_McCamy1992',
+    'Testxy_to_CCT_Hernandez1999', 'TestCCT_to_xy_Kang2002',
+    'TestCCT_to_xy_CIE_D'
+]
 
-PLANCKIAN_TABLE = np.array([
-    [1000.00000000, 0.44796288, 0.35462962, 0.25373557],
-    [1001.11111111, 0.44770303, 0.35465214, 0.25348315],
-    [1002.22222222, 0.44744348, 0.35467461, 0.25323104],
-    [1003.33333333, 0.44718423, 0.35469704, 0.25297924],
-    [1004.44444444, 0.44692529, 0.35471942, 0.25272774],
-    [1005.55555556, 0.44666666, 0.35474175, 0.25247656],
-    [1006.66666667, 0.44640833, 0.35476404, 0.25222569],
-    [1007.77777778, 0.44615030, 0.35478628, 0.25197512],
-    [1008.88888889, 0.44589258, 0.35480848, 0.25172487],
-    [1010.00000000, 0.44563516, 0.35483063, 0.25147492]])
+PLANCKIAN_TABLE = np.array(
+    [[1000.00000000, 0.44796288, 0.35462962, 0.25373557],
+     [1001.11111111, 0.44770303, 0.35465214, 0.25348315],
+     [1002.22222222, 0.44744348, 0.35467461, 0.25323104],
+     [1003.33333333, 0.44718423, 0.35469704, 0.25297924],
+     [1004.44444444, 0.44692529, 0.35471942, 0.25272774],
+     [1005.55555556, 0.44666666, 0.35474175, 0.25247656],
+     [1006.66666667, 0.44640833, 0.35476404, 0.25222569],
+     [1007.77777778, 0.44615030, 0.35478628, 0.25197512],
+     [1008.88888889, 0.44589258, 0.35480848, 0.25172487],
+     [1010.00000000, 0.44563516, 0.35483063, 0.25147492]])  # yapf: disable
 
 TEMPERATURE_DUV_TO_UV = {
     (2000, -0.0500): np.array([0.309448284638118, 0.309263824757947]),
@@ -158,7 +147,8 @@ TEMPERATURE_DUV_TO_UV = {
     (49500, -0.0250): np.array([0.205486370785934, 0.262018880883472]),
     (49500, 0.0000): np.array([0.181345151515151, 0.268515151515151]),
     (49500, 0.0250): np.array([0.157203932244369, 0.275011422146831]),
-    (49500, 0.0500): np.array([0.133062712973587, 0.281507692778510])}
+    (49500, 0.0500): np.array([0.133062712973587, 0.281507692778510])
+}
 
 
 class TestPlanckianTable(unittest.TestCase):
@@ -175,8 +165,9 @@ class TestPlanckianTable(unittest.TestCase):
         cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
 
         np.testing.assert_almost_equal(
-            [(x.Ti, x.ui, x.vi, x.di) for x in planckian_table(
-                np.array([0.1978, 0.3122]), cmfs, 1000, 1010, 10)],
+            [(x.Ti, x.ui, x.vi, x.di)
+             for x in planckian_table(
+                 np.array([0.1978, 0.3122]), cmfs, 1000, 1010, 10)],
             PLANCKIAN_TABLE)
 
 
@@ -196,8 +187,7 @@ planckian_table_minimal_distance_index` definition.
         self.assertEqual(
             planckian_table_minimal_distance_index(
                 planckian_table(
-                    np.array([0.1978, 0.3122]), cmfs, 1000, 1010, 10)),
-            9)
+                    np.array([0.1978, 0.3122]), cmfs, 1000, 1010, 10)), 9)
 
 
 class Testuv_to_CCT_Ohno2013(unittest.TestCase):
@@ -241,20 +231,17 @@ class TestCCT_to_uv_Ohno2013(unittest.TestCase):
 
         cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
         np.testing.assert_almost_equal(
-            CCT_to_uv_Ohno2013(
-                6507.43422010, 0.003223690901513, cmfs),
+            CCT_to_uv_Ohno2013(6507.43422010, 0.003223690901513, cmfs),
             np.array([0.19779990, 0.31220046]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            CCT_to_uv_Ohno2013(
-                1041.84952461, -0.067377582728535, cmfs),
+            CCT_to_uv_Ohno2013(1041.84952461, -0.067377582728535, cmfs),
             np.array([0.43276248, 0.28830361]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            CCT_to_uv_Ohno2013(
-                2448.94890533, -0.084324704634693, cmfs),
+            CCT_to_uv_Ohno2013(2448.94890533, -0.084324704634693, cmfs),
             np.array([0.29256477, 0.2722181]),
             decimal=7)
 
@@ -273,9 +260,7 @@ class Testuv_to_CCT_Robertson1968(unittest.TestCase):
 
         for key, value in TEMPERATURE_DUV_TO_UV.items():
             np.testing.assert_allclose(
-                uv_to_CCT_Robertson1968(value),
-                key,
-                atol=0.25)
+                uv_to_CCT_Robertson1968(value), key, atol=0.25)
 
 
 class TestCCT_to_uv_Robertson1968(unittest.TestCase):
@@ -292,9 +277,7 @@ class TestCCT_to_uv_Robertson1968(unittest.TestCase):
 
         for key, value in TEMPERATURE_DUV_TO_UV.items():
             np.testing.assert_almost_equal(
-                CCT_to_uv_Robertson1968(*key),
-                value,
-                decimal=7)
+                CCT_to_uv_Robertson1968(*key), value, decimal=7)
 
 
 class TestCCT_to_uv_Krystek1985(unittest.TestCase):
@@ -332,23 +315,17 @@ class TestCCT_to_uv_Krystek1985(unittest.TestCase):
         CCT = 7000
         xy = np.array([0.183513095046506, 0.305827773965731])
         np.testing.assert_almost_equal(
-            CCT_to_uv_Krystek1985(CCT),
-            xy,
-            decimal=7)
+            CCT_to_uv_Krystek1985(CCT), xy, decimal=7)
 
         CCT = np.tile(CCT, 6)
         xy = np.tile(xy, (6, 1))
         np.testing.assert_almost_equal(
-            CCT_to_uv_Krystek1985(CCT),
-            xy,
-            decimal=7)
+            CCT_to_uv_Krystek1985(CCT), xy, decimal=7)
 
         CCT = np.reshape(CCT, (2, 3))
         xy = np.reshape(xy, (2, 3, 2))
         np.testing.assert_almost_equal(
-            CCT_to_uv_Krystek1985(CCT),
-            xy,
-            decimal=7)
+            CCT_to_uv_Krystek1985(CCT), xy, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_CCT_to_uv_Krystek1985(self):
@@ -399,23 +376,17 @@ class Testxy_to_CCT_McCamy1992(unittest.TestCase):
         xy = np.array([0.31270, 0.32900])
         CCT = 6505.08059131
         np.testing.assert_almost_equal(
-            xy_to_CCT_McCamy1992(xy),
-            CCT,
-            decimal=7)
+            xy_to_CCT_McCamy1992(xy), CCT, decimal=7)
 
         xy = np.tile(xy, (6, 1))
         CCT = np.tile(CCT, 6)
         np.testing.assert_almost_equal(
-            xy_to_CCT_McCamy1992(xy),
-            CCT,
-            decimal=7)
+            xy_to_CCT_McCamy1992(xy), CCT, decimal=7)
 
         xy = np.reshape(xy, (2, 3, 2))
         CCT = np.reshape(CCT, (2, 3))
         np.testing.assert_almost_equal(
-            xy_to_CCT_McCamy1992(xy),
-            CCT,
-            decimal=7)
+            xy_to_CCT_McCamy1992(xy), CCT, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_xy_to_CCT_McCamy1992(self):
@@ -466,23 +437,17 @@ class Testxy_to_CCT_Hernandez1999(unittest.TestCase):
         xy = np.array([0.31270, 0.32900])
         CCT = 6500.74204318
         np.testing.assert_almost_equal(
-            xy_to_CCT_Hernandez1999(xy),
-            CCT,
-            decimal=7)
+            xy_to_CCT_Hernandez1999(xy), CCT, decimal=7)
 
         xy = np.tile(xy, (6, 1))
         CCT = np.tile(CCT, 6)
         np.testing.assert_almost_equal(
-            xy_to_CCT_Hernandez1999(xy),
-            CCT,
-            decimal=7)
+            xy_to_CCT_Hernandez1999(xy), CCT, decimal=7)
 
         xy = np.reshape(xy, (2, 3, 2))
         CCT = np.reshape(CCT, (2, 3))
         np.testing.assert_almost_equal(
-            xy_to_CCT_Hernandez1999(xy),
-            CCT,
-            decimal=7)
+            xy_to_CCT_Hernandez1999(xy), CCT, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_xy_to_CCT_Hernandez1999(self):
@@ -531,24 +496,15 @@ class TestCCT_to_xy_Kang2002(unittest.TestCase):
 
         CCT = 4000
         xy = np.array([0.380528282812500, 0.376733530961114])
-        np.testing.assert_almost_equal(
-            CCT_to_xy_Kang2002(CCT),
-            xy,
-            decimal=7)
+        np.testing.assert_almost_equal(CCT_to_xy_Kang2002(CCT), xy, decimal=7)
 
         CCT = np.tile(CCT, 6)
         xy = np.tile(xy, (6, 1))
-        np.testing.assert_almost_equal(
-            CCT_to_xy_Kang2002(CCT),
-            xy,
-            decimal=7)
+        np.testing.assert_almost_equal(CCT_to_xy_Kang2002(CCT), xy, decimal=7)
 
         CCT = np.reshape(CCT, (2, 3))
         xy = np.reshape(xy, (2, 3, 2))
-        np.testing.assert_almost_equal(
-            CCT_to_xy_Kang2002(CCT),
-            xy,
-            decimal=7)
+        np.testing.assert_almost_equal(CCT_to_xy_Kang2002(CCT), xy, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_CCT_to_xy_Kang2002(self):
@@ -597,24 +553,15 @@ class TestCCT_to_xy_CIE_D(unittest.TestCase):
 
         CCT = 4000
         xy = np.array([0.382343625000000, 0.383766261015578])
-        np.testing.assert_almost_equal(
-            CCT_to_xy_CIE_D(CCT),
-            xy,
-            decimal=7)
+        np.testing.assert_almost_equal(CCT_to_xy_CIE_D(CCT), xy, decimal=7)
 
         CCT = np.tile(CCT, 6)
         xy = np.tile(xy, (6, 1))
-        np.testing.assert_almost_equal(
-            CCT_to_xy_CIE_D(CCT),
-            xy,
-            decimal=7)
+        np.testing.assert_almost_equal(CCT_to_xy_CIE_D(CCT), xy, decimal=7)
 
         CCT = np.reshape(CCT, (2, 3))
         xy = np.reshape(xy, (2, 3, 2))
-        np.testing.assert_almost_equal(
-            CCT_to_xy_CIE_D(CCT),
-            xy,
-            decimal=7)
+        np.testing.assert_almost_equal(CCT_to_xy_CIE_D(CCT), xy, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_CCT_to_xy_CIE_D(self):
