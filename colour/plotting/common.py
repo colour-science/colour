@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Common Plotting
 ===============
@@ -46,38 +45,21 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['PLOTTING_RESOURCES_DIRECTORY',
-           'DEFAULT_FIGURE_ASPECT_RATIO',
-           'DEFAULT_FIGURE_WIDTH',
-           'DEFAULT_FIGURE_HEIGHT',
-           'DEFAULT_FIGURE_SIZE',
-           'DEFAULT_FONT_SIZE',
-           'DEFAULT_COLOUR_CYCLE',
-           'DEFAULT_HATCH_PATTERNS',
-           'DEFAULT_PARAMETERS',
-           'DEFAULT_PLOTTING_ILLUMINANT',
-           'DEFAULT_PLOTTING_ENCODING_CCTF',
-           'colour_plotting_defaults',
-           'ColourParameter',
-           'colour_cycle',
-           'canvas',
-           'camera',
-           'decorate',
-           'boundaries',
-           'display',
-           'label_rectangles',
-           'equal_axes3d',
-           'get_RGB_colourspace',
-           'get_cmfs',
-           'get_illuminant',
-           'colour_parameters_plot',
-           'single_colour_plot',
-           'multi_colour_plot',
-           'image_plot']
+__all__ = [
+    'PLOTTING_RESOURCES_DIRECTORY', 'DEFAULT_FIGURE_ASPECT_RATIO',
+    'DEFAULT_FIGURE_WIDTH', 'DEFAULT_FIGURE_HEIGHT', 'DEFAULT_FIGURE_SIZE',
+    'DEFAULT_FONT_SIZE', 'DEFAULT_COLOUR_CYCLE', 'DEFAULT_HATCH_PATTERNS',
+    'DEFAULT_PARAMETERS', 'DEFAULT_PLOTTING_ILLUMINANT',
+    'DEFAULT_PLOTTING_ENCODING_CCTF', 'colour_plotting_defaults',
+    'ColourParameter', 'colour_cycle', 'canvas', 'camera', 'decorate',
+    'boundaries', 'display', 'label_rectangles', 'equal_axes3d',
+    'get_RGB_colourspace', 'get_cmfs', 'get_illuminant',
+    'colour_parameters_plot', 'single_colour_plot', 'multi_colour_plot',
+    'image_plot'
+]
 
 PLOTTING_RESOURCES_DIRECTORY = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)),
-    'resources')
+    os.path.dirname(os.path.abspath(__file__)), 'resources')
 """
 Resources directory.
 
@@ -149,7 +131,8 @@ DEFAULT_PARAMETERS = {
     'legend.fontsize': DEFAULT_FONT_SIZE * 0.9,
     'xtick.labelsize': DEFAULT_FONT_SIZE,
     'ytick.labelsize': DEFAULT_FONT_SIZE,
-    'axes.prop_cycle': matplotlib.cycler(color=DEFAULT_COLOUR_CYCLE)}
+    'axes.prop_cycle': matplotlib.cycler(color=DEFAULT_COLOUR_CYCLE)
+}
 """
 Default plotting parameters.
 
@@ -196,8 +179,7 @@ def colour_plotting_defaults(parameters=None):
 
 
 class ColourParameter(
-    namedtuple('ColourParameter',
-               ('name', 'RGB', 'x', 'y0', 'y1'))):
+        namedtuple('ColourParameter', ('name', 'RGB', 'x', 'y0', 'y1'))):
     """
     Defines a data structure for plotting a colour polygon in various spectral
     figures.
@@ -221,8 +203,7 @@ class ColourParameter(
         Returns a new instance of the :class:`ColourParameter` class.
         """
 
-        return super(ColourParameter, cls).__new__(
-            cls, name, RGB, x, y0, y1)
+        return super(ColourParameter, cls).__new__(cls, name, RGB, x, y0, y1)
 
 
 def colour_cycle(**kwargs):
@@ -242,16 +223,16 @@ def colour_cycle(**kwargs):
         Colour cycle iterator.
     """
 
-    settings = Structure(
-        **{'colour_cycle_map': 'hsv',
-           'colour_cycle_count': len(DEFAULT_COLOUR_CYCLE)})
+    settings = Structure(**{
+        'colour_cycle_map': 'hsv',
+        'colour_cycle_count': len(DEFAULT_COLOUR_CYCLE)
+    })
     settings.update(kwargs)
 
     if settings.colour_cycle_map is None:
         cycle = DEFAULT_COLOUR_CYCLE
     else:
-        cycle = getattr(matplotlib.pyplot.cm,
-                        settings.colour_cycle_map)(
+        cycle = getattr(matplotlib.pyplot.cm, settings.colour_cycle_map)(
             np.linspace(0, 1, settings.colour_cycle_count))
 
     return itertools.cycle(cycle)
@@ -273,8 +254,7 @@ def canvas(**kwargs):
         Current figure.
     """
 
-    settings = Structure(
-        **{'figure_size': DEFAULT_FIGURE_SIZE})
+    settings = Structure(**{'figure_size': DEFAULT_FIGURE_SIZE})
     settings.update(kwargs)
 
     figure = matplotlib.pyplot.gcf()
@@ -368,24 +348,25 @@ def decorate(**kwargs):
         Current axes.
     """
 
-    settings = Structure(
-        **{'title': None,
-           'x_label': None,
-           'y_label': None,
-           'legend': False,
-           'legend_columns': 1,
-           'legend_location': 'upper right',
-           'x_ticker': True,
-           'y_ticker': True,
-           'x_ticker_locator': matplotlib.ticker.AutoMinorLocator(2),
-           'y_ticker_locator': matplotlib.ticker.AutoMinorLocator(2),
-           'grid': False,
-           'grid_which': 'both',
-           'grid_axis': 'both',
-           'x_axis_line': False,
-           'y_axis_line': False,
-           'aspect': None,
-           'no_axes': False})
+    settings = Structure(**{
+        'title': None,
+        'x_label': None,
+        'y_label': None,
+        'legend': False,
+        'legend_columns': 1,
+        'legend_location': 'upper right',
+        'x_ticker': True,
+        'y_ticker': True,
+        'x_ticker_locator': matplotlib.ticker.AutoMinorLocator(2),
+        'y_ticker_locator': matplotlib.ticker.AutoMinorLocator(2),
+        'grid': False,
+        'grid_which': 'both',
+        'grid_axis': 'both',
+        'x_axis_line': False,
+        'y_axis_line': False,
+        'aspect': None,
+        'no_axes': False
+    })
     settings.update(kwargs)
 
     axes = matplotlib.pyplot.gca()
@@ -396,16 +377,14 @@ def decorate(**kwargs):
     if settings.y_label:
         pylab.ylabel(settings.y_label)
     if settings.legend:
-        pylab.legend(loc=settings.legend_location,
-                     ncol=settings.legend_columns)
+        pylab.legend(
+            loc=settings.legend_location, ncol=settings.legend_columns)
     if settings.x_ticker:
-        axes.xaxis.set_minor_locator(
-            settings.x_ticker_locator)
+        axes.xaxis.set_minor_locator(settings.x_ticker_locator)
     else:
         axes.set_xticks([])
     if settings.y_ticker:
-        axes.yaxis.set_minor_locator(
-            settings.y_ticker_locator)
+        axes.yaxis.set_minor_locator(settings.y_ticker_locator)
     else:
         axes.set_yticks([])
     if settings.grid:
@@ -452,18 +431,18 @@ def boundaries(**kwargs):
         Current axes.
     """
 
-    settings = Structure(
-        **{'bounding_box': None,
-           'x_tighten': False,
-           'y_tighten': False,
-           'limits': (0, 1, 0, 1),
-           'margins': (0, 0, 0, 0)})
+    settings = Structure(**{
+        'bounding_box': None,
+        'x_tighten': False,
+        'y_tighten': False,
+        'limits': (0, 1, 0, 1),
+        'margins': (0, 0, 0, 0)
+    })
     settings.update(kwargs)
 
     axes = matplotlib.pyplot.gca()
     if settings.bounding_box is None:
-        x_limit_min, x_limit_max, y_limit_min, y_limit_max = (
-            settings.limits)
+        x_limit_min, x_limit_max, y_limit_min, y_limit_max = (settings.limits)
         x_margin_min, x_margin_max, y_margin_min, y_margin_max = (
             settings.margins)
         if settings.x_tighten:
@@ -494,9 +473,7 @@ def display(**kwargs):
         Current figure or None.
     """
 
-    settings = Structure(
-        **{'standalone': True,
-           'filename': None})
+    settings = Structure(**{'standalone': True, 'filename': None})
     settings.update(kwargs)
 
     figure = matplotlib.pyplot.gcf()
@@ -551,13 +528,15 @@ def label_rectangles(rectangles,
         width = rectangle.get_width()
         ha = 'center'
         va = 'bottom'
-        pylab.text(x + width / 2 + offset[0] * width,
-                   height + offset[1] * y_m,
-                   '{0:.1f}'.format(height),
-                   ha=ha, va=va,
-                   rotation=rotation,
-                   fontsize=text_size,
-                   clip_on=True)
+        pylab.text(
+            x + width / 2 + offset[0] * width,
+            height + offset[1] * y_m,
+            '{0:.1f}'.format(height),
+            ha=ha,
+            va=va,
+            rotation=rotation,
+            fontsize=text_size,
+            clip_on=True)
 
     return True
 
@@ -578,8 +557,8 @@ def equal_axes3d(axes):
     """
 
     axes.set_aspect('equal')
-    extents = np.array([getattr(axes, 'get_{}lim'.format(axis))()
-                        for axis in 'xyz'])
+    extents = np.array(
+        [getattr(axes, 'get_{}lim'.format(axis))() for axis in 'xyz'])
 
     centers = np.mean(extents, axis=1)
     extent = np.max(np.abs(extents[..., 1] - extents[..., 0]))
@@ -616,8 +595,8 @@ def get_RGB_colourspace(colourspace):
     if colourspace is None:
         raise KeyError(
             ('"{0}" colourspace not found in factory RGB colourspaces: '
-             '"{1}".').format(
-                name, ', '.join(sorted(RGB_COLOURSPACES.keys()))))
+             '"{1}".').format(name,
+                              ', '.join(sorted(RGB_COLOURSPACES.keys()))))
 
     return colourspace
 
@@ -673,9 +652,8 @@ def get_illuminant(illuminant):
 
     illuminant, name = ILLUMINANTS_RELATIVE_SPDS.get(illuminant), illuminant
     if illuminant is None:
-        raise KeyError(
-            '"{0}" not found in factory illuminants: "{1}".'.format(
-                name, ', '.join(sorted(ILLUMINANTS_RELATIVE_SPDS.keys()))))
+        raise KeyError('"{0}" not found in factory illuminants: "{1}".'.format(
+            name, ', '.join(sorted(ILLUMINANTS_RELATIVE_SPDS.keys()))))
 
     return illuminant
 
@@ -730,36 +708,35 @@ def colour_parameters_plot(colour_parameters,
         x0 = colour_parameters[i].x
         x01 = colour_parameters[i + 1].x
         y0 = (0
-              if colour_parameters[i].y0 is None else
-              colour_parameters[i].y0)
+              if colour_parameters[i].y0 is None else colour_parameters[i].y0)
         y1 = (1
-              if colour_parameters[i].y1 is None else
-              colour_parameters[i].y1)
-        y01 = (0
-               if colour_parameters[i].y0 is None else
+              if colour_parameters[i].y1 is None else colour_parameters[i].y1)
+        y01 = (0 if colour_parameters[i].y0 is None else
                colour_parameters[i + 1].y0)
-        y11 = (1
-               if colour_parameters[i].y1 is None else
+        y11 = (1 if colour_parameters[i].y1 is None else
                colour_parameters[i + 1].y1)
 
         x_polygon = (x0, x01, x01, x0)
         y_polygon = (y0, y01, y11, y1)
-        pylab.fill(x_polygon,
-                   y_polygon,
-                   color=colour_parameters[i].RGB,
-                   edgecolor=colour_parameters[i].RGB)
+        pylab.fill(
+            x_polygon,
+            y_polygon,
+            color=colour_parameters[i].RGB,
+            edgecolor=colour_parameters[i].RGB)
 
     if all([x.y0 is not None for x in colour_parameters]) and y0_plot:
-        pylab.plot([x.x for x in colour_parameters],
-                   [x.y0 for x in colour_parameters],
-                   color='black',
-                   linewidth=2)
+        pylab.plot(
+            [x.x
+             for x in colour_parameters], [x.y0 for x in colour_parameters],
+            color='black',
+            linewidth=2)
 
     if all([x.y1 is not None for x in colour_parameters]) and y1_plot:
-        pylab.plot([x.x for x in colour_parameters],
-                   [x.y1 for x in colour_parameters],
-                   color='black',
-                   linewidth=2)
+        pylab.plot(
+            [x.x
+             for x in colour_parameters], [x.y1 for x in colour_parameters],
+            color='black',
+            linewidth=2)
 
     y_limit_min0 = min(
         [0 if x.y0 is None else x.y0 for x in colour_parameters])
@@ -771,12 +748,14 @@ def colour_parameters_plot(colour_parameters,
         [1 if x.y1 is None else x.y1 for x in colour_parameters])
 
     settings = {
-        'x_label': 'Parameter',
-        'y_label': 'Colour',
+        'x_label':
+            'Parameter',
+        'y_label':
+            'Colour',
         'limits': (min([0 if x.x is None else x.x for x in colour_parameters]),
                    max([1 if x.x is None else x.x for x in colour_parameters]),
-                   y_limit_min0,
-                   y_limit_max1)}
+                   y_limit_min0, y_limit_max1)
+    }
     settings.update(kwargs)
 
     boundaries(**settings)
@@ -833,7 +812,7 @@ def single_colour_plot(colour_parameter, **kwargs):
     >>> single_colour_plot(ColourParameter(RGB))  # doctest: +SKIP
     """
 
-    return multi_colour_plot((colour_parameter,), **kwargs)
+    return multi_colour_plot((colour_parameter, ), **kwargs)
 
 
 def multi_colour_plot(colour_parameters,
@@ -907,8 +886,12 @@ def multi_colour_plot(colour_parameters,
         y_polygon = (y0, y0, y1, y1)
         pylab.fill(x_polygon, y_polygon, color=colour_parameters[i].RGB)
         if colour_parameter.name is not None and text_display:
-            pylab.text(x0 + text_offset, y0 + text_offset,
-                       colour_parameter.name, clip_on=True, size=text_size)
+            pylab.text(
+                x0 + text_offset,
+                y0 + text_offset,
+                colour_parameter.name,
+                clip_on=True,
+                size=text_size)
 
         offsetX += width + spacing
 
@@ -924,7 +907,8 @@ def multi_colour_plot(colour_parameters,
         'x_ticker': False,
         'y_ticker': False,
         'limits': (x_limit_min, x_limit_max, y_limit_min, y_limit_max),
-        'aspect': 'equal'}
+        'aspect': 'equal'
+    }
     settings.update(kwargs)
 
     boundaries(**settings)
@@ -990,23 +974,25 @@ def image_plot(image,
 
     image = np.asarray(image)
 
-    pylab.imshow(np.clip(image, 0, 1),
-                 interpolation=interpolation,
-                 cmap=colour_map)
+    pylab.imshow(
+        np.clip(image, 0, 1), interpolation=interpolation, cmap=colour_map)
 
     height = image.shape[0]
 
-    pylab.text(0 + label_size,
-               height - label_size,
-               label,
-               color=label_colour if label_colour is not None else (1, 1, 1),
-               alpha=label_alpha,
-               fontsize=label_size)
+    pylab.text(
+        0 + label_size,
+        height - label_size,
+        label,
+        color=label_colour if label_colour is not None else (1, 1, 1),
+        alpha=label_alpha,
+        fontsize=label_size)
 
-    settings = {'x_ticker': False,
-                'y_ticker': False,
-                'no_axes': True,
-                'bounding_box': (0, 1, 0, 1)}
+    settings = {
+        'x_ticker': False,
+        'y_ticker': False,
+        'no_axes': True,
+        'bounding_box': (0, 1, 0, 1)
+    }
     settings.update(kwargs)
 
     canvas(**settings)

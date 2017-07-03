@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Optical Phenomenon Plotting
 ===========================
@@ -19,21 +18,11 @@ from colour.colorimetry import spectral_to_XYZ
 from colour.models import XYZ_to_sRGB
 from colour.phenomenons import rayleigh_scattering_spd
 from colour.phenomenons.rayleigh import (
-    AVERAGE_PRESSURE_MEAN_SEA_LEVEL,
-    DEFAULT_ALTITUDE,
-    DEFAULT_LATITUDE,
-    STANDARD_AIR_TEMPERATURE,
-    STANDARD_CO2_CONCENTRATION)
-from colour.plotting import (
-    ASTM_G_173_ETR,
-    ColourParameter,
-    boundaries,
-    canvas,
-    decorate,
-    display,
-    get_cmfs,
-    single_colour_plot,
-    single_spd_plot)
+    AVERAGE_PRESSURE_MEAN_SEA_LEVEL, DEFAULT_ALTITUDE, DEFAULT_LATITUDE,
+    STANDARD_AIR_TEMPERATURE, STANDARD_CO2_CONCENTRATION)
+from colour.plotting import (ASTM_G_173_ETR, ColourParameter, boundaries,
+                             canvas, decorate, display, get_cmfs,
+                             single_colour_plot, single_spd_plot)
 from colour.utilities import normalise_maximum
 
 __author__ = 'Colour Developers'
@@ -98,24 +87,16 @@ def single_rayleigh_scattering_spd_plot(
 
     cmfs = get_cmfs(cmfs)
 
-    settings = {
-        'title': title,
-        'y_label': 'Optical Depth'}
+    settings = {'title': title, 'y_label': 'Optical Depth'}
     settings.update(kwargs)
 
-    spd = rayleigh_scattering_spd(cmfs.shape,
-                                  CO2_concentration,
-                                  temperature,
-                                  pressure,
-                                  latitude,
-                                  altitude)
+    spd = rayleigh_scattering_spd(cmfs.shape, CO2_concentration, temperature,
+                                  pressure, latitude, altitude)
 
     return single_spd_plot(spd, **settings)
 
 
-def the_blue_sky_plot(
-        cmfs='CIE 1931 2 Degree Standard Observer',
-        **kwargs):
+def the_blue_sky_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     """
     Plots the blue sky.
 
@@ -159,7 +140,8 @@ def the_blue_sky_plot(
     settings = {
         'title': 'The Blue Sky - Synthetic Spectral Power Distribution',
         'y_label': u'W / m-2 / nm-1',
-        'standalone': False}
+        'standalone': False
+    }
     settings.update(kwargs)
 
     single_spd_plot(spd, name, **settings)
@@ -167,19 +149,24 @@ def the_blue_sky_plot(
     matplotlib.pyplot.subplot(212)
 
     settings = {
-        'title': 'The Blue Sky - Colour',
+        'title':
+            'The Blue Sky - Colour',
         'x_label': ('The sky is blue because molecules in the atmosphere '
                     'scatter shorter wavelengths more than longer ones.\n'
                     'The synthetic spectral power distribution is computed as '
                     'follows: '
                     '(ASTM G-173 ETR * Standard Air Rayleigh Scattering).'),
-        'y_label': '',
-        'aspect': None,
-        'standalone': False}
+        'y_label':
+            '',
+        'aspect':
+            None,
+        'standalone':
+            False
+    }
 
     blue_sky_color = XYZ_to_sRGB(spectral_to_XYZ(spd))
-    single_colour_plot(ColourParameter('', normalise_maximum(blue_sky_color)),
-                       **settings)
+    single_colour_plot(
+        ColourParameter('', normalise_maximum(blue_sky_color)), **settings)
 
     settings = {'standalone': True}
     settings.update(kwargs)

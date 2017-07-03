@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Colour Quality Plotting
 =======================
@@ -20,18 +19,11 @@ import pylab
 from itertools import cycle
 
 from colour.models import XYZ_to_sRGB
-from colour.quality import (
-    colour_quality_scale,
-    colour_rendering_index)
+from colour.quality import (colour_quality_scale, colour_rendering_index)
 from colour.quality.cri import TCS_ColorimetryData
-from colour.plotting import (
-    DEFAULT_FIGURE_WIDTH,
-    DEFAULT_HATCH_PATTERNS,
-    boundaries,
-    canvas,
-    decorate,
-    display,
-    label_rectangles)
+from colour.plotting import (DEFAULT_FIGURE_WIDTH, DEFAULT_HATCH_PATTERNS,
+                             boundaries, canvas, decorate, display,
+                             label_rectangles)
 from colour.utilities import warning
 
 __author__ = 'Colour Developers'
@@ -41,11 +33,12 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['colour_quality_bars_plot',
-           'single_spd_colour_rendering_index_bars_plot',
-           'multi_spd_colour_rendering_index_bars_plot',
-           'single_spd_colour_quality_scale_bars_plot',
-           'multi_spd_colour_quality_scale_bars_plot']
+__all__ = [
+    'colour_quality_bars_plot', 'single_spd_colour_rendering_index_bars_plot',
+    'multi_spd_colour_rendering_index_bars_plot',
+    'single_spd_colour_quality_scale_bars_plot',
+    'multi_spd_colour_quality_scale_bars_plot'
+]
 
 
 def colour_quality_bars_plot(specifications,
@@ -106,16 +99,17 @@ def colour_quality_bars_plot(specifications,
     if hatching is None:
         hatching = False if count_s == 1 else True
     for i, specification in enumerate(specifications):
-        Q_a, Q_as, colorimetry_data = (specification.Q_a,
-                                       specification.Q_as,
+        Q_a, Q_as, colorimetry_data = (specification.Q_a, specification.Q_as,
                                        specification.colorimetry_data)
 
         count_Q_as = len(Q_as)
-        colours = ([[1] * 3] + [np.clip(XYZ_to_sRGB(x.XYZ), 0, 1)
-                                for x in colorimetry_data[0]])
+        colours = (
+            [[1] * 3] +
+            [np.clip(XYZ_to_sRGB(x.XYZ), 0, 1) for x in colorimetry_data[0]])
 
-        x = (i + np.arange(0, (count_Q_as + 1) * (count_s + 1), (count_s + 1),
-                           dtype=np.float_)) * bar_width
+        x = (i + np.arange(
+            0, (count_Q_as + 1) * (count_s + 1), (count_s + 1),
+            dtype=np.float_)) * bar_width
         y = [s[1].Q_a for s in sorted(Q_as.items(), key=lambda s: s[0])]
         y = np.array([Q_a] + list(y))
 
@@ -127,13 +121,13 @@ def colour_quality_bars_plot(specifications,
 
             y = np.abs(y)
 
-        bars = pylab.bar(x,
-                         y,
-                         color=colours,
-                         width=bar_width,
-                         hatch=(next(patterns) * hatching_repeat
-                                if hatching else None),
-                         label=specification.name)
+        bars = pylab.bar(
+            x,
+            y,
+            color=colours,
+            width=bar_width,
+            hatch=(next(patterns) * hatching_repeat if hatching else None),
+            label=specification.name)
 
         if labels:
             label_rectangles(
@@ -145,23 +139,28 @@ def colour_quality_bars_plot(specifications,
 
     pylab.axhline(y=100, color='black', linestyle='--')
 
-    pylab.xticks((np.arange(0, (count_Q_as + 1) * (count_s + 1), (count_s + 1),
-                            dtype=np.float_) *
-                  bar_width + (count_s * bar_width / 2)),
-                 ['Qa'] + ['Q{0}'.format(index + 1)
-                           for index in range(0, count_Q_as + 1, 1)])
+    pylab.xticks((np.arange(
+        0, (count_Q_as + 1) * (count_s + 1),
+        (count_s + 1), dtype=np.float_) * bar_width +
+                  (count_s * bar_width / 2)), ['Qa'] + [
+                      'Q{0}'.format(index + 1)
+                      for index in range(0, count_Q_as + 1, 1)
+                  ])
     pylab.yticks(range(0, 100 + y_ticks_interval, y_ticks_interval))
 
     settings.update({
-        'title': 'Colour Quality',
-        'legend': hatching,
-        'x_tighten': True,
-        'y_tighten': True,
-        'limits': (-bar_width,
-                   ((count_Q_as + 1) * (count_s + 1)) / 2,
-                   0,
-                   120),
-        'aspect': 1 / (120 / (bar_width + len(Q_as) + bar_width * 2))})
+        'title':
+            'Colour Quality',
+        'legend':
+            hatching,
+        'x_tighten':
+            True,
+        'y_tighten':
+            True,
+        'limits': (-bar_width, ((count_Q_as + 1) * (count_s + 1)) / 2, 0, 120),
+        'aspect':
+            1 / (120 / (bar_width + len(Q_as) + bar_width * 2))
+    })
     settings.update(kwargs)
 
     boundaries(**settings)
@@ -260,8 +259,9 @@ def multi_spd_colour_rendering_index_bars_plot(spds, **kwargs):
     settings.update(kwargs)
     settings.update({'standalone': False})
 
-    specifications = [colour_rendering_index(spd, additional_data=True)
-                      for spd in spds]
+    specifications = [
+        colour_rendering_index(spd, additional_data=True) for spd in spds
+    ]
 
     # *colour rendering index* colorimetry data tristimulus values are
     # computed in [0, 100] domain however `colour_quality_bars_plot` expects
@@ -271,15 +271,16 @@ def multi_spd_colour_rendering_index_bars_plot(spds, **kwargs):
     for specification in specifications:
         colorimetry_data = specification.colorimetry_data
         for i, c_d in enumerate(colorimetry_data[0]):
-            colorimetry_data[0][i] = TCS_ColorimetryData(c_d.name,
-                                                         c_d.XYZ / 100,
-                                                         c_d.uv,
-                                                         c_d.UVW)
+            colorimetry_data[0][i] = TCS_ColorimetryData(
+                c_d.name, c_d.XYZ / 100, c_d.uv, c_d.UVW)
 
     colour_quality_bars_plot(specifications, **settings)
 
-    settings = {'title': 'Colour Rendering Index - {0}'.format(', '.join(
-        [spd.title for spd in spds]))}
+    settings = {
+        'title':
+            'Colour Rendering Index - {0}'
+            .format(', '.join([spd.title for spd in spds]))
+    }
     settings.update(kwargs)
 
     decorate(**settings)
@@ -377,12 +378,16 @@ def multi_spd_colour_quality_scale_bars_plot(spds, **kwargs):
     settings.update(kwargs)
     settings.update({'standalone': False})
 
-    specifications = [colour_quality_scale(spd, additional_data=True)
-                      for spd in spds]
+    specifications = [
+        colour_quality_scale(spd, additional_data=True) for spd in spds
+    ]
     colour_quality_bars_plot(specifications, **settings)
 
-    settings = {'title': 'Colour Quality Scale - {0}'.format(', '.join(
-        [spd.title for spd in spds]))}
+    settings = {
+        'title':
+            'Colour Quality Scale - {0}'
+            .format(', '.join([spd.title for spd in spds]))
+    }
     settings.update(kwargs)
 
     decorate(**settings)

@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Colour Models Volume Plotting
 =============================
@@ -19,18 +18,11 @@ import pylab
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
 from colour.models import RGB_to_XYZ
-from colour.models.common import (
-    COLOURSPACE_MODELS_LABELS,
-    XYZ_to_colourspace_model)
-from colour.plotting import (
-    DEFAULT_PLOTTING_ILLUMINANT,
-    camera,
-    cube,
-    decorate,
-    display,
-    get_RGB_colourspace,
-    get_cmfs,
-    grid)
+from colour.models.common import (COLOURSPACE_MODELS_LABELS,
+                                  XYZ_to_colourspace_model)
+from colour.plotting import (DEFAULT_PLOTTING_ILLUMINANT, camera, cube,
+                             decorate, display, get_RGB_colourspace, get_cmfs,
+                             grid)
 from colour.utilities import Structure, tsplit, tstack
 
 __author__ = 'Colour Developers'
@@ -40,11 +32,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['common_colourspace_model_axis_reorder',
-           'nadir_grid',
-           'RGB_identity_cube',
-           'RGB_colourspaces_gamuts_plot',
-           'RGB_scatter_plot']
+__all__ = [
+    'common_colourspace_model_axis_reorder', 'nadir_grid', 'RGB_identity_cube',
+    'RGB_colourspaces_gamuts_plot', 'RGB_scatter_plot'
+]
 
 
 def common_colourspace_model_axis_reorder(a, model=None):
@@ -204,68 +195,62 @@ def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
 
     extent = np.max(np.abs(limits[..., 1] - limits[..., 0]))
 
-    settings = Structure(
-        **{'grid_face_colours': (0.25, 0.25, 0.25),
-           'grid_edge_colours': (0.50, 0.50, 0.50),
-           'grid_face_alpha': 0.1,
-           'grid_edge_alpha': 0.5,
-           'x_axis_colour': (0.0, 0.0, 0.0, 1.0),
-           'y_axis_colour': (0.0, 0.0, 0.0, 1.0),
-           'x_ticks_colour': (0.0, 0.0, 0.0, 0.85),
-           'y_ticks_colour': (0.0, 0.0, 0.0, 0.85),
-           'x_label_colour': (0.0, 0.0, 0.0, 0.85),
-           'y_label_colour': (0.0, 0.0, 0.0, 0.85),
-           'ticks_and_label_location': ('-x', '-y')})
+    settings = Structure(**{
+        'grid_face_colours': (0.25, 0.25, 0.25),
+        'grid_edge_colours': (0.50, 0.50, 0.50),
+        'grid_face_alpha': 0.1,
+        'grid_edge_alpha': 0.5,
+        'x_axis_colour': (0.0, 0.0, 0.0, 1.0),
+        'y_axis_colour': (0.0, 0.0, 0.0, 1.0),
+        'x_ticks_colour': (0.0, 0.0, 0.0, 0.85),
+        'y_ticks_colour': (0.0, 0.0, 0.0, 0.85),
+        'x_label_colour': (0.0, 0.0, 0.0, 0.85),
+        'y_label_colour': (0.0, 0.0, 0.0, 0.85),
+        'ticks_and_label_location': ('-x', '-y')
+    })
     settings.update(**kwargs)
 
     # Outer grid.
-    quads_g = grid(origin=(-extent / 2, -extent / 2),
-                   width=extent,
-                   height=extent,
-                   height_segments=segments,
-                   width_segments=segments)
+    quads_g = grid(
+        origin=(-extent / 2, -extent / 2),
+        width=extent,
+        height=extent,
+        height_segments=segments,
+        width_segments=segments)
 
     RGB_g = np.ones((quads_g.shape[0], quads_g.shape[-1]))
     RGB_gf = RGB_g * settings.grid_face_colours
-    RGB_gf = np.hstack((RGB_gf,
-                        np.full((RGB_gf.shape[0], 1),
-                                settings.grid_face_alpha,
-                                np.float_)))
+    RGB_gf = np.hstack((RGB_gf, np.full((RGB_gf.shape[0], 1),
+                                        settings.grid_face_alpha, np.float_)))
     RGB_ge = RGB_g * settings.grid_edge_colours
-    RGB_ge = np.hstack((RGB_ge,
-                        np.full((RGB_ge.shape[0], 1),
-                                settings.grid_edge_alpha,
-                                np.float_)))
+    RGB_ge = np.hstack((RGB_ge, np.full((RGB_ge.shape[0], 1),
+                                        settings.grid_edge_alpha, np.float_)))
 
     # Inner grid.
-    quads_gs = grid(origin=(-extent / 2, -extent / 2),
-                    width=extent,
-                    height=extent,
-                    height_segments=segments * 2,
-                    width_segments=segments * 2)
+    quads_gs = grid(
+        origin=(-extent / 2, -extent / 2),
+        width=extent,
+        height=extent,
+        height_segments=segments * 2,
+        width_segments=segments * 2)
 
     RGB_gs = np.ones((quads_gs.shape[0], quads_gs.shape[-1]))
     RGB_gsf = RGB_gs * 0
-    RGB_gsf = np.hstack((RGB_gsf,
-                         np.full((RGB_gsf.shape[0], 1), 0, np.float_)))
-    RGB_gse = np.clip(RGB_gs *
-                      settings.grid_edge_colours * 1.5, 0, 1)
-    RGB_gse = np.hstack((RGB_gse,
-                         np.full((RGB_gse.shape[0], 1),
-                                 settings.grid_edge_alpha / 2,
-                                 np.float_)))
+    RGB_gsf = np.hstack((RGB_gsf, np.full((RGB_gsf.shape[0], 1), 0,
+                                          np.float_)))
+    RGB_gse = np.clip(RGB_gs * settings.grid_edge_colours * 1.5, 0, 1)
+    RGB_gse = np.hstack((RGB_gse, np.full(
+        (RGB_gse.shape[0], 1), settings.grid_edge_alpha / 2, np.float_)))
 
     # Axis.
     thickness = extent / 1000
-    quad_x = grid(origin=(limits[0, 0], -thickness / 2),
-                  width=extent,
-                  height=thickness)
+    quad_x = grid(
+        origin=(limits[0, 0], -thickness / 2), width=extent, height=thickness)
     RGB_x = np.ones((quad_x.shape[0], quad_x.shape[-1] + 1))
     RGB_x = RGB_x * settings.x_axis_colour
 
-    quad_y = grid(origin=(-thickness / 2, limits[1, 0]),
-                  width=thickness,
-                  height=extent)
+    quad_y = grid(
+        origin=(-thickness / 2, limits[1, 0]), width=thickness, height=extent)
     RGB_y = np.ones((quad_y.shape[0], quad_y.shape[-1] + 1))
     RGB_y = RGB_y * settings.y_axis_colour
 
@@ -288,11 +273,16 @@ def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
                 tick = int(tick) if np.float_(tick).is_integer() else tick
                 c = settings['{0}_ticks_colour'.format(axis)]
 
-                axes.text(x, y, 0, tick, 'x',
-                          horizontalalignment=h_a,
-                          verticalalignment=v_a,
-                          color=c,
-                          clip_on=True)
+                axes.text(
+                    x,
+                    y,
+                    0,
+                    tick,
+                    'x',
+                    horizontalalignment=h_a,
+                    verticalalignment=v_a,
+                    color=c,
+                    clip_on=True)
 
         # Labels.
         for i, axis in enumerate('xy'):
@@ -306,12 +296,17 @@ def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
 
             c = settings['{0}_label_colour'.format(axis)]
 
-            axes.text(x, y, 0, labels[i], 'x',
-                      horizontalalignment=h_a,
-                      verticalalignment=v_a,
-                      color=c,
-                      size=20,
-                      clip_on=True)
+            axes.text(
+                x,
+                y,
+                0,
+                labels[i],
+                'x',
+                horizontalalignment=h_a,
+                verticalalignment=v_a,
+                color=c,
+                size=20,
+                clip_on=True)
 
     quads = np.vstack((quads_g, quads_gs, quad_x, quad_y))
     RGB_f = np.vstack((RGB_gf, RGB_gsf, RGB_x, RGB_y))
@@ -387,13 +382,14 @@ def RGB_identity_cube(plane=None,
            [ 1. ,  0.5,  0.5]])
     """
 
-    quads = cube(plane=plane,
-                 width=1,
-                 height=1,
-                 depth=1,
-                 width_segments=width_segments,
-                 height_segments=height_segments,
-                 depth_segments=depth_segments)
+    quads = cube(
+        plane=plane,
+        width=1,
+        height=1,
+        depth=1,
+        width_segments=width_segments,
+        height_segments=height_segments,
+        depth_segments=depth_segments)
     RGB = np.average(quads, axis=-2)
 
     return quads, RGB
@@ -461,13 +457,15 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
         colourspaces = ('Rec. 709', 'ACEScg')
 
     count_c = len(colourspaces)
-    settings = Structure(
-        **{'face_colours': [None] * count_c,
-           'edge_colours': [None] * count_c,
-           'face_alpha': [1] * count_c,
-           'edge_alpha': [1] * count_c,
-           'title': '{0} - {1} Reference Colourspace'.format(
-               ', '.join(colourspaces), reference_colourspace)})
+    settings = Structure(**{
+        'face_colours': [None] * count_c,
+        'edge_colours': [None] * count_c,
+        'face_alpha': [1] * count_c,
+        'edge_alpha': [1] * count_c,
+        'title':
+            '{0} - {1} Reference Colourspace'.format(', '.join(colourspaces),
+                                                     reference_colourspace)
+    })
     settings.update(kwargs)
 
     figure = matplotlib.pyplot.figure()
@@ -481,62 +479,58 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
         XYZ = cmfs.values
 
         points = common_colourspace_model_axis_reorder(
-            XYZ_to_colourspace_model(
-                XYZ, illuminant, reference_colourspace),
+            XYZ_to_colourspace_model(XYZ, illuminant, reference_colourspace),
             reference_colourspace)
 
         points[np.isnan(points)] = 0
 
         c = ((0.0, 0.0, 0.0, 0.5)
-             if spectral_locus_colour is None else
-             spectral_locus_colour)
+             if spectral_locus_colour is None else spectral_locus_colour)
 
-        pylab.plot(points[..., 0],
-                   points[..., 1],
-                   points[..., 2],
-                   color=c,
-                   linewidth=2,
-                   zorder=1)
-        pylab.plot((points[-1][0], points[0][0]),
-                   (points[-1][1], points[0][1]),
-                   (points[-1][2], points[0][2]),
-                   color=c,
-                   linewidth=2,
-                   zorder=1)
+        pylab.plot(
+            points[..., 0],
+            points[..., 1],
+            points[..., 2],
+            color=c,
+            linewidth=2,
+            zorder=1)
+        pylab.plot(
+            (points[-1][0], points[0][0]), (points[-1][1], points[0][1]),
+            (points[-1][2], points[0][2]),
+            color=c,
+            linewidth=2,
+            zorder=1)
 
     quads, RGB_f, RGB_e = [], [], []
     for i, colourspace in enumerate(colourspaces):
         colourspace = get_RGB_colourspace(colourspace)
-        quads_c, RGB = RGB_identity_cube(width_segments=segments,
-                                         height_segments=segments,
-                                         depth_segments=segments)
+        quads_c, RGB = RGB_identity_cube(
+            width_segments=segments,
+            height_segments=segments,
+            depth_segments=segments)
 
-        XYZ = RGB_to_XYZ(
-            quads_c,
-            colourspace.whitepoint,
-            colourspace.whitepoint,
-            colourspace.RGB_to_XYZ_matrix)
+        XYZ = RGB_to_XYZ(quads_c, colourspace.whitepoint,
+                         colourspace.whitepoint, colourspace.RGB_to_XYZ_matrix)
 
-        quads.extend(common_colourspace_model_axis_reorder(
-            XYZ_to_colourspace_model(
-                XYZ, colourspace.whitepoint, reference_colourspace),
-            reference_colourspace))
+        quads.extend(
+            common_colourspace_model_axis_reorder(
+                XYZ_to_colourspace_model(XYZ, colourspace.whitepoint,
+                                         reference_colourspace),
+                reference_colourspace))
 
         if settings.face_colours[i] is not None:
             RGB = np.ones(RGB.shape) * settings.face_colours[i]
 
-        RGB_f.extend(np.hstack(
-            (RGB, np.full((RGB.shape[0], 1),
-                          settings.face_alpha[i],
-                          np.float_))))
+        RGB_f.extend(
+            np.hstack((RGB, np.full((RGB.shape[0], 1), settings.face_alpha[i],
+                                    np.float_))))
 
         if settings.edge_colours[i] is not None:
             RGB = np.ones(RGB.shape) * settings.edge_colours[i]
 
-        RGB_e.extend(np.hstack(
-            (RGB, np.full((RGB.shape[0], 1),
-                          settings.edge_alpha[i],
-                          np.float_))))
+        RGB_e.extend(
+            np.hstack((RGB, np.full((RGB.shape[0], 1), settings.edge_alpha[i],
+                                    np.float_))))
 
     quads = np.asarray(quads)
     quads[np.isnan(quads)] = 0
@@ -563,8 +557,8 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
         else:
             limits = np.array([[-1.5, 1.5], [-1.5, 1.5]])
 
-        quads_g, RGB_gf, RGB_ge = nadir_grid(
-            limits, grid_segments, labels, axes, **settings)
+        quads_g, RGB_gf, RGB_ge = nadir_grid(limits, grid_segments, labels,
+                                             axes, **settings)
         quads = np.vstack((quads_g, quads))
         RGB_f = np.vstack((RGB_gf, RGB_f))
         RGB_e = np.vstack((RGB_ge, RGB_e))
@@ -575,9 +569,7 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
 
     axes.add_collection3d(collection)
 
-    settings.update({
-        'camera_aspect': 'equal',
-        'no_axes': True})
+    settings.update({'camera_aspect': 'equal', 'no_axes': True})
     settings.update(kwargs)
 
     camera(**settings)
@@ -648,15 +640,16 @@ def RGB_scatter_plot(RGB,
     colourspace = get_RGB_colourspace(colourspace)
 
     if colourspaces is None:
-        colourspaces = (colourspace.name,)
+        colourspaces = (colourspace.name, )
 
     count_c = len(colourspaces)
-    settings = Structure(
-        **{'face_colours': [None] * count_c,
-           'edge_colours': [(0.25, 0.25, 0.25)] * count_c,
-           'face_alpha': [0.0] * count_c,
-           'edge_alpha': [0.1] * count_c,
-           'standalone': False})
+    settings = Structure(**{
+        'face_colours': [None] * count_c,
+        'edge_colours': [(0.25, 0.25, 0.25)] * count_c,
+        'face_alpha': [0.0] * count_c,
+        'edge_alpha': [0.1] * count_c,
+        'standalone': False
+    })
     settings.update(kwargs)
 
     RGB_colourspaces_gamuts_plot(
@@ -670,23 +663,20 @@ def RGB_scatter_plot(RGB,
         cmfs=cmfs,
         **settings)
 
-    XYZ = RGB_to_XYZ(
-        RGB,
-        colourspace.whitepoint,
-        colourspace.whitepoint,
-        colourspace.RGB_to_XYZ_matrix)
+    XYZ = RGB_to_XYZ(RGB, colourspace.whitepoint, colourspace.whitepoint,
+                     colourspace.RGB_to_XYZ_matrix)
 
     points = common_colourspace_model_axis_reorder(
-        XYZ_to_colourspace_model(
-            XYZ, colourspace.whitepoint, reference_colourspace),
-        reference_colourspace)
+        XYZ_to_colourspace_model(XYZ, colourspace.whitepoint,
+                                 reference_colourspace), reference_colourspace)
 
     axes = matplotlib.pyplot.gca()
-    axes.scatter(points[..., 0],
-                 points[..., 1],
-                 points[..., 2],
-                 color=np.reshape(RGB, (-1, 3)),
-                 s=points_size)
+    axes.scatter(
+        points[..., 0],
+        points[..., 1],
+        points[..., 2],
+        color=np.reshape(RGB, (-1, 3)),
+        s=points_size)
 
     settings.update({'standalone': True})
     settings.update(kwargs)

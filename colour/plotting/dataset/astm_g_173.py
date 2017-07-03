@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 ASTM G-173 Solar Spectral Irradiance
 ====================================
@@ -26,8 +25,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['ASTM_G_173_ETR_DATA',
-           'ASTM_G_173_ETR']
+__all__ = ['ASTM_G_173_ETR_DATA', 'ASTM_G_173_ETR']
 
 ASTM_G_173_ETR_DATA = {
     280.0: 0.08200,
@@ -2031,11 +2029,11 @@ ASTM_G_173_ETR_DATA = {
     3985.0: 0.00880,
     3990.0: 0.00878,
     3995.0: 0.00870,
-    4000.0: 0.00868}
+    4000.0: 0.00868
+}
 
 ASTM_G_173_ETR = SpectralPowerDistribution('ASTM G-173 ETR',
                                            ASTM_G_173_ETR_DATA)
-
 """
 Extraterrestrial Radiation (solar spectrum at top of atmosphere) at mean
 Earth-Sun distance.
