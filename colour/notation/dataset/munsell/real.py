@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Munsell Renotation System Dataset - Real Munsell Colours
 ========================================================
@@ -34,6 +33,7 @@ __status__ = 'Production'
 
 __all__ = ['MUNSELL_COLOURS_REAL']
 
+# yapf: disable
 MUNSELL_COLOURS_REAL = (
     (('10RP', 1.0, 2.0), np.array([0.3629, 0.2710, 1.2100])),
     (('10RP', 1.0, 4.0), np.array([0.3920, 0.2423, 1.2100])),
@@ -2769,6 +2769,7 @@ MUNSELL_COLOURS_REAL = (
     (('7.5RP', 9.0, 2.0), np.array([0.3190, 0.3141, 78.6600])),
     (('7.5RP', 9.0, 4.0), np.array([0.3350, 0.3099, 78.6600])),
     (('7.5RP', 9.0, 6.0), np.array([0.3512, 0.3052, 78.6600])))
+# yapf: enable
 """
 *Real*, within MacAdam limits, published *Munsell* colours.
 

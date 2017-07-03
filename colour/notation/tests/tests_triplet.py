@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for :mod:`colour.notation.triplet` module.
 """
@@ -11,9 +10,7 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.notation.triplet import (
-    RGB_to_HEX,
-    HEX_to_RGB)
+from colour.notation.triplet import (RGB_to_HEX, HEX_to_RGB)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -23,8 +20,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestRGB_to_HEX',
-           'TestHEX_to_RGB']
+__all__ = ['TestRGB_to_HEX', 'TestHEX_to_RGB']
 
 
 class TestRGB_to_HEX(unittest.TestCase):

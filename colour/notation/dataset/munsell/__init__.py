@@ -15,7 +15,8 @@ __all__ += ['MUNSELL_COLOURS_REAL']
 MUNSELL_COLOURS = CaseInsensitiveMapping({
     'Munsell Colours All': MUNSELL_COLOURS_ALL,
     'Munsell Colours 1929': MUNSELL_COLOURS_1929,
-    'Munsell Colours Real': MUNSELL_COLOURS_REAL})
+    'Munsell Colours Real': MUNSELL_COLOURS_REAL
+})
 """
 Aggregated *Munsell* colours.
 
