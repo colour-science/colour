@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Colour Quality Scale
 ====================
@@ -32,20 +31,11 @@ from collections import namedtuple
 
 from colour.algebra import euclidean_distance
 from colour.colorimetry import (
-    ASTME30815_PRACTISE_SHAPE,
-    D_illuminant_relative_spd,
-    ILLUMINANTS,
-    STANDARD_OBSERVERS_CMFS,
-    blackbody_spd,
-    spectral_to_XYZ)
+    ASTME30815_PRACTISE_SHAPE, D_illuminant_relative_spd, ILLUMINANTS,
+    STANDARD_OBSERVERS_CMFS, blackbody_spd, spectral_to_XYZ)
 from colour.quality.dataset.vs import VS_INDEXES_TO_NAMES, VS_SPDS
-from colour.models import (
-    Lab_to_LCHab,
-    UCS_to_uv,
-    XYZ_to_Lab,
-    XYZ_to_UCS,
-    XYZ_to_xy,
-    xy_to_XYZ)
+from colour.models import (Lab_to_LCHab, UCS_to_uv, XYZ_to_Lab, XYZ_to_UCS,
+                           XYZ_to_xy, xy_to_XYZ)
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Ohno2013
 from colour.adaptation import chromatic_adaptation_VonKries
 from colour.utilities import tsplit
@@ -57,32 +47,26 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['D65_GAMUT_AREA',
-           'VS_ColorimetryData',
-           'VS_ColourQualityScaleData',
-           'CQS_Specification',
-           'colour_quality_scale',
-           'gamut_area',
-           'vs_colorimetry_data',
-           'CCT_factor',
-           'scale_conversion',
-           'delta_E_RMS',
-           'colour_quality_scales']
+__all__ = [
+    'D65_GAMUT_AREA', 'VS_ColorimetryData', 'VS_ColourQualityScaleData',
+    'CQS_Specification', 'colour_quality_scale', 'gamut_area',
+    'vs_colorimetry_data', 'CCT_factor', 'scale_conversion', 'delta_E_RMS',
+    'colour_quality_scales'
+]
 
 D65_GAMUT_AREA = 8210
 
 
 class VS_ColorimetryData(
-    namedtuple('VS_ColorimetryData',
-               ('name', 'XYZ', 'Lab', 'C'))):
+        namedtuple('VS_ColorimetryData', ('name', 'XYZ', 'Lab', 'C'))):
     """
     Defines the the class storing *VS test colour samples* colorimetry data.
     """
 
 
 class VS_ColourQualityScaleData(
-    namedtuple('VS_ColourQualityScaleData',
-               ('name', 'Q_a', 'D_C_ab', 'D_E_ab', 'D_Ep_ab'))):
+        namedtuple('VS_ColourQualityScaleData', ('name', 'Q_a', 'D_C_ab',
+                                                 'D_E_ab', 'D_Ep_ab'))):
     """
     Defines the the class storing *VS test colour samples* colour quality
     scale data.
@@ -90,16 +74,8 @@ class VS_ColourQualityScaleData(
 
 
 class CQS_Specification(
-    namedtuple(
-        'CQS_Specification',
-        ('name',
-         'Q_a',
-         'Q_f',
-         'Q_p',
-         'Q_g',
-         'Q_d',
-         'Q_as',
-         'colorimetry_data'))):
+        namedtuple('CQS_Specification', ('name', 'Q_a', 'Q_f', 'Q_p', 'Q_g',
+                                         'Q_d', 'Q_as', 'colorimetry_data'))):
     """
     Defines the *Colour Quality Scale* (CQS) colour quality specification.
 
@@ -159,7 +135,7 @@ def colour_quality_scale(spd_test, additional_data=False):
 
     cmfs = STANDARD_OBSERVERS_CMFS[
         'CIE 1931 2 Degree Standard Observer'].clone().trim_wavelengths(
-        ASTME30815_PRACTISE_SHAPE)
+            ASTME30815_PRACTISE_SHAPE)
 
     shape = cmfs.shape
     spd_test = spd_test.clone().align(shape)
@@ -177,24 +153,17 @@ def colour_quality_scale(spd_test, additional_data=False):
         spd_reference.align(shape)
 
     test_vs_colorimetry_data = vs_colorimetry_data(
-        spd_test,
-        spd_reference,
-        vs_spds,
-        cmfs,
-        chromatic_adaptation=True)
+        spd_test, spd_reference, vs_spds, cmfs, chromatic_adaptation=True)
 
     reference_vs_colorimetry_data = vs_colorimetry_data(
-        spd_reference,
-        spd_reference,
-        vs_spds,
-        cmfs)
+        spd_reference, spd_reference, vs_spds, cmfs)
 
     XYZ_r = spectral_to_XYZ(spd_reference, cmfs)
     XYZ_r /= XYZ_r[1]
     CCT_f = CCT_factor(reference_vs_colorimetry_data, XYZ_r)
 
-    Q_as = colour_quality_scales(
-        test_vs_colorimetry_data, reference_vs_colorimetry_data, CCT_f)
+    Q_as = colour_quality_scales(test_vs_colorimetry_data,
+                                 reference_vs_colorimetry_data, CCT_f)
 
     D_E_RMS = delta_E_RMS(Q_as, 'D_E_ab')
     D_Ep_RMS = delta_E_RMS(Q_as, 'D_Ep_ab')
@@ -204,26 +173,19 @@ def colour_quality_scale(spd_test, additional_data=False):
 
     p_delta_C = np.average(
         [sample_data.D_C_ab if sample_data.D_C_ab > 0 else 0
-         for sample_data in
-         Q_as.values()])
+         for sample_data in Q_as.values()])  # yapf: disable
     Q_p = 100 - 3.6 * (D_Ep_RMS - p_delta_C)
 
-    G_t = gamut_area([vs_CQS_data.Lab
-                      for vs_CQS_data in test_vs_colorimetry_data])
-    G_r = gamut_area([vs_CQS_data.Lab
-                      for vs_CQS_data in reference_vs_colorimetry_data])
+    G_t = gamut_area(
+        [vs_CQS_data.Lab for vs_CQS_data in test_vs_colorimetry_data])
+    G_r = gamut_area(
+        [vs_CQS_data.Lab for vs_CQS_data in reference_vs_colorimetry_data])
 
     Q_g = G_t / D65_GAMUT_AREA * 100
     Q_d = G_t / G_r * CCT_f * 100
 
     if additional_data:
-        return CQS_Specification(spd_test.name,
-                                 Q_a,
-                                 Q_f,
-                                 Q_p,
-                                 Q_g,
-                                 Q_d,
-                                 Q_as,
+        return CQS_Specification(spd_test.name, Q_a, Q_f, Q_p, Q_g, Q_d, Q_as,
                                  (test_vs_colorimetry_data,
                                   reference_vs_colorimetry_data))
     else:
@@ -322,19 +284,13 @@ def vs_colorimetry_data(spd_test,
         XYZ_vs /= 100
 
         if chromatic_adaptation:
-            XYZ_vs = chromatic_adaptation_VonKries(XYZ_vs,
-                                                   XYZ_t,
-                                                   XYZ_r,
-                                                   transform='CMCCAT2000')
+            XYZ_vs = chromatic_adaptation_VonKries(
+                XYZ_vs, XYZ_t, XYZ_r, transform='CMCCAT2000')
 
         Lab_vs = XYZ_to_Lab(XYZ_vs, illuminant=xy_r)
         _L_vs, C_vs, _Hab = Lab_to_LCHab(Lab_vs)
 
-        vs_data.append(
-            VS_ColorimetryData(spd_vs.name,
-                               XYZ_vs,
-                               Lab_vs,
-                               C_vs))
+        vs_data.append(VS_ColorimetryData(spd_vs.name, XYZ_vs, Lab_vs, C_vs))
     return vs_data
 
 
@@ -362,10 +318,8 @@ def CCT_factor(reference_data, XYZ_r):
     Labs = []
     for vs_colorimetry_data_ in reference_data:
         _name, XYZ, _Lab, _C = vs_colorimetry_data_
-        XYZ_a = chromatic_adaptation_VonKries(XYZ,
-                                              XYZ_r,
-                                              XYZ_w,
-                                              transform='CMCCAT2000')
+        XYZ_a = chromatic_adaptation_VonKries(
+            XYZ, XYZ_r, XYZ_w, transform='CMCCAT2000')
 
         Lab = XYZ_to_Lab(XYZ_a, illuminant=xy_w)
         Labs.append(Lab)
@@ -420,10 +374,9 @@ def delta_E_RMS(cqs_data, attribute):
         Root-mean-square average.
     """
 
-    return np.sqrt(1 / len(cqs_data) *
-                   np.sum([getattr(sample_data, attribute) ** 2
-                           for sample_data in
-                           cqs_data.values()]))
+    return np.sqrt(1 / len(cqs_data) * np.sum(
+        [getattr(sample_data, attribute) ** 2
+         for sample_data in cqs_data.values()]))  # yapf: disable
 
 
 def colour_quality_scales(test_data, reference_data, CCT_f):
@@ -458,6 +411,6 @@ def colour_quality_scales(test_data, reference_data, CCT_f):
 
         Q_a = scale_conversion(D_Ep_ab, CCT_f)
 
-        Q_as[i + 1] = VS_ColourQualityScaleData(
-            test_data[i].name, Q_a, D_C_ab, D_E_ab, D_Ep_ab)
+        Q_as[i + 1] = VS_ColourQualityScaleData(test_data[i].name, Q_a, D_C_ab,
+                                                D_E_ab, D_Ep_ab)
     return Q_as
