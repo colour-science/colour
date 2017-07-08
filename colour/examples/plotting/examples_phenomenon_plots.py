@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Showcases optical phenomenons plotting examples.
 """
@@ -27,11 +26,12 @@ for ppm in (0, 50, 300):
     rayleigh_spd = rayleigh_scattering_spd(CO2_concentration=ppm)
     rayleigh_spd.name = name_template.format(ppm)
     rayleigh_spds.append(rayleigh_spd)
-multi_spd_plot(rayleigh_spds,
-               title=('Rayleigh Optical Depth - '
-                      'Comparing "C02" Concentration Influence'),
-               y_label='Optical Depth',
-               legend_location='upper right')
+multi_spd_plot(
+    rayleigh_spds,
+    title=('Rayleigh Optical Depth - '
+           'Comparing "C02" Concentration Influence'),
+    y_label='Optical Depth',
+    legend_location='upper right')
 
 print('\n')
 

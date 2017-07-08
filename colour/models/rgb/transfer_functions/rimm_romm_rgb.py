@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 RIMM, ROMM and ERIMM Encodings
 ==============================
@@ -45,14 +44,11 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['oetf_ROMMRGB',
-           'eotf_ROMMRGB',
-           'oetf_ProPhotoRGB',
-           'eotf_ProPhotoRGB',
-           'oetf_RIMMRGB',
-           'eotf_RIMMRGB',
-           'log_encoding_ERIMMRGB',
-           'log_decoding_ERIMMRGB']
+__all__ = [
+    'oetf_ROMMRGB', 'eotf_ROMMRGB', 'oetf_ProPhotoRGB', 'eotf_ProPhotoRGB',
+    'oetf_RIMMRGB', 'eotf_RIMMRGB', 'log_encoding_ERIMMRGB',
+    'log_decoding_ERIMMRGB'
+]
 
 
 def oetf_ROMMRGB(X, I_max=255):
@@ -83,10 +79,10 @@ def oetf_ROMMRGB(X, I_max=255):
 
     E_t = 16 ** (1.8 / (1 - 1.8))
 
-    return as_numeric(np.clip(
-        np.where(X < E_t,
-                 X * 16 * I_max,
-                 X ** (1 / 1.8) * I_max), 0, I_max))
+    return as_numeric(
+        np.clip(
+            np.where(X < E_t, X * 16 * I_max, X ** (1 / 1.8) * I_max), 0,
+            I_max))
 
 
 def eotf_ROMMRGB(X_p, I_max=255):
@@ -117,10 +113,9 @@ def eotf_ROMMRGB(X_p, I_max=255):
 
     E_t = 16 ** (1.8 / (1 - 1.8))
 
-    return as_numeric(np.where(
-        X_p < 16 * E_t * I_max,
-        X_p / (16 * I_max),
-        (X_p / I_max) ** 1.8))
+    return as_numeric(
+        np.where(X_p < 16 * E_t * I_max, X_p / (16 * I_max), (X_p / I_max) **
+                 1.8))
 
 
 oetf_ProPhotoRGB = oetf_ROMMRGB
@@ -161,11 +156,8 @@ def oetf_RIMMRGB(X, I_max=255, E_clip=2.0):
     V_clip = 1.099 * E_clip ** 0.45 - 0.099
     q = I_max / V_clip
 
-    X_p_RIMM = np.select(
-        [X < 0.0,
-         X < 0.018, X >= 0.018,
-         X > E_clip],
-        [0, 4.5 * X, 1.099 * (X ** 0.45) - 0.099, I_max])
+    X_p_RIMM = np.select([X < 0.0, X < 0.018, X >= 0.018, X > E_clip],
+                         [0, 4.5 * X, 1.099 * (X ** 0.45) - 0.099, I_max])
 
     return as_numeric(q * X_p_RIMM)
 
@@ -202,17 +194,13 @@ def eotf_RIMMRGB(X_p, I_max=255, E_clip=2.0):
 
     m = V_clip * X_p / I_max
 
-    X_RIMM = np.where(
-        X_p < oetf_RIMMRGB(0.018),
-        m / 4.5, ((m + 0.099) / 1.099) ** (1 / 0.45))
+    X_RIMM = np.where(X_p < oetf_RIMMRGB(0.018), m / 4.5, ((m + 0.099) / 1.099)
+                      ** (1 / 0.45))
 
     return as_numeric(X_RIMM)
 
 
-def log_encoding_ERIMMRGB(X,
-                          I_max=255,
-                          E_min=0.001,
-                          E_clip=316.2):
+def log_encoding_ERIMMRGB(X, I_max=255, E_min=0.001, E_clip=316.2):
     """
     Defines the *ERIMM RGB* log encoding curve / opto-electronic transfer
     function (OETF / OECF).
@@ -244,24 +232,16 @@ def log_encoding_ERIMMRGB(X,
 
     E_t = np.exp(1) * E_min
 
-    X_p = np.select(
-        [X < 0.0,
-         X <= E_t, X > E_t,
-         X > E_clip],
-        [0,
-         I_max * ((np.log(E_t) - np.log(E_min)) /
-                  (np.log(E_clip) - np.log(E_min))) * (X / E_t),
-         I_max * ((np.log(X) - np.log(E_min)) /
-                  (np.log(E_clip) - np.log(E_min))),
-         I_max])
+    X_p = np.select([X < 0.0, X <= E_t, X > E_t, X > E_clip], [
+        0, I_max * ((np.log(E_t) - np.log(E_min)) /
+                    (np.log(E_clip) - np.log(E_min))) * (X / E_t), I_max *
+        ((np.log(X) - np.log(E_min)) / (np.log(E_clip) - np.log(E_min))), I_max
+    ])
 
     return as_numeric(X_p)
 
 
-def log_decoding_ERIMMRGB(X_p,
-                          I_max=255,
-                          E_min=0.001,
-                          E_clip=316.2):
+def log_decoding_ERIMMRGB(X_p, I_max=255, E_min=0.001, E_clip=316.2):
     """
     Defines the *ERIMM RGB* log decoding curve / electro-optical transfer
     function (EOTF / EOCF).
@@ -293,12 +273,11 @@ def log_decoding_ERIMMRGB(X_p,
 
     E_t = np.exp(1) * E_min
 
-    X = np.where(
-        X_p <= I_max * ((np.log(E_t) - np.log(E_min)) /
-                        (np.log(E_clip) - np.log(E_min))),
-        (((np.log(E_clip) - np.log(E_min)) / (np.log(E_t) - np.log(E_min))) *
-         ((X_p * E_t) / I_max)),
-        np.exp((X_p / I_max) *
-               (np.log(E_clip) - np.log(E_min)) + np.log(E_min)))
+    X = np.where(X_p <= I_max * ((np.log(E_t) - np.log(E_min)) /
+                                 (np.log(E_clip) - np.log(E_min))),
+                 (((np.log(E_clip) - np.log(E_min)) /
+                   (np.log(E_t) - np.log(E_min))) * ((X_p * E_t) / I_max)),
+                 np.exp((X_p / I_max) * (np.log(E_clip) - np.log(E_min)) +
+                        np.log(E_min)))
 
     return as_numeric(X)

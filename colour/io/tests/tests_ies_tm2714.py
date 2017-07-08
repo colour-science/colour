@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for :mod:`colour.io.iestm2714` module.
 """
@@ -35,12 +34,14 @@ FLUORESCENT_FILE_HEADER = {
     'ReportNumber': 'N/A',
     'ReportDate': 'N/A',
     'DocumentCreationDate': '2014-06-23',
-    'Comments': 'Ambient temperature 25 degrees C.'}
+    'Comments': 'Ambient temperature 25 degrees C.'
+}
 
 FLUORESCENT_FILE_SPECTRAL_DESCRIPTION = {
     'SpectralQuantity': 'relative',
     'BandwidthFWHM': 2.0,
-    'BandwidthCorrected': True}
+    'BandwidthCorrected': True
+}
 
 FLUORESCENT_FILE_SPECTRAL_DATA = {
     400.0: 0.034,
@@ -127,7 +128,8 @@ FLUORESCENT_FILE_SPECTRAL_DATA = {
     808.8: 0.029,
     810.7: 0.039,
     812.7: 0.030,
-    850.1: 0.030}
+    850.1: 0.030
+}
 
 
 class TestIES_TM2714_Header(unittest.TestCase):
@@ -141,18 +143,11 @@ class TestIES_TM2714_Header(unittest.TestCase):
         Tests presence of required attributes.
         """
 
-        required_attributes = ('mapping',
-                               'manufacturer',
-                               'catalog_number',
-                               'description',
-                               'document_creator',
-                               'unique_identifier',
-                               'measurement_equipment',
-                               'laboratory',
-                               'report_number',
-                               'report_date',
-                               'document_creation_date',
-                               'comments')
+        required_attributes = ('mapping', 'manufacturer', 'catalog_number',
+                               'description', 'document_creator',
+                               'unique_identifier', 'measurement_equipment',
+                               'laboratory', 'report_number', 'report_date',
+                               'document_creation_date', 'comments')
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(IES_TM2714_Header))
@@ -183,13 +178,9 @@ class TestIES_TM2714_Spd(unittest.TestCase):
         Tests presence of required attributes.
         """
 
-        required_attributes = ('mapping',
-                               'path',
-                               'header',
-                               'spectral_quantity',
-                               'reflection_geometry',
-                               'transmission_geometry',
-                               'bandwidth_FWHM',
+        required_attributes = ('mapping', 'path', 'header',
+                               'spectral_quantity', 'reflection_geometry',
+                               'transmission_geometry', 'bandwidth_FWHM',
                                'bandwidth_corrected')
 
         for attribute in required_attributes:
@@ -200,7 +191,7 @@ class TestIES_TM2714_Spd(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('read',)
+        required_methods = ('read', )
 
         for method in required_methods:
             self.assertIn(method, dir(IES_TM2714_Spd))
@@ -216,8 +207,8 @@ class TestIES_TM2714_Spd(unittest.TestCase):
         """
 
         if spd is None:
-            spd = IES_TM2714_Spd(os.path.join(RESOURCES_DIRECTORY,
-                                              'Fluorescent.spdx'))
+            spd = IES_TM2714_Spd(
+                os.path.join(RESOURCES_DIRECTORY, 'Fluorescent.spdx'))
 
         self.assertTrue(spd.read())
         self.assertDictEqual(dict(spd.data), FLUORESCENT_FILE_SPECTRAL_DATA)
@@ -228,8 +219,7 @@ class TestIES_TM2714_Spd(unittest.TestCase):
                 for specification in read.mapping.elements:
                     if key == specification.element:
                         self.assertEquals(
-                            getattr(read, specification.attribute),
-                            value)
+                            getattr(read, specification.attribute), value)
 
     def test_write(self):
         """

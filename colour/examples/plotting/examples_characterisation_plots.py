@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Showcases characterisation plotting examples.
 """
@@ -28,9 +27,12 @@ print('\n')
 
 message_box(('Plotting "BabelColor Average" colour rendition charts spectral '
              'power distributions.'))
-multi_spd_plot([colour.COLOURCHECKERS_SPDS['BabelColor Average'][value]
-                for key, value in
-                sorted(COLOURCHECKER_INDEXES_TO_NAMES_MAPPING.items())],
-               use_spds_colours=True,
-               title=('BabelColor Average - '
-                      'Relative Spectral Power Distributions'))
+multi_spd_plot(
+    [
+        colour.COLOURCHECKERS_SPDS['BabelColor Average'][value]
+        for key, value in sorted(
+            COLOURCHECKER_INDEXES_TO_NAMES_MAPPING.items())
+    ],
+    use_spds_colours=True,
+    title=('BabelColor Average - '
+           'Relative Spectral Power Distributions'))

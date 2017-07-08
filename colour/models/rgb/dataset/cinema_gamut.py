@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Cinema Gamut Colourspace
 ========================
@@ -27,10 +26,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import (
-    RGB_Colourspace,
-    function_linear,
-    normalised_primary_matrix)
+from colour.models.rgb import (RGB_Colourspace, function_linear,
+                               normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -39,17 +36,16 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['CINEMA_GAMUT_PRIMARIES',
-           'CINEMA_GAMUT_ILLUMINANT',
-           'CINEMA_GAMUT_WHITEPOINT',
-           'CINEMA_GAMUT_TO_XYZ_MATRIX',
-           'XYZ_TO_CINEMA_GAMUT_MATRIX',
-           'CINEMA_GAMUT_COLOURSPACE']
+__all__ = [
+    'CINEMA_GAMUT_PRIMARIES', 'CINEMA_GAMUT_ILLUMINANT',
+    'CINEMA_GAMUT_WHITEPOINT', 'CINEMA_GAMUT_TO_XYZ_MATRIX',
+    'XYZ_TO_CINEMA_GAMUT_MATRIX', 'CINEMA_GAMUT_COLOURSPACE'
+]
 
 CINEMA_GAMUT_PRIMARIES = np.array(
     [[0.7400, 0.2700],
      [0.1700, 1.1400],
-     [0.0800, -0.1000]])
+     [0.0800, -0.1000]])  # yapf: disable
 """
 *Cinema Gamut* colourspace primaries.
 
@@ -64,16 +60,16 @@ CINEMA_GAMUT_ILLUMINANT : unicode
 """
 
 CINEMA_GAMUT_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
-        CINEMA_GAMUT_ILLUMINANT])
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
+    [CINEMA_GAMUT_ILLUMINANT])  # yapf: disable
 """
 *Cinema Gamut* colourspace whitepoint.
 
 CINEMA_GAMUT_WHITEPOINT : ndarray
 """
 
-CINEMA_GAMUT_TO_XYZ_MATRIX = normalised_primary_matrix(
-    CINEMA_GAMUT_PRIMARIES, CINEMA_GAMUT_WHITEPOINT)
+CINEMA_GAMUT_TO_XYZ_MATRIX = normalised_primary_matrix(CINEMA_GAMUT_PRIMARIES,
+                                                       CINEMA_GAMUT_WHITEPOINT)
 """
 *Cinema Gamut* colourspace to *CIE XYZ* tristimulus values matrix.
 
@@ -95,7 +91,7 @@ CINEMA_GAMUT_COLOURSPACE = RGB_Colourspace(
     CINEMA_GAMUT_TO_XYZ_MATRIX,
     XYZ_TO_CINEMA_GAMUT_MATRIX,
     function_linear,
-    function_linear)
+    function_linear)  # yapf: disable
 """
 *Cinema Gamut* colourspace.
 

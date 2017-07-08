@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 hdr-CIELAB Colourspace
 ======================
@@ -28,10 +27,8 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import (
-    ILLUMINANTS,
-    lightness_Fairchild2010,
-    luminance_Fairchild2010)
+from colour.colorimetry import (ILLUMINANTS, lightness_Fairchild2010,
+                                luminance_Fairchild2010)
 from colour.models import xy_to_xyY, xyY_to_XYZ
 from colour.utilities import tsplit, tstack
 
@@ -42,9 +39,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['XYZ_to_hdr_CIELab',
-           'hdr_CIELab_to_XYZ',
-           'exponent_hdr_CIELab']
+__all__ = ['XYZ_to_hdr_CIELab', 'hdr_CIELab_to_XYZ', 'exponent_hdr_CIELab']
 
 
 def XYZ_to_hdr_CIELab(

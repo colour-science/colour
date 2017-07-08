@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Common Utilities
 ================
@@ -26,19 +25,12 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['handle_numpy_errors',
-           'ignore_numpy_errors',
-           'raise_numpy_errors',
-           'print_numpy_errors',
-           'warn_numpy_errors',
-           'ignore_python_warnings',
-           'batch',
-           'is_openimageio_installed',
-           'is_iterable',
-           'is_string',
-           'is_numeric',
-           'is_integer',
-           'filter_kwargs']
+__all__ = [
+    'handle_numpy_errors', 'ignore_numpy_errors', 'raise_numpy_errors',
+    'print_numpy_errors', 'warn_numpy_errors', 'ignore_python_warnings',
+    'batch', 'is_openimageio_installed', 'is_iterable', 'is_string',
+    'is_numeric', 'is_integer', 'filter_kwargs'
+]
 
 
 def handle_numpy_errors(**kwargs):
@@ -270,8 +262,8 @@ def is_numeric(a):
     False
     """
 
-    return isinstance(a, (int, float, complex,
-                          np.integer, np.floating, np.complex))
+    return isinstance(a, (int, float, complex, np.integer, np.floating,
+                          np.complex))
 
 
 def is_integer(a):

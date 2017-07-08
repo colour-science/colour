@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 ITU-R BT.709-6
 ==============
@@ -39,8 +38,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['oetf_BT709',
-           'eotf_BT709']
+__all__ = ['oetf_BT709', 'eotf_BT709']
 
 
 def oetf_BT709(L):
@@ -66,9 +64,8 @@ def oetf_BT709(L):
 
     L = np.asarray(L)
 
-    return as_numeric(np.where(L < 0.018,
-                               L * 4.5,
-                               1.099 * (L ** 0.45) - 0.099))
+    return as_numeric(
+        np.where(L < 0.018, L * 4.5, 1.099 * (L ** 0.45) - 0.099))
 
 
 def eotf_BT709(V):
@@ -105,6 +102,6 @@ def eotf_BT709(V):
 
     V = np.asarray(V)
 
-    return as_numeric(np.where(V < oetf_BT709(0.018),
-                               V / 4.5,
-                               ((V + 0.099) / 1.099) ** (1 / 0.45)))
+    return as_numeric(
+        np.where(V < oetf_BT709(0.018), V / 4.5, ((V + 0.099) / 1.099) ** (
+            1 / 0.45)))

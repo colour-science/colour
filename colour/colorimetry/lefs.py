@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Luminous Efficiency Functions Spectral Power Distributions
 ==========================================================
@@ -24,11 +23,8 @@ Mesopic_vision#Mesopic_weighting_function
 
 from __future__ import division, unicode_literals
 
-from colour.colorimetry import (
-    PHOTOPIC_LEFS,
-    SCOTOPIC_LEFS,
-    SpectralPowerDistribution,
-    SpectralShape)
+from colour.colorimetry import (PHOTOPIC_LEFS, SCOTOPIC_LEFS,
+                                SpectralPowerDistribution, SpectralShape)
 from colour.colorimetry.dataset.lefs import MESOPIC_X_DATA
 from colour.utilities import closest
 
@@ -39,8 +35,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['mesopic_weighting_function',
-           'mesopic_luminous_efficiency_function']
+__all__ = [
+    'mesopic_weighting_function', 'mesopic_luminous_efficiency_function'
+]
 
 
 def mesopic_weighting_function(
@@ -88,8 +85,8 @@ def mesopic_weighting_function(
         closest(mesopic_x_luminance_values, Lp))
     x = MESOPIC_X_DATA[mesopic_x_luminance_values[index]][source][method]
 
-    Vm = ((1 - x) *
-          scotopic_lef.get(wavelength) + x * photopic_lef.get(wavelength))
+    Vm = ((1 - x) * scotopic_lef.get(wavelength) +
+          x * photopic_lef.get(wavelength))
 
     return Vm
 
@@ -140,17 +137,12 @@ def mesopic_luminous_efficiency_function(
 
     wavelengths = shape.range()
 
-    spd_data = dict(zip(wavelengths,
-                        mesopic_weighting_function(
-                            wavelengths,
-                            Lp,
-                            source,
-                            method,
-                            photopic_lef,
-                            scotopic_lef)))
+    spd_data = dict(
+        zip(wavelengths,
+            mesopic_weighting_function(wavelengths, Lp, source, method,
+                                       photopic_lef, scotopic_lef)))
 
     spd = SpectralPowerDistribution(
-        '{0} Lp Mesopic Luminous Efficiency Function'.format(Lp),
-        spd_data)
+        '{0} Lp Mesopic Luminous Efficiency Function'.format(Lp), spd_data)
 
     return spd.normalise()

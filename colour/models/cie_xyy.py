@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 CIE xyY Colourspace
 ===================
@@ -40,12 +39,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['XYZ_to_xyY',
-           'xyY_to_XYZ',
-           'xy_to_xyY',
-           'xyY_to_xy',
-           'xy_to_XYZ',
-           'XYZ_to_xy']
+__all__ = [
+    'XYZ_to_xyY', 'xyY_to_XYZ', 'xy_to_xyY', 'xyY_to_xy', 'xy_to_XYZ',
+    'XYZ_to_xy'
+]
 
 
 def XYZ_to_xyY(
@@ -92,8 +89,7 @@ def XYZ_to_xyY(
     XYZ_n[..., 0:2] = xy_w
 
     xyY = np.where(
-        np.all(XYZ == 0, axis=-1)[..., np.newaxis],
-        XYZ_n,
+        np.all(XYZ == 0, axis=-1)[..., np.newaxis], XYZ_n,
         tstack((X / (X + Y + Z), Y / (X + Y + Z), Y)))
 
     return xyY

@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 CIE UCS Colourspace
 ===================
@@ -38,10 +37,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['XYZ_to_UCS',
-           'UCS_to_XYZ',
-           'UCS_to_uv',
-           'UCS_uv_to_xy']
+__all__ = ['XYZ_to_UCS', 'UCS_to_XYZ', 'UCS_to_uv', 'UCS_uv_to_xy']
 
 
 def XYZ_to_UCS(XYZ):

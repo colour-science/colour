@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Canon Log Encodings
 ===================
@@ -49,12 +48,11 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['log_encoding_CanonLog',
-           'log_decoding_CanonLog',
-           'log_encoding_CanonLog2',
-           'log_decoding_CanonLog2',
-           'log_encoding_CanonLog3',
-           'log_decoding_CanonLog3']
+__all__ = [
+    'log_encoding_CanonLog', 'log_decoding_CanonLog', 'log_encoding_CanonLog2',
+    'log_decoding_CanonLog2', 'log_encoding_CanonLog3',
+    'log_decoding_CanonLog3'
+]
 
 
 def log_encoding_CanonLog(x):
@@ -84,10 +82,9 @@ def log_encoding_CanonLog(x):
 
     x = np.asarray(x)
 
-    clog_ire = np.where(
-        x < log_decoding_CanonLog(0.0730597),
-        -(0.529136 * (np.log10(-x * 10.1596 + 1)) - 0.0730597),
-        0.529136 * np.log10(10.1596 * x + 1) + 0.0730597)
+    clog_ire = np.where(x < log_decoding_CanonLog(0.0730597),
+                        -(0.529136 * (np.log10(-x * 10.1596 + 1)) - 0.0730597),
+                        0.529136 * np.log10(10.1596 * x + 1) + 0.0730597)
 
     return as_numeric(clog_ire)
 
@@ -120,10 +117,9 @@ def log_decoding_CanonLog(clog_ire):
 
     clog_ire = np.asarray(clog_ire)
 
-    x = np.where(
-        clog_ire < 0.0730597,
-        -(10 ** ((0.0730597 - clog_ire) / 0.529136) - 1) / 10.1596,
-        (10 ** ((clog_ire - 0.0730597) / 0.529136) - 1) / 10.1596)
+    x = np.where(clog_ire < 0.0730597,
+                 -(10 ** ((0.0730597 - clog_ire) / 0.529136) - 1) / 10.1596,
+                 (10 ** ((clog_ire - 0.0730597) / 0.529136) - 1) / 10.1596)
 
     return as_numeric(x)
 
@@ -266,8 +262,7 @@ def log_decoding_CanonLog3(clog3_ire):
     clog3_ire = np.asarray(clog3_ire)
 
     x = np.select(
-        (clog3_ire < 0.04076162,
-         clog3_ire <= 0.105357102,
+        (clog3_ire < 0.04076162, clog3_ire <= 0.105357102,
          clog3_ire > 0.105357102),
         (-(10 ** ((0.069886632 - clog3_ire) / 0.42889912) - 1) / 14.98325,
          (clog3_ire - 0.073059361) / 2.3069815,

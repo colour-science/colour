@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Xtreme RGB Colourspace
 ======================
@@ -27,10 +26,8 @@ import numpy as np
 from functools import partial
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import (
-    RGB_Colourspace,
-    function_gamma,
-    normalised_primary_matrix)
+from colour.models.rgb import (RGB_Colourspace, function_gamma,
+                               normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -39,17 +36,16 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['XTREME_RGB_PRIMARIES',
-           'XTREME_RGB_ILLUMINANT',
-           'XTREME_RGB_WHITEPOINT',
-           'XTREME_RGB_TO_XYZ_MATRIX',
-           'XYZ_TO_XTREME_RGB_MATRIX',
-           'XTREME_RGB_COLOURSPACE']
+__all__ = [
+    'XTREME_RGB_PRIMARIES', 'XTREME_RGB_ILLUMINANT', 'XTREME_RGB_WHITEPOINT',
+    'XTREME_RGB_TO_XYZ_MATRIX', 'XYZ_TO_XTREME_RGB_MATRIX',
+    'XTREME_RGB_COLOURSPACE'
+]
 
 XTREME_RGB_PRIMARIES = np.array(
     [[1.0, 0.0],
      [0.0, 1.0],
-     [0.0, 0.0]])
+     [0.0, 0.0]])  # yapf: disable
 """
 *Xtreme RGB* colourspace primaries.
 
@@ -71,8 +67,8 @@ XTREME_RGB_WHITEPOINT = (
 XTREME_RGB_WHITEPOINT : ndarray
 """
 
-XTREME_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(
-    XTREME_RGB_PRIMARIES, XTREME_RGB_WHITEPOINT)
+XTREME_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(XTREME_RGB_PRIMARIES,
+                                                     XTREME_RGB_WHITEPOINT)
 """
 *Xtreme RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 
@@ -94,7 +90,7 @@ XTREME_RGB_COLOURSPACE = RGB_Colourspace(
     XTREME_RGB_TO_XYZ_MATRIX,
     XYZ_TO_XTREME_RGB_MATRIX,
     partial(function_gamma, exponent=1 / 2.2),
-    partial(function_gamma, exponent=2.2))
+    partial(function_gamma, exponent=2.2))  # yapf: disable
 """
 *Xtreme RGB* colourspace.
 

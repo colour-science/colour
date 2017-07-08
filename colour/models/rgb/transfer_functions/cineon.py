@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Kodak Cineon Encoding
 =====================
@@ -34,12 +33,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['log_encoding_Cineon',
-           'log_decoding_Cineon']
+__all__ = ['log_encoding_Cineon', 'log_decoding_Cineon']
 
 
-def log_encoding_Cineon(x,
-                        black_offset=10 ** ((95 - 685) / 300)):
+def log_encoding_Cineon(x, black_offset=10 ** ((95 - 685) / 300)):
     """
     Defines the *Cineon* log encoding curve / opto-electronic transfer
     function.
@@ -64,12 +61,11 @@ def log_encoding_Cineon(x,
 
     x = np.asarray(x)
 
-    return ((685 + 300 *
-             np.log10(x * (1 - black_offset) + black_offset)) / 1023)
+    return ((
+        685 + 300 * np.log10(x * (1 - black_offset) + black_offset)) / 1023)
 
 
-def log_decoding_Cineon(y,
-                        black_offset=10 ** ((95 - 685) / 300)):
+def log_decoding_Cineon(y, black_offset=10 ** ((95 - 685) / 300)):
     """
     Defines the *Cineon* log decoding curve / electro-optical transfer
     function.

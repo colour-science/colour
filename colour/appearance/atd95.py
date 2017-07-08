@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 ATD (1995) Colour Vision Model
 ==============================
@@ -46,18 +45,17 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['ATD95_ReferenceSpecification',
-           'ATD95_Specification',
-           'XYZ_to_ATD95',
-           'luminance_to_retinal_illuminance',
-           'XYZ_to_LMS_ATD95',
-           'opponent_colour_dimensions',
-           'final_response']
+__all__ = [
+    'ATD95_ReferenceSpecification', 'ATD95_Specification', 'XYZ_to_ATD95',
+    'luminance_to_retinal_illuminance', 'XYZ_to_LMS_ATD95',
+    'opponent_colour_dimensions', 'final_response'
+]
 
 
 class ATD95_ReferenceSpecification(
-    namedtuple('ATD95_ReferenceSpecification',
-               ('H', 'C', 'Br', 'A_1', 'T_1', 'D_1', 'A_2', 'T_2', 'D_2'))):
+        namedtuple('ATD95_ReferenceSpecification',
+                   ('H', 'C', 'Br', 'A_1', 'T_1', 'D_1', 'A_2', 'T_2',
+                    'D_2'))):
     """
     Defines the *ATD (1995)* colour vision model reference specification.
 
@@ -92,8 +90,8 @@ class ATD95_ReferenceSpecification(
 
 
 class ATD95_Specification(
-    namedtuple('ATD95_Specification',
-               ('h', 'C', 'Q', 'A_1', 'T_1', 'D_1', 'A_2', 'T_2', 'D_2'))):
+        namedtuple('ATD95_Specification', ('h', 'C', 'Q', 'A_1', 'T_1', 'D_1',
+                                           'A_2', 'T_2', 'D_2'))):
     """
     Defines the *ATD (1995)* colour vision model specification.
 
@@ -199,22 +197,15 @@ T_2=0.0205377..., D_2=0.0107584...)
     LMS_g = LMS * (sigma[..., np.newaxis] / (sigma[..., np.newaxis] + LMS_a))
 
     # Computing opponent colour dimensions.
-    A_1, T_1, D_1, A_2, T_2, D_2 = tsplit(
-        opponent_colour_dimensions(LMS_g))
+    A_1, T_1, D_1, A_2, T_2, D_2 = tsplit(opponent_colour_dimensions(LMS_g))
 
-    # -------------------------------------------------------------------------
     # Computing the correlate of *brightness* :math:`Br`.
-    # -------------------------------------------------------------------------
     Br = (A_1 ** 2 + T_1 ** 2 + D_1 ** 2) ** 0.5
 
-    # -------------------------------------------------------------------------
     # Computing the correlate of *saturation* :math:`C`.
-    # -------------------------------------------------------------------------
     C = (T_2 ** 2 + D_2 ** 2) ** 0.5 / A_2
 
-    # -------------------------------------------------------------------------
     # Computing the *hue* :math:`H`.
-    # -------------------------------------------------------------------------
     H = T_2 / D_2
 
     return ATD95_Specification(H, C, Br, A_1, T_1, D_1, A_2, T_2, D_2)

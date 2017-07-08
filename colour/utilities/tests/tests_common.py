@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for :mod:`colour.utilities.common` module.
 """
@@ -10,13 +9,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.utilities import (
-    batch,
-    is_iterable,
-    is_string,
-    is_numeric,
-    is_integer,
-    filter_kwargs)
+from colour.utilities import (batch, is_iterable, is_string, is_numeric,
+                              is_integer, filter_kwargs)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -25,12 +19,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestBatch',
-           'TestIsIterable',
-           'TestIsString',
-           'TestIsNumeric',
-           'TestIsInteger',
-           'TestFilterKwargs']
+__all__ = [
+    'TestBatch', 'TestIsIterable', 'TestIsString', 'TestIsNumeric',
+    'TestIsInteger', 'TestFilterKwargs'
+]
 
 
 class TestBatch(unittest.TestCase):
@@ -46,15 +38,16 @@ class TestBatch(unittest.TestCase):
 
         self.assertListEqual(
             list(batch(tuple(range(10)))),
-            [(0, 1, 2), (3, 4, 5), (6, 7, 8), (9,)])
+            [(0, 1, 2), (3, 4, 5), (6, 7, 8), (9,)])  # yapf: disable
 
         self.assertListEqual(
             list(batch(tuple(range(10)), 5)),
-            [(0, 1, 2, 3, 4), (5, 6, 7, 8, 9)])
+            [(0, 1, 2, 3, 4), (5, 6, 7, 8, 9)])  # yapf: disable
 
         self.assertListEqual(
             list(batch(tuple(range(10)), 1)),
-            [(0,), (1,), (2,), (3,), (4,), (5,), (6,), (7,), (8,), (9,)])
+            [(0,), (1,), (2,), (3,), (4,),
+             (5,), (6,), (7,), (8,), (9,)])  # yapf: disable
 
 
 class TestIsIterable(unittest.TestCase):
@@ -124,7 +117,7 @@ class TestIsNumeric(unittest.TestCase):
 
         self.assertTrue(is_numeric(complex(1)))
 
-        self.assertFalse(is_numeric((1,)))
+        self.assertFalse(is_numeric((1, )))
 
         self.assertFalse(is_numeric([1]))
 
@@ -180,17 +173,12 @@ class TestFilterKwargs(unittest.TestCase):
 
             return a, b, c
 
-        self.assertEqual(
-            1,
-            fn_a(1, **filter_kwargs(fn_a, b=2, c=3)))
+        self.assertEqual(1, fn_a(1, **filter_kwargs(fn_a, b=2, c=3)))
 
-        self.assertTupleEqual(
-            (1, 2),
-            fn_b(1, **filter_kwargs(fn_b, b=2, c=3)))
+        self.assertTupleEqual((1, 2), fn_b(1, **filter_kwargs(fn_b, b=2, c=3)))
 
-        self.assertTupleEqual(
-            (1, 2, 3),
-            fn_c(1, **filter_kwargs(fn_c, b=2, c=3)))
+        self.assertTupleEqual((1, 2, 3),
+                              fn_c(1, **filter_kwargs(fn_c, b=2, c=3)))
 
 
 if __name__ == '__main__':

@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 CIE UVW Colourspace
 ===================
@@ -24,13 +23,8 @@ References
 from __future__ import division, unicode_literals
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models import (
-    UCS_to_uv,
-    XYZ_to_UCS,
-    XYZ_to_xyY,
-    xy_to_xyY,
-    xyY_to_XYZ,
-    xyY_to_xy)
+from colour.models import (UCS_to_uv, XYZ_to_UCS, XYZ_to_xyY, xy_to_xyY,
+                           xyY_to_XYZ, xyY_to_xy)
 from colour.utilities import tsplit, tstack
 
 __author__ = 'Colour Developers'
@@ -86,8 +80,7 @@ def XYZ_to_UVW(
     _x, _y, Y = tsplit(xyY)
 
     u, v = tsplit(UCS_to_uv(XYZ_to_UCS(XYZ)))
-    u_0, v_0 = tsplit(
-        UCS_to_uv(XYZ_to_UCS(xyY_to_XYZ(xy_to_xyY(illuminant)))))
+    u_0, v_0 = tsplit(UCS_to_uv(XYZ_to_UCS(xyY_to_XYZ(xy_to_xyY(illuminant)))))
 
     W = 25 * Y ** (1 / 3) - 17
     U = 13 * W * (u - u_0)

@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for :mod:`colour.difference.delta_e` module.
 """
@@ -11,11 +10,8 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.difference import (
-    delta_E_CIE1976,
-    delta_E_CIE1994,
-    delta_E_CIE2000,
-    delta_E_CMC)
+from colour.difference import (delta_E_CIE1976, delta_E_CIE1994,
+                               delta_E_CIE2000, delta_E_CMC)
 
 from colour.algebra import euclidean_distance
 from colour.utilities import ignore_numpy_errors
@@ -27,10 +23,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestDelta_E_CIE1976',
-           'TestDelta_E_CIE1994',
-           'TestDelta_E_CIE2000',
-           'TestDelta_E_CMC']
+__all__ = [
+    'TestDelta_E_CIE1976', 'TestDelta_E_CIE1994', 'TestDelta_E_CIE2000',
+    'TestDelta_E_CMC'
+]
 
 
 class TestDelta_E_CIE1976(unittest.TestCase):
@@ -144,25 +140,19 @@ class TestDelta_E_CIE1994(unittest.TestCase):
         Lab_2 = np.array([100.00000000, 426.67945353, 72.39590835])
         delta_E = 83.779225500887094
         np.testing.assert_almost_equal(
-            delta_E_CIE1994(Lab_1, Lab_2),
-            delta_E,
-            decimal=7)
+            delta_E_CIE1994(Lab_1, Lab_2), delta_E, decimal=7)
 
         Lab_1 = np.tile(Lab_1, (6, 1))
         Lab_2 = np.tile(Lab_2, (6, 1))
         delta_E = np.tile(delta_E, 6)
         np.testing.assert_almost_equal(
-            delta_E_CIE1994(Lab_1, Lab_2),
-            delta_E,
-            decimal=7)
+            delta_E_CIE1994(Lab_1, Lab_2), delta_E, decimal=7)
 
         Lab_1 = np.reshape(Lab_1, (2, 3, 3))
         Lab_2 = np.reshape(Lab_2, (2, 3, 3))
         delta_E = np.reshape(delta_E, (2, 3))
         np.testing.assert_almost_equal(
-            delta_E_CIE1994(Lab_1, Lab_2),
-            delta_E,
-            decimal=7)
+            delta_E_CIE1994(Lab_1, Lab_2), delta_E, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_delta_E_CIE1994(self):
@@ -245,25 +235,19 @@ class TestDelta_E_CIE2000(unittest.TestCase):
         Lab_2 = np.array([100.00000000, 426.67945353, 72.39590835])
         delta_E = 94.035649026659485
         np.testing.assert_almost_equal(
-            delta_E_CIE2000(Lab_1, Lab_2),
-            delta_E,
-            decimal=7)
+            delta_E_CIE2000(Lab_1, Lab_2), delta_E, decimal=7)
 
         Lab_1 = np.tile(Lab_1, (6, 1))
         Lab_2 = np.tile(Lab_2, (6, 1))
         delta_E = np.tile(delta_E, 6)
         np.testing.assert_almost_equal(
-            delta_E_CIE2000(Lab_1, Lab_2),
-            delta_E,
-            decimal=7)
+            delta_E_CIE2000(Lab_1, Lab_2), delta_E, decimal=7)
 
         Lab_1 = np.reshape(Lab_1, (2, 3, 3))
         Lab_2 = np.reshape(Lab_2, (2, 3, 3))
         delta_E = np.reshape(delta_E, (2, 3))
         np.testing.assert_almost_equal(
-            delta_E_CIE2000(Lab_1, Lab_2),
-            delta_E,
-            decimal=7)
+            delta_E_CIE2000(Lab_1, Lab_2), delta_E, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_delta_E_CIE2000(self):
@@ -326,7 +310,7 @@ class TestDelta_E_CIE2000(unittest.TestCase):
              [90.8027, -2.0831, 1.4410],
              [90.9257, -0.5406, -0.9208],
              [6.7747, -0.2908, -2.4247],
-             [2.0776, 0.0795, -1.1350]])
+             [2.0776, 0.0795, -1.1350]])  # yapf: disable
 
         Lab_2 = np.array(
             [[50.0000, 0.0000, -82.7485],
@@ -362,7 +346,7 @@ class TestDelta_E_CIE2000(unittest.TestCase):
              [91.1528, -1.6435, 0.0447],
              [88.6381, -0.8985, -0.7239],
              [5.8714, -0.0985, -2.2286],
-             [0.9033, -0.0636, -0.5514]])
+             [0.9033, -0.0636, -0.5514]])  # yapf: disable
 
         d_E = np.array(
             [2.0425,
@@ -398,12 +382,10 @@ class TestDelta_E_CIE2000(unittest.TestCase):
              1.4441,
              1.5381,
              0.6377,
-             0.9082])
+             0.9082])  # yapf: disable
 
         np.testing.assert_almost_equal(
-            delta_E_CIE2000(Lab_1, Lab_2),
-            d_E,
-            decimal=4)
+            delta_E_CIE2000(Lab_1, Lab_2), d_E, decimal=4)
 
 
 class TestDelta_E_CMC(unittest.TestCase):
@@ -472,25 +454,19 @@ class TestDelta_E_CMC(unittest.TestCase):
         Lab_2 = np.array([100.00000000, 426.67945353, 72.39590835])
         delta_E = 172.70477129
         np.testing.assert_almost_equal(
-            delta_E_CMC(Lab_1, Lab_2),
-            delta_E,
-            decimal=7)
+            delta_E_CMC(Lab_1, Lab_2), delta_E, decimal=7)
 
         Lab_1 = np.tile(Lab_1, (6, 1))
         Lab_2 = np.tile(Lab_2, (6, 1))
         delta_E = np.tile(delta_E, 6)
         np.testing.assert_almost_equal(
-            delta_E_CMC(Lab_1, Lab_2),
-            delta_E,
-            decimal=7)
+            delta_E_CMC(Lab_1, Lab_2), delta_E, decimal=7)
 
         Lab_1 = np.reshape(Lab_1, (2, 3, 3))
         Lab_2 = np.reshape(Lab_2, (2, 3, 3))
         delta_E = np.reshape(delta_E, (2, 3))
         np.testing.assert_almost_equal(
-            delta_E_CMC(Lab_1, Lab_2),
-            delta_E,
-            decimal=7)
+            delta_E_CMC(Lab_1, Lab_2), delta_E, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_delta_E_CMC(self):

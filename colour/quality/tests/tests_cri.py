@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for :mod:`colour.quality.cri` module.
 """
@@ -10,9 +9,8 @@ from __future__ import division, unicode_literals
 import unittest
 
 from colour.quality import colour_rendering_index
-from colour.colorimetry import (
-    ILLUMINANTS_RELATIVE_SPDS,
-    SpectralPowerDistribution)
+from colour.colorimetry import (ILLUMINANTS_RELATIVE_SPDS,
+                                SpectralPowerDistribution)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -104,7 +102,8 @@ SAMPLE_SPD_DATA = {
     765: 0.00340568,
     770: 0.00261153,
     775: 0.00258850,
-    780: 0.00293663}
+    780: 0.00293663
+}
 
 
 class TestColourRenderingIndex(unittest.TestCase):
@@ -129,9 +128,8 @@ class TestColourRenderingIndex(unittest.TestCase):
             places=7)
 
         self.assertAlmostEqual(
-            colour_rendering_index(SpectralPowerDistribution(
-                'Sample',
-                SAMPLE_SPD_DATA)),
+            colour_rendering_index(
+                SpectralPowerDistribution('Sample', SAMPLE_SPD_DATA)),
             70.805386570659394,
             places=7)
 

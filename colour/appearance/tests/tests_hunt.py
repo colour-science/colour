@@ -1,6 +1,5 @@
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for :mod:`colour.appearance.hunt` module.
 """
@@ -32,12 +31,14 @@ class TestHuntColourAppearanceModel(ColourAppearanceModelTest):
 
     FIXTURE_BASENAME = 'hunt.csv'
 
-    OUTPUT_ATTRIBUTES = {'J': 'J',
-                         'C_94': 'C',
-                         'h_S': 'h',
-                         's': 's',
-                         'Q': 'Q',
-                         'M94': 'M'}
+    OUTPUT_ATTRIBUTES = {
+        'J': 'J',
+        'C_94': 'C',
+        'h_S': 'h',
+        's': 's',
+        'Q': 'Q',
+        'M94': 'M'
+    }
 
     def output_specification_from_data(self, data):
         """
@@ -59,14 +60,13 @@ class TestHuntColourAppearanceModel(ColourAppearanceModelTest):
         XYZ_w = tstack((data['X_w'], data['Y_w'], data['Z_w']))
         XYZ_b = tstack((data['X_w'], 0.2 * data['Y_w'], data['Z_w']))
 
-        specification = XYZ_to_Hunt(XYZ,
-                                    XYZ_w,
-                                    XYZ_b,
-                                    data['L_A'],
-                                    Hunt_InductionFactors(
-                                        data['N_c'],
-                                        data['N_b']),
-                                    CCT_w=data['T'])
+        specification = XYZ_to_Hunt(
+            XYZ,
+            XYZ_w,
+            XYZ_b,
+            data['L_A'],
+            Hunt_InductionFactors(data['N_c'], data['N_b']),
+            CCT_w=data['T'])
 
         return specification
 

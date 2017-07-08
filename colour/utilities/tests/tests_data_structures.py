@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for :mod:`colour.utilities.data_structures` module.
 """
@@ -10,11 +9,8 @@ from __future__ import division, unicode_literals
 import pickle
 import unittest
 
-from colour.utilities import (
-    ArbitraryPrecisionMapping,
-    Structure,
-    Lookup,
-    CaseInsensitiveMapping)
+from colour.utilities import (ArbitraryPrecisionMapping, Structure, Lookup,
+                              CaseInsensitiveMapping)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -23,10 +19,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestArbitraryPrecisionMapping',
-           'TestStructure',
-           'TestLookup',
-           'TestCaseInsensitiveMapping']
+__all__ = [
+    'TestArbitraryPrecisionMapping', 'TestStructure', 'TestLookup',
+    'TestCaseInsensitiveMapping'
+]
 
 
 class TestArbitraryPrecisionMapping(unittest.TestCase):
@@ -40,7 +36,7 @@ ArbitraryPrecisionMapping` class units tests methods.
         Tests presence of required attributes.
         """
 
-        required_attributes = ('key_decimals',)
+        required_attributes = ('key_decimals', )
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(ArbitraryPrecisionMapping))
@@ -50,12 +46,8 @@ ArbitraryPrecisionMapping` class units tests methods.
         Tests presence of required methods.
         """
 
-        required_methods = ('__setitem__',
-                            '__getitem__',
-                            '__delitem__',
-                            '__contains__',
-                            '__iter__',
-                            '__len__')
+        required_methods = ('__setitem__', '__getitem__', '__delitem__',
+                            '__contains__', '__iter__', '__len__')
 
         for method in required_methods:
             self.assertIn(method, dir(ArbitraryPrecisionMapping))
@@ -144,13 +136,12 @@ ArbitraryPrecisionMapping.__iter__` method.
         data = {0.1999999998: 'Nemo', 0.2000000000: 'John'}
         mapping = ArbitraryPrecisionMapping(data, key_decimals=10)
 
-        self.assertListEqual(sorted([item for item in mapping]),
-                             [0.1999999998, 0.2])
+        self.assertListEqual(
+            sorted([item for item in mapping]), [0.1999999998, 0.2])
 
         mapping = ArbitraryPrecisionMapping(data, key_decimals=7)
 
-        self.assertListEqual(sorted([item for item in mapping]),
-                             [0.2])
+        self.assertListEqual(sorted([item for item in mapping]), [0.2])
 
     def test__len__(self):
         """
@@ -179,9 +170,7 @@ class TestStructure(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__getattr__',
-                            '__setattr__',
-                            '__delattr__',
+        required_methods = ('__getattr__', '__setattr__', '__delattr__',
                             'update')
 
         for method in required_methods:
@@ -250,8 +239,7 @@ class TestLookup(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('first_key_from_value',
-                            'keys_from_value')
+        required_methods = ('first_key_from_value', 'keys_from_value')
 
         for method in required_methods:
             self.assertIn(method, dir(Lookup))
@@ -272,8 +260,8 @@ Lookup.first_key_from_value` method.
         """
 
         lookup = Lookup(John='Doe', Jane='Doe', Luke='Skywalker')
-        self.assertListEqual(sorted(['Jane', 'John']),
-                             sorted(lookup.keys_from_value('Doe')))
+        self.assertListEqual(
+            sorted(['Jane', 'John']), sorted(lookup.keys_from_value('Doe')))
 
 
 class TestCaseInsensitiveMapping(unittest.TestCase):
@@ -287,17 +275,9 @@ class TestCaseInsensitiveMapping(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__setitem__',
-                            '__getitem__',
-                            '__delitem__',
-                            '__contains__',
-                            '__iter__',
-                            '__len__',
-                            '__eq__',
-                            '__ne__',
-                            '__repr__',
-                            'copy',
-                            'lower_items')
+        required_methods = ('__setitem__', '__getitem__', '__delitem__',
+                            '__contains__', '__iter__', '__len__', '__eq__',
+                            '__ne__', '__repr__', 'copy', 'lower_items')
 
         for method in required_methods:
             self.assertIn(method, dir(CaseInsensitiveMapping))
@@ -368,8 +348,8 @@ CaseInsensitiveMapping.__iter__` method.
         """
 
         mapping = CaseInsensitiveMapping(John='Doe', Jane='Doe')
-        self.assertListEqual(sorted([item for item in mapping]),
-                             ['Jane', 'John'])
+        self.assertListEqual(
+            sorted([item for item in mapping]), ['Jane', 'John'])
 
     def test__len__(self):
         """
@@ -379,8 +359,8 @@ CaseInsensitiveMapping.__len__` method.
 
         self.assertEqual(len(CaseInsensitiveMapping()), 0)
 
-        self.assertEqual(len(CaseInsensitiveMapping(John='Doe', Jane='Doe')),
-                         2)
+        self.assertEqual(
+            len(CaseInsensitiveMapping(John='Doe', Jane='Doe')), 2)
 
     def test__eq__(self):
         """
@@ -428,8 +408,9 @@ CaseInsensitiveMapping.lower_items` method.
 
         mapping = CaseInsensitiveMapping(John='Doe', Jane='Doe')
 
-        self.assertListEqual(sorted([item for item in mapping.lower_items()]),
-                             [('jane', 'Doe'), ('john', 'Doe')])
+        self.assertListEqual(
+            sorted([item for item in mapping.lower_items()]),
+            [('jane', 'Doe'), ('john', 'Doe')])
 
 
 if __name__ == '__main__':

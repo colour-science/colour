@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Interpolation
 =============
@@ -31,11 +30,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['LinearInterpolator',
-           'SpragueInterpolator',
-           'CubicSplineInterpolator',
-           'PchipInterpolator',
-           'lagrange_coefficients']
+__all__ = [
+    'LinearInterpolator', 'SpragueInterpolator', 'CubicSplineInterpolator',
+    'PchipInterpolator', 'lagrange_coefficients'
+]
 
 
 class LinearInterpolator(object):
@@ -208,8 +206,8 @@ class LinearInterpolator(object):
         if len(self.__x) != len(self.__y):
             raise ValueError(
                 ('"x" independent and "y" dependent variables have different '
-                 'dimensions: "{0}", "{1}"').format(len(self.__x),
-                                                    len(self.__y)))
+                 'dimensions: "{0}", "{1}"').format(
+                     len(self.__x), len(self.__y)))
 
     def _validate_interpolation_range(self, x):
         """
@@ -290,9 +288,9 @@ class SpragueInterpolator(object):
 
     SPRAGUE_C_COEFFICIENTS = np.array(
         [[884, -1960, 3033, -2648, 1080, -180],
-         [508, -540, 488, -367, 144, -24],
-         [-24, 144, -367, 488, -540, 508],
-         [-180, 1080, -2648, 3033, -1960, 884]])
+         [508, -540, 488, -367, 144,
+          -24], [-24, 144, -367, 488, -540, 508],
+         [-180, 1080, -2648, 3033, -1960, 884]])  # yapf: disable
     """
     Defines the coefficients used to generate extra points for boundaries
     interpolation.
@@ -392,18 +390,18 @@ class SpragueInterpolator(object):
             assert len(value) >= 6, (
                 '"y" dependent variable values count must be in domain [6:]!')
 
-            yp1 = np.ravel((np.dot(
-                self.SPRAGUE_C_COEFFICIENTS[0],
-                np.array(value[0:6]).reshape((6, 1)))) / 209)[0]
-            yp2 = np.ravel((np.dot(
-                self.SPRAGUE_C_COEFFICIENTS[1],
-                np.array(value[0:6]).reshape((6, 1)))) / 209)[0]
-            yp3 = np.ravel((np.dot(
-                self.SPRAGUE_C_COEFFICIENTS[2],
-                np.array(value[-6:]).reshape((6, 1)))) / 209)[0]
-            yp4 = np.ravel((np.dot(
-                self.SPRAGUE_C_COEFFICIENTS[3],
-                np.array(value[-6:]).reshape((6, 1)))) / 209)[0]
+            yp1 = np.ravel((np.dot(self.SPRAGUE_C_COEFFICIENTS[0],
+                                   np.array(value[0:6]).reshape(
+                                       (6, 1)))) / 209)[0]
+            yp2 = np.ravel((np.dot(self.SPRAGUE_C_COEFFICIENTS[1],
+                                   np.array(value[0:6]).reshape(
+                                       (6, 1)))) / 209)[0]
+            yp3 = np.ravel((np.dot(self.SPRAGUE_C_COEFFICIENTS[2],
+                                   np.array(value[-6:]).reshape(
+                                       (6, 1)))) / 209)[0]
+            yp4 = np.ravel((np.dot(self.SPRAGUE_C_COEFFICIENTS[3],
+                                   np.array(value[-6:]).reshape(
+                                       (6, 1)))) / 209)[0]
 
             self._yp = np.concatenate(((yp1, yp2), value, (yp3, yp4)))
 
@@ -452,16 +450,16 @@ class SpragueInterpolator(object):
         r = self._yp
 
         a0p = r[i]
-        a1p = ((2 * r[i - 2] - 16 * r[i - 1] + 16 * r[i + 1] - 2 *
-                r[i + 2]) / 24)
+        a1p = ((2 * r[i - 2] - 16 * r[i - 1] + 16 * r[i + 1] -
+                2 * r[i + 2]) / 24)  # yapf: disable
         a2p = ((-r[i - 2] + 16 * r[i - 1] - 30 * r[i] + 16 * r[i + 1] -
-                r[i + 2]) / 24)
-        a3p = ((-9 * r[i - 2] + 39 * r[i - 1] - 70 * r[i] + 66 *
-                r[i + 1] - 33 * r[i + 2] + 7 * r[i + 3]) / 24)
-        a4p = ((13 * r[i - 2] - 64 * r[i - 1] + 126 * r[i] - 124 *
-                r[i + 1] + 61 * r[i + 2] - 12 * r[i + 3]) / 24)
-        a5p = ((-5 * r[i - 2] + 25 * r[i - 1] - 50 * r[i] + 50 *
-                r[i + 1] - 25 * r[i + 2] + 5 * r[i + 3]) / 24)
+                r[i + 2]) / 24)  # yapf: disable
+        a3p = ((-9 * r[i - 2] + 39 * r[i - 1] - 70 * r[i] + 66 * r[i + 1] -
+                33 * r[i + 2] + 7 * r[i + 3]) / 24)
+        a4p = ((13 * r[i - 2] - 64 * r[i - 1] + 126 * r[i] - 124 * r[i + 1] +
+                61 * r[i + 2] - 12 * r[i + 3]) / 24)
+        a5p = ((-5 * r[i - 2] + 25 * r[i - 1] - 50 * r[i] + 50 * r[i + 1] -
+                25 * r[i + 2] + 5 * r[i + 3]) / 24)
 
         y = (a0p + a1p * X + a2p * X ** 2 + a3p * X ** 3 + a4p * X ** 4 +
              a5p * X ** 5)
@@ -476,8 +474,8 @@ class SpragueInterpolator(object):
         if len(self.__x) != len(self.__y):
             raise ValueError(
                 ('"x" independent and "y" dependent variables have different '
-                 'dimensions: "{0}", "{1}"').format(len(self.__x),
-                                                    len(self.__y)))
+                 'dimensions: "{0}", "{1}"').format(
+                     len(self.__x), len(self.__y)))
 
     def _validate_interpolation_range(self, x):
         """
@@ -585,8 +583,8 @@ def lagrange_coefficients(r, n=4):
     r_i = np.arange(n)
     L_n = []
     for j in range(len(r_i)):
-        basis = [(r - r_i[i]) / (r_i[j] - r_i[i])
-                 for i in range(len(r_i)) if i != j]
+        basis = [(r - r_i[i]) / (r_i[j] - r_i[i]) for i in range(len(r_i))
+                 if i != j]
         L_n.append(reduce(lambda x, y: x * y, basis))  # noqa
 
     return np.array(L_n)

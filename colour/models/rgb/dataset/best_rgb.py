@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Best RGB Colourspace
 ====================
@@ -27,10 +26,8 @@ import numpy as np
 from functools import partial
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import (
-    RGB_Colourspace,
-    function_gamma,
-    normalised_primary_matrix)
+from colour.models.rgb import (RGB_Colourspace, function_gamma,
+                               normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -39,17 +36,15 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['BEST_RGB_PRIMARIES',
-           'BEST_RGB_ILLUMINANT',
-           'BEST_RGB_WHITEPOINT',
-           'BEST_RGB_TO_XYZ_MATRIX',
-           'XYZ_TO_BEST_RGB_MATRIX',
-           'BEST_RGB_COLOURSPACE']
+__all__ = [
+    'BEST_RGB_PRIMARIES', 'BEST_RGB_ILLUMINANT', 'BEST_RGB_WHITEPOINT',
+    'BEST_RGB_TO_XYZ_MATRIX', 'XYZ_TO_BEST_RGB_MATRIX', 'BEST_RGB_COLOURSPACE'
+]
 
 BEST_RGB_PRIMARIES = np.array(
     [[0.735191637630662, 0.264808362369338],
      [0.215336134453781, 0.774159663865546],
-     [0.130122950819672, 0.034836065573770]])
+     [0.130122950819672, 0.034836065573770]])  # yapf: disable
 """
 *Best RGB* colourspace primaries.
 
@@ -71,8 +66,8 @@ BEST_RGB_WHITEPOINT = (
 BEST_RGB_WHITEPOINT : ndarray
 """
 
-BEST_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(
-    BEST_RGB_PRIMARIES, BEST_RGB_WHITEPOINT)
+BEST_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(BEST_RGB_PRIMARIES,
+                                                   BEST_RGB_WHITEPOINT)
 """
 *Best RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 
@@ -94,7 +89,7 @@ BEST_RGB_COLOURSPACE = RGB_Colourspace(
     BEST_RGB_TO_XYZ_MATRIX,
     XYZ_TO_BEST_RGB_MATRIX,
     partial(function_gamma, exponent=1 / 2.2),
-    partial(function_gamma, exponent=2.2))
+    partial(function_gamma, exponent=2.2))  # yapf: disable
 """
 *Best RGB* colourspace.
 

@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 GoPro Colourspaces
 ==================
@@ -36,11 +35,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import (
-    RGB_Colourspace,
-    log_decoding_Protune,
-    log_encoding_Protune,
-    normalised_primary_matrix)
+from colour.models.rgb import (RGB_Colourspace, log_decoding_Protune,
+                               log_encoding_Protune, normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -49,17 +45,16 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['PROTUNE_NATIVE_PRIMARIES',
-           'PROTUNE_NATIVE_ILLUMINANT',
-           'PROTUNE_NATIVE_WHITEPOINT',
-           'PROTUNE_NATIVE_TO_XYZ_MATRIX',
-           'XYZ_TO_PROTUNE_NATIVE_MATRIX',
-           'PROTUNE_NATIVE_COLOURSPACE']
+__all__ = [
+    'PROTUNE_NATIVE_PRIMARIES', 'PROTUNE_NATIVE_ILLUMINANT',
+    'PROTUNE_NATIVE_WHITEPOINT', 'PROTUNE_NATIVE_TO_XYZ_MATRIX',
+    'XYZ_TO_PROTUNE_NATIVE_MATRIX', 'PROTUNE_NATIVE_COLOURSPACE'
+]
 
 PROTUNE_NATIVE_PRIMARIES = np.array(
     [[0.698480461493841, 0.193026445370121],
      [0.329555378387345, 1.024596624134644],
-     [0.108442631407675, -0.034678569754016]])
+     [0.108442631407675, -0.034678569754016]])  # yapf: disable
 """
 *Protune Native* colourspace primaries.
 
@@ -73,9 +68,8 @@ PROTUNE_NATIVE_ILLUMINANT = 'D65'
 PROTUNE_NATIVE_ILLUMINANT : unicode
 """
 
-PROTUNE_NATIVE_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
-        PROTUNE_NATIVE_ILLUMINANT])
+PROTUNE_NATIVE_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
+                             [PROTUNE_NATIVE_ILLUMINANT])
 """
 *Protune Native* colourspace whitepoint.
 
@@ -105,7 +99,7 @@ PROTUNE_NATIVE_COLOURSPACE = RGB_Colourspace(
     PROTUNE_NATIVE_TO_XYZ_MATRIX,
     XYZ_TO_PROTUNE_NATIVE_MATRIX,
     log_encoding_Protune,
-    log_decoding_Protune)
+    log_decoding_Protune)  # yapf: disable
 """
 *Protune Native* colourspace.
 

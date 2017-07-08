@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for :mod:`colour.models.hunter_lab` module.
 """
@@ -12,10 +11,8 @@ import unittest
 from itertools import permutations
 
 from colour.colorimetry import HUNTERLAB_ILLUMINANTS
-from colour.models import (
-    XYZ_to_K_ab_HunterLab1966,
-    XYZ_to_Hunter_Lab,
-    Hunter_Lab_to_XYZ)
+from colour.models import (XYZ_to_K_ab_HunterLab1966, XYZ_to_Hunter_Lab,
+                           Hunter_Lab_to_XYZ)
 
 from colour.utilities import ignore_numpy_errors
 
@@ -26,9 +23,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestXYZ_to_K_ab_HunterLab1966',
-           'TestXYZ_to_Hunter_Lab',
-           'TestHunter_Lab_to_XYZ']
+__all__ = [
+    'TestXYZ_to_K_ab_HunterLab1966', 'TestXYZ_to_Hunter_Lab',
+    'TestHunter_Lab_to_XYZ'
+]
 
 
 class TestXYZ_to_K_ab_HunterLab1966(unittest.TestCase):
@@ -70,23 +68,17 @@ class TestXYZ_to_K_ab_HunterLab1966(unittest.TestCase):
         XYZ = np.array([0.07049534, 0.10080000, 0.09558313]) * 100
         K_ab = 46.9256133, 19.9129745
         np.testing.assert_almost_equal(
-            XYZ_to_K_ab_HunterLab1966(XYZ),
-            K_ab,
-            decimal=7)
+            XYZ_to_K_ab_HunterLab1966(XYZ), K_ab, decimal=7)
 
         XYZ = np.tile(XYZ, (6, 1))
         K_ab = np.tile(K_ab, (6, 1))
         np.testing.assert_almost_equal(
-            XYZ_to_K_ab_HunterLab1966(XYZ),
-            K_ab,
-            decimal=7)
+            XYZ_to_K_ab_HunterLab1966(XYZ), K_ab, decimal=7)
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         K_ab = np.reshape(K_ab, (2, 3, 2))
         np.testing.assert_almost_equal(
-            XYZ_to_K_ab_HunterLab1966(XYZ),
-            K_ab,
-            decimal=7)
+            XYZ_to_K_ab_HunterLab1966(XYZ), K_ab, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_XYZ_to_K_ab_HunterLab1966(self):
@@ -134,8 +126,7 @@ class TestXYZ_to_Hunter_Lab(unittest.TestCase):
         A = h_i['A']
         np.testing.assert_almost_equal(
             XYZ_to_Hunter_Lab(
-                np.array([0.07049534, 0.10080000, 0.09558313]) * 100,
-                A.XYZ_n,
+                np.array([0.07049534, 0.10080000, 0.09558313]) * 100, A.XYZ_n,
                 A.K_ab),
             np.array([31.74901573, -21.35794415, -20.32778374]),
             decimal=7)
@@ -144,8 +135,7 @@ class TestXYZ_to_Hunter_Lab(unittest.TestCase):
         np.testing.assert_almost_equal(
             XYZ_to_Hunter_Lab(
                 np.array([0.07049534, 0.10080000, 0.09558313]) * 100,
-                D65.XYZ_n,
-                D65.K_ab),
+                D65.XYZ_n, D65.K_ab),
             np.array([31.74901573, -14.44108591, 2.74396261]),
             decimal=7)
 
@@ -171,32 +161,24 @@ class TestXYZ_to_Hunter_Lab(unittest.TestCase):
         K_ab = D50.K_ab
         Lab = np.array([31.74901573, -15.11462629, -2.78660758])
         np.testing.assert_almost_equal(
-            XYZ_to_Hunter_Lab(XYZ, XYZ_n, K_ab),
-            Lab,
-            decimal=7)
+            XYZ_to_Hunter_Lab(XYZ, XYZ_n, K_ab), Lab, decimal=7)
 
         XYZ = np.tile(XYZ, (6, 1))
         Lab = np.tile(Lab, (6, 1))
         np.testing.assert_almost_equal(
-            XYZ_to_Hunter_Lab(XYZ, XYZ_n, K_ab),
-            Lab,
-            decimal=7)
+            XYZ_to_Hunter_Lab(XYZ, XYZ_n, K_ab), Lab, decimal=7)
 
         XYZ_n = np.tile(XYZ_n, (6, 1))
         K_ab = np.tile(K_ab, (6, 1))
         np.testing.assert_almost_equal(
-            XYZ_to_Hunter_Lab(XYZ, XYZ_n, K_ab),
-            Lab,
-            decimal=7)
+            XYZ_to_Hunter_Lab(XYZ, XYZ_n, K_ab), Lab, decimal=7)
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         XYZ_n = np.reshape(XYZ_n, (2, 3, 3))
         K_ab = np.reshape(K_ab, (2, 3, 2))
         Lab = np.reshape(Lab, (2, 3, 3))
         np.testing.assert_almost_equal(
-            XYZ_to_Hunter_Lab(XYZ, XYZ_n, K_ab),
-            Lab,
-            decimal=7)
+            XYZ_to_Hunter_Lab(XYZ, XYZ_n, K_ab), Lab, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_XYZ_to_Hunter_Lab(self):
@@ -247,8 +229,7 @@ class TestHunter_Lab_to_XYZ(unittest.TestCase):
         A = h_i['A']
         np.testing.assert_almost_equal(
             Hunter_Lab_to_XYZ(
-                np.array([31.74901573, -21.35794415, -20.32778374]),
-                A.XYZ_n,
+                np.array([31.74901573, -21.35794415, -20.32778374]), A.XYZ_n,
                 A.K_ab),
             np.array([7.04953400, 10.08000000, 9.55831300]),
             decimal=7)
@@ -256,8 +237,7 @@ class TestHunter_Lab_to_XYZ(unittest.TestCase):
         D65 = h_i['D65']
         np.testing.assert_almost_equal(
             Hunter_Lab_to_XYZ(
-                np.array([31.7490157, -14.4410859, 2.7439626]),
-                D65.XYZ_n,
+                np.array([31.7490157, -14.4410859, 2.7439626]), D65.XYZ_n,
                 D65.K_ab),
             np.array([7.04953400, 10.08000000, 9.55831300]),
             decimal=7)
@@ -284,32 +264,24 @@ class TestHunter_Lab_to_XYZ(unittest.TestCase):
         K_ab = D50.K_ab
         XYZ = np.array([0.07049534, 0.10080000, 0.09558313]) * 100
         np.testing.assert_almost_equal(
-            Hunter_Lab_to_XYZ(Lab, XYZ_n, K_ab),
-            XYZ,
-            decimal=7)
+            Hunter_Lab_to_XYZ(Lab, XYZ_n, K_ab), XYZ, decimal=7)
 
         Lab = np.tile(Lab, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
         np.testing.assert_almost_equal(
-            Hunter_Lab_to_XYZ(Lab, XYZ_n, K_ab),
-            XYZ,
-            decimal=7)
+            Hunter_Lab_to_XYZ(Lab, XYZ_n, K_ab), XYZ, decimal=7)
 
         K_ab = np.tile(K_ab, (6, 1))
         XYZ_n = np.tile(XYZ_n, (6, 1))
         np.testing.assert_almost_equal(
-            Hunter_Lab_to_XYZ(Lab, XYZ_n, K_ab),
-            XYZ,
-            decimal=7)
+            Hunter_Lab_to_XYZ(Lab, XYZ_n, K_ab), XYZ, decimal=7)
 
         Lab = np.reshape(Lab, (2, 3, 3))
         XYZ_n = np.reshape(XYZ_n, (2, 3, 3))
         K_ab = np.reshape(K_ab, (2, 3, 2))
         XYZ = np.reshape(XYZ, (2, 3, 3))
         np.testing.assert_almost_equal(
-            Hunter_Lab_to_XYZ(Lab, XYZ_n, K_ab),
-            XYZ,
-            decimal=7)
+            Hunter_Lab_to_XYZ(Lab, XYZ_n, K_ab), XYZ, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_Hunter_Lab_to_XYZ(self):

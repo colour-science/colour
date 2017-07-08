@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 ECI RGB v2 Colourspace
 ======================
@@ -26,10 +25,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 from functools import partial
 
-from colour.colorimetry import (
-    ILLUMINANTS,
-    lightness_CIE1976,
-    luminance_CIE1976)
+from colour.colorimetry import (ILLUMINANTS, lightness_CIE1976,
+                                luminance_CIE1976)
 from colour.models.rgb import RGB_Colourspace, normalised_primary_matrix
 
 __author__ = 'Colour Developers'
@@ -39,17 +36,16 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['ECI_RGB_V2_PRIMARIES',
-           'ECI_RGB_V_ILLUMINANT',
-           'ECI_RGB_V2_WHITEPOINT',
-           'ECI_RGB_V2_TO_XYZ_MATRIX',
-           'XYZ_TO_ECI_RGB_V2_MATRIX',
-           'ECI_RGB_V2_COLOURSPACE']
+__all__ = [
+    'ECI_RGB_V2_PRIMARIES', 'ECI_RGB_V_ILLUMINANT', 'ECI_RGB_V2_WHITEPOINT',
+    'ECI_RGB_V2_TO_XYZ_MATRIX', 'XYZ_TO_ECI_RGB_V2_MATRIX',
+    'ECI_RGB_V2_COLOURSPACE'
+]
 
 ECI_RGB_V2_PRIMARIES = np.array(
     [[0.670103092783505, 0.329896907216495],
      [0.209905660377358, 0.709905660377358],
-     [0.140061791967044, 0.080329557157570]])
+     [0.140061791967044, 0.080329557157570]])  # yapf: disable
 """
 *ECI RGB v2* colourspace primaries.
 
@@ -71,8 +67,8 @@ ECI_RGB_V2_WHITEPOINT = (
 ECI_RGB_V2_WHITEPOINT : ndarray
 """
 
-ECI_RGB_V2_TO_XYZ_MATRIX = normalised_primary_matrix(
-    ECI_RGB_V2_PRIMARIES, ECI_RGB_V2_WHITEPOINT)
+ECI_RGB_V2_TO_XYZ_MATRIX = normalised_primary_matrix(ECI_RGB_V2_PRIMARIES,
+                                                     ECI_RGB_V2_WHITEPOINT)
 """
 *ECI RGB v2* colourspace to *CIE XYZ* tristimulus values matrix.
 
@@ -121,8 +117,12 @@ ECI_RGB_V2_COLOURSPACE = RGB_Colourspace(
     ECI_RGB_V_ILLUMINANT,
     ECI_RGB_V2_TO_XYZ_MATRIX,
     XYZ_TO_ECI_RGB_V2_MATRIX,
-    partial(_scale_domain_0_100_range_0_1, callable_=lightness_CIE1976),
-    partial(_scale_domain_0_100_range_0_1, callable_=luminance_CIE1976))
+    partial(
+        _scale_domain_0_100_range_0_1,
+        callable_=lightness_CIE1976),
+    partial(
+        _scale_domain_0_100_range_0_1,
+        callable_=luminance_CIE1976))  # yapf: disable
 """
 *ECI RGB v2* colourspace.
 

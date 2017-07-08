@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Geometry
 ========
@@ -27,11 +26,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['normalise_vector',
-           'euclidean_distance',
-           'extend_line_segment',
-           'LineSegmentsIntersections_Specification',
-           'intersect_line_segments']
+__all__ = [
+    'normalise_vector', 'euclidean_distance', 'extend_line_segment',
+    'LineSegmentsIntersections_Specification', 'intersect_line_segments'
+]
 
 
 def normalise_vector(a):
@@ -137,8 +135,8 @@ questions/7740507/extend-a-line-segment-a-specific-distance
 
 
 class LineSegmentsIntersections_Specification(
-    namedtuple('LineSegmentsIntersections_Specification',
-               ('xy', 'intersect', 'parallel', 'coincident'))):
+        namedtuple('LineSegmentsIntersections_Specification',
+                   ('xy', 'intersect', 'parallel', 'coincident'))):
     """
     Defines the specification for intersection of line segments :math:`l_1` and
     :math:`l_2` returned by :func:`intersect_line_segments` definition.
@@ -237,12 +235,11 @@ def intersect_line_segments(l_1, l_2):
     r_2, c_2 = l_2.shape[0], l_2.shape[1]
 
     x_1, y_1, x_2, y_2 = [np.tile(l_1[:, i, np.newaxis], (1, r_2))
-                          for i in range(c_1)]
+                          for i in range(c_1)]  # yapf: disable
 
     l_2 = np.transpose(l_2)
 
-    x_3, y_3, x_4, y_4 = [np.tile(l_2[i, :], (r_1, 1))
-                          for i in range(c_2)]
+    x_3, y_3, x_4, y_4 = [np.tile(l_2[i, :], (r_1, 1)) for i in range(c_2)]
 
     x_4_x_3 = x_4 - x_3
     y_1_y_3 = y_1 - y_3
@@ -258,13 +255,12 @@ def intersect_line_segments(l_1, l_2):
     u_a = numerator_a / denominator
     u_b = numerator_b / denominator
 
-    intersect = np.logical_and.reduce(
-        (u_a >= 0, u_a <= 1, u_b >= 0, u_b <= 1))
+    intersect = np.logical_and.reduce((u_a >= 0, u_a <= 1, u_b >= 0, u_b <= 1))
     xy = tstack((x_1 + x_2_x_1 * u_a, y_1 + y_2_y_1 * u_a))
     xy[~intersect] = np.nan
     parallel = denominator == 0
-    coincident = np.logical_and.reduce(
-        (numerator_a == 0, numerator_b == 0, parallel))
+    coincident = np.logical_and.reduce((numerator_a == 0, numerator_b == 0,
+                                        parallel))
 
-    return LineSegmentsIntersections_Specification(
-        xy, intersect, parallel, coincident)
+    return LineSegmentsIntersections_Specification(xy, intersect, parallel,
+                                                   coincident)

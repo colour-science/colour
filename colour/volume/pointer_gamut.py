@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Pointer's Gamut Volume Computations
 ===================================
@@ -16,11 +15,8 @@ blob/master/notebooks/volume/pointer_gamut.ipynb>`_
 
 from __future__ import division, unicode_literals
 
-from colour.models import (
-    Lab_to_XYZ,
-    LCHab_to_Lab,
-    POINTER_GAMUT_DATA,
-    POINTER_GAMUT_ILLUMINANT)
+from colour.models import (Lab_to_XYZ, LCHab_to_Lab, POINTER_GAMUT_DATA,
+                           POINTER_GAMUT_ILLUMINANT)
 from colour.volume import is_within_mesh_volume
 
 __author__ = 'Colour Developers'
@@ -65,7 +61,7 @@ def is_within_pointer_gamut(XYZ, tolerance=None):
     array([ True, False], dtype=bool)
     """
 
-    XYZ_p = Lab_to_XYZ(LCHab_to_Lab(POINTER_GAMUT_DATA),
-                       POINTER_GAMUT_ILLUMINANT)
+    XYZ_p = Lab_to_XYZ(
+        LCHab_to_Lab(POINTER_GAMUT_DATA), POINTER_GAMUT_ILLUMINANT)
 
     return is_within_mesh_volume(XYZ, XYZ_p, tolerance)

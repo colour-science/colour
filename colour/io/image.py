@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Image Input / Output Utilities
 ==============================
@@ -22,37 +21,38 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['BitDepth_Specification',
-           'BIT_DEPTH_MAPPING',
-           'read_image',
-           'write_image']
+__all__ = [
+    'BitDepth_Specification', 'BIT_DEPTH_MAPPING', 'read_image', 'write_image'
+]
 
-BitDepth_Specification = namedtuple(
-    'BitDepth_Specification',
-    ('name', 'numpy', 'openimageio', 'domain', 'clip'))
+BitDepth_Specification = namedtuple('BitDepth_Specification',
+                                    ('name', 'numpy', 'openimageio', 'domain',
+                                     'clip'))
 
 if is_openimageio_installed():
     from OpenImageIO import UINT8, UINT16, HALF, FLOAT
 
-    BIT_DEPTH_MAPPING = CaseInsensitiveMapping(
-        {'uint8': BitDepth_Specification(
-            'uint8', np.uint8, UINT8, 255, True),
-         'uint16': BitDepth_Specification(
-             'uint16', np.uint16, UINT16, 65535, True),
-         'float16': BitDepth_Specification(
-             'float16', np.float16, HALF, 1, False),
-         'float32': BitDepth_Specification(
-             'float32', np.float32, FLOAT, 1, False)})
+    BIT_DEPTH_MAPPING = CaseInsensitiveMapping({
+        'uint8':
+            BitDepth_Specification('uint8', np.uint8, UINT8, 255, True),
+        'uint16':
+            BitDepth_Specification('uint16', np.uint16, UINT16, 65535, True),
+        'float16':
+            BitDepth_Specification('float16', np.float16, HALF, 1, False),
+        'float32':
+            BitDepth_Specification('float32', np.float32, FLOAT, 1, False)
+    })
 else:
-    BIT_DEPTH_MAPPING = CaseInsensitiveMapping(
-        {'uint8': BitDepth_Specification(
-            'uint8', np.uint8, None, 255, True),
-         'uint16': BitDepth_Specification(
-             'uint16', np.uint16, None, 65535, True),
-         'float16': BitDepth_Specification(
-             'float16', np.float16, None, 1, False),
-         'float32': BitDepth_Specification(
-             'float32', np.float32, None, 1, False)})
+    BIT_DEPTH_MAPPING = CaseInsensitiveMapping({
+        'uint8':
+            BitDepth_Specification('uint8', np.uint8, None, 255, True),
+        'uint16':
+            BitDepth_Specification('uint16', np.uint16, None, 65535, True),
+        'float16':
+            BitDepth_Specification('float16', np.float16, None, 1, False),
+        'float32':
+            BitDepth_Specification('float32', np.float32, None, 1, False)
+    })
 
 
 def read_image(path, bit_depth='float32'):
@@ -91,8 +91,7 @@ def read_image(path, bit_depth='float32'):
         image = ImageInput.open(path)
         specification = image.spec()
 
-        shape = (specification.height,
-                 specification.width,
+        shape = (specification.height, specification.width,
                  specification.nchannels)
 
         return np.squeeze(np.array(image.read_image(bit_depth)).reshape(shape))

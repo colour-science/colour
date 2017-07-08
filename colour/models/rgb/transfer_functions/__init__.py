@@ -5,27 +5,17 @@ from __future__ import absolute_import
 
 from colour.utilities import CaseInsensitiveMapping, filter_kwargs
 
-from .aces import (
-    log_encoding_ACESproxy,
-    log_decoding_ACESproxy,
-    log_encoding_ACEScc,
-    log_decoding_ACEScc,
-    log_encoding_ACEScct,
-    log_decoding_ACEScct)
-from .alexa_log_c import (
-    log_encoding_ALEXALogC,
-    log_decoding_ALEXALogC)
+from .aces import (log_encoding_ACESproxy, log_decoding_ACESproxy,
+                   log_encoding_ACEScc, log_decoding_ACEScc,
+                   log_encoding_ACEScct, log_decoding_ACEScct)
+from .alexa_log_c import (log_encoding_ALEXALogC, log_decoding_ALEXALogC)
 from .arib_std_b67 import oetf_ARIBSTDB67, eotf_ARIBSTDB67
 from .bt_709 import oetf_BT709, eotf_BT709
 from .bt_1886 import oetf_BT1886, eotf_BT1886
 from .bt_2020 import oetf_BT2020, eotf_BT2020
-from .canon_log import (
-    log_encoding_CanonLog,
-    log_decoding_CanonLog,
-    log_encoding_CanonLog2,
-    log_decoding_CanonLog2,
-    log_encoding_CanonLog3,
-    log_decoding_CanonLog3)
+from .canon_log import (log_encoding_CanonLog, log_decoding_CanonLog,
+                        log_encoding_CanonLog2, log_decoding_CanonLog2,
+                        log_encoding_CanonLog3, log_decoding_CanonLog3)
 from .cineon import log_encoding_Cineon, log_decoding_Cineon
 from .dci_p3 import oetf_DCIP3, eotf_DCIP3
 from .dicom_gsdf import oetf_DICOMGSDF, eotf_DICOMGSDF
@@ -35,52 +25,34 @@ from .linear import function_linear
 from .panalog import log_encoding_Panalog, log_decoding_Panalog
 from .panasonic_vlog import log_encoding_VLog, log_decoding_VLog
 from .pivoted_log import log_encoding_PivotedLog, log_decoding_PivotedLog
-from .red_log import (
-    log_encoding_REDLog,
-    log_decoding_REDLog,
-    log_encoding_REDLogFilm,
-    log_decoding_REDLogFilm,
-    log_encoding_Log3G10,
-    log_decoding_Log3G10,
-    log_encoding_Log3G12,
-    log_decoding_Log3G12)
-from .rimm_romm_rgb import (
-    oetf_ROMMRGB,
-    eotf_ROMMRGB,
-    oetf_ProPhotoRGB,
-    eotf_ProPhotoRGB,
-    oetf_RIMMRGB,
-    eotf_RIMMRGB,
-    log_encoding_ERIMMRGB,
-    log_decoding_ERIMMRGB)
+from .red_log import (log_encoding_REDLog, log_decoding_REDLog,
+                      log_encoding_REDLogFilm, log_decoding_REDLogFilm,
+                      log_encoding_Log3G10, log_decoding_Log3G10,
+                      log_encoding_Log3G12, log_decoding_Log3G12)
+from .rimm_romm_rgb import (oetf_ROMMRGB, eotf_ROMMRGB, oetf_ProPhotoRGB,
+                            eotf_ProPhotoRGB, oetf_RIMMRGB, eotf_RIMMRGB,
+                            log_encoding_ERIMMRGB, log_decoding_ERIMMRGB)
 from .srgb import oetf_sRGB, eotf_sRGB
-from .sony_slog import (
-    log_encoding_SLog,
-    log_decoding_SLog,
-    log_encoding_SLog2,
-    log_decoding_SLog2,
-    log_encoding_SLog3,
-    log_decoding_SLog3)
+from .sony_slog import (log_encoding_SLog, log_decoding_SLog,
+                        log_encoding_SLog2, log_decoding_SLog2,
+                        log_encoding_SLog3, log_decoding_SLog3)
 from .st_2084 import oetf_ST2084, eotf_ST2084
 from .viper_log import log_encoding_ViperLog, log_decoding_ViperLog
 
-__all__ = ['log_encoding_ACESproxy',
-           'log_decoding_ACESproxy',
-           'log_encoding_ACEScc',
-           'log_decoding_ACEScc',
-           'log_encoding_ACEScct',
-           'log_decoding_ACEScct']
+__all__ = [
+    'log_encoding_ACESproxy', 'log_decoding_ACESproxy', 'log_encoding_ACEScc',
+    'log_decoding_ACEScc', 'log_encoding_ACEScct', 'log_decoding_ACEScct'
+]
 __all__ += ['log_encoding_ALEXALogC', 'log_decoding_ALEXALogC']
 __all__ += ['oetf_ARIBSTDB67', 'eotf_ARIBSTDB67']
 __all__ += ['oetf_BT709', 'eotf_BT709']
 __all__ += ['oetf_BT1886', 'eotf_BT1886']
 __all__ += ['oetf_BT2020', 'eotf_BT2020']
-__all__ += ['log_encoding_CanonLog',
-            'log_decoding_CanonLog',
-            'log_encoding_CanonLog2',
-            'log_decoding_CanonLog2',
-            'log_encoding_CanonLog3',
-            'log_decoding_CanonLog3']
+__all__ += [
+    'log_encoding_CanonLog', 'log_decoding_CanonLog', 'log_encoding_CanonLog2',
+    'log_decoding_CanonLog2', 'log_encoding_CanonLog3',
+    'log_decoding_CanonLog3'
+]
 __all__ += ['log_encoding_Cineon', 'log_decoding_Cineon']
 __all__ += ['oetf_DCIP3', 'eotf_DCIP3']
 __all__ += ['oetf_DICOMGSDF', 'eotf_DICOMGSDF']
@@ -90,54 +62,47 @@ __all__ += ['function_linear']
 __all__ += ['log_encoding_Panalog', 'log_decoding_Panalog']
 __all__ += ['log_encoding_VLog', 'log_decoding_VLog']
 __all__ += ['log_encoding_PivotedLog', 'log_decoding_PivotedLog']
-__all__ += ['log_encoding_REDLog',
-            'log_decoding_REDLog',
-            'log_encoding_REDLogFilm',
-            'log_decoding_REDLogFilm',
-            'log_encoding_Log3G10',
-            'log_decoding_Log3G10',
-            'log_encoding_Log3G12',
-            'log_decoding_Log3G12']
-__all__ += ['oetf_ROMMRGB',
-            'eotf_ROMMRGB',
-            'oetf_ProPhotoRGB',
-            'eotf_ProPhotoRGB',
-            'oetf_RIMMRGB',
-            'eotf_RIMMRGB',
-            'log_encoding_ERIMMRGB',
-            'log_decoding_ERIMMRGB']
-__all__ += ['log_encoding_SLog',
-            'log_decoding_SLog',
-            'log_encoding_SLog2',
-            'log_decoding_SLog2',
-            'log_encoding_SLog3',
-            'log_decoding_SLog3']
+__all__ += [
+    'log_encoding_REDLog', 'log_decoding_REDLog', 'log_encoding_REDLogFilm',
+    'log_decoding_REDLogFilm', 'log_encoding_Log3G10', 'log_decoding_Log3G10',
+    'log_encoding_Log3G12', 'log_decoding_Log3G12'
+]
+__all__ += [
+    'oetf_ROMMRGB', 'eotf_ROMMRGB', 'oetf_ProPhotoRGB', 'eotf_ProPhotoRGB',
+    'oetf_RIMMRGB', 'eotf_RIMMRGB', 'log_encoding_ERIMMRGB',
+    'log_decoding_ERIMMRGB'
+]
+__all__ += [
+    'log_encoding_SLog', 'log_decoding_SLog', 'log_encoding_SLog2',
+    'log_decoding_SLog2', 'log_encoding_SLog3', 'log_decoding_SLog3'
+]
 __all__ += ['oetf_sRGB', 'eotf_sRGB']
 __all__ += ['oetf_ST2084', 'eotf_ST2084']
 __all__ += ['log_decoding_ViperLog', 'log_decoding_ViperLog']
 
-LOG_ENCODING_CURVES = CaseInsensitiveMapping(
-    {'ACEScc': log_encoding_ACEScc,
-     'ACEScct': log_encoding_ACEScct,
-     'ACESproxy': log_encoding_ACESproxy,
-     'ALEXA Log C': log_encoding_ALEXALogC,
-     'Canon Log 2': log_encoding_CanonLog2,
-     'Canon Log 3': log_encoding_CanonLog3,
-     'Canon Log': log_encoding_CanonLog,
-     'Cineon': log_encoding_Cineon,
-     'ERIMM RGB': log_encoding_ERIMMRGB,
-     'Log3G10': log_encoding_Log3G10,
-     'Log3G12': log_encoding_Log3G12,
-     'Panalog': log_encoding_Panalog,
-     'PLog': log_encoding_PivotedLog,
-     'Protune': log_encoding_Protune,
-     'REDLog': log_encoding_REDLog,
-     'REDLogFilm': log_encoding_REDLogFilm,
-     'S-Log': log_encoding_SLog,
-     'S-Log2': log_encoding_SLog2,
-     'S-Log3': log_encoding_SLog3,
-     'V-Log': log_encoding_VLog,
-     'ViperLog': log_encoding_ViperLog})
+LOG_ENCODING_CURVES = CaseInsensitiveMapping({
+    'ACEScc': log_encoding_ACEScc,
+    'ACEScct': log_encoding_ACEScct,
+    'ACESproxy': log_encoding_ACESproxy,
+    'ALEXA Log C': log_encoding_ALEXALogC,
+    'Canon Log 2': log_encoding_CanonLog2,
+    'Canon Log 3': log_encoding_CanonLog3,
+    'Canon Log': log_encoding_CanonLog,
+    'Cineon': log_encoding_Cineon,
+    'ERIMM RGB': log_encoding_ERIMMRGB,
+    'Log3G10': log_encoding_Log3G10,
+    'Log3G12': log_encoding_Log3G12,
+    'Panalog': log_encoding_Panalog,
+    'PLog': log_encoding_PivotedLog,
+    'Protune': log_encoding_Protune,
+    'REDLog': log_encoding_REDLog,
+    'REDLogFilm': log_encoding_REDLogFilm,
+    'S-Log': log_encoding_SLog,
+    'S-Log2': log_encoding_SLog2,
+    'S-Log3': log_encoding_SLog3,
+    'V-Log': log_encoding_VLog,
+    'ViperLog': log_encoding_ViperLog
+})
 """
 Supported *log* encoding curves.
 
@@ -233,28 +198,29 @@ def log_encoding_curve(value, curve='Cineon', **kwargs):
     return function(value, **kwargs)
 
 
-LOG_DECODING_CURVES = CaseInsensitiveMapping(
-    {'ACEScc': log_decoding_ACEScc,
-     'ACEScct': log_decoding_ACEScct,
-     'ACESproxy': log_decoding_ACESproxy,
-     'ALEXA Log C': log_decoding_ALEXALogC,
-     'Canon Log 2': log_decoding_CanonLog2,
-     'Canon Log 3': log_decoding_CanonLog3,
-     'Canon Log': log_decoding_CanonLog,
-     'Cineon': log_decoding_Cineon,
-     'ERIMM RGB': log_decoding_ERIMMRGB,
-     'Log3G10': log_decoding_Log3G10,
-     'Log3G12': log_decoding_Log3G12,
-     'Panalog': log_decoding_Panalog,
-     'PLog': log_decoding_PivotedLog,
-     'Protune': log_decoding_Protune,
-     'REDLog': log_decoding_REDLog,
-     'REDLogFilm': log_decoding_REDLogFilm,
-     'S-Log': log_decoding_SLog,
-     'S-Log2': log_decoding_SLog2,
-     'S-Log3': log_decoding_SLog3,
-     'V-Log': log_decoding_VLog,
-     'ViperLog': log_decoding_ViperLog})
+LOG_DECODING_CURVES = CaseInsensitiveMapping({
+    'ACEScc': log_decoding_ACEScc,
+    'ACEScct': log_decoding_ACEScct,
+    'ACESproxy': log_decoding_ACESproxy,
+    'ALEXA Log C': log_decoding_ALEXALogC,
+    'Canon Log 2': log_decoding_CanonLog2,
+    'Canon Log 3': log_decoding_CanonLog3,
+    'Canon Log': log_decoding_CanonLog,
+    'Cineon': log_decoding_Cineon,
+    'ERIMM RGB': log_decoding_ERIMMRGB,
+    'Log3G10': log_decoding_Log3G10,
+    'Log3G12': log_decoding_Log3G12,
+    'Panalog': log_decoding_Panalog,
+    'PLog': log_decoding_PivotedLog,
+    'Protune': log_decoding_Protune,
+    'REDLog': log_decoding_REDLog,
+    'REDLogFilm': log_decoding_REDLogFilm,
+    'S-Log': log_decoding_SLog,
+    'S-Log2': log_decoding_SLog2,
+    'S-Log3': log_decoding_SLog3,
+    'V-Log': log_decoding_VLog,
+    'ViperLog': log_decoding_ViperLog
+})
 """
 Supported *log* decoding curves.
 
@@ -355,18 +321,19 @@ def log_decoding_curve(value, curve='Cineon', **kwargs):
 __all__ += ['LOG_ENCODING_CURVES', 'LOG_DECODING_CURVES']
 __all__ += ['log_encoding_curve', 'log_decoding_curve']
 
-OETFS = CaseInsensitiveMapping(
-    {'ARIB STD-B67': oetf_ARIBSTDB67,
-     'BT.1886': oetf_BT1886,
-     'BT.2020': oetf_BT2020,
-     'BT.709': oetf_BT709,
-     'DCI-P3': oetf_DCIP3,
-     'DICOM GSDF': oetf_DICOMGSDF,
-     'ProPhoto RGB': oetf_ProPhotoRGB,
-     'RIMM RGB': oetf_RIMMRGB,
-     'ROMM RGB': oetf_ROMMRGB,
-     'sRGB': oetf_sRGB,
-     'ST 2084': oetf_ST2084})
+OETFS = CaseInsensitiveMapping({
+    'ARIB STD-B67': oetf_ARIBSTDB67,
+    'BT.1886': oetf_BT1886,
+    'BT.2020': oetf_BT2020,
+    'BT.709': oetf_BT709,
+    'DCI-P3': oetf_DCIP3,
+    'DICOM GSDF': oetf_DICOMGSDF,
+    'ProPhoto RGB': oetf_ProPhotoRGB,
+    'RIMM RGB': oetf_RIMMRGB,
+    'ROMM RGB': oetf_ROMMRGB,
+    'sRGB': oetf_sRGB,
+    'ST 2084': oetf_ST2084
+})
 """
 Supported opto-electrical transfer functions (OETF / OECF).
 
@@ -439,18 +406,19 @@ def oetf(value, function='sRGB', **kwargs):
     return function(value, **kwargs)
 
 
-EOTFS = CaseInsensitiveMapping(
-    {'ARIB STD-B67': eotf_ARIBSTDB67,
-     'BT.1886': eotf_BT1886,
-     'BT.2020': eotf_BT2020,
-     'BT.709': eotf_BT709,
-     'DCI-P3': eotf_DCIP3,
-     'DICOM GSDF': eotf_DICOMGSDF,
-     'ProPhoto RGB': eotf_ProPhotoRGB,
-     'RIMM RGB': eotf_RIMMRGB,
-     'ROMM RGB': eotf_ROMMRGB,
-     'sRGB': eotf_sRGB,
-     'ST 2084': eotf_ST2084})
+EOTFS = CaseInsensitiveMapping({
+    'ARIB STD-B67': eotf_ARIBSTDB67,
+    'BT.1886': eotf_BT1886,
+    'BT.2020': eotf_BT2020,
+    'BT.709': eotf_BT709,
+    'DCI-P3': eotf_DCIP3,
+    'DICOM GSDF': eotf_DICOMGSDF,
+    'ProPhoto RGB': eotf_ProPhotoRGB,
+    'RIMM RGB': eotf_RIMMRGB,
+    'ROMM RGB': eotf_ROMMRGB,
+    'sRGB': eotf_sRGB,
+    'ST 2084': eotf_ST2084
+})
 """
 Supported electro-optical transfer functions (EOTF / EOCF).
 

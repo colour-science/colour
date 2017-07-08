@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 RGB Colourspace Derivation
 ==========================
@@ -43,12 +42,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['xy_to_z',
-           'normalised_primary_matrix',
-           'chromatically_adapted_primaries',
-           'primaries_whitepoint',
-           'RGB_luminance_equation',
-           'RGB_luminance']
+__all__ = [
+    'xy_to_z', 'normalised_primary_matrix', 'chromatically_adapted_primaries',
+    'primaries_whitepoint', 'RGB_luminance_equation', 'RGB_luminance'
+]
 
 
 def xy_to_z(xy):
@@ -169,8 +166,7 @@ def chromatically_adapted_primaries(primaries,
     XYZ_a = chromatic_adaptation_VonKries(
         xy_to_XYZ(primaries),
         xy_to_XYZ(whitepoint_t),
-        xy_to_XYZ(whitepoint_r),
-        chromatic_adaptation_transform)
+        xy_to_XYZ(whitepoint_r), chromatic_adaptation_transform)
 
     P_a = XYZ_to_xyY(XYZ_a)[..., 0:2]
 
@@ -212,10 +208,9 @@ def primaries_whitepoint(npm):
 
     npm = npm.reshape((3, 3))
 
-    primaries = XYZ_to_xy(
-        np.transpose(np.dot(npm, np.identity(3))))
-    whitepoint = np.squeeze(XYZ_to_xy(
-        np.transpose(np.dot(npm, np.ones((3, 1))))))
+    primaries = XYZ_to_xy(np.transpose(np.dot(npm, np.identity(3))))
+    whitepoint = np.squeeze(
+        XYZ_to_xy(np.transpose(np.dot(npm, np.ones((3, 1))))))
 
     # TODO: Investigate if we return an ndarray here with primaries and
     # whitepoint stacked together.

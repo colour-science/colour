@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for :mod:`colour.models.ipt` module.
 """
@@ -21,9 +20,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestXYZ_to_IPT',
-           'TestIPT_to_XYZ',
-           'TestIPTHueAngle']
+__all__ = ['TestXYZ_to_IPT', 'TestIPT_to_XYZ', 'TestIPTHueAngle']
 
 
 class TestXYZ_to_IPT(unittest.TestCase):
@@ -60,24 +57,15 @@ class TestXYZ_to_IPT(unittest.TestCase):
 
         XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
         IPT = np.array([0.36571124, -0.11114798, 0.01594746])
-        np.testing.assert_almost_equal(
-            XYZ_to_IPT(XYZ),
-            IPT,
-            decimal=7)
+        np.testing.assert_almost_equal(XYZ_to_IPT(XYZ), IPT, decimal=7)
 
         XYZ = np.tile(XYZ, (6, 1))
         IPT = np.tile(IPT, (6, 1))
-        np.testing.assert_almost_equal(
-            XYZ_to_IPT(XYZ),
-            IPT,
-            decimal=7)
+        np.testing.assert_almost_equal(XYZ_to_IPT(XYZ), IPT, decimal=7)
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         IPT = np.reshape(IPT, (2, 3, 3))
-        np.testing.assert_almost_equal(
-            XYZ_to_IPT(XYZ),
-            IPT,
-            decimal=7)
+        np.testing.assert_almost_equal(XYZ_to_IPT(XYZ), IPT, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_XYZ_to_IPT(self):
@@ -126,24 +114,15 @@ class TestIPT_to_XYZ(unittest.TestCase):
 
         IPT = np.array([0.36571124, -0.11114798, 0.01594746])
         XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
-        np.testing.assert_almost_equal(
-            IPT_to_XYZ(IPT),
-            XYZ,
-            decimal=7)
+        np.testing.assert_almost_equal(IPT_to_XYZ(IPT), XYZ, decimal=7)
 
         IPT = np.tile(IPT, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_almost_equal(
-            IPT_to_XYZ(IPT),
-            XYZ,
-            decimal=7)
+        np.testing.assert_almost_equal(IPT_to_XYZ(IPT), XYZ, decimal=7)
 
         IPT = np.reshape(IPT, (2, 3, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_almost_equal(
-            IPT_to_XYZ(IPT),
-            XYZ,
-            decimal=7)
+        np.testing.assert_almost_equal(IPT_to_XYZ(IPT), XYZ, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_IPT_to_XYZ(self):
@@ -192,24 +171,15 @@ class TestIPTHueAngle(unittest.TestCase):
 
         IPT = np.array([0.07049534, 0.10080000, 0.09558313])
         hue = 43.478309455309819
-        np.testing.assert_almost_equal(
-            IPT_hue_angle(IPT),
-            hue,
-            decimal=7)
+        np.testing.assert_almost_equal(IPT_hue_angle(IPT), hue, decimal=7)
 
         IPT = np.tile(IPT, (6, 1))
         hue = np.tile(hue, 6)
-        np.testing.assert_almost_equal(
-            IPT_hue_angle(IPT),
-            hue,
-            decimal=7)
+        np.testing.assert_almost_equal(IPT_hue_angle(IPT), hue, decimal=7)
 
         IPT = np.reshape(IPT, (2, 3, 3))
         hue = np.reshape(hue, (2, 3))
-        np.testing.assert_almost_equal(
-            IPT_hue_angle(IPT),
-            hue,
-            decimal=7)
+        np.testing.assert_almost_equal(IPT_hue_angle(IPT), hue, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_IPT_hue_angle(self):

@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for :mod:`colour.difference.delta_e_luo2006` module.
 """
@@ -11,10 +10,8 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.difference import (
-    delta_E_CAM02LCD,
-    delta_E_CAM02SCD,
-    delta_E_CAM02UCS)
+from colour.difference import (delta_E_CAM02LCD, delta_E_CAM02SCD,
+                               delta_E_CAM02UCS)
 from colour.difference.delta_e_luo2006 import delta_E_Luo2006
 from colour.models.ucs_luo2006 import COEFFICIENTS_UCS_LUO2006
 
@@ -90,8 +87,8 @@ class TestDelta_E_Luo2006(unittest.TestCase):
         Jpapbp_2 = np.array([54.90433134, -0.08442362, -0.06848314])
         delta_E_p = 0.00010344
         np.testing.assert_almost_equal(
-            delta_E_Luo2006(
-                Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006['CAM02-LCD']),
+            delta_E_Luo2006(Jpapbp_1, Jpapbp_2,
+                            COEFFICIENTS_UCS_LUO2006['CAM02-LCD']),
             delta_E_p,
             decimal=7)
 
@@ -99,8 +96,8 @@ class TestDelta_E_Luo2006(unittest.TestCase):
         Jpapbp_2 = np.tile(Jpapbp_2, (6, 1))
         delta_E_p = np.tile(delta_E_p, 6)
         np.testing.assert_almost_equal(
-            delta_E_Luo2006(
-                Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006['CAM02-LCD']),
+            delta_E_Luo2006(Jpapbp_1, Jpapbp_2,
+                            COEFFICIENTS_UCS_LUO2006['CAM02-LCD']),
             delta_E_p,
             decimal=7)
 
@@ -108,8 +105,8 @@ class TestDelta_E_Luo2006(unittest.TestCase):
         Jpapbp_2 = np.reshape(Jpapbp_2, (2, 3, 3))
         delta_E_p = np.reshape(delta_E_p, (2, 3))
         np.testing.assert_almost_equal(
-            delta_E_Luo2006(
-                Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006['CAM02-LCD']),
+            delta_E_Luo2006(Jpapbp_1, Jpapbp_2,
+                            COEFFICIENTS_UCS_LUO2006['CAM02-LCD']),
             delta_E_p,
             decimal=7)
 
@@ -125,8 +122,8 @@ class TestDelta_E_Luo2006(unittest.TestCase):
         for case in cases:
             Jpapbp_1 = np.array(case)
             Jpapbp_2 = np.array(case)
-            delta_E_Luo2006(
-                Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006['CAM02-LCD']),
+            delta_E_Luo2006(Jpapbp_1, Jpapbp_2,
+                            COEFFICIENTS_UCS_LUO2006['CAM02-LCD']),
 
 
 if __name__ == '__main__':

@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Hunter L,a,b Colour Scale
 =========================
@@ -37,9 +36,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['XYZ_to_K_ab_HunterLab1966',
-           'XYZ_to_Hunter_Lab',
-           'Hunter_Lab_to_XYZ']
+__all__ = [
+    'XYZ_to_K_ab_HunterLab1966', 'XYZ_to_Hunter_Lab', 'Hunter_Lab_to_XYZ'
+]
 
 
 def XYZ_to_K_ab_HunterLab1966(XYZ):
@@ -87,12 +86,11 @@ def XYZ_to_K_ab_HunterLab1966(XYZ):
     return K_ab
 
 
-def XYZ_to_Hunter_Lab(
-        XYZ,
-        XYZ_n=HUNTERLAB_ILLUMINANTS[
-            'CIE 1931 2 Degree Standard Observer']['D50'].XYZ_n,
-        K_ab=HUNTERLAB_ILLUMINANTS[
-            'CIE 1931 2 Degree Standard Observer']['D50'].K_ab):
+def XYZ_to_Hunter_Lab(XYZ,
+                      XYZ_n=HUNTERLAB_ILLUMINANTS[
+                          'CIE 1931 2 Degree Standard Observer']['D50'].XYZ_n,
+                      K_ab=HUNTERLAB_ILLUMINANTS[
+                          'CIE 1931 2 Degree Standard Observer']['D50'].K_ab):
     """
     Converts from *CIE XYZ* tristimulus values to *Hunter L,a,b* colour scale.
 
@@ -129,8 +127,7 @@ def XYZ_to_Hunter_Lab(
     X, Y, Z = tsplit(XYZ)
     X_n, Y_n, Z_n = tsplit(XYZ_n)
     K_a, K_b = (tsplit(XYZ_to_K_ab_HunterLab1966(XYZ_n))
-                if K_ab is None else
-                tsplit(K_ab))
+                if K_ab is None else tsplit(K_ab))
 
     Y_Y_n = Y / Y_n
     sqrt_Y_Y_n = np.sqrt(Y_Y_n)
@@ -144,12 +141,11 @@ def XYZ_to_Hunter_Lab(
     return Lab
 
 
-def Hunter_Lab_to_XYZ(
-        Lab,
-        XYZ_n=HUNTERLAB_ILLUMINANTS[
-            'CIE 1931 2 Degree Standard Observer']['D50'].XYZ_n,
-        K_ab=HUNTERLAB_ILLUMINANTS[
-            'CIE 1931 2 Degree Standard Observer']['D50'].K_ab):
+def Hunter_Lab_to_XYZ(Lab,
+                      XYZ_n=HUNTERLAB_ILLUMINANTS[
+                          'CIE 1931 2 Degree Standard Observer']['D50'].XYZ_n,
+                      K_ab=HUNTERLAB_ILLUMINANTS[
+                          'CIE 1931 2 Degree Standard Observer']['D50'].K_ab):
     """
     Converts from *Hunter L,a,b* colour scale to *CIE XYZ* tristimulus values.
 
@@ -187,8 +183,7 @@ def Hunter_Lab_to_XYZ(
     L, a, b = tsplit(Lab)
     X_n, Y_n, Z_n = tsplit(XYZ_n)
     K_a, K_b = (tsplit(XYZ_to_K_ab_HunterLab1966(XYZ_n))
-                if K_ab is None else
-                tsplit(K_ab))
+                if K_ab is None else tsplit(K_ab))
 
     L_100 = L / 100
     L_100_2 = L_100 ** 2

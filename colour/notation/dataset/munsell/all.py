@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Munsell Renotation System Dataset - All Munsell Colours
 =======================================================
@@ -33,6 +32,7 @@ __status__ = 'Production'
 
 __all__ = ['MUNSELL_COLOURS_ALL']
 
+# yapf: disable
 MUNSELL_COLOURS_ALL = (
     (('2.5GY', 0.2, 2.0), np.array([0.7130, 1.4140, 0.2370])),
     (('5GY', 0.2, 2.0), np.array([0.4490, 1.1450, 0.2370])),
@@ -5029,6 +5029,7 @@ MUNSELL_COLOURS_ALL = (
     (('7.5Y', 10.0, 18.0), np.array([0.4620, 0.5150, 102.5700])),
     (('7.5Y', 10.0, 20.0), np.array([0.4670, 0.5210, 102.5700])),
     (('7.5Y', 10.0, 22.0), np.array([0.4720, 0.5280, 102.5700])))
+# yapf: enable
 """
 *All* published *Munsell* colours, including the extrapolated colors.
 

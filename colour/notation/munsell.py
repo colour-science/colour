@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Munsell Renotation System
 =========================
@@ -47,25 +46,16 @@ import numpy as np
 import re
 from collections import OrderedDict
 
-from colour.algebra import (
-    Extrapolator,
-    LinearInterpolator,
-    cartesian_to_cylindrical,
-    polar_to_cartesian,
-    euclidean_distance)
+from colour.algebra import (Extrapolator, LinearInterpolator,
+                            cartesian_to_cylindrical, polar_to_cartesian,
+                            euclidean_distance)
 from colour.colorimetry import ILLUMINANTS, luminance_ASTMD153508
-from colour.constants import (
-    INTEGER_THRESHOLD,
-    FLOATING_POINT_NUMBER_PATTERN)
+from colour.constants import (INTEGER_THRESHOLD, FLOATING_POINT_NUMBER_PATTERN)
 from colour.models import Lab_to_LCHab, XYZ_to_Lab, XYZ_to_xy, xyY_to_XYZ
 from colour.volume import is_within_macadam_limits
 from colour.notation import MUNSELL_COLOURS_ALL
-from colour.utilities import (
-    CaseInsensitiveMapping,
-    Lookup,
-    is_integer,
-    is_numeric,
-    tsplit)
+from colour.utilities import (CaseInsensitiveMapping, Lookup, is_integer,
+                              is_numeric, tsplit)
 
 __author__ = 'Colour Developers, Paul Centore'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -74,51 +64,34 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['MUNSELL_GRAY_PATTERN',
-           'MUNSELL_COLOUR_PATTERN',
-           'MUNSELL_GRAY_FORMAT',
-           'MUNSELL_COLOUR_FORMAT',
-           'MUNSELL_GRAY_EXTENDED_FORMAT',
-           'MUNSELL_COLOUR_EXTENDED_FORMAT',
-           'MUNSELL_HUE_LETTER_CODES',
-           'MUNSELL_DEFAULT_ILLUMINANT',
-           'MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES',
-           'munsell_value_Priest1920',
-           'munsell_value_Munsell1933',
-           'munsell_value_Moon1943',
-           'munsell_value_Saunderson1944',
-           'munsell_value_Ladd1955',
-           'munsell_value_McCamy1987',
-           'munsell_value_ASTMD153508',
-           'MUNSELL_VALUE_METHODS',
-           'munsell_value',
-           'munsell_specification_to_xyY',
-           'munsell_colour_to_xyY',
-           'xyY_to_munsell_specification',
-           'xyY_to_munsell_colour',
-           'parse_munsell_colour',
-           'is_grey_munsell_colour',
-           'normalize_munsell_specification',
-           'munsell_colour_to_munsell_specification',
-           'munsell_specification_to_munsell_colour',
-           'xyY_from_renotation',
-           'is_specification_in_renotation',
-           'bounding_hues_from_renotation',
-           'hue_to_hue_angle',
-           'hue_angle_to_hue',
-           'hue_to_ASTM_hue',
-           'interpolation_method_from_renotation_ovoid',
-           'xy_from_renotation_ovoid',
-           'LCHab_to_munsell_specification',
-           'maximum_chroma_from_renotation',
-           'munsell_specification_to_xy']
+__all__ = [
+    'MUNSELL_GRAY_PATTERN', 'MUNSELL_COLOUR_PATTERN', 'MUNSELL_GRAY_FORMAT',
+    'MUNSELL_COLOUR_FORMAT', 'MUNSELL_GRAY_EXTENDED_FORMAT',
+    'MUNSELL_COLOUR_EXTENDED_FORMAT', 'MUNSELL_HUE_LETTER_CODES',
+    'MUNSELL_DEFAULT_ILLUMINANT',
+    'MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES',
+    'munsell_value_Priest1920', 'munsell_value_Munsell1933',
+    'munsell_value_Moon1943', 'munsell_value_Saunderson1944',
+    'munsell_value_Ladd1955', 'munsell_value_McCamy1987',
+    'munsell_value_ASTMD153508', 'MUNSELL_VALUE_METHODS', 'munsell_value',
+    'munsell_specification_to_xyY', 'munsell_colour_to_xyY',
+    'xyY_to_munsell_specification', 'xyY_to_munsell_colour',
+    'parse_munsell_colour', 'is_grey_munsell_colour',
+    'normalize_munsell_specification',
+    'munsell_colour_to_munsell_specification',
+    'munsell_specification_to_munsell_colour', 'xyY_from_renotation',
+    'is_specification_in_renotation', 'bounding_hues_from_renotation',
+    'hue_to_hue_angle', 'hue_angle_to_hue', 'hue_to_ASTM_hue',
+    'interpolation_method_from_renotation_ovoid', 'xy_from_renotation_ovoid',
+    'LCHab_to_munsell_specification', 'maximum_chroma_from_renotation',
+    'munsell_specification_to_xy'
+]
 
 MUNSELL_GRAY_PATTERN = 'N(?P<value>{0})'.format(FLOATING_POINT_NUMBER_PATTERN)
-MUNSELL_COLOUR_PATTERN = (
-    '(?P<hue>{0})\s*'
-    '(?P<letter>BG|GY|YR|RP|PB|B|G|Y|R|P)\s*'
-    '(?P<value>{0})\s*\/\s*(?P<chroma>[-+]?{0})'.format(
-        FLOATING_POINT_NUMBER_PATTERN))
+MUNSELL_COLOUR_PATTERN = ('(?P<hue>{0})\s*'
+                          '(?P<letter>BG|GY|YR|RP|PB|B|G|Y|R|P)\s*'
+                          '(?P<value>{0})\s*\/\s*(?P<chroma>[-+]?{0})'.format(
+                              FLOATING_POINT_NUMBER_PATTERN))
 
 MUNSELL_GRAY_FORMAT = 'N{0}'
 MUNSELL_COLOUR_FORMAT = '{0} {1}/{2}'
@@ -135,12 +108,12 @@ MUNSELL_HUE_LETTER_CODES = Lookup({
     'G': 3,
     'Y': 5,
     'R': 7,
-    'P': 9})
+    'P': 9
+})
 
 MUNSELL_DEFAULT_ILLUMINANT = 'C'
-MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
-        MUNSELL_DEFAULT_ILLUMINANT])
+MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES = (ILLUMINANTS[
+    'CIE 1931 2 Degree Standard Observer'][MUNSELL_DEFAULT_ILLUMINANT])
 
 _MUNSELL_SPECIFICATIONS_CACHE = None
 _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE = None
@@ -177,7 +150,8 @@ def _munsell_specifications():
         _MUNSELL_SPECIFICATIONS_CACHE = [
             munsell_colour_to_munsell_specification(
                 MUNSELL_COLOUR_FORMAT.format(*colour[0]))
-            for colour in MUNSELL_COLOURS_ALL]
+            for colour in MUNSELL_COLOURS_ALL
+        ]
     return _MUNSELL_SPECIFICATIONS_CACHE
 
 
@@ -197,8 +171,7 @@ def _munsell_value_ASTMD153508_interpolator():
     if _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE is None:
         _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE = Extrapolator(
             LinearInterpolator(
-                luminance_ASTMD153508(munsell_values),
-                munsell_values))
+                luminance_ASTMD153508(munsell_values), munsell_values))
 
     return _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE
 
@@ -436,12 +409,11 @@ def munsell_value_McCamy1987(Y):
 
     Y = np.asarray(Y)
 
-    V = np.where(Y <= 0.9,
-                 0.87445 * (Y ** 0.9967),
+    V = np.where(Y <= 0.9, 0.87445 * (Y ** 0.9967),
                  (2.49268 * (Y ** (1 / 3)) - 1.5614 -
                   (0.985 / (((0.1073 * Y - 3.084) ** 2) + 7.54)) +
-                  (0.0133 / (Y ** 2.3)) +
-                  0.0084 * np.sin(4.1 * (Y ** (1 / 3)) + 1) +
+                  (0.0133 /
+                   (Y ** 2.3)) + 0.0084 * np.sin(4.1 * (Y ** (1 / 3)) + 1) +
                   (0.0221 / Y) * np.sin(0.39 * (Y - 2)) -
                   (0.0037 / (0.44 * Y)) * np.sin(1.28 * (Y - 0.53))))
 
@@ -481,14 +453,15 @@ def munsell_value_ASTMD153508(Y):
     return V
 
 
-MUNSELL_VALUE_METHODS = CaseInsensitiveMapping(
-    {'Priest 1920': munsell_value_Priest1920,
-     'Munsell 1933': munsell_value_Munsell1933,
-     'Moon 1943': munsell_value_Moon1943,
-     'Saunderson 1944': munsell_value_Saunderson1944,
-     'Ladd 1955': munsell_value_Ladd1955,
-     'McCamy 1987': munsell_value_McCamy1987,
-     'ASTM D1535-08': munsell_value_ASTMD153508})
+MUNSELL_VALUE_METHODS = CaseInsensitiveMapping({
+    'Priest 1920': munsell_value_Priest1920,
+    'Munsell 1933': munsell_value_Munsell1933,
+    'Moon 1943': munsell_value_Moon1943,
+    'Saunderson 1944': munsell_value_Saunderson1944,
+    'Ladd 1955': munsell_value_Ladd1955,
+    'McCamy 1987': munsell_value_McCamy1987,
+    'ASTM D1535-08': munsell_value_ASTMD153508
+})
 """
 Supported *Munsell* value computations methods.
 
@@ -500,8 +473,7 @@ Aliases:
 
 -   'astm2008': 'ASTM D1535-08'
 """
-MUNSELL_VALUE_METHODS['astm2008'] = (
-    MUNSELL_VALUE_METHODS['ASTM D1535-08'])
+MUNSELL_VALUE_METHODS['astm2008'] = (MUNSELL_VALUE_METHODS['ASTM D1535-08'])
 
 
 def munsell_value(Y, method='ASTM D1535-08'):
@@ -606,15 +578,14 @@ def munsell_specification_to_xyY(specification):
         value_minus = np.floor(value)
         value_plus = value_minus + 1
 
-    specification_minus = (value_minus
-                           if is_grey_munsell_colour(specification) else
-                           (hue, value_minus, chroma, code))
+    specification_minus = (value_minus if is_grey_munsell_colour(specification)
+                           else (hue, value_minus, chroma, code))
     x_minus, y_minus = munsell_specification_to_xy(specification_minus)
 
     plus_specification = (value_plus
                           if (is_grey_munsell_colour(specification) or
-                              value_plus == 10) else
-                          (hue, value_plus, chroma, code))
+                              value_plus == 10) else (hue, value_plus, chroma,
+                                                      code))
     x_plus, y_plus = munsell_specification_to_xy(plus_specification)
 
     if value_minus == value_plus:
@@ -732,10 +703,9 @@ def xyY_to_munsell_specification(xyY):
     LCHab = Lab_to_LCHab(Lab)
     hue_initial, _value_initial, chroma_initial, code_initial = (
         LCHab_to_munsell_specification(LCHab))
-    specification_current = [hue_initial,
-                             value,
-                             (5 / 5.5) * chroma_initial,
-                             code_initial]
+    specification_current = [
+        hue_initial, value, (5 / 5.5) * chroma_initial, code_initial
+    ]
 
     convergence_threshold = 0.0001
     iterations_maximum = 64
@@ -748,9 +718,8 @@ def xyY_to_munsell_specification(xyY):
             specification_current)
         hue_angle_current = hue_to_hue_angle(hue_current, code_current)
 
-        chroma_maximum = maximum_chroma_from_renotation(hue_current,
-                                                        value,
-                                                        code_current)
+        chroma_maximum = maximum_chroma_from_renotation(
+            hue_current, value, code_current)
         if chroma_current > chroma_maximum:
             chroma_current = specification_current[2] = chroma_maximum
 
@@ -789,9 +758,7 @@ def xyY_to_munsell_specification(xyY):
 
             hue_inner, code_inner = hue_angle_to_hue(hue_angle_inner)
             x_inner, y_inner, _Y_inner = np.ravel(
-                munsell_specification_to_xyY((hue_inner,
-                                              value,
-                                              chroma_current,
+                munsell_specification_to_xyY((hue_inner, value, chroma_current,
                                               code_inner)))
 
             if len(phi_differences) >= 2:
@@ -801,8 +768,7 @@ def xyY_to_munsell_specification(xyY):
                 rho_inner, phi_inner, _z_inner = cartesian_to_cylindrical(
                     (x_inner - x_center, y_inner - y_center, Y_center))
                 phi_inner = np.degrees(phi_inner)
-                phi_inner_difference = (
-                    (360 - phi_input + phi_inner) % 360)
+                phi_inner_difference = ((360 - phi_input + phi_inner) % 360)
                 if phi_inner_difference > 180:
                     phi_inner_difference -= 360
 
@@ -820,9 +786,8 @@ def xyY_to_munsell_specification(xyY):
             phi_differences_indexes]
 
         hue_angle_difference_new = Extrapolator(
-            LinearInterpolator(
-                phi_differences,
-                hue_angles_differences))(0) % 360
+            LinearInterpolator(phi_differences, hue_angles_differences))(
+                0) % 360
         hue_angle_new = (hue_angle_current + hue_angle_difference_new) % 360
 
         hue_new, code_new = hue_angle_to_hue(hue_angle_new)
@@ -837,9 +802,8 @@ def xyY_to_munsell_specification(xyY):
         # TODO: Consider refactoring implementation.
         hue_current, _value_current, chroma_current, code_current = (
             specification_current)
-        chroma_maximum = maximum_chroma_from_renotation(hue_current,
-                                                        value,
-                                                        code_current)
+        chroma_maximum = maximum_chroma_from_renotation(
+            hue_current, value, code_current)
         if chroma_current > chroma_maximum:
             chroma_current = specification_current[2] = chroma_maximum
 
@@ -861,13 +825,13 @@ def xyY_to_munsell_specification(xyY):
                 raise RuntimeError(('Maximum inner iterations count reached '
                                     'without convergence!'))
 
-            chroma_inner = (((rho_input / rho_current) ** iterations_inner) *
-                            chroma_current)
+            chroma_inner = (((
+                rho_input / rho_current) ** iterations_inner) * chroma_current)
             if chroma_inner > chroma_maximum:
                 chroma_inner = specification_current[2] = chroma_maximum
 
-            specification_inner = (
-                hue_current, value, chroma_inner, code_current)
+            specification_inner = (hue_current, value, chroma_inner,
+                                   code_current)
             x_inner, y_inner, _Y_inner = np.ravel(
                 munsell_specification_to_xyY(specification_inner))
 
@@ -933,10 +897,8 @@ def xyY_to_munsell_colour(xyY,
     """
 
     specification = xyY_to_munsell_specification(xyY)
-    return munsell_specification_to_munsell_colour(specification,
-                                                   hue_decimals,
-                                                   value_decimals,
-                                                   chroma_decimals)
+    return munsell_specification_to_munsell_colour(
+        specification, hue_decimals, value_decimals, chroma_decimals)
 
 
 def parse_munsell_colour(munsell_colour):
@@ -968,17 +930,13 @@ def parse_munsell_colour(munsell_colour):
     (0.0, 2.0, 4.0, 6)
     """
 
-    match = re.match(MUNSELL_GRAY_PATTERN,
-                     munsell_colour,
-                     flags=re.IGNORECASE)
+    match = re.match(MUNSELL_GRAY_PATTERN, munsell_colour, flags=re.IGNORECASE)
     if match:
         return np.float_(match.group('value'))
-    match = re.match(MUNSELL_COLOUR_PATTERN,
-                     munsell_colour,
-                     flags=re.IGNORECASE)
+    match = re.match(
+        MUNSELL_COLOUR_PATTERN, munsell_colour, flags=re.IGNORECASE)
     if match:
-        return (np.float_(match.group('hue')),
-                np.float_(match.group('value')),
+        return (np.float_(match.group('hue')), np.float_(match.group('value')),
                 np.float_(match.group('chroma')),
                 MUNSELL_HUE_LETTER_CODES.get(match.group('letter').upper()))
 
@@ -1105,8 +1063,8 @@ def munsell_specification_to_munsell_colour(specification,
     """
 
     if is_grey_munsell_colour(specification):
-        return MUNSELL_GRAY_EXTENDED_FORMAT.format(
-            specification, value_decimals)
+        return MUNSELL_GRAY_EXTENDED_FORMAT.format(specification,
+                                                   value_decimals)
     else:
         hue, value, chroma, code = specification
         code_values = MUNSELL_HUE_LETTER_CODES.values()
@@ -1128,18 +1086,13 @@ def munsell_specification_to_munsell_colour(specification,
             hue, code = 10, (code + 1) % 10
 
         if value == 0:
-            return MUNSELL_GRAY_EXTENDED_FORMAT.format(
-                specification, value_decimals)
+            return MUNSELL_GRAY_EXTENDED_FORMAT.format(specification,
+                                                       value_decimals)
         else:
-            hue_letter = MUNSELL_HUE_LETTER_CODES.first_key_from_value(
-                code)
-            return MUNSELL_COLOUR_EXTENDED_FORMAT.format(hue,
-                                                         hue_decimals,
-                                                         hue_letter,
-                                                         value,
-                                                         value_decimals,
-                                                         chroma,
-                                                         chroma_decimals)
+            hue_letter = MUNSELL_HUE_LETTER_CODES.first_key_from_value(code)
+            return MUNSELL_COLOUR_EXTENDED_FORMAT.format(
+                hue, hue_decimals, hue_letter, value, value_decimals, chroma,
+                chroma_decimals)
 
 
 def xyY_from_renotation(specification):
@@ -1296,9 +1249,9 @@ def hue_to_hue_angle(hue, code):
     """
 
     single_hue = ((17 - code) % 10 + (hue / 10) - 0.5) % 10
-    return LinearInterpolator(
-        (0, 2, 3, 4, 5, 6, 8, 9, 10),
-        (0, 45, 70, 135, 160, 225, 255, 315, 360))(single_hue)
+    return LinearInterpolator((0, 2, 3, 4, 5, 6, 8, 9, 10),
+                              (0, 45, 70, 135, 160, 225, 255, 315,
+                               360))(single_hue)
 
 
 def hue_angle_to_hue(hue_angle):
@@ -1330,9 +1283,8 @@ def hue_angle_to_hue(hue_angle):
     (3.2160000..., 4)
     """
 
-    single_hue = LinearInterpolator(
-        (0, 45, 70, 135, 160, 225, 255, 315, 360),
-        (0, 2, 3, 4, 5, 6, 8, 9, 10))(hue_angle)
+    single_hue = LinearInterpolator((0, 45, 70, 135, 160, 225, 255, 315, 360),
+                                    (0, 2, 3, 4, 5, 6, 8, 9, 10))(hue_angle)
 
     if single_hue <= 0.5:
         code = 7
@@ -1434,9 +1386,7 @@ def interpolation_method_from_renotation_ovoid(specification):
     'Radial'
     """
 
-    interpolation_methods = {0: None,
-                             1: 'Linear',
-                             2: 'Radial'}
+    interpolation_methods = {0: None, 1: 'Linear', 2: 'Radial'}
     interpolation_method = 0
     if is_grey_munsell_colour(specification):
         # No interpolation needed for grey colours.
@@ -1460,10 +1410,10 @@ def interpolation_method_from_renotation_ovoid(specification):
         assert 2 <= chroma <= 50, (
             '"{0}" specification chroma must be in domain [2, 50]!'.format(
                 specification))
-        assert abs(
-            2 * (chroma / 2 - round(chroma / 2))) <= INTEGER_THRESHOLD, (
-            ('"{0}" specification chroma must be an integer and '
-             'multiple of 2!').format(specification))
+        assert abs(2 *
+                   (chroma / 2 - round(chroma / 2))) <= INTEGER_THRESHOLD, ((
+                       '"{0}" specification chroma must be an integer and '
+                       'multiple of 2!').format(specification))
 
         chroma = 2 * round(chroma / 2)
 
@@ -1628,22 +1578,19 @@ def interpolation_method_from_renotation_ovoid(specification):
                 else:
                     interpolation_method = 1
             elif chroma == 10:
-                if (30 < ASTM_hue < 42.5 or
-                        5 < ASTM_hue < 25 or
+                if (30 < ASTM_hue < 42.5 or 5 < ASTM_hue < 25 or
                         60 < ASTM_hue < 82.5):
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
             elif chroma == 12:
-                if (30 < ASTM_hue < 42.5 or
-                        7.5 < ASTM_hue < 27.5 or
+                if (30 < ASTM_hue < 42.5 or 7.5 < ASTM_hue < 27.5 or
                         80 < ASTM_hue < 82.5):
                     interpolation_method = 2
                 else:
                     interpolation_method = 1
             elif chroma >= 14:
-                if (32.5 < ASTM_hue < 40 or
-                        7.5 < ASTM_hue < 15 or
+                if (32.5 < ASTM_hue < 40 or 7.5 < ASTM_hue < 15 or
                         80 < ASTM_hue < 82.5):
                     interpolation_method = 2
                 else:
@@ -1657,8 +1604,7 @@ def interpolation_method_from_renotation_ovoid(specification):
                 else:
                     interpolation_method = 1
             elif chroma >= 14:
-                if (32.5 < ASTM_hue < 40 or
-                        5 < ASTM_hue < 15 or
+                if (32.5 < ASTM_hue < 40 or 5 < ASTM_hue < 15 or
                         60 < ASTM_hue < 85):
                     interpolation_method = 2
                 else:
@@ -1749,20 +1695,18 @@ def xy_from_renotation_ovoid(specification):
         assert 2 <= chroma <= 50, (
             '"{0}" specification chroma must be in domain [2, 50]!'.format(
                 specification))
-        assert abs(
-            2 * (chroma / 2 - round(chroma / 2))) <= INTEGER_THRESHOLD, (
-            ('"{0}" specification chroma must be an integer and '
-             'multiple of 2!').format(specification))
+        assert abs(2 *
+                   (chroma / 2 - round(chroma / 2))) <= INTEGER_THRESHOLD, ((
+                       '"{0}" specification chroma must be an integer and '
+                       'multiple of 2!').format(specification))
 
         chroma = 2 * round(chroma / 2)
 
         # Checking if renotation data is available without interpolation using
         # given threshold.
         threshold = 0.001
-        if (abs(hue) < threshold or
-                abs(hue - 2.5) < threshold or
-                abs(hue - 5) < threshold or
-                abs(hue - 7.5) < threshold or
+        if (abs(hue) < threshold or abs(hue - 2.5) < threshold or
+                abs(hue - 5) < threshold or abs(hue - 7.5) < threshold or
                 abs(hue - 10) < threshold):
             hue = 2.5 * round(hue / 2.5)
             x, y, _Y = xyY_from_renotation((hue, value, chroma, code))
@@ -1775,8 +1719,7 @@ def xy_from_renotation_ovoid(specification):
         x_grey, y_grey = MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES
 
         specification_minus = (hue_minus, value, chroma, code_minus)
-        x_minus, y_minus, Y_minus = xyY_from_renotation(
-            specification_minus)
+        x_minus, y_minus, Y_minus = xyY_from_renotation(specification_minus)
         rho_minus, phi_minus, _z_minus = cartesian_to_cylindrical(
             (x_minus - x_grey, y_minus - y_grey, Y_minus))
         phi_minus = np.degrees(phi_minus)
@@ -1818,12 +1761,12 @@ def xy_from_renotation_ovoid(specification):
             rho = LinearInterpolator((lower_hue_angle, upper_hue_angle),
                                      (rho_minus, rho_plus))(hue_angle)
 
-            x, y = tsplit(polar_to_cartesian((rho, np.radians(theta))) +
-                          np.asarray((x_grey, y_grey)))
+            x, y = tsplit(
+                polar_to_cartesian((rho, np.radians(theta))) + np.asarray(
+                    (x_grey, y_grey)))
         else:
-            raise ValueError(
-                'Invalid interpolation method: "{0}"'.format(
-                    interpolation_method))
+            raise ValueError('Invalid interpolation method: "{0}"'.format(
+                interpolation_method))
 
         return np.array([x, y])
 
@@ -1949,28 +1892,26 @@ def maximum_chroma_from_renotation(hue, value, code):
     maximum_chromas = _munsell_maximum_chromas_from_renotation()
     spc_for_indexes = [chroma[0] for chroma in maximum_chromas]
 
-    ma_limit_mcw = maximum_chromas[
-        spc_for_indexes.index((hue_cw, value_minus, code_cw))][1]
-    ma_limit_mccw = maximum_chromas[
-        spc_for_indexes.index((hue_ccw, value_minus, code_ccw))][1]
+    ma_limit_mcw = maximum_chromas[spc_for_indexes.index((hue_cw, value_minus,
+                                                          code_cw))][1]
+    ma_limit_mccw = maximum_chromas[spc_for_indexes.index((
+        hue_ccw, value_minus, code_ccw))][1]
 
     if value_plus <= 9:
-        ma_limit_pcw = maximum_chromas[
-            spc_for_indexes.index((hue_cw, value_plus, code_cw))][1]
-        ma_limit_pccw = maximum_chromas[
-            spc_for_indexes.index((hue_ccw, value_plus, code_ccw))][1]
-        max_chroma = min(ma_limit_mcw,
-                         ma_limit_mccw,
-                         ma_limit_pcw,
+        ma_limit_pcw = maximum_chromas[spc_for_indexes.index((
+            hue_cw, value_plus, code_cw))][1]
+        ma_limit_pccw = maximum_chromas[spc_for_indexes.index((
+            hue_ccw, value_plus, code_ccw))][1]
+        max_chroma = min(ma_limit_mcw, ma_limit_mccw, ma_limit_pcw,
                          ma_limit_pccw)
     else:
         L = luminance_ASTMD153508(value)
         L9 = luminance_ASTMD153508(9)
         L10 = luminance_ASTMD153508(10)
 
-        max_chroma = min(LinearInterpolator((L9, L10), (ma_limit_mcw, 0))(L),
-                         LinearInterpolator((L9, L10), (ma_limit_mccw, 0))(
-                             L))
+        max_chroma = min(
+            LinearInterpolator((L9, L10), (ma_limit_mcw, 0))(L),
+            LinearInterpolator((L9, L10), (ma_limit_mccw, 0))(L))
     return max_chroma
 
 
@@ -2037,11 +1978,11 @@ def munsell_specification_to_xy(specification):
             x_minus, y_minus = (
                 MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES)
         else:
-            x_minus, y_minus = xy_from_renotation_ovoid(
-                (hue, value, chroma_minus, code))
+            x_minus, y_minus = xy_from_renotation_ovoid((hue, value,
+                                                         chroma_minus, code))
 
-        x_plus, y_plus = xy_from_renotation_ovoid(
-            (hue, value, chroma_plus, code))
+        x_plus, y_plus = xy_from_renotation_ovoid((hue, value, chroma_plus,
+                                                   code))
 
         if chroma_minus == chroma_plus:
             x = x_minus

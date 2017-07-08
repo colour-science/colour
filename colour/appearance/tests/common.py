@@ -1,6 +1,5 @@
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines the common unit tests objects for :mod:`colour.appearance` package.
 """
@@ -80,9 +79,8 @@ class ColourAppearanceModelTest(object):
         """
 
         path = os.path.dirname(__file__)
-        with open(os.path.join(path,
-                               fixtures_directory,
-                               file_name)) as in_file:
+        with open(
+                os.path.join(path, fixtures_directory, file_name)) as in_file:
             result = []
             for case_data in csv.DictReader(in_file):
                 for key in case_data:
@@ -149,10 +147,7 @@ class ColourAppearanceModelTest(object):
             verbose=False)
 
         np.testing.assert_almost_equal(
-            value,
-            expected,
-            decimal=1,
-            err_msg=error_message)
+            value, expected, decimal=1, err_msg=error_message)
 
     def check_model_consistency(self, data, output_attributes):
         """
@@ -173,11 +168,8 @@ class ColourAppearanceModelTest(object):
         """
 
         for data_attr, specification_attr in sorted(output_attributes.items()):
-            yield (self.check_specification_attribute,
-                   data.get('Case'),
-                   data,
-                   specification_attr,
-                   data[data_attr])
+            yield (self.check_specification_attribute, data.get('Case'), data,
+                   specification_attr, data[data_attr])
 
     def fixtures(self):
         """
@@ -206,8 +198,8 @@ class ColourAppearanceModelTest(object):
         """
 
         for data in self.fixtures():
-            for test in self.check_model_consistency(
-                    data, self.OUTPUT_ATTRIBUTES):
+            for test in self.check_model_consistency(data,
+                                                     self.OUTPUT_ATTRIBUTES):
                 yield test
 
     def test_n_dimensional_examples(self):

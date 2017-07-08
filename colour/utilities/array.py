@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Array Utilities
 ===============
@@ -22,21 +21,11 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['as_numeric',
-           'as_namedtuple',
-           'closest',
-           'normalise_maximum',
-           'interval',
-           'is_uniform',
-           'in_array',
-           'tstack',
-           'tsplit',
-           'row_as_diagonal',
-           'dot_vector',
-           'dot_matrix',
-           'orient',
-           'centroid',
-           'linear_conversion']
+__all__ = [
+    'as_numeric', 'as_namedtuple', 'closest', 'normalise_maximum', 'interval',
+    'is_uniform', 'in_array', 'tstack', 'tsplit', 'row_as_diagonal',
+    'dot_vector', 'dot_matrix', 'orient', 'centroid', 'linear_conversion'
+]
 
 
 def as_numeric(a, type_=np.float_):
@@ -687,5 +676,4 @@ def linear_conversion(a, old_range, new_range):
     in_min, in_max = tsplit(old_range)
     out_min, out_max = tsplit(new_range)
 
-    return (((a - in_min) / (in_max - in_min)) *
-            (out_max - out_min) + out_min)
+    return (((a - in_min) / (in_max - in_min)) * (out_max - out_min) + out_min)

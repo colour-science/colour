@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for :mod:`colour.models.hunter_rdab` module.
 """
@@ -59,8 +58,7 @@ class TestXYZ_to_Hunter_Rdab(unittest.TestCase):
         A = h_i['A']
         np.testing.assert_almost_equal(
             XYZ_to_Hunter_Rdab(
-                np.array([0.07049534, 0.10080000, 0.09558313]) * 100,
-                A.XYZ_n,
+                np.array([0.07049534, 0.10080000, 0.09558313]) * 100, A.XYZ_n,
                 A.K_ab),
             np.array([10.08000000, -26.39115518, -25.11822727]),
             decimal=7)
@@ -69,8 +67,7 @@ class TestXYZ_to_Hunter_Rdab(unittest.TestCase):
         np.testing.assert_almost_equal(
             XYZ_to_Hunter_Rdab(
                 np.array([0.07049534, 0.10080000, 0.09558313]) * 100,
-                D65.XYZ_n,
-                D65.K_ab),
+                D65.XYZ_n, D65.K_ab),
             np.array([10.08000000, -17.84427080, 3.39060457]),
             decimal=7)
 
@@ -96,32 +93,24 @@ class TestXYZ_to_Hunter_Rdab(unittest.TestCase):
         K_ab = D50.K_ab
         R_d_ab = np.array([10.08000000, -18.67653764, -3.44329925])
         np.testing.assert_almost_equal(
-            XYZ_to_Hunter_Rdab(XYZ, XYZ_n, K_ab),
-            R_d_ab,
-            decimal=7)
+            XYZ_to_Hunter_Rdab(XYZ, XYZ_n, K_ab), R_d_ab, decimal=7)
 
         XYZ = np.tile(XYZ, (6, 1))
         R_d_ab = np.tile(R_d_ab, (6, 1))
         np.testing.assert_almost_equal(
-            XYZ_to_Hunter_Rdab(XYZ, XYZ_n, K_ab),
-            R_d_ab,
-            decimal=7)
+            XYZ_to_Hunter_Rdab(XYZ, XYZ_n, K_ab), R_d_ab, decimal=7)
 
         XYZ_n = np.tile(XYZ_n, (6, 1))
         K_ab = np.tile(K_ab, (6, 1))
         np.testing.assert_almost_equal(
-            XYZ_to_Hunter_Rdab(XYZ, XYZ_n, K_ab),
-            R_d_ab,
-            decimal=7)
+            XYZ_to_Hunter_Rdab(XYZ, XYZ_n, K_ab), R_d_ab, decimal=7)
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         XYZ_n = np.reshape(XYZ_n, (2, 3, 3))
         K_ab = np.reshape(K_ab, (2, 3, 2))
         R_d_ab = np.reshape(R_d_ab, (2, 3, 3))
         np.testing.assert_almost_equal(
-            XYZ_to_Hunter_Rdab(XYZ, XYZ_n, K_ab),
-            R_d_ab,
-            decimal=7)
+            XYZ_to_Hunter_Rdab(XYZ, XYZ_n, K_ab), R_d_ab, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_XYZ_to_Hunter_Rdab(self):

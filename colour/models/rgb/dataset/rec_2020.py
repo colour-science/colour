@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Rec. 2020 Colourspace
 =====================
@@ -29,11 +28,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import (
-    RGB_Colourspace,
-    normalised_primary_matrix,
-    oetf_BT2020,
-    eotf_BT2020)
+from colour.models.rgb import (RGB_Colourspace, normalised_primary_matrix,
+                               oetf_BT2020, eotf_BT2020)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -42,17 +38,15 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['REC_2020_PRIMARIES',
-           'REC_2020_ILLUMINANT',
-           'REC_2020_WHITEPOINT',
-           'REC_2020_TO_XYZ_MATRIX',
-           'XYZ_TO_REC_2020_MATRIX',
-           'REC_2020_COLOURSPACE']
+__all__ = [
+    'REC_2020_PRIMARIES', 'REC_2020_ILLUMINANT', 'REC_2020_WHITEPOINT',
+    'REC_2020_TO_XYZ_MATRIX', 'XYZ_TO_REC_2020_MATRIX', 'REC_2020_COLOURSPACE'
+]
 
 REC_2020_PRIMARIES = np.array(
     [[0.708, 0.292],
      [0.170, 0.797],
-     [0.131, 0.046]])
+     [0.131, 0.046]])  # yapf: disable
 """
 *Rec. 2020* colourspace primaries.
 
@@ -74,8 +68,8 @@ REC_2020_WHITEPOINT = (
 REC_2020_WHITEPOINT : ndarray
 """
 
-REC_2020_TO_XYZ_MATRIX = normalised_primary_matrix(
-    REC_2020_PRIMARIES, REC_2020_WHITEPOINT)
+REC_2020_TO_XYZ_MATRIX = normalised_primary_matrix(REC_2020_PRIMARIES,
+                                                   REC_2020_WHITEPOINT)
 """
 *Rec. 2020* colourspace to *CIE XYZ* tristimulus values matrix.
 
@@ -97,7 +91,7 @@ REC_2020_COLOURSPACE = RGB_Colourspace(
     REC_2020_TO_XYZ_MATRIX,
     XYZ_TO_REC_2020_MATRIX,
     oetf_BT2020,
-    eotf_BT2020)
+    eotf_BT2020)  # yapf: disable
 """
 *Rec. 2020* colourspace.
 

@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 :math:`\Delta E_{ab}` - Delta E Colour Difference
 =================================================
@@ -40,12 +39,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['delta_E_CIE1976',
-           'delta_E_CIE1994',
-           'delta_E_CIE2000',
-           'delta_E_CMC',
-           'DELTA_E_METHODS',
-           'delta_E']
+__all__ = [
+    'delta_E_CIE1976', 'delta_E_CIE1994', 'delta_E_CIE2000', 'delta_E_CMC',
+    'DELTA_E_METHODS', 'delta_E'
+]
 
 
 def delta_E_CIE1976(Lab_1, Lab_2):
@@ -250,9 +247,9 @@ Melgosa_CIEDE2000_Workshop-July4.pdf
     h_1_prime = np.degrees(np.arctan2(b_1, a_1_prime)) % 360
     h_2_prime = np.degrees(np.arctan2(b_2, a_2_prime)) % 360
 
-    h_bar_prime = np.where(np.fabs(h_1_prime - h_2_prime) <= 180,
-                           0.5 * (h_1_prime + h_2_prime),
-                           (0.5 * (h_1_prime + h_2_prime + 360)))
+    h_bar_prime = np.where(
+        np.fabs(h_1_prime - h_2_prime) <= 180, 0.5 * (h_1_prime + h_2_prime),
+        (0.5 * (h_1_prime + h_2_prime + 360)))
 
     t = (1 - 0.17 * np.cos(np.deg2rad(h_bar_prime - 30)) +
          0.24 * np.cos(np.deg2rad(2 * h_bar_prime)) +
@@ -268,8 +265,9 @@ Melgosa_CIEDE2000_Workshop-July4.pdf
     delta_H_prime = (2 * np.sqrt(c_1_prime * c_2_prime) *
                      np.sin(np.deg2rad(0.5 * delta_h_prime)))
 
-    s_L = 1 + ((0.015 * (l_bar_prime - 50) * (l_bar_prime - 50)) /
-               np.sqrt(20 + (l_bar_prime - 50) * (l_bar_prime - 50)))
+    s_L = 1 + ((0.015 * (l_bar_prime - 50) *
+                (l_bar_prime - 50)) / np.sqrt(20 + (l_bar_prime - 50) *
+                                              (l_bar_prime - 50)))
     s_C = 1 + 0.045 * c_bar_prime
     s_H = 1 + 0.015 * c_bar_prime * t
 
@@ -281,11 +279,9 @@ Melgosa_CIEDE2000_Workshop-July4.pdf
     r_C = np.sqrt(c_bar_prime7 / (c_bar_prime7 + 25 ** 7))
     r_T = -2 * r_C * np.sin(np.deg2rad(2 * delta_theta))
 
-    d_E = np.sqrt(
-        (delta_L_prime / (k_L * s_L)) ** 2 +
-        (delta_C_prime / (k_C * s_C)) ** 2 +
-        (delta_H_prime / (k_H * s_H)) ** 2 +
-        (delta_C_prime / (k_C * s_C)) * (delta_H_prime / (k_H * s_H)) * r_T)
+    d_E = np.sqrt((delta_L_prime / (k_L * s_L)) ** 2 + (delta_C_prime / (
+        k_C * s_C)) ** 2 + (delta_H_prime / (k_H * s_H)) ** 2 + (
+            delta_C_prime / (k_C * s_C)) * (delta_H_prime / (k_H * s_H)) * r_T)
 
     return d_E
 
@@ -338,9 +334,10 @@ def delta_E_CMC(Lab_1, Lab_2, l=2, c=1):
     s_c = 0.0638 * c_1 / (1 + 0.0131 * c_1) + 0.638
     h_1 = np.degrees(np.arctan2(b_1, a_1)) % 360
 
-    t = np.where(np.logical_and(h_1 >= 164, h_1 <= 345),
-                 0.56 + np.fabs(0.2 * np.cos(np.deg2rad(h_1 + 168))),
-                 0.36 + np.fabs(0.4 * np.cos(np.deg2rad(h_1 + 35))))
+    t = np.where(
+        np.logical_and(h_1 >= 164, h_1 <= 345),
+        0.56 + np.fabs(0.2 * np.cos(np.deg2rad(h_1 + 168))),
+        0.36 + np.fabs(0.4 * np.cos(np.deg2rad(h_1 + 35))))
 
     c_4 = c_1 * c_1 * c_1 * c_1
     f = np.sqrt(c_4 / (c_4 + 1900))
@@ -361,11 +358,12 @@ def delta_E_CMC(Lab_1, Lab_2, l=2, c=1):
     return d_E
 
 
-DELTA_E_METHODS = CaseInsensitiveMapping(
-    {'CIE 1976': delta_E_CIE1976,
-     'CIE 1994': delta_E_CIE1994,
-     'CIE 2000': delta_E_CIE2000,
-     'CMC': delta_E_CMC})
+DELTA_E_METHODS = CaseInsensitiveMapping({
+    'CIE 1976': delta_E_CIE1976,
+    'CIE 1994': delta_E_CIE1994,
+    'CIE 2000': delta_E_CIE2000,
+    'CMC': delta_E_CMC
+})
 """
 Supported *Delta E* computations methods.
 

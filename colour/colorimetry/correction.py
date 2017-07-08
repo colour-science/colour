@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Spectral Bandpass Dependence Correction
 =======================================
@@ -30,9 +29,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['bandpass_correction_Stearns1988',
-           'BANDPASS_CORRECTION_METHODS',
-           'bandpass_correction']
+__all__ = [
+    'bandpass_correction_Stearns1988', 'BANDPASS_CORRECTION_METHODS',
+    'bandpass_correction'
+]
 
 ALPHA_STEARNS = 0.083
 
@@ -76,16 +76,17 @@ def bandpass_correction_Stearns1988(spd):
     values[-1] = (1 + ALPHA_STEARNS) * values[-1] - ALPHA_STEARNS * values[-2]
     for i in range(1, len(values) - 1):
         values[i] = (-ALPHA_STEARNS * values[i - 1] +
-                     (1 + 2 * ALPHA_STEARNS) *
-                     values[i] - ALPHA_STEARNS * values[i + 1])
+                     (1 + 2 * ALPHA_STEARNS) * values[i] -
+                     ALPHA_STEARNS * values[i + 1])
 
     for i, (wavelength, _value) in enumerate(spd):
         spd[wavelength] = values[i]
     return spd
 
 
-BANDPASS_CORRECTION_METHODS = CaseInsensitiveMapping(
-    {'Stearns 1988': bandpass_correction_Stearns1988})
+BANDPASS_CORRECTION_METHODS = CaseInsensitiveMapping({
+    'Stearns 1988': bandpass_correction_Stearns1988
+})
 """
 Supported spectral bandpass dependence correction methods.
 

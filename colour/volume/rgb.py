@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 RGB Colourspace Volume Computation
 ==================================
@@ -27,11 +26,7 @@ import numpy as np
 
 from colour.algebra import random_triplet_generator
 from colour.colorimetry import ILLUMINANTS
-from colour.models import (
-    Lab_to_XYZ,
-    RGB_to_XYZ,
-    XYZ_to_Lab,
-    XYZ_to_RGB)
+from colour.models import (Lab_to_XYZ, RGB_to_XYZ, XYZ_to_Lab, XYZ_to_RGB)
 from colour.volume import is_within_pointer_gamut, is_within_visible_spectrum
 
 __author__ = 'Colour Developers'
@@ -41,11 +36,12 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['sample_RGB_colourspace_volume_MonteCarlo',
-           'RGB_colourspace_limits',
-           'RGB_colourspace_volume_MonteCarlo',
-           'RGB_colourspace_pointer_gamut_coverage_MonteCarlo',
-           'RGB_colourspace_visible_spectrum_coverage_MonteCarlo']
+__all__ = [
+    'sample_RGB_colourspace_volume_MonteCarlo', 'RGB_colourspace_limits',
+    'RGB_colourspace_volume_MonteCarlo',
+    'RGB_colourspace_pointer_gamut_coverage_MonteCarlo',
+    'RGB_colourspace_visible_spectrum_coverage_MonteCarlo'
+]
 
 
 def _wrapper_RGB_colourspace_volume_MonteCarlo(args):
@@ -56,7 +52,7 @@ def _wrapper_RGB_colourspace_volume_MonteCarlo(args):
 
     Parameters
     ----------
-    args : list, optional
+    args : array_like, optional
         Arguments.
 
     Returns
@@ -72,8 +68,8 @@ def sample_RGB_colourspace_volume_MonteCarlo(
         colourspace,
         samples=10e6,
         limits=np.array([[0, 100], [-150, 150], [-150, 150]]),
-        illuminant_Lab=ILLUMINANTS[
-            'CIE 1931 2 Degree Standard Observer']['D50'],
+        illuminant_Lab=ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+            'D50'],
         chromatic_adaptation_method='CAT02',
         random_generator=random_triplet_generator,
         random_state=None):
@@ -129,18 +125,17 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
     """
 
     random_state = (random_state
-                    if random_state is not None else
-                    np.random.RandomState())
+                    if random_state is not None else np.random.RandomState())
 
     Lab = np.asarray(list(random_generator(samples, limits, random_state)))
-    RGB = XYZ_to_RGB(Lab_to_XYZ(Lab, illuminant_Lab),
-                     illuminant_Lab,
-                     colourspace.whitepoint,
-                     colourspace.XYZ_to_RGB_matrix,
-                     chromatic_adaptation_transform=(
-                         chromatic_adaptation_method))
-    RGB_w = RGB[np.logical_and(np.min(RGB, axis=-1) >= 0,
-                               np.max(RGB, axis=-1) <= 1)]
+    RGB = XYZ_to_RGB(
+        Lab_to_XYZ(Lab, illuminant_Lab),
+        illuminant_Lab,
+        colourspace.whitepoint,
+        colourspace.XYZ_to_RGB_matrix,
+        chromatic_adaptation_transform=(chromatic_adaptation_method))
+    RGB_w = RGB[np.logical_and(
+        np.min(RGB, axis=-1) >= 0, np.max(RGB, axis=-1) <= 1)]
     return len(RGB_w)
 
 
@@ -173,10 +168,10 @@ def RGB_colourspace_limits(
 
     Lab = []
     for combination in list(itertools.product([0, 1], repeat=3)):
-        Lab.append(XYZ_to_Lab(RGB_to_XYZ(combination,
-                                         colourspace.whitepoint,
-                                         illuminant,
-                                         colourspace.RGB_to_XYZ_matrix)))
+        Lab.append(
+            XYZ_to_Lab(
+                RGB_to_XYZ(combination, colourspace.whitepoint, illuminant,
+                           colourspace.RGB_to_XYZ_matrix)))
     Lab = np.array(Lab)
 
     limits = []
@@ -190,8 +185,8 @@ def RGB_colourspace_volume_MonteCarlo(
         colourspace,
         samples=10e6,
         limits=np.array([[0, 100], [-150, 150], [-150, 150]]),
-        illuminant_Lab=ILLUMINANTS[
-            'CIE 1931 2 Degree Standard Observer']['D50'],
+        illuminant_Lab=ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+            'D50'],
         chromatic_adaptation_method='CAT02',
         random_generator=random_triplet_generator,
         random_state=None,
@@ -256,13 +251,8 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
 
     process_samples = int(np.round(samples / cpu_count))
 
-    arguments = [colourspace,
-                 process_samples,
-                 limits,
-                 illuminant_Lab,
-                 chromatic_adaptation_method,
-                 random_generator,
-                 random_state]
+    arguments = (colourspace, process_samples, limits, illuminant_Lab,
+                 chromatic_adaptation_method, random_generator, random_state)
 
     results = pool.map(_wrapper_RGB_colourspace_volume_MonteCarlo,
                        [arguments for _ in range(cpu_count)])
@@ -313,21 +303,18 @@ def RGB_colourspace_volume_coverage_MonteCarlo(
     """
 
     random_state = (random_state
-                    if random_state is not None else
-                    np.random.RandomState())
+                    if random_state is not None else np.random.RandomState())
 
     # TODO: Investigate for generator yielding directly a ndarray.
-    XYZ = np.asarray(list(random_generator(
-        samples, random_state=random_state)))
+    XYZ = np.asarray(
+        list(random_generator(samples, random_state=random_state)))
     XYZ_vs = XYZ[coverage_sampler(XYZ)]
 
-    RGB = XYZ_to_RGB(XYZ_vs,
-                     colourspace.whitepoint,
-                     colourspace.whitepoint,
+    RGB = XYZ_to_RGB(XYZ_vs, colourspace.whitepoint, colourspace.whitepoint,
                      colourspace.XYZ_to_RGB_matrix)
 
-    RGB_c = RGB[np.logical_and(np.min(RGB, axis=-1) >= 0,
-                               np.max(RGB, axis=-1) <= 1)]
+    RGB_c = RGB[np.logical_and(
+        np.min(RGB, axis=-1) >= 0, np.max(RGB, axis=-1) <= 1)]
 
     return 100 * RGB_c.size / XYZ_vs.size
 
@@ -370,10 +357,7 @@ def RGB_colourspace_pointer_gamut_coverage_MonteCarlo(
     """
 
     return RGB_colourspace_volume_coverage_MonteCarlo(
-        colourspace,
-        is_within_pointer_gamut,
-        samples,
-        random_generator,
+        colourspace, is_within_pointer_gamut, samples, random_generator,
         random_state)
 
 
@@ -415,8 +399,5 @@ def RGB_colourspace_visible_spectrum_coverage_MonteCarlo(
     """
 
     return RGB_colourspace_volume_coverage_MonteCarlo(
-        colourspace,
-        is_within_visible_spectrum,
-        samples,
-        random_generator,
+        colourspace, is_within_visible_spectrum, samples, random_generator,
         random_state)

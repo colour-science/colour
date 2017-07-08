@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Showcases colour rendition charts computations.
 """
@@ -37,12 +36,9 @@ message_box(('Converting "ColorChecker 2005" colour rendition chart "CIE xyY" '
              '\n\t("Patch Name", ["R", "G", "B"])'))
 for index, name, xyY in data:
     RGB = colour.XYZ_to_RGB(
-        colour.xyY_to_XYZ(xyY),
-        illuminant,
-        colour.ILLUMINANTS[
-            'CIE 1931 2 Degree Standard Observer']['D65'],
-        colour.sRGB_COLOURSPACE.XYZ_to_RGB_matrix,
-        'Bradford',
+        colour.xyY_to_XYZ(xyY), illuminant,
+        colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65'],
+        colour.sRGB_COLOURSPACE.XYZ_to_RGB_matrix, 'Bradford',
         colour.sRGB_COLOURSPACE.encoding_cctf)
 
     RGB = [int(round(x * 255)) if x >= 0 else 0 for x in np.ravel(RGB)]

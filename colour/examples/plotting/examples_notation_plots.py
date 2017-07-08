@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Showcases colour notation systems plotting examples.
 """
@@ -18,5 +17,4 @@ single_munsell_value_function_plot('Ladd 1955')
 print('\n')
 
 message_box('Plotting multiple "Munsell" value functions.')
-multi_munsell_value_function_plot(['Ladd 1955',
-                                   'Saunderson 1944'])
+multi_munsell_value_function_plot(['Ladd 1955', 'Saunderson 1944'])

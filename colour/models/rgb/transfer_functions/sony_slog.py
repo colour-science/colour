@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Sony S-Log Encodings
 ====================
@@ -48,12 +47,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['log_encoding_SLog',
-           'log_decoding_SLog',
-           'log_encoding_SLog2',
-           'log_decoding_SLog2',
-           'log_encoding_SLog3',
-           'log_decoding_SLog3']
+__all__ = [
+    'log_encoding_SLog', 'log_decoding_SLog', 'log_encoding_SLog2',
+    'log_decoding_SLog2', 'log_encoding_SLog3', 'log_decoding_SLog3'
+]
 
 
 def log_encoding_SLog(t):
@@ -158,8 +155,9 @@ def log_decoding_SLog2(y):
 
     y = np.asarray(y)
 
-    return ((10 ** (((((y * 1023 / 4 - 16) / 219) - 0.616596 - 0.03) /
-                     0.432699)) - 0.037584) * 0.9)
+    return ((10 ** ((((
+        (y * 1023 / 4 - 16) / 219) - 0.616596 - 0.03) / 0.432699)) - 0.037584)
+            * 0.9)
 
 
 def log_encoding_SLog3(t):
@@ -186,10 +184,9 @@ def log_encoding_SLog3(t):
     t = np.asarray(t)
 
     return as_numeric(
-        np.where(t >= 0.01125000,
-                 (420 + np.log10((t + 0.01) /
-                                 (0.18 + 0.01)) * 261.5) / 1023,
-                 (t * (171.2102946929 - 95) / 0.01125000 + 95) / 1023))
+        np.where(t >= 0.01125000, (420 + np.log10(
+            (t + 0.01) / (0.18 + 0.01)) * 261.5) / 1023, (
+                t * (171.2102946929 - 95) / 0.01125000 + 95) / 1023))
 
 
 def log_decoding_SLog3(y):
@@ -217,6 +214,5 @@ def log_decoding_SLog3(y):
 
     return as_numeric(
         np.where(y >= 171.2102946929 / 1023,
-                 ((10 ** ((y * 1023 - 420) / 261.5)) *
-                  (0.18 + 0.01) - 0.01),
-                 (y * 1023 - 95) * 0.01125000 / (171.2102946929 - 95)))
+                 ((10 ** ((y * 1023 - 420) / 261.5)) * (0.18 + 0.01) - 0.01), (
+                     y * 1023 - 95) * 0.01125000 / (171.2102946929 - 95)))

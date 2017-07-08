@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Showcases colour quality plotting examples.
 """
@@ -21,10 +20,10 @@ print('\n')
 
 message_box(('Plotting various illuminants and light sources '
              '"Colour Rendering Index (CRI)".'))
-multi_spd_colour_rendering_index_bars_plot((
-    colour.ILLUMINANTS_RELATIVE_SPDS['F2'],
-    colour.LIGHT_SOURCES_RELATIVE_SPDS['F32T8/TL841 (Triphosphor)'],
-    colour.LIGHT_SOURCES_RELATIVE_SPDS['Kinoton 75P']))
+multi_spd_colour_rendering_index_bars_plot(
+    (colour.ILLUMINANTS_RELATIVE_SPDS['F2'],
+     colour.LIGHT_SOURCES_RELATIVE_SPDS['F32T8/TL841 (Triphosphor)'],
+     colour.LIGHT_SOURCES_RELATIVE_SPDS['Kinoton 75P']))
 
 print('\n')
 
@@ -36,7 +35,7 @@ print('\n')
 
 message_box(('Plotting various illuminants and light sources '
              '"Colour Quality Scale (CQS)".'))
-multi_spd_colour_quality_scale_bars_plot((
-    colour.ILLUMINANTS_RELATIVE_SPDS['F2'],
-    colour.LIGHT_SOURCES_RELATIVE_SPDS['F32T8/TL841 (Triphosphor)'],
-    colour.LIGHT_SOURCES_RELATIVE_SPDS['Kinoton 75P']))
+multi_spd_colour_quality_scale_bars_plot(
+    (colour.ILLUMINANTS_RELATIVE_SPDS['F2'],
+     colour.LIGHT_SOURCES_RELATIVE_SPDS['F32T8/TL841 (Triphosphor)'],
+     colour.LIGHT_SOURCES_RELATIVE_SPDS['Kinoton 75P']))

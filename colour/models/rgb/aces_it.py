@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Academy Color Encoding System - Input Transform
 ===============================================
@@ -49,17 +48,17 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['FLARE_PERCENTAGE',
-           'S_FLARE_FACTOR',
-           'spectral_to_aces_relative_exposure_values']
+__all__ = [
+    'FLARE_PERCENTAGE', 'S_FLARE_FACTOR',
+    'spectral_to_aces_relative_exposure_values'
+]
 
 FLARE_PERCENTAGE = 0.00500
 S_FLARE_FACTOR = 0.18000 / (0.18000 + FLARE_PERCENTAGE)
 
 
 def spectral_to_aces_relative_exposure_values(
-        spd,
-        illuminant=ILLUMINANTS_RELATIVE_SPDS['D60']):
+        spd, illuminant=ILLUMINANTS_RELATIVE_SPDS['D60']):
     """
     Converts given spectral power distribution to *ACES2065-1* colourspace
     relative exposure values.
@@ -106,8 +105,7 @@ def spectral_to_aces_relative_exposure_values(
     spd = spd.values
     illuminant = illuminant.values
 
-    r_bar, g_bar, b_bar = (ACES_RICD.r_bar.values,
-                           ACES_RICD.g_bar.values,
+    r_bar, g_bar, b_bar = (ACES_RICD.r_bar.values, ACES_RICD.g_bar.values,
                            ACES_RICD.b_bar.values)
 
     def k(x, y):

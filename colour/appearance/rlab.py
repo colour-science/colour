@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 RLAB Colour Appearance Model
 ============================
@@ -33,12 +32,8 @@ import numpy as np
 from collections import namedtuple
 
 from colour.appearance.hunt import XYZ_TO_HPE_MATRIX, XYZ_to_rgb
-from colour.utilities import (
-    CaseInsensitiveMapping,
-    dot_matrix,
-    dot_vector,
-    tsplit,
-    row_as_diagonal)
+from colour.utilities import (CaseInsensitiveMapping, dot_matrix, dot_vector,
+                              tsplit, row_as_diagonal)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -47,27 +42,26 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['R_MATRIX',
-           'RLAB_VIEWING_CONDITIONS',
-           'RLAB_D_FACTOR',
-           'RLAB_ReferenceSpecification',
-           'RLAB_Specification',
-           'XYZ_to_RLAB']
+__all__ = [
+    'R_MATRIX', 'RLAB_VIEWING_CONDITIONS', 'RLAB_D_FACTOR',
+    'RLAB_ReferenceSpecification', 'RLAB_Specification', 'XYZ_to_RLAB'
+]
 
 R_MATRIX = np.array(
     [[1.9569, -1.1882, 0.2313],
      [0.3612, 0.6388, 0.0000],
-     [0.0000, 0.0000, 1.0000]])
+     [0.0000, 0.0000, 1.0000]])  # yapf: disable
 """
 *RLAB* colour appearance model precomputed helper matrix.
 
 R_MATRIX : array_like, (3, 3)
 """
 
-RLAB_VIEWING_CONDITIONS = CaseInsensitiveMapping(
-    {'Average': 1 / 2.3,
-     'Dim': 1 / 2.9,
-     'Dark': 1 / 3.5})
+RLAB_VIEWING_CONDITIONS = CaseInsensitiveMapping({
+    'Average': 1 / 2.3,
+    'Dim': 1 / 2.9,
+    'Dark': 1 / 3.5
+})
 """
 Reference *RLAB* colour appearance model viewing conditions.
 
@@ -75,10 +69,11 @@ RLAB_VIEWING_CONDITIONS : CaseInsensitiveMapping
     **{'Average', 'Dim', 'Dark'}**
 """
 
-RLAB_D_FACTOR = CaseInsensitiveMapping(
-    {'Hard Copy Images': 1,
-     'Soft Copy Images': 0,
-     'Projected Transparencies, Dark Room': 0.5})
+RLAB_D_FACTOR = CaseInsensitiveMapping({
+    'Hard Copy Images': 1,
+    'Soft Copy Images': 0,
+    'Projected Transparencies, Dark Room': 0.5
+})
 """
 *RLAB* colour appearance model *Discounting-the-Illuminant* factor values.
 
@@ -93,17 +88,15 @@ Aliases:
 -   'soft_cp_img': 'Soft Copy Images'
 -   'projected_dark': 'Projected Transparencies, Dark Room'
 """
-RLAB_D_FACTOR['hard_cp_img'] = (
-    RLAB_D_FACTOR['Hard Copy Images'])
-RLAB_D_FACTOR['soft_cp_img'] = (
-    RLAB_D_FACTOR['Soft Copy Images'])
+RLAB_D_FACTOR['hard_cp_img'] = RLAB_D_FACTOR['Hard Copy Images']
+RLAB_D_FACTOR['soft_cp_img'] = RLAB_D_FACTOR['Soft Copy Images']
 RLAB_D_FACTOR['projected_dark'] = (
     RLAB_D_FACTOR['Projected Transparencies, Dark Room'])
 
 
 class RLAB_ReferenceSpecification(
-    namedtuple('RLAB_ReferenceSpecification',
-               ('LR', 'CR', 'hR', 'sR', 'HR', 'aR', 'bR'))):
+        namedtuple('RLAB_ReferenceSpecification', ('LR', 'CR', 'hR', 'sR',
+                                                   'HR', 'aR', 'bR'))):
     """
     Defines the *RLAB* colour appearance model reference specification.
 
@@ -130,8 +123,8 @@ class RLAB_ReferenceSpecification(
 
 
 class RLAB_Specification(
-    namedtuple('RLAB_Specification',
-               ('J', 'C', 'h', 's', 'HC', 'a', 'b'))):
+        namedtuple('RLAB_Specification', ('J', 'C', 'h', 's', 'HC', 'a',
+                                          'b'))):
     """
     Defines the *RLAB* colour appearance model specification.
 
@@ -230,29 +223,21 @@ s=1.1010410..., HC=None, a=15.5711021..., b=-52.6142956...)
 
     X_ref, Y_ref, Z_ref = tsplit(XYZ_ref)
 
-    # -------------------------------------------------------------------------
     # Computing the correlate of *Lightness* :math:`L^R`.
-    # -------------------------------------------------------------------------
     LR = 100 * (Y_ref ** sigma)
 
     # Computing opponent colour dimensions :math:`a^R` and :math:`b^R`.
     aR = 430 * ((X_ref ** sigma) - (Y_ref ** sigma))
     bR = 170 * ((Y_ref ** sigma) - (Z_ref ** sigma))
 
-    # -------------------------------------------------------------------------
     # Computing the *hue* angle :math:`h^R`.
-    # -------------------------------------------------------------------------
     hR = np.degrees(np.arctan2(bR, aR)) % 360
     # TODO: Implement hue composition computation.
 
-    # -------------------------------------------------------------------------
     # Computing the correlate of *chroma* :math:`C^R`.
-    # -------------------------------------------------------------------------
     CR = np.hypot(aR, bR)
 
-    # -------------------------------------------------------------------------
     # Computing the correlate of *saturation* :math:`s^R`.
-    # -------------------------------------------------------------------------
     sR = CR / LR
 
     return RLAB_Specification(LR, CR, hR, sR, None, aR, bR)

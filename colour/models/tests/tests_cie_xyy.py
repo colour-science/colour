@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for :mod:`colour.models.cie_xyy` module.
 """
@@ -11,13 +10,8 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.models import (
-    XYZ_to_xyY,
-    xyY_to_XYZ,
-    xy_to_xyY,
-    xyY_to_xy,
-    xy_to_XYZ,
-    XYZ_to_xy)
+from colour.models import (XYZ_to_xyY, xyY_to_XYZ, xy_to_xyY, xyY_to_xy,
+                           xy_to_XYZ, XYZ_to_xy)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -27,12 +21,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestXYZ_to_xyY',
-           'TestxyY_to_XYZ',
-           'Testxy_to_xyY',
-           'TestxyY_to_xy',
-           'Testxy_to_XYZ',
-           'TestXYZ_to_xy']
+__all__ = [
+    'TestXYZ_to_xyY', 'TestxyY_to_XYZ', 'Testxy_to_xyY', 'TestxyY_to_xy',
+    'Testxy_to_XYZ', 'TestXYZ_to_xy'
+]
 
 
 class TestXYZ_to_xyY(unittest.TestCase):
@@ -72,13 +64,15 @@ class TestXYZ_to_xyY(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            XYZ_to_xyY(np.array([[0.07049534, 0.10080000, 0.09558313],
-                                 [0.00000000, 0.00000000, 0.00000000],
-                                 [0.00000000, 0.00000000, 1.00000000]])),
+            XYZ_to_xyY(
+                np.array(
+                    [[0.07049534, 0.10080000, 0.09558313],
+                     [0.00000000, 0.00000000, 0.00000000],
+                     [0.00000000, 0.00000000, 1.00000000]])),
             np.array([[0.26414772, 0.37770001, 0.10080000],
                       [0.34570000, 0.35850000, 0.00000000],
                       [0.00000000, 0.00000000, 0.00000000]]),
-            decimal=7)
+            decimal=7)  # yapf: disable
 
     def test_n_dimensional_XYZ_to_xyY(self):
         """
@@ -90,30 +84,22 @@ class TestXYZ_to_xyY(unittest.TestCase):
         illuminant = np.array([0.34570, 0.35850])
         xyY = np.array([0.26414772, 0.37770001, 0.10080000])
         np.testing.assert_almost_equal(
-            XYZ_to_xyY(XYZ, illuminant),
-            xyY,
-            decimal=7)
+            XYZ_to_xyY(XYZ, illuminant), xyY, decimal=7)
 
         XYZ = np.tile(XYZ, (6, 1))
         xyY = np.tile(xyY, (6, 1))
         np.testing.assert_almost_equal(
-            XYZ_to_xyY(XYZ, illuminant),
-            xyY,
-            decimal=7)
+            XYZ_to_xyY(XYZ, illuminant), xyY, decimal=7)
 
         illuminant = np.tile(illuminant, (6, 1))
         np.testing.assert_almost_equal(
-            XYZ_to_xyY(XYZ, illuminant),
-            xyY,
-            decimal=7)
+            XYZ_to_xyY(XYZ, illuminant), xyY, decimal=7)
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         illuminant = np.reshape(illuminant, (2, 3, 2))
         xyY = np.reshape(xyY, (2, 3, 3))
         np.testing.assert_almost_equal(
-            XYZ_to_xyY(XYZ, illuminant),
-            xyY,
-            decimal=7)
+            XYZ_to_xyY(XYZ, illuminant), xyY, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_XYZ_to_xyY(self):
@@ -168,24 +154,15 @@ class TestxyY_to_XYZ(unittest.TestCase):
 
         xyY = np.array([0.26414772, 0.37770001, 0.10080000])
         XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
-        np.testing.assert_almost_equal(
-            xyY_to_XYZ(xyY),
-            XYZ,
-            decimal=7)
+        np.testing.assert_almost_equal(xyY_to_XYZ(xyY), XYZ, decimal=7)
 
         xyY = np.tile(xyY, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_almost_equal(
-            xyY_to_XYZ(xyY),
-            XYZ,
-            decimal=7)
+        np.testing.assert_almost_equal(xyY_to_XYZ(xyY), XYZ, decimal=7)
 
         xyY = np.reshape(xyY, (2, 3, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_almost_equal(
-            xyY_to_XYZ(xyY),
-            XYZ,
-            decimal=7)
+        np.testing.assert_almost_equal(xyY_to_XYZ(xyY), XYZ, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_xyY_to_XYZ(self):
@@ -239,24 +216,15 @@ class Testxy_to_XYZ(unittest.TestCase):
 
         xy = np.array([0.26414772, 0.37770001])
         XYZ = np.array([0.69935852, 1.00000000, 0.94824533])
-        np.testing.assert_almost_equal(
-            xy_to_XYZ(xy),
-            XYZ,
-            decimal=7)
+        np.testing.assert_almost_equal(xy_to_XYZ(xy), XYZ, decimal=7)
 
         xy = np.tile(xy, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_almost_equal(
-            xy_to_XYZ(xy),
-            XYZ,
-            decimal=7)
+        np.testing.assert_almost_equal(xy_to_XYZ(xy), XYZ, decimal=7)
 
         xy = np.reshape(xy, (2, 3, 2))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_almost_equal(
-            xy_to_XYZ(xy),
-            XYZ,
-            decimal=7)
+        np.testing.assert_almost_equal(xy_to_XYZ(xy), XYZ, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_xy_to_XYZ(self):
@@ -315,24 +283,15 @@ class Testxy_to_xyY(unittest.TestCase):
 
         xy = np.array([0.26414772, 0.37770001])
         XYZ = np.array([0.26414772, 0.37770001, 1.00000000])
-        np.testing.assert_almost_equal(
-            xy_to_xyY(xy),
-            XYZ,
-            decimal=7)
+        np.testing.assert_almost_equal(xy_to_xyY(xy), XYZ, decimal=7)
 
         xy = np.tile(xy, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_almost_equal(
-            xy_to_xyY(xy),
-            XYZ,
-            decimal=7)
+        np.testing.assert_almost_equal(xy_to_xyY(xy), XYZ, decimal=7)
 
         xy = np.reshape(xy, (2, 3, 2))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_almost_equal(
-            xy_to_xyY(xy),
-            XYZ,
-            decimal=7)
+        np.testing.assert_almost_equal(xy_to_xyY(xy), XYZ, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_xy_to_xyY(self):
@@ -386,24 +345,15 @@ class TestxyY_to_xy(unittest.TestCase):
 
         xyY = np.array([0.26414772, 0.37770001, 1.00000000])
         xy = np.array([0.26414772, 0.37770001])
-        np.testing.assert_almost_equal(
-            xyY_to_xy(xyY),
-            xy,
-            decimal=7)
+        np.testing.assert_almost_equal(xyY_to_xy(xyY), xy, decimal=7)
 
         xyY = np.tile(xyY, (6, 1))
         xy = np.tile(xy, (6, 1))
-        np.testing.assert_almost_equal(
-            xyY_to_xy(xyY),
-            xy,
-            decimal=7)
+        np.testing.assert_almost_equal(xyY_to_xy(xyY), xy, decimal=7)
 
         xyY = np.reshape(xyY, (2, 3, 3))
         xy = np.reshape(xy, (2, 3, 2))
-        np.testing.assert_almost_equal(
-            xyY_to_xy(xyY),
-            xy,
-            decimal=7)
+        np.testing.assert_almost_equal(xyY_to_xy(xyY), xy, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_xyY_to_xy(self):
@@ -459,30 +409,22 @@ class TestXYZ_to_xy(unittest.TestCase):
         illuminant = np.array([0.34570, 0.35850])
         xy = np.array([0.26414772, 0.37770001])
         np.testing.assert_almost_equal(
-            XYZ_to_xy(XYZ, illuminant),
-            xy,
-            decimal=7)
+            XYZ_to_xy(XYZ, illuminant), xy, decimal=7)
 
         XYZ = np.tile(XYZ, (6, 1))
         xy = np.tile(xy, (6, 1))
         np.testing.assert_almost_equal(
-            XYZ_to_xy(XYZ, illuminant),
-            xy,
-            decimal=7)
+            XYZ_to_xy(XYZ, illuminant), xy, decimal=7)
 
         illuminant = np.tile(illuminant, (6, 1))
         np.testing.assert_almost_equal(
-            XYZ_to_xy(XYZ, illuminant),
-            xy,
-            decimal=7)
+            XYZ_to_xy(XYZ, illuminant), xy, decimal=7)
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         illuminant = np.reshape(xy, (2, 3, 2))
         xy = np.reshape(xy, (2, 3, 2))
         np.testing.assert_almost_equal(
-            XYZ_to_xy(XYZ, illuminant),
-            xy,
-            decimal=7)
+            XYZ_to_xy(XYZ, illuminant), xy, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_XYZ_to_xy(self):

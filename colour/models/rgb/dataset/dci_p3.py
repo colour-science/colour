@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 DCI-P3 & DCI-P3+ Colourspaces
 =============================
@@ -36,11 +35,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import (
-    RGB_Colourspace,
-    normalised_primary_matrix,
-    oetf_DCIP3,
-    eotf_DCIP3)
+from colour.models.rgb import (RGB_Colourspace, normalised_primary_matrix,
+                               oetf_DCIP3, eotf_DCIP3)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -49,21 +45,17 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['DCI_P3_PRIMARIES',
-           'DCI_P3_P_PRIMARIES',
-           'DCI_P3_ILLUMINANT',
-           'DCI_P3_WHITEPOINT',
-           'DCI_P3_TO_XYZ_MATRIX',
-           'XYZ_TO_DCI_P3_MATRIX',
-           'DCI_P3_P_TO_XYZ_MATRIX',
-           'XYZ_TO_DCI_P3_P_MATRIX',
-           'DCI_P3_COLOURSPACE',
-           'DCI_P3_P_COLOURSPACE']
+__all__ = [
+    'DCI_P3_PRIMARIES', 'DCI_P3_P_PRIMARIES', 'DCI_P3_ILLUMINANT',
+    'DCI_P3_WHITEPOINT', 'DCI_P3_TO_XYZ_MATRIX', 'XYZ_TO_DCI_P3_MATRIX',
+    'DCI_P3_P_TO_XYZ_MATRIX', 'XYZ_TO_DCI_P3_P_MATRIX', 'DCI_P3_COLOURSPACE',
+    'DCI_P3_P_COLOURSPACE'
+]
 
 DCI_P3_PRIMARIES = np.array(
     [[0.6800, 0.3200],
      [0.2650, 0.6900],
-     [0.1500, 0.0600]])
+     [0.1500, 0.0600]])  # yapf: disable
 """
 *DCI-P3* colourspace primaries.
 
@@ -73,7 +65,7 @@ DCI_P3_PRIMARIES : ndarray, (3, 2)
 DCI_P3_P_PRIMARIES = np.array(
     [[0.7400, 0.2700],
      [0.2200, 0.7800],
-     [0.0900, -0.0900]])
+     [0.0900, -0.0900]])  # yapf: disable
 """
 *DCI-P3+* colourspace primaries.
 
@@ -101,8 +93,8 @@ DCI_P3_WHITEPOINT = (
 DCI_P3_WHITEPOINT : ndarray
 """
 
-DCI_P3_TO_XYZ_MATRIX = normalised_primary_matrix(
-    DCI_P3_PRIMARIES, DCI_P3_WHITEPOINT)
+DCI_P3_TO_XYZ_MATRIX = normalised_primary_matrix(DCI_P3_PRIMARIES,
+                                                 DCI_P3_WHITEPOINT)
 """
 *DCI-P3* colourspace to *CIE XYZ* tristimulus values matrix.
 
@@ -116,8 +108,8 @@ XYZ_TO_DCI_P3_MATRIX = np.linalg.inv(DCI_P3_TO_XYZ_MATRIX)
 XYZ_TO_DCI_P3_MATRIX : array_like, (3, 3)
 """
 
-DCI_P3_P_TO_XYZ_MATRIX = normalised_primary_matrix(
-    DCI_P3_P_PRIMARIES, DCI_P3_WHITEPOINT)
+DCI_P3_P_TO_XYZ_MATRIX = normalised_primary_matrix(DCI_P3_P_PRIMARIES,
+                                                   DCI_P3_WHITEPOINT)
 """
 *DCI-P3+* colourspace to *CIE XYZ* tristimulus values matrix.
 
@@ -139,7 +131,7 @@ DCI_P3_COLOURSPACE = RGB_Colourspace(
     DCI_P3_TO_XYZ_MATRIX,
     XYZ_TO_DCI_P3_MATRIX,
     oetf_DCIP3,
-    eotf_DCIP3)
+    eotf_DCIP3)  # yapf: disable
 """
 *DCI-P3* colourspace.
 
@@ -154,7 +146,7 @@ DCI_P3_P_COLOURSPACE = RGB_Colourspace(
     DCI_P3_P_TO_XYZ_MATRIX,
     XYZ_TO_DCI_P3_P_MATRIX,
     oetf_DCIP3,
-    eotf_DCIP3)
+    eotf_DCIP3)  # yapf: disable
 """
 *DCI-P3+* colourspace.
 

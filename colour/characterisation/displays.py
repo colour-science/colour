@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 RGB Displays
 ============
@@ -56,8 +55,12 @@ class RGB_DisplayPrimaries(TriSpectralPowerDistribution):
             self,
             name,
             data,
-            mapping={'x': 'red', 'y': 'green', 'z': 'blue'},
-            labels={'x': 'R', 'y': 'G', 'z': 'B'},
+            mapping={'x': 'red',
+                     'y': 'green',
+                     'z': 'blue'},
+            labels={'x': 'R',
+                    'y': 'G',
+                    'z': 'B'},
             title=name)
 
     @property

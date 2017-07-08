@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for
 :mod:`colour.models.rgb.transfer_functions.rimm_romm_rgb` module.
@@ -12,12 +11,8 @@ import numpy as np
 import unittest
 
 from colour.models.rgb.transfer_functions import (
-    oetf_ROMMRGB,
-    eotf_ROMMRGB,
-    oetf_RIMMRGB,
-    eotf_RIMMRGB,
-    log_encoding_ERIMMRGB,
-    log_decoding_ERIMMRGB)
+    oetf_ROMMRGB, eotf_ROMMRGB, oetf_RIMMRGB, eotf_RIMMRGB,
+    log_encoding_ERIMMRGB, log_decoding_ERIMMRGB)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -27,12 +22,11 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestOetf_ROMMRGB',
-           'TestEotf_ROMMRGB',
-           'TestOetf_RIMMRGB',
-           'TestEotf_RIMMRGB',
-           'TestLog_encoding_ERIMMRGB',
-           'TestLog_decoding_ERIMMRGB']
+__all__ = [
+    'TestOetf_ROMMRGB', 'TestEotf_ROMMRGB', 'TestOetf_RIMMRGB',
+    'TestEotf_RIMMRGB', 'TestLog_encoding_ERIMMRGB',
+    'TestLog_decoding_ERIMMRGB'
+]
 
 
 class TestOetf_ROMMRGB(unittest.TestCase):
@@ -47,20 +41,12 @@ oetf_ROMMRGB` definition unit tests methods.
 oetf_ROMMRGB` definition.
         """
 
-        self.assertAlmostEqual(
-            oetf_ROMMRGB(0.0),
-            0.0,
-            places=7)
+        self.assertAlmostEqual(oetf_ROMMRGB(0.0), 0.0, places=7)
 
         self.assertAlmostEqual(
-            oetf_ROMMRGB(0.18),
-            98.356413311540095,
-            places=7)
+            oetf_ROMMRGB(0.18), 98.356413311540095, places=7)
 
-        self.assertAlmostEqual(
-            oetf_ROMMRGB(1.0),
-            255.0,
-            places=7)
+        self.assertAlmostEqual(oetf_ROMMRGB(1.0), 255.0, places=7)
 
     def test_n_dimensional_oetf_ROMMRGB(self):
         """
@@ -70,31 +56,19 @@ oetf_ROMMRGB` definition n-dimensional arrays support.
 
         L = 0.18
         V = 98.356413311540095
-        np.testing.assert_almost_equal(
-            oetf_ROMMRGB(L),
-            V,
-            decimal=7)
+        np.testing.assert_almost_equal(oetf_ROMMRGB(L), V, decimal=7)
 
         L = np.tile(L, 6)
         V = np.tile(V, 6)
-        np.testing.assert_almost_equal(
-            oetf_ROMMRGB(L),
-            V,
-            decimal=7)
+        np.testing.assert_almost_equal(oetf_ROMMRGB(L), V, decimal=7)
 
         L = np.reshape(L, (2, 3))
         V = np.reshape(V, (2, 3))
-        np.testing.assert_almost_equal(
-            oetf_ROMMRGB(L),
-            V,
-            decimal=7)
+        np.testing.assert_almost_equal(oetf_ROMMRGB(L), V, decimal=7)
 
         L = np.reshape(L, (2, 3, 1))
         V = np.reshape(V, (2, 3, 1))
-        np.testing.assert_almost_equal(
-            oetf_ROMMRGB(L),
-            V,
-            decimal=7)
+        np.testing.assert_almost_equal(oetf_ROMMRGB(L), V, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_oetf_ROMMRGB(self):
@@ -103,8 +77,7 @@ oetf_ROMMRGB` definition n-dimensional arrays support.
 oetf_ROMMRGB` definition nan support.
         """
 
-        oetf_ROMMRGB(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        oetf_ROMMRGB(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestEotf_ROMMRGB(unittest.TestCase):
@@ -119,20 +92,12 @@ eotf_ROMMRGB` definition unit tests methods.
 eotf_ROMMRGB` definition.
         """
 
-        self.assertAlmostEqual(
-            eotf_ROMMRGB(0.0),
-            0.0,
-            places=7)
+        self.assertAlmostEqual(eotf_ROMMRGB(0.0), 0.0, places=7)
 
         self.assertAlmostEqual(
-            eotf_ROMMRGB(98.356413311540095),
-            0.18,
-            places=7)
+            eotf_ROMMRGB(98.356413311540095), 0.18, places=7)
 
-        self.assertAlmostEqual(
-            eotf_ROMMRGB(255.0),
-            1.0,
-            places=7)
+        self.assertAlmostEqual(eotf_ROMMRGB(255.0), 1.0, places=7)
 
     def test_n_dimensional_eotf_ROMMRGB(self):
         """
@@ -142,31 +107,19 @@ eotf_ROMMRGB` definition n-dimensional arrays support.
 
         L = 98.356413311540095
         V = 0.18
-        np.testing.assert_almost_equal(
-            eotf_ROMMRGB(L),
-            V,
-            decimal=7)
+        np.testing.assert_almost_equal(eotf_ROMMRGB(L), V, decimal=7)
 
         L = np.tile(L, 6)
         V = np.tile(V, 6)
-        np.testing.assert_almost_equal(
-            eotf_ROMMRGB(L),
-            V,
-            decimal=7)
+        np.testing.assert_almost_equal(eotf_ROMMRGB(L), V, decimal=7)
 
         L = np.reshape(L, (2, 3))
         V = np.reshape(V, (2, 3))
-        np.testing.assert_almost_equal(
-            eotf_ROMMRGB(L),
-            V,
-            decimal=7)
+        np.testing.assert_almost_equal(eotf_ROMMRGB(L), V, decimal=7)
 
         L = np.reshape(L, (2, 3, 1))
         V = np.reshape(V, (2, 3, 1))
-        np.testing.assert_almost_equal(
-            eotf_ROMMRGB(L),
-            V,
-            decimal=7)
+        np.testing.assert_almost_equal(eotf_ROMMRGB(L), V, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_eotf_ROMMRGB(self):
@@ -175,8 +128,7 @@ eotf_ROMMRGB` definition n-dimensional arrays support.
 eotf_ROMMRGB` definition nan support.
         """
 
-        eotf_ROMMRGB(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        eotf_ROMMRGB(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestOetf_RIMMRGB(unittest.TestCase):
@@ -191,20 +143,13 @@ oetf_RIMMRGB` definition unit tests methods.
 oetf_RIMMRGB` definition.
         """
 
-        self.assertAlmostEqual(
-            oetf_RIMMRGB(0.0),
-            0.0,
-            places=7)
+        self.assertAlmostEqual(oetf_RIMMRGB(0.0), 0.0, places=7)
 
         self.assertAlmostEqual(
-            oetf_RIMMRGB(0.18),
-            74.376801781315210,
-            places=7)
+            oetf_RIMMRGB(0.18), 74.376801781315210, places=7)
 
         self.assertAlmostEqual(
-            oetf_RIMMRGB(1.0),
-            181.846934745868940,
-            places=7)
+            oetf_RIMMRGB(1.0), 181.846934745868940, places=7)
 
     def test_n_dimensional_oetf_RIMMRGB(self):
         """
@@ -214,31 +159,19 @@ oetf_RIMMRGB` definition n-dimensional arrays support.
 
         L = 0.18
         V = 74.376801781315210
-        np.testing.assert_almost_equal(
-            oetf_RIMMRGB(L),
-            V,
-            decimal=7)
+        np.testing.assert_almost_equal(oetf_RIMMRGB(L), V, decimal=7)
 
         L = np.tile(L, 6)
         V = np.tile(V, 6)
-        np.testing.assert_almost_equal(
-            oetf_RIMMRGB(L),
-            V,
-            decimal=7)
+        np.testing.assert_almost_equal(oetf_RIMMRGB(L), V, decimal=7)
 
         L = np.reshape(L, (2, 3))
         V = np.reshape(V, (2, 3))
-        np.testing.assert_almost_equal(
-            oetf_RIMMRGB(L),
-            V,
-            decimal=7)
+        np.testing.assert_almost_equal(oetf_RIMMRGB(L), V, decimal=7)
 
         L = np.reshape(L, (2, 3, 1))
         V = np.reshape(V, (2, 3, 1))
-        np.testing.assert_almost_equal(
-            oetf_RIMMRGB(L),
-            V,
-            decimal=7)
+        np.testing.assert_almost_equal(oetf_RIMMRGB(L), V, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_oetf_RIMMRGB(self):
@@ -247,8 +180,7 @@ oetf_RIMMRGB` definition n-dimensional arrays support.
 oetf_RIMMRGB` definition nan support.
         """
 
-        oetf_RIMMRGB(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        oetf_RIMMRGB(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestEotf_RIMMRGB(unittest.TestCase):
@@ -263,20 +195,13 @@ eotf_RIMMRGB` definition unit tests methods.
 eotf_RIMMRGB` definition.
         """
 
-        self.assertAlmostEqual(
-            eotf_RIMMRGB(0.0),
-            0.0,
-            places=7)
+        self.assertAlmostEqual(eotf_RIMMRGB(0.0), 0.0, places=7)
 
         self.assertAlmostEqual(
-            eotf_RIMMRGB(74.376801781315210),
-            0.18,
-            places=7)
+            eotf_RIMMRGB(74.376801781315210), 0.18, places=7)
 
         self.assertAlmostEqual(
-            eotf_RIMMRGB(181.846934745868940),
-            1.0,
-            places=7)
+            eotf_RIMMRGB(181.846934745868940), 1.0, places=7)
 
     def test_n_dimensional_eotf_RIMMRGB(self):
         """
@@ -286,31 +211,19 @@ eotf_RIMMRGB` definition n-dimensional arrays support.
 
         L = 74.376801781315210
         V = 0.18
-        np.testing.assert_almost_equal(
-            eotf_RIMMRGB(L),
-            V,
-            decimal=7)
+        np.testing.assert_almost_equal(eotf_RIMMRGB(L), V, decimal=7)
 
         L = np.tile(L, 6)
         V = np.tile(V, 6)
-        np.testing.assert_almost_equal(
-            eotf_RIMMRGB(L),
-            V,
-            decimal=7)
+        np.testing.assert_almost_equal(eotf_RIMMRGB(L), V, decimal=7)
 
         L = np.reshape(L, (2, 3))
         V = np.reshape(V, (2, 3))
-        np.testing.assert_almost_equal(
-            eotf_RIMMRGB(L),
-            V,
-            decimal=7)
+        np.testing.assert_almost_equal(eotf_RIMMRGB(L), V, decimal=7)
 
         L = np.reshape(L, (2, 3, 1))
         V = np.reshape(V, (2, 3, 1))
-        np.testing.assert_almost_equal(
-            eotf_RIMMRGB(L),
-            V,
-            decimal=7)
+        np.testing.assert_almost_equal(eotf_RIMMRGB(L), V, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_eotf_RIMMRGB(self):
@@ -319,8 +232,7 @@ eotf_RIMMRGB` definition n-dimensional arrays support.
 eotf_RIMMRGB` definition nan support.
         """
 
-        eotf_RIMMRGB(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        eotf_RIMMRGB(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLog_encoding_ERIMMRGB(unittest.TestCase):
@@ -335,20 +247,13 @@ log_encoding_ERIMMRGB` definition unit tests methods.
 log_encoding_ERIMMRGB` definition.
         """
 
-        self.assertAlmostEqual(
-            log_encoding_ERIMMRGB(0.0),
-            0.0,
-            places=7)
+        self.assertAlmostEqual(log_encoding_ERIMMRGB(0.0), 0.0, places=7)
 
         self.assertAlmostEqual(
-            log_encoding_ERIMMRGB(0.18),
-            104.563359320492940,
-            places=7)
+            log_encoding_ERIMMRGB(0.18), 104.563359320492940, places=7)
 
         self.assertAlmostEqual(
-            log_encoding_ERIMMRGB(1.0),
-            139.09187348830370,
-            places=7)
+            log_encoding_ERIMMRGB(1.0), 139.09187348830370, places=7)
 
     def test_n_dimensional_log_encoding_ERIMMRGB(self):
         """
@@ -358,31 +263,19 @@ log_encoding_ERIMMRGB` definition n-dimensional arrays support.
 
         L = 0.18
         V = 104.563359320492940
-        np.testing.assert_almost_equal(
-            log_encoding_ERIMMRGB(L),
-            V,
-            decimal=7)
+        np.testing.assert_almost_equal(log_encoding_ERIMMRGB(L), V, decimal=7)
 
         L = np.tile(L, 6)
         V = np.tile(V, 6)
-        np.testing.assert_almost_equal(
-            log_encoding_ERIMMRGB(L),
-            V,
-            decimal=7)
+        np.testing.assert_almost_equal(log_encoding_ERIMMRGB(L), V, decimal=7)
 
         L = np.reshape(L, (2, 3))
         V = np.reshape(V, (2, 3))
-        np.testing.assert_almost_equal(
-            log_encoding_ERIMMRGB(L),
-            V,
-            decimal=7)
+        np.testing.assert_almost_equal(log_encoding_ERIMMRGB(L), V, decimal=7)
 
         L = np.reshape(L, (2, 3, 1))
         V = np.reshape(V, (2, 3, 1))
-        np.testing.assert_almost_equal(
-            log_encoding_ERIMMRGB(L),
-            V,
-            decimal=7)
+        np.testing.assert_almost_equal(log_encoding_ERIMMRGB(L), V, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_log_encoding_ERIMMRGB(self):
@@ -407,20 +300,13 @@ log_decoding_ERIMMRGB` definition unit tests methods.
 log_decoding_ERIMMRGB` definition.
         """
 
-        self.assertAlmostEqual(
-            log_decoding_ERIMMRGB(0.0),
-            0.0,
-            places=7)
+        self.assertAlmostEqual(log_decoding_ERIMMRGB(0.0), 0.0, places=7)
 
         self.assertAlmostEqual(
-            log_decoding_ERIMMRGB(104.563359320492940),
-            0.18,
-            places=7)
+            log_decoding_ERIMMRGB(104.563359320492940), 0.18, places=7)
 
         self.assertAlmostEqual(
-            log_decoding_ERIMMRGB(139.09187348830370),
-            1.0,
-            places=7)
+            log_decoding_ERIMMRGB(139.09187348830370), 1.0, places=7)
 
     def test_n_dimensional_log_decoding_ERIMMRGB(self):
         """
@@ -430,31 +316,19 @@ log_decoding_ERIMMRGB` definition n-dimensional arrays support.
 
         L = 104.563359320492940
         V = 0.18
-        np.testing.assert_almost_equal(
-            log_decoding_ERIMMRGB(L),
-            V,
-            decimal=7)
+        np.testing.assert_almost_equal(log_decoding_ERIMMRGB(L), V, decimal=7)
 
         L = np.tile(L, 6)
         V = np.tile(V, 6)
-        np.testing.assert_almost_equal(
-            log_decoding_ERIMMRGB(L),
-            V,
-            decimal=7)
+        np.testing.assert_almost_equal(log_decoding_ERIMMRGB(L), V, decimal=7)
 
         L = np.reshape(L, (2, 3))
         V = np.reshape(V, (2, 3))
-        np.testing.assert_almost_equal(
-            log_decoding_ERIMMRGB(L),
-            V,
-            decimal=7)
+        np.testing.assert_almost_equal(log_decoding_ERIMMRGB(L), V, decimal=7)
 
         L = np.reshape(L, (2, 3, 1))
         V = np.reshape(V, (2, 3, 1))
-        np.testing.assert_almost_equal(
-            log_decoding_ERIMMRGB(L),
-            V,
-            decimal=7)
+        np.testing.assert_almost_equal(log_decoding_ERIMMRGB(L), V, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_log_decoding_ERIMMRGB(self):

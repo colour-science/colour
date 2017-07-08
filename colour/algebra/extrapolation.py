@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Extrapolation
 =============
@@ -178,9 +177,9 @@ class Extrapolator(object):
         """
 
         if value is not None:
-            assert is_string(value), (
-                ('"{0}" attribute: "{1}" is not a '
-                 '"string" like object!').format('method', value))
+            assert is_string(value), (('"{0}" attribute: "{1}" is not a '
+                                       '"string" like object!').format(
+                                           'method', value))
             value = value.lower()
 
         self._method = value
@@ -212,7 +211,7 @@ class Extrapolator(object):
         if value is not None:
             assert is_numeric(value), (
                 '"{0}" attribute: "{1}" is not a "numeric"!').format(
-                'left', value)
+                    'left', value)
         self._left = value
 
     @property
@@ -242,7 +241,7 @@ class Extrapolator(object):
         if value is not None:
             assert is_numeric(value), (
                 '"{0}" attribute: "{1}" is not a "numeric"!').format(
-                'right', value)
+                    'right', value)
         self._right = value
 
     def __call__(self, x):
@@ -287,8 +286,8 @@ class Extrapolator(object):
         y = np.empty_like(x)
 
         if self._method == 'linear':
-            y[x < xi[0]] = (yi[0] + (x[x < xi[0]] - xi[0]) *
-                            (yi[1] - yi[0]) / (xi[1] - xi[0]))
+            y[x < xi[0]] = (yi[0] + (x[x < xi[0]] - xi[0]) * (yi[1] - yi[0]) /
+                            (xi[1] - xi[0]))
             y[x > xi[-1]] = (yi[-1] + (x[x > xi[-1]] - xi[-1]) *
                              (yi[-1] - yi[-2]) / (xi[-1] - xi[-2]))
         elif self._method == 'constant':

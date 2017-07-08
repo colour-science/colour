@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Apple RGB Colourspace
 =====================
@@ -27,10 +26,8 @@ import numpy as np
 from functools import partial
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import (
-    RGB_Colourspace,
-    function_gamma,
-    normalised_primary_matrix)
+from colour.models.rgb import (RGB_Colourspace, function_gamma,
+                               normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -39,17 +36,16 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['APPLE_RGB_PRIMARIES',
-           'APPLE_RGB_ILLUMINANT',
-           'APPLE_RGB_WHITEPOINT',
-           'APPLE_RGB_TO_XYZ_MATRIX',
-           'XYZ_TO_APPLE_RGB_MATRIX',
-           'APPLE_RGB_COLOURSPACE']
+__all__ = [
+    'APPLE_RGB_PRIMARIES', 'APPLE_RGB_ILLUMINANT', 'APPLE_RGB_WHITEPOINT',
+    'APPLE_RGB_TO_XYZ_MATRIX', 'XYZ_TO_APPLE_RGB_MATRIX',
+    'APPLE_RGB_COLOURSPACE'
+]
 
 APPLE_RGB_PRIMARIES = np.array(
     [[0.6250, 0.3400],
      [0.2800, 0.5950],
-     [0.1550, 0.0700]])
+     [0.1550, 0.0700]])  # yapf: disable
 """
 *Apple RGB* colourspace primaries.
 
@@ -71,8 +67,8 @@ APPLE_RGB_WHITEPOINT = (
 APPLE_RGB_WHITEPOINT : ndarray
 """
 
-APPLE_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(
-    APPLE_RGB_PRIMARIES, APPLE_RGB_WHITEPOINT)
+APPLE_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(APPLE_RGB_PRIMARIES,
+                                                    APPLE_RGB_WHITEPOINT)
 """
 *Apple RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 
@@ -94,7 +90,7 @@ APPLE_RGB_COLOURSPACE = RGB_Colourspace(
     APPLE_RGB_TO_XYZ_MATRIX,
     XYZ_TO_APPLE_RGB_MATRIX,
     partial(function_gamma, exponent=1 / 1.8),
-    partial(function_gamma, exponent=1.8))
+    partial(function_gamma, exponent=1.8))  # yapf: disable
 """
 *Apple RGB* colourspace.
 

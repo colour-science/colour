@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Michaelis–Menten Kinetics
 =========================
@@ -27,8 +26,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['reaction_rate_MichealisMenten',
-           'substrate_concentration_MichealisMenten']
+__all__ = [
+    'reaction_rate_MichealisMenten', 'substrate_concentration_MichealisMenten'
+]
 
 
 def reaction_rate_MichealisMenten(S, V_max, K_m):

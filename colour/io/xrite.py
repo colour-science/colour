@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 X-Rite Data Input
 =================
@@ -26,8 +25,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['XRITE_FILE_ENCODING',
-           'read_spds_from_xrite_file']
+__all__ = ['XRITE_FILE_ENCODING', 'read_spds_from_xrite_file']
 
 XRITE_FILE_ENCODING = 'utf-8'
 
@@ -82,16 +80,16 @@ def read_spds_from_xrite_file(path):
                 is_spectral_data = False
 
             if is_spectral_data_format:
-                wavelengths = [np.float_(x)
-                               for x in re.findall('nm(\d+)', line)]
+                wavelengths = [
+                    np.float_(x) for x in re.findall('nm(\d+)', line)
+                ]
                 index = len(wavelengths)
 
             if is_spectral_data:
                 tokens = line.split()
                 values = [np.float_(x) for x in tokens[-index:]]
-                xrite_spds[tokens[1]] = (
-                    SpectralPowerDistribution(tokens[1],
-                                              dict(zip(wavelengths, values))))
+                xrite_spds[tokens[1]] = (SpectralPowerDistribution(
+                    tokens[1], dict(zip(wavelengths, values))))
 
             if line == 'BEGIN_DATA_FORMAT':
                 is_spectral_data_format = True

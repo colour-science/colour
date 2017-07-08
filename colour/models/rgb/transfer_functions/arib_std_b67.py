@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 ARIB STD-B67 (Hybrid Log-Gamma)
 ===============================
@@ -38,13 +37,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['ARIBSTDB67_CONSTANTS',
-           'oetf_ARIBSTDB67',
-           'eotf_ARIBSTDB67']
+__all__ = ['ARIBSTDB67_CONSTANTS', 'oetf_ARIBSTDB67', 'eotf_ARIBSTDB67']
 
-ARIBSTDB67_CONSTANTS = Structure(a=0.17883277,
-                                 b=0.28466892,
-                                 c=0.55991073)
+ARIBSTDB67_CONSTANTS = Structure(a=0.17883277, b=0.28466892, c=0.55991073)
 """
 *ARIB STD-B67 (Hybrid Log-Gamma)* constants.
 
@@ -83,9 +78,7 @@ def oetf_ARIBSTDB67(E, r=0.5):
     b = ARIBSTDB67_CONSTANTS.b
     c = ARIBSTDB67_CONSTANTS.c
 
-    E_p = np.where(E <= 1,
-                   r * np.sqrt(E),
-                   a * np.log(E - b) + c)
+    E_p = np.where(E <= 1, r * np.sqrt(E), a * np.log(E - b) + c)
 
     return as_numeric(E_p)
 
@@ -132,8 +125,7 @@ def eotf_ARIBSTDB67(E_p, r=0.5):
     b = ARIBSTDB67_CONSTANTS.b
     c = ARIBSTDB67_CONSTANTS.c
 
-    E = np.where(E_p <= oetf_ARIBSTDB67(1),
-                 (E_p / r) ** 2,
+    E = np.where(E_p <= oetf_ARIBSTDB67(1), (E_p / r) ** 2,
                  np.exp((E_p - c) / a) + b)
 
     return as_numeric(E)

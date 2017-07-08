@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Showcases *CIE XYZ* tristimulus values computations.
 """
@@ -91,7 +90,8 @@ sample_spd_data = {
     765: 0.465,
     770: 0.448,
     775: 0.432,
-    780: 0.421}
+    780: 0.421
+}
 
 spd = colour.SpectralPowerDistribution('Sample', sample_spd_data)
 
@@ -112,6 +112,5 @@ print('\n')
 
 message_box(('Computing *CIE XYZ* tristimulus values for a single given '
              'wavelength in nm.'))
-print(colour.wavelength_to_XYZ(
-    546.1,
-    colour.CMFS['CIE 1931 2 Degree Standard Observer']))
+print(colour.wavelength_to_XYZ(546.1, colour.CMFS[
+    'CIE 1931 2 Degree Standard Observer']))

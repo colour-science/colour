@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 hdr-IPT Colourspace
 ===================
@@ -29,11 +28,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import lightness_Fairchild2010, luminance_Fairchild2010
-from colour.models.ipt import (
-    IPT_XYZ_TO_LMS_MATRIX,
-    IPT_LMS_TO_XYZ_MATRIX,
-    IPT_LMS_TO_IPT_MATRIX,
-    IPT_IPT_TO_LMS_MATRIX)
+from colour.models.ipt import (IPT_XYZ_TO_LMS_MATRIX, IPT_LMS_TO_XYZ_MATRIX,
+                               IPT_LMS_TO_IPT_MATRIX, IPT_IPT_TO_LMS_MATRIX)
 from colour.utilities import dot_vector
 
 __author__ = 'Colour Developers'
@@ -43,9 +39,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['XYZ_to_hdr_IPT',
-           'hdr_IPT_to_XYZ',
-           'exponent_hdr_IPT']
+__all__ = ['XYZ_to_hdr_IPT', 'hdr_IPT_to_XYZ', 'exponent_hdr_IPT']
 
 
 def XYZ_to_hdr_IPT(XYZ, Y_s=0.2, Y_abs=100):

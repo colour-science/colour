@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 RED Log Encodings
 =================
@@ -34,9 +33,8 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.models.rgb.transfer_functions import (
-    log_encoding_Cineon,
-    log_decoding_Cineon)
+from colour.models.rgb.transfer_functions import (log_encoding_Cineon,
+                                                  log_decoding_Cineon)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -45,18 +43,14 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['log_encoding_REDLog',
-           'log_decoding_REDLog',
-           'log_encoding_REDLogFilm',
-           'log_decoding_REDLogFilm',
-           'log_encoding_Log3G10',
-           'log_decoding_Log3G10',
-           'log_encoding_Log3G12',
-           'log_decoding_Log3G12']
+__all__ = [
+    'log_encoding_REDLog', 'log_decoding_REDLog', 'log_encoding_REDLogFilm',
+    'log_decoding_REDLogFilm', 'log_encoding_Log3G10', 'log_decoding_Log3G10',
+    'log_encoding_Log3G12', 'log_decoding_Log3G12'
+]
 
 
-def log_encoding_REDLog(x,
-                        black_offset=10 ** ((0 - 1023) / 511)):
+def log_encoding_REDLog(x, black_offset=10 ** ((0 - 1023) / 511)):
     """
     Defines the *REDLog* log encoding curve / opto-electronic transfer
     function.
@@ -81,12 +75,11 @@ def log_encoding_REDLog(x,
 
     x = np.asarray(x)
 
-    return ((1023 +
-             511 * np.log10(x * (1 - black_offset) + black_offset)) / 1023)
+    return ((
+        1023 + 511 * np.log10(x * (1 - black_offset) + black_offset)) / 1023)
 
 
-def log_decoding_REDLog(y,
-                        black_offset=10 ** ((0 - 1023) / 511)):
+def log_decoding_REDLog(y, black_offset=10 ** ((0 - 1023) / 511)):
     """
     Defines the *REDLog* log decoding curve / electro-optical transfer
     function.
@@ -111,13 +104,11 @@ def log_decoding_REDLog(y,
 
     y = np.asarray(y)
 
-    return (((10 **
-              ((1023 * y - 1023) / 511)) - black_offset) /
+    return (((10 ** ((1023 * y - 1023) / 511)) - black_offset) /
             (1 - black_offset))
 
 
-def log_encoding_REDLogFilm(x,
-                            black_offset=10 ** ((95 - 685) / 300)):
+def log_encoding_REDLogFilm(x, black_offset=10 ** ((95 - 685) / 300)):
     """
     Defines the *REDLogFilm* log encoding curve / opto-electronic transfer
     function.
@@ -143,8 +134,7 @@ def log_encoding_REDLogFilm(x,
     return log_encoding_Cineon(x, black_offset)
 
 
-def log_decoding_REDLogFilm(y,
-                            black_offset=10 ** ((95 - 685) / 300)):
+def log_decoding_REDLogFilm(y, black_offset=10 ** ((95 - 685) / 300)):
     """
     Defines the *REDLogFilm* log decoding curve / electro-optical transfer
     function.
@@ -234,8 +224,8 @@ def log_encoding_Log3G10(x, legacy_curve=False):
     if legacy_curve:
         return np.sign(x) * 0.222497 * np.log10((np.abs(x) * 169.379333) + 1)
     else:
-        return (np.sign(x + 0.01) *
-                0.224282 * np.log10((np.abs(x + 0.01) * 155.975327) + 1))
+        return (np.sign(x + 0.01) * 0.224282 *
+                np.log10((np.abs(x + 0.01) * 155.975327) + 1))
 
 
 def log_decoding_Log3G10(y, legacy_curve=False):
@@ -269,8 +259,8 @@ def log_decoding_Log3G10(y, legacy_curve=False):
         return (np.sign(y) *
                 (np.power(10.0, np.abs(y) / 0.222497) - 1) / 169.379333)
     else:
-        return (np.sign(y) * (np.power(10.0, np.abs(y) / 0.224282) - 1) /
-                155.975327) - 0.01
+        return (np.sign(y) *
+                (np.power(10.0, np.abs(y) / 0.224282) - 1) / 155.975327) - 0.01
 
 
 def log_encoding_Log3G12(x):

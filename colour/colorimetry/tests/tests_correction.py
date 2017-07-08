@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for :mod:`colour.colorimetry.correction` module.
 """
@@ -10,9 +9,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.colorimetry import (
-    SpectralPowerDistribution,
-    bandpass_correction_Stearns1988)
+from colour.colorimetry import (SpectralPowerDistribution,
+                                bandpass_correction_Stearns1988)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -21,9 +19,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['SPD_DATA',
-           'BANDPASS_CORRECTED_STEARNS_SPD_DATA',
-           'TestBandpassCorrectionStearns1988']
+__all__ = [
+    'SPD_DATA', 'BANDPASS_CORRECTED_STEARNS_SPD_DATA',
+    'TestBandpassCorrectionStearns1988'
+]
 
 SPD_DATA = (
     9.3700,
@@ -41,7 +40,7 @@ SPD_DATA = (
     69.5900,
     81.7300,
     88.1900,
-    86.0500)
+    86.0500)  # yapf: disable
 
 BANDPASS_CORRECTED_STEARNS_SPD_DATA = (
     9.12515000,
@@ -59,7 +58,7 @@ BANDPASS_CORRECTED_STEARNS_SPD_DATA = (
     70.21750370,
     82.14935719,
     88.88373581,
-    85.87238000)
+    85.87238000)  # yapf: disable
 
 
 class TestBandpassCorrectionStearns1988(unittest.TestCase):

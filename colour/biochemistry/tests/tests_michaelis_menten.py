@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for :mod:`colour.biochemistry.michaelis_menten` module.
 """
@@ -11,9 +10,8 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.biochemistry import (
-    reaction_rate_MichealisMenten,
-    substrate_concentration_MichealisMenten)
+from colour.biochemistry import (reaction_rate_MichealisMenten,
+                                 substrate_concentration_MichealisMenten)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -23,8 +21,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestReactionRateMichealisMenten',
-           'TestSubstrateConcentrationMichealisMenten']
+__all__ = [
+    'TestReactionRateMichealisMenten',
+    'TestSubstrateConcentrationMichealisMenten'
+]
 
 
 class TestReactionRateMichealisMenten(unittest.TestCase):
@@ -66,32 +66,24 @@ reaction_rate_MichealisMenten` definition n-dimensional arrays
         K_m = 0.25
         S = 0.333333333333333
         np.testing.assert_almost_equal(
-            reaction_rate_MichealisMenten(v, V_max, K_m),
-            S,
-            decimal=7)
+            reaction_rate_MichealisMenten(v, V_max, K_m), S, decimal=7)
 
         v = np.tile(v, (6, 1))
         S = np.tile(S, (6, 1))
         np.testing.assert_almost_equal(
-            reaction_rate_MichealisMenten(v, V_max, K_m),
-            S,
-            decimal=7)
+            reaction_rate_MichealisMenten(v, V_max, K_m), S, decimal=7)
 
         V_max = np.tile(V_max, (6, 1))
         K_m = np.tile(K_m, (6, 1))
         np.testing.assert_almost_equal(
-            reaction_rate_MichealisMenten(v, V_max, K_m),
-            S,
-            decimal=7)
+            reaction_rate_MichealisMenten(v, V_max, K_m), S, decimal=7)
 
         v = np.reshape(v, (2, 3, 1))
         V_max = np.reshape(V_max, (2, 3, 1))
         K_m = np.reshape(K_m, (2, 3, 1))
         S = np.reshape(S, (2, 3, 1))
         np.testing.assert_almost_equal(
-            reaction_rate_MichealisMenten(v, V_max, K_m),
-            S,
-            decimal=7)
+            reaction_rate_MichealisMenten(v, V_max, K_m), S, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_reaction_rate_MichealisMenten(self):

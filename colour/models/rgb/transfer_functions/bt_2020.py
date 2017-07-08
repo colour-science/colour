@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 ITU-R BT.2020
 =============
@@ -39,12 +38,11 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['BT2020_CONSTANTS',
-           'oetf_BT2020',
-           'eotf_BT2020']
+__all__ = ['BT2020_CONSTANTS', 'oetf_BT2020', 'eotf_BT2020']
 
-BT2020_CONSTANTS = Structure(alpha=lambda x: 1.0993 if x else 1.099,
-                             beta=lambda x: 0.0181 if x else 0.018)
+BT2020_CONSTANTS = Structure(
+    alpha=lambda x: 1.0993 if x else 1.099,
+    beta=lambda x: 0.0181 if x else 0.018)
 """
 *BT.2020* colourspace constants.
 
@@ -82,9 +80,7 @@ def oetf_BT2020(E, is_12_bits_system=False):
     a = BT2020_CONSTANTS.alpha(is_12_bits_system)
     b = BT2020_CONSTANTS.beta(is_12_bits_system)
 
-    return as_numeric(np.where(E < b,
-                               E * 4.5,
-                               a * (E ** 0.45) - (a - 1)))
+    return as_numeric(np.where(E < b, E * 4.5, a * (E ** 0.45) - (a - 1)))
 
 
 def eotf_BT2020(E_p, is_12_bits_system=False):
@@ -115,6 +111,6 @@ def eotf_BT2020(E_p, is_12_bits_system=False):
     a = BT2020_CONSTANTS.alpha(is_12_bits_system)
     b = BT2020_CONSTANTS.beta(is_12_bits_system)
 
-    return as_numeric(np.where(E_p < oetf_BT2020(b),
-                               E_p / 4.5,
-                               ((E_p + (a - 1)) / a) ** (1 / 0.45)))
+    return as_numeric(
+        np.where(E_p < oetf_BT2020(b), E_p / 4.5, ((E_p + (a - 1)) / a) ** (
+            1 / 0.45)))
