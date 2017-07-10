@@ -4,15 +4,16 @@ Colour - Bibliography
 Bibliography
 ------------
 
--   Adobe Systems. (2005). Adobe RGB (1998) Color Image Encoding. Retrieved from http://www.adobe.com/digitalimag/pdfs/AdobeRGB1998.pdf
--   Adobe Systems. (2013). Adobe DNG Software Development Kit (SDK) - 1.3.0.0 - dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp:: dng_temperature::Set_xy_coord. Retrieved from https://www.adobe.com/support/downloads/dng/dng_sdk.html
--   Adobe Systems. (2013). Adobe DNG Software Development Kit (SDK) - 1.3.0.0 - dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp:: dng_temperature::xy_coord. Retrieved from https://www.adobe.com/support/downloads/dng/dng_sdk.html
 -   ANSI. (2003). Specification of ROMM RGB. Retrieved from http://www.color.org/ROMMRGB.pdf
 -   ARRI. (2012). ALEXA - Log C Curve - Usage in VFX. Retrieved from http://www.arri.com/?eID=registration&file_uid=8026
 -   ASTM International. (1989). ASTM D1535-89 Standard Test Method for Specifying Color by the Munsell System. Retrieved from http://www.astm.org/DATABASE.CART/HISTORICAL/D1535-89.htm
 -   ASTM International. (2011). ASTM E2022–11 - Standard Practice for Calculation of Weighting Factors for Tristimulus Integration, i, 1–10. doi:10.1520/E2022-11
 -   ASTM International. (2015). ASTM E308–15 - Standard Practice for Computing the Colors of Objects by Using the CIE System, 1–47. doi:10.1520/E0308-15
 -   ASTM International. (n.d.). ASTM D1535-08e1 Standard Practice for Specifying Color by the Munsell System. doi:10.1520/D1535-08E01
+-   Adobe Systems. (2005). Adobe RGB (1998) Color Image Encoding. Retrieved from http://www.adobe.com/digitalimag/pdfs/AdobeRGB1998.pdf
+-   Adobe Systems. (2013). Adobe DNG Software Development Kit (SDK) - 1.3.0.0 - dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp:: dng_temperature::Set_xy_coord. Retrieved from https://www.adobe.com/support/downloads/dng/dng_sdk.html
+-   Adobe Systems. (2013). Adobe DNG Software Development Kit (SDK) - 1.3.0.0 - dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp:: dng_temperature::xy_coord. Retrieved from https://www.adobe.com/support/downloads/dng/dng_sdk.html
+-   Association of Radio Industries and Businesses. (2015). Essential Parameter Values for the Extended Image Dynamic Range Television (EIDRTV) System for Programme Production. Arib Std-B67. Retrieved from http://www.arib.or.jp/english/html/overview/std-b67.html
 -   BabelColor. (2012). ColorChecker RGB and spectra. Retrieved from http://www.babelcolor.com/download/ColorChecker_RGB_and_spectra.xls
 -   BabelColor. (2012). The ColorChecker (since 1976!). Retrieved September 26, 2014, from http://www.babelcolor.com/main_level/ColorChecker.htm
 -   Bianco, S., & Schettini, R. (2010). Two New von Kries Based Chromatic Adaptation Transforms Found by Numerical Optimization. Color Research & Application, 35(3), 184–192. doi:10.1002/col.20573
@@ -21,6 +22,29 @@ Bibliography
 -   Breneman, E. J. (1987). Corresponding chromaticities for different states of adaptation to complex visual fields. JOSA A, 4(6). Retrieved from http://www.opticsinfobase.org/josaa/fulltext.cfm?uri=josaa-4-6-1115&id=2783
 -   Brill, M. H., & Süsstrunk, S. (2008). Repairing gamut problems in CIECAM02: A progress report. Color Research & Application, 33(5), 424–426. doi:10.1002/col.20432
 -   Broadbent, A. D. (2009). Calculation from the original experimental data of the CIE 1931 RGB standard observer spectral chromaticity co-ordinates and color matching functions. Retrieved June 12, 2014, from http://www.cis.rit.edu/mcsl/research/1931.php
+-   CIE TC 1-32. (1994). CIE 109-1994 A Method of Predicting Corresponding Colours under Different Chromatic and Illuminance Adaptations (pp. 1–18). ISBN:978-3-900734-51-0
+-   CIE TC 1-36. (2006). CIE 170-1:2006 Fundamental Chromaticity Diagram with Physiological Axes - Part 1 (pp. 1–56). ISBN:978-3-901-90646-6
+-   CIE TC 1-38. (2005). 9. INTERPOLATION. In CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations (pp. 14–19). ISBN:978-3-901-90641-1
+-   CIE TC 1-38. (2005). 9.2.4 Method of interpolation for uniformly spaced independent variable. In CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations (pp. 1–27). ISBN:978-3-901-90641-1
+-   CIE TC 1-38. (2005). EXTRAPOLATION. In CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations (pp. 19–20). ISBN:978-3-901-90641-1
+-   CIE TC 1-38. (2005). Table V. Values of the c-coefficients of Equ.s 6 and 7. In CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations (p. 19). ISBN:978-3-901-90641-1
+-   CIE TC 1-48. (2004). 3.1 Recommendations concerning standard physical data of illuminants. In CIE 015:2004 Colorimetry, 3rd Edition (pp. 12–13). ISBN:978-3-901-90633-6
+-   CIE TC 1-48. (2004). 9.1 Dominant wavelength and purity. In CIE 015:2004 Colorimetry, 3rd Edition (pp. 32–33). ISBN:978-3-901-90633-6
+-   CIE TC 1-48. (2004). APPENDIX E. INFORMATION ON THE USE OF PLANCK’S EQUATION FOR STANDARD AIR. In CIE 015:2004 Colorimetry, 3rd Edition (pp. 77–82). ISBN:978-3-901-90633-6
+-   CIE TC 1-48. (2004). CIE 1976 uniform chromaticity scale diagram (UCS diagram). In CIE 015:2004 Colorimetry, 3rd Edition (p. 24). ISBN:978-3-901-90633-6
+-   CIE TC 1-48. (2004). CIE 1976 uniform colour spaces. In CIE 015:2004 Colorimetry, 3rd Edition (p. 24). ISBN:978-3-901-90633-6
+-   CIE TC 1-48. (2004). Extrapolation. In CIE 015:2004 Colorimetry, 3rd Edition (p. 24). ISBN:978-3-901-90633-6
+-   CIE TC 1-48. (2004). The evaluation of whiteness. In CIE 015:2004 Colorimetry, 3rd Edition (p. 24). ISBN:978-3-901-90633-6
+-   CIE. (n.d.). CIE 15:2004 Tables Data. Retrieved from https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls
+-   CIE. (n.d.). CIE Spectral Data. Retrieved from http://files.cie.co.at/204.xls
+-   CVRL. (n.d.). CIE (2012) 10-deg XYZ “physiologically-relevant” colour matching functions. Retrieved June 25, 2014, from http://www.cvrl.org/database/text/cienewxyz/cie2012xyz10.htm
+-   CVRL. (n.d.). CIE (2012) 2-deg XYZ “physiologically-relevant” colour matching functions. Retrieved June 25, 2014, from http://www.cvrl.org/database/text/cienewxyz/cie2012xyz2.htm
+-   CVRL. (n.d.). Cone Fundamentals. Retrieved June 23, 2014, from http://www.cvrl.org/cones.htm
+-   CVRL. (n.d.). Luminous efficiency. Retrieved April 19, 2014, from http://www.cvrl.org/lumindex.htm
+-   CVRL. (n.d.). New CIE XYZ functions transformed from the CIE (2006) LMS functions. Retrieved February 24, 2014, from http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm
+-   CVRL. (n.d.). Older CIE Standards. Retrieved February 24, 2014, from http://cvrl.ioo.ucl.ac.uk/cie.htm
+-   CVRL. (n.d.). Stiles & Burch individual 10-deg colour matching data. Retrieved February 24, 2014, from http://www.cvrl.org/stilesburch10_ind.htm
+-   CVRL. (n.d.). Stiles & Burch individual 2-deg colour matching data. Retrieved February 24, 2014, from http://www.cvrl.org/stilesburch2_ind.htm
 -   Canon. (2014). EOS C500 Firmware Update. Retrieved August 27, 2016, from https://www.usa.canon.com/internet/portal/us/home/explore/product-showcases/cameras-and-lenses/cinema-eos-firmware/c500
 -   Canon. (n.d.). EOS C300 Mark II - EOS C300 Mark II Input Transform Version 2.0 (for Cinema Gamut / BT.2020). Retrieved August 23, 2016, from https://www.usa.canon.com/internet/portal/us/home/support/details/cameras/cinema-eos/eos-c300-mark-ii
 -   Castro, S. (2014). Numpy: Fastest way of computing diagonal for each row of a 2d array. Retrieved August 22, 2014, from http://stackoverflow.com/questions/26511401/numpy-fastest-way-of-computing-diagonal-for-each-row-of-a-2d-array/26517247#26517247
@@ -37,34 +61,11 @@ Bibliography
 -   Centore, P. (2014). MunsellAndKubelkaMunkToolboxApr2014 - MunsellSystemRoutines/BoundingRenotationHues.m. Retrieved from https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
 -   Centore, P. (2014). MunsellAndKubelkaMunkToolboxApr2014 - MunsellSystemRoutines/LinearVsRadialInterpOnRenotationOvoid.m. Retrieved from https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
 -   Centore, P. (n.d.). Munsell Resources. Retrieved July 26, 2014, from http://www.99main.com/~centore/MunsellResources/MunsellResources.html
--   CIE TC 1-32. (1994). CIE 109-1994 A Method of Predicting Corresponding Colours under Different Chromatic and Illuminance Adaptations (pp. 1–18). ISBN:978-3-900734-51-0
--   CIE TC 1-36. (2006). CIE 170-1:2006 Fundamental Chromaticity Diagram with Physiological Axes - Part 1 (pp. 1–56). ISBN:978-3-901-90646-6
--   CIE TC 1-38. (2005). 9. INTERPOLATION. In CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations (pp. 14–19). ISBN:978-3-901-90641-1
--   CIE TC 1-38. (2005). 9.2.4 Method of interpolation for uniformly spaced independent variable. In CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations (pp. 1–27). ISBN:978-3-901-90641-1
--   CIE TC 1-38. (2005). EXTRAPOLATION. In CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations (pp. 19–20). ISBN:978-3-901-90641-1
--   CIE TC 1-38. (2005). Table V. Values of the c-coefficients of Equ.s 6 and 7. In CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations (p. 19). ISBN:978-3-901-90641-1
--   CIE TC 1-48. (2004). 3.1 Recommendations concerning standard physical data of illuminants. In CIE 015:2004 Colorimetry, 3rd Edition (pp. 12–13). ISBN:978-3-901-90633-6
--   CIE TC 1-48. (2004). 9.1 Dominant wavelength and purity. In CIE 015:2004 Colorimetry, 3rd Edition (pp. 32–33). ISBN:978-3-901-90633-6
--   CIE TC 1-48. (2004). APPENDIX E. INFORMATION ON THE USE OF PLANCK’S EQUATION FOR STANDARD AIR. In CIE 015:2004 Colorimetry, 3rd Edition (pp. 77–82). ISBN:978-3-901-90633-6
--   CIE TC 1-48. (2004). CIE 1976 uniform chromaticity scale diagram (UCS diagram). In CIE 015:2004 Colorimetry, 3rd Edition (p. 24). ISBN:978-3-901-90633-6
--   CIE TC 1-48. (2004). CIE 1976 uniform colour spaces. In CIE 015:2004 Colorimetry, 3rd Edition (p. 24). ISBN:978-3-901-90633-6
--   CIE TC 1-48. (2004). Extrapolation. In CIE 015:2004 Colorimetry, 3rd Edition (p. 24). ISBN:978-3-901-90633-6
--   CIE TC 1-48. (2004). The evaluation of whiteness. In CIE 015:2004 Colorimetry, 3rd Edition (p. 24). ISBN:978-3-901-90633-6
--   CIE. (n.d.). CIE 15:2004 Tables Data. Retrieved from https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls
--   CIE. (n.d.). CIE Spectral Data. Retrieved from http://files.cie.co.at/204.xls
 -   Cottrell, R. (n.d.). The Russell RGB working color space. Retrieved from http://www.russellcottrell.com/photo/downloads/RussellRGB.icc
--   CVRL. (n.d.). CIE (2012) 10-deg XYZ “physiologically-relevant” colour matching functions. Retrieved June 25, 2014, from http://www.cvrl.org/database/text/cienewxyz/cie2012xyz10.htm
--   CVRL. (n.d.). CIE (2012) 2-deg XYZ “physiologically-relevant” colour matching functions. Retrieved June 25, 2014, from http://www.cvrl.org/database/text/cienewxyz/cie2012xyz2.htm
--   CVRL. (n.d.). Cone Fundamentals. Retrieved June 23, 2014, from http://www.cvrl.org/cones.htm
--   CVRL. (n.d.). Luminous efficiency. Retrieved April 19, 2014, from http://www.cvrl.org/lumindex.htm
--   CVRL. (n.d.). New CIE XYZ functions transformed from the CIE (2006) LMS functions. Retrieved February 24, 2014, from http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm
--   CVRL. (n.d.). Older CIE Standards. Retrieved February 24, 2014, from http://cvrl.ioo.ucl.ac.uk/cie.htm
--   CVRL. (n.d.). Stiles & Burch individual 10-deg colour matching data. Retrieved February 24, 2014, from http://www.cvrl.org/stilesburch10_ind.htm
--   CVRL. (n.d.). Stiles & Burch individual 2-deg colour matching data. Retrieved February 24, 2014, from http://www.cvrl.org/stilesburch2_ind.htm
 -   Darrodi, M. M., Finlayson, G., Goodman, T., & Mackiewicz, M. (2015). Reference data set for camera spectral sensitivity estimation. Journal of the Optical Society of America A, 32(3), 381. doi:10.1364/JOSAA.32.000381
 -   Davis, W., & Ohno, Y. (2010). Color quality scale. Optical Engineering, 49(3), 33602–33616. doi:10.1117/1.3360335
 -   Digital Cinema Initiatives. (2007). Digital Cinema System Specification - Version 1.1. Retrieved from http://www.dcimovies.com/archives/spec_v1_1/DCI_DCinema_System_Spec_v1_1.pdf
--   Dolby. (2016). WHAT IS ICTCP? - INTRODUCTION. Retrieved from https://www.dolby.com/us/en/technologies/dolby-vision/ ICtCp-white-paper.pdf
+-   Dolby. (2016). WHAT IS ICTCP? - INTRODUCTION. Retrieved from https://www.dolby.com/us/en/technologies/dolby-vision/ICtCp-white-paper.pdf
 -   EasyRGB. (n.d.). CMY —> CMYK. Retrieved May 18, 2014, from http://www.easyrgb.com/index.php?X=MATH&H=13#text13
 -   EasyRGB. (n.d.). CMY —> RGB. Retrieved May 18, 2014, from http://www.easyrgb.com/index.php?X=MATH&H=12#text12
 -   EasyRGB. (n.d.). CMYK —> CMY. Retrieved May 18, 2014, from http://www.easyrgb.com/index.php?X=MATH&H=14#text14
@@ -88,11 +89,13 @@ Bibliography
 -   Fairchild, M. D. (2013). The Nayatani et al. Model. In Color Appearance Models (3rd ed., pp. 4810–5085). Wiley. ASIN:B00DAYO8E2
 -   Fairchild, M. D. (2013). The RLAB Model. In Color Appearance Models (3rd ed., pp. 5563–5824). Wiley. ASIN:B00DAYO8E2
 -   Fairchild, M. D. (n.d.). Fairchild YSh. Retrieved from http://rit-mcsl.org/fairchild//files/FairchildYSh.zip
+-   Fairchild, M. D., & Wyble, D. R. (2010). hdr-CIELAB and hdr-IPT: Simple Models for Describing the Color of High-Dynamic-Range and Wide-Color-Gamut Images. In Proc. of Color and Imaging Conference (pp. 322–326). ISBN:9781629932156
 -   Fairchild, M., & Wyble, D. (1998). Colorimetric Characterization of The Apple Studio Display (flat panel LCD), 22. Retrieved from https://ritdml.rit.edu/handle/1850/4368
 -   Fairman, H. S. (1985). The calculation of weight factors for tristimulus integration. Color Research & Application, 10(4), 199–203. doi:10.1002/col.5080100407
 -   Fairman, H. S., Brill, M. H., & Hemmendinger, H. (1997). How the CIE 1931 color-matching functions were derived from Wright-Guild data. Color Research & …, 22(1), 11–23. Retrieved from http://doi.wiley.com/10.1002/%28SICI%291520-6378%28199702%2922%3A1%3C11%3A%3AAID-COL4%3E3.0.CO%3B2-7
 -   Gaggioni, H., Dhanendra, P., Yamashita, J., Kawada, N., Endo, K., & Clark, C. (n.d.). S-Log: A new LUT for digital production mastering and interchange applications. Retrieved from http://pro.sony.com/bbsccms/assets/files/mkt/cinema/solutions/slog_manual.pdf
 -   Glasser, L. G., McKinney, A. H., Reilly, C. D., & Schnelle, P. D. (1958). Cube-Root Color Coordinate System. J. Opt. Soc. Am., 48(10), 736–740. doi:10.1364/JOSA.48.000736
+-   GoPro, Duiker, H.-P., & Mansencal, T. (2016). gopro.py. Retrieved April 12, 2017, from https://github.com/hpd/OpenColorIO-Configs/blob/master/aces_1.0.3/python/aces_ocio/colorspaces/gopro.py
 -   Guth, S. L. (1995). Further applications of the ATD model for color vision. In E. Walowit (Ed.), IS&T/SPIE’s Symposium on Electronic … (Vol. 2414, pp. 12–26). doi:10.1117/12.206546
 -   Hernández-Andrés, J., Lee, R. L., & Romero, J. (1999). Calculating correlated color temperatures across the entire gamut of daylight and skylight chromaticities. Applied Optics, 38(27), 5703–5709. doi:10.1364/AO.38.005703
 -   Hettinger, R. (n.d.). Python hashable dicts. Retrieved August 08, 2014, from http://stackoverflow.com/a/16162138/931625
@@ -131,19 +134,22 @@ Bibliography
 -   Lindbloom, B. (2011). Delta E (CIE 1994). Retrieved February 24, 2014, from http://brucelindbloom.com/Eqn_DeltaE_CIE94.html
 -   Lindbloom, B. (2014). RGB Working Space Information. Retrieved April 11, 2014, from http://www.brucelindbloom.com/WorkingSpaceInfo.html
 -   Lu, T., Pu, F., Yin, P., Chen, T., Husak, W., Pytlarz, J., … Su, G.-M. (2016). ICTCP Colour Space and Its Compression Performance for High Dynamic Range and Wide Colour Gamut Video Distribution. ZTE Communications, 14(1), 32–38. doi:10.3969/j.
+-   Luo, M. R., & Li, C. (2013). CIECAM02 and Its Recent Developments. In Advanced Color Image Processing and Analysis (pp. 19–58). doi:10.1007/978-1-4419-6190-7
 -   Luo, M. R., & Morovic, J. (1996). Two Unsolved Issues in Colour Management – Colour Appearance and Gamut Mapping. In Conference: 5th International Conference on High Technology: Imaging Science and Technology – Evolution & Promise (pp. 136–147). Retrieved from http://www.researchgate.net/publication/236348295_Two_Unsolved_Issues_in_Colour_Management_Colour_Appearance_and_Gamut_Mapping
 -   Luo, M. R., Lo, M.-C., & Kuo, W.-G. (1996). The LLAB (l:c) colour model. Color Research & Application, 21(6), 412–429. doi:10.1002/(SICI)1520-6378(199612)21:6<412::AID-COL4>3.0.CO;2-Z
 -   Luo, R. M., Cui, G., & Li, C. (2006). Uniform Colour Spaces Based on CIECAM02 Colour Appearance Model. Color Research and Application, 31(4), 320–330. doi:10.1002/col.20227
--   MacAdam, D. L. (1935). Maximum Visual Efficiency of Colored Materials. -    . Soc. Am., 25(11], 361–367. doi:10.1364/JOSA.25.000361
+-   MacAdam, D. L. (1935). Maximum Visual Efficiency of Colored Materials. [. Opt. Soc. Am., 25(11], 361–367. doi:10.1364/JOSA.25.000361
 -   Machado, G. (2010). A model for simulation of color vision deficiency and a color contrast enhancement technique for dichromats. Retrieved from http://www.lume.ufrgs.br/handle/10183/26950
 -   Mansencal, T. (2015). RED Colourspaces Derivation. Retrieved May 20, 2015, from http://colour-science.org/posts/red-colourspaces-derivation
 -   Mansencal, T. (n.d.). Lookup. Retrieved from https://github.com/KelSolaar/Foundations/blob/develop/foundations/data_structures.py
 -   Mansencal, T. (n.d.). Structure. Retrieved from https://github.com/KelSolaar/Foundations/blob/develop/foundations/data_structures.py
 -   Melgosa, M. (2013). CIE / ISO new standard: CIEDE2000, 2013(July). Retrieved from http://www.color.org/events/colorimetry/Melgosa_CIEDE2000_Workshop-July4.pdf
+-   Meng, J., Simon, F., & Hanika, J. (2015). Physically Meaningful Rendering using Tristimulus Colours, 34(4). Retrieved from http://jo.dreggn.org/home/2015_spectrum.pdf
 -   Miller, S., & Dolby Laboratories. (2014). A Perceptual EOTF for Extended Dynamic Range Imagery, 1–17. Retrieved from https://www.smpte.org/sites/default/files/2014-05-06-EOTF-Miller-1-2-handout.pdf
 -   Moroney, N., Fairchild, M. D., Hunt, R. W. G., Li, C., Luo, M. R., & Newman, T. (n.d.). The CIECAM02 Color Appearance Model. Color and Imaging Conference, 2002(1), 23–27. Retrieved from http://www.ingentaconnect.com/content/ist/cic/2002/00002002/00000001/art00006
 -   Munsell Color Science. (n.d.). Macbeth Colorchecker. Retrieved from http://www.rit-mcsl.org/UsefulData/MacbethColorChecker.xls
 -   Munsell Color Science. (n.d.). Munsell Colours Data. Retrieved August 20, 2014, from http://www.cis.rit.edu/research/mcsl2/online/munsell.php
+-   National Electrical Manufacturers Association. (2004). Digital Imaging and Communications in Medicine ( DICOM ) Part 14 : Grayscale Standard Display Function. Medicine, 10(S1), 3–4. doi:10.1007/BF03168637
 -   Nattress, G. (2016). Private Discussion with Shaw, N.
 -   Nayatani, Y., Sobagaki, H., & Yano, K. H. T. (1995). Lightness dependency of chroma scales of a nonlinear color-appearance model and its latest formulation. Color Research & Application, 20(3), 156–167. doi:10.1002/col.5080200305
 -   Newhall, S. M., Nickerson, D., & Judd, D. B. (1943). Final report of the OSA subcommittee on the spacing of the munsell colors. JOSA, 33(7), 385. doi:10.1364/JOSA.33.000385
@@ -155,8 +161,8 @@ Bibliography
 -   Reitz, K. (n.d.). CaseInsensitiveDict. Retrieved from https://github.com/kennethreitz/requests/blob/v1.2.3/requests/structures.py#L37
 -   Renewable Resource Data Center. (2003). Reference Solar Spectral Irradiance: ASTM G-173. Retrieved August 23, 2014, from http://rredc.nrel.gov/solar/spectra/am1.5/ASTMG173/ASTMG173.html
 -   Saeedn. (n.d.). Extend a line segment a specific distance. Retrieved January 16, 2016, from http://stackoverflow.com/questions/7740507/extend-a-line-segment-a-specific-distance
--   sastanin. (n.d.). How to make scipy.interpolate give an extrapolated result beyond the input range? Retrieved August 08, 2014, from http://stackoverflow.com/a/2745496/931625
 -   Sharma, G., Wu, W., & Dalal, E. N. (2005). The CIEDE2000 color‐difference formula: Implementation notes, supplementary test data, and mathematical observations. Color Research & Application, 30(1), 21–30. doi:10.1002/col.20070
+-   Shirley, P., & Hart, D. (2015). The prismatic color space for rgb computations, 2–7.
 -   Smith, A. R. (1978). Color Gamut Transform Pairs. In Proceedings of the 5th Annual Conference on Computer Graphics and Interactive Techniques (pp. 12–19). New York, NY, USA: ACM. doi:10.1145/800248.807361
 -   Smits, B. (1999). An RGB-to-Spectrum Conversion for Reflectances. Journal of Graphics Tools, 4(4), 11–22. doi:10.1080/10867651.1999.10487511
 -   Society of Motion Picture and Television Engineers. (1993). Derivation of Basic Television Color Equations. In RP 177:1993 (Vol. RP 177:199). doi:10.5594/S9781614821915
@@ -201,7 +207,7 @@ Bibliography
 -   Wikipedia. (n.d.). Luminosity function. Retrieved October 20, 2014, from https://en.wikipedia.org/wiki/Luminosity_function#Details
 -   Wikipedia. (n.d.). Luminous Efficacy. Retrieved April 3, 2016, from https://en.wikipedia.org/wiki/Luminous_efficacy
 -   Wikipedia. (n.d.). Mesopic weighting function. Retrieved June 20, 2014, from http://en.wikipedia.org/wiki/Mesopic_vision#Mesopic_weighting_function
--   Wikipedia. (n.d.). Mesopic weighting function. Retrieved June 20, 2014, from http://en.wikipedia.org/wiki/Mesopic_vision#Mesopic_weighting_function
+-   Wikipedia. (n.d.). Michaelis–Menten kinetics. Retrieved April 29, 2017, from https://en.wikipedia.org/wiki/Michaelis–Menten_kinetics
 -   Wikipedia. (n.d.). Rayleigh scattering. Retrieved September 23, 2014, from http://en.wikipedia.org/wiki/Rayleigh_scattering
 -   Wikipedia. (n.d.). Relation to CIE XYZ. Retrieved February 24, 2014, from http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIE_XYZ
 -   Wikipedia. (n.d.). Surfaces. Retrieved September 10, 2014, from http://en.wikipedia.org/wiki/Gamut#Surfaces
@@ -224,6 +230,7 @@ Bibliography
 -   Wyszecki, G., & Stiles, W. S. (2000). The CIE 1964 Standard Observer. In Color Science: Concepts and Methods, Quantitative Data and Formulae (p. 141). Wiley. ISBN:978-0471399186
 -   X-Rite, & Pantone. (2012). Color iQC and Color iMatch Color Calculations Guide. Retrieved from http://www.xrite.com/documents/literature/en/09_Color_Calculations_en.pdf
 -   Yorke, R. (2014). Python: Change format of np.array or allow tolerance in in1d function. Retrieved March 27, 2015, from http://stackoverflow.com/a/23521245/931625
+-   sastanin. (n.d.). How to make scipy.interpolate give an extrapolated result beyond the input range? Retrieved August 08, 2014, from http://stackoverflow.com/a/2745496/931625
 
 About
 -----
