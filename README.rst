@@ -41,8 +41,8 @@ Colour Science for Python
 .. |version| image:: https://badge.fury.io/py/colour-science.svg
     :target: https://pypi.python.org/pypi/colour-science
     :alt: Package Version
-.. |zenodo| image:: https://zenodo.org/badge/doi/10.5281/zenodo.376790.png
-    :target: http://dx.doi.org/10.5281/zenodo.376790
+.. |zenodo| image:: https://zenodo.org/badge/doi/10.5281/zenodo.821825.png
+    :target: http://dx.doi.org/10.5281/zenodo.821825
     :alt: DOI
 
 .. end-badges
