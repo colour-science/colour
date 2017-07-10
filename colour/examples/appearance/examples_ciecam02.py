@@ -26,8 +26,9 @@ print('\n')
 J = 41.73109113
 C = 0.10470776
 h = 219.04843266
+specification = colour.CIECAM02_Specification(J, C, h)
 message_box(('Converting to "CIE XYZ" tristimulus values using given '
              'parameters:\n'
              '\n\tJ: {0}\n\tC: {1}\n\th: {2}\n\tXYZ_w: {3}\n\tL_A: {4}'
              '\n\tY_b: {5}').format(J, C, h, XYZ_w, L_A, Y_b))
-print(colour.CIECAM02_to_XYZ(J, C, h, XYZ_w, L_A, Y_b))
+print(colour.CIECAM02_to_XYZ(specification, XYZ_w, L_A, Y_b))
