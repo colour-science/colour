@@ -676,4 +676,4 @@ def linear_conversion(a, old_range, new_range):
     in_min, in_max = tsplit(old_range)
     out_min, out_max = tsplit(new_range)
 
-    return (((a - in_min) / (in_max - in_min)) * (out_max - out_min) + out_min)
+    return ((a - in_min) / (in_max - in_min)) * (out_max - out_min) + out_min
