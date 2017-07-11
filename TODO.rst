@@ -4,7 +4,7 @@ Colour - TODO
 TODO
 ----
 
-- colour (21 items in 14 files)
+- colour (22 items in 15 files)
 
     - appearance (7 items in 5 files)
 
@@ -80,6 +80,12 @@ TODO
 
             - (802, 11) # TODO: Consider refactoring implementation.
             - (1129, 11) # TODO: Should raise KeyError, need to check the tests.
+
+    - plotting (1 item in 1 file)
+
+        - colorimetry.py
+
+            - (599, 11) # TODO: Handle condition statement with metadata capabilities.
 
     - volume (1 item in 1 file)
 
