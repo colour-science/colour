@@ -1,5 +1,5 @@
-colour.plotting Package
-=======================
+colour\.plotting Package
+========================
 
 Sub-Packages
 ------------

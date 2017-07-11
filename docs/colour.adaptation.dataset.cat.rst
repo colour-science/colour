@@ -1,5 +1,5 @@
-colour.adaptation.dataset.cat Module
-====================================
+colour\.adaptation\.dataset\.cat Module
+=======================================
 
 .. automodule:: colour.adaptation.dataset.cat
     :members:

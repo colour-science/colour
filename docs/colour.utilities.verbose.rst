@@ -1,5 +1,5 @@
-colour.utilities.verbose Module
-===============================
+colour\.utilities\.verbose Module
+=================================
 
 .. automodule:: colour.utilities.verbose
     :members:

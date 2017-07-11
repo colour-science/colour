@@ -1,5 +1,5 @@
-colour.models.rgb Package
-=========================
+colour\.models\.rgb Package
+===========================
 
 Sub-Packages
 ------------
@@ -19,6 +19,7 @@ Sub-Modules
    colour.models.rgb.deprecated
    colour.models.rgb.derivation
    colour.models.rgb.ictcp
+   colour.models.rgb.prismatic
    colour.models.rgb.rgb_colourspace
    colour.models.rgb.ycbcr
 

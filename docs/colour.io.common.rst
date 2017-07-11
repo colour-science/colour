@@ -1,5 +1,5 @@
-colour.io.common Module
-=======================
+colour\.io\.common Module
+=========================
 
 .. automodule:: colour.io.common
     :members:

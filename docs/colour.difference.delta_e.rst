@@ -1,5 +1,5 @@
-colour.difference.delta_e Module
-================================
+colour\.difference\.delta\_e Module
+===================================
 
 .. automodule:: colour.difference.delta_e
     :members:

@@ -1,5 +1,5 @@
-colour.volume.spectrum Module
-=============================
+colour\.volume\.spectrum Module
+===============================
 
 .. automodule:: colour.volume.spectrum
     :members:

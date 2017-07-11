@@ -1,5 +1,5 @@
-colour.models.common Module
-===========================
+colour\.models\.common Module
+=============================
 
 .. automodule:: colour.models.common
     :members:

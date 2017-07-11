@@ -1,5 +1,5 @@
-colour.plotting.diagrams Module
-===============================
+colour\.plotting\.diagrams Module
+=================================
 
 .. automodule:: colour.plotting.diagrams
     :members:

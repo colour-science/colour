@@ -1,5 +1,5 @@
-colour.colorimetry.dataset Package
-==================================
+colour\.colorimetry\.dataset Package
+====================================
 
 Sub-Packages
 ------------

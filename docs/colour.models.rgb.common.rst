@@ -1,5 +1,5 @@
-colour.models.rgb.common Module
-===============================
+colour\.models\.rgb\.common Module
+==================================
 
 .. automodule:: colour.models.rgb.common
     :members:

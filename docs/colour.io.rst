@@ -1,5 +1,5 @@
-colour.io Package
-=================
+colour\.io Package
+==================
 
 Sub-Modules
 -----------

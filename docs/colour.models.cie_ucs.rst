@@ -1,5 +1,5 @@
-colour.models.cie_ucs Module
-============================
+colour\.models\.cie\_ucs Module
+===============================
 
 .. automodule:: colour.models.cie_ucs
     :members:

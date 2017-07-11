@@ -1,5 +1,5 @@
-colour.colorimetry Package
-==========================
+colour\.colorimetry Package
+===========================
 
 Sub-Packages
 ------------
@@ -26,6 +26,7 @@ Sub-Modules
    colour.colorimetry.transformations
    colour.colorimetry.tristimulus
    colour.colorimetry.whiteness
+   colour.colorimetry.yellowness
 
 Module Contents
 ---------------

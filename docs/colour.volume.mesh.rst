@@ -1,5 +1,5 @@
-colour.volume.mesh Module
-=========================
+colour\.volume\.mesh Module
+===========================
 
 .. automodule:: colour.volume.mesh
     :members:

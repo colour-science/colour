@@ -1,5 +1,5 @@
-colour.models.rgb.dataset Package
-=================================
+colour\.models\.rgb\.dataset Package
+====================================
 
 Sub-Modules
 -----------
@@ -21,6 +21,7 @@ Sub-Modules
    colour.models.rgb.dataset.don_rgb_4
    colour.models.rgb.dataset.eci_rgb_v2
    colour.models.rgb.dataset.ekta_space_ps5
+   colour.models.rgb.dataset.gopro
    colour.models.rgb.dataset.max_rgb
    colour.models.rgb.dataset.ntsc_rgb
    colour.models.rgb.dataset.pal_secam_rgb

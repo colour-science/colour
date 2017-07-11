@@ -1,5 +1,5 @@
-colour.colorimetry.illuminants Module
-=====================================
+colour\.colorimetry\.illuminants Module
+=======================================
 
 .. automodule:: colour.colorimetry.illuminants
     :members:

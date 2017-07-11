@@ -1,5 +1,5 @@
-colour.notation.munsell Module
-==============================
+colour\.notation\.munsell Module
+================================
 
 .. automodule:: colour.notation.munsell
     :members:

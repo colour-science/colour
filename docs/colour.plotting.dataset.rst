@@ -1,5 +1,5 @@
-colour.plotting.dataset Package
-===============================
+colour\.plotting\.dataset Package
+=================================
 
 Sub-Modules
 -----------

@@ -1,5 +1,5 @@
-colour.constants.cie Module
-===========================
+colour\.constants\.cie Module
+=============================
 
 .. automodule:: colour.constants.cie
     :members:

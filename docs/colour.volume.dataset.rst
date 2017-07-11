@@ -1,5 +1,5 @@
-colour.volume.dataset Package
-=============================
+colour\.volume\.dataset Package
+===============================
 
 Sub-Modules
 -----------

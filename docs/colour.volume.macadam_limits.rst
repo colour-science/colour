@@ -1,5 +1,5 @@
-colour.volume.macadam_limits Module
-===================================
+colour\.volume\.macadam\_limits Module
+======================================
 
 .. automodule:: colour.volume.macadam_limits
     :members:

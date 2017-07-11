@@ -1,5 +1,5 @@
-colour.models.rgb.transfer_functions.bt_709 Module
-==================================================
+colour\.models\.rgb\.transfer\_functions\.bt\_709 Module
+========================================================
 
 .. automodule:: colour.models.rgb.transfer_functions.bt_709
     :members:

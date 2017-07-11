@@ -22,10 +22,9 @@ except ImportError:
 # Mock modules for *readthedocs.org*.
 MOCK_MODULES = ('matplotlib', 'matplotlib.cm', 'matplotlib.image',
                 'matplotlib.path', 'matplotlib.pyplot', 'matplotlib.ticker',
-                'mpl_toolkits', 'mpl_toolkits.mplot3d',
-                'mpl_toolkits.mplot3d.art3d', 'pylab', 'scipy',
-                'scipy.interpolate', 'scipy.ndimage', 'scipy.spatial',
-                'scipy.spatial.distance')
+                'mpl_toolkits.mplot3d', 'mpl_toolkits.mplot3d.art3d', 'pylab',
+                'scipy', 'scipy.interpolate', 'scipy.ndimage',
+                'scipy.optimize', 'scipy.spatial', 'scipy.spatial.distance')
 
 for module in MOCK_MODULES:
     sys.modules[module] = mock.Mock()

@@ -1,5 +1,5 @@
-colour.models.cie_uvw Module
-============================
+colour\.models\.cie\_uvw Module
+===============================
 
 .. automodule:: colour.models.cie_uvw
     :members:

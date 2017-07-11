@@ -1,5 +1,5 @@
-colour.algebra.coordinates Package
-==================================
+colour\.algebra\.coordinates Package
+====================================
 
 Sub-Modules
 -----------

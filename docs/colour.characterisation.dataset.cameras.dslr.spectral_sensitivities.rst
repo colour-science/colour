@@ -1,5 +1,5 @@
-colour.characterisation.dataset.cameras.dslr.spectral_sensitivities Module
-==========================================================================
+colour\.characterisation\.dataset\.cameras\.dslr\.spectral\_sensitivities Module
+================================================================================
 
 .. automodule:: colour.characterisation.dataset.cameras.dslr.spectral_sensitivities
     :members:

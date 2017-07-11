@@ -1,5 +1,5 @@
-colour.recovery.dataset Package
-===============================
+colour\.recovery\.dataset Package
+=================================
 
 Sub-Modules
 -----------

@@ -1,5 +1,5 @@
-colour.colorimetry.dataset.illuminants.hunterlab Module
-=======================================================
+colour\.colorimetry\.dataset\.illuminants\.hunterlab Module
+===========================================================
 
 .. automodule:: colour.colorimetry.dataset.illuminants.hunterlab
     :members:

@@ -1,5 +1,5 @@
-colour.models.rgb.dataset.sony Module
-=====================================
+colour\.models\.rgb\.dataset\.sony Module
+=========================================
 
 .. automodule:: colour.models.rgb.dataset.sony
     :members:

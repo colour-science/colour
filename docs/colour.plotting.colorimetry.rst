@@ -1,5 +1,5 @@
-colour.plotting.colorimetry Module
-==================================
+colour\.plotting\.colorimetry Module
+====================================
 
 .. automodule:: colour.plotting.colorimetry
     :members:
