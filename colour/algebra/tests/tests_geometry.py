@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for :mod:`colour.algebra.geometry` module.
 """
@@ -11,11 +10,8 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.algebra import (
-    normalise_vector,
-    euclidean_distance,
-    extend_line_segment,
-    intersect_line_segments)
+from colour.algebra import (normalise_vector, euclidean_distance,
+                            extend_line_segment, intersect_line_segments)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -25,10 +21,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestNormaliseVector',
-           'TestEuclideanDistance',
-           'TestExtendLineSegment',
-           'TestIntersectLineSegments']
+__all__ = [
+    'TestNormaliseVector', 'TestEuclideanDistance', 'TestExtendLineSegment',
+    'TestIntersectLineSegments'
+]
 
 
 class TestNormaliseVector(unittest.TestCase):
@@ -100,25 +96,19 @@ class TestEuclideanDistance(unittest.TestCase):
         b = np.array([100.00000000, 426.67945353, 72.39590835])
         distance = 451.71330197
         np.testing.assert_almost_equal(
-            euclidean_distance(a, b),
-            distance,
-            decimal=7)
+            euclidean_distance(a, b), distance, decimal=7)
 
         a = np.tile(a, (6, 1))
         b = np.tile(b, (6, 1))
         distance = np.tile(distance, 6)
         np.testing.assert_almost_equal(
-            euclidean_distance(a, b),
-            distance,
-            decimal=7)
+            euclidean_distance(a, b), distance, decimal=7)
 
         a = np.reshape(a, (2, 3, 3))
         b = np.reshape(b, (2, 3, 3))
         distance = np.reshape(distance, (2, 3))
         np.testing.assert_almost_equal(
-            euclidean_distance(a, b),
-            distance,
-            decimal=7)
+            euclidean_distance(a, b), distance, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_euclidean_distance(self):
@@ -156,16 +146,14 @@ class TestExtendLineSegment(unittest.TestCase):
         np.testing.assert_almost_equal(
             extend_line_segment(
                 np.array([0.95694934, 0.13720932]),
-                np.array([0.28382835, 0.60608318]),
-                5),
+                np.array([0.28382835, 0.60608318]), 5),
             np.array([-3.81893739, 3.46393435]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             extend_line_segment(
                 np.array([0.95694934, 0.13720932]),
-                np.array([0.28382835, 0.60608318]),
-                -1),
+                np.array([0.28382835, 0.60608318]), -1),
             np.array([1.1043815, 0.03451295]),
             decimal=7)
 
@@ -182,48 +170,47 @@ class TestIntersectLineSegments(unittest.TestCase):
         definition.
         """
 
-        l_1 = np.array([[[0.15416284, 0.7400497],
-                         [0.26331502, 0.53373939]],
-                        [[0.01457496, 0.91874701],
-                         [0.90071485, 0.03342143]]])
-        l_2 = np.array([[[0.95694934, 0.13720932],
-                         [0.28382835, 0.60608318]],
-                        [[0.94422514, 0.85273554],
-                         [0.00225923, 0.52122603]],
-                        [[0.55203763, 0.48537741],
-                         [0.76813415, 0.16071675]],
-                        [[0.01457496, 0.91874701],
-                         [0.90071485, 0.03342143]]])
+        l_1 = np.array([
+            [[0.15416284, 0.7400497],
+             [0.26331502, 0.53373939]],
+            [[0.01457496, 0.91874701],
+             [0.90071485, 0.03342143]]])  # yapf: disable
+        l_2 = np.array([
+            [[0.95694934, 0.13720932],
+             [0.28382835, 0.60608318]],
+            [[0.94422514, 0.85273554],
+             [0.00225923, 0.52122603]],
+            [[0.55203763, 0.48537741],
+             [0.76813415, 0.16071675]],
+            [[0.01457496, 0.91874701],
+             [0.90071485, 0.03342143]]])  # yapf: disable
 
         s = intersect_line_segments(l_1, l_2)
 
         np.testing.assert_almost_equal(
             s.xy,
-            np.array([[[np.nan, np.nan],
-                       [0.22791841, 0.60064309],
-                       [np.nan, np.nan],
-                       [np.nan, np.nan]],
+            np.array(
+                [[[np.nan, np.nan],
+                  [0.22791841, 0.60064309],
+                  [np.nan, np.nan],
+                  [np.nan, np.nan]],
+                 [[0.42814517, 0.50555685],
+                  [0.30560559, 0.62798382],
+                  [0.7578749, 0.17613012],
+                  [np.nan, np.nan]]]),
+            decimal=7)  # yapf: disable
 
-                      [[0.42814517, 0.50555685],
-                       [0.30560559, 0.62798382],
-                       [0.7578749, 0.17613012],
-                       [np.nan, np.nan]]]),
-            decimal=7)
+        np.testing.assert_array_equal(s.intersect,
+                                      np.array([[False, True, False, False],
+                                                [True, True, True, False]]))
 
-        np.testing.assert_array_equal(
-            s.intersect,
-            np.array([[False, True, False, False],
-                      [True, True, True, False]], dtype=bool))
+        np.testing.assert_array_equal(s.parallel,
+                                      np.array([[False, False, False, False],
+                                                [False, False, False, True]]))
 
-        np.testing.assert_array_equal(
-            s.parallel,
-            np.array([[False, False, False, False],
-                      [False, False, False, True]], dtype=bool))
-
-        np.testing.assert_array_equal(
-            s.coincident,
-            np.array([[False, False, False, False],
-                      [False, False, False, True]], dtype=bool))
+        np.testing.assert_array_equal(s.coincident,
+                                      np.array([[False, False, False, False],
+                                                [False, False, False, True]]))
 
 
 if __name__ == '__main__':

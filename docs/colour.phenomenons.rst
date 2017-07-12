@@ -1,5 +1,5 @@
-colour.phenomenons Package
-==========================
+colour\.phenomenons Package
+===========================
 
 Sub-Modules
 -----------

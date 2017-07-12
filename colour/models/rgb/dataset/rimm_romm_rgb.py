@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 RIMM, ROMM and ERIMM Encodings
 ==============================
@@ -32,16 +31,10 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import (
-    RGB_Colourspace,
-    oetf_ROMMRGB,
-    eotf_ROMMRGB,
-    oetf_RIMMRGB,
-    eotf_RIMMRGB,
-    log_encoding_ERIMMRGB,
-    log_decoding_ERIMMRGB,
-    oetf_ProPhotoRGB,
-    eotf_ProPhotoRGB)
+from colour.models.rgb import (RGB_Colourspace, oetf_ROMMRGB, eotf_ROMMRGB,
+                               oetf_RIMMRGB, eotf_RIMMRGB,
+                               log_encoding_ERIMMRGB, log_decoding_ERIMMRGB,
+                               oetf_ProPhotoRGB, eotf_ProPhotoRGB)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -50,35 +43,23 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['ROMM_RGB_PRIMARIES',
-           'ROMM_RGB_ILLUMINANT',
-           'ROMM_RGB_WHITEPOINT',
-           'ROMM_RGB_TO_XYZ_MATRIX',
-           'XYZ_TO_ROMM_RGB_MATRIX',
-           'ROMM_RGB_COLOURSPACE',
-           'RIMM_RGB_PRIMARIES',
-           'RIMM_RGB_ILLUMINANT',
-           'RIMM_RGB_WHITEPOINT',
-           'RIMM_RGB_TO_XYZ_MATRIX',
-           'XYZ_TO_RIMM_RGB_MATRIX',
-           'RIMM_RGB_COLOURSPACE',
-           'ERIMM_RGB_PRIMARIES',
-           'ERIMM_RGB_ILLUMINANT',
-           'ERIMM_RGB_WHITEPOINT',
-           'ERIMM_RGB_TO_XYZ_MATRIX',
-           'XYZ_TO_ERIMM_RGB_MATRIX',
-           'ERIMM_RGB_COLOURSPACE',
-           'PROPHOTO_RGB_PRIMARIES',
-           'PROPHOTO_RGB_ILLUMINANT',
-           'PROPHOTO_RGB_WHITEPOINT',
-           'PROPHOTO_RGB_TO_XYZ_MATRIX',
-           'XYZ_TO_PROPHOTO_RGB_MATRIX',
-           'PROPHOTO_RGB_COLOURSPACE']
+__all__ = [
+    'ROMM_RGB_PRIMARIES', 'ROMM_RGB_ILLUMINANT', 'ROMM_RGB_WHITEPOINT',
+    'ROMM_RGB_TO_XYZ_MATRIX', 'XYZ_TO_ROMM_RGB_MATRIX', 'ROMM_RGB_COLOURSPACE',
+    'RIMM_RGB_PRIMARIES', 'RIMM_RGB_ILLUMINANT', 'RIMM_RGB_WHITEPOINT',
+    'RIMM_RGB_TO_XYZ_MATRIX', 'XYZ_TO_RIMM_RGB_MATRIX', 'RIMM_RGB_COLOURSPACE',
+    'ERIMM_RGB_PRIMARIES', 'ERIMM_RGB_ILLUMINANT', 'ERIMM_RGB_WHITEPOINT',
+    'ERIMM_RGB_TO_XYZ_MATRIX', 'XYZ_TO_ERIMM_RGB_MATRIX',
+    'ERIMM_RGB_COLOURSPACE', 'PROPHOTO_RGB_PRIMARIES',
+    'PROPHOTO_RGB_ILLUMINANT', 'PROPHOTO_RGB_WHITEPOINT',
+    'PROPHOTO_RGB_TO_XYZ_MATRIX', 'XYZ_TO_PROPHOTO_RGB_MATRIX',
+    'PROPHOTO_RGB_COLOURSPACE'
+]
 
 ROMM_RGB_PRIMARIES = np.array(
     [[0.7347, 0.2653],
      [0.1596, 0.8404],
-     [0.0366, 0.0001]])
+     [0.0366, 0.0001]])  # yapf: disable
 """
 *ROMM RGB* colourspace primaries.
 
@@ -103,7 +84,7 @@ ROMM_RGB_WHITEPOINT : ndarray
 ROMM_RGB_TO_XYZ_MATRIX = np.array(
     [[0.7977, 0.1352, 0.0313],
      [0.2880, 0.7119, 0.0001],
-     [0.0000, 0.0000, 0.8249]])
+     [0.0000, 0.0000, 0.8249]])  # yapf: disable
 """
 *ROMM RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 
@@ -113,7 +94,7 @@ ROMM_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
 XYZ_TO_ROMM_RGB_MATRIX = np.array(
     [[1.3460, -0.2556, -0.0511],
      [-0.5446, 1.5082, 0.0205],
-     [0.0000, 0.0000, 1.2123]])
+     [0.0000, 0.0000, 1.2123]])  # yapf: disable
 
 """
 *CIE XYZ* tristimulus values to *ROMM RGB* colourspace matrix.
@@ -129,7 +110,7 @@ ROMM_RGB_COLOURSPACE = RGB_Colourspace(
     ROMM_RGB_TO_XYZ_MATRIX,
     XYZ_TO_ROMM_RGB_MATRIX,
     oetf_ROMMRGB,
-    eotf_ROMMRGB)
+    eotf_ROMMRGB)  # yapf: disable
 """
 *ROMM RGB* colourspace.
 
@@ -179,7 +160,7 @@ RIMM_RGB_COLOURSPACE = RGB_Colourspace(
     RIMM_RGB_TO_XYZ_MATRIX,
     XYZ_TO_RIMM_RGB_MATRIX,
     oetf_RIMMRGB,
-    eotf_RIMMRGB)
+    eotf_RIMMRGB)  # yapf: disable
 """
 *RIMM RGB* colourspace. In cases in which it is necessary to identify a
 specific precision level, the notation *RIMM8 RGB*, *RIMM12 RGB* and
@@ -231,7 +212,7 @@ ERIMM_RGB_COLOURSPACE = RGB_Colourspace(
     ERIMM_RGB_TO_XYZ_MATRIX,
     XYZ_TO_ERIMM_RGB_MATRIX,
     log_encoding_ERIMMRGB,
-    log_decoding_ERIMMRGB)
+    log_decoding_ERIMMRGB)  # yapf: disable
 """
 *ERIMM RGB* colourspace.
 
@@ -281,7 +262,7 @@ PROPHOTO_RGB_COLOURSPACE = RGB_Colourspace(
     PROPHOTO_RGB_TO_XYZ_MATRIX,
     XYZ_TO_PROPHOTO_RGB_MATRIX,
     oetf_ProPhotoRGB,
-    eotf_ProPhotoRGB)
+    eotf_ProPhotoRGB)  # yapf: disable
 """
 *ProPhoto RGB* colourspace, an alias colourspace for *ROMM RGB*.
 

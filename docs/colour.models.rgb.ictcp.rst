@@ -1,5 +1,5 @@
-colour.models.rgb.ictcp Module
-==============================
+colour\.models\.rgb\.ictcp Module
+=================================
 
 .. automodule:: colour.models.rgb.ictcp
     :members:

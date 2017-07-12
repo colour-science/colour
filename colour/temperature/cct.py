@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Correlated Colour Temperature :math:`T_{cp}`
 ============================================
@@ -53,19 +52,12 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
-from colour.colorimetry import (
-    ASTME30815_PRACTISE_SHAPE,
-    STANDARD_OBSERVERS_CMFS,
-    blackbody_spd,
-    spectral_to_XYZ)
+from colour.colorimetry import (ASTME30815_PRACTISE_SHAPE,
+                                STANDARD_OBSERVERS_CMFS, blackbody_spd,
+                                spectral_to_XYZ)
 from colour.models import UCS_to_uv, XYZ_to_UCS
-from colour.utilities import (
-    CaseInsensitiveMapping,
-    as_numeric,
-    filter_kwargs,
-    tsplit,
-    tstack,
-    warning)
+from colour.utilities import (CaseInsensitiveMapping, as_numeric,
+                              filter_kwargs, tsplit, tstack, warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -74,36 +66,20 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['PLANCKIAN_TABLE_TUVD',
-           'CCT_MINIMAL',
-           'CCT_MAXIMAL',
-           'CCT_SAMPLES',
-           'CCT_CALCULATION_ITERATIONS',
-           'ROBERTSON_ISOTEMPERATURE_LINES_DATA',
-           'ROBERTSON_ISOTEMPERATURE_LINES_RUVT',
-           'ROBERTSON_ISOTEMPERATURE_LINES',
-           'planckian_table',
-           'planckian_table_minimal_distance_index',
-           'uv_to_CCT_Ohno2013',
-           'CCT_to_uv_Ohno2013',
-           'uv_to_CCT_Robertson1968',
-           'CCT_to_uv_Robertson1968',
-           'CCT_to_uv_Krystek1985',
-           'UV_TO_CCT_METHODS',
-           'uv_to_CCT',
-           'CCT_TO_UV_METHODS',
-           'CCT_to_uv',
-           'xy_to_CCT_McCamy1992',
-           'xy_to_CCT_Hernandez1999',
-           'CCT_to_xy_Kang2002',
-           'CCT_to_xy_CIE_D',
-           'XY_TO_CCT_METHODS',
-           'xy_to_CCT',
-           'CCT_TO_XY_METHODS',
-           'CCT_to_xy']
+__all__ = [
+    'PLANCKIAN_TABLE_TUVD', 'CCT_MINIMAL', 'CCT_MAXIMAL', 'CCT_SAMPLES',
+    'CCT_CALCULATION_ITERATIONS', 'ROBERTSON_ISOTEMPERATURE_LINES_DATA',
+    'ROBERTSON_ISOTEMPERATURE_LINES_RUVT', 'ROBERTSON_ISOTEMPERATURE_LINES',
+    'planckian_table', 'planckian_table_minimal_distance_index',
+    'uv_to_CCT_Ohno2013', 'CCT_to_uv_Ohno2013', 'uv_to_CCT_Robertson1968',
+    'CCT_to_uv_Robertson1968', 'CCT_to_uv_Krystek1985', 'UV_TO_CCT_METHODS',
+    'uv_to_CCT', 'CCT_TO_UV_METHODS', 'CCT_to_uv', 'xy_to_CCT_McCamy1992',
+    'xy_to_CCT_Hernandez1999', 'CCT_to_xy_Kang2002', 'CCT_to_xy_CIE_D',
+    'XY_TO_CCT_METHODS', 'xy_to_CCT', 'CCT_TO_XY_METHODS', 'CCT_to_xy'
+]
 
-PLANCKIAN_TABLE_TUVD = namedtuple('PlanckianTable_Tuvdi',
-                                  ('Ti', 'ui', 'vi', 'di'))
+PLANCKIAN_TABLE_TUVD = namedtuple('PlanckianTable_Tuvdi', ('Ti', 'ui', 'vi',
+                                                           'di'))
 
 CCT_MINIMAL = 1000
 CCT_MAXIMAL = 100000
@@ -163,12 +139,13 @@ References
         Formulae (p. 228). Wiley. ISBN:978-0471399186
 """
 
-ROBERTSON_ISOTEMPERATURE_LINES_RUVT = namedtuple(
-    'WyszeckiRobertson_ruvt', ('r', 'u', 'v', 't'))
+ROBERTSON_ISOTEMPERATURE_LINES_RUVT = namedtuple('WyszeckiRobertson_ruvt',
+                                                 ('r', 'u', 'v', 't'))
 
 ROBERTSON_ISOTEMPERATURE_LINES = [
     ROBERTSON_ISOTEMPERATURE_LINES_RUVT(*x)
-    for x in ROBERTSON_ISOTEMPERATURE_LINES_DATA]
+    for x in ROBERTSON_ISOTEMPERATURE_LINES_DATA
+]
 
 
 def planckian_table(uv, cmfs, start, end, count):
@@ -367,8 +344,9 @@ def uv_to_CCT_Ohno2013(
         a = (Tip * (din - di) + Ti * (dip - din) + Tin * (di - dip)) * X ** -1
         b = (-(Tip ** 2 * (din - di) + Ti ** 2 * (dip - din) + Tin ** 2 *
                (di - dip)) * X ** -1)
-        c = (-(dip * (Tin - Ti) * Ti * Tin + di * (Tip - Tin) * Tip * Tin +
-               din * (Ti - Tip) * Tip * Ti) * X ** -1)
+        c = (-(dip * (Tin - Ti) * Ti * Tin + di *
+               (Tip - Tin) * Tip * Tin + din *
+               (Ti - Tip) * Tip * Ti) * X ** -1)
 
         T = -b / (2 * a)
 
@@ -649,9 +627,10 @@ def CCT_to_uv_Krystek1985(CCT):
     return tstack((u, v))
 
 
-UV_TO_CCT_METHODS = CaseInsensitiveMapping(
-    {'Ohno 2013': uv_to_CCT_Ohno2013,
-     'Robertson 1968': uv_to_CCT_Robertson1968})
+UV_TO_CCT_METHODS = CaseInsensitiveMapping({
+    'Ohno 2013': uv_to_CCT_Ohno2013,
+    'Robertson 1968': uv_to_CCT_Robertson1968
+})
 """
 Supported *CIE UCS* colourspace *uv* chromaticity coordinates to correlated
 colour temperature :math:`T_{cp}` computation methods.
@@ -721,10 +700,11 @@ def uv_to_CCT(uv, method='Ohno 2013', **kwargs):
     return function(uv, **kwargs)
 
 
-CCT_TO_UV_METHODS = CaseInsensitiveMapping(
-    {'Ohno 2013': CCT_to_uv_Ohno2013,
-     'Robertson 1968': CCT_to_uv_Robertson1968,
-     'Krystek 1985': CCT_to_uv_Krystek1985})
+CCT_TO_UV_METHODS = CaseInsensitiveMapping({
+    'Ohno 2013': CCT_to_uv_Ohno2013,
+    'Robertson 1968': CCT_to_uv_Robertson1968,
+    'Krystek 1985': CCT_to_uv_Krystek1985
+})
 """
 Supported correlated colour temperature :math:`T_{cp}` to *CIE UCS* colourspace
 *uv* chromaticity coordinates computation methods.
@@ -854,19 +834,13 @@ def xy_to_CCT_Hernandez1999(xy):
     x, y = tsplit(xy)
 
     n = (x - 0.3366) / (y - 0.1735)
-    CCT = (-949.86315 +
-           6253.80338 * np.exp(-n / 0.92159) +
-           28.70599 * np.exp(-n / 0.20039) +
-           0.00004 * np.exp(-n / 0.07125))
+    CCT = (-949.86315 + 6253.80338 * np.exp(-n / 0.92159) +
+           28.70599 * np.exp(-n / 0.20039) + 0.00004 * np.exp(-n / 0.07125))
 
-    n = np.where(CCT > 50000,
-                 (x - 0.3356) / (y - 0.1691),
-                 n)
+    n = np.where(CCT > 50000, (x - 0.3356) / (y - 0.1691), n)
 
-    CCT = np.where(CCT > 50000,
-                   36284.48953 + 0.00228 * np.exp(-n / 0.07861) +
-                   5.4535e-36 * np.exp(-n / 0.01543),
-                   CCT)
+    CCT = np.where(CCT > 50000, 36284.48953 + 0.00228 * np.exp(-n / 0.07861) +
+                   5.4535e-36 * np.exp(-n / 0.01543), CCT)
 
     return as_numeric(CCT)
 
@@ -911,31 +885,17 @@ def CCT_to_xy_Kang2002(CCT):
         warning(('Correlated colour temperature must be in domain '
                  '[1667, 25000], unpredictable results may occur!'))
 
-    x = np.where(CCT <= 4000,
-                 -0.2661239 * 10 ** 9 / CCT ** 3 -
-                 0.2343589 * 10 ** 6 / CCT ** 2 +
-                 0.8776956 * 10 ** 3 / CCT +
-                 0.179910,
-                 -3.0258469 * 10 ** 9 / CCT ** 3 +
-                 2.1070379 * 10 ** 6 / CCT ** 2 +
-                 0.2226347 * 10 ** 3 / CCT +
-                 0.24039)
+    x = np.where(
+        CCT <= 4000, -0.2661239 * 10 ** 9 / CCT ** 3 -
+        0.2343589 * 10 ** 6 / CCT ** 2 + 0.8776956 * 10 ** 3 / CCT + 0.179910,
+        -3.0258469 * 10 ** 9 / CCT ** 3 + 2.1070379 * 10 ** 6 / CCT ** 2 +
+        0.2226347 * 10 ** 3 / CCT + 0.24039)
 
-    y = np.select([CCT <= 2222,
-                   np.logical_and(CCT > 2222, CCT <= 4000),
-                   CCT > 4000],
-                  [-1.1063814 * x ** 3 -
-                   1.34811020 * x ** 2 +
-                   2.18555832 * x -
-                   0.20219683,
-                   -0.9549476 * x ** 3 -
-                   1.37418593 * x ** 2 +
-                   2.09137015 * x -
-                   0.16748867,
-                   3.0817580 * x ** 3 -
-                   5.8733867 * x ** 2 +
-                   3.75112997 * x -
-                   0.37001483])
+    cnd_l = [CCT <= 2222, np.logical_and(CCT > 2222, CCT <= 4000), CCT > 4000]
+    i = -1.1063814 * x ** 3 - 1.34811020 * x ** 2 + 2.18555832 * x - 0.20219683
+    j = -0.9549476 * x ** 3 - 1.37418593 * x ** 2 + 2.09137015 * x - 0.16748867
+    k = 3.0817580 * x ** 3 - 5.8733867 * x ** 2 + 3.75112997 * x - 0.37001483
+    y = np.select(cnd_l, [i, j, k])
 
     xy = tstack((x, y))
 
@@ -982,15 +942,10 @@ def CCT_to_xy_CIE_D(CCT):
         warning(('Correlated colour temperature must be in domain '
                  '[4000, 25000], unpredictable results may occur!'))
 
-    x = np.where(CCT <= 7000,
-                 -4.607 * 10 ** 9 / CCT ** 3 +
-                 2.9678 * 10 ** 6 / CCT ** 2 +
-                 0.09911 * 10 ** 3 / CCT +
-                 0.244063,
-                 -2.0064 * 10 ** 9 / CCT ** 3 +
-                 1.9018 * 10 ** 6 / CCT ** 2 +
-                 0.24748 * 10 ** 3 / CCT +
-                 0.23704)
+    x = np.where(
+        CCT <= 7000, -4.607 * 10 ** 9 / CCT ** 3 + 2.9678 * 10 ** 6 / CCT ** 2
+        + 0.09911 * 10 ** 3 / CCT + 0.244063, -2.0064 * 10 ** 9 / CCT ** 3 +
+        1.9018 * 10 ** 6 / CCT ** 2 + 0.24748 * 10 ** 3 / CCT + 0.23704)
 
     y = -3 * x ** 2 + 2.87 * x - 0.275
 
@@ -999,9 +954,10 @@ def CCT_to_xy_CIE_D(CCT):
     return xy
 
 
-XY_TO_CCT_METHODS = CaseInsensitiveMapping(
-    {'McCamy 1992': xy_to_CCT_McCamy1992,
-     'Hernandez 1999': xy_to_CCT_Hernandez1999})
+XY_TO_CCT_METHODS = CaseInsensitiveMapping({
+    'McCamy 1992': xy_to_CCT_McCamy1992,
+    'Hernandez 1999': xy_to_CCT_Hernandez1999
+})
 """
 Supported *CIE XYZ* tristimulus values *xy* chromaticity coordinates to
 correlated colour temperature :math:`T_{cp}` computation methods.
@@ -1041,9 +997,10 @@ def xy_to_CCT(xy, method='McCamy 1992'):
     return XY_TO_CCT_METHODS.get(method)(xy)
 
 
-CCT_TO_XY_METHODS = CaseInsensitiveMapping(
-    {'Kang 2002': CCT_to_xy_Kang2002,
-     'CIE Illuminant D Series': CCT_to_xy_CIE_D})
+CCT_TO_XY_METHODS = CaseInsensitiveMapping({
+    'Kang 2002': CCT_to_xy_Kang2002,
+    'CIE Illuminant D Series': CCT_to_xy_CIE_D
+})
 """
 Supported correlated colour temperature :math:`T_{cp}` to *CIE XYZ* tristimulus
 values *xy* chromaticity coordinates computation methods.

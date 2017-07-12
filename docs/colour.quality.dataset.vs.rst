@@ -1,5 +1,5 @@
-colour.quality.dataset.vs Module
-================================
+colour\.quality\.dataset\.vs Module
+===================================
 
 .. automodule:: colour.quality.dataset.vs
     :members:

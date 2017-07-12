@@ -1,5 +1,5 @@
-colour.constants.common Module
-==============================
+colour\.constants\.common Module
+================================
 
 .. automodule:: colour.constants.common
     :members:

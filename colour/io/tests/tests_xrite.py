@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for :mod:`colour.io.xrite` module.
 """
@@ -20,9 +19,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['RESOURCES_DIRECTORY',
-           'COLOURCHECKER_XRITE_1',
-           'TestReadSpdsFromXRiteFile']
+__all__ = [
+    'RESOURCES_DIRECTORY', 'COLOURCHECKER_XRITE_1', 'TestReadSpdsFromXRiteFile'
+]
 
 RESOURCES_DIRECTORY = os.path.join(os.path.dirname(__file__), 'resources')
 
@@ -62,7 +61,8 @@ COLOURCHECKER_XRITE_1 = {
     700.0: 0.0066,
     710.0: 0.0066,
     720.0: 0.0066,
-    730.0: 0.0065}
+    730.0: 0.0065
+}
 
 
 class TestReadSpdsFromXRiteFile(unittest.TestCase):

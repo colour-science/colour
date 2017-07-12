@@ -1,5 +1,5 @@
-colour.utilities.data_structures Module
-=======================================
+colour\.utilities\.data\_structures Module
+==========================================
 
 .. automodule:: colour.utilities.data_structures
     :members:

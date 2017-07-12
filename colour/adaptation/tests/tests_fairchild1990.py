@@ -1,6 +1,5 @@
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for :mod:`colour.adaptation.fairchild1990` module.
 """
@@ -40,8 +39,7 @@ chromatic_adaptation_Fairchild1990` definition.
             chromatic_adaptation_Fairchild1990(
                 np.array([0.07049534, 0.10080000, 0.09558313]) * 100,
                 np.array([1.09846607, 1.00000000, 0.35582280]) * 100,
-                np.array([0.95042855, 1.00000000, 1.08890037]) * 100,
-                200),
+                np.array([0.95042855, 1.00000000, 1.08890037]) * 100, 200),
             np.array([8.35782287, 10.21428897, 29.25065668]),
             decimal=7)
 
@@ -49,8 +47,7 @@ chromatic_adaptation_Fairchild1990` definition.
             chromatic_adaptation_Fairchild1990(
                 np.array([0.47097710, 0.34950000, 0.11301649]) * 100,
                 np.array([0.99092745, 1.00000000, 0.85313273]) * 100,
-                np.array([1.01679082, 1.00000000, 0.67610122]) * 100,
-                200),
+                np.array([1.01679082, 1.00000000, 0.67610122]) * 100, 200),
             np.array([49.00577034, 35.03909328, 8.95647114]),
             decimal=7)
 
@@ -58,8 +55,7 @@ chromatic_adaptation_Fairchild1990` definition.
             chromatic_adaptation_Fairchild1990(
                 np.array([0.25506814, 0.19150000, 0.08849752]) * 100,
                 np.array([0.98070597, 1.00000000, 1.18224949]) * 100,
-                np.array([0.92833635, 1.00000000, 1.03664720]) * 100,
-                200),
+                np.array([0.92833635, 1.00000000, 1.03664720]) * 100, 200),
             np.array([24.79473034, 19.13024207, 7.75984317]),
             decimal=7)
 

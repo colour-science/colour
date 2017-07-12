@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Showcases *Lightness* computations.
 """
@@ -35,6 +34,14 @@ message_box(('Computing "Lightness" using "Wyszecki (1963)" method for '
              '\n\t{0}'.format(Y)))
 print(colour.lightness_Wyszecki1963(Y))
 print(colour.lightness(Y, method='Wyszecki 1963'))
+
+print('\n')
+
+message_box(('Computing "Lightness" using "Fairchild and Wyble (2010)" method '
+             'for given "luminance" value:\n'
+             '\n\t{0}'.format(Y)))
+print(colour.lightness_Fairchild2010(Y / 100.0))
+print(colour.lightness(Y / 100.0, method='Fairchild 2010'))
 
 print('\n')
 

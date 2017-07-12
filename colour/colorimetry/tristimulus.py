@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Tristimulus Values
 ==================
@@ -39,22 +38,13 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.algebra import (
-    CubicSplineInterpolator,
-    LinearInterpolator,
-    PchipInterpolator,
-    SpragueInterpolator,
-    lagrange_coefficients)
-from colour.colorimetry import (
-    DEFAULT_SPECTRAL_SHAPE,
-    SpectralShape,
-    STANDARD_OBSERVERS_CMFS, ones_spd)
-from colour.utilities import (
-    CaseInsensitiveMapping,
-    filter_kwargs,
-    is_string,
-    tsplit,
-    warning)
+from colour.algebra import (CubicSplineInterpolator, LinearInterpolator,
+                            PchipInterpolator, SpragueInterpolator,
+                            lagrange_coefficients)
+from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE, SpectralShape,
+                                STANDARD_OBSERVERS_CMFS, ones_spd)
+from colour.utilities import (CaseInsensitiveMapping, filter_kwargs, is_string,
+                              tsplit, warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -63,20 +53,19 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['ASTME30815_PRACTISE_SHAPE',
-           'lagrange_coefficients_ASTME202211',
-           'tristimulus_weighting_factors_ASTME202211',
-           'adjust_tristimulus_weighting_factors_ASTME30815',
-           'spectral_to_XYZ_integration',
-           'spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815',
-           'spectral_to_XYZ_ASTME30815',
-           'SPECTRAL_TO_XYZ_METHODS',
-           'spectral_to_XYZ',
-           'wavelength_to_XYZ']
+__all__ = [
+    'ASTME30815_PRACTISE_SHAPE', 'lagrange_coefficients_ASTME202211',
+    'tristimulus_weighting_factors_ASTME202211',
+    'adjust_tristimulus_weighting_factors_ASTME30815',
+    'spectral_to_XYZ_integration',
+    'spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815',
+    'spectral_to_XYZ_ASTME30815', 'SPECTRAL_TO_XYZ_METHODS', 'spectral_to_XYZ',
+    'wavelength_to_XYZ'
+]
 
 ASTME30815_PRACTISE_SHAPE = DEFAULT_SPECTRAL_SHAPE
 """
-*ASTM E308–15* practise shape: (360, 780, 1).
+*ASTM E308-15* practise shape: (360, 780, 1).
 
 ASTME30815_PRACTISE_SHAPE : SpectralShape
 """
@@ -86,9 +75,7 @@ _LAGRANGE_INTERPOLATING_COEFFICIENTS_CACHE = None
 _TRISTIMULUS_WEIGHTING_FACTORS_CACHE = None
 
 
-def lagrange_coefficients_ASTME202211(
-        interval=10,
-        interval_type='inner'):
+def lagrange_coefficients_ASTME202211(interval=10, interval_type='inner'):
     """
     Computes the *Lagrange Coefficients* for given interval size using practise
     *ASTM E2022-11* method [1]_.
@@ -151,8 +138,8 @@ def lagrange_coefficients_ASTME202211(
         r_n += 1
         d = 4
 
-    lica = _LAGRANGE_INTERPOLATING_COEFFICIENTS_CACHE[name_lica] = (
-        np.asarray([lagrange_coefficients(r, d) for r in r_n]))
+    lica = _LAGRANGE_INTERPOLATING_COEFFICIENTS_CACHE[name_lica] = (np.asarray(
+        [lagrange_coefficients(r, d) for r in r_n]))
 
     return lica
 
@@ -264,19 +251,20 @@ def tristimulus_weighting_factors_ASTME202211(cmfs, illuminant, shape):
     Y = cmfs.values
     S = illuminant.values
 
-    W = S[::shape.interval, np.newaxis] * Y[::shape.interval, :]
+    interval_i = np.int_(shape.interval)
+    W = S[::interval_i, np.newaxis] * Y[::interval_i, :]
 
     # First and last measurement intervals *Lagrange Coefficients*.
-    c_c = lagrange_coefficients_ASTME202211(shape.interval, 'boundary')
+    c_c = lagrange_coefficients_ASTME202211(interval_i, 'boundary')
     # Intermediate measurement intervals *Lagrange Coefficients*.
-    c_b = lagrange_coefficients_ASTME202211(shape.interval, 'inner')
+    c_b = lagrange_coefficients_ASTME202211(interval_i, 'inner')
 
     # Total wavelengths count.
     w_c = len(Y)
     # Measurement interval interpolated values count.
     r_c = c_b.shape[0]
     # Last interval first interpolated wavelength.
-    w_lif = w_c - (w_c - 1) % shape.interval - 1 - r_c
+    w_lif = w_c - (w_c - 1) % interval_i - 1 - r_c
 
     # Intervals count.
     i_c = W.shape[0]
@@ -291,8 +279,8 @@ def tristimulus_weighting_factors_ASTME202211(cmfs, illuminant, shape):
         # Last interval.
         for j in range(r_c):
             for k in range(i_cm, i_cm - 3, -1):
-                W[k, i] = (W[k, i] + c_c[r_c - j - 1, i_cm - k] *
-                           S[j + w_lif] * Y[j + w_lif, i])
+                W[k, i] = (W[k, i] + c_c[r_c - j - 1, i_cm - k] * S[j + w_lif]
+                           * Y[j + w_lif, i])
 
         # Intermediate intervals.
         for j in range(i_c - 3):
@@ -304,7 +292,7 @@ def tristimulus_weighting_factors_ASTME202211(cmfs, illuminant, shape):
                 W[j + 3, i] = W[j + 3, i] + c_b[k, 3] * S[w_i] * Y[w_i, i]
 
         # Extrapolation of potential incomplete interval.
-        for j in range(int(w_c - ((w_c - 1) % shape.interval)), w_c, 1):
+        for j in range(int(w_c - ((w_c - 1) % interval_i)), w_c, 1):
             W[i_cm, i] = W[i_cm, i] + S[j] * Y[j, i]
 
     W *= 100 / np.sum(W, axis=0)[1]
@@ -386,11 +374,9 @@ def adjust_tristimulus_weighting_factors_ASTME30815(W, shape_r, shape_t):
 
 def spectral_to_XYZ_integration(
         spd,
-        cmfs=STANDARD_OBSERVERS_CMFS[
-            'CIE 1931 2 Degree Standard Observer'],
-        illuminant=ones_spd(
-            STANDARD_OBSERVERS_CMFS[
-                'CIE 1931 2 Degree Standard Observer'].shape)):
+        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
+        illuminant=ones_spd(STANDARD_OBSERVERS_CMFS[
+            'CIE 1931 2 Degree Standard Observer'].shape)):
     """
     Converts given spectral power distribution to *CIE XYZ* tristimulus values
     using given colour matching functions and illuminant accordingly to
@@ -551,8 +537,8 @@ def spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
         spd = spd.clone().trim_wavelengths(cmfs.shape)
 
     W = tristimulus_weighting_factors_ASTME202211(
-        cmfs, illuminant, SpectralShape(
-            cmfs.shape.start, cmfs.shape.end, spd.shape.interval))
+        cmfs, illuminant,
+        SpectralShape(cmfs.shape.start, cmfs.shape.end, spd.shape.interval))
     start_w = cmfs.shape.start
     end_w = cmfs.shape.start + spd.shape.interval * (W.shape[0] - 1)
     W = adjust_tristimulus_weighting_factors_ASTME30815(
@@ -674,35 +660,34 @@ def spectral_to_XYZ_ASTME30815(
         # Extrapolation of additional 20nm padding intervals.
         spd.align(SpectralShape(spd.shape.start - 20, spd.shape.end + 20, 10))
         for i in range(2):
-            spd[spd.wavelengths[i]] = (3 * spd.values[i + 2] -
-                                       3 * spd.values[i + 4] +
-                                       spd.values[i + 6])
+            spd[spd.wavelengths[i]] = (
+                3 * spd.values[i + 2] -
+                3 * spd.values[i + 4] + spd.values[i + 6])  # yapf: disable
             i_e = len(spd) - 1 - i
-            spd[spd.wavelengths[i_e]] = (spd.values[i_e - 6] -
-                                         3 * spd.values[i_e - 4] +
-                                         3 * spd.values[i_e - 2])
+            spd[spd.wavelengths[i_e]] = (
+                spd.values[i_e - 6] - 3 * spd.values[i_e - 4] +
+                3 * spd.values[i_e - 2])
 
         # Interpolating every odd numbered values.
         # TODO: Investigate code vectorisation.
         for i in range(3, len(spd) - 3, 2):
-            spd[spd.wavelengths[i]] = (-0.0625 * spd.values[i - 3] +
-                                       0.5625 * spd.values[i - 1] +
-                                       0.5625 * spd.values[i + 1] -
-                                       0.0625 * spd.values[i + 3])
+            spd[spd.wavelengths[i]] = (
+                -0.0625 * spd.values[i - 3] + 0.5625 * spd.values[i - 1] +
+                0.5625 * spd.values[i + 1] - 0.0625 * spd.values[i + 3])
 
         # Discarding the additional 20nm padding intervals.
-        spd.trim_wavelengths(SpectralShape(spd.shape.start + 20,
-                                           spd.shape.end - 20,
-                                           10))
+        spd.trim_wavelengths(
+            SpectralShape(spd.shape.start + 20, spd.shape.end - 20, 10))
 
     XYZ = method(spd, cmfs, illuminant)
 
     return XYZ
 
 
-SPECTRAL_TO_XYZ_METHODS = CaseInsensitiveMapping(
-    {'ASTM E308-15': spectral_to_XYZ_ASTME30815,
-     'Integration': spectral_to_XYZ_integration})
+SPECTRAL_TO_XYZ_METHODS = CaseInsensitiveMapping({
+    'ASTM E308-15': spectral_to_XYZ_ASTME30815,
+    'Integration': spectral_to_XYZ_integration
+})
 """
 Supported spectral power distribution to *CIE XYZ* tristimulus values
 conversion methods
@@ -714,8 +699,7 @@ Aliases:
 
 -   'astm2015': 'ASTM E308-15'
 """
-SPECTRAL_TO_XYZ_METHODS['astm2015'] = (
-    SPECTRAL_TO_XYZ_METHODS['ASTM E308-15'])
+SPECTRAL_TO_XYZ_METHODS['astm2015'] = (SPECTRAL_TO_XYZ_METHODS['ASTM E308-15'])
 
 
 def spectral_to_XYZ(
@@ -813,10 +797,10 @@ def spectral_to_XYZ(
     return function(spd, cmfs, illuminant, **kwargs)
 
 
-def wavelength_to_XYZ(wavelength,
-                      cmfs=STANDARD_OBSERVERS_CMFS[
-                          'CIE 1931 2 Degree Standard Observer'],
-                      method=None):
+def wavelength_to_XYZ(
+        wavelength,
+        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
+        method=None):
     """
     Converts given wavelength :math:`\lambda` to *CIE XYZ* tristimulus values
     using given colour matching functions.
@@ -903,9 +887,8 @@ def wavelength_to_XYZ(wavelength,
     cmfs_shape = cmfs.shape
     if (np.min(wavelength) < cmfs_shape.start or
             np.max(wavelength) > cmfs_shape.end):
-        raise ValueError(
-            '"{0} nm" wavelength is not in "[{1}, {2}]" domain!'.format(
-                wavelength, cmfs_shape.start, cmfs_shape.end))
+        raise ValueError('"{0} nm" wavelength is not in "[{1}, {2}]" domain!'.
+                         format(wavelength, cmfs_shape.start, cmfs_shape.end))
 
     if wavelength not in cmfs:
         wavelengths, values, = cmfs.wavelengths, cmfs.values
@@ -935,16 +918,17 @@ def wavelength_to_XYZ(wavelength,
                      'interpolating functions having a uniformly spaced '
                      'independent variable!'))
         else:
-            raise ValueError(
-                'Undefined "{0}" interpolator!'.format(method))
+            raise ValueError('Undefined "{0}" interpolator!'.format(method))
 
-        interpolators = [interpolator(wavelengths, values[..., i])
-                         for i in range(values.shape[-1])]
+        interpolators = [
+            interpolator(wavelengths, values[..., i])
+            for i in range(values.shape[-1])
+        ]
 
         XYZ = np.dstack([i(np.ravel(wavelength)) for i in interpolators])
     else:
         XYZ = cmfs[wavelength]
 
-    XYZ = np.reshape(XYZ, np.asarray(wavelength).shape + (3,))
+    XYZ = np.reshape(XYZ, np.asarray(wavelength).shape + (3, ))
 
     return XYZ

@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Von Kries Chromatic Adaptation Model
 ====================================
@@ -36,8 +35,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['chromatic_adaptation_matrix_VonKries',
-           'chromatic_adaptation_VonKries']
+__all__ = [
+    'chromatic_adaptation_matrix_VonKries', 'chromatic_adaptation_VonKries'
+]
 
 
 def chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):

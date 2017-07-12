@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 IES TM-27-14 Data Input / Output
 ================================
@@ -34,25 +33,19 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['IES_TM2714_VERSION',
-           'IES_TM2714_NAMESPACE',
-           'IES_TM2714_ElementSpecification',
-           'IES_TM2714_Header',
-           'IES_TM2714_Spd']
+__all__ = [
+    'IES_TM2714_VERSION', 'IES_TM2714_NAMESPACE',
+    'IES_TM2714_ElementSpecification', 'IES_TM2714_Header', 'IES_TM2714_Spd'
+]
 
 IES_TM2714_VERSION = '1.0'
 IES_TM2714_NAMESPACE = 'http://www.ies.org/iestm2714'
 
 
 class IES_TM2714_ElementSpecification(
-    namedtuple(
-        'IES_TM2714_ElementSpecification',
-        ('element',
-         'attribute',
-         'type',
-         'required',
-         'read_conversion',
-         'write_conversion'))):
+        namedtuple('IES_TM2714_ElementSpecification',
+                   ('element', 'attribute', 'type', 'required',
+                    'read_conversion', 'write_conversion'))):
     """
     *IES TM-27-14* spectral data XML file element specification.
 
@@ -87,12 +80,7 @@ class IES_TM2714_ElementSpecification(
         """
 
         return super(IES_TM2714_ElementSpecification, cls).__new__(
-            cls,
-            element,
-            attribute,
-            type_,
-            required,
-            read_conversion,
+            cls, element, attribute, type_, required, read_conversion,
             write_conversion)
 
 
@@ -166,45 +154,33 @@ class IES_TM2714_Header(object):
                  comments=None):
 
         self._mapping = Structure(**{
-            'element': 'Header',
-            'elements': (
-                IES_TM2714_ElementSpecification(
-                    'Manufacturer',
-                    'manufacturer'),
-                IES_TM2714_ElementSpecification(
+            'element':
+                'Header',
+            'elements': (IES_TM2714_ElementSpecification(
+                'Manufacturer',
+                'manufacturer'), IES_TM2714_ElementSpecification(
                     'CatalogNumber',
-                    'catalog_number'),
-                IES_TM2714_ElementSpecification(
-                    'Description',
-                    'description',
-                    required=True),
-                IES_TM2714_ElementSpecification(
-                    'DocumentCreator',
-                    'document_creator',
-                    required=True),
-                IES_TM2714_ElementSpecification(
-                    'UniqueIdentifier',
-                    'unique_identifier'),
-                IES_TM2714_ElementSpecification(
-                    'MeasurementEquipment',
-                    'measurement_equipment'),
-                IES_TM2714_ElementSpecification(
-                    'Laboratory',
-                    'laboratory'),
-                IES_TM2714_ElementSpecification(
-                    'ReportNumber',
-                    'report_number'),
-                IES_TM2714_ElementSpecification(
-                    'ReportDate',
-                    'report_date'),
-                IES_TM2714_ElementSpecification(
-                    'DocumentCreationDate',
-                    'document_creation_date',
-                    required=True),
-                IES_TM2714_ElementSpecification(
-                    'Comments',
-                    'comments',
-                    False))})
+                    'catalog_number'), IES_TM2714_ElementSpecification(
+                        'Description', 'description',
+                        required=True), IES_TM2714_ElementSpecification(
+                            'DocumentCreator',
+                            'document_creator',
+                            required=True), IES_TM2714_ElementSpecification(
+                                'UniqueIdentifier', 'unique_identifier'),
+                         IES_TM2714_ElementSpecification(
+                             'MeasurementEquipment', 'measurement_equipment'),
+                         IES_TM2714_ElementSpecification(
+                             'Laboratory',
+                             'laboratory'), IES_TM2714_ElementSpecification(
+                                 'ReportNumber', 'report_number'),
+                         IES_TM2714_ElementSpecification(
+                             'ReportDate', 'report_date'),
+                         IES_TM2714_ElementSpecification(
+                             'DocumentCreationDate',
+                             'document_creation_date',
+                             required=True), IES_TM2714_ElementSpecification(
+                                 'Comments', 'comments', False))
+        })
 
         self._manufacturer = None
         self.manufacturer = manufacturer
@@ -256,8 +232,7 @@ class IES_TM2714_Header(object):
             Attribute value.
         """
 
-        raise AttributeError(
-            '"{0}" attribute is read only!'.format('mapping'))
+        raise AttributeError('"{0}" attribute is read only!'.format('mapping'))
 
     @property
     def manufacturer(self):
@@ -284,9 +259,9 @@ class IES_TM2714_Header(object):
         """
 
         if value is not None:
-            assert is_string(value), (
-                ('"{0}" attribute: "{1}" is not a '
-                 '"string" like object!').format('manufacturer', value))
+            assert is_string(value), (('"{0}" attribute: "{1}" is not a '
+                                       '"string" like object!').format(
+                                           'manufacturer', value))
         self._manufacturer = value
 
     @property
@@ -314,9 +289,9 @@ class IES_TM2714_Header(object):
         """
 
         if value is not None:
-            assert is_string(value), (
-                ('"{0}" attribute: "{1}" is not a '
-                 '"string" like object!').format('catalog_number', value))
+            assert is_string(value), (('"{0}" attribute: "{1}" is not a '
+                                       '"string" like object!').format(
+                                           'catalog_number', value))
         self._catalog_number = value
 
     @property
@@ -344,9 +319,9 @@ class IES_TM2714_Header(object):
         """
 
         if value is not None:
-            assert is_string(value), (
-                ('"{0}" attribute: "{1}" is not a '
-                 '"string" like object!').format('description', value))
+            assert is_string(value), (('"{0}" attribute: "{1}" is not a '
+                                       '"string" like object!').format(
+                                           'description', value))
         self._description = value
 
     @property
@@ -374,9 +349,9 @@ class IES_TM2714_Header(object):
         """
 
         if value is not None:
-            assert is_string(value), (
-                ('"{0}" attribute: "{1}" is not a '
-                 '"string" like object!').format('document_creator', value))
+            assert is_string(value), (('"{0}" attribute: "{1}" is not a '
+                                       '"string" like object!').format(
+                                           'document_creator', value))
         self._document_creator = value
 
     @property
@@ -404,9 +379,9 @@ class IES_TM2714_Header(object):
         """
 
         if value is not None:
-            assert is_string(value), (
-                ('"{0}" attribute: "{1}" is not a '
-                 '"string" like object!').format('unique_identifier', value))
+            assert is_string(value), (('"{0}" attribute: "{1}" is not a '
+                                       '"string" like object!').format(
+                                           'unique_identifier', value))
         self._unique_identifier = value
 
     @property
@@ -434,10 +409,9 @@ class IES_TM2714_Header(object):
         """
 
         if value is not None:
-            assert is_string(value), (
-                ('"{0}" attribute: "{1}" is not a '
-                 '"string" like object!').format(
-                    'measurement_equipment', value))
+            assert is_string(value), (('"{0}" attribute: "{1}" is not a '
+                                       '"string" like object!').format(
+                                           'measurement_equipment', value))
         self._measurement_equipment = value
 
     @property
@@ -465,9 +439,9 @@ class IES_TM2714_Header(object):
         """
 
         if value is not None:
-            assert is_string(value), (
-                ('"{0}" attribute: "{1}" is not a '
-                 '"string" like object!').format('laboratory', value))
+            assert is_string(value), (('"{0}" attribute: "{1}" is not a '
+                                       '"string" like object!').format(
+                                           'laboratory', value))
         self._laboratory = value
 
     @property
@@ -495,9 +469,9 @@ class IES_TM2714_Header(object):
         """
 
         if value is not None:
-            assert is_string(value), (
-                ('"{0}" attribute: "{1}" is not a '
-                 '"string" like object!').format('report_number', value))
+            assert is_string(value), (('"{0}" attribute: "{1}" is not a '
+                                       '"string" like object!').format(
+                                           'report_number', value))
         self._report_number = value
 
     @property
@@ -525,9 +499,9 @@ class IES_TM2714_Header(object):
         """
 
         if value is not None:
-            assert is_string(value), (
-                ('"{0}" attribute: "{1}" is not a '
-                 '"string" like object!').format('report_date', value))
+            assert is_string(value), (('"{0}" attribute: "{1}" is not a '
+                                       '"string" like object!').format(
+                                           'report_date', value))
         self._report_date = value
 
     @property
@@ -555,10 +529,9 @@ class IES_TM2714_Header(object):
         """
 
         if value is not None:
-            assert is_string(value), (
-                ('"{0}" attribute: "{1}" is not a '
-                 '"string" like object!').format(
-                    'document_creation_date', value))
+            assert is_string(value), (('"{0}" attribute: "{1}" is not a '
+                                       '"string" like object!').format(
+                                           'document_creation_date', value))
         self._document_creation_date = value
 
     @property
@@ -586,9 +559,9 @@ class IES_TM2714_Header(object):
         """
 
         if value is not None:
-            assert is_string(value), (
-                ('"{0}" attribute: "{1}" is not a '
-                 '"string" like object!').format('comments', value))
+            assert is_string(value), (('"{0}" attribute: "{1}" is not a '
+                                       '"string" like object!').format(
+                                           'comments', value))
         self._comments = value
 
 
@@ -641,13 +614,13 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
 
     *Transmission Geometry*
 
-    -	0:0: Normal / normal.
-    -	di:0: Diffuse / normal, regular component included.
-    -	de:0: Diffuse / normal, regular component excluded.
-    -	0:di: Normal / diffuse, regular component included.
-    -	0:de: Normal / diffuse, regular component excluded.
-    -	d:d: Diffuse / diffuse.
-    -	other: User-specified in comments.
+    -   0:0: Normal / normal.
+    -   di:0: Diffuse / normal, regular component included.
+    -   de:0: Diffuse / normal, regular component excluded.
+    -   0:di: Normal / diffuse, regular component included.
+    -   0:de: Normal / diffuse, regular component excluded.
+    -   d:d: Diffuse / diffuse.
+    -   other: User-specified in comments.
 
     Attributes
     ----------
@@ -691,35 +664,29 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
         super(IES_TM2714_Spd, self).__init__(name=None, data={})
 
         self._mapping = Structure(**{
-            'element': 'SpectralDistribution',
+            'element':
+                'SpectralDistribution',
             'elements': (
                 IES_TM2714_ElementSpecification(
-                    'SpectralQuantity',
-                    'spectral_quantity',
-                    required=True),
-                IES_TM2714_ElementSpecification(
-                    'ReflectionGeometry',
-                    'reflection_geometry'),
+                    'SpectralQuantity', 'spectral_quantity',
+                    required=True), IES_TM2714_ElementSpecification(
+                        'ReflectionGeometry', 'reflection_geometry'),
                 IES_TM2714_ElementSpecification(
                     'TransmissionGeometry',
-                    'transmission_geometry'),
-                IES_TM2714_ElementSpecification(
-                    'BandwidthFWHM',
-                    'bandwidth_FWHM',
-                    read_conversion=np.float_),
+                    'transmission_geometry'), IES_TM2714_ElementSpecification(
+                        'BandwidthFWHM',
+                        'bandwidth_FWHM',
+                        read_conversion=np.float_),
                 IES_TM2714_ElementSpecification(
                     'BandwidthCorrected',
                     'bandwidth_corrected',
-                    read_conversion=(
-                        lambda x: True
-                        if x == 'true' else False),
+                    read_conversion=(lambda x: True if x == 'true' else False),
                     write_conversion=(
-                        lambda x: 'true'
-                        if x is True else 'False'))),
-            'data': IES_TM2714_ElementSpecification(
-                'SpectralData',
-                'wavelength',
-                required=True)})
+                        lambda x: 'true' if x is True else 'False'))),
+            'data':
+                IES_TM2714_ElementSpecification(
+                    'SpectralData', 'wavelength', required=True)
+        })
 
         self._path = None
         self.path = path
@@ -763,8 +730,7 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
             Attribute value.
         """
 
-        raise AttributeError(
-            '"{0}" attribute is read only!'.format('mapping'))
+        raise AttributeError('"{0}" attribute is read only!'.format('mapping'))
 
     @property
     def path(self):
@@ -791,9 +757,9 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
         """
 
         if value is not None:
-            assert is_string(value), (
-                ('"{0}" attribute: "{1}" is not a '
-                 '"string" like object!').format('path', value))
+            assert is_string(value), (('"{0}" attribute: "{1}" is not a '
+                                       '"string" like object!').format(
+                                           'path', value))
         self._path = value
 
     @property
@@ -821,9 +787,9 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
         """
 
         if value is not None:
-            assert isinstance(value, IES_TM2714_Header), (
-                ('"{0}" attribute: "{1}" is not a "IES_TM2714_Header" '
-                 'instance!').format('header', value))
+            assert isinstance(value, IES_TM2714_Header), ((
+                '"{0}" attribute: "{1}" is not a "IES_TM2714_Header" '
+                'instance!').format('header', value))
         self._header = value
 
     @property
@@ -851,9 +817,9 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
         """
 
         if value is not None:
-            assert is_string(value), (
-                ('"{0}" attribute: "{1}" is not a '
-                 '"string" like object!').format('spectral_quantity', value))
+            assert is_string(value), (('"{0}" attribute: "{1}" is not a '
+                                       '"string" like object!').format(
+                                           'spectral_quantity', value))
         self._spectral_quantity = value
 
     @property
@@ -881,10 +847,9 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
         """
 
         if value is not None:
-            assert is_string(value), (
-                ('"{0}" attribute: "{1}" is not a '
-                 '"string" like object!').format(
-                    'reflection_geometry', value))
+            assert is_string(value), (('"{0}" attribute: "{1}" is not a '
+                                       '"string" like object!').format(
+                                           'reflection_geometry', value))
         self._reflection_geometry = value
 
     @property
@@ -912,10 +877,9 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
         """
 
         if value is not None:
-            assert is_string(value), (
-                ('"{0}" attribute: "{1}" is not a '
-                 '"string" like object!').format(
-                    'transmission_geometry', value))
+            assert is_string(value), (('"{0}" attribute: "{1}" is not a '
+                                       '"string" like object!').format(
+                                           'transmission_geometry', value))
         self._transmission_geometry = value
 
     @property
@@ -1008,7 +972,7 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
         tree = ElementTree.parse(self._path)
         root = tree.getroot()
 
-        namespace = re.match('\{(.*)\}', root.tag).group(1)
+        namespace = re.match('{(.*)}', root.tag).group(1)
 
         self.name = os.path.splitext(os.path.basename(self._path))[0]
 
@@ -1017,18 +981,18 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
         for header_element in (self.header, self):
             mapping = header_element.mapping
             for specification in mapping.elements:
-                element = root.find(formatter.format(
-                    namespace, mapping.element, specification.element))
+                element = root.find(
+                    formatter.format(namespace, mapping.element,
+                                     specification.element))
                 if element is not None:
-                    setattr(header_element,
-                            specification.attribute,
+                    setattr(header_element, specification.attribute,
                             specification.read_conversion(element.text))
 
         # Reading spectral data.
-        for spectral_data in iterator('{{{0}}}{1}'.format(
-                namespace, self.mapping.data.element)):
-            wavelength = np.float_(spectral_data.attrib[
-                self.mapping.data.attribute])
+        for spectral_data in iterator(
+                '{{{0}}}{1}'.format(namespace, self.mapping.data.element)):
+            wavelength = np.float_(
+                spectral_data.attrib[self.mapping.data.attribute])
             value = np.float_(spectral_data.text)
             self[wavelength] = value
 
@@ -1060,8 +1024,10 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
         """
 
         root = ElementTree.Element('IESTM2714')
-        root.attrib = {'xmlns': IES_TM2714_NAMESPACE,
-                       'version': IES_TM2714_VERSION}
+        root.attrib = {
+            'xmlns': IES_TM2714_NAMESPACE,
+            'version': IES_TM2714_VERSION
+        }
 
         spectral_distribution = None
         for header_element in (self.header, self):
@@ -1082,8 +1048,9 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
                                                    mapping.data.element)
             element_child.text = mapping.data.write_conversion(value)
             element_child.attrib = {
-                mapping.data.attribute: mapping.data.write_conversion(
-                    wavelength)}
+                mapping.data.attribute:
+                    mapping.data.write_conversion(wavelength)
+            }
 
         xml = minidom.parseString(ElementTree.tostring(root)).toprettyxml()
 

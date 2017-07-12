@@ -1,5 +1,5 @@
-colour.colorimetry.photometry Module
-====================================
+colour\.colorimetry\.photometry Module
+======================================
 
 .. automodule:: colour.colorimetry.photometry
     :members:

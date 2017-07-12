@@ -1,5 +1,5 @@
-colour.io.xrite Module
-======================
+colour\.io\.xrite Module
+========================
 
 .. automodule:: colour.io.xrite
     :members:

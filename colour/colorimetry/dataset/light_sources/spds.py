@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Light Sources Relative Spectral Power Distributions
 ===================================================
@@ -59,17 +58,17 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA',
-           'LIGHT_SOURCES_RIT_RELATIVE_SPDS',
-           'LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA',
-           'LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS',
-           'LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA',
-           'LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS',
-           'LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA',
-           'LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS',
-           'LIGHT_SOURCES_PROJECTORS_RELATIVE_SPDS_DATA',
-           'LIGHT_SOURCES_PROJECTORS_RELATIVE_SPDS',
-           'LIGHT_SOURCES_RELATIVE_SPDS']
+__all__ = [
+    'LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA', 'LIGHT_SOURCES_RIT_RELATIVE_SPDS',
+    'LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA',
+    'LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS',
+    'LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA',
+    'LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS',
+    'LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA',
+    'LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS',
+    'LIGHT_SOURCES_PROJECTORS_RELATIVE_SPDS_DATA',
+    'LIGHT_SOURCES_PROJECTORS_RELATIVE_SPDS', 'LIGHT_SOURCES_RELATIVE_SPDS'
+]
 
 LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA = {
     'Natural': {
@@ -153,7 +152,8 @@ LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA = {
         765: 1.65,
         770: 1.47,
         775: 1.30,
-        780: 1.20},
+        780: 1.20
+    },
     'Philips TL-84': {
         380: 0.784,
         385: 0.553,
@@ -235,7 +235,8 @@ LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA = {
         765: 0.100,
         770: 0.110,
         775: 0.110,
-        780: 0.100},
+        780: 0.100
+    },
     'SA': {
         380: 9.80,
         385: 10.90,
@@ -317,7 +318,8 @@ LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA = {
         765: 234.59,
         770: 237.01,
         775: 239.37,
-        780: 241.68},
+        780: 241.68
+    },
     'SC': {
         380: 33.00,
         385: 39.92,
@@ -399,7 +401,8 @@ LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA = {
         765: 58.00,
         770: 58.20,
         775: 58.50,
-        780: 59.10},
+        780: 59.10
+    },
     'T8 Luxline Plus White': {
         380: 0.833,
         385: 1.040,
@@ -481,7 +484,8 @@ LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA = {
         765: 0.360,
         770: 0.320,
         775: 0.300,
-        780: 0.300},
+        780: 0.300
+    },
     'T8 Polylux 3000': {
         380: 0.552,
         385: 0.381,
@@ -563,7 +567,8 @@ LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA = {
         765: 0.064,
         770: 0.093,
         775: 0.051,
-        780: 0.027},
+        780: 0.027
+    },
     'T8 Polylux 4000': {
         380: 0.498,
         385: 0.384,
@@ -645,7 +650,8 @@ LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA = {
         765: 0.064,
         770: 0.093,
         775: 0.051,
-        780: 0.055},
+        780: 0.055
+    },
     'Thorn Kolor-rite': {
         380: 1.111,
         385: 1.316,
@@ -727,41 +733,52 @@ LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA = {
         765: 1.710,
         770: 1.500,
         775: 1.330,
-        780: 1.200}}
+        780: 1.200
+    }
+}
 
-LIGHT_SOURCES_RIT_RELATIVE_SPDS = CaseInsensitiveMapping(
-    {'Natural': SpectralPowerDistribution(
-        'Natural',
-        LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA[
-            'Natural']),
-     'Philips TL-84': SpectralPowerDistribution(
-         'Philips TL-84',
-         LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA[
-             'Philips TL-84']),
-     'SA': SpectralPowerDistribution(
-         'SA',
-         LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA[
-             'SA']),
-     'SC': SpectralPowerDistribution(
-         'SC',
-         LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA[
-             'SC']),
-     'T8 Luxline Plus White': SpectralPowerDistribution(
-         'T8 Luxline Plus White',
-         LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA[
-             'T8 Luxline Plus White']),
-     'T8 Polylux 3000': SpectralPowerDistribution(
-         'T8 Polylux 3000',
-         LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA[
-             'T8 Polylux 3000']),
-     'T8 Polylux 4000': SpectralPowerDistribution(
-         'T8 Polylux 4000',
-         LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA[
-             'T8 Polylux 4000']),
-     'Thorn Kolor-rite': SpectralPowerDistribution(
-         'Thorn Kolor-rite',
-         LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA[
-             'Thorn Kolor-rite'])})
+LIGHT_SOURCES_RIT_RELATIVE_SPDS = CaseInsensitiveMapping({
+    'Natural':
+        SpectralPowerDistribution(
+            'Natural',
+            LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA[
+                'Natural']),
+    'Philips TL-84':
+        SpectralPowerDistribution(
+            'Philips TL-84',
+            LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA[
+                'Philips TL-84']),
+    'SA':
+        SpectralPowerDistribution(
+            'SA',
+            LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA[
+                'SA']),
+    'SC':
+        SpectralPowerDistribution(
+            'SC',
+            LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA[
+                'SC']),
+    'T8 Luxline Plus White':
+        SpectralPowerDistribution(
+            'T8 Luxline Plus White',
+            LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA[
+                'T8 Luxline Plus White']),
+    'T8 Polylux 3000':
+        SpectralPowerDistribution(
+            'T8 Polylux 3000',
+            LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA[
+                'T8 Polylux 3000']),
+    'T8 Polylux 4000':
+        SpectralPowerDistribution(
+            'T8 Polylux 4000',
+            LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA[
+                'T8 Polylux 4000']),
+    'Thorn Kolor-rite':
+        SpectralPowerDistribution(
+            'Thorn Kolor-rite',
+            LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA[
+                'Thorn Kolor-rite'])
+})  # yapf: disable
 """
 Light sources from *RIT* *PointerData.xls* spreadsheet.
 
@@ -773,7 +790,7 @@ light source names cannot be accurately verified.
 
 References
 ----------
-.. [1]  Pointer, M. R. (1980). Pointer’s Gamut Data. Retrieved from
+.. [1]  Pointer, M. R. (1980). Pointer's Gamut Data. Retrieved from
         http://www.cis.rit.edu/research/mcsl2/online/PointerData.xls
 
 LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA : CaseInsensitiveMapping
@@ -863,7 +880,8 @@ LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA = {
         765: 0.01817522,
         770: 0.01183473,
         775: 0.00953278,
-        780: 0.00920353},
+        780: 0.00920353
+    },
     'Daylight FL': {
         380: 0.04474924,
         385: 0.05659396,
@@ -945,7 +963,8 @@ LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA = {
         765: 0.01382840,
         770: 0.01316616,
         775: 0.01241027,
-        780: 0.01204411},
+        780: 0.01204411
+    },
     'HPS': {
         380: 0.0083939426,
         385: 0.0091861681,
@@ -1027,7 +1046,8 @@ LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA = {
         765: 0.0802690011,
         770: 0.0540981011,
         775: 0.0326486660,
-        780: 0.0352925378},
+        780: 0.0352925378
+    },
     'Incandescent': {
         380: 0.0221129274,
         385: 0.0257550191,
@@ -1109,7 +1129,8 @@ LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA = {
         765: 0.9669876832,
         770: 0.9766525623,
         775: 0.9854043089,
-        780: 1.0000000000},
+        780: 1.0000000000
+    },
     'LPS': {
         380: 0.0,
         385: 0.0,
@@ -1191,7 +1212,8 @@ LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA = {
         765: 0.0,
         770: 0.0,
         775: 0.0,
-        780: 0.0},
+        780: 0.0
+    },
     'Mercury': {
         380: 0.0104373669,
         385: 0.0078158007,
@@ -1273,7 +1295,8 @@ LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA = {
         765: 0.0096855504,
         770: 0.0113490129,
         775: 0.0099005410,
-        780: 0.0094954250},
+        780: 0.0094954250
+    },
     'Metal Halide': {
         380: 0.0601404826,
         385: 0.0630286148,
@@ -1355,7 +1378,8 @@ LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA = {
         765: 0.0414979164,
         770: 0.0344678340,
         775: 0.0236333145,
-        780: 0.0254235315},
+        780: 0.0254235315
+    },
     'Neodimium Incandescent': {
         380: 0.0334673674,
         385: 0.0367106969,
@@ -1437,7 +1461,8 @@ LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA = {
         765: 0.8999932814,
         770: 0.9622718511,
         775: 0.9966525876,
-        780: 1.0000000000},
+        780: 1.0000000000
+    },
     'Super HPS': {
         380: 0.0000000000,
         385: 0.0035961070,
@@ -1519,7 +1544,8 @@ LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA = {
         765: 0.0604807146,
         770: 0.0604807146,
         775: 0.0604807146,
-        780: 0.0604807146},
+        780: 0.0604807146
+    },
     'Triphosphor FL': {
         380: 0.0000000000,
         385: 0.0000000000,
@@ -1601,49 +1627,62 @@ LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA = {
         765: 0.0079622762,
         770: 0.0024428504,
         775: 0.0029993177,
-        780: 0.0005290507}}
+        780: 0.0005290507
+    }
+}
 
-LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS = CaseInsensitiveMapping(
-    {'Cool White FL': SpectralPowerDistribution(
-        'Cool White FL',
-        LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA[
-            'Cool White FL']),
-     'Daylight FL': SpectralPowerDistribution(
-         'Daylight FL',
-         LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA[
-             'Daylight FL']),
-     'HPS': SpectralPowerDistribution(
-         'HPS',
-         LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA[
-             'HPS']),
-     'Incandescent': SpectralPowerDistribution(
-         'Incandescent',
-         LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA[
-             'Incandescent']),
-     'LPS': SpectralPowerDistribution(
-         'LPS',
-         LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA[
-             'LPS']),
-     'Mercury': SpectralPowerDistribution(
-         'Mercury',
-         LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA[
-             'Mercury']),
-     'Metal Halide': SpectralPowerDistribution(
-         'Metal Halide',
-         LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA[
-             'Metal Halide']),
-     'Neodimium Incandescent': SpectralPowerDistribution(
-         'Neodimium Incandescent',
-         LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA[
-             'Neodimium Incandescent']),
-     'Super HPS': SpectralPowerDistribution(
-         'Super HPS',
-         LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA[
-             'Super HPS']),
-     'Triphosphor FL': SpectralPowerDistribution(
-         'Triphosphor FL',
-         LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA[
-             'Triphosphor FL'])})
+LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS = CaseInsensitiveMapping({
+    'Cool White FL':
+        SpectralPowerDistribution(
+            'Cool White FL',
+            LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA[
+                'Cool White FL']),
+    'Daylight FL':
+        SpectralPowerDistribution(
+            'Daylight FL',
+            LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA[
+                'Daylight FL']),
+    'HPS':
+        SpectralPowerDistribution(
+            'HPS',
+            LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA[
+                'HPS']),
+    'Incandescent':
+        SpectralPowerDistribution(
+            'Incandescent',
+            LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA[
+                'Incandescent']),
+    'LPS':
+        SpectralPowerDistribution(
+            'LPS',
+            LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA[
+                'LPS']),
+    'Mercury':
+        SpectralPowerDistribution(
+            'Mercury',
+            LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA[
+                'Mercury']),
+    'Metal Halide':
+        SpectralPowerDistribution(
+            'Metal Halide',
+            LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA[
+                'Metal Halide']),
+    'Neodimium Incandescent':
+        SpectralPowerDistribution(
+            'Neodimium Incandescent',
+            LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA[
+                'Neodimium Incandescent']),
+    'Super HPS':
+        SpectralPowerDistribution(
+            'Super HPS',
+            LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA[
+                'Super HPS']),
+    'Triphosphor FL':
+        SpectralPowerDistribution(
+            'Triphosphor FL',
+            LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA[
+                'Triphosphor FL'])
+})  # yapf: disable
 """
 Traditional light sources from *NIST* *NIST CQS simulation 7.4.xls*
 spreadsheet.
@@ -1740,7 +1779,8 @@ LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA = {
         765: 1.24216741363154e-25,
         770: 9.91044375901472e-27,
         775: 7.48346361630974e-28,
-        780: 5.34607293395408e-29},
+        780: 5.34607293395408e-29
+    },
     '3-LED-2 (473/545/616)': {
         380: 8.80700887841404e-11,
         385: 8.64191446543499e-10,
@@ -1822,7 +1862,8 @@ LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA = {
         765: 1.96520133984630e-24,
         770: 1.19562718661274e-25,
         775: 8.49126403034339e-27,
-        780: 6.18707499978848e-28},
+        780: 6.18707499978848e-28
+    },
     '3-LED-2 Yellow': {
         380: 5.28857670457154e-11,
         385: 5.18882652575306e-10,
@@ -1904,7 +1945,8 @@ LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA = {
         765: 2.18831363146954e-24,
         770: 1.38312763678070e-25,
         775: 9.98183844142717e-27,
-        780: 7.30800253280185e-28},
+        780: 7.30800253280185e-28
+    },
     '3-LED-3 (465/546/614)': {
         380: 4.24356931933744e-09,
         385: 3.35055502496331e-08,
@@ -1986,7 +2028,8 @@ LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA = {
         765: 2.09993710079583e-24,
         770: 1.70971251548166e-25,
         775: 1.35854661437952e-26,
-        780: 1.03007323231651e-27},
+        780: 1.03007323231651e-27
+    },
     '3-LED-4 (455/547/623)': {
         380: 1.48554815599882e-07,
         385: 9.10000000000000e-07,
@@ -2068,7 +2111,8 @@ LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA = {
         765: 7.96184389637815e-23,
         770: 2.37929410472859e-24,
         775: 7.60786774257376e-26,
-        780: 3.1397886480576e-27},
+        780: 3.1397886480576e-27
+    },
     '4-LED No Yellow': {
         380: 5.00830470941566e-06,
         385: 2.37160686348979e-05,
@@ -2150,7 +2194,8 @@ LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA = {
         765: 1.55965542079349e-24,
         770: 3.62239387510338e-26,
         775: 7.42464806370353e-28,
-        780: 1.34297913021045e-29},
+        780: 1.34297913021045e-29
+    },
     '4-LED Yellow': {
         380: 8.34073345191213e-07,
         385: 4.62309206822133e-06,
@@ -2232,7 +2277,8 @@ LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA = {
         765: 6.93791409316552e-22,
         770: 2.01795866069721e-23,
         775: 5.17975154307456e-25,
-        780: 1.17332723412027e-26},
+        780: 1.17332723412027e-26
+    },
     '4-LED-1 (461/526/576/624)': {
         380: 2.47034736673368e-08,
         385: 1.74863383163897e-07,
@@ -2314,7 +2360,8 @@ LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA = {
         765: 2.27129761972571e-22,
         770: 6.31463339864241e-24,
         775: 1.54930155880890e-25,
-        780: 3.35458329193818e-27},
+        780: 3.35458329193818e-27
+    },
     '4-LED-2 (447/512/573/627)': {
         380: 3.47088525590474e-06,
         385: 1.73227787723854e-05,
@@ -2396,7 +2443,8 @@ LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA = {
         765: 1.61410755281383e-21,
         770: 4.81433876182624e-23,
         775: 1.26722581811040e-24,
-        780: 2.94363913832964e-26},
+        780: 2.94363913832964e-26
+    },
     'Luxeon WW 2880': {
         380: 0.0000000000,
         385: 0.0000000000,
@@ -2478,7 +2526,8 @@ LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA = {
         765: 1.0039448e-05,
         770: 8.9298495e-06,
         775: 7.6177480e-06,
-        780: 7.0016420e-06},
+        780: 7.0016420e-06
+    },
     'PHOS-1': {
         380: 0.0111298531,
         385: 0.0181132825,
@@ -2560,7 +2609,8 @@ LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA = {
         765: 7.47174315193493e-05,
         770: 2.58870000000000e-05,
         775: 8.46950409085507e-06,
-        780: 2.61668300203868e-06},
+        780: 2.61668300203868e-06
+    },
     'PHOS-2': {
         380: 6.24336458874078e-06,
         385: 1.80201765628625e-05,
@@ -2642,7 +2692,8 @@ LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA = {
         765: 1.31785543464018e-10,
         770: 2.57451133233467e-11,
         775: 4.74939818412281e-12,
-        780: 8.27368713020501e-13},
+        780: 8.27368713020501e-13
+    },
     'PHOS-3': {
         380: 2.51463414652205e-05,
         385: 6.85384929115295e-05,
@@ -2724,7 +2775,8 @@ LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA = {
         765: 2.97187556394679e-11,
         770: 5.48247997165375e-12,
         775: 9.55081042264917e-13,
-        780: 1.57115898612229e-13},
+        780: 1.57115898612229e-13
+    },
     'PHOS-4': {
         380: 2.65174294164563e-05,
         385: 7.20892236476949e-05,
@@ -2806,7 +2858,8 @@ LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA = {
         765: 3.17087855185187e-11,
         770: 5.84959831217044e-12,
         775: 1.01903527241427e-12,
-        780: 1.67636709023523e-13},
+        780: 1.67636709023523e-13
+    },
     'Phosphor LED YAG': {
         380: 0.0007674402,
         385: 0.0007988052,
@@ -2888,69 +2941,87 @@ LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA = {
         765: 0.0102635827,
         770: 0.0091149715,
         775: 0.0079991914,
-        780: 0.0070995878}}
+        780: 0.0070995878
+    }
+}
 
-LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS = CaseInsensitiveMapping(
-    {'3-LED-1 (457/540/605)': SpectralPowerDistribution(
-        '3-LED-1 (457/540/605)',
-        LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
-            '3-LED-1 (457/540/605)']),
-     '3-LED-2 (473/545/616)': SpectralPowerDistribution(
-         '3-LED-2 (473/545/616)',
-         LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
-             '3-LED-2 (473/545/616)']),
-     '3-LED-2 Yellow': SpectralPowerDistribution(
-         '3-LED-2 Yellow',
-         LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
-             '3-LED-2 Yellow']),
-     '3-LED-3 (465/546/614)': SpectralPowerDistribution(
-         '3-LED-3 (465/546/614)',
-         LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
-             '3-LED-3 (465/546/614)']),
-     '3-LED-4 (455/547/623)': SpectralPowerDistribution(
-         '3-LED-4 (455/547/623)',
-         LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
-             '3-LED-4 (455/547/623)']),
-     '4-LED No Yellow': SpectralPowerDistribution(
-         '4-LED No Yellow',
-         LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
-             '4-LED No Yellow']),
-     '4-LED Yellow': SpectralPowerDistribution(
-         '4-LED Yellow',
-         LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
-             '4-LED Yellow']),
-     '4-LED-1 (461/526/576/624)': SpectralPowerDistribution(
-         '4-LED-1 (461/526/576/624)',
-         LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
-             '4-LED-1 (461/526/576/624)']),
-     '4-LED-2 (447/512/573/627)': SpectralPowerDistribution(
-         '4-LED-2 (447/512/573/627)',
-         LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
-             '4-LED-2 (447/512/573/627)']),
-     'Luxeon WW 2880': SpectralPowerDistribution(
-         'Luxeon WW 2880',
-         LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
-             'Luxeon WW 2880']),
-     'PHOS-1': SpectralPowerDistribution(
-         'PHOS-1',
-         LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
-             'PHOS-1']),
-     'PHOS-2': SpectralPowerDistribution(
-         'PHOS-2',
-         LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
-             'PHOS-2']),
-     'PHOS-3': SpectralPowerDistribution(
-         'PHOS-3',
-         LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
-             'PHOS-3']),
-     'PHOS-4': SpectralPowerDistribution(
-         'PHOS-4',
-         LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
-             'PHOS-4']),
-     'Phosphor LED YAG': SpectralPowerDistribution(
-         'Phosphor LED YAG',
-         LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
-             'Phosphor LED YAG'])})
+LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS = CaseInsensitiveMapping({
+    '3-LED-1 (457/540/605)':
+        SpectralPowerDistribution(
+            '3-LED-1 (457/540/605)',
+            LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
+                '3-LED-1 (457/540/605)']),
+    '3-LED-2 (473/545/616)':
+        SpectralPowerDistribution(
+            '3-LED-2 (473/545/616)',
+            LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
+                '3-LED-2 (473/545/616)']),
+    '3-LED-2 Yellow':
+        SpectralPowerDistribution(
+            '3-LED-2 Yellow',
+            LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
+                '3-LED-2 Yellow']),
+    '3-LED-3 (465/546/614)':
+        SpectralPowerDistribution(
+            '3-LED-3 (465/546/614)',
+            LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
+                '3-LED-3 (465/546/614)']),
+    '3-LED-4 (455/547/623)':
+        SpectralPowerDistribution(
+            '3-LED-4 (455/547/623)',
+            LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
+                '3-LED-4 (455/547/623)']),
+    '4-LED No Yellow':
+        SpectralPowerDistribution(
+            '4-LED No Yellow',
+            LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
+                '4-LED No Yellow']),
+    '4-LED Yellow':
+        SpectralPowerDistribution(
+            '4-LED Yellow',
+            LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
+                '4-LED Yellow']),
+    '4-LED-1 (461/526/576/624)':
+        SpectralPowerDistribution(
+            '4-LED-1 (461/526/576/624)',
+            LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
+                '4-LED-1 (461/526/576/624)']),
+    '4-LED-2 (447/512/573/627)':
+        SpectralPowerDistribution(
+            '4-LED-2 (447/512/573/627)',
+            LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
+                '4-LED-2 (447/512/573/627)']),
+    'Luxeon WW 2880':
+        SpectralPowerDistribution(
+            'Luxeon WW 2880',
+            LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
+                'Luxeon WW 2880']),
+    'PHOS-1':
+        SpectralPowerDistribution(
+            'PHOS-1',
+            LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
+                'PHOS-1']),
+    'PHOS-2':
+        SpectralPowerDistribution(
+            'PHOS-2',
+            LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
+                'PHOS-2']),
+    'PHOS-3':
+        SpectralPowerDistribution(
+            'PHOS-3',
+            LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
+                'PHOS-3']),
+    'PHOS-4':
+        SpectralPowerDistribution(
+            'PHOS-4',
+            LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
+                'PHOS-4']),
+    'Phosphor LED YAG':
+        SpectralPowerDistribution(
+            'Phosphor LED YAG',
+            LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
+                'Phosphor LED YAG'])
+})  # yapf: disable
 """
 LED light sources from *NIST* *NIST CQS simulation 7.4.xls* spreadsheet. [2]_
 
@@ -3044,7 +3115,8 @@ LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA = {
         765: 0.9669876832,
         770: 0.9766525623,
         775: 0.9854043089,
-        780: 1.0000000000},
+        780: 1.0000000000
+    },
     'C100S54 (HPS)': {
         380: 0.0090968865,
         385: 0.0099177519,
@@ -3126,7 +3198,8 @@ LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA = {
         765: 0.0290665851,
         770: 0.0318508294,
         775: 0.0300437580,
-        780: 0.0343141879},
+        780: 0.0343141879
+    },
     'C100S54C (HPS)': {
         380: 0.0000000000,
         385: 0.0091384562,
@@ -3208,7 +3281,8 @@ LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA = {
         765: 0.1421969643,
         770: 0.1445350862,
         775: 0.1425608179,
-        780: 0.1393291025},
+        780: 0.1393291025
+    },
     'F32T8/TL830 (Triphosphor)': {
         380: 0.0039380786,
         385: 0.0021247895,
@@ -3290,7 +3364,8 @@ LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA = {
         765: 0.0021757603,
         770: 0.0016340710,
         775: 0.0007446283,
-        780: 0.0000000000},
+        780: 0.0000000000
+    },
     'F32T8/TL835 (Triphosphor)': {
         380: 0.0044539119,
         385: 0.0027246990,
@@ -3372,7 +3447,8 @@ LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA = {
         765: 0.0028316149,
         770: 0.0020137199,
         775: 0.0020856503,
-        780: 0.0015424431},
+        780: 0.0015424431
+    },
     'F32T8/TL841 (Triphosphor)': {
         380: 0.0040371862,
         385: 0.0024796605,
@@ -3454,7 +3530,8 @@ LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA = {
         765: 0.0019168880,
         770: 0.0010922856,
         775: 0.0004971904,
-        780: 0.0000000000},
+        780: 0.0000000000
+    },
     'F32T8/TL850 (Triphosphor)': {
         380: 0.0034742373,
         385: 0.0023983574,
@@ -3536,7 +3613,8 @@ LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA = {
         765: 0.0029392159,
         770: 0.0029753244,
         775: 0.0019264764,
-        780: 0.0031394812},
+        780: 0.0031394812
+    },
     'F32T8/TL865 /PLUS (Triphosphor)': {
         380: 0.0043823207,
         385: 0.0033077391,
@@ -3618,7 +3696,8 @@ LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA = {
         765: 0.0072031048,
         770: 0.0075045320,
         775: 0.0070549007,
-        780: 0.0062780959},
+        780: 0.0062780959
+    },
     'F34/CW/RS/EW (Cool White FL)': {
         380: 0.0296401248,
         385: 0.0373569560,
@@ -3700,7 +3779,8 @@ LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA = {
         765: 0.0114365646,
         770: 0.0102565619,
         775: 0.0107649726,
-        780: 0.0787313519},
+        780: 0.0787313519
+    },
     'F34T12/LW/RS /EW': {
         380: 0.0138848383,
         385: 0.0171879452,
@@ -3782,7 +3862,8 @@ LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA = {
         765: 0.0048038975,
         770: 0.0058633690,
         775: 0.0077827634,
-        780: 0.0553820445},
+        780: 0.0553820445
+    },
     'F34T12WW/RS /EW (Warm White FL)': {
         380: 0.0183484283,
         385: 0.0208397838,
@@ -3864,7 +3945,8 @@ LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA = {
         765: 0.0162500215,
         770: 0.0154892424,
         775: 0.0161230441,
-        780: 0.0941165395},
+        780: 0.0941165395
+    },
     'F40/C50 (Broadband FL)': {
         380: 0.0279518444,
         385: 0.0297109166,
@@ -3946,7 +4028,8 @@ LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA = {
         765: 0.0689298270,
         770: 0.0730299188,
         775: 0.0751929522,
-        780: 0.0561935817},
+        780: 0.0561935817
+    },
     'F40/C75 (Broadband FL)': {
         380: 0.0560479743,
         385: 0.0650016588,
@@ -4028,7 +4111,8 @@ LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA = {
         765: 0.0765039678,
         770: 0.0585353785,
         775: 0.0536685951,
-        780: 0.0000000000},
+        780: 0.0000000000
+    },
     'F40/CWX (Broadband FL)': {
         380: 0.0273834847,
         385: 0.0335910321,
@@ -4110,7 +4194,8 @@ LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA = {
         765: 0.0216177183,
         770: 0.0225290016,
         775: 0.0228098117,
-        780: 0.0234304973},
+        780: 0.0234304973
+    },
     'F40/DX (Broadband FL)': {
         380: 0.0377831211,
         385: 0.0479805195,
@@ -4192,7 +4277,8 @@ LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA = {
         765: 0.0096318955,
         770: 0.0121471762,
         775: 0.0047304152,
-        780: 0.0000000000},
+        780: 0.0000000000
+    },
     'F40/DXTP (Delux FL)': {
         380: 0.0453299851,
         385: 0.0565911781,
@@ -4274,7 +4360,8 @@ LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA = {
         765: 0.0178226176,
         770: 0.0166535773,
         775: 0.0162608849,
-        780: 0.0131835384},
+        780: 0.0131835384
+    },
     'F40/N (Natural FL)': {
         380: 0.0310803197,
         385: 0.0378149459,
@@ -4356,7 +4443,8 @@ LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA = {
         765: 0.0816302019,
         770: 0.0794656172,
         775: 0.0624670576,
-        780: 0.0538005265},
+        780: 0.0538005265
+    },
     'H38HT-100 (Mercury)': {
         380: 0.0000000000,
         385: 0.0116674647,
@@ -4438,7 +4526,8 @@ LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA = {
         765: 0.0850852124,
         770: 0.0864842549,
         775: 0.0853029284,
-        780: 0.0833691938},
+        780: 0.0833691938
+    },
     'H38JA-100/DX (Mercury DX)': {
         380: 0.0000000000,
         385: 0.0142531794,
@@ -4520,7 +4609,8 @@ LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA = {
         765: 0.1137426110,
         770: 0.1156128625,
         775: 0.1140336555,
-        780: 0.1114486233},
+        780: 0.1114486233
+    },
     'MHC100/U/MP /3K': {
         380: 0.0376147854,
         385: 0.0647066508,
@@ -4602,7 +4692,8 @@ LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA = {
         765: 0.1081531758,
         770: 0.1143784298,
         775: 0.1376604646,
-        780: 0.1168708812},
+        780: 0.1168708812
+    },
     'MHC100/U/MP /4K': {
         380: 0.0637674013,
         385: 0.1123934055,
@@ -4684,7 +4775,8 @@ LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA = {
         765: 0.1418151423,
         770: 0.1594540493,
         775: 0.2387771482,
-        780: 0.1694033761},
+        780: 0.1694033761
+    },
     'SDW-T 100W/LV (Super HPS)': {
         380: 0.0000000000,
         385: 0.0141961629,
@@ -4766,97 +4858,122 @@ LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA = {
         765: 0.2452291219,
         770: 0.2492613850,
         775: 0.2458566141,
-        780: 0.2402832833}}
+        780: 0.2402832833
+    }
+}
 
-LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS = CaseInsensitiveMapping(
-    {'60 A/W (Soft White)': SpectralPowerDistribution(
-        '60 A/W (Soft White)',
-        LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
-            '60 A/W (Soft White)']),
-     'C100S54 (HPS)': SpectralPowerDistribution(
-         'C100S54 (HPS)',
-         LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
-             'C100S54 (HPS)']),
-     'C100S54C (HPS)': SpectralPowerDistribution(
-         'C100S54C (HPS)',
-         LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
-             'C100S54C (HPS)']),
-     'F32T8/TL830 (Triphosphor)': SpectralPowerDistribution(
-         'F32T8/TL830 (Triphosphor)',
-         LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
-             'F32T8/TL830 (Triphosphor)']),
-     'F32T8/TL835 (Triphosphor)': SpectralPowerDistribution(
-         'F32T8/TL835 (Triphosphor)',
-         LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
-             'F32T8/TL835 (Triphosphor)']),
-     'F32T8/TL841 (Triphosphor)': SpectralPowerDistribution(
-         'F32T8/TL841 (Triphosphor)',
-         LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
-             'F32T8/TL841 (Triphosphor)']),
-     'F32T8/TL850 (Triphosphor)': SpectralPowerDistribution(
-         'F32T8/TL850 (Triphosphor)',
-         LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
-             'F32T8/TL850 (Triphosphor)']),
-     'F32T8/TL865 /PLUS (Triphosphor)': SpectralPowerDistribution(
-         'F32T8/TL865 /PLUS (Triphosphor)',
-         LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
-             'F32T8/TL865 /PLUS (Triphosphor)']),
-     'F34/CW/RS/EW (Cool White FL)': SpectralPowerDistribution(
-         'F34/CW/RS/EW (Cool White FL)',
-         LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
-             'F34/CW/RS/EW (Cool White FL)']),
-     'F34T12/LW/RS /EW': SpectralPowerDistribution(
-         'F34T12/LW/RS /EW',
-         LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
-             'F34T12/LW/RS /EW']),
-     'F34T12WW/RS /EW (Warm White FL)': SpectralPowerDistribution(
-         'F34T12WW/RS /EW (Warm White FL)',
-         LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
-             'F34T12WW/RS /EW (Warm White FL)']),
-     'F40/C50 (Broadband FL)': SpectralPowerDistribution(
-         'F40/C50 (Broadband FL)',
-         LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
-             'F40/C50 (Broadband FL)']),
-     'F40/C75 (Broadband FL)': SpectralPowerDistribution(
-         'F40/C75 (Broadband FL)',
-         LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
-             'F40/C75 (Broadband FL)']),
-     'F40/CWX (Broadband FL)': SpectralPowerDistribution(
-         'F40/CWX (Broadband FL)',
-         LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
-             'F40/CWX (Broadband FL)']),
-     'F40/DX (Broadband FL)': SpectralPowerDistribution(
-         'F40/DX (Broadband FL)',
-         LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
-             'F40/DX (Broadband FL)']),
-     'F40/DXTP (Delux FL)': SpectralPowerDistribution(
-         'F40/DXTP (Delux FL)',
-         LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
-             'F40/DXTP (Delux FL)']),
-     'F40/N (Natural FL)': SpectralPowerDistribution(
-         'F40/N (Natural FL)',
-         LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
-             'F40/N (Natural FL)']),
-     'H38HT-100 (Mercury)': SpectralPowerDistribution(
-         'H38HT-100 (Mercury)',
-         LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
-             'H38HT-100 (Mercury)']),
-     'H38JA-100/DX (Mercury DX)': SpectralPowerDistribution(
-         'H38JA-100/DX (Mercury DX)',
-         LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
-             'H38JA-100/DX (Mercury DX)']),
-     'MHC100/U/MP /3K': SpectralPowerDistribution(
-         'MHC100/U/MP /3K',
-         LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
-             'MHC100/U/MP /3K']),
-     'MHC100/U/MP /4K': SpectralPowerDistribution(
-         'MHC100/U/MP /4K',
-         LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
-             'MHC100/U/MP /4K']),
-     'SDW-T 100W/LV (Super HPS)': SpectralPowerDistribution(
-         'SDW-T 100W/LV (Super HPS)',
-         LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
-             'SDW-T 100W/LV (Super HPS)'])})
+LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS = CaseInsensitiveMapping({
+    '60 A/W (Soft White)':
+        SpectralPowerDistribution(
+            '60 A/W (Soft White)',
+            LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
+                '60 A/W (Soft White)']),
+    'C100S54 (HPS)':
+        SpectralPowerDistribution(
+            'C100S54 (HPS)',
+            LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
+                'C100S54 (HPS)']),
+    'C100S54C (HPS)':
+        SpectralPowerDistribution(
+            'C100S54C (HPS)',
+            LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
+                'C100S54C (HPS)']),
+    'F32T8/TL830 (Triphosphor)':
+        SpectralPowerDistribution(
+            'F32T8/TL830 (Triphosphor)',
+            LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
+                'F32T8/TL830 (Triphosphor)']),
+    'F32T8/TL835 (Triphosphor)':
+        SpectralPowerDistribution(
+            'F32T8/TL835 (Triphosphor)',
+            LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
+                'F32T8/TL835 (Triphosphor)']),
+    'F32T8/TL841 (Triphosphor)':
+        SpectralPowerDistribution(
+            'F32T8/TL841 (Triphosphor)',
+            LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
+                'F32T8/TL841 (Triphosphor)']),
+    'F32T8/TL850 (Triphosphor)':
+        SpectralPowerDistribution(
+            'F32T8/TL850 (Triphosphor)',
+            LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
+                'F32T8/TL850 (Triphosphor)']),
+    'F32T8/TL865 /PLUS (Triphosphor)':
+        SpectralPowerDistribution(
+            'F32T8/TL865 /PLUS (Triphosphor)',
+            LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
+                'F32T8/TL865 /PLUS (Triphosphor)']),
+    'F34/CW/RS/EW (Cool White FL)':
+        SpectralPowerDistribution(
+            'F34/CW/RS/EW (Cool White FL)',
+            LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
+                'F34/CW/RS/EW (Cool White FL)']),
+    'F34T12/LW/RS /EW':
+        SpectralPowerDistribution(
+            'F34T12/LW/RS /EW',
+            LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
+                'F34T12/LW/RS /EW']),
+    'F34T12WW/RS /EW (Warm White FL)':
+        SpectralPowerDistribution(
+            'F34T12WW/RS /EW (Warm White FL)',
+            LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
+                'F34T12WW/RS /EW (Warm White FL)']),
+    'F40/C50 (Broadband FL)':
+        SpectralPowerDistribution(
+            'F40/C50 (Broadband FL)',
+            LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
+                'F40/C50 (Broadband FL)']),
+    'F40/C75 (Broadband FL)':
+        SpectralPowerDistribution(
+            'F40/C75 (Broadband FL)',
+            LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
+                'F40/C75 (Broadband FL)']),
+    'F40/CWX (Broadband FL)':
+        SpectralPowerDistribution(
+            'F40/CWX (Broadband FL)',
+            LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
+                'F40/CWX (Broadband FL)']),
+    'F40/DX (Broadband FL)':
+        SpectralPowerDistribution(
+            'F40/DX (Broadband FL)',
+            LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
+                'F40/DX (Broadband FL)']),
+    'F40/DXTP (Delux FL)':
+        SpectralPowerDistribution(
+            'F40/DXTP (Delux FL)',
+            LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
+                'F40/DXTP (Delux FL)']),
+    'F40/N (Natural FL)':
+        SpectralPowerDistribution(
+            'F40/N (Natural FL)',
+            LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
+                'F40/N (Natural FL)']),
+    'H38HT-100 (Mercury)':
+        SpectralPowerDistribution(
+            'H38HT-100 (Mercury)',
+            LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
+                'H38HT-100 (Mercury)']),
+    'H38JA-100/DX (Mercury DX)':
+        SpectralPowerDistribution(
+            'H38JA-100/DX (Mercury DX)',
+            LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
+                'H38JA-100/DX (Mercury DX)']),
+    'MHC100/U/MP /3K':
+        SpectralPowerDistribution(
+            'MHC100/U/MP /3K',
+            LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
+                'MHC100/U/MP /3K']),
+    'MHC100/U/MP /4K':
+        SpectralPowerDistribution(
+            'MHC100/U/MP /4K',
+            LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
+                'MHC100/U/MP /4K']),
+    'SDW-T 100W/LV (Super HPS)':
+        SpectralPowerDistribution(
+            'SDW-T 100W/LV (Super HPS)',
+            LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
+                'SDW-T 100W/LV (Super HPS)'])
+})  # yapf: disable
 """
 Philips light sources from *NIST* *NIST CQS simulation 7.4.xls*
 spreadsheet. [2]_
@@ -5075,13 +5192,17 @@ LIGHT_SOURCES_PROJECTORS_RELATIVE_SPDS_DATA = {
         774: 0.0000183800,
         776: 0.0000155000,
         778: 0.0000097800,
-        780: 0.0000141000}}
+        780: 0.0000141000
+    }
+}
 
-LIGHT_SOURCES_PROJECTORS_RELATIVE_SPDS = CaseInsensitiveMapping(
-    {'Kinoton 75P': SpectralPowerDistribution(
-        'Kinoton 75P',
-        LIGHT_SOURCES_PROJECTORS_RELATIVE_SPDS_DATA[
-            'Kinoton 75P'])})
+LIGHT_SOURCES_PROJECTORS_RELATIVE_SPDS = CaseInsensitiveMapping({
+    'Kinoton 75P':
+        SpectralPowerDistribution(
+            'Kinoton 75P',
+            LIGHT_SOURCES_PROJECTORS_RELATIVE_SPDS_DATA[
+                'Kinoton 75P'])
+})  # yapf: disable
 """
 Projectors and Xenon Arc Lamps.
 
@@ -5101,6 +5222,7 @@ Aggregated light sources spectral power distributions.
 LIGHT_SOURCES_RELATIVE_SPDS : CaseInsensitiveMapping
 """
 
+# yapf: disable
 LIGHT_SOURCES_RELATIVE_SPDS.update(
     LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS)
 LIGHT_SOURCES_RELATIVE_SPDS.update(
@@ -5109,3 +5231,4 @@ LIGHT_SOURCES_RELATIVE_SPDS.update(
     LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS)
 LIGHT_SOURCES_RELATIVE_SPDS.update(
     LIGHT_SOURCES_PROJECTORS_RELATIVE_SPDS)
+# yapf: enable

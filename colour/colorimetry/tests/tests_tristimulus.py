@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for :mod:`colour.colorimetry.tristimulus` module.
 """
@@ -10,20 +9,16 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.colorimetry import (
-    CMFS,
-    CIE_standard_illuminant_A_function,
-    ILLUMINANTS_RELATIVE_SPDS,
-    SpectralPowerDistribution,
-    SpectralShape)
+from colour.colorimetry import (CMFS, CIE_standard_illuminant_A_function,
+                                ILLUMINANTS_RELATIVE_SPDS,
+                                SpectralPowerDistribution, SpectralShape)
 from colour.colorimetry import (
     lagrange_coefficients_ASTME202211,
     tristimulus_weighting_factors_ASTME202211,
     adjust_tristimulus_weighting_factors_ASTME30815,
     spectral_to_XYZ_integration,
     spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815,
-    spectral_to_XYZ_ASTME30815,
-    wavelength_to_XYZ)
+    spectral_to_XYZ_ASTME30815, wavelength_to_XYZ)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -32,121 +27,117 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['SAMPLE_SPD',
-           'LAGRANGE_COEFFICIENTS_A',
-           'LAGRANGE_COEFFICIENTS_B',
-           'A_CIE_1964_10_10_TWF',
-           'A_CIE_1964_10_20_TWF',
-           'D65_CIE_1931_2_20_TWF',
-           'D65_CIE_1931_2_20_ATWF',
-           'TestLagrangeCoefficientsASTME202211',
-           'TestTristimulusWeightingFactorsASTME202211',
-           'TestAdjustTristimulusWeightingFactorsASTME30815',
-           'TestSpectral_to_XYZ_integration',
-           'TestSpectral_to_XYZ_ASTME30815',
-           'TestWavelength_to_XYZ']
+__all__ = [
+    'SAMPLE_SPD', 'LAGRANGE_COEFFICIENTS_A', 'LAGRANGE_COEFFICIENTS_B',
+    'A_CIE_1964_10_10_TWF', 'A_CIE_1964_10_20_TWF', 'D65_CIE_1931_2_20_TWF',
+    'D65_CIE_1931_2_20_ATWF', 'TestLagrangeCoefficientsASTME202211',
+    'TestTristimulusWeightingFactorsASTME202211',
+    'TestAdjustTristimulusWeightingFactorsASTME30815',
+    'TestSpectral_to_XYZ_integration', 'TestSpectral_to_XYZ_ASTME30815',
+    'TestWavelength_to_XYZ'
+]
 
-SAMPLE_SPD = SpectralPowerDistribution(
-    'Sample', {
-        340: 0.0000,
-        345: 0.0000,
-        350: 0.0000,
-        355: 0.0000,
-        360: 0.0000,
-        365: 0.0000,
-        370: 0.0000,
-        375: 0.0000,
-        380: 0.0000,
-        385: 0.0000,
-        390: 0.0000,
-        395: 0.0000,
-        400: 0.0641,
-        405: 0.0650,
-        410: 0.0654,
-        415: 0.0652,
-        420: 0.0645,
-        425: 0.0629,
-        430: 0.0605,
-        435: 0.0581,
-        440: 0.0562,
-        445: 0.0551,
-        450: 0.0543,
-        455: 0.0539,
-        460: 0.0537,
-        465: 0.0538,
-        470: 0.0541,
-        475: 0.0547,
-        480: 0.0559,
-        485: 0.0578,
-        490: 0.0603,
-        495: 0.0629,
-        500: 0.0651,
-        505: 0.0667,
-        510: 0.0680,
-        515: 0.0691,
-        520: 0.0705,
-        525: 0.0720,
-        530: 0.0736,
-        535: 0.0753,
-        540: 0.0772,
-        545: 0.0791,
-        550: 0.0809,
-        555: 0.0833,
-        560: 0.0870,
-        565: 0.0924,
-        570: 0.0990,
-        575: 0.1061,
-        580: 0.1128,
-        585: 0.1190,
-        590: 0.1251,
-        595: 0.1308,
-        600: 0.1360,
-        605: 0.1403,
-        610: 0.1439,
-        615: 0.1473,
-        620: 0.1511,
-        625: 0.1550,
-        630: 0.1590,
-        635: 0.1634,
-        640: 0.1688,
-        645: 0.1753,
-        650: 0.1828,
-        655: 0.1909,
-        660: 0.1996,
-        665: 0.2088,
-        670: 0.2187,
-        675: 0.2291,
-        680: 0.2397,
-        685: 0.2505,
-        690: 0.2618,
-        695: 0.2733,
-        700: 0.2852,
-        705: 0.0000,
-        710: 0.0000,
-        715: 0.0000,
-        720: 0.0000,
-        725: 0.0000,
-        730: 0.0000,
-        735: 0.0000,
-        740: 0.0000,
-        745: 0.0000,
-        750: 0.0000,
-        755: 0.0000,
-        760: 0.0000,
-        765: 0.0000,
-        770: 0.0000,
-        775: 0.0000,
-        780: 0.0000,
-        785: 0.0000,
-        790: 0.0000,
-        795: 0.0000,
-        800: 0.0000,
-        805: 0.0000,
-        810: 0.0000,
-        815: 0.0000,
-        820: 0.0000,
-        825: 0.0000,
-        830: 0.0000})
+SAMPLE_SPD = SpectralPowerDistribution('Sample', {
+    340: 0.0000,
+    345: 0.0000,
+    350: 0.0000,
+    355: 0.0000,
+    360: 0.0000,
+    365: 0.0000,
+    370: 0.0000,
+    375: 0.0000,
+    380: 0.0000,
+    385: 0.0000,
+    390: 0.0000,
+    395: 0.0000,
+    400: 0.0641,
+    405: 0.0650,
+    410: 0.0654,
+    415: 0.0652,
+    420: 0.0645,
+    425: 0.0629,
+    430: 0.0605,
+    435: 0.0581,
+    440: 0.0562,
+    445: 0.0551,
+    450: 0.0543,
+    455: 0.0539,
+    460: 0.0537,
+    465: 0.0538,
+    470: 0.0541,
+    475: 0.0547,
+    480: 0.0559,
+    485: 0.0578,
+    490: 0.0603,
+    495: 0.0629,
+    500: 0.0651,
+    505: 0.0667,
+    510: 0.0680,
+    515: 0.0691,
+    520: 0.0705,
+    525: 0.0720,
+    530: 0.0736,
+    535: 0.0753,
+    540: 0.0772,
+    545: 0.0791,
+    550: 0.0809,
+    555: 0.0833,
+    560: 0.0870,
+    565: 0.0924,
+    570: 0.0990,
+    575: 0.1061,
+    580: 0.1128,
+    585: 0.1190,
+    590: 0.1251,
+    595: 0.1308,
+    600: 0.1360,
+    605: 0.1403,
+    610: 0.1439,
+    615: 0.1473,
+    620: 0.1511,
+    625: 0.1550,
+    630: 0.1590,
+    635: 0.1634,
+    640: 0.1688,
+    645: 0.1753,
+    650: 0.1828,
+    655: 0.1909,
+    660: 0.1996,
+    665: 0.2088,
+    670: 0.2187,
+    675: 0.2291,
+    680: 0.2397,
+    685: 0.2505,
+    690: 0.2618,
+    695: 0.2733,
+    700: 0.2852,
+    705: 0.0000,
+    710: 0.0000,
+    715: 0.0000,
+    720: 0.0000,
+    725: 0.0000,
+    730: 0.0000,
+    735: 0.0000,
+    740: 0.0000,
+    745: 0.0000,
+    750: 0.0000,
+    755: 0.0000,
+    760: 0.0000,
+    765: 0.0000,
+    770: 0.0000,
+    775: 0.0000,
+    780: 0.0000,
+    785: 0.0000,
+    790: 0.0000,
+    795: 0.0000,
+    800: 0.0000,
+    805: 0.0000,
+    810: 0.0000,
+    815: 0.0000,
+    820: 0.0000,
+    825: 0.0000,
+    830: 0.0000
+})
 
 LAGRANGE_COEFFICIENTS_A = np.array(
     [[-0.0285, 0.9405, 0.1045, -0.0165],
@@ -157,7 +148,7 @@ LAGRANGE_COEFFICIENTS_A = np.array(
      [-0.0560, 0.4480, 0.6720, -0.0640],
      [-0.0455, 0.3315, 0.7735, -0.0595],
      [-0.0320, 0.2160, 0.8640, -0.0480],
-     [-0.0165, 0.1045, 0.9405, -0.0285]])
+     [-0.0165, 0.1045, 0.9405, -0.0285]])  # yapf: disable
 
 LAGRANGE_COEFFICIENTS_B = np.array(
     [[0.8550, 0.1900, -0.0450],
@@ -168,7 +159,7 @@ LAGRANGE_COEFFICIENTS_B = np.array(
      [0.2800, 0.8400, -0.1200],
      [0.1950, 0.9100, -0.1050],
      [0.1200, 0.9600, -0.0800],
-     [0.0550, 0.9900, -0.0450]])
+     [0.0550, 0.9900, -0.0450]])  # yapf: disable
 
 A_CIE_1964_10_10_TWF = np.array(
     [[-0.000, -0.000, -0.000],
@@ -218,7 +209,7 @@ A_CIE_1964_10_10_TWF = np.array(
      [0.000, 0.000, 0.000],
      [0.000, 0.000, 0.000],
      [0.000, 0.000, 0.000],
-     [0.000, 0.000, 0.000]])
+     [0.000, 0.000, 0.000]])  # yapf: disable
 
 A_CIE_1964_10_20_TWF = np.array(
     [[-0.000, -0.000, -0.001],
@@ -244,7 +235,7 @@ A_CIE_1964_10_20_TWF = np.array(
      [0.005, 0.002, 0.000],
      [0.001, 0.001, 0.000],
      [0.000, 0.000, 0.000],
-     [0.000, 0.000, 0.000]])
+     [0.000, 0.000, 0.000]])  # yapf: disable
 
 D65_CIE_1931_2_20_TWF = np.array(
     [[-0.001, -0.000, -0.005],
@@ -270,7 +261,7 @@ D65_CIE_1931_2_20_TWF = np.array(
      [0.002, 0.001, 0.000],
      [0.000, 0.000, 0.000],
      [0.000, 0.000, 0.000],
-     [0.000, 0.000, 0.000]])
+     [0.000, 0.000, 0.000]])  # yapf: disable
 
 D65_CIE_1931_2_20_ATWF = np.array(
     [[0.170, 0.002, 0.785],
@@ -288,7 +279,7 @@ D65_CIE_1931_2_20_ATWF = np.array(
      [7.057, 2.743, 0.000],
      [2.527, 0.927, -0.000],
      [0.670, 0.242, -0.000],
-     [0.185, 0.067, 0.000]])
+     [0.185, 0.067, 0.000]])  # yapf: disable
 
 
 class TestLagrangeCoefficientsASTME202211(unittest.TestCase):
@@ -346,16 +337,12 @@ tristimulus_weighting_factors_ASTME202211` definition.
         twf = tristimulus_weighting_factors_ASTME202211(
             cmfs, A, SpectralShape(360, 830, 10))
         np.testing.assert_almost_equal(
-            np.round(twf, 3),
-            A_CIE_1964_10_10_TWF,
-            decimal=3)
+            np.round(twf, 3), A_CIE_1964_10_10_TWF, decimal=3)
 
         twf = tristimulus_weighting_factors_ASTME202211(
             cmfs, A, SpectralShape(360, 830, 20))
         np.testing.assert_almost_equal(
-            np.round(twf, 3),
-            A_CIE_1964_10_20_TWF,
-            decimal=3)
+            np.round(twf, 3), A_CIE_1964_10_20_TWF, decimal=3)
 
         cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
         D65 = ILLUMINANTS_RELATIVE_SPDS['D65'].clone().align(
@@ -363,9 +350,7 @@ tristimulus_weighting_factors_ASTME202211` definition.
         twf = tristimulus_weighting_factors_ASTME202211(
             cmfs, D65, SpectralShape(360, 830, 20))
         np.testing.assert_almost_equal(
-            np.round(twf, 3),
-            D65_CIE_1931_2_20_TWF,
-            decimal=3)
+            np.round(twf, 3), D65_CIE_1931_2_20_TWF, decimal=3)
 
 
 class TestAdjustTristimulusWeightingFactorsASTME30815(unittest.TestCase):
@@ -382,8 +367,8 @@ adjust_tristimulus_weighting_factors_ASTME30815` definition.
 
         np.testing.assert_almost_equal(
             adjust_tristimulus_weighting_factors_ASTME30815(
-                D65_CIE_1931_2_20_TWF, SpectralShape(360, 830, 20),
-                SpectralShape(400, 700, 20)),
+                D65_CIE_1931_2_20_TWF,
+                SpectralShape(360, 830, 20), SpectralShape(400, 700, 20)),
             D65_CIE_1931_2_20_ATWF,
             decimal=3)
 
@@ -403,27 +388,21 @@ spectral_to_XYZ_integration`
 
         cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
         np.testing.assert_almost_equal(
-            spectral_to_XYZ_integration(
-                SAMPLE_SPD,
-                cmfs,
-                ILLUMINANTS_RELATIVE_SPDS['A']),
+            spectral_to_XYZ_integration(SAMPLE_SPD, cmfs,
+                                        ILLUMINANTS_RELATIVE_SPDS['A']),
             np.array([14.46365624, 10.85827910, 2.04662343]),
             decimal=7)
 
         cmfs = CMFS['CIE 1964 10 Degree Standard Observer']
         np.testing.assert_almost_equal(
-            spectral_to_XYZ_integration(
-                SAMPLE_SPD,
-                cmfs,
-                ILLUMINANTS_RELATIVE_SPDS['C']),
+            spectral_to_XYZ_integration(SAMPLE_SPD, cmfs,
+                                        ILLUMINANTS_RELATIVE_SPDS['C']),
             np.array([10.77031004, 9.44863775, 6.62745989]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            spectral_to_XYZ_integration(
-                SAMPLE_SPD,
-                cmfs,
-                ILLUMINANTS_RELATIVE_SPDS['F2']),
+            spectral_to_XYZ_integration(SAMPLE_SPD, cmfs,
+                                        ILLUMINANTS_RELATIVE_SPDS['F2']),
             np.array([11.57834054, 9.98738373, 3.95462625]),
             decimal=7)
 
@@ -446,53 +425,42 @@ spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815`
         cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
         np.testing.assert_almost_equal(
             spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
-                SAMPLE_SPD,
-                cmfs,
-                ILLUMINANTS_RELATIVE_SPDS['A']),
+                SAMPLE_SPD, cmfs, ILLUMINANTS_RELATIVE_SPDS['A']),
             np.array([14.46366344, 10.85828513, 2.04663792]),
             decimal=7)
 
         cmfs = CMFS['CIE 1964 10 Degree Standard Observer']
         np.testing.assert_almost_equal(
             spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
-                SAMPLE_SPD,
-                cmfs,
-                ILLUMINANTS_RELATIVE_SPDS['C']),
+                SAMPLE_SPD, cmfs, ILLUMINANTS_RELATIVE_SPDS['C']),
             np.array([10.77033881, 9.44864632, 6.62758924]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
-                SAMPLE_SPD,
-                cmfs,
-                ILLUMINANTS_RELATIVE_SPDS['F2']),
+                SAMPLE_SPD, cmfs, ILLUMINANTS_RELATIVE_SPDS['F2']),
             np.array([11.57837130, 9.98734511, 3.95499522]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
                 SAMPLE_SPD.clone().trim_wavelengths(
-                    SpectralShape(400, 700, 5)),
-                cmfs,
+                    SpectralShape(400, 700, 5)), cmfs,
                 ILLUMINANTS_RELATIVE_SPDS['A']),
             np.array([14.38180830, 10.74512906, 2.01579131]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
-                SAMPLE_SPD.clone().interpolate(
-                    SpectralShape(400, 700, 10)),
-                cmfs,
-                ILLUMINANTS_RELATIVE_SPDS['A']),
+                SAMPLE_SPD.clone().interpolate(SpectralShape(400, 700, 10)),
+                cmfs, ILLUMINANTS_RELATIVE_SPDS['A']),
             np.array([14.38284399, 10.74577954, 2.01553721]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
-                SAMPLE_SPD.clone().interpolate(
-                    SpectralShape(400, 700, 20)),
-                cmfs,
-                ILLUMINANTS_RELATIVE_SPDS['A']),
+                SAMPLE_SPD.clone().interpolate(SpectralShape(400, 700, 20)),
+                cmfs, ILLUMINANTS_RELATIVE_SPDS['A']),
             np.array([14.38356848, 10.74613294, 2.01526418]),
             decimal=7)
 
@@ -523,8 +491,7 @@ class TestSpectral_to_XYZ_ASTME30815(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             spectral_to_XYZ_ASTME30815(
-                self._spd.clone().align(self._cmfs.shape),
-                self._cmfs,
+                self._spd.clone().align(self._cmfs.shape), self._cmfs,
                 self.__A),
             np.array([14.46372680, 10.85832950, 2.04663200]),
             decimal=7)
@@ -541,8 +508,7 @@ class TestSpectral_to_XYZ_ASTME30815(unittest.TestCase):
         np.testing.assert_almost_equal(
             spectral_to_XYZ_ASTME30815(
                 self._spd.clone().align(SpectralShape(400, 700, 1)),
-                self._cmfs,
-                self.__A),
+                self._cmfs, self.__A),
             np.array([14.54173397, 10.88628632, 2.04965822]),
             decimal=7)
 
@@ -564,8 +530,7 @@ class TestSpectral_to_XYZ_ASTME30815(unittest.TestCase):
         np.testing.assert_almost_equal(
             spectral_to_XYZ_ASTME30815(
                 self._spd.clone().align(SpectralShape(360, 830, 5)),
-                self._cmfs,
-                self.__A),
+                self._cmfs, self.__A),
             np.array([14.46372173, 10.85832502, 2.04664734]),
             decimal=7)
 
@@ -590,8 +555,7 @@ class TestSpectral_to_XYZ_ASTME30815(unittest.TestCase):
         np.testing.assert_almost_equal(
             spectral_to_XYZ_ASTME30815(
                 self._spd.clone().align(SpectralShape(400, 700, 5)),
-                self._cmfs,
-                self.__A),
+                self._cmfs, self.__A),
             np.array([14.54025742, 10.88576251, 2.04950226]),
             decimal=7)
 
@@ -642,8 +606,7 @@ class TestSpectral_to_XYZ_ASTME30815(unittest.TestCase):
         np.testing.assert_almost_equal(
             spectral_to_XYZ_ASTME30815(
                 self._spd.clone().align(SpectralShape(360, 830, 10)),
-                self._cmfs,
-                self.__A),
+                self._cmfs, self.__A),
             np.array([14.47779980, 10.86358645, 2.04751388]),
             decimal=7)
 
@@ -659,8 +622,7 @@ class TestSpectral_to_XYZ_ASTME30815(unittest.TestCase):
         np.testing.assert_almost_equal(
             spectral_to_XYZ_ASTME30815(
                 self._spd.clone().align(SpectralShape(400, 700, 10)),
-                self._cmfs,
-                self.__A),
+                self._cmfs, self.__A),
             np.array([14.54137532, 10.88641727, 2.04931318]),
             decimal=7)
 
@@ -682,8 +644,7 @@ class TestSpectral_to_XYZ_ASTME30815(unittest.TestCase):
         np.testing.assert_almost_equal(
             spectral_to_XYZ_ASTME30815(
                 self._spd.clone().align(SpectralShape(360, 820, 20)),
-                self._cmfs,
-                self.__A),
+                self._cmfs, self.__A),
             np.array([14.50187464, 10.87217124, 2.04918305]),
             decimal=7)
 
@@ -708,8 +669,7 @@ class TestSpectral_to_XYZ_ASTME30815(unittest.TestCase):
         np.testing.assert_almost_equal(
             spectral_to_XYZ_ASTME30815(
                 self._spd.clone().align(SpectralShape(400, 700, 20)),
-                self._cmfs,
-                self.__A),
+                self._cmfs, self.__A),
             np.array([14.54114025, 10.88634755, 2.04916445]),
             decimal=7)
 
@@ -765,47 +725,39 @@ class TestWavelength_to_XYZ(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            wavelength_to_XYZ(
-                480,
-                CMFS['CIE 1931 2 Degree Standard Observer']),
+            wavelength_to_XYZ(480,
+                              CMFS['CIE 1931 2 Degree Standard Observer']),
             np.array([0.09564, 0.13902, 0.81295]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            wavelength_to_XYZ(
-                480,
-                CMFS['CIE 2012 2 Degree Standard Observer']),
+            wavelength_to_XYZ(480,
+                              CMFS['CIE 2012 2 Degree Standard Observer']),
             np.array([0.08182895, 0.17880480, 0.75523790]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            wavelength_to_XYZ(
-                641.5,
-                CMFS['CIE 2012 2 Degree Standard Observer']),
+            wavelength_to_XYZ(641.5,
+                              CMFS['CIE 2012 2 Degree Standard Observer']),
             np.array([0.44575583, 0.18184213, 0.00000000]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            wavelength_to_XYZ(
-                480.5,
-                CMFS['CIE 2012 2 Degree Standard Observer'],
-                'Cubic Spline'),
+            wavelength_to_XYZ(480.5,
+                              CMFS['CIE 2012 2 Degree Standard Observer'],
+                              'Cubic Spline'),
             np.array([0.07773422, 0.18148028, 0.7337162]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             wavelength_to_XYZ(
-                480.5,
-                CMFS['CIE 2012 2 Degree Standard Observer'],
-                'Linear'),
+                480.5, CMFS['CIE 2012 2 Degree Standard Observer'], 'Linear'),
             np.array([0.07779856, 0.18149335, 0.7340129]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             wavelength_to_XYZ(
-                480.5,
-                CMFS['CIE 2012 2 Degree Standard Observer'],
-                'Pchip'),
+                480.5, CMFS['CIE 2012 2 Degree Standard Observer'], 'Pchip'),
             np.array([0.07773515, 0.18148048, 0.73372294]),
             decimal=7)
 
@@ -819,30 +771,22 @@ class TestWavelength_to_XYZ(unittest.TestCase):
         wl = 480
         XYZ = np.array([0.09564, 0.13902, 0.81295])
         np.testing.assert_almost_equal(
-            wavelength_to_XYZ(wl, cmfs),
-            XYZ,
-            decimal=7)
+            wavelength_to_XYZ(wl, cmfs), XYZ, decimal=7)
 
         wl = np.tile(wl, 6)
         XYZ = np.tile(XYZ, (6, 1))
         np.testing.assert_almost_equal(
-            wavelength_to_XYZ(wl, cmfs),
-            XYZ,
-            decimal=7)
+            wavelength_to_XYZ(wl, cmfs), XYZ, decimal=7)
 
         wl = np.reshape(wl, (2, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
         np.testing.assert_almost_equal(
-            wavelength_to_XYZ(wl, cmfs),
-            XYZ,
-            decimal=7)
+            wavelength_to_XYZ(wl, cmfs), XYZ, decimal=7)
 
         wl = np.reshape(wl, (2, 3, 1))
         XYZ = np.reshape(XYZ, (2, 3, 1, 3))
         np.testing.assert_almost_equal(
-            wavelength_to_XYZ(wl, cmfs),
-            XYZ,
-            decimal=7)
+            wavelength_to_XYZ(wl, cmfs), XYZ, decimal=7)
 
 
 if __name__ == '__main__':

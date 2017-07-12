@@ -1,5 +1,5 @@
-colour.notation.triplet Module
-==============================
+colour\.notation\.triplet Module
+================================
 
 .. automodule:: colour.notation.triplet
     :members:

@@ -1,5 +1,5 @@
-colour.models.rgb.transfer_functions Package
-============================================
+colour\.models\.rgb\.transfer\_functions Package
+================================================
 
 Sub-Modules
 -----------
@@ -8,13 +8,16 @@ Sub-Modules
 
    colour.models.rgb.transfer_functions.aces
    colour.models.rgb.transfer_functions.alexa_log_c
+   colour.models.rgb.transfer_functions.arib_std_b67
    colour.models.rgb.transfer_functions.bt_1886
    colour.models.rgb.transfer_functions.bt_2020
    colour.models.rgb.transfer_functions.bt_709
    colour.models.rgb.transfer_functions.canon_log
    colour.models.rgb.transfer_functions.cineon
    colour.models.rgb.transfer_functions.dci_p3
+   colour.models.rgb.transfer_functions.dicom_gsdf
    colour.models.rgb.transfer_functions.gamma
+   colour.models.rgb.transfer_functions.gopro
    colour.models.rgb.transfer_functions.linear
    colour.models.rgb.transfer_functions.panalog
    colour.models.rgb.transfer_functions.panasonic_vlog

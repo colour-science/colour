@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 CSV Tabular Data Input / Output
 ===============================
@@ -27,9 +26,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['read_spectral_data_from_csv_file',
-           'read_spds_from_csv_file',
-           'write_spds_to_csv_file']
+__all__ = [
+    'read_spectral_data_from_csv_file', 'read_spds_from_csv_file',
+    'write_spds_to_csv_file'
+]
 
 
 def read_spectral_data_from_csv_file(path,
@@ -120,9 +120,8 @@ def read_spectral_data_from_csv_file(path,
     """
 
     with open(path, 'rU') as csv_file:
-        reader = csv.DictReader(csv_file,
-                                delimiter=str(delimiter),
-                                fieldnames=fields)
+        reader = csv.DictReader(
+            csv_file, delimiter=str(delimiter), fieldnames=fields)
         if len(reader.fieldnames) == 1:
             raise RuntimeError(('A "CSV" spectral data file should define '
                                 'the following fields: '
@@ -143,10 +142,7 @@ def read_spectral_data_from_csv_file(path,
         return data
 
 
-def read_spds_from_csv_file(path,
-                            delimiter=',',
-                            fields=None,
-                            default=0):
+def read_spds_from_csv_file(path, delimiter=',', fields=None, default=0):
     """
     Reads the spectral data from given *CSV* file and return its content as an
     *OrderedDict* of
@@ -186,20 +182,14 @@ def read_spds_from_csv_file(path,
     SpectralPowerDistribution('1', (380.0, 780.0, 5.0))
     """
 
-    data = read_spectral_data_from_csv_file(path,
-                                            delimiter,
-                                            fields,
-                                            default)
+    data = read_spectral_data_from_csv_file(path, delimiter, fields, default)
 
     spds = OrderedDict(((key, SpectralPowerDistribution(key, value))
                         for key, value in data.items()))
     return spds
 
 
-def write_spds_to_csv_file(spds,
-                           path,
-                           delimiter=',',
-                           fields=None):
+def write_spds_to_csv_file(spds, path, delimiter=',', fields=None):
     """
     Writes the given spectral power distributions to given *CSV* file.
 
@@ -236,10 +226,11 @@ def write_spds_to_csv_file(spds,
     wavelengths = tuple(spds.values())[0].wavelengths
     with open(path, 'w') as csv_file:
         fields = list(fields) if fields is not None else sorted(spds.keys())
-        writer = csv.DictWriter(csv_file,
-                                delimiter=str(delimiter),
-                                fieldnames=['wavelength'] + fields,
-                                lineterminator='\n')
+        writer = csv.DictWriter(
+            csv_file,
+            delimiter=str(delimiter),
+            fieldnames=['wavelength'] + fields,
+            lineterminator='\n')
         # Python 2.7.x / 3.4.x only.
         # writer.writeheader()
         writer.writerow(dict((name, name) for name in writer.fieldnames))

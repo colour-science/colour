@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Showcases colour component transfer functions (CCTF) relates computations.
 """
@@ -62,7 +61,7 @@ print('\n')
 message_box(('Encoding to video component signal value using a pure gamma '
              'function and given linear-light value:\n'
              '\n\t{0}'.format(C)))
-print(colour.gamma_function(C, 1 / 2.2))
+print(colour.function_gamma(C, 1 / 2.2))
 
 print('\n')
 
@@ -70,4 +69,4 @@ N = 0.45865645
 message_box(('Decoding to linear-light value using a pure gamma function and '
              'given video component signal value:\n'
              '\n\t{0}'.format(N)))
-print(colour.gamma_function(N, 2.2))
+print(colour.function_gamma(N, 2.2))

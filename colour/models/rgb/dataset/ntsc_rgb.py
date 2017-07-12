@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 NTSC RGB Colourspace
 ====================
@@ -29,10 +28,8 @@ import numpy as np
 from functools import partial
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import (
-    RGB_Colourspace,
-    gamma_function,
-    normalised_primary_matrix)
+from colour.models.rgb import (RGB_Colourspace, function_gamma,
+                               normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -41,17 +38,15 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['NTSC_RGB_PRIMARIES',
-           'NTSC_RGB_ILLUMINANT',
-           'NTSC_RGB_WHITEPOINT',
-           'NTSC_RGB_TO_XYZ_MATRIX',
-           'XYZ_TO_NTSC_RGB_MATRIX',
-           'NTSC_RGB_COLOURSPACE']
+__all__ = [
+    'NTSC_RGB_PRIMARIES', 'NTSC_RGB_ILLUMINANT', 'NTSC_RGB_WHITEPOINT',
+    'NTSC_RGB_TO_XYZ_MATRIX', 'XYZ_TO_NTSC_RGB_MATRIX', 'NTSC_RGB_COLOURSPACE'
+]
 
 NTSC_RGB_PRIMARIES = np.array(
     [[0.67, 0.33],
      [0.21, 0.71],
-     [0.14, 0.08]])
+     [0.14, 0.08]])  # yapf: disable
 """
 *NTSC RGB* colourspace primaries.
 
@@ -73,8 +68,8 @@ NTSC_RGB_WHITEPOINT = (
 NTSC_RGB_WHITEPOINT : ndarray
 """
 
-NTSC_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(
-    NTSC_RGB_PRIMARIES, NTSC_RGB_WHITEPOINT)
+NTSC_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(NTSC_RGB_PRIMARIES,
+                                                   NTSC_RGB_WHITEPOINT)
 """
 *NTSC RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 
@@ -95,8 +90,8 @@ NTSC_RGB_COLOURSPACE = RGB_Colourspace(
     NTSC_RGB_ILLUMINANT,
     NTSC_RGB_TO_XYZ_MATRIX,
     XYZ_TO_NTSC_RGB_MATRIX,
-    partial(gamma_function, exponent=1 / 2.2),
-    partial(gamma_function, exponent=2.2))
+    partial(function_gamma, exponent=1 / 2.2),
+    partial(function_gamma, exponent=2.2))  # yapf: disable
 """
 *NTSC RGB* colourspace.
 

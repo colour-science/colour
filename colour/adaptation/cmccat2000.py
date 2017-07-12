@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 CMCCAT2000 Chromatic Adaptation Model
 =====================================
@@ -44,12 +43,12 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['CMCCAT2000_INVERSE_CAT',
-           'CMCCAT2000_InductionFactors',
-           'CMCCAT2000_VIEWING_CONDITIONS',
-           'chromatic_adaptation_forward_CMCCAT2000',
-           'chromatic_adaptation_reverse_CMCCAT2000',
-           'chromatic_adaptation_CMCCAT2000']
+__all__ = [
+    'CMCCAT2000_INVERSE_CAT', 'CMCCAT2000_InductionFactors',
+    'CMCCAT2000_VIEWING_CONDITIONS', 'chromatic_adaptation_forward_CMCCAT2000',
+    'chromatic_adaptation_reverse_CMCCAT2000',
+    'chromatic_adaptation_CMCCAT2000'
+]
 
 CMCCAT2000_INVERSE_CAT = np.linalg.inv(CMCCAT2000_CAT)
 """
@@ -60,8 +59,7 @@ CMCCAT2000_INVERSE_CAT : array_like, (3, 3)
 
 
 class CMCCAT2000_InductionFactors(
-    namedtuple('CMCCAT2000_InductionFactors',
-               ('F',))):
+        namedtuple('CMCCAT2000_InductionFactors', ('F', ))):
     """
     *CMCCAT2000* chromatic adaptation model induction factors.
 
@@ -72,10 +70,11 @@ class CMCCAT2000_InductionFactors(
     """
 
 
-CMCCAT2000_VIEWING_CONDITIONS = CaseInsensitiveMapping(
-    {'Average': CMCCAT2000_InductionFactors(1.),
-     'Dim': CMCCAT2000_InductionFactors(0.8),
-     'Dark': CMCCAT2000_InductionFactors(0.8)})
+CMCCAT2000_VIEWING_CONDITIONS = CaseInsensitiveMapping({
+    'Average': CMCCAT2000_InductionFactors(1),
+    'Dim': CMCCAT2000_InductionFactors(0.8),
+    'Dark': CMCCAT2000_InductionFactors(0.8)
+})
 """
 Reference *CMCCAT2000* chromatic adaptation model viewing conditions.
 
@@ -149,15 +148,14 @@ def chromatic_adaptation_forward_CMCCAT2000(
     RGB_w = dot_vector(CMCCAT2000_CAT, XYZ_w)
     RGB_wr = dot_vector(CMCCAT2000_CAT, XYZ_wr)
 
-    D = (surround.F *
-         (0.08 * np.log10(0.5 * (L_A1 + L_A2)) +
-          0.76 - 0.45 * (L_A1 - L_A2) / (L_A1 + L_A2)))
+    D = (surround.F * (0.08 * np.log10(0.5 * (L_A1 + L_A2)) + 0.76 - 0.45 *
+                       (L_A1 - L_A2) / (L_A1 + L_A2)))
 
     D = np.clip(D, 0, 1)
     a = D * XYZ_w[..., 1] / XYZ_wr[..., 1]
 
-    RGB_c = (RGB *
-             (a[..., np.newaxis] * (RGB_wr / RGB_w) + 1 - D[..., np.newaxis]))
+    RGB_c = (RGB * (a[..., np.newaxis] *
+                    (RGB_wr / RGB_w) + 1 - D[..., np.newaxis]))
     XYZ_c = dot_vector(CMCCAT2000_INVERSE_CAT, RGB_c)
 
     return XYZ_c
@@ -228,15 +226,14 @@ def chromatic_adaptation_reverse_CMCCAT2000(
     RGB_w = dot_vector(CMCCAT2000_CAT, XYZ_w)
     RGB_wr = dot_vector(CMCCAT2000_CAT, XYZ_wr)
 
-    D = (surround.F *
-         (0.08 * np.log10(0.5 * (L_A1 + L_A2)) +
-          0.76 - 0.45 * (L_A1 - L_A2) / (L_A1 + L_A2)))
+    D = (surround.F * (0.08 * np.log10(0.5 * (L_A1 + L_A2)) + 0.76 - 0.45 *
+                       (L_A1 - L_A2) / (L_A1 + L_A2)))
 
     D = np.clip(D, 0, 1)
     a = D * XYZ_w[..., 1] / XYZ_wr[..., 1]
 
-    RGB = (RGB_c /
-           (a[..., np.newaxis] * (RGB_wr / RGB_w) + 1 - D[..., np.newaxis]))
+    RGB = (RGB_c / (a[..., np.newaxis] *
+                    (RGB_wr / RGB_w) + 1 - D[..., np.newaxis]))
     XYZ = dot_vector(CMCCAT2000_INVERSE_CAT, RGB)
 
     return XYZ
@@ -317,8 +314,8 @@ def chromatic_adaptation_CMCCAT2000(
     """
 
     if method.lower() == 'forward':
-        return chromatic_adaptation_forward_CMCCAT2000(
-            XYZ, XYZ_w, XYZ_wr, L_A1, L_A2, surround)
+        return chromatic_adaptation_forward_CMCCAT2000(XYZ, XYZ_w, XYZ_wr,
+                                                       L_A1, L_A2, surround)
     else:
-        return chromatic_adaptation_reverse_CMCCAT2000(
-            XYZ, XYZ_w, XYZ_wr, L_A1, L_A2, surround)
+        return chromatic_adaptation_reverse_CMCCAT2000(XYZ, XYZ_w, XYZ_wr,
+                                                       L_A1, L_A2, surround)

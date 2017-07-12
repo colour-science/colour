@@ -1,5 +1,5 @@
-colour.models Package
-=====================
+colour\.models Package
+======================
 
 Sub-Packages
 ------------
@@ -20,6 +20,8 @@ Sub-Modules
    colour.models.cie_uvw
    colour.models.cie_xyy
    colour.models.common
+   colour.models.hdr_cie_lab
+   colour.models.hdr_ipt
    colour.models.hunter_lab
    colour.models.hunter_rdab
    colour.models.ipt

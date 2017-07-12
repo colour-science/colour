@@ -1,5 +1,5 @@
-colour.models.dataset Package
-=============================
+colour\.models\.dataset Package
+===============================
 
 Sub-Modules
 -----------

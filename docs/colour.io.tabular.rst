@@ -1,5 +1,5 @@
-colour.io.tabular Module
-========================
+colour\.io\.tabular Module
+==========================
 
 .. automodule:: colour.io.tabular
     :members:

@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 DCI-P3 Colourspace
 ==================
@@ -36,8 +35,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['oetf_DCIP3',
-           'eotf_DCIP3']
+__all__ = ['oetf_DCIP3', 'eotf_DCIP3']
 
 
 def oetf_DCIP3(XYZ):

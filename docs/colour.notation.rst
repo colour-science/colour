@@ -1,5 +1,5 @@
-colour.notation Package
-=======================
+colour\.notation Package
+========================
 
 Sub-Packages
 ------------

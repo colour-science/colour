@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Deprecated Colour Models Transformations
 ========================================
@@ -50,14 +49,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['RGB_to_HSV',
-           'HSV_to_RGB',
-           'RGB_to_HSL',
-           'HSL_to_RGB',
-           'RGB_to_CMY',
-           'CMY_to_RGB',
-           'CMY_to_CMYK',
-           'CMYK_to_CMY']
+__all__ = [
+    'RGB_to_HSV', 'HSV_to_RGB', 'RGB_to_HSL', 'HSL_to_RGB', 'RGB_to_CMY',
+    'CMY_to_RGB', 'CMY_to_CMYK', 'CMYK_to_CMY'
+]
 
 
 def RGB_to_HSV(RGB):
@@ -160,14 +155,15 @@ def HSV_to_RGB(HSV):
 
     i = tstack((i, i, i)).astype(np.uint8)
 
-    RGB = np.choose(i,
-                    (tstack((V, l, j)),
-                     tstack((k, V, j)),
-                     tstack((j, V, l)),
-                     tstack((j, k, V)),
-                     tstack((l, j, V)),
-                     tstack((V, j, k))),
-                    mode='clip')
+    RGB = np.choose(
+        i,
+        (tstack((V, l, j)),
+         tstack((k, V, j)),
+         tstack((j, V, l)),
+         tstack((j, k, V)),
+         tstack((l, j, V)),
+         tstack((V, j, k))),
+        mode='clip')  # yapf: disable
 
     return RGB
 
@@ -211,8 +207,7 @@ def RGB_to_HSL(RGB):
 
     L = (maximum + minimum) / 2
 
-    S = np.where(L < 0.5,
-                 delta / (maximum + minimum),
+    S = np.where(L < 0.5, delta / (maximum + minimum),
                  delta / (2 - maximum - minimum))
     S[np.asarray(delta == 0)] = 0
 
@@ -277,15 +272,13 @@ def HSL_to_RGB(HSL):
 
         v = np.full(vi.shape, np.nan)
 
-        v = np.where(np.logical_and(6 * vH < 1, np.isnan(v)),
-                     vi + (vj - vi) * 6 * vH,
-                     v)
-        v = np.where(np.logical_and(2 * vH < 1, np.isnan(v)),
-                     vj,
-                     v)
-        v = np.where(np.logical_and(3 * vH < 2, np.isnan(v)),
-                     vi + (vj - vi) * ((2 / 3) - vH) * 6,
-                     v)
+        v = np.where(
+            np.logical_and(6 * vH < 1, np.isnan(v)),
+            vi + (vj - vi) * 6 * vH, v)  # yapf: disable
+        v = np.where(np.logical_and(2 * vH < 1, np.isnan(v)), vj, v)
+        v = np.where(
+            np.logical_and(3 * vH < 2, np.isnan(v)),
+            vi + (vj - vi) * ((2 / 3) - vH) * 6, v)
         v = np.where(np.isnan(v), vi, v)
 
         return v
@@ -462,8 +455,6 @@ def CMYK_to_CMY(CMYK):
 
     C, M, Y, K = tsplit(CMYK)
 
-    CMY = tstack((C * (1 - K) + K,
-                  M * (1 - K) + K,
-                  Y * (1 - K) + K))
+    CMY = tstack((C * (1 - K) + K, M * (1 - K) + K, Y * (1 - K) + K))
 
     return CMY

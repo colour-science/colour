@@ -1,5 +1,5 @@
-colour.io.image Module
-======================
+colour\.io\.image Module
+========================
 
 .. automodule:: colour.io.image
     :members:

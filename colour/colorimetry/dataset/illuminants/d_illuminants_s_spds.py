@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 CIE Standard Illuminant D Series :math:`S_n(\lambda)` Distributions
 ===================================================================
@@ -38,8 +37,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['D_ILLUMINANTS_S_SPDS_DATA',
-           'D_ILLUMINANTS_S_SPDS']
+__all__ = ['D_ILLUMINANTS_S_SPDS_DATA', 'D_ILLUMINANTS_S_SPDS']
 
 D_ILLUMINANTS_S_SPDS_DATA = {
     'S0': {
@@ -208,15 +206,15 @@ D_ILLUMINANTS_S_SPDS_DATA = {
         800: 6.4,
         810: 5.5,
         820: 6.1,
-        830: 6.5}}
+        830: 6.5
+    }
+}
 
-D_ILLUMINANTS_S_SPDS = CaseInsensitiveMapping(
-    {'S0': SpectralPowerDistribution(
-        'S0', D_ILLUMINANTS_S_SPDS_DATA['S0']),
-     'S1': SpectralPowerDistribution(
-         'S1', D_ILLUMINANTS_S_SPDS_DATA['S1']),
-     'S2': SpectralPowerDistribution(
-         'S2', D_ILLUMINANTS_S_SPDS_DATA['S2'])})
+D_ILLUMINANTS_S_SPDS = CaseInsensitiveMapping({
+    'S0': SpectralPowerDistribution('S0', D_ILLUMINANTS_S_SPDS_DATA['S0']),
+    'S1': SpectralPowerDistribution('S1', D_ILLUMINANTS_S_SPDS_DATA['S1']),
+    'S2': SpectralPowerDistribution('S2', D_ILLUMINANTS_S_SPDS_DATA['S2'])
+})
 """
 *CIE Standard Illuminant D Series* :math:`S_n(\lambda)` spectral power
 distributions

@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Showcases *Luminance* computations.
 """
@@ -27,6 +26,15 @@ message_box(('Computing "luminance" using "CIE 1976" method for given '
              '\n\t{0}'.format(L)))
 print(colour.luminance_CIE1976(L))
 print(colour.luminance(L))
+
+print('\n')
+
+L = 23.10363383
+message_box(('Computing "luminance" using "Fairchild and Wyble (2010)" method '
+             'for given "Lightness":\n'
+             '\n\t{0}'.format(L)))
+print(colour.luminance_Fairchild2010(L) * 100)
+print(colour.luminance(L, method='Fairchild 2010') * 100)
 
 print('\n')
 

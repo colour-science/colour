@@ -1,5 +1,5 @@
-colour.characterisation.dataset.displays.crt Package
-====================================================
+colour\.characterisation\.dataset\.displays\.crt Package
+========================================================
 
 Sub-Modules
 -----------

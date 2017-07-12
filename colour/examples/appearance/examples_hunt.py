@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Showcases *Hunt* colour appearance model computations.
 """
@@ -20,19 +19,11 @@ CCT_w = 6504.0
 message_box(('Converting to "Hunt" colour appearance model '
              'specification using given parameters:\n'
              '\n\tXYZ: {0}\n\tXYZ_w: {1}\n\tXYZ_b: {2}\n\tL_A: {3}'
-             '\n\tsurround: {4}\n\tCCT_w: {5}'.format(XYZ,
-                                                      XYZ_w,
-                                                      XYZ_b,
-                                                      L_A,
-                                                      surround,
-                                                      CCT_w)))
+             '\n\tsurround: {4}\n\tCCT_w: {5}'.format(XYZ, XYZ_w, XYZ_b, L_A,
+                                                      surround, CCT_w)))
 
-specification = colour.XYZ_to_Hunt(XYZ,
-                                   XYZ_w,
-                                   XYZ_b,
-                                   L_A,
-                                   surround,
-                                   CCT_w=CCT_w)
+specification = colour.XYZ_to_Hunt(
+    XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w)
 print(specification)
 
 print('\n')

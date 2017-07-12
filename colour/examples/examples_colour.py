@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Showcases overall *Colour* examples.
 """
@@ -45,32 +44,28 @@ message_box('N-Dimensional Arrays Support')
 
 XYZ = (0.07049534, 0.10080000, 0.09558313)
 illuminant = (0.34570, 0.35850)
-message_box('Using 1d "array_like" parameter:\n'
-            '\n{0}'.format(XYZ))
+message_box('Using 1d "array_like" parameter:\n' '\n{0}'.format(XYZ))
 print(colour.XYZ_to_Lab(XYZ, illuminant=illuminant))
 
 print('\n')
 
 XYZ = np.tile(XYZ, (6, 1))
 illuminant = np.tile(illuminant, (6, 1))
-message_box('Using 2d "array_like" parameter:\n'
-            '\n{0}'.format(XYZ))
+message_box('Using 2d "array_like" parameter:\n' '\n{0}'.format(XYZ))
 print(colour.XYZ_to_Lab(XYZ, illuminant=illuminant))
 
 print('\n')
 
 XYZ = np.reshape(XYZ, (2, 3, 3))
 illuminant = np.reshape(illuminant, (2, 3, 2))
-message_box('Using 3d "array_like" parameter:\n'
-            '\n{0}'.format(XYZ))
+message_box('Using 3d "array_like" parameter:\n' '\n{0}'.format(XYZ))
 print(colour.XYZ_to_Lab(XYZ, illuminant=illuminant))
 
 print('\n')
 
 XYZ = np.reshape(XYZ, (3, 2, 1, 3))
 illuminant = np.reshape(illuminant, (3, 2, 1, 2))
-message_box('Using 4d "array_like" parameter:\n'
-            '\n{0}'.format(XYZ))
+message_box('Using 4d "array_like" parameter:\n' '\n{0}'.format(XYZ))
 print(colour.XYZ_to_Lab(XYZ, illuminant=illuminant))
 
 print('\n')
@@ -107,8 +102,8 @@ message_box(('Parameters:\n\n'
              '\nY_o:\n\n{3}\n\n'
              '\nE_o1:\n\n{4}\n\n'
              '\nE_o2:\n\n{5}'.format(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)))
-print(colour.chromatic_adaptation_CIE1994(
-    XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2))
+print(
+    colour.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2))
 
 print('\n')
 
@@ -120,8 +115,8 @@ message_box(('Parameters:\n\n'
              '\nY_o:\n\n{3}\n\n'
              '\nE_o1:\n\n{4}\n\n'
              '\nE_o2:\n\n{5}'.format(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)))
-print(colour.chromatic_adaptation_CIE1994(
-    XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2))
+print(
+    colour.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2))
 
 print('\n')
 
@@ -137,8 +132,8 @@ message_box(('Parameters:\n\n'
              '\nY_o:\n\n{3}\n\n'
              '\nE_o1:\n\n{4}\n\n'
              '\nE_o2:\n\n{5}'.format(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)))
-print(colour.chromatic_adaptation_CIE1994(
-    XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2))
+print(
+    colour.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2))
 
 print('\n')
 
@@ -155,5 +150,5 @@ message_box(('Parameters:\n\n'
              '\nY_o:\n\n{3}\n\n'
              '\nE_o1:\n\n{4}\n\n'
              '\nE_o2:\n\n{5}'.format(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)))
-print(colour.chromatic_adaptation_CIE1994(
-    XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2))
+print(
+    colour.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2))

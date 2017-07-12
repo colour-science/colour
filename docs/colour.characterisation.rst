@@ -1,5 +1,5 @@
-colour.characterisation Package
-===============================
+colour\.characterisation Package
+================================
 
 Sub-Packages
 ------------

@@ -1,5 +1,5 @@
-colour.appearance.atd95 Module
-==============================
+colour\.appearance\.atd95 Module
+================================
 
 .. automodule:: colour.appearance.atd95
     :members:

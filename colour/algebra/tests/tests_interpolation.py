@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for :mod:`colour.algebra.interpolation` module.
 """
@@ -11,11 +10,8 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.algebra import (
-    LinearInterpolator,
-    SpragueInterpolator,
-    PchipInterpolator,
-    lagrange_coefficients)
+from colour.algebra import (LinearInterpolator, SpragueInterpolator,
+                            PchipInterpolator, lagrange_coefficients)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -25,15 +21,13 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['POINTS_DATA_A',
-           'LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES',
-           'SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES',
-           'LAGRANGE_COEFFICIENTS_A',
-           'LAGRANGE_COEFFICIENTS_B',
-           'TestLinearInterpolator',
-           'TestSpragueInterpolator',
-           'TestPchipInterpolator',
-           'TestLagrangeCoefficients']
+__all__ = [
+    'POINTS_DATA_A', 'LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES',
+    'SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES', 'LAGRANGE_COEFFICIENTS_A',
+    'LAGRANGE_COEFFICIENTS_B', 'TestLinearInterpolator',
+    'TestSpragueInterpolator', 'TestPchipInterpolator',
+    'TestLagrangeCoefficients'
+]
 
 POINTS_DATA_A = (
     9.3700,
@@ -51,7 +45,7 @@ POINTS_DATA_A = (
     69.5900,
     81.7300,
     88.1900,
-    86.0500)
+    86.0500)  # yapf: disable
 
 LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES = (
     9.370,
@@ -204,7 +198,7 @@ LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES = (
     86.692,
     86.478,
     86.264,
-    86.050)
+    86.050)  # yapf: disable
 
 SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES = (
     9.37000000,
@@ -357,7 +351,7 @@ SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES = (
     87.22734720,
     86.85002373,
     86.45733945,
-    86.05000000)
+    86.05000000)  # yapf: disable
 
 LAGRANGE_COEFFICIENTS_A = np.array(
     [[0.92625, 0.09750, -0.02375],
@@ -378,7 +372,7 @@ LAGRANGE_COEFFICIENTS_A = np.array(
      [0.12000, 0.96000, -0.08000],
      [0.08625, 0.97750, -0.06375],
      [0.05500, 0.99000, -0.04500],
-     [0.02625, 0.99750, -0.02375]])
+     [0.02625, 0.99750, -0.02375]])  # yapf: disable
 
 LAGRANGE_COEFFICIENTS_B = np.array(
     [[-0.0154375, 0.9725625, 0.0511875, -0.0083125],
@@ -399,7 +393,7 @@ LAGRANGE_COEFFICIENTS_B = np.array(
      [-0.0320000, 0.2160000, 0.8640000, -0.0480000],
      [-0.0244375, 0.1595625, 0.9041875, -0.0393125],
      [-0.0165000, 0.1045000, 0.9405000, -0.0285000],
-     [-0.0083125, 0.0511875, 0.9725625, -0.0154375]])
+     [-0.0083125, 0.0511875, 0.9725625, -0.0154375]])  # yapf: disable
 
 
 class TestLinearInterpolator(unittest.TestCase):
@@ -413,8 +407,7 @@ class TestLinearInterpolator(unittest.TestCase):
         Tests presence of required attributes.
         """
 
-        required_attributes = ('x',
-                               'y')
+        required_attributes = ('x', 'y')
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(LinearInterpolator))
@@ -483,8 +476,7 @@ class TestSpragueInterpolator(unittest.TestCase):
         Tests presence of required attributes.
         """
 
-        required_attributes = ('x',
-                               'y')
+        required_attributes = ('x', 'y')
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(SpragueInterpolator))
@@ -553,8 +545,7 @@ class TestPchipInterpolator(unittest.TestCase):
         Tests presence of required attributes.
         """
 
-        required_attributes = ('x',
-                               'y')
+        required_attributes = ('x', 'y')
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(PchipInterpolator))
@@ -593,12 +584,10 @@ class TestLagrangeCoefficients(unittest.TestCase):
                 199–203. doi:10.1002/col.5080100407
         """
 
-        lc = [lagrange_coefficients(i, 3)
-              for i in np.linspace(0.05, 0.95, 19)]
+        lc = [lagrange_coefficients(i, 3) for i in np.linspace(0.05, 0.95, 19)]
         np.testing.assert_almost_equal(lc, LAGRANGE_COEFFICIENTS_A, decimal=7)
 
-        lc = [lagrange_coefficients(i, 4)
-              for i in np.linspace(1.05, 1.95, 19)]
+        lc = [lagrange_coefficients(i, 4) for i in np.linspace(1.05, 1.95, 19)]
         np.testing.assert_almost_equal(lc, LAGRANGE_COEFFICIENTS_B, decimal=7)
 
 

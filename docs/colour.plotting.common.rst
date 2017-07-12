@@ -1,5 +1,5 @@
-colour.plotting.common Module
-=============================
+colour\.plotting\.common Module
+===============================
 
 .. automodule:: colour.plotting.common
     :members:

@@ -1,5 +1,5 @@
-colour.plotting.phenomenon Module
-=================================
+colour\.plotting\.phenomenon Module
+===================================
 
 .. automodule:: colour.plotting.phenomenon
     :members:

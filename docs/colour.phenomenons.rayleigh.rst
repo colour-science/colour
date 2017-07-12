@@ -1,5 +1,5 @@
-colour.phenomenons.rayleigh Module
-==================================
+colour\.phenomenons\.rayleigh Module
+====================================
 
 .. automodule:: colour.phenomenons.rayleigh
     :members:

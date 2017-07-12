@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Sony Colourspaces
 =================
@@ -42,12 +41,9 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import (
-    RGB_Colourspace,
-    log_encoding_SLog2,
-    log_decoding_SLog2,
-    log_encoding_SLog3,
-    log_decoding_SLog3)
+from colour.models.rgb import (RGB_Colourspace, log_encoding_SLog2,
+                               log_decoding_SLog2, log_encoding_SLog3,
+                               log_decoding_SLog3)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -56,24 +52,19 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['S_GAMUT_PRIMARIES',
-           'S_GAMUT_ILLUMINANT',
-           'S_GAMUT_WHITEPOINT',
-           'S_GAMUT_TO_XYZ_MATRIX',
-           'XYZ_TO_S_GAMUT_MATRIX',
-           'S_GAMUT_COLOURSPACE',
-           'S_GAMUT3_COLOURSPACE',
-           'S_GAMUT3_CINE_PRIMARIES',
-           'S_GAMUT3_CINE_ILLUMINANT',
-           'S_GAMUT3_CINE_WHITEPOINT',
-           'S_GAMUT3_CINE_TO_XYZ_MATRIX',
-           'XYZ_TO_S_GAMUT3_CINE_MATRIX',
-           'S_GAMUT3_CINE_COLOURSPACE']
+__all__ = [
+    'S_GAMUT_PRIMARIES', 'S_GAMUT_ILLUMINANT', 'S_GAMUT_WHITEPOINT',
+    'S_GAMUT_TO_XYZ_MATRIX', 'XYZ_TO_S_GAMUT_MATRIX', 'S_GAMUT_COLOURSPACE',
+    'S_GAMUT3_COLOURSPACE', 'S_GAMUT3_CINE_PRIMARIES',
+    'S_GAMUT3_CINE_ILLUMINANT', 'S_GAMUT3_CINE_WHITEPOINT',
+    'S_GAMUT3_CINE_TO_XYZ_MATRIX', 'XYZ_TO_S_GAMUT3_CINE_MATRIX',
+    'S_GAMUT3_CINE_COLOURSPACE'
+]
 
 S_GAMUT_PRIMARIES = np.array(
     [[0.730, 0.280],
      [0.140, 0.855],
-     [0.100, -0.050]])
+     [0.100, -0.050]])  # yapf: disable
 """
 *S-Gamut* colourspace primaries.
 
@@ -98,7 +89,7 @@ S_GAMUT_WHITEPOINT : ndarray
 S_GAMUT_TO_XYZ_MATRIX = np.array(
     [[0.7064827132, 0.1288010498, 0.1151721641],
      [0.2709796708, 0.7866064112, -0.0575860820],
-     [-0.0096778454, 0.0046000375, 1.0941355587]])
+     [-0.0096778454, 0.0046000375, 1.0941355587]])  # yapf: disable
 """
 *S-Gamut* colourspace to *CIE XYZ* tristimulus values matrix.
 
@@ -108,7 +99,7 @@ S_GAMUT_TO_XYZ_MATRIX : array_like, (3, 3)
 XYZ_TO_S_GAMUT_MATRIX = np.array(
     [[1.5073998991, -0.2458221374, -0.1716116808],
      [-0.5181517271, 1.3553912409, 0.1258786682],
-     [0.0155116982, -0.0078727714, 0.9119163656]])
+     [0.0155116982, -0.0078727714, 0.9119163656]])  # yapf: disable
 """
 *CIE XYZ* tristimulus values to *S-Gamut* colourspace matrix.
 
@@ -123,7 +114,7 @@ S_GAMUT_COLOURSPACE = RGB_Colourspace(
     S_GAMUT_TO_XYZ_MATRIX,
     XYZ_TO_S_GAMUT_MATRIX,
     log_encoding_SLog2,
-    log_decoding_SLog2)
+    log_decoding_SLog2)  # yapf: disable
 """
 *S-Gamut* colourspace.
 
@@ -138,7 +129,7 @@ S_GAMUT3_COLOURSPACE = RGB_Colourspace(
     S_GAMUT_TO_XYZ_MATRIX,
     XYZ_TO_S_GAMUT_MATRIX,
     log_encoding_SLog3,
-    log_decoding_SLog3)
+    log_decoding_SLog3)  # yapf: disable
 """
 *S-Gamut3* colourspace.
 
@@ -148,7 +139,7 @@ S_GAMUT3_COLOURSPACE : RGB_Colourspace
 S_GAMUT3_CINE_PRIMARIES = np.array(
     [[0.76600, 0.27500],
      [0.22500, 0.80000],
-     [0.08900, -0.08700]])
+     [0.08900, -0.08700]])  # yapf: disable
 """
 *S-Gamut3.Cine* colourspace primaries.
 
@@ -172,7 +163,7 @@ S_GAMUT3_CINE_WHITEPOINT : ndarray
 S_GAMUT3_CINE_TO_XYZ_MATRIX = np.array(
     [[0.5990839208, 0.2489255161, 0.1024464902],
      [0.2150758201, 0.8850685017, -0.1001443219],
-     [-0.0320658495, -0.0276583907, 1.1487819910]])
+     [-0.0320658495, -0.0276583907, 1.1487819910]])  # yapf: disable
 """
 *S-Gamut3.Cine* colourspace to *CIE XYZ* tristimulus values matrix.
 
@@ -182,7 +173,7 @@ S_GAMUT3_CINE_TO_XYZ_MATRIX : array_like, (3, 3)
 XYZ_TO_S_GAMUT3_CINE_MATRIX = np.array(
     [[1.8467789693, -0.5259861230, -0.2105452114],
      [-0.4441532629, 1.2594429028, 0.1493999729],
-     [0.0408554212, 0.0156408893, 0.8682072487]])
+     [0.0408554212, 0.0156408893, 0.8682072487]])  # yapf: disable
 """
 *CIE XYZ* tristimulus values to *S-Gamut3.Cine* colourspace matrix.
 
@@ -197,7 +188,7 @@ S_GAMUT3_CINE_COLOURSPACE = RGB_Colourspace(
     S_GAMUT3_CINE_TO_XYZ_MATRIX,
     XYZ_TO_S_GAMUT3_CINE_MATRIX,
     log_encoding_SLog3,
-    log_decoding_SLog3)
+    log_decoding_SLog3)  # yapf: disable
 """
 *S-Gamut3.Cine* colourspace.
 

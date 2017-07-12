@@ -1,5 +1,5 @@
-colour.adaptation Package
-=========================
+colour\.adaptation Package
+==========================
 
 Sub-Packages
 ------------

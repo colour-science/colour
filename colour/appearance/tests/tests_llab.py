@@ -1,6 +1,5 @@
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for :mod:`colour.appearance.llab` module.
 """
@@ -38,13 +37,15 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
 
     FIXTURE_BASENAME = 'llab.csv'
 
-    OUTPUT_ATTRIBUTES = {'L_L': 'J',
-                         'Ch_L': 'C',
-                         'h_L': 'h',
-                         's_L': 's',
-                         'C_L': 'M',
-                         'A_L': 'a',
-                         'B_L': 'b'}
+    OUTPUT_ATTRIBUTES = {
+        'L_L': 'J',
+        'Ch_L': 'C',
+        'h_L': 'h',
+        's_L': 's',
+        'C_L': 'M',
+        'A_L': 'a',
+        'B_L': 'b'
+    }
 
     def output_specification_from_data(self, data):
         """
@@ -65,14 +66,10 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
         XYZ = tstack((data['X'], data['Y'], data['Z']))
         XYZ_0 = tstack((data['X_0'], data['Y_0'], data['Z_0']))
 
-        specification = XYZ_to_LLAB(XYZ,
-                                    XYZ_0,
-                                    data['Y_b'],
-                                    data['L'],
-                                    LLAB_InductionFactors(1,
-                                                          data['F_S'],
-                                                          data['F_L'],
-                                                          data['F_C']))
+        specification = XYZ_to_LLAB(XYZ, XYZ_0, data['Y_b'], data['L'],
+                                    LLAB_InductionFactors(
+                                        1, data['F_S'], data['F_L'],
+                                        data['F_C']))
 
         return specification
 
@@ -92,8 +89,9 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
         """
 
         with mock.patch('colour.appearance.llab.LLAB_RGB_TO_XYZ_MATRIX',
-                        np.around(np.linalg.inv(llab.LLAB_XYZ_TO_RGB_MATRIX),
-                                  decimals=4)):
+                        np.around(
+                            np.linalg.inv(llab.LLAB_XYZ_TO_RGB_MATRIX),
+                            decimals=4)):
             for test in super(TestLLABColourAppearanceModel,
                               self).test_examples():
                 yield test
@@ -115,8 +113,9 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
         """
 
         with mock.patch('colour.appearance.llab.LLAB_RGB_TO_XYZ_MATRIX',
-                        np.around(np.linalg.inv(llab.LLAB_XYZ_TO_RGB_MATRIX),
-                                  decimals=4)):
+                        np.around(
+                            np.linalg.inv(llab.LLAB_XYZ_TO_RGB_MATRIX),
+                            decimals=4)):
             for test in super(TestLLABColourAppearanceModel,
                               self).test_n_dimensional_examples():
                 yield test

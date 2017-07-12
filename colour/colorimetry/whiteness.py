@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Whiteness Index :math:`W`
 =========================
@@ -10,7 +9,7 @@ Defines *whiteness* index :math:`W` computation objects:
 -   :func:`whiteness_Berger1959`
 -   :func:`whiteness_Taube1960`
 -   :func:`whiteness_Stensby1968`
--   :func:`whiteness_ASTM313`
+-   :func:`whiteness_ASTME313`
 -   :func:`whiteness_Ganz1979`
 -   :func:`whiteness_CIE2004`
 
@@ -47,14 +46,11 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['whiteness_Berger1959',
-           'whiteness_Taube1960',
-           'whiteness_Stensby1968',
-           'whiteness_ASTM313',
-           'whiteness_Ganz1979',
-           'whiteness_CIE2004',
-           'WHITENESS_METHODS',
-           'whiteness']
+__all__ = [
+    'whiteness_Berger1959', 'whiteness_Taube1960', 'whiteness_Stensby1968',
+    'whiteness_ASTME313', 'whiteness_Ganz1979', 'whiteness_CIE2004',
+    'WHITENESS_METHODS', 'whiteness'
+]
 
 
 def whiteness_Berger1959(XYZ, XYZ_0):
@@ -176,10 +172,10 @@ def whiteness_Stensby1968(Lab):
     return WI
 
 
-def whiteness_ASTM313(XYZ):
+def whiteness_ASTME313(XYZ):
     """
     Returns the *whiteness* index :math:`WI` of given sample *CIE XYZ*
-    tristimulus values using *ASTM 313* method. [2]_
+    tristimulus values using *ASTM E313* method. [2]_
 
     Parameters
     ----------
@@ -202,7 +198,7 @@ def whiteness_ASTM313(XYZ):
     Examples
     --------
     >>> XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
-    >>> whiteness_ASTM313(XYZ)  # doctest: +ELLIPSIS
+    >>> whiteness_ASTME313(XYZ)  # doctest: +ELLIPSIS
     55.7400000...
     """
 
@@ -339,18 +335,19 @@ def whiteness_CIE2004(xy,
     return WT
 
 
-WHITENESS_METHODS = CaseInsensitiveMapping(
-    {'Berger 1959': whiteness_Berger1959,
-     'Taube 1960': whiteness_Taube1960,
-     'Stensby 1968': whiteness_Stensby1968,
-     'ASTM 313': whiteness_ASTM313,
-     'Ganz 1979': whiteness_Ganz1979,
-     'CIE 2004': whiteness_CIE2004})
+WHITENESS_METHODS = CaseInsensitiveMapping({
+    'Berger 1959': whiteness_Berger1959,
+    'Taube 1960': whiteness_Taube1960,
+    'Stensby 1968': whiteness_Stensby1968,
+    'ASTM E313': whiteness_ASTME313,
+    'Ganz 1979': whiteness_Ganz1979,
+    'CIE 2004': whiteness_CIE2004
+})
 """
 Supported *whiteness* computations methods.
 
 WHITENESS_METHODS : CaseInsensitiveMapping
-    **{'CIE 2004', 'Berger 1959', 'Taube 1960', 'Stensby 1968', 'ASTM 313',
+    **{'CIE 2004', 'Berger 1959', 'Taube 1960', 'Stensby 1968', 'ASTM E313',
     'Ganz 1979', 'CIE 2004'}**
 
 Aliases:
@@ -367,15 +364,15 @@ def whiteness(method='CIE 2004', **kwargs):
     Parameters
     ----------
     method : unicode, optional
-        **{'CIE 2004', 'Berger 1959', 'Taube 1960', 'Stensby 1968', 'ASTM 313',
-        'Ganz 1979', 'CIE 2004'}**,
+        **{'CIE 2004', 'Berger 1959', 'Taube 1960', 'Stensby 1968',
+        'ASTM E313', 'Ganz 1979', 'CIE 2004'}**,
         Computation method.
 
     Other Parameters
     ----------------
     XYZ : array_like
         {:func:`whiteness_Berger1959`, :func:`whiteness_Taube1960`,
-        :func:`whiteness_ASTM313`},
+        :func:`whiteness_ASTME313`},
         *CIE XYZ* tristimulus values of sample.
     XYZ_0 : array_like
         {:func:`whiteness_Berger1959`, :func:`whiteness_Taube1960`},

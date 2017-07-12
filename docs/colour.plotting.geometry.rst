@@ -1,5 +1,5 @@
-colour.plotting.geometry Module
-===============================
+colour\.plotting\.geometry Module
+=================================
 
 .. automodule:: colour.plotting.geometry
     :members:

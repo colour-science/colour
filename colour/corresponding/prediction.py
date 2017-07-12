@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Corresponding Chromaticities Prediction
 =======================================
@@ -26,19 +25,12 @@ from __future__ import division, unicode_literals
 from collections import namedtuple
 
 from colour.adaptation import (
-    chromatic_adaptation_CIE1994,
-    chromatic_adaptation_CMCCAT2000,
-    chromatic_adaptation_Fairchild1990,
-    chromatic_adaptation_VonKries)
+    chromatic_adaptation_CIE1994, chromatic_adaptation_CMCCAT2000,
+    chromatic_adaptation_Fairchild1990, chromatic_adaptation_VonKries)
 from colour.corresponding import (
-    BRENEMAN_EXPERIMENTS,
-    BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES)
-from colour.models import (
-    Luv_to_uv,
-    Luv_uv_to_xy,
-    XYZ_to_Luv,
-    XYZ_to_xy,
-    xy_to_XYZ)
+    BRENEMAN_EXPERIMENTS, BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES)
+from colour.models import (Luv_to_uv, Luv_uv_to_xy, XYZ_to_Luv, XYZ_to_xy,
+                           xy_to_XYZ)
 from colour.utilities import CaseInsensitiveMapping, filter_kwargs
 
 __author__ = 'Colour Developers'
@@ -48,18 +40,20 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['CorrespondingChromaticitiesPrediction',
-           'corresponding_chromaticities_prediction_CIE1994',
-           'corresponding_chromaticities_prediction_CMCCAT2000',
-           'corresponding_chromaticities_prediction_Fairchild1990',
-           'corresponding_chromaticities_prediction_VonKries',
-           'CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS',
-           'corresponding_chromaticities_prediction']
+__all__ = [
+    'CorrespondingChromaticitiesPrediction',
+    'corresponding_chromaticities_prediction_CIE1994',
+    'corresponding_chromaticities_prediction_CMCCAT2000',
+    'corresponding_chromaticities_prediction_Fairchild1990',
+    'corresponding_chromaticities_prediction_VonKries',
+    'CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS',
+    'corresponding_chromaticities_prediction'
+]
 
 
 class CorrespondingChromaticitiesPrediction(
-    namedtuple('CorrespondingChromaticitiesPrediction',
-               ('name', 'uvp_t', 'uvp_m', 'uvp_p'))):
+        namedtuple('CorrespondingChromaticitiesPrediction',
+                   ('name', 'uvp_t', 'uvp_m', 'uvp_p'))):
     """
     Defines a chromatic adaptation model prediction.
 
@@ -119,20 +113,17 @@ def corresponding_chromaticities_prediction_CIE1994(experiment=1):
     xy_o2 = Luv_uv_to_xy(illuminants.uvp_m)
     # :math:`Y_o` is set to an arbitrary value in domain [18, 100].
     Y_o = 18
-    E_o1 = E_o2 = BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES[
-        experiment].Y
+    E_o1 = E_o2 = BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES[experiment].Y
 
     prediction = []
     for result in experiment_results:
         XYZ_1 = xy_to_XYZ(Luv_uv_to_xy(result.uvp_t)) * 100
-        XYZ_2 = chromatic_adaptation_CIE1994(
-            XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)
+        XYZ_2 = chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1,
+                                             E_o2)
         uvp = Luv_to_uv(XYZ_to_Luv(XYZ_2, xy_o2), xy_o2)
-        prediction.append(CorrespondingChromaticitiesPrediction(
-            result.name,
-            result.uvp_t,
-            result.uvp_m,
-            uvp))
+        prediction.append(
+            CorrespondingChromaticitiesPrediction(result.name, result.uvp_t,
+                                                  result.uvp_m, uvp))
 
     return tuple(prediction)
 
@@ -179,20 +170,17 @@ def corresponding_chromaticities_prediction_CMCCAT2000(experiment=1):
     XYZ_w = xy_to_XYZ(Luv_uv_to_xy(illuminants.uvp_t)) * 100
     XYZ_wr = xy_to_XYZ(Luv_uv_to_xy(illuminants.uvp_m)) * 100
     xy_wr = XYZ_to_xy(XYZ_wr)
-    L_A1 = L_A2 = BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES[
-        experiment].Y
+    L_A1 = L_A2 = BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES[experiment].Y
 
     prediction = []
     for result in experiment_results:
         XYZ_1 = xy_to_XYZ(Luv_uv_to_xy(result.uvp_t)) * 100
-        XYZ_2 = chromatic_adaptation_CMCCAT2000(
-            XYZ_1, XYZ_w, XYZ_wr, L_A1, L_A2)
+        XYZ_2 = chromatic_adaptation_CMCCAT2000(XYZ_1, XYZ_w, XYZ_wr, L_A1,
+                                                L_A2)
         uvp = Luv_to_uv(XYZ_to_Luv(XYZ_2, xy_wr), xy_wr)
-        prediction.append(CorrespondingChromaticitiesPrediction(
-            result.name,
-            result.uvp_t,
-            result.uvp_m,
-            uvp))
+        prediction.append(
+            CorrespondingChromaticitiesPrediction(result.name, result.uvp_t,
+                                                  result.uvp_m, uvp))
 
     return tuple(prediction)
 
@@ -244,14 +232,11 @@ def corresponding_chromaticities_prediction_Fairchild1990(experiment=1):
     prediction = []
     for result in experiment_results:
         XYZ_1 = xy_to_XYZ(Luv_uv_to_xy(result.uvp_t)) * 100
-        XYZ_2 = chromatic_adaptation_Fairchild1990(
-            XYZ_1, XYZ_n, XYZ_r, Y_n)
+        XYZ_2 = chromatic_adaptation_Fairchild1990(XYZ_1, XYZ_n, XYZ_r, Y_n)
         uvp = Luv_to_uv(XYZ_to_Luv(XYZ_2, xy_r), xy_r)
-        prediction.append(CorrespondingChromaticitiesPrediction(
-            result.name,
-            result.uvp_t,
-            result.uvp_m,
-            uvp))
+        prediction.append(
+            CorrespondingChromaticitiesPrediction(result.name, result.uvp_t,
+                                                  result.uvp_m, uvp))
 
     return tuple(prediction)
 
@@ -310,21 +295,19 @@ def corresponding_chromaticities_prediction_VonKries(experiment=1,
         XYZ_1 = xy_to_XYZ(Luv_uv_to_xy(result.uvp_t))
         XYZ_2 = chromatic_adaptation_VonKries(XYZ_1, XYZ_w, XYZ_wr, transform)
         uvp = Luv_to_uv(XYZ_to_Luv(XYZ_2, xy_wr), xy_wr)
-        prediction.append(CorrespondingChromaticitiesPrediction(
-            result.name,
-            result.uvp_t,
-            result.uvp_m,
-            uvp))
+        prediction.append(
+            CorrespondingChromaticitiesPrediction(result.name, result.uvp_t,
+                                                  result.uvp_m, uvp))
 
     return tuple(prediction)
 
 
-CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS = CaseInsensitiveMapping(
-    {'CIE 1994': corresponding_chromaticities_prediction_CIE1994,
-     'CMCCAT2000': corresponding_chromaticities_prediction_CMCCAT2000,
-     'Fairchild 1990': corresponding_chromaticities_prediction_Fairchild1990,
-     'Von Kries': corresponding_chromaticities_prediction_VonKries})
-
+CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS = CaseInsensitiveMapping({
+    'CIE 1994': corresponding_chromaticities_prediction_CIE1994,
+    'CMCCAT2000': corresponding_chromaticities_prediction_CMCCAT2000,
+    'Fairchild 1990': corresponding_chromaticities_prediction_Fairchild1990,
+    'Von Kries': corresponding_chromaticities_prediction_VonKries
+})
 """
 Aggregated corresponding chromaticities prediction models.
 

@@ -1,5 +1,5 @@
-colour.quality.cqs Module
-=========================
+colour\.quality\.cqs Module
+===========================
 
 .. automodule:: colour.quality.cqs
     :members:

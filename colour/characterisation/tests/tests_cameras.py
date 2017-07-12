@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for :mod:`colour.characterisation.cameras` module.
 """
@@ -32,19 +31,9 @@ class TestRGB_SpectralSensitivities(unittest.TestCase):
         Tests presence of required attributes.
         """
 
-        required_attributes = ('name',
-                               'mapping',
-                               'labels',
-                               'data',
-                               'x',
-                               'y',
-                               'z',
-                               'wavelengths',
-                               'values',
-                               'shape',
-                               'red',
-                               'green',
-                               'blue')
+        required_attributes = ('name', 'mapping', 'labels', 'data', 'x', 'y',
+                               'z', 'wavelengths', 'values', 'shape', 'red',
+                               'green', 'blue')
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(RGB_SpectralSensitivities))
@@ -54,25 +43,11 @@ class TestRGB_SpectralSensitivities(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__hash__',
-                            '__getitem__',
-                            '__setitem__',
-                            '__iter__',
-                            '__contains__',
-                            '__len__',
-                            '__eq__',
-                            '__ne__',
-                            '__add__',
-                            '__sub__',
-                            '__mul__',
-                            '__div__',
-                            'get',
-                            'extrapolate',
-                            'interpolate',
-                            'align',
-                            'zeros',
-                            'normalise',
-                            'clone')
+        required_methods = ('__hash__', '__getitem__', '__setitem__',
+                            '__iter__', '__contains__', '__len__', '__eq__',
+                            '__ne__', '__add__', '__sub__', '__mul__',
+                            '__div__', 'get', 'extrapolate', 'interpolate',
+                            'align', 'zeros', 'normalise', 'clone')
 
         for method in required_methods:
             self.assertIn(method, dir(RGB_SpectralSensitivities))

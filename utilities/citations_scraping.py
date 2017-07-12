@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Citations Scraping Utility
 ==========================
@@ -22,18 +21,17 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['CITATION_PATTERN',
-           'PREFIX_CITATION_PATTERN',
-           'API_TO_APA_SUBSTITUTIONS',
-           'citations_from_token',
-           'citations_from_module',
-           'citations_from_directory']
+__all__ = [
+    'CITATION_PATTERN', 'PREFIX_CITATION_PATTERN', 'API_TO_APA_SUBSTITUTIONS',
+    'citations_from_token', 'citations_from_module', 'citations_from_directory'
+]
 
 CITATION_PATTERN = '^\s*\.\.\s+\[\d+\]\s+'
 PREFIX_CITATION_PATTERN = '^\s*\.\.\s+'
-API_TO_APA_SUBSTITUTIONS = (('\*+', ''),
-                            # ('\[\d+\]\s+', ''),
-                            ('# noqa', ''))
+API_TO_APA_SUBSTITUTIONS = (
+    ('\*+', ''),
+    # ('\[\d+\]\s+', ''),
+    ('# noqa', ''))
 
 
 def citations_from_token(token_info):
@@ -63,8 +61,8 @@ def citations_from_token(token_info):
 
             if in_citation:
                 if not re.match(CITATION_PATTERN, line):
-                    citations[-1] = '{0} {1}'.format(
-                        citations[-1], line.strip())
+                    citations[-1] = '{0} {1}'.format(citations[-1],
+                                                     line.strip())
                 else:
                     citations.append(
                         re.sub(PREFIX_CITATION_PATTERN, '', line.strip()))
@@ -89,9 +87,9 @@ def citations_from_module(module):
         Citations from given module.
     """
 
-    module = BytesIO(codecs.open(module,
-                                 encoding='utf-8',
-                                 errors='ignore').read().encode('utf-8'))
+    module = BytesIO(
+        codecs.open(module, encoding='utf-8', errors='ignore').read().encode(
+            'utf-8'))
 
     citations = []
     for token in tokenize(module.readline):

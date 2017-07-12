@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 CIE Luv Colourspace
 ===================
@@ -46,12 +45,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['XYZ_to_Luv',
-           'Luv_to_XYZ',
-           'Luv_to_uv',
-           'Luv_uv_to_xy',
-           'Luv_to_LCHuv',
-           'LCHuv_to_Luv']
+__all__ = [
+    'XYZ_to_Luv', 'Luv_to_XYZ', 'Luv_to_uv', 'Luv_uv_to_xy', 'Luv_to_LCHuv',
+    'LCHuv_to_Luv'
+]
 
 
 def XYZ_to_Luv(
@@ -142,12 +139,12 @@ def Luv_to_XYZ(
 
     Y = np.where(L > CIE_E * CIE_K, ((L + 16) / 116) ** 3, L / CIE_K)
 
-    a = 1 / 3 * ((52 * L / (u + 13 * L *
-                            (4 * X_r / (X_r + 15 * Y_r + 3 * Z_r)))) - 1)
+    a = 1 / 3 * ((52 * L / (u + 13 * L * (4 * X_r /
+                                          (X_r + 15 * Y_r + 3 * Z_r)))) - 1)
     b = -5 * Y
     c = -1 / 3.0
-    d = Y * (39 * L / (v + 13 * L *
-                       (9 * Y_r / (X_r + 15 * Y_r + 3 * Z_r))) - 5)
+    d = Y * (39 * L / (v + 13 * L * (9 * Y_r /
+                                     (X_r + 15 * Y_r + 3 * Z_r))) - 5)
 
     X = (d - b) / (a - c)
     Z = X * a + b
@@ -193,8 +190,7 @@ def Luv_to_uv(
 
     X, Y, Z = tsplit(Luv_to_XYZ(Luv, illuminant))
 
-    uv = tstack((4 * X / (X + 15 * Y + 3 * Z),
-                 9 * Y / (X + 15 * Y + 3 * Z)))
+    uv = tstack((4 * X / (X + 15 * Y + 3 * Z), 9 * Y / (X + 15 * Y + 3 * Z)))
 
     return uv
 
@@ -233,8 +229,7 @@ def Luv_uv_to_xy(uv):
 
     u, v = tsplit(uv)
 
-    xy = tstack((9 * u / (6 * u - 16 * v + 12),
-                 4 * v / (6 * u - 16 * v + 12)))
+    xy = tstack((9 * u / (6 * u - 16 * v + 12), 4 * v / (6 * u - 16 * v + 12)))
 
     return xy
 

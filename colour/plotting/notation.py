@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Colour Notation Systems Plotting
 ================================
@@ -17,12 +16,8 @@ import numpy as np
 import pylab
 
 from colour.notation import MUNSELL_VALUE_METHODS
-from colour.plotting import (
-    DEFAULT_FIGURE_WIDTH,
-    boundaries,
-    canvas,
-    decorate,
-    display)
+from colour.plotting import (DEFAULT_FIGURE_WIDTH, boundaries, canvas,
+                             decorate, display)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -31,13 +26,12 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['single_munsell_value_function_plot',
-           'multi_munsell_value_function_plot']
+__all__ = [
+    'single_munsell_value_function_plot', 'multi_munsell_value_function_plot'
+]
 
 
-def single_munsell_value_function_plot(
-        function='ASTM D1535-08',
-        **kwargs):
+def single_munsell_value_function_plot(function='ASTM D1535-08', **kwargs):
     """
     Plots given *Lightness* function.
 
@@ -70,9 +64,7 @@ def single_munsell_value_function_plot(
     return multi_munsell_value_function_plot((function, ), **settings)
 
 
-def multi_munsell_value_function_plot(
-        functions=None,
-        **kwargs):
+def multi_munsell_value_function_plot(functions=None, **kwargs):
     """
     Plots given *Munsell* value functions.
 
@@ -120,12 +112,12 @@ def multi_munsell_value_function_plot(
             raise KeyError(
                 ('"{0}" "Munsell" value function not found in '
                  'factory "Munsell" value functions: "{1}".').format(
-                    name, sorted(MUNSELL_VALUE_METHODS.keys())))
+                     name, sorted(MUNSELL_VALUE_METHODS.keys())))
 
-        pylab.plot(samples,
-                   [function(x) for x in samples],
-                   label=u'{0}'.format(name),
-                   linewidth=2)
+        pylab.plot(
+            samples, [function(x) for x in samples],
+            label=u'{0}'.format(name),
+            linewidth=2)
 
     settings.update({
         'title': '{0} - Munsell Functions'.format(', '.join(functions)),
@@ -136,7 +128,8 @@ def multi_munsell_value_function_plot(
         'legend_location': 'upper left',
         'grid': True,
         'bounding_box': (0, 100, 0, 10),
-        'aspect': 10})
+        'aspect': 10
+    })
     settings.update(kwargs)
 
     boundaries(**settings)

@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Panalog Encoding
 ================
@@ -34,12 +33,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['log_encoding_Panalog',
-           'log_decoding_Panalog']
+__all__ = ['log_encoding_Panalog', 'log_decoding_Panalog']
 
 
-def log_encoding_Panalog(x,
-                         black_offset=10 ** ((64 - 681) / 444)):
+def log_encoding_Panalog(x, black_offset=10 ** ((64 - 681) / 444)):
     """
     Defines the *Panalog* log encoding curve / opto-electronic transfer
     function.
@@ -69,12 +66,11 @@ def log_encoding_Panalog(x,
 
     x = np.asarray(x)
 
-    return ((681 + 444 *
-             np.log10(x * (1 - black_offset) + black_offset)) / 1023)
+    return ((
+        681 + 444 * np.log10(x * (1 - black_offset) + black_offset)) / 1023)
 
 
-def log_decoding_Panalog(y,
-                         black_offset=10 ** ((64 - 681) / 444)):
+def log_decoding_Panalog(y, black_offset=10 ** ((64 - 681) / 444)):
     """
     Defines the *Panalog* log decoding curve / electro-optical transfer
     function.

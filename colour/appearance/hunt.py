@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Hunt Colour Appearance Model
 ============================
@@ -31,12 +30,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
-from colour.utilities import (
-    CaseInsensitiveMapping,
-    dot_vector,
-    tsplit,
-    tstack,
-    warning)
+from colour.utilities import (CaseInsensitiveMapping, dot_vector, tsplit,
+                              tstack, warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -45,39 +40,23 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['Hunt_InductionFactors',
-           'HUNT_VIEWING_CONDITIONS',
-           'HUE_DATA_FOR_HUE_QUADRATURE',
-           'XYZ_TO_HPE_MATRIX',
-           'HPE_TO_XYZ_MATRIX',
-           'Hunt_ReferenceSpecification',
-           'Hunt_Specification',
-           'XYZ_to_Hunt',
-           'luminance_level_adaptation_factor',
-           'illuminant_scotopic_luminance',
-           'XYZ_to_rgb',
-           'f_n',
-           'chromatic_adaptation',
-           'adjusted_reference_white_signals',
-           'achromatic_post_adaptation_signal',
-           'colour_difference_signals',
-           'hue_angle',
-           'eccentricity_factor',
-           'low_luminance_tritanopia_factor',
-           'yellowness_blueness_response',
-           'redness_greenness_response',
-           'overall_chromatic_response',
-           'saturation_correlate',
-           'achromatic_signal',
-           'brightness_correlate',
-           'lightness_correlate',
-           'chroma_correlate',
-           'colourfulness_correlate']
+__all__ = [
+    'Hunt_InductionFactors', 'HUNT_VIEWING_CONDITIONS',
+    'HUE_DATA_FOR_HUE_QUADRATURE', 'XYZ_TO_HPE_MATRIX', 'HPE_TO_XYZ_MATRIX',
+    'Hunt_ReferenceSpecification', 'Hunt_Specification', 'XYZ_to_Hunt',
+    'luminance_level_adaptation_factor', 'illuminant_scotopic_luminance',
+    'XYZ_to_rgb', 'f_n', 'chromatic_adaptation',
+    'adjusted_reference_white_signals', 'achromatic_post_adaptation_signal',
+    'colour_difference_signals', 'hue_angle', 'eccentricity_factor',
+    'low_luminance_tritanopia_factor', 'yellowness_blueness_response',
+    'redness_greenness_response', 'overall_chromatic_response',
+    'saturation_correlate', 'achromatic_signal', 'brightness_correlate',
+    'lightness_correlate', 'chroma_correlate', 'colourfulness_correlate'
+]
 
 
 class Hunt_InductionFactors(
-    namedtuple('Hunt_InductionFactors',
-               ('N_c', 'N_b', 'N_cb', 'N_bb'))):
+        namedtuple('Hunt_InductionFactors', ('N_c', 'N_b', 'N_cb', 'N_bb'))):
     """
     *Hunt* colour appearance model induction factors.
 
@@ -106,17 +85,18 @@ class Hunt_InductionFactors(
             cls, N_c, N_b, N_cb, N_bb)
 
 
-HUNT_VIEWING_CONDITIONS = CaseInsensitiveMapping(
-    {'Small Areas, Uniform Background & Surrounds': (
-        Hunt_InductionFactors(1, 300)),
-     'Normal Scenes': (
-         Hunt_InductionFactors(1, 75)),
-     'Television & CRT, Dim Surrounds': (
-         Hunt_InductionFactors(1, 25)),
-     'Large Transparencies On Light Boxes': (
-         Hunt_InductionFactors(0.7, 25)),
-     'Projected Transparencies, Dark Surrounds': (
-         Hunt_InductionFactors(0.7, 10))})
+HUNT_VIEWING_CONDITIONS = CaseInsensitiveMapping({
+    'Small Areas, Uniform Background & Surrounds':
+        Hunt_InductionFactors(1, 300),
+    'Normal Scenes':
+        Hunt_InductionFactors(1, 75),
+    'Television & CRT, Dim Surrounds':
+        Hunt_InductionFactors(1, 25),
+    'Large Transparencies On Light Boxes':
+        Hunt_InductionFactors(0.7, 25),
+    'Projected Transparencies, Dark Surrounds':
+        Hunt_InductionFactors(0.7, 10)
+})
 """
 Reference *Hunt* colour appearance model viewing conditions.
 
@@ -138,8 +118,7 @@ Aliases:
 """
 HUNT_VIEWING_CONDITIONS['small_uniform'] = (
     HUNT_VIEWING_CONDITIONS['Small Areas, Uniform Background & Surrounds'])
-HUNT_VIEWING_CONDITIONS['normal'] = (
-    HUNT_VIEWING_CONDITIONS['Normal Scenes'])
+HUNT_VIEWING_CONDITIONS['normal'] = (HUNT_VIEWING_CONDITIONS['Normal Scenes'])
 HUNT_VIEWING_CONDITIONS['tv_dim'] = (
     HUNT_VIEWING_CONDITIONS['Television & CRT, Dim Surrounds'])
 HUNT_VIEWING_CONDITIONS['light_boxes'] = (
@@ -149,12 +128,13 @@ HUNT_VIEWING_CONDITIONS['projected_dark'] = (
 
 HUE_DATA_FOR_HUE_QUADRATURE = {
     'h_s': np.array([20.14, 90.00, 164.25, 237.53]),
-    'e_s': np.array([0.8, 0.7, 1.0, 1.2])}
+    'e_s': np.array([0.8, 0.7, 1.0, 1.2])
+}
 
 XYZ_TO_HPE_MATRIX = np.array(
     [[0.38971, 0.68898, -0.07868],
      [-0.22981, 1.18340, 0.04641],
-     [0.00000, 0.00000, 1.00000]])
+     [0.00000, 0.00000, 1.00000]])  # yapf: disable
 """
 *Hunt* colour appearance model *CIE XYZ* tristimulus values to
 *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` colourspace matrix.
@@ -172,8 +152,8 @@ HPE_TO_XYZ_MATRIX : array_like, (3, 3)
 
 
 class Hunt_ReferenceSpecification(
-    namedtuple('Hunt_ReferenceSpecification',
-               ('J', 'C_94', 'h_S', 's', 'Q', 'M_94', 'H', 'H_C'))):
+        namedtuple('Hunt_ReferenceSpecification', ('J', 'C_94', 'h_S', 's',
+                                                   'Q', 'M_94', 'H', 'H_C'))):
     """
     Defines the *Hunt* colour appearance model reference specification.
 
@@ -202,8 +182,8 @@ class Hunt_ReferenceSpecification(
 
 
 class Hunt_Specification(
-    namedtuple('Hunt_Specification',
-               ('J', 'C', 'h', 's', 'Q', 'M', 'H', 'HC'))):
+        namedtuple('Hunt_Specification', ('J', 'C', 'h', 's', 'Q', 'M', 'H',
+                                          'HC'))):
     """
     Defines the *Hunt* colour appearance model specification.
 
@@ -380,26 +360,12 @@ s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
     F_L = luminance_level_adaptation_factor(L_A)
 
     # Computing test sample chromatic adaptation.
-    rgb_a = chromatic_adaptation(XYZ,
-                                 XYZ_w,
-                                 XYZ_b,
-                                 L_A,
-                                 F_L,
-                                 XYZ_p,
-                                 p,
-                                 helson_judd_effect,
-                                 discount_illuminant)
+    rgb_a = chromatic_adaptation(XYZ, XYZ_w, XYZ_b, L_A, F_L, XYZ_p, p,
+                                 helson_judd_effect, discount_illuminant)
 
     # Computing reference white chromatic adaptation.
-    rgb_aw = chromatic_adaptation(XYZ_w,
-                                  XYZ_w,
-                                  XYZ_b,
-                                  L_A,
-                                  F_L,
-                                  XYZ_p,
-                                  p,
-                                  helson_judd_effect,
-                                  discount_illuminant)
+    rgb_aw = chromatic_adaptation(XYZ_w, XYZ_w, XYZ_b, L_A, F_L, XYZ_p, p,
+                                  helson_judd_effect, discount_illuminant)
 
     # Computing opponent colour dimensions.
     # Computing achromatic post adaptation signals.
@@ -648,15 +614,15 @@ def chromatic_adaptation(XYZ,
 
     # Computing chromatic adaptation factors.
     if not discount_illuminant:
-        F_rgb = ((1 + (L_A ** (1 / 3)) + h_rgb) /
-                 (1 + (L_A ** (1 / 3)) + (1 / h_rgb)))
+        F_rgb = ((1 + (L_A ** (1 / 3)) + h_rgb) / (1 + (L_A ** (1 / 3)) +
+                                                   (1 / h_rgb)))
     else:
         F_rgb = np.ones(h_rgb.shape)
 
     # Computing Helson-Judd effect parameters.
     if helson_judd_effect:
-        D_rgb = (f_n((Y_b / Y_w) * F_L * F_rgb[..., 1]) -
-                 f_n((Y_b / Y_w) * F_L * F_rgb))
+        D_rgb = (f_n((Y_b / Y_w) * F_L * F_rgb[..., 1]) - f_n(
+            (Y_b / Y_w) * F_L * F_rgb))
     else:
         D_rgb = np.zeros(F_rgb.shape)
 
@@ -666,8 +632,7 @@ def chromatic_adaptation(XYZ,
     # Computing adjusted reference white signals.
     if XYZ_p is not None and p is not None:
         rgb_p = XYZ_to_rgb(XYZ_p)
-        rgb_w = adjusted_reference_white_signals(rgb_p, B_rgb, rgb_w,
-                                                 p)
+        rgb_w = adjusted_reference_white_signals(rgb_p, B_rgb, rgb_w, p)
 
     # Computing adapted cone responses.
     rgb_a = 1
@@ -815,8 +780,8 @@ def hue_angle(C):
 
     C_1, C_2, C_3 = tsplit(C)
 
-    hue = (180 * np.arctan2(0.5 * (C_2 - C_3) / 4.5,
-                            C_1 - (C_2 / 11)) / np.pi) % 360
+    hue = (180 * np.arctan2(0.5 * (C_2 - C_3) / 4.5, C_1 -
+                            (C_2 / 11)) / np.pi) % 360
     return hue
 
 
@@ -924,8 +889,8 @@ def yellowness_blueness_response(C, e_s, N_c, N_cb, F_t):
     N_cb = np.asarray(N_cb)
     F_t = np.asarray(F_t)
 
-    M_yb = (100 * (0.5 * (C_2 - C_3) / 4.5) *
-            (e_s * (10 / 13) * N_c * N_cb * F_t))
+    M_yb = (100 * (0.5 * (C_2 - C_3) / 4.5) * (e_s *
+                                               (10 / 13) * N_c * N_cb * F_t))
 
     return M_yb
 
@@ -1218,9 +1183,8 @@ def chroma_correlate(s, Y_b, Y_w, Q, Q_w):
     Q = np.asarray(Q)
     Q_w = np.asarray(Q_w)
 
-    C_94 = (2.44 * (s ** 0.69) *
-            ((Q / Q_w) ** (Y_b / Y_w)) *
-            (1.64 - 0.29 ** (Y_b / Y_w)))
+    C_94 = (2.44 * (s ** 0.69) * ((Q / Q_w) ** (Y_b / Y_w)) * (1.64 - 0.29 **
+                                                               (Y_b / Y_w)))
 
     return C_94
 

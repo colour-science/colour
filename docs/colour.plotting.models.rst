@@ -1,5 +1,5 @@
-colour.plotting.models Module
-=============================
+colour\.plotting\.models Module
+===============================
 
 .. automodule:: colour.plotting.models
     :members:

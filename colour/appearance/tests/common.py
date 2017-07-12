@@ -1,6 +1,5 @@
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines the common unit tests objects for :mod:`colour.appearance` package.
 """
@@ -10,7 +9,7 @@ from __future__ import division, unicode_literals
 import csv
 import numpy as np
 import os
-from abc import abstractmethod
+from abc import ABCMeta, abstractmethod
 from collections import defaultdict
 
 __author__ = 'Colour Developers'
@@ -28,7 +27,7 @@ class ColourAppearanceModelTest(object):
     Defines the base class for tests of: mod:`colour.appearance` package.
 
     Each colour appearance model is tested against a respective '.csv' file
-    from which content has been generated from data of the following file by
+    whose content has been generated from data of the following file by
     *Fairchild (2013)*: http://rit-mcsl.org/fairchild//files/AppModEx.xls
 
     Methods
@@ -39,6 +38,8 @@ class ColourAppearanceModelTest(object):
     check_model_consistency
     test_forward_examples
     """
+
+    __metaclass__ = ABCMeta
 
     FIXTURE_BASENAME = None
     """
@@ -78,9 +79,8 @@ class ColourAppearanceModelTest(object):
         """
 
         path = os.path.dirname(__file__)
-        with open(os.path.join(path,
-                               fixtures_directory,
-                               file_name)) as in_file:
+        with open(
+                os.path.join(path, fixtures_directory, file_name)) as in_file:
             result = []
             for case_data in csv.DictReader(in_file):
                 for key in case_data:
@@ -138,17 +138,16 @@ class ColourAppearanceModelTest(object):
             'Expected: "{2}" \n'
             'Received "{3}"').format(attribute, case, expected, value)
 
-        np.testing.assert_allclose(value,
-                                   expected,
-                                   err_msg=error_message,
-                                   rtol=0.01,
-                                   atol=0.01,
-                                   verbose=False)
+        np.testing.assert_allclose(
+            value,
+            expected,
+            err_msg=error_message,
+            rtol=0.01,
+            atol=0.01,
+            verbose=False)
 
-        np.testing.assert_almost_equal(value,
-                                       expected,
-                                       decimal=1,
-                                       err_msg=error_message)
+        np.testing.assert_almost_equal(
+            value, expected, decimal=1, err_msg=error_message)
 
     def check_model_consistency(self, data, output_attributes):
         """
@@ -169,11 +168,8 @@ class ColourAppearanceModelTest(object):
         """
 
         for data_attr, specification_attr in sorted(output_attributes.items()):
-            yield (self.check_specification_attribute,
-                   data.get('Case'),
-                   data,
-                   specification_attr,
-                   data[data_attr])
+            yield (self.check_specification_attribute, data.get('Case'), data,
+                   specification_attr, data[data_attr])
 
     def fixtures(self):
         """

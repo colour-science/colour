@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 LCD Displays RGB Primaries
 ==========================
@@ -47,8 +46,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['LCD_DISPLAYS_RGB_PRIMARIES_DATA',
-           'LCD_DISPLAYS_RGB_PRIMARIES']
+__all__ = ['LCD_DISPLAYS_RGB_PRIMARIES_DATA', 'LCD_DISPLAYS_RGB_PRIMARIES']
 
 LCD_DISPLAYS_RGB_PRIMARIES_DATA = {
     'Apple Studio Display': {
@@ -133,7 +131,8 @@ LCD_DISPLAYS_RGB_PRIMARIES_DATA = {
             765: 0.0000,
             770: 0.0000,
             775: 0.0000,
-            780: 0.0000},
+            780: 0.0000
+        },
         'green': {
             380: 0.0000,
             385: 0.0000,
@@ -215,7 +214,8 @@ LCD_DISPLAYS_RGB_PRIMARIES_DATA = {
             765: 0.0000,
             770: 0.0000,
             775: 0.0119,
-            780: 0.0000},
+            780: 0.0000
+        },
         'blue': {
             380: 0.0000,
             385: 0.0000,
@@ -297,12 +297,17 @@ LCD_DISPLAYS_RGB_PRIMARIES_DATA = {
             765: 0.0000,
             770: 0.0000,
             775: 0.0000,
-            780: 0.0000}}}
+            780: 0.0000
+        }
+    }
+}
 
-LCD_DISPLAYS_RGB_PRIMARIES = CaseInsensitiveMapping(
-    {'Apple Studio Display': RGB_DisplayPrimaries(
-        'Apple Studio Display',
-        LCD_DISPLAYS_RGB_PRIMARIES_DATA['Apple Studio Display'])})
+LCD_DISPLAYS_RGB_PRIMARIES = CaseInsensitiveMapping({
+    'Apple Studio Display':
+        RGB_DisplayPrimaries(
+            'Apple Studio Display',
+            LCD_DISPLAYS_RGB_PRIMARIES_DATA['Apple Studio Display'])
+})
 """
 *LCD* displays *RGB* primaries tri-spectral power distributions.
 

@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Cameras Spectral Sensitivities
 ==============================
@@ -55,8 +54,12 @@ class RGB_SpectralSensitivities(TriSpectralPowerDistribution):
             self,
             name,
             data,
-            mapping={'x': 'red', 'y': 'green', 'z': 'blue'},
-            labels={'x': 'R', 'y': 'G', 'z': 'B'},
+            mapping={'x': 'red',
+                     'y': 'green',
+                     'z': 'blue'},
+            labels={'x': 'R',
+                    'y': 'G',
+                    'z': 'B'},
             title=name)
 
     @property

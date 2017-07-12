@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Verbose
 =======
@@ -21,10 +20,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['ColourWarning',
-           'message_box',
-           'warning',
-           'filter_warnings']
+__all__ = ['ColourWarning', 'message_box', 'warning', 'filter_warnings']
 
 
 class ColourWarning(Warning):

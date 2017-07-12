@@ -1,5 +1,5 @@
-colour.models.rgb.transfer_functions.panalog Module
-===================================================
+colour\.models\.rgb\.transfer\_functions\.panalog Module
+========================================================
 
 .. automodule:: colour.models.rgb.transfer_functions.panalog
     :members:

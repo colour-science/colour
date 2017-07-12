@@ -1,5 +1,5 @@
-colour.algebra.matrix Module
-============================
+colour\.algebra\.matrix Module
+==============================
 
 .. automodule:: colour.algebra.matrix
     :members:

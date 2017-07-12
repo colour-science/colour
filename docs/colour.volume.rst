@@ -1,5 +1,5 @@
-colour.volume Package
-=====================
+colour\.volume Package
+======================
 
 Sub-Packages
 ------------

@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 CIECAM02 Colour Appearance Model
 ================================
@@ -33,6 +32,9 @@ References
         Imaging Conference, 2002(1), 23–27. Retrieved from
         http://www.ingentaconnect.com/content/ist/cic\
 /2002/00002002/00000001/art00006
+.. [5]  Luo, M. R., & Li, C. (2013). CIECAM02 and Its Recent Developments.
+        In Advanced Color Image Processing and Analysis (pp. 19–58).
+        doi:10.1007/978-1-4419-6190-7
 """
 
 from __future__ import division, unicode_literals
@@ -41,17 +43,12 @@ import numpy as np
 from collections import namedtuple
 
 from colour.adaptation import CAT02_CAT
-from colour.appearance.hunt import (
-    HPE_TO_XYZ_MATRIX,
-    XYZ_TO_HPE_MATRIX,
-    luminance_level_adaptation_factor)
-from colour.utilities import (
-    CaseInsensitiveMapping,
-    as_numeric,
-    dot_matrix,
-    dot_vector,
-    tsplit,
-    tstack)
+from colour.appearance.hunt import (HPE_TO_XYZ_MATRIX, XYZ_TO_HPE_MATRIX,
+                                    luminance_level_adaptation_factor)
+from colour.constants import EPSILON
+from colour.utilities import (CaseInsensitiveMapping, as_namedtuple,
+                              as_numeric, dot_matrix, dot_vector, tsplit,
+                              tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -60,39 +57,25 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['CAT02_INVERSE_CAT',
-           'CIECAM02_InductionFactors',
-           'CIECAM02_VIEWING_CONDITIONS',
-           'HUE_DATA_FOR_HUE_QUADRATURE',
-           'CIECAM02_Specification',
-           'XYZ_to_CIECAM02',
-           'CIECAM02_to_XYZ',
-           'chromatic_induction_factors',
-           'base_exponential_non_linearity',
-           'viewing_condition_dependent_parameters',
-           'degree_of_adaptation',
-           'full_chromatic_adaptation_forward',
-           'full_chromatic_adaptation_reverse',
-           'RGB_to_rgb',
-           'rgb_to_RGB',
-           'post_adaptation_non_linear_response_compression_forward',
-           'post_adaptation_non_linear_response_compression_reverse',
-           'opponent_colour_dimensions_forward',
-           'opponent_colour_dimensions_reverse',
-           'hue_angle',
-           'hue_quadrature',
-           'eccentricity_factor',
-           'achromatic_response_forward',
-           'achromatic_response_reverse',
-           'lightness_correlate',
-           'brightness_correlate',
-           'temporary_magnitude_quantity_forward',
-           'temporary_magnitude_quantity_reverse',
-           'chroma_correlate',
-           'colourfulness_correlate',
-           'saturation_correlate',
-           'P',
-           'post_adaptation_non_linear_response_compression_matrix']
+__all__ = [
+    'CAT02_INVERSE_CAT', 'CIECAM02_InductionFactors',
+    'CIECAM02_VIEWING_CONDITIONS', 'HUE_DATA_FOR_HUE_QUADRATURE',
+    'CIECAM02_Specification', 'XYZ_to_CIECAM02', 'CIECAM02_to_XYZ',
+    'chromatic_induction_factors', 'base_exponential_non_linearity',
+    'viewing_condition_dependent_parameters', 'degree_of_adaptation',
+    'full_chromatic_adaptation_forward', 'full_chromatic_adaptation_reverse',
+    'RGB_to_rgb', 'rgb_to_RGB',
+    'post_adaptation_non_linear_response_compression_forward',
+    'post_adaptation_non_linear_response_compression_reverse',
+    'opponent_colour_dimensions_forward', 'opponent_colour_dimensions_reverse',
+    'hue_angle', 'hue_quadrature', 'eccentricity_factor',
+    'achromatic_response_forward', 'achromatic_response_reverse',
+    'lightness_correlate', 'brightness_correlate',
+    'temporary_magnitude_quantity_forward',
+    'temporary_magnitude_quantity_reverse', 'chroma_correlate',
+    'colourfulness_correlate', 'saturation_correlate', 'P',
+    'post_adaptation_non_linear_response_compression_matrix'
+]
 
 CAT02_INVERSE_CAT = np.linalg.inv(CAT02_CAT)
 """
@@ -103,8 +86,7 @@ CAT02_INVERSE_CAT : array_like, (3, 3)
 
 
 class CIECAM02_InductionFactors(
-    namedtuple('CIECAM02_InductionFactors',
-               ('F', 'c', 'N_c'))):
+        namedtuple('CIECAM02_InductionFactors', ('F', 'c', 'N_c'))):
     """
     *CIECAM02* colour appearance model induction factors.
 
@@ -119,10 +101,11 @@ class CIECAM02_InductionFactors(
     """
 
 
-CIECAM02_VIEWING_CONDITIONS = CaseInsensitiveMapping(
-    {'Average': CIECAM02_InductionFactors(1, 0.69, 1),
-     'Dim': CIECAM02_InductionFactors(0.9, 0.59, 0.95),
-     'Dark': CIECAM02_InductionFactors(0.8, 0.525, 0.8)})
+CIECAM02_VIEWING_CONDITIONS = CaseInsensitiveMapping({
+    'Average': CIECAM02_InductionFactors(1, 0.69, 1),
+    'Dim': CIECAM02_InductionFactors(0.9, 0.59, 0.95),
+    'Dark': CIECAM02_InductionFactors(0.8, 0.525, 0.8)
+})
 """
 Reference *CIECAM02* colour appearance model viewing conditions.
 
@@ -133,12 +116,13 @@ CIECAM02_VIEWING_CONDITIONS : CaseInsensitiveMapping
 HUE_DATA_FOR_HUE_QUADRATURE = {
     'h_i': np.array([20.14, 90.00, 164.25, 237.53, 380.14]),
     'e_i': np.array([0.8, 0.7, 1.0, 1.2, 0.8]),
-    'H_i': np.array([0.0, 100.0, 200.0, 300.0, 400.0])}
+    'H_i': np.array([0.0, 100.0, 200.0, 300.0, 400.0])
+}
 
 
 class CIECAM02_Specification(
-    namedtuple('CIECAM02_Specification',
-               ('J', 'C', 'h', 's', 'Q', 'M', 'H', 'HC'))):
+        namedtuple('CIECAM02_Specification', ('J', 'C', 'h', 's', 'Q', 'M',
+                                              'H', 'HC'))):
     """
     Defines the *CIECAM02* colour appearance model specification.
 
@@ -161,6 +145,22 @@ class CIECAM02_Specification(
     HC : numeric or array_like
         *Hue* :math:`h` composition :math:`H^C`.
     """
+
+    def __new__(cls,
+                J=None,
+                C=None,
+                h=None,
+                s=None,
+                Q=None,
+                M=None,
+                H=None,
+                HC=None):
+        """
+        Returns a new instance of the :class:`CIECAM02_Specification` class.
+        """
+
+        return super(CIECAM02_Specification, cls).__new__(
+            cls, J, C, h, s, Q, M, H, HC)
 
 
 def XYZ_to_CIECAM02(XYZ,
@@ -222,8 +222,8 @@ s=2.3603053..., Q=195.3713259..., M=0.1088421..., H=278.0607358..., HC=None)
     L_A = np.asarray(L_A)
     Y_b = np.asarray(Y_b)
 
-    n, F_L, N_bb, N_cb, z = tsplit(viewing_condition_dependent_parameters(
-        Y_b, Y_w, L_A))
+    n, F_L, N_bb, N_cb, z = tsplit(
+        viewing_condition_dependent_parameters(Y_b, Y_w, L_A))
 
     # Converting *CIE XYZ* tristimulus values to *CMCCAT2000* transform
     # sharpened *RGB* values.
@@ -234,18 +234,15 @@ s=2.3603053..., Q=195.3713259..., M=0.1088421..., H=278.0607358..., HC=None)
     D = degree_of_adaptation(surround.F, L_A) if not discount_illuminant else 1
 
     # Computing full chromatic adaptation.
-    RGB_c = full_chromatic_adaptation_forward(
-        RGB, RGB_w, Y_w, D)
-    RGB_wc = full_chromatic_adaptation_forward(
-        RGB_w, RGB_w, Y_w, D)
+    RGB_c = full_chromatic_adaptation_forward(RGB, RGB_w, Y_w, D)
+    RGB_wc = full_chromatic_adaptation_forward(RGB_w, RGB_w, Y_w, D)
 
     # Converting to *Hunt-Pointer-Estevez* colourspace.
     RGB_p = RGB_to_rgb(RGB_c)
     RGB_pw = RGB_to_rgb(RGB_wc)
 
     # Applying forward post-adaptation non linear response compression.
-    RGB_a = post_adaptation_non_linear_response_compression_forward(
-        RGB_p, F_L)
+    RGB_a = post_adaptation_non_linear_response_compression_forward(RGB_p, F_L)
     RGB_aw = post_adaptation_non_linear_response_compression_forward(
         RGB_pw, F_L)
 
@@ -284,9 +281,7 @@ s=2.3603053..., Q=195.3713259..., M=0.1088421..., H=278.0607358..., HC=None)
     return CIECAM02_Specification(J, C, h, s, Q, M, H, None)
 
 
-def CIECAM02_to_XYZ(J,
-                    C,
-                    h,
+def CIECAM02_to_XYZ(CIECAM02_specification,
                     XYZ_w,
                     L_A,
                     Y_b,
@@ -299,12 +294,11 @@ def CIECAM02_to_XYZ(J,
 
     Parameters
     ----------
-    J : numeric or array_like
-        Correlate of *Lightness* :math:`J`.
-    C : numeric or array_like
-        Correlate of *chroma* :math:`C`.
-    h : numeric or array_like
-        *Hue* angle :math:`h` in degrees.
+    CIECAM02_specification : CIECAM02_Specification
+        *CIECAM02* colour appearance model specification. Correlate of
+        *Lightness* :math:`J`, correlate of *chroma* :math:`C` or correlate of
+        *colourfulness* :math:`M` and *hue* angle :math:`h` in degrees must be
+        specified, e.g. :math:`JCh` or :math:`JMh`.
     XYZ_w : array_like
         *CIE XYZ* tristimulus values of reference white.
     L_A : numeric or array_like
@@ -322,31 +316,49 @@ def CIECAM02_to_XYZ(J,
     XYZ : ndarray
         *CIE XYZ* tristimulus values.
 
+    Raises
+    ------
+    ValueError
+        If neither *C* or *M* correlates have been defined in the
+        `CIECAM02_specification` argument.
+
     Warning
     -------
     The output range of that definition is non standard!
 
     Notes
     -----
+    -   `CIECAM02_specification` can also be passed as a compatible argument
+        :func:`colour.as_namedtuple` definition.
     -   Input *CIE XYZ_w* tristimulus values are in domain [0, 100].
     -   Output *CIE XYZ* tristimulus values are in range [0, 100].
 
     Examples
     --------
-    >>> J = 41.731091132513917
-    >>> C = 0.104707757171105
-    >>> h = 219.04843265827190
+    >>> specification = CIECAM02_Specification(
+    ...     J=41.731091132513917,
+    ...     C=0.104707757171031,
+    ...     h=219.048432658311780)
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
     >>> Y_b = 20.0
-    >>> CIECAM02_to_XYZ(J, C, h, XYZ_w, L_A, Y_b)  # doctest: +ELLIPSIS
+    >>> CIECAM02_to_XYZ(specification, XYZ_w, L_A, Y_b)  # doctest: +ELLIPSIS
     array([ 19.01...,  20...  ,  21.78...])
     """
 
+    J, C, h, s, Q, M, H, HC = as_namedtuple(CIECAM02_specification,
+                                            CIECAM02_Specification)
+
     _X_w, Y_w, _Zw = tsplit(XYZ_w)
 
-    n, F_L, N_bb, N_cb, z = tsplit(viewing_condition_dependent_parameters(
-        Y_b, Y_w, L_A))
+    n, F_L, N_bb, N_cb, z = tsplit(
+        viewing_condition_dependent_parameters(Y_b, Y_w, L_A))
+
+    if C is None and M is not None:
+        C = M / F_L ** 0.25
+    elif C is None:
+        raise ValueError('Either "C" or "M" correlate must be defined in '
+                         'the "CIECAM02_specification" argument!')
 
     # Converting *CIE XYZ* tristimulus values to *CMCCAT2000* transform
     # sharpened *RGB* values.
@@ -385,12 +397,10 @@ def CIECAM02_to_XYZ(J,
     a, b = tsplit(opponent_colour_dimensions_reverse(P_n, h))
 
     # Computing post-adaptation non linear response compression matrix.
-    RGB_a = post_adaptation_non_linear_response_compression_matrix(
-        P_2, a, b)
+    RGB_a = post_adaptation_non_linear_response_compression_matrix(P_2, a, b)
 
     # Applying reverse post-adaptation non linear response compression.
-    RGB_p = post_adaptation_non_linear_response_compression_reverse(
-        RGB_a, F_L)
+    RGB_p = post_adaptation_non_linear_response_compression_reverse(RGB_a, F_L)
 
     # Converting to *Hunt-Pointer-Estevez* colourspace.
     RGB_c = rgb_to_RGB(RGB_p)
@@ -567,8 +577,8 @@ def full_chromatic_adaptation_forward(RGB, RGB_w, Y_w, D):
     Y_w = np.asarray(Y_w)
     D = np.asarray(D)
 
-    RGB_c = (((Y_w[..., np.newaxis] * D[..., np.newaxis] / RGB_w) +
-              1 - D[..., np.newaxis]) * RGB)
+    RGB_c = (((Y_w[..., np.newaxis] * D[..., np.newaxis] / RGB_w) + 1 -
+              D[..., np.newaxis]) * RGB)
 
     return RGB_c
 
@@ -610,8 +620,8 @@ def full_chromatic_adaptation_reverse(RGB, RGB_w, Y_w, D):
     Y_w = np.asarray(Y_w)
     D = np.asarray(D)
 
-    RGB_c = (RGB / (Y_w[..., np.newaxis] * (D[..., np.newaxis] / RGB_w) +
-                    1 - D[..., np.newaxis]))
+    RGB_c = (RGB / (Y_w[..., np.newaxis] *
+                    (D[..., np.newaxis] / RGB_w) + 1 - D[..., np.newaxis]))
 
     return RGB_c
 
@@ -687,6 +697,10 @@ def post_adaptation_non_linear_response_compression_forward(RGB, F_L):
     ndarray
         Compressed *CMCCAT2000* transform sharpened *RGB* array.
 
+    Notes
+    -----
+    -   This definition implements negative values handling as per [5]_.
+
     Examples
     --------
     >>> RGB = np.array([19.99693975, 20.00186123, 20.01350530])
@@ -699,9 +713,8 @@ def post_adaptation_non_linear_response_compression_forward(RGB, F_L):
     RGB = np.asarray(RGB)
     F_L = np.asarray(F_L)
 
-    # TODO: Check for negative values and their handling.
-    RGB_c = ((((400 * (F_L[..., np.newaxis] * RGB / 100) ** 0.42) /
-               (27.13 + (F_L[..., np.newaxis] * RGB / 100) ** 0.42))) + 0.1)
+    F_L_RGB = (F_L[..., np.newaxis] * np.absolute(RGB) / 100) ** 0.42
+    RGB_c = ((400 * np.sign(RGB) * F_L_RGB) / (27.13 + F_L_RGB)) + 0.1
 
     return RGB_c
 
@@ -735,10 +748,9 @@ def post_adaptation_non_linear_response_compression_reverse(RGB, F_L):
     RGB = np.asarray(RGB)
     F_L = np.asarray(F_L)
 
-    RGB_p = ((np.sign(RGB - 0.1) *
-              (100 / F_L[..., np.newaxis]) * ((27.13 * np.abs(RGB - 0.1)) /
-                                              (400 - np.abs(RGB - 0.1))) ** (
-                  1 / 0.42)))
+    RGB_p = ((np.sign(RGB - 0.1) * (100 / F_L[..., np.newaxis]) *
+              ((27.13 * np.abs(RGB - 0.1)) /
+               (400 - np.abs(RGB - 0.1))) ** (1 / 0.42)))
 
     return RGB_p
 
@@ -792,6 +804,10 @@ def opponent_colour_dimensions_reverse(P_n, h):
     ndarray
         Opponent colour dimensions.
 
+    Notes
+    -----
+    -   This definition implements negative values handling as per [5]_.
+
     Examples
     --------
     >>> P_n = np.array([30162.89081534, 24.23720547, 1.05000000])
@@ -813,20 +829,23 @@ def opponent_colour_dimensions_reverse(P_n, h):
     a = np.zeros(hr.shape)
     b = np.zeros(hr.shape)
 
-    b = np.where(np.abs(sin_hr) >= np.abs(cos_hr),
-                 (n / (P_4 + (2 + P_3) * (220 / 1403) * (cos_hr / sin_hr) -
-                       (27 / 1403) + P_3 * (6300 / 1403))),
-                 b)
+    b = np.where(
+        np.isfinite(P_1) * np.abs(sin_hr) >= np.abs(cos_hr),
+        (n / (P_4 + (2 + P_3) * (220 / 1403) * (cos_hr / sin_hr) -
+              (27 / 1403) + P_3 * (6300 / 1403))), b)
 
-    a = np.where(np.abs(sin_hr) >= np.abs(cos_hr), b * (cos_hr / sin_hr), a)
+    a = np.where(
+        np.isfinite(P_1) * np.abs(sin_hr) >= np.abs(cos_hr),
+        b * (cos_hr / sin_hr), a)
 
-    a = np.where(np.abs(sin_hr) < np.abs(cos_hr),
-                 (n / (P_5 + (2 + P_3) * (220 / 1403) -
-                       ((27 / 1403) - P_3 * (6300 / 1403)) *
-                       (sin_hr / cos_hr))),
-                 a)
+    a = np.where(
+        np.isfinite(P_1) * np.abs(sin_hr) < np.abs(cos_hr),
+        (n / (P_5 + (2 + P_3) * (220 / 1403) -
+              ((27 / 1403) - P_3 * (6300 / 1403)) * (sin_hr / cos_hr))), a)
 
-    b = np.where(np.abs(sin_hr) < np.abs(cos_hr), a * (sin_hr / cos_hr), b)
+    b = np.where(
+        np.isfinite(P_1) * np.abs(sin_hr) < np.abs(cos_hr),
+        a * (sin_hr / cos_hr), b)
 
     ab = tstack((a, b))
 
@@ -901,14 +920,12 @@ def hue_quadrature(h):
     h_ii1 = h_i[i + 1]
     e_ii1 = e_i[i + 1]
 
-    H = H_ii + ((100 * (h - h_ii) / e_ii) /
-                ((h - h_ii) / e_ii + (h_ii1 - h) / e_ii1))
-    H = np.where(h < 20.14,
-                 385.9 + (14.1 * h / 0.856) / (h / 0.856 + (20.14 - h) / 0.8),
-                 H)
-    H = np.where(h >= 237.53,
-                 H_ii + ((85.9 * (h - h_ii) / e_ii) /
-                         ((h - h_ii) / e_ii + (360 - h) / 0.856)),
+    H = H_ii + ((100 * (h - h_ii) / e_ii) / ((h - h_ii) / e_ii +
+                                             (h_ii1 - h) / e_ii1))
+    H = np.where(h < 20.14, 385.9 + (14.1 * h / 0.856) /
+                 (h / 0.856 + (20.14 - h) / 0.8), H)
+    H = np.where(h >= 237.53, H_ii + ((85.9 * (h - h_ii) / e_ii) /
+                                      ((h - h_ii) / e_ii + (360 - h) / 0.856)),
                  H)
     return as_numeric(H)
 
@@ -1167,6 +1184,10 @@ def temporary_magnitude_quantity_reverse(C, J, n):
     numeric or ndarray
          Temporary magnitude quantity :math:`t`.
 
+    Notes
+    -----
+    -   This definition implements negative values handling as per [5]_.
+
     Examples
     --------
     >>> C = 68.8364136888275
@@ -1177,7 +1198,7 @@ def temporary_magnitude_quantity_reverse(C, J, n):
    """
 
     C = np.asarray(C)
-    J = np.asarray(J)
+    J = np.maximum(J, EPSILON)
     n = np.asarray(n)
 
     t = (C / (np.sqrt(J / 100) * (1.64 - 0.29 ** n) ** 0.73)) ** (1 / 0.9)

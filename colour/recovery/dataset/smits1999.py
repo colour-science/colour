@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Smits (1999) - Reflectance Recovery Dataset
 ===========================================
@@ -26,8 +25,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['SMITS_1999_SPDS_DATA',
-           'SMITS_1999_SPDS']
+__all__ = ['SMITS_1999_SPDS_DATA', 'SMITS_1999_SPDS']
 
 SMITS_1999_SPDS_DATA = {
     'white': {
@@ -40,7 +38,8 @@ SMITS_1999_SPDS_DATA = {
         606.6667: 1.0000,
         644.4444: 1.0000,
         682.2222: 1.0000,
-        720.0000: 1.0000},
+        720.0000: 1.0000
+    },
     'cyan': {
         380.0000: 0.9710,
         417.7778: 0.9426,
@@ -51,7 +50,8 @@ SMITS_1999_SPDS_DATA = {
         606.6667: 0.1564,
         644.4444: 0.0000,
         682.2222: 0.0000,
-        720.0000: 0.0000},
+        720.0000: 0.0000
+    },
     'magenta': {
         380.0000: 1.0000,
         417.7778: 1.0000,
@@ -62,7 +62,8 @@ SMITS_1999_SPDS_DATA = {
         606.6667: 0.8369,
         644.4444: 1.0000,
         682.2222: 1.0000,
-        720.0000: 0.9959},
+        720.0000: 0.9959
+    },
     'yellow': {
         380.0000: 0.0001,
         417.7778: 0.0000,
@@ -73,7 +74,8 @@ SMITS_1999_SPDS_DATA = {
         606.6667: 0.9996,
         644.4444: 0.9586,
         682.2222: 0.9685,
-        720.0000: 0.9840},
+        720.0000: 0.9840
+    },
     'red': {
         380.0000: 0.1012,
         417.7778: 0.0515,
@@ -84,7 +86,8 @@ SMITS_1999_SPDS_DATA = {
         606.6667: 0.8325,
         644.4444: 1.0149,
         682.2222: 1.0149,
-        720.0000: 1.0149},
+        720.0000: 1.0149
+    },
     'green': {
         380.0000: 0.0000,
         417.7778: 0.0000,
@@ -95,7 +98,8 @@ SMITS_1999_SPDS_DATA = {
         606.6667: 0.1719,
         644.4444: 0.0000,
         682.2222: 0.0000,
-        720.0000: 0.0025},
+        720.0000: 0.0025
+    },
     'blue': {
         380.0000: 1.0000,
         417.7778: 1.0000,
@@ -106,23 +110,26 @@ SMITS_1999_SPDS_DATA = {
         606.6667: 0.0003,
         644.4444: 0.0369,
         682.2222: 0.0483,
-        720.0000: 0.0496}}
+        720.0000: 0.0496
+    }
+}
 
 SMITS_1999_SPDS = CaseInsensitiveMapping({
-    'white': SpectralPowerDistribution(
-        'white', SMITS_1999_SPDS_DATA['white']),
-    'cyan': SpectralPowerDistribution(
-        'cyan', SMITS_1999_SPDS_DATA['cyan']),
-    'magenta': SpectralPowerDistribution(
-        'magenta', SMITS_1999_SPDS_DATA['magenta']),
-    'yellow': SpectralPowerDistribution(
-        'yellow', SMITS_1999_SPDS_DATA['yellow']),
-    'red': SpectralPowerDistribution(
-        'red', SMITS_1999_SPDS_DATA['red']),
-    'green': SpectralPowerDistribution(
-        'green', SMITS_1999_SPDS_DATA['green']),
-    'blue': SpectralPowerDistribution(
-        'blue', SMITS_1999_SPDS_DATA['blue'])})
+    'white':
+        SpectralPowerDistribution('white', SMITS_1999_SPDS_DATA['white']),
+    'cyan':
+        SpectralPowerDistribution('cyan', SMITS_1999_SPDS_DATA['cyan']),
+    'magenta':
+        SpectralPowerDistribution('magenta', SMITS_1999_SPDS_DATA['magenta']),
+    'yellow':
+        SpectralPowerDistribution('yellow', SMITS_1999_SPDS_DATA['yellow']),
+    'red':
+        SpectralPowerDistribution('red', SMITS_1999_SPDS_DATA['red']),
+    'green':
+        SpectralPowerDistribution('green', SMITS_1999_SPDS_DATA['green']),
+    'blue':
+        SpectralPowerDistribution('blue', SMITS_1999_SPDS_DATA['blue'])
+})
 """
 *Smits (1999)* spectral power distributions.
 

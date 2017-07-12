@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 ColourCheckers Chromaticity Coordinates
 =======================================
@@ -51,24 +50,20 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['ColourChecker_Specification',
-           'ColourChecker',
-           'BABELCOLOR_AVERAGE_DATA',
-           'BABELCOLOR_AVERAGE_ILLUMINANT',
-           'BABELCOLOR_AVERAGE',
-           'COLORCHECKER_2005_DATA',
-           'COLORCHECKER_2005_ILLUMINANT',
-           'COLORCHECKER_2005',
-           'COLORCHECKER_1976_DATA',
-           'COLORCHECKER_1976_ILLUMINANT',
-           'COLORCHECKER_1976',
-           'COLOURCHECKERS']
+__all__ = [
+    'ColourChecker_Specification', 'ColourChecker', 'BABELCOLOR_AVERAGE_DATA',
+    'BABELCOLOR_AVERAGE_ILLUMINANT', 'BABELCOLOR_AVERAGE',
+    'COLORCHECKER_2005_DATA', 'COLORCHECKER_2005_ILLUMINANT',
+    'COLORCHECKER_2005', 'COLORCHECKER_1976_DATA',
+    'COLORCHECKER_1976_ILLUMINANT', 'COLORCHECKER_1976', 'COLOURCHECKERS'
+]
 
-ColourChecker_Specification = namedtuple(
-    'ColourChecker_Specification', ('index', 'name', 'xyY'))
+ColourChecker_Specification = namedtuple('ColourChecker_Specification',
+                                         ('index', 'name', 'xyY'))
 
 ColourChecker = namedtuple('ColourChecker', ('name', 'data', 'illuminant'))
 
+# yapf: disable
 BABELCOLOR_AVERAGE_DATA = (
     (1, 'dark skin', np.array([0.4325, 0.3788, 0.1034])),
     (2, 'light skin', np.array([0.4191, 0.3748, 0.3525])),
@@ -94,6 +89,7 @@ BABELCOLOR_AVERAGE_DATA = (
     (22, 'neutral 5 (.70 D)', np.array([0.3438, 0.3589, 0.1912])),
     (23, 'neutral 3.5 (1.05 D)', np.array([0.3423, 0.3576, 0.0893])),
     (24, 'black 2 (1.5 D)', np.array([0.3439, 0.3565, 0.0320])))
+# yapf: enable
 
 BABELCOLOR_AVERAGE_ILLUMINANT = (
     ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50'])
@@ -103,14 +99,16 @@ BABELCOLOR_AVERAGE_ILLUMINANT = (
 BABELCOLOR_AVERAGE_ILLUMINANT : ndarray
 """
 
-BABELCOLOR_AVERAGE = [ColourChecker_Specification(*x) for x in
-                      BABELCOLOR_AVERAGE_DATA]
+BABELCOLOR_AVERAGE = [
+    ColourChecker_Specification(*x) for x in BABELCOLOR_AVERAGE_DATA
+]
 """
 Average data derived from measurements of 30 *ColourChecker* charts.
 
 BABELCOLOR_AVERAGE : list
 """
 
+# yapf: disable
 COLORCHECKER_2005_DATA = (
     (1, 'dark skin', np.array([0.4316, 0.3777, 0.1008])),
     (2, 'light skin', np.array([0.4197, 0.3744, 0.3495])),
@@ -136,6 +134,7 @@ COLORCHECKER_2005_DATA = (
     (22, 'neutral 5 (.70 D)', np.array([0.3446, 0.3579, 0.1915])),
     (23, 'neutral 3.5 (1.05 D)', np.array([0.3401, 0.3548, 0.0883])),
     (24, 'black 2 (1.5 D)', np.array([0.3406, 0.3537, 0.0311])))
+# yapf: enable
 
 COLORCHECKER_2005_ILLUMINANT = (
     ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50'])
@@ -145,14 +144,16 @@ COLORCHECKER_2005_ILLUMINANT = (
 COLORCHECKER_2005_ILLUMINANT : ndarray
 """
 
-COLORCHECKER_2005 = [ColourChecker_Specification(*x) for x in
-                     COLORCHECKER_2005_DATA]
+COLORCHECKER_2005 = [
+    ColourChecker_Specification(*x) for x in COLORCHECKER_2005_DATA
+]
 """
 Reference data from *GretagMacbeth (2005)*.
 
 COLORCHECKER_2005 : list
 """
 
+# yapf: disable
 COLORCHECKER_1976_DATA = (
     (1, 'dark skin', np.array([0.4002, 0.3504, 0.1005])),
     (2, 'light skin', np.array([0.3773, 0.3446, 0.3582])),
@@ -178,6 +179,7 @@ COLORCHECKER_1976_DATA = (
     (22, 'neutral 5 (.70 D)', np.array([0.3101, 0.3163, 0.1977])),
     (23, 'neutral 3.5 (1.05 D)', np.array([0.3101, 0.3163, 0.0900])),
     (24, 'black 2 (1.5 D)', np.array([0.3101, 0.3163, 0.0313])))
+# yapf: enable
 
 COLORCHECKER_1976_ILLUMINANT = (
     ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['C'])
@@ -187,8 +189,9 @@ COLORCHECKER_1976_ILLUMINANT = (
 COLORCHECKER_1976_ILLUMINANT : ndarray
 """
 
-COLORCHECKER_1976 = [ColourChecker_Specification(*x) for x in
-                     COLORCHECKER_1976_DATA]
+COLORCHECKER_1976 = [
+    ColourChecker_Specification(*x) for x in COLORCHECKER_1976_DATA
+]
 """
 *ColourChecker* developed by *McCamy et al.* at Macbeth, a Division of
 Kollmorgen.
@@ -197,18 +200,22 @@ COLORCHECKER_1976 : list
 """
 
 COLOURCHECKERS = CaseInsensitiveMapping({
-    'BabelColor Average': ColourChecker(
-        'BabelColor Average',
-        BABELCOLOR_AVERAGE,
-        BABELCOLOR_AVERAGE_ILLUMINANT),
-    'ColorChecker 2005': ColourChecker(
-        'ColorChecker 2005',
-        COLORCHECKER_2005,
-        COLORCHECKER_2005_ILLUMINANT),
-    'ColorChecker 1976': ColourChecker(
-        'ColorChecker 1976',
-        COLORCHECKER_1976,
-        COLORCHECKER_1976_ILLUMINANT)})
+    'BabelColor Average':
+        ColourChecker(
+            'BabelColor Average',
+            BABELCOLOR_AVERAGE,
+            BABELCOLOR_AVERAGE_ILLUMINANT),
+    'ColorChecker 2005':
+        ColourChecker(
+            'ColorChecker 2005',
+            COLORCHECKER_2005,
+            COLORCHECKER_2005_ILLUMINANT),
+    'ColorChecker 1976':
+        ColourChecker(
+            'ColorChecker 1976',
+            COLORCHECKER_1976,
+            COLORCHECKER_1976_ILLUMINANT)
+})  # yapf: disable
 """
 Aggregated *ColourCheckers* chromaticity coordinates.
 

@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for :mod:`colour.phenomenons.rayleigh` module.
 """
@@ -12,23 +11,13 @@ import unittest
 from itertools import permutations
 
 from colour.phenomenons.rayleigh import (
-    air_refraction_index_Penndorf1957,
-    air_refraction_index_Edlen1966,
-    air_refraction_index_Peck1972,
-    air_refraction_index_Bodhaine1999,
-    N2_depolarisation,
-    O2_depolarisation,
-    F_air_Penndorf1957,
-    F_air_Young1981,
-    F_air_Bates1984,
-    F_air_Bodhaine1999,
-    molecular_density,
-    mean_molecular_weights,
-    gravity_List1968)
+    air_refraction_index_Penndorf1957, air_refraction_index_Edlen1966,
+    air_refraction_index_Peck1972, air_refraction_index_Bodhaine1999,
+    N2_depolarisation, O2_depolarisation, F_air_Penndorf1957, F_air_Young1981,
+    F_air_Bates1984, F_air_Bodhaine1999, molecular_density,
+    mean_molecular_weights, gravity_List1968)
 from colour.phenomenons import (
-    scattering_cross_section,
-    rayleigh_optical_depth,
-    rayleigh_scattering_spd)
+    scattering_cross_section, rayleigh_optical_depth, rayleigh_scattering_spd)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -38,23 +27,16 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['RAYLEIGH_SCATTERING_SPD_DATA',
-           'TestAirRefractionIndexPenndorf1957',
-           'TestAirRefractionIndexEdlen1966',
-           'TestAirRefractionIndexPeck1972',
-           'TestAirRefractionIndexBodhaine1999',
-           'TestN2Depolarisation',
-           'TestO2Depolarisation',
-           'TestF_airPenndorf1957',
-           'TestF_airYoung1981',
-           'TestF_airBates1984',
-           'TestF_airBodhaine1999',
-           'TestMolecularDensity',
-           'TestMeanMolecularWeights',
-           'TestGravityList1968',
-           'TestScatteringCrossSection',
-           'TestRayleighOpticalDepth',
-           'TestRayleighScatteringSpd']
+__all__ = [
+    'RAYLEIGH_SCATTERING_SPD_DATA', 'TestAirRefractionIndexPenndorf1957',
+    'TestAirRefractionIndexEdlen1966', 'TestAirRefractionIndexPeck1972',
+    'TestAirRefractionIndexBodhaine1999', 'TestN2Depolarisation',
+    'TestO2Depolarisation', 'TestF_airPenndorf1957', 'TestF_airYoung1981',
+    'TestF_airBates1984', 'TestF_airBodhaine1999', 'TestMolecularDensity',
+    'TestMeanMolecularWeights', 'TestGravityList1968',
+    'TestScatteringCrossSection', 'TestRayleighOpticalDepth',
+    'TestRayleighScatteringSpd'
+]
 
 RAYLEIGH_SCATTERING_SPD_DATA = (
     0.59910134,
@@ -477,7 +459,7 @@ RAYLEIGH_SCATTERING_SPD_DATA = (
     0.02565374,
     0.02552084,
     0.02538880,
-    0.02525761)
+    0.02525761)  # yapf: disable
 
 
 class TestAirRefractionIndexPenndorf1957(unittest.TestCase):
@@ -516,30 +498,22 @@ air_refraction_index_Penndorf1957` definition n-dimensional arrays support.
         wl = 0.360
         n = 1.000285316795146
         np.testing.assert_almost_equal(
-            air_refraction_index_Penndorf1957(wl),
-            n,
-            decimal=7)
+            air_refraction_index_Penndorf1957(wl), n, decimal=7)
 
         wl = np.tile(wl, 6)
         n = np.tile(n, 6)
         np.testing.assert_almost_equal(
-            air_refraction_index_Penndorf1957(wl),
-            n,
-            decimal=7)
+            air_refraction_index_Penndorf1957(wl), n, decimal=7)
 
         wl = np.reshape(wl, (2, 3))
         n = np.reshape(n, (2, 3))
         np.testing.assert_almost_equal(
-            air_refraction_index_Penndorf1957(wl),
-            n,
-            decimal=7)
+            air_refraction_index_Penndorf1957(wl), n, decimal=7)
 
         wl = np.reshape(wl, (2, 3, 1))
         n = np.reshape(n, (2, 3, 1))
         np.testing.assert_almost_equal(
-            air_refraction_index_Penndorf1957(wl),
-            n,
-            decimal=7)
+            air_refraction_index_Penndorf1957(wl), n, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_air_refraction_index_Penndorf1957(self):
@@ -588,30 +562,22 @@ air_refraction_index_Edlen1966` definition n-dimensional arrays support.
         wl = 0.360
         n = 1.000285308809879
         np.testing.assert_almost_equal(
-            air_refraction_index_Edlen1966(wl),
-            n,
-            decimal=7)
+            air_refraction_index_Edlen1966(wl), n, decimal=7)
 
         wl = np.tile(wl, 6)
         n = np.tile(n, 6)
         np.testing.assert_almost_equal(
-            air_refraction_index_Edlen1966(wl),
-            n,
-            decimal=7)
+            air_refraction_index_Edlen1966(wl), n, decimal=7)
 
         wl = np.reshape(wl, (2, 3))
         n = np.reshape(n, (2, 3))
         np.testing.assert_almost_equal(
-            air_refraction_index_Edlen1966(wl),
-            n,
-            decimal=7)
+            air_refraction_index_Edlen1966(wl), n, decimal=7)
 
         wl = np.reshape(wl, (2, 3, 1))
         n = np.reshape(n, (2, 3, 1))
         np.testing.assert_almost_equal(
-            air_refraction_index_Edlen1966(wl),
-            n,
-            decimal=7)
+            air_refraction_index_Edlen1966(wl), n, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_air_refraction_index_Edlen1966(self):
@@ -637,19 +603,13 @@ class TestAirRefractionIndexPeck1972(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            air_refraction_index_Peck1972(0.360),
-            1.000285310285056,
-            places=10)
+            air_refraction_index_Peck1972(0.360), 1.000285310285056, places=10)
 
         self.assertAlmostEqual(
-            air_refraction_index_Peck1972(0.555),
-            1.000277726541484,
-            places=10)
+            air_refraction_index_Peck1972(0.555), 1.000277726541484, places=10)
 
         self.assertAlmostEqual(
-            air_refraction_index_Peck1972(0.830),
-            1.000274859144804,
-            places=10)
+            air_refraction_index_Peck1972(0.830), 1.000274859144804, places=10)
 
     def test_n_dimensional_air_refraction_index_Peck1972(self):
         """
@@ -660,30 +620,22 @@ class TestAirRefractionIndexPeck1972(unittest.TestCase):
         wl = 0.360
         n = 1.000285310285056
         np.testing.assert_almost_equal(
-            air_refraction_index_Peck1972(wl),
-            n,
-            decimal=7)
+            air_refraction_index_Peck1972(wl), n, decimal=7)
 
         wl = np.tile(wl, 6)
         n = np.tile(n, 6)
         np.testing.assert_almost_equal(
-            air_refraction_index_Peck1972(wl),
-            n,
-            decimal=7)
+            air_refraction_index_Peck1972(wl), n, decimal=7)
 
         wl = np.reshape(wl, (2, 3))
         n = np.reshape(n, (2, 3))
         np.testing.assert_almost_equal(
-            air_refraction_index_Peck1972(wl),
-            n,
-            decimal=7)
+            air_refraction_index_Peck1972(wl), n, decimal=7)
 
         wl = np.reshape(wl, (2, 3, 1))
         n = np.reshape(n, (2, 3, 1))
         np.testing.assert_almost_equal(
-            air_refraction_index_Peck1972(wl),
-            n,
-            decimal=7)
+            air_refraction_index_Peck1972(wl), n, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_air_refraction_index_Peck1972(self):
@@ -747,30 +699,22 @@ air_refraction_index_Bodhaine1999` definition n-dimensional arrays support.
         wl = 0.360
         n = 1.000285310285056
         np.testing.assert_almost_equal(
-            air_refraction_index_Bodhaine1999(wl),
-            n,
-            decimal=7)
+            air_refraction_index_Bodhaine1999(wl), n, decimal=7)
 
         wl = np.tile(wl, 6)
         n = np.tile(n, 6)
         np.testing.assert_almost_equal(
-            air_refraction_index_Bodhaine1999(wl),
-            n,
-            decimal=7)
+            air_refraction_index_Bodhaine1999(wl), n, decimal=7)
 
         wl = np.reshape(wl, (2, 3))
         n = np.reshape(n, (2, 3))
         np.testing.assert_almost_equal(
-            air_refraction_index_Bodhaine1999(wl),
-            n,
-            decimal=7)
+            air_refraction_index_Bodhaine1999(wl), n, decimal=7)
 
         wl = np.reshape(wl, (2, 3, 1))
         n = np.reshape(n, (2, 3, 1))
         np.testing.assert_almost_equal(
-            air_refraction_index_Bodhaine1999(wl),
-            n,
-            decimal=7)
+            air_refraction_index_Bodhaine1999(wl), n, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_air_refraction_index_Bodhaine1999(self):
@@ -799,19 +743,13 @@ class TestN2Depolarisation(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            N2_depolarisation(0.360),
-            1.036445987654321,
-            places=7)
+            N2_depolarisation(0.360), 1.036445987654321, places=7)
 
         self.assertAlmostEqual(
-            N2_depolarisation(0.555),
-            1.035029137245354,
-            places=7)
+            N2_depolarisation(0.555), 1.035029137245354, places=7)
 
         self.assertAlmostEqual(
-            N2_depolarisation(0.830),
-            1.034460153868486,
-            places=7)
+            N2_depolarisation(0.830), 1.034460153868486, places=7)
 
     def test_n_dimensional_N2_depolarisation(self):
         """
@@ -821,31 +759,19 @@ class TestN2Depolarisation(unittest.TestCase):
 
         wl = 0.360
         n = 1.036445987654321
-        np.testing.assert_almost_equal(
-            N2_depolarisation(wl),
-            n,
-            decimal=7)
+        np.testing.assert_almost_equal(N2_depolarisation(wl), n, decimal=7)
 
         wl = np.tile(wl, 6)
         n = np.tile(n, 6)
-        np.testing.assert_almost_equal(
-            N2_depolarisation(wl),
-            n,
-            decimal=7)
+        np.testing.assert_almost_equal(N2_depolarisation(wl), n, decimal=7)
 
         wl = np.reshape(wl, (2, 3))
         n = np.reshape(n, (2, 3))
-        np.testing.assert_almost_equal(
-            N2_depolarisation(wl),
-            n,
-            decimal=7)
+        np.testing.assert_almost_equal(N2_depolarisation(wl), n, decimal=7)
 
         wl = np.reshape(wl, (2, 3, 1))
         n = np.reshape(n, (2, 3, 1))
-        np.testing.assert_almost_equal(
-            N2_depolarisation(wl),
-            n,
-            decimal=7)
+        np.testing.assert_almost_equal(N2_depolarisation(wl), n, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_N2_depolarisation(self):
@@ -854,8 +780,7 @@ class TestN2Depolarisation(unittest.TestCase):
         nan support.
         """
 
-        N2_depolarisation(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        N2_depolarisation(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestO2Depolarisation(unittest.TestCase):
@@ -870,19 +795,13 @@ class TestO2Depolarisation(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            O2_depolarisation(0.360),
-            1.115307746532541,
-            places=7)
+            O2_depolarisation(0.360), 1.115307746532541, places=7)
 
         self.assertAlmostEqual(
-            O2_depolarisation(0.555),
-            1.102022536201071,
-            places=7)
+            O2_depolarisation(0.555), 1.102022536201071, places=7)
 
         self.assertAlmostEqual(
-            O2_depolarisation(0.830),
-            1.098315561269013,
-            places=7)
+            O2_depolarisation(0.830), 1.098315561269013, places=7)
 
     def test_n_dimensional_O2_depolarisation(self):
         """
@@ -892,31 +811,19 @@ class TestO2Depolarisation(unittest.TestCase):
 
         wl = 0.360
         n = 1.115307746532541
-        np.testing.assert_almost_equal(
-            O2_depolarisation(wl),
-            n,
-            decimal=7)
+        np.testing.assert_almost_equal(O2_depolarisation(wl), n, decimal=7)
 
         wl = np.tile(wl, 6)
         n = np.tile(n, 6)
-        np.testing.assert_almost_equal(
-            O2_depolarisation(wl),
-            n,
-            decimal=7)
+        np.testing.assert_almost_equal(O2_depolarisation(wl), n, decimal=7)
 
         wl = np.reshape(wl, (2, 3))
         n = np.reshape(n, (2, 3))
-        np.testing.assert_almost_equal(
-            O2_depolarisation(wl),
-            n,
-            decimal=7)
+        np.testing.assert_almost_equal(O2_depolarisation(wl), n, decimal=7)
 
         wl = np.reshape(wl, (2, 3, 1))
         n = np.reshape(n, (2, 3, 1))
-        np.testing.assert_almost_equal(
-            O2_depolarisation(wl),
-            n,
-            decimal=7)
+        np.testing.assert_almost_equal(O2_depolarisation(wl), n, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_O2_depolarisation(self):
@@ -925,8 +832,7 @@ class TestO2Depolarisation(unittest.TestCase):
         nan support.
         """
 
-        O2_depolarisation(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        O2_depolarisation(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestF_airPenndorf1957(unittest.TestCase):
@@ -951,31 +857,19 @@ class TestF_airPenndorf1957(unittest.TestCase):
 
         wl = 0.360
         n = 1.0608
-        np.testing.assert_almost_equal(
-            F_air_Penndorf1957(wl),
-            n,
-            decimal=7)
+        np.testing.assert_almost_equal(F_air_Penndorf1957(wl), n, decimal=7)
 
         wl = np.tile(wl, 6)
         n = np.tile(n, 6)
-        np.testing.assert_almost_equal(
-            F_air_Penndorf1957(wl),
-            n,
-            decimal=7)
+        np.testing.assert_almost_equal(F_air_Penndorf1957(wl), n, decimal=7)
 
         wl = np.reshape(wl, (2, 3))
         n = np.reshape(n, (2, 3))
-        np.testing.assert_almost_equal(
-            F_air_Penndorf1957(wl),
-            n,
-            decimal=7)
+        np.testing.assert_almost_equal(F_air_Penndorf1957(wl), n, decimal=7)
 
         wl = np.reshape(wl, (2, 3, 1))
         n = np.reshape(n, (2, 3, 1))
-        np.testing.assert_almost_equal(
-            F_air_Penndorf1957(wl),
-            n,
-            decimal=7)
+        np.testing.assert_almost_equal(F_air_Penndorf1957(wl), n, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_F_air_Penndorf1957(self):
@@ -984,8 +878,7 @@ class TestF_airPenndorf1957(unittest.TestCase):
         nan support.
         """
 
-        F_air_Penndorf1957(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        F_air_Penndorf1957(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestF_airYoung1981(unittest.TestCase):
@@ -1009,31 +902,19 @@ class TestF_airYoung1981(unittest.TestCase):
 
         wl = 0.360
         n = 1.0480
-        np.testing.assert_almost_equal(
-            F_air_Young1981(wl),
-            n,
-            decimal=7)
+        np.testing.assert_almost_equal(F_air_Young1981(wl), n, decimal=7)
 
         wl = np.tile(wl, 6)
         n = np.tile(n, 6)
-        np.testing.assert_almost_equal(
-            F_air_Young1981(wl),
-            n,
-            decimal=7)
+        np.testing.assert_almost_equal(F_air_Young1981(wl), n, decimal=7)
 
         wl = np.reshape(wl, (2, 3))
         n = np.reshape(n, (2, 3))
-        np.testing.assert_almost_equal(
-            F_air_Young1981(wl),
-            n,
-            decimal=7)
+        np.testing.assert_almost_equal(F_air_Young1981(wl), n, decimal=7)
 
         wl = np.reshape(wl, (2, 3, 1))
         n = np.reshape(n, (2, 3, 1))
-        np.testing.assert_almost_equal(
-            F_air_Young1981(wl),
-            n,
-            decimal=7)
+        np.testing.assert_almost_equal(F_air_Young1981(wl), n, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_F_air_Young1981(self):
@@ -1042,8 +923,7 @@ class TestF_airYoung1981(unittest.TestCase):
         nan support.
         """
 
-        F_air_Young1981(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        F_air_Young1981(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestF_airBates1984(unittest.TestCase):
@@ -1058,19 +938,13 @@ class TestF_airBates1984(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            F_air_Bates1984(0.360),
-            1.051997277711708,
-            places=7)
+            F_air_Bates1984(0.360), 1.051997277711708, places=7)
 
         self.assertAlmostEqual(
-            F_air_Bates1984(0.555),
-            1.048153579718658,
-            places=7)
+            F_air_Bates1984(0.555), 1.048153579718658, places=7)
 
         self.assertAlmostEqual(
-            F_air_Bates1984(0.830),
-            1.046947068600589,
-            places=7)
+            F_air_Bates1984(0.830), 1.046947068600589, places=7)
 
     def test_n_dimensional_F_air_Bates1984(self):
         """
@@ -1080,31 +954,19 @@ class TestF_airBates1984(unittest.TestCase):
 
         wl = 0.360
         n = 1.051997277711708
-        np.testing.assert_almost_equal(
-            F_air_Bates1984(wl),
-            n,
-            decimal=7)
+        np.testing.assert_almost_equal(F_air_Bates1984(wl), n, decimal=7)
 
         wl = np.tile(wl, 6)
         n = np.tile(n, 6)
-        np.testing.assert_almost_equal(
-            F_air_Bates1984(wl),
-            n,
-            decimal=7)
+        np.testing.assert_almost_equal(F_air_Bates1984(wl), n, decimal=7)
 
         wl = np.reshape(wl, (2, 3))
         n = np.reshape(n, (2, 3))
-        np.testing.assert_almost_equal(
-            F_air_Bates1984(wl),
-            n,
-            decimal=7)
+        np.testing.assert_almost_equal(F_air_Bates1984(wl), n, decimal=7)
 
         wl = np.reshape(wl, (2, 3, 1))
         n = np.reshape(n, (2, 3, 1))
-        np.testing.assert_almost_equal(
-            F_air_Bates1984(wl),
-            n,
-            decimal=7)
+        np.testing.assert_almost_equal(F_air_Bates1984(wl), n, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_F_air_Bates1984(self):
@@ -1113,8 +975,7 @@ class TestF_airBates1984(unittest.TestCase):
         nan support.
         """
 
-        F_air_Bates1984(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        F_air_Bates1984(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestF_airBodhaine1999(unittest.TestCase):
@@ -1130,34 +991,22 @@ class TestF_airBodhaine1999(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            F_air_Bodhaine1999(0.360),
-            1.125664021159081,
-            places=7)
+            F_air_Bodhaine1999(0.360), 1.125664021159081, places=7)
 
         self.assertAlmostEqual(
-            F_air_Bodhaine1999(0.555),
-            1.124691670240156,
-            places=7)
+            F_air_Bodhaine1999(0.555), 1.124691670240156, places=7)
 
         self.assertAlmostEqual(
-            F_air_Bodhaine1999(0.830),
-            1.124386455783539,
-            places=7)
+            F_air_Bodhaine1999(0.830), 1.124386455783539, places=7)
 
         self.assertAlmostEqual(
-            F_air_Bodhaine1999(0.360, 0),
-            1.052629792313939,
-            places=7)
+            F_air_Bodhaine1999(0.360, 0), 1.052629792313939, places=7)
 
         self.assertAlmostEqual(
-            F_air_Bodhaine1999(0.555, 360),
-            1.127993015096689,
-            places=7)
+            F_air_Bodhaine1999(0.555, 360), 1.127993015096689, places=7)
 
         self.assertAlmostEqual(
-            F_air_Bodhaine1999(0.830, 620),
-            1.13577082,
-            places=7)
+            F_air_Bodhaine1999(0.830, 620), 1.13577082, places=7)
 
     def test_n_dimensional_F_air_Bodhaine1999(self):
         """
@@ -1167,31 +1016,19 @@ class TestF_airBodhaine1999(unittest.TestCase):
 
         wl = 0.360
         n = 1.125664021159081
-        np.testing.assert_almost_equal(
-            F_air_Bodhaine1999(wl),
-            n,
-            decimal=7)
+        np.testing.assert_almost_equal(F_air_Bodhaine1999(wl), n, decimal=7)
 
         wl = np.tile(wl, 6)
         n = np.tile(n, 6)
-        np.testing.assert_almost_equal(
-            F_air_Bodhaine1999(wl),
-            n,
-            decimal=7)
+        np.testing.assert_almost_equal(F_air_Bodhaine1999(wl), n, decimal=7)
 
         wl = np.reshape(wl, (2, 3))
         n = np.reshape(n, (2, 3))
-        np.testing.assert_almost_equal(
-            F_air_Bodhaine1999(wl),
-            n,
-            decimal=7)
+        np.testing.assert_almost_equal(F_air_Bodhaine1999(wl), n, decimal=7)
 
         wl = np.reshape(wl, (2, 3, 1))
         n = np.reshape(n, (2, 3, 1))
-        np.testing.assert_almost_equal(
-            F_air_Bodhaine1999(wl),
-            n,
-            decimal=7)
+        np.testing.assert_almost_equal(F_air_Bodhaine1999(wl), n, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_F_air_Bodhaine1999(self):
@@ -1220,19 +1057,13 @@ class TestMolecularDensity(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            molecular_density(200),
-            3.669449208173649e+19,
-            delta=10000)
+            molecular_density(200), 3.669449208173649e+19, delta=10000)
 
         self.assertAlmostEqual(
-            molecular_density(300),
-            2.4462994721157665e+19,
-            delta=10000)
+            molecular_density(300), 2.4462994721157665e+19, delta=10000)
 
         self.assertAlmostEqual(
-            molecular_density(400),
-            1.834724604086825e+19,
-            delta=10000)
+            molecular_density(400), 1.834724604086825e+19, delta=10000)
 
     def test_n_dimensional_molecular_density(self):
         """
@@ -1243,30 +1074,22 @@ class TestMolecularDensity(unittest.TestCase):
         temperature = 200
         N_s = 3.669449208173649e+19
         np.testing.assert_almost_equal(
-            molecular_density(temperature),
-            N_s,
-            decimal=7)
+            molecular_density(temperature), N_s, decimal=7)
 
         temperature = np.tile(temperature, 6)
         N_s = np.tile(N_s, 6)
         np.testing.assert_almost_equal(
-            molecular_density(temperature),
-            N_s,
-            decimal=7)
+            molecular_density(temperature), N_s, decimal=7)
 
         temperature = np.reshape(temperature, (2, 3))
         N_s = np.reshape(N_s, (2, 3))
         np.testing.assert_almost_equal(
-            molecular_density(temperature),
-            N_s,
-            decimal=7)
+            molecular_density(temperature), N_s, decimal=7)
 
         temperature = np.reshape(temperature, (2, 3, 1))
         N_s = np.reshape(N_s, (2, 3, 1))
         np.testing.assert_almost_equal(
-            molecular_density(temperature),
-            N_s,
-            decimal=7)
+            molecular_density(temperature), N_s, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_molecular_density(self):
@@ -1275,8 +1098,7 @@ class TestMolecularDensity(unittest.TestCase):
         nan support.
         """
 
-        molecular_density(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        molecular_density(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestMeanMolecularWeights(unittest.TestCase):
@@ -1291,20 +1113,13 @@ class TestMeanMolecularWeights(unittest.TestCase):
         definition.
         """
 
-        self.assertAlmostEqual(
-            mean_molecular_weights(0),
-            28.9595,
-            places=7)
+        self.assertAlmostEqual(mean_molecular_weights(0), 28.9595, places=7)
 
         self.assertAlmostEqual(
-            mean_molecular_weights(360),
-            28.964920015999997,
-            places=7)
+            mean_molecular_weights(360), 28.964920015999997, places=7)
 
         self.assertAlmostEqual(
-            mean_molecular_weights(620),
-            28.968834471999998,
-            places=7)
+            mean_molecular_weights(620), 28.968834471999998, places=7)
 
     def test_n_dimensional_mean_molecular_weights(self):
         """
@@ -1315,30 +1130,22 @@ class TestMeanMolecularWeights(unittest.TestCase):
         CO2_c = 300
         m_a = 28.964016679999997
         np.testing.assert_almost_equal(
-            mean_molecular_weights(CO2_c),
-            m_a,
-            decimal=7)
+            mean_molecular_weights(CO2_c), m_a, decimal=7)
 
         CO2_c = np.tile(CO2_c, 6)
         m_a = np.tile(m_a, 6)
         np.testing.assert_almost_equal(
-            mean_molecular_weights(CO2_c),
-            m_a,
-            decimal=7)
+            mean_molecular_weights(CO2_c), m_a, decimal=7)
 
         CO2_c = np.reshape(CO2_c, (2, 3))
         m_a = np.reshape(m_a, (2, 3))
         np.testing.assert_almost_equal(
-            mean_molecular_weights(CO2_c),
-            m_a,
-            decimal=7)
+            mean_molecular_weights(CO2_c), m_a, decimal=7)
 
         CO2_c = np.reshape(CO2_c, (2, 3, 1))
         m_a = np.reshape(m_a, (2, 3, 1))
         np.testing.assert_almost_equal(
-            mean_molecular_weights(CO2_c),
-            m_a,
-            decimal=7)
+            mean_molecular_weights(CO2_c), m_a, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_mean_molecular_weights(self):
@@ -1362,20 +1169,13 @@ class TestGravityList1968(unittest.TestCase):
         Tests :func:`colour.phenomenons.rayleigh.gravity_List1968` definition.
         """
 
-        self.assertAlmostEqual(
-            gravity_List1968(0, 0),
-            978.03560706,
-            places=7)
+        self.assertAlmostEqual(gravity_List1968(0, 0), 978.03560706, places=7)
 
         self.assertAlmostEqual(
-            gravity_List1968(45, 1500),
-            980.15334386,
-            places=7)
+            gravity_List1968(45, 1500), 980.15334386, places=7)
 
         self.assertAlmostEqual(
-            gravity_List1968(48.8567, 35),
-            980.95241784,
-            places=7)
+            gravity_List1968(48.8567, 35), 980.95241784, places=7)
 
     def test_n_dimensional_gravity_List1968(self):
         """
@@ -1384,28 +1184,16 @@ class TestGravityList1968(unittest.TestCase):
         """
 
         g = 978.03560706
-        np.testing.assert_almost_equal(
-            gravity_List1968(),
-            g,
-            decimal=7)
+        np.testing.assert_almost_equal(gravity_List1968(), g, decimal=7)
 
         g = np.tile(g, 6)
-        np.testing.assert_almost_equal(
-            gravity_List1968(),
-            g,
-            decimal=7)
+        np.testing.assert_almost_equal(gravity_List1968(), g, decimal=7)
 
         g = np.reshape(g, (2, 3))
-        np.testing.assert_almost_equal(
-            gravity_List1968(),
-            g,
-            decimal=7)
+        np.testing.assert_almost_equal(gravity_List1968(), g, decimal=7)
 
         g = np.reshape(g, (2, 3, 1))
-        np.testing.assert_almost_equal(
-            gravity_List1968(),
-            g,
-            decimal=7)
+        np.testing.assert_almost_equal(gravity_List1968(), g, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_gravity_List1968(self):
@@ -1488,27 +1276,19 @@ class TestScatteringCrossSection(unittest.TestCase):
         wl = 360 * 10e-8
         sigma = 2.781289234802031e-26
         np.testing.assert_almost_equal(
-            scattering_cross_section(wl),
-            sigma,
-            decimal=32)
+            scattering_cross_section(wl), sigma, decimal=32)
 
         sigma = np.tile(sigma, 6)
         np.testing.assert_almost_equal(
-            scattering_cross_section(wl),
-            sigma,
-            decimal=32)
+            scattering_cross_section(wl), sigma, decimal=32)
 
         sigma = np.reshape(sigma, (2, 3))
         np.testing.assert_almost_equal(
-            scattering_cross_section(wl),
-            sigma,
-            decimal=32)
+            scattering_cross_section(wl), sigma, decimal=32)
 
         sigma = np.reshape(sigma, (2, 3, 1))
         np.testing.assert_almost_equal(
-            scattering_cross_section(wl),
-            sigma,
-            decimal=32)
+            scattering_cross_section(wl), sigma, decimal=32)
 
     @ignore_numpy_errors
     def test_nan_scattering_cross_section(self):
@@ -1523,8 +1303,8 @@ class TestScatteringCrossSection(unittest.TestCase):
             wavelength = case
             CO2_concentration = case
             temperature = case
-            scattering_cross_section(
-                wavelength, CO2_concentration, temperature)
+            scattering_cross_section(wavelength, CO2_concentration,
+                                     temperature)
 
 
 class TestRayleighOpticalDepth(unittest.TestCase):
@@ -1540,19 +1320,13 @@ class TestRayleighOpticalDepth(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            rayleigh_optical_depth(360 * 10e-8),
-            0.599101336848028,
-            places=7)
+            rayleigh_optical_depth(360 * 10e-8), 0.599101336848028, places=7)
 
         self.assertAlmostEqual(
-            rayleigh_optical_depth(555 * 10e-8),
-            0.100407017728965,
-            places=7)
+            rayleigh_optical_depth(555 * 10e-8), 0.100407017728965, places=7)
 
         self.assertAlmostEqual(
-            rayleigh_optical_depth(830 * 10e-8),
-            0.019655847912114,
-            places=7)
+            rayleigh_optical_depth(830 * 10e-8), 0.019655847912114, places=7)
 
         self.assertAlmostEqual(
             rayleigh_optical_depth(555 * 10e-8, 0),
@@ -1623,27 +1397,19 @@ class TestRayleighOpticalDepth(unittest.TestCase):
         wl = 360 * 10e-8
         T_R = 0.599101336848028
         np.testing.assert_almost_equal(
-            rayleigh_optical_depth(wl),
-            T_R,
-            decimal=7)
+            rayleigh_optical_depth(wl), T_R, decimal=7)
 
         T_R = np.tile(T_R, 6)
         np.testing.assert_almost_equal(
-            rayleigh_optical_depth(wl),
-            T_R,
-            decimal=7)
+            rayleigh_optical_depth(wl), T_R, decimal=7)
 
         T_R = np.reshape(T_R, (2, 3))
         np.testing.assert_almost_equal(
-            rayleigh_optical_depth(wl),
-            T_R,
-            decimal=7)
+            rayleigh_optical_depth(wl), T_R, decimal=7)
 
         T_R = np.reshape(T_R, (2, 3, 1))
         np.testing.assert_almost_equal(
-            rayleigh_optical_depth(wl),
-            T_R,
-            decimal=7)
+            rayleigh_optical_depth(wl), T_R, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_rayleigh_optical_depth(self):
@@ -1660,8 +1426,8 @@ class TestRayleighOpticalDepth(unittest.TestCase):
             temperature = case
             latitude = case
             altitude = case
-            rayleigh_optical_depth(
-                wavelength, CO2_concentration, temperature, latitude, altitude)
+            rayleigh_optical_depth(wavelength, CO2_concentration, temperature,
+                                   latitude, altitude)
 
 
 class TestRayleighScatteringSpd(unittest.TestCase):

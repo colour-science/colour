@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Pal/Secam RGB Colourspace
 =========================
@@ -29,10 +28,8 @@ import numpy as np
 from functools import partial
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import (
-    RGB_Colourspace,
-    gamma_function,
-    normalised_primary_matrix)
+from colour.models.rgb import (RGB_Colourspace, function_gamma,
+                               normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -41,17 +38,16 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['PAL_SECAM_RGB_PRIMARIES',
-           'PAL_SECAM_RGB_ILLUMINANT',
-           'PAL_SECAM_RGB_WHITEPOINT',
-           'PAL_SECAM_RGB_TO_XYZ_MATRIX',
-           'XYZ_TO_PAL_SECAM_RGB_MATRIX',
-           'PAL_SECAM_RGB_COLOURSPACE']
+__all__ = [
+    'PAL_SECAM_RGB_PRIMARIES', 'PAL_SECAM_RGB_ILLUMINANT',
+    'PAL_SECAM_RGB_WHITEPOINT', 'PAL_SECAM_RGB_TO_XYZ_MATRIX',
+    'XYZ_TO_PAL_SECAM_RGB_MATRIX', 'PAL_SECAM_RGB_COLOURSPACE'
+]
 
 PAL_SECAM_RGB_PRIMARIES = np.array(
     [[0.64, 0.33],
      [0.29, 0.60],
-     [0.15, 0.06]])
+     [0.15, 0.06]])  # yapf: disable
 """
 *Pal/Secam RGB* colourspace primaries.
 
@@ -66,8 +62,8 @@ PAL_SECAM_RGB_ILLUMINANT : unicode
 """
 
 PAL_SECAM_RGB_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
-        PAL_SECAM_RGB_ILLUMINANT])
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
+    [PAL_SECAM_RGB_ILLUMINANT])  # yapf: disable
 """
 *Pal/Secam RGB* colourspace whitepoint.
 
@@ -96,8 +92,8 @@ PAL_SECAM_RGB_COLOURSPACE = RGB_Colourspace(
     PAL_SECAM_RGB_ILLUMINANT,
     PAL_SECAM_RGB_TO_XYZ_MATRIX,
     XYZ_TO_PAL_SECAM_RGB_MATRIX,
-    partial(gamma_function, exponent=1 / 2.8),
-    partial(gamma_function, exponent=2.8))
+    partial(function_gamma, exponent=1 / 2.8),
+    partial(function_gamma, exponent=2.8))  # yapf: disable
 """
 *Pal/Secam RGB* colourspace.
 

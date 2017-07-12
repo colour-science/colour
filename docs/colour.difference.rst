@@ -1,5 +1,5 @@
-colour.difference Package
-=========================
+colour\.difference Package
+==========================
 
 Sub-Modules
 -----------

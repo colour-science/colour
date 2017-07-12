@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Hunter Rd,a,b Colour Scale
 ==========================
@@ -38,12 +37,11 @@ __status__ = 'Production'
 __all__ = ['XYZ_to_Hunter_Rdab']
 
 
-def XYZ_to_Hunter_Rdab(
-        XYZ,
-        XYZ_n=HUNTERLAB_ILLUMINANTS[
-            'CIE 1931 2 Degree Standard Observer']['D50'].XYZ_n,
-        K_ab=HUNTERLAB_ILLUMINANTS[
-            'CIE 1931 2 Degree Standard Observer']['D50'].K_ab):
+def XYZ_to_Hunter_Rdab(XYZ,
+                       XYZ_n=HUNTERLAB_ILLUMINANTS[
+                           'CIE 1931 2 Degree Standard Observer']['D50'].XYZ_n,
+                       K_ab=HUNTERLAB_ILLUMINANTS[
+                           'CIE 1931 2 Degree Standard Observer']['D50'].K_ab):
     """
     Converts from *CIE XYZ* tristimulus values to *Hunter Rd,a,b* colour scale.
 
@@ -83,8 +81,7 @@ def XYZ_to_Hunter_Rdab(
     X, Y, Z = tsplit(XYZ)
     X_n, Y_n, Z_n = tsplit(XYZ_n)
     K_a, K_b = (tsplit(XYZ_to_K_ab_HunterLab1966(XYZ_n))
-                if K_ab is None else
-                tsplit(K_ab))
+                if K_ab is None else tsplit(K_ab))
 
     f = 0.51 * ((21 + 0.2 * Y) / (1 + 0.2 * Y))
     Y_Yn = Y / Y_n

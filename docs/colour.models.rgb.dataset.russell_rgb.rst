@@ -1,5 +1,5 @@
-colour.models.rgb.dataset.russell_rgb Module
-============================================
+colour\.models\.rgb\.dataset\.russell\_rgb Module
+=================================================
 
 .. automodule:: colour.models.rgb.dataset.russell_rgb
     :members:

@@ -1,6 +1,5 @@
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for :mod:`colour.appearance.nayatani95` module.
 """
@@ -32,13 +31,15 @@ class TestNayatani95ColourAppearanceModel(ColourAppearanceModelTest):
 
     FIXTURE_BASENAME = 'nayatani95.csv'
 
-    OUTPUT_ATTRIBUTES = {'Lstar_P': 'Lstar_P',
-                         'C': 'C',
-                         'theta': 'h',
-                         'S': 's',
-                         'B_r': 'Q',
-                         'M': 'M',
-                         'Lstar_N': 'Lstar_N'}
+    OUTPUT_ATTRIBUTES = {
+        'Lstar_P': 'Lstar_P',
+        'C': 'C',
+        'theta': 'h',
+        'S': 's',
+        'B_r': 'Q',
+        'M': 'M',
+        'Lstar_N': 'Lstar_N'
+    }
 
     def output_specification_from_data(self, data):
         """
@@ -59,10 +60,7 @@ class TestNayatani95ColourAppearanceModel(ColourAppearanceModelTest):
         XYZ = tstack((data['X'], data['Y'], data['Z']))
         XYZ_n = tstack((data['X_n'], data['Y_n'], data['Z_n']))
 
-        specification = XYZ_to_Nayatani95(XYZ,
-                                          XYZ_n,
-                                          data['Y_o'],
-                                          data['E_o'],
+        specification = XYZ_to_Nayatani95(XYZ, XYZ_n, data['Y_o'], data['E_o'],
                                           data['E_or'])
 
         return specification

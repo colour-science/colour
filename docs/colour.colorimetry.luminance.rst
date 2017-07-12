@@ -1,5 +1,5 @@
-colour.colorimetry.luminance Module
-===================================
+colour\.colorimetry\.luminance Module
+=====================================
 
 .. automodule:: colour.colorimetry.luminance
     :members:

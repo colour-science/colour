@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Ekta Space PS 5 Colourspace
 ===========================
@@ -26,10 +25,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 from functools import partial
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import (
-    RGB_Colourspace,
-    gamma_function,
-    normalised_primary_matrix)
+from colour.models.rgb import (RGB_Colourspace, function_gamma,
+                               normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -38,17 +35,16 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['EKTA_SPACE_PS_5_PRIMARIES',
-           'EKTA_SPACE_PS_5_V_ILLUMINANT',
-           'EKTA_SPACE_PS_5_WHITEPOINT',
-           'EKTA_SPACE_PS_5_TO_XYZ_MATRIX',
-           'XYZ_TO_EKTA_SPACE_PS_5_MATRIX',
-           'EKTA_SPACE_PS_5_COLOURSPACE']
+__all__ = [
+    'EKTA_SPACE_PS_5_PRIMARIES', 'EKTA_SPACE_PS_5_V_ILLUMINANT',
+    'EKTA_SPACE_PS_5_WHITEPOINT', 'EKTA_SPACE_PS_5_TO_XYZ_MATRIX',
+    'XYZ_TO_EKTA_SPACE_PS_5_MATRIX', 'EKTA_SPACE_PS_5_COLOURSPACE'
+]
 
 EKTA_SPACE_PS_5_PRIMARIES = np.array(
     [[0.694736842105263, 0.305263157894737],
      [0.260000000000000, 0.700000000000000],
-     [0.109728506787330, 0.004524886877828]])
+     [0.109728506787330, 0.004524886877828]])  # yapf: disable
 """
 *Ekta Space PS 5* colourspace primaries.
 
@@ -63,8 +59,8 @@ EKTA_SPACE_PS_5_V_ILLUMINANT : unicode
 """
 
 EKTA_SPACE_PS_5_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
-        EKTA_SPACE_PS_5_V_ILLUMINANT])
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
+    [EKTA_SPACE_PS_5_V_ILLUMINANT])  # yapf: disable
 """
 *Ekta Space PS 5* colourspace whitepoint.
 
@@ -94,8 +90,8 @@ EKTA_SPACE_PS_5_COLOURSPACE = RGB_Colourspace(
     EKTA_SPACE_PS_5_V_ILLUMINANT,
     EKTA_SPACE_PS_5_TO_XYZ_MATRIX,
     XYZ_TO_EKTA_SPACE_PS_5_MATRIX,
-    partial(gamma_function, exponent=1 / 2.2),
-    partial(gamma_function, exponent=2.2))
+    partial(function_gamma, exponent=1 / 2.2),
+    partial(function_gamma, exponent=2.2))  # yapf: disable
 """
 *Ekta Space PS 5* colourspace.
 

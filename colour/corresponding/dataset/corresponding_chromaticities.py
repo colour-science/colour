@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Breneman Corresponding Chromaticities Dataset
 =============================================
@@ -34,27 +33,21 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['BrenemanExperimentResult',
-           'PrimariesChromaticityCoordinates',
-           'BRENEMAN_EXPERIMENT_1_RESULTS',
-           'BRENEMAN_EXPERIMENT_2_RESULTS',
-           'BRENEMAN_EXPERIMENT_3_RESULTS',
-           'BRENEMAN_EXPERIMENT_4_RESULTS',
-           'BRENEMAN_EXPERIMENT_5_RESULTS',
-           'BRENEMAN_EXPERIMENT_6_RESULTS',
-           'BRENEMAN_EXPERIMENT_7_RESULTS',
-           'BRENEMAN_EXPERIMENT_10_RESULTS',
-           'BRENEMAN_EXPERIMENT_8_RESULTS',
-           'BRENEMAN_EXPERIMENT_9_RESULTS',
-           'BRENEMAN_EXPERIMENT_11_RESULTS',
-           'BRENEMAN_EXPERIMENT_12_RESULTS',
-           'BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES',
-           'BRENEMAN_EXPERIMENTS']
+__all__ = [
+    'BrenemanExperimentResult', 'PrimariesChromaticityCoordinates',
+    'BRENEMAN_EXPERIMENT_1_RESULTS', 'BRENEMAN_EXPERIMENT_2_RESULTS',
+    'BRENEMAN_EXPERIMENT_3_RESULTS', 'BRENEMAN_EXPERIMENT_4_RESULTS',
+    'BRENEMAN_EXPERIMENT_5_RESULTS', 'BRENEMAN_EXPERIMENT_6_RESULTS',
+    'BRENEMAN_EXPERIMENT_7_RESULTS', 'BRENEMAN_EXPERIMENT_10_RESULTS',
+    'BRENEMAN_EXPERIMENT_8_RESULTS', 'BRENEMAN_EXPERIMENT_9_RESULTS',
+    'BRENEMAN_EXPERIMENT_11_RESULTS', 'BRENEMAN_EXPERIMENT_12_RESULTS',
+    'BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES', 'BRENEMAN_EXPERIMENTS'
+]
 
 
 class BrenemanExperimentResult(
-    namedtuple('BrenemanExperimentResult',
-               ('name', 'uvp_t', 'uvp_m', 's_uvp', 'd_uvp_i', 'd_uvp_g'))):
+        namedtuple('BrenemanExperimentResult',
+                   ('name', 'uvp_t', 'uvp_m', 's_uvp', 'd_uvp_i', 'd_uvp_g'))):
     """
     Experiment result.
 
@@ -76,25 +69,28 @@ class BrenemanExperimentResult(
         :math:`\delta_uv_g^p`.
     """
 
-    def __new__(
-            cls, name, uvp_t, uvp_m, s_uvp=None, d_uvp_i=None, d_uvp_g=None):
+    def __new__(cls,
+                name,
+                uvp_t,
+                uvp_m,
+                s_uvp=None,
+                d_uvp_i=None,
+                d_uvp_g=None):
         """
         Returns a new instance of the :class:`BrenemanExperimentResult` class.
         """
 
         return super(BrenemanExperimentResult, cls).__new__(
-            cls,
-            name,
+            cls, name,
             np.array(uvp_t),
             np.array(uvp_m),
-            np.array(s_uvp),
-            np.array(d_uvp_i),
-            np.array(d_uvp_g))
+            np.array(s_uvp), np.array(d_uvp_i), np.array(d_uvp_g))
 
 
 class PrimariesChromaticityCoordinates(
-    namedtuple('PrimariesChromaticityCoordinates',
-               ('experiment', 'illuminants', 'Y', 'P_uvp', 'D_uvp', 'T_uvp'))):
+        namedtuple('PrimariesChromaticityCoordinates',
+                   ('experiment', 'illuminants', 'Y', 'P_uvp', 'D_uvp',
+                    'T_uvp'))):
     """
     Chromaticity coordinates of primaries.
 
@@ -114,22 +110,25 @@ class PrimariesChromaticityCoordinates(
         Chromaticity coordinates :math:`uv^p` of primary :math:`T`.
     """
 
-    def __new__(
-            cls, name, uvp_t, uvp_m, s_uvp=None, d_uvp_i=None, d_uvp_g=None):
+    def __new__(cls,
+                name,
+                uvp_t,
+                uvp_m,
+                s_uvp=None,
+                d_uvp_i=None,
+                d_uvp_g=None):
         """
         Returns a new instance of the :class:`BrenemanExperimentResult` class.
         """
 
         return super(PrimariesChromaticityCoordinates, cls).__new__(
-            cls,
-            name,
+            cls, name,
             np.array(uvp_t),
             np.array(uvp_m),
-            np.array(s_uvp),
-            np.array(d_uvp_i),
-            np.array(d_uvp_g))
+            np.array(s_uvp), np.array(d_uvp_i), np.array(d_uvp_g))
 
 
+# yapf: disable
 BRENEMAN_EXPERIMENT_1_RESULTS = (
     BrenemanExperimentResult(
         'Illuminant',
@@ -170,6 +169,7 @@ BRENEMAN_EXPERIMENT_1_RESULTS = (
     BrenemanExperimentResult(
         'Purple',
         (0.278, 0.456), (0.231, 0.365), (4, 25), (0, 2), (-5, 7)))
+# yapf: enable
 """
 *Breneman (1987)* experiment 1 results.
 
@@ -182,6 +182,7 @@ Notes
 -   Observers Count : 7
 """
 
+# yapf: disable
 BRENEMAN_EXPERIMENT_2_RESULTS = (
     BrenemanExperimentResult(
         'Illuminant',
@@ -222,6 +223,7 @@ BRENEMAN_EXPERIMENT_2_RESULTS = (
     BrenemanExperimentResult(
         'Purple',
         (0.258, 0.431), (0.244, 0.349), (4, 19), (-3, 13), (-4, 19)))
+# yapf: enable
 """
 *Breneman (1987)* experiment 2 results.
 
@@ -234,6 +236,7 @@ Notes
 -   Observers Count : 7
 """
 
+# yapf: disable
 BRENEMAN_EXPERIMENT_3_RESULTS = (
     BrenemanExperimentResult(
         'Illuminant',
@@ -274,6 +277,7 @@ BRENEMAN_EXPERIMENT_3_RESULTS = (
     BrenemanExperimentResult(
         'Purple',
         (0.258, 0.432), (0.238, 0.396), (4, 8), (5, 3), (4, -11)))
+# yapf: enable
 """
 *Breneman (1987)* experiment 3 results.
 
@@ -286,6 +290,7 @@ Notes
 -   Observers Count : 7
 """
 
+# yapf: disable
 BRENEMAN_EXPERIMENT_4_RESULTS = (
     BrenemanExperimentResult(
         'Illuminant',
@@ -326,6 +331,7 @@ BRENEMAN_EXPERIMENT_4_RESULTS = (
     BrenemanExperimentResult(
         'Purple',
         (0.278, 0.455), (0.229, 0.388), (6, 14), (1, 12), (3, 0)))
+# yapf: enable
 """
 *Breneman (1987)* experiment 4 results.
 
@@ -338,6 +344,7 @@ Notes
 -   Observers Count : 7
 """
 
+# yapf: disable
 BRENEMAN_EXPERIMENT_5_RESULTS = (
     BrenemanExperimentResult(
         'Gray',
@@ -375,6 +382,7 @@ BRENEMAN_EXPERIMENT_5_RESULTS = (
     BrenemanExperimentResult(
         'Purple',
         (0.245, 0.364), (0.239, 0.401), (4, 16)))
+# yapf: enable
 """
 *Breneman (1987)* experiment 5 results.
 
@@ -386,6 +394,7 @@ Notes
 -   Observers Count : 7
 """
 
+# yapf: disable
 BRENEMAN_EXPERIMENT_6_RESULTS = (
     BrenemanExperimentResult(
         'Illuminant',
@@ -426,6 +435,7 @@ BRENEMAN_EXPERIMENT_6_RESULTS = (
     BrenemanExperimentResult(
         'Purple',
         (0.276, 0.456), (0.227, 0.369), (6, 27), (-2, 4), (-3, 9)))
+# yapf: enable
 """
 *Breneman (1987)* experiment 6 results.
 
@@ -438,6 +448,7 @@ Notes
 -   Observers Count : 8
 """
 
+# yapf: disable
 BRENEMAN_EXPERIMENT_7_RESULTS = (
     BrenemanExperimentResult(
         'Gray',
@@ -475,6 +486,7 @@ BRENEMAN_EXPERIMENT_7_RESULTS = (
     BrenemanExperimentResult(
         'Purple',
         (0.245, 0.365), (0.240, 0.398), (4, 10)))
+# yapf: enable
 """
 *Breneman (1987)* experiment 7 results.
 
@@ -486,6 +498,7 @@ Notes
 -   Observers Count : 8
 """
 
+# yapf: disable
 BRENEMAN_EXPERIMENT_8_RESULTS = (
     BrenemanExperimentResult(
         'Illuminant',
@@ -526,6 +539,7 @@ BRENEMAN_EXPERIMENT_8_RESULTS = (
     BrenemanExperimentResult(
         'Purple',
         (0.277, 0.454), (0.226, 0.389), (4, 10), (1, 4), (1, -8)))
+# yapf: enable
 """
 *Breneman (1987)* experiment 8 results.
 
@@ -538,6 +552,7 @@ Notes
 -   Observers Count : 8
 """
 
+# yapf: disable
 BRENEMAN_EXPERIMENT_9_RESULTS = (
     BrenemanExperimentResult(
         'Illuminant',
@@ -599,6 +614,7 @@ BRENEMAN_EXPERIMENT_9_RESULTS = (
     BrenemanExperimentResult(
         '(Purple)h',
         (0.277, 0.456), (0.236, 0.422), (6, 11), None, (-2, -29)))
+# yapf: enable
 """
 *Breneman (1987)* experiment 9 results.
 
@@ -613,6 +629,7 @@ Notes
     luminescence level of the lighter colors.
 """
 
+# yapf: disable
 BRENEMAN_EXPERIMENT_10_RESULTS = (
     BrenemanExperimentResult(
         'Gray',
@@ -650,6 +667,7 @@ BRENEMAN_EXPERIMENT_10_RESULTS = (
     BrenemanExperimentResult(
         'Purple',
         (0.245, 0.366), (0.240, 0.402), (3, 12)))
+# yapf: enable
 """
 *Breneman (1987)* experiment 10 results.
 
@@ -661,6 +679,7 @@ Notes
 -   Observers Count : 7
 """
 
+# yapf: disable
 BRENEMAN_EXPERIMENT_11_RESULTS = (
     BrenemanExperimentResult(
         'Illuminant',
@@ -701,6 +720,7 @@ BRENEMAN_EXPERIMENT_11_RESULTS = (
     BrenemanExperimentResult(
         'Purple',
         (0.245, 0.366), (0.216, 0.419), (4, 13), (-3, 8), (4, -2)))
+# yapf: enable
 """
 *Breneman (1987)* experiment 1 results.
 
@@ -713,6 +733,7 @@ Notes
 -   Observers Count : 7
 """
 
+# yapf: disable
 BRENEMAN_EXPERIMENT_12_RESULTS = (
     BrenemanExperimentResult(
         'Illuminant',
@@ -753,6 +774,7 @@ BRENEMAN_EXPERIMENT_12_RESULTS = (
     BrenemanExperimentResult(
         'Purple',
         (0.246, 0.366), (0.222, 0.404), (5, 15), (-4, 2), (4, 2)))
+# yapf: enable
 """
 *Breneman (1987)* experiment 12 results.
 
@@ -765,6 +787,7 @@ Notes
 -   Observers Count : 7
 """
 
+# yapf: disable
 BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES = {
     1: PrimariesChromaticityCoordinates(
         1, ('A', 'D65'), 1500,
@@ -793,6 +816,7 @@ BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES = {
     12: PrimariesChromaticityCoordinates(
         12, ('D55', 'green'), 75,
         (0.661, 0.505), (0.039, 0.598), (0.345, 0.127))}
+# yapf: enable
 """
 *Breneman (1987)* experiments primaries chromaticities.
 
@@ -811,7 +835,8 @@ BRENEMAN_EXPERIMENTS = {
     9: BRENEMAN_EXPERIMENT_9_RESULTS,
     10: BRENEMAN_EXPERIMENT_10_RESULTS,
     11: BRENEMAN_EXPERIMENT_11_RESULTS,
-    12: BRENEMAN_EXPERIMENT_12_RESULTS}
+    12: BRENEMAN_EXPERIMENT_12_RESULTS
+}
 """
 *Breneman (1987)* experiments.
 

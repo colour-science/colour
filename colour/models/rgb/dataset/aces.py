@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Academy Color Encoding System
 =============================
@@ -66,15 +65,9 @@ import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
 from colour.models.rgb import (
-    RGB_Colourspace,
-    normalised_primary_matrix,
-    linear_function,
-    log_encoding_ACEScc,
-    log_decoding_ACEScc,
-    log_encoding_ACEScct,
-    log_decoding_ACEScct,
-    log_encoding_ACESproxy,
-    log_decoding_ACESproxy)
+    RGB_Colourspace, function_linear, normalised_primary_matrix,
+    log_encoding_ACEScc, log_decoding_ACEScc, log_encoding_ACEScct,
+    log_decoding_ACEScct, log_encoding_ACESproxy, log_decoding_ACESproxy)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -83,24 +76,17 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['AP0',
-           'AP1',
-           'ACES_ILLUMINANT',
-           'ACES_WHITEPOINT',
-           'AP0_TO_XYZ_MATRIX',
-           'XYZ_TO_AP0_MATRIX',
-           'AP1_TO_XYZ_MATRIX',
-           'XYZ_TO_AP1_MATRIX',
-           'ACES_2065_1_COLOURSPACE',
-           'ACES_CG_COLOURSPACE',
-           'ACES_CC_COLOURSPACE',
-           'ACES_CCT_COLOURSPACE',
-           'ACES_PROXY_COLOURSPACE']
+__all__ = [
+    'AP0', 'AP1', 'ACES_ILLUMINANT', 'ACES_WHITEPOINT', 'AP0_TO_XYZ_MATRIX',
+    'XYZ_TO_AP0_MATRIX', 'AP1_TO_XYZ_MATRIX', 'XYZ_TO_AP1_MATRIX',
+    'ACES_2065_1_COLOURSPACE', 'ACES_CG_COLOURSPACE', 'ACES_CC_COLOURSPACE',
+    'ACES_CCT_COLOURSPACE', 'ACES_PROXY_COLOURSPACE'
+]
 
 AP0 = np.array(
     [[0.73470, 0.26530],
      [0.00000, 1.00000],
-     [0.00010, -0.07700]])
+     [0.00010, -0.07700]])  # yapf: disable
 """
 *ACES Primaries 0* or *AP0* primaries.
 
@@ -110,7 +96,7 @@ AP0 : ndarray, (3, 2)
 AP1 = np.array(
     [[0.71300, 0.29300],
      [0.16500, 0.83000],
-     [0.12800, 0.04400]])
+     [0.12800, 0.04400]])  # yapf: disable
 """
 *ACES Primaries 1* or *AP1* primaries (known as *Rec. 2020+* primaries prior
 to *ACES* 1.0 release).
@@ -136,7 +122,7 @@ ACES_WHITEPOINT : ndarray
 AP0_TO_XYZ_MATRIX = np.array(
     [[0.9525523959, 0.0000000000, 0.0000936786],
      [0.3439664498, 0.7281660966, -0.0721325464],
-     [0.0000000000, 0.0000000000, 1.0088251844]])
+     [0.0000000000, 0.0000000000, 1.0088251844]])  # yapf: disable
 """
 *ACES Primaries 0* to *CIE XYZ* tristimulus values matrix defined as per [2].
 AP0_TO_XYZ_MATRIX : array_like, (3, 3)
@@ -145,7 +131,7 @@ AP0_TO_XYZ_MATRIX : array_like, (3, 3)
 XYZ_TO_AP0_MATRIX = np.array(
     [[1.0498110175, 0.0000000000, -0.0000974845],
      [- 0.4959030231, 1.3733130458, 0.0982400361],
-     [0.0000000000, 0.0000000000, 0.9912520182]])
+     [0.0000000000, 0.0000000000, 0.9912520182]])  # yapf: disable
 """
 *CIE XYZ* tristimulus values to *ACES Primaries 0* matrix.
 
@@ -173,8 +159,8 @@ ACES_2065_1_COLOURSPACE = RGB_Colourspace(
     ACES_ILLUMINANT,
     AP0_TO_XYZ_MATRIX,
     XYZ_TO_AP0_MATRIX,
-    linear_function,
-    linear_function)
+    function_linear,
+    function_linear)  # yapf: disable
 """
 *ACES2065-1* colourspace, base encoding, used for exchange of full fidelity
 images and archiving.
@@ -189,8 +175,8 @@ ACES_CG_COLOURSPACE = RGB_Colourspace(
     ACES_ILLUMINANT,
     AP1_TO_XYZ_MATRIX,
     XYZ_TO_AP1_MATRIX,
-    linear_function,
-    linear_function)
+    function_linear,
+    function_linear)  # yapf: disable
 """
 *ACEScg* colourspace, a working space for paint/compositor applications that
 don’t support ACES2065-1 or ACEScc.
@@ -206,7 +192,7 @@ ACES_CC_COLOURSPACE = RGB_Colourspace(
     AP1_TO_XYZ_MATRIX,
     XYZ_TO_AP1_MATRIX,
     log_encoding_ACEScc,
-    log_decoding_ACEScc)
+    log_decoding_ACEScc)  # yapf: disable
 """
 *ACEScc* colourspace, a working space for color correctors, target for ASC-CDL
 values created on-set.
@@ -222,7 +208,7 @@ ACES_CCT_COLOURSPACE = RGB_Colourspace(
     AP1_TO_XYZ_MATRIX,
     XYZ_TO_AP1_MATRIX,
     log_encoding_ACEScct,
-    log_decoding_ACEScct)
+    log_decoding_ACEScct)  # yapf: disable
 """
 *ACEScct* colourspace, an alternative working space for colour correctors,
 intended to be transient and internal to software or hardware systems,
@@ -239,7 +225,7 @@ ACES_PROXY_COLOURSPACE = RGB_Colourspace(
     AP1_TO_XYZ_MATRIX,
     XYZ_TO_AP1_MATRIX,
     log_encoding_ACESproxy,
-    log_decoding_ACESproxy)
+    log_decoding_ACESproxy)  # yapf: disable
 """
 *ACESproxy* colourspace, a lightweight encoding for transmission over HD-SDI
 (or other production transmission schemes), onset look management. Not

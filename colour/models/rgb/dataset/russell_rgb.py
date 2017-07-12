@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Russell RGB Colourspace
 =======================
@@ -27,10 +26,8 @@ import numpy as np
 from functools import partial
 
 from colour.colorimetry.dataset import ILLUMINANTS
-from colour.models.rgb import (
-    RGB_Colourspace,
-    gamma_function,
-    normalised_primary_matrix)
+from colour.models.rgb import (RGB_Colourspace, function_gamma,
+                               normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -39,17 +36,16 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['RUSSELL_RGB_PRIMARIES',
-           'RUSSELL_RGB_ILLUMINANT',
-           'RUSSELL_RGB_WHITEPOINT',
-           'RUSSELL_RGB_TO_XYZ_MATRIX',
-           'XYZ_TO_RUSSELL_RGB_MATRIX',
-           'RUSSELL_RGB_COLOURSPACE']
+__all__ = [
+    'RUSSELL_RGB_PRIMARIES', 'RUSSELL_RGB_ILLUMINANT',
+    'RUSSELL_RGB_WHITEPOINT', 'RUSSELL_RGB_TO_XYZ_MATRIX',
+    'XYZ_TO_RUSSELL_RGB_MATRIX', 'RUSSELL_RGB_COLOURSPACE'
+]
 
 RUSSELL_RGB_PRIMARIES = np.array(
     [[0.6900, 0.3100],
      [0.1800, 0.7700],
-     [0.1000, 0.0200]])
+     [0.1000, 0.0200]])  # yapf: disable
 """
 *Russell RGB* colourspace primaries.
 
@@ -71,8 +67,8 @@ RUSSELL_RGB_WHITEPOINT = (
 RUSSELL_RGB_WHITEPOINT : ndarray
 """
 
-RUSSELL_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(
-    RUSSELL_RGB_PRIMARIES, RUSSELL_RGB_WHITEPOINT)
+RUSSELL_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(RUSSELL_RGB_PRIMARIES,
+                                                      RUSSELL_RGB_WHITEPOINT)
 """
 *Russell RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 
@@ -93,8 +89,8 @@ RUSSELL_RGB_COLOURSPACE = RGB_Colourspace(
     RUSSELL_RGB_ILLUMINANT,
     RUSSELL_RGB_TO_XYZ_MATRIX,
     XYZ_TO_RUSSELL_RGB_MATRIX,
-    partial(gamma_function, exponent=1 / 2.2),
-    partial(gamma_function, exponent=2.2))
+    partial(function_gamma, exponent=1 / 2.2),
+    partial(function_gamma, exponent=2.2))  # yapf: disable
 """
 *Russell RGB* colourspace.
 

@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Beta RGB Colourspace
 ====================
@@ -27,10 +26,8 @@ import numpy as np
 from functools import partial
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import (
-    RGB_Colourspace,
-    gamma_function,
-    normalised_primary_matrix)
+from colour.models.rgb import (RGB_Colourspace, function_gamma,
+                               normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -39,17 +36,15 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['BETA_RGB_PRIMARIES',
-           'BETA_RGB_ILLUMINANT',
-           'BETA_RGB_WHITEPOINT',
-           'BETA_RGB_TO_XYZ_MATRIX',
-           'XYZ_TO_BETA_RGB_MATRIX',
-           'BETA_RGB_COLOURSPACE']
+__all__ = [
+    'BETA_RGB_PRIMARIES', 'BETA_RGB_ILLUMINANT', 'BETA_RGB_WHITEPOINT',
+    'BETA_RGB_TO_XYZ_MATRIX', 'XYZ_TO_BETA_RGB_MATRIX', 'BETA_RGB_COLOURSPACE'
+]
 
 BETA_RGB_PRIMARIES = np.array(
     [[0.6888, 0.3112],
      [0.1986, 0.7551],
-     [0.1265, 0.0352]])
+     [0.1265, 0.0352]])  # yapf: disable
 """
 *Beta RGB* colourspace primaries.
 
@@ -71,8 +66,8 @@ BETA_RGB_WHITEPOINT = (
 BETA_RGB_WHITEPOINT : ndarray
 """
 
-BETA_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(
-    BETA_RGB_PRIMARIES, BETA_RGB_WHITEPOINT)
+BETA_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(BETA_RGB_PRIMARIES,
+                                                   BETA_RGB_WHITEPOINT)
 """
 *Beta RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 
@@ -93,8 +88,8 @@ BETA_RGB_COLOURSPACE = RGB_Colourspace(
     BETA_RGB_ILLUMINANT,
     BETA_RGB_TO_XYZ_MATRIX,
     XYZ_TO_BETA_RGB_MATRIX,
-    partial(gamma_function, exponent=1 / 2.2),
-    partial(gamma_function, exponent=2.2))
+    partial(function_gamma, exponent=1 / 2.2),
+    partial(function_gamma, exponent=2.2))  # yapf: disable
 """
 *Beta RGB* colourspace.
 

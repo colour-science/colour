@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Luminous Efficiency Functions Spectral Power Distributions
 ==========================================================
@@ -65,12 +64,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['PHOTOPIC_LEFS_DATA',
-           'PHOTOPIC_LEFS',
-           'SCOTOPIC_LEFS_DATA',
-           'SCOTOPIC_LEFS',
-           'LEFS',
-           'MESOPIC_X_DATA']
+__all__ = [
+    'PHOTOPIC_LEFS_DATA', 'PHOTOPIC_LEFS', 'SCOTOPIC_LEFS_DATA',
+    'SCOTOPIC_LEFS', 'LEFS', 'MESOPIC_X_DATA'
+]
 
 PHOTOPIC_LEFS_DATA = {
     'CIE 1924 Photopic Standard Observer': {
@@ -544,7 +541,8 @@ PHOTOPIC_LEFS_DATA = {
         827: 0.0000005575746,
         828: 0.0000005198080,
         829: 0.0000004846123,
-        830: 0.0000004518100},
+        830: 0.0000004518100
+    },
     'Judd Modified CIE 1951 Photopic Standard Observer': {
         370: 0.0001,
         380: 0.0004,
@@ -586,7 +584,8 @@ PHOTOPIC_LEFS_DATA = {
         740: 0.0002,
         750: 0.0001,
         760: 0.0001,
-        770: 0.0000},
+        770: 0.0000
+    },
     'Judd-Vos Modified CIE 1978 Photopic Standard Observer': {
         380: 0.0002000000,
         381: 0.0002282100,
@@ -988,7 +987,8 @@ PHOTOPIC_LEFS_DATA = {
         777: 0.0000184529,
         778: 0.0000172169,
         779: 0.0000160646,
-        780: 0.0000149900},
+        780: 0.0000149900
+    },
     'CIE 1964 Photopic 10 Degree Standard Observer': {
         360: 0.000000013398,
         361: 0.000000020294,
@@ -1460,7 +1460,8 @@ PHOTOPIC_LEFS_DATA = {
         827: 0.000000749780,
         828: 0.000000707440,
         829: 0.000000667480,
-        830: 0.000000629700},
+        830: 0.000000629700
+    },
     'CIE 2008 2 Degree Physiologically Relevant LEF': {
         390: 4.14616e-04,
         391: 5.02833e-04,
@@ -1902,7 +1903,8 @@ PHOTOPIC_LEFS_DATA = {
         827: 8.38669e-07,
         828: 7.91454e-07,
         829: 7.47077e-07,
-        830: 7.05386e-07},
+        830: 7.05386e-07
+    },
     'CIE 2008 10 Degree Physiologically Relevant LEF': {
         390: 4.07678e-04,
         391: 4.97777e-04,
@@ -2344,42 +2346,45 @@ PHOTOPIC_LEFS_DATA = {
         827: 7.54436e-07,
         828: 7.11962e-07,
         829: 6.72042e-07,
-        830: 6.34538e-07}}
+        830: 6.34538e-07
+    }
+}
 
-PHOTOPIC_LEFS = CaseInsensitiveMapping(
-    {'CIE 1924 Photopic Standard Observer':
+PHOTOPIC_LEFS = CaseInsensitiveMapping({
+    'CIE 1924 Photopic Standard Observer':
         SpectralPowerDistribution(
             'CIE 1924 Photopic Standard Observer',
             PHOTOPIC_LEFS_DATA[
                 'CIE 1924 Photopic Standard Observer']),
-     'Judd Modified CIE 1951 Photopic Standard Observer':
-         SpectralPowerDistribution(
-             'Judd Modified CIE 1951 Photopic Standard Observer',
-             PHOTOPIC_LEFS_DATA[
-                 'Judd Modified CIE 1951 Photopic Standard Observer']),
-     'Judd-Vos Modified CIE 1978 Photopic Standard Observer':
-         SpectralPowerDistribution(
-             'Judd-Vos Modified CIE 1978 Photopic Standard Observer',
-             PHOTOPIC_LEFS_DATA[
-                 'Judd-Vos Modified CIE 1978 Photopic Standard Observer']),
-     'CIE 1964 Photopic 10 Degree Standard Observer':
-         SpectralPowerDistribution(
-             'CIE 1964 Photopic 10 Degree Standard Observer',
-             PHOTOPIC_LEFS_DATA[
-                 'CIE 1964 Photopic 10 Degree Standard Observer'],
-             'CIE 1964 Photopic 10$^\\circ$ Standard Observer'),
-     'CIE 2008 2 Degree Physiologically Relevant LEF':
-         SpectralPowerDistribution(
-             'CIE 2008 2 Degree Physiologically Relevant LEF',
-             PHOTOPIC_LEFS_DATA[
-                 'CIE 2008 2 Degree Physiologically Relevant LEF'],
-             'CIE 2008 2$^\\circ$ Physiologically Relevant LEF'),
-     'CIE 2008 10 Degree Physiologically Relevant LEF':
-         SpectralPowerDistribution(
-             'CIE 2008 10 Degree Physiologically Relevant LEF',
-             PHOTOPIC_LEFS_DATA[
-                 'CIE 2008 10 Degree Physiologically Relevant LEF'],
-             'CIE 2008 10$^\\circ$ Physiologically Relevant LEF')})
+    'Judd Modified CIE 1951 Photopic Standard Observer':
+        SpectralPowerDistribution(
+            'Judd Modified CIE 1951 Photopic Standard Observer',
+            PHOTOPIC_LEFS_DATA[
+                'Judd Modified CIE 1951 Photopic Standard Observer']),
+    'Judd-Vos Modified CIE 1978 Photopic Standard Observer':
+        SpectralPowerDistribution(
+            'Judd-Vos Modified CIE 1978 Photopic Standard Observer',
+            PHOTOPIC_LEFS_DATA[
+                'Judd-Vos Modified CIE 1978 Photopic Standard Observer']),
+    'CIE 1964 Photopic 10 Degree Standard Observer':
+        SpectralPowerDistribution(
+            'CIE 1964 Photopic 10 Degree Standard Observer',
+            PHOTOPIC_LEFS_DATA[
+                'CIE 1964 Photopic 10 Degree Standard Observer'],
+            'CIE 1964 Photopic 10$^\\circ$ Standard Observer'),
+    'CIE 2008 2 Degree Physiologically Relevant LEF':
+        SpectralPowerDistribution(
+            'CIE 2008 2 Degree Physiologically Relevant LEF',
+            PHOTOPIC_LEFS_DATA[
+                'CIE 2008 2 Degree Physiologically Relevant LEF'],
+            'CIE 2008 2$^\\circ$ Physiologically Relevant LEF'),
+    'CIE 2008 10 Degree Physiologically Relevant LEF':
+        SpectralPowerDistribution(
+            'CIE 2008 10 Degree Physiologically Relevant LEF',
+            PHOTOPIC_LEFS_DATA[
+                'CIE 2008 10 Degree Physiologically Relevant LEF'],
+            'CIE 2008 10$^\\circ$ Physiologically Relevant LEF')
+})  # yapf: disable
 """
 Photopic luminous efficiency functions.
 
@@ -2803,12 +2808,16 @@ SCOTOPIC_LEFS_DATA = {
         777: 0.0000001638,
         778: 0.0000001551,
         779: 0.0000001468,
-        780: 0.0000001390, }}
+        780: 0.0000001390,
+    }
+}
 
-SCOTOPIC_LEFS = CaseInsensitiveMapping(
-    {'CIE 1951 Scotopic Standard Observer': SpectralPowerDistribution(
-        'CIE 1951 Scotopic Standard Observer',
-        SCOTOPIC_LEFS_DATA['CIE 1951 Scotopic Standard Observer'])})
+SCOTOPIC_LEFS = CaseInsensitiveMapping({
+    'CIE 1951 Scotopic Standard Observer':
+        SpectralPowerDistribution(
+            'CIE 1951 Scotopic Standard Observer',
+            SCOTOPIC_LEFS_DATA['CIE 1951 Scotopic Standard Observer'])
+})
 """
 Scotopic luminous efficiency functions.
 
@@ -2838,27 +2847,51 @@ LEFS : CaseInsensitiveMapping
 LEFS.update(SCOTOPIC_LEFS)
 
 MESOPIC_X_DATA = {
-    0.01: CaseInsensitiveMapping(
-        {'Blue Heavy': CaseInsensitiveMapping(
-            {'MOVE': 0.13, 'LRC': 0.04}),
-         'Red Heavy': CaseInsensitiveMapping(
-             {'MOVE': 0.00, 'LRC': 0.01})}),
-    0.1: CaseInsensitiveMapping({
-        'Blue Heavy': CaseInsensitiveMapping(
-            {'MOVE': 0.42, 'LRC': 0.28}),
-        'Red Heavy': CaseInsensitiveMapping(
-            {'MOVE': 0.34, 'LRC': 0.11})}),
-    1.0: CaseInsensitiveMapping({
-        'Blue Heavy': CaseInsensitiveMapping(
-            {'MOVE': 0.70, 'LRC': 1.00}),
-        'Red Heavy': CaseInsensitiveMapping(
-            {'MOVE': 0.68, 'LRC': 1.00})}),
-    10: CaseInsensitiveMapping({
-        'Blue Heavy': CaseInsensitiveMapping(
-            {'MOVE': 0.98, 'LRC': 1.00}),
-        'Red Heavy': CaseInsensitiveMapping(
-            {'MOVE': 0.98, 'LRC': 1.00})})}
-
+    0.01:
+        CaseInsensitiveMapping({
+            'Blue Heavy': CaseInsensitiveMapping({
+                'MOVE': 0.13,
+                'LRC': 0.04
+            }),
+            'Red Heavy': CaseInsensitiveMapping({
+                'MOVE': 0.00,
+                'LRC': 0.01
+            })
+        }),
+    0.1:
+        CaseInsensitiveMapping({
+            'Blue Heavy': CaseInsensitiveMapping({
+                'MOVE': 0.42,
+                'LRC': 0.28
+            }),
+            'Red Heavy': CaseInsensitiveMapping({
+                'MOVE': 0.34,
+                'LRC': 0.11
+            })
+        }),
+    1.0:
+        CaseInsensitiveMapping({
+            'Blue Heavy': CaseInsensitiveMapping({
+                'MOVE': 0.70,
+                'LRC': 1.00
+            }),
+            'Red Heavy': CaseInsensitiveMapping({
+                'MOVE': 0.68,
+                'LRC': 1.00
+            })
+        }),
+    10:
+        CaseInsensitiveMapping({
+            'Blue Heavy': CaseInsensitiveMapping({
+                'MOVE': 0.98,
+                'LRC': 1.00
+            }),
+            'Red Heavy': CaseInsensitiveMapping({
+                'MOVE': 0.98,
+                'LRC': 1.00
+            })
+        })
+}
 """
 Weighting factors for the mesopic luminous efficiency function calculation.
 

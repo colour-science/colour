@@ -1,5 +1,5 @@
-colour.quality.dataset.tcs Module
-=================================
+colour\.quality\.dataset\.tcs Module
+====================================
 
 .. automodule:: colour.quality.dataset.tcs
     :members:

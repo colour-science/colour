@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Geometry Plotting Utilities
 ===========================
@@ -23,9 +22,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['quad',
-           'grid',
-           'cube']
+__all__ = ['quad', 'grid', 'cube']
 
 
 def quad(plane='xy', origin=None, width=1, height=1, depth=0):
@@ -65,20 +62,14 @@ def quad(plane='xy', origin=None, width=1, height=1, depth=0):
 
     plane = plane.lower()
     if plane == 'xy':
-        vertices = ((u, v, depth),
-                    (u + width, v, depth),
-                    (u + width, v + height, depth),
-                    (u, v + height, depth))
+        vertices = ((u, v, depth), (u + width, v, depth),
+                    (u + width, v + height, depth), (u, v + height, depth))
     elif plane == 'xz':
-        vertices = ((u, depth, v),
-                    (u + width, depth, v),
-                    (u + width, depth, v + height),
-                    (u, depth, v + height))
+        vertices = ((u, depth, v), (u + width, depth, v),
+                    (u + width, depth, v + height), (u, depth, v + height))
     elif plane == 'yz':
-        vertices = ((depth, u, v),
-                    (depth, u + width, v),
-                    (depth, u + width, v + height),
-                    (depth, u, v + height))
+        vertices = ((depth, u, v), (depth, u + width, v),
+                    (depth, u + width, v + height), (depth, u, v + height))
     else:
         raise ValueError('"{0}" is not a supported plane!'.format(plane))
 
@@ -226,8 +217,7 @@ def cube(plane=None,
     """
 
     plane = (('+x', '-x', '+y', '-y', '+z', '-z')
-             if plane is None else
-             [p.lower() for p in plane])
+             if plane is None else [p.lower() for p in plane])
     u, v, w = (0, 0, 0) if origin is None else origin
 
     w_s, h_s, d_s = width_segments, height_segments, depth_segments

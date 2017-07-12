@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Hexadecimal Triplet Notation
 ============================
@@ -22,8 +21,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['RGB_to_HEX',
-           'HEX_to_RGB']
+__all__ = ['RGB_to_HEX', 'HEX_to_RGB']
 
 
 def RGB_to_HEX(RGB):
@@ -94,9 +92,8 @@ def HEX_to_RGB(HEX):
         Converts given hexadecimal representation to *RGB*.
         """
 
-        length = len(x)
-        return [int(x[i:i + length // 3], 16)
-                for i in range(0, length, length // 3)]
+        l_x = len(x)
+        return [int(x[i:i + l_x // 3], 16) for i in range(0, l_x, l_x // 3)]
 
     to_RGB_v = np.vectorize(to_RGB, otypes=[np.ndarray])
 

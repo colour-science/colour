@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Max RGB Colourspace
 ===================
@@ -27,10 +26,8 @@ import numpy as np
 from functools import partial
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import (
-    RGB_Colourspace,
-    gamma_function,
-    normalised_primary_matrix)
+from colour.models.rgb import (RGB_Colourspace, function_gamma,
+                               normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -39,17 +36,15 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['MAX_RGB_PRIMARIES',
-           'MAX_RGB_ILLUMINANT',
-           'MAX_RGB_WHITEPOINT',
-           'MAX_RGB_TO_XYZ_MATRIX',
-           'XYZ_TO_MAX_RGB_MATRIX',
-           'MAX_RGB_COLOURSPACE']
+__all__ = [
+    'MAX_RGB_PRIMARIES', 'MAX_RGB_ILLUMINANT', 'MAX_RGB_WHITEPOINT',
+    'MAX_RGB_TO_XYZ_MATRIX', 'XYZ_TO_MAX_RGB_MATRIX', 'MAX_RGB_COLOURSPACE'
+]
 
 MAX_RGB_PRIMARIES = np.array(
     [[0.73413379, 0.26586621],
      [0.10039113, 0.89960887],
-     [0.03621495, 0.00000000]])
+     [0.03621495, 0.00000000]])  # yapf: disable
 """
 *Max RGB* colourspace primaries.
 
@@ -71,8 +66,8 @@ MAX_RGB_WHITEPOINT = (
 MAX_RGB_WHITEPOINT : ndarray
 """
 
-MAX_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(
-    MAX_RGB_PRIMARIES, MAX_RGB_WHITEPOINT)
+MAX_RGB_TO_XYZ_MATRIX = normalised_primary_matrix(MAX_RGB_PRIMARIES,
+                                                  MAX_RGB_WHITEPOINT)
 """
 *Max RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 
@@ -93,8 +88,8 @@ MAX_RGB_COLOURSPACE = RGB_Colourspace(
     MAX_RGB_ILLUMINANT,
     MAX_RGB_TO_XYZ_MATRIX,
     XYZ_TO_MAX_RGB_MATRIX,
-    partial(gamma_function, exponent=1 / 2.2),
-    partial(gamma_function, exponent=2.2))
+    partial(function_gamma, exponent=1 / 2.2),
+    partial(function_gamma, exponent=2.2))  # yapf: disable
 """
 *Max RGB* colourspace.
 

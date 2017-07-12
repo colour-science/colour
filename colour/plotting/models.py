@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Colour Models Plotting
 ======================
@@ -23,32 +22,15 @@ import numpy as np
 import pylab
 
 from colour.constants import EPSILON
-from colour.models import (
-    LCHab_to_Lab,
-    Lab_to_XYZ,
-    Luv_to_uv,
-    POINTER_GAMUT_BOUNDARIES,
-    POINTER_GAMUT_DATA,
-    POINTER_GAMUT_ILLUMINANT,
-    RGB_to_XYZ,
-    UCS_to_uv,
-    XYZ_to_Luv,
-    XYZ_to_UCS,
-    XYZ_to_xy,
-    xy_to_XYZ)
+from colour.models import (LCHab_to_Lab, Lab_to_XYZ, Luv_to_uv,
+                           POINTER_GAMUT_BOUNDARIES, POINTER_GAMUT_DATA,
+                           POINTER_GAMUT_ILLUMINANT, RGB_to_XYZ, UCS_to_uv,
+                           XYZ_to_Luv, XYZ_to_UCS, XYZ_to_xy, xy_to_XYZ)
 from colour.plotting import (
-    CIE_1931_chromaticity_diagram_plot,
-    CIE_1960_UCS_chromaticity_diagram_plot,
-    CIE_1976_UCS_chromaticity_diagram_plot,
-    DEFAULT_FIGURE_WIDTH,
-    DEFAULT_PLOTTING_ILLUMINANT,
-    boundaries,
-    canvas,
-    colour_cycle,
-    decorate,
-    display,
-    get_RGB_colourspace,
-    get_cmfs)
+    CIE_1931_chromaticity_diagram_plot, CIE_1960_UCS_chromaticity_diagram_plot,
+    CIE_1976_UCS_chromaticity_diagram_plot, DEFAULT_FIGURE_WIDTH,
+    DEFAULT_PLOTTING_ILLUMINANT, boundaries, canvas, colour_cycle, decorate,
+    display, get_RGB_colourspace, get_cmfs)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -64,13 +46,12 @@ __all__ = [
     'RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot',
     'RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot',
     'RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot',
-    'single_cctf_plot',
-    'multi_cctf_plot']
+    'single_cctf_plot', 'multi_cctf_plot'
+]
 
 
 def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
-        colourspaces=None,
-        cmfs='CIE 1931 2 Degree Standard Observer',
+        colourspaces=None, cmfs='CIE 1931 2 Degree Standard Observer',
         **kwargs):
     """
     Plots given *RGB* colourspaces in *CIE 1931 Chromaticity Diagram*.
@@ -115,9 +96,12 @@ def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
     cmfs, name = get_cmfs(cmfs), cmfs
 
     settings = {
-        'title': '{0} - {1} - CIE 1931 Chromaticity Diagram'.format(
-            ', '.join(colourspaces), name),
-        'standalone': False}
+        'title':
+            '{0} - {1} - CIE 1931 Chromaticity Diagram'.format(
+                ', '.join(colourspaces), name),
+        'standalone':
+            False
+    }
     settings.update(kwargs)
 
     CIE_1931_chromaticity_diagram_plot(**settings)
@@ -125,8 +109,10 @@ def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
     x_limit_min, x_limit_max = [-0.1], [0.9]
     y_limit_min, y_limit_max = [-0.1], [0.9]
 
-    settings = {'colour_cycle_map': 'rainbow',
-                'colour_cycle_count': len(colourspaces)}
+    settings = {
+        'colour_cycle_map': 'rainbow',
+        'colour_cycle_count': len(colourspaces)
+    }
     settings.update(kwargs)
 
     cycle = colour_cycle(**settings)
@@ -135,74 +121,79 @@ def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
         if colourspace == 'Pointer Gamut':
             xy = np.asarray(POINTER_GAMUT_BOUNDARIES)
             alpha_p, colour_p = 0.85, '0.95'
-            pylab.plot(xy[..., 0],
-                       xy[..., 1],
-                       label='Pointer\'s Gamut',
-                       color=colour_p,
-                       alpha=alpha_p,
-                       linewidth=2)
-            pylab.plot((xy[-1][0], xy[0][0]),
-                       (xy[-1][1], xy[0][1]),
-                       color=colour_p,
-                       alpha=alpha_p,
-                       linewidth=2)
+            pylab.plot(
+                xy[..., 0],
+                xy[..., 1],
+                label='Pointer\'s Gamut',
+                color=colour_p,
+                alpha=alpha_p,
+                linewidth=2)
+            pylab.plot(
+                (xy[-1][0], xy[0][0]), (xy[-1][1], xy[0][1]),
+                color=colour_p,
+                alpha=alpha_p,
+                linewidth=2)
 
-            XYZ = Lab_to_XYZ(LCHab_to_Lab(POINTER_GAMUT_DATA),
-                             POINTER_GAMUT_ILLUMINANT)
+            XYZ = Lab_to_XYZ(
+                LCHab_to_Lab(POINTER_GAMUT_DATA), POINTER_GAMUT_ILLUMINANT)
             xy = XYZ_to_xy(XYZ, POINTER_GAMUT_ILLUMINANT)
-            pylab.scatter(xy[..., 0],
-                          xy[..., 1],
-                          alpha=alpha_p / 2,
-                          color=colour_p,
-                          marker='+')
+            pylab.scatter(
+                xy[..., 0],
+                xy[..., 1],
+                alpha=alpha_p / 2,
+                color=colour_p,
+                marker='+')
 
         else:
             colourspace, name = get_RGB_colourspace(colourspace), colourspace
 
             r, g, b, _a = next(cycle)
 
-            primaries = colourspace.primaries
-            whitepoint = colourspace.whitepoint
+            P = colourspace.primaries
+            W = colourspace.whitepoint
 
-            pylab.plot((whitepoint[0], whitepoint[0]),
-                       (whitepoint[1], whitepoint[1]),
-                       color=(r, g, b),
-                       label=colourspace.name,
-                       linewidth=2)
-            pylab.plot((whitepoint[0], whitepoint[0]),
-                       (whitepoint[1], whitepoint[1]),
-                       'o',
-                       color=(r, g, b),
-                       linewidth=2)
-            pylab.plot((primaries[0, 0], primaries[1, 0]),
-                       (primaries[0, 1], primaries[1, 1]),
-                       'o-',
-                       color=(r, g, b),
-                       linewidth=2)
-            pylab.plot((primaries[1, 0], primaries[2, 0]),
-                       (primaries[1, 1], primaries[2, 1]),
-                       'o-',
-                       color=(r, g, b),
-                       linewidth=2)
-            pylab.plot((primaries[2, 0], primaries[0, 0]),
-                       (primaries[2, 1], primaries[0, 1]),
-                       'o-',
-                       color=(r, g, b),
-                       linewidth=2)
+            pylab.plot(
+                (W[0], W[0]), (W[1], W[1]),
+                color=(r, g, b),
+                label=colourspace.name,
+                linewidth=2)
+            pylab.plot(
+                (W[0], W[0]), (W[1], W[1]), 'o', color=(r, g, b), linewidth=2)
+            pylab.plot(
+                (P[0, 0], P[1, 0]), (P[0, 1], P[1, 1]),
+                'o-',
+                color=(r, g, b),
+                linewidth=2)
+            pylab.plot(
+                (P[1, 0], P[2, 0]), (P[1, 1], P[2, 1]),
+                'o-',
+                color=(r, g, b),
+                linewidth=2)
+            pylab.plot(
+                (P[2, 0], P[0, 0]), (P[2, 1], P[0, 1]),
+                'o-',
+                color=(r, g, b),
+                linewidth=2)
 
-            x_limit_min.append(np.amin(primaries[..., 0]) - 0.1)
-            y_limit_min.append(np.amin(primaries[..., 1]) - 0.1)
-            x_limit_max.append(np.amax(primaries[..., 0]) + 0.1)
-            y_limit_max.append(np.amax(primaries[..., 1]) + 0.1)
+            x_limit_min.append(np.amin(P[..., 0]) - 0.1)
+            y_limit_min.append(np.amin(P[..., 1]) - 0.1)
+            x_limit_max.append(np.amax(P[..., 0]) + 0.1)
+            y_limit_max.append(np.amax(P[..., 1]) + 0.1)
 
     settings.update({
-        'legend': True,
-        'legend_location': 'upper right',
-        'x_tighten': True,
-        'y_tighten': True,
-        'limits': (min(x_limit_min), max(x_limit_max),
-                   min(y_limit_min), max(y_limit_max)),
-        'standalone': True})
+        'legend':
+            True,
+        'legend_location':
+            'upper right',
+        'x_tighten':
+            True,
+        'y_tighten':
+            True,
+        'limits': (min(x_limit_min), max(x_limit_max), min(y_limit_min),
+                   max(y_limit_max)),
+        'standalone':
+            True
+    })
     settings.update(kwargs)
 
     boundaries(**settings)
@@ -212,8 +203,7 @@ def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
 
 
 def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
-        colourspaces=None,
-        cmfs='CIE 1931 2 Degree Standard Observer',
+        colourspaces=None, cmfs='CIE 1931 2 Degree Standard Observer',
         **kwargs):
     """
     Plots given *RGB* colourspaces in *CIE 1960 UCS Chromaticity Diagram*.
@@ -258,9 +248,12 @@ def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
     cmfs, name = get_cmfs(cmfs), cmfs
 
     settings = {
-        'title': '{0} - {1} - CIE 1960 UCS Chromaticity Diagram'.format(
-            ', '.join(colourspaces), name),
-        'standalone': False}
+        'title':
+            '{0} - {1} - CIE 1960 UCS Chromaticity Diagram'.format(
+                ', '.join(colourspaces), name),
+        'standalone':
+            False
+    }
     settings.update(kwargs)
 
     CIE_1960_UCS_chromaticity_diagram_plot(**settings)
@@ -268,8 +261,10 @@ def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
     x_limit_min, x_limit_max = [-0.1], [0.7]
     y_limit_min, y_limit_max = [-0.2], [0.6]
 
-    settings = {'colour_cycle_map': 'rainbow',
-                'colour_cycle_count': len(colourspaces)}
+    settings = {
+        'colour_cycle_map': 'rainbow',
+        'colour_cycle_count': len(colourspaces)
+    }
     settings.update(kwargs)
 
     cycle = colour_cycle(**settings)
@@ -278,26 +273,28 @@ def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
         if colourspace == 'Pointer Gamut':
             uv = UCS_to_uv(XYZ_to_UCS(xy_to_XYZ(POINTER_GAMUT_BOUNDARIES)))
             alpha_p, colour_p = 0.85, '0.95'
-            pylab.plot(uv[..., 0],
-                       uv[..., 1],
-                       label='Pointer\'s Gamut',
-                       color=colour_p,
-                       alpha=alpha_p,
-                       linewidth=2)
-            pylab.plot((uv[-1][0], uv[0][0]),
-                       (uv[-1][1], uv[0][1]),
-                       color=colour_p,
-                       alpha=alpha_p,
-                       linewidth=2)
+            pylab.plot(
+                uv[..., 0],
+                uv[..., 1],
+                label='Pointer\'s Gamut',
+                color=colour_p,
+                alpha=alpha_p,
+                linewidth=2)
+            pylab.plot(
+                (uv[-1][0], uv[0][0]), (uv[-1][1], uv[0][1]),
+                color=colour_p,
+                alpha=alpha_p,
+                linewidth=2)
 
-            XYZ = Lab_to_XYZ(LCHab_to_Lab(POINTER_GAMUT_DATA),
-                             POINTER_GAMUT_ILLUMINANT)
+            XYZ = Lab_to_XYZ(
+                LCHab_to_Lab(POINTER_GAMUT_DATA), POINTER_GAMUT_ILLUMINANT)
             uv = UCS_to_uv(XYZ_to_UCS(XYZ))
-            pylab.scatter(uv[..., 0],
-                          uv[..., 1],
-                          alpha=alpha_p / 2,
-                          color=colour_p,
-                          marker='+')
+            pylab.scatter(
+                uv[..., 0],
+                uv[..., 1],
+                alpha=alpha_p / 2,
+                color=colour_p,
+                marker='+')
 
         else:
             colourspace, name = get_RGB_colourspace(colourspace), colourspace
@@ -307,53 +304,54 @@ def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
             # RGB colourspaces such as *ACES2065-1* have primaries with
             # chromaticity coordinates set to 0 thus we prevent nan from being
             # yield by zero division in later colour transformations.
-            primaries = np.where(colourspace.primaries == 0,
-                                 EPSILON,
-                                 colourspace.primaries)
+            P = np.where(colourspace.primaries == 0, EPSILON,
+                         colourspace.primaries)
 
-            primaries = UCS_to_uv(XYZ_to_UCS(xy_to_XYZ(primaries)))
-            whitepoint = UCS_to_uv(XYZ_to_UCS(xy_to_XYZ(
-                colourspace.whitepoint)))
+            P = UCS_to_uv(XYZ_to_UCS(xy_to_XYZ(P)))
+            W = UCS_to_uv(XYZ_to_UCS(xy_to_XYZ(colourspace.whitepoint)))
 
-            pylab.plot((whitepoint[0], whitepoint[0]),
-                       (whitepoint[1], whitepoint[1]),
-                       color=(r, g, b),
-                       label=colourspace.name,
-                       linewidth=2)
-            pylab.plot((whitepoint[0], whitepoint[0]),
-                       (whitepoint[1], whitepoint[1]),
-                       'o',
-                       color=(r, g, b),
-                       linewidth=2)
-            pylab.plot((primaries[0, 0], primaries[1, 0]),
-                       (primaries[0, 1], primaries[1, 1]),
-                       'o-',
-                       color=(r, g, b),
-                       linewidth=2)
-            pylab.plot((primaries[1, 0], primaries[2, 0]),
-                       (primaries[1, 1], primaries[2, 1]),
-                       'o-',
-                       color=(r, g, b),
-                       linewidth=2)
-            pylab.plot((primaries[2, 0], primaries[0, 0]),
-                       (primaries[2, 1], primaries[0, 1]),
-                       'o-',
-                       color=(r, g, b),
-                       linewidth=2)
+            pylab.plot(
+                (W[0], W[0]), (W[1], W[1]),
+                color=(r, g, b),
+                label=colourspace.name,
+                linewidth=2)
+            pylab.plot(
+                (W[0], W[0]), (W[1], W[1]), 'o', color=(r, g, b), linewidth=2)
+            pylab.plot(
+                (P[0, 0], P[1, 0]), (P[0, 1], P[1, 1]),
+                'o-',
+                color=(r, g, b),
+                linewidth=2)
+            pylab.plot(
+                (P[1, 0], P[2, 0]), (P[1, 1], P[2, 1]),
+                'o-',
+                color=(r, g, b),
+                linewidth=2)
+            pylab.plot(
+                (P[2, 0], P[0, 0]), (P[2, 1], P[0, 1]),
+                'o-',
+                color=(r, g, b),
+                linewidth=2)
 
-            x_limit_min.append(np.amin(primaries[..., 0]) - 0.1)
-            y_limit_min.append(np.amin(primaries[..., 1]) - 0.1)
-            x_limit_max.append(np.amax(primaries[..., 0]) + 0.1)
-            y_limit_max.append(np.amax(primaries[..., 1]) + 0.1)
+            x_limit_min.append(np.amin(P[..., 0]) - 0.1)
+            y_limit_min.append(np.amin(P[..., 1]) - 0.1)
+            x_limit_max.append(np.amax(P[..., 0]) + 0.1)
+            y_limit_max.append(np.amax(P[..., 1]) + 0.1)
 
     settings.update({
-        'legend': True,
-        'legend_location': 'upper right',
-        'x_tighten': True,
-        'y_tighten': True,
-        'limits': (min(x_limit_min), max(x_limit_max),
-                   min(y_limit_min), max(y_limit_max)),
-        'standalone': True})
+        'legend':
+            True,
+        'legend_location':
+            'upper right',
+        'x_tighten':
+            True,
+        'y_tighten':
+            True,
+        'limits': (min(x_limit_min), max(x_limit_max), min(y_limit_min),
+                   max(y_limit_max)),
+        'standalone':
+            True
+    })
     settings.update(kwargs)
 
     boundaries(**settings)
@@ -363,8 +361,7 @@ def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
 
 
 def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
-        colourspaces=None,
-        cmfs='CIE 1931 2 Degree Standard Observer',
+        colourspaces=None, cmfs='CIE 1931 2 Degree Standard Observer',
         **kwargs):
     """
     Plots given *RGB* colourspaces in *CIE 1976 UCS Chromaticity Diagram*.
@@ -411,9 +408,12 @@ def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
     illuminant = DEFAULT_PLOTTING_ILLUMINANT
 
     settings = {
-        'title': '{0} - {1} - CIE 1976 UCS Chromaticity Diagram'.format(
-            ', '.join(colourspaces), name),
-        'standalone': False}
+        'title':
+            '{0} - {1} - CIE 1976 UCS Chromaticity Diagram'.format(
+                ', '.join(colourspaces), name),
+        'standalone':
+            False
+    }
     settings.update(kwargs)
 
     CIE_1976_UCS_chromaticity_diagram_plot(**settings)
@@ -421,37 +421,42 @@ def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
     x_limit_min, x_limit_max = [-0.1], [0.7]
     y_limit_min, y_limit_max = [-0.1], [0.7]
 
-    settings = {'colour_cycle_map': 'rainbow',
-                'colour_cycle_count': len(colourspaces)}
+    settings = {
+        'colour_cycle_map': 'rainbow',
+        'colour_cycle_count': len(colourspaces)
+    }
     settings.update(kwargs)
 
     cycle = colour_cycle(**settings)
 
     for colourspace in colourspaces:
         if colourspace == 'Pointer Gamut':
-            uv = Luv_to_uv(XYZ_to_Luv(xy_to_XYZ(
-                POINTER_GAMUT_BOUNDARIES), illuminant), illuminant)
+            uv = Luv_to_uv(
+                XYZ_to_Luv(xy_to_XYZ(POINTER_GAMUT_BOUNDARIES), illuminant),
+                illuminant)
             alpha_p, colour_p = 0.85, '0.95'
-            pylab.plot(uv[..., 0],
-                       uv[..., 1],
-                       label='Pointer\'s Gamut',
-                       color=colour_p,
-                       alpha=alpha_p,
-                       linewidth=2)
-            pylab.plot((uv[-1][0], uv[0][0]),
-                       (uv[-1][1], uv[0][1]),
-                       color=colour_p,
-                       alpha=alpha_p,
-                       linewidth=2)
+            pylab.plot(
+                uv[..., 0],
+                uv[..., 1],
+                label='Pointer\'s Gamut',
+                color=colour_p,
+                alpha=alpha_p,
+                linewidth=2)
+            pylab.plot(
+                (uv[-1][0], uv[0][0]), (uv[-1][1], uv[0][1]),
+                color=colour_p,
+                alpha=alpha_p,
+                linewidth=2)
 
-            XYZ = Lab_to_XYZ(LCHab_to_Lab(POINTER_GAMUT_DATA),
-                             POINTER_GAMUT_ILLUMINANT)
+            XYZ = Lab_to_XYZ(
+                LCHab_to_Lab(POINTER_GAMUT_DATA), POINTER_GAMUT_ILLUMINANT)
             uv = Luv_to_uv(XYZ_to_Luv(XYZ, illuminant), illuminant)
-            pylab.scatter(uv[..., 0],
-                          uv[..., 1],
-                          alpha=alpha_p / 2,
-                          color=colour_p,
-                          marker='+')
+            pylab.scatter(
+                uv[..., 0],
+                uv[..., 1],
+                alpha=alpha_p / 2,
+                color=colour_p,
+                marker='+')
 
         else:
             colourspace, name = get_RGB_colourspace(colourspace), colourspace
@@ -461,54 +466,56 @@ def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
             # RGB colourspaces such as *ACES2065-1* have primaries with
             # chromaticity coordinates set to 0 thus we prevent nan from being
             # yield by zero division in later colour transformations.
-            primaries = np.where(colourspace.primaries == 0,
-                                 EPSILON,
-                                 colourspace.primaries)
+            P = np.where(colourspace.primaries == 0, EPSILON,
+                         colourspace.primaries)
 
-            primaries = Luv_to_uv(XYZ_to_Luv(xy_to_XYZ(
-                primaries), illuminant), illuminant)
-            whitepoint = Luv_to_uv(XYZ_to_Luv(xy_to_XYZ(
-                colourspace.whitepoint), illuminant), illuminant)
+            P = Luv_to_uv(XYZ_to_Luv(xy_to_XYZ(P), illuminant), illuminant)
+            W = Luv_to_uv(
+                XYZ_to_Luv(xy_to_XYZ(colourspace.whitepoint), illuminant),
+                illuminant)
 
-            pylab.plot((whitepoint[0], whitepoint[0]),
-                       (whitepoint[1], whitepoint[1]),
-                       color=(r, g, b),
-                       label=colourspace.name,
-                       linewidth=2)
-            pylab.plot((whitepoint[0], whitepoint[0]),
-                       (whitepoint[1], whitepoint[1]),
-                       'o',
-                       color=(r, g, b),
-                       linewidth=2)
-            pylab.plot((primaries[0, 0], primaries[1, 0]),
-                       (primaries[0, 1], primaries[1, 1]),
-                       'o-',
-                       color=(r, g, b),
-                       linewidth=2)
-            pylab.plot((primaries[1, 0], primaries[2, 0]),
-                       (primaries[1, 1], primaries[2, 1]),
-                       'o-',
-                       color=(r, g, b),
-                       linewidth=2)
-            pylab.plot((primaries[2, 0], primaries[0, 0]),
-                       (primaries[2, 1], primaries[0, 1]),
-                       'o-',
-                       color=(r, g, b),
-                       linewidth=2)
+            pylab.plot(
+                (W[0], W[0]), (W[1], W[1]),
+                color=(r, g, b),
+                label=colourspace.name,
+                linewidth=2)
+            pylab.plot(
+                (W[0], W[0]), (W[1], W[1]), 'o', color=(r, g, b), linewidth=2)
+            pylab.plot(
+                (P[0, 0], P[1, 0]), (P[0, 1], P[1, 1]),
+                'o-',
+                color=(r, g, b),
+                linewidth=2)
+            pylab.plot(
+                (P[1, 0], P[2, 0]), (P[1, 1], P[2, 1]),
+                'o-',
+                color=(r, g, b),
+                linewidth=2)
+            pylab.plot(
+                (P[2, 0], P[0, 0]), (P[2, 1], P[0, 1]),
+                'o-',
+                color=(r, g, b),
+                linewidth=2)
 
-            x_limit_min.append(np.amin(primaries[..., 0]) - 0.1)
-            y_limit_min.append(np.amin(primaries[..., 1]) - 0.1)
-            x_limit_max.append(np.amax(primaries[..., 0]) + 0.1)
-            y_limit_max.append(np.amax(primaries[..., 1]) + 0.1)
+            x_limit_min.append(np.amin(P[..., 0]) - 0.1)
+            y_limit_min.append(np.amin(P[..., 1]) - 0.1)
+            x_limit_max.append(np.amax(P[..., 0]) + 0.1)
+            y_limit_max.append(np.amax(P[..., 1]) + 0.1)
 
     settings.update({
-        'legend': True,
-        'legend_location': 'upper right',
-        'x_tighten': True,
-        'y_tighten': True,
-        'limits': (min(x_limit_min), max(x_limit_max),
-                   min(y_limit_min), max(y_limit_max)),
-        'standalone': True})
+        'legend':
+            True,
+        'legend_location':
+            'upper right',
+        'x_tighten':
+            True,
+        'y_tighten':
+            True,
+        'limits': (min(x_limit_min), max(x_limit_max), min(y_limit_min),
+                   max(y_limit_max)),
+        'standalone':
+            True
+    })
     settings.update(kwargs)
 
     boundaries(**settings)
@@ -518,9 +525,7 @@ def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
 
 
 def RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot(
-        RGB,
-        colourspace,
-        **kwargs):
+        RGB, colourspace, **kwargs):
     """
     Plots given *RGB* colourspace array in *CIE 1931 Chromaticity Diagram*.
 
@@ -559,24 +564,18 @@ def RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot(
     settings.update({'standalone': False})
 
     colourspace, name = get_RGB_colourspace(colourspace), colourspace
-    settings['colourspaces'] = (
-        [name] + settings.get('colourspaces', []))
+    settings['colourspaces'] = ([name] + settings.get('colourspaces', []))
 
     RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(**settings)
 
     alpha_p, colour_p = 0.85, 'black'
 
-    xy = XYZ_to_xy(RGB_to_XYZ(RGB,
-                              colourspace.whitepoint,
-                              colourspace.whitepoint,
-                              colourspace.RGB_to_XYZ_matrix),
-                   colourspace.whitepoint)
+    xy = XYZ_to_xy(
+        RGB_to_XYZ(RGB, colourspace.whitepoint, colourspace.whitepoint,
+                   colourspace.RGB_to_XYZ_matrix), colourspace.whitepoint)
 
-    pylab.scatter(xy[..., 0],
-                  xy[..., 1],
-                  alpha=alpha_p / 2,
-                  color=colour_p,
-                  marker='+')
+    pylab.scatter(
+        xy[..., 0], xy[..., 1], alpha=alpha_p / 2, color=colour_p, marker='+')
 
     settings.update({'standalone': True})
     settings.update(kwargs)
@@ -588,9 +587,7 @@ def RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot(
 
 
 def RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot(
-        RGB,
-        colourspace,
-        **kwargs):
+        RGB, colourspace, **kwargs):
     """
     Plots given *RGB* colourspace array in *CIE 1960 UCS Chromaticity Diagram*.
 
@@ -629,23 +626,19 @@ def RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot(
     settings.update({'standalone': False})
 
     colourspace, name = get_RGB_colourspace(colourspace), colourspace
-    settings['colourspaces'] = (
-        [name] + settings.get('colourspaces', []))
+    settings['colourspaces'] = ([name] + settings.get('colourspaces', []))
 
     RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(**settings)
 
     alpha_p, colour_p = 0.85, 'black'
 
-    uv = UCS_to_uv(XYZ_to_UCS(RGB_to_XYZ(RGB,
-                                         colourspace.whitepoint,
-                                         colourspace.whitepoint,
-                                         colourspace.RGB_to_XYZ_matrix)))
+    uv = UCS_to_uv(
+        XYZ_to_UCS(
+            RGB_to_XYZ(RGB, colourspace.whitepoint, colourspace.whitepoint,
+                       colourspace.RGB_to_XYZ_matrix)))
 
-    pylab.scatter(uv[..., 0],
-                  uv[..., 1],
-                  alpha=alpha_p / 2,
-                  color=colour_p,
-                  marker='+')
+    pylab.scatter(
+        uv[..., 0], uv[..., 1], alpha=alpha_p / 2, color=colour_p, marker='+')
 
     settings.update({'standalone': True})
     settings.update(kwargs)
@@ -657,9 +650,7 @@ def RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot(
 
 
 def RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot(
-        RGB,
-        colourspace,
-        **kwargs):
+        RGB, colourspace, **kwargs):
     """
     Plots given *RGB* colourspace array in *CIE 1976 UCS Chromaticity Diagram*.
 
@@ -698,25 +689,20 @@ def RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot(
     settings.update({'standalone': False})
 
     colourspace, name = get_RGB_colourspace(colourspace), colourspace
-    settings['colourspaces'] = (
-        [name] + settings.get('colourspaces', []))
+    settings['colourspaces'] = ([name] + settings.get('colourspaces', []))
 
     RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(**settings)
 
     alpha_p, colour_p = 0.85, 'black'
 
-    uv = Luv_to_uv(XYZ_to_Luv(RGB_to_XYZ(RGB,
-                                         colourspace.whitepoint,
-                                         colourspace.whitepoint,
-                                         colourspace.RGB_to_XYZ_matrix),
-                              colourspace.whitepoint),
-                   colourspace.whitepoint)
+    uv = Luv_to_uv(
+        XYZ_to_Luv(
+            RGB_to_XYZ(RGB, colourspace.whitepoint, colourspace.whitepoint,
+                       colourspace.RGB_to_XYZ_matrix), colourspace.whitepoint),
+        colourspace.whitepoint)
 
-    pylab.scatter(uv[..., 0],
-                  uv[..., 1],
-                  alpha=alpha_p / 2,
-                  color=colour_p,
-                  marker='+')
+    pylab.scatter(
+        uv[..., 0], uv[..., 1], alpha=alpha_p / 2, color=colour_p, marker='+')
 
     settings.update({'standalone': True})
     settings.update(kwargs)
@@ -755,8 +741,11 @@ def single_cctf_plot(colourspace='Rec. 709', decoding_cctf=False, **kwargs):
     >>> single_cctf_plot()  # doctest: +SKIP
     """
 
-    settings = {'title': '{0} - {1} CCTF'.format(
-        colourspace, 'Decoding' if decoding_cctf else 'Encoding')}
+    settings = {
+        'title':
+            '{0} - {1} CCTF'.format(colourspace, 'Decoding'
+                                    if decoding_cctf else 'Encoding')
+    }
     settings.update(kwargs)
 
     return multi_cctf_plot([colourspace], decoding_cctf, **settings)
@@ -805,15 +794,12 @@ def multi_cctf_plot(colourspaces=None, decoding_cctf=False, **kwargs):
         RGBs = (colourspace.decoding_cctf(samples)
                 if decoding_cctf else colourspace.encoding_cctf(samples))
 
-        pylab.plot(samples,
-                   RGBs,
-                   label=u'{0}'.format(colourspace.name),
-                   linewidth=2)
+        pylab.plot(
+            samples, RGBs, label=u'{0}'.format(colourspace.name), linewidth=2)
 
+    mode = 'Decoding' if decoding_cctf else 'Encoding'
     settings.update({
-        'title': '{0} - {1} CCTFs'.format(
-            ', '.join(colourspaces),
-            'Decoding' if decoding_cctf else 'Encoding'),
+        'title': '{0} - {1} CCTFs'.format(', '.join(colourspaces), mode),
         'x_tighten': True,
         'x_label': 'Signal Value' if decoding_cctf else 'Tristimulus Value',
         'y_label': 'Tristimulus Value' if decoding_cctf else 'Signal Value',
@@ -821,7 +807,8 @@ def multi_cctf_plot(colourspaces=None, decoding_cctf=False, **kwargs):
         'legend_location': 'upper left',
         'grid': True,
         'limits': (0, 1, 0, 1),
-        'aspect': 'equal'})
+        'aspect': 'equal'
+    })
     settings.update(kwargs)
 
     boundaries(**settings)

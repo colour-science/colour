@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Common Colour Models Utilities
 ==============================
@@ -10,21 +9,10 @@ Defines various colour models common utilities.
 
 from __future__ import division, unicode_literals
 
-from colour.models import (
-    Lab_to_LCHab,
-    Luv_to_LCHuv,
-    Luv_to_uv,
-    UCS_to_uv,
-    XYZ_to_IPT,
-    XYZ_to_Hunter_Lab,
-    XYZ_to_Hunter_Rdab,
-    XYZ_to_Lab,
-    XYZ_to_Luv,
-    XYZ_to_UCS,
-    XYZ_to_UVW,
-    XYZ_to_xy,
-    XYZ_to_xyY,
-    xy_to_XYZ)
+from colour.models import (Lab_to_LCHab, Luv_to_LCHuv, Luv_to_uv, UCS_to_uv,
+                           XYZ_to_IPT, XYZ_to_Hunter_Lab, XYZ_to_Hunter_Rdab,
+                           XYZ_to_Lab, XYZ_to_Luv, XYZ_to_UCS, XYZ_to_UVW,
+                           XYZ_to_xy, XYZ_to_xyY, xy_to_XYZ)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -33,24 +21,14 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['COLOURSPACE_MODELS',
-           'COLOURSPACE_MODELS_LABELS',
-           'XYZ_to_colourspace_model']
+__all__ = [
+    'COLOURSPACE_MODELS', 'COLOURSPACE_MODELS_LABELS',
+    'XYZ_to_colourspace_model'
+]
 
-COLOURSPACE_MODELS = (
-    'CIE XYZ',
-    'CIE xyY',
-    'CIE Lab',
-    'CIE LCHab',
-    'CIE Luv',
-    'CIE Luv uv',
-    'CIE LCHuv',
-    'CIE UCS',
-    'CIE UCS uv',
-    'CIE UVW',
-    'IPT',
-    'Hunter Lab',
-    'Hunter Rdab')
+COLOURSPACE_MODELS = ('CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE LCHab', 'CIE Luv',
+                      'CIE Luv uv', 'CIE LCHuv', 'CIE UCS', 'CIE UCS uv',
+                      'CIE UVW', 'IPT', 'Hunter Lab', 'Hunter Rdab')
 
 COLOURSPACE_MODELS_LABELS = {
     'CIE XYZ': ('X', 'Y', 'Z'),
@@ -65,7 +43,8 @@ COLOURSPACE_MODELS_LABELS = {
     'CIE UVW': ('U', 'V', 'W'),
     'IPT': ('P', 'T', 'I'),
     'Hunter Lab': ('$a^*$', '$b^*$', '$L^*$'),
-    'Hunter Rdab': ('$a$', '$b$', '$Rd$')}
+    'Hunter Rdab': ('$a$', '$b$', '$Rd$')
+}
 """
 Colourspace models labels mapping.
 
@@ -175,8 +154,7 @@ def XYZ_to_colourspace_model(XYZ, illuminant, model):
         values = XYZ_to_Hunter_Rdab(XYZ * 100, xy_to_XYZ(illuminant) * 100)
 
     if values is None:
-        raise ValueError(
-            '"{0}" not found in colourspace models: "{1}".'.format(
-                model, ', '.join(COLOURSPACE_MODELS)))
+        raise ValueError('"{0}" not found in colourspace models: "{1}".'.
+                         format(model, ', '.join(COLOURSPACE_MODELS)))
 
     return values

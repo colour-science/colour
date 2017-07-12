@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Showcases colour models computations.
 """
@@ -25,9 +24,9 @@ print(colour.XYZ_to_xyY((0.00000000, 0.00000000, 0.00000000)))
 print('\n')
 
 message_box('Using an alternative illuminant.')
-print(colour.XYZ_to_xyY(
-    (0.00000000, 0.00000000, 0.00000000),
-    colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D60']))
+print(
+    colour.XYZ_to_xyY((0.00000000, 0.00000000, 0.00000000), colour.ILLUMINANTS[
+        'CIE 1931 2 Degree Standard Observer']['D60']))
 
 print('\n')
 
@@ -57,13 +56,10 @@ print('\n')
 message_box(('Converting to "RGB" colourspace from given "CIE XYZ" '
              'tristimulus values:\n'
              '\n\t{0}'.format(XYZ)))
-print(colour.XYZ_to_RGB(
-    XYZ,
-    colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50'],
-    colour.sRGB_COLOURSPACE.whitepoint,
-    colour.sRGB_COLOURSPACE.XYZ_to_RGB_matrix,
-    'Bradford',
-    colour.sRGB_COLOURSPACE.encoding_cctf))
+D50 = colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']
+print(colour.XYZ_to_RGB(XYZ, D50, colour.sRGB_COLOURSPACE.whitepoint,
+                        colour.sRGB_COLOURSPACE.XYZ_to_RGB_matrix, 'Bradford',
+                        colour.sRGB_COLOURSPACE.encoding_cctf))
 
 print('\n')
 
@@ -71,22 +67,16 @@ RGB = (1.26651054, 0.91394181, 0.76936593)
 message_box(('Converting to "CIE XYZ" tristimulus values from given "RGB" '
              'colourspace values:\n'
              '\n\t{0}'.format(RGB)))
-print(colour.RGB_to_XYZ(
-    RGB,
-    colour.sRGB_COLOURSPACE.whitepoint,
-    colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50'],
-    colour.sRGB_COLOURSPACE.RGB_to_XYZ_matrix,
-    'Bradford',
-    colour.sRGB_COLOURSPACE.decoding_cctf))
+print(colour.RGB_to_XYZ(RGB, colour.sRGB_COLOURSPACE.whitepoint, D50,
+                        colour.sRGB_COLOURSPACE.RGB_to_XYZ_matrix, 'Bradford',
+                        colour.sRGB_COLOURSPACE.decoding_cctf))
 
 print('\n')
 
 message_box(('Converting to "sRGB" colourspace from given "CIE XYZ" '
              'tristimulus values using convenient definition:\n'
              '\n\t{0}'.format(XYZ)))
-print(colour.XYZ_to_sRGB(
-    XYZ,
-    colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']))
+print(colour.XYZ_to_sRGB(XYZ, D50))
 
 print('\n')
 
@@ -240,3 +230,31 @@ message_box(('Converting to "CIE XYZ" tristimulus values from given "IPT" '
 print(colour.IPT_to_XYZ(IPT))
 
 print('\n')
+
+message_box(('Converting to "hdr-CIELab" colourspace from given "CIE XYZ" '
+             'tristimulus values:\n'
+             '\n\t{0}'.format(XYZ)))
+print(colour.XYZ_to_hdr_CIELab(XYZ))
+
+print('\n')
+
+Lab_hdr = (95.74235944, 5.52263656, 11.72798167)
+message_box(('Converting to "CIE XYZ" tristimulus values from given '
+             '"hdr-CIELab" colourspace values:\n'
+             '\n\t{0}'.format(Lab_hdr)))
+print(colour.hdr_CIELab_to_XYZ(Lab_hdr))
+
+print('\n')
+
+message_box(('Converting to "hdr-IPT" colourspace from given "CIE XYZ" '
+             'tristimulus values:\n'
+             '\n\t{0}'.format(XYZ)))
+print(colour.XYZ_to_hdr_IPT(XYZ))
+
+print('\n')
+
+IPT_hdr = (92.21400245, 3.0073719, 14.7243821)
+message_box(('Converting to "CIE XYZ" tristimulus values from given "hdr-IPT" '
+             'colourspace values:\n'
+             '\n\t{0}'.format(IPT_hdr)))
+print(colour.hdr_IPT_to_XYZ(IPT_hdr))

@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Coordinates System Transformations
 ==================================
@@ -38,12 +37,11 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['cartesian_to_spherical',
-           'spherical_to_cartesian',
-           'cartesian_to_polar',
-           'polar_to_cartesian',
-           'cartesian_to_cylindrical',
-           'cylindrical_to_cartesian']
+__all__ = [
+    'cartesian_to_spherical', 'spherical_to_cartesian', 'cartesian_to_polar',
+    'polar_to_cartesian', 'cartesian_to_cylindrical',
+    'cylindrical_to_cartesian'
+]
 
 
 def cartesian_to_spherical(a):

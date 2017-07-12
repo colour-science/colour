@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Linear Colour Component Transfer Function
 =========================================
@@ -8,7 +7,7 @@ Linear Colour Component Transfer Function
 Defines linear encoding / decoding colour component transfer function related
 objects:
 
-- :func:`linear_function`
+- :func:`function_linear`
 
 See Also
 --------
@@ -26,10 +25,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['linear_function']
+__all__ = ['function_linear']
 
 
-def linear_function(a):
+def function_linear(a):
     """
     Defines a typical linear encoding / decoding function, essentially a
     pass-through function.
@@ -46,7 +45,7 @@ def linear_function(a):
 
     Examples
     --------
-    >>> linear_function(0.18)
+    >>> function_linear(0.18)
     0.18
     """
 

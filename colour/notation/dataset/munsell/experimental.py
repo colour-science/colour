@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Munsell Renotation System Dataset - 1929 Munsell Colours
 ========================================================
@@ -34,6 +33,7 @@ __status__ = 'Production'
 
 __all__ = ['MUNSELL_COLOURS_1929']
 
+# yapf: disable
 MUNSELL_COLOURS_1929 = (
     (('10RP', 2.0, 2.0), np.array([0.3532, 0.2957, 3.1260])),
     (('10RP', 2.0, 4.0), np.array([0.3850, 0.2778, 3.1260])),
@@ -991,6 +991,7 @@ MUNSELL_COLOURS_1929 = (
     (('7.5RP', 8.0, 2.0), np.array([0.3200, 0.3136, 59.1000])),
     (('7.5RP', 8.0, 4.0), np.array([0.3360, 0.3092, 59.1000])),
     (('7.5RP', 8.0, 6.0), np.array([0.3521, 0.3042, 59.1000])))
+# yapf: enable
 """
 *1929* published *Munsell* colours.
 

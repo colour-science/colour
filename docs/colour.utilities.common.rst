@@ -1,5 +1,5 @@
-colour.utilities.common Module
-==============================
+colour\.utilities\.common Module
+================================
 
 .. automodule:: colour.utilities.common
     :members:

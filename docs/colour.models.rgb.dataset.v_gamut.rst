@@ -1,5 +1,5 @@
-colour.models.rgb.dataset.v_gamut Module
-========================================
+colour\.models\.rgb\.dataset\.v\_gamut Module
+=============================================
 
 .. automodule:: colour.models.rgb.dataset.v_gamut
     :members:

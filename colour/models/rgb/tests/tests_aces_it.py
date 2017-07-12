@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for :mod:`colour.models.rgb.aces_it` module.
 """
@@ -47,8 +46,7 @@ spectral_to_aces_relative_exposure_values` definition.
             spectral_to_aces_relative_exposure_values(perfect_reflector),
             np.array([0.97783784, 0.97783784, 0.97783784]))
 
-        dark_skin = (
-            COLOURCHECKERS_SPDS['ColorChecker N Ohta']['dark skin'])
+        dark_skin = (COLOURCHECKERS_SPDS['ColorChecker N Ohta']['dark skin'])
         np.testing.assert_almost_equal(
             spectral_to_aces_relative_exposure_values(dark_skin),
             np.array([0.11876978, 0.08708666, 0.0589442]))

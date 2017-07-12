@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for :mod:`colour.colorimetry.transformations` module.
 """
@@ -10,13 +9,11 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.colorimetry import (
-    CMFS,
-    RGB_10_degree_cmfs_to_LMS_10_degree_cmfs,
-    RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs,
-    RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs,
-    LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs,
-    LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs)
+from colour.colorimetry import (CMFS, RGB_10_degree_cmfs_to_LMS_10_degree_cmfs,
+                                RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs,
+                                RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs,
+                                LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs,
+                                LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -26,11 +23,13 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestRGB_2_degree_cmfs_to_XYZ_2_degree_cmfs',
-           'TestRGB_10_degree_cmfs_to_XYZ_10_degree_cmfs',
-           'TestRGB_10_degree_cmfs_to_LMS_10_degree_cmfs',
-           'TestLMS_2_degree_cmfs_to_XYZ_2_degree_cmfs',
-           'TestLMS_10_degree_cmfs_to_XYZ_10_degree_cmfs']
+__all__ = [
+    'TestRGB_2_degree_cmfs_to_XYZ_2_degree_cmfs',
+    'TestRGB_10_degree_cmfs_to_XYZ_10_degree_cmfs',
+    'TestRGB_10_degree_cmfs_to_LMS_10_degree_cmfs',
+    'TestLMS_2_degree_cmfs_to_XYZ_2_degree_cmfs',
+    'TestLMS_10_degree_cmfs_to_XYZ_10_degree_cmfs'
+]
 
 
 class TestRGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(unittest.TestCase):
@@ -71,26 +70,22 @@ RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition n-dimensional arrays
         wl = 700
         XYZ = np.array([0.01135774, 0.00410200, 0.00000000])
         np.testing.assert_almost_equal(
-            RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl),
-            XYZ)
+            RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ)
 
         wl = np.tile(wl, 6)
         XYZ = np.tile(XYZ, (6, 1))
         np.testing.assert_almost_equal(
-            RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl),
-            XYZ)
+            RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ)
 
         wl = np.reshape(wl, (2, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
         np.testing.assert_almost_equal(
-            RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl),
-            XYZ)
+            RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ)
 
         wl = np.reshape(wl, (2, 3, 1))
         XYZ = np.reshape(XYZ, (2, 3, 1, 3))
         np.testing.assert_almost_equal(
-            RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl),
-            XYZ)
+            RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ)
 
     @ignore_numpy_errors
     def test_nan_RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(self):
@@ -141,26 +136,22 @@ RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition n-dimensional arrays
         wl = 700
         XYZ = np.array([9.64321500e-03, 3.75263179e-03, -4.10788300e-06])
         np.testing.assert_almost_equal(
-            RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl),
-            XYZ)
+            RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl), XYZ)
 
         wl = np.tile(wl, 6)
         XYZ = np.tile(XYZ, (6, 1))
         np.testing.assert_almost_equal(
-            RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl),
-            XYZ)
+            RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl), XYZ)
 
         wl = np.reshape(wl, (2, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
         np.testing.assert_almost_equal(
-            RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl),
-            XYZ)
+            RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl), XYZ)
 
         wl = np.reshape(wl, (2, 3, 1))
         XYZ = np.reshape(XYZ, (2, 3, 1, 3))
         np.testing.assert_almost_equal(
-            RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl),
-            XYZ)
+            RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl), XYZ)
 
     @ignore_numpy_errors
     def test_nan_RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(self):
@@ -211,26 +202,22 @@ RGB_10_degree_cmfs_to_LMS_10_degree_cmfs` definition n-dimensional arrays
         wl = 700
         LMS = np.array([0.00528607, 0.00032528, 0.00000000])
         np.testing.assert_almost_equal(
-            RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wl),
-            LMS)
+            RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wl), LMS)
 
         wl = np.tile(wl, 6)
         LMS = np.tile(LMS, (6, 1))
         np.testing.assert_almost_equal(
-            RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wl),
-            LMS)
+            RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wl), LMS)
 
         wl = np.reshape(wl, (2, 3))
         LMS = np.reshape(LMS, (2, 3, 3))
         np.testing.assert_almost_equal(
-            RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wl),
-            LMS)
+            RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wl), LMS)
 
         wl = np.reshape(wl, (2, 3, 1))
         LMS = np.reshape(LMS, (2, 3, 1, 3))
         np.testing.assert_almost_equal(
-            RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wl),
-            LMS)
+            RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wl), LMS)
 
     @ignore_numpy_errors
     def test_nan_RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(self):
@@ -281,26 +268,22 @@ LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs` definition n-dimensional arrays
         wl = 700
         XYZ = np.array([0.01096778, 0.00419594, 0.00000000])
         np.testing.assert_almost_equal(
-            LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl),
-            XYZ)
+            LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ)
 
         wl = np.tile(wl, 6)
         XYZ = np.tile(XYZ, (6, 1))
         np.testing.assert_almost_equal(
-            LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl),
-            XYZ)
+            LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ)
 
         wl = np.reshape(wl, (2, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
         np.testing.assert_almost_equal(
-            LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl),
-            XYZ)
+            LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ)
 
         wl = np.reshape(wl, (2, 3, 1))
         XYZ = np.reshape(XYZ, (2, 3, 1, 3))
         np.testing.assert_almost_equal(
-            LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl),
-            XYZ)
+            LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wl), XYZ)
 
     @ignore_numpy_errors
     def test_nan_LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(self):
@@ -351,26 +334,22 @@ LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs` definition n-dimensional arrays
         wl = 700
         XYZ = np.array([0.00981623, 0.00377614, 0.00000000])
         np.testing.assert_almost_equal(
-            LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl),
-            XYZ)
+            LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl), XYZ)
 
         wl = np.tile(wl, 6)
         XYZ = np.tile(XYZ, (6, 1))
         np.testing.assert_almost_equal(
-            LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl),
-            XYZ)
+            LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl), XYZ)
 
         wl = np.reshape(wl, (2, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
         np.testing.assert_almost_equal(
-            LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl),
-            XYZ)
+            LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl), XYZ)
 
         wl = np.reshape(wl, (2, 3, 1))
         XYZ = np.reshape(XYZ, (2, 3, 1, 3))
         np.testing.assert_almost_equal(
-            LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl),
-            XYZ)
+            LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wl), XYZ)
 
     @ignore_numpy_errors
     def test_nan_LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(self):

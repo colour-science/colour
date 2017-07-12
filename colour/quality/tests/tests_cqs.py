@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for :mod:`colour.quality.cqs` module.
 """
@@ -10,9 +9,8 @@ from __future__ import division, unicode_literals
 import unittest
 
 from colour.quality import colour_quality_scale
-from colour.colorimetry import (
-    ILLUMINANTS_RELATIVE_SPDS,
-    LIGHT_SOURCES_RELATIVE_SPDS)
+from colour.colorimetry import (ILLUMINANTS_RELATIVE_SPDS,
+                                LIGHT_SOURCES_RELATIVE_SPDS)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -36,14 +34,12 @@ class TestColourQualityScale(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            colour_quality_scale(
-                ILLUMINANTS_RELATIVE_SPDS['F1']),
+            colour_quality_scale(ILLUMINANTS_RELATIVE_SPDS['F1']),
             75.342427844068794,
             places=7)
 
         self.assertAlmostEqual(
-            colour_quality_scale(
-                ILLUMINANTS_RELATIVE_SPDS['F2']),
+            colour_quality_scale(ILLUMINANTS_RELATIVE_SPDS['F2']),
             64.686416902222192,
             places=7)
 

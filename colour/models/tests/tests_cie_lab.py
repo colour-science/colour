@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for :mod:`colour.models.cie_lab` module.
 """
@@ -21,10 +20,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestXYZ_to_Lab',
-           'TestLab_to_XYZ',
-           'TestLab_to_LCHab',
-           'TestLCHab_to_Lab']
+__all__ = [
+    'TestXYZ_to_Lab', 'TestLab_to_XYZ', 'TestLab_to_LCHab', 'TestLCHab_to_Lab'
+]
 
 
 class TestXYZ_to_Lab(unittest.TestCase):
@@ -54,26 +52,30 @@ class TestXYZ_to_Lab(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            XYZ_to_Lab(np.array([0.07049534, 0.10080000, 0.09558313]),
-                       np.array([0.44757, 0.40745])),
+            XYZ_to_Lab(
+                np.array([0.07049534, 0.10080000, 0.09558313]),
+                np.array([0.44757, 0.40745])),
             np.array([37.98562910, -32.51333979, -35.96770745]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            XYZ_to_Lab(np.array([0.07049534, 0.10080000, 0.09558313]),
-                       np.array([0.31270, 0.32900])),
+            XYZ_to_Lab(
+                np.array([0.07049534, 0.10080000, 0.09558313]),
+                np.array([0.31270, 0.32900])),
             np.array([37.98562910, -22.61920654, 4.19811236]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            XYZ_to_Lab(np.array([0.07049534, 0.10080000, 0.09558313]),
-                       np.array([0.37208, 0.37529])),
+            XYZ_to_Lab(
+                np.array([0.07049534, 0.10080000, 0.09558313]),
+                np.array([0.37208, 0.37529])),
             np.array([37.98562910, -25.55521883, -11.26139386]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            XYZ_to_Lab(np.array([0.07049534, 0.10080000, 0.09558313]),
-                       np.array([0.37208, 0.37529, 0.10080])),
+            XYZ_to_Lab(
+                np.array([0.07049534, 0.10080000, 0.09558313]),
+                np.array([0.37208, 0.37529, 0.10080])),
             np.array([100.00000000, -54.91100935, -24.19758201]),
             decimal=7)
 
@@ -87,30 +89,22 @@ class TestXYZ_to_Lab(unittest.TestCase):
         illuminant = np.array([0.34570, 0.35850])
         Lab = np.array([37.98562910, -23.62907688, -4.41746615])
         np.testing.assert_almost_equal(
-            XYZ_to_Lab(XYZ, illuminant),
-            Lab,
-            decimal=7)
+            XYZ_to_Lab(XYZ, illuminant), Lab, decimal=7)
 
         XYZ = np.tile(XYZ, (6, 1))
         Lab = np.tile(Lab, (6, 1))
         np.testing.assert_almost_equal(
-            XYZ_to_Lab(XYZ, illuminant),
-            Lab,
-            decimal=7)
+            XYZ_to_Lab(XYZ, illuminant), Lab, decimal=7)
 
         illuminant = np.tile(illuminant, (6, 1))
         np.testing.assert_almost_equal(
-            XYZ_to_Lab(XYZ, illuminant),
-            Lab,
-            decimal=7)
+            XYZ_to_Lab(XYZ, illuminant), Lab, decimal=7)
 
         XYZ = np.reshape(XYZ, (2, 3, 3))
         illuminant = np.reshape(illuminant, (2, 3, 2))
         Lab = np.reshape(Lab, (2, 3, 3))
         np.testing.assert_almost_equal(
-            XYZ_to_Lab(XYZ, illuminant),
-            Lab,
-            decimal=7)
+            XYZ_to_Lab(XYZ, illuminant), Lab, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_XYZ_to_Lab(self):
@@ -153,26 +147,30 @@ class TestLab_to_XYZ(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            Lab_to_XYZ(np.array([37.98562910, -32.51333979, -35.96770745]),
-                       np.array([0.44757, 0.40745])),
+            Lab_to_XYZ(
+                np.array([37.98562910, -32.51333979, -35.96770745]),
+                np.array([0.44757, 0.40745])),
             np.array([0.07049534, 0.10080000, 0.09558313]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            Lab_to_XYZ(np.array([37.98562910, -22.61920654, 4.19811236]),
-                       np.array([0.31270, 0.32900])),
+            Lab_to_XYZ(
+                np.array([37.98562910, -22.61920654, 4.19811236]),
+                np.array([0.31270, 0.32900])),
             np.array([0.07049534, 0.10080000, 0.09558313]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            Lab_to_XYZ(np.array([37.98562910, -25.55521883, -11.26139386]),
-                       np.array([0.37208, 0.37529])),
+            Lab_to_XYZ(
+                np.array([37.98562910, -25.55521883, -11.26139386]),
+                np.array([0.37208, 0.37529])),
             np.array([0.07049534, 0.10080000, 0.09558313]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            Lab_to_XYZ(np.array([37.98562910, -25.55521883, -11.26139386]),
-                       np.array([0.37208, 0.37529, 0.10080])),
+            Lab_to_XYZ(
+                np.array([37.98562910, -25.55521883, -11.26139386]),
+                np.array([0.37208, 0.37529, 0.10080])),
             np.array([0.00710593, 0.01016064, 0.00963478]),
             decimal=7)
 
@@ -186,30 +184,22 @@ class TestLab_to_XYZ(unittest.TestCase):
         illuminant = np.array([0.34570, 0.35850])
         XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
         np.testing.assert_almost_equal(
-            Lab_to_XYZ(Lab, illuminant),
-            XYZ,
-            decimal=7)
+            Lab_to_XYZ(Lab, illuminant), XYZ, decimal=7)
 
         Lab = np.tile(Lab, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
         np.testing.assert_almost_equal(
-            Lab_to_XYZ(Lab, illuminant),
-            XYZ,
-            decimal=7)
+            Lab_to_XYZ(Lab, illuminant), XYZ, decimal=7)
 
         illuminant = np.tile(illuminant, (6, 1))
         np.testing.assert_almost_equal(
-            Lab_to_XYZ(Lab, illuminant),
-            XYZ,
-            decimal=7)
+            Lab_to_XYZ(Lab, illuminant), XYZ, decimal=7)
 
         Lab = np.reshape(Lab, (2, 3, 3))
         illuminant = np.reshape(illuminant, (2, 3, 2))
         XYZ = np.reshape(XYZ, (2, 3, 3))
         np.testing.assert_almost_equal(
-            Lab_to_XYZ(Lab, illuminant),
-            XYZ,
-            decimal=7)
+            Lab_to_XYZ(Lab, illuminant), XYZ, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_Lab_to_XYZ(self):
@@ -259,24 +249,15 @@ class TestLab_to_LCHab(unittest.TestCase):
 
         Lab = np.array([37.98562910, -23.62907688, -4.41746615])
         LCHab = np.array([37.98562910, 24.03845422, 190.58923377])
-        np.testing.assert_almost_equal(
-            Lab_to_LCHab(Lab),
-            LCHab,
-            decimal=7)
+        np.testing.assert_almost_equal(Lab_to_LCHab(Lab), LCHab, decimal=7)
 
         Lab = np.tile(Lab, (6, 1))
         LCHab = np.tile(LCHab, (6, 1))
-        np.testing.assert_almost_equal(
-            Lab_to_LCHab(Lab),
-            LCHab,
-            decimal=7)
+        np.testing.assert_almost_equal(Lab_to_LCHab(Lab), LCHab, decimal=7)
 
         Lab = np.reshape(Lab, (2, 3, 3))
         LCHab = np.reshape(LCHab, (2, 3, 3))
-        np.testing.assert_almost_equal(
-            Lab_to_LCHab(Lab),
-            LCHab,
-            decimal=7)
+        np.testing.assert_almost_equal(Lab_to_LCHab(Lab), LCHab, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_Lab_to_LCHab(self):
@@ -326,24 +307,15 @@ class TestLCHab_to_Lab(unittest.TestCase):
 
         LCHab = np.array([37.98562910, 24.03845422, 190.58923377])
         Lab = np.array([37.98562910, -23.62907688, -4.41746615])
-        np.testing.assert_almost_equal(
-            LCHab_to_Lab(LCHab),
-            Lab,
-            decimal=7)
+        np.testing.assert_almost_equal(LCHab_to_Lab(LCHab), Lab, decimal=7)
 
         LCHab = np.tile(LCHab, (6, 1))
         Lab = np.tile(Lab, (6, 1))
-        np.testing.assert_almost_equal(
-            LCHab_to_Lab(LCHab),
-            Lab,
-            decimal=7)
+        np.testing.assert_almost_equal(LCHab_to_Lab(LCHab), Lab, decimal=7)
 
         LCHab = np.reshape(LCHab, (2, 3, 3))
         Lab = np.reshape(Lab, (2, 3, 3))
-        np.testing.assert_almost_equal(
-            LCHab_to_Lab(LCHab),
-            Lab,
-            decimal=7)
+        np.testing.assert_almost_equal(LCHab_to_Lab(LCHab), Lab, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_LCHab_to_Lab(self):

@@ -1,5 +1,5 @@
-colour.algebra Package
-======================
+colour\.algebra Package
+=======================
 
 Sub-Packages
 ------------

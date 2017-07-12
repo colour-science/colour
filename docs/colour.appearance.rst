@@ -1,5 +1,5 @@
-colour.appearance Package
-=========================
+colour\.appearance Package
+==========================
 
 Sub-Modules
 -----------

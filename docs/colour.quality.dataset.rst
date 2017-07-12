@@ -1,5 +1,5 @@
-colour.quality.dataset Package
-==============================
+colour\.quality\.dataset Package
+================================
 
 Sub-Modules
 -----------

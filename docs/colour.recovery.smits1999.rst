@@ -1,5 +1,5 @@
-colour.recovery.smits1999 Module
-================================
+colour\.recovery\.smits1999 Module
+==================================
 
 .. automodule:: colour.recovery.smits1999
     :members:

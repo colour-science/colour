@@ -1,5 +1,5 @@
-colour.characterisation.displays Module
-=======================================
+colour\.characterisation\.displays Module
+=========================================
 
 .. automodule:: colour.characterisation.displays
     :members:

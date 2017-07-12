@@ -8,7 +8,7 @@ Development & Technical Support
 
     Project coordination, overall development.
 
--   **Michael Mauderer**, *HCI Researcher @ University of St Andrews*
+-   **Michael Mauderer**, *HCI Researcher @ University of Dundee*
 
     Colour appearance models, overall development.
 
@@ -27,6 +27,14 @@ Development & Technical Support
 -   **Sean Cooper**, *Colour Scientist*
 
     Technical support.
+
+-   **Kevin Wheatley**, *Head of Imaging at Framestore @ Framestore*
+
+    Technical support.
+
+-   **Katherine Crowson**
+
+    CIECAM02 improvements, technical support.
 
 Acknowledgements
 ----------------
@@ -58,17 +66,13 @@ Acknowledgements
 
     *Ohno (2013)* correlated colour temperature calculation technical support.
 
--   **Kevin Wheatley**, *Head of Imaging at Framestore @ Framestore*
-
-    Technical support.
-
 Special Mentions
 ----------------
 
 -   **Aurélia Sellier**, *Line Producer @ Cube Creative*
 
-Others
-------
+Contributors
+------------
 
 -   Nick Spiker
 -   fangjy88

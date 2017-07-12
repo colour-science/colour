@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 CAM02-LCD, CAM02-SCD, and CAM02-UCS Colourspaces - Luo, Cui and Li (2006)
 =========================================================================
@@ -44,31 +43,28 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['Coefficients_UCS_Luo2006',
-           'COEFFICIENTS_UCS_LUO2006',
-           'JMh_CIECAM02_to_UCS_Luo2006',
-           'UCS_Luo2006_to_JMh_CIECAM02',
-           'JMh_CIECAM02_to_CAM02LCD',
-           'CAM02LCD_to_JMh_CIECAM02',
-           'JMh_CIECAM02_to_CAM02SCD',
-           'CAM02SCD_to_JMh_CIECAM02',
-           'JMh_CIECAM02_to_CAM02UCS',
-           'CAM02UCS_to_JMh_CIECAM02']
+__all__ = [
+    'Coefficients_UCS_Luo2006', 'COEFFICIENTS_UCS_LUO2006',
+    'JMh_CIECAM02_to_UCS_Luo2006', 'UCS_Luo2006_to_JMh_CIECAM02',
+    'JMh_CIECAM02_to_CAM02LCD', 'CAM02LCD_to_JMh_CIECAM02',
+    'JMh_CIECAM02_to_CAM02SCD', 'CAM02SCD_to_JMh_CIECAM02',
+    'JMh_CIECAM02_to_CAM02UCS', 'CAM02UCS_to_JMh_CIECAM02'
+]
 
 
 class Coefficients_UCS_Luo2006(
-    namedtuple('Coefficients_UCS_Luo2006',
-               ('K_L', 'c_1', 'c_2'))):
+        namedtuple('Coefficients_UCS_Luo2006', ('K_L', 'c_1', 'c_2'))):
     """
     Defines the the class storing *Luo et al. (2006)* fitting coefficients for
     the *CAM02-LCD*, *CAM02-SCD*, and *CAM02-UCS* colourspaces.
     """
 
 
-COEFFICIENTS_UCS_LUO2006 = CaseInsensitiveMapping(
-    {'CAM02-LCD': Coefficients_UCS_Luo2006(0.77, 0.007, 0.0053),
-     'CAM02-SCD': Coefficients_UCS_Luo2006(1.24, 0.007, 0.0363),
-     'CAM02-UCS': Coefficients_UCS_Luo2006(1.00, 0.007, 0.0228)})
+COEFFICIENTS_UCS_LUO2006 = CaseInsensitiveMapping({
+    'CAM02-LCD': Coefficients_UCS_Luo2006(0.77, 0.007, 0.0053),
+    'CAM02-SCD': Coefficients_UCS_Luo2006(1.24, 0.007, 0.0363),
+    'CAM02-UCS': Coefficients_UCS_Luo2006(1.00, 0.007, 0.0228)
+})
 """
 *Luo et al. (2006)* fitting coefficients for the *CAM02-LCD*, *CAM02-SCD*, and
 *CAM02-UCS* colourspaces.

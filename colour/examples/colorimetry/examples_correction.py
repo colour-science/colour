@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Showcases colour spectral bandpass dependence correction computations.
 """
@@ -97,7 +96,8 @@ sample_spd_data = {
     765: 0.465,
     770: 0.448,
     775: 0.432,
-    780: 0.421}
+    780: 0.421
+}
 
 spd = colour.SpectralPowerDistribution('Sample', sample_spd_data)
 uncorrected_values = spd.values

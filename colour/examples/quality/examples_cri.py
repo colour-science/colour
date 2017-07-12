@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Showcases *Colour Rendering Index* (CRI) computations.
 """
@@ -13,23 +12,21 @@ from colour.utilities.verbose import message_box
 message_box('Colour Rendering Index Computations')
 
 message_box('Computing "F2" illuminant "Colour Rendering Index (CRI)".')
-print(colour.colour_rendering_index(
-    colour.ILLUMINANTS_RELATIVE_SPDS['F2']))
+print(colour.colour_rendering_index(colour.ILLUMINANTS_RELATIVE_SPDS['F2']))
 
 print('\n')
 
 message_box(('Computing "F2" illuminant "Colour Rendering Index" (CRI) with '
              'detailed output data.'))
-pprint(colour.colour_rendering_index(
-    colour.ILLUMINANTS_RELATIVE_SPDS['F2'],
-    additional_data=True))
+pprint(
+    colour.colour_rendering_index(
+        colour.ILLUMINANTS_RELATIVE_SPDS['F2'], additional_data=True))
 
 print('\n')
 
 message_box('Computing "CIE Standard Illuminant A" '
             '"Colour Rendering Index (CRI)".')
-print(colour.colour_rendering_index(
-    colour.ILLUMINANTS_RELATIVE_SPDS['A']))
+print(colour.colour_rendering_index(colour.ILLUMINANTS_RELATIVE_SPDS['A']))
 
 print('\n')
 
@@ -115,7 +112,8 @@ SAMPLE_SPD_DATA = {
     765: 0.00340568,
     770: 0.00261153,
     775: 0.00258850,
-    780: 0.00293663}
+    780: 0.00293663
+}
 
 print(colour.colour_rendering_index(
     colour.SpectralPowerDistribution('Sample', SAMPLE_SPD_DATA)))

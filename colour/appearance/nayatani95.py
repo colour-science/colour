@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Nayatani (1995) Colour Appearance Model
 =======================================
@@ -31,11 +30,9 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
-from colour.adaptation.cie1994 import (
-    CIE1994_XYZ_TO_RGB_MATRIX,
-    beta_1,
-    exponential_factors,
-    intermediate_values)
+from colour.adaptation.cie1994 import (CIE1994_XYZ_TO_RGB_MATRIX, beta_1,
+                                       exponential_factors,
+                                       intermediate_values)
 from colour.models import XYZ_to_xy
 from colour.utilities import dot_vector, tsplit, tstack
 
@@ -46,28 +43,18 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['NAYATANI95_XYZ_TO_RGB_MATRIX',
-           'Nayatani95_ReferenceSpecification',
-           'Nayatani95_Specification',
-           'XYZ_to_Nayatani95',
-           'illuminance_to_luminance',
-           'XYZ_to_RGB_Nayatani95',
-           'scaling_coefficient',
-           'achromatic_response',
-           'tritanopic_response',
-           'protanopic_response',
-           'brightness_correlate',
-           'ideal_white_brightness_correlate',
-           'achromatic_lightness_correlate',
-           'normalised_achromatic_lightness_correlate',
-           'hue_angle',
-           'saturation_components',
-           'saturation_correlate',
-           'chroma_components',
-           'chroma_correlate',
-           'colourfulness_components',
-           'colourfulness_correlate',
-           'chromatic_strength_function']
+__all__ = [
+    'NAYATANI95_XYZ_TO_RGB_MATRIX', 'Nayatani95_ReferenceSpecification',
+    'Nayatani95_Specification', 'XYZ_to_Nayatani95',
+    'illuminance_to_luminance', 'XYZ_to_RGB_Nayatani95', 'scaling_coefficient',
+    'achromatic_response', 'tritanopic_response', 'protanopic_response',
+    'brightness_correlate', 'ideal_white_brightness_correlate',
+    'achromatic_lightness_correlate',
+    'normalised_achromatic_lightness_correlate', 'hue_angle',
+    'saturation_components', 'saturation_correlate', 'chroma_components',
+    'chroma_correlate', 'colourfulness_components', 'colourfulness_correlate',
+    'chromatic_strength_function'
+]
 
 NAYATANI95_XYZ_TO_RGB_MATRIX = CIE1994_XYZ_TO_RGB_MATRIX
 """
@@ -79,9 +66,9 @@ NAYATANI95_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
 
 
 class Nayatani95_ReferenceSpecification(
-    namedtuple(
-        'Nayatani95_ReferenceSpecification',
-        ('Lstar_P', 'C', 'theta', 'S', 'B_r', 'M', 'H', 'H_C', 'Lstar_N'))):
+        namedtuple('Nayatani95_ReferenceSpecification',
+                   ('Lstar_P', 'C', 'theta', 'S', 'B_r', 'M', 'H', 'H_C',
+                    'Lstar_N'))):
     """
     Defines the *Nayatani (1995)* colour appearance model reference
     specification.
@@ -113,8 +100,8 @@ class Nayatani95_ReferenceSpecification(
 
 
 class Nayatani95_Specification(
-    namedtuple('Nayatani95_Specification',
-               ('Lstar_P', 'C', 'h', 's', 'Q', 'M', 'H', 'HC', 'Lstar_N'))):
+        namedtuple('Nayatani95_Specification', ('Lstar_P', 'C', 'h', 's', 'Q',
+                                                'M', 'H', 'HC', 'Lstar_N'))):
     """
     Defines the *Nayatani (1995)* colour appearance model specification.
 
@@ -149,12 +136,7 @@ class Nayatani95_Specification(
     """
 
 
-def XYZ_to_Nayatani95(XYZ,
-                      XYZ_n,
-                      Y_o,
-                      E_o,
-                      E_or,
-                      n=1):
+def XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or, n=1):
     """
     Computes the *Nayatani (1995)* colour appearance model correlates.
 
@@ -242,63 +224,41 @@ HC=None, Lstar_N=50.0039154...)
     # Computing protanopic response :math:`p`:
     p_response = protanopic_response(RGB, bRGB_o, xez, n)
 
-    # -------------------------------------------------------------------------
     # Computing the correlate of *brightness* :math:`B_r`.
-    # -------------------------------------------------------------------------
     B_r = brightness_correlate(bRGB_o, bL_or, Q_response)
 
     # Computing *brightness* :math:`B_{rw}` of ideal white.
     brightness_ideal_white = ideal_white_brightness_correlate(
         bRGB_o, xez, bL_or, n)
 
-    # -------------------------------------------------------------------------
     # Computing the correlate of achromatic *Lightness* :math:`L_p^\star`.
-    # -------------------------------------------------------------------------
-    Lstar_P = (
-        achromatic_lightness_correlate(Q_response))
+    Lstar_P = (achromatic_lightness_correlate(Q_response))
 
-    # -------------------------------------------------------------------------
     # Computing the correlate of normalised achromatic *Lightness*
     # :math:`L_n^\star`.
-    # -------------------------------------------------------------------------
-    Lstar_N = (
-        normalised_achromatic_lightness_correlate(B_r, brightness_ideal_white))
+    Lstar_N = (normalised_achromatic_lightness_correlate(
+        B_r, brightness_ideal_white))
 
-    # -------------------------------------------------------------------------
     # Computing the *hue* angle :math:`\\theta`.
-    # -------------------------------------------------------------------------
     theta = hue_angle(p_response, t_response)
     # TODO: Implement hue quadrature & composition computation.
 
-    # -------------------------------------------------------------------------
     # Computing the correlate of *saturation* :math:`S`.
-    # -------------------------------------------------------------------------
-    S_RG, S_YB = tsplit(saturation_components(
-        theta, bL_or, t_response, p_response))
+    S_RG, S_YB = tsplit(
+        saturation_components(theta, bL_or, t_response, p_response))
     S = saturation_correlate(S_RG, S_YB)
 
-    # -------------------------------------------------------------------------
     # Computing the correlate of *chroma* :math:`C`.
-    # -------------------------------------------------------------------------
     # C_RG, C_YB = tsplit(chroma_components(Lstar_P, S_RG, S_YB))
     C = chroma_correlate(Lstar_P, S)
 
-    # -------------------------------------------------------------------------
     # Computing the correlate of *colourfulness* :math:`M`.
-    # -------------------------------------------------------------------------
     # TODO: Investigate components usage.
     # M_RG, M_YB = tsplit(colourfulness_components(C_RG, C_YB,
     # brightness_ideal_white))
     M = colourfulness_correlate(C, brightness_ideal_white)
 
-    return Nayatani95_Specification(Lstar_P,
-                                    C,
-                                    theta,
-                                    S,
-                                    B_r,
-                                    M,
-                                    None,
-                                    None,
+    return Nayatani95_Specification(Lstar_P, C, theta, S, B_r, M, None, None,
                                     Lstar_N)
 
 
@@ -479,7 +439,7 @@ def tritanopic_response(RGB, bRGB_o, xez, n):
     xi, eta, zeta = tsplit(xez)
 
     t = (1 / 1) * bR_o * np.log10((R + n) / (20 * xi + n))
-    t += - (12 / 11) * bG_o * np.log10((G + n) / (20 * eta + n))
+    t += -(12 / 11) * bG_o * np.log10((G + n) / (20 * eta + n))
     t += (1 / 11) * bB_o * np.log10((B + n) / (20 * zeta + n))
 
     return t
@@ -523,7 +483,7 @@ def protanopic_response(RGB, bRGB_o, xez, n):
 
     p = (1 / 9) * bR_o * np.log10((R + n) / (20 * xi + n))
     p += (1 / 9) * bG_o * np.log10((G + n) / (20 * eta + n))
-    p += - (2 / 9) * bB_o * np.log10((B + n) / (20 * zeta + n))
+    p += -(2 / 9) * bB_o * np.log10((B + n) / (20 * zeta + n))
 
     return p
 

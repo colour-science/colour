@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Gamma Colour Component Transfer Function
 ========================================
@@ -8,7 +7,7 @@ Gamma Colour Component Transfer Function
 Defines gamma encoding / decoding colour component transfer function related
 objects:
 
-- :func:`gamma_function`
+- :func:`function_gamma`
 
 See Also
 --------
@@ -30,12 +29,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['gamma_function']
+__all__ = ['function_gamma']
 
 
-def gamma_function(a,
-                   exponent=1,
-                   negative_number_handling='indeterminate'):
+def function_gamma(a, exponent=1, negative_number_handling='indeterminate'):
     """
     Defines a typical gamma encoding / decoding function.
 
@@ -71,17 +68,17 @@ def gamma_function(a,
 
     Examples
     --------
-    >>> gamma_function(0.18, 2.2)  # doctest: +ELLIPSIS
+    >>> function_gamma(0.18, 2.2)  # doctest: +ELLIPSIS
     0.0229932...
-    >>> gamma_function(-0.18, 2.0)  # doctest: +ELLIPSIS
+    >>> function_gamma(-0.18, 2.0)  # doctest: +ELLIPSIS
     0.0323999...
-    >>> gamma_function(-0.18, 2.2)
+    >>> function_gamma(-0.18, 2.2)
     nan
-    >>> gamma_function(-0.18, 2.2, 'Mirror')  # doctest: +ELLIPSIS
+    >>> function_gamma(-0.18, 2.2, 'Mirror')  # doctest: +ELLIPSIS
     -0.0229932...
-    >>> gamma_function(-0.18, 2.2, 'Preserve')  # doctest: +ELLIPSIS
+    >>> function_gamma(-0.18, 2.2, 'Preserve')  # doctest: +ELLIPSIS
     -0.1...
-    >>> gamma_function(-0.18, 2.2, 'Clamp')  # doctest: +ELLIPSIS
+    >>> function_gamma(-0.18, 2.2, 'Clamp')  # doctest: +ELLIPSIS
     0.0
     """
 
@@ -98,6 +95,5 @@ def gamma_function(a,
     elif negative_number_handling == 'clamp':
         return as_numeric(np.where(a < 0, 0, a ** exponent))
     else:
-        raise ValueError(
-            'Undefined negative number handling method: "{0}".'.format(
-                negative_number_handling))
+        raise ValueError('Undefined negative number handling method: "{0}".'.
+                         format(negative_number_handling))

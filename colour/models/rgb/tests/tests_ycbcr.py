@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Defines unit tests for :mod:`colour.models.rgb.ycbcr` module.
 """
@@ -11,12 +10,9 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.models.rgb.ycbcr import (
-    RGB_to_YCbCr,
-    YCbCr_to_RGB,
-    RGB_to_YcCbcCrc,
-    YcCbcCrc_to_RGB,
-    YCBCR_WEIGHTS)
+from colour.models.rgb.ycbcr import (RGB_to_YCbCr, YCbCr_to_RGB,
+                                     RGB_to_YcCbcCrc, YcCbcCrc_to_RGB,
+                                     YCBCR_WEIGHTS)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -26,10 +22,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Development'
 
-__all__ = ['TestRGB_to_YCbCr',
-           'TestYCbCr_to_RGB',
-           'TestRGB_to_YcCbcCrc',
-           'TestYcCbcCrc_to_RGB']
+__all__ = [
+    'TestRGB_to_YCbCr', 'TestYCbCr_to_RGB', 'TestRGB_to_YcCbcCrc',
+    'TestYcCbcCrc_to_RGB'
+]
 
 
 class TestRGB_to_YCbCr(unittest.TestCase):
@@ -83,33 +79,25 @@ class TestRGB_to_YCbCr(unittest.TestCase):
 
         RGB = np.array([0.75, 0.5, 0.25])
         YCbCr = np.array([0.52230157, 0.36699593, 0.62183309])
-        np.testing.assert_almost_equal(
-            RGB_to_YCbCr(RGB),
-            YCbCr)
+        np.testing.assert_almost_equal(RGB_to_YCbCr(RGB), YCbCr)
 
         RGB = np.tile(RGB, 4)
         RGB = np.reshape(RGB, (4, 3))
         YCbCr = np.tile(YCbCr, 4)
         YCbCr = np.reshape(YCbCr, (4, 3))
-        np.testing.assert_almost_equal(
-            RGB_to_YCbCr(RGB),
-            YCbCr)
+        np.testing.assert_almost_equal(RGB_to_YCbCr(RGB), YCbCr)
 
         RGB = np.tile(RGB, 4)
         RGB = np.reshape(RGB, (4, 4, 3))
         YCbCr = np.tile(YCbCr, 4)
         YCbCr = np.reshape(YCbCr, (4, 4, 3))
-        np.testing.assert_almost_equal(
-            RGB_to_YCbCr(RGB),
-            YCbCr)
+        np.testing.assert_almost_equal(RGB_to_YCbCr(RGB), YCbCr)
 
         RGB = np.tile(RGB, 4)
         RGB = np.reshape(RGB, (4, 4, 4, 3))
         YCbCr = np.tile(YCbCr, 4)
         YCbCr = np.reshape(YCbCr, (4, 4, 4, 3))
-        np.testing.assert_almost_equal(
-            RGB_to_YCbCr(RGB),
-            YCbCr)
+        np.testing.assert_almost_equal(RGB_to_YCbCr(RGB), YCbCr)
 
     @ignore_numpy_errors
     def test_nan_RGB_to_YCbCr(self):
@@ -170,33 +158,25 @@ class TestYCbCr_to_RGB(unittest.TestCase):
 
         YCbCr = np.array([0.52230157, 0.36699593, 0.62183309])
         RGB = np.array([0.75, 0.5, 0.25])
-        np.testing.assert_almost_equal(
-            YCbCr_to_RGB(YCbCr),
-            RGB)
+        np.testing.assert_almost_equal(YCbCr_to_RGB(YCbCr), RGB)
 
         RGB = np.tile(RGB, 4)
         RGB = np.reshape(RGB, (4, 3))
         YCbCr = np.tile(YCbCr, 4)
         YCbCr = np.reshape(YCbCr, (4, 3))
-        np.testing.assert_almost_equal(
-            YCbCr_to_RGB(YCbCr),
-            RGB)
+        np.testing.assert_almost_equal(YCbCr_to_RGB(YCbCr), RGB)
 
         RGB = np.tile(RGB, 4)
         RGB = np.reshape(RGB, (4, 4, 3))
         YCbCr = np.tile(YCbCr, 4)
         YCbCr = np.reshape(YCbCr, (4, 4, 3))
-        np.testing.assert_almost_equal(
-            YCbCr_to_RGB(YCbCr),
-            RGB)
+        np.testing.assert_almost_equal(YCbCr_to_RGB(YCbCr), RGB)
 
         RGB = np.tile(RGB, 4)
         RGB = np.reshape(RGB, (4, 4, 4, 3))
         YCbCr = np.tile(YCbCr, 4)
         YCbCr = np.reshape(YCbCr, (4, 4, 4, 3))
-        np.testing.assert_almost_equal(
-            YCbCr_to_RGB(YCbCr),
-            RGB)
+        np.testing.assert_almost_equal(YCbCr_to_RGB(YCbCr), RGB)
 
     @ignore_numpy_errors
     def test_nan_YCbCr_to_RGB(self):
@@ -247,36 +227,28 @@ class TestRGB_to_YcCbcCrc(unittest.TestCase):
         RGB = np.array([0.75, 0.5, 0.25])
         YcCbcCrc = np.array([0.69738693, 0.38700523, 0.61084888])
         np.testing.assert_almost_equal(
-            RGB_to_YcCbcCrc(RGB),
-            YcCbcCrc,
-            decimal=7)
+            RGB_to_YcCbcCrc(RGB), YcCbcCrc, decimal=7)
 
         RGB = np.tile(RGB, 4)
         RGB = np.reshape(RGB, (4, 3))
         YcCbcCrc = np.tile(YcCbcCrc, 4)
         YcCbcCrc = np.reshape(YcCbcCrc, (4, 3))
         np.testing.assert_almost_equal(
-            RGB_to_YcCbcCrc(RGB),
-            YcCbcCrc,
-            decimal=7)
+            RGB_to_YcCbcCrc(RGB), YcCbcCrc, decimal=7)
 
         RGB = np.tile(RGB, 4)
         RGB = np.reshape(RGB, (4, 4, 3))
         YcCbcCrc = np.tile(YcCbcCrc, 4)
         YcCbcCrc = np.reshape(YcCbcCrc, (4, 4, 3))
         np.testing.assert_almost_equal(
-            RGB_to_YcCbcCrc(RGB),
-            YcCbcCrc,
-            decimal=7)
+            RGB_to_YcCbcCrc(RGB), YcCbcCrc, decimal=7)
 
         RGB = np.tile(RGB, 4)
         RGB = np.reshape(RGB, (4, 4, 4, 3))
         YcCbcCrc = np.tile(YcCbcCrc, 4)
         YcCbcCrc = np.reshape(YcCbcCrc, (4, 4, 4, 3))
         np.testing.assert_almost_equal(
-            RGB_to_YcCbcCrc(RGB),
-            YcCbcCrc,
-            decimal=7)
+            RGB_to_YcCbcCrc(RGB), YcCbcCrc, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_RGB_to_YcCbcCrc(self):
@@ -327,36 +299,28 @@ class TestYcCbcCrc_to_RGB(unittest.TestCase):
         YcCbcCrc = np.array([0.69943807, 0.38814348, 0.61264549])
         RGB = np.array([0.75767423, 0.50177402, 0.25466201])
         np.testing.assert_almost_equal(
-            YcCbcCrc_to_RGB(YcCbcCrc),
-            RGB,
-            decimal=7)
+            YcCbcCrc_to_RGB(YcCbcCrc), RGB, decimal=7)
 
         RGB = np.tile(RGB, 4)
         RGB = np.reshape(RGB, (4, 3))
         YcCbcCrc = np.tile(YcCbcCrc, 4)
         YcCbcCrc = np.reshape(YcCbcCrc, (4, 3))
         np.testing.assert_almost_equal(
-            YcCbcCrc_to_RGB(YcCbcCrc),
-            RGB,
-            decimal=7)
+            YcCbcCrc_to_RGB(YcCbcCrc), RGB, decimal=7)
 
         RGB = np.tile(RGB, 4)
         RGB = np.reshape(RGB, (4, 4, 3))
         YcCbcCrc = np.tile(YcCbcCrc, 4)
         YcCbcCrc = np.reshape(YcCbcCrc, (4, 4, 3))
         np.testing.assert_almost_equal(
-            YcCbcCrc_to_RGB(YcCbcCrc),
-            RGB,
-            decimal=7)
+            YcCbcCrc_to_RGB(YcCbcCrc), RGB, decimal=7)
 
         RGB = np.tile(RGB, 4)
         RGB = np.reshape(RGB, (4, 4, 4, 3))
         YcCbcCrc = np.tile(YcCbcCrc, 4)
         YcCbcCrc = np.reshape(YcCbcCrc, (4, 4, 4, 3))
         np.testing.assert_almost_equal(
-            YcCbcCrc_to_RGB(YcCbcCrc),
-            RGB,
-            decimal=7)
+            YcCbcCrc_to_RGB(YcCbcCrc), RGB, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_YcCbcCrc_to_RGB(self):

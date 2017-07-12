@@ -1,5 +1,5 @@
-colour.appearance.llab Module
-=============================
+colour\.appearance\.llab Module
+===============================
 
 .. automodule:: colour.appearance.llab
     :members:

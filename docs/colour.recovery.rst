@@ -1,5 +1,5 @@
-colour.recovery Package
-=======================
+colour\.recovery Package
+========================
 
 Sub-Packages
 ------------
@@ -13,6 +13,7 @@ Sub-Modules
 
 .. toctree::
 
+   colour.recovery.meng2015
    colour.recovery.smits1999
 
 Module Contents

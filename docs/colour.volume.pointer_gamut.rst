@@ -1,5 +1,5 @@
-colour.volume.pointer_gamut Module
-==================================
+colour\.volume\.pointer\_gamut Module
+=====================================
 
 .. automodule:: colour.volume.pointer_gamut
     :members:

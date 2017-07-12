@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Fairchild (1990) Chromatic Adaptation Model
 ===========================================
@@ -38,12 +37,11 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['FAIRCHILD1990_XYZ_TO_RGB_MATRIX',
-           'FAIRCHILD1990_RGB_TO_XYZ_MATRIX',
-           'chromatic_adaptation_Fairchild1990',
-           'XYZ_to_RGB_Fairchild1990',
-           'RGB_to_XYZ_Fairchild1990',
-           'degrees_of_adaptation']
+__all__ = [
+    'FAIRCHILD1990_XYZ_TO_RGB_MATRIX', 'FAIRCHILD1990_RGB_TO_XYZ_MATRIX',
+    'chromatic_adaptation_Fairchild1990', 'XYZ_to_RGB_Fairchild1990',
+    'RGB_to_XYZ_Fairchild1990', 'degrees_of_adaptation'
+]
 
 FAIRCHILD1990_XYZ_TO_RGB_MATRIX = VON_KRIES_CAT
 """
@@ -122,9 +120,8 @@ def chromatic_adaptation_Fairchild1990(XYZ_1,
     LMS_n = dot_vector(FAIRCHILD1990_XYZ_TO_RGB_MATRIX, XYZ_n)
     LMS_r = dot_vector(FAIRCHILD1990_XYZ_TO_RGB_MATRIX, XYZ_r)
 
-    p_LMS = degrees_of_adaptation(LMS_1,
-                                  Y_n,
-                                  discount_illuminant=discount_illuminant)
+    p_LMS = degrees_of_adaptation(
+        LMS_1, Y_n, discount_illuminant=discount_illuminant)
 
     a_LMS_1 = p_LMS / LMS_n
     a_LMS_2 = p_LMS / LMS_r

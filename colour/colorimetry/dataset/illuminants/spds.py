@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Illuminants Relative Spectral Power Distributions
 =================================================
@@ -60,8 +59,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['ILLUMINANTS_RELATIVE_SPDS_DATA',
-           'ILLUMINANTS_RELATIVE_SPDS']
+__all__ = ['ILLUMINANTS_RELATIVE_SPDS_DATA', 'ILLUMINANTS_RELATIVE_SPDS']
 
 # *CIE Illuminant D Series* *D60* relative spectral power distribution
 # has been calculated as follows:
@@ -166,7 +164,8 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
         765: 234.589000,
         770: 237.008000,
         775: 239.370000,
-        780: 241.675000},
+        780: 241.675000
+    },
     'B': {
         320: 0.02,
         325: 0.26,
@@ -260,7 +259,8 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
         765: 84.90,
         770: 85.40,
         775: 86.10,
-        780: 87.00},
+        780: 87.00
+    },
     'C': {
         300: 0.00,
         305: 0.00,
@@ -358,7 +358,8 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
         765: 58.00,
         770: 58.20,
         775: 58.50,
-        780: 59.10},
+        780: 59.10
+    },
     'D50': {
         300: 0.019,
         305: 1.035,
@@ -456,7 +457,8 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
         765: 70.307,
         770: 82.923,
         775: 80.599,
-        780: 78.274},
+        780: 78.274
+    },
     'D55': {
         300: 0.024,
         305: 1.048,
@@ -554,7 +556,8 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
         765: 64.360,
         770: 75.927,
         775: 73.872,
-        780: 71.818},
+        780: 71.818
+    },
     'D60': {
         300: 0.029370758174923,
         310: 2.619241317964963,
@@ -609,7 +612,8 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
         800: 62.989808616705801,
         810: 54.990892361077115,
         820: 60.825600670913168,
-        830: 63.893495862261560},
+        830: 63.893495862261560
+    },
     'D65': {
         300: 0.034100,
         305: 1.664300,
@@ -707,7 +711,8 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
         765: 56.611800,
         770: 66.805400,
         775: 65.094100,
-        780: 63.382800},
+        780: 63.382800
+    },
     'D75': {
         300: 0.043,
         305: 2.588,
@@ -805,7 +810,8 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
         765: 51.985,
         770: 61.352,
         775: 59.838,
-        780: 58.324},
+        780: 58.324
+    },
     'E': {
         300: 100.000,
         305: 100.000,
@@ -903,7 +909,8 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
         765: 100.000,
         770: 100.000,
         775: 100.000,
-        780: 100.000},
+        780: 100.000
+    },
     'F1': {
         380: 1.87,
         385: 2.36,
@@ -985,7 +992,8 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
         765: 0.69,
         770: 0.61,
         775: 0.52,
-        780: 0.43},
+        780: 0.43
+    },
     'F2': {
         380: 1.18,
         385: 1.48,
@@ -1067,7 +1075,8 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
         765: 0.47,
         770: 0.40,
         775: 0.33,
-        780: 0.27},
+        780: 0.27
+    },
     'F3': {
         380: 0.82,
         385: 1.02,
@@ -1149,7 +1158,8 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
         765: 0.39,
         770: 0.33,
         775: 0.28,
-        780: 0.21},
+        780: 0.21
+    },
     'F4': {
         380: 0.57,
         385: 0.70,
@@ -1231,7 +1241,8 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
         765: 0.36,
         770: 0.31,
         775: 0.26,
-        780: 0.19},
+        780: 0.19
+    },
     'F5': {
         380: 1.87,
         385: 2.35,
@@ -1313,7 +1324,8 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
         765: 0.64,
         770: 0.55,
         775: 0.47,
-        780: 0.40},
+        780: 0.40
+    },
     'F6': {
         380: 1.05,
         385: 1.31,
@@ -1395,7 +1407,8 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
         765: 0.41,
         770: 0.33,
         775: 0.26,
-        780: 0.21},
+        780: 0.21
+    },
     'F7': {
         380: 2.56,
         385: 3.18,
@@ -1477,7 +1490,8 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
         765: 1.32,
         770: 1.17,
         775: 0.99,
-        780: 0.81},
+        780: 0.81
+    },
     'F8': {
         380: 1.21,
         385: 1.50,
@@ -1559,7 +1573,8 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
         765: 2.15,
         770: 1.89,
         775: 1.61,
-        780: 1.32},
+        780: 1.32
+    },
     'F9': {
         380: 0.90,
         385: 1.12,
@@ -1641,7 +1656,8 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
         765: 1.83,
         770: 1.61,
         775: 1.38,
-        780: 1.12},
+        780: 1.12
+    },
     'F10': {
         380: 1.11,
         385: 0.80,
@@ -1723,7 +1739,8 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
         765: 0.22,
         770: 0.17,
         775: 0.12,
-        780: 0.09},
+        780: 0.09
+    },
     'F11': {
         380: 0.91,
         385: 0.63,
@@ -1805,7 +1822,8 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
         765: 0.26,
         770: 0.16,
         775: 0.12,
-        780: 0.09},
+        780: 0.09
+    },
     'F12': {
         380: 0.96,
         385: 0.64,
@@ -1887,7 +1905,8 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
         765: 0.19,
         770: 0.15,
         775: 0.10,
-        780: 0.05},
+        780: 0.05
+    },
     'FL3.1': {
         380: 2.39,
         385: 2.93,
@@ -1969,7 +1988,8 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
         765: 0.95,
         770: 1.50,
         775: 0.89,
-        780: 0.68},
+        780: 0.68
+    },
     'FL3.2': {
         380: 5.80,
         385: 6.99,
@@ -2051,7 +2071,8 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
         765: 4.01,
         770: 4.09,
         775: 3.30,
-        780: 2.82},
+        780: 2.82
+    },
     'FL3.3': {
         380: 8.94,
         385: 11.21,
@@ -2133,7 +2154,8 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
         765: 2.19,
         770: 2.71,
         775: 2.00,
-        780: 1.80},
+        780: 1.80
+    },
     'FL3.4': {
         380: 3.46,
         385: 3.86,
@@ -2215,7 +2237,8 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
         765: 13.63,
         770: 10.43,
         775: 9.67,
-        780: 8.07},
+        780: 8.07
+    },
     'FL3.5': {
         380: 4.72,
         385: 5.82,
@@ -2297,7 +2320,8 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
         765: 12.42,
         770: 9.43,
         775: 8.96,
-        780: 7.39},
+        780: 7.39
+    },
     'FL3.6': {
         380: 5.53,
         385: 6.63,
@@ -2379,7 +2403,8 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
         765: 11.28,
         770: 8.51,
         775: 8.24,
-        780: 7.02},
+        780: 7.02
+    },
     'FL3.7': {
         380: 3.79,
         385: 2.56,
@@ -2461,7 +2486,8 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
         765: 0.46,
         770: 0.99,
         775: 0.43,
-        780: 0.00},
+        780: 0.00
+    },
     'FL3.8': {
         380: 4.18,
         385: 2.93,
@@ -2543,7 +2569,8 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
         765: 0.61,
         770: 1.25,
         775: 0.79,
-        780: 0.58},
+        780: 0.58
+    },
     'FL3.9': {
         380: 3.77,
         385: 2.64,
@@ -2625,7 +2652,8 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
         765: 0.10,
         770: 0.68,
         775: 0.16,
-        780: 0.00},
+        780: 0.00
+    },
     'FL3.10': {
         380: 0.25,
         385: 0.00,
@@ -2707,7 +2735,8 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
         765: 0.00,
         770: 0.00,
         775: 0.00,
-        780: 0.00},
+        780: 0.00
+    },
     'FL3.11': {
         380: 3.85,
         385: 2.91,
@@ -2789,7 +2818,8 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
         765: 0.45,
         770: 1.04,
         775: 0.45,
-        780: 0.00},
+        780: 0.00
+    },
     'FL3.12': {
         380: 1.62,
         385: 2.06,
@@ -2871,7 +2901,8 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
         765: 4.50,
         770: 4.81,
         775: 3.72,
-        780: 3.28},
+        780: 3.28
+    },
     'FL3.13': {
         380: 2.23,
         385: 2.92,
@@ -2953,7 +2984,8 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
         765: 3.74,
         770: 4.04,
         775: 3.14,
-        780: 2.75},
+        780: 2.75
+    },
     'FL3.14': {
         380: 2.87,
         385: 3.69,
@@ -3035,7 +3067,8 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
         765: 4.08,
         770: 4.43,
         775: 3.39,
-        780: 3.17},
+        780: 3.17
+    },
     'FL3.15': {
         380: 300,
         385: 286,
@@ -3117,7 +3150,8 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
         765: 51,
         770: 46,
         775: 41,
-        780: 37},
+        780: 37
+    },
     'HP1': {
         380: 1.90,
         385: 2.20,
@@ -3199,7 +3233,8 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
         765: 31.97,
         770: 27.87,
         775: 5.89,
-        780: 6.69},
+        780: 6.69
+    },
     'HP2': {
         380: 2.64,
         385: 2.77,
@@ -3281,7 +3316,8 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
         765: 83.04,
         770: 86.25,
         775: 63.93,
-        780: 64.92},
+        780: 64.92
+    },
     'HP3': {
         380: 3.15,
         385: 7.49,
@@ -3363,7 +3399,8 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
         765: 17.81,
         770: 16.07,
         775: 14.83,
-        780: 14.61},
+        780: 14.61
+    },
     'HP4': {
         380: 9.80,
         385: 13.30,
@@ -3445,7 +3482,8 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
         765: 24.46,
         770: 22.05,
         775: 16.11,
-        780: 12.91},
+        780: 12.91
+    },
     'HP5': {
         380: 0.34,
         385: 7.11,
@@ -3527,91 +3565,94 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
         765: 34.58,
         770: 30.21,
         775: 19.71,
-        780: 15.61}}
+        780: 15.61
+    }
+}
 
-ILLUMINANTS_RELATIVE_SPDS = CaseInsensitiveMapping(
-    {'A': SpectralPowerDistribution(
+ILLUMINANTS_RELATIVE_SPDS = CaseInsensitiveMapping({
+    'A': SpectralPowerDistribution(
         'A', ILLUMINANTS_RELATIVE_SPDS_DATA['A']),
-     'B': SpectralPowerDistribution(
-         'B', ILLUMINANTS_RELATIVE_SPDS_DATA['B']),
-     'C': SpectralPowerDistribution(
-         'C', ILLUMINANTS_RELATIVE_SPDS_DATA['C']),
-     'D50': SpectralPowerDistribution(
-         'D50', ILLUMINANTS_RELATIVE_SPDS_DATA['D50']),
-     'D55': SpectralPowerDistribution(
-         'D55', ILLUMINANTS_RELATIVE_SPDS_DATA['D55']),
-     'D60': SpectralPowerDistribution(
-         'D60', ILLUMINANTS_RELATIVE_SPDS_DATA['D60']),
-     'D65': SpectralPowerDistribution(
-         'D65', ILLUMINANTS_RELATIVE_SPDS_DATA['D65']),
-     'D75': SpectralPowerDistribution(
-         'D75', ILLUMINANTS_RELATIVE_SPDS_DATA['D75']),
-     'E': SpectralPowerDistribution(
-         'E', ILLUMINANTS_RELATIVE_SPDS_DATA['E']),
-     'F1': SpectralPowerDistribution(
-         'F1', ILLUMINANTS_RELATIVE_SPDS_DATA['F1']),
-     'F2': SpectralPowerDistribution(
-         'F2', ILLUMINANTS_RELATIVE_SPDS_DATA['F2']),
-     'F3': SpectralPowerDistribution(
-         'F3', ILLUMINANTS_RELATIVE_SPDS_DATA['F3']),
-     'F4': SpectralPowerDistribution(
-         'F4', ILLUMINANTS_RELATIVE_SPDS_DATA['F4']),
-     'F5': SpectralPowerDistribution(
-         'F5', ILLUMINANTS_RELATIVE_SPDS_DATA['F5']),
-     'F6': SpectralPowerDistribution(
-         'F6', ILLUMINANTS_RELATIVE_SPDS_DATA['F6']),
-     'F7': SpectralPowerDistribution(
-         'F7', ILLUMINANTS_RELATIVE_SPDS_DATA['F7']),
-     'F8': SpectralPowerDistribution(
-         'F8', ILLUMINANTS_RELATIVE_SPDS_DATA['F8']),
-     'F9': SpectralPowerDistribution(
-         'F9', ILLUMINANTS_RELATIVE_SPDS_DATA['F9']),
-     'F10': SpectralPowerDistribution(
-         'F10', ILLUMINANTS_RELATIVE_SPDS_DATA['F10']),
-     'F11': SpectralPowerDistribution(
-         'F11', ILLUMINANTS_RELATIVE_SPDS_DATA['F11']),
-     'F12': SpectralPowerDistribution(
-         'F12', ILLUMINANTS_RELATIVE_SPDS_DATA['F12']),
-     'FL3.1': SpectralPowerDistribution(
-         'FL3.1', ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.1']),
-     'FL3.2': SpectralPowerDistribution(
-         'FL3.2', ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.2']),
-     'FL3.3': SpectralPowerDistribution(
-         'FL3.3', ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.3']),
-     'FL3.4': SpectralPowerDistribution(
-         'FL3.4', ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.4']),
-     'FL3.5': SpectralPowerDistribution(
-         'FL3.5', ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.5']),
-     'FL3.6': SpectralPowerDistribution(
-         'FL3.6', ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.6']),
-     'FL3.7': SpectralPowerDistribution(
-         'FL3.7', ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.7']),
-     'FL3.8': SpectralPowerDistribution(
-         'FL3.8', ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.8']),
-     'FL3.9': SpectralPowerDistribution(
-         'FL3.9', ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.9']),
-     'FL3.10': SpectralPowerDistribution(
-         'FL3.10', ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.10']),
-     'FL3.11': SpectralPowerDistribution(
-         'FL3.11', ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.11']),
-     'FL3.12': SpectralPowerDistribution(
-         'FL3.12', ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.12']),
-     'FL3.13': SpectralPowerDistribution(
-         'FL3.13', ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.13']),
-     'FL3.14': SpectralPowerDistribution(
-         'FL3.14', ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.14']),
-     'FL3.15': SpectralPowerDistribution(
-         'FL3.15', ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.15']),
-     'HP1': SpectralPowerDistribution(
-         'HP1', ILLUMINANTS_RELATIVE_SPDS_DATA['HP1']),
-     'HP2': SpectralPowerDistribution(
-         'HP2', ILLUMINANTS_RELATIVE_SPDS_DATA['HP2']),
-     'HP3': SpectralPowerDistribution(
-         'HP3', ILLUMINANTS_RELATIVE_SPDS_DATA['HP3']),
-     'HP4': SpectralPowerDistribution(
-         'HP4', ILLUMINANTS_RELATIVE_SPDS_DATA['HP4']),
-     'HP5': SpectralPowerDistribution(
-         'HP5', ILLUMINANTS_RELATIVE_SPDS_DATA['HP5'])})
+    'B': SpectralPowerDistribution(
+        'B', ILLUMINANTS_RELATIVE_SPDS_DATA['B']),
+    'C': SpectralPowerDistribution(
+        'C', ILLUMINANTS_RELATIVE_SPDS_DATA['C']),
+    'D50': SpectralPowerDistribution(
+        'D50', ILLUMINANTS_RELATIVE_SPDS_DATA['D50']),
+    'D55': SpectralPowerDistribution(
+        'D55', ILLUMINANTS_RELATIVE_SPDS_DATA['D55']),
+    'D60': SpectralPowerDistribution(
+        'D60', ILLUMINANTS_RELATIVE_SPDS_DATA['D60']),
+    'D65': SpectralPowerDistribution(
+        'D65', ILLUMINANTS_RELATIVE_SPDS_DATA['D65']),
+    'D75': SpectralPowerDistribution(
+        'D75', ILLUMINANTS_RELATIVE_SPDS_DATA['D75']),
+    'E': SpectralPowerDistribution(
+        'E', ILLUMINANTS_RELATIVE_SPDS_DATA['E']),
+    'F1': SpectralPowerDistribution(
+        'F1', ILLUMINANTS_RELATIVE_SPDS_DATA['F1']),
+    'F2': SpectralPowerDistribution(
+        'F2', ILLUMINANTS_RELATIVE_SPDS_DATA['F2']),
+    'F3': SpectralPowerDistribution(
+        'F3', ILLUMINANTS_RELATIVE_SPDS_DATA['F3']),
+    'F4': SpectralPowerDistribution(
+        'F4', ILLUMINANTS_RELATIVE_SPDS_DATA['F4']),
+    'F5': SpectralPowerDistribution(
+        'F5', ILLUMINANTS_RELATIVE_SPDS_DATA['F5']),
+    'F6': SpectralPowerDistribution(
+        'F6', ILLUMINANTS_RELATIVE_SPDS_DATA['F6']),
+    'F7': SpectralPowerDistribution(
+        'F7', ILLUMINANTS_RELATIVE_SPDS_DATA['F7']),
+    'F8': SpectralPowerDistribution(
+        'F8', ILLUMINANTS_RELATIVE_SPDS_DATA['F8']),
+    'F9': SpectralPowerDistribution(
+        'F9', ILLUMINANTS_RELATIVE_SPDS_DATA['F9']),
+    'F10': SpectralPowerDistribution(
+        'F10', ILLUMINANTS_RELATIVE_SPDS_DATA['F10']),
+    'F11': SpectralPowerDistribution(
+        'F11', ILLUMINANTS_RELATIVE_SPDS_DATA['F11']),
+    'F12': SpectralPowerDistribution(
+        'F12', ILLUMINANTS_RELATIVE_SPDS_DATA['F12']),
+    'FL3.1': SpectralPowerDistribution(
+        'FL3.1', ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.1']),
+    'FL3.2': SpectralPowerDistribution(
+        'FL3.2', ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.2']),
+    'FL3.3': SpectralPowerDistribution(
+        'FL3.3', ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.3']),
+    'FL3.4': SpectralPowerDistribution(
+        'FL3.4', ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.4']),
+    'FL3.5': SpectralPowerDistribution(
+        'FL3.5', ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.5']),
+    'FL3.6': SpectralPowerDistribution(
+        'FL3.6', ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.6']),
+    'FL3.7': SpectralPowerDistribution(
+        'FL3.7', ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.7']),
+    'FL3.8': SpectralPowerDistribution(
+        'FL3.8', ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.8']),
+    'FL3.9': SpectralPowerDistribution(
+        'FL3.9', ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.9']),
+    'FL3.10': SpectralPowerDistribution(
+        'FL3.10', ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.10']),
+    'FL3.11': SpectralPowerDistribution(
+        'FL3.11', ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.11']),
+    'FL3.12': SpectralPowerDistribution(
+        'FL3.12', ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.12']),
+    'FL3.13': SpectralPowerDistribution(
+        'FL3.13', ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.13']),
+    'FL3.14': SpectralPowerDistribution(
+        'FL3.14', ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.14']),
+    'FL3.15': SpectralPowerDistribution(
+        'FL3.15', ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.15']),
+    'HP1': SpectralPowerDistribution(
+        'HP1', ILLUMINANTS_RELATIVE_SPDS_DATA['HP1']),
+    'HP2': SpectralPowerDistribution(
+        'HP2', ILLUMINANTS_RELATIVE_SPDS_DATA['HP2']),
+    'HP3': SpectralPowerDistribution(
+        'HP3', ILLUMINANTS_RELATIVE_SPDS_DATA['HP3']),
+    'HP4': SpectralPowerDistribution(
+        'HP4', ILLUMINANTS_RELATIVE_SPDS_DATA['HP4']),
+    'HP5': SpectralPowerDistribution(
+        'HP5', ILLUMINANTS_RELATIVE_SPDS_DATA['HP5'])
+})  # yapf: disable
 """
 *CIE* illuminants relative spectral power distributions.
 

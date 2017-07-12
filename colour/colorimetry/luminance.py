@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 Luminance :math:`Y`
 ===================
@@ -16,6 +15,8 @@ The following methods are available:
     *Munsell* value :math:`V` using *ASTM D1535-08e1* method.
 -   :func:`luminance_CIE1976`: *luminance* :math:`Y` computation of given
     *Lightness* :math:`L^*` as per *CIE 1976* recommendation.
+-   :func:`luminance_Fairchild2010`: *luminance* :math:`Y` computation of given
+    *Lightness* :math:`L_{hdr}` using *Fairchild and Wyble (2010)* method.
 
 See Also
 --------
@@ -28,6 +29,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.biochemistry import substrate_concentration_MichealisMenten
 from colour.constants import CIE_E, CIE_K
 from colour.utilities import CaseInsensitiveMapping, filter_kwargs
 
@@ -38,11 +40,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['luminance_Newhall1943',
-           'luminance_ASTMD153508',
-           'luminance_CIE1976',
-           'LUMINANCE_METHODS',
-           'luminance']
+__all__ = [
+    'luminance_Newhall1943', 'luminance_ASTMD153508', 'luminance_CIE1976',
+    'luminance_Fairchild2010', 'LUMINANCE_METHODS', 'luminance'
+]
 
 
 def luminance_Newhall1943(V):
@@ -168,31 +169,80 @@ def luminance_CIE1976(Lstar, Y_n=100):
     Y_n = np.asarray(Y_n)
 
     Y = np.where(Lstar > CIE_K * CIE_E,
-                 Y_n * ((Lstar + 16) / 116) ** 3,
-                 Y_n * (Lstar / CIE_K))
+                 Y_n * ((Lstar + 16) / 116) ** 3, Y_n * (Lstar / CIE_K))
 
     return Y
 
 
-LUMINANCE_METHODS = CaseInsensitiveMapping(
-    {'Newhall 1943': luminance_Newhall1943,
-     'ASTM D1535-08': luminance_ASTMD153508,
-     'CIE 1976': luminance_CIE1976})
+def luminance_Fairchild2010(L_hdr, epsilon=2):
+    """
+    Computes *luminance* :math:`Y` of given *Lightness* :math:`L_{hdr}` using
+    *Fairchild and Wyble (2010)* method accordingly to *Michealis-Menten*
+    kinetics.
+
+    Parameters
+    ----------
+    L_hdr : array_like
+        *Lightness* :math:`L_{hdr}`.
+    epsilon : numeric or array_like, optional
+        :math:`\epsilon` exponent.
+
+    Returns
+    -------
+    array_like
+        *luminance* :math:`Y`.
+
+    Warning
+    -------
+    The output range of that definition is non standard!
+
+    Notes
+    -----
+    -   Output *luminance* :math:`Y` is in range [0, math:`\infty`].
+
+    References
+    ----------
+    .. [4]  Fairchild, M. D., & Wyble, D. R. (2010). hdr-CIELAB and hdr-IPT:
+            Simple Models for Describing the Color of High-Dynamic-Range and
+            Wide-Color-Gamut Images. In Proc. of Color and Imaging Conference
+            (pp. 322–326). ISBN:9781629932156
+
+    Examples
+    --------
+    >>> luminance_Fairchild2010(
+    ...     24.902290269546651, 1.836)  # doctest: +ELLIPSIS
+    0.1007999...
+    """
+
+    L_hdr = np.asarray(L_hdr)
+
+    Y = np.exp(
+        np.log(
+            substrate_concentration_MichealisMenten(L_hdr - 0.02, 100, 0.184 **
+                                                    epsilon)) / epsilon)
+
+    return Y
+
+
+LUMINANCE_METHODS = CaseInsensitiveMapping({
+    'Newhall 1943': luminance_Newhall1943,
+    'ASTM D1535-08': luminance_ASTMD153508,
+    'CIE 1976': luminance_CIE1976,
+    'Fairchild 2010': luminance_Fairchild2010
+})
 """
 Supported *luminance* computations methods.
 
 LUMINANCE_METHODS : CaseInsensitiveMapping
-    **{'Newhall 1943', 'ASTM D1535-08', 'CIE 1976'}**
+    **{'Newhall 1943', 'ASTM D1535-08', 'CIE 1976', 'Fairchild 2010'}**
 
 Aliases:
 
 -   'astm2008': 'ASTM D1535-08'
 -   'cie1976': 'CIE 1976'
 """
-LUMINANCE_METHODS['astm2008'] = (
-    LUMINANCE_METHODS['ASTM D1535-08'])
-LUMINANCE_METHODS['cie1976'] = (
-    LUMINANCE_METHODS['CIE 1976'])
+LUMINANCE_METHODS['astm2008'] = (LUMINANCE_METHODS['ASTM D1535-08'])
+LUMINANCE_METHODS['cie1976'] = (LUMINANCE_METHODS['CIE 1976'])
 
 
 def luminance(LV, method='CIE 1976', **kwargs):
@@ -205,7 +255,7 @@ def luminance(LV, method='CIE 1976', **kwargs):
     LV : numeric or array_like
         *Lightness* :math:`L^*` or *Munsell* value :math:`V`.
     method : unicode, optional
-        **{'CIE 1976', 'Newhall 1943', 'ASTM D1535-08'}**,
+        **{'CIE 1976', 'Newhall 1943', 'ASTM D1535-08', 'Fairchild 2010'}**,
         Computation method.
 
     Other Parameters
@@ -213,6 +263,9 @@ def luminance(LV, method='CIE 1976', **kwargs):
     Y_n : numeric or array_like, optional
         {:func:`luminance_CIE1976`},
         White reference *luminance* :math:`Y_n`.
+    epsilon : numeric or array_like, optional
+        {:func:`lightness_Fairchild2010`},
+        :math:`\epsilon` exponent.
 
     Returns
     -------
@@ -221,9 +274,10 @@ def luminance(LV, method='CIE 1976', **kwargs):
 
     Notes
     -----
-    -   Input *LV* is in domain [0, 100] or [0, 10] and optional *luminance*
-        :math:`Y_n` is in domain [0, 100].
-    -   Output *luminance* :math:`Y` is in range [0, 100].
+    -   Input *LV* is in domain [0, 100], [0, 10] or [0, 1] and optional
+        *luminance* :math:`Y_n` is in domain [0, 100].
+    -   Output *luminance* :math:`Y` is in range [0, 100] or
+        [0, math:`\infty`].
 
     Examples
     --------
@@ -237,6 +291,11 @@ def luminance(LV, method='CIE 1976', **kwargs):
     10.4089874...
     >>> luminance(3.74629715, method='ASTM D1535-08')  # doctest: +ELLIPSIS
     10.1488096...
+    >>> luminance(
+    ...     24.902290269546651,
+    ...     epsilon=1.836,
+    ...     method='Fairchild 2010')  # doctest: +ELLIPSIS
+    0.1007999...
     """
 
     function = LUMINANCE_METHODS[method]
