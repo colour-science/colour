@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 Yellowness Index :math:`Y`
-=========================
+==========================
 
 Defines *yellowness* index :math:`Y` computation objects:
 

@@ -1,5 +1,5 @@
-colour.colorimetry.spectrum Module
-==================================
+colour\.colorimetry\.spectrum Module
+====================================
 
 .. automodule:: colour.colorimetry.spectrum
     :members:

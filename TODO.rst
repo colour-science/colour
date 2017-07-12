@@ -4,61 +4,67 @@ Colour - TODO
 TODO
 ----
 
-- colour (20 items in 13 files)
+- colour (22 items in 15 files)
 
-    - appearance (8 items in 5 files)
+    - appearance (7 items in 5 files)
 
         - ciecam02.py
 
-            - (260, 7) # TODO: Compute hue composition.
-            - (702, 7) # TODO: Check for negative values and their handling.
+            - (257, 7) # TODO: Compute hue composition.
 
         - hunt.py
 
-            - (418, 7) # TODO: Implement hue quadrature & composition computation.
-            - (449, 7) # TODO: Implement whiteness-blackness :math:`Q_{wb}` computation.
+            - (384, 7) # TODO: Implement hue quadrature & composition computation.
+            - (415, 7) # TODO: Implement whiteness-blackness :math:`Q_{wb}` computation.
 
         - llab.py
 
-            - (309, 7) # TODO: Implement hue composition computation.
+            - (297, 7) # TODO: Implement hue composition computation.
 
         - nayatani95.py
 
-            - (271, 7) # TODO: Implement hue quadrature & composition computation.
-            - (289, 7) # TODO: Investigate components usage.
+            - (244, 7) # TODO: Implement hue quadrature & composition computation.
+            - (256, 7) # TODO: Investigate components usage.
 
         - rlab.py
 
-            - (246, 7) # TODO: Implement hue composition computation.
+            - (235, 7) # TODO: Implement hue composition computation.
 
-    - colorimetry (2 item in 2 files)
+    - colorimetry (4 items in 3 files)
+
+        - tests (2 items in 1 file)
+
+            - tests_spectrum.py
+
+                - (2352, 11) # TODO: Remove statement whenever we make "Scipy" 0.19.0 the minimum version.
+                - (2834, 11) # TODO: Remove statement whenever we make "Scipy" 0.19.0 the minimum version.
 
         - spectrum.py
 
-            - (1943, 11) # TODO: Provide support for fractional interval like 0.1, etc...
+            - (1920, 11) # TODO: Provide support for fractional interval like 0.1, etc...
 
         - tristimulus.py
 
-            - (686, 11) # TODO: Investigate code vectorisation.
+            - (672, 11) # TODO: Investigate code vectorisation.
 
-    - models (4 item in 3 file)
+    - models (4 items in 3 files)
 
-        - rgb
+        - rgb (4 items in 3 files)
 
             - tests (1 item in 1 file)
 
                 - tests_derivation.py
 
-                    - (302, 15) # TODO: Simplify that monster.
+                    - (275, 11) # TODO: Simplify that monster.
 
             - derivation.py
 
-                - (220, 7) # TODO: Investigate if we return an ndarray here with primaries and whitepoint stacked together.
+                - (215, 7) # TODO: Investigate if we return an ndarray here with primaries and
 
             - rgb_colourspace.py
 
-                - (518, 11) # TODO: Revisit for potential behaviour / type checking.
-                - (545, 11) # TODO: Revisit for potential behaviour / type checking.
+                - (515, 11) # TODO: Revisit for potential behaviour / type checking.
+                - (542, 11) # TODO: Revisit for potential behaviour / type checking.
 
     - notation (5 items in 2 files)
 
@@ -66,20 +72,26 @@ TODO
 
             - tests_munsell.py
 
-                - (94, 3) # TODO: Investigate if tests can be simplified by using a common valid set of specifications.
-                - (4528, 11) # TODO: This test is covered by the previous class, do we need a dedicated one?
-                - (4574, 11) # TODO: This test is covered by the previous class, do we need a dedicated one?
+                - (67, 3) # TODO: Investigate if tests can be simplified by using a common valid set of specifications.
+                - (4399, 11) # TODO: This test is covered by the previous class, do we need a dedicated one?
+                - (4441, 11) # TODO: This test is covered by the previous class, do we need a dedicated one?
 
         - munsell.py
 
-            - (837, 11) # TODO: Consider refactoring implementation.
-            - (1176, 11) # TODO: Should raise KeyError, need to check the tests.
+            - (802, 11) # TODO: Consider refactoring implementation.
+            - (1129, 11) # TODO: Should raise KeyError, need to check the tests.
+
+    - plotting (1 item in 1 file)
+
+        - colorimetry.py
+
+            - (599, 11) # TODO: Handle condition statement with metadata capabilities.
 
     - volume (1 item in 1 file)
-        
-        -  rgb.py
-            
-            - (319, 7) # TODO: Investigate for generator yielding directly a ndarray.
+
+        - rgb.py
+
+            - (308, 7) # TODO: Investigate for generator yielding directly a ndarray.
 
 About
 -----

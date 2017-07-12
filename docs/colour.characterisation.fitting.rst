@@ -1,5 +1,5 @@
-colour.characterisation.fitting Module
-======================================
+colour\.characterisation\.fitting Module
+========================================
 
 .. automodule:: colour.characterisation.fitting
     :members:

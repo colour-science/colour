@@ -1,5 +1,5 @@
-colour.algebra.coordinates.transformations Module
-=================================================
+colour\.algebra\.coordinates\.transformations Module
+====================================================
 
 .. automodule:: colour.algebra.coordinates.transformations
     :members:

@@ -1,5 +1,5 @@
-colour.utilities Package
-========================
+colour\.utilities Package
+=========================
 
 Sub-Modules
 -----------

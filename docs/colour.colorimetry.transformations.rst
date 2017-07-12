@@ -1,5 +1,5 @@
-colour.colorimetry.transformations Module
-=========================================
+colour\.colorimetry\.transformations Module
+===========================================
 
 .. automodule:: colour.colorimetry.transformations
     :members:

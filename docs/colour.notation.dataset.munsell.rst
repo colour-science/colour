@@ -1,5 +1,5 @@
-colour.notation.dataset.munsell Package
-=======================================
+colour\.notation\.dataset\.munsell Package
+==========================================
 
 Sub-Modules
 -----------

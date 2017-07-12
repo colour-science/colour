@@ -1,5 +1,5 @@
-colour.models.rgb.dataset.red Module
-====================================
+colour\.models\.rgb\.dataset\.red Module
+========================================
 
 .. automodule:: colour.models.rgb.dataset.red
     :members:

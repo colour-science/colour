@@ -1,5 +1,5 @@
-colour.recovery.dataset.smits1999 Module
-========================================
+colour\.recovery\.dataset\.smits1999 Module
+===========================================
 
 .. automodule:: colour.recovery.dataset.smits1999
     :members:

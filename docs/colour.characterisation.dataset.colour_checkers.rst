@@ -1,5 +1,5 @@
-colour.characterisation.dataset.colour_checkers Package
-=======================================================
+colour\.characterisation\.dataset\.colour\_checkers Package
+===========================================================
 
 Sub-Modules
 -----------

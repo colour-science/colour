@@ -1,5 +1,5 @@
-colour.corresponding.dataset Package
-====================================
+colour\.corresponding\.dataset Package
+======================================
 
 Sub-Modules
 -----------

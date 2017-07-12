@@ -1,5 +1,5 @@
-colour.models.cie_lab Module
-============================
+colour\.models\.cie\_lab Module
+===============================
 
 .. automodule:: colour.models.cie_lab
     :members:

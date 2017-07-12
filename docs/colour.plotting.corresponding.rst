@@ -1,5 +1,5 @@
-colour.plotting.corresponding Module
-====================================
+colour\.plotting\.corresponding Module
+======================================
 
 .. automodule:: colour.plotting.corresponding
     :members:

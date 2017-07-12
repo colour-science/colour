@@ -1,5 +1,5 @@
-colour.plotting.volume Module
-=============================
+colour\.plotting\.volume Module
+===============================
 
 .. automodule:: colour.plotting.volume
     :members:

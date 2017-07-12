@@ -1,5 +1,5 @@
-colour.quality Package
-======================
+colour\.quality Package
+=======================
 
 Sub-Packages
 ------------

@@ -596,9 +596,10 @@ def multi_lightness_function_plot(functions=None, **kwargs):
             raise KeyError(('"{0}" "Lightness" function not found in factory '
                             '"Lightness" functions: "{1}".').format(
                                 name, sorted(LIGHTNESS_METHODS.keys())))
-
+        # TODO: Handle condition statement with metadata capabilities.
         pylab.plot(
-            samples, [function(x) for x in samples],
+            samples, (function(samples / 100) if
+                      name.lower() == 'fairchild 2010' else function(samples)),
             label='{0}'.format(name),
             linewidth=2)
 

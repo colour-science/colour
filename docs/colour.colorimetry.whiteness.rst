@@ -1,5 +1,5 @@
-colour.colorimetry.whiteness Module
-===================================
+colour\.colorimetry\.whiteness Module
+=====================================
 
 .. automodule:: colour.colorimetry.whiteness
     :members:

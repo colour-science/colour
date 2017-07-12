@@ -48,7 +48,7 @@ if os.environ.get('READTHEDOCS') == 'True':
 
 setup(
     name='colour-science',
-    version='0.3.9',
+    version='0.3.10',
     author=__author__,
     author_email=__email__,
     include_package_data=True,

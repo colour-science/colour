@@ -1,5 +1,5 @@
-colour.colorimetry.correction Module
-====================================
+colour\.colorimetry\.correction Module
+======================================
 
 .. automodule:: colour.colorimetry.correction
     :members:

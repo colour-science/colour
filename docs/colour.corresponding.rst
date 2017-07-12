@@ -1,5 +1,5 @@
-colour.corresponding Package
-============================
+colour\.corresponding Package
+=============================
 
 Sub-Packages
 ------------

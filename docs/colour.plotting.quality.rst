@@ -1,5 +1,5 @@
-colour.plotting.quality Module
-==============================
+colour\.plotting\.quality Module
+================================
 
 .. automodule:: colour.plotting.quality
     :members:

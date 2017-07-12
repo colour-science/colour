@@ -1,5 +1,5 @@
-colour.colorimetry.blackbody Module
-===================================
+colour\.colorimetry\.blackbody Module
+=====================================
 
 .. automodule:: colour.colorimetry.blackbody
     :members:

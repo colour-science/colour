@@ -1,5 +1,5 @@
-colour.models.rgb.transfer_functions.st_2084 Module
-===================================================
+colour\.models\.rgb\.transfer\_functions\.st\_2084 Module
+=========================================================
 
 .. automodule:: colour.models.rgb.transfer_functions.st_2084
     :members:

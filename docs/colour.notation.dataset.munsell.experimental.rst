@@ -1,5 +1,5 @@
-colour.notation.dataset.munsell.experimental Module
-===================================================
+colour\.notation\.dataset\.munsell\.experimental Module
+=======================================================
 
 .. automodule:: colour.notation.dataset.munsell.experimental
     :members:

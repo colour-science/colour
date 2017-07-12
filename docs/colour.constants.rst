@@ -1,5 +1,5 @@
-colour.constants Package
-========================
+colour\.constants Package
+=========================
 
 Sub-Modules
 -----------

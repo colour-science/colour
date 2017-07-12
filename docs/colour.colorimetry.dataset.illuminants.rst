@@ -1,5 +1,5 @@
-colour.colorimetry.dataset.illuminants Package
-==============================================
+colour\.colorimetry\.dataset\.illuminants Package
+=================================================
 
 Sub-Modules
 -----------

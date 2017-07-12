@@ -65,7 +65,7 @@ __all__ = [
 
 ASTME30815_PRACTISE_SHAPE = DEFAULT_SPECTRAL_SHAPE
 """
-*ASTM E308–15* practise shape: (360, 780, 1).
+*ASTM E308-15* practise shape: (360, 780, 1).
 
 ASTME30815_PRACTISE_SHAPE : SpectralShape
 """

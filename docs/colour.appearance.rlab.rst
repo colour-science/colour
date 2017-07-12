@@ -1,5 +1,5 @@
-colour.appearance.rlab Module
-=============================
+colour\.appearance\.rlab Module
+===============================
 
 .. automodule:: colour.appearance.rlab
     :members:

@@ -1,5 +1,5 @@
-colour.algebra.interpolation Module
-===================================
+colour\.algebra\.interpolation Module
+=====================================
 
 .. automodule:: colour.algebra.interpolation
     :members:

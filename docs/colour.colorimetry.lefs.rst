@@ -1,5 +1,5 @@
-colour.colorimetry.lefs Module
-==============================
+colour\.colorimetry\.lefs Module
+================================
 
 .. automodule:: colour.colorimetry.lefs
     :members:

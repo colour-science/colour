@@ -1,5 +1,5 @@
-colour.colorimetry.dataset.light_sources Package
-================================================
+colour\.colorimetry\.dataset\.light\_sources Package
+====================================================
 
 Sub-Modules
 -----------

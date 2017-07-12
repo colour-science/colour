@@ -1,5 +1,5 @@
-colour.adaptation.dataset Package
-=================================
+colour\.adaptation\.dataset Package
+===================================
 
 Sub-Modules
 -----------

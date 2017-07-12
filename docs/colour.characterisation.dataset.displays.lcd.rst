@@ -1,5 +1,5 @@
-colour.characterisation.dataset.displays.lcd Package
-====================================================
+colour\.characterisation\.dataset\.displays\.lcd Package
+========================================================
 
 Sub-Modules
 -----------

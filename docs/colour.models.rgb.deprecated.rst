@@ -1,5 +1,5 @@
-colour.models.rgb.deprecated Module
-===================================
+colour\.models\.rgb\.deprecated Module
+======================================
 
 .. automodule:: colour.models.rgb.deprecated
     :members:

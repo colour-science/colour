@@ -9,6 +9,7 @@ Sub-Packages
     colour.adaptation
     colour.algebra
     colour.appearance
+    colour.biochemistry
     colour.characterisation
     colour.colorimetry
     colour.constants

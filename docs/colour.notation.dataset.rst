@@ -1,5 +1,5 @@
-colour.notation.dataset Package
-===============================
+colour\.notation\.dataset Package
+=================================
 
 Sub-Packages
 ------------

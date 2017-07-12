@@ -1,5 +1,5 @@
-colour.characterisation.dataset.cameras Package
-===============================================
+colour\.characterisation\.dataset\.cameras Package
+==================================================
 
 Sub-Packages
 ------------

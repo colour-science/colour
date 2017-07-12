@@ -1,5 +1,5 @@
-colour.colorimetry.dominant Module
-==================================
+colour\.colorimetry\.dominant Module
+====================================
 
 .. automodule:: colour.colorimetry.dominant
     :members:

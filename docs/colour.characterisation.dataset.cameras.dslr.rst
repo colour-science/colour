@@ -1,5 +1,5 @@
-colour.characterisation.dataset.cameras.dslr Package
-====================================================
+colour\.characterisation\.dataset\.cameras\.dslr Package
+========================================================
 
 Sub-Modules
 -----------

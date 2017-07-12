@@ -1,5 +1,5 @@
-colour.models.rgb.transfer_functions.linear Module
-==================================================
+colour\.models\.rgb\.transfer\_functions\.linear Module
+=======================================================
 
 .. automodule:: colour.models.rgb.transfer_functions.linear
     :members:

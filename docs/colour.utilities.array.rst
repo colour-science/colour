@@ -1,5 +1,5 @@
-colour.utilities.array Module
-=============================
+colour\.utilities\.array Module
+===============================
 
 .. automodule:: colour.utilities.array
     :members:

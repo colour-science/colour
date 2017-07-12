@@ -1,5 +1,5 @@
-colour.temperature Package
-==========================
+colour\.temperature Package
+===========================
 
 Sub-Modules
 -----------
