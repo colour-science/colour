@@ -228,7 +228,7 @@ def is_iterable(a):
     False
     """
 
-    return is_string(a) or getattr(a, '__iter__', False)
+    return is_string(a) or (True if getattr(a, '__iter__', False) else False)
 
 
 def is_numeric(a):
