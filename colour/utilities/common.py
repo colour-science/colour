@@ -28,8 +28,8 @@ __status__ = 'Production'
 __all__ = [
     'handle_numpy_errors', 'ignore_numpy_errors', 'raise_numpy_errors',
     'print_numpy_errors', 'warn_numpy_errors', 'ignore_python_warnings',
-    'batch', 'is_openimageio_installed', 'is_string', 'is_iterable',
-    'is_numeric', 'is_integer', 'filter_kwargs'
+    'batch', 'is_openimageio_installed', 'is_pandas_installed', 'is_iterable',
+    'is_string', 'is_numeric', 'is_integer', 'filter_kwargs', 'first_item'
 ]
 
 
@@ -181,29 +181,35 @@ def is_openimageio_installed(raise_exception=False):
         return False
 
 
-def is_string(a):
+def is_pandas_installed(raise_exception=False):
     """
-    Returns if given :math:`a` variable is a *string* like variable.
+    Returns if *Pandas* is installed and available.
 
     Parameters
     ----------
-    a : object
-        Data to test.
+    raise_exception : bool
+        Raise exception if *Pandas* is unavailable.
 
     Returns
     -------
     bool
-        Is :math:`a` variable a *string* like variable.
+        Is *Pandas* installed.
 
-    Examples
-    --------
-    >>> is_string('I`m a string!')
-    True
-    >>> is_string(['I`m a string!'])
-    False
+    Raises
+    ------
+    ImportError
+        If *Pandas* is not installed.
     """
 
-    return True if isinstance(a, string_types) else False
+    try:
+        import pandas  # noqa
+
+        return True
+    except ImportError as error:
+        if raise_exception:
+            raise ImportError(('"Pandas" related Api features '
+                               'are not available: "{0}".').format(error))
+        return False
 
 
 def is_iterable(a):
@@ -229,6 +235,31 @@ def is_iterable(a):
     """
 
     return is_string(a) or (True if getattr(a, '__iter__', False) else False)
+
+
+def is_string(a):
+    """
+    Returns if given :math:`a` variable is a *string* like variable.
+
+    Parameters
+    ----------
+    a : object
+        Data to test.
+
+    Returns
+    -------
+    bool
+        Is :math:`a` variable a *string* like variable.
+
+    Examples
+    --------
+    >>> is_string("I'm a string!")
+    True
+    >>> is_string(["I'm a string!"])
+    False
+    """
+
+    return True if isinstance(a, string_types) else False
 
 
 def is_numeric(a):
@@ -341,3 +372,31 @@ def filter_kwargs(function, **kwargs):
         kwargs.pop(key)
 
     return kwargs
+
+
+def first_item(a):
+    """
+    Return the first item of an iterable.
+
+    Parameters
+    ----------
+    a : object
+        Iterable to get the first item from.
+
+    Returns
+    -------
+    object
+
+    Raises
+    ------
+    StopIteration
+        If the iterable is empty.
+
+    Examples
+    --------
+    >>> a = range(10)
+    >>> first_item(a)
+    0
+    """
+
+    return next(iter(a))

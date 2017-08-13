@@ -8,9 +8,10 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 import unittest
+from collections import OrderedDict
 
 from colour.utilities import (batch, is_iterable, is_string, is_numeric,
-                              is_integer, filter_kwargs)
+                              is_integer, filter_kwargs, first_item)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -20,8 +21,8 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'TestBatch', 'TestIsString', 'TestIsIterable', 'TestIsNumeric',
-    'TestIsInteger', 'TestFilterKwargs'
+    'TestBatch', 'TestIsIterable', 'TestIsString', 'TestIsNumeric',
+    'TestIsInteger', 'TestFilterKwargs', 'TestFirstItem'
 ]
 
 
@@ -48,30 +49,6 @@ class TestBatch(unittest.TestCase):
             list(batch(tuple(range(10)), 1)),
             [(0,), (1,), (2,), (3,), (4,),
              (5,), (6,), (7,), (8,), (9,)])  # yapf: disable
-
-
-class TestIsString(unittest.TestCase):
-    """
-    Defines :func:`colour.utilities.common.is_string` definition unit tests
-    methods.
-    """
-
-    def test_is_string(self):
-        """
-        Tests :func:`colour.utilities.common.is_string` definition.
-        """
-
-        self.assertTrue(is_string(str('Hello World!')))
-
-        self.assertTrue(is_string('Hello World!'))
-
-        self.assertTrue(is_string(r'Hello World!'))
-
-        self.assertFalse(is_string(1))
-
-        self.assertFalse(is_string([1]))
-
-        self.assertFalse(is_string({1: None}))
 
 
 class TestIsIterable(unittest.TestCase):
@@ -106,6 +83,30 @@ class TestIsIterable(unittest.TestCase):
         self.assertEqual(len(list(generator)), 10)
 
 
+class TestIsString(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.common.is_string` definition unit tests
+    methods.
+    """
+
+    def test_is_string(self):
+        """
+        Tests :func:`colour.utilities.common.is_string` definition.
+        """
+
+        self.assertTrue(is_string(str('Hello World!')))
+
+        self.assertTrue(is_string('Hello World!'))
+
+        self.assertTrue(is_string(r'Hello World!'))
+
+        self.assertFalse(is_string(1))
+
+        self.assertFalse(is_string([1]))
+
+        self.assertFalse(is_string({1: None}))
+
+
 class TestIsNumeric(unittest.TestCase):
     """
     Defines :func:`colour.utilities.common.is_numeric` definition unit tests
@@ -123,7 +124,7 @@ class TestIsNumeric(unittest.TestCase):
 
         self.assertTrue(is_numeric(complex(1)))
 
-        self.assertFalse(is_numeric((1,)))
+        self.assertFalse(is_numeric((1, )))
 
         self.assertFalse(is_numeric([1]))
 
@@ -185,6 +186,25 @@ class TestFilterKwargs(unittest.TestCase):
 
         self.assertTupleEqual((1, 2, 3),
                               fn_c(1, **filter_kwargs(fn_c, b=2, c=3)))
+
+
+class TestFirstItem(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.common.first_item` definition units
+    tests methods.
+    """
+
+    def test_first_item(self):
+        """
+        Tests :func:`colour.utilities.common.first_item` definition.
+        """
+
+        self.assertEqual(first_item(range(10)), 0)
+
+        dictionary = OrderedDict([(0, 'a'), (1, 'b'), (2, 'c')])
+        self.assertEqual(first_item(dictionary.items()), (0, 'a'))
+
+        self.assertEqual(first_item(dictionary.values()), 'a')
 
 
 if __name__ == '__main__':
