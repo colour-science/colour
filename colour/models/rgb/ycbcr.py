@@ -52,7 +52,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.utilities import CaseInsensitiveMapping, tsplit, tstack
-from colour.models.rgb.transfer_functions import oetf_BT2020, eotf_BT2020
+from colour.models.rgb.transfer_functions import (CV_range, oetf_BT2020,
+                                                  eotf_BT2020)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -62,15 +63,19 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Development'
 
 __all__ = [
-    'YCBCR_WEIGHTS', 'RGB_range', 'YCbCr_ranges', 'RGB_to_YCbCr',
-    'YCbCr_to_RGB', 'RGB_to_YcCbcCrc', 'YcCbcCrc_to_RGB'
+    'YCBCR_WEIGHTS', 'YCbCr_ranges', 'RGB_to_YCbCr', 'YCbCr_to_RGB',
+    'RGB_to_YcCbcCrc', 'YcCbcCrc_to_RGB'
 ]
 
 YCBCR_WEIGHTS = CaseInsensitiveMapping({
-    'Rec. 601': np.array([0.2990, 0.1140]),
-    'Rec. 709': np.array([0.2126, 0.0722]),
-    'Rec. 2020': np.array([0.2627, 0.0593]),
-    'SMPTE-240M': np.array([0.2122, 0.0865])
+    'Rec. 601':
+    np.array([0.2990, 0.1140]),
+    'Rec. 709':
+    np.array([0.2126, 0.0722]),
+    'Rec. 2020':
+    np.array([0.2627, 0.0593]),
+    'SMPTE-240M':
+    np.array([0.2122, 0.0865])
 })
 """
 Luma weightings presets.
@@ -78,47 +83,6 @@ Luma weightings presets.
 YCBCR_WEIGHTS : dict
     **{'Rec. 601', 'Rec. 709', 'Rec. 2020', 'SMPTE-240M}**
 """
-
-
-def RGB_range(bits, is_legal, is_int):
-    """"
-    Returns the *RGB* range array for given bit depth, range legality and
-    representation.
-
-    Parameters
-    ----------
-    bits : int
-        Bit depth of the *RGB* output ranges array.
-    is_legal : bool
-        Whether the *RGB* output ranges array is legal.
-    is_int : bool
-        Whether the *RGB* output ranges array represents integer code values.
-
-    Returns
-    -------
-    ndarray
-        *RGB* ranges array.
-
-    Examples
-    --------
-    >>> RGB_range(8, True, True)
-    array([ 16, 235])
-    >>> RGB_range(8, True, False)  # doctest: +ELLIPSIS
-    array([ 0.0627451...,  0.9215686...])
-    >>> RGB_range(10, False, False)
-    array([ 0.,  1.])
-    """
-
-    if is_legal:
-        ranges = np.array([16, 235])
-        ranges *= 2 ** (bits - 8)
-    else:
-        ranges = np.array([0, 2 ** bits - 1])
-
-    if not is_int:
-        ranges = ranges.astype(np.float_) / (2 ** bits - 1)
-
-    return ranges
 
 
 def YCbCr_ranges(bits, is_legal, is_int):
@@ -153,15 +117,15 @@ def YCbCr_ranges(bits, is_legal, is_int):
 
     if is_legal:
         ranges = np.array([16, 235, 16, 240])
-        ranges *= 2 ** (bits - 8)
+        ranges *= 2**(bits - 8)
     else:
-        ranges = np.array([0, 2 ** bits - 1, 0, 2 ** bits - 1])
+        ranges = np.array([0, 2**bits - 1, 0, 2**bits - 1])
 
     if not is_int:
-        ranges = ranges.astype(np.float_) / (2 ** bits - 1)
+        ranges = ranges.astype(np.float_) / (2**bits - 1)
 
     if is_int and not is_legal:
-        ranges[3] = 2 ** bits
+        ranges[3] = 2**bits
 
     if not is_int and not is_legal:
         ranges[2] = -0.5
@@ -216,7 +180,7 @@ def RGB_to_YCbCr(RGB,
     in_range : array_like, optional
         Array overriding the computed range such as
         `in_range = (RGB_min, RGB_max)`. If `in_range` is undefined, `RGB_min`
-        and `RGB_max` will be computed using :func:`RGB_range` definition.
+        and `RGB_max` will be computed using :func:`CV_range` definition.
     out_range : array_like, optional
         Array overriding the computed range such as
         `out_range = (Y_min, Y_max, C_min, C_max)`. If `out_range` is
@@ -306,7 +270,7 @@ def RGB_to_YCbCr(RGB,
     RGB = np.asarray(RGB)
     Kr, Kb = K
     RGB_min, RGB_max = kwargs.get('in_range',
-                                  RGB_range(in_bits, in_legal, in_int))
+                                  CV_range(in_bits, in_legal, in_int))
     Y_min, Y_max, C_min, C_max = kwargs.get('out_range',
                                             YCbCr_ranges(
                                                 out_bits, out_legal, out_int))
@@ -382,7 +346,7 @@ def YCbCr_to_RGB(YCbCr,
     out_range : array_like, optional
         Array overriding the computed range such as
         `out_range = (RGB_min, RGB_max)`. If `out_range` is undefined,
-        `RGB_min` and `RGB_max` will be computed using :func:`RGB_range`
+        `RGB_min` and `RGB_max` will be computed using :func:`CV_range`
         definition.
 
     Returns
@@ -415,7 +379,7 @@ def YCbCr_to_RGB(YCbCr,
                                             YCbCr_ranges(
                                                 in_bits, in_legal, in_int))
     RGB_min, RGB_max = kwargs.get('out_range',
-                                  RGB_range(out_bits, out_legal, out_int))
+                                  CV_range(out_bits, out_legal, out_int))
 
     Y -= Y_min
     Cb -= (C_max + C_min) / 2
