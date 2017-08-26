@@ -46,6 +46,8 @@ log_encoding_ACESproxy` definition.
 
         self.assertEqual(log_encoding_ACESproxy(0.18), 426)
 
+        self.assertEqual(log_encoding_ACESproxy(0.18, 12), 1705)
+
         self.assertEqual(log_encoding_ACESproxy(1.0), 550)
 
     def test_n_dimensional_log_encoding_ACESproxy(self):
@@ -99,6 +101,9 @@ log_decoding_ACESproxy` definition.
 
         self.assertAlmostEqual(
             log_decoding_ACESproxy(426), 0.179244406001978, places=7)
+
+        self.assertAlmostEqual(
+            log_decoding_ACESproxy(1705, 12), 0.179866697501353, places=7)
 
         self.assertAlmostEqual(log_decoding_ACESproxy(550), 1.0, places=7)
 
