@@ -17,6 +17,23 @@ References
 ----------
 .. [1]  Munsell Color Science. (n.d.). Munsell Colours Data. Retrieved August
         20, 2014, from http://www.cis.rit.edu/research/mcsl2/online/munsell.php
+
+Notes
+-----
+-   The Munsell Renotation data commonly available within the all.dat,
+    experimental.dat and real.dat files features *CIE xyY* colourspace values
+    that are scaled by a :math:`1 / 0.975 \simeq 1.02568` factor. If you are
+    performing conversions using *Munsell* *Colorlab* specification,
+    e.g. *2.5R 9/2*, accordingly *ASTM D1535-08e1* method, you should not scale
+    the output :math:`Y` Luminance. However, if you use directly the *CIE xyY*
+    colourspace values from the Munsell Renotation data data, you should scale
+    the :math:`Y` Luminance before conversions by a :math:`0.975` factor.
+    *ASTM D1535-08e1* states that::
+
+        The coefficients of this equation are obtained from the 1943 equation
+        by multiplying each coefficient by 0.975, the reflectance factor of
+        magnesium oxide with respect to the perfect reflecting diffuser, and
+        rounding to ﬁve digits of precision.
 """
 
 from __future__ import division, unicode_literals
