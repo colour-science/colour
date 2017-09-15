@@ -4,7 +4,7 @@
 Common Transfer Functions Utilities
 ===================================
 
-Defines various Transfer Functions common utilities.
+Defines various transfer functions common utilities.
 
 See Also
 --------
@@ -24,21 +24,21 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['CV_range', 'CV_to_IRE', 'IRE_to_CV']
+__all__ = ['CV_range', 'legal_to_full', 'full_to_legal']
 
 
-def CV_range(bit_depth, is_legal, is_int):
+def CV_range(bit_depth=10, is_legal=False, is_int=False):
     """"
     Returns the code value :math:`CV` range for given bit depth, range legality
     and representation.
 
     Parameters
     ----------
-    bit_depth : int
+    bit_depth : int, optional
         Bit depth of the code value :math:`CV` range.
-    is_legal : bool
+    is_legal : bool, optional
         Whether the code value :math:`CV` range is legal.
-    is_int : bool
+    is_int : bool, optional
         Whether the code value :math:`CV` range represents integer code values.
 
     Returns
@@ -68,69 +68,119 @@ def CV_range(bit_depth, is_legal, is_int):
     return ranges
 
 
-def CV_to_IRE(CV, bit_depth, is_legal):
+def legal_to_full(CV, bit_depth=10, in_int=False, out_int=False):
     """
-    Converts from code values :math:`CV` to :math:`IRE`
-    (Institute of Radio Engineers).
+    Converts given code value :math:`CV` or float equivalent of a code value at
+    a given bit depth from legal range (studio swing) to full range
+    (full swing).
 
     Parameters
     ----------
     CV : array_like
-        Code values :math:`CV`.
-    bit_depth : int
+        Legal range code value :math:`CV` or float equivalent of a code value
+        at a given bit depth.
+    bit_depth : int, optional
         Bit depth used for conversion.
-    is_legal : bool
-        Whether the code value :math:`CV` range is legal.
+    in_int : bool, optional
+        Whether to treat the input value as integer code value or float
+        equivalent of a code value at a given bit depth.
+    out_int : bool, optional
+        Whether to return value as integer code value or float equivalent of a
+        code value at a given bit depth.
 
     Returns
     -------
     ndarray
-        :math:`IRE`.
+        Full range code value :math:`CV` or float equivalent of a code value
+        at a given bit depth.
 
     Examples
     --------
-    >>> CV_to_IRE(390, 10, True)  # doctest: +ELLIPSIS
-    37.2146118...
-    >>> CV_to_IRE(390, 10, False)  # doctest: +ELLIPSIS
-    38.1231671...
+    >>> legal_to_full(64 / 1023)
+    0.0
+    >>> legal_to_full(940 / 1023)
+    1.0
+    >>> legal_to_full(64 / 1023, out_int=True)
+    0
+    >>> legal_to_full(940 / 1023, out_int=True)
+    1023
+    >>> legal_to_full(64, in_int=True)
+    0.0
+    >>> legal_to_full(940, in_int=True)
+    1.0
+    >>> legal_to_full(64, in_int=True, out_int=True)
+    0
+    >>> legal_to_full(940, in_int=True, out_int=True)
+    1023
     """
 
     CV = np.asarray(CV)
 
-    B, W = CV_range(bit_depth, is_legal, True)
+    MV = 2 ** bit_depth - 1
 
-    return (CV - B) / (W - B) * 100
+    CV = np.round(CV).astype(np.int_) if in_int else CV * MV
+
+    B, W = CV_range(bit_depth, True, True)
+
+    CV = (CV - B) / (W - B)
+
+    return np.round(CV * MV).astype(np.int_) if out_int else CV
 
 
-def IRE_to_CV(IRE, bit_depth, is_legal):
+def full_to_legal(CV, bit_depth=10, in_int=False, out_int=False):
     """
-    Converts from :math:`IRE` (Institute of Radio Engineers) to code values
-    :math:`CV`.
+    Converts given code value :math:`CV` or float equivalent of a code value at
+    a given bit depth from full range (full swing) to legal range
+    (studio swing).
 
     Parameters
     ----------
-    IRE : array_like
-        :math:`IRE`.
-    bit_depth : int
+    CV : array_like
+        Full range code value :math:`CV` or float equivalent of a code value at
+        a given bit depth.
+    bit_depth : int, optional
         Bit depth used for conversion.
-    is_legal : bool
-        Whether the code value :math:`CV` range is legal.
+    in_int : bool, optional
+        Whether to treat the input value as integer code value or float
+        equivalent of a code value at a given bit depth.
+    out_int : bool, optional
+        Whether to return value as integer code value or float equivalent of a
+        code value at a given bit depth.
 
     Returns
     -------
     ndarray
-        Code values :math:`CV`.
+        Legal range code value :math:`CV` or float equivalent of a code value
+        at a given bit depth.
 
     Examples
     --------
-    >>> IRE_to_CV(37.214611872146122, 10, True)  # doctest: +ELLIPSIS
-    390...
-    >>> IRE_to_CV(38.123167155425222, 10, False)  # doctest: +ELLIPSIS
-    390...
+    >>> full_to_legal(0.0)  # doctest: +ELLIPSIS
+    0.0625610...
+    >>> full_to_legal(1.0)  # doctest: +ELLIPSIS
+    0.9188660...
+    >>> full_to_legal(0.0, out_int=True)
+    64
+    >>> full_to_legal(1.0, out_int=True)
+    940
+    >>> full_to_legal(0, in_int=True)  # doctest: +ELLIPSIS
+    0.0625610...
+    >>> full_to_legal(1023, in_int=True)  # doctest: +ELLIPSIS
+    0.9188660...
+    >>> full_to_legal(0, in_int=True, out_int=True)
+    64
+    >>> full_to_legal(1023, in_int=True, out_int=True)
+    940
     """
 
-    IRE = np.asarray(IRE)
+    CV = np.asarray(CV)
 
-    B, W = CV_range(bit_depth, is_legal, True)
+    MV = 2 ** bit_depth - 1
 
-    return (W - B) * IRE / 100 + B
+    CV = np.round(CV / MV).astype(np.int_) if in_int else CV
+
+    B, W = CV_range(bit_depth, True, True)
+
+    CV = (W - B) * CV + B
+
+    return np.round(CV).astype(np.int_) if out_int else CV / MV

@@ -5,7 +5,7 @@ from __future__ import absolute_import
 
 from colour.utilities import CaseInsensitiveMapping, filter_kwargs
 
-from .common import CV_range, CV_to_IRE, IRE_to_CV
+from .common import CV_range, legal_to_full, full_to_legal
 from .aces import (log_encoding_ACESproxy, log_decoding_ACESproxy,
                    log_encoding_ACEScc, log_decoding_ACEScc,
                    log_encoding_ACEScct, log_decoding_ACEScct)
@@ -40,7 +40,7 @@ from .sony_slog import (log_encoding_SLog, log_decoding_SLog,
 from .st_2084 import oetf_ST2084, eotf_ST2084
 from .viper_log import log_encoding_ViperLog, log_decoding_ViperLog
 
-__all__ = ['CV_range', 'CV_to_IRE', 'IRE_to_CV']
+__all__ = ['CV_range', 'legal_to_full', 'full_to_legal']
 __all__ += [
     'log_encoding_ACESproxy', 'log_decoding_ACESproxy', 'log_encoding_ACEScc',
     'log_decoding_ACEScc', 'log_encoding_ACEScct', 'log_decoding_ACEScct'

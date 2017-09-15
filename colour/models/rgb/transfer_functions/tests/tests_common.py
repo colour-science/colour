@@ -10,7 +10,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.models.rgb.transfer_functions import CV_range, CV_to_IRE, IRE_to_CV
+from colour.models.rgb.transfer_functions import CV_range, legal_to_full, \
+    full_to_legal
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -20,7 +21,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Development'
 
-__all__ = ['TestCV_range', 'TestCV_to_IRE', 'TestIRE_to_CV']
+__all__ = ['TestCV_range', 'TestLegalToFull', 'TestFullToLegal']
 
 
 class TestCV_range(unittest.TestCase):
@@ -64,114 +65,136 @@ class TestCV_range(unittest.TestCase):
             CV_range(10, False, False), np.array([0, 1]))
 
 
-class TestCV_to_IRE(unittest.TestCase):
+class TestLegalToFull(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.common.CV_to_IRE`
+    Defines :func:`colour.models.rgb.transfer_functions.common.legal_to_full`
     definition unit tests methods.
     """
 
-    def test_CV_to_IRE(self):
+    def test_legal_to_full(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.common.CV_to_IRE`
+        Tests :func:`colour.models.rgb.transfer_functions.common.legal_to_full`
         definition.
         """
 
-        self.assertAlmostEqual(CV_to_IRE(64, 10, True), 0.0, places=7)
+        self.assertAlmostEqual(legal_to_full(64 / 1023), 0.0)
+
+        self.assertAlmostEqual(legal_to_full(940 / 1023), 1.0)
+
+        self.assertAlmostEqual(legal_to_full(64 / 1023, out_int=True), 0)
+
+        self.assertAlmostEqual(legal_to_full(940 / 1023, out_int=True), 1023)
+
+        self.assertAlmostEqual(legal_to_full(64, in_int=True), 0.0)
+
+        self.assertAlmostEqual(legal_to_full(940, in_int=True), 1.0)
+
+        self.assertAlmostEqual(legal_to_full(64, in_int=True, out_int=True), 0)
 
         self.assertAlmostEqual(
-            CV_to_IRE(394, 10, True), 37.671232876712331, places=7)
+            legal_to_full(940, in_int=True, out_int=True), 1023)
 
-        self.assertAlmostEqual(
-            CV_to_IRE(394, 12, False), 9.6214896214896228, places=7)
-
-        self.assertAlmostEqual(CV_to_IRE(940, 10, True), 100.0, places=7)
-
-    def test_n_dimensional_CV_to_IRE(self):
+    def test_n_dimensional_legal_to_full(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.common.CV_to_IRE`
+        Tests :func:`colour.models.rgb.transfer_functions.common.legal_to_full`
         definition n-dimensional arrays support.
         """
 
-        CV = 394
-        IRE = 37.671232876712331
-        np.testing.assert_almost_equal(CV_to_IRE(CV, 10, True), IRE, decimal=7)
+        CV_l = 0.918866080156403
+        CV_f = 1.0
+        np.testing.assert_almost_equal(
+            legal_to_full(CV_l, 10), CV_f, decimal=7)
 
-        CV = np.tile(CV, 6)
-        IRE = np.tile(IRE, 6)
-        np.testing.assert_almost_equal(CV_to_IRE(CV, 10, True), IRE, decimal=7)
+        CV_l = np.tile(CV_l, 6)
+        CV_f = np.tile(CV_f, 6)
+        np.testing.assert_almost_equal(
+            legal_to_full(CV_l, 10), CV_f, decimal=7)
 
-        CV = np.reshape(CV, (2, 3))
-        IRE = np.reshape(IRE, (2, 3))
-        np.testing.assert_almost_equal(CV_to_IRE(CV, 10, True), IRE, decimal=7)
+        CV_l = np.reshape(CV_l, (2, 3))
+        CV_f = np.reshape(CV_f, (2, 3))
+        np.testing.assert_almost_equal(
+            legal_to_full(CV_l, 10), CV_f, decimal=7)
 
-        CV = np.reshape(CV, (2, 3, 1))
-        IRE = np.reshape(IRE, (2, 3, 1))
-        np.testing.assert_almost_equal(CV_to_IRE(CV, 10, True), IRE, decimal=7)
+        CV_l = np.reshape(CV_l, (2, 3, 1))
+        CV_f = np.reshape(CV_f, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            legal_to_full(CV_l, 10), CV_f, decimal=7)
 
     @ignore_numpy_errors
-    def test_nan_CV_to_IRE(self):
+    def test_nan_legal_to_full(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.common.CV_to_IRE`
+        Tests :func:`colour.models.rgb.transfer_functions.common.legal_to_full`
         definition nan support.
         """
 
-        CV_to_IRE(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]), 10, True)
+        legal_to_full(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]), 10)
 
 
-class TestIRE_to_CV(unittest.TestCase):
+class TestFullToLegal(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.common.IRE_to_CV`
+    Defines :func:`colour.models.rgb.transfer_functions.common.full_to_legal`
     definition unit tests methods.
     """
 
-    def test_IRE_to_CV(self):
+    def test_full_to_legal(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.common.IRE_to_CV`
+        Tests :func:`colour.models.rgb.transfer_functions.common.full_to_legal`
         definition.
         """
 
-        self.assertAlmostEqual(IRE_to_CV(0.0, 10, True), 64, places=7)
+        self.assertAlmostEqual(full_to_legal(0.0), 0.062561094819159)
+
+        self.assertAlmostEqual(full_to_legal(1.0), 0.918866080156403)
+
+        self.assertAlmostEqual(full_to_legal(0.0, out_int=True), 64)
+
+        self.assertAlmostEqual(full_to_legal(1.0, out_int=True), 940)
 
         self.assertAlmostEqual(
-            IRE_to_CV(37.671232876712331, 10, True), 394, places=7)
+            full_to_legal(0, in_int=True), 0.062561094819159)
 
         self.assertAlmostEqual(
-            IRE_to_CV(9.6214896214896228, 12, False), 394, places=7)
+            full_to_legal(1023, in_int=True), 0.918866080156403)
 
-        self.assertAlmostEqual(IRE_to_CV(100.0, 10, True), 940, places=7)
+        self.assertAlmostEqual(full_to_legal(0, in_int=True, out_int=True), 64)
 
-    def test_n_dimensional_IRE_to_CV(self):
+        self.assertAlmostEqual(
+            full_to_legal(1023, in_int=True, out_int=True), 940)
+
+    def test_n_dimensional_full_to_legal(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.common.IRE_to_CV`
+        Tests :func:`colour.models.rgb.transfer_functions.common.full_to_legal`
         definition n-dimensional arrays support.
         """
 
-        IRE = 37.671232876712331
-        CV = 394
-        np.testing.assert_almost_equal(IRE_to_CV(IRE, 10, True), CV, decimal=7)
+        CF_f = 1.0
+        CV_l = 0.918866080156403
+        np.testing.assert_almost_equal(
+            full_to_legal(CF_f, 10), CV_l, decimal=7)
 
-        IRE = np.tile(IRE, 6)
-        CV = np.tile(CV, 6)
-        np.testing.assert_almost_equal(IRE_to_CV(IRE, 10, True), CV, decimal=7)
+        CF_f = np.tile(CF_f, 6)
+        CV_l = np.tile(CV_l, 6)
+        np.testing.assert_almost_equal(
+            full_to_legal(CF_f, 10), CV_l, decimal=7)
 
-        IRE = np.reshape(IRE, (2, 3))
-        CV = np.reshape(CV, (2, 3))
-        np.testing.assert_almost_equal(IRE_to_CV(IRE, 10, True), CV, decimal=7)
+        CF_f = np.reshape(CF_f, (2, 3))
+        CV_l = np.reshape(CV_l, (2, 3))
+        np.testing.assert_almost_equal(
+            full_to_legal(CF_f, 10), CV_l, decimal=7)
 
-        IRE = np.reshape(IRE, (2, 3, 1))
-        CV = np.reshape(CV, (2, 3, 1))
-        np.testing.assert_almost_equal(IRE_to_CV(IRE, 10, True), CV, decimal=7)
+        CF_f = np.reshape(CF_f, (2, 3, 1))
+        CV_l = np.reshape(CV_l, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            full_to_legal(CF_f, 10), CV_l, decimal=7)
 
     @ignore_numpy_errors
-    def test_nan_IRE_to_CV(self):
+    def test_nan_full_to_legal(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.common.IRE_to_CV`
+        Tests :func:`colour.models.rgb.transfer_functions.common.full_to_legal`
         definition nan support.
         """
 
-        IRE_to_CV(
-            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]), 10, True)
+        full_to_legal(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]), 10)
 
 
 if __name__ == '__main__':

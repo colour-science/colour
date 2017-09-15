@@ -35,7 +35,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 from colour.utilities import as_numeric
-from colour.models.rgb.transfer_functions import IRE_to_CV, CV_to_IRE
+from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -75,6 +75,10 @@ def log_encoding_SLog(x, bit_depth=10, out_legal=False, in_reflection=True):
     --------
     >>> log_encoding_SLog(0.18)  # doctest: +ELLIPSIS
     0.3765127...
+    >>> log_encoding_SLog(0.18, out_legal=True)  # doctest: +ELLIPSIS
+    0.3849708...
+    >>> log_encoding_SLog(0.18, in_reflection=False)  # doctest: +ELLIPSIS
+    0.3599878...
     """
 
     x = np.asarray(x)
@@ -86,7 +90,7 @@ def log_encoding_SLog(x, bit_depth=10, out_legal=False, in_reflection=True):
                  ((0.432699 * np.log10(x + 0.037584) + 0.616596) + 0.03),
                  x * 5 + 0.030001222851889303)
 
-    y = IRE_to_CV(y * 100, bit_depth, out_legal) / (2 ** bit_depth - 1)
+    y = full_to_legal(y, bit_depth) if out_legal else y
 
     return as_numeric(y)
 
@@ -116,11 +120,17 @@ def log_decoding_SLog(y, bit_depth=10, in_legal=False, out_reflection=True):
     --------
     >>> log_decoding_SLog(0.37651272225459997)  # doctest: +ELLIPSIS
     0.1...
+    >>> log_decoding_SLog(
+    ...     0.38497081592867027, in_legal=True)  # doctest: +ELLIPSIS
+    0.1...
+    >>> log_decoding_SLog(
+    ...     0.35998784642215442, out_reflection=True)  # doctest: +ELLIPSIS
+    0.1...
     """
 
     y = np.asarray(y)
 
-    x = CV_to_IRE(y * (2 ** bit_depth - 1), bit_depth, in_legal) / 100
+    x = legal_to_full(y, bit_depth) if in_legal else y
 
     x = np.where(y >= log_encoding_SLog(0.0, bit_depth, in_legal),
                  10 ** ((x - 0.616596 - 0.03) / 0.432699) - 0.037584,
