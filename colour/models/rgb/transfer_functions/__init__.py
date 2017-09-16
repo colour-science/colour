@@ -164,7 +164,7 @@ def log_encoding_curve(value, curve='Cineon', **kwargs):
         Alexa firmware version.
     in_reflection : bool, optional
         {:func:`log_encoding_SLog`, :func:`log_encoding_SLog2`},
-        Whether the :math:`IRE` in Scene-Linear space are reflection.
+        Whether the light level :math:`x` to a camera is reflection.
     linear_reference : numeric or array_like
         {:func:`log_encoding_PivotedLog`},
         Linear reference.
@@ -173,7 +173,8 @@ def log_encoding_curve(value, curve='Cineon', **kwargs):
         Log reference.
     out_legal : bool, optional
         {:func:`log_encoding_SLog`, :func:`log_encoding_SLog2`},
-        Whether the :math`IRE` in S-Log or S-Log2 space are legal.
+        Whether the non-linear *Sony S-Log* or *Sony S-Log2* data :math:`y` is
+        encoded in legal range.
     negative_gamma : numeric or array_like
         {:func:`log_encoding_PivotedLog`},
         Negative gamma.
@@ -197,7 +198,7 @@ def log_encoding_curve(value, curve='Cineon', **kwargs):
     ...     0.18, curve='PLog', log_reference=400)
     0.3910068...
     >>> log_encoding_curve(0.18, curve='S-Log')  # doctest: +ELLIPSIS
-    0.3765127...
+    0.3849708...
     """
 
     function = LOG_ENCODING_CURVES[curve]
@@ -289,7 +290,8 @@ def log_decoding_curve(value, curve='Cineon', **kwargs):
         Alexa firmware version.
     in_legal : bool, optional
         {:func:`log_decoding_SLog`, :func:`log_decoding_SLog2`},
-        Whether the :math`IRE` in S-Log or S-Log2 space are legal.
+        Whether the non-linear *Sony S-Log* or *Sony S-Log2* data :math:`y` is
+        encoded in legal range.
     linear_reference : numeric or array_like
         {:func:`log_decoding_PivotedLog`},
         Linear reference.
@@ -301,7 +303,7 @@ def log_decoding_curve(value, curve='Cineon', **kwargs):
         Negative gamma.
     out_reflection : bool, optional
         {:func:`log_decoding_SLog`, :func:`log_decoding_SLog2`},
-        Whether the :math:`IRE` in Scene-Linear space are reflection.
+        Whether the light level :math:`x` to a camera is reflection.
     method : unicode, optional
         {:func:`log_decoding_ALEXALogC`},
         **{'Linear Scene Exposure Factor', 'Normalised Sensor Signal'}**,
