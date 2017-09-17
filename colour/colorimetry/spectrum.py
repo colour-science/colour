@@ -3170,10 +3170,6 @@ class TriSpectralPowerDistribution(object):
         -----
         -   Reimplements the :meth:`object.__add__` method.
 
-        Warning
-        -------
-        The addition operation happens in place.
-
         Examples
         --------
         Adding a single *numeric* variable:
@@ -3265,10 +3261,6 @@ class TriSpectralPowerDistribution(object):
         Notes
         -----
         -   Reimplements the :meth:`object.__sub__` method.
-
-        Warning
-        -------
-        The subtraction operation happens in place.
 
         Examples
         --------
@@ -3362,10 +3354,6 @@ class TriSpectralPowerDistribution(object):
         -----
         -   Reimplements the :meth:`object.__mul__` method.
 
-        Warning
-        -------
-        The multiplication operation happens in place.
-
         Examples
         --------
         Multiplying a single *numeric* variable:
@@ -3457,10 +3445,6 @@ class TriSpectralPowerDistribution(object):
         Notes
         -----
         -   Reimplements the :meth:`object.__mul__` method.
-
-        Warning
-        -------
-        The division operation happens in place.
 
         Examples
         --------
@@ -3557,10 +3541,6 @@ class TriSpectralPowerDistribution(object):
         Notes
         -----
         -   Reimplements the :meth:`object.__pow__` method.
-
-        Warning
-        -------
-        The power operation happens in place.
 
         Examples
         --------

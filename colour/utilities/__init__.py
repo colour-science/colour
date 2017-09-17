@@ -6,7 +6,7 @@ from __future__ import absolute_import
 from .common import (handle_numpy_errors, ignore_numpy_errors,
                      raise_numpy_errors, print_numpy_errors, warn_numpy_errors,
                      ignore_python_warnings, batch, is_openimageio_installed,
-                     is_iterable, is_string, is_numeric, is_integer,
+                     is_string, is_iterable, is_numeric, is_integer,
                      filter_kwargs)
 from .array import (as_numeric, as_namedtuple, closest, normalise_maximum,
                     interval, is_uniform, in_array, tstack, tsplit,
@@ -19,7 +19,7 @@ from .verbose import ColourWarning, message_box, warning, filter_warnings
 __all__ = [
     'handle_numpy_errors', 'ignore_numpy_errors', 'raise_numpy_errors',
     'print_numpy_errors', 'warn_numpy_errors', 'ignore_python_warnings',
-    'batch', 'is_openimageio_installed', 'is_iterable', 'is_string',
+    'batch', 'is_openimageio_installed', 'is_string', 'is_iterable',
     'is_numeric', 'is_integer', 'filter_kwargs'
 ]
 __all__ += [

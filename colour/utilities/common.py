@@ -9,11 +9,11 @@ Defines common utilities objects that don't fall in any specific category.
 
 from __future__ import division, unicode_literals
 
-from copy import deepcopy
 import functools
 import numpy as np
 import sys
 import warnings
+from copy import deepcopy
 from six import string_types
 
 from colour.constants import INTEGER_THRESHOLD
@@ -28,7 +28,7 @@ __status__ = 'Production'
 __all__ = [
     'handle_numpy_errors', 'ignore_numpy_errors', 'raise_numpy_errors',
     'print_numpy_errors', 'warn_numpy_errors', 'ignore_python_warnings',
-    'batch', 'is_openimageio_installed', 'is_iterable', 'is_string',
+    'batch', 'is_openimageio_installed', 'is_string', 'is_iterable',
     'is_numeric', 'is_integer', 'filter_kwargs'
 ]
 
@@ -181,36 +181,6 @@ def is_openimageio_installed(raise_exception=False):
         return False
 
 
-def is_iterable(a):
-    """
-    Returns if given :math:`a` variable is iterable.
-
-    Parameters
-    ----------
-    a : object
-        Variable to check the iterability.
-
-    Returns
-    -------
-    bool
-        :math:`a` variable iterability.
-
-    Examples
-    --------
-    >>> is_iterable([1, 2, 3])
-    True
-    >>> is_iterable(1)
-    False
-    """
-
-    try:
-        for _ in a:
-            break
-        return True
-    except TypeError:
-        return False
-
-
 def is_string(a):
     """
     Returns if given :math:`a` variable is a *string* like variable.
@@ -234,6 +204,31 @@ def is_string(a):
     """
 
     return True if isinstance(a, string_types) else False
+
+
+def is_iterable(a):
+    """
+    Returns if given :math:`a` variable is iterable.
+
+    Parameters
+    ----------
+    a : object
+        Variable to check the iterability.
+
+    Returns
+    -------
+    bool
+        :math:`a` variable iterability.
+
+    Examples
+    --------
+    >>> is_iterable([1, 2, 3])
+    True
+    >>> is_iterable(1)
+    False
+    """
+
+    return is_string(a) or (True if getattr(a, '__iter__', False) else False)
 
 
 def is_numeric(a):

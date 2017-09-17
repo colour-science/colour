@@ -20,7 +20,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'TestBatch', 'TestIsIterable', 'TestIsString', 'TestIsNumeric',
+    'TestBatch', 'TestIsString', 'TestIsIterable', 'TestIsNumeric',
     'TestIsInteger', 'TestFilterKwargs'
 ]
 
@@ -50,32 +50,6 @@ class TestBatch(unittest.TestCase):
              (5,), (6,), (7,), (8,), (9,)])  # yapf: disable
 
 
-class TestIsIterable(unittest.TestCase):
-    """
-    Defines :func:`colour.utilities.common.is_iterable` definition unit tests
-    methods.
-    """
-
-    def test_is_iterable(self):
-        """
-        Tests :func:`colour.utilities.common.is_iterable` definition.
-        """
-
-        self.assertTrue(is_iterable(''))
-
-        self.assertTrue(is_iterable(()))
-
-        self.assertTrue(is_iterable([]))
-
-        self.assertTrue(is_iterable(dict()))
-
-        self.assertTrue(is_iterable(np.array([])))
-
-        self.assertFalse(is_iterable(1))
-
-        self.assertFalse(is_iterable(2))
-
-
 class TestIsString(unittest.TestCase):
     """
     Defines :func:`colour.utilities.common.is_string` definition unit tests
@@ -100,6 +74,38 @@ class TestIsString(unittest.TestCase):
         self.assertFalse(is_string({1: None}))
 
 
+class TestIsIterable(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.common.is_iterable` definition unit tests
+    methods.
+    """
+
+    def test_is_iterable(self):
+        """
+        Tests :func:`colour.utilities.common.is_iterable` definition.
+        """
+
+        self.assertTrue(is_iterable(''))
+
+        self.assertTrue(is_iterable(()))
+
+        self.assertTrue(is_iterable([]))
+
+        self.assertTrue(is_iterable(dict()))
+
+        self.assertTrue(is_iterable(set()))
+
+        self.assertTrue(is_iterable(np.array([])))
+
+        self.assertFalse(is_iterable(1))
+
+        self.assertFalse(is_iterable(2))
+
+        generator = (a for a in range(10))
+        self.assertTrue(is_iterable(generator))
+        self.assertEqual(len(list(generator)), 10)
+
+
 class TestIsNumeric(unittest.TestCase):
     """
     Defines :func:`colour.utilities.common.is_numeric` definition unit tests
@@ -117,7 +123,7 @@ class TestIsNumeric(unittest.TestCase):
 
         self.assertTrue(is_numeric(complex(1)))
 
-        self.assertFalse(is_numeric((1, )))
+        self.assertFalse(is_numeric((1,)))
 
         self.assertFalse(is_numeric([1]))
 

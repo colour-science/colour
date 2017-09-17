@@ -13,7 +13,7 @@ See Also
 --------
 `hdr-IPT Colourspace Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/hdr_IPT.ipynb>`_
+blob/master/notebooks/models/hdr_ipt.ipynb>`_
 
 References
 ----------
