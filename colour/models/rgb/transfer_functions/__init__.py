@@ -172,9 +172,10 @@ def log_encoding_curve(value, curve='Cineon', **kwargs):
         {:func:`log_encoding_PivotedLog`},
         Log reference.
     out_legal : bool, optional
-        {:func:`log_encoding_SLog`, :func:`log_encoding_SLog2`},
-        Whether the non-linear *Sony S-Log* or *Sony S-Log2* data :math:`y` is
-        encoded in legal range.
+        {:func:`log_encoding_SLog`, :func:`log_encoding_SLog2`,
+        :func:`log_encoding_SLog3`},
+        Whether the non-linear *Sony S-Log*, *Sony S-Log2* or *Sony S-Log3*
+        data :math:`y` is encoded in legal range.
     negative_gamma : numeric or array_like
         {:func:`log_encoding_PivotedLog`},
         Negative gamma.
@@ -289,9 +290,10 @@ def log_decoding_curve(value, curve='Cineon', **kwargs):
         **{'SUP 3.x', 'SUP 2.x'}**,
         Alexa firmware version.
     in_legal : bool, optional
-        {:func:`log_decoding_SLog`, :func:`log_decoding_SLog2`},
-        Whether the non-linear *Sony S-Log* or *Sony S-Log2* data :math:`y` is
-        encoded in legal range.
+        {:func:`log_decoding_SLog`, :func:`log_decoding_SLog2`,
+        :func:`log_decoding_SLog3`},
+        Whether the non-linear *Sony S-Log*, *Sony S-Log2* or *Sony S-Log3*
+        data :math:`y` is encoded in legal range.
     linear_reference : numeric or array_like
         {:func:`log_decoding_PivotedLog`},
         Linear reference.

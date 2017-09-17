@@ -222,7 +222,7 @@ def log_decoding_SLog2(y, bit_depth=10, in_legal=True, out_reflection=True):
                                    out_reflection) / 155
 
 
-def log_encoding_SLog3(x):
+def log_encoding_SLog3(x, bit_depth=10, out_legal=True, in_reflection=True):
     """
     Defines the *Sony S-Log3* log encoding curve / opto-electronic transfer
     function.
@@ -230,29 +230,46 @@ def log_encoding_SLog3(x):
     Parameters
     ----------
     x : numeric or array_like
-        :math:`IRE` in Scene-Linear space.
+        Reflection or :math:`IRE / 100` input light level :math:`x` to a
+        camera.
+    bit_depth : int, optional
+        Bit depth used for conversion.
+    out_legal : bool, optional
+        Whether the non-linear *Sony S-Log3* data :math:`y` is encoded in legal
+        range.
+    in_reflection : bool, optional
+        Whether the light level :math:`x` to a camera is reflection.
 
     Returns
     -------
     numeric or ndarray
-        :math`IRE` in S-Log3 space.
+        Non-linear *Sony S-Log3* data :math:`y`.
 
     Examples
     --------
     >>> log_encoding_SLog3(0.18)  # doctest: +ELLIPSIS
     0.4105571...
+    >>> log_encoding_SLog3(0.18, out_legal=False)  # doctest: +ELLIPSIS
+    0.4063926...
+    >>> log_encoding_SLog3(0.18, in_reflection=False)  # doctest: +ELLIPSIS
+    0.3995079...
     """
 
     x = np.asarray(x)
+
+    if not in_reflection:
+        x = x * 0.9
 
     y = np.where(x >= 0.01125000, (420 + np.log10(
         (x + 0.01) / (0.18 + 0.01)) * 261.5) / 1023,
                  (x * (171.2102946929 - 95) / 0.01125000 + 95) / 1023)
 
+    y = y if out_legal else legal_to_full(y, bit_depth)
+
     return as_numeric(y)
 
 
-def log_decoding_SLog3(y):
+def log_decoding_SLog3(y, bit_depth=10, in_legal=True, out_reflection=True):
     """
     Defines the *Sony S-Log3* log decoding curve / electro-optical transfer
     function.
@@ -260,23 +277,42 @@ def log_decoding_SLog3(y):
     Parameters
     ----------
     y : numeric or array_like
-        :math`IRE` in S-Log3 space.
+        Non-linear *Sony S-Log3* data :math:`y`.
+    bit_depth : int, optional
+        Bit depth used for conversion.
+    in_legal : bool, optional
+        Whether the non-linear *Sony S-Log3* data :math:`y` is encoded in legal
+        range.
+    out_reflection : bool, optional
+        Whether the light level :math:`x` to a camera is reflection.
 
     Returns
     -------
     numeric or ndarray
-        :math:`IRE` in Scene-Linear space.
+        Reflection or :math:`IRE / 100` input light level :math:`x` to a
+        camera.
 
     Examples
     --------
     >>> log_decoding_SLog3(0.410557184750733)  # doctest: +ELLIPSIS
     0.1...
+    >>> log_decoding_SLog3(
+    ...     0.406392694063927, in_legal=False)  # doctest: +ELLIPSIS
+    0.1...
+    >>> log_decoding_SLog3(
+    ...     0.399507939606216, out_reflection=False)  # doctest: +ELLIPSIS
+    0.1...
     """
 
     y = np.asarray(y)
 
+    y = y if in_legal else full_to_legal(y, bit_depth)
+
     x = np.where(y >= 171.2102946929 / 1023,
                  ((10 ** ((y * 1023 - 420) / 261.5)) * (0.18 + 0.01) - 0.01),
                  (y * 1023 - 95) * 0.01125000 / (171.2102946929 - 95))
+
+    if not out_reflection:
+        x = x / 0.9
 
     return as_numeric(x)

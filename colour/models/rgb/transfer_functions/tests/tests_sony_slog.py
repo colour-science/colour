@@ -301,13 +301,24 @@ log_encoding_SLog3` definition.
         """
 
         self.assertAlmostEqual(
-            log_encoding_SLog3(0.0), 0.092864125122189639, places=7)
+            log_encoding_SLog3(0.0), 0.092864125122190, places=7)
 
         self.assertAlmostEqual(
-            log_encoding_SLog3(0.18), 0.41055718475073316, places=7)
+            log_encoding_SLog3(0.18), 0.41055718475073, places=7)
 
         self.assertAlmostEqual(
-            log_encoding_SLog3(1.0), 0.59602734369012345, places=7)
+            log_encoding_SLog3(0.18, 12), 0.410557184750733, places=7)
+
+        self.assertAlmostEqual(
+            log_encoding_SLog3(0.18, 10, False), 0.406392694063927, places=7)
+
+        self.assertAlmostEqual(
+            log_encoding_SLog3(0.18, 10, False, False),
+            0.393489294768447,
+            places=7)
+
+        self.assertAlmostEqual(
+            log_encoding_SLog3(1.0), 0.596027343690123, places=7)
 
     def test_n_dimensional_log_encoding_SLog3(self):
         """
@@ -316,7 +327,7 @@ log_encoding_SLog3` definition n-dimensional arrays support.
         """
 
         L = 0.18
-        V = 0.41055718475073316
+        V = 0.41055718475073
         np.testing.assert_almost_equal(log_encoding_SLog3(L), V, decimal=7)
 
         L = np.tile(L, 6)
@@ -354,13 +365,24 @@ log_decoding_SLog3` definition.
         """
 
         self.assertAlmostEqual(
-            log_decoding_SLog3(0.092864125122189639), 0.0, places=7)
+            log_decoding_SLog3(0.092864125122190), 0.0, places=7)
 
         self.assertAlmostEqual(
-            log_decoding_SLog3(0.41055718475073316), 0.18, places=7)
+            log_decoding_SLog3(0.41055718475073), 0.18, places=7)
 
         self.assertAlmostEqual(
-            log_decoding_SLog3(0.59602734369012345), 1.0, places=7)
+            log_decoding_SLog3(0.410557184750733, 12), 0.18, places=7)
+
+        self.assertAlmostEqual(
+            log_decoding_SLog3(0.406392694063927, 10, False), 0.18, places=7)
+
+        self.assertAlmostEqual(
+            log_decoding_SLog3(0.393489294768447, 10, False, False),
+            0.18,
+            places=7)
+
+        self.assertAlmostEqual(
+            log_decoding_SLog3(0.596027343690123), 1.0, places=7)
 
     def test_n_dimensional_log_decoding_SLog3(self):
         """
@@ -368,7 +390,7 @@ log_decoding_SLog3` definition.
 log_decoding_SLog3` definition n-dimensional arrays support.
         """
 
-        V = 0.41055718475073316
+        V = 0.41055718475073
         L = 0.18
         np.testing.assert_almost_equal(log_decoding_SLog3(V), L, decimal=7)
 
