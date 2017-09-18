@@ -88,16 +88,19 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
         colourspace models.
         """
 
-        aces_proxy_colourspaces = ('ACESproxy', 'ACEScg')
+        ignored_colourspaces = ('ACESproxy', )
 
-        samples = np.linspace(0, 1, 1000)
+        samples = np.hstack((np.linspace(0, 1, 1000), np.linspace(
+            0, 65504, 65504 * 10)))
+
         for colourspace in RGB_COLOURSPACES.values():
             encoding_cctf_s = colourspace.encoding_cctf(samples)
             decoding_cctf_s = colourspace.decoding_cctf(encoding_cctf_s)
 
-            if colourspace.name not in aces_proxy_colourspaces:
-                np.testing.assert_almost_equal(
-                    samples, decoding_cctf_s, decimal=7)
+            if colourspace.name in ignored_colourspaces:
+                continue
+
+            np.testing.assert_almost_equal(samples, decoding_cctf_s, decimal=7)
 
     def test_n_dimensional_cctf(self):
         """

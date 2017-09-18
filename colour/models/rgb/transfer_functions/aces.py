@@ -220,7 +220,7 @@ def log_encoding_ACEScc(lin_AP1):
 
     lin_AP1 = np.asarray(lin_AP1)
 
-    output = np.where(lin_AP1 < 0, (np.log2(2 ** -15 * 0.5) + 9.72) / 17.52,
+    output = np.where(lin_AP1 < 0, (np.log2(2 ** -16) + 9.72) / 17.52,
                       (np.log2(2 ** -16 + lin_AP1 * 0.5) + 9.72) / 17.52)
     output = np.where(lin_AP1 >= 2 ** -15, (np.log2(lin_AP1) + 9.72) / 17.52,
                       output)
