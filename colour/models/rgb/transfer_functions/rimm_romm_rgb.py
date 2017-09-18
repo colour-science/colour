@@ -80,9 +80,7 @@ def oetf_ROMMRGB(X, I_max=255):
     E_t = 16 ** (1.8 / (1 - 1.8))
 
     return as_numeric(
-        np.clip(
-            np.where(X < E_t, X * 16 * I_max, X ** (1 / 1.8) * I_max), 0,
-            I_max))
+        np.where(X < E_t, X * 16 * I_max, X ** (1 / 1.8) * I_max))
 
 
 def eotf_ROMMRGB(X_p, I_max=255):
