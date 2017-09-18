@@ -21,14 +21,10 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  Gaggioni, H., Dhanendra, P., Yamashita, J., Kawada, N., Endo, K., &
-        Clark, C. (n.d.). S-Log: A new LUT for digital production mastering
-        and interchange applications. Retrieved from
-        http://pro.sony.com/bbsccms/assets/files/mkt/cinema/solutions/\
-slog_manual.pdf
-.. [2]  Sony Corporation. (n.d.). S-Log Whitepaper. Retrieved from
-        http://www.theodoropoulos.info/attachments/076_on S-Log.pdf
-.. [3]  Sony Corporation. (n.d.). Technical Summary for
+.. [1]  Sony Corporation. (2012). S-Log2 Technical Paper. Retrieved from
+        https://pro.sony.com/bbsccms/assets/files/micro/dmpc/training/\
+S-Log2_Technical_PaperV1_0.pdf
+.. [2]  Sony Corporation. (n.d.). Technical Summary for
         S-Gamut3.Cine/S-Log3 and S-Gamut3/S-Log3. Retrieved from
         http://community.sony.com/sony/attachments/sony/\
 large-sensor-camera-F5-F55/12359/2/\
@@ -39,6 +35,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 from colour.utilities import as_numeric
+from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -53,33 +50,54 @@ __all__ = [
 ]
 
 
-def log_encoding_SLog(t):
+def log_encoding_SLog(x, bit_depth=10, out_legal=True, in_reflection=True):
     """
     Defines the *Sony S-Log* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
     ----------
-    t : numeric or array_like
-        Input light level :math:`t` to a camera.
+    x : numeric or array_like
+        Reflection or :math:`IRE / 100` input light level :math:`x` to a
+        camera.
+    bit_depth : int, optional
+        Bit depth used for conversion.
+    out_legal : bool, optional
+        Whether the non-linear *Sony S-Log* data :math:`y` is encoded in legal
+        range.
+    in_reflection : bool, optional
+        Whether the light level :math:`x` to a camera is reflection.
 
     Returns
     -------
     numeric or ndarray
-        Camera output code :math:`y`.
+        Non-linear *Sony S-Log* data :math:`y`.
 
     Examples
     --------
     >>> log_encoding_SLog(0.18)  # doctest: +ELLIPSIS
-    0.3599878...
+    0.3849708...
+    >>> log_encoding_SLog(0.18, out_legal=False)  # doctest: +ELLIPSIS
+    0.3765127...
+    >>> log_encoding_SLog(0.18, in_reflection=False)  # doctest: +ELLIPSIS
+    0.3708204...
     """
 
-    t = np.asarray(t)
+    x = np.asarray(x)
 
-    return (0.432699 * np.log10(t + 0.037584) + 0.616596) + 0.03
+    if in_reflection:
+        x = x / 0.9
+
+    y = np.where(x >= 0,
+                 ((0.432699 * np.log10(x + 0.037584) + 0.616596) + 0.03),
+                 x * 5 + 0.030001222851889303)
+
+    y = full_to_legal(y, bit_depth) if out_legal else y
+
+    return as_numeric(y)
 
 
-def log_decoding_SLog(y):
+def log_decoding_SLog(y, bit_depth=10, in_legal=True, out_reflection=True):
     """
     Defines the *Sony S-Log* log decoding curve / electro-optical transfer
     function.
@@ -87,52 +105,85 @@ def log_decoding_SLog(y):
     Parameters
     ----------
     y : numeric or array_like
-        Camera output code :math:`y`.
+        Non-linear *Sony S-Log* data :math:`y`.
+    bit_depth : int, optional
+        Bit depth used for conversion.
+    in_legal : bool, optional
+        Whether the non-linear *Sony S-Log* data :math:`y` is encoded in legal
+        range.
+    out_reflection : bool, optional
+        Whether the light level :math:`x` to a camera is reflection.
 
     Returns
     -------
     numeric or ndarray
-        Input light level :math:`t` to a camera.
+        Reflection or :math:`IRE / 100` input light level :math:`x` to a
+        camera.
 
     Examples
     --------
-    >>> log_decoding_SLog(0.359987846422154)  # doctest: +ELLIPSIS
+    >>> log_decoding_SLog(0.384970815928670)  # doctest: +ELLIPSIS
+    0.1...
+    >>> log_decoding_SLog(
+    ...     0.376512722254600, in_legal=False)  # doctest: +ELLIPSIS
+    0.1...
+    >>> log_decoding_SLog(
+    ...     0.370820482371268, out_reflection=False)  # doctest: +ELLIPSIS
     0.1...
     """
 
     y = np.asarray(y)
 
-    return 10 ** ((y - 0.616596 - 0.03) / 0.432699) - 0.037584
+    x = legal_to_full(y, bit_depth) if in_legal else y
+
+    x = np.where(y >= log_encoding_SLog(0.0, bit_depth, in_legal),
+                 10 ** ((x - 0.616596 - 0.03) / 0.432699) - 0.037584,
+                 (x - 0.030001222851889303) / 5.0)
+
+    if out_reflection:
+        x = x * 0.9
+
+    return as_numeric(x)
 
 
-def log_encoding_SLog2(t):
+def log_encoding_SLog2(x, bit_depth=10, out_legal=True, in_reflection=True):
     """
     Defines the *Sony S-Log2* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
     ----------
-    t : numeric or array_like
-        Input light level :math:`t` to a camera.
+    x : numeric or array_like
+        Reflection or :math:`IRE / 100` input light level :math:`x` to a
+        camera.
+    bit_depth : int, optional
+        Bit depth used for conversion.
+    out_legal : bool, optional
+        Whether the non-linear *Sony S-Log2* data :math:`y` is encoded in legal
+        range.
+    in_reflection : bool, optional
+        Whether the light level :math:`x` to a camera is reflection.
 
     Returns
     -------
     numeric or ndarray
-        Camera output code :math:`y`.
+        Non-linear *Sony S-Log2* data :math:`y`.
 
     Examples
     --------
     >>> log_encoding_SLog2(0.18)  # doctest: +ELLIPSIS
-    0.3849708...
+    0.3395325...
+    >>> log_encoding_SLog2(0.18, out_legal=False)  # doctest: +ELLIPSIS
+    0.3234495...
+    >>> log_encoding_SLog2(0.18, in_reflection=False)  # doctest: +ELLIPSIS
+    0.3262865...
     """
 
-    t = np.asarray(t)
-
-    return ((4 * (16 + 219 * (0.616596 + 0.03 + 0.432699 *
-                              (np.log10(0.037584 + t / 0.9))))) / 1023)
+    return log_encoding_SLog(x * 155 / 219, bit_depth, out_legal,
+                             in_reflection)
 
 
-def log_decoding_SLog2(y):
+def log_decoding_SLog2(y, bit_depth=10, in_legal=True, out_reflection=True):
     """
     Defines the *Sony S-Log2* log decoding curve / electro-optical transfer
     function.
@@ -140,56 +191,85 @@ def log_decoding_SLog2(y):
     Parameters
     ----------
     y : numeric or array_like
-        Camera output code :math:`y`.
+        Non-linear *Sony S-Log2* data :math:`y`.
+    bit_depth : int, optional
+        Bit depth used for conversion.
+    in_legal : bool, optional
+        Whether the non-linear *Sony S-Log2* data :math:`y` is encoded in legal
+        range.
+    out_reflection : bool, optional
+        Whether the light level :math:`x` to a camera is reflection.
 
     Returns
     -------
     numeric or ndarray
-        Input light level :math:`t` to a camera.
+        Reflection or :math:`IRE / 100` input light level :math:`x` to a
+        camera.
 
     Examples
     --------
-    >>> log_decoding_SLog2(0.384970815928670)  # doctest: +ELLIPSIS
+    >>> log_decoding_SLog2(0.339532524633774)  # doctest: +ELLIPSIS
+    0.1...
+    >>> log_decoding_SLog2(
+    ...     0.323449512215013, in_legal=False)  # doctest: +ELLIPSIS
+    0.1...
+    >>> log_decoding_SLog2(
+    ...     0.326286538946799, out_reflection=False)  # doctest: +ELLIPSIS
     0.1...
     """
 
-    y = np.asarray(y)
-
-    return ((10 ** ((((
-        (y * 1023 / 4 - 16) / 219) - 0.616596 - 0.03) / 0.432699)) - 0.037584)
-            * 0.9)
+    return 219 * log_decoding_SLog(y, bit_depth, in_legal,
+                                   out_reflection) / 155
 
 
-def log_encoding_SLog3(t):
+def log_encoding_SLog3(x, bit_depth=10, out_legal=True, in_reflection=True):
     """
     Defines the *Sony S-Log3* log encoding curve / opto-electronic transfer
     function.
 
     Parameters
     ----------
-    t : numeric or array_like
-        Input light level :math:`t` to a camera.
+    x : numeric or array_like
+        Reflection or :math:`IRE / 100` input light level :math:`x` to a
+        camera.
+    bit_depth : int, optional
+        Bit depth used for conversion.
+    out_legal : bool, optional
+        Whether the non-linear *Sony S-Log3* data :math:`y` is encoded in legal
+        range.
+    in_reflection : bool, optional
+        Whether the light level :math:`x` to a camera is reflection.
 
     Returns
     -------
     numeric or ndarray
-        Camera output code :math:`y`.
+        Non-linear *Sony S-Log3* data :math:`y`.
 
     Examples
     --------
     >>> log_encoding_SLog3(0.18)  # doctest: +ELLIPSIS
     0.4105571...
+    >>> log_encoding_SLog3(0.18, out_legal=False)  # doctest: +ELLIPSIS
+    0.4063926...
+    >>> log_encoding_SLog3(0.18, in_reflection=False)  # doctest: +ELLIPSIS
+    0.3995079...
     """
 
-    t = np.asarray(t)
+    x = np.asarray(x)
 
-    return as_numeric(
-        np.where(t >= 0.01125000, (420 + np.log10(
-            (t + 0.01) / (0.18 + 0.01)) * 261.5) / 1023, (
-                t * (171.2102946929 - 95) / 0.01125000 + 95) / 1023))
+    if not in_reflection:
+        x = x * 0.9
+
+    y = np.where(x >= 0.01125000, (420 + np.log10(
+        (x + 0.01) / (0.18 + 0.01)) * 261.5) / 1023,
+                 (x * (171.2102946929 - 95) / 0.01125000 + 95) / 1023)
+
+    y = y if out_legal else legal_to_full(y, bit_depth)
+
+    return as_numeric(y)
 
 
-def log_decoding_SLog3(y):
+def log_decoding_SLog3(y, bit_depth=10, in_legal=True, out_reflection=True):
     """
     Defines the *Sony S-Log3* log decoding curve / electro-optical transfer
     function.
@@ -197,22 +277,42 @@ def log_decoding_SLog3(y):
     Parameters
     ----------
     y : numeric or array_like
-        Camera output code :math:`y`.
+        Non-linear *Sony S-Log3* data :math:`y`.
+    bit_depth : int, optional
+        Bit depth used for conversion.
+    in_legal : bool, optional
+        Whether the non-linear *Sony S-Log3* data :math:`y` is encoded in legal
+        range.
+    out_reflection : bool, optional
+        Whether the light level :math:`x` to a camera is reflection.
 
     Returns
     -------
     numeric or ndarray
-        Input light level :math:`t` to a camera.
+        Reflection or :math:`IRE / 100` input light level :math:`x` to a
+        camera.
 
     Examples
     --------
     >>> log_decoding_SLog3(0.410557184750733)  # doctest: +ELLIPSIS
     0.1...
+    >>> log_decoding_SLog3(
+    ...     0.406392694063927, in_legal=False)  # doctest: +ELLIPSIS
+    0.1...
+    >>> log_decoding_SLog3(
+    ...     0.399507939606216, out_reflection=False)  # doctest: +ELLIPSIS
+    0.1...
     """
 
     y = np.asarray(y)
 
-    return as_numeric(
-        np.where(y >= 171.2102946929 / 1023,
-                 ((10 ** ((y * 1023 - 420) / 261.5)) * (0.18 + 0.01) - 0.01), (
-                     y * 1023 - 95) * 0.01125000 / (171.2102946929 - 95)))
+    y = y if in_legal else full_to_legal(y, bit_depth)
+
+    x = np.where(y >= 171.2102946929 / 1023,
+                 ((10 ** ((y * 1023 - 420) / 261.5)) * (0.18 + 0.01) - 0.01),
+                 (y * 1023 - 95) * 0.01125000 / (171.2102946929 - 95))
+
+    if not out_reflection:
+        x = x / 0.9
+
+    return as_numeric(x)

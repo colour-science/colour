@@ -54,7 +54,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import CaseInsensitiveMapping, Structure, as_numeric
+from colour.utilities import Structure, as_numeric
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -94,15 +94,15 @@ ACES_PROXY_12_CONSTANTS = Structure(
 ACES_PROXY_12_CONSTANTS : Structure
 """
 
-ACES_PROXY_CONSTANTS = CaseInsensitiveMapping({
-    '10 Bit': ACES_PROXY_10_CONSTANTS,
-    '12 Bit': ACES_PROXY_12_CONSTANTS
-})
+ACES_PROXY_CONSTANTS = {
+    10: ACES_PROXY_10_CONSTANTS,
+    12: ACES_PROXY_12_CONSTANTS
+}
 """
 Aggregated *ACESproxy* colourspace constants.
 
-ACES_PROXY_CONSTANTS : CaseInsensitiveMapping
-    **{'10 Bit', '12 Bit'}**
+ACES_PROXY_CONSTANTS : dict
+    **{10, 12}**
 """
 
 ACES_CCT_CONSTANTS = Structure(
@@ -117,7 +117,7 @@ ACES_CCT_CONSTANTS : Structure
 """
 
 
-def log_encoding_ACESproxy(lin_AP1, bit_depth='10 Bit'):
+def log_encoding_ACESproxy(lin_AP1, bit_depth=10):
     """
     Defines the *ACESproxy* colourspace log encoding curve / opto-electronic
     transfer function.
@@ -126,8 +126,8 @@ def log_encoding_ACESproxy(lin_AP1, bit_depth='10 Bit'):
     ----------
     lin_AP1 : numeric or array_like
         *lin_AP1* value.
-    bit_depth : unicode, optional
-        **{'10 Bit', '12 Bit'}**,
+    bit_depth : int, optional
+        **{10, 12}**,
         *ACESproxy* bit depth.
 
     Returns
@@ -164,7 +164,7 @@ def log_encoding_ACESproxy(lin_AP1, bit_depth='10 Bit'):
     return as_numeric(output, int)
 
 
-def log_decoding_ACESproxy(ACESproxy, bit_depth='10 Bit'):
+def log_decoding_ACESproxy(ACESproxy, bit_depth=10):
     """
     Defines the *ACESproxy* colourspace log decoding curve / electro-optical
     transfer function.
@@ -173,8 +173,8 @@ def log_decoding_ACESproxy(ACESproxy, bit_depth='10 Bit'):
     ----------
     ACESproxy : numeric or array_like
         *ACESproxy* non-linear value.
-    bit_depth : unicode, optional
-        **{'10 Bit', '12 Bit'}**,
+    bit_depth : int, optional
+        **{10, 12}**,
         *ACESproxy* bit depth.
 
     Returns

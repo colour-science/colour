@@ -5,6 +5,7 @@ from __future__ import absolute_import
 
 from colour.utilities import CaseInsensitiveMapping, filter_kwargs
 
+from .common import CV_range, legal_to_full, full_to_legal
 from .aces import (log_encoding_ACESproxy, log_decoding_ACESproxy,
                    log_encoding_ACEScc, log_decoding_ACEScc,
                    log_encoding_ACEScct, log_decoding_ACEScct)
@@ -39,7 +40,8 @@ from .sony_slog import (log_encoding_SLog, log_decoding_SLog,
 from .st_2084 import oetf_ST2084, eotf_ST2084
 from .viper_log import log_encoding_ViperLog, log_decoding_ViperLog
 
-__all__ = [
+__all__ = ['CV_range', 'legal_to_full', 'full_to_legal']
+__all__ += [
     'log_encoding_ACESproxy', 'log_decoding_ACESproxy', 'log_encoding_ACEScc',
     'log_decoding_ACEScc', 'log_encoding_ACEScct', 'log_decoding_ACEScct'
 ]
@@ -145,9 +147,10 @@ def log_encoding_curve(value, curve='Cineon', **kwargs):
         Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
         12-bit and 16-bit per channel.
     bit_depth : unicode, optional
-        {:func:`log_encoding_ACESproxy`},
-        **{'10 Bit', '12 Bit'}**,
-        *ACESproxy* bit depth.
+        {:func:`log_encoding_ACESproxy`, :func:`log_encoding_SLog`,
+        :func:`log_encoding_SLog2`},
+        **{8, 10, 12}**,
+        Bit depth used for conversion, *ACESproxy* uses **{10, 12}**.
     black_offset : numeric or array_like
         {:func:`log_encoding_Cineon`, :func:`log_encoding_Panalog`,
         :func:`log_encoding_REDLog`, :func:`log_encoding_REDLogFilm`},
@@ -159,12 +162,20 @@ def log_encoding_curve(value, curve='Cineon', **kwargs):
         {:func:`log_encoding_ALEXALogC`},
         **{'SUP 3.x', 'SUP 2.x'}**,
         Alexa firmware version.
+    in_reflection : bool, optional
+        {:func:`log_encoding_SLog`, :func:`log_encoding_SLog2`},
+        Whether the light level :math:`x` to a camera is reflection.
     linear_reference : numeric or array_like
         {:func:`log_encoding_PivotedLog`},
         Linear reference.
     log_reference : numeric or array_like
         {:func:`log_encoding_PivotedLog`},
         Log reference.
+    out_legal : bool, optional
+        {:func:`log_encoding_SLog`, :func:`log_encoding_SLog2`,
+        :func:`log_encoding_SLog3`},
+        Whether the non-linear *Sony S-Log*, *Sony S-Log2* or *Sony S-Log3*
+        data :math:`y` is encoded in legal range.
     negative_gamma : numeric or array_like
         {:func:`log_encoding_PivotedLog`},
         Negative gamma.
@@ -188,7 +199,7 @@ def log_encoding_curve(value, curve='Cineon', **kwargs):
     ...     0.18, curve='PLog', log_reference=400)
     0.3910068...
     >>> log_encoding_curve(0.18, curve='S-Log')  # doctest: +ELLIPSIS
-    0.3599878...
+    0.3849708...
     """
 
     function = LOG_ENCODING_CURVES[curve]
@@ -262,10 +273,11 @@ def log_decoding_curve(value, curve='Cineon', **kwargs):
         {:func:`log_decoding_ERIMMRGB`},
         Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
         12-bit and 16-bit per channel.
-    bit_depth : unicode, optional
-        {:func:`log_decoding_ACESproxy`},
-        **{'10 Bit', '12 Bit'}**,
-        *ACESproxy* bit depth.
+    bit_depth : int, optional
+        {:func:`log_decoding_ACESproxy`, :func:`log_decoding_SLog`,
+        :func:`log_decoding_SLog2`},
+        **{8, 10, 12}**,
+        Bit depth used for conversion, *ACESproxy* uses **{10, 12}**.
     black_offset : numeric or array_like
         {:func:`log_decoding_Cineon`, :func:`log_decoding_Panalog`,
         :func:`log_decoding_REDLog`, :func:`log_decoding_REDLogFilm`},
@@ -277,6 +289,11 @@ def log_decoding_curve(value, curve='Cineon', **kwargs):
         {:func:`log_decoding_ALEXALogC`},
         **{'SUP 3.x', 'SUP 2.x'}**,
         Alexa firmware version.
+    in_legal : bool, optional
+        {:func:`log_decoding_SLog`, :func:`log_decoding_SLog2`,
+        :func:`log_decoding_SLog3`},
+        Whether the non-linear *Sony S-Log*, *Sony S-Log2* or *Sony S-Log3*
+        data :math:`y` is encoded in legal range.
     linear_reference : numeric or array_like
         {:func:`log_decoding_PivotedLog`},
         Linear reference.
@@ -286,6 +303,9 @@ def log_decoding_curve(value, curve='Cineon', **kwargs):
     negative_gamma : numeric or array_like
         {:func:`log_decoding_PivotedLog`},
         Negative gamma.
+    out_reflection : bool, optional
+        {:func:`log_decoding_SLog`, :func:`log_decoding_SLog2`},
+        Whether the light level :math:`x` to a camera is reflection.
     method : unicode, optional
         {:func:`log_decoding_ALEXALogC`},
         **{'Linear Scene Exposure Factor', 'Normalised Sensor Signal'}**,
@@ -307,7 +327,7 @@ def log_decoding_curve(value, curve='Cineon', **kwargs):
     ...     0.391006842619746, curve='PLog', log_reference=400)
     0.1...
     >>> log_decoding_curve(  # doctest: +ELLIPSIS
-    ...     0.359987846422154, curve='S-Log')
+    ...     0.376512722254600, curve='S-Log')
     0.1...
     """
 
