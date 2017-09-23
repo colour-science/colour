@@ -4,18 +4,12 @@ language: python
 matrix:
   fast_finish: true
   include:
-  - python: 3.5
+  - python: 3.6
     env:
-    - PYTHON_VERSION="3.5"
-    - PYQT_VERSION="4.11.4"
-  - python: 3.4
-    env:
-    - PYTHON_VERSION="3.4"
-    - PYQT_VERSION="4.11.4"
+    - PYTHON_VERSION="3.6"
   - python: 2.7
     env:
     - PYTHON_VERSION="2.7"
-    - PYQT_VERSION="4.11.4"
 
 notifications:
   slack: colour-science:Y6lPPcN7y53Js94geqUpqsAP
