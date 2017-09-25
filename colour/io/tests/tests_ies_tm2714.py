@@ -20,7 +20,11 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['RESOURCES_DIRECTORY']
+__all__ = [
+    'RESOURCES_DIRECTORY', 'FLUORESCENT_FILE_HEADER',
+    'FLUORESCENT_FILE_SPECTRAL_DESCRIPTION', 'FLUORESCENT_FILE_SPECTRAL_DATA',
+    'TestIES_TM2714_Header', 'TestIES_TM2714_Spd'
+]
 
 RESOURCES_DIRECTORY = os.path.join(os.path.dirname(__file__), 'resources')
 
