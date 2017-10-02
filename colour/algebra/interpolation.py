@@ -85,9 +85,9 @@ class LinearInterpolator(object):
     """
 
     def __init__(self, x=None, y=None):
-        self.__x = None
+        self._x = None
         self.x = x
-        self.__y = None
+        self._y = None
         self.y = y
 
         self._validate_dimensions()
@@ -95,20 +95,20 @@ class LinearInterpolator(object):
     @property
     def x(self):
         """
-        Property for **self.__x** private attribute.
+        Property for **self._x** private attribute.
 
         Returns
         -------
         array_like
-            self.__x
+            self._x
         """
 
-        return self.__x
+        return self._x
 
     @x.setter
     def x(self, value):
         """
-        Setter for **self.__x** private attribute.
+        Setter for **self._x** private attribute.
 
         Parameters
         ----------
@@ -122,25 +122,25 @@ class LinearInterpolator(object):
             assert value.ndim == 1, (
                 '"x" independent variable must have exactly one dimension!')
 
-        self.__x = value
+        self._x = value
 
     @property
     def y(self):
         """
-        Property for **self.__y** private attribute.
+        Property for **self._y** private attribute.
 
         Returns
         -------
         array_like
-            self.__y
+            self._y
         """
 
-        return self.__y
+        return self._y
 
     @y.setter
     def y(self, value):
         """
-        Setter for **self.__y** private attribute.
+        Setter for **self._y** private attribute.
 
         Parameters
         ----------
@@ -154,7 +154,7 @@ class LinearInterpolator(object):
             assert value.ndim == 1, (
                 '"y" dependent variable must have exactly one dimension!')
 
-        self.__y = value
+        self._y = value
 
     def __call__(self, x):
         """
@@ -196,26 +196,26 @@ class LinearInterpolator(object):
         self._validate_dimensions()
         self._validate_interpolation_range(x)
 
-        return np.interp(x, self.__x, self.__y)
+        return np.interp(x, self._x, self._y)
 
     def _validate_dimensions(self):
         """
         Validates variables dimensions to be the same.
         """
 
-        if len(self.__x) != len(self.__y):
+        if len(self._x) != len(self._y):
             raise ValueError(
                 ('"x" independent and "y" dependent variables have different '
                  'dimensions: "{0}", "{1}"').format(
-                     len(self.__x), len(self.__y)))
+                     len(self._x), len(self._y)))
 
     def _validate_interpolation_range(self, x):
         """
         Validates given point to be in interpolation range.
         """
 
-        below_interpolation_range = x < self.__x[0]
-        above_interpolation_range = x > self.__x[-1]
+        below_interpolation_range = x < self._x[0]
+        above_interpolation_range = x > self._x[-1]
 
         if below_interpolation_range.any():
             raise ValueError('"{0}" is below interpolation range.'.format(x))
@@ -309,9 +309,9 @@ class SpragueInterpolator(object):
         self._xp = None
         self._yp = None
 
-        self.__x = None
+        self._x = None
         self.x = x
-        self.__y = None
+        self._y = None
         self.y = y
 
         self._validate_dimensions()
@@ -319,20 +319,20 @@ class SpragueInterpolator(object):
     @property
     def x(self):
         """
-        Property for **self.__x** private attribute.
+        Property for **self._x** private attribute.
 
         Returns
         -------
         array_like
-            self.__x
+            self._x
         """
 
-        return self.__x
+        return self._x
 
     @x.setter
     def x(self, value):
         """
-        Setter for **self.__x** private attribute.
+        Setter for **self._x** private attribute.
 
         Parameters
         ----------
@@ -355,25 +355,25 @@ class SpragueInterpolator(object):
 
             self._xp = np.concatenate(((xp1, xp2), value, (xp3, xp4)))
 
-        self.__x = value
+        self._x = value
 
     @property
     def y(self):
         """
-        Property for **self.__y** private attribute.
+        Property for **self._y** private attribute.
 
         Returns
         -------
         array_like
-            self.__y
+            self._y
         """
 
-        return self.__y
+        return self._y
 
     @y.setter
     def y(self, value):
         """
-        Setter for **self.__y** private attribute.
+        Setter for **self._y** private attribute.
 
         Parameters
         ----------
@@ -405,7 +405,7 @@ class SpragueInterpolator(object):
 
             self._yp = np.concatenate(((yp1, yp2), value, (yp3, yp4)))
 
-        self.__y = value
+        self._y = value
 
     def __call__(self, x):
         """
@@ -471,19 +471,19 @@ class SpragueInterpolator(object):
         Validates variables dimensions to be the same.
         """
 
-        if len(self.__x) != len(self.__y):
+        if len(self._x) != len(self._y):
             raise ValueError(
                 ('"x" independent and "y" dependent variables have different '
                  'dimensions: "{0}", "{1}"').format(
-                     len(self.__x), len(self.__y)))
+                     len(self._x), len(self._y)))
 
     def _validate_interpolation_range(self, x):
         """
         Validates given point to be in interpolation range.
         """
 
-        below_interpolation_range = x < self.__x[0]
-        above_interpolation_range = x > self.__x[-1]
+        below_interpolation_range = x < self._x[0]
+        above_interpolation_range = x > self._x[-1]
 
         if below_interpolation_range.any():
             raise ValueError('"{0}" is below interpolation range.'.format(x))
@@ -520,25 +520,25 @@ class PchipInterpolator(scipy.interpolate.PchipInterpolator):
     def __init__(self, x=None, y=None, *args, **kwargs):
         super(PchipInterpolator, self).__init__(x, y, *args, **kwargs)
 
-        self.__y = y
+        self._y = y
 
     @property
     def y(self):
         """
-        Property for **self.__y** private attribute.
+        Property for **self._y** private attribute.
 
         Returns
         -------
         array_like
-            self.__y
+            self._y
         """
 
-        return self.__y
+        return self._y
 
     @y.setter
     def y(self, value):
         """
-        Setter for **self.__y** private attribute.
+        Setter for **self._y** private attribute.
 
         Parameters
         ----------
