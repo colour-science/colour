@@ -43,6 +43,10 @@ from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ += ', '
+__copyright__ += (
+    'BabelColor ColorChecker data: Copyright (C) 2004-2012 Danny Pascale '
+    '(www.babelcolor.com); used by permission.')
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'

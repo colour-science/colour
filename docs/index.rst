@@ -42,7 +42,7 @@ to be imported:
 ..  image:: https://raw.githubusercontent.com/colour-science/colour-branding/master/screencasts/Colour_Science_for_Python.gif
 
 The two main references for `Colour <https://github.com/colour-science/colour>`_
-usage are the complete Sphinx `API Reference <http://colour.readthedocs.io/en/latest/>`_
+usage are the complete Sphinx `API Reference <https://colour.readthedocs.io/en/latest/api.html>`_
 and the `Jupyter Notebooks <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/blob/master/notebooks/colour.ipynb>`_
 with detailed historical and theoretical context and images:
 
