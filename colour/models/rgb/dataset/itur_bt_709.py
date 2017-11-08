@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Rec. 709 Colourspace
-====================
+ITU-R BT.709 Colourspace
+========================
 
-Defines the *Rec. 709* colourspace:
+Defines the *ITU-R BT.709* colourspace:
 
--   :attr:`REC_709_COLOURSPACE`.
+-   :attr:`BT709_COLOURSPACE`.
 
 See Also
 --------
@@ -39,62 +39,62 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'REC_709_PRIMARIES', 'REC_709_WHITEPOINT', 'REC_709_ILLUMINANT',
-    'REC_709_TO_XYZ_MATRIX', 'XYZ_TO_REC_709_MATRIX', 'REC_709_COLOURSPACE'
+    'BT709_PRIMARIES', 'BT709_WHITEPOINT', 'BT709_ILLUMINANT',
+    'BT709_TO_XYZ_MATRIX', 'XYZ_TO_BT709_MATRIX', 'BT709_COLOURSPACE'
 ]
 
-REC_709_PRIMARIES = np.array([
+BT709_PRIMARIES = np.array([
     [0.6400, 0.3300],
     [0.3000, 0.6000],
     [0.1500, 0.0600],
 ])
 """
-*Rec. 709* colourspace primaries.
+*ITU-R BT.709* colourspace primaries.
 
-REC_709_PRIMARIES : ndarray, (3, 2)
+BT709_PRIMARIES : ndarray, (3, 2)
 """
 
-REC_709_ILLUMINANT = 'D65'
+BT709_ILLUMINANT = 'D65'
 """
-*Rec. 709* colourspace whitepoint name as illuminant.
+*ITU-R BT.709* colourspace whitepoint name as illuminant.
 
-REC_709_ILLUMINANT : unicode
-"""
-
-REC_709_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][REC_709_ILLUMINANT])
-"""
-*Rec. 709* colourspace whitepoint.
-
-REC_709_WHITEPOINT : ndarray
+BT709_ILLUMINANT : unicode
 """
 
-REC_709_TO_XYZ_MATRIX = normalised_primary_matrix(REC_709_PRIMARIES,
-                                                  REC_709_WHITEPOINT)
+BT709_WHITEPOINT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][BT709_ILLUMINANT])
 """
-*Rec. 709* colourspace to *CIE XYZ* tristimulus values matrix.
+*ITU-R BT.709* colourspace whitepoint.
 
-REC_709_TO_XYZ_MATRIX : array_like, (3, 3)
-"""
-
-XYZ_TO_REC_709_MATRIX = np.linalg.inv(REC_709_TO_XYZ_MATRIX)
-"""
-*CIE XYZ* tristimulus values to *Rec. 709* colourspace matrix.
-
-XYZ_TO_REC_709_MATRIX : array_like, (3, 3)
+BT709_WHITEPOINT : ndarray
 """
 
-REC_709_COLOURSPACE = RGB_Colourspace(
-    'Rec. 709',
-    REC_709_PRIMARIES,
-    REC_709_WHITEPOINT,
-    REC_709_ILLUMINANT,
-    REC_709_TO_XYZ_MATRIX,
-    XYZ_TO_REC_709_MATRIX,
+BT709_TO_XYZ_MATRIX = normalised_primary_matrix(BT709_PRIMARIES,
+                                                BT709_WHITEPOINT)
+"""
+*ITU-R BT.709* colourspace to *CIE XYZ* tristimulus values matrix.
+
+BT709_TO_XYZ_MATRIX : array_like, (3, 3)
+"""
+
+XYZ_TO_BT709_MATRIX = np.linalg.inv(BT709_TO_XYZ_MATRIX)
+"""
+*CIE XYZ* tristimulus values to *ITU-R BT.709* colourspace matrix.
+
+XYZ_TO_BT709_MATRIX : array_like, (3, 3)
+"""
+
+BT709_COLOURSPACE = RGB_Colourspace(
+    'ITU-R BT.709',
+    BT709_PRIMARIES,
+    BT709_WHITEPOINT,
+    BT709_ILLUMINANT,
+    BT709_TO_XYZ_MATRIX,
+    XYZ_TO_BT709_MATRIX,
     oetf_BT709,
     eotf_BT709)  # yapf: disable
 """
-*Rec. 709* colourspace.
+*ITU-R BT.709* colourspace.
 
-REC_709_COLOURSPACE : RGB_Colourspace
+BT709_COLOURSPACE : RGB_Colourspace
 """

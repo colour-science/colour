@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.models.rgb.transfer_functions.bt_709`
+Defines unit tests for :mod:`colour.models.rgb.transfer_functions.itur_bt_709`
 module.
 """
 
@@ -25,13 +25,13 @@ __all__ = ['TestOetf_BT709', 'TestEotf_BT709']
 
 class TestOetf_BT709(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.bt_709.oetf_BT709`
+    Defines :func:`colour.models.rgb.transfer_functions.itur_bt_709.oetf_BT709`
     definition unit tests methods.
     """
 
     def test_oetf_BT709(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.bt_709.\
+        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_709.\
 oetf_BT709` definition.
         """
 
@@ -43,7 +43,7 @@ oetf_BT709` definition.
 
     def test_n_dimensional_oetf_BT709(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.bt_709.\
+        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_709.\
 oetf_BT709` definition n-dimensional arrays support.
         """
 
@@ -66,7 +66,7 @@ oetf_BT709` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_oetf_BT709(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.bt_709.\
+        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_709.\
 oetf_BT709` definition nan support.
         """
 
@@ -75,13 +75,13 @@ oetf_BT709` definition nan support.
 
 class TestEotf_BT709(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.bt_709.eotf_BT709`
+    Defines :func:`colour.models.rgb.transfer_functions.itur_bt_709.eotf_BT709`
     definition unit tests methods.
     """
 
     def test_eotf_BT709(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.bt_709.\
+        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_709.\
 eotf_BT709` definition.
         """
 
@@ -93,7 +93,7 @@ eotf_BT709` definition.
 
     def test_n_dimensional_eotf_BT709(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.bt_709.\
+        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_709.\
 eotf_BT709` definition n-dimensional arrays support.
         """
 
@@ -116,7 +116,7 @@ eotf_BT709` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_eotf_BT709(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.bt_709.\
+        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_709.\
 eotf_BT709` definition nan support.
         """
 

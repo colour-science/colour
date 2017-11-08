@@ -24,8 +24,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.models import (ACES_2065_1_COLOURSPACE, REC_2020_COLOURSPACE,
-                           REC_709_COLOURSPACE)
+from colour.models import (ACES_2065_1_COLOURSPACE, BT2020_COLOURSPACE,
+                           BT709_COLOURSPACE)
 from colour.volume import (
     RGB_colourspace_limits, RGB_colourspace_volume_MonteCarlo,
     RGB_colourspace_volume_coverage_MonteCarlo,
@@ -60,13 +60,13 @@ class TestRGB_colourspaceLimits(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            RGB_colourspace_limits(REC_709_COLOURSPACE),
+            RGB_colourspace_limits(BT709_COLOURSPACE),
             np.array([[0.00000000, 100.00000000], [-79.21854477, 94.65669508],
                       [-114.78759841, 96.72026446]]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            RGB_colourspace_limits(REC_2020_COLOURSPACE),
+            RGB_colourspace_limits(BT2020_COLOURSPACE),
             np.array([[0.00000000,
                        100.00000000], [-159.59726205, 127.32669335],
                       [-129.74325643, 142.13784519]]),
@@ -94,7 +94,7 @@ class TestRGB_colourspaceVolumeMonteCarlo(unittest.TestCase):
 
         self.assertEquals(
             RGB_colourspace_volume_MonteCarlo(
-                REC_709_COLOURSPACE,
+                BT709_COLOURSPACE,
                 10e3,
                 random_state=np.random.RandomState(2),
                 processes=1), 858600.0)
@@ -114,7 +114,7 @@ RGB_colourspace_volume_coverage_MonteCarlo` definition.
 
         np.testing.assert_almost_equal(
             RGB_colourspace_volume_coverage_MonteCarlo(
-                REC_709_COLOURSPACE,
+                BT709_COLOURSPACE,
                 is_within_pointer_gamut,
                 10e3,
                 random_state=np.random.RandomState(2)),
@@ -137,8 +137,7 @@ RGB_colourspace_pointer_gamut_coverage_MonteCarlo` definition.
 
         np.testing.assert_almost_equal(
             RGB_colourspace_pointer_gamut_coverage_MonteCarlo(
-                REC_709_COLOURSPACE,
-                10e3,
+                BT709_COLOURSPACE, 10e3,
                 random_state=np.random.RandomState(2)),
             83.02013423,
             decimal=7)
@@ -159,8 +158,7 @@ RGB_colourspace_visible_spectrum_coverage_MonteCarlo` definition.
 
         np.testing.assert_almost_equal(
             RGB_colourspace_visible_spectrum_coverage_MonteCarlo(
-                REC_709_COLOURSPACE,
-                10e3,
+                BT709_COLOURSPACE, 10e3,
                 random_state=np.random.RandomState(2)),
             36.48383937,
             decimal=7)

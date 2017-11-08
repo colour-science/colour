@@ -52,14 +52,14 @@ ICTCP_RGB_TO_LMS_MATRIX = np.array([
     [99, 309, 3688],
 ]) / 4096
 """
-*Rec. 2020* colourspace to normalised cone responses matrix.
+*ITU-R BT.2020* colourspace to normalised cone responses matrix.
 
 ICTCP_RGB_TO_LMS_MATRIX : array_like, (3, 3)
 """
 
 ICTCP_LMS_TO_RGB_MATRIX = np.linalg.inv(ICTCP_RGB_TO_LMS_MATRIX)
 """
-:math:`IC_TC_P` colourspace normalised cone responses to *Rec. 2020*
+:math:`IC_TC_P` colourspace normalised cone responses to *ITU-R BT.2020*
 colourspace matrix.
 
 ICTCP_LMS_TO_RGB_MATRIX : array_like, (3, 3)
@@ -88,12 +88,13 @@ ICTCP_ICTCP_TO_LMS_P_MATRIX : array_like, (3, 3)
 
 def RGB_to_ICTCP(RGB, L_p=10000):
     """
-    Converts from *Rec. 2020* colourspace to :math:`IC_TC_P` colour encoding.
+    Converts from *ITU-R BT.2020* colourspace to :math:`IC_TC_P` colour
+    encoding.
 
     Parameters
     ----------
     RGB : array_like
-        *Rec. 2020* colourspace array.
+        *ITU-R BT.2020* colourspace array.
     L_p : numeric, optional
         Display peak luminance :math:`cd/m^2` for *SMPTE ST 2084:2014*
         non-linear encoding.
@@ -119,7 +120,8 @@ def RGB_to_ICTCP(RGB, L_p=10000):
 
 def ICTCP_to_RGB(ICTCP, L_p=10000):
     """
-    Converts from :math:`IC_TC_P` colour encoding to *Rec. 2020* colourspace.
+    Converts from :math:`IC_TC_P` colour encoding to *ITU-R BT.2020*
+    colourspace.
 
     Parameters
     ----------
@@ -132,7 +134,7 @@ def ICTCP_to_RGB(ICTCP, L_p=10000):
     Returns
     -------
     ndarray
-        *Rec. 2020* colourspace array.
+        *ITU-R BT.2020* colourspace array.
 
     Examples
     --------

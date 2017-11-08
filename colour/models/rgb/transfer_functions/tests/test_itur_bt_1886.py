@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.models.rgb.transfer_functions.bt_1886`
+Defines unit tests for :mod:`colour.models.rgb.transfer_functions.itur_bt_1886`
 module.
 """
 
@@ -25,13 +25,13 @@ __all__ = ['TestOetf_BT1886', 'TestEotf_BT1886']
 
 class TestOetf_BT1886(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.bt_1886.oetf_BT1886`
-    definition unit tests methods.
+    Defines :func:`colour.models.rgb.transfer_functions.itur_bt_1886.\
+oetf_BT1886` definition unit tests methods.
     """
 
     def test_oetf_BT1886(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.bt_1886.\
+        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_1886.\
 oetf_BT1886` definition.
         """
 
@@ -43,7 +43,7 @@ oetf_BT1886` definition.
 
     def test_n_dimensional_oetf_BT1886(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.bt_1886.\
+        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_1886.\
 oetf_BT1886` definition n-dimensional arrays support.
         """
 
@@ -66,7 +66,7 @@ oetf_BT1886` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_oetf_BT1886(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.bt_1886.\
+        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_1886.\
 oetf_BT1886` definition nan support.
         """
 
@@ -75,13 +75,13 @@ oetf_BT1886` definition nan support.
 
 class TestEotf_BT1886(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.bt_1886.eotf_BT1886`
-    definition unit tests methods.
+    Defines :func:`colour.models.rgb.transfer_functions.itur_bt_1886.\
+eotf_BT1886` definition unit tests methods.
     """
 
     def test_eotf_BT1886(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.bt_1886.\
+        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_1886.\
 eotf_BT1886` definition.
         """
 
@@ -93,7 +93,7 @@ eotf_BT1886` definition.
 
     def test_n_dimensional_eotf_BT1886(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.bt_1886.\
+        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_1886.\
 eotf_BT1886` definition n-dimensional arrays support.
         """
 
@@ -116,7 +116,7 @@ eotf_BT1886` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_eotf_BT1886(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.bt_1886.\
+        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_1886.\
 eotf_BT1886` definition nan support.
         """
 

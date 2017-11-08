@@ -452,12 +452,12 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
 
     Examples
     --------
-    >>> c = ['Rec. 709', 'ACEScg', 'S-Gamut']
+    >>> c = ['ITU-R BT.709', 'ACEScg', 'S-Gamut']
     >>> RGB_colourspaces_gamuts_plot(c)  # doctest: +SKIP
     """
 
     if colourspaces is None:
-        colourspaces = ('Rec. 709', 'ACEScg')
+        colourspaces = ('ITU-R BT.709', 'ACEScg')
 
     count_c = len(colourspaces)
     settings = Structure(**{
@@ -636,7 +636,7 @@ def RGB_scatter_plot(RGB,
 
     Examples
     --------
-    >>> c = 'Rec. 709'
+    >>> c = 'ITU-R BT.709'
     >>> RGB_scatter_plot(c)  # doctest: +SKIP
     """
 

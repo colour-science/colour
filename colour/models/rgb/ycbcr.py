@@ -69,16 +69,16 @@ __all__ = [
 ]
 
 YCBCR_WEIGHTS = CaseInsensitiveMapping({
-    'Rec. 601': np.array([0.2990, 0.1140]),
-    'Rec. 709': np.array([0.2126, 0.0722]),
-    'Rec. 2020': np.array([0.2627, 0.0593]),
+    'ITU-R BT.601': np.array([0.2990, 0.1140]),
+    'ITU-R BT.709': np.array([0.2126, 0.0722]),
+    'ITU-R BT.2020': np.array([0.2627, 0.0593]),
     'SMPTE-240M': np.array([0.2122, 0.0865])
 })
 """
 Luma weightings presets.
 
 YCBCR_WEIGHTS : dict
-    **{'Rec. 601', 'Rec. 709', 'Rec. 2020', 'SMPTE-240M}**
+    **{'ITU-R BT.601', 'ITU-R BT.709', 'ITU-R BT.2020', 'SMPTE-240M}**
 """
 
 
@@ -132,7 +132,7 @@ def YCbCr_ranges(bits, is_legal, is_int):
 
 
 def RGB_to_YCbCr(RGB,
-                 K=YCBCR_WEIGHTS['Rec. 709'],
+                 K=YCBCR_WEIGHTS['ITU-R BT.709'],
                  in_bits=10,
                  in_legal=False,
                  in_int=False,
@@ -151,7 +151,7 @@ def RGB_to_YCbCr(RGB,
     K : array_like, optional
         Luma weighting coefficients of red and blue. See :attr:
         `YCBCR_WEIGHTS` for presets. Default is `(0.2126, 0.0722)`, the
-        weightings for Rec. 709.
+        weightings for ITU-R BT.709.
     in_bits : int, optional
         Bit depth for integer input, or used in the calculation of the
         denominator for legal range float values, i.e. 8-bit means the float
@@ -234,7 +234,7 @@ def RGB_to_YCbCr(RGB,
     For JFIF JPEG conversion as per ITU-T T.871 [5]_:
 
     >>> RGB = np.array([102, 0, 51])
-    >>> RGB_to_YCbCr(RGB, K=YCBCR_WEIGHTS['Rec. 601'], in_range=(0, 255),
+    >>> RGB_to_YCbCr(RGB, K=YCBCR_WEIGHTS['ITU-R BT.601'], in_range=(0, 255),
     ...              out_range=(0, 255, 0, 256), out_int=True)
     array([ 36, 136, 175])
 
@@ -248,8 +248,8 @@ def RGB_to_YCbCr(RGB,
 
     These JFIF JPEG ranges are also obtained as follows:
 
-    >>> RGB_to_YCbCr(RGB, K=YCBCR_WEIGHTS['Rec. 601'], in_bits=8, in_int=True,
-    ...              out_legal=False, out_int=True)
+    >>> RGB_to_YCbCr(RGB, K=YCBCR_WEIGHTS['ITU-R BT.601'], in_bits=8,
+    ...              in_int=True, out_legal=False, out_int=True)
     array([ 36, 136, 175])
     """
 
@@ -282,7 +282,7 @@ def RGB_to_YCbCr(RGB,
 
 
 def YCbCr_to_RGB(YCbCr,
-                 K=YCBCR_WEIGHTS['Rec. 709'],
+                 K=YCBCR_WEIGHTS['ITU-R BT.709'],
                  in_bits=8,
                  in_legal=True,
                  in_int=False,
@@ -301,7 +301,7 @@ def YCbCr_to_RGB(YCbCr,
     K : array_like, optional
         Luma weighting coefficients of red and blue. See :attr:
         `YCBCR_WEIGHTS` for presets. Default is `(0.2126, 0.0722)`, the
-        weightings for Rec. 709.
+        weightings for ITU-R BT.709.
     in_bits : int, optional
         Bit depth for integer input, or used in the calculation of the
         denominator for legal range float values, i.e. 8-bit means the float

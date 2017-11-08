@@ -55,13 +55,13 @@ class RGB_Colourspace(object):
     decimals. This can yield large discrepancies in computations.
 
     Such an occurrence is the *V-Gamut* colourspace white paper [1]_, that
-    defines the *V-Gamut* to *Rec. 709* conversion matrix as follows::
+    defines the *V-Gamut* to *ITU-R BT.709* conversion matrix as follows::
 
         [[ 1.806576 -0.695697 -0.110879]
          [-0.170090  1.305955 -0.135865]
          [-0.025206 -0.154468  1.179674]]
 
-    Computing this matrix using *Rec. 709* colourspace derived normalised
+    Computing this matrix using *ITU-R BT.709* colourspace derived normalised
     primary matrix yields::
 
         [[ 1.8065736 -0.6956981 -0.1108786]

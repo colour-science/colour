@@ -18,7 +18,7 @@ colour_plotting_defaults()
 message_box('Plotting "RGB" colourspaces in "CIE 1931 Chromaticity Diagram".')
 pprint(sorted(colour.RGB_COLOURSPACES.keys()))
 RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
-    ['Rec. 709', 'ACEScg', 'S-Gamut', 'Pointer Gamut'])
+    ['ITU-R BT.709', 'ACEScg', 'S-Gamut', 'Pointer Gamut'])
 
 print('\n')
 
@@ -26,7 +26,7 @@ message_box(('Plotting "RGB" colourspaces in '
              '"CIE 1960 UCS Chromaticity Diagram".'))
 pprint(sorted(colour.RGB_COLOURSPACES.keys()))
 RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
-    ['Rec. 709', 'ACEScg', 'S-Gamut', 'Pointer Gamut'])
+    ['ITU-R BT.709', 'ACEScg', 'S-Gamut', 'Pointer Gamut'])
 
 print('\n')
 
@@ -34,7 +34,7 @@ message_box(('Plotting "RGB" colourspaces in '
              '"CIE 1976 UCS Chromaticity Diagram".'))
 pprint(sorted(colour.RGB_COLOURSPACES.keys()))
 RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
-    ['Rec. 709', 'ACEScg', 'S-Gamut', 'Pointer Gamut'])
+    ['ITU-R BT.709', 'ACEScg', 'S-Gamut', 'Pointer Gamut'])
 
 print('\n')
 
@@ -43,21 +43,21 @@ RGB = np.random.random((32, 32, 3))
 message_box('Plotting "RGB" chromaticity coordinates in '
             '"CIE 1931 Chromaticity Diagram".')
 RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot(
-    RGB, 'Rec. 709', colourspaces=['ACEScg', 'S-Gamut', 'Pointer Gamut'])
+    RGB, 'ITU-R BT.709', colourspaces=['ACEScg', 'S-Gamut', 'Pointer Gamut'])
 
 print('\n')
 
 message_box('Plotting "RGB" chromaticity coordinates in '
             '"CIE 1960 UCS Chromaticity Diagram".')
 RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot(
-    RGB, 'Rec. 709', colourspaces=['ACEScg', 'S-Gamut', 'Pointer Gamut'])
+    RGB, 'ITU-R BT.709', colourspaces=['ACEScg', 'S-Gamut', 'Pointer Gamut'])
 
 print('\n')
 
 message_box('Plotting "RGB" chromaticity coordinates in '
             '"CIE 1976 UCS Chromaticity Diagram".')
 RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot(
-    RGB, 'Rec. 709', colourspaces=['ACEScg', 'S-Gamut', 'Pointer Gamut'])
+    RGB, 'ITU-R BT.709', colourspaces=['ACEScg', 'S-Gamut', 'Pointer Gamut'])
 
 print('\n')
 
@@ -72,19 +72,20 @@ colour.RGB_COLOURSPACES['Awful RGB'] = colour.RGB_Colourspace(
     ]),
     whitepoint=np.array([1.0 / 3.0, 1.0 / 3.0]))
 pprint(sorted(colour.RGB_COLOURSPACES.keys()))
-RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(['Rec. 709', 'Awful RGB'])
+RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
+    ['ITU-R BT.709', 'Awful RGB'])
 
 print('\n')
 
 message_box(('Plotting a single "RGB" colourspace encoding colour component '
              'transfer function.'))
-single_cctf_plot('Rec. 709')
+single_cctf_plot('ITU-R BT.709')
 
 print('\n')
 
 message_box(('Plotting multiple "RGB" colourspaces encoding colour component '
              'transfer functions.'))
-multi_cctf_plot(['Rec. 709', 'sRGB'])
+multi_cctf_plot(['ITU-R BT.709', 'sRGB'])
 
 message_box(('Plotting multiple "RGB" colourspaces decoding colour component '
              'transfer functions.'))
