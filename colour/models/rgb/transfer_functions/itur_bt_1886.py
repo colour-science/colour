@@ -4,10 +4,10 @@
 ITU-R BT.1886
 =============
 
-Defines *Recommendation ITU-R BT.1886* opto-electrical transfer function
-(OETF / OECF) and electro-optical transfer function (EOTF / EOCF):
+Defines *Recommendation ITU-R BT.1886* electro-optical transfer function
+(EOTF / EOCF) and its reverse:
 
--   :func:`oetf_BT1886`
+-   :func:`eotf_reverse_BT1886`
 -   :func:`eotf_BT1886`
 
 See Also
@@ -27,8 +27,6 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import warning
-
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
@@ -36,13 +34,13 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['oetf_BT1886', 'eotf_BT1886']
+__all__ = ['eotf_reverse_BT1886', 'eotf_BT1886']
 
 
-def oetf_BT1886(L, L_B=0, L_W=1):
+def eotf_reverse_BT1886(L, L_B=0, L_W=1):
     """
-    Defines *Recommendation ITU-R BT.1886* opto-electrical transfer function
-    (OETF / OECF).
+    Defines *Recommendation ITU-R BT.1886* reverse electro-optical transfer
+    function (EOTF / EOCF).
 
     Parameters
     ----------
@@ -59,22 +57,11 @@ def oetf_BT1886(L, L_B=0, L_W=1):
         Input video signal level (normalized, black at :math:`V = 0`, to white
         at :math:`V = 1`.
 
-    Warning
-    -------
-    *Recommendation ITU-R BT.1886* doesn't specify an opto-electrical
-    transfer function. This definition is used for symmetry in unit tests and
-    other computations but should not be used as an *OETF*.
-
     Examples
     --------
-    >>> oetf_BT1886(0.11699185725296059)  # doctest: +ELLIPSIS
+    >>> eotf_reverse_BT1886(0.11699185725296059)  # doctest: +ELLIPSIS
     0.4090077...
     """
-
-    warning(('*Recommendation ITU-R BT.1886* doesn\'t specify an '
-             'opto-electrical transfer function. This definition is used '
-             'for symmetry in unit tests and others computations but should '
-             'not be used as an *OETF*!'))
 
     L = np.asarray(L)
 

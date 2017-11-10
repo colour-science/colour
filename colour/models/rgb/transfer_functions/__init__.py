@@ -10,7 +10,7 @@ from .aces import (log_encoding_ACESproxy, log_decoding_ACESproxy,
                    log_encoding_ACEScc, log_decoding_ACEScc,
                    log_encoding_ACEScct, log_decoding_ACEScct)
 from .alexa_log_c import (log_encoding_ALEXALogC, log_decoding_ALEXALogC)
-from .arib_std_b67 import oetf_ARIBSTDB67, eotf_ARIBSTDB67
+from .arib_std_b67 import oetf_ARIBSTDB67, oetf_reverse_ARIBSTDB67
 from .canon_log import (log_encoding_CanonLog, log_decoding_CanonLog,
                         log_encoding_CanonLog2, log_decoding_CanonLog2,
                         log_encoding_CanonLog3, log_decoding_CanonLog3)
@@ -19,8 +19,8 @@ from .dci_p3 import oetf_DCIP3, eotf_DCIP3
 from .dicom_gsdf import oetf_DICOMGSDF, eotf_DICOMGSDF
 from .gamma import function_gamma
 from .gopro import log_encoding_Protune, log_decoding_Protune
-from .itur_bt_709 import oetf_BT709, eotf_BT709
-from .itur_bt_1886 import oetf_BT1886, eotf_BT1886
+from .itur_bt_709 import oetf_BT709, oetf_reverse_BT709
+from .itur_bt_1886 import eotf_reverse_BT1886, eotf_BT1886
 from .itur_bt_2020 import oetf_BT2020, eotf_BT2020
 from .linear import function_linear
 from .panalog import log_encoding_Panalog, log_decoding_Panalog
@@ -33,7 +33,7 @@ from .red_log import (log_encoding_REDLog, log_decoding_REDLog,
 from .rimm_romm_rgb import (oetf_ROMMRGB, eotf_ROMMRGB, oetf_ProPhotoRGB,
                             eotf_ProPhotoRGB, oetf_RIMMRGB, eotf_RIMMRGB,
                             log_encoding_ERIMMRGB, log_decoding_ERIMMRGB)
-from .srgb import oetf_sRGB, eotf_sRGB
+from .srgb import oetf_sRGB, oetf_reverse_sRGB
 from .sony_slog import (log_encoding_SLog, log_decoding_SLog,
                         log_encoding_SLog2, log_decoding_SLog2,
                         log_encoding_SLog3, log_decoding_SLog3)
@@ -46,7 +46,7 @@ __all__ += [
     'log_decoding_ACEScc', 'log_encoding_ACEScct', 'log_decoding_ACEScct'
 ]
 __all__ += ['log_encoding_ALEXALogC', 'log_decoding_ALEXALogC']
-__all__ += ['oetf_ARIBSTDB67', 'eotf_ARIBSTDB67']
+__all__ += ['oetf_ARIBSTDB67', 'oetf_reverse_ARIBSTDB67']
 __all__ += [
     'log_encoding_CanonLog', 'log_decoding_CanonLog', 'log_encoding_CanonLog2',
     'log_decoding_CanonLog2', 'log_encoding_CanonLog3',
@@ -57,8 +57,8 @@ __all__ += ['oetf_DCIP3', 'eotf_DCIP3']
 __all__ += ['oetf_DICOMGSDF', 'eotf_DICOMGSDF']
 __all__ += ['function_gamma']
 __all__ += ['log_encoding_Protune', 'log_decoding_Protune']
-__all__ += ['oetf_BT709', 'eotf_BT709']
-__all__ += ['oetf_BT1886', 'eotf_BT1886']
+__all__ += ['oetf_BT709', 'oetf_reverse_BT709']
+__all__ += ['eotf_reverse_BT1886', 'eotf_BT1886']
 __all__ += ['oetf_BT2020', 'eotf_BT2020']
 __all__ += ['function_linear']
 __all__ += ['log_encoding_Panalog', 'log_decoding_Panalog']
@@ -78,7 +78,7 @@ __all__ += [
     'log_encoding_SLog', 'log_decoding_SLog', 'log_encoding_SLog2',
     'log_decoding_SLog2', 'log_encoding_SLog3', 'log_decoding_SLog3'
 ]
-__all__ += ['oetf_sRGB', 'eotf_sRGB']
+__all__ += ['oetf_sRGB', 'oetf_reverse_sRGB']
 __all__ += ['oetf_ST2084', 'eotf_ST2084']
 __all__ += ['log_decoding_ViperLog', 'log_decoding_ViperLog']
 
@@ -345,7 +345,7 @@ OETFS = CaseInsensitiveMapping({
     'ARIB STD-B67': oetf_ARIBSTDB67,
     'DCI-P3': oetf_DCIP3,
     'DICOM GSDF': oetf_DICOMGSDF,
-    'ITU-R BT.1886': oetf_BT1886,
+    'ITU-R BT.1886': eotf_reverse_BT1886,
     'ITU-R BT.2020': oetf_BT2020,
     'ITU-R BT.709': oetf_BT709,
     'ProPhoto RGB': oetf_ProPhotoRGB,
@@ -390,10 +390,10 @@ def oetf(value, function='sRGB', **kwargs):
         Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
         12-bit and 16-bit per channel.
     L_B : numeric, optional
-        {:func:`oetf_BT1886`},
+        {:func:`eotf_reverse_BT1886`},
         Screen luminance for black.
     L_W : numeric, optional
-        {:func:`oetf_BT1886`},
+        {:func:`eotf_reverse_BT1886`},
         Screen luminance for white.
     L_p : numeric, optional
         {:func:`oetf_ST2084`},
@@ -431,17 +431,17 @@ def oetf(value, function='sRGB', **kwargs):
 
 
 EOTFS = CaseInsensitiveMapping({
-    'ARIB STD-B67': eotf_ARIBSTDB67,
+    'ARIB STD-B67': oetf_reverse_ARIBSTDB67,
     'DCI-P3': eotf_DCIP3,
     'DICOM GSDF': eotf_DICOMGSDF,
     'ITU-R BT.1886': eotf_BT1886,
     'ITU-R BT.2020': eotf_BT2020,
-    'ITU-R BT.709': eotf_BT709,
+    'ITU-R BT.709': oetf_reverse_BT709,
     'ProPhoto RGB': eotf_ProPhotoRGB,
     'RIMM RGB': eotf_RIMMRGB,
     'ROMM RGB': eotf_ROMMRGB,
     'ST 2084': eotf_ST2084,
-    'sRGB': eotf_sRGB
+    'sRGB': oetf_reverse_sRGB
 })
 """
 Supported electro-optical transfer functions (EOTF / EOCF).
@@ -491,7 +491,7 @@ def eotf(value, function='sRGB', **kwargs):
         *ITU-R BT.2020* *alpha* and *beta* constants are used if system is not
         12-bit.
     r : numeric, optional
-        {:func:`eotf_ARIBSTDB67`},
+        {:func:`oetf_reverse_ARIBSTDB67`},
         Video level corresponding to reference white level.
 
     Returns

@@ -14,7 +14,8 @@ from itertools import permutations
 
 from colour.models import (RGB_COLOURSPACES, RGB_Colourspace, XYZ_to_RGB,
                            RGB_to_XYZ, RGB_to_RGB_matrix, RGB_to_RGB,
-                           normalised_primary_matrix, oetf_sRGB, eotf_sRGB)
+                           normalised_primary_matrix, oetf_sRGB,
+                           oetf_reverse_sRGB)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
