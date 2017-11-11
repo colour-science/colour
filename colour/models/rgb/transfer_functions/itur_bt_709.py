@@ -27,9 +27,7 @@ R-REC-BT.709-6-201506-I!!PDF-E.pdf
 
 from __future__ import division, unicode_literals
 
-import numpy as np
-
-from colour.utilities import as_numeric
+from colour.models.rgb.transfer_functions import oetf_BT601, oetf_reverse_BT601
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -62,10 +60,7 @@ def oetf_BT709(L):
     0.4090077...
     """
 
-    L = np.asarray(L)
-
-    return as_numeric(
-        np.where(L < 0.018, L * 4.5, 1.099 * (L ** 0.45) - 0.099))
+    return oetf_BT601(L)
 
 
 def oetf_reverse_BT709(V):
@@ -89,8 +84,4 @@ def oetf_reverse_BT709(V):
     0.1...
     """
 
-    V = np.asarray(V)
-
-    return as_numeric(
-        np.where(V < oetf_BT709(0.018), V / 4.5, ((V + 0.099) / 1.099) ** (
-            1 / 0.45)))
+    return oetf_reverse_BT601(V)

@@ -37,6 +37,8 @@ oetf_BT709` definition.
 
         self.assertAlmostEqual(oetf_BT709(0.0), 0.0, places=7)
 
+        self.assertAlmostEqual(oetf_BT709(0.015), 0.067500000000000, places=7)
+
         self.assertAlmostEqual(oetf_BT709(0.18), 0.409007728864150, places=7)
 
         self.assertAlmostEqual(oetf_BT709(1.0), 1.0, places=7)
@@ -86,6 +88,9 @@ oetf_reverse_BT709` definition.
         """
 
         self.assertAlmostEqual(oetf_reverse_BT709(0.0), 0.0, places=7)
+
+        self.assertAlmostEqual(
+            oetf_reverse_BT709(0.067500000000000), 0.015, places=7)
 
         self.assertAlmostEqual(
             oetf_reverse_BT709(0.409007728864150), 0.18, places=7)
