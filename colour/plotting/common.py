@@ -80,9 +80,6 @@ Default figure width.
 DEFAULT_FIGURE_WIDTH : integer
 """
 
-if 'Qt4Agg' in matplotlib.get_backend():
-    DEFAULT_FIGURE_WIDTH = 12
-
 DEFAULT_FIGURE_HEIGHT = DEFAULT_FIGURE_WIDTH * DEFAULT_FIGURE_ASPECT_RATIO
 """
 Default figure height.
@@ -103,9 +100,6 @@ Default figure font size.
 
 DEFAULT_FONT_SIZE : numeric
 """
-
-if 'Qt4Agg' in matplotlib.get_backend():
-    DEFAULT_FONT_SIZE = 10
 
 DEFAULT_COLOUR_CYCLE = ('r', 'g', 'b', 'c', 'm', 'y', 'k')
 """

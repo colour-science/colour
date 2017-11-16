@@ -14,6 +14,7 @@ Sub-Modules
    colour.models.rgb.transfer_functions.bt_709
    colour.models.rgb.transfer_functions.canon_log
    colour.models.rgb.transfer_functions.cineon
+   colour.models.rgb.transfer_functions.common
    colour.models.rgb.transfer_functions.dci_p3
    colour.models.rgb.transfer_functions.dicom_gsdf
    colour.models.rgb.transfer_functions.gamma
