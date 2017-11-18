@@ -66,7 +66,7 @@ DICOMGSDF_CONSTANTS = Structure(
     F=-1.1878455,
     G=-0.18014349,
     H=0.14710899,
-    I=-0.017046845)
+    I=-0.017046845)  # noqa
 """
 *DICOM Grayscale Standard Display Function* constants.
 
@@ -107,7 +107,7 @@ def oetf_DICOMGSDF(L):
     F = DICOMGSDF_CONSTANTS.F
     G = DICOMGSDF_CONSTANTS.G
     H = DICOMGSDF_CONSTANTS.H
-    I = DICOMGSDF_CONSTANTS.I
+    I = DICOMGSDF_CONSTANTS.I  # noqa
 
     L = (A + B * L_lg + C * L_lg ** 2 + D * L_lg ** 3 + E * L_lg ** 4 +
          F * L_lg ** 5 + G * L_lg ** 6 + H * L_lg ** 7 + I * L_lg ** 8)

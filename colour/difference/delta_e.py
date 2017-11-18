@@ -286,7 +286,7 @@ Melgosa_CIEDE2000_Workshop-July4.pdf
     return d_E
 
 
-def delta_E_CMC(Lab_1, Lab_2, l=2, c=1):
+def delta_E_CMC(Lab_1, Lab_2, l=2, c=1):  # noqa
     """
     Returns the difference :math:`\Delta E_{ab}` between two given *CIE Lab*
     colourspace arrays using *Colour Measurement Committee* recommendation.

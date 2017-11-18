@@ -330,7 +330,7 @@ def uv_to_CCT_Ohno2013(
     Tin, uin, vin, din = Tuvdin.Ti, Tuvdin.ui, Tuvdin.vi, Tuvdin.di
 
     # Triangular solution.
-    l = np.hypot(uin - uip, vin - vip)
+    l = np.hypot(uin - uip, vin - vip)  # noqa
     x = (dip ** 2 - din ** 2 + l ** 2) / (2 * l)
     T = Tip + (Tin - Tip) * (x / l)
 
