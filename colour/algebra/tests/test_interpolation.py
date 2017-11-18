@@ -10,9 +10,11 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.algebra import (LinearInterpolator, SpragueInterpolator,
-                            PchipInterpolator, NullInterpolator,
-                            lagrange_coefficients)
+from colour.algebra import (
+    kernel_nearest_neighbour, kernel_linear, kernel_sinc, kernel_lanczos,
+    kernel_cardinal_spline, KernelInterpolator, LinearInterpolator,
+    SpragueInterpolator, PchipInterpolator, NullInterpolator,
+    lagrange_coefficients)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -25,9 +27,12 @@ __status__ = 'Production'
 __all__ = [
     'POINTS_DATA_A', 'LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES',
     'SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES', 'LAGRANGE_COEFFICIENTS_A',
-    'LAGRANGE_COEFFICIENTS_B', 'TestLinearInterpolator',
-    'TestSpragueInterpolator', 'TestPchipInterpolator',
-    'TestLagrangeCoefficients'
+    'LAGRANGE_COEFFICIENTS_B', 'TestKernelNearestNeighbour',
+    'TestKernelLinear', 'TestKernelSinc', 'TestKernelLanczos',
+    'TestKernelCardinalSpline', 'TestKernelInterpolator',
+    'TestLinearInterpolator', 'TestSpragueInterpolator',
+    'TestCubicSplineInterpolator', 'TestPchipInterpolator',
+    'TestNullInterpolator', 'TestLagrangeCoefficients'
 ]
 
 POINTS_DATA_A = (
@@ -397,6 +402,286 @@ LAGRANGE_COEFFICIENTS_B = np.array(
      [-0.0083125, 0.0511875, 0.9725625, -0.0154375]])  # yapf: disable
 
 
+class TestKernelNearestNeighbour(unittest.TestCase):
+    """
+    Defines :func:`colour.algebra.interpolation.kernel_nearest_neighbour`
+    definition units tests methods.
+    """
+
+    def test_kernel_nearest(self):
+        """
+        Tests :func:`colour.algebra.interpolation.kernel_nearest_neighbour`
+        definition.
+        """
+
+        np.testing.assert_almost_equal(
+            kernel_nearest_neighbour(np.linspace(-5, 5, 25)),
+            np.array([
+                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0
+            ]),
+            decimal=7)
+
+
+class TestKernelLinear(unittest.TestCase):
+    """
+    Defines :func:`colour.algebra.interpolation.kernel_linear` definition
+    units tests methods.
+    """
+
+    def test_kernel_linear(self):
+        """
+        Tests :func:`colour.algebra.interpolation.kernel_linear` definition.
+        """
+
+        np.testing.assert_almost_equal(
+            kernel_linear(np.linspace(-5, 5, 25)),
+            np.array([
+                0.00000000, 0.00000000, 0.00000000, 0.00000000, 0.00000000,
+                0.00000000, 0.00000000, 0.00000000, 0.00000000, 0.00000000,
+                0.16666667, 0.58333333, 1.00000000, 0.58333333, 0.16666667,
+                0.00000000, 0.00000000, 0.00000000, 0.00000000, 0.00000000,
+                0.00000000, 0.00000000, 0.00000000, 0.00000000, 0.00000000
+            ]),
+            decimal=7)
+
+
+class TestKernelSinc(unittest.TestCase):
+    """
+    Defines :func:`colour.algebra.interpolation.kernel_sinc` definition
+    units tests methods.
+    """
+
+    def test_kernel_sinc(self):
+        """
+        Tests :func:`colour.algebra.interpolation.kernel_sinc` definition.
+        """
+
+        np.testing.assert_almost_equal(
+            kernel_sinc(np.linspace(-5, 5, 25)),
+            np.array([
+                0.00000000, 0.00000000, 0.00000000, 0.00000000, 0.00000000,
+                0.02824617, 0.12732395, 0.03954464, -0.16539867, -0.18006326,
+                0.19098593, 0.73791298, 1.00000000, 0.73791298, 0.19098593,
+                -0.18006326, -0.16539867, 0.03954464, 0.12732395, 0.02824617,
+                0.00000000, 0.00000000, 0.00000000, 0.00000000, 0.00000000
+            ]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            kernel_sinc(np.linspace(-5, 5, 25), 1),
+            np.array([
+                0.00000000, 0.00000000, 0.00000000, 0.00000000, 0.00000000,
+                0.00000000, 0.00000000, 0.00000000, 0.00000000, 0.00000000,
+                0.19098593, 0.73791298, 1.00000000, 0.73791298, 0.19098593,
+                0.00000000, 0.00000000, 0.00000000, 0.00000000, 0.00000000,
+                0.00000000, 0.00000000, 0.00000000, 0.00000000, 0.00000000
+            ]),
+            decimal=7)
+
+
+class TestKernelLanczos(unittest.TestCase):
+    """
+    Defines :func:`colour.algebra.interpolation.kernel_lanczos` definition
+    units tests methods.
+    """
+
+    def test_kernel_lanczos(self):
+        """
+        Tests :func:`colour.algebra.interpolation.kernel_lanczos` definition.
+        """
+
+        np.testing.assert_almost_equal(
+            kernel_lanczos(np.linspace(-5, 5, 25)),
+            np.array([
+                0.00000000e+00, 0.00000000e+00, 0.00000000e+00, 0.00000000e+00,
+                0.00000000e+00, 8.06009483e-04, 2.43170841e-02, 1.48478897e-02,
+                -9.33267411e-02, -1.32871018e-01, 1.67651704e-01,
+                7.14720157e-01, 1.00000000e+00, 7.14720157e-01, 1.67651704e-01,
+                -1.32871018e-01, -9.33267411e-02, 1.48478897e-02,
+                2.43170841e-02, 8.06009483e-04, 0.00000000e+00, 0.00000000e+00,
+                0.00000000e+00, 0.00000000e+00, 0.00000000e+00
+            ]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            kernel_lanczos(np.linspace(-5, 5, 25), 1),
+            np.array([
+                0.00000000, 0.00000000, 0.00000000, 0.00000000, 0.00000000,
+                0.00000000, 0.00000000, 0.00000000, 0.00000000, 0.00000000,
+                0.03647563, 0.54451556, 1.00000000, 0.54451556, 0.03647563,
+                0.00000000, 0.00000000, 0.00000000, 0.00000000, 0.00000000,
+                0.00000000, 0.00000000, 0.00000000, 0.00000000, 0.00000000
+            ]),
+            decimal=7)
+
+
+class TestKernelCardinalSpline(unittest.TestCase):
+    """
+    Defines :func:`colour.algebra.interpolation.kernel_cardinal_spline`
+    definition units tests methods.
+    """
+
+    def test_kernel_cardinal_spline(self):
+        """
+        Tests :func:`colour.algebra.interpolation.kernel_cardinal_spline`
+        definition.
+        """
+
+        np.testing.assert_almost_equal(
+            kernel_cardinal_spline(np.linspace(-5, 5, 25)),
+            np.array([
+                0.00000000, 0.00000000, 0.00000000, 0.00000000, 0.00000000,
+                0.00000000, 0.00000000, 0.00000000, -0.03703704, -0.0703125,
+                0.13194444, 0.67447917, 1.00000000, 0.67447917, 0.13194444,
+                -0.0703125, -0.03703704, 0.00000000, 0.00000000, 0.00000000,
+                0.00000000, 0.00000000, 0.00000000, 0.00000000, 0.00000000
+            ]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            kernel_cardinal_spline(np.linspace(-5, 5, 25), 0, 1),
+            np.array([
+                0.00000000, 0.00000000, 0.00000000, 0.00000000, 0.00000000,
+                0.00000000, 0.00000000, 0.00000000, 0.00617284, 0.0703125,
+                0.26157407, 0.52922454, 0.66666667, 0.52922454, 0.26157407,
+                0.0703125, 0.00617284, 0.00000000, 0.00000000, 0.00000000,
+                0.00000000, 0.00000000, 0.00000000, 0.00000000, 0.00000000
+            ]),
+            decimal=7)
+
+
+class TestKernelInterpolator(unittest.TestCase):
+    """
+    Defines :func:`colour.algebra.interpolation.KernelInterpolator` class units
+    tests methods.
+    """
+
+    def test_required_attributes(self):
+        """
+        Tests presence of required attributes.
+        """
+
+        required_attributes = ('x', 'y', 'window', 'kernel', 'kernel_args',
+                               'padding_args')
+
+        for attribute in required_attributes:
+            self.assertIn(attribute, dir(KernelInterpolator))
+
+    def test_required_methods(self):
+        """
+        Tests presence of required methods.
+        """
+
+        required_methods = ()
+
+        for method in required_methods:
+            self.assertIn(method, dir(KernelInterpolator))
+
+    def test___call__(self):
+        """
+        Tests :func:`colour.algebra.interpolation.KernelInterpolator.__call__`
+        method.
+        """
+
+        x = np.arange(11, 26, 1)
+        y = np.sin(x / len(x) * np.pi * 6) / (x / len(x)) + np.pi
+        x_i = np.linspace(11, 25, 25)
+
+        kernel_interpolator = KernelInterpolator(x, y)
+        np.testing.assert_array_almost_equal(
+            kernel_interpolator(x_i),
+            np.array([
+                4.43848790, 4.26286480, 3.64640076, 2.77982023, 2.13474499,
+                2.08206794, 2.50585862, 3.24992692, 3.84593162, 4.06289704,
+                3.80825633, 3.21068994, 2.65177161, 2.32137382, 2.45995375,
+                2.88799997, 3.43843598, 3.79504892, 3.79937086, 3.47673343,
+                2.99303182, 2.59305006, 2.47805594, 2.82957843, 3.14159265
+            ]),
+            decimal=7)
+
+        kernel_interpolator = KernelInterpolator(x, y, kernel=kernel_sinc)
+        np.testing.assert_array_almost_equal(
+            kernel_interpolator(x_i),
+            np.array([
+                4.43848790, 4.47570010, 3.84353906, 3.05959493, 2.53514958,
+                2.19916874, 2.93225625, 3.32187855, 4.09458791, 4.23088094,
+                3.92591447, 3.53263071, 2.65177161, 2.73541557, 2.65740315,
+                3.17077616, 3.69624479, 3.87159620, 4.06433758, 3.56283868,
+                3.28312289, 2.79652091, 2.62481419, 3.22117115, 3.14159265
+            ]),
+            decimal=7)
+
+        kernel_interpolator = KernelInterpolator(x, y, window=1)
+        np.testing.assert_array_almost_equal(
+            kernel_interpolator(x_i),
+            np.array([
+                4.43848790, 4.96712277, 4.09584229, 3.23991575, 2.80418924,
+                2.28470276, 3.20024753, 3.41120944, 4.46416970, 4.57878168,
+                4.15371498, 3.92841633, 2.65177161, 3.02110187, 2.79812654,
+                3.44218674, 4.00032377, 4.01356870, 4.47633386, 3.70912627,
+                3.58365067, 3.14325415, 2.88247572, 3.37531662, 3.14159265
+            ]),
+            decimal=7)
+
+        kernel_interpolator = KernelInterpolator(
+            x, y, window=1, kernel_args={'a': 1})
+        np.testing.assert_array_almost_equal(
+            kernel_interpolator(x_i),
+            np.array([
+                4.43848790, 3.34379320, 3.62463711, 2.34585418, 2.04767083,
+                2.09444849, 2.13349835, 3.10304927, 3.29553153, 3.59884738,
+                3.48484031, 2.72974983, 2.65177161, 2.03850468, 2.29470194,
+                2.76179863, 2.80189050, 3.75979450, 2.98422257, 3.48444099,
+                2.49208997, 2.46516442, 2.42336082, 2.25975903, 3.14159265
+            ]),
+            decimal=7)
+
+        kernel_interpolator = KernelInterpolator(
+            x, y, padding_args={'pad_width': (3, 3),
+                                'mode': 'mean'})
+        np.testing.assert_array_almost_equal(
+            kernel_interpolator(x_i),
+            np.array([
+                4.4384879, 4.35723245, 3.62918155, 2.77471295, 2.13474499,
+                2.08206794, 2.50585862, 3.24992692, 3.84593162, 4.06289704,
+                3.80825633, 3.21068994, 2.65177161, 2.32137382, 2.45995375,
+                2.88799997, 3.43843598, 3.79504892, 3.79937086, 3.47673343,
+                2.99303182, 2.59771985, 2.49380017, 2.76339043, 3.14159265
+            ]),
+            decimal=7)
+
+        x_1 = np.arange(1, 10, 1)
+        x_2 = x_1 * 10
+        x_3 = x_1 / 10
+        y = np.sin(x_1 / len(x_1) * np.pi * 6) / (x_1 / len(x_1))
+        x_i = np.linspace(1, 9, 25)
+
+        np.testing.assert_array_almost_equal(
+            KernelInterpolator(x_1, y)(x_i),
+            KernelInterpolator(x_2, y)(x_i * 10),
+            decimal=7)
+
+        np.testing.assert_array_almost_equal(
+            KernelInterpolator(x_1, y)(x_i),
+            KernelInterpolator(x_3, y)(x_i / 10),
+            decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan__call__(self):
+        """
+        Tests :func:`colour.algebra.interpolation.KernelInterpolator.__call__`
+        method nan support.
+        """
+
+        # NOTE: As the "x" independent variable must be uniform, it cannot
+        # contain NaNs.
+        # TODO: Revisit if the interpolator can be applied on non-uniform "x"
+        # independent variable.
+
+        pass
+
+
 class TestLinearInterpolator(unittest.TestCase):
     """
     Defines :func:`colour.algebra.interpolation.LinearInterpolator` class units
@@ -533,6 +818,15 @@ class TestSpragueInterpolator(unittest.TestCase):
                 from colour.utilities import warning
 
                 warning(traceback.format_exc())
+
+
+class TestCubicSplineInterpolator(unittest.TestCase):
+    """
+    Defines :func:`colour.algebra.interpolation.CubicSplineInterpolator` class
+    unit tests methods.
+    """
+
+    pass
 
 
 class TestPchipInterpolator(unittest.TestCase):
