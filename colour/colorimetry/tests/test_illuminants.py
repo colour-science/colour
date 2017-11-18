@@ -10,7 +10,8 @@ import numpy as np
 import unittest
 
 from colour.colorimetry import (D_illuminant_relative_spd,
-                                CIE_standard_illuminant_A_function)
+                                CIE_standard_illuminant_A_function,
+                                SpectralPowerDistribution)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -190,11 +191,11 @@ class TestD_illuminantRelativeSpd(unittest.TestCase):
         definition.
         """
 
-        spd = D_illuminant_relative_spd(np.array([0.32168, 0.33767]))
-        np.testing.assert_almost_equal(
-            sorted(spd.data.values()),
-            sorted(D60_SPD_DATA.values()),
-            decimal=7)
+        spd_r = SpectralPowerDistribution(D60_SPD_DATA)
+        spd_t = D_illuminant_relative_spd(np.array([0.32168, 0.33767]))
+
+        np.testing.assert_array_equal(spd_r.domain, spd_t.domain)
+        np.testing.assert_almost_equal(spd_r.values, spd_t.values, decimal=7)
 
 
 class TestCIEStandardIlluminantAFunction(unittest.TestCase):

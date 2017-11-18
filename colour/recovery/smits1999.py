@@ -23,7 +23,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import ILLUMINANTS, zeros_spd
+from colour.colorimetry import ILLUMINANTS
 from colour.models import (XYZ_to_RGB, normalised_primary_matrix,
                            sRGB_COLOURSPACE)
 from colour.recovery import SMITS_1999_SPDS
@@ -124,22 +124,36 @@ def RGB_to_spectral_Smits1999(RGB):
 
     Examples
     --------
+    >>> from colour import numpy_print_options
     >>> RGB = np.array([0.02144962, 0.13154603, 0.09287601])
-    >>> print(RGB_to_spectral_Smits1999(RGB))  # doctest: +ELLIPSIS
-    SpectralPowerDistribution('Smits (1999) - \
-[ 0.02144962  0.13154603  0.09287601]', (380.0, 720.0, 37.7777777...))
+    >>> with numpy_print_options(suppress=True):
+    ...     RGB_to_spectral_Smits1999(RGB)  # doctest: +ELLIPSIS
+    SpectralPowerDistribution([[ 380.        ,    0.0908046...],
+                               [ 417.7778    ,    0.0887761...],
+                               [ 455.5556    ,    0.0939795...],
+                               [ 493.3333    ,    0.1236033...],
+                               [ 531.1111    ,    0.1315788...],
+                               [ 568.8889    ,    0.1293411...],
+                               [ 606.6667    ,    0.0392680...],
+                               [ 644.4444    ,    0.0214496...],
+                               [ 682.2222    ,    0.0214496...],
+                               [ 720.        ,    0.0215463...]],
+                              interpolator=CubicSplineInterpolator,
+                              interpolator_args={},
+                              extrapolator=Extrapolator,
+                              extrapolator_args={...})
     """
 
-    white_spd = SMITS_1999_SPDS['white'].clone()
-    cyan_spd = SMITS_1999_SPDS['cyan'].clone()
-    magenta_spd = SMITS_1999_SPDS['magenta'].clone()
-    yellow_spd = SMITS_1999_SPDS['yellow'].clone()
-    red_spd = SMITS_1999_SPDS['red'].clone()
-    green_spd = SMITS_1999_SPDS['green'].clone()
-    blue_spd = SMITS_1999_SPDS['blue'].clone()
+    white_spd = SMITS_1999_SPDS['white'].copy()
+    cyan_spd = SMITS_1999_SPDS['cyan'].copy()
+    magenta_spd = SMITS_1999_SPDS['magenta'].copy()
+    yellow_spd = SMITS_1999_SPDS['yellow'].copy()
+    red_spd = SMITS_1999_SPDS['red'].copy()
+    green_spd = SMITS_1999_SPDS['green'].copy()
+    blue_spd = SMITS_1999_SPDS['blue'].copy()
 
     R, G, B = np.ravel(RGB)
-    spd = zeros_spd(SMITS_1999_SPDS['white'].shape)
+    spd = white_spd.copy() * 0.0
     spd.name = 'Smits (1999) - {0}'.format(RGB)
 
     if R <= G and R <= B:

@@ -6,11 +6,12 @@ Defines unit tests for :mod:`colour.io.tabular` module.
 
 from __future__ import division, unicode_literals
 
+import numpy as np
 import os
 import shutil
 import unittest
 import tempfile
-from six import text_type
+from six import PY2, text_type
 
 from colour.colorimetry import SpectralPowerDistribution
 from colour.io import (read_spectral_data_from_csv_file,
@@ -166,8 +167,8 @@ class TestReadSpdsFromCsvFile(unittest.TestCase):
             self.assertIsInstance(spd, SpectralPowerDistribution)
 
         self.assertEqual(spds['1'],
-                         SpectralPowerDistribution('1',
-                                                   COLOURCHECKER_N_OHTA_1))
+                         SpectralPowerDistribution(
+                             COLOURCHECKER_N_OHTA_1, name='1'))
 
 
 class TestWriteSpdsToCsvFile(unittest.TestCase):
@@ -203,7 +204,18 @@ class TestWriteSpdsToCsvFile(unittest.TestCase):
         write_spds_to_csv_file(spds, colour_checker_n_ohta_test)
         spds_test = read_spds_from_csv_file(colour_checker_n_ohta_test)
         for key, value in spds.items():
+            if PY2:
+                # Running into precision issues with Python 2.x, applying
+                # conservative rounding.
+                value.wavelengths = np.around(value.wavelengths, decimals=7)
+                value.values = np.around(value.values, decimals=7)
+                spds_test[key].wavelengths = np.around(
+                    spds_test[key].wavelengths, decimals=7)
+                spds_test[key].values = np.around(
+                    spds_test[key].values, decimals=7)
+
             self.assertEqual(value, spds_test[key])
+
         write_spds_to_csv_file(spds, colour_checker_n_ohta_test, fields=['1'])
         spds_test = read_spds_from_csv_file(colour_checker_n_ohta_test)
         self.assertEqual(len(spds_test), 1)

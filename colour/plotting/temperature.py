@@ -98,12 +98,12 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(illuminants=None,
         [UCS_uv_to_xy(CCT_to_uv(x, 'Robertson 1968', D_uv=0))
          for x in np.arange(start, end + 250, 250)])  # yapf: disable
 
-    pylab.plot(xy[..., 0], xy[..., 1], color='black', linewidth=2)
+    pylab.plot(xy[..., 0], xy[..., 1], color='black', linewidth=1)
 
     for i in (1667, 2000, 2500, 3000, 4000, 6000, 10000):
         x0, y0 = UCS_uv_to_xy(CCT_to_uv(i, 'Robertson 1968', D_uv=-0.025))
         x1, y1 = UCS_uv_to_xy(CCT_to_uv(i, 'Robertson 1968', D_uv=0.025))
-        pylab.plot((x0, x1), (y0, y1), color='black', linewidth=2)
+        pylab.plot((x0, x1), (y0, y1), color='black', linewidth=1)
         pylab.annotate(
             '{0}K'.format(i),
             xy=(x0, y0),
@@ -120,7 +120,7 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(illuminants=None,
                  '"{1}".').format(illuminant,
                                   sorted(ILLUMINANTS[cmfs.name].keys())))
 
-        pylab.plot(xy[0], xy[1], 'o', color='white', linewidth=2)
+        pylab.plot(xy[0], xy[1], 'o', color='white', linewidth=1)
 
         pylab.annotate(
             illuminant,
@@ -206,12 +206,12 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
         [CCT_to_uv(x, 'Robertson 1968', D_uv=0)
          for x in np.arange(start, end + 250, 250)])  # yapf: disable
 
-    pylab.plot(uv[..., 0], uv[..., 1], color='black', linewidth=2)
+    pylab.plot(uv[..., 0], uv[..., 1], color='black', linewidth=1)
 
     for i in (1667, 2000, 2500, 3000, 4000, 6000, 10000):
         u0, v0 = CCT_to_uv(i, 'Robertson 1968', D_uv=-0.05)
         u1, v1 = CCT_to_uv(i, 'Robertson 1968', D_uv=0.05)
-        pylab.plot((u0, u1), (v0, v1), color='black', linewidth=2)
+        pylab.plot((u0, u1), (v0, v1), color='black', linewidth=1)
         pylab.annotate(
             '{0}K'.format(i),
             xy=(u0, v0),
@@ -230,7 +230,7 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
 
         uv = UCS_to_uv(XYZ_to_UCS(xy_to_XYZ(xy)))
 
-        pylab.plot(uv[0], uv[1], 'o', color='white', linewidth=2)
+        pylab.plot(uv[0], uv[1], 'o', color='white', linewidth=1)
 
         pylab.annotate(
             illuminant,

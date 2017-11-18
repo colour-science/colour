@@ -2080,9 +2080,8 @@ COLORCHECKER_N_OHTA_SPDS_DATA = {
     }
 }
 
-COLORCHECKER_N_OHTA_SPDS = dict(
-    (key, SpectralPowerDistribution(key, value))
-    for key, value in COLORCHECKER_N_OHTA_SPDS_DATA.items())
+COLORCHECKER_N_OHTA_SPDS = dict((key, SpectralPowerDistribution(
+    value, name=key)) for key, value in COLORCHECKER_N_OHTA_SPDS_DATA.items())
 """
 Measured by *Ohta (1997)*.
 
@@ -3004,9 +3003,8 @@ BABELCOLOR_AVERAGE_SPDS_DATA = {
     }
 }
 
-BABELCOLOR_AVERAGE_SPDS = dict(
-    (key, SpectralPowerDistribution(key, value))
-    for key, value in BABELCOLOR_AVERAGE_SPDS_DATA.items())
+BABELCOLOR_AVERAGE_SPDS = dict((key, SpectralPowerDistribution(
+    value, name=key)) for key, value in BABELCOLOR_AVERAGE_SPDS_DATA.items())
 """
 Average data derived from measurements of 30 *ColourChecker* charts.
 

@@ -7,14 +7,13 @@ Defines unit tests for :mod:`colour.colorimetry.spectrum` module.
 from __future__ import division, unicode_literals
 
 import numpy as np
-import operator
 import unittest
 import scipy
 from distutils.version import LooseVersion
 
 from colour.colorimetry.spectrum import (
-    SpectralMapping, SpectralShape, SpectralPowerDistribution,
-    TriSpectralPowerDistribution, constant_spd, zeros_spd, ones_spd)
+    SpectralShape, SpectralPowerDistribution, MultiSpectralPowerDistribution,
+    constant_spd, zeros_spd, ones_spd)
 from colour.utilities import tstack
 
 __author__ = 'Colour Developers'
@@ -25,11 +24,11 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'SAMPLE_SPD_DATA', 'NON_UNIFORM_SAMPLE_SPD_DATA', 'ZEROS_SAMPLE_SPD_DATA',
+    'SAMPLE_SPD_DATA', 'NON_UNIFORM_SAMPLE_SPD_DATA',
     'INTERPOLATED_SAMPLE_SPD_DATA', 'INTERPOLATED_NON_UNIFORM_SAMPLE_SPD_DATA',
     'NORMALISED_SAMPLE_SPD_DATA', 'CIE_1931_2_DEGREE_STANDARD_OBSERVER',
     'CMFS_DATA', 'TestSpectralShape', 'TestSpectralPowerDistribution',
-    'TestTriSpectralPowerDistribution', 'TestConstantSpd', 'TestZerosSpd',
+    'TestMultiSpectralPowerDistribution', 'TestConstantSpd', 'TestZerosSpd',
     'TestOnes_spd'
 ]
 
@@ -117,489 +116,6 @@ NON_UNIFORM_SAMPLE_SPD_DATA = {
     786.089: 8.850659,
     805.862: 8.850659
 }
-
-ZEROS_SAMPLE_SPD_DATA = (
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0641,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0645,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0562,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0537,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0559,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0651,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0705,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0772,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0870,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.1128,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.1360,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.1511,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.1688,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.1996,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.2397,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.2852,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000,
-    0.0000)  # yapf: disable
 
 INTERPOLATED_SAMPLE_SPD_DATA = (
     0.000000000000000,
@@ -1528,255 +1044,87 @@ NORMALISED_SAMPLE_SPD_DATA = (
     0.000000000000000)  # yapf: disable
 
 CIE_1931_2_DEGREE_STANDARD_OBSERVER = {
-    'x_bar': {
-        380: 0.001368,
-        385: 0.002236,
-        390: 0.004243,
-        395: 0.007650,
-        400: 0.014310,
-        405: 0.023190,
-        410: 0.043510,
-        415: 0.077630,
-        420: 0.134380,
-        425: 0.214770,
-        430: 0.283900,
-        435: 0.328500,
-        440: 0.348280,
-        445: 0.348060,
-        450: 0.336200,
-        455: 0.318700,
-        460: 0.290800,
-        465: 0.251100,
-        470: 0.195360,
-        475: 0.142100,
-        480: 0.095640,
-        485: 0.057950,
-        490: 0.032010,
-        495: 0.014700,
-        500: 0.004900,
-        505: 0.002400,
-        510: 0.009300,
-        515: 0.029100,
-        520: 0.063270,
-        525: 0.109600,
-        530: 0.165500,
-        535: 0.225750,
-        540: 0.290400,
-        545: 0.359700,
-        550: 0.433450,
-        555: 0.512050,
-        560: 0.594500,
-        565: 0.678400,
-        570: 0.762100,
-        575: 0.842500,
-        580: 0.916300,
-        585: 0.978600,
-        590: 1.026300,
-        595: 1.056700,
-        600: 1.062200,
-        605: 1.045600,
-        610: 1.002600,
-        615: 0.938400,
-        620: 0.854450,
-        625: 0.751400,
-        630: 0.642400,
-        635: 0.541900,
-        640: 0.447900,
-        645: 0.360800,
-        650: 0.283500,
-        655: 0.218700,
-        660: 0.164900,
-        665: 0.121200,
-        670: 0.087400,
-        675: 0.063600,
-        680: 0.046770,
-        685: 0.032900,
-        690: 0.022700,
-        695: 0.015840,
-        700: 0.011359,
-        705: 0.008111,
-        710: 0.005790,
-        715: 0.004109,
-        720: 0.002899,
-        725: 0.002049,
-        730: 0.001440,
-        735: 0.001000,
-        740: 0.000690,
-        745: 0.000476,
-        750: 0.000332,
-        755: 0.000235,
-        760: 0.000166,
-        765: 0.000117,
-        770: 0.000083,
-        775: 0.000059,
-        780: 0.000042
-    },
-    'y_bar': {
-        380: 0.000039,
-        385: 0.000064,
-        390: 0.000120,
-        395: 0.000217,
-        400: 0.000396,
-        405: 0.000640,
-        410: 0.001210,
-        415: 0.002180,
-        420: 0.004000,
-        425: 0.007300,
-        430: 0.011600,
-        435: 0.016840,
-        440: 0.023000,
-        445: 0.029800,
-        450: 0.038000,
-        455: 0.048000,
-        460: 0.060000,
-        465: 0.073900,
-        470: 0.090980,
-        475: 0.112600,
-        480: 0.139020,
-        485: 0.169300,
-        490: 0.208020,
-        495: 0.258600,
-        500: 0.323000,
-        505: 0.407300,
-        510: 0.503000,
-        515: 0.608200,
-        520: 0.710000,
-        525: 0.793200,
-        530: 0.862000,
-        535: 0.914850,
-        540: 0.954000,
-        545: 0.980300,
-        550: 0.994950,
-        555: 1.000000,
-        560: 0.995000,
-        565: 0.978600,
-        570: 0.952000,
-        575: 0.915400,
-        580: 0.870000,
-        585: 0.816300,
-        590: 0.757000,
-        595: 0.694900,
-        600: 0.631000,
-        605: 0.566800,
-        610: 0.503000,
-        615: 0.441200,
-        620: 0.381000,
-        625: 0.321000,
-        630: 0.265000,
-        635: 0.217000,
-        640: 0.175000,
-        645: 0.138200,
-        650: 0.107000,
-        655: 0.081600,
-        660: 0.061000,
-        665: 0.044580,
-        670: 0.032000,
-        675: 0.023200,
-        680: 0.017000,
-        685: 0.011920,
-        690: 0.008210,
-        695: 0.005723,
-        700: 0.004102,
-        705: 0.002929,
-        710: 0.002091,
-        715: 0.001484,
-        720: 0.001047,
-        725: 0.000740,
-        730: 0.000520,
-        735: 0.000361,
-        740: 0.000249,
-        745: 0.000172,
-        750: 0.000120,
-        755: 0.000085,
-        760: 0.000060,
-        765: 0.000042,
-        770: 0.000030,
-        775: 0.000021,
-        780: 0.000015
-    },
-    'z_bar': {
-        380: 0.006450,
-        385: 0.010550,
-        390: 0.020050,
-        395: 0.036210,
-        400: 0.067850,
-        405: 0.110200,
-        410: 0.207400,
-        415: 0.371300,
-        420: 0.645600,
-        425: 1.039050,
-        430: 1.385600,
-        435: 1.622960,
-        440: 1.747060,
-        445: 1.782600,
-        450: 1.772110,
-        455: 1.744100,
-        460: 1.669200,
-        465: 1.528100,
-        470: 1.287640,
-        475: 1.041900,
-        480: 0.812950,
-        485: 0.616200,
-        490: 0.465180,
-        495: 0.353300,
-        500: 0.272000,
-        505: 0.212300,
-        510: 0.158200,
-        515: 0.111700,
-        520: 0.078250,
-        525: 0.057250,
-        530: 0.042160,
-        535: 0.029840,
-        540: 0.020300,
-        545: 0.013400,
-        550: 0.008750,
-        555: 0.005750,
-        560: 0.003900,
-        565: 0.002750,
-        570: 0.002100,
-        575: 0.001800,
-        580: 0.001650,
-        585: 0.001400,
-        590: 0.001100,
-        595: 0.001000,
-        600: 0.000800,
-        605: 0.000600,
-        610: 0.000340,
-        615: 0.000240,
-        620: 0.000190,
-        625: 0.000100,
-        630: 0.000050,
-        635: 0.000030,
-        640: 0.000020,
-        645: 0.000010,
-        650: 0.000000,
-        655: 0.000000,
-        660: 0.000000,
-        665: 0.000000,
-        670: 0.000000,
-        675: 0.000000,
-        680: 0.000000,
-        685: 0.000000,
-        690: 0.000000,
-        695: 0.000000,
-        700: 0.000000,
-        705: 0.000000,
-        710: 0.000000,
-        715: 0.000000,
-        720: 0.000000,
-        725: 0.000000,
-        730: 0.000000,
-        735: 0.000000,
-        740: 0.000000,
-        745: 0.000000,
-        750: 0.000000,
-        755: 0.000000,
-        760: 0.000000,
-        765: 0.000000,
-        770: 0.000000,
-        775: 0.000000,
-        780: 0.000000
-    }
+    380: (0.001368, 0.000039, 0.006450),
+    385: (0.002236, 0.000064, 0.010550),
+    390: (0.004243, 0.000120, 0.020050),
+    395: (0.007650, 0.000217, 0.036210),
+    400: (0.014310, 0.000396, 0.067850),
+    405: (0.023190, 0.000640, 0.110200),
+    410: (0.043510, 0.001210, 0.207400),
+    415: (0.077630, 0.002180, 0.371300),
+    420: (0.134380, 0.004000, 0.645600),
+    425: (0.214770, 0.007300, 1.039050),
+    430: (0.283900, 0.011600, 1.385600),
+    435: (0.328500, 0.016840, 1.622960),
+    440: (0.348280, 0.023000, 1.747060),
+    445: (0.348060, 0.029800, 1.782600),
+    450: (0.336200, 0.038000, 1.772110),
+    455: (0.318700, 0.048000, 1.744100),
+    460: (0.290800, 0.060000, 1.669200),
+    465: (0.251100, 0.073900, 1.528100),
+    470: (0.195360, 0.090980, 1.287640),
+    475: (0.142100, 0.112600, 1.041900),
+    480: (0.095640, 0.139020, 0.812950),
+    485: (0.057950, 0.169300, 0.616200),
+    490: (0.032010, 0.208020, 0.465180),
+    495: (0.014700, 0.258600, 0.353300),
+    500: (0.004900, 0.323000, 0.272000),
+    505: (0.002400, 0.407300, 0.212300),
+    510: (0.009300, 0.503000, 0.158200),
+    515: (0.029100, 0.608200, 0.111700),
+    520: (0.063270, 0.710000, 0.078250),
+    525: (0.109600, 0.793200, 0.057250),
+    530: (0.165500, 0.862000, 0.042160),
+    535: (0.225750, 0.914850, 0.029840),
+    540: (0.290400, 0.954000, 0.020300),
+    545: (0.359700, 0.980300, 0.013400),
+    550: (0.433450, 0.994950, 0.008750),
+    555: (0.512050, 1.000000, 0.005750),
+    560: (0.594500, 0.995000, 0.003900),
+    565: (0.678400, 0.978600, 0.002750),
+    570: (0.762100, 0.952000, 0.002100),
+    575: (0.842500, 0.915400, 0.001800),
+    580: (0.916300, 0.870000, 0.001650),
+    585: (0.978600, 0.816300, 0.001400),
+    590: (1.026300, 0.757000, 0.001100),
+    595: (1.056700, 0.694900, 0.001000),
+    600: (1.062200, 0.631000, 0.000800),
+    605: (1.045600, 0.566800, 0.000600),
+    610: (1.002600, 0.503000, 0.000340),
+    615: (0.938400, 0.441200, 0.000240),
+    620: (0.854450, 0.381000, 0.000190),
+    625: (0.751400, 0.321000, 0.000100),
+    630: (0.642400, 0.265000, 0.000050),
+    635: (0.541900, 0.217000, 0.000030),
+    640: (0.447900, 0.175000, 0.000020),
+    645: (0.360800, 0.138200, 0.000010),
+    650: (0.283500, 0.107000, 0.000000),
+    655: (0.218700, 0.081600, 0.000000),
+    660: (0.164900, 0.061000, 0.000000),
+    665: (0.121200, 0.044580, 0.000000),
+    670: (0.087400, 0.032000, 0.000000),
+    675: (0.063600, 0.023200, 0.000000),
+    680: (0.046770, 0.017000, 0.000000),
+    685: (0.032900, 0.011920, 0.000000),
+    690: (0.022700, 0.008210, 0.000000),
+    695: (0.015840, 0.005723, 0.000000),
+    700: (0.011359, 0.004102, 0.000000),
+    705: (0.008111, 0.002929, 0.000000),
+    710: (0.005790, 0.002091, 0.000000),
+    715: (0.004109, 0.001484, 0.000000),
+    720: (0.002899, 0.001047, 0.000000),
+    725: (0.002049, 0.000740, 0.000000),
+    730: (0.001440, 0.000520, 0.000000),
+    735: (0.001000, 0.000361, 0.000000),
+    740: (0.000690, 0.000249, 0.000000),
+    745: (0.000476, 0.000172, 0.000000),
+    750: (0.000332, 0.000120, 0.000000),
+    755: (0.000235, 0.000085, 0.000000),
+    760: (0.000166, 0.000060, 0.000000),
+    765: (0.000117, 0.000042, 0.000000),
+    770: (0.000083, 0.000030, 0.000000),
+    775: (0.000059, 0.000021, 0.000000),
+    780: (0.000042, 0.000015, 0.000000)
 }
 
 CMFS_DATA = {
@@ -1862,40 +1210,6 @@ CMFS_DATA = {
     775: np.array([5.90e-05, 2.10e-05, 0.000000]),
     780: np.array([4.20e-05, 1.50e-05, 0.000000])
 }
-
-
-class TestSpectralMapping(unittest.TestCase):
-    """
-    Defines :class:`colour.colorimetry.spectrum.SpectralMapping` class unit
-    tests methods.
-
-    Notes
-    -----
-    -   This class unit tests are entirely covered by
-        :class:`colour.utilities.tests.tests_data_structures.\
-TestArbitraryPrecisionMapping` class.
-    """
-
-    def test_required_attributes(self):
-        """
-        Tests presence of required attributes.
-        """
-
-        required_attributes = ('key_decimals', )
-
-        for attribute in required_attributes:
-            self.assertIn(attribute, dir(SpectralMapping))
-
-    def test_required_methods(self):
-        """
-        Tests presence of required methods.
-        """
-
-        required_methods = ('__setitem__', '__getitem__', '__delitem__',
-                            '__contains__', '__iter__', '__len__')
-
-        for method in required_methods:
-            self.assertIn(method, dir(SpectralMapping))
 
 
 class TestSpectralShape(unittest.TestCase):
@@ -2039,10 +1353,12 @@ class TestSpectralPowerDistribution(unittest.TestCase):
         Initialises common tests attributes.
         """
 
-        self._spd = SpectralPowerDistribution('Sample', SAMPLE_SPD_DATA)
+        self._spd = SpectralPowerDistribution(SAMPLE_SPD_DATA, name='Sample')
 
         self._non_uniform_spd = SpectralPowerDistribution(
-            'Non Uniform Sample', NON_UNIFORM_SAMPLE_SPD_DATA)
+            NON_UNIFORM_SAMPLE_SPD_DATA,
+            name='Non Uniform Sample',
+            strict_name='Strict Non Uniform Sample')
 
         self._phi = (1 + np.sqrt(5)) / 2
 
@@ -2051,8 +1367,7 @@ class TestSpectralPowerDistribution(unittest.TestCase):
         Tests presence of required attributes.
         """
 
-        required_attributes = ('name', 'data', 'title', 'wavelengths',
-                               'values', 'shape')
+        required_attributes = ('strict_name', 'wavelengths', 'values', 'shape')
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(SpectralPowerDistribution))
@@ -2062,17 +1377,21 @@ class TestSpectralPowerDistribution(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__str__', '__repr__', '__hash__', '__getitem__',
-                            '__setitem__', '__iter__', '__contains__',
-                            '__len__', '__eq__', '__ne__', '__add__',
-                            '__iadd__', '__sub__', '__isub__', '__mul__',
-                            '__imul__', '__div__', '__idiv__', '__pow__',
-                            '__ipow__', 'get', 'is_uniform', 'extrapolate',
-                            'interpolate', 'align', 'trim_wavelengths',
-                            'zeros', 'normalise', 'clone')
+        required_methods = ('__init__', 'extrapolate', 'interpolate', 'align',
+                            'trim', 'normalise')
 
         for method in required_methods:
             self.assertIn(method, dir(SpectralPowerDistribution))
+
+    def test_strict_name(self):
+        """
+        Tests :attr:`colour.colorimetry.spectrum.\
+SpectralPowerDistribution.strict_name` attribute.
+        """
+
+        self.assertEqual(self._spd.strict_name, 'Sample')
+        self.assertEqual(self._non_uniform_spd.strict_name,
+                         'Strict Non Uniform Sample')
 
     def test_wavelengths(self):
         """
@@ -2080,15 +1399,7 @@ class TestSpectralPowerDistribution(unittest.TestCase):
 SpectralPowerDistribution.wavelengths` attribute.
         """
 
-        np.testing.assert_almost_equal(self._spd.wavelengths,
-                                       sorted(SAMPLE_SPD_DATA))
-
-        spd = self._spd.clone().interpolate(SpectralShape(interval=0.1))
-        non_uniform_spd = self._non_uniform_spd.clone().interpolate(
-            SpectralShape(interval=0.1))
-
-        self.assertTrue(
-            np.all(np.in1d(non_uniform_spd.wavelengths, spd.wavelengths)))
+        np.testing.assert_array_equal(self._spd.wavelengths, self._spd.domain)
 
     def test_values(self):
         """
@@ -2096,18 +1407,7 @@ SpectralPowerDistribution.wavelengths` attribute.
 SpectralPowerDistribution.values` attribute.
         """
 
-        np.testing.assert_almost_equal(
-            self._spd.values, [v for k, v in sorted(SAMPLE_SPD_DATA.items())])
-
-    def test_items(self):
-        """
-        Tests :attr:`colour.colorimetry.spectrum.\
-SpectralPowerDistribution.items` attribute.
-        """
-
-        np.testing.assert_array_equal(self._spd.items,
-                                      tstack((self._spd.wavelengths,
-                                              self._spd.values)))
+        np.testing.assert_array_equal(self._spd.values, self._spd.range)
 
     def test_shape(self):
         """
@@ -2117,214 +1417,31 @@ SpectralPowerDistribution.shape` attribute.
 
         self.assertEqual(self._spd.shape, SpectralShape(340, 820, 20))
 
-    def test__str__(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-SpectralPowerDistribution.__str__` method.
-        """
-
-        try:
-            self.assertEqual(
-                str(self._spd),
-                'SpectralPowerDistribution(\'Sample\', (340, 820, 20))')
-        except AssertionError:
-            self.assertEqual(
-                str(self._spd),
-                'SpectralPowerDistribution(\'Sample\', (340.0, 820.0, 20.0))')
-
-    def test__getitem__(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-SpectralPowerDistribution.__getitem__` method.
-        """
-
-        self.assertEqual(self._spd[400], 0.0641)
-
-        np.testing.assert_almost_equal(self._spd[np.array([340, 620, 820])],
-                                       np.array([0.0000, 0.1511, 0.0000]))
-
-        np.testing.assert_almost_equal(self._spd[3:6],
-                                       np.array([0.0641, 0.0645, 0.0562]))
-
-    def test__setitem__(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-SpectralPowerDistribution.__setitem__` method.
-        """
-
-        spd = SpectralPowerDistribution('Spd', {})
-        spd[510] = 49.6700
-        np.testing.assert_almost_equal(spd.values, np.array(49.6700))
-
-        spd[np.array([520, 530])] = np.array([69.59, 81.73])
-        np.testing.assert_almost_equal(spd.values,
-                                       np.array([49.67, 69.59, 81.73]))
-
-        spd[np.array([540, 550])] = 88.19
-        np.testing.assert_almost_equal(
-            spd.values, np.array([49.67, 69.59, 81.73, 88.19, 88.19]))
-
-        spd[:] = 49.67
-        np.testing.assert_almost_equal(
-            spd.values, np.array([49.67, 49.67, 49.67, 49.67, 49.67]))
-
-    def test__iter__(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-SpectralPowerDistribution.__iter__` method.
-        """
-
-        self.assertEqual({key: value
-                          for key, value in self._spd}, SAMPLE_SPD_DATA)
-
-    def test__contains__(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-SpectralPowerDistribution.__contains__` method.
-        """
-
-        self.assertIn(340, self._spd)
-
-        self.assertIn(460, self._spd)
-
-        self.assertNotIn(461, self._spd)
-
-    def test__len__(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-SpectralPowerDistribution.__len__` method.
-        """
-
-        self.assertEqual(len(self._spd), 25)
-
-    def test__eq__(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-SpectralPowerDistribution.__eq__` method.
-        """
-
-        self.assertEqual(self._spd, self._spd.clone())
-
-    def test__ne__(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-    SpectralPowerDistribution.__ne__` method.
-        """
-
-        clone_spd = self._spd.clone()
-        clone_spd[500] = 0.
-
-        self.assertNotEqual(self._spd, clone_spd)
-
-    def test_arithmetical_operations(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-SpectralPowerDistribution.__add__`,
-:func:`colour.colorimetry.spectrum.SpectralPowerDistribution.__sub__`
-:func:`colour.colorimetry.spectrum.SpectralPowerDistribution.__mult__`
-:func:`colour.colorimetry.spectrum.SpectralPowerDistribution.__div__`
-:func:`colour.colorimetry.spectrum.SpectralPowerDistribution.__truediv__` and
-:func:`colour.colorimetry.spectrum.SpectralPowerDistribution.__pow__`
-        methods.
-        """
-
-        operations = (operator.add, operator.sub, operator.mul,
-                      operator.truediv, operator.pow)
-
-        for operation in operations:
-            self.assertFalse(operation(self._spd, 1) is self._spd)
-
-            values = self._spd.values
-            np.testing.assert_almost_equal(
-                operation(self._spd, self._phi).values,
-                operation(values, self._phi))
-
-            random = np.random.random(values.shape)
-            np.testing.assert_almost_equal(
-                operation(self._spd, random).values, operation(values, random))
-
-            np.testing.assert_almost_equal(
-                operation(self._spd, self._spd).values,
-                operation(self._spd.values, self._spd.values))
-
-    def test_arithmetical_ioperation(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-SpectralPowerDistribution.__iadd__`,
-:func:`colour.colorimetry.spectrum.SpectralPowerDistribution.__isub__`
-:func:`colour.colorimetry.spectrum.SpectralPowerDistribution.__imult__`
-:func:`colour.colorimetry.spectrum.SpectralPowerDistribution.__idiv__`
-:func:`colour.colorimetry.spectrum.SpectralPowerDistribution.__itruediv__` and
-:func:`colour.colorimetry.spectrum.SpectralPowerDistribution.__ipow__`
-        methods.
-        """
-
-        operations = (operator.iadd, operator.isub, operator.imul,
-                      operator.itruediv, operator.ipow)
-
-        for operation in operations:
-            spd = self._spd.clone()
-            self.assertTrue(operation(spd, 1) is spd)
-
-            spd = self._spd.clone()
-            values = spd.values
-            np.testing.assert_almost_equal(
-                operation(spd, 2).values, operation(values, 2))
-
-            spd = self._spd.clone()
-            values = spd.values
-            random = np.random.random(len(values))
-            np.testing.assert_almost_equal(
-                operation(spd, random).values, operation(values, random))
-
-            spd1 = self._spd.clone()
-            spd2 = self._spd.clone()
-            np.testing.assert_almost_equal(
-                operation(spd1, spd2).values,
-                operation(self._spd.values, self._spd.values))
-
-    def test_get(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-SpectralPowerDistribution.get` method.
-        """
-
-        self.assertEqual(self._spd.get(340), 0.)
-
-        self.assertEqual(self._spd.get(620), 0.1511)
-
-        self.assertEqual(self._spd.get(820), 0.)
-
-        self.assertEqual(self._spd.get(900, 0), 0)
-
-        np.testing.assert_almost_equal(
-            self._spd.get(np.array([340, 620, 820])),
-            np.array([0.0000, 0.1511, 0.0000]))
-
-        np.testing.assert_array_equal(self._spd.get(400.1), np.nan)
-
-    def test_is_uniform(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-SpectralPowerDistribution.is_uniform` method.
-        """
-
-        self.assertFalse(self._non_uniform_spd.is_uniform())
-
-        self.assertTrue(self._spd.is_uniform())
-
     def test_extrapolate(self):
         """
         Tests :func:`colour.colorimetry.spectrum.\
 SpectralPowerDistribution.extrapolate` method.
         """
 
-        spd = SpectralPowerDistribution(
-            '', dict(zip(range(25, 35), [0] * 5 + [1] * 5)))
+        data = dict(zip(range(25, 35), [0] * 5 + [1] * 5))
+        spd = SpectralPowerDistribution(data)
         spd.extrapolate(SpectralShape(10, 50))
 
-        self.assertEqual(spd[10], 0)
-        self.assertEqual(spd[50], 1)
+        self.assertAlmostEqual(spd[10], 0, places=7)
+        self.assertAlmostEqual(spd[50], 1, places=7)
+
+        spd = SpectralPowerDistribution(
+            np.linspace(0, 1, 10), np.linspace(25, 35, 10))
+        spd.extrapolate(
+            SpectralShape(10, 50),
+            extrapolator_args={
+                'method': 'Linear',
+                'left': None,
+                'right': None
+            })
+
+        self.assertAlmostEqual(spd[10], -1.5000000000000004, places=7)
+        self.assertAlmostEqual(spd[50], 2.4999999999999964, places=7)
 
     def test_interpolate(self):
         """
@@ -2333,20 +1450,8 @@ SpectralPowerDistribution.interpolate` method.
         """
 
         np.testing.assert_almost_equal(
-            self._spd.clone().interpolate(SpectralShape(interval=1)).values,
+            self._spd.copy().interpolate(SpectralShape(interval=1)).values,
             INTERPOLATED_SAMPLE_SPD_DATA,
-            decimal=7)
-
-        np.testing.assert_almost_equal(
-            self._spd.clone().interpolate(
-                SpectralShape(interval=1), method='Linear')[410],
-            np.array(0.0643),
-            decimal=7)
-
-        np.testing.assert_almost_equal(
-            self._spd.clone().interpolate(
-                SpectralShape(interval=1), method='Pchip')[410],
-            np.array(0.064399379844961),
             decimal=7)
 
         # TODO: Remove statement whenever we make "Scipy" 0.19.0 the minimum
@@ -2356,7 +1461,7 @@ SpectralPowerDistribution.interpolate` method.
             return
 
         np.testing.assert_allclose(
-            self._non_uniform_spd.clone().interpolate(
+            self._non_uniform_spd.copy().interpolate(
                 SpectralShape(interval=1)).values,
             INTERPOLATED_NON_UNIFORM_SAMPLE_SPD_DATA,
             rtol=0.0000001,
@@ -2369,39 +1474,22 @@ SpectralPowerDistribution.align` method.
         """
 
         shape = SpectralShape(100, 900, 5)
-        self.assertEqual(self._spd.clone().align(shape).shape, shape)
+        self.assertEqual(self._spd.copy().align(shape).shape, shape)
 
         shape = SpectralShape(600, 650, 1)
-        self.assertEqual(self._spd.clone().align(shape).shape, shape)
+        self.assertEqual(self._spd.copy().align(shape).shape, shape)
 
-    def test_trim_wavelengths(self):
+    def test_trim(self):
         """
         Tests :func:`colour.colorimetry.spectrum.\
-SpectralPowerDistribution.trim_wavelengths` method.
+SpectralPowerDistribution.trim` method.
         """
 
         shape = SpectralShape(400, 700, 20)
-        self.assertEqual(self._spd.clone().trim_wavelengths(shape).shape,
-                         shape)
+        self.assertEqual(self._spd.copy().trim(shape).shape, shape)
 
         shape = SpectralShape(200, 900, 1)
-        self.assertEqual(self._spd.clone().trim_wavelengths(shape).shape,
-                         self._spd.shape)
-
-    def test_zeros(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-SpectralPowerDistribution.zeros` method.
-        """
-
-        np.testing.assert_almost_equal(
-            self._spd.clone().zeros(SpectralShape(interval=1)).values,
-            ZEROS_SAMPLE_SPD_DATA)
-
-        self.assertRaises(
-            RuntimeError,
-            lambda: self._non_uniform_spd.clone().zeros(
-                SpectralShape(360, 830, 1)))
+        self.assertEqual(self._spd.copy().trim(shape).shape, self._spd.shape)
 
     def test_normalise(self):
         """
@@ -2409,22 +1497,13 @@ SpectralPowerDistribution.zeros` method.
 SpectralPowerDistribution.normalise` method.
         """
 
-        np.testing.assert_almost_equal(self._spd.clone().normalise(100).values,
+        np.testing.assert_almost_equal(self._spd.copy().normalise(100).values,
                                        NORMALISED_SAMPLE_SPD_DATA)
 
-    def test_clone(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-SpectralPowerDistribution.clone` method.
-        """
 
-        self.assertFalse(self._spd is self._spd.clone())
-        self.assertEqual(self._spd.title, self._spd.clone().title)
-
-
-class TestTriSpectralPowerDistribution(unittest.TestCase):
+class TestMultiSpectralPowerDistribution(unittest.TestCase):
     """
-    Defines :class:`colour.colorimetry.spectrum.TriSpectralPowerDistribution`
+    Defines :class:`colour.colorimetry.spectrum.MultiSpectralPowerDistribution`
     class unit tests methods.
     """
 
@@ -2433,35 +1512,29 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
         Initialises common tests attributes.
         """
 
-        self._mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
+        self._labels = ('x_bar', 'y_bar', 'z_bar')
 
-        self._labels = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
-
-        self._tri_spd = TriSpectralPowerDistribution(
+        self._multi_spd = MultiSpectralPowerDistribution(
+            CIE_1931_2_DEGREE_STANDARD_OBSERVER,
             name='Observer',
-            data=CIE_1931_2_DEGREE_STANDARD_OBSERVER,
-            mapping=self._mapping,
             labels=self._labels)
 
-        self._sample_tri_spd = TriSpectralPowerDistribution(
-            name='Sample Observer',
-            data={
-                'x_bar': SAMPLE_SPD_DATA,
-                'y_bar': SAMPLE_SPD_DATA,
-                'z_bar': SAMPLE_SPD_DATA
-            },
-            mapping=self._mapping,
-            labels=self._labels)
+        spd = SpectralPowerDistribution(SAMPLE_SPD_DATA)
+        domain = spd.domain
+        range_ = tstack([spd.values, spd.values, spd.values])
+        self._sample_multi_spd = MultiSpectralPowerDistribution(
+            range_, domain, name='Sample Observer', labels=self._labels)
 
-        self._non_uniform_sample_tri_spd = TriSpectralPowerDistribution(
+        spd = SpectralPowerDistribution(NON_UNIFORM_SAMPLE_SPD_DATA)
+        domain = spd.domain
+        range_ = tstack([spd.values, spd.values, spd.values])
+        self._non_uniform_sample_multi_spd = MultiSpectralPowerDistribution(
+            range_,
+            domain,
             name='Non Uniform Sample Observer',
-            data={
-                'x_bar': NON_UNIFORM_SAMPLE_SPD_DATA,
-                'y_bar': NON_UNIFORM_SAMPLE_SPD_DATA,
-                'z_bar': NON_UNIFORM_SAMPLE_SPD_DATA
-            },
-            mapping=self._mapping,
-            labels=self._labels)
+            strict_name='Strict Non Uniform Sample Observer',
+            labels=self._labels,
+            strict_labels=('Strict x_bar', 'Strict  y_bar', 'Strict  z_bar'))
 
         self._phi = (1 + np.sqrt(5)) / 2
 
@@ -2470,366 +1543,112 @@ class TestTriSpectralPowerDistribution(unittest.TestCase):
         Tests presence of required attributes.
         """
 
-        required_attributes = ('name', 'data', 'mapping', 'title', 'labels',
-                               'x', 'y', 'z', 'wavelengths', 'values', 'shape')
+        required_attributes = ('strict_name', 'strict_labels', 'wavelengths',
+                               'values', 'shape')
 
         for attribute in required_attributes:
-            self.assertIn(attribute, dir(TriSpectralPowerDistribution))
+            self.assertIn(attribute, dir(MultiSpectralPowerDistribution))
 
     def test_required_methods(self):
         """
         Tests presence of required methods.
         """
 
-        required_methods = ('__str__', '__repr__', '__hash__', '__getitem__',
-                            '__setitem__', '__iter__', '__contains__',
-                            '__len__', '__eq__', '__ne__', '__add__',
-                            '__iadd__', '__sub__', '__isub__', '__mul__',
-                            '__imul__', '__div__', '__idiv__', '__pow__',
-                            '__ipow__', 'get', 'is_uniform', 'extrapolate',
-                            'interpolate', 'align', 'trim_wavelengths',
-                            'zeros', 'normalise', 'clone')
+        required_methods = ('__init__', 'extrapolate', 'interpolate', 'align',
+                            'trim', 'normalise')
 
         for method in required_methods:
-            self.assertIn(method, dir(TriSpectralPowerDistribution))
+            self.assertIn(method, dir(MultiSpectralPowerDistribution))
+
+    def test_strict_name(self):
+        """
+        Tests :attr:`colour.colorimetry.spectrum.\
+MultiSpectralPowerDistribution.strict_name` attribute.
+        """
+
+        self.assertEqual(self._sample_multi_spd.strict_name, 'Sample Observer')
+        self.assertEqual(self._non_uniform_sample_multi_spd.strict_name,
+                         'Strict Non Uniform Sample Observer')
 
     def test_wavelengths(self):
         """
         Tests :attr:`colour.colorimetry.spectrum.\
-TriSpectralPowerDistribution.wavelengths` attribute.
+MultiSpectralPowerDistribution.wavelengths` attribute.
         """
 
-        np.testing.assert_almost_equal(
-            self._tri_spd.wavelengths,
-            sorted(CIE_1931_2_DEGREE_STANDARD_OBSERVER['x_bar']))
+        np.testing.assert_array_equal(self._multi_spd.wavelengths,
+                                      self._multi_spd.domain)
 
     def test_values(self):
         """
         Tests :attr:`colour.colorimetry.spectrum.\
-TriSpectralPowerDistribution.values` attribute.
+MultiSpectralPowerDistribution.values` attribute.
         """
 
-        # yapf: disable
-        np.testing.assert_almost_equal(
-            self._tri_spd.values,
-            tstack((
-                [v for k, v in sorted(
-                    CIE_1931_2_DEGREE_STANDARD_OBSERVER['x_bar'].items())],
-                [v for k, v in sorted(
-                    CIE_1931_2_DEGREE_STANDARD_OBSERVER['y_bar'].items())],
-                [v for k, v in sorted(
-                    CIE_1931_2_DEGREE_STANDARD_OBSERVER['z_bar'].items())])))
-        # yapf: enable
+        np.testing.assert_array_equal(self._multi_spd.values,
+                                      self._multi_spd.range)
 
-    def test_items(self):
+    def test_strict_labels(self):
         """
         Tests :attr:`colour.colorimetry.spectrum.\
-TriSpectralPowerDistribution.items` attribute.
+MultiSpectralPowerDistribution.strict_labels` attribute.
         """
 
-        np.testing.assert_array_equal(
-            list(zip(*self._tri_spd.items))[0], self._tri_spd.wavelengths)
-
-        np.testing.assert_array_equal(
-            list(zip(*self._tri_spd.items))[1], self._tri_spd.values)
+        self.assertTupleEqual(
+            tuple(self._sample_multi_spd.strict_labels), self._labels)
+        self.assertEqual(
+            tuple(self._non_uniform_sample_multi_spd.strict_labels),
+            ('Strict x_bar', 'Strict  y_bar', 'Strict  z_bar'))
 
     def test_shape(self):
         """
         Tests :attr:`colour.colorimetry.spectrum.\
-TriSpectralPowerDistribution.shape` attribute.
+MultiSpectralPowerDistribution.shape` attribute.
         """
 
-        self.assertEqual(self._tri_spd.shape, SpectralShape(380, 780, 5))
-
-    def test__str__(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-TriSpectralPowerDistribution.__str__` method.
-        """
-
-        try:
-            self.assertEqual(
-                str(self._tri_spd),
-                'TriSpectralPowerDistribution(\'Observer\', (380, 780, 5))')
-        except AssertionError:
-            self.assertEqual(
-                str(self._tri_spd),
-                'TriSpectralPowerDistribution(\'Observer\', '
-                '(380.0, 780.0, 5.0))')
-
-    def test__getitem__(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-TriSpectralPowerDistribution.__getitem__` method.
-        """
-
-        np.testing.assert_almost_equal(self._tri_spd[400],
-                                       np.array([0.01431, 0.000396, 0.06785]))
-
-        np.testing.assert_almost_equal(
-            self._tri_spd[np.array([380, 580, 780])],
-            np.array([[1.36800000e-03, 3.90000000e-05, 6.45000000e-03],
-                      [9.16300000e-01, 8.70000000e-01, 1.65000000e-03],
-                      [4.20000000e-05, 1.50000000e-05, 0.00000000e+00]]))
-
-        np.testing.assert_almost_equal(
-            self._tri_spd[3:6],
-            np.array([[0.00765, 0.000217, 0.03621],
-                      [0.01431, 0.000396, 0.06785],
-                      [0.02319, 0.000640, 0.1102]]))  # yapf: disable
-
-    def test__setitem__(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-TriSpectralPowerDistribution.__setitem__` method.
-        """
-
-        x_bar = {}
-        y_bar = {}
-        z_bar = {}
-        data = {'x_bar': x_bar, 'y_bar': y_bar, 'z_bar': z_bar}
-        mapping = {'x': 'x_bar', 'y': 'y_bar', 'z': 'z_bar'}
-        tri_spd = TriSpectralPowerDistribution('Observer', data, mapping)
-        tri_spd[510] = np.array([49.67, 49.67, 49.67])
-        np.testing.assert_almost_equal(tri_spd.values,
-                                       np.array([[49.67, 49.67, 49.67]]))
-
-        tri_spd[np.array([520, 530])] = np.array([[69.59, 69.59, 69.59],
-                                                  [81.73, 81.73, 81.73]])
-        np.testing.assert_almost_equal(
-            tri_spd.values,
-            np.array([[49.67, 49.67, 49.67],
-                      [69.59, 69.59, 69.59],
-                      [81.73, 81.73, 81.73]]))  # yapf: disable
-
-        tri_spd[np.array([540, 550])] = 88.19
-        np.testing.assert_almost_equal(
-            tri_spd.values,
-            np.array([[49.67, 49.67, 49.67],
-                      [69.59, 69.59, 69.59],
-                      [81.73, 81.73, 81.73],
-                      [88.19, 88.19, 88.19],
-                      [88.19, 88.19, 88.19]]))  # yapf: disable
-
-        tri_spd[:] = 49.67
-        np.testing.assert_almost_equal(
-            tri_spd.values,
-            np.array([[49.67, 49.67, 49.67],
-                      [49.67, 49.67, 49.67],
-                      [49.67, 49.67, 49.67],
-                      [49.67, 49.67, 49.67],
-                      [49.67, 49.67, 49.67]]))  # yapf: disable
-
-    def test__iter__(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-TriSpectralPowerDistribution.__iter__` method.
-        """
-
-        dict_a = {key: tuple(value) for key, value in self._tri_spd}
-        dict_b = {key: tuple(value) for key, value in CMFS_DATA.items()}
-        self.assertEqual(dict_a, dict_b)
-
-    def test__contains__(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-TriSpectralPowerDistribution.__contains__` method.
-        """
-
-        self.assertIn(380, self._tri_spd)
-
-        self.assertIn(460, self._tri_spd)
-
-        self.assertNotIn(461, self._tri_spd)
-
-    def test__len__(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-TriSpectralPowerDistribution.__len__` method.
-        """
-
-        self.assertEqual(len(self._tri_spd), 81)
-
-    def test__eq__(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-TriSpectralPowerDistribution.__eq__` method.
-        """
-
-        clone_tri_spd = self._tri_spd.clone()
-
-        self.assertEqual(self._tri_spd, clone_tri_spd)
-
-    def test__ne__(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-TriSpectralPowerDistribution.__ne__` method.
-        """
-
-        clone_tri_spd = self._tri_spd.clone()
-        clone_tri_spd[500] = (0, 0, 0)
-
-        self.assertNotEqual(self._tri_spd, clone_tri_spd)
-
-    def test_arithmetical_operation(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-TriSpectralPowerDistribution.__add__`,
-:func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.__sub__`
-:func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.__mult__`
-:func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.__div__`
-:func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.__truediv__`
-and :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.__pow__`
-        methods.
-        """
-
-        operations = (operator.add, operator.sub, operator.mul,
-                      operator.truediv, operator.pow)
-
-        for operation in operations:
-            self.assertFalse(operation(self._tri_spd, 1) is self._tri_spd)
-
-            values = self._tri_spd.values
-            np.testing.assert_almost_equal(
-                operation(self._tri_spd, self._phi).values,
-                operation(values, self._phi))
-
-            random = np.random.random(values.shape)
-            np.testing.assert_almost_equal(
-                operation(self._tri_spd, random).values,
-                operation(values, random))
-
-            np.testing.assert_almost_equal(
-                operation(self._tri_spd, self._tri_spd).values,
-                operation(self._tri_spd.values, self._tri_spd.values))
-
-    def test_arithmetical_ioperation(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-SpectralPowerDistribution.__iadd__`,
-:func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.__isub__`
-:func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.__imult__`
-:func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.__idiv__`
-:func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.__itruediv__`
-and :func:`colour.colorimetry.spectrum.TriSpectralPowerDistribution.__ipow__`
-        methods.
-        """
-
-        operations = (operator.iadd, operator.isub, operator.imul,
-                      operator.itruediv, operator.ipow)
-
-        for operation in operations:
-            tri_spd = self._tri_spd.clone()
-            self.assertTrue(operation(tri_spd, 1) is tri_spd)
-
-            tri_spd = self._tri_spd.clone()
-            values = tri_spd.values
-            np.testing.assert_almost_equal(
-                operation(tri_spd, self._phi).values,
-                operation(values, self._phi))
-
-            tri_spd = self._tri_spd.clone()
-            values = tri_spd.values
-            random = np.random.random(values.shape)
-            np.testing.assert_almost_equal(
-                operation(tri_spd, random).values, operation(values, random))
-
-            tri_spd1 = self._tri_spd.clone()
-            tri_spd2 = self._tri_spd.clone()
-            np.testing.assert_almost_equal(
-                operation(tri_spd1, tri_spd2).values,
-                operation(self._tri_spd.values, self._tri_spd.values))
-
-    def test_get(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-TriSpectralPowerDistribution.get` method.
-        """
-
-        np.testing.assert_almost_equal(
-            self._tri_spd.get(380), np.array([0.001368, 3.9e-05, 0.00645]))
-
-        np.testing.assert_almost_equal(
-            self._tri_spd.get(600), np.array([1.0622, 0.6310, 0.0008]))
-
-        np.testing.assert_almost_equal(
-            self._tri_spd.get(700), np.array([0.011359, 0.004102, 0.000000]))
-
-        np.testing.assert_almost_equal(
-            self._tri_spd.get(900, np.array([0, 0, 0])), np.array([0, 0, 0]))
-
-        np.testing.assert_almost_equal(
-            self._tri_spd.get(np.array([380, 600, 700])),
-            np.array([[1.36800000e-03, 3.90000000e-05, 6.45000000e-03],
-                      [1.06220000e+00, 6.31000000e-01, 8.00000000e-04],
-                      [1.13590000e-02, 4.10200000e-03, 0.00000000e+00]]))
-
-        np.testing.assert_array_equal(
-            self._tri_spd.get(400.1), np.array([np.nan, np.nan, np.nan]))
-
-    def test_is_uniform(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-TriSpectralPowerDistribution.is_uniform` method.
-        """
-
-        self.assertTrue(self._tri_spd.is_uniform())
+        self.assertEqual(self._multi_spd.shape, SpectralShape(380, 780, 5))
 
     def test_extrapolate(self):
         """
         Tests :func:`colour.colorimetry.spectrum.\
-TriSpectralPowerDistribution.extrapolate` method.
+MultiSpectralPowerDistribution.extrapolate` method.
         """
 
-        spd_data = dict(zip(range(25, 35), [0] * 5 + [1] * 5))
-        tri_spd = TriSpectralPowerDistribution(
-            name='',
-            mapping=self._mapping,
-            data={'x_bar': spd_data,
-                  'y_bar': spd_data,
-                  'z_bar': spd_data},
-            labels=self._labels)
+        data = dict(zip(range(25, 35), tstack([[0] * 5 + [1] * 5] * 3)))
+        multi_spd = MultiSpectralPowerDistribution(data)
+        multi_spd.extrapolate(SpectralShape(10, 50))
 
-        tri_spd.extrapolate(SpectralShape(10, 50))
+        np.testing.assert_almost_equal(
+            multi_spd[10], np.array([0.0, 0.0, 0.0]), decimal=7)
+        np.testing.assert_almost_equal(
+            multi_spd[50], np.array([1.0, 1.0, 1.0]), decimal=7)
 
-        self.assertEqual(tri_spd.x[10], 0)
-
-        self.assertEqual(tri_spd.y[10], 0)
-
-        self.assertEqual(tri_spd.z[10], 0)
-
-        self.assertEqual(tri_spd.x[50], 1)
-
-        self.assertEqual(tri_spd.y[50], 1)
-
-        self.assertEqual(tri_spd.z[50], 1)
+        multi_spd = MultiSpectralPowerDistribution(
+            tstack([np.linspace(0, 1, 10)] * 3), np.linspace(25, 35, 10))
+        multi_spd.extrapolate(
+            SpectralShape(10, 50),
+            extrapolator_args={
+                'method': 'Linear',
+                'left': None,
+                'right': None
+            })
+        np.testing.assert_almost_equal(
+            multi_spd[10], np.array([-1.5, -1.5, -1.5]), decimal=7)
+        np.testing.assert_almost_equal(
+            multi_spd[50], np.array([2.5, 2.5, 2.5]), decimal=7)
 
     def test_interpolate(self):
         """
         Tests :func:`colour.colorimetry.spectrum.\
-TriSpectralPowerDistribution.interpolate` method.
+MultiSpectralPowerDistribution.interpolate` method.
         """
 
-        tri_spd = self._sample_tri_spd.clone()
+        multi_spd = self._sample_multi_spd.copy()
 
-        tri_spd.interpolate(SpectralShape(interval=1))
-        for i in sorted(self._mapping.keys()):
+        multi_spd.interpolate(SpectralShape(interval=1))
+        for signal in multi_spd.signals.values():
             np.testing.assert_almost_equal(
-                getattr(tri_spd, i).values,
-                INTERPOLATED_SAMPLE_SPD_DATA,
-                decimal=7)
-
-        np.testing.assert_almost_equal(
-            self._tri_spd.clone().interpolate(
-                SpectralShape(interval=1), method='Linear')[411],
-            np.array([0.050334, 0.001404, 0.24018]),
-            decimal=7)
-
-        np.testing.assert_almost_equal(
-            self._tri_spd.clone().interpolate(
-                SpectralShape(interval=1), method='Pchip')[411],
-            np.array([0.04895501, 0.00136229, 0.23349933]),
-            decimal=7)
+                signal.values, INTERPOLATED_SAMPLE_SPD_DATA, decimal=7)
 
         # TODO: Remove statement whenever we make "Scipy" 0.19.0 the minimum
         # version.
@@ -2837,11 +1656,11 @@ TriSpectralPowerDistribution.interpolate` method.
         if LooseVersion(scipy.__version__) < LooseVersion('0.19.0'):
             return
 
-        tri_spd = self._non_uniform_sample_tri_spd.clone()
-        tri_spd.interpolate(SpectralShape(interval=1))
-        for i in sorted(self._mapping.keys()):
+        multi_spd = self._non_uniform_sample_multi_spd.copy()
+        multi_spd.interpolate(SpectralShape(interval=1))
+        for signal in multi_spd.signals.values():
             np.testing.assert_allclose(
-                getattr(tri_spd, i).values,
+                signal.values,
                 INTERPOLATED_NON_UNIFORM_SAMPLE_SPD_DATA,
                 rtol=0.0000001,
                 atol=0.0000001)
@@ -2849,70 +1668,39 @@ TriSpectralPowerDistribution.interpolate` method.
     def test_align(self):
         """
         Tests :func:`colour.colorimetry.spectrum.\
-TriSpectralPowerDistribution.align` method.
+MultiSpectralPowerDistribution.align` method.
         """
 
-        tri_spd = self._sample_tri_spd.clone()
+        multi_spd = self._sample_multi_spd.copy()
 
         shape = SpectralShape(100, 900, 5)
-        self.assertEqual(tri_spd.align(shape).shape, shape)
+        self.assertEqual(multi_spd.align(shape).shape, shape)
 
         shape = SpectralShape(600, 650, 1)
-        self.assertEqual(tri_spd.align(shape).shape, shape)
+        self.assertEqual(multi_spd.align(shape).shape, shape)
 
-    def test_trim_wavelengths(self):
+    def test_trim(self):
         """
         Tests :func:`colour.colorimetry.spectrum.\
-TriSpectralPowerDistribution.trim_wavelengths` method.
+MultiSpectralPowerDistribution.trim` method.
         """
 
-        shape = SpectralShape(400, 700, 20)
-        self.assertEqual(self._tri_spd.clone().trim_wavelengths(shape).shape,
-                         shape)
+        shape = SpectralShape(400, 700, 5)
+        self.assertEqual(self._multi_spd.copy().trim(shape).shape, shape)
 
         shape = SpectralShape(200, 900, 1)
-        self.assertEqual(self._tri_spd.clone().trim_wavelengths(shape).shape,
-                         self._tri_spd.shape)
-
-    def test_zeros(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-TriSpectralPowerDistribution.zeros` method.
-        """
-
-        tri_spd = TriSpectralPowerDistribution(
-            name='',
-            mapping=self._mapping,
-            data={
-                'x_bar': SAMPLE_SPD_DATA,
-                'y_bar': SAMPLE_SPD_DATA,
-                'z_bar': SAMPLE_SPD_DATA
-            },
-            labels=self._labels).clone()
-
-        tri_spd.zeros(SpectralShape(interval=1))
-        for i in self._mapping.keys():
-            np.testing.assert_almost_equal(
-                getattr(tri_spd, i).values, ZEROS_SAMPLE_SPD_DATA)
+        self.assertEqual(self._multi_spd.copy().trim(shape).shape,
+                         self._multi_spd.shape)
 
     def test_normalise(self):
         """
         Tests :func:`colour.colorimetry.spectrum.\
-TriSpectralPowerDistribution.normalise` method.
+MultiSpectralPowerDistribution.normalise` method.
         """
 
         np.testing.assert_almost_equal(
-            self._sample_tri_spd.clone().normalise(100).values,
-            np.array([[x] * 3 for x in NORMALISED_SAMPLE_SPD_DATA]))
-
-    def test_clone(self):
-        """
-        Tests :func:`colour.colorimetry.spectrum.\
-TriSpectralPowerDistribution.clone` method.
-        """
-
-        self.assertFalse(self._tri_spd is self._tri_spd.clone())
-        self.assertEqual(self._tri_spd.title, self._tri_spd.clone().title)
+            self._sample_multi_spd.copy().normalise(100).values,
+            tstack([NORMALISED_SAMPLE_SPD_DATA] * 3))
 
 
 class TestConstantSpd(unittest.TestCase):
@@ -2927,15 +1715,13 @@ class TestConstantSpd(unittest.TestCase):
         definition.
         """
 
-        k = 3.1415
+        spd = constant_spd(np.pi)
 
-        spd = constant_spd(k)
+        self.assertAlmostEqual(spd[360], np.pi, places=7)
 
-        self.assertEqual(spd[360], k)
+        self.assertAlmostEqual(spd[555], np.pi, places=7)
 
-        self.assertEqual(spd[555], k)
-
-        self.assertEqual(spd[780], k)
+        self.assertAlmostEqual(spd[780], np.pi, places=7)
 
 
 class TestZerosSpd(unittest.TestCase):

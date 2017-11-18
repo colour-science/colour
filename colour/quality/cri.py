@@ -107,16 +107,12 @@ def colour_rendering_index(spd_test, additional_data=False):
     64.1515202...
     """
 
-    cmfs = STANDARD_OBSERVERS_CMFS[
-        'CIE 1931 2 Degree Standard Observer'].clone().trim_wavelengths(
-            ASTME30815_PRACTISE_SHAPE)
+    cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].copy(
+    ).trim(ASTME30815_PRACTISE_SHAPE)
 
     shape = cmfs.shape
-    spd_test = spd_test.clone().align(shape)
-    tcs_spds = {
-        spd.name: spd.clone().align(shape)
-        for spd in TCS_SPDS.values()
-    }
+    spd_test = spd_test.copy().align(shape)
+    tcs_spds = {spd.name: spd.copy().align(shape) for spd in TCS_SPDS.values()}
 
     XYZ = spectral_to_XYZ(spd_test, cmfs)
     uv = UCS_to_uv(XYZ_to_UCS(XYZ))

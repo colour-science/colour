@@ -1484,7 +1484,7 @@ VS_SPDS_DATA = {
 }
 
 VS_SPDS = CaseInsensitiveMapping(
-    dict((key, SpectralPowerDistribution(key, value))
+    dict((key, SpectralPowerDistribution(value, name=key))
          for key, value in VS_SPDS_DATA.items()))
 """
 CQS test colour samples spectral power distributions.

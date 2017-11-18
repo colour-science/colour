@@ -10,6 +10,7 @@ import numpy as np
 import unittest
 from collections import namedtuple
 
+from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.utilities import (as_numeric, as_namedtuple, closest_indexes,
                               closest, normalise_maximum, interval, is_uniform,
                               in_array, tstack, tsplit, row_as_diagonal,
@@ -50,7 +51,7 @@ class TestAsNumeric(unittest.TestCase):
         np.testing.assert_almost_equal(
             as_numeric(np.array([1, 2, 3])), np.array([1, 2, 3]))
 
-        self.assertIsInstance(as_numeric(1), np.float_)
+        self.assertIsInstance(as_numeric(1), DEFAULT_FLOAT_DTYPE)
 
         self.assertIsInstance(as_numeric(1, int), int)
 
@@ -231,7 +232,14 @@ class TestInterval(unittest.TestCase):
             interval(range(0, 10, 2)), np.array([2]))
 
         np.testing.assert_almost_equal(
-            interval([1, 2, 3, 4, 6, 6.5]), np.array([0.5, 1, 2]))
+            interval(range(0, 10, 2), False), np.array([2, 2, 2, 2]))
+
+        np.testing.assert_almost_equal(
+            interval([1, 2, 3, 4, 6, 6.5]), np.array([0.5, 1.0, 2.0]))
+
+        np.testing.assert_almost_equal(
+            interval([1, 2, 3, 4, 6, 6.5], False),
+            np.array([1.0, 1.0, 1.0, 2.0, 0.5]))
 
 
 class TestIsUniform(unittest.TestCase):

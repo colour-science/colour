@@ -48,4 +48,4 @@ print('Bandwidth Corrected: {0}'.format(spd.bandwidth_corrected))
 print('\n')
 
 message_box('"IES TM-27-14" spectral data "XML" file spectral data:')
-pprint(list(spd.items))
+print(spd)

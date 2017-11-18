@@ -9,8 +9,11 @@ export EXAMPLES=$PROJECT/colour/examples/
 
 for i in $(find "${EXAMPLES}" -name \*.py); do
     python "$i"
+    if [ $? -eq 1 ]; then
+        exit
+    fi
     echo ""
-    read -t 10 -p "Press 'ENTER' to continue."
+    read -t 5 -p "Press 'ENTER' to continue."
     echo ""
 done
 

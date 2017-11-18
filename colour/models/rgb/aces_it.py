@@ -40,6 +40,7 @@ import numpy as np
 
 from colour.colorimetry import ILLUMINANTS_RELATIVE_SPDS
 from colour.models.rgb import ACES_RICD
+from colour.utilities import tsplit
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -97,16 +98,15 @@ def spectral_to_aces_relative_exposure_values(
 
     shape = ACES_RICD.shape
     if spd.shape != ACES_RICD.shape:
-        spd = spd.clone().align(shape)
+        spd = spd.copy().align(shape)
 
     if illuminant.shape != ACES_RICD.shape:
-        illuminant = illuminant.clone().align(shape)
+        illuminant = illuminant.copy().align(shape)
 
     spd = spd.values
     illuminant = illuminant.values
 
-    r_bar, g_bar, b_bar = (ACES_RICD.r_bar.values, ACES_RICD.g_bar.values,
-                           ACES_RICD.b_bar.values)
+    r_bar, g_bar, b_bar = tsplit(ACES_RICD.values)
 
     def k(x, y):
         """

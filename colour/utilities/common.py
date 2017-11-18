@@ -11,10 +11,9 @@ from __future__ import division, unicode_literals
 
 import functools
 import numpy as np
-import sys
 import warnings
 from copy import deepcopy
-from six import string_types
+from six import PY3, string_types
 
 from colour.constants import INTEGER_THRESHOLD
 
@@ -362,7 +361,7 @@ def filter_kwargs(function, **kwargs):
     """
 
     kwargs = deepcopy(kwargs)
-    if sys.version_info[0] >= 3:
+    if PY3:
         args = function.__code__.co_varnames
     else:
         args = function.func_code.co_varnames

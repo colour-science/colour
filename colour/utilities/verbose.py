@@ -9,6 +9,8 @@ Defines verbose related objects.
 
 from __future__ import division, unicode_literals
 
+import numpy as np
+from contextlib import contextmanager
 from itertools import chain
 from textwrap import TextWrapper
 from warnings import filterwarnings, warn
@@ -20,7 +22,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['ColourWarning', 'message_box', 'warning', 'filter_warnings']
+__all__ = [
+    'ColourWarning', 'message_box', 'warning', 'filter_warnings',
+    'numpy_print_options'
+]
 
 
 class ColourWarning(Warning):
@@ -170,3 +175,32 @@ def filter_warnings(state=True, colour_warnings_only=True):
         category=ColourWarning if colour_warnings_only else Warning)
 
     return True
+
+
+@contextmanager
+def numpy_print_options(*args, **kwargs):
+    """
+    A context manager implementing context changes to *Numpy* print behaviour.
+
+    Other Parameters
+    ----------------
+    \*args : list, optional
+        Arguments.
+    \**kwargs : dict, optional
+        Keywords arguments.
+
+    Examples
+    -------
+    >>> np.array([np.pi])  # doctest: +ELLIPSIS
+    array([ 3.1415926...])
+    >>> with numpy_print_options(formatter={'float': '{:0.1f}'.format}):
+    ...      np.array([np.pi])
+    array([3.1])
+    """
+
+    options = np.get_printoptions()
+    np.set_printoptions(*args, **kwargs)
+    try:
+        yield
+    finally:
+        np.set_printoptions(**options)

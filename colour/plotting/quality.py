@@ -20,11 +20,11 @@ from itertools import cycle
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.models import XYZ_to_sRGB
-from colour.quality import (colour_quality_scale, colour_rendering_index)
-from colour.quality.cri import TCS_ColorimetryData
 from colour.plotting import (DEFAULT_FIGURE_WIDTH, DEFAULT_HATCH_PATTERNS,
                              boundaries, canvas, decorate, display,
                              label_rectangles)
+from colour.quality import (colour_quality_scale, colour_rendering_index)
+from colour.quality.cri import TCS_ColorimetryData
 from colour.utilities import warning
 
 __author__ = 'Colour Developers'
@@ -82,7 +82,7 @@ def colour_quality_bars_plot(specifications,
     ...     SpectralShape)
     >>> illuminant = ILLUMINANTS_RELATIVE_SPDS['F2']
     >>> light_source = LIGHT_SOURCES_RELATIVE_SPDS['Kinoton 75P']
-    >>> light_source = light_source.clone().align(SpectralShape(360, 830, 1))
+    >>> light_source = light_source.copy().align(SpectralShape(360, 830, 1))
     >>> cqs_i = colour_quality_scale(illuminant, additional_data=True)
     >>> cqs_l = colour_quality_scale(light_source, additional_data=True)
     >>> colour_quality_bars_plot([cqs_i, cqs_l])  # doctest: +SKIP
@@ -279,7 +279,7 @@ def multi_spd_colour_rendering_index_bars_plot(spds, **kwargs):
     settings = {
         'title':
             'Colour Rendering Index - {0}'
-            .format(', '.join([spd.title for spd in spds]))
+            .format(', '.join([spd.strict_name for spd in spds]))
     }
     settings.update(kwargs)
 
@@ -386,7 +386,7 @@ def multi_spd_colour_quality_scale_bars_plot(spds, **kwargs):
     settings = {
         'title':
             'Colour Quality Scale - {0}'
-            .format(', '.join([spd.title for spd in spds]))
+            .format(', '.join([spd.strict_name for spd in spds]))
     }
     settings.update(kwargs)
 

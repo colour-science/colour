@@ -187,15 +187,15 @@ def CIE_1931_chromaticity_diagram_plot(
 
     wavelengths_chromaticity_coordinates = dict(tuple(zip(wavelengths, xy)))
 
-    pylab.plot(xy[..., 0], xy[..., 1], color='black', linewidth=2)
+    pylab.plot(xy[..., 0], xy[..., 1], color='black', linewidth=1)
     pylab.plot(
         (xy[-1][0], xy[0][0]), (xy[-1][1], xy[0][1]),
         color='black',
-        linewidth=2)
+        linewidth=1)
 
     for label in labels:
         x, y = wavelengths_chromaticity_coordinates[label]
-        pylab.plot(x, y, 'o', color='black', linewidth=2)
+        pylab.plot(x, y, 'o', color='black', linewidth=1)
 
         index = bisect.bisect(wavelengths, label)
         left = wavelengths[index - 1] if index >= 0 else wavelengths[index]
@@ -236,10 +236,14 @@ def CIE_1931_chromaticity_diagram_plot(
     pylab.yticks(ticks)
 
     settings.update({
-        'title': 'CIE 1931 Chromaticity Diagram - {0}'.format(cmfs.title),
-        'x_label': 'CIE x',
-        'y_label': 'CIE y',
-        'grid': True,
+        'title':
+            'CIE 1931 Chromaticity Diagram - {0}'.format(cmfs.strict_name),
+        'x_label':
+            'CIE x',
+        'y_label':
+            'CIE y',
+        'grid':
+            True,
         'bounding_box': (0, 1, 0, 1)
     })
     settings.update(kwargs)
@@ -379,15 +383,15 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
 
     wavelengths_chromaticity_coordinates = dict(tuple(zip(wavelengths, uv)))
 
-    pylab.plot(uv[..., 0], uv[..., 1], color='black', linewidth=2)
+    pylab.plot(uv[..., 0], uv[..., 1], color='black', linewidth=1)
     pylab.plot(
         (uv[-1][0], uv[0][0]), (uv[-1][1], uv[0][1]),
         color='black',
-        linewidth=2)
+        linewidth=1)
 
     for label in labels:
         u, v = wavelengths_chromaticity_coordinates[label]
-        pylab.plot(u, v, 'o', color='black', linewidth=2)
+        pylab.plot(u, v, 'o', color='black', linewidth=1)
 
         index = bisect.bisect(wavelengths, label)
         left = wavelengths[index - 1] if index >= 0 else wavelengths[index]
@@ -428,10 +432,14 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
     pylab.yticks(ticks)
 
     settings.update({
-        'title': 'CIE 1960 UCS Chromaticity Diagram - {0}'.format(cmfs.title),
-        'x_label': 'CIE u',
-        'y_label': 'CIE v',
-        'grid': True,
+        'title':
+            'CIE 1960 UCS Chromaticity Diagram - {0}'.format(cmfs.strict_name),
+        'x_label':
+            'CIE u',
+        'y_label':
+            'CIE v',
+        'grid':
+            True,
         'bounding_box': (0, 1, 0, 1)
     })
     settings.update(kwargs)
@@ -574,15 +582,15 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
 
     wavelengths_chromaticity_coordinates = dict(zip(wavelengths, uv))
 
-    pylab.plot(uv[..., 0], uv[..., 1], color='black', linewidth=2)
+    pylab.plot(uv[..., 0], uv[..., 1], color='black', linewidth=1)
     pylab.plot(
         (uv[-1][0], uv[0][0]), (uv[-1][1], uv[0][1]),
         color='black',
-        linewidth=2)
+        linewidth=1)
 
     for label in labels:
         u, v = wavelengths_chromaticity_coordinates[label]
-        pylab.plot(u, v, 'o', color='black', linewidth=2)
+        pylab.plot(u, v, 'o', color='black', linewidth=1)
 
         index = bisect.bisect(wavelengths, label)
         left = wavelengths[index - 1] if index >= 0 else wavelengths[index]
@@ -623,10 +631,14 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
     pylab.yticks(ticks)
 
     settings.update({
-        'title': 'CIE 1976 UCS Chromaticity Diagram - {0}'.format(cmfs.title),
-        'x_label': 'CIE u\'',
-        'y_label': 'CIE v\'',
-        'grid': True,
+        'title':
+            'CIE 1976 UCS Chromaticity Diagram - {0}'.format(cmfs.strict_name),
+        'x_label':
+            'CIE u\'',
+        'y_label':
+            'CIE v\'',
+        'grid':
+            True,
         'bounding_box': (0, 1, 0, 1)
     })
     settings.update(kwargs)

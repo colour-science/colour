@@ -211,9 +211,12 @@ D_ILLUMINANTS_S_SPDS_DATA = {
 }
 
 D_ILLUMINANTS_S_SPDS = CaseInsensitiveMapping({
-    'S0': SpectralPowerDistribution('S0', D_ILLUMINANTS_S_SPDS_DATA['S0']),
-    'S1': SpectralPowerDistribution('S1', D_ILLUMINANTS_S_SPDS_DATA['S1']),
-    'S2': SpectralPowerDistribution('S2', D_ILLUMINANTS_S_SPDS_DATA['S2'])
+    'S0':
+        SpectralPowerDistribution(D_ILLUMINANTS_S_SPDS_DATA['S0'], name='S0'),
+    'S1':
+        SpectralPowerDistribution(D_ILLUMINANTS_S_SPDS_DATA['S1'], name='S1'),
+    'S2':
+        SpectralPowerDistribution(D_ILLUMINANTS_S_SPDS_DATA['S2'], name='S2')
 })
 """
 *CIE Standard Illuminant D Series* :math:`S_n(\lambda)` spectral power

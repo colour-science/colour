@@ -221,7 +221,7 @@ def normalise_maximum(a, axis=None, factor=1, clip=True):
     return np.clip(a, 0, factor) if clip else a
 
 
-def interval(distribution):
+def interval(distribution, unique=True):
     """
     Returns the interval size of given distribution.
 
@@ -229,6 +229,9 @@ def interval(distribution):
     ----------
     distribution : array_like
         Distribution to retrieve the interval.
+    unique : bool, optional
+        Whether to return unique intervals if  the distribution is
+        non-uniformly spaced or the complete intervals
 
     Returns
     -------
@@ -242,18 +245,26 @@ def interval(distribution):
     >>> y = np.array([1, 2, 3, 4, 5])
     >>> interval(y)
     array([1])
+    >>> interval(y, False)
+    array([1, 1, 1, 1])
 
     Non-uniformly spaced variable:
 
     >>> y = np.array([1, 2, 3, 4, 8])
     >>> interval(y)
     array([1, 4])
+    >>> interval(y, False)
+    array([1, 1, 1, 4])
     """
 
-    distribution = np.sort(distribution)
+    distribution = np.asarray(distribution)
     i = np.arange(distribution.size - 1)
 
-    return np.unique(distribution[i + 1] - distribution[i])
+    differences = np.abs(distribution[i + 1] - distribution[i])
+    if unique:
+        return np.unique(differences)
+    else:
+        return differences
 
 
 def is_uniform(distribution):

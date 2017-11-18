@@ -127,12 +127,12 @@ def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
                 label='Pointer\'s Gamut',
                 color=colour_p,
                 alpha=alpha_p,
-                linewidth=2)
+                linewidth=1)
             pylab.plot(
                 (xy[-1][0], xy[0][0]), (xy[-1][1], xy[0][1]),
                 color=colour_p,
                 alpha=alpha_p,
-                linewidth=2)
+                linewidth=1)
 
             XYZ = Lab_to_XYZ(
                 LCHab_to_Lab(POINTER_GAMUT_DATA), POINTER_GAMUT_ILLUMINANT)
@@ -156,24 +156,24 @@ def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
                 (W[0], W[0]), (W[1], W[1]),
                 color=(r, g, b),
                 label=colourspace.name,
-                linewidth=2)
+                linewidth=1)
             pylab.plot(
-                (W[0], W[0]), (W[1], W[1]), 'o', color=(r, g, b), linewidth=2)
+                (W[0], W[0]), (W[1], W[1]), 'o', color=(r, g, b), linewidth=1)
             pylab.plot(
                 (P[0, 0], P[1, 0]), (P[0, 1], P[1, 1]),
                 'o-',
                 color=(r, g, b),
-                linewidth=2)
+                linewidth=1)
             pylab.plot(
                 (P[1, 0], P[2, 0]), (P[1, 1], P[2, 1]),
                 'o-',
                 color=(r, g, b),
-                linewidth=2)
+                linewidth=1)
             pylab.plot(
                 (P[2, 0], P[0, 0]), (P[2, 1], P[0, 1]),
                 'o-',
                 color=(r, g, b),
-                linewidth=2)
+                linewidth=1)
 
             x_limit_min.append(np.amin(P[..., 0]) - 0.1)
             y_limit_min.append(np.amin(P[..., 1]) - 0.1)
@@ -279,12 +279,12 @@ def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
                 label='Pointer\'s Gamut',
                 color=colour_p,
                 alpha=alpha_p,
-                linewidth=2)
+                linewidth=1)
             pylab.plot(
                 (uv[-1][0], uv[0][0]), (uv[-1][1], uv[0][1]),
                 color=colour_p,
                 alpha=alpha_p,
-                linewidth=2)
+                linewidth=1)
 
             XYZ = Lab_to_XYZ(
                 LCHab_to_Lab(POINTER_GAMUT_DATA), POINTER_GAMUT_ILLUMINANT)
@@ -314,24 +314,24 @@ def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
                 (W[0], W[0]), (W[1], W[1]),
                 color=(r, g, b),
                 label=colourspace.name,
-                linewidth=2)
+                linewidth=1)
             pylab.plot(
-                (W[0], W[0]), (W[1], W[1]), 'o', color=(r, g, b), linewidth=2)
+                (W[0], W[0]), (W[1], W[1]), 'o', color=(r, g, b), linewidth=1)
             pylab.plot(
                 (P[0, 0], P[1, 0]), (P[0, 1], P[1, 1]),
                 'o-',
                 color=(r, g, b),
-                linewidth=2)
+                linewidth=1)
             pylab.plot(
                 (P[1, 0], P[2, 0]), (P[1, 1], P[2, 1]),
                 'o-',
                 color=(r, g, b),
-                linewidth=2)
+                linewidth=1)
             pylab.plot(
                 (P[2, 0], P[0, 0]), (P[2, 1], P[0, 1]),
                 'o-',
                 color=(r, g, b),
-                linewidth=2)
+                linewidth=1)
 
             x_limit_min.append(np.amin(P[..., 0]) - 0.1)
             y_limit_min.append(np.amin(P[..., 1]) - 0.1)
@@ -441,12 +441,12 @@ def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
                 label='Pointer\'s Gamut',
                 color=colour_p,
                 alpha=alpha_p,
-                linewidth=2)
+                linewidth=1)
             pylab.plot(
                 (uv[-1][0], uv[0][0]), (uv[-1][1], uv[0][1]),
                 color=colour_p,
                 alpha=alpha_p,
-                linewidth=2)
+                linewidth=1)
 
             XYZ = Lab_to_XYZ(
                 LCHab_to_Lab(POINTER_GAMUT_DATA), POINTER_GAMUT_ILLUMINANT)
@@ -478,24 +478,24 @@ def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
                 (W[0], W[0]), (W[1], W[1]),
                 color=(r, g, b),
                 label=colourspace.name,
-                linewidth=2)
+                linewidth=1)
             pylab.plot(
-                (W[0], W[0]), (W[1], W[1]), 'o', color=(r, g, b), linewidth=2)
+                (W[0], W[0]), (W[1], W[1]), 'o', color=(r, g, b), linewidth=1)
             pylab.plot(
                 (P[0, 0], P[1, 0]), (P[0, 1], P[1, 1]),
                 'o-',
                 color=(r, g, b),
-                linewidth=2)
+                linewidth=1)
             pylab.plot(
                 (P[1, 0], P[2, 0]), (P[1, 1], P[2, 1]),
                 'o-',
                 color=(r, g, b),
-                linewidth=2)
+                linewidth=1)
             pylab.plot(
                 (P[2, 0], P[0, 0]), (P[2, 1], P[0, 1]),
                 'o-',
                 color=(r, g, b),
-                linewidth=2)
+                linewidth=1)
 
             x_limit_min.append(np.amin(P[..., 0]) - 0.1)
             y_limit_min.append(np.amin(P[..., 1]) - 0.1)
@@ -795,7 +795,7 @@ def multi_cctf_plot(colourspaces=None, decoding_cctf=False, **kwargs):
                 if decoding_cctf else colourspace.encoding_cctf(samples))
 
         pylab.plot(
-            samples, RGBs, label=u'{0}'.format(colourspace.name), linewidth=2)
+            samples, RGBs, label=u'{0}'.format(colourspace.name), linewidth=1)
 
     mode = 'Decoding' if decoding_cctf else 'Encoding'
     settings.update({

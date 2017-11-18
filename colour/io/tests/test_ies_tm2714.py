@@ -6,11 +6,13 @@ Defines unit tests for :mod:`colour.io.iestm2714` module.
 
 from __future__ import division, unicode_literals
 
+import numpy as np
 import os
 import shutil
 import unittest
 import tempfile
 
+from colour.colorimetry import SpectralPowerDistribution
 from colour.io.ies_tm2714 import IES_TM2714_Header, IES_TM2714_Spd
 
 __author__ = 'Colour Developers'
@@ -215,7 +217,11 @@ class TestIES_TM2714_Spd(unittest.TestCase):
                 os.path.join(RESOURCES_DIRECTORY, 'Fluorescent.spdx'))
 
         self.assertTrue(spd.read())
-        self.assertDictEqual(dict(spd.data), FLUORESCENT_FILE_SPECTRAL_DATA)
+
+        spd_r = SpectralPowerDistribution(FLUORESCENT_FILE_SPECTRAL_DATA)
+
+        np.testing.assert_array_equal(spd_r.domain, spd.domain)
+        np.testing.assert_almost_equal(spd_r.values, spd.values, decimal=7)
 
         for test, read in ((FLUORESCENT_FILE_HEADER, spd.header),
                            (FLUORESCENT_FILE_SPECTRAL_DESCRIPTION, spd)):

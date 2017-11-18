@@ -83,8 +83,8 @@ class TestReadSpdsFromXRiteFile(unittest.TestCase):
             self.assertIsInstance(spd, SpectralPowerDistribution)
 
         self.assertEqual(spds['X1'],
-                         SpectralPowerDistribution('X1',
-                                                   COLOURCHECKER_XRITE_1))
+                         SpectralPowerDistribution(
+                             COLOURCHECKER_XRITE_1, name='X1'))
 
 
 if __name__ == '__main__':

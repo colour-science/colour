@@ -126,7 +126,7 @@ def the_blue_sky_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
 
     cmfs, name = get_cmfs(cmfs), cmfs
 
-    ASTM_G_173_spd = ASTM_G_173_ETR.clone()
+    ASTM_G_173_spd = ASTM_G_173_ETR.copy()
     rayleigh_spd = rayleigh_scattering_spd()
     ASTM_G_173_spd.align(rayleigh_spd.shape)
 

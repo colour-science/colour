@@ -2032,8 +2032,8 @@ ASTM_G_173_ETR_DATA = {
     4000.0: 0.00868
 }
 
-ASTM_G_173_ETR = SpectralPowerDistribution('ASTM G-173 ETR',
-                                           ASTM_G_173_ETR_DATA)
+ASTM_G_173_ETR = SpectralPowerDistribution(
+    ASTM_G_173_ETR_DATA, name='ASTM G-173 ETR')
 """
 Extraterrestrial Radiation (solar spectrum at top of atmosphere) at mean
 Earth-Sun distance.

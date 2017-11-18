@@ -31,6 +31,7 @@ import numpy as np
 import pylab
 from six.moves import reduce
 
+from colour.algebra import LinearInterpolator
 from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE, ILLUMINANTS,
                                 ILLUMINANTS_RELATIVE_SPDS, LIGHTNESS_METHODS,
                                 SpectralShape, blackbody_spd, spectral_to_XYZ,
@@ -97,17 +98,24 @@ def single_spd_plot(spd,
     Examples
     --------
     >>> from colour import SpectralPowerDistribution
-    >>> data = {400: 0.0641, 420: 0.0645, 440: 0.0562}
-    >>> spd = SpectralPowerDistribution('Custom', data)
+    >>> data = {
+    ...     500: 0.0651,
+    ...     520: 0.0705,
+    ...     540: 0.0772,
+    ...     560: 0.0870,
+    ...     580: 0.1128,
+    ...     600: 0.1360
+    ... }
+    >>> spd = SpectralPowerDistribution(data, name='Custom')
     >>> single_spd_plot(spd)  # doctest: +SKIP
     """
 
     cmfs = get_cmfs(cmfs)
 
-    shape = cmfs.shape
-    spd = spd.clone().interpolate(shape, 'Linear')
-    wavelengths = spd.wavelengths
-    values = spd.values
+    spd = spd.copy()
+    spd.interpolator = LinearInterpolator
+    wavelengths = cmfs.wavelengths
+    values = spd[wavelengths]
 
     y1 = values
     colours = XYZ_to_sRGB(
@@ -121,7 +129,7 @@ def single_spd_plot(spd,
     colours = DEFAULT_PLOTTING_ENCODING_CCTF(normalise_maximum(colours))
 
     settings = {
-        'title': '{0} - {1}'.format(spd.title, cmfs.title),
+        'title': '{0} - {1}'.format(spd.strict_name, cmfs.strict_name),
         'x_label': 'Wavelength $\\lambda$ (nm)',
         'y_label': 'Spectral Power Distribution',
         'x_tighten': True,
@@ -170,10 +178,26 @@ def multi_spd_plot(spds,
     Examples
     --------
     >>> from colour import SpectralPowerDistribution
-    >>> data1 = {400: 0.0641, 420: 0.0645, 440: 0.0562}
-    >>> data2 = {400: 0.134, 420: 0.789, 440: 1.289}
-    >>> spd1 = SpectralPowerDistribution('Custom1', data1)
-    >>> spd2 = SpectralPowerDistribution('Custom2', data2)
+    >>> data_1 = {
+    ...     500: 0.004900,
+    ...     510: 0.009300,
+    ...     520: 0.063270,
+    ...     530: 0.165500,
+    ...     540: 0.290400,
+    ...     550: 0.433450,
+    ...     560: 0.594500
+    ... }
+    >>> data_2 = {
+    ...     500: 0.323000,
+    ...     510: 0.503000,
+    ...     520: 0.710000,
+    ...     530: 0.862000,
+    ...     540: 0.954000,
+    ...     550: 0.994950,
+    ...     560: 0.995000
+    ... }
+    >>> spd1 = SpectralPowerDistribution(data_1, name='Custom 1')
+    >>> spd2 = SpectralPowerDistribution(data_2, name='Custom 2')
     >>> multi_spd_plot([spd1, spd2])  # doctest: +SKIP
     """
 
@@ -186,7 +210,7 @@ def multi_spd_plot(spds,
 
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
     for spd in spds:
-        wavelengths, values = tuple(zip(*spd.items))
+        wavelengths, values = spd.wavelengths, spd.values
 
         shape = spd.shape
         x_limit_min.append(shape.start)
@@ -201,9 +225,13 @@ def multi_spd_plot(spds,
             RGB = np.clip(XYZ_to_sRGB(XYZ), 0, 1)
 
             pylab.plot(
-                wavelengths, values, color=RGB, label=spd.title, linewidth=2)
+                wavelengths,
+                values,
+                color=RGB,
+                label=spd.strict_name,
+                linewidth=1)
         else:
-            pylab.plot(wavelengths, values, label=spd.title, linewidth=2)
+            pylab.plot(wavelengths, values, label=spd.strict_name, linewidth=1)
 
     settings = {
         'x_label':
@@ -256,7 +284,9 @@ def single_cmfs_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     """
 
     cmfs = get_cmfs(cmfs)
-    settings = {'title': '{0} - Colour Matching Functions'.format(cmfs.title)}
+    settings = {
+        'title': '{0} - Colour Matching Functions'.format(cmfs.strict_name)
+    }
     settings.update(kwargs)
 
     return multi_cmfs_plot((cmfs.name, ), **settings)
@@ -298,13 +328,12 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
                 'CIE 1964 10 Degree Standard Observer')
 
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
-    for axis, rgb in (('x', (1, 0, 0)), ('y', (0, 1, 0)), ('z', (0, 0, 1))):
-        for i, cmfs_i in enumerate(cmfs):
+    for i, rgb in enumerate([(1, 0, 0), (0, 1, 0), (0, 0, 1)]):
+        for j, cmfs_i in enumerate(cmfs):
             cmfs_i = get_cmfs(cmfs_i)
 
-            rgb = [reduce(lambda y, _: y * 0.5, range(i), x) for x in rgb]
-            wavelengths, values = tuple(
-                zip(* [(key, value) for key, value in getattr(cmfs_i, axis)]))
+            rgb = [reduce(lambda y, _: y * 0.5, range(j), x) for x in rgb]
+            values = cmfs_i.values[:, i]
 
             shape = cmfs_i.shape
             x_limit_min.append(shape.start)
@@ -313,16 +342,17 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
             y_limit_max.append(max(values))
 
             pylab.plot(
-                wavelengths,
+                cmfs_i.wavelengths,
                 values,
                 color=rgb,
-                label=u'{0} - {1}'.format(cmfs_i.labels[axis], cmfs_i.title),
-                linewidth=2)
+                label=u'{0} - {1}'.format(cmfs_i.labels[i],
+                                          cmfs_i.strict_name),
+                linewidth=1)
 
     settings = {
         'title':
             '{0} - Colour Matching Functions'
-            .format(', '.join([get_cmfs(c).title for c in cmfs])),
+            .format(', '.join([get_cmfs(c).strict_name for c in cmfs])),
         'x_label':
             'Wavelength $\\lambda$ (nm)',
         'y_label':
@@ -385,7 +415,7 @@ def single_illuminant_relative_spd_plot(
     """
 
     cmfs = get_cmfs(cmfs)
-    title = 'Illuminant {0} - {1}'.format(illuminant, cmfs.title)
+    title = 'Illuminant {0} - {1}'.format(illuminant, cmfs.strict_name)
 
     illuminant = get_illuminant(illuminant)
 
@@ -437,7 +467,7 @@ def multi_illuminants_relative_spd_plot(illuminants=None, **kwargs):
     settings = {
         'title':
             '{0} - Illuminants Relative Spectral Power Distribution'
-            .format(', '.join([spd.title for spd in spds])),
+            .format(', '.join([spd.strict_name for spd in spds])),
         'y_label':
             'Relative Power'
     }
@@ -486,7 +516,7 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
     """
 
     cmfs = get_cmfs(cmfs)
-    cmfs = cmfs.clone().align(DEFAULT_SPECTRAL_SHAPE)
+    cmfs = cmfs.copy().align(DEFAULT_SPECTRAL_SHAPE)
 
     wavelengths = cmfs.shape.range()
 
@@ -501,7 +531,7 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
     colours = DEFAULT_PLOTTING_ENCODING_CCTF(normalise_maximum(colours))
 
     settings = {
-        'title': 'The Visible Spectrum - {0}'.format(cmfs.title),
+        'title': 'The Visible Spectrum - {0}'.format(cmfs.strict_name),
         'x_label': 'Wavelength $\\lambda$ (nm)',
         'y_label': False,
         'x_tighten': True,
@@ -601,7 +631,7 @@ def multi_lightness_function_plot(functions=None, **kwargs):
             samples, (function(samples / 100) if
                       name.lower() == 'fairchild 2010' else function(samples)),
             label='{0}'.format(name),
-            linewidth=2)
+            linewidth=1)
 
     settings.update({
         'title': '{0} - Lightness Functions'.format(', '.join(functions)),

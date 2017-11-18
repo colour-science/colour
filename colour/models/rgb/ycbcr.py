@@ -69,14 +69,10 @@ __all__ = [
 ]
 
 YCBCR_WEIGHTS = CaseInsensitiveMapping({
-    'Rec. 601':
-    np.array([0.2990, 0.1140]),
-    'Rec. 709':
-    np.array([0.2126, 0.0722]),
-    'Rec. 2020':
-    np.array([0.2627, 0.0593]),
-    'SMPTE-240M':
-    np.array([0.2122, 0.0865])
+    'Rec. 601': np.array([0.2990, 0.1140]),
+    'Rec. 709': np.array([0.2126, 0.0722]),
+    'Rec. 2020': np.array([0.2627, 0.0593]),
+    'SMPTE-240M': np.array([0.2122, 0.0865])
 })
 """
 Luma weightings presets.
@@ -118,15 +114,15 @@ def YCbCr_ranges(bits, is_legal, is_int):
 
     if is_legal:
         ranges = np.array([16, 235, 16, 240])
-        ranges *= 2**(bits - 8)
+        ranges *= 2 ** (bits - 8)
     else:
-        ranges = np.array([0, 2**bits - 1, 0, 2**bits - 1])
+        ranges = np.array([0, 2 ** bits - 1, 0, 2 ** bits - 1])
 
     if not is_int:
         ranges = ranges.astype(DEFAULT_FLOAT_DTYPE) / (2 ** bits - 1)
 
     if is_int and not is_legal:
-        ranges[3] = 2**bits
+        ranges[3] = 2 ** bits
 
     if not is_int and not is_legal:
         ranges[2] = -0.5

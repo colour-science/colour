@@ -68,9 +68,12 @@ def luminous_flux(spd,
     23807.6555273...
     """
 
-    lef = lef.clone().align(
-        spd.shape, extrapolation_left=0, extrapolation_right=0)
-    spd = spd.clone() * lef
+    lef = lef.copy().align(
+        spd.shape,
+        extrapolator_args={'method': 'Constant',
+                           'left': 0,
+                           'right': 0})
+    spd = spd.copy() * lef
 
     flux = K_m * np.trapz(spd.values, spd.wavelengths)
 
@@ -103,9 +106,12 @@ def luminous_efficiency(
     0.1994393...
     """
 
-    lef = lef.clone().align(
-        spd.shape, extrapolation_left=0, extrapolation_right=0)
-    spd = spd.clone()
+    lef = lef.copy().align(
+        spd.shape,
+        extrapolator_args={'method': 'Constant',
+                           'left': 0,
+                           'right': 0})
+    spd = spd.copy()
 
     efficiency = (np.trapz(lef.values * spd.values, spd.wavelengths) /
                   np.trapz(spd.values, spd.wavelengths))
