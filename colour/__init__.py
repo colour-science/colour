@@ -13,6 +13,7 @@ Subpackages
 -   algebra: Algebra utilities.
 -   appearance: Colour appearance models.
 -   biochemistry: Biochemistry computations.
+-   continuous: Base objects for continuous data representation.
 -   characterisation: Colour fitting and camera characterisation.
 -   colorimetry: Core objects for colour computations.
 -   constants: *CIE* and *CODATA* constants.
@@ -42,6 +43,8 @@ from .algebra import *  # noqa
 from . import algebra  # noqa
 from .biochemistry import *  # noqa
 from . import biochemistry  # noqa
+from .continuous import *  # noqa
+from . import continuous  # noqa
 from .colorimetry import *  # noqa
 from . import colorimetry  # noqa
 from .appearance import *  # noqa
@@ -83,6 +86,7 @@ __all__ += utilities.__all__
 __all__ += adaptation.__all__
 __all__ += algebra.__all__
 __all__ += biochemistry.__all__
+__all__ += continuous.__all__
 __all__ += colorimetry.__all__
 __all__ += appearance.__all__
 __all__ += constants.__all__

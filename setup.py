@@ -38,7 +38,7 @@ DOCS_REQUIREMENTS = ['sphinx>=1.2.2']
 
 TESTS_REQUIREMENTS = ['coverage>=3.7.1', 'flake8>=2.1.0', 'nose>=1.3.4']
 
-OPTIONAL_REQUIREMENTS = ['yapf']
+OPTIONAL_REQUIREMENTS = ['pandas', 'yapf']
 
 if sys.version_info[:2] <= (3, 2):
     TESTS_REQUIREMENTS += ['mock']
