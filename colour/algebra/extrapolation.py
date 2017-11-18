@@ -183,9 +183,9 @@ class Extrapolator(object):
         """
 
         if value is not None:
-            assert is_string(value), (('"{0}" attribute: "{1}" is not a '
-                                       '"string" like object!').format(
-                                           'method', value))
+            assert is_string(value), (
+                ('"{0}" attribute: "{1}" is not a "string" like object!'
+                 ).format('method', value))
             value = value.lower()
 
         self._method = value
