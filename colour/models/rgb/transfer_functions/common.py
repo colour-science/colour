@@ -17,6 +17,8 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.constants import DEFAULT_FLOAT_DTYPE
+
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
@@ -63,7 +65,7 @@ def CV_range(bit_depth=10, is_legal=False, is_int=False):
         ranges = np.array([0, 2 ** bit_depth - 1])
 
     if not is_int:
-        ranges = ranges.astype(np.float_) / (2 ** bit_depth - 1)
+        ranges = ranges.astype(DEFAULT_FLOAT_DTYPE) / (2 ** bit_depth - 1)
 
     return ranges
 

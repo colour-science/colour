@@ -21,6 +21,7 @@ import numpy as np
 import scipy.interpolate
 from six.moves import reduce
 
+from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.utilities import as_numeric, interval
 
 __author__ = 'Colour Developers'
@@ -48,6 +49,8 @@ class LinearInterpolator(object):
     y : ndarray
         Dependent and already known :math:`y` variable values to
         interpolate.
+    dtype : type
+        Data type used for internal conversions.
 
     Methods
     -------
@@ -84,10 +87,12 @@ class LinearInterpolator(object):
     array([ 6.7825,  8.5075])
     """
 
-    def __init__(self, x=None, y=None):
+    def __init__(self, x, y, dtype=DEFAULT_FLOAT_DTYPE):
         self._x = None
-        self.x = x
         self._y = None
+        self._dtype = dtype
+
+        self.x = x
         self.y = y
 
         self._validate_dimensions()
@@ -117,7 +122,7 @@ class LinearInterpolator(object):
         """
 
         if value is not None:
-            value = np.atleast_1d(value).astype(np.float_)
+            value = np.atleast_1d(value).astype(self._dtype)
 
             assert value.ndim == 1, (
                 '"x" independent variable must have exactly one dimension!')
@@ -149,7 +154,7 @@ class LinearInterpolator(object):
         """
 
         if value is not None:
-            value = np.atleast_1d(value).astype(np.float_)
+            value = np.atleast_1d(value).astype(self._dtype)
 
             assert value.ndim == 1, (
                 '"y" dependent variable must have exactly one dimension!')
@@ -172,7 +177,7 @@ class LinearInterpolator(object):
             Interpolated value(s).
         """
 
-        x = np.atleast_1d(x).astype(np.float_)
+        x = np.atleast_1d(x).astype(self._dtype)
 
         xi = as_numeric(self._evaluate(x))
 
@@ -240,6 +245,8 @@ class SpragueInterpolator(object):
     y : array_like
         Dependent and already known :math:`y` variable values to
         interpolate.
+    dtype : type
+        Data type used for internal conversions.
 
     Methods
     -------
@@ -305,13 +312,15 @@ class SpragueInterpolator(object):
             ISBN:978-3-901-90641-1
     """
 
-    def __init__(self, x=None, y=None):
+    def __init__(self, x, y, dtype=DEFAULT_FLOAT_DTYPE):
         self._xp = None
         self._yp = None
 
         self._x = None
-        self.x = x
         self._y = None
+        self._dtype = dtype
+
+        self.x = x
         self.y = y
 
         self._validate_dimensions()
@@ -341,7 +350,7 @@ class SpragueInterpolator(object):
         """
 
         if value is not None:
-            value = np.atleast_1d(value).astype(np.float_)
+            value = np.atleast_1d(value).astype(self._dtype)
 
             assert value.ndim == 1, (
                 '"x" independent variable must have exactly one dimension!')
@@ -382,7 +391,7 @@ class SpragueInterpolator(object):
         """
 
         if value is not None:
-            value = np.atleast_1d(value).astype(np.float_)
+            value = np.atleast_1d(value).astype(self._dtype)
 
             assert value.ndim == 1, (
                 '"y" dependent variable must have exactly one dimension!')

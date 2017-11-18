@@ -12,7 +12,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import Mapping
 
-from colour.constants import EPSILON
+from colour.constants import DEFAULT_FLOAT_DTYPE, EPSILON
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -28,7 +28,7 @@ __all__ = [
 ]
 
 
-def as_numeric(a, type_=np.float_):
+def as_numeric(a, type_=DEFAULT_FLOAT_DTYPE):
     """
     Converts given :math:`a` variable to *numeric*. In the event where
     :math:`a` cannot be converted, it is passed as is.

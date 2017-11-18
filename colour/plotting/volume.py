@@ -17,6 +17,7 @@ import numpy as np
 import pylab
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
+from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.models import RGB_to_XYZ
 from colour.models.common import (COLOURSPACE_MODELS_LABELS,
                                   XYZ_to_colourspace_model)
@@ -220,11 +221,11 @@ def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
 
     RGB_g = np.ones((quads_g.shape[0], quads_g.shape[-1]))
     RGB_gf = RGB_g * settings.grid_face_colours
-    RGB_gf = np.hstack((RGB_gf, np.full((RGB_gf.shape[0], 1),
-                                        settings.grid_face_alpha, np.float_)))
+    RGB_gf = np.hstack((RGB_gf, np.full(
+        (RGB_gf.shape[0], 1), settings.grid_face_alpha, DEFAULT_FLOAT_DTYPE)))
     RGB_ge = RGB_g * settings.grid_edge_colours
-    RGB_ge = np.hstack((RGB_ge, np.full((RGB_ge.shape[0], 1),
-                                        settings.grid_edge_alpha, np.float_)))
+    RGB_ge = np.hstack((RGB_ge, np.full(
+        (RGB_ge.shape[0], 1), settings.grid_edge_alpha, DEFAULT_FLOAT_DTYPE)))
 
     # Inner grid.
     quads_gs = grid(
@@ -237,10 +238,11 @@ def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
     RGB_gs = np.ones((quads_gs.shape[0], quads_gs.shape[-1]))
     RGB_gsf = RGB_gs * 0
     RGB_gsf = np.hstack((RGB_gsf, np.full((RGB_gsf.shape[0], 1), 0,
-                                          np.float_)))
+                                          DEFAULT_FLOAT_DTYPE)))
     RGB_gse = np.clip(RGB_gs * settings.grid_edge_colours * 1.5, 0, 1)
-    RGB_gse = np.hstack((RGB_gse, np.full(
-        (RGB_gse.shape[0], 1), settings.grid_edge_alpha / 2, np.float_)))
+    RGB_gse = np.hstack((RGB_gse, np.full((RGB_gse.shape[0],
+                                           1), settings.grid_edge_alpha / 2,
+                                          DEFAULT_FLOAT_DTYPE)))
 
     # Axis.
     thickness = extent / 1000
@@ -270,7 +272,8 @@ def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
                 y = (tick if i else
                      limits[0, 1 if y_s == 1 else 0] + (y_s * extent / 25))
 
-                tick = int(tick) if np.float_(tick).is_integer() else tick
+                tick = int(tick) if DEFAULT_FLOAT_DTYPE(
+                    tick).is_integer() else tick
                 c = settings['{0}_ticks_colour'.format(axis)]
 
                 axes.text(
@@ -523,14 +526,14 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
 
         RGB_f.extend(
             np.hstack((RGB, np.full((RGB.shape[0], 1), settings.face_alpha[i],
-                                    np.float_))))
+                                    DEFAULT_FLOAT_DTYPE))))
 
         if settings.edge_colours[i] is not None:
             RGB = np.ones(RGB.shape) * settings.edge_colours[i]
 
         RGB_e.extend(
             np.hstack((RGB, np.full((RGB.shape[0], 1), settings.edge_alpha[i],
-                                    np.float_))))
+                                    DEFAULT_FLOAT_DTYPE))))
 
     quads = np.asarray(quads)
     quads[np.isnan(quads)] = 0

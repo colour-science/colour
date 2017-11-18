@@ -68,7 +68,8 @@ from colour.algebra import (Extrapolator, LinearInterpolator,
                             cartesian_to_cylindrical, polar_to_cartesian,
                             euclidean_distance)
 from colour.colorimetry import ILLUMINANTS, luminance_ASTMD153508
-from colour.constants import (INTEGER_THRESHOLD, FLOATING_POINT_NUMBER_PATTERN)
+from colour.constants import (DEFAULT_FLOAT_DTYPE, INTEGER_THRESHOLD,
+                              FLOATING_POINT_NUMBER_PATTERN)
 from colour.models import Lab_to_LCHab, XYZ_to_Lab, XYZ_to_xy, xyY_to_XYZ
 from colour.volume import is_within_macadam_limits
 from colour.notation import MUNSELL_COLOURS_ALL
@@ -950,12 +951,13 @@ def parse_munsell_colour(munsell_colour):
 
     match = re.match(MUNSELL_GRAY_PATTERN, munsell_colour, flags=re.IGNORECASE)
     if match:
-        return np.float_(match.group('value'))
+        return DEFAULT_FLOAT_DTYPE(match.group('value'))
     match = re.match(
         MUNSELL_COLOUR_PATTERN, munsell_colour, flags=re.IGNORECASE)
     if match:
-        return (np.float_(match.group('hue')), np.float_(match.group('value')),
-                np.float_(match.group('chroma')),
+        return (DEFAULT_FLOAT_DTYPE(match.group('hue')),
+                DEFAULT_FLOAT_DTYPE(match.group('value')),
+                DEFAULT_FLOAT_DTYPE(match.group('chroma')),
                 MUNSELL_HUE_LETTER_CODES.get(match.group('letter').upper()))
 
     raise ValueError(

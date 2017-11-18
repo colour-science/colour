@@ -30,6 +30,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
+from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.utilities import tsplit, tstack
 
 __author__ = 'Colour Developers'
@@ -193,7 +194,7 @@ def xy_to_xyY(xy, Y=1):
 
     x, y = tsplit(xy)
 
-    xyY = tstack((x, y, np.full(x.shape, Y, np.float_)))
+    xyY = tstack((x, y, np.full(x.shape, Y, DEFAULT_FLOAT_DTYPE)))
 
     return xyY
 

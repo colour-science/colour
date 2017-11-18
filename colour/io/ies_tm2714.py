@@ -25,6 +25,7 @@ from xml.dom import minidom
 
 from colour.colorimetry import SpectralPowerDistribution
 from colour.utilities import Structure, is_numeric, is_string
+from colour.constants import DEFAULT_FLOAT_DTYPE
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -676,7 +677,7 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
                     'transmission_geometry'), IES_TM2714_ElementSpecification(
                         'BandwidthFWHM',
                         'bandwidth_FWHM',
-                        read_conversion=np.float_),
+                        read_conversion=DEFAULT_FLOAT_DTYPE),
                 IES_TM2714_ElementSpecification(
                     'BandwidthCorrected',
                     'bandwidth_corrected',

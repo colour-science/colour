@@ -12,11 +12,11 @@ Defines input object for *X-Rite* spectral data files:
 from __future__ import division, unicode_literals
 
 import codecs
-import numpy as np
 import re
 from collections import OrderedDict
 
 from colour.colorimetry import SpectralPowerDistribution
+from colour.constants import DEFAULT_FLOAT_DTYPE
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -81,13 +81,14 @@ def read_spds_from_xrite_file(path):
 
             if is_spectral_data_format:
                 wavelengths = [
-                    np.float_(x) for x in re.findall('nm(\d+)', line)
+                    DEFAULT_FLOAT_DTYPE(x)
+                    for x in re.findall('nm(\d+)', line)
                 ]
                 index = len(wavelengths)
 
             if is_spectral_data:
                 tokens = line.split()
-                values = [np.float_(x) for x in tokens[-index:]]
+                values = [DEFAULT_FLOAT_DTYPE(x) for x in tokens[-index:]]
                 xrite_spds[tokens[1]] = (SpectralPowerDistribution(
                     tokens[1], dict(zip(wavelengths, values))))
 
