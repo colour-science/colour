@@ -12,6 +12,8 @@ import os
 from abc import ABCMeta, abstractmethod
 from collections import defaultdict
 
+from colour.constants import DEFAULT_FLOAT_DTYPE
+
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
@@ -85,7 +87,7 @@ class ColourAppearanceModelTest(object):
             for case_data in csv.DictReader(in_file):
                 for key in case_data:
                     try:
-                        case_data[key] = np.float_(case_data[key])
+                        case_data[key] = DEFAULT_FLOAT_DTYPE(case_data[key])
                     except ValueError:
                         pass
                 result.append(case_data)

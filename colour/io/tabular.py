@@ -13,11 +13,11 @@ Defines various input / output objects for *CSV* tabular data files:
 
 from __future__ import division, unicode_literals
 
-import numpy as np
 from collections import OrderedDict
 import csv
 
 from colour.colorimetry import SpectralPowerDistribution
+from colour.constants import DEFAULT_FLOAT_DTYPE
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -134,11 +134,11 @@ def read_spectral_data_from_csv_file(path,
         for line in reader:
             for field in fields:
                 try:
-                    value = np.float_(line[field])
+                    value = DEFAULT_FLOAT_DTYPE(line[field])
                 except ValueError:
                     value = default
 
-                data[field][np.float_(line[wavelength])] = value
+                data[field][DEFAULT_FLOAT_DTYPE(line[wavelength])] = value
         return data
 
 

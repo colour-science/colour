@@ -13,6 +13,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.utilities import as_numeric, is_numeric, is_string
 
 __author__ = 'Colour Developers'
@@ -54,6 +55,8 @@ class Extrapolator(object):
         Value to return for x < xi[0].
     right : numeric, optional
         Value to return for x > xi[-1].
+    dtype : type
+        Data type used for internal conversions.
 
     Methods
     -------
@@ -109,7 +112,8 @@ class Extrapolator(object):
                  interpolator=None,
                  method='Linear',
                  left=None,
-                 right=None):
+                 right=None,
+                 dtype=DEFAULT_FLOAT_DTYPE):
 
         self._interpolator = None
         self.interpolator = interpolator
@@ -119,6 +123,8 @@ class Extrapolator(object):
         self.right = right
         self._left = None
         self.left = left
+
+        self._dtype = dtype
 
     @property
     def interpolator(self):
@@ -177,9 +183,9 @@ class Extrapolator(object):
         """
 
         if value is not None:
-            assert is_string(value), (('"{0}" attribute: "{1}" is not a '
-                                       '"string" like object!').format(
-                                           'method', value))
+            assert is_string(value), (
+                ('"{0}" attribute: "{1}" is not a "string" like object!'
+                 ).format('method', value))
             value = value.lower()
 
         self._method = value
@@ -259,7 +265,7 @@ class Extrapolator(object):
             Extrapolated points value(s).
         """
 
-        x = np.atleast_1d(x).astype(np.float_)
+        x = np.atleast_1d(x).astype(self._dtype)
 
         xe = as_numeric(self._evaluate(x))
 

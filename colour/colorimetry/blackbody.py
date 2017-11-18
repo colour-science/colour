@@ -88,7 +88,7 @@ def planck_law(wavelength, temperature, c1=C1, c2=C2, n=N):
     20472701909806.5...
     """
 
-    l = np.asarray(wavelength)
+    l = np.asarray(wavelength)  # noqa
     t = np.asarray(temperature)
 
     p = (((c1 * n ** -2 * l ** -5) / np.pi) * (np.exp(c2 /

@@ -151,7 +151,7 @@ def HSV_to_RGB(HSV):
     i = np.floor(h)
     j = V * (1 - S)
     k = V * (1 - S * (h - i))
-    l = V * (1 - S * (1 - (h - i)))
+    l = V * (1 - S * (1 - (h - i)))  # noqa
 
     i = tstack((i, i, i)).astype(np.uint8)
 

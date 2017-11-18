@@ -18,7 +18,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['FLOATING_POINT_NUMBER_PATTERN', 'INTEGER_THRESHOLD', 'EPSILON']
+__all__ = [
+    'FLOATING_POINT_NUMBER_PATTERN', 'INTEGER_THRESHOLD', 'EPSILON',
+    'DEFAULT_FLOAT_DTYPE'
+]
 
 FLOATING_POINT_NUMBER_PATTERN = '[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?'
 """
@@ -40,4 +43,11 @@ Default epsilon value for tolerance and singularities avoidance in various
 computations.
 
 EPSILON : numeric
+"""
+
+DEFAULT_FLOAT_DTYPE = np.float_
+"""
+Default floating point number dtype.
+
+DEFAULT_FLOAT_DTYPE : type
 """

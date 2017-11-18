@@ -49,8 +49,8 @@ ST2084_CONSTANTS = Structure(
     c_2=2413 / 4096 * 32,
     c_3=2392 / 4096 * 32)
 """
-*SMPTE ST 2084:2014* opto-electrical transfer function (OETF / OECF) and
-electro-optical transfer function (EOTF / EOCF) constants.
+Constants for *SMPTE ST 2084:2014* opto-electrical transfer function
+(OETF / OECF) and electro-optical transfer function (EOTF / EOCF).
 
 ST2084_CONSTANTS : Structure
 """

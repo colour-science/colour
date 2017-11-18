@@ -18,6 +18,7 @@ import numpy as np
 import pylab
 from itertools import cycle
 
+from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.models import XYZ_to_sRGB
 from colour.quality import (colour_quality_scale, colour_rendering_index)
 from colour.quality.cri import TCS_ColorimetryData
@@ -109,7 +110,7 @@ def colour_quality_bars_plot(specifications,
 
         x = (i + np.arange(
             0, (count_Q_as + 1) * (count_s + 1), (count_s + 1),
-            dtype=np.float_)) * bar_width
+            dtype=DEFAULT_FLOAT_DTYPE)) * bar_width
         y = [s[1].Q_a for s in sorted(Q_as.items(), key=lambda s: s[0])]
         y = np.array([Q_a] + list(y))
 
@@ -139,13 +140,12 @@ def colour_quality_bars_plot(specifications,
 
     pylab.axhline(y=100, color='black', linestyle='--')
 
-    pylab.xticks((np.arange(
-        0, (count_Q_as + 1) * (count_s + 1),
-        (count_s + 1), dtype=np.float_) * bar_width +
-                  (count_s * bar_width / 2)), ['Qa'] + [
-                      'Q{0}'.format(index + 1)
-                      for index in range(0, count_Q_as + 1, 1)
-                  ])
+    pylab.xticks(
+        (np.arange(
+            0, (count_Q_as + 1) * (count_s + 1), (count_s + 1),
+            dtype=DEFAULT_FLOAT_DTYPE) * bar_width +
+         (count_s * bar_width / 2)), ['Qa'] +
+        ['Q{0}'.format(index + 1) for index in range(0, count_Q_as + 1, 1)])
     pylab.yticks(range(0, 100 + y_ticks_interval, y_ticks_interval))
 
     settings.update({
