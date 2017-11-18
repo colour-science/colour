@@ -11,7 +11,8 @@ import unittest
 from itertools import permutations
 
 from colour.algebra import (LinearInterpolator, SpragueInterpolator,
-                            PchipInterpolator, lagrange_coefficients)
+                            PchipInterpolator, NullInterpolator,
+                            lagrange_coefficients)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -559,6 +560,70 @@ class TestPchipInterpolator(unittest.TestCase):
 
         for method in required_methods:
             self.assertIn(method, dir(PchipInterpolator))
+
+
+class TestNullInterpolator(unittest.TestCase):
+    """
+    Defines :func:`colour.algebra.interpolation.NullInterpolator` class
+    unit tests methods.
+    """
+
+    def test_required_attributes(self):
+        """
+        Tests presence of required attributes.
+        """
+
+        required_attributes = ('x', 'y')
+
+        for attribute in required_attributes:
+            self.assertIn(attribute, dir(NullInterpolator))
+
+    def test_required_methods(self):
+        """
+        Tests presence of required methods.
+        """
+
+        required_methods = ()
+
+        for method in required_methods:
+            self.assertIn(method, dir(NullInterpolator))
+
+    def test___call__(self):
+        """
+        Tests :func:`colour.algebra.interpolation.NullInterpolator.__call__`
+        method.
+        """
+
+        x = np.arange(len(POINTS_DATA_A))
+        null_interpolator = NullInterpolator(x, POINTS_DATA_A)
+        np.testing.assert_almost_equal(
+            null_interpolator(np.array([0.75, 2.0, 3.0, 4.75])),
+            np.array([np.nan, 12.46, 9.51, np.nan]))
+
+        null_interpolator = NullInterpolator(x, POINTS_DATA_A, 0.25, 0.25)
+        np.testing.assert_almost_equal(
+            null_interpolator(np.array([0.75, 2.0, 3.0, 4.75])),
+            np.array([12.32, 12.46, 9.51, 4.33]))
+
+    @ignore_numpy_errors
+    def test_nan__call__(self):
+        """
+        Tests :func:`colour.algebra.interpolation.NullInterpolator.__call__`
+        method nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            try:
+                null_interpolator = NullInterpolator(
+                    np.array(case), np.array(case))
+                null_interpolator(case[0])
+            except ValueError:
+                import traceback
+                from colour.utilities import warning
+
+                warning(traceback.format_exc())
 
 
 class TestLagrangeCoefficients(unittest.TestCase):

@@ -12,6 +12,7 @@ Defines classes for interpolating variables.
 -   :class:`CubicSplineInterpolator`: 1-D function cubic spline interpolation.
 -   :class:`PchipInterpolator`: 1-D function piecewise cube Hermite
     interpolation.
+-   :class:`NullInterpolator`: 1-D function null interpolation.
 -   :func:`lagrange_coefficients`: Computation of *Lagrange Coefficients*.
 """
 
@@ -22,7 +23,7 @@ import scipy.interpolate
 from six.moves import reduce
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
-from colour.utilities import as_numeric, interval
+from colour.utilities import as_numeric, interval, is_numeric, closest_indexes
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -33,7 +34,7 @@ __status__ = 'Production'
 
 __all__ = [
     'LinearInterpolator', 'SpragueInterpolator', 'CubicSplineInterpolator',
-    'PchipInterpolator', 'lagrange_coefficients'
+    'PchipInterpolator', 'NullInterpolator', 'lagrange_coefficients'
 ]
 
 
@@ -556,6 +557,306 @@ class PchipInterpolator(scipy.interpolate.PchipInterpolator):
         """
 
         raise AttributeError('"{0}" attribute is read only!'.format('y'))
+
+
+class NullInterpolator(object):
+    """
+    Performs 1-D function null interpolation, i.e. a call within given
+    tolerances will return existing :math:`y` variable values and `default` if
+    outside tolerances.
+
+    Parameters
+    ----------
+    x : ndarray
+        Independent :math:`x` variable values corresponding with :math:`y`
+        variable.
+    y : ndarray
+        Dependent and already known :math:`y` variable values to
+        interpolate.
+    absolute_tolerance : numeric, optional
+        Absolute tolerance.
+    relative_tolerance : numeric, optional
+        Relative tolerance.
+    default : numeric, optional
+        Default value for interpolation outside tolerances.
+    dtype : type
+        Data type used for internal conversions.
+
+    Methods
+    -------
+    __call__
+
+
+    Examples
+    --------
+    >>> y = np.array([5.9200,
+    ...               9.3700,
+    ...               10.8135,
+    ...               4.5100,
+    ...               69.5900,
+    ...               27.8007,
+    ...               86.0500])
+    >>> x = np.arange(len(y))
+    >>> f = NullInterpolator(x, y)
+    >>> f(0.5)
+    nan
+    >>> f(1.0)  # doctest: +ELLIPSIS
+    9.3699999...
+    >>> f = NullInterpolator(x, y, absolute_tolerance=0.01)
+    >>> f(1.01)  # doctest: +ELLIPSIS
+    9.3699999...
+    """
+
+    def __init__(self,
+                 x=None,
+                 y=None,
+                 absolute_tolerance=10e-7,
+                 relative_tolerance=10e-7,
+                 default=np.nan,
+                 dtype=DEFAULT_FLOAT_DTYPE):
+        self._x = None
+        self._y = None
+        self._absolute_tolerance = None
+        self._relative_tolerance = None
+        self._default = None
+        self._dtype = dtype
+
+        self.x = x
+        self.y = y
+        self.absolute_tolerance = absolute_tolerance
+        self.relative_tolerance = relative_tolerance
+        self.default = default
+
+        self._validate_dimensions()
+
+    @property
+    def x(self):
+        """
+        Property for **self._x** private attribute.
+
+        Returns
+        -------
+        array_like
+            self._x
+        """
+
+        return self._x
+
+    @x.setter
+    def x(self, value):
+        """
+        Setter for **self._x** private attribute.
+
+        Parameters
+        ----------
+        value : array_like
+            Attribute value.
+        """
+
+        if value is not None:
+            value = np.atleast_1d(value).astype(self._dtype)
+
+            assert value.ndim == 1, (
+                '"x" independent variable must have exactly one dimension!')
+
+        self._x = value
+
+    @property
+    def y(self):
+        """
+        Property for **self._y** private attribute.
+
+        Returns
+        -------
+        array_like
+            self._y
+        """
+
+        return self._y
+
+    @y.setter
+    def y(self, value):
+        """
+        Setter for **self._y** private attribute.
+
+        Parameters
+        ----------
+        value : array_like
+            Attribute value.
+        """
+
+        if value is not None:
+            value = np.atleast_1d(value).astype(self._dtype)
+
+            assert value.ndim == 1, (
+                '"y" dependent variable must have exactly one dimension!')
+
+        self._y = value
+
+    @property
+    def relative_tolerance(self):
+        """
+        Property for **self._relative_tolerance** private attribute.
+
+        Returns
+        -------
+        numeric
+            self._relative_tolerance
+        """
+
+        return self._relative_tolerance
+
+    @relative_tolerance.setter
+    def relative_tolerance(self, value):
+        """
+        Setter for **self._relative_tolerance** private attribute.
+
+        Parameters
+        ----------
+        value : numeric
+            Attribute value.
+        """
+
+        if value is not None:
+            assert is_numeric(value), (
+                '"relative_tolerance" variable must be a "numeric"!')
+
+        self._relative_tolerance = value
+
+    @property
+    def absolute_tolerance(self):
+        """
+        Property for **self._absolute_tolerance** private attribute.
+
+        Returns
+        -------
+        numeric
+            self._absolute_tolerance
+        """
+
+        return self._absolute_tolerance
+
+    @absolute_tolerance.setter
+    def absolute_tolerance(self, value):
+        """
+        Setter for **self._absolute_tolerance** private attribute.
+
+        Parameters
+        ----------
+        value : numeric
+            Attribute value.
+        """
+
+        if value is not None:
+            assert is_numeric(value), (
+                '"absolute_tolerance" variable must be a "numeric"!')
+
+        self._absolute_tolerance = value
+
+    @property
+    def default(self):
+        """
+        Property for **self._default** private attribute.
+
+        Returns
+        -------
+        numeric
+            self._default
+        """
+
+        return self._default
+
+    @default.setter
+    def default(self, value):
+        """
+        Setter for **self._default** private attribute.
+
+        Parameters
+        ----------
+        value : numeric
+            Attribute value.
+        """
+
+        if value is not None:
+            assert is_numeric(value), (
+                '"default" variable must be a "numeric"!')
+
+        self._default = value
+
+    def __call__(self, x):
+        """
+        Evaluates the interpolator at given point(s).
+
+
+        Parameters
+        ----------
+        x : numeric or array_like
+            Point(s) to evaluate the interpolant at.
+
+        Returns
+        -------
+        float or ndarray
+            Interpolated value(s).
+        """
+
+        x = np.atleast_1d(x).astype(self._dtype)
+
+        xi = as_numeric(self._evaluate(x))
+
+        return xi
+
+    def _evaluate(self, x):
+        """
+        Performs the interpolator evaluation at given points.
+
+        Parameters
+        ----------
+        x : ndarray
+            Points to evaluate the interpolant at.
+
+        Returns
+        -------
+        ndarray
+            Interpolated points values.
+        """
+
+        self._validate_dimensions()
+        self._validate_interpolation_range(x)
+
+        indexes = closest_indexes(self._x, x)
+        values = self._y[indexes]
+        values[~np.isclose(
+            self._x[indexes],
+            x,
+            rtol=self._absolute_tolerance,
+            atol=self._relative_tolerance)] = self._default
+
+        return values
+
+    def _validate_dimensions(self):
+        """
+        Validates variables dimensions to be the same.
+        """
+
+        if len(self._x) != len(self._y):
+            raise ValueError(
+                ('"x" independent and "y" dependent variables have different '
+                 'dimensions: "{0}", "{1}"').format(
+                     len(self._x), len(self._y)))
+
+    def _validate_interpolation_range(self, x):
+        """
+        Validates given point to be in interpolation range.
+        """
+
+        below_interpolation_range = x < self._x[0]
+        above_interpolation_range = x > self._x[-1]
+
+        if below_interpolation_range.any():
+            raise ValueError('"{0}" is below interpolation range.'.format(x))
+
+        if above_interpolation_range.any():
+            raise ValueError('"{0}" is above interpolation range.'.format(x))
 
 
 def lagrange_coefficients(r, n=4):
