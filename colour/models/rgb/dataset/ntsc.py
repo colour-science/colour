@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-NTSC RGB Colourspace
-====================
+NTSC Colourspace
+================
 
-Defines the *NTSC RGB* colourspace:
+Defines the *NTSC* colourspace:
 
--   :attr:`NTSC_RGB_COLOURSPACE`.
+-   :attr:`NTSC_COLOURSPACE`.
 
 See Also
 --------
@@ -37,56 +37,56 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'NTSC_RGB_PRIMARIES', 'NTSC_RGB_ILLUMINANT', 'NTSC_RGB_WHITEPOINT',
-    'NTSC_RGB_TO_XYZ_MATRIX', 'XYZ_TO_NTSC_RGB_MATRIX', 'NTSC_RGB_COLOURSPACE'
+    'NTSC_PRIMARIES', 'NTSC_ILLUMINANT', 'NTSC_WHITEPOINT',
+    'NTSC_TO_XYZ_MATRIX', 'XYZ_TO_NTSC_MATRIX', 'NTSC_COLOURSPACE'
 ]
 
-NTSC_RGB_PRIMARIES = BT470_525_PRIMARIES
+NTSC_PRIMARIES = BT470_525_PRIMARIES
 """
-*NTSC RGB* colourspace primaries.
+*NTSC* colourspace primaries.
 
-NTSC_RGB_PRIMARIES : ndarray, (3, 2)
-"""
-
-NTSC_RGB_ILLUMINANT = BT470_525_ILLUMINANT
-"""
-*NTSC RGB* colourspace whitepoint name as illuminant.
-
-NTSC_RGB_ILLUMINANT : unicode
+NTSC_PRIMARIES : ndarray, (3, 2)
 """
 
-NTSC_RGB_WHITEPOINT = BT470_525_WHITEPOINT
+NTSC_ILLUMINANT = BT470_525_ILLUMINANT
 """
-*NTSC RGB* colourspace whitepoint.
+*NTSC* colourspace whitepoint name as illuminant.
 
-NTSC_RGB_WHITEPOINT : ndarray
-"""
-
-NTSC_RGB_TO_XYZ_MATRIX = BT470_525_TO_XYZ_MATRIX
-"""
-*NTSC RGB* colourspace to *CIE XYZ* tristimulus values matrix.
-
-NTSC_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
+NTSC_ILLUMINANT : unicode
 """
 
-XYZ_TO_NTSC_RGB_MATRIX = XYZ_TO_BT470_525_MATRIX
+NTSC_WHITEPOINT = BT470_525_WHITEPOINT
 """
-*CIE XYZ* tristimulus values to *NTSC RGB* colourspace matrix.
+*NTSC* colourspace whitepoint.
 
-XYZ_TO_NTSC_RGB_MATRIX : array_like, (3, 3)
+NTSC_WHITEPOINT : ndarray
 """
 
-NTSC_RGB_COLOURSPACE = RGB_Colourspace(
-    'NTSC RGB',
-    NTSC_RGB_PRIMARIES,
-    NTSC_RGB_WHITEPOINT,
-    NTSC_RGB_ILLUMINANT,
-    NTSC_RGB_TO_XYZ_MATRIX,
-    XYZ_TO_NTSC_RGB_MATRIX,
+NTSC_TO_XYZ_MATRIX = BT470_525_TO_XYZ_MATRIX
+"""
+*NTSC* colourspace to *CIE XYZ* tristimulus values matrix.
+
+NTSC_TO_XYZ_MATRIX : array_like, (3, 3)
+"""
+
+XYZ_TO_NTSC_MATRIX = XYZ_TO_BT470_525_MATRIX
+"""
+*CIE XYZ* tristimulus values to *NTSC* colourspace matrix.
+
+XYZ_TO_NTSC_MATRIX : array_like, (3, 3)
+"""
+
+NTSC_COLOURSPACE = RGB_Colourspace(
+    'NTSC',
+    NTSC_PRIMARIES,
+    NTSC_WHITEPOINT,
+    NTSC_ILLUMINANT,
+    NTSC_TO_XYZ_MATRIX,
+    XYZ_TO_NTSC_MATRIX,
     BT470_525_COLOURSPACE.encoding_cctf,
     BT470_525_COLOURSPACE.decoding_cctf)  # yapf: disable
 """
-*NTSC RGB* colourspace.
+*NTSC* colourspace.
 
-NTSC_RGB_COLOURSPACE : RGB_Colourspace
+NTSC_COLOURSPACE : RGB_Colourspace
 """
