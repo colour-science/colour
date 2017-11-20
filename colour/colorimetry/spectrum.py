@@ -1107,6 +1107,10 @@ dict_like, optional
             * [x[0] if x[0] is not None else x[1] for x in s_e_i])
         # Defining proper interpolation bounds.
         # TODO: Provide support for fractional interval like 0.1, etc...
+        if (round(self_shape.start) != self_shape.start or
+                round(self_shape.end) != self_shape.end):
+            warning('Fractional bound encountered, rounding will occur!')
+
         shape.start = max(shape.start, np.ceil(self_shape.start))
         shape.end = min(shape.end, np.floor(self_shape.end))
 

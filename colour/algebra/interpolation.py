@@ -22,7 +22,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 import scipy.interpolate
-from collections import OrderedDict
+from collections import OrderedDict, Mapping
 from six.moves import reduce
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
@@ -209,7 +209,15 @@ def kernel_cardinal_spline(x, a=0.5, b=0.0):
 
 class KernelInterpolator(object):
     """
-    Kernel based interpolation of a 1-D function. [2]_
+    Kernel based interpolation of a 1-D function.
+
+    The reconstruction of a continuous signal can be described as a linear
+    convolution operation. Interpolation can be expressed as a convolution of
+    the given discrete function :math:`g(x)` with some continuous interpolation
+    kernel :math:`k(w)`: [1]_ [2]_
+
+    :math:`\hat{g}(w_0) = [k * g](w_0) = \
+\sum_{x=-\infty}^{\infty}k(w_0 - x)\cdot g(x)`
 
     Parameters
     ----------
@@ -398,17 +406,17 @@ class KernelInterpolator(object):
     @property
     def window(self):
         """
-        Getter and setter property for the half window.
+        Getter and setter property for the window.
 
         Parameters
         ----------
         value : int
-            Value to set the half window with.
+            Value to set the window with.
 
         Returns
         -------
         int
-            Half window.
+            Window.
         """
 
         return self._window
@@ -426,11 +434,13 @@ class KernelInterpolator(object):
 
             self._window = value
 
+            # Triggering "self._x_p" update.
             if self._x is not None:
                 self.x = self._x
 
+            # Triggering "self._y_p" update.
             if self._y is not None:
-                self.y = self.y
+                self.y = self._y
 
     @property
     def kernel(self):
@@ -520,14 +530,15 @@ class KernelInterpolator(object):
         """
 
         if value is not None:
-            assert isinstance(value, (dict, OrderedDict)), (
-                '"{0}" attribute: "{1}" type is not "dict" or "OrderedDict"!'
+            assert isinstance(value, Mapping), (
+                '"{0}" attribute: "{1}" type is not a "Mapping" instance!'
             ).format('padding_args', value)
 
             self._padding_args = value
 
+            # Triggering "self._y_p" update.
             if self._y is not None:
-                self.y = self.y
+                self.y = self._y
 
     def __call__(self, x):
         """

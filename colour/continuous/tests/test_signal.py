@@ -158,7 +158,7 @@ class TestSignal(unittest.TestCase):
         Tests :func:`colour.continuous.signal.Signal.extrapolator` property.
         """
 
-        pass
+        self.assertIsInstance(self._signal.extrapolator(), Extrapolator)
 
     def test_extrapolator_args(self):
         """
@@ -184,7 +184,7 @@ class TestSignal(unittest.TestCase):
         Tests :func:`colour.continuous.signal.Signal.function` property.
         """
 
-        pass
+        assert hasattr(self._signal.function, '__call__')
 
     def test__init__(self):
         """

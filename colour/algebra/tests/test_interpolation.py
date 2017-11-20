@@ -13,8 +13,8 @@ from itertools import permutations
 from colour.algebra import (
     kernel_nearest_neighbour, kernel_linear, kernel_sinc, kernel_lanczos,
     kernel_cardinal_spline, KernelInterpolator, LinearInterpolator,
-    SpragueInterpolator, PchipInterpolator, NullInterpolator,
-    lagrange_coefficients)
+    SpragueInterpolator, CubicSplineInterpolator, PchipInterpolator,
+    NullInterpolator, lagrange_coefficients)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -26,10 +26,11 @@ __status__ = 'Production'
 
 __all__ = [
     'POINTS_DATA_A', 'LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES',
-    'SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES', 'LAGRANGE_COEFFICIENTS_A',
-    'LAGRANGE_COEFFICIENTS_B', 'TestKernelNearestNeighbour',
-    'TestKernelLinear', 'TestKernelSinc', 'TestKernelLanczos',
-    'TestKernelCardinalSpline', 'TestKernelInterpolator',
+    'SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES',
+    'CUBIC_SPLINE_INTERPOLATED_POINTS_DATA_A_X2_SAMPLES',
+    'LAGRANGE_COEFFICIENTS_A', 'LAGRANGE_COEFFICIENTS_B',
+    'TestKernelNearestNeighbour', 'TestKernelLinear', 'TestKernelSinc',
+    'TestKernelLanczos', 'TestKernelCardinalSpline', 'TestKernelInterpolator',
     'TestLinearInterpolator', 'TestSpragueInterpolator',
     'TestCubicSplineInterpolator', 'TestPchipInterpolator',
     'TestNullInterpolator', 'TestLagrangeCoefficients'
@@ -204,7 +205,8 @@ LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES = (
     86.692,
     86.478,
     86.264,
-    86.050)  # yapf: disable
+    86.050
+)  # yapf: disable
 
 SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES = (
     9.37000000,
@@ -357,7 +359,43 @@ SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES = (
     87.22734720,
     86.85002373,
     86.45733945,
-    86.05000000)  # yapf: disable
+    86.05000000
+)  # yapf: disable
+
+CUBIC_SPLINE_INTERPOLATED_POINTS_DATA_A_X2_SAMPLES = (
+    9.37000000,
+    11.08838189,
+    12.26359953,
+    12.78808025,
+    12.55425139,
+    11.50391691,
+    9.87473603,
+    8.01707329,
+    6.30369624,
+    5.08664365,
+    4.43550284,
+    4.25438019,
+    4.29206798,
+    4.21753374,
+    3.98875865,
+    3.79691327,
+    4.02534907,
+    5.23223510,
+    8.08816250,
+    13.36306794,
+    21.19519815,
+    30.89350026,
+    41.64531611,
+    52.53540869,
+    62.65180882,
+    71.10713687,
+    77.46889540,
+    82.31355134,
+    86.05208477,
+    88.28078752,
+    88.45998434,
+    86.05000000
+)  # yapf: disable
 
 LAGRANGE_COEFFICIENTS_A = np.array(
     [[0.92625, 0.09750, -0.02375],
@@ -826,7 +864,22 @@ class TestCubicSplineInterpolator(unittest.TestCase):
     unit tests methods.
     """
 
-    pass
+    def test___call__(self):
+        """
+        Tests :func:`colour.algebra.interpolation.\
+CubicSplineInterpolator.__call__` method.
+
+        Notes
+        -----
+        -   This class is a wrapper around *scipy.interpolate.interp1d* class
+            and is assumed to be unit tested thoroughly.
+        """
+
+        np.testing.assert_almost_equal(
+            CubicSplineInterpolator(
+                np.linspace(0, 1, len(POINTS_DATA_A)),
+                POINTS_DATA_A)(np.linspace(0, 1, len(POINTS_DATA_A) * 2)),
+            CUBIC_SPLINE_INTERPOLATED_POINTS_DATA_A_X2_SAMPLES)
 
 
 class TestPchipInterpolator(unittest.TestCase):

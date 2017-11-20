@@ -192,7 +192,7 @@ interpolator_args` property.
         property.
         """
 
-        pass
+        self.assertIsInstance(self._multi_signal.extrapolator(), Extrapolator)
 
     def test_extrapolator_args(self):
         """
@@ -220,7 +220,7 @@ extrapolator_args` property.
         property.
         """
 
-        pass
+        assert hasattr(self._multi_signal.function, '__call__')
 
     def test_signals(self):
         """
