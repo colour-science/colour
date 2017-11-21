@@ -79,8 +79,8 @@ def oetf_ST2084(C, L_p=10000):
 
     Examples
     --------
-    >>> oetf_ST2084(0.18)  # doctest: +ELLIPSIS
-    0.0794209...
+    >>> oetf_ST2084(10.0, 1000)  # doctest: +ELLIPSIS
+    0.5080784...
     """
 
     C = np.asarray(C)
@@ -119,8 +119,8 @@ def eotf_ST2084(N, L_p=10000):
 
     Examples
     --------
-    >>> eotf_ST2084(0.079420969944927)  # doctest: +ELLIPSIS
-    0.1...
+    >>> eotf_ST2084(0.508078421517399)  # doctest: +ELLIPSIS
+    100.0000000...
     """
 
     N = np.asarray(N)
