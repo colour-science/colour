@@ -349,7 +349,6 @@ OETFS = CaseInsensitiveMapping({
     'ARIB STD-B67': oetf_ARIBSTDB67,
     'DCI-P3': oetf_DCIP3,
     'DICOM GSDF': oetf_DICOMGSDF,
-    'ITU-R BT.1886': eotf_reverse_BT1886,
     'ITU-R BT.2020': oetf_BT2020,
     'ITU-R BT.601': oetf_BT601,
     'ITU-R BT.709': oetf_BT709,
@@ -364,9 +363,9 @@ OETFS = CaseInsensitiveMapping({
 Supported opto-electrical transfer functions (OETF / OECF).
 
 OETFS : CaseInsensitiveMapping
-    **{'sRGB', 'ARIB STD-B67', 'DCI-P3', 'DICOM GSDF', 'ITU-R BT.1886',
-    'ITU-R BT.2020', 'ITU-R BT.601', 'ITU-R BT.709', 'ProPhoto RGB',
-    'RIMM RGB', 'ROMM RGB', 'SMPTE 240M', 'ST 2084'}**
+    **{'sRGB', 'ARIB STD-B67', 'DCI-P3', 'DICOM GSDF', 'ITU-R BT.2020',
+    'ITU-R BT.601', 'ITU-R BT.709', 'ProPhoto RGB', 'RIMM RGB', 'ROMM RGB',
+    'SMPTE 240M', 'ST 2084'}**
 """
 
 
@@ -381,10 +380,10 @@ def oetf(value, function='sRGB', **kwargs):
     value : numeric or array_like
         Value.
     function : unicode, optional
-        **{'sRGB', 'ARIB STD-B67', 'DCI-P3', 'DICOM GSDF', 'ITU-R BT.1886',
-        'ITU-R BT.2020', 'ITU-R BT.601', 'ITU-R BT.709', 'ProPhoto RGB',
-        'RIMM RGB', 'ROMM RGB', 'SMPTE 240M', 'ST 2084'}**
-        Computation function.
+        **{'sRGB', 'ARIB STD-B67', 'DCI-P3', 'DICOM GSDF', 'ITU-R BT.2020',
+        'ITU-R BT.601', 'ITU-R BT.709', 'ProPhoto RGB', 'RIMM RGB', 'ROMM RGB',
+        'SMPTE 240M', 'ST 2084'}**
+        Opto-electronic transfer function (OETF / OECF).
 
     Other Parameters
     ----------------
@@ -395,12 +394,6 @@ def oetf(value, function='sRGB', **kwargs):
         {:func:`oetf_ROMMRGB`, :func:`oetf_RIMMRGB`},
         Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
         12-bit and 16-bit per channel.
-    L_B : numeric, optional
-        {:func:`eotf_reverse_BT1886`},
-        Screen luminance for black.
-    L_W : numeric, optional
-        {:func:`eotf_reverse_BT1886`},
-        Screen luminance for white.
     L_p : numeric, optional
         {:func:`oetf_ST2084`},
         Display peak luminance :math:`cd/m^2`.
@@ -436,32 +429,82 @@ def oetf(value, function='sRGB', **kwargs):
     return function(value, **kwargs)
 
 
-EOTFS = CaseInsensitiveMapping({
+OETFS_REVERSE = CaseInsensitiveMapping({
     'ARIB STD-B67': oetf_reverse_ARIBSTDB67,
+    'ITU-R BT.601': oetf_reverse_BT601,
+    'ITU-R BT.709': oetf_reverse_BT709,
+    'sRGB': oetf_reverse_sRGB
+})
+"""
+Supported reverse opto-electrical transfer functions (OETF / OECF).
+
+OETFS_REVERSE : CaseInsensitiveMapping
+    **{'sRGB', 'ARIB STD-B67', 'ITU-R BT.601', 'ITU-R BT.709'}**
+"""
+
+
+def oetf_reverse(value, function='sRGB', **kwargs):
+    """
+    Decodes :math:`R'G'B'` video component signal value to tristimulus values
+    at the display using given reverse opto-electronic transfer function
+    (OETF / OECF).
+
+    Parameters
+    ----------
+    value : numeric or array_like
+        Value.
+    function : unicode, optional
+        **{'sRGB', 'ARIB STD-B67', 'ITU-R BT.601', 'ITU-R BT.709'}**
+        Reverse opto-electronic transfer function (OETF / OECF).
+
+    Other Parameters
+    ----------------
+    r : numeric, optional
+        {:func:`oetf_ARIBSTDB67`},
+        Video level corresponding to reference white level.
+
+    Returns
+    -------
+    numeric or ndarray
+        Tristimulus values at the display.
+
+    Examples
+    --------
+    >>> oetf_reverse(0.461356129500442)  # doctest: +ELLIPSIS
+    0.1...
+    >>> oetf_reverse(
+    ...     0.409007728864150, function='ITU-R BT.601')  # doctest: +ELLIPSIS
+    0.1...
+    """
+
+    function = OETFS_REVERSE[function]
+
+    filter_kwargs(function, **kwargs)
+
+    return function(value, **kwargs)
+
+
+EOTFS = CaseInsensitiveMapping({
     'DCI-P3': eotf_DCIP3,
     'DICOM GSDF': eotf_DICOMGSDF,
     'ITU-R BT.1886': eotf_BT1886,
     'ITU-R BT.2020': eotf_BT2020,
-    'ITU-R BT.601': oetf_reverse_BT601,
-    'ITU-R BT.709': oetf_reverse_BT709,
     'ProPhoto RGB': eotf_ProPhotoRGB,
     'RIMM RGB': eotf_RIMMRGB,
     'ROMM RGB': eotf_ROMMRGB,
     'SMPTE 240M': eotf_SMPTE240M,
     'ST 2084': eotf_ST2084,
-    'sRGB': oetf_reverse_sRGB
 })
 """
 Supported electro-optical transfer functions (EOTF / EOCF).
 
 EOTFS : CaseInsensitiveMapping
-    **{'sRGB', 'ARIB STD-B67', 'DCI-P3', 'DICOM GSDF', 'ITU-R BT.1886',
-    'ITU-R BT.2020', 'ITU-R BT.601', 'ITU-R BT.709', 'ProPhoto RGB',
-    'RIMM RGB', 'ROMM RGB', 'SMPTE 240M', 'ST 2084'}**
+    **{'DCI-P3', 'DICOM GSDF', 'ITU-R BT.1886', 'ITU-R BT.2020',
+    'ProPhoto RGB', 'RIMM RGB', 'ROMM RGB', 'SMPTE 240M', 'ST 2084'}**
 """
 
 
-def eotf(value, function='sRGB', **kwargs):
+def eotf(value, function='ITU-R BT.1886', **kwargs):
     """
     Decodes :math:`R'G'B'` video component signal value to tristimulus values
     at the display using given electro-optical transfer function (EOTF / EOCF).
@@ -471,10 +514,9 @@ def eotf(value, function='sRGB', **kwargs):
     value : numeric or array_like
         Value.
     function : unicode, optional
-        **{'sRGB', 'ARIB STD-B67', 'DCI-P3', 'DICOM GSDF', 'ITU-R BT.1886',
-        'ITU-R BT.2020', 'ITU-R BT.601', 'ITU-R BT.709', 'ProPhoto RGB',
-        'RIMM RGB', 'ROMM RGB', 'SMPTE 240M', 'ST 2084'}**
-        Computation function.
+        **{'ITU-R BT.1886', 'DCI-P3', 'DICOM GSDF', 'ITU-R BT.2020',
+        'ProPhoto RGB', 'RIMM RGB', 'ROMM RGB', 'SMPTE 240M', 'ST 2084'}**
+        Electro-optical transfer function (EOTF / EOCF).
 
     Other Parameters
     ----------------
@@ -498,9 +540,6 @@ def eotf(value, function='sRGB', **kwargs):
         {:func:`eotf_BT2020`},
         *ITU-R BT.2020* *alpha* and *beta* constants are used if system is not
         12-bit.
-    r : numeric, optional
-        {:func:`oetf_reverse_ARIBSTDB67`},
-        Video level corresponding to reference white level.
 
     Returns
     -------
@@ -526,5 +565,60 @@ def eotf(value, function='sRGB', **kwargs):
     return function(value, **kwargs)
 
 
-__all__ += ['OETFS', 'EOTFS']
-__all__ += ['oetf', 'eotf']
+EOTFS_REVERSE = CaseInsensitiveMapping({
+    'ITU-R BT.1886': eotf_reverse_BT1886,
+})
+"""
+Supported reverse electro-optical transfer functions (EOTF / EOCF).
+
+EOTFS_REVERSE : CaseInsensitiveMapping
+    **{'ITU-R BT.1886'}**
+"""
+
+
+def eotf_reverse(value, function='ITU-R BT.1886', **kwargs):
+    """
+    Encodes estimated tristimulus values in a scene to :math:`R'G'B'` video
+    component signal value using given reverse electro-optical transfer
+    function (EOTF / EOCF).
+
+    Parameters
+    ----------
+    value : numeric or array_like
+        Value.
+    function : unicode, optional
+        **{'ITU-R BT.1886'}**
+        Reverse electro-optical transfer function (EOTF / EOCF).
+
+    Other Parameters
+    ----------------
+    L_B : numeric, optional
+        {:func:`eotf_reverse_BT1886`},
+        Screen luminance for black.
+    L_W : numeric, optional
+        {:func:`eotf_reverse_BT1886`},
+        Screen luminance for white.
+
+    Returns
+    -------
+    numeric or ndarray
+        :math:`R'G'B'` video component signal value.
+
+    Examples
+    --------
+    >>> eotf_reverse(0.11699185725296059)  # doctest: +ELLIPSIS
+    0.4090077...
+    >>> eotf_reverse(0.11699185725296059,
+    ...     function='ITU-R BT.1886')  # doctest: +ELLIPSIS
+    0.4090077...
+    """
+
+    function = EOTFS_REVERSE[function]
+
+    filter_kwargs(function, **kwargs)
+
+    return function(value, **kwargs)
+
+
+__all__ += ['OETFS', 'OETFS_REVERSE', 'EOTFS', 'EOTFS_REVERSE']
+__all__ += ['oetf', 'oetf_reverse', 'eotf', 'eotf_reverse']
