@@ -515,17 +515,19 @@ def ootf_reverse_BT2100_HLG(F_D, L_B=0.005, L_W=1000, gamma=None):
     alpha = L_W - L_B
     beta = L_B
 
-    F_tmp = (F_D_s - beta) / alpha
-    Y_new = np.atleast_1d(
-        np.sum(BT2100_HLG_WEIGHTS * F_tmp, axis=-1))[:, np.newaxis]
+    F_t = (F_D_s - beta) / alpha
+    Y_n = np.atleast_1d(
+        np.sum(BT2100_HLG_WEIGHTS * F_t, axis=-1))[:, np.newaxis]
 
     if gamma is None:
         gamma = function_gamma_BT2100_HLG(L_W)
 
-    # *nans* are generated when *F_tmp* or *Y_new* are equal to zero.
-    E = F_tmp * Y_new ** ((1 / gamma) - 1)
+    E = Y_n ** ((1 / gamma) - 1)
 
-    E[np.isnan(E)] = 0
+    # *infs* are generated if *Y_n* is equal to zero.
+    E[np.isinf(E)] = 0
+
+    E = E * F_t
 
     if F_D.shape[-1] != 3:
         return as_numeric(tsplit(E)[0][..., 0:1])
