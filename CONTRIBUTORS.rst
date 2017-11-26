@@ -36,6 +36,10 @@ Development & Technical Support
 
     CIECAM02 improvements, technical support.
 
+-   **Ofek Lev**
+
+    Documentation improvements.
+
 Acknowledgements
 ----------------
 -   **Steve Agland**, *Supervising Lighting Technical Director @ Animal Logic*
