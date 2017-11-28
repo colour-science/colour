@@ -41,8 +41,9 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.models.rgb.transfer_functions import (
-    eotf_BT1886, eotf_ST2084, eotf_reverse_BT1886, oetf_ARIBSTDB67, oetf_BT709,
-    oetf_ST2084, oetf_reverse_ARIBSTDB67, oetf_reverse_BT709)
+    eotf_BT1886, eotf_ST2084, eotf_reverse_BT1886, function_gamma,
+    oetf_ARIBSTDB67, oetf_BT709, oetf_ST2084, oetf_reverse_ARIBSTDB67,
+    oetf_reverse_BT709)
 from colour.utilities import as_numeric, tsplit, tstack, warning
 
 __author__ = 'Colour Developers'
@@ -370,7 +371,11 @@ def eotf_BT2100_HLG(E_p, L_B=0.005, L_W=1000, gamma=None):
     return ootf_BT2100_HLG(oetf_reverse_ARIBSTDB67(E_p) / 12, L_B, L_W, gamma)
 
 
-def eotf_reverse_BT2100_HLG(F_D, L_B=0.005, L_W=1000, gamma=None):
+def eotf_reverse_BT2100_HLG(F_D,
+                            L_B=0.005,
+                            L_W=1000,
+                            gamma=None,
+                            negative_number_handling='Mirror'):
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* reverse
     electro-optical transfer function (EOTF / EOCF).
@@ -389,6 +394,19 @@ def eotf_reverse_BT2100_HLG(F_D, L_B=0.005, L_W=1000, gamma=None):
     gamma : numeric, optional
         System gamma value, 1.2 at the nominal display peak luminance of
         :math:`1000 cd/m^2`.
+    negative_number_handling : unicode, optional
+        **{'Mirror', 'Indeterminate', 'Preserve', 'Clamp'}**,
+        Defines the behaviour for `a` negative numbers and / or the definition
+        return value:
+
+        -   *Indeterminate*: The behaviour will be indeterminate and
+            definition return value might contain *nans*.
+        -   *Mirror*: The definition return value will be mirrored around
+            abscissa and ordinate axis, i.e. Blackmagic Design: Davinci Resolve
+            behaviour.
+        -   *Preserve*: The definition will preserve any negative number in
+            `a`, i.e. The Foundry Nuke behaviour.
+        -   *Clamp*: The definition will clamp any negative number in `a` to 0.
 
     Returns
     -------
@@ -402,10 +420,16 @@ def eotf_reverse_BT2100_HLG(F_D, L_B=0.005, L_W=1000, gamma=None):
     0.2121320...
     """
 
-    return oetf_ARIBSTDB67(ootf_reverse_BT2100_HLG(F_D, L_B, L_W, gamma) * 12)
+    return oetf_ARIBSTDB67(
+        ootf_reverse_BT2100_HLG(F_D, L_B, L_W, gamma, negative_number_handling)
+        * 12)
 
 
-def ootf_BT2100_HLG(E, L_B=0.005, L_W=1000, gamma=None):
+def ootf_BT2100_HLG(E,
+                    L_B=0.005,
+                    L_W=1000,
+                    gamma=None,
+                    negative_number_handling='Mirror'):
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* opto-optical
     transfer function (OOTF / OOCF).
@@ -426,6 +450,19 @@ def ootf_BT2100_HLG(E, L_B=0.005, L_W=1000, gamma=None):
     gamma : numeric, optional
         System gamma value, 1.2 at the nominal display peak luminance of
         :math:`1000 cd/m^2`.
+    negative_number_handling : unicode, optional
+        **{'Mirror', 'Indeterminate', 'Preserve', 'Clamp'}**,
+        Defines the behaviour for `a` negative numbers and / or the definition
+        return value:
+
+        -   *Indeterminate*: The behaviour will be indeterminate and
+            definition return value might contain *nans*.
+        -   *Mirror*: The definition return value will be mirrored around
+            abscissa and ordinate axis, i.e. Blackmagic Design: Davinci Resolve
+            behaviour.
+        -   *Preserve*: The definition will preserve any negative number in
+            `a`, i.e. The Foundry Nuke behaviour.
+        -   *Clamp*: The definition will clamp any negative number in `a` to 0.
 
     Returns
     -------
@@ -460,7 +497,9 @@ def ootf_BT2100_HLG(E, L_B=0.005, L_W=1000, gamma=None):
     if gamma is None:
         gamma = function_gamma_BT2100_HLG(L_W)
 
-    F_D = alpha * Y_S ** (gamma - 1) * E_s + beta
+    F_D = (alpha * np.asarray(
+        function_gamma(Y_S, (gamma - 1), negative_number_handling)) * E_s +
+           beta)
 
     if E.shape[-1] != 3:
         return as_numeric(tsplit(F_D)[0][..., 0:1])
@@ -468,7 +507,11 @@ def ootf_BT2100_HLG(E, L_B=0.005, L_W=1000, gamma=None):
         return F_D.reshape(E.shape)
 
 
-def ootf_reverse_BT2100_HLG(F_D, L_B=0.005, L_W=1000, gamma=None):
+def ootf_reverse_BT2100_HLG(F_D,
+                            L_B=0.005,
+                            L_W=1000,
+                            gamma=None,
+                            negative_number_handling='Mirror'):
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* reverse opto-optical
     transfer function (OOTF / OOCF).
@@ -486,6 +529,19 @@ def ootf_reverse_BT2100_HLG(F_D, L_B=0.005, L_W=1000, gamma=None):
     gamma : numeric, optional
         System gamma value, 1.2 at the nominal display peak luminance of
         :math:`1000 cd/m^2`.
+    negative_number_handling : unicode, optional
+        **{'Mirror', 'Indeterminate', 'Preserve', 'Clamp'}**,
+        Defines the behaviour for `a` negative numbers and / or the definition
+        return value:
+
+        -   *Indeterminate*: The behaviour will be indeterminate and
+            definition return value might contain *nans*.
+        -   *Mirror*: The definition return value will be mirrored around
+            abscissa and ordinate axis, i.e. Blackmagic Design: Davinci Resolve
+            behaviour.
+        -   *Preserve*: The definition will preserve any negative number in
+            `a`, i.e. The Foundry Nuke behaviour.
+        -   *Clamp*: The definition will clamp any negative number in `a` to 0.
 
     Returns
     -------
@@ -522,12 +578,8 @@ def ootf_reverse_BT2100_HLG(F_D, L_B=0.005, L_W=1000, gamma=None):
     if gamma is None:
         gamma = function_gamma_BT2100_HLG(L_W)
 
-    E = Y_n ** ((1 / gamma) - 1)
-
-    # *infs* are generated if *Y_n* is equal to zero.
-    E[np.isinf(E)] = 0
-
-    E = E * F_t
+    E = F_t * np.asarray(
+        function_gamma(Y_n, (1 / gamma) - 1, negative_number_handling))
 
     if F_D.shape[-1] != 3:
         return as_numeric(tsplit(E)[0][..., 0:1])
