@@ -72,6 +72,10 @@ def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
     show_diagram_colours : bool, optional
         {:func:`CIE_1931_chromaticity_diagram_plot`},
         Whether to display the chromaticity diagram background colours.
+    use_cached_diagram_colours : bool, optional
+        {:func:`CIE_1931_chromaticity_diagram_plot`},
+        Whether to used the cached chromaticity diagram background colours
+        image.
 
     Returns
     -------
@@ -224,6 +228,10 @@ def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
     show_diagram_colours : bool, optional
         {:func:`CIE_1960_UCS_chromaticity_diagram_plot`},
         Whether to display the chromaticity diagram background colours.
+    use_cached_diagram_colours : bool, optional
+        {:func:`CIE_1960_UCS_chromaticity_diagram_plot`},
+        Whether to used the cached chromaticity diagram background colours
+        image.
 
     Returns
     -------
@@ -382,6 +390,10 @@ def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
     show_diagram_colours : bool, optional
         {:func:`CIE_1976_UCS_chromaticity_diagram_plot`},
         Whether to display the chromaticity diagram background colours.
+    use_cached_diagram_colours : bool, optional
+        {:func:`CIE_1976_UCS_chromaticity_diagram_plot`},
+        Whether to used the cached chromaticity diagram background colours
+        image.
 
     Returns
     -------
@@ -545,6 +557,10 @@ def RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot(
     show_diagram_colours : bool, optional
         {:func:`CIE_1931_chromaticity_diagram_plot`},
         Whether to display the chromaticity diagram background colours.
+    use_cached_diagram_colours : bool, optional
+        {:func:`CIE_1931_chromaticity_diagram_plot`},
+        Whether to used the cached chromaticity diagram background colours
+        image.
 
     Returns
     -------
@@ -607,6 +623,10 @@ def RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot(
     show_diagram_colours : bool, optional
         {:func:`CIE_1960_UCS_chromaticity_diagram_plot`},
         Whether to display the chromaticity diagram background colours.
+    use_cached_diagram_colours : bool, optional
+        {:func:`CIE_1960_UCS_chromaticity_diagram_plot`},
+        Whether to used the cached chromaticity diagram background colours
+        image.
 
     Returns
     -------
@@ -670,6 +690,10 @@ def RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot(
     show_diagram_colours : bool, optional
         {:func:`CIE_1976_UCS_chromaticity_diagram_plot`},
         Whether to display the chromaticity diagram background colours.
+    use_cached_diagram_colours : bool, optional
+        {:func:`CIE_1976_UCS_chromaticity_diagram_plot`},
+        Whether to used the cached chromaticity diagram background colours
+        image.
 
     Returns
     -------

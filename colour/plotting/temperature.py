@@ -56,6 +56,10 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(illuminants=None,
     show_diagram_colours : bool, optional
         {:func:`CIE_1931_chromaticity_diagram_plot`},
         Whether to display the chromaticity diagram background colours.
+    use_cached_diagram_colours : bool, optional
+        {:func:`CIE_1931_chromaticity_diagram_plot`},
+        Whether to used the cached chromaticity diagram background colours
+        image.
 
     Returns
     -------
@@ -164,6 +168,10 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
     show_diagram_colours : bool, optional
         {:func:`CIE_1960_UCS_chromaticity_diagram_plot`},
         Whether to display the chromaticity diagram background colours.
+    use_cached_diagram_colours : bool, optional
+        {:func:`CIE_1960_UCS_chromaticity_diagram_plot`},
+        Whether to used the cached chromaticity diagram background colours
+        image.
 
     Returns
     -------
