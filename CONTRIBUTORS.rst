@@ -36,6 +36,10 @@ Development & Technical Support
 
     CIECAM02 improvements, technical support.
 
+-   **Ofek Lev**
+
+    Documentation improvements.
+
 Acknowledgements
 ----------------
 -   **Steve Agland**, *Supervising Lighting Technical Director @ Animal Logic*
@@ -71,16 +75,29 @@ Special Mentions
 
 -   **Aurélia Sellier**, *Line Producer @ Cube Creative*
 
-Contributors
-------------
+Issues & Discussions
+--------------------
 
 -   Nick Spiker
--   fangjy88
--   henczati
--   jaguarondi
--   Ron024
--   sobotka
--   zachlewis
+-   @Chandler
+-   @Kunkka1988
+-   @Rob-Welch
+-   @Ron024
+-   @awehring
+-   @brandondube
+-   @fangjy88
+-   @eyeforcolor
+-   @foutoucour
+-   @henczati
+-   @jaguarondi
+-   @iCagarro
+-   @lensz
+-   @meshula
+-   @naavis
+-   @peteroupc
+-   @sobotka
+-   @stakemura
+-   @zachlewis
 
 About
 -----
