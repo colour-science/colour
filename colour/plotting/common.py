@@ -473,7 +473,7 @@ def display(**kwargs):
     figure = matplotlib.pyplot.gcf()
     if settings.standalone:
         if settings.filename is not None:
-            pylab.savefig(**kwargs)
+            pylab.savefig(settings.filename)
         else:
             pylab.show()
         pylab.close()
