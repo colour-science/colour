@@ -41,9 +41,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.models.rgb.transfer_functions import (
-    eotf_BT1886, eotf_ST2084, eotf_reverse_BT1886, function_gamma,
-    oetf_ARIBSTDB67, oetf_BT709, oetf_ST2084, oetf_reverse_ARIBSTDB67,
-    oetf_reverse_BT709)
+    eotf_BT1886, eotf_ST2084, eotf_reverse_BT1886, oetf_ARIBSTDB67, oetf_BT709,
+    oetf_ST2084, oetf_reverse_ARIBSTDB67, oetf_reverse_BT709)
 from colour.utilities import as_numeric, tsplit, tstack, warning
 
 __author__ = 'Colour Developers'
@@ -371,11 +370,7 @@ def eotf_BT2100_HLG(E_p, L_B=0.005, L_W=1000, gamma=None):
     return ootf_BT2100_HLG(oetf_reverse_ARIBSTDB67(E_p) / 12, L_B, L_W, gamma)
 
 
-def eotf_reverse_BT2100_HLG(F_D,
-                            L_B=0.005,
-                            L_W=1000,
-                            gamma=None,
-                            negative_number_handling='Mirror'):
+def eotf_reverse_BT2100_HLG(F_D, L_B=0.005, L_W=1000, gamma=None):
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* reverse
     electro-optical transfer function (EOTF / EOCF).
@@ -394,19 +389,6 @@ def eotf_reverse_BT2100_HLG(F_D,
     gamma : numeric, optional
         System gamma value, 1.2 at the nominal display peak luminance of
         :math:`1000 cd/m^2`.
-    negative_number_handling : unicode, optional
-        **{'Mirror', 'Indeterminate', 'Preserve', 'Clamp'}**,
-        Defines the behaviour for `a` negative numbers and / or the definition
-        return value:
-
-        -   *Indeterminate*: The behaviour will be indeterminate and
-            definition return value might contain *nans*.
-        -   *Mirror*: The definition return value will be mirrored around
-            abscissa and ordinate axis, i.e. Blackmagic Design: Davinci Resolve
-            behaviour.
-        -   *Preserve*: The definition will preserve any negative number in
-            `a`, i.e. The Foundry Nuke behaviour.
-        -   *Clamp*: The definition will clamp any negative number in `a` to 0.
 
     Returns
     -------
@@ -420,15 +402,10 @@ def eotf_reverse_BT2100_HLG(F_D,
     0.2121320...
     """
 
-    return oetf_ARIBSTDB67(
-        ootf_reverse_BT2100_HLG(F_D, L_B, L_W, gamma, negative_number_handling)
-        * 12)
+    return oetf_ARIBSTDB67(ootf_reverse_BT2100_HLG(F_D, L_B, L_W, gamma) * 12)
 
 
-def ootf_BT2100_HLG(E,
-                    L_B=0.005,
-                    L_W=1000,
-                    gamma=None):
+def ootf_BT2100_HLG(E, L_B=0.005, L_W=1000, gamma=None):
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* opto-optical
     transfer function (OOTF / OOCF).
@@ -470,36 +447,29 @@ def ootf_BT2100_HLG(E,
             'RGB Luminance in computations and expects a vector input, thus '
             'the given input array will be stacked to compose a vector for '
             'internal computations but a single component will be output.')
-        R_S = E
-        G_S = E
-        B_S = E
+        R_S = G_S = B_S = E
     else:
         R_S, G_S, B_S = tsplit(E)
 
     alpha = L_W - L_B
     beta = L_B
 
-    Y_S = (BT2100_HLG_WEIGHTS[0] * R_S +
-           BT2100_HLG_WEIGHTS[1] * G_S +
-           BT2100_HLG_WEIGHTS[2] * B_S)
+    Y_S = np.sum(BT2100_HLG_WEIGHTS * tstack((R_S, G_S, B_S)), axis=-1)
 
     if gamma is None:
         gamma = function_gamma_BT2100_HLG(L_W)
 
-    R_D = (alpha * np.asarray(R_S * np.abs(Y_S) ** (gamma - 1)) + beta)
-    G_D = (alpha * np.asarray(G_S * np.abs(Y_S) ** (gamma - 1)) + beta)
-    B_D = (alpha * np.asarray(B_S * np.abs(Y_S) ** (gamma - 1)) + beta)
+    R_D = alpha * R_S * np.abs(Y_S) ** (gamma - 1) + beta
+    G_D = alpha * G_S * np.abs(Y_S) ** (gamma - 1) + beta
+    B_D = alpha * B_S * np.abs(Y_S) ** (gamma - 1) + beta
 
     if E.shape[-1] != 3:
         return as_numeric(R_D)
     else:
-        return tstack((R_D, G_D, B_D)).reshape(E.shape)
+        return tstack((R_D, G_D, B_D))
 
 
-def ootf_reverse_BT2100_HLG(F_D,
-                            L_B=0.005,
-                            L_W=1000,
-                            gamma=None):
+def ootf_reverse_BT2100_HLG(F_D, L_B=0.005, L_W=1000, gamma=None):
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* reverse opto-optical
     transfer function (OOTF / OOCF).
@@ -528,7 +498,7 @@ def ootf_reverse_BT2100_HLG(F_D,
     Examples
     --------
     >>> ootf_reverse_BT2100_HLG(63.100418969347103)  # doctest: +ELLIPSIS
-    0.10000000...
+    0.0999999...
     """
 
     F_D = np.atleast_1d(F_D)
@@ -539,15 +509,11 @@ def ootf_reverse_BT2100_HLG(F_D,
             'RGB Luminance in computations and expects a vector input, thus '
             'the given input array will be stacked to compose a vector for '
             'internal computations but a single component will be output.')
-        R_D = F_D
-        G_D = F_D
-        B_D = F_D
+        R_D = G_D = B_D = F_D
     else:
         R_D, G_D, B_D = tsplit(F_D)
 
-    Y_D = (BT2100_HLG_WEIGHTS[0] * R_D +
-           BT2100_HLG_WEIGHTS[1] * G_D +
-           BT2100_HLG_WEIGHTS[2] * B_D)
+    Y_D = np.sum(BT2100_HLG_WEIGHTS * tstack((R_D, G_D, B_D)), axis=-1)
 
     alpha = L_W - L_B
     beta = L_B
@@ -555,14 +521,14 @@ def ootf_reverse_BT2100_HLG(F_D,
     if gamma is None:
         gamma = function_gamma_BT2100_HLG(L_W)
 
-    R_S = np.where(Y_D == beta, 0.0, (np.abs((Y_D - beta) / alpha) **
-                                ((1 - gamma) / gamma)) * (R_D - beta) / alpha)
-    G_S = np.where(Y_D == beta, 0.0, (np.abs((Y_D - beta) / alpha) **
-                                ((1 - gamma) / gamma)) * (G_D - beta) / alpha)
-    B_S = np.where(Y_D == beta, 0.0, (np.abs((Y_D - beta) / alpha) **
-                                ((1 - gamma) / gamma)) * (B_D - beta) / alpha)
+    R_S = np.where(Y_D == beta, 0.0, (np.abs(
+        (Y_D - beta) / alpha) ** ((1 - gamma) / gamma)) * (R_D - beta) / alpha)
+    G_S = np.where(Y_D == beta, 0.0, (np.abs(
+        (Y_D - beta) / alpha) ** ((1 - gamma) / gamma)) * (G_D - beta) / alpha)
+    B_S = np.where(Y_D == beta, 0.0, (np.abs(
+        (Y_D - beta) / alpha) ** ((1 - gamma) / gamma)) * (B_D - beta) / alpha)
 
     if F_D.shape[-1] != 3:
         return as_numeric(R_S)
     else:
-        return tstack((R_S, G_S, B_S)).reshape(F_D.shape)
+        return tstack((R_S, G_S, B_S))
