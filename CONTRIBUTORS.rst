@@ -78,6 +78,7 @@ Special Mentions
 Issues & Discussions
 --------------------
 
+-   Nick Porcino
 -   Nick Spiker
 -   @Chandler
 -   @Kunkka1988
@@ -92,7 +93,6 @@ Issues & Discussions
 -   @jaguarondi
 -   @iCagarro
 -   @lensz
--   @meshula
 -   @naavis
 -   @peteroupc
 -   @sobotka
