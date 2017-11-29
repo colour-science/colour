@@ -36,8 +36,11 @@ __all__ = [
 ]
 
 
-def planckian_locus_CIE_1931_chromaticity_diagram_plot(illuminants=None,
-                                                       **kwargs):
+def planckian_locus_CIE_1931_chromaticity_diagram_plot(
+        illuminants=None,
+        CIE_1931_chromaticity_diagram_callable=(
+            CIE_1931_chromaticity_diagram_plot),
+        **kwargs):
     """
     Plots the planckian locus and given illuminants in
     *CIE 1931 Chromaticity Diagram*.
@@ -46,6 +49,8 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(illuminants=None,
     ----------
     illuminants : array_like, optional
         Factory illuminants to plot.
+    CIE_1931_chromaticity_diagram_callable : callable, optional
+        Callable responsible for drawing the *CIE 1931 Chromaticity Diagram*.
 
     Other Parameters
     ----------------
@@ -95,7 +100,7 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(illuminants=None,
     }
     settings.update(kwargs)
 
-    CIE_1931_chromaticity_diagram_plot(**settings)
+    CIE_1931_chromaticity_diagram_callable(**settings)
 
     start, end = 1667, 100000
     xy = np.array(
@@ -149,7 +154,10 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(illuminants=None,
 
 
 def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
-        illuminants=None, **kwargs):
+        illuminants=None,
+        CIE_1960_UCS_chromaticity_diagram_callable=(
+            CIE_1960_UCS_chromaticity_diagram_plot),
+        **kwargs):
     """
     Plots the planckian locus and given illuminants in
     *CIE 1960 UCS Chromaticity Diagram*.
@@ -158,6 +166,9 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
     ----------
     illuminants : array_like, optional
         Factory illuminants to plot.
+    CIE_1960_UCS_chromaticity_diagram_callable : callable, optional
+        Callable responsible for drawing the
+        *CIE 1960 UCS Chromaticity Diagram*.
 
     Other Parameters
     ----------------
@@ -207,7 +218,7 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
     }
     settings.update(kwargs)
 
-    CIE_1960_UCS_chromaticity_diagram_plot(**settings)
+    CIE_1960_UCS_chromaticity_diagram_callable(**settings)
 
     start, end = 1667, 100000
     uv = np.array(

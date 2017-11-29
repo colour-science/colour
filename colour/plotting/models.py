@@ -51,7 +51,10 @@ __all__ = [
 
 
 def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
-        colourspaces=None, cmfs='CIE 1931 2 Degree Standard Observer',
+        colourspaces=None,
+        cmfs='CIE 1931 2 Degree Standard Observer',
+        CIE_1931_chromaticity_diagram_callable=(
+            CIE_1931_chromaticity_diagram_plot),
         **kwargs):
     """
     Plots given *RGB* colourspaces in *CIE 1931 Chromaticity Diagram*.
@@ -62,6 +65,8 @@ def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
         *RGB* colourspaces to plot.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
+    CIE_1931_chromaticity_diagram_callable : callable, optional
+        Callable responsible for drawing the *CIE 1931 Chromaticity Diagram*.
 
     Other Parameters
     ----------------
@@ -108,7 +113,7 @@ def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
     }
     settings.update(kwargs)
 
-    CIE_1931_chromaticity_diagram_plot(**settings)
+    CIE_1931_chromaticity_diagram_callable(**settings)
 
     x_limit_min, x_limit_max = [-0.1], [0.9]
     y_limit_min, y_limit_max = [-0.1], [0.9]
@@ -207,7 +212,10 @@ def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
 
 
 def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
-        colourspaces=None, cmfs='CIE 1931 2 Degree Standard Observer',
+        colourspaces=None,
+        cmfs='CIE 1931 2 Degree Standard Observer',
+        CIE_1960_UCS_chromaticity_diagram_callable=(
+            CIE_1960_UCS_chromaticity_diagram_plot),
         **kwargs):
     """
     Plots given *RGB* colourspaces in *CIE 1960 UCS Chromaticity Diagram*.
@@ -218,6 +226,9 @@ def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
         *RGB* colourspaces to plot.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
+    CIE_1960_UCS_chromaticity_diagram_callable : callable, optional
+        Callable responsible for drawing the
+        *CIE 1960 UCS Chromaticity Diagram*.
 
     Other Parameters
     ----------------
@@ -264,7 +275,7 @@ def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
     }
     settings.update(kwargs)
 
-    CIE_1960_UCS_chromaticity_diagram_plot(**settings)
+    CIE_1960_UCS_chromaticity_diagram_callable(**settings)
 
     x_limit_min, x_limit_max = [-0.1], [0.7]
     y_limit_min, y_limit_max = [-0.2], [0.6]
@@ -369,7 +380,10 @@ def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
 
 
 def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
-        colourspaces=None, cmfs='CIE 1931 2 Degree Standard Observer',
+        colourspaces=None,
+        cmfs='CIE 1931 2 Degree Standard Observer',
+        CIE_1976_UCS_chromaticity_diagram_callable=(
+            CIE_1976_UCS_chromaticity_diagram_plot),
         **kwargs):
     """
     Plots given *RGB* colourspaces in *CIE 1976 UCS Chromaticity Diagram*.
@@ -380,6 +394,9 @@ def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
         *RGB* colourspaces to plot.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
+    CIE_1976_UCS_chromaticity_diagram_callable : callable, optional
+        Callable responsible for drawing the
+        *CIE 1976 UCS Chromaticity Diagram*.
 
     Other Parameters
     ----------------
@@ -428,7 +445,7 @@ def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
     }
     settings.update(kwargs)
 
-    CIE_1976_UCS_chromaticity_diagram_plot(**settings)
+    CIE_1976_UCS_chromaticity_diagram_callable(**settings)
 
     x_limit_min, x_limit_max = [-0.1], [0.7]
     y_limit_min, y_limit_max = [-0.1], [0.7]
@@ -537,7 +554,11 @@ def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
 
 
 def RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot(
-        RGB, colourspace, **kwargs):
+        RGB,
+        colourspace='sRGB',
+        CIE_1931_chromaticity_diagram_callable=(
+            RGB_colourspaces_CIE_1931_chromaticity_diagram_plot),
+        **kwargs):
     """
     Plots given *RGB* colourspace array in *CIE 1931 Chromaticity Diagram*.
 
@@ -545,8 +566,10 @@ def RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot(
     ----------
     RGB : array_like
         *RGB* colourspace array.
-    colourspace : unicode
+    colourspace : optional, unicode
         *RGB* colourspace of the *RGB* array.
+    CIE_1931_chromaticity_diagram_callable : callable, optional
+        Callable responsible for drawing the *CIE 1931 Chromaticity Diagram*.
 
     Other Parameters
     ----------------
@@ -582,7 +605,7 @@ def RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot(
     colourspace, name = get_RGB_colourspace(colourspace), colourspace
     settings['colourspaces'] = ([name] + settings.get('colourspaces', []))
 
-    RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(**settings)
+    CIE_1931_chromaticity_diagram_callable(**settings)
 
     alpha_p, colour_p = 0.85, 'black'
 
@@ -603,7 +626,11 @@ def RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot(
 
 
 def RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot(
-        RGB, colourspace, **kwargs):
+        RGB,
+        colourspace='sRGB',
+        CIE_1960_UCS_chromaticity_diagram_callable=(
+            RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot),
+        **kwargs):
     """
     Plots given *RGB* colourspace array in *CIE 1960 UCS Chromaticity Diagram*.
 
@@ -611,8 +638,11 @@ def RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot(
     ----------
     RGB : array_like
         *RGB* colourspace array.
-    colourspace : unicode
+    colourspace : optional, unicode
         *RGB* colourspace of the *RGB* array.
+    CIE_1960_UCS_chromaticity_diagram_callable : callable, optional
+        Callable responsible for drawing the
+        *CIE 1960 UCS Chromaticity Diagram*.
 
     Other Parameters
     ----------------
@@ -648,7 +678,7 @@ def RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot(
     colourspace, name = get_RGB_colourspace(colourspace), colourspace
     settings['colourspaces'] = ([name] + settings.get('colourspaces', []))
 
-    RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(**settings)
+    CIE_1960_UCS_chromaticity_diagram_callable(**settings)
 
     alpha_p, colour_p = 0.85, 'black'
 
@@ -670,7 +700,11 @@ def RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot(
 
 
 def RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot(
-        RGB, colourspace, **kwargs):
+        RGB,
+        colourspace='sRGB',
+        CIE_1976_UCS_chromaticity_diagram_callable=(
+            RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot),
+        **kwargs):
     """
     Plots given *RGB* colourspace array in *CIE 1976 UCS Chromaticity Diagram*.
 
@@ -678,8 +712,11 @@ def RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot(
     ----------
     RGB : array_like
         *RGB* colourspace array.
-    colourspace : unicode
+    colourspace : optional, unicode
         *RGB* colourspace of the *RGB* array.
+    CIE_1976_UCS_chromaticity_diagram_callable : callable, optional
+        Callable responsible for drawing the
+        *CIE 1976 UCS Chromaticity Diagram*.
 
     Other Parameters
     ----------------
@@ -715,7 +752,7 @@ def RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot(
     colourspace, name = get_RGB_colourspace(colourspace), colourspace
     settings['colourspaces'] = ([name] + settings.get('colourspaces', []))
 
-    RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(**settings)
+    CIE_1976_UCS_chromaticity_diagram_callable(**settings)
 
     alpha_p, colour_p = 0.85, 'black'
 

@@ -634,7 +634,11 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
 
 
 def spds_CIE_1931_chromaticity_diagram_plot(
-        spds, cmfs='CIE 1931 2 Degree Standard Observer', annotate=True,
+        spds,
+        cmfs='CIE 1931 2 Degree Standard Observer',
+        annotate=True,
+        CIE_1931_chromaticity_diagram_callable=(
+            CIE_1931_chromaticity_diagram_plot),
         **kwargs):
     """
     Plots given spectral power distribution chromaticity coordinates into the
@@ -649,6 +653,8 @@ def spds_CIE_1931_chromaticity_diagram_plot(
     annotate : bool
         Should resulting chromaticity coordinates annotated with their
         respective spectral power distribution names.
+    CIE_1931_chromaticity_diagram_callable : callable, optional
+        Callable responsible for drawing the *CIE 1931 Chromaticity Diagram*.
 
     Other Parameters
     ----------------
@@ -679,9 +685,9 @@ def spds_CIE_1931_chromaticity_diagram_plot(
 
     settings = {}
     settings.update(kwargs)
-    settings.update({'standalone': False})
+    settings.update({'cmfs': cmfs, 'standalone': False})
 
-    CIE_1931_chromaticity_diagram_plot(cmfs=cmfs, **settings)
+    CIE_1931_chromaticity_diagram_callable(**settings)
 
     for spd in spds:
         XYZ = spectral_to_XYZ(spd) / 100
@@ -714,7 +720,11 @@ def spds_CIE_1931_chromaticity_diagram_plot(
 
 
 def spds_CIE_1960_UCS_chromaticity_diagram_plot(
-        spds, cmfs='CIE 1931 2 Degree Standard Observer', annotate=True,
+        spds,
+        cmfs='CIE 1931 2 Degree Standard Observer',
+        annotate=True,
+        CIE_1960_UCS_chromaticity_diagram_callable=(
+            CIE_1960_UCS_chromaticity_diagram_plot),
         **kwargs):
     """
     Plots given spectral power distribution chromaticity coordinates into the
@@ -729,6 +739,9 @@ def spds_CIE_1960_UCS_chromaticity_diagram_plot(
     annotate : bool
         Should resulting chromaticity coordinates annotated with their
         respective spectral power distribution names.
+    CIE_1960_UCS_chromaticity_diagram_callable : callable, optional
+        Callable responsible for drawing the
+        *CIE 1960 UCS Chromaticity Diagram*.
 
     Other Parameters
     ----------------
@@ -759,9 +772,9 @@ def spds_CIE_1960_UCS_chromaticity_diagram_plot(
 
     settings = {}
     settings.update(kwargs)
-    settings.update({'standalone': False})
+    settings.update({'cmfs': cmfs, 'standalone': False})
 
-    CIE_1960_UCS_chromaticity_diagram_plot(cmfs=cmfs, **settings)
+    CIE_1960_UCS_chromaticity_diagram_callable(**settings)
 
     for spd in spds:
         XYZ = spectral_to_XYZ(spd) / 100
@@ -794,7 +807,11 @@ def spds_CIE_1960_UCS_chromaticity_diagram_plot(
 
 
 def spds_CIE_1976_UCS_chromaticity_diagram_plot(
-        spds, cmfs='CIE 1931 2 Degree Standard Observer', annotate=True,
+        spds,
+        cmfs='CIE 1931 2 Degree Standard Observer',
+        annotate=True,
+        CIE_1976_UCS_chromaticity_diagram_callable=(
+            CIE_1976_UCS_chromaticity_diagram_plot),
         **kwargs):
     """
     Plots given spectral power distribution chromaticity coordinates into the
@@ -809,6 +826,9 @@ def spds_CIE_1976_UCS_chromaticity_diagram_plot(
     annotate : bool
         Should resulting chromaticity coordinates annotated with their
         respective spectral power distribution names.
+    CIE_1976_UCS_chromaticity_diagram_callable : callable, optional
+        Callable responsible for drawing the
+        *CIE 1976 UCS Chromaticity Diagram*.
 
     Other Parameters
     ----------------
@@ -839,9 +859,9 @@ def spds_CIE_1976_UCS_chromaticity_diagram_plot(
 
     settings = {}
     settings.update(kwargs)
-    settings.update({'standalone': False})
+    settings.update({'cmfs': cmfs, 'standalone': False})
 
-    CIE_1976_UCS_chromaticity_diagram_plot(cmfs=cmfs, **settings)
+    CIE_1976_UCS_chromaticity_diagram_callable(**settings)
 
     for spd in spds:
         XYZ = spectral_to_XYZ(spd) / 100
