@@ -684,6 +684,16 @@ ootf_BT2100_HLG` definition.
             398.108130742780300,
             places=7)
 
+        np.testing.assert_almost_equal(
+            ootf_BT2100_HLG(
+                np.array([[0.1, 0.0, -0.1], [-0.1, -0.1, -0.1],
+                          [0.1, 0.1, 0.1], [0.1, -0.1, 0.1]])),
+            np.array([[45.88971285, 0.00500000, -45.87971285],
+                      [-63.09041897, -63.09041897, -63.09041897],
+                      [63.10041897, 63.10041897, 63.10041897],
+                      [51.32513949, -51.31513949, 51.32513949]]),
+            decimal=7)  # yapf: disable
+
     def test_n_dimensional_ootf_BT2100_HLG(self):
         """
         Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
@@ -756,6 +766,16 @@ ootf_reverse_BT2100_HLG` definition.
             ootf_reverse_BT2100_HLG(63.100418969347103, 0.001, 10000, 1.4),
             0.026828078845277,
             places=7)
+
+        np.testing.assert_almost_equal(
+            ootf_reverse_BT2100_HLG(
+                np.array([[45.88971285, 0.00500000, -45.87971285],
+                          [-63.09041897, -63.09041897, -63.09041897],
+                          [63.10041897, 63.10041897, 63.10041897],
+                          [51.32513949, -51.31513949, 51.32513949]])),
+            np.array([[0.1, 0.0, -0.1], [-0.1, -0.1, -0.1],
+                      [0.1, 0.1, 0.1], [0.1, -0.1, 0.1]]),
+            decimal=7)  # yapf: disable
 
     def test_n_dimensional_ootf_reverse_BT2100_HLG(self):
         """
