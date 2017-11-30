@@ -46,6 +46,10 @@ Acknowledgements
 
     Technical support.
 
+-   **Tim Borer**, *Lead Engineer @ BBC Research & Development*
+
+    *ITU-R BT.2100* technical support.
+
 -   **Paul Centore**, *Mathematician & Colour Scientist*
 
     Matlab *Munsell Renotation System* implementation.

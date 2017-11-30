@@ -512,11 +512,10 @@ eotf_BT2100_HLG` definition unit tests methods.
 eotf_BT2100_HLG` definition.
         """
 
-        self.assertAlmostEqual(
-            eotf_BT2100_HLG(0.0), 0.005000000000000, places=7)
+        self.assertAlmostEqual(eotf_BT2100_HLG(0.0), 0.0, places=7)
 
         self.assertAlmostEqual(
-            eotf_BT2100_HLG(0.212132034355964), 6.481007445450686, places=7)
+            eotf_BT2100_HLG(0.212132034355964), 6.476039825649814, places=7)
 
         self.assertAlmostEqual(
             eotf_BT2100_HLG(1.0), 1000.000029239784300, places=7)
@@ -533,7 +532,7 @@ eotf_BT2100_HLG` definition n-dimensional arrays support.
         """
 
         E_p = 0.212132034355964
-        F_D = 6.481007445450686
+        F_D = 6.476039825649814
         np.testing.assert_almost_equal(eotf_BT2100_HLG(E_p), F_D, decimal=7)
 
         E_p = np.tile(E_p, 6)
@@ -553,7 +552,7 @@ eotf_BT2100_HLG` definition n-dimensional arrays support.
         np.testing.assert_almost_equal(eotf_BT2100_HLG(E_p), F_D, decimal=7)
 
         E_p = np.array([0.25, 0.50, 0.75])
-        F_D = np.array([12.50253164, 49.99512655, 158.95114273])
+        F_D = np.array([12.49759412, 49.99037650, 158.94693746])
         np.testing.assert_almost_equal(eotf_BT2100_HLG(E_p), F_D, decimal=7)
 
         E_p = np.tile(E_p, (6, 1))
@@ -586,11 +585,10 @@ eotf_reverse_BT2100_HLG` definition unit tests methods.
 eotf_reverse_BT2100_HLG` definition.
         """
 
-        self.assertAlmostEqual(
-            eotf_reverse_BT2100_HLG(0.005000000000000), 0.0, places=7)
+        self.assertAlmostEqual(eotf_reverse_BT2100_HLG(0.0), 0.0, places=7)
 
         self.assertAlmostEqual(
-            eotf_reverse_BT2100_HLG(6.481007445450686),
+            eotf_reverse_BT2100_HLG(6.476039825649814),
             0.212132034355964,
             places=7)
 
@@ -598,8 +596,8 @@ eotf_reverse_BT2100_HLG` definition.
             eotf_reverse_BT2100_HLG(1000.000029239784300), 1.0, places=7)
 
         self.assertAlmostEqual(
-            eotf_reverse_BT2100_HLG(6.481007445450686, 0.001, 10000, 1.4),
-            0.125845476323691,
+            eotf_reverse_BT2100_HLG(6.476039825649814, 0.001, 10000, 1.4),
+            0.125811012816761,
             places=7)
 
     def test_n_dimensional_eotf_reverse_BT2100_HLG(self):
@@ -608,7 +606,7 @@ eotf_reverse_BT2100_HLG` definition.
 eotf_reverse_BT2100_HLG` definition n-dimensional arrays support.
         """
 
-        F_D = 6.481007445450686
+        F_D = 6.476039825649814
         E_p = 0.212132034355964
         np.testing.assert_almost_equal(
             eotf_reverse_BT2100_HLG(F_D), E_p, decimal=7)
@@ -633,7 +631,7 @@ eotf_reverse_BT2100_HLG` definition n-dimensional arrays support.
         np.testing.assert_almost_equal(
             eotf_reverse_BT2100_HLG(F_D), E_p, decimal=7)
 
-        F_D = np.array([12.50253164, 49.99512655, 158.95114273])
+        F_D = np.array([12.49759412, 49.99037650, 158.94693746])
         E_p = np.array([0.25, 0.50, 0.75])
         np.testing.assert_almost_equal(
             eotf_reverse_BT2100_HLG(F_D), E_p, decimal=7)
@@ -671,11 +669,10 @@ ootf_BT2100_HLG` definition unit tests methods.
 ootf_BT2100_HLG` definition.
         """
 
-        self.assertAlmostEqual(
-            ootf_BT2100_HLG(0.0), 0.005000000000000, places=7)
+        self.assertAlmostEqual(ootf_BT2100_HLG(0.0), 0.0, places=7)
 
         self.assertAlmostEqual(
-            ootf_BT2100_HLG(0.1), 63.100418969347103, places=7)
+            ootf_BT2100_HLG(0.1), 63.095734448019336, places=7)
 
         self.assertAlmostEqual(ootf_BT2100_HLG(1.0), 1000.0, places=7)
 
@@ -684,15 +681,18 @@ ootf_BT2100_HLG` definition.
             398.108130742780300,
             places=7)
 
+        a = np.array(
+            [[45.884942278760597, 0.000000000000000, -45.884942278760597],
+             [-63.095734448019336, -63.095734448019336, -63.095734448019336],
+             [63.095734448019336, 63.095734448019336, 63.095734448019336],
+             [51.320396090100672, -51.320396090100672, 51.320396090100672]]
+        )  # yapf: disable
         np.testing.assert_almost_equal(
             ootf_BT2100_HLG(
                 np.array([[0.1, 0.0, -0.1], [-0.1, -0.1, -0.1],
                           [0.1, 0.1, 0.1], [0.1, -0.1, 0.1]])),
-            np.array([[45.88971285, 0.00500000, -45.87971285],
-                      [-63.09041897, -63.09041897, -63.09041897],
-                      [63.10041897, 63.10041897, 63.10041897],
-                      [51.32513949, -51.31513949, 51.32513949]]),
-            decimal=7)  # yapf: disable
+            a,
+            decimal=7)
 
     def test_n_dimensional_ootf_BT2100_HLG(self):
         """
@@ -701,7 +701,7 @@ ootf_BT2100_HLG` definition n-dimensional arrays support.
         """
 
         E = 0.1
-        F_D = 63.100418969347103
+        F_D = 63.095734448019336
         np.testing.assert_almost_equal(ootf_BT2100_HLG(E), F_D, decimal=7)
 
         E = np.tile(E, 6)
@@ -721,7 +721,7 @@ ootf_BT2100_HLG` definition n-dimensional arrays support.
         np.testing.assert_almost_equal(ootf_BT2100_HLG(E), F_D, decimal=7)
 
         E = np.array([0.25, 0.50, 0.75])
-        F_D = np.array([213.02290934, 426.04081868, 639.05872802])
+        F_D = np.array([213.01897444, 426.03794887, 639.05692331])
         np.testing.assert_almost_equal(ootf_BT2100_HLG(E), F_D, decimal=7)
 
         E = np.tile(E, (6, 1))
@@ -754,28 +754,29 @@ ootf_reverse_BT2100_HLG` definition unit tests methods.
 ootf_reverse_BT2100_HLG` definition.
         """
 
-        self.assertAlmostEqual(
-            ootf_reverse_BT2100_HLG(0.005000000000000), 0.0, places=7)
+        self.assertAlmostEqual(ootf_reverse_BT2100_HLG(0.0), 0.0, places=7)
 
         self.assertAlmostEqual(
-            ootf_reverse_BT2100_HLG(63.100418969347103), 0.1, places=7)
+            ootf_reverse_BT2100_HLG(63.095734448019336), 0.1, places=7)
 
         self.assertAlmostEqual(ootf_reverse_BT2100_HLG(1000.0), 1.0, places=7)
 
         self.assertAlmostEqual(
-            ootf_reverse_BT2100_HLG(63.100418969347103, 0.001, 10000, 1.4),
-            0.026828078845277,
+            ootf_reverse_BT2100_HLG(398.108130742780300, 0.001, 10000, 1.4),
+            0.1,
             places=7)
 
+        a = np.array(
+            [[45.884942278760597, 0.000000000000000, -45.884942278760597],
+             [-63.095734448019336, -63.095734448019336, -63.095734448019336],
+             [63.095734448019336, 63.095734448019336, 63.095734448019336],
+             [51.320396090100672, -51.320396090100672, 51.320396090100672]]
+        )  # yapf: disable
         np.testing.assert_almost_equal(
-            ootf_reverse_BT2100_HLG(
-                np.array([[45.88971285, 0.00500000, -45.87971285],
-                          [-63.09041897, -63.09041897, -63.09041897],
-                          [63.10041897, 63.10041897, 63.10041897],
-                          [51.32513949, -51.31513949, 51.32513949]])),
-            np.array([[0.1, 0.0, -0.1], [-0.1, -0.1, -0.1],
-                      [0.1, 0.1, 0.1], [0.1, -0.1, 0.1]]),
-            decimal=7)  # yapf: disable
+            ootf_reverse_BT2100_HLG(a),
+            np.array([[0.1, 0.0, -0.1], [-0.1, -0.1, -0.1], [0.1, 0.1, 0.1],
+                      [0.1, -0.1, 0.1]]),
+            decimal=7)
 
     def test_n_dimensional_ootf_reverse_BT2100_HLG(self):
         """
@@ -783,7 +784,7 @@ ootf_reverse_BT2100_HLG` definition.
 ootf_reverse_BT2100_HLG` definition n-dimensional arrays support.
         """
 
-        F_D = 63.100418969347103
+        F_D = 63.095734448019336
         E = 0.1
         np.testing.assert_almost_equal(
             ootf_reverse_BT2100_HLG(F_D), E, decimal=7)
@@ -808,7 +809,7 @@ ootf_reverse_BT2100_HLG` definition n-dimensional arrays support.
         np.testing.assert_almost_equal(
             ootf_reverse_BT2100_HLG(F_D), E, decimal=7)
 
-        F_D = np.array([213.02290934, 426.04081868, 639.05872802])
+        F_D = np.array([213.01897444, 426.03794887, 639.05692331])
         E = np.array([0.25, 0.50, 0.75])
         np.testing.assert_almost_equal(
             ootf_reverse_BT2100_HLG(F_D), E, decimal=7)

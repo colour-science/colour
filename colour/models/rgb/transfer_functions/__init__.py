@@ -690,7 +690,7 @@ def ootf(value, function='ITU-R BT.2100 PQ', **kwargs):
     >>> ootf(0.1)  # doctest: +ELLIPSIS
     779.9883608...
     >>> ootf(0.1, function='ITU-R BT.2100 HLG')  # doctest: +ELLIPSIS
-    63.1004189...
+    63.0957344...
     """
 
     function = OOTFS[function]
@@ -749,8 +749,8 @@ def ootf_reverse(value, function='ITU-R BT.2100 PQ', **kwargs):
     >>> ootf_reverse(779.988360834115840)  # doctest: +ELLIPSIS
     0.1000000...
     >>> ootf_reverse(  # doctest: +ELLIPSIS
-    ...     63.100418969347103, function='ITU-R BT.2100 HLG')
-    0.0999999...
+    ...     63.095734448019336, function='ITU-R BT.2100 HLG')
+    0.1000000...
     """
 
     function = OOTFS_REVERSE[function]

@@ -34,6 +34,7 @@ References
         television for use in production and international programme exchange.
         Retrieved from https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
 R-REC-BT.2100-1-201706-I!!PDF-E.pdf
+.. [2]  Borer, T. (2017). Private Discussion with Mansencal, T. and Shaw, N.
 """
 
 from __future__ import division, unicode_literals
@@ -333,7 +334,7 @@ def oetf_reverse_BT2100_HLG(E):
     return oetf_reverse_ARIBSTDB67(E) / 12
 
 
-def eotf_BT2100_HLG(E_p, L_B=0.005, L_W=1000, gamma=None):
+def eotf_BT2100_HLG(E_p, L_B=0, L_W=1000, gamma=None):
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* electro-optical
     transfer function (EOTF / EOCF).
@@ -364,13 +365,13 @@ def eotf_BT2100_HLG(E_p, L_B=0.005, L_W=1000, gamma=None):
     Examples
     --------
     >>> eotf_BT2100_HLG(0.212132034355964)  # doctest: +ELLIPSIS
-    6.4810074...
+    6.4760398...
     """
 
     return ootf_BT2100_HLG(oetf_reverse_ARIBSTDB67(E_p) / 12, L_B, L_W, gamma)
 
 
-def eotf_reverse_BT2100_HLG(F_D, L_B=0.005, L_W=1000, gamma=None):
+def eotf_reverse_BT2100_HLG(F_D, L_B=0, L_W=1000, gamma=None):
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* reverse
     electro-optical transfer function (EOTF / EOCF).
@@ -398,14 +399,14 @@ def eotf_reverse_BT2100_HLG(F_D, L_B=0.005, L_W=1000, gamma=None):
 
     Examples
     --------
-    >>> eotf_reverse_BT2100_HLG(6.481007445450686)  # doctest: +ELLIPSIS
+    >>> eotf_reverse_BT2100_HLG(6.476039825649814)  # doctest: +ELLIPSIS
     0.2121320...
     """
 
     return oetf_ARIBSTDB67(ootf_reverse_BT2100_HLG(F_D, L_B, L_W, gamma) * 12)
 
 
-def ootf_BT2100_HLG(E, L_B=0.005, L_W=1000, gamma=None):
+def ootf_BT2100_HLG(E, L_B=0, L_W=1000, gamma=None):
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* opto-optical
     transfer function (OOTF / OOCF).
@@ -436,7 +437,7 @@ def ootf_BT2100_HLG(E, L_B=0.005, L_W=1000, gamma=None):
     Examples
     --------
     >>> ootf_BT2100_HLG(0.1)  # doctest: +ELLIPSIS
-    63.1004189...
+    63.0957344...
     """
 
     E = np.atleast_1d(E)
@@ -469,7 +470,7 @@ def ootf_BT2100_HLG(E, L_B=0.005, L_W=1000, gamma=None):
         return tstack((R_D, G_D, B_D))
 
 
-def ootf_reverse_BT2100_HLG(F_D, L_B=0.005, L_W=1000, gamma=None):
+def ootf_reverse_BT2100_HLG(F_D, L_B=0, L_W=1000, gamma=None):
     """
     Defines *Recommendation ITU-R BT.2100* *Reference HLG* reverse opto-optical
     transfer function (OOTF / OOCF).
@@ -497,8 +498,8 @@ def ootf_reverse_BT2100_HLG(F_D, L_B=0.005, L_W=1000, gamma=None):
 
     Examples
     --------
-    >>> ootf_reverse_BT2100_HLG(63.100418969347103)  # doctest: +ELLIPSIS
-    0.0999999...
+    >>> ootf_reverse_BT2100_HLG(63.095734448019336)  # doctest: +ELLIPSIS
+    0.1000000...
     """
 
     F_D = np.atleast_1d(F_D)
