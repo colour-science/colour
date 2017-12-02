@@ -19,7 +19,7 @@ Colour Science for Python
 .. |scrutinizer| image:: https://img.shields.io/scrutinizer/g/colour-science/colour/develop.svg?style=flat-square
     :target: https://scrutinizer-ci.com/g/colour-science/colour/
     :alt: Code Quality
-.. |landscape| image:: https://landscape.io/github/colour-science/colour/master/landscape.png?style=flat-square
+.. |landscape| image:: https://landscape.io/github/colour-science/colour/master/landscape.svg?style=flat-square
     :target: https://landscape.io/github/colour-science/colour
     :alt: Code Quality
 .. |version| image:: https://img.shields.io/pypi/v/colour-science.svg?style=flat-square
