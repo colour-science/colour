@@ -365,7 +365,7 @@ DELTA_E_METHODS = CaseInsensitiveMapping({
     'CMC': delta_E_CMC
 })
 """
-Supported *Delta E* computations methods.
+Supported :math:`\Delta E_{ab}` computations methods.
 
 DELTA_E_METHODS : CaseInsensitiveMapping
     **{'CIE 1976', 'CIE 1994', 'CIE 2000', 'CMC'}**
