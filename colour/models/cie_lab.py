@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-CIE Lab Colourspace
-===================
+CIE L*a*b* Colourspace
+======================
 
-Defines the *CIE Lab* colourspace transformations:
+Defines the *CIE L\*a\*b\** colourspace transformations:
 
 -   :func:`XYZ_to_Lab`
 -   :func:`Lab_to_XYZ`
@@ -13,7 +13,7 @@ Defines the *CIE Lab* colourspace transformations:
 
 See Also
 --------
-`CIE Lab Colourspace Jupyter Notebook
+`CIE L*a*b* Colourspace Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/cie_lab.ipynb>`_
 
@@ -47,7 +47,7 @@ def XYZ_to_Lab(
         XYZ,
         illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']):
     """
-    Converts from *CIE XYZ* tristimulus values to *CIE Lab* colourspace.
+    Converts from *CIE XYZ* tristimulus values to *CIE L\*a\*b\** colourspace.
 
     Parameters
     ----------
@@ -60,7 +60,7 @@ def XYZ_to_Lab(
     Returns
     -------
     ndarray
-        *CIE Lab* colourspace array.
+        *CIE L\*a\*b\** colourspace array.
 
     Notes
     -----
@@ -99,12 +99,12 @@ def Lab_to_XYZ(
         Lab,
         illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']):
     """
-    Converts from *CIE Lab* colourspace to *CIE XYZ* tristimulus values.
+    Converts from *CIE L\*a\*b\** colourspace to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
     Lab : array_like
-        *CIE Lab* colourspace array.
+        *CIE L\*a\*b\** colourspace array.
     illuminant : array_like, optional
         Reference *illuminant* *xy* chromaticity coordinates or *CIE xyY*
         colourspace array.
@@ -146,17 +146,17 @@ def Lab_to_XYZ(
 
 def Lab_to_LCHab(Lab):
     """
-    Converts from *CIE Lab* colourspace to *CIE LCHab* colourspace.
+    Converts from *CIE L\*a\*b\** colourspace to *CIE L\*C\*Hab* colourspace.
 
     Parameters
     ----------
     Lab : array_like
-        *CIE Lab* colourspace array.
+        *CIE L\*a\*b\** colourspace array.
 
     Returns
     -------
     ndarray
-        *CIE LCHab* colourspace array.
+        *CIE L\*C\*Hab* colourspace array.
 
     Notes
     -----
@@ -180,17 +180,17 @@ def Lab_to_LCHab(Lab):
 
 def LCHab_to_Lab(LCHab):
     """
-    Converts from *CIE LCHab* colourspace to *CIE Lab* colourspace.
+    Converts from *CIE L\*C\*Hab* colourspace to *CIE L\*a\*b\** colourspace.
 
     Parameters
     ----------
     LCHab : array_like
-        *CIE LCHab* colourspace array.
+        *CIE L\*C\*Hab* colourspace array.
 
     Returns
     -------
     ndarray
-        *CIE Lab* colourspace array.
+        *CIE L\*a\*b\** colourspace array.
 
     Notes
     -----

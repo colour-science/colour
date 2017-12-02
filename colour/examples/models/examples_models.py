@@ -110,14 +110,14 @@ print(colour.UCS_uv_to_xy(uv))
 
 print('\n')
 
-message_box(('Converting to "CIE UVW" colourspace from given "CIE XYZ" '
-             'tristimulus values:\n'
+message_box(('Converting to "CIE 1964 U*V*W*" colourspace from given'
+             '"CIE XYZ" tristimulus values:\n'
              '\n\t{0}'.format(XYZ)))
 print(colour.XYZ_to_UVW(XYZ))
 
 print('\n')
 
-message_box(('Converting to "CIE Luv" colourspace from given "CIE XYZ" '
+message_box(('Converting to "CIE L*u*v*" colourspace from given "CIE XYZ" '
              'tristimulus values:\n'
              '\n\t{0}'.format(XYZ)))
 print(colour.XYZ_to_Luv(XYZ))
@@ -125,15 +125,15 @@ print(colour.XYZ_to_Luv(XYZ))
 print('\n')
 
 Luv = (100.00000000, 64.73951819, 28.90956141)
-message_box(('Converting to "CIE XYZ" tristimulus values from given "CIE Luv" '
-             'colourspace values:\n'
+message_box(('Converting to "CIE XYZ" tristimulus values from given '
+             '"CIE L*u*v*" colourspace values:\n'
              '\n\t{0}'.format(Luv)))
 print(colour.Luv_to_XYZ(Luv))
 
 print('\n')
 
 message_box(('Converting to "u"v"" chromaticity coordinates from given '
-             '"CIE Luv" colourspace values:\n'
+             '"CIE L*u*v*" colourspace values:\n'
              '\n\t{0}'.format(Luv)))
 print(colour.Luv_to_uv(Luv))
 
@@ -141,13 +141,13 @@ print('\n')
 
 uv = (0.25895878, 0.51031344)
 message_box(('Converting to "xy" chromaticity coordinates from given '
-             '"CIE Luv" colourspace "u"v"" chromaticity coordinates:\n'
+             '"CIE L*u*v*" colourspace "u"v"" chromaticity coordinates:\n'
              '\n\t{0}'.format(uv)))
 print(colour.Luv_uv_to_xy(uv))
 
 print('\n')
 
-message_box(('Converting to "CIE LCHuv" colourspace from given "CIE Luv" '
+message_box(('Converting to "CIE L*C*Huv" colourspace from given "CIE L*u*v*" '
              'colourspace values:\n'
              '\n\t{0}'.format(Luv)))
 print(colour.Luv_to_LCHuv(Luv))
@@ -155,14 +155,14 @@ print(colour.Luv_to_LCHuv(Luv))
 print('\n')
 
 LCHuv = (100.00000000, 70.90111393, 24.06324597)
-message_box(('Converting to "CIE Luv" colourspace from given "CIE LCHuv" '
+message_box(('Converting to "CIE L*u*v*" colourspace from given "CIE L*C*Huv" '
              'colourspace values:\n'
              '\n\t{0}'.format(LCHuv)))
 print(colour.LCHuv_to_Luv(LCHuv))
 
 print('\n')
 
-message_box(('Converting to "CIE Lab" colourspace from given "CIE XYZ" '
+message_box(('Converting to "CIE L*a*b*" colourspace from given "CIE XYZ" '
              'tristimulus values:\n'
              '\n\t{0}'.format(XYZ)))
 print(colour.XYZ_to_Lab(XYZ))
@@ -170,14 +170,14 @@ print(colour.XYZ_to_Lab(XYZ))
 print('\n')
 
 Lab = (100.00000000, 28.97832184, 30.96902832)
-message_box(('Converting to "CIE XYZ" tristimulus values from given "CIE Lab" '
-             'colourspace values:\n'
+message_box(('Converting to "CIE XYZ" tristimulus values from given '
+             '"CIE L*a*b*" colourspace values:\n'
              '\n\t{0}'.format(Lab)))
 print(colour.Lab_to_XYZ(Lab))
 
 print('\n')
 
-message_box(('Converting to "CIE LCHab" colourspace from given "CIE Lab" '
+message_box(('Converting to "CIE L*C*Hab" colourspace from given "CIE L*a*b*" '
              'colourspace values:\n'
              '\n\t{0}'.format(Lab)))
 print(colour.Lab_to_LCHab(Lab))
@@ -185,7 +185,7 @@ print(colour.Lab_to_LCHab(Lab))
 print('\n')
 
 LCHab = (100.00000000, 42.41254357, 46.90195532)
-message_box(('Converting to "CIE Lab" colourspace from given "CIE LCHab" '
+message_box(('Converting to "CIE L*a*b*" colourspace from given "CIE L*C*Hab" '
              'colourspace values:\n'
              '\n\t{0}'.format(LCHab)))
 print(colour.LCHab_to_Lab(LCHab))

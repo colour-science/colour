@@ -139,13 +139,13 @@ def whiteness_Taube1960(XYZ, XYZ_0):
 
 def whiteness_Stensby1968(Lab):
     """
-    Returns the *whiteness* index :math:`WI` of given sample *CIE Lab*
+    Returns the *whiteness* index :math:`WI` of given sample *CIE L\*a\*b\**
     colourspace array using *Stensby (1968)* method. [2]_
 
     Parameters
     ----------
     Lab : array_like
-        *CIE Lab* colourspace array of sample.
+        *CIE L\*a\*b\** colourspace array of sample.
 
     Returns
     -------
@@ -154,7 +154,7 @@ def whiteness_Stensby1968(Lab):
 
     Notes
     -----
-    -   Input *CIE Lab* colourspace array is in domain [0, 100].
+    -   Input *CIE L\*a\*b\** colourspace array is in domain [0, 100].
     -   *Whiteness* :math:`WI` values larger than 100 indicate a bluish
         white and values smaller than 100 indicate a yellowish white.
 
@@ -379,7 +379,7 @@ def whiteness(method='CIE 2004', **kwargs):
         *CIE XYZ* tristimulus values of reference white.
     Lab : array_like
         {:func:`whiteness_Stensby1968`},
-        *CIE Lab* colourspace array of sample.
+        *CIE L\*a\*b\** colourspace array of sample.
     xy : array_like
         {:func:`whiteness_Ganz1979`, :func:`whiteness_CIE2004`},
         Chromaticity coordinates *xy* of sample.

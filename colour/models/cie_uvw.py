@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-CIE UVW Colourspace
-===================
+CIE 1964 U*V*W* Colourspace
+===========================
 
-Defines the *CIE U\*V\*W\** colourspace transformations:
+Defines the *CIE 1964 U\*V\*W\** colourspace transformations:
 
 -   :func:`XYZ_to_UVW`
 
 See Also
 --------
-`CIE UVW Colourspace Jupyter Notebook
+`CIE U*V*W* Colourspace Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/cie_uvw.ipynb>`_
 
@@ -62,7 +62,7 @@ def XYZ_to_UVW(
     -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
     -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
         colourspace array are in domain [0, :math:`\infty`].
-    -   Output *CIE UVW* colourspace array is in range [0, 100].
+    -   Output *CIE 1964 U\*V\*W\** colourspace array is in range [0, 100].
 
     Warning
     -------
