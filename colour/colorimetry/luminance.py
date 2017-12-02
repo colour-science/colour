@@ -283,11 +283,11 @@ def luminance(LV, method='CIE 1976', **kwargs):
     Examples
     --------
     >>> luminance(37.98562910)  # doctest: +ELLIPSIS
-    array(10.0800000...)
+    10.0800000...
     >>> luminance(37.98562910, Y_n=100)  # doctest: +ELLIPSIS
-    array(10.0800000...)
+    10.0800000...
     >>> luminance(37.98562910, Y_n=95)  # doctest: +ELLIPSIS
-    array(9.5760000...)
+    9.5760000...
     >>> luminance(3.74629715, method='Newhall 1943')  # doctest: +ELLIPSIS
     10.4089874...
     >>> luminance(3.74629715, method='ASTM D1535-08')  # doctest: +ELLIPSIS
