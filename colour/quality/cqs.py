@@ -97,7 +97,7 @@ class CQS_Specification(
     Q_g : numeric
          Gamut area scale :math:`Q_g` representing the relative gamut formed
          by the (:math:`a^*`, :math:`b^*`) coordinates of the 15 samples
-         illuminated by the test light source in the *CIE LAB* object
+         illuminated by the test light source in the *CIE L\*a\*b\** object
          colourspace.
     Q_d : numeric
         Relative gamut area scale :math:`Q_d`.
@@ -194,12 +194,12 @@ def colour_quality_scale(spd_test, additional_data=False):
 
 def gamut_area(Lab):
     """
-    Returns the gamut area :math:`G` covered by given *CIE Lab* matrices.
+    Returns the gamut area :math:`G` covered by given *CIE L\*a\*b\** matrices.
 
     Parameters
     ----------
     Lab : array_like
-        *CIE Lab* colourspace matrices.
+        *CIE L\*a\*b\** colourspace matrices.
 
     Returns
     -------

@@ -47,15 +47,15 @@ __all__ = [
 
 def delta_E_CIE1976(Lab_1, Lab_2):
     """
-    Returns the difference :math:`\Delta E_{ab}` between two given *CIE Lab*
-    colourspace arrays using *CIE 1976* recommendation.
+    Returns the difference :math:`\Delta E_{ab}` between two given
+    *CIE L\*a\*b\** colourspace arrays using *CIE 1976* recommendation.
 
     Parameters
     ----------
     Lab_1 : array_like
-        *CIE Lab* colourspace array 1.
+        *CIE L\*a\*b\** colourspace array 1.
     Lab_2 : array_like
-        *CIE Lab* colourspace array 2.
+        *CIE L\*a\*b\** colourspace array 2.
 
     Returns
     -------
@@ -86,15 +86,15 @@ def delta_E_CIE1976(Lab_1, Lab_2):
 
 def delta_E_CIE1994(Lab_1, Lab_2, textiles=False):
     """
-    Returns the difference :math:`\Delta E_{ab}` between two given *CIE Lab*
-    colourspace arrays using *CIE 1994* recommendation.
+    Returns the difference :math:`\Delta E_{ab}` between two given
+    *CIE L\*a\*b\** colourspace arrays using *CIE 1994* recommendation.
 
     Parameters
     ----------
     Lab_1 : array_like
-        *CIE Lab* colourspace array 1.
+        *CIE L\*a\*b\** colourspace array 1.
     Lab_2 : array_like
-        *CIE Lab* colourspace array 2.
+        *CIE L\*a\*b\** colourspace array 2.
     textiles : bool, optional
         Textiles application specific parametric factors
         :math:`k_L=2,\ k_C=k_H=1,\ k_1=0.048,\ k_2=0.014` weights are used
@@ -161,15 +161,15 @@ def delta_E_CIE1994(Lab_1, Lab_2, textiles=False):
 
 def delta_E_CIE2000(Lab_1, Lab_2, textiles=False):
     """
-    Returns the difference :math:`\Delta E_{ab}` between two given *CIE Lab*
-    colourspace arrays using *CIE 2000* recommendation.
+    Returns the difference :math:`\Delta E_{ab}` between two given
+    *CIE L\*a\*b\** colourspace arrays using *CIE 2000* recommendation.
 
     Parameters
     ----------
     Lab_1 : array_like
-        *CIE Lab* colourspace array 1.
+        *CIE L\*a\*b\** colourspace array 1.
     Lab_2 : array_like
-        *CIE Lab* colourspace array 2.
+        *CIE L\*a\*b\** colourspace array 2.
     textiles : bool, optional
         Textiles application specific parametric factors
         :math:`k_L=2,\ k_C=k_H=1` weights are used instead of
@@ -288,8 +288,9 @@ Melgosa_CIEDE2000_Workshop-July4.pdf
 
 def delta_E_CMC(Lab_1, Lab_2, l=2, c=1):  # noqa
     """
-    Returns the difference :math:`\Delta E_{ab}` between two given *CIE Lab*
-    colourspace arrays using *Colour Measurement Committee* recommendation.
+    Returns the difference :math:`\Delta E_{ab}` between two given
+    *CIE L\*a\*b\** colourspace arrays using *Colour Measurement Committee*
+    recommendation.
 
     The quasimetric has two parameters: *Lightness* (l) and *chroma* (c),
     allowing the users to weight the difference based on the ratio of l:c.
@@ -299,9 +300,9 @@ def delta_E_CMC(Lab_1, Lab_2, l=2, c=1):  # noqa
     Parameters
     ----------
     Lab_1 : array_like
-        *CIE Lab* colourspace array 1.
+        *CIE L\*a\*b\** colourspace array 1.
     Lab_2 : array_like
-        *CIE Lab* colourspace array 2.
+        *CIE L\*a\*b\** colourspace array 2.
     l : numeric, optional
         Lightness weighting factor.
     c : numeric, optional
@@ -365,7 +366,7 @@ DELTA_E_METHODS = CaseInsensitiveMapping({
     'CMC': delta_E_CMC
 })
 """
-Supported *Delta E* computations methods.
+Supported :math:`\Delta E_{ab}` computations methods.
 
 DELTA_E_METHODS : CaseInsensitiveMapping
     **{'CIE 1976', 'CIE 1994', 'CIE 2000', 'CMC'}**
@@ -383,15 +384,15 @@ DELTA_E_METHODS['cie2000'] = DELTA_E_METHODS['CIE 2000']
 
 def delta_E(Lab_1, Lab_2, method='CMC', **kwargs):
     """
-    Returns the difference :math:`\Delta E_{ab}` between two given *CIE Lab*
-    colourspace arrays using given method.
+    Returns the difference :math:`\Delta E_{ab}` between two given
+    *CIE L\*a\*b\** colourspace arrays using given method.
 
     Parameters
     ----------
     Lab_1 : array_like
-        *CIE Lab* colourspace array 1.
+        *CIE L\*a\*b\** colourspace array 1.
     Lab_2 : array_like
-        *CIE Lab* colourspace array 2.
+        *CIE L\*a\*b\** colourspace array 2.
     method : unicode, optional
         **{'CMC', 'CIE 1976', 'CIE 1994', 'CIE 2000'}**,
         Computation method.

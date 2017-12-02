@@ -1793,13 +1793,13 @@ def xy_from_renotation_ovoid(specification):
 
 def LCHab_to_munsell_specification(LCHab):
     """
-    Converts from *CIE LCHab* colourspace to approximate *Munsell* *Colorlab*
-    specification.
+    Converts from *CIE L\*C\*Hab* colourspace to approximate *Munsell*
+    *Colorlab* specification.
 
     Parameters
     ----------
     LCHab : array_like, (3,)
-        *CIE LCHab* colourspace array.
+        *CIE L\*C\*Hab* colourspace array.
 
     Returns
     -------

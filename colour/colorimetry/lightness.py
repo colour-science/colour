@@ -36,7 +36,8 @@ import numpy as np
 
 from colour.biochemistry import reaction_rate_MichealisMenten
 from colour.constants import CIE_E, CIE_K
-from colour.utilities import CaseInsensitiveMapping, filter_kwargs, warning
+from colour.utilities import (CaseInsensitiveMapping, as_numeric,
+                              filter_kwargs, warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -168,7 +169,7 @@ def lightness_CIE1976(Y, Y_n=100):
     Examples
     --------
     >>> lightness_CIE1976(10.08)  # doctest: +ELLIPSIS
-    array(37.9856290...)
+    37.9856290...
     """
 
     Y = np.asarray(Y)
@@ -176,8 +177,8 @@ def lightness_CIE1976(Y, Y_n=100):
 
     Lstar = Y / Y_n
 
-    Lstar = np.where(Lstar <= CIE_E, CIE_K * Lstar,
-                     116 * Lstar ** (1 / 3) - 16)
+    Lstar = as_numeric(
+        np.where(Lstar <= CIE_E, CIE_K * Lstar, 116 * Lstar ** (1 / 3) - 16))
 
     return Lstar
 
@@ -283,11 +284,11 @@ def lightness(Y, method='CIE 1976', **kwargs):
     Examples
     --------
     >>> lightness(10.08)  # doctest: +ELLIPSIS
-    array(37.9856290...)
+    37.9856290...
     >>> lightness(10.08, Y_n=100)  # doctest: +ELLIPSIS
-    array(37.9856290...)
+    37.9856290...
     >>> lightness(10.08, Y_n=95)  # doctest: +ELLIPSIS
-    array(38.9165987...)
+    38.9165987...
     >>> lightness(10.08, method='Glasser 1958')  # doctest: +ELLIPSIS
     36.2505626...
     >>> lightness(10.08, method='Wyszecki 1963')  # doctest: +ELLIPSIS

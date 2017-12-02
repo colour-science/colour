@@ -622,7 +622,7 @@ POINTER_GAMUT_DATA = np.array(
      [90, 4, 340],
      [90, 6, 350]])  # yapf: disable
 """
-*Pointer's Gamut* data as a tuple of *CIE LCHab* colourspace matrices.
+*Pointer's Gamut* data as a tuple of *CIE L\*C\*Hab* colourspace matrices.
 
 POINTER_GAMUT_DATA : ndarray
 """
