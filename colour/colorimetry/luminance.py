@@ -31,7 +31,7 @@ import numpy as np
 
 from colour.biochemistry import substrate_concentration_MichealisMenten
 from colour.constants import CIE_E, CIE_K
-from colour.utilities import CaseInsensitiveMapping, filter_kwargs
+from colour.utilities import CaseInsensitiveMapping, as_numeric, filter_kwargs
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -160,16 +160,17 @@ def luminance_CIE1976(Lstar, Y_n=100):
     Examples
     --------
     >>> luminance_CIE1976(37.98562910)  # doctest: +ELLIPSIS
-    array(10.0800000...)
+    10.0800000...
     >>> luminance_CIE1976(37.98562910, 95)  # doctest: +ELLIPSIS
-    array(9.5760000...)
+    9.5760000...
     """
 
     Lstar = np.asarray(Lstar)
     Y_n = np.asarray(Y_n)
 
-    Y = np.where(Lstar > CIE_K * CIE_E,
-                 Y_n * ((Lstar + 16) / 116) ** 3, Y_n * (Lstar / CIE_K))
+    Y = as_numeric(
+        np.where(Lstar > CIE_K * CIE_E,
+                 Y_n * ((Lstar + 16) / 116) ** 3, Y_n * (Lstar / CIE_K)))
 
     return Y
 

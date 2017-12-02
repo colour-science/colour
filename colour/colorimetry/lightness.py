@@ -283,11 +283,11 @@ def lightness(Y, method='CIE 1976', **kwargs):
     Examples
     --------
     >>> lightness(10.08)  # doctest: +ELLIPSIS
-    array(37.9856290...)
+    37.9856290...
     >>> lightness(10.08, Y_n=100)  # doctest: +ELLIPSIS
-    array(37.9856290...)
+    37.9856290...
     >>> lightness(10.08, Y_n=95)  # doctest: +ELLIPSIS
-    array(38.9165987...)
+    38.9165987...
     >>> lightness(10.08, method='Glasser 1958')  # doctest: +ELLIPSIS
     36.2505626...
     >>> lightness(10.08, method='Wyszecki 1963')  # doctest: +ELLIPSIS
