@@ -439,7 +439,7 @@ Examples
     >>> colour.xyY_to_munsell_colour([0.38736945, 0.35751656, 0.59362000])
     u'4.2YR 8.1/5.3'
 
-**Optical Phenomenons**
+**Optical Phenomena**
 
 .. code-block:: python
 
