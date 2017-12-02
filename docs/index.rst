@@ -51,8 +51,8 @@ with detailed historical and theoretical context and images:
 -   :doc:`API Reference <api>`
 -   `Jupyter Notebooks <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/blob/master/notebooks/colour.ipynb>`_
 
-Appetizers
-~~~~~~~~~~
+Examples
+~~~~~~~~
 
 >>> import colour
 
