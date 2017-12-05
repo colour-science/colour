@@ -74,7 +74,7 @@ from colour.models import Lab_to_LCHab, XYZ_to_Lab, XYZ_to_xy, xyY_to_XYZ
 from colour.volume import is_within_macadam_limits
 from colour.notation import MUNSELL_COLOURS_ALL
 from colour.utilities import (CaseInsensitiveMapping, Lookup, is_integer,
-                              is_numeric, tsplit)
+                              is_numeric, tsplit, warning)
 
 __author__ = 'Colour Developers, Paul Centore'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -690,9 +690,8 @@ def xyY_to_munsell_specification(xyY):
     """
 
     if not is_within_macadam_limits(xyY, MUNSELL_DEFAULT_ILLUMINANT):
-        raise ValueError(
-            ('"{0}" is not within "MacAdam" limits for illuminant '
-             '"{1}"!').format(xyY, MUNSELL_DEFAULT_ILLUMINANT))
+        warning('"{0}" is not within "MacAdam" limits for illuminant '
+                '"{1}"!'.format(xyY, MUNSELL_DEFAULT_ILLUMINANT))
 
     x, y, Y = np.ravel(xyY)
 
