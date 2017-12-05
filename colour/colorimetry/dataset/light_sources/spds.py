@@ -740,44 +740,36 @@ LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA = {
 LIGHT_SOURCES_RIT_RELATIVE_SPDS = CaseInsensitiveMapping({
     'Natural':
         SpectralPowerDistribution(
-            'Natural',
-            LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA[
-                'Natural']),
+            LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA['Natural'],
+            name='Natural'),
     'Philips TL-84':
         SpectralPowerDistribution(
-            'Philips TL-84',
-            LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA[
-                'Philips TL-84']),
+            LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA['Philips TL-84'],
+            name='Philips TL-84'),
     'SA':
         SpectralPowerDistribution(
-            'SA',
-            LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA[
-                'SA']),
+            LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA['SA'],
+            name='SA'),
     'SC':
         SpectralPowerDistribution(
-            'SC',
-            LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA[
-                'SC']),
+            LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA['SC'],
+            name='SC'),
     'T8 Luxline Plus White':
         SpectralPowerDistribution(
-            'T8 Luxline Plus White',
-            LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA[
-                'T8 Luxline Plus White']),
+            LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA['T8 Luxline Plus White'],
+            name='T8 Luxline Plus White'),
     'T8 Polylux 3000':
         SpectralPowerDistribution(
-            'T8 Polylux 3000',
-            LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA[
-                'T8 Polylux 3000']),
+            LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA['T8 Polylux 3000'],
+            name='T8 Polylux 3000'),
     'T8 Polylux 4000':
         SpectralPowerDistribution(
-            'T8 Polylux 4000',
-            LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA[
-                'T8 Polylux 4000']),
+            LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA['T8 Polylux 4000'],
+            name='T8 Polylux 4000'),
     'Thorn Kolor-rite':
         SpectralPowerDistribution(
-            'Thorn Kolor-rite',
-            LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA[
-                'Thorn Kolor-rite'])
+            LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA['Thorn Kolor-rite'],
+            name='Thorn Kolor-rite')
 })  # yapf: disable
 """
 Light sources from *RIT* *PointerData.xls* spreadsheet.
@@ -1634,55 +1626,47 @@ LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA = {
 LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS = CaseInsensitiveMapping({
     'Cool White FL':
         SpectralPowerDistribution(
-            'Cool White FL',
-            LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA[
-                'Cool White FL']),
+            LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA['Cool White FL'],
+            name='Cool White FL'),
     'Daylight FL':
         SpectralPowerDistribution(
-            'Daylight FL',
-            LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA[
-                'Daylight FL']),
+            LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA['Daylight FL'],
+            name='Daylight FL'),
     'HPS':
         SpectralPowerDistribution(
-            'HPS',
-            LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA[
-                'HPS']),
+            LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA['HPS'],
+            name='HPS'),
     'Incandescent':
         SpectralPowerDistribution(
-            'Incandescent',
-            LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA[
-                'Incandescent']),
+            LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA['Incandescent'],
+            name='Incandescent'),
     'LPS':
         SpectralPowerDistribution(
-            'LPS',
-            LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA[
-                'LPS']),
+            LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA['LPS'],
+            name='LPS'),
     'Mercury':
         SpectralPowerDistribution(
-            'Mercury',
-            LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA[
-                'Mercury']),
+            LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA['Mercury'],
+            name='Mercury'),
     'Metal Halide':
         SpectralPowerDistribution(
-            'Metal Halide',
-            LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA[
-                'Metal Halide']),
+            LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA['Metal Halide'],
+            name='Metal Halide'),
     'Neodimium Incandescent':
         SpectralPowerDistribution(
-            'Neodimium Incandescent',
             LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA[
-                'Neodimium Incandescent']),
+                'Neodimium Incandescent'],
+            name='Neodimium Incandescent'),
     'Super HPS':
         SpectralPowerDistribution(
-            'Super HPS',
-            LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA[
-                'Super HPS']),
+            LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA['Super HPS'],
+            name='Super HPS'),
     'Triphosphor FL':
         SpectralPowerDistribution(
-            'Triphosphor FL',
             LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS_DATA[
-                'Triphosphor FL'])
-})  # yapf: disable
+                'Triphosphor FL'],
+            name='Triphosphor FL')
+})
 """
 Traditional light sources from *NIST* *NIST CQS simulation 7.4.xls*
 spreadsheet.
@@ -2948,80 +2932,67 @@ LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA = {
 LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS = CaseInsensitiveMapping({
     '3-LED-1 (457/540/605)':
         SpectralPowerDistribution(
-            '3-LED-1 (457/540/605)',
-            LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
-                '3-LED-1 (457/540/605)']),
+            LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA['3-LED-1 (457/540/605)'],
+            name='3-LED-1 (457/540/605)'),
     '3-LED-2 (473/545/616)':
         SpectralPowerDistribution(
-            '3-LED-2 (473/545/616)',
-            LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
-                '3-LED-2 (473/545/616)']),
+            LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA['3-LED-2 (473/545/616)'],
+            name='3-LED-2 (473/545/616)'),
     '3-LED-2 Yellow':
         SpectralPowerDistribution(
-            '3-LED-2 Yellow',
-            LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
-                '3-LED-2 Yellow']),
+            LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA['3-LED-2 Yellow'],
+            name='3-LED-2 Yellow'),
     '3-LED-3 (465/546/614)':
         SpectralPowerDistribution(
-            '3-LED-3 (465/546/614)',
-            LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
-                '3-LED-3 (465/546/614)']),
+            LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA['3-LED-3 (465/546/614)'],
+            name='3-LED-3 (465/546/614)'),
     '3-LED-4 (455/547/623)':
         SpectralPowerDistribution(
-            '3-LED-4 (455/547/623)',
-            LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
-                '3-LED-4 (455/547/623)']),
+            LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA['3-LED-4 (455/547/623)'],
+            name='3-LED-4 (455/547/623)'),
     '4-LED No Yellow':
         SpectralPowerDistribution(
-            '4-LED No Yellow',
-            LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
-                '4-LED No Yellow']),
+            LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA['4-LED No Yellow'],
+            name='4-LED No Yellow'),
     '4-LED Yellow':
         SpectralPowerDistribution(
-            '4-LED Yellow',
-            LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
-                '4-LED Yellow']),
+            LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA['4-LED Yellow'],
+            name='4-LED Yellow'),
     '4-LED-1 (461/526/576/624)':
         SpectralPowerDistribution(
-            '4-LED-1 (461/526/576/624)',
             LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
-                '4-LED-1 (461/526/576/624)']),
+                '4-LED-1 (461/526/576/624)'],
+            name='4-LED-1 (461/526/576/624)'),
     '4-LED-2 (447/512/573/627)':
         SpectralPowerDistribution(
-            '4-LED-2 (447/512/573/627)',
             LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
-                '4-LED-2 (447/512/573/627)']),
+                '4-LED-2 (447/512/573/627)'],
+            name='4-LED-2 (447/512/573/627)'),
     'Luxeon WW 2880':
         SpectralPowerDistribution(
-            'Luxeon WW 2880',
-            LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
-                'Luxeon WW 2880']),
+            LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA['Luxeon WW 2880'],
+            name='Luxeon WW 2880'),
     'PHOS-1':
         SpectralPowerDistribution(
-            'PHOS-1',
-            LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
-                'PHOS-1']),
+            LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA['PHOS-1'],
+            name='PHOS-1'),
     'PHOS-2':
         SpectralPowerDistribution(
-            'PHOS-2',
-            LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
-                'PHOS-2']),
+            LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA['PHOS-2'],
+            name='PHOS-2'),
     'PHOS-3':
         SpectralPowerDistribution(
-            'PHOS-3',
-            LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
-                'PHOS-3']),
+            LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA['PHOS-3'],
+            name='PHOS-3'),
     'PHOS-4':
         SpectralPowerDistribution(
-            'PHOS-4',
-            LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
-                'PHOS-4']),
+            LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA['PHOS-4'],
+            name='PHOS-4'),
     'Phosphor LED YAG':
         SpectralPowerDistribution(
-            'Phosphor LED YAG',
-            LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA[
-                'Phosphor LED YAG'])
-})  # yapf: disable
+            LIGHT_SOURCES_NIST_LED_RELATIVE_SPDS_DATA['Phosphor LED YAG'],
+            name='Phosphor LED YAG')
+})
 """
 LED light sources from *NIST* *NIST CQS simulation 7.4.xls* spreadsheet. [2]_
 
@@ -4865,115 +4836,110 @@ LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA = {
 LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS = CaseInsensitiveMapping({
     '60 A/W (Soft White)':
         SpectralPowerDistribution(
-            '60 A/W (Soft White)',
             LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
-                '60 A/W (Soft White)']),
+                '60 A/W (Soft White)'],
+            name='60 A/W (Soft White)'),
     'C100S54 (HPS)':
         SpectralPowerDistribution(
-            'C100S54 (HPS)',
-            LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
-                'C100S54 (HPS)']),
+            LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA['C100S54 (HPS)'],
+            name='C100S54 (HPS)'),
     'C100S54C (HPS)':
         SpectralPowerDistribution(
-            'C100S54C (HPS)',
-            LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
-                'C100S54C (HPS)']),
+            LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA['C100S54C (HPS)'],
+            name='C100S54C (HPS)'),
     'F32T8/TL830 (Triphosphor)':
         SpectralPowerDistribution(
-            'F32T8/TL830 (Triphosphor)',
             LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
-                'F32T8/TL830 (Triphosphor)']),
+                'F32T8/TL830 (Triphosphor)'],
+            name='F32T8/TL830 (Triphosphor)'),
     'F32T8/TL835 (Triphosphor)':
         SpectralPowerDistribution(
-            'F32T8/TL835 (Triphosphor)',
             LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
-                'F32T8/TL835 (Triphosphor)']),
+                'F32T8/TL835 (Triphosphor)'],
+            name='F32T8/TL835 (Triphosphor)'),
     'F32T8/TL841 (Triphosphor)':
         SpectralPowerDistribution(
-            'F32T8/TL841 (Triphosphor)',
             LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
-                'F32T8/TL841 (Triphosphor)']),
+                'F32T8/TL841 (Triphosphor)'],
+            name='F32T8/TL841 (Triphosphor)'),
     'F32T8/TL850 (Triphosphor)':
         SpectralPowerDistribution(
-            'F32T8/TL850 (Triphosphor)',
             LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
-                'F32T8/TL850 (Triphosphor)']),
+                'F32T8/TL850 (Triphosphor)'],
+            name='F32T8/TL850 (Triphosphor)'),
     'F32T8/TL865 /PLUS (Triphosphor)':
         SpectralPowerDistribution(
-            'F32T8/TL865 /PLUS (Triphosphor)',
             LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
-                'F32T8/TL865 /PLUS (Triphosphor)']),
+                'F32T8/TL865 /PLUS (Triphosphor)'],
+            name='F32T8/TL865 /PLUS (Triphosphor)'),
     'F34/CW/RS/EW (Cool White FL)':
         SpectralPowerDistribution(
-            'F34/CW/RS/EW (Cool White FL)',
             LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
-                'F34/CW/RS/EW (Cool White FL)']),
+                'F34/CW/RS/EW (Cool White FL)'],
+            name='F34/CW/RS/EW (Cool White FL)'),
     'F34T12/LW/RS /EW':
         SpectralPowerDistribution(
-            'F34T12/LW/RS /EW',
-            LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
-                'F34T12/LW/RS /EW']),
+            LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA['F34T12/LW/RS /EW'],
+            name='F34T12/LW/RS /EW'),
     'F34T12WW/RS /EW (Warm White FL)':
         SpectralPowerDistribution(
-            'F34T12WW/RS /EW (Warm White FL)',
             LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
-                'F34T12WW/RS /EW (Warm White FL)']),
+                'F34T12WW/RS /EW (Warm White FL)'],
+            name='F34T12WW/RS /EW (Warm White FL)'),
     'F40/C50 (Broadband FL)':
         SpectralPowerDistribution(
-            'F40/C50 (Broadband FL)',
             LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
-                'F40/C50 (Broadband FL)']),
+                'F40/C50 (Broadband FL)'],
+            name='F40/C50 (Broadband FL)'),
     'F40/C75 (Broadband FL)':
         SpectralPowerDistribution(
-            'F40/C75 (Broadband FL)',
             LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
-                'F40/C75 (Broadband FL)']),
+                'F40/C75 (Broadband FL)'],
+            name='F40/C75 (Broadband FL)'),
     'F40/CWX (Broadband FL)':
         SpectralPowerDistribution(
-            'F40/CWX (Broadband FL)',
             LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
-                'F40/CWX (Broadband FL)']),
+                'F40/CWX (Broadband FL)'],
+            name='F40/CWX (Broadband FL)'),
     'F40/DX (Broadband FL)':
         SpectralPowerDistribution(
-            'F40/DX (Broadband FL)',
             LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
-                'F40/DX (Broadband FL)']),
+                'F40/DX (Broadband FL)'],
+            name='F40/DX (Broadband FL)'),
     'F40/DXTP (Delux FL)':
         SpectralPowerDistribution(
-            'F40/DXTP (Delux FL)',
             LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
-                'F40/DXTP (Delux FL)']),
+                'F40/DXTP (Delux FL)'],
+            name='F40/DXTP (Delux FL)'),
     'F40/N (Natural FL)':
         SpectralPowerDistribution(
-            'F40/N (Natural FL)',
             LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
-                'F40/N (Natural FL)']),
+                'F40/N (Natural FL)'],
+            name='F40/N (Natural FL)'),
     'H38HT-100 (Mercury)':
         SpectralPowerDistribution(
-            'H38HT-100 (Mercury)',
             LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
-                'H38HT-100 (Mercury)']),
+                'H38HT-100 (Mercury)'],
+            name='H38HT-100 (Mercury)'),
     'H38JA-100/DX (Mercury DX)':
         SpectralPowerDistribution(
-            'H38JA-100/DX (Mercury DX)',
             LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
-                'H38JA-100/DX (Mercury DX)']),
+                'H38JA-100/DX (Mercury DX)'],
+            name='H38JA-100/DX (Mercury DX)'),
     'MHC100/U/MP /3K':
         SpectralPowerDistribution(
-            'MHC100/U/MP /3K',
-            LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
-                'MHC100/U/MP /3K']),
+            LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA['MHC100/U/MP /3K'],
+            name='MHC100/U/MP /3K'),
     'MHC100/U/MP /4K':
         SpectralPowerDistribution(
-            'MHC100/U/MP /4K',
-            LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
-                'MHC100/U/MP /4K']),
+            LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA['MHC100/U/MP /4K'],
+            name='MHC100/U/MP /4K'),
     'SDW-T 100W/LV (Super HPS)':
         SpectralPowerDistribution(
-            'SDW-T 100W/LV (Super HPS)',
             LIGHT_SOURCES_NIST_PHILIPS_RELATIVE_SPDS_DATA[
-                'SDW-T 100W/LV (Super HPS)'])
-})  # yapf: disable
+                'SDW-T 100W/LV (Super HPS)'],
+            name='SDW-T 100W/LV (Super HPS)')
+})
 """
 Philips light sources from *NIST* *NIST CQS simulation 7.4.xls*
 spreadsheet. [2]_
@@ -5199,10 +5165,9 @@ LIGHT_SOURCES_PROJECTORS_RELATIVE_SPDS_DATA = {
 LIGHT_SOURCES_PROJECTORS_RELATIVE_SPDS = CaseInsensitiveMapping({
     'Kinoton 75P':
         SpectralPowerDistribution(
-            'Kinoton 75P',
-            LIGHT_SOURCES_PROJECTORS_RELATIVE_SPDS_DATA[
-                'Kinoton 75P'])
-})  # yapf: disable
+            LIGHT_SOURCES_PROJECTORS_RELATIVE_SPDS_DATA['Kinoton 75P'],
+            name='Kinoton 75P')
+})
 """
 Projectors and Xenon Arc Lamps.
 

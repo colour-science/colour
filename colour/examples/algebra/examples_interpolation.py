@@ -71,17 +71,17 @@ non_uniform_spd_data = {
     820.9: 0.0000
 }
 
-base_spd = colour.SpectralPowerDistribution('Reference', uniform_spd_data)
+base_spd = colour.SpectralPowerDistribution(uniform_spd_data, name='Reference')
 uniform_interpolated_spd = colour.SpectralPowerDistribution(
-    'Uniform - Sprague Interpolation', uniform_spd_data)
+    uniform_spd_data, name='Uniform - Sprague Interpolation')
 uniform_pchip_interpolated_spd = colour.SpectralPowerDistribution(
-    'Uniform - Pchip Interpolation', uniform_spd_data)
+    uniform_spd_data, name='Uniform - Pchip Interpolation')
 non_uniform_interpolated_spd = colour.SpectralPowerDistribution(
-    'Non Uniform - Cubic Spline Interpolation', non_uniform_spd_data)
+    non_uniform_spd_data, name='Non Uniform - Cubic Spline Interpolation')
 
 uniform_interpolated_spd.interpolate(colour.SpectralShape(interval=1))
 uniform_pchip_interpolated_spd.interpolate(
-    colour.SpectralShape(interval=1), method='Pchip')
+    colour.SpectralShape(interval=1), interpolator=colour.PchipInterpolator)
 non_uniform_interpolated_spd.interpolate(colour.SpectralShape(interval=1))
 
 shape = base_spd.shape
@@ -92,22 +92,22 @@ pylab.plot(
     base_spd.values,
     'ro-',
     label=base_spd.name,
-    linewidth=2)
+    linewidth=1)
 pylab.plot(
     uniform_interpolated_spd.wavelengths,
     uniform_interpolated_spd.values,
     label=uniform_interpolated_spd.name,
-    linewidth=2)
+    linewidth=1)
 pylab.plot(
     uniform_pchip_interpolated_spd.wavelengths,
     uniform_pchip_interpolated_spd.values,
     label=uniform_pchip_interpolated_spd.name,
-    linewidth=2)
+    linewidth=1)
 pylab.plot(
     non_uniform_interpolated_spd.wavelengths,
     non_uniform_interpolated_spd.values,
     label=non_uniform_interpolated_spd.name,
-    linewidth=2)
+    linewidth=1)
 
 x_limit_min.append(shape.start)
 x_limit_max.append(shape.end)

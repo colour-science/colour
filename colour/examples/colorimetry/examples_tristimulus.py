@@ -93,7 +93,7 @@ sample_spd_data = {
     780: 0.421
 }
 
-spd = colour.SpectralPowerDistribution('Sample', sample_spd_data)
+spd = colour.SpectralPowerDistribution(sample_spd_data, name='Sample')
 
 cmfs = colour.CMFS['CIE 1931 2 Degree Standard Observer']
 illuminant = colour.ILLUMINANTS_RELATIVE_SPDS['A']

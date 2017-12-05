@@ -38,13 +38,11 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.algebra import (CubicSplineInterpolator, LinearInterpolator,
-                            PchipInterpolator, SpragueInterpolator,
-                            lagrange_coefficients)
+from colour.algebra import lagrange_coefficients
 from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE, SpectralShape,
                                 STANDARD_OBSERVERS_CMFS, ones_spd)
-from colour.utilities import (CaseInsensitiveMapping, filter_kwargs, is_string,
-                              tsplit, warning)
+from colour.utilities import (CaseInsensitiveMapping, filter_kwargs, tsplit,
+                              warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -195,42 +193,40 @@ def tristimulus_weighting_factors_ASTME202211(cmfs, illuminant, shape):
 
     Examples
     --------
-    >>> from colour import (
-    ...     CMFS,
-    ...     CIE_standard_illuminant_A_function,
-    ...     SpectralPowerDistribution,
-    ...     SpectralShape)
+    >>> from colour import (CMFS, CIE_standard_illuminant_A_function,
+    ...     SpectralPowerDistribution, SpectralShape, numpy_print_options)
     >>> cmfs = CMFS['CIE 1964 10 Degree Standard Observer']
     >>> wl = cmfs.shape.range()
     >>> A = SpectralPowerDistribution(
-    ...     'A (360, 830, 1)',
-    ...     dict(zip(wl, CIE_standard_illuminant_A_function(wl))))
-    >>> tristimulus_weighting_factors_ASTME202211(  # doctest: +ELLIPSIS
-    ...     cmfs, A, SpectralShape(360, 830, 20))
-    array([[ -2.9816934...e-04,  -3.1709762...e-05,  -1.3301218...e-03],
-           [ -8.7154955...e-03,  -8.9154168...e-04,  -4.0743684...e-02],
-           [  5.9967988...e-02,   5.0203497...e-03,   2.5650183...e-01],
-           [  7.7342255...e-01,   7.7983983...e-02,   3.6965732...e+00],
-           [  1.9000905...e+00,   3.0370051...e-01,   9.7554195...e+00],
-           [  1.9707727...e+00,   8.5528092...e-01,   1.1486732...e+01],
-           [  7.1836236...e-01,   2.1457000...e+00,   6.7845806...e+00],
-           [  4.2666758...e-02,   4.8985328...e+00,   2.3208000...e+00],
-           [  1.5223302...e+00,   9.6471138...e+00,   7.4306714...e-01],
-           [  5.6770329...e+00,   1.4460970...e+01,   1.9581949...e-01],
-           [  1.2445174...e+01,   1.7474254...e+01,   5.1826979...e-03],
-           [  2.0553577...e+01,   1.7583821...e+01,  -2.6512696...e-03],
-           [  2.5331538...e+01,   1.4895703...e+01,   0.0000000...e+00],
-           [  2.1571157...e+01,   1.0079661...e+01,   0.0000000...e+00],
-           [  1.2178581...e+01,   5.0680655...e+00,   0.0000000...e+00],
-           [  4.6675746...e+00,   1.8303239...e+00,   0.0000000...e+00],
-           [  1.3236117...e+00,   5.1296946...e-01,   0.0000000...e+00],
-           [  3.1753258...e-01,   1.2300847...e-01,   0.0000000...e+00],
-           [  7.4634128...e-02,   2.9024389...e-02,   0.0000000...e+00],
-           [  1.8299016...e-02,   7.1606335...e-03,   0.0000000...e+00],
-           [  4.7942065...e-03,   1.8888730...e-03,   0.0000000...e+00],
-           [  1.3293045...e-03,   5.2774591...e-04,   0.0000000...e+00],
-           [  4.2546928...e-04,   1.7041978...e-04,   0.0000000...e+00],
-           [  9.6251115...e-05,   3.8955295...e-05,   0.0000000...e+00]])
+    ...     dict(zip(wl, CIE_standard_illuminant_A_function(wl))),
+    ...     name='A (360, 830, 1)')
+    >>> with numpy_print_options(suppress=True):
+    ...     tristimulus_weighting_factors_ASTME202211(  # doctest: +ELLIPSIS
+    ...         cmfs, A, SpectralShape(360, 830, 20))
+    array([[ -0.0002981...,  -0.0000317...,  -0.0013301...],
+           [ -0.0087155...,  -0.0008915...,  -0.0407436...],
+           [  0.0599679...,   0.0050203...,   0.2565018...],
+           [  0.7734225...,   0.0779839...,   3.6965732...],
+           [  1.9000905...,   0.3037005...,   9.7554195...],
+           [  1.9707727...,   0.8552809...,  11.4867325...],
+           [  0.7183623...,   2.1457000...,   6.7845806...],
+           [  0.0426667...,   4.8985328...,   2.3208000...],
+           [  1.5223302...,   9.6471138...,   0.7430671...],
+           [  5.6770329...,  14.4609708...,   0.1958194...],
+           [ 12.4451744...,  17.4742541...,   0.0051827...],
+           [ 20.5535772...,  17.5838219...,  -0.0026512...],
+           [ 25.3315384...,  14.8957035...,   0.       ...],
+           [ 21.5711570...,  10.0796619...,   0.       ...],
+           [ 12.1785817...,   5.0680655...,   0.       ...],
+           [  4.6675746...,   1.8303239...,   0.       ...],
+           [  1.3236117...,   0.5129694...,   0.       ...],
+           [  0.3175325...,   0.1230084...,   0.       ...],
+           [  0.0746341...,   0.0290243...,   0.       ...],
+           [  0.0182990...,   0.0071606...,   0.       ...],
+           [  0.0047942...,   0.0018888...,   0.       ...],
+           [  0.0013293...,   0.0005277...,   0.       ...],
+           [  0.0004254...,   0.0001704...,   0.       ...],
+           [  0.0000962...,   0.0000389...,   0.       ...]])
     """
 
     if cmfs.shape.interval != 1:
@@ -327,36 +323,36 @@ def adjust_tristimulus_weighting_factors_ASTME30815(W, shape_r, shape_t):
 
     Examples
     --------
-    >>> from colour import (
-    ...     CMFS,
-    ...     CIE_standard_illuminant_A_function,
-    ...     SpectralPowerDistribution,
-    ...     SpectralShape)
+    >>> from colour import (CMFS, CIE_standard_illuminant_A_function,
+    ...     SpectralPowerDistribution, SpectralShape, numpy_print_options)
     >>> cmfs = CMFS['CIE 1964 10 Degree Standard Observer']
     >>> wl = cmfs.shape.range()
     >>> A = SpectralPowerDistribution(
-    ...     'A (360, 830, 1)',
-    ...     dict(zip(wl, CIE_standard_illuminant_A_function(wl))))
+    ...     dict(zip(wl, CIE_standard_illuminant_A_function(wl))),
+    ...     name='A (360, 830, 1)')
     >>> W = tristimulus_weighting_factors_ASTME202211(
     ...     cmfs, A, SpectralShape(360, 830, 20))
-    >>> adjust_tristimulus_weighting_factors_ASTME30815(  # doctest: +ELLIPSIS
-    ...     W, SpectralShape(360, 830, 20), SpectralShape(400, 700, 20))
-    array([[  5.0954324...e-02,   4.0970982...e-03,   2.1442802...e-01],
-           [  7.7342255...e-01,   7.7983983...e-02,   3.6965732...e+00],
-           [  1.9000905...e+00,   3.0370051...e-01,   9.7554195...e+00],
-           [  1.9707727...e+00,   8.5528092...e-01,   1.1486732...e+01],
-           [  7.1836236...e-01,   2.1457000...e+00,   6.7845806...e+00],
-           [  4.2666758...e-02,   4.8985328...e+00,   2.3208000...e+00],
-           [  1.5223302...e+00,   9.6471138...e+00,   7.4306714...e-01],
-           [  5.6770329...e+00,   1.4460970...e+01,   1.9581949...e-01],
-           [  1.2445174...e+01,   1.7474254...e+01,   5.1826979...e-03],
-           [  2.0553577...e+01,   1.7583821...e+01,  -2.6512696...e-03],
-           [  2.5331538...e+01,   1.4895703...e+01,   0.0000000...e+00],
-           [  2.1571157...e+01,   1.0079661...e+01,   0.0000000...e+00],
-           [  1.2178581...e+01,   5.0680655...e+00,   0.0000000...e+00],
-           [  4.6675746...e+00,   1.8303239...e+00,   0.0000000...e+00],
-           [  1.3236117...e+00,   5.1296946...e-01,   0.0000000...e+00],
-           [  4.1711096...e-01,   1.6181949...e-01,   0.0000000...e+00]])
+    >>> with numpy_print_options(suppress=True):
+    ...     adjust_tristimulus_weighting_factors_ASTME30815(
+    ...         W,
+    ...         SpectralShape(360, 830, 20),
+    ...         SpectralShape(400, 700, 20))  # doctest: +ELLIPSIS
+    array([[  0.0509543...,   0.0040971...,   0.2144280...],
+           [  0.7734225...,   0.0779839...,   3.6965732...],
+           [  1.9000905...,   0.3037005...,   9.7554195...],
+           [  1.9707727...,   0.8552809...,  11.4867325...],
+           [  0.7183623...,   2.1457000...,   6.7845806...],
+           [  0.0426667...,   4.8985328...,   2.3208000...],
+           [  1.5223302...,   9.6471138...,   0.7430671...],
+           [  5.6770329...,  14.4609708...,   0.1958194...],
+           [ 12.4451744...,  17.4742541...,   0.0051827...],
+           [ 20.5535772...,  17.5838219...,  -0.0026512...],
+           [ 25.3315384...,  14.8957035...,   0.       ...],
+           [ 21.5711570...,  10.0796619...,   0.       ...],
+           [ 12.1785817...,   5.0680655...,   0.       ...],
+           [  4.6675746...,   1.8303239...,   0.       ...],
+           [  1.3236117...,   0.5129694...,   0.       ...],
+           [  0.4171109...,   0.1618194...,   0.       ...]])
     """
 
     W = np.copy(W)
@@ -431,8 +427,9 @@ def spectral_to_XYZ_integration(
     ...     640: 0.1688,
     ...     660: 0.1996,
     ...     680: 0.2397,
-    ...     700: 0.2852}
-    >>> spd = SpectralPowerDistribution('Sample', data)
+    ...     700: 0.2852
+    ... }
+    >>> spd = SpectralPowerDistribution(data)
     >>> illuminant = ILLUMINANTS_RELATIVE_SPDS['D50']
     >>> spectral_to_XYZ_integration(  # doctest: +ELLIPSIS
     ...     spd, cmfs, illuminant)
@@ -441,13 +438,13 @@ def spectral_to_XYZ_integration(
 
     if illuminant.shape != cmfs.shape:
         warning('Aligning "{0}" illuminant shape to "{1}" colour matching '
-                'functions shape.'.format(illuminant, cmfs))
-        illuminant = illuminant.clone().align(cmfs.shape)
+                'functions shape.'.format(illuminant.name, cmfs.name))
+        illuminant = illuminant.copy().align(cmfs.shape)
 
     if spd.shape != cmfs.shape:
         warning('Aligning "{0}" spectral power distribution shape to "{1}" '
-                'colour matching functions shape.'.format(spd, cmfs))
-        spd = spd.clone().align(cmfs.shape)
+                'colour matching functions shape.'.format(spd.name, cmfs.name))
+        spd = spd.copy().align(cmfs.shape)
 
     S = illuminant.values
     x_bar, y_bar, z_bar = tsplit(cmfs.values)
@@ -518,8 +515,9 @@ def spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
     ...     640: 0.1688,
     ...     660: 0.1996,
     ...     680: 0.2397,
-    ...     700: 0.2852}
-    >>> spd = SpectralPowerDistribution('Sample', data)
+    ...     700: 0.2852
+    ... }
+    >>> spd = SpectralPowerDistribution(data)
     >>> illuminant = ILLUMINANTS_RELATIVE_SPDS['D50']
     >>> spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
     ...     spd, cmfs, illuminant)  # doctest: +ELLIPSIS
@@ -528,13 +526,14 @@ def spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
 
     if illuminant.shape != cmfs.shape:
         warning('Aligning "{0}" illuminant shape to "{1}" colour matching '
-                'functions shape.'.format(illuminant, cmfs))
-        illuminant = illuminant.clone().align(cmfs.shape)
+                'functions shape.'.format(illuminant.name, cmfs.name))
+        illuminant = illuminant.copy().align(cmfs.shape)
 
     if spd.shape.boundaries != cmfs.shape.boundaries:
         warning('Trimming "{0}" spectral power distribution shape to "{1}" '
-                'colour matching functions shape.'.format(illuminant, cmfs))
-        spd = spd.clone().trim_wavelengths(cmfs.shape)
+                'colour matching functions shape.'.format(
+                    illuminant.name, cmfs.name))
+        spd = spd.copy().trim(cmfs.shape)
 
     W = tristimulus_weighting_factors_ASTME202211(
         cmfs, illuminant,
@@ -625,8 +624,9 @@ def spectral_to_XYZ_ASTME30815(
     ...     640: 0.1688,
     ...     660: 0.1996,
     ...     680: 0.2397,
-    ...     700: 0.2852}
-    >>> spd = SpectralPowerDistribution('Sample', data)
+    ...     700: 0.2852
+    ... }
+    >>> spd = SpectralPowerDistribution(data)
     >>> illuminant = ILLUMINANTS_RELATIVE_SPDS['D50']
     >>> spectral_to_XYZ_ASTME30815(
     ...     spd, cmfs, illuminant)  # doctest: +ELLIPSIS
@@ -640,22 +640,23 @@ def spectral_to_XYZ_ASTME30815(
             'with measurement interval of 1, 5, 10 or 20nm!')
 
     if use_practice_range:
-        cmfs = cmfs.clone().trim_wavelengths(ASTME30815_PRACTISE_SHAPE)
+        cmfs = cmfs.copy().trim(ASTME30815_PRACTISE_SHAPE)
 
     method = spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815
     if spd.shape.interval == 1:
         method = spectral_to_XYZ_integration
     elif spd.shape.interval == 5 and mi_5nm_omission_method:
         if cmfs.shape.interval != 5:
-            cmfs = cmfs.clone().interpolate(SpectralShape(interval=5))
+            cmfs = cmfs.copy().interpolate(SpectralShape(interval=5))
         method = spectral_to_XYZ_integration
     elif spd.shape.interval == 20 and mi_20nm_interpolation_method:
-        spd = spd.clone()
+        spd = spd.copy()
         if spd.shape.boundaries != cmfs.shape.boundaries:
             warning(
                 'Trimming "{0}" spectral power distribution shape to "{1}" '
-                'colour matching functions shape.'.format(illuminant, cmfs))
-            spd.trim_wavelengths(cmfs.shape)
+                'colour matching functions shape.'.format(
+                    illuminant.name, cmfs.name))
+            spd.trim(cmfs.shape)
 
         # Extrapolation of additional 20nm padding intervals.
         spd.align(SpectralShape(spd.shape.start - 20, spd.shape.end + 20, 10))
@@ -663,21 +664,20 @@ def spectral_to_XYZ_ASTME30815(
             spd[spd.wavelengths[i]] = (
                 3 * spd.values[i + 2] -
                 3 * spd.values[i + 4] + spd.values[i + 6])  # yapf: disable
-            i_e = len(spd) - 1 - i
+            i_e = len(spd.domain) - 1 - i
             spd[spd.wavelengths[i_e]] = (
                 spd.values[i_e - 6] - 3 * spd.values[i_e - 4] +
                 3 * spd.values[i_e - 2])
 
         # Interpolating every odd numbered values.
         # TODO: Investigate code vectorisation.
-        for i in range(3, len(spd) - 3, 2):
+        for i in range(3, len(spd.domain) - 3, 2):
             spd[spd.wavelengths[i]] = (
                 -0.0625 * spd.values[i - 3] + 0.5625 * spd.values[i - 1] +
                 0.5625 * spd.values[i + 1] - 0.0625 * spd.values[i + 3])
 
         # Discarding the additional 20nm padding intervals.
-        spd.trim_wavelengths(
-            SpectralShape(spd.shape.start + 20, spd.shape.end - 20, 10))
+        spd.trim(SpectralShape(spd.shape.start + 20, spd.shape.end - 20, 10))
 
     XYZ = method(spd, cmfs, illuminant)
 
@@ -776,8 +776,9 @@ def spectral_to_XYZ(
     ...     640: 0.1688,
     ...     660: 0.1996,
     ...     680: 0.2397,
-    ...     700: 0.2852}
-    >>> spd = SpectralPowerDistribution('Sample', data)
+    ...     700: 0.2852
+    ... }
+    >>> spd = SpectralPowerDistribution(data)
     >>> illuminant = ILLUMINANTS_RELATIVE_SPDS['D50']
     >>> spectral_to_XYZ(  # doctest: +ELLIPSIS
     ...     spd, cmfs, illuminant)
@@ -799,17 +800,16 @@ def spectral_to_XYZ(
 
 def wavelength_to_XYZ(
         wavelength,
-        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
-        method=None):
+        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']):
     """
     Converts given wavelength :math:`\lambda` to *CIE XYZ* tristimulus values
     using given colour matching functions.
 
     If the wavelength :math:`\lambda` is not available in the colour matching
-    function, its value will be calculated using *CIE* recommendations:
-    The method developed by *Sprague (1880)* should be used for interpolating
-    functions having a uniformly spaced independent variable and a
-    *Cubic Spline* method for non-uniformly spaced independent variable.
+    function, its value will be calculated accordingly to *CIE 15:2004*
+    recommendation: the method developed by *Sprague (1880)* will be used for
+    interpolating functions having a uniformly spaced independent variable and
+    the *Cubic Spline* method for non-uniformly spaced independent variable.
 
     Parameters
     ----------
@@ -817,9 +817,6 @@ def wavelength_to_XYZ(
         Wavelength :math:`\lambda` in nm.
     cmfs : XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions.
-    method : unicode, optional
-        {None, 'Cubic Spline', 'Linear', 'Pchip', 'Sprague'},
-        Enforce given interpolation method.
 
     Returns
     -------
@@ -828,60 +825,22 @@ def wavelength_to_XYZ(
 
     Raises
     ------
-    RuntimeError
-        If *Sprague (1880)* interpolation method is forced with a
-        non-uniformly spaced independent variable.
     ValueError
-        If the interpolation method is not defined or if wavelength
-        :math:`\lambda` is not contained in the colour matching functions
-        domain.
+        If wavelength :math:`\lambda` is not contained in the colour matching
+        functions domain.
 
     Notes
     -----
     -   Output *CIE XYZ* tristimulus values are in range [0, 1].
-    -   If *scipy* is not unavailable the *Cubic Spline* method will fallback
-        to legacy *Linear* interpolation.
-    -   *Sprague (1880)* interpolator cannot be used for interpolating
-        functions having a non-uniformly spaced independent variable.
-
-    Warning
-    -------
-    -   If *scipy* is not unavailable the *Cubic Spline* method will fallback
-        to legacy *Linear* interpolation.
-    -   *Cubic Spline* interpolator requires at least 3 wavelengths
-        :math:`\lambda_n` for interpolation.
-    -   *Linear* interpolator requires at least 2 wavelengths :math:`\lambda_n`
-        for interpolation.
-    -   *Pchip* interpolator requires at least 2 wavelengths :math:`\lambda_n`
-        for interpolation.
-    -   *Sprague (1880)* interpolator requires at least 6 wavelengths
-        :math:`\lambda_n` for interpolation.
 
     Examples
     --------
-    Uniform data is using *Sprague (1880)* interpolation by default:
-
     >>> from colour import CMFS
     >>> cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
     >>> wavelength_to_XYZ(480, cmfs)  # doctest: +ELLIPSIS
     array([ 0.09564  ,  0.13902  ,  0.812950...])
     >>> wavelength_to_XYZ(480.5, cmfs)  # doctest: +ELLIPSIS
     array([ 0.0914287...,  0.1418350...,  0.7915726...])
-
-    Enforcing *Cubic Spline* interpolation:
-
-    >>> wavelength_to_XYZ(480.5, cmfs, 'Cubic Spline')  # doctest: +ELLIPSIS
-    array([ 0.0914288...,  0.1418351...,  0.7915729...])
-
-    Enforcing *Linear* interpolation:
-
-    >>> wavelength_to_XYZ(480.5, cmfs, 'Linear')  # doctest: +ELLIPSIS
-    array([ 0.0914697...,  0.1418482...,  0.7917337...])
-
-    Enforcing *Pchip* interpolation:
-
-    >>> wavelength_to_XYZ(480.5, cmfs, 'Pchip')  # doctest: +ELLIPSIS
-    array([ 0.0914280...,  0.1418341...,  0.7915711...])
     """
 
     cmfs_shape = cmfs.shape
@@ -890,45 +849,7 @@ def wavelength_to_XYZ(
         raise ValueError('"{0} nm" wavelength is not in "[{1}, {2}]" domain!'.
                          format(wavelength, cmfs_shape.start, cmfs_shape.end))
 
-    if wavelength not in cmfs:
-        wavelengths, values, = cmfs.wavelengths, cmfs.values
-
-        if is_string(method):
-            method = method.lower()
-
-        is_uniform = cmfs.is_uniform()
-
-        if method is None:
-            if is_uniform:
-                interpolator = SpragueInterpolator
-            else:
-                interpolator = CubicSplineInterpolator
-        elif method == 'cubic spline':
-            interpolator = CubicSplineInterpolator
-        elif method == 'linear':
-            interpolator = LinearInterpolator
-        elif method == 'pchip':
-            interpolator = PchipInterpolator
-        elif method == 'sprague':
-            if is_uniform:
-                interpolator = SpragueInterpolator
-            else:
-                raise RuntimeError(
-                    ('"Sprague" interpolator can only be used for '
-                     'interpolating functions having a uniformly spaced '
-                     'independent variable!'))
-        else:
-            raise ValueError('Undefined "{0}" interpolator!'.format(method))
-
-        interpolators = [
-            interpolator(wavelengths, values[..., i])
-            for i in range(values.shape[-1])
-        ]
-
-        XYZ = np.dstack([i(np.ravel(wavelength)) for i in interpolators])
-    else:
-        XYZ = cmfs[wavelength]
-
-    XYZ = np.reshape(XYZ, np.asarray(wavelength).shape + (3, ))
+    XYZ = np.reshape(cmfs[np.ravel(wavelength)],
+                     np.asarray(wavelength).shape + (3, ))
 
     return XYZ

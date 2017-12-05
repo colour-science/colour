@@ -3,9 +3,8 @@
 
 from __future__ import absolute_import
 
-from .spectrum import (DEFAULT_WAVELENGTH_DECIMALS, SpectralMapping,
-                       SpectralShape, SpectralPowerDistribution,
-                       TriSpectralPowerDistribution, DEFAULT_SPECTRAL_SHAPE,
+from .spectrum import (SpectralShape, SpectralPowerDistribution,
+                       MultiSpectralPowerDistribution, DEFAULT_SPECTRAL_SHAPE,
                        constant_spd, zeros_spd, ones_spd)
 from .blackbody import (blackbody_spd, blackbody_spectral_radiance, planck_law)
 from .cmfs import (LMS_ConeFundamentals, RGB_ColourMatchingFunctions,
@@ -54,9 +53,9 @@ from .yellowness import yellowness
 from .yellowness import (yellowness_ASTMD1925, yellowness_ASTME313)
 
 __all__ = [
-    'DEFAULT_WAVELENGTH_DECIMALS', 'SpectralMapping', 'SpectralShape',
-    'SpectralPowerDistribution', 'TriSpectralPowerDistribution',
-    'DEFAULT_SPECTRAL_SHAPE', 'constant_spd', 'zeros_spd', 'ones_spd'
+    'SpectralShape', 'SpectralPowerDistribution',
+    'MultiSpectralPowerDistribution', 'DEFAULT_SPECTRAL_SHAPE', 'constant_spd',
+    'zeros_spd', 'ones_spd'
 ]
 __all__ += ['blackbody_spd', 'blackbody_spectral_radiance', 'planck_law']
 __all__ += [

@@ -90,7 +90,7 @@ def read_spds_from_xrite_file(path):
                 tokens = line.split()
                 values = [DEFAULT_FLOAT_DTYPE(x) for x in tokens[-index:]]
                 xrite_spds[tokens[1]] = (SpectralPowerDistribution(
-                    tokens[1], dict(zip(wavelengths, values))))
+                    dict(zip(wavelengths, values)), name=tokens[1]))
 
             if line == 'BEGIN_DATA_FORMAT':
                 is_spectral_data_format = True

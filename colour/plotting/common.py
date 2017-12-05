@@ -723,14 +723,14 @@ def colour_parameters_plot(colour_parameters,
             [x.x
              for x in colour_parameters], [x.y0 for x in colour_parameters],
             color='black',
-            linewidth=2)
+            linewidth=1)
 
     if all([x.y1 is not None for x in colour_parameters]) and y1_plot:
         pylab.plot(
             [x.x
              for x in colour_parameters], [x.y1 for x in colour_parameters],
             color='black',
-            linewidth=2)
+            linewidth=1)
 
     y_limit_min0 = min(
         [0 if x.y0 is None else x.y0 for x in colour_parameters])

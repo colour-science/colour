@@ -16,7 +16,6 @@ References
 
 from __future__ import division, unicode_literals
 
-import numpy as np
 import os
 import re
 from collections import namedtuple
@@ -24,8 +23,8 @@ from xml.etree import ElementTree
 from xml.dom import minidom
 
 from colour.colorimetry import SpectralPowerDistribution
-from colour.utilities import Structure, is_numeric, is_string
 from colour.constants import DEFAULT_FLOAT_DTYPE
+from colour.utilities import Structure, is_numeric, is_string, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -650,7 +649,7 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
     'Unknown'
     >>> # Doctests ellipsis for Python 2.x compatibility.
     >>> spd[501.7]  # doctest: +ELLIPSIS
-    array(0.095...)
+    0.0950000...
     """
 
     def __init__(self,
@@ -662,7 +661,7 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
                  bandwidth_FWHM=None,
                  bandwidth_corrected=None):
 
-        super(IES_TM2714_Spd, self).__init__(name=None, data={})
+        super(IES_TM2714_Spd, self).__init__(data=None, domain=None)
 
         self._mapping = Structure(**{
             'element':
@@ -965,7 +964,7 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
         'Rare earth fluorescent lamp'
         >>> # Doctests ellipsis for Python 2.x compatibility.
         >>> spd[400]  # doctest: +ELLIPSIS
-        array(0.034...)
+        0.0339999...
         """
 
         formatter = './{{{0}}}{1}/{{{0}}}{2}'
@@ -990,12 +989,17 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
                             specification.read_conversion(element.text))
 
         # Reading spectral data.
+        wavelengths = []
+        values = []
         for spectral_data in iterator(
                 '{{{0}}}{1}'.format(namespace, self.mapping.data.element)):
-            wavelength = np.float_(
-                spectral_data.attrib[self.mapping.data.attribute])
-            value = np.float_(spectral_data.text)
-            self[wavelength] = value
+            wavelengths.append(
+                DEFAULT_FLOAT_DTYPE(spectral_data.attrib[
+                    self.mapping.data.attribute]))
+            values.append(DEFAULT_FLOAT_DTYPE(spectral_data.text))
+
+        self.wavelengths = wavelengths
+        self.values = values
 
         return True
 
@@ -1044,7 +1048,8 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
                 spectral_distribution = element
 
         # Writing spectral data.
-        for wavelength, value in self:
+        for i, (wavelength,
+                value) in enumerate(tstack([self.wavelengths, self.values])):
             element_child = ElementTree.SubElement(spectral_distribution,
                                                    mapping.data.element)
             element_child.text = mapping.data.write_conversion(value)

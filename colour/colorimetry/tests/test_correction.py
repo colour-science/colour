@@ -74,7 +74,7 @@ bandpass_correction_Stearns1988` definition.
         """
 
         spd = SpectralPowerDistribution(
-            'Spd', dict(zip(range(len(SPD_DATA)), SPD_DATA)))
+            dict(zip(range(len(SPD_DATA)), SPD_DATA)))
 
         np.testing.assert_almost_equal(
             bandpass_correction_Stearns1988(spd).values,

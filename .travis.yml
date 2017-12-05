@@ -37,7 +37,7 @@ before_script:
 
 script:
   - flake8 colour --exclude=examples
-  - nosetests --nocapture --with-doctest --doctest-options=+ELLIPSIS,+NORMALIZE_WHITESPACE --with-coverage --cover-package=colour -exclude-dir=
+  - nosetests --nocapture --with-doctest --doctest-options=+ELLIPSIS --with-coverage --cover-package=colour -exclude-dir=
 
 after_success:
   - coveralls

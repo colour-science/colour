@@ -10,10 +10,12 @@ import numpy as np
 import unittest
 from collections import namedtuple
 
-from colour.utilities import (
-    as_numeric, as_namedtuple, closest, normalise_maximum, interval,
-    is_uniform, in_array, tstack, tsplit, row_as_diagonal, dot_vector,
-    dot_matrix, orient, centroid, linear_conversion)
+from colour.constants import DEFAULT_FLOAT_DTYPE
+from colour.utilities import (as_numeric, as_namedtuple, closest_indexes,
+                              closest, normalise_maximum, interval, is_uniform,
+                              in_array, tstack, tsplit, row_as_diagonal,
+                              dot_vector, dot_matrix, orient, centroid,
+                              linear_conversion, fill_nan, ndarray_write)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -23,10 +25,11 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'TestAsNumeric', 'TestAsNametuple', 'TestClosest', 'TestNormaliseMaximum',
-    'TestInterval', 'TestIsUniform', 'TestInArray', 'TestTstack', 'TestTsplit',
-    'TestRowAsDiagonal', 'TestDotVector', 'TestDotMatrix', 'TestOrient',
-    'TestCentroid', 'TestLinearConversion'
+    'TestAsNumeric', 'TestAsNametuple', 'TestClosestIndexes', 'TestClosest',
+    'TestNormaliseMaximum', 'TestInterval', 'TestIsUniform', 'TestInArray',
+    'TestTstack', 'TestTsplit', 'TestRowAsDiagonal', 'TestDotVector',
+    'TestDotMatrix', 'TestOrient', 'TestCentroid', 'TestLinearConversion',
+    'TestFillNan', 'TestNdarrayWrite'
 ]
 
 
@@ -48,7 +51,7 @@ class TestAsNumeric(unittest.TestCase):
         np.testing.assert_almost_equal(
             as_numeric(np.array([1, 2, 3])), np.array([1, 2, 3]))
 
-        self.assertIsInstance(as_numeric(1), np.float_)
+        self.assertIsInstance(as_numeric(1), DEFAULT_FLOAT_DTYPE)
 
         self.assertIsInstance(as_numeric(1, int), int)
 
@@ -93,6 +96,36 @@ class TestAsNametuple(unittest.TestCase):
             np.array(named_tuple), np.array(as_namedtuple(a_r, NamedTuple)))
 
 
+class TestClosestIndexes(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.array.closest_indexes` definition unit
+    tests methods.
+    """
+
+    def test_closest_indexes(self):
+        """
+        Tests :func:`colour.utilities.array.closest_indexes` definition.
+        """
+
+        a = np.array(
+            [24.31357115,
+             63.62396289,
+             55.71528816,
+             62.70988028,
+             46.84480573,
+             25.40026416])  # yapf: disable
+
+        self.assertEqual(closest_indexes(a, 63.05), 3)
+
+        self.assertEqual(closest_indexes(a, 51.15), 4)
+
+        self.assertEqual(closest_indexes(a, 24.90), 5)
+
+        np.testing.assert_array_equal(
+            closest_indexes(a, np.array([63.05, 51.15, 24.90])),
+            np.array([3, 4, 5]))
+
+
 class TestClosest(unittest.TestCase):
     """
     Defines :func:`colour.utilities.array.closest` definition unit tests
@@ -114,9 +147,14 @@ class TestClosest(unittest.TestCase):
 
         self.assertEqual(closest(a, 63.05), 62.70988028)
 
+        self.assertEqual(closest(a, 51.15), 46.84480573)
+
         self.assertEqual(closest(a, 24.90), 25.40026416)
 
-        self.assertEqual(closest(a, 51.15), 46.84480573)
+        np.testing.assert_array_almost_equal(
+            closest(a, np.array([63.05, 51.15, 24.90])),
+            np.array([62.70988028, 46.84480573, 25.40026416]),
+            decimal=7)
 
 
 class TestNormaliseMaximum(unittest.TestCase):
@@ -194,7 +232,14 @@ class TestInterval(unittest.TestCase):
             interval(range(0, 10, 2)), np.array([2]))
 
         np.testing.assert_almost_equal(
-            interval([1, 2, 3, 4, 6, 6.5]), np.array([0.5, 1, 2]))
+            interval(range(0, 10, 2), False), np.array([2, 2, 2, 2]))
+
+        np.testing.assert_almost_equal(
+            interval([1, 2, 3, 4, 6, 6.5]), np.array([0.5, 1.0, 2.0]))
+
+        np.testing.assert_almost_equal(
+            interval([1, 2, 3, 4, 6, 6.5], False),
+            np.array([1.0, 1.0, 1.0, 2.0, 0.5]))
 
 
 class TestIsUniform(unittest.TestCase):
@@ -594,6 +639,48 @@ class TestLinearConversion(unittest.TestCase):
                  2.90363791,
                  3.14159265]),
             decimal=8)  # yapf: disable
+
+
+class TestFillNan(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.array.fill_nan` definition unit tests
+    methods.
+    """
+
+    def test_fill_nan(self):
+        """
+        Tests :func:`colour.utilities.array.fill_nan` definition.
+        """
+
+        a = np.array([0.1, 0.2, np.nan, 0.4, 0.5])
+        np.testing.assert_array_almost_equal(
+            fill_nan(a), np.array([0.1, 0.2, 0.3, 0.4, 0.5]), decimal=7)
+
+        np.testing.assert_array_almost_equal(
+            fill_nan(a, method='Constant', default=8.0),
+            np.array([0.1, 0.2, 8.0, 0.4, 0.5]),
+            decimal=7)
+
+
+class TestNdarrayWrite(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.array.ndarray_write` definition unit tests
+    methods.
+    """
+
+    def test_ndarray_write(self):
+        """
+        Tests :func:`colour.utilities.array.ndarray_write` definition.
+        """
+
+        a = np.linspace(0, 1, 10)
+        a.setflags(write=False)
+
+        with self.assertRaises(ValueError):
+            a += 1
+
+        with ndarray_write(a):
+            a += 1
 
 
 if __name__ == '__main__':

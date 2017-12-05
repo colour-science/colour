@@ -19,7 +19,7 @@ blob/master/notebooks/characterisation/displays.ipynb>`_
 
 from __future__ import division, unicode_literals
 
-from colour.colorimetry import TriSpectralPowerDistribution
+from colour.colorimetry import MultiSpectralPowerDistribution
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -31,125 +31,46 @@ __status__ = 'Production'
 __all__ = ['RGB_DisplayPrimaries']
 
 
-class RGB_DisplayPrimaries(TriSpectralPowerDistribution):
+class RGB_DisplayPrimaries(MultiSpectralPowerDistribution):
     """
     Implements support for a *RGB* display (such as a *CRT* or *LCD*)
     primaries tri-spectral power distributions.
 
     Parameters
     ----------
-    name : unicode
-        *RGB* display name.
-    data : dict
-        *RGB* display primaries tri-spectral power distributions data.
+    data : Series or Dataframe or Signal or MultiSignal or \
+MultiSpectralPowerDistribution or array_like or dict_like, optional
+        Data to be stored in the multi-spectral power distribution.
+    domain : array_like, optional
+        Values to initialise the multiple :class:`SpectralPowerDistribution`
+        class instances :attr:`Signal.wavelengths` attribute with. If both
+        `data` and `domain` arguments are defined, the latter with be used to
+        initialise the :attr:`Signal.wavelengths` attribute.
+    labels : array_like, optional
+        Names to use for the :class:`SpectralPowerDistribution` class
+        instances.
 
-    Attributes
-    ----------
-    red
-    green
-    blue
+    Other Parameters
+    ----------------
+    name : unicode, optional
+       Multi-spectral power distribution name.
+    interpolator : object, optional
+        Interpolator class type to use as interpolating function for the
+        :class:`SpectralPowerDistribution` class instances.
+    interpolator_args : dict_like, optional
+        Arguments to use when instantiating the interpolating function
+        of the :class:`SpectralPowerDistribution` class instances.
+    extrapolator : object, optional
+        Extrapolator class type to use as extrapolating function for the
+        :class:`SpectralPowerDistribution` class instances.
+    extrapolator_args : dict_like, optional
+        Arguments to use when instantiating the extrapolating function
+        of the :class:`SpectralPowerDistribution` class instances.
+    strict_labels : array_like, optional
+        Multi-spectral power distribution labels for figures, default to
+        :attr:`RGB_DisplayPrimaries.labels` attribute value.
     """
 
-    def __init__(self, name, data):
-        TriSpectralPowerDistribution.__init__(
-            self,
-            name,
-            data,
-            mapping={'x': 'red',
-                     'y': 'green',
-                     'z': 'blue'},
-            labels={'x': 'R',
-                    'y': 'G',
-                    'z': 'B'},
-            title=name)
-
-    @property
-    def red(self):
-        """
-        Property for **self.x** attribute.
-
-        Returns
-        -------
-        SpectralPowerDistribution
-            self.x
-
-        Warning
-        -------
-        :attr:`RGB_DisplayPrimaries.red` is read only.
-        """
-
-        return self.x
-
-    @red.setter
-    def red(self, value):
-        """
-        Setter for **self.x** attribute.
-
-        Parameters
-        ----------
-        value : object
-            Attribute value.
-        """
-
-        raise AttributeError('"{0}" attribute is read only!'.format('red'))
-
-    @property
-    def green(self):
-        """
-        Property for **self.y** attribute.
-
-        Returns
-        -------
-        SpectralPowerDistribution
-            self.y
-
-        Warning
-        -------
-        :attr:`RGB_DisplayPrimaries.green` is read only.
-        """
-
-        return self.y
-
-    @green.setter
-    def green(self, value):
-        """
-        Setter for **self.y** attribute.
-
-        Parameters
-        ----------
-        value : object
-            Attribute value.
-        """
-
-        raise AttributeError('"{0}" attribute is read only!'.format('green'))
-
-    @property
-    def blue(self):
-        """
-        Property for **self.z** attribute.
-
-        Returns
-        -------
-        SpectralPowerDistribution
-            self.z
-
-        Warning
-        -------
-        :attr:`RGB_DisplayPrimaries.blue` is read only.
-        """
-
-        return self.z
-
-    @blue.setter
-    def blue(self, value):
-        """
-        Setter for **self.z** attribute.
-
-        Parameters
-        ----------
-
-        value : object
-            Attribute value.
-        """
-
-        raise AttributeError('"{0}" attribute is read only!'.format('blue'))
+    def __init__(self, data=None, domain=None, labels=None, **kwargs):
+        super(RGB_DisplayPrimaries, self).__init__(
+            data, domain, labels=('red', 'green', 'blue'), **kwargs)

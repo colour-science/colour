@@ -13,6 +13,7 @@ Sub-Packages
     colour.characterisation
     colour.colorimetry
     colour.constants
+    colour.continuous
     colour.corresponding
     colour.difference
     colour.io

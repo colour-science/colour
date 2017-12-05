@@ -118,4 +118,4 @@ SAMPLE_SPD_DATA = {
 }
 
 print(colour.colour_quality_scale(
-    colour.SpectralPowerDistribution('Sample', SAMPLE_SPD_DATA)))
+    colour.SpectralPowerDistribution(SAMPLE_SPD_DATA, name='Sample')))

@@ -75,13 +75,15 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
 
     Examples
     --------
-    >>> RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(700)  # doctest: +ELLIPSIS
+    >>> from colour import numpy_print_options
+    >>> with numpy_print_options(suppress=True):
+    ...     RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(700)  # doctest: +ELLIPSIS
     array([ 0.0113577...,  0.004102  ,  0.        ])
     """
 
     cmfs = RGB_CMFS['Wright & Guild 1931 2 Degree RGB CMFs']
 
-    rgb_bar = cmfs.get(wavelength)
+    rgb_bar = cmfs[wavelength]
 
     rgb = rgb_bar / np.sum(rgb_bar)
 
@@ -100,9 +102,9 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
 
     x, y, z = xyz[..., 0], xyz[..., 1], xyz[..., 2]
 
-    V = PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer'].clone()
+    V = PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer'].copy()
     V.align(cmfs.shape)
-    L = V.get(wavelength)
+    L = V[wavelength]
 
     x_bar = x / y * L
     y_bar = L
@@ -146,13 +148,15 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
 
     Examples
     --------
-    >>> RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(700)  # doctest: +ELLIPSIS
-    array([  9.6432150...e-03,   3.7526317...e-03,  -4.1078830...e-06])
+    >>> from colour import numpy_print_options
+    >>> with numpy_print_options(suppress=True):
+    ...     RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(700)  # doctest: +ELLIPSIS
+    array([ 0.0096432...,  0.0037526..., -0.0000041...])
     """
 
     cmfs = RGB_CMFS['Stiles & Burch 1959 10 Degree RGB CMFs']
 
-    rgb_bar = cmfs.get(wavelength)
+    rgb_bar = cmfs[wavelength]
 
     M = np.array(
         [[0.341080, 0.189145, 0.387529],
@@ -194,13 +198,15 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wavelength):
 
     Examples
     --------
-    >>> RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(700)  # doctest: +ELLIPSIS
+    >>> from colour import numpy_print_options
+    >>> with numpy_print_options(suppress=True):
+    ...     RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(700)  # doctest: +ELLIPSIS
     array([ 0.0052860...,  0.0003252...,  0.        ])
     """
 
     cmfs = RGB_CMFS['Stiles & Burch 1959 10 Degree RGB CMFs']
 
-    rgb_bar = cmfs.get(wavelength)
+    rgb_bar = cmfs[wavelength]
 
     M = np.array(
         [[0.1923252690, 0.749548882, 0.0675726702],
@@ -242,13 +248,15 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
 
     Examples
     --------
-    >>> LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(700)  # doctest: +ELLIPSIS
+    >>> from colour import numpy_print_options
+    >>> with numpy_print_options(suppress=True):
+    ...     LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(700)  # doctest: +ELLIPSIS
     array([ 0.0109677...,  0.0041959...,  0.        ])
     """
 
     cmfs = LMS_CMFS['Stockman & Sharpe 2 Degree Cone Fundamentals']
 
-    lms_bar = cmfs.get(wavelength)
+    lms_bar = cmfs[wavelength]
 
     M = np.array(
         [[1.94735469, -1.41445123, 0.36476327],
@@ -289,13 +297,15 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
 
     Examples
     --------
-    >>> LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(700)  # doctest: +ELLIPSIS
+    >>> from colour import numpy_print_options
+    >>> with numpy_print_options(suppress=True):
+    ...     LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(700)  # doctest: +ELLIPSIS
     array([ 0.0098162...,  0.0037761...,  0.        ])
     """
 
     cmfs = LMS_CMFS['Stockman & Sharpe 10 Degree Cone Fundamentals']
 
-    lms_bar = cmfs.get(wavelength)
+    lms_bar = cmfs[wavelength]
 
     M = np.array(
         [[1.93986443, -1.34664359, 0.43044935],

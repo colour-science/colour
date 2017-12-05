@@ -116,20 +116,34 @@ SMITS_1999_SPDS_DATA = {
 
 SMITS_1999_SPDS = CaseInsensitiveMapping({
     'white':
-        SpectralPowerDistribution('white', SMITS_1999_SPDS_DATA['white']),
+        SpectralPowerDistribution(
+            SMITS_1999_SPDS_DATA['white'],
+            name='white'),
     'cyan':
-        SpectralPowerDistribution('cyan', SMITS_1999_SPDS_DATA['cyan']),
+        SpectralPowerDistribution(
+            SMITS_1999_SPDS_DATA['cyan'],
+            name='cyan'),
     'magenta':
-        SpectralPowerDistribution('magenta', SMITS_1999_SPDS_DATA['magenta']),
+        SpectralPowerDistribution(
+            SMITS_1999_SPDS_DATA['magenta'],
+            name='magenta'),
     'yellow':
-        SpectralPowerDistribution('yellow', SMITS_1999_SPDS_DATA['yellow']),
+        SpectralPowerDistribution(
+            SMITS_1999_SPDS_DATA['yellow'],
+            name='yellow'),
     'red':
-        SpectralPowerDistribution('red', SMITS_1999_SPDS_DATA['red']),
+        SpectralPowerDistribution(
+            SMITS_1999_SPDS_DATA['red'],
+            name='red'),
     'green':
-        SpectralPowerDistribution('green', SMITS_1999_SPDS_DATA['green']),
+        SpectralPowerDistribution(
+            SMITS_1999_SPDS_DATA['green'],
+            name='green'),
     'blue':
-        SpectralPowerDistribution('blue', SMITS_1999_SPDS_DATA['blue'])
-})
+        SpectralPowerDistribution(
+            SMITS_1999_SPDS_DATA['blue'],
+            name='blue')
+})  # yapf: disable
 """
 *Smits (1999)* spectral power distributions.
 

@@ -26,9 +26,9 @@ message_box(('Computing "ACES" relative exposure values for various ideal '
              '\n\t("18%", \n\t"100%")'))
 wavelengths = colour.ACES_RICD.wavelengths
 gray_reflector = colour.SpectralPowerDistribution(
-    '18%', dict(zip(wavelengths, [0.18] * len(wavelengths))))
+    dict(zip(wavelengths, [0.18] * len(wavelengths))), name='18%')
 print(repr(colour.spectral_to_aces_relative_exposure_values(gray_reflector)))
 
 perfect_reflector = colour.SpectralPowerDistribution(
-    '100%', dict(zip(wavelengths, [1.] * len(wavelengths))))
+    dict(zip(wavelengths, [1.] * len(wavelengths))), name='100%')
 print(colour.spectral_to_aces_relative_exposure_values(perfect_reflector))

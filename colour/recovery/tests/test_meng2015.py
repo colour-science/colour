@@ -37,7 +37,7 @@ class TestXYZ_to_spectral_Meng2015(unittest.TestCase):
 
         cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
         shape = SpectralShape(cmfs.shape.start, cmfs.shape.end, 5)
-        cmfs_c = cmfs.clone().align(shape)
+        cmfs_c = cmfs.copy().align(shape)
 
         XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
         np.testing.assert_almost_equal(
@@ -47,7 +47,7 @@ class TestXYZ_to_spectral_Meng2015(unittest.TestCase):
             decimal=7)
 
         shape = SpectralShape(cmfs.shape.start, cmfs.shape.end, 10)
-        cmfs_c = cmfs.clone().align(shape)
+        cmfs_c = cmfs.copy().align(shape)
 
         np.testing.assert_almost_equal(
             spectral_to_XYZ_integration(
@@ -63,7 +63,7 @@ class TestXYZ_to_spectral_Meng2015(unittest.TestCase):
             decimal=7)
 
         shape = SpectralShape(400, 700, 5)
-        cmfs_c = cmfs.clone().align(shape)
+        cmfs_c = cmfs.copy().align(shape)
         np.testing.assert_almost_equal(
             spectral_to_XYZ_integration(
                 XYZ_to_spectral_Meng2015(XYZ, cmfs=cmfs_c), cmfs=cmfs_c),
