@@ -119,11 +119,11 @@ class RGB_Colourspace(object):
         :math:`R'G'B'` video component signal value to tristimulus values at
         the display.
     use_derived_RGB_to_XYZ_matrix : bool, optional
-        Whether to use the declaration time normalised primary matrix or to
+        Whether to use the instantiation time normalised primary matrix or to
         use a computed derived normalised primary matrix.
     use_derived_XYZ_to_RGB_matrix : bool, optional
-        Whether to use the declaration time normalised primary matrix or to
-        use a computed derived inverse normalised primary matrix.
+        Whether to use the instantiation time inverse normalised primary
+        matrix or to use a computed derived inverse normalised primary matrix.
 
     Attributes
     ----------
@@ -244,12 +244,17 @@ VARICAM_V-Log_V-Gamut.pdf
     @property
     def name(self):
         """
-        Property for **self._name** private attribute.
+        Getter and setter property for the name.
+
+        Parameters
+        ----------
+        value : unicode
+            Value to set the name with.
 
         Returns
         -------
         unicode
-            self._name.
+            Name.
         """
 
         return self._name
@@ -257,29 +262,29 @@ VARICAM_V-Log_V-Gamut.pdf
     @name.setter
     def name(self, value):
         """
-        Setter for **self._name** private attribute.
-
-        Parameters
-        ----------
-        value : unicode
-            Attribute value.
+        Setter for the **self.name** property.
         """
 
         if value is not None:
             assert is_string(value), (
-                ('"{0}" attribute: "{1}" is not a "string" like object!'
-                 ).format('name', value))
+                '"{0}" attribute: "{1}" is not a "string" like object!'.format(
+                    'name', value))
         self._name = value
 
     @property
     def primaries(self):
         """
-        Property for **self._primaries** private attribute.
+        Getter and setter property for the primaries.
+
+        Parameters
+        ----------
+        value : array_like
+            Value to set the primaries with.
 
         Returns
         -------
-        array_like, (3, 2)
-            self._primaries.
+        array_like
+            Primaries.
         """
 
         return self._primaries
@@ -287,12 +292,7 @@ VARICAM_V-Log_V-Gamut.pdf
     @primaries.setter
     def primaries(self, value):
         """
-        Setter for **self._primaries** private attribute.
-
-        Parameters
-        ----------
-        value : array_like, (3, 2)
-            Attribute value.
+        Setter for the **self.primaries** property.
         """
 
         if value is not None:
@@ -304,12 +304,17 @@ VARICAM_V-Log_V-Gamut.pdf
     @property
     def whitepoint(self):
         """
-        Property for **self._whitepoint** private attribute.
+        Getter and setter property for the whitepoint.
+
+        Parameters
+        ----------
+        value : array_like
+            Value to set the whitepoint with.
 
         Returns
         -------
         array_like
-            self._whitepoint.
+            Whitepoint.
         """
 
         return self._whitepoint
@@ -317,18 +322,13 @@ VARICAM_V-Log_V-Gamut.pdf
     @whitepoint.setter
     def whitepoint(self, value):
         """
-        Setter for **self._whitepoint** private attribute.
-
-        Parameters
-        ----------
-        value : array_like
-            Attribute value.
+        Setter for the **self.whitepoint** property.
         """
 
         if value is not None:
-            assert isinstance(value, (tuple, list, np.ndarray, np.matrix)), ((
+            assert isinstance(value, (tuple, list, np.ndarray, np.matrix)), (
                 '"{0}" attribute: "{1}" is not a "tuple", "list", "ndarray" '
-                'or "matrix" instance!').format('whitepoint', value))
+                'or "matrix" instance!'.format('whitepoint', value))
             value = np.asarray(value)
         self._whitepoint = value
 
@@ -337,12 +337,17 @@ VARICAM_V-Log_V-Gamut.pdf
     @property
     def illuminant(self):
         """
-        Property for **self._illuminant** private attribute.
+        Getter and setter property for the illuminant.
+
+        Parameters
+        ----------
+        value : unicode
+            Value to set the illuminant with.
 
         Returns
         -------
         unicode
-            self._illuminant.
+            Illuminant.
         """
 
         return self._illuminant
@@ -350,29 +355,32 @@ VARICAM_V-Log_V-Gamut.pdf
     @illuminant.setter
     def illuminant(self, value):
         """
-        Setter for **self._illuminant** private attribute.
-
-        Parameters
-        ----------
-        value : unicode
-            Attribute value.
+        Setter for the **self.whitepoint** property.
         """
 
         if value is not None:
-            assert is_string(value), (('"{0}" attribute: "{1}" is not a '
-                                       '"string" like object!').format(
-                                           'illuminant', value))
+            assert is_string(value), (
+                '"{0}" attribute: "{1}" is not a "string" like object!'.format(
+                    'illuminant', value))
         self._illuminant = value
 
     @property
     def RGB_to_XYZ_matrix(self):
         """
-        Property for **RGB_to_XYZ_matrix** attribute.
+        Getter and setter property for the transformation matrix from
+        colourspace to *CIE XYZ* tristimulus values.
+
+        Parameters
+        ----------
+        value : array_like
+            Transformation matrix from colourspace to *CIE XYZ* tristimulus
+            values.
 
         Returns
         -------
-        array_like, (3, 3)
-            RGB_to_XYZ_matrix.
+        array_like
+            Transformation matrix from colourspace to *CIE XYZ* tristimulus
+            values.
         """
 
         if not self._use_derived_RGB_to_XYZ_matrix:
@@ -383,12 +391,7 @@ VARICAM_V-Log_V-Gamut.pdf
     @RGB_to_XYZ_matrix.setter
     def RGB_to_XYZ_matrix(self, value):
         """
-        Setter for **RGB_to_XYZ_matrix** attribute.
-
-        Parameters
-        ----------
-        value : array_like
-            Attribute value.
+        Setter for the **self.RGB_to_XYZ_matrix** property.
         """
 
         if value is not None:
@@ -398,12 +401,20 @@ VARICAM_V-Log_V-Gamut.pdf
     @property
     def XYZ_to_RGB_matrix(self):
         """
-        Property for **XYZ_to_RGB_matrix** attribute.
+        Getter and setter property for the transformation matrix from *CIE XYZ*
+        tristimulus values to colourspace.
+
+        Parameters
+        ----------
+        value : array_like
+            Transformation matrix from *CIE XYZ* tristimulus values to
+            colourspace.
 
         Returns
         -------
-        array_like, (3, 3)
-            XYZ_to_RGB_matrix.
+        array_like
+            Transformation matrix from *CIE XYZ* tristimulus values to
+            colourspace.
         """
 
         if not self._use_derived_XYZ_to_RGB_matrix:
@@ -414,12 +425,7 @@ VARICAM_V-Log_V-Gamut.pdf
     @XYZ_to_RGB_matrix.setter
     def XYZ_to_RGB_matrix(self, value):
         """
-        Setter for **XYZ_to_RGB_matrix** attribute.
-
-        Parameters
-        ----------
-        value : array_like
-            Attribute value.
+        Setter for the **self.XYZ_to_RGB_matrix** property.
         """
 
         if value is not None:
@@ -429,12 +435,21 @@ VARICAM_V-Log_V-Gamut.pdf
     @property
     def encoding_cctf(self):
         """
-        Property for **self._encoding_cctf** private attribute.
+        Getter and setter property for the encoding colour component transfer
+        function (Encoding CCTF) / opto-electronic transfer function
+        (OETF / OECF).
+
+        Parameters
+        ----------
+        value : callable
+            Encoding colour component transfer function (Encoding CCTF) /
+            opto-electronic transfer function (OETF / OECF).
 
         Returns
         -------
         callable
-            self._encoding_cctf.
+            Encoding colour component transfer function (Encoding CCTF) /
+            opto-electronic transfer function (OETF / OECF).
         """
 
         return self._encoding_cctf
@@ -442,12 +457,7 @@ VARICAM_V-Log_V-Gamut.pdf
     @encoding_cctf.setter
     def encoding_cctf(self, value):
         """
-        Setter for **self._encoding_cctf** private attribute.
-
-        Parameters
-        ----------
-        value : callable
-            Attribute value.
+        Setter for the **self.encoding_cctf** property.
         """
 
         if value is not None:
@@ -460,12 +470,21 @@ VARICAM_V-Log_V-Gamut.pdf
     @property
     def decoding_cctf(self):
         """
-        Property for **self._decoding_cctf** private attribute.
+        Getter and setter property for the decoding colour component transfer
+        function (Decoding CCTF) / electro-optical transfer function
+        (EOTF / EOCF).
+
+        Parameters
+        ----------
+        value : callable
+            Decoding colour component transfer function (Decoding CCTF) /
+            electro-optical transfer function (EOTF / EOCF).
 
         Returns
         -------
         callable
-            self._decoding_cctf.
+            Decoding colour component transfer function (Decoding CCTF) /
+            electro-optical transfer function (EOTF / EOCF).
         """
 
         return self._decoding_cctf
@@ -473,12 +492,7 @@ VARICAM_V-Log_V-Gamut.pdf
     @decoding_cctf.setter
     def decoding_cctf(self, value):
         """
-        Setter for **self._decoding_cctf** private attribute.
-
-        Parameters
-        ----------
-        value : callable
-            Attribute value.
+        Setter for the **self.decoding_cctf** property.
         """
 
         if value is not None:
@@ -491,12 +505,21 @@ VARICAM_V-Log_V-Gamut.pdf
     @property
     def use_derived_RGB_to_XYZ_matrix(self):
         """
-        Property for **self._use_derived_RGB_to_XYZ_matrix** private attribute.
+        Getter and setter property for whether to use the instantiation time
+        normalised primary matrix or to use a computed derived normalised
+        primary matrix.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to use the instantiation time normalised primary matrix or
+            to use a computed derived normalised primary matrix.
 
         Returns
         -------
         bool
-            self._use_derived_RGB_to_XYZ_matrix.
+            Whether to use the instantiation time normalised primary matrix or
+            to use a computed derived normalised primary matrix.
         """
 
         return self._use_derived_RGB_to_XYZ_matrix
@@ -504,12 +527,7 @@ VARICAM_V-Log_V-Gamut.pdf
     @use_derived_RGB_to_XYZ_matrix.setter
     def use_derived_RGB_to_XYZ_matrix(self, value):
         """
-        Setter for **self._use_derived_RGB_to_XYZ_matrix** private attribute.
-
-        Parameters
-        ----------
-        value : bool
-            Attribute value.
+        Setter for the **self.use_derived_RGB_to_XYZ_matrix** property.
         """
 
         # TODO: Revisit for potential behaviour / type checking.
@@ -518,12 +536,23 @@ VARICAM_V-Log_V-Gamut.pdf
     @property
     def use_derived_XYZ_to_RGB_matrix(self):
         """
-        Property for **self._use_derived_XYZ_to_RGB_matrix** private attribute.
+        Getter and setter property for Whether to use the instantiation time
+        inverse normalised primary matrix or to use a computed derived inverse
+        normalised primary matrix.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to use the instantiation time inverse normalised primary
+            matrix or to use a computed derived inverse normalised primary
+            matrix.
 
         Returns
         -------
         bool
-            self._use_derived_XYZ_to_RGB_matrix.
+            Whether to use the instantiation time inverse normalised primary
+            matrix or to use a computed derived inverse normalised primary
+            matrix.
         """
 
         return self._use_derived_XYZ_to_RGB_matrix
@@ -531,12 +560,7 @@ VARICAM_V-Log_V-Gamut.pdf
     @use_derived_XYZ_to_RGB_matrix.setter
     def use_derived_XYZ_to_RGB_matrix(self, value):
         """
-        Setter for **self._use_derived_XYZ_to_RGB_matrix** private attribute.
-
-        Parameters
-        ----------
-        value : bool
-            Attribute value.
+        Setter for the **self.use_derived_XYZ_to_RGB_matrix** property.
         """
 
         # TODO: Revisit for potential behaviour / type checking.
