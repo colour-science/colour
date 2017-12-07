@@ -42,19 +42,23 @@ chromatic_adaptation_matrix_VonKries` definition.
             chromatic_adaptation_matrix_VonKries(
                 np.array([1.09846607, 1.00000000, 0.35582280]),
                 np.array([0.95042855, 1.00000000, 1.08890037])),
-            np.array([[0.86876537, -0.14165393, 0.38719611],
-                      [-0.10300724, 1.05840142, 0.15386462],
-                      [0.00781674, 0.02678750, 2.96081771]]),
-            decimal=7)  # yapf: disable
+            np.array([
+                [0.86876537, -0.14165393, 0.38719611],
+                [-0.10300724, 1.05840142, 0.15386462],
+                [0.00781674, 0.02678750, 2.96081771],
+            ]),
+            decimal=7)
 
         np.testing.assert_almost_equal(
             chromatic_adaptation_matrix_VonKries(
                 np.array([0.99092745, 1.00000000, 0.85313273]),
                 np.array([1.01679082, 1.00000000, 0.67610122])),
-            np.array([[1.03379528, 0.03065322, -0.04486819],
-                      [0.02195826, 0.99354348, -0.01793687],
-                      [-0.00102726, -0.00281712, 0.79698769]]),
-            decimal=7)  # yapf: disable
+            np.array([
+                [1.03379528, 0.03065322, -0.04486819],
+                [0.02195826, 0.99354348, -0.01793687],
+                [-0.00102726, -0.00281712, 0.79698769],
+            ]),
+            decimal=7)
 
         np.testing.assert_almost_equal(
             chromatic_adaptation_matrix_VonKries(
@@ -70,30 +74,36 @@ chromatic_adaptation_matrix_VonKries` definition.
                 np.array([1.09846607, 1.00000000, 0.35582280]),
                 np.array([0.95042855, 1.00000000, 1.08890037]),
                 transform='XYZ Scaling'),
-            np.array([[0.86523251, 0.00000000, 0.00000000],
-                      [0.00000000, 1.00000000, 0.00000000],
-                      [0.00000000, 0.00000000, 3.06023214]]),
-            decimal=7)  # yapf: disable
+            np.array([
+                [0.86523251, 0.00000000, 0.00000000],
+                [0.00000000, 1.00000000, 0.00000000],
+                [0.00000000, 0.00000000, 3.06023214],
+            ]),
+            decimal=7)
 
         np.testing.assert_almost_equal(
             chromatic_adaptation_matrix_VonKries(
                 np.array([1.09846607, 1.00000000, 0.35582280]),
                 np.array([0.95042855, 1.00000000, 1.08890037]),
                 transform='Bradford'),
-            np.array([[0.84467949, -0.11793553, 0.39489408],
-                      [-0.13664085, 1.10412369, 0.12919812],
-                      [0.07986716, -0.13493155, 3.19288296]]),
-            decimal=7)  # yapf: disable
+            np.array([
+                [0.84467949, -0.11793553, 0.39489408],
+                [-0.13664085, 1.10412369, 0.12919812],
+                [0.07986716, -0.13493155, 3.19288296],
+            ]),
+            decimal=7)
 
         np.testing.assert_almost_equal(
             chromatic_adaptation_matrix_VonKries(
                 np.array([1.09846607, 1.00000000, 0.35582280]),
                 np.array([0.95042855, 1.00000000, 1.08890037]),
                 transform='Von Kries'),
-            np.array([[0.93949221, -0.23393727, 0.42820614],
-                      [-0.02569635, 1.02638463, 0.00517656],
-                      [0.00000000, 0.00000000, 3.06023214]]),
-            decimal=7)  # yapf: disable
+            np.array([
+                [0.93949221, -0.23393727, 0.42820614],
+                [-0.02569635, 1.02638463, 0.00517656],
+                [0.00000000, 0.00000000, 3.06023214],
+            ]),
+            decimal=7)
 
     def test_n_dimensional_chromatic_adaptation_matrix_VonKries(self):
         """
@@ -103,9 +113,11 @@ chromatic_adaptation_matrix_VonKries` definition n-dimensional arrays support.
 
         XYZ_w = np.array([1.09846607, 1.00000000, 0.35582280])
         XYZ_wr = np.array([0.95042855, 1.00000000, 1.08890037])
-        M = np.array([[0.86876537, -0.14165393, 0.38719611],
-                      [-0.10300724, 1.05840142, 0.15386462],
-                      [0.00781674, 0.02678750, 2.96081771]])  # yapf: disable
+        M = np.array([
+            [0.86876537, -0.14165393, 0.38719611],
+            [-0.10300724, 1.05840142, 0.15386462],
+            [0.00781674, 0.02678750, 2.96081771],
+        ])
         np.testing.assert_almost_equal(
             chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr), M, decimal=7)
 

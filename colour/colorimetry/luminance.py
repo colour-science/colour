@@ -210,8 +210,8 @@ def luminance_Fairchild2010(L_hdr, epsilon=2):
 
     Examples
     --------
-    >>> luminance_Fairchild2010(
-    ...     24.902290269546651, 1.836)  # doctest: +ELLIPSIS
+    >>> luminance_Fairchild2010(24.902290269546651, 1.836)
+    ... # doctest: +ELLIPSIS
     0.1007999...
     """
 
@@ -292,10 +292,8 @@ def luminance(LV, method='CIE 1976', **kwargs):
     10.4089874...
     >>> luminance(3.74629715, method='ASTM D1535-08')  # doctest: +ELLIPSIS
     10.1488096...
-    >>> luminance(
-    ...     24.902290269546651,
-    ...     epsilon=1.836,
-    ...     method='Fairchild 2010')  # doctest: +ELLIPSIS
+    >>> luminance(24.902290269546651, epsilon=1.836, method='Fairchild 2010')
+    ... # doctest: +ELLIPSIS
     0.1007999...
     """
 

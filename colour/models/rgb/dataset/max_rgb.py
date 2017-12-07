@@ -41,10 +41,11 @@ __all__ = [
     'MAX_RGB_TO_XYZ_MATRIX', 'XYZ_TO_MAX_RGB_MATRIX', 'MAX_RGB_COLOURSPACE'
 ]
 
-MAX_RGB_PRIMARIES = np.array(
-    [[0.73413379, 0.26586621],
-     [0.10039113, 0.89960887],
-     [0.03621495, 0.00000000]])  # yapf: disable
+MAX_RGB_PRIMARIES = np.array([
+    [0.73413379, 0.26586621],
+    [0.10039113, 0.89960887],
+    [0.03621495, 0.00000000],
+])
 """
 *Max RGB* colourspace primaries.
 

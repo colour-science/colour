@@ -42,10 +42,11 @@ __all__ = [
     'XYZ_TO_COLOR_MATCH_RGB_MATRIX', 'COLOR_MATCH_RGB_COLOURSPACE'
 ]
 
-COLOR_MATCH_RGB_PRIMARIES = np.array(
-    [[0.6300, 0.3400],
-     [0.2950, 0.6050],
-     [0.1500, 0.0750]])  # yapf: disable
+COLOR_MATCH_RGB_PRIMARIES = np.array([
+    [0.6300, 0.3400],
+    [0.2950, 0.6050],
+    [0.1500, 0.0750],
+])
 """
 *ColorMatch RGB* colourspace primaries.
 
@@ -59,9 +60,8 @@ COLOR_MATCH_RGB_ILLUMINANT = 'D50'
 COLOR_MATCH_RGB_ILLUMINANT : unicode
 """
 
-COLOR_MATCH_RGB_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
-    [COLOR_MATCH_RGB_ILLUMINANT])  # yapf: disable
+COLOR_MATCH_RGB_WHITEPOINT = (ILLUMINANTS[
+    'CIE 1931 2 Degree Standard Observer'][COLOR_MATCH_RGB_ILLUMINANT])
 """
 *ColorMatch RGB* colourspace whitepoint.
 

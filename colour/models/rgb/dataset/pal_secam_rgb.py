@@ -44,10 +44,11 @@ __all__ = [
     'XYZ_TO_PAL_SECAM_RGB_MATRIX', 'PAL_SECAM_RGB_COLOURSPACE'
 ]
 
-PAL_SECAM_RGB_PRIMARIES = np.array(
-    [[0.64, 0.33],
-     [0.29, 0.60],
-     [0.15, 0.06]])  # yapf: disable
+PAL_SECAM_RGB_PRIMARIES = np.array([
+    [0.64, 0.33],
+    [0.29, 0.60],
+    [0.15, 0.06],
+])
 """
 *Pal/Secam RGB* colourspace primaries.
 
@@ -61,9 +62,8 @@ PAL_SECAM_RGB_ILLUMINANT = 'D65'
 PAL_SECAM_RGB_ILLUMINANT : unicode
 """
 
-PAL_SECAM_RGB_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
-    [PAL_SECAM_RGB_ILLUMINANT])  # yapf: disable
+PAL_SECAM_RGB_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+    PAL_SECAM_RGB_ILLUMINANT])
 """
 *Pal/Secam RGB* colourspace whitepoint.
 

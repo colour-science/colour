@@ -75,8 +75,9 @@ def bandpass_correction_Stearns1988(spd):
     ...     600: 0.1360
     ... }
     >>> with numpy_print_options(suppress=True):
-    ...     bandpass_correction_Stearns1988(  # doctest: +ELLIPSIS
+    ...     bandpass_correction_Stearns1988(
     ...         SpectralPowerDistribution(data))
+    ... # doctest: +ELLIPSIS
     SpectralPowerDistribution([[ 500.        ,    0.0646518...],
                                [ 520.        ,    0.0704293...],
                                [ 540.        ,    0.0769485...],

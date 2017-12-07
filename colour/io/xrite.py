@@ -55,11 +55,9 @@ def read_spds_from_xrite_file(path):
     --------
     >>> import os
     >>> from pprint import pprint
-    >>> xrite_file = os.path.join(
-    ...     os.path.dirname(__file__),
-    ...     'tests',
-    ...     'resources',
-    ...     'xrite_digital_colour_checker.txt')
+    >>> xrite_file = os.path.join(os.path.dirname(__file__), 'tests',
+    ...                           'resources',
+    ...                           'xrite_digital_colour_checker.txt')
     >>> spds_data = read_spds_from_xrite_file(xrite_file)
     >>> pprint(list(spds_data.keys()))  # doctest: +SKIP
     ['X1', 'X2', 'X3', 'X4', 'X5', 'X6', 'X7', 'X8', 'X9', 'X10']

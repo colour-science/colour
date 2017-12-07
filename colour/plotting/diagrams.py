@@ -105,8 +105,8 @@ def CIE_1931_chromaticity_diagram_colours(
         kernel = np.array([
             [0, 1, 0],
             [1, 2, 1],
-            [0, 1, 0]
-        ]).astype(DEFAULT_FLOAT_DTYPE)  # yapf: disable
+            [0, 1, 0],
+        ]).astype(DEFAULT_FLOAT_DTYPE)
         kernel /= np.sum(kernel)
         mask = convolve(mask, kernel)
 
@@ -301,8 +301,8 @@ def CIE_1960_UCS_chromaticity_diagram_colours(
         kernel = np.array([
             [0, 1, 0],
             [1, 2, 1],
-            [0, 1, 0]
-        ]).astype(DEFAULT_FLOAT_DTYPE)  # yapf: disable
+            [0, 1, 0],
+        ]).astype(DEFAULT_FLOAT_DTYPE)
         kernel /= np.sum(kernel)
         mask = convolve(mask, kernel)
 
@@ -496,8 +496,8 @@ def CIE_1976_UCS_chromaticity_diagram_colours(
         kernel = np.array([
             [0, 1, 0],
             [1, 2, 1],
-            [0, 1, 0]
-        ]).astype(DEFAULT_FLOAT_DTYPE)  # yapf: disable
+            [0, 1, 0],
+        ]).astype(DEFAULT_FLOAT_DTYPE)
         kernel /= np.sum(kernel)
         mask = convolve(mask, kernel)
 

@@ -86,11 +86,8 @@ def read_spectral_data_from_csv_file(path,
     --------
     >>> import os
     >>> from pprint import pprint
-    >>> csv_file = os.path.join(
-    ...     os.path.dirname(__file__),
-    ...     'tests',
-    ...     'resources',
-    ...     'colorchecker_n_ohta.csv')
+    >>> csv_file = os.path.join(os.path.dirname(__file__), 'tests',
+    ...                         'resources', 'colorchecker_n_ohta.csv')
     >>> spds_data = read_spectral_data_from_csv_file(csv_file)
     >>> pprint(list(spds_data.keys()))
     ['1',
@@ -170,11 +167,8 @@ def read_spds_from_csv_file(path, delimiter=',', fields=None, default=0):
     --------
     >>> from colour import numpy_print_options
     >>> import os
-    >>> csv_file = os.path.join(
-    ...     os.path.dirname(__file__),
-    ...     'tests',
-    ...     'resources',
-    ...     'colorchecker_n_ohta.csv')
+    >>> csv_file = os.path.join(os.path.dirname(__file__), 'tests',
+    ...                         'resources', 'colorchecker_n_ohta.csv')
     >>> spds = read_spds_from_csv_file(csv_file)
     >>> print(tuple(spds.keys()))
     ('1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', \

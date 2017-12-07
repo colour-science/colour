@@ -275,16 +275,17 @@ blob/v1.2.3/requests/structures.py#L37
     @property
     def data(self):
         """
-        Property for **self.data** attribute.
+        Getter and setter property for the data.
+
+        Parameters
+        ----------
+        value : dict
+            Value to set the data with.
 
         Returns
         -------
         dict
-            :class:`ArbitraryPrecisionMapping` data structure.
-
-        Warning
-        -------
-        :attr:`ArbitraryPrecisionMapping.data` is read only.
+            Data.
         """
 
         return self._data
@@ -292,12 +293,7 @@ blob/v1.2.3/requests/structures.py#L37
     @data.setter
     def data(self, value):
         """
-        Setter for **self.data** attribute.
-
-        Parameters
-        ----------
-        value : object
-            Attribute value.
+        Setter for the **self.data** property.
         """
 
         raise AttributeError('"{0}" attribute is read only!'.format('data'))

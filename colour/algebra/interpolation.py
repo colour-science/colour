@@ -256,13 +256,8 @@ class KernelInterpolator(object):
     --------
     Interpolating a single numeric variable:
 
-    >>> y = np.array([5.9200,
-    ...               9.3700,
-    ...               10.8135,
-    ...               4.5100,
-    ...               69.5900,
-    ...               27.8007,
-    ...               86.0500])
+    >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100,
+    ...               69.5900, 27.8007, 86.0500])
     >>> x = np.arange(len(y))
     >>> f = KernelInterpolator(x, y)
     >>> f(0.5)  # doctest: +ELLIPSIS
@@ -653,13 +648,8 @@ class LinearInterpolator(object):
     --------
     Interpolating a single numeric variable:
 
-    >>> y = np.array([5.9200,
-    ...               9.3700,
-    ...               10.8135,
-    ...               4.5100,
-    ...               69.5900,
-    ...               27.8007,
-    ...               86.0500])
+    >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100,
+    ...               69.5900, 27.8007, 86.0500])
     >>> x = np.arange(len(y))
     >>> f = LinearInterpolator(x, y)
     >>> # Doctests ellipsis for Python 2.x compatibility.
@@ -863,13 +853,8 @@ class SpragueInterpolator(object):
     --------
     Interpolating a single numeric variable:
 
-    >>> y = np.array([5.9200,
-    ...               9.3700,
-    ...               10.8135,
-    ...               4.5100,
-    ...               69.5900,
-    ...               27.8007,
-    ...               86.0500])
+    >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100,
+    ...               69.5900, 27.8007, 86.0500])
     >>> x = np.arange(len(y))
     >>> f = SpragueInterpolator(x, y)
     >>> f(0.5)  # doctest: +ELLIPSIS
@@ -881,11 +866,12 @@ class SpragueInterpolator(object):
     array([ 6.7295161...,  7.8140625...])
     """
 
-    SPRAGUE_C_COEFFICIENTS = np.array(
-        [[884, -1960, 3033, -2648, 1080, -180],
-         [508, -540, 488, -367, 144,
-          -24], [-24, 144, -367, 488, -540, 508],
-         [-180, 1080, -2648, 3033, -1960, 884]])  # yapf: disable
+    SPRAGUE_C_COEFFICIENTS = np.array([
+        [884, -1960, 3033, -2648, 1080, -180],
+        [508, -540, 488, -367, 144, -24],
+        [-24, 144, -367, 488, -540, 508],
+        [-180, 1080, -2648, 3033, -1960, 884],
+    ])
     """
     Defines the coefficients used to generate extra points for boundaries
     interpolation.
@@ -1191,13 +1177,8 @@ class NullInterpolator(object):
 
     Examples
     --------
-    >>> y = np.array([5.9200,
-    ...               9.3700,
-    ...               10.8135,
-    ...               4.5100,
-    ...               69.5900,
-    ...               27.8007,
-    ...               86.0500])
+    >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100,
+    ...               69.5900, 27.8007, 86.0500])
     >>> x = np.arange(len(y))
     >>> f = NullInterpolator(x, y)
     >>> f(0.5)

@@ -74,80 +74,88 @@ XYZ_SCALING_CAT = np.array(np.identity(3)).reshape((3, 3))
 XYZ_SCALING_CAT : array_like, (3, 3)
 """
 
-VON_KRIES_CAT = np.array(
-    [[0.4002400, 0.7076000, -0.0808100],
-     [-0.2263000, 1.1653200, 0.0457000],
-     [0.0000000, 0.0000000, 0.9182200]])  # yapf: disable
+VON_KRIES_CAT = np.array([
+    [0.4002400, 0.7076000, -0.0808100],
+    [-0.2263000, 1.1653200, 0.0457000],
+    [0.0000000, 0.0000000, 0.9182200],
+])
 """
 *Von Kries* chromatic adaptation transform. [1]_
 
 VON_KRIES_CAT : array_like, (3, 3)
 """
 
-BRADFORD_CAT = np.array(
-    [[0.8951000, 0.2664000, -0.1614000],
-     [-0.7502000, 1.7135000, 0.0367000],
-     [0.0389000, -0.0685000, 1.0296000]])  # yapf: disable
+BRADFORD_CAT = np.array([
+    [0.8951000, 0.2664000, -0.1614000],
+    [-0.7502000, 1.7135000, 0.0367000],
+    [0.0389000, -0.0685000, 1.0296000],
+])
 """
 *Bradford* chromatic adaptation transform. [1]_
 
 BRADFORD_CAT : array_like, (3, 3)
 """
 
-SHARP_CAT = np.array(
-    [[1.2694, -0.0988, -0.1706],
-     [-0.8364, 1.8006, 0.0357],
-     [0.0297, -0.0315, 1.0018]])  # yapf: disable
+SHARP_CAT = np.array([
+    [1.2694, -0.0988, -0.1706],
+    [-0.8364, 1.8006, 0.0357],
+    [0.0297, -0.0315, 1.0018],
+])
 """
 *Sharp* chromatic adaptation transform. [4]_
 
 SHARP_CAT : array_like, (3, 3)
 """
 
-FAIRCHILD_CAT = np.array(
-    [[0.8562, 0.3372, -0.1934],
-     [-0.8360, 1.8327, 0.0033],
-     [0.0357, -0.0469, 1.0112]])  # yapf: disable
+FAIRCHILD_CAT = np.array([
+    [0.8562, 0.3372, -0.1934],
+    [-0.8360, 1.8327, 0.0033],
+    [0.0357, -0.0469, 1.0112],
+])
 """
 *Fairchild* chromatic adaptation transform. [2]_
 
 FAIRCHILD_CAT : array_like, (3, 3)
 """
 
-CMCCAT97_CAT = np.array(
-    [[0.8951, -0.7502, 0.0389],
-     [0.2664, 1.7135, 0.0685],
-     [-0.1614, 0.0367, 1.0296]])  # yapf: disable
+CMCCAT97_CAT = np.array([
+    [0.8951, -0.7502, 0.0389],
+    [0.2664, 1.7135, 0.0685],
+    [-0.1614, 0.0367, 1.0296],
+])
 """
 *CMCCAT97* chromatic adaptation transform. [5]_
 
 CMCCAT97_CAT : array_like, (3, 3)
 """
 
-CMCCAT2000_CAT = np.array(
-    [[0.7982, 0.3389, -0.1371],
-     [-0.5918, 1.5512, 0.0406],
-     [0.0008, 0.0239, 0.9753]])  # yapf: disable
+CMCCAT2000_CAT = np.array([
+    [0.7982, 0.3389, -0.1371],
+    [-0.5918, 1.5512, 0.0406],
+    [0.0008, 0.0239, 0.9753],
+])
 """
 *CMCCAT2000* chromatic adaptation transform. [5]_
 
 CMCCAT2000_CAT : array_like, (3, 3)
 """
 
-CAT02_CAT = np.array(
-    [[0.7328, 0.4296, -0.1624],
-     [-0.7036, 1.6975, 0.0061],
-     [0.0030, 0.0136, 0.9834]])  # yapf: disable
+CAT02_CAT = np.array([
+    [0.7328, 0.4296, -0.1624],
+    [-0.7036, 1.6975, 0.0061],
+    [0.0030, 0.0136, 0.9834],
+])
 """
 *CAT02* chromatic adaptation transform. [3]_
 
 CAT02_CAT : array_like, (3, 3)
 """
 
-CAT02_BRILL_CAT = np.array(
-    [[0.7328, 0.4296, -0.1624],
-     [-0.7036, 1.6975, 0.0061],
-     [0.0000, 0.0000, 1.0000]])  # yapf: disable
+CAT02_BRILL_CAT = np.array([
+    [0.7328, 0.4296, -0.1624],
+    [-0.7036, 1.6975, 0.0061],
+    [0.0000, 0.0000, 1.0000],
+])
 """
 *Brill and Süsstrunk (2008)* corrected CAT02 chromatic adaptation
 transform. [6]_ [7]
@@ -155,20 +163,22 @@ transform. [6]_ [7]
 CAT02_BRILL_CAT : array_like, (3, 3)
 """
 
-BS_CAT = np.array(
-    [[0.8752, 0.2787, -0.1539],
-     [-0.8904, 1.8709, 0.0195],
-     [-0.0061, 0.0162, 0.9899]])  # yapf: disable
+BS_CAT = np.array([
+    [0.8752, 0.2787, -0.1539],
+    [-0.8904, 1.8709, 0.0195],
+    [-0.0061, 0.0162, 0.9899],
+])
 """
 *Bianco and Schettini (2010)* chromatic adaptation transform. [4]_
 
 BS_CAT : array_like, (3, 3)
 """
 
-BS_PC_CAT = np.array(
-    [[0.6489, 0.3915, -0.0404],
-     [-0.3775, 1.3055, 0.0720],
-     [-0.0271, 0.0888, 0.9383]])  # yapf: disable
+BS_PC_CAT = np.array([
+    [0.6489, 0.3915, -0.0404],
+    [-0.3775, 1.3055, 0.0720],
+    [-0.0271, 0.0888, 0.9383],
+])
 """
 *Bianco and Schettini PC (2010)* chromatic adaptation transform. [4]_
 

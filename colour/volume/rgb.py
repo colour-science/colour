@@ -119,8 +119,8 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
     --------
     >>> from colour import sRGB_COLOURSPACE as sRGB
     >>> prng = np.random.RandomState(2)
-    >>> sample_RGB_colourspace_volume_MonteCarlo(
-    ...     sRGB, 10e3, random_state=prng)  # doctest: +ELLIPSIS
+    >>> sample_RGB_colourspace_volume_MonteCarlo(sRGB, 10e3, random_state=prng)
+    ... # doctest: +ELLIPSIS
     9...
     """
 
@@ -241,8 +241,9 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
     >>> from colour import sRGB_COLOURSPACE as sRGB
     >>> prng = np.random.RandomState(2)
     >>> processes = 1
-    >>> RGB_colourspace_volume_MonteCarlo(  # doctest: +ELLIPSIS
-    ...     sRGB, 10e3, random_state=prng, processes=processes)
+    >>> RGB_colourspace_volume_MonteCarlo(sRGB, 10e3, random_state=prng,
+    ...                                   processes=processes)
+    ... # doctest: +ELLIPSIS
     858...
     """
 
@@ -294,11 +295,9 @@ def RGB_colourspace_volume_coverage_MonteCarlo(
     --------
     >>> from colour import sRGB_COLOURSPACE as sRGB
     >>> prng = np.random.RandomState(2)
-    >>> RGB_colourspace_volume_coverage_MonteCarlo(  # doctest: +ELLIPSIS
-    ...     sRGB,
-    ...     is_within_pointer_gamut,
-    ...     10e3,
-    ...     random_state=prng)
+    >>> RGB_colourspace_volume_coverage_MonteCarlo(
+    ...     sRGB, is_within_pointer_gamut, 10e3, random_state=prng)
+    ... # doctest: +ELLIPSIS
     83...
     """
 
@@ -350,9 +349,7 @@ def RGB_colourspace_pointer_gamut_coverage_MonteCarlo(
     >>> from colour import sRGB_COLOURSPACE as sRGB
     >>> prng = np.random.RandomState(2)
     >>> RGB_colourspace_pointer_gamut_coverage_MonteCarlo(
-    ...     sRGB,
-    ...     10e3,
-    ...     random_state=prng)  # doctest: +ELLIPSIS
+    ...     sRGB, 10e3, random_state=prng)  # doctest: +ELLIPSIS
     83...
     """
 
@@ -392,9 +389,7 @@ def RGB_colourspace_visible_spectrum_coverage_MonteCarlo(
     >>> from colour import sRGB_COLOURSPACE as sRGB
     >>> prng = np.random.RandomState(2)
     >>> RGB_colourspace_visible_spectrum_coverage_MonteCarlo(
-    ...     sRGB,
-    ...     10e3,
-    ...     random_state=prng)  # doctest: +ELLIPSIS
+    ...     sRGB, 10e3, random_state=prng)  # doctest: +ELLIPSIS
     36...
     """
 

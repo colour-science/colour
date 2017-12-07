@@ -65,11 +65,12 @@ message_box(('Plotting a single custom "RGB" colourspace in '
              '"CIE 1931 Chromaticity Diagram".'))
 colour.RGB_COLOURSPACES['Awful RGB'] = colour.RGB_Colourspace(
     'Awful RGB',
-    primaries=np.array(
-        [[0.10, 0.20],
-         [0.30, 0.15],
-         [0.05, 0.60]]),
-    whitepoint=np.array([1.0 / 3.0, 1.0 / 3.0]))  # yapf: disable
+    primaries=np.array([
+        [0.10, 0.20],
+        [0.30, 0.15],
+        [0.05, 0.60],
+    ]),
+    whitepoint=np.array([1.0 / 3.0, 1.0 / 3.0]))
 pprint(sorted(colour.RGB_COLOURSPACES.keys()))
 RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(['Rec. 709', 'Awful RGB'])
 

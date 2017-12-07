@@ -180,16 +180,16 @@ class Signal(AbstractContinuousFunction):
 
     >>> x = 150
     >>> from colour.algebra import CubicSplineInterpolator
-    >>> Signal(  # doctest: +ELLIPSIS
+    >>> Signal(
     ...     range_,
     ...     domain,
-    ...     interpolator=CubicSplineInterpolator)[x]
+    ...     interpolator=CubicSplineInterpolator)[x]  # doctest: +ELLIPSIS
     0.0555274...
     >>> x = np.linspace(100, 1000, 3)
-    >>> Signal(  # doctest: +ELLIPSIS
+    >>> Signal(
     ...     range_,
     ...     domain,
-    ...     interpolator=CubicSplineInterpolator)[x]
+    ...     interpolator=CubicSplineInterpolator)[x]  # doctest: +ELLIPSIS
     array([ 0.        ,  0.4794253...,  0.8414709...])
     """
 
@@ -1070,8 +1070,9 @@ class Signal(AbstractContinuousFunction):
 
         >>> if is_pandas_installed():
         ...     from pandas import Series
-        ...     domain, range = Signal.signal_unpack_data(  # doctest: +SKIP
+        ...     domain, range = Signal.signal_unpack_data(
         ...         Series(dict(zip(domain, range_))))
+        ... # doctest: +ELLIPSIS
         >>> print(domain)  # doctest: +SKIP
         [  100.   200.   300.   400.   500.   600.   700.   800.   900.  1000.]
         >>> print(range_)  # doctest: +SKIP

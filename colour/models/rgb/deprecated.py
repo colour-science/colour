@@ -156,14 +156,15 @@ def HSV_to_RGB(HSV):
     i = tstack((i, i, i)).astype(np.uint8)
 
     RGB = np.choose(
-        i,
-        (tstack((V, l, j)),
-         tstack((k, V, j)),
-         tstack((j, V, l)),
-         tstack((j, k, V)),
-         tstack((l, j, V)),
-         tstack((V, j, k))),
-        mode='clip')  # yapf: disable
+        i, [
+            tstack((V, l, j)),
+            tstack((k, V, j)),
+            tstack((j, V, l)),
+            tstack((j, k, V)),
+            tstack((l, j, V)),
+            tstack((V, j, k)),
+        ],
+        mode='clip')
 
     return RGB
 

@@ -43,10 +43,11 @@ __all__ = [
     'CIE_RGB_TO_XYZ_MATRIX', 'XYZ_TO_CIE_RGB_MATRIX', 'CIE_RGB_COLOURSPACE'
 ]
 
-CIE_RGB_PRIMARIES = np.array(
-    [[0.734742840005998, 0.265257159994002],
-     [0.273779033824958, 0.717477700256116],
-     [0.166555629580280, 0.008910726182545]])  # yapf: disable
+CIE_RGB_PRIMARIES = np.array([
+    [0.734742840005998, 0.265257159994002],
+    [0.273779033824958, 0.717477700256116],
+    [0.166555629580280, 0.008910726182545],
+])
 """
 *CIE RGB* colourspace primaries.
 
@@ -74,10 +75,11 @@ CIE_RGB_WHITEPOINT = (
 CIE_RGB_WHITEPOINT : ndarray
 """
 
-CIE_RGB_TO_XYZ_MATRIX = np.array(
-    [[0.4900, 0.3100, 0.2000],
-     [0.1769, 0.8124, 0.0107],
-     [0.0000, 0.0099, 0.9901]])  # yapf: disable
+CIE_RGB_TO_XYZ_MATRIX = np.array([
+    [0.4900, 0.3100, 0.2000],
+    [0.1769, 0.8124, 0.0107],
+    [0.0000, 0.0099, 0.9901],
+])
 """
 *CIE RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 

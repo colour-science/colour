@@ -76,10 +76,8 @@ def colour_quality_bars_plot(specifications,
 
     Examples
     --------
-    >>> from colour import (
-    ...     ILLUMINANTS_RELATIVE_SPDS,
-    ...     LIGHT_SOURCES_RELATIVE_SPDS,
-    ...     SpectralShape)
+    >>> from colour import (ILLUMINANTS_RELATIVE_SPDS,
+    ...                     LIGHT_SOURCES_RELATIVE_SPDS, SpectralShape)
     >>> illuminant = ILLUMINANTS_RELATIVE_SPDS['F2']
     >>> light_source = LIGHT_SOURCES_RELATIVE_SPDS['Kinoton 75P']
     >>> light_source = light_source.copy().align(SpectralShape(360, 830, 1))
@@ -205,8 +203,8 @@ def single_spd_colour_rendering_index_bars_plot(spd, **kwargs):
     --------
     >>> from colour import ILLUMINANTS_RELATIVE_SPDS
     >>> illuminant = ILLUMINANTS_RELATIVE_SPDS['F2']
-    >>> single_spd_colour_rendering_index_bars_plot(  # doctest: +SKIP
-    ...     illuminant)
+    >>> single_spd_colour_rendering_index_bars_plot(illuminant)
+    ... # doctest: +SKIP
     """
 
     return multi_spd_colour_rendering_index_bars_plot([spd], **kwargs)
@@ -246,13 +244,12 @@ def multi_spd_colour_rendering_index_bars_plot(spds, **kwargs):
 
     Examples
     --------
-    >>> from colour import (
-    ...     ILLUMINANTS_RELATIVE_SPDS,
-    ...     LIGHT_SOURCES_RELATIVE_SPDS)
+    >>> from colour import (ILLUMINANTS_RELATIVE_SPDS,
+    ...                     LIGHT_SOURCES_RELATIVE_SPDS)
     >>> illuminant = ILLUMINANTS_RELATIVE_SPDS['F2']
     >>> light_source = LIGHT_SOURCES_RELATIVE_SPDS['Kinoton 75P']
-    >>> multi_spd_colour_rendering_index_bars_plot(  # doctest: +SKIP
-    ...     [illuminant, light_source])
+    >>> multi_spd_colour_rendering_index_bars_plot([illuminant, light_source])
+    ... # doctest: +SKIP
     """
 
     settings = {}
@@ -324,8 +321,8 @@ def single_spd_colour_quality_scale_bars_plot(spd, **kwargs):
     --------
     >>> from colour import ILLUMINANTS_RELATIVE_SPDS
     >>> illuminant = ILLUMINANTS_RELATIVE_SPDS['F2']
-    >>> single_spd_colour_quality_scale_bars_plot(  # doctest: +SKIP
-    ...     illuminant)
+    >>> single_spd_colour_quality_scale_bars_plot(illuminant)
+    ... # doctest: +SKIP
     """
 
     return multi_spd_colour_quality_scale_bars_plot([spd], **kwargs)
@@ -365,13 +362,12 @@ def multi_spd_colour_quality_scale_bars_plot(spds, **kwargs):
 
     Examples
     --------
-    >>> from colour import (
-    ...     ILLUMINANTS_RELATIVE_SPDS,
-    ...     LIGHT_SOURCES_RELATIVE_SPDS)
+    >>> from colour import (ILLUMINANTS_RELATIVE_SPDS,
+    ...                     LIGHT_SOURCES_RELATIVE_SPDS)
     >>> illuminant = ILLUMINANTS_RELATIVE_SPDS['F2']
     >>> light_source = LIGHT_SOURCES_RELATIVE_SPDS['Kinoton 75P']
-    >>> multi_spd_colour_quality_scale_bars_plot(  # doctest: +SKIP
-    ...     [illuminant, light_source])
+    >>> multi_spd_colour_quality_scale_bars_plot([illuminant, light_source])
+    ... # doctest: +SKIP
     """
 
     settings = {}

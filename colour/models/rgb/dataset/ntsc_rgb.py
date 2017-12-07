@@ -43,10 +43,11 @@ __all__ = [
     'NTSC_RGB_TO_XYZ_MATRIX', 'XYZ_TO_NTSC_RGB_MATRIX', 'NTSC_RGB_COLOURSPACE'
 ]
 
-NTSC_RGB_PRIMARIES = np.array(
-    [[0.67, 0.33],
-     [0.21, 0.71],
-     [0.14, 0.08]])  # yapf: disable
+NTSC_RGB_PRIMARIES = np.array([
+    [0.67, 0.33],
+    [0.21, 0.71],
+    [0.14, 0.08],
+])
 """
 *NTSC RGB* colourspace primaries.
 

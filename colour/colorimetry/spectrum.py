@@ -885,8 +885,8 @@ dict_like, optional
         ... }
         >>> spd = SpectralPowerDistribution(data)
         >>> with numpy_print_options(suppress=True):
-        ...     print(spd.interpolate(  # doctest: +ELLIPSIS
-        ...         SpectralShape(interval=1)))
+        ...     print(spd.interpolate(SpectralShape(interval=1)))
+        ... # doctest: +ELLIPSIS
         [[ 500.            0.0651   ...]
          [ 501.            0.0653522...]
          [ 502.            0.0656105...]
@@ -995,8 +995,8 @@ dict_like, optional
         >>> spd = SpectralPowerDistribution(data)
         >>> spd[510] = np.pi / 10
         >>> with numpy_print_options(suppress=True):
-        ...     print(spd.interpolate(  # doctest: +ELLIPSIS
-        ...         SpectralShape(interval=1)))
+        ...     print(spd.interpolate(SpectralShape(interval=1)))
+        ... # doctest: +ELLIPSIS
         [[ 500.            0.0651   ...]
          [ 501.            0.1365202...]
          [ 502.            0.1953263...]
@@ -1172,8 +1172,8 @@ dict_like, optional
         ... }
         >>> spd = SpectralPowerDistribution(data)
         >>> with numpy_print_options(suppress=True):
-        ...     print(spd.align(  # doctest: +ELLIPSIS
-        ...         SpectralShape(505, 565, 1)))
+        ...     print(spd.align(SpectralShape(505, 565, 1)))
+        ... # doctest: +ELLIPSIS
         [[ 505.            0.0663929...]
          [ 506.            0.0666509...]
          [ 507.            0.0669069...]
@@ -1271,8 +1271,8 @@ dict_like, optional
         >>> spd = SpectralPowerDistribution(data)
         >>> spd = spd.interpolate(SpectralShape(interval=1))
         >>> with numpy_print_options(suppress=True):
-        ...     print(spd.trim(  # doctest: +ELLIPSIS
-        ...         SpectralShape(520, 580, 5)))
+        ...     print(spd.trim(SpectralShape(520, 580, 5)))
+        ... # doctest: +ELLIPSIS
         [[ 520.            0.0705   ...]
          [ 521.            0.0708155...]
          [ 522.            0.0711336...]
@@ -1476,8 +1476,8 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
     ... }
     >>> labels = ('x_bar', 'y_bar', 'z_bar')
     >>> with numpy_print_options(suppress=True):
-    ...     MultiSpectralPowerDistribution(  # doctest: +ELLIPSIS
-    ...         data, labels=labels)
+    ...     MultiSpectralPowerDistribution(data, labels=labels)
+    ... # doctest: +ELLIPSIS
     MultiSpectral...([[ 500.     ,    0.0049 ,    0.323  ,    0.272  ],
                  ...  [ 510.     ,    0.0093 ,    0.503  ,    0.1582 ],
                  ...  [ 520.     ,    0.06327,    0.71   ,    0.07825],
@@ -1496,8 +1496,8 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
 
     >>> data[511] = (0.00314, 0.31416, 0.03142)
     >>> with numpy_print_options(suppress=True):
-    ...     MultiSpectralPowerDistribution(  # doctest: +ELLIPSIS
-    ...         data, labels=labels)
+    ...     MultiSpectralPowerDistribution(data, labels=labels)
+    ... # doctest: +ELLIPSIS
     MultiSpectral...([[ 500.     ,    0.0049 ,    0.323  ,    0.272  ],
                  ...  [ 510.     ,    0.0093 ,    0.503  ,    0.1582 ],
                  ...  [ 511.     ,    0.00314,    0.31416,    0.03142],
@@ -1856,8 +1856,8 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
         ... }
         >>> multi_spd = MultiSpectralPowerDistribution(data)
         >>> with numpy_print_options(suppress=True):
-        ...     print(multi_spd.interpolate(  # doctest: +ELLIPSIS
-        ...         SpectralShape(interval=1)))
+        ...     print(multi_spd.interpolate(SpectralShape(interval=1)))
+        ... # doctest: +ELLIPSIS
         [[ 500.            0.0049   ...    0.323    ...    0.272    ...]
          [ 501.            0.0043252...    0.3400642...    0.2599848...]
          [ 502.            0.0037950...    0.3572165...    0.2479849...]
@@ -1926,8 +1926,8 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
         >>> data[511] = (0.00314, 0.31416, 0.03142)
         >>> multi_spd = MultiSpectralPowerDistribution(data)
         >>> with numpy_print_options(suppress=True):
-        ...     print(multi_spd.interpolate(  # doctest: +ELLIPSIS
-        ...         SpectralShape(interval=1)))
+        ...     print(multi_spd.interpolate(SpectralShape(interval=1)))
+        ... # doctest: +ELLIPSIS
         [[ 500.            0.0049   ...    0.323    ...    0.272    ...]
          [ 501.            0.0300110...    0.9455153...    0.5985102...]
          [ 502.            0.0462136...    1.3563103...    0.8066498...]
@@ -2038,8 +2038,8 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
         ... }
         >>> multi_spd = MultiSpectralPowerDistribution(data)
         >>> with numpy_print_options(suppress=True):
-        ...     print(multi_spd.align(  # doctest: +ELLIPSIS
-        ...         SpectralShape(505, 565, 1)))
+        ...     print(multi_spd.align(SpectralShape(505, 565, 1)))
+        ... # doctest: +ELLIPSIS
         [[ 505.            0.0031582...    0.4091067...    0.2126801...]
          [ 506.            0.0035019...    0.4268629...    0.2012748...]
          [ 507.            0.0042365...    0.4450668...    0.1900968...]
@@ -2138,8 +2138,8 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
         >>> multi_spd = MultiSpectralPowerDistribution(data)
         >>> multi_spd = multi_spd.interpolate(SpectralShape(interval=1))
         >>> with numpy_print_options(suppress=True):
-        ...     print(multi_spd.trim(  # doctest: +ELLIPSIS
-        ...         SpectralShape(520, 580, 5)))
+        ...     print(multi_spd.trim(SpectralShape(520, 580, 5)))
+        ... # doctest: +ELLIPSIS
         [[ 520.            0.06327  ...    0.71     ...    0.07825  ...]
          [ 521.            0.0715642...    0.7283456...    0.0728614...]
          [ 522.            0.0803970...    0.7459679...    0.0680051...]

@@ -42,10 +42,11 @@ __all__ = [
     'XYZ_TO_ADOBE_WIDE_GAMUT_RGB_MATRIX', 'ADOBE_WIDE_GAMUT_RGB_COLOURSPACE'
 ]
 
-ADOBE_WIDE_GAMUT_RGB_PRIMARIES = np.array(
-    [[0.7347, 0.2653],
-     [0.1152, 0.8264],
-     [0.1566, 0.0177]])  # yapf: disable
+ADOBE_WIDE_GAMUT_RGB_PRIMARIES = np.array([
+    [0.7347, 0.2653],
+    [0.1152, 0.8264],
+    [0.1566, 0.0177],
+])
 """
 *Adobe Wide Gamut RGB* colourspace primaries.
 
@@ -59,9 +60,8 @@ ADOBE_WIDE_GAMUT_RGB_ILLUMINANT = 'D50'
 ADOBE_WIDE_GAMUT_RGB_ILLUMINANT : unicode
 """
 
-ADOBE_WIDE_GAMUT_RGB_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
-    [ADOBE_WIDE_GAMUT_RGB_ILLUMINANT])  # yapf: disable
+ADOBE_WIDE_GAMUT_RGB_WHITEPOINT = (ILLUMINANTS[
+    'CIE 1931 2 Degree Standard Observer'][ADOBE_WIDE_GAMUT_RGB_ILLUMINANT])
 """
 *Adobe Wide Gamut RGB* colourspace whitepoint.
 

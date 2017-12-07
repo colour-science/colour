@@ -90,8 +90,8 @@ def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
     Examples
     --------
     >>> c = ['Rec. 709', 'ACEScg', 'S-Gamut']
-    >>> RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
-    ...     c)  # doctest: +SKIP
+    >>> RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(c)
+    ... # doctest: +SKIP
     """
 
     settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
@@ -252,8 +252,8 @@ def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
     Examples
     --------
     >>> c = ['Rec. 709', 'ACEScg', 'S-Gamut']
-    >>> RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
-    ...     c)  # doctest: +SKIP
+    >>> RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(c)
+    ... # doctest: +SKIP
     """
 
     settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
@@ -420,8 +420,8 @@ def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
     Examples
     --------
     >>> c = ['Rec. 709', 'ACEScg', 'S-Gamut']
-    >>> RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
-    ...     c)  # doctest: +SKIP
+    >>> RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(c)
+    ... # doctest: +SKIP
     """
 
     settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
@@ -594,8 +594,8 @@ def RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot(
     --------
     >>> RGB = np.random.random((10, 10, 3))
     >>> c = 'Rec. 709'
-    >>> RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot(
-    ...     RGB, c)  # doctest: +SKIP
+    >>> RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot(RGB, c)
+    ... # doctest: +SKIP
     """
 
     settings = {}

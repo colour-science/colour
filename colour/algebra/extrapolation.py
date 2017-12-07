@@ -129,12 +129,19 @@ class Extrapolator(object):
     @property
     def interpolator(self):
         """
-        Property for **self._interpolator** private attribute.
+        Getter and setter property for the *Colour* or *scipy* interpolator
+        class instance.
+
+        Parameters
+        ----------
+        value : callable
+            Value to set the *Colour* or *scipy* interpolator class instance
+            with.
 
         Returns
         -------
-        object
-            self._interpolator
+        callable
+            *Colour* or *scipy* interpolator class instance.
         """
 
         return self._interpolator
@@ -142,12 +149,7 @@ class Extrapolator(object):
     @interpolator.setter
     def interpolator(self, value):
         """
-        Setter for **self._interpolator** private attribute.
-
-        Parameters
-        ----------
-        value : object
-            Attribute value.
+        Setter for the **self.interpolator** property.
         """
 
         if value is not None:
@@ -161,12 +163,17 @@ class Extrapolator(object):
     @property
     def method(self):
         """
-        Property for **self._method** private attribute.
+        Getter and setter property for the extrapolation method.
+
+        Parameters
+        ----------
+        value : unicode
+            Value to set the extrapolation method. with.
 
         Returns
         -------
         unicode
-            self._method
+            Extrapolation method.
         """
 
         return self._method
@@ -174,12 +181,7 @@ class Extrapolator(object):
     @method.setter
     def method(self, value):
         """
-        Setter for **self._method** private attribute.
-
-        Parameters
-        ----------
-        value : unicode
-            Attribute value.
+        Setter for the **self.method** property.
         """
 
         if value is not None:
@@ -193,12 +195,17 @@ class Extrapolator(object):
     @property
     def left(self):
         """
-        Property for **self._left** private attribute.
+        Getter and setter property for left value to return for x < xi[0].
+
+        Parameters
+        ----------
+        value : numeric
+            Left value to return for x < xi[0].
 
         Returns
         -------
         numeric
-            self._left
+            Left value to return for x < xi[0].
         """
 
         return self._left
@@ -206,12 +213,7 @@ class Extrapolator(object):
     @left.setter
     def left(self, value):
         """
-        Setter for **self._left** private attribute.
-
-        Parameters
-        ----------
-        value : numeric
-            Attribute value.
+        Setter for the **self.left** property.
         """
 
         if value is not None:
@@ -223,12 +225,17 @@ class Extrapolator(object):
     @property
     def right(self):
         """
-        Property for **self._right** private attribute.
+        Getter and setter property for right value to return for x > xi[-1].
+
+        Parameters
+        ----------
+        value : numeric
+            Right value to return for x > xi[-1].
 
         Returns
         -------
         numeric
-            self._right
+            Right value to return for x > xi[-1].
         """
 
         return self._right
@@ -236,12 +243,7 @@ class Extrapolator(object):
     @right.setter
     def right(self, value):
         """
-        Setter for **self._right** private attribute.
-
-        Parameters
-        ----------
-        value : numeric
-            Attribute value.
+        Setter for the **self.right** property.
         """
 
         if value is not None:

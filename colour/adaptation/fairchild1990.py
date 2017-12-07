@@ -106,8 +106,8 @@ def chromatic_adaptation_Fairchild1990(XYZ_1,
     >>> XYZ_n = np.array([111.15, 100.00, 35.20])
     >>> XYZ_r = np.array([94.81, 100.00, 107.30])
     >>> Y_n = 200
-    >>> chromatic_adaptation_Fairchild1990(  # doctest: +ELLIPSIS
-    ...     XYZ_1, XYZ_n, XYZ_r, Y_n)
+    >>> chromatic_adaptation_Fairchild1990(XYZ_1, XYZ_n, XYZ_r, Y_n)
+    ... # doctest: +ELLIPSIS
     array([ 23.3252634...,  23.3245581...,  76.1159375...])
     """
 

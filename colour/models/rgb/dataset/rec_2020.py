@@ -43,10 +43,11 @@ __all__ = [
     'REC_2020_TO_XYZ_MATRIX', 'XYZ_TO_REC_2020_MATRIX', 'REC_2020_COLOURSPACE'
 ]
 
-REC_2020_PRIMARIES = np.array(
-    [[0.708, 0.292],
-     [0.170, 0.797],
-     [0.131, 0.046]])  # yapf: disable
+REC_2020_PRIMARIES = np.array([
+    [0.708, 0.292],
+    [0.170, 0.797],
+    [0.131, 0.046],
+])
 """
 *Rec. 2020* colourspace primaries.
 

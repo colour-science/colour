@@ -208,15 +208,17 @@ class IES_TM2714_Header(object):
     @property
     def mapping(self):
         """
-        Property for **self.mapping** attribute.
+        Getter and setter property for the mapping structure.
+
+        Parameters
+        ----------
+        value : Structure
+            Value to set the mapping structure with.
 
         Returns
         -------
         Structure
-
-        Warning
-        -------
-        :attr:`IES_TM2714_Header.mapping` is read only.
+            Mapping structure.
         """
 
         return self._mapping
@@ -224,12 +226,7 @@ class IES_TM2714_Header(object):
     @mapping.setter
     def mapping(self, value):
         """
-        Setter for **self.mapping** attribute.
-
-        Parameters
-        ----------
-        value : object
-            Attribute value.
+        Setter for the **self.mapping** property.
         """
 
         raise AttributeError('"{0}" attribute is read only!'.format('mapping'))
@@ -237,12 +234,17 @@ class IES_TM2714_Header(object):
     @property
     def manufacturer(self):
         """
-        Property for **self._manufacturer** private attribute.
+        Getter and setter property for the manufacturer.
+
+        Parameters
+        ----------
+        value : unicode
+            Value to set the manufacturer with.
 
         Returns
         -------
         unicode
-            self._manufacturer.
+            Manufacturer.
         """
 
         return self._manufacturer
@@ -250,29 +252,29 @@ class IES_TM2714_Header(object):
     @manufacturer.setter
     def manufacturer(self, value):
         """
-        Setter for **self._manufacturer** private attribute.
-
-        Parameters
-        ----------
-        value : unicode
-            Attribute value.
+        Setter for the **self.manufacturer** property.
         """
 
         if value is not None:
-            assert is_string(value), (('"{0}" attribute: "{1}" is not a '
-                                       '"string" like object!').format(
-                                           'manufacturer', value))
+            assert is_string(value), (
+                '"{0}" attribute: "{1}" is not a "string" like object!'.format(
+                    'manufacturer', value))
         self._manufacturer = value
 
     @property
     def catalog_number(self):
         """
-        Property for **self._catalog_number** private attribute.
+        Getter and setter property for the catalog number.
+
+        Parameters
+        ----------
+        value : unicode
+            Value to set the catalog number with.
 
         Returns
         -------
         unicode
-            self._catalog_number.
+            Catalog number.
         """
 
         return self._catalog_number
@@ -280,29 +282,29 @@ class IES_TM2714_Header(object):
     @catalog_number.setter
     def catalog_number(self, value):
         """
-        Setter for **self._catalog_number** private attribute.
-
-        Parameters
-        ----------
-        value : unicode
-            Attribute value.
+        Setter for the **self.catalog_number** property.
         """
 
         if value is not None:
-            assert is_string(value), (('"{0}" attribute: "{1}" is not a '
-                                       '"string" like object!').format(
-                                           'catalog_number', value))
+            assert is_string(value), (
+                '"{0}" attribute: "{1}" is not a "string" like object!'.format(
+                    'catalog_number', value))
         self._catalog_number = value
 
     @property
     def description(self):
         """
-        Property for **self._description** private attribute.
+        Getter and setter property for the description.
+
+        Parameters
+        ----------
+        value : unicode
+            Value to set the description with.
 
         Returns
         -------
         unicode
-            self._description.
+            Description.
         """
 
         return self._description
@@ -310,29 +312,29 @@ class IES_TM2714_Header(object):
     @description.setter
     def description(self, value):
         """
-        Setter for **self._description** private attribute.
-
-        Parameters
-        ----------
-        value : unicode
-            Attribute value.
+        Setter for the **self.description** property.
         """
 
         if value is not None:
-            assert is_string(value), (('"{0}" attribute: "{1}" is not a '
-                                       '"string" like object!').format(
-                                           'description', value))
+            assert is_string(value), (
+                '"{0}" attribute: "{1}" is not a "string" like object!'.format(
+                    'description', value))
         self._description = value
 
     @property
     def document_creator(self):
         """
-        Property for **self._document_creator** private attribute.
+        Getter and setter property for the document creator.
+
+        Parameters
+        ----------
+        value : unicode
+            Value to set the document creator with.
 
         Returns
         -------
         unicode
-            self._document_creator.
+            Document creator.
         """
 
         return self._document_creator
@@ -340,29 +342,29 @@ class IES_TM2714_Header(object):
     @document_creator.setter
     def document_creator(self, value):
         """
-        Setter for **self._document_creator** private attribute.
-
-        Parameters
-        ----------
-        value : unicode
-            Attribute value.
+        Setter for the **self.document_creator** property.
         """
 
         if value is not None:
-            assert is_string(value), (('"{0}" attribute: "{1}" is not a '
-                                       '"string" like object!').format(
-                                           'document_creator', value))
+            assert is_string(value), (
+                '"{0}" attribute: "{1}" is not a "string" like object!'.format(
+                    'document_creator', value))
         self._document_creator = value
 
     @property
     def unique_identifier(self):
         """
-        Property for **self._unique_identifier** private attribute.
+        Getter and setter property for the unique identifier.
+
+        Parameters
+        ----------
+        value : unicode
+            Value to set the unique identifier with.
 
         Returns
         -------
         unicode
-            self._unique_identifier.
+            Unique identifier.
         """
 
         return self._unique_identifier
@@ -370,29 +372,29 @@ class IES_TM2714_Header(object):
     @unique_identifier.setter
     def unique_identifier(self, value):
         """
-        Setter for **self._unique_identifier** private attribute.
-
-        Parameters
-        ----------
-        value : unicode
-            Attribute value.
+        Setter for the **self.unique_identifier** property.
         """
 
         if value is not None:
-            assert is_string(value), (('"{0}" attribute: "{1}" is not a '
-                                       '"string" like object!').format(
-                                           'unique_identifier', value))
+            assert is_string(value), (
+                '"{0}" attribute: "{1}" is not a "string" like object!'.format(
+                    'unique_identifier', value))
         self._unique_identifier = value
 
     @property
     def measurement_equipment(self):
         """
-        Property for **self._measurement_equipment** private attribute.
+        Getter and setter property for the measurement equipment.
+
+        Parameters
+        ----------
+        value : unicode
+            Value to set the measurement equipment with.
 
         Returns
         -------
         unicode
-            self._measurement_equipment.
+            Measurement equipment.
         """
 
         return self._measurement_equipment
@@ -400,29 +402,29 @@ class IES_TM2714_Header(object):
     @measurement_equipment.setter
     def measurement_equipment(self, value):
         """
-        Setter for **self._measurement_equipment** private attribute.
-
-        Parameters
-        ----------
-        value : unicode
-            Attribute value.
+        Setter for the **self.measurement_equipment** property.
         """
 
         if value is not None:
-            assert is_string(value), (('"{0}" attribute: "{1}" is not a '
-                                       '"string" like object!').format(
-                                           'measurement_equipment', value))
+            assert is_string(value), (
+                '"{0}" attribute: "{1}" is not a "string" like object!'.format(
+                    'measurement_equipment', value))
         self._measurement_equipment = value
 
     @property
     def laboratory(self):
         """
-        Property for **self._laboratory** private attribute.
+        Getter and setter property for the laboratory.
+
+        Parameters
+        ----------
+        value : unicode
+            Value to set the laboratory with.
 
         Returns
         -------
         unicode
-            self._laboratory.
+            Laboratory.
         """
 
         return self._laboratory
@@ -430,29 +432,29 @@ class IES_TM2714_Header(object):
     @laboratory.setter
     def laboratory(self, value):
         """
-        Setter for **self._laboratory** private attribute.
-
-        Parameters
-        ----------
-        value : unicode
-            Attribute value.
+        Setter for the **self.measurement_equipment** property.
         """
 
         if value is not None:
-            assert is_string(value), (('"{0}" attribute: "{1}" is not a '
-                                       '"string" like object!').format(
-                                           'laboratory', value))
+            assert is_string(value), (
+                '"{0}" attribute: "{1}" is not a "string" like object!'.format(
+                    'laboratory', value))
         self._laboratory = value
 
     @property
     def report_number(self):
         """
-        Property for **self._report_number** private attribute.
+        Getter and setter property for the report number.
+
+        Parameters
+        ----------
+        value : unicode
+            Value to set the report number with.
 
         Returns
         -------
         unicode
-            self._report_number.
+            Report number.
         """
 
         return self._report_number
@@ -460,29 +462,29 @@ class IES_TM2714_Header(object):
     @report_number.setter
     def report_number(self, value):
         """
-        Setter for **self._report_number** private attribute.
-
-        Parameters
-        ----------
-        value : unicode
-            Attribute value.
+        Setter for the **self.report_number** property.
         """
 
         if value is not None:
-            assert is_string(value), (('"{0}" attribute: "{1}" is not a '
-                                       '"string" like object!').format(
-                                           'report_number', value))
+            assert is_string(value), (
+                '"{0}" attribute: "{1}" is not a "string" like object!'.format(
+                    'report_number', value))
         self._report_number = value
 
     @property
     def report_date(self):
         """
-        Property for **self._report_date** private attribute.
+        Getter and setter property for the report date.
+
+        Parameters
+        ----------
+        value : unicode
+            Value to set the report date with.
 
         Returns
         -------
         unicode
-            self._report_date.
+            Report date.
         """
 
         return self._report_date
@@ -490,29 +492,29 @@ class IES_TM2714_Header(object):
     @report_date.setter
     def report_date(self, value):
         """
-        Setter for **self._report_date** private attribute.
-
-        Parameters
-        ----------
-        value : unicode
-            Attribute value.
+        Setter for the **self.report_date** property.
         """
 
         if value is not None:
-            assert is_string(value), (('"{0}" attribute: "{1}" is not a '
-                                       '"string" like object!').format(
-                                           'report_date', value))
+            assert is_string(value), (
+                '"{0}" attribute: "{1}" is not a "string" like object!'.format(
+                    'report_date', value))
         self._report_date = value
 
     @property
     def document_creation_date(self):
         """
-        Property for **self._document_creation_date** private attribute.
+        Getter and setter property for the document creation date.
+
+        Parameters
+        ----------
+        value : unicode
+            Value to set the document creation date with.
 
         Returns
         -------
         unicode
-            self._document_creation_date.
+            Document creation date.
         """
 
         return self._document_creation_date
@@ -520,29 +522,29 @@ class IES_TM2714_Header(object):
     @document_creation_date.setter
     def document_creation_date(self, value):
         """
-        Setter for **self._document_creation_date** private attribute.
-
-        Parameters
-        ----------
-        value : unicode
-            Attribute value.
+        Setter for the **self.document_creation_date** property.
         """
 
         if value is not None:
-            assert is_string(value), (('"{0}" attribute: "{1}" is not a '
-                                       '"string" like object!').format(
-                                           'document_creation_date', value))
+            assert is_string(value), (
+                '"{0}" attribute: "{1}" is not a "string" like object!'.format(
+                    'document_creation_date', value))
         self._document_creation_date = value
 
     @property
     def comments(self):
         """
-        Property for **self._comments** private attribute.
+        Getter and setter property for the comments.
+
+        Parameters
+        ----------
+        value : unicode
+            Value to set the comments with.
 
         Returns
         -------
         unicode
-            self._comments.
+            Comments.
         """
 
         return self._comments
@@ -550,18 +552,13 @@ class IES_TM2714_Header(object):
     @comments.setter
     def comments(self, value):
         """
-        Setter for **self._comments** private attribute.
-
-        Parameters
-        ----------
-        value : unicode
-            Attribute value.
+        Setter for the **self.comments** property.
         """
 
         if value is not None:
-            assert is_string(value), (('"{0}" attribute: "{1}" is not a '
-                                       '"string" like object!').format(
-                                           'comments', value))
+            assert is_string(value), (
+                '"{0}" attribute: "{1}" is not a "string" like object!'.format(
+                    'comments', value))
         self._comments = value
 
 
@@ -706,15 +703,17 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
     @property
     def mapping(self):
         """
-        Property for **self.mapping** attribute.
+        Getter and setter property for the mapping structure.
+
+        Parameters
+        ----------
+        value : Structure
+            Value to set the mapping structure with.
 
         Returns
         -------
         Structure
-
-        Warning
-        -------
-        :attr:`IES_TM2714_Spd.mapping` is read only.
+            Mapping structure.
         """
 
         return self._mapping
@@ -722,12 +721,7 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
     @mapping.setter
     def mapping(self, value):
         """
-        Setter for **self.mapping** attribute.
-
-        Parameters
-        ----------
-        value : object
-            Attribute value.
+        Setter for the **self.mapping** property.
         """
 
         raise AttributeError('"{0}" attribute is read only!'.format('mapping'))
@@ -735,12 +729,17 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
     @property
     def path(self):
         """
-        Property for **self._path** private attribute.
+        Getter and setter property for the path.
+
+        Parameters
+        ----------
+        value : unicode
+            Value to set the path with.
 
         Returns
         -------
         unicode
-            self._path.
+            Path.
         """
 
         return self._path
@@ -748,29 +747,29 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
     @path.setter
     def path(self, value):
         """
-        Setter for **self._path** private attribute.
-
-        Parameters
-        ----------
-        value : unicode
-            Attribute value.
+        Setter for the **self.path** property.
         """
 
         if value is not None:
-            assert is_string(value), (('"{0}" attribute: "{1}" is not a '
-                                       '"string" like object!').format(
-                                           'path', value))
+            assert is_string(value), (
+                '"{0}" attribute: "{1}" is not a "string" like object!'.format(
+                    'path', value))
         self._path = value
 
     @property
     def header(self):
         """
-        Property for **self._header** private attribute.
+        Getter and setter property for the header.
+
+        Parameters
+        ----------
+        value : IES_TM2714_Header
+            Value to set the header with.
 
         Returns
         -------
         IES_TM2714_Header
-            self._header.
+            Header.
         """
 
         return self._header
@@ -778,29 +777,29 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
     @header.setter
     def header(self, value):
         """
-        Setter for **self._header** private attribute.
-
-        Parameters
-        ----------
-        value : IES_TM2714_Header
-            Attribute value.
+        Setter for the **self.header** property.
         """
 
         if value is not None:
-            assert isinstance(value, IES_TM2714_Header), ((
+            assert isinstance(value, IES_TM2714_Header), (
                 '"{0}" attribute: "{1}" is not a "IES_TM2714_Header" '
-                'instance!').format('header', value))
+                'instance!'.format('header', value))
         self._header = value
 
     @property
     def spectral_quantity(self):
         """
-        Property for **self._spectral_quantity** private attribute.
+        Getter and setter property for the spectral quantity.
+
+        Parameters
+        ----------
+        value : unicode
+            Value to set the spectral quantity with.
 
         Returns
         -------
         unicode
-            self._spectral_quantity.
+            Spectral quantity.
         """
 
         return self._spectral_quantity
@@ -808,29 +807,29 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
     @spectral_quantity.setter
     def spectral_quantity(self, value):
         """
-        Setter for **self._spectral_quantity** private attribute.
-
-        Parameters
-        ----------
-        value : unicode
-            Attribute value.
+        Setter for the **self.spectral_quantity** property.
         """
 
         if value is not None:
-            assert is_string(value), (('"{0}" attribute: "{1}" is not a '
-                                       '"string" like object!').format(
-                                           'spectral_quantity', value))
+            assert is_string(value), (
+                '"{0}" attribute: "{1}" is not a "string" like object!'.format(
+                    'spectral_quantity', value))
         self._spectral_quantity = value
 
     @property
     def reflection_geometry(self):
         """
-        Property for **self._reflection_geometry** private attribute.
+        Getter and setter property for the reflection geometry.
+
+        Parameters
+        ----------
+        value : unicode
+            Value to set the reflection geometry with.
 
         Returns
         -------
         unicode
-            self._reflection_geometry.
+            Reflection geometry.
         """
 
         return self._reflection_geometry
@@ -838,29 +837,29 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
     @reflection_geometry.setter
     def reflection_geometry(self, value):
         """
-        Setter for **self._reflection_geometry** private attribute.
-
-        Parameters
-        ----------
-        value : unicode
-            Attribute value.
+        Setter for the **self.reflection_geometry** property.
         """
 
         if value is not None:
-            assert is_string(value), (('"{0}" attribute: "{1}" is not a '
-                                       '"string" like object!').format(
-                                           'reflection_geometry', value))
+            assert is_string(value), (
+                '"{0}" attribute: "{1}" is not a "string" like object!'.format(
+                    'reflection_geometry', value))
         self._reflection_geometry = value
 
     @property
     def transmission_geometry(self):
         """
-        Property for **self._transmission_geometry** private attribute.
+        Getter and setter property for the transmission geometry.
+
+        Parameters
+        ----------
+        value : unicode
+            Value to set the transmission geometry with.
 
         Returns
         -------
         unicode
-            self._transmission_geometry.
+            Transmission geometry.
         """
 
         return self._transmission_geometry
@@ -868,29 +867,29 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
     @transmission_geometry.setter
     def transmission_geometry(self, value):
         """
-        Setter for **self._transmission_geometry** private attribute.
-
-        Parameters
-        ----------
-        value : unicode
-            Attribute value.
+        Setter for the **self.transmission_geometry** property.
         """
 
         if value is not None:
-            assert is_string(value), (('"{0}" attribute: "{1}" is not a '
-                                       '"string" like object!').format(
-                                           'transmission_geometry', value))
+            assert is_string(value), (
+                '"{0}" attribute: "{1}" is not a "string" like object!'.format(
+                    'transmission_geometry', value))
         self._transmission_geometry = value
 
     @property
     def bandwidth_FWHM(self):
         """
-        Property for **self._bandwidth_FWHM** private attribute.
+        Getter and setter property for the full-width half-maximum bandwidth.
+
+        Parameters
+        ----------
+        value : numeric
+            Value to set the full-width half-maximum bandwidth with.
 
         Returns
         -------
         numeric
-            self._bandwidth_FWHM.
+            Full-width half-maximum bandwidth.
         """
 
         return self._bandwidth_FWHM
@@ -898,12 +897,7 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
     @bandwidth_FWHM.setter
     def bandwidth_FWHM(self, value):
         """
-        Setter for **self._bandwidth_FWHM** private attribute.
-
-        Parameters
-        ----------
-        value : numeric
-            Attribute value.
+        Setter for the **self.bandwidth_FWHM** property.
         """
 
         if value is not None:
@@ -916,12 +910,18 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
     @property
     def bandwidth_corrected(self):
         """
-        Property for **self._bandwidth_corrected** private attribute.
+        Getter and setter property for whether bandwidth correction has been
+        applied to the measured data.
+
+        Parameters
+        ----------
+        value : bool
+            Whether bandwidth correction has been applied to the measured data.
 
         Returns
         -------
         bool
-            self._bandwidth_corrected.
+            Whether bandwidth correction has been applied to the measured data.
         """
 
         return self._bandwidth_corrected
@@ -929,12 +929,7 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
     @bandwidth_corrected.setter
     def bandwidth_corrected(self, value):
         """
-        Setter for **self._bandwidth_corrected** private attribute.
-
-        Parameters
-        ----------
-        value : bool
-            Attribute value.
+        Setter for the **self.bandwidth_corrected** property.
         """
 
         if value is not None:

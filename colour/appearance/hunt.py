@@ -131,10 +131,11 @@ HUE_DATA_FOR_HUE_QUADRATURE = {
     'e_s': np.array([0.8, 0.7, 1.0, 1.2])
 }
 
-XYZ_TO_HPE_MATRIX = np.array(
-    [[0.38971, 0.68898, -0.07868],
-     [-0.22981, 1.18340, 0.04641],
-     [0.00000, 0.00000, 1.00000]])  # yapf: disable
+XYZ_TO_HPE_MATRIX = np.array([
+    [0.38971, 0.68898, -0.07868],
+    [-0.22981, 1.18340, 0.04641],
+    [0.00000, 0.00000, 1.00000],
+])
 """
 *Hunt* colour appearance model *CIE XYZ* tristimulus values to
 *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` colourspace matrix.
@@ -300,8 +301,8 @@ def XYZ_to_Hunt(XYZ,
     >>> L_A = 318.31
     >>> surround = HUNT_VIEWING_CONDITIONS['Normal Scenes']
     >>> CCT_w = 6504.0
-    >>> XYZ_to_Hunt(  # doctest: +ELLIPSIS
-    ...     XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w)
+    >>> XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w)
+    ... # doctest: +ELLIPSIS
     Hunt_Specification(J=30.0462678..., C=0.1210508..., h=269.2737594..., \
 s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
     """
@@ -673,8 +674,8 @@ def adjusted_reference_white_signals(rgb_p, rgb_b, rgb_w, p):
     >>> rgb_b = np.array([0.99984505, 0.99983840, 0.99982674])
     >>> rgb_w = np.array([97.37325710, 101.54968030, 108.88000000])
     >>> p = 0.1
-    >>> adjusted_reference_white_signals(  # doctest: +ELLIPSIS
-    ...     rgb_p, rgb_b, rgb_w, p)
+    >>> adjusted_reference_white_signals(rgb_p, rgb_b, rgb_w, p)
+    ... # doctest: +ELLIPSIS
     array([ 88.0792742...,  91.8569553...,  98.4876543...])
     """
 
@@ -773,7 +774,8 @@ def hue_angle(C):
     >>> C = np.array([
     ...     -5.365865581996587e-05,
     ...     -0.000571699383647,
-    ...     0.000625358039467])
+    ...     0.000625358039467
+    ... ])
     >>> hue_angle(C)  # doctest: +ELLIPSIS
     269.2737594...
     """
@@ -873,13 +875,14 @@ def yellowness_blueness_response(C, e_s, N_c, N_cb, F_t):
     >>> C = np.array([
     ...     -5.365865581996587e-05,
     ...     -0.000571699383647,
-    ...     0.000625358039467])
+    ...     0.000625358039467
+    ... ])
     >>> e_s = 1.110836504862630
     >>> N_c = 1.0
     >>> N_cb = 0.725000000000000
     >>> F_t = 0.99968593951195
-    >>> yellowness_blueness_response(  # doctest: +ELLIPSIS
-    ...     C, e_s, N_c, N_cb, F_t)
+    >>> yellowness_blueness_response(C, e_s, N_c, N_cb, F_t)
+    ... # doctest: +ELLIPSIS
     -0.0082372...
     """
 
@@ -920,7 +923,8 @@ def redness_greenness_response(C, e_s, N_c, N_cb):
     >>> C = np.array([
     ...     -5.365865581996587e-05,
     ...     -0.000571699383647,
-    ...     0.000625358039467])
+    ...     0.000625358039467
+    ... ])
     >>> e_s = 1.110836504862630
     >>> N_c = 1.0
     >>> N_cb = 0.725000000000000

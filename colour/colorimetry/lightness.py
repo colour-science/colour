@@ -293,10 +293,8 @@ def lightness(Y, method='CIE 1976', **kwargs):
     36.2505626...
     >>> lightness(10.08, method='Wyszecki 1963')  # doctest: +ELLIPSIS
     37.0041149...
-    >>> lightness(
-    ...     10.08 / 100,
-    ...     epsilon=1.836,
-    ...     method='Fairchild 2010')  # doctest: +ELLIPSIS
+    >>> lightness(10.08 / 100, epsilon=1.836, method='Fairchild 2010')
+    ... # doctest: +ELLIPSIS
     24.9022902...
     """
 
