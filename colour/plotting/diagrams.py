@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 """
 CIE Chromaticity Diagrams Plotting
 ==================================
@@ -29,43 +28,32 @@ from scipy.spatial import Delaunay
 
 from colour.algebra import normalise_vector
 from colour.colorimetry import spectral_to_XYZ
-from colour.models import (
-    Luv_to_uv,
-    Luv_uv_to_xy,
-    UCS_to_uv,
-    UCS_uv_to_xy,
-    XYZ_to_Luv,
-    XYZ_to_UCS,
-    XYZ_to_sRGB,
-    XYZ_to_xy,
-    xy_to_XYZ)
-from colour.plotting import (
-    DEFAULT_FIGURE_WIDTH,
-    DEFAULT_PLOTTING_ILLUMINANT,
-    PLOTTING_RESOURCES_DIRECTORY,
-    canvas,
-    decorate,
-    boundaries,
-    display,
-    get_cmfs)
+from colour.models import (Luv_to_uv, Luv_uv_to_xy, UCS_to_uv, UCS_uv_to_xy,
+                           XYZ_to_Luv, XYZ_to_UCS, XYZ_to_sRGB, XYZ_to_xy,
+                           xy_to_XYZ)
+from colour.plotting import (DEFAULT_FIGURE_WIDTH, DEFAULT_PLOTTING_ILLUMINANT,
+                             PLOTTING_RESOURCES_DIRECTORY, canvas, decorate,
+                             boundaries, display, get_cmfs)
 from colour.utilities import normalise_maximum, tsplit, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013 - 2015 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['CIE_1931_chromaticity_diagram_colours_plot',
-           'CIE_1931_chromaticity_diagram_plot',
-           'CIE_1960_UCS_chromaticity_diagram_colours_plot',
-           'CIE_1960_UCS_chromaticity_diagram_plot',
-           'CIE_1976_UCS_chromaticity_diagram_colours_plot',
-           'CIE_1976_UCS_chromaticity_diagram_plot',
-           'spds_CIE_1931_chromaticity_diagram_plot',
-           'spds_CIE_1960_UCS_chromaticity_diagram_plot',
-           'spds_CIE_1976_UCS_chromaticity_diagram_plot']
+__all__ = [
+    'CIE_1931_chromaticity_diagram_colours_plot',
+    'CIE_1931_chromaticity_diagram_plot',
+    'CIE_1960_UCS_chromaticity_diagram_colours_plot',
+    'CIE_1960_UCS_chromaticity_diagram_plot',
+    'CIE_1976_UCS_chromaticity_diagram_colours_plot',
+    'CIE_1976_UCS_chromaticity_diagram_plot',
+    'spds_CIE_1931_chromaticity_diagram_plot',
+    'spds_CIE_1960_UCS_chromaticity_diagram_plot',
+    'spds_CIE_1976_UCS_chromaticity_diagram_plot'
+]
 
 
 def CIE_1931_chromaticity_diagram_colours_plot(
@@ -84,8 +72,13 @@ def CIE_1931_chromaticity_diagram_colours_plot(
         Samples count on one axis.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
@@ -106,10 +99,10 @@ def CIE_1931_chromaticity_diagram_colours_plot(
 
     illuminant = DEFAULT_PLOTTING_ILLUMINANT
 
-    triangulation = Delaunay(XYZ_to_xy(cmfs.values, illuminant),
-                             qhull_options='QJ')
-    xx, yy = np.meshgrid(np.linspace(0, 1, samples),
-                         np.linspace(0, 1, samples))
+    triangulation = Delaunay(
+        XYZ_to_xy(cmfs.values, illuminant), qhull_options='QJ')
+    xx, yy = np.meshgrid(
+        np.linspace(0, 1, samples), np.linspace(0, 1, samples))
     xy = tstack((xx, yy))
     xy = xy[triangulation.find_simplex(xy) > 0]
 
@@ -124,7 +117,8 @@ def CIE_1931_chromaticity_diagram_colours_plot(
     settings.update({
         'x_ticker': False,
         'y_ticker': False,
-        'bounding_box': (0, 1, 0, 1)})
+        'bounding_box': (0, 1, 0, 1)
+    })
     settings.update(kwargs)
 
     ax = matplotlib.pyplot.gca()
@@ -139,6 +133,7 @@ def CIE_1931_chromaticity_diagram_colours_plot(
 def CIE_1931_chromaticity_diagram_plot(
         cmfs='CIE 1931 2 Degree Standard Observer',
         show_diagram_colours=True,
+        show_locus_labels=True,
         **kwargs):
     """
     Plots the *CIE 1931 Chromaticity Diagram*.
@@ -148,9 +143,16 @@ def CIE_1931_chromaticity_diagram_plot(
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
     show_diagram_colours : bool, optional
-        Display the chromaticity diagram background colours.
+        Whether to display the chromaticity diagram background colours.
+    show_locus_labels : bool, optional
+        Whether to display the locus wavelength labels.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
@@ -178,9 +180,6 @@ def CIE_1931_chromaticity_diagram_plot(
                              cmfs.name.replace(' ', '_'))))
         pylab.imshow(image, interpolation=None, extent=(0, 1, 0, 1))
 
-    labels = (
-        390, 460, 470, 480, 490, 500, 510, 520, 540, 560, 580, 600, 620, 700)
-
     wavelengths = cmfs.wavelengths
     equal_energy = np.array([1 / 3] * 2)
 
@@ -189,47 +188,51 @@ def CIE_1931_chromaticity_diagram_plot(
     wavelengths_chromaticity_coordinates = dict(tuple(zip(wavelengths, xy)))
 
     pylab.plot(xy[..., 0], xy[..., 1], color='black', linewidth=2)
-    pylab.plot((xy[-1][0], xy[0][0]),
-               (xy[-1][1], xy[0][1]),
-               color='black',
-               linewidth=2)
+    pylab.plot(
+        (xy[-1][0], xy[0][0]), (xy[-1][1], xy[0][1]),
+        color='black',
+        linewidth=2)
 
-    for label in labels:
-        x, y = wavelengths_chromaticity_coordinates.get(label)
-        pylab.plot(x, y, 'o', color='black', linewidth=2)
+    if show_locus_labels:
 
-        index = bisect.bisect(wavelengths, label)
-        left = wavelengths[index - 1] if index >= 0 else wavelengths[index]
-        right = (wavelengths[index]
-                 if index < len(wavelengths) else
-                 wavelengths[-1])
-
-        dx = (wavelengths_chromaticity_coordinates.get(right)[0] -
-              wavelengths_chromaticity_coordinates.get(left)[0])
-        dy = (wavelengths_chromaticity_coordinates.get(right)[1] -
-              wavelengths_chromaticity_coordinates.get(left)[1])
-
-        xy = np.array([x, y])
-        direction = np.array([-dy, dx])
-
-        normal = (np.array([-dy, dx])
-                  if np.dot(normalise_vector(xy - equal_energy),
-                            normalise_vector(direction)) > 0 else
-                  np.array([dy, -dx]))
-        normal = normalise_vector(normal)
-        normal /= 25
-
-        pylab.plot((x, x + normal[0] * 0.75),
-                   (y, y + normal[1] * 0.75),
-                   color='black',
-                   linewidth=1.5)
-        pylab.text(x + normal[0],
-                   y + normal[1],
-                   label,
-                   clip_on=True,
-                   ha='left' if normal[0] >= 0 else 'right',
-                   va='center',
-                   fontdict={'size': 'small'})
+        labels = (390, 460, 470, 480, 490, 500, 510, 520, 540, 560, 580, 600, 620, 700)
+        
+        for label in labels:
+            x, y = wavelengths_chromaticity_coordinates[label]
+            pylab.plot(x, y, 'o', color='black', linewidth=2)
+    
+            index = bisect.bisect(wavelengths, label)
+            left = wavelengths[index - 1] if index >= 0 else wavelengths[index]
+            right = (wavelengths[index]
+                     if index < len(wavelengths) else wavelengths[-1])
+    
+            dx = (wavelengths_chromaticity_coordinates[right][0] -
+                  wavelengths_chromaticity_coordinates[left][0])
+            dy = (wavelengths_chromaticity_coordinates[right][1] -
+                  wavelengths_chromaticity_coordinates[left][1])
+    
+            xy = np.array([x, y])
+            direction = np.array([-dy, dx])
+    
+            normal = (np.array([-dy, dx]) if np.dot(
+                normalise_vector(xy - equal_energy), normalise_vector(direction)) >
+                      0 else np.array([dy, -dx]))
+            normal = normalise_vector(normal)
+            normal /= 25
+    
+            pylab.plot(
+                (x, x + normal[0] * 0.75), (y, y + normal[1] * 0.75),
+                color='black',
+                linewidth=1.5)
+            pylab.text(
+                x + normal[0],
+                y + normal[1],
+                label,
+                color='black',
+                clip_on=True,
+                ha='left' if normal[0] >= 0 else 'right',
+                va='center',
+                fontdict={'size': 'small'})
 
     ticks = np.arange(-10, 10, 0.1)
 
@@ -241,7 +244,8 @@ def CIE_1931_chromaticity_diagram_plot(
         'x_label': 'CIE x',
         'y_label': 'CIE y',
         'grid': True,
-        'bounding_box': (0, 1, 0, 1)})
+        'bounding_box': (0, 1, 0, 1)
+    })
     settings.update(kwargs)
 
     boundaries(**settings)
@@ -266,8 +270,13 @@ def CIE_1960_UCS_chromaticity_diagram_colours_plot(
         Samples count on one axis.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
@@ -288,10 +297,10 @@ def CIE_1960_UCS_chromaticity_diagram_colours_plot(
 
     illuminant = DEFAULT_PLOTTING_ILLUMINANT
 
-    triangulation = Delaunay(UCS_to_uv(XYZ_to_UCS(cmfs.values)),
-                             qhull_options='QJ')
-    xx, yy = np.meshgrid(np.linspace(0, 1, samples),
-                         np.linspace(0, 1, samples))
+    triangulation = Delaunay(
+        UCS_to_uv(XYZ_to_UCS(cmfs.values)), qhull_options='QJ')
+    xx, yy = np.meshgrid(
+        np.linspace(0, 1, samples), np.linspace(0, 1, samples))
     xy = tstack((xx, yy))
     xy = xy[triangulation.find_simplex(xy) > 0]
 
@@ -306,7 +315,8 @@ def CIE_1960_UCS_chromaticity_diagram_colours_plot(
     settings.update({
         'x_ticker': False,
         'y_ticker': False,
-        'bounding_box': (0, 1, 0, 1)})
+        'bounding_box': (0, 1, 0, 1)
+    })
     settings.update(kwargs)
 
     ax = matplotlib.pyplot.gca()
@@ -321,6 +331,7 @@ def CIE_1960_UCS_chromaticity_diagram_colours_plot(
 def CIE_1960_UCS_chromaticity_diagram_plot(
         cmfs='CIE 1931 2 Degree Standard Observer',
         show_diagram_colours=True,
+        show_locus_labels=True,
         **kwargs):
     """
     Plots the *CIE 1960 UCS Chromaticity Diagram*.
@@ -330,9 +341,16 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
     show_diagram_colours : bool, optional
-        Display the chromaticity diagram background colours.
+        Whether to display the chromaticity diagram background colours.
+    show_locus_labels : bool, optional
+        Whether to display the locus wavelength labels.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
@@ -358,9 +376,6 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
                              cmfs.name.replace(' ', '_'))))
         pylab.imshow(image, interpolation=None, extent=(0, 1, 0, 1))
 
-    labels = (420, 430, 440, 450, 460, 470, 480, 490, 500, 510, 520, 530,
-              540, 550, 560, 570, 580, 590, 600, 610, 620, 630, 640, 680)
-
     wavelengths = cmfs.wavelengths
     equal_energy = np.array([1 / 3] * 2)
 
@@ -369,47 +384,52 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
     wavelengths_chromaticity_coordinates = dict(tuple(zip(wavelengths, uv)))
 
     pylab.plot(uv[..., 0], uv[..., 1], color='black', linewidth=2)
-    pylab.plot((uv[-1][0], uv[0][0]),
-               (uv[-1][1], uv[0][1]),
-               color='black',
-               linewidth=2)
+    pylab.plot(
+        (uv[-1][0], uv[0][0]), (uv[-1][1], uv[0][1]),
+        color='black',
+        linewidth=2)
 
-    for label in labels:
-        u, v = wavelengths_chromaticity_coordinates.get(label)
-        pylab.plot(u, v, 'o', color='black', linewidth=2)
+    if show_locus_labels:
 
-        index = bisect.bisect(wavelengths, label)
-        left = wavelengths[index - 1] if index >= 0 else wavelengths[index]
-        right = (wavelengths[index]
-                 if index < len(wavelengths) else
-                 wavelengths[-1])
+        labels = (420, 430, 440, 450, 460, 470, 480, 490, 500, 510, 520, 530, 540,
+              550, 560, 570, 580, 590, 600, 610, 620, 630, 640, 680)
 
-        dx = (wavelengths_chromaticity_coordinates.get(right)[0] -
-              wavelengths_chromaticity_coordinates.get(left)[0])
-        dy = (wavelengths_chromaticity_coordinates.get(right)[1] -
-              wavelengths_chromaticity_coordinates.get(left)[1])
-
-        uv = np.array([u, v])
-        direction = np.array([-dy, dx])
-
-        normal = (np.array([-dy, dx])
-                  if np.dot(normalise_vector(uv - equal_energy),
-                            normalise_vector(direction)) > 0 else
-                  np.array([dy, -dx]))
-        normal = normalise_vector(normal)
-        normal /= 25
-
-        pylab.plot((u, u + normal[0] * 0.75),
-                   (v, v + normal[1] * 0.75),
-                   color='black',
-                   linewidth=1.5)
-        pylab.text(u + normal[0],
-                   v + normal[1],
-                   label,
-                   clip_on=True,
-                   ha='left' if normal[0] >= 0 else 'right',
-                   va='center',
-                   fontdict={'size': 'small'})
+        for label in labels:
+            u, v = wavelengths_chromaticity_coordinates[label]
+            pylab.plot(u, v, 'o', color='black', linewidth=2)
+    
+            index = bisect.bisect(wavelengths, label)
+            left = wavelengths[index - 1] if index >= 0 else wavelengths[index]
+            right = (wavelengths[index]
+                     if index < len(wavelengths) else wavelengths[-1])
+    
+            dx = (wavelengths_chromaticity_coordinates[right][0] -
+                  wavelengths_chromaticity_coordinates[left][0])
+            dy = (wavelengths_chromaticity_coordinates[right][1] -
+                  wavelengths_chromaticity_coordinates[left][1])
+    
+            uv = np.array([u, v])
+            direction = np.array([-dy, dx])
+    
+            normal = (np.array([-dy, dx]) if np.dot(
+                normalise_vector(uv - equal_energy), normalise_vector(direction)) >
+                      0 else np.array([dy, -dx]))
+            normal = normalise_vector(normal)
+            normal /= 25
+    
+            pylab.plot(
+                (u, u + normal[0] * 0.75), (v, v + normal[1] * 0.75),
+                color='black',
+                linewidth=1.5)
+            pylab.text(
+                u + normal[0],
+                v + normal[1],
+                label,
+                color='black',
+                clip_on=True,
+                ha='left' if normal[0] >= 0 else 'right',
+                va='center',
+                fontdict={'size': 'small'})
 
     ticks = np.arange(-10, 10, 0.1)
 
@@ -421,7 +441,8 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
         'x_label': 'CIE u',
         'y_label': 'CIE v',
         'grid': True,
-        'bounding_box': (0, 1, 0, 1)})
+        'bounding_box': (0, 1, 0, 1)
+    })
     settings.update(kwargs)
 
     boundaries(**settings)
@@ -446,8 +467,13 @@ def CIE_1976_UCS_chromaticity_diagram_colours_plot(
         Samples count on one axis.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
@@ -471,8 +497,8 @@ def CIE_1976_UCS_chromaticity_diagram_colours_plot(
     triangulation = Delaunay(
         Luv_to_uv(XYZ_to_Luv(cmfs.values, illuminant), illuminant),
         qhull_options='QJ Qf')
-    xx, yy = np.meshgrid(np.linspace(0, 1, samples),
-                         np.linspace(0, 1, samples))
+    xx, yy = np.meshgrid(
+        np.linspace(0, 1, samples), np.linspace(0, 1, samples))
     xy = tstack((xx, yy))
     xy = xy[triangulation.find_simplex(xy) > 0]
 
@@ -487,7 +513,8 @@ def CIE_1976_UCS_chromaticity_diagram_colours_plot(
     settings.update({
         'x_ticker': False,
         'y_ticker': False,
-        'bounding_box': (0, 1, 0, 1)})
+        'bounding_box': (0, 1, 0, 1)
+    })
     settings.update(kwargs)
 
     ax = matplotlib.pyplot.gca()
@@ -511,9 +538,14 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
     show_diagram_colours : bool, optional
-        Display the chromaticity diagram background colours.
+        Whether to display the chromaticity diagram background colours.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
@@ -541,8 +573,8 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
                              cmfs.name.replace(' ', '_'))))
         pylab.imshow(image, interpolation=None, extent=(0, 1, 0, 1))
 
-    labels = (420, 430, 440, 450, 460, 470, 480, 490, 500, 510, 520, 530,
-              540, 550, 560, 570, 580, 590, 600, 610, 620, 630, 640, 680)
+    labels = (420, 430, 440, 450, 460, 470, 480, 490, 500, 510, 520, 530, 540,
+              550, 560, 570, 580, 590, 600, 610, 620, 630, 640, 680)
 
     wavelengths = cmfs.wavelengths
     equal_energy = np.array([1 / 3] * 2)
@@ -552,47 +584,47 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
     wavelengths_chromaticity_coordinates = dict(zip(wavelengths, uv))
 
     pylab.plot(uv[..., 0], uv[..., 1], color='black', linewidth=2)
-    pylab.plot((uv[-1][0], uv[0][0]),
-               (uv[-1][1], uv[0][1]),
-               color='black',
-               linewidth=2)
+    pylab.plot(
+        (uv[-1][0], uv[0][0]), (uv[-1][1], uv[0][1]),
+        color='black',
+        linewidth=2)
 
     for label in labels:
-        u, v = wavelengths_chromaticity_coordinates.get(label)
+        u, v = wavelengths_chromaticity_coordinates[label]
         pylab.plot(u, v, 'o', color='black', linewidth=2)
 
         index = bisect.bisect(wavelengths, label)
         left = wavelengths[index - 1] if index >= 0 else wavelengths[index]
         right = (wavelengths[index]
-                 if index < len(wavelengths) else
-                 wavelengths[-1])
+                 if index < len(wavelengths) else wavelengths[-1])
 
-        dx = (wavelengths_chromaticity_coordinates.get(right)[0] -
-              wavelengths_chromaticity_coordinates.get(left)[0])
-        dy = (wavelengths_chromaticity_coordinates.get(right)[1] -
-              wavelengths_chromaticity_coordinates.get(left)[1])
+        dx = (wavelengths_chromaticity_coordinates[right][0] -
+              wavelengths_chromaticity_coordinates[left][0])
+        dy = (wavelengths_chromaticity_coordinates[right][1] -
+              wavelengths_chromaticity_coordinates[left][1])
 
         uv = np.array([u, v])
         direction = np.array([-dy, dx])
 
-        normal = (np.array([-dy, dx])
-                  if np.dot(normalise_vector(uv - equal_energy),
-                            normalise_vector(direction)) > 0 else
-                  np.array([dy, -dx]))
+        normal = (np.array([-dy, dx]) if np.dot(
+            normalise_vector(uv - equal_energy), normalise_vector(direction)) >
+                  0 else np.array([dy, -dx]))
         normal = normalise_vector(normal)
         normal /= 25
 
-        pylab.plot((u, u + normal[0] * 0.75),
-                   (v, v + normal[1] * 0.75),
-                   color='black',
-                   linewidth=1.5)
-        pylab.text(u + normal[0],
-                   v + normal[1],
-                   label,
-                   clip_on=True,
-                   ha='left' if normal[0] >= 0 else 'right',
-                   va='center',
-                   fontdict={'size': 'small'})
+        pylab.plot(
+            (u, u + normal[0] * 0.75), (v, v + normal[1] * 0.75),
+            color='black',
+            linewidth=1.5)
+        pylab.text(
+            u + normal[0],
+            v + normal[1],
+            label,
+            color='black',
+            clip_on=True,
+            ha='left' if normal[0] >= 0 else 'right',
+            va='center',
+            fontdict={'size': 'small'})
 
     ticks = np.arange(-10, 10, 0.1)
 
@@ -604,7 +636,8 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
         'x_label': 'CIE u\'',
         'y_label': 'CIE v\'',
         'grid': True,
-        'bounding_box': (0, 1, 0, 1)})
+        'bounding_box': (0, 1, 0, 1)
+    })
     settings.update(kwargs)
 
     boundaries(**settings)
@@ -614,9 +647,7 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
 
 
 def spds_CIE_1931_chromaticity_diagram_plot(
-        spds,
-        cmfs='CIE 1931 2 Degree Standard Observer',
-        annotate=True,
+        spds, cmfs='CIE 1931 2 Degree Standard Observer', annotate=True,
         **kwargs):
     """
     Plots given spectral power distribution chromaticity coordinates into the
@@ -631,8 +662,16 @@ def spds_CIE_1931_chromaticity_diagram_plot(
     annotate : bool
         Should resulting chromaticity coordinates annotated with their
         respective spectral power distribution names.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
+    show_diagram_colours : bool, optional
+        {:func:`CIE_1931_chromaticity_diagram_plot`},
+        Whether to display the chromaticity diagram background colours.
 
     Returns
     -------
@@ -660,18 +699,21 @@ def spds_CIE_1931_chromaticity_diagram_plot(
         pylab.plot(xy[0], xy[1], 'o', color='white')
 
         if spd.name is not None and annotate:
-            pylab.annotate(spd.name,
-                           xy=xy,
-                           xytext=(50, 30),
-                           textcoords='offset points',
-                           arrowprops=dict(arrowstyle='->',
-                                           connectionstyle='arc3, rad=0.2'))
+            pylab.annotate(
+                spd.name,
+                xy=xy,
+                xytext=(50, 30),
+                color='black',
+                textcoords='offset points',
+                arrowprops=dict(
+                    arrowstyle='->', connectionstyle='arc3, rad=0.2'))
 
     settings.update({
         'x_tighten': True,
         'y_tighten': True,
         'limits': (-0.1, 0.9, -0.1, 0.9),
-        'standalone': True})
+        'standalone': True
+    })
     settings.update(kwargs)
 
     boundaries(**settings)
@@ -681,9 +723,7 @@ def spds_CIE_1931_chromaticity_diagram_plot(
 
 
 def spds_CIE_1960_UCS_chromaticity_diagram_plot(
-        spds,
-        cmfs='CIE 1931 2 Degree Standard Observer',
-        annotate=True,
+        spds, cmfs='CIE 1931 2 Degree Standard Observer', annotate=True,
         **kwargs):
     """
     Plots given spectral power distribution chromaticity coordinates into the
@@ -698,8 +738,16 @@ def spds_CIE_1960_UCS_chromaticity_diagram_plot(
     annotate : bool
         Should resulting chromaticity coordinates annotated with their
         respective spectral power distribution names.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
+    show_diagram_colours : bool, optional
+        {:func:`CIE_1960_UCS_chromaticity_diagram_plot`},
+        Whether to display the chromaticity diagram background colours.
 
     Returns
     -------
@@ -727,18 +775,21 @@ def spds_CIE_1960_UCS_chromaticity_diagram_plot(
         pylab.plot(uv[0], uv[1], 'o', color='white')
 
         if spd.name is not None and annotate:
-            pylab.annotate(spd.name,
-                           xy=uv,
-                           xytext=(50, 30),
-                           textcoords='offset points',
-                           arrowprops=dict(arrowstyle='->',
-                                           connectionstyle='arc3, rad=0.2'))
+            pylab.annotate(
+                spd.name,
+                xy=uv,
+                xytext=(50, 30),
+                color='black',
+                textcoords='offset points',
+                arrowprops=dict(
+                    arrowstyle='->', connectionstyle='arc3, rad=0.2'))
 
     settings.update({
         'x_tighten': True,
         'y_tighten': True,
         'limits': (-0.1, 0.7, -0.2, 0.6),
-        'standalone': True})
+        'standalone': True
+    })
     settings.update(kwargs)
 
     boundaries(**settings)
@@ -748,9 +799,7 @@ def spds_CIE_1960_UCS_chromaticity_diagram_plot(
 
 
 def spds_CIE_1976_UCS_chromaticity_diagram_plot(
-        spds,
-        cmfs='CIE 1931 2 Degree Standard Observer',
-        annotate=True,
+        spds, cmfs='CIE 1931 2 Degree Standard Observer', annotate=True,
         **kwargs):
     """
     Plots given spectral power distribution chromaticity coordinates into the
@@ -765,8 +814,16 @@ def spds_CIE_1976_UCS_chromaticity_diagram_plot(
     annotate : bool
         Should resulting chromaticity coordinates annotated with their
         respective spectral power distribution names.
+
+    Other Parameters
+    ----------------
     \**kwargs : dict, optional
-        Keywords arguments.
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
+    show_diagram_colours : bool, optional
+        {:func:`CIE_1976_UCS_chromaticity_diagram_plot`},
+        Whether to display the chromaticity diagram background colours.
 
     Returns
     -------
@@ -794,18 +851,21 @@ def spds_CIE_1976_UCS_chromaticity_diagram_plot(
         pylab.plot(uv[0], uv[1], 'o', color='white')
 
         if spd.name is not None and annotate:
-            pylab.annotate(spd.name,
-                           xy=uv,
-                           xytext=(50, 30),
-                           textcoords='offset points',
-                           arrowprops=dict(arrowstyle='->',
-                                           connectionstyle='arc3, rad=0.2'))
+            pylab.annotate(
+                spd.name,
+                xy=uv,
+                xytext=(50, 30),
+                color='black',
+                textcoords='offset points',
+                arrowprops=dict(
+                    arrowstyle='->', connectionstyle='arc3, rad=0.2'))
 
     settings.update({
         'x_tighten': True,
         'y_tighten': True,
         'limits': (-0.1, 0.7, -0.1, 0.7),
-        'standalone': True})
+        'standalone': True
+    })
     settings.update(kwargs)
 
     boundaries(**settings)
