@@ -238,16 +238,16 @@ dict_like, optional
 
     >>> x = 150
     >>> from colour.algebra import CubicSplineInterpolator
-    >>> MultiSignal(  # doctest: +ELLIPSIS
+    >>> MultiSignal(
     ...     range_,
     ...     domain,
-    ...     interpolator=CubicSplineInterpolator)[x]
+    ...     interpolator=CubicSplineInterpolator)[x]  # doctest: +ELLIPSIS
     array([ 0.0555274...,  0.3055274...,  0.5555274...])
     >>> x = np.linspace(100, 1000, 3)
-    >>> MultiSignal(  # doctest: +ELLIPSIS
+    >>> MultiSignal(
     ...     range_,
     ...     domain,
-    ...     interpolator=CubicSplineInterpolator)[x]
+    ...     interpolator=CubicSplineInterpolator)[x]  # doctest: +ELLIPSIS
     array([[ 0.       ...,  0.25     ...,  0.5      ...],
            [ 0.4794253...,  0.7294253...,  0.9794253...],
            [ 0.8414709...,  1.0914709...,  1.3414709...]])

@@ -62,8 +62,8 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
     --------
     >>> from pprint import pprint
     >>> prng = np.random.RandomState(4)
-    >>> pprint(  # doctest: +ELLIPSIS
-    ...     tuple(random_triplet_generator(10, random_state=prng)))
+    >>> pprint(tuple(random_triplet_generator(10, random_state=prng)))
+    ... # doctest: +ELLIPSIS
     (array([ 0.9670298...,  0.5472322...,  0.9726843...]),
      array([ 0.7148159...,  0.6977288...,  0.2160895...]),
      array([ 0.9762744...,  0.0062302...,  0.2529823...]),

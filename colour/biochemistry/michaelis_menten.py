@@ -96,8 +96,8 @@ def substrate_concentration_MichealisMenten(v, V_max, K_m):
 
     Examples
     --------
-    >>> substrate_concentration_MichealisMenten(
-    ...     0.961538461538461, 2.5, 0.8)  # doctest: +ELLIPSIS
+    >>> substrate_concentration_MichealisMenten(0.961538461538461, 2.5, 0.8)
+    ... # doctest: +ELLIPSIS
     0.4999999...
     """
 

@@ -124,11 +124,11 @@ def log_decoding_SLog(y, bit_depth=10, in_legal=True, out_reflection=True):
     --------
     >>> log_decoding_SLog(0.384970815928670)  # doctest: +ELLIPSIS
     0.1...
-    >>> log_decoding_SLog(
-    ...     0.376512722254600, in_legal=False)  # doctest: +ELLIPSIS
+    >>> log_decoding_SLog(0.376512722254600, in_legal=False)
+    ... # doctest: +ELLIPSIS
     0.1...
-    >>> log_decoding_SLog(
-    ...     0.370820482371268, out_reflection=False)  # doctest: +ELLIPSIS
+    >>> log_decoding_SLog(0.370820482371268, out_reflection=False)
+    ... # doctest: +ELLIPSIS
     0.1...
     """
 
@@ -210,11 +210,11 @@ def log_decoding_SLog2(y, bit_depth=10, in_legal=True, out_reflection=True):
     --------
     >>> log_decoding_SLog2(0.339532524633774)  # doctest: +ELLIPSIS
     0.1...
-    >>> log_decoding_SLog2(
-    ...     0.323449512215013, in_legal=False)  # doctest: +ELLIPSIS
+    >>> log_decoding_SLog2(0.323449512215013, in_legal=False)
+    ... # doctest: +ELLIPSIS
     0.1...
-    >>> log_decoding_SLog2(
-    ...     0.326286538946799, out_reflection=False)  # doctest: +ELLIPSIS
+    >>> log_decoding_SLog2(0.326286538946799, out_reflection=False)
+    ... # doctest: +ELLIPSIS
     0.1...
     """
 
@@ -296,11 +296,11 @@ def log_decoding_SLog3(y, bit_depth=10, in_legal=True, out_reflection=True):
     --------
     >>> log_decoding_SLog3(0.410557184750733)  # doctest: +ELLIPSIS
     0.1...
-    >>> log_decoding_SLog3(
-    ...     0.406392694063927, in_legal=False)  # doctest: +ELLIPSIS
+    >>> log_decoding_SLog3(0.406392694063927, in_legal=False)
+    ... # doctest: +ELLIPSIS
     0.1...
-    >>> log_decoding_SLog3(
-    ...     0.399507939606216, out_reflection=False)  # doctest: +ELLIPSIS
+    >>> log_decoding_SLog3(0.399507939606216, out_reflection=False)
+    ... # doctest: +ELLIPSIS
     0.1...
     """
 

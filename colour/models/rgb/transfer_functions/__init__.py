@@ -195,8 +195,8 @@ def log_encoding_curve(value, curve='Cineon', **kwargs):
     0.4573196...
     >>> log_encoding_curve(0.18, curve='ACEScc')  # doctest: +ELLIPSIS
     0.4135884...
-    >>> log_encoding_curve(  # doctest: +ELLIPSIS
-    ...     0.18, curve='PLog', log_reference=400)
+    >>> log_encoding_curve(0.18, curve='PLog', log_reference=400)
+    ... # doctest: +ELLIPSIS
     0.3910068...
     >>> log_encoding_curve(0.18, curve='S-Log')  # doctest: +ELLIPSIS
     0.3849708...
@@ -320,14 +320,14 @@ def log_decoding_curve(value, curve='Cineon', **kwargs):
     --------
     >>> log_decoding_curve(0.457319613085418)  # doctest: +ELLIPSIS
     0.1...
-    >>> log_decoding_curve(  # doctest: +ELLIPSIS
-    ...     0.413588402492442, curve='ACEScc')
+    >>> log_decoding_curve(0.413588402492442, curve='ACEScc')
+    ... # doctest: +ELLIPSIS
     0.1...
-    >>> log_decoding_curve(  # doctest: +ELLIPSIS
-    ...     0.391006842619746, curve='PLog', log_reference=400)
+    >>> log_decoding_curve(0.391006842619746, curve='PLog', log_reference=400)
+    ... # doctest: +ELLIPSIS
     0.1...
-    >>> log_decoding_curve(  # doctest: +ELLIPSIS
-    ...     0.376512722254600, curve='S-Log')
+    >>> log_decoding_curve(0.376512722254600, curve='S-Log')
+    ... # doctest: +ELLIPSIS
     0.1...
     """
 
@@ -414,8 +414,8 @@ def oetf(value, function='sRGB', **kwargs):
     0.4613561...
     >>> oetf(0.18, function='BT.2020')  # doctest: +ELLIPSIS
     0.4090077...
-    >>> oetf(  # doctest: +ELLIPSIS
-    ...     0.18, function='ST 2084', L_p=1000)
+    >>> oetf(0.18, function='ST 2084', L_p=1000)
+    ... # doctest: +ELLIPSIS
     0.1820115...
     """
 
@@ -496,11 +496,11 @@ def eotf(value, function='sRGB', **kwargs):
     --------
     >>> eotf(0.461356129500442)  # doctest: +ELLIPSIS
     0.1...
-    >>> eotf(0.409007728864150,
-    ...     function='BT.2020')  # doctest: +ELLIPSIS
+    >>> eotf(0.409007728864150, function='BT.2020')
+    ... # doctest: +ELLIPSIS
     0.1...
-    >>> eotf(  # doctest: +ELLIPSIS
-    ...     0.182011532850008, function='ST 2084', L_p=1000)
+    >>> eotf(0.182011532850008, function='ST 2084', L_p=1000)
+    ... # doctest: +ELLIPSIS
     0.1...
     """
 

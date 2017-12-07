@@ -215,17 +215,15 @@ def RGB_to_YCbCr(RGB,
 
     Matching float output of The Foundry Nuke's Colorspace node set to YCbCr:
 
-    >>> RGB_to_YCbCr(  # doctest: +ELLIPSIS
-    ...     RGB,
-    ...     out_range=(16 / 255, 235 / 255, 15.5 / 255, 239.5 / 255))
+    >>> RGB_to_YCbCr(RGB,
+    ...              out_range=(16 / 255, 235 / 255, 15.5 / 255, 239.5 / 255))
+    ... # doctest: +ELLIPSIS
     array([ 0.9215686...,  0.5       ,  0.5       ])
 
     Matching float output of The Foundry Nuke's Colorspace node set to YPbPr:
 
-    >>> RGB_to_YCbCr(  # doctest: +ELLIPSIS
-    ...     RGB,
-    ...     out_legal=False,
-    ...     out_int=False)
+    >>> RGB_to_YCbCr(RGB, out_legal=False, out_int=False)
+    ... # doctest: +ELLIPSIS
     array([ 1.,  0.,  0.])
 
     Creating integer code values as per standard 10-bit SDI:
@@ -236,12 +234,8 @@ def RGB_to_YCbCr(RGB,
     For JFIF JPEG conversion as per ITU-T T.871 [5]_:
 
     >>> RGB = np.array([102, 0, 51])
-    >>> RGB_to_YCbCr(
-    ...     RGB,
-    ...     K=YCBCR_WEIGHTS['Rec. 601'],
-    ...     in_range=(0, 255),
-    ...     out_range=(0, 255, 0, 256),
-    ...     out_int=True)
+    >>> RGB_to_YCbCr(RGB, K=YCBCR_WEIGHTS['Rec. 601'], in_range=(0, 255),
+    ...              out_range=(0, 255, 0, 256), out_int=True)
     array([ 36, 136, 175])
 
     Note the use of 256 for the max *Cb / Cr* value, which is required so that
@@ -254,13 +248,8 @@ def RGB_to_YCbCr(RGB,
 
     These JFIF JPEG ranges are also obtained as follows:
 
-    >>> RGB_to_YCbCr(
-    ...     RGB,
-    ...     K=YCBCR_WEIGHTS['Rec. 601'],
-    ...     in_bits=8,
-    ...     in_int=True,
-    ...     out_legal=False,
-    ...     out_int=True)
+    >>> RGB_to_YCbCr(RGB, K=YCBCR_WEIGHTS['Rec. 601'], in_bits=8, in_int=True,
+    ...              out_legal=False, out_int=True)
     array([ 36, 136, 175])
     """
 
@@ -361,11 +350,7 @@ def YCbCr_to_RGB(YCbCr,
     Examples
     --------
     >>> YCbCr = np.array([502, 512, 512])
-    >>> YCbCr_to_RGB(
-    ...     YCbCr,
-    ...     in_bits=10,
-    ...     in_legal=True,
-    ...     in_int=True)
+    >>> YCbCr_to_RGB(YCbCr, in_bits=10, in_legal=True, in_int=True)
     array([ 0.5,  0.5,  0.5])
     """
 
@@ -446,12 +431,8 @@ def RGB_to_YcCbcCrc(RGB,
     Examples
     --------
     >>> RGB = np.array([0.18, 0.18, 0.18])
-    >>> RGB_to_YcCbcCrc(
-    ...     RGB,
-    ...     out_legal=True,
-    ...     out_bits=10,
-    ...     out_int=True,
-    ...     is_12_bits_system=False)
+    >>> RGB_to_YcCbcCrc(RGB, out_legal=True, out_bits=10, out_int=True,
+    ...                 is_12_bits_system=False)
     array([422, 512, 512])
     """
 
@@ -529,12 +510,9 @@ def YcCbcCrc_to_RGB(YcCbcCrc,
     Examples
     --------
     >>> YcCbcCrc = np.array([1689, 2048, 2048])
-    >>> YcCbcCrc_to_RGB(  # doctest: +ELLIPSIS
-    ...     YcCbcCrc,
-    ...     in_legal=True,
-    ...     in_bits=12,
-    ...     in_int=True,
-    ...     is_12_bits_system=True)
+    >>> YcCbcCrc_to_RGB(YcCbcCrc, in_legal=True, in_bits=12, in_int=True,
+    ...                 is_12_bits_system=True)
+    ... # doctest: +ELLIPSIS
     array([ 0.1800903...,  0.1800903...,  0.1800903...])
     """
 

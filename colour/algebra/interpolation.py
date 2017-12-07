@@ -256,13 +256,8 @@ class KernelInterpolator(object):
     --------
     Interpolating a single numeric variable:
 
-    >>> y = np.array([5.9200,
-    ...               9.3700,
-    ...               10.8135,
-    ...               4.5100,
-    ...               69.5900,
-    ...               27.8007,
-    ...               86.0500])
+    >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100,
+    ...               69.5900, 27.8007, 86.0500])
     >>> x = np.arange(len(y))
     >>> f = KernelInterpolator(x, y)
     >>> f(0.5)  # doctest: +ELLIPSIS
@@ -653,13 +648,8 @@ class LinearInterpolator(object):
     --------
     Interpolating a single numeric variable:
 
-    >>> y = np.array([5.9200,
-    ...               9.3700,
-    ...               10.8135,
-    ...               4.5100,
-    ...               69.5900,
-    ...               27.8007,
-    ...               86.0500])
+    >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100,
+    ...               69.5900, 27.8007, 86.0500])
     >>> x = np.arange(len(y))
     >>> f = LinearInterpolator(x, y)
     >>> # Doctests ellipsis for Python 2.x compatibility.
@@ -863,13 +853,8 @@ class SpragueInterpolator(object):
     --------
     Interpolating a single numeric variable:
 
-    >>> y = np.array([5.9200,
-    ...               9.3700,
-    ...               10.8135,
-    ...               4.5100,
-    ...               69.5900,
-    ...               27.8007,
-    ...               86.0500])
+    >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100,
+    ...               69.5900, 27.8007, 86.0500])
     >>> x = np.arange(len(y))
     >>> f = SpragueInterpolator(x, y)
     >>> f(0.5)  # doctest: +ELLIPSIS
@@ -1191,13 +1176,8 @@ class NullInterpolator(object):
 
     Examples
     --------
-    >>> y = np.array([5.9200,
-    ...               9.3700,
-    ...               10.8135,
-    ...               4.5100,
-    ...               69.5900,
-    ...               27.8007,
-    ...               86.0500])
+    >>> y = np.array([5.9200, 9.3700, 10.8135, 4.5100,
+    ...               69.5900, 27.8007, 86.0500])
     >>> x = np.arange(len(y))
     >>> f = NullInterpolator(x, y)
     >>> f(0.5)

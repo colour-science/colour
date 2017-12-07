@@ -71,10 +71,8 @@ def XYZ_to_Hunter_Rdab(XYZ,
     >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313]) * 100
     >>> D50 = HUNTERLAB_ILLUMINANTS[
     ...     'CIE 1931 2 Degree Standard Observer']['D50']
-    >>> XYZ_to_Hunter_Rdab(
-    ...     XYZ,
-    ...     D50.XYZ_n,
-    ...     D50.K_ab)   # doctest: +ELLIPSIS
+    >>> XYZ_to_Hunter_Rdab(XYZ, D50.XYZ_n, D50.K_ab)
+    ... # doctest: +ELLIPSIS
     array([ 10.08      , -18.6765376...,  -3.4432992...])
     """
 

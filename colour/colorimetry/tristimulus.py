@@ -98,8 +98,8 @@ def lagrange_coefficients_ASTME202211(interval=10, interval_type='inner'):
 
     Examples
     --------
-    >>> lagrange_coefficients_ASTME202211(  # doctest: +ELLIPSIS
-    ...     10, 'inner')
+    >>> lagrange_coefficients_ASTME202211(10, 'inner')
+    ... # doctest: +ELLIPSIS
     array([[-0.028...,  0.940...,  0.104..., -0.016...],
            [-0.048...,  0.864...,  0.216..., -0.032...],
            [-0.059...,  0.773...,  0.331..., -0.045...],
@@ -109,8 +109,8 @@ def lagrange_coefficients_ASTME202211(interval=10, interval_type='inner'):
            [-0.045...,  0.331...,  0.773..., -0.059...],
            [-0.032...,  0.216...,  0.864..., -0.048...],
            [-0.016...,  0.104...,  0.940..., -0.028...]])
-    >>> lagrange_coefficients_ASTME202211(  # doctest: +ELLIPSIS
-    ...     10, 'boundary')
+    >>> lagrange_coefficients_ASTME202211(10, 'boundary')
+    ... # doctest: +ELLIPSIS
     array([[ 0.85...,  0.19..., -0.04...],
            [ 0.72...,  0.36..., -0.08...],
            [ 0.59...,  0.51..., -0.10...],
@@ -201,8 +201,9 @@ def tristimulus_weighting_factors_ASTME202211(cmfs, illuminant, shape):
     ...     dict(zip(wl, CIE_standard_illuminant_A_function(wl))),
     ...     name='A (360, 830, 1)')
     >>> with numpy_print_options(suppress=True):
-    ...     tristimulus_weighting_factors_ASTME202211(  # doctest: +ELLIPSIS
+    ...     tristimulus_weighting_factors_ASTME202211(
     ...         cmfs, A, SpectralShape(360, 830, 20))
+    ... # doctest: +ELLIPSIS
     array([[ -0.0002981...,  -0.0000317...,  -0.0013301...],
            [ -0.0087155...,  -0.0008915...,  -0.0407436...],
            [  0.0599679...,   0.0050203...,   0.2565018...],
@@ -334,9 +335,8 @@ def adjust_tristimulus_weighting_factors_ASTME30815(W, shape_r, shape_t):
     ...     cmfs, A, SpectralShape(360, 830, 20))
     >>> with numpy_print_options(suppress=True):
     ...     adjust_tristimulus_weighting_factors_ASTME30815(
-    ...         W,
-    ...         SpectralShape(360, 830, 20),
-    ...         SpectralShape(400, 700, 20))  # doctest: +ELLIPSIS
+    ...         W,  SpectralShape(360, 830, 20), SpectralShape(400, 700, 20))
+    ... # doctest: +ELLIPSIS
     array([[  0.0509543...,   0.0040971...,   0.2144280...],
            [  0.7734225...,   0.0779839...,   3.6965732...],
            [  1.9000905...,   0.3037005...,   9.7554195...],
@@ -431,8 +431,8 @@ def spectral_to_XYZ_integration(
     ... }
     >>> spd = SpectralPowerDistribution(data)
     >>> illuminant = ILLUMINANTS_RELATIVE_SPDS['D50']
-    >>> spectral_to_XYZ_integration(  # doctest: +ELLIPSIS
-    ...     spd, cmfs, illuminant)
+    >>> spectral_to_XYZ_integration(spd, cmfs, illuminant)
+    ... # doctest: +ELLIPSIS
     array([ 11.5296285...,   9.9499467...,   4.7066079...])
     """
 
@@ -628,8 +628,8 @@ def spectral_to_XYZ_ASTME30815(
     ... }
     >>> spd = SpectralPowerDistribution(data)
     >>> illuminant = ILLUMINANTS_RELATIVE_SPDS['D50']
-    >>> spectral_to_XYZ_ASTME30815(
-    ...     spd, cmfs, illuminant)  # doctest: +ELLIPSIS
+    >>> spectral_to_XYZ_ASTME30815(spd, cmfs, illuminant)
+    ... # doctest: +ELLIPSIS
     array([ 11.5290265...,   9.9502091...,   4.7098882...])
     """
 
@@ -780,14 +780,14 @@ def spectral_to_XYZ(
     ... }
     >>> spd = SpectralPowerDistribution(data)
     >>> illuminant = ILLUMINANTS_RELATIVE_SPDS['D50']
-    >>> spectral_to_XYZ(  # doctest: +ELLIPSIS
-    ...     spd, cmfs, illuminant)
+    >>> spectral_to_XYZ(spd, cmfs, illuminant)
+    ... # doctest: +ELLIPSIS
     array([ 11.5290265...,   9.9502091...,   4.7098882...])
-    >>> spectral_to_XYZ(  # doctest: +ELLIPSIS
-    ...     spd, cmfs, illuminant, use_practice_range=False)
+    >>> spectral_to_XYZ(spd, cmfs, illuminant, use_practice_range=False)
+    ... # doctest: +ELLIPSIS
     array([ 11.5291275...,   9.9502369...,   4.7098811...])
-    >>> spectral_to_XYZ(  # doctest: +ELLIPSIS
-    ...     spd, cmfs, illuminant, method='Integration')
+    >>> spectral_to_XYZ(spd, cmfs, illuminant, method='Integration')
+    ... # doctest: +ELLIPSIS
     array([ 11.5296285...,   9.9499467...,   4.7066079...])
     """
 

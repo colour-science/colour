@@ -71,8 +71,9 @@ def _delta_E_Luo2006(Jpapbp_1, Jpapbp_2, coefficients):
     --------
     >>> Jpapbp_1 = np.array([54.90433134, -0.08450395, -0.06854831])
     >>> Jpapbp_2 = np.array([54.90433134, -0.08442362, -0.06848314])
-    >>> _delta_E_Luo2006(  # doctest: +ELLIPSIS
-    ...     Jpapbp_1, Jpapbp_2, COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
+    >>> _delta_E_Luo2006(Jpapbp_1, Jpapbp_2,
+    ...                  COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
+    ... # doctest: +ELLIPSIS
     0.0001034...
     """
 

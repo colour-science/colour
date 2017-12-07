@@ -78,9 +78,8 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(
 
     Examples
     --------
-    >>> ils = ['A', 'B', 'C']
-    >>> planckian_locus_CIE_1931_chromaticity_diagram_plot(
-    ...     ils)  # doctest: +SKIP
+    >>> planckian_locus_CIE_1931_chromaticity_diagram_plot(['A', 'B', 'C'])
+    ... # doctest: +SKIP
     """
 
     if illuminants is None:
@@ -196,9 +195,8 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
 
     Examples
     --------
-    >>> ils = ['A', 'C', 'E']
-    >>> planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
-    ...     ils)  # doctest: +SKIP
+    >>> planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(['A', 'C', 'E'])
+    ... # doctest: +SKIP
     """
 
     if illuminants is None:

@@ -112,8 +112,8 @@ def JMh_CIECAM02_to_UCS_Luo2006(JMh, coefficients):
     >>> specification = XYZ_to_CIECAM02(
     ...     XYZ, XYZ_w, L_A, Y_b, surround)
     >>> JMh = (specification.J, specification.M, specification.h)
-    >>> JMh_CIECAM02_to_UCS_Luo2006(  # doctest: +ELLIPSIS
-    ...     JMh, COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
+    >>> JMh_CIECAM02_to_UCS_Luo2006(JMh, COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
+    ... # doctest: +ELLIPSIS
     array([ 54.9043313...,  -0.0845039...,  -0.0685483...])
     """
 
@@ -151,8 +151,9 @@ def UCS_Luo2006_to_JMh_CIECAM02(Jpapbp, coefficients):
     Examples
     --------
     >>> Jpapbp = np.array([54.90433134, -0.08450395, -0.06854831])
-    >>> UCS_Luo2006_to_JMh_CIECAM02(  # doctest: +ELLIPSIS
+    >>> UCS_Luo2006_to_JMh_CIECAM02(
     ...     Jpapbp, COEFFICIENTS_UCS_LUO2006['CAM02-LCD'])
+    ... # doctest: +ELLIPSIS
     array([  4.1731091...e+01,   1.0884217...e-01,   2.1904843...e+02])
     """
 

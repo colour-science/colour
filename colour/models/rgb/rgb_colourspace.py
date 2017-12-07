@@ -169,13 +169,8 @@ VARICAM_V-Log_V-Gamut.pdf
     >>> whitepoint = np.array([0.32168, 0.33767])
     >>> RGB_to_XYZ_matrix = np.identity(3)
     >>> XYZ_to_RGB_matrix = np.identity(3)
-    >>> colourspace = RGB_Colourspace(
-    ...     'RGB Colourspace',
-    ...     p,
-    ...     whitepoint,
-    ...     'D60',
-    ...     RGB_to_XYZ_matrix,
-    ...     XYZ_to_RGB_matrix)
+    >>> colourspace = RGB_Colourspace('RGB Colourspace', p, whitepoint, 'D60',
+    ...                               RGB_to_XYZ_matrix, XYZ_to_RGB_matrix)
     >>> colourspace.RGB_to_XYZ_matrix
     array([[ 1.,  0.,  0.],
            [ 0.,  1.,  0.],
@@ -653,16 +648,13 @@ def XYZ_to_RGB(XYZ,
     >>> illuminant_XYZ = np.array([0.34570, 0.35850])
     >>> illuminant_RGB = np.array([0.31270, 0.32900])
     >>> chromatic_adaptation_transform = 'Bradford'
-    >>> XYZ_to_RGB_matrix = np.array([
-    ...     [3.24062548, -1.53720797, -0.49862860],
-    ...     [-0.96893071, 1.87575606, 0.04151752],
-    ...     [0.05571012, -0.20402105, 1.05699594]])
-    >>> XYZ_to_RGB(
-    ...     XYZ,
-    ...     illuminant_XYZ,
-    ...     illuminant_RGB,
-    ...     XYZ_to_RGB_matrix,
-    ...     chromatic_adaptation_transform)  # doctest: +ELLIPSIS
+    >>> XYZ_to_RGB_matrix = np.array(
+    ...     [[3.24062548, -1.53720797, -0.49862860],
+    ...      [-0.96893071, 1.87575606, 0.04151752],
+    ...      [0.05571012, -0.20402105, 1.05699594]]
+    ... )
+    >>> XYZ_to_RGB(XYZ, illuminant_XYZ, illuminant_RGB, XYZ_to_RGB_matrix,
+    ...            chromatic_adaptation_transform)  # doctest: +ELLIPSIS
     array([ 0.0110015...,  0.1273504...,  0.1163271...])
     """
 
@@ -731,16 +723,13 @@ def RGB_to_XYZ(RGB,
     >>> illuminant_RGB = np.array([0.31270, 0.32900])
     >>> illuminant_XYZ = np.array([0.34570, 0.35850])
     >>> chromatic_adaptation_transform = 'Bradford'
-    >>> RGB_to_XYZ_matrix = np.array([
-    ...     [0.41240000, 0.35760000, 0.18050000],
-    ...     [0.21260000, 0.71520000, 0.07220000],
-    ...     [0.01930000, 0.11920000, 0.95050000]])
-    >>> RGB_to_XYZ(
-    ...     RGB,
-    ...     illuminant_RGB,
-    ...     illuminant_XYZ,
-    ...     RGB_to_XYZ_matrix,
-    ...     chromatic_adaptation_transform)  # doctest: +ELLIPSIS
+    >>> RGB_to_XYZ_matrix = np.array(
+    ...     [[0.41240000, 0.35760000, 0.18050000],
+    ...      [0.21260000, 0.71520000, 0.07220000],
+    ...      [0.01930000, 0.11920000, 0.95050000]]
+    ... )
+    >>> RGB_to_XYZ(RGB, illuminant_RGB, illuminant_XYZ, RGB_to_XYZ_matrix,
+    ...            chromatic_adaptation_transform)  # doctest: +ELLIPSIS
     array([ 0.0704953...,  0.1008    ,  0.0955831...])
     """
 
@@ -787,9 +776,8 @@ def RGB_to_RGB_matrix(input_colourspace,
     Examples
     --------
     >>> from colour import sRGB_COLOURSPACE, PROPHOTO_RGB_COLOURSPACE
-    >>> RGB_to_RGB_matrix(
-    ...     sRGB_COLOURSPACE,
-    ...     PROPHOTO_RGB_COLOURSPACE)  # doctest: +ELLIPSIS
+    >>> RGB_to_RGB_matrix(sRGB_COLOURSPACE, PROPHOTO_RGB_COLOURSPACE)
+    ... # doctest: +ELLIPSIS
     array([[ 0.5288241...,  0.3340609...,  0.1373616...],
            [ 0.0975294...,  0.8790074...,  0.0233981...],
            [ 0.0163599...,  0.1066124...,  0.8772485...]])
@@ -851,10 +839,8 @@ def RGB_to_RGB(RGB,
     --------
     >>> from colour import sRGB_COLOURSPACE, PROPHOTO_RGB_COLOURSPACE
     >>> RGB = np.array([0.01103742, 0.12734226, 0.11632971])
-    >>> RGB_to_RGB(
-    ...     RGB,
-    ...     sRGB_COLOURSPACE,
-    ...     PROPHOTO_RGB_COLOURSPACE)  # doctest: +ELLIPSIS
+    >>> RGB_to_RGB(RGB, sRGB_COLOURSPACE, PROPHOTO_RGB_COLOURSPACE)
+    ... # doctest: +ELLIPSIS
     array([ 0.0643561...,  0.1157331...,  0.1158069...])
     """
 
