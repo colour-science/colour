@@ -67,13 +67,9 @@ def XYZ_to_sRGB(XYZ,
     """
 
     sRGB = RGB_COLOURSPACES['sRGB']
-    return XYZ_to_RGB(
-        XYZ,
-        illuminant,
-        sRGB.whitepoint,
-        sRGB.XYZ_to_RGB_matrix,
-        chromatic_adaptation_transform,
-        sRGB.encoding_cctf if apply_encoding_cctf else None)  # yapf: disable
+    return XYZ_to_RGB(XYZ, illuminant, sRGB.whitepoint, sRGB.XYZ_to_RGB_matrix,
+                      chromatic_adaptation_transform, sRGB.encoding_cctf
+                      if apply_encoding_cctf else None)
 
 
 def sRGB_to_XYZ(RGB,
@@ -116,10 +112,6 @@ def sRGB_to_XYZ(RGB,
     """
 
     sRGB = RGB_COLOURSPACES['sRGB']
-    return RGB_to_XYZ(
-        RGB,
-        sRGB.whitepoint,
-        illuminant,
-        sRGB.RGB_to_XYZ_matrix,
-        chromatic_adaptation_method,
-        sRGB.decoding_cctf if apply_decoding_cctf else None)  # yapf: disable
+    return RGB_to_XYZ(RGB, sRGB.whitepoint, illuminant, sRGB.RGB_to_XYZ_matrix,
+                      chromatic_adaptation_method, sRGB.decoding_cctf
+                      if apply_decoding_cctf else None)

@@ -42,10 +42,11 @@ __all__ = [
     'ECI_RGB_V2_COLOURSPACE'
 ]
 
-ECI_RGB_V2_PRIMARIES = np.array(
-    [[0.670103092783505, 0.329896907216495],
-     [0.209905660377358, 0.709905660377358],
-     [0.140061791967044, 0.080329557157570]])  # yapf: disable
+ECI_RGB_V2_PRIMARIES = np.array([
+    [0.670103092783505, 0.329896907216495],
+    [0.209905660377358, 0.709905660377358],
+    [0.140061791967044, 0.080329557157570],
+])
 """
 *ECI RGB v2* colourspace primaries.
 
@@ -110,6 +111,7 @@ def _scale_domain_0_100_range_0_1(a, callable_):
     return callable_(a * 100, Y_n=100) / 100
 
 
+# yapf: disable
 ECI_RGB_V2_COLOURSPACE = RGB_Colourspace(
     'ECI RGB v2',
     ECI_RGB_V2_PRIMARIES,
@@ -117,12 +119,8 @@ ECI_RGB_V2_COLOURSPACE = RGB_Colourspace(
     ECI_RGB_V_ILLUMINANT,
     ECI_RGB_V2_TO_XYZ_MATRIX,
     XYZ_TO_ECI_RGB_V2_MATRIX,
-    partial(
-        _scale_domain_0_100_range_0_1,
-        callable_=lightness_CIE1976),
-    partial(
-        _scale_domain_0_100_range_0_1,
-        callable_=luminance_CIE1976))  # yapf: disable
+    partial(_scale_domain_0_100_range_0_1, callable_=lightness_CIE1976),
+    partial(_scale_domain_0_100_range_0_1, callable_=luminance_CIE1976))
 """
 *ECI RGB v2* colourspace.
 

@@ -238,8 +238,9 @@ def intersect_line_segments(l_1, l_2):
     r_1, c_1 = l_1.shape[0], l_1.shape[1]
     r_2, c_2 = l_2.shape[0], l_2.shape[1]
 
-    x_1, y_1, x_2, y_2 = [np.tile(l_1[:, i, np.newaxis], (1, r_2))
-                          for i in range(c_1)]  # yapf: disable
+    x_1, y_1, x_2, y_2 = [
+        np.tile(l_1[:, i, np.newaxis], (1, r_2)) for i in range(c_1)
+    ]
 
     l_2 = np.transpose(l_2)
 

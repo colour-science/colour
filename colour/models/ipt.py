@@ -43,10 +43,11 @@ __all__ = [
     'IPT_IPT_TO_LMS_MATRIX', 'XYZ_to_IPT', 'IPT_to_XYZ', 'IPT_hue_angle'
 ]
 
-IPT_XYZ_TO_LMS_MATRIX = np.array(
-    [[0.4002, 0.7075, -0.0807],
-     [-0.2280, 1.1500, 0.0612],
-     [0.0000, 0.0000, 0.9184]])  # yapf: disable
+IPT_XYZ_TO_LMS_MATRIX = np.array([
+    [0.4002, 0.7075, -0.0807],
+    [-0.2280, 1.1500, 0.0612],
+    [0.0000, 0.0000, 0.9184],
+])
 """
 *CIE XYZ* tristimulus values to normalised cone responses matrix.
 
@@ -60,10 +61,11 @@ Normalised cone responses to *CIE XYZ* tristimulus values matrix.
 IPT_LMS_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
-IPT_LMS_TO_IPT_MATRIX = np.array(
-    [[0.4000, 0.4000, 0.2000],
-     [4.4550, -4.8510, 0.3960],
-     [0.8056, 0.3572, -1.1628]])  # yapf: disable
+IPT_LMS_TO_IPT_MATRIX = np.array([
+    [0.4000, 0.4000, 0.2000],
+    [4.4550, -4.8510, 0.3960],
+    [0.8056, 0.3572, -1.1628],
+])
 """
 Normalised cone responses to *IPT* colourspace matrix.
 

@@ -47,10 +47,11 @@ __all__ = [
     'RLAB_ReferenceSpecification', 'RLAB_Specification', 'XYZ_to_RLAB'
 ]
 
-R_MATRIX = np.array(
-    [[1.9569, -1.1882, 0.2313],
-     [0.3612, 0.6388, 0.0000],
-     [0.0000, 0.0000, 1.0000]])  # yapf: disable
+R_MATRIX = np.array([
+    [1.9569, -1.1882, 0.2313],
+    [0.3612, 0.6388, 0.0000],
+    [0.0000, 0.0000, 1.0000],
+])
 """
 *RLAB* colour appearance model precomputed helper matrix.
 

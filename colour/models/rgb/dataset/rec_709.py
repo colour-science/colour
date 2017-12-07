@@ -43,10 +43,11 @@ __all__ = [
     'REC_709_TO_XYZ_MATRIX', 'XYZ_TO_REC_709_MATRIX', 'REC_709_COLOURSPACE'
 ]
 
-REC_709_PRIMARIES = np.array(
-    [[0.6400, 0.3300],
-     [0.3000, 0.6000],
-     [0.1500, 0.0600]])  # yapf: disable
+REC_709_PRIMARIES = np.array([
+    [0.6400, 0.3300],
+    [0.3000, 0.6000],
+    [0.1500, 0.0600],
+])
 """
 *Rec. 709* colourspace primaries.
 

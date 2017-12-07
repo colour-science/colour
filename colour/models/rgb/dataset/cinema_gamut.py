@@ -42,10 +42,11 @@ __all__ = [
     'XYZ_TO_CINEMA_GAMUT_MATRIX', 'CINEMA_GAMUT_COLOURSPACE'
 ]
 
-CINEMA_GAMUT_PRIMARIES = np.array(
-    [[0.7400, 0.2700],
-     [0.1700, 1.1400],
-     [0.0800, -0.1000]])  # yapf: disable
+CINEMA_GAMUT_PRIMARIES = np.array([
+    [0.7400, 0.2700],
+    [0.1700, 1.1400],
+    [0.0800, -0.1000],
+])
 """
 *Cinema Gamut* colourspace primaries.
 
@@ -59,9 +60,8 @@ CINEMA_GAMUT_ILLUMINANT = 'D65'
 CINEMA_GAMUT_ILLUMINANT : unicode
 """
 
-CINEMA_GAMUT_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
-    [CINEMA_GAMUT_ILLUMINANT])  # yapf: disable
+CINEMA_GAMUT_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+    CINEMA_GAMUT_ILLUMINANT])
 """
 *Cinema Gamut* colourspace whitepoint.
 

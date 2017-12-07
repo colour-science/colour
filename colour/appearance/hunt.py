@@ -131,10 +131,11 @@ HUE_DATA_FOR_HUE_QUADRATURE = {
     'e_s': np.array([0.8, 0.7, 1.0, 1.2])
 }
 
-XYZ_TO_HPE_MATRIX = np.array(
-    [[0.38971, 0.68898, -0.07868],
-     [-0.22981, 1.18340, 0.04641],
-     [0.00000, 0.00000, 1.00000]])  # yapf: disable
+XYZ_TO_HPE_MATRIX = np.array([
+    [0.38971, 0.68898, -0.07868],
+    [-0.22981, 1.18340, 0.04641],
+    [0.00000, 0.00000, 1.00000],
+])
 """
 *Hunt* colour appearance model *CIE XYZ* tristimulus values to
 *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` colourspace matrix.

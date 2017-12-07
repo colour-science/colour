@@ -396,6 +396,3 @@ def RGB_colourspace_visible_spectrum_coverage_MonteCarlo(
     return RGB_colourspace_volume_coverage_MonteCarlo(
         colourspace, is_within_visible_spectrum, samples, random_generator,
         random_state)
-
-
-

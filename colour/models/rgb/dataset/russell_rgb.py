@@ -42,10 +42,11 @@ __all__ = [
     'XYZ_TO_RUSSELL_RGB_MATRIX', 'RUSSELL_RGB_COLOURSPACE'
 ]
 
-RUSSELL_RGB_PRIMARIES = np.array(
-    [[0.6900, 0.3100],
-     [0.1800, 0.7700],
-     [0.1000, 0.0200]])  # yapf: disable
+RUSSELL_RGB_PRIMARIES = np.array([
+    [0.6900, 0.3100],
+    [0.1800, 0.7700],
+    [0.1000, 0.0200],
+])
 """
 *Russell RGB* colourspace primaries.
 

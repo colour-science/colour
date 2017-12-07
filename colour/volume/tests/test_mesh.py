@@ -34,12 +34,13 @@ class TestIsWithinMeshVolume(unittest.TestCase):
         Initialises common tests attributes.
         """
 
-        self._mesh = np.array(
-            [[-1.0, -1.0, 1.0],
-             [1.0, -1.0, 1.0],
-             [1.0, -1.0, -1.0],
-             [-1.0, -1.0, -1.0],
-             [0.0, 1.0, 0.0]])  # yapf: disable
+        self._mesh = np.array([
+            [-1.0, -1.0, 1.0],
+            [1.0, -1.0, 1.0],
+            [1.0, -1.0, -1.0],
+            [-1.0, -1.0, -1.0],
+            [0.0, 1.0, 0.0],
+        ])
 
     def test_is_within_mesh_volume(self):
         """

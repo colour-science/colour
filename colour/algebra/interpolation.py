@@ -866,11 +866,12 @@ class SpragueInterpolator(object):
     array([ 6.7295161...,  7.8140625...])
     """
 
-    SPRAGUE_C_COEFFICIENTS = np.array(
-        [[884, -1960, 3033, -2648, 1080, -180],
-         [508, -540, 488, -367, 144,
-          -24], [-24, 144, -367, 488, -540, 508],
-         [-180, 1080, -2648, 3033, -1960, 884]])  # yapf: disable
+    SPRAGUE_C_COEFFICIENTS = np.array([
+        [884, -1960, 3033, -2648, 1080, -180],
+        [508, -540, 488, -367, 144, -24],
+        [-24, 144, -367, 488, -540, 508],
+        [-180, 1080, -2648, 3033, -1960, 884],
+    ])
     """
     Defines the coefficients used to generate extra points for boundaries
     interpolation.

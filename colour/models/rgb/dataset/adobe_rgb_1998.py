@@ -41,10 +41,11 @@ __all__ = [
     'XYZ_TO_ADOBE_RGB_1998_MATRIX', 'ADOBE_RGB_1998_COLOURSPACE'
 ]
 
-ADOBE_RGB_1998_PRIMARIES = np.array(
-    [[0.6400, 0.3300],
-     [0.2100, 0.7100],
-     [0.1500, 0.0600]])  # yapf: disable
+ADOBE_RGB_1998_PRIMARIES = np.array([
+    [0.6400, 0.3300],
+    [0.2100, 0.7100],
+    [0.1500, 0.0600],
+])
 """
 *Adobe RGB (1998)* colourspace primaries.
 
@@ -58,19 +59,19 @@ ADOBE_RGB_1998_ILLUMINANT = 'D65'
 ADOBE_RGB_1998_ILLUMINANT : unicode
 """
 
-ADOBE_RGB_1998_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
-    [ADOBE_RGB_1998_ILLUMINANT])  # yapf: disable
+ADOBE_RGB_1998_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
+                             [ADOBE_RGB_1998_ILLUMINANT])
 """
 *Adobe RGB (1998)* colourspace whitepoint.
 
 ADOBE_RGB_1998_WHITEPOINT : ndarray
 """
 
-ADOBE_RGB_1998_TO_XYZ_MATRIX = np.array(
-    [[0.57667, 0.18556, 0.18823],
-     [0.29734, 0.62736, 0.07529],
-     [0.02703, 0.07069, 0.99134]])  # yapf: disable
+ADOBE_RGB_1998_TO_XYZ_MATRIX = np.array([
+    [0.57667, 0.18556, 0.18823],
+    [0.29734, 0.62736, 0.07529],
+    [0.02703, 0.07069, 0.99134],
+])
 """
 *Adobe RGB (1998)* colourspace to *CIE XYZ* tristimulus values matrix defined
 as per [1].
@@ -78,10 +79,11 @@ as per [1].
 ADOBE_RGB_1998_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
-XYZ_TO_ADOBE_RGB_1998_MATRIX = np.array(
-    [[2.04159, -0.56501, -0.34473],
-     [-0.96924, 1.87597, 0.04156],
-     [0.01344, -0.11836, 1.01517]])  # yapf: disable
+XYZ_TO_ADOBE_RGB_1998_MATRIX = np.array([
+    [2.04159, -0.56501, -0.34473],
+    [-0.96924, 1.87597, 0.04156],
+    [0.01344, -0.11836, 1.01517],
+])
 """
 *CIE XYZ* tristimulus values to *Adobe RGB (1998)* colourspace matrix.
 

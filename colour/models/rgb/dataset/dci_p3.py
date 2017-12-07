@@ -52,20 +52,22 @@ __all__ = [
     'DCI_P3_P_COLOURSPACE'
 ]
 
-DCI_P3_PRIMARIES = np.array(
-    [[0.6800, 0.3200],
-     [0.2650, 0.6900],
-     [0.1500, 0.0600]])  # yapf: disable
+DCI_P3_PRIMARIES = np.array([
+    [0.6800, 0.3200],
+    [0.2650, 0.6900],
+    [0.1500, 0.0600],
+])
 """
 *DCI-P3* colourspace primaries.
 
 DCI_P3_PRIMARIES : ndarray, (3, 2)
 """
 
-DCI_P3_P_PRIMARIES = np.array(
-    [[0.7400, 0.2700],
-     [0.2200, 0.7800],
-     [0.0900, -0.0900]])  # yapf: disable
+DCI_P3_P_PRIMARIES = np.array([
+    [0.7400, 0.2700],
+    [0.2200, 0.7800],
+    [0.0900, -0.0900],
+])
 """
 *DCI-P3+* colourspace primaries.
 

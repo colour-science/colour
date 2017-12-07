@@ -41,10 +41,11 @@ __all__ = [
     'V_GAMUT_TO_XYZ_MATRIX', 'XYZ_TO_V_GAMUT_MATRIX', 'V_GAMUT_COLOURSPACE'
 ]
 
-V_GAMUT_PRIMARIES = np.array(
-    [[0.730, 0.280],
-     [0.165, 0.840],
-     [0.100, -0.030]])  # yapf: disable
+V_GAMUT_PRIMARIES = np.array([
+    [0.730, 0.280],
+    [0.165, 0.840],
+    [0.100, -0.030],
+])
 """
 *V-Gamut* colourspace primaries.
 
@@ -66,20 +67,22 @@ V_GAMUT_WHITEPOINT = (
 V_GAMUT_WHITEPOINT : ndarray
 """
 
-V_GAMUT_TO_XYZ_MATRIX = np.array(
-    [[0.679644, 0.152211, 0.118600],
-     [0.260686, 0.774894, -0.035580],
-     [-0.009310, -0.004612, 1.102980]])  # yapf: disable
+V_GAMUT_TO_XYZ_MATRIX = np.array([
+    [0.679644, 0.152211, 0.118600],
+    [0.260686, 0.774894, -0.035580],
+    [-0.009310, -0.004612, 1.102980],
+])
 """
 *V-Gamut* colourspace to *CIE XYZ* tristimulus values matrix.
 
 V_GAMUT_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
-XYZ_TO_V_GAMUT_MATRIX = np.array(
-    [[1.589012, -0.313204, -0.180965],
-     [-0.534053, 1.396011, 0.102458],
-     [0.011179, 0.003194, 0.905535]])  # yapf: disable
+XYZ_TO_V_GAMUT_MATRIX = np.array([
+    [1.589012, -0.313204, -0.180965],
+    [-0.534053, 1.396011, 0.102458],
+    [0.011179, 0.003194, 0.905535],
+])
 """
 *CIE XYZ* tristimulus values to *V-Gamut* colourspace matrix.
 

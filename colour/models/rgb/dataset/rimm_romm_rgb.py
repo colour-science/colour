@@ -56,10 +56,11 @@ __all__ = [
     'PROPHOTO_RGB_COLOURSPACE'
 ]
 
-ROMM_RGB_PRIMARIES = np.array(
-    [[0.7347, 0.2653],
-     [0.1596, 0.8404],
-     [0.0366, 0.0001]])  # yapf: disable
+ROMM_RGB_PRIMARIES = np.array([
+    [0.7347, 0.2653],
+    [0.1596, 0.8404],
+    [0.0366, 0.0001],
+])
 """
 *ROMM RGB* colourspace primaries.
 
@@ -81,21 +82,22 @@ ROMM_RGB_WHITEPOINT = (
 ROMM_RGB_WHITEPOINT : ndarray
 """
 
-ROMM_RGB_TO_XYZ_MATRIX = np.array(
-    [[0.7977, 0.1352, 0.0313],
-     [0.2880, 0.7119, 0.0001],
-     [0.0000, 0.0000, 0.8249]])  # yapf: disable
+ROMM_RGB_TO_XYZ_MATRIX = np.array([
+    [0.7977, 0.1352, 0.0313],
+    [0.2880, 0.7119, 0.0001],
+    [0.0000, 0.0000, 0.8249],
+])
 """
 *ROMM RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 
 ROMM_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
-XYZ_TO_ROMM_RGB_MATRIX = np.array(
-    [[1.3460, -0.2556, -0.0511],
-     [-0.5446, 1.5082, 0.0205],
-     [0.0000, 0.0000, 1.2123]])  # yapf: disable
-
+XYZ_TO_ROMM_RGB_MATRIX = np.array([
+    [1.3460, -0.2556, -0.0511],
+    [-0.5446, 1.5082, 0.0205],
+    [0.0000, 0.0000, 1.2123],
+])
 """
 *CIE XYZ* tristimulus values to *ROMM RGB* colourspace matrix.
 

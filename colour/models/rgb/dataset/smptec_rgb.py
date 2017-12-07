@@ -43,10 +43,11 @@ __all__ = [
     'XYZ_TO_SMPTE_C_RGB_MATRIX', 'SMPTE_C_RGB_COLOURSPACE'
 ]
 
-SMPTE_C_RGB_PRIMARIES = np.array(
-    [[0.630, 0.340],
-     [0.310, 0.595],
-     [0.155, 0.070]])  # yapf: disable
+SMPTE_C_RGB_PRIMARIES = np.array([
+    [0.630, 0.340],
+    [0.310, 0.595],
+    [0.155, 0.070],
+])
 """
 *SMPTE-C RGB* colourspace primaries.
 

@@ -41,10 +41,11 @@ __all__ = [
     'XYZ_TO_ALEXA_WIDE_GAMUT_RGB_MATRIX', 'ALEXA_WIDE_GAMUT_RGB_COLOURSPACE'
 ]
 
-ALEXA_WIDE_GAMUT_RGB_PRIMARIES = np.array(
-    [[0.6840, 0.3130],
-     [0.2210, 0.8480],
-     [0.0861, -0.1020]])  # yapf: disable
+ALEXA_WIDE_GAMUT_RGB_PRIMARIES = np.array([
+    [0.6840, 0.3130],
+    [0.2210, 0.8480],
+    [0.0861, -0.1020],
+])
 """
 *ALEXA Wide Gamut RGB* colourspace primaries.
 
@@ -58,29 +59,30 @@ ALEXA_WIDE_GAMUT_RGB_ILLUMINANT = 'D65'
 ALEXA_WIDE_GAMUT_RGB_WHITEPOINT : unicode
 """
 
-ALEXA_WIDE_GAMUT_RGB_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
-    [ALEXA_WIDE_GAMUT_RGB_ILLUMINANT])  # yapf: disable
+ALEXA_WIDE_GAMUT_RGB_WHITEPOINT = (ILLUMINANTS[
+    'CIE 1931 2 Degree Standard Observer'][ALEXA_WIDE_GAMUT_RGB_ILLUMINANT])
 """
 *ALEXA Wide Gamut RGB* colourspace whitepoint.
 
 ALEXA_WIDE_GAMUT_RGB_WHITEPOINT : ndarray
 """
 
-ALEXA_WIDE_GAMUT_RGB_TO_XYZ_MATRIX = np.array(
-    [[0.638008, 0.214704, 0.097744],
-     [0.291954, 0.823841, -0.115795],
-     [0.002798, -0.067034, 1.153294]])  # yapf: disable
+ALEXA_WIDE_GAMUT_RGB_TO_XYZ_MATRIX = np.array([
+    [0.638008, 0.214704, 0.097744],
+    [0.291954, 0.823841, -0.115795],
+    [0.002798, -0.067034, 1.153294],
+])
 """
 *ALEXA Wide Gamut RGB* colourspace to *CIE XYZ* tristimulus values matrix.
 
 ALEXA_WIDE_GAMUT_RGB_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
-XYZ_TO_ALEXA_WIDE_GAMUT_RGB_MATRIX = np.array(
-    [[1.789066, -0.482534, -0.200076],
-     [-0.639849, 1.396400, 0.194432],
-     [-0.041532, 0.082335, 0.878868]])  # yapf: disable
+XYZ_TO_ALEXA_WIDE_GAMUT_RGB_MATRIX = np.array([
+    [1.789066, -0.482534, -0.200076],
+    [-0.639849, 1.396400, 0.194432],
+    [-0.041532, 0.082335, 0.878868],
+])
 """
 *CIE XYZ* tristimulus values to *ALEXA Wide Gamut RGB* colourspace matrix.
 

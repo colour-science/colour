@@ -12,12 +12,13 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
-autodoc_mock_imports = ['matplotlib', 'matplotlib.cm', 'matplotlib.image',
-                        'matplotlib.path', 'matplotlib.pyplot',
-                        'matplotlib.ticker', 'mpl_toolkits.mplot3d',
-                        'mpl_toolkits.mplot3d.art3d', 'pylab', 'scipy',
-                        'scipy.interpolate', 'scipy.ndimage', 'scipy.optimize',
-                        'scipy.spatial', 'scipy.spatial.distance']
+autodoc_mock_imports = [
+    'matplotlib', 'matplotlib.cm', 'matplotlib.image', 'matplotlib.path',
+    'matplotlib.pyplot', 'matplotlib.ticker', 'mpl_toolkits.mplot3d',
+    'mpl_toolkits.mplot3d.art3d', 'pylab', 'scipy', 'scipy.interpolate',
+    'scipy.ndimage', 'scipy.optimize', 'scipy.spatial',
+    'scipy.spatial.distance'
+]
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the

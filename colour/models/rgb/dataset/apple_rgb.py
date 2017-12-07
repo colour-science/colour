@@ -42,10 +42,11 @@ __all__ = [
     'APPLE_RGB_COLOURSPACE'
 ]
 
-APPLE_RGB_PRIMARIES = np.array(
-    [[0.6250, 0.3400],
-     [0.2800, 0.5950],
-     [0.1550, 0.0700]])  # yapf: disable
+APPLE_RGB_PRIMARIES = np.array([
+    [0.6250, 0.3400],
+    [0.2800, 0.5950],
+    [0.1550, 0.0700],
+])
 """
 *Apple RGB* colourspace primaries.
 

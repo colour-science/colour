@@ -46,10 +46,11 @@ __all__ = [
     'RGB_to_ICTCP', 'ICTCP_to_RGB'
 ]
 
-ICTCP_RGB_TO_LMS_MATRIX = np.array(
-    [[1688, 2146, 262],
-     [683, 2951, 462],
-     [99, 309, 3688]]) / 4096  # yapf: disable
+ICTCP_RGB_TO_LMS_MATRIX = np.array([
+    [1688, 2146, 262],
+    [683, 2951, 462],
+    [99, 309, 3688],
+]) / 4096
 """
 *Rec. 2020* colourspace to normalised cone responses matrix.
 
@@ -64,10 +65,11 @@ colourspace matrix.
 ICTCP_LMS_TO_RGB_MATRIX : array_like, (3, 3)
 """
 
-ICTCP_LMS_P_TO_ICTCP_MATRIX = np.array(
-    [[2048, 2048, 0],
-     [6610, -13613, 7003],
-     [17933, -17390, -543]]) / 4096  # yapf: disable
+ICTCP_LMS_P_TO_ICTCP_MATRIX = np.array([
+    [2048, 2048, 0],
+    [6610, -13613, 7003],
+    [17933, -17390, -543],
+]) / 4096
 """
 :math:`LMS_p` *SMPTE ST 2084:2014* encoded normalised cone responses to
 :math:`IC_TC_P` colour encoding matrix.

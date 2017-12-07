@@ -83,20 +83,22 @@ __all__ = [
     'ACES_CCT_COLOURSPACE', 'ACES_PROXY_COLOURSPACE'
 ]
 
-AP0 = np.array(
-    [[0.73470, 0.26530],
-     [0.00000, 1.00000],
-     [0.00010, -0.07700]])  # yapf: disable
+AP0 = np.array([
+    [0.73470, 0.26530],
+    [0.00000, 1.00000],
+    [0.00010, -0.07700],
+])
 """
 *ACES Primaries 0* or *AP0* primaries.
 
 AP0 : ndarray, (3, 2)
 """
 
-AP1 = np.array(
-    [[0.71300, 0.29300],
-     [0.16500, 0.83000],
-     [0.12800, 0.04400]])  # yapf: disable
+AP1 = np.array([
+    [0.71300, 0.29300],
+    [0.16500, 0.83000],
+    [0.12800, 0.04400],
+])
 """
 *ACES Primaries 1* or *AP1* primaries (known as *Rec. 2020+* primaries prior
 to *ACES* 1.0 release).
@@ -119,19 +121,21 @@ ACES_WHITEPOINT = (
 ACES_WHITEPOINT : ndarray
 """
 
-AP0_TO_XYZ_MATRIX = np.array(
-    [[0.9525523959, 0.0000000000, 0.0000936786],
-     [0.3439664498, 0.7281660966, -0.0721325464],
-     [0.0000000000, 0.0000000000, 1.0088251844]])  # yapf: disable
+AP0_TO_XYZ_MATRIX = np.array([
+    [0.9525523959, 0.0000000000, 0.0000936786],
+    [0.3439664498, 0.7281660966, -0.0721325464],
+    [0.0000000000, 0.0000000000, 1.0088251844],
+])
 """
 *ACES Primaries 0* to *CIE XYZ* tristimulus values matrix defined as per [2].
 AP0_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
-XYZ_TO_AP0_MATRIX = np.array(
-    [[1.0498110175, 0.0000000000, -0.0000974845],
-     [- 0.4959030231, 1.3733130458, 0.0982400361],
-     [0.0000000000, 0.0000000000, 0.9912520182]])  # yapf: disable
+XYZ_TO_AP0_MATRIX = np.array([
+    [1.0498110175, 0.0000000000, -0.0000974845],
+    [-0.4959030231, 1.3733130458, 0.0982400361],
+    [0.0000000000, 0.0000000000, 0.9912520182],
+])
 """
 *CIE XYZ* tristimulus values to *ACES Primaries 0* matrix.
 

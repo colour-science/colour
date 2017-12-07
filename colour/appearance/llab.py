@@ -121,10 +121,11 @@ LLAB_VIEWING_CONDITIONS['sheet_dim'] = (
 LLAB_VIEWING_CONDITIONS['projected_dark'] = (
     LLAB_VIEWING_CONDITIONS['35mm Projection Transparency, Dark Surround'])
 
-LLAB_XYZ_TO_RGB_MATRIX = np.array(
-    [[0.8951, 0.2664, -0.1614],
-     [-0.7502, 1.7135, 0.0367],
-     [0.0389, -0.0685, 1.0296]])  # yapf: disable
+LLAB_XYZ_TO_RGB_MATRIX = np.array([
+    [0.8951, 0.2664, -0.1614],
+    [-0.7502, 1.7135, 0.0367],
+    [0.0389, -0.0685, 1.0296],
+])
 """
 LLAB(l:c) colour appearance model *CIE XYZ* tristimulus values to normalised
 cone responses matrix.
