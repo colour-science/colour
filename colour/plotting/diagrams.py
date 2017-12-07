@@ -529,6 +529,7 @@ def CIE_1976_UCS_chromaticity_diagram_colours_plot(
 def CIE_1976_UCS_chromaticity_diagram_plot(
         cmfs='CIE 1931 2 Degree Standard Observer',
         show_diagram_colours=True,
+        show_locus_labels=True,
         **kwargs):
     """
     Plots the *CIE 1976 UCS Chromaticity Diagram*.
@@ -539,6 +540,8 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
         Standard observer colour matching functions used for diagram bounds.
     show_diagram_colours : bool, optional
         Whether to display the chromaticity diagram background colours.
+    show_locus_labels : bool, optional
+        Whether to display the locus wavelength labels.
 
     Other Parameters
     ----------------
@@ -573,9 +576,6 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
                              cmfs.name.replace(' ', '_'))))
         pylab.imshow(image, interpolation=None, extent=(0, 1, 0, 1))
 
-    labels = (420, 430, 440, 450, 460, 470, 480, 490, 500, 510, 520, 530, 540,
-              550, 560, 570, 580, 590, 600, 610, 620, 630, 640, 680)
-
     wavelengths = cmfs.wavelengths
     equal_energy = np.array([1 / 3] * 2)
 
@@ -588,43 +588,48 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
         (uv[-1][0], uv[0][0]), (uv[-1][1], uv[0][1]),
         color='black',
         linewidth=2)
+    
+    if show_locus_labels:
 
-    for label in labels:
-        u, v = wavelengths_chromaticity_coordinates[label]
-        pylab.plot(u, v, 'o', color='black', linewidth=2)
-
-        index = bisect.bisect(wavelengths, label)
-        left = wavelengths[index - 1] if index >= 0 else wavelengths[index]
-        right = (wavelengths[index]
-                 if index < len(wavelengths) else wavelengths[-1])
-
-        dx = (wavelengths_chromaticity_coordinates[right][0] -
-              wavelengths_chromaticity_coordinates[left][0])
-        dy = (wavelengths_chromaticity_coordinates[right][1] -
-              wavelengths_chromaticity_coordinates[left][1])
-
-        uv = np.array([u, v])
-        direction = np.array([-dy, dx])
-
-        normal = (np.array([-dy, dx]) if np.dot(
-            normalise_vector(uv - equal_energy), normalise_vector(direction)) >
-                  0 else np.array([dy, -dx]))
-        normal = normalise_vector(normal)
-        normal /= 25
-
-        pylab.plot(
-            (u, u + normal[0] * 0.75), (v, v + normal[1] * 0.75),
-            color='black',
-            linewidth=1.5)
-        pylab.text(
-            u + normal[0],
-            v + normal[1],
-            label,
-            color='black',
-            clip_on=True,
-            ha='left' if normal[0] >= 0 else 'right',
-            va='center',
-            fontdict={'size': 'small'})
+        labels = (420, 430, 440, 450, 460, 470, 480, 490, 500, 510, 520, 530, 540,
+                  550, 560, 570, 580, 590, 600, 610, 620, 630, 640, 680)
+    
+        for label in labels:
+            u, v = wavelengths_chromaticity_coordinates[label]
+            pylab.plot(u, v, 'o', color='black', linewidth=2)
+    
+            index = bisect.bisect(wavelengths, label)
+            left = wavelengths[index - 1] if index >= 0 else wavelengths[index]
+            right = (wavelengths[index]
+                     if index < len(wavelengths) else wavelengths[-1])
+    
+            dx = (wavelengths_chromaticity_coordinates[right][0] -
+                  wavelengths_chromaticity_coordinates[left][0])
+            dy = (wavelengths_chromaticity_coordinates[right][1] -
+                  wavelengths_chromaticity_coordinates[left][1])
+    
+            uv = np.array([u, v])
+            direction = np.array([-dy, dx])
+    
+            normal = (np.array([-dy, dx]) if np.dot(
+                normalise_vector(uv - equal_energy), normalise_vector(direction)) >
+                      0 else np.array([dy, -dx]))
+            normal = normalise_vector(normal)
+            normal /= 25
+    
+            pylab.plot(
+                (u, u + normal[0] * 0.75), (v, v + normal[1] * 0.75),
+                color='black',
+                linewidth=1.5)
+            pylab.text(
+                u + normal[0],
+                v + normal[1],
+                label,
+                color='black',
+                clip_on=True,
+                ha='left' if normal[0] >= 0 else 'right',
+                va='center',
+                fontdict={'size': 'small'})
 
     ticks = np.arange(-10, 10, 0.1)
 
