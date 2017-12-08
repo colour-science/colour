@@ -23,7 +23,7 @@ message_box(('Comparing "Rec. 709" and "ACEScg" RGB colourspaces volume '
              'in "CIE L*a*b*" colourspace.'))
 RGB_colourspaces_gamuts_plot(
     ('Rec. 709', 'ACEScg'),
-    reference_colourspace='CIE L*a*b*',
+    reference_colourspace='CIE Lab',
     style={
         'face_colours': (None, (0.25, 0.25, 0.25)),
         'edge_colours': (None, (0.25, 0.25, 0.25)),
@@ -33,7 +33,7 @@ RGB_colourspaces_gamuts_plot(
 
 print('\n')
 
-message_box(('Plotting "ACEScg" colourspaces values in in "CIE L*a*b*" '
+message_box(('Plotting "ACEScg" colourspaces values in "CIE L*a*b*" '
              'colourspace.'))
 
 RGB = np.random.random((32, 32, 3))
@@ -41,7 +41,7 @@ RGB = np.random.random((32, 32, 3))
 RGB_scatter_plot(
     RGB,
     'ACEScg',
-    reference_colourspace='CIE L*a*b*',
+    reference_colourspace='CIE Lab',
     colourspaces=('ACEScg', 'Rec. 709'),
     face_colours=((0.25, 0.25, 0.25), None),
     edge_colours=((0.25, 0.25, 0.25), None),
