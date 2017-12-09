@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.models.rgb.transfer_functions.bt_709`
+Defines unit tests for :mod:`colour.models.rgb.transfer_functions.itur_bt_709`
 module.
 """
 
@@ -10,7 +10,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.models.rgb.transfer_functions import oetf_BT709, eotf_BT709
+from colour.models.rgb.transfer_functions import oetf_BT709, oetf_reverse_BT709
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -20,22 +20,24 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestOetf_BT709', 'TestEotf_BT709']
+__all__ = ['TestOetf_BT709', 'TestOetf_reverse_BT709']
 
 
 class TestOetf_BT709(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.bt_709.oetf_BT709`
+    Defines :func:`colour.models.rgb.transfer_functions.itur_bt_709.oetf_BT709`
     definition unit tests methods.
     """
 
     def test_oetf_BT709(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.bt_709.\
+        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_709.\
 oetf_BT709` definition.
         """
 
         self.assertAlmostEqual(oetf_BT709(0.0), 0.0, places=7)
+
+        self.assertAlmostEqual(oetf_BT709(0.015), 0.067500000000000, places=7)
 
         self.assertAlmostEqual(oetf_BT709(0.18), 0.409007728864150, places=7)
 
@@ -43,7 +45,7 @@ oetf_BT709` definition.
 
     def test_n_dimensional_oetf_BT709(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.bt_709.\
+        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_709.\
 oetf_BT709` definition n-dimensional arrays support.
         """
 
@@ -66,61 +68,65 @@ oetf_BT709` definition n-dimensional arrays support.
     @ignore_numpy_errors
     def test_nan_oetf_BT709(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.bt_709.\
+        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_709.\
 oetf_BT709` definition nan support.
         """
 
         oetf_BT709(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
-class TestEotf_BT709(unittest.TestCase):
+class TestOetf_reverse_BT709(unittest.TestCase):
     """
-    Defines :func:`colour.models.rgb.transfer_functions.bt_709.eotf_BT709`
-    definition unit tests methods.
+    Defines :func:`colour.models.rgb.transfer_functions.itur_bt_709.\
+oetf_reverse_BT709` definition unit tests methods.
     """
 
-    def test_eotf_BT709(self):
+    def test_oetf_reverse_BT709(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.bt_709.\
-eotf_BT709` definition.
+        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_709.\
+oetf_reverse_BT709` definition.
         """
 
-        self.assertAlmostEqual(eotf_BT709(0.0), 0.0, places=7)
+        self.assertAlmostEqual(oetf_reverse_BT709(0.0), 0.0, places=7)
 
-        self.assertAlmostEqual(eotf_BT709(0.409007728864150), 0.18, places=7)
+        self.assertAlmostEqual(
+            oetf_reverse_BT709(0.067500000000000), 0.015, places=7)
 
-        self.assertAlmostEqual(eotf_BT709(1.0), 1.0, places=7)
+        self.assertAlmostEqual(
+            oetf_reverse_BT709(0.409007728864150), 0.18, places=7)
 
-    def test_n_dimensional_eotf_BT709(self):
+        self.assertAlmostEqual(oetf_reverse_BT709(1.0), 1.0, places=7)
+
+    def test_n_dimensional_oetf_reverse_BT709(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.bt_709.\
-eotf_BT709` definition n-dimensional arrays support.
+        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_709.\
+oetf_reverse_BT709` definition n-dimensional arrays support.
         """
 
         V = 0.409007728864150
         L = 0.18
-        np.testing.assert_almost_equal(eotf_BT709(V), L, decimal=7)
+        np.testing.assert_almost_equal(oetf_reverse_BT709(V), L, decimal=7)
 
         V = np.tile(V, 6)
         L = np.tile(L, 6)
-        np.testing.assert_almost_equal(eotf_BT709(V), L, decimal=7)
+        np.testing.assert_almost_equal(oetf_reverse_BT709(V), L, decimal=7)
 
         V = np.reshape(V, (2, 3))
         L = np.reshape(L, (2, 3))
-        np.testing.assert_almost_equal(eotf_BT709(V), L, decimal=7)
+        np.testing.assert_almost_equal(oetf_reverse_BT709(V), L, decimal=7)
 
         V = np.reshape(V, (2, 3, 1))
         L = np.reshape(L, (2, 3, 1))
-        np.testing.assert_almost_equal(eotf_BT709(V), L, decimal=7)
+        np.testing.assert_almost_equal(oetf_reverse_BT709(V), L, decimal=7)
 
     @ignore_numpy_errors
-    def test_nan_eotf_BT709(self):
+    def test_nan_oetf_reverse_BT709(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.bt_709.\
-eotf_BT709` definition nan support.
+        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_709.\
+oetf_reverse_BT709` definition nan support.
         """
 
-        eotf_BT709(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+        oetf_reverse_BT709(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 if __name__ == '__main__':

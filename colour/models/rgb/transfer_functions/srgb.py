@@ -5,10 +5,10 @@ sRGB Colourspace
 ================
 
 Defines *sRGB* colourspace opto-electrical transfer function (OETF / OECF) and
-electro-optical transfer function (EOTF / EOCF):
+its reverse:
 
 -   :func:`oetf_sRGB`
--   :func:`eotf_sRGB`
+-   :func:`oetf_reverse_sRGB`
 
 See Also
 --------
@@ -33,7 +33,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import as_numeric, warning
+from colour.utilities import as_numeric
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -42,7 +42,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['oetf_sRGB', 'eotf_sRGB']
+__all__ = ['oetf_sRGB', 'oetf_reverse_sRGB']
 
 
 def oetf_sRGB(L):
@@ -72,10 +72,10 @@ def oetf_sRGB(L):
         np.where(L <= 0.0031308, L * 12.92, 1.055 * (L ** (1 / 2.4)) - 0.055))
 
 
-def eotf_sRGB(V):
+def oetf_reverse_sRGB(V):
     """
-    Defines the *sRGB* colourspace electro-optical transfer function
-    (EOTF / EOCF).
+    Defines the *sRGB* colourspace reverse opto-electronic transfer function
+    (OETF / OECF).
 
     Parameters
     ----------
@@ -89,17 +89,9 @@ def eotf_sRGB(V):
 
     Examples
     --------
-    >>> eotf_sRGB(0.461356129500442)  # doctest: +ELLIPSIS
+    >>> oetf_reverse_sRGB(0.461356129500442)  # doctest: +ELLIPSIS
     0.1...
     """
-
-    warning(('*sRGB* *OETF* is a piece-wise function: in order to reduce '
-             'noise in dark region, a line segment limits the slope of the '
-             'power function (slope of a power function is infinite at zero). '
-             'This is not needed for *sRGB* *EOTF*, a pure gamma 2.2 function '
-             'should be use instead. This definition is used for symmetry in '
-             'unit tests and others computations but should not be used as an '
-             '*EOTF*!'))
 
     V = np.asarray(V)
 

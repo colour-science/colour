@@ -100,8 +100,8 @@ AP1 = np.array([
     [0.12800, 0.04400],
 ])
 """
-*ACES Primaries 1* or *AP1* primaries (known as *Rec. 2020+* primaries prior
-to *ACES* 1.0 release).
+*ACES Primaries 1* or *AP1* primaries (known as *ITU-R BT.2020+* primaries
+prior to *ACES* 1.0 release).
 
 AP1 : ndarray, (3, 2)
 """

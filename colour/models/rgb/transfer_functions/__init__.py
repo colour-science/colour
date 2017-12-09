@@ -10,10 +10,7 @@ from .aces import (log_encoding_ACESproxy, log_decoding_ACESproxy,
                    log_encoding_ACEScc, log_decoding_ACEScc,
                    log_encoding_ACEScct, log_decoding_ACEScct)
 from .alexa_log_c import (log_encoding_ALEXALogC, log_decoding_ALEXALogC)
-from .arib_std_b67 import oetf_ARIBSTDB67, eotf_ARIBSTDB67
-from .bt_709 import oetf_BT709, eotf_BT709
-from .bt_1886 import oetf_BT1886, eotf_BT1886
-from .bt_2020 import oetf_BT2020, eotf_BT2020
+from .arib_std_b67 import oetf_ARIBSTDB67, oetf_reverse_ARIBSTDB67
 from .canon_log import (log_encoding_CanonLog, log_decoding_CanonLog,
                         log_encoding_CanonLog2, log_decoding_CanonLog2,
                         log_encoding_CanonLog3, log_decoding_CanonLog3)
@@ -22,6 +19,10 @@ from .dci_p3 import oetf_DCIP3, eotf_DCIP3
 from .dicom_gsdf import oetf_DICOMGSDF, eotf_DICOMGSDF
 from .gamma import function_gamma
 from .gopro import log_encoding_Protune, log_decoding_Protune
+from .itur_bt_601 import oetf_BT601, oetf_reverse_BT601
+from .itur_bt_709 import oetf_BT709, oetf_reverse_BT709
+from .itur_bt_1886 import eotf_reverse_BT1886, eotf_BT1886
+from .itur_bt_2020 import oetf_BT2020, eotf_BT2020
 from .linear import function_linear
 from .panalog import log_encoding_Panalog, log_decoding_Panalog
 from .panasonic_vlog import log_encoding_VLog, log_decoding_VLog
@@ -33,10 +34,11 @@ from .red_log import (log_encoding_REDLog, log_decoding_REDLog,
 from .rimm_romm_rgb import (oetf_ROMMRGB, eotf_ROMMRGB, oetf_ProPhotoRGB,
                             eotf_ProPhotoRGB, oetf_RIMMRGB, eotf_RIMMRGB,
                             log_encoding_ERIMMRGB, log_decoding_ERIMMRGB)
-from .srgb import oetf_sRGB, eotf_sRGB
+from .smpte_240m import oetf_SMPTE240M, eotf_SMPTE240M
 from .sony_slog import (log_encoding_SLog, log_decoding_SLog,
                         log_encoding_SLog2, log_decoding_SLog2,
                         log_encoding_SLog3, log_decoding_SLog3)
+from .srgb import oetf_sRGB, oetf_reverse_sRGB
 from .st_2084 import oetf_ST2084, eotf_ST2084
 from .viper_log import log_encoding_ViperLog, log_decoding_ViperLog
 
@@ -46,10 +48,7 @@ __all__ += [
     'log_decoding_ACEScc', 'log_encoding_ACEScct', 'log_decoding_ACEScct'
 ]
 __all__ += ['log_encoding_ALEXALogC', 'log_decoding_ALEXALogC']
-__all__ += ['oetf_ARIBSTDB67', 'eotf_ARIBSTDB67']
-__all__ += ['oetf_BT709', 'eotf_BT709']
-__all__ += ['oetf_BT1886', 'eotf_BT1886']
-__all__ += ['oetf_BT2020', 'eotf_BT2020']
+__all__ += ['oetf_ARIBSTDB67', 'oetf_reverse_ARIBSTDB67']
 __all__ += [
     'log_encoding_CanonLog', 'log_decoding_CanonLog', 'log_encoding_CanonLog2',
     'log_decoding_CanonLog2', 'log_encoding_CanonLog3',
@@ -60,6 +59,10 @@ __all__ += ['oetf_DCIP3', 'eotf_DCIP3']
 __all__ += ['oetf_DICOMGSDF', 'eotf_DICOMGSDF']
 __all__ += ['function_gamma']
 __all__ += ['log_encoding_Protune', 'log_decoding_Protune']
+__all__ += ['oetf_BT601', 'oetf_reverse_BT601']
+__all__ += ['oetf_BT709', 'oetf_reverse_BT709']
+__all__ += ['eotf_reverse_BT1886', 'eotf_BT1886']
+__all__ += ['oetf_BT2020', 'eotf_BT2020']
 __all__ += ['function_linear']
 __all__ += ['log_encoding_Panalog', 'log_decoding_Panalog']
 __all__ += ['log_encoding_VLog', 'log_decoding_VLog']
@@ -74,11 +77,12 @@ __all__ += [
     'oetf_RIMMRGB', 'eotf_RIMMRGB', 'log_encoding_ERIMMRGB',
     'log_decoding_ERIMMRGB'
 ]
+__all__ += ['oetf_SMPTE240M', 'eotf_SMPTE240M']
 __all__ += [
     'log_encoding_SLog', 'log_decoding_SLog', 'log_encoding_SLog2',
     'log_decoding_SLog2', 'log_encoding_SLog3', 'log_decoding_SLog3'
 ]
-__all__ += ['oetf_sRGB', 'eotf_sRGB']
+__all__ += ['oetf_sRGB', 'oetf_reverse_sRGB']
 __all__ += ['oetf_ST2084', 'eotf_ST2084']
 __all__ += ['log_decoding_ViperLog', 'log_decoding_ViperLog']
 
@@ -343,23 +347,25 @@ __all__ += ['log_encoding_curve', 'log_decoding_curve']
 
 OETFS = CaseInsensitiveMapping({
     'ARIB STD-B67': oetf_ARIBSTDB67,
-    'BT.1886': oetf_BT1886,
-    'BT.2020': oetf_BT2020,
-    'BT.709': oetf_BT709,
     'DCI-P3': oetf_DCIP3,
     'DICOM GSDF': oetf_DICOMGSDF,
+    'ITU-R BT.2020': oetf_BT2020,
+    'ITU-R BT.601': oetf_BT601,
+    'ITU-R BT.709': oetf_BT709,
     'ProPhoto RGB': oetf_ProPhotoRGB,
     'RIMM RGB': oetf_RIMMRGB,
     'ROMM RGB': oetf_ROMMRGB,
-    'sRGB': oetf_sRGB,
-    'ST 2084': oetf_ST2084
+    'SMPTE 240M': oetf_SMPTE240M,
+    'ST 2084': oetf_ST2084,
+    'sRGB': oetf_sRGB
 })
 """
 Supported opto-electrical transfer functions (OETF / OECF).
 
 OETFS : CaseInsensitiveMapping
-    **{'ARIB STD-B67', 'sRGB', 'BT.1886', 'BT.2020', 'BT.709', 'DCI-P3',
-    'DICOM GSDF', 'ROMM RGB', 'ProPhoto RGB', 'RIMM RGB', 'ST 2084'}**
+    **{'sRGB', 'ARIB STD-B67', 'DCI-P3', 'DICOM GSDF', 'ITU-R BT.2020',
+    'ITU-R BT.601', 'ITU-R BT.709', 'ProPhoto RGB', 'RIMM RGB', 'ROMM RGB',
+    'SMPTE 240M', 'ST 2084'}**
 """
 
 
@@ -374,9 +380,10 @@ def oetf(value, function='sRGB', **kwargs):
     value : numeric or array_like
         Value.
     function : unicode, optional
-        **{'ARIB STD-B67', 'sRGB', 'BT.1886', 'BT.2020', 'BT.709', 'DCI-P3',
-        'DICOM GSDF', 'ROMM RGB', 'ProPhoto RGB', 'RIMM RGB', 'ST 2084'}**,
-        Computation function.
+        **{'sRGB', 'ARIB STD-B67', 'DCI-P3', 'DICOM GSDF', 'ITU-R BT.2020',
+        'ITU-R BT.601', 'ITU-R BT.709', 'ProPhoto RGB', 'RIMM RGB', 'ROMM RGB',
+        'SMPTE 240M', 'ST 2084'}**
+        Opto-electronic transfer function (OETF / OECF).
 
     Other Parameters
     ----------------
@@ -387,18 +394,14 @@ def oetf(value, function='sRGB', **kwargs):
         {:func:`oetf_ROMMRGB`, :func:`oetf_RIMMRGB`},
         Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
         12-bit and 16-bit per channel.
-    L_B : numeric, optional
-        {:func:`oetf_BT1886`},
-        Screen luminance for black.
-    L_W : numeric, optional
-        {:func:`oetf_BT1886`},
-        Screen luminance for white.
     L_p : numeric, optional
         {:func:`oetf_ST2084`},
         Display peak luminance :math:`cd/m^2`.
     is_12_bits_system : bool
         {:func:`oetf_BT2020`},
-        *BT.709* *alpha* and *beta* constants are used if system is not 12-bit.
+        *ITU-R BT.2020* *alpha* and *beta* constants are used
+        if system is not
+        12-bit.
     r : numeric, optional
         {:func:`oetf_ARIBSTDB67`},
         Video level corresponding to reference white level.
@@ -412,7 +415,7 @@ def oetf(value, function='sRGB', **kwargs):
     --------
     >>> oetf(0.18)  # doctest: +ELLIPSIS
     0.4613561...
-    >>> oetf(0.18, function='BT.2020')  # doctest: +ELLIPSIS
+    >>> oetf(0.18, function='ITU-R BT.2020')  # doctest: +ELLIPSIS
     0.4090077...
     >>> oetf(0.18, function='ST 2084', L_p=1000)
     ... # doctest: +ELLIPSIS
@@ -426,29 +429,82 @@ def oetf(value, function='sRGB', **kwargs):
     return function(value, **kwargs)
 
 
+OETFS_REVERSE = CaseInsensitiveMapping({
+    'ARIB STD-B67': oetf_reverse_ARIBSTDB67,
+    'ITU-R BT.601': oetf_reverse_BT601,
+    'ITU-R BT.709': oetf_reverse_BT709,
+    'sRGB': oetf_reverse_sRGB
+})
+"""
+Supported reverse opto-electrical transfer functions (OETF / OECF).
+
+OETFS_REVERSE : CaseInsensitiveMapping
+    **{'sRGB', 'ARIB STD-B67', 'ITU-R BT.601', 'ITU-R BT.709'}**
+"""
+
+
+def oetf_reverse(value, function='sRGB', **kwargs):
+    """
+    Decodes :math:`R'G'B'` video component signal value to tristimulus values
+    at the display using given reverse opto-electronic transfer function
+    (OETF / OECF).
+
+    Parameters
+    ----------
+    value : numeric or array_like
+        Value.
+    function : unicode, optional
+        **{'sRGB', 'ARIB STD-B67', 'ITU-R BT.601', 'ITU-R BT.709'}**
+        Reverse opto-electronic transfer function (OETF / OECF).
+
+    Other Parameters
+    ----------------
+    r : numeric, optional
+        {:func:`oetf_ARIBSTDB67`},
+        Video level corresponding to reference white level.
+
+    Returns
+    -------
+    numeric or ndarray
+        Tristimulus values at the display.
+
+    Examples
+    --------
+    >>> oetf_reverse(0.461356129500442)  # doctest: +ELLIPSIS
+    0.1...
+    >>> oetf_reverse(
+    ...     0.409007728864150, function='ITU-R BT.601')  # doctest: +ELLIPSIS
+    0.1...
+    """
+
+    function = OETFS_REVERSE[function]
+
+    filter_kwargs(function, **kwargs)
+
+    return function(value, **kwargs)
+
+
 EOTFS = CaseInsensitiveMapping({
-    'ARIB STD-B67': eotf_ARIBSTDB67,
-    'BT.1886': eotf_BT1886,
-    'BT.2020': eotf_BT2020,
-    'BT.709': eotf_BT709,
     'DCI-P3': eotf_DCIP3,
     'DICOM GSDF': eotf_DICOMGSDF,
+    'ITU-R BT.1886': eotf_BT1886,
+    'ITU-R BT.2020': eotf_BT2020,
     'ProPhoto RGB': eotf_ProPhotoRGB,
     'RIMM RGB': eotf_RIMMRGB,
     'ROMM RGB': eotf_ROMMRGB,
-    'sRGB': eotf_sRGB,
-    'ST 2084': eotf_ST2084
+    'SMPTE 240M': eotf_SMPTE240M,
+    'ST 2084': eotf_ST2084,
 })
 """
 Supported electro-optical transfer functions (EOTF / EOCF).
 
 EOTFS : CaseInsensitiveMapping
-    **{'ARIB STD-B67', 'sRGB', 'BT.1886', 'BT.2020', 'BT.709', 'DCI-P3',
-    'DICOM GSDF', 'ROMM RGB', 'ProPhoto RGB', 'RIMM RGB', 'ST 2084'}**
+    **{'DCI-P3', 'DICOM GSDF', 'ITU-R BT.1886', 'ITU-R BT.2020',
+    'ProPhoto RGB', 'RIMM RGB', 'ROMM RGB', 'SMPTE 240M', 'ST 2084'}**
 """
 
 
-def eotf(value, function='sRGB', **kwargs):
+def eotf(value, function='ITU-R BT.1886', **kwargs):
     """
     Decodes :math:`R'G'B'` video component signal value to tristimulus values
     at the display using given electro-optical transfer function (EOTF / EOCF).
@@ -458,9 +514,9 @@ def eotf(value, function='sRGB', **kwargs):
     value : numeric or array_like
         Value.
     function : unicode, optional
-        **{'ARIB STD-B67', 'sRGB', 'BT.1886', 'BT.2020', 'BT.709', 'DCI-P3',
-        'DICOM GSDF', 'ROMM RGB', 'ProPhoto RGB', 'RIMM RGB', 'ST 2084'}**,
-        Computation function.
+        **{'ITU-R BT.1886', 'DCI-P3', 'DICOM GSDF', 'ITU-R BT.2020',
+        'ProPhoto RGB', 'RIMM RGB', 'ROMM RGB', 'SMPTE 240M', 'ST 2084'}**
+        Electro-optical transfer function (EOTF / EOCF).
 
     Other Parameters
     ----------------
@@ -482,10 +538,8 @@ def eotf(value, function='sRGB', **kwargs):
         Display peak luminance :math:`cd/m^2`.
     is_12_bits_system : bool
         {:func:`eotf_BT2020`},
-        *BT.709* *alpha* and *beta* constants are used if system is not 12-bit.
-    r : numeric, optional
-        {:func:`eotf_ARIBSTDB67`},
-        Video level corresponding to reference white level.
+        *ITU-R BT.2020* *alpha* and *beta* constants are used if system is not
+        12-bit.
 
     Returns
     -------
@@ -496,7 +550,7 @@ def eotf(value, function='sRGB', **kwargs):
     --------
     >>> eotf(0.461356129500442)  # doctest: +ELLIPSIS
     0.1...
-    >>> eotf(0.409007728864150, function='BT.2020')
+    >>> eotf(0.409007728864150, function='ITU-R BT.2020')
     ... # doctest: +ELLIPSIS
     0.1...
     >>> eotf(0.182011532850008, function='ST 2084', L_p=1000)
@@ -511,5 +565,60 @@ def eotf(value, function='sRGB', **kwargs):
     return function(value, **kwargs)
 
 
-__all__ += ['OETFS', 'EOTFS']
-__all__ += ['oetf', 'eotf']
+EOTFS_REVERSE = CaseInsensitiveMapping({
+    'ITU-R BT.1886': eotf_reverse_BT1886,
+})
+"""
+Supported reverse electro-optical transfer functions (EOTF / EOCF).
+
+EOTFS_REVERSE : CaseInsensitiveMapping
+    **{'ITU-R BT.1886'}**
+"""
+
+
+def eotf_reverse(value, function='ITU-R BT.1886', **kwargs):
+    """
+    Encodes estimated tristimulus values in a scene to :math:`R'G'B'` video
+    component signal value using given reverse electro-optical transfer
+    function (EOTF / EOCF).
+
+    Parameters
+    ----------
+    value : numeric or array_like
+        Value.
+    function : unicode, optional
+        **{'ITU-R BT.1886'}**
+        Reverse electro-optical transfer function (EOTF / EOCF).
+
+    Other Parameters
+    ----------------
+    L_B : numeric, optional
+        {:func:`eotf_reverse_BT1886`},
+        Screen luminance for black.
+    L_W : numeric, optional
+        {:func:`eotf_reverse_BT1886`},
+        Screen luminance for white.
+
+    Returns
+    -------
+    numeric or ndarray
+        :math:`R'G'B'` video component signal value.
+
+    Examples
+    --------
+    >>> eotf_reverse(0.11699185725296059)  # doctest: +ELLIPSIS
+    0.4090077...
+    >>> eotf_reverse(0.11699185725296059,
+    ...     function='ITU-R BT.1886')  # doctest: +ELLIPSIS
+    0.4090077...
+    """
+
+    function = EOTFS_REVERSE[function]
+
+    filter_kwargs(function, **kwargs)
+
+    return function(value, **kwargs)
+
+
+__all__ += ['OETFS', 'OETFS_REVERSE', 'EOTFS', 'EOTFS_REVERSE']
+__all__ += ['oetf', 'oetf_reverse', 'eotf', 'eotf_reverse']
