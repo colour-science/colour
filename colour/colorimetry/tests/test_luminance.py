@@ -11,7 +11,7 @@ import unittest
 
 from colour.colorimetry.luminance import (
     luminance_Newhall1943, luminance_CIE1976, luminance_ASTMD153508,
-    luminance_Fairchild2010)
+    luminance_Fairchild2010, luminance_Fairchild2011)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -23,7 +23,8 @@ __status__ = 'Production'
 
 __all__ = [
     'TestLuminanceNewhall1943', 'TestLuminanceASTMD153508',
-    'TestLuminanceCIE1976', 'TestLuminanceFairchild2010'
+    'TestLuminanceCIE1976', 'TestLuminanceFairchild2010',
+    'TestLuminanceFairchild2011'
 ]
 
 
@@ -210,13 +211,13 @@ class TestLuminanceFairchild2010(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            luminance_Fairchild2010(23.103633825753175), 0.10079999, places=7)
+            luminance_Fairchild2010(24.902290269546651), 0.10079999, places=7)
 
         self.assertAlmostEqual(
-            luminance_Fairchild2010(90.510575738115122), 0.56759999, places=7)
+            luminance_Fairchild2010(88.797568871771162), 0.56759999, places=7)
 
         self.assertAlmostEqual(
-            luminance_Fairchild2010(96.636221285055527), 0.98319999, places=7)
+            luminance_Fairchild2010(95.613018520289828), 0.98319999, places=7)
 
         self.assertAlmostEqual(
             luminance_Fairchild2010(16.064202706248068, 2.75),
@@ -224,13 +225,13 @@ class TestLuminanceFairchild2010(unittest.TestCase):
             places=7)
 
         self.assertAlmostEqual(
-            luminance_Fairchild2010(100.01999666792653),
-            1007.99999963,
+            luminance_Fairchild2010(100.019986327374240),
+            1008.00000024,
             places=7)
 
         self.assertAlmostEqual(
-            luminance_Fairchild2010(100.01999999966679),
-            100800.82383352,
+            luminance_Fairchild2010(100.019999997090270),
+            100799.92312466,
             places=7)
 
     def test_n_dimensional_luminance_Fairchild2010(self):
@@ -239,7 +240,7 @@ class TestLuminanceFairchild2010(unittest.TestCase):
         definition n-dimensional arrays support.
         """
 
-        L_hdr = 23.103633825753175
+        L_hdr = 24.902290269546651
         Y = 10.08 / 100
         np.testing.assert_almost_equal(
             luminance_Fairchild2010(L_hdr), Y, decimal=7)
@@ -267,6 +268,79 @@ class TestLuminanceFairchild2010(unittest.TestCase):
         """
 
         luminance_Fairchild2010(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
+
+class TestLuminanceFairchild2011(unittest.TestCase):
+    """
+    Defines :func:`colour.colorimetry.luminance.luminance_Fairchild2011`
+    definition unit tests methods.
+    """
+
+    def test_luminance_Fairchild2011(self):
+        """
+        Tests :func:`colour.colorimetry.luminance.luminance_Fairchild2011`
+        definition.
+        """
+
+        self.assertAlmostEqual(
+            luminance_Fairchild2011(26.459509817572265), 0.10079999, places=7)
+
+        self.assertAlmostEqual(
+            luminance_Fairchild2011(71.708466023819625), 0.56759999, places=7)
+
+        self.assertAlmostEqual(
+            luminance_Fairchild2011(93.030975393206475), 0.98319999, places=7)
+
+        self.assertAlmostEqual(
+            luminance_Fairchild2011(0.08672116154998, 2.75),
+            0.10079999,
+            places=7)
+
+        self.assertAlmostEqual(
+            luminance_Fairchild2011(244.07716520973938),
+            1008.00000000,
+            places=7)
+
+        self.assertAlmostEqual(
+            luminance_Fairchild2011(246.90681933957006),
+            100800.00000000,
+            places=7)
+
+    def test_n_dimensional_luminance_Fairchild2011(self):
+        """
+        Tests :func:`colour.colorimetry.lightness.luminance_Fairchild2011`
+        definition n-dimensional arrays support.
+        """
+
+        L_hdr = 26.459509817572265
+        Y = 10.08 / 100
+        np.testing.assert_almost_equal(
+            luminance_Fairchild2011(L_hdr), Y, decimal=7)
+
+        L_hdr = np.tile(L_hdr, 6)
+        Y = np.tile(Y, 6)
+        np.testing.assert_almost_equal(
+            luminance_Fairchild2011(L_hdr), Y, decimal=7)
+
+        L_hdr = np.reshape(L_hdr, (2, 3))
+        Y = np.reshape(Y, (2, 3))
+        np.testing.assert_almost_equal(
+            luminance_Fairchild2011(L_hdr), Y, decimal=7)
+
+        L_hdr = np.reshape(L_hdr, (2, 3, 1))
+        Y = np.reshape(Y, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            luminance_Fairchild2011(L_hdr), Y, decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_luminance_Fairchild2011(self):
+        """
+        Tests :func:`colour.colorimetry.luminance.luminance_Fairchild2011`
+        definition nan support.
+        """
+
+        luminance_Fairchild2011(
             np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 

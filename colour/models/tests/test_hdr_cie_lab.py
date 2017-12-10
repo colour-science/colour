@@ -22,8 +22,75 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'TestXYZ_to_hdr_CIELab', 'TestHdr_CIELab_to_XYZ', 'TestExponent_hdr_CIELab'
+    'TestExponent_hdr_CIELab', 'TestXYZ_to_hdr_CIELab', 'TestHdr_CIELab_to_XYZ'
 ]
+
+
+class TestExponent_hdr_CIELab(unittest.TestCase):
+    """
+    Defines :func:`colour.models.hdr_cie_lab.exponent_hdr_CIELab`
+    definition unit tests methods.
+    """
+
+    def test_exponent_hdr_CIELab(self):
+        """
+        Tests :func:`colour.models.hdr_cie_lab.exponent_hdr_CIELab`
+        definition.
+        """
+
+        self.assertAlmostEqual(
+            exponent_hdr_CIELab(0.2, 100), 0.709927693821670, places=7)
+
+        self.assertAlmostEqual(
+            exponent_hdr_CIELab(0.4, 100), 0.512725556648984, places=7)
+
+        self.assertAlmostEqual(
+            exponent_hdr_CIELab(0.4, 100, method='Fairchild 2010'),
+            1.326014370643925,
+            places=7)
+
+        self.assertAlmostEqual(
+            exponent_hdr_CIELab(0.2, 1000), 0.473285129214447, places=7)
+
+    def test_n_dimensional_exponent_hdr_CIELab(self):
+        """
+        Tests :func:`colour.models.hdr_cie_lab.exponent_hdr_CIELab`
+        definition n-dimensional arrays support.
+        """
+
+        Y_s = 0.2
+        Y_abs = 100
+        e = 0.709927693821670
+        np.testing.assert_almost_equal(
+            exponent_hdr_CIELab(Y_s, Y_abs), e, decimal=7)
+
+        Y_s = np.tile(Y_s, 6)
+        Y_abs = np.tile(Y_abs, 6)
+        e = np.tile(e, 6)
+        np.testing.assert_almost_equal(
+            exponent_hdr_CIELab(Y_s, Y_abs), e, decimal=7)
+
+        Y_s = np.reshape(Y_s, (2, 3))
+        Y_abs = np.reshape(Y_abs, (2, 3))
+        e = np.reshape(e, (2, 3))
+        np.testing.assert_almost_equal(
+            exponent_hdr_CIELab(Y_s, Y_abs), e, decimal=7)
+
+        Y_s = np.reshape(Y_s, (2, 3, 1))
+        Y_abs = np.reshape(Y_abs, (2, 3, 1))
+        e = np.reshape(e, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            exponent_hdr_CIELab(Y_s, Y_abs), e, decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_exponent_hdr_CIELab(self):
+        """
+        Tests :func:`colour.models.hdr_cie_lab.exponent_hdr_CIELab`
+        definition nan support.
+        """
+
+        cases = np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
+        exponent_hdr_CIELab(cases, cases)
 
 
 class TestXYZ_to_hdr_CIELab(unittest.TestCase):
@@ -39,26 +106,34 @@ class TestXYZ_to_hdr_CIELab(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             XYZ_to_hdr_CIELab(np.array([0.07049534, 0.10080000, 0.09558313])),
-            np.array([24.90206646, -46.83127607, -10.14274843]),
+            np.array([26.46461067, -24.61332600, -4.84796811]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_hdr_CIELab(
                 np.array([0.07049534, 0.10080000, 0.09558313]),
                 np.array([0.44757, 0.40745])),
+            np.array([26.46461067, -33.35816986, -42.86850246]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            XYZ_to_hdr_CIELab(
+                np.array([0.07049534, 0.10080000, 0.09558313]),
+                np.array([0.44757, 0.40745]),
+                method='Fairchild 2010'),
             np.array([24.90206646, -61.24983919, -83.63902870]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_hdr_CIELab(
                 np.array([0.07049534, 0.10080000, 0.09558313]), Y_s=0.5),
-            np.array([34.44227938, -36.51485775, -6.87279617]),
+            np.array([55.57158803, -27.58973060, -5.03923267]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_hdr_CIELab(
                 np.array([0.07049534, 0.10080000, 0.09558313]), Y_abs=1000),
-            np.array([32.39463250, -39.77445283, -7.66690737]),
+            np.array([48.33166805, -28.18355309, -5.21974184]),
             decimal=7)
 
     def test_n_dimensional_XYZ_to_hdr_CIELab(self):
@@ -71,7 +146,7 @@ class TestXYZ_to_hdr_CIELab(unittest.TestCase):
         illuminant = np.array([0.34570, 0.35850])
         Y_s = 0.2
         Y_abs = 100
-        Lab_hdr = np.array([24.90206646, -46.83127607, -10.14274843])
+        Lab_hdr = np.array([26.46461067, -24.61332600, -4.84796811])
         np.testing.assert_almost_equal(
             XYZ_to_hdr_CIELab(XYZ, illuminant, Y_s, Y_abs), Lab_hdr, decimal=7)
 
@@ -124,26 +199,26 @@ class TestHdr_CIELab_to_XYZ(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             hdr_CIELab_to_XYZ(
-                np.array([24.90206646, -46.83127607, -10.14274843])),
+                np.array([26.46461067, -24.61332600, -4.84796811])),
             np.array([0.07049534, 0.10080000, 0.09558313]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             hdr_CIELab_to_XYZ(
-                np.array([24.90206646, -61.24983919, -83.63902870]),
+                np.array([26.46461067, -33.35816986, -42.86850246]),
                 np.array([0.44757, 0.40745])),
             np.array([0.07049534, 0.10080000, 0.09558313]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             hdr_CIELab_to_XYZ(
-                np.array([34.44227938, -36.51485775, -6.87279617]), Y_s=0.5),
+                np.array([55.57158803, -27.58973060, -5.03923267]), Y_s=0.5),
             np.array([0.07049534, 0.10080000, 0.09558313]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             hdr_CIELab_to_XYZ(
-                np.array([32.39463250, -39.77445283, -7.66690737]),
+                np.array([48.33166805, -28.18355309, -5.21974184]),
                 Y_abs=1000),
             np.array([0.07049534, 0.10080000, 0.09558313]),
             decimal=7)
@@ -154,7 +229,7 @@ class TestHdr_CIELab_to_XYZ(unittest.TestCase):
         n-dimensions support.
         """
 
-        Lab_hdr = np.array([24.90206646, -46.83127607, -10.14274843])
+        Lab_hdr = np.array([26.46461067, -24.61332600, -4.84796811])
         illuminant = np.array([0.34570, 0.35850])
         Y_s = 0.2
         Y_abs = 100
@@ -196,68 +271,6 @@ class TestHdr_CIELab_to_XYZ(unittest.TestCase):
             Y_s = case[0]
             Y_abs = case[0]
             hdr_CIELab_to_XYZ(Lab_hdr, illuminant, Y_s, Y_abs)
-
-
-class TestExponent_hdr_CIELab(unittest.TestCase):
-    """
-    Defines :func:`colour.models.hdr_cie_lab.exponent_hdr_CIELab`
-    definition unit tests methods.
-    """
-
-    def test_exponent_hdr_CIELab(self):
-        """
-        Tests :func:`colour.models.hdr_cie_lab.exponent_hdr_CIELab`
-        definition.
-        """
-
-        self.assertAlmostEqual(
-            exponent_hdr_CIELab(0.2, 100), 1.836019897814665, places=7)
-
-        self.assertAlmostEqual(
-            exponent_hdr_CIELab(0.4, 100), 1.326014370643925, places=7)
-
-        self.assertAlmostEqual(
-            exponent_hdr_CIELab(0.2, 1000), 1.224013265209777, places=7)
-
-    def test_n_dimensional_exponent_hdr_CIELab(self):
-        """
-        Tests :func:`colour.models.hdr_cie_lab.exponent_hdr_CIELab`
-        definition n-dimensional arrays support.
-        """
-
-        Y_s = 0.2
-        Y_abs = 100
-        e = 1.836019897814665
-        np.testing.assert_almost_equal(
-            exponent_hdr_CIELab(Y_s, Y_abs), e, decimal=7)
-
-        Y_s = np.tile(Y_s, 6)
-        Y_abs = np.tile(Y_abs, 6)
-        e = np.tile(e, 6)
-        np.testing.assert_almost_equal(
-            exponent_hdr_CIELab(Y_s, Y_abs), e, decimal=7)
-
-        Y_s = np.reshape(Y_s, (2, 3))
-        Y_abs = np.reshape(Y_abs, (2, 3))
-        e = np.reshape(e, (2, 3))
-        np.testing.assert_almost_equal(
-            exponent_hdr_CIELab(Y_s, Y_abs), e, decimal=7)
-
-        Y_s = np.reshape(Y_s, (2, 3, 1))
-        Y_abs = np.reshape(Y_abs, (2, 3, 1))
-        e = np.reshape(e, (2, 3, 1))
-        np.testing.assert_almost_equal(
-            exponent_hdr_CIELab(Y_s, Y_abs), e, decimal=7)
-
-    @ignore_numpy_errors
-    def test_nan_exponent_hdr_CIELab(self):
-        """
-        Tests :func:`colour.models.hdr_cie_lab.exponent_hdr_CIELab`
-        definition nan support.
-        """
-
-        cases = np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        exponent_hdr_CIELab(cases, cases)
 
 
 if __name__ == '__main__':

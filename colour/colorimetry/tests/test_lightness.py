@@ -10,7 +10,8 @@ import numpy as np
 import unittest
 
 from colour.colorimetry import (lightness_Glasser1958, lightness_Wyszecki1963,
-                                lightness_CIE1976, lightness_Fairchild2010)
+                                lightness_CIE1976, lightness_Fairchild2010,
+                                lightness_Fairchild2011)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -22,7 +23,8 @@ __status__ = 'Production'
 
 __all__ = [
     'TestLightnessGlasser1958', 'TestLightnessWyszecki1963',
-    'TestLightnessCIE1976', 'TestLightnessFairchild2010'
+    'TestLightnessCIE1976', 'TestLightnessFairchild2010',
+    'TestLightnessFairchild2011'
 ]
 
 
@@ -206,22 +208,22 @@ class TestLightnessFairchild2010(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            lightness_Fairchild2010(10.08 / 100), 23.10363383, places=7)
+            lightness_Fairchild2010(10.08 / 100), 24.90229027, places=7)
 
         self.assertAlmostEqual(
-            lightness_Fairchild2010(56.76 / 100), 90.51057574, places=7)
+            lightness_Fairchild2010(56.76 / 100), 88.79756887, places=7)
 
         self.assertAlmostEqual(
-            lightness_Fairchild2010(98.32 / 100), 96.636221285, places=7)
+            lightness_Fairchild2010(98.32 / 100), 95.61301852, places=7)
 
         self.assertAlmostEqual(
             lightness_Fairchild2010(10.08 / 100, 2.75), 16.06420271, places=7)
 
         self.assertAlmostEqual(
-            lightness_Fairchild2010(1008), 100.01999667, places=7)
+            lightness_Fairchild2010(1008), 100.019986327374240, places=7)
 
         self.assertAlmostEqual(
-            lightness_Fairchild2010(100800), 100.01999999, places=7)
+            lightness_Fairchild2010(100800), 100.019999997090270, places=7)
 
     def test_n_dimensional_lightness_Fairchild2010(self):
         """
@@ -230,7 +232,7 @@ class TestLightnessFairchild2010(unittest.TestCase):
         """
 
         Y = 10.08 / 100
-        L = 23.10363383
+        L = 24.90229027
         np.testing.assert_almost_equal(
             lightness_Fairchild2010(Y), L, decimal=7)
 
@@ -257,6 +259,73 @@ class TestLightnessFairchild2010(unittest.TestCase):
         """
 
         lightness_Fairchild2010(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
+
+class TestLightnessFairchild2011(unittest.TestCase):
+    """
+    Defines :func:`colour.colorimetry.lightness.lightness_Fairchild2011`
+    definition unit tests methods.
+    """
+
+    def test_lightness_Fairchild2011(self):
+        """
+        Tests :func:`colour.colorimetry.lightness.lightness_Fairchild2011`
+        definition.
+        """
+
+        self.assertAlmostEqual(
+            lightness_Fairchild2011(10.08 / 100), 26.45950982, places=7)
+
+        self.assertAlmostEqual(
+            lightness_Fairchild2011(56.76 / 100), 71.70846602, places=7)
+
+        self.assertAlmostEqual(
+            lightness_Fairchild2011(98.32 / 100), 93.03097540, places=7)
+
+        self.assertAlmostEqual(
+            lightness_Fairchild2011(10.08 / 100, 2.75), 0.08672116, places=7)
+
+        self.assertAlmostEqual(
+            lightness_Fairchild2011(1008), 244.07716521, places=7)
+
+        self.assertAlmostEqual(
+            lightness_Fairchild2011(100800), 246.90681934, places=7)
+
+    def test_n_dimensional_lightness_Fairchild2011(self):
+        """
+        Tests :func:`colour.colorimetry.lightness.lightness_Fairchild2011`
+        definition n-dimensional arrays support.
+        """
+
+        Y = 10.08 / 100
+        L = 26.45950982
+        np.testing.assert_almost_equal(
+            lightness_Fairchild2011(Y), L, decimal=7)
+
+        Y = np.tile(Y, 6)
+        L = np.tile(L, 6)
+        np.testing.assert_almost_equal(
+            lightness_Fairchild2011(Y), L, decimal=7)
+
+        Y = np.reshape(Y, (2, 3))
+        L = np.reshape(L, (2, 3))
+        np.testing.assert_almost_equal(
+            lightness_Fairchild2011(Y), L, decimal=7)
+
+        Y = np.reshape(Y, (2, 3, 1))
+        L = np.reshape(L, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            lightness_Fairchild2011(Y), L, decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_lightness_Fairchild2011(self):
+        """
+        Tests :func:`colour.colorimetry.lightness.lightness_Fairchild2011`
+        definition nan support.
+        """
+
+        lightness_Fairchild2011(
             np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 

@@ -21,7 +21,74 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestXYZ_to_hdr_IPT', 'TestHdr_IPT_to_XYZ', 'TestExponent_hdr_IPT']
+__all__ = ['TestExponent_hdr_IPT', 'TestXYZ_to_hdr_IPT', 'TestHdr_IPT_to_XYZ']
+
+
+class TestExponent_hdr_IPT(unittest.TestCase):
+    """
+    Defines :func:`colour.models.hdr_ipt.exponent_hdr_IPT`
+    definition unit tests methods.
+    """
+
+    def test_exponent_hdr_IPT(self):
+        """
+        Tests :func:`colour.models.hdr_ipt.exponent_hdr_IPT`
+        definition.
+        """
+
+        self.assertAlmostEqual(
+            exponent_hdr_IPT(0.2, 100), 0.722167826473768, places=7)
+
+        self.assertAlmostEqual(
+            exponent_hdr_IPT(0.4, 100), 0.521565652453277, places=7)
+
+        self.assertAlmostEqual(
+            exponent_hdr_IPT(0.4, 100, method='Fairchild 2010'),
+            1.219933220992410,
+            places=7)
+
+        self.assertAlmostEqual(
+            exponent_hdr_IPT(0.2, 1000), 0.481445217649179, places=7)
+
+    def test_n_dimensional_exponent_hdr_IPT(self):
+        """
+        Tests :func:`colour.models.hdr_ipt.exponent_hdr_IPT`
+        definition n-dimensional arrays support.
+        """
+
+        Y_s = 0.2
+        Y_abs = 100
+        e = 0.722167826473768
+        np.testing.assert_almost_equal(
+            exponent_hdr_IPT(Y_s, Y_abs), e, decimal=7)
+
+        Y_s = np.tile(Y_s, 6)
+        Y_abs = np.tile(Y_abs, 6)
+        e = np.tile(e, 6)
+        np.testing.assert_almost_equal(
+            exponent_hdr_IPT(Y_s, Y_abs), e, decimal=7)
+
+        Y_s = np.reshape(Y_s, (2, 3))
+        Y_abs = np.reshape(Y_abs, (2, 3))
+        e = np.reshape(e, (2, 3))
+        np.testing.assert_almost_equal(
+            exponent_hdr_IPT(Y_s, Y_abs), e, decimal=7)
+
+        Y_s = np.reshape(Y_s, (2, 3, 1))
+        Y_abs = np.reshape(Y_abs, (2, 3, 1))
+        e = np.reshape(e, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            exponent_hdr_IPT(Y_s, Y_abs), e, decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_exponent_hdr_IPT(self):
+        """
+        Tests :func:`colour.models.hdr_ipt.exponent_hdr_IPT`
+        definition nan support.
+        """
+
+        cases = np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
+        exponent_hdr_IPT(cases, cases)
 
 
 class TestXYZ_to_hdr_IPT(unittest.TestCase):
@@ -37,19 +104,26 @@ class TestXYZ_to_hdr_IPT(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             XYZ_to_hdr_IPT(np.array([0.07049534, 0.10080000, 0.09558313])),
+            np.array([24.88927680, -11.44574144, 1.63147707]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            XYZ_to_hdr_IPT(
+                np.array([0.07049534, 0.10080000, 0.09558313]),
+                method='Fairchild 2010'),
             np.array([25.18261761, -22.62111297, 3.18511729]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_hdr_IPT(
                 np.array([0.07049534, 0.10080000, 0.09558313]), Y_s=0.5),
-            np.array([34.60312115, -15.70974390, 2.26601353]),
+            np.array([53.85070486, -12.48767103, 1.80705844]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_hdr_IPT(
                 np.array([0.25506814, 0.19150000, 0.08849752]), Y_abs=1000),
-            np.array([47.18074546, 32.38073691, 29.13827648]),
+            np.array([57.49548734, 25.88213868, 21.85080772]),
             decimal=7)
 
     def test_n_dimensional_XYZ_to_hdr_IPT(self):
@@ -61,7 +135,7 @@ class TestXYZ_to_hdr_IPT(unittest.TestCase):
         XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
         Y_s = 0.2
         Y_abs = 100
-        IPT_hdr = np.array([25.18261761, -22.62111297, 3.18511729])
+        IPT_hdr = np.array([24.88927680, -11.44574144, 1.63147707])
         np.testing.assert_almost_equal(
             XYZ_to_hdr_IPT(XYZ, Y_s, Y_abs), IPT_hdr, decimal=7)
 
@@ -110,19 +184,26 @@ class TestHdr_IPT_to_XYZ(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            hdr_IPT_to_XYZ(np.array([25.18261761, -22.62111297, 3.18511729])),
+            hdr_IPT_to_XYZ(np.array([24.88927680, -11.44574144, 1.63147707])),
             np.array([0.07049534, 0.10080000, 0.09558313]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             hdr_IPT_to_XYZ(
-                np.array([34.60312115, -15.70974390, 2.26601353]), Y_s=0.5),
+                np.array([25.18261761, -22.62111297, 3.18511729]),
+                method='Fairchild 2010'),
             np.array([0.07049534, 0.10080000, 0.09558313]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             hdr_IPT_to_XYZ(
-                np.array([47.18074546, 32.38073691, 29.13827648]), Y_abs=1000),
+                np.array([53.85070486, -12.48767103, 1.80705844]), Y_s=0.5),
+            np.array([0.07049534, 0.10080000, 0.09558313]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            hdr_IPT_to_XYZ(
+                np.array([57.49548734, 25.88213868, 21.85080772]), Y_abs=1000),
             np.array([0.25506814, 0.19150000, 0.08849752]),
             decimal=7)
 
@@ -132,7 +213,7 @@ class TestHdr_IPT_to_XYZ(unittest.TestCase):
         n-dimensions support.
         """
 
-        IPT_hdr = np.array([25.18261761, -22.62111297, 3.18511729])
+        IPT_hdr = np.array([24.88927680, -11.44574144, 1.63147707])
         Y_s = 0.2
         Y_abs = 100
         XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
@@ -170,68 +251,6 @@ class TestHdr_IPT_to_XYZ(unittest.TestCase):
             Y_s = case[0]
             Y_abs = case[0]
             hdr_IPT_to_XYZ(IPT_hdr, Y_s, Y_abs)
-
-
-class TestExponent_hdr_IPT(unittest.TestCase):
-    """
-    Defines :func:`colour.models.hdr_ipt.exponent_hdr_IPT`
-    definition unit tests methods.
-    """
-
-    def test_exponent_hdr_IPT(self):
-        """
-        Tests :func:`colour.models.hdr_ipt.exponent_hdr_IPT`
-        definition.
-        """
-
-        self.assertAlmostEqual(
-            exponent_hdr_IPT(0.2, 100), 1.689138305989492, places=7)
-
-        self.assertAlmostEqual(
-            exponent_hdr_IPT(0.4, 100), 1.219933220992410, places=7)
-
-        self.assertAlmostEqual(
-            exponent_hdr_IPT(0.2, 1000), 1.126092203992995, places=7)
-
-    def test_n_dimensional_exponent_hdr_IPT(self):
-        """
-        Tests :func:`colour.models.hdr_ipt.exponent_hdr_IPT`
-        definition n-dimensional arrays support.
-        """
-
-        Y_s = 0.2
-        Y_abs = 100
-        e = 1.689138305989492
-        np.testing.assert_almost_equal(
-            exponent_hdr_IPT(Y_s, Y_abs), e, decimal=7)
-
-        Y_s = np.tile(Y_s, 6)
-        Y_abs = np.tile(Y_abs, 6)
-        e = np.tile(e, 6)
-        np.testing.assert_almost_equal(
-            exponent_hdr_IPT(Y_s, Y_abs), e, decimal=7)
-
-        Y_s = np.reshape(Y_s, (2, 3))
-        Y_abs = np.reshape(Y_abs, (2, 3))
-        e = np.reshape(e, (2, 3))
-        np.testing.assert_almost_equal(
-            exponent_hdr_IPT(Y_s, Y_abs), e, decimal=7)
-
-        Y_s = np.reshape(Y_s, (2, 3, 1))
-        Y_abs = np.reshape(Y_abs, (2, 3, 1))
-        e = np.reshape(e, (2, 3, 1))
-        np.testing.assert_almost_equal(
-            exponent_hdr_IPT(Y_s, Y_abs), e, decimal=7)
-
-    @ignore_numpy_errors
-    def test_nan_exponent_hdr_IPT(self):
-        """
-        Tests :func:`colour.models.hdr_ipt.exponent_hdr_IPT`
-        definition nan support.
-        """
-
-        cases = np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan])
-        exponent_hdr_IPT(cases, cases)
 
 
 if __name__ == '__main__':
