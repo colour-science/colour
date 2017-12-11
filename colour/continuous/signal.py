@@ -244,11 +244,17 @@ class Signal(AbstractContinuousFunction):
         """
 
         if value is not None:
-            assert value in (
-                np.float16, np.float32, np.float64, np.float128), ((
-                    '"{0}" attribute: "{1}" type is not in "np.float16", '
-                    '"np.float32", "np.float64 "or "np.float128"!').format(
-                        'dtype', value))
+            float_dtypes = []
+            for float_dtype in ['float16', 'float32', 'float64', 'float128']:
+                if hasattr(np, float_dtype):
+                    float_dtypes.append(getattr(np, float_dtype))
+
+            assert value in float_dtypes, ((
+                '"{0}" attribute: "{1}" type is not in "{2}"!').format(
+                    'dtype', value, ', '.join(
+                        [float_dtype.__name__
+                         for float_dtype in float_dtypes])))
+
             self._dtype = value
 
             self.domain = self.domain
