@@ -32,7 +32,7 @@ __status__ = 'Production'
 __all__ = ['function_gamma']
 
 
-def function_gamma(a, exponent=1, negative_number_handling='indeterminate'):
+def function_gamma(a, exponent=1, negative_number_handling='Indeterminate'):
     """
     Defines a typical gamma encoding / decoding function.
 
@@ -89,11 +89,14 @@ def function_gamma(a, exponent=1, negative_number_handling='indeterminate'):
     if negative_number_handling == 'indeterminate':
         return as_numeric(a ** exponent)
     elif negative_number_handling == 'mirror':
-        return as_numeric(np.sign(a) * np.abs(a) ** exponent)
+        a = np.atleast_1d(a)
+        a_g = np.sign(a) * np.abs(a) ** exponent
+        a_g[a == 0] = 0
+        return as_numeric(a_g)
     elif negative_number_handling == 'preserve':
-        return as_numeric(np.where(a < 0, a, a ** exponent))
+        return as_numeric(np.where(a <= 0, a, a ** exponent))
     elif negative_number_handling == 'clamp':
-        return as_numeric(np.where(a < 0, 0, a ** exponent))
+        return as_numeric(np.where(a <= 0, 0, a ** exponent))
     else:
         raise ValueError('Undefined negative number handling method: "{0}".'.
                          format(negative_number_handling))
