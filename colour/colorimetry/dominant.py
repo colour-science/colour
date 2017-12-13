@@ -154,10 +154,6 @@ def dominant_wavelength(xy,
         *Dominant wavelength*, first intersection point *xy* chromaticity
         coordinates, second intersection point *xy* chromaticity coordinates.
 
-    See Also
-    --------
-    complementary_wavelength
-
     Examples
     --------
     *Dominant wavelength* computation:
@@ -239,10 +235,6 @@ def complementary_wavelength(xy,
     tuple
         *Complementary wavelength*, first intersection point *xy* chromaticity
         coordinates, second intersection point *xy* chromaticity coordinates.
-
-    See Also
-    --------
-    dominant_wavelength
 
     Examples
     --------

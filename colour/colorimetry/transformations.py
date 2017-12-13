@@ -58,10 +58,6 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     ndarray
         *CIE 1931 2 Degree Standard Observer* spectral tristimulus values.
 
-    See Also
-    --------
-    :attr:`colour.colorimetry.dataset.cmfs.RGB_CMFS`
-
     Notes
     -----
     -   Data for the *CIE 1931 2 Degree Standard Observer* already exists,
@@ -132,10 +128,6 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     -------
     ndarray
         *CIE 1964 10 Degree Standard Observer* spectral tristimulus values.
-
-    See Also
-    --------
-    :attr:`colour.colorimetry.dataset.cmfs.RGB_CMFS`
 
     Notes
     -----

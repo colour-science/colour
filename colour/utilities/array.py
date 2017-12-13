@@ -47,10 +47,6 @@ def as_numeric(a, type_=DEFAULT_FLOAT_DTYPE):
     ndarray
         :math:`a` variable converted to *numeric*.
 
-    See Also
-    --------
-    as_stack, as_shape, auto_axis
-
     Examples
     --------
     >>> as_numeric(np.array([1]))
@@ -350,10 +346,6 @@ def tstack(a):
     -------
     ndarray
 
-    See Also
-    --------
-    tsplit
-
     Examples
     --------
     >>> a = 0
@@ -402,10 +394,6 @@ def tsplit(a):
     Returns
     -------
     ndarray
-
-    See Also
-    --------
-    tstack
 
     Examples
     --------
@@ -521,10 +509,6 @@ def dot_vector(m, v):
     -------
     ndarray
 
-    See Also
-    --------
-    dot_matrix
-
     Examples
     --------
     >>> m = np.array(
@@ -566,10 +550,6 @@ def dot_matrix(a, b):
     Returns
     -------
     ndarray
-
-    See Also
-    --------
-    dot_matrix
 
     Examples
     --------

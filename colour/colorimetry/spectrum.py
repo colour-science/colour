@@ -522,10 +522,6 @@ dict_like, optional
     trim
     normalise
 
-    See Also
-    --------
-    :class:`colour.Signal`
-
     Examples
     --------
     Instantiating a spectral power distribution with a uniformly spaced
@@ -767,10 +763,6 @@ dict_like, optional
         -------
         SpectralPowerDistribution
             Extrapolated spectral power distribution.
-
-        See Also
-        --------
-        :class:`colour.Extrapolator`
 
         Examples
         --------
@@ -1454,10 +1446,6 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
     align
     trim
     normalise
-
-    See Also
-    --------
-    :class:`colour.MultiSignal`
 
     Examples
     --------

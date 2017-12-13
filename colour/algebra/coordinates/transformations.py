@@ -60,11 +60,6 @@ def cartesian_to_spherical(a):
     ndarray
         Spherical coordinates array :math:`\\rho\\theta\phi`.
 
-    See Also
-    --------
-    spherical_to_cartesian, cartesian_to_polar, polar_to_cartesian,
-    cartesian_to_cylindrical, cylindrical_to_cartesian
-
     Examples
     --------
     >>> a = np.array([3, 1, 6])
@@ -98,11 +93,6 @@ def spherical_to_cartesian(a):
     -------
     ndarray
         Cartesian coordinates array :math:`xyz`.
-
-    See Also
-    --------
-    cartesian_to_spherical, cartesian_to_polar, polar_to_cartesian,
-    cartesian_to_cylindrical, cylindrical_to_cartesian
 
     Examples
     --------
@@ -138,11 +128,6 @@ def cartesian_to_polar(a):
     ndarray
         Polar coordinates array :math:`\\rho\phi`.
 
-    See Also
-    --------
-    cartesian_to_spherical, spherical_to_cartesian, polar_to_cartesian,
-    cartesian_to_cylindrical, cylindrical_to_cartesian
-
     Examples
     --------
     >>> a = np.array([3, 1])
@@ -172,11 +157,6 @@ def polar_to_cartesian(a):
     -------
     ndarray
         Cartesian coordinates array :math:`xy`.
-
-    See Also
-    --------
-    cartesian_to_spherical, spherical_to_cartesian, cartesian_to_polar,
-    cartesian_to_cylindrical, cylindrical_to_cartesian
 
     Examples
     --------
@@ -209,11 +189,6 @@ def cartesian_to_cylindrical(a):
     ndarray
         Cylindrical coordinates array :math:`\\rho\phi z`.
 
-    See Also
-    --------
-    cartesian_to_spherical, spherical_to_cartesian, cartesian_to_polar,
-    polar_to_cartesian, cylindrical_to_cartesian
-
     Examples
     --------
     >>> a = np.array([3, 1, 6])
@@ -243,11 +218,6 @@ def cylindrical_to_cartesian(a):
     -------
     ndarray
         Cartesian coordinates array :math:`xyz`.
-
-    See Also
-    --------
-    cartesian_to_spherical, spherical_to_cartesian, cartesian_to_polar,
-    polar_to_cartesian, cartesian_to_cylindrical
 
     Examples
     --------

@@ -81,13 +81,6 @@ def spectral_to_aces_relative_exposure_values(
     -   Output *ACES2065-1* colourspace relative exposure values array is in
         range [0, 1].
 
-    See Also
-    --------
-    :func:`colour.colorimetry.tristimulus.spectral_to_XYZ`
-
-    References
-    ----------
-
     Examples
     --------
     >>> from colour import COLOURCHECKERS_SPDS

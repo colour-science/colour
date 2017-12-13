@@ -92,10 +92,6 @@ def lagrange_coefficients_ASTME202211(interval=10, interval_type='inner'):
     ndarray
         *Lagrange Coefficients*.
 
-    See Also
-    --------
-    colour.lagrange_coefficients
-
     Examples
     --------
     >>> lagrange_coefficients_ASTME202211(10, 'inner')

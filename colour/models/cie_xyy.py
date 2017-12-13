@@ -158,10 +158,6 @@ def xy_to_xyY(xy, Y=1):
     ndarray
         *CIE xyY* colourspace array.
 
-    See Also
-    --------
-    xyY_to_xy
-
     Notes
     -----
     -   This definition is a convenient object provided to implement support of
@@ -216,10 +212,6 @@ def xyY_to_xy(xyY):
     -------
     ndarray
         *xy* chromaticity coordinates.
-
-    See Also
-    --------
-    xy_to_xyY
 
     Notes
     -----

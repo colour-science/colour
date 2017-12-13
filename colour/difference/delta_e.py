@@ -62,10 +62,6 @@ def delta_E_CIE1976(Lab_1, Lab_2):
     numeric or ndarray
         Colour difference :math:`\Delta E_{ab}`.
 
-    See Also
-    --------
-    colour.euclidean_distance
-
     References
     ----------
     .. [2]  Lindbloom, B. (2003). Delta E (CIE 1976). Retrieved February 24,
