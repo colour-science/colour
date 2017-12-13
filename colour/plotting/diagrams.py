@@ -116,7 +116,7 @@ def CIE_1931_chromaticity_diagram_colours(
 
     RGB = normalise_maximum(XYZ_to_sRGB(XYZ, illuminant), axis=-1)
 
-    return np.dstack([RGB * mask, mask])
+    return np.dstack([RGB, mask])
 
 
 def CIE_1931_chromaticity_diagram_plot(
@@ -312,7 +312,7 @@ def CIE_1960_UCS_chromaticity_diagram_colours(
 
     RGB = normalise_maximum(XYZ_to_sRGB(XYZ, illuminant), axis=-1)
 
-    return np.dstack([RGB * mask, mask])
+    return np.dstack([RGB, mask])
 
 
 def CIE_1960_UCS_chromaticity_diagram_plot(
@@ -507,7 +507,7 @@ def CIE_1976_UCS_chromaticity_diagram_colours(
 
     RGB = normalise_maximum(XYZ_to_sRGB(XYZ, illuminant), axis=-1)
 
-    return np.dstack([RGB * mask, mask])
+    return np.dstack([RGB, mask])
 
 
 def CIE_1976_UCS_chromaticity_diagram_plot(
