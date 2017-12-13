@@ -22,21 +22,21 @@ from .colorimetry import (
     multi_lightness_function_plot, blackbody_spectral_radiance_plot,
     blackbody_colours_plot)
 from .characterisation import colour_checker_plot
-from .diagrams import (CIE_1931_chromaticity_diagram_plot,
-                       CIE_1960_UCS_chromaticity_diagram_plot,
-                       CIE_1976_UCS_chromaticity_diagram_plot,
-                       spds_CIE_1931_chromaticity_diagram_plot,
-                       spds_CIE_1960_UCS_chromaticity_diagram_plot,
-                       spds_CIE_1976_UCS_chromaticity_diagram_plot)
+from .diagrams import (chromaticity_diagram_plot_CIE1931,
+                       chromaticity_diagram_plot_CIE1960UCS,
+                       chromaticity_diagram_plot_CIE1976UCS,
+                       spds_chromaticity_diagram_plot_CIE1931,
+                       spds_chromaticity_diagram_plot_CIE1960UCS,
+                       spds_chromaticity_diagram_plot_CIE1976UCS)
 from .corresponding import corresponding_chromaticities_prediction_plot
 from .geometry import (quad, grid, cube)
 from .models import (
-    RGB_colourspaces_CIE_1931_chromaticity_diagram_plot,
-    RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot,
-    RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot,
-    RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot,
-    RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot,
-    RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot,
+    RGB_colourspaces_chromaticity_diagram_plot_CIE1931,
+    RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS,
+    RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS,
+    RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931,
+    RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS,
+    RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS,
     single_cctf_plot, multi_cctf_plot)
 from .notation import (single_munsell_value_function_plot,
                        multi_munsell_value_function_plot)
@@ -45,9 +45,8 @@ from .quality import (single_spd_colour_rendering_index_bars_plot,
                       multi_spd_colour_rendering_index_bars_plot,
                       single_spd_colour_quality_scale_bars_plot,
                       multi_spd_colour_quality_scale_bars_plot)
-from .temperature import (
-    planckian_locus_CIE_1931_chromaticity_diagram_plot,
-    planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot)
+from .temperature import (planckian_locus_chromaticity_diagram_plot_CIE1931,
+                          planckian_locus_chromaticity_diagram_plot_CIE1960UCS)
 from .volume import RGB_colourspaces_gamuts_plot, RGB_scatter_plot
 
 __all__ = []
@@ -73,22 +72,22 @@ __all__ += [
 ]
 __all__ += ['colour_checker_plot']
 __all__ += [
-    'CIE_1931_chromaticity_diagram_plot',
-    'CIE_1960_UCS_chromaticity_diagram_plot',
-    'CIE_1976_UCS_chromaticity_diagram_plot',
-    'spds_CIE_1931_chromaticity_diagram_plot',
-    'spds_CIE_1960_UCS_chromaticity_diagram_plot',
-    'spds_CIE_1976_UCS_chromaticity_diagram_plot'
+    'chromaticity_diagram_plot_CIE1931',
+    'chromaticity_diagram_plot_CIE1960UCS',
+    'chromaticity_diagram_plot_CIE1976UCS',
+    'spds_chromaticity_diagram_plot_CIE1931',
+    'spds_chromaticity_diagram_plot_CIE1960UCS',
+    'spds_chromaticity_diagram_plot_CIE1976UCS'
 ]
 __all__ += ['corresponding_chromaticities_prediction_plot']
 __all__ += ['quad', 'grid', 'cube']
 __all__ += [
-    'RGB_colourspaces_CIE_1931_chromaticity_diagram_plot',
-    'RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot',
-    'RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot',
-    'RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot',
-    'RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot',
-    'RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot',
+    'RGB_colourspaces_chromaticity_diagram_plot_CIE1931',
+    'RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS',
+    'RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS',
+    'RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931',
+    'RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS',
+    'RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS',
     'single_cctf_plot', 'multi_cctf_plot'
 ]
 __all__ += [
@@ -102,7 +101,7 @@ __all__ += [
     'multi_spd_colour_quality_scale_bars_plot'
 ]
 __all__ += [
-    'planckian_locus_CIE_1931_chromaticity_diagram_plot',
-    'planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot'
+    'planckian_locus_chromaticity_diagram_plot_CIE1931',
+    'planckian_locus_chromaticity_diagram_plot_CIE1960UCS'
 ]
 __all__ += ['RGB_colourspaces_gamuts_plot', 'RGB_scatter_plot']

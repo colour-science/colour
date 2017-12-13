@@ -7,8 +7,8 @@ Colour Temperature & Correlated Colour Temperature Plotting
 Defines the colour temperature and correlated colour temperature plotting
 objects:
 
--   :func:`planckian_locus_CIE_1931_chromaticity_diagram_plot`
--   :func:`planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot`
+-   :func:`planckian_locus_chromaticity_diagram_plot_CIE1931`
+-   :func:`planckian_locus_chromaticity_diagram_plot_CIE1960UCS`
 """
 
 from __future__ import division
@@ -19,9 +19,9 @@ import pylab
 from colour.colorimetry import (CMFS, ILLUMINANTS)
 from colour.models import (UCS_uv_to_xy, XYZ_to_UCS, UCS_to_uv, xy_to_XYZ)
 from colour.temperature import CCT_to_uv
-from colour.plotting import (CIE_1931_chromaticity_diagram_plot,
-                             CIE_1960_UCS_chromaticity_diagram_plot,
-                             boundaries, decorate, display)
+from colour.plotting import (chromaticity_diagram_plot_CIE1931,
+                             chromaticity_diagram_plot_CIE1960UCS, boundaries,
+                             decorate, display)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
@@ -31,15 +31,15 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'planckian_locus_CIE_1931_chromaticity_diagram_plot',
-    'planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot'
+    'planckian_locus_chromaticity_diagram_plot_CIE1931',
+    'planckian_locus_chromaticity_diagram_plot_CIE1960UCS'
 ]
 
 
-def planckian_locus_CIE_1931_chromaticity_diagram_plot(
+def planckian_locus_chromaticity_diagram_plot_CIE1931(
         illuminants=None,
-        CIE_1931_chromaticity_diagram_callable=(
-            CIE_1931_chromaticity_diagram_plot),
+        chromaticity_diagram_callable_CIE1931=(
+            chromaticity_diagram_plot_CIE1931),
         **kwargs):
     """
     Plots the planckian locus and given illuminants in
@@ -49,7 +49,7 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(
     ----------
     illuminants : array_like, optional
         Factory illuminants to plot.
-    CIE_1931_chromaticity_diagram_callable : callable, optional
+    chromaticity_diagram_callable_CIE1931 : callable, optional
         Callable responsible for drawing the *CIE 1931 Chromaticity Diagram*.
 
     Other Parameters
@@ -59,10 +59,10 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(
         :func:`display`},
         Please refer to the documentation of the previously listed definitions.
     show_diagram_colours : bool, optional
-        {:func:`CIE_1931_chromaticity_diagram_plot`},
+        {:func:`chromaticity_diagram_plot_CIE1931`},
         Whether to display the chromaticity diagram background colours.
     use_cached_diagram_colours : bool, optional
-        {:func:`CIE_1931_chromaticity_diagram_plot`},
+        {:func:`chromaticity_diagram_plot_CIE1931`},
         Whether to used the cached chromaticity diagram background colours
         image.
 
@@ -78,7 +78,7 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(
 
     Examples
     --------
-    >>> planckian_locus_CIE_1931_chromaticity_diagram_plot(['A', 'B', 'C'])
+    >>> planckian_locus_chromaticity_diagram_plot_CIE1931(['A', 'B', 'C'])
     ... # doctest: +SKIP
     """
 
@@ -99,7 +99,7 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(
     }
     settings.update(kwargs)
 
-    CIE_1931_chromaticity_diagram_callable(**settings)
+    chromaticity_diagram_callable_CIE1931(**settings)
 
     start, end = 1667, 100000
     xy = np.array(
@@ -152,10 +152,10 @@ def planckian_locus_CIE_1931_chromaticity_diagram_plot(
     return display(**settings)
 
 
-def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
+def planckian_locus_chromaticity_diagram_plot_CIE1960UCS(
         illuminants=None,
-        CIE_1960_UCS_chromaticity_diagram_callable=(
-            CIE_1960_UCS_chromaticity_diagram_plot),
+        chromaticity_diagram_callable_CIE1960UCS=(
+            chromaticity_diagram_plot_CIE1960UCS),
         **kwargs):
     """
     Plots the planckian locus and given illuminants in
@@ -165,7 +165,7 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
     ----------
     illuminants : array_like, optional
         Factory illuminants to plot.
-    CIE_1960_UCS_chromaticity_diagram_callable : callable, optional
+    chromaticity_diagram_callable_CIE1960UCS : callable, optional
         Callable responsible for drawing the
         *CIE 1960 UCS Chromaticity Diagram*.
 
@@ -176,10 +176,10 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
         :func:`display`},
         Please refer to the documentation of the previously listed definitions.
     show_diagram_colours : bool, optional
-        {:func:`CIE_1960_UCS_chromaticity_diagram_plot`},
+        {:func:`chromaticity_diagram_plot_CIE1960UCS`},
         Whether to display the chromaticity diagram background colours.
     use_cached_diagram_colours : bool, optional
-        {:func:`CIE_1960_UCS_chromaticity_diagram_plot`},
+        {:func:`chromaticity_diagram_plot_CIE1960UCS`},
         Whether to used the cached chromaticity diagram background colours
         image.
 
@@ -195,7 +195,7 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
 
     Examples
     --------
-    >>> planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(['A', 'C', 'E'])
+    >>> planckian_locus_chromaticity_diagram_plot_CIE1960UCS(['A', 'C', 'E'])
     ... # doctest: +SKIP
     """
 
@@ -216,7 +216,7 @@ def planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot(
     }
     settings.update(kwargs)
 
-    CIE_1960_UCS_chromaticity_diagram_callable(**settings)
+    chromaticity_diagram_callable_CIE1960UCS(**settings)
 
     start, end = 1667, 100000
     uv = np.array(

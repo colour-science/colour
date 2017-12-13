@@ -13,7 +13,7 @@ from __future__ import division
 import pylab
 
 from colour.corresponding import corresponding_chromaticities_prediction
-from colour.plotting import (CIE_1976_UCS_chromaticity_diagram_plot,
+from colour.plotting import (chromaticity_diagram_plot_CIE1976UCS,
                              DEFAULT_FIGURE_WIDTH, boundaries, canvas,
                              decorate, display)
 
@@ -51,7 +51,7 @@ def corresponding_chromaticities_prediction_plot(experiment=1,
         :func:`display`},
         Please refer to the documentation of the previously listed definitions.
     show_diagram_colours : bool, optional
-        {:func:`CIE_1976_UCS_chromaticity_diagram_plot`}
+        {:func:`chromaticity_diagram_plot_CIE1976UCS`}
         Whether to display the chromaticity diagram background colours.
 
     Returns
@@ -82,7 +82,7 @@ def corresponding_chromaticities_prediction_plot(experiment=1,
     })
     settings.update(kwargs)
 
-    CIE_1976_UCS_chromaticity_diagram_plot(**settings)
+    chromaticity_diagram_plot_CIE1976UCS(**settings)
 
     results = corresponding_chromaticities_prediction(
         experiment, transform=transform)
