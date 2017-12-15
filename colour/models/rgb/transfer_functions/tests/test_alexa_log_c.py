@@ -51,21 +51,21 @@ log_encoding_ALEXALogC` definition.
 log_encoding_ALEXALogC` definition n-dimensional arrays support.
         """
 
-        L = 0.18
-        V = 0.391006832034084
-        np.testing.assert_almost_equal(log_encoding_ALEXALogC(L), V, decimal=7)
+        x = 0.18
+        t = 0.391006832034084
+        np.testing.assert_almost_equal(log_encoding_ALEXALogC(x), t, decimal=7)
 
-        L = np.tile(L, 6)
-        V = np.tile(V, 6)
-        np.testing.assert_almost_equal(log_encoding_ALEXALogC(L), V, decimal=7)
+        x = np.tile(x, 6)
+        t = np.tile(t, 6)
+        np.testing.assert_almost_equal(log_encoding_ALEXALogC(x), t, decimal=7)
 
-        L = np.reshape(L, (2, 3))
-        V = np.reshape(V, (2, 3))
-        np.testing.assert_almost_equal(log_encoding_ALEXALogC(L), V, decimal=7)
+        x = np.reshape(x, (2, 3))
+        t = np.reshape(t, (2, 3))
+        np.testing.assert_almost_equal(log_encoding_ALEXALogC(x), t, decimal=7)
 
-        L = np.reshape(L, (2, 3, 1))
-        V = np.reshape(V, (2, 3, 1))
-        np.testing.assert_almost_equal(log_encoding_ALEXALogC(L), V, decimal=7)
+        x = np.reshape(x, (2, 3, 1))
+        t = np.reshape(t, (2, 3, 1))
+        np.testing.assert_almost_equal(log_encoding_ALEXALogC(x), t, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_log_encoding_ALEXALogC(self):
@@ -104,21 +104,21 @@ log_decoding_ALEXALogC` definition.
 log_decoding_ALEXALogC` definition n-dimensional arrays support.
         """
 
-        V = 0.391006832034084
-        L = 0.18
-        np.testing.assert_almost_equal(log_decoding_ALEXALogC(V), L, decimal=7)
+        t = 0.391006832034084
+        x = 0.18
+        np.testing.assert_almost_equal(log_decoding_ALEXALogC(t), x, decimal=7)
 
-        V = np.tile(V, 6)
-        L = np.tile(L, 6)
-        np.testing.assert_almost_equal(log_decoding_ALEXALogC(V), L, decimal=7)
+        t = np.tile(t, 6)
+        x = np.tile(x, 6)
+        np.testing.assert_almost_equal(log_decoding_ALEXALogC(t), x, decimal=7)
 
-        V = np.reshape(V, (2, 3))
-        L = np.reshape(L, (2, 3))
-        np.testing.assert_almost_equal(log_decoding_ALEXALogC(V), L, decimal=7)
+        t = np.reshape(t, (2, 3))
+        x = np.reshape(x, (2, 3))
+        np.testing.assert_almost_equal(log_decoding_ALEXALogC(t), x, decimal=7)
 
-        V = np.reshape(V, (2, 3, 1))
-        L = np.reshape(L, (2, 3, 1))
-        np.testing.assert_almost_equal(log_decoding_ALEXALogC(V), L, decimal=7)
+        t = np.reshape(t, (2, 3, 1))
+        x = np.reshape(x, (2, 3, 1))
+        np.testing.assert_almost_equal(log_decoding_ALEXALogC(t), x, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_log_decoding_ALEXALogC(self):

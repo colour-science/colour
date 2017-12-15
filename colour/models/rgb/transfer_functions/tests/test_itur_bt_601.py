@@ -50,20 +50,20 @@ oetf_BT601` definition n-dimensional arrays support.
         """
 
         L = 0.18
-        V = 0.409007728864150
-        np.testing.assert_almost_equal(oetf_BT601(L), V, decimal=7)
+        Es = 0.409007728864150
+        np.testing.assert_almost_equal(oetf_BT601(L), Es, decimal=7)
 
         L = np.tile(L, 6)
-        V = np.tile(V, 6)
-        np.testing.assert_almost_equal(oetf_BT601(L), V, decimal=7)
+        Es = np.tile(Es, 6)
+        np.testing.assert_almost_equal(oetf_BT601(L), Es, decimal=7)
 
         L = np.reshape(L, (2, 3))
-        V = np.reshape(V, (2, 3))
-        np.testing.assert_almost_equal(oetf_BT601(L), V, decimal=7)
+        Es = np.reshape(Es, (2, 3))
+        np.testing.assert_almost_equal(oetf_BT601(L), Es, decimal=7)
 
         L = np.reshape(L, (2, 3, 1))
-        V = np.reshape(V, (2, 3, 1))
-        np.testing.assert_almost_equal(oetf_BT601(L), V, decimal=7)
+        Es = np.reshape(Es, (2, 3, 1))
+        np.testing.assert_almost_equal(oetf_BT601(L), Es, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_oetf_BT601(self):
@@ -103,21 +103,21 @@ oetf_reverse_BT601` definition.
 oetf_reverse_BT601` definition n-dimensional arrays support.
         """
 
-        V = 0.409007728864150
+        E = 0.409007728864150
         L = 0.18
-        np.testing.assert_almost_equal(oetf_reverse_BT601(V), L, decimal=7)
+        np.testing.assert_almost_equal(oetf_reverse_BT601(E), L, decimal=7)
 
-        V = np.tile(V, 6)
+        E = np.tile(E, 6)
         L = np.tile(L, 6)
-        np.testing.assert_almost_equal(oetf_reverse_BT601(V), L, decimal=7)
+        np.testing.assert_almost_equal(oetf_reverse_BT601(E), L, decimal=7)
 
-        V = np.reshape(V, (2, 3))
+        E = np.reshape(E, (2, 3))
         L = np.reshape(L, (2, 3))
-        np.testing.assert_almost_equal(oetf_reverse_BT601(V), L, decimal=7)
+        np.testing.assert_almost_equal(oetf_reverse_BT601(E), L, decimal=7)
 
-        V = np.reshape(V, (2, 3, 1))
+        E = np.reshape(E, (2, 3, 1))
         L = np.reshape(L, (2, 3, 1))
-        np.testing.assert_almost_equal(oetf_reverse_BT601(V), L, decimal=7)
+        np.testing.assert_almost_equal(oetf_reverse_BT601(E), L, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_oetf_reverse_BT601(self):

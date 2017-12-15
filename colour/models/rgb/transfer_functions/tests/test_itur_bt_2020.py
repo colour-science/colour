@@ -47,21 +47,21 @@ oetf_BT2020` definition.
 oetf_BT2020` definition n-dimensional arrays support.
         """
 
-        L = 0.18
-        V = 0.409007728864150
-        np.testing.assert_almost_equal(oetf_BT2020(L), V, decimal=7)
+        E = 0.18
+        E_p = 0.409007728864150
+        np.testing.assert_almost_equal(oetf_BT2020(E), E_p, decimal=7)
 
-        L = np.tile(L, 6)
-        V = np.tile(V, 6)
-        np.testing.assert_almost_equal(oetf_BT2020(L), V, decimal=7)
+        E = np.tile(E, 6)
+        E_p = np.tile(E_p, 6)
+        np.testing.assert_almost_equal(oetf_BT2020(E), E_p, decimal=7)
 
-        L = np.reshape(L, (2, 3))
-        V = np.reshape(V, (2, 3))
-        np.testing.assert_almost_equal(oetf_BT2020(L), V, decimal=7)
+        E = np.reshape(E, (2, 3))
+        E_p = np.reshape(E_p, (2, 3))
+        np.testing.assert_almost_equal(oetf_BT2020(E), E_p, decimal=7)
 
-        L = np.reshape(L, (2, 3, 1))
-        V = np.reshape(V, (2, 3, 1))
-        np.testing.assert_almost_equal(oetf_BT2020(L), V, decimal=7)
+        E = np.reshape(E, (2, 3, 1))
+        E_p = np.reshape(E_p, (2, 3, 1))
+        np.testing.assert_almost_equal(oetf_BT2020(E), E_p, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_oetf_BT2020(self):
@@ -97,21 +97,21 @@ eotf_BT2020` definition.
 eotf_BT2020` definition n-dimensional arrays support.
         """
 
-        V = 0.409007728864150
-        L = 0.18
-        np.testing.assert_almost_equal(eotf_BT2020(V), L, decimal=7)
+        E_p = 0.409007728864150
+        E = 0.18
+        np.testing.assert_almost_equal(eotf_BT2020(E_p), E, decimal=7)
 
-        V = np.tile(V, 6)
-        L = np.tile(L, 6)
-        np.testing.assert_almost_equal(eotf_BT2020(V), L, decimal=7)
+        E_p = np.tile(E_p, 6)
+        E = np.tile(E, 6)
+        np.testing.assert_almost_equal(eotf_BT2020(E_p), E, decimal=7)
 
-        V = np.reshape(V, (2, 3))
-        L = np.reshape(L, (2, 3))
-        np.testing.assert_almost_equal(eotf_BT2020(V), L, decimal=7)
+        E_p = np.reshape(E_p, (2, 3))
+        E = np.reshape(E, (2, 3))
+        np.testing.assert_almost_equal(eotf_BT2020(E_p), E, decimal=7)
 
-        V = np.reshape(V, (2, 3, 1))
-        L = np.reshape(L, (2, 3, 1))
-        np.testing.assert_almost_equal(eotf_BT2020(V), L, decimal=7)
+        E_p = np.reshape(E_p, (2, 3, 1))
+        E = np.reshape(E, (2, 3, 1))
+        np.testing.assert_almost_equal(eotf_BT2020(E_p), E, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_eotf_BT2020(self):
