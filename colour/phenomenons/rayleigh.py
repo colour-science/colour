@@ -105,11 +105,6 @@ def air_refraction_index_Penndorf1957(wavelength):
     numeric or ndarray
         Air refraction index :math:`n_s`.
 
-    See Also
-    --------
-    air_refraction_index_Edlen1966, air_refraction_index_Peck1972,
-    air_refraction_index_Bodhaine1999
-
     Examples
     --------
     >>> air_refraction_index_Penndorf1957(0.555)  # doctest: +ELLIPSIS
@@ -139,11 +134,6 @@ def air_refraction_index_Edlen1966(wavelength):
     -------
     numeric or ndarray
         Air refraction index :math:`n_s`.
-
-    See Also
-    --------
-    air_refraction_index_Penndorf1957, air_refraction_index_Peck1972,
-    air_refraction_index_Bodhaine1999
 
     Examples
     --------
@@ -175,11 +165,6 @@ def air_refraction_index_Peck1972(wavelength):
     -------
     numeric or ndarray
         Air refraction index :math:`n_s`.
-
-    See Also
-    --------
-    air_refraction_index_Penndorf1957, air_refraction_index_Edlen1966,
-    air_refraction_index_Bodhaine1999
 
     Examples
     --------
@@ -215,11 +200,6 @@ def air_refraction_index_Bodhaine1999(
     -------
     numeric or ndarray
         Air refraction index :math:`n_s`.
-
-    See Also
-    --------
-    air_refraction_index_Penndorf1957, air_refraction_index_Edlen1966,
-    air_refraction_index_Peck1972
 
     Examples
     --------
@@ -308,10 +288,6 @@ def F_air_Penndorf1957(wavelength):
     numeric or ndarray
         Air depolarisation.
 
-    See Also
-    --------
-    F_air_Young1981, F_air_Bates1984, F_air_Bodhaine1999
-
     Notes
     -----
     -   The argument *wavelength* is only provided for consistency with the
@@ -343,10 +319,6 @@ def F_air_Young1981(wavelength):
     -------
     numeric or ndarray
         Air depolarisation.
-
-    See Also
-    --------
-    F_air_Penndorf1957, F_air_Bates1984, F_air_Bodhaine1999
 
     Notes
     -----
@@ -380,10 +352,6 @@ def F_air_Bates1984(wavelength):
     -------
     numeric or ndarray
         Air depolarisation.
-
-    See Also
-    --------
-    F_air_Penndorf1957, F_air_Young1981, F_air_Bodhaine1999
 
     Examples
     --------
@@ -421,10 +389,6 @@ def F_air_Bodhaine1999(wavelength,
     -------
     numeric or ndarray
         Air depolarisation.
-
-    See Also
-    --------
-    F_air_Penndorf1957, F_air_Young1981, F_air_Bates1984
 
     Examples
     --------

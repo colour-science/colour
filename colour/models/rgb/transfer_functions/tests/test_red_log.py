@@ -56,21 +56,21 @@ log_encoding_REDLog` definition.
 log_encoding_REDLog` definition n-dimensional arrays support.
         """
 
-        L = 0.18
-        V = 0.637621845988175
-        np.testing.assert_almost_equal(log_encoding_REDLog(L), V, decimal=7)
+        x = 0.18
+        y = 0.637621845988175
+        np.testing.assert_almost_equal(log_encoding_REDLog(x), y, decimal=7)
 
-        L = np.tile(L, 6)
-        V = np.tile(V, 6)
-        np.testing.assert_almost_equal(log_encoding_REDLog(L), V, decimal=7)
+        x = np.tile(x, 6)
+        y = np.tile(y, 6)
+        np.testing.assert_almost_equal(log_encoding_REDLog(x), y, decimal=7)
 
-        L = np.reshape(L, (2, 3))
-        V = np.reshape(V, (2, 3))
-        np.testing.assert_almost_equal(log_encoding_REDLog(L), V, decimal=7)
+        x = np.reshape(x, (2, 3))
+        y = np.reshape(y, (2, 3))
+        np.testing.assert_almost_equal(log_encoding_REDLog(x), y, decimal=7)
 
-        L = np.reshape(L, (2, 3, 1))
-        V = np.reshape(V, (2, 3, 1))
-        np.testing.assert_almost_equal(log_encoding_REDLog(L), V, decimal=7)
+        x = np.reshape(x, (2, 3, 1))
+        y = np.reshape(y, (2, 3, 1))
+        np.testing.assert_almost_equal(log_encoding_REDLog(x), y, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_log_encoding_REDLog(self):
@@ -108,21 +108,21 @@ log_decoding_REDLog` definition.
 log_decoding_REDLog` definition n-dimensional arrays support.
         """
 
-        V = 0.637621845988175
-        L = 0.18
-        np.testing.assert_almost_equal(log_decoding_REDLog(V), L, decimal=7)
+        y = 0.637621845988175
+        x = 0.18
+        np.testing.assert_almost_equal(log_decoding_REDLog(y), x, decimal=7)
 
-        V = np.tile(V, 6)
-        L = np.tile(L, 6)
-        np.testing.assert_almost_equal(log_decoding_REDLog(V), L, decimal=7)
+        y = np.tile(y, 6)
+        x = np.tile(x, 6)
+        np.testing.assert_almost_equal(log_decoding_REDLog(y), x, decimal=7)
 
-        V = np.reshape(V, (2, 3))
-        L = np.reshape(L, (2, 3))
-        np.testing.assert_almost_equal(log_decoding_REDLog(V), L, decimal=7)
+        y = np.reshape(y, (2, 3))
+        x = np.reshape(x, (2, 3))
+        np.testing.assert_almost_equal(log_decoding_REDLog(y), x, decimal=7)
 
-        V = np.reshape(V, (2, 3, 1))
-        L = np.reshape(L, (2, 3, 1))
-        np.testing.assert_almost_equal(log_decoding_REDLog(V), L, decimal=7)
+        y = np.reshape(y, (2, 3, 1))
+        x = np.reshape(x, (2, 3, 1))
+        np.testing.assert_almost_equal(log_decoding_REDLog(y), x, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_log_decoding_REDLog(self):
@@ -162,25 +162,25 @@ log_encoding_REDLogFilm` definition.
 log_encoding_REDLogFilm` definition n-dimensional arrays support.
         """
 
-        L = 0.18
-        V = 0.457319613085418
+        x = 0.18
+        y = 0.457319613085418
         np.testing.assert_almost_equal(
-            log_encoding_REDLogFilm(L), V, decimal=7)
+            log_encoding_REDLogFilm(x), y, decimal=7)
 
-        L = np.tile(L, 6)
-        V = np.tile(V, 6)
+        x = np.tile(x, 6)
+        y = np.tile(y, 6)
         np.testing.assert_almost_equal(
-            log_encoding_REDLogFilm(L), V, decimal=7)
+            log_encoding_REDLogFilm(x), y, decimal=7)
 
-        L = np.reshape(L, (2, 3))
-        V = np.reshape(V, (2, 3))
+        x = np.reshape(x, (2, 3))
+        y = np.reshape(y, (2, 3))
         np.testing.assert_almost_equal(
-            log_encoding_REDLogFilm(L), V, decimal=7)
+            log_encoding_REDLogFilm(x), y, decimal=7)
 
-        L = np.reshape(L, (2, 3, 1))
-        V = np.reshape(V, (2, 3, 1))
+        x = np.reshape(x, (2, 3, 1))
+        y = np.reshape(y, (2, 3, 1))
         np.testing.assert_almost_equal(
-            log_encoding_REDLogFilm(L), V, decimal=7)
+            log_encoding_REDLogFilm(x), y, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_log_encoding_REDLogFilm(self):
@@ -220,25 +220,25 @@ log_decoding_REDLogFilm` definition.
 log_decoding_REDLogFilm` definition n-dimensional arrays support.
         """
 
-        V = 0.457319613085418
-        L = 0.18
+        y = 0.457319613085418
+        x = 0.18
         np.testing.assert_almost_equal(
-            log_decoding_REDLogFilm(V), L, decimal=7)
+            log_decoding_REDLogFilm(y), x, decimal=7)
 
-        V = np.tile(V, 6)
-        L = np.tile(L, 6)
+        y = np.tile(y, 6)
+        x = np.tile(x, 6)
         np.testing.assert_almost_equal(
-            log_decoding_REDLogFilm(V), L, decimal=7)
+            log_decoding_REDLogFilm(y), x, decimal=7)
 
-        V = np.reshape(V, (2, 3))
-        L = np.reshape(L, (2, 3))
+        y = np.reshape(y, (2, 3))
+        x = np.reshape(x, (2, 3))
         np.testing.assert_almost_equal(
-            log_decoding_REDLogFilm(V), L, decimal=7)
+            log_decoding_REDLogFilm(y), x, decimal=7)
 
-        V = np.reshape(V, (2, 3, 1))
-        L = np.reshape(L, (2, 3, 1))
+        y = np.reshape(y, (2, 3, 1))
+        x = np.reshape(x, (2, 3, 1))
         np.testing.assert_almost_equal(
-            log_decoding_REDLogFilm(V), L, decimal=7)
+            log_decoding_REDLogFilm(y), x, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_log_decoding_REDLogFilm(self):
@@ -297,37 +297,37 @@ log_encoding_Log3G10` definition.
 log_encoding_Log3G10` definition n-dimensional arrays support.
         """
 
-        L = 0.18
-        V1 = 0.333333644207707
-        V2 = 0.333332912025992
+        x = 0.18
+        y1 = 0.333333644207707
+        y2 = 0.333332912025992
         np.testing.assert_almost_equal(
-            log_encoding_Log3G10(L, legacy_curve=True), V1, decimal=7)
+            log_encoding_Log3G10(x, legacy_curve=True), y1, decimal=7)
         np.testing.assert_almost_equal(
-            log_encoding_Log3G10(L, legacy_curve=False), V2, decimal=7)
+            log_encoding_Log3G10(x, legacy_curve=False), y2, decimal=7)
 
-        L = np.tile(L, 6)
-        V1 = np.tile(V1, 6)
-        V2 = np.tile(V2, 6)
+        x = np.tile(x, 6)
+        y1 = np.tile(y1, 6)
+        y2 = np.tile(y2, 6)
         np.testing.assert_almost_equal(
-            log_encoding_Log3G10(L, legacy_curve=True), V1, decimal=7)
+            log_encoding_Log3G10(x, legacy_curve=True), y1, decimal=7)
         np.testing.assert_almost_equal(
-            log_encoding_Log3G10(L, legacy_curve=False), V2, decimal=7)
+            log_encoding_Log3G10(x, legacy_curve=False), y2, decimal=7)
 
-        L = np.reshape(L, (2, 3))
-        V1 = np.reshape(V1, (2, 3))
-        V2 = np.reshape(V2, (2, 3))
+        x = np.reshape(x, (2, 3))
+        y1 = np.reshape(y1, (2, 3))
+        y2 = np.reshape(y2, (2, 3))
         np.testing.assert_almost_equal(
-            log_encoding_Log3G10(L, legacy_curve=True), V1, decimal=7)
+            log_encoding_Log3G10(x, legacy_curve=True), y1, decimal=7)
         np.testing.assert_almost_equal(
-            log_encoding_Log3G10(L, legacy_curve=False), V2, decimal=7)
+            log_encoding_Log3G10(x, legacy_curve=False), y2, decimal=7)
 
-        L = np.reshape(L, (2, 3, 1))
-        V1 = np.reshape(V1, (2, 3, 1))
-        V2 = np.reshape(V2, (2, 3, 1))
+        x = np.reshape(x, (2, 3, 1))
+        y1 = np.reshape(y1, (2, 3, 1))
+        y2 = np.reshape(y2, (2, 3, 1))
         np.testing.assert_almost_equal(
-            log_encoding_Log3G10(L, legacy_curve=True), V1, decimal=7)
+            log_encoding_Log3G10(x, legacy_curve=True), y1, decimal=7)
         np.testing.assert_almost_equal(
-            log_encoding_Log3G10(L, legacy_curve=False), V2, decimal=7)
+            log_encoding_Log3G10(x, legacy_curve=False), y2, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_log_encoding_Log3G10(self):
@@ -390,37 +390,37 @@ log_decoding_Log3G10` definition.
 log_decoding_Log3G10` definition n-dimensional arrays support.
         """
 
-        V1 = 0.333333644207707
-        V2 = 0.333332912025992
-        L = 0.18
+        y1 = 0.333333644207707
+        y2 = 0.333332912025992
+        x = 0.18
         np.testing.assert_almost_equal(
-            log_decoding_Log3G10(V1, legacy_curve=True), L, decimal=7)
+            log_decoding_Log3G10(y1, legacy_curve=True), x, decimal=7)
         np.testing.assert_almost_equal(
-            log_decoding_Log3G10(V2, legacy_curve=False), L, decimal=7)
+            log_decoding_Log3G10(y2, legacy_curve=False), x, decimal=7)
 
-        V1 = np.tile(V1, 6)
-        V2 = np.tile(V2, 6)
-        L = np.tile(L, 6)
+        y1 = np.tile(y1, 6)
+        y2 = np.tile(y2, 6)
+        x = np.tile(x, 6)
         np.testing.assert_almost_equal(
-            log_decoding_Log3G10(V1, legacy_curve=True), L, decimal=7)
+            log_decoding_Log3G10(y1, legacy_curve=True), x, decimal=7)
         np.testing.assert_almost_equal(
-            log_decoding_Log3G10(V2, legacy_curve=False), L, decimal=7)
+            log_decoding_Log3G10(y2, legacy_curve=False), x, decimal=7)
 
-        V1 = np.reshape(V1, (2, 3))
-        V2 = np.reshape(V2, (2, 3))
-        L = np.reshape(L, (2, 3))
+        y1 = np.reshape(y1, (2, 3))
+        y2 = np.reshape(y2, (2, 3))
+        x = np.reshape(x, (2, 3))
         np.testing.assert_almost_equal(
-            log_decoding_Log3G10(V1, legacy_curve=True), L, decimal=7)
+            log_decoding_Log3G10(y1, legacy_curve=True), x, decimal=7)
         np.testing.assert_almost_equal(
-            log_decoding_Log3G10(V2, legacy_curve=False), L, decimal=7)
+            log_decoding_Log3G10(y2, legacy_curve=False), x, decimal=7)
 
-        V1 = np.reshape(V1, (2, 3, 1))
-        V2 = np.reshape(V2, (2, 3, 1))
-        L = np.reshape(L, (2, 3, 1))
+        y1 = np.reshape(y1, (2, 3, 1))
+        y2 = np.reshape(y2, (2, 3, 1))
+        x = np.reshape(x, (2, 3, 1))
         np.testing.assert_almost_equal(
-            log_decoding_Log3G10(V1, legacy_curve=True), L, decimal=7)
+            log_decoding_Log3G10(y1, legacy_curve=True), x, decimal=7)
         np.testing.assert_almost_equal(
-            log_decoding_Log3G10(V2, legacy_curve=False), L, decimal=7)
+            log_decoding_Log3G10(y2, legacy_curve=False), x, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_log_decoding_Log3G10(self):
@@ -466,21 +466,21 @@ log_encoding_Log3G12` definition.
 log_encoding_Log3G12` definition n-dimensional arrays support.
         """
 
-        L = 0.18
-        V = 0.333332662015923
-        np.testing.assert_almost_equal(log_encoding_Log3G12(L), V, decimal=7)
+        x = 0.18
+        y = 0.333332662015923
+        np.testing.assert_almost_equal(log_encoding_Log3G12(x), y, decimal=7)
 
-        L = np.tile(L, 6)
-        V = np.tile(V, 6)
-        np.testing.assert_almost_equal(log_encoding_Log3G12(L), V, decimal=7)
+        x = np.tile(x, 6)
+        y = np.tile(y, 6)
+        np.testing.assert_almost_equal(log_encoding_Log3G12(x), y, decimal=7)
 
-        L = np.reshape(L, (2, 3))
-        V = np.reshape(V, (2, 3))
-        np.testing.assert_almost_equal(log_encoding_Log3G12(L), V, decimal=7)
+        x = np.reshape(x, (2, 3))
+        y = np.reshape(y, (2, 3))
+        np.testing.assert_almost_equal(log_encoding_Log3G12(x), y, decimal=7)
 
-        L = np.reshape(L, (2, 3, 1))
-        V = np.reshape(V, (2, 3, 1))
-        np.testing.assert_almost_equal(log_encoding_Log3G12(L), V, decimal=7)
+        x = np.reshape(x, (2, 3, 1))
+        y = np.reshape(y, (2, 3, 1))
+        np.testing.assert_almost_equal(log_encoding_Log3G12(x), y, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_log_encoding_Log3G12(self):
@@ -522,21 +522,21 @@ log_decoding_Log3G12` definition.
 log_decoding_Log3G12` definition n-dimensional arrays support.
         """
 
-        V = 0.333332662015923
-        L = 0.18
-        np.testing.assert_almost_equal(log_decoding_Log3G12(V), L, decimal=7)
+        y = 0.333332662015923
+        x = 0.18
+        np.testing.assert_almost_equal(log_decoding_Log3G12(y), x, decimal=7)
 
-        V = np.tile(V, 6)
-        L = np.tile(L, 6)
-        np.testing.assert_almost_equal(log_decoding_Log3G12(V), L, decimal=7)
+        y = np.tile(y, 6)
+        x = np.tile(x, 6)
+        np.testing.assert_almost_equal(log_decoding_Log3G12(y), x, decimal=7)
 
-        V = np.reshape(V, (2, 3))
-        L = np.reshape(L, (2, 3))
-        np.testing.assert_almost_equal(log_decoding_Log3G12(V), L, decimal=7)
+        y = np.reshape(y, (2, 3))
+        x = np.reshape(x, (2, 3))
+        np.testing.assert_almost_equal(log_decoding_Log3G12(y), x, decimal=7)
 
-        V = np.reshape(V, (2, 3, 1))
-        L = np.reshape(L, (2, 3, 1))
-        np.testing.assert_almost_equal(log_decoding_Log3G12(V), L, decimal=7)
+        y = np.reshape(y, (2, 3, 1))
+        x = np.reshape(x, (2, 3, 1))
+        np.testing.assert_almost_equal(log_decoding_Log3G12(y), x, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_log_decoding_Log3G12(self):

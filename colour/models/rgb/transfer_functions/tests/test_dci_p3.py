@@ -47,21 +47,21 @@ oetf_DCIP3` definition.
 oetf_DCIP3` definition n-dimensional arrays support.
         """
 
-        L = 0.18
-        V = 461.99220597
-        np.testing.assert_almost_equal(oetf_DCIP3(L), V, decimal=7)
+        XYZ = 0.18
+        XYZ_p = 461.99220597
+        np.testing.assert_almost_equal(oetf_DCIP3(XYZ), XYZ_p, decimal=7)
 
-        L = np.tile(L, 6)
-        V = np.tile(V, 6)
-        np.testing.assert_almost_equal(oetf_DCIP3(L), V, decimal=7)
+        XYZ = np.tile(XYZ, 6)
+        XYZ_p = np.tile(XYZ_p, 6)
+        np.testing.assert_almost_equal(oetf_DCIP3(XYZ), XYZ_p, decimal=7)
 
-        L = np.reshape(L, (2, 3))
-        V = np.reshape(V, (2, 3))
-        np.testing.assert_almost_equal(oetf_DCIP3(L), V, decimal=7)
+        XYZ = np.reshape(XYZ, (2, 3))
+        XYZ_p = np.reshape(XYZ_p, (2, 3))
+        np.testing.assert_almost_equal(oetf_DCIP3(XYZ), XYZ_p, decimal=7)
 
-        L = np.reshape(L, (2, 3, 1))
-        V = np.reshape(V, (2, 3, 1))
-        np.testing.assert_almost_equal(oetf_DCIP3(L), V, decimal=7)
+        XYZ = np.reshape(XYZ, (2, 3, 1))
+        XYZ_p = np.reshape(XYZ_p, (2, 3, 1))
+        np.testing.assert_almost_equal(oetf_DCIP3(XYZ), XYZ_p, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_oetf_DCIP3(self):
@@ -97,21 +97,21 @@ eotf_DCIP3` definition.
 eotf_DCIP3` definition n-dimensional arrays support.
         """
 
-        V = 461.99220597
-        L = 0.18
-        np.testing.assert_almost_equal(eotf_DCIP3(V), L, decimal=7)
+        XYZ_p = 461.99220597
+        XYZ = 0.18
+        np.testing.assert_almost_equal(eotf_DCIP3(XYZ_p), XYZ, decimal=7)
 
-        V = np.tile(V, 6)
-        L = np.tile(L, 6)
-        np.testing.assert_almost_equal(eotf_DCIP3(V), L, decimal=7)
+        XYZ_p = np.tile(XYZ_p, 6)
+        XYZ = np.tile(XYZ, 6)
+        np.testing.assert_almost_equal(eotf_DCIP3(XYZ_p), XYZ, decimal=7)
 
-        V = np.reshape(V, (2, 3))
-        L = np.reshape(L, (2, 3))
-        np.testing.assert_almost_equal(eotf_DCIP3(V), L, decimal=7)
+        XYZ_p = np.reshape(XYZ_p, (2, 3))
+        XYZ = np.reshape(XYZ, (2, 3))
+        np.testing.assert_almost_equal(eotf_DCIP3(XYZ_p), XYZ, decimal=7)
 
-        V = np.reshape(V, (2, 3, 1))
-        L = np.reshape(L, (2, 3, 1))
-        np.testing.assert_almost_equal(eotf_DCIP3(V), L, decimal=7)
+        XYZ_p = np.reshape(XYZ_p, (2, 3, 1))
+        XYZ = np.reshape(XYZ, (2, 3, 1))
+        np.testing.assert_almost_equal(eotf_DCIP3(XYZ_p), XYZ, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_eotf_DCIP3(self):

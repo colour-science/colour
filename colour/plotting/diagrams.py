@@ -6,12 +6,12 @@ CIE Chromaticity Diagrams Plotting
 
 Defines the *CIE* chromaticity diagrams plotting objects:
 
--   :func:`CIE_1931_chromaticity_diagram_plot`
--   :func:`CIE_1960_UCS_chromaticity_diagram_plot`
--   :func:`CIE_1976_UCS_chromaticity_diagram_plot`
--   :func:`spds_CIE_1931_chromaticity_diagram_plot`
--   :func:`spds_CIE_1960_UCS_chromaticity_diagram_plot`
--   :func:`spds_CIE_1976_UCS_chromaticity_diagram_plot`
+-   :func:`chromaticity_diagram_plot_CIE1931`
+-   :func:`chromaticity_diagram_plot_CIE1960UCS`
+-   :func:`chromaticity_diagram_plot_CIE1976UCS`
+-   :func:`spds_chromaticity_diagram_plot_CIE1931`
+-   :func:`spds_chromaticity_diagram_plot_CIE1960UCS`
+-   :func:`spds_chromaticity_diagram_plot_CIE1976UCS`
 """
 
 from __future__ import division
@@ -46,19 +46,19 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'CIE_1931_chromaticity_diagram_colours',
-    'CIE_1931_chromaticity_diagram_plot',
-    'CIE_1960_UCS_chromaticity_diagram_colours',
-    'CIE_1960_UCS_chromaticity_diagram_plot',
-    'CIE_1976_UCS_chromaticity_diagram_colours',
-    'CIE_1976_UCS_chromaticity_diagram_plot',
-    'spds_CIE_1931_chromaticity_diagram_plot',
-    'spds_CIE_1960_UCS_chromaticity_diagram_plot',
-    'spds_CIE_1976_UCS_chromaticity_diagram_plot'
+    'chromaticity_diagram_colours_CIE1931',
+    'chromaticity_diagram_plot_CIE1931',
+    'chromaticity_diagram_colours_CIE1960UCS',
+    'chromaticity_diagram_plot_CIE1960UCS',
+    'chromaticity_diagram_colours_CIE1976UCS',
+    'chromaticity_diagram_plot_CIE1976UCS',
+    'spds_chromaticity_diagram_plot_CIE1931',
+    'spds_chromaticity_diagram_plot_CIE1960UCS',
+    'spds_chromaticity_diagram_plot_CIE1976UCS'
 ]
 
 
-def CIE_1931_chromaticity_diagram_colours(
+def chromaticity_diagram_colours_CIE1931(
         samples=4096,
         cmfs='CIE 1931 2 Degree Standard Observer',
         antialiasing=True):
@@ -88,7 +88,7 @@ def CIE_1931_chromaticity_diagram_colours(
 
     Examples
     --------
-    >>> CIE_1931_chromaticity_diagram_colours()  # doctest: +SKIP
+    >>> chromaticity_diagram_colours_CIE1931()  # doctest: +SKIP
     """
 
     cmfs = get_cmfs(cmfs)
@@ -119,7 +119,7 @@ def CIE_1931_chromaticity_diagram_colours(
     return np.dstack([RGB, mask])
 
 
-def CIE_1931_chromaticity_diagram_plot(
+def chromaticity_diagram_plot_CIE1931(
         cmfs='CIE 1931 2 Degree Standard Observer',
         show_diagram_colours=True,
         use_cached_diagram_colours=True,
@@ -140,7 +140,7 @@ def CIE_1931_chromaticity_diagram_plot(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`CIE_1931_chromaticity_diagram_colours`,
+        {:func:`chromaticity_diagram_colours_CIE1931`,
         :func:`boundaries`, :func:`canvas`, :func:`decorate`, :func:`display`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -151,7 +151,7 @@ def CIE_1931_chromaticity_diagram_plot(
 
     Examples
     --------
-    >>> CIE_1931_chromaticity_diagram_plot()  # doctest: +SKIP
+    >>> chromaticity_diagram_plot_CIE1931()  # doctest: +SKIP
     """
 
     settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
@@ -170,7 +170,7 @@ def CIE_1931_chromaticity_diagram_plot(
                              'CIE_1931_Chromaticity_Diagram_{0}.png'.format(
                                  cmfs.name.replace(' ', '_'))))
         else:
-            image = CIE_1931_chromaticity_diagram_colours(
+            image = chromaticity_diagram_colours_CIE1931(
                 samples=kwargs.get('samples', 256),
                 cmfs=cmfs.name,
                 antialiasing=kwargs.get('antialiasing', True))
@@ -254,7 +254,7 @@ def CIE_1931_chromaticity_diagram_plot(
     return display(**settings)
 
 
-def CIE_1960_UCS_chromaticity_diagram_colours(
+def chromaticity_diagram_colours_CIE1960UCS(
         samples=4096,
         cmfs='CIE 1931 2 Degree Standard Observer',
         antialiasing=True):
@@ -284,7 +284,7 @@ def CIE_1960_UCS_chromaticity_diagram_colours(
 
     Examples
     --------
-    >>> CIE_1960_UCS_chromaticity_diagram_colours()  # doctest: +SKIP
+    >>> chromaticity_diagram_colours_CIE1960UCS()  # doctest: +SKIP
     """
 
     cmfs = get_cmfs(cmfs)
@@ -315,7 +315,7 @@ def CIE_1960_UCS_chromaticity_diagram_colours(
     return np.dstack([RGB, mask])
 
 
-def CIE_1960_UCS_chromaticity_diagram_plot(
+def chromaticity_diagram_plot_CIE1960UCS(
         cmfs='CIE 1931 2 Degree Standard Observer',
         show_diagram_colours=True,
         use_cached_diagram_colours=True,
@@ -336,7 +336,7 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`CIE_1960_UCS_chromaticity_diagram_colours`,
+        {:func:`chromaticity_diagram_colours_CIE1960UCS`,
         :func:`boundaries`, :func:`canvas`, :func:`decorate`, :func:`display`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -347,7 +347,7 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
 
     Examples
     --------
-    >>> CIE_1960_UCS_chromaticity_diagram_plot()  # doctest: +SKIP
+    >>> chromaticity_diagram_plot_CIE1960UCS()  # doctest: +SKIP
     """
 
     settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
@@ -364,7 +364,7 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
                              'CIE_1960_UCS_Chromaticity_Diagram_{0}.png'.
                              format(cmfs.name.replace(' ', '_'))))
         else:
-            image = CIE_1960_UCS_chromaticity_diagram_colours(
+            image = chromaticity_diagram_colours_CIE1960UCS(
                 samples=kwargs.get('samples', 256),
                 cmfs=cmfs.name,
                 antialiasing=kwargs.get('antialiasing', True))
@@ -448,7 +448,7 @@ def CIE_1960_UCS_chromaticity_diagram_plot(
     return display(**settings)
 
 
-def CIE_1976_UCS_chromaticity_diagram_colours(
+def chromaticity_diagram_colours_CIE1976UCS(
         samples=4096,
         cmfs='CIE 1931 2 Degree Standard Observer',
         antialiasing=True):
@@ -478,7 +478,7 @@ def CIE_1976_UCS_chromaticity_diagram_colours(
 
     Examples
     --------
-    >>> CIE_1976_UCS_chromaticity_diagram_colours()  # doctest: +SKIP
+    >>> chromaticity_diagram_colours_CIE1976UCS()  # doctest: +SKIP
     """
 
     cmfs = get_cmfs(cmfs)
@@ -510,7 +510,7 @@ def CIE_1976_UCS_chromaticity_diagram_colours(
     return np.dstack([RGB, mask])
 
 
-def CIE_1976_UCS_chromaticity_diagram_plot(
+def chromaticity_diagram_plot_CIE1976UCS(
         cmfs='CIE 1931 2 Degree Standard Observer',
         show_diagram_colours=True,
         use_cached_diagram_colours=True,
@@ -531,7 +531,7 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`CIE_1976_UCS_chromaticity_diagram_colours`,
+        {:func:`chromaticity_diagram_colours_CIE1976UCS`,
         :func:`boundaries`, :func:`canvas`, :func:`decorate`, :func:`display`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -542,7 +542,7 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
 
     Examples
     --------
-    >>> CIE_1976_UCS_chromaticity_diagram_plot()  # doctest: +SKIP
+    >>> chromaticity_diagram_plot_CIE1976UCS()  # doctest: +SKIP
     """
 
     settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
@@ -561,7 +561,7 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
                              'CIE_1976_UCS_Chromaticity_Diagram_{0}.png'.
                              format(cmfs.name.replace(' ', '_'))))
         else:
-            image = CIE_1976_UCS_chromaticity_diagram_colours(
+            image = chromaticity_diagram_colours_CIE1976UCS(
                 samples=kwargs.get('samples', 256),
                 cmfs=cmfs.name,
                 antialiasing=kwargs.get('antialiasing', True))
@@ -645,12 +645,12 @@ def CIE_1976_UCS_chromaticity_diagram_plot(
     return display(**settings)
 
 
-def spds_CIE_1931_chromaticity_diagram_plot(
+def spds_chromaticity_diagram_plot_CIE1931(
         spds,
         cmfs='CIE 1931 2 Degree Standard Observer',
         annotate=True,
-        CIE_1931_chromaticity_diagram_callable=(
-            CIE_1931_chromaticity_diagram_plot),
+        chromaticity_diagram_callable_CIE1931=(
+            chromaticity_diagram_plot_CIE1931),
         **kwargs):
     """
     Plots given spectral power distribution chromaticity coordinates into the
@@ -665,7 +665,7 @@ def spds_CIE_1931_chromaticity_diagram_plot(
     annotate : bool
         Should resulting chromaticity coordinates annotated with their
         respective spectral power distribution names.
-    CIE_1931_chromaticity_diagram_callable : callable, optional
+    chromaticity_diagram_callable_CIE1931 : callable, optional
         Callable responsible for drawing the *CIE 1931 Chromaticity Diagram*.
 
     Other Parameters
@@ -675,10 +675,10 @@ def spds_CIE_1931_chromaticity_diagram_plot(
         :func:`display`},
         Please refer to the documentation of the previously listed definitions.
     show_diagram_colours : bool, optional
-        {:func:`CIE_1931_chromaticity_diagram_plot`},
+        {:func:`chromaticity_diagram_plot_CIE1931`},
         Whether to display the chromaticity diagram background colours.
     use_cached_diagram_colours : bool, optional
-        {:func:`CIE_1931_chromaticity_diagram_plot`},
+        {:func:`chromaticity_diagram_plot_CIE1931`},
         Whether to used the cached chromaticity diagram background colours
         image.
 
@@ -692,14 +692,14 @@ def spds_CIE_1931_chromaticity_diagram_plot(
     >>> from colour import ILLUMINANTS_RELATIVE_SPDS
     >>> A = ILLUMINANTS_RELATIVE_SPDS['A']
     >>> D65 = ILLUMINANTS_RELATIVE_SPDS['D65']
-    >>> spds_CIE_1931_chromaticity_diagram_plot([A, D65])  # doctest: +SKIP
+    >>> spds_chromaticity_diagram_plot_CIE1931([A, D65])  # doctest: +SKIP
     """
 
     settings = {}
     settings.update(kwargs)
     settings.update({'cmfs': cmfs, 'standalone': False})
 
-    CIE_1931_chromaticity_diagram_callable(**settings)
+    chromaticity_diagram_callable_CIE1931(**settings)
 
     for spd in spds:
         XYZ = spectral_to_XYZ(spd) / 100
@@ -731,12 +731,12 @@ def spds_CIE_1931_chromaticity_diagram_plot(
     return display(**settings)
 
 
-def spds_CIE_1960_UCS_chromaticity_diagram_plot(
+def spds_chromaticity_diagram_plot_CIE1960UCS(
         spds,
         cmfs='CIE 1931 2 Degree Standard Observer',
         annotate=True,
-        CIE_1960_UCS_chromaticity_diagram_callable=(
-            CIE_1960_UCS_chromaticity_diagram_plot),
+        chromaticity_diagram_callable_CIE1960UCS=(
+            chromaticity_diagram_plot_CIE1960UCS),
         **kwargs):
     """
     Plots given spectral power distribution chromaticity coordinates into the
@@ -751,7 +751,7 @@ def spds_CIE_1960_UCS_chromaticity_diagram_plot(
     annotate : bool
         Should resulting chromaticity coordinates annotated with their
         respective spectral power distribution names.
-    CIE_1960_UCS_chromaticity_diagram_callable : callable, optional
+    chromaticity_diagram_callable_CIE1960UCS : callable, optional
         Callable responsible for drawing the
         *CIE 1960 UCS Chromaticity Diagram*.
 
@@ -762,10 +762,10 @@ def spds_CIE_1960_UCS_chromaticity_diagram_plot(
         :func:`display`},
         Please refer to the documentation of the previously listed definitions.
     show_diagram_colours : bool, optional
-        {:func:`CIE_1960_UCS_chromaticity_diagram_plot`},
+        {:func:`chromaticity_diagram_plot_CIE1960UCS`},
         Whether to display the chromaticity diagram background colours.
     use_cached_diagram_colours : bool, optional
-        {:func:`CIE_1960_UCS_chromaticity_diagram_plot`},
+        {:func:`chromaticity_diagram_plot_CIE1960UCS`},
         Whether to used the cached chromaticity diagram background colours
         image.
 
@@ -779,14 +779,14 @@ def spds_CIE_1960_UCS_chromaticity_diagram_plot(
     >>> from colour import ILLUMINANTS_RELATIVE_SPDS
     >>> A = ILLUMINANTS_RELATIVE_SPDS['A']
     >>> D65 = ILLUMINANTS_RELATIVE_SPDS['D65']
-    >>> spds_CIE_1960_UCS_chromaticity_diagram_plot([A, D65])  # doctest: +SKIP
+    >>> spds_chromaticity_diagram_plot_CIE1960UCS([A, D65])  # doctest: +SKIP
     """
 
     settings = {}
     settings.update(kwargs)
     settings.update({'cmfs': cmfs, 'standalone': False})
 
-    CIE_1960_UCS_chromaticity_diagram_callable(**settings)
+    chromaticity_diagram_callable_CIE1960UCS(**settings)
 
     for spd in spds:
         XYZ = spectral_to_XYZ(spd) / 100
@@ -818,12 +818,12 @@ def spds_CIE_1960_UCS_chromaticity_diagram_plot(
     return display(**settings)
 
 
-def spds_CIE_1976_UCS_chromaticity_diagram_plot(
+def spds_chromaticity_diagram_plot_CIE1976UCS(
         spds,
         cmfs='CIE 1931 2 Degree Standard Observer',
         annotate=True,
-        CIE_1976_UCS_chromaticity_diagram_callable=(
-            CIE_1976_UCS_chromaticity_diagram_plot),
+        chromaticity_diagram_callable_CIE1976UCS=(
+            chromaticity_diagram_plot_CIE1976UCS),
         **kwargs):
     """
     Plots given spectral power distribution chromaticity coordinates into the
@@ -838,7 +838,7 @@ def spds_CIE_1976_UCS_chromaticity_diagram_plot(
     annotate : bool
         Should resulting chromaticity coordinates annotated with their
         respective spectral power distribution names.
-    CIE_1976_UCS_chromaticity_diagram_callable : callable, optional
+    chromaticity_diagram_callable_CIE1976UCS : callable, optional
         Callable responsible for drawing the
         *CIE 1976 UCS Chromaticity Diagram*.
 
@@ -849,10 +849,10 @@ def spds_CIE_1976_UCS_chromaticity_diagram_plot(
         :func:`display`},
         Please refer to the documentation of the previously listed definitions.
     show_diagram_colours : bool, optional
-        {:func:`CIE_1976_UCS_chromaticity_diagram_plot`},
+        {:func:`chromaticity_diagram_plot_CIE1976UCS`},
         Whether to display the chromaticity diagram background colours.
     use_cached_diagram_colours : bool, optional
-        {:func:`CIE_1976_UCS_chromaticity_diagram_plot`},
+        {:func:`chromaticity_diagram_plot_CIE1976UCS`},
         Whether to used the cached chromaticity diagram background colours
         image.
 
@@ -866,14 +866,14 @@ def spds_CIE_1976_UCS_chromaticity_diagram_plot(
     >>> from colour import ILLUMINANTS_RELATIVE_SPDS
     >>> A = ILLUMINANTS_RELATIVE_SPDS['A']
     >>> D65 = ILLUMINANTS_RELATIVE_SPDS['D65']
-    >>> spds_CIE_1976_UCS_chromaticity_diagram_plot([A, D65])  # doctest: +SKIP
+    >>> spds_chromaticity_diagram_plot_CIE1976UCS([A, D65])  # doctest: +SKIP
     """
 
     settings = {}
     settings.update(kwargs)
     settings.update({'cmfs': cmfs, 'standalone': False})
 
-    CIE_1976_UCS_chromaticity_diagram_callable(**settings)
+    chromaticity_diagram_callable_CIE1976UCS(**settings)
 
     for spd in spds:
         XYZ = spectral_to_XYZ(spd) / 100

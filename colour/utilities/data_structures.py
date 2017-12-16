@@ -77,10 +77,6 @@ blob/develop/foundations/data_structures.py
         attribute : unicode
             Attribute name.
 
-        Notes
-        -----
-        -   Reimplements the :meth:`dict.__getattr__` method.
-
         Returns
         -------
         object
@@ -108,10 +104,6 @@ blob/develop/foundations/data_structures.py
             Attribute.
         value : object
             Value.
-
-        Notes
-        -----
-        -   Reimplements the :meth:`dict.__setattr__` method.
         """
 
         dict.__setitem__(self, attribute, value)
@@ -127,10 +119,6 @@ blob/develop/foundations/data_structures.py
         ----------
         attribute : object
             Attribute.
-
-        Notes
-        -----
-        -   Reimplements the :meth:`dict.__delattr__` method.
         """
 
         dict.__delitem__(self, attribute)
@@ -148,10 +136,6 @@ blob/develop/foundations/data_structures.py
             Arguments.
         \**kwargs : dict, optional
             Keywords arguments.
-
-        Notes
-        -----
-        -   Reimplements the :meth:`dict.update` method.
         """
 
         dict.update(self, *args, **kwargs)
@@ -313,10 +297,6 @@ blob/v1.2.3/requests/structures.py#L37
             Attribute.
         value : object
             Value.
-
-        Notes
-        -----
-        -   Reimplements the :meth:`MutableMapping.__setitem__` method.
         """
 
         self._data[item.lower()] = (item, value)
@@ -336,10 +316,6 @@ blob/v1.2.3/requests/structures.py#L37
         -------
         object
             Item value.
-
-        Notes
-        -----
-        -   Reimplements the :meth:`MutableMapping.__getitem__` method.
         """
 
         return self._data[item.lower()][1]
@@ -354,10 +330,6 @@ blob/v1.2.3/requests/structures.py#L37
         ----------
         item : unicode
             Item name.
-
-        Notes
-        -----
-        -   Reimplements the :meth:`MutableMapping.__delitem__` method.
         """
 
         del self._data[item.lower()]
@@ -375,10 +347,6 @@ blob/v1.2.3/requests/structures.py#L37
         -------
         bool
             Is item in mapping.
-
-        Notes
-        -----
-        -   Reimplements the :meth:`MutableMapping.__contains__` method.
         """
 
         return item.lower() in self._data
@@ -393,10 +361,6 @@ blob/v1.2.3/requests/structures.py#L37
         -------
         generator
             Item names.
-
-        Notes
-        -----
-        -   Reimplements the :meth:`MutableMapping.__iter__` method.
         """
 
         return (item for item, value in self._data.values())
@@ -409,10 +373,6 @@ blob/v1.2.3/requests/structures.py#L37
         -------
         int
             Items count.
-
-        Notes
-        -----
-        -   Reimplements the :meth:`MutableMapping.__iter__` method.
         """
 
         return len(self._data)
@@ -430,10 +390,6 @@ blob/v1.2.3/requests/structures.py#L37
         -------
         bool
             Equality.
-
-        Notes
-        -----
-        -   Reimplements the :meth:`MutableMapping.__eq__` method.
         """
 
         if isinstance(item, Mapping):
@@ -456,10 +412,6 @@ blob/v1.2.3/requests/structures.py#L37
         -------
         bool
             Inequality.
-
-        Notes
-        -----
-        -   Reimplements the :meth:`MutableMapping.__ne__` method.
         """
 
         return not (self == item)
@@ -472,10 +424,6 @@ blob/v1.2.3/requests/structures.py#L37
         -------
         unicode
             Mapping representation.
-
-        Notes
-        -----
-        -   Reimplements the :meth:`MutableMapping.__repr__` method.
         """
 
         return '{0}({1})'.format(self.__class__.__name__, dict(self.items()))

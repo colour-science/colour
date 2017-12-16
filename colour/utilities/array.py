@@ -47,10 +47,6 @@ def as_numeric(a, type_=DEFAULT_FLOAT_DTYPE):
     ndarray
         :math:`a` variable converted to *numeric*.
 
-    See Also
-    --------
-    as_stack, as_shape, auto_axis
-
     Examples
     --------
     >>> as_numeric(np.array([1]))
@@ -350,10 +346,6 @@ def tstack(a):
     -------
     ndarray
 
-    See Also
-    --------
-    tsplit
-
     Examples
     --------
     >>> a = 0
@@ -402,10 +394,6 @@ def tsplit(a):
     Returns
     -------
     ndarray
-
-    See Also
-    --------
-    tstack
 
     Examples
     --------
@@ -521,10 +509,6 @@ def dot_vector(m, v):
     -------
     ndarray
 
-    See Also
-    --------
-    dot_matrix
-
     Examples
     --------
     >>> m = np.array(
@@ -567,10 +551,6 @@ def dot_matrix(a, b):
     -------
     ndarray
 
-    See Also
-    --------
-    dot_matrix
-
     Examples
     --------
     >>> a = np.array(
@@ -611,7 +591,7 @@ def dot_matrix(a, b):
 
 def orient(a, orientation):
     """
-    Orient given array accordingly to given `orientation` value.
+    Orient given array according to given `orientation` value.
 
     Parameters
     ----------
@@ -738,7 +718,7 @@ def linear_conversion(a, old_range, new_range):
 
 def fill_nan(a, method='Interpolation', default=0):
     """
-    Fills given array NaNs accordingly to given method.
+    Fills given array NaNs according to given method.
 
     Parameters
     ----------

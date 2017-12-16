@@ -51,21 +51,21 @@ oetf_SMPTE240M` definition.
 oetf_SMPTE240M` definition n-dimensional arrays support.
         """
 
-        L = 0.18
-        V = 0.402285796753870
-        np.testing.assert_almost_equal(oetf_SMPTE240M(L), V, decimal=7)
+        L_c = 0.18
+        V_c = 0.402285796753870
+        np.testing.assert_almost_equal(oetf_SMPTE240M(L_c), V_c, decimal=7)
 
-        L = np.tile(L, 6)
-        V = np.tile(V, 6)
-        np.testing.assert_almost_equal(oetf_SMPTE240M(L), V, decimal=7)
+        L_c = np.tile(L_c, 6)
+        V_c = np.tile(V_c, 6)
+        np.testing.assert_almost_equal(oetf_SMPTE240M(L_c), V_c, decimal=7)
 
-        L = np.reshape(L, (2, 3))
-        V = np.reshape(V, (2, 3))
-        np.testing.assert_almost_equal(oetf_SMPTE240M(L), V, decimal=7)
+        L_c = np.reshape(L_c, (2, 3))
+        V_c = np.reshape(V_c, (2, 3))
+        np.testing.assert_almost_equal(oetf_SMPTE240M(L_c), V_c, decimal=7)
 
-        L = np.reshape(L, (2, 3, 1))
-        V = np.reshape(V, (2, 3, 1))
-        np.testing.assert_almost_equal(oetf_SMPTE240M(L), V, decimal=7)
+        L_c = np.reshape(L_c, (2, 3, 1))
+        V_c = np.reshape(V_c, (2, 3, 1))
+        np.testing.assert_almost_equal(oetf_SMPTE240M(L_c), V_c, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_oetf_SMPTE240M(self):

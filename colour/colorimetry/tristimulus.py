@@ -92,10 +92,6 @@ def lagrange_coefficients_ASTME202211(interval=10, interval_type='inner'):
     ndarray
         *Lagrange Coefficients*.
 
-    See Also
-    --------
-    colour.lagrange_coefficients
-
     Examples
     --------
     >>> lagrange_coefficients_ASTME202211(10, 'inner')
@@ -375,7 +371,7 @@ def spectral_to_XYZ_integration(
             'CIE 1931 2 Degree Standard Observer'].shape)):
     """
     Converts given spectral power distribution to *CIE XYZ* tristimulus values
-    using given colour matching functions and illuminant accordingly to
+    using given colour matching functions and illuminant according to
     classical integration method.
 
     Parameters
@@ -469,7 +465,7 @@ def spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
     """
     Converts given spectral power distribution to *CIE XYZ* tristimulus values
     using given colour matching functions and illuminant using a table
-    of tristimulus weighting factors accordingly to practise
+    of tristimulus weighting factors according to practise
     *ASTM E308-15* method [2]_.
 
     Parameters
@@ -558,7 +554,7 @@ def spectral_to_XYZ_ASTME30815(
         mi_20nm_interpolation_method=True):
     """
     Converts given spectral power distribution to *CIE XYZ* tristimulus values
-    using given colour matching functions and illuminant accordingly to
+    using given colour matching functions and illuminant according to
     practise *ASTM E308-15* method [2]_.
 
     Parameters
@@ -635,7 +631,7 @@ def spectral_to_XYZ_ASTME30815(
 
     if spd.shape.interval not in (1, 5, 10, 20):
         raise ValueError(
-            'Tristimulus values conversion from spectral data accordingly to '
+            'Tristimulus values conversion from spectral data according to '
             'practise "ASTM E308-15" should be performed on spectral data '
             'with measurement interval of 1, 5, 10 or 20nm!')
 
@@ -806,7 +802,7 @@ def wavelength_to_XYZ(
     using given colour matching functions.
 
     If the wavelength :math:`\lambda` is not available in the colour matching
-    function, its value will be calculated accordingly to *CIE 15:2004*
+    function, its value will be calculated according to *CIE 15:2004*
     recommendation: the method developed by *Sprague (1880)* will be used for
     interpolating functions having a uniformly spaced independent variable and
     the *Cubic Spline* method for non-uniformly spaced independent variable.

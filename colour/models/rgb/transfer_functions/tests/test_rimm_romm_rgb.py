@@ -54,21 +54,21 @@ oetf_ROMMRGB` definition.
 oetf_ROMMRGB` definition n-dimensional arrays support.
         """
 
-        L = 0.18
-        V = 98.356413311540095
-        np.testing.assert_almost_equal(oetf_ROMMRGB(L), V, decimal=7)
+        X = 0.18
+        X_ROMM = 98.356413311540095
+        np.testing.assert_almost_equal(oetf_ROMMRGB(X), X_ROMM, decimal=7)
 
-        L = np.tile(L, 6)
-        V = np.tile(V, 6)
-        np.testing.assert_almost_equal(oetf_ROMMRGB(L), V, decimal=7)
+        X = np.tile(X, 6)
+        X_ROMM = np.tile(X_ROMM, 6)
+        np.testing.assert_almost_equal(oetf_ROMMRGB(X), X_ROMM, decimal=7)
 
-        L = np.reshape(L, (2, 3))
-        V = np.reshape(V, (2, 3))
-        np.testing.assert_almost_equal(oetf_ROMMRGB(L), V, decimal=7)
+        X = np.reshape(X, (2, 3))
+        X_ROMM = np.reshape(X_ROMM, (2, 3))
+        np.testing.assert_almost_equal(oetf_ROMMRGB(X), X_ROMM, decimal=7)
 
-        L = np.reshape(L, (2, 3, 1))
-        V = np.reshape(V, (2, 3, 1))
-        np.testing.assert_almost_equal(oetf_ROMMRGB(L), V, decimal=7)
+        X = np.reshape(X, (2, 3, 1))
+        X_ROMM = np.reshape(X_ROMM, (2, 3, 1))
+        np.testing.assert_almost_equal(oetf_ROMMRGB(X), X_ROMM, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_oetf_ROMMRGB(self):
@@ -261,21 +261,25 @@ log_encoding_ERIMMRGB` definition.
 log_encoding_ERIMMRGB` definition n-dimensional arrays support.
         """
 
-        L = 0.18
-        V = 104.563359320492940
-        np.testing.assert_almost_equal(log_encoding_ERIMMRGB(L), V, decimal=7)
+        X = 0.18
+        X_ERIMM = 104.563359320492940
+        np.testing.assert_almost_equal(
+            log_encoding_ERIMMRGB(X), X_ERIMM, decimal=7)
 
-        L = np.tile(L, 6)
-        V = np.tile(V, 6)
-        np.testing.assert_almost_equal(log_encoding_ERIMMRGB(L), V, decimal=7)
+        X = np.tile(X, 6)
+        X_ERIMM = np.tile(X_ERIMM, 6)
+        np.testing.assert_almost_equal(
+            log_encoding_ERIMMRGB(X), X_ERIMM, decimal=7)
 
-        L = np.reshape(L, (2, 3))
-        V = np.reshape(V, (2, 3))
-        np.testing.assert_almost_equal(log_encoding_ERIMMRGB(L), V, decimal=7)
+        X = np.reshape(X, (2, 3))
+        X_ERIMM = np.reshape(X_ERIMM, (2, 3))
+        np.testing.assert_almost_equal(
+            log_encoding_ERIMMRGB(X), X_ERIMM, decimal=7)
 
-        L = np.reshape(L, (2, 3, 1))
-        V = np.reshape(V, (2, 3, 1))
-        np.testing.assert_almost_equal(log_encoding_ERIMMRGB(L), V, decimal=7)
+        X = np.reshape(X, (2, 3, 1))
+        X_ERIMM = np.reshape(X_ERIMM, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            log_encoding_ERIMMRGB(X), X_ERIMM, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_log_encoding_ERIMMRGB(self):
@@ -314,21 +318,25 @@ log_decoding_ERIMMRGB` definition.
 log_decoding_ERIMMRGB` definition n-dimensional arrays support.
         """
 
-        L = 104.563359320492940
-        V = 0.18
-        np.testing.assert_almost_equal(log_decoding_ERIMMRGB(L), V, decimal=7)
+        X_ERIMM = 104.563359320492940
+        X = 0.18
+        np.testing.assert_almost_equal(
+            log_decoding_ERIMMRGB(X_ERIMM), X, decimal=7)
 
-        L = np.tile(L, 6)
-        V = np.tile(V, 6)
-        np.testing.assert_almost_equal(log_decoding_ERIMMRGB(L), V, decimal=7)
+        X_ERIMM = np.tile(X_ERIMM, 6)
+        X = np.tile(X, 6)
+        np.testing.assert_almost_equal(
+            log_decoding_ERIMMRGB(X_ERIMM), X, decimal=7)
 
-        L = np.reshape(L, (2, 3))
-        V = np.reshape(V, (2, 3))
-        np.testing.assert_almost_equal(log_decoding_ERIMMRGB(L), V, decimal=7)
+        X_ERIMM = np.reshape(X_ERIMM, (2, 3))
+        X = np.reshape(X, (2, 3))
+        np.testing.assert_almost_equal(
+            log_decoding_ERIMMRGB(X_ERIMM), X, decimal=7)
 
-        L = np.reshape(L, (2, 3, 1))
-        V = np.reshape(V, (2, 3, 1))
-        np.testing.assert_almost_equal(log_decoding_ERIMMRGB(L), V, decimal=7)
+        X_ERIMM = np.reshape(X_ERIMM, (2, 3, 1))
+        X = np.reshape(X, (2, 3, 1))
+        np.testing.assert_almost_equal(
+            log_decoding_ERIMMRGB(X_ERIMM), X, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_log_decoding_ERIMMRGB(self):

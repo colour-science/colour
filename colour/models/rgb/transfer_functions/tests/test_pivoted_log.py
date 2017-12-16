@@ -50,25 +50,25 @@ log_encoding_PivotedLog` definition.
 log_encoding_PivotedLog` definition n-dimensional arrays support.
         """
 
-        L = 0.18
-        V = 0.434995112414467
+        x = 0.18
+        y = 0.434995112414467
         np.testing.assert_almost_equal(
-            log_encoding_PivotedLog(L), V, decimal=7)
+            log_encoding_PivotedLog(x), y, decimal=7)
 
-        L = np.tile(L, 6)
-        V = np.tile(V, 6)
+        x = np.tile(x, 6)
+        y = np.tile(y, 6)
         np.testing.assert_almost_equal(
-            log_encoding_PivotedLog(L), V, decimal=7)
+            log_encoding_PivotedLog(x), y, decimal=7)
 
-        L = np.reshape(L, (2, 3))
-        V = np.reshape(V, (2, 3))
+        x = np.reshape(x, (2, 3))
+        y = np.reshape(y, (2, 3))
         np.testing.assert_almost_equal(
-            log_encoding_PivotedLog(L), V, decimal=7)
+            log_encoding_PivotedLog(x), y, decimal=7)
 
-        L = np.reshape(L, (2, 3, 1))
-        V = np.reshape(V, (2, 3, 1))
+        x = np.reshape(x, (2, 3, 1))
+        y = np.reshape(y, (2, 3, 1))
         np.testing.assert_almost_equal(
-            log_encoding_PivotedLog(L), V, decimal=7)
+            log_encoding_PivotedLog(x), y, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_log_encoding_PivotedLog(self):
@@ -107,25 +107,25 @@ log_decoding_PivotedLog` definition.
 log_decoding_PivotedLog` definition n-dimensional arrays support.
         """
 
-        V = 0.434995112414467
-        L = 0.18
+        y = 0.434995112414467
+        x = 0.18
         np.testing.assert_almost_equal(
-            log_decoding_PivotedLog(V), L, decimal=7)
+            log_decoding_PivotedLog(y), x, decimal=7)
 
-        V = np.tile(V, 6)
-        L = np.tile(L, 6)
+        y = np.tile(y, 6)
+        x = np.tile(x, 6)
         np.testing.assert_almost_equal(
-            log_decoding_PivotedLog(V), L, decimal=7)
+            log_decoding_PivotedLog(y), x, decimal=7)
 
-        V = np.reshape(V, (2, 3))
-        L = np.reshape(L, (2, 3))
+        y = np.reshape(y, (2, 3))
+        x = np.reshape(x, (2, 3))
         np.testing.assert_almost_equal(
-            log_decoding_PivotedLog(V), L, decimal=7)
+            log_decoding_PivotedLog(y), x, decimal=7)
 
-        V = np.reshape(V, (2, 3, 1))
-        L = np.reshape(L, (2, 3, 1))
+        y = np.reshape(y, (2, 3, 1))
+        x = np.reshape(x, (2, 3, 1))
         np.testing.assert_almost_equal(
-            log_decoding_PivotedLog(V), L, decimal=7)
+            log_decoding_PivotedLog(y), x, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_log_decoding_PivotedLog(self):

@@ -275,10 +275,6 @@ def is_numeric(a):
     bool
         Is :math:`a` variable a number.
 
-    See Also
-    --------
-    is_integer
-
     Examples
     --------
     >>> is_numeric(1)
@@ -309,10 +305,6 @@ def is_integer(a):
     -----
     -   The determination threshold is defined by the
         :attr:`colour.algebra.common.INTEGER_THRESHOLD` attribute.
-
-    See Also
-    --------
-    is_numeric
 
     Examples
     --------
