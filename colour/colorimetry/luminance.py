@@ -178,7 +178,7 @@ def luminance_CIE1976(Lstar, Y_n=100):
 def luminance_Fairchild2010(L_hdr, epsilon=2):
     """
     Computes *luminance* :math:`Y` of given *Lightness* :math:`L_{hdr}` using
-    *Fairchild and Wyble (2010)* method accordingly to *Michealis-Menten*
+    *Fairchild and Wyble (2010)* method according to *Michealis-Menten*
     kinetics.
 
     Parameters

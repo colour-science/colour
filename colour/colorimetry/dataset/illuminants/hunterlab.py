@@ -9,7 +9,7 @@ Defines the *HunterLab* illuminants dataset for the
 *CIE 1964 10 Degree Standard Observer*.
 
 The currently implemented data has been extracted from [1]_, however you may
-want to use different data accordingly to the tables given in [2]_.
+want to use different data according to the tables given in [2]_.
 
 See Also
 --------

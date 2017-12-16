@@ -472,12 +472,12 @@ class SpectralPowerDistribution(Signal):
     Defines the spectral power distribution: the base object for spectral
     computations.
 
-    The spectral power distribution will be initialised accordingly to
+    The spectral power distribution will be initialised according to
     *CIE 15:2004* recommendation: the method developed by
     *Sprague (1880)* will be used for interpolating functions having a
     uniformly spaced independent variable and the *Cubic Spline* method for
     non-uniformly spaced independent variable. Extrapolation is performed
-    accordingly to *CIE 167:2005* recommendation. [1]_ [2]_ [3]_
+    according to *CIE 167:2005* recommendation. [1]_ [2]_ [3]_
 
     Parameters
     ----------
@@ -746,7 +746,7 @@ dict_like, optional
 
     def extrapolate(self, shape, extrapolator=None, extrapolator_args=None):
         """
-        Extrapolates the spectral power distribution in-place accordingly to
+        Extrapolates the spectral power distribution in-place according to
         *CIE 15:2004* and *CIE 167:2005* recommendations [1]_ [2]_ or given
         extrapolation arguments.
 
@@ -830,7 +830,7 @@ dict_like, optional
 
     def interpolate(self, shape, interpolator=None, interpolator_args=None):
         """
-        Interpolates the spectral power distribution in-place accordingly to
+        Interpolates the spectral power distribution in-place according to
         *CIE 167:2005* recommendation [3]_ or given interpolation arguments.
 
         Parameters
@@ -1390,12 +1390,12 @@ class MultiSpectralPowerDistribution(MultiSignal):
     spectrals computations. It is used to model colour matching functions,
     display primaries, camera sensitivities, etc...
 
-    The multi-spectral power distribution will be initialised accordingly to
+    The multi-spectral power distribution will be initialised according to
     *CIE 15:2004* recommendation: the method developed by
     *Sprague (1880)* will be used for interpolating functions having a
     uniformly spaced independent variable and the *Cubic Spline* method for
     non-uniformly spaced independent variable. Extrapolation is performed
-    accordingly to *CIE 167:2005* recommendation. [1]_ [2]_ [3]_
+    according to *CIE 167:2005* recommendation. [1]_ [2]_ [3]_
 
     Parameters
     ----------
@@ -2228,7 +2228,7 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
 
 DEFAULT_SPECTRAL_SHAPE = SpectralShape(360, 780, 1)
 """
-Default spectral shape accordingly to *ASTM E308–15* practise shape.
+Default spectral shape according to *ASTM E308–15* practise shape.
 
 DEFAULT_SPECTRAL_SHAPE : SpectralShape
 """

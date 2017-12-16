@@ -591,7 +591,7 @@ def dot_matrix(a, b):
 
 def orient(a, orientation):
     """
-    Orient given array accordingly to given `orientation` value.
+    Orient given array according to given `orientation` value.
 
     Parameters
     ----------
@@ -718,7 +718,7 @@ def linear_conversion(a, old_range, new_range):
 
 def fill_nan(a, method='Interpolation', default=0):
     """
-    Fills given array NaNs accordingly to given method.
+    Fills given array NaNs according to given method.
 
     Parameters
     ----------
