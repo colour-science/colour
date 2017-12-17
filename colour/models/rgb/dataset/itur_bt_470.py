@@ -17,9 +17,9 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  International Telecommunication Union. (1998). Recommendation
-        ITU-R BT.470-6 - CONVENTIONAL TELEVISION SYSTEMS (pp. 1–36).
-        Retrieved from http://www.itu.int/dms_pubrec/itu-r/rec/bt/\
+.. [1]  International Telecommunication Union. (1998). Recommendation ITU-R
+        BT.470-6 - CONVENTIONAL TELEVISION SYSTEMS. Retrieved from
+        http://www.itu.int/dms_pubrec/itu-r/rec/bt/\
 R-REC-BT.470-6-199811-S!!PDF-E.pdf
 """
 

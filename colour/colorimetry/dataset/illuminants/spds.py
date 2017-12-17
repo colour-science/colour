@@ -43,7 +43,7 @@ References
 ----------
 .. [1]  CIE. (n.d.). CIE Spectral Data. Retrieved from
         http://files.cie.co.at/204.xls
-.. [2]  CIE. (n.d.). CIE 15:2004 Tables Data. Retrieved from
+.. [2]  CIE. (2004). CIE 15:2004 Tables Data. Retrieved from
         https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls
 """
 

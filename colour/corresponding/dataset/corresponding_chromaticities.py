@@ -15,9 +15,9 @@ blob/master/notebooks/corresponding/prediction.ipynb>`_
 References
 ----------
 .. [1]  Breneman, E. J. (1987). Corresponding chromaticities for different
-        states of adaptation to complex visual fields. JOSA A, 4(6). Retrieved
-        from http://www.opticsinfobase.org/josaa/\
-fulltext.cfm?uri=josaa-4-6-1115&id=2783
+        states of adaptation to complex visual fields. Journal of the Optical
+        Society of America. A, Optics and Image Science, 4, 1115–1129.
+        doi:10.1364/JOSAA.4.001115
 """
 
 from __future__ import division, unicode_literals

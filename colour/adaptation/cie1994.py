@@ -17,8 +17,8 @@ blob/master/notebooks/adaptation/cie1994.ipynb>`_
 References
 ----------
 .. [1]  CIE TC 1-32. (1994). CIE 109-1994 A Method of Predicting Corresponding
-        Colours under Different Chromatic and Illuminance Adaptations
-        (pp. 1–18). ISBN:978-3-900734-51-0
+        Colours under Different Chromatic and Illuminance Adaptations.
+        ISBN:978-3-900734-51-0
 """
 
 from __future__ import division, unicode_literals

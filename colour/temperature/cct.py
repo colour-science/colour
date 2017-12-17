@@ -446,8 +446,8 @@ def uv_to_CCT_Robertson1968(uv):
             Science: Concepts and Methods, Quantitative Data and Formulae
             (pp. 224–229). Wiley. ISBN:978-0471399186
     .. [6]  Adobe Systems. (2013). Adobe DNG Software Development Kit (SDK) -
-            1.3.0.0 - dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp::
-            dng_temperature::Set_xy_coord. Retrieved from
+            1.3.0.0 - dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp::\
+dng_temperature::Set_xy_coord. Retrieved from
             https://www.adobe.com/support/downloads/dng/dng_sdk.html
 
     Examples
@@ -535,8 +535,8 @@ def CCT_to_uv_Robertson1968(CCT, D_uv=0):
             Science: Concepts and Methods, Quantitative Data and Formulae
             (pp. 224–229). Wiley. ISBN:978-0471399186
     .. [8]  Adobe Systems. (2013). Adobe DNG Software Development Kit (SDK) -
-            1.3.0.0 - dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp::
-            dng_temperature::xy_coord. Retrieved from
+            1.3.0.0 - dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp::\
+dng_temperature::xy_coord. Retrieved from
             https://www.adobe.com/support/downloads/dng/dng_sdk.html
 
     Examples

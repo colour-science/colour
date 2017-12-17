@@ -31,10 +31,10 @@ References
         Notes on SMPTE ST 2065-1 – Academy Color Encoding Specification
         (ACES). Retrieved from
         https://github.com/ampas/aces-dev/tree/master/documents
-.. [3]  The Academy of Motion Picture Arts and Sciences, Science and
-        Technology Council, & Academy Color Encoding System (ACES) Project
-        Subcommittee. (2015). Specification S-2014-004 - ACEScg –
-        A Working Space for CGI Render and Compositing, 1–9.  Retrieved from
+.. [3]  The Academy of Motion Picture Arts and Sciences, Science and Technology
+        Council, & Academy Color Encoding System (ACES) Project Subcommittee.
+        (2015). Specification S-2014-004 - ACEScg – A Working Space for CGI
+        Render and Compositing, 1–9. Retrieved from
         https://github.com/ampas/aces-dev/tree/master/documents
 .. [4]  The Academy of Motion Picture Arts and Sciences, Science and
         Technology Council, & Academy Color Encoding System (ACES) Project

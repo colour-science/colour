@@ -188,8 +188,7 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wavelength):
     References
     ----------
     .. [3]  CIE TC 1-36. (2006). CIE 170-1:2006 Fundamental Chromaticity
-            Diagram with Physiological Axes - Part 1 (pp. 1–56).
-            ISBN:978-3-901-90646-6
+            Diagram with Physiological Axes - Part 1. ISBN:978-3-901-90646-6
 
     Examples
     --------

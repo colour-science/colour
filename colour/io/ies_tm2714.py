@@ -10,8 +10,8 @@ XML files.
 References
 ----------
 .. [1]  IES Computer Committee, & TM-27-14 Working Group. (2014). IES Standard
-        Format for the Electronic Transfer of Spectral Data Electronic
-        Transfer of Spectral Data (pp. 1–16). ISBN:978-0879952952
+        Format for the Electronic Transfer of Spectral Data Electronic Transfer
+        of Spectral Data. ISBN:978-0879952952
 """
 
 from __future__ import division, unicode_literals

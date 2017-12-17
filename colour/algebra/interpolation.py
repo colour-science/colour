@@ -61,8 +61,7 @@ def kernel_nearest_neighbour(x):
     References
     ----------
     .. [1]  Burger, W., & Burge, M. J. (2009). Principles of Digital Image
-            Processing. London: Springer London.
-            https://doi.org/10.1007/978-1-84800-195-4
+            Processing. London: Springer London. doi:10.1007/978-1-84800-195-4
 
     Examples
     --------

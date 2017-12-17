@@ -20,14 +20,14 @@ blob/master/notebooks/appearance/llab.ipynb>`_
 References
 ----------
 .. [1]  Fairchild, M. D. (2013). LLAB Model. In Color Appearance Models
-        (3rd ed., pp. 6025–6178). Wiley. ASIN:B00DAYO8E2
+        (3rd ed., pp. 6025–6178). Wiley. ISBN:B00DAYO8E2
 .. [2]  Luo, M. R., & Morovic, J. (1996). Two Unsolved Issues in Colour
-        Management – Colour Appearance and Gamut Mapping. In Conference: 5th
-        International Conference on High Technology: Imaging Science and
+        Management – Colour Appearance and Gamut Mapping. In Conference:
+        5th International Conference on High Technology: Imaging Science and
         Technology – Evolution & Promise (pp. 136–147). Retrieved from
         http://www.researchgate.net/publication/\
 236348295_Two_Unsolved_Issues_in_Colour_Management\
-_Colour_Appearance_and_Gamut_Mapping
+__Colour_Appearance_and_Gamut_Mapping
 .. [3]  Luo, M. R., Lo, M.-C., & Kuo, W.-G. (1996). The LLAB (l:c) colour
         model. Color Research & Application, 21(6), 412–429.
         doi:10.1002/(SICI)1520-6378(199612)21:6<412::AID-COL4>3.0.CO;2-Z

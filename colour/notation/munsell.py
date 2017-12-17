@@ -418,8 +418,9 @@ def munsell_value_McCamy1987(Y):
 
     References
     ----------
-    .. [4]  ASTM International. (1989). ASTM D1535-89 Standard Test Method for
-            Specifying Color by the Munsell System. Retrieved from
+    .. [4]  ASTM International. (1989). ASTM D1535-89 - Standard Practice for
+            Specifying Color by the Munsell System.
+            Retrieved September 25, 2014, from
             http://www.astm.org/DATABASE.CART/HISTORICAL/D1535-89.htm
 
     Examples

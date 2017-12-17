@@ -20,9 +20,9 @@ blob/master/notebooks/appearance/hunt.ipynb>`_
 References
 ----------
 .. [1]  Fairchild, M. D. (2013). The Hunt Model. In Color Appearance Models
-        (3rd ed., pp. 5094–5556). Wiley. ASIN:B00DAYO8E2
-.. [2]  Hunt, R. W. G. (2004). The Reproduction of Colour (6th ed.). Wiley.
-        ISBN:978-0-470-02425-6
+        (3rd ed., pp. 5094–5556). Wiley. ISBN:B00DAYO8E2
+.. [2]  Hunt, R. W. G. (2004). The Reproduction of Colour (6th ed.).
+        Chichester, UK: Wiley. doi:10.1002/0470024275
 """
 
 from __future__ import division, unicode_literals

@@ -22,7 +22,7 @@ References
         ST 2084:2014 - Dynamic Range Electro-Optical Transfer Function of
         Mastering Reference Displays. doi:10.5594/SMPTE.ST2084.2014
 .. [2]  Miller, S., & Dolby Laboratories. (2014). A Perceptual EOTF for
-        Extended Dynamic Range Imagery, 1–17. Retrieved from
+        Extended Dynamic Range Imagery. Retrieved from
         https://www.smpte.org/sites/default/files/\
 2014-05-06-EOTF-Miller-1-2-handout.pdf
 """

@@ -69,7 +69,7 @@ class Extrapolator(object):
     References
     ----------
     .. [1]  sastanin. (n.d.). How to make scipy.interpolate give an
-            extrapolated result beyond the input range? Retrieved August 08,
+            extrapolated result beyond the input range? Retrieved August 8,
             2014, from http://stackoverflow.com/a/2745496/931625
 
     Examples

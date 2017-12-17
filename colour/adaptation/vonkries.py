@@ -18,7 +18,7 @@ blob/master/notebooks/adaptation/vonkries.ipynb>`_
 References
 ----------
 .. [1]  Fairchild, M. D. (2013). Chromatic Adaptation Models. In Color
-        Appearance Models (3rd ed., pp. 4179–4252). Wiley. ASIN:B00DAYO8E2
+        Appearance Models (3rd ed., pp. 4179–4252). Wiley. ISBN:B00DAYO8E2
 """
 
 from __future__ import division, unicode_literals

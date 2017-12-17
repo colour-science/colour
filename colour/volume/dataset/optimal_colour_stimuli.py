@@ -488,7 +488,7 @@ C_OPTIMAL_COLOUR_STIMULI : ndarray
 References
 ----------
 .. [3]  MacAdam, D. L. (1935). Maximum Visual Efficiency of Colored Materials.
-        [. Opt. Soc. Am., 25(11], 361–367. doi:10.1364/JOSA.25.000361
+        J. Opt. Soc. Am., 25(11), 361–367. doi:10.1364/JOSA.25.000361
 """
 
 D65_OPTIMAL_COLOUR_STIMULI = np.array([

@@ -23,8 +23,8 @@ blob/master/notebooks/models/rgb.ipynb>`_
 References
 ----------
 .. [1]  Society of Motion Picture and Television Engineers. (1993). Derivation
-        of Basic Television Color Equations. In RP 177:1993 (Vol. RP 177:199).
-        doi:10.5594/S9781614821915
+        of Basic Television Color Equations. In RP 177:1993
+        (Vol. RP 177:199, pp. 1–4). doi:10.5594/S9781614821915
 """
 
 from __future__ import division, unicode_literals

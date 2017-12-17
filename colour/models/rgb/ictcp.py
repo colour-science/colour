@@ -21,7 +21,7 @@ References
         https://www.dolby.com/us/en/technologies/dolby-vision/\
 ICtCp-white-paper.pdf
 .. [2]  Lu, T., Pu, F., Yin, P., Chen, T., Husak, W., Pytlarz, J., … Su, G.-M.
-        (2016). ICTCP Colour Space and Its Compression Performance for High
+        (2016). ITP Colour Space and Its Compression Performance for High
         Dynamic Range and Wide Colour Gamut Video Distribution. ZTE
         Communications, 14(1), 32–38. doi:10.3969/j.
 """

@@ -47,8 +47,8 @@ def D_illuminant_relative_spd(xy):
             D-Illuminants. In Color Science: Concepts and Methods,
             Quantitative Data and Formulae (pp. 145–146). Wiley.
             ISBN:978-0471399186
-    .. [2]  Lindbloom, B. (2007). Spectral Power Distribution of a
-            CIE D-Illuminant. Retrieved April 05, 2014, from
+    .. [2]  Lindbloom, B. (2007). Spectral Power Distribution of a CIE
+            D-Illuminant. Retrieved April 5, 2014, from
             http://www.brucelindbloom.com/Eqn_DIlluminant.html
 
     Parameters

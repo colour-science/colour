@@ -24,15 +24,12 @@ References
         http://en.wikipedia.org/wiki/CIECAM02
 .. [2]  Fairchild, M. D. (2004). CIECAM02. In Color Appearance Models
         (2nd ed., pp. 289–301). Wiley. ISBN:978-0470012161
-.. [3]  Westland, S., Ripamonti, C., & Cheung, V. (2012). Extrapolation
-        Methods. Computational Colour Science Using MATLAB (2nd ed., p. 38).
-        ISBN:978-0-470-66569-5
-.. [4]  Moroney, N., Fairchild, M. D., Hunt, R. W. G., Li, C., Luo, M. R., &
+.. [3]  Moroney, N., Fairchild, M. D., Hunt, R. W. G., Li, C., Luo, M. R., &
         Newman, T. (n.d.). The CIECAM02 Color Appearance Model. Color and
         Imaging Conference, 2002(1), 23–27. Retrieved from
         http://www.ingentaconnect.com/content/ist/cic\
 /2002/00002002/00000001/art00006
-.. [5]  Luo, M. R., & Li, C. (2013). CIECAM02 and Its Recent Developments.
+.. [4]  Luo, M. R., & Li, C. (2013). CIECAM02 and Its Recent Developments.
         In Advanced Color Image Processing and Analysis (pp. 19–58).
         doi:10.1007/978-1-4419-6190-7
 """

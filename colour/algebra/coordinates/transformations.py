@@ -20,7 +20,7 @@ References
 .. [1]  Wikipedia. (n.d.). List of common coordinate transformations.
         Retrieved from http://en.wikipedia.org/wiki/\
 List_of_common_coordinate_transformations
-.. [2]  Wikipedia. (n.d.). ISO 31-11. misc. Retrieved from
+.. [2]  Wikipedia. (n.d.). ISO 31-11. Retrieved July 31, 2016, from
         https://en.wikipedia.org/wiki/ISO_31-11
 """
 

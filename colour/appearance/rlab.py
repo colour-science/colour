@@ -23,7 +23,7 @@ References
         Research & Application, 21(5), 338–346.
         doi:10.1002/(SICI)1520-6378(199610)21:5<338::AID-COL3>3.0.CO;2-Z
 .. [2]  Fairchild, M. D. (2013). The RLAB Model. In Color Appearance Models
-        (3rd ed., pp. 5563–5824). Wiley. ASIN:B00DAYO8E2
+        (3rd ed., pp. 5563–5824). Wiley. ISBN:B00DAYO8E2
 """
 
 from __future__ import division, unicode_literals

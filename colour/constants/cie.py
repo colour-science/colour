@@ -75,8 +75,7 @@ References
 ----------
 .. [2]  Wyszecki, G., & Stiles, W. S. (2000). Standard Photometric Observers.
         In Color Science: Concepts and Methods, Quantitative Data and Formulae
-        (pp. 256–259,395). Wiley. ISBN:978-0471399186
-
+        (p. 256–259,395). Wiley. ISBN:978-0471399186
 """
 
 KP_M = 1700
