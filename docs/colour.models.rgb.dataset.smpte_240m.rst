@@ -1,7 +1,7 @@
-colour\.models\.rgb\.dataset\.smptec\_rgb Module
+colour\.models\.rgb\.dataset\.smpte\_240m Module
 ================================================
 
-.. automodule:: colour.models.rgb.dataset.smptec_rgb
+.. automodule:: colour.models.rgb.dataset.smpte_240m
     :members:
     :undoc-members:
     :show-inheritance:

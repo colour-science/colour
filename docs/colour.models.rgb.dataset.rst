@@ -10,7 +10,7 @@ Sub-Modules
    colour.models.rgb.dataset.aces_it
    colour.models.rgb.dataset.adobe_rgb_1998
    colour.models.rgb.dataset.adobe_wide_gamut_rgb
-   colour.models.rgb.dataset.alexa_wide_gamut_rgb
+   colour.models.rgb.dataset.alexa_wide_gamut
    colour.models.rgb.dataset.apple_rgb
    colour.models.rgb.dataset.best_rgb
    colour.models.rgb.dataset.beta_rgb
@@ -22,15 +22,16 @@ Sub-Modules
    colour.models.rgb.dataset.eci_rgb_v2
    colour.models.rgb.dataset.ekta_space_ps5
    colour.models.rgb.dataset.gopro
+   colour.models.rgb.dataset.itur_bt_2020
+   colour.models.rgb.dataset.itur_bt_470
+   colour.models.rgb.dataset.itur_bt_709
    colour.models.rgb.dataset.max_rgb
-   colour.models.rgb.dataset.ntsc_rgb
-   colour.models.rgb.dataset.pal_secam_rgb
-   colour.models.rgb.dataset.rec_2020
-   colour.models.rgb.dataset.rec_709
+   colour.models.rgb.dataset.ntsc
+   colour.models.rgb.dataset.pal_secam
    colour.models.rgb.dataset.red
    colour.models.rgb.dataset.rimm_romm_rgb
    colour.models.rgb.dataset.russell_rgb
-   colour.models.rgb.dataset.smptec_rgb
+   colour.models.rgb.dataset.smpte_240m
    colour.models.rgb.dataset.sony
    colour.models.rgb.dataset.srgb
    colour.models.rgb.dataset.v_gamut

@@ -16,8 +16,8 @@ autodoc_mock_imports = [
     'matplotlib', 'matplotlib.cm', 'matplotlib.image', 'matplotlib.path',
     'matplotlib.pyplot', 'matplotlib.ticker', 'mpl_toolkits.mplot3d',
     'mpl_toolkits.mplot3d.art3d', 'pylab', 'scipy', 'scipy.interpolate',
-    'scipy.ndimage', 'scipy.optimize', 'scipy.spatial',
-    'scipy.spatial.distance'
+    'scipy.ndimage', 'scipy.ndimage.filters', 'scipy.optimize',
+    'scipy.spatial', 'scipy.spatial.distance'
 ]
 
 # If extensions (or modules to document with autodoc) are in another directory,
