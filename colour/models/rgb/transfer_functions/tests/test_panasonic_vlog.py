@@ -42,6 +42,17 @@ log_encoding_VLog` definition.
             log_encoding_VLog(0.18), 0.423311448760136, places=7)
 
         self.assertAlmostEqual(
+            log_encoding_VLog(0.18, 12), 0.423311448760136, places=7)
+
+        self.assertAlmostEqual(
+            log_encoding_VLog(0.18, 10, False), 0.421287228403675, places=7)
+
+        self.assertAlmostEqual(
+            log_encoding_VLog(0.18, 10, False, False),
+            0.409009628526078,
+            places=7)
+
+        self.assertAlmostEqual(
             log_encoding_VLog(1.0), 0.599117700158146, places=7)
 
     def test_n_dimensional_log_encoding_VLog(self):
@@ -96,6 +107,17 @@ log_decoding_VLog` definition.
 
         self.assertAlmostEqual(
             log_decoding_VLog(0.423311448760136), 0.18, places=7)
+
+        self.assertAlmostEqual(
+            log_decoding_VLog(0.423311448760136, 12), 0.18, places=7)
+
+        self.assertAlmostEqual(
+            log_decoding_VLog(0.421287228403675, 10, False), 0.18, places=7)
+
+        self.assertAlmostEqual(
+            log_decoding_VLog(0.409009628526078, 10, False, False),
+            0.18,
+            places=7)
 
         self.assertAlmostEqual(
             log_decoding_VLog(0.599117700158146), 1.0, places=7)

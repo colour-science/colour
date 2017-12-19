@@ -39,6 +39,8 @@ Notes
 from __future__ import division, unicode_literals
 
 import numpy as np
+
+from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
 from colour.utilities import as_numeric
 
 __author__ = 'Colour Developers'
@@ -55,7 +57,7 @@ __all__ = [
 ]
 
 
-def log_encoding_CanonLog(x):
+def log_encoding_CanonLog(x, bit_depth=10, out_legal=True, in_reflection=True):
     """
     Defines the *Canon Log* log encoding curve / opto-electronic transfer
     function.
@@ -64,32 +66,43 @@ def log_encoding_CanonLog(x):
     ----------
     x : numeric or array_like
         Linear data :math:`x`.
+    bit_depth : int, optional
+        Bit depth used for conversion.
+    out_legal : bool, optional
+        Whether the *Canon Log* non-linear *IRE* data is encoded in legal
+        range.
+    in_reflection : bool, optional
+        Whether the light level :math`x` to a camera is reflection.
 
     Returns
     -------
     numeric or ndarray
         *Canon Log* non-linear *IRE* data.
-    Notes
-    -----
-    -   Output *Canon Log* non-linear *IRE* data should be converted to code
-        value *CV* as follows: `CV = IRE * (940 - 64) + 64`.
 
     Examples
     --------
-    >>> log_encoding_CanonLog(0.20) * 100  # doctest: +ELLIPSIS
+    >>> log_encoding_CanonLog(0.18) * 100  # doctest: +ELLIPSIS
     32.7953896...
     """
 
     x = np.asarray(x)
 
+    if in_reflection:
+        x = x / 0.9
+
     clog_ire = np.where(x < log_decoding_CanonLog(0.0730597),
                         -(0.529136 * (np.log10(-x * 10.1596 + 1)) - 0.0730597),
                         0.529136 * np.log10(10.1596 * x + 1) + 0.0730597)
 
+    clog_ire = clog_ire if out_legal else legal_to_full(clog_ire, bit_depth)
+
     return as_numeric(clog_ire)
 
 
-def log_decoding_CanonLog(clog_ire):
+def log_decoding_CanonLog(clog_ire,
+                          bit_depth=10,
+                          in_legal=True,
+                          out_reflection=True):
     """
     Defines the *Canon Log* log decoding curve / electro-optical transfer
     function.
@@ -98,33 +111,41 @@ def log_decoding_CanonLog(clog_ire):
     ----------
     clog_ire : numeric or array_like
         *Canon Log* non-linear *IRE* data.
+    bit_depth : int, optional
+        Bit depth used for conversion.
+    in_legal : bool, optional
+        Whether the *Canon Log* non-linear *IRE* data is encoded in legal
+        range.
+    out_reflection : bool, optional
+        Whether the light level :math`x` to a camera is reflection.
 
     Returns
     -------
     numeric or ndarray
         Linear data :math:`x`.
 
-    Notes
-    -----
-    -   Input *Canon Log* non-linear *IRE* data should be converted from code
-        value *CV* to *IRE* as follows: `IRE = (CV - 64) / (940 - 64)`.
-
     Examples
     --------
     >>> log_decoding_CanonLog(32.795389693580908 / 100)  # doctest: +ELLIPSIS
-    0.19999999...
+    0.17999999...
     """
 
     clog_ire = np.asarray(clog_ire)
+
+    clog_ire = clog_ire if in_legal else full_to_legal(clog_ire, bit_depth)
 
     x = np.where(clog_ire < 0.0730597,
                  -(10 ** ((0.0730597 - clog_ire) / 0.529136) - 1) / 10.1596,
                  (10 ** ((clog_ire - 0.0730597) / 0.529136) - 1) / 10.1596)
 
+    if out_reflection:
+        x = x * 0.9
+
     return as_numeric(x)
 
 
-def log_encoding_CanonLog2(x):
+def log_encoding_CanonLog2(x, bit_depth=10, out_legal=True,
+                           in_reflection=True):
     """
     Defines the *Canon Log 2* log encoding curve / opto-electronic transfer
     function.
@@ -133,33 +154,44 @@ def log_encoding_CanonLog2(x):
     ----------
     x : numeric or array_like
         Linear data :math:`x`.
+    bit_depth : int, optional
+        Bit depth used for conversion.
+    out_legal : bool, optional
+        Whether the *Canon Log 2* non-linear *IRE* data is encoded in legal
+        range.
+    in_reflection : bool, optional
+        Whether the light level :math`x` to a camera is reflection.
 
     Returns
     -------
     numeric or ndarray
         *Canon Log 2* non-linear *IRE* data.
-    Notes
-    -----
-    -   Output *Canon Log 2* non-linear *IRE* data should be converted to code
-        value *CV* as follows: `CV = IRE * (940 - 64) + 64`.
 
     Examples
     --------
-    >>> log_encoding_CanonLog2(0.20) * 100  # doctest: +ELLIPSIS
+    >>> log_encoding_CanonLog2(0.18) * 100  # doctest: +ELLIPSIS
     39.2025745...
     """
 
     x = np.asarray(x)
+
+    if in_reflection:
+        x = x / 0.9
 
     clog2_ire = np.where(
         x < log_decoding_CanonLog2(0.035388128),
         -(0.281863093 * (np.log10(-x * 87.09937546 + 1)) - 0.035388128),
         0.281863093 * np.log10(x * 87.09937546 + 1) + 0.035388128)
 
+    clog2_ire = clog2_ire if out_legal else legal_to_full(clog2_ire, bit_depth)
+
     return as_numeric(clog2_ire)
 
 
-def log_decoding_CanonLog2(clog2_ire):
+def log_decoding_CanonLog2(clog2_ire,
+                           bit_depth=10,
+                           in_legal=True,
+                           out_reflection=True):
     """
     Defines the *Canon Log 2* log decoding curve / electro-optical transfer
     function.
@@ -168,34 +200,42 @@ def log_decoding_CanonLog2(clog2_ire):
     ----------
     clog2_ire : numeric or array_like
         *Canon Log 2* non-linear *IRE* data.
+    bit_depth : int, optional
+        Bit depth used for conversion.
+    in_legal : bool, optional
+        Whether the *Canon Log 2* non-linear *IRE* data is encoded in legal
+        range.
+    out_reflection : bool, optional
+        Whether the light level :math`x` to a camera is reflection.
 
     Returns
     -------
     numeric or ndarray
         Linear data :math:`x`.
 
-    Notes
-    -----
-    -   Input *Canon Log 2* non-linear *IRE* data should be converted from code
-        value *CV* to *IRE* as follows: `IRE = (CV - 64) / (940 - 64)`.
-
     Examples
     --------
     >>> log_decoding_CanonLog2(39.202574539700947 / 100)  # doctest: +ELLIPSIS
-    0.2000000...
+    0.1800000...
     """
 
     clog2_ire = np.asarray(clog2_ire)
+
+    clog2_ire = clog2_ire if in_legal else full_to_legal(clog2_ire, bit_depth)
 
     x = np.where(
         clog2_ire < 0.035388128,
         -(10 ** ((0.035388128 - clog2_ire) / 0.281863093) - 1) / 87.09937546,
         (10 ** ((clog2_ire - 0.035388128) / 0.281863093) - 1) / 87.09937546)
 
+    if out_reflection:
+        x = x * 0.9
+
     return as_numeric(x)
 
 
-def log_encoding_CanonLog3(x):
+def log_encoding_CanonLog3(x, bit_depth=10, out_legal=True,
+                           in_reflection=True):
     """
     Defines the *Canon Log 3* log encoding curve / opto-electronic transfer
     function.
@@ -204,23 +244,29 @@ def log_encoding_CanonLog3(x):
     ----------
     x : numeric or array_like
         Linear data :math:`x`.
+    bit_depth : int, optional
+        Bit depth used for conversion.
+    out_legal : bool, optional
+        Whether the *Canon Log 3* non-linear *IRE* data is encoded in legal
+        range.
+    in_reflection : bool, optional
+        Whether the light level :math`x` to a camera is reflection.
 
     Returns
     -------
     numeric or ndarray
         *Canon Log 3* non-linear *IRE* data.
-    Notes
-    -----
-    -   Output *Canon Log 3* non-linear *IRE* data should be converted to code
-        value *CV* as follows: `CV = IRE * (940 - 64) + 64`.
 
     Examples
     --------
-    >>> log_encoding_CanonLog3(0.20) * 100  # doctest: +ELLIPSIS
+    >>> log_encoding_CanonLog3(0.18) * 100  # doctest: +ELLIPSIS
     32.7953567...
     """
 
     x = np.asarray(x)
+
+    if in_reflection:
+        x = x / 0.9
 
     clog3_ire = np.select(
         (x < log_decoding_CanonLog3(0.04076162),
@@ -230,10 +276,15 @@ def log_encoding_CanonLog3(x):
          2.3069815 * x + 0.073059361,
          0.42889912 * np.log10(x * 14.98325 + 1) + 0.069886632))
 
+    clog3_ire = clog3_ire if out_legal else legal_to_full(clog3_ire, bit_depth)
+
     return as_numeric(clog3_ire)
 
 
-def log_decoding_CanonLog3(clog3_ire):
+def log_decoding_CanonLog3(clog3_ire,
+                           bit_depth=10,
+                           in_legal=True,
+                           out_reflection=True):
     """
     Defines the *Canon Log 3* log decoding curve / electro-optical transfer
     function.
@@ -242,24 +293,28 @@ def log_decoding_CanonLog3(clog3_ire):
     ----------
     clog3_ire : numeric or array_like
         *Canon Log 3* non-linear *IRE* data.
+    bit_depth : int, optional
+        Bit depth used for conversion.
+    in_legal : bool, optional
+        Whether the *Canon Log 3* non-linear *IRE* data is encoded in legal
+        range.
+    out_reflection : bool, optional
+        Whether the light level :math`x` to a camera is reflection.
 
     Returns
     -------
     numeric or ndarray
         Linear data :math:`x`.
 
-    Notes
-    -----
-    -   Input *Canon Log 3* non-linear *IRE* data should be converted from code
-        value *CV* to *IRE* as follows: `IRE = (CV - 64) / (940 - 64)`.
-
     Examples
     --------
     >>> log_decoding_CanonLog3(32.795356721989336 / 100)  # doctest: +ELLIPSIS
-    0.2000000...
+    0.1800000...
     """
 
     clog3_ire = np.asarray(clog3_ire)
+
+    clog3_ire = clog3_ire if in_legal else full_to_legal(clog3_ire, bit_depth)
 
     x = np.select(
         (clog3_ire < 0.04076162, clog3_ire <= 0.105357102,
@@ -267,5 +322,8 @@ def log_decoding_CanonLog3(clog3_ire):
         (-(10 ** ((0.069886632 - clog3_ire) / 0.42889912) - 1) / 14.98325,
          (clog3_ire - 0.073059361) / 2.3069815,
          (10 ** ((clog3_ire - 0.069886632) / 0.42889912) - 1) / 14.98325))
+
+    if out_reflection:
+        x = x * 0.9
 
     return as_numeric(x)

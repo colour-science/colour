@@ -39,16 +39,29 @@ log_encoding_CanonLog` definition.
         """
 
         self.assertAlmostEqual(
-            log_encoding_CanonLog(-0.1), -0.088052640318143, places=7)
+            log_encoding_CanonLog(-0.1), -0.100573065760254, places=7)
 
         self.assertAlmostEqual(
             log_encoding_CanonLog(0.0), 0.073059700000000, places=7)
 
         self.assertAlmostEqual(
-            log_encoding_CanonLog(0.18), 0.312012855550395, places=7)
+            log_encoding_CanonLog(0.18), 0.327953896935809, places=7)
 
         self.assertAlmostEqual(
-            log_encoding_CanonLog(1.0), 0.627408304537653, places=7)
+            log_encoding_CanonLog(0.18, 12), 0.327953896935809, places=7)
+
+        self.assertAlmostEqual(
+            log_encoding_CanonLog(0.18, 10, False),
+            0.309927895622526,
+            places=7)
+
+        self.assertAlmostEqual(
+            log_encoding_CanonLog(0.18, 10, False, False),
+            0.291311816470381,
+            places=7)
+
+        self.assertAlmostEqual(
+            log_encoding_CanonLog(1.0), 0.649551737177417, places=7)
 
     def test_n_dimensional_log_encoding_CanonLog(self):
         """
@@ -57,7 +70,7 @@ log_encoding_CanonLog` definition n-dimensional arrays support.
         """
 
         L = 0.18
-        V = 0.312012855550395
+        V = 0.327953896935809
         np.testing.assert_almost_equal(log_encoding_CanonLog(L), V, decimal=7)
 
         L = np.tile(L, 6)
@@ -96,16 +109,29 @@ log_decoding_CanonLog` definition.
         """
 
         self.assertAlmostEqual(
-            log_decoding_CanonLog(-0.088052640318143), -0.1, places=7)
+            log_decoding_CanonLog(-0.100573065760254), -0.1, places=7)
 
         self.assertAlmostEqual(
             log_decoding_CanonLog(0.073059700000000), 0.0, places=7)
 
         self.assertAlmostEqual(
-            log_decoding_CanonLog(0.312012855550395), 0.18, places=7)
+            log_decoding_CanonLog(0.327953896935809), 0.18, places=7)
 
         self.assertAlmostEqual(
-            log_decoding_CanonLog(0.627408304537653), 1.0, places=7)
+            log_decoding_CanonLog(0.327953896935809, 12), 0.18, places=7)
+
+        self.assertAlmostEqual(
+            log_decoding_CanonLog(0.309927895622526, 10, False),
+            0.18,
+            places=7)
+
+        self.assertAlmostEqual(
+            log_decoding_CanonLog(0.291311816470381, 10, False, False),
+            0.18,
+            places=7)
+
+        self.assertAlmostEqual(
+            log_decoding_CanonLog(0.649551737177417), 1.0, places=7)
 
     def test_n_dimensional_log_decoding_CanonLog(self):
         """
@@ -113,7 +139,7 @@ log_decoding_CanonLog` definition.
 log_decoding_CanonLog` definition n-dimensional arrays support.
         """
 
-        V = 0.312012855550395
+        V = 0.327953896935809
         L = 0.18
         np.testing.assert_almost_equal(log_decoding_CanonLog(V), L, decimal=7)
 
@@ -153,16 +179,29 @@ log_encoding_CanonLog2` definition.
         """
 
         self.assertAlmostEqual(
-            log_encoding_CanonLog2(-0.1), -0.242871750266172, places=7)
+            log_encoding_CanonLog2(-0.1), -0.25450187789127, places=7)
 
         self.assertAlmostEqual(
             log_encoding_CanonLog2(0.0), 0.035388127999999, places=7)
 
         self.assertAlmostEqual(
-            log_encoding_CanonLog2(0.18), 0.379864582222983, places=7)
+            log_encoding_CanonLog2(0.18), 0.392025745397009, places=7)
 
         self.assertAlmostEqual(
-            log_encoding_CanonLog2(1.0), 0.583604185577946, places=7)
+            log_encoding_CanonLog2(0.18, 12), 0.392025745397009, places=7)
+
+        self.assertAlmostEqual(
+            log_encoding_CanonLog2(0.18, 10, False),
+            0.384751526873448,
+            places=7)
+
+        self.assertAlmostEqual(
+            log_encoding_CanonLog2(0.18, 10, False, False),
+            0.370549620564055,
+            places=7)
+
+        self.assertAlmostEqual(
+            log_encoding_CanonLog2(1.0), 0.596362507310829, places=7)
 
     def test_n_dimensional_log_encoding_CanonLog2(self):
         """
@@ -171,7 +210,7 @@ log_encoding_CanonLog2` definition n-dimensional arrays support.
         """
 
         L = 0.18
-        V = 0.379864582222983
+        V = 0.392025745397009
         np.testing.assert_almost_equal(log_encoding_CanonLog2(L), V, decimal=7)
 
         L = np.tile(L, 6)
@@ -210,16 +249,29 @@ log_decoding_CanonLog2` definition.
         """
 
         self.assertAlmostEqual(
-            log_decoding_CanonLog2(-0.242871750266172), -0.1, places=7)
+            log_decoding_CanonLog2(-0.25450187789127), -0.1, places=7)
 
         self.assertAlmostEqual(
             log_decoding_CanonLog2(0.035388127999999), 0.0, places=7)
 
         self.assertAlmostEqual(
-            log_decoding_CanonLog2(0.379864582222983), 0.18, places=7)
+            log_decoding_CanonLog2(0.392025745397009), 0.18, places=7)
 
         self.assertAlmostEqual(
-            log_decoding_CanonLog2(0.583604185577946), 1.0, places=7)
+            log_decoding_CanonLog2(0.392025745397009, 12), 0.18, places=7)
+
+        self.assertAlmostEqual(
+            log_decoding_CanonLog2(0.384751526873448, 10, False),
+            0.18,
+            places=7)
+
+        self.assertAlmostEqual(
+            log_decoding_CanonLog2(0.370549620564055, 10, False, False),
+            0.18,
+            places=7)
+
+        self.assertAlmostEqual(
+            log_decoding_CanonLog2(0.596362507310829), 1.0, places=7)
 
     def test_n_dimensional_log_decoding_CanonLog2(self):
         """
@@ -227,7 +279,7 @@ log_decoding_CanonLog2` definition.
 log_decoding_CanonLog2` definition n-dimensional arrays support.
         """
 
-        V = 0.379864582222983
+        V = 0.392025745397009
         L = 0.18
         np.testing.assert_almost_equal(log_decoding_CanonLog2(V), L, decimal=7)
 
@@ -267,16 +319,29 @@ log_encoding_CanonLog3` definition.
         """
 
         self.assertAlmostEqual(
-            log_encoding_CanonLog3(-0.1), -0.100664645796433, places=7)
+            log_encoding_CanonLog3(-0.1), -0.112680937128071, places=7)
 
         self.assertAlmostEqual(
             log_encoding_CanonLog3(0.0), 0.073059361000000, places=7)
 
         self.assertAlmostEqual(
-            log_encoding_CanonLog3(0.18), 0.313436005886328, places=7)
+            log_encoding_CanonLog3(0.18), 0.327953567219893, places=7)
 
         self.assertAlmostEqual(
-            log_encoding_CanonLog3(1.0), 0.586137530935974, places=7)
+            log_encoding_CanonLog3(0.18, 12), 0.327953567219893, places=7)
+
+        self.assertAlmostEqual(
+            log_encoding_CanonLog3(0.18, 10, False),
+            0.309927510577569,
+            places=7)
+
+        self.assertAlmostEqual(
+            log_encoding_CanonLog3(0.18, 10, False, False),
+            0.292973783129810,
+            places=7)
+
+        self.assertAlmostEqual(
+            log_encoding_CanonLog3(1.0), 0.604593819123392, places=7)
 
     def test_n_dimensional_log_encoding_CanonLog3(self):
         """
@@ -285,7 +350,7 @@ log_encoding_CanonLog3` definition n-dimensional arrays support.
         """
 
         L = 0.18
-        V = 0.313436005886328
+        V = 0.327953567219893
         np.testing.assert_almost_equal(log_encoding_CanonLog3(L), V, decimal=7)
 
         L = np.tile(L, 6)
@@ -324,16 +389,29 @@ log_decoding_CanonLog3` definition.
         """
 
         self.assertAlmostEqual(
-            log_decoding_CanonLog3(-0.100664645796433), -0.1, places=7)
+            log_decoding_CanonLog3(-0.112680937128071), -0.1, places=7)
 
         self.assertAlmostEqual(
             log_decoding_CanonLog3(0.073059361000000), 0.0, places=7)
 
         self.assertAlmostEqual(
-            log_decoding_CanonLog3(0.313436005886328), 0.18, places=7)
+            log_decoding_CanonLog3(0.327953567219893), 0.18, places=7)
 
         self.assertAlmostEqual(
-            log_decoding_CanonLog3(0.586137530935974), 1.0, places=7)
+            log_decoding_CanonLog3(0.327953567219893, 12), 0.18, places=7)
+
+        self.assertAlmostEqual(
+            log_decoding_CanonLog3(0.309927510577569, 10, False),
+            0.18,
+            places=7)
+
+        self.assertAlmostEqual(
+            log_decoding_CanonLog3(0.292973783129810, 10, False, False),
+            0.18,
+            places=7)
+
+        self.assertAlmostEqual(
+            log_decoding_CanonLog3(0.604593819123392), 1.0, places=7)
 
     def test_n_dimensional_log_decoding_CanonLog3(self):
         """
@@ -341,7 +419,7 @@ log_decoding_CanonLog3` definition.
 log_decoding_CanonLog3` definition n-dimensional arrays support.
         """
 
-        V = 0.313436005886328
+        V = 0.327953567219893
         L = 0.18
         np.testing.assert_almost_equal(log_decoding_CanonLog3(V), L, decimal=7)
 
