@@ -18,7 +18,7 @@ See Also
 --------
 `CAM02-LCD, CAM02-SCD, and CAM02-UCS Colourspaces Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/models/ucs_luo2006.ipynb>`_
+blob/master/notebooks/models/cam02_ucs.ipynb>`_
 
 References
 ----------
