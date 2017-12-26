@@ -30,7 +30,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.algebra import euclidean_distance
-from colour.utilities import CaseInsensitiveMapping, filter_kwargs, tsplit
+from colour.utilities import tsplit
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -40,8 +40,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'delta_E_CIE1976', 'delta_E_CIE1994', 'delta_E_CIE2000', 'delta_E_CMC',
-    'DELTA_E_METHODS', 'delta_E'
+    'delta_E_CIE1976', 'delta_E_CIE1994', 'delta_E_CIE2000', 'delta_E_CMC'
 ]
 
 
@@ -353,84 +352,3 @@ def delta_E_CMC(Lab_1, Lab_2, l=2, c=1):  # noqa
     d_E = np.sqrt(v_1 ** 2 + v_2 ** 2 + (delta_H2 / (v_3 * v_3)))
 
     return d_E
-
-
-DELTA_E_METHODS = CaseInsensitiveMapping({
-    'CIE 1976': delta_E_CIE1976,
-    'CIE 1994': delta_E_CIE1994,
-    'CIE 2000': delta_E_CIE2000,
-    'CMC': delta_E_CMC
-})
-"""
-Supported :math:`\Delta E_{ab}` computations methods.
-
-DELTA_E_METHODS : CaseInsensitiveMapping
-    **{'CIE 1976', 'CIE 1994', 'CIE 2000', 'CMC'}**
-
-Aliases:
-
--   'cie1976': 'CIE 1976'
--   'cie1994': 'CIE 1994'
--   'cie2000': 'CIE 2000'
-"""
-DELTA_E_METHODS['cie1976'] = DELTA_E_METHODS['CIE 1976']
-DELTA_E_METHODS['cie1994'] = DELTA_E_METHODS['CIE 1994']
-DELTA_E_METHODS['cie2000'] = DELTA_E_METHODS['CIE 2000']
-
-
-def delta_E(Lab_1, Lab_2, method='CMC', **kwargs):
-    """
-    Returns the difference :math:`\Delta E_{ab}` between two given
-    *CIE L\*a\*b\** colourspace arrays using given method.
-
-    Parameters
-    ----------
-    Lab_1 : array_like
-        *CIE L\*a\*b\** colourspace array 1.
-    Lab_2 : array_like
-        *CIE L\*a\*b\** colourspace array 2.
-    method : unicode, optional
-        **{'CMC', 'CIE 1976', 'CIE 1994', 'CIE 2000'}**,
-        Computation method.
-
-    Other Parameters
-    ----------------
-    textiles : bool, optional
-        {:func:`delta_E_CIE1994`, :func:`delta_E_CIE2000`},
-        Textiles application specific parametric factors
-        :math:`k_L=2,\ k_C=k_H=1,\ k_1=0.048,\ k_2=0.014` weights are used
-        instead of :math:`k_L=k_C=k_H=1,\ k_1=0.045,\ k_2=0.015`.
-    l : numeric, optional
-        {:func:`delta_E_CIE2000`},
-        Lightness weighting factor.
-    c : numeric, optional
-        {:func:`delta_E_CIE2000`},
-        Chroma weighting factor.
-
-    Returns
-    -------
-    numeric or ndarray
-        Colour difference :math:`\Delta E_{ab}`.
-
-    Examples
-    --------
-    >>> Lab_1 = np.array([100.00000000, 21.57210357, 272.22819350])
-    >>> Lab_2 = np.array([100.00000000, 426.67945353, 72.39590835])
-    >>> delta_E(Lab_1, Lab_2)  # doctest: +ELLIPSIS
-    172.7047712...
-    >>> delta_E(Lab_1, Lab_2, method='CIE 1976')  # doctest: +ELLIPSIS
-    451.7133019...
-    >>> delta_E(Lab_1, Lab_2, method='CIE 1994')  # doctest: +ELLIPSIS
-    83.7792255...
-    >>> delta_E(Lab_1, Lab_2, method='CIE 1994', textiles=False)
-    ... # doctest: +ELLIPSIS
-    83.7792255...
-    >>> delta_E(Lab_1, Lab_2, method='CIE 2000')  # doctest: +ELLIPSIS
-    94.0356490...
-    """
-
-    function = DELTA_E_METHODS[method]
-
-    filter_kwargs(function, **kwargs)
-
-    return function(Lab_1, Lab_2, **kwargs)
