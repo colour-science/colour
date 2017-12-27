@@ -1043,8 +1043,7 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
                 spectral_distribution = element
 
         # Writing spectral data.
-        for i, (wavelength,
-                value) in enumerate(tstack([self.wavelengths, self.values])):
+        for (wavelength, value) in tstack([self.wavelengths, self.values]):
             element_child = ElementTree.SubElement(spectral_distribution,
                                                    mapping.data.element)
             element_child.text = mapping.data.write_conversion(value)

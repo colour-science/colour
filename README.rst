@@ -5,7 +5,7 @@ Colour Science for Python
 
 .. start-badges
 
-|gitter| |travis| |coveralls| |scrutinizer| |landscape| |version| |zenodo|
+|gitter| |travis| |coveralls| |codacy| |version| |zenodo|
 
 .. |gitter| image:: https://img.shields.io/gitter/room/colour-science/colour.svg?style=flat-square
     :target: https://gitter.im/colour-science/colour/
@@ -16,12 +16,9 @@ Colour Science for Python
 .. |coveralls| image:: http://img.shields.io/coveralls/colour-science/colour/develop.svg?style=flat-square
     :target: https://coveralls.io/r/colour-science/colour
     :alt: Coverage Status
-.. |scrutinizer| image:: https://img.shields.io/scrutinizer/g/colour-science/colour/develop.svg?style=flat-square
-    :target: https://scrutinizer-ci.com/g/colour-science/colour/
-    :alt: Code Quality
-.. |landscape| image:: https://landscape.io/github/colour-science/colour/master/landscape.svg?style=flat-square
-    :target: https://landscape.io/github/colour-science/colour
-    :alt: Code Quality
+.. |codacy| image:: https://img.shields.io/codacy/grade/7d0d61f8e7294533b27ae00ee6f50fb2/develop.svg?style=flat-square
+    :target: https://www.codacy.com/app/colour-science/colour
+    :alt: Code Grade
 .. |version| image:: https://img.shields.io/pypi/v/colour-science.svg?style=flat-square
     :target: https://pypi.python.org/pypi/colour-science
     :alt: Package Version

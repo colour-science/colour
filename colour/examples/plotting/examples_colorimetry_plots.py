@@ -7,7 +7,12 @@ Showcases colorimetry plotting examples.
 from pprint import pprint
 
 import colour
-from colour.plotting import *  # noqa
+from colour.plotting import (
+    ASTM_G_173_ETR, blackbody_colours_plot, blackbody_spectral_radiance_plot,
+    colour_plotting_defaults, multi_cmfs_plot,
+    multi_illuminants_relative_spd_plot, multi_lightness_function_plot,
+    multi_spd_plot, single_cmfs_plot, single_illuminant_relative_spd_plot,
+    single_lightness_function_plot, single_spd_plot, visible_spectrum_plot)
 from colour.utilities.verbose import message_box
 
 message_box('Colorimetry Plots')

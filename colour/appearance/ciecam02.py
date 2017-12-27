@@ -342,8 +342,8 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
     array([ 19.01...,  20...  ,  21.78...])
     """
 
-    J, C, h, s, Q, M, H, HC = as_namedtuple(CIECAM02_specification,
-                                            CIECAM02_Specification)
+    J, C, h, _s, _Q, M, _H, _HC = as_namedtuple(CIECAM02_specification,
+                                                CIECAM02_Specification)
 
     _X_w, Y_w, _Zw = tsplit(XYZ_w)
 

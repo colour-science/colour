@@ -629,7 +629,7 @@ class Signal(AbstractContinuousFunction):
 47.5535392...,  60.        ])
         """
 
-        if type(x) is slice:
+        if isinstance(x, slice):
             return self._range[x]
         else:
             return self._function(x)
@@ -702,7 +702,7 @@ class Signal(AbstractContinuousFunction):
          [   9.    100.  ]]
         """
 
-        if type(x) is slice:
+        if isinstance(x, slice):
             self._range[x] = y
         else:
             x = np.atleast_1d(x).astype(self.dtype)

@@ -4,7 +4,8 @@
 Showcases common plotting examples.
 """
 
-from colour.plotting import *  # noqa
+from colour.plotting import (ColourParameter, colour_plotting_defaults,
+                             multi_colour_plot, single_colour_plot)
 from colour.utilities.verbose import message_box
 
 message_box('Common Plots')

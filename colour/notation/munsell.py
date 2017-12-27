@@ -828,7 +828,7 @@ def xyY_to_munsell_specification(xyY):
         if chroma_current > chroma_maximum:
             chroma_current = specification_current[2] = chroma_maximum
 
-        x_current, y_current, Y_current = np.ravel(
+        x_current, y_current, _Y_current = np.ravel(
             munsell_specification_to_xyY(specification_current))
 
         rho_current, phi_current, _z_current = cartesian_to_cylindrical(
@@ -872,7 +872,7 @@ def xyY_to_munsell_specification(xyY):
         chroma_new = LinearInterpolator(rho_bounds, chroma_bounds)(rho_input)
 
         specification_current = [hue_current, value, chroma_new, code_current]
-        x_current, y_current, Y_current = np.ravel(
+        x_current, y_current, _Y_current = np.ravel(
             munsell_specification_to_xyY(specification_current))
         difference = euclidean_distance((x, y), (x_current, y_current))
         if difference < convergence_threshold:
