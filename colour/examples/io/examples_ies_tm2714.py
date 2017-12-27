@@ -6,7 +6,6 @@ examples.
 """
 
 import os
-from pprint import pprint
 
 import colour
 from colour.utilities.verbose import message_box

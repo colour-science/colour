@@ -7,7 +7,7 @@ Showcases interpolation computations.
 import pylab
 
 import colour
-from colour.plotting import *  # noqa
+from colour.plotting import boundaries, decorate, display
 from colour.utilities.verbose import message_box
 
 message_box('Interpolation Computations')

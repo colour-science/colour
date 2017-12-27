@@ -88,7 +88,7 @@ def corresponding_chromaticities_prediction_plot(experiment=1,
         experiment, transform=transform)
 
     for result in results:
-        name, uvp_t, uvp_m, uvp_p = result
+        _name, uvp_t, uvp_m, uvp_p = result
         pylab.arrow(
             uvp_t[0],
             uvp_t[1],

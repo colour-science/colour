@@ -292,7 +292,7 @@ def excitation_purity(xy,
     0.9386035...
     """
 
-    wl, xy_wl, xy_cwl = dominant_wavelength(xy, xy_n, cmfs)
+    _wl, xy_wl, _xy_cwl = dominant_wavelength(xy, xy_n, cmfs)
 
     P_e = euclidean_distance(xy_n, xy) / euclidean_distance(xy_n, xy_wl)
 
@@ -331,7 +331,7 @@ def colorimetric_purity(xy,
 
     xy = np.asarray(xy)
 
-    wl, xy_wl, xy_cwl = dominant_wavelength(xy, xy_n, cmfs)
+    _wl, xy_wl, _xy_cwl = dominant_wavelength(xy, xy_n, cmfs)
     P_e = excitation_purity(xy, xy_n, cmfs)
 
     P_c = P_e * xy_wl[..., 1] / xy[..., 1]
