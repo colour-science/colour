@@ -66,7 +66,7 @@ SMITS1999_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
 """
 
 
-def XYZ_to_RGB_Smits1999(XYZ, chromatic_adaptation_transform='Bradford'):
+def XYZ_to_RGB_Smits1999(XYZ):
     """
     Convenient object to convert from *CIE XYZ* tristimulus values to *RGB*
     colourspace in conditions required by the current *Smits (1999)* method
@@ -76,11 +76,6 @@ def XYZ_to_RGB_Smits1999(XYZ, chromatic_adaptation_transform='Bradford'):
     ----------
     XYZ : array_like
         *CIE XYZ* tristimulus values.
-    chromatic_adaptation_transform : unicode, optional
-        **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
-        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
-        'Bianco PC'}**,
-        *Chromatic adaptation* method.
 
     Returns
     -------
@@ -103,7 +98,6 @@ def XYZ_to_RGB_Smits1999(XYZ, chromatic_adaptation_transform='Bradford'):
         SMITS1999_WHITEPOINT,
         SMITS1999_WHITEPOINT,
         SMITS1999_XYZ_TO_RGB_MATRIX,
-        chromatic_adaptation_transform,
         encoding_cctf=None)
 
 
@@ -115,7 +109,8 @@ def RGB_to_spectral_Smits1999(RGB):
     Parameters
     ----------
     RGB : array_like, (3,)
-        *RGB* colourspace array.
+        *RGB* colourspace array to recover the spectral power distribution
+        from.
 
     Returns
     -------
@@ -153,7 +148,7 @@ def RGB_to_spectral_Smits1999(RGB):
     blue_spd = SMITS_1999_SPDS['blue'].copy()
 
     R, G, B = np.ravel(RGB)
-    spd = white_spd.copy() * 0.0
+    spd = white_spd.copy() * 0
     spd.name = 'Smits (1999) - {0}'.format(RGB)
 
     if R <= G and R <= B:
