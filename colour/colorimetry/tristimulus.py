@@ -789,9 +789,7 @@ def spectral_to_XYZ(
 
     function = SPECTRAL_TO_XYZ_METHODS[method]
 
-    filter_kwargs(function, **kwargs)
-
-    return function(spd, cmfs, illuminant, **kwargs)
+    return function(spd, cmfs, illuminant, **filter_kwargs(function, **kwargs))
 
 
 def wavelength_to_XYZ(

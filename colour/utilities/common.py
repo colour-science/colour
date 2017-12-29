@@ -9,11 +9,12 @@ Defines common utilities objects that don't fall in any specific category.
 
 from __future__ import division, unicode_literals
 
+import inspect
 import functools
 import numpy as np
 import warnings
 from copy import deepcopy
-from six import PY3, string_types
+from six import string_types
 
 from colour.constants import INTEGER_THRESHOLD
 
@@ -353,10 +354,7 @@ def filter_kwargs(function, **kwargs):
     """
 
     kwargs = deepcopy(kwargs)
-    if PY3:
-        args = function.__code__.co_varnames
-    else:
-        args = function.func_code.co_varnames
+    args, _varargs, _keywords, _defaults = inspect.getargspec(function)
 
     args = set(kwargs.keys()) - set(args)
     for key in args:

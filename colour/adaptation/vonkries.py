@@ -147,8 +147,8 @@ def chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, transform='CAT02'):
     >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
     >>> XYZ_w = np.array([1.09846607, 1.00000000, 0.35582280])
     >>> XYZ_wr = np.array([0.95042855, 1.00000000, 1.08890037])
-    >>> method = 'Bradford'
-    >>> chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, method)
+    >>> transform = 'Bradford'
+    >>> chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, transform)
     ... # doctest: +ELLIPSIS
     array([ 0.0854032...,  0.1140122...,  0.2972149...])
     """

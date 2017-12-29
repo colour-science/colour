@@ -247,7 +247,7 @@ def chromatic_adaptation_CMCCAT2000(
         L_A1,
         L_A2,
         surround=CMCCAT2000_VIEWING_CONDITIONS['Average'],
-        method='Forward'):
+        direction='Forward'):
     """
     Adapts given stimulus *CIE XYZ* tristimulus values using given viewing
     conditions.
@@ -272,9 +272,9 @@ def chromatic_adaptation_CMCCAT2000(
         Luminance of reference adapting field :math:`L_{A2}` in :math:`cd/m^2`.
     surround : CMCCAT2000_InductionFactors, optional
         Surround viewing conditions induction factors.
-    method : unicode, optional
+    direction : unicode, optional
         **{'Forward', 'Reverse'}**,
-        Chromatic adaptation method.
+        Chromatic adaptation direction.
 
     Returns
     -------
@@ -298,8 +298,8 @@ def chromatic_adaptation_CMCCAT2000(
     >>> XYZ_wr = np.array([94.81, 100.00, 107.30])
     >>> L_A1 = 200
     >>> L_A2 = 200
-    >>> chromatic_adaptation_CMCCAT2000(XYZ, XYZ_w, XYZ_wr, L_A1, L_A2,
-    ...                                 method='Forward')
+    >>> chromatic_adaptation_CMCCAT2000(
+    ...     XYZ, XYZ_w, XYZ_wr, L_A1, L_A2, direction='Forward')
     ... # doctest: +ELLIPSIS
     array([ 19.5269832...,  23.0683396...,  24.9717522...])
 
@@ -311,12 +311,12 @@ def chromatic_adaptation_CMCCAT2000(
     >>> L_A1 = 200
     >>> L_A2 = 200
     >>> chromatic_adaptation_CMCCAT2000(
-    ...     XYZ, XYZ_w, XYZ_wr, L_A1, L_A2, method='Reverse')
+    ...     XYZ, XYZ_w, XYZ_wr, L_A1, L_A2, direction='Reverse')
     ... # doctest: +ELLIPSIS
     array([ 22.48,  22.74,   8.54])
     """
 
-    if method.lower() == 'forward':
+    if direction.lower() == 'forward':
         return chromatic_adaptation_forward_CMCCAT2000(XYZ, XYZ_w, XYZ_wr,
                                                        L_A1, L_A2, surround)
     else:

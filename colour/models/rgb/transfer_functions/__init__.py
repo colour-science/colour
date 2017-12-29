@@ -219,9 +219,7 @@ def log_encoding_curve(value, curve='Cineon', **kwargs):
 
     function = LOG_ENCODING_CURVES[curve]
 
-    filter_kwargs(function, **kwargs)
-
-    return function(value, **kwargs)
+    return function(value, **filter_kwargs(function, **kwargs))
 
 
 LOG_DECODING_CURVES = CaseInsensitiveMapping({
@@ -348,9 +346,7 @@ def log_decoding_curve(value, curve='Cineon', **kwargs):
 
     function = LOG_DECODING_CURVES[curve]
 
-    filter_kwargs(function, **kwargs)
-
-    return function(value, **kwargs)
+    return function(value, **filter_kwargs(function, **kwargs))
 
 
 __all__ += ['LOG_ENCODING_CURVES', 'LOG_DECODING_CURVES']
@@ -438,9 +434,7 @@ def oetf(value, function='sRGB', **kwargs):
 
     function = OETFS[function]
 
-    filter_kwargs(function, **kwargs)
-
-    return function(value, **kwargs)
+    return function(value, **filter_kwargs(function, **kwargs))
 
 
 OETFS_REVERSE = CaseInsensitiveMapping({
@@ -497,9 +491,7 @@ def oetf_reverse(value, function='sRGB', **kwargs):
 
     function = OETFS_REVERSE[function]
 
-    filter_kwargs(function, **kwargs)
-
-    return function(value, **kwargs)
+    return function(value, **filter_kwargs(function, **kwargs))
 
 
 EOTFS = CaseInsensitiveMapping({
@@ -586,9 +578,7 @@ def eotf(value, function='ITU-R BT.1886', **kwargs):
 
     function = EOTFS[function]
 
-    filter_kwargs(function, **kwargs)
-
-    return function(value, **kwargs)
+    return function(value, **filter_kwargs(function, **kwargs))
 
 
 EOTFS_REVERSE = CaseInsensitiveMapping({
@@ -647,9 +637,7 @@ def eotf_reverse(value, function='ITU-R BT.1886', **kwargs):
 
     function = EOTFS_REVERSE[function]
 
-    filter_kwargs(function, **kwargs)
-
-    return function(value, **kwargs)
+    return function(value, **filter_kwargs(function, **kwargs))
 
 
 __all__ += ['OETFS', 'OETFS_REVERSE', 'EOTFS', 'EOTFS_REVERSE']
@@ -695,9 +683,7 @@ def ootf(value, function='ITU-R BT.2100 PQ', **kwargs):
 
     function = OOTFS[function]
 
-    filter_kwargs(function, **kwargs)
-
-    return function(value, **kwargs)
+    return function(value, **filter_kwargs(function, **kwargs))
 
 
 OOTFS_REVERSE = CaseInsensitiveMapping({
@@ -755,9 +741,7 @@ def ootf_reverse(value, function='ITU-R BT.2100 PQ', **kwargs):
 
     function = OOTFS_REVERSE[function]
 
-    filter_kwargs(function, **kwargs)
-
-    return function(value, **kwargs)
+    return function(value, **filter_kwargs(function, **kwargs))
 
 
 __all__ += ['OOTFS', 'OOTFS_REVERSE']
