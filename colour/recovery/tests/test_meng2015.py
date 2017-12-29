@@ -42,7 +42,7 @@ class TestXYZ_to_spectral_Meng2015(unittest.TestCase):
         XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
         np.testing.assert_almost_equal(
             spectral_to_XYZ_integration(
-                XYZ_to_spectral_Meng2015(XYZ), cmfs=cmfs_c),
+                XYZ_to_spectral_Meng2015(XYZ), cmfs=cmfs_c) / 100,
             XYZ,
             decimal=7)
 
@@ -51,14 +51,14 @@ class TestXYZ_to_spectral_Meng2015(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             spectral_to_XYZ_integration(
-                XYZ_to_spectral_Meng2015(XYZ, interval=10), cmfs=cmfs_c),
+                XYZ_to_spectral_Meng2015(XYZ, interval=10), cmfs=cmfs_c) / 100,
             XYZ,
             decimal=7)
 
         np.testing.assert_almost_equal(
             spectral_to_XYZ_integration(
                 XYZ_to_spectral_Meng2015(XYZ, interval=10, tolerance=1e-3),
-                cmfs=cmfs_c),
+                cmfs=cmfs_c) / 100,
             XYZ,
             decimal=7)
 
@@ -66,7 +66,7 @@ class TestXYZ_to_spectral_Meng2015(unittest.TestCase):
         cmfs_c = cmfs.copy().align(shape)
         np.testing.assert_almost_equal(
             spectral_to_XYZ_integration(
-                XYZ_to_spectral_Meng2015(XYZ, cmfs=cmfs_c), cmfs=cmfs_c),
+                XYZ_to_spectral_Meng2015(XYZ, cmfs=cmfs_c), cmfs=cmfs_c) / 100,
             XYZ,
             decimal=7)
 
