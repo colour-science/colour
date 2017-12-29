@@ -695,9 +695,7 @@ def uv_to_CCT(uv, method='Ohno 2013', **kwargs):
 
     function = UV_TO_CCT_METHODS[method]
 
-    filter_kwargs(function, **kwargs)
-
-    return function(uv, **kwargs)
+    return function(uv, **filter_kwargs(function, **kwargs))
 
 
 CCT_TO_UV_METHODS = CaseInsensitiveMapping({
@@ -760,9 +758,7 @@ def CCT_to_uv(CCT, method='Ohno 2013', **kwargs):
 
     function = CCT_TO_UV_METHODS[method]
 
-    filter_kwargs(function, **kwargs)
-
-    return function(CCT, **kwargs)
+    return function(CCT, **filter_kwargs(function, **kwargs))
 
 
 def xy_to_CCT_McCamy1992(xy):

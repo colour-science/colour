@@ -374,6 +374,4 @@ def corresponding_chromaticities_prediction(experiment=1,
 
     function = CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS[model]
 
-    filter_kwargs(function, **kwargs)
-
-    return function(experiment, **kwargs)
+    return function(experiment, **filter_kwargs(function, **kwargs))

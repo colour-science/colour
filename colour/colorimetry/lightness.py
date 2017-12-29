@@ -300,6 +300,4 @@ def lightness(Y, method='CIE 1976', **kwargs):
 
     function = LIGHTNESS_METHODS[method]
 
-    filter_kwargs(function, **kwargs)
-
-    return function(Y, **kwargs)
+    return function(Y, **filter_kwargs(function, **kwargs))

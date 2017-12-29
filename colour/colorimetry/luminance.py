@@ -299,6 +299,4 @@ def luminance(LV, method='CIE 1976', **kwargs):
 
     function = LUMINANCE_METHODS[method]
 
-    filter_kwargs(function, **kwargs)
-
-    return function(LV, **kwargs)
+    return function(LV, **filter_kwargs(function, **kwargs))
