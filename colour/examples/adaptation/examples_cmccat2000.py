@@ -30,4 +30,4 @@ message_box(('Computing chromatic adaptation using "CMCCAT200" reverse '
              '\n\t"L_A1":\n\t\t{3}\n\t"L_A2":\n\t\t{4}'.format(
                  XYZ_c, XYZ_w, XYZ_wr, L_A1, L_A2)))
 print(colour.chromatic_adaptation_CMCCAT2000(
-    XYZ_c, XYZ_w, XYZ_wr, L_A1, L_A2, method='Reverse'))
+    XYZ_c, XYZ_w, XYZ_wr, L_A1, L_A2, direction='Reverse'))
