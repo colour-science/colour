@@ -61,13 +61,13 @@ def yellowness_ASTMD1925(XYZ):
     numeric or ndarray
         *Whiteness* :math:`YI`.
 
-    Notes
-    -----
-    -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
-
     Warning
     -------
     The input domain of that definition is non standard!
+
+    Notes
+    -----
+    -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
 
     Examples
     --------
@@ -102,13 +102,13 @@ def yellowness_ASTME313(XYZ):
     numeric or ndarray
         *Whiteness* :math:`YI`.
 
-    Notes
-    -----
-    -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
-
     Warning
     -------
     The input domain of that definition is non standard!
+
+    Notes
+    -----
+    -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
 
     Examples
     --------

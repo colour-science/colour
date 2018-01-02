@@ -57,16 +57,16 @@ def XYZ_to_UVW(
     ndarray
         *CIE 1964 U\*V\*W\** colourspace array.
 
+    Warning
+    -------
+    The input domain and output range of that definition are non standard!
+
     Notes
     -----
     -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
     -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
         colourspace array are in domain [0, :math:`\infty`].
     -   Output *CIE 1964 U\*V\*W\** colourspace array is in range [0, 100].
-
-    Warning
-    -------
-    The input / output domains of that definition are non standard!
 
     Examples
     --------
