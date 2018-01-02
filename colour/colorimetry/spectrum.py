@@ -39,6 +39,7 @@ from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import Signal, MultiSignal
 from colour.utilities import (as_numeric, first_item, is_iterable, is_numeric,
                               is_string, is_uniform, interval, warning)
+from colour.utilities.deprecation import Removed, Renamed
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -1375,6 +1376,70 @@ dict_like, optional
 
         return self
 
+    # ------------------------------------------------------------------------#
+    # ---              API Changes and Deprecation Management              ---#
+    # ------------------------------------------------------------------------#
+    @property
+    def title(self):
+        # Docstrings are omitted for documentation purposes.
+        warning(
+            str(
+                Renamed('SpectralPowerDistribution.title',
+                        'SpectralPowerDistribution.strict_name')))
+
+        return self.strict_name
+
+    @title.setter
+    def title(self, value):
+        # Docstrings are omitted for documentation purposes.
+        warning(
+            str(
+                Renamed('SpectralPowerDistribution.title',
+                        'SpectralPowerDistribution.strict_name')))
+
+        self.strict_name = value
+
+    @property
+    def data(self):
+        # Docstrings are omitted for documentation purposes.
+        raise AttributeError(str(Removed('SpectralPowerDistribution.data')))
+
+    @property
+    def items(self):
+        # Docstrings are omitted for documentation purposes.
+        raise AttributeError(str(Removed('SpectralPowerDistribution.items')))
+
+    def __iter__(self):
+        # Docstrings are omitted for documentation purposes.
+        raise AttributeError(
+            str(Removed('SpectralPowerDistribution.__iter__')))
+
+    def get(self):
+        # Docstrings are omitted for documentation purposes.
+        raise AttributeError(str(Removed('SpectralPowerDistribution.get')))
+
+    def zeros(self):
+        # Docstrings are omitted for documentation purposes.
+        raise AttributeError(str(Removed('SpectralPowerDistribution.zeros')))
+
+    def trim_wavelengths(self, shape):
+        # Docstrings are omitted for documentation purposes.
+        warning(
+            str(
+                Renamed('SpectralPowerDistribution.trim_wavelengths',
+                        'SpectralPowerDistribution.trim')))
+
+        return self.trim(shape)
+
+    def clone(self):
+        # Docstrings are omitted for documentation purposes.
+        warning(
+            str(
+                Renamed('SpectralPowerDistribution.clone',
+                        'SpectralPowerDistribution.copy')))
+
+        return self.copy()
+
 
 class MultiSpectralPowerDistribution(MultiSignal):
     """
@@ -2203,6 +2268,95 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
             signal.normalise(factor)
 
         return self
+
+    # ------------------------------------------------------------------------#
+    # ---              API Changes and Deprecation Management              ---#
+    # ------------------------------------------------------------------------#
+    @property
+    def title(self):
+        # Docstrings are omitted for documentation purposes.
+        warning(
+            str(
+                Renamed('SpectralPowerDistribution.title',
+                        'SpectralPowerDistribution.strict_name')))
+
+        return self.strict_name
+
+    @title.setter
+    def title(self, value):
+        # Docstrings are omitted for documentation purposes.
+        warning(
+            str(
+                Renamed('SpectralPowerDistribution.title',
+                        'SpectralPowerDistribution.strict_name')))
+
+        self.strict_name = value
+
+    @property
+    def data(self):
+        # Docstrings are omitted for documentation purposes.
+        raise AttributeError(
+            str(Removed('MultiSpectralPowerDistribution.data')))
+
+    @property
+    def items(self):
+        # Docstrings are omitted for documentation purposes.
+        raise AttributeError(
+            str(Removed('MultiSpectralPowerDistribution.items')))
+
+    @property
+    def mapping(self):
+        # Docstrings are omitted for documentation purposes.
+        raise AttributeError(
+            str(Removed('MultiSpectralPowerDistribution.mapping')))
+
+    @property
+    def x(self):
+        # Docstrings are omitted for documentation purposes.
+        raise AttributeError(str(Removed('MultiSpectralPowerDistribution.x')))
+
+    @property
+    def y(self):
+        # Docstrings are omitted for documentation purposes.
+        raise AttributeError(str(Removed('MultiSpectralPowerDistribution.y')))
+
+    @property
+    def z(self):
+        # Docstrings are omitted for documentation purposes.
+        raise AttributeError(str(Removed('MultiSpectralPowerDistribution.z')))
+
+    def __iter__(self):
+        # Docstrings are omitted for documentation purposes.
+        raise AttributeError(
+            str(Removed('MultiSpectralPowerDistribution.__iter__')))
+
+    def get(self):
+        # Docstrings are omitted for documentation purposes.
+        raise AttributeError(
+            str(Removed('MultiSpectralPowerDistribution.get')))
+
+    def zeros(self):
+        # Docstrings are omitted for documentation purposes.
+        raise AttributeError(
+            str(Removed('MultiSpectralPowerDistribution.zeros')))
+
+    def trim_wavelengths(self, shape):
+        # Docstrings are omitted for documentation purposes.
+        warning(
+            str(
+                Renamed('MultiSpectralPowerDistribution.trim_wavelengths',
+                        'MultiSpectralPowerDistribution.trim')))
+
+        return self.trim(shape)
+
+    def clone(self):
+        # Docstrings are omitted for documentation purposes.
+        warning(
+            str(
+                Renamed('MultiSpectralPowerDistribution.clone',
+                        'MultiSpectralPowerDistribution.copy')))
+
+        return self.copy()
 
 
 DEFAULT_SPECTRAL_SHAPE = SpectralShape(360, 780, 1)
