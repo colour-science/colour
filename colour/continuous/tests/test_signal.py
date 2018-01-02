@@ -354,6 +354,13 @@ class TestSignal(unittest.TestCase):
         self.assertIn(0.5, self._signal)
         self.assertNotIn(1000, self._signal)
 
+    def test__len__(self):
+        """
+        Tests :func:`colour.continuous.signal.Signal.__len__` method.
+        """
+
+        self.assertEqual(len(self._signal), 10)
+
     def test__eq__(self):
         """
         Tests :func:`colour.continuous.signal.Signal.__eq__` method.

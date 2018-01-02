@@ -496,6 +496,14 @@ extrapolator_args` property.
         self.assertIn(0.5, self._multi_signal)
         self.assertNotIn(1000, self._multi_signal)
 
+    def test__len__(self):
+        """
+        Tests :func:`colour.continuous.multi_signal.MultiSignal.__len__`
+        method.
+        """
+
+        self.assertEqual(len(self._multi_signal), 10)
+
     def test__eq__(self):
         """
         Tests :func:`colour.continuous.multi_signal.MultiSignal.__eq__` method.
