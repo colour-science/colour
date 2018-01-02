@@ -81,6 +81,7 @@ class AbstractContinuousFunction:
     __getitem__
     __setitem__
     __contains__
+    __len__
     __eq__
     __ne__
     __iadd__
@@ -472,6 +473,20 @@ class AbstractContinuousFunction:
         """
 
         pass
+
+    def __len__(self):
+        """
+        Returns the abstract continuous function independent domain :math:`x`
+        variable elements count.
+
+
+        Returns
+        -------
+        int
+            Independent domain :math:`x` variable elements count.
+        """
+
+        return len(self.domain)
 
     @abstractmethod
     def __eq__(self, other):

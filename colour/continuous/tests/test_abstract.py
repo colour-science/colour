@@ -44,12 +44,12 @@ class TestAbstractContinuousFunction(unittest.TestCase):
         """
 
         required_methods = ('__str__', '__repr__', '__hash__', '__getitem__',
-                            '__setitem__', '__contains__', '__eq__', '__ne__',
-                            '__iadd__', '__add__', '__isub__', '__sub__',
-                            '__imul__', '__mul__', '__idiv__', '__div__',
-                            '__ipow__', '__pow__', 'arithmetical_operation',
-                            'fill_nan', 'domain_distance', 'is_uniform',
-                            'copy')
+                            '__setitem__', '__contains__', '__len__', '__eq__',
+                            '__ne__', '__iadd__', '__add__', '__isub__',
+                            '__sub__', '__imul__', '__mul__', '__idiv__',
+                            '__div__', '__ipow__', '__pow__',
+                            'arithmetical_operation', 'fill_nan',
+                            'domain_distance', 'is_uniform', 'copy')
 
         for method in required_methods:
             self.assertIn(method, dir(AbstractContinuousFunction))
