@@ -1,3 +1,5 @@
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fcolour-science%2Fcolour.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fcolour-science%2Fcolour?ref=badge_shield)
+
 Colour Science for Python
 =========================
 
@@ -560,3 +562,7 @@ About
 | Copyright © 2013-2017 – Colour Developers – `colour-science@googlegroups.com <colour-science@googlegroups.com>`_
 | This software is released under terms of New BSD License: http://opensource.org/licenses/BSD-3-Clause
 | `http://github.com/colour-science/colour <http://github.com/colour-science/colour>`_
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fcolour-science%2Fcolour.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fcolour-science%2Fcolour?ref=badge_large)
