@@ -5,7 +5,7 @@ Showcases RGB colourspace volume computations.
 """
 
 import colour
-from colour.utilities.verbose import message_box
+from colour.utilities import message_box
 
 message_box('RGB Colourspace Volume Computations')
 

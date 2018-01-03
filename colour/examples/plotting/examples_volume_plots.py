@@ -8,7 +8,7 @@ import numpy as np
 
 from colour.plotting import (RGB_colourspaces_gamuts_plot, RGB_scatter_plot,
                              colour_plotting_defaults)
-from colour.utilities.verbose import message_box
+from colour.utilities import message_box
 
 message_box('Colour Models Volume and Gamut Plots')
 

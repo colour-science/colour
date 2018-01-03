@@ -8,7 +8,7 @@ import numpy as np
 import warnings
 
 import colour
-from colour.utilities.verbose import message_box, warning
+from colour.utilities import message_box, warning
 
 message_box('Filter "Colour" Warnings')
 
@@ -42,8 +42,8 @@ message_box('Overall "Colour" Examples')
 
 message_box('N-Dimensional Arrays Support')
 
-XYZ = (0.07049534, 0.10080000, 0.09558313)
-illuminant = (0.34570, 0.35850)
+XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
+illuminant = np.array([0.34570, 0.35850])
 message_box('Using 1d "array_like" parameter:\n' '\n{0}'.format(XYZ))
 print(colour.XYZ_to_Lab(XYZ, illuminant=illuminant))
 
@@ -89,9 +89,9 @@ print('\n')
 message_box(('Definitions mixing "array_like" and "numeric" parameters '
              'expect the "numeric" parameters to have a dimension less than '
              'the "array_like" parameters.'))
-XYZ_1 = (28.00, 21.26, 5.27)
-xy_o1 = (0.4476, 0.4074)
-xy_o2 = (0.3127, 0.3290)
+XYZ_1 = np.array([28.00, 21.26, 5.27])
+xy_o1 = np.array([0.4476, 0.4074])
+xy_o2 = np.array([0.3127, 0.3290])
 Y_o = 20
 E_o1 = 1000
 E_o2 = 1000

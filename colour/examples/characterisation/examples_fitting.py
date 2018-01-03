@@ -6,7 +6,7 @@ Showcases colour fitting computations.
 
 import numpy as np
 import colour
-from colour.utilities.verbose import message_box
+from colour.utilities import message_box
 
 message_box('Colour Fitting Computations')
 

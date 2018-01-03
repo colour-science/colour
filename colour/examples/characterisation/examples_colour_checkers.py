@@ -8,7 +8,7 @@ import numpy as np
 from pprint import pprint
 
 import colour
-from colour.utilities.verbose import message_box
+from colour.utilities import message_box
 
 message_box('Colour Rendition Charts Computations')
 

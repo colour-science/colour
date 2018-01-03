@@ -4,12 +4,14 @@
 Showcases *Y'CbCr* *colour encoding* computations.
 """
 
+import numpy as np
+
 import colour
-from colour.utilities.verbose import message_box
+from colour.utilities import message_box
 
 message_box('"Y\'CbCr" Colour Encoding Computations')
 
-RGB = (0.35521588, 0.41000000, 0.24177934)
+RGB = np.array([0.35521588, 0.41000000, 0.24177934])
 message_box(
     ('Converting to "Y\'CbCr" colour encoding from given "ITU-R BT.709" '
      'colourspace values:\n'
@@ -26,7 +28,7 @@ print(colour.RGB_to_YCbCr(
 
 print('\n')
 
-YCbCr = (101, 111, 124)
+YCbCr = np.array([101, 111, 124])
 message_box(('Converting to "ITU-R BT.601" colourspace from given "Y\'CbCr" '
              'values using legal range and integer input:\n'
              '\n\t{0}'.format(RGB)))
@@ -34,7 +36,7 @@ print(colour.YCbCr_to_RGB(YCbCr, in_legal=True, in_int=True))
 
 print('\n')
 
-RGB = (0.18, 0.18, 0.18)
+RGB = np.array([0.18, 0.18, 0.18])
 message_box(('Converting to "Yc\'Cbc\'Crc\'" colour encoding from given '
              '"ITU-R BT.2020" values using legal range, integer output on '
              'a 10-bit system:\n\n\t{0}'.format(RGB)))
@@ -43,7 +45,7 @@ print(colour.RGB_to_YcCbcCrc(
 
 print('\n')
 
-YcCbcCrc = (422, 512, 512)
+YcCbcCrc = np.array([422, 512, 512])
 message_box(('Converting to "ITU-R BT.2020" colourspace from given "RGB" '
              'values using legal range, integer input on a 10-bit system:\n'
              '\n\t{0}'.format(RGB)))

@@ -4,8 +4,10 @@
 Showcases *Munsell Renotation System* computations.
 """
 
+import numpy as np
+
 import colour
-from colour.utilities.verbose import message_box
+from colour.utilities import message_box
 
 message_box('"Munsell Renotation System" Computations')
 
@@ -14,8 +16,8 @@ message_box(('Computing "Munsell" value using '
              '"Priest, Gibson and MacNicholas (1920)" method for given '
              '"luminance" value:\n'
              '\n\t{0}'.format(Y)))
-print(colour.munsell_value_Priest1920(Y))
 print(colour.munsell_value(Y, method='Priest 1920'))
+print(colour.munsell_value_Priest1920(Y))
 
 print('\n')
 
@@ -23,52 +25,52 @@ message_box(('Computing "Munsell" value using '
              '"Munsell, Sloan and Godlove (1933)" method for given '
              '"luminance" value:\n'
              '\n\t{0}'.format(Y)))
-print(colour.munsell_value_Munsell1933(Y))
 print(colour.munsell_value(Y, method='Munsell 1933'))
+print(colour.munsell_value_Munsell1933(Y))
 
 print('\n')
 
 message_box(('Computing "Munsell" value using "Moon and Spencer (1943)" '
              'method for given "luminance" value:\n'
              '\n\t{0}'.format(Y)))
-print(colour.munsell_value_Moon1943(Y))
 print(colour.munsell_value(Y, method='Moon 1943'))
+print(colour.munsell_value_Moon1943(Y))
 
 print('\n')
 
 message_box(('Computing "Munsell" value using "Saunderson and Milner (1944)" '
              'method for given "luminance" value:\n'
              '\n\t{0}'.format(Y)))
-print(colour.munsell_value_Saunderson1944(Y))
 print(colour.munsell_value(Y, method='Saunderson 1944'))
+print(colour.munsell_value_Saunderson1944(Y))
 
 print('\n')
 
 message_box(('Computing "Munsell" value using "Ladd and Pinney (1955)" method '
              'for given "luminance" value:\n'
              '\n\t{0}'.format(Y)))
-print(colour.munsell_value_Ladd1955(Y))
 print(colour.munsell_value(Y, method='Ladd 1955'))
+print(colour.munsell_value_Ladd1955(Y))
 
 print('\n')
 
 message_box(('Computing "Munsell" value using "McCamy (1987)" method for '
              'given "luminance" value:\n'
              '\n\t{0}'.format(Y)))
-print(colour.munsell_value_McCamy1987(Y))
 print(colour.munsell_value(Y, method='McCamy 1987'))
+print(colour.munsell_value_McCamy1987(Y))
 
 print('\n')
 
 message_box(('Computing "Munsell" value using "ASTM D1535-08e1" method '
              'for given "luminance" value:\n'
              '\n\t{0}'.format(Y)))
-print(colour.munsell_value_ASTMD153508(Y))
 print(colour.munsell_value(Y, method='ASTM D1535-08'))
+print(colour.munsell_value_ASTMD153508(Y))
 
 print('\n')
 
-xyY = (0.38736945, 0.35751656, 0.59362000)
+xyY = np.array([0.38736945, 0.35751656, 0.59362000])
 message_box(('Converting to "Munsell" colour from given "CIE xyY" '
              'colourspace values:\n'
              '\n\t{0}'.format(xyY)))

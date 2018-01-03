@@ -11,7 +11,7 @@ from colour.characterisation.dataset.colour_checkers.spds import (
     COLOURCHECKER_INDEXES_TO_NAMES_MAPPING)
 from colour.plotting import (colour_plotting_defaults, colour_checker_plot,
                              multi_spd_plot)
-from colour.utilities.verbose import message_box
+from colour.utilities import message_box
 
 message_box('Characterisation Plots')
 

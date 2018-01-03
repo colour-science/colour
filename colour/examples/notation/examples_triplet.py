@@ -4,12 +4,14 @@
 Showcases hexadecimal triplet computations.
 """
 
+import numpy as np
+
 import colour.notation.triplet
-from colour.utilities.verbose import message_box
+from colour.utilities import message_box
 
 message_box('Hexadecimal Triplet Computations')
 
-RGB = (0.49019608, 0.98039216, 0.25098039)
+RGB = np.array([0.49019608, 0.98039216, 0.25098039])
 message_box(('Converting to "hex triplet" representation from given "RGB" '
              'colourspace values:\n'
              '\n\t{0}'.format(RGB)))
