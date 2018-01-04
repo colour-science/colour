@@ -5,7 +5,7 @@ Showcases *CIE XYZ* tristimulus values computations.
 """
 
 import colour
-from colour.utilities.verbose import message_box
+from colour.utilities import message_box
 
 message_box('"CIE XYZ" Tristimulus Values Computations')
 

@@ -5,7 +5,7 @@ Showcases blackbody / planckian radiator computations.
 """
 
 import colour
-from colour.utilities.verbose import message_box
+from colour.utilities import message_box
 
 message_box('Blackbody / Planckian Radiator Computations')
 

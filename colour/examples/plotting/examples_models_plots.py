@@ -16,7 +16,7 @@ from colour.plotting import (
     RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS,
     RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS,
     colour_plotting_defaults, multi_cctf_plot, single_cctf_plot)
-from colour.utilities.verbose import message_box
+from colour.utilities import message_box
 
 message_box('Colour Models Plots')
 

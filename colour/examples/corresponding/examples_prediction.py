@@ -7,7 +7,7 @@ Showcases corresponding chromaticities prediction computations.
 from pprint import pprint
 
 import colour
-from colour.utilities.verbose import message_box
+from colour.utilities import message_box
 
 message_box('Corresponding Chromaticities Prediction Computations')
 

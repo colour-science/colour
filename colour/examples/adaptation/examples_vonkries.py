@@ -4,13 +4,15 @@
 Showcases *Von Kries* chromatic adaptation model computations.
 """
 
+import numpy as np
+
 import colour
-from colour.utilities.verbose import message_box
+from colour.utilities import message_box
 
 message_box('"Von Kries" Chromatic Adaptation Model Computations')
 
-XYZ_w = (1.09846607, 1.00000000, 0.35582280)
-XYZ_wr = (1.09846607, 1.00000000, 0.35582280)
+XYZ_w = np.array([1.09846607, 1.00000000, 0.35582280])
+XYZ_wr = np.array([1.09846607, 1.00000000, 0.35582280])
 message_box(('Computing the chromatic adaptation matrix from two source '
              '"CIE XYZ" tristimulus values arrays, default CAT is "CAT02".\n'
              '\n\t"XYZ_w":\n\t\t{0}\n\t"XYZ_wr":\n\t\t{1}'.format(
@@ -35,7 +37,7 @@ print(colour.chromatic_adaptation_matrix_VonKries(
 
 print('\n')
 
-XYZ = (1.14176346, 1.00000000, 0.49815206)
+XYZ = np.array([1.14176346, 1.00000000, 0.49815206])
 message_box(('Adapting given "CIE XYZ" tristimulus values from '
              '"CIE Standard Illuminant A" to '
              '"CIE Standard Illuminant D Series D65" using "Sharp" CAT.\n'

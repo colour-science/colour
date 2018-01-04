@@ -5,7 +5,7 @@ Showcases correlated colour temperature computations.
 """
 
 import colour
-from colour.utilities.verbose import message_box
+from colour.utilities import message_box
 
 message_box('Correlated Colour Temperature Computations')
 

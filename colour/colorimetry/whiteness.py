@@ -187,13 +187,13 @@ def whiteness_ASTME313(XYZ):
     numeric or ndarray
         *Whiteness* :math:`WI`.
 
-    Notes
-    -----
-    -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
-
     Warning
     -------
     The input domain of that definition is non standard!
+
+    Notes
+    -----
+    -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
 
     Examples
     --------
@@ -227,6 +227,10 @@ def whiteness_Ganz1979(xy, Y):
     ndarray
         *Whiteness* :math:`W` and *tint* :math:`T`.
 
+    Warning
+    -------
+    The input domain of that definition is non standard!
+
     Notes
     -----
     -   Input tristimulus :math:`Y` value is in domain [0, 100].
@@ -239,10 +243,6 @@ def whiteness_Ganz1979(xy, Y):
         indistinguishable to the human eye.
     -   Tint differences of less than 0.5 Ganz units appear to be
         indistinguishable to the human eye.
-
-    Warning
-    -------
-    The input domain of that definition is non standard!
 
     Examples
     --------
@@ -291,6 +291,10 @@ def whiteness_CIE2004(xy,
         *Whiteness* :math:`W` or :math:`W_{10}` and *tint* :math:`T` or
         :math:`T_{10}` of given sample.
 
+    Warning
+    -------
+    The input domain of that definition is non standard!
+
     Notes
     -----
     -   Input tristimulus :math:`Y` value is in domain [0, 100].
@@ -305,10 +309,6 @@ def whiteness_CIE2004(xy,
         yellowish white. [2]_
     -   Positive output *tint* :math:`T` or :math:`T_{10}` values indicate a
         greener tint while negative values indicate a redder tint.
-
-    Warning
-    -------
-    The input domain of that definition is non standard!
 
     References
     ----------

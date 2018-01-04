@@ -6,7 +6,7 @@ Showcases corresponding chromaticities prediction plotting examples.
 
 from colour.plotting import (colour_plotting_defaults,
                              corresponding_chromaticities_prediction_plot)
-from colour.utilities.verbose import message_box
+from colour.utilities import message_box
 
 message_box('Corresponding Chromaticities Prediction Plots')
 

@@ -7,7 +7,7 @@ Showcases colour spectral bandpass dependence correction computations.
 import numpy as np
 
 import colour
-from colour.utilities.verbose import message_box
+from colour.utilities import message_box
 
 message_box('Spectral Bandpass Dependence Correction')
 

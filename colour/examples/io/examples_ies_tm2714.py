@@ -8,7 +8,7 @@ examples.
 import os
 
 import colour
-from colour.utilities.verbose import message_box
+from colour.utilities import message_box
 
 RESOURCES_DIRECTORY = os.path.join(os.path.dirname(__file__), 'resources')
 

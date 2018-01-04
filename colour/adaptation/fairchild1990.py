@@ -92,7 +92,7 @@ def chromatic_adaptation_Fairchild1990(XYZ_1,
 
     Warning
     -------
-    The input domain of that definition is non standard!
+    The input domain and output range of that definition are non standard!
 
     Notes
     -----

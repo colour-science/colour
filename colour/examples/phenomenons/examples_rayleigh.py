@@ -7,7 +7,7 @@ Showcases *Rayleigh Optical Depth* computations examples.
 import colour
 from colour.phenomenons import (
     rayleigh_optical_depth, rayleigh_scattering_spd, scattering_cross_section)
-from colour.utilities.verbose import message_box
+from colour.utilities import message_box
 
 message_box('"Rayleigh" Optical Depth Computations')
 

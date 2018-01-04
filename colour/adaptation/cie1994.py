@@ -93,7 +93,7 @@ def chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2, n=1):
 
     Warning
     -------
-    The input domain of that definition is non standard!
+    The input domain and output range of that definition are non standard!
 
     Notes
     -----

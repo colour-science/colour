@@ -7,7 +7,7 @@ Showcases light sources dataset.
 from pprint import pprint
 
 import colour
-from colour.utilities.verbose import message_box
+from colour.utilities import message_box
 
 message_box('Light Sources Dataset')
 

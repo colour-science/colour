@@ -11,7 +11,7 @@ from colour.plotting import (
     spds_chromaticity_diagram_plot_CIE1931,
     spds_chromaticity_diagram_plot_CIE1960UCS,
     spds_chromaticity_diagram_plot_CIE1976UCS)
-from colour.utilities.verbose import message_box
+from colour.utilities import message_box
 
 message_box('"CIE" Chromaticity Diagrams Plots')
 

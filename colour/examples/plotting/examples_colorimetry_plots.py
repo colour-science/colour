@@ -13,7 +13,7 @@ from colour.plotting import (
     multi_illuminants_relative_spd_plot, multi_lightness_function_plot,
     multi_spd_plot, single_cmfs_plot, single_illuminant_relative_spd_plot,
     single_lightness_function_plot, single_spd_plot, visible_spectrum_plot)
-from colour.utilities.verbose import message_box
+from colour.utilities import message_box
 
 message_box('Colorimetry Plots')
 

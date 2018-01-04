@@ -8,7 +8,7 @@ import numpy as np
 from pprint import pprint
 
 import colour
-from colour.utilities.verbose import message_box
+from colour.utilities import message_box
 
 message_box('"RGB" Colourspaces Computations')
 
@@ -43,7 +43,7 @@ print(np.dot(colour.RGB_COLOURSPACES['ITU-R BT.709'].XYZ_to_RGB_matrix,
 
 print('\n')
 
-RGB = (0.35521588, 0.41000000, 0.24177934)
+RGB = np.array([0.35521588, 0.41000000, 0.24177934])
 message_box(
     ('Converting from "ITU-R BT.709" colourspace to "ACEScg" colourspace '
      'given "RGB" values:\n'

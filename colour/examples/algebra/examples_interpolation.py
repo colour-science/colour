@@ -8,7 +8,7 @@ import pylab
 
 import colour
 from colour.plotting import boundaries, decorate, display
-from colour.utilities.verbose import message_box
+from colour.utilities import message_box
 
 message_box('Interpolation Computations')
 
