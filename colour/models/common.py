@@ -15,7 +15,7 @@ from colour.models import (Lab_to_LCHab, Luv_to_LCHuv, Luv_to_uv, UCS_to_uv,
                            XYZ_to_xy, XYZ_to_xyY, xy_to_XYZ)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'

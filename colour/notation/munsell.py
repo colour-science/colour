@@ -79,7 +79,7 @@ from colour.utilities import (CaseInsensitiveMapping, Lookup, is_integer,
                               is_numeric, tsplit, warning)
 
 __author__ = 'Colour Developers, Paul Centore'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
