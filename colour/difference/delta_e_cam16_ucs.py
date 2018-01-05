@@ -31,7 +31,7 @@ from colour.difference.delta_e_cam02_ucs import (
     delta_E_Luo2006, delta_E_CAM02LCD, delta_E_CAM02SCD, delta_E_CAM02UCS)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2015-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
