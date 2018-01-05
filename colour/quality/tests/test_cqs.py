@@ -35,12 +35,12 @@ class TestColourQualityScale(unittest.TestCase):
 
         self.assertAlmostEqual(
             colour_quality_scale(ILLUMINANTS_RELATIVE_SPDS['F1']),
-            75.342427844068794,
+            75.342591389578701,
             places=7)
 
         self.assertAlmostEqual(
             colour_quality_scale(ILLUMINANTS_RELATIVE_SPDS['F2']),
-            64.686416902222192,
+            64.686339173112856,
             places=7)
 
         self.assertAlmostEqual(
@@ -52,19 +52,19 @@ class TestColourQualityScale(unittest.TestCase):
         self.assertAlmostEqual(
             colour_quality_scale(
                 LIGHT_SOURCES_RELATIVE_SPDS['F32T8/TL841 (Triphosphor)']),
-            83.179847129624022,
+            83.179881092827671,
             places=7)
 
         self.assertAlmostEqual(
             colour_quality_scale(
                 LIGHT_SOURCES_RELATIVE_SPDS['H38HT-100 (Mercury)']),
-            22.869154075340347,
+            22.870604734960732,
             places=7)
 
         self.assertAlmostEqual(
             colour_quality_scale(
                 LIGHT_SOURCES_RELATIVE_SPDS['Luxeon WW 2880']),
-            84.880324578632809,
+            84.879524259605077,
             places=7)
 
 

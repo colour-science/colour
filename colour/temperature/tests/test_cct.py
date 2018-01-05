@@ -205,7 +205,7 @@ class Testuv_to_CCT_Ohno2013(unittest.TestCase):
         cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
         np.testing.assert_almost_equal(
             uv_to_CCT_Ohno2013(np.array([0.1978, 0.3122]), cmfs),
-            np.array([6507.51282029, 0.00322336]),
+            np.array([6507.47380460, 0.00322335]),
             decimal=7)
 
         np.testing.assert_almost_equal(
@@ -232,18 +232,18 @@ class TestCCT_to_uv_Ohno2013(unittest.TestCase):
 
         cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
         np.testing.assert_almost_equal(
-            CCT_to_uv_Ohno2013(6507.43422010, 0.003223690901513, cmfs),
-            np.array([0.19779990, 0.31220046]),
+            CCT_to_uv_Ohno2013(6507.47380460, 0.00322335, cmfs),
+            np.array([0.19779997, 0.31219997]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            CCT_to_uv_Ohno2013(1041.84952461, -0.067377582728535, cmfs),
-            np.array([0.43276248, 0.28830361]),
+            CCT_to_uv_Ohno2013(1041.68315360, -0.06737802, cmfs),
+            np.array([0.43279885, 0.28830013]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            CCT_to_uv_Ohno2013(2448.94890533, -0.084324704634693, cmfs),
-            np.array([0.29256477, 0.2722181]),
+            CCT_to_uv_Ohno2013(2452.15316417, -0.08437064, cmfs),
+            np.array([0.29247364, 0.27215157]),
             decimal=7)
 
 

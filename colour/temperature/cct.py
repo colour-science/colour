@@ -298,7 +298,7 @@ def uv_to_CCT_Ohno2013(
     >>> cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
     >>> uv = np.array([0.1978, 0.3122])
     >>> uv_to_CCT_Ohno2013(uv, cmfs)  # doctest: +ELLIPSIS
-    array([  6.5075128...e+03,   3.2233587...e-03])
+    array([  6.5074738...e+03,   3.2233461...e-03])
     """
 
     # Ensuring we do at least one iteration to initialise variables.
@@ -339,7 +339,7 @@ def uv_to_CCT_Ohno2013(
     D_uv = (dip ** 2 - x ** 2) ** (1 / 2) * sign
 
     # Parabolic solution.
-    if D_uv < 0.002:
+    if np.abs(D_uv) >= 0.002:
         X = (Tin - Ti) * (Tip - Tin) * (Ti - Tip)
         a = (Tip * (din - di) + Ti * (dip - din) + Tin * (di - dip)) * X ** -1
         b = (-(Tip ** 2 * (din - di) + Ti ** 2 * (dip - din) + Tin ** 2 *
@@ -690,7 +690,7 @@ def uv_to_CCT(uv, method='Ohno 2013', **kwargs):
     >>> cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
     >>> uv = np.array([0.1978, 0.3122])
     >>> uv_to_CCT(uv, cmfs=cmfs)  # doctest: +ELLIPSIS
-    array([  6.5075128...e+03,   3.2233587...e-03])
+    array([  6.5074738...e+03,   3.2233461...e-03])
     """
 
     function = UV_TO_CCT_METHODS[method]
@@ -750,10 +750,10 @@ def CCT_to_uv(CCT, method='Ohno 2013', **kwargs):
     --------
     >>> from colour import STANDARD_OBSERVERS_CMFS
     >>> cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
-    >>> CCT = 6507.4342201047066
-    >>> D_uv = 0.003223690901513
+    >>> CCT = 6507.47380460
+    >>> D_uv = 0.00322335
     >>> CCT_to_uv(CCT, D_uv=D_uv, cmfs=cmfs)  # doctest: +ELLIPSIS
-    array([ 0.1977999...,  0.3122004...])
+    array([ 0.1977999...,  0.3121999...])
     """
 
     function = CCT_TO_UV_METHODS[method]
