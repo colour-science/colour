@@ -140,6 +140,8 @@ class RGB_Colourspace(object):
 
     Methods
     -------
+    __str__
+    __repr__
     use_derived_transformation_matrices
 
     Notes
@@ -291,7 +293,7 @@ VARICAM_V-Log_V-Gamut.pdf
         """
 
         if value is not None:
-            value = np.asarray(value)
+            value = np.reshape(value, (3, 2))
         self._primaries = value
 
         self._derive_transformation_matrices()
@@ -560,6 +562,158 @@ VARICAM_V-Log_V-Gamut.pdf
 
         # TODO: Revisit for potential behaviour / type checking.
         self._use_derived_XYZ_to_RGB_matrix = value
+
+    def __str__(self):
+        """
+        Returns a formatted string representation of the *RGB* colourspace.
+
+        Returns
+        -------
+        unicode
+            Formatted string representation.
+
+        Examples
+        --------
+        >>> p = np.array(
+        ...     [0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
+        >>> whitepoint = np.array([0.32168, 0.33767])
+        >>> RGB_to_XYZ_matrix = np.identity(3)
+        >>> XYZ_to_RGB_matrix = np.identity(3)
+        >>> encoding_cctf = lambda x: x
+        >>> decoding_cctf = lambda x: x
+        >>> print(RGB_Colourspace('RGB Colourspace', p, whitepoint, 'D60',
+        ...                       RGB_to_XYZ_matrix, XYZ_to_RGB_matrix,
+        ...                       encoding_cctf, decoding_cctf))
+        ... # doctest: +ELLIPSIS
+        RGB Colourspace
+        ---------------
+        <BLANKLINE>
+        Primaries          : [[  7.34700000e-01   2.65300000e-01]
+                              [  0.00000000e+00   1.00000000e+00]
+                              [  1.00000000e-04  -7.70000000e-02]]
+        Whitepoint         : [ 0.32168  0.33767]
+        Whitepoint Name    : D60
+        Encoding CCTF      : <function <lambda> at 0x...>
+        Decoding CCTF      : <function <lambda> at 0x...>
+        NPM                : [[ 1.  0.  0.]
+                              [ 0.  1.  0.]
+                              [ 0.  0.  1.]]
+        NPM -1             : [[ 1.  0.  0.]
+                              [ 0.  1.  0.]
+                              [ 0.  0.  1.]]
+        Derived NPM        : \
+[[  9.5255239...e-01   0.0000000...e+00   9.3678631...e-05]
+                             \
+ [  3.4396645...e-01   7.2816609...e-01  -7.2132546...e-02]
+                             \
+ [  0.0000000...e+00   0.0000000...e+00   1.0088251...e+00]]
+        Derived NPM -1     : \
+[[  1.0498110...e+00   0.0000000...e+00  -9.7484540...e-05]
+                             \
+ [ -4.9590302...e-01   1.3733130...e+00   9.8240036...e-02]
+                             \
+ [  0.0000000...e+00   0.0000000...e+00   9.9125201...e-01]]
+        Use Derived NPM    : False
+        Use Derived NPM -1 : False
+        """
+
+        def _indent_array(a):
+            """
+            Indents given array string representation.
+            """
+
+            return str(a).replace(' [', ' ' * 22 + '[')
+
+        return ('{0}\n'
+                '{1}\n\n'
+                'Primaries          : {2}\n'
+                'Whitepoint         : {3}\n'
+                'Whitepoint Name    : {4}\n'
+                'Encoding CCTF      : {5}\n'
+                'Decoding CCTF      : {6}\n'
+                'NPM                : {7}\n'
+                'NPM -1             : {8}\n'
+                'Derived NPM        : {9}\n'
+                'Derived NPM -1     : {10}\n'
+                'Use Derived NPM    : {11}\n'
+                'Use Derived NPM -1 : {12}').format(
+                    self.name, '-' * len(self.name),
+                    _indent_array(self.primaries), self.whitepoint,
+                    self.illuminant, self.encoding_cctf, self.decoding_cctf,
+                    _indent_array(self._RGB_to_XYZ_matrix),
+                    _indent_array(self._XYZ_to_RGB_matrix),
+                    _indent_array(self._derived_RGB_to_XYZ_matrix),
+                    _indent_array(self._derived_XYZ_to_RGB_matrix),
+                    self.use_derived_RGB_to_XYZ_matrix,
+                    self.use_derived_XYZ_to_RGB_matrix)
+
+    def __repr__(self):
+        """
+        Returns an (almost) evaluable string representation of the *RGB*
+        colourspace.
+
+        Returns
+        -------
+        unicode
+            (Almost) evaluable string representation.
+
+        Examples
+        --------
+        >>> p = np.array(
+        ...     [0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
+        >>> whitepoint = np.array([0.32168, 0.33767])
+        >>> RGB_to_XYZ_matrix = np.identity(3)
+        >>> XYZ_to_RGB_matrix = np.identity(3)
+        >>> encoding_cctf = lambda x: x
+        >>> decoding_cctf = lambda x: x
+        >>> RGB_Colourspace('RGB Colourspace', p, whitepoint, 'D60',
+        ...                 RGB_to_XYZ_matrix, XYZ_to_RGB_matrix,
+        ...                 encoding_cctf, decoding_cctf)
+        ... # doctest: +ELLIPSIS
+        RGB_Colourspace(RGB Colourspace,
+                        [[  7.34700000e-01,   2.65300000e-01],
+                         [  0.00000000e+00,   1.00000000e+00],
+                         [  1.00000000e-04,  -7.70000000e-02]],
+                        [ 0.32168,  0.33767],
+                        D60,
+                        [[ 1.,  0.,  0.],
+                         [ 0.,  1.,  0.],
+                         [ 0.,  0.,  1.]],
+                        [[ 1.,  0.,  0.],
+                         [ 0.,  1.,  0.],
+                         [ 0.,  0.,  1.]],
+                        <function <lambda> at 0x...>,
+                        <function <lambda> at 0x...>,
+                        False,
+                        False)
+        """
+
+        def _indent_array(a):
+            """
+            Indents given array evaluable string representation.
+            """
+
+            representation = repr(a).replace(' [', '{0}['.format(' ' * 11))
+            representation = representation.replace('array(', ' ' * 16)
+            return representation.replace(')', '')
+
+        return ('RGB_Colourspace({0},\n'
+                '{2},\n'
+                '{3},\n'
+                '{1}{4},\n'
+                '{5},\n'
+                '{6},\n'
+                '{1}{7},\n'
+                '{1}{8},\n'
+                '{1}{9},\n'
+                '{1}{10})').format(
+                    self.name, ' ' * 16,
+                    _indent_array(self.primaries),
+                    _indent_array(self.whitepoint), self.illuminant,
+                    _indent_array(self.RGB_to_XYZ_matrix),
+                    _indent_array(self.XYZ_to_RGB_matrix), self.encoding_cctf,
+                    self.decoding_cctf, self.use_derived_RGB_to_XYZ_matrix,
+                    self.use_derived_XYZ_to_RGB_matrix)
 
     def _derive_transformation_matrices(self):
         """

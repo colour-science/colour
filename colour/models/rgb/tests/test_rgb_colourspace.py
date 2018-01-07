@@ -6,8 +6,11 @@ Defines unit tests for :mod:`colour.models.rgb.rgb_colourspace` module.
 
 from __future__ import division, unicode_literals
 
-import pickle
 import numpy as np
+import pickle
+import re
+import six
+import textwrap
 import unittest
 from copy import deepcopy
 from itertools import permutations
@@ -161,6 +164,19 @@ class TestRGB_Colourspace(unittest.TestCase):
     tests methods.
     """
 
+    def setUp(self):
+        """
+        Initialises common tests attributes.
+        """
+
+        p = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
+        whitepoint = np.array([0.32168, 0.33767])
+        RGB_to_XYZ_matrix = np.identity(3)
+        XYZ_to_RGB_matrix = np.identity(3)
+        self._colourspace = RGB_Colourspace(
+            'RGB Colourspace', p, whitepoint, 'D60', RGB_to_XYZ_matrix,
+            XYZ_to_RGB_matrix, lambda x: x, lambda x: x)
+
     def test_required_attributes(self):
         """
         Tests presence of required attributes.
@@ -180,10 +196,79 @@ class TestRGB_Colourspace(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('use_derived_transformation_matrices', )
+        required_methods = ('__str__', '__repr__',
+                            'use_derived_transformation_matrices')
 
         for method in required_methods:
             self.assertIn(method, dir(RGB_Colourspace))
+
+    def test__str__(self):
+        """
+        Tests :func:`colour.models.rgb.rgb_colourspace.RGB_Colourspace.__str__`
+        method.
+        """
+
+        # Skipping unit test on Python 2.7.
+        if six.PY2:
+            return
+
+        self.assertEqual(
+            re.sub(' at 0x\w+>', '', str(self._colourspace)),
+            textwrap.dedent("""
+    RGB Colourspace
+    ---------------
+
+    Primaries          : [[  7.34700000e-01   2.65300000e-01]
+                          [  0.00000000e+00   1.00000000e+00]
+                          [  1.00000000e-04  -7.70000000e-02]]
+    Whitepoint         : [ 0.32168  0.33767]
+    Whitepoint Name    : D60
+    Encoding CCTF      : <function TestRGB_Colourspace.setUp.<locals>.<lambda>
+    Decoding CCTF      : <function TestRGB_Colourspace.setUp.<locals>.<lambda>
+    NPM                : [[ 1.  0.  0.]
+                          [ 0.  1.  0.]
+                          [ 0.  0.  1.]]
+    NPM -1             : [[ 1.  0.  0.]
+                          [ 0.  1.  0.]
+                          [ 0.  0.  1.]]
+    Derived NPM        : [[  9.52552396e-01   0.00000000e+00   9.36786317e-05]
+                          [  3.43966450e-01   7.28166097e-01  -7.21325464e-02]
+                          [  0.00000000e+00   0.00000000e+00   1.00882518e+00]]
+    Derived NPM -1     : [[  1.04981102e+00   0.00000000e+00  -9.74845406e-05]
+                          [ -4.95903023e-01   1.37331305e+00   9.82400361e-02]
+                          [  0.00000000e+00   0.00000000e+00   9.91252018e-01]]
+    Use Derived NPM    : False
+    Use Derived NPM -1 : False""")[1:])
+
+    def test__repr__(self):
+        """
+        Tests :func:`colour.models.rgb.rgb_colourspace.RGB_Colourspace.\
+__repr__` method.
+        """
+
+        # Skipping unit test on Python 2.7.
+        if six.PY2:
+            return
+
+        self.assertEqual(
+            re.sub(' at 0x\w+>', '', repr(self._colourspace)),
+            textwrap.dedent("""
+        RGB_Colourspace(RGB Colourspace,
+                        [[  7.34700000e-01,   2.65300000e-01],
+                         [  0.00000000e+00,   1.00000000e+00],
+                         [  1.00000000e-04,  -7.70000000e-02]],
+                        [ 0.32168,  0.33767],
+                        D60,
+                        [[ 1.,  0.,  0.],
+                         [ 0.,  1.,  0.],
+                         [ 0.,  0.,  1.]],
+                        [[ 1.,  0.,  0.],
+                         [ 0.,  1.,  0.],
+                         [ 0.,  0.,  1.]],
+                        <function TestRGB_Colourspace.setUp.<locals>.<lambda>,
+                        <function TestRGB_Colourspace.setUp.<locals>.<lambda>,
+                        False,
+                        False)""")[1:])
 
     def test_use_derived_transformation_matrices(self):
         """
@@ -191,22 +276,16 @@ class TestRGB_Colourspace(unittest.TestCase):
 use_derived_transformation_matrices` method.
         """
 
-        p = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
-        whitepoint = np.array([0.32168, 0.33767])
-        RGB_to_XYZ_matrix = np.identity(3)
-        XYZ_to_RGB_matrix = np.identity(3)
-        colourspace = RGB_Colourspace('RGB Colourspace', p, whitepoint, 'D60',
-                                      RGB_to_XYZ_matrix, XYZ_to_RGB_matrix)
-
-        np.testing.assert_array_equal(colourspace.RGB_to_XYZ_matrix,
+        np.testing.assert_array_equal(self._colourspace.RGB_to_XYZ_matrix,
                                       np.identity(3))
-        np.testing.assert_array_equal(colourspace.XYZ_to_RGB_matrix,
+        np.testing.assert_array_equal(self._colourspace.XYZ_to_RGB_matrix,
                                       np.identity(3))
 
-        self.assertTrue(colourspace.use_derived_transformation_matrices())
+        self.assertTrue(
+            self._colourspace.use_derived_transformation_matrices())
 
         np.testing.assert_almost_equal(
-            colourspace.RGB_to_XYZ_matrix,
+            self._colourspace.RGB_to_XYZ_matrix,
             np.array([
                 [0.95255240, 0.00000000, 0.00009368],
                 [0.34396645, 0.72816610, -0.07213255],
@@ -214,7 +293,7 @@ use_derived_transformation_matrices` method.
             ]),
             decimal=7)
         np.testing.assert_almost_equal(
-            colourspace.XYZ_to_RGB_matrix,
+            self._colourspace.XYZ_to_RGB_matrix,
             np.array([
                 [1.04981102, 0.00000000, -0.00009748],
                 [-0.49590302, 1.37331305, 0.09824004],
@@ -222,11 +301,11 @@ use_derived_transformation_matrices` method.
             ]),
             decimal=7)
 
-        colourspace.use_derived_RGB_to_XYZ_matrix = False
-        np.testing.assert_array_equal(colourspace.RGB_to_XYZ_matrix,
+        self._colourspace.use_derived_RGB_to_XYZ_matrix = False
+        np.testing.assert_array_equal(self._colourspace.RGB_to_XYZ_matrix,
                                       np.identity(3))
-        colourspace.use_derived_XYZ_to_RGB_matrix = False
-        np.testing.assert_array_equal(colourspace.XYZ_to_RGB_matrix,
+        self._colourspace.use_derived_XYZ_to_RGB_matrix = False
+        np.testing.assert_array_equal(self._colourspace.XYZ_to_RGB_matrix,
                                       np.identity(3))
 
 
