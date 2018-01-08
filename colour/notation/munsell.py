@@ -1088,7 +1088,11 @@ def munsell_specification_to_munsell_colour(specification,
         return MUNSELL_GRAY_EXTENDED_FORMAT.format(specification,
                                                    value_decimals)
     else:
-        hue, value, chroma, code = specification
+        rounding_decimals = (hue_decimals, value_decimals, chroma_decimals, 1)
+        hue, value, chroma, code = [
+            round(component, rounding_decimals[i])
+            for i, component in enumerate(specification)
+        ]
         code_values = MUNSELL_HUE_LETTER_CODES.values()
 
         assert 0 <= hue <= 10, (
@@ -1143,6 +1147,8 @@ def xyY_from_renotation(specification):
     >>> xyY_from_renotation((2.5, 0.2, 2.0, 4))  # doctest: +ELLIPSIS
     array([ 0.71...,  1.41...,  0.23...])
     """
+
+    specification = normalize_munsell_specification(specification)
 
     specifications = _munsell_specifications()
     try:
@@ -1407,6 +1413,8 @@ def interpolation_method_from_renotation_ovoid(specification):
     >>> interpolation_method_from_renotation_ovoid()  # doctest: +SKIP
     'Radial'
     """
+
+    specification = normalize_munsell_specification(specification)
 
     interpolation_methods = {0: None, 1: 'Linear', 2: 'Radial'}
     interpolation_method = 0
@@ -1699,6 +1707,8 @@ def xy_from_renotation_ovoid(specification):
     >>> xy_from_renotation_ovoid(8)  # doctest: +ELLIPSIS
     array([ 0.31006...,  0.31616...])
     """
+
+    specification = normalize_munsell_specification(specification)
 
     if is_grey_munsell_colour(specification):
         return MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES

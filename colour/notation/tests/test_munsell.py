@@ -4710,9 +4710,10 @@ class Test_xy_fromRenotationOvoid(unittest.TestCase):
 
         for i, specification in enumerate(MUNSELL_EVEN_SPECIFICATIONS):
             if is_specification_in_renotation(specification):
-                self.assertEqual(
+                np.testing.assert_array_almost_equal(
                     xy_from_renotation_ovoid(specification),
-                    MUNSELL_XY_FROM_RENOTATION_OVOID[i])
+                    MUNSELL_XY_FROM_RENOTATION_OVOID[i],
+                    decimal=7)
 
 
 class TestLCHabToMunsellSpecification(unittest.TestCase):
