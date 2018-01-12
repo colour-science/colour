@@ -76,9 +76,7 @@ def _generate_unit_tests_specifications():
     """
 
     from colour.notation import MUNSELL_COLOURS
-    from colour.notation.munsell import (
-        munsell_colour_to_munsell_specification, munsell_specification_to_xyY,
-        xyY_to_munsell_colour)
+    from colour.notation.munsell import xyY_to_munsell_colour
 
     np.random.seed(16)
 
@@ -1475,14 +1473,10 @@ interpolation_method_from_renotation_ovoid` definition unit tests methods.
 interpolation_method_from_renotation_ovoid` definition.
         """
 
-        im = []
         for i, (specification, _xyY) in enumerate(MUNSELL_EVEN_SPECIFICATIONS):
-            im.append(
-                interpolation_method_from_renotation_ovoid(specification))
-            # self.assertEqual(
-            #     interpolation_method_from_renotation_ovoid(specification),
-            #     MUNSELL_INTERPOLATION_METHODS[i])
-        print(im)
+            self.assertEqual(
+                interpolation_method_from_renotation_ovoid(specification),
+                MUNSELL_INTERPOLATION_METHODS[i])
 
 
 class Test_xy_fromRenotationOvoid(unittest.TestCase):
