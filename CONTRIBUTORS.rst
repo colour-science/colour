@@ -82,6 +82,7 @@ Special Mentions
 Issues & Discussions
 --------------------
 
+-   Joseph Goldstone
 -   Nick Porcino
 -   Nick Spiker
 -   @Chandler
