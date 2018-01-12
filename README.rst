@@ -574,7 +574,9 @@ Here is a list of notable colour science packages sorted by languages:
 
 **Matlab & Octave**
 
+- `COLORLAB <https://www.uv.es/vista/vistavalencia/software/colorlab.html>`_ by Malo, J., et al.
 - `Psychtoolbox <http://psychtoolbox.org/>`_ by Brainard, D., et al.
+- `The Munsell and Kubelka-Munk Toolbox <http://www.munsellcolourscienceforpainters.com/MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html>`_ by Centore, P.
 
 About
 -----
