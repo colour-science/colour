@@ -102,6 +102,7 @@ Issues & Discussions
 -   @peteroupc
 -   @sobotka
 -   @stakemura
+-   @tingeman
 -   @zachlewis
 
 About
