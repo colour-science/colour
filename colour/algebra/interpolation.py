@@ -1130,14 +1130,6 @@ class PchipInterpolator(scipy.interpolate.PchipInterpolator):
 
         return self._y
 
-    @y.setter
-    def y(self, value):
-        """
-        Setter for the **self.y** property.
-        """
-
-        raise AttributeError('"{0}" attribute is read only!'.format('y'))
-
 
 class NullInterpolator(object):
     """

@@ -7,9 +7,11 @@ matrix:
   - python: 3.6
     env:
     - PYTHON_VERSION="3.6"
+    - NUMPY_VERSION="1.13.3"
   - python: 2.7
     env:
     - PYTHON_VERSION="2.7"
+    - NUMPY_VERSION="1.13.3"
 
 notifications:
   slack: colour-science:Y6lPPcN7y53Js94geqUpqsAP
@@ -23,9 +25,10 @@ before_install:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
   - PACKAGES="python=${PYTHON_VERSION}"
-  - PACKAGES="${PACKAGES} scipy"; if [ ${SCIPY_VERSION} ]; then PACKAGES="${PACKAGES}=${SCIPY_VERSION}"; fi
-  - PACKAGES="${PACKAGES} pyqt"; if [ ${PYQT_VERSION} ]; then PACKAGES="${PACKAGES}=${PYQT_VERSION}"; fi
   - PACKAGES="${PACKAGES} matplotlib"; if [ ${MATPLOTLIB_VERSION} ]; then PACKAGES="${PACKAGES}=${MATPLOTLIB_VERSION}"; fi
+  - PACKAGES="${PACKAGES} numpy"; if [ ${NUMPY_VERSION} ]; then PACKAGES="${PACKAGES}=${NUMPY_VERSION}"; fi
+  - PACKAGES="${PACKAGES} pyqt"; if [ ${PYQT_VERSION} ]; then PACKAGES="${PACKAGES}=${PYQT_VERSION}"; fi
+  - PACKAGES="${PACKAGES} scipy"; if [ ${SCIPY_VERSION} ]; then PACKAGES="${PACKAGES}=${SCIPY_VERSION}"; fi
 
 install:
   - conda create --yes --quiet -n colour-test ${PACKAGES} pip setuptools nose

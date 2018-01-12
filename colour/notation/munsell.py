@@ -689,7 +689,7 @@ def xyY_to_munsell_specification(xyY):
     --------
     >>> xyY = np.array([0.38736945, 0.35751656, 0.59362000])
     >>> xyY_to_munsell_specification(xyY)  # doctest: +ELLIPSIS
-    (4.1742530..., 8.0999999..., 5.3044360..., 6)
+    (4.2000019..., 8.0999999..., 5.2999996..., 6)
     """
 
     if not is_within_macadam_limits(xyY, MUNSELL_DEFAULT_ILLUMINANT):
@@ -709,7 +709,7 @@ def xyY_to_munsell_specification(xyY):
         (x - x_center, y - y_center, Y_center))
     phi_input = np.degrees(phi_input)
 
-    grey_threshold = 0.001
+    grey_threshold = 1e-7
     if rho_input < grey_threshold:
         return value
 
@@ -728,7 +728,7 @@ def xyY_to_munsell_specification(xyY):
         hue_initial, value, (5 / 5.5) * chroma_initial, code_initial
     ]
 
-    convergence_threshold = 0.0001
+    convergence_threshold = 1e-7
     iterations_maximum = 64
     iterations = 0
 
@@ -1088,7 +1088,11 @@ def munsell_specification_to_munsell_colour(specification,
         return MUNSELL_GRAY_EXTENDED_FORMAT.format(specification,
                                                    value_decimals)
     else:
-        hue, value, chroma, code = specification
+        rounding_decimals = (hue_decimals, value_decimals, chroma_decimals, 1)
+        hue, value, chroma, code = [
+            round(component, rounding_decimals[i])
+            for i, component in enumerate(specification)
+        ]
         code_values = MUNSELL_HUE_LETTER_CODES.values()
 
         assert 0 <= hue <= 10, (
@@ -1143,6 +1147,8 @@ def xyY_from_renotation(specification):
     >>> xyY_from_renotation((2.5, 0.2, 2.0, 4))  # doctest: +ELLIPSIS
     array([ 0.71...,  1.41...,  0.23...])
     """
+
+    specification = normalize_munsell_specification(specification)
 
     specifications = _munsell_specifications()
     try:
@@ -1407,6 +1413,8 @@ def interpolation_method_from_renotation_ovoid(specification):
     >>> interpolation_method_from_renotation_ovoid()  # doctest: +SKIP
     'Radial'
     """
+
+    specification = normalize_munsell_specification(specification)
 
     interpolation_methods = {0: None, 1: 'Linear', 2: 'Radial'}
     interpolation_method = 0
@@ -1700,6 +1708,8 @@ def xy_from_renotation_ovoid(specification):
     array([ 0.31006...,  0.31616...])
     """
 
+    specification = normalize_munsell_specification(specification)
+
     if is_grey_munsell_colour(specification):
         return MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES
     else:
@@ -1726,7 +1736,7 @@ def xy_from_renotation_ovoid(specification):
 
         # Checking if renotation data is available without interpolation using
         # given threshold.
-        threshold = 0.001
+        threshold = 1e-7
         if (abs(hue) < threshold or abs(hue - 2.5) < threshold or
                 abs(hue - 5) < threshold or abs(hue - 7.5) < threshold or
                 abs(hue - 10) < threshold):

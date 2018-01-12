@@ -496,15 +496,6 @@ class Signal(AbstractContinuousFunction):
 
         return self._function
 
-    @function.setter
-    def function(self, value):
-        """
-        Setter for the **self.function** property.
-        """
-
-        raise AttributeError(
-            '"{0}" attribute is read only!'.format('function'))
-
     def __str__(self):
         """
         Returns a formatted string representation of the continuous signal.

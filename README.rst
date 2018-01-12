@@ -553,6 +553,31 @@ It is also viewable directly from the repository in either
 `BibTeX <https://github.com/colour-science/colour/blob/develop/BIBLIOGRAPHY.bib>`_
 format or `reStructuredText <https://github.com/colour-science/colour/blob/develop/BIBLIOGRAPHY.rst>`_.
 
+See Also
+--------
+
+Here is a list of notable colour science packages sorted by languages:
+
+**Python**
+
+- `ColorPy <http://markkness.net/colorpy/ColorPy.html>`_ by Kness, M.
+- `Colorspacious <http://colorspacious.readthedocs.io/>`_ by Smith, N. J., et al.
+- `python-colormath <http://python-colormath.readthedocs.io/>`_ by Taylor, G., et al.
+
+**.NET**
+
+- `Colourful <https://github.com/tompazourek/Colourful>`_ by Pažourek, T., et al.
+
+**Julia**
+
+- `Colors.jl <https://github.com/JuliaGraphics/Colors.jl>`_ by Holy, T., et al.
+
+**Matlab & Octave**
+
+- `COLORLAB <https://www.uv.es/vista/vistavalencia/software/colorlab.html>`_ by Malo, J., et al.
+- `Psychtoolbox <http://psychtoolbox.org/>`_ by Brainard, D., et al.
+- `The Munsell and Kubelka-Munk Toolbox <http://www.munsellcolourscienceforpainters.com/MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html>`_ by Centore, P.
+
 About
 -----
 

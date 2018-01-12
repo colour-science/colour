@@ -512,15 +512,6 @@ dict_like, optional
         if self._signals:
             return first_item(self._signals.values()).function
 
-    @function.setter
-    def function(self, value):
-        """
-        Setter for the **self.function** property.
-        """
-
-        raise AttributeError(
-            '"{0}" attribute is read only!'.format('function'))
-
     @property
     def signals(self):
         """
