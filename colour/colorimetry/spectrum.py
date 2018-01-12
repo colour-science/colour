@@ -736,14 +736,6 @@ dict_like, optional
             min(self.wavelengths),
             max(self.wavelengths), as_numeric(min(wavelengths_interval)))
 
-    @shape.setter
-    def shape(self, value):
-        """
-        Setter for the **self.shape** property.
-        """
-
-        raise AttributeError('"{0}" attribute is read only!'.format('shape'))
-
     def extrapolate(self, shape, extrapolator=None, extrapolator_args=None):
         """
         Extrapolates the spectral power distribution in-place according to
@@ -1709,19 +1701,6 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
 
         if self.signals:
             return first_item(self._signals.values()).shape
-
-    @shape.setter
-    def shape(self, value):
-        """
-        Setter for **self.shape** attribute.
-
-        Parameters
-        ----------
-        value : object
-            Attribute value.
-        """
-
-        raise AttributeError('"{0}" attribute is read only!'.format('shape'))
 
     def extrapolate(self, shape, extrapolator=None, extrapolator_args=None):
         """

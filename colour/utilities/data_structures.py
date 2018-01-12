@@ -274,14 +274,6 @@ blob/v1.2.3/requests/structures.py#L37
 
         return self._data
 
-    @data.setter
-    def data(self, value):
-        """
-        Setter for the **self.data** property.
-        """
-
-        raise AttributeError('"{0}" attribute is read only!'.format('data'))
-
     def __setitem__(self, item, value):
         """
         Sets given item with given value.

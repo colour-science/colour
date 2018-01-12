@@ -43,9 +43,9 @@ IES_TM2714_NAMESPACE = 'http://www.ies.org/iestm2714'
 
 
 class IES_TM2714_ElementSpecification(
-        namedtuple('IES_TM2714_ElementSpecification',
-                   ('element', 'attribute', 'type', 'required',
-                    'read_conversion', 'write_conversion'))):
+    namedtuple('IES_TM2714_ElementSpecification',
+               ('element', 'attribute', 'type', 'required',
+                'read_conversion', 'write_conversion'))):
     """
     *IES TM-27-14* spectral data XML file element specification.
 
@@ -74,7 +74,7 @@ class IES_TM2714_ElementSpecification(
                 required=False,
                 read_conversion=format,
                 write_conversion=(
-                    lambda x: format(x) if x is not None else 'N/A')):
+                        lambda x: format(x) if x is not None else 'N/A')):
         """
         Returns a new instance of the :class:`IES_TM2714_Element` class.
         """
@@ -159,27 +159,27 @@ class IES_TM2714_Header(object):
             'elements': (IES_TM2714_ElementSpecification(
                 'Manufacturer',
                 'manufacturer'), IES_TM2714_ElementSpecification(
-                    'CatalogNumber',
-                    'catalog_number'), IES_TM2714_ElementSpecification(
-                        'Description', 'description',
-                        required=True), IES_TM2714_ElementSpecification(
-                            'DocumentCreator',
-                            'document_creator',
-                            required=True), IES_TM2714_ElementSpecification(
-                                'UniqueIdentifier', 'unique_identifier'),
+                'CatalogNumber',
+                'catalog_number'), IES_TM2714_ElementSpecification(
+                'Description', 'description',
+                required=True), IES_TM2714_ElementSpecification(
+                'DocumentCreator',
+                'document_creator',
+                required=True), IES_TM2714_ElementSpecification(
+                'UniqueIdentifier', 'unique_identifier'),
                          IES_TM2714_ElementSpecification(
                              'MeasurementEquipment', 'measurement_equipment'),
                          IES_TM2714_ElementSpecification(
                              'Laboratory',
                              'laboratory'), IES_TM2714_ElementSpecification(
-                                 'ReportNumber', 'report_number'),
+                'ReportNumber', 'report_number'),
                          IES_TM2714_ElementSpecification(
                              'ReportDate', 'report_date'),
                          IES_TM2714_ElementSpecification(
                              'DocumentCreationDate',
                              'document_creation_date',
                              required=True), IES_TM2714_ElementSpecification(
-                                 'Comments', 'comments', False))
+                'Comments', 'comments', False))
         })
 
         self._manufacturer = None
@@ -222,14 +222,6 @@ class IES_TM2714_Header(object):
         """
 
         return self._mapping
-
-    @mapping.setter
-    def mapping(self, value):
-        """
-        Setter for the **self.mapping** property.
-        """
-
-        raise AttributeError('"{0}" attribute is read only!'.format('mapping'))
 
     @property
     def manufacturer(self):
@@ -667,13 +659,13 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
                 IES_TM2714_ElementSpecification(
                     'SpectralQuantity', 'spectral_quantity',
                     required=True), IES_TM2714_ElementSpecification(
-                        'ReflectionGeometry', 'reflection_geometry'),
+                    'ReflectionGeometry', 'reflection_geometry'),
                 IES_TM2714_ElementSpecification(
                     'TransmissionGeometry',
                     'transmission_geometry'), IES_TM2714_ElementSpecification(
-                        'BandwidthFWHM',
-                        'bandwidth_FWHM',
-                        read_conversion=DEFAULT_FLOAT_DTYPE),
+                    'BandwidthFWHM',
+                    'bandwidth_FWHM',
+                    read_conversion=DEFAULT_FLOAT_DTYPE),
                 IES_TM2714_ElementSpecification(
                     'BandwidthCorrected',
                     'bandwidth_corrected',
@@ -717,14 +709,6 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
         """
 
         return self._mapping
-
-    @mapping.setter
-    def mapping(self, value):
-        """
-        Setter for the **self.mapping** property.
-        """
-
-        raise AttributeError('"{0}" attribute is read only!'.format('mapping'))
 
     @property
     def path(self):
@@ -990,7 +974,7 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
                 '{{{0}}}{1}'.format(namespace, self.mapping.data.element)):
             wavelengths.append(
                 DEFAULT_FLOAT_DTYPE(spectral_data.attrib[
-                    self.mapping.data.attribute]))
+                                        self.mapping.data.attribute]))
             values.append(DEFAULT_FLOAT_DTYPE(spectral_data.text))
 
         self.wavelengths = wavelengths
