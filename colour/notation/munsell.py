@@ -689,7 +689,7 @@ def xyY_to_munsell_specification(xyY):
     --------
     >>> xyY = np.array([0.38736945, 0.35751656, 0.59362000])
     >>> xyY_to_munsell_specification(xyY)  # doctest: +ELLIPSIS
-    (4.1742530..., 8.0999999..., 5.3044360..., 6)
+    (4.2000019..., 8.0999999..., 5.2999996..., 6)
     """
 
     if not is_within_macadam_limits(xyY, MUNSELL_DEFAULT_ILLUMINANT):
