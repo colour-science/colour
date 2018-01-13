@@ -16,7 +16,7 @@ References
 from __future__ import division, unicode_literals
 
 from colour.colorimetry.spectrum import SpectralPowerDistribution
-from colour.utilities import CaseInsensitiveMapping
+from colour.utilities import CaseInsensitiveMapping, filter_warnings
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -114,6 +114,15 @@ SMITS_1999_SPDS_DATA = {
     }
 }
 
+filter_warnings(True)
+"""
+Filtering warnings issued by Smits (1999) non-uniform wavelengths distribution.
+Using `np.linspace(380, 720, 10)` does not solve the issue:
+
+>>> colour.utilities.interval(np.linspace(380, 720, 10))
+array([ 37.77777778,  37.77777778,  37.77777778])
+"""
+
 SMITS_1999_SPDS = CaseInsensitiveMapping({
     'white':
         SpectralPowerDistribution(
@@ -149,3 +158,6 @@ SMITS_1999_SPDS = CaseInsensitiveMapping({
 
 SMITS_1999_SPDS : CaseInsensitiveMapping
 """
+
+# Restoring warnings original state.
+filter_warnings(False)
