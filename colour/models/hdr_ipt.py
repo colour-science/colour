@@ -44,7 +44,17 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['exponent_hdr_IPT', 'XYZ_to_hdr_IPT', 'hdr_IPT_to_XYZ']
+__all__ = [
+    'HDR_IPT_METHODS', 'exponent_hdr_IPT', 'XYZ_to_hdr_IPT', 'hdr_IPT_to_XYZ'
+]
+
+HDR_IPT_METHODS = ('Fairchild 2010', 'Fairchild 2011')
+"""
+Supported *hdr-IPT* colourspace computation methods.
+
+HDR_IPT_METHODS : tuple
+    **{'Fairchild 2011', 'Fairchild 2010'}**
+"""
 
 
 def exponent_hdr_IPT(Y_s, Y_abs, method='Fairchild 2011'):
@@ -80,7 +90,13 @@ def exponent_hdr_IPT(Y_s, Y_abs, method='Fairchild 2011'):
     Y_s = np.asarray(Y_s)
     Y_abs = np.asarray(Y_abs)
 
-    if method.lower() == 'fairchild 2010':
+    method_l = method.lower()
+    assert method.lower() in [
+        m.lower() for m in HDR_IPT_METHODS
+    ], ('"{0}" method is invalid, must be one of {1}!'.format(
+        method, HDR_IPT_METHODS))
+
+    if method_l == 'fairchild 2010':
         epsilon = 1.38
     else:
         epsilon = 0.59
@@ -128,7 +144,13 @@ def XYZ_to_hdr_IPT(XYZ, Y_s=0.2, Y_abs=100, method='Fairchild 2011'):
     array([ 94.6592917...,   0.3804177...,  -0.2673118...])
     """
 
-    if method.lower() == 'fairchild 2010':
+    method_l = method.lower()
+    assert method.lower() in [
+        m.lower() for m in HDR_IPT_METHODS
+    ], ('"{0}" method is invalid, must be one of {1}!'.format(
+        method, HDR_IPT_METHODS))
+
+    if method_l == 'fairchild 2010':
         lightness_callable = lightness_Fairchild2010
     else:
         lightness_callable = lightness_Fairchild2011
@@ -175,7 +197,13 @@ def hdr_IPT_to_XYZ(IPT_hdr, Y_s=0.2, Y_abs=100, method='Fairchild 2011'):
     array([ 0.9690723...,  1.        ,  1.1217921...])
     """
 
-    if method.lower() == 'fairchild 2010':
+    method_l = method.lower()
+    assert method.lower() in [
+        m.lower() for m in HDR_IPT_METHODS
+    ], ('"{0}" method is invalid, must be one of {1}!'.format(
+        method, HDR_IPT_METHODS))
+
+    if method_l == 'fairchild 2010':
         luminance_callable = luminance_Fairchild2010
     else:
         luminance_callable = luminance_Fairchild2011

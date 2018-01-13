@@ -43,7 +43,18 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['exponent_hdr_CIELab', 'XYZ_to_hdr_CIELab', 'hdr_CIELab_to_XYZ']
+__all__ = [
+    'HDR_CIELAB_METHODS', 'exponent_hdr_CIELab', 'XYZ_to_hdr_CIELab',
+    'hdr_CIELab_to_XYZ'
+]
+
+HDR_CIELAB_METHODS = ('Fairchild 2010', 'Fairchild 2011')
+"""
+Supported *hdr-CIELAB* colourspace computation methods.
+
+HDR_CIELAB_METHODS : tuple
+    **{'Fairchild 2011', 'Fairchild 2010'}**
+"""
 
 
 def exponent_hdr_CIELab(Y_s, Y_abs, method='Fairchild 2011'):
@@ -79,7 +90,13 @@ def exponent_hdr_CIELab(Y_s, Y_abs, method='Fairchild 2011'):
     Y_s = np.asarray(Y_s)
     Y_abs = np.asarray(Y_abs)
 
-    if method.lower() == 'fairchild 2010':
+    method_l = method.lower()
+    assert method.lower() in [
+        m.lower() for m in HDR_CIELAB_METHODS
+    ], ('"{0}" method is invalid, must be one of {1}!'.format(
+        method, HDR_CIELAB_METHODS))
+
+    if method_l == 'fairchild 2010':
         epsilon = 1.50
     else:
         epsilon = 0.58
@@ -146,7 +163,13 @@ def XYZ_to_hdr_CIELab(
     X, Y, Z = tsplit(XYZ)
     X_n, Y_n, Z_n = tsplit(xyY_to_XYZ(xy_to_xyY(illuminant)))
 
-    if method.lower() == 'fairchild 2010':
+    method_l = method.lower()
+    assert method.lower() in [
+        m.lower() for m in HDR_CIELAB_METHODS
+    ], ('"{0}" method is invalid, must be one of {1}!'.format(
+        method, HDR_CIELAB_METHODS))
+
+    if method_l == 'fairchild 2010':
         lightness_callable = lightness_Fairchild2010
     else:
         lightness_callable = lightness_Fairchild2011
@@ -212,7 +235,13 @@ def hdr_CIELab_to_XYZ(
     L_hdr, a_hdr, b_hdr = tsplit(Lab_hdr)
     X_n, Y_n, Z_n = tsplit(xyY_to_XYZ(xy_to_xyY(illuminant)))
 
-    if method.lower() == 'fairchild 2010':
+    method_l = method.lower()
+    assert method.lower() in [
+        m.lower() for m in HDR_CIELAB_METHODS
+    ], ('"{0}" method is invalid, must be one of {1}!'.format(
+        method, HDR_CIELAB_METHODS))
+
+    if method_l == 'fairchild 2010':
         luminance_callable = luminance_Fairchild2010
     else:
         luminance_callable = luminance_Fairchild2011
