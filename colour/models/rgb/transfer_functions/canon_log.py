@@ -69,7 +69,7 @@ def log_encoding_CanonLog(x, bit_depth=10, out_legal=True, in_reflection=True):
     bit_depth : int, optional
         Bit depth used for conversion.
     out_legal : bool, optional
-        Whether the *Canon Log* non-linear *IRE* data is encoded in legal
+        Whether the *Canon Log* non-linear data is encoded in legal
         range.
     in_reflection : bool, optional
         Whether the light level :math`x` to a camera is reflection.
@@ -77,12 +77,12 @@ def log_encoding_CanonLog(x, bit_depth=10, out_legal=True, in_reflection=True):
     Returns
     -------
     numeric or ndarray
-        *Canon Log* non-linear *IRE* data.
+        *Canon Log* non-linear data.
 
     Examples
     --------
     >>> log_encoding_CanonLog(0.18) * 100  # doctest: +ELLIPSIS
-    32.7953896...
+    34.3389651...
     """
 
     x = np.asarray(x)
@@ -90,16 +90,16 @@ def log_encoding_CanonLog(x, bit_depth=10, out_legal=True, in_reflection=True):
     if in_reflection:
         x = x / 0.9
 
-    clog_ire = np.where(x < log_decoding_CanonLog(0.0730597),
-                        -(0.529136 * (np.log10(-x * 10.1596 + 1)) - 0.0730597),
-                        0.529136 * np.log10(10.1596 * x + 1) + 0.0730597)
+    clog = np.where(x < log_decoding_CanonLog(0.0730597, bit_depth, False),
+                    -(0.529136 * (np.log10(-x * 10.1596 + 1)) - 0.0730597),
+                    0.529136 * np.log10(10.1596 * x + 1) + 0.0730597)
 
-    clog_ire = clog_ire if out_legal else legal_to_full(clog_ire, bit_depth)
+    clog = full_to_legal(clog, bit_depth) if out_legal else clog
 
-    return as_numeric(clog_ire)
+    return as_numeric(clog)
 
 
-def log_decoding_CanonLog(clog_ire,
+def log_decoding_CanonLog(clog,
                           bit_depth=10,
                           in_legal=True,
                           out_reflection=True):
@@ -109,12 +109,12 @@ def log_decoding_CanonLog(clog_ire,
 
     Parameters
     ----------
-    clog_ire : numeric or array_like
-        *Canon Log* non-linear *IRE* data.
+    clog : numeric or array_like
+        *Canon Log* non-linear data.
     bit_depth : int, optional
         Bit depth used for conversion.
     in_legal : bool, optional
-        Whether the *Canon Log* non-linear *IRE* data is encoded in legal
+        Whether the *Canon Log* non-linear data is encoded in legal
         range.
     out_reflection : bool, optional
         Whether the light level :math`x` to a camera is reflection.
@@ -126,17 +126,17 @@ def log_decoding_CanonLog(clog_ire,
 
     Examples
     --------
-    >>> log_decoding_CanonLog(32.795389693580908 / 100)  # doctest: +ELLIPSIS
+    >>> log_decoding_CanonLog(34.338965172606912 / 100)  # doctest: +ELLIPSIS
     0.17999999...
     """
 
-    clog_ire = np.asarray(clog_ire)
+    clog = np.asarray(clog)
 
-    clog_ire = clog_ire if in_legal else full_to_legal(clog_ire, bit_depth)
+    clog = legal_to_full(clog, bit_depth) if in_legal else clog
 
-    x = np.where(clog_ire < 0.0730597,
-                 -(10 ** ((0.0730597 - clog_ire) / 0.529136) - 1) / 10.1596,
-                 (10 ** ((clog_ire - 0.0730597) / 0.529136) - 1) / 10.1596)
+    x = np.where(clog < 0.0730597,
+                 -(10 ** ((0.0730597 - clog) / 0.529136) - 1) / 10.1596,
+                 (10 ** ((clog - 0.0730597) / 0.529136) - 1) / 10.1596)
 
     if out_reflection:
         x = x * 0.9
@@ -157,7 +157,7 @@ def log_encoding_CanonLog2(x, bit_depth=10, out_legal=True,
     bit_depth : int, optional
         Bit depth used for conversion.
     out_legal : bool, optional
-        Whether the *Canon Log 2* non-linear *IRE* data is encoded in legal
+        Whether the *Canon Log 2* non-linear data is encoded in legal
         range.
     in_reflection : bool, optional
         Whether the light level :math`x` to a camera is reflection.
@@ -165,12 +165,12 @@ def log_encoding_CanonLog2(x, bit_depth=10, out_legal=True,
     Returns
     -------
     numeric or ndarray
-        *Canon Log 2* non-linear *IRE* data.
+        *Canon Log 2* non-linear data.
 
     Examples
     --------
     >>> log_encoding_CanonLog2(0.18) * 100  # doctest: +ELLIPSIS
-    39.2025745...
+    39.8254694...
     """
 
     x = np.asarray(x)
@@ -178,17 +178,17 @@ def log_encoding_CanonLog2(x, bit_depth=10, out_legal=True,
     if in_reflection:
         x = x / 0.9
 
-    clog2_ire = np.where(
-        x < log_decoding_CanonLog2(0.035388128),
-        -(0.281863093 * (np.log10(-x * 87.09937546 + 1)) - 0.035388128),
-        0.281863093 * np.log10(x * 87.09937546 + 1) + 0.035388128)
+    clog2 = np.where(x < log_decoding_CanonLog2(0.035388128, bit_depth, False),
+                     -(0.281863093 *
+                       (np.log10(-x * 87.09937546 + 1)) - 0.035388128),
+                     0.281863093 * np.log10(x * 87.09937546 + 1) + 0.035388128)
 
-    clog2_ire = clog2_ire if out_legal else legal_to_full(clog2_ire, bit_depth)
+    clog2 = full_to_legal(clog2, bit_depth) if out_legal else clog2
 
-    return as_numeric(clog2_ire)
+    return as_numeric(clog2)
 
 
-def log_decoding_CanonLog2(clog2_ire,
+def log_decoding_CanonLog2(clog2,
                            bit_depth=10,
                            in_legal=True,
                            out_reflection=True):
@@ -198,12 +198,12 @@ def log_decoding_CanonLog2(clog2_ire,
 
     Parameters
     ----------
-    clog2_ire : numeric or array_like
-        *Canon Log 2* non-linear *IRE* data.
+    clog2 : numeric or array_like
+        *Canon Log 2* non-linear data.
     bit_depth : int, optional
         Bit depth used for conversion.
     in_legal : bool, optional
-        Whether the *Canon Log 2* non-linear *IRE* data is encoded in legal
+        Whether the *Canon Log 2* non-linear data is encoded in legal
         range.
     out_reflection : bool, optional
         Whether the light level :math`x` to a camera is reflection.
@@ -215,18 +215,19 @@ def log_decoding_CanonLog2(clog2_ire,
 
     Examples
     --------
-    >>> log_decoding_CanonLog2(39.202574539700947 / 100)  # doctest: +ELLIPSIS
-    0.1800000...
+    >>> log_decoding_CanonLog2(39.825469498316735 / 100)  # doctest: +ELLIPSIS
+    0.1799999...
     """
 
-    clog2_ire = np.asarray(clog2_ire)
+    clog2 = np.asarray(clog2)
 
-    clog2_ire = clog2_ire if in_legal else full_to_legal(clog2_ire, bit_depth)
+    clog2 = legal_to_full(clog2, bit_depth) if in_legal else clog2
 
-    x = np.where(
-        clog2_ire < 0.035388128,
-        -(10 ** ((0.035388128 - clog2_ire) / 0.281863093) - 1) / 87.09937546,
-        (10 ** ((clog2_ire - 0.035388128) / 0.281863093) - 1) / 87.09937546)
+    x = np.where(clog2 < 0.035388128,
+                 -(10 **
+                   ((0.035388128 - clog2) / 0.281863093) - 1) / 87.09937546,
+                 (10 **
+                  ((clog2 - 0.035388128) / 0.281863093) - 1) / 87.09937546)
 
     if out_reflection:
         x = x * 0.9
@@ -247,7 +248,7 @@ def log_encoding_CanonLog3(x, bit_depth=10, out_legal=True,
     bit_depth : int, optional
         Bit depth used for conversion.
     out_legal : bool, optional
-        Whether the *Canon Log 3* non-linear *IRE* data is encoded in legal
+        Whether the *Canon Log 3* non-linear data is encoded in legal
         range.
     in_reflection : bool, optional
         Whether the light level :math`x` to a camera is reflection.
@@ -255,12 +256,12 @@ def log_encoding_CanonLog3(x, bit_depth=10, out_legal=True,
     Returns
     -------
     numeric or ndarray
-        *Canon Log 3* non-linear *IRE* data.
+        *Canon Log 3* non-linear data.
 
     Examples
     --------
     >>> log_encoding_CanonLog3(0.18) * 100  # doctest: +ELLIPSIS
-    32.7953567...
+    34.3389369...
     """
 
     x = np.asarray(x)
@@ -268,20 +269,20 @@ def log_encoding_CanonLog3(x, bit_depth=10, out_legal=True,
     if in_reflection:
         x = x / 0.9
 
-    clog3_ire = np.select(
-        (x < log_decoding_CanonLog3(0.04076162),
-         x <= log_decoding_CanonLog3(0.105357102),
-         x > log_decoding_CanonLog3(0.105357102)),
+    clog3 = np.select(
+        (x < log_decoding_CanonLog3(0.04076162, bit_depth, False, False),
+         x <= log_decoding_CanonLog3(0.105357102, bit_depth, False, False),
+         x > log_decoding_CanonLog3(0.105357102, bit_depth, False, False)),
         (-(0.42889912 * (np.log10(-x * 14.98325 + 1)) - 0.069886632),
          2.3069815 * x + 0.073059361,
          0.42889912 * np.log10(x * 14.98325 + 1) + 0.069886632))
 
-    clog3_ire = clog3_ire if out_legal else legal_to_full(clog3_ire, bit_depth)
+    clog3 = full_to_legal(clog3, bit_depth) if out_legal else clog3
 
-    return as_numeric(clog3_ire)
+    return as_numeric(clog3)
 
 
-def log_decoding_CanonLog3(clog3_ire,
+def log_decoding_CanonLog3(clog3,
                            bit_depth=10,
                            in_legal=True,
                            out_reflection=True):
@@ -291,12 +292,12 @@ def log_decoding_CanonLog3(clog3_ire,
 
     Parameters
     ----------
-    clog3_ire : numeric or array_like
-        *Canon Log 3* non-linear *IRE* data.
+    clog3 : numeric or array_like
+        *Canon Log 3* non-linear data.
     bit_depth : int, optional
         Bit depth used for conversion.
     in_legal : bool, optional
-        Whether the *Canon Log 3* non-linear *IRE* data is encoded in legal
+        Whether the *Canon Log 3* non-linear data is encoded in legal
         range.
     out_reflection : bool, optional
         Whether the light level :math`x` to a camera is reflection.
@@ -308,20 +309,19 @@ def log_decoding_CanonLog3(clog3_ire,
 
     Examples
     --------
-    >>> log_decoding_CanonLog3(32.795356721989336 / 100)  # doctest: +ELLIPSIS
+    >>> log_decoding_CanonLog3(34.338936938868677 / 100)  # doctest: +ELLIPSIS
     0.1800000...
     """
 
-    clog3_ire = np.asarray(clog3_ire)
+    clog3 = np.asarray(clog3)
 
-    clog3_ire = clog3_ire if in_legal else full_to_legal(clog3_ire, bit_depth)
+    clog3 = legal_to_full(clog3, bit_depth) if in_legal else clog3
 
     x = np.select(
-        (clog3_ire < 0.04076162, clog3_ire <= 0.105357102,
-         clog3_ire > 0.105357102),
-        (-(10 ** ((0.069886632 - clog3_ire) / 0.42889912) - 1) / 14.98325,
-         (clog3_ire - 0.073059361) / 2.3069815,
-         (10 ** ((clog3_ire - 0.069886632) / 0.42889912) - 1) / 14.98325))
+        (clog3 < 0.04076162, clog3 <= 0.105357102, clog3 > 0.105357102),
+        (-(10 ** ((0.069886632 - clog3) / 0.42889912) - 1) / 14.98325,
+         (clog3 - 0.073059361) / 2.3069815,
+         (10 ** ((clog3 - 0.069886632) / 0.42889912) - 1) / 14.98325))
 
     if out_reflection:
         x = x * 0.9
