@@ -17,6 +17,8 @@ The following methods are available:
     *Lightness* :math:`L^*` as per *CIE 1976* recommendation.
 -   :func:`luminance_Fairchild2010`: *luminance* :math:`Y` computation of given
     *Lightness* :math:`L_{hdr}` using *Fairchild and Wyble (2010)* method.
+-   :func:`luminance_Fairchild2011`: *luminance* :math:`Y` computation of given
+    *Lightness* :math:`L_{hdr}` using *Fairchild and Chen (2011)* method.
 
 See Also
 --------
@@ -42,7 +44,8 @@ __status__ = 'Production'
 
 __all__ = [
     'luminance_Newhall1943', 'luminance_ASTMD153508', 'luminance_CIE1976',
-    'luminance_Fairchild2010', 'LUMINANCE_METHODS', 'luminance'
+    'luminance_Fairchild2010', 'luminance_Fairchild2011', 'LUMINANCE_METHODS',
+    'luminance'
 ]
 
 
@@ -175,7 +178,7 @@ def luminance_CIE1976(Lstar, Y_n=100):
     return Y
 
 
-def luminance_Fairchild2010(L_hdr, epsilon=2):
+def luminance_Fairchild2010(L_hdr, epsilon=1.836):
     """
     Computes *luminance* :math:`Y` of given *Lightness* :math:`L_{hdr}` using
     *Fairchild and Wyble (2010)* method according to *Michealis-Menten*
@@ -225,11 +228,71 @@ def luminance_Fairchild2010(L_hdr, epsilon=2):
     return Y
 
 
+def luminance_Fairchild2011(L_hdr, epsilon=0.710, method='hdr-CIELAB'):
+    """
+    Computes *luminance* :math:`Y` of given *Lightness* :math:`L_{hdr}` using
+    *Fairchild and Chen (2011)* method accordingly to *Michealis-Menten*
+    kinetics.
+
+    Parameters
+    ----------
+    L_hdr : array_like
+        *Lightness* :math:`L_{hdr}`.
+    epsilon : numeric or array_like, optional
+        :math:`\epsilon` exponent.
+    method : unicode, optional
+        **{'hdr-CIELAB', 'hdr-IPT'}**,
+        *Lightness* :math:`L_{hdr}` computation method.
+
+    Returns
+    -------
+    array_like
+        *luminance* :math:`Y`.
+
+    Warning
+    -------
+    The output range of that definition is non standard!
+
+    Notes
+    -----
+    -   Output *luminance* :math:`Y` is in range [0, math:`\infty`].
+
+    References
+    ----------
+    .. [5]  Fairchild, M. D., & Chen, P. (2011). Brightness, Lightness, and
+            Specifying Color in High-Dynamic-Range Scenes and Images.
+            doi:10.1117/12.872075
+
+    Examples
+    --------
+    >>> luminance_Fairchild2011(26.459509817572265)  # doctest: +ELLIPSIS
+    0.1007999...
+    >>> luminance_Fairchild2011(26.352467267703549, method='hdr-IPT')
+    ... # doctest: +ELLIPSIS
+    0.1007999...
+    """
+
+    L_hdr = np.asarray(L_hdr)
+
+    if method.lower() == 'hdr-cielab':
+        maximum_perception = 247
+    else:
+        maximum_perception = 246
+
+    Y = np.exp(
+        np.log(
+            substrate_concentration_MichealisMenten(
+                L_hdr - 0.02, maximum_perception, 2 ** epsilon)) / epsilon)
+
+    return Y
+
+
 LUMINANCE_METHODS = CaseInsensitiveMapping({
     'Newhall 1943': luminance_Newhall1943,
     'ASTM D1535-08': luminance_ASTMD153508,
     'CIE 1976': luminance_CIE1976,
-    'Fairchild 2010': luminance_Fairchild2010
+    'Fairchild 2010': luminance_Fairchild2010,
+    'Fairchild 2011': luminance_Fairchild2011
 })
 """
 Supported *luminance* computations methods.
@@ -256,7 +319,8 @@ def luminance(LV, method='CIE 1976', **kwargs):
     LV : numeric or array_like
         *Lightness* :math:`L^*` or *Munsell* value :math:`V`.
     method : unicode, optional
-        **{'CIE 1976', 'Newhall 1943', 'ASTM D1535-08', 'Fairchild 2010'}**,
+        **{'CIE 1976', 'Newhall 1943', 'ASTM D1535-08', 'Fairchild 2010',
+        'Fairchild 2011'}**,
         Computation method.
 
     Other Parameters
@@ -265,7 +329,7 @@ def luminance(LV, method='CIE 1976', **kwargs):
         {:func:`luminance_CIE1976`},
         White reference *luminance* :math:`Y_n`.
     epsilon : numeric or array_like, optional
-        {:func:`lightness_Fairchild2010`},
+        {:func:`lightness_Fairchild2010`, :func:`lightness_Fairchild2011`},
         :math:`\epsilon` exponent.
 
     Returns
