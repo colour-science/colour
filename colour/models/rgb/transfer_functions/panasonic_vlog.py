@@ -26,6 +26,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
 from colour.utilities import Structure, as_numeric
 
 __author__ = 'Colour Developers'
@@ -46,7 +47,7 @@ VLOG_CONSTANTS : Structure
 """
 
 
-def log_encoding_VLog(L_in):
+def log_encoding_VLog(L_in, bit_depth=10, out_legal=True, in_reflection=True):
     """
     Defines the *Panasonic V-Log* log encoding curve / opto-electronic transfer
     function.
@@ -55,6 +56,13 @@ def log_encoding_VLog(L_in):
     ----------
     L_in : numeric or array_like
         Linear reflection data :math`L_{in}`.
+    bit_depth : int, optional
+        Bit depth used for conversion.
+    out_legal : bool, optional
+        Whether the non-linear *Panasonic V-Log* data :math:`V_{out}` is
+        encoded in legal range.
+    in_reflection : bool, optional
+        Whether the light level :math`L_{in}` to a camera is reflection.
 
     Returns
     -------
@@ -69,18 +77,23 @@ def log_encoding_VLog(L_in):
 
     L_in = np.asarray(L_in)
 
+    if not in_reflection:
+        L_in = L_in * 0.9
+
     cut1 = VLOG_CONSTANTS.cut1
     b = VLOG_CONSTANTS.b
     c = VLOG_CONSTANTS.c
     d = VLOG_CONSTANTS.d
 
-    L_in = np.where(L_in < cut1, 5.6 * L_in + 0.125,
-                    c * np.log10(L_in + b) + d)
+    V_out = np.where(L_in < cut1, 5.6 * L_in + 0.125,
+                     c * np.log10(L_in + b) + d)
 
-    return as_numeric(L_in)
+    V_out = V_out if out_legal else legal_to_full(V_out, bit_depth)
+
+    return as_numeric(V_out)
 
 
-def log_decoding_VLog(V_out):
+def log_decoding_VLog(V_out, bit_depth=10, in_legal=True, out_reflection=True):
     """
     Defines the *Panasonic V-Log* log decoding curve / electro-optical transfer
     function.
@@ -89,6 +102,13 @@ def log_decoding_VLog(V_out):
     ----------
     V_out : numeric or array_like
         Non-linear data :math:`V_{out}`.
+    bit_depth : int, optional
+        Bit depth used for conversion.
+    in_legal : bool, optional
+        Whether the non-linear *Panasonic V-Log* data :math:`V_{out}` is
+        encoded in legal range.
+    out_reflection : bool, optional
+        Whether the light level :math`L_{in}` to a camera is reflection.
 
     Returns
     -------
@@ -103,12 +123,17 @@ def log_decoding_VLog(V_out):
 
     V_out = np.asarray(V_out)
 
+    V_out = V_out if in_legal else full_to_legal(V_out, bit_depth)
+
     cut2 = VLOG_CONSTANTS.cut2
     b = VLOG_CONSTANTS.b
     c = VLOG_CONSTANTS.c
     d = VLOG_CONSTANTS.d
 
-    V_out = np.where(V_out < cut2, (V_out - 0.125) / 5.6,
-                     np.power(10, ((V_out - d) / c)) - b)
+    L_in = np.where(V_out < cut2, (V_out - 0.125) / 5.6,
+                    np.power(10, ((V_out - d) / c)) - b)
 
-    return as_numeric(V_out)
+    if not out_reflection:
+        L_in = L_in / 0.9
+
+    return as_numeric(L_in)
