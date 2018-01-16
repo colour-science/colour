@@ -258,6 +258,19 @@ def log_encoding_CanonLog3(x, bit_depth=10, out_legal=True,
     numeric or ndarray
         *Canon Log 3* non-linear data.
 
+    Notes
+    -----
+    -   Introspection of the grafting points by Shaw, N. (2018) shows that the
+        *Canon Log 3* IDT was likely derived from its encoding curve as the
+        later is grafted at *+/-0.014*::
+
+            >>> clog3 = 0.04076162
+            >>> (clog3 - 0.073059361) / 2.3069815
+            -0.014000000000000002
+            >>> clog3 = 0.105357102
+            >>> (clog3 - 0.073059361) / 2.3069815
+            0.013999999999999997
+
     Examples
     --------
     >>> log_encoding_CanonLog3(0.18) * 100  # doctest: +ELLIPSIS
