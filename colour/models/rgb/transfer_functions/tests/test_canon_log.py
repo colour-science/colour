@@ -339,7 +339,7 @@ log_encoding_CanonLog3` definition.
         """
 
         self.assertAlmostEqual(
-            log_encoding_CanonLog3(-0.1), -0.033928153396080, places=7)
+            log_encoding_CanonLog3(-0.1), -0.028494506076432, places=7)
 
         self.assertAlmostEqual(
             log_encoding_CanonLog3(0.0), 0.125122189869013, places=7)
@@ -413,7 +413,7 @@ log_decoding_CanonLog3` definition.
         """
 
         self.assertAlmostEqual(
-            log_decoding_CanonLog3(-0.033928153396080), -0.1, places=7)
+            log_decoding_CanonLog3(-0.028494506076432), -0.1, places=7)
 
         self.assertAlmostEqual(
             log_decoding_CanonLog3(0.125122189869013), 0.0, places=7)

@@ -273,7 +273,7 @@ def log_encoding_CanonLog3(x, bit_depth=10, out_legal=True,
         (x < log_decoding_CanonLog3(0.04076162, bit_depth, False, False),
          x <= log_decoding_CanonLog3(0.105357102, bit_depth, False, False),
          x > log_decoding_CanonLog3(0.105357102, bit_depth, False, False)),
-        (-(0.42889912 * (np.log10(-x * 14.98325 + 1)) - 0.069886632),
+        (-0.42889912 * np.log10(-x * 14.98325 + 1) + 0.07623209,
          2.3069815 * x + 0.073059361,
          0.42889912 * np.log10(x * 14.98325 + 1) + 0.069886632))
 
@@ -319,7 +319,7 @@ def log_decoding_CanonLog3(clog3,
 
     x = np.select(
         (clog3 < 0.04076162, clog3 <= 0.105357102, clog3 > 0.105357102),
-        (-(10 ** ((0.069886632 - clog3) / 0.42889912) - 1) / 14.98325,
+        (-(10 ** ((0.07623209 - clog3) / 0.42889912) - 1) / 14.98325,
          (clog3 - 0.073059361) / 2.3069815,
          (10 ** ((clog3 - 0.069886632) / 0.42889912) - 1) / 14.98325))
 
