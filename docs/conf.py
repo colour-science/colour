@@ -379,3 +379,47 @@ def _autodoc_process_docstring(app, what, name, obj, options, lines):
 
 def setup(app):
     app.connect('autodoc-process-docstring', _autodoc_process_docstring)
+
+
+import colour
+
+
+def _continuous_signal_repr(self):
+    """
+    Returns an ellipsis string representation of the continuous signal for
+    documentation purposes.
+
+    Returns
+    -------
+    unicode
+        Ellipsis string representation.
+    """
+
+    return "{0}(name='{1}', ...)".format(self.__class__.__name__, self.name)
+
+
+colour.colorimetry.SpectralPowerDistribution.__repr__ = (
+    _continuous_signal_repr)
+colour.colorimetry.MultiSpectralPowerDistribution.__repr__ = (
+    _continuous_signal_repr)
+
+
+def _case_insensitive_mapping_repr(self):
+    """
+    Returns an ellipsis string representation of the case-insensitive mutable
+    mapping for documentation purposes.
+
+    Returns
+    -------
+    unicode
+        Ellipsis string representation.
+    """
+
+    return "{0}({1})".format(
+        self.__class__.__name__,
+        repr(dict(zip(self.keys(), ['...'] * len(self)))).replace(
+            "'...'", '...'))
+
+
+colour.utilities.CaseInsensitiveMapping.__repr__ = (
+    _case_insensitive_mapping_repr)

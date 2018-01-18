@@ -1,6 +1,3 @@
-colour\.models\.rgb\.transfer\_functions\.srgb Module
-=====================================================
-
 .. automodule:: colour.models.rgb.transfer_functions.srgb
     :members:
     :undoc-members:
