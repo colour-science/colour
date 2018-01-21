@@ -29,8 +29,8 @@ from colour.models import (LCHab_to_Lab, Lab_to_XYZ, Luv_to_uv,
 from colour.plotting import (
     chromaticity_diagram_plot_CIE1931, chromaticity_diagram_plot_CIE1960UCS,
     chromaticity_diagram_plot_CIE1976UCS, DEFAULT_FIGURE_WIDTH,
-    DEFAULT_PLOTTING_ILLUMINANT, boundaries, canvas, colour_cycle, decorate,
-    display, get_RGB_colourspace, get_cmfs)
+    DEFAULT_PLOTTING_ILLUMINANT, canvas, colour_cycle, get_RGB_colourspace,
+    get_cmfs, render)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -205,10 +205,7 @@ def RGB_colourspaces_chromaticity_diagram_plot_CIE1931(
     })
     settings.update(kwargs)
 
-    boundaries(**settings)
-    decorate(**settings)
-
-    return display(**settings)
+    return render(**settings)
 
 
 def RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS(
@@ -373,10 +370,7 @@ def RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS(
     })
     settings.update(kwargs)
 
-    boundaries(**settings)
-    decorate(**settings)
-
-    return display(**settings)
+    return render(**settings)
 
 
 def RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS(
@@ -547,10 +541,7 @@ def RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS(
     })
     settings.update(kwargs)
 
-    boundaries(**settings)
-    decorate(**settings)
-
-    return display(**settings)
+    return render(**settings)
 
 
 def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931(
@@ -619,10 +610,7 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931(
     settings.update({'standalone': True})
     settings.update(kwargs)
 
-    boundaries(**settings)
-    decorate(**settings)
-
-    return display(**settings)
+    return render(**settings)
 
 
 def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS(
@@ -693,10 +681,7 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS(
     settings.update({'standalone': True})
     settings.update(kwargs)
 
-    boundaries(**settings)
-    decorate(**settings)
-
-    return display(**settings)
+    return render(**settings)
 
 
 def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS(
@@ -768,10 +753,7 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS(
     settings.update({'standalone': True})
     settings.update(kwargs)
 
-    boundaries(**settings)
-    decorate(**settings)
-
-    return display(**settings)
+    return render(**settings)
 
 
 def single_cctf_plot(colourspace='ITU-R BT.709', decoding_cctf=False,
@@ -873,7 +855,4 @@ def multi_cctf_plot(colourspaces=None, decoding_cctf=False, **kwargs):
     })
     settings.update(kwargs)
 
-    boundaries(**settings)
-    decorate(**settings)
-
-    return display(**settings)
+    return render(**settings)

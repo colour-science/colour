@@ -20,8 +20,7 @@ from colour.colorimetry import (CMFS, ILLUMINANTS)
 from colour.models import (UCS_uv_to_xy, XYZ_to_UCS, UCS_to_uv, xy_to_XYZ)
 from colour.temperature import CCT_to_uv
 from colour.plotting import (chromaticity_diagram_plot_CIE1931,
-                             chromaticity_diagram_plot_CIE1960UCS, boundaries,
-                             decorate, display)
+                             chromaticity_diagram_plot_CIE1960UCS, render)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -146,10 +145,7 @@ def planckian_locus_chromaticity_diagram_plot_CIE1931(
     })
     settings.update(kwargs)
 
-    boundaries(**settings)
-    decorate(**settings)
-
-    return display(**settings)
+    return render(**settings)
 
 
 def planckian_locus_chromaticity_diagram_plot_CIE1960UCS(
@@ -265,7 +261,4 @@ def planckian_locus_chromaticity_diagram_plot_CIE1960UCS(
     })
     settings.update(kwargs)
 
-    boundaries(**settings)
-    decorate(**settings)
-
-    return display(**settings)
+    return render(**settings)

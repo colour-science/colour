@@ -17,8 +17,8 @@ import pylab
 from colour.characterisation import COLOURCHECKERS
 from colour.models import RGB_COLOURSPACES
 from colour.models import XYZ_to_sRGB, xyY_to_XYZ
-from colour.plotting import (ColourParameter, boundaries, canvas, decorate,
-                             display, multi_colour_plot)
+from colour.plotting import (ColourSwatch, canvas, multi_colour_swatches_plot,
+                             render)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -46,25 +46,25 @@ def colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
         :func:`display`},
         Please refer to the documentation of the previously listed definitions.
     width : numeric, optional
-        {:func:`multi_colour_plot`},
-        Colour polygon width.
+        {:func:`multi_colour_swatches_plot`},
+        Colour swatch width.
     height : numeric, optional
-        {:func:`multi_colour_plot`},
-        Colour polygon height.
+        {:func:`multi_colour_swatches_plot`},
+        Colour swatch height.
     spacing : numeric, optional
-        {:func:`multi_colour_plot`},
-        Colour polygons spacing.
-    across : int, optional
-        {:func:`multi_colour_plot`},
-        Colour polygons count per row.
+        {:func:`multi_colour_swatches_plot`},
+        Colour swatches spacing.
+    columns : int, optional
+        {:func:`multi_colour_swatches_plot`},
+        Colour swatches columns count.
     text_display : bool, optional
-        {:func:`multi_colour_plot`},
+        {:func:`multi_colour_swatches_plot`},
         Display colour text.
     text_size : numeric, optional
-        {:func:`multi_colour_plot`},
+        {:func:`multi_colour_swatches_plot`},
         Colour text size.
     text_offset : numeric, optional
-        {:func:`multi_colour_plot`},
+        {:func:`multi_colour_swatches_plot`},
         Colour text offset.
 
     Returns
@@ -92,35 +92,35 @@ def colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
                             name, sorted(COLOURCHECKERS.keys())))
 
     _name, data, illuminant = colour_checker
-    colour_parameters = []
+    colour_swatches = []
     for _index, label, xyY in data:
         XYZ = xyY_to_XYZ(xyY)
         RGB = XYZ_to_sRGB(XYZ, illuminant)
 
-        colour_parameters.append(
-            ColourParameter(label.title(), np.clip(np.ravel(RGB), 0, 1)))
+        colour_swatches.append(
+            ColourSwatch(label.title(), np.clip(np.ravel(RGB), 0, 1)))
 
     background_colour = '0.1'
     width = height = 1.0
     spacing = 0.25
-    across = 6
+    columns = 6
 
     settings = {
         'standalone': False,
         'width': width,
         'height': height,
         'spacing': spacing,
-        'across': across,
+        'columns': columns,
         'text_size': 8,
         'background_colour': background_colour,
         'margins': (-0.125, 0.125, -0.5, 0.125)
     }
     settings.update(kwargs)
 
-    multi_colour_plot(colour_parameters, **settings)
+    multi_colour_swatches_plot(colour_swatches, **settings)
 
-    text_x = width * (across / 2) + (across * (spacing / 2)) - spacing / 2
-    text_y = -(len(colour_parameters) / across + spacing / 2)
+    text_x = width * (columns / 2) + (columns * (spacing / 2)) - spacing / 2
+    text_y = -(len(colour_swatches) / columns + spacing / 2)
 
     pylab.text(
         text_x,
@@ -138,7 +138,4 @@ def colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
         'standalone': True
     })
 
-    boundaries(**settings)
-    decorate(**settings)
-
-    return display(**settings)
+    return render(**settings)

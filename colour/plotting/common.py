@@ -15,9 +15,9 @@ Defines the common plotting objects:
 -   :func:`display`
 -   :func:`label_rectangles`
 -   :func:`equal_axes3d`
--   :func:`colour_parameters_plot`
--   :func:`single_colour_plot`
--   :func:`multi_colour_plot`
+-   :func:`colour_swatches_plot`
+-   :func:`single_colour_swatch_plot`
+-   :func:`multi_colour_swatches_plot`
 -   :func:`image_plot`
 """
 
@@ -51,11 +51,10 @@ __all__ = [
     'DEFAULT_FONT_SIZE', 'DEFAULT_COLOUR_CYCLE', 'DEFAULT_HATCH_PATTERNS',
     'DEFAULT_PARAMETERS', 'DEFAULT_PLOTTING_ILLUMINANT',
     'DEFAULT_PLOTTING_ENCODING_CCTF', 'colour_plotting_defaults',
-    'ColourParameter', 'colour_cycle', 'canvas', 'camera', 'decorate',
-    'boundaries', 'display', 'label_rectangles', 'equal_axes3d',
+    'ColourSwatch', 'colour_cycle', 'canvas', 'camera', 'boundaries',
+    'decorate', 'display', 'render', 'label_rectangles', 'equal_axes3d',
     'get_RGB_colourspace', 'get_cmfs', 'get_illuminant',
-    'colour_parameters_plot', 'single_colour_plot', 'multi_colour_plot',
-    'image_plot'
+    'single_colour_swatch_plot', 'multi_colour_swatches_plot', 'image_plot'
 ]
 
 PLOTTING_RESOURCES_DIRECTORY = os.path.join(
@@ -172,11 +171,9 @@ def colour_plotting_defaults(parameters=None):
     return True
 
 
-class ColourParameter(
-        namedtuple('ColourParameter', ('name', 'RGB', 'x', 'y0', 'y1'))):
+class ColourSwatch(namedtuple('ColourSwatch', ('name', 'RGB'))):
     """
-    Defines a data structure for plotting a colour polygon in various spectral
-    figures.
+    Defines a data structure for a colour swatch.
 
     Parameters
     ----------
@@ -184,20 +181,14 @@ class ColourParameter(
         Colour name.
     RGB : array_like, optional
         RGB Colour.
-    x : numeric, optional
-        X data.
-    y0 : numeric, optional
-        Y0 data.
-    y1 : numeric, optional
-        Y1 data.
     """
 
-    def __new__(cls, name=None, RGB=None, x=None, y0=None, y1=None):
+    def __new__(cls, name=None, RGB=None):
         """
-        Returns a new instance of the :class:`ColourParameter` class.
+        Returns a new instance of the :class:`ColourSwatch` class.
         """
 
-        return super(ColourParameter, cls).__new__(cls, name, RGB, x, y0, y1)
+        return super(ColourSwatch, cls).__new__(cls, name, RGB)
 
 
 def colour_cycle(**kwargs):
@@ -290,6 +281,61 @@ def camera(**kwargs):
         equal_axes3d(axes)
 
     axes.view_init(elev=settings.elevation, azim=settings.azimuth)
+
+    return axes
+
+
+def boundaries(**kwargs):
+    """
+    Sets the plot boundaries.
+
+    Other Parameters
+    ----------------
+    bounding_box : array_like, optional
+        Array defining current axes limits such
+        `bounding_box = (x min, x max, y min, y max)`.
+    x_tighten : bool, optional
+        Whether to tighten the *X* axis limit. Default is `False`.
+    y_tighten : bool, optional
+        Whether to tighten the *Y* axis limit. Default is `False`.
+    limits : array_like, optional
+        Array defining current axes limits such as
+        `limits = (x limit min, x limit max, y limit min, y limit max)`.
+        `limits` argument values are added to the `margins` argument values to
+        define the final bounding box for the current axes.
+    margins : array_like, optional
+        Array defining current axes margins such as
+        `margins = (x margin min, x margin max, y margin min, y margin max)`.
+        `margins` argument values are added to the `limits` argument values to
+        define the final bounding box for the current axes.
+
+    Returns
+    -------
+    Axes
+        Current axes.
+    """
+
+    settings = Structure(**{
+        'bounding_box': None,
+        'x_tighten': False,
+        'y_tighten': False,
+        'limits': (0, 1, 0, 1),
+        'margins': (0, 0, 0, 0)
+    })
+    settings.update(kwargs)
+
+    axes = matplotlib.pyplot.gca()
+    if settings.bounding_box is None:
+        x_limit_min, x_limit_max, y_limit_min, y_limit_max = (settings.limits)
+        x_margin_min, x_margin_max, y_margin_min, y_margin_max = (
+            settings.margins)
+        if settings.x_tighten:
+            pylab.xlim(x_limit_min + x_margin_min, x_limit_max + x_margin_max)
+        if settings.y_tighten:
+            pylab.ylim(y_limit_min + y_margin_min, y_limit_max + y_margin_max)
+    else:
+        pylab.xlim(settings.bounding_box[0], settings.bounding_box[1])
+        pylab.ylim(settings.bounding_box[2], settings.bounding_box[3])
 
     return axes
 
@@ -395,61 +441,6 @@ def decorate(**kwargs):
     return axes
 
 
-def boundaries(**kwargs):
-    """
-    Sets the plot boundaries.
-
-    Other Parameters
-    ----------------
-    bounding_box : array_like, optional
-        Array defining current axes limits such
-        `bounding_box = (x min, x max, y min, y max)`.
-    x_tighten : bool, optional
-        Whether to tighten the *X* axis limit. Default is `False`.
-    y_tighten : bool, optional
-        Whether to tighten the *Y* axis limit. Default is `False`.
-    limits : array_like, optional
-        Array defining current axes limits such as
-        `limits = (x limit min, x limit max, y limit min, y limit max)`.
-        `limits` argument values are added to the `margins` argument values to
-        define the final bounding box for the current axes.
-    margins : array_like, optional
-        Array defining current axes margins such as
-        `margins = (x margin min, x margin max, y margin min, y margin max)`.
-        `margins` argument values are added to the `limits` argument values to
-        define the final bounding box for the current axes.
-
-    Returns
-    -------
-    Axes
-        Current axes.
-    """
-
-    settings = Structure(**{
-        'bounding_box': None,
-        'x_tighten': False,
-        'y_tighten': False,
-        'limits': (0, 1, 0, 1),
-        'margins': (0, 0, 0, 0)
-    })
-    settings.update(kwargs)
-
-    axes = matplotlib.pyplot.gca()
-    if settings.bounding_box is None:
-        x_limit_min, x_limit_max, y_limit_min, y_limit_max = (settings.limits)
-        x_margin_min, x_margin_max, y_margin_min, y_margin_max = (
-            settings.margins)
-        if settings.x_tighten:
-            pylab.xlim(x_limit_min + x_margin_min, x_limit_max + x_margin_max)
-        if settings.y_tighten:
-            pylab.ylim(y_limit_min + y_margin_min, y_limit_max + y_margin_max)
-    else:
-        pylab.xlim(settings.bounding_box[0], settings.bounding_box[1])
-        pylab.ylim(settings.bounding_box[2], settings.bounding_box[3])
-
-    return axes
-
-
 def display(**kwargs):
     """
     Sets the figure display.
@@ -481,6 +472,40 @@ def display(**kwargs):
         return None
     else:
         return figure
+
+
+def render(with_boundaries=True, with_decorate=True, **kwargs):
+    """
+    Convenient wrapper definition combining :func:`decorate`,
+    :func:`boundaries` and :func:`display` definitions.
+
+    Parameters
+    ----------
+    with_boundaries : bool, optional
+        Whether to call :func:`boundaries` definition.
+    with_decorate : bool, optional
+        Whether to call :func:`decorate` definition.
+
+    Other Parameters
+    ----------------
+    \**kwargs : dict, optional
+        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
+        :func:`display`},
+        Please refer to the documentation of the previously listed definitions.
+
+    Returns
+    -------
+    Figure
+        Current figure or None.
+    """
+
+    if with_boundaries:
+        boundaries(**kwargs)
+
+    if with_decorate:
+        decorate(**kwargs)
+
+    return display(**kwargs)
 
 
 def label_rectangles(rectangles,
@@ -652,119 +677,14 @@ def get_illuminant(illuminant):
     return illuminant
 
 
-def colour_parameters_plot(colour_parameters,
-                           y0_plot=True,
-                           y1_plot=True,
-                           **kwargs):
+def single_colour_swatch_plot(colour_swatch, **kwargs):
     """
-    Plots given colour colour parameters.
+    Plots given colour swatch.
 
     Parameters
     ----------
-    colour_parameters : list
-        ColourParameter sequence.
-    y0_plot : bool, optional
-        Whether to plot *y0* line.
-    y1_plot : bool, optional
-        Whether to plot *y1* line.
-
-    Other Parameters
-    ----------------
-    \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
-
-    Returns
-    -------
-    Figure
-        Current figure or None.
-
-    Examples
-    --------
-    >>> cp1 = ColourParameter(x=390, RGB=[0.03009021, 0, 0.12300545])
-    >>> cp2 = ColourParameter(x=391, RGB=[0.03434063, 0, 0.13328537], y0=0,
-    ...                       y1=0.25)
-    >>> cp3 = ColourParameter(x=392, RGB=[0.03826312, 0, 0.14276247], y0=0,
-    ...                       y1=0.35)
-    >>> cp4 = ColourParameter(x=393, RGB=[0.04191844, 0, 0.15158707], y0=0,
-    ...                       y1=0.05)
-    >>> cp5 = ColourParameter(x=394, RGB=[0.04535085, 0, 0.15986838], y0=0,
-    ...                       y1=-.25)
-    >>> colour_parameters_plot([cp1, cp2, cp3, cp3, cp4, cp5])
-    ... # doctest: +SKIP
-    """
-
-    canvas(**kwargs)
-
-    for i in range(len(colour_parameters) - 1):
-        x0 = colour_parameters[i].x
-        x01 = colour_parameters[i + 1].x
-        y0 = (0
-              if colour_parameters[i].y0 is None else colour_parameters[i].y0)
-        y1 = (1
-              if colour_parameters[i].y1 is None else colour_parameters[i].y1)
-        y01 = (0 if colour_parameters[i].y0 is None else
-               colour_parameters[i + 1].y0)
-        y11 = (1 if colour_parameters[i].y1 is None else
-               colour_parameters[i + 1].y1)
-
-        x_polygon = (x0, x01, x01, x0)
-        y_polygon = (y0, y01, y11, y1)
-        pylab.fill(
-            x_polygon,
-            y_polygon,
-            color=colour_parameters[i].RGB,
-            edgecolor=colour_parameters[i].RGB)
-
-    if all([x.y0 is not None for x in colour_parameters]) and y0_plot:
-        pylab.plot(
-            [x.x
-             for x in colour_parameters], [x.y0 for x in colour_parameters],
-            color='black',
-            linewidth=1)
-
-    if all([x.y1 is not None for x in colour_parameters]) and y1_plot:
-        pylab.plot(
-            [x.x
-             for x in colour_parameters], [x.y1 for x in colour_parameters],
-            color='black',
-            linewidth=1)
-
-    y_limit_min0 = min(
-        [0 if x.y0 is None else x.y0 for x in colour_parameters])
-    # y_limit_max0 = max(
-    # [1 if x.y0 is None else x.y0 for x in colour_parameters])
-    # y_limit_min1 = min(
-    # [0 if x.y1 is None else x.y1 for x in colour_parameters])
-    y_limit_max1 = max(
-        [1 if x.y1 is None else x.y1 for x in colour_parameters])
-
-    settings = {
-        'x_label':
-            'Parameter',
-        'y_label':
-            'Colour',
-        'limits': (min([0 if x.x is None else x.x for x in colour_parameters]),
-                   max([1 if x.x is None else x.x for x in colour_parameters]),
-                   y_limit_min0, y_limit_max1)
-    }
-    settings.update(kwargs)
-
-    boundaries(**settings)
-    decorate(**settings)
-
-    return display(**settings)
-
-
-def single_colour_plot(colour_parameter, **kwargs):
-    """
-    Plots given colour.
-
-    Parameters
-    ----------
-    colour_parameter : ColourParameter
-        ColourParameter.
+    colour_swatch : ColourSwatch
+        ColourSwatch.
 
     Other Parameters
     ----------------
@@ -773,25 +693,25 @@ def single_colour_plot(colour_parameter, **kwargs):
         :func:`display`},
         Please refer to the documentation of the previously listed definitions.
     width : numeric, optional
-        {:func:`multi_colour_plot`},
-        Colour polygon width.
+        {:func:`multi_colour_swatches_plot`},
+        Colour swatch width.
     height : numeric, optional
-        {:func:`multi_colour_plot`},
-        Colour polygon height.
+        {:func:`multi_colour_swatches_plot`},
+        Colour swatch height.
     spacing : numeric, optional
-        {:func:`multi_colour_plot`},
-        Colour polygons spacing.
-    across : int, optional
-        {:func:`multi_colour_plot`},
-        Colour polygons count per row.
+        {:func:`multi_colour_swatches_plot`},
+        Colour swatches spacing.
+    columns : int, optional
+        {:func:`multi_colour_swatches_plot`},
+        Colour swatches columns count.
     text_display : bool, optional
-        {:func:`multi_colour_plot`},
+        {:func:`multi_colour_swatches_plot`},
         Display colour text.
     text_size : numeric, optional
-        {:func:`multi_colour_plot`},
+        {:func:`multi_colour_swatches_plot`},
         Colour text size.
     text_offset : numeric, optional
-        {:func:`multi_colour_plot`},
+        {:func:`multi_colour_swatches_plot`},
         Colour text offset.
 
     Returns
@@ -802,37 +722,37 @@ def single_colour_plot(colour_parameter, **kwargs):
     Examples
     --------
     >>> RGB = (0.32315746, 0.32983556, 0.33640183)
-    >>> single_colour_plot(ColourParameter(RGB))  # doctest: +SKIP
+    >>> single_colour_swatch_plot(ColourSwatch(RGB))  # doctest: +SKIP
     """
 
-    return multi_colour_plot((colour_parameter, ), **kwargs)
+    return multi_colour_swatches_plot((colour_swatch, ), **kwargs)
 
 
-def multi_colour_plot(colour_parameters,
-                      width=1,
-                      height=1,
-                      spacing=0,
-                      across=3,
-                      text_display=True,
-                      text_size='large',
-                      text_offset=0.075,
-                      background_colour=(1.0, 1.0, 1.0),
-                      **kwargs):
+def multi_colour_swatches_plot(colour_swatches,
+                               width=1,
+                               height=1,
+                               spacing=0,
+                               columns=3,
+                               text_display=True,
+                               text_size='large',
+                               text_offset=0.075,
+                               background_colour=(1.0, 1.0, 1.0),
+                               **kwargs):
     """
-    Plots given colours.
+    Plots given colours swatches.
 
     Parameters
     ----------
-    colour_parameters : list
-        ColourParameter sequence.
+    colour_swatches : list
+        ColourSwatch sequence.
     width : numeric, optional
-        Colour polygon width.
+        Colour swatch width.
     height : numeric, optional
-        Colour polygon height.
+        Colour swatch height.
     spacing : numeric, optional
-        Colour polygons spacing.
-    across : int, optional
-        Colour polygons count per row.
+        Colour swatches spacing.
+    columns : int, optional
+        Colour swatches columns count.
     text_display : bool, optional
         Display colour text.
     text_size : numeric, optional
@@ -856,41 +776,39 @@ def multi_colour_plot(colour_parameters,
 
     Examples
     --------
-    >>> cp1 = ColourParameter(RGB=(0.45293517, 0.31732158, 0.26414773))
-    >>> cp2 = ColourParameter(RGB=(0.77875824, 0.57726450, 0.50453169))
-    >>> multi_colour_plot([cp1, cp2])  # doctest: +SKIP
+    >>> cp1 = ColourSwatch(RGB=(0.45293517, 0.31732158, 0.26414773))
+    >>> cp2 = ColourSwatch(RGB=(0.77875824, 0.57726450, 0.50453169))
+    >>> multi_colour_swatches_plot([cp1, cp2])  # doctest: +SKIP
     """
 
     canvas(**kwargs)
 
-    offsetX = offsetY = 0
-    x_limit_min, x_limit_max, y_limit_min, y_limit_max = 0, width, 0, height
-    for i, colour_parameter in enumerate(colour_parameters):
-        if i % across == 0 and i != 0:
-            offsetX = 0
-            offsetY -= height + spacing
+    offset_X = offset_Y = 0
+    x_min, x_max, y_min, y_max = 0, width, 0, height
+    for i, colour_swatch in enumerate(colour_swatches):
+        if i % columns == 0 and i != 0:
+            offset_X = 0
+            offset_Y -= height + spacing
 
-        x0 = offsetX
-        x1 = offsetX + width
-        y0 = offsetY
-        y1 = offsetY + height
+        x_0, x_1 = offset_X, offset_X + width
+        y_0, y_1 = offset_Y, offset_Y + height
 
-        x_polygon = (x0, x1, x1, x0)
-        y_polygon = (y0, y0, y1, y1)
-        pylab.fill(x_polygon, y_polygon, color=colour_parameters[i].RGB)
-        if colour_parameter.name is not None and text_display:
+        pylab.fill(
+            (x_0, x_1, x_1, x_0), (y_0, y_0, y_1, y_1),
+            color=colour_swatches[i].RGB)
+        if colour_swatch.name is not None and text_display:
             pylab.text(
-                x0 + text_offset,
-                y0 + text_offset,
-                colour_parameter.name,
+                x_0 + text_offset,
+                y_0 + text_offset,
+                colour_swatch.name,
                 clip_on=True,
                 size=text_size)
 
-        offsetX += width + spacing
+        offset_X += width + spacing
 
-    x_limit_max = min(len(colour_parameters), across)
-    x_limit_max = x_limit_max * width + x_limit_max * spacing - spacing
-    y_limit_min = offsetY
+    x_max = min(len(colour_swatches), columns)
+    x_max = x_max * width + x_max * spacing - spacing
+    y_min = offset_Y
 
     matplotlib.pyplot.gca().patch.set_facecolor(background_colour)
 
@@ -899,15 +817,12 @@ def multi_colour_plot(colour_parameters,
         'y_tighten': True,
         'x_ticker': False,
         'y_ticker': False,
-        'limits': (x_limit_min, x_limit_max, y_limit_min, y_limit_max),
+        'limits': (x_min, x_max, y_min, y_max),
         'aspect': 'equal'
     }
     settings.update(kwargs)
 
-    boundaries(**settings)
-    decorate(**settings)
-
-    return display(**settings)
+    return render(**settings)
 
 
 def image_plot(image,
@@ -971,13 +886,14 @@ def image_plot(image,
 
     height = image.shape[0]
 
-    pylab.text(
-        0 + label_size,
-        height - label_size,
-        label,
-        color=label_colour if label_colour is not None else (1, 1, 1),
-        alpha=label_alpha,
-        fontsize=label_size)
+    if label is not None:
+        pylab.text(
+            0 + label_size,
+            height - label_size,
+            label,
+            color=label_colour if label_colour is not None else (1, 1, 1),
+            alpha=label_alpha,
+            fontsize=label_size)
 
     settings = {
         'x_ticker': False,
@@ -988,6 +904,5 @@ def image_plot(image,
     settings.update(kwargs)
 
     canvas(**settings)
-    decorate(**settings)
 
-    return display(**settings)
+    return render(with_boundaries=False, **settings)

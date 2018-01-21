@@ -14,7 +14,7 @@ from .array import (as_numeric, as_namedtuple, closest_indexes, closest,
                     centroid, linear_conversion, fill_nan, ndarray_write)
 from .data_structures import Lookup, Structure, CaseInsensitiveMapping
 from .verbose import (ColourWarning, message_box, warning, filter_warnings,
-                      numpy_print_options)
+                      suppress_warnings, numpy_print_options)
 
 __all__ = [
     'handle_numpy_errors', 'ignore_numpy_errors', 'raise_numpy_errors',
@@ -31,5 +31,5 @@ __all__ += [
 __all__ += ['Lookup', 'Structure', 'CaseInsensitiveMapping']
 __all__ += [
     'ColourWarning', 'message_box', 'warning', 'filter_warnings',
-    'numpy_print_options'
+    'suppress_warnings', 'numpy_print_options'
 ]

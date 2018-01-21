@@ -24,7 +24,7 @@ __status__ = 'Production'
 
 __all__ = [
     'ColourWarning', 'message_box', 'warning', 'filter_warnings',
-    'numpy_print_options'
+    'suppress_warnings', 'numpy_print_options'
 ]
 
 
@@ -175,6 +175,26 @@ def filter_warnings(state=True, colour_warnings_only=True):
         category=ColourWarning if colour_warnings_only else Warning)
 
     return True
+
+
+@contextmanager
+def suppress_warnings(colour_warnings_only=True):
+    """
+    A context manager filtering *Colour* and also optionally overall Python
+    warnings.
+
+    Parameters
+    ----------
+    colour_warnings_only : bool, optional
+        Whether to only filter *Colour* warnings or also overall Python
+        warnings.
+    """
+
+    filter_warnings(colour_warnings_only=colour_warnings_only)
+    try:
+        yield
+    finally:
+        filter_warnings(False)
 
 
 @contextmanager

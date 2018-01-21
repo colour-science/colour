@@ -21,9 +21,8 @@ from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.models import RGB_to_XYZ
 from colour.models.common import (COLOURSPACE_MODELS_LABELS,
                                   XYZ_to_colourspace_model)
-from colour.plotting import (DEFAULT_PLOTTING_ILLUMINANT, camera, cube,
-                             decorate, display, get_RGB_colourspace, get_cmfs,
-                             grid)
+from colour.plotting import (DEFAULT_PLOTTING_ILLUMINANT, cube,
+                             get_RGB_colourspace, get_cmfs, grid, render)
 from colour.utilities import Structure, tsplit, tstack
 
 __author__ = 'Colour Developers'
@@ -575,10 +574,7 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
     settings.update({'camera_aspect': 'equal', 'no_axes': True})
     settings.update(kwargs)
 
-    camera(**settings)
-    decorate(**settings)
-
-    return display(**settings)
+    return render(**settings)
 
 
 def RGB_scatter_plot(RGB,
@@ -684,7 +680,4 @@ def RGB_scatter_plot(RGB,
     settings.update({'standalone': True})
     settings.update(kwargs)
 
-    camera(**settings)
-    decorate(**settings)
-
-    return display(**settings)
+    return render(**settings)

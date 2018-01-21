@@ -34,8 +34,8 @@ from colour.models import (Luv_to_uv, Luv_uv_to_xy, UCS_to_uv, UCS_uv_to_xy,
                            XYZ_to_Luv, XYZ_to_UCS, XYZ_to_sRGB, XYZ_to_xy,
                            xy_to_XYZ)
 from colour.plotting import (DEFAULT_FIGURE_WIDTH, DEFAULT_PLOTTING_ILLUMINANT,
-                             PLOTTING_RESOURCES_DIRECTORY, canvas, decorate,
-                             boundaries, display, get_cmfs)
+                             PLOTTING_RESOURCES_DIRECTORY, canvas, get_cmfs,
+                             render)
 from colour.utilities import normalise_maximum, tstack
 
 __author__ = 'Colour Developers'
@@ -248,10 +248,7 @@ def chromaticity_diagram_plot_CIE1931(
     })
     settings.update(kwargs)
 
-    boundaries(**settings)
-    decorate(**settings)
-
-    return display(**settings)
+    return render(**settings)
 
 
 def chromaticity_diagram_colours_CIE1960UCS(
@@ -442,10 +439,7 @@ def chromaticity_diagram_plot_CIE1960UCS(
     })
     settings.update(kwargs)
 
-    boundaries(**settings)
-    decorate(**settings)
-
-    return display(**settings)
+    return render(**settings)
 
 
 def chromaticity_diagram_colours_CIE1976UCS(
@@ -639,10 +633,7 @@ def chromaticity_diagram_plot_CIE1976UCS(
     })
     settings.update(kwargs)
 
-    boundaries(**settings)
-    decorate(**settings)
-
-    return display(**settings)
+    return render(**settings)
 
 
 def spds_chromaticity_diagram_plot_CIE1931(
@@ -725,10 +716,7 @@ def spds_chromaticity_diagram_plot_CIE1931(
     })
     settings.update(kwargs)
 
-    boundaries(**settings)
-    decorate(**settings)
-
-    return display(**settings)
+    return render(**settings)
 
 
 def spds_chromaticity_diagram_plot_CIE1960UCS(
@@ -812,10 +800,7 @@ def spds_chromaticity_diagram_plot_CIE1960UCS(
     })
     settings.update(kwargs)
 
-    boundaries(**settings)
-    decorate(**settings)
-
-    return display(**settings)
+    return render(**settings)
 
 
 def spds_chromaticity_diagram_plot_CIE1976UCS(
@@ -899,7 +884,4 @@ def spds_chromaticity_diagram_plot_CIE1976UCS(
     })
     settings.update(kwargs)
 
-    boundaries(**settings)
-    decorate(**settings)
-
-    return display(**settings)
+    return render(**settings)

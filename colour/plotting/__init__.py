@@ -10,11 +10,11 @@ from .common import (
     DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_HEIGHT, DEFAULT_FIGURE_SIZE,
     DEFAULT_FONT_SIZE, DEFAULT_COLOUR_CYCLE, DEFAULT_HATCH_PATTERNS,
     DEFAULT_PARAMETERS, DEFAULT_PLOTTING_ILLUMINANT,
-    DEFAULT_PLOTTING_ENCODING_CCTF, colour_plotting_defaults, ColourParameter,
-    colour_cycle, canvas, camera, decorate, boundaries, display,
+    DEFAULT_PLOTTING_ENCODING_CCTF, colour_plotting_defaults, ColourSwatch,
+    colour_cycle, canvas, camera, boundaries, decorate, display, render,
     label_rectangles, equal_axes3d, get_RGB_colourspace, get_cmfs,
-    get_illuminant, colour_parameters_plot, single_colour_plot,
-    multi_colour_plot, image_plot)
+    get_illuminant, single_colour_swatch_plot, multi_colour_swatches_plot,
+    image_plot)
 from .colorimetry import (
     single_spd_plot, multi_spd_plot, single_cmfs_plot, multi_cmfs_plot,
     single_illuminant_relative_spd_plot, multi_illuminants_relative_spd_plot,
@@ -57,11 +57,10 @@ __all__ += [
     'DEFAULT_FONT_SIZE', 'DEFAULT_COLOUR_CYCLE', 'DEFAULT_HATCH_PATTERNS',
     'DEFAULT_PARAMETERS', 'DEFAULT_PLOTTING_ILLUMINANT',
     'DEFAULT_PLOTTING_ENCODING_CCTF', 'colour_plotting_defaults',
-    'ColourParameter', 'colour_cycle', 'canvas', 'camera', 'decorate',
-    'boundaries', 'display', 'label_rectangles', 'equal_axes3d',
+    'ColourSwatch', 'colour_cycle', 'canvas', 'camera', 'boundaries',
+    'decorate', 'display', 'render', 'label_rectangles', 'equal_axes3d',
     'get_RGB_colourspace', 'get_cmfs', 'get_illuminant',
-    'colour_parameters_plot', 'single_colour_plot', 'multi_colour_plot',
-    'image_plot'
+    'single_colour_swatch_plot', 'multi_colour_swatches_plot', 'image_plot'
 ]
 __all__ += [
     'single_spd_plot', 'multi_spd_plot', 'single_cmfs_plot', 'multi_cmfs_plot',

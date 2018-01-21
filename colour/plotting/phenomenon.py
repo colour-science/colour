@@ -20,9 +20,9 @@ from colour.phenomenons import rayleigh_scattering_spd
 from colour.phenomenons.rayleigh import (
     AVERAGE_PRESSURE_MEAN_SEA_LEVEL, DEFAULT_ALTITUDE, DEFAULT_LATITUDE,
     STANDARD_AIR_TEMPERATURE, STANDARD_CO2_CONCENTRATION)
-from colour.plotting import (ASTM_G_173_ETR, ColourParameter, boundaries,
-                             canvas, decorate, display, get_cmfs,
-                             single_colour_plot, single_spd_plot)
+from colour.plotting import (ASTM_G_173_ETR, ColourSwatch, canvas, get_cmfs,
+                             render, single_colour_swatch_plot,
+                             single_spd_plot)
 from colour.utilities import normalise_maximum
 
 __author__ = 'Colour Developers'
@@ -165,13 +165,10 @@ def the_blue_sky_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     }
 
     blue_sky_color = XYZ_to_sRGB(spectral_to_XYZ(spd))
-    single_colour_plot(
-        ColourParameter('', normalise_maximum(blue_sky_color)), **settings)
+    single_colour_swatch_plot(
+        ColourSwatch('', normalise_maximum(blue_sky_color)), **settings)
 
     settings = {'standalone': True}
     settings.update(kwargs)
 
-    boundaries(**settings)
-    decorate(**settings)
-
-    return display(**settings)
+    return render(**settings)

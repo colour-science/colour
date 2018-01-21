@@ -16,8 +16,7 @@ import numpy as np
 import pylab
 
 from colour.notation import MUNSELL_VALUE_METHODS
-from colour.plotting import (DEFAULT_FIGURE_WIDTH, boundaries, canvas,
-                             decorate, display)
+from colour.plotting import DEFAULT_FIGURE_WIDTH, canvas, render
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -132,7 +131,4 @@ def multi_munsell_value_function_plot(functions=None, **kwargs):
     })
     settings.update(kwargs)
 
-    boundaries(**settings)
-    decorate(**settings)
-
-    return display(**settings)
+    return render(**settings)

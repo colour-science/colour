@@ -21,8 +21,7 @@ from itertools import cycle
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.models import XYZ_to_sRGB
 from colour.plotting import (DEFAULT_FIGURE_WIDTH, DEFAULT_HATCH_PATTERNS,
-                             boundaries, canvas, decorate, display,
-                             label_rectangles)
+                             canvas, label_rectangles, render)
 from colour.quality import (colour_quality_scale, colour_rendering_index)
 from colour.quality.cri import TCS_ColorimetryData
 from colour.utilities import warning
@@ -161,10 +160,7 @@ def colour_quality_bars_plot(specifications,
     })
     settings.update(kwargs)
 
-    boundaries(**settings)
-    decorate(**settings)
-
-    return display(**settings)
+    return render(**settings)
 
 
 def single_spd_colour_rendering_index_bars_plot(spd, **kwargs):
@@ -280,9 +276,7 @@ def multi_spd_colour_rendering_index_bars_plot(spds, **kwargs):
     }
     settings.update(kwargs)
 
-    decorate(**settings)
-
-    return display(**settings)
+    return render(with_boundaries=False, **settings)
 
 
 def single_spd_colour_quality_scale_bars_plot(spd, **kwargs):
@@ -386,6 +380,4 @@ def multi_spd_colour_quality_scale_bars_plot(spds, **kwargs):
     }
     settings.update(kwargs)
 
-    decorate(**settings)
-
-    return display(**settings)
+    return render(with_boundaries=False, **settings)

@@ -14,8 +14,7 @@ import pylab
 
 from colour.corresponding import corresponding_chromaticities_prediction
 from colour.plotting import (chromaticity_diagram_plot_CIE1976UCS,
-                             DEFAULT_FIGURE_WIDTH, boundaries, canvas,
-                             decorate, display)
+                             DEFAULT_FIGURE_WIDTH, canvas, render)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -109,7 +108,4 @@ def corresponding_chromaticities_prediction_plot(experiment=1,
     })
     settings.update(kwargs)
 
-    boundaries(**settings)
-    decorate(**settings)
-
-    return display(**settings)
+    return render(**settings)

@@ -29,19 +29,19 @@ from __future__ import division
 import matplotlib.pyplot
 import numpy as np
 import pylab
+from matplotlib.patches import Polygon
 from six.moves import reduce
 
 from colour.algebra import LinearInterpolator
 from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE, ILLUMINANTS,
                                 ILLUMINANTS_RELATIVE_SPDS, LIGHTNESS_METHODS,
-                                SpectralShape, blackbody_spd, spectral_to_XYZ,
-                                wavelength_to_XYZ)
+                                SpectralShape, blackbody_spd, ones_spd,
+                                spectral_to_XYZ, wavelength_to_XYZ)
 from colour.models import XYZ_to_sRGB
-from colour.plotting import (ColourParameter, DEFAULT_PLOTTING_ENCODING_CCTF,
-                             DEFAULT_FIGURE_WIDTH, boundaries, canvas,
-                             colour_parameters_plot, decorate, display,
-                             get_cmfs, get_illuminant, single_colour_plot)
-from colour.utilities import normalise_maximum
+from colour.plotting import (ColourSwatch, DEFAULT_PLOTTING_ENCODING_CCTF,
+                             DEFAULT_FIGURE_WIDTH, canvas, get_cmfs,
+                             get_illuminant, render, single_colour_swatch_plot)
+from colour.utilities import normalise_maximum, suppress_warnings, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -83,12 +83,6 @@ def single_spd_plot(spd,
         {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
         :func:`display`},
         Please refer to the documentation of the previously listed definitions.
-    y0_plot : bool, optional
-        {:func:`colour_parameters_plot`},
-        Whether to plot *y0* line.
-    y1_plot : bool, optional
-        {:func:`colour_parameters_plot`},
-        Whether to plot *y1* line.
 
     Returns
     -------
@@ -110,6 +104,8 @@ def single_spd_plot(spd,
     >>> single_spd_plot(spd)  # doctest: +SKIP
     """
 
+    axes = canvas(**kwargs).gca()
+
     cmfs = get_cmfs(cmfs)
 
     spd = spd.copy()
@@ -117,7 +113,6 @@ def single_spd_plot(spd,
     wavelengths = cmfs.wavelengths
     values = spd[wavelengths]
 
-    y1 = values
     colours = XYZ_to_sRGB(
         wavelength_to_XYZ(wavelengths, cmfs),
         ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['E'],
@@ -128,20 +123,39 @@ def single_spd_plot(spd,
 
     colours = DEFAULT_PLOTTING_ENCODING_CCTF(normalise_maximum(colours))
 
+    x_min, x_max = min(wavelengths), max(wavelengths)
+    y_min, y_max = 0, max(values)
+
+    polygon = Polygon(
+        np.vstack([
+            (x_min, 0),
+            tstack((wavelengths, values)),
+            (x_max, 0),
+        ]),
+        facecolor='none',
+        edgecolor='none')
+    axes.add_patch(polygon)
+    axes.bar(
+        x=wavelengths,
+        height=max(values),
+        width=1,
+        color=colours,
+        align='edge',
+        clip_path=polygon)
+    axes.plot(wavelengths, values, color='black', linewidth=1)
+
     settings = {
         'title': '{0} - {1}'.format(spd.strict_name, cmfs.strict_name),
         'x_label': 'Wavelength $\\lambda$ (nm)',
         'y_label': 'Spectral Power Distribution',
+        'limits': (x_min, x_max, y_min, y_max),
         'x_tighten': True,
         'y_tighten': True
     }
 
     settings.update(kwargs)
 
-    return colour_parameters_plot([
-        ColourParameter(x=x[0], y1=x[1], RGB=x[2])
-        for x in tuple(zip(wavelengths, y1, colours))
-    ], **settings)
+    return render(**settings)
 
 
 def multi_spd_plot(spds,
@@ -251,10 +265,7 @@ def multi_spd_plot(spds,
     }
     settings.update(kwargs)
 
-    boundaries(**settings)
-    decorate(**settings)
-
-    return display(**settings)
+    return render(**settings)
 
 
 def single_cmfs_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
@@ -374,10 +385,7 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
     }
     settings.update(kwargs)
 
-    boundaries(**settings)
-    decorate(**settings)
-
-    return display(**settings)
+    return render(**settings)
 
 
 def single_illuminant_relative_spd_plot(
@@ -498,12 +506,6 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
         {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
         :func:`display`},
         Please refer to the documentation of the previously listed definitions.
-    y0_plot : bool, optional
-        {:func:`colour_parameters_plot`},
-        Whether to plot *y0* line.
-    y1_plot : bool, optional
-        {:func:`colour_parameters_plot`},
-        Whether to plot *y1* line.
 
     Returns
     -------
@@ -515,35 +517,24 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
     >>> visible_spectrum_plot()  # doctest: +SKIP
     """
 
+    settings = {'y_label': None, 'y_ticker': False, 'standalone': False}
+
+    single_spd_plot(
+        ones_spd(DEFAULT_SPECTRAL_SHAPE),
+        cmfs=cmfs,
+        out_of_gamut_clipping=out_of_gamut_clipping,
+        **settings)
+
     cmfs = get_cmfs(cmfs)
-    cmfs = cmfs.copy().align(DEFAULT_SPECTRAL_SHAPE)
-
-    wavelengths = cmfs.shape.range()
-
-    colours = XYZ_to_sRGB(
-        wavelength_to_XYZ(wavelengths, cmfs),
-        ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['E'],
-        apply_encoding_cctf=False)
-
-    if not out_of_gamut_clipping:
-        colours += np.abs(np.min(colours))
-
-    colours = DEFAULT_PLOTTING_ENCODING_CCTF(normalise_maximum(colours))
 
     settings = {
         'title': 'The Visible Spectrum - {0}'.format(cmfs.strict_name),
         'x_label': 'Wavelength $\\lambda$ (nm)',
-        'y_label': False,
-        'x_tighten': True,
-        'y_tighten': True,
-        'y_ticker': False
+        'standalone': True
     }
     settings.update(kwargs)
 
-    return colour_parameters_plot([
-        ColourParameter(x=x[0], RGB=x[1])
-        for x in tuple(zip(wavelengths, colours))
-    ], **settings)
+    return render(**settings)
 
 
 def single_lightness_function_plot(function='CIE 1976', **kwargs):
@@ -646,10 +637,7 @@ def multi_lightness_function_plot(functions=None, **kwargs):
     })
     settings.update(kwargs)
 
-    boundaries(**settings)
-    decorate(**settings)
-
-    return display(**settings)
+    return render(**settings)
 
 
 def blackbody_spectral_radiance_plot(
@@ -719,14 +707,12 @@ def blackbody_spectral_radiance_plot(
         'standalone': False
     }
 
-    single_colour_plot(ColourParameter(name='', RGB=RGB), **settings)
+    single_colour_swatch_plot(ColourSwatch(name='', RGB=RGB), **settings)
 
     settings = {'standalone': True}
     settings.update(kwargs)
 
-    boundaries(**settings)
-    decorate(**settings)
-    return display(**settings)
+    return render(**settings)
 
 
 def blackbody_colours_plot(shape=SpectralShape(150, 12500, 50),
@@ -748,12 +734,6 @@ def blackbody_colours_plot(shape=SpectralShape(150, 12500, 50),
         {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
         :func:`display`},
         Please refer to the documentation of the previously listed definitions.
-    y0_plot : bool, optional
-        {:func:`colour_parameters_plot`},
-        Whether to plot *y0* line.
-    y1_plot : bool, optional
-        {:func:`colour_parameters_plot`},
-        Whether to plot *y1* line.
 
     Returns
     -------
@@ -765,31 +745,42 @@ def blackbody_colours_plot(shape=SpectralShape(150, 12500, 50),
     >>> blackbody_colours_plot()  # doctest: +SKIP
     """
 
+    axes = canvas(**kwargs).gca()
+
     cmfs = get_cmfs(cmfs)
 
     colours = []
     temperatures = []
 
-    for temperature in shape:
-        spd = blackbody_spd(temperature, cmfs.shape)
+    with suppress_warnings():
+        for temperature in shape:
+            spd = blackbody_spd(temperature, cmfs.shape)
 
-        XYZ = spectral_to_XYZ(spd, cmfs)
-        RGB = normalise_maximum(XYZ_to_sRGB(XYZ / 100))
+            XYZ = spectral_to_XYZ(spd, cmfs)
+            RGB = normalise_maximum(XYZ_to_sRGB(XYZ / 100))
 
-        colours.append(RGB)
-        temperatures.append(temperature)
+            colours.append(RGB)
+            temperatures.append(temperature)
+
+    x_min, x_max = min(temperatures), max(temperatures)
+    y_min, y_max = 0, 1
+
+    axes.bar(
+        x=temperatures,
+        height=1,
+        width=shape.interval,
+        color=colours,
+        align='edge')
 
     settings = {
         'title': 'Blackbody Colours',
         'x_label': 'Temperature K',
-        'y_label': '',
+        'y_label': None,
+        'limits': (x_min, x_max, y_min, y_max),
         'x_tighten': True,
         'y_tighten': True,
         'y_ticker': False
     }
     settings.update(kwargs)
 
-    return colour_parameters_plot([
-        ColourParameter(x=x[0], RGB=x[1])
-        for x in tuple(zip(temperatures, colours))
-    ], **settings)
+    return render(**settings)
