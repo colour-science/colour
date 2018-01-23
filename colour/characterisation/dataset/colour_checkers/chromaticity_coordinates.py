@@ -43,7 +43,7 @@ from collections import namedtuple
 from colour.colorimetry import ILLUMINANTS
 from colour.utilities import CaseInsensitiveMapping
 
-__author__ = 'Colour Developers'
+__author__ = 'Colour Developers, Danny Pascale '
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __copyright__ += ', '
 __copyright__ += (

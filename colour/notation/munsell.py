@@ -33,8 +33,9 @@ blob/master/notebooks/notation/munsell.ipynb>`_
 
 References
 ----------
-.. [1]  Centore, P. (n.d.). Munsell Resources. Retrieved July 26, 2014, from
-        http://www.99main.com/~centore/MunsellResources/MunsellResources.html
+.. [1]  Centore, P. (n.d.). The Munsell and Kubelka-Munk Toolbox. Retrieved
+        January 23, 2018, from http://www.munsellcolourscienceforpainters.com/\
+MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html
 .. [2]  Centore, P. (2012). An open-source inversion algorithm for the Munsell
         renotation. Color Research & Application, 37(6), 455–464.
         doi:10.1002/col.20715
@@ -80,6 +81,10 @@ from colour.utilities import (CaseInsensitiveMapping, Lookup, is_integer,
 
 __author__ = 'Colour Developers, Paul Centore'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ += ', '
+__copyright__ += (
+    'The Munsell and Kubelka-Munk Toolbox: Copyright © 2010-2018 Paul Centore '
+    '(Gales Ferry, CT 06335, USA); used by permission.')
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
