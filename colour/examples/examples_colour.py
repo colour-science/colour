@@ -74,7 +74,7 @@ xy = np.tile((0.31270, 0.32900), (6, 1))
 message_box(('Definitions return value may lose a dimension with respect to '
              'the parameter(s):\n'
              '\n{0}'.format(xy)))
-print(colour.xy_to_CCT_McCamy1992(xy))
+print(colour.xy_to_CCT(xy))
 
 print('\n')
 
@@ -82,7 +82,7 @@ CCT = np.tile(6504.38938305, 6)
 message_box(('Definitions return value may gain a dimension with respect to '
              'the parameter(s):\n'
              '\n{0}'.format(CCT)))
-print(colour.CCT_to_xy_Kang2002(CCT))
+print(colour.CCT_to_xy(CCT))
 
 print('\n')
 
@@ -102,8 +102,8 @@ message_box(('Parameters:\n\n'
              '\nY_o:\n\n{3}\n\n'
              '\nE_o1:\n\n{4}\n\n'
              '\nE_o2:\n\n{5}'.format(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)))
-print(
-    colour.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2))
+print(colour.adaptation.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o,
+                                                     E_o1, E_o2))
 
 print('\n')
 
@@ -115,8 +115,8 @@ message_box(('Parameters:\n\n'
              '\nY_o:\n\n{3}\n\n'
              '\nE_o1:\n\n{4}\n\n'
              '\nE_o2:\n\n{5}'.format(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)))
-print(
-    colour.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2))
+print(colour.adaptation.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o,
+                                                     E_o1, E_o2))
 
 print('\n')
 
@@ -132,8 +132,8 @@ message_box(('Parameters:\n\n'
              '\nY_o:\n\n{3}\n\n'
              '\nE_o1:\n\n{4}\n\n'
              '\nE_o2:\n\n{5}'.format(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)))
-print(
-    colour.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2))
+print(colour.adaptation.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o,
+                                                     E_o1, E_o2))
 
 print('\n')
 
@@ -150,5 +150,5 @@ message_box(('Parameters:\n\n'
              '\nY_o:\n\n{3}\n\n'
              '\nE_o1:\n\n{4}\n\n'
              '\nE_o2:\n\n{5}'.format(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)))
-print(
-    colour.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2))
+print(colour.adaptation.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o,
+                                                     E_o1, E_o2))

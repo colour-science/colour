@@ -26,11 +26,11 @@ message_box(('Computing chromatic adaptation using "CIE 1994" chromatic '
              'are non standard!'.format(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)))
 print(colour.chromatic_adaptation(
     XYZ_1,
-    colour.models.xy_to_XYZ(xy_o1),
-    colour.models.xy_to_XYZ(xy_o2),
+    colour.xy_to_XYZ(xy_o1),
+    colour.xy_to_XYZ(xy_o2),
     method='CIE 1994',
     Y_o=Y_o,
     E_o1=E_o1,
     E_o2=E_o2))
-print(colour.chromatic_adaptation_CIE1994(XYZ_1 * 100.0, xy_o1, xy_o2, Y_o,
-                                          E_o1, E_o2)) / 100.0
+print(colour.adaptation.chromatic_adaptation_CIE1994(
+    XYZ_1 * 100.0, xy_o1, xy_o2, Y_o, E_o1, E_o2)) / 100.0

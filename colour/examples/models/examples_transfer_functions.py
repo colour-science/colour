@@ -15,7 +15,7 @@ message_box(('Encoding to video component signal value using "BT.709" OETF '
              'and given linear-light value:\n'
              '\n\t{0}'.format(C)))
 print(colour.oetf(C, function='ITU-R BT.709'))
-print(colour.oetf_BT709(C))
+print(colour.models.oetf_BT709(C))
 
 print('\n')
 
@@ -24,14 +24,14 @@ message_box(('Decoding to linear-light value using "BT.1886" EOTF and given '
              ' video component signal value:\n'
              '\n\t{0}'.format(N)))
 print(colour.eotf(N, function='ITU-R BT.1886'))
-print(colour.eotf_BT1886(N))
+print(colour.models.eotf_BT1886(N))
 
 print('\n')
 
 message_box(('Encoding to "Cineon" using given linear-light value:\n'
              '\n\t{0}'.format(C)))
 print(colour.log_encoding_curve(C, curve='Cineon'))
-print(colour.log_encoding_Cineon(C))
+print(colour.models.log_encoding_Cineon(C))
 
 print('\n')
 
@@ -39,14 +39,14 @@ N = 0.45731961
 message_box(('Decoding to linear-light using given "Cineon" code value:\n'
              '\n\t{0}'.format(N)))
 print(colour.log_decoding_curve(N, curve='Cineon'))
-print(colour.log_decoding_Cineon(N))
+print(colour.models.log_decoding_Cineon(N))
 
 print('\n')
 
 message_box(('Encoding to "PLog" using given linear-light value:\n'
              '\n\t{0}'.format(C)))
 print(colour.log_encoding_curve(C, curve='PLog'))
-print(colour.log_encoding_PivotedLog(C))
+print(colour.models.log_encoding_PivotedLog(C))
 
 print('\n')
 
@@ -54,7 +54,7 @@ N = 0.43499511
 message_box(('Decoding to linear-light value using given "PLog" code value:\n'
              '\n\t{0}'.format(N)))
 print(colour.log_decoding_curve(N, curve='PLog'))
-print(colour.log_decoding_PivotedLog(N))
+print(colour.models.log_decoding_PivotedLog(N))
 
 print('\n')
 

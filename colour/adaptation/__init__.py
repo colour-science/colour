@@ -176,7 +176,7 @@ def chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method='Von Kries', **kwargs):
     kwargs.update({'XYZ_w': XYZ_w, 'XYZ_wr': XYZ_wr})
 
     if function is chromatic_adaptation_CIE1994:
-        from colour.models import XYZ_to_xy
+        from colour import XYZ_to_xy
 
         kwargs.update({'xy_o1': XYZ_to_xy(XYZ_w), 'xy_o2': XYZ_to_xy(XYZ_wr)})
     elif function is chromatic_adaptation_Fairchild1990:

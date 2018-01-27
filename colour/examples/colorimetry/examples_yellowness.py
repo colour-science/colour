@@ -19,7 +19,7 @@ message_box(
      'Warning: The input domain of that definition is non standard!'.format(
          XYZ)))
 print(colour.yellowness(XYZ=XYZ, method='ASTM D1925'))
-print(colour.yellowness_ASTMD1925(XYZ))
+print(colour.colorimetry.yellowness_ASTMD1925(XYZ))
 
 print('\n')
 
@@ -30,4 +30,4 @@ message_box(
      'Warning: The input domain of that definition is non standard!'.format(
          XYZ)))
 print(colour.yellowness(XYZ=XYZ, method='ASTM E313'))
-print(colour.yellowness_ASTME313(XYZ))
+print(colour.colorimetry.yellowness_ASTME313(XYZ))

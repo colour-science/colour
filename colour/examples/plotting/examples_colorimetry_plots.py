@@ -43,7 +43,11 @@ print('\n')
 message_box(('Plotting "CIE Standard Illuminant D Series" "S" spectral power '
              'distributions.'))
 multi_spd_plot(
-    [value for key, value in sorted(colour.D_ILLUMINANTS_S_SPDS.items())],
+    [
+        value
+        for key, value in sorted(
+            colour.colorimetry.D_ILLUMINANTS_S_SPDS.items())
+    ],
     title='CIE Standard Illuminant D Series - S Distributions')
 
 print('\n')

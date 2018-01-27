@@ -21,7 +21,7 @@ message_box(
      'Warning: The input domain of that definition is non standard!'.format(
          XYZ, XYZ_0)))
 print(colour.whiteness(XYZ=XYZ, XYZ_0=XYZ_0, method='Berger 1959'))
-print(colour.whiteness_Berger1959(XYZ, XYZ_0))
+print(colour.colorimetry.whiteness_Berger1959(XYZ, XYZ_0))
 
 print('\n')
 
@@ -30,7 +30,7 @@ message_box(('Computing "whiteness" using "Taube (1960)" method for '
              'matrices:\n'
              '\n\t{0}\n\t{1}'.format(XYZ, XYZ_0)))
 print(colour.whiteness(XYZ=XYZ, XYZ_0=XYZ_0, method='Taube 1960'))
-print(colour.whiteness_Taube1960(XYZ, XYZ_0))
+print(colour.colorimetry.whiteness_Taube1960(XYZ, XYZ_0))
 
 print('\n')
 
@@ -39,7 +39,7 @@ message_box(('Computing "whiteness" using "Stensby (1968)" method for '
              'given sample "CIE L*a*b*" colourspace array:\n'
              '\n\t{0}'.format(Lab)))
 print(colour.whiteness(Lab=Lab, method='Stensby 1968'))
-print(colour.whiteness_Stensby1968(Lab))
+print(colour.colorimetry.whiteness_Stensby1968(Lab))
 
 print('\n')
 
@@ -47,7 +47,7 @@ message_box(('Computing "whiteness" using "ASTM E313" method for '
              'given sample "CIE XYZ" tristimulus values:\n'
              '\n\t{0}'.format(XYZ)))
 print(colour.whiteness(XYZ=XYZ, method='ASTM E313'))
-print(colour.whiteness_ASTME313(XYZ))
+print(colour.colorimetry.whiteness_ASTME313(XYZ))
 
 print('\n')
 
@@ -61,7 +61,7 @@ message_box(
      'Warning: The input domain of that definition is non standard!'.format(
          xy, Y)))
 print(colour.whiteness(xy=xy, Y=Y, method='Ganz 1979'))
-print(colour.whiteness_Ganz1979(xy, Y))
+print(colour.colorimetry.whiteness_Ganz1979(xy, Y))
 
 print('\n')
 
@@ -76,4 +76,4 @@ message_box(
      'Warning: The input domain of that definition is non standard!'.format(
          xy, Y, xy_n)))
 print(colour.whiteness(xy=xy, Y=Y, xy_n=xy_n))
-print(colour.whiteness_CIE2004(xy, Y, xy_n))
+print(colour.colorimetry.whiteness_CIE2004(xy, Y, xy_n))
