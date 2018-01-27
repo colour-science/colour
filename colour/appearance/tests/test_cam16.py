@@ -33,6 +33,10 @@ class TestCAM16ColourAppearanceModelForward(ColourAppearanceModelTest):
     *CAM16* colour appearance model forward implementation.
     """
 
+    # TODO: The current fixture data is generated from direct computations
+    # using our model implementation. We have asked ground truth data to
+    # Li et al. (2016) and will update the "cam16.csv" file accordingly
+    # whenever we receive it.
     FIXTURE_BASENAME = 'cam16.csv'
 
     OUTPUT_ATTRIBUTES = {
