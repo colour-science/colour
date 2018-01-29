@@ -110,7 +110,10 @@ def single_spd_plot(spd,
 
     spd = spd.copy()
     spd.interpolator = LinearInterpolator
-    wavelengths = cmfs.wavelengths
+    wavelengths = cmfs.wavelengths[np.logical_and(
+        cmfs.wavelengths >= max(min(cmfs.wavelengths), min(spd.wavelengths)),
+        cmfs.wavelengths <= min(max(cmfs.wavelengths), max(spd.wavelengths)),
+    )]
     values = spd[wavelengths]
 
     colours = XYZ_to_sRGB(
