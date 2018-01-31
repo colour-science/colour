@@ -73,7 +73,7 @@ usage are the complete Sphinx `API Reference <https://colour.readthedocs.io/en/l
 and the `Jupyter Notebooks <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/blob/master/notebooks/colour.ipynb>`_
 with detailed historical and theoretical context and images:
 
--   `API Reference <https://colour.readthedocs.io/en/latest/api.html>`_
+-   `API Reference <https://colour.readthedocs.io/en/latest/api_reference.html>`_
 -   `Jupyter Notebooks <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/blob/master/notebooks/colour.ipynb>`_
 
 Examples

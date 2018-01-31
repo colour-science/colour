@@ -13,11 +13,11 @@
 # serve to show the default.
 
 autodoc_mock_imports = [
-    'matplotlib', 'matplotlib.cm', 'matplotlib.image', 'matplotlib.path',
-    'matplotlib.pyplot', 'matplotlib.ticker', 'mpl_toolkits.mplot3d',
-    'mpl_toolkits.mplot3d.art3d', 'pylab', 'scipy', 'scipy.interpolate',
-    'scipy.ndimage', 'scipy.ndimage.filters', 'scipy.optimize',
-    'scipy.spatial', 'scipy.spatial.distance'
+    'matplotlib', 'matplotlib.cm', 'matplotlib.image', 'matplotlib.patches',
+    'matplotlib.path', 'matplotlib.pyplot', 'matplotlib.ticker',
+    'mpl_toolkits.mplot3d', 'mpl_toolkits.mplot3d.art3d', 'pylab', 'scipy',
+    'scipy.interpolate', 'scipy.ndimage', 'scipy.ndimage.filters',
+    'scipy.optimize', 'scipy.spatial', 'scipy.spatial.distance'
 ]
 
 # If extensions (or modules to document with autodoc) are in another directory,
@@ -137,7 +137,7 @@ html_logo = 'Colour_Logo_Small_001.png'
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named 'default.css' will overwrite the builtin 'default.css'.
-# html_static_path = ['_static']
+html_static_path = ['_static']
 
 # Add any extra paths that contain custom files (such as robots.txt or
 # .htaccess) here, relative to this directory. These files are copied

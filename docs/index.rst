@@ -1,7 +1,7 @@
 Colour Science for Python
 =========================
 
-..  image:: https://raw.githubusercontent.com/colour-science/colour-branding/master/images/Colour_Logo_Medium_001.png
+..  image:: _static/Colour_Logo_Medium_001.png
 
 `Colour <https://github.com/colour-science/colour>`_ is a
 `Python <https://www.python.org/>`_ colour science package implementing a
@@ -48,7 +48,7 @@ usage are the complete Sphinx `API Reference <https://colour.readthedocs.io/en/l
 and the `Jupyter Notebooks <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/blob/master/notebooks/colour.ipynb>`_
 with detailed historical and theoretical context and images:
 
--   :doc:`API Reference <api>`
+-   :doc:`API Reference <api_reference>`
 -   `Jupyter Notebooks <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/blob/master/notebooks/colour.ipynb>`_
 
 Examples

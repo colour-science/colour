@@ -7,8 +7,8 @@ Colour
 *Colour* is a *Python* colour science package implementing a comprehensive
 number of colour theory transformations and algorithms.
 
-Subpackages
------------
+Sub-packages
+------------
 -   adaptation: Chromatic adaptation models and transformations.
 -   algebra: Algebra utilities.
 -   appearance: Colour appearance models.

@@ -1,15 +1,15 @@
-API Reference
-=============
+Detailed API
+============
 
 Contents:
 
 .. toctree::
-   :titlesonly:
+    :titlesonly:
 
-   colour
+    colour
 
 Indices and tables
-==================
+------------------
 
 * :ref:`genindex`
 * :ref:`modindex`
