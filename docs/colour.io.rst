@@ -1,21 +1,53 @@
-colour\.io Package
-==================
+Input and Output
+================
 
-Sub-Modules
+Image Data
+----------
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    read_image
+    write_image
+
+CSV Tabular Data
+----------------
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    read_spds_from_csv_file
+    read_spectral_data_from_csv_file
+    write_spds_to_csv_file
+
+IES TM-27-14 Data
+-----------------
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    IES_TM2714_Spd
+
+X-Rite Data
 -----------
 
-.. toctree::
+``colour``
 
-   colour.io.common
-   colour.io.ies_tm2714
-   colour.io.image
-   colour.io.tabular
-   colour.io.xrite
+.. currentmodule:: colour
 
-Module Contents
----------------
+.. autosummary::
+    :toctree: generated/
 
-.. automodule:: colour.io
-    :members:
-    :undoc-members:
-    :show-inheritance:
+    read_spds_from_xrite_file

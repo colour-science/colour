@@ -97,7 +97,7 @@ ALEXA_WIDE_GAMUT_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_ALEXA_WIDE_GAMUT_MATRIX,
     log_encoding_ALEXALogC,
     log_decoding_ALEXALogC)  # yapf: disable
-"""
+ALEXA_WIDE_GAMUT_COLOURSPACE.__doc__ = """
 *ALEXA Wide Gamut* colourspace.
 
 ALEXA_WIDE_GAMUT_COLOURSPACE : RGB_Colourspace

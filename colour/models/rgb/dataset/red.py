@@ -119,7 +119,7 @@ RED_COLOR_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_RED_COLOR_MATRIX,
     log_encoding_REDLogFilm,
     log_decoding_REDLogFilm)  # yapf: disable
-"""
+RED_COLOR_COLOURSPACE.__doc__ = """
 *REDcolor* colourspace.
 
 RED_COLOR_COLOURSPACE : RGB_Colourspace
@@ -174,7 +174,7 @@ RED_COLOR_2_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_RED_COLOR_2_MATRIX,
     log_encoding_REDLogFilm,
     log_decoding_REDLogFilm)  # yapf: disable
-"""
+RED_COLOR_2_COLOURSPACE.__doc__ = """
 *REDcolor2* colourspace.
 
 RED_COLOR_2_COLOURSPACE : RGB_Colourspace
@@ -229,7 +229,7 @@ RED_COLOR_3_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_RED_COLOR_3_MATRIX,
     log_encoding_REDLogFilm,
     log_decoding_REDLogFilm)  # yapf: disable
-"""
+RED_COLOR_3_COLOURSPACE.__doc__ = """
 *REDcolor3* colourspace.
 
 RED_COLOR_3_COLOURSPACE : RGB_Colourspace
@@ -284,7 +284,7 @@ RED_COLOR_4_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_RED_COLOR_4_MATRIX,
     log_encoding_REDLogFilm,
     log_decoding_REDLogFilm)  # yapf: disable
-"""
+RED_COLOR_4_COLOURSPACE.__doc__ = """
 *REDcolor4* colourspace.
 
 RED_COLOR_4_COLOURSPACE : RGB_Colourspace
@@ -339,7 +339,7 @@ DRAGON_COLOR_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_DRAGON_COLOR_MATRIX,
     log_encoding_REDLogFilm,
     log_decoding_REDLogFilm)  # yapf: disable
-"""
+DRAGON_COLOR_COLOURSPACE.__doc__ = """
 *DRAGONcolor* colourspace.
 
 DRAGON_COLOR_COLOURSPACE : RGB_Colourspace
@@ -394,7 +394,7 @@ DRAGON_COLOR_2_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_DRAGON_COLOR_2_MATRIX,
     log_encoding_REDLogFilm,
     log_decoding_REDLogFilm)  # yapf: disable
-"""
+DRAGON_COLOR_2_COLOURSPACE.__doc__ = """
 *DRAGONcolor2* colourspace.
 
 DRAGON_COLOR_2_COLOURSPACE : RGB_Colourspace
@@ -454,7 +454,7 @@ RED_WIDE_GAMUT_RGB_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_RED_WIDE_GAMUT_RGB_MATRIX,
     log_encoding_Log3G10,
     log_decoding_Log3G10)  # yapf: disable
-"""
+RED_WIDE_GAMUT_RGB_COLOURSPACE.__doc__ = """
 *REDWideGamutRGB* colourspace.
 
 RED_WIDE_GAMUT_RGB_COLOURSPACE : RGB_Colourspace

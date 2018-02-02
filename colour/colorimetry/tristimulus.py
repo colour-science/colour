@@ -62,7 +62,7 @@ __all__ = [
 ]
 
 ASTME30815_PRACTISE_SHAPE = DEFAULT_SPECTRAL_SHAPE
-"""
+ASTME30815_PRACTISE_SHAPE.__doc__ = """
 Shape for *ASTM E308-15* practise: (360, 780, 1).
 
 ASTME30815_PRACTISE_SHAPE : SpectralShape
@@ -684,7 +684,7 @@ SPECTRAL_TO_XYZ_METHODS = CaseInsensitiveMapping({
     'ASTM E308-15': spectral_to_XYZ_ASTME30815,
     'Integration': spectral_to_XYZ_integration
 })
-"""
+SPECTRAL_TO_XYZ_METHODS.__doc__ = """
 Supported spectral power distribution to *CIE XYZ* tristimulus values
 conversion methods
 

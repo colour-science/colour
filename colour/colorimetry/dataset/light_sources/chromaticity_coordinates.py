@@ -460,7 +460,7 @@ LIGHT_SOURCES = CaseInsensitiveMapping({
         CaseInsensitiveMapping(
             LIGHT_SOURCES_RIT_CIE_1964_10_DEGREE_STANDARD_OBSERVER)
 })
-"""
+LIGHT_SOURCES.__doc__ = """
 Aggregated light sources chromaticity coordinates.
 
 LIGHT_SOURCES : CaseInsensitiveMapping

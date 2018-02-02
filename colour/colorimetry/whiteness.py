@@ -343,7 +343,7 @@ WHITENESS_METHODS = CaseInsensitiveMapping({
     'Ganz 1979': whiteness_Ganz1979,
     'CIE 2004': whiteness_CIE2004
 })
-"""
+WHITENESS_METHODS.__doc__ = """
 Supported *whiteness* computations methods.
 
 WHITENESS_METHODS : CaseInsensitiveMapping

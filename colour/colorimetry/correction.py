@@ -106,7 +106,7 @@ def bandpass_correction_Stearns1988(spd):
 BANDPASS_CORRECTION_METHODS = CaseInsensitiveMapping({
     'Stearns 1988': bandpass_correction_Stearns1988
 })
-"""
+BANDPASS_CORRECTION_METHODS.__doc__ = """
 Supported spectral bandpass dependence correction methods.
 
 BANDPASS_CORRECTION_METHODS : CaseInsensitiveMapping

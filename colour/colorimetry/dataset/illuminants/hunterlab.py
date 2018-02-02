@@ -110,7 +110,7 @@ HUNTERLAB_ILLUMINANTS = CaseInsensitiveMapping({
     'CIE 1964 10 Degree Standard Observer':
         HUNTERLAB_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER
 })
-"""
+HUNTERLAB_ILLUMINANTS.__doc__ = """
 Aggregated *Hunter L,a,b* illuminant dataset.
 
 HUNTERLAB_ILLUMINANTS : CaseInsensitiveMapping

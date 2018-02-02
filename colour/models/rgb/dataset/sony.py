@@ -118,7 +118,7 @@ S_GAMUT_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_S_GAMUT_MATRIX,
     log_encoding_SLog2,
     log_decoding_SLog2)  # yapf: disable
-"""
+S_GAMUT_COLOURSPACE.__doc__ = """
 *S-Gamut* colourspace.
 
 S_GAMUT_COLOURSPACE : RGB_Colourspace
@@ -133,7 +133,7 @@ S_GAMUT3_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_S_GAMUT_MATRIX,
     log_encoding_SLog3,
     log_decoding_SLog3)  # yapf: disable
-"""
+S_GAMUT3_COLOURSPACE.__doc__ = """
 *S-Gamut3* colourspace.
 
 S_GAMUT3_COLOURSPACE : RGB_Colourspace
@@ -195,7 +195,7 @@ S_GAMUT3_CINE_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_S_GAMUT3_CINE_MATRIX,
     log_encoding_SLog3,
     log_decoding_SLog3)  # yapf: disable
-"""
+S_GAMUT3_CINE_COLOURSPACE.__doc__ = """
 *S-Gamut3.Cine* colourspace.
 
 S_GAMUT3_CINE_COLOURSPACE : RGB_Colourspace

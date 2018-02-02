@@ -103,7 +103,7 @@ CIECAM02_VIEWING_CONDITIONS = CaseInsensitiveMapping({
     'Dim': CIECAM02_InductionFactors(0.9, 0.59, 0.95),
     'Dark': CIECAM02_InductionFactors(0.8, 0.525, 0.8)
 })
-"""
+CIECAM02_VIEWING_CONDITIONS.__doc__ = """
 Reference *CIECAM02* colour appearance model viewing conditions.
 
 CIECAM02_VIEWING_CONDITIONS : CaseInsensitiveMapping

@@ -86,7 +86,7 @@ PAL_SECAM_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_PAL_SECAM_MATRIX,
     BT470_625_COLOURSPACE.encoding_cctf,
     BT470_625_COLOURSPACE.decoding_cctf)  # yapf: disable
-"""
+PAL_SECAM_COLOURSPACE.__doc__ = """
 *Pal/Secam* colourspace.
 
 PAL_SECAM_COLOURSPACE : RGB_Colourspace

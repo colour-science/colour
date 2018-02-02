@@ -34,7 +34,7 @@ INSTALLATION_REQUIREMENTS = ['six>=1.10.0', 'scipy>=0.16.0']
 
 PLOTTING_REQUIREMENTS = ['matplotlib>=1.3.1']
 
-DOCS_REQUIREMENTS = ['sphinx>=1.2.2']
+DOCS_REQUIREMENTS = ['sphinx>=1.6.6']
 
 TESTS_REQUIREMENTS = ['coverage>=3.7.1', 'flake8>=2.1.0', 'nose>=1.3.4']
 

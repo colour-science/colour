@@ -30,7 +30,7 @@ __all__ = ['CV_range', 'legal_to_full', 'full_to_legal']
 
 
 def CV_range(bit_depth=10, is_legal=False, is_int=False):
-    """"
+    """
     Returns the code value :math:`CV` range for given bit depth, range legality
     and representation.
 

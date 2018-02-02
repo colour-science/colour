@@ -11,6 +11,8 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.utilities.documentation import DocstringFloat
+
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
@@ -30,8 +32,8 @@ Floating point number regex matching pattern.
 FLOATING_POINT_NUMBER_PATTERN : unicode
 """
 
-INTEGER_THRESHOLD = 1e-3
-"""
+INTEGER_THRESHOLD = DocstringFloat(1e-3)
+INTEGER_THRESHOLD.__doc__ = """
 Integer threshold value.
 
 INTEGER_THRESHOLD : numeric

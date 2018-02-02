@@ -153,7 +153,7 @@ SMITS_1999_SPDS = CaseInsensitiveMapping({
             SMITS_1999_SPDS_DATA['blue'],
             name='blue')
 })  # yapf: disable
-"""
+SMITS_1999_SPDS.__doc__ = """
 *Smits (1999)* spectral power distributions.
 
 SMITS_1999_SPDS : CaseInsensitiveMapping

@@ -5181,7 +5181,7 @@ LIGHT_SOURCES_PROJECTORS_RELATIVE_SPDS : CaseInsensitiveMapping
 
 LIGHT_SOURCES_RELATIVE_SPDS = CaseInsensitiveMapping(
     LIGHT_SOURCES_RIT_RELATIVE_SPDS)
-"""
+LIGHT_SOURCES_RELATIVE_SPDS.__doc__ = """
 Aggregated light sources spectral power distributions.
 
 LIGHT_SOURCES_RELATIVE_SPDS : CaseInsensitiveMapping

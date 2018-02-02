@@ -3,24 +3,21 @@ Tutorial
 
 `Colour <https://github.com/colour-science/Colour/>`__ spreads over
 various domains of Colour Science from colour models to optical
-phenomenons, this tutorial will not give you a complete overview of the
+phenomena, this tutorial will not give you a complete overview of the
 API but will still be a good introduction.
 
-    Note: A directory full of examples is available at this path in your
+.. note::
+
+    A directory full of examples is available at this path in your
     `Colour <https://github.com/colour-science/Colour/>`__ installation:
     *colour/examples*. You can also explore it directly on Github:
     https://github.com/colour-science/colour/tree/master/colour/examples
 
-.. code:: python
-
-    %matplotlib inline
 
 .. code:: python
 
-    import colour
     from colour.plotting import *
 
-    colour.filter_warnings(True, False)
     colour_plotting_defaults()
 
     visible_spectrum_plot()
@@ -36,38 +33,40 @@ Overview
 `Colour <https://github.com/colour-science/Colour/>`__ is organised
 around various sub-packages:
 
--  **adaptation**: Chromatic adaptation models and transformations.
--  **algebra**: Algebra utilities.
--  **appearance**: Colour appearance models.
--  **biochemistry**: Biochemistry computations.
--  **continuous**: Base objects for continuous data representation.
--  **characterisation**: Colour fitting and camera characterisation.
--  **colorimetry**: Core objects for colour computations.
--  **constants**: *CIE* and *CODATA* constants.
--  **corresponding**: Corresponding colour chromaticities computations.
--  **difference**: Colour difference computations.
--  **examples**: Examples for the sub-packages.
--  **io**: Input / output objects for reading and writing data.
--  **models**: Colour models.
--  **notation**: Colour notation systems.
--  **phenomenons**: Computation of various optical phenomenons.
--  **plotting**: Diagrams, figures, etc…
--  **quality**: Colour quality computation.
--  **recovery**: Reflectance recovery.
--  **temperature**: Colour temperature and correlated colour temperature
+-  :doc:`adaptation <colour.adaptation>`: Chromatic adaptation models and transformations.
+-  :doc:`algebra <colour.algebra>`: Algebra utilities.
+-  :doc:`appearance <colour.appearance>`: Colour appearance models.
+-  :doc:`biochemistry <colour.biochemistry>`: Biochemistry computations.
+-  :doc:`continuous <colour.continuous>`: Base objects for continuous data representation.
+-  :doc:`characterisation <colour.characterisation>`: Colour fitting and camera characterisation.
+-  :doc:`colorimetry <colour.colorimetry>`: Core objects for colour computations.
+-  :doc:`constants <colour.constants>`: *CIE* and *CODATA* constants.
+-  :doc:`corresponding <colour.corresponding>`: Corresponding colour chromaticities computations.
+-  :doc:`difference <colour.difference>`: Colour difference computations.
+-  *examples*: Examples for the sub-packages.
+-  :doc:`io <colour.io>`: Input / output objects for reading and writing data.
+-  :doc:`models <colour.models>`: Colour models.
+-  :doc:`notation <colour.notation>`: Colour notation systems.
+-  :doc:`phenomena <colour.phenomena>`: Computation of various optical phenomena.
+-  :doc:`plotting <colour.plotting>`: Diagrams, figures, etc…
+-  :doc:`quality <colour.quality>`: Colour quality computation.
+-  :doc:`recovery <colour.recovery>`: Reflectance recovery.
+-  :doc:`temperature <colour.temperature>`: Colour temperature and correlated colour temperature
    computation.
--  **utilities**: Various utilities and data structures.
--  **volume**: Colourspace volumes computation and optimal colour
+-  :doc:`utilities <colour.utilities>`: Various utilities and data structures.
+-  :doc:`volume <colour.volume>`: Colourspace volumes computation and optimal colour
    stimuli.
 
 Most of the public API is available from the root colour namespace:
 
 .. code:: python
 
+    import colour
+
     print(colour.__all__[:5] + ['...'])
 
 
-.. parsed-literal::
+.. code-block:: text
 
     ['handle_numpy_errors', 'ignore_numpy_errors', 'raise_numpy_errors', 'print_numpy_errors', 'warn_numpy_errors', '...']
 
@@ -83,14 +82,14 @@ The various sub-packages also expose their public API:
     for sub_package in ('adaptation', 'algebra', 'appearance', 'biochemistry',
                         'characterisation', 'colorimetry', 'continuous',
                         'constants', 'corresponding', 'difference', 'io', 'models',
-                        'notation', 'phenomenons', 'plotting', 'quality',
+                        'notation', 'phenomena', 'plotting', 'quality',
                         'recovery', 'temperature', 'utilities', 'volume'):
         print(sub_package.title())
         pprint(getattr(colour, sub_package).__all__[:5] + ['...'])
         print('\n')
 
 
-.. parsed-literal::
+.. code-block:: text
 
     Adaptation
     ['CHROMATIC_ADAPTATION_TRANSFORMS',
@@ -262,7 +261,7 @@ The code is documented and almost every docstrings have usage examples:
     print(colour.temperature.CCT_to_uv_Ohno2013.__doc__)
 
 
-.. parsed-literal::
+.. code-block:: text
 
 
         Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
@@ -310,7 +309,7 @@ for spectral related computations and many others:
     pprint(colorimetry.__all__)
 
 
-.. parsed-literal::
+.. code-block:: text
 
     ['SpectralShape',
      'SpectralPowerDistribution',
@@ -407,7 +406,7 @@ following data:
     pprint(dataset.__all__)
 
 
-.. parsed-literal::
+.. code-block:: text
 
     ['CMFS',
      'LMS_CMFS',
@@ -522,7 +521,7 @@ it:
     print(repr(spd))
 
 
-.. parsed-literal::
+.. code-block:: text
 
     SpectralPowerDistribution([[  3.80000000e+02,   4.80000000e-02],
                                [  3.85000000e+02,   5.10000000e-02],
@@ -633,7 +632,7 @@ shape:
     print(spd.shape)
 
 
-.. parsed-literal::
+.. code-block:: text
 
     (380.0, 780.0, 5.0)
 
@@ -647,7 +646,7 @@ The shape returned is an instance of ``colour.SpectralShape`` class:
 
 
 
-.. parsed-literal::
+.. code-block:: text
 
     'SpectralShape(380.0, 780.0, 5.0)'
 
@@ -669,7 +668,7 @@ spectral dimensions and is instantiated as follows:
     shape.range()
 
 
-.. parsed-literal::
+.. code-block:: text
 
     0.0
     1.0
@@ -686,7 +685,7 @@ spectral dimensions and is instantiated as follows:
 
 
 
-.. parsed-literal::
+.. code-block:: text
 
     array([  0. ,   0.5,   1. ,   1.5,   2. ,   2.5,   3. ,   3.5,   4. ,
              4.5,   5. ,   5.5,   6. ,   6.5,   7. ,   7.5,   8. ,   8.5,
@@ -722,7 +721,7 @@ convenient objects to create constant spectral power distributions:
     print(ones_spd[400])
 
 
-.. parsed-literal::
+.. code-block:: text
 
     "Constant Spectral Power Distribution"
     (360.0, 780.0, 1.0)
@@ -747,7 +746,7 @@ Standard Observer* shape.
     print(repr(colour.DEFAULT_SPECTRAL_SHAPE))
 
 
-.. parsed-literal::
+.. code-block:: text
 
     SpectralShape(360, 780, 1)
 
@@ -762,7 +761,7 @@ distribution with user defined dimensions:
 
 
 
-.. parsed-literal::
+.. code-block:: text
 
     1.0
 
@@ -789,7 +788,7 @@ arithmetical operations:
     print((spd1 + colour.ones_spd())[400])
 
 
-.. parsed-literal::
+.. code-block:: text
 
     "Ones Filled Spectral Power Distribution"
     1.0
@@ -818,7 +817,7 @@ We can check the uniformity of the sample spectral power distribution:
     print(spd.is_uniform())
 
 
-.. parsed-literal::
+.. code-block:: text
 
     True
 
@@ -827,12 +826,18 @@ Since the sample spectral power distribution is uniform the
 interpolation will default to the ``colour.SpragueInterpolator``
 interpolator.
 
-    Note: Interpolation happens in place and may alter your original
+.. note::
+
+    Interpolation happens in place and may alter your original
     data, use the ``colour.SpectralPowerDistribution.copy`` method to
     produce a copy of your spectral power distribution before
     interpolation.
 
+
 .. code:: python
+
+    # *Colour* can emit a substantial amount of warnings, we filter them.
+    colour.filter_warnings()
 
     # Copying the sample spectral power distribution.
     spd_copy = spd.copy()
@@ -844,7 +849,7 @@ interpolator.
 
 
 
-.. parsed-literal::
+.. code-block:: text
 
     0.065809599999999996
 
@@ -874,7 +879,7 @@ nearest measured value of the appropriate quantity in truncation: [2]
 
 
 
-.. parsed-literal::
+.. code-block:: text
 
     (0.065000000000000002, 0.44800000000000018)
 
@@ -891,7 +896,7 @@ The underlying interpolator can be swapped for any of the
     ])
 
 
-.. parsed-literal::
+.. code-block:: text
 
     [u'KernelInterpolator',
      u'LinearInterpolator',
@@ -910,7 +915,7 @@ The underlying interpolator can be swapped for any of the
 
 
 
-.. parsed-literal::
+.. code-block:: text
 
     SpectralPowerDistribution([[  4.00000000e+02,   6.50000000e-02],
                                [  4.10000000e+02,   6.80000000e-02],
@@ -966,7 +971,7 @@ and *right* values:
 
 
 
-.. parsed-literal::
+.. code-block:: text
 
     (0.046999999999999348, 0.0)
 
@@ -987,7 +992,7 @@ required, extrapolate any missing values to match the requested shape:
 
 
 
-.. parsed-literal::
+.. code-block:: text
 
     (0.065000000000000002, 0.28199999999999975)
 
@@ -1016,7 +1021,7 @@ or *division* with *numeric* and *array_like* variables or other
     print((spd * colour.constant_spd(2, spd.shape) * colour.constant_spd(3, spd.shape)).values)
 
 
-.. parsed-literal::
+.. code-block:: text
 
     [ 1.25  1.5   1.75  2.    1.75  1.5   1.25]
     [ 0.5  1.   1.5  2.   1.5  1.   0.5]
@@ -1033,7 +1038,7 @@ factor:
     print(spd.normalise(100).values)
 
 
-.. parsed-literal::
+.. code-block:: text
 
     [ 0.25  0.5   0.75  1.    0.75  0.5   0.25]
     [  25.   50.   75.  100.   75.   50.   25.]
@@ -1065,7 +1070,7 @@ this tutorial but we can illustrate its core capability.
     print(repr(signal))
 
 
-.. parsed-literal::
+.. code-block:: text
 
     Signal([[   0.,   10.],
             [   1.,   20.],
@@ -1091,7 +1096,7 @@ this tutorial but we can illustrate its core capability.
 
 
 
-.. parsed-literal::
+.. code-block:: text
 
     array([ 55.91309735,  65.4172615 ,  65.54495059,  88.17819416,
             61.88860248,  10.53878826,  55.25130534,  46.14659783,
@@ -1116,13 +1121,11 @@ can be calculated:
     print(XYZ)
 
 
-.. parsed-literal::
+.. code-block:: text
 
     [ 10.97085572   9.70278591   6.05562778]
 
 
-    Note: *Colour* can emit a substantial amount of warnings, those can
-    be filtered by calling the ``colour.filter_warnings`` definition.
 
 From *CIE XYZ* Colourspace
 --------------------------
@@ -1136,7 +1139,7 @@ computations are available, cascading to even more computations:
     pprint([name for name in colour.__all__ if name.startswith('XYZ_to')])
 
 
-.. parsed-literal::
+.. code-block:: text
 
     ['XYZ_to_Hunt',
      'XYZ_to_ATD95',
@@ -1179,7 +1182,7 @@ We can for instance converts the *CIE XYZ* tristimulus values into
     print(RGB)
 
 
-.. parsed-literal::
+.. code-block:: text
 
     [ 0.45675795  0.30986982  0.24861924]
 
@@ -1200,9 +1203,12 @@ And Colour Rendition Charts
 In the same way, we can compute values from a colour rendition chart
 sample.
 
-    Note: This is useful for render time checks in the VFX industry,
+.. note::
+
+    This is useful for render time checks in the VFX industry,
     where you can use a synthetic colour chart into your render and
     ensure the colour management is acting as expected.
+
 
 The ``colour.characterisation`` sub-package contains the dataset for
 various colour rendition charts:
@@ -1216,15 +1222,18 @@ various colour rendition charts:
     print(sorted(colour.characterisation.COLOURCHECKERS_SPDS.keys()))
 
 
-.. parsed-literal::
+.. code-block:: text
 
     [u'BabelColor Average', u'ColorChecker 1976', u'ColorChecker 2005', u'babel_average', u'cc2005']
     [u'BabelColor Average', u'ColorChecker N Ohta', u'babel_average', u'cc_ohta']
 
 
-    Note: The above *cc2005*, *babel_average* and *cc_ohta* keys are
-    convenient aliases for respectively *ColorChecker 2005*, *BabelColor
-    Average* and *ColorChecker N Ohta* keys.
+.. note::
+
+    The above `cc2005`, `babel_average` and `cc_ohta` keys are
+    convenient aliases for respectively `ColorChecker 2005`, `BabelColor
+    Average` and `ColorChecker N Ohta` keys.
+
 
 .. code:: python
 
@@ -1267,7 +1276,7 @@ be computed using the ``colour.XYZ_to_xy`` definition:
     print(xy)
 
 
-.. parsed-literal::
+.. code-block:: text
 
     [ 0.31259787  0.32870029]
 
@@ -1317,7 +1326,7 @@ Notebooks <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/bl
 page.
 
 Bibliography
-------------
+~~~~~~~~~~~~
 
 1. ^ CIE TC 1-38. (2005). 9. INTERPOLATION. In CIE 167:2005 Recommended
    Practice for Tabulating Spectral Data for Use in Colour Computations

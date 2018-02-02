@@ -92,7 +92,7 @@ APPLE_RGB_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_APPLE_RGB_MATRIX,
     partial(function_gamma, exponent=1 / 1.8),
     partial(function_gamma, exponent=1.8))  # yapf: disable
-"""
+APPLE_RGB_COLOURSPACE.__doc__ = """
 *Apple RGB* colourspace.
 
 APPLE_RGB_COLOURSPACE : RGB_Colourspace

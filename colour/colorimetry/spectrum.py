@@ -1444,7 +1444,7 @@ dict_like, optional
 class MultiSpectralPowerDistribution(MultiSignal):
     """
     Defines multi-spectral power distribution: the base object for multi
-    spectrals computations. It is used to model colour matching functions,
+    spectral computations. It is used to model colour matching functions,
     display primaries, camera sensitivities, etc...
 
     The multi-spectral power distribution will be initialised according to

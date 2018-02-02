@@ -3015,7 +3015,7 @@ COLOURCHECKERS_SPDS = CaseInsensitiveMapping({
     'BabelColor Average': BABELCOLOR_AVERAGE_SPDS,
     'ColorChecker N Ohta': COLORCHECKER_N_OHTA_SPDS
 })
-"""
+COLOURCHECKERS_SPDS.__doc__ = """
 Aggregated *ColourCheckers* spectral power distributions.
 
 COLOURCHECKERS : CaseInsensitiveMapping

@@ -91,7 +91,7 @@ BETA_RGB_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_BETA_RGB_MATRIX,
     partial(function_gamma, exponent=1 / 2.2),
     partial(function_gamma, exponent=2.2))  # yapf: disable
-"""
+BETA_RGB_COLOURSPACE.__doc__ = """
 *Beta RGB* colourspace.
 
 BETA_RGB_COLOURSPACE : RGB_Colourspace

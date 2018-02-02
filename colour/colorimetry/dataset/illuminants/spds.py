@@ -3694,7 +3694,7 @@ ILLUMINANTS_RELATIVE_SPDS = CaseInsensitiveMapping({
         SpectralPowerDistribution(
             ILLUMINANTS_RELATIVE_SPDS_DATA['HP5'], name='HP5')
 })
-"""
+ILLUMINANTS_RELATIVE_SPDS.__doc__ = """
 *CIE* illuminants relative spectral power distributions.
 
 ILLUMINANTS_RELATIVE_SPDS : CaseInsensitiveMapping

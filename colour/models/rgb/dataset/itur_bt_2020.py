@@ -93,7 +93,7 @@ BT2020_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_BT2020_MATRIX,
     oetf_BT2020,
     eotf_BT2020)  # yapf: disable
-"""
+BT2020_COLOURSPACE.__doc__ = """
 *ITU-R BT.2020* colourspace.
 
 BT2020_COLOURSPACE : RGB_Colourspace

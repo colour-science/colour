@@ -90,7 +90,7 @@ RGB_COLOURSPACES = CaseInsensitiveMapping({
     V_GAMUT_COLOURSPACE.name: V_GAMUT_COLOURSPACE,
     XTREME_RGB_COLOURSPACE.name: XTREME_RGB_COLOURSPACE
 })
-"""
+RGB_COLOURSPACES.__doc__ = """
 Aggregated *RGB* colourspaces.
 
 RGB_COLOURSPACES : CaseInsensitiveMapping

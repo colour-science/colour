@@ -4,7 +4,7 @@
 CRT Displays RGB Primaries
 ==========================
 
-Defines *CRT* displays *RGB* primaries tri-spectral power distributions.
+Defines *CRT* displays *RGB* primaries multi-spectral power distributions.
 
 Each *CRT* display data is in the form of a *dict* of
 :class:`colour.characterisation.displays.RGB_DisplayPrimaries` classes as
@@ -138,7 +138,7 @@ CRT_DISPLAYS_RGB_PRIMARIES = CaseInsensitiveMapping({
             name='Typical CRT Brainard 1997')
 })
 """
-*CRT* displays *RGB* primaries tri-spectral power distributions.
+*CRT* displays *RGB* primaries multi-spectral power distributions.
 
 CRT_DISPLAYS_RGB_PRIMARIES : CaseInsensitiveMapping
     **{'Typical CRT Brainard 1997'}**

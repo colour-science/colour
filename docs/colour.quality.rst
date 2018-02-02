@@ -1,25 +1,45 @@
-colour\.quality Package
-=======================
+Colour Quality
+==============
 
-Sub-Packages
-------------
+Colour Rendering Index
+----------------------
 
-.. toctree::
+``colour``
 
-    colour.quality.dataset
+.. currentmodule:: colour
 
-Sub-Modules
------------
+.. autosummary::
+    :toctree: generated/
 
-.. toctree::
+    colour_rendering_index
 
-   colour.quality.cqs
-   colour.quality.cri
+``colour.quality``
 
-Module Contents
----------------
+.. currentmodule:: colour.quality
 
-.. automodule:: colour.quality
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. autosummary::
+    :toctree: generated/
+
+    CRI_Specification
+
+
+Colour Quality Scale
+--------------------
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    colour_quality_scale
+
+``colour.quality``
+
+.. currentmodule:: colour.quality
+
+.. autosummary::
+    :toctree: generated/
+
+    CQS_Specification

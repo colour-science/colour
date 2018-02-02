@@ -134,7 +134,7 @@ DCI_P3_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_DCI_P3_MATRIX,
     oetf_DCIP3,
     eotf_DCIP3)  # yapf: disable
-"""
+DCI_P3_COLOURSPACE.__doc__ = """
 *DCI-P3* colourspace.
 
 DCI_P3_COLOURSPACE : RGB_Colourspace
@@ -149,7 +149,7 @@ DCI_P3_P_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_DCI_P3_P_MATRIX,
     oetf_DCIP3,
     eotf_DCIP3)  # yapf: disable
-"""
+DCI_P3_P_COLOURSPACE.__doc__ = """
 *DCI-P3+* colourspace.
 
 DCI_P3_P_COLOURSPACE : RGB_Colourspace

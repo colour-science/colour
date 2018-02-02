@@ -1,25 +1,37 @@
-colour\.recovery Package
-========================
+Reflectance Recovery
+====================
 
-Sub-Packages
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    XYZ_to_spectral
+    REFLECTANCE_RECOVERY_METHODS
+
+Smits (1999)
 ------------
 
-.. toctree::
+``colour.recovery``
 
-    colour.recovery.dataset
+.. currentmodule:: colour.recovery
 
-Sub-Modules
------------
+.. autosummary::
+    :toctree: generated/
 
-.. toctree::
+    RGB_to_spectral_Smits1999
+    SMITS_1999_SPDS
 
-   colour.recovery.meng2015
-   colour.recovery.smits1999
+Meng, Simon and Hanika (2015)
+-----------------------------
 
-Module Contents
----------------
+``colour.recovery``
 
-.. automodule:: colour.recovery
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. currentmodule:: colour.recovery
+
+.. autosummary::
+    :toctree: generated/
+
+    XYZ_to_spectral_Meng2015

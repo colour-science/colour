@@ -44,17 +44,19 @@ Usage
 -----
 
 The two main references for `Colour <https://github.com/colour-science/colour>`_
-usage are the complete Sphinx `API Reference <https://colour.readthedocs.io/en/latest/api.html>`_
+usage are the `Colour Manual <https://colour.readthedocs.io/en/latest/manual.html>`_
 and the `Jupyter Notebooks <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/blob/master/notebooks/colour.ipynb>`_
-with detailed historical and theoretical context and images:
+with detailed historical and theoretical context and images.
 
--   :doc:`API Reference <api_reference>`
--   `Jupyter Notebooks <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/blob/master/notebooks/colour.ipynb>`_
+.. toctree::
+    :maxdepth: 4
+
+    manual
 
 Examples
 ~~~~~~~~
 
-**Adaptation**
+**Chromatic Adaptation**
 
 .. code-block:: python
 

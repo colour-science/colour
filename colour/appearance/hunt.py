@@ -97,7 +97,7 @@ HUNT_VIEWING_CONDITIONS = CaseInsensitiveMapping({
     'Projected Transparencies, Dark Surrounds':
         Hunt_InductionFactors(0.7, 10)
 })
-"""
+HUNT_VIEWING_CONDITIONS.__doc__ = """
 Reference *Hunt* colour appearance model viewing conditions.
 
 HUNT_VIEWING_CONDITIONS : CaseInsensitiveMapping

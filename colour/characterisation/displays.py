@@ -8,7 +8,7 @@ Defines spectral power distributions classes for the dataset from
 :mod:`colour.characterisation.dataset.displays` module:
 
 -   :class:`RGB_DisplayPrimaries`: Implements support for a *RGB* display (such
-    as a *CRT* or *LCD*) primaries tri-spectral power distributions.
+    as a *CRT* or *LCD*) primaries multi-spectral power distributions.
 
 See Also
 --------
@@ -34,7 +34,7 @@ __all__ = ['RGB_DisplayPrimaries']
 class RGB_DisplayPrimaries(MultiSpectralPowerDistribution):
     """
     Implements support for a *RGB* display (such as a *CRT* or *LCD*)
-    primaries tri-spectral power distributions.
+    primaries multi-spectral power distributions.
 
     Parameters
     ----------

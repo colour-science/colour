@@ -308,7 +308,7 @@ CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS = CaseInsensitiveMapping({
     'Fairchild 1990': corresponding_chromaticities_prediction_Fairchild1990,
     'Von Kries': corresponding_chromaticities_prediction_VonKries
 })
-"""
+CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS.__doc__ = """
 Aggregated corresponding chromaticities prediction models.
 
 CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS : CaseInsensitiveMapping

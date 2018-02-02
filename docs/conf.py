@@ -12,6 +12,8 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
+autosummary_generate = True
+
 autodoc_mock_imports = [
     'matplotlib', 'matplotlib.cm', 'matplotlib.image', 'matplotlib.patches',
     'matplotlib.path', 'matplotlib.pyplot', 'matplotlib.ticker',
@@ -106,7 +108,7 @@ pygments_style = 'sphinx'
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-# html_theme = 'default'
+html_theme = 'sphinx_rtd_theme'
 #
 # html_theme_options = {}
 
@@ -378,6 +380,7 @@ def _autodoc_process_docstring(app, what, name, obj, options, lines):
 
 
 def setup(app):
+    app.add_stylesheet('custom.css')
     app.connect('autodoc-process-docstring', _autodoc_process_docstring)
 
 

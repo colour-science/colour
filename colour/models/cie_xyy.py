@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-CIE xyY Colourspace
-===================
+Tristimulus Values, CIE xyY Colourspace and Chromaticity Coordinates
+====================================================================
 
 Defines the *CIE xyY* colourspace transformations:
 

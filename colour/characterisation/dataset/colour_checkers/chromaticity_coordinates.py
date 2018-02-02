@@ -220,7 +220,7 @@ COLOURCHECKERS = CaseInsensitiveMapping({
             COLORCHECKER_1976,
             COLORCHECKER_1976_ILLUMINANT)
 })  # yapf: disable
-"""
+COLOURCHECKERS.__doc__ = """
 Aggregated *ColourCheckers* chromaticity coordinates.
 
 COLOURCHECKERS : CaseInsensitiveMapping

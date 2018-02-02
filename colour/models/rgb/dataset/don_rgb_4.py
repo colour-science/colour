@@ -92,7 +92,7 @@ DON_RGB_4_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_DON_RGB_4_MATRIX,
     partial(function_gamma, exponent=1 / 2.2),
     partial(function_gamma, exponent=2.2))  # yapf: disable
-"""
+DON_RGB_4_COLOURSPACE.__doc__ = """
 *Don RGB 4* colourspace.
 
 DON_RGB_4_COLOURSPACE : RGB_Colourspace

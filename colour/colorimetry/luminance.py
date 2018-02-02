@@ -294,7 +294,7 @@ LUMINANCE_METHODS = CaseInsensitiveMapping({
     'Fairchild 2010': luminance_Fairchild2010,
     'Fairchild 2011': luminance_Fairchild2011
 })
-"""
+LUMINANCE_METHODS.__doc__ = """
 Supported *luminance* computations methods.
 
 LUMINANCE_METHODS : CaseInsensitiveMapping

@@ -21,7 +21,7 @@ REFLECTANCE_RECOVERY_METHODS = CaseInsensitiveMapping({
     'Meng 2015': XYZ_to_spectral_Meng2015,
     'Smits 1999': RGB_to_spectral_Smits1999,
 })
-"""
+REFLECTANCE_RECOVERY_METHODS.__doc__ = """
 Supported reflectance recovery methods.
 
 REFLECTANCE_RECOVERY_METHODS : CaseInsensitiveMapping

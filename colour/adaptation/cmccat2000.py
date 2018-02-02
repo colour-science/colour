@@ -75,7 +75,7 @@ CMCCAT2000_VIEWING_CONDITIONS = CaseInsensitiveMapping({
     'Dim': CMCCAT2000_InductionFactors(0.8),
     'Dark': CMCCAT2000_InductionFactors(0.8)
 })
-"""
+CMCCAT2000_VIEWING_CONDITIONS.__doc__ = """
 Reference *CMCCAT2000* chromatic adaptation model viewing conditions.
 
 CMCCAT2000_VIEWING_CONDITIONS : CaseInsensitiveMapping

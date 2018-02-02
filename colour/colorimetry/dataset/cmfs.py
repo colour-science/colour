@@ -1078,7 +1078,7 @@ LMS_CMFS = CaseInsensitiveMapping({
             name='Smith & Pokorny 1975 Normal Trichromats',
             strict_name='Smith & Pokorny (1975) Normal Trichromats')
 })
-"""
+LMS_CMFS.__doc__ = """
 *LMS* colour matching functions.
 
 LMS_CMFS : CaseInsensitiveMapping
@@ -1352,7 +1352,7 @@ RGB_CMFS = CaseInsensitiveMapping({
             name='Stiles & Burch 1959 10 Degree RGB CMFs',
             strict_name='Stiles & Burch (1959) 10$^\\circ$ RGB CMFs')
 })
-"""
+RGB_CMFS.__doc__ = """
 *CIE RGB* colour matching functions.
 
 RGB_CMFS : CaseInsensitiveMapping
@@ -3222,7 +3222,7 @@ STANDARD_OBSERVERS_CMFS = CaseInsensitiveMapping({
             name='CIE 2012 10 Degree Standard Observer',
             strict_name='CIE 2012 10$^\\circ$ Standard Observer')
 })
-"""
+STANDARD_OBSERVERS_CMFS.__doc__ = """
 *CIE* Standard Observers *XYZ* colour matching functions.
 
 STANDARD_OBSERVERS_CMFS : CaseInsensitiveMapping
@@ -3242,7 +3242,7 @@ STANDARD_OBSERVERS_CMFS['cie_10_1964'] = (
     STANDARD_OBSERVERS_CMFS['CIE 1964 10 Degree Standard Observer'])
 
 CMFS = CaseInsensitiveMapping(LMS_CMFS)
-"""
+CMFS.__doc__ = """
 Aggregated colour matching functions.
 
 CMFS : CaseInsensitiveMapping

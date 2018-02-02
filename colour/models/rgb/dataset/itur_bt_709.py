@@ -93,7 +93,7 @@ BT709_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_BT709_MATRIX,
     oetf_BT709,
     oetf_reverse_BT709)  # yapf: disable
-"""
+BT709_COLOURSPACE.__doc__ = """
 *ITU-R BT.709* colourspace.
 
 BT709_COLOURSPACE : RGB_Colourspace

@@ -4,7 +4,7 @@
 LCD Displays RGB Primaries
 ==========================
 
-Defines *LCD* displays *RGB* primaries tri-spectral power distributions.
+Defines *LCD* displays *RGB* primaries multi-spectral power distributions.
 
 Each *LCD* display data is in the form of a *dict* of
 :class:`colour.characterisation.displays.RGB_DisplayPrimaries` classes as
@@ -141,7 +141,7 @@ LCD_DISPLAYS_RGB_PRIMARIES = CaseInsensitiveMapping({
             name='Apple Studio Display')
 })
 """
-*LCD* displays *RGB* primaries tri-spectral power distributions.
+*LCD* displays *RGB* primaries multi-spectral power distributions.
 
 LCD_DISPLAYS_RGB_PRIMARIES : CaseInsensitiveMapping
     **{'Apple Studio Display'}**

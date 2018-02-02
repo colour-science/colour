@@ -1,25 +1,136 @@
-colour\.notation Package
-========================
+Colour Notation Systems
+=======================
 
-Sub-Packages
-------------
+Munsell Renotation System
+-------------------------
 
-.. toctree::
+``colour``
 
-    colour.notation.dataset
+.. currentmodule:: colour
 
-Sub-Modules
------------
+.. autosummary::
+    :toctree: generated/
 
-.. toctree::
+    munsell_colour_to_xyY
+    xyY_to_munsell_colour
 
-   colour.notation.munsell
-   colour.notation.triplet
+**Dataset**
 
-Module Contents
----------------
+``colour``
 
-.. automodule:: colour.notation
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    MUNSELL_COLOURS
+
+Munsell Value
+-------------
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    munsell_value
+    MUNSELL_VALUE_METHODS
+
+Priest, Gibson and MacNicholas (1920)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+``colour.notation``
+
+.. currentmodule:: colour.notation
+
+.. autosummary::
+    :toctree: generated/
+
+    munsell_value_Priest1920
+
+Munsell, Sloan and Godlove (1933)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+``colour.notation``
+
+.. currentmodule:: colour.notation
+
+.. autosummary::
+    :toctree: generated/
+
+    munsell_value_Munsell1933
+
+Moon and Spencer (1943)
+~~~~~~~~~~~~~~~~~~~~~~~
+
+``colour.notation``
+
+.. currentmodule:: colour.notation
+
+.. autosummary::
+    :toctree: generated/
+
+    munsell_value_Moon1943
+
+Saunderson and Milner (1944)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+``colour.notation``
+
+.. currentmodule:: colour.notation
+
+.. autosummary::
+    :toctree: generated/
+
+    munsell_value_Saunderson1944
+
+Ladd and Pinney (1955)
+~~~~~~~~~~~~~~~~~~~~~~
+
+``colour.notation``
+
+.. currentmodule:: colour.notation
+
+.. autosummary::
+    :toctree: generated/
+
+    munsell_value_Ladd1955
+
+McCamy (1987)
+~~~~~~~~~~~~~
+
+``colour.notation``
+
+.. currentmodule:: colour.notation
+
+.. autosummary::
+    :toctree: generated/
+
+    munsell_value_McCamy1987
+
+ASTM D1535-08e1
+~~~~~~~~~~~~~~~
+
+``colour.notation``
+
+.. currentmodule:: colour.notation
+
+.. autosummary::
+    :toctree: generated/
+
+    munsell_value_ASTMD153508
+
+Hexadecimal Triplet Notation
+----------------------------
+
+``colour.notation``
+
+.. currentmodule:: colour.notation
+
+.. autosummary::
+    :toctree: generated/
+
+    RGB_to_HEX
+    HEX_to_RGB

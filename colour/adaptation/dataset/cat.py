@@ -202,7 +202,7 @@ CHROMATIC_ADAPTATION_TRANSFORMS = CaseInsensitiveMapping({
     'Bianco': BS_CAT,
     'Bianco PC': BS_PC_CAT
 })
-"""
+CHROMATIC_ADAPTATION_TRANSFORMS.__doc__ = """
 Supported chromatic adaptation transforms.
 
 CHROMATIC_ADAPTATION_TRANSFORMS : CaseInsensitiveMapping

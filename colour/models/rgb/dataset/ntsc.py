@@ -85,7 +85,7 @@ NTSC_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_NTSC_MATRIX,
     BT470_525_COLOURSPACE.encoding_cctf,
     BT470_525_COLOURSPACE.decoding_cctf)  # yapf: disable
-"""
+NTSC_COLOURSPACE.__doc__ = """
 *NTSC* colourspace.
 
 NTSC_COLOURSPACE : RGB_Colourspace

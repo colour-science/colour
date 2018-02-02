@@ -299,7 +299,7 @@ LIGHTNESS_METHODS = CaseInsensitiveMapping({
     'Fairchild 2010': lightness_Fairchild2010,
     'Fairchild 2011': lightness_Fairchild2011
 })
-"""
+LIGHTNESS_METHODS.__doc__ = """
 Supported *Lightness* computations methods.
 
 LIGHTNESS_METHODS : CaseInsensitiveMapping

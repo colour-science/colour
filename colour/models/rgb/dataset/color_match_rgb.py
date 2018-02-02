@@ -92,7 +92,7 @@ COLOR_MATCH_RGB_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_COLOR_MATCH_RGB_MATRIX,
     partial(function_gamma, exponent=1 / 1.8),
     partial(function_gamma, exponent=1.8))  # yapf: disable
-"""
+COLOR_MATCH_RGB_COLOURSPACE.__doc__ = """
 *ColorMatch RGB* colourspace.
 
 COLOR_MATCH_RGB_COLOURSPACE : RGB_Colourspace

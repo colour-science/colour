@@ -103,7 +103,7 @@ sRGB_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_sRGB_MATRIX,
     oetf_sRGB,
     oetf_reverse_sRGB)  # yapf: disable
-"""
+sRGB_COLOURSPACE.__doc__ = """
 *sRGB* colourspace.
 
 sRGB_COLOURSPACE : RGB_Colourspace

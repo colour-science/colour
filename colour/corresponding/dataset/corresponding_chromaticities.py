@@ -26,6 +26,8 @@ import numpy as np
 
 from collections import namedtuple
 
+from colour.utilities.documentation import DocstringDict
+
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
@@ -788,7 +790,7 @@ Notes
 """
 
 # yapf: disable
-BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES = {
+BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES = DocstringDict({
     1: PrimariesChromaticityCoordinates(
         1, ('A', 'D65'), 1500,
         (0.671, 0.519), (-0.586, 0.627), (0.253, 0.016)),
@@ -815,15 +817,15 @@ BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES = {
         (0.680, 0.529), (0.018, 0.576), (0.307, 0.080)),
     12: PrimariesChromaticityCoordinates(
         12, ('D55', 'green'), 75,
-        (0.661, 0.505), (0.039, 0.598), (0.345, 0.127))}
+        (0.661, 0.505), (0.039, 0.598), (0.345, 0.127))})
 # yapf: enable
-"""
+BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES.__doc__ = """
 *Breneman (1987)* experiments primaries chromaticities.
 
 BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES : dict
 """
 
-BRENEMAN_EXPERIMENTS = {
+BRENEMAN_EXPERIMENTS = DocstringDict({
     1: BRENEMAN_EXPERIMENT_1_RESULTS,
     2: BRENEMAN_EXPERIMENT_2_RESULTS,
     3: BRENEMAN_EXPERIMENT_3_RESULTS,
@@ -836,8 +838,8 @@ BRENEMAN_EXPERIMENTS = {
     10: BRENEMAN_EXPERIMENT_10_RESULTS,
     11: BRENEMAN_EXPERIMENT_11_RESULTS,
     12: BRENEMAN_EXPERIMENT_12_RESULTS
-}
-"""
+})
+BRENEMAN_EXPERIMENTS.__doc__ = """
 *Breneman (1987)* experiments.
 
 BRENEMAN_EXPERIMENTS : dict

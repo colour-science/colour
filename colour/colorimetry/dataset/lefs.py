@@ -2384,7 +2384,7 @@ PHOTOPIC_LEFS = CaseInsensitiveMapping({
             name='CIE 2008 10 Degree Physiologically Relevant LEF',
             strict_name='CIE 2008 10$^\\circ$ Physiologically Relevant LEF')
 })
-"""
+PHOTOPIC_LEFS.__doc__ = """
 Photopic luminous efficiency functions.
 
 PHOTOPIC_LEFS : CaseInsensitiveMapping
@@ -2817,7 +2817,7 @@ SCOTOPIC_LEFS = CaseInsensitiveMapping({
             SCOTOPIC_LEFS_DATA['CIE 1951 Scotopic Standard Observer'],
             name='CIE 1951 Scotopic Standard Observer')
 })
-"""
+SCOTOPIC_LEFS.__doc__ = """
 Scotopic luminous efficiency functions.
 
 SCOTOPIC_LEFS : CaseInsensitiveMapping
@@ -2831,7 +2831,7 @@ SCOTOPIC_LEFS['cie_1951'] = (
     SCOTOPIC_LEFS['CIE 1951 Scotopic Standard Observer'])
 
 LEFS = CaseInsensitiveMapping(PHOTOPIC_LEFS)
-"""
+LEFS.__doc__ = """
 Aggregated luminous efficiency functions.
 
 LEFS : CaseInsensitiveMapping

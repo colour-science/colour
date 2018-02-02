@@ -29,7 +29,7 @@ DELTA_E_METHODS = CaseInsensitiveMapping({
     'CAM16-SCD': delta_E_CAM16SCD,
     'CAM16-UCS': delta_E_CAM16UCS,
 })
-"""
+DELTA_E_METHODS.__doc__ = """
 Supported :math:`\Delta E_{ab}` computations methods.
 
 DELTA_E_METHODS : CaseInsensitiveMapping

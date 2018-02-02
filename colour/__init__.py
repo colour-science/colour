@@ -35,6 +35,7 @@ Sub-packages
 
 from __future__ import absolute_import
 
+import os
 import sys
 
 from .utilities.deprecation import (FutureAccessChange, FutureAccessRemove,
@@ -1580,13 +1581,17 @@ def _setup_api_changes():
     API_CHANGES.pop('Renamed')
 
 
-_setup_api_changes()
+if os.environ.get('READTHEDOCS') != 'True':
+    _setup_api_changes()
 
-del FutureAccessChange
-del FutureAccessRemove
-del ModuleAPI
-del Removed
-del Renamed
-del _setup_api_changes
+    del FutureAccessChange
+    del FutureAccessRemove
+    del ModuleAPI
+    del Removed
+    del Renamed
+    del _setup_api_changes
 
-sys.modules['colour'] = colour(sys.modules['colour'], API_CHANGES)
+    sys.modules['colour'] = colour(sys.modules['colour'], API_CHANGES)
+
+    del os
+    del sys

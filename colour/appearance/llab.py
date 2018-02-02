@@ -88,7 +88,7 @@ LLAB_VIEWING_CONDITIONS = CaseInsensitiveMapping({
     '35mm Projection Transparency, Dark Surround': (LLAB_InductionFactors(
         0.7, 4, 1, 1))
 })
-"""
+LLAB_VIEWING_CONDITIONS.__doc__ = """
 Reference *LLAB(l:c)* colour appearance model viewing conditions.
 
 LLAB_VIEWING_CONDITIONS : CaseInsensitiveMapping

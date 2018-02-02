@@ -8,6 +8,7 @@ Defines various RGB colourspace volume computation objects:
 
 -   :func:`RGB_colourspace_limits`
 -   :func:`RGB_colourspace_volume_MonteCarlo`
+-   :func:`RGB_colourspace_volume_coverage_MonteCarlo`
 -   :func:`RGB_colourspace_pointer_gamut_coverage_MonteCarlo`
 -   :func:`RGB_colourspace_visible_spectrum_coverage_MonteCarlo`
 

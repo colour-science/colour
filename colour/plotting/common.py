@@ -13,9 +13,9 @@ Defines the common plotting objects:
 -   :func:`decorate`
 -   :func:`boundaries`
 -   :func:`display`
+-   :func:`render`
 -   :func:`label_rectangles`
 -   :func:`equal_axes3d`
--   :func:`colour_swatches_plot`
 -   :func:`single_colour_swatch_plot`
 -   :func:`multi_colour_swatches_plot`
 -   :func:`image_plot`

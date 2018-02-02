@@ -138,7 +138,7 @@ ILLUMINANTS = CaseInsensitiveMapping({
     'CIE 1964 10 Degree Standard Observer':
         ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER
 })
-"""
+ILLUMINANTS.__doc__ = """
 Aggregated *CIE* illuminants chromaticity coordinates.
 
 ILLUMINANTS : CaseInsensitiveMapping

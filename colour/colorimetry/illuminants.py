@@ -146,11 +146,13 @@ def D_illuminant_relative_spd(xy):
 def CIE_standard_illuminant_A_function(wl):
     """
     *CIE Standard Illuminant A* is intended to represent typical, domestic,
-    tungsten-filament lighting. Its relative spectral power distribution is
-    that of a Planckian radiator at a temperature of approximately 2856 K.
-    CIE Standard Illuminant A should be used in all applications of
-    colorimetry involving the use of incandescent lighting, unless there are
-    specific reasons for using a different illuminant.
+    tungsten-filament lighting.
+
+    Its relative spectral power distribution is that of a Planckian radiator
+    at a temperature of approximately 2856 K. *CIE Standard Illuminant A*
+    should be used in all applications of colorimetry involving the use of
+    incandescent lighting, unless there are specific reasons for using
+    a different illuminant.
 
     Parameters
     ----------

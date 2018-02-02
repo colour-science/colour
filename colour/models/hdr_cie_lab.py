@@ -35,6 +35,7 @@ from colour.colorimetry import (
     luminance_Fairchild2010, luminance_Fairchild2011)
 from colour.models import xy_to_xyY, xyY_to_XYZ
 from colour.utilities import tsplit, tstack
+from colour.utilities.documentation import DocstringTuple
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -48,8 +49,8 @@ __all__ = [
     'hdr_CIELab_to_XYZ'
 ]
 
-HDR_CIELAB_METHODS = ('Fairchild 2010', 'Fairchild 2011')
-"""
+HDR_CIELAB_METHODS = DocstringTuple(('Fairchild 2010', 'Fairchild 2011'))
+HDR_CIELAB_METHODS.__doc__ = """
 Supported *hdr-CIELAB* colourspace computation methods.
 
 HDR_CIELAB_METHODS : tuple

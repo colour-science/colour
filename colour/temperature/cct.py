@@ -631,7 +631,7 @@ UV_TO_CCT_METHODS = CaseInsensitiveMapping({
     'Ohno 2013': uv_to_CCT_Ohno2013,
     'Robertson 1968': uv_to_CCT_Robertson1968
 })
-"""
+UV_TO_CCT_METHODS.__doc__ = """
 Supported *CIE UCS* colourspace *uv* chromaticity coordinates to correlated
 colour temperature :math:`T_{cp}` computation methods.
 
@@ -703,7 +703,7 @@ CCT_TO_UV_METHODS = CaseInsensitiveMapping({
     'Robertson 1968': CCT_to_uv_Robertson1968,
     'Krystek 1985': CCT_to_uv_Krystek1985
 })
-"""
+CCT_TO_UV_METHODS.__doc__ = """
 Supported correlated colour temperature :math:`T_{cp}` to *CIE UCS* colourspace
 *uv* chromaticity coordinates computation methods.
 
@@ -954,7 +954,7 @@ XY_TO_CCT_METHODS = CaseInsensitiveMapping({
     'McCamy 1992': xy_to_CCT_McCamy1992,
     'Hernandez 1999': xy_to_CCT_Hernandez1999
 })
-"""
+XY_TO_CCT_METHODS.__doc__ = """
 Supported *CIE XYZ* tristimulus values *xy* chromaticity coordinates to
 correlated colour temperature :math:`T_{cp}` computation methods.
 
@@ -997,7 +997,7 @@ CCT_TO_XY_METHODS = CaseInsensitiveMapping({
     'Kang 2002': CCT_to_xy_Kang2002,
     'CIE Illuminant D Series': CCT_to_xy_CIE_D
 })
-"""
+CCT_TO_XY_METHODS.__doc__ = """
 Supported correlated colour temperature :math:`T_{cp}` to *CIE XYZ* tristimulus
 values *xy* chromaticity coordinates computation methods.
 

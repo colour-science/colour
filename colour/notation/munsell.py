@@ -10,7 +10,7 @@ Defines various objects for *Munsell Renotation System* computations:
     given *luminance* :math:`Y` using *Priest, Gibson and MacNicholas (1920)*
     method.
 -   :func:`munsell_value_Munsell1933`: *Munsell* value :math:`V` computation of
-    given *luminance* :math:`Y` using ⁠*Munsell, Sloan and Godlove (1933)⁠*
+    given *luminance* :math:`Y` using ⁠*Munsell, Sloan and Godlove (1933)*
     method.
 -   :func:`munsell_value_Moon1943`: *Munsell* value :math:`V` computation of
     given *luminance* :math:`Y` using *Moon and Spencer (1943)* method.
@@ -489,7 +489,7 @@ MUNSELL_VALUE_METHODS = CaseInsensitiveMapping({
     'McCamy 1987': munsell_value_McCamy1987,
     'ASTM D1535-08': munsell_value_ASTMD153508
 })
-"""
+MUNSELL_VALUE_METHODS.__doc__ = """
 Supported *Munsell* value computations methods.
 
 MUNSELL_VALUE_METHODS : CaseInsensitiveMapping

@@ -38,7 +38,7 @@ CHROMATIC_ADAPTATION_METHODS = CaseInsensitiveMapping({
     'Fairchild 1990': chromatic_adaptation_Fairchild1990,
     'Von Kries': chromatic_adaptation_VonKries,
 })
-"""
+CHROMATIC_ADAPTATION_METHODS.__doc__ = """
 Supported chromatic adaptation methods.
 
 CHROMATIC_ADAPTATION_METHODS : CaseInsensitiveMapping

@@ -750,7 +750,7 @@ ILLUMINANTS_OPTIMAL_COLOUR_STIMULI = CaseInsensitiveMapping({
     'C': C_OPTIMAL_COLOUR_STIMULI,
     'D65': D65_OPTIMAL_COLOUR_STIMULI
 })
-"""
+ILLUMINANTS_OPTIMAL_COLOUR_STIMULI.__doc__ = """
 Illuminants *Optimal Colour Stimuli*.
 
 ILLUMINANTS_OPTIMAL_COLOUR_STIMULI : CaseInsensitiveMapping

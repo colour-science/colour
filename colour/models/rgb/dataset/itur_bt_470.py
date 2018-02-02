@@ -96,7 +96,7 @@ BT470_525_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_BT470_525_MATRIX,
     partial(function_gamma, exponent=1 / 2.8),
     partial(function_gamma, exponent=2.8))  # yapf: disable
-"""
+BT470_525_COLOURSPACE.__doc__ = """
 *ITU-R BT.470 - 525* colourspace.
 
 BT470_525_COLOURSPACE : RGB_Colourspace
@@ -151,7 +151,7 @@ BT470_625_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_BT470_625_MATRIX,
     partial(function_gamma, exponent=1 / 2.8),
     partial(function_gamma, exponent=2.8))  # yapf: disable
-"""
+BT470_625_COLOURSPACE.__doc__ = """
 *ITU-R BT.470 - 625* colourspace.
 
 BT470_625_COLOURSPACE : RGB_Colourspace

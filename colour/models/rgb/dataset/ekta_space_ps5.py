@@ -92,7 +92,7 @@ EKTA_SPACE_PS_5_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_EKTA_SPACE_PS_5_MATRIX,
     partial(function_gamma, exponent=1 / 2.2),
     partial(function_gamma, exponent=2.2))  # yapf: disable
-"""
+EKTA_SPACE_PS_5_COLOURSPACE.__doc__ = """
 *Ekta Space PS 5* colourspace.
 
 EKTA_SPACE_PS_5_COLOURSPACE : RGB_Colourspace

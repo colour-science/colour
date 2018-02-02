@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-RGB Colourspace & Transformations
-=================================
+RGB Colourspace and Transformations
+===================================
 
 Defines the :class:`RGB_Colourspace` class for the *RGB* colourspaces dataset
 from :mod:`colour.models.dataset.aces_rgb`, etc... and the following *RGB*

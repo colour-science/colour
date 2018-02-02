@@ -97,7 +97,7 @@ CAM16_VIEWING_CONDITIONS = CaseInsensitiveMapping({
     'Dim': CAM16_InductionFactors(0.9, 0.59, 0.9),
     'Dark': CAM16_InductionFactors(0.8, 0.525, 0.8)
 })
-"""
+CAM16_VIEWING_CONDITIONS.__doc__ = """
 Reference *CAM16* colour appearance model viewing conditions.
 
 CAM16_VIEWING_CONDITIONS : CaseInsensitiveMapping

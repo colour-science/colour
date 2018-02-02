@@ -1,26 +1,75 @@
-colour\.characterisation Package
-================================
+Colour Characterisation
+=======================
 
-Sub-Packages
-------------
+Colour Fitting
+--------------
 
-.. toctree::
+``colour``
 
-    colour.characterisation.dataset
+.. currentmodule:: colour
 
-Sub-Modules
------------
+.. autosummary::
+    :toctree: generated/
 
-.. toctree::
+    first_order_colour_fit
 
-   colour.characterisation.cameras
-   colour.characterisation.displays
-   colour.characterisation.fitting
+Colour Rendition Charts
+-----------------------
 
-Module Contents
----------------
+**Dataset**
 
-.. automodule:: colour.characterisation
-    :members:
-    :undoc-members:
-    :show-inheritance:
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    COLOURCHECKERS
+    COLOURCHECKERS_SPDS
+
+Cameras
+-------
+
+``colour.characterisation``
+
+.. currentmodule:: colour.characterisation
+
+.. autosummary::
+    :toctree: generated/
+
+    RGB_SpectralSensitivities
+
+**Dataset**
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    CAMERAS_RGB_SPECTRAL_SENSITIVITIES
+
+Displays
+--------
+
+``colour.characterisation``
+
+.. currentmodule:: colour.characterisation
+
+.. autosummary::
+    :toctree: generated/
+
+    RGB_DisplayPrimaries
+
+**Dataset**
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    DISPLAYS_RGB_PRIMARIES

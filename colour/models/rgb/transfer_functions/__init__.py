@@ -95,7 +95,7 @@ __all__ += [
     'log_decoding_SLog2', 'log_encoding_SLog3', 'log_decoding_SLog3'
 ]
 __all__ += ['oetf_sRGB', 'oetf_reverse_sRGB']
-__all__ += ['log_decoding_ViperLog', 'log_decoding_ViperLog']
+__all__ += ['log_encoding_ViperLog', 'log_decoding_ViperLog']
 
 LOG_ENCODING_CURVES = CaseInsensitiveMapping({
     'ACEScc': log_encoding_ACEScc,
@@ -120,7 +120,7 @@ LOG_ENCODING_CURVES = CaseInsensitiveMapping({
     'V-Log': log_encoding_VLog,
     'ViperLog': log_encoding_ViperLog
 })
-"""
+LOG_ENCODING_CURVES.__doc__ = """
 Supported *log* encoding curves.
 
 LOG_ENCODING_CURVES : CaseInsensitiveMapping
@@ -245,7 +245,7 @@ LOG_DECODING_CURVES = CaseInsensitiveMapping({
     'V-Log': log_decoding_VLog,
     'ViperLog': log_decoding_ViperLog
 })
-"""
+LOG_DECODING_CURVES.__doc__ = """
 Supported *log* decoding curves.
 
 LOG_DECODING_CURVES : CaseInsensitiveMapping
@@ -368,8 +368,8 @@ OETFS = CaseInsensitiveMapping({
     'ST 2084': oetf_ST2084,
     'sRGB': oetf_sRGB
 })
-"""
-Supported opto-electrical transfer functions (OETF / OECF).
+OETFS.__doc__ = """
+Supported opto-electrical transfer functions (OETFs / OECFs).
 
 OETFS : CaseInsensitiveMapping
     **{'sRGB', 'ARIB STD-B67', 'DCI-P3', 'DICOM GSDF', 'ITU-R BT.2020',
@@ -445,8 +445,8 @@ OETFS_REVERSE = CaseInsensitiveMapping({
     'ITU-R BT.709': oetf_reverse_BT709,
     'sRGB': oetf_reverse_sRGB
 })
-"""
-Supported reverse opto-electrical transfer functions (OETF / OECF).
+OETFS_REVERSE.__doc__ = """
+Supported reverse opto-electrical transfer functions (OETFs / OECFs).
 
 OETFS_REVERSE : CaseInsensitiveMapping
     **{'sRGB', 'ARIB STD-B67', 'ITU-R BT.2100 HLD', 'ITU-R BT.2100 PQ',
@@ -507,8 +507,8 @@ EOTFS = CaseInsensitiveMapping({
     'SMPTE 240M': eotf_SMPTE240M,
     'ST 2084': eotf_ST2084,
 })
-"""
-Supported electro-optical transfer functions (EOTF / EOCF).
+EOTFS.__doc__ = """
+Supported electro-optical transfer functions (EOTFs / EOCFs).
 
 EOTFS : CaseInsensitiveMapping
     **{'DCI-P3', 'DICOM GSDF', 'ITU-R BT.1886', 'ITU-R BT.2020',
@@ -586,8 +586,8 @@ EOTFS_REVERSE = CaseInsensitiveMapping({
     'ITU-R BT.2100 HLG': eotf_reverse_BT2100_HLG,
     'ITU-R BT.2100 PQ': eotf_reverse_BT2100_PQ,
 })
-"""
-Supported reverse electro-optical transfer functions (EOTF / EOCF).
+EOTFS_REVERSE.__doc__ = """
+Supported reverse electro-optical transfer functions (EOTFs / EOCFs).
 
 EOTFS_REVERSE : CaseInsensitiveMapping
     **{'ITU-R BT.1886', 'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ'}**
@@ -647,8 +647,8 @@ OOTFS = CaseInsensitiveMapping({
     'ITU-R BT.2100 HLG': ootf_BT2100_HLG,
     'ITU-R BT.2100 PQ': ootf_BT2100_PQ,
 })
-"""
-Supported opto-optical transfer functions (OOTF / OOCF).
+OOTFS.__doc__ = """
+Supported opto-optical transfer functions (OOTFs / OOCFs).
 
 OOTFS : CaseInsensitiveMapping
     **{'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ'}**
@@ -690,8 +690,8 @@ OOTFS_REVERSE = CaseInsensitiveMapping({
     'ITU-R BT.2100 HLG': ootf_reverse_BT2100_HLG,
     'ITU-R BT.2100 PQ': ootf_reverse_BT2100_PQ,
 })
-"""
-Supported reverse opto-optical transfer functions (OOTF / OOCF).
+OOTFS_REVERSE.__doc__ = """
+Supported reverse opto-optical transfer functions (OOTFs / OOCFs).
 
 OOTFS_REVERSE : CaseInsensitiveMapping
     **{'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ'}**
