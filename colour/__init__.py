@@ -23,7 +23,7 @@ Sub-packages
 -   io: Input / output objects for reading and writing data.
 -   models: Colour models.
 -   notation: Colour notation systems.
--   phenomenons: Computation of various optical phenomenons.
+-   phenomena: Computation of various optical phenomena.
 -   plotting: Diagrams, figures, etc...
 -   quality: Colour quality computation.
 -   recovery: Reflectance recovery.
@@ -107,8 +107,8 @@ from .corresponding import (BRENEMAN_EXPERIMENTS,
                             BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES,
                             CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS,
                             corresponding_chromaticities_prediction)
-from .phenomenons import (rayleigh_scattering, rayleigh_scattering_spd,
-                          scattering_cross_section)
+from .phenomena import (rayleigh_scattering, rayleigh_scattering_spd,
+                        scattering_cross_section)
 from .notation import (MUNSELL_COLOURS, MUNSELL_VALUE_METHODS,
                        munsell_colour_to_xyY, munsell_value,
                        xyY_to_munsell_colour)
@@ -1184,7 +1184,7 @@ API_CHANGES = {
         ],
         [
             'colour.rayleigh_optical_depth',
-            'colour.phenomenons.rayleigh_optical_depth',
+            'colour.phenomena.rayleigh_optical_depth',
         ],
         [
             'colour.reaction_rate_MichealisMenten',

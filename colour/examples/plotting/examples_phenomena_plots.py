@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Showcases optical phenomenons plotting examples.
+Showcases optical phenomena plotting examples.
 """
 
-from colour.phenomenons import rayleigh_scattering_spd
+from colour.phenomena import rayleigh_scattering_spd
 from colour.plotting import (colour_plotting_defaults, multi_spd_plot,
                              single_rayleigh_scattering_spd_plot,
                              the_blue_sky_plot)

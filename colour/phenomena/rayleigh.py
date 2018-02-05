@@ -14,7 +14,7 @@ See Also
 --------
 `Rayleigh Optical Depth - Scattering in the Atmosphere Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/phenomenons/rayleigh.ipynb>`_
+blob/master/notebooks/phenomena/rayleigh.ipynb>`_
 
 References
 ----------
@@ -554,8 +554,8 @@ def scattering_cross_section(wavelength,
 
     Warning
     -------
-    Unlike most objects of :mod:`colour.phenomenons.rayleigh` module,
-    :func:`colour.phenomenons.rayleigh.scattering_cross_section` expects
+    Unlike most objects of :mod:`colour.phenomena.rayleigh` module,
+    :func:`colour.phenomena.rayleigh.scattering_cross_section` expects
     wavelength :math:`\lambda` to be expressed in centimeters (cm).
 
     Examples
@@ -626,8 +626,8 @@ def rayleigh_optical_depth(wavelength,
 
     Warning
     -------
-    Unlike most objects of :mod:`colour.phenomenons.rayleigh` module,
-    :func:`colour.phenomenons.rayleigh.rayleigh_optical_depth` expects
+    Unlike most objects of :mod:`colour.phenomena.rayleigh` module,
+    :func:`colour.phenomena.rayleigh.rayleigh_optical_depth` expects
     wavelength :math:`\lambda` to be expressed in centimeters (cm).
 
     Examples

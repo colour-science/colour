@@ -21,11 +21,11 @@ wavelength = 555 * 10e-8
 message_box(('Computing the scattering cross section per molecule at given '
              'wavelength in cm:\n'
              '\n\tWavelength: {0} cm'.format(wavelength)))
-print(colour.phenomenons.scattering_cross_section(wavelength))
+print(colour.phenomena.scattering_cross_section(wavelength))
 
 print('\n')
 
 message_box(('Computing the "Rayleigh" optical depth as function of '
              'wavelength in cm:\n'
              '\n\tWavelength: {0} cm'.format(wavelength)))
-print(colour.phenomenons.rayleigh_optical_depth(wavelength))
+print(colour.phenomena.rayleigh_optical_depth(wavelength))

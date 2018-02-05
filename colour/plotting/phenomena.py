@@ -4,7 +4,7 @@
 Optical Phenomenon Plotting
 ===========================
 
-Defines the optical phenomenons plotting objects:
+Defines the optical phenomena plotting objects:
 
 -   :func:`single_rayleigh_scattering_spd_plot`
 -   :func:`the_blue_sky_plot`
@@ -16,8 +16,8 @@ import matplotlib.pyplot
 
 from colour.colorimetry import spectral_to_XYZ
 from colour.models import XYZ_to_sRGB
-from colour.phenomenons import rayleigh_scattering_spd
-from colour.phenomenons.rayleigh import (
+from colour.phenomena import rayleigh_scattering_spd
+from colour.phenomena.rayleigh import (
     AVERAGE_PRESSURE_MEAN_SEA_LEVEL, DEFAULT_ALTITUDE, DEFAULT_LATITUDE,
     STANDARD_AIR_TEMPERATURE, STANDARD_CO2_CONCENTRATION)
 from colour.plotting import (ASTM_G_173_ETR, ColourSwatch, canvas, get_cmfs,
