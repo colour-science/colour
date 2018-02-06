@@ -5,7 +5,7 @@
 ======================================================================
 
 Defines :math:`\Delta E'` colour difference computation objects based on
-*Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, and *CAM02-UCS* colourspaces:
+*Luo et alii (2006)* *CAM02-LCD*, *CAM02-SCD*, and *CAM02-UCS* colourspaces:
 
 -   :func:`delta_E_CAM02LCD`
 -   :func:`delta_E_CAM02SCD`
@@ -47,19 +47,19 @@ __all__ = [
 def delta_E_Luo2006(Jpapbp_1, Jpapbp_2, coefficients):
     """
     Returns the difference :math:`\Delta E'` between two given
-    *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS* colourspaces
+    *Luo et alii (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS* colourspaces
     :math:`J'a'b'` arrays.
 
     Parameters
     ----------
     Jpapbp_1 : array_like
-        Standard / reference *Luo et al.* (2006) *CAM02-LCD*, *CAM02-SCD*, or
+        Standard / reference *Luo et alii (2006)* *CAM02-LCD*, *CAM02-SCD*, or
         *CAM02-UCS* colourspaces :math:`J'a'b'` array.
     Jpapbp_2 : array_like
-        Sample / test *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or
+        Sample / test *Luo et alii (2006)* *CAM02-LCD*, *CAM02-SCD*, or
         *CAM02-UCS* colourspaces :math:`J'a'b'` array.
     coefficients : array_like
-        Coefficients of one of the *Luo et al. (2006)* *CAM02-LCD*,
+        Coefficients of one of the *Luo et alii (2006)* *CAM02-LCD*,
         *CAM02-SCD*, or *CAM02-UCS* colourspaces.
 
     Returns
@@ -89,15 +89,15 @@ def delta_E_Luo2006(Jpapbp_1, Jpapbp_2, coefficients):
 def delta_E_CAM02LCD(Jpapbp_1, Jpapbp_2):
     """
     Returns the difference :math:`\Delta E'` between two given
-    *Luo et al. (2006)* *CAM02-LCD* colourspaces :math:`J'a'b'` arrays.
+    *Luo et alii (2006)* *CAM02-LCD* colourspaces :math:`J'a'b'` arrays.
 
     Parameters
     ----------
     Jpapbp_1 : array_like
-        Standard / reference *Luo et al.* (2006) *CAM02-LCD* colourspaces
+        Standard / reference *Luo et alii (2006)* *CAM02-LCD* colourspaces
         :math:`J'a'b'` array.
     Jpapbp_2 : array_like
-        Sample / test *Luo et al.* (2006) *CAM02-LCD* colourspaces
+        Sample / test *Luo et alii (2006)* *CAM02-LCD* colourspaces
         :math:`J'a'b'` array.
 
     Returns
@@ -119,15 +119,15 @@ def delta_E_CAM02LCD(Jpapbp_1, Jpapbp_2):
 def delta_E_CAM02SCD(Jpapbp_1, Jpapbp_2):
     """
     Returns the difference :math:`\Delta E'` between two given
-    *Luo et al. (2006)* *CAM02-SCD* colourspaces :math:`J'a'b'` arrays.
+    *Luo et alii (2006)* *CAM02-SCD* colourspaces :math:`J'a'b'` arrays.
 
     Parameters
     ----------
     Jpapbp_1 : array_like
-        Standard / reference *Luo et al.* (2006) *CAM02-SCD* colourspaces
+        Standard / reference *Luo et alii (2006)* *CAM02-SCD* colourspaces
         :math:`J'a'b'` array.
     Jpapbp_2 : array_like
-        Sample / test *Luo et al.* (2006) *CAM02-SCD* colourspaces
+        Sample / test *Luo et alii (2006)* *CAM02-SCD* colourspaces
         :math:`J'a'b'` array.
 
     Returns
@@ -149,15 +149,15 @@ def delta_E_CAM02SCD(Jpapbp_1, Jpapbp_2):
 def delta_E_CAM02UCS(Jpapbp_1, Jpapbp_2):
     """
     Returns the difference :math:`\Delta E'` between two given
-    *Luo et al. (2006)* *CAM02-UCS* colourspaces :math:`J'a'b'` arrays.
+    *Luo et alii (2006)* *CAM02-UCS* colourspaces :math:`J'a'b'` arrays.
 
     Parameters
     ----------
     Jpapbp_1 : array_like
-        Standard / reference *Luo et al.* (2006) *CAM02-UCS* colourspaces
+        Standard / reference *Luo et alii (2006)* *CAM02-UCS* colourspaces
         :math:`J'a'b'` array.
     Jpapbp_2 : array_like
-        Sample / test *Luo et al.* (2006) *CAM02-UCS* colourspaces
+        Sample / test *Luo et alii (2006)* *CAM02-UCS* colourspaces
         :math:`J'a'b'` array.
 
     Returns

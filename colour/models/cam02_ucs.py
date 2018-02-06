@@ -4,7 +4,7 @@
 CAM02-LCD, CAM02-SCD, and CAM02-UCS Colourspaces - Luo, Cui and Li (2006)
 =========================================================================
 
-Defines the *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, and *CAM02-UCS*
+Defines the *Luo et alii (2006)* *CAM02-LCD*, *CAM02-SCD*, and *CAM02-UCS*
 colourspaces transformations:
 
 -   :func:`JMh_CIECAM02_to_CAM02LCD`
@@ -54,7 +54,7 @@ __all__ = [
 class Coefficients_UCS_Luo2006(
         namedtuple('Coefficients_UCS_Luo2006', ('K_L', 'c_1', 'c_2'))):
     """
-    Defines the the class storing *Luo et al. (2006)* fitting coefficients for
+    Defines the the class storing *Luo et alii (2006)* fitting coefficients for
     the *CAM02-LCD*, *CAM02-SCD*, and *CAM02-UCS* colourspaces.
     """
 
@@ -65,7 +65,7 @@ COEFFICIENTS_UCS_LUO2006 = CaseInsensitiveMapping({
     'CAM02-UCS': Coefficients_UCS_Luo2006(1.00, 0.007, 0.0228)
 })
 """
-*Luo et al. (2006)* fitting coefficients for the *CAM02-LCD*, *CAM02-SCD*, and
+*Luo et alii (2006)* fitting coefficients for the *CAM02-LCD*, *CAM02-SCD*, and
 *CAM02-UCS* colourspaces.
 
 COEFFICIENTS_UCS_LUO2006 : CaseInsensitiveMapping
@@ -76,7 +76,7 @@ COEFFICIENTS_UCS_LUO2006 : CaseInsensitiveMapping
 def JMh_CIECAM02_to_UCS_Luo2006(JMh, coefficients):
     """
     Converts from *CIECAM02* :math:`JMh` correlates array to one of the
-    *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS* colourspaces
+    *Luo et alii (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS* colourspaces
     :math:`J'a'b'` array.
 
     The :math:`JMh` correlates array is constructed using the CIECAM02
@@ -89,13 +89,13 @@ def JMh_CIECAM02_to_UCS_Luo2006(JMh, coefficients):
     JMh : array_like
         *CIECAM02* correlates array :math:`JMh`.
     coefficients : array_like
-        Coefficients of one of the *Luo et al. (2006)* *CAM02-LCD*,
+        Coefficients of one of the *Luo et alii (2006)* *CAM02-LCD*,
         *CAM02-SCD*, or *CAM02-UCS* colourspaces.
 
     Returns
     -------
     ndarray
-        *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS*
+        *Luo et alii (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS*
         colourspaces :math:`J'a'b'` array.
 
     Examples
@@ -129,17 +129,17 @@ def JMh_CIECAM02_to_UCS_Luo2006(JMh, coefficients):
 
 def UCS_Luo2006_to_JMh_CIECAM02(Jpapbp, coefficients):
     """
-    Converts from one of the *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or
+    Converts from one of the *Luo et alii (2006)* *CAM02-LCD*, *CAM02-SCD*, or
     *CAM02-UCS* colourspaces :math:`J'a'b'` array to *CIECAM02* :math:`JMh`
     correlates array.
 
     Parameters
     ----------
     Jpapbp : array_like
-        *Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS*
+        *Luo et alii (2006)* *CAM02-LCD*, *CAM02-SCD*, or *CAM02-UCS*
         colourspaces :math:`J'a'b'` array.
     coefficients : array_like
-        Coefficients of one of the *Luo et al. (2006)* *CAM02-LCD*,
+        Coefficients of one of the *Luo et alii (2006)* *CAM02-LCD*,
         *CAM02-SCD*, or *CAM02-UCS* colourspaces.
 
     Returns
@@ -171,7 +171,7 @@ def UCS_Luo2006_to_JMh_CIECAM02(Jpapbp, coefficients):
 def JMh_CIECAM02_to_CAM02LCD(JMh):
     """
     Converts from *CIECAM02* :math:`JMh` correlates array to
-    *Luo et al. (2006)* *CAM02-LCD* colourspace :math:`J'a'b'` array.
+    *Luo et alii (2006)* *CAM02-LCD* colourspace :math:`J'a'b'` array.
 
     Parameters
     ----------
@@ -181,7 +181,7 @@ def JMh_CIECAM02_to_CAM02LCD(JMh):
     Returns
     -------
     ndarray
-        *Luo et al. (2006)* *CAM02-LCD* colourspace :math:`J'a'b'` array.
+        *Luo et alii (2006)* *CAM02-LCD* colourspace :math:`J'a'b'` array.
 
     Examples
     --------
@@ -206,13 +206,13 @@ def JMh_CIECAM02_to_CAM02LCD(JMh):
 
 def CAM02LCD_to_JMh_CIECAM02(Jpapbp):
     """
-    Converts from *Luo et al. (2006)* *CAM02-LCD* colourspace :math:`J'a'b'`
+    Converts from *Luo et alii (2006)* *CAM02-LCD* colourspace :math:`J'a'b'`
     array to *CIECAM02* :math:`JMh` correlates array.
 
     Parameters
     ----------
     Jpapbp : array_like
-        *Luo et al. (2006)* *CAM02-LCD* colourspace :math:`J'a'b'` array.
+        *Luo et alii (2006)* *CAM02-LCD* colourspace :math:`J'a'b'` array.
 
     Returns
     -------
@@ -233,7 +233,7 @@ def CAM02LCD_to_JMh_CIECAM02(Jpapbp):
 def JMh_CIECAM02_to_CAM02SCD(JMh):
     """
     Converts from *CIECAM02* :math:`JMh` correlates array to
-    *Luo et al. (2006)* *CAM02-SCD* colourspace :math:`J'a'b'` array.
+    *Luo et alii (2006)* *CAM02-SCD* colourspace :math:`J'a'b'` array.
 
     Parameters
     ----------
@@ -243,7 +243,7 @@ def JMh_CIECAM02_to_CAM02SCD(JMh):
     Returns
     -------
     ndarray
-        *Luo et al. (2006)* *CAM02-SCD* colourspace :math:`J'a'b'` array.
+        *Luo et alii (2006)* *CAM02-SCD* colourspace :math:`J'a'b'` array.
 
     Examples
     --------
@@ -268,13 +268,13 @@ def JMh_CIECAM02_to_CAM02SCD(JMh):
 
 def CAM02SCD_to_JMh_CIECAM02(Jpapbp):
     """
-    Converts from *Luo et al. (2006)* *CAM02-SCD* colourspace :math:`J'a'b'`
+    Converts from *Luo et alii (2006)* *CAM02-SCD* colourspace :math:`J'a'b'`
     array to *CIECAM02* :math:`JMh` correlates array.
 
     Parameters
     ----------
     Jpapbp : array_like
-        *Luo et al. (2006)* *CAM02-SCD* colourspace :math:`J'a'b'` array.
+        *Luo et alii (2006)* *CAM02-SCD* colourspace :math:`J'a'b'` array.
 
     Returns
     -------
@@ -295,7 +295,7 @@ def CAM02SCD_to_JMh_CIECAM02(Jpapbp):
 def JMh_CIECAM02_to_CAM02UCS(JMh):
     """
     Converts from *CIECAM02* :math:`JMh` correlates array to
-    *Luo et al. (2006)* *CAM02-UCS* colourspace :math:`J'a'b'` array.
+    *Luo et alii (2006)* *CAM02-UCS* colourspace :math:`J'a'b'` array.
 
     Parameters
     ----------
@@ -305,7 +305,7 @@ def JMh_CIECAM02_to_CAM02UCS(JMh):
     Returns
     -------
     ndarray
-        *Luo et al. (2006)* *CAM02-UCS* colourspace :math:`J'a'b'` array.
+        *Luo et alii (2006)* *CAM02-UCS* colourspace :math:`J'a'b'` array.
 
     Examples
     --------
@@ -330,13 +330,13 @@ def JMh_CIECAM02_to_CAM02UCS(JMh):
 
 def CAM02UCS_to_JMh_CIECAM02(Jpapbp):
     """
-    Converts from *Luo et al. (2006)* *CAM02-UCS* colourspace :math:`J'a'b'`
+    Converts from *Luo et alii (2006)* *CAM02-UCS* colourspace :math:`J'a'b'`
     array to *CIECAM02* :math:`JMh` correlates array.
 
     Parameters
     ----------
     Jpapbp : array_like
-        *Luo et al. (2006)* *CAM02-UCS* colourspace :math:`J'a'b'` array.
+        *Luo et alii (2006)* *CAM02-UCS* colourspace :math:`J'a'b'` array.
 
     Returns
     -------

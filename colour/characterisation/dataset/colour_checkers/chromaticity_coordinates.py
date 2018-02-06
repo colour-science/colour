@@ -17,7 +17,7 @@ The following *ColourCheckers* data is available:
     *ColourChecker* charts.
 -   :attr:`COLORCHECKER_2005`: Reference data from *GretagMacbeth* published in
     2005.
--   :attr:`COLORCHECKER_1976`: *ColourChecker* developed by *McCamy et al.* at
+-   :attr:`COLORCHECKER_1976`: *ColourChecker* developed by *McCamy et alii* at
     Macbeth, a Division of Kollmorgen.
 
 See Also
@@ -197,7 +197,7 @@ COLORCHECKER_1976 = [
     ColourChecker_Specification(*x) for x in COLORCHECKER_1976_DATA
 ]
 """
-*ColourChecker* developed by *McCamy et al.* at Macbeth, a Division of
+*ColourChecker* developed by *McCamy et alii* at Macbeth, a Division of
 Kollmorgen.
 
 COLORCHECKER_1976 : list

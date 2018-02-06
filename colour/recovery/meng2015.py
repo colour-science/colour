@@ -49,7 +49,7 @@ def XYZ_to_spectral_Meng2015(
         maximum_iterations=2000):
     """
     Recovers the spectral power distribution of given *CIE XYZ* tristimulus
-    values using *Meng et al. (2015)* method.
+    values using *Meng et alii (2015)* method.
 
     Parameters
     ----------

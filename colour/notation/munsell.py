@@ -233,7 +233,7 @@ def _munsell_maximum_chromas_from_renotation():
 def munsell_value_Priest1920(Y):
     """
     Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
-    *⁠⁠⁠⁠⁠Priest et al. (1920)* method.
+    *⁠⁠⁠⁠⁠Priest et alii (1920)* method.
 
     Parameters
     ----------
@@ -271,7 +271,7 @@ def munsell_value_Priest1920(Y):
 def munsell_value_Munsell1933(Y):
     """
     Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
-    *⁠Munsell et al. (1933)* method. [3]_
+    *⁠Munsell et alii (1933)* method. [3]_
 
     Parameters
     ----------

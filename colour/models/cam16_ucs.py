@@ -55,8 +55,8 @@ __all__ = [
 
 def _UCS_Luo2006_callable_to_UCS_Li2017_docstring(callable_):
     """
-    Converts given *Luo et al. (2006)* callable docstring to
-    *Li et al. (2017)* docstring.
+    Converts given *Luo et alii (2006)* callable docstring to
+    *Li et alii (2017)* docstring.
 
     Parameters
     ----------
@@ -70,7 +70,7 @@ def _UCS_Luo2006_callable_to_UCS_Li2017_docstring(callable_):
     """
 
     docstring = callable_.__doc__
-    docstring = docstring.replace('Luo et al. (2006)', 'Li et al. (2017)')
+    docstring = docstring.replace('Luo et alii (2006)', 'Li et alii (2017)')
     docstring = docstring.replace('CIECAM02', 'CAM16')
     docstring = docstring.replace('CAM02', 'CAM16')
 
