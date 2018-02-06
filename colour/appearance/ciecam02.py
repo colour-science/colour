@@ -317,7 +317,7 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
     ------
     ValueError
         If neither *C* or *M* correlates have been defined in the
-        `CIECAM02_specification` argument.
+        ``CIECAM02_specification`` argument.
 
     Warning
     -------
@@ -325,7 +325,7 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
 
     Notes
     -----
-    -   `CIECAM02_specification` can also be passed as a compatible argument
+    -   ``CIECAM02_specification`` can also be passed as a compatible argument
         :func:`colour.as_namedtuple` definition.
     -   Input *CIE XYZ_w* tristimulus values are in domain [0, 100].
     -   Output *CIE XYZ* tristimulus values are in range [0, 100].

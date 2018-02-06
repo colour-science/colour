@@ -141,8 +141,8 @@ def xy_to_xyY(xy, Y=1):
     Converts from *xy* chromaticity coordinates to *CIE xyY* colourspace by
     extending the array last dimension with :math:`Y` Luminance.
 
-    `xy` argument with last dimension being equal to 3 will be assumed to be a
-    *CIE xyY* colourspace array argument and will be returned directly by the
+    ``xy`` argument with last dimension being equal to 3 will be assumed to be
+    a *CIE xyY* colourspace array argument and will be returned directly by the
     definition.
 
     Parameters
@@ -183,7 +183,7 @@ def xy_to_xyY(xy, Y=1):
     xy = np.asarray(xy)
 
     shape = xy.shape
-    # Assuming `xy` is actually a *CIE xyY* colourspace array argument and
+    # Assuming ``xy`` is actually a *CIE xyY* colourspace array argument and
     # returning it directly.
     if shape[-1] == 3:
         return xy
@@ -199,9 +199,9 @@ def xyY_to_xy(xyY):
     """
     Converts from *CIE xyY* colourspace to *xy* chromaticity coordinates.
 
-    `xyY` argument with last dimension being equal to 2 will be assumed to be a
-    *xy* chromaticity coordinates argument and will be returned directly by the
-    definition.
+    ``xyY`` argument with last dimension being equal to 2 will be assumed to be
+    a *xy* chromaticity coordinates argument and will be returned directly by
+    the definition.
 
     Parameters
     ----------
@@ -231,7 +231,7 @@ def xyY_to_xy(xyY):
     xyY = np.asarray(xyY)
 
     shape = xyY.shape
-    # Assuming `xyY` is actually a *xy* chromaticity coordinates argument and
+    # Assuming ``xyY`` is actually a *xy* chromaticity coordinates argument and
     # returning it directly.
     if shape[-1] == 2:
         return xyY

@@ -51,10 +51,10 @@ def XYZ_to_spectral(XYZ, method='Meng 2015', **kwargs):
     interval : numeric, optional
         {:func:`XYZ_to_spectral_Meng2015`},
         Wavelength :math:`\lambda_{i}` range interval in nm. The smaller
-        `interval` is, the longer the computations will be.
+        ``interval`` is, the longer the computations will be.
     tolerance : numeric, optional
         {:func:`XYZ_to_spectral_Meng2015`},
-        Tolerance for termination. The lower `tolerance` is, the smoother
+        Tolerance for termination. The lower ``tolerance`` is, the smoother
         the recovered spectral power distribution will be.
     maximum_iterations : int, optional
         {:func:`XYZ_to_spectral_Meng2015`},

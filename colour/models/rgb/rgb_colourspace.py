@@ -85,9 +85,9 @@ class RGB_Colourspace(object):
         -   Derived transformation matrices
 
     Upon instantiation, the :class:`RGB_Colourspace` class stores the given
-    `RGB_to_XYZ_matrix` and `XYZ_to_RGB_matrix` arguments and also
-    computes their derived counterpart using the `primaries` and `whitepoint`
-    arguments.
+    ``RGB_to_XYZ_matrix`` and ``XYZ_to_RGB_matrix`` arguments and also
+    computes their derived counterpart using the ``primaries`` and
+    ``whitepoint`` arguments.
 
     Whether the initialisation or derived matrices are used in subsequent
     computations is dependent on the

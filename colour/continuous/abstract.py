@@ -746,7 +746,7 @@ class AbstractContinuousFunction:
         method : unicode, optional
             **{'Interpolation', 'Constant'}**,
             *Interpolation* method linearly interpolates through the NaNs,
-            *Constant* method replaces NaNs with `default`.
+            *Constant* method replaces NaNs with ``default``.
         default : numeric, optional
             Value to use with the *Constant* method.
 

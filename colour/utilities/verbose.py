@@ -30,7 +30,8 @@ __all__ = [
 
 class ColourWarning(Warning):
     """
-    This is the base class of *Colour* warnings. It is a subclass of `Warning`.
+    This is the base class of *Colour* warnings. It is a subclass of
+    :class:`Warning`.
     """
 
     pass

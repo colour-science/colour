@@ -123,7 +123,7 @@ def chromatically_adapted_primaries(primaries,
                                     chromatic_adaptation_transform='CAT02'):
     """
     Chromatically adapts given *primaries* :math:`xy` chromaticity coordinates
-    from test `whitepoint_t` to reference `whitepoint_r`.
+    from test ``whitepoint_t`` to reference ``whitepoint_r``.
 
 
     Parameters

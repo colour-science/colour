@@ -49,7 +49,7 @@ dict_like, optional
         Data to be stored in the multi-continuous signal.
     domain : array_like, optional
         Values to initialise the multiple :class:`Signal` sub-class instances
-        :attr:`Signal.domain` attribute with. If both `data` and `domain`
+        :attr:`Signal.domain` attribute with. If both ``data`` and ``domain``
         arguments are defined, the latter with be used to initialise the
         :attr:`Signal.domain` attribute.
     labels : array_like, optional
@@ -1103,8 +1103,8 @@ dict_like, optional
             Data to unpack for multi-continuous signal instantiation.
         domain : array_like, optional
             Values to initialise the multiple :class:`Signal` sub-class
-            instances :attr:`Signal.domain` attribute with. If both `data` and
-            `domain` arguments are defined, the latter with be used to
+            instances :attr:`Signal.domain` attribute with. If both ``data``
+            and ``domain`` arguments are defined, the latter with be used to
             initialise the :attr:`Signal.domain` attribute.
         dtype : type, optional
             **{np.float16, np.float32, np.float64, np.float128}**,
@@ -1339,7 +1339,7 @@ dict_like, optional
         method : unicode, optional
             **{'Interpolation', 'Constant'}**,
             *Interpolation* method linearly interpolates through the NaNs,
-            *Constant* method replaces NaNs with `default`.
+            *Constant* method replaces NaNs with ``default``.
         default : numeric, optional
             Value to use with the *Constant* method.
 

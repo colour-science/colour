@@ -149,39 +149,40 @@ def RGB_to_YCbCr(RGB,
     RGB : array_like
         Input *R'G'B'* array of floats or integer values.
     K : array_like, optional
-        Luma weighting coefficients of red and blue. See :attr:
-        `YCBCR_WEIGHTS` for presets. Default is `(0.2126, 0.0722)`, the
+        Luma weighting coefficients of red and blue. See
+        :attr:`YCBCR_WEIGHTS` for presets. Default is *(0.2126, 0.0722)*, the
         weightings for ITU-R BT.709.
     in_bits : int, optional
         Bit depth for integer input, or used in the calculation of the
         denominator for legal range float values, i.e. 8-bit means the float
-        value for legal white is `235 / 255`. Default is `10`.
+        value for legal white is *235 / 255*. Default is *10*.
     in_legal : bool, optional
-        Whether to treat the input values as legal range. Default is `False`.
+        Whether to treat the input values as legal range. Default is *False*.
     in_int : bool, optional
-        Whether to treat the input values as `in_bits` integer code values.
-        Default is `False`.
+        Whether to treat the input values as ``in_bits`` integer code values.
+        Default is *False*.
     out_bits : int, optional
         Bit depth for integer output, or used in the calculation of the
         denominator for legal range float values, i.e. 8-bit means the float
-        value for legal white is `235 / 255`. Ignored if `out_legal` and
-        `out_int` are both False. Default is `8`.
+        value for legal white is *235 / 255*. Ignored if ``out_legal`` and
+        ``out_int`` are both *False*. Default is *8*.
     out_legal : bool, optional
-        Whether to return legal range values. Default is `True`.
+        Whether to return legal range values. Default is *True*.
     out_int : bool, optional
-        Whether to return values as `out_bits` integer code values. Default is
-        `False`.
+        Whether to return values as ``out_bits`` integer code values. Default
+        is *False*.
 
     Other Parameters
     ----------------
     in_range : array_like, optional
         Array overriding the computed range such as
-        `in_range = (RGB_min, RGB_max)`. If `in_range` is undefined, `RGB_min`
-        and `RGB_max` will be computed using :func:`CV_range` definition.
+        *in_range = (RGB_min, RGB_max)*. If ``in_range`` is undefined,
+        *RGB_min* and *RGB_max* will be computed using :func:`CV_range`
+        definition.
     out_range : array_like, optional
         Array overriding the computed range such as
-        `out_range = (Y_min, Y_max, C_min, C_max)`. If `out_range` is
-        undefined, `Y_min`, `Y_max`, `C_min` and `C_max` will be computed
+        *out_range = (Y_min, Y_max, C_min, C_max)`. If ``out_range`` is
+        undefined, *Y_min*, *Y_max*, *C_min* and *C_max* will be computed
         using :func:`YCbCr_ranges` definition.
 
     Returns
@@ -200,7 +201,7 @@ def RGB_to_YCbCr(RGB,
     -----
     -   The default arguments, ``**{'in_bits': 10, 'in_legal': False,
         'in_int': False, 'out_bits': 8, 'out_legal': True, 'out_int': False}``
-        transform a float *R'G'B'* input array in range [0, 1] (`in_bits` is
+        transform a float *R'G'B'* input array in range [0, 1] (``in_bits`` is
         ignored) to a float *Y'CbCr* output array where *Y'* is in range
         [16 / 255, 235 / 255] and *Cb* and *Cr* are in range
         [16 / 255, 240./255]. The float values are calculated based on an
@@ -299,40 +300,40 @@ def YCbCr_to_RGB(YCbCr,
     YCbCr : array_like
         Input *Y'CbCr* colour encoding array of integer or float values.
     K : array_like, optional
-        Luma weighting coefficients of red and blue. See :attr:
-        `YCBCR_WEIGHTS` for presets. Default is `(0.2126, 0.0722)`, the
-        weightings for ITU-R BT.709.
+        Luma weighting coefficients of red and blue. See :attr:`YCBCR_WEIGHTS`
+        for presets. Default is *(0.2126, 0.0722)*, the weightings for
+        ITU-R BT.709.
     in_bits : int, optional
         Bit depth for integer input, or used in the calculation of the
         denominator for legal range float values, i.e. 8-bit means the float
-        value for legal white is `235 / 255`. Default is `10`.
+        value for legal white is *235 / 255*. Default is *10*.
     in_legal : bool, optional
-        Whether to treat the input values as legal range. Default is `False`.
+        Whether to treat the input values as legal range. Default is *False*.
     in_int : bool, optional
-        Whether to treat the input values as `in_bits` integer code values.
-        Default is `False`.
+        Whether to treat the input values as ``in_bits`` integer code values.
+        Default is *False*.
     out_bits : int, optional
         Bit depth for integer output, or used in the calculation of the
         denominator for legal range float values, i.e. 8-bit means the float
-        value for legal white is `235 / 255`. Ignored if `out_legal` and
-        `out_int` are both False. Default is `8`.
+        value for legal white is *235 / 255*. Ignored if ``out_legal`` and
+        ``out_int`` are both *False*. Default is *8*.
     out_legal : bool, optional
-        Whether to return legal range values. Default is `True`.
+        Whether to return legal range values. Default is *True*.
     out_int : bool, optional
-        Whether to return values as `out_bits` integer code values. Default is
-        `False`.
+        Whether to return values as ``out_bits`` integer code values. Default
+        is *False*.
 
     Other Parameters
     ----------------
     in_range : array_like, optional
         Array overriding the computed range such as
-        `in_range = (Y_min, Y_max, C_min, C_max)`. If `in_range` is undefined,
-        `Y_min`, `Y_max`, `C_min` and `C_max` will be computed using
+        *in_range = (Y_min, Y_max, C_min, C_max)*. If ``in_range`` is
+        undefined, *Y_min*, *Y_max*, *C_min* and *C_max* will be computed using
         :func:`YCbCr_ranges` definition.
     out_range : array_like, optional
         Array overriding the computed range such as
-        `out_range = (RGB_min, RGB_max)`. If `out_range` is undefined,
-        `RGB_min` and `RGB_max` will be computed using :func:`CV_range`
+        *out_range = (RGB_min, RGB_max)*. If ``out_range`` is undefined,
+        *RGB_min* and *RGB_max* will be computed using :func:`CV_range`
         definition.
 
     Returns
@@ -398,23 +399,23 @@ def RGB_to_YcCbcCrc(RGB,
     out_bits : int, optional
         Bit depth for integer output, or used in the calculation of the
         denominator for legal range float values, i.e. 8-bit means the float
-        value for legal white is `235 / 255`. Ignored if `out_legal` and
-        `out_int` are both False. Default is `10`.
+        value for legal white is *235 / 255*. Ignored if ``out_legal`` and
+        ``out_int`` are both *False*. Default is *10*.
     out_legal : bool, optional
-        Whether to return legal range values. Default is `True`.
+        Whether to return legal range values. Default is *True*.
     out_int : bool, optional
-        Whether to return values as `out_bits` integer code values. Default is
-        `False`.
+        Whether to return values as ``out_bits`` integer code values. Default
+        is *False*.
     is_12_bits_system : bool, optional
         *Recommendation ITU-R BT.2020* OETF (OECF) adopts different parameters
-        for 10 and 12 bit systems. Default is `False`.
+        for 10 and 12 bit systems. Default is *False*.
 
     Other Parameters
     ----------------
     out_range : array_like, optional
         Array overriding the computed range such as
-        `out_range = (Y_min, Y_max, C_min, C_max)`. If `out_range` is
-        undefined, `Y_min`, `Y_max`, `C_min` and `C_max` will be computed
+        *out_range = (Y_min, Y_max, C_min, C_max)*. If ``out_range`` is
+        undefined, *Y_min*, *Y_max*, *C_min* and *C_max* will be computed
         using :func:`YCbCr_ranges` definition.
 
     Returns
@@ -478,22 +479,22 @@ def YcCbcCrc_to_RGB(YcCbcCrc,
     in_bits : int, optional
         Bit depth for integer input, or used in the calculation of the
         denominator for legal range float values, i.e. 8-bit means the float
-        value for legal white is `235 / 255`. Default is `10`.
+        value for legal white is *235 / 255*. Default is *10*.
     in_legal : bool, optional
-        Whether to treat the input values as legal range. Default is `False`.
+        Whether to treat the input values as legal range. Default is *False*.
     in_int : bool, optional
-        Whether to treat the input values as `in_bits` integer code values.
-        Default is `False`.
+        Whether to treat the input values as ``in_bits`` integer code values.
+        Default is *False*.
     is_12_bits_system : bool, optional
         *Recommendation ITU-R BT.2020* EOTF (EOCF) adopts different parameters
-        for 10 and 12 bit systems. Default is `False`.
+        for 10 and 12 bit systems. Default is *False*.
 
     Other Parameters
     ----------------
     in_range : array_like, optional
         Array overriding the computed range such as
-        `in_range = (Y_min, Y_max, C_min, C_max)`. If `in_range` is undefined,
-        `Y_min`, `Y_max`, `C_min` and `C_max` will be computed using
+        *in_range = (Y_min, Y_max, C_min, C_max)*. If ``in_range`` is
+        undefined, *Y_min*, *Y_max*, *C_min* and *C_max* will be computed using
         :func:`YCbCr_ranges` definition.
 
     Returns

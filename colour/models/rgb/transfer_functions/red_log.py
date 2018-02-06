@@ -170,7 +170,7 @@ def log_encoding_Log3G10(x, legacy_curve=False):
     x : numeric or array_like
         Linear data :math:`x`.
     legacy_curve : bool, optional
-        Whether to use the v1 *Log3G10* log encoding curve. Default is `False`.
+        Whether to use the v1 *Log3G10* log encoding curve. Default is *False*.
 
     Returns
     -------
@@ -238,7 +238,7 @@ def log_decoding_Log3G10(y, legacy_curve=False):
     y : numeric or array_like
         Non-linear data :math:`y`.
     legacy_curve : bool, optional
-        Whether to use the v1 *Log3G10* log encoding curve. Default is `False`.
+        Whether to use the v1 *Log3G10* log encoding curve. Default is *False*.
 
     Returns
     -------

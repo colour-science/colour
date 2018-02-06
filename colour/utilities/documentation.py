@@ -21,7 +21,8 @@ __all__ = ['DocstringDict', 'DocstringTuple', 'DocstringFloat']
 
 class DocstringDict(dict):
     """
-    A `dict` sub-class that allows settings a docstring to `dict` instances.
+    A :class:`dict` sub-class that allows settings a docstring to :class:`dict`
+    instances.
     """
 
     pass
@@ -29,7 +30,8 @@ class DocstringDict(dict):
 
 class DocstringTuple(tuple):
     """
-    A `tuple` sub-class that allows settings a docstring to `tuple` instances.
+    A :class:`tuple` sub-class that allows settings a docstring to
+    :class:`tuple` instances.
     """
 
     pass
@@ -37,7 +39,8 @@ class DocstringTuple(tuple):
 
 class DocstringFloat(float):
     """
-    A `float` sub-class that allows settings a docstring to `float` instances.
+    A :class:`float` sub-class that allows settings a docstring to
+    :class:`float` instances.
     """
 
     pass

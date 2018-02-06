@@ -52,8 +52,8 @@ def XYZ_to_Hunter_Rdab(XYZ,
     XYZ_n : array_like, optional
         Reference *illuminant* tristimulus values.
     K_ab : array_like, optional
-        Reference *illuminant* chromaticity coefficients, if `K_ab` is set to
-        `None` it will be computed using :func:`XYZ_to_K_ab_HunterLab1966`.
+        Reference *illuminant* chromaticity coefficients, if ``K_ab`` is set to
+        *None* it will be computed using :func:`XYZ_to_K_ab_HunterLab1966`.
 
     Returns
     -------

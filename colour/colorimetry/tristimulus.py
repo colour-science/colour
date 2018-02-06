@@ -567,7 +567,7 @@ def spectral_to_XYZ_ASTME30815(
         Illuminant spectral power distribution.
     use_practice_range : bool, optional
         Practise *ASTM E308-15* working wavelengths range is [360, 780],
-        if `True` this argument will trim the colour matching functions
+        if *True* this argument will trim the colour matching functions
         appropriately.
     mi_5nm_omission_method : bool, optional
         5 nm measurement intervals spectral power distribution conversion to
@@ -725,7 +725,7 @@ def spectral_to_XYZ(
     use_practice_range : bool, optional
         {:func:`spectral_to_XYZ_ASTME30815`},
         Practise *ASTM E308-15* working wavelengths range is [360, 780],
-        if `True` this argument will trim the colour matching functions
+        if *True* this argument will trim the colour matching functions
         appropriately.
     mi_5nm_omission_method : bool, optional
         {:func:`spectral_to_XYZ_ASTME30815`},

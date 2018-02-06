@@ -318,7 +318,7 @@ def CAM16_to_XYZ(CAM16_specification,
     ------
     ValueError
         If neither *C* or *M* correlates have been defined in the
-        `CAM16_specification` argument.
+        ``CAM16_specification`` argument.
 
     Warning
     -------
@@ -326,7 +326,7 @@ def CAM16_to_XYZ(CAM16_specification,
 
     Notes
     -----
-    -   `CAM16_specification` can also be passed as a compatible argument
+    -   ``CAM16_specification`` can also be passed as a compatible argument
         :func:`colour.as_namedtuple` definition.
     -   Input *CIE XYZ_w* tristimulus values are in domain [0, 100].
     -   Output *CIE XYZ* tristimulus values are in range [0, 100].

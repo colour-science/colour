@@ -1134,8 +1134,8 @@ class PchipInterpolator(scipy.interpolate.PchipInterpolator):
 class NullInterpolator(object):
     """
     Performs 1-D function null interpolation, i.e. a call within given
-    tolerances will return existing :math:`y` variable values and `default` if
-    outside tolerances.
+    tolerances will return existing :math:`y` variable values and ``default``
+    if outside tolerances.
 
     Parameters
     ----------

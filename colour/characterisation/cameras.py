@@ -43,8 +43,8 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
     domain : array_like, optional
         Values to initialise the multiple :class:`SpectralPowerDistribution`
         class instances :attr:`Signal.wavelengths` attribute with. If both
-        `data` and `domain` arguments are defined, the latter with be used to
-        initialise the :attr:`Signal.wavelengths` attribute.
+        ``data`` and ``domain`` arguments are defined, the latter with be used
+        to initialise the :attr:`Signal.wavelengths` attribute.
     labels : array_like, optional
         Names to use for the :class:`SpectralPowerDistribution` class
         instances.

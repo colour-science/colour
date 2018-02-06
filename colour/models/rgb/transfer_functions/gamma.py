@@ -44,8 +44,8 @@ def function_gamma(a, exponent=1, negative_number_handling='Indeterminate'):
         Encoding / decoding exponent.
     negative_number_handling : unicode, optional
         **{'Indeterminate', 'Mirror', 'Preserve', 'Clamp'}**,
-        Defines the behaviour for `a` negative numbers and / or the definition
-        return value:
+        Defines the behaviour for ``a`` negative numbers and / or the
+        definition return value:
 
         -   *Indeterminate*: The behaviour will be indeterminate and
             definition return value might contain *nans*.
@@ -53,8 +53,9 @@ def function_gamma(a, exponent=1, negative_number_handling='Indeterminate'):
             abscissa and ordinate axis, i.e. Blackmagic Design: Davinci Resolve
             behaviour.
         -   *Preserve*: The definition will preserve any negative number in
-            `a`, i.e. The Foundry Nuke behaviour.
-        -   *Clamp*: The definition will clamp any negative number in `a` to 0.
+            ``a``, i.e. The Foundry Nuke behaviour.
+        -   *Clamp*: The definition will clamp any negative number in ``a`` to
+            0.
 
     Returns
     -------

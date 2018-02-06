@@ -72,7 +72,7 @@ def log_encoding_CanonLog(x, bit_depth=10, out_legal=True, in_reflection=True):
         Whether the *Canon Log* non-linear data is encoded in legal
         range.
     in_reflection : bool, optional
-        Whether the light level :math`x` to a camera is reflection.
+        Whether the light level :math:`x` to a camera is reflection.
 
     Returns
     -------
@@ -117,7 +117,7 @@ def log_decoding_CanonLog(clog,
         Whether the *Canon Log* non-linear data is encoded in legal
         range.
     out_reflection : bool, optional
-        Whether the light level :math`x` to a camera is reflection.
+        Whether the light level :math:`x` to a camera is reflection.
 
     Returns
     -------
@@ -160,7 +160,7 @@ def log_encoding_CanonLog2(x, bit_depth=10, out_legal=True,
         Whether the *Canon Log 2* non-linear data is encoded in legal
         range.
     in_reflection : bool, optional
-        Whether the light level :math`x` to a camera is reflection.
+        Whether the light level :math:`x` to a camera is reflection.
 
     Returns
     -------
@@ -206,7 +206,7 @@ def log_decoding_CanonLog2(clog2,
         Whether the *Canon Log 2* non-linear data is encoded in legal
         range.
     out_reflection : bool, optional
-        Whether the light level :math`x` to a camera is reflection.
+        Whether the light level :math:`x` to a camera is reflection.
 
     Returns
     -------
@@ -251,7 +251,7 @@ def log_encoding_CanonLog3(x, bit_depth=10, out_legal=True,
         Whether the *Canon Log 3* non-linear data is encoded in legal
         range.
     in_reflection : bool, optional
-        Whether the light level :math`x` to a camera is reflection.
+        Whether the light level :math:`x` to a camera is reflection.
 
     Returns
     -------
@@ -313,7 +313,7 @@ def log_decoding_CanonLog3(clog3,
         Whether the *Canon Log 3* non-linear data is encoded in legal
         range.
     out_reflection : bool, optional
-        Whether the light level :math`x` to a camera is reflection.
+        Whether the light level :math:`x` to a camera is reflection.
 
     Returns
     -------
