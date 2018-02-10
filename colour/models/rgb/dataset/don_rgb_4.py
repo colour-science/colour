@@ -16,8 +16,8 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  HutchColor. (n.d.). DonRGB4 (4 K). Retrieved from
-        http://www.hutchcolor.com/profiles/DonRGB4.zip
+-   :cite:`HutchColorg` : HutchColor. (n.d.). DonRGB4 (4 K). Retrieved from
+    http://www.hutchcolor.com/profiles/DonRGB4.zip
 """
 
 from __future__ import division, unicode_literals
@@ -94,6 +94,10 @@ DON_RGB_4_COLOURSPACE = RGB_Colourspace(
     partial(function_gamma, exponent=2.2))  # yapf: disable
 DON_RGB_4_COLOURSPACE.__doc__ = """
 *Don RGB 4* colourspace.
+
+References
+----------
+-   :cite:`HutchColorg`
 
 DON_RGB_4_COLOURSPACE : RGB_Colourspace
 """

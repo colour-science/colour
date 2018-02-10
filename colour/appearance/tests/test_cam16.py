@@ -47,8 +47,8 @@ class TestCAM16ColourAppearanceModelForward(ColourAppearanceModelTest):
 
     def output_specification_from_data(self, data):
         """
-        Returns the *CAM16* colour appearance model output specification
-        from given data.
+        Returns the *CAM16* colour appearance model output specification from
+        given data.
 
         Parameters
         ----------

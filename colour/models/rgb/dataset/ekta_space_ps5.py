@@ -16,8 +16,8 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  Holmes, J. (n.d.). Ekta Space PS 5. Retrieved from
-        http://www.josephholmes.com/Ekta_Space.zip
+-   :cite:`Holmesa` : Holmes, J. (n.d.). Ekta Space PS 5. Retrieved from
+    https://www.josephholmes.com/userfiles/Ekta_Space_PS5_JHolmes.zip
 """
 
 from __future__ import division, unicode_literals
@@ -94,6 +94,10 @@ EKTA_SPACE_PS_5_COLOURSPACE = RGB_Colourspace(
     partial(function_gamma, exponent=2.2))  # yapf: disable
 EKTA_SPACE_PS_5_COLOURSPACE.__doc__ = """
 *Ekta Space PS 5* colourspace.
+
+References
+----------
+-   :cite:`Holmesa`
 
 EKTA_SPACE_PS_5_COLOURSPACE : RGB_Colourspace
 """

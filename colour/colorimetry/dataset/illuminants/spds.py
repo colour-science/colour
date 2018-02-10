@@ -41,10 +41,10 @@ Notes
 
 References
 ----------
-.. [1]  CIE. (n.d.). CIE Spectral Data. Retrieved from
-        http://files.cie.co.at/204.xls
-.. [2]  CIE. (2004). CIE 15:2004 Tables Data. Retrieved from
-        https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls
+-   :cite:`CIEce` : CIE. (2004). CIE 15:2004 Tables Data. Retrieved from
+    https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls
+-   :cite:`CIEcf` : CIE. (n.d.). CIE Spectral Data. Retrieved from
+    http://files.cie.co.at/204.xls
 """
 
 from __future__ import division, unicode_literals
@@ -3696,6 +3696,11 @@ ILLUMINANTS_RELATIVE_SPDS = CaseInsensitiveMapping({
 })
 ILLUMINANTS_RELATIVE_SPDS.__doc__ = """
 *CIE* illuminants relative spectral power distributions.
+
+References
+----------
+-   :cite:`CIEce`
+-   :cite:`CIEcf`
 
 ILLUMINANTS_RELATIVE_SPDS : CaseInsensitiveMapping
 """

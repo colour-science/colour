@@ -1,5 +1,28 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+"""
+References
+----------
+-   :cite:`Lindbloom2003c` : Lindbloom, B. (2003). Delta E (CIE 1976).
+    Retrieved February 24, 2014, from
+    http://brucelindbloom.com/Eqn_DeltaE_CIE76.html
+-   :cite:`Lindbloom2009e` : Lindbloom, B. (2009). Delta E (CIE 2000).
+    Retrieved February 24, 2014, from
+    http://brucelindbloom.com/Eqn_DeltaE_CIE2000.html
+-   :cite:`Lindbloom2009f` : Lindbloom, B. (2009). Delta E (CMC).Retrieved
+    February 24, 2014, from http://brucelindbloom.com/Eqn_DeltaE_CMC.html
+-   :cite:`Lindbloom2011a` : Lindbloom, B. (2011). Delta E (CIE 1994).
+    Retrieved February 24, 2014, from
+    http://brucelindbloom.com/Eqn_DeltaE_CIE94.html
+-   :cite:`Luo2006b` : Luo, M. R., Cui, G., & Li, C. (2006). Uniform colour
+    spaces based on CIECAM02 colour appearance model. Color Research &
+    Application, 31(4), 320–330. doi:10.1002/col.20227
+-   :cite:`Melgosa2013b` : Melgosa, M. (2013). CIE / ISO new standard:
+    CIEDE2000. Retrieved from http://www.color.org/events/colorimetry/\
+Melgosa_CIEDE2000_Workshop-July4.pdf
+-   :cite:`Wikipediabu` : Wikipedia. (n.d.). Color difference. Retrieved
+    August 29, 2014, from http://en.wikipedia.org/wiki/Color_difference
+"""
 
 from __future__ import absolute_import
 
@@ -31,6 +54,16 @@ DELTA_E_METHODS = CaseInsensitiveMapping({
 })
 DELTA_E_METHODS.__doc__ = """
 Supported :math:`\Delta E_{ab}` computations methods.
+
+References
+----------
+-   :cite:`Lindbloom2003c`
+-   :cite:`Lindbloom2011a`
+-   :cite:`Lindbloom2009e`
+-   :cite:`Lindbloom2009f`
+-   :cite:`Luo2006b`
+-   :cite:`Melgosa2013b`
+-   :cite:`Wikipediabu`
 
 DELTA_E_METHODS : CaseInsensitiveMapping
     **{'CIE 1976', 'CIE 1994', 'CIE 2000', 'CMC', 'CAM02-LCD', 'CAM02-SCD',

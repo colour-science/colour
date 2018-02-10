@@ -26,14 +26,17 @@ blob/master/notebooks/characterisation/fitting.ipynb>`_
 
 References
 ----------
-.. [1]  Ohta, N. (1997). The basis of color reproduction engineering.
-.. [2]  Munsell Color Science. (n.d.). Macbeth Colorchecker. Retrieved from
-        http://www.rit-mcsl.org/UsefulData/MacbethColorChecker.xls
-.. [3]  BabelColor. (2012). ColorChecker RGB and spectra. Retrieved from
-        http://www.babelcolor.com/download/ColorChecker_RGB_and_spectra.xls
-.. [4]  BabelColor. (2012). The ColorChecker (since 1976!). Retrieved
-        September 26, 2014, from
-        http://www.babelcolor.com/main_level/ColorChecker.htm
+-   :cite:`BabelColor2012b` : BabelColor. (2012). The ColorChecker
+    (since 1976!). Retrieved September 26, 2014, from
+    http://www.babelcolor.com/main_level/ColorChecker.htm
+-   :cite:`BabelColor2012c` : BabelColor. (2012). ColorChecker RGB and spectra.
+    Retrieved from http://www.babelcolor.com/download/\
+ColorChecker_RGB_and_spectra.xls
+-   :cite:`MunsellColorScienceb` : Munsell Color Science. (n.d.). Macbeth
+    Colorchecker. Retrieved from http://www.rit-mcsl.org/UsefulData/\
+MacbethColorChecker.xls
+-   :cite:`Ohta1997a` : Ohta, N. (1997). The basis of color reproduction
+    engineering.
 """
 
 from __future__ import division, unicode_literals
@@ -3017,6 +3020,13 @@ COLOURCHECKERS_SPDS = CaseInsensitiveMapping({
 })
 COLOURCHECKERS_SPDS.__doc__ = """
 Aggregated *ColourCheckers* spectral power distributions.
+
+References
+----------
+-   :cite:`Ohta1997a`
+-   :cite:`BabelColor2012b`
+-   :cite:`BabelColor2012c`
+-   :cite:`MunsellColorScienceb`
 
 COLOURCHECKERS : CaseInsensitiveMapping
     **{'BabelColor Average', 'ColorChecker N Ohta'}**

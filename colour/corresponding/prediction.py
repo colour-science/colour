@@ -14,10 +14,27 @@ blob/master/notebooks/corresponding/prediction.ipynb>`_
 
 References
 ----------
-.. [1]  Breneman, E. J. (1987). Corresponding chromaticities for different
-        states of adaptation to complex visual fields. Journal of the Optical
-        Society of America. A, Optics and Image Science, 4, 1115–1129.
-        doi:10.1364/JOSAA.4.001115
+-   :cite:`Breneman1987b` : Breneman, E. J. (1987). Corresponding
+    chromaticities for different states of adaptation to complex visual fields.
+    Journal of the Optical Society of America A, 4(6), 1115.
+    doi:10.1364/JOSAA.4.001115
+-   :cite:`CIETC1-321994b` : CIE TC 1-32. (1994). CIE 109-1994 A Method of
+    Predicting Corresponding Colours under Different Chromatic and Illuminance
+    Adaptations. ISBN:978-3-900734-51-0
+-   :cite:`Fairchild1991a` : Fairchild, M. D. (1991). Formulation and testing
+    of an incomplete-chromatic-adaptation model. Color Research & Application,
+    16(4), 243–250. doi:10.1002/col.5080160406
+-   :cite:`Fairchild2013s` : Fairchild, M. D. (2013). FAIRCHILD'S 1990 MODEL.
+    In Color Appearance Models (3rd ed., pp. 4418–4495). Wiley. ISBN:B00DAYO8E2
+-   :cite:`Fairchild2013t` : Fairchild, M. D. (2013). Chromatic Adaptation
+    Models. In Color Appearance Models (3rd ed., pp. 4179–4252). Wiley.
+    ISBN:B00DAYO8E2
+-   :cite:`Li2002a` : Li, C., Luo, M. R., Rigg, B., & Hunt, R. W. G. (2002).
+    CMC 2000 chromatic adaptation transform: CMCCAT2000. Color Research &
+    Application, 27(1), 49–58. doi:10.1002/col.10005
+-   :cite:`Westland2012k` : Westland, S., Ripamonti, C., & Cheung, V. (2012).
+    CMCCAT2000. In Computational Colour Science Using MATLAB
+    (2nd ed., pp. 83–86). ISBN:978-0-470-66569-5
 """
 
 from __future__ import division, unicode_literals
@@ -86,6 +103,11 @@ def corresponding_chromaticities_prediction_CIE1994(experiment=1):
     tuple
         Corresponding chromaticities prediction.
 
+    References
+    ----------
+    -   :cite:`Breneman1987b`
+    -   :cite:`CIETC1-321994b`
+
     Examples
     --------
     >>> from pprint import pprint
@@ -144,6 +166,12 @@ def corresponding_chromaticities_prediction_CMCCAT2000(experiment=1):
     tuple
         Corresponding chromaticities prediction.
 
+    References
+    ----------
+    -   :cite:`Breneman1987b`
+    -   :cite:`Li2002a`
+    -   :cite:`Westland2012k`
+
     Examples
     --------
     >>> from pprint import pprint
@@ -200,6 +228,12 @@ def corresponding_chromaticities_prediction_Fairchild1990(experiment=1):
     -------
     tuple
         Corresponding chromaticities prediction.
+
+    References
+    ----------
+    -   :cite:`Breneman1987b`
+    -   :cite:`Fairchild1991a`
+    -   :cite:`Fairchild2013s`
 
     Examples
     --------
@@ -263,6 +297,11 @@ def corresponding_chromaticities_prediction_VonKries(experiment=1,
     tuple
         Corresponding chromaticities prediction.
 
+    References
+    ----------
+    -   :cite:`Breneman1987b`
+    -   :cite:`Fairchild2013t`
+
     Examples
     --------
     >>> from pprint import pprint
@@ -311,6 +350,16 @@ CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS = CaseInsensitiveMapping({
 CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS.__doc__ = """
 Aggregated corresponding chromaticities prediction models.
 
+References
+----------
+-   :cite:`Breneman1987b`
+-   :cite:`CIETC1-321994b`
+-   :cite:`Fairchild1991a`
+-   :cite:`Fairchild2013s`
+-   :cite:`Fairchild2013t`
+-   :cite:`Li2002a`
+-   :cite:`Westland2012k`
+
 CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS : CaseInsensitiveMapping
     **{'CIE 1994', 'CMCCAT2000', 'Fairchild 1990', 'Von Kries'}**
 
@@ -351,6 +400,16 @@ def corresponding_chromaticities_prediction(experiment=1,
     -------
     tuple
         Corresponding chromaticities prediction.
+
+    References
+    ----------
+    -   :cite:`Breneman1987b`
+    -   :cite:`CIETC1-321994b`
+    -   :cite:`Fairchild1991a`
+    -   :cite:`Fairchild2013s`
+    -   :cite:`Fairchild2013t`
+    -   :cite:`Li2002a`
+    -   :cite:`Westland2012k`
 
     Examples
     --------

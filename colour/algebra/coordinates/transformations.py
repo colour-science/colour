@@ -17,11 +17,11 @@ The following transformations are available:
 
 References
 ----------
-.. [1]  Wikipedia. (n.d.). List of common coordinate transformations.
-        Retrieved from http://en.wikipedia.org/wiki/\
-List_of_common_coordinate_transformations
-.. [2]  Wikipedia. (n.d.). ISO 31-11. Retrieved July 31, 2016, from
-        https://en.wikipedia.org/wiki/ISO_31-11
+-   :cite:`Wikipediacl` : Wikipedia. (n.d.). List of common coordinate
+    transformations. Retrieved July 18, 2014, from
+    http://en.wikipedia.org/wiki/List_of_common_coordinate_transformations
+-   :cite:`Wikipediacn` : Wikipedia. (n.d.). ISO 31-11. Retrieved July 31,
+    2016, from https://en.wikipedia.org/wiki/ISO_31-11
 """
 
 from __future__ import division, unicode_literals
@@ -60,6 +60,11 @@ def cartesian_to_spherical(a):
     ndarray
         Spherical coordinates array :math:`\\rho\\theta\phi`.
 
+    References
+    ----------
+    -   :cite:`Wikipediacl`
+    -   :cite:`Wikipediacn`
+
     Examples
     --------
     >>> a = np.array([3, 1, 6])
@@ -93,6 +98,11 @@ def spherical_to_cartesian(a):
     -------
     ndarray
         Cartesian coordinates array :math:`xyz`.
+
+    References
+    ----------
+    -   :cite:`Wikipediacl`
+    -   :cite:`Wikipediacn`
 
     Examples
     --------
@@ -128,6 +138,11 @@ def cartesian_to_polar(a):
     ndarray
         Polar coordinates array :math:`\\rho\phi`.
 
+    References
+    ----------
+    -   :cite:`Wikipediacl`
+    -   :cite:`Wikipediacn`
+
     Examples
     --------
     >>> a = np.array([3, 1])
@@ -157,6 +172,11 @@ def polar_to_cartesian(a):
     -------
     ndarray
         Cartesian coordinates array :math:`xy`.
+
+    References
+    ----------
+    -   :cite:`Wikipediacl`
+    -   :cite:`Wikipediacn`
 
     Examples
     --------
@@ -189,6 +209,11 @@ def cartesian_to_cylindrical(a):
     ndarray
         Cylindrical coordinates array :math:`\\rho\phi z`.
 
+    References
+    ----------
+    -   :cite:`Wikipediacl`
+    -   :cite:`Wikipediacn`
+
     Examples
     --------
     >>> a = np.array([3, 1, 6])
@@ -218,6 +243,11 @@ def cylindrical_to_cartesian(a):
     -------
     ndarray
         Cartesian coordinates array :math:`xyz`.
+
+    References
+    ----------
+    -   :cite:`Wikipediacl`
+    -   :cite:`Wikipediacn`
 
     Examples
     --------

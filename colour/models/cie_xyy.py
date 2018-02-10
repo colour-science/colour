@@ -21,8 +21,12 @@ blob/master/notebooks/models/cie_xyy.ipynb>`_
 
 References
 ----------
-.. [1]  Wikipedia. (n.d.). CIE 1931 color space. Retrieved February 24, 2014,
-        from http://en.wikipedia.org/wiki/CIE_1931_color_space
+-   :cite:`Lindbloom2003e` : Lindbloom, B. (2003). XYZ to xyY. Retrieved
+    February 24, 2014, from http://www.brucelindbloom.com/Eqn_XYZ_to_xyY.html
+-   :cite:`Lindbloom2009d` : Lindbloom, B. (2009). xyY to XYZ. Retrieved
+    February 24, 2014, from http://www.brucelindbloom.com/Eqn_xyY_to_XYZ.html
+-   :cite:`Wikipediabz` : Wikipedia. (n.d.). CIE 1931 color space. Retrieved
+    February 24, 2014, from http://en.wikipedia.org/wiki/CIE_1931_color_space
 """
 
 from __future__ import division, unicode_literals
@@ -72,8 +76,8 @@ def XYZ_to_xyY(
 
     References
     ----------
-    .. [2]  Lindbloom, B. (2003). XYZ to xyY. Retrieved February 24, 2014,
-            from http://www.brucelindbloom.com/Eqn_XYZ_to_xyY.html
+    -   :cite:`Lindbloom2003e`
+    -   :cite:`Wikipediabz`
 
     Examples
     --------
@@ -117,8 +121,8 @@ def xyY_to_XYZ(xyY):
 
     References
     ----------
-    .. [3]  Lindbloom, B. (2009). xyY to XYZ. Retrieved February 24, 2014,
-            from http://www.brucelindbloom.com/Eqn_xyY_to_XYZ.html
+    -   :cite:`Lindbloom2009d`
+    -   :cite:`Wikipediabz`
 
     Examples
     --------
@@ -166,6 +170,10 @@ def xy_to_xyY(xy, Y=1):
         :func:`colour.models.Luv_to_XYZ`.
     -   Input *xy* chromaticity coordinates are in domain [0, 1].
     -   Output *CIE xyY* colourspace array is in range [0, 1].
+
+    References
+    ----------
+    -   :cite:`Wikipediabz`
 
     Examples
     --------
@@ -218,6 +226,10 @@ def xyY_to_xy(xyY):
     -   Input *CIE xyY* colourspace array is in domain [0, 1].
     -   Output *xy* chromaticity coordinates are in range [0, 1].
 
+    References
+    ----------
+    -   :cite:`Wikipediabz`
+
     Examples
     --------
     >>> xyY = np.array([0.26414772, 0.37770001, 0.10080000])
@@ -261,6 +273,10 @@ def xy_to_XYZ(xy):
     -   Input *xy* chromaticity coordinates are in domain [0, 1].
     -   Output *CIE XYZ* tristimulus values are in range [0, 1].
 
+    References
+    ----------
+    -   :cite:`Wikipediabz`
+
     Examples
     --------
     >>> xy = np.array([0.26414772, 0.37770001])
@@ -296,6 +312,10 @@ def XYZ_to_xy(
     -----
     -   Input *CIE XYZ* tristimulus values are in domain [0, 1].
     -   Output *xy* chromaticity coordinates are in range [0, 1].
+
+    References
+    ----------
+    -   :cite:`Wikipediabz`
 
     Examples
     --------

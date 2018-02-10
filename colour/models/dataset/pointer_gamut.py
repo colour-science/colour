@@ -14,8 +14,8 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  Pointer, M. R. (1980). Pointer's Gamut Data. Retrieved from
-        http://www.cis.rit.edu/research/mcsl2/online/PointerData.xls
+-   :cite:`Pointer1980a` : Pointer, M. R. (1980). Pointer's Gamut Data.
+    Retrieved from http://www.cis.rit.edu/research/mcsl2/online/PointerData.xls
 """
 
 from __future__ import division, unicode_literals
@@ -40,6 +40,10 @@ POINTER_GAMUT_ILLUMINANT = (
     LIGHT_SOURCES['CIE 1931 2 Degree Standard Observer']['SC'])
 """
 *Pointer's Gamut* illuminant *SC*.
+
+References
+----------
+-   :cite:`Pointer1980a`
 
 POINTER_GAMUT_ILLUMINANT : ndarray
 """
@@ -625,6 +629,10 @@ POINTER_GAMUT_DATA = np.array([
 """
 *Pointer's Gamut* data as a tuple of *CIE L\*C\*Hab* colourspace matrices.
 
+References
+----------
+-   :cite:`Pointer1980a`
+
 POINTER_GAMUT_DATA : ndarray
 """
 
@@ -664,6 +672,10 @@ POINTER_GAMUT_BOUNDARIES = np.array([
 ])
 """
 *Pointer's Gamut* *xy* chromaticity coordinates boundaries.
+
+References
+----------
+-   :cite:`Pointer1980a`
 
 POINTER_GAMUT_BOUNDARIES : ndarray
 """

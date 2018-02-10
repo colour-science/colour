@@ -28,12 +28,28 @@ Don't use that! Seriously...
 
 References
 ----------
-.. [1]  Wikipedia. (n.d.). HSL and HSV. Retrieved September 10, 2014, from
-        http://en.wikipedia.org/wiki/HSL_and_HSV
-.. [2]  Smith, A. R. (1978). Color Gamut Transform Pairs. In Proceedings of
-        the 5th Annual Conference on Computer Graphics and Interactive
-        Techniques (pp. 12–19). New York, NY, USA: ACM.
-        doi:10.1145/800248.807361
+-   :cite:`EasyRGBh` : EasyRGB. (n.d.). RGB —> CMY. Retrieved May 18, 2014,
+    from http://www.easyrgb.com/index.php?X=MATH&H=11#text11
+-   :cite:`EasyRGBi` : EasyRGB. (n.d.). CMY —> RGB. Retrieved May 18, 2014,
+    from http://www.easyrgb.com/index.php?X=MATH&H=12#text12
+-   :cite:`EasyRGBj` : EasyRGB. (n.d.). RGB —> HSV. Retrieved May 18, 2014,
+    from http://www.easyrgb.com/index.php?X=MATH&H=20#text20
+-   :cite:`EasyRGBk` : EasyRGB. (n.d.). HSL —> RGB. Retrieved May 18, 2014,
+    from http://www.easyrgb.com/index.php?X=MATH&H=19#text19
+-   :cite:`EasyRGBl` : EasyRGB. (n.d.). RGB —> HSL. Retrieved May 18, 2014,
+    from http://www.easyrgb.com/index.php?X=MATH&H=18#text18
+-   :cite:`EasyRGBm` : EasyRGB. (n.d.). CMYK —> CMY. Retrieved May 18, 2014,
+    from http://www.easyrgb.com/index.php?X=MATH&H=14#text14
+-   :cite:`EasyRGBn` : EasyRGB. (n.d.). HSV —> RGB. Retrieved May 18, 2014,
+    from http://www.easyrgb.com/index.php?X=MATH&H=21#text21
+-   :cite:`EasyRGBo` : EasyRGB. (n.d.). CMY —> CMYK. Retrieved May 18, 2014,
+    from http://www.easyrgb.com/index.php?X=MATH&H=13#text13
+-   :cite:`Smith1978b` : Smith, A. R. (1978). Color gamut transform pairs. In
+    Proceedings of the 5th annual conference on Computer graphics and
+    interactive techniques - SIGGRAPH '78 (pp. 12–19). New York, New York,
+    USA: ACM Press. doi:10.1145/800248.807361
+-   :cite:`Wikipediacg` : Wikipedia. (n.d.). HSL and HSV. Retrieved September
+    10, 2014, from http://en.wikipedia.org/wiki/HSL_and_HSV
 """
 
 from __future__ import division, unicode_literals
@@ -76,8 +92,9 @@ def RGB_to_HSV(RGB):
 
     References
     ----------
-    .. [3]  EasyRGB. (n.d.). RGB —> HSV. Retrieved May 18, 2014, from
-            http://www.easyrgb.com/index.php?X=MATH&H=20#text20
+    -   :cite:`EasyRGBj`
+    -   :cite:`Smith1978b`
+    -   :cite:`Wikipediacg`
 
     Examples
     --------
@@ -133,8 +150,9 @@ def HSV_to_RGB(HSV):
 
     References
     ----------
-    .. [4]  EasyRGB. (n.d.). HSV —> RGB. Retrieved May 18, 2014, from
-            http://www.easyrgb.com/index.php?X=MATH&H=21#text21
+    -   :cite:`EasyRGBn`
+    -   :cite:`Smith1978b`
+    -   :cite:`Wikipediacg`
 
     Examples
     --------
@@ -190,8 +208,9 @@ def RGB_to_HSL(RGB):
 
     References
     ----------
-    .. [5]  EasyRGB. (n.d.). RGB —> HSL. Retrieved May 18, 2014, from
-            http://www.easyrgb.com/index.php?X=MATH&H=18#text18
+    -   :cite:`EasyRGBl`
+    -   :cite:`Smith1978b`
+    -   :cite:`Wikipediacg`
 
     Examples
     --------
@@ -249,8 +268,9 @@ def HSL_to_RGB(HSL):
 
     References
     ----------
-    .. [6]  EasyRGB. (n.d.). HSL —> RGB. Retrieved May 18, 2014, from
-            http://www.easyrgb.com/index.php?X=MATH&H=19#text19
+    -   :cite:`EasyRGBk`
+    -   :cite:`Smith1978b`
+    -   :cite:`Wikipediacg`
 
     Examples
     --------
@@ -321,8 +341,7 @@ def RGB_to_CMY(RGB):
 
     References
     ----------
-    .. [7]  EasyRGB. (n.d.). RGB —> CMY. Retrieved May 18, 2014, from
-            http://www.easyrgb.com/index.php?X=MATH&H=11#text11
+    -   :cite:`EasyRGBh`
 
     Examples
     --------
@@ -357,8 +376,7 @@ def CMY_to_RGB(CMY):
 
     References
     ----------
-    .. [8]  EasyRGB. (n.d.). CMY —> RGB. Retrieved May 18, 2014, from
-            http://www.easyrgb.com/index.php?X=MATH&H=12#text12
+    -   :cite:`EasyRGBi`
 
     Examples
     --------
@@ -393,8 +411,7 @@ def CMY_to_CMYK(CMY):
 
     References
     ----------
-    .. [9]  EasyRGB. (n.d.). CMY —> CMYK. Retrieved May 18, 2014, from
-            http://www.easyrgb.com/index.php?X=MATH&H=13#text13
+    -   :cite:`EasyRGBo`
 
     Examples
     --------
@@ -444,8 +461,7 @@ def CMYK_to_CMY(CMYK):
 
     References
     ----------
-    .. [10] EasyRGB. (n.d.). CMYK —> CMY. Retrieved May 18, 2014, from
-            http://www.easyrgb.com/index.php?X=MATH&H=14#text14
+    -   :cite:`EasyRGBm`
 
     Examples
     --------

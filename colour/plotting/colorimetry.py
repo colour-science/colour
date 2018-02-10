@@ -20,8 +20,8 @@ Defines the colorimetry plotting objects:
 
 References
 ----------
-.. [1]  Spiker, N. (2015). Private Discussion with Mansencal, T. Retrieved from
-        http://www.repairfaq.org/sam/repspec/
+-   :cite:`Spiker2015a` : Spiker, N. (2015). Private Discussion with
+    Mansencal, T. Retrieved from http://www.invisiblelightimages.com/
 """
 
 from __future__ import division
@@ -73,7 +73,7 @@ def single_spd_plot(spd,
     out_of_gamut_clipping : bool, optional
         Whether to clip out of gamut colours otherwise, the colours will be
         offset by the absolute minimal colour leading to a rendering on
-        gray background, less saturated and smoother. [1]_
+        gray background, less saturated and smoother.
     cmfs : unicode
         Standard observer colour matching functions used for spectrum creation.
 
@@ -88,6 +88,10 @@ def single_spd_plot(spd,
     -------
     Figure
         Current figure or None.
+
+    References
+    ----------
+    -   :cite:`Spiker2015a`
 
     Examples
     --------
@@ -410,12 +414,16 @@ def single_illuminant_relative_spd_plot(
         {:func:`single_spd_plot`},
         Whether to clip out of gamut colours otherwise, the colours will be
         offset by the absolute minimal colour leading to a rendering on
-        gray background, less saturated and smoother. [1]_
+        gray background, less saturated and smoother.
 
     Returns
     -------
     Figure
         Current figure or None.
+
+    References
+    ----------
+    -   :cite:`Spiker2015a`
 
     Examples
     --------
@@ -498,7 +506,7 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
     out_of_gamut_clipping : bool, optional
         Whether to clip out of gamut colours otherwise, the colours will be
         offset by the absolute minimal colour leading to a rendering on
-        gray background, less saturated and smoother. [1]_
+        gray background, less saturated and smoother.
 
     Other Parameters
     ----------------
@@ -511,6 +519,10 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
     -------
     Figure
         Current figure or None.
+
+    References
+    ----------
+    -   :cite:`Spiker2015a`
 
     Examples
     --------

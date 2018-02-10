@@ -20,25 +20,16 @@ Defines various objects for *Munsell Renotation System* computations:
     given *luminance* :math:`Y` using *Ladd and Pinney (1955)* method.
 -   :func:`munsell_value_McCamy1987`: *Munsell* value :math:`V` computation of
     given *luminance* :math:`Y` using *McCamy (1987)* method.
--   :func:`munsell_value_ASTMD153508` [1]_ [2]_: *Munsell* value :math:`V`
+-   :func:`munsell_value_ASTMD153508`: *Munsell* value :math:`V`
     computation of given *luminance* :math:`Y` using *ASTM D1535-08e1* method.
--   :func:`munsell_colour_to_xyY` [1]_ [2]_
--   :func:`xyY_to_munsell_colour` [1]_ [2]_
+-   :func:`munsell_colour_to_xyY`
+-   :func:`xyY_to_munsell_colour`
 
 See Also
 --------
 `Munsell Renotation System Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/notation/munsell.ipynb>`_
-
-References
-----------
-.. [1]  Centore, P. (n.d.). The Munsell and Kubelka-Munk Toolbox. Retrieved
-        January 23, 2018, from http://www.munsellcolourscienceforpainters.com/\
-MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html
-.. [2]  Centore, P. (2012). An open-source inversion algorithm for the Munsell
-        renotation. Color Research & Application, 37(6), 455–464.
-        doi:10.1002/col.20715
 
 Notes
 -----
@@ -59,6 +50,67 @@ Notes
         magnesium oxide with respect to the perfect reflecting diffuser, and
         rounding to ﬁve digits of precision.
 
+References
+----------
+-   :cite:`ASTMInternational1989a` : ASTM International. (1989). ASTM D1535-89
+    - Standard Practice for Specifying Color by the Munsell System. Retrieved
+    from http://www.astm.org/DATABASE.CART/HISTORICAL/D1535-89.htm
+-   :cite:`Centore2012a` : Centore, P. (2012). An open-source inversion
+    algorithm for the Munsell renotation. Color Research & Application, 37(6),
+    455–464. doi:10.1002/col.20715
+-   :cite:`Centore2014k` : Centore, P. (2014).
+    MunsellAndKubelkaMunkToolboxApr2014 -
+    MunsellRenotationRoutines/MunsellHueToASTMHue.m. Retrieved from
+    https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
+-   :cite:`Centore2014l` : Centore, P. (2014).
+    MunsellAndKubelkaMunkToolboxApr2014 -
+    MunsellSystemRoutines/LinearVsRadialInterpOnRenotationOvoid.m.
+    Retrieved from
+    https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
+-   :cite:`Centore2014m` : Centore, P. (2014).
+    MunsellAndKubelkaMunkToolboxApr2014 -
+    MunsellRenotationRoutines/MunsellToxyY.m. Retrieved from
+    https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
+-   :cite:`Centore2014n` : Centore, P. (2014).
+    MunsellAndKubelkaMunkToolboxApr2014 -
+    MunsellRenotationRoutines/FindHueOnRenotationOvoid.m. Retrieved from
+    https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
+-   :cite:`Centore2014o` : Centore, P. (2014).
+    MunsellAndKubelkaMunkToolboxApr2014 -
+    MunsellSystemRoutines/BoundingRenotationHues.m. Retrieved from
+    https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
+-   :cite:`Centore2014p` : Centore, P. (2014).
+    MunsellAndKubelkaMunkToolboxApr2014 -
+    MunsellRenotationRoutines/xyYtoMunsell.m. Retrieved from
+    https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
+-   :cite:`Centore2014q` : Centore, P. (2014).
+    MunsellAndKubelkaMunkToolboxApr2014 -
+    MunsellRenotationRoutines/MunsellToxyForIntegerMunsellValue.m. Retrieved
+    from https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
+-   :cite:`Centore2014r` : Centore, P. (2014).
+    MunsellAndKubelkaMunkToolboxApr2014 -
+    MunsellRenotationRoutines/MaxChromaForExtrapolatedRenotation.m. Retrieved
+    from https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
+-   :cite:`Centore2014s` : Centore, P. (2014).
+    MunsellAndKubelkaMunkToolboxApr2014 -
+    MunsellRenotationRoutines/MunsellHueToChromDiagHueAngle.m. Retrieved from
+    https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
+-   :cite:`Centore2014t` : Centore, P. (2014).
+    MunsellAndKubelkaMunkToolboxApr2014 -
+    MunsellRenotationRoutines/ChromDiagHueAngleToMunsellHue.m. Retrieved from
+    https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
+-   :cite:`Centore2014u` : Centore, P. (2014).
+    MunsellAndKubelkaMunkToolboxApr2014 -
+    GeneralRoutines/CIELABtoApproxMunsellSpec.m. Retrieved from
+    https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
+-   :cite:`Centorea` : Centore, P. (n.d.). The Munsell and Kubelka-Munk
+    Toolbox. Retrieved January 23, 2018, from
+    http://www.munsellcolourscienceforpainters.com/\
+MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html
+-   :cite:`Wikipediabs` : Nayatani, Y., Sobagaki, H., & Yano, K. H. T. (1995).
+    Lightness dependency of chroma scales of a nonlinear color-appearance model
+    and its latest formulation. Color Research & Application, 20(3), 156–167.
+    doi:10.1002/col.5080200305
 """
 
 from __future__ import division, unicode_literals
@@ -252,8 +304,7 @@ def munsell_value_Priest1920(Y):
 
     References
     ----------
-    .. [3]  Wikipedia. (n.d.). Lightness. Retrieved April 13, 2014, from
-            http://en.wikipedia.org/wiki/Lightness
+    -   :cite:`Wikipediabs`
 
     Examples
     --------
@@ -271,7 +322,7 @@ def munsell_value_Priest1920(Y):
 def munsell_value_Munsell1933(Y):
     """
     Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
-    *⁠Munsell et alii (1933)* method. [3]_
+    *⁠Munsell et alii (1933)* method.
 
     Parameters
     ----------
@@ -287,6 +338,10 @@ def munsell_value_Munsell1933(Y):
     -----
     -   Input *Y* is in domain [0, 100].
     -   Output *V* is in range [0, 10].
+
+    References
+    ----------
+    -   :cite:`Wikipediabs`
 
     Examples
     --------
@@ -304,7 +359,7 @@ def munsell_value_Munsell1933(Y):
 def munsell_value_Moon1943(Y):
     """
     Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
-    *Moon and Spencer (1943)* method. [3]_
+    *Moon and Spencer (1943)* method.
 
 
     Parameters
@@ -321,6 +376,10 @@ def munsell_value_Moon1943(Y):
     -----
     -   Input *Y* is in domain [0, 100].
     -   Output *V* is in range [0, 10].
+
+    References
+    ----------
+    -   :cite:`Wikipediabs`
 
     Examples
     --------
@@ -338,7 +397,7 @@ def munsell_value_Moon1943(Y):
 def munsell_value_Saunderson1944(Y):
     """
     Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
-    *Saunderson and Milner (1944)* method. [3]_
+    *Saunderson and Milner (1944)* method.
 
     Parameters
     ----------
@@ -354,6 +413,10 @@ def munsell_value_Saunderson1944(Y):
     -----
     -   Input *Y* is in domain [0, 100].
     -   Output *V* is in range [0, 10].
+
+    References
+    ----------
+    -   :cite:`Wikipediabs`
 
     Examples
     --------
@@ -371,7 +434,7 @@ def munsell_value_Saunderson1944(Y):
 def munsell_value_Ladd1955(Y):
     """
     Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
-    *Ladd and Pinney (1955)* method. [3]_
+    *Ladd and Pinney (1955)* method.
 
     Parameters
     ----------
@@ -387,6 +450,10 @@ def munsell_value_Ladd1955(Y):
     -----
     -   Input *Y* is in domain [0, 100].
     -   Output *V* is in range [0, 10].
+
+    References
+    ----------
+    -   :cite:`Wikipediabs`
 
     Examples
     --------
@@ -423,10 +490,7 @@ def munsell_value_McCamy1987(Y):
 
     References
     ----------
-    .. [4]  ASTM International. (1989). ASTM D1535-89 - Standard Practice for
-            Specifying Color by the Munsell System.
-            Retrieved September 25, 2014, from
-            http://www.astm.org/DATABASE.CART/HISTORICAL/D1535-89.htm
+    -   :cite:`ASTMInternational1989a`
 
     Examples
     --------
@@ -467,6 +531,10 @@ def munsell_value_ASTMD153508(Y):
     -   Input *Y* is in domain [0, 100].
     -   Output *V* is in range [0, 10].
 
+    References
+    ----------
+    -   :cite:`ASTMInternational1989a`
+
     Examples
     --------
     >>> munsell_value_ASTMD153508(10.1488096782)  # doctest: +ELLIPSIS
@@ -491,6 +559,11 @@ MUNSELL_VALUE_METHODS = CaseInsensitiveMapping({
 })
 MUNSELL_VALUE_METHODS.__doc__ = """
 Supported *Munsell* value computations methods.
+
+References
+----------
+-   :cite:`ASTMInternational1989a`
+-   :cite:`Wikipediabs`
 
 MUNSELL_VALUE_METHODS : CaseInsensitiveMapping
     **{'Priest 1920', 'Munsell 1933', 'Moon 1943', 'Saunderson 1944',
@@ -526,6 +599,11 @@ def munsell_value(Y, method='ASTM D1535-08'):
     -----
     -   Input *Y* is in domain [0, 100].
     -   Output *V* is in range [0, 10].
+
+    References
+    ----------
+    -   :cite:`ASTMInternational1989a`
+    -   :cite:`Wikipediabs`
 
     Examples
     --------
@@ -572,9 +650,7 @@ def munsell_specification_to_xyY(specification):
 
     References
     ----------
-    .. [5]  Centore, P. (2014). MunsellAndKubelkaMunkToolboxApr2014 -
-            MunsellRenotationRoutines/MunsellToxyY.m. Retrieved from
-            https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
+    -   :cite:`Centore2014m`
 
     Examples
     --------
@@ -645,6 +721,11 @@ def munsell_colour_to_xyY(munsell_colour):
     -----
     -   Output *CIE xyY* colourspace array is in range [0, 1].
 
+    References
+    ----------
+    -   :cite:`Centorea`
+    -   :cite:`Centore2012a`
+
     Examples
     --------
     >>> munsell_colour_to_xyY('4.2YR 8.1/5.3')  # doctest: +ELLIPSIS
@@ -686,9 +767,7 @@ def xyY_to_munsell_specification(xyY):
 
     References
     ----------
-    .. [6]  Centore, P. (2014). MunsellAndKubelkaMunkToolboxApr2014 -
-            MunsellRenotationRoutines/xyYtoMunsell.m. Retrieved from
-            https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
+    -   :cite:`Centore2014p`
 
     Examples
     --------
@@ -913,6 +992,11 @@ def xyY_to_munsell_colour(xyY,
     Notes
     -----
     -   Input *CIE xyY* colourspace array is in domain [0, 1].
+
+    References
+    ----------
+    -   :cite:`Centorea`
+    -   :cite:`Centore2012a`
 
     Examples
     --------
@@ -1214,9 +1298,7 @@ def bounding_hues_from_renotation(hue, code):
 
     References
     ----------
-    .. [7]  Centore, P. (2014). MunsellAndKubelkaMunkToolboxApr2014 -
-            MunsellSystemRoutines/BoundingRenotationHues.m. Retrieved from
-            https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
+    -   :cite:`Centore2014o`
 
     Examples
     --------
@@ -1270,10 +1352,7 @@ def hue_to_hue_angle(hue, code):
 
     References
     ----------
-    .. [8]  Centore, P. (2014). MunsellAndKubelkaMunkToolboxApr2014 -
-            MunsellRenotationRoutines/MunsellHueToChromDiagHueAngle.m.
-            Retrieved from
-            https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
+    -   :cite:`Centore2014s`
 
     Examples
     --------
@@ -1305,10 +1384,7 @@ def hue_angle_to_hue(hue_angle):
 
     References
     ----------
-    .. [9]  Centore, P. (2014). MunsellAndKubelkaMunkToolboxApr2014 -
-            MunsellRenotationRoutines/ChromDiagHueAngleToMunsellHue.m.
-            Retrieved from
-            https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
+    -   :cite:`Centore2014t`
 
     Examples
     --------
@@ -1367,9 +1443,7 @@ def hue_to_ASTM_hue(hue, code):
 
     References
     ----------
-    .. [10] Centore, P. (2014). MunsellAndKubelkaMunkToolboxApr2014 -
-            MunsellRenotationRoutines/MunsellHueToASTMHue.m. Retrieved from
-            https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
+    -   :cite:`Centore2014k`
 
     Examples
     --------
@@ -1406,10 +1480,7 @@ def interpolation_method_from_renotation_ovoid(specification):
 
     References
     ----------
-    .. [11] Centore, P. (2014). MunsellAndKubelkaMunkToolboxApr2014 -
-            MunsellSystemRoutines/LinearVsRadialInterpOnRenotationOvoid.m.
-            Retrieved from
-            https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
+    -   :cite:`Centore2014l`
 
     Examples
     --------
@@ -1701,9 +1772,7 @@ def xy_from_renotation_ovoid(specification):
 
     References
     ----------
-    .. [12] Centore, P. (2014). MunsellAndKubelkaMunkToolboxApr2014 -
-            MunsellRenotationRoutines/FindHueOnRenotationOvoid.m. Retrieved
-            from https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
+    -   :cite:`Centore2014n`
 
     Examples
     --------
@@ -1829,9 +1898,7 @@ def LCHab_to_munsell_specification(LCHab):
 
     References
     ----------
-    .. [13] Centore, P. (2014). MunsellAndKubelkaMunkToolboxApr2014 -
-            GeneralRoutines/CIELABtoApproxMunsellSpec.m. Retrieved from
-            https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
+    -   :cite:`Centore2014u`
 
     Examples
     --------
@@ -1897,10 +1964,7 @@ def maximum_chroma_from_renotation(hue, value, code):
 
     References
     ----------
-    .. [14] Centore, P. (2014). MunsellAndKubelkaMunkToolboxApr2014 -
-            MunsellRenotationRoutines/MaxChromaForExtrapolatedRenotation.m.
-            Retrieved from
-            https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
+    -   :cite:`Centore2014r`
 
     Examples
     --------
@@ -1975,10 +2039,7 @@ def munsell_specification_to_xy(specification):
 
     References
     ----------
-    .. [15] Centore, P. (2014). MunsellAndKubelkaMunkToolboxApr2014 -
-            MunsellRenotationRoutines/MunsellToxyForIntegerMunsellValue.m.
-            Retrieved from
-            https://github.com/colour-science/MunsellAndKubelkaMunkToolbox
+    -   :cite:`Centore2014q`
 
     Examples
     --------

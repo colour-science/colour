@@ -807,7 +807,7 @@ interpolation method will differ. Following *CIE 167:2005*
 recommendation: The method developed by *Sprague* (1880) should be used
 for interpolating functions having a uniformly spaced independent
 variable and a *Cubic Spline* method for non-uniformly spaced
-independent variable. [1]
+independent variable  :cite:`CIETC1-382005e`.
 
 We can check the uniformity of the sample spectral power distribution:
 
@@ -868,7 +868,7 @@ interpolator.
 Extrapolation although dangerous can be used to help aligning two
 spectral power distributions together. *CIE publication CIE 15:2004
 “Colorimetry”* recommends that unmeasured values may be set equal to the
-nearest measured value of the appropriate quantity in truncation: [2]
+nearest measured value of the appropriate quantity in truncation :cite:`CIETC1-482004h`:
 
 .. code:: python
 
@@ -1324,12 +1324,3 @@ envy to see more, if you want to explore the API a good place to start
 is the `Jupyter
 Notebooks <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/blob/master/notebooks/colour.ipynb>`__
 page.
-
-Bibliography
-~~~~~~~~~~~~
-
-1. ^ CIE TC 1-38. (2005). 9. INTERPOLATION. In CIE 167:2005 Recommended
-   Practice for Tabulating Spectral Data for Use in Colour Computations
-   (pp. 14–19). ISBN:978-3-901-90641-1
-2. ^ CIE TC 1-48. (2004). CIE 015:2004 Colorimetry, 3rd Edition. CIE
-   015:2004 Colorimetry, 3rd Edition (pp. 1–82). ISBN:978-3-901-90633-6

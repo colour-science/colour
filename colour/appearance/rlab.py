@@ -19,11 +19,11 @@ blob/master/notebooks/appearance/rlab.ipynb>`_
 
 References
 ----------
-.. [1]  Fairchild, M. D. (1996). Refinement of the RLAB color space. Color
-        Research & Application, 21(5), 338–346.
-        doi:10.1002/(SICI)1520-6378(199610)21:5<338::AID-COL3>3.0.CO;2-Z
-.. [2]  Fairchild, M. D. (2013). The RLAB Model. In Color Appearance Models
-        (3rd ed., pp. 5563–5824). Wiley. ISBN:B00DAYO8E2
+-   :cite:`Fairchild1996a` : Fairchild, M. D. (1996). Refinement of the RLAB
+    color space. Color Research & Application, 21(5), 338–346.
+    doi:10.1002/(SICI)1520-6378(199610)21:5<338::AID-COL3>3.0.CO;2-Z
+-   :cite:`Fairchild2013w` : Fairchild, M. D. (2013). The RLAB Model. In Color
+    Appearance Models (3rd ed., pp. 5563–5824). Wiley. ISBN:B00DAYO8E2
 """
 
 from __future__ import division, unicode_literals
@@ -66,6 +66,11 @@ RLAB_VIEWING_CONDITIONS = CaseInsensitiveMapping({
 RLAB_VIEWING_CONDITIONS.__doc__ = """
 Reference *RLAB* colour appearance model viewing conditions.
 
+References
+----------
+-   :cite:`Fairchild1996a`
+-   :cite:`Fairchild2013w`
+
 RLAB_VIEWING_CONDITIONS : CaseInsensitiveMapping
     **{'Average', 'Dim', 'Dark'}**
 """
@@ -77,6 +82,11 @@ RLAB_D_FACTOR = CaseInsensitiveMapping({
 })
 RLAB_D_FACTOR.__doc__ = """
 *RLAB* colour appearance model *Discounting-the-Illuminant* factor values.
+
+References
+----------
+-   :cite:`Fairchild1996a`
+-   :cite:`Fairchild2013w`
 
 RLAB_D_FACTOR : CaseInsensitiveMapping
     **{'Hard Copy Images',
@@ -120,6 +130,11 @@ class RLAB_ReferenceSpecification(
         Red–green chromatic response :math:`a^R`.
     bR : numeric or array_like
         Yellow–blue chromatic response :math:`b^R`.
+
+    References
+    ----------
+    -   :cite:`Fairchild1996a`
+    -   :cite:`Fairchild2013w`
     """
 
 
@@ -153,6 +168,11 @@ class RLAB_Specification(
     Notes
     -----
     -   This specification is the one used in the current model implementation.
+
+    References
+    ----------
+    -   :cite:`Fairchild1996a`
+    -   :cite:`Fairchild2013w`
     """
 
 
@@ -192,6 +212,11 @@ def XYZ_to_RLAB(XYZ,
     -----
     -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
     -   Input *CIE XYZ_n* tristimulus values are in domain [0, 100].
+
+    References
+    ----------
+    -   :cite:`Fairchild1996a`
+    -   :cite:`Fairchild2013w`
 
     Examples
     --------

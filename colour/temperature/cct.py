@@ -43,8 +43,41 @@ blob/master/notebooks/temperature/cct.ipynb>`_
 
 References
 ----------
-.. [1]  Wikipedia. (n.d.). Color temperature. Retrieved June 28, 2014, from
-        http://en.wikipedia.org/wiki/Color_temperature
+-   :cite:`AdobeSystems2013` : Adobe Systems. (2013). Adobe DNG Software
+    Development Kit (SDK) - 1.3.0.0 - dng_sdk_1_3/dng_sdk/source/\
+dng_temperature.cpp::dng_temperature::Set_xy_coord. Retrieved from
+    https://www.adobe.com/support/downloads/dng/dng_sdk.html
+-   :cite:`AdobeSystems2013a` : Adobe Systems. (2013). Adobe DNG Software
+    Development Kit (SDK) - 1.3.0.0 - dng_sdk_1_3/dng_sdk/source/\
+dng_temperature.cpp::dng_temperature::xy_coord. Retrieved from
+    https://www.adobe.com/support/downloads/dng/dng_sdk.html
+-   :cite:`Hernandez-Andres1999a` : Hernández-Andrés, J., Lee, R. L., &
+    Romero, J. (1999). Calculating correlated color temperatures across the
+    entire gamut of daylight and skylight chromaticities. Applied Optics,
+    38(27), 5703. doi:10.1364/AO.38.005703
+-   :cite:`Kang2002a` : Kang, B., Moon, O., Hong, C., Lee, H., Cho, B., &
+    Kim, Y. (2002). Design of advanced color: Temperature control system for
+    HDTV applications. Journal of the Korean Physical Society, 41(6), 865–871.
+    Retrieved from http://cat.inist.fr/?aModele=afficheN&cpsidt=14448733
+-   :cite:`Krystek1985b` : Krystek, M. (1985). An algorithm to calculate
+    correlated colour temperature. Color Research & Application, 10(1),
+    38–40. doi:10.1002/col.5080100109
+-   :cite:`Ohno2014a` : Ohno, Y. (2014). Practical Use and Calculation of CCT
+    and Duv. LEUKOS, 10(1), 47–55. doi:10.1080/15502724.2014.839020
+-   :cite:`Wikipediacf` : Wikipedia. (n.d.). Approximation. Retrieved June 28,
+    2014, from http://en.wikipedia.org/wiki/Color_temperature#Approximation
+-   :cite:`Wikipediacp` : Wikipedia. (n.d.). Color temperature. Retrieved June
+    28, 2014, from http://en.wikipedia.org/wiki/Color_temperature
+-   :cite:`Wyszecki2000x` : Wyszecki, G., & Stiles, W. S. (2000). Table 1(3.11)
+    Isotemperature Lines. In Color Science: Concepts and Methods, Quantitative
+    Data and Formulae (p. 228). Wiley. ISBN:978-0471399186
+-   :cite:`Wyszecki2000y` : Wyszecki, G., & Stiles, W. S. (2000). DISTRIBUTION
+    TEMPERATURE, COLOR TEMPERATURE, AND CORRELATED COLOR TEMPERATURE. In
+    Color Science: Concepts and Methods, Quantitative Data and Formulae
+    (pp. 224–229). Wiley. ISBN:978-0471399186
+-   :cite:`Wyszecki2000z` : Wyszecki, G., & Stiles, W. S. (2000). CIE Method of
+    Calculating D-Illuminants. In Color Science: Concepts and Methods,
+    Quantitative Data and Formulae (pp. 145–146). Wiley. ISBN:978-0471399186
 """
 
 from __future__ import division, unicode_literals
@@ -134,9 +167,7 @@ Notes
 
 References
 ----------
-.. [2]  Wyszecki, G., & Stiles, W. S. (2000). Table 1(3.11) Isotemperature
-        Lines. In Color Science: Concepts and Methods, Quantitative Data and
-        Formulae (p. 228). Wiley. ISBN:978-0471399186
+-   :cite:`Wyszecki2000x`
 """
 
 ROBERTSON_ISOTEMPERATURE_LINES_RUVT = namedtuple('WyszeckiRobertson_ruvt',
@@ -289,8 +320,7 @@ def uv_to_CCT_Ohno2013(
 
     References
     ----------
-    .. [3]  Ohno, Y. (2014). Practical Use and Calculation of CCT and Duv.
-            LEUKOS, 10(1), 47–55. doi:10.1080/15502724.2014.839020
+    -   :cite:`Ohno2014a`
 
     Examples
     --------
@@ -380,8 +410,7 @@ def CCT_to_uv_Ohno2013(
 
     References
     ----------
-    .. [4]  Ohno, Y. (2014). Practical Use and Calculation of CCT and Duv.
-            LEUKOS, 10(1), 47–55. doi:10.1080/15502724.2014.839020
+    -   :cite:`Ohno2014a`
 
     Examples
     --------
@@ -441,14 +470,8 @@ def uv_to_CCT_Robertson1968(uv):
 
     References
     ----------
-    .. [5]  Wyszecki, G., & Stiles, W. S. (2000). DISTRIBUTION TEMPERATURE,
-            COLOR TEMPERATURE, AND CORRELATED COLOR TEMPERATURE. In Color
-            Science: Concepts and Methods, Quantitative Data and Formulae
-            (pp. 224–229). Wiley. ISBN:978-0471399186
-    .. [6]  Adobe Systems. (2013). Adobe DNG Software Development Kit (SDK) -
-            1.3.0.0 - dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp::\
-dng_temperature::Set_xy_coord. Retrieved from
-            https://www.adobe.com/support/downloads/dng/dng_sdk.html
+    -   :cite:`AdobeSystems2013`
+    -   :cite:`Wyszecki2000y`
 
     Examples
     --------
@@ -530,14 +553,8 @@ def CCT_to_uv_Robertson1968(CCT, D_uv=0):
 
     References
     ----------
-    .. [7]  Wyszecki, G., & Stiles, W. S. (2000). DISTRIBUTION TEMPERATURE,
-            COLOR TEMPERATURE, AND CORRELATED COLOR TEMPERATURE. In Color
-            Science: Concepts and Methods, Quantitative Data and Formulae
-            (pp. 224–229). Wiley. ISBN:978-0471399186
-    .. [8]  Adobe Systems. (2013). Adobe DNG Software Development Kit (SDK) -
-            1.3.0.0 - dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp::\
-dng_temperature::xy_coord. Retrieved from
-            https://www.adobe.com/support/downloads/dng/dng_sdk.html
+    -   :cite:`AdobeSystems2013a`
+    -   :cite:`Wyszecki2000y`
 
     Examples
     --------
@@ -607,9 +624,7 @@ def CCT_to_uv_Krystek1985(CCT):
 
     References
     ----------
-    .. [9]  Krystek, M. (1985). An algorithm to calculate correlated colour
-            temperature. Color Research & Application, 10(1), 38–40.
-            doi:10.1002/col.5080100109
+    -   :cite:`Krystek1985b`
 
     Examples
     --------
@@ -634,6 +649,13 @@ UV_TO_CCT_METHODS = CaseInsensitiveMapping({
 UV_TO_CCT_METHODS.__doc__ = """
 Supported *CIE UCS* colourspace *uv* chromaticity coordinates to correlated
 colour temperature :math:`T_{cp}` computation methods.
+
+References
+----------
+-   :cite:`AdobeSystems2013`
+-   :cite:`AdobeSystems2013a`
+-   :cite:`Ohno2014a`
+-   :cite:`Wyszecki2000y`
 
 UV_TO_CCT_METHODS : CaseInsensitiveMapping
     **{'Ohno 2013', 'Robertson 1968'}**
@@ -684,6 +706,13 @@ def uv_to_CCT(uv, method='Ohno 2013', **kwargs):
     ndarray
         Correlated colour temperature :math:`T_{cp}`, :math:`\Delta_{uv}`.
 
+    References
+    ----------
+    -   :cite:`AdobeSystems2013`
+    -   :cite:`AdobeSystems2013a`
+    -   :cite:`Ohno2014a`
+    -   :cite:`Wyszecki2000y`
+
     Examples
     --------
     >>> from colour import STANDARD_OBSERVERS_CMFS
@@ -706,6 +735,14 @@ CCT_TO_UV_METHODS = CaseInsensitiveMapping({
 CCT_TO_UV_METHODS.__doc__ = """
 Supported correlated colour temperature :math:`T_{cp}` to *CIE UCS* colourspace
 *uv* chromaticity coordinates computation methods.
+
+References
+----------
+-   :cite:`AdobeSystems2013`
+-   :cite:`AdobeSystems2013a`
+-   :cite:`Krystek1985b`
+-   :cite:`Ohno2014a`
+-   :cite:`Wyszecki2000y`
 
 CCT_TO_UV_METHODS : CaseInsensitiveMapping
     **{'Ohno 2013', 'Robertson 1968', 'Krystek 1985}**
@@ -746,6 +783,14 @@ def CCT_to_uv(CCT, method='Ohno 2013', **kwargs):
     ndarray
         *CIE UCS* colourspace *uv* chromaticity coordinates.
 
+    References
+    ----------
+    -   :cite:`AdobeSystems2013`
+    -   :cite:`AdobeSystems2013a`
+    -   :cite:`Krystek1985b`
+    -   :cite:`Ohno2014a`
+    -   :cite:`Wyszecki2000y`
+
     Examples
     --------
     >>> from colour import STANDARD_OBSERVERS_CMFS
@@ -779,8 +824,7 @@ def xy_to_CCT_McCamy1992(xy):
 
     References
     ----------
-    .. [10] Wikipedia. (n.d.). Approximation. Retrieved June 28, 2014, from
-            http://en.wikipedia.org/wiki/Color_temperature#Approximation
+    -   :cite:`Wikipediacf`
 
     Examples
     --------
@@ -815,10 +859,7 @@ def xy_to_CCT_Hernandez1999(xy):
 
     References
     ----------
-    .. [11] Hernández-Andrés, J., Lee, R. L., & Romero, J. (1999).
-            Calculating correlated color temperatures across the entire gamut
-            of daylight and skylight chromaticities. Applied Optics, 38(27),
-            5703–5709. doi:10.1364/AO.38.005703
+    -   :cite:`Hernandez-Andres1999a`
 
     Examples
     --------
@@ -864,10 +905,7 @@ def CCT_to_xy_Kang2002(CCT):
 
     References
     ----------
-    .. [12] Kang, B., Moon, O., Hong, C., Lee, H., Cho, B., & Kim, Y. (2002).
-            Design of advanced color: Temperature control system for HDTV
-            applications. Journal of the Korean …, 41(6), 865–871. Retrieved
-            from http://cat.inist.fr/?aModele=afficheN&cpsidt=14448733
+    -   :cite:`Kang2002a`
 
     Examples
     --------
@@ -921,10 +959,7 @@ def CCT_to_xy_CIE_D(CCT):
 
     References
     ----------
-    .. [13] Wyszecki, G., & Stiles, W. S. (2000). CIE Method of Calculating
-            D-Illuminants. In Color Science: Concepts and Methods,
-            Quantitative Data and Formulae (pp. 145–146). Wiley.
-            ISBN:978-0471399186
+    -   :cite:`Wyszecki2000z`
 
     Examples
     --------
@@ -958,6 +993,12 @@ XY_TO_CCT_METHODS.__doc__ = """
 Supported *CIE XYZ* tristimulus values *xy* chromaticity coordinates to
 correlated colour temperature :math:`T_{cp}` computation methods.
 
+References
+----------
+-   :cite:`Hernandez-Andres1999a`
+-   :cite:`Wikipediacf`
+-   :cite:`Wikipediacp`
+
 XY_TO_CCT_METHODS : CaseInsensitiveMapping
     **{'McCamy 1992', 'Hernandez 1999'}**
 
@@ -988,6 +1029,12 @@ def xy_to_CCT(xy, method='McCamy 1992'):
     -------
     numeric or ndarray
         Correlated colour temperature :math:`T_{cp}`.
+
+    References
+    ----------
+    -   :cite:`Hernandez-Andres1999a`
+    -   :cite:`Wikipediacf`
+    -   :cite:`Wikipediacp`
     """
 
     return XY_TO_CCT_METHODS.get(method)(xy)
@@ -1000,6 +1047,12 @@ CCT_TO_XY_METHODS = CaseInsensitiveMapping({
 CCT_TO_XY_METHODS.__doc__ = """
 Supported correlated colour temperature :math:`T_{cp}` to *CIE XYZ* tristimulus
 values *xy* chromaticity coordinates computation methods.
+
+References
+----------
+-   :cite:`Kang2002a`
+-   :cite:`Wikipediacp`
+-   :cite:`Wyszecki2000z`
 
 CCT_TO_XY_METHODS : CaseInsensitiveMapping
     **{'Kang 2002', 'CIE Illuminant D Series'}**
@@ -1030,6 +1083,12 @@ def CCT_to_xy(CCT, method='Kang 2002'):
     -------
     ndarray
         *xy* chromaticity coordinates.
+
+    References
+    ----------
+    -   :cite:`Kang2002a`
+    -   :cite:`Wikipediacp`
+    -   :cite:`Wyszecki2000z`
     """
 
     return CCT_TO_XY_METHODS.get(method)(CCT)

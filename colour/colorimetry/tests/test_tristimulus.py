@@ -2,6 +2,12 @@
 # -*- coding: utf-8 -*-
 """
 Defines unit tests for :mod:`colour.colorimetry.tristimulus` module.
+
+References
+----------
+-   :cite:`ASTMInternational2015b` : ASTM International. (2015). ASTM E308-15 -
+    Standard Practice for Computing the Colors of Objects by Using the CIE
+    System. doi:10.1520/E0308-15
 """
 
 from __future__ import division, unicode_literals
@@ -326,13 +332,12 @@ tristimulus_weighting_factors_ASTME202211` definition.
         Notes
         -----
         :attr:`A_CIE_1964_10_10_TWF`, :attr:`A_CIE_1964_10_20_TWF` and
-        :attr:`D65_CIE_1931_2_20_TWF` attributes data is matching [1]_.
+        :attr:`D65_CIE_1931_2_20_TWF` attributes data is matching
+        :cite:`ASTMInternational2015b`.
 
         References
         ----------
-        .. [1]  ASTM International. (2015). ASTM E308–15 - Standard Practice
-                for Computing the Colors of Objects by Using the CIE System,
-                1–47. doi:10.1520/E0308-15
+        -   :cite:`ASTMInternational2015b`
         """
 
         cmfs = CMFS['CIE 1964 10 Degree Standard Observer']

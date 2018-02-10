@@ -24,11 +24,12 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  Spaulding, K. E., Woolfe, G. J., & Giorgianni, E. J. (2000). Reference
-        Input/Output Medium Metric RGB Color Encodings (RIMM/ROMM RGB), 1–8.
-        Retrieved from http://www.photo-lovers.org/pdf/color/romm.pdf
-.. [3]  ANSI. (2003). Specification of ROMM RGB. Retrieved from
-        http://www.color.org/ROMMRGB.pdf
+-   :cite:`ANSI2003a` : ANSI. (2003). Specification of ROMM RGB. Retrieved from
+    http://www.color.org/ROMMRGB.pdf
+-   :cite:`Spaulding2000b` : Spaulding, K. E., Woolfe, G. J., &
+    Giorgianni, E. J. (2000). Reference Input/Output Medium Metric RGB Color
+    Encodings (RIMM/ROMM RGB). Retrieved from
+    http://www.photo-lovers.org/pdf/color/romm.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -69,6 +70,11 @@ def oetf_ROMMRGB(X, I_max=255):
     numeric or ndarray
         Non-linear data :math:`X'_{ROMM}`.
 
+    References
+    ----------
+    -   :cite:`ANSI2003a`
+    -   :cite:`Spaulding2000b`
+
     Examples
     --------
     >>> oetf_ROMMRGB(0.18)  # doctest: +ELLIPSIS
@@ -100,6 +106,11 @@ def eotf_ROMMRGB(X_p, I_max=255):
     -------
     numeric or ndarray
         Linear data :math:`X_{ROMM}`.
+
+    References
+    ----------
+    -   :cite:`ANSI2003a`
+    -   :cite:`Spaulding2000b`
 
     Examples
     --------
@@ -143,6 +154,10 @@ def oetf_RIMMRGB(X, I_max=255, E_clip=2.0):
     numeric or ndarray
         Non-linear data :math:`X'_{RIMM}`.
 
+    References
+    ----------
+    -   :cite:`Spaulding2000b`
+
     Examples
     --------
     >>> oetf_RIMMRGB(0.18)  # doctest: +ELLIPSIS
@@ -179,6 +194,10 @@ def eotf_RIMMRGB(X_p, I_max=255, E_clip=2.0):
     -------
     numeric or ndarray
         Linear data :math:`X_{RIMM}`.
+
+    References
+    ----------
+    -   :cite:`Spaulding2000b`
 
     Examples
     --------
@@ -220,6 +239,10 @@ def log_encoding_ERIMMRGB(X, I_max=255, E_min=0.001, E_clip=316.2):
     numeric or ndarray
         Non-linear data :math:`X'_{ERIMM}`.
 
+    References
+    ----------
+    -   :cite:`Spaulding2000b`
+
     Examples
     --------
     >>> log_encoding_ERIMMRGB(0.18)  # doctest: +ELLIPSIS
@@ -260,6 +283,10 @@ def log_decoding_ERIMMRGB(X_p, I_max=255, E_min=0.001, E_clip=316.2):
     -------
     numeric or ndarray
         Linear data :math:`X_{ERIMM}`.
+
+    References
+    ----------
+    -   :cite:`Spaulding2000b`
 
     Examples
     --------

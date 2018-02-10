@@ -71,7 +71,7 @@ def single_rayleigh_scattering_spd_plot(
         {:func:`single_spd_plot`},
         Whether to clip out of gamut colours otherwise, the colours will be
         offset by the absolute minimal colour leading to a rendering on
-        gray background, less saturated and smoother. [1]_
+        gray background, less saturated and smoother.
 
     Returns
     -------

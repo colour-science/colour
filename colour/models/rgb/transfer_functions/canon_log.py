@@ -19,21 +19,21 @@ See Also
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/rgb.ipynb>`_
 
-References
-----------
-.. [1]  Thorpe, L. (2012). CANON-LOG TRANSFER CHARACTERISTIC. Retrieved
-        from http://downloads.canon.com/CDLC/\
-Canon-Log_Transfer_Characteristic_6-20-2012.pdf
-.. [2]  Canon. (n.d.). EOS C300 Mark II - EOS C300 Mark II Input Transform
-        Version 2.0 (for Cinema Gamut / BT.2020). Retrieved August 23, 2016,
-        from https://www.usa.canon.com/internet/portal/us/home/support/\
-details/cameras/cinema-eos/eos-c300-mark-ii
-
 Notes
 -----
--   [2]_ is available as a *Drivers & Downloads* *Software* for Windows 10
-    (x64) *Operating System*, a copy of the archive is hosted at this url:
-    https://drive.google.com/open?id=0B_IQZQdc4Vy8ZGYyY29pMEVwZU0
+-   :cite:`Canona` is available as a *Drivers & Downloads* *Software* for
+    Windows 10 (x64) *Operating System*, a copy of the archive is hosted at
+    this url: https://drive.google.com/open?id=0B_IQZQdc4Vy8ZGYyY29pMEVwZU0
+
+References
+----------
+-   :cite:`Canona` : Canon. (n.d.). EOS C300 Mark II - EOS C300 Mark II Input
+    Transform Version 2.0 (for Cinema Gamut / BT.2020). Retrieved August 23,
+    2016, from https://www.usa.canon.com/internet/portal/us/home/support/\
+details/cameras/cinema-eos/eos-c300-mark-ii
+-   :cite:`Thorpe2012a` : Thorpe, L. (2012). CANON-LOG TRANSFER CHARACTERISTIC.
+    Retrieved from http://downloads.canon.com/CDLC/\
+Canon-Log_Transfer_Characteristic_6-20-2012.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -78,6 +78,10 @@ def log_encoding_CanonLog(x, bit_depth=10, out_legal=True, in_reflection=True):
     -------
     numeric or ndarray
         *Canon Log* non-linear data.
+
+    References
+    ----------
+    -   :cite:`Thorpe2012a`
 
     Examples
     --------
@@ -124,6 +128,10 @@ def log_decoding_CanonLog(clog,
     numeric or ndarray
         Linear data :math:`x`.
 
+    References
+    ----------
+    -   :cite:`Thorpe2012a`
+
     Examples
     --------
     >>> log_decoding_CanonLog(34.338965172606912 / 100)  # doctest: +ELLIPSIS
@@ -166,6 +174,10 @@ def log_encoding_CanonLog2(x, bit_depth=10, out_legal=True,
     -------
     numeric or ndarray
         *Canon Log 2* non-linear data.
+
+    References
+    ----------
+    -   :cite:`Canona`
 
     Examples
     --------
@@ -212,6 +224,10 @@ def log_decoding_CanonLog2(clog2,
     -------
     numeric or ndarray
         Linear data :math:`x`.
+
+    References
+    ----------
+    -   :cite:`Canona`
 
     Examples
     --------
@@ -271,6 +287,10 @@ def log_encoding_CanonLog3(x, bit_depth=10, out_legal=True,
             >>> (clog3 - 0.073059361) / 2.3069815
             0.013999999999999997
 
+    References
+    ----------
+    -   :cite:`Canona`
+
     Examples
     --------
     >>> log_encoding_CanonLog3(0.18) * 100  # doctest: +ELLIPSIS
@@ -319,6 +339,10 @@ def log_decoding_CanonLog3(clog3,
     -------
     numeric or ndarray
         Linear data :math:`x`.
+
+    References
+    ----------
+    -   :cite:`Canona`
 
     Examples
     --------

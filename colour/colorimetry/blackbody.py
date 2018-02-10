@@ -12,6 +12,12 @@ See Also
 `Blackbody Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/blackbody.ipynb>`_
+
+References
+----------
+-   :cite:`CIETC1-482004i` : CIE TC 1-48. (2004). APPENDIX E. INFORMATION ON
+    THE USE OF PLANCK'S EQUATION FOR STANDARD AIR. In CIE 015:2004 Colorimetry,
+    3rd Edition (pp. 77–82). ISBN:978-3-901-90633-6
 """
 
 from __future__ import division, unicode_literals
@@ -77,9 +83,7 @@ def planck_law(wavelength, temperature, c1=C1, c2=C2, n=N):
 
     References
     ----------
-    .. [1]  CIE TC 1-48. (2004). APPENDIX E. INFORMATION ON THE USE OF
-            PLANCK’S EQUATION FOR STANDARD AIR. In CIE 015:2004 Colorimetry,
-            3rd Edition (pp. 77–82). ISBN:978-3-901-90633-6
+    -   :cite:`CIETC1-482004i`
 
     Examples
     --------

@@ -14,11 +14,6 @@ See Also
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/notation/munsell.ipynb>`_
 
-References
-----------
-.. [1]  Munsell Color Science. (n.d.). Munsell Colours Data. Retrieved August
-        20, 2014, from http://www.cis.rit.edu/research/mcsl2/online/munsell.php
-
 Notes
 -----
 -   The Munsell Renotation data commonly available within the all.dat,
@@ -37,6 +32,12 @@ Notes
         by multiplying each coefficient by 0.975, the reflectance factor of
         magnesium oxide with respect to the perfect reflecting diffuser, and
         rounding to ﬁve digits of precision.
+
+References
+----------
+-   :cite:`MunsellColorSciencec` : Munsell Color Science. (n.d.). Munsell
+    Colours Data. Retrieved August 20, 2014, from
+    http://www.cis.rit.edu/research/mcsl2/online/munsell.php
 """
 
 from __future__ import division, unicode_literals
@@ -1013,6 +1014,10 @@ MUNSELL_COLOURS_1929 = (
 # yapf: enable
 """
 *1929* published *Munsell* colours.
+
+References
+----------
+-   :cite:`MunsellColorSciencec`
 
 MUNSELL_COLOURS_1929 : tuple
 (('hue', 'value', 'chroma'), np.array(['x', 'y', 'Y'])))

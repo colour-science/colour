@@ -34,7 +34,9 @@ INSTALLATION_REQUIREMENTS = ['six>=1.10.0', 'scipy>=0.16.0']
 
 PLOTTING_REQUIREMENTS = ['matplotlib>=1.3.1']
 
-DOCS_REQUIREMENTS = ['sphinx>=1.6.6']
+DOCS_REQUIREMENTS = [
+    'sphinx>=1.6.6', 'sphinxcontrib-bibtex', 'sphinx_rtd_theme'
+]
 
 TESTS_REQUIREMENTS = ['coverage>=3.7.1', 'flake8>=2.1.0', 'nose>=1.3.4']
 
@@ -44,7 +46,9 @@ if sys.version_info[:2] <= (3, 2):
     TESTS_REQUIREMENTS += ['mock']
 
 if os.environ.get('READTHEDOCS') == 'True':
-    INSTALLATION_REQUIREMENTS = ['numpy>=1.8.1', 'mock']
+    INSTALLATION_REQUIREMENTS = [
+        'numpy>=1.8.1', 'mock', 'sphinxcontrib-bibtex'
+    ]
 
 setup(
     name='colour-science',

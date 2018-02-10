@@ -20,9 +20,10 @@ blob/master/notebooks/appearance/cam16.ipynb>`_
 
 References
 ----------
-.. [1]  Li, C., Li, Z., Wang, Z., Xu, Y., Luo, M. R., Cui, G., … Pointer, M.
-        (2017). Comprehensive color solutions: CAM16, CAT16, and CAM16-UCS.
-        Color Research & Application, (January), n/a-n/a. doi:10.1002/col.22131
+-   :cite:`Li2017` : Li, C., Li, Z., Wang, Z., Xu, Y., Luo, M. R., Cui, G., …
+    Pointer, M. (2017). Comprehensive color solutions: CAM16, CAT16, and
+    CAM16-UCS. Color Research & Application, 42(6), 703–718.
+    doi:10.1002/col.22131
 """
 
 from __future__ import division, unicode_literals
@@ -89,6 +90,10 @@ class CAM16_InductionFactors(
         Exponential non linearity :math:`c`.
     N_c : numeric or array_like
         Chromatic induction factor :math:`N_c`.
+
+    References
+    ----------
+    -   :cite:`Li2017`
     """
 
 
@@ -99,6 +104,10 @@ CAM16_VIEWING_CONDITIONS = CaseInsensitiveMapping({
 })
 CAM16_VIEWING_CONDITIONS.__doc__ = """
 Reference *CAM16* colour appearance model viewing conditions.
+
+References
+----------
+-   :cite:`Li2017`
 
 CAM16_VIEWING_CONDITIONS : CaseInsensitiveMapping
     **{'Average', 'Dim', 'Dark'}**
@@ -129,6 +138,10 @@ class CAM16_Specification(
         *Hue* :math:`h` quadrature :math:`H`.
     HC : numeric or array_like
         *Hue* :math:`h` composition :math:`H^C`.
+
+    References
+    ----------
+    -   :cite:`Li2017`
     """
 
     def __new__(cls,
@@ -190,6 +203,10 @@ def XYZ_to_CAM16(XYZ,
     -----
     -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
     -   Input *CIE XYZ_w* tristimulus values are in domain [0, 100].
+
+    References
+    ----------
+    -   :cite:`Li2017`
 
     Examples
     --------
@@ -330,6 +347,10 @@ def CAM16_to_XYZ(CAM16_specification,
         :func:`colour.as_namedtuple` definition.
     -   Input *CIE XYZ_w* tristimulus values are in domain [0, 100].
     -   Output *CIE XYZ* tristimulus values are in range [0, 100].
+
+    References
+    ----------
+    -   :cite:`Li2017`
 
     Examples
     --------

@@ -16,22 +16,23 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  The Academy of Motion Picture Arts and Sciences, Science and
-        Technology Council, & Academy Color Encoding System (ACES) Project
-        Subcommittee. (n.d.). Academy Color Encoding System. Retrieved
-        February 24, 2014, from
-        http://www.oscars.org/science-technology/council/projects/aces.html
-.. [2]  The Academy of Motion Picture Arts and Sciences, Science and
-        Technology Council, & Academy Color Encoding System (ACES) Project
-        Subcommittee. (2014). Technical Bulletin TB-2014-004 - Informative
-        Notes on SMPTE ST 2065-1 – Academy Color Encoding Specification
-        (ACES). Retrieved from
-        https://github.com/ampas/aces-dev/tree/master/documents
-.. [3]  The Academy of Motion Picture Arts and Sciences, Science and
-        Technology Council, & Academy Color Encoding System (ACES) Project
-        Subcommittee. (2014). Technical Bulletin TB-2014-012 - Academy Color
-        Encoding System Version 1.0 Component Names. Retrieved from
-        https://github.com/ampas/aces-dev/tree/master/documents
+-   :cite:`TheAcademyofMotionPictureArtsandSciences2014q` : The Academy of
+    Motion Picture Arts and Sciences, Science and Technology Council, & Academy
+    Color Encoding System (ACES) Project Subcommittee. (2014). Technical
+    Bulletin TB-2014-004 - Informative Notes on SMPTE ST 2065-1 – Academy Color
+    Encoding Specification (ACES). Retrieved from
+    https://github.com/ampas/aces-dev/tree/master/documents
+-   :cite:`TheAcademyofMotionPictureArtsandSciences2014r` : The Academy of
+    Motion Picture Arts and Sciences, Science and Technology Council, & Academy
+    Color Encoding System (ACES) Project Subcommittee. (2014). Technical
+    Bulletin TB-2014-012 - Academy Color Encoding System Version 1.0 Component
+    Names. Retrieved from
+    https://github.com/ampas/aces-dev/tree/master/documents
+-   :cite:`TheAcademyofMotionPictureArtsandSciencese` : The Academy of Motion
+    Picture Arts and Sciences, Science and Technology Council, & Academy Color
+    Encoding System (ACES) Project Subcommittee. (n.d.). Academy Color Encoding
+    System. Retrieved February 24, 2014, from
+    http://www.oscars.org/science-technology/council/projects/aces.html
 """
 
 from __future__ import division, unicode_literals
@@ -80,6 +81,12 @@ def spectral_to_aces_relative_exposure_values(
     -----
     -   Output *ACES2065-1* colourspace relative exposure values array is in
         range [0, 1].
+
+    References
+    ----------
+    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
+    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014r`
+    -   :cite:`TheAcademyofMotionPictureArtsandSciencese`
 
     Examples
     --------

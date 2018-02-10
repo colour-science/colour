@@ -22,9 +22,9 @@ blob/master/notebooks/models/cam02_ucs.ipynb>`_
 
 References
 ----------
-.. [1]  Luo, R. M., Cui, G., & Li, C. (2006). Uniform Colour Spaces Based on
-        CIECAM02 Colour Appearance Model. Color Research and Application,
-        31(4), 320–330. doi:10.1002/col.20227
+-   :cite:`Luo2006b` : Luo, M. R., Cui, G., & Li, C. (2006). Uniform colour
+    spaces based on CIECAM02 colour appearance model. Color Research &
+    Application, 31(4), 320–330. doi:10.1002/col.20227
 """
 
 from __future__ import division, unicode_literals
@@ -183,6 +183,10 @@ def JMh_CIECAM02_to_CAM02LCD(JMh):
     ndarray
         *Luo et alii (2006)* *CAM02-LCD* colourspace :math:`J'a'b'` array.
 
+    References
+    ----------
+    -   :cite:`Luo2006b`
+
     Examples
     --------
     >>> from colour.appearance import (
@@ -219,6 +223,10 @@ def CAM02LCD_to_JMh_CIECAM02(Jpapbp):
     ndarray
         *CIECAM02* correlates array :math:`JMh`.
 
+    References
+    ----------
+    -   :cite:`Luo2006b`
+
     Examples
     --------
     >>> Jpapbp = np.array([54.90433134, -0.08450395, -0.06854831])
@@ -244,6 +252,10 @@ def JMh_CIECAM02_to_CAM02SCD(JMh):
     -------
     ndarray
         *Luo et alii (2006)* *CAM02-SCD* colourspace :math:`J'a'b'` array.
+
+    References
+    ----------
+    -   :cite:`Luo2006b`
 
     Examples
     --------
@@ -281,6 +293,10 @@ def CAM02SCD_to_JMh_CIECAM02(Jpapbp):
     ndarray
         *CIECAM02* correlates array :math:`JMh`.
 
+    References
+    ----------
+    -   :cite:`Luo2006b`
+
     Examples
     --------
     >>> Jpapbp = np.array([54.90433134, -0.08436178, -0.06843298])
@@ -306,6 +322,10 @@ def JMh_CIECAM02_to_CAM02UCS(JMh):
     -------
     ndarray
         *Luo et alii (2006)* *CAM02-UCS* colourspace :math:`J'a'b'` array.
+
+    References
+    ----------
+    -   :cite:`Luo2006b`
 
     Examples
     --------
@@ -342,6 +362,10 @@ def CAM02UCS_to_JMh_CIECAM02(Jpapbp):
     -------
     ndarray
         *CIECAM02* correlates array :math:`JMh`.
+
+    References
+    ----------
+    -   :cite:`Luo2006b`
 
     Examples
     --------

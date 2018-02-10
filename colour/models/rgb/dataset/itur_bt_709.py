@@ -16,10 +16,11 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  International Telecommunication Union. (2015). Recommendation
-        ITU-R BT.709-6 - Parameter values for the HDTV standards for production
-        and international programme exchange BT Series Broadcasting service.
-        Retrieved from https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
+-   :cite:`InternationalTelecommunicationUnion2015i` : International
+    Telecommunication Union. (2015). Recommendation ITU-R BT.709-6 - Parameter
+    values for the HDTV standards for production and international programme
+    exchange BT Series Broadcasting service. Retrieved from
+    https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
 R-REC-BT.709-6-201506-I!!PDF-E.pdf
 """
 
@@ -95,6 +96,10 @@ BT709_COLOURSPACE = RGB_Colourspace(
     oetf_reverse_BT709)  # yapf: disable
 BT709_COLOURSPACE.__doc__ = """
 *ITU-R BT.709* colourspace.
+
+References
+----------
+-   :cite:`InternationalTelecommunicationUnion2015i`
 
 BT709_COLOURSPACE : RGB_Colourspace
 """

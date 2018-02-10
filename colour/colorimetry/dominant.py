@@ -20,11 +20,13 @@ blob/master/notebooks/colorimetry/dominant_wavelength.ipynb>`_
 
 References
 ----------
-.. [1]  CIE TC 1-48. (2004). 9.1 Dominant wavelength and purity. In CIE
-        015:2004 Colorimetry, 3rd Edition (pp. 32–33). ISBN:978-3-901-90633-6
-.. [2]  Erdogan, T. (n.d.). How to Calculate Luminosity, Dominant Wavelength,
-        and Excitation Purity, 7. Retrieved from http://www.semrock.com/Data/\
-Sites/1/semrockpdfs/whitepaper_howtocalculateluminositywavelengthandpurity.pdf
+-   :cite:`CIETC1-482004o` : CIE TC 1-48. (2004). 9.1 Dominant wavelength and
+    purity. In CIE 015:2004 Colorimetry, 3rd Edition (pp. 32–33).
+    ISBN:978-3-901-90633-6
+-   :cite:`Erdogana` : Erdogan, T. (n.d.). How to Calculate Luminosity,
+    Dominant Wavelength, and Excitation Purity. Retrieved from
+    http://www.semrock.com/Data/Sites/1/semrockpdfs/\
+whitepaper_howtocalculateluminositywavelengthandpurity.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -154,6 +156,11 @@ def dominant_wavelength(xy,
         *Dominant wavelength*, first intersection point *xy* chromaticity
         coordinates, second intersection point *xy* chromaticity coordinates.
 
+    References
+    ----------
+    -   :cite:`CIETC1-482004o`
+    -   :cite:`Erdogana`
+
     Examples
     --------
     *Dominant wavelength* computation:
@@ -236,6 +243,11 @@ def complementary_wavelength(xy,
         *Complementary wavelength*, first intersection point *xy* chromaticity
         coordinates, second intersection point *xy* chromaticity coordinates.
 
+    References
+    ----------
+    -   :cite:`CIETC1-482004o`
+    -   :cite:`Erdogana`
+
     Examples
     --------
     *Complementary wavelength* computation:
@@ -283,6 +295,11 @@ def excitation_purity(xy,
     numeric or array_like
         *Excitation purity* :math:`P_e`.
 
+    References
+    ----------
+    -   :cite:`CIETC1-482004o`
+    -   :cite:`Erdogana`
+
     Examples
     --------
     >>> xy = np.array([0.28350, 0.68700])
@@ -319,6 +336,11 @@ def colorimetric_purity(xy,
     -------
     numeric or array_like
         *Colorimetric purity* :math:`P_c`.
+
+    References
+    ----------
+    -   :cite:`CIETC1-482004o`
+    -   :cite:`Erdogana`
 
     Examples
     --------

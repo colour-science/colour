@@ -17,17 +17,17 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  Hewlett-Packard Development Company. (2009). Understanding the HP
-        DreamColor LP2480zx DCI-P3 Emulation Color Space. Retrieved from
-        http://www.hp.com/united-states/campaigns/workstations/pdfs/\
-lp2480zx-dci--p3-emulation.pdf
-.. [2]  Digital Cinema Initiatives. (2007). Digital Cinema System
-        Specification - Version 1.1. Retrieved from
-        http://www.dcimovies.com/archives/spec_v1_1/\
+-   :cite:`Canon2014a` : Canon. (2014). EOS C500 Firmware Update. Retrieved
+    August 27, 2016, from https://www.usa.canon.com/internet/portal/us/home/\
+explore/product-showcases/cameras-and-lenses/cinema-eos-firmware/c500
+-   :cite:`DigitalCinemaInitiatives2007b` : Digital Cinema Initiatives. (2007).
+    Digital Cinema System Specification - Version 1.1. Retrieved from
+    http://www.dcimovies.com/archives/spec_v1_1/\
 DCI_DCinema_System_Spec_v1_1.pdf
-.. [3]  Canon. (2014). EOS C500 Firmware Update. Retrieved August 27, 2016,
-        from https://www.usa.canon.com/internet/portal/us/home/explore/\
-product-showcases/cameras-and-lenses/cinema-eos-firmware/c500
+-   :cite:`Hewlett-PackardDevelopmentCompany2009a` : Hewlett-Packard
+    Development Company. (2009). Understanding the HP DreamColor LP2480zx
+    DCI-P3 Emulation Color Space. Retrieved from http://www.hp.com/\
+united-states/campaigns/workstations/pdfs/lp2480zx-dci--p3-emulation.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -137,6 +137,11 @@ DCI_P3_COLOURSPACE = RGB_Colourspace(
 DCI_P3_COLOURSPACE.__doc__ = """
 *DCI-P3* colourspace.
 
+References
+----------
+-   :cite:`DigitalCinemaInitiatives2007b`
+-   :cite:`Hewlett-PackardDevelopmentCompany2009a`
+
 DCI_P3_COLOURSPACE : RGB_Colourspace
 """
 
@@ -151,6 +156,10 @@ DCI_P3_P_COLOURSPACE = RGB_Colourspace(
     eotf_DCIP3)  # yapf: disable
 DCI_P3_P_COLOURSPACE.__doc__ = """
 *DCI-P3+* colourspace.
+
+References
+----------
+-   :cite:`Canon2014a`
 
 DCI_P3_P_COLOURSPACE : RGB_Colourspace
 """

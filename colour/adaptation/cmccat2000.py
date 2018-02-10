@@ -20,12 +20,12 @@ blob/master/notebooks/adaptation/cmccat2000.ipynb>`_
 
 References
 ----------
-.. [1]  Li, C., Luo, M. R., Rigg, B., & Hunt, R. W. G. (2002). CMC 2000
-        chromatic adaptation transform: CMCCAT2000. Color Research & …, 27(1),
-        49–58. doi:10.1002/col.10005
-.. [2]  Westland, S., Ripamonti, C., & Cheung, V. (2012). CMCCAT2000. In
-        Computational Colour Science Using MATLAB (2nd ed., pp. 83–86).
-        ISBN:978-0-470-66569-5
+-   :cite:`Li2002a` : Li, C., Luo, M. R., Rigg, B., & Hunt, R. W. G. (2002).
+    CMC 2000 chromatic adaptation transform: CMCCAT2000. Color Research &
+    Application, 27(1), 49–58. doi:10.1002/col.10005
+-   :cite:`Westland2012k` : Westland, S., Ripamonti, C., & Cheung, V. (2012).
+    CMCCAT2000. In Computational Colour Science Using MATLAB
+    (2nd ed., pp. 83–86). ISBN:978-0-470-66569-5
 """
 
 from __future__ import division, unicode_literals
@@ -67,6 +67,11 @@ class CMCCAT2000_InductionFactors(
     ----------
     F : numeric or array_like
         :math:`F` surround condition.
+
+    References
+    ----------
+    -   :cite:`Li2002a`
+    -   :cite:`Westland2012k`
     """
 
 
@@ -77,6 +82,11 @@ CMCCAT2000_VIEWING_CONDITIONS = CaseInsensitiveMapping({
 })
 CMCCAT2000_VIEWING_CONDITIONS.__doc__ = """
 Reference *CMCCAT2000* chromatic adaptation model viewing conditions.
+
+References
+----------
+-   :cite:`Li2002a`
+-   :cite:`Westland2012k`
 
 CMCCAT2000_VIEWING_CONDITIONS : CaseInsensitiveMapping
     ('Average', 'Dim', 'Dark')
@@ -125,6 +135,11 @@ def chromatic_adaptation_forward_CMCCAT2000(
     -   Input *CIE XYZ*, *CIE XYZ_w* and *CIE XYZ_wr* tristimulus values are in
         domain [0, 100].
     -   Output *CIE XYZ_c* tristimulus values are in range [0, 100].
+
+    References
+    ----------
+    -   :cite:`Li2002a`
+    -   :cite:`Westland2012k`
 
     Examples
     --------
@@ -203,6 +218,11 @@ def chromatic_adaptation_reverse_CMCCAT2000(
     -   Input *CIE XYZ_c*, *CIE XYZ_w* and *CIE XYZ_wr* tristimulus values
         are in domain [0, 100].
     -   Output *CIE XYZ* tristimulus values are in range [0, 100].
+
+    References
+    ----------
+    -   :cite:`Li2002a`
+    -   :cite:`Westland2012k`
 
     Examples
     --------
@@ -290,6 +310,11 @@ def chromatic_adaptation_CMCCAT2000(
     -   Input *CIE XYZ*, *CIE XYZ_w* and *CIE XYZ_wr* tristimulus values are in
         domain [0, 100].
     -   Output *CIE XYZ* tristimulus values are in range [0, 100].
+
+    References
+    ----------
+    -   :cite:`Li2002a`
+    -   :cite:`Westland2012k`
 
     Examples
     --------

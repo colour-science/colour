@@ -18,14 +18,16 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  International Electrotechnical Commission. (1999). IEC 61966-2-1:1999 -
-        Multimedia systems and equipment - Colour measurement and management -
-        Part 2-1: Colour management - Default RGB colour space - sRGB, 51.
-        Retrieved from https://webstore.iec.ch/publication/6169
-.. [2]  International Telecommunication Union. (2015). Recommendation
-        ITU-R BT.709-6 - Parameter values for the HDTV standards for production
-        and international programme exchange BT Series Broadcasting service.
-        Retrieved from https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
+-   :cite:`InternationalElectrotechnicalCommission1999a` : International
+    Electrotechnical Commission. (1999). IEC 61966-2-1:1999 - Multimedia
+    systems and equipment - Colour measurement and management - Part 2-1:
+    Colour management - Default RGB colour space - sRGB. Retrieved from
+    https://webstore.iec.ch/publication/6169
+-   :cite:`InternationalTelecommunicationUnion2015i` : International
+    Telecommunication Union. (2015). Recommendation ITU-R BT.709-6 - Parameter
+    values for the HDTV standards for production and international programme
+    exchange BT Series Broadcasting service. Retrieved from
+    https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
 R-REC-BT.709-6-201506-I!!PDF-E.pdf
 """
 
@@ -60,6 +62,11 @@ def oetf_sRGB(L):
     numeric or ndarray
         Corresponding electrical signal :math:`V`.
 
+    References
+    ----------
+    -   :cite:`InternationalElectrotechnicalCommission1999a`
+    -   :cite:`InternationalTelecommunicationUnion2015i`
+
     Examples
     --------
     >>> oetf_sRGB(0.18)  # doctest: +ELLIPSIS
@@ -86,6 +93,11 @@ def oetf_reverse_sRGB(V):
     -------
     numeric or ndarray
         Corresponding *luminance* :math:`L` of the image.
+
+    References
+    ----------
+    -   :cite:`InternationalElectrotechnicalCommission1999a`
+    -   :cite:`InternationalTelecommunicationUnion2015i`
 
     Examples
     --------

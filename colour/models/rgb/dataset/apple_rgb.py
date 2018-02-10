@@ -16,8 +16,8 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  Susstrunk, S., Buckley, R., & Swen, S. (1999). Standard RGB Color
-        Spaces. New York, 127–134. ISBN:2166-9635
+-   :cite:`Susstrunk1999a` : Susstrunk, S., Buckley, R., & Swen, S. (1999).
+    Standard RGB Color Spaces. ISBN:2166-9635
 """
 
 from __future__ import division, unicode_literals
@@ -94,6 +94,10 @@ APPLE_RGB_COLOURSPACE = RGB_Colourspace(
     partial(function_gamma, exponent=1.8))  # yapf: disable
 APPLE_RGB_COLOURSPACE.__doc__ = """
 *Apple RGB* colourspace.
+
+References
+----------
+-   :cite:`Susstrunk1999a`
 
 APPLE_RGB_COLOURSPACE : RGB_Colourspace
 """

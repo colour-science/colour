@@ -8,9 +8,9 @@ Defines the dataset for reflectance recovery using *Smits (1999)* method.
 
 References
 ----------
-.. [1]  Smits, B. (1999). An RGB-to-Spectrum Conversion for Reflectances.
-        Journal of Graphics Tools, 4(4), 11–22.
-        doi:10.1080/10867651.1999.10487511
+-   :cite:`Smits1999a` : Smits, B. (1999). An RGB-to-Spectrum Conversion for
+    Reflectances. Journal of Graphics Tools, 4(4), 11–22.
+    doi:10.1080/10867651.1999.10487511
 """
 
 from __future__ import division, unicode_literals
@@ -155,6 +155,10 @@ SMITS_1999_SPDS = CaseInsensitiveMapping({
 })  # yapf: disable
 SMITS_1999_SPDS.__doc__ = """
 *Smits (1999)* spectral power distributions.
+
+References
+----------
+-   :cite:`Smits1999a`
 
 SMITS_1999_SPDS : CaseInsensitiveMapping
 """

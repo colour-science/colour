@@ -21,8 +21,20 @@ blob/master/notebooks/difference/delta_e.ipynb>`_
 
 References
 ----------
-.. [1]  Wikipedia. (n.d.). Color difference. Retrieved August 29, 2014, from
-        http://en.wikipedia.org/wiki/Color_difference
+-   :cite:`Lindbloom2003c` : Lindbloom, B. (2003). Delta E (CIE 1976).
+    Retrieved February 24, 2014, from
+    http://brucelindbloom.com/Eqn_DeltaE_CIE76.html
+-   :cite:`Lindbloom2009e` : Lindbloom, B. (2009). Delta E (CIE 2000).
+    Retrieved February 24, 2014, from
+    http://brucelindbloom.com/Eqn_DeltaE_CIE2000.html
+-   :cite:`Lindbloom2009f` : Lindbloom, B. (2009). Delta E (CMC). Retrieved
+    February 24, 2014, from http://brucelindbloom.com/Eqn_DeltaE_CMC.html
+-   :cite:`Lindbloom2011a` : Lindbloom, B. (2011). Delta E (CIE 1994).
+    Retrieved February 24, 2014, from
+    http://brucelindbloom.com/Eqn_DeltaE_CIE94.html
+-   :cite:`Melgosa2013b` : Melgosa, M. (2013). CIE / ISO new standard:
+    CIEDE2000. Retrieved from http://www.color.org/events/colorimetry/\
+Melgosa_CIEDE2000_Workshop-July4.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -63,8 +75,7 @@ def delta_E_CIE1976(Lab_1, Lab_2):
 
     References
     ----------
-    .. [2]  Lindbloom, B. (2003). Delta E (CIE 1976). Retrieved February 24,
-            2014, from http://brucelindbloom.com/Eqn_DeltaE_CIE76.html
+    -   :cite:`Lindbloom2003c`
 
     Examples
     --------
@@ -109,8 +120,7 @@ def delta_E_CIE1994(Lab_1, Lab_2, textiles=False):
 
     References
     ----------
-    .. [3]  Lindbloom, B. (2011). Delta E (CIE 1994). Retrieved February 24,
-            2014, from http://brucelindbloom.com/Eqn_DeltaE_CIE94.html
+    -   :cite:`Lindbloom2011a`
 
     Examples
     --------
@@ -182,7 +192,7 @@ def delta_E_CIE2000(Lab_1, Lab_2, textiles=False):
         ``Lab_2`` and ``Lab_1`` thus one colour must be understood to be the
         reference against which a sample colour is compared.
     -   Parametric factors :math:`k_L=k_C=k_H=1` weights under
-        *reference conditions*: [5]_
+        *reference conditions*:
 
         -   Illumination: D65 source
         -   Illuminance: 1000 lx
@@ -197,11 +207,8 @@ def delta_E_CIE2000(Lab_1, Lab_2, textiles=False):
 
     References
     ----------
-    .. [4]  Lindbloom, B. (2009). Delta E (CIE 2000). Retrieved February 24,
-            2014, from http://brucelindbloom.com/Eqn_DeltaE_CIE2000.html
-    .. [5]  Melgosa, M. (2013). CIE / ISO new standard: CIEDE2000, 2013(July).
-            Retrieved from http://www.color.org/events/colorimetry/\
-Melgosa_CIEDE2000_Workshop-July4.pdf
+    -   :cite:`Lindbloom2009e`
+    -   :cite:`Melgosa2013b`
 
     Examples
     --------
@@ -310,8 +317,7 @@ def delta_E_CMC(Lab_1, Lab_2, l=2, c=1):  # noqa
 
     References
     ----------
-    .. [5]  Lindbloom, B. (2009). Delta E (CMC). Retrieved February 24, 2014,
-            from http://brucelindbloom.com/Eqn_DeltaE_CMC.html
+    -   :cite:`Lindbloom2009f`
 
     Examples
     --------

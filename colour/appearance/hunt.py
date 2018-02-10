@@ -19,10 +19,10 @@ blob/master/notebooks/appearance/hunt.ipynb>`_
 
 References
 ----------
-.. [1]  Fairchild, M. D. (2013). The Hunt Model. In Color Appearance Models
-        (3rd ed., pp. 5094–5556). Wiley. ISBN:B00DAYO8E2
-.. [2]  Hunt, R. W. G. (2004). The Reproduction of Colour (6th ed.).
-        Chichester, UK: Wiley. doi:10.1002/0470024275
+-   :cite:`Fairchild2013u` : Fairchild, M. D. (2013). The Hunt Model. In Color
+    Appearance Models (3rd ed., pp. 5094–5556). Wiley. ISBN:B00DAYO8E2
+-   :cite:`Hunt2004b` : Hunt, R. W. G. (2004). The Reproduction of Colour
+    (6th ed.). Chichester, UK: John Wiley & Sons, Ltd. doi:10.1002/0470024275
 """
 
 from __future__ import division, unicode_literals
@@ -74,6 +74,11 @@ class Hunt_InductionFactors(
         *Brightness* background induction factor :math:`N_{bb}`, approximated
         using tristimulus values :math:`Y_w` and :math:`Y_b` of
         respectively the reference white and the background if not specified.
+
+    References
+    ----------
+    -   :cite:`Fairchild2013u`
+    -   :cite:`Hunt2004b`
     """
 
     def __new__(cls, N_c, N_b, N_cb=None, N_bb=None):
@@ -99,6 +104,11 @@ HUNT_VIEWING_CONDITIONS = CaseInsensitiveMapping({
 })
 HUNT_VIEWING_CONDITIONS.__doc__ = """
 Reference *Hunt* colour appearance model viewing conditions.
+
+References
+----------
+-   :cite:`Fairchild2013u`
+-   :cite:`Hunt2004b`
 
 HUNT_VIEWING_CONDITIONS : CaseInsensitiveMapping
     **{'Small Areas, Uniform Background & Surrounds',
@@ -179,6 +189,11 @@ class Hunt_ReferenceSpecification(
         *Hue* :math:`h` quadrature :math:`H`.
     H_C : numeric or array_like
         *Hue* :math:`h` composition :math:`H_C`.
+
+    References
+    ----------
+    -   :cite:`Fairchild2013u`
+    -   :cite:`Hunt2004b`
     """
 
 
@@ -214,6 +229,11 @@ class Hunt_Specification(
     Notes
     -----
     -   This specification is the one used in the current model implementation.
+
+    References
+    ----------
+    -   :cite:`Fairchild2013u`
+    -   :cite:`Hunt2004b`
     """
 
 
@@ -272,6 +292,16 @@ def XYZ_to_Hunt(XYZ,
     discount_illuminant : bool, optional
        Truth value indicating if the illuminant should be discounted.
 
+    Returns
+    -------
+    Hunt_Specification
+        *Hunt* colour appearance model specification.
+
+    Raises
+    ------
+    ValueError
+        If an illegal arguments combination is specified.
+
     Warning
     -------
     The input domain of that definition is non standard!
@@ -283,15 +313,10 @@ def XYZ_to_Hunt(XYZ,
     -   Input *CIE XYZ_w* tristimulus values are in domain [0, 100].
     -   Input *CIE XYZ_p* tristimulus values are in domain [0, 100].
 
-    Returns
-    -------
-    Hunt_Specification
-        *Hunt* colour appearance model specification.
-
-    Raises
-    ------
-    ValueError
-        If an illegal arguments combination is specified.
+    References
+    ----------
+    -   :cite:`Fairchild2013u`
+    -   :cite:`Hunt2004b`
 
     Examples
     --------

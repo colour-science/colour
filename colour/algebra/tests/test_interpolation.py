@@ -2,6 +2,12 @@
 # -*- coding: utf-8 -*-
 """
 Defines unit tests for :mod:`colour.algebra.interpolation` module.
+
+References
+----------
+-   :cite:`Fairman1985b` : Fairman, H. S. (1985). The calculation of weight
+    factors for tristimulus integration. Color Research & Application, 10(4),
+    199–203. doi:10.1002/col.5080100407
 """
 
 from __future__ import division, unicode_literals
@@ -689,13 +695,11 @@ class TestLagrangeCoefficients(unittest.TestCase):
         Notes
         -----
         :attr:`LAGRANGE_COEFFICIENTS_A` and :attr:`LAGRANGE_COEFFICIENTS_B`
-        attributes data is matching [1]_.
+        attributes data is matching :cite:`Fairman1985b`.
 
         References
         ----------
-        .. [1]  Fairman, H. S. (1985). The calculation of weight factors for
-                tristimulus integration. Color Research & Application, 10(4),
-                199–203. doi:10.1002/col.5080100407
+        -   :cite:`Fairman1985b`
         """
 
         lc = [lagrange_coefficients(i, 3) for i in np.linspace(0.05, 0.95, 19)]

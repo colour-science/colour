@@ -16,8 +16,9 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  European Color Initiative. (2002). ECI RGB v2. Retrieved from
-        http://www.eci.org/_media/downloads/icc_profiles_from_eci/ecirgbv20.zip
+-   :cite:`EuropeanColorInitiative2002a` : European Color Initiative. (2002).
+    ECI RGB v2. Retrieved from
+    http://www.eci.org/_media/downloads/icc_profiles_from_eci/ecirgbv20.zip
 """
 
 from __future__ import division, unicode_literals
@@ -123,6 +124,10 @@ ECI_RGB_V2_COLOURSPACE = RGB_Colourspace(
     partial(_scale_domain_0_100_range_0_1, callable_=luminance_CIE1976))
 ECI_RGB_V2_COLOURSPACE.__doc__ = """
 *ECI RGB v2* colourspace.
+
+References
+----------
+-   :cite:`EuropeanColorInitiative2002a`
 
 ECI_RGB_V2_COLOURSPACE : RGB_Colourspace
 """

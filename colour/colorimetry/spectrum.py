@@ -18,14 +18,14 @@ blob/master/notebooks/colorimetry/spectrum.ipynb>`_
 
 References
 ----------
-.. [1]  CIE TC 1-48. (2004). Extrapolation. In CIE 015:2004 Colorimetry,
-        3rd Edition (p. 24). ISBN:978-3-901-90633-6
-.. [2]  CIE TC 1-38. (2005). EXTRAPOLATION. In CIE 167:2005 Recommended
-        Practice for Tabulating Spectral Data for Use in Colour Computations
-        (pp. 19–20). ISBN:978-3-901-90641-1
-.. [3]  CIE TC 1-38. (2005). 9. INTERPOLATION. In CIE 167:2005 Recommended
-        Practice for Tabulating Spectral Data for Use in Colour Computations
-        (pp. 14–19). ISBN:978-3-901-90641-1
+-   :cite:`CIETC1-382005e` : CIE TC 1-38. (2005). 9. INTERPOLATION. In
+    CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in
+    Colour Computations (pp. 14–19). ISBN:978-3-901-90641-1
+-   :cite:`CIETC1-382005g` : CIE TC 1-38. (2005). EXTRAPOLATION. In
+    CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in
+    Colour Computations (pp. 19–20). ISBN:978-3-901-90641-1
+-   :cite:`CIETC1-482004l` : CIE TC 1-48. (2004). Extrapolation. In
+    CIE 015:2004 Colorimetry, 3rd Edition (p. 24). ISBN:978-3-901-90633-6
 """
 
 from __future__ import division, unicode_literals
@@ -478,7 +478,7 @@ class SpectralPowerDistribution(Signal):
     *Sprague (1880)* will be used for interpolating functions having a
     uniformly spaced independent variable and the *Cubic Spline* method for
     non-uniformly spaced independent variable. Extrapolation is performed
-    according to *CIE 167:2005* recommendation. [1]_ [2]_ [3]_
+    according to *CIE 167:2005* recommendation.
 
     Parameters
     ----------
@@ -522,6 +522,12 @@ dict_like, optional
     align
     trim
     normalise
+
+    References
+    ----------
+    -   :cite:`CIETC1-382005e`
+    -   :cite:`CIETC1-382005g`
+    -   :cite:`CIETC1-482004l`
 
     Examples
     --------
@@ -740,7 +746,7 @@ dict_like, optional
     def extrapolate(self, shape, extrapolator=None, extrapolator_args=None):
         """
         Extrapolates the spectral power distribution in-place according to
-        *CIE 15:2004* and *CIE 167:2005* recommendations [1]_ [2]_ or given
+        *CIE 15:2004* and *CIE 167:2005* recommendations or given
         extrapolation arguments.
 
         Parameters
@@ -756,6 +762,11 @@ dict_like, optional
         -------
         SpectralPowerDistribution
             Extrapolated spectral power distribution.
+
+        References
+        ----------
+        -   :cite:`CIETC1-382005g`
+        -   :cite:`CIETC1-482004l`
 
         Examples
         --------
@@ -824,7 +835,7 @@ dict_like, optional
     def interpolate(self, shape, interpolator=None, interpolator_args=None):
         """
         Interpolates the spectral power distribution in-place according to
-        *CIE 167:2005* recommendation [3]_ or given interpolation arguments.
+        *CIE 167:2005* recommendation or given interpolation arguments.
 
         Parameters
         ----------
@@ -853,6 +864,10 @@ dict_like, optional
             :math:`\lambda_n` for interpolation.
         -   *Sprague (1880)* interpolator requires at least 6 wavelengths
             :math:`\lambda_n` for interpolation.
+
+        References
+        ----------
+        -   :cite:`CIETC1-382005e`
 
         Examples
         --------
@@ -1452,7 +1467,7 @@ class MultiSpectralPowerDistribution(MultiSignal):
     *Sprague (1880)* will be used for interpolating functions having a
     uniformly spaced independent variable and the *Cubic Spline* method for
     non-uniformly spaced independent variable. Extrapolation is performed
-    according to *CIE 167:2005* recommendation. [1]_ [2]_ [3]_
+    according to *CIE 167:2005* recommendation.
 
     Parameters
     ----------
@@ -1503,6 +1518,12 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
     align
     trim
     normalise
+
+    References
+    ----------
+    -   :cite:`CIETC1-382005e`
+    -   :cite:`CIETC1-382005g`
+    -   :cite:`CIETC1-482004l`
 
     Examples
     --------
@@ -1770,7 +1791,7 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
     def extrapolate(self, shape, extrapolator=None, extrapolator_args=None):
         """
         Extrapolates the multi-spectral power distribution in-place accordingly
-        to *CIE 15:2004* and *CIE 167:2005* recommendations [1]_ [2]_ or given
+        to *CIE 15:2004* and *CIE 167:2005* recommendations or given
         extrapolation arguments.
 
         Parameters
@@ -1786,6 +1807,11 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
         -------
         MultiSpectralPowerDistribution
             Extrapolated multi-spectral power distribution.
+
+        References
+        ----------
+        -   :cite:`CIETC1-382005g`
+        -   :cite:`CIETC1-482004l`
 
         Examples
         --------
@@ -1845,7 +1871,7 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
     def interpolate(self, shape, interpolator=None, interpolator_args=None):
         """
         Interpolates the multi-spectral power distribution in-place accordingly
-        to *CIE 167:2005* recommendation [3]_ or given interpolation arguments.
+        to *CIE 167:2005* recommendation or given interpolation arguments.
 
         Parameters
         ----------
@@ -1870,6 +1896,10 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
         -------
         See :meth:`SpectralPowerDistribution.interpolate` method warning
         section.
+
+        References
+        ----------
+        -   :cite:`CIETC1-382005e`
 
         Examples
         --------
@@ -2361,7 +2391,7 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
 
 DEFAULT_SPECTRAL_SHAPE = SpectralShape(360, 780, 1)
 """
-Default spectral shape according to *ASTM E308–15* practise shape.
+Default spectral shape according to *ASTM E308-15* practise shape.
 
 DEFAULT_SPECTRAL_SHAPE : SpectralShape
 """

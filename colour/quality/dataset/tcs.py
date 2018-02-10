@@ -20,8 +20,9 @@ blob/master/notebooks/quality/cri.ipynb>`_
 
 References
 ----------
-.. [1]  Ohno, Y., & Davis, W. (2008). NIST CQS simulation 7.4. Retrieved from
-        http://cie2.nist.gov/TC1-69/NIST CQS simulation 7.4.xls
+-   :cite:`Ohno2008a` : Ohno, Y., & Davis, W. (2008). NIST CQS simulation 7.4.
+    Retrieved from https://drive.google.com/file/d/\
+1PsuU6QjUJjCX6tQyCud6ul2Tbs8rYWW9/view?usp=sharing
 """
 
 from __future__ import division, unicode_literals
@@ -1448,6 +1449,10 @@ TCS_SPDS = CaseInsensitiveMapping(
          for key, value in TCS_SPDS_DATA.items()))
 """
 Test colour samples spectral power distributions.
+
+References
+----------
+-   :cite:`Ohno2008a`
 
 TCS_SPDS : CaseInsensitiveMapping
 """

@@ -22,9 +22,9 @@ blob/master/notebooks/models/cam16_ucs.ipynb>`_
 
 References
 ----------
-.. [1]  Li, C., Li, Z., Wang, Z., Xu, Y., Luo, M. R., Cui, G., … Pointer, M.
-        (2017). Comprehensive color solutions: CAM16, CAT16, and CAM16-UCS.
-        Color Research & Application, (January), n/a-n/a. doi:10.1002/col.22131
+-   Li, C., Li, Z., Wang, Z., Xu, Y., Luo, M. R., Cui, G., … Pointer,
+    M. (2017). Comprehensive color solutions: CAM16, CAT16, and CAM16-UCS.
+    Color Research & Application, 42(6), 703–718. doi:10.1002/col.22131
 """
 
 from __future__ import division, unicode_literals
@@ -73,6 +73,7 @@ def _UCS_Luo2006_callable_to_UCS_Li2017_docstring(callable_):
     docstring = docstring.replace('Luo et alii (2006)', 'Li et alii (2017)')
     docstring = docstring.replace('CIECAM02', 'CAM16')
     docstring = docstring.replace('CAM02', 'CAM16')
+    docstring = docstring.replace('Luo2006b', 'Li2017')
 
     docstring = re.match('(.*)Examples', docstring, re.DOTALL).group(1)
     docstring += (

@@ -18,8 +18,13 @@ blob/master/notebooks/models/hunter_lab.ipynb>`_
 
 References
 ----------
-.. [1]  HunterLab. (2008). Hunter L,a,b Color Scale. Retrieved from
-        http://www.hunterlab.se/wp-content/uploads/2012/11/Hunter-L-a-b.pdf
+-   :cite:`HunterLab2008b` : HunterLab. (2008). Hunter L,a,b Color Scale.
+    Retrieved from http://www.hunterlab.se/wp-content/uploads/2012/11/\
+Hunter-L-a-b.pdf
+-   :cite:`HunterLab2008c` : HunterLab. (2008). Illuminant Factors in Universal
+    Software and EasyMatch Coatings. Retrieved from
+    https://support.hunterlab.com/hc/en-us/article_attachments/201437785/\
+an02_02.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -64,10 +69,7 @@ def XYZ_to_K_ab_HunterLab1966(XYZ):
 
     References
     ----------
-    .. [2]  HunterLab. (2008). Illuminant Factors in Universal Software and
-            EasyMatch Coatings. Retrieved from
-            https://support.hunterlab.com/hc/en-us/article_attachments/\
-201437785/an02_02.pdf
+    -   :cite:`HunterLab2008c`
 
     Examples
     --------
@@ -114,6 +116,10 @@ def XYZ_to_Hunter_Lab(XYZ,
     -   Input *CIE XYZ* and reference *illuminant* tristimulus values are in
         domain [0, 100].
     -   Output *Lightness* :math:`L^*` is in range [0, 100].
+
+    References
+    ----------
+    -   :cite:`HunterLab2008b`
 
     Examples
     --------
@@ -170,6 +176,10 @@ def Hunter_Lab_to_XYZ(Lab,
     -   Input *CIE XYZ* and reference *illuminant* tristimulus values are in
         domain [0, 100].
     -   Output *CIE XYZ* tristimulus values are in range [0, 100].
+
+    References
+    ----------
+    -   :cite:`HunterLab2008b`
 
     Examples
     --------

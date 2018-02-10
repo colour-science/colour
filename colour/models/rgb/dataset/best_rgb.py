@@ -16,8 +16,8 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  HutchColor. (n.d.). BestRGB (4 K). Retrieved from
-        http://www.hutchcolor.com/profiles/BestRGB.zip
+-   :cite:`HutchColord` : HutchColor. (n.d.). BestRGB (4 K). Retrieved from
+    http://www.hutchcolor.com/profiles/BestRGB.zip
 """
 
 from __future__ import division, unicode_literals
@@ -93,6 +93,10 @@ BEST_RGB_COLOURSPACE = RGB_Colourspace(
     partial(function_gamma, exponent=2.2))  # yapf: disable
 BEST_RGB_COLOURSPACE.__doc__ = """
 *Best RGB* colourspace.
+
+References
+----------
+-   :cite:`HutchColord`
 
 BEST_RGB_COLOURSPACE : RGB_Colourspace
 """

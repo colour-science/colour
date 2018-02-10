@@ -22,12 +22,14 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  Mansencal, T. (2015). RED Colourspaces Derivation. Retrieved May 20,
-        2015, from http://colour-science.org/posts/red-colourspaces-derivation
-.. [2]  Sony Imageworks. (2012). make.py. Retrieved November 27, 2014, from
-        https://github.com/imageworks/OpenColorIO-Configs/\
+-   :cite:`Mansencal2015d` : Mansencal, T. (2015). RED Colourspaces Derivation.
+    Retrieved May 20, 2015, from
+    http://colour-science.org/posts/red-colourspaces-derivation
+-   :cite:`Nattress2016a` : Nattress, G. (2016). Private Discussion with
+    Shaw, N.
+-   :cite:`SonyImageworks2012a` : Sony Imageworks. (2012). make.py. Retrieved
+    November 27, 2014, from https://github.com/imageworks/OpenColorIO-Configs/\
 blob/master/nuke-default/make.py
-.. [3]  Nattress, G. (2016). Private Discussion with Shaw, N.
 """
 
 from __future__ import division, unicode_literals
@@ -122,6 +124,11 @@ RED_COLOR_COLOURSPACE = RGB_Colourspace(
 RED_COLOR_COLOURSPACE.__doc__ = """
 *REDcolor* colourspace.
 
+References
+----------
+-   :cite:`Mansencal2015d`
+-   :cite:`SonyImageworks2012a`
+
 RED_COLOR_COLOURSPACE : RGB_Colourspace
 """
 
@@ -176,6 +183,11 @@ RED_COLOR_2_COLOURSPACE = RGB_Colourspace(
     log_decoding_REDLogFilm)  # yapf: disable
 RED_COLOR_2_COLOURSPACE.__doc__ = """
 *REDcolor2* colourspace.
+
+References
+----------
+-   :cite:`Mansencal2015d`
+-   :cite:`SonyImageworks2012a`
 
 RED_COLOR_2_COLOURSPACE : RGB_Colourspace
 """
@@ -232,6 +244,11 @@ RED_COLOR_3_COLOURSPACE = RGB_Colourspace(
 RED_COLOR_3_COLOURSPACE.__doc__ = """
 *REDcolor3* colourspace.
 
+References
+----------
+-   :cite:`Mansencal2015d`
+-   :cite:`SonyImageworks2012a`
+
 RED_COLOR_3_COLOURSPACE : RGB_Colourspace
 """
 
@@ -286,6 +303,11 @@ RED_COLOR_4_COLOURSPACE = RGB_Colourspace(
     log_decoding_REDLogFilm)  # yapf: disable
 RED_COLOR_4_COLOURSPACE.__doc__ = """
 *REDcolor4* colourspace.
+
+References
+----------
+-   :cite:`Mansencal2015d`
+-   :cite:`SonyImageworks2012a`
 
 RED_COLOR_4_COLOURSPACE : RGB_Colourspace
 """
@@ -342,6 +364,11 @@ DRAGON_COLOR_COLOURSPACE = RGB_Colourspace(
 DRAGON_COLOR_COLOURSPACE.__doc__ = """
 *DRAGONcolor* colourspace.
 
+References
+----------
+-   :cite:`Mansencal2015d`
+-   :cite:`SonyImageworks2012a`
+
 DRAGON_COLOR_COLOURSPACE : RGB_Colourspace
 """
 
@@ -396,6 +423,11 @@ DRAGON_COLOR_2_COLOURSPACE = RGB_Colourspace(
     log_decoding_REDLogFilm)  # yapf: disable
 DRAGON_COLOR_2_COLOURSPACE.__doc__ = """
 *DRAGONcolor2* colourspace.
+
+References
+----------
+-   :cite:`Mansencal2015d`
+-   :cite:`SonyImageworks2012a`
 
 DRAGON_COLOR_2_COLOURSPACE : RGB_Colourspace
 """
@@ -456,6 +488,12 @@ RED_WIDE_GAMUT_RGB_COLOURSPACE = RGB_Colourspace(
     log_decoding_Log3G10)  # yapf: disable
 RED_WIDE_GAMUT_RGB_COLOURSPACE.__doc__ = """
 *REDWideGamutRGB* colourspace.
+
+References
+----------
+-   :cite:`Mansencal2015d`
+-   :cite:`Nattress2016a`
+-   :cite:`SonyImageworks2012a`
 
 RED_WIDE_GAMUT_RGB_COLOURSPACE : RGB_Colourspace
 """

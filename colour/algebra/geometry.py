@@ -10,6 +10,18 @@ Defines objects related to geometrical computations:
 -   :func:`euclidean_distance`
 -   :func:`extend_line_segment`
 -   :func:`intersect_line_segments`
+
+References
+----------
+-   :cite:`Bourkea` : Bourke, P. (n.d.). Intersection point of two line
+    segments in 2 dimensions. Retrieved January 15, 2016, from
+    http://paulbourke.net/geometry/pointlineplane/
+-   :cite:`Erdema` : Erdem, U. M. (n.d.). Fast Line Segment Intersection.
+    Retrieved January 15, 2016, from http://www.mathworks.com/matlabcentral/\
+fileexchange/27205-fast-line-segment-intersection
+-   :cite:`Saeedna` : Saeedn. (n.d.). Extend a line segment a specific
+    distance. Retrieved January 16, 2016, from http://stackoverflow.com/\
+questions/7740507/extend-a-line-segment-a-specific-distance
 """
 
 from __future__ import division, unicode_literals
@@ -105,9 +117,7 @@ def extend_line_segment(a, b, distance=1):
 
     References
     ----------
-    .. [1]  Saeedn. (n.d.). Extend a line segment a specific distance.
-            Retrieved January 16, 2016, from http://stackoverflow.com/\
-questions/7740507/extend-a-line-segment-a-specific-distance
+    -   :cite:`Saeedna`
 
     Notes
     -----
@@ -184,13 +194,8 @@ def intersect_line_segments(l_1, l_2):
 
     References
     ----------
-    .. [2]  Bourke, P. (n.d.). Intersection point of two line segments in 2
-            dimensions. Retrieved January 15, 2016, from
-            http://paulbourke.net/geometry/pointlineplane/
-    .. [3]  Erdem, U. M. (n.d.). Fast Line Segment Intersection. Retrieved
-            January 15, 2016, from
-            http://www.mathworks.com/matlabcentral/fileexchange/\
-27205-fast-line-segment-intersection
+    -   :cite:`Bourkea`
+    -   :cite:`Erdema`
 
     Notes
     -----

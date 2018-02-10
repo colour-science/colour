@@ -16,8 +16,8 @@ colour.colorimetry.spectrum.SpectralPowerDistribution
 
 References
 ----------
-.. [1]  Wikipedia. (n.d.). Mesopic weighting function. Retrieved June 20,
-        2014, from http://en.wikipedia.org/wiki/\
+-   :cite:`Wikipediacc` : Wikipedia. (n.d.). Mesopic weighting function.
+    Retrieved June 20, 2014, from http://en.wikipedia.org/wiki/\
 Mesopic_vision#Mesopic_weighting_function
 """
 
@@ -74,6 +74,10 @@ def mesopic_weighting_function(
     numeric or ndarray
         Mesopic weighting function factor.
 
+    References
+    ----------
+    -   :cite:`Wikipediacc`
+
     Examples
     --------
     >>> mesopic_weighting_function(500, 0.2)  # doctest: +ELLIPSIS
@@ -119,6 +123,10 @@ def mesopic_luminous_efficiency_function(
     -------
     SpectralPowerDistribution
         Mesopic luminous efficiency function :math:`V_m(\lambda)`.
+
+    References
+    ----------
+    -   :cite:`Wikipediacc`
 
     Examples
     --------

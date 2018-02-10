@@ -16,6 +16,31 @@ Defines classes for interpolating variables.
     interpolation.
 -   :class:`NullInterpolator`: 1-D function null interpolation.
 -   :func:`lagrange_coefficients`: Computation of *Lagrange Coefficients*.
+
+References
+----------
+-   :cite:`Burger2009b` : Burger, W., & Burge, M. J. (2009). Principles of
+    Digital Image Processing. London: Springer London.
+    doi:10.1007/978-1-84800-195-4
+-   :cite:`CIETC1-382005f` : CIE TC 1-38. (2005). 9.2.4 Method of
+    interpolation for uniformly spaced independent variable. In CIE 167:2005
+    Recommended Practice for Tabulating Spectral Data for Use in Colour
+    Computations (pp. 1–27). ISBN:978-3-901-90641-1
+-   :cite:`CIETC1-382005h` : CIE TC 1-38. (2005). Table V. Values of the
+    c-coefficients of Equ.s 6 and 7. In CIE 167:2005 Recommended Practice for
+    Tabulating Spectral Data for Use in Colour Computations (p. 19).
+    ISBN:978-3-901-90641-1
+-   :cite:`Fairman1985b` : Fairman, H. S. (1985). The calculation of weight
+    factors for tristimulus integration. Color Research & Application, 10(4),
+    199–203. doi:10.1002/col.5080100407
+-   :cite:`Westland2012h` : Westland, S., Ripamonti, C., & Cheung, V. (2012).
+    Interpolation Methods. In Computational Colour Science Using MATLAB
+    (2nd ed., pp. 29–37). ISBN:978-0-470-66569-5
+-   :cite:`Wikipedia` : Wikipedia. (n.d.). Lanczos resampling. Retrieved
+    October 14, 2017, from https://en.wikipedia.org/wiki/Lanczos_resampling
+-   :cite:`Wikipediacb` : Wikipedia. (n.d.). Lagrange polynomial - Definition.
+    Retrieved January 20, 2016, from https://en.wikipedia.org/wiki/\
+Lagrange_polynomial#Definition
 """
 
 from __future__ import division, unicode_literals
@@ -60,8 +85,7 @@ def kernel_nearest_neighbour(x):
 
     References
     ----------
-    .. [1]  Burger, W., & Burge, M. J. (2009). Principles of Digital Image
-            Processing. London: Springer London. doi:10.1007/978-1-84800-195-4
+    -   :cite:`Burger2009b`
 
     Examples
     --------
@@ -74,7 +98,7 @@ def kernel_nearest_neighbour(x):
 
 def kernel_linear(x):
     """
-    Returns the *linear* kernel evaluated at given samples. [1]_
+    Returns the *linear* kernel evaluated at given samples.
 
     Parameters
     ----------
@@ -85,6 +109,10 @@ def kernel_linear(x):
     -------
     ndarray
         The *linear* kernel evaluated at given samples.
+
+    References
+    ----------
+    -   :cite:`Burger2009b`
 
     Examples
     --------
@@ -100,7 +128,7 @@ def kernel_linear(x):
 
 def kernel_sinc(x, a=3):
     """
-    Returns the *sinc* kernel evaluated at given samples. [1]_
+    Returns the *sinc* kernel evaluated at given samples.
 
     Parameters
     ----------
@@ -113,6 +141,10 @@ def kernel_sinc(x, a=3):
     -------
     ndarray
         The *sinc* kernel evaluated at given samples.
+
+    References
+    ----------
+    -   :cite:`Burger2009b`
 
     Examples
     --------
@@ -146,8 +178,7 @@ def kernel_lanczos(x, a=3):
 
     References
     ----------
-    .. [2]  Wikipedia. (n.d.). Lanczos resampling. Retrieved October 14, 2017,
-            from https://en.wikipedia.org/wiki/Lanczos_resampling
+    -   :cite:`Wikipedia`
 
     Examples
     --------
@@ -165,7 +196,7 @@ def kernel_lanczos(x, a=3):
 
 def kernel_cardinal_spline(x, a=0.5, b=0.0):
     """
-    Returns the *cardinal spline* kernel evaluated at given samples. [1]_
+    Returns the *cardinal spline* kernel evaluated at given samples.
 
     Notable *cardinal spline* :math:`a` and :math:`b` parameterizations:
 
@@ -186,6 +217,10 @@ def kernel_cardinal_spline(x, a=0.5, b=0.0):
     -------
     ndarray
         The *cardinal spline* kernel evaluated at given samples.
+
+    References
+    ----------
+    -   :cite:`Burger2009b`
 
     Examples
     --------
@@ -213,7 +248,7 @@ class KernelInterpolator(object):
     The reconstruction of a continuous signal can be described as a linear
     convolution operation. Interpolation can be expressed as a convolution of
     the given discrete function :math:`g(x)` with some continuous interpolation
-    kernel :math:`k(w)`: [1]_ [2]_
+    kernel :math:`k(w)`:
 
     :math:`\hat{g}(w_0) = [k * g](w_0) = \
 \sum_{x=-\infty}^{\infty}k(w_0 - x)\cdot g(x)`
@@ -250,6 +285,11 @@ class KernelInterpolator(object):
     Methods
     -------
     __call__
+
+    References
+    ----------
+    -   :cite:`Burger2009b`
+    -   :cite:`Wikipedia`
 
     Examples
     --------
@@ -840,13 +880,8 @@ class SpragueInterpolator(object):
 
     References
     ----------
-    .. [3]  CIE TC 1-38. (2005). 9.2.4 Method of interpolation for uniformly
-            spaced independent variable. In CIE 167:2005 Recommended Practice
-            for Tabulating Spectral Data for Use in Colour Computations
-            (pp. 1–27). ISBN:978-3-901-90641-1
-    .. [4]  Westland, S., Ripamonti, C., & Cheung, V. (2012). Interpolation
-            Methods. In Computational Colour Science Using MATLAB
-            (2nd ed., pp. 29–37). ISBN:978-0-470-66569-5
+    -   :cite:`CIETC1-382005f`
+    -   :cite:`Westland2012h`
 
     Examples
     --------
@@ -879,10 +914,7 @@ class SpragueInterpolator(object):
 
     References
     ----------
-    .. [5]  CIE TC 1-38. (2005). Table V. Values of the c-coefficients of
-            Equ.s 6 and 7. In CIE 167:2005 Recommended Practice for Tabulating
-            Spectral Data for Use in Colour Computations (p. 19).
-            ISBN:978-3-901-90641-1
+    -   :cite:`CIETC1-382005h`
     """
 
     def __init__(self, x, y, dtype=DEFAULT_FLOAT_DTYPE):
@@ -1454,12 +1486,8 @@ def lagrange_coefficients(r, n=4):
 
     References
     ----------
-    .. [4]  Fairman, H. S. (1985). The calculation of weight factors for
-            tristimulus integration. Color Research & Application, 10(4),
-            199–203. doi:10.1002/col.5080100407
-    .. [5]  Wikipedia. (n.d.). Lagrange polynomial - Definition. Retrieved
-            January 20, 2016, from
-            https://en.wikipedia.org/wiki/Lagrange_polynomial#Definition
+    -   :cite:`Fairman1985b`
+    -   :cite:`Wikipediacb`
 
     Examples
     --------

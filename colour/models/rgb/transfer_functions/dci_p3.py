@@ -18,9 +18,9 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  Digital Cinema Initiatives. (2007). Digital Cinema System
-        Specification - Version 1.1. Retrieved from
-        http://www.dcimovies.com/archives/spec_v1_1/\
+-   :cite:`DigitalCinemaInitiatives2007b` : Digital Cinema Initiatives. (2007).
+    Digital Cinema System Specification - Version 1.1. Retrieved from
+    http://www.dcimovies.com/archives/spec_v1_1/\
 DCI_DCinema_System_Spec_v1_1.pdf
 """
 
@@ -53,6 +53,10 @@ def oetf_DCIP3(XYZ):
     numeric or ndarray
         Non-linear *CIE XYZ'* tristimulus values.
 
+    References
+    ----------
+    -   :cite:`DigitalCinemaInitiatives2007b`
+
     Examples
     --------
     >>> oetf_DCIP3(0.18)  # doctest: +ELLIPSIS
@@ -78,6 +82,10 @@ def eotf_DCIP3(XYZ_p):
     -------
     numeric or ndarray
         *CIE XYZ* tristimulus values.
+
+    References
+    ----------
+    -   :cite:`DigitalCinemaInitiatives2007b`
 
     Examples
     --------

@@ -16,8 +16,9 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  Lindbloom, B. (2014). RGB Working Space Information. Retrieved April
-        11, 2014, from http://www.brucelindbloom.com/WorkingSpaceInfo.html
+-   :cite:`Lindbloom2014a` : Lindbloom, B. (2014). RGB Working Space
+    Information. Retrieved April 11, 2014, from
+    http://www.brucelindbloom.com/WorkingSpaceInfo.html
 """
 
 from __future__ import division, unicode_literals
@@ -93,6 +94,10 @@ BETA_RGB_COLOURSPACE = RGB_Colourspace(
     partial(function_gamma, exponent=2.2))  # yapf: disable
 BETA_RGB_COLOURSPACE.__doc__ = """
 *Beta RGB* colourspace.
+
+References
+----------
+-   :cite:`Lindbloom2014a`
 
 BETA_RGB_COLOURSPACE : RGB_Colourspace
 """

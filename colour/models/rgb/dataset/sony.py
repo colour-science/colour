@@ -18,22 +18,22 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  Gaggioni, H., Dhanendra, P., Yamashita, J., Kawada, N., Endo, K., &
-        Clark, C. (n.d.). S-Log: A new LUT for digital production mastering
-        and interchange applications. Retrieved from
-        http://pro.sony.com/bbsccms/assets/files/mkt/cinema/solutions/\
+-   :cite:`Gaggioni` : Gaggioni, H., Dhanendra, P., Yamashita, J., Kawada, N.,
+    Endo, K., & Clark, C. (n.d.). S-Log: A new LUT for digital production
+    mastering and interchange applications. Retrieved from
+    http://pro.sony.com/bbsccms/assets/files/mkt/cinema/solutions/\
 slog_manual.pdf
-.. [2]  Sony Corporation. (n.d.). S-Log Whitepaper. Retrieved from
-        http://www.theodoropoulos.info/attachments/076_on S-Log.pdf
-.. [3]  Sony Corporation. (n.d.). Technical Summary for
-        S-Gamut3.Cine/S-Log3 and S-Gamut3/S-Log3. Retrieved from
-        http://community.sony.com/sony/attachments/sony/\
+-   :cite:`SonyCorporation` : Sony Corporation. (n.d.). S-Log Whitepaper.
+Retrieved from http://www.theodoropoulos.info/attachments/076_on S-Log.pdf
+-   :cite:`SonyCorporationd` : Sony Corporation. (n.d.). Technical Summary for
+S-Gamut3.Cine/S-Log3 and S-Gamut3/S-Log3. Retrieved from
+    http://community.sony.com/sony/attachments/sony/
 large-sensor-camera-F5-F55/12359/2/\
 TechnicalSummary_for_S-Gamut3Cine_S-Gamut3_S-Log3_V1_00.pdf
-.. [4]  Sony Corporation. (n.d.). S-Gamut3_S-Gamut3Cine_Matrix.xlsx.
-        Retrieved from https://community.sony.com/sony/attachments/sony/\
+-   :cite:`SonyCorporatione` : Sony Corporation. (n.d.).
+    S-Gamut3_S-Gamut3Cine_Matrix.xlsx. Retrieved from
+    https://community.sony.com/sony/attachments/sony/\
 large-sensor-camera-F5-F55/12359/3/S-Gamut3_S-Gamut3Cine_Matrix.xlsx
-
 """
 
 from __future__ import division, unicode_literals
@@ -121,6 +121,11 @@ S_GAMUT_COLOURSPACE = RGB_Colourspace(
 S_GAMUT_COLOURSPACE.__doc__ = """
 *S-Gamut* colourspace.
 
+References
+----------
+-   :cite:`Gaggioni`
+-   :cite:`SonyCorporation`
+
 S_GAMUT_COLOURSPACE : RGB_Colourspace
 """
 
@@ -135,6 +140,10 @@ S_GAMUT3_COLOURSPACE = RGB_Colourspace(
     log_decoding_SLog3)  # yapf: disable
 S_GAMUT3_COLOURSPACE.__doc__ = """
 *S-Gamut3* colourspace.
+
+References
+----------
+-   :cite:`SonyCorporationd`
 
 S_GAMUT3_COLOURSPACE : RGB_Colourspace
 """
@@ -197,6 +206,10 @@ S_GAMUT3_CINE_COLOURSPACE = RGB_Colourspace(
     log_decoding_SLog3)  # yapf: disable
 S_GAMUT3_CINE_COLOURSPACE.__doc__ = """
 *S-Gamut3.Cine* colourspace.
+
+References
+----------
+-   :cite:`SonyCorporatione`
 
 S_GAMUT3_CINE_COLOURSPACE : RGB_Colourspace
 """

@@ -9,9 +9,9 @@ XML files.
 
 References
 ----------
-.. [1]  IES Computer Committee, & TM-27-14 Working Group. (2014). IES Standard
-        Format for the Electronic Transfer of Spectral Data Electronic Transfer
-        of Spectral Data. ISBN:978-0879952952
+-   :cite:`IESComputerCommittee2014a` : IES Computer Committee, & TM-27-14
+    Working Group. (2014). IES Standard Format for the Electronic Transfer of
+    Spectral Data Electronic Transfer of Spectral Data. ISBN:978-0879952952
 """
 
 from __future__ import division, unicode_literals
@@ -626,6 +626,10 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
     -------
     read
     write
+
+    References
+    ----------
+    -   :cite:`IESComputerCommittee2014a`
 
     Examples
     --------

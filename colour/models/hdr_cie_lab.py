@@ -17,13 +17,14 @@ blob/master/notebooks/models/hdr_cie_lab.ipynb>`_
 
 References
 ----------
-.. [1]  Fairchild, M. D., & Wyble, D. R. (2010). hdr-CIELAB and hdr-IPT:
-        Simple Models for Describing the Color of High-Dynamic-Range and
-        Wide-Color-Gamut Images. In Proc. of Color and Imaging Conference
-        (pp. 322–326). ISBN:9781629932156
-.. [2]  Fairchild, M. D., & Chen, P. (2011). Brightness, Lightness, and
-        Specifying Color in High-Dynamic-Range Scenes and Images.
-        doi:10.1117/12.872075
+-   :cite:`Fairchild2010` : Fairchild, M. D., & Wyble, D. R. (2010).
+    hdr-CIELAB and hdr-IPT: Simple Models for Describing the Color of
+    High-Dynamic-Range and Wide-Color-Gamut Images. In Proc. of Color and
+    Imaging Conference (pp. 322–326). ISBN:9781629932156
+-   :cite:`Fairchild2011` : Fairchild, M. D., & Chen, P. (2011). Brightness,
+    lightness, and specifying color in high-dynamic-range scenes and images.
+    In S. P. Farnand & F. Gaykema (Eds.), Proc. SPIE 7867, Image Quality and
+    System Performance VIII (p. 78670O). doi:10.1117/12.872075
 """
 
 from __future__ import division, unicode_literals
@@ -52,6 +53,11 @@ __all__ = [
 HDR_CIELAB_METHODS = DocstringTuple(('Fairchild 2010', 'Fairchild 2011'))
 HDR_CIELAB_METHODS.__doc__ = """
 Supported *hdr-CIELAB* colourspace computation methods.
+
+References
+----------
+-   :cite:`Fairchild2010`
+-   :cite:`Fairchild2011`
 
 HDR_CIELAB_METHODS : tuple
     **{'Fairchild 2011', 'Fairchild 2010'}**
@@ -152,6 +158,11 @@ def XYZ_to_hdr_CIELab(
     -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
         colourspace array are in domain [0, :math:`\infty`].
 
+    References
+    ----------
+    -   :cite:`Fairchild2010`
+    -   :cite:`Fairchild2011`
+
     Examples
     --------
     >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
@@ -221,6 +232,11 @@ def hdr_CIELab_to_XYZ(
     -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
         colourspace array are in domain [0, :math:`\infty`].
     -   Output *CIE XYZ* tristimulus values are in range [0, math:`\infty`].
+
+    References
+    ----------
+    -   :cite:`Fairchild2010`
+    -   :cite:`Fairchild2011`
 
     Examples
     --------

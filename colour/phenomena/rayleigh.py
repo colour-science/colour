@@ -18,12 +18,12 @@ blob/master/notebooks/phenomena/rayleigh.ipynb>`_
 
 References
 ----------
-.. [1]  Bodhaine, B. A., Wood, N. B., Dutton, E. G., & Slusser, J. R. (1999).
-        On Rayleigh optical depth calculations. Journal of Atmospheric …,
-        16(11 PART 2), 1854–1861.
-        doi:10.1175/1520-0426(1999)016%3C1854:ORODC%3E2.0.CO;2
-.. [2]  Wikipedia. (n.d.). Rayleigh scattering. Retrieved September 23, 2014,
-        from http://en.wikipedia.org/wiki/Rayleigh_scattering
+-   :cite:`Bodhaine1999a` : Bodhaine, B. A., Wood, N. B., Dutton, E. G., &
+    Slusser, J. R. (1999). On Rayleigh Optical Depth Calculations. Journal of
+    Atmospheric and Oceanic Technology, 16(11), 1854–1861.
+    doi:10.1175/1520-0426(1999)016<1854:ORODC>2.0.CO;2
+-   :cite:`Wikipediabx` : Wikipedia. (n.d.). Rayleigh scattering. Retrieved
+    September 23, 2014, from http://en.wikipedia.org/wiki/Rayleigh_scattering
 """
 
 from __future__ import division, unicode_literals
@@ -428,8 +428,8 @@ def molecular_density(temperature=STANDARD_AIR_TEMPERATURE,
     -----
     -   The *Avogadro*'s number used in this implementation is the one given by
         by the Committee on Data for Science and Technology (CODATA):
-        :math:`6.02214179x10^{23}`, which is different from the reference [1]_
-        value :math:`6.0221367x10^{23}`.
+        :math:`6.02214179x10^{23}`, which is different from the reference
+        :cite:`Bodhaine1999a` value :math:`6.0221367x10^{23}`.
 
     Examples
     --------
@@ -558,6 +558,11 @@ def scattering_cross_section(wavelength,
     :func:`colour.phenomena.rayleigh.scattering_cross_section` expects
     wavelength :math:`\lambda` to be expressed in centimeters (cm).
 
+    References
+    ----------
+    -   :cite:`Bodhaine1999a`
+    -   :cite:`Wikipediabx`
+
     Examples
     --------
     >>> scattering_cross_section(555 * 10e-8)  # doctest: +ELLIPSIS
@@ -630,6 +635,11 @@ def rayleigh_optical_depth(wavelength,
     :func:`colour.phenomena.rayleigh.rayleigh_optical_depth` expects
     wavelength :math:`\lambda` to be expressed in centimeters (cm).
 
+    References
+    ----------
+    -   :cite:`Bodhaine1999a`
+    -   :cite:`Wikipediabx`
+
     Examples
     --------
     >>> rayleigh_optical_depth(555 * 10e-8)  # doctest: +ELLIPSIS
@@ -697,6 +707,11 @@ def rayleigh_scattering_spd(shape=DEFAULT_SPECTRAL_SHAPE,
     -------
     SpectralPowerDistribution
         *Rayleigh* optical depth spectral power distribution.
+
+    References
+    ----------
+    -   :cite:`Bodhaine1999a`
+    -   :cite:`Wikipediabx`
 
     Examples
     --------

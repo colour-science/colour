@@ -15,13 +15,13 @@ follows::
 
 The following luminous efficiency functions are available:
 
--   CIE 1924 Photopic Standard Observer [1]_
--   Judd Modified CIE 1951 Photopic Standard Observer [1]_
--   Judd-Vos Modified CIE 1978 Photopic Standard Observer [1]_
--   CIE 1964 Photopic 10 Degree Standard Observer [2]_
--   CIE 2008 2 Degree Physiologically Relevant LEF [1]_
--   CIE 2008 10 Degree Physiologically Relevant LEF [1]_
--   CIE 1951 Scotopic Standard Observer [1]_
+-   CIE 1924 Photopic Standard Observer
+-   Judd Modified CIE 1951 Photopic Standard Observer
+-   Judd-Vos Modified CIE 1978 Photopic Standard Observer
+-   CIE 1964 Photopic 10 Degree Standard Observer
+-   CIE 2008 2 Degree Physiologically Relevant LEF
+-   CIE 2008 10 Degree Physiologically Relevant LEF
+-   CIE 1951 Scotopic Standard Observer
 
 See Also
 --------
@@ -39,17 +39,17 @@ Notes
     definition and the data from
     :attr:`colour.colorimetry.dataset.lefs.MESOPIC_X_DATA`
     attribute that defines weighting factors dependent on the photopic
-    luminance :math:`L_p`. [3]_
+    luminance :math:`L_p`.
 
 References
 ----------
-.. [1]  CVRL. (n.d.). Luminous efficiency. Retrieved April 19, 2014, from
-        http://www.cvrl.org/lumindex.htm
-.. [2]  CVRL. (n.d.). Older CIE Standards. Retrieved February 24, 2014, from
-        http://cvrl.ioo.ucl.ac.uk/cie.htm
-.. [3]  Wikipedia. (n.d.). Mesopic weighting function. Retrieved June 20,
-        2014, from
-        http://en.wikipedia.org/wiki/Mesopic_vision#Mesopic_weighting_function
+-   :cite:`CVRLq` : CVRL. (n.d.). Luminous efficiency. Retrieved April 19,
+    2014, from http://www.cvrl.org/lumindex.htm
+-   :cite:`CVRLs` : CVRL. (n.d.). Older CIE Standards. Retrieved February 24,
+    2014, from http://cvrl.ioo.ucl.ac.uk/cie.htm
+-   :cite:`Wikipediacc` : Wikipedia. (n.d.). Mesopic weighting function.
+    Retrieved June 20, 2014, from http://en.wikipedia.org/wiki/\
+Mesopic_vision#Mesopic_weighting_function
 """
 
 from __future__ import division, unicode_literals
@@ -2387,6 +2387,11 @@ PHOTOPIC_LEFS = CaseInsensitiveMapping({
 PHOTOPIC_LEFS.__doc__ = """
 Photopic luminous efficiency functions.
 
+References
+----------
+-   :cite:`CVRLq`
+-   :cite:`CVRLs`
+
 PHOTOPIC_LEFS : CaseInsensitiveMapping
     **{'CIE 1924 Photopic Standard Observer',
     'Judd Modified CIE 1951 Photopic Standard Observer',
@@ -2820,6 +2825,10 @@ SCOTOPIC_LEFS = CaseInsensitiveMapping({
 SCOTOPIC_LEFS.__doc__ = """
 Scotopic luminous efficiency functions.
 
+References
+----------
+-   :cite:`CVRLs`
+
 SCOTOPIC_LEFS : CaseInsensitiveMapping
     **{'CIE 1951 Scotopic Standard Observer', }**
 
@@ -2833,6 +2842,12 @@ SCOTOPIC_LEFS['cie_1951'] = (
 LEFS = CaseInsensitiveMapping(PHOTOPIC_LEFS)
 LEFS.__doc__ = """
 Aggregated luminous efficiency functions.
+
+References
+----------
+-   :cite:`CVRLq`
+-   :cite:`CVRLs`
+-   :cite:`Wikipediacc`
 
 LEFS : CaseInsensitiveMapping
     **{'CIE 1924 Photopic Standard Observer',

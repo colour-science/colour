@@ -13,25 +13,19 @@ Defines objects for tristimulus values computation from spectral data:
 -   :func:`spectral_to_XYZ`
 -   :func:`wavelength_to_XYZ`
 
-The default implementation is based on practise *ASTM E308-15* method [2]_.
+The default implementation is based on practise *ASTM E308-15* method.
 
 References
 ----------
-.. [1]  ASTM International. (2011). ASTM E2022–11 - Standard Practice for
-        Calculation of Weighting Factors for Tristimulus Integration, i, 1–10.
-        doi:10.1520/E2022-11
-.. [2]  ASTM International. (2015). ASTM E308–15 - Standard Practice for
-        Computing the Colors of Objects by Using the CIE System, 1–47.
-        doi:10.1520/E0308-15
-
-See Also
---------
-`Colour Matching Functions Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/colorimetry/cmfs.ipynb>`_
-`Spectrum Jupyter Notebook
-<http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
-blob/master/notebooks/colorimetry/spectrum.ipynb>`_
+-   :cite:`ASTMInternational2011a` : ASTM International. (2011). ASTM E2022-11
+    - Standard Practice for Calculation of Weighting Factors for Tristimulus
+    Integration. doi:10.1520/E2022-11
+-   :cite:`ASTMInternational2015b` : ASTM International. (2015). ASTM E308-15 -
+    Standard Practice for Computing the Colors of Objects by Using the CIE
+    System. doi:10.1520/E0308-15
+-   :cite:`Wyszecki2000bf` : Wyszecki, G., & Stiles, W. S. (2000). Integration
+    Replaced by Summation. In Color Science: Concepts and Methods, Quantitative
+    Data and Formulae (pp. 158–163). Wiley. ISBN:978-0471399186
 """
 
 from __future__ import division, unicode_literals
@@ -65,6 +59,10 @@ ASTME30815_PRACTISE_SHAPE = DEFAULT_SPECTRAL_SHAPE
 ASTME30815_PRACTISE_SHAPE.__doc__ = """
 Shape for *ASTM E308-15* practise: (360, 780, 1).
 
+References
+----------
+-   :cite:`ASTMInternational2015b`
+
 ASTME30815_PRACTISE_SHAPE : SpectralShape
 """
 
@@ -76,7 +74,7 @@ _TRISTIMULUS_WEIGHTING_FACTORS_CACHE = None
 def lagrange_coefficients_ASTME202211(interval=10, interval_type='inner'):
     """
     Computes the *Lagrange Coefficients* for given interval size using practise
-    *ASTM E2022-11* method [1]_.
+    *ASTM E2022-11* method.
 
     Parameters
     ----------
@@ -91,6 +89,10 @@ def lagrange_coefficients_ASTME202211(interval=10, interval_type='inner'):
     -------
     ndarray
         *Lagrange Coefficients*.
+
+    References
+    ----------
+    -   :cite:`ASTMInternational2011a`
 
     Examples
     --------
@@ -141,7 +143,7 @@ def lagrange_coefficients_ASTME202211(interval=10, interval_type='inner'):
 def tristimulus_weighting_factors_ASTME202211(cmfs, illuminant, shape):
     """
     Returns a table of tristimulus weighting factors for given colour matching
-    functions and illuminant using practise *ASTM E2022-11* method [1]_.
+    functions and illuminant using practise *ASTM E2022-11* method.
 
     The computed table of tristimulus weighting factors should be used with
     spectral data that has been corrected for spectral bandpass dependence.
@@ -186,6 +188,10 @@ def tristimulus_weighting_factors_ASTME202211(cmfs, illuminant, shape):
         interpolating functions having a uniformly spaced independent variable
         and a *Cubic Spline* method for non-uniformly spaced independent
         variable.
+
+    References
+    ----------
+    -   :cite:`ASTMInternational2011a`
 
     Examples
     --------
@@ -299,7 +305,7 @@ def adjust_tristimulus_weighting_factors_ASTME30815(W, shape_r, shape_t):
     """
     Adjusts given table of tristimulus weighting factors to account for a
     shorter wavelengths range of the test spectral shape compared to the
-    reference spectral shape using practise  *ASTM E308-15* method [2]_:
+    reference spectral shape using practise  *ASTM E308-15* method:
     Weights at the wavelengths for which data are not available are added to
     the weights at the shortest and longest wavelength for which spectral data
     are available.
@@ -317,6 +323,10 @@ def adjust_tristimulus_weighting_factors_ASTME30815(W, shape_r, shape_t):
     -------
     ndarray
         Adjusted tristimulus weighting factors.
+
+    References
+    ----------
+    -   :cite:`ASTMInternational2015b`
 
     Examples
     --------
@@ -398,9 +408,7 @@ def spectral_to_XYZ_integration(
 
     References
     ----------
-    .. [3]  Wyszecki, G., & Stiles, W. S. (2000). Integration Replace by
-            Summation. In Color Science: Concepts and Methods, Quantitative
-            Data and Formulae (pp. 158–163). Wiley. ISBN:978-0471399186
+    -   :cite:`Wyszecki2000bf`
 
     Examples
     --------
@@ -466,7 +474,7 @@ def spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
     Converts given spectral power distribution to *CIE XYZ* tristimulus values
     using given colour matching functions and illuminant using a table
     of tristimulus weighting factors according to practise
-    *ASTM E308-15* method [2]_.
+    *ASTM E308-15* method.
 
     Parameters
     ----------
@@ -489,6 +497,10 @@ def spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
     Notes
     -----
     -   Output *CIE XYZ* tristimulus values are in range [0, 100].
+
+    References
+    ----------
+    -   :cite:`ASTMInternational2015b`
 
     Examples
     --------
@@ -555,7 +567,7 @@ def spectral_to_XYZ_ASTME30815(
     """
     Converts given spectral power distribution to *CIE XYZ* tristimulus values
     using given colour matching functions and illuminant according to
-    practise *ASTM E308-15* method [2]_.
+    practise *ASTM E308-15* method.
 
     Parameters
     ----------
@@ -598,6 +610,10 @@ def spectral_to_XYZ_ASTME30815(
     Notes
     -----
     -   Output *CIE XYZ* tristimulus values are in range [0, 100].
+
+    References
+    ----------
+    -   :cite:`ASTMInternational2015b`
 
     Examples
     --------
@@ -688,6 +704,12 @@ SPECTRAL_TO_XYZ_METHODS.__doc__ = """
 Supported spectral power distribution to *CIE XYZ* tristimulus values
 conversion methods
 
+References
+----------
+-   :cite:`ASTMInternational2011a`
+-   :cite:`ASTMInternational2015b`
+-   :cite:`Wyszecki2000bf`
+
 SPECTRAL_TO_XYZ_METHODS : CaseInsensitiveMapping
     **{'ASTM E308-15', 'Integration'}**
 
@@ -750,6 +772,12 @@ def spectral_to_XYZ(
     Notes
     -----
     -   Output *CIE XYZ* tristimulus values are in range [0, 100].
+
+    References
+    ----------
+    -   :cite:`ASTMInternational2011a`
+    -   :cite:`ASTMInternational2015b`
+    -   :cite:`Wyszecki2000bf`
 
     Examples
     --------

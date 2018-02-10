@@ -22,9 +22,13 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  Society of Motion Picture and Television Engineers. (1993). Derivation
-        of Basic Television Color Equations. In RP 177:1993
-        (Vol. RP 177:199, pp. 1–4). doi:10.5594/S9781614821915
+-   :cite:`SocietyofMotionPictureandTelevisionEngineers1993a` : Society of
+    Motion Picture and Television Engineers. (1993). RP 177:1993 : Derivation
+    of Basic Television Color Equations. RP 177:1993 (Vol. RP 177:199). The
+    Society of Motion Picture and Television Engineers.
+    doi:10.5594/S9781614821915
+-   :cite:`Trieu2015a` : Trieu, T. (2015). Private Discussion with
+    Mansencal, T.
 """
 
 from __future__ import division, unicode_literals
@@ -91,6 +95,10 @@ def normalised_primary_matrix(primaries, whitepoint):
     -------
     ndarray, (3, 3)
         *Normalised primary matrix*.
+
+    References
+    ----------
+    -   :cite:`SocietyofMotionPictureandTelevisionEngineers1993a`
 
     Examples
     --------
@@ -188,7 +196,7 @@ def primaries_whitepoint(npm):
 
     References
     ----------
-    .. [2]  Trieu, T. (2015). Private Discussion with Mansencal, T.
+    -   :cite:`Trieu2015a`
 
     Examples
     --------

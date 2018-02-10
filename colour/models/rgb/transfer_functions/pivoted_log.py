@@ -17,8 +17,8 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  Sony Imageworks. (2012). make.py. Retrieved November 27, 2014, from
-        https://github.com/imageworks/OpenColorIO-Configs/\
+-   :cite:`SonyImageworks2012a` : Sony Imageworks. (2012). make.py. Retrieved
+    November 27, 2014, from https://github.com/imageworks/OpenColorIO-Configs/\
 blob/master/nuke-default/make.py
 """
 
@@ -63,6 +63,10 @@ def log_encoding_PivotedLog(x,
     numeric or ndarray
         Non-linear data :math:`y`.
 
+    References
+    ----------
+    -   :cite:`SonyImageworks2012a`
+
     Examples
     --------
     >>> log_encoding_PivotedLog(0.18)  # doctest: +ELLIPSIS
@@ -101,6 +105,10 @@ def log_decoding_PivotedLog(y,
     -------
     numeric or ndarray
         Linear data :math:`x`.
+
+    References
+    ----------
+    -   :cite:`SonyImageworks2012a`
 
     Examples
     --------

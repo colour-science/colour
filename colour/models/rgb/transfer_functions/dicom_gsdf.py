@@ -26,10 +26,10 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  National Electrical Manufacturers Association. (2004). Digital Imaging
-        and Communications in Medicine ( DICOM ) Part 14 :
-        Grayscale Standard Display Function. Medicine, 10(S1), 3–4.
-        doi:10.1007/BF03168637
+-   :cite:`NationalElectricalManufacturersAssociation2004b` : National
+    Electrical Manufacturers Association. (2004). Digital Imaging and
+    Communications in Medicine (DICOM) Part 14: Grayscale Standard Display
+    Function. Retrieved from http://medical.nema.org/dicom/2004/04_14PU.PDF
 """
 
 from __future__ import division, unicode_literals
@@ -89,6 +89,10 @@ def oetf_DICOMGSDF(L):
     numeric or ndarray
         Just-Noticeable Difference (JND) Index, :math:`j` in domain 1 to 1023.
 
+    References
+    ----------
+    -   :cite:`NationalElectricalManufacturersAssociation2004b`
+
     Examples
     --------
     >>> oetf_DICOMGSDF(130.065284012159790)  # doctest: +ELLIPSIS
@@ -129,6 +133,10 @@ def eotf_DICOMGSDF(J):
     -------
     numeric or ndarray
         Corresponding *luminance* :math:`L`.
+
+    References
+    ----------
+    -   :cite:`NationalElectricalManufacturersAssociation2004b`
 
     Examples
     --------

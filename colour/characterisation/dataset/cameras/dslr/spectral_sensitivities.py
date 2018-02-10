@@ -27,10 +27,10 @@ blob/master/notebooks/characterisation/cameras.ipynb>`_
 
 References
 ----------
-.. [1]  Darrodi, M. M., Finlayson, G., Goodman, T., & Mackiewicz, M. (2015).
-        Reference data set for camera spectral sensitivity estimation.
-        Journal of the Optical Society of America A, 32(3), 381.
-        doi:10.1364/JOSAA.32.000381
+-   :cite:`Darrodi2015a` : Darrodi, M. M., Finlayson, G., Goodman, T., &
+    Mackiewicz, M. (2015). Reference data set for camera spectral sensitivity
+    estimation. Journal of the Optical Society of America A, 32(3), 381.
+    doi:10.1364/JOSAA.32.000381
 """
 
 from __future__ import division, unicode_literals
@@ -511,6 +511,10 @@ DSLR_CAMERAS_RGB_SPECTRAL_SENSITIVITIES = CaseInsensitiveMapping({
 })
 """
 *DSLR* cameras *RGB* spectral sensitivities.
+
+References
+----------
+-   :cite:`Darrodi2015a`
 
 DSLR_CAMERAS_RGB_SPECTRAL_SENSITIVITIES : CaseInsensitiveMapping
     **{Nikon 5100 (NPL), Sigma SDMerill (NPL)}**

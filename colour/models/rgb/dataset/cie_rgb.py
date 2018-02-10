@@ -16,11 +16,10 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  Fairman, H. S., Brill, M. H., & Hemmendinger, H. (1997). How the CIE
-        1931 color-matching functions were derived from Wright-Guild data.
-        Color Research & …, 22(1), 11–23. Retrieved from
-        http://doi.wiley.com/10.1002/%28SICI%291520-6378%28199702%2922%3A1\
-%3C11%3A%3AAID-COL4%3E3.0.CO%3B2-7
+-   :cite:`Fairman1997` : Fairman, H. S., Brill, M. H., & Hemmendinger,
+    H. (1997). How the CIE 1931 color-matching functions were derived from
+    Wright-Guild data. Color Research & Application, 22(1), 11–23.
+    doi:10.1002/(SICI)1520-6378(199702)22:1<11::AID-COL4>3.0.CO;2-7
 """
 
 from __future__ import division, unicode_literals
@@ -104,6 +103,10 @@ CIE_RGB_COLOURSPACE = RGB_Colourspace(
     partial(function_gamma, exponent=2.2))  # yapf: disable
 CIE_RGB_COLOURSPACE.__doc__ = """
 *CIE RGB* colourspace.
+
+References
+----------
+-   :cite:`Fairman1997`
 
 CIE_RGB_COLOURSPACE : RGB_Colourspace
 """

@@ -16,11 +16,11 @@ blob/master/notebooks/adaptation/fairchild1990.ipynb>`_
 
 References
 ----------
-.. [1]  Fairchild, M. D. (1991). Formulation and testing of an
-        incomplete-chromatic-adaptation model. Color Research & Application,
-        16(4), 243–250. doi:10.1002/col.5080160406
-.. [2]  Fairchild, M. D. (2013). FAIRCHILD’S 1990 MODEL. In Color Appearance
-        Models (3rd ed., pp. 4418–4495). Wiley. ISBN:B00DAYO8E2
+-   :cite:`Fairchild1991a` : Fairchild, M. D. (1991). Formulation and testing
+    of an incomplete-chromatic-adaptation model. Color Research & Application,
+    16(4), 243–250. doi:10.1002/col.5080160406
+-   :cite:`Fairchild2013s` : Fairchild, M. D. (2013). FAIRCHILD'S 1990 MODEL.
+    In Color Appearance Models (3rd ed., pp. 4418–4495). Wiley. ISBN:B00DAYO8E2
 """
 
 from __future__ import division, unicode_literals
@@ -99,6 +99,11 @@ def chromatic_adaptation_Fairchild1990(XYZ_1,
     -   Input *CIE XYZ_1*, *CIE XYZ_n* and *CIE XYZ_r* tristimulus values are
         in domain [0, 100].
     -   Output *CIE XYZ_2* tristimulus values are in range [0, 100].
+
+    References
+    ----------
+    -   :cite:`Fairchild1991a`
+    -   :cite:`Fairchild2013s`
 
     Examples
     --------

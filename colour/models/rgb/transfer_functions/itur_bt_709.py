@@ -18,10 +18,11 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  International Telecommunication Union. (2015). Recommendation
-        ITU-R BT.709-6 - Parameter values for the HDTV standards for production
-        and international programme exchange BT Series Broadcasting service.
-        Retrieved from https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
+-   :cite:`InternationalTelecommunicationUnion2015i` : International
+    Telecommunication Union. (2015). Recommendation ITU-R BT.709-6 - Parameter
+    values for the HDTV standards for production and international programme
+    exchange BT Series Broadcasting service. Retrieved from
+    https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
 R-REC-BT.709-6-201506-I!!PDF-E.pdf
 """
 
@@ -54,6 +55,10 @@ def oetf_BT709(L):
     numeric or ndarray
         Corresponding electrical signal :math:`V`.
 
+    References
+    ----------
+    -   :cite:`InternationalTelecommunicationUnion2015i`
+
     Examples
     --------
     >>> oetf_BT709(0.18)  # doctest: +ELLIPSIS
@@ -77,6 +82,10 @@ def oetf_reverse_BT709(V):
     -------
     numeric or ndarray
         Corresponding *luminance* :math:`L` of the image.
+
+    References
+    ----------
+    -   :cite:`InternationalTelecommunicationUnion2015i`
 
     Examples
     --------

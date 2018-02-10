@@ -16,10 +16,10 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  International Telecommunication Union. (1998). Recommendation ITU-R
-        BT.470-6 - CONVENTIONAL TELEVISION SYSTEMS. Retrieved from
-        http://www.itu.int/dms_pubrec/itu-r/rec/bt/\
-R-REC-BT.470-6-199811-S!!PDF-E.pdf
+-   :cite:`InternationalTelecommunicationUnion1998a` : International
+    Telecommunication Union. (1998). Recommendation ITU-R BT.470-6 -
+    CONVENTIONAL TELEVISION SYSTEMS. Retrieved from http://www.itu.int/\
+dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -88,6 +88,10 @@ PAL_SECAM_COLOURSPACE = RGB_Colourspace(
     BT470_625_COLOURSPACE.decoding_cctf)  # yapf: disable
 PAL_SECAM_COLOURSPACE.__doc__ = """
 *Pal/Secam* colourspace.
+
+References
+----------
+-   :cite:`InternationalTelecommunicationUnion1998a`
 
 PAL_SECAM_COLOURSPACE : RGB_Colourspace
 """

@@ -28,8 +28,31 @@ blob/master/notebooks/colorimetry/lightness.ipynb>`_
 
 References
 ----------
-.. [1]  Wikipedia. (n.d.). Lightness. Retrieved April 13, 2014, from
-        http://en.wikipedia.org/wiki/Lightness
+-   :cite:`Fairchild2010` : Fairchild, M. D., & Wyble, D. R. (2010).
+    hdr-CIELAB and hdr-IPT: Simple Models for Describing the Color of
+    High-Dynamic-Range and Wide-Color-Gamut Images. In Proc. of Color and
+    Imaging Conference (pp. 322–326). ISBN:9781629932156
+-   :cite:`Fairchild2011` : Fairchild, M. D., & Chen, P. (2011). Brightness,
+    lightness, and specifying color in high-dynamic-range scenes and images.
+    In S. P. Farnand & F. Gaykema (Eds.), Proc. SPIE 7867, Image Quality and
+    System Performance VIII (p. 78670O). doi:10.1117/12.872075
+-   :cite:`Glasser1958a` : Glasser, L. G., McKinney, A. H., Reilly, C. D., &
+    Schnelle, P. D. (1958). Cube-Root Color Coordinate System. Journal of the
+    Optical Society of America, 48(10), 736. doi:10.1364/JOSA.48.000736
+-   :cite:`Lindbloom2003d` : Lindbloom, B. (2003). A Continuity Study of the
+    CIE L* Function. Retrieved February 24, 2014, from
+    http://brucelindbloom.com/LContinuity.html
+-   :cite:`Wikipediabs` : Nayatani, Y., Sobagaki, H., & Yano, K. H. T. (1995).
+    Lightness dependency of chroma scales of a nonlinear color-appearance model
+    and its latest formulation. Color Research & Application, 20(3), 156–167.
+    doi:10.1002/col.5080200305
+-   :cite:`Wyszecki1963b` : Wyszecki, G. (1963). Proposal for a New
+    Color-Difference Formula. Journal of the Optical Society of America,
+    53(11), 1318. doi:10.1364/JOSA.53.001318
+-   :cite:`Wyszecki2000bd` : Wyszecki, G., & Stiles, W. S. (2000). CIE 1976
+    (L*u*v*)-Space and Color-Difference Formula. In Color Science: Concepts and
+    Methods, Quantitative Data and Formulae (p. 167). Wiley.
+    ISBN:978-0471399186
 """
 
 from __future__ import division, unicode_literals
@@ -77,9 +100,7 @@ def lightness_Glasser1958(Y):
 
     References
     ----------
-    .. [2]  Glasser, L. G., McKinney, A. H., Reilly, C. D., & Schnelle, P. D.
-            (1958). Cube-Root Color Coordinate System. J. Opt. Soc. Am.,
-            48(10), 736–740. doi:10.1364/JOSA.48.000736
+    -   :cite:`Glasser1958a`
 
     Examples
     --------
@@ -117,8 +138,7 @@ def lightness_Wyszecki1963(Y):
 
     References
     ----------
-    .. [3]  Wyszecki, G. (1963). Proposal for a New Color-Difference Formula.
-            J. Opt. Soc. Am., 53(11), 1318–1319. doi:10.1364/JOSA.53.001318
+    -   :cite:`Wyszecki1963b`
 
     Examples
     --------
@@ -162,12 +182,8 @@ def lightness_CIE1976(Y, Y_n=100):
 
     References
     ----------
-    .. [4]  Wyszecki, G., & Stiles, W. S. (2000). CIE 1976 (L*u*v*)-Space and
-            Color-Difference Formula. In Color Science: Concepts and Methods,
-            Quantitative Data and Formulae (p. 167). Wiley. ISBN:978-0471399186
-    .. [5]  Lindbloom, B. (2003). A Continuity Study of the CIE L* Function.
-            Retrieved February 24, 2014, from
-            http://brucelindbloom.com/LContinuity.html
+    -   :cite:`Lindbloom2003d`
+    -   :cite:`Wyszecki2000bd`
 
     Examples
     --------
@@ -214,10 +230,7 @@ def lightness_Fairchild2010(Y, epsilon=1.836):
 
     References
     ----------
-    .. [6]  Fairchild, M. D., & Wyble, D. R. (2010). hdr-CIELAB and hdr-IPT:
-            Simple Models for Describing the Color of High-Dynamic-Range and
-            Wide-Color-Gamut Images. In Proc. of Color and Imaging Conference
-            (pp. 322–326). ISBN:9781629932156
+    -   :cite:`Fairchild2010`
 
     Examples
     --------
@@ -266,9 +279,7 @@ def lightness_Fairchild2011(Y, epsilon=0.710, method='hdr-CIELAB'):
 
     References
     ----------
-    .. [7]  Fairchild, M. D., & Chen, P. (2011). Brightness, Lightness, and
-            Specifying Color in High-Dynamic-Range Scenes and Images.
-            doi:10.1117/12.872075
+    -   :cite:`Fairchild2011`
 
     Examples
     --------
@@ -301,6 +312,15 @@ LIGHTNESS_METHODS = CaseInsensitiveMapping({
 })
 LIGHTNESS_METHODS.__doc__ = """
 Supported *Lightness* computations methods.
+
+References
+----------
+-   :cite:`Fairchild2010`
+-   :cite:`Fairchild2011`
+-   :cite:`Glasser1958a`
+-   :cite:`Lindbloom2003d`
+-   :cite:`Wyszecki1963b`
+-   :cite:`Wyszecki2000bd`
 
 LIGHTNESS_METHODS : CaseInsensitiveMapping
     **{'Glasser 1958', 'Wyszecki 1963', 'CIE 1976', 'Fairchild 2010',
@@ -345,6 +365,16 @@ def lightness(Y, method='CIE 1976', **kwargs):
     -   Input *luminance* :math:`Y` and optional :math:`Y_n` are in domain
         [0, 100] or [0, :math:`\infty`].
     -   Output *Lightness* :math:`L` is in range [0, 100].
+
+    References
+    ----------
+    -   :cite:`Fairchild2010`
+    -   :cite:`Fairchild2011`
+    -   :cite:`Glasser1958a`
+    -   :cite:`Lindbloom2003d`
+    -   :cite:`Wikipediabs`
+    -   :cite:`Wyszecki1963b`
+    -   :cite:`Wyszecki2000bd`
 
     Examples
     --------

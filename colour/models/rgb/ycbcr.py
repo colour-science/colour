@@ -23,28 +23,31 @@ blob/master/notebooks/models/ycbcr.ipynb>`_
 
 References
 ----------
-.. [1]  Wikipedia. (n.d.). YCbCr. Retrieved February 29, 2016, from
-        https://en.wikipedia.org/wiki/YCbCr
-.. [2]  International Telecommunication Union. (2015). Recommendation
-        ITU-R BT.709-6 - Parameter values for the HDTV standards for production
-        and international programme exchange BT Series Broadcasting service.
-        Retrieved from https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
-R-REC-BT.709-6-201506-I!!PDF-E.pdf
-.. [3]  International Telecommunication Union. (2015). Recommendation
-        ITU-R BT.2020 - Parameter values for ultra-high definition television
-        systems for production and international programme exchange (Vol. 1).
-        Retrieved from https://www.itu.int/dms_pubrec/\
-itu-r/rec/bt/R-REC-BT.2020-2-201510-I!!PDF-E.pdf
-.. [4]  Society of Motion Picture and Television Engineers. (1999).
-        ANSI/SMPTE 240M-1995 - Signal Parameters - 1125-Line High-Definition
-        Production Systems, 1–7. Retrieved from
-        http://car.france3.mars.free.fr/\
-HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/s240m.pdf
-.. [5]  International Telecommunication Union. (2011). Recommendation ITU-T
-        T.871 - Information technology – Digital compression and coding of
-        continuous-tone still images: JPEG File Interchange Format (JFIF).
-        Retrieved from https://www.itu.int/rec/dologin_pub.asp?lang=e&\
+-   :cite:`InternationalTelecommunicationUnion2011e` : International
+    Telecommunication Union. (2011). Recommendation ITU-T T.871 - Information
+    technology – Digital compression and coding of continuous-tone still
+    images: JPEG File Interchange Format (JFIF). Retrieved from
+    https://www.itu.int/rec/dologin_pub.asp?lang=e&\
 id=T-REC-T.871-201105-I!!PDF-E&type=items
+-   :cite:`InternationalTelecommunicationUnion2015h` : International
+    Telecommunication Union. (2015). Recommendation ITU-R BT.2020 - Parameter
+    values for ultra-high definition television systems for production and
+    international programme exchange. Retrieved from
+    https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
+R-REC-BT.2020-2-201510-I!!PDF-E.pdf
+-   :cite:`InternationalTelecommunicationUnion2015i` : International
+    Telecommunication Union. (2015). Recommendation ITU-R BT.709-6 - Parameter
+    values for the HDTV standards for production and international programme
+    exchange BT Series Broadcasting service. Retrieved from
+    https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
+R-REC-BT.709-6-201506-I!!PDF-E.pdf
+-   :cite:`SocietyofMotionPictureandTelevisionEngineers1999b` : Society of
+    Motion Picture and Television Engineers. (1999). ANSI/SMPTE 240M-1995 -
+    Signal Parameters - 1125-Line High-Definition Production Systems. Retrieved
+    from http://car.france3.mars.free.fr/HD/INA- 26 jan 06/\
+SMPTE normes et confs/s240m.pdf
+-   :cite:`Wikipediaca` : Wikipedia. (n.d.). YCbCr. Retrieved February 29,
+    2016, from https://en.wikipedia.org/wiki/YCbCr
 """
 
 from __future__ import division, unicode_literals
@@ -76,6 +79,14 @@ YCBCR_WEIGHTS = CaseInsensitiveMapping({
 })
 """
 Luma weightings presets.
+
+References
+----------
+-   :cite:`InternationalTelecommunicationUnion2011e`
+-   :cite:`InternationalTelecommunicationUnion2015i`
+-   :cite:`InternationalTelecommunicationUnion2015h`
+-   :cite:`SocietyofMotionPictureandTelevisionEngineers1999b`
+-   :cite:`Wikipediaca`
 
 YCBCR_WEIGHTS : dict
     **{'ITU-R BT.601', 'ITU-R BT.709', 'ITU-R BT.2020', 'SMPTE-240M}**
@@ -195,7 +206,7 @@ def RGB_to_YCbCr(RGB,
     For *Recommendation ITU-R BT.2020*, :func:`RGB_to_YCbCr` definition is only
     applicable to the non-constant luminance implementation.
     :func:`RGB_to_YcCbcCrc` definition should be used for the constant
-    luminance case as per [3]_.
+    luminance case as per :cite:`InternationalTelecommunicationUnion2015h`.
 
     Notes
     -----
@@ -207,6 +218,13 @@ def RGB_to_YCbCr(RGB,
         [16 / 255, 240./255]. The float values are calculated based on an
         [0, 255] integer range, but no 8-bit quantisation or clamping are
         performed.
+
+    References
+    ----------
+    -   :cite:`InternationalTelecommunicationUnion2011e`
+    -   :cite:`InternationalTelecommunicationUnion2015i`
+    -   :cite:`SocietyofMotionPictureandTelevisionEngineers1999b`
+    -   :cite:`Wikipediaca`
 
     Examples
     --------
@@ -232,7 +250,8 @@ def RGB_to_YCbCr(RGB,
     >>> RGB_to_YCbCr(RGB, out_legal=True, out_bits=10, out_int=True)
     array([940, 512, 512])
 
-    For JFIF JPEG conversion as per ITU-T T.871 [5]_:
+    For JFIF JPEG conversion as per ITU-T T.871
+    :cite:`InternationalTelecommunicationUnion2011e`:
 
     >>> RGB = np.array([102, 0, 51])
     >>> RGB_to_YCbCr(RGB, K=YCBCR_WEIGHTS['ITU-R BT.601'], in_range=(0, 255),
@@ -346,7 +365,14 @@ def YCbCr_to_RGB(YCbCr,
     For *Recommendation ITU-R BT.2020*, :func:`YCbCr_to_RGB`
     definition is only applicable to the non-constant luminance implementation.
     :func:`YcCbcCrc_to_RGB` definition should be used for the constant
-    luminance case as per [3]_.
+    luminance case as per :cite:`InternationalTelecommunicationUnion2015h`.
+
+    References
+    ----------
+    -   :cite:`InternationalTelecommunicationUnion2011e`
+    -   :cite:`InternationalTelecommunicationUnion2015i`
+    -   :cite:`SocietyofMotionPictureandTelevisionEngineers1999b`
+    -   :cite:`Wikipediaca`
 
     Examples
     --------
@@ -426,8 +452,13 @@ def RGB_to_YcCbcCrc(RGB,
     Warning
     -------
     This definition is specifically for usage with
-    *Recommendation ITU-R BT.2020* [3]_ when adopting the constant luminance
+    *Recommendation ITU-R BT.2020* when adopting the constant luminance
     implementation.
+
+    References
+    ----------
+    -   :cite:`InternationalTelecommunicationUnion2015h`
+    -   :cite:`Wikipediaca`
 
     Examples
     --------
@@ -505,8 +536,13 @@ def YcCbcCrc_to_RGB(YcCbcCrc,
     Warning
     -------
     This definition is specifically for usage with
-    *Recommendation ITU-R BT.2020* [3]_ when adopting the constant luminance
+    *Recommendation ITU-R BT.2020* when adopting the constant luminance
     implementation.
+
+    References
+    ----------
+    -   :cite:`InternationalTelecommunicationUnion2015h`
+    -   :cite:`Wikipediaca`
 
     Examples
     --------

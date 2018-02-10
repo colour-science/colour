@@ -17,12 +17,13 @@ blob/master/notebooks/appearance/nayatani95.ipynb>`_
 
 References
 ----------
-.. [1]  Fairchild, M. D. (2013). The Nayatani et al. Model. In Color
-        Appearance Models (3rd ed., pp. 4810–5085). Wiley. ISBN:B00DAYO8E2
-.. [2]  Nayatani, Y., Sobagaki, H., & Yano, K. H. T. (1995). Lightness
-        dependency of chroma scales of a nonlinear color-appearance model and
-        its latest formulation. Color Research & Application, 20(3), 156–167.
-        doi:10.1002/col.5080200305
+-   :cite:`Fairchild2013ba` : Fairchild, M. D. (2013). The Nayatani et al.
+    Model. In Color Appearance Models (3rd ed., pp. 4810–5085). Wiley.
+    ISBN:B00DAYO8E2
+-   :cite:`Nayatani1995a` : Nayatani, Y., Sobagaki, H., & Yano, K. H. T.
+    (1995). Lightness dependency of chroma scales of a nonlinear
+    color-appearance model and its latest formulation. Color Research &
+    Application, 20(3), 156–167. doi:10.1002/col.5080200305
 """
 
 from __future__ import division, unicode_literals
@@ -96,6 +97,11 @@ class Nayatani95_ReferenceSpecification(
         *Hue* :math:`h` composition :math:`H_C`.
     Lstar_N : numeric or array_like
         Correlate of *normalised achromatic Lightness* :math:`L_n^\star`.
+
+    References
+    ----------
+    -   :cite:`Fairchild2013ba`
+    -   :cite:`Nayatani1995a`
     """
 
 
@@ -133,6 +139,11 @@ class Nayatani95_Specification(
     Notes
     -----
     -   This specification is the one used in the current model implementation.
+
+    References
+    ----------
+    -   :cite:`Fairchild2013ba`
+    -   :cite:`Nayatani1995a`
     """
 
 
@@ -171,6 +182,11 @@ def XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or, n=1):
     -----
     -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
     -   Input *CIE XYZ_n* tristimulus values are in domain [0, 100].
+
+    References
+    ----------
+    -   :cite:`Fairchild2013ba`
+    -   :cite:`Nayatani1995a`
 
     Examples
     --------

@@ -16,8 +16,8 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  ARRI. (2012). ALEXA - Log C Curve - Usage in VFX. Retrieved from
-        http://www.arri.com/?eID=registration&file_uid=8026
+-   :cite:`ARRI2012a` : ARRI. (2012). ALEXA - Log C Curve - Usage in VFX.
+    Retrieved from http://www.arri.com/?eID=registration&file_uid=8026
 """
 
 from __future__ import division, unicode_literals
@@ -99,6 +99,10 @@ ALEXA_WIDE_GAMUT_COLOURSPACE = RGB_Colourspace(
     log_decoding_ALEXALogC)  # yapf: disable
 ALEXA_WIDE_GAMUT_COLOURSPACE.__doc__ = """
 *ALEXA Wide Gamut* colourspace.
+
+References
+----------
+-   :cite:`ARRI2012a`
 
 ALEXA_WIDE_GAMUT_COLOURSPACE : RGB_Colourspace
 """

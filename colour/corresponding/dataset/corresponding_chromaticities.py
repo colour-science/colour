@@ -14,10 +14,10 @@ blob/master/notebooks/corresponding/prediction.ipynb>`_
 
 References
 ----------
-.. [1]  Breneman, E. J. (1987). Corresponding chromaticities for different
-        states of adaptation to complex visual fields. Journal of the Optical
-        Society of America. A, Optics and Image Science, 4, 1115–1129.
-        doi:10.1364/JOSAA.4.001115
+-   :cite:`Breneman1987b` : Breneman, E. J. (1987). Corresponding
+    chromaticities for different states of adaptation to complex visual fields.
+    Journal of the Optical Society of America A, 4(6), 1115.
+    doi:10.1364/JOSAA.4.001115
 """
 
 from __future__ import division, unicode_literals
@@ -822,6 +822,10 @@ BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES = DocstringDict({
 BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES.__doc__ = """
 *Breneman (1987)* experiments primaries chromaticities.
 
+References
+----------
+-   :cite:`Breneman1987b`
+
 BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES : dict
 """
 
@@ -841,6 +845,10 @@ BRENEMAN_EXPERIMENTS = DocstringDict({
 })
 BRENEMAN_EXPERIMENTS.__doc__ = """
 *Breneman (1987)* experiments.
+
+References
+----------
+-   :cite:`Breneman1987b`
 
 BRENEMAN_EXPERIMENTS : dict
 """

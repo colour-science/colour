@@ -21,8 +21,9 @@ blob/master/notebooks/quality/cqs.ipynb>`_
 
 References
 ----------
-.. [1]  Ohno, Y., & Davis, W. (2008). NIST CQS simulation 7.4. Retrieved from
-        http://cie2.nist.gov/TC1-69/NIST CQS simulation 7.4.xls
+-   :cite:`Ohno2008a` : Ohno, Y., & Davis, W. (2008). NIST CQS simulation 7.4.
+    Retrieved from https://drive.google.com/file/d/\
+1PsuU6QjUJjCX6tQyCud6ul2Tbs8rYWW9/view?usp=sharing
 """
 
 from __future__ import division, unicode_literals
@@ -1488,6 +1489,10 @@ VS_SPDS = CaseInsensitiveMapping(
          for key, value in VS_SPDS_DATA.items()))
 """
 CQS test colour samples spectral power distributions.
+
+References
+----------
+-   :cite:`Ohno2008a`
 
 VS_SPDS : CaseInsensitiveMapping
 """

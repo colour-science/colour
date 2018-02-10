@@ -18,6 +18,16 @@ See Also
 `RGB Colourspaces Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/blob/\
 master/notebooks/models/rgb.ipynb>`_
+References
+----------
+-   :cite:`InternationalElectrotechnicalCommission1999a` : International
+    Electrotechnical Commission. (1999). IEC 61966-2-1:1999 - Multimedia
+    systems and equipment - Colour measurement and management - Part 2-1:
+    Colour management - Default RGB colour space - sRGB. Retrieved from
+    https://webstore.iec.ch/publication/6169
+-   :cite:`Panasonic2014a` : Panasonic. (2014). VARICAM V-Log/V-Gamut.
+    Retrieved from http://pro-av.panasonic.net/en/varicam/common/pdf/\
+VARICAM_V-Log_V-Gamut.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -54,8 +64,8 @@ class RGB_Colourspace(object):
     common to have normalised primary matrices rounded at different
     decimals. This can yield large discrepancies in computations.
 
-    Such an occurrence is the *V-Gamut* colourspace white paper [1]_, that
-    defines the *V-Gamut* to *ITU-R BT.709* conversion matrix as follows::
+    Such an occurrence is the *V-Gamut* colourspace white paper, that defines
+    the *V-Gamut* to *ITU-R BT.709* conversion matrix as follows::
 
         [[ 1.806576 -0.695697 -0.110879]
          [-0.170090  1.305955 -0.135865]
@@ -156,14 +166,8 @@ class RGB_Colourspace(object):
 
     References
     ----------
-    .. [1]  Panasonic. (2014). VARICAM V-Log/V-Gamut. Retrieved from
-            http://pro-av.panasonic.net/en/varicam/common/pdf/\
-VARICAM_V-Log_V-Gamut.pdf
-    .. [2]  International Electrotechnical Commission. (1999). IEC
-        61966-2-1:1999 - Multimedia systems and equipment - Colour measurement
-        and management - Part 2-1: Colour management - Default RGB colour
-        space - sRGB, 51. Retrieved from
-        https://webstore.iec.ch/publication/6169
+    -   :cite:`InternationalElectrotechnicalCommission1999a`
+    -   :cite:`Panasonic2014a`
 
     Examples
     --------

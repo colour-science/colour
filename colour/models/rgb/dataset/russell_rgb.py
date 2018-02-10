@@ -16,8 +16,9 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  Cottrell, R. (n.d.). The Russell RGB working color space. Retrieved
-        from http://www.russellcottrell.com/photo/downloads/RussellRGB.icc
+-   :cite:`Cottrella` : Cottrell, R. (n.d.). The Russell RGB working color
+    space. Retrieved from
+    http://www.russellcottrell.com/photo/downloads/RussellRGB.icc
 """
 
 from __future__ import division, unicode_literals
@@ -94,6 +95,10 @@ RUSSELL_RGB_COLOURSPACE = RGB_Colourspace(
     partial(function_gamma, exponent=2.2))  # yapf: disable
 RUSSELL_RGB_COLOURSPACE.__doc__ = """
 *Russell RGB* colourspace.
+
+References
+----------
+-   :cite:`Cottrella`
 
 RUSSELL_RGB_COLOURSPACE : RGB_Colourspace
 """

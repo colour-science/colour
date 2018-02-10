@@ -17,8 +17,8 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  ARRI. (2012). ALEXA - Log C Curve - Usage in VFX. Retrieved from
-        http://www.arri.com/?eID=registration&file_uid=8026
+-   :cite:`ARRI2012a` : ARRI. (2012). ALEXA - Log C Curve - Usage in VFX.
+    Retrieved from http://www.arri.com/?eID=registration&file_uid=8026
 """
 
 from __future__ import division, unicode_literals
@@ -213,6 +213,10 @@ def log_encoding_ALEXALogC(x,
     numeric or ndarray
         *ALEXA Log C* encoded data :math:`t`.
 
+    References
+    ----------
+    -   :cite:`ARRI2012a`
+
     Examples
     --------
     >>> log_encoding_ALEXALogC(0.18)  # doctest: +ELLIPSIS
@@ -253,6 +257,10 @@ def log_decoding_ALEXALogC(t,
     -------
     numeric or ndarray
         Linear data :math:`x`.
+
+    References
+    ----------
+    -   :cite:`ARRI2012a`
 
     Examples
     --------

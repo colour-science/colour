@@ -44,6 +44,16 @@ See Also
 `Light Sources Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/light_sources.ipynb>`_
+
+References
+----------
+-   :cite:`Houston2015a` : Houston, J. (2015). Private Discussion with
+    Mansencal, T.
+-   :cite:`Ohno2008a` : Ohno, Y., & Davis, W. (2008). NIST CQS simulation 7.4.
+    Retrieved from https://drive.google.com/file/d/\
+1PsuU6QjUJjCX6tQyCud6ul2Tbs8rYWW9/view?usp=sharing
+-   :cite:`Pointer1980a` : Pointer, M. R. (1980). Pointer’s Gamut Data.
+    Retrieved from http://www.cis.rit.edu/research/mcsl2/online/PointerData.xls
 """
 
 from __future__ import division, unicode_literals
@@ -782,8 +792,7 @@ light source names cannot be accurately verified.
 
 References
 ----------
-.. [1]  Pointer, M. R. (1980). Pointer's Gamut Data. Retrieved from
-        http://www.cis.rit.edu/research/mcsl2/online/PointerData.xls
+-   :cite:`Pointer1980a`
 
 LIGHT_SOURCES_RIT_RELATIVE_SPDS_DATA : CaseInsensitiveMapping
     **{'Natural', 'Philips TL-84', 'T8 Luxline Plus White', 'SA', 'SC',
@@ -1673,8 +1682,7 @@ spreadsheet.
 
 References
 ----------
-.. [2]  Ohno, Y., & Davis, W. (2008). NIST CQS simulation 7.4. Retrieved from
-        http://cie2.nist.gov/TC1-69/NIST CQS simulation 7.4.xls
+-   :cite:`Ohno2008a`
 
 LIGHT_SOURCES_NIST_TRADITIONAL_RELATIVE_SPDS : CaseInsensitiveMapping
     **{'Cool White FL', 'Daylight FL', 'HPS', 'Incandescent', 'LPS', 'Mercury',
@@ -5173,7 +5181,7 @@ Projectors and Xenon Arc Lamps.
 
 References
 ----------
-.. [3]  Houston, J. (2015). Private Discussion with Mansencal, T.
+-   :cite:`Houston2015a`
 
 LIGHT_SOURCES_PROJECTORS_RELATIVE_SPDS : CaseInsensitiveMapping
     **{'Kinoton 75P', }**

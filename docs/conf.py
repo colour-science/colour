@@ -38,7 +38,8 @@ autodoc_mock_imports = [
 extensions = [
     'sphinx.ext.autodoc', 'sphinx.ext.intersphinx', 'sphinx.ext.todo',
     'sphinx.ext.coverage', 'sphinx.ext.ifconfig', 'sphinx.ext.viewcode',
-    'sphinx.ext.autosummary', 'sphinx.ext.napoleon', 'sphinx.ext.mathjax'
+    'sphinx.ext.autosummary', 'sphinx.ext.napoleon', 'sphinx.ext.mathjax',
+    'sphinxcontrib.bibtex'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -335,39 +336,6 @@ epub_exclude_files = ['search.html']
 autoclass_content = 'both'
 
 intersphinx_mapping = {'python': ('https://docs.python.org/3.5', None)}
-
-# def _autodoc_process_docstring(app,
-#                                 what,
-#                                 name,
-#                                 obj,
-#                                 options,
-#                                 lines,
-#                                 offset=[0]):
-#     """
-#     Process the docstrings for references counting.
-#     """
-#
-#     references = []
-#     for line in lines:
-#         match = re.match('^.. \[([a-z0-9_.-])\]',
-#                          line.strip(),
-#                          re.IGNORECASE)
-#         if match:
-#             references.append(match.group(1))
-#
-#     references.sort(key=lambda x: -len(x))
-#     for i, line in enumerate(lines):
-#         for reference in references:
-#             if re.match('^\d+$', reference):
-#                 new_reference = '{0}'.format((offset[0] + int(reference)))
-#             else:
-#                 new_reference = '{0}{1}'.format(reference, offset[0])
-#             lines[i] = lines[i].replace('[{0}]_'.format(reference),
-#                                         '[{0}]_'.format(new_reference))
-#             lines[i] = lines[i].replace('.. [{0}]'.format(reference),
-#                                         '.. [{0}]'.format(new_reference))
-#
-#     offset[0] += len(references)
 
 
 def _autodoc_process_docstring(app, what, name, obj, options, lines):

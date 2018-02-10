@@ -1,5 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+"""
+References
+----------
+-   :cite:`Meng2015c` : Meng, J., Simon, F., Hanika, J., & Dachsbacher, C.
+    (2015). Physically Meaningful Rendering using Tristimulus Colours. Computer
+    Graphics Forum, 34(4), 31–40. doi:10.1111/cgf.12676
+-   :cite:`Smits1999a` : Smits, B. (1999). An RGB-to-Spectrum Conversion for
+    Reflectances. Journal of Graphics Tools, 4(4), 11–22.
+    doi:10.1080/10867651.1999.10487511
+"""
 
 from __future__ import absolute_import
 
@@ -23,6 +33,11 @@ REFLECTANCE_RECOVERY_METHODS = CaseInsensitiveMapping({
 })
 REFLECTANCE_RECOVERY_METHODS.__doc__ = """
 Supported reflectance recovery methods.
+
+References
+----------
+-   :cite:`Meng2015c`
+-   :cite:`Smits1999a`
 
 REFLECTANCE_RECOVERY_METHODS : CaseInsensitiveMapping
     **{'Meng 2015', 'Smits 1999'}**
@@ -70,6 +85,11 @@ def XYZ_to_spectral(XYZ, method='Meng 2015', **kwargs):
     -   *Smits (1999)* method will internally convert given *CIE XYZ*
         tristimulus values to *RGB* colourspace array assuming equal energy
         illuminant *E*.
+
+    References
+    ----------
+    -   :cite:`Meng2015c`
+    -   :cite:`Smits1999a`
 
     Examples
     --------

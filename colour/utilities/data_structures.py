@@ -11,6 +11,18 @@ Defines various data structures classes:
     values.
 -   :class:`CaseInsensitiveMapping`: A case insensitive mapping allowing values
     retrieving from keys while ignoring the key case.
+
+References
+----------
+-   :cite:`Mansencalc` : Mansencal, T. (n.d.). Lookup. Retrieved from
+    https://github.com/KelSolaar/Foundations/blob/develop/foundations/\
+data_structures.py
+-   :cite:`Mansencald` : Mansencal, T. (n.d.). Structure. Retrieved from
+    https://github.com/KelSolaar/Foundations/blob/develop/foundations/\
+data_structures.py
+-   :cite:`Reitza` : Reitz, K. (n.d.). CaseInsensitiveDict. Retrieved from
+    https://github.com/kennethreitz/requests/blob/v1.2.3/requests/\
+structures.py#L37
 """
 
 from __future__ import division, unicode_literals
@@ -47,9 +59,7 @@ class Structure(dict):
 
     References
     ----------
-    .. [1]  Mansencal, T. (n.d.). Structure. Retrieved from
-            https://github.com/KelSolaar/Foundations/\
-blob/develop/foundations/data_structures.py
+    -   :cite:`Mansencald`
 
     Examples
     --------
@@ -153,9 +163,7 @@ class Lookup(dict):
 
     References
     ----------
-    .. [2]  Mansencal, T. (n.d.). Lookup. Retrieved from
-            https://github.com/KelSolaar/Foundations/\
-blob/develop/foundations/data_structures.py
+    -   :cite:`Mansencalc`
 
     Examples
     --------
@@ -240,9 +248,7 @@ class CaseInsensitiveMapping(MutableMapping):
 
     References
     ----------
-    .. [3]  Reitz, K. (n.d.). CaseInsensitiveDict. Retrieved from
-            https://github.com/kennethreitz/requests/\
-blob/v1.2.3/requests/structures.py#L37
+    -   :cite:`Reitza`
 
     Examples
     --------

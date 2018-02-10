@@ -16,8 +16,8 @@ blob/master/notebooks/models/cie_uvw.ipynb>`_
 
 References
 ----------
-.. [1]  Wikipedia. (n.d.). CIE 1964 color space. Retrieved June 10, 2014, from
-        http://en.wikipedia.org/wiki/CIE_1964_color_space
+-   :cite:`Wikipediacj` : Wikipedia. (n.d.). CIE 1964 color space. Retrieved
+    June 10, 2014, from http://en.wikipedia.org/wiki/CIE_1964_color_space
 """
 
 from __future__ import division, unicode_literals
@@ -67,6 +67,10 @@ def XYZ_to_UVW(
     -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
         colourspace array are in domain [0, :math:`\infty`].
     -   Output *CIE 1964 U\*V\*W\** colourspace array is in range [0, 100].
+
+    References
+    ----------
+    -   :cite:`Wikipediacj`
 
     Examples
     --------

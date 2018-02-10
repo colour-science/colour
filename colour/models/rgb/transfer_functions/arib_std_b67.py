@@ -18,10 +18,11 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  Association of Radio Industries and Businesses. (2015). Essential
-        Parameter Values for the Extended Image Dynamic Range Television
-        (EIDRTV) System for Programme Production. Arib Std-B67. Retrieved from
-        http://www.arib.or.jp/english/html/overview/std-b67.html
+-   :cite:`AssociationofRadioIndustriesandBusinesses2015a` : Association of
+    Radio Industries and Businesses. (2015). Essential Parameter Values for the
+    Extended Image Dynamic Range Television (EIDRTV) System for Programme
+    Production. Retrieved from
+    https://www.arib.or.jp/english/std_tr/broadcasting/desc/std-b67.html
 """
 
 from __future__ import division, unicode_literals
@@ -68,6 +69,10 @@ def oetf_ARIBSTDB67(E, r=0.5):
     numeric or ndarray
         Resulting non-linear signal :math:`E'`.
 
+    References
+    ----------
+    -   :cite:`AssociationofRadioIndustriesandBusinesses2015a`
+
     Examples
     --------
     >>> oetf_ARIBSTDB67(0.18)  # doctest: +ELLIPSIS
@@ -103,6 +108,10 @@ def oetf_reverse_ARIBSTDB67(E_p, r=0.5):
         Voltage :math:`E` normalized by the reference white level and
         proportional to the implicit light intensity that would be detected
         with a reference camera color channel R, G, B.
+
+    References
+    ----------
+    -   :cite:`AssociationofRadioIndustriesandBusinesses2015a`
 
     Examples
     --------

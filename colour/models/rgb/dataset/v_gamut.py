@@ -16,8 +16,8 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  Panasonic. (2014). VARICAM V-Log/V-Gamut. Retrieved from
-        http://pro-av.panasonic.net/en/varicam/common/pdf/\
+-   :cite:`Panasonic2014a` : Panasonic. (2014). VARICAM V-Log/V-Gamut.
+    Retrieved from http://pro-av.panasonic.net/en/varicam/common/pdf/\
 VARICAM_V-Log_V-Gamut.pdf
 """
 
@@ -100,6 +100,10 @@ V_GAMUT_COLOURSPACE = RGB_Colourspace(
     log_decoding_VLog)  # yapf: disable
 V_GAMUT_COLOURSPACE.__doc__ = """
 *V-Gamut* colourspace.
+
+References
+----------
+-   :cite:`Panasonic2014a`
 
 V_GAMUT_COLOURSPACE : RGB_Colourspace
 """
