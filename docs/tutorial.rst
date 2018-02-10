@@ -80,9 +80,9 @@ The various sub-packages also expose their public API:
     import colour.plotting
 
     for sub_package in ('adaptation', 'algebra', 'appearance', 'biochemistry',
-                        'characterisation', 'colorimetry', 'continuous',
-                        'constants', 'corresponding', 'difference', 'io', 'models',
-                        'notation', 'phenomena', 'plotting', 'quality',
+                        'characterisation', 'colorimetry', 'constants',
+                        'continuous', 'corresponding', 'difference', 'io',
+                        'models', 'notation', 'phenomena', 'plotting', 'quality',
                         'recovery', 'temperature', 'utilities', 'volume'):
         print(sub_package.title())
         pprint(getattr(colour, sub_package).__all__[:5] + ['...'])
@@ -190,7 +190,7 @@ The various sub-packages also expose their public API:
      '...']
 
 
-    Phenomenons
+    Phenomena
     ['scattering_cross_section',
      'rayleigh_optical_depth',
      'rayleigh_scattering',
@@ -1104,8 +1104,8 @@ this tutorial but we can illustrate its core capability.
 
 
 
-To Tristimulus Values
----------------------
+Convert to Tristimulus Values
+-----------------------------
 
 From a given spectral power distribution, *CIE XYZ* tristimulus values
 can be calculated:
@@ -1167,8 +1167,8 @@ computations are available, cascading to even more computations:
      'XYZ_to_spectral']
 
 
-To Screen Colours
------------------
+Convert to Screen Colours
+-------------------------
 
 We can for instance converts the *CIE XYZ* tristimulus values into
 *sRGB* colourspace *RGB* values in order to display them on screen:
@@ -1197,8 +1197,8 @@ We can for instance converts the *CIE XYZ* tristimulus values into
 .. image:: _static/Tutorial_Sample_Swatch.png
 
 
-And Colour Rendition Charts
----------------------------
+Generate Colour Rendition Charts
+--------------------------------
 
 In the same way, we can compute values from a colour rendition chart
 sample.
@@ -1263,8 +1263,8 @@ figures:
 .. image:: _static/Tutorial_Colour_Checker.png
 
 
-And Chromaticity Coordinates
-----------------------------
+Convert to Chromaticity Coordinates
+-----------------------------------
 
 Given a spectral power distribution, chromaticity coordinates *xy* can
 be computed using the ``colour.XYZ_to_xy`` definition:
