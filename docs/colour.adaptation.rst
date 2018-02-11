@@ -1,6 +1,11 @@
 Chromatic Adaptation
 ====================
 
+.. contents:: :local:
+
+Chromatic Adaptation
+--------------------
+
 ``colour``
 
 .. currentmodule:: colour

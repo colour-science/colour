@@ -1,6 +1,8 @@
 Utilities
 =========
 
+.. contents:: :local:
+
 Common
 ------
 

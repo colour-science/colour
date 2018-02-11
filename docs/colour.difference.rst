@@ -1,6 +1,11 @@
 Colour Difference
 =================
 
+.. contents:: :local:
+
+Delta E
+-------
+
 ``colour``
 
 .. currentmodule:: colour

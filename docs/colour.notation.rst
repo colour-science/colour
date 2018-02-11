@@ -1,6 +1,8 @@
 Colour Notation Systems
 =======================
 
+.. contents:: :local:
+
 Munsell Renotation System
 -------------------------
 

@@ -1,6 +1,8 @@
 Colour Quality
 ==============
 
+.. contents:: :local:
+
 Colour Rendering Index
 ----------------------
 

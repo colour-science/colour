@@ -1,6 +1,8 @@
 Colour Models
 =============
 
+.. contents:: :local:
+
 Tristimulus Values, CIE xyY Colourspace and Chromaticity Coordinates
 --------------------------------------------------------------------
 

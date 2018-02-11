@@ -1,6 +1,8 @@
 Input and Output
 ================
 
+.. contents:: :local:
+
 Image Data
 ----------
 

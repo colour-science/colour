@@ -1,6 +1,8 @@
 Colour Temperature
 ==================
 
+.. contents:: :local:
+
 Correlated Colour Temperature
 -----------------------------
 

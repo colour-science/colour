@@ -1,6 +1,8 @@
 Optical Phenomena
 =================
 
+.. contents:: :local:
+
 Rayleigh Scattering
 -------------------
 

@@ -1,6 +1,8 @@
 Colorimetry
 ===========
 
+.. contents:: :local:
+
 Spectral Data Structure
 -----------------------
 

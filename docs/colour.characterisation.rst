@@ -1,6 +1,8 @@
 Colour Characterisation
 =======================
 
+.. contents:: :local:
+
 Colour Fitting
 --------------
 

@@ -1,6 +1,8 @@
 Colour Volume
 =============
 
+.. contents:: :local:
+
 Optimal Colour Stimuli - MacAdam Limits
 ---------------------------------------
 

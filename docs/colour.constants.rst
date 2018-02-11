@@ -1,6 +1,8 @@
 Constants
 =========
 
+.. contents:: :local:
+
 CIE
 ---
 

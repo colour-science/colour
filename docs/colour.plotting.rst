@@ -1,6 +1,8 @@
 Plotting
 ========
 
+.. contents:: :local:
+
 Common
 ------
 
