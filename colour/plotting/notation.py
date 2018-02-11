@@ -6,8 +6,8 @@ Colour Notation Systems Plotting
 
 Defines the colour notation systems plotting objects:
 
--   :func:`single_munsell_value_function_plot`
--   :func:`multi_munsell_value_function_plot`
+-   :func:`colour.plotting.single_munsell_value_function_plot`
+-   :func:`colour.plotting.multi_munsell_value_function_plot`
 """
 
 from __future__ import division
@@ -42,9 +42,8 @@ def single_munsell_value_function_plot(function='ASTM D1535-08', **kwargs):
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
 
     Returns
     -------
@@ -75,9 +74,8 @@ def multi_munsell_value_function_plot(functions=None, **kwargs):
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
 
     Returns
     -------

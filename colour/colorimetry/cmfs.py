@@ -7,20 +7,19 @@ Colour Matching Functions
 Defines colour matching functions classes for the dataset from
 :mod:`colour.colorimetry.dataset.cmfs` module:
 
--   :class:`LMS_ConeFundamentals`: Implements support for the
-    Stockman and Sharpe *LMS* cone fundamentals colour matching functions.
--   :class:`RGB_ColourMatchingFunctions`: Implements support for the *CIE RGB*
-    colour matching functions.
--   :class:`XYZ_ColourMatchingFunctions`: Implements support for the *CIE*
-    Standard Observers *XYZ* colour matching functions.
+-   :class:`colour.colorimetry.LMS_ConeFundamentals`: Implements support for
+    the *Stockman and Sharpe* *LMS* cone fundamentals colour matching
+    functions.
+-   :class:`colour.colorimetry.RGB_ColourMatchingFunctions`: Implements support
+    for the *CIE RGB* colour matching functions.
+-   :class:`colour.colorimetry.XYZ_ColourMatchingFunctions`: Implements support
+    for the *CIE Standard Observers* *XYZ* colour matching functions.
 
 See Also
 --------
 `Colour Matching Functions Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/cmfs.ipynb>`_
-colour.colorimetry.dataset.cmfs,
-colour.colorimetry.spectrum.MultiSpectralPowerDistribution
 """
 
 from __future__ import division, unicode_literals
@@ -51,12 +50,14 @@ class LMS_ConeFundamentals(MultiSpectralPowerDistribution):
 MultiSpectralPowerDistribution or array_like or dict_like, optional
         Data to be stored in the multi-spectral power distribution.
     domain : array_like, optional
-        Values to initialise the multiple :class:`SpectralPowerDistribution`
-        class instances :attr:`Signal.wavelengths` attribute with. If both
-        ``data`` and ``domain`` arguments are defined, the latter with be used
-        to initialise the :attr:`Signal.wavelengths` attribute.
+        Values to initialise the multiple
+        :class:`colour.SpectralPowerDistribution` class instances
+        :attr:`colour.continuous.Signal.wavelengths` attribute with. If both
+        ``data`` and ``domain`` arguments are defined, the latter will be used
+        to initialise the :attr:`colour.continuous.Signal.wavelengths`
+        attribute.
     labels : array_like, optional
-        Names to use for the :class:`SpectralPowerDistribution` class
+        Names to use for the :class:`colour.SpectralPowerDistribution` class
         instances.
 
     Other Parameters
@@ -65,19 +66,19 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
        Multi-spectral power distribution name.
     interpolator : object, optional
         Interpolator class type to use as interpolating function for the
-        :class:`SpectralPowerDistribution` class instances.
+        :class:`colour.SpectralPowerDistribution` class instances.
     interpolator_args : dict_like, optional
         Arguments to use when instantiating the interpolating function
-        of the :class:`SpectralPowerDistribution` class instances.
+        of the :class:`colour.SpectralPowerDistribution` class instances.
     extrapolator : object, optional
         Extrapolator class type to use as extrapolating function for the
-        :class:`SpectralPowerDistribution` class instances.
+        :class:`colour.SpectralPowerDistribution` class instances.
     extrapolator_args : dict_like, optional
         Arguments to use when instantiating the extrapolating function
-        of the :class:`SpectralPowerDistribution` class instances.
+        of the :class:`colour.SpectralPowerDistribution` class instances.
     strict_labels : array_like, optional
         Multi-spectral power distribution labels for figures, default to
-        :attr:`LMS_ConeFundamentals.labels` attribute value.
+        :attr:`colour.colorimetry.LMS_ConeFundamentals.labels` attribute value.
     """
 
     def __init__(self, data=None, domain=None, labels=None, **kwargs):
@@ -99,12 +100,14 @@ class RGB_ColourMatchingFunctions(MultiSpectralPowerDistribution):
 MultiSpectralPowerDistribution or array_like or dict_like, optional
         Data to be stored in the multi-spectral power distribution.
     domain : array_like, optional
-        Values to initialise the multiple :class:`SpectralPowerDistribution`
-        class instances :attr:`Signal.wavelengths` attribute with. If both
-        ``data`` and ``domain`` arguments are defined, the latter with be used
-        to initialise the :attr:`Signal.wavelengths` attribute.
+        Values to initialise the multiple
+        :class:`colour.SpectralPowerDistribution` class instances
+        :attr:`colour.continuous.Signal.wavelengths` attribute with. If both
+        ``data`` and ``domain`` arguments are defined, the latter will be used
+        to initialise the :attr:`colour.continuous.Signal.wavelengths`
+        attribute.
     labels : array_like, optional
-        Names to use for the :class:`SpectralPowerDistribution` class
+        Names to use for the :class:`colour.SpectralPowerDistribution` class
         instances.
 
     Other Parameters
@@ -113,19 +116,20 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
        Multi-spectral power distribution name.
     interpolator : object, optional
         Interpolator class type to use as interpolating function for the
-        :class:`SpectralPowerDistribution` class instances.
+        :class:`colour.SpectralPowerDistribution` class instances.
     interpolator_args : dict_like, optional
         Arguments to use when instantiating the interpolating function
-        of the :class:`SpectralPowerDistribution` class instances.
+        of the :class:`colour.SpectralPowerDistribution` class instances.
     extrapolator : object, optional
         Extrapolator class type to use as extrapolating function for the
-        :class:`SpectralPowerDistribution` class instances.
+        :class:`colour.SpectralPowerDistribution` class instances.
     extrapolator_args : dict_like, optional
         Arguments to use when instantiating the extrapolating function
-        of the :class:`SpectralPowerDistribution` class instances.
+        of the :class:`colour.SpectralPowerDistribution` class instances.
     strict_labels : array_like, optional
         Multi-spectral power distribution labels for figures, default to
-        :attr:`RGB_ColourMatchingFunctions.labels` attribute value.
+        :attr:`colour.colorimetry.RGB_ColourMatchingFunctions.labels` attribute
+        value.
     """
 
     def __init__(self, data=None, domain=None, labels=None, **kwargs):
@@ -148,12 +152,14 @@ class XYZ_ColourMatchingFunctions(MultiSpectralPowerDistribution):
 MultiSpectralPowerDistribution or array_like or dict_like, optional
         Data to be stored in the multi-spectral power distribution.
     domain : array_like, optional
-        Values to initialise the multiple :class:`SpectralPowerDistribution`
-        class instances :attr:`Signal.wavelengths` attribute with. If both
-        ``data`` and ``domain`` arguments are defined, the latter with be used
-        to initialise the :attr:`Signal.wavelengths` attribute.
+        Values to initialise the multiple
+        :class:`colour.SpectralPowerDistribution` class instances
+        :attr:`colour.continuous.Signal.wavelengths` attribute with. If both
+        ``data`` and ``domain`` arguments are defined, the latter will be used
+        to initialise the :attr:`colour.continuous.Signal.wavelengths`
+        attribute.
     labels : array_like, optional
-        Names to use for the :class:`SpectralPowerDistribution` class
+        Names to use for the :class:`colour.SpectralPowerDistribution` class
         instances.
 
     Other Parameters
@@ -162,19 +168,20 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
        Multi-spectral power distribution name.
     interpolator : object, optional
         Interpolator class type to use as interpolating function for the
-        :class:`SpectralPowerDistribution` class instances.
+        :class:`colour.SpectralPowerDistribution` class instances.
     interpolator_args : dict_like, optional
         Arguments to use when instantiating the interpolating function
-        of the :class:`SpectralPowerDistribution` class instances.
+        of the :class:`colour.SpectralPowerDistribution` class instances.
     extrapolator : object, optional
         Extrapolator class type to use as extrapolating function for the
-        :class:`SpectralPowerDistribution` class instances.
+        :class:`colour.SpectralPowerDistribution` class instances.
     extrapolator_args : dict_like, optional
         Arguments to use when instantiating the extrapolating function
-        of the :class:`SpectralPowerDistribution` class instances.
+        of the :class:`colour.SpectralPowerDistribution` class instances.
     strict_labels : array_like, optional
         Multi-spectral power distribution labels for figures, default to
-        :attr:`XYZ_ColourMatchingFunctions.labels` attribute value.
+        :attr:`colour.colorimetry.XYZ_ColourMatchingFunctions.labels` attribute
+        value.
     """
 
     def __init__(self, data=None, domain=None, labels=None, **kwargs):

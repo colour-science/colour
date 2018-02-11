@@ -6,7 +6,7 @@ V-Gamut Colourspace
 
 Defines the *V-Gamut* colourspace:
 
--   :attr:`V_GAMUT_COLOURSPACE`.
+-   :attr:`colour.models.V_GAMUT_COLOURSPACE`.
 
 See Also
 --------

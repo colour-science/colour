@@ -6,7 +6,7 @@ sRGB Colourspace
 
 Defines the *sRGB* colourspace:
 
--   :attr:`sRGB_COLOURSPACE`.
+-   :attr:`colour.models.sRGB_COLOURSPACE`.
 
 See Also
 --------

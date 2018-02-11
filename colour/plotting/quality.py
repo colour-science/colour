@@ -6,10 +6,10 @@ Colour Quality Plotting
 
 Defines the colour quality plotting objects:
 
--   :func:`single_spd_colour_rendering_index_bars_plot`
--   :func:`multi_spd_colour_rendering_index_bars_plot`
--   :func:`single_spd_colour_quality_scale_bars_plot`
--   :func:`multi_spd_colour_quality_scale_bars_plot`
+-   :func:`colour.plotting.single_spd_colour_rendering_index_bars_plot`
+-   :func:`colour.plotting.multi_spd_colour_rendering_index_bars_plot`
+-   :func:`colour.plotting.single_spd_colour_quality_scale_bars_plot`
+-   :func:`colour.plotting.multi_spd_colour_quality_scale_bars_plot`
 """
 
 from __future__ import division
@@ -64,9 +64,8 @@ def colour_quality_bars_plot(specifications,
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
 
     Returns
     -------
@@ -177,17 +176,16 @@ def single_spd_colour_rendering_index_bars_plot(spd, **kwargs):
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
     labels : bool, optional
-        {:func:`colour_quality_bars_plot`},
+        {:func:`colour.plotting.quality.colour_quality_bars_plot`},
         Add labels above bars.
     hatching : bool or None, optional
-        {:func:`colour_quality_bars_plot`},
+        {:func:`colour.plotting.quality.colour_quality_bars_plot`},
         Use hatching for the bars.
     hatching_repeat : int, optional
-        {:func:`colour_quality_bars_plot`},
+        {:func:`colour.plotting.quality.colour_quality_bars_plot`},
         Hatching pattern repeat.
 
     Returns
@@ -220,17 +218,16 @@ def multi_spd_colour_rendering_index_bars_plot(spds, **kwargs):
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
     labels : bool, optional
-        {:func:`colour_quality_bars_plot`},
+        {:func:`colour.plotting.quality.colour_quality_bars_plot`},
         Add labels above bars.
     hatching : bool or None, optional
-        {:func:`colour_quality_bars_plot`},
+        {:func:`colour.plotting.quality.colour_quality_bars_plot`},
         Use hatching for the bars.
     hatching_repeat : int, optional
-        {:func:`colour_quality_bars_plot`},
+        {:func:`colour.plotting.quality.colour_quality_bars_plot`},
         Hatching pattern repeat.
 
     Returns
@@ -293,17 +290,16 @@ def single_spd_colour_quality_scale_bars_plot(spd, **kwargs):
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
     labels : bool, optional
-        {:func:`colour_quality_bars_plot`},
+        {:func:`colour.plotting.quality.colour_quality_bars_plot`},
         Add labels above bars.
     hatching : bool or None, optional
-        {:func:`colour_quality_bars_plot`},
+        {:func:`colour.plotting.quality.colour_quality_bars_plot`},
         Use hatching for the bars.
     hatching_repeat : int, optional
-        {:func:`colour_quality_bars_plot`},
+        {:func:`colour.plotting.quality.colour_quality_bars_plot`},
         Hatching pattern repeat.
 
     Returns
@@ -336,17 +332,16 @@ def multi_spd_colour_quality_scale_bars_plot(spds, **kwargs):
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
     labels : bool, optional
-        {:func:`colour_quality_bars_plot`},
+        {:func:`colour.plotting.quality.colour_quality_bars_plot`},
         Add labels above bars.
     hatching : bool or None, optional
-        {:func:`colour_quality_bars_plot`},
+        {:func:`colour.plotting.quality.colour_quality_bars_plot`},
         Use hatching for the bars.
     hatching_repeat : int, optional
-        {:func:`colour_quality_bars_plot`},
+        {:func:`colour.plotting.quality.colour_quality_bars_plot`},
         Hatching pattern repeat.
 
     Returns

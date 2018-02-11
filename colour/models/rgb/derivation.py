@@ -8,11 +8,11 @@ Defines objects related to *RGB* colourspace derivation, essentially
 calculating the normalised primary matrix for given *RGB* colourspace primaries
 and whitepoint:
 
--   :func:`normalised_primary_matrix`
--   :func:`chromatically_adapted_primaries`
--   :func:`primaries_whitepoint`
--   :func:`RGB_luminance_equation`
--   :func:`RGB_luminance`
+-   :func:`colour.normalised_primary_matrix`
+-   :func:`colour.chromatically_adapted_primaries`
+-   :func:`colour.primaries_whitepoint`
+-   :func:`colour.RGB_luminance_equation`
+-   :func:`colour.RGB_luminance`
 
 See Also
 --------

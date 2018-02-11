@@ -6,7 +6,7 @@ CIE 1994 Chromatic Adaptation Model
 
 Defines *CIE 1994* chromatic adaptation model objects:
 
--   :func:`chromatic_adaptation_CIE1994`
+-   :func:`colour.adaptation.chromatic_adaptation_CIE1994`
 
 See Also
 --------

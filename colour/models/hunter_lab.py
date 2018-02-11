@@ -6,9 +6,9 @@ Hunter L,a,b Colour Scale
 
 Defines the *Hunter L,a,b* colour scale transformations:
 
--   :func:`XYZ_to_K_ab_HunterLab1966`
--   :func:`XYZ_to_Hunter_Lab`
--   :func:`Hunter_Lab_to_XYZ`
+-   :func:`colour.XYZ_to_K_ab_HunterLab1966`
+-   :func:`colour.XYZ_to_Hunter_Lab`
+-   :func:`colour.Hunter_Lab_to_XYZ`
 
 See Also
 --------
@@ -104,7 +104,8 @@ def XYZ_to_Hunter_Lab(XYZ,
         Reference *illuminant* tristimulus values.
     K_ab : array_like, optional
         Reference *illuminant* chromaticity coefficients, if ``K_ab`` is set to
-        *None* it will be computed using :func:`XYZ_to_K_ab_HunterLab1966`.
+        *None* it will be computed using
+        :func:`colour.XYZ_to_K_ab_HunterLab1966`.
 
     Returns
     -------
@@ -163,7 +164,8 @@ def Hunter_Lab_to_XYZ(Lab,
         Reference *illuminant* tristimulus values.
     K_ab : array_like, optional
         Reference *illuminant* chromaticity coefficients, if ``K_ab`` is set to
-        *None* it will be computed using :func:`XYZ_to_K_ab_HunterLab1966`.
+        *None* it will be computed using
+        :func:`colour.XYZ_to_K_ab_HunterLab1966`.
 
     Returns
     -------

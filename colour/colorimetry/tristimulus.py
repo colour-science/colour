@@ -6,12 +6,13 @@ Tristimulus Values
 
 Defines objects for tristimulus values computation from spectral data:
 
--   :func:`tristimulus_weighting_factors_ASTME202211`
--   :func:`spectral_to_XYZ_integration`
--   :func:`spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815`
--   :func:`spectral_to_XYZ_ASTME30815`
--   :func:`spectral_to_XYZ`
--   :func:`wavelength_to_XYZ`
+-   :func:`colour.colorimetry.tristimulus_weighting_factors_ASTME202211`
+-   :func:`colour.colorimetry.spectral_to_XYZ_integration`
+-   :func:`colour.colorimetry.\
+spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815`
+-   :func:`colour.colorimetry.spectral_to_XYZ_ASTME30815`
+-   :func:`colour.spectral_to_XYZ`
+-   :func:`colour.wavelength_to_XYZ`
 
 The default implementation is based on practise *ASTM E308-15* method.
 
@@ -171,9 +172,10 @@ def tristimulus_weighting_factors_ASTME202211(cmfs, illuminant, shape):
     Warning
     -------
     -   The tables of tristimulus weighting factors are cached in
-        :attr:`_TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their
-        identifier key is defined by the colour matching functions and
-        illuminant names along the current shape such as:
+        :attr:`colour.colorimetry.tristimulus.\
+_TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their identifier key is
+        defined by the colour matching functions and illuminant names along
+        the current shape such as:
         `CIE 1964 10 Degree Standard Observer, A, (360.0, 830.0, 10.0)`
         Considering the above, one should be mindful that using similar colour
         matching functions and illuminant names but with different spectral
@@ -598,9 +600,10 @@ def spectral_to_XYZ_ASTME30815(
     Warning
     -------
     -   The tables of tristimulus weighting factors are cached in
-        :attr:`_TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their
-        identifier key is defined by the colour matching functions and
-        illuminant names along the current shape such as:
+        :attr:`colour.colorimetry.tristimulus.\
+_TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their identifier key is
+        defined by the colour matching functions and illuminant names along
+        the current shape such as:
         `CIE 1964 10 Degree Standard Observer, A, (360.0, 830.0, 10.0)`
         Considering the above, one should be mindful that using similar colour
         matching functions and illuminant names but with different spectral
@@ -745,17 +748,17 @@ def spectral_to_XYZ(
     Other Parameters
     ----------------
     use_practice_range : bool, optional
-        {:func:`spectral_to_XYZ_ASTME30815`},
+        {:func:`colour.colorimetry.spectral_to_XYZ_ASTME30815`},
         Practise *ASTM E308-15* working wavelengths range is [360, 780],
         if *True* this argument will trim the colour matching functions
         appropriately.
     mi_5nm_omission_method : bool, optional
-        {:func:`spectral_to_XYZ_ASTME30815`},
+        {:func:`colour.colorimetry.spectral_to_XYZ_ASTME30815`},
         5 nm measurement intervals spectral power distribution conversion to
         tristimulus values will use a 5 nm version of the colour matching
         functions instead of a table of tristimulus weighting factors.
     mi_20nm_interpolation_method : bool, optional
-        {:func:`spectral_to_XYZ_ASTME30815`},
+        {:func:`colour.colorimetry.spectral_to_XYZ_ASTME30815`},
         20 nm measurement intervals spectral power distribution conversion to
         tristimulus values will use a dedicated interpolation method instead
         of a table of tristimulus weighting factors.

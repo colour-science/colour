@@ -8,8 +8,7 @@ Defines various luminous efficiency functions involved in spectral
 computations.
 
 The luminous efficiency data is in the form of a *dict* of
-:class:`colour.colorimetry.spectrum.SpectralPowerDistribution` classes as
-follows::
+:class:`colour.SpectralPowerDistribution` classes as follows::
 
     {'name': SpectralPowerDistribution, ..., 'name': SpectralPowerDistribution}
 
@@ -35,9 +34,8 @@ Notes
 -   The mesopic luminous efficiency function is calculated using the
     *CIE 1924 Photopic Standard Observer* and
     *CIE 1951 Scotopic Standard Observer* luminous efficiency functions with
-    the :func:`colour.colorimetry.lefs.mesopic_luminous_efficiency_function`
-    definition and the data from
-    :attr:`colour.colorimetry.dataset.lefs.MESOPIC_X_DATA`
+    the :func:`colour.mesopic_luminous_efficiency_function` definition and the
+    data from :attr:`colour.colorimetry.dataset.lefs.MESOPIC_X_DATA`
     attribute that defines weighting factors dependent on the photopic
     luminance :math:`L_p`.
 

@@ -8,8 +8,8 @@ Defines the *DICOM - Grayscale Standard Display Function* opto-electrical
 transfer function (OETF / OECF) and electro-optical transfer function
 (EOTF / EOCF):
 
--   :func:`oetf_DICOMGSDF`
--   :func:`eotf_DICOMGSDF`
+-   :func:`colour.models.oetf_DICOMGSDF`
+-   :func:`colour.models.eotf_DICOMGSDF`
 
 The Grayscale Standard Display Function is defined for the Luminance Range
 from :math:`0.05` to :math:`4000 cd/m^2`. The minimum Luminance corresponds

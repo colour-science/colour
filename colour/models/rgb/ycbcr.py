@@ -6,10 +6,10 @@ Y'CbCr Colour Encoding
 
 Defines the *Y'CbCr* colour encoding related transformations:
 
--   :func:`RGB_to_YCbCr`
--   :func:`YCbCr_to_RGB`
--   :func:`RGB_to_YcCbcCrc`
--   :func:`YcCbcCrc_to_RGB`
+-   :func:`colour.RGB_to_YCbCr`
+-   :func:`colour.YCbCr_to_RGB`
+-   :func:`colour.RGB_to_YcCbcCrc`
+-   :func:`colour.YcCbcCrc_to_RGB`
 
 Notes
 -----
@@ -161,8 +161,8 @@ def RGB_to_YCbCr(RGB,
         Input *R'G'B'* array of floats or integer values.
     K : array_like, optional
         Luma weighting coefficients of red and blue. See
-        :attr:`YCBCR_WEIGHTS` for presets. Default is *(0.2126, 0.0722)*, the
-        weightings for ITU-R BT.709.
+        :attr:`colour.YCBCR_WEIGHTS` for presets. Default is
+        *(0.2126, 0.0722)*, the weightings for *ITU-R BT.709*.
     in_bits : int, optional
         Bit depth for integer input, or used in the calculation of the
         denominator for legal range float values, i.e. 8-bit means the float
@@ -188,13 +188,13 @@ def RGB_to_YCbCr(RGB,
     in_range : array_like, optional
         Array overriding the computed range such as
         *in_range = (RGB_min, RGB_max)*. If ``in_range`` is undefined,
-        *RGB_min* and *RGB_max* will be computed using :func:`CV_range`
+        *RGB_min* and *RGB_max* will be computed using :func:`colour.CV_range`
         definition.
     out_range : array_like, optional
         Array overriding the computed range such as
         *out_range = (Y_min, Y_max, C_min, C_max)`. If ``out_range`` is
         undefined, *Y_min*, *Y_max*, *C_min* and *C_max* will be computed
-        using :func:`YCbCr_ranges` definition.
+        using :func:`colour.models.rgb.ycbcr.YCbCr_ranges` definition.
 
     Returns
     -------
@@ -203,9 +203,9 @@ def RGB_to_YCbCr(RGB,
 
     Warning
     -------
-    For *Recommendation ITU-R BT.2020*, :func:`RGB_to_YCbCr` definition is only
-    applicable to the non-constant luminance implementation.
-    :func:`RGB_to_YcCbcCrc` definition should be used for the constant
+    For *Recommendation ITU-R BT.2020*, :func:`colour.RGB_to_YCbCr` definition
+    is only applicable to the non-constant luminance implementation.
+    :func:`colour.RGB_to_YcCbcCrc` definition should be used for the constant
     luminance case as per :cite:`InternationalTelecommunicationUnion2015h`.
 
     Notes
@@ -319,9 +319,9 @@ def YCbCr_to_RGB(YCbCr,
     YCbCr : array_like
         Input *Y'CbCr* colour encoding array of integer or float values.
     K : array_like, optional
-        Luma weighting coefficients of red and blue. See :attr:`YCBCR_WEIGHTS`
-        for presets. Default is *(0.2126, 0.0722)*, the weightings for
-        ITU-R BT.709.
+        Luma weighting coefficients of red and blue. See
+        :attr:`colour.YCBCR_WEIGHTS` for presets. Default is
+        *(0.2126, 0.0722)*, the weightings for *ITU-R BT.709*.
     in_bits : int, optional
         Bit depth for integer input, or used in the calculation of the
         denominator for legal range float values, i.e. 8-bit means the float
@@ -348,11 +348,11 @@ def YCbCr_to_RGB(YCbCr,
         Array overriding the computed range such as
         *in_range = (Y_min, Y_max, C_min, C_max)*. If ``in_range`` is
         undefined, *Y_min*, *Y_max*, *C_min* and *C_max* will be computed using
-        :func:`YCbCr_ranges` definition.
+        :func:`colour.models.rgb.ycbcr.YCbCr_ranges` definition.
     out_range : array_like, optional
         Array overriding the computed range such as
         *out_range = (RGB_min, RGB_max)*. If ``out_range`` is undefined,
-        *RGB_min* and *RGB_max* will be computed using :func:`CV_range`
+        *RGB_min* and *RGB_max* will be computed using :func:`colour.CV_range`
         definition.
 
     Returns
@@ -362,9 +362,9 @@ def YCbCr_to_RGB(YCbCr,
 
     Warning
     -------
-    For *Recommendation ITU-R BT.2020*, :func:`YCbCr_to_RGB`
+    For *Recommendation ITU-R BT.2020*, :func:`colour.YCbCr_to_RGB`
     definition is only applicable to the non-constant luminance implementation.
-    :func:`YcCbcCrc_to_RGB` definition should be used for the constant
+    :func:`colour.YcCbcCrc_to_RGB` definition should be used for the constant
     luminance case as per :cite:`InternationalTelecommunicationUnion2015h`.
 
     References
@@ -442,7 +442,7 @@ def RGB_to_YcCbcCrc(RGB,
         Array overriding the computed range such as
         *out_range = (Y_min, Y_max, C_min, C_max)*. If ``out_range`` is
         undefined, *Y_min*, *Y_max*, *C_min* and *C_max* will be computed
-        using :func:`YCbCr_ranges` definition.
+        using :func:`colour.models.rgb.ycbcr.YCbCr_ranges` definition.
 
     Returns
     -------
@@ -526,7 +526,7 @@ def YcCbcCrc_to_RGB(YcCbcCrc,
         Array overriding the computed range such as
         *in_range = (Y_min, Y_max, C_min, C_max)*. If ``in_range`` is
         undefined, *Y_min*, *Y_max*, *C_min* and *C_max* will be computed using
-        :func:`YCbCr_ranges` definition.
+        :func:`colour.models.rgb.ycbcr.YCbCr_ranges` definition.
 
     Returns
     -------

@@ -7,8 +7,8 @@ sRGB Colourspace
 Defines *sRGB* colourspace opto-electrical transfer function (OETF / OECF) and
 its reverse:
 
--   :func:`oetf_sRGB`
--   :func:`oetf_reverse_sRGB`
+-   :func:`colour.models.oetf_sRGB`
+-   :func:`colour.models.oetf_reverse_sRGB`
 
 See Also
 --------

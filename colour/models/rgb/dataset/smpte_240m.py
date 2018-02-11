@@ -6,7 +6,7 @@ SMPTE 240M Colourspace
 
 Defines the *SMPTE 240M* colourspace:
 
--   :attr:`SMPTE_240M_COLOURSPACE`.
+-   :attr:`colour.models.SMPTE_240M_COLOURSPACE`.
 
 See Also
 --------

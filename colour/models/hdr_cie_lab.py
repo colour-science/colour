@@ -6,8 +6,8 @@ hdr-CIELAB Colourspace
 
 Defines the *hdr-CIELAB* colourspace transformations:
 
--   :func:`XYZ_to_hdr_CIELab`
--   :func:`hdr_CIELab_to_XYZ`
+-   :func:`colour.XYZ_to_hdr_CIELab`
+-   :func:`colour.hdr_CIELab_to_XYZ`
 
 See Also
 --------

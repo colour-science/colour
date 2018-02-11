@@ -6,11 +6,12 @@ Data Structures
 
 Defines various data structures classes:
 
--   :class:`Structure`: An object similar to C/C++ structured type.
--   :class:`Lookup`: A *dict* sub-class acting as a lookup to retrieve keys by
-    values.
--   :class:`CaseInsensitiveMapping`: A case insensitive mapping allowing values
-    retrieving from keys while ignoring the key case.
+-   :class:`colour.utilities.Structure`: An object similar to C/C++ structured
+    type.
+-   :class:`colour.utilities.Lookup`: A *dict* sub-class acting as a lookup to
+    retrieve keys by values.
+-   :class:`colour.utilities.CaseInsensitiveMapping`: A case insensitive
+    mapping allowing values retrieving from keys while ignoring the key case.
 
 References
 ----------
@@ -437,8 +438,8 @@ class CaseInsensitiveMapping(MutableMapping):
 
         Notes
         -----
-        -   The :class:`CaseInsensitiveMapping` class copy returned is a simple
-            *copy* not a *deepcopy*.
+        -   The :class:`colour.utilities.CaseInsensitiveMapping` class copy
+            returned is a simple *copy* not a *deepcopy*.
         """
 
         return CaseInsensitiveMapping(self._data.values())

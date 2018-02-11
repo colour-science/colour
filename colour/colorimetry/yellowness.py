@@ -6,8 +6,8 @@ Yellowness Index :math:`Y`
 
 Defines *yellowness* index :math:`Y` computation objects:
 
--   :func:`yellowness_ASTMD1925`
--   :func:`yellowness_ASTME313`
+-   :func:`colour.colorimetry.yellowness_ASTMD1925`
+-   :func:`colour.colorimetry.yellowness_ASTME313`
 
 See Also
 --------

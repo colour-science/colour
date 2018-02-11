@@ -6,9 +6,9 @@ Rayleigh Optical Depth - Scattering in the Atmosphere
 
 Implements *Rayleigh* scattering / optical depth in the atmosphere computation:
 
--   :func:`scattering_cross_section`
--   :func:`rayleigh_optical_depth`
--   :func:`rayleigh_scattering`
+-   :func:`colour.scattering_cross_section`
+-   :func:`colour.phenomena.rayleigh_optical_depth`
+-   :func:`colour.rayleigh_scattering`
 
 See Also
 --------
@@ -555,8 +555,8 @@ def scattering_cross_section(wavelength,
     Warning
     -------
     Unlike most objects of :mod:`colour.phenomena.rayleigh` module,
-    :func:`colour.phenomena.rayleigh.scattering_cross_section` expects
-    wavelength :math:`\lambda` to be expressed in centimeters (cm).
+    :func:`colour.scattering_cross_section` expects wavelength :math:`\lambda`
+    to be expressed in centimeters (cm).
 
     References
     ----------
@@ -632,8 +632,8 @@ def rayleigh_optical_depth(wavelength,
     Warning
     -------
     Unlike most objects of :mod:`colour.phenomena.rayleigh` module,
-    :func:`colour.phenomena.rayleigh.rayleigh_optical_depth` expects
-    wavelength :math:`\lambda` to be expressed in centimeters (cm).
+    :func:`colour.phenomena.rayleigh_optical_depth` expects wavelength
+    :math:`\lambda` to be expressed in centimeters (cm).
 
     References
     ----------

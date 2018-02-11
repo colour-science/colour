@@ -6,7 +6,7 @@ Academy Color Encoding System - Input Transform
 
 Defines the *Academy Color Encoding System* (ACES) *Input Transform* utilities:
 
--   :func:`spectral_to_aces_relative_exposure_values`
+-   :func:`colour.spectral_to_aces_relative_exposure_values`
 
 See Also
 --------

@@ -6,7 +6,7 @@ Russell RGB Colourspace
 
 Defines the *Russell RGB* colourspace:
 
--   :attr:`RUSSELL_RGB_COLOURSPACE`.
+-   :attr:`colour.models.RUSSELL_RGB_COLOURSPACE`.
 
 See Also
 --------

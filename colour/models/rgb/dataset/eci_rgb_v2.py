@@ -6,7 +6,7 @@ ECI RGB v2 Colourspace
 
 Defines the *ECI RGB v2* colourspace:
 
--   :attr:`ECI_RGB_V2_COLOURSPACE`.
+-   :attr:`colour.models.ECI_RGB_V2_COLOURSPACE`.
 
 See Also
 --------
@@ -97,9 +97,9 @@ def _scale_domain_0_100_range_0_1(a, callable_):
         *Luminance* :math:`Y` or *Lightness* :math:`L^*` array.
     callable_ : callable
         *Luminance* :math:`Y` or *Lightness* :math:`L^*` computation
-        definition, i.e., :func:`colour.lightness_CIE1976` or
-        :func:`colour.luminance_CIE1976`. Reference white *luminance*
-        :math:`Y_n` has implicit value of :math:`100\ cd/m^2`.
+        definition, i.e., :func:`colour.colorimetry.lightness_CIE1976` or
+        :func:`colour.colorimetry.luminance_CIE1976`. Reference white
+        *luminance* :math:`Y_n` has implicit value of :math:`100\ cd/m^2`.
 
     Returns
     -------

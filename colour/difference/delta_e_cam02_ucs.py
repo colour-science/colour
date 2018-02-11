@@ -7,9 +7,9 @@
 Defines :math:`\Delta E'` colour difference computation objects based on
 *Luo et alii (2006)* *CAM02-LCD*, *CAM02-SCD*, and *CAM02-UCS* colourspaces:
 
--   :func:`delta_E_CAM02LCD`
--   :func:`delta_E_CAM02SCD`
--   :func:`delta_E_CAM02UCS`
+-   :func:`colour.difference.delta_E_CAM02LCD`
+-   :func:`colour.difference.delta_E_CAM02SCD`
+-   :func:`colour.difference.delta_E_CAM02UCS`
 
 See Also
 --------

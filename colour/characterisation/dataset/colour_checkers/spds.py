@@ -7,15 +7,16 @@ ColourCheckers Spectral Power Distributions
 Defines *ColourCheckers* spectral power distributions.
 
 Each *ColourChecker* data is in the form of a *dict* of
-:class:`colour.colorimetry.spectrum.SpectralPowerDistribution` classes as
-follows::
+:class:`colour.SpectralPowerDistribution` classes as follows::
 
     {'name': SpectralPowerDistribution, ..., 'name': SpectralPowerDistribution}
 
 The following *ColourCheckers* data is available:
 
--   :attr:`COLORCHECKER_N_OHTA_SPDS`: Measured by Ohta (1997).
--   :attr:`BABELCOLOR_AVERAGE_SPDS`: Average data derived from measurements of
+-   :attr:`colour.characterisation.dataset.colour_checkers.spds.\
+COLORCHECKER_N_OHTA_SPDS`: Measured by Ohta (1997).
+-   :attr:`colour.characterisation.dataset.colour_checkers.spds.\
+BABELCOLOR_AVERAGE_SPDS`: Average data derived from measurements of
     30 *ColourChecker* charts.
 
 See Also

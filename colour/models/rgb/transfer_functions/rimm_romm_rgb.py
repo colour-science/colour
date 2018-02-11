@@ -7,14 +7,14 @@ RIMM, ROMM and ERIMM Encodings
 Defines the *RIMM, ROMM and ERIMM* encodings opto-electrical transfer functions
 (OETF / OECF) and electro-optical transfer functions (EOTF / EOCF):
 
--   :func:`oetf_ROMMRGB`
--   :func:`eotf_ROMMRGB`
--   :func:`oetf_ProPhotoRGB`
--   :func:`eotf_ProPhotoRGB`
--   :func:`oetf_RIMMRGB`
--   :func:`eotf_RIMMRGB`
--   :func:`log_encoding_ERIMMRGB`
--   :func:`log_decoding_ERIMMRGB`
+-   :func:`colour.models.oetf_ROMMRGB`
+-   :func:`colour.models.eotf_ROMMRGB`
+-   :func:`colour.models.oetf_ProPhotoRGB`
+-   :func:`colour.models.eotf_ProPhotoRGB`
+-   :func:`colour.models.oetf_RIMMRGB`
+-   :func:`colour.models.eotf_RIMMRGB`
+-   :func:`colour.models.log_encoding_ERIMMRGB`
+-   :func:`colour.models.log_decoding_ERIMMRGB`
 
 See Also
 --------

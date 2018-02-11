@@ -6,7 +6,7 @@ Pal/Secam Colourspace
 
 Defines the *Pal/Secam* colourspace:
 
--   :attr:`PAL_SECAM_COLOURSPACE`.
+-   :attr:`colour.models.PAL_SECAM_COLOURSPACE`.
 
 See Also
 --------

@@ -6,12 +6,12 @@ CIE L*u*v* Colourspace
 
 Defines the *CIE L\*u\*v\** colourspace transformations:
 
--   :func:`XYZ_to_Luv`
--   :func:`Luv_to_XYZ`
--   :func:`Luv_to_uv`
--   :func:`Luv_uv_to_xy`
--   :func:`Luv_to_LCHuv`
--   :func:`LCHuv_to_Luv`
+-   :func:`colour.XYZ_to_Luv`
+-   :func:`colour.Luv_to_XYZ`
+-   :func:`colour.Luv_to_uv`
+-   :func:`colour.Luv_uv_to_xy`
+-   :func:`colour.Luv_to_LCHuv`
+-   :func:`colour.LCHuv_to_Luv`
 
 See Also
 --------

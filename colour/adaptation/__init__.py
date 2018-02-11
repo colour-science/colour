@@ -97,39 +97,39 @@ def chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method='Von Kries', **kwargs):
     Other Parameters
     ----------------
     E_o1 : numeric
-        {:func:`chromatic_adaptation_CIE1994`},
+        {:func:`colour.adaptation.chromatic_adaptation_CIE1994`},
         Test illuminance :math:`E_{o1}` in :math:`cd/m^2`.
     E_o2 : numeric
-        {:func:`chromatic_adaptation_CIE1994`},
+        {:func:`colour.adaptation.chromatic_adaptation_CIE1994`},
         Reference illuminance :math:`E_{o2}` in :math:`cd/m^2`.
     L_A1 : numeric or array_like
-        {:func:`chromatic_adaptation_CMCCAT2000`},
+        {:func:`colour.adaptation.chromatic_adaptation_CMCCAT2000`},
         Luminance of test adapting field :math:`L_{A1}` in :math:`cd/m^2`.
     L_A2 : numeric or array_like
-        {:func:`chromatic_adaptation_CMCCAT2000`},
+        {:func:`colour.adaptation.chromatic_adaptation_CMCCAT2000`},
         Luminance of reference adapting field :math:`L_{A2}` in :math:`cd/m^2`.
     Y_n : numeric or array_like
-        {:func:`chromatic_adaptation_Fairchild1990`},
+        {:func:`colour.adaptation.chromatic_adaptation_Fairchild1990`},
         Luminance :math:`Y_n` of test adapting stimulus in :math:`cd/m^2`.
     Y_o : numeric
-        {:func:`chromatic_adaptation_CIE1994`},
+        {:func:`colour.adaptation.chromatic_adaptation_CIE1994`},
         Luminance factor :math:`Y_o` of achromatic background as percentage in
         domain [18, 100].
     direction : unicode, optional
-        {:func:`chromatic_adaptation_CMCCAT2000`},
+        {:func:`colour.adaptation.chromatic_adaptation_CMCCAT2000`},
         **{'Forward', 'Reverse'}**,
         Chromatic adaptation direction.
     discount_illuminant : bool, optional
-        {:func:`chromatic_adaptation_Fairchild1990`},
+        {:func:`colour.adaptation.chromatic_adaptation_Fairchild1990`},
         Truth value indicating if the illuminant should be discounted.
     n : numeric, optional
-        {:func:`chromatic_adaptation_CIE1994`},
+        {:func:`colour.adaptation.chromatic_adaptation_CIE1994`},
         Noise component in fundamental primary system.
     surround : CMCCAT2000_InductionFactors, optional
-        {:func:`chromatic_adaptation_CMCCAT2000`},
+        {:func:`colour.adaptation.chromatic_adaptation_CMCCAT2000`},
         Surround viewing conditions induction factors.
     transform : unicode, optional
-        {:func:`chromatic_adaptation_VonKries`},
+        {:func:`colour.adaptation.chromatic_adaptation_VonKries`},
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
         'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
         'Bianco PC'}**,

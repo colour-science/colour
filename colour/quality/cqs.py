@@ -6,8 +6,8 @@ Colour Quality Scale
 
 Defines *Colour Quality Scale* (CQS) computation objects:
 
--   :class:`CQS_Specification`
--   :func:`colour_quality_scale`
+-   :class:`colour.quality.CQS_Specification`
+-   :func:`colour.colour_quality_scale`
 
 See Also
 --------

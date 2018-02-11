@@ -8,9 +8,9 @@ Defines :math:`\Delta E'` colour difference computation objects based on
 *Li, Li, Wang, Zu, Luo, Cui, Melgosa, Brill and Pointer (2017)*
 *CAM16-LCD*, *CAM16-SCD*, and *CAM16-UCS* colourspaces:
 
--   :func:`delta_E_CAM16LCD`
--   :func:`delta_E_CAM16SCD`
--   :func:`delta_E_CAM16UCS`
+-   :func:`colour.difference.delta_E_CAM16LCD`
+-   :func:`colour.difference.delta_E_CAM16SCD`
+-   :func:`colour.difference.delta_E_CAM16UCS`
 
 See Also
 --------

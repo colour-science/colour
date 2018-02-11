@@ -7,8 +7,7 @@ LCD Displays RGB Primaries
 Defines *LCD* displays *RGB* primaries multi-spectral power distributions.
 
 Each *LCD* display data is in the form of a *dict* of
-:class:`colour.characterisation.displays.RGB_DisplayPrimaries` classes as
-follows::
+:class:`colour.characterisation.RGB_DisplayPrimaries` classes as follows::
 
     {'name': RGB_DisplayPrimaries,
     ...,

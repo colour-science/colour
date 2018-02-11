@@ -6,7 +6,7 @@ Adobe Wide Gamut RGB Colourspace
 
 Defines the *Adobe Wide Gamut RGB* colourspace:
 
--   :attr:`ADOBE_WIDE_GAMUT_RGB_COLOURSPACE`.
+-   :attr:`colour.models.ADOBE_WIDE_GAMUT_RGB_COLOURSPACE`.
 
 See Also
 --------

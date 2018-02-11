@@ -6,19 +6,19 @@ Common Plotting
 
 Defines the common plotting objects:
 
--   :func:`colour_plotting_defaults`
--   :func:`colour_cycle`
--   :func:`canvas`
--   :func:`camera`
--   :func:`decorate`
--   :func:`boundaries`
--   :func:`display`
--   :func:`render`
--   :func:`label_rectangles`
--   :func:`equal_axes3d`
--   :func:`single_colour_swatch_plot`
--   :func:`multi_colour_swatches_plot`
--   :func:`image_plot`
+-   :func:`colour.plotting.colour_plotting_defaults`
+-   :func:`colour.plotting.colour_cycle`
+-   :func:`colour.plotting.canvas`
+-   :func:`colour.plotting.camera`
+-   :func:`colour.plotting.decorate`
+-   :func:`colour.plotting.boundaries`
+-   :func:`colour.plotting.display`
+-   :func:`colour.plotting.render`
+-   :func:`colour.plotting.label_rectangles`
+-   :func:`colour.plotting.equal_axes3d`
+-   :func:`colour.plotting.single_colour_swatch_plot`
+-   :func:`colour.plotting.multi_colour_swatches_plot`
+-   :func:`colour.plotting.image_plot`
 """
 
 from __future__ import division
@@ -185,7 +185,8 @@ class ColourSwatch(namedtuple('ColourSwatch', ('name', 'RGB'))):
 
     def __new__(cls, name=None, RGB=None):
         """
-        Returns a new instance of the :class:`ColourSwatch` class.
+        Returns a new instance of the :class:`colour.plotting.ColourSwatch`
+        class.
         """
 
         return super(ColourSwatch, cls).__new__(cls, name, RGB)
@@ -476,22 +477,22 @@ def display(**kwargs):
 
 def render(with_boundaries=True, with_decorate=True, **kwargs):
     """
-    Convenient wrapper definition combining :func:`decorate`,
-    :func:`boundaries` and :func:`display` definitions.
+    Convenient wrapper definition combining :func:`colour.plotting.decorate`,
+    :func:`colour.plotting.boundaries` and :func:`colour.plotting.display`
+    definitions.
 
     Parameters
     ----------
     with_boundaries : bool, optional
-        Whether to call :func:`boundaries` definition.
+        Whether to call :func:`colour.plotting.boundaries` definition.
     with_decorate : bool, optional
-        Whether to call :func:`decorate` definition.
+        Whether to call :func:`colour.plotting.decorate` definition.
 
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
 
     Returns
     -------
@@ -689,29 +690,28 @@ def single_colour_swatch_plot(colour_swatch, **kwargs):
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
     width : numeric, optional
-        {:func:`multi_colour_swatches_plot`},
+        {:func:`colour.plotting.multi_colour_swatches_plot`},
         Colour swatch width.
     height : numeric, optional
-        {:func:`multi_colour_swatches_plot`},
+        {:func:`colour.plotting.multi_colour_swatches_plot`},
         Colour swatch height.
     spacing : numeric, optional
-        {:func:`multi_colour_swatches_plot`},
+        {:func:`colour.plotting.multi_colour_swatches_plot`},
         Colour swatches spacing.
     columns : int, optional
-        {:func:`multi_colour_swatches_plot`},
+        {:func:`colour.plotting.multi_colour_swatches_plot`},
         Colour swatches columns count.
     text_display : bool, optional
-        {:func:`multi_colour_swatches_plot`},
+        {:func:`colour.plotting.multi_colour_swatches_plot`},
         Display colour text.
     text_size : numeric, optional
-        {:func:`multi_colour_swatches_plot`},
+        {:func:`colour.plotting.multi_colour_swatches_plot`},
         Colour text size.
     text_offset : numeric, optional
-        {:func:`multi_colour_swatches_plot`},
+        {:func:`colour.plotting.multi_colour_swatches_plot`},
         Colour text offset.
 
     Returns
@@ -765,9 +765,8 @@ def multi_colour_swatches_plot(colour_swatches,
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
 
     Returns
     -------
@@ -859,9 +858,8 @@ def image_plot(image,
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
 
     Returns
     -------

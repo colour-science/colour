@@ -8,8 +8,9 @@ Defines objects to perform spectral bandpass dependence correction.
 
 The following correction methods are available:
 
--   :func:`bandpass_correction_Stearns1988`: *Stearns and Stearns (1988)⁠⁠*
-    spectral bandpass dependence correction method.
+-   :func:`colour.colorimetry.bandpass_correction_Stearns1988`:
+    *Stearns and Stearns (1988)⁠⁠* spectral bandpass dependence correction
+    method.
 
 See Also
 --------

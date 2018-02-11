@@ -6,8 +6,8 @@ Kodak Cineon Encoding
 
 Defines the *Kodak Cineon* encoding:
 
--   :func:`log_encoding_Cineon`
--   :func:`log_decoding_Cineon`
+-   :func:`colour.models.log_encoding_Cineon`
+-   :func:`colour.models.log_decoding_Cineon`
 
 See Also
 --------

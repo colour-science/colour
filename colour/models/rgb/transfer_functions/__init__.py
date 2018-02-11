@@ -149,53 +149,58 @@ def log_encoding_curve(value, curve='Cineon', **kwargs):
     Other Parameters
     ----------------
     EI : int,  optional
-        {:func:`log_encoding_ALEXALogC`},
+        {:func:`colour.models.log_encoding_ALEXALogC`},
         Ei.
     E_clip : numeric, optional
-        {:func:`log_encoding_ERIMMRGB`},
+        {:func:`colour.models.log_encoding_ERIMMRGB`},
         Maximum exposure limit.
     E_min : numeric, optional
-        {:func:`log_encoding_ERIMMRGB`},
+        {:func:`colour.models.log_encoding_ERIMMRGB`},
         Minimum exposure limit.
     I_max : numeric, optional
-        {:func:`log_encoding_ERIMMRGB`},
+        {:func:`colour.models.log_encoding_ERIMMRGB`},
         Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
         12-bit and 16-bit per channel.
     bit_depth : unicode, optional
-        {:func:`log_encoding_ACESproxy`, :func:`log_encoding_SLog`,
-        :func:`log_encoding_SLog2`},
+        {:func:`colour.models.log_encoding_ACESproxy`,
+        :func:`colour.models.log_encoding_SLog`,
+        :func:`colour.models.log_encoding_SLog2`},
         **{8, 10, 12}**,
         Bit depth used for conversion, *ACESproxy* uses **{10, 12}**.
     black_offset : numeric or array_like
-        {:func:`log_encoding_Cineon`, :func:`log_encoding_Panalog`,
-        :func:`log_encoding_REDLog`, :func:`log_encoding_REDLogFilm`},
+        {:func:`colour.models.log_encoding_Cineon`,
+        :func:`colour.models.log_encoding_Panalog`,
+        :func:`colour.models.log_encoding_REDLog`,
+        :func:`colour.models.log_encoding_REDLogFilm`},
         Black offset.
     density_per_code_value : numeric or array_like
-        {:func:`log_encoding_PivotedLog`},
+        {:func:`colour.models.log_encoding_PivotedLog`},
         Density per code value.
     firmware : unicode, optional
-        {:func:`log_encoding_ALEXALogC`},
+        {:func:`colour.models.log_encoding_ALEXALogC`},
         **{'SUP 3.x', 'SUP 2.x'}**,
         Alexa firmware version.
     in_reflection : bool, optional
-        {:func:`log_encoding_SLog`, :func:`log_encoding_SLog2`},
+        {:func:`colour.models.log_encoding_SLog`,
+        :func:`colour.models.log_encoding_SLog2`},
         Whether the light level :math:`x` to a camera is reflection.
     linear_reference : numeric or array_like
-        {:func:`log_encoding_PivotedLog`},
+        {:func:`colour.models.log_encoding_PivotedLog`},
         Linear reference.
     log_reference : numeric or array_like
-        {:func:`log_encoding_PivotedLog`},
+        {:func:`colour.models.log_encoding_PivotedLog`},
         Log reference.
     out_legal : bool, optional
-        {:func:`log_encoding_SLog`, :func:`log_encoding_SLog2`,
-        :func:`log_encoding_SLog3`},
+        {:func:`colour.models.log_encoding_SLog`,
+        :func:`colour.models.log_encoding_SLog2`,
+        :func:`colour.models.log_encoding_SLog3`},
         Whether the non-linear *Sony S-Log*, *Sony S-Log2* or *Sony S-Log3*
         data :math:`y` is encoded in legal range.
     negative_gamma : numeric or array_like
-        {:func:`log_encoding_PivotedLog`},
+        {:func:`colour.models.log_encoding_PivotedLog`},
         Negative gamma.
     method : unicode, optional
-        {:func:`log_encoding_ALEXALogC`},
+        {:func:`colour.models.log_encoding_ALEXALogC`},
         **{'Linear Scene Exposure Factor', 'Normalised Sensor Signal'}**,
         Conversion method.
 
@@ -274,53 +279,58 @@ def log_decoding_curve(value, curve='Cineon', **kwargs):
     Other Parameters
     ----------------
     EI : int,  optional
-        {:func:`log_decoding_ALEXALogC`},
+        {:func:`colour.models.log_decoding_ALEXALogC`},
         Ei.
     E_clip : numeric, optional
-        {:func:`log_decoding_ERIMMRGB`},
+        {:func:`colour.models.log_decoding_ERIMMRGB`},
         Maximum exposure limit.
     E_min : numeric, optional
-        {:func:`log_decoding_ERIMMRGB`},
+        {:func:`colour.models.log_decoding_ERIMMRGB`},
         Minimum exposure limit.
     I_max : numeric, optional
-        {:func:`log_decoding_ERIMMRGB`},
+        {:func:`colour.models.log_decoding_ERIMMRGB`},
         Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
         12-bit and 16-bit per channel.
     bit_depth : int, optional
-        {:func:`log_decoding_ACESproxy`, :func:`log_decoding_SLog`,
-        :func:`log_decoding_SLog2`},
+        {:func:`colour.models.log_decoding_ACESproxy`,
+        :func:`colour.models.log_decoding_SLog`,
+        :func:`colour.models.log_decoding_SLog2`},
         **{8, 10, 12}**,
         Bit depth used for conversion, *ACESproxy* uses **{10, 12}**.
     black_offset : numeric or array_like
-        {:func:`log_decoding_Cineon`, :func:`log_decoding_Panalog`,
-        :func:`log_decoding_REDLog`, :func:`log_decoding_REDLogFilm`},
+        {:func:`colour.models.log_decoding_Cineon`,
+        :func:`colour.models.log_decoding_Panalog`,
+        :func:`colour.models.log_decoding_REDLog`,
+        :func:`colour.models.log_decoding_REDLogFilm`},
         Black offset.
     density_per_code_value : numeric or array_like
-        {:func:`log_decoding_PivotedLog`},
+        {:func:`colour.models.log_decoding_PivotedLog`},
         Density per code value.
     firmware : unicode, optional
-        {:func:`log_decoding_ALEXALogC`},
+        {:func:`colour.models.log_decoding_ALEXALogC`},
         **{'SUP 3.x', 'SUP 2.x'}**,
         Alexa firmware version.
     in_legal : bool, optional
-        {:func:`log_decoding_SLog`, :func:`log_decoding_SLog2`,
-        :func:`log_decoding_SLog3`},
+        {:func:`colour.models.log_decoding_SLog`,
+        :func:`colour.models.log_decoding_SLog2`,
+        :func:`colour.models.log_decoding_SLog3`},
         Whether the non-linear *Sony S-Log*, *Sony S-Log2* or *Sony S-Log3*
         data :math:`y` is encoded in legal range.
     linear_reference : numeric or array_like
-        {:func:`log_decoding_PivotedLog`},
+        {:func:`colour.models.log_decoding_PivotedLog`},
         Linear reference.
     log_reference : numeric or array_like
-        {:func:`log_decoding_PivotedLog`},
+        {:func:`colour.models.log_decoding_PivotedLog`},
         Log reference.
     negative_gamma : numeric or array_like
-        {:func:`log_decoding_PivotedLog`},
+        {:func:`colour.models.log_decoding_PivotedLog`},
         Negative gamma.
     out_reflection : bool, optional
-        {:func:`log_decoding_SLog`, :func:`log_decoding_SLog2`},
+        {:func:`colour.models.log_decoding_SLog`,
+        :func:`colour.models.log_decoding_SLog2`},
         Whether the light level :math:`x` to a camera is reflection.
     method : unicode, optional
-        {:func:`log_decoding_ALEXALogC`},
+        {:func:`colour.models.log_decoding_ALEXALogC`},
         **{'Linear Scene Exposure Factor', 'Normalised Sensor Signal'}**,
         Conversion method.
 
@@ -398,22 +408,23 @@ def oetf(value, function='sRGB', **kwargs):
     Other Parameters
     ----------------
     E_clip : numeric, optional
-        {:func:`oetf_RIMMRGB`},
+        {:func:`colour.models.oetf_RIMMRGB`},
         Maximum exposure level.
     I_max : numeric, optional
-        {:func:`oetf_ROMMRGB`, :func:`oetf_RIMMRGB`},
+        {:func:`colour.models.oetf_ROMMRGB`,
+        :func:`colour.models.oetf_RIMMRGB`},
         Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
         12-bit and 16-bit per channel.
     L_p : numeric, optional
-        {:func:`oetf_ST2084`},
+        {:func:`colour.models.oetf_ST2084`},
         Display peak luminance :math:`cd/m^2`.
     is_12_bits_system : bool
-        {:func:`oetf_BT2020`},
+        {:func:`colour.models.oetf_BT2020`},
         *ITU-R BT.2020* *alpha* and *beta* constants are used
         if system is not
         12-bit.
     r : numeric, optional
-        {:func:`oetf_ARIBSTDB67`},
+        {:func:`colour.models.oetf_ARIBSTDB67`},
         Video level corresponding to reference white level.
 
     Returns
@@ -472,7 +483,7 @@ def oetf_reverse(value, function='sRGB', **kwargs):
     Other Parameters
     ----------------
     r : numeric, optional
-        {:func:`oetf_ARIBSTDB67`},
+        {:func:`colour.models.oetf_ARIBSTDB67`},
         Video level corresponding to reference white level.
 
     Returns
@@ -535,27 +546,30 @@ def eotf(value, function='ITU-R BT.1886', **kwargs):
     Other Parameters
     ----------------
     E_clip : numeric, optional
-        {:func:`eotf_RIMMRGB`},
+        {:func:`colour.models.eotf_RIMMRGB`},
         Maximum exposure level.
     I_max : numeric, optional
-        {:func:`eotf_ROMMRGB`, :func:`eotf_RIMMRGB`},
+        {:func:`colour.models.eotf_ROMMRGB`,
+        :func:`colour.models.eotf_RIMMRGB`},
         Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
         12-bit and 16-bit per channel.
     L_B : numeric, optional
-        {:func:`eotf_BT1886`, :func:`eotf_BT2100_HLG`},
+        {:func:`colour.models.eotf_BT1886`,
+        :func:`colour.models.eotf_BT2100_HLG`},
         Screen luminance for black.
     L_W : numeric, optional
-        {:func:`eotf_BT1886`, :func:`eotf_BT2100_HLG`},
+        {:func:`colour.models.eotf_BT1886`,
+        :func:`colour.models.eotf_BT2100_HLG`},
         Screen luminance for white.
     L_p : numeric, optional
-        {:func:`eotf_ST2084`},
+        {:func:`colour.models.eotf_ST2084`},
         Display peak luminance :math:`cd/m^2`.
     gamma : numeric, optional
-        {:func:`eotf_BT2100_HLG`},
+        {:func:`colour.models.eotf_BT2100_HLG`},
         System gamma value, 1.2 at the nominal display peak luminance of
         :math:`1000 cd/m^2`.
     is_12_bits_system : bool
-        {:func:`eotf_BT2020`},
+        {:func:`colour.models.eotf_BT2020`},
         *ITU-R BT.2020* *alpha* and *beta* constants are used if system is not
         12-bit.
 
@@ -611,13 +625,15 @@ def eotf_reverse(value, function='ITU-R BT.1886', **kwargs):
     Other Parameters
     ----------------
     L_B : numeric, optional
-        {:func:`eotf_reverse_BT1886`, :func:`eotf_reverse_BT2100_HLG`},
+        {:func:`colour.models.eotf_reverse_BT1886`,
+        :func:`colour.models.eotf_reverse_BT2100_HLG`},
         Screen luminance for black.
     L_W : numeric, optional
-        {:func:`eotf_reverse_BT1886`, :func:`eotf_reverse_BT2100_HLG`},
+        {:func:`colour.models.eotf_reverse_BT1886`,
+        :func:`colour.models.eotf_reverse_BT2100_HLG`},
         Screen luminance for white.
     gamma : numeric, optional
-        {:func:`eotf_BT2100_HLG`},
+        {:func:`colour.models.eotf_BT2100_HLG`},
         System gamma value, 1.2 at the nominal display peak luminance of
         :math:`1000 cd/m^2`.
 
@@ -714,14 +730,14 @@ def ootf_reverse(value, function='ITU-R BT.2100 PQ', **kwargs):
     Other Parameters
     ----------------
     L_B : numeric, optional
-        {:func:`ootf_reverse_BT2100_HLG`},
+        {:func:`colour.models.ootf_reverse_BT2100_HLG`},
         :math:`L_B` is the display luminance for black in :math:`cd/m^2`.
     L_W : numeric, optional
-        {:func:`ootf_reverse_BT2100_HLG`},
+        {:func:`colour.models.ootf_reverse_BT2100_HLG`},
         :math:`L_W` is nominal peak luminance of the display in :math:`cd/m^2`
         for achromatic pixels.
     gamma : numeric, optional
-        {:func:`ootf_reverse_BT2100_HLG`},
+        {:func:`colour.models.ootf_reverse_BT2100_HLG`},
         System gamma value, 1.2 at the nominal display peak luminance of
         :math:`1000 cd/m^2`.
 

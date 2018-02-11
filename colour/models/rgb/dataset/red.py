@@ -6,13 +6,13 @@ RED Colourspaces
 
 Defines the *RED* colourspaces:
 
--   :attr:`RED_COLOR_COLOURSPACE`
--   :attr:`RED_COLOR_2_COLOURSPACE`
--   :attr:`RED_COLOR_3_COLOURSPACE`
--   :attr:`RED_COLOR_4_COLOURSPACE`
--   :attr:`DRAGON_COLOR_COLOURSPACE`
--   :attr:`DRAGON_COLOR_2_COLOURSPACE`
--   :attr:`RED_WIDE_GAMUT_RGB_COLOURSPACE`
+-   :attr:`colour.models.RED_COLOR_COLOURSPACE`
+-   :attr:`colour.models.RED_COLOR_2_COLOURSPACE`
+-   :attr:`colour.models.RED_COLOR_3_COLOURSPACE`
+-   :attr:`colour.models.RED_COLOR_4_COLOURSPACE`
+-   :attr:`colour.models.DRAGON_COLOR_COLOURSPACE`
+-   :attr:`colour.models.DRAGON_COLOR_2_COLOURSPACE`
+-   :attr:`colour.models.RED_WIDE_GAMUT_RGB_COLOURSPACE`
 
 See Also
 --------

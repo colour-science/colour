@@ -6,10 +6,10 @@ CIE UCS Colourspace
 
 Defines the *CIE UCS* colourspace transformations:
 
--   :func:`XYZ_to_UCS`
--   :func:`UCS_to_XYZ`
--   :func:`UCS_to_uv`
--   :func:`UCS_uv_to_xy`
+-   :func:`colour.XYZ_to_UCS`
+-   :func:`colour.UCS_to_XYZ`
+-   :func:`colour.UCS_to_uv`
+-   :func:`colour.UCS_uv_to_xy`
 
 See Also
 --------

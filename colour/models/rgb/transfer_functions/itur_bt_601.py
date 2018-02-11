@@ -7,8 +7,8 @@ ITU-R BT.601-7
 Defines *ITU-R BT.601-7* opto-electrical transfer function (OETF / OECF) and
 its reverse:
 
--   :func:`oetf_BT601`
--   :func:`oetf_reverse_BT601`
+-   :func:`colour.models.oetf_BT601`
+-   :func:`colour.models.oetf_reverse_BT601`
 
 See Also
 --------

@@ -6,10 +6,10 @@ LLAB(l:c) Colour Appearance Model
 
 Defines *LLAB(l:c)* colour appearance model objects:
 
--   :class:`LLAB_InductionFactors`
--   :attr:`LLAB_VIEWING_CONDITIONS`
--   :class:`LLAB_Specification`
--   :func:`XYZ_to_LLAB`
+-   :class:`colour.appearance.LLAB_InductionFactors`
+-   :attr:`colour.LLAB_VIEWING_CONDITIONS`
+-   :class:`colour.LLAB_Specification`
+-   :func:`colour.XYZ_to_LLAB`
 
 See Also
 --------

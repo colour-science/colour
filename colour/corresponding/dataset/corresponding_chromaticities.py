@@ -79,7 +79,9 @@ class BrenemanExperimentResult(
                 d_uvp_i=None,
                 d_uvp_g=None):
         """
-        Returns a new instance of the :class:`BrenemanExperimentResult` class.
+        Returns a new instance of the
+        :class:`colour.corresponding.dataset.corresponding_chromaticities.\
+BrenemanExperimentResult` class.
         """
 
         return super(BrenemanExperimentResult, cls).__new__(
@@ -120,7 +122,9 @@ class PrimariesChromaticityCoordinates(
                 d_uvp_i=None,
                 d_uvp_g=None):
         """
-        Returns a new instance of the :class:`BrenemanExperimentResult` class.
+        Returns a new instance of the
+        :class:`colour.corresponding.dataset.corresponding_chromaticities.\
+PrimariesChromaticityCoordinates` class.
         """
 
         return super(PrimariesChromaticityCoordinates, cls).__new__(

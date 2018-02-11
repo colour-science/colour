@@ -6,7 +6,7 @@ CIE RGB Colourspace
 
 Defines the *CIE RGB* colourspace:
 
--   :attr:`CIE_RGB_COLOURSPACE`.
+-   :attr:`colour.models.CIE_RGB_COLOURSPACE`.
 
 See Also
 --------
@@ -55,8 +55,8 @@ CIE_RGB_PRIMARIES : ndarray, (3, 2)
 Notes
 -----
 -   *CIE RGB* colourspace primaries were computed using
-    :attr:`CIE_RGB_TO_XYZ_MATRIX` attribute and
-    :func:`colour.primaries_whitepoint` definition.
+    :attr:`colour.models.rgb.dataset.cie_rgb.CIE_RGB_TO_XYZ_MATRIX` attribute
+    and :func:`colour.primaries_whitepoint` definition.
 """
 
 CIE_RGB_ILLUMINANT = 'E'

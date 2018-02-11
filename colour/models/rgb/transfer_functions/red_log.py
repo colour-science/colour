@@ -6,14 +6,14 @@ RED Log Encodings
 
 Defines the *RED* log encodings:
 
--   :func:`log_encoding_REDLog`
--   :func:`log_decoding_REDLog`
--   :func:`log_encoding_REDLogFilm`
--   :func:`log_decoding_REDLogFilm`
--   :func:`log_encoding_Log3G10`
--   :func:`log_decoding_Log3G10`
--   :func:`log_encoding_Log3G12`
--   :func:`log_decoding_Log3G12`
+-   :func:`colour.models.log_encoding_REDLog`
+-   :func:`colour.models.log_decoding_REDLog`
+-   :func:`colour.models.log_encoding_REDLogFilm`
+-   :func:`colour.models.log_decoding_REDLogFilm`
+-   :func:`colour.models.log_encoding_Log3G10`
+-   :func:`colour.models.log_decoding_Log3G10`
+-   :func:`colour.models.log_encoding_Log3G12`
+-   :func:`colour.models.log_decoding_Log3G12`
 
 See Also
 --------

@@ -6,24 +6,28 @@ Munsell Renotation System
 
 Defines various objects for *Munsell Renotation System* computations:
 
--   :func:`munsell_value_Priest1920`: *Munsell* value :math:`V` computation of
-    given *luminance* :math:`Y` using *Priest, Gibson and MacNicholas (1920)*
+-   :func:`colour.notation.munsell_value_Priest1920`: *Munsell* value :math:`V`
+    computation of given *luminance* :math:`Y` using
+    *Priest, Gibson and MacNicholas (1920)* method.
+-   :func:`colour.notation.munsell_value_Munsell1933`: *Munsell* value
+    :math:`V` computation of given *luminance* :math:`Y` using
+    ⁠*Munsell, Sloan and Godlove (1933)* method.
+-   :func:`colour.notation.munsell_value_Moon1943`: *Munsell* value :math:`V`
+    computation of given *luminance* :math:`Y` using
+    *Moon and Spencer (1943)* method.
+-   :func:`colour.notation.munsell_value_Saunderson1944`: *Munsell* value
+    :math:`V` computation of given *luminance* :math:`Y` using
+    *Saunderson and Milner (1944)* method.
+-   :func:`colour.notation.munsell_value_Ladd1955`: *Munsell* value :math:`V`
+    computation of given *luminance* :math:`Y` using *Ladd and Pinney (1955)*
     method.
--   :func:`munsell_value_Munsell1933`: *Munsell* value :math:`V` computation of
-    given *luminance* :math:`Y` using ⁠*Munsell, Sloan and Godlove (1933)*
-    method.
--   :func:`munsell_value_Moon1943`: *Munsell* value :math:`V` computation of
-    given *luminance* :math:`Y` using *Moon and Spencer (1943)* method.
--   :func:`munsell_value_Saunderson1944`: *Munsell* value :math:`V` computation
-    of given *luminance* :math:`Y` using *Saunderson and Milner (1944)* method.
--   :func:`munsell_value_Ladd1955`: *Munsell* value :math:`V` computation of
-    given *luminance* :math:`Y` using *Ladd and Pinney (1955)* method.
--   :func:`munsell_value_McCamy1987`: *Munsell* value :math:`V` computation of
-    given *luminance* :math:`Y` using *McCamy (1987)* method.
--   :func:`munsell_value_ASTMD153508`: *Munsell* value :math:`V`
-    computation of given *luminance* :math:`Y` using *ASTM D1535-08e1* method.
--   :func:`munsell_colour_to_xyY`
--   :func:`xyY_to_munsell_colour`
+-   :func:`colour.notation.munsell_value_McCamy1987`: *Munsell* value :math:`V`
+    computation of given *luminance* :math:`Y` using *McCamy (1987)* method.
+-   :func:`colour.notation.munsell_value_ASTMD153508`: *Munsell* value
+    :math:`V` computation of given *luminance* :math:`Y` using
+    *ASTM D1535-08e1* method.
+-   :func:`colour.munsell_colour_to_xyY`
+-   :func:`colour.xyY_to_munsell_colour`
 
 See Also
 --------
@@ -204,8 +208,7 @@ def _munsell_specifications():
     not existing.
 
     The *Munsell Renotation System* data is stored in
-    :attr:`colour.notation.dataset.munsell.MUNSELL_COLOURS` attribute in a 2
-    columns form:
+    :attr:`colour.notation.MUNSELL_COLOURS` attribute in a 2 columns form:
 
     (('2.5GY', 0.2, 2.0), (0.713, 1.414, 0.237)),
     (('5GY', 0.2, 2.0), (0.449, 1.145, 0.237)),
@@ -213,7 +216,8 @@ def _munsell_specifications():
     ...,)
 
     The first column is converted from *Munsell* colour to specification using
-    :func:`munsell_colour_to_munsell_specification` definition:
+    :func:`colour.notation.munsell.munsell_colour_to_munsell_specification`
+    definition:
 
     ('2.5GY', 0.2, 2.0) ---> (2.5, 0.2, 2.0, 4)
 

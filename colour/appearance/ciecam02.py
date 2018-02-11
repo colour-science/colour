@@ -6,11 +6,11 @@ CIECAM02 Colour Appearance Model
 
 Defines *CIECAM02* colour appearance model objects:
 
--   :class:`CIECAM02_InductionFactors`
--   :attr:`CIECAM02_VIEWING_CONDITIONS`
--   :class:`CIECAM02_Specification`
--   :func:`XYZ_to_CIECAM02`
--   :func:`CIECAM02_to_XYZ`
+-   :class:`colour.appearance.CIECAM02_InductionFactors`
+-   :attr:`colour.CIECAM02_VIEWING_CONDITIONS`
+-   :class:`colour.CIECAM02_Specification`
+-   :func:`colour.XYZ_to_CIECAM02`
+-   :func:`colour.CIECAM02_to_XYZ`
 
 See Also
 --------
@@ -175,7 +175,8 @@ class CIECAM02_Specification(
                 H=None,
                 HC=None):
         """
-        Returns a new instance of the :class:`CIECAM02_Specification` class.
+        Returns a new instance of the :class:`colour.CIECAM02_Specification`
+        class.
         """
 
         return super(CIECAM02_Specification, cls).__new__(
@@ -355,7 +356,7 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
     Notes
     -----
     -   ``CIECAM02_specification`` can also be passed as a compatible argument
-        :func:`colour.as_namedtuple` definition.
+        :func:`colour.utilities.as_namedtuple` definition.
     -   Input *CIE XYZ_w* tristimulus values are in domain [0, 100].
     -   Output *CIE XYZ* tristimulus values are in range [0, 100].
 

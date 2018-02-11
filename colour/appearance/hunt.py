@@ -6,10 +6,10 @@ Hunt Colour Appearance Model
 
 Defines *Hunt* colour appearance model objects:
 
--   :class:`Hunt_InductionFactors`
--   :attr:`HUNT_VIEWING_CONDITIONS`
--   :class:`Hunt_Specification`
--   :func:`XYZ_to_Hunt`
+-   :class:`colour.appearance.Hunt_InductionFactors`
+-   :attr:`colour.HUNT_VIEWING_CONDITIONS`
+-   :class:`colour.Hunt_Specification`
+-   :func:`colour.XYZ_to_Hunt`
 
 See Also
 --------
@@ -83,7 +83,8 @@ class Hunt_InductionFactors(
 
     def __new__(cls, N_c, N_b, N_cb=None, N_bb=None):
         """
-        Returns a new instance of the :class:`Hunt_InductionFactors` class.
+        Returns a new instance of the
+        :class:`colour.appearance.Hunt_InductionFactors` class.
         """
 
         return super(Hunt_InductionFactors, cls).__new__(

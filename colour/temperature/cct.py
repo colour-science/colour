@@ -6,34 +6,39 @@ Correlated Colour Temperature :math:`T_{cp}`
 
 Defines correlated colour temperature :math:`T_{cp}` computations objects:
 
--   :func:`uv_to_CCT_Ohno2013`: Correlated colour temperature :math:`T_{cp}`
-    and :math:`\Delta_{uv}` computation of given *CIE UCS* colourspace *uv*
-    chromaticity coordinates using *Ohno (2013)* method.
--   :func:`CCT_to_uv_Ohno2013`: *CIE UCS* colourspace *uv* chromaticity
-    coordinates computation of given correlated colour temperature
-    :math:`T_{cp}`, :math:`\Delta_{uv}` using *Ohno (2013)* method.
--   :func:`uv_to_CCT_Robertson1968`: Correlated colour temperature
-    :math:`T_{cp}` and :math:`\Delta_{uv}` computation of given *CIE UCS*
-    colourspace *uv* chromaticity coordinates using *Robertson (1968)* method.
--   :func:`CCT_to_uv_Robertson1968`: *CIE UCS* colourspace *uv* chromaticity
-    coordinates computation of given correlated colour temperature
-    :math:`T_{cp}` and :math:`\Delta_{uv}` using *Robertson (1968)* method.
--   :func:`CCT_to_uv_Krystek1985`: *CIE UCS* colourspace *uv* chromaticity
-    coordinates computation of given correlated colour temperature
-    :math:`T_{cp}` using *Krystek (1985)* method.
--   :func:`xy_to_CCT_McCamy1992`: Correlated colour temperature :math:`T_{cp}`
-    computation of given *CIE XYZ* tristimulus values *xy* chromaticity
-    coordinates using *McCamy (1992)* method.
--   :func:`xy_to_CCT_Hernandez1999`: Correlated colour temperature
-    :math:`T_{cp}` computation of given *CIE XYZ* tristimulus values *xy*
-    chromaticity coordinates using *Hernandez-Andres, Lee and Romero (1999)*
+-   :func:`colour.temperature.uv_to_CCT_Ohno2013`: Correlated colour
+    temperature :math:`T_{cp}` and :math:`\Delta_{uv}` computation of given
+    *CIE UCS* colourspace *uv* chromaticity coordinates using *Ohno (2013)*
     method.
--   :func:`CCT_to_xy_Kang2002`: *CIE XYZ* tristimulus values *xy* chromaticity
-    coordinates computation of given correlated colour temperature
-    :math:`T_{cp}` using *Kang, Moon, Hong, Lee, Cho and Kim (2002)* method.
--   :func:`CCT_to_xy_CIE_D`: *CIE XYZ* tristimulus values *xy* chromaticity
-    coordinates computation of *CIE Illuminant D Series* from given correlated
-    colour temperature :math:`T_{cp}` of that *CIE Illuminant D Series*.
+-   :func:`colour.temperature.CCT_to_uv_Ohno2013`: *CIE UCS* colourspace *uv*
+    chromaticity coordinates computation of given correlated colour temperature
+    :math:`T_{cp}`, :math:`\Delta_{uv}` using *Ohno (2013)* method.
+-   :func:`colour.temperature.uv_to_CCT_Robertson1968`: Correlated colour
+    temperature :math:`T_{cp}` and :math:`\Delta_{uv}` computation of given
+    *CIE UCS* colourspace *uv* chromaticity coordinates using
+    *Robertson (1968)* method.
+-   :func:`colour.temperature.CCT_to_uv_Robertson1968`: *CIE UCS* colourspace
+    *uv* chromaticity coordinates computation of given correlated colour
+    temperature :math:`T_{cp}` and :math:`\Delta_{uv}` using
+    *Robertson (1968)* method.
+-   :func:`colour.temperature.CCT_to_uv_Krystek1985`: *CIE UCS* colourspace
+    *uv* chromaticity coordinates computation of given correlated colour
+    temperature :math:`T_{cp}` using *Krystek (1985)* method.
+-   :func:`colour.temperature.xy_to_CCT_McCamy1992`: Correlated colour
+    temperature :math:`T_{cp}` computation of given *CIE XYZ* tristimulus
+    values *xy* chromaticity coordinates using *McCamy (1992)* method.
+-   :func:`colour.temperature.xy_to_CCT_Hernandez1999`: Correlated colour
+    temperature :math:`T_{cp}` computation of given *CIE XYZ* tristimulus
+    values *xy* chromaticity coordinates using
+    *Hernandez-Andres, Lee and Romero (1999)* method.
+-   :func:`colour.temperature.CCT_to_xy_Kang2002`: *CIE XYZ* tristimulus
+    values *xy* chromaticity coordinates computation of given correlated colour
+    temperature :math:`T_{cp}` using
+    *Kang, Moon, Hong, Lee, Cho and Kim (2002)* method.
+-   :func:`colour.temperature.CCT_to_xy_CIE_D`: *CIE XYZ* tristimulus values
+    *xy* chromaticity coordinates computation of *CIE Illuminant D Series* from
+    given correlated colour temperature :math:`T_{cp}` of that
+    *CIE Illuminant D Series*.
 
 See Also
 --------
@@ -686,19 +691,19 @@ def uv_to_CCT(uv, method='Ohno 2013', **kwargs):
     Other Parameters
     ----------------
     cmfs : XYZ_ColourMatchingFunctions, optional
-        {:func:`uv_to_CCT_Ohno2013`},
+        {:func:`colour.temperature.uv_to_CCT_Ohno2013`},
         Standard observer colour matching functions.
     start : numeric, optional
-        {:func:`uv_to_CCT_Ohno2013`},
+        {:func:`colour.temperature.uv_to_CCT_Ohno2013`},
         Temperature range start in kelvins.
     end : numeric, optional
-        {:func:`uv_to_CCT_Ohno2013`},
+        {:func:`colour.temperature.uv_to_CCT_Ohno2013`},
         Temperature range end in kelvins.
     count : int, optional
-        {:func:`uv_to_CCT_Ohno2013`},
+        {:func:`colour.temperature.uv_to_CCT_Ohno2013`},
         Temperatures count in the planckian tables.
     iterations : int, optional
-        {:func:`uv_to_CCT_Ohno2013`},
+        {:func:`colour.temperature.uv_to_CCT_Ohno2013`},
         Number of planckian tables to generate.
 
     Returns
@@ -775,7 +780,7 @@ def CCT_to_uv(CCT, method='Ohno 2013', **kwargs):
        {:func:`CCT_to_uv_Ohno2013, CCT_to_uv_Robertson1968`},
        :math:`\Delta_{uv}`.
     cmfs : XYZ_ColourMatchingFunctions, optional
-        {:func:`CCT_to_uv_Ohno2013`},
+        {:func:`colour.temperature.CCT_to_uv_Ohno2013`},
         Standard observer colour matching functions.
 
     Returns

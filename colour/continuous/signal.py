@@ -6,7 +6,7 @@ Signal
 
 Defines the class implementing support for continuous signal:
 
--   :class:`Signal`
+-   :class:`colour.continuous.Signal`
 """
 
 from __future__ import division, unicode_literals
@@ -49,18 +49,19 @@ class Signal(AbstractContinuousFunction):
     returns a corresponding range :math:`y \in \mathbb{R}` variable.
     It adopts an interpolating function encapsulated inside an extrapolating
     function. The resulting function independent domain, stored as discrete
-    values in the :attr:`Signal.domain` attribute corresponds with the function
-    dependent and already known range stored in the :attr:`Signal.range`
-    attribute.
+    values in the :attr:`colour.continuous.Signal.domain` attribute corresponds
+    with the function dependent and already known range stored in the
+    :attr:`colour.continuous.Signal.range` attribute.
 
     Parameters
     ----------
     data : Series or Signal or array_like or dict_like, optional
         Data to be stored in the continuous signal.
     domain : array_like, optional
-        Values to initialise the :attr:`Signal.domain` attribute with.
-        If both ``data`` and ``domain`` arguments are defined, the latter with
-        be used to initialise the :attr:`Signal.domain` attribute.
+        Values to initialise the :attr:`colour.continuous.Signal.domain`
+        attribute with. If both ``data`` and ``domain`` arguments are defined,
+        the latter with be used to initialise the
+        :attr:`colour.continuous.Signal.domain` attribute.
 
     Other Parameters
     ----------------
@@ -973,7 +974,7 @@ class Signal(AbstractContinuousFunction):
          [   8.  190.]
          [   9.  210.]]
 
-        Adding a :class:`Signal` class:
+        Adding a :class:`colour.continuous.Signal` class:
 
         >>> signal_2 = Signal(range_)
         >>> print(signal_1.arithmetical_operation(signal_2, '+', True))
@@ -1021,9 +1022,10 @@ class Signal(AbstractContinuousFunction):
         data : Series or Signal or array_like or dict_like, optional
             Data to unpack for continuous signal instantiation.
         domain : array_like, optional
-            Values to initialise the :attr:`Signal.domain` attribute with.
-            If both ``data`` and ``domain`` arguments are defined, the latter
-            with be used to initialise the :attr:`Signal.domain` attribute.
+            Values to initialise the :attr:`colour.continuous.Signal.domain`
+            attribute with. If both ``data`` and ``domain`` arguments are
+            defined, the latter will be used to initialise the
+            :attr:`colour.continuous.Signal.domain` attribute.
         dtype : type, optional
             **{np.float16, np.float32, np.float64, np.float128}**,
             Floating point data type.
@@ -1075,7 +1077,7 @@ class Signal(AbstractContinuousFunction):
         >>> print(range_)  # doctest: +SKIP
         [  10.   20.   30.   40.   50.   60.   70.   80.   90.  100.]
 
-        Unpacking using a :class:`Signal` class:
+        Unpacking using a :class:`colour.continuous.Signal` class:
 
         >>> domain, range_ = Signal.signal_unpack_data(
         ...     Signal(range_, domain))

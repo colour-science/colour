@@ -8,18 +8,18 @@ Defines *ITU-R BT.2100* opto-electrical transfer functions (OETF / OECF),
 opto-optical transfer functions (OOTF / OOCF) and electro-optical transfer
 functions (EOTF / EOCF) and their reverse:
 
--   :func:`oetf_BT2100_PQ`
--   :func:`oetf_reverse_BT2100_PQ`
--   :func:`eotf_BT2100_PQ`
--   :func:`eotf_reverse_BT2100_PQ`
--   :func:`ootf_BT2100_PQ`
--   :func:`ootf_reverse_BT2100_PQ`
--   :func:`oetf_BT2100_HLG`
--   :func:`oetf_reverse_BT2100_HLG`
--   :func:`eotf_BT2100_HLG`
--   :func:`eotf_reverse_BT2100_HLG`
--   :func:`ootf_BT2100_HLG`
--   :func:`ootf_reverse_BT2100_HLG`
+-   :func:`colour.models.oetf_BT2100_PQ`
+-   :func:`colour.models.oetf_reverse_BT2100_PQ`
+-   :func:`colour.models.eotf_BT2100_PQ`
+-   :func:`colour.models.eotf_reverse_BT2100_PQ`
+-   :func:`colour.models.ootf_BT2100_PQ`
+-   :func:`colour.models.ootf_reverse_BT2100_PQ`
+-   :func:`colour.models.oetf_BT2100_HLG`
+-   :func:`colour.models.oetf_reverse_BT2100_HLG`
+-   :func:`colour.models.eotf_BT2100_HLG`
+-   :func:`colour.models.eotf_reverse_BT2100_HLG`
+-   :func:`colour.models.ootf_BT2100_HLG`
+-   :func:`colour.models.ootf_reverse_BT2100_HLG`
 
 See Also
 --------

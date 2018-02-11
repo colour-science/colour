@@ -4,14 +4,14 @@
 RGB Colourspace and Transformations
 ===================================
 
-Defines the :class:`RGB_Colourspace` class for the *RGB* colourspaces dataset
-from :mod:`colour.models.dataset.aces_rgb`, etc... and the following *RGB*
-colourspace transformations or helper definitions:
+Defines the :class:`colour.RGB_Colourspace` class for the *RGB* colourspaces
+dataset from :mod:`colour.models.dataset.aces_rgb`, etc... and the following
+*RGB* colourspace transformations or helper definitions:
 
--   :func:`XYZ_to_RGB`
--   :func:`RGB_to_XYZ`
--   :func:`RGB_to_RGB_matrix`
--   :func:`RGB_to_RGB`
+-   :func:`colour.XYZ_to_RGB`
+-   :func:`colour.RGB_to_XYZ`
+-   :func:`colour.RGB_to_RGB_matrix`
+-   :func:`colour.RGB_to_RGB`
 
 See Also
 --------
@@ -88,21 +88,22 @@ class RGB_Colourspace(object):
 
     In order to provide support for both literature defined dataset and
     accurate computations enabling transformations without loss of precision,
-    the :class:`RGB_Colourspace` class provides two sets of transformation
-    matrices:
+    the :class:`colour.RGB_Colourspace` class provides two sets of
+    transformation matrices:
 
         -   Instantiation transformation matrices
         -   Derived transformation matrices
 
-    Upon instantiation, the :class:`RGB_Colourspace` class stores the given
-    ``RGB_to_XYZ_matrix`` and ``XYZ_to_RGB_matrix`` arguments and also
+    Upon instantiation, the :class:`colour.RGB_Colourspace` class stores the
+    given ``RGB_to_XYZ_matrix`` and ``XYZ_to_RGB_matrix`` arguments and also
     computes their derived counterpart using the ``primaries`` and
     ``whitepoint`` arguments.
 
     Whether the initialisation or derived matrices are used in subsequent
     computations is dependent on the
-    :attr:`RGB_Colourspace.use_derived_RGB_to_XYZ_matrix` and
-    :attr:`RGB_Colourspace.use_derived_XYZ_to_RGB_matrix` attributes values.
+    :attr:`colour.RGB_Colourspace.use_derived_RGB_to_XYZ_matrix` and
+    :attr:`colour.RGB_Colourspace.use_derived_XYZ_to_RGB_matrix` attributes
+    values.
 
     Parameters
     ----------
@@ -157,11 +158,11 @@ class RGB_Colourspace(object):
     Notes
     -----
     -   The normalised primary matrix defined by
-        :attr:`RGB_Colourspace.RGB_to_XYZ_matrix` attribute is treated as the
-        prime matrix from which the inverse will be calculated as required by
-        the internal derivation mechanism. This behaviour has been chosen in
-        accordance with literature where commonly a *RGB* colourspace is
-        defined by its normalised primary matrix as it is directly computed
+        :attr:`colour.RGB_Colourspace.RGB_to_XYZ_matrix` attribute is treated
+        as the prime matrix from which the inverse will be calculated as
+        required by the internal derivation mechanism. This behaviour has been
+        chosen in accordance with literature where commonly a *RGB* colourspace
+        is defined by its normalised primary matrix as it is directly computed
         from the chosen primaries and whitepoint.
 
     References

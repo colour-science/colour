@@ -6,10 +6,10 @@ RIMM, ROMM and ERIMM Encodings
 
 Defines the *RIMM, ROMM and ERIMM* encodings:
 
--   :attr:`ROMM_RGB_COLOURSPACE`.
--   :attr:`RIMM_RGB_COLOURSPACE`.
--   :attr:`ERIMM_RGB_COLOURSPACE`.
--   :attr:`PROPHOTO_RGB_COLOURSPACE`.
+-   :attr:`colour.models.ROMM_RGB_COLOURSPACE`.
+-   :attr:`colour.models.RIMM_RGB_COLOURSPACE`.
+-   :attr:`colour.models.ERIMM_RGB_COLOURSPACE`.
+-   :attr:`colour.models.PROPHOTO_RGB_COLOURSPACE`.
 
 See Also
 --------

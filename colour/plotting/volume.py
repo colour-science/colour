@@ -6,8 +6,8 @@ Colour Models Volume Plotting
 
 Defines colour models volume and gamut plotting objects:
 
--   :func:`RGB_colourspaces_gamuts_plot`
--   :func:`RGB_scatter_plot`
+-   :func:`colour.plotting.RGB_colourspaces_gamuts_plot`
+-   :func:`colour.plotting.RGB_scatter_plot`
 """
 
 from __future__ import division
@@ -433,8 +433,8 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`nadir_grid`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.volume.nadir_grid`},
+        Please refer to the documentation of the previously listed definition.
     face_colours : array_like, optional
         Face colours array such as `face_colours = (None, (0.5, 0.5, 1.0))`.
     edge_colours : array_like, optional
@@ -622,8 +622,8 @@ def RGB_scatter_plot(RGB,
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`RGB_colourspaces_gamuts_plot`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.RGB_colourspaces_gamuts_plot`},
+        Please refer to the documentation of the previously listed definition.
 
     Returns
     -------

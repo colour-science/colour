@@ -6,8 +6,8 @@ Optical Phenomenon Plotting
 
 Defines the optical phenomena plotting objects:
 
--   :func:`single_rayleigh_scattering_spd_plot`
--   :func:`the_blue_sky_plot`
+-   :func:`colour.plotting.single_rayleigh_scattering_spd_plot`
+-   :func:`colour.plotting.the_blue_sky_plot`
 """
 
 from __future__ import division
@@ -64,11 +64,10 @@ def single_rayleigh_scattering_spd_plot(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
     out_of_gamut_clipping : bool, optional
-        {:func:`single_spd_plot`},
+        {:func:`colour.plotting.single_spd_plot`},
         Whether to clip out of gamut colours otherwise, the colours will be
         offset by the absolute minimal colour leading to a rendering on
         gray background, less saturated and smoother.
@@ -108,9 +107,8 @@ def the_blue_sky_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
 
     Returns
     -------

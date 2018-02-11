@@ -6,8 +6,8 @@ GoPro Encodings
 
 Defines the *GoPro* encodings:
 
--   :func:`log_encoding_Protune`
--   :func:`log_decoding_Protune`
+-   :func:`colour.models.log_encoding_Protune`
+-   :func:`colour.models.log_decoding_Protune`
 
 See Also
 --------

@@ -6,8 +6,8 @@ Pivoted Log Encoding
 
 Defines the *Pivoted Log* encoding:
 
--   :func:`log_encoding_PivotedLog`
--   :func:`log_decoding_PivotedLog`
+-   :func:`colour.models.log_encoding_PivotedLog`
+-   :func:`colour.models.log_decoding_PivotedLog`
 
 See Also
 --------

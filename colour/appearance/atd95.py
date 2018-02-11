@@ -6,8 +6,8 @@ ATD (1995) Colour Vision Model
 
 Defines *ATD (1995)* colour vision model objects:
 
--   :class:`ATD95_Specification`
--   :func:`XYZ_to_ATD95`
+-   :class:`colour.ATD95_Specification`
+-   :func:`colour.XYZ_to_ATD95`
 
 See Also
 --------

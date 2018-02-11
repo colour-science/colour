@@ -6,9 +6,9 @@ Sony Colourspaces
 
 Defines the *S-Gamut*, *S-Gamut3* and *S-Gamut3.Cine* colourspaces:
 
--   :attr:`S_GAMUT_COLOURSPACE`.
--   :attr:`S_GAMUT3_COLOURSPACE`.
--   :attr:`S_GAMUT3_CINE_COLOURSPACE`.
+-   :attr:`colour.models.S_GAMUT_COLOURSPACE`.
+-   :attr:`colour.models.S_GAMUT3_COLOURSPACE`.
+-   :attr:`colour.models.S_GAMUT3_CINE_COLOURSPACE`.
 
 See Also
 --------

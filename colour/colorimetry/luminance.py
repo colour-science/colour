@@ -8,17 +8,21 @@ Defines *luminance* :math:`Y` computation objects.
 
 The following methods are available:
 
--   :func:`luminance_Newhall1943`: *luminance* :math:`Y` computation of given
-    *Munsell* value :math:`V` using *Newhall, Nickerson and Judd (1943)*
+-   :func:`colour.colorimetry.luminance_Newhall1943`: *luminance* :math:`Y`
+    computation of given *Munsell* value :math:`V` using
+    *Newhall, Nickerson and Judd (1943)* method.
+-   :func:`colour.colorimetry.luminance_ASTMD153508`: *luminance* :math:`Y`
+    computation of given *Munsell* value :math:`V` using *ASTM D1535-08e1*
     method.
--   :func:`luminance_ASTMD153508`: *luminance* :math:`Y` computation of given
-    *Munsell* value :math:`V` using *ASTM D1535-08e1* method.
--   :func:`luminance_CIE1976`: *luminance* :math:`Y` computation of given
-    *Lightness* :math:`L^*` as per *CIE 1976* recommendation.
--   :func:`luminance_Fairchild2010`: *luminance* :math:`Y` computation of given
-    *Lightness* :math:`L_{hdr}` using *Fairchild and Wyble (2010)* method.
--   :func:`luminance_Fairchild2011`: *luminance* :math:`Y` computation of given
-    *Lightness* :math:`L_{hdr}` using *Fairchild and Chen (2011)* method.
+-   :func:`colour.colorimetry.luminance_CIE1976`: *luminance* :math:`Y`
+    computation of given *Lightness* :math:`L^*` as per *CIE 1976*
+    recommendation.
+-   :func:`colour.colorimetry.luminance_Fairchild2010`: *luminance* :math:`Y`
+    computation of given *Lightness* :math:`L_{hdr}` using
+    *Fairchild and Wyble (2010)* method.
+-   :func:`colour.colorimetry.luminance_Fairchild2011`: *luminance* :math:`Y`
+    computation of given *Lightness* :math:`L_{hdr}` using
+    *Fairchild and Chen (2011)* method.
 
 See Also
 --------
@@ -350,10 +354,11 @@ def luminance(LV, method='CIE 1976', **kwargs):
     Other Parameters
     ----------------
     Y_n : numeric or array_like, optional
-        {:func:`luminance_CIE1976`},
+        {:func:`colour.colorimetry.luminance_CIE1976`},
         White reference *luminance* :math:`Y_n`.
     epsilon : numeric or array_like, optional
-        {:func:`lightness_Fairchild2010`, :func:`lightness_Fairchild2011`},
+        {:func:`colour.colorimetry.lightness_Fairchild2010`,
+        :func:`colour.colorimetry.lightness_Fairchild2011`},
         :math:`\epsilon` exponent.
 
     Returns

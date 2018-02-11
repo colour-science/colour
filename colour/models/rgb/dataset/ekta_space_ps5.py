@@ -6,7 +6,7 @@ Ekta Space PS 5 Colourspace
 
 Defines the *Ekta Space PS 5* colourspace:
 
--   :attr:`EKTA_SPACE_PS_5_COLOURSPACE`.
+-   :attr:`colour.models.EKTA_SPACE_PS_5_COLOURSPACE`.
 
 See Also
 --------

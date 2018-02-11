@@ -344,7 +344,7 @@ def tstack(a):
     """
     Stacks arrays in sequence along the last axis (tail).
 
-    Rebuilds arrays divided by :func:`tsplit`.
+    Rebuilds arrays divided by :func:`colour.utilities.tsplit`.
 
     Parameters
     ----------

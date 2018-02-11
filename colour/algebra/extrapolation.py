@@ -6,7 +6,7 @@ Extrapolation
 
 Defines classes for extrapolating variables:
 
--   :class:`Extrapolator`: 1-D function extrapolation.
+-   :class:`colour.Extrapolator`: 1-D function extrapolation.
 
 References
 ----------
@@ -39,8 +39,8 @@ class Extrapolator(object):
     """
     Extrapolates the 1-D function of given interpolator.
 
-    The :class:`Extrapolator` class acts as a wrapper around a given *Colour*
-    or *scipy* interpolator class instance with compatible signature.
+    The :class:`colour.Extrapolator` class acts as a wrapper around a given
+    *Colour* or *scipy* interpolator class instance with compatible signature.
     Two extrapolation methods are available:
 
     -   *Linear*: Linearly extrapolates given points using the slope defined by

@@ -6,7 +6,7 @@ ITU-R BT.2020 Colourspace
 
 Defines the *ITU-R BT.2020* colourspace:
 
--   :attr:`BT2020_COLOURSPACE`.
+-   :attr:`colour.models.BT2020_COLOURSPACE`.
 
 See Also
 --------

@@ -6,7 +6,7 @@ Don RGB 4 Colourspace
 
 Defines the *Don RGB 4* colourspace:
 
--   :attr:`DON_RGB_4_COLOURSPACE`.
+-   :attr:`colour.models.DON_RGB_4_COLOURSPACE`.
 
 See Also
 --------

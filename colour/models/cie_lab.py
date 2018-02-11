@@ -6,10 +6,10 @@ CIE L*a*b* Colourspace
 
 Defines the *CIE L\*a\*b\** colourspace transformations:
 
--   :func:`XYZ_to_Lab`
--   :func:`Lab_to_XYZ`
--   :func:`Lab_to_LCHab`
--   :func:`LCHab_to_Lab`
+-   :func:`colour.XYZ_to_Lab`
+-   :func:`colour.Lab_to_XYZ`
+-   :func:`colour.Lab_to_LCHab`
+-   :func:`colour.LCHab_to_Lab`
 
 See Also
 --------

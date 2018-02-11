@@ -7,8 +7,7 @@ DSLR Cameras Spectral Sensitivities
 Defines *DSLR* cameras *RGB* spectral sensitivities.
 
 Each *DSLR* camera data is in the form of a *dict* of
-:class:`colour.characterisation.cameras.RGB_SpectralSensitivities` classes as
-follows::
+:class:`colour.characterisation.RGB_SpectralSensitivities` classes as follows::
 
     {'name': RGB_SpectralSensitivities,
     ...,

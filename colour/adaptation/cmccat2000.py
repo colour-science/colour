@@ -6,11 +6,11 @@ CMCCAT2000 Chromatic Adaptation Model
 
 Defines *CMCCAT2000* chromatic adaptation model objects:
 
--   :class:`CMCCAT2000_InductionFactors`
--   :class:`CMCCAT2000_VIEWING_CONDITIONS`
--   :func:`chromatic_adaptation_forward_CMCCAT2000`
--   :func:`chromatic_adaptation_reverse_CMCCAT2000`
--   :func:`chromatic_adaptation_CMCCAT2000`
+-   :class:`colour.adaptation.CMCCAT2000_InductionFactors`
+-   :class:`colour.CMCCAT2000_VIEWING_CONDITIONS`
+-   :func:`colour.adaptation.chromatic_adaptation_forward_CMCCAT2000`
+-   :func:`colour.adaptation.chromatic_adaptation_reverse_CMCCAT2000`
+-   :func:`colour.adaptation.chromatic_adaptation_CMCCAT2000`
 
 See Also
 --------
@@ -273,8 +273,8 @@ def chromatic_adaptation_CMCCAT2000(
     conditions.
 
     This definition is a convenient wrapper around
-    :func:`chromatic_adaptation_forward_CMCCAT2000` and
-    :func:`chromatic_adaptation_reverse_CMCCAT2000`.
+    :func:`colour.adaptation.chromatic_adaptation_forward_CMCCAT2000` and
+    :func:`colour.adaptation.chromatic_adaptation_reverse_CMCCAT2000`.
 
     Parameters
     ----------

@@ -8,12 +8,18 @@ Defines objects to apply transformations on coordinates systems.
 
 The following transformations are available:
 
--   :func:`cartesian_to_spherical`: Cartesian to Spherical transformation.
--   :func:`spherical_to_cartesian`: Spherical to Cartesian transformation.
--   :func:`cartesian_to_polar`: Cartesian to Polar transformation.
--   :func:`polar_to_cartesian`: Polar to Cartesian transformation.
--   :func:`cartesian_to_cylindrical`: Cartesian to Cylindrical transformation.
--   :func:`cylindrical_to_cartesian`: Cylindrical to Cartesian transformation.
+-   :func:`colour.algebra.cartesian_to_spherical`: Cartesian to Spherical
+    transformation.
+-   :func:`colour.algebra.spherical_to_cartesian`: Spherical to Cartesian
+    transformation.
+-   :func:`colour.algebra.cartesian_to_polar`: Cartesian to Polar
+    transformation.
+-   :func:`colour.algebra.polar_to_cartesian`: Polar to Cartesian
+    transformation.
+-   :func:`colour.algebra.cartesian_to_cylindrical`: Cartesian to Cylindrical
+    transformation.
+-   :func:`colour.algebra.cylindrical_to_cartesian`: Cylindrical to Cartesian
+    transformation.
 
 References
 ----------

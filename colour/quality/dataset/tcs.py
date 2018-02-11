@@ -7,8 +7,7 @@ Test Colour Samples Spectral Power Distributions
 Defines the *CIE 1995* test colour samples spectral power distributions.
 
 The *CIE 1995* test colour samples data is in the form of a *dict* of
-:class:`colour.colorimetry.spectrum.SpectralPowerDistribution` classes as
-follows::
+:class:`colour.SpectralPowerDistribution` classes as follows::
 
     {'name': SpectralPowerDistribution, ..., 'name': SpectralPowerDistribution}
 

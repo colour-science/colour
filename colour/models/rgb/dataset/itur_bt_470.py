@@ -6,8 +6,8 @@ ITU-R BT.470 Colourspaces
 
 Defines the *ITU-R BT.470* colourspaces:
 
--   :attr:`BT470_525_COLOURSPACE`.
--   :attr:`BT470_625_COLOURSPACE`.
+-   :attr:`colour.models.BT470_525_COLOURSPACE`.
+-   :attr:`colour.models.BT470_625_COLOURSPACE`.
 
 See Also
 --------

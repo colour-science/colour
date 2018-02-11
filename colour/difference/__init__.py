@@ -99,15 +99,16 @@ def delta_E(a, b, method='CIE 2000', **kwargs):
     Other Parameters
     ----------------
     textiles : bool, optional
-        {:func:`delta_E_CIE1994`, :func:`delta_E_CIE2000`},
+        {:func:`colour.difference.delta_E_CIE1994`,
+        :func:`colour.difference.delta_E_CIE2000`},
         Textiles application specific parametric factors
         :math:`k_L=2,\ k_C=k_H=1,\ k_1=0.048,\ k_2=0.014` weights are used
         instead of :math:`k_L=k_C=k_H=1,\ k_1=0.045,\ k_2=0.015`.
     l : numeric, optional
-        {:func:`delta_E_CIE2000`},
+        {:func:`colour.difference.delta_E_CIE2000`},
         Lightness weighting factor.
     c : numeric, optional
-        {:func:`delta_E_CIE2000`},
+        {:func:`colour.difference.delta_E_CIE2000`},
         Chroma weighting factor.
 
     Returns

@@ -7,8 +7,8 @@ ITU-R BT.2020
 Defines *ITU-R BT.2020* opto-electrical transfer function (OETF / OECF) and
 electro-optical transfer function (EOTF / EOCF):
 
--   :func:`oetf_BT2020`
--   :func:`eotf_BT2020`
+-   :func:`colour.models.oetf_BT2020`
+-   :func:`colour.models.eotf_BT2020`
 
 See Also
 --------

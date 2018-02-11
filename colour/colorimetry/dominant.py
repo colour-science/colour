@@ -7,10 +7,10 @@ Dominant Wavelength and Purity
 Defines objects to compute the *dominant wavelength* and *purity* of a colour
 and related quantities:
 
--   :func:`dominant_wavelength`
--   :func:`complementary_wavelength`
--   :func:`excitation_purity`
--   :func:`colorimetric_purity`
+-   :func:`colour.dominant_wavelength`
+-   :func:`colour.complementary_wavelength`
+-   :func:`colour.excitation_purity`
+-   :func:`colour.colorimetric_purity`
 
 See Also
 --------

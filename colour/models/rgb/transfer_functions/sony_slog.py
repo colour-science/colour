@@ -6,12 +6,12 @@ Sony S-Log Encodings
 
 Defines the *Sony S-Log* log encodings:
 
--   :func:`log_encoding_SLog`
--   :func:`log_decoding_SLog`
--   :func:`log_encoding_SLog2`
--   :func:`log_decoding_SLog2`
--   :func:`log_encoding_SLog3`
--   :func:`log_decoding_SLog3`
+-   :func:`colour.models.log_encoding_SLog`
+-   :func:`colour.models.log_decoding_SLog`
+-   :func:`colour.models.log_encoding_SLog2`
+-   :func:`colour.models.log_decoding_SLog2`
+-   :func:`colour.models.log_encoding_SLog3`
+-   :func:`colour.models.log_decoding_SLog3`
 
 See Also
 --------

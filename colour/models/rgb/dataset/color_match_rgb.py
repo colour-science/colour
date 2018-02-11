@@ -6,7 +6,7 @@ ColorMatch RGB Colourspace
 
 Defines the *ColorMatch RGB* colourspace:
 
--   :attr:`COLOR_MATCH_RGB_COLOURSPACE`.
+-   :attr:`colour.models.COLOR_MATCH_RGB_COLOURSPACE`.
 
 See Also
 --------

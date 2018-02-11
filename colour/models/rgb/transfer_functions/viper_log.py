@@ -6,8 +6,8 @@ Viper Log Encodings
 
 Defines the *Viper Log* encoding:
 
--   :func:`log_encoding_ViperLog`
--   :func:`log_decoding_ViperLog`
+-   :func:`colour.models.log_encoding_ViperLog`
+-   :func:`colour.models.log_decoding_ViperLog`
 
 See Also
 --------

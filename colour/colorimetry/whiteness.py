@@ -6,12 +6,12 @@ Whiteness Index :math:`W`
 
 Defines *whiteness* index :math:`W` computation objects:
 
--   :func:`whiteness_Berger1959`
--   :func:`whiteness_Taube1960`
--   :func:`whiteness_Stensby1968`
--   :func:`whiteness_ASTME313`
--   :func:`whiteness_Ganz1979`
--   :func:`whiteness_CIE2004`
+-   :func:`colour.colorimetry.whiteness_Berger1959`
+-   :func:`colour.colorimetry.whiteness_Taube1960`
+-   :func:`colour.colorimetry.whiteness_Stensby1968`
+-   :func:`colour.colorimetry.whiteness_ASTME313`
+-   :func:`colour.colorimetry.whiteness_Ganz1979`
+-   :func:`colour.colorimetry.whiteness_CIE2004`
 
 See Also
 --------
@@ -397,26 +397,30 @@ def whiteness(method='CIE 2004', **kwargs):
     Other Parameters
     ----------------
     XYZ : array_like
-        {:func:`whiteness_Berger1959`, :func:`whiteness_Taube1960`,
-        :func:`whiteness_ASTME313`},
+        {:func:`colour.colorimetry.whiteness_Berger1959`,
+        :func:`colour.colorimetry.whiteness_Taube1960`,
+        :func:`colour.colorimetry.whiteness_ASTME313`},
         *CIE XYZ* tristimulus values of sample.
     XYZ_0 : array_like
-        {:func:`whiteness_Berger1959`, :func:`whiteness_Taube1960`},
+        {:func:`colour.colorimetry.whiteness_Berger1959`,
+        :func:`colour.colorimetry.whiteness_Taube1960`},
         *CIE XYZ* tristimulus values of reference white.
     Lab : array_like
-        {:func:`whiteness_Stensby1968`},
+        {:func:`colour.colorimetry.whiteness_Stensby1968`},
         *CIE L\*a\*b\** colourspace array of sample.
     xy : array_like
-        {:func:`whiteness_Ganz1979`, :func:`whiteness_CIE2004`},
+        {:func:`colour.colorimetry.whiteness_Ganz1979`,
+        :func:`colour.colorimetry.whiteness_CIE2004`},
         Chromaticity coordinates *xy* of sample.
     Y : numeric or array_like
-        {:func:`whiteness_Ganz1979`, :func:`whiteness_CIE2004`},
+        {:func:`colour.colorimetry.whiteness_Ganz1979`,
+        :func:`colour.colorimetry.whiteness_CIE2004`},
         Tristimulus :math:`Y` value of sample.
     xy_n : array_like
-        {:func:`whiteness_CIE2004`},
+        {:func:`colour.colorimetry.whiteness_CIE2004`},
         Chromaticity coordinates *xy_n* of perfect diffuser.
     observer : unicode, optional
-        {:func:`whiteness_CIE2004`},
+        {:func:`colour.colorimetry.whiteness_CIE2004`},
         **{'CIE 1931 2 Degree Standard Observer',
         'CIE 1964 10 Degree Standard Observer'}**,
         *CIE Standard Observer* used for computations, *tint* :math:`T` or

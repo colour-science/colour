@@ -6,8 +6,8 @@ DCI-P3 & DCI-P3+ Colourspaces
 
 Defines the *DCI-P3* and *DCI-P3+* colourspaces:
 
--   :attr:`DCI_P3_COLOURSPACE`.
--   :attr:`DCI_P3_p_COLOURSPACE`.
+-   :attr:`colour.models.DCI_P3_COLOURSPACE`.
+-   :attr:`colour.models.DCI_P3_P_COLOURSPACE`.
 
 See Also
 --------

@@ -6,11 +6,11 @@ CAM16 Colour Appearance Model
 
 Defines *CAM16* colour appearance model objects:
 
--   :class:`CAM16_InductionFactors`
--   :attr:`CAM16_VIEWING_CONDITIONS`
--   :class:`CAM16_Specification`
--   :func:`XYZ_to_CAM16`
--   :func:`CAM16_to_XYZ`
+-   :class:`colour.appearance.CAM16_InductionFactors`
+-   :attr:`colour.CAM16_VIEWING_CONDITIONS`
+-   :class:`colour.CAM16_Specification`
+-   :func:`colour.XYZ_to_CAM16`
+-   :func:`colour.CAM16_to_XYZ`
 
 See Also
 --------
@@ -154,7 +154,8 @@ class CAM16_Specification(
                 H=None,
                 HC=None):
         """
-        Returns a new instance of the :class:`CAM16_Specification` class.
+        Returns a new instance of the :class:`colour.CAM16_Specification`
+        class.
         """
 
         return super(CAM16_Specification, cls).__new__(cls, J, C, h, s, Q, M,
@@ -344,7 +345,7 @@ def CAM16_to_XYZ(CAM16_specification,
     Notes
     -----
     -   ``CAM16_specification`` can also be passed as a compatible argument
-        :func:`colour.as_namedtuple` definition.
+        :func:`colour.utilities.as_namedtuple` definition.
     -   Input *CIE XYZ_w* tristimulus values are in domain [0, 100].
     -   Output *CIE XYZ* tristimulus values are in range [0, 100].
 

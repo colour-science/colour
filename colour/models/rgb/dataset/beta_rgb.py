@@ -6,7 +6,7 @@ Beta RGB Colourspace
 
 Defines the *Beta RGB* colourspace:
 
--   :attr:`BETA_RGB_COLOURSPACE`.
+-   :attr:`colour.models.BETA_RGB_COLOURSPACE`.
 
 See Also
 --------

@@ -6,8 +6,8 @@ Hexadecimal Triplet Notation
 
 Defines objects for hexadecimal triplet notation:
 
--   :func:`RGB_to_HEX`
--   :func:`HEX_to_RGB`
+-   :func:`colour.notation.RGB_to_HEX`
+-   :func:`colour.notation.HEX_to_RGB`
 """
 
 from __future__ import division, unicode_literals

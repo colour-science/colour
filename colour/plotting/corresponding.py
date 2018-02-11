@@ -6,7 +6,7 @@ Corresponding Chromaticities Prediction Plotting
 
 Defines corresponding chromaticities prediction plotting objects:
 
--   :func:`corresponding_chromaticities_prediction_plot`
+-   :func:`colour.plotting.corresponding_chromaticities_prediction_plot`
 """
 
 from __future__ import division
@@ -46,11 +46,10 @@ def corresponding_chromaticities_prediction_plot(experiment=1,
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
     show_diagram_colours : bool, optional
-        {:func:`chromaticity_diagram_plot_CIE1976UCS`}
+        {:func:`colour.plotting.chromaticity_diagram_plot_CIE1976UCS`}
         Whether to display the chromaticity diagram background colours.
 
     Returns

@@ -6,7 +6,7 @@ Multi Signal
 
 Defines the class implementing support for multi-continuous signal:
 
--   :class:`MultiSignal`
+-   :class:`colour.continuous.MultiSignal`
 """
 
 from __future__ import division, unicode_literals
@@ -40,7 +40,7 @@ __all__ = ['MultiSignal']
 class MultiSignal(AbstractContinuousFunction):
     """
     Defines the base class for multi-continuous signal, a container for
-    multiple :class:`Signal` sub-class instances.
+    multiple :class:`colour.continuous.Signal` sub-class instances.
 
     Parameters
     ----------
@@ -48,12 +48,14 @@ class MultiSignal(AbstractContinuousFunction):
 dict_like, optional
         Data to be stored in the multi-continuous signal.
     domain : array_like, optional
-        Values to initialise the multiple :class:`Signal` sub-class instances
-        :attr:`Signal.domain` attribute with. If both ``data`` and ``domain``
-        arguments are defined, the latter with be used to initialise the
-        :attr:`Signal.domain` attribute.
+        Values to initialise the multiple :class:`colour.continuous.Signal`
+        sub-class instances :attr:`colour.continuous.Signal.domain` attribute
+        with. If both ``data`` and ``domain`` arguments are defined, the latter
+        will be used to initialise the :attr:`colour.continuous.Signal.domain`
+        attribute.
     labels : array_like, optional
-        Names to use for the :class:`Signal` sub-class instances.
+        Names to use for the :class:`colour.continuous.Signal` sub-class
+        instances.
 
     Other Parameters
     ----------------
@@ -64,18 +66,19 @@ dict_like, optional
         Floating point data type.
     interpolator : object, optional
         Interpolator class type to use as interpolating function for the
-        :class:`Signal` sub-class instances.
+        :class:`colour.continuous.Signal` sub-class instances.
     interpolator_args : dict_like, optional
         Arguments to use when instantiating the interpolating function
-        of the :class:`Signal` sub-class instances.
+        of the :class:`colour.continuous.Signal` sub-class instances.
     extrapolator : object, optional
         Extrapolator class type to use as extrapolating function for the
-        :class:`Signal` sub-class instances.
+        :class:`colour.continuous.Signal` sub-class instances.
     extrapolator_args : dict_like, optional
         Arguments to use when instantiating the extrapolating function
-        of the :class:`Signal` sub-class instances.
+        of the :class:`colour.continuous.Signal` sub-class instances.
     signal_type : type, optional
-        The :class:`Signal` sub-class type used for instances.
+        The :class:`colour.continuous.Signal` sub-class type used for
+        instances.
 
     Attributes
     ----------
@@ -291,20 +294,20 @@ dict_like, optional
     @property
     def domain(self):
         """
-        Getter and setter property for the :class:`Signal` sub-class instances
-        independent domain :math:`x` variable.
+        Getter and setter property for the :class:`colour.continuous.Signal`
+        sub-class instances independent domain :math:`x` variable.
 
         Parameters
         ----------
         value : array_like
-            Value to set the :class:`Signal` sub-class instances independent
-            domain :math:`x` variable with.
+            Value to set the :class:`colour.continuous.Signal` sub-class
+            instances independent domain :math:`x` variable with.
 
         Returns
         -------
         ndarray
-            :class:`Signal` sub-class instances independent domain :math:`x`
-            variable.
+            :class:`colour.continuous.Signal` sub-class instances independent
+            domain :math:`x` variable.
         """
 
         if self._signals:
@@ -323,20 +326,20 @@ dict_like, optional
     @property
     def range(self):
         """
-        Getter and setter property for the :class:`Signal` sub-class instances
-        corresponding range :math:`y` variable.
+        Getter and setter property for the :class:`colour.continuous.Signal`
+        sub-class instances corresponding range :math:`y` variable.
 
         Parameters
         ----------
         value : array_like
-            Value to set the :class:`Signal` sub-class instances corresponding
-            range :math:`y` variable with.
+            Value to set the :class:`colour.continuous.Signal` sub-class
+            instances corresponding range :math:`y` variable with.
 
         Returns
         -------
         ndarray
-            :class:`Signal` sub-class instances corresponding range :math:`y`
-            variable.
+            :class:`colour.continuous.Signal` sub-class instances corresponding
+            range :math:`y` variable.
         """
 
         if self._signals:
@@ -365,19 +368,20 @@ dict_like, optional
     @property
     def interpolator(self):
         """
-        Getter and setter property for the :class:`Signal` sub-class instances
-        interpolator type.
+        Getter and setter property for the :class:`colour.continuous.Signal`
+        sub-class instances interpolator type.
 
         Parameters
         ----------
         value : type
-            Value to set the :class:`Signal` sub-class instances interpolator
-            type with.
+            Value to set the :class:`colour.continuous.Signal` sub-class
+            instances interpolator type with.
 
         Returns
         -------
         type
-            :class:`Signal` sub-class instances interpolator type.
+            :class:`colour.continuous.Signal` sub-class instances interpolator
+            type.
         """
 
         if self._signals:
@@ -396,20 +400,20 @@ dict_like, optional
     @property
     def interpolator_args(self):
         """
-        Getter and setter property for the :class:`Signal` sub-class instances
-        interpolator instantiation time arguments.
+        Getter and setter property for the :class:`colour.continuous.Signal`
+        sub-class instances interpolator instantiation time arguments.
 
         Parameters
         ----------
         value : dict
-            Value to set the :class:`Signal` sub-class instances interpolator
-            instantiation time arguments to.
+            Value to set the :class:`colour.continuous.Signal` sub-class
+            instances interpolator instantiation time arguments to.
 
         Returns
         -------
         dict
-            :class:`Signal` sub-class instances interpolator instantiation
-            time arguments.
+            :class:`colour.continuous.Signal` sub-class instances interpolator
+            instantiation time arguments.
         """
 
         if self._signals:
@@ -428,19 +432,20 @@ dict_like, optional
     @property
     def extrapolator(self):
         """
-        Getter and setter property for the :class:`Signal` sub-class instances
-        extrapolator type.
+        Getter and setter property for the :class:`colour.continuous.Signal`
+        sub-class instances extrapolator type.
 
         Parameters
         ----------
         value : type
-            Value to set the :class:`Signal` sub-class instances extrapolator
-            type with.
+            Value to set the :class:`colour.continuous.Signal` sub-class
+            instances extrapolator type with.
 
         Returns
         -------
         type
-            :class:`Signal` sub-class instances extrapolator type.
+            :class:`colour.continuous.Signal` sub-class instances extrapolator
+            type.
         """
 
         if self._signals:
@@ -459,20 +464,20 @@ dict_like, optional
     @property
     def extrapolator_args(self):
         """
-        Getter and setter property for the :class:`Signal` sub-class instances
-        extrapolator instantiation time arguments.
+        Getter and setter property for the :class:`colour.continuous.Signal`
+        sub-class instances extrapolator instantiation time arguments.
 
         Parameters
         ----------
         value : dict
-            Value to set the :class:`Signal` sub-class instances extrapolator
-            instantiation time arguments to.
+            Value to set the :class:`colour.continuous.Signal` sub-class
+            instances extrapolator instantiation time arguments to.
 
         Returns
         -------
         dict
-            :class:`Signal` sub-class instances extrapolator instantiation
-            time arguments.
+            :class:`colour.continuous.Signal` sub-class instances extrapolator
+            instantiation time arguments.
         """
 
         if self._signals:
@@ -491,8 +496,8 @@ dict_like, optional
     @property
     def function(self):
         """
-        Getter and setter property for the :class:`Signal` sub-class instances
-        callable.
+        Getter and setter property for the :class:`colour.continuous.Signal`
+        sub-class instances callable.
 
         Parameters
         ----------
@@ -502,7 +507,7 @@ dict_like, optional
         Returns
         -------
         callable
-            :class:`Signal` sub-class instances callable.
+            :class:`colour.continuous.Signal` sub-class instances callable.
 
         Notes
         -----
@@ -515,7 +520,8 @@ dict_like, optional
     @property
     def signals(self):
         """
-        Getter and setter property for the :class:`Signal` sub-class instances.
+        Getter and setter property for the :class:`colour.continuous.Signal`
+        sub-class instances.
 
         Parameters
         ----------
@@ -526,7 +532,7 @@ dict_like
         Returns
         -------
         OrderedDict
-            :class:`Signal` sub-class instances.
+            :class:`colour.continuous.Signal` sub-class instances.
         """
 
         return self._signals
@@ -543,18 +549,19 @@ dict_like
     @property
     def labels(self):
         """
-        Getter and setter property for the :class:`Signal` sub-class instances
-        name.
+        Getter and setter property for the :class:`colour.continuous.Signal`
+        sub-class instances name.
 
         Parameters
         ----------
         value : array_like
-            Value to set the :class:`Signal` sub-class instances name.
+            Value to set the :class:`colour.continuous.Signal` sub-class
+            instances name.
 
         Returns
         -------
         dict
-            :class:`Signal` sub-class instance name.
+            :class:`colour.continuous.Signal` sub-class instance name.
         """
 
         if self._signals:
@@ -1040,7 +1047,7 @@ dict_like
          [   8.  224.  245.  266.]
          [   9.  247.  268.  289.]]
 
-        Adding a :class:`Signal` sub-class:
+        Adding a :class:`colour.continuous.Signal` sub-class:
 
         >>> multi_signal_2 = MultiSignal(range_)
         >>> print(multi_signal_1.arithmetical_operation(
@@ -1102,15 +1109,16 @@ dict_like
 dict_like, optional
             Data to unpack for multi-continuous signal instantiation.
         domain : array_like, optional
-            Values to initialise the multiple :class:`Signal` sub-class
-            instances :attr:`Signal.domain` attribute with. If both ``data``
-            and ``domain`` arguments are defined, the latter with be used to
-            initialise the :attr:`Signal.domain` attribute.
+            Values to initialise the multiple :class:`colour.continuous.Signal`
+            sub-class instances :attr:`colour.continuous.Signal.domain`
+            attribute with. If both ``data`` and ``domain`` arguments are
+            defined, the latter will be used to initialise the
+            :attr:`colour.continuous.Signal.domain` attribute.
         dtype : type, optional
             **{np.float16, np.float32, np.float64, np.float128}**,
             Floating point data type.
         signal_type : type, optional
-            A :class:`Signal` sub-class type.
+            A :class:`colour.continuous.Signal` sub-class type.
 
         Other Parameters
         ----------------
@@ -1118,21 +1126,22 @@ dict_like, optional
             Multi-continuous signal name.
         interpolator : object, optional
             Interpolator class type to use as interpolating function for the
-            :class:`Signal` sub-class instances.
+            :class:`colour.continuous.Signal` sub-class instances.
         interpolator_args : dict_like, optional
             Arguments to use when instantiating the interpolating function
-            of the :class:`Signal` sub-class instances.
+            of the :class:`colour.continuous.Signal` sub-class instances.
         extrapolator : object, optional
             Extrapolator class type to use as extrapolating function for the
-            :class:`Signal` sub-class instances.
+            :class:`colour.continuous.Signal` sub-class instances.
         extrapolator_args : dict_like, optional
             Arguments to use when instantiating the extrapolating function
-            of the :class:`Signal` sub-class instances.
+            of the :class:`colour.continuous.Signal` sub-class instances.
 
         Returns
         -------
         dict
-            Mapping of labeled :class:`Signal` sub-class instances.
+            Mapping of labeled :class:`colour.continuous.Signal` sub-class
+            instances.
 
         Examples
         --------

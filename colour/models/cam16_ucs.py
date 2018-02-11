@@ -7,12 +7,12 @@ CAM16-LCD, CAM16-SCD, and CAM16-UCS Colourspaces - Li et al. (2017)
 Defines the *Li, Li, Wang, Zu, Luo, Cui, Melgosa, Brill and Pointer (2017)*
 *CAM16-LCD*, *CAM16-SCD*, and *CAM16-UCS* colourspaces transformations:
 
--   :func:`JMh_CAM16_to_CAM16LCD`
--   :func:`CAM16LCD_to_JMh_CAM16`
--   :func:`JMh_CAM16_to_CAM16SCD`
--   :func:`CAM16SCD_to_JMh_CAM16`
--   :func:`JMh_CAM16_to_CAM16UCS`
--   :func:`CAM16UCS_to_JMh_CAM16`
+-   :func:`colour.JMh_CAM16_to_CAM16LCD`
+-   :func:`colour.CAM16LCD_to_JMh_CAM16`
+-   :func:`colour.JMh_CAM16_to_CAM16SCD`
+-   :func:`colour.CAM16SCD_to_JMh_CAM16`
+-   :func:`colour.JMh_CAM16_to_CAM16UCS`
+-   :func:`colour.CAM16UCS_to_JMh_CAM16`
 
 See Also
 --------

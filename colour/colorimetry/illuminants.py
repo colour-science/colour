@@ -6,16 +6,14 @@ Illuminants
 
 Defines *CIE* illuminants computation related objects:
 
--   :func:`D_illuminant_relative_spd`
--   :func:`CIE_standard_illuminant_A_function`
+-   :func:`colour.D_illuminant_relative_spd`
+-   :func:`colour.CIE_standard_illuminant_A_function`
 
 See Also
 --------
 `Illuminants Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/illuminants.ipynb>`_
-colour.colorimetry.dataset.illuminants.d_illuminants_s_spds,
-colour.colorimetry.spectrum.SpectralPowerDistribution
 
 References
 ----------

@@ -6,10 +6,10 @@ Geometry
 
 Defines objects related to geometrical computations:
 
--   :func:`normalise_vector`
--   :func:`euclidean_distance`
--   :func:`extend_line_segment`
--   :func:`intersect_line_segments`
+-   :func:`colour.algebra.normalise_vector`
+-   :func:`colour.algebra.euclidean_distance`
+-   :func:`colour.algebra.extend_line_segment`
+-   :func:`colour.algebra.intersect_line_segments`
 
 References
 ----------
@@ -149,7 +149,8 @@ class LineSegmentsIntersections_Specification(
                    ('xy', 'intersect', 'parallel', 'coincident'))):
     """
     Defines the specification for intersection of line segments :math:`l_1` and
-    :math:`l_2` returned by :func:`intersect_line_segments` definition.
+    :math:`l_2` returned by :func:`colour.algebra.intersect_line_segments`
+    definition.
 
     Parameters
     ----------

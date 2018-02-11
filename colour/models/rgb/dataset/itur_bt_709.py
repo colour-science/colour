@@ -6,7 +6,7 @@ ITU-R BT.709 Colourspace
 
 Defines the *ITU-R BT.709* colourspace:
 
--   :attr:`BT709_COLOURSPACE`.
+-   :attr:`colour.models.BT709_COLOURSPACE`.
 
 See Also
 --------

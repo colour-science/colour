@@ -7,8 +7,7 @@ Light Sources Relative Spectral Power Distributions
 Defines various light sources relative spectral power distributions.
 
 The light sources data is in the form of a *dict* of
-:class:`colour.colorimetry.spectrum.SpectralPowerDistribution` classes as
-follows::
+:class:`colour.SpectralPowerDistribution` classes as follows::
 
     {'name': SpectralPowerDistribution, ..., 'name': SpectralPowerDistribution}
 

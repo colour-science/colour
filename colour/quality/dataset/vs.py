@@ -8,7 +8,7 @@ Defines the *CQS (Color Quality Scale)* test colour samples spectral power
 distributions.
 
 The *2005 NIST-CQS* test colour samples data is in the form of a *dict* of
-:class:`colour.colorimetry.spectrum.SpectralPowerDistribution` classes as
+:class:`colour.SpectralPowerDistribution` classes as
 follows::
 
     {'name': SpectralPowerDistribution, ..., 'name': SpectralPowerDistribution}

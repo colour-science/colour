@@ -7,8 +7,8 @@ ITU-R BT.1886
 Defines *Recommendation ITU-R BT.1886* electro-optical transfer function
 (EOTF / EOCF) and its reverse:
 
--   :func:`eotf_reverse_BT1886`
--   :func:`eotf_BT1886`
+-   :func:`colour.models.eotf_reverse_BT1886`
+-   :func:`colour.models.eotf_BT1886`
 
 See Also
 --------

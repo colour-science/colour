@@ -6,12 +6,12 @@ Tristimulus Values, CIE xyY Colourspace and Chromaticity Coordinates
 
 Defines the *CIE xyY* colourspace transformations:
 
--   :func:`XYZ_to_xyY`
--   :func:`xyY_to_XYZ`
--   :func:`xy_to_xyY`
--   :func:`xyY_to_xy`
--   :func:`xy_to_XYZ`
--   :func:`XYZ_to_xy`
+-   :func:`colour.XYZ_to_xyY`
+-   :func:`colour.xyY_to_XYZ`
+-   :func:`colour.xy_to_xyY`
+-   :func:`colour.xyY_to_xy`
+-   :func:`colour.xy_to_XYZ`
+-   :func:`colour.XYZ_to_xy`
 
 See Also
 --------
@@ -166,8 +166,8 @@ def xy_to_xyY(xy, Y=1):
     -----
     -   This definition is a convenient object provided to implement support of
         illuminant argument *luminance* value in various :mod:`colour.models`
-        package objects such as :func:`colour.models.Lab_to_XYZ` or
-        :func:`colour.models.Luv_to_XYZ`.
+        package objects such as :func:`colour.Lab_to_XYZ` or
+        :func:`colour.Luv_to_XYZ`.
     -   Input *xy* chromaticity coordinates are in domain [0, 1].
     -   Output *CIE xyY* colourspace array is in range [0, 1].
 

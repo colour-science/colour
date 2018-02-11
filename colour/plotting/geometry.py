@@ -6,9 +6,9 @@ Geometry Plotting Utilities
 
 Defines geometry plotting utilities objects:
 
--   :func:`quad`
--   :func:`grid`
--   :func:`cube`
+-   :func:`colour.plotting.quad`
+-   :func:`colour.plotting.grid`
+-   :func:`colour.plotting.cube`
 """
 
 from __future__ import division

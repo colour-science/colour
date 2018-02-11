@@ -6,10 +6,10 @@ RLAB Colour Appearance Model
 
 Defines *RLAB* colour appearance model objects:
 
--   :attr:`RLAB_VIEWING_CONDITIONS`
--   :attr:`RLAB_D_FACTOR`
--   :class:`RLAB_Specification`
--   :func:`XYZ_to_RLAB`
+-   :attr:`colour.RLAB_VIEWING_CONDITIONS`
+-   :attr:`colour.RLAB_D_FACTOR`
+-   :class:`colour.RLAB_Specification`
+-   :func:`colour.XYZ_to_RLAB`
 
 See Also
 --------
@@ -194,8 +194,8 @@ def XYZ_to_RLAB(XYZ,
     Y_n : numeric or array_like
         Absolute adapting luminance in :math:`cd/m^2`.
     sigma : numeric or array_like, optional
-        Relative luminance of the surround, see :attr:`RLAB_VIEWING_CONDITIONS`
-        for reference.
+        Relative luminance of the surround, see
+        :attr:`colour.RLAB_VIEWING_CONDITIONS` for reference.
     D : numeric or array_like, optional
         *Discounting-the-Illuminant* factor in domain [0, 1].
 

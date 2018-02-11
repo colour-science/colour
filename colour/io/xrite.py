@@ -6,7 +6,7 @@ X-Rite Data Input
 
 Defines input object for *X-Rite* spectral data files:
 
--   :func:`read_spds_from_xrite_file`
+-   :func:`colour.read_spds_from_xrite_file`
 """
 
 from __future__ import division, unicode_literals
@@ -33,8 +33,7 @@ XRITE_FILE_ENCODING = 'utf-8'
 def read_spds_from_xrite_file(path):
     """
     Reads the spectral data from given *X-Rite* file and returns it as an
-    *OrderedDict* of
-    :class:`colour.colorimetry.spectrum.SpectralPowerDistribution` classes.
+    *OrderedDict* of :class:`colour.SpectralPowerDistribution` classes.
 
     Parameters
     ----------
@@ -44,8 +43,8 @@ def read_spds_from_xrite_file(path):
     Returns
     -------
     OrderedDict
-        :class:`colour.colorimetry.spectrum.SpectralPowerDistribution`
-        classes of given *X-Rite* file.
+        :class:`colour.SpectralPowerDistribution` classes of given *X-Rite*
+        file.
 
     Notes
     -----

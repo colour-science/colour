@@ -6,12 +6,12 @@ IPT Colourspace
 
 Defines the *IPT* colourspace transformations:
 
--   :func:`XYZ_to_IPT`
--   :func:`IPT_to_XYZ`
+-   :func:`colour.XYZ_to_IPT`
+-   :func:`colour.IPT_to_XYZ`
 
 And computation of correlates:
 
--   :func:`IPT_hue_angle`
+-   :func:`colour.IPT_hue_angle`
 
 See Also
 --------

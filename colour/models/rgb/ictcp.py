@@ -6,8 +6,8 @@
 
 Defines the :math:`IC_TC_P` colour encoding related transformations:
 
--   :func:`RGB_to_ICTCP`
--   :func:`ICTCP_to_RGB`
+-   :func:`colour.RGB_to_ICTCP`
+-   :func:`colour.ICTCP_to_RGB`
 
 See Also
 --------

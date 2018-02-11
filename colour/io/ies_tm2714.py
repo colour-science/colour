@@ -4,8 +4,8 @@
 IES TM-27-14 Data Input / Output
 ================================
 
-Defines the :class:`IES_TM2714_Spd` class handling *IES TM-27-14* spectral data
-XML files.
+Defines the :class:`colour.IES_TM2714_Spd` class handling *IES TM-27-14*
+spectral data XML files.
 
 References
 ----------
@@ -76,7 +76,8 @@ class IES_TM2714_ElementSpecification(
                 write_conversion=(
                         lambda x: format(x) if x is not None else 'N/A')):
         """
-        Returns a new instance of the :class:`IES_TM2714_Element` class.
+        Returns a new instance of the
+        :class:`colour.io.ies_tm2714.IES_TM2714_Element` class.
         """
 
         return super(IES_TM2714_ElementSpecification, cls).__new__(

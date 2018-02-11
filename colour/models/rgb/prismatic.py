@@ -6,8 +6,8 @@ Prismatic Colourspace
 
 Defines the *Prismatic* colourspace transformations:
 
--   :func:`RGB_to_Prismatic`
--   :func:`Prismatic_to_RGB`
+-   :func:`colour.RGB_to_Prismatic`
+-   :func:`colour.Prismatic_to_RGB`
 
 See Also
 --------

@@ -6,7 +6,7 @@ Cinema Gamut Colourspace
 
 Defines the *Canon* *Cinema Gamut* colourspace:
 
--   :attr:`CINEMA_GAMUT_COLOURSPACE`.
+-   :attr:`colour.models.CINEMA_GAMUT_COLOURSPACE`.
 
 See Also
 --------

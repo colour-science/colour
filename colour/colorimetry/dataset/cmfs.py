@@ -7,8 +7,7 @@ Colour Matching Functions Spectral Power Distributions
 Defines various colour matching functions involved in spectral computations.
 
 The colour matching functions data is in the form of a *dict* of
-:class:`colour.colorimetry.spectrum.MultiSpectralPowerDistribution` classes as
-follows::
+:class:`colour.colorimetry.MultiSpectralPowerDistribution` classes as follows::
 
     {'name': MultiSpectralPowerDistribution,
     ...,

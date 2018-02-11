@@ -6,7 +6,7 @@ NTSC Colourspace
 
 Defines the *NTSC* colourspace:
 
--   :attr:`NTSC_COLOURSPACE`.
+-   :attr:`colour.models.NTSC_COLOURSPACE`.
 
 See Also
 --------

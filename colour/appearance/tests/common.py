@@ -176,8 +176,8 @@ class ColourAppearanceModelTest(object):
     def fixtures(self):
         """
         Returns the fixtures case for tested colour appearance model and
-        filter them accordingly with
-        :attr:`ColourAppearanceModelTest.LIMITED_FIXTURES` value.
+        filter them accordingly with :attr:`colour.appearance.tests.common.\
+ColourAppearanceModelTest.LIMITED_FIXTURES` value.
 
         Returns
         -------

@@ -6,7 +6,7 @@ ALEXA Wide Gamut Colourspace
 
 Defines the *ALEXA Wide Gamut* colourspace:
 
--   :attr:`ALEXA_WIDE_GAMUT_COLOURSPACE`.
+-   :attr:`colour.models.ALEXA_WIDE_GAMUT_COLOURSPACE`.
 
 See Also
 --------

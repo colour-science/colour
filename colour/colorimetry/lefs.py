@@ -11,8 +11,6 @@ See Also
 `Luminous Efficiency Functions Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/lefs.ipynb>`_
-colour.colorimetry.dataset.lefs,
-colour.colorimetry.spectrum.SpectralPowerDistribution
 
 References
 ----------

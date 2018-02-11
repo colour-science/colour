@@ -7,8 +7,8 @@ DCI-P3 Colourspace
 Defines the *DCI-P3* colourspace opto-electrical transfer function
 (OETF / OECF) and electro-optical transfer function (EOTF / EOCF):
 
--   :func:`oetf_DCIP3`
--   :func:`eotf_DCIP3`
+-   :func:`colour.models.oetf_DCIP3`
+-   :func:`colour.models.eotf_DCIP3`
 
 See Also
 --------

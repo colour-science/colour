@@ -7,12 +7,12 @@ CAM02-LCD, CAM02-SCD, and CAM02-UCS Colourspaces - Luo, Cui and Li (2006)
 Defines the *Luo et alii (2006)* *CAM02-LCD*, *CAM02-SCD*, and *CAM02-UCS*
 colourspaces transformations:
 
--   :func:`JMh_CIECAM02_to_CAM02LCD`
--   :func:`CAM02LCD_to_JMh_CIECAM02`
--   :func:`JMh_CIECAM02_to_CAM02SCD`
--   :func:`CAM02SCD_to_JMh_CIECAM02`
--   :func:`JMh_CIECAM02_to_CAM02UCS`
--   :func:`CAM02UCS_to_JMh_CIECAM02`
+-   :func:`colour.JMh_CIECAM02_to_CAM02LCD`
+-   :func:`colour.CAM02LCD_to_JMh_CIECAM02`
+-   :func:`colour.JMh_CIECAM02_to_CAM02SCD`
+-   :func:`colour.CAM02SCD_to_JMh_CIECAM02`
+-   :func:`colour.JMh_CIECAM02_to_CAM02UCS`
+-   :func:`colour.CAM02UCS_to_JMh_CIECAM02`
 
 See Also
 --------

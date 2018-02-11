@@ -6,12 +6,12 @@ Canon Log Encodings
 
 Defines the *Canon Log* encodings:
 
--   :func:`log_encoding_CanonLog`
--   :func:`log_decoding_CanonLog`
--   :func:`log_encoding_CanonLog2`
--   :func:`log_decoding_CanonLog2`
--   :func:`log_encoding_CanonLog3`
--   :func:`log_decoding_CanonLog3`
+-   :func:`colour.models.log_encoding_CanonLog`
+-   :func:`colour.models.log_decoding_CanonLog`
+-   :func:`colour.models.log_encoding_CanonLog2`
+-   :func:`colour.models.log_decoding_CanonLog2`
+-   :func:`colour.models.log_encoding_CanonLog3`
+-   :func:`colour.models.log_decoding_CanonLog3`
 
 See Also
 --------

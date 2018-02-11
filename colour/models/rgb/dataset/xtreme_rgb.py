@@ -6,7 +6,7 @@ Xtreme RGB Colourspace
 
 Defines the *Xtreme RGB* colourspace:
 
--   :attr:`XTREME_RGB_COLOURSPACE`.
+-   :attr:`colour.models.XTREME_RGB_COLOURSPACE`.
 
 See Also
 --------

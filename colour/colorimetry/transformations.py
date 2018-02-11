@@ -7,11 +7,11 @@ Colour Matching Functions Transformations
 Defines various educational objects for colour matching functions
 transformations:
 
--   :func:`RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs`
--   :func:`RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs`
--   :func:`RGB_10_degree_cmfs_to_LMS_10_degree_cmfs`
--   :func:`LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs`
--   :func:`LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs`
+-   :func:`colour.colorimetry.RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs`
+-   :func:`colour.colorimetry.RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs`
+-   :func:`colour.colorimetry.RGB_10_degree_cmfs_to_LMS_10_degree_cmfs`
+-   :func:`colour.colorimetry.LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs`
+-   :func:`colour.colorimetry.LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs`
 
 See Also
 --------

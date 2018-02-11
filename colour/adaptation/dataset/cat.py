@@ -6,20 +6,28 @@ Chromatic Adaptation Transforms
 
 Defines various chromatic adaptation transforms (CAT):
 
--   :attr:`XYZ_SCALING_CAT`: *XYZ Scaling* chromatic adaptation transform.
--   :attr:`VON_KRIES_CAT`: *Von Kries* chromatic adaptation transform.
--   :attr:`BRADFORD_CAT`: *Bradford* chromatic adaptation transform.
--   :attr:`SHARP_CAT`: *Sharp* chromatic adaptation transform.
--   :attr:`FAIRCHILD_CAT`: *Fairchild* chromatic adaptation transform.
--   :attr:`CMCCAT97_CAT`: *CMCCAT97* chromatic adaptation transform.
--   :attr:`CMCCAT2000_CAT`: *CMCCAT2000* chromatic adaptation transform.
--   :attr:`CAT02_CAT`: *CAT02* chromatic adaptation transform.
--   :attr:`CAT02_BRILL_CAT`: *Brill and Süsstrunk (2008)* corrected CAT02
+-   :attr:`colour.adaptation.XYZ_SCALING_CAT`: *XYZ Scaling* chromatic
+    adaptation transform.
+-   :attr:`colour.adaptation.VON_KRIES_CAT`: *Von Kries* chromatic adaptation
+    transform.
+-   :attr:`colour.adaptation.BRADFORD_CAT`: *Bradford* chromatic adaptation
+    transform.
+-   :attr:`colour.adaptation.SHARP_CAT`: *Sharp* chromatic adaptation
+    transform.
+-   :attr:`colour.adaptation.FAIRCHILD_CAT`: *Fairchild* chromatic adaptation
+    transform.
+-   :attr:`colour.adaptation.CMCCAT97_CAT`: *CMCCAT97* chromatic adaptation
+    transform.
+-   :attr:`colour.adaptation.CMCCAT2000_CAT`: *CMCCAT2000* chromatic adaptation
+    transform.
+-   :attr:`colour.adaptation.CAT02_CAT`: *CAT02* chromatic adaptation
+    transform.
+-   :attr:`colour.adaptation.CAT02_BRILL_CAT`: *Brill and Süsstrunk (2008)*
+    corrected CAT02 chromatic adaptation transform.
+-   :attr:`colour.adaptation.BS_CAT`: *Bianco and Schettini (2010)* chromatic
+    adaptation transform.
+-   :attr:`colour.adaptation.BS_PC_CAT`: *Bianco and Schettini PC (2010)*
     chromatic adaptation transform.
--   :attr:`BS_CAT`: *Bianco and Schettini (2010)* chromatic adaptation
-    transform.
--   :attr:`BS_PC_CAT`: *Bianco and Schettini PC (2010)* chromatic adaptation
-    transform.
 
 See Also
 --------

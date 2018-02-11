@@ -6,14 +6,14 @@ Deprecated Colour Models Transformations
 
 Defines various deprecated colour models transformations:
 
--   :func:`RGB_to_HSV`
--   :func:`HSV_to_RGB`
--   :func:`RGB_to_HSL`
--   :func:`HSL_to_RGB`
--   :func:`RGB_to_CMY`
--   :func:`CMY_to_RGB`
--   :func:`CMY_to_CMYK`
--   :func:`CMYK_to_CMY`
+-   :func:`colour.RGB_to_HSV`
+-   :func:`colour.HSV_to_RGB`
+-   :func:`colour.RGB_to_HSL`
+-   :func:`colour.HSL_to_RGB`
+-   :func:`colour.RGB_to_CMY`
+-   :func:`colour.CMY_to_RGB`
+-   :func:`colour.CMY_to_CMYK`
+-   :func:`colour.CMYK_to_CMY`
 
 These colour models are stated as deprecated because they trade off perceptual
 relevance for computation speed. They should not be used in the colour science

@@ -7,8 +7,8 @@ ITU-R BT.709-6
 Defines *ITU-R BT.709-6* opto-electrical transfer function (OETF / OECF) and
 its reverse:
 
--   :func:`oetf_BT709`
--   :func:`oetf_reverse_BT709`
+-   :func:`colour.models.oetf_BT709`
+-   :func:`colour.models.oetf_reverse_BT709`
 
 See Also
 --------

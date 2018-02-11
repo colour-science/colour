@@ -6,16 +6,18 @@ Interpolation
 
 Defines classes for interpolating variables.
 
--   :class:`KernelInterpolator`: 1-D function generic interpolation with
+-   :class:`colour.KernelInterpolator`: 1-D function generic interpolation with
     arbitrary kernel.
--   :class:`LinearInterpolator`: 1-D function linear interpolation.
--   :class:`SpragueInterpolator`: 1-D function fifth-order polynomial
+-   :class:`colour.LinearInterpolator`: 1-D function linear interpolation.
+-   :class:`colour.SpragueInterpolator`: 1-D function fifth-order polynomial
     interpolation using *Sprague (1880)* method.
--   :class:`CubicSplineInterpolator`: 1-D function cubic spline interpolation.
--   :class:`PchipInterpolator`: 1-D function piecewise cube Hermite
+-   :class:`colour.CubicSplineInterpolator`: 1-D function cubic spline
     interpolation.
--   :class:`NullInterpolator`: 1-D function null interpolation.
--   :func:`lagrange_coefficients`: Computation of *Lagrange Coefficients*.
+-   :class:`colour.PchipInterpolator`: 1-D function piecewise cube Hermite
+    interpolation.
+-   :class:`colour.NullInterpolator`: 1-D function null interpolation.
+-   :func:`colour.lagrange_coefficients`: Computation of
+    *Lagrange Coefficients*.
 
 References
 ----------

@@ -7,8 +7,9 @@ RGB Displays
 Defines spectral power distributions classes for the dataset from
 :mod:`colour.characterisation.dataset.displays` module:
 
--   :class:`RGB_DisplayPrimaries`: Implements support for a *RGB* display (such
-    as a *CRT* or *LCD*) primaries multi-spectral power distributions.
+-   :class:`colour.characterisation.RGB_DisplayPrimaries`: Implements support
+    for a *RGB* display (such as a *CRT* or *LCD*) primaries multi-spectral
+    power distributions.
 
 See Also
 --------
@@ -42,12 +43,14 @@ class RGB_DisplayPrimaries(MultiSpectralPowerDistribution):
 MultiSpectralPowerDistribution or array_like or dict_like, optional
         Data to be stored in the multi-spectral power distribution.
     domain : array_like, optional
-        Values to initialise the multiple :class:`SpectralPowerDistribution`
-        class instances :attr:`Signal.wavelengths` attribute with. If both
-        ``data`` and ``domain`` arguments are defined, the latter with be used
-        to initialise the :attr:`Signal.wavelengths` attribute.
+        Values to initialise the multiple
+        :class:`colour.SpectralPowerDistribution` class instances
+        :attr:`colour.continuous.Signal.wavelengths` attribute with. If both
+        ``data`` and ``domain`` arguments are defined, the latter will be used
+        to initialise the :attr:`colour.continuous.Signal.wavelengths`
+        attribute.
     labels : array_like, optional
-        Names to use for the :class:`SpectralPowerDistribution` class
+        Names to use for the :class:`colour.SpectralPowerDistribution` class
         instances.
 
     Other Parameters
@@ -56,19 +59,20 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
        Multi-spectral power distribution name.
     interpolator : object, optional
         Interpolator class type to use as interpolating function for the
-        :class:`SpectralPowerDistribution` class instances.
+        :class:`colour.SpectralPowerDistribution` class instances.
     interpolator_args : dict_like, optional
         Arguments to use when instantiating the interpolating function
-        of the :class:`SpectralPowerDistribution` class instances.
+        of the :class:`colour.SpectralPowerDistribution` class instances.
     extrapolator : object, optional
         Extrapolator class type to use as extrapolating function for the
-        :class:`SpectralPowerDistribution` class instances.
+        :class:`colour.SpectralPowerDistribution` class instances.
     extrapolator_args : dict_like, optional
         Arguments to use when instantiating the extrapolating function
-        of the :class:`SpectralPowerDistribution` class instances.
+        of the :class:`colour.SpectralPowerDistribution` class instances.
     strict_labels : array_like, optional
         Multi-spectral power distribution labels for figures, default to
-        :attr:`RGB_DisplayPrimaries.labels` attribute value.
+        :attr:`colour.characterisation.RGB_DisplayPrimaries.labels` attribute
+        value.
     """
 
     def __init__(self, data=None, domain=None, labels=None, **kwargs):

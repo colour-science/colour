@@ -8,10 +8,10 @@ Defines :math:`\Delta E_{ab}` colour difference computation objects:
 
 The following methods are available:
 
--   :func:`delta_E_CIE1976`
--   :func:`delta_E_CIE1994`
--   :func:`delta_E_CIE2000`
--   :func:`delta_E_CMC`
+-   :func:`colour.difference.delta_E_CIE1976`
+-   :func:`colour.difference.delta_E_CIE1994`
+-   :func:`colour.difference.delta_E_CIE2000`
+-   :func:`colour.difference.delta_E_CMC`
 
 See Also
 --------
