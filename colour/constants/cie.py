@@ -13,7 +13,7 @@ References
     http://brucelindbloom.com/LContinuity.html
 -   :cite:`Wyszecki2000s` : Wyszecki, G., & Stiles, W. S. (2000). Standard
     Photometric Observers. In Color Science: Concepts and Methods,
-    Quantitative Data and Formulae (p. 256–259,395). Wiley. ISBN:978-0471399186
+    Quantitative Data and Formulae (p. 256-259,395). Wiley. ISBN:978-0471399186
 """
 
 from __future__ import division, unicode_literals

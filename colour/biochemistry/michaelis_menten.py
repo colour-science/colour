@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Michaelis–Menten Kinetics
+Michaelis-Menten Kinetics
 =========================
 
-Implements support for *Michaelis–Menten* kinetics, a model of enzyme kinetics:
+Implements support for *Michaelis-Menten* kinetics, a model of enzyme kinetics:
 
 -   :func:`colour.biochemistry.reaction_rate_MichealisMenten`
 -   :func:`colour.biochemistry.substrate_concentration_MichealisMenten`
@@ -17,9 +17,9 @@ blob/master/notebooks/biochemistry/michaelis_menten.ipynb>`_
 
 References
 ----------
--   :cite:`Wikipediace` : Wikipedia. (n.d.). Michaelis–Menten kinetics.
+-   :cite:`Wikipediace` : Wikipedia. (n.d.). Michaelis-Menten kinetics.
     Retrieved April 29, 2017, from https://en.wikipedia.org/wiki/\
-Michaelis–Menten_kinetics
+Michaelis-Menten_kinetics
 """
 
 from __future__ import division, unicode_literals

@@ -24,11 +24,11 @@ References
     2014, from http://en.wikipedia.org/wiki/CIECAM02
 -   :cite:`Luo2013` : Luo, M. R., & Li, C. (2013). CIECAM02 and Its Recent
     Developments. In C. Fernandez-Maloigne (Ed.), Advanced Color Image
-    Processing and Analysis (pp. 19–58). New York, NY: Springer New York.
+    Processing and Analysis (pp. 19-58). New York, NY: Springer New York.
     doi:10.1007/978-1-4419-6190-7
 -   :cite:`Moroneya` : Moroney, N., Fairchild, M. D., Hunt, R. W. G., Li, C.,
     Luo, M. R., & Newman, T. (2002). The CIECAM02 Color Appearance Model.
-    Color and Imaging Conference, (1), 23–27. Retrieved from
+    Color and Imaging Conference, (1), 23-27. Retrieved from
     http://www.ingentaconnect.com/\
 content/ist/cic/2002/00002002/00000001/art00006
 -   :cite:`Wikipediach` : Wikipedia. (n.d.). CIECAM02. Retrieved August 14,

@@ -96,7 +96,7 @@ def eotf_BT1886(V, L_B=0, L_W=1):
         at :math:`V = 1`. For content mastered per
         *Recommendation ITU-R BT.709*, 10-bit digital code values :math:`D` map
         into values of :math:`V` per the following equation:
-        :math:`V = (D–64)/876`
+        :math:`V = (D-64)/876`
     L_B : numeric, optional
         Screen luminance for black.
     L_W : numeric, optional

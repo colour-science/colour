@@ -15,7 +15,7 @@ blob/master/notebooks/recovery/smits1999.ipynb>`_
 References
 ----------
 -   :cite:`Smits1999a` : Smits, B. (1999). An RGB-to-Spectrum Conversion for
-    Reflectances. Journal of Graphics Tools, 4(4), 11–22.
+    Reflectances. Journal of Graphics Tools, 4(4), 11-22.
     doi:10.1080/10867651.1999.10487511
 """
 

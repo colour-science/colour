@@ -17,7 +17,7 @@ References
 ----------
 -   :cite:`CIETC1-482004i` : CIE TC 1-48. (2004). APPENDIX E. INFORMATION ON
     THE USE OF PLANCK'S EQUATION FOR STANDARD AIR. In CIE 015:2004 Colorimetry,
-    3rd Edition (pp. 77–82). ISBN:978-3-901-90633-6
+    3rd Edition (pp. 77-82). ISBN:978-3-901-90633-6
 """
 
 from __future__ import division, unicode_literals
@@ -66,7 +66,7 @@ def planck_law(wavelength, temperature, c1=C1, c2=C2, n=N):
         *(Preston-Thomas, 1990; Mielenz et aI., 1991)*, namely
         :math:`c2=1,4388x10.2\ m/K`.
     n : numeric or array_like, optional
-        Medium index of refraction. For dry air at 15°C and 101 325 Pa,
+        Medium index of refraction. For dry air at 15C and 101 325 Pa,
         containing 0,03 percent by volume of carbon dioxide, it is
         approximately 1,00028 throughout the visible region although
         *CIE 15:2004* recommends using :math:`n=1`.
@@ -128,7 +128,7 @@ def blackbody_spd(temperature, shape=DEFAULT_SPECTRAL_SHAPE, c1=C1, c2=C2,
         *(Preston-Thomas, 1990; Mielenz et aI., 1991)*, namely
         :math:`c2=1,4388x10.2\ m/K`.
     n : numeric, optional
-        Medium index of refraction. For dry air at 15°C and 101 325 Pa,
+        Medium index of refraction. For dry air at 15C and 101 325 Pa,
         containing 0,03 percent by volume of carbon dioxide, it is
         approximately 1,00028 throughout the visible region although
         *CIE 15:2004* recommends using :math:`n=1`.

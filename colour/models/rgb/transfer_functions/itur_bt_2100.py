@@ -90,7 +90,7 @@ def oetf_BT2100_PQ(E):
     Returns
     -------
     numeric or ndarray
-        :math:`E′` is the resulting non-linear signal (:math:`R'`, :math:`G'`,
+        :math:`E` is the resulting non-linear signal (:math:`R'`, :math:`G'`,
         :math:`B'`) in the range [0, 1].
 
     References
@@ -115,7 +115,7 @@ def oetf_reverse_BT2100_PQ(E_p):
     Parameters
     ----------
     E_p : numeric or array_like
-        :math:`E′` is the resulting non-linear signal (:math:`R'`, :math:`G'`,
+        :math:`E` is the resulting non-linear signal (:math:`R'`, :math:`G'`,
         :math:`B'`) in the range [0, 1].
 
     Returns
@@ -327,7 +327,7 @@ def oetf_BT2100_HLG(E):
     Returns
     -------
     numeric or ndarray
-        :math:`E′` is the resulting non-linear signal :math:`{R', G', B'}` in
+        :math:`E` is the resulting non-linear signal :math:`{R', G', B'}` in
         the range [0, 1].
 
     References
@@ -352,7 +352,7 @@ def oetf_reverse_BT2100_HLG(E):
     Parameters
     ----------
     E_p : numeric or array_like
-        :math:`E′` is the resulting non-linear signal :math:`{R', G', B'}` in
+        :math:`E` is the resulting non-linear signal :math:`{R', G', B'}` in
         the range [0, 1].
 
     Returns

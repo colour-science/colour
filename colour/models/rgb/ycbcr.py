@@ -25,7 +25,7 @@ References
 ----------
 -   :cite:`InternationalTelecommunicationUnion2011e` : International
     Telecommunication Union. (2011). Recommendation ITU-T T.871 - Information
-    technology – Digital compression and coding of continuous-tone still
+    technology - Digital compression and coding of continuous-tone still
     images: JPEG File Interchange Format (JFIF). Retrieved from
     https://www.itu.int/rec/dologin_pub.asp?lang=e&\
 id=T-REC-T.871-201105-I!!PDF-E&type=items

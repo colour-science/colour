@@ -22,7 +22,7 @@ blob/master/notebooks/models/ipt.ipynb>`_
 References
 ----------
 -   :cite:`Fairchild2013y` : Fairchild, M. D. (2013). IPT Colourspace. In
-    Color Appearance Models (3rd ed., pp. 6197–6223). Wiley. ISBN:B00DAYO8E2
+    Color Appearance Models (3rd ed., pp. 6197-6223). Wiley. ISBN:B00DAYO8E2
 """
 
 from __future__ import division, unicode_literals

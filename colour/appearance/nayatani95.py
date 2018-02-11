@@ -18,12 +18,12 @@ blob/master/notebooks/appearance/nayatani95.ipynb>`_
 References
 ----------
 -   :cite:`Fairchild2013ba` : Fairchild, M. D. (2013). The Nayatani et al.
-    Model. In Color Appearance Models (3rd ed., pp. 4810–5085). Wiley.
+    Model. In Color Appearance Models (3rd ed., pp. 4810-5085). Wiley.
     ISBN:B00DAYO8E2
 -   :cite:`Nayatani1995a` : Nayatani, Y., Sobagaki, H., & Yano, K. H. T.
     (1995). Lightness dependency of chroma scales of a nonlinear
     color-appearance model and its latest formulation. Color Research &
-    Application, 20(3), 156–167. doi:10.1002/col.5080200305
+    Application, 20(3), 156-167. doi:10.1002/col.5080200305
 """
 
 from __future__ import division, unicode_literals

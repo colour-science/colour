@@ -27,17 +27,17 @@ References
 -   :cite:`CIETC1-382005f` : CIE TC 1-38. (2005). 9.2.4 Method of
     interpolation for uniformly spaced independent variable. In CIE 167:2005
     Recommended Practice for Tabulating Spectral Data for Use in Colour
-    Computations (pp. 1–27). ISBN:978-3-901-90641-1
+    Computations (pp. 1-27). ISBN:978-3-901-90641-1
 -   :cite:`CIETC1-382005h` : CIE TC 1-38. (2005). Table V. Values of the
     c-coefficients of Equ.s 6 and 7. In CIE 167:2005 Recommended Practice for
     Tabulating Spectral Data for Use in Colour Computations (p. 19).
     ISBN:978-3-901-90641-1
 -   :cite:`Fairman1985b` : Fairman, H. S. (1985). The calculation of weight
     factors for tristimulus integration. Color Research & Application, 10(4),
-    199–203. doi:10.1002/col.5080100407
+    199-203. doi:10.1002/col.5080100407
 -   :cite:`Westland2012h` : Westland, S., Ripamonti, C., & Cheung, V. (2012).
     Interpolation Methods. In Computational Colour Science Using MATLAB
-    (2nd ed., pp. 29–37). ISBN:978-0-470-66569-5
+    (2nd ed., pp. 29-37). ISBN:978-0-470-66569-5
 -   :cite:`Wikipedia` : Wikipedia. (n.d.). Lanczos resampling. Retrieved
     October 14, 2017, from https://en.wikipedia.org/wiki/Lanczos_resampling
 -   :cite:`Wikipediacb` : Wikipedia. (n.d.). Lagrange polynomial - Definition.

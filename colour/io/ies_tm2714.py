@@ -94,7 +94,7 @@ class IES_TM2714_Header(object):
     manufacturer : unicode, optional
         Manufacturer of the device under test.
     catalog_number : unicode, optional
-        Manufacturer’s product catalog number.
+        Manufacturer's product catalog number.
     description : unicode, optional
         Description of the spectral data in the spectral data XML file.
     document_creator : unicode, optional

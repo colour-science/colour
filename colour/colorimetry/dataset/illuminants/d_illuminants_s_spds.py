@@ -21,7 +21,7 @@ References
     http://www.brucelindbloom.com/Eqn_DIlluminant.html
 -   :cite:`Wyszecki2000z` : Wyszecki, G., & Stiles, W. S. (2000). CIE Method of
     Calculating D-Illuminants. In Color Science: Concepts and Methods,
-    Quantitative Data and Formulae (pp. 145–146). Wiley. ISBN:978-0471399186
+    Quantitative Data and Formulae (pp. 145-146). Wiley. ISBN:978-0471399186
 """
 
 from __future__ import division, unicode_literals

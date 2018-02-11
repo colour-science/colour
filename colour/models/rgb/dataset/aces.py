@@ -23,7 +23,7 @@ References
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q` : The Academy of
     Motion Picture Arts and Sciences, Science and Technology Council, & Academy
     Color Encoding System (ACES) Project Subcommittee. (2014). Technical
-    Bulletin TB-2014-004 - Informative Notes on SMPTE ST 2065-1 – Academy Color
+    Bulletin TB-2014-004 - Informative Notes on SMPTE ST 2065-1 - Academy Color
     Encoding Specification (ACES). Retrieved from
     https://github.com/ampas/aces-dev/tree/master/documents
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2014r` : The Academy of
@@ -47,7 +47,7 @@ References
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2015b` : The Academy of
     Motion Picture Arts and Sciences, Science and Technology Council, &
     Academy Color Encoding System (ACES) Project Subcommittee. (2015).
-    Specification S-2014-004 - ACEScg – A Working Space for CGI Render and
+    Specification S-2014-004 - ACEScg - A Working Space for CGI Render and
     Compositing. Retrieved from
     https://github.com/ampas/aces-dev/tree/master/documents
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2016c` : The Academy of
@@ -193,7 +193,7 @@ ACES_CG_COLOURSPACE = RGB_Colourspace(
     function_linear)  # yapf: disable
 ACES_CG_COLOURSPACE.__doc__ = """
 *ACEScg* colourspace, a working space for paint/compositor applications that
-don’t support ACES2065-1 or ACEScc.
+don't support ACES2065-1 or ACEScc.
 
 References
 ----------

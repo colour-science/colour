@@ -35,7 +35,7 @@ References
     Data and Formulae (p. 141). Wiley. ISBN:978-0471399186
 -   :cite:`Wyszecki2000bg` : Wyszecki, G., & Stiles, W. S. (2000).
     Table 1(3.3.3). In Color Science: Concepts and Methods, Quantitative Data
-    and Formulae (pp. 138–139). Wiley. ISBN:978-0471399186
+    and Formulae (pp. 138-139). Wiley. ISBN:978-0471399186
 """
 
 from __future__ import division, unicode_literals

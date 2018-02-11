@@ -20,10 +20,10 @@ blob/master/notebooks/appearance/rlab.ipynb>`_
 References
 ----------
 -   :cite:`Fairchild1996a` : Fairchild, M. D. (1996). Refinement of the RLAB
-    color space. Color Research & Application, 21(5), 338–346.
+    color space. Color Research & Application, 21(5), 338-346.
     doi:10.1002/(SICI)1520-6378(199610)21:5<338::AID-COL3>3.0.CO;2-Z
 -   :cite:`Fairchild2013w` : Fairchild, M. D. (2013). The RLAB Model. In Color
-    Appearance Models (3rd ed., pp. 5563–5824). Wiley. ISBN:B00DAYO8E2
+    Appearance Models (3rd ed., pp. 5563-5824). Wiley. ISBN:B00DAYO8E2
 """
 
 from __future__ import division, unicode_literals
@@ -127,9 +127,9 @@ class RLAB_ReferenceSpecification(
     HR : numeric or array_like
         *Hue* :math:`h` composition :math:`H^R`.
     aR : numeric or array_like
-        Red–green chromatic response :math:`a^R`.
+        Red-green chromatic response :math:`a^R`.
     bR : numeric or array_like
-        Yellow–blue chromatic response :math:`b^R`.
+        Yellow-blue chromatic response :math:`b^R`.
 
     References
     ----------
@@ -161,9 +161,9 @@ class RLAB_Specification(
     HC : numeric or array_like
         *Hue* :math:`h` composition :math:`H^C`.
     a : numeric or array_like
-        Red–green chromatic response :math:`a^R`.
+        Red-green chromatic response :math:`a^R`.
     b : numeric or array_like
-        Yellow–blue chromatic response :math:`b^R`.
+        Yellow-blue chromatic response :math:`b^R`.
 
     Notes
     -----

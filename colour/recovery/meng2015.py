@@ -19,7 +19,7 @@ References
 ----------
 -   :cite:`Meng2015c` : Meng, J., Simon, F., Hanika, J., & Dachsbacher, C.
     (2015). Physically Meaningful Rendering using Tristimulus Colours. Computer
-    Graphics Forum, 34(4), 31–40. doi:10.1111/cgf.12676
+    Graphics Forum, 34(4), 31-40. doi:10.1111/cgf.12676
 """
 
 from __future__ import division, unicode_literals

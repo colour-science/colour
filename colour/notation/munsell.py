@@ -11,7 +11,7 @@ Defines various objects for *Munsell Renotation System* computations:
     *Priest, Gibson and MacNicholas (1920)* method.
 -   :func:`colour.notation.munsell_value_Munsell1933`: *Munsell* value
     :math:`V` computation of given *luminance* :math:`Y` using
-    ⁠*Munsell, Sloan and Godlove (1933)* method.
+    *Munsell, Sloan and Godlove (1933)* method.
 -   :func:`colour.notation.munsell_value_Moon1943`: *Munsell* value :math:`V`
     computation of given *luminance* :math:`Y` using
     *Moon and Spencer (1943)* method.
@@ -52,7 +52,7 @@ Notes
         The coefficients of this equation are obtained from the 1943 equation
         by multiplying each coefficient by 0.975, the reflectance factor of
         magnesium oxide with respect to the perfect reflecting diffuser, and
-        rounding to ﬁve digits of precision.
+        rounding to ve digits of precision.
 
 References
 ----------
@@ -61,7 +61,7 @@ References
     from http://www.astm.org/DATABASE.CART/HISTORICAL/D1535-89.htm
 -   :cite:`Centore2012a` : Centore, P. (2012). An open-source inversion
     algorithm for the Munsell renotation. Color Research & Application, 37(6),
-    455–464. doi:10.1002/col.20715
+    455-464. doi:10.1002/col.20715
 -   :cite:`Centore2014k` : Centore, P. (2014).
     MunsellAndKubelkaMunkToolboxApr2014 -
     MunsellRenotationRoutines/MunsellHueToASTMHue.m. Retrieved from
@@ -113,7 +113,7 @@ References
 MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html
 -   :cite:`Wikipediabs` : Nayatani, Y., Sobagaki, H., & Yano, K. H. T. (1995).
     Lightness dependency of chroma scales of a nonlinear color-appearance model
-    and its latest formulation. Color Research & Application, 20(3), 156–167.
+    and its latest formulation. Color Research & Application, 20(3), 156-167.
     doi:10.1002/col.5080200305
 """
 
@@ -139,7 +139,7 @@ __author__ = 'Colour Developers, Paul Centore'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __copyright__ += ', '
 __copyright__ += (
-    'The Munsell and Kubelka-Munk Toolbox: Copyright © 2010-2018 Paul Centore '
+    'The Munsell and Kubelka-Munk Toolbox: Copyright  2010-2018 Paul Centore '
     '(Gales Ferry, CT 06335, USA); used by permission.')
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
@@ -289,7 +289,7 @@ def _munsell_maximum_chromas_from_renotation():
 def munsell_value_Priest1920(Y):
     """
     Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
-    *⁠⁠⁠⁠⁠Priest et alii (1920)* method.
+    *Priest et alii (1920)* method.
 
     Parameters
     ----------
@@ -326,7 +326,7 @@ def munsell_value_Priest1920(Y):
 def munsell_value_Munsell1933(Y):
     """
     Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
-    *⁠Munsell et alii (1933)* method.
+    *Munsell et alii (1933)* method.
 
     Parameters
     ----------

@@ -19,7 +19,7 @@ References
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q` : The Academy of
     Motion Picture Arts and Sciences, Science and Technology Council, & Academy
     Color Encoding System (ACES) Project Subcommittee. (2014). Technical
-    Bulletin TB-2014-004 - Informative Notes on SMPTE ST 2065-1 – Academy Color
+    Bulletin TB-2014-004 - Informative Notes on SMPTE ST 2065-1 - Academy Color
     Encoding Specification (ACES). Retrieved from
     https://github.com/ampas/aces-dev/tree/master/documents
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2014r` : The Academy of

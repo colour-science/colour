@@ -30,7 +30,7 @@ Notes
         The coefficients of this equation are obtained from the 1943 equation
         by multiplying each coefficient by 0.975, the reflectance factor of
         magnesium oxide with respect to the perfect reflecting diffuser, and
-        rounding to ﬁve digits of precision.
+        rounding to ve digits of precision.
 
 References
 ----------

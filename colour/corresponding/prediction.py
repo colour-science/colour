@@ -23,18 +23,18 @@ References
     Adaptations. ISBN:978-3-900734-51-0
 -   :cite:`Fairchild1991a` : Fairchild, M. D. (1991). Formulation and testing
     of an incomplete-chromatic-adaptation model. Color Research & Application,
-    16(4), 243–250. doi:10.1002/col.5080160406
+    16(4), 243-250. doi:10.1002/col.5080160406
 -   :cite:`Fairchild2013s` : Fairchild, M. D. (2013). FAIRCHILD'S 1990 MODEL.
-    In Color Appearance Models (3rd ed., pp. 4418–4495). Wiley. ISBN:B00DAYO8E2
+    In Color Appearance Models (3rd ed., pp. 4418-4495). Wiley. ISBN:B00DAYO8E2
 -   :cite:`Fairchild2013t` : Fairchild, M. D. (2013). Chromatic Adaptation
-    Models. In Color Appearance Models (3rd ed., pp. 4179–4252). Wiley.
+    Models. In Color Appearance Models (3rd ed., pp. 4179-4252). Wiley.
     ISBN:B00DAYO8E2
 -   :cite:`Li2002a` : Li, C., Luo, M. R., Rigg, B., & Hunt, R. W. G. (2002).
     CMC 2000 chromatic adaptation transform: CMCCAT2000. Color Research &
-    Application, 27(1), 49–58. doi:10.1002/col.10005
+    Application, 27(1), 49-58. doi:10.1002/col.10005
 -   :cite:`Westland2012k` : Westland, S., Ripamonti, C., & Cheung, V. (2012).
     CMCCAT2000. In Computational Colour Science Using MATLAB
-    (2nd ed., pp. 83–86). ISBN:978-0-470-66569-5
+    (2nd ed., pp. 83-86). ISBN:978-0-470-66569-5
 """
 
 from __future__ import division, unicode_literals

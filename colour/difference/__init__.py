@@ -16,7 +16,7 @@ References
     http://brucelindbloom.com/Eqn_DeltaE_CIE94.html
 -   :cite:`Luo2006b` : Luo, M. R., Cui, G., & Li, C. (2006). Uniform colour
     spaces based on CIECAM02 colour appearance model. Color Research &
-    Application, 31(4), 320–330. doi:10.1002/col.20227
+    Application, 31(4), 320-330. doi:10.1002/col.20227
 -   :cite:`Melgosa2013b` : Melgosa, M. (2013). CIE / ISO new standard:
     CIEDE2000. Retrieved from http://www.color.org/events/colorimetry/\
 Melgosa_CIEDE2000_Workshop-July4.pdf

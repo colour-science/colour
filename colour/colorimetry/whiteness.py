@@ -26,7 +26,7 @@ References
 -   :cite:`Wyszecki2000ba` : Wyszecki, G., & Stiles, W. S. (2000).
     Table I(6.5.3) Whiteness Formulae (Whiteness Measure Denoted by W). In
     Color Science: Concepts and Methods, Quantitative Data and Formulae
-    (pp. 837–839). Wiley. ISBN:978-0471399186
+    (pp. 837-839). Wiley. ISBN:978-0471399186
 -   :cite:`X-Rite2012a` : X-Rite, & Pantone. (2012). Color iQC and Color
     iMatch Color Calculations Guide. Retrieved from
     https://www.xrite.com/-/media/xrite/files/\

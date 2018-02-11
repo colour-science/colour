@@ -26,7 +26,7 @@ References
     System. doi:10.1520/E0308-15
 -   :cite:`Wyszecki2000bf` : Wyszecki, G., & Stiles, W. S. (2000). Integration
     Replaced by Summation. In Color Science: Concepts and Methods, Quantitative
-    Data and Formulae (pp. 158–163). Wiley. ISBN:978-0471399186
+    Data and Formulae (pp. 158-163). Wiley. ISBN:978-0471399186
 """
 
 from __future__ import division, unicode_literals
