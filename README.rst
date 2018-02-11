@@ -583,9 +583,9 @@ Bibliography
 
 The bibliography is available on the `Bibliography <http://colour-science.org/bibliography/>`_ page.
 
-It is also viewable directly from the repository in either
+It is also viewable directly from the repository in
 `BibTeX <https://github.com/colour-science/colour/blob/develop/BIBLIOGRAPHY.bib>`_
-format or `reStructuredText <https://github.com/colour-science/colour/blob/develop/BIBLIOGRAPHY.rst>`_.
+format.
 
 See Also
 --------
