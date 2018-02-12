@@ -97,7 +97,7 @@ V_GAMUT_COLOURSPACE = RGB_Colourspace(
     V_GAMUT_TO_XYZ_MATRIX,
     XYZ_TO_V_GAMUT_MATRIX,
     log_encoding_VLog,
-    log_decoding_VLog)  # yapf: disable
+    log_decoding_VLog, )
 V_GAMUT_COLOURSPACE.__doc__ = """
 *V-Gamut* colourspace.
 

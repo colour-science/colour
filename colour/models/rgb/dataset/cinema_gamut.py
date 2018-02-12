@@ -91,7 +91,7 @@ CINEMA_GAMUT_COLOURSPACE = RGB_Colourspace(
     CINEMA_GAMUT_TO_XYZ_MATRIX,
     XYZ_TO_CINEMA_GAMUT_MATRIX,
     function_linear,
-    function_linear)  # yapf: disable
+    function_linear, )
 CINEMA_GAMUT_COLOURSPACE.__doc__ = """
 *Cinema Gamut* colourspace.
 

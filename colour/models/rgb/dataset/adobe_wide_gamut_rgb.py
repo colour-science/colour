@@ -93,7 +93,7 @@ ADOBE_WIDE_GAMUT_RGB_COLOURSPACE = RGB_Colourspace(
     ADOBE_WIDE_GAMUT_RGB_TO_XYZ_MATRIX,
     XYZ_TO_ADOBE_WIDE_GAMUT_RGB_MATRIX,
     partial(function_gamma, exponent=1 / (563 / 256)),
-    partial(function_gamma, exponent=563 / 256))  # yapf: disable
+    partial(function_gamma, exponent=563 / 256), )
 ADOBE_WIDE_GAMUT_RGB_COLOURSPACE.__doc__ = """
 *Adobe Wide Gamut RGB* colourspace.
 
