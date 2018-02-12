@@ -7,7 +7,7 @@ Showcases interpolation computations.
 import pylab
 
 import colour
-from colour.plotting import boundaries, decorate, display
+from colour.plotting import render
 from colour.utilities import message_box
 
 message_box('Interpolation Computations')
@@ -133,6 +133,4 @@ settings = {
                max(y_limit_max))
 }
 
-boundaries(**settings)
-decorate(**settings)
-display(**settings)
+render(**settings)

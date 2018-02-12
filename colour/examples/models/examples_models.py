@@ -27,8 +27,8 @@ print('\n')
 
 message_box('Using an alternative illuminant.')
 print(colour.XYZ_to_xyY(
-    np.array([0.00000000, 0.00000000, 0.00000000]), colour.ILLUMINANTS[
-        'CIE 1931 2 Degree Standard Observer']['D60']))
+    np.array([0.00000000, 0.00000000, 0.00000000]),
+    colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D60'], ))
 
 print('\n')
 
@@ -59,9 +59,13 @@ message_box(('Converting to "RGB" colourspace from given "CIE XYZ" '
              'tristimulus values:\n'
              '\n\t{0}'.format(XYZ)))
 D50 = colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']
-print(colour.XYZ_to_RGB(XYZ, D50, colour.sRGB_COLOURSPACE.whitepoint,
-                        colour.sRGB_COLOURSPACE.XYZ_to_RGB_matrix, 'Bradford',
-                        colour.sRGB_COLOURSPACE.encoding_cctf))
+print(colour.XYZ_to_RGB(
+    XYZ,
+    D50,
+    colour.RGB_COLOURSPACES['sRGB'].whitepoint,
+    colour.RGB_COLOURSPACES['sRGB'].XYZ_to_RGB_matrix,
+    'Bradford',
+    colour.RGB_COLOURSPACES['sRGB'].encoding_cctf, ))
 
 print('\n')
 
@@ -69,9 +73,13 @@ RGB = np.array([1.26651054, 0.91394181, 0.76936593])
 message_box(('Converting to "CIE XYZ" tristimulus values from given "RGB" '
              'colourspace values:\n'
              '\n\t{0}'.format(RGB)))
-print(colour.RGB_to_XYZ(RGB, colour.sRGB_COLOURSPACE.whitepoint, D50,
-                        colour.sRGB_COLOURSPACE.RGB_to_XYZ_matrix, 'Bradford',
-                        colour.sRGB_COLOURSPACE.decoding_cctf))
+print(colour.RGB_to_XYZ(
+    RGB,
+    colour.RGB_COLOURSPACES['sRGB'].whitepoint,
+    D50,
+    colour.RGB_COLOURSPACES['sRGB'].RGB_to_XYZ_matrix,
+    'Bradford',
+    colour.RGB_COLOURSPACES['sRGB'].decoding_cctf, ))
 
 print('\n')
 

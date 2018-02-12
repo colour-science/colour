@@ -16,4 +16,4 @@ message_box(('Recovering reflectance using "Meng et al. (2015)" method from '
              'given "XYZ" tristimulus values:\n'
              '\n\tXYZ: {0}'.format(XYZ)))
 print(colour.XYZ_to_spectral(XYZ, method='Meng 2015'))
-print(colour.XYZ_to_spectral_Meng2015(XYZ))
+print(colour.recovery.XYZ_to_spectral_Meng2015(XYZ))

@@ -3,6 +3,10 @@
 
 from __future__ import absolute_import
 
+import sys
+
+from colour.utilities.deprecation import ModuleAPI, Renamed
+
 from .dataset import *  # noqa
 from . import dataset
 from .common import (
@@ -104,3 +108,113 @@ __all__ += [
     'planckian_locus_chromaticity_diagram_plot_CIE1960UCS'
 ]
 __all__ += ['RGB_colourspaces_gamuts_plot', 'RGB_scatter_plot']
+
+
+# ----------------------------------------------------------------------------#
+# ---                API Changes and Deprecation Management                ---#
+# ----------------------------------------------------------------------------#
+class plotting(ModuleAPI):
+    def __getattr__(self, attribute):
+        return super(plotting, self).__getattr__(attribute)
+
+
+API_CHANGES = {
+    'Renamed': [
+        [
+            'colour.plotting.CIE_1931_chromaticity_diagram_plot',
+            'colour.plotting.chromaticity_diagram_plot_CIE1931',
+        ],
+        [
+            'colour.plotting.CIE_1960_UCS_chromaticity_diagram_plot',
+            'colour.plotting.chromaticity_diagram_plot_CIE1960UCS',
+        ],
+        [
+            'colour.plotting.CIE_1976_UCS_chromaticity_diagram_plot',
+            'colour.plotting.chromaticity_diagram_plot_CIE1976UCS',
+        ],
+        [
+            'colour.plotting.spds_CIE_1931_chromaticity_diagram_plot',
+            'colour.plotting.spds_chromaticity_diagram_plot_CIE1931',
+        ],
+        [
+            'colour.plotting.spds_CIE_1960_UCS_chromaticity_diagram_plot',
+            'colour.plotting.spds_chromaticity_diagram_plot_CIE1960UCS',
+        ],
+        [
+            'colour.plotting.spds_CIE_1976_UCS_chromaticity_diagram_plot',
+            'colour.plotting.spds_chromaticity_diagram_plot_CIE1976UCS',
+        ],
+        [
+            'colour.plotting.'
+            'RGB_colourspaces_CIE_1931_chromaticity_diagram_plot',
+            'colour.plotting.'
+            'RGB_colourspaces_chromaticity_diagram_plot_CIE1931',
+        ],
+        [
+            'colour.plotting.'
+            'RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot',
+            'colour.plotting.'
+            'RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS',
+        ],
+        [
+            'colour.plotting.'
+            'RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot',
+            'colour.plotting.'
+            'RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS',
+        ],
+        [
+            'colour.plotting.'
+            'RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot',
+            'colour.plotting.'
+            'RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931',
+        ],
+        [
+            'colour.plotting.RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot',  # noqa
+            'colour.plotting.'
+            'RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS',  # noqa
+        ],
+        [
+            'colour.plotting.RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot',  # noqa
+            'colour.plotting.'
+            'RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS',  # noqa
+        ],
+        [
+            'colour.plotting.'
+            'planckian_locus_CIE_1931_chromaticity_diagram_plot',
+            'colour.plotting.'
+            'planckian_locus_chromaticity_diagram_plot_CIE1931',
+        ],
+        [
+            'colour.plotting.'
+            'planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot',
+            'colour.plotting.'
+            'planckian_locus_chromaticity_diagram_plot_CIE1960UCS',
+        ],
+    ]
+}
+"""
+Defines *Colour* API changes.
+
+API_CHANGES : dict
+"""
+
+
+def _setup_api_changes():
+    """
+    Setups *Colour* API changes.
+    """
+
+    global API_CHANGES
+
+    for renamed in API_CHANGES['Renamed']:
+        name, access = renamed
+        API_CHANGES[name.split('.')[-1]] = Renamed(name, access)  # noqa
+    API_CHANGES.pop('Renamed')
+
+
+del ModuleAPI
+del Renamed
+del _setup_api_changes
+
+sys.modules['colour.plotting'] = plotting(sys.modules['colour.plotting'],
+                                          API_CHANGES)

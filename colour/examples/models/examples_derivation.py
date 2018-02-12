@@ -31,8 +31,8 @@ message_box(('Computing the normalised primary matrix for "ACES2065-1" '
              'colourspace transforming from "ACES2065-1" colourspace to '
              '"CIE XYZ" tristimulus values using colour models dataset.'))
 print(colour.normalised_primary_matrix(
-    colour.ACES_2065_1_COLOURSPACE.primaries,
-    colour.ACES_2065_1_COLOURSPACE.whitepoint))
+    colour.RGB_COLOURSPACES['ACES2065-1'].primaries,
+    colour.RGB_COLOURSPACES['ACES2065-1'].whitepoint, ))
 
 print('\n')
 
@@ -41,16 +41,17 @@ message_box(('Computing the normalised primary matrix for "ACES2065-1" '
              '"ACES2065-1" colourspace using colour models dataset.'))
 print(np.linalg.inv(
     colour.normalised_primary_matrix(
-        colour.ACES_2065_1_COLOURSPACE.primaries,
-        colour.ACES_2065_1_COLOURSPACE.whitepoint)))
+        colour.RGB_COLOURSPACES['ACES2065-1'].primaries,
+        colour.RGB_COLOURSPACES['ACES2065-1'].whitepoint, )))
 
 print('\n')
 
 message_box(('Computing "sRGB" colourspace primaries chromatically adapted to '
              '"CIE Standard Illuminant D50":\n'))
 print(colour.chromatically_adapted_primaries(
-    colour.sRGB_COLOURSPACE.primaries, colour.sRGB_COLOURSPACE.whitepoint,
-    colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']))
+    colour.RGB_COLOURSPACES['sRGB'].primaries,
+    colour.RGB_COLOURSPACES['sRGB'].whitepoint,
+    colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50'], ))
 
 print('\n')
 
@@ -69,5 +70,16 @@ print('\n')
 RGB = np.array([56.00000000, 16.00000000, 100.00000000])
 message_box(('Computing "RGB" luminance of given "RGB" values:\n'
              '\n\t{0}'.format(RGB)))
-print(colour.RGB_luminance(RGB, colour.sRGB_COLOURSPACE.primaries,
-                           colour.sRGB_COLOURSPACE.whitepoint))
+print(colour.RGB_luminance(
+    RGB,
+    colour.RGB_COLOURSPACES['sRGB'].primaries,
+    colour.RGB_COLOURSPACES['sRGB'].whitepoint, ))
+
+print('\n')
+
+message_box(('Computing "RGB" luminance equation of given "RGB" values:\n'
+             '\n\t{0}'.format(RGB)))
+print(colour.RGB_luminance(
+    RGB,
+    colour.RGB_COLOURSPACES['sRGB'].primaries,
+    colour.RGB_COLOURSPACES['sRGB'].whitepoint, ))

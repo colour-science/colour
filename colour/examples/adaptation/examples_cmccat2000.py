@@ -24,8 +24,8 @@ message_box(('Computing chromatic adaptation using "CMCCAT200" forward '
              'are non standard!'.format(XYZ, XYZ_w, XYZ_wr, L_A1, L_A2)))
 print(colour.chromatic_adaptation(
     XYZ, XYZ_w, XYZ_wr, method='CMCCAT2000', L_A1=L_A1, L_A2=L_A2))
-print(colour.chromatic_adaptation_CMCCAT2000(XYZ * 100.0, XYZ_w, XYZ_wr, L_A1,
-                                             L_A2) / 100.0)
+print(colour.adaptation.chromatic_adaptation_CMCCAT2000(
+    XYZ * 100.0, XYZ_w, XYZ_wr, L_A1, L_A2) / 100.0)
 
 print('\n')
 
@@ -44,5 +44,5 @@ print(colour.chromatic_adaptation(
     L_A1=L_A1,
     L_A2=L_A2,
     direction='Reverse'))
-print(colour.chromatic_adaptation_CMCCAT2000(
+print(colour.adaptation.chromatic_adaptation_CMCCAT2000(
     XYZ_c * 100.0, XYZ_w, XYZ_wr, L_A1, L_A2, direction='Reverse') / 100.0)

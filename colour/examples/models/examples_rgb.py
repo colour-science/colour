@@ -48,5 +48,7 @@ message_box(
     ('Converting from "ITU-R BT.709" colourspace to "ACEScg" colourspace '
      'given "RGB" values:\n'
      '\n\t{0}'.format(RGB)))
-print(colour.RGB_to_RGB(RGB, colour.RGB_COLOURSPACES['ITU-R BT.709'],
-                        colour.RGB_COLOURSPACES['ACEScg']))
+print(colour.RGB_to_RGB(
+    RGB,
+    colour.RGB_COLOURSPACES['ITU-R BT.709'],
+    colour.RGB_COLOURSPACES['ACEScg'], ))
