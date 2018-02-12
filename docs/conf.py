@@ -12,12 +12,14 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
+autosummary_generate = True
+
 autodoc_mock_imports = [
-    'matplotlib', 'matplotlib.cm', 'matplotlib.image', 'matplotlib.path',
-    'matplotlib.pyplot', 'matplotlib.ticker', 'mpl_toolkits.mplot3d',
-    'mpl_toolkits.mplot3d.art3d', 'pylab', 'scipy', 'scipy.interpolate',
-    'scipy.ndimage', 'scipy.ndimage.filters', 'scipy.optimize',
-    'scipy.spatial', 'scipy.spatial.distance'
+    'matplotlib', 'matplotlib.cm', 'matplotlib.image', 'matplotlib.patches',
+    'matplotlib.path', 'matplotlib.pyplot', 'matplotlib.ticker',
+    'mpl_toolkits.mplot3d', 'mpl_toolkits.mplot3d.art3d', 'pylab', 'scipy',
+    'scipy.interpolate', 'scipy.ndimage', 'scipy.ndimage.filters',
+    'scipy.optimize', 'scipy.spatial', 'scipy.spatial.distance'
 ]
 
 # If extensions (or modules to document with autodoc) are in another directory,
@@ -36,7 +38,8 @@ autodoc_mock_imports = [
 extensions = [
     'sphinx.ext.autodoc', 'sphinx.ext.intersphinx', 'sphinx.ext.todo',
     'sphinx.ext.coverage', 'sphinx.ext.ifconfig', 'sphinx.ext.viewcode',
-    'sphinx.ext.autosummary', 'sphinx.ext.napoleon', 'sphinx.ext.mathjax'
+    'sphinx.ext.autosummary', 'sphinx.ext.napoleon', 'sphinx.ext.mathjax',
+    'sphinxcontrib.bibtex'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -106,7 +109,7 @@ pygments_style = 'sphinx'
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-# html_theme = 'default'
+html_theme = 'sphinx_rtd_theme'
 #
 # html_theme_options = {}
 
@@ -127,7 +130,7 @@ pygments_style = 'sphinx'
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
-html_logo = 'Colour_Logo_Small_001.png'
+html_logo = '_static/Colour_Logo_Small_001.png'
 
 # The name of an image file (within the static path) to use as favicon of the
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
@@ -137,7 +140,7 @@ html_logo = 'Colour_Logo_Small_001.png'
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named 'default.css' will overwrite the builtin 'default.css'.
-# html_static_path = ['_static']
+html_static_path = ['_static']
 
 # Add any extra paths that contain custom files (such as robots.txt or
 # .htaccess) here, relative to this directory. These files are copied
@@ -192,13 +195,20 @@ htmlhelp_basename = 'ColourDoc'
 
 latex_elements = {
     # The paper size ('letterpaper' or 'a4paper').
-    # 'papersize': 'letterpaper',
+    'papersize':
+        'letterpaper',
 
     # The font size ('10pt', '11pt' or '12pt').
-    # 'pointsize': '10pt',
+    'pointsize':
+        '10pt',
 
     # Additional stuff for the LaTeX preamble.
-    # 'preamble': '',
+    'preamble':
+        """
+        \usepackage{charter}
+        \usepackage[defaultsans]{lato}
+        \usepackage{inconsolata}
+        """,
 }
 
 # Grouping the document tree into LaTeX files. List of tuples
@@ -211,7 +221,7 @@ latex_documents = [
 
 # The name of an image file (relative to this directory) to place at the top of
 # the title page.
-# latex_logo = None
+latex_logo = '_static/Colour_Logo_Medium_001.png'
 
 # For 'manual' documents, if this is true, then toplevel headings are parts,
 # not chapters.
@@ -334,39 +344,6 @@ autoclass_content = 'both'
 
 intersphinx_mapping = {'python': ('https://docs.python.org/3.5', None)}
 
-# def _autodoc_process_docstring(app,
-#                                 what,
-#                                 name,
-#                                 obj,
-#                                 options,
-#                                 lines,
-#                                 offset=[0]):
-#     """
-#     Process the docstrings for references counting.
-#     """
-#
-#     references = []
-#     for line in lines:
-#         match = re.match('^.. \[([a-z0-9_.-])\]',
-#                          line.strip(),
-#                          re.IGNORECASE)
-#         if match:
-#             references.append(match.group(1))
-#
-#     references.sort(key=lambda x: -len(x))
-#     for i, line in enumerate(lines):
-#         for reference in references:
-#             if re.match('^\d+$', reference):
-#                 new_reference = '{0}'.format((offset[0] + int(reference)))
-#             else:
-#                 new_reference = '{0}{1}'.format(reference, offset[0])
-#             lines[i] = lines[i].replace('[{0}]_'.format(reference),
-#                                         '[{0}]_'.format(new_reference))
-#             lines[i] = lines[i].replace('.. [{0}]'.format(reference),
-#                                         '.. [{0}]'.format(new_reference))
-#
-#     offset[0] += len(references)
-
 
 def _autodoc_process_docstring(app, what, name, obj, options, lines):
     """
@@ -378,4 +355,49 @@ def _autodoc_process_docstring(app, what, name, obj, options, lines):
 
 
 def setup(app):
+    app.add_stylesheet('custom.css')
     app.connect('autodoc-process-docstring', _autodoc_process_docstring)
+
+
+import colour
+
+
+def _continuous_signal_repr(self):
+    """
+    Returns an ellipsis string representation of the continuous signal for
+    documentation purposes.
+
+    Returns
+    -------
+    unicode
+        Ellipsis string representation.
+    """
+
+    return "{0}(name='{1}', ...)".format(self.__class__.__name__, self.name)
+
+
+colour.colorimetry.SpectralPowerDistribution.__repr__ = (
+    _continuous_signal_repr)
+colour.colorimetry.MultiSpectralPowerDistribution.__repr__ = (
+    _continuous_signal_repr)
+
+
+def _case_insensitive_mapping_repr(self):
+    """
+    Returns an ellipsis string representation of the case-insensitive mutable
+    mapping for documentation purposes.
+
+    Returns
+    -------
+    unicode
+        Ellipsis string representation.
+    """
+
+    return "{0}({1})".format(
+        self.__class__.__name__,
+        repr(dict(zip(self.keys(), ['...'] * len(self)))).replace(
+            "'...'", '...'))
+
+
+colour.utilities.CaseInsensitiveMapping.__repr__ = (
+    _case_insensitive_mapping_repr)

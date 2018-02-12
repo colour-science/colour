@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 Showcases *Delta E* colour difference computation objects based on
-*Luo et al. (2006)* *CAM02-LCD*, *CAM02-SCD*, and *CAM02-UCS* colourspaces.
+*Luo et alii (2006)* *CAM02-LCD*, *CAM02-SCD*, and *CAM02-UCS* colourspaces.
 """
 
 import numpy as np

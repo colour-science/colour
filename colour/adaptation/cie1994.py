@@ -6,7 +6,7 @@ CIE 1994 Chromatic Adaptation Model
 
 Defines *CIE 1994* chromatic adaptation model objects:
 
--   :func:`chromatic_adaptation_CIE1994`
+-   :func:`colour.adaptation.chromatic_adaptation_CIE1994`
 
 See Also
 --------
@@ -16,9 +16,9 @@ blob/master/notebooks/adaptation/cie1994.ipynb>`_
 
 References
 ----------
-.. [1]  CIE TC 1-32. (1994). CIE 109-1994 A Method of Predicting Corresponding
-        Colours under Different Chromatic and Illuminance Adaptations.
-        ISBN:978-3-900734-51-0
+-   :cite:`CIETC1-321994b` : CIE TC 1-32. (1994). CIE 109-1994 A Method of
+    Predicting Corresponding Colours under Different Chromatic and Illuminance
+    Adaptations. ISBN:978-3-900734-51-0
 """
 
 from __future__ import division, unicode_literals
@@ -99,6 +99,10 @@ def chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2, n=1):
     -----
     -   Input *CIE XYZ_1* tristimulus values are in domain [0, 100].
     -   Output *CIE XYZ_2* tristimulus values are in range [0, 100].
+
+    References
+    ----------
+    -   :cite:`CIETC1-321994b`
 
     Examples
     --------

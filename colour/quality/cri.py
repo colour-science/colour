@@ -6,8 +6,8 @@ Colour Rendering Index
 
 Defines *Colour Rendering Index* (CRI) computation objects:
 
--   :class:`CRI_Specification`
--   :func:`colour_rendering_index`
+-   :class:`colour.quality.CRI_Specification`
+-   :func:`colour.colour_rendering_index`
 
 See Also
 --------
@@ -17,8 +17,9 @@ blob/master/notebooks/quality/cri.ipynb>`_
 
 References
 ----------
-.. [1]  Ohno, Y., & Davis, W. (2008). NIST CQS simulation 7.4. Retrieved from
-        http://cie2.nist.gov/TC1-69/NIST CQS simulation 7.4.xls
+-   :cite:`Ohno2008a` : Ohno, Y., & Davis, W. (2008). NIST CQS simulation 7.4.
+    Retrieved from https://drive.google.com/file/d/\
+1PsuU6QjUJjCX6tQyCud6ul2Tbs8rYWW9/view?usp=sharing
 """
 
 from __future__ import division, unicode_literals
@@ -79,6 +80,10 @@ class CRI_Specification(
         Individual *colour rendering indexes* data for each sample.
     colorimetry_data : tuple
         Colorimetry data for the test and reference computations.
+
+    References
+    ----------
+    -   :cite:`Ohno2008a`
     """
 
 
@@ -98,6 +103,10 @@ def colour_rendering_index(spd_test, additional_data=False):
     -------
     numeric or CRI_Specification
         *Colour Rendering Index* (CRI).
+
+    References
+    ----------
+    -   :cite:`Ohno2008a`
 
     Examples
     --------

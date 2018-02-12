@@ -7,8 +7,7 @@ Colour Matching Functions Spectral Power Distributions
 Defines various colour matching functions involved in spectral computations.
 
 The colour matching functions data is in the form of a *dict* of
-:class:`colour.colorimetry.spectrum.MultiSpectralPowerDistribution` classes as
-follows::
+:class:`colour.colorimetry.MultiSpectralPowerDistribution` classes as follows::
 
     {'name': MultiSpectralPowerDistribution,
     ...,
@@ -16,16 +15,16 @@ follows::
 
 The following colour matching functions are available:
 
--   Stockman & Sharpe 2 Degree Cone Fundamentals [1]_
--   Stockman & Sharpe 10 Degree Cone Fundamentals [1]_
--   Smith & Pokorny 1975 Normal Trichromats [2]_
--   Wright & Guild 1931 2 Degree RGB CMFs [3]_
--   Stiles & Burch 1955 2 Degree RGB CMFs [4]_
--   Stiles & Burch 1959 10 Degree RGB CMFs [5]_
--   CIE 1931 2 Degree Standard Observer [6]_
--   CIE 1964 10 Degree Standard Observer [6]_
--   CIE 2012 10 Degree Standard Observer [7]_
--   CIE 2012 2 Degree Standard Observer [7]_
+-   Stockman & Sharpe 2 Degree Cone Fundamentals
+-   Stockman & Sharpe 10 Degree Cone Fundamentals
+-   Smith & Pokorny 1975 Normal Trichromats
+-   Wright & Guild 1931 2 Degree RGB CMFs
+-   Stiles & Burch 1955 2 Degree RGB CMFs
+-   Stiles & Burch 1959 10 Degree RGB CMFs
+-   CIE 1931 2 Degree Standard Observer
+-   CIE 1964 10 Degree Standard Observer
+-   CIE 2012 10 Degree Standard Observer
+-   CIE 2012 2 Degree Standard Observer
 
 See Also
 --------
@@ -46,26 +45,26 @@ Notes
 
 References
 ----------
-.. [1]  CVRL. (n.d.). Cone Fundamentals. Retrieved June 23, 2014,
-        from http://www.cvrl.org/cones.htm
-.. [2]  Machado, G. (2010). A model for simulation of color vision deficiency
-        and a color contrast enhancement technique for dichromats. Retrieved
-        from http://www.lume.ufrgs.br/handle/10183/26950
-.. [3]  Broadbent, A. D. (2009). Calculation from the original experimental
-        data of the CIE 1931 RGB standard observer spectral chromaticity
-        co-ordinates and color matching functions. Retrieved June 12, 2014,
-        from http://www.cis.rit.edu/mcsl/research/1931.php
-.. [4]  CVRL. (n.d.). Stiles & Burch individual 10-deg colour matching data.
-        Retrieved February 24, 2014, from
-        http://www.cvrl.org/stilesburch10_ind.htm
-.. [5]  CVRL. (n.d.). Stiles & Burch individual 2-deg colour matching data.
-        Retrieved February 24, 2014, from
-        http://www.cvrl.org/stilesburch2_ind.htm
-.. [6]  CVRL. (n.d.). Older CIE Standards. Retrieved February 24, 2014, from
-        http://cvrl.ioo.ucl.ac.uk/cie.htm
-.. [7]  CVRL. (n.d.). New CIE XYZ functions transformed from the CIE (2006)
-        LMS functions. Retrieved February 24, 2014, from
-        http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm
+-   :cite:`Broadbent2009a` : Broadbent, A. D. (2009). Calculation from the
+    original experimental data of the CIE 1931 RGB standard observer spectral
+    chromaticity co-ordinates and color matching functions. Retrieved June 12,
+    2014, from http://www.cis.rit.edu/mcsl/research/1931.php
+-   :cite:`CVRLr` : CVRL. (n.d.). New CIE XYZ functions transformed from the
+    CIE (2006) LMS functions. Retrieved February 24, 2014, from
+    http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm
+-   :cite:`CVRLs` : CVRL. (n.d.). Older CIE Standards. Retrieved February 24,
+    2014, from http://cvrl.ioo.ucl.ac.uk/cie.htm
+-   :cite:`CVRLt` : CVRL. (n.d.). Stiles & Burch individual 10-deg colour
+    matching data. Retrieved February 24, 2014, from
+    http://www.cvrl.org/stilesburch10_ind.htm
+-   :cite:`CVRLu` : CVRL. (n.d.). Cone Fundamentals. Retrieved June 23, 2014,
+    from http://www.cvrl.org/cones.htm
+-   :cite:`CVRLw` : CVRL. (n.d.). Stiles & Burch individual 2-deg colour
+    matching data. Retrieved February 24, 2014, from
+    http://www.cvrl.org/stilesburch2_ind.htm
+-   :cite:`Machado2010a` : Machado, G. M. (2010). A model for simulation of
+    color vision deficiency and a color contrast enhancement technique for
+    dichromats. Retrieved from http://www.lume.ufrgs.br/handle/10183/26950
 """
 
 from __future__ import division, unicode_literals
@@ -1078,8 +1077,13 @@ LMS_CMFS = CaseInsensitiveMapping({
             name='Smith & Pokorny 1975 Normal Trichromats',
             strict_name='Smith & Pokorny (1975) Normal Trichromats')
 })
-"""
+LMS_CMFS.__doc__ = """
 *LMS* colour matching functions.
+
+References
+----------
+-   :cite:`CVRLu`
+-   :cite:`Machado2010a`
 
 LMS_CMFS : CaseInsensitiveMapping
     {'Stockman & Sharpe 2 Degree Cone Fundamentals',
@@ -1352,8 +1356,14 @@ RGB_CMFS = CaseInsensitiveMapping({
             name='Stiles & Burch 1959 10 Degree RGB CMFs',
             strict_name='Stiles & Burch (1959) 10$^\\circ$ RGB CMFs')
 })
-"""
+RGB_CMFS.__doc__ = """
 *CIE RGB* colour matching functions.
+
+References
+----------
+-   :cite:`Broadbent2009a`
+-   :cite:`CVRLt`
+-   :cite:`CVRLw`
 
 RGB_CMFS : CaseInsensitiveMapping
     **{'Wright & Guild 1931 2 Degree RGB CMFs',
@@ -3222,8 +3232,13 @@ STANDARD_OBSERVERS_CMFS = CaseInsensitiveMapping({
             name='CIE 2012 10 Degree Standard Observer',
             strict_name='CIE 2012 10$^\\circ$ Standard Observer')
 })
-"""
+STANDARD_OBSERVERS_CMFS.__doc__ = """
 *CIE* Standard Observers *XYZ* colour matching functions.
+
+References
+----------
+-   :cite:`CVRLr`
+-   :cite:`CVRLs`
 
 STANDARD_OBSERVERS_CMFS : CaseInsensitiveMapping
     **{'CIE 1931 2 Degree Standard Observer',
@@ -3242,8 +3257,18 @@ STANDARD_OBSERVERS_CMFS['cie_10_1964'] = (
     STANDARD_OBSERVERS_CMFS['CIE 1964 10 Degree Standard Observer'])
 
 CMFS = CaseInsensitiveMapping(LMS_CMFS)
-"""
+CMFS.__doc__ = """
 Aggregated colour matching functions.
+
+References
+----------
+-   :cite:`Broadbent2009a`
+-   :cite:`CVRLr`
+-   :cite:`CVRLs`
+-   :cite:`CVRLt`
+-   :cite:`CVRLu`
+-   :cite:`CVRLw`
+-   :cite:`Machado2010a`
 
 CMFS : CaseInsensitiveMapping
     **{'Stockman & Sharpe 10 Degree Cone Fundamentals',

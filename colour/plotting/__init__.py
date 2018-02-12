@@ -3,6 +3,7 @@
 
 from __future__ import absolute_import
 
+import os
 import sys
 
 from colour.utilities.deprecation import ModuleAPI, Renamed
@@ -44,7 +45,7 @@ from .models import (
     single_cctf_plot, multi_cctf_plot)
 from .notation import (single_munsell_value_function_plot,
                        multi_munsell_value_function_plot)
-from .phenomenon import single_rayleigh_scattering_spd_plot, the_blue_sky_plot
+from .phenomena import single_rayleigh_scattering_spd_plot, the_blue_sky_plot
 from .quality import (single_spd_colour_rendering_index_bars_plot,
                       multi_spd_colour_rendering_index_bars_plot,
                       single_spd_colour_quality_scale_bars_plot,
@@ -212,9 +213,13 @@ def _setup_api_changes():
     API_CHANGES.pop('Renamed')
 
 
-del ModuleAPI
-del Renamed
-del _setup_api_changes
+if os.environ.get('READTHEDOCS') != 'True':
+    del ModuleAPI
+    del Renamed
+    del _setup_api_changes
 
-sys.modules['colour.plotting'] = plotting(sys.modules['colour.plotting'],
-                                          API_CHANGES)
+    sys.modules['colour.plotting'] = plotting(sys.modules['colour.plotting'],
+                                              API_CHANGES)
+
+    del os
+    del sys

@@ -6,10 +6,10 @@ RIMM, ROMM and ERIMM Encodings
 
 Defines the *RIMM, ROMM and ERIMM* encodings:
 
--   :attr:`ROMM_RGB_COLOURSPACE`.
--   :attr:`RIMM_RGB_COLOURSPACE`.
--   :attr:`ERIMM_RGB_COLOURSPACE`.
--   :attr:`PROPHOTO_RGB_COLOURSPACE`.
+-   :attr:`colour.models.ROMM_RGB_COLOURSPACE`.
+-   :attr:`colour.models.RIMM_RGB_COLOURSPACE`.
+-   :attr:`colour.models.ERIMM_RGB_COLOURSPACE`.
+-   :attr:`colour.models.PROPHOTO_RGB_COLOURSPACE`.
 
 See Also
 --------
@@ -19,11 +19,12 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  Spaulding, K. E., Woolfe, G. J., & Giorgianni, E. J. (2000). Reference
-        Input/Output Medium Metric RGB Color Encodings (RIMM/ROMM RGB), 1–8.
-        Retrieved from http://www.photo-lovers.org/pdf/color/romm.pdf
-.. [2]  ANSI. (2003). Specification of ROMM RGB. Retrieved from
-        http://www.color.org/ROMMRGB.pdf
+-   :cite:`ANSI2003a` : ANSI. (2003). Specification of ROMM RGB. Retrieved from
+    http://www.color.org/ROMMRGB.pdf
+-   :cite:`Spaulding2000b` : Spaulding, K. E., Woolfe, G. J., & Giorgianni,
+    E. J. (2000). Reference Input/Output Medium Metric RGB Color Encodings
+    (RIMM/ROMM RGB). Retrieved from
+    http://www.photo-lovers.org/pdf/color/romm.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -113,8 +114,13 @@ ROMM_RGB_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_ROMM_RGB_MATRIX,
     oetf_ROMMRGB,
     eotf_ROMMRGB)  # yapf: disable
-"""
+ROMM_RGB_COLOURSPACE.__doc__ = """
 *ROMM RGB* colourspace.
+
+References
+----------
+-   :cite:`ANSI2003a`
+-   :cite:`Spaulding2000b`
 
 ROMM_RGB_COLOURSPACE : RGB_Colourspace
 """
@@ -163,10 +169,14 @@ RIMM_RGB_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_RIMM_RGB_MATRIX,
     oetf_RIMMRGB,
     eotf_RIMMRGB)  # yapf: disable
-"""
+RIMM_RGB_COLOURSPACE.__doc__ = """
 *RIMM RGB* colourspace. In cases in which it is necessary to identify a
 specific precision level, the notation *RIMM8 RGB*, *RIMM12 RGB* and
 *RIMM16 RGB* is used.
+
+References
+----------
+-   :cite:`Spaulding2000b`
 
 RIMM_RGB_COLOURSPACE : RGB_Colourspace
 """
@@ -215,8 +225,12 @@ ERIMM_RGB_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_ERIMM_RGB_MATRIX,
     log_encoding_ERIMMRGB,
     log_decoding_ERIMMRGB)  # yapf: disable
-"""
+ERIMM_RGB_COLOURSPACE.__doc__ = """
 *ERIMM RGB* colourspace.
+
+References
+----------
+-   :cite:`Spaulding2000b`
 
 ERIMM_RGB_COLOURSPACE : RGB_Colourspace
 """
@@ -265,8 +279,13 @@ PROPHOTO_RGB_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_PROPHOTO_RGB_MATRIX,
     oetf_ProPhotoRGB,
     eotf_ProPhotoRGB)  # yapf: disable
-"""
+PROPHOTO_RGB_COLOURSPACE.__doc__ = """
 *ProPhoto RGB* colourspace, an alias colourspace for *ROMM RGB*.
+
+References
+----------
+-   :cite:`ANSI2003a`
+-   :cite:`Spaulding2000b`
 
 PROPHOTO_RGB_COLOURSPACE : RGB_Colourspace
 """

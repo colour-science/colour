@@ -6,7 +6,7 @@ SMPTE 240M Colourspace
 
 Defines the *SMPTE 240M* colourspace:
 
--   :attr:`SMPTE_240M_COLOURSPACE`.
+-   :attr:`colour.models.SMPTE_240M_COLOURSPACE`.
 
 See Also
 --------
@@ -16,14 +16,15 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  Society of Motion Picture and Television Engineers. (1999).
-        ANSI/SMPTE 240M-1995 - Signal Parameters - 1125-Line High-Definition
-        Production Systems, 1–7. Retrieved from
-        http://car.france3.mars.free.fr/\
-HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/s240m.pdf
-.. [2]  Society of Motion Picture and Television Engineers. (2004). SMPTE C
-        Color Monitor Colorimetry. In RP 145:2004 (Vol. RP 145:200).
-        doi:10.5594/S9781614821649
+-   :cite:`SocietyofMotionPictureandTelevisionEngineers1999b` : Society of
+    Motion Picture and Television Engineers. (1999). ANSI/SMPTE 240M-1995 -
+    Signal Parameters - 1125-Line High-Definition Production Systems. Retrieved
+    from http://car.france3.mars.free.fr/HD/INA- 26 jan 06/\
+SMPTE normes et confs/s240m.pdf
+-   :cite:`SocietyofMotionPictureandTelevisionEngineers2004a` : Society of
+Motion Picture and Television Engineers. (2004). RP 145:2004: SMPTE C Color
+Monitor Colorimetry. RP 145:2004 (Vol. RP 145:200). The Society of Motion
+Picture and Television Engineers. doi:10.5594/S9781614821649
 """
 
 from __future__ import division, unicode_literals
@@ -97,8 +98,13 @@ SMPTE_240M_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_SMPTE_240M_MATRIX,
     oetf_SMPTE240M,
     eotf_SMPTE240M)  # yapf: disable
-"""
+SMPTE_240M_COLOURSPACE.__doc__ = """
 *SMPTE 240M* colourspace.
+
+References
+----------
+-   :cite:`SocietyofMotionPictureandTelevisionEngineers1999b`
+-   :cite:`SocietyofMotionPictureandTelevisionEngineers2004a`
 
 SMPTE_240M_COLOURSPACE : RGB_Colourspace
 """

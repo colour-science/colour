@@ -271,7 +271,7 @@ def get_attribute(attribute):
     Parameters
     ----------
     attribute : unicode
-        Attribute to retrieve, `attribute` must have a namespace module, e.g.
+        Attribute to retrieve, ``attribute`` must have a namespace module, e.g.
         *colour.models.eotf_BT2020*.
 
     Returns

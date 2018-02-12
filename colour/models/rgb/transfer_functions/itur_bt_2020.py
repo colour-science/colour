@@ -7,8 +7,8 @@ ITU-R BT.2020
 Defines *ITU-R BT.2020* opto-electrical transfer function (OETF / OECF) and
 electro-optical transfer function (EOTF / EOCF):
 
--   :func:`oetf_BT2020`
--   :func:`eotf_BT2020`
+-   :func:`colour.models.oetf_BT2020`
+-   :func:`colour.models.eotf_BT2020`
 
 See Also
 --------
@@ -18,11 +18,12 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  International Telecommunication Union. (2015). Recommendation
-        ITU-R BT.2020 - Parameter values for ultra-high definition television
-        systems for production and international programme exchange (Vol. 1).
-        Retrieved from https://www.itu.int/dms_pubrec/\
-itu-r/rec/bt/R-REC-BT.2020-2-201510-I!!PDF-E.pdf
+-   :cite:`InternationalTelecommunicationUnion2015h` : International
+    Telecommunication Union. (2015). Recommendation ITU-R BT.2020 - Parameter
+    values for ultra-high definition television systems for production and
+    international programme exchange. Retrieved from
+    https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
+R-REC-BT.2020-2-201510-I!!PDF-E.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -69,6 +70,10 @@ def oetf_BT2020(E, is_12_bits_system=False):
     numeric or ndarray
         Resulting non-linear signal :math:`E'`.
 
+    References
+    ----------
+    -   :cite:`InternationalTelecommunicationUnion2015h`
+
     Examples
     --------
     >>> oetf_BT2020(0.18)  # doctest: +ELLIPSIS
@@ -99,6 +104,10 @@ def eotf_BT2020(E_p, is_12_bits_system=False):
     -------
     numeric or ndarray
         Resulting voltage :math:`E`.
+
+    References
+    ----------
+    -   :cite:`InternationalTelecommunicationUnion2015h`
 
     Examples
     --------

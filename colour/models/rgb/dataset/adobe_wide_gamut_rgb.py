@@ -6,7 +6,7 @@ Adobe Wide Gamut RGB Colourspace
 
 Defines the *Adobe Wide Gamut RGB* colourspace:
 
--   :attr:`ADOBE_WIDE_GAMUT_RGB_COLOURSPACE`.
+-   :attr:`colour.models.ADOBE_WIDE_GAMUT_RGB_COLOURSPACE`.
 
 See Also
 --------
@@ -16,8 +16,9 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  Wikipedia. (n.d.). Wide-gamut RGB color space. Retrieved April 13,
-        2014, from http://en.wikipedia.org/wiki/Wide-gamut_RGB_color_space
+-   :cite:`Wikipediacd` : Wikipedia. (n.d.). Wide-gamut RGB color space.
+    Retrieved April 13, 2014, from
+    http://en.wikipedia.org/wiki/Wide-gamut_RGB_color_space
 """
 
 from __future__ import division, unicode_literals
@@ -93,8 +94,12 @@ ADOBE_WIDE_GAMUT_RGB_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_ADOBE_WIDE_GAMUT_RGB_MATRIX,
     partial(function_gamma, exponent=1 / (563 / 256)),
     partial(function_gamma, exponent=563 / 256))  # yapf: disable
-"""
+ADOBE_WIDE_GAMUT_RGB_COLOURSPACE.__doc__ = """
 *Adobe Wide Gamut RGB* colourspace.
+
+References
+----------
+-   :cite:`Wikipediacd`
 
 ADOBE_WIDE_GAMUT_RGB_COLOURSPACE : RGB_Colourspace
 """

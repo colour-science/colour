@@ -8,18 +8,18 @@ Defines *ITU-R BT.2100* opto-electrical transfer functions (OETF / OECF),
 opto-optical transfer functions (OOTF / OOCF) and electro-optical transfer
 functions (EOTF / EOCF) and their reverse:
 
--   :func:`oetf_BT2100_PQ`
--   :func:`oetf_reverse_BT2100_PQ`
--   :func:`eotf_BT2100_PQ`
--   :func:`eotf_reverse_BT2100_PQ`
--   :func:`ootf_BT2100_PQ`
--   :func:`ootf_reverse_BT2100_PQ`
--   :func:`oetf_BT2100_HLG`
--   :func:`oetf_reverse_BT2100_HLG`
--   :func:`eotf_BT2100_HLG`
--   :func:`eotf_reverse_BT2100_HLG`
--   :func:`ootf_BT2100_HLG`
--   :func:`ootf_reverse_BT2100_HLG`
+-   :func:`colour.models.oetf_BT2100_PQ`
+-   :func:`colour.models.oetf_reverse_BT2100_PQ`
+-   :func:`colour.models.eotf_BT2100_PQ`
+-   :func:`colour.models.eotf_reverse_BT2100_PQ`
+-   :func:`colour.models.ootf_BT2100_PQ`
+-   :func:`colour.models.ootf_reverse_BT2100_PQ`
+-   :func:`colour.models.oetf_BT2100_HLG`
+-   :func:`colour.models.oetf_reverse_BT2100_HLG`
+-   :func:`colour.models.eotf_BT2100_HLG`
+-   :func:`colour.models.eotf_reverse_BT2100_HLG`
+-   :func:`colour.models.ootf_BT2100_HLG`
+-   :func:`colour.models.ootf_reverse_BT2100_HLG`
 
 See Also
 --------
@@ -29,12 +29,14 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  International Telecommunication Union. (2016). Recommendation
-        ITU-R BT.2100-1 - Image parameter values for high dynamic range
-        television for use in production and international programme exchange.
-        Retrieved from https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
+-   :cite:`Borer2017a` : Borer, T. (2017). Private Discussion with
+    Mansencal, T. and Shaw, N.
+-   :cite:`InternationalTelecommunicationUnion2016a` : International
+    Telecommunication Union. (2016). Recommendation ITU-R BT.2100-1 - Image
+    parameter values for high dynamic range television for use in production
+    and international programme exchange. Retrieved from
+    https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
 R-REC-BT.2100-1-201706-I!!PDF-E.pdf
-.. [2]  Borer, T. (2017). Private Discussion with Mansencal, T. and Shaw, N.
 """
 
 from __future__ import division, unicode_literals
@@ -88,8 +90,13 @@ def oetf_BT2100_PQ(E):
     Returns
     -------
     numeric or ndarray
-        :math:`E′` is the resulting non-linear signal (:math:`R'`, :math:`G'`,
+        :math:`E` is the resulting non-linear signal (:math:`R'`, :math:`G'`,
         :math:`B'`) in the range [0, 1].
+
+    References
+    ----------
+    -   :cite:`Borer2017a`
+    -   :cite:`InternationalTelecommunicationUnion2016a`
 
     Examples
     --------
@@ -108,7 +115,7 @@ def oetf_reverse_BT2100_PQ(E_p):
     Parameters
     ----------
     E_p : numeric or array_like
-        :math:`E′` is the resulting non-linear signal (:math:`R'`, :math:`G'`,
+        :math:`E` is the resulting non-linear signal (:math:`R'`, :math:`G'`,
         :math:`B'`) in the range [0, 1].
 
     Returns
@@ -118,6 +125,11 @@ def oetf_reverse_BT2100_PQ(E_p):
         scene light and scaled by camera exposure. The values :math:`E`,
         :math:`R_S`, :math:`G_S`, :math:`B_S`, :math:`Y_S`, :math:`I_S` are in
         the range [0, 1].
+
+    References
+    ----------
+    -   :cite:`Borer2017a`
+    -   :cite:`InternationalTelecommunicationUnion2016a`
 
     Examples
     --------
@@ -148,6 +160,11 @@ def eotf_BT2100_PQ(E_p):
         :math:`{R_D, G_D, B_D}` or :math:`Y_D` or :math:`I_D`, in
         :math:`cd/m^2`.
 
+    References
+    ----------
+    -   :cite:`Borer2017a`
+    -   :cite:`InternationalTelecommunicationUnion2016a`
+
     Examples
     --------
     >>> eotf_BT2100_PQ(0.724769816665726)  # doctest: +ELLIPSIS
@@ -174,6 +191,11 @@ def eotf_reverse_BT2100_PQ(F_D):
     numeric or ndarray
         :math:`E'` denotes a non-linear colour value :math:`{R', G', B'}` or
         :math:`{L', M', S'}` in *PQ* space [0, 1].
+
+    References
+    ----------
+    -   :cite:`Borer2017a`
+    -   :cite:`InternationalTelecommunicationUnion2016a`
 
     Examples
     --------
@@ -205,6 +227,11 @@ def ootf_BT2100_PQ(E):
         :math:`F_D` is the luminance of a displayed linear component
         (:math:`R_D`, :math:`G_D`, :math:`B_D`; :math:`Y_D`; or :math:`I_D`).
 
+    References
+    ----------
+    -   :cite:`Borer2017a`
+    -   :cite:`InternationalTelecommunicationUnion2016a`
+
     Examples
     --------
     >>> ootf_BT2100_PQ(0.1)  # doctest: +ELLIPSIS
@@ -234,6 +261,11 @@ def ootf_reverse_BT2100_PQ(F_D):
         scene light and scaled by camera exposure. The values :math:`E`,
         :math:`R_S`, :math:`G_S`, :math:`B_S`, :math:`Y_S`, :math:`I_S` are in
         the range [0, 1].
+
+    References
+    ----------
+    -   :cite:`Borer2017a`
+    -   :cite:`InternationalTelecommunicationUnion2016a`
 
     Examples
     --------
@@ -295,8 +327,13 @@ def oetf_BT2100_HLG(E):
     Returns
     -------
     numeric or ndarray
-        :math:`E′` is the resulting non-linear signal :math:`{R', G', B'}` in
+        :math:`E` is the resulting non-linear signal :math:`{R', G', B'}` in
         the range [0, 1].
+
+    References
+    ----------
+    -   :cite:`Borer2017a`
+    -   :cite:`InternationalTelecommunicationUnion2016a`
 
     Examples
     --------
@@ -315,7 +352,7 @@ def oetf_reverse_BT2100_HLG(E):
     Parameters
     ----------
     E_p : numeric or array_like
-        :math:`E′` is the resulting non-linear signal :math:`{R', G', B'}` in
+        :math:`E` is the resulting non-linear signal :math:`{R', G', B'}` in
         the range [0, 1].
 
     Returns
@@ -324,6 +361,11 @@ def oetf_reverse_BT2100_HLG(E):
         :math:`E` is the signal for each colour component
         :math:`{R_S, G_S, B_S}` proportional to scene linear light and scaled
         by camera exposure, normalized to the range [0, 1].
+
+    References
+    ----------
+    -   :cite:`Borer2017a`
+    -   :cite:`InternationalTelecommunicationUnion2016a`
 
     Examples
     --------
@@ -362,6 +404,11 @@ def eotf_BT2100_HLG(E_p, L_B=0, L_W=1000, gamma=None):
         :math:`{R_D, G_D, B_D}` or :math:`Y_D` or :math:`I_D`, in
         :math:`cd/m^2`.
 
+    References
+    ----------
+    -   :cite:`Borer2017a`
+    -   :cite:`InternationalTelecommunicationUnion2016a`
+
     Examples
     --------
     >>> eotf_BT2100_HLG(0.212132034355964)  # doctest: +ELLIPSIS
@@ -396,6 +443,11 @@ def eotf_reverse_BT2100_HLG(F_D, L_B=0, L_W=1000, gamma=None):
     numeric or ndarray
         :math:`E'` denotes a non-linear colour value :math:`{R', G', B'}` or
         :math:`{L', M', S'}` in *HLG* space in range [0, 1].
+
+    References
+    ----------
+    -   :cite:`Borer2017a`
+    -   :cite:`InternationalTelecommunicationUnion2016a`
 
     Examples
     --------
@@ -433,6 +485,11 @@ def ootf_BT2100_HLG(E, L_B=0, L_W=1000, gamma=None):
     numeric or ndarray
         :math:`F_D` is the luminance of a displayed linear component
         :math:`{R_D, G_D, or B_D}`, in :math:`cd/m^2`.
+
+    References
+    ----------
+    -   :cite:`Borer2017a`
+    -   :cite:`InternationalTelecommunicationUnion2016a`
 
     Examples
     --------
@@ -495,6 +552,11 @@ def ootf_reverse_BT2100_HLG(F_D, L_B=0, L_W=1000, gamma=None):
         :math:`E` is the signal for each colour component
         :math:`{R_S, G_S, B_S}` proportional to scene linear light and scaled
         by camera exposure, normalized to the range [0, 1].
+
+    References
+    ----------
+    -   :cite:`Borer2017a`
+    -   :cite:`InternationalTelecommunicationUnion2016a`
 
     Examples
     --------

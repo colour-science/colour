@@ -6,20 +6,28 @@ Chromatic Adaptation Transforms
 
 Defines various chromatic adaptation transforms (CAT):
 
--   :attr:`XYZ_SCALING_CAT`: *XYZ Scaling* chromatic adaptation transform [1]_
--   :attr:`VON_KRIES_CAT`: *Von Kries* chromatic adaptation transform [1]_
--   :attr:`BRADFORD_CAT`: *Bradford* chromatic adaptation transform [1]_
--   :attr:`SHARP_CAT`: *Sharp* chromatic adaptation transform [4]_
--   :attr:`FAIRCHILD_CAT`: *Fairchild* chromatic adaptation transform [2]_
--   :attr:`CMCCAT97_CAT`: *CMCCAT97* chromatic adaptation transform [5]_
--   :attr:`CMCCAT2000_CAT`: *CMCCAT2000* chromatic adaptation transform [5]_
--   :attr:`CAT02_CAT`: *CAT02* chromatic adaptation transform [3]_
--   :attr:`CAT02_BRILL_CAT`: *Brill and Süsstrunk (2008)* corrected CAT02
-    chromatic adaptation transform [6]_ [7]_
--   :attr:`BS_CAT`: *Bianco and Schettini (2010)* chromatic adaptation
-    transform [4]_
--   :attr:`BS_PC_CAT`: *Bianco and Schettini PC (2010)* chromatic adaptation
-    transform [4]_
+-   :attr:`colour.adaptation.XYZ_SCALING_CAT`: *XYZ Scaling* chromatic
+    adaptation transform.
+-   :attr:`colour.adaptation.VON_KRIES_CAT`: *Von Kries* chromatic adaptation
+    transform.
+-   :attr:`colour.adaptation.BRADFORD_CAT`: *Bradford* chromatic adaptation
+    transform.
+-   :attr:`colour.adaptation.SHARP_CAT`: *Sharp* chromatic adaptation
+    transform.
+-   :attr:`colour.adaptation.FAIRCHILD_CAT`: *Fairchild* chromatic adaptation
+    transform.
+-   :attr:`colour.adaptation.CMCCAT97_CAT`: *CMCCAT97* chromatic adaptation
+    transform.
+-   :attr:`colour.adaptation.CMCCAT2000_CAT`: *CMCCAT2000* chromatic adaptation
+    transform.
+-   :attr:`colour.adaptation.CAT02_CAT`: *CAT02* chromatic adaptation
+    transform.
+-   :attr:`colour.adaptation.CAT02_BRILL_CAT`: *Brill and Susstrunk (2008)*
+    corrected CAT02 chromatic adaptation transform.
+-   :attr:`colour.adaptation.BS_CAT`: *Bianco and Schettini (2010)* chromatic
+    adaptation transform.
+-   :attr:`colour.adaptation.BS_PC_CAT`: *Bianco and Schettini PC (2010)*
+    chromatic adaptation transform.
 
 See Also
 --------
@@ -29,23 +37,29 @@ blob/master/notebooks/adaptation/vonkries.ipynb>`_
 
 References
 ----------
-.. [1]  Lindbloom, B. (2009). Chromatic Adaptation. Retrieved February 24,
-        2014, from http://brucelindbloom.com/Eqn_ChromAdapt.html
-.. [2]  Fairchild, M. D. (n.d.). Fairchild YSh. Retrieved from
-        http://rit-mcsl.org/fairchild//files/FairchildYSh.zip
-.. [3]  Wikipedia. (n.d.). CAT02. Retrieved February 24, 2014,
-        from http://en.wikipedia.org/wiki/CIECAM02#CAT02
-.. [4]  Bianco, S., & Schettini, R. (2010). Two New von Kries Based Chromatic
-        Adaptation Transforms Found by Numerical Optimization. Color Research
-        & Application, 35(3), 184–192. doi:10.1002/col.20573
-.. [5]  Westland, S., Ripamonti, C., & Cheung, V. (2012). CMCCAT97. In
-        Computational Colour Science Using MATLAB (2nd ed., p. 80).
-        ISBN:978-0-470-66569-5
-.. [6]  Brill, M. H., & Süsstrunk, S. (2008). Repairing gamut problems in
-        CIECAM02: A progress report. Color Research & Application, 33(5),
-        424–426. doi:10.1002/col.20432
-.. [7]  Li, C., Perales, E., Luo, M. R., & Martínez-verdú, F. (2007). The
-        Problem with CAT02 and Its Correction, (July), 1–10.
+-   :cite:`Bianco2010a` : Bianco, S., & Schettini, R. (2010). Two new von Kries
+    based chromatic adaptation transforms found by numerical optimization.
+    Color Research & Application, 35(3), 184-192. doi:10.1002/col.20573
+-   :cite:`Brill2008a` : Brill, M. H., & Susstrunk, S. (2008). Repairing gamut
+    problems in CIECAM02: A progress report. Color Research & Application,
+    33(5), 424-426. doi:10.1002/col.20432
+-   :cite:`Fairchildb` : Fairchild, M. D. (n.d.). Fairchild YSh. Retrieved
+    from http://rit-mcsl.org/fairchild//files/FairchildYSh.zip
+-   :cite:`Li2007e` : Li, C., Perales, E., Luo, M. R., & Martinez-verdu,
+    F. (2007). The Problem with CAT02 and Its Correction. Retrieved from
+    https://pdfs.semanticscholar.org/b5a9/\
+0215ad9a1fb6b01f310b3d64305f7c9feb3a.pdf
+-   :cite:`Lindbloom2009g` : Fairchild, M. D. (2013). Chromatic Adaptation
+    Models. In Color Appearance Models (3rd ed., pp. 4179-4252). Wiley.
+    ISBN:B00DAYO8E2
+-   :cite:`Westland2012g` : Westland, S., Ripamonti, C., & Cheung, V. (2012).
+    CMCCAT97. In Computational Colour Science Using MATLAB (2nd ed., p. 80).
+    ISBN:978-0-470-66569-5
+-   :cite:`Westland2012k` : Westland, S., Ripamonti, C., & Cheung, V. (2012).
+    CMCCAT2000. In Computational Colour Science Using MATLAB
+    (2nd ed., pp. 83-86). ISBN:978-0-470-66569-5
+-   :cite:`Wikipediabt` : Wikipedia. (n.d.). CAT02. Retrieved February 24,
+    2014, from http://en.wikipedia.org/wiki/CIECAM02#CAT02
 """
 
 from __future__ import division, unicode_literals
@@ -69,7 +83,11 @@ __all__ = [
 
 XYZ_SCALING_CAT = np.array(np.identity(3)).reshape((3, 3))
 """
-*XYZ Scaling* chromatic adaptation transform. [1]_
+*XYZ Scaling* chromatic adaptation transform.
+
+References
+----------
+-   :cite:`Lindbloom2009g`
 
 XYZ_SCALING_CAT : array_like, (3, 3)
 """
@@ -80,7 +98,11 @@ VON_KRIES_CAT = np.array([
     [0.0000000, 0.0000000, 0.9182200],
 ])
 """
-*Von Kries* chromatic adaptation transform. [1]_
+*Von Kries* chromatic adaptation transform.
+
+References
+----------
+-   :cite:`Lindbloom2009g`
 
 VON_KRIES_CAT : array_like, (3, 3)
 """
@@ -91,7 +113,11 @@ BRADFORD_CAT = np.array([
     [0.0389000, -0.0685000, 1.0296000],
 ])
 """
-*Bradford* chromatic adaptation transform. [1]_
+*Bradford* chromatic adaptation transform.
+
+References
+----------
+-   :cite:`Lindbloom2009g`
 
 BRADFORD_CAT : array_like, (3, 3)
 """
@@ -102,7 +128,11 @@ SHARP_CAT = np.array([
     [0.0297, -0.0315, 1.0018],
 ])
 """
-*Sharp* chromatic adaptation transform. [4]_
+*Sharp* chromatic adaptation transform.
+
+References
+----------
+-   :cite:`Bianco2010a`
 
 SHARP_CAT : array_like, (3, 3)
 """
@@ -113,7 +143,11 @@ FAIRCHILD_CAT = np.array([
     [0.0357, -0.0469, 1.0112],
 ])
 """
-*Fairchild* chromatic adaptation transform. [2]_
+*Fairchild* chromatic adaptation transform.
+
+References
+----------
+-   :cite:`Fairchildb`
 
 FAIRCHILD_CAT : array_like, (3, 3)
 """
@@ -124,7 +158,11 @@ CMCCAT97_CAT = np.array([
     [-0.1614, 0.0367, 1.0296],
 ])
 """
-*CMCCAT97* chromatic adaptation transform. [5]_
+*CMCCAT97* chromatic adaptation transform.
+
+References
+----------
+-   :cite:`Westland2012g`
 
 CMCCAT97_CAT : array_like, (3, 3)
 """
@@ -135,7 +173,11 @@ CMCCAT2000_CAT = np.array([
     [0.0008, 0.0239, 0.9753],
 ])
 """
-*CMCCAT2000* chromatic adaptation transform. [5]_
+*CMCCAT2000* chromatic adaptation transform.
+
+References
+----------
+-   :cite:`Westland2012k`
 
 CMCCAT2000_CAT : array_like, (3, 3)
 """
@@ -146,7 +188,11 @@ CAT02_CAT = np.array([
     [0.0030, 0.0136, 0.9834],
 ])
 """
-*CAT02* chromatic adaptation transform. [3]_
+*CAT02* chromatic adaptation transform.
+
+References
+----------
+-   :cite:`Wikipediabt`
 
 CAT02_CAT : array_like, (3, 3)
 """
@@ -157,8 +203,13 @@ CAT02_BRILL_CAT = np.array([
     [0.0000, 0.0000, 1.0000],
 ])
 """
-*Brill and Süsstrunk (2008)* corrected CAT02 chromatic adaptation
-transform. [6]_ [7]
+*Brill and Susstrunk (2008)* corrected CAT02 chromatic adaptation
+transform.
+
+References
+----------
+-   :cite:`Brill2008a`
+-   :cite:`Li2007e`
 
 CAT02_BRILL_CAT : array_like, (3, 3)
 """
@@ -169,7 +220,11 @@ BS_CAT = np.array([
     [-0.0061, 0.0162, 0.9899],
 ])
 """
-*Bianco and Schettini (2010)* chromatic adaptation transform. [4]_
+*Bianco and Schettini (2010)* chromatic adaptation transform.
+
+References
+----------
+-   :cite:`Bianco2010a`
 
 BS_CAT : array_like, (3, 3)
 """
@@ -180,7 +235,11 @@ BS_PC_CAT = np.array([
     [-0.0271, 0.0888, 0.9383],
 ])
 """
-*Bianco and Schettini PC (2010)* chromatic adaptation transform. [4]_
+*Bianco and Schettini PC (2010)* chromatic adaptation transform.
+
+References
+----------
+-   :cite:`Bianco2010a`
 
 BS_PC_CAT : array_like, (3, 3)
 
@@ -202,8 +261,19 @@ CHROMATIC_ADAPTATION_TRANSFORMS = CaseInsensitiveMapping({
     'Bianco': BS_CAT,
     'Bianco PC': BS_PC_CAT
 })
-"""
+CHROMATIC_ADAPTATION_TRANSFORMS.__doc__ = """
 Supported chromatic adaptation transforms.
+
+References
+----------
+-   :cite:`Bianco2010a`
+-   :cite:`Brill2008a`
+-   :cite:`Fairchildb`
+-   :cite:`Li2007e`
+-   :cite:`Lindbloom2009g`
+-   :cite:`Westland2012g`
+-   :cite:`Westland2012k`
+-   :cite:`Wikipediabt`
 
 CHROMATIC_ADAPTATION_TRANSFORMS : CaseInsensitiveMapping
     **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,

@@ -6,7 +6,7 @@ Don RGB 4 Colourspace
 
 Defines the *Don RGB 4* colourspace:
 
--   :attr:`DON_RGB_4_COLOURSPACE`.
+-   :attr:`colour.models.DON_RGB_4_COLOURSPACE`.
 
 See Also
 --------
@@ -16,8 +16,8 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  HutchColor. (n.d.). DonRGB4 (4 K). Retrieved from
-        http://www.hutchcolor.com/profiles/DonRGB4.zip
+-   :cite:`HutchColorg` : HutchColor. (n.d.). DonRGB4 (4 K). Retrieved from
+    http://www.hutchcolor.com/profiles/DonRGB4.zip
 """
 
 from __future__ import division, unicode_literals
@@ -92,8 +92,12 @@ DON_RGB_4_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_DON_RGB_4_MATRIX,
     partial(function_gamma, exponent=1 / 2.2),
     partial(function_gamma, exponent=2.2))  # yapf: disable
-"""
+DON_RGB_4_COLOURSPACE.__doc__ = """
 *Don RGB 4* colourspace.
+
+References
+----------
+-   :cite:`HutchColorg`
 
 DON_RGB_4_COLOURSPACE : RGB_Colourspace
 """

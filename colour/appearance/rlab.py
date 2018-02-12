@@ -6,10 +6,10 @@ RLAB Colour Appearance Model
 
 Defines *RLAB* colour appearance model objects:
 
--   :attr:`RLAB_VIEWING_CONDITIONS`
--   :attr:`RLAB_D_FACTOR`
--   :class:`RLAB_Specification`
--   :func:`XYZ_to_RLAB`
+-   :attr:`colour.RLAB_VIEWING_CONDITIONS`
+-   :attr:`colour.RLAB_D_FACTOR`
+-   :class:`colour.RLAB_Specification`
+-   :func:`colour.XYZ_to_RLAB`
 
 See Also
 --------
@@ -19,11 +19,11 @@ blob/master/notebooks/appearance/rlab.ipynb>`_
 
 References
 ----------
-.. [1]  Fairchild, M. D. (1996). Refinement of the RLAB color space. Color
-        Research & Application, 21(5), 338–346.
-        doi:10.1002/(SICI)1520-6378(199610)21:5<338::AID-COL3>3.0.CO;2-Z
-.. [2]  Fairchild, M. D. (2013). The RLAB Model. In Color Appearance Models
-        (3rd ed., pp. 5563–5824). Wiley. ISBN:B00DAYO8E2
+-   :cite:`Fairchild1996a` : Fairchild, M. D. (1996). Refinement of the RLAB
+    color space. Color Research & Application, 21(5), 338-346.
+    doi:10.1002/(SICI)1520-6378(199610)21:5<338::AID-COL3>3.0.CO;2-Z
+-   :cite:`Fairchild2013w` : Fairchild, M. D. (2013). The RLAB Model. In Color
+    Appearance Models (3rd ed., pp. 5563-5824). Wiley. ISBN:B00DAYO8E2
 """
 
 from __future__ import division, unicode_literals
@@ -63,8 +63,13 @@ RLAB_VIEWING_CONDITIONS = CaseInsensitiveMapping({
     'Dim': 1 / 2.9,
     'Dark': 1 / 3.5
 })
-"""
+RLAB_VIEWING_CONDITIONS.__doc__ = """
 Reference *RLAB* colour appearance model viewing conditions.
+
+References
+----------
+-   :cite:`Fairchild1996a`
+-   :cite:`Fairchild2013w`
 
 RLAB_VIEWING_CONDITIONS : CaseInsensitiveMapping
     **{'Average', 'Dim', 'Dark'}**
@@ -75,8 +80,13 @@ RLAB_D_FACTOR = CaseInsensitiveMapping({
     'Soft Copy Images': 0,
     'Projected Transparencies, Dark Room': 0.5
 })
-"""
+RLAB_D_FACTOR.__doc__ = """
 *RLAB* colour appearance model *Discounting-the-Illuminant* factor values.
+
+References
+----------
+-   :cite:`Fairchild1996a`
+-   :cite:`Fairchild2013w`
 
 RLAB_D_FACTOR : CaseInsensitiveMapping
     **{'Hard Copy Images',
@@ -117,9 +127,14 @@ class RLAB_ReferenceSpecification(
     HR : numeric or array_like
         *Hue* :math:`h` composition :math:`H^R`.
     aR : numeric or array_like
-        Red–green chromatic response :math:`a^R`.
+        Red-green chromatic response :math:`a^R`.
     bR : numeric or array_like
-        Yellow–blue chromatic response :math:`b^R`.
+        Yellow-blue chromatic response :math:`b^R`.
+
+    References
+    ----------
+    -   :cite:`Fairchild1996a`
+    -   :cite:`Fairchild2013w`
     """
 
 
@@ -146,13 +161,18 @@ class RLAB_Specification(
     HC : numeric or array_like
         *Hue* :math:`h` composition :math:`H^C`.
     a : numeric or array_like
-        Red–green chromatic response :math:`a^R`.
+        Red-green chromatic response :math:`a^R`.
     b : numeric or array_like
-        Yellow–blue chromatic response :math:`b^R`.
+        Yellow-blue chromatic response :math:`b^R`.
 
     Notes
     -----
     -   This specification is the one used in the current model implementation.
+
+    References
+    ----------
+    -   :cite:`Fairchild1996a`
+    -   :cite:`Fairchild2013w`
     """
 
 
@@ -174,8 +194,8 @@ def XYZ_to_RLAB(XYZ,
     Y_n : numeric or array_like
         Absolute adapting luminance in :math:`cd/m^2`.
     sigma : numeric or array_like, optional
-        Relative luminance of the surround, see :attr:`RLAB_VIEWING_CONDITIONS`
-        for reference.
+        Relative luminance of the surround, see
+        :attr:`colour.RLAB_VIEWING_CONDITIONS` for reference.
     D : numeric or array_like, optional
         *Discounting-the-Illuminant* factor in domain [0, 1].
 
@@ -192,6 +212,11 @@ def XYZ_to_RLAB(XYZ,
     -----
     -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
     -   Input *CIE XYZ_n* tristimulus values are in domain [0, 100].
+
+    References
+    ----------
+    -   :cite:`Fairchild1996a`
+    -   :cite:`Fairchild2013w`
 
     Examples
     --------

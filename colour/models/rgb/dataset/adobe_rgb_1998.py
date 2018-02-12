@@ -6,7 +6,7 @@ Adobe RGB (1998) Colourspace
 
 Defines the *Adobe RGB (1998)* colourspace:
 
--   :attr:`ADOBE_RGB_1998_COLOURSPACE`.
+-   :attr:`colour.models.ADOBE_RGB_1998_COLOURSPACE`.
 
 See Also
 --------
@@ -16,8 +16,9 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  Adobe Systems. (2005). Adobe RGB (1998) Color Image Encoding.
-        Retrieved from http://www.adobe.com/digitalimag/pdfs/AdobeRGB1998.pdf
+-   :cite:`AdobeSystems2005a` : Adobe Systems. (2005). Adobe RGB (1998) Color
+    Image Encoding. Retrieved from
+    http://www.adobe.com/digitalimag/pdfs/AdobeRGB1998.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -99,8 +100,12 @@ ADOBE_RGB_1998_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_ADOBE_RGB_1998_MATRIX,
     partial(function_gamma, exponent=1 / (563 / 256)),
     partial(function_gamma, exponent=563 / 256))  # yapf: disable
-"""
+ADOBE_RGB_1998_COLOURSPACE.__doc__ = """
 *Adobe RGB (1998)* colourspace.
+
+References
+----------
+-   :cite:`AdobeSystems2005a`
 
 ADOBE_RGB_1998_COLOURSPACE : RGB_Colourspace
 """

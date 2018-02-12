@@ -6,22 +6,22 @@ Colorimetry Plotting
 
 Defines the colorimetry plotting objects:
 
--   :func:`single_spd_plot`
--   :func:`multi_spd_plot`
--   :func:`single_cmfs_plot`
--   :func:`multi_cmfs_plot`
--   :func:`single_illuminant_relative_spd_plot`
--   :func:`multi_illuminants_relative_spd_plot`
--   :func:`visible_spectrum_plot`
--   :func:`single_lightness_function_plot`
--   :func:`multi_lightness_function_plot`
--   :func:`blackbody_spectral_radiance_plot`
--   :func:`blackbody_colours_plot`
+-   :func:`colour.plotting.single_spd_plot`
+-   :func:`colour.plotting.multi_spd_plot`
+-   :func:`colour.plotting.single_cmfs_plot`
+-   :func:`colour.plotting.multi_cmfs_plot`
+-   :func:`colour.plotting.single_illuminant_relative_spd_plot`
+-   :func:`colour.plotting.multi_illuminants_relative_spd_plot`
+-   :func:`colour.plotting.visible_spectrum_plot`
+-   :func:`colour.plotting.single_lightness_function_plot`
+-   :func:`colour.plotting.multi_lightness_function_plot`
+-   :func:`colour.plotting.blackbody_spectral_radiance_plot`
+-   :func:`colour.plotting.blackbody_colours_plot`
 
 References
 ----------
-.. [1]  Spiker, N. (2015). Private Discussion with Mansencal, T. Retrieved from
-        http://www.repairfaq.org/sam/repspec/
+-   :cite:`Spiker2015a` : Spiker, N. (2015). Private Discussion with
+    Mansencal, T. Retrieved from http://www.invisiblelightimages.com/
 """
 
 from __future__ import division
@@ -73,21 +73,24 @@ def single_spd_plot(spd,
     out_of_gamut_clipping : bool, optional
         Whether to clip out of gamut colours otherwise, the colours will be
         offset by the absolute minimal colour leading to a rendering on
-        gray background, less saturated and smoother. [1]_
+        gray background, less saturated and smoother.
     cmfs : unicode
         Standard observer colour matching functions used for spectrum creation.
 
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
 
     Returns
     -------
     Figure
         Current figure or None.
+
+    References
+    ----------
+    -   :cite:`Spiker2015a`
 
     Examples
     --------
@@ -183,9 +186,8 @@ def multi_spd_plot(spds,
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
 
     Returns
     -------
@@ -283,9 +285,8 @@ def single_cmfs_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
 
     Returns
     -------
@@ -318,9 +319,8 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
 
     Returns
     -------
@@ -406,19 +406,22 @@ def single_illuminant_relative_spd_plot(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
     out_of_gamut_clipping : bool, optional
-        {:func:`single_spd_plot`},
+        {:func:`colour.plotting.single_spd_plot`},
         Whether to clip out of gamut colours otherwise, the colours will be
         offset by the absolute minimal colour leading to a rendering on
-        gray background, less saturated and smoother. [1]_
+        gray background, less saturated and smoother.
 
     Returns
     -------
     Figure
         Current figure or None.
+
+    References
+    ----------
+    -   :cite:`Spiker2015a`
 
     Examples
     --------
@@ -448,14 +451,13 @@ def multi_illuminants_relative_spd_plot(illuminants=None, **kwargs):
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
     use_spds_colours : bool, optional
-        {:func:`multi_spd_plot`}
+        {:func:`colour.plotting.multi_spd_plot`}
         Whether to use spectral power distributions colours.
     normalise_spds_colours : bool
-        {:func:`multi_spd_plot`}
+        {:func:`colour.plotting.multi_spd_plot`}
         Whether to normalise spectral power distributions colours.
 
     Returns
@@ -501,19 +503,22 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
     out_of_gamut_clipping : bool, optional
         Whether to clip out of gamut colours otherwise, the colours will be
         offset by the absolute minimal colour leading to a rendering on
-        gray background, less saturated and smoother. [1]_
+        gray background, less saturated and smoother.
 
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
 
     Returns
     -------
     Figure
         Current figure or None.
+
+    References
+    ----------
+    -   :cite:`Spiker2015a`
 
     Examples
     --------
@@ -552,9 +557,8 @@ def single_lightness_function_plot(function='CIE 1976', **kwargs):
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
 
     Returns
     -------
@@ -584,9 +588,8 @@ def multi_lightness_function_plot(functions=None, **kwargs):
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
 
     Returns
     -------
@@ -663,9 +666,8 @@ def blackbody_spectral_radiance_plot(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
 
     Returns
     -------
@@ -734,9 +736,8 @@ def blackbody_colours_plot(shape=SpectralShape(150, 12500, 50),
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
 
     Returns
     -------

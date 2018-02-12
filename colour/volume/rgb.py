@@ -6,10 +6,11 @@ RGB Colourspace Volume Computation
 
 Defines various RGB colourspace volume computation objects:
 
--   :func:`RGB_colourspace_limits`
--   :func:`RGB_colourspace_volume_MonteCarlo`
--   :func:`RGB_colourspace_pointer_gamut_coverage_MonteCarlo`
--   :func:`RGB_colourspace_visible_spectrum_coverage_MonteCarlo`
+-   :func:`colour.RGB_colourspace_limits`
+-   :func:`colour.RGB_colourspace_volume_MonteCarlo`
+-   :func:`colour.RGB_colourspace_volume_coverage_MonteCarlo`
+-   :func:`colour.RGB_colourspace_pointer_gamut_coverage_MonteCarlo`
+-   :func:`colour.RGB_colourspace_visible_spectrum_coverage_MonteCarlo`
 
 See Also
 --------
@@ -47,8 +48,8 @@ __all__ = [
 def _wrapper_RGB_colourspace_volume_MonteCarlo(args):
     """
     Convenient wrapper to be able to call
-    :func:`sample_RGB_colourspace_volume_MonteCarlo`: definition with multiple
-    arguments.
+    :func:`colour.volume.rgb.sample_RGB_colourspace_volume_MonteCarlo`:
+    definition with multiple arguments.
 
     Parameters
     ----------

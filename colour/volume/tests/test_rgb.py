@@ -13,9 +13,9 @@ implementations:
 
 References
 ----------
-.. [1]  Laurent. (2012). Reproducibility of python pseudo-random numbers
-        across systems and versions? Retrieved January 20, 2015, from
-        http://stackoverflow.com/questions/8786084/\
+-   :cite:`Laurent2012a` : Laurent. (2012). Reproducibility of python
+    pseudo-random numbers across systems and versions? Retrieved January 20,
+    2015, from http://stackoverflow.com/questions/8786084/\
 reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
 """
 
@@ -84,6 +84,10 @@ class TestRGB_colourspaceVolumeMonteCarlo(unittest.TestCase):
     """
     Defines :func:`colour.volume.rgb.RGB_colourspace_volume_MonteCarlo`
     definition unit tests methods.
+
+    References
+    ----------
+    -   :cite:`Laurent2012a`
     """
 
     def test_RGB_colourspace_volume_MonteCarlo(self):
@@ -104,6 +108,10 @@ class TestRGB_colourspace_volume_coverage_MonteCarlo(unittest.TestCase):
     """
     Defines :func:`colour.volume.rgb.\
 RGB_colourspace_volume_coverage_MonteCarlo` definition unit tests methods.
+
+    References
+    ----------
+    -   :cite:`Laurent2012a`
     """
 
     def test_RGB_colourspace_volume_coverage_MonteCarlo(self):
@@ -127,6 +135,10 @@ class TestRGB_colourspacePointerGamutCoverageMonteCarlo(unittest.TestCase):
     Defines :func:`colour.volume.rgb.\
 RGB_colourspace_pointer_gamut_coverage_MonteCarlo` definition unit tests
     methods.
+
+    References
+    ----------
+    -   :cite:`Laurent2012a`
     """
 
     def test_RGB_colourspace_pointer_gamut_coverage_MonteCarlo(self):
@@ -148,6 +160,10 @@ class TestRGB_colourspaceVisibleSpectrumCoverageMonteCarlo(unittest.TestCase):
     Defines :func:`colour.volume.rgb.\
 RGB_colourspace_visible_spectrum_coverage_MonteCarlo` definition unit tests
     methods.
+
+    References
+    ----------
+    -   :cite:`Laurent2012a`
     """
 
     def test_RGB_colourspace_visible_spectrum_coverage_MonteCarlo(self):

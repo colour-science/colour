@@ -7,7 +7,7 @@ Meng et al. (2015) - Reflectance Recovery
 Defines objects for reflectance recovery using *Meng, Simon and Hanika (2015)*
 method:
 
--   :func:`XYZ_to_spectral_Meng2015`
+-   :func:`colour.recovery.XYZ_to_spectral_Meng2015`
 
 See Also
 --------
@@ -17,9 +17,9 @@ blob/master/notebooks/recovery/meng2015.ipynb>`_
 
 References
 ----------
-.. [1]  Meng, J., Simon, F., & Hanika, J. (2015). Physically Meaningful
-        Rendering using Tristimulus Colours, 34(4). Retrieved from
-        http://jo.dreggn.org/home/2015_spectrum.pdf
+-   :cite:`Meng2015c` : Meng, J., Simon, F., Hanika, J., & Dachsbacher, C.
+    (2015). Physically Meaningful Rendering using Tristimulus Colours. Computer
+    Graphics Forum, 34(4), 31-40. doi:10.1111/cgf.12676
 """
 
 from __future__ import division, unicode_literals
@@ -49,7 +49,7 @@ def XYZ_to_spectral_Meng2015(
         maximum_iterations=2000):
     """
     Recovers the spectral power distribution of given *CIE XYZ* tristimulus
-    values using *Meng et al. (2015)* method.
+    values using *Meng et alii (2015)* method.
 
     Parameters
     ----------
@@ -60,9 +60,9 @@ def XYZ_to_spectral_Meng2015(
         Standard observer colour matching functions.
     interval : numeric, optional
         Wavelength :math:`\lambda_{i}` range interval in nm. The smaller
-        `interval` is, the longer the computations will be.
+        ``interval`` is, the longer the computations will be.
     tolerance : numeric, optional
-        Tolerance for termination. The lower `tolerance` is, the smoother
+        Tolerance for termination. The lower ``tolerance`` is, the smoother
         the recovered spectral power distribution will be.
     maximum_iterations : int, optional
         Maximum number of iterations to perform.
@@ -75,10 +75,14 @@ def XYZ_to_spectral_Meng2015(
     Notes
     -----
     -   The definition used to convert spectrum to *CIE XYZ* tristimulus
-        values is :func:`colour.spectral_to_XYZ_integration` definition
-        because it processes any measurement interval opposed to
-        :func:`colour.spectral_to_XYZ_ASTME30815` definition that handles only
-        measurement interval of 1, 5, 10 or 20nm.
+        values is :func:`colour.colorimetry.spectral_to_XYZ_integration`
+        definition because it processes any measurement interval opposed to
+        :func:`colour.colorimetry.spectral_to_XYZ_ASTME30815` definition that
+        handles only measurement interval of 1, 5, 10 or 20nm.
+
+    References
+    ----------
+    -   :cite:`Meng2015c`
 
     Examples
     --------

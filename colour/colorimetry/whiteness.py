@@ -6,12 +6,12 @@ Whiteness Index :math:`W`
 
 Defines *whiteness* index :math:`W` computation objects:
 
--   :func:`whiteness_Berger1959`
--   :func:`whiteness_Taube1960`
--   :func:`whiteness_Stensby1968`
--   :func:`whiteness_ASTME313`
--   :func:`whiteness_Ganz1979`
--   :func:`whiteness_CIE2004`
+-   :func:`colour.colorimetry.whiteness_Berger1959`
+-   :func:`colour.colorimetry.whiteness_Taube1960`
+-   :func:`colour.colorimetry.whiteness_Stensby1968`
+-   :func:`colour.colorimetry.whiteness_ASTME313`
+-   :func:`colour.colorimetry.whiteness_Ganz1979`
+-   :func:`colour.colorimetry.whiteness_CIE2004`
 
 See Also
 --------
@@ -21,16 +21,18 @@ blob/master/notebooks/colorimetry/whiteness.ipynb>`_
 
 References
 ----------
-.. [1]  Wikipedia. (n.d.). Whiteness. Retrieved September 17, 2014, from
-        http://en.wikipedia.org/wiki/Whiteness
-.. [2]  X-Rite, & Pantone. (2012). Color iQC and Color iMatch Color
-        Calculations Guide. Retrieved from
-        http://www.xrite.com/documents/literature/en/\
-09_Color_Calculations_en.pdf
-.. [3]  Wyszecki, G., & Stiles, W. S. (2000). Table I(6.5.3) Whiteness
-        Formulae (Whiteness Measure Denoted by W). In Color Science: Concepts
-        and Methods, Quantitative Data and Formulae (pp. 837–839). Wiley.
-        ISBN:978-0471399186
+-   :cite:`CIETC1-482004k` : CIE TC 1-48. (2004). The evaluation of whiteness.
+    In CIE 015:2004 Colorimetry, 3rd Edition (p. 24). ISBN:978-3-901-90633-6
+-   :cite:`Wyszecki2000ba` : Wyszecki, G., & Stiles, W. S. (2000).
+    Table I(6.5.3) Whiteness Formulae (Whiteness Measure Denoted by W). In
+    Color Science: Concepts and Methods, Quantitative Data and Formulae
+    (pp. 837-839). Wiley. ISBN:978-0471399186
+-   :cite:`X-Rite2012a` : X-Rite, & Pantone. (2012). Color iQC and Color
+    iMatch Color Calculations Guide. Retrieved from
+    https://www.xrite.com/-/media/xrite/files/\
+apps_engineering_techdocuments/c/09_color_calculations_en.pdf
+-   :cite:`Wikipediaco` : Wikipedia. (n.d.). Whiteness. Retrieved September 17,
+    2014, from http://en.wikipedia.org/wiki/Whiteness
 """
 
 from __future__ import division, unicode_literals
@@ -56,7 +58,7 @@ __all__ = [
 def whiteness_Berger1959(XYZ, XYZ_0):
     """
     Returns the *whiteness* index :math:`WI` of given sample *CIE XYZ*
-    tristimulus values using *Berger (1959)* method. [2]_
+    tristimulus values using *Berger (1959)* method.
 
     Parameters
     ----------
@@ -81,6 +83,10 @@ def whiteness_Berger1959(XYZ, XYZ_0):
     -------
     The input domain of that definition is non standard!
 
+    References
+    ----------
+    -   :cite:`X-Rite2012a`
+
     Examples
     --------
     >>> XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
@@ -100,7 +106,7 @@ def whiteness_Berger1959(XYZ, XYZ_0):
 def whiteness_Taube1960(XYZ, XYZ_0):
     """
     Returns the *whiteness* index :math:`WI` of given sample *CIE XYZ*
-    tristimulus values using *Taube (1960)* method. [2]_
+    tristimulus values using *Taube (1960)* method.
 
     Parameters
     ----------
@@ -121,6 +127,10 @@ def whiteness_Taube1960(XYZ, XYZ_0):
     -   *Whiteness* :math:`WI` values larger than 100 indicate a bluish
         white and values smaller than 100 indicate a yellowish white.
 
+    References
+    ----------
+    -   :cite:`X-Rite2012a`
+
     Examples
     --------
     >>> XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
@@ -140,7 +150,7 @@ def whiteness_Taube1960(XYZ, XYZ_0):
 def whiteness_Stensby1968(Lab):
     """
     Returns the *whiteness* index :math:`WI` of given sample *CIE L\*a\*b\**
-    colourspace array using *Stensby (1968)* method. [2]_
+    colourspace array using *Stensby (1968)* method.
 
     Parameters
     ----------
@@ -157,6 +167,10 @@ def whiteness_Stensby1968(Lab):
     -   Input *CIE L\*a\*b\** colourspace array is in domain [0, 100].
     -   *Whiteness* :math:`WI` values larger than 100 indicate a bluish
         white and values smaller than 100 indicate a yellowish white.
+
+    References
+    ----------
+    -   :cite:`X-Rite2012a`
 
     Examples
     --------
@@ -175,7 +189,7 @@ def whiteness_Stensby1968(Lab):
 def whiteness_ASTME313(XYZ):
     """
     Returns the *whiteness* index :math:`WI` of given sample *CIE XYZ*
-    tristimulus values using *ASTM E313* method. [2]_
+    tristimulus values using *ASTM E313* method.
 
     Parameters
     ----------
@@ -195,6 +209,10 @@ def whiteness_ASTME313(XYZ):
     -----
     -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
 
+    References
+    ----------
+    -   :cite:`X-Rite2012a`
+
     Examples
     --------
     >>> XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
@@ -213,7 +231,7 @@ def whiteness_Ganz1979(xy, Y):
     """
     Returns the *whiteness* index :math:`W` and *tint* :math:`T` of given
     sample *xy* chromaticity coordinates using *Ganz and Griesser (1979)*
-    method. [2]_
+    method.
 
     Parameters
     ----------
@@ -243,6 +261,10 @@ def whiteness_Ganz1979(xy, Y):
         indistinguishable to the human eye.
     -   Tint differences of less than 0.5 Ganz units appear to be
         indistinguishable to the human eye.
+
+    References
+    ----------
+    -   :cite:`X-Rite2012a`
 
     Examples
     --------
@@ -306,14 +328,13 @@ def whiteness_CIE2004(xy,
         less than +2.
     -   Output *whiteness* :math:`W` or :math:`W_{10}` values larger than 100
         indicate a bluish white while values smaller than 100 indicate a
-        yellowish white. [2]_
+        yellowish white.
     -   Positive output *tint* :math:`T` or :math:`T_{10}` values indicate a
         greener tint while negative values indicate a redder tint.
 
     References
     ----------
-    .. [4]  CIE TC 1-48. (2004). The evaluation of whiteness. In CIE 015:2004
-            Colorimetry, 3rd Edition (p. 24). ISBN:978-3-901-90633-6
+    -   :cite:`CIETC1-482004k`
 
     Examples
     --------
@@ -343,8 +364,13 @@ WHITENESS_METHODS = CaseInsensitiveMapping({
     'Ganz 1979': whiteness_Ganz1979,
     'CIE 2004': whiteness_CIE2004
 })
-"""
+WHITENESS_METHODS.__doc__ = """
 Supported *whiteness* computations methods.
+
+References
+----------
+-   :cite:`CIETC1-482004k`
+-   :cite:`X-Rite2012a`
 
 WHITENESS_METHODS : CaseInsensitiveMapping
     **{'CIE 2004', 'Berger 1959', 'Taube 1960', 'Stensby 1968', 'ASTM E313',
@@ -371,26 +397,30 @@ def whiteness(method='CIE 2004', **kwargs):
     Other Parameters
     ----------------
     XYZ : array_like
-        {:func:`whiteness_Berger1959`, :func:`whiteness_Taube1960`,
-        :func:`whiteness_ASTME313`},
+        {:func:`colour.colorimetry.whiteness_Berger1959`,
+        :func:`colour.colorimetry.whiteness_Taube1960`,
+        :func:`colour.colorimetry.whiteness_ASTME313`},
         *CIE XYZ* tristimulus values of sample.
     XYZ_0 : array_like
-        {:func:`whiteness_Berger1959`, :func:`whiteness_Taube1960`},
+        {:func:`colour.colorimetry.whiteness_Berger1959`,
+        :func:`colour.colorimetry.whiteness_Taube1960`},
         *CIE XYZ* tristimulus values of reference white.
     Lab : array_like
-        {:func:`whiteness_Stensby1968`},
+        {:func:`colour.colorimetry.whiteness_Stensby1968`},
         *CIE L\*a\*b\** colourspace array of sample.
     xy : array_like
-        {:func:`whiteness_Ganz1979`, :func:`whiteness_CIE2004`},
+        {:func:`colour.colorimetry.whiteness_Ganz1979`,
+        :func:`colour.colorimetry.whiteness_CIE2004`},
         Chromaticity coordinates *xy* of sample.
     Y : numeric or array_like
-        {:func:`whiteness_Ganz1979`, :func:`whiteness_CIE2004`},
+        {:func:`colour.colorimetry.whiteness_Ganz1979`,
+        :func:`colour.colorimetry.whiteness_CIE2004`},
         Tristimulus :math:`Y` value of sample.
     xy_n : array_like
-        {:func:`whiteness_CIE2004`},
+        {:func:`colour.colorimetry.whiteness_CIE2004`},
         Chromaticity coordinates *xy_n* of perfect diffuser.
     observer : unicode, optional
-        {:func:`whiteness_CIE2004`},
+        {:func:`colour.colorimetry.whiteness_CIE2004`},
         **{'CIE 1931 2 Degree Standard Observer',
         'CIE 1964 10 Degree Standard Observer'}**,
         *CIE Standard Observer* used for computations, *tint* :math:`T` or
@@ -400,6 +430,13 @@ def whiteness(method='CIE 2004', **kwargs):
     -------
     numeric or ndarray
         *whiteness* :math:`W`.
+
+    References
+    ----------
+    -   :cite:`CIETC1-482004k`
+    -   :cite:`Wyszecki2000ba`
+    -   :cite:`X-Rite2012a`
+    -   :cite:`Wikipediaco`
 
     Examples
     --------

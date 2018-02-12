@@ -6,12 +6,12 @@ IPT Colourspace
 
 Defines the *IPT* colourspace transformations:
 
--   :func:`XYZ_to_IPT`
--   :func:`IPT_to_XYZ`
+-   :func:`colour.XYZ_to_IPT`
+-   :func:`colour.IPT_to_XYZ`
 
 And computation of correlates:
 
--   :func:`IPT_hue_angle`
+-   :func:`colour.IPT_hue_angle`
 
 See Also
 --------
@@ -21,8 +21,8 @@ blob/master/notebooks/models/ipt.ipynb>`_
 
 References
 ----------
-.. [1]  Fairchild, M. D. (2013). IPT Colourspace. In Color Appearance Models
-        (3rd ed., pp. 6197–6223). Wiley. ISBN:B00DAYO8E2
+-   :cite:`Fairchild2013y` : Fairchild, M. D. (2013). IPT Colourspace. In
+    Color Appearance Models (3rd ed., pp. 6197-6223). Wiley. ISBN:B00DAYO8E2
 """
 
 from __future__ import division, unicode_literals
@@ -99,6 +99,10 @@ def XYZ_to_IPT(XYZ):
     -   Input *CIE XYZ* tristimulus values needs to be adapted for
         *CIE Standard Illuminant D Series* *D65*.
 
+    References
+    ----------
+    -   :cite:`Fairchild2013y`
+
     Examples
     --------
     >>> XYZ = np.array([0.96907232, 1.00000000, 1.12179215])
@@ -127,6 +131,10 @@ def IPT_to_XYZ(IPT):
     ndarray
         *CIE XYZ* tristimulus values.
 
+    References
+    ----------
+    -   :cite:`Fairchild2013y`
+
     Examples
     --------
     >>> IPT = np.array([1.00300825, 0.01906918, -0.01369292])
@@ -154,6 +162,10 @@ def IPT_hue_angle(IPT):
     -------
     numeric or ndarray
         Hue angle in degrees.
+
+    References
+    ----------
+    -   :cite:`Fairchild2013y`
 
     Examples
     --------

@@ -6,8 +6,8 @@ ITU-R BT.470 Colourspaces
 
 Defines the *ITU-R BT.470* colourspaces:
 
--   :attr:`BT470_525_COLOURSPACE`.
--   :attr:`BT470_625_COLOURSPACE`.
+-   :attr:`colour.models.BT470_525_COLOURSPACE`.
+-   :attr:`colour.models.BT470_625_COLOURSPACE`.
 
 See Also
 --------
@@ -17,10 +17,10 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  International Telecommunication Union. (1998). Recommendation ITU-R
-        BT.470-6 - CONVENTIONAL TELEVISION SYSTEMS. Retrieved from
-        http://www.itu.int/dms_pubrec/itu-r/rec/bt/\
-R-REC-BT.470-6-199811-S!!PDF-E.pdf
+-   :cite:`InternationalTelecommunicationUnion1998a` : International
+    Telecommunication Union. (1998). Recommendation ITU-R BT.470-6 -
+    CONVENTIONAL TELEVISION SYSTEMS. Retrieved from http://www.itu.int/\
+dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -96,8 +96,12 @@ BT470_525_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_BT470_525_MATRIX,
     partial(function_gamma, exponent=1 / 2.8),
     partial(function_gamma, exponent=2.8))  # yapf: disable
-"""
+BT470_525_COLOURSPACE.__doc__ = """
 *ITU-R BT.470 - 525* colourspace.
+
+References
+----------
+-   :cite:`InternationalTelecommunicationUnion1998a`
 
 BT470_525_COLOURSPACE : RGB_Colourspace
 """
@@ -151,8 +155,12 @@ BT470_625_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_BT470_625_MATRIX,
     partial(function_gamma, exponent=1 / 2.8),
     partial(function_gamma, exponent=2.8))  # yapf: disable
-"""
+BT470_625_COLOURSPACE.__doc__ = """
 *ITU-R BT.470 - 625* colourspace.
+
+References
+----------
+-   :cite:`InternationalTelecommunicationUnion1998a`
 
 BT470_625_COLOURSPACE : RGB_Colourspace
 """

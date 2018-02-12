@@ -7,8 +7,8 @@ Colour
 *Colour* is a *Python* colour science package implementing a comprehensive
 number of colour theory transformations and algorithms.
 
-Subpackages
------------
+Sub-packages
+------------
 -   adaptation: Chromatic adaptation models and transformations.
 -   algebra: Algebra utilities.
 -   appearance: Colour appearance models.
@@ -23,7 +23,7 @@ Subpackages
 -   io: Input / output objects for reading and writing data.
 -   models: Colour models.
 -   notation: Colour notation systems.
--   phenomenons: Computation of various optical phenomenons.
+-   phenomena: Computation of various optical phenomena.
 -   plotting: Diagrams, figures, etc...
 -   quality: Colour quality computation.
 -   recovery: Reflectance recovery.
@@ -35,6 +35,7 @@ Subpackages
 
 from __future__ import absolute_import
 
+import os
 import sys
 
 from .utilities.deprecation import (FutureAccessChange, FutureAccessRemove,
@@ -107,8 +108,8 @@ from .corresponding import (BRENEMAN_EXPERIMENTS,
                             BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES,
                             CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS,
                             corresponding_chromaticities_prediction)
-from .phenomenons import (rayleigh_scattering, rayleigh_scattering_spd,
-                          scattering_cross_section)
+from .phenomena import (rayleigh_scattering, rayleigh_scattering_spd,
+                        scattering_cross_section)
 from .notation import (MUNSELL_COLOURS, MUNSELL_VALUE_METHODS,
                        munsell_colour_to_xyY, munsell_value,
                        xyY_to_munsell_colour)
@@ -1184,7 +1185,7 @@ API_CHANGES = {
         ],
         [
             'colour.rayleigh_optical_depth',
-            'colour.phenomenons.rayleigh_optical_depth',
+            'colour.phenomena.rayleigh_optical_depth',
         ],
         [
             'colour.reaction_rate_MichealisMenten',
@@ -1580,13 +1581,17 @@ def _setup_api_changes():
     API_CHANGES.pop('Renamed')
 
 
-_setup_api_changes()
+if os.environ.get('READTHEDOCS') != 'True':
+    _setup_api_changes()
 
-del FutureAccessChange
-del FutureAccessRemove
-del ModuleAPI
-del Removed
-del Renamed
-del _setup_api_changes
+    del FutureAccessChange
+    del FutureAccessRemove
+    del ModuleAPI
+    del Removed
+    del Renamed
+    del _setup_api_changes
 
-sys.modules['colour'] = colour(sys.modules['colour'], API_CHANGES)
+    sys.modules['colour'] = colour(sys.modules['colour'], API_CHANGES)
+
+    del os
+    del sys

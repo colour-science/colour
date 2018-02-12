@@ -6,10 +6,10 @@ LLAB(l:c) Colour Appearance Model
 
 Defines *LLAB(l:c)* colour appearance model objects:
 
--   :class:`LLAB_InductionFactors`
--   :attr:`LLAB_VIEWING_CONDITIONS`
--   :class:`LLAB_Specification`
--   :func:`XYZ_to_LLAB`
+-   :class:`colour.appearance.LLAB_InductionFactors`
+-   :attr:`colour.LLAB_VIEWING_CONDITIONS`
+-   :class:`colour.LLAB_Specification`
+-   :func:`colour.XYZ_to_LLAB`
 
 See Also
 --------
@@ -19,18 +19,17 @@ blob/master/notebooks/appearance/llab.ipynb>`_
 
 References
 ----------
-.. [1]  Fairchild, M. D. (2013). LLAB Model. In Color Appearance Models
-        (3rd ed., pp. 6025–6178). Wiley. ISBN:B00DAYO8E2
-.. [2]  Luo, M. R., & Morovic, J. (1996). Two Unsolved Issues in Colour
-        Management – Colour Appearance and Gamut Mapping. In Conference:
-        5th International Conference on High Technology: Imaging Science and
-        Technology – Evolution & Promise (pp. 136–147). Retrieved from
-        http://www.researchgate.net/publication/\
-236348295_Two_Unsolved_Issues_in_Colour_Management\
-__Colour_Appearance_and_Gamut_Mapping
-.. [3]  Luo, M. R., Lo, M.-C., & Kuo, W.-G. (1996). The LLAB (l:c) colour
-        model. Color Research & Application, 21(6), 412–429.
-        doi:10.1002/(SICI)1520-6378(199612)21:6<412::AID-COL4>3.0.CO;2-Z
+-   :cite:`Fairchild2013x` : Fairchild, M. D. (2013). LLAB Model. In Color
+    Appearance Models (3rd ed., pp. 6025-6178). Wiley. ISBN:B00DAYO8E2
+-   :cite:`Luo1996b` : Luo, M. R., Lo, M.-C., & Kuo, W.-G. (1996). The LLAB
+    (l:c) colour model. Color Research & Application, 21(6), 412-429.
+    doi:10.1002/(SICI)1520-6378(199612)21:6<412::AID-COL4>3.0.CO;2-Z
+-   :cite:`Luo1996c` : Luo, M. R., & Morovic, J. (1996). Two Unsolved Issues in
+    Colour Management - Colour Appearance and Gamut Mapping. In Conference:
+    5th International Conference on High Technology: Imaging Science and
+    Technology - Evolution & Promise (pp. 136-147). Retrieved from
+    http://www.researchgate.net/publication/\236348295_Two_Unsolved_Issues_in\
+_Colour_Management__Colour_Appearance_and_Gamut_Mapping
 """
 
 from __future__ import division, unicode_literals
@@ -73,6 +72,12 @@ class LLAB_InductionFactors(
         *Lightness* induction factor :math:`F_L`.
     F_C : numeric or array_like
         *Chroma* induction factor :math:`F_C`.
+
+    References
+    ----------
+    -   :cite:`Fairchild2013x`
+    -   :cite:`Luo1996b`
+    -   :cite:`Luo1996c`
     """
 
 
@@ -88,8 +93,14 @@ LLAB_VIEWING_CONDITIONS = CaseInsensitiveMapping({
     '35mm Projection Transparency, Dark Surround': (LLAB_InductionFactors(
         0.7, 4, 1, 1))
 })
-"""
+LLAB_VIEWING_CONDITIONS.__doc__ = """
 Reference *LLAB(l:c)* colour appearance model viewing conditions.
+
+References
+----------
+-   :cite:`Fairchild2013x`
+-   :cite:`Luo1996b`
+-   :cite:`Luo1996c`
 
 LLAB_VIEWING_CONDITIONS : CaseInsensitiveMapping
     **{'Reference Samples & Images, Average Surround, Subtending > 4',
@@ -169,6 +180,12 @@ class LLAB_ReferenceSpecification(
         Opponent signal :math:`A_L`.
     B_L : numeric or array_like
         Opponent signal :math:`B_L`.
+
+    References
+    ----------
+    -   :cite:`Fairchild2013x`
+    -   :cite:`Luo1996b`
+    -   :cite:`Luo1996c`
     """
 
 
@@ -204,6 +221,12 @@ class LLAB_Specification(
     Notes
     -----
     -   This specification is the one used in the current model implementation.
+
+    References
+    ----------
+    -   :cite:`Fairchild2013x`
+    -   :cite:`Luo1996b`
+    -   :cite:`Luo1996c`
     """
 
 
@@ -244,6 +267,12 @@ def XYZ_to_LLAB(
     -----
     -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
     -   Input *CIE XYZ_0* tristimulus values are in domain [0, 100].
+
+    References
+    ----------
+    -   :cite:`Fairchild2013x`
+    -   :cite:`Luo1996b`
+    -   :cite:`Luo1996c`
 
     Examples
     --------

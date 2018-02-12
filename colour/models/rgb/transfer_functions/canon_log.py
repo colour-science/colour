@@ -6,12 +6,12 @@ Canon Log Encodings
 
 Defines the *Canon Log* encodings:
 
--   :func:`log_encoding_CanonLog`
--   :func:`log_decoding_CanonLog`
--   :func:`log_encoding_CanonLog2`
--   :func:`log_decoding_CanonLog2`
--   :func:`log_encoding_CanonLog3`
--   :func:`log_decoding_CanonLog3`
+-   :func:`colour.models.log_encoding_CanonLog`
+-   :func:`colour.models.log_decoding_CanonLog`
+-   :func:`colour.models.log_encoding_CanonLog2`
+-   :func:`colour.models.log_decoding_CanonLog2`
+-   :func:`colour.models.log_encoding_CanonLog3`
+-   :func:`colour.models.log_decoding_CanonLog3`
 
 See Also
 --------
@@ -19,21 +19,21 @@ See Also
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/rgb.ipynb>`_
 
-References
-----------
-.. [1]  Thorpe, L. (2012). CANON-LOG TRANSFER CHARACTERISTIC. Retrieved
-        from http://downloads.canon.com/CDLC/\
-Canon-Log_Transfer_Characteristic_6-20-2012.pdf
-.. [2]  Canon. (n.d.). EOS C300 Mark II - EOS C300 Mark II Input Transform
-        Version 2.0 (for Cinema Gamut / BT.2020). Retrieved August 23, 2016,
-        from https://www.usa.canon.com/internet/portal/us/home/support/\
-details/cameras/cinema-eos/eos-c300-mark-ii
-
 Notes
 -----
--   [2]_ is available as a *Drivers & Downloads* *Software* for Windows 10
-    (x64) *Operating System*, a copy of the archive is hosted at this url:
-    https://drive.google.com/open?id=0B_IQZQdc4Vy8ZGYyY29pMEVwZU0
+-   :cite:`Canona` is available as a *Drivers & Downloads* *Software* for
+    Windows 10 (x64) *Operating System*, a copy of the archive is hosted at
+    this url: https://drive.google.com/open?id=0B_IQZQdc4Vy8ZGYyY29pMEVwZU0
+
+References
+----------
+-   :cite:`Canona` : Canon. (n.d.). EOS C300 Mark II - EOS C300 Mark II Input
+    Transform Version 2.0 (for Cinema Gamut / BT.2020). Retrieved August 23,
+    2016, from https://www.usa.canon.com/internet/portal/us/home/support/\
+details/cameras/cinema-eos/eos-c300-mark-ii
+-   :cite:`Thorpe2012a` : Thorpe, L. (2012). CANON-LOG TRANSFER CHARACTERISTIC.
+    Retrieved from http://downloads.canon.com/CDLC/\
+Canon-Log_Transfer_Characteristic_6-20-2012.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -72,12 +72,16 @@ def log_encoding_CanonLog(x, bit_depth=10, out_legal=True, in_reflection=True):
         Whether the *Canon Log* non-linear data is encoded in legal
         range.
     in_reflection : bool, optional
-        Whether the light level :math`x` to a camera is reflection.
+        Whether the light level :math:`x` to a camera is reflection.
 
     Returns
     -------
     numeric or ndarray
         *Canon Log* non-linear data.
+
+    References
+    ----------
+    -   :cite:`Thorpe2012a`
 
     Examples
     --------
@@ -117,12 +121,16 @@ def log_decoding_CanonLog(clog,
         Whether the *Canon Log* non-linear data is encoded in legal
         range.
     out_reflection : bool, optional
-        Whether the light level :math`x` to a camera is reflection.
+        Whether the light level :math:`x` to a camera is reflection.
 
     Returns
     -------
     numeric or ndarray
         Linear data :math:`x`.
+
+    References
+    ----------
+    -   :cite:`Thorpe2012a`
 
     Examples
     --------
@@ -160,12 +168,16 @@ def log_encoding_CanonLog2(x, bit_depth=10, out_legal=True,
         Whether the *Canon Log 2* non-linear data is encoded in legal
         range.
     in_reflection : bool, optional
-        Whether the light level :math`x` to a camera is reflection.
+        Whether the light level :math:`x` to a camera is reflection.
 
     Returns
     -------
     numeric or ndarray
         *Canon Log 2* non-linear data.
+
+    References
+    ----------
+    -   :cite:`Canona`
 
     Examples
     --------
@@ -206,12 +218,16 @@ def log_decoding_CanonLog2(clog2,
         Whether the *Canon Log 2* non-linear data is encoded in legal
         range.
     out_reflection : bool, optional
-        Whether the light level :math`x` to a camera is reflection.
+        Whether the light level :math:`x` to a camera is reflection.
 
     Returns
     -------
     numeric or ndarray
         Linear data :math:`x`.
+
+    References
+    ----------
+    -   :cite:`Canona`
 
     Examples
     --------
@@ -251,7 +267,7 @@ def log_encoding_CanonLog3(x, bit_depth=10, out_legal=True,
         Whether the *Canon Log 3* non-linear data is encoded in legal
         range.
     in_reflection : bool, optional
-        Whether the light level :math`x` to a camera is reflection.
+        Whether the light level :math:`x` to a camera is reflection.
 
     Returns
     -------
@@ -270,6 +286,10 @@ def log_encoding_CanonLog3(x, bit_depth=10, out_legal=True,
             >>> clog3 = 0.105357102
             >>> (clog3 - 0.073059361) / 2.3069815
             0.013999999999999997
+
+    References
+    ----------
+    -   :cite:`Canona`
 
     Examples
     --------
@@ -313,12 +333,16 @@ def log_decoding_CanonLog3(clog3,
         Whether the *Canon Log 3* non-linear data is encoded in legal
         range.
     out_reflection : bool, optional
-        Whether the light level :math`x` to a camera is reflection.
+        Whether the light level :math:`x` to a camera is reflection.
 
     Returns
     -------
     numeric or ndarray
         Linear data :math:`x`.
+
+    References
+    ----------
+    -   :cite:`Canona`
 
     Examples
     --------

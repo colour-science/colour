@@ -6,10 +6,10 @@ CIE UCS Colourspace
 
 Defines the *CIE UCS* colourspace transformations:
 
--   :func:`XYZ_to_UCS`
--   :func:`UCS_to_XYZ`
--   :func:`UCS_to_uv`
--   :func:`UCS_uv_to_xy`
+-   :func:`colour.XYZ_to_UCS`
+-   :func:`colour.UCS_to_XYZ`
+-   :func:`colour.UCS_to_uv`
+-   :func:`colour.UCS_uv_to_xy`
 
 See Also
 --------
@@ -19,11 +19,11 @@ blob/master/notebooks/models/cie_ucs.ipynb>`_
 
 References
 ----------
-.. [1]  Wikipedia. (n.d.). CIE 1960 color space. Retrieved February 24, 2014,
-        from http://en.wikipedia.org/wiki/CIE_1960_color_space
-.. [2]  Wikipedia. (n.d.). Relation to CIE XYZ. Retrieved February 24, 2014,
-        from
-        http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIE_XYZ
+-   :cite:`Wikipediabr` : Wikipedia. (n.d.). Relation to CIE XYZ. Retrieved
+    February 24, 2014, from http://en.wikipedia.org/wiki/\
+CIE_1960_color_space#Relation_to_CIE_XYZ
+-   :cite:`Wikipediabw` : Wikipedia. (n.d.). CIE 1960 color space. Retrieved
+    February 24, 2014, from http://en.wikipedia.org/wiki/CIE_1960_color_space
 """
 
 from __future__ import division, unicode_literals
@@ -59,6 +59,11 @@ def XYZ_to_UCS(XYZ):
     -   Input *CIE XYZ* tristimulus values are in domain [0, 1].
     -   Output *CIE UCS* colourspace array is in range [0, 1].
 
+    References
+    ----------
+    -   :cite:`Wikipediabr`
+    -   :cite:`Wikipediabw`
+
     Examples
     --------
     >>> import numpy as np
@@ -92,6 +97,11 @@ def UCS_to_XYZ(UVW):
     -----
     -   Input *CIE UCS* colourspace array is in domain [0, 1].
     -   Output *CIE XYZ* tristimulus values are in range [0, 1].
+
+    References
+    ----------
+    -   :cite:`Wikipediabr`
+    -   :cite:`Wikipediabw`
 
     Examples
     --------
@@ -128,6 +138,10 @@ def UCS_to_uv(UVW):
     -   Input *CIE UCS* colourspace array is in domain [0, 1].
     -   Output *uv* chromaticity coordinates are in range [0, 1].
 
+    References
+    ----------
+    -   :cite:`Wikipediabr`
+
     Examples
     --------
     >>> import numpy as np
@@ -162,6 +176,10 @@ def UCS_uv_to_xy(uv):
     -----
     -   Input *uv* chromaticity coordinates are in domain [0, 1].
     -   Output *xy* chromaticity coordinates are in range [0, 1].
+
+    References
+    ----------
+    -   :cite:`Wikipediabr`
 
     Examples
     --------

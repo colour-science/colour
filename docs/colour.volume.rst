@@ -1,28 +1,69 @@
-colour\.volume Package
-======================
+Colour Volume
+=============
 
-Sub-Packages
-------------
+.. contents:: :local:
 
-.. toctree::
+Optimal Colour Stimuli - MacAdam Limits
+---------------------------------------
 
-    colour.volume.dataset
+``colour``
 
-Sub-Modules
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    is_within_macadam_limits
+    ILLUMINANTS_OPTIMAL_COLOUR_STIMULI
+
+Mesh Volume
 -----------
 
-.. toctree::
+``colour``
 
-   colour.volume.macadam_limits
-   colour.volume.mesh
-   colour.volume.pointer_gamut
-   colour.volume.rgb
-   colour.volume.spectrum
+.. currentmodule:: colour
 
-Module Contents
+.. autosummary::
+    :toctree: generated/
+
+    is_within_mesh_volume
+
+Pointer's Gamut
 ---------------
 
-.. automodule:: colour.volume
-    :members:
-    :undoc-members:
-    :show-inheritance:
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    is_within_pointer_gamut
+
+RGB Volume
+----------
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    RGB_colourspace_limits
+    RGB_colourspace_pointer_gamut_coverage_MonteCarlo
+    RGB_colourspace_visible_spectrum_coverage_MonteCarlo
+    RGB_colourspace_volume_MonteCarlo
+    RGB_colourspace_volume_coverage_MonteCarlo
+
+Visible Spectrum
+----------------
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    is_within_visible_spectrum

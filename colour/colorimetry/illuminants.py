@@ -6,16 +6,26 @@ Illuminants
 
 Defines *CIE* illuminants computation related objects:
 
--   :func:`D_illuminant_relative_spd`
--   :func:`CIE_standard_illuminant_A_function`
+-   :func:`colour.D_illuminant_relative_spd`
+-   :func:`colour.CIE_standard_illuminant_A_function`
 
 See Also
 --------
 `Illuminants Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/illuminants.ipynb>`_
-colour.colorimetry.dataset.illuminants.d_illuminants_s_spds,
-colour.colorimetry.spectrum.SpectralPowerDistribution
+
+References
+----------
+-   :cite:`CIETC1-482004n` : CIE TC 1-48. (2004). 3.1 Recommendations
+    concerning standard physical data of illuminants. In CIE 015:2004
+    Colorimetry, 3rd Edition (pp. 12-13). ISBN:978-3-901-90633-6
+-   :cite:`Lindbloom2007a` : Lindbloom, B. (2007). Spectral Power Distribution
+    of a CIE D-Illuminant. Retrieved April 5, 2014, from
+    http://www.brucelindbloom.com/Eqn_DIlluminant.html
+-   :cite:`Wyszecki2000z` : Wyszecki, G., & Stiles, W. S. (2000). CIE Method of
+    Calculating D-Illuminants. In Color Science: Concepts and Methods,
+    Quantitative Data and Formulae (pp. 145-146). Wiley. ISBN:978-0471399186
 """
 
 from __future__ import division, unicode_literals
@@ -43,13 +53,8 @@ def D_illuminant_relative_spd(xy):
 
     References
     ----------
-    .. [1]  Wyszecki, G., & Stiles, W. S. (2000). CIE Method of Calculating
-            D-Illuminants. In Color Science: Concepts and Methods,
-            Quantitative Data and Formulae (pp. 145–146). Wiley.
-            ISBN:978-0471399186
-    .. [2]  Lindbloom, B. (2007). Spectral Power Distribution of a CIE
-            D-Illuminant. Retrieved April 5, 2014, from
-            http://www.brucelindbloom.com/Eqn_DIlluminant.html
+    -   :cite:`Lindbloom2007a`
+    -   :cite:`Wyszecki2000z`
 
     Parameters
     ----------
@@ -146,11 +151,13 @@ def D_illuminant_relative_spd(xy):
 def CIE_standard_illuminant_A_function(wl):
     """
     *CIE Standard Illuminant A* is intended to represent typical, domestic,
-    tungsten-filament lighting. Its relative spectral power distribution is
-    that of a Planckian radiator at a temperature of approximately 2856 K.
-    CIE Standard Illuminant A should be used in all applications of
-    colorimetry involving the use of incandescent lighting, unless there are
-    specific reasons for using a different illuminant.
+    tungsten-filament lighting.
+
+    Its relative spectral power distribution is that of a Planckian radiator
+    at a temperature of approximately 2856 K. *CIE Standard Illuminant A*
+    should be used in all applications of colorimetry involving the use of
+    incandescent lighting, unless there are specific reasons for using
+    a different illuminant.
 
     Parameters
     ----------
@@ -164,9 +171,7 @@ def CIE_standard_illuminant_A_function(wl):
 
     References
     ----------
-    .. [1]  CIE TC 1-48. (2004). 3.1 Recommendations concerning standard
-            physical data of illuminants. In CIE 015:2004 Colorimetry, 3rd
-            Edition (pp. 12–13). ISBN:978-3-901-90633-6
+    -   :cite:`CIETC1-482004n`
 
     Examples
     --------

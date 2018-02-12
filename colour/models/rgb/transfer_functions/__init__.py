@@ -95,7 +95,7 @@ __all__ += [
     'log_decoding_SLog2', 'log_encoding_SLog3', 'log_decoding_SLog3'
 ]
 __all__ += ['oetf_sRGB', 'oetf_reverse_sRGB']
-__all__ += ['log_decoding_ViperLog', 'log_decoding_ViperLog']
+__all__ += ['log_encoding_ViperLog', 'log_decoding_ViperLog']
 
 LOG_ENCODING_CURVES = CaseInsensitiveMapping({
     'ACEScc': log_encoding_ACEScc,
@@ -120,7 +120,7 @@ LOG_ENCODING_CURVES = CaseInsensitiveMapping({
     'V-Log': log_encoding_VLog,
     'ViperLog': log_encoding_ViperLog
 })
-"""
+LOG_ENCODING_CURVES.__doc__ = """
 Supported *log* encoding curves.
 
 LOG_ENCODING_CURVES : CaseInsensitiveMapping
@@ -149,53 +149,58 @@ def log_encoding_curve(value, curve='Cineon', **kwargs):
     Other Parameters
     ----------------
     EI : int,  optional
-        {:func:`log_encoding_ALEXALogC`},
+        {:func:`colour.models.log_encoding_ALEXALogC`},
         Ei.
     E_clip : numeric, optional
-        {:func:`log_encoding_ERIMMRGB`},
+        {:func:`colour.models.log_encoding_ERIMMRGB`},
         Maximum exposure limit.
     E_min : numeric, optional
-        {:func:`log_encoding_ERIMMRGB`},
+        {:func:`colour.models.log_encoding_ERIMMRGB`},
         Minimum exposure limit.
     I_max : numeric, optional
-        {:func:`log_encoding_ERIMMRGB`},
+        {:func:`colour.models.log_encoding_ERIMMRGB`},
         Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
         12-bit and 16-bit per channel.
     bit_depth : unicode, optional
-        {:func:`log_encoding_ACESproxy`, :func:`log_encoding_SLog`,
-        :func:`log_encoding_SLog2`},
+        {:func:`colour.models.log_encoding_ACESproxy`,
+        :func:`colour.models.log_encoding_SLog`,
+        :func:`colour.models.log_encoding_SLog2`},
         **{8, 10, 12}**,
         Bit depth used for conversion, *ACESproxy* uses **{10, 12}**.
     black_offset : numeric or array_like
-        {:func:`log_encoding_Cineon`, :func:`log_encoding_Panalog`,
-        :func:`log_encoding_REDLog`, :func:`log_encoding_REDLogFilm`},
+        {:func:`colour.models.log_encoding_Cineon`,
+        :func:`colour.models.log_encoding_Panalog`,
+        :func:`colour.models.log_encoding_REDLog`,
+        :func:`colour.models.log_encoding_REDLogFilm`},
         Black offset.
     density_per_code_value : numeric or array_like
-        {:func:`log_encoding_PivotedLog`},
+        {:func:`colour.models.log_encoding_PivotedLog`},
         Density per code value.
     firmware : unicode, optional
-        {:func:`log_encoding_ALEXALogC`},
+        {:func:`colour.models.log_encoding_ALEXALogC`},
         **{'SUP 3.x', 'SUP 2.x'}**,
         Alexa firmware version.
     in_reflection : bool, optional
-        {:func:`log_encoding_SLog`, :func:`log_encoding_SLog2`},
+        {:func:`colour.models.log_encoding_SLog`,
+        :func:`colour.models.log_encoding_SLog2`},
         Whether the light level :math:`x` to a camera is reflection.
     linear_reference : numeric or array_like
-        {:func:`log_encoding_PivotedLog`},
+        {:func:`colour.models.log_encoding_PivotedLog`},
         Linear reference.
     log_reference : numeric or array_like
-        {:func:`log_encoding_PivotedLog`},
+        {:func:`colour.models.log_encoding_PivotedLog`},
         Log reference.
     out_legal : bool, optional
-        {:func:`log_encoding_SLog`, :func:`log_encoding_SLog2`,
-        :func:`log_encoding_SLog3`},
+        {:func:`colour.models.log_encoding_SLog`,
+        :func:`colour.models.log_encoding_SLog2`,
+        :func:`colour.models.log_encoding_SLog3`},
         Whether the non-linear *Sony S-Log*, *Sony S-Log2* or *Sony S-Log3*
         data :math:`y` is encoded in legal range.
     negative_gamma : numeric or array_like
-        {:func:`log_encoding_PivotedLog`},
+        {:func:`colour.models.log_encoding_PivotedLog`},
         Negative gamma.
     method : unicode, optional
-        {:func:`log_encoding_ALEXALogC`},
+        {:func:`colour.models.log_encoding_ALEXALogC`},
         **{'Linear Scene Exposure Factor', 'Normalised Sensor Signal'}**,
         Conversion method.
 
@@ -245,7 +250,7 @@ LOG_DECODING_CURVES = CaseInsensitiveMapping({
     'V-Log': log_decoding_VLog,
     'ViperLog': log_decoding_ViperLog
 })
-"""
+LOG_DECODING_CURVES.__doc__ = """
 Supported *log* decoding curves.
 
 LOG_DECODING_CURVES : CaseInsensitiveMapping
@@ -274,53 +279,58 @@ def log_decoding_curve(value, curve='Cineon', **kwargs):
     Other Parameters
     ----------------
     EI : int,  optional
-        {:func:`log_decoding_ALEXALogC`},
+        {:func:`colour.models.log_decoding_ALEXALogC`},
         Ei.
     E_clip : numeric, optional
-        {:func:`log_decoding_ERIMMRGB`},
+        {:func:`colour.models.log_decoding_ERIMMRGB`},
         Maximum exposure limit.
     E_min : numeric, optional
-        {:func:`log_decoding_ERIMMRGB`},
+        {:func:`colour.models.log_decoding_ERIMMRGB`},
         Minimum exposure limit.
     I_max : numeric, optional
-        {:func:`log_decoding_ERIMMRGB`},
+        {:func:`colour.models.log_decoding_ERIMMRGB`},
         Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
         12-bit and 16-bit per channel.
     bit_depth : int, optional
-        {:func:`log_decoding_ACESproxy`, :func:`log_decoding_SLog`,
-        :func:`log_decoding_SLog2`},
+        {:func:`colour.models.log_decoding_ACESproxy`,
+        :func:`colour.models.log_decoding_SLog`,
+        :func:`colour.models.log_decoding_SLog2`},
         **{8, 10, 12}**,
         Bit depth used for conversion, *ACESproxy* uses **{10, 12}**.
     black_offset : numeric or array_like
-        {:func:`log_decoding_Cineon`, :func:`log_decoding_Panalog`,
-        :func:`log_decoding_REDLog`, :func:`log_decoding_REDLogFilm`},
+        {:func:`colour.models.log_decoding_Cineon`,
+        :func:`colour.models.log_decoding_Panalog`,
+        :func:`colour.models.log_decoding_REDLog`,
+        :func:`colour.models.log_decoding_REDLogFilm`},
         Black offset.
     density_per_code_value : numeric or array_like
-        {:func:`log_decoding_PivotedLog`},
+        {:func:`colour.models.log_decoding_PivotedLog`},
         Density per code value.
     firmware : unicode, optional
-        {:func:`log_decoding_ALEXALogC`},
+        {:func:`colour.models.log_decoding_ALEXALogC`},
         **{'SUP 3.x', 'SUP 2.x'}**,
         Alexa firmware version.
     in_legal : bool, optional
-        {:func:`log_decoding_SLog`, :func:`log_decoding_SLog2`,
-        :func:`log_decoding_SLog3`},
+        {:func:`colour.models.log_decoding_SLog`,
+        :func:`colour.models.log_decoding_SLog2`,
+        :func:`colour.models.log_decoding_SLog3`},
         Whether the non-linear *Sony S-Log*, *Sony S-Log2* or *Sony S-Log3*
         data :math:`y` is encoded in legal range.
     linear_reference : numeric or array_like
-        {:func:`log_decoding_PivotedLog`},
+        {:func:`colour.models.log_decoding_PivotedLog`},
         Linear reference.
     log_reference : numeric or array_like
-        {:func:`log_decoding_PivotedLog`},
+        {:func:`colour.models.log_decoding_PivotedLog`},
         Log reference.
     negative_gamma : numeric or array_like
-        {:func:`log_decoding_PivotedLog`},
+        {:func:`colour.models.log_decoding_PivotedLog`},
         Negative gamma.
     out_reflection : bool, optional
-        {:func:`log_decoding_SLog`, :func:`log_decoding_SLog2`},
+        {:func:`colour.models.log_decoding_SLog`,
+        :func:`colour.models.log_decoding_SLog2`},
         Whether the light level :math:`x` to a camera is reflection.
     method : unicode, optional
-        {:func:`log_decoding_ALEXALogC`},
+        {:func:`colour.models.log_decoding_ALEXALogC`},
         **{'Linear Scene Exposure Factor', 'Normalised Sensor Signal'}**,
         Conversion method.
 
@@ -368,8 +378,8 @@ OETFS = CaseInsensitiveMapping({
     'ST 2084': oetf_ST2084,
     'sRGB': oetf_sRGB
 })
-"""
-Supported opto-electrical transfer functions (OETF / OECF).
+OETFS.__doc__ = """
+Supported opto-electrical transfer functions (OETFs / OECFs).
 
 OETFS : CaseInsensitiveMapping
     **{'sRGB', 'ARIB STD-B67', 'DCI-P3', 'DICOM GSDF', 'ITU-R BT.2020',
@@ -398,22 +408,23 @@ def oetf(value, function='sRGB', **kwargs):
     Other Parameters
     ----------------
     E_clip : numeric, optional
-        {:func:`oetf_RIMMRGB`},
+        {:func:`colour.models.oetf_RIMMRGB`},
         Maximum exposure level.
     I_max : numeric, optional
-        {:func:`oetf_ROMMRGB`, :func:`oetf_RIMMRGB`},
+        {:func:`colour.models.oetf_ROMMRGB`,
+        :func:`colour.models.oetf_RIMMRGB`},
         Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
         12-bit and 16-bit per channel.
     L_p : numeric, optional
-        {:func:`oetf_ST2084`},
+        {:func:`colour.models.oetf_ST2084`},
         Display peak luminance :math:`cd/m^2`.
     is_12_bits_system : bool
-        {:func:`oetf_BT2020`},
+        {:func:`colour.models.oetf_BT2020`},
         *ITU-R BT.2020* *alpha* and *beta* constants are used
         if system is not
         12-bit.
     r : numeric, optional
-        {:func:`oetf_ARIBSTDB67`},
+        {:func:`colour.models.oetf_ARIBSTDB67`},
         Video level corresponding to reference white level.
 
     Returns
@@ -445,8 +456,8 @@ OETFS_REVERSE = CaseInsensitiveMapping({
     'ITU-R BT.709': oetf_reverse_BT709,
     'sRGB': oetf_reverse_sRGB
 })
-"""
-Supported reverse opto-electrical transfer functions (OETF / OECF).
+OETFS_REVERSE.__doc__ = """
+Supported reverse opto-electrical transfer functions (OETFs / OECFs).
 
 OETFS_REVERSE : CaseInsensitiveMapping
     **{'sRGB', 'ARIB STD-B67', 'ITU-R BT.2100 HLD', 'ITU-R BT.2100 PQ',
@@ -472,7 +483,7 @@ def oetf_reverse(value, function='sRGB', **kwargs):
     Other Parameters
     ----------------
     r : numeric, optional
-        {:func:`oetf_ARIBSTDB67`},
+        {:func:`colour.models.oetf_ARIBSTDB67`},
         Video level corresponding to reference white level.
 
     Returns
@@ -507,8 +518,8 @@ EOTFS = CaseInsensitiveMapping({
     'SMPTE 240M': eotf_SMPTE240M,
     'ST 2084': eotf_ST2084,
 })
-"""
-Supported electro-optical transfer functions (EOTF / EOCF).
+EOTFS.__doc__ = """
+Supported electro-optical transfer functions (EOTFs / EOCFs).
 
 EOTFS : CaseInsensitiveMapping
     **{'DCI-P3', 'DICOM GSDF', 'ITU-R BT.1886', 'ITU-R BT.2020',
@@ -535,27 +546,30 @@ def eotf(value, function='ITU-R BT.1886', **kwargs):
     Other Parameters
     ----------------
     E_clip : numeric, optional
-        {:func:`eotf_RIMMRGB`},
+        {:func:`colour.models.eotf_RIMMRGB`},
         Maximum exposure level.
     I_max : numeric, optional
-        {:func:`eotf_ROMMRGB`, :func:`eotf_RIMMRGB`},
+        {:func:`colour.models.eotf_ROMMRGB`,
+        :func:`colour.models.eotf_RIMMRGB`},
         Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
         12-bit and 16-bit per channel.
     L_B : numeric, optional
-        {:func:`eotf_BT1886`, :func:`eotf_BT2100_HLG`},
+        {:func:`colour.models.eotf_BT1886`,
+        :func:`colour.models.eotf_BT2100_HLG`},
         Screen luminance for black.
     L_W : numeric, optional
-        {:func:`eotf_BT1886`, :func:`eotf_BT2100_HLG`},
+        {:func:`colour.models.eotf_BT1886`,
+        :func:`colour.models.eotf_BT2100_HLG`},
         Screen luminance for white.
     L_p : numeric, optional
-        {:func:`eotf_ST2084`},
+        {:func:`colour.models.eotf_ST2084`},
         Display peak luminance :math:`cd/m^2`.
     gamma : numeric, optional
-        {:func:`eotf_BT2100_HLG`},
+        {:func:`colour.models.eotf_BT2100_HLG`},
         System gamma value, 1.2 at the nominal display peak luminance of
         :math:`1000 cd/m^2`.
     is_12_bits_system : bool
-        {:func:`eotf_BT2020`},
+        {:func:`colour.models.eotf_BT2020`},
         *ITU-R BT.2020* *alpha* and *beta* constants are used if system is not
         12-bit.
 
@@ -586,8 +600,8 @@ EOTFS_REVERSE = CaseInsensitiveMapping({
     'ITU-R BT.2100 HLG': eotf_reverse_BT2100_HLG,
     'ITU-R BT.2100 PQ': eotf_reverse_BT2100_PQ,
 })
-"""
-Supported reverse electro-optical transfer functions (EOTF / EOCF).
+EOTFS_REVERSE.__doc__ = """
+Supported reverse electro-optical transfer functions (EOTFs / EOCFs).
 
 EOTFS_REVERSE : CaseInsensitiveMapping
     **{'ITU-R BT.1886', 'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ'}**
@@ -611,13 +625,15 @@ def eotf_reverse(value, function='ITU-R BT.1886', **kwargs):
     Other Parameters
     ----------------
     L_B : numeric, optional
-        {:func:`eotf_reverse_BT1886`, :func:`eotf_reverse_BT2100_HLG`},
+        {:func:`colour.models.eotf_reverse_BT1886`,
+        :func:`colour.models.eotf_reverse_BT2100_HLG`},
         Screen luminance for black.
     L_W : numeric, optional
-        {:func:`eotf_reverse_BT1886`, :func:`eotf_reverse_BT2100_HLG`},
+        {:func:`colour.models.eotf_reverse_BT1886`,
+        :func:`colour.models.eotf_reverse_BT2100_HLG`},
         Screen luminance for white.
     gamma : numeric, optional
-        {:func:`eotf_BT2100_HLG`},
+        {:func:`colour.models.eotf_BT2100_HLG`},
         System gamma value, 1.2 at the nominal display peak luminance of
         :math:`1000 cd/m^2`.
 
@@ -647,8 +663,8 @@ OOTFS = CaseInsensitiveMapping({
     'ITU-R BT.2100 HLG': ootf_BT2100_HLG,
     'ITU-R BT.2100 PQ': ootf_BT2100_PQ,
 })
-"""
-Supported opto-optical transfer functions (OOTF / OOCF).
+OOTFS.__doc__ = """
+Supported opto-optical transfer functions (OOTFs / OOCFs).
 
 OOTFS : CaseInsensitiveMapping
     **{'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ'}**
@@ -690,8 +706,8 @@ OOTFS_REVERSE = CaseInsensitiveMapping({
     'ITU-R BT.2100 HLG': ootf_reverse_BT2100_HLG,
     'ITU-R BT.2100 PQ': ootf_reverse_BT2100_PQ,
 })
-"""
-Supported reverse opto-optical transfer functions (OOTF / OOCF).
+OOTFS_REVERSE.__doc__ = """
+Supported reverse opto-optical transfer functions (OOTFs / OOCFs).
 
 OOTFS_REVERSE : CaseInsensitiveMapping
     **{'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ'}**
@@ -714,14 +730,14 @@ def ootf_reverse(value, function='ITU-R BT.2100 PQ', **kwargs):
     Other Parameters
     ----------------
     L_B : numeric, optional
-        {:func:`ootf_reverse_BT2100_HLG`},
+        {:func:`colour.models.ootf_reverse_BT2100_HLG`},
         :math:`L_B` is the display luminance for black in :math:`cd/m^2`.
     L_W : numeric, optional
-        {:func:`ootf_reverse_BT2100_HLG`},
+        {:func:`colour.models.ootf_reverse_BT2100_HLG`},
         :math:`L_W` is nominal peak luminance of the display in :math:`cd/m^2`
         for achromatic pixels.
     gamma : numeric, optional
-        {:func:`ootf_reverse_BT2100_HLG`},
+        {:func:`colour.models.ootf_reverse_BT2100_HLG`},
         System gamma value, 1.2 at the nominal display peak luminance of
         :math:`1000 cd/m^2`.
 

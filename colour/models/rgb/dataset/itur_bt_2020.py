@@ -6,7 +6,7 @@ ITU-R BT.2020 Colourspace
 
 Defines the *ITU-R BT.2020* colourspace:
 
--   :attr:`BT2020_COLOURSPACE`.
+-   :attr:`colour.models.BT2020_COLOURSPACE`.
 
 See Also
 --------
@@ -16,11 +16,11 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  International Telecommunication Union. (2015). Recommendation
-        ITU-R BT.2020 - Parameter values for ultra-high definition television
-        systems for production and international programme exchange (Vol. 1).
-        Retrieved from https://www.itu.int/dms_pubrec/\
-itu-r/rec/bt/R-REC-BT.2020-2-201510-I!!PDF-E.pdf
+-   :cite:`InternationalTelecommunicationUnion2015h` : International
+    Telecommunication Union. (2015). Recommendation ITU-R BT.2020 - Parameter
+    values for ultra-high definition television systems for production and
+    international programme exchange. Retrieved from https://www.itu.int/\
+dms_pubrec/itu-r/rec/bt/R-REC-BT.2020-2-201510-I!!PDF-E.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -93,8 +93,12 @@ BT2020_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_BT2020_MATRIX,
     oetf_BT2020,
     eotf_BT2020)  # yapf: disable
-"""
+BT2020_COLOURSPACE.__doc__ = """
 *ITU-R BT.2020* colourspace.
+
+References
+----------
+-   :cite:`InternationalTelecommunicationUnion2015h`
 
 BT2020_COLOURSPACE : RGB_Colourspace
 """

@@ -5,6 +5,17 @@ Array Utilities
 ===============
 
 Defines array utilities objects.
+
+References
+----------
+-   :cite:`Castro2014a` : Castro, S. (2014). Numpy: Fastest way of computing
+    diagonal for each row of a 2d array. Retrieved August 22, 2014, from
+    http://stackoverflow.com/questions/26511401/\
+numpy-fastest-way-of-computing-diagonal-for-each-row-of-a-2d-array/\
+26517247#26517247
+-   :cite:`Yorke2014a` : Yorke, R. (2014). Python: Change format of np.array or
+    allow tolerance in in1d function. Retrieved March 27, 2015, from
+    http://stackoverflow.com/a/23521245/931625
 """
 
 from __future__ import division, unicode_literals
@@ -309,9 +320,7 @@ def in_array(a, b, tolerance=EPSILON):
 
     References
     ----------
-    .. [1]  Yorke, R. (2014). Python: Change format of np.array or allow
-            tolerance in in1d function. Retrieved March 27, 2015, from
-            http://stackoverflow.com/a/23521245/931625
+    -   :cite:`Yorke2014a`
 
     Examples
     --------
@@ -335,7 +344,7 @@ def tstack(a):
     """
     Stacks arrays in sequence along the last axis (tail).
 
-    Rebuilds arrays divided by :func:`tsplit`.
+    Rebuilds arrays divided by :func:`colour.utilities.tsplit`.
 
     Parameters
     ----------
@@ -448,11 +457,7 @@ def row_as_diagonal(a):
 
     References
     ----------
-    .. [1]  Castro, S. (2014). Numpy: Fastest way of computing diagonal for
-            each row of a 2d array. Retrieved August 22, 2014, from
-            http://stackoverflow.com/questions/26511401/\
-numpy-fastest-way-of-computing-diagonal-for-each-row-of-a-2d-array/\
-26517247#26517247
+    -   :cite:`Castro2014a`
 
     Examples
     --------
@@ -591,7 +596,7 @@ def dot_matrix(a, b):
 
 def orient(a, orientation):
     """
-    Orient given array according to given `orientation` value.
+    Orient given array according to given ``orientation`` value.
 
     Parameters
     ----------
@@ -727,7 +732,7 @@ def fill_nan(a, method='Interpolation', default=0):
     method : unicode
         **{'Interpolation', 'Constant'}**,
         *Interpolation* method linearly interpolates through the NaNs,
-        *Constant* method replaces NaNs with `default`.
+        *Constant* method replaces NaNs with ``default``.
     default : numeric
         Value to use with the *Constant* method.
 

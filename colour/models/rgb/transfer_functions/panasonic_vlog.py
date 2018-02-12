@@ -6,8 +6,8 @@ Panasonic V-Log Log Encoding
 
 Defines the *Panasonic V-Log* log encoding:
 
--   :func:`log_encoding_VLog`
--   :func:`log_decoding_VLog`
+-   :func:`colour.models.log_encoding_VLog`
+-   :func:`colour.models.log_decoding_VLog`
 
 See Also
 --------
@@ -17,8 +17,8 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  Panasonic. (2014). VARICAM V-Log/V-Gamut. Retrieved from
-        http://pro-av.panasonic.net/en/varicam/common/pdf/\
+-   :cite:`Panasonic2014a` : Panasonic. (2014). VARICAM V-Log/V-Gamut.
+    Retrieved from http://pro-av.panasonic.net/en/varicam/common/pdf/\
 VARICAM_V-Log_V-Gamut.pdf
 """
 
@@ -69,6 +69,10 @@ def log_encoding_VLog(L_in, bit_depth=10, out_legal=True, in_reflection=True):
     numeric or ndarray
         Non-linear data :math:`V_{out}`.
 
+    References
+    ----------
+    -   :cite:`Panasonic2014a`
+
     Examples
     --------
     >>> log_encoding_VLog(0.18)  # doctest: +ELLIPSIS
@@ -114,6 +118,10 @@ def log_decoding_VLog(V_out, bit_depth=10, in_legal=True, out_reflection=True):
     -------
     numeric or ndarray
         Linear reflection data :math`L_{in}`.
+
+    References
+    ----------
+    -   :cite:`Panasonic2014a`
 
     Examples
     --------

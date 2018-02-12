@@ -17,7 +17,7 @@ MUNSELL_COLOURS = CaseInsensitiveMapping({
     'Munsell Colours 1929': MUNSELL_COLOURS_1929,
     'Munsell Colours Real': MUNSELL_COLOURS_REAL
 })
-"""
+MUNSELL_COLOURS.__doc__ = """
 Aggregated *Munsell* colours.
 
 MUNSELL_COLOURS : CaseInsensitiveMapping

@@ -6,8 +6,8 @@ Panalog Encoding
 
 Defines the *Panalog* encoding:
 
--   :func:`log_encoding_Panalog`
--   :func:`log_decoding_Panalog`
+-   :func:`colour.models.log_encoding_Panalog`
+-   :func:`colour.models.log_decoding_Panalog`
 
 See Also
 --------
@@ -17,8 +17,8 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  Sony Imageworks. (2012). make.py. Retrieved November 27, 2014, from
-        https://github.com/imageworks/OpenColorIO-Configs/\
+-   :cite:`SonyImageworks2012a` : Sony Imageworks. (2012). make.py. Retrieved
+    November 27, 2014, from https://github.com/imageworks/OpenColorIO-Configs/\
 blob/master/nuke-default/make.py
 """
 
@@ -58,6 +58,10 @@ def log_encoding_Panalog(x, black_offset=10 ** ((64 - 681) / 444)):
     These are estimations known to be close enough, the actual log encoding
     curves are not published.
 
+    References
+    ----------
+    -   :cite:`SonyImageworks2012a`
+
     Examples
     --------
     >>> log_encoding_Panalog(0.18)  # doctest: +ELLIPSIS
@@ -91,6 +95,10 @@ def log_decoding_Panalog(y, black_offset=10 ** ((64 - 681) / 444)):
     --------
     These are estimations known to be close enough, the actual log encoding
     curves are not published.
+
+    References
+    ----------
+    -   :cite:`SonyImageworks2012a`
 
     Examples
     --------

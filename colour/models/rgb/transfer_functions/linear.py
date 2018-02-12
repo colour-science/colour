@@ -7,7 +7,7 @@ Linear Colour Component Transfer Function
 Defines linear encoding / decoding colour component transfer function related
 objects:
 
-- :func:`function_linear`
+- :func:`colour.function_linear`
 
 See Also
 --------

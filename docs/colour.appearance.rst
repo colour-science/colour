@@ -1,22 +1,137 @@
-colour\.appearance Package
-==========================
+Colour Appearance Models
+========================
 
-Sub-Modules
------------
+.. contents:: :local:
 
-.. toctree::
+ATD (1995)
+----------
 
-   colour.appearance.atd95
-   colour.appearance.ciecam02
-   colour.appearance.hunt
-   colour.appearance.llab
-   colour.appearance.nayatani95
-   colour.appearance.rlab
+``colour``
 
-Module Contents
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    XYZ_to_ATD95
+    ATD95_Specification
+
+CIECAM02
+--------
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    XYZ_to_CIECAM02
+    CIECAM02_to_XYZ
+    CIECAM02_Specification
+    CIECAM02_VIEWING_CONDITIONS
+
+**Ancillary Objects**
+
+``colour.appearance``
+
+.. currentmodule:: colour.appearance
+
+.. autosummary::
+    :toctree: generated/
+
+    CIECAM02_InductionFactors
+
+CAM16
+-----
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    XYZ_to_CAM16
+    CAM16_to_XYZ
+    CAM16_Specification
+    CAM16_VIEWING_CONDITIONS
+
+
+**Ancillary Objects**
+
+``colour.appearance``
+
+.. currentmodule:: colour.appearance
+
+.. autosummary::
+    :toctree: generated/
+
+    CAM16_InductionFactors
+
+Hunt
+----
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    XYZ_to_Hunt
+    Hunt_Specification
+    HUNT_VIEWING_CONDITIONS
+
+LLAB(l:c)
+---------
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    XYZ_to_LLAB
+    LLAB_Specification
+    LLAB_VIEWING_CONDITIONS
+
+**Ancillary Objects**
+
+``colour.appearance``
+
+.. currentmodule:: colour.appearance
+
+.. autosummary::
+    :toctree: generated/
+
+    LLAB_InductionFactors
+
+Nayatani (1995)
 ---------------
 
-.. automodule:: colour.appearance
-    :members:
-    :undoc-members:
-    :show-inheritance:
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    XYZ_to_Nayatani95
+    Nayatani95_Specification
+
+RLAB
+----
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    XYZ_to_RLAB
+    RLAB_D_FACTOR
+    RLAB_Specification
+    RLAB_VIEWING_CONDITIONS

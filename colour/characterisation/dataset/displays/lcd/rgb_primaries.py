@@ -4,11 +4,10 @@
 LCD Displays RGB Primaries
 ==========================
 
-Defines *LCD* displays *RGB* primaries tri-spectral power distributions.
+Defines *LCD* displays *RGB* primaries multi-spectral power distributions.
 
 Each *LCD* display data is in the form of a *dict* of
-:class:`colour.characterisation.displays.RGB_DisplayPrimaries` classes as
-follows::
+:class:`colour.characterisation.RGB_DisplayPrimaries` classes as follows::
 
     {'name': RGB_DisplayPrimaries,
     ...,
@@ -26,12 +25,13 @@ blob/master/notebooks/characterisation/displays.ipynb>`_
 
 References
 ----------
-.. [1]  Machado, G. (2010). A model for simulation of color vision deficiency
-        and a color contrast enhancement technique for dichromats. Retrieved
-        from http://www.lume.ufrgs.br/handle/10183/26950
-.. [2]  Fairchild, M., & Wyble, D. (1998). Colorimetric Characterization of
-        The Apple Studio Display (flat panel LCD), 22. Retrieved from
-        https://ritdml.rit.edu/handle/1850/4368
+-   :cite:`Fairchild1998b` : Fairchild, M., & Wyble, D. (1998). Colorimetric
+    Characterization of The Apple Studio Display (flat panel LCD). Retrieved
+    from http://scholarworks.rit.edu/cgi/viewcontent.cgi?article=1922&\
+context=article
+-   :cite:`Machado2010a` : Machado, G. M. (2010). A model for simulation of
+    color vision deficiency and a color contrast enhancement technique for
+    dichromats. Retrieved from http://www.lume.ufrgs.br/handle/10183/26950
 """
 
 from __future__ import division, unicode_literals
@@ -141,7 +141,12 @@ LCD_DISPLAYS_RGB_PRIMARIES = CaseInsensitiveMapping({
             name='Apple Studio Display')
 })
 """
-*LCD* displays *RGB* primaries tri-spectral power distributions.
+*LCD* displays *RGB* primaries multi-spectral power distributions.
+
+References
+----------
+-   :cite:`Fairchild1998b`
+-   :cite:`Machado2010a`
 
 LCD_DISPLAYS_RGB_PRIMARIES : CaseInsensitiveMapping
     **{'Apple Studio Display'}**

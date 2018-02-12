@@ -7,17 +7,35 @@ Colour Matching Functions Transformations
 Defines various educational objects for colour matching functions
 transformations:
 
--   :func:`RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs`
--   :func:`RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs`
--   :func:`RGB_10_degree_cmfs_to_LMS_10_degree_cmfs`
--   :func:`LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs`
--   :func:`LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs`
+-   :func:`colour.colorimetry.RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs`
+-   :func:`colour.colorimetry.RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs`
+-   :func:`colour.colorimetry.RGB_10_degree_cmfs_to_LMS_10_degree_cmfs`
+-   :func:`colour.colorimetry.LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs`
+-   :func:`colour.colorimetry.LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs`
 
 See Also
 --------
 `Colour Matching Functions Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/colorimetry/cmfs.ipynb>`_
+
+References
+----------
+-   :cite:`CIETC1-362006a` : CIE TC 1-36. (2006). CIE 170-1:2006 Fundamental
+    Chromaticity Diagram with Physiological Axes - Part 1.
+    ISBN:978-3-901-90646-6
+-   :cite:`CVRLp` : CVRL. (n.d.). CIE (2012) 10-deg XYZ
+    "physiologically-relevant" colour matching functions. Retrieved June 25,
+    2014, from http://www.cvrl.org/database/text/cienewxyz/cie2012xyz10.htm
+-   :cite:`CVRLv` : CVRL. (n.d.). CIE (2012) 2-deg XYZ
+    "physiologically-relevant" colour matching functions. Retrieved June 25,
+    2014, from http://www.cvrl.org/database/text/cienewxyz/cie2012xyz2.htm
+-   :cite:`Wyszecki2000be` : Wyszecki, G., & Stiles, W. S. (2000). The CIE 1964
+    Standard Observer. In Color Science: Concepts and Methods, Quantitative
+    Data and Formulae (p. 141). Wiley. ISBN:978-0471399186
+-   :cite:`Wyszecki2000bg` : Wyszecki, G., & Stiles, W. S. (2000).
+    Table 1(3.3.3). In Color Science: Concepts and Methods, Quantitative Data
+    and Formulae (pp. 138-139). Wiley. ISBN:978-0471399186
 """
 
 from __future__ import division, unicode_literals
@@ -65,9 +83,7 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
 
     References
     ----------
-    .. [1]  Wyszecki, G., & Stiles, W. S. (2000). Table 1(3.3.3). In Color
-            Science: Concepts and Methods, Quantitative Data and Formulae
-            (pp. 138–139). Wiley. ISBN:978-0471399186
+    -   :cite:`Wyszecki2000bg`
 
     Examples
     --------
@@ -136,9 +152,7 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
 
     References
     ----------
-    .. [2]  Wyszecki, G., & Stiles, W. S. (2000). The CIE 1964 Standard
-            Observer. In Color Science: Concepts and Methods, Quantitative
-            Data and Formulae (p. 141). Wiley. ISBN:978-0471399186
+    -   :cite:`Wyszecki2000be`
 
     Examples
     --------
@@ -187,8 +201,7 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wavelength):
 
     References
     ----------
-    .. [3]  CIE TC 1-36. (2006). CIE 170-1:2006 Fundamental Chromaticity
-            Diagram with Physiological Axes - Part 1. ISBN:978-3-901-90646-6
+    -   :cite:`CIETC1-362006a`
 
     Examples
     --------
@@ -237,9 +250,7 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
 
     References
     ----------
-    .. [4]  CVRL. (n.d.). CIE (2012) 2-deg XYZ “physiologically-relevant”
-            colour matching functions. Retrieved June 25, 2014, from
-            http://www.cvrl.org/database/text/cienewxyz/cie2012xyz2.htm
+    -   :cite:`CVRLv`
 
     Examples
     --------
@@ -287,9 +298,7 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
 
     References
     ----------
-    .. [5]  CVRL. (n.d.). CIE (2012) 10-deg XYZ “physiologically-relevant”
-            colour matching functions. Retrieved June 25, 2014, from
-            http://www.cvrl.org/database/text/cienewxyz/cie2012xyz10.htm
+    -   :cite:`CVRLp`
 
     Examples
     --------

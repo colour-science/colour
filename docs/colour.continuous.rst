@@ -1,19 +1,18 @@
-colour\.continuous Package
-==========================
+Continuous Signal
+=================
 
-Sub-Modules
------------
+.. contents:: :local:
 
-.. toctree::
+Continuous Signal
+-----------------
 
-   colour.continuous.abstract
-   colour.continuous.multi_signal
-   colour.continuous.signal
+``colour.continuous``
 
-Module Contents
----------------
+.. currentmodule:: colour.continuous
 
-.. automodule:: colour.continuous
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. autosummary::
+    :toctree: generated/
+
+    AbstractContinuousFunction
+    Signal
+    MultiSignal

@@ -6,7 +6,7 @@ NTSC Colourspace
 
 Defines the *NTSC* colourspace:
 
--   :attr:`NTSC_COLOURSPACE`.
+-   :attr:`colour.models.NTSC_COLOURSPACE`.
 
 See Also
 --------
@@ -16,10 +16,10 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  International Telecommunication Union. (1998). Recommendation ITU-R
-        BT.470-6 - CONVENTIONAL TELEVISION SYSTEMS. Retrieved from
-        http://www.itu.int/dms_pubrec/itu-r/rec/bt/\
-R-REC-BT.470-6-199811-S!!PDF-E.pdf
+-   :cite:`InternationalTelecommunicationUnion1998a` : International
+    Telecommunication Union. (1998). Recommendation ITU-R BT.470-6 -
+    CONVENTIONAL TELEVISION SYSTEMS. Retrieved from http://www.itu.int/\
+dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -85,8 +85,12 @@ NTSC_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_NTSC_MATRIX,
     BT470_525_COLOURSPACE.encoding_cctf,
     BT470_525_COLOURSPACE.decoding_cctf)  # yapf: disable
-"""
+NTSC_COLOURSPACE.__doc__ = """
 *NTSC* colourspace.
+
+References
+----------
+-   :cite:`InternationalTelecommunicationUnion1998a`
 
 NTSC_COLOURSPACE : RGB_Colourspace
 """

@@ -4,14 +4,14 @@
 IES TM-27-14 Data Input / Output
 ================================
 
-Defines the :class:`IES_TM2714_Spd` class handling *IES TM-27-14* spectral data
-XML files.
+Defines the :class:`colour.IES_TM2714_Spd` class handling *IES TM-27-14*
+spectral data XML files.
 
 References
 ----------
-.. [1]  IES Computer Committee, & TM-27-14 Working Group. (2014). IES Standard
-        Format for the Electronic Transfer of Spectral Data Electronic Transfer
-        of Spectral Data. ISBN:978-0879952952
+-   :cite:`IESComputerCommittee2014a` : IES Computer Committee, & TM-27-14
+    Working Group. (2014). IES Standard Format for the Electronic Transfer of
+    Spectral Data Electronic Transfer of Spectral Data. ISBN:978-0879952952
 """
 
 from __future__ import division, unicode_literals
@@ -76,7 +76,8 @@ class IES_TM2714_ElementSpecification(
                 write_conversion=(
                         lambda x: format(x) if x is not None else 'N/A')):
         """
-        Returns a new instance of the :class:`IES_TM2714_Element` class.
+        Returns a new instance of the
+        :class:`colour.io.ies_tm2714.IES_TM2714_Element` class.
         """
 
         return super(IES_TM2714_ElementSpecification, cls).__new__(
@@ -93,7 +94,7 @@ class IES_TM2714_Header(object):
     manufacturer : unicode, optional
         Manufacturer of the device under test.
     catalog_number : unicode, optional
-        Manufacturer’s product catalog number.
+        Manufacturer's product catalog number.
     description : unicode, optional
         Description of the spectral data in the spectral data XML file.
     document_creator : unicode, optional
@@ -626,6 +627,10 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
     -------
     read
     write
+
+    References
+    ----------
+    -   :cite:`IESComputerCommittee2014a`
 
     Examples
     --------

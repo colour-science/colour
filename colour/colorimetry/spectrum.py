@@ -6,9 +6,9 @@ Spectrum
 
 Defines the classes handling spectral data computations:
 
--   :class:`SpectralShape`
--   :class:`SpectralPowerDistribution`
--   :class:`MultiSpectralPowerDistribution`
+-   :class:`colour.SpectralShape`
+-   :class:`colour.SpectralPowerDistribution`
+-   :class:`colour.MultiSpectralPowerDistribution`
 
 See Also
 --------
@@ -18,14 +18,14 @@ blob/master/notebooks/colorimetry/spectrum.ipynb>`_
 
 References
 ----------
-.. [1]  CIE TC 1-48. (2004). Extrapolation. In CIE 015:2004 Colorimetry,
-        3rd Edition (p. 24). ISBN:978-3-901-90633-6
-.. [2]  CIE TC 1-38. (2005). EXTRAPOLATION. In CIE 167:2005 Recommended
-        Practice for Tabulating Spectral Data for Use in Colour Computations
-        (pp. 19–20). ISBN:978-3-901-90641-1
-.. [3]  CIE TC 1-38. (2005). 9. INTERPOLATION. In CIE 167:2005 Recommended
-        Practice for Tabulating Spectral Data for Use in Colour Computations
-        (pp. 14–19). ISBN:978-3-901-90641-1
+-   :cite:`CIETC1-382005e` : CIE TC 1-38. (2005). 9. INTERPOLATION. In
+    CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in
+    Colour Computations (pp. 14-19). ISBN:978-3-901-90641-1
+-   :cite:`CIETC1-382005g` : CIE TC 1-38. (2005). EXTRAPOLATION. In
+    CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in
+    Colour Computations (pp. 19-20). ISBN:978-3-901-90641-1
+-   :cite:`CIETC1-482004l` : CIE TC 1-48. (2004). Extrapolation. In
+    CIE 015:2004 Colorimetry, 3rd Edition (p. 24). ISBN:978-3-901-90633-6
 """
 
 from __future__ import division, unicode_literals
@@ -478,7 +478,7 @@ class SpectralPowerDistribution(Signal):
     *Sprague (1880)* will be used for interpolating functions having a
     uniformly spaced independent variable and the *Cubic Spline* method for
     non-uniformly spaced independent variable. Extrapolation is performed
-    according to *CIE 167:2005* recommendation. [1]_ [2]_ [3]_
+    according to *CIE 167:2005* recommendation.
 
     Parameters
     ----------
@@ -486,10 +486,11 @@ class SpectralPowerDistribution(Signal):
 dict_like, optional
         Data to be stored in the spectral power distribution.
     domain : array_like, optional
-        Values to initialise the :attr:`SpectralPowerDistribution.wavelength`
-        attribute with. If both `data` and `domain` arguments are defined, the
-        latter with be used to initialise the
-        :attr:`SpectralPowerDistribution.wavelength` attribute.
+        Values to initialise the
+        :attr:`colour.SpectralPowerDistribution.wavelength` attribute with.
+        If both ``data`` and ``domain`` arguments are defined, the latter will
+        be used to initialise the
+        :attr:`colour.SpectralPowerDistribution.wavelength` attribute.
 
     Other Parameters
     ----------------
@@ -505,7 +506,7 @@ dict_like, optional
         Arguments to use when instantiating the extrapolating function.
     strict_name : unicode, optional
         Spectral power distribution name for figures, default to
-        :attr:`SpectralPowerDistribution.name` attribute value.
+        :attr:`colour.SpectralPowerDistribution.name` attribute value.
 
     Attributes
     ----------
@@ -522,6 +523,12 @@ dict_like, optional
     align
     trim
     normalise
+
+    References
+    ----------
+    -   :cite:`CIETC1-382005e`
+    -   :cite:`CIETC1-382005g`
+    -   :cite:`CIETC1-482004l`
 
     Examples
     --------
@@ -697,12 +704,12 @@ dict_like, optional
         -----
         -   A spectral power distribution with a non-uniformly spaced
             independent variable have multiple intervals, in that case
-            :attr:`SpectralPowerDistribution.shape` attribute returns the
-            *minimum* interval size.
+            :attr:`colour.SpectralPowerDistribution.shape` attribute returns
+            the *minimum* interval size.
 
         Warning
         -------
-        :attr:`SpectralPowerDistribution.shape` attribute is read only.
+        :attr:`colour.SpectralPowerDistribution.shape` attribute is read only.
 
         Examples
         --------
@@ -740,7 +747,7 @@ dict_like, optional
     def extrapolate(self, shape, extrapolator=None, extrapolator_args=None):
         """
         Extrapolates the spectral power distribution in-place according to
-        *CIE 15:2004* and *CIE 167:2005* recommendations [1]_ [2]_ or given
+        *CIE 15:2004* and *CIE 167:2005* recommendations or given
         extrapolation arguments.
 
         Parameters
@@ -756,6 +763,11 @@ dict_like, optional
         -------
         SpectralPowerDistribution
             Extrapolated spectral power distribution.
+
+        References
+        ----------
+        -   :cite:`CIETC1-382005g`
+        -   :cite:`CIETC1-482004l`
 
         Examples
         --------
@@ -824,7 +836,7 @@ dict_like, optional
     def interpolate(self, shape, interpolator=None, interpolator_args=None):
         """
         Interpolates the spectral power distribution in-place according to
-        *CIE 167:2005* recommendation [3]_ or given interpolation arguments.
+        *CIE 167:2005* recommendation or given interpolation arguments.
 
         Parameters
         ----------
@@ -844,8 +856,8 @@ dict_like, optional
         -----
         -   Interpolation will be performed over boundaries range, if you need
             to extend the range of the spectral power distribution use the
-            :meth:`SpectralPowerDistribution.extrapolate` or
-            :meth:`SpectralPowerDistribution.align` methods.
+            :meth:`colour.SpectralPowerDistribution.extrapolate` or
+            :meth:`colour.SpectralPowerDistribution.align` methods.
 
         Warning
         -------
@@ -853,6 +865,10 @@ dict_like, optional
             :math:`\lambda_n` for interpolation.
         -   *Sprague (1880)* interpolator requires at least 6 wavelengths
             :math:`\lambda_n` for interpolation.
+
+        References
+        ----------
+        -   :cite:`CIETC1-382005e`
 
         Examples
         --------
@@ -1444,7 +1460,7 @@ dict_like, optional
 class MultiSpectralPowerDistribution(MultiSignal):
     """
     Defines multi-spectral power distribution: the base object for multi
-    spectrals computations. It is used to model colour matching functions,
+    spectral computations. It is used to model colour matching functions,
     display primaries, camera sensitivities, etc...
 
     The multi-spectral power distribution will be initialised according to
@@ -1452,7 +1468,7 @@ class MultiSpectralPowerDistribution(MultiSignal):
     *Sprague (1880)* will be used for interpolating functions having a
     uniformly spaced independent variable and the *Cubic Spline* method for
     non-uniformly spaced independent variable. Extrapolation is performed
-    according to *CIE 167:2005* recommendation. [1]_ [2]_ [3]_
+    according to *CIE 167:2005* recommendation.
 
     Parameters
     ----------
@@ -1460,12 +1476,14 @@ class MultiSpectralPowerDistribution(MultiSignal):
 MultiSpectralPowerDistribution or array_like or dict_like, optional
         Data to be stored in the multi-spectral power distribution.
     domain : array_like, optional
-        Values to initialise the multiple :class:`SpectralPowerDistribution`
-        class instances :attr:`Signal.wavelengths` attribute with. If both
-        `data` and `domain` arguments are defined, the latter with be used to
-        initialise the :attr:`Signal.wavelengths` attribute.
+        Values to initialise the multiple
+        :class:`colour.SpectralPowerDistribution` class instances
+        :attr:`colour.continuous.Signal.wavelengths` attribute with. If both
+        ``data`` and ``domain`` arguments are defined, the latter will be used
+        to initialise the :attr:`colour.continuous.Signal.wavelengths`
+        attribute.
     labels : array_like, optional
-        Names to use for the :class:`SpectralPowerDistribution` class
+        Names to use for the :class:`colour.SpectralPowerDistribution` class
         instances.
 
     Other Parameters
@@ -1474,19 +1492,19 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
        Multi-spectral power distribution name.
     interpolator : object, optional
         Interpolator class type to use as interpolating function for the
-        :class:`SpectralPowerDistribution` class instances.
+        :class:`colour.SpectralPowerDistribution` class instances.
     interpolator_args : dict_like, optional
         Arguments to use when instantiating the interpolating function
-        of the :class:`SpectralPowerDistribution` class instances.
+        of the :class:`colour.SpectralPowerDistribution` class instances.
     extrapolator : object, optional
         Extrapolator class type to use as extrapolating function for the
-        :class:`SpectralPowerDistribution` class instances.
+        :class:`colour.SpectralPowerDistribution` class instances.
     extrapolator_args : dict_like, optional
         Arguments to use when instantiating the extrapolating function
-        of the :class:`SpectralPowerDistribution` class instances.
+        of the :class:`colour.SpectralPowerDistribution` class instances.
     strict_labels : array_like, optional
         Multi-spectral power distribution labels for figures, default to
-        :attr:`MultiSpectralPowerDistribution.labels` attribute value.
+        :attr:`colour.MultiSpectralPowerDistribution.labels` attribute value.
 
     Attributes
     ----------
@@ -1503,6 +1521,12 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
     align
     trim
     normalise
+
+    References
+    ----------
+    -   :cite:`CIETC1-382005e`
+    -   :cite:`CIETC1-382005g`
+    -   :cite:`CIETC1-482004l`
 
     Examples
     --------
@@ -1731,12 +1755,13 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
         -----
         -   A multi-spectral power distribution with a non-uniformly spaced
             independent variable have multiple intervals, in that case
-            :attr:`MultiSpectralPowerDistribution.shape` attribute returns the
-            *minimum* interval size.
+            :attr:`colour.MultiSpectralPowerDistribution.shape` attribute
+            returns the *minimum* interval size.
 
         Warning
         -------
-        :attr:`MultiSpectralPowerDistribution.shape` attribute is read only.
+        :attr:`colour.MultiSpectralPowerDistribution.shape` attribute is read
+        only.
 
         Examples
         --------
@@ -1770,7 +1795,7 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
     def extrapolate(self, shape, extrapolator=None, extrapolator_args=None):
         """
         Extrapolates the multi-spectral power distribution in-place accordingly
-        to *CIE 15:2004* and *CIE 167:2005* recommendations [1]_ [2]_ or given
+        to *CIE 15:2004* and *CIE 167:2005* recommendations or given
         extrapolation arguments.
 
         Parameters
@@ -1786,6 +1811,11 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
         -------
         MultiSpectralPowerDistribution
             Extrapolated multi-spectral power distribution.
+
+        References
+        ----------
+        -   :cite:`CIETC1-382005g`
+        -   :cite:`CIETC1-482004l`
 
         Examples
         --------
@@ -1845,7 +1875,7 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
     def interpolate(self, shape, interpolator=None, interpolator_args=None):
         """
         Interpolates the multi-spectral power distribution in-place accordingly
-        to *CIE 167:2005* recommendation [3]_ or given interpolation arguments.
+        to *CIE 167:2005* recommendation or given interpolation arguments.
 
         Parameters
         ----------
@@ -1863,13 +1893,17 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
 
         Notes
         -----
-        -   See :meth:`SpectralPowerDistribution.interpolate` method
+        -   See :meth:`colour.SpectralPowerDistribution.interpolate` method
             notes section.
 
         Warning
         -------
-        See :meth:`SpectralPowerDistribution.interpolate` method warning
+        See :meth:`colour.SpectralPowerDistribution.interpolate` method warning
         section.
+
+        References
+        ----------
+        -   :cite:`CIETC1-382005e`
 
         Examples
         --------
@@ -2238,7 +2272,7 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
         Notes
         -----
         -   The implementation uses the maximum value for each
-            :class:`SpectralPowerDistribution` class instances.
+            :class:`colour.SpectralPowerDistribution` class instances.
 
         Examples
         --------
@@ -2361,7 +2395,7 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
 
 DEFAULT_SPECTRAL_SHAPE = SpectralShape(360, 780, 1)
 """
-Default spectral shape according to *ASTM E308–15* practise shape.
+Default spectral shape according to *ASTM E308-15* practise shape.
 
 DEFAULT_SPECTRAL_SHAPE : SpectralShape
 """
@@ -2389,7 +2423,7 @@ def constant_spd(k, shape=DEFAULT_SPECTRAL_SHAPE, dtype=DEFAULT_FLOAT_DTYPE):
     Notes
     -----
     -   By default, the spectral power distribution will use the shape given
-        by :attr:`DEFAULT_SPECTRAL_SHAPE` attribute.
+        by :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
 
     Examples
     --------
@@ -2426,7 +2460,7 @@ def zeros_spd(shape=DEFAULT_SPECTRAL_SHAPE):
     Notes
     -----
     -   By default, the spectral power distribution will use the shape given
-        by :attr:`DEFAULT_SPECTRAL_SHAPE` attribute.
+        by :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
 
     Examples
     --------
@@ -2458,7 +2492,7 @@ def ones_spd(shape=DEFAULT_SPECTRAL_SHAPE):
     Notes
     -----
     -   By default, the spectral power distribution will use the shape given
-        by :attr:`DEFAULT_SPECTRAL_SHAPE` attribute.
+        by :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
 
     Examples
     --------

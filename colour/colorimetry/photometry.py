@@ -14,12 +14,11 @@ blob/master/notebooks/colorimetry/photometry.ipynb>`_
 
 References
 ----------
-.. [1]  Wikipedia. (n.d.). Luminosity function. Retrieved October 20, 2014,
-        from https://en.wikipedia.org/wiki/Luminosity_function#Details
-.. [2]  Wikipedia. (n.d.). Luminous Efficacy. Retrieved April 3, 2016, from
-        https://en.wikipedia.org/wiki/Luminous_efficacy
-.. [3]  Ohno, Y., & Davis, W. (2008). NIST CQS simulation 7.4. Retrieved from
-        http://cie2.nist.gov/TC1-69/NIST CQS simulation 7.4.xls
+-   :cite:`Wikipediacm` : Wikipedia. (n.d.). Luminous Efficacy. Retrieved April
+    3, 2016, from https://en.wikipedia.org/wiki/Luminous_efficacy
+-   :cite:`Wikipediacq` : Wikipedia. (n.d.). Luminosity function. Retrieved
+    October 20, 2014, from https://en.wikipedia.org/wiki/\
+Luminosity_function#Details
 """
 
 from __future__ import division, unicode_literals
@@ -60,6 +59,10 @@ def luminous_flux(spd,
     numeric
         Luminous flux.
 
+    References
+    ----------
+    -   :cite:`Wikipediacq`
+
     Examples
     --------
     >>> from colour import LIGHT_SOURCES_RELATIVE_SPDS
@@ -97,6 +100,10 @@ def luminous_efficiency(
     -------
     numeric
         Luminous efficiency.
+
+    References
+    ----------
+    -   :cite:`Wikipediacq`
 
     Examples
     --------
@@ -136,6 +143,10 @@ def luminous_efficacy(
     -------
     numeric
         Luminous efficacy in :math:`lm\cdot W^{-1}`.
+
+    References
+    ----------
+    -   :cite:`Wikipediacm`
 
     Examples
     --------

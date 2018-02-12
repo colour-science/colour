@@ -2,6 +2,12 @@
 # -*- coding: utf-8 -*-
 """
 Defines unit tests for :mod:`colour.difference.delta_e` module.
+References
+----------
+-   :cite:`Sharma2005b` : Sharma, G., Wu, W., & Dalal, E. N. (2005). The
+    CIEDE2000 color-difference formula: Implementation notes, supplementary
+    test data, and mathematical observations. Color Research & Application,
+    30(1), 21-30. doi:10.1002/col.20070
 """
 
 from __future__ import division, unicode_literals
@@ -270,10 +276,7 @@ class TestDelta_E_CIE2000(unittest.TestCase):
 
         References
         ----------
-        .. [1]  Sharma, G., Wu, W., & Dalal, E. N. (2005). The CIEDE2000
-                color‐difference formula: Implementation notes, supplementary
-                test data, and mathematical observations. Color Research &
-                Application, 30(1), 21–30. doi:10.1002/col.20070
+        -   :cite:`Sharma2005b`
         """
 
         Lab_1 = np.array([

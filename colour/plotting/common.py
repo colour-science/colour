@@ -6,19 +6,19 @@ Common Plotting
 
 Defines the common plotting objects:
 
--   :func:`colour_plotting_defaults`
--   :func:`colour_cycle`
--   :func:`canvas`
--   :func:`camera`
--   :func:`decorate`
--   :func:`boundaries`
--   :func:`display`
--   :func:`label_rectangles`
--   :func:`equal_axes3d`
--   :func:`colour_swatches_plot`
--   :func:`single_colour_swatch_plot`
--   :func:`multi_colour_swatches_plot`
--   :func:`image_plot`
+-   :func:`colour.plotting.colour_plotting_defaults`
+-   :func:`colour.plotting.colour_cycle`
+-   :func:`colour.plotting.canvas`
+-   :func:`colour.plotting.camera`
+-   :func:`colour.plotting.decorate`
+-   :func:`colour.plotting.boundaries`
+-   :func:`colour.plotting.display`
+-   :func:`colour.plotting.render`
+-   :func:`colour.plotting.label_rectangles`
+-   :func:`colour.plotting.equal_axes3d`
+-   :func:`colour.plotting.single_colour_swatch_plot`
+-   :func:`colour.plotting.multi_colour_swatches_plot`
+-   :func:`colour.plotting.image_plot`
 """
 
 from __future__ import division
@@ -185,7 +185,8 @@ class ColourSwatch(namedtuple('ColourSwatch', ('name', 'RGB'))):
 
     def __new__(cls, name=None, RGB=None):
         """
-        Returns a new instance of the :class:`ColourSwatch` class.
+        Returns a new instance of the :class:`colour.plotting.ColourSwatch`
+        class.
         """
 
         return super(ColourSwatch, cls).__new__(cls, name, RGB)
@@ -230,8 +231,8 @@ def canvas(**kwargs):
     Other Parameters
     ----------------
     figure_size : array_like, optional
-        Array defining figure `width` and `height` such as
-        `figure_size = (width, height)`.
+        Array defining figure *width* and *height* such as
+        *figure_size = (width, height)*.
 
     Returns
     -------
@@ -258,7 +259,7 @@ def camera(**kwargs):
     Other Parameters
     ----------------
     camera_aspect : unicode, optional
-        Matplotlib axes aspect. Default is `equal`.
+        Matplotlib axes aspect. Default is *equal*.
     elevation : numeric, optional
         Camera elevation.
     azimuth : numeric, optional
@@ -295,19 +296,19 @@ def boundaries(**kwargs):
         Array defining current axes limits such
         `bounding_box = (x min, x max, y min, y max)`.
     x_tighten : bool, optional
-        Whether to tighten the *X* axis limit. Default is `False`.
+        Whether to tighten the *X* axis limit. Default is *False*.
     y_tighten : bool, optional
-        Whether to tighten the *Y* axis limit. Default is `False`.
+        Whether to tighten the *Y* axis limit. Default is *False*.
     limits : array_like, optional
         Array defining current axes limits such as
-        `limits = (x limit min, x limit max, y limit min, y limit max)`.
-        `limits` argument values are added to the `margins` argument values to
-        define the final bounding box for the current axes.
+        *limits = (x limit min, x limit max, y limit min, y limit max)*.
+        ``limits`` argument values are added to the ``margins`` argument values
+        to define the final bounding box for the current axes.
     margins : array_like, optional
         Array defining current axes margins such as
-        `margins = (x margin min, x margin max, y margin min, y margin max)`.
-        `margins` argument values are added to the `limits` argument values to
-        define the final bounding box for the current axes.
+        *margins = (x margin min, x margin max, y margin min, y margin max)*.
+        ``margins`` argument values are added to the ``limits`` argument values
+        to define the final bounding box for the current axes.
 
     Returns
     -------
@@ -353,34 +354,34 @@ def decorate(**kwargs):
     y_label : unicode, optional
         *Y* axis label.
     legend : bool, optional
-        Whether to display the legend. Default is `False`.
+        Whether to display the legend. Default is *False*.
     legend_columns : int, optional
-        Number of columns in the legend. Default is `1`.
+        Number of columns in the legend. Default is *1*.
     legend_location : unicode, optional
-        Matplotlib legend location. Default is `upper right`.
+        Matplotlib legend location. Default is *upper right*.
     x_ticker : bool, optional
-        Whether to display the *X* axis ticker. Default is `True`.
+        Whether to display the *X* axis ticker. Default is *True*.
     y_ticker : bool, optional
-        Whether to display the *Y* axis ticker. Default is `True`.
+        Whether to display the *Y* axis ticker. Default is *True*.
     x_ticker_locator : Locator, optional
         Locator type for the *X* axis ticker.
     y_ticker_locator : Locator, optional
         Locator type for the *Y* axis ticker.
     grid : bool, optional
-        Whether to display the grid. Default is `False`.
+        Whether to display the grid. Default is *False*.
     grid_which : unicode, optional
         Controls whether major tick grids, minor tick grids, or both are
-        affected. Default is `both`.
+        affected. Default is *both*.
     grid_axis : unicode, optional
-        Controls which set of grid-lines are drawn. Default is `both`.
+        Controls which set of grid-lines are drawn. Default is *both*.
     x_axis_line : bool, optional
-        Whether to draw the *X* axis line. Default is `False`.
+        Whether to draw the *X* axis line. Default is *False*.
     y_axis_line : bool, optional
-        Whether to draw the *Y* axis line. Default is `False`.
+        Whether to draw the *Y* axis line. Default is *False*.
     aspect : unicode, optional
         Matplotlib axes aspect.
     no_axes : bool, optional
-        Whether to turn off the axes. Default is `False`.
+        Whether to turn off the axes. Default is *False*.
 
     Returns
     -------
@@ -450,7 +451,7 @@ def display(**kwargs):
     standalone : bool, optional
         Whether to show the figure.
     filename : unicode, optional
-        Figure will be saved using given `filename` argument.
+        Figure will be saved using given ``filename`` argument.
 
     Returns
     -------
@@ -476,22 +477,22 @@ def display(**kwargs):
 
 def render(with_boundaries=True, with_decorate=True, **kwargs):
     """
-    Convenient wrapper definition combining :func:`decorate`,
-    :func:`boundaries` and :func:`display` definitions.
+    Convenient wrapper definition combining :func:`colour.plotting.decorate`,
+    :func:`colour.plotting.boundaries` and :func:`colour.plotting.display`
+    definitions.
 
     Parameters
     ----------
     with_boundaries : bool, optional
-        Whether to call :func:`boundaries` definition.
+        Whether to call :func:`colour.plotting.boundaries` definition.
     with_decorate : bool, optional
-        Whether to call :func:`decorate` definition.
+        Whether to call :func:`colour.plotting.decorate` definition.
 
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
 
     Returns
     -------
@@ -689,29 +690,28 @@ def single_colour_swatch_plot(colour_swatch, **kwargs):
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
     width : numeric, optional
-        {:func:`multi_colour_swatches_plot`},
+        {:func:`colour.plotting.multi_colour_swatches_plot`},
         Colour swatch width.
     height : numeric, optional
-        {:func:`multi_colour_swatches_plot`},
+        {:func:`colour.plotting.multi_colour_swatches_plot`},
         Colour swatch height.
     spacing : numeric, optional
-        {:func:`multi_colour_swatches_plot`},
+        {:func:`colour.plotting.multi_colour_swatches_plot`},
         Colour swatches spacing.
     columns : int, optional
-        {:func:`multi_colour_swatches_plot`},
+        {:func:`colour.plotting.multi_colour_swatches_plot`},
         Colour swatches columns count.
     text_display : bool, optional
-        {:func:`multi_colour_swatches_plot`},
+        {:func:`colour.plotting.multi_colour_swatches_plot`},
         Display colour text.
     text_size : numeric, optional
-        {:func:`multi_colour_swatches_plot`},
+        {:func:`colour.plotting.multi_colour_swatches_plot`},
         Colour text size.
     text_offset : numeric, optional
-        {:func:`multi_colour_swatches_plot`},
+        {:func:`colour.plotting.multi_colour_swatches_plot`},
         Colour text offset.
 
     Returns
@@ -765,9 +765,8 @@ def multi_colour_swatches_plot(colour_swatches,
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
 
     Returns
     -------
@@ -859,9 +858,8 @@ def image_plot(image,
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
 
     Returns
     -------

@@ -6,9 +6,9 @@ CSV Tabular Data Input / Output
 
 Defines various input / output objects for *CSV* tabular data files:
 
--   :func:`read_spectral_data_from_csv_file`
--   :func:`read_spds_from_csv_file`
--   :func:`write_spds_to_csv_file`
+-   :func:`colour.read_spectral_data_from_csv_file`
+-   :func:`colour.read_spds_from_csv_file`
+-   :func:`colour.write_spds_to_csv_file`
 """
 
 from __future__ import division, unicode_literals
@@ -142,8 +142,7 @@ def read_spectral_data_from_csv_file(path,
 def read_spds_from_csv_file(path, delimiter=',', fields=None, default=0):
     """
     Reads the spectral data from given *CSV* file and return its content as an
-    *OrderedDict* of
-    :class:`colour.colorimetry.spectrum.SpectralPowerDistribution` classes.
+    *OrderedDict* of :class:`colour.SpectralPowerDistribution` classes.
 
     Parameters
     ----------
@@ -160,8 +159,7 @@ def read_spds_from_csv_file(path, delimiter=',', fields=None, default=0):
     Returns
     -------
     OrderedDict
-        :class:`colour.colorimetry.spectrum.SpectralPowerDistribution`
-        classes of given *CSV* file.
+        :class:`colour.SpectralPowerDistribution` classes of given *CSV* file.
 
     Examples
     --------

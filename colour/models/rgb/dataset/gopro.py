@@ -6,7 +6,7 @@ GoPro Colourspaces
 
 Defines the *GoPro* colourspaces:
 
--   :attr:`PROTUNE_NATIVE_COLOURSPACE`.
+-   :attr:`colour.models.PROTUNE_NATIVE_COLOURSPACE`.
 
 See Also
 --------
@@ -17,17 +17,19 @@ blob/master/notebooks/models/rgb.ipynb>`_
 Notes
 -----
 -   The *Protune Native* colourspace primaries were derived using the method
-    outlined in [2]_ followed with a chromatic adaptation step to
-    *CIE Standard Illuminant D Series D65* using
+    outlined in :cite:`Mansencal2015d` followed with a chromatic adaptation
+    step to *CIE Standard Illuminant D Series D65* using
     :func:`colour.chromatically_adapted_primaries` definition.
 
 References
 ----------
-.. [1]  GoPro, Duiker, H.-P., & Mansencal, T. (2016). gopro.py. Retrieved
-        April 12, 2017, from https://github.com/hpd/OpenColorIO-Configs/blob/\
-master/aces_1.0.3/python/aces_ocio/colorspaces/gopro.py
-.. [2]  Mansencal, T. (2015). RED Colourspaces Derivation. Retrieved May 20,
-        2015, from http://colour-science.org/posts/red-colourspaces-derivation
+-   :cite:`GoPro2016a` : GoPro, Duiker, H.-P., & Mansencal, T. (2016).
+    gopro.py. Retrieved April 12, 2017, from
+    https://github.com/hpd/OpenColorIO-Configs/blob/master/aces_1.0.3/python/\
+aces_ocio/colorspaces/gopro.py
+-   :cite:`Mansencal2015d` : Mansencal, T. (2015). RED Colourspaces Derivation.
+    Retrieved May 20, 2015, from
+    http://colour-science.org/posts/red-colourspaces-derivation
 """
 
 from __future__ import division, unicode_literals
@@ -101,8 +103,13 @@ PROTUNE_NATIVE_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_PROTUNE_NATIVE_MATRIX,
     log_encoding_Protune,
     log_decoding_Protune)  # yapf: disable
-"""
+PROTUNE_NATIVE_COLOURSPACE.__doc__ = """
 *Protune Native* colourspace.
+
+References
+----------
+-   :cite:`GoPro2016a`
+-   :cite:`Mansencal2015d`
 
 PROTUNE_NATIVE_COLOURSPACE : RGB_Colourspace
 """

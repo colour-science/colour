@@ -6,7 +6,7 @@ Hunter Rd,a,b Colour Scale
 
 Defines the *Hunter Rd,a,b* colour scale transformations:
 
--   :func:`XYZ_to_Hunter_Rdab`
+-   :func:`colour.XYZ_to_Hunter_Rdab`
 
 See Also
 --------
@@ -16,8 +16,9 @@ blob/master/notebooks/models/hunter_rdab.ipynb>`_
 
 References
 ----------
-.. [1]  HunterLab. (2012). Hunter Rd,a,b Color Scale – History and Application.
-        Retrieved from https://hunterlabdotcom.files.wordpress.com/2012/07/\
+-   :cite:`HunterLab2012a` : HunterLab. (2012). Hunter Rd,a,b Color Scale -
+    History and Application. Retrieved from
+    https://hunterlabdotcom.files.wordpress.com/2012/07/\
 an-1016-hunter-rd-a-b-color-scale-update-12-07-03.pdf
 """
 
@@ -52,8 +53,9 @@ def XYZ_to_Hunter_Rdab(XYZ,
     XYZ_n : array_like, optional
         Reference *illuminant* tristimulus values.
     K_ab : array_like, optional
-        Reference *illuminant* chromaticity coefficients, if `K_ab` is set to
-        `None` it will be computed using :func:`XYZ_to_K_ab_HunterLab1966`.
+        Reference *illuminant* chromaticity coefficients, if ``K_ab`` is set to
+        *None* it will be computed using
+        :func:`colour.XYZ_to_K_ab_HunterLab1966`.
 
     Returns
     -------
@@ -64,6 +66,10 @@ def XYZ_to_Hunter_Rdab(XYZ,
     -----
     -   Input *CIE XYZ* and reference *illuminant* tristimulus values are in
         domain [0, 100].
+
+    References
+    ----------
+    -   :cite:`HunterLab2012a`
 
     Examples
     --------

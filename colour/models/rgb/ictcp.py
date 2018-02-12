@@ -6,8 +6,8 @@
 
 Defines the :math:`IC_TC_P` colour encoding related transformations:
 
--   :func:`RGB_to_ICTCP`
--   :func:`ICTCP_to_RGB`
+-   :func:`colour.RGB_to_ICTCP`
+-   :func:`colour.ICTCP_to_RGB`
 
 See Also
 --------
@@ -17,13 +17,14 @@ blob/master/notebooks/models/ictcp.ipynb>`_
 
 References
 ----------
-.. [1]  Dolby. (2016). WHAT IS ICTCP? - INTRODUCTION. Retrieved from
-        https://www.dolby.com/us/en/technologies/dolby-vision/\
+-   :cite:`Dolby2016a` : Dolby. (2016). WHAT IS ICTCP? - INTRODUCTION.
+    Retrieved from https://www.dolby.com/us/en/technologies/dolby-vision/\
 ICtCp-white-paper.pdf
-.. [2]  Lu, T., Pu, F., Yin, P., Chen, T., Husak, W., Pytlarz, J., … Su, G.-M.
-        (2016). ITP Colour Space and Its Compression Performance for High
-        Dynamic Range and Wide Colour Gamut Video Distribution. ZTE
-        Communications, 14(1), 32–38. doi:10.3969/j.
+-   :cite:`Lu2016c` : Lu, T., Pu, F., Yin, P., Chen, T., Husak, W.,
+    Pytlarz, J.,  Su, G.-M. (2016). ITP Colour Space and Its Compression
+    Performance for High Dynamic Range and Wide Colour Gamut Video
+    Distribution. ZTE Communications, 14(1), 32-38. Retrieved from
+    http://www.cnki.net/kcms/detail/34.1294.TN.20160205.1903.006.html
 """
 
 from __future__ import division, unicode_literals
@@ -104,6 +105,11 @@ def RGB_to_ICTCP(RGB, L_p=10000):
     ndarray
         :math:`IC_TC_P` colour encoding array.
 
+    References
+    ----------
+    -   :cite:`Dolby2016a`
+    -   :cite:`Lu2016c`
+
     Examples
     --------
     >>> RGB = np.array([0.35181454, 0.26934757, 0.21288023])
@@ -135,6 +141,11 @@ def ICTCP_to_RGB(ICTCP, L_p=10000):
     -------
     ndarray
         *ITU-R BT.2020* colourspace array.
+
+    References
+    ----------
+    -   :cite:`Dolby2016a`
+    -   :cite:`Lu2016c`
 
     Examples
     --------

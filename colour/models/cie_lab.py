@@ -6,10 +6,10 @@ CIE L*a*b* Colourspace
 
 Defines the *CIE L\*a\*b\** colourspace transformations:
 
--   :func:`XYZ_to_Lab`
--   :func:`Lab_to_XYZ`
--   :func:`Lab_to_LCHab`
--   :func:`LCHab_to_Lab`
+-   :func:`colour.XYZ_to_Lab`
+-   :func:`colour.Lab_to_XYZ`
+-   :func:`colour.Lab_to_LCHab`
+-   :func:`colour.LCHab_to_Lab`
 
 See Also
 --------
@@ -19,8 +19,9 @@ blob/master/notebooks/models/cie_lab.ipynb>`_
 
 References
 ----------
-.. [1]  CIE TC 1-48. (2004). CIE 1976 uniform colour spaces. In CIE 015:2004
-        Colorimetry, 3rd Edition (p. 24). ISBN:978-3-901-90633-6
+-   :cite:`CIETC1-482004m` : CIE TC 1-48. (2004). CIE 1976 uniform colour
+    spaces. In CIE 015:2004 Colorimetry, 3rd Edition (p. 24).
+    ISBN:978-3-901-90633-6
 """
 
 from __future__ import division, unicode_literals
@@ -68,6 +69,10 @@ def XYZ_to_Lab(
     -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
         colourspace array are in domain [0, :math:`\infty`].
     -   Output *Lightness* :math:`L^*` is in range [0, 100].
+
+    References
+    ----------
+    -   :cite:`CIETC1-482004m`
 
     Examples
     --------
@@ -121,6 +126,10 @@ def Lab_to_XYZ(
         colourspace array are in domain [0, :math:`\infty`].
     -   Output *CIE XYZ* tristimulus values are in range [0, 1].
 
+    References
+    ----------
+    -   :cite:`CIETC1-482004m`
+
     Examples
     --------
     >>> Lab = np.array([37.98562910, -23.62907688, -4.41746615])
@@ -162,6 +171,10 @@ def Lab_to_LCHab(Lab):
     -----
     -   *Lightness* :math:`L^*` is in domain [0, 100].
 
+    References
+    ----------
+    -   :cite:`CIETC1-482004m`
+
     Examples
     --------
     >>> Lab = np.array([37.98562910, -23.62907688, -4.41746615])
@@ -195,6 +208,10 @@ def LCHab_to_Lab(LCHab):
     Notes
     -----
     -   *Lightness* :math:`L^*` is in domain [0, 100].
+
+    References
+    ----------
+    -   :cite:`CIETC1-482004m`
 
     Examples
     --------

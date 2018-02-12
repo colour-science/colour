@@ -6,12 +6,12 @@ Sony S-Log Encodings
 
 Defines the *Sony S-Log* log encodings:
 
--   :func:`log_encoding_SLog`
--   :func:`log_decoding_SLog`
--   :func:`log_encoding_SLog2`
--   :func:`log_decoding_SLog2`
--   :func:`log_encoding_SLog3`
--   :func:`log_decoding_SLog3`
+-   :func:`colour.models.log_encoding_SLog`
+-   :func:`colour.models.log_decoding_SLog`
+-   :func:`colour.models.log_encoding_SLog2`
+-   :func:`colour.models.log_decoding_SLog2`
+-   :func:`colour.models.log_encoding_SLog3`
+-   :func:`colour.models.log_decoding_SLog3`
 
 See Also
 --------
@@ -21,12 +21,12 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  Sony Corporation. (2012). S-Log2 Technical Paper. Retrieved from
-        https://pro.sony.com/bbsccms/assets/files/micro/dmpc/training/\
-S-Log2_Technical_PaperV1_0.pdf
-.. [2]  Sony Corporation. (n.d.). Technical Summary for
-        S-Gamut3.Cine/S-Log3 and S-Gamut3/S-Log3. Retrieved from
-        http://community.sony.com/sony/attachments/sony/\
+-   :cite:`SonyCorporation2012a` : Sony Corporation. (2012). S-Log2 Technical
+    Paper. Retrieved from https://pro.sony.com/bbsccms/assets/files/micro/\
+dmpc/training/S-Log2_Technical_PaperV1_0.pdf
+-   :cite:`SonyCorporationd` : Sony Corporation. (n.d.). Technical Summary for
+    S-Gamut3.Cine/S-Log3 and S-Gamut3/S-Log3. Retrieved from
+    http://community.sony.com/sony/attachments/sony/\
 large-sensor-camera-F5-F55/12359/2/\
 TechnicalSummary_for_S-Gamut3Cine_S-Gamut3_S-Log3_V1_00.pdf
 """
@@ -72,6 +72,10 @@ def log_encoding_SLog(x, bit_depth=10, out_legal=True, in_reflection=True):
     -------
     numeric or ndarray
         Non-linear *Sony S-Log* data :math:`y`.
+
+    References
+    ----------
+    -   :cite:`SonyCorporation2012a`
 
     Examples
     --------
@@ -119,6 +123,10 @@ def log_decoding_SLog(y, bit_depth=10, in_legal=True, out_reflection=True):
     numeric or ndarray
         Reflection or :math:`IRE / 100` input light level :math:`x` to a
         camera.
+
+    References
+    ----------
+    -   :cite:`SonyCorporation2012a`
 
     Examples
     --------
@@ -169,6 +177,10 @@ def log_encoding_SLog2(x, bit_depth=10, out_legal=True, in_reflection=True):
     numeric or ndarray
         Non-linear *Sony S-Log2* data :math:`y`.
 
+    References
+    ----------
+    -   :cite:`SonyCorporation2012a`
+
     Examples
     --------
     >>> log_encoding_SLog2(0.18)  # doctest: +ELLIPSIS
@@ -205,6 +217,10 @@ def log_decoding_SLog2(y, bit_depth=10, in_legal=True, out_reflection=True):
     numeric or ndarray
         Reflection or :math:`IRE / 100` input light level :math:`x` to a
         camera.
+
+    References
+    ----------
+    -   :cite:`SonyCorporation2012a`
 
     Examples
     --------
@@ -244,6 +260,10 @@ def log_encoding_SLog3(x, bit_depth=10, out_legal=True, in_reflection=True):
     -------
     numeric or ndarray
         Non-linear *Sony S-Log3* data :math:`y`.
+
+    References
+    ----------
+    -   :cite:`SonyCorporationd`
 
     Examples
     --------
@@ -291,6 +311,10 @@ def log_decoding_SLog3(y, bit_depth=10, in_legal=True, out_reflection=True):
     numeric or ndarray
         Reflection or :math:`IRE / 100` input light level :math:`x` to a
         camera.
+
+    References
+    ----------
+    -   :cite:`SonyCorporationd`
 
     Examples
     --------

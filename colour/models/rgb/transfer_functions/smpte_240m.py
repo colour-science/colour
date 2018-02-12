@@ -7,8 +7,8 @@ SMPTE 240M
 Defines *SMPTE 240M* opto-electrical transfer function (OETF / OECF) and
 electro-optical transfer function (EOTF / EOCF):
 
--   :func:`oetf_SMPTE240M`
--   :func:`eotf_SMPTE240M`
+-   :func:`colour.models.oetf_SMPTE240M`
+-   :func:`colour.models.eotf_SMPTE240M`
 
 See Also
 --------
@@ -18,11 +18,11 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  Society of Motion Picture and Television Engineers. (1999).
-        ANSI/SMPTE 240M-1995 - Signal Parameters - 1125-Line High-Definition
-        Production Systems, 1–7. Retrieved from
-        http://car.france3.mars.free.fr/\
-HD/INA-%2026%20jan%2006/SMPTE%20normes%20et%20confs/s240m.pdf
+-   :cite:`SocietyofMotionPictureandTelevisionEngineers1999b` : Society of
+    Motion Picture and Television Engineers. (1999). ANSI/SMPTE 240M-1995 -
+    Signal Parameters - 1125-Line High-Definition Production Systems. Retrieved
+    from http://car.france3.mars.free.fr/HD/INA- 26 jan 06/\
+SMPTE normes et confs/s240m.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -57,6 +57,10 @@ def oetf_SMPTE240M(L_c):
         Video signal output :math:`V_c` of the reference camera normalized to
         the system reference white.
 
+    References
+    ----------
+    -   :cite:`SocietyofMotionPictureandTelevisionEngineers1999b`
+
     Examples
     --------
     >>> oetf_SMPTE240M(0.18)  # doctest: +ELLIPSIS
@@ -84,6 +88,10 @@ def eotf_SMPTE240M(V_r):
     numeric or ndarray
          Light output :math:`L_r` from the reference reproducer normalized to
          the system reference white.
+
+    References
+    ----------
+    -   :cite:`SocietyofMotionPictureandTelevisionEngineers1999b`
 
     Examples
     --------

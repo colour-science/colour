@@ -6,7 +6,7 @@ Cinema Gamut Colourspace
 
 Defines the *Canon* *Cinema Gamut* colourspace:
 
--   :attr:`CINEMA_GAMUT_COLOURSPACE`.
+-   :attr:`colour.models.CINEMA_GAMUT_COLOURSPACE`.
 
 See Also
 --------
@@ -16,9 +16,9 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  Canon. (2014). EOS C500 Firmware Update. Retrieved August 27, 2016,
-        from https://www.usa.canon.com/internet/portal/us/home/explore/\
-product-showcases/cameras-and-lenses/cinema-eos-firmware/c500
+-   :cite:`Canon2014a` : Canon. (2014). EOS C500 Firmware Update. Retrieved
+    August 27, 2016, from https://www.usa.canon.com/internet/portal/us/home/\
+explore/product-showcases/cameras-and-lenses/cinema-eos-firmware/c500
 """
 
 from __future__ import division, unicode_literals
@@ -92,8 +92,12 @@ CINEMA_GAMUT_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_CINEMA_GAMUT_MATRIX,
     function_linear,
     function_linear)  # yapf: disable
-"""
+CINEMA_GAMUT_COLOURSPACE.__doc__ = """
 *Cinema Gamut* colourspace.
+
+References
+----------
+-   :cite:`Canon2014a`
 
 CINEMA_GAMUT_COLOURSPACE : RGB_Colourspace
 """

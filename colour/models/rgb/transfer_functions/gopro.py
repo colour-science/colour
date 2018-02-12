@@ -6,8 +6,8 @@ GoPro Encodings
 
 Defines the *GoPro* encodings:
 
--   :func:`log_encoding_Protune`
--   :func:`log_decoding_Protune`
+-   :func:`colour.models.log_encoding_Protune`
+-   :func:`colour.models.log_decoding_Protune`
 
 See Also
 --------
@@ -17,9 +17,10 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  GoPro, Duiker, H.-P., & Mansencal, T. (2016). gopro.py. Retrieved
-        April 12, 2017, from https://github.com/hpd/OpenColorIO-Configs/blob/\
-master/aces_1.0.3/python/aces_ocio/colorspaces/gopro.py
+-   :cite:`GoPro2016a` : GoPro, Duiker, H.-P., & Mansencal, T. (2016).
+    gopro.py. Retrieved April 12, 2017, from
+    https://github.com/hpd/OpenColorIO-Configs/blob/master/aces_1.0.3/python/\
+aces_ocio/colorspaces/gopro.py
 """
 
 from __future__ import division, unicode_literals
@@ -51,6 +52,10 @@ def log_encoding_Protune(x):
     numeric or ndarray
         Non-linear data :math:`y`.
 
+    References
+    ----------
+    -   :cite:`GoPro2016a`
+
     Examples
     --------
     >>> log_encoding_Protune(0.18)  # doctest: +ELLIPSIS
@@ -76,6 +81,10 @@ def log_decoding_Protune(y):
     -------
     numeric or ndarray
         Linear data :math:`x`.
+
+    References
+    ----------
+    -   :cite:`GoPro2016a`
 
     Examples
     --------

@@ -6,7 +6,7 @@ Characterisation Plotting
 
 Defines the characterisation plotting objects:
 
--   :func:`colour_checker_plot`
+-   :func:`colour.plotting.colour_checker_plot`
 """
 
 from __future__ import division
@@ -42,29 +42,28 @@ def colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
     width : numeric, optional
-        {:func:`multi_colour_swatches_plot`},
+        {:func:`colour.plotting.multi_colour_swatches_plot`},
         Colour swatch width.
     height : numeric, optional
-        {:func:`multi_colour_swatches_plot`},
+        {:func:`colour.plotting.multi_colour_swatches_plot`},
         Colour swatch height.
     spacing : numeric, optional
-        {:func:`multi_colour_swatches_plot`},
+        {:func:`colour.plotting.multi_colour_swatches_plot`},
         Colour swatches spacing.
     columns : int, optional
-        {:func:`multi_colour_swatches_plot`},
+        {:func:`colour.plotting.multi_colour_swatches_plot`},
         Colour swatches columns count.
     text_display : bool, optional
-        {:func:`multi_colour_swatches_plot`},
+        {:func:`colour.plotting.multi_colour_swatches_plot`},
         Display colour text.
     text_size : numeric, optional
-        {:func:`multi_colour_swatches_plot`},
+        {:func:`colour.plotting.multi_colour_swatches_plot`},
         Colour text size.
     text_offset : numeric, optional
-        {:func:`multi_colour_swatches_plot`},
+        {:func:`colour.plotting.multi_colour_swatches_plot`},
         Colour text offset.
 
     Returns

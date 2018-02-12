@@ -6,11 +6,11 @@ CIECAM02 Colour Appearance Model
 
 Defines *CIECAM02* colour appearance model objects:
 
--   :class:`CIECAM02_InductionFactors`
--   :attr:`CIECAM02_VIEWING_CONDITIONS`
--   :class:`CIECAM02_Specification`
--   :func:`XYZ_to_CIECAM02`
--   :func:`CIECAM02_to_XYZ`
+-   :class:`colour.appearance.CIECAM02_InductionFactors`
+-   :attr:`colour.CIECAM02_VIEWING_CONDITIONS`
+-   :class:`colour.CIECAM02_Specification`
+-   :func:`colour.XYZ_to_CIECAM02`
+-   :func:`colour.CIECAM02_to_XYZ`
 
 See Also
 --------
@@ -20,18 +20,19 @@ blob/master/notebooks/appearance/ciecam02.ipynb>`_
 
 References
 ----------
-.. [1]  Wikipedia. (n.d.). CIECAM02. Retrieved August 14, 2014, from
-        http://en.wikipedia.org/wiki/CIECAM02
-.. [2]  Fairchild, M. D. (2004). CIECAM02. In Color Appearance Models
-        (2nd ed., pp. 289–301). Wiley. ISBN:978-0470012161
-.. [3]  Moroney, N., Fairchild, M. D., Hunt, R. W. G., Li, C., Luo, M. R., &
-        Newman, T. (n.d.). The CIECAM02 Color Appearance Model. Color and
-        Imaging Conference, 2002(1), 23–27. Retrieved from
-        http://www.ingentaconnect.com/content/ist/cic\
-/2002/00002002/00000001/art00006
-.. [4]  Luo, M. R., & Li, C. (2013). CIECAM02 and Its Recent Developments.
-        In Advanced Color Image Processing and Analysis (pp. 19–58).
-        doi:10.1007/978-1-4419-6190-7
+-   :cite:`Fairchild2004c` : Wikipedia. (n.d.). CIECAM02. Retrieved August 14,
+    2014, from http://en.wikipedia.org/wiki/CIECAM02
+-   :cite:`Luo2013` : Luo, M. R., & Li, C. (2013). CIECAM02 and Its Recent
+    Developments. In C. Fernandez-Maloigne (Ed.), Advanced Color Image
+    Processing and Analysis (pp. 19-58). New York, NY: Springer New York.
+    doi:10.1007/978-1-4419-6190-7
+-   :cite:`Moroneya` : Moroney, N., Fairchild, M. D., Hunt, R. W. G., Li, C.,
+    Luo, M. R., & Newman, T. (2002). The CIECAM02 Color Appearance Model.
+    Color and Imaging Conference, (1), 23-27. Retrieved from
+    http://www.ingentaconnect.com/\
+content/ist/cic/2002/00002002/00000001/art00006
+-   :cite:`Wikipediach` : Wikipedia. (n.d.). CIECAM02. Retrieved August 14,
+    2014, from http://en.wikipedia.org/wiki/CIECAM02
 """
 
 from __future__ import division, unicode_literals
@@ -95,6 +96,13 @@ class CIECAM02_InductionFactors(
         Exponential non linearity :math:`c`.
     N_c : numeric or array_like
         Chromatic induction factor :math:`N_c`.
+
+    References
+    ----------
+    -   :cite:`Fairchild2004c`
+    -   :cite:`Luo2013`
+    -   :cite:`Moroneya`
+    -   :cite:`Wikipediach`
     """
 
 
@@ -103,8 +111,15 @@ CIECAM02_VIEWING_CONDITIONS = CaseInsensitiveMapping({
     'Dim': CIECAM02_InductionFactors(0.9, 0.59, 0.95),
     'Dark': CIECAM02_InductionFactors(0.8, 0.525, 0.8)
 })
-"""
+CIECAM02_VIEWING_CONDITIONS.__doc__ = """
 Reference *CIECAM02* colour appearance model viewing conditions.
+
+References
+----------
+-   :cite:`Fairchild2004c`
+-   :cite:`Luo2013`
+-   :cite:`Moroneya`
+-   :cite:`Wikipediach`
 
 CIECAM02_VIEWING_CONDITIONS : CaseInsensitiveMapping
     **{'Average', 'Dim', 'Dark'}**
@@ -141,6 +156,13 @@ class CIECAM02_Specification(
         *Hue* :math:`h` quadrature :math:`H`.
     HC : numeric or array_like
         *Hue* :math:`h` composition :math:`H^C`.
+
+    References
+    ----------
+    -   :cite:`Fairchild2004c`
+    -   :cite:`Luo2013`
+    -   :cite:`Moroneya`
+    -   :cite:`Wikipediach`
     """
 
     def __new__(cls,
@@ -153,7 +175,8 @@ class CIECAM02_Specification(
                 H=None,
                 HC=None):
         """
-        Returns a new instance of the :class:`CIECAM02_Specification` class.
+        Returns a new instance of the :class:`colour.CIECAM02_Specification`
+        class.
         """
 
         return super(CIECAM02_Specification, cls).__new__(
@@ -202,6 +225,13 @@ def XYZ_to_CIECAM02(XYZ,
     -----
     -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
     -   Input *CIE XYZ_w* tristimulus values are in domain [0, 100].
+
+    References
+    ----------
+    -   :cite:`Fairchild2004c`
+    -   :cite:`Luo2013`
+    -   :cite:`Moroneya`
+    -   :cite:`Wikipediach`
 
     Examples
     --------
@@ -317,7 +347,7 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
     ------
     ValueError
         If neither *C* or *M* correlates have been defined in the
-        `CIECAM02_specification` argument.
+        ``CIECAM02_specification`` argument.
 
     Warning
     -------
@@ -325,10 +355,17 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
 
     Notes
     -----
-    -   `CIECAM02_specification` can also be passed as a compatible argument
-        :func:`colour.as_namedtuple` definition.
+    -   ``CIECAM02_specification`` can also be passed as a compatible argument
+        :func:`colour.utilities.as_namedtuple` definition.
     -   Input *CIE XYZ_w* tristimulus values are in domain [0, 100].
     -   Output *CIE XYZ* tristimulus values are in range [0, 100].
+
+    References
+    ----------
+    -   :cite:`Fairchild2004c`
+    -   :cite:`Luo2013`
+    -   :cite:`Moroneya`
+    -   :cite:`Wikipediach`
 
     Examples
     --------
@@ -695,7 +732,8 @@ def post_adaptation_non_linear_response_compression_forward(RGB, F_L):
 
     Notes
     -----
-    -   This definition implements negative values handling as per [5]_.
+    -   This definition implements negative values handling as per
+        :cite:`Luo2013`.
 
     Examples
     --------
@@ -802,7 +840,8 @@ def opponent_colour_dimensions_reverse(P_n, h):
 
     Notes
     -----
-    -   This definition implements negative values handling as per [5]_.
+    -   This definition implements negative values handling as per
+        :cite:`Luo2013`.
 
     Examples
     --------
@@ -1182,7 +1221,8 @@ def temporary_magnitude_quantity_reverse(C, J, n):
 
     Notes
     -----
-    -   This definition implements negative values handling as per [5]_.
+    -   This definition implements negative values handling as per
+        :cite:`Luo2013`.
 
     Examples
     --------

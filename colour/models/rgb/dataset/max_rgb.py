@@ -6,7 +6,7 @@ Max RGB Colourspace
 
 Defines the *Max RGB* colourspace:
 
--   :attr:`MAX_RGB_COLOURSPACE`.
+-   :attr:`colour.models.MAX_RGB_COLOURSPACE`.
 
 See Also
 --------
@@ -16,8 +16,8 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  HutchColor. (n.d.). MaxRGB (4 K). Retrieved from
-        http://www.hutchcolor.com/profiles/MaxRGB.zip
+-   :cite:`HutchColorf` : HutchColor. (n.d.). MaxRGB (4 K). Retrieved from
+    http://www.hutchcolor.com/profiles/MaxRGB.zip
 """
 
 from __future__ import division, unicode_literals
@@ -91,8 +91,12 @@ MAX_RGB_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_MAX_RGB_MATRIX,
     partial(function_gamma, exponent=1 / 2.2),
     partial(function_gamma, exponent=2.2))  # yapf: disable
-"""
+MAX_RGB_COLOURSPACE.__doc__ = """
 *Max RGB* colourspace.
+
+References
+----------
+-   :cite:`HutchColorf`
 
 MAX_RGB_COLOURSPACE : RGB_Colourspace
 """

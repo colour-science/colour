@@ -7,7 +7,7 @@ Abstract Continuous Function
 Defines the abstract class implementing support for abstract continuous
 function:
 
--   :class:`AbstractContinuousFunction`
+-   :class:`colour.continuous.AbstractContinuousFunction.
 """
 
 from __future__ import division, unicode_literals
@@ -47,15 +47,15 @@ class AbstractContinuousFunction:
     sub-classes.
 
     The sub-classes are expected to implement the
-    :meth:`AbstractContinuousFunction.function` method so that evaluating the
-    function for any independent domain :math:`x \in \mathbb{R}` variable
-    returns a corresponding range :math:`y \in \mathbb{R}` variable.
-    A conventional implementation adopts an interpolating function encapsulated
-    inside an extrapolating function. The resulting function independent
-    domain, stored as discrete values in the
-    :attr:`AbstractContinuousFunction.domain` attribute corresponds with the
-    function dependent and already known range stored in the
-    :attr:`AbstractContinuousFunction.range` attribute.
+    :meth:`colour.continuous.AbstractContinuousFunction.function` method so
+    that evaluating the function for any independent domain
+    :math:`x \in \mathbb{R}` variable returns a corresponding range
+    :math:`y \in \mathbb{R}` variable. A conventional implementation adopts an
+    interpolating function encapsulated inside an extrapolating function.
+    The resulting function independent domain, stored as discrete values in the
+    :attr:`colour.continuous.AbstractContinuousFunction.domain` attribute
+    corresponds with the function dependent and already known range stored in
+    the :attr:`colour.continuous.AbstractContinuousFunction.range` attribute.
 
     Parameters
     ----------
@@ -746,7 +746,7 @@ class AbstractContinuousFunction:
         method : unicode, optional
             **{'Interpolation', 'Constant'}**,
             *Interpolation* method linearly interpolates through the NaNs,
-            *Constant* method replaces NaNs with `default`.
+            *Constant* method replaces NaNs with ``default``.
         default : numeric, optional
             Value to use with the *Constant* method.
 

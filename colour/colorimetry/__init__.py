@@ -30,7 +30,7 @@ from .luminance import (luminance_Newhall1943, luminance_ASTMD153508,
                         luminance_Fairchild2011)
 from .dominant import (dominant_wavelength, complementary_wavelength,
                        excitation_purity, colorimetric_purity)
-from .photometry import (luminous_flux, luminous_efficiency, luminous_efficacy)
+from .photometry import luminous_flux, luminous_efficiency, luminous_efficacy
 from .transformations import RGB_10_degree_cmfs_to_LMS_10_degree_cmfs
 from .transformations import RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs
 from .transformations import RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs
@@ -52,7 +52,7 @@ from .whiteness import (whiteness_Berger1959, whiteness_Taube1960,
                         whiteness_Ganz1979, whiteness_CIE2004)
 from .yellowness import YELLOWNESS_METHODS
 from .yellowness import yellowness
-from .yellowness import (yellowness_ASTMD1925, yellowness_ASTME313)
+from .yellowness import yellowness_ASTMD1925, yellowness_ASTME313
 
 __all__ = [
     'SpectralShape', 'SpectralPowerDistribution',

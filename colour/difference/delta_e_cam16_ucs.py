@@ -8,9 +8,9 @@ Defines :math:`\Delta E'` colour difference computation objects based on
 *Li, Li, Wang, Zu, Luo, Cui, Melgosa, Brill and Pointer (2017)*
 *CAM16-LCD*, *CAM16-SCD*, and *CAM16-UCS* colourspaces:
 
--   :func:`delta_E_CAM16LCD`
--   :func:`delta_E_CAM16SCD`
--   :func:`delta_E_CAM16UCS`
+-   :func:`colour.difference.delta_E_CAM16LCD`
+-   :func:`colour.difference.delta_E_CAM16SCD`
+-   :func:`colour.difference.delta_E_CAM16UCS`
 
 See Also
 --------
@@ -20,15 +20,18 @@ blob/master/notebooks/models/cam16_ucs.ipynb>`_
 
 References
 ----------
-.. [1]  Li, C., Li, Z., Wang, Z., Xu, Y., Luo, M. R., Cui, G., … Pointer, M.
-        (2017). Comprehensive color solutions: CAM16, CAT16, and CAM16-UCS.
-        Color Research & Application, (January), n/a-n/a. doi:10.1002/col.22131
+-   Li, C., Li, Z., Wang, Z., Xu, Y., Luo, M. R., Cui, G.,  Pointer,
+    M. (2017). Comprehensive color solutions: CAM16, CAT16, and CAM16-UCS.
+    Color Research & Application, 42(6), 703-718. doi:10.1002/col.22131
 """
 
 from __future__ import division, unicode_literals
 
+
 from colour.difference.delta_e_cam02_ucs import (
     delta_E_Luo2006, delta_E_CAM02LCD, delta_E_CAM02SCD, delta_E_CAM02UCS)
+from colour.models.cam16_ucs import (
+    _UCS_Luo2006_callable_to_UCS_Li2017_docstring)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2015-2018 - Colour Developers'
@@ -43,9 +46,17 @@ __all__ = [
 ]
 
 delta_E_Li2017 = delta_E_Luo2006
+delta_E_Li2017.__doc__ = (
+    _UCS_Luo2006_callable_to_UCS_Li2017_docstring(delta_E_Luo2006))
 
 delta_E_CAM16LCD = delta_E_CAM02LCD
+delta_E_CAM16LCD.__doc__ = (
+    _UCS_Luo2006_callable_to_UCS_Li2017_docstring(delta_E_CAM02LCD))
 
 delta_E_CAM16SCD = delta_E_CAM02SCD
+delta_E_CAM16SCD.__doc__ = (
+    _UCS_Luo2006_callable_to_UCS_Li2017_docstring(delta_E_CAM02SCD))
 
 delta_E_CAM16UCS = delta_E_CAM02UCS
+delta_E_CAM16UCS.__doc__ = (
+    _UCS_Luo2006_callable_to_UCS_Li2017_docstring(delta_E_CAM02UCS))

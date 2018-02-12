@@ -1,23 +1,33 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-RGB Colourspace & Transformations
-=================================
+RGB Colourspace and Transformations
+===================================
 
-Defines the :class:`RGB_Colourspace` class for the *RGB* colourspaces dataset
-from :mod:`colour.models.dataset.aces_rgb`, etc... and the following *RGB*
-colourspace transformations or helper definitions:
+Defines the :class:`colour.RGB_Colourspace` class for the *RGB* colourspaces
+dataset from :mod:`colour.models.dataset.aces_rgb`, etc... and the following
+*RGB* colourspace transformations or helper definitions:
 
--   :func:`XYZ_to_RGB`
--   :func:`RGB_to_XYZ`
--   :func:`RGB_to_RGB_matrix`
--   :func:`RGB_to_RGB`
+-   :func:`colour.XYZ_to_RGB`
+-   :func:`colour.RGB_to_XYZ`
+-   :func:`colour.RGB_to_RGB_matrix`
+-   :func:`colour.RGB_to_RGB`
 
 See Also
 --------
 `RGB Colourspaces Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/blob/\
 master/notebooks/models/rgb.ipynb>`_
+References
+----------
+-   :cite:`InternationalElectrotechnicalCommission1999a` : International
+    Electrotechnical Commission. (1999). IEC 61966-2-1:1999 - Multimedia
+    systems and equipment - Colour measurement and management - Part 2-1:
+    Colour management - Default RGB colour space - sRGB. Retrieved from
+    https://webstore.iec.ch/publication/6169
+-   :cite:`Panasonic2014a` : Panasonic. (2014). VARICAM V-Log/V-Gamut.
+    Retrieved from http://pro-av.panasonic.net/en/varicam/common/pdf/\
+VARICAM_V-Log_V-Gamut.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -54,8 +64,8 @@ class RGB_Colourspace(object):
     common to have normalised primary matrices rounded at different
     decimals. This can yield large discrepancies in computations.
 
-    Such an occurrence is the *V-Gamut* colourspace white paper [1]_, that
-    defines the *V-Gamut* to *ITU-R BT.709* conversion matrix as follows::
+    Such an occurrence is the *V-Gamut* colourspace white paper, that defines
+    the *V-Gamut* to *ITU-R BT.709* conversion matrix as follows::
 
         [[ 1.806576 -0.695697 -0.110879]
          [-0.170090  1.305955 -0.135865]
@@ -78,21 +88,22 @@ class RGB_Colourspace(object):
 
     In order to provide support for both literature defined dataset and
     accurate computations enabling transformations without loss of precision,
-    the :class:`RGB_Colourspace` class provides two sets of transformation
-    matrices:
+    the :class:`colour.RGB_Colourspace` class provides two sets of
+    transformation matrices:
 
         -   Instantiation transformation matrices
         -   Derived transformation matrices
 
-    Upon instantiation, the :class:`RGB_Colourspace` class stores the given
-    `RGB_to_XYZ_matrix` and `XYZ_to_RGB_matrix` arguments and also
-    computes their derived counterpart using the `primaries` and `whitepoint`
-    arguments.
+    Upon instantiation, the :class:`colour.RGB_Colourspace` class stores the
+    given ``RGB_to_XYZ_matrix`` and ``XYZ_to_RGB_matrix`` arguments and also
+    computes their derived counterpart using the ``primaries`` and
+    ``whitepoint`` arguments.
 
     Whether the initialisation or derived matrices are used in subsequent
     computations is dependent on the
-    :attr:`RGB_Colourspace.use_derived_RGB_to_XYZ_matrix` and
-    :attr:`RGB_Colourspace.use_derived_XYZ_to_RGB_matrix` attributes values.
+    :attr:`colour.RGB_Colourspace.use_derived_RGB_to_XYZ_matrix` and
+    :attr:`colour.RGB_Colourspace.use_derived_XYZ_to_RGB_matrix` attributes
+    values.
 
     Parameters
     ----------
@@ -147,23 +158,17 @@ class RGB_Colourspace(object):
     Notes
     -----
     -   The normalised primary matrix defined by
-        :attr:`RGB_Colourspace.RGB_to_XYZ_matrix` attribute is treated as the
-        prime matrix from which the inverse will be calculated as required by
-        the internal derivation mechanism. This behaviour has been chosen in
-        accordance with literature where commonly a *RGB* colourspace is
-        defined by its normalised primary matrix as it is directly computed
+        :attr:`colour.RGB_Colourspace.RGB_to_XYZ_matrix` attribute is treated
+        as the prime matrix from which the inverse will be calculated as
+        required by the internal derivation mechanism. This behaviour has been
+        chosen in accordance with literature where commonly a *RGB* colourspace
+        is defined by its normalised primary matrix as it is directly computed
         from the chosen primaries and whitepoint.
 
     References
     ----------
-    .. [1]  Panasonic. (2014). VARICAM V-Log/V-Gamut. Retrieved from
-            http://pro-av.panasonic.net/en/varicam/common/pdf/\
-VARICAM_V-Log_V-Gamut.pdf
-    .. [2]  International Electrotechnical Commission. (1999). IEC
-        61966-2-1:1999 - Multimedia systems and equipment - Colour measurement
-        and management - Part 2-1: Colour management - Default RGB colour
-        space - sRGB, 51. Retrieved from
-        https://webstore.iec.ch/publication/6169
+    -   :cite:`InternationalElectrotechnicalCommission1999a`
+    -   :cite:`Panasonic2014a`
 
     Examples
     --------

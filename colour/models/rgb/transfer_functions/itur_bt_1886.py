@@ -7,8 +7,8 @@ ITU-R BT.1886
 Defines *Recommendation ITU-R BT.1886* electro-optical transfer function
 (EOTF / EOCF) and its reverse:
 
--   :func:`eotf_reverse_BT1886`
--   :func:`eotf_BT1886`
+-   :func:`colour.models.eotf_reverse_BT1886`
+-   :func:`colour.models.eotf_BT1886`
 
 See Also
 --------
@@ -18,9 +18,12 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  International Telecommunication Union. (2011). Recommendation ITU-R
-        BT.1886 - Reference electro-optical transfer function for flat panel
-        displays used in HDTV studio production BT Series Broadcasting service.
+-   :cite:`InternationalTelecommunicationUnion2011h` : International
+    Telecommunication Union. (2011). Recommendation ITU-R BT.1886 - Reference
+    electro-optical transfer function for flat panel displays used in HDTV
+    studio production BT Series Broadcasting service. Retrieved from
+    https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
+R-REC-BT.1886-0-201103-I!!PDF-E.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -57,6 +60,10 @@ def eotf_reverse_BT1886(L, L_B=0, L_W=1):
         Input video signal level (normalized, black at :math:`V = 0`, to white
         at :math:`V = 1`.
 
+    References
+    ----------
+    -   :cite:`InternationalTelecommunicationUnion2011h`
+
     Examples
     --------
     >>> eotf_reverse_BT1886(0.11699185725296059)  # doctest: +ELLIPSIS
@@ -89,7 +96,7 @@ def eotf_BT1886(V, L_B=0, L_W=1):
         at :math:`V = 1`. For content mastered per
         *Recommendation ITU-R BT.709*, 10-bit digital code values :math:`D` map
         into values of :math:`V` per the following equation:
-        :math:`V = (D–64)/876`
+        :math:`V = (D-64)/876`
     L_B : numeric, optional
         Screen luminance for black.
     L_W : numeric, optional
@@ -99,6 +106,10 @@ def eotf_BT1886(V, L_B=0, L_W=1):
     -------
     numeric or ndarray
         Screen luminance in :math:`cd/m^2`.
+
+    References
+    ----------
+    -   :cite:`InternationalTelecommunicationUnion2011h`
 
     Examples
     --------

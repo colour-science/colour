@@ -6,12 +6,12 @@ CIE Chromaticity Diagrams Plotting
 
 Defines the *CIE* chromaticity diagrams plotting objects:
 
--   :func:`chromaticity_diagram_plot_CIE1931`
--   :func:`chromaticity_diagram_plot_CIE1960UCS`
--   :func:`chromaticity_diagram_plot_CIE1976UCS`
--   :func:`spds_chromaticity_diagram_plot_CIE1931`
--   :func:`spds_chromaticity_diagram_plot_CIE1960UCS`
--   :func:`spds_chromaticity_diagram_plot_CIE1976UCS`
+-   :func:`colour.plotting.chromaticity_diagram_plot_CIE1931`
+-   :func:`colour.plotting.chromaticity_diagram_plot_CIE1960UCS`
+-   :func:`colour.plotting.chromaticity_diagram_plot_CIE1976UCS`
+-   :func:`colour.plotting.spds_chromaticity_diagram_plot_CIE1931`
+-   :func:`colour.plotting.spds_chromaticity_diagram_plot_CIE1960UCS`
+-   :func:`colour.plotting.spds_chromaticity_diagram_plot_CIE1976UCS`
 """
 
 from __future__ import division
@@ -77,9 +77,8 @@ def chromaticity_diagram_colours_CIE1931(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
 
     Returns
     -------
@@ -140,8 +139,8 @@ def chromaticity_diagram_plot_CIE1931(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`chromaticity_diagram_colours_CIE1931`,
-        :func:`boundaries`, :func:`canvas`, :func:`decorate`, :func:`display`},
+        {:func:`colour.plotting.diagrams.chromaticity_diagram_colours_CIE1931`,
+        :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
     Returns
@@ -270,9 +269,8 @@ def chromaticity_diagram_colours_CIE1960UCS(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
 
     Returns
     -------
@@ -333,8 +331,8 @@ def chromaticity_diagram_plot_CIE1960UCS(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`chromaticity_diagram_colours_CIE1960UCS`,
-        :func:`boundaries`, :func:`canvas`, :func:`decorate`, :func:`display`},
+        {:func:`colour.plotting.diagrams.\
+chromaticity_diagram_colours_CIE1960UCS`, :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
     Returns
@@ -461,9 +459,8 @@ def chromaticity_diagram_colours_CIE1976UCS(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
 
     Returns
     -------
@@ -525,8 +522,8 @@ def chromaticity_diagram_plot_CIE1976UCS(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`chromaticity_diagram_colours_CIE1976UCS`,
-        :func:`boundaries`, :func:`canvas`, :func:`decorate`, :func:`display`},
+        {:func:`colour.plotting.diagrams.\
+chromaticity_diagram_colours_CIE1976UCS`, :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
     Returns
@@ -662,14 +659,13 @@ def spds_chromaticity_diagram_plot_CIE1931(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
     show_diagram_colours : bool, optional
-        {:func:`chromaticity_diagram_plot_CIE1931`},
+        {:func:`colour.plotting.chromaticity_diagram_plot_CIE1931`},
         Whether to display the chromaticity diagram background colours.
     use_cached_diagram_colours : bool, optional
-        {:func:`chromaticity_diagram_plot_CIE1931`},
+        {:func:`colour.plotting.chromaticity_diagram_plot_CIE1931`},
         Whether to used the cached chromaticity diagram background colours
         image.
 
@@ -746,14 +742,13 @@ def spds_chromaticity_diagram_plot_CIE1960UCS(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
     show_diagram_colours : bool, optional
-        {:func:`chromaticity_diagram_plot_CIE1960UCS`},
+        {:func:`colour.plotting.chromaticity_diagram_plot_CIE1960UCS`},
         Whether to display the chromaticity diagram background colours.
     use_cached_diagram_colours : bool, optional
-        {:func:`chromaticity_diagram_plot_CIE1960UCS`},
+        {:func:`colour.plotting.chromaticity_diagram_plot_CIE1960UCS`},
         Whether to used the cached chromaticity diagram background colours
         image.
 
@@ -830,14 +825,13 @@ def spds_chromaticity_diagram_plot_CIE1976UCS(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
     show_diagram_colours : bool, optional
-        {:func:`chromaticity_diagram_plot_CIE1976UCS`},
+        {:func:`colour.plotting.chromaticity_diagram_plot_CIE1976UCS`},
         Whether to display the chromaticity diagram background colours.
     use_cached_diagram_colours : bool, optional
-        {:func:`chromaticity_diagram_plot_CIE1976UCS`},
+        {:func:`colour.plotting.chromaticity_diagram_plot_CIE1976UCS`},
         Whether to used the cached chromaticity diagram background colours
         image.
 

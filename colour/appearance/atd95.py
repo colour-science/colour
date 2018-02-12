@@ -6,8 +6,8 @@ ATD (1995) Colour Vision Model
 
 Defines *ATD (1995)* colour vision model objects:
 
--   :class:`ATD95_Specification`
--   :func:`XYZ_to_ATD95`
+-   :class:`colour.ATD95_Specification`
+-   :func:`colour.XYZ_to_ATD95`
 
 See Also
 --------
@@ -24,11 +24,12 @@ Notes
 
 References
 ----------
-.. [1]  Fairchild, M. D. (2013). ATD Model. In Color Appearance Models
-        (3rd ed., pp. 5852–5991). Wiley. ISBN:B00DAYO8E2
-.. [2]  Guth, S. L. (1995). Further applications of the ATD model for color
-        vision. In E. Walowit (Ed.), IS&T/SPIE’s Symposium on Electronic …
-        (Vol. 2414, pp. 12–26). doi:10.1117/12.206546
+-   :cite:`Fairchild2013v` : Fairchild, M. D. (2013). ATD Model. In Color
+    Appearance Models (3rd ed., pp. 5852-5991). Wiley. ISBN:B00DAYO8E2
+-   :cite:`Guth1995a` : Guth, S. L. (1995). Further applications of the ATD
+    model for color vision. In E. Walowit (Ed.), Proc. SPIE 2414,
+    Device-Independent Color Imaging II (Vol. 2414, pp. 12-26).
+    doi:10.1117/12.206546
 """
 
 from __future__ import division, unicode_literals
@@ -86,6 +87,11 @@ class ATD95_ReferenceSpecification(
         Second stage :math:`A_2` response.
     D_2 : numeric or array_like
         Second stage :math:`D_2` response.
+
+    References
+    ----------
+    -   :cite:`Fairchild2013v`
+    -   :cite:`Guth1995a`
     """
 
 
@@ -127,6 +133,11 @@ class ATD95_Specification(
     Notes
     -----
     -   This specification is the one used in the current model implementation.
+
+    References
+    ----------
+    -   :cite:`Fairchild2013v`
+    -   :cite:`Guth1995a`
     """
 
 
@@ -167,6 +178,11 @@ def XYZ_to_ATD95(XYZ, XYZ_0, Y_0, k_1, k_2, sigma=300):
         set to 1.0 while :math:`k_2` is set to 0.0. For related colors such as
         typical colorimetric applications, :math:`k_1` is set to 0.0 and
         :math:`k_2` is set to a value between 15 and 50 *(Guth, 1995)*.
+
+    References
+    ----------
+    -   :cite:`Fairchild2013v`
+    -   :cite:`Guth1995a`
 
     Examples
     --------

@@ -42,8 +42,8 @@ class TestHuntColourAppearanceModel(ColourAppearanceModelTest):
 
     def output_specification_from_data(self, data):
         """
-        Returns the *Hunt* colour appearance model output specification
-        from given data.
+        Returns the *Hunt* colour appearance model output specification from
+        given data.
 
         Parameters
         ----------

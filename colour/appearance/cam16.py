@@ -6,11 +6,11 @@ CAM16 Colour Appearance Model
 
 Defines *CAM16* colour appearance model objects:
 
--   :class:`CAM16_InductionFactors`
--   :attr:`CAM16_VIEWING_CONDITIONS`
--   :class:`CAM16_Specification`
--   :func:`XYZ_to_CAM16`
--   :func:`CAM16_to_XYZ`
+-   :class:`colour.appearance.CAM16_InductionFactors`
+-   :attr:`colour.CAM16_VIEWING_CONDITIONS`
+-   :class:`colour.CAM16_Specification`
+-   :func:`colour.XYZ_to_CAM16`
+-   :func:`colour.CAM16_to_XYZ`
 
 See Also
 --------
@@ -20,9 +20,10 @@ blob/master/notebooks/appearance/cam16.ipynb>`_
 
 References
 ----------
-.. [1]  Li, C., Li, Z., Wang, Z., Xu, Y., Luo, M. R., Cui, G., … Pointer, M.
-        (2017). Comprehensive color solutions: CAM16, CAT16, and CAM16-UCS.
-        Color Research & Application, (January), n/a-n/a. doi:10.1002/col.22131
+-   :cite:`Li2017` : Li, C., Li, Z., Wang, Z., Xu, Y., Luo, M. R., Cui, G.,
+    Pointer, M. (2017). Comprehensive color solutions: CAM16, CAT16, and
+    CAM16-UCS. Color Research & Application, 42(6), 703-718.
+    doi:10.1002/col.22131
 """
 
 from __future__ import division, unicode_literals
@@ -89,6 +90,10 @@ class CAM16_InductionFactors(
         Exponential non linearity :math:`c`.
     N_c : numeric or array_like
         Chromatic induction factor :math:`N_c`.
+
+    References
+    ----------
+    -   :cite:`Li2017`
     """
 
 
@@ -97,8 +102,12 @@ CAM16_VIEWING_CONDITIONS = CaseInsensitiveMapping({
     'Dim': CAM16_InductionFactors(0.9, 0.59, 0.9),
     'Dark': CAM16_InductionFactors(0.8, 0.525, 0.8)
 })
-"""
+CAM16_VIEWING_CONDITIONS.__doc__ = """
 Reference *CAM16* colour appearance model viewing conditions.
+
+References
+----------
+-   :cite:`Li2017`
 
 CAM16_VIEWING_CONDITIONS : CaseInsensitiveMapping
     **{'Average', 'Dim', 'Dark'}**
@@ -129,6 +138,10 @@ class CAM16_Specification(
         *Hue* :math:`h` quadrature :math:`H`.
     HC : numeric or array_like
         *Hue* :math:`h` composition :math:`H^C`.
+
+    References
+    ----------
+    -   :cite:`Li2017`
     """
 
     def __new__(cls,
@@ -141,7 +154,8 @@ class CAM16_Specification(
                 H=None,
                 HC=None):
         """
-        Returns a new instance of the :class:`CAM16_Specification` class.
+        Returns a new instance of the :class:`colour.CAM16_Specification`
+        class.
         """
 
         return super(CAM16_Specification, cls).__new__(cls, J, C, h, s, Q, M,
@@ -190,6 +204,10 @@ def XYZ_to_CAM16(XYZ,
     -----
     -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
     -   Input *CIE XYZ_w* tristimulus values are in domain [0, 100].
+
+    References
+    ----------
+    -   :cite:`Li2017`
 
     Examples
     --------
@@ -318,7 +336,7 @@ def CAM16_to_XYZ(CAM16_specification,
     ------
     ValueError
         If neither *C* or *M* correlates have been defined in the
-        `CAM16_specification` argument.
+        ``CAM16_specification`` argument.
 
     Warning
     -------
@@ -326,10 +344,14 @@ def CAM16_to_XYZ(CAM16_specification,
 
     Notes
     -----
-    -   `CAM16_specification` can also be passed as a compatible argument
-        :func:`colour.as_namedtuple` definition.
+    -   ``CAM16_specification`` can also be passed as a compatible argument
+        :func:`colour.utilities.as_namedtuple` definition.
     -   Input *CIE XYZ_w* tristimulus values are in domain [0, 100].
     -   Output *CIE XYZ* tristimulus values are in range [0, 100].
+
+    References
+    ----------
+    -   :cite:`Li2017`
 
     Examples
     --------

@@ -6,7 +6,7 @@ Random Numbers Utilities
 
 Defines random numbers generator objects:
 
--   :func:`random_triplet_generator`
+-   :func:`colour.algebra.random_triplet_generator`
 """
 
 from __future__ import division, unicode_literals

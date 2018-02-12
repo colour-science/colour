@@ -1,17 +1,17 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-CIE xyY Colourspace
-===================
+Tristimulus Values, CIE xyY Colourspace and Chromaticity Coordinates
+====================================================================
 
 Defines the *CIE xyY* colourspace transformations:
 
--   :func:`XYZ_to_xyY`
--   :func:`xyY_to_XYZ`
--   :func:`xy_to_xyY`
--   :func:`xyY_to_xy`
--   :func:`xy_to_XYZ`
--   :func:`XYZ_to_xy`
+-   :func:`colour.XYZ_to_xyY`
+-   :func:`colour.xyY_to_XYZ`
+-   :func:`colour.xy_to_xyY`
+-   :func:`colour.xyY_to_xy`
+-   :func:`colour.xy_to_XYZ`
+-   :func:`colour.XYZ_to_xy`
 
 See Also
 --------
@@ -21,8 +21,12 @@ blob/master/notebooks/models/cie_xyy.ipynb>`_
 
 References
 ----------
-.. [1]  Wikipedia. (n.d.). CIE 1931 color space. Retrieved February 24, 2014,
-        from http://en.wikipedia.org/wiki/CIE_1931_color_space
+-   :cite:`Lindbloom2003e` : Lindbloom, B. (2003). XYZ to xyY. Retrieved
+    February 24, 2014, from http://www.brucelindbloom.com/Eqn_XYZ_to_xyY.html
+-   :cite:`Lindbloom2009d` : Lindbloom, B. (2009). xyY to XYZ. Retrieved
+    February 24, 2014, from http://www.brucelindbloom.com/Eqn_xyY_to_XYZ.html
+-   :cite:`Wikipediabz` : Wikipedia. (n.d.). CIE 1931 color space. Retrieved
+    February 24, 2014, from http://en.wikipedia.org/wiki/CIE_1931_color_space
 """
 
 from __future__ import division, unicode_literals
@@ -72,8 +76,8 @@ def XYZ_to_xyY(
 
     References
     ----------
-    .. [2]  Lindbloom, B. (2003). XYZ to xyY. Retrieved February 24, 2014,
-            from http://www.brucelindbloom.com/Eqn_XYZ_to_xyY.html
+    -   :cite:`Lindbloom2003e`
+    -   :cite:`Wikipediabz`
 
     Examples
     --------
@@ -117,8 +121,8 @@ def xyY_to_XYZ(xyY):
 
     References
     ----------
-    .. [3]  Lindbloom, B. (2009). xyY to XYZ. Retrieved February 24, 2014,
-            from http://www.brucelindbloom.com/Eqn_xyY_to_XYZ.html
+    -   :cite:`Lindbloom2009d`
+    -   :cite:`Wikipediabz`
 
     Examples
     --------
@@ -141,8 +145,8 @@ def xy_to_xyY(xy, Y=1):
     Converts from *xy* chromaticity coordinates to *CIE xyY* colourspace by
     extending the array last dimension with :math:`Y` Luminance.
 
-    `xy` argument with last dimension being equal to 3 will be assumed to be a
-    *CIE xyY* colourspace array argument and will be returned directly by the
+    ``xy`` argument with last dimension being equal to 3 will be assumed to be
+    a *CIE xyY* colourspace array argument and will be returned directly by the
     definition.
 
     Parameters
@@ -162,10 +166,14 @@ def xy_to_xyY(xy, Y=1):
     -----
     -   This definition is a convenient object provided to implement support of
         illuminant argument *luminance* value in various :mod:`colour.models`
-        package objects such as :func:`colour.models.Lab_to_XYZ` or
-        :func:`colour.models.Luv_to_XYZ`.
+        package objects such as :func:`colour.Lab_to_XYZ` or
+        :func:`colour.Luv_to_XYZ`.
     -   Input *xy* chromaticity coordinates are in domain [0, 1].
     -   Output *CIE xyY* colourspace array is in range [0, 1].
+
+    References
+    ----------
+    -   :cite:`Wikipediabz`
 
     Examples
     --------
@@ -183,7 +191,7 @@ def xy_to_xyY(xy, Y=1):
     xy = np.asarray(xy)
 
     shape = xy.shape
-    # Assuming `xy` is actually a *CIE xyY* colourspace array argument and
+    # Assuming ``xy`` is actually a *CIE xyY* colourspace array argument and
     # returning it directly.
     if shape[-1] == 3:
         return xy
@@ -199,9 +207,9 @@ def xyY_to_xy(xyY):
     """
     Converts from *CIE xyY* colourspace to *xy* chromaticity coordinates.
 
-    `xyY` argument with last dimension being equal to 2 will be assumed to be a
-    *xy* chromaticity coordinates argument and will be returned directly by the
-    definition.
+    ``xyY`` argument with last dimension being equal to 2 will be assumed to be
+    a *xy* chromaticity coordinates argument and will be returned directly by
+    the definition.
 
     Parameters
     ----------
@@ -218,6 +226,10 @@ def xyY_to_xy(xyY):
     -   Input *CIE xyY* colourspace array is in domain [0, 1].
     -   Output *xy* chromaticity coordinates are in range [0, 1].
 
+    References
+    ----------
+    -   :cite:`Wikipediabz`
+
     Examples
     --------
     >>> xyY = np.array([0.26414772, 0.37770001, 0.10080000])
@@ -231,7 +243,7 @@ def xyY_to_xy(xyY):
     xyY = np.asarray(xyY)
 
     shape = xyY.shape
-    # Assuming `xyY` is actually a *xy* chromaticity coordinates argument and
+    # Assuming ``xyY`` is actually a *xy* chromaticity coordinates argument and
     # returning it directly.
     if shape[-1] == 2:
         return xyY
@@ -260,6 +272,10 @@ def xy_to_XYZ(xy):
     -----
     -   Input *xy* chromaticity coordinates are in domain [0, 1].
     -   Output *CIE XYZ* tristimulus values are in range [0, 1].
+
+    References
+    ----------
+    -   :cite:`Wikipediabz`
 
     Examples
     --------
@@ -296,6 +312,10 @@ def XYZ_to_xy(
     -----
     -   Input *CIE XYZ* tristimulus values are in domain [0, 1].
     -   Output *xy* chromaticity coordinates are in range [0, 1].
+
+    References
+    ----------
+    -   :cite:`Wikipediabz`
 
     Examples
     --------

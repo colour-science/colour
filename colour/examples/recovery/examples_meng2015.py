@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Showcases reflectance recovery computations using *Meng et al. (2015)* method.
+Showcases reflectance recovery computations using *Meng et alii (2015)* method.
 """
 
 import numpy as np

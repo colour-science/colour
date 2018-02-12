@@ -6,8 +6,8 @@ Prismatic Colourspace
 
 Defines the *Prismatic* colourspace transformations:
 
--   :func:`RGB_to_Prismatic`
--   :func:`Prismatic_to_RGB`
+-   :func:`colour.RGB_to_Prismatic`
+-   :func:`colour.Prismatic_to_RGB`
 
 See Also
 --------
@@ -17,8 +17,8 @@ blob/master/notebooks/models/prismatic.ipynb>`_
 
 References
 ----------
-.. [1]  Shirley, P., & Hart, D. (2015). The prismatic color space for rgb
-        computations, 2–7.
+-   :cite:`Shirley2015a` : Shirley, P., & Hart, D. (2015). The prismatic color
+    space for rgb computations.
 """
 
 from __future__ import division, unicode_literals
@@ -51,6 +51,10 @@ def RGB_to_Prismatic(RGB):
     -------
     ndarray
         *Prismatic* :math:`L\\rho\gamma\\beta` colourspace array.
+
+    References
+    ----------
+    -   :cite:`Shirley2015a`
 
     Examples
     --------
@@ -92,6 +96,10 @@ def Prismatic_to_RGB(Lrgb):
     -------
     ndarray
         *RGB* colourspace array.
+
+    References
+    ----------
+    -   :cite:`Shirley2015a`
 
     Examples
     --------

@@ -6,8 +6,8 @@ Colour Quality Scale
 
 Defines *Colour Quality Scale* (CQS) computation objects:
 
--   :class:`CQS_Specification`
--   :func:`colour_quality_scale`
+-   :class:`colour.quality.CQS_Specification`
+-   :func:`colour.colour_quality_scale`
 
 See Also
 --------
@@ -17,11 +17,11 @@ blob/master/notebooks/quality/cqs.ipynb>`_
 
 References
 ----------
-.. [1]  Davis, W., & Ohno, Y. (2010). Color quality scale. Optical
-        Engineering, 49(3), 33602–33616. doi:10.1117/1.3360335
-
-.. [2]  Ohno, Y., & Davis, W. (2008). NIST CQS simulation 7.4. Retrieved from
-        http://cie2.nist.gov/TC1-69/NIST CQS simulation 7.4.xls
+-   :cite:`Davis2010a` : Davis, W., & Ohno, Y. (2010). Color quality scale.
+    Optical Engineering, 49(3), 33602. doi:10.1117/1.3360335
+-   :cite:`Ohno2008a` : Ohno, Y., & Davis, W. (2008). NIST CQS simulation 7.4.
+    Retrieved from https://drive.google.com/file/d/\
+1PsuU6QjUJjCX6tQyCud6ul2Tbs8rYWW9/view?usp=sharing
 """
 
 from __future__ import division, unicode_literals
@@ -105,6 +105,11 @@ class CQS_Specification(
         Individual *Colour Quality Scale* (CQS) data for each sample.
     colorimetry_data : tuple
         Colorimetry data for the test and reference computations.
+
+    References
+    ----------
+    -   :cite:`Davis2010a`
+    -   :cite:`Ohno2008a`
     """
 
 
@@ -124,6 +129,11 @@ def colour_quality_scale(spd_test, additional_data=False):
     -------
     numeric or CQS_Specification
         Color quality scale.
+
+    References
+    ----------
+    -   :cite:`Davis2010a`
+    -   :cite:`Ohno2008a`
 
     Examples
     --------

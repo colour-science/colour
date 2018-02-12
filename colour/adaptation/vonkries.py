@@ -6,8 +6,8 @@ Von Kries Chromatic Adaptation Model
 
 Defines *Von Kries* chromatic adaptation model objects:
 
--   :func:`chromatic_adaptation_matrix_VonKries`
--   :func:`chromatic_adaptation_VonKries`
+-   :func:`colour.adaptation.chromatic_adaptation_matrix_VonKries`
+-   :func:`colour.adaptation.chromatic_adaptation_VonKries`
 
 See Also
 --------
@@ -17,8 +17,9 @@ blob/master/notebooks/adaptation/vonkries.ipynb>`_
 
 References
 ----------
-.. [1]  Fairchild, M. D. (2013). Chromatic Adaptation Models. In Color
-        Appearance Models (3rd ed., pp. 4179–4252). Wiley. ISBN:B00DAYO8E2
+-   :cite:`Fairchild2013t` : Fairchild, M. D. (2013). Chromatic Adaptation
+    Models. In Color Appearance Models (3rd ed., pp. 4179-4252). Wiley.
+    ISBN:B00DAYO8E2
 """
 
 from __future__ import division, unicode_literals
@@ -66,6 +67,10 @@ def chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
     ------
     KeyError
         If chromatic adaptation method is not defined.
+
+    References
+    ----------
+    -   :cite:`Fairchild2013t`
 
     Examples
     --------
@@ -133,6 +138,10 @@ def chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, transform='CAT02'):
     -------
     ndarray
         *CIE XYZ_c* tristimulus values of the stimulus corresponding colour.
+
+    References
+    ----------
+    -   :cite:`Fairchild2013t`
 
     Examples
     --------

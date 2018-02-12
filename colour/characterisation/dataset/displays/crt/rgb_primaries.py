@@ -4,11 +4,10 @@
 CRT Displays RGB Primaries
 ==========================
 
-Defines *CRT* displays *RGB* primaries tri-spectral power distributions.
+Defines *CRT* displays *RGB* primaries multi-spectral power distributions.
 
 Each *CRT* display data is in the form of a *dict* of
-:class:`colour.characterisation.displays.RGB_DisplayPrimaries` classes as
-follows::
+:class:`colour.characterisation.RGB_DisplayPrimaries` classes as follows::
 
     {'name': RGB_DisplayPrimaries,
     ...,
@@ -26,9 +25,9 @@ blob/master/notebooks/characterisation/displays.ipynb>`_
 
 References
 ----------
-.. [1]  Machado, G. (2010). A model for simulation of color vision deficiency
-        and a color contrast enhancement technique for dichromats. Retrieved
-        from http://www.lume.ufrgs.br/handle/10183/26950
+-   :cite:`Machado2010a` : Machado, G. M. (2010). A model for simulation of
+    color vision deficiency and a color contrast enhancement technique for
+    dichromats. Retrieved from http://www.lume.ufrgs.br/handle/10183/26950
 """
 
 from __future__ import division, unicode_literals
@@ -138,7 +137,11 @@ CRT_DISPLAYS_RGB_PRIMARIES = CaseInsensitiveMapping({
             name='Typical CRT Brainard 1997')
 })
 """
-*CRT* displays *RGB* primaries tri-spectral power distributions.
+*CRT* displays *RGB* primaries multi-spectral power distributions.
+
+References
+----------
+-   :cite:`Machado2010a`
 
 CRT_DISPLAYS_RGB_PRIMARIES : CaseInsensitiveMapping
     **{'Typical CRT Brainard 1997'}**

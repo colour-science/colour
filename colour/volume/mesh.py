@@ -30,7 +30,7 @@ def is_within_mesh_volume(points, mesh, tolerance=None):
     Parameters
     ----------
     points : array_like
-        Points to check if they are within `mesh` volume.
+        Points to check if they are within ``mesh`` volume.
     mesh : array_like
         Points of the volume used to generate the Delaunay triangulation.
     tolerance : numeric, optional

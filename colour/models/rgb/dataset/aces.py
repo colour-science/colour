@@ -6,11 +6,11 @@ Academy Color Encoding System
 
 Defines the *Academy Color Encoding System* (ACES) related encodings:
 
--   :attr:`ACES_2065_1_COLOURSPACE`
--   :attr:`ACES_CG_COLOURSPACE`
--   :attr:`ACES_CC_COLOURSPACE`
+-   :attr:`colour.models.ACES_2065_1_COLOURSPACE`
+-   :attr:`colour.models.ACES_CG_COLOURSPACE`
+-   :attr:`colour.models.ACES_CC_COLOURSPACE`
 -   :attr:'ACES_CCT_COLOURSPACE'
--   :attr:`ACES_PROXY_COLOURSPACE`
+-   :attr:`colour.models.ACES_PROXY_COLOURSPACE`
 
 See Also
 --------
@@ -20,43 +20,47 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  The Academy of Motion Picture Arts and Sciences, Science and
-        Technology Council, & Academy Color Encoding System (ACES) Project
-        Subcommittee. (n.d.). Academy Color Encoding System. Retrieved
-        February 24, 2014, from
-        http://www.oscars.org/science-technology/council/projects/aces.html
-.. [2]  The Academy of Motion Picture Arts and Sciences, Science and
-        Technology Council, & Academy Color Encoding System (ACES) Project
-        Subcommittee. (2014). Technical Bulletin TB-2014-004 - Informative
-        Notes on SMPTE ST 2065-1 – Academy Color Encoding Specification
-        (ACES). Retrieved from
-        https://github.com/ampas/aces-dev/tree/master/documents
-.. [3]  The Academy of Motion Picture Arts and Sciences, Science and Technology
-        Council, & Academy Color Encoding System (ACES) Project Subcommittee.
-        (2015). Specification S-2014-004 - ACEScg – A Working Space for CGI
-        Render and Compositing, 1–9. Retrieved from
-        https://github.com/ampas/aces-dev/tree/master/documents
-.. [4]  The Academy of Motion Picture Arts and Sciences, Science and
-        Technology Council, & Academy Color Encoding System (ACES) Project
-        Subcommittee. (2014). Specification S-2014-003 - ACEScc , A
-        Logarithmic Encoding of ACES Data for use within Color Grading
-        Systems. Retrieved from
-        https://github.com/ampas/aces-dev/tree/master/documents
-.. [5]  The Academy of Motion Picture Arts and Sciences, Science and
-        Technology Council, & Academy Color Encoding System (ACES) Project
-        Subcommittee. (2014). Specification S-2013-001 - ACESproxy , an
-        Integer Log Encoding of ACES Image Data. Retrieved from
-        https://github.com/ampas/aces-dev/tree/master/documents
-.. [6]  The Academy of Motion Picture Arts and Sciences, Science and
-        Technology Council, & Academy Color Encoding System (ACES) Project
-        Subcommittee. (2014). Technical Bulletin TB-2014-012 - Academy Color
-        Encoding System Version 1.0 Component Names. Retrieved from
-        https://github.com/ampas/aces-dev/tree/master/documents
-.. [7]  The Academy of Motion Picture Arts and Sciences. (2016).
-        Specification S-2016-001 - ACEScct, A Quasi-Logarithmic
-        Encoding of ACES Data for use within Color Grading Systems.
-        Retrieved October 10, 2016, from
-        https://github.com/ampas/aces-dev/tree/v1.0.3/documents
+-   :cite:`TheAcademyofMotionPictureArtsandSciences2014q` : The Academy of
+    Motion Picture Arts and Sciences, Science and Technology Council, & Academy
+    Color Encoding System (ACES) Project Subcommittee. (2014). Technical
+    Bulletin TB-2014-004 - Informative Notes on SMPTE ST 2065-1 - Academy Color
+    Encoding Specification (ACES). Retrieved from
+    https://github.com/ampas/aces-dev/tree/master/documents
+-   :cite:`TheAcademyofMotionPictureArtsandSciences2014r` : The Academy of
+    Motion Picture Arts and Sciences, Science and Technology Council, &
+    Academy Color Encoding System (ACES) Project Subcommittee. (2014).
+    Technical Bulletin TB-2014-012 - Academy Color Encoding System Version 1.0
+    Component Names. Retrieved from
+    https://github.com/ampas/aces-dev/tree/master/documents
+-   :cite:`TheAcademyofMotionPictureArtsandSciences2014s` : The Academy of
+    Motion Picture Arts and Sciences, Science and Technology Council, &
+    Academy Color Encoding System (ACES) Project Subcommittee. (2014).
+    Specification S-2013-001 - ACESproxy , an Integer Log Encoding of ACES
+    Image Data. Retrieved from
+    https://github.com/ampas/aces-dev/tree/master/documents
+-   :cite:`TheAcademyofMotionPictureArtsandSciences2014t` : The Academy of
+    Motion Picture Arts and Sciences, Science and Technology Council, & Academy
+    Color Encoding System (ACES) Project Subcommittee. (2014). Specification
+    S-2014-003 - ACEScc , A Logarithmic Encoding of ACES Data for use within
+    Color Grading Systems. Retrieved from
+    https://github.com/ampas/aces-dev/tree/master/documents
+-   :cite:`TheAcademyofMotionPictureArtsandSciences2015b` : The Academy of
+    Motion Picture Arts and Sciences, Science and Technology Council, &
+    Academy Color Encoding System (ACES) Project Subcommittee. (2015).
+    Specification S-2014-004 - ACEScg - A Working Space for CGI Render and
+    Compositing. Retrieved from
+    https://github.com/ampas/aces-dev/tree/master/documents
+-   :cite:`TheAcademyofMotionPictureArtsandSciences2016c` : The Academy of
+    Motion Picture Arts and Sciences, Science and Technology Council, &
+    Academy Color Encoding System (ACES) Project. (2016). Specification
+    S-2016-001 - ACEScct, A Quasi-Logarithmic Encoding of ACES Data for use
+    within Color Grading Systems. Retrieved October 10, 2016, from
+    https://github.com/ampas/aces-dev/tree/v1.0.3/documents
+-   :cite:`TheAcademyofMotionPictureArtsandSciencese` : The Academy of Motion
+    Picture Arts and Sciences, Science and Technology Council, & Academy Color
+    Encoding System (ACES) Project Subcommittee. (n.d.). Academy Color Encoding
+    System. Retrieved February 24, 2014, from
+    http://www.oscars.org/science-technology/council/projects/aces.html
 """
 
 from __future__ import division, unicode_literals
@@ -165,9 +169,15 @@ ACES_2065_1_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_AP0_MATRIX,
     function_linear,
     function_linear)  # yapf: disable
-"""
+ACES_2065_1_COLOURSPACE.__doc__ = """
 *ACES2065-1* colourspace, base encoding, used for exchange of full fidelity
 images and archiving.
+
+References
+----------
+-   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
+-   :cite:`TheAcademyofMotionPictureArtsandSciences2014r`
+-   :cite:`TheAcademyofMotionPictureArtsandSciencese`
 
 ACES_2065_1_COLOURSPACE : RGB_Colourspace
 """
@@ -181,9 +191,16 @@ ACES_CG_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_AP1_MATRIX,
     function_linear,
     function_linear)  # yapf: disable
-"""
+ACES_CG_COLOURSPACE.__doc__ = """
 *ACEScg* colourspace, a working space for paint/compositor applications that
-don’t support ACES2065-1 or ACEScc.
+don't support ACES2065-1 or ACEScc.
+
+References
+----------
+-   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
+-   :cite:`TheAcademyofMotionPictureArtsandSciences2014r`
+-   :cite:`TheAcademyofMotionPictureArtsandSciences2015b`
+-   :cite:`TheAcademyofMotionPictureArtsandSciencese`
 
 ACES_CG_COLOURSPACE : RGB_Colourspace
 """
@@ -197,9 +214,16 @@ ACES_CC_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_AP1_MATRIX,
     log_encoding_ACEScc,
     log_decoding_ACEScc)  # yapf: disable
-"""
+ACES_CC_COLOURSPACE.__doc__ = """
 *ACEScc* colourspace, a working space for color correctors, target for ASC-CDL
 values created on-set.
+
+References
+----------
+-   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
+-   :cite:`TheAcademyofMotionPictureArtsandSciences2014r`
+-   :cite:`TheAcademyofMotionPictureArtsandSciences2014t`
+-   :cite:`TheAcademyofMotionPictureArtsandSciencese`
 
 ACES_CC_COLOURSPACE : RGB_Colourspace
 """
@@ -213,10 +237,17 @@ ACES_CCT_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_AP1_MATRIX,
     log_encoding_ACEScct,
     log_decoding_ACEScct)  # yapf: disable
-"""
+ACES_CCT_COLOURSPACE.__doc__ = """
 *ACEScct* colourspace, an alternative working space for colour correctors,
 intended to be transient and internal to software or hardware systems,
 and is specifically not intended for interchange or archiving.
+
+References
+----------
+-   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
+-   :cite:`TheAcademyofMotionPictureArtsandSciences2014r`
+-   :cite:`TheAcademyofMotionPictureArtsandSciences2016c`
+-   :cite:`TheAcademyofMotionPictureArtsandSciencese`
 
 ACES_CCT_COLOURSPACE : RGB_Colourspace
 """
@@ -230,11 +261,18 @@ ACES_PROXY_COLOURSPACE = RGB_Colourspace(
     XYZ_TO_AP1_MATRIX,
     log_encoding_ACESproxy,
     log_decoding_ACESproxy)  # yapf: disable
-"""
+ACES_PROXY_COLOURSPACE.__doc__ = """
 *ACESproxy* colourspace, a lightweight encoding for transmission over HD-SDI
 (or other production transmission schemes), onset look management. Not
 intended to be stored or used in production imagery or for final colour
 grading / mastering.
+
+References
+----------
+-   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
+-   :cite:`TheAcademyofMotionPictureArtsandSciences2014r`
+-   :cite:`TheAcademyofMotionPictureArtsandSciences2014s`
+-   :cite:`TheAcademyofMotionPictureArtsandSciencese`
 
 ACES_PROXY_COLOURSPACE : RGB_Colourspace
 """
