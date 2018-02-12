@@ -268,3 +268,26 @@ message_box(('Converting to "CIE XYZ" tristimulus values from given "hdr-IPT" '
              'colourspace values:\n'
              '\n\t{0}'.format(IPT_hdr)))
 print(colour.hdr_IPT_to_XYZ(IPT_hdr))
+
+print('\n')
+
+XYZ = np.array([19.01, 20.00, 21.78])
+XYZ_w = np.array([95.05, 100.00, 108.88])
+L_A = 318.31
+Y_b = 20.0
+surround = colour.CIECAM02_VIEWING_CONDITIONS['Average']
+specification = colour.XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround)
+JMh = (specification.J, specification.M, specification.h)
+message_box(('Converting to "CAM02-UCS" colourspace from given '
+             '"CIECAM02" colour appearance model "JMh" correlates:\n'
+             '\n\t{0}'.format(JMh)))
+print(colour.JMh_CIECAM02_to_CAM02UCS(JMh))
+
+print('\n')
+
+specification = colour.XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround)
+JMh = (specification.J, specification.M, specification.h)
+message_box(('Converting to "CAM16-UCS" colourspace from given '
+             '"CAM16" colour appearance model "JMh" correlates:\n'
+             '\n\t{0}'.format(JMh)))
+print(colour.JMh_CAM16_to_CAM16UCS(JMh))

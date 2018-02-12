@@ -41,39 +41,39 @@ class TestDelta_E_Luo2006(unittest.TestCase):
         self.assertAlmostEqual(
             delta_E_Luo2006(
                 np.array([54.90433134, -0.08450395, -0.06854831]),
-                np.array([54.90433134, -0.08442362, -0.06848314]),
+                np.array([54.80352754, -3.96940084, -13.57591013]),
                 COEFFICIENTS_UCS_LUO2006['CAM02-LCD']),
-            0.00010344,
+            14.055546437777583,
             places=7)
 
         self.assertAlmostEqual(
             delta_E_Luo2006(
                 np.array([54.90433134, -0.08450395, -0.06854831]),
-                np.array([54.90433134, -0.08442362, -0.06848314]),
+                np.array([54.80352754, -3.96940084, -13.57591013]),
                 COEFFICIENTS_UCS_LUO2006['CAM02-LCD']),
             delta_E_CAM02LCD(
                 np.array([54.90433134, -0.08450395, -0.06854831]),
-                np.array([54.90433134, -0.08442362, -0.06848314])),
+                np.array([54.80352754, -3.96940084, -13.57591013])),
             places=7)
 
         self.assertAlmostEqual(
             delta_E_Luo2006(
                 np.array([54.90433134, -0.08450395, -0.06854831]),
-                np.array([54.90433134, -0.08442362, -0.06848314]),
+                np.array([54.80352754, -3.96940084, -13.57591013]),
                 COEFFICIENTS_UCS_LUO2006['CAM02-SCD']),
             delta_E_CAM02SCD(
                 np.array([54.90433134, -0.08450395, -0.06854831]),
-                np.array([54.90433134, -0.08442362, -0.06848314])),
+                np.array([54.80352754, -3.96940084, -13.57591013])),
             places=7)
 
         self.assertAlmostEqual(
             delta_E_Luo2006(
                 np.array([54.90433134, -0.08450395, -0.06854831]),
-                np.array([54.90433134, -0.08442362, -0.06848314]),
+                np.array([54.80352754, -3.96940084, -13.57591013]),
                 COEFFICIENTS_UCS_LUO2006['CAM02-UCS']),
             delta_E_CAM02UCS(
                 np.array([54.90433134, -0.08450395, -0.06854831]),
-                np.array([54.90433134, -0.08442362, -0.06848314])),
+                np.array([54.80352754, -3.96940084, -13.57591013])),
             places=7)
 
     def test_n_dimensional_delta_E_Luo2006(self):
@@ -83,8 +83,8 @@ class TestDelta_E_Luo2006(unittest.TestCase):
         """
 
         Jpapbp_1 = np.array([54.90433134, -0.08450395, -0.06854831])
-        Jpapbp_2 = np.array([54.90433134, -0.08442362, -0.06848314])
-        delta_E_p = 0.00010344
+        Jpapbp_2 = np.array([54.80352754, -3.96940084, -13.57591013])
+        delta_E_p = 14.055546437777583
         np.testing.assert_almost_equal(
             delta_E_Luo2006(Jpapbp_1, Jpapbp_2,
                             COEFFICIENTS_UCS_LUO2006['CAM02-LCD']),
