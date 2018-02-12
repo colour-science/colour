@@ -303,7 +303,7 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
         to be 20% of the luminance of a white object in the scene).
     Y_b : numeric or array_like
         Relative luminance of background :math:`Y_b` in :math:`cd/m^2`.
-    surround : CIECAM02_Surround, optional
+    surround : CIECAM02_InductionFactors, optional
         Surround viewing conditions.
     discount_illuminant : bool, optional
         Discount the illuminant.

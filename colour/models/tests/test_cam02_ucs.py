@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.models.ucs_luo2006` module.
+Defines unit tests for :mod:`colour.models.cam02_ucs` module.
 """
 
 from __future__ import division, unicode_literals
@@ -11,9 +11,9 @@ import unittest
 from itertools import permutations
 
 from colour.appearance import (CIECAM02_VIEWING_CONDITIONS, XYZ_to_CIECAM02)
-from colour.models.ucs_luo2006 import (COEFFICIENTS_UCS_LUO2006,
-                                       JMh_CIECAM02_to_UCS_Luo2006,
-                                       UCS_Luo2006_to_JMh_CIECAM02)
+from colour.models.cam02_ucs import (COEFFICIENTS_UCS_LUO2006,
+                                     JMh_CIECAM02_to_UCS_Luo2006,
+                                     UCS_Luo2006_to_JMh_CIECAM02)
 from colour.models import (JMh_CIECAM02_to_CAM02LCD, CAM02LCD_to_JMh_CIECAM02,
                            JMh_CIECAM02_to_CAM02SCD, CAM02SCD_to_JMh_CIECAM02,
                            JMh_CIECAM02_to_CAM02UCS, CAM02UCS_to_JMh_CIECAM02)
@@ -33,7 +33,7 @@ __all__ = [
 
 class TestJMh_CIECAM02_to_UCS_Luo2006(unittest.TestCase):
     """
-    Defines :func:`colour.models.ucs_luo2006.TestJMh_CIECAM02_to_UCS_Luo2006`
+    Defines :func:`colour.models.cam02_ucs.TestJMh_CIECAM02_to_UCS_Luo2006`
     definition unit tests methods.
     """
 
@@ -53,7 +53,7 @@ class TestJMh_CIECAM02_to_UCS_Luo2006(unittest.TestCase):
 
     def test_JMh_CIECAM02_to_UCS_Luo2006(self):
         """
-        Tests :func:`colour.models.ucs_luo2006.JMh_CIECAM02_to_UCS_Luo2006`
+        Tests :func:`colour.models.cam02_ucs.JMh_CIECAM02_to_UCS_Luo2006`
         definition.
         """
 
@@ -95,7 +95,7 @@ class TestJMh_CIECAM02_to_UCS_Luo2006(unittest.TestCase):
 
     def test_n_dimensional_JMh_CIECAM02_to_UCS_Luo2006(self):
         """
-        Tests :func:`colour.models.ucs_luo2006.JMh_CIECAM02_to_UCS_Luo2006`
+        Tests :func:`colour.models.cam02_ucs.JMh_CIECAM02_to_UCS_Luo2006`
         definition n-dimensions support.
         """
 
@@ -126,7 +126,7 @@ class TestJMh_CIECAM02_to_UCS_Luo2006(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_JMh_CIECAM02_to_UCS_Luo2006(self):
         """
-        Tests :func:`colour.models.ucs_luo2006.JMh_CIECAM02_to_UCS_Luo2006`
+        Tests :func:`colour.models.cam02_ucs.JMh_CIECAM02_to_UCS_Luo2006`
         definition nan support.
         """
 
@@ -140,13 +140,13 @@ class TestJMh_CIECAM02_to_UCS_Luo2006(unittest.TestCase):
 
 class TestUCS_Luo2006_to_JMh_CIECAM02(unittest.TestCase):
     """
-    Defines :func:`colour.models.ucs_luo2006.TestUCS_Luo2006_to_JMh_CIECAM02`
+    Defines :func:`colour.models.cam02_ucs.TestUCS_Luo2006_to_JMh_CIECAM02`
     definition unit tests methods.
     """
 
     def test_UCS_Luo2006_to_JMh_CIECAM02(self):
         """
-        Tests :func:`colour.models.ucs_luo2006.UCS_Luo2006_to_JMh_CIECAM02`
+        Tests :func:`colour.models.cam02_ucs.UCS_Luo2006_to_JMh_CIECAM02`
         definition.
         """
 
@@ -197,7 +197,7 @@ class TestUCS_Luo2006_to_JMh_CIECAM02(unittest.TestCase):
 
     def test_n_dimensional_UCS_Luo2006_to_JMh_CIECAM02(self):
         """
-        Tests :func:`colour.models.ucs_luo2006.UCS_Luo2006_to_JMh_CIECAM02`
+        Tests :func:`colour.models.cam02_ucs.UCS_Luo2006_to_JMh_CIECAM02`
         definition n-dimensions support.
         """
 
@@ -228,7 +228,7 @@ class TestUCS_Luo2006_to_JMh_CIECAM02(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_UCS_Luo2006_to_JMh_CIECAM02(self):
         """
-        Tests :func:`colour.models.ucs_luo2006.UCS_Luo2006_to_JMh_CIECAM02`
+        Tests :func:`colour.models.cam02_ucs.UCS_Luo2006_to_JMh_CIECAM02`
         definition nan support.
         """
 
