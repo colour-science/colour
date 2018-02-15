@@ -23,27 +23,27 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'VONKRIES_PREDICTION_DATA', 'CIE1994_PREDICTION_DATA',
-    'CMCCAT2000_PREDICTION_DATA', 'FAIRCHILD1990_PREDICTION_DATA',
-    'TestCorrespondingChromaticitiesPredictionVonKries',
+    'FAIRCHILD1990_PREDICTION_DATA', 'CIE1994_PREDICTION_DATA',
+    'CMCCAT2000_PREDICTION_DATA', 'VONKRIES_PREDICTION_DATA',
+    'TestCorrespondingChromaticitiesPredictionFairchild1990',
     'TestCorrespondingChromaticitiesPredictionCIE1994',
     'TestCorrespondingChromaticitiesPredictionCMCCAT2000',
-    'TestCorrespondingChromaticitiesPredictionFairchild1990'
+    'TestCorrespondingChromaticitiesPredictionVonKries'
 ]
 
-VONKRIES_PREDICTION_DATA = np.array([
-    [(0.199, 0.487), (0.199994235295863, 0.470596132542110)],
-    [(0.420, 0.509), (0.414913855668385, 0.503766204685646)],
-    [(0.249, 0.497), (0.244202332779817, 0.483154861151019)],
-    [(0.302, 0.548), (0.307287743499555, 0.543174463393956)],
-    [(0.290, 0.537), (0.294129765202449, 0.531627707350365)],
-    [(0.257, 0.554), (0.261399171975815, 0.549476532253197)],
-    [(0.192, 0.529), (0.199113248438711, 0.512769667764083)],
-    [(0.129, 0.521), (0.142266217705415, 0.499812542997584)],
-    [(0.133, 0.469), (0.138134593378073, 0.443768079552099)],
-    [(0.158, 0.340), (0.154188271421900, 0.338322678880046)],
-    [(0.178, 0.426), (0.175297924104065, 0.404343935551269)],
-    [(0.231, 0.365), (0.213004721499844, 0.354595262694384)],
+FAIRCHILD1990_PREDICTION_DATA = np.array([
+    [(0.199, 0.487), (0.200554934448681, 0.470155699619516)],
+    [(0.420, 0.509), (0.389214449896027, 0.514002881379267)],
+    [(0.249, 0.497), (0.241570029196649, 0.486033850388237)],
+    [(0.302, 0.548), (0.290619228590390, 0.550282593092481)],
+    [(0.290, 0.537), (0.280611339160018, 0.538348403477048)],
+    [(0.257, 0.554), (0.248379871541202, 0.555741679220336)],
+    [(0.192, 0.529), (0.194404361202511, 0.515869077684087)],
+    [(0.129, 0.521), (0.139197382975043, 0.499578426956623)],
+    [(0.133, 0.469), (0.140948349615191, 0.436038790232095)],
+    [(0.158, 0.340), (0.170240154737059, 0.311121250518367)],
+    [(0.178, 0.426), (0.184104505156227, 0.393143101221379)],
+    [(0.231, 0.365), (0.229252692804442, 0.338033995795458)],
 ])
 
 CIE1994_PREDICTION_DATA = np.array([
@@ -76,40 +76,42 @@ CMCCAT2000_PREDICTION_DATA = np.array([
     [(0.231, 0.365), (0.213770919959778, 0.348685954116193)],
 ])
 
-FAIRCHILD1990_PREDICTION_DATA = np.array([
-    [(0.199, 0.487), (0.200554934448681, 0.470155699619516)],
-    [(0.420, 0.509), (0.389214449896027, 0.514002881379267)],
-    [(0.249, 0.497), (0.241570029196649, 0.486033850388237)],
-    [(0.302, 0.548), (0.290619228590390, 0.550282593092481)],
-    [(0.290, 0.537), (0.280611339160018, 0.538348403477048)],
-    [(0.257, 0.554), (0.248379871541202, 0.555741679220336)],
-    [(0.192, 0.529), (0.194404361202511, 0.515869077684087)],
-    [(0.129, 0.521), (0.139197382975043, 0.499578426956623)],
-    [(0.133, 0.469), (0.140948349615191, 0.436038790232095)],
-    [(0.158, 0.340), (0.170240154737059, 0.311121250518367)],
-    [(0.178, 0.426), (0.184104505156227, 0.393143101221379)],
-    [(0.231, 0.365), (0.229252692804442, 0.338033995795458)],
+VONKRIES_PREDICTION_DATA = np.array([
+    [(0.199, 0.487), (0.199994235295863, 0.470596132542110)],
+    [(0.420, 0.509), (0.414913855668385, 0.503766204685646)],
+    [(0.249, 0.497), (0.244202332779817, 0.483154861151019)],
+    [(0.302, 0.548), (0.307287743499555, 0.543174463393956)],
+    [(0.290, 0.537), (0.294129765202449, 0.531627707350365)],
+    [(0.257, 0.554), (0.261399171975815, 0.549476532253197)],
+    [(0.192, 0.529), (0.199113248438711, 0.512769667764083)],
+    [(0.129, 0.521), (0.142266217705415, 0.499812542997584)],
+    [(0.133, 0.469), (0.138134593378073, 0.443768079552099)],
+    [(0.158, 0.340), (0.154188271421900, 0.338322678880046)],
+    [(0.178, 0.426), (0.175297924104065, 0.404343935551269)],
+    [(0.231, 0.365), (0.213004721499844, 0.354595262694384)],
 ])
 
 
-class TestCorrespondingChromaticitiesPredictionVonKries(unittest.TestCase):
+class TestCorrespondingChromaticitiesPredictionFairchild1990(
+        unittest.TestCase):  # noqa
     """
     Defines :func:`colour.corresponding.prediction.\
-corresponding_chromaticities_prediction_VonKries` definition unit tests
+corresponding_chromaticities_prediction_Fairchild1990` definition unit tests
     methods.
     """
 
-    def test_corresponding_chromaticities_prediction_VonKries(self):
+    def test_corresponding_chromaticities_prediction_Fairchild1990(self):
         """
         Tests :func:`colour.corresponding.prediction.\
-corresponding_chromaticities_prediction_VonKries` definition.
+corresponding_chromaticities_prediction_Fairchild1990` definition.
         """
 
         np.testing.assert_almost_equal(
             np.array(
                 [(p.uvp_m, p.uvp_p)
-                 for p in corresponding_chromaticities_prediction_VonKries()]),
-            VONKRIES_PREDICTION_DATA,
+                 for p in
+                 corresponding_chromaticities_prediction_Fairchild1990()]),
+            FAIRCHILD1990_PREDICTION_DATA,
             decimal=7)
 
 
@@ -155,24 +157,22 @@ corresponding_chromaticities_prediction_CMCCAT2000` definition unit tests
             decimal=7)
 
 
-class TestCorrespondingChromaticitiesPredictionFairchild1990(
-        unittest.TestCase):  # noqa
+class TestCorrespondingChromaticitiesPredictionVonKries(unittest.TestCase):
     """
     Defines :func:`colour.corresponding.prediction.\
-corresponding_chromaticities_prediction_Fairchild1990` definition unit tests
+corresponding_chromaticities_prediction_VonKries` definition unit tests
     methods.
     """
 
-    def test_corresponding_chromaticities_prediction_Fairchild1990(self):
+    def test_corresponding_chromaticities_prediction_VonKries(self):
         """
         Tests :func:`colour.corresponding.prediction.\
-corresponding_chromaticities_prediction_Fairchild1990` definition.
+corresponding_chromaticities_prediction_VonKries` definition.
         """
 
         np.testing.assert_almost_equal(
             np.array(
                 [(p.uvp_m, p.uvp_p)
-                 for p in
-                 corresponding_chromaticities_prediction_Fairchild1990()]),
-            FAIRCHILD1990_PREDICTION_DATA,
+                 for p in corresponding_chromaticities_prediction_VonKries()]),
+            VONKRIES_PREDICTION_DATA,
             decimal=7)
