@@ -934,7 +934,7 @@ def RGB_to_RGB_matrix(input_colourspace,
 
     Examples
     --------
-    >>> from colour import sRGB_COLOURSPACE, PROPHOTO_RGB_COLOURSPACE
+    >>> from colour.models import sRGB_COLOURSPACE, PROPHOTO_RGB_COLOURSPACE
     >>> RGB_to_RGB_matrix(sRGB_COLOURSPACE, PROPHOTO_RGB_COLOURSPACE)
     ... # doctest: +ELLIPSIS
     array([[ 0.5288241...,  0.3340609...,  0.1373616...],
@@ -996,7 +996,7 @@ def RGB_to_RGB(RGB,
 
     Examples
     --------
-    >>> from colour import sRGB_COLOURSPACE, PROPHOTO_RGB_COLOURSPACE
+    >>> from colour.models import sRGB_COLOURSPACE, PROPHOTO_RGB_COLOURSPACE
     >>> RGB = np.array([0.01103742, 0.12734226, 0.11632971])
     >>> RGB_to_RGB(RGB, sRGB_COLOURSPACE, PROPHOTO_RGB_COLOURSPACE)
     ... # doctest: +ELLIPSIS

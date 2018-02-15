@@ -163,7 +163,7 @@ def read_spds_from_csv_file(path, delimiter=',', fields=None, default=0):
 
     Examples
     --------
-    >>> from colour import numpy_print_options
+    >>> from colour.utilities import numpy_print_options
     >>> import os
     >>> csv_file = os.path.join(os.path.dirname(__file__), 'tests',
     ...                         'resources', 'colorchecker_n_ohta.csv')

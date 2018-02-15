@@ -96,7 +96,7 @@ def XYZ_to_spectral(XYZ, method='Meng 2015', **kwargs):
 
     *Meng (2015)* reflectance recovery:
 
-    >>> from colour import numpy_print_options
+    >>> from colour.utilities import numpy_print_options
     >>> from colour.colorimetry import spectral_to_XYZ_integration
     >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
     >>> spd = XYZ_to_spectral(XYZ, interval=10)

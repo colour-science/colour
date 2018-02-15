@@ -128,7 +128,7 @@ def mesopic_luminous_efficiency_function(
 
     Examples
     --------
-    >>> from colour import numpy_print_options
+    >>> from colour.utilities import numpy_print_options
     >>> with numpy_print_options(suppress=True):
     ...     mesopic_luminous_efficiency_function(0.2)  # doctest: +ELLIPSIS
     SpectralPowerDistribution([[ 380.        ,    0.000424 ...],

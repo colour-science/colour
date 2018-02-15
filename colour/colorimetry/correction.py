@@ -71,7 +71,8 @@ def bandpass_correction_Stearns1988(spd):
 
     Examples
     --------
-    >>> from colour import SpectralPowerDistribution, numpy_print_options
+    >>> from colour import SpectralPowerDistribution
+    >>> from colour.utilities import numpy_print_options
     >>> data = {
     ...     500: 0.0651,
     ...     520: 0.0705,
