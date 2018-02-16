@@ -3,10 +3,10 @@
 
 from __future__ import absolute_import
 
-import os
 import sys
 
 from colour.utilities.deprecation import ModuleAPI, Renamed
+from colour.utilities.documentation import is_documentation_building
 
 from .dataset import *  # noqa
 from . import dataset
@@ -213,13 +213,13 @@ def _setup_api_changes():
     API_CHANGES.pop('Renamed')
 
 
-if os.environ.get('READTHEDOCS') != 'True':
+if not is_documentation_building():
     del ModuleAPI
     del Renamed
+    del is_documentation_building
     del _setup_api_changes
 
     sys.modules['colour.plotting'] = plotting(sys.modules['colour.plotting'],
                                               API_CHANGES)
 
-    del os
     del sys

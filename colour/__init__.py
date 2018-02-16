@@ -35,11 +35,12 @@ Sub-packages
 
 from __future__ import absolute_import
 
-import os
 import sys
 
 from .utilities.deprecation import (FutureAccessChange, FutureAccessRemove,
                                     ModuleAPI, Removed, Renamed)
+from .utilities.documentation import is_documentation_building
+
 from .adaptation import (CHROMATIC_ADAPTATION_METHODS,
                          CHROMATIC_ADAPTATION_TRANSFORMS,
                          CMCCAT2000_VIEWING_CONDITIONS, chromatic_adaptation)
@@ -1581,7 +1582,7 @@ def _setup_api_changes():
     API_CHANGES.pop('Renamed')
 
 
-if os.environ.get('READTHEDOCS') != 'True':
+if not is_documentation_building():
     _setup_api_changes()
 
     del FutureAccessChange
@@ -1589,9 +1590,9 @@ if os.environ.get('READTHEDOCS') != 'True':
     del ModuleAPI
     del Removed
     del Renamed
+    del is_documentation_building
     del _setup_api_changes
 
     sys.modules['colour'] = colour(sys.modules['colour'], API_CHANGES)
 
-    del os
     del sys
