@@ -6,12 +6,23 @@ Whiteness Index :math:`W`
 
 Defines *whiteness* index :math:`W` computation objects:
 
--   :func:`colour.colorimetry.whiteness_Berger1959`
--   :func:`colour.colorimetry.whiteness_Taube1960`
--   :func:`colour.colorimetry.whiteness_Stensby1968`
--   :func:`colour.colorimetry.whiteness_ASTME313`
--   :func:`colour.colorimetry.whiteness_Ganz1979`
--   :func:`colour.colorimetry.whiteness_CIE2004`
+-   :func:`colour.colorimetry.whiteness_Berger1959`: *Whiteness* index
+    :math:`WI` computation of given sample *CIE XYZ* tristimulus values using
+    *Berger (1959)* method.
+-   :func:`colour.colorimetry.whiteness_Taube1960`: *Whiteness* index
+    :math:`WI` computation of given sample *CIE XYZ* tristimulus values using
+    *Taube (1960)* method.
+-   :func:`colour.colorimetry.whiteness_Stensby1968`: *Whiteness* index
+    :math:`WI` computation of given sample *CIE L\*a\*b\** colourspace array
+    using *Stensby (1968)* method.
+-   :func:`colour.colorimetry.whiteness_ASTME313`: *Whiteness* index :math:`WI`
+    of given sample *CIE XYZ* tristimulus values using *ASTM E313* method.
+-   :func:`colour.colorimetry.whiteness_Ganz1979`: *Whiteness* index :math:`W`
+    and *tint* :math:`T` computation of given sample *xy* chromaticity
+    coordinates using *Ganz and Griesser (1979)* method.
+-   :func:`colour.colorimetry.whiteness_CIE2004`: *Whiteness* :math:`W` or
+    :math:`W_{10}` and *tint* :math:`T` or :math:`T_{10}` computation of given
+    sample *xy* chromaticity coordinates using *CIE 2004* method.
 
 See Also
 --------

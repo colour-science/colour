@@ -535,7 +535,7 @@ dict_like, optional
     Instantiating a spectral power distribution with a uniformly spaced
     independent variable:
 
-    >>> from colour import numpy_print_options
+    >>> from colour.utilities import numpy_print_options
     >>> data = {
     ...     500: 0.0651,
     ...     520: 0.0705,
@@ -771,7 +771,7 @@ dict_like, optional
 
         Examples
         --------
-        >>> from colour import numpy_print_options
+        >>> from colour.utilities import numpy_print_options
         >>> data = {
         ...     500: 0.0651,
         ...     520: 0.0705,
@@ -875,7 +875,7 @@ dict_like, optional
         Spectral power distribution with a uniformly spaced independent
         variable uses *Sprague (1880)* interpolation:
 
-        >>> from colour import numpy_print_options
+        >>> from colour.utilities import numpy_print_options
         >>> data = {
         ...     500: 0.0651,
         ...     520: 0.0705,
@@ -1162,7 +1162,7 @@ dict_like, optional
 
         Examples
         --------
-        >>> from colour import numpy_print_options
+        >>> from colour.utilities import numpy_print_options
         >>> data = {
         ...     500: 0.0651,
         ...     520: 0.0705,
@@ -1260,7 +1260,7 @@ dict_like, optional
 
         Examples
         --------
-        >>> from colour import numpy_print_options
+        >>> from colour.utilities import numpy_print_options
         >>> data = {
         ...     500: 0.0651,
         ...     520: 0.0705,
@@ -1368,7 +1368,7 @@ dict_like, optional
 
         Examples
         --------
-        >>> from colour import numpy_print_options
+        >>> from colour.utilities import numpy_print_options
         >>> data = {
         ...     500: 0.0651,
         ...     520: 0.0705,
@@ -1533,7 +1533,7 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
     Instantiating a multi-spectral power distribution with a uniformly spaced
     independent variable:
 
-    >>> from colour import numpy_print_options
+    >>> from colour.utilities import numpy_print_options
     >>> data = {
     ...     500: (0.004900, 0.323000, 0.272000),
     ...     510: (0.009300, 0.503000, 0.158200),
@@ -1768,7 +1768,7 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
         Shape of a multi-spectral power distribution with a uniformly spaced
         independent variable:
 
-        >>> from colour import numpy_print_options
+        >>> from colour.utilities import numpy_print_options
         >>> data = {
         ...     500: (0.004900, 0.323000, 0.272000),
         ...     510: (0.009300, 0.503000, 0.158200),
@@ -1819,7 +1819,7 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
 
         Examples
         --------
-        >>> from colour import numpy_print_options
+        >>> from colour.utilities import numpy_print_options
         >>> data = {
         ...     500: (0.004900, 0.323000, 0.272000),
         ...     510: (0.009300, 0.503000, 0.158200),
@@ -1910,7 +1910,7 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
         Multi-spectral power distribution with a uniformly spaced independent
         variable uses *Sprague (1880)* interpolation:
 
-        >>> from colour import numpy_print_options
+        >>> from colour.utilities import numpy_print_options
         >>> data = {
         ...     500: (0.004900, 0.323000, 0.272000),
         ...     510: (0.009300, 0.503000, 0.158200),
@@ -2092,7 +2092,7 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
 
         Examples
         --------
-        >>> from colour import numpy_print_options
+        >>> from colour.utilities import numpy_print_options
         >>> data = {
         ...     500: (0.004900, 0.323000, 0.272000),
         ...     510: (0.009300, 0.503000, 0.158200),
@@ -2191,7 +2191,7 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
 
         Examples
         --------
-        >>> from colour import numpy_print_options
+        >>> from colour.utilities import numpy_print_options
         >>> data = {
         ...     500: (0.004900, 0.323000, 0.272000),
         ...     510: (0.009300, 0.503000, 0.158200),
@@ -2276,7 +2276,7 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
 
         Examples
         --------
-        >>> from colour import numpy_print_options
+        >>> from colour.utilities import numpy_print_options
         >>> data = {
         ...     500: (0.004900, 0.323000, 0.272000),
         ...     510: (0.009300, 0.503000, 0.158200),

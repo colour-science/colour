@@ -69,7 +69,7 @@ def D_illuminant_relative_spd(xy):
 
     Examples
     --------
-    >>> from colour import numpy_print_options
+    >>> from colour.utilities import numpy_print_options
     >>> xy = np.array([0.34570, 0.35850])
     >>> with numpy_print_options(suppress=True):
     ...     D_illuminant_relative_spd(xy)  # doctest: +ELLIPSIS

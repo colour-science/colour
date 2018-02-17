@@ -17,25 +17,17 @@ Defines the *CIE* chromaticity diagrams plotting objects:
 from __future__ import division
 
 import bisect
-import os
-
-import matplotlib
-import matplotlib.image
-import matplotlib.pyplot
 import numpy as np
 import pylab
-from scipy.ndimage.filters import convolve
-from scipy.spatial import Delaunay
+from matplotlib.patches import Polygon
 
 from colour.algebra import normalise_vector
 from colour.colorimetry import spectral_to_XYZ
-from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.models import (Luv_to_uv, Luv_uv_to_xy, UCS_to_uv, UCS_uv_to_xy,
                            XYZ_to_Luv, XYZ_to_UCS, XYZ_to_sRGB, XYZ_to_xy,
                            xy_to_XYZ)
 from colour.plotting import (DEFAULT_FIGURE_WIDTH, DEFAULT_PLOTTING_ILLUMINANT,
-                             PLOTTING_RESOURCES_DIRECTORY, canvas, get_cmfs,
-                             render)
+                             canvas, get_cmfs, render)
 from colour.utilities import normalise_maximum, tstack
 
 __author__ = 'Colour Developers'
@@ -59,9 +51,7 @@ __all__ = [
 
 
 def chromaticity_diagram_colours_CIE1931(
-        samples=4096,
-        cmfs='CIE 1931 2 Degree Standard Observer',
-        antialiasing=True):
+        samples=192, cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     """
     Plots the *CIE 1931 Chromaticity Diagram* colours.
 
@@ -71,8 +61,6 @@ def chromaticity_diagram_colours_CIE1931(
         Samples count on one axis.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
-    antialiasing : bool, optional
-        Whether to apply anti-aliasing to the image.
 
     Other Parameters
     ----------------
@@ -90,38 +78,31 @@ def chromaticity_diagram_colours_CIE1931(
     >>> chromaticity_diagram_colours_CIE1931()  # doctest: +SKIP
     """
 
+    axes = canvas(**kwargs).gca()
+
     cmfs = get_cmfs(cmfs)
 
     illuminant = DEFAULT_PLOTTING_ILLUMINANT
 
-    triangulation = Delaunay(
-        XYZ_to_xy(cmfs.values, illuminant), qhull_options='Qu QJ')
+    spectral_locus = XYZ_to_xy(cmfs.values, illuminant)
     xx, yy = np.meshgrid(
         np.linspace(0, 1, samples), np.linspace(1, 0, samples))
     xy = tstack((xx, yy))
-    mask = (triangulation.find_simplex(xy) < 0).astype(DEFAULT_FLOAT_DTYPE)
-    if antialiasing:
-        kernel = np.array([
-            [0, 1, 0],
-            [1, 2, 1],
-            [0, 1, 0],
-        ]).astype(DEFAULT_FLOAT_DTYPE)
-        kernel /= np.sum(kernel)
-        mask = convolve(mask, kernel)
-
-    mask = 1 - mask[:, :, np.newaxis]
-
     XYZ = xy_to_XYZ(xy)
 
     RGB = normalise_maximum(XYZ_to_sRGB(XYZ, illuminant), axis=-1)
 
-    return np.dstack([RGB, mask])
+    polygon = Polygon(spectral_locus, facecolor='none', edgecolor='none')
+    axes.add_patch(polygon)
+    pylab.imshow(
+        RGB, interpolation='bilinear', extent=(0, 1, 0, 1), clip_path=polygon)
+
+    return render(**kwargs)
 
 
 def chromaticity_diagram_plot_CIE1931(
         cmfs='CIE 1931 2 Degree Standard Observer',
         show_diagram_colours=True,
-        use_cached_diagram_colours=True,
         **kwargs):
     """
     Plots the *CIE 1931 Chromaticity Diagram*.
@@ -132,9 +113,6 @@ def chromaticity_diagram_plot_CIE1931(
         Standard observer colour matching functions used for diagram bounds.
     show_diagram_colours : bool, optional
         Whether to display the chromaticity diagram background colours.
-    use_cached_diagram_colours : bool, optional
-        Whether to used the cached chromaticity diagram background colours
-        image.
 
     Other Parameters
     ----------------
@@ -163,18 +141,9 @@ def chromaticity_diagram_plot_CIE1931(
     illuminant = DEFAULT_PLOTTING_ILLUMINANT
 
     if show_diagram_colours:
-        if use_cached_diagram_colours:
-            image = matplotlib.image.imread(
-                os.path.join(PLOTTING_RESOURCES_DIRECTORY,
-                             'CIE_1931_Chromaticity_Diagram_{0}.png'.format(
-                                 cmfs.name.replace(' ', '_'))))
-        else:
-            image = chromaticity_diagram_colours_CIE1931(
-                samples=kwargs.get('samples', 256),
-                cmfs=cmfs.name,
-                antialiasing=kwargs.get('antialiasing', True))
-
-        pylab.imshow(image, interpolation='bilinear', extent=(0, 1, 0, 1))
+        settings = {'standalone': False}
+        settings.update(kwargs)
+        chromaticity_diagram_colours_CIE1931(**settings)
 
     labels = (390, 460, 470, 480, 490, 500, 510, 520, 540, 560, 580, 600, 620,
               700)
@@ -235,6 +204,8 @@ def chromaticity_diagram_plot_CIE1931(
     pylab.yticks(ticks)
 
     settings.update({
+        'standalone':
+            True,
         'title':
             'CIE 1931 Chromaticity Diagram - {0}'.format(cmfs.strict_name),
         'x_label':
@@ -251,9 +222,7 @@ def chromaticity_diagram_plot_CIE1931(
 
 
 def chromaticity_diagram_colours_CIE1960UCS(
-        samples=4096,
-        cmfs='CIE 1931 2 Degree Standard Observer',
-        antialiasing=True):
+        samples=192, cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     """
     Plots the *CIE 1960 UCS Chromaticity Diagram* colours.
 
@@ -263,8 +232,6 @@ def chromaticity_diagram_colours_CIE1960UCS(
         Samples count on one axis.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
-    antialiasing : bool, optional
-        Whether to apply anti-aliasing to the image.
 
     Other Parameters
     ----------------
@@ -282,38 +249,32 @@ def chromaticity_diagram_colours_CIE1960UCS(
     >>> chromaticity_diagram_colours_CIE1960UCS()  # doctest: +SKIP
     """
 
+    axes = canvas(**kwargs).gca()
+
     cmfs = get_cmfs(cmfs)
 
     illuminant = DEFAULT_PLOTTING_ILLUMINANT
 
-    triangulation = Delaunay(
-        UCS_to_uv(XYZ_to_UCS(cmfs.values)), qhull_options='Qu QJ')
+    spectral_locus = UCS_to_uv(XYZ_to_UCS(cmfs.values))
     xx, yy = np.meshgrid(
         np.linspace(0, 1, samples), np.linspace(1, 0, samples))
     xy = tstack((xx, yy))
-    mask = (triangulation.find_simplex(xy) < 0).astype(DEFAULT_FLOAT_DTYPE)
-    if antialiasing:
-        kernel = np.array([
-            [0, 1, 0],
-            [1, 2, 1],
-            [0, 1, 0],
-        ]).astype(DEFAULT_FLOAT_DTYPE)
-        kernel /= np.sum(kernel)
-        mask = convolve(mask, kernel)
-
-    mask = 1 - mask[:, :, np.newaxis]
 
     XYZ = xy_to_XYZ(UCS_uv_to_xy(xy))
 
     RGB = normalise_maximum(XYZ_to_sRGB(XYZ, illuminant), axis=-1)
 
-    return np.dstack([RGB, mask])
+    polygon = Polygon(spectral_locus, facecolor='none', edgecolor='none')
+    axes.add_patch(polygon)
+    pylab.imshow(
+        RGB, interpolation='bilinear', extent=(0, 1, 0, 1), clip_path=polygon)
+
+    return render(**kwargs)
 
 
 def chromaticity_diagram_plot_CIE1960UCS(
         cmfs='CIE 1931 2 Degree Standard Observer',
         show_diagram_colours=True,
-        use_cached_diagram_colours=True,
         **kwargs):
     """
     Plots the *CIE 1960 UCS Chromaticity Diagram*.
@@ -324,9 +285,6 @@ def chromaticity_diagram_plot_CIE1960UCS(
         Standard observer colour matching functions used for diagram bounds.
     show_diagram_colours : bool, optional
         Whether to display the chromaticity diagram background colours.
-    use_cached_diagram_colours : bool, optional
-        Whether to used the cached chromaticity diagram background colours
-        image.
 
     Other Parameters
     ----------------
@@ -353,18 +311,9 @@ chromaticity_diagram_colours_CIE1960UCS`, :func:`colour.plotting.render`},
     cmfs = get_cmfs(cmfs)
 
     if show_diagram_colours:
-        if use_cached_diagram_colours:
-            image = matplotlib.image.imread(
-                os.path.join(PLOTTING_RESOURCES_DIRECTORY,
-                             'CIE_1960_UCS_Chromaticity_Diagram_{0}.png'.
-                             format(cmfs.name.replace(' ', '_'))))
-        else:
-            image = chromaticity_diagram_colours_CIE1960UCS(
-                samples=kwargs.get('samples', 256),
-                cmfs=cmfs.name,
-                antialiasing=kwargs.get('antialiasing', True))
-
-        pylab.imshow(image, interpolation='bilinear', extent=(0, 1, 0, 1))
+        settings = {'standalone': False}
+        settings.update(kwargs)
+        chromaticity_diagram_colours_CIE1960UCS(**settings)
 
     labels = (420, 430, 440, 450, 460, 470, 480, 490, 500, 510, 520, 530, 540,
               550, 560, 570, 580, 590, 600, 610, 620, 630, 640, 680)
@@ -425,6 +374,8 @@ chromaticity_diagram_colours_CIE1960UCS`, :func:`colour.plotting.render`},
     pylab.yticks(ticks)
 
     settings.update({
+        'standalone':
+            True,
         'title':
             'CIE 1960 UCS Chromaticity Diagram - {0}'.format(cmfs.strict_name),
         'x_label':
@@ -441,9 +392,7 @@ chromaticity_diagram_colours_CIE1960UCS`, :func:`colour.plotting.render`},
 
 
 def chromaticity_diagram_colours_CIE1976UCS(
-        samples=4096,
-        cmfs='CIE 1931 2 Degree Standard Observer',
-        antialiasing=True):
+        samples=192, cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     """
     Plots the *CIE 1976 UCS Chromaticity Diagram* colours.
 
@@ -453,8 +402,6 @@ def chromaticity_diagram_colours_CIE1976UCS(
         Samples count on one axis.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
-    antialiasing : bool, optional
-        Whether to apply anti-aliasing to the image.
 
     Other Parameters
     ----------------
@@ -472,39 +419,32 @@ def chromaticity_diagram_colours_CIE1976UCS(
     >>> chromaticity_diagram_colours_CIE1976UCS()  # doctest: +SKIP
     """
 
+    axes = canvas(**kwargs).gca()
+
     cmfs = get_cmfs(cmfs)
 
     illuminant = DEFAULT_PLOTTING_ILLUMINANT
 
-    triangulation = Delaunay(
-        Luv_to_uv(XYZ_to_Luv(cmfs.values, illuminant), illuminant),
-        qhull_options='Qu QJ')
+    spectral_locus = Luv_to_uv(XYZ_to_Luv(cmfs.values, illuminant), illuminant)
     xx, yy = np.meshgrid(
         np.linspace(0, 1, samples), np.linspace(1, 0, samples))
     xy = tstack((xx, yy))
-    mask = (triangulation.find_simplex(xy) < 0).astype(DEFAULT_FLOAT_DTYPE)
-    if antialiasing:
-        kernel = np.array([
-            [0, 1, 0],
-            [1, 2, 1],
-            [0, 1, 0],
-        ]).astype(DEFAULT_FLOAT_DTYPE)
-        kernel /= np.sum(kernel)
-        mask = convolve(mask, kernel)
-
-    mask = 1 - mask[:, :, np.newaxis]
 
     XYZ = xy_to_XYZ(Luv_uv_to_xy(xy))
 
     RGB = normalise_maximum(XYZ_to_sRGB(XYZ, illuminant), axis=-1)
 
-    return np.dstack([RGB, mask])
+    polygon = Polygon(spectral_locus, facecolor='none', edgecolor='none')
+    axes.add_patch(polygon)
+    pylab.imshow(
+        RGB, interpolation='bilinear', extent=(0, 1, 0, 1), clip_path=polygon)
+
+    return render(**kwargs)
 
 
 def chromaticity_diagram_plot_CIE1976UCS(
         cmfs='CIE 1931 2 Degree Standard Observer',
         show_diagram_colours=True,
-        use_cached_diagram_colours=True,
         **kwargs):
     """
     Plots the *CIE 1976 UCS Chromaticity Diagram*.
@@ -515,9 +455,6 @@ def chromaticity_diagram_plot_CIE1976UCS(
         Standard observer colour matching functions used for diagram bounds.
     show_diagram_colours : bool, optional
         Whether to display the chromaticity diagram background colours.
-    use_cached_diagram_colours : bool, optional
-        Whether to used the cached chromaticity diagram background colours
-        image.
 
     Other Parameters
     ----------------
@@ -546,18 +483,9 @@ chromaticity_diagram_colours_CIE1976UCS`, :func:`colour.plotting.render`},
     illuminant = DEFAULT_PLOTTING_ILLUMINANT
 
     if show_diagram_colours:
-        if use_cached_diagram_colours:
-            image = matplotlib.image.imread(
-                os.path.join(PLOTTING_RESOURCES_DIRECTORY,
-                             'CIE_1976_UCS_Chromaticity_Diagram_{0}.png'.
-                             format(cmfs.name.replace(' ', '_'))))
-        else:
-            image = chromaticity_diagram_colours_CIE1976UCS(
-                samples=kwargs.get('samples', 256),
-                cmfs=cmfs.name,
-                antialiasing=kwargs.get('antialiasing', True))
-
-        pylab.imshow(image, interpolation='bilinear', extent=(0, 1, 0, 1))
+        settings = {'standalone': False}
+        settings.update(kwargs)
+        chromaticity_diagram_colours_CIE1976UCS(**settings)
 
     labels = (420, 430, 440, 450, 460, 470, 480, 490, 500, 510, 520, 530, 540,
               550, 560, 570, 580, 590, 600, 610, 620, 630, 640, 680)
@@ -618,6 +546,8 @@ chromaticity_diagram_colours_CIE1976UCS`, :func:`colour.plotting.render`},
     pylab.yticks(ticks)
 
     settings.update({
+        'standalone':
+            False,
         'title':
             'CIE 1976 UCS Chromaticity Diagram - {0}'.format(cmfs.strict_name),
         'x_label':

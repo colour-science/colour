@@ -50,7 +50,7 @@ __all__ = [
 BT470_525_PRIMARIES = np.array(
     [[0.67, 0.33],
      [0.21, 0.71],
-     [0.14, 0.08]])  # yapf: disable
+     [0.14, 0.08]], )
 """
 *ITU-R BT.470 - 525* colourspace primaries.
 
@@ -95,7 +95,7 @@ BT470_525_COLOURSPACE = RGB_Colourspace(
     BT470_525_TO_XYZ_MATRIX,
     XYZ_TO_BT470_525_MATRIX,
     partial(function_gamma, exponent=1 / 2.8),
-    partial(function_gamma, exponent=2.8))  # yapf: disable
+    partial(function_gamma, exponent=2.8), )
 BT470_525_COLOURSPACE.__doc__ = """
 *ITU-R BT.470 - 525* colourspace.
 
@@ -109,7 +109,7 @@ BT470_525_COLOURSPACE : RGB_Colourspace
 BT470_625_PRIMARIES = np.array(
     [[0.64, 0.33],
      [0.29, 0.60],
-     [0.15, 0.06]])  # yapf: disable
+     [0.15, 0.06]], )
 """
 *ITU-R BT.470 - 625* colourspace primaries.
 
@@ -154,7 +154,7 @@ BT470_625_COLOURSPACE = RGB_Colourspace(
     BT470_625_TO_XYZ_MATRIX,
     XYZ_TO_BT470_625_MATRIX,
     partial(function_gamma, exponent=1 / 2.8),
-    partial(function_gamma, exponent=2.8))  # yapf: disable
+    partial(function_gamma, exponent=2.8), )
 BT470_625_COLOURSPACE.__doc__ = """
 *ITU-R BT.470 - 625* colourspace.
 

@@ -140,7 +140,8 @@ def blackbody_spd(temperature, shape=DEFAULT_SPECTRAL_SHAPE, c1=C1, c2=C2,
 
     Examples
     --------
-    >>> from colour import STANDARD_OBSERVERS_CMFS, numpy_print_options
+    >>> from colour import STANDARD_OBSERVERS_CMFS
+    >>> from colour.utilities import numpy_print_options
     >>> cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
     >>> with numpy_print_options(suppress=True):
     ...     blackbody_spd(5000, cmfs.shape)  # doctest: +ELLIPSIS

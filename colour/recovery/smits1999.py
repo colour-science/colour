@@ -123,7 +123,7 @@ def RGB_to_spectral_Smits1999(RGB):
 
     Examples
     --------
-    >>> from colour import numpy_print_options
+    >>> from colour.utilities import numpy_print_options
     >>> RGB = np.array([0.02144962, 0.13154603, 0.09287601])
     >>> with numpy_print_options(suppress=True):
     ...     RGB_to_spectral_Smits1999(RGB)  # doctest: +ELLIPSIS

@@ -86,7 +86,7 @@ def XYZ_to_spectral_Meng2015(
 
     Examples
     --------
-    >>> from colour import numpy_print_options
+    >>> from colour.utilities import numpy_print_options
     >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
     >>> spd = XYZ_to_spectral_Meng2015(XYZ, interval=10)
     >>> with numpy_print_options(suppress=True):

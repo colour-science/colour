@@ -113,7 +113,7 @@ ROMM_RGB_COLOURSPACE = RGB_Colourspace(
     ROMM_RGB_TO_XYZ_MATRIX,
     XYZ_TO_ROMM_RGB_MATRIX,
     oetf_ROMMRGB,
-    eotf_ROMMRGB)  # yapf: disable
+    eotf_ROMMRGB, )
 ROMM_RGB_COLOURSPACE.__doc__ = """
 *ROMM RGB* colourspace.
 
@@ -168,7 +168,7 @@ RIMM_RGB_COLOURSPACE = RGB_Colourspace(
     RIMM_RGB_TO_XYZ_MATRIX,
     XYZ_TO_RIMM_RGB_MATRIX,
     oetf_RIMMRGB,
-    eotf_RIMMRGB)  # yapf: disable
+    eotf_RIMMRGB, )
 RIMM_RGB_COLOURSPACE.__doc__ = """
 *RIMM RGB* colourspace. In cases in which it is necessary to identify a
 specific precision level, the notation *RIMM8 RGB*, *RIMM12 RGB* and
@@ -224,7 +224,7 @@ ERIMM_RGB_COLOURSPACE = RGB_Colourspace(
     ERIMM_RGB_TO_XYZ_MATRIX,
     XYZ_TO_ERIMM_RGB_MATRIX,
     log_encoding_ERIMMRGB,
-    log_decoding_ERIMMRGB)  # yapf: disable
+    log_decoding_ERIMMRGB, )
 ERIMM_RGB_COLOURSPACE.__doc__ = """
 *ERIMM RGB* colourspace.
 
@@ -278,7 +278,7 @@ PROPHOTO_RGB_COLOURSPACE = RGB_Colourspace(
     PROPHOTO_RGB_TO_XYZ_MATRIX,
     XYZ_TO_PROPHOTO_RGB_MATRIX,
     oetf_ProPhotoRGB,
-    eotf_ProPhotoRGB)  # yapf: disable
+    eotf_ProPhotoRGB, )
 PROPHOTO_RGB_COLOURSPACE.__doc__ = """
 *ProPhoto RGB* colourspace, an alias colourspace for *ROMM RGB*.
 

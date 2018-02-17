@@ -100,6 +100,7 @@ Issues & Discussions
 -   @iCagarro
 -   @lensz
 -   @naavis
+-   @nschloe
 -   @peteroupc
 -   @sobotka
 -   @stakemura

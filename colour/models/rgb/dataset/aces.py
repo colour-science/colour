@@ -168,7 +168,7 @@ ACES_2065_1_COLOURSPACE = RGB_Colourspace(
     AP0_TO_XYZ_MATRIX,
     XYZ_TO_AP0_MATRIX,
     function_linear,
-    function_linear)  # yapf: disable
+    function_linear, )
 ACES_2065_1_COLOURSPACE.__doc__ = """
 *ACES2065-1* colourspace, base encoding, used for exchange of full fidelity
 images and archiving.
@@ -190,7 +190,7 @@ ACES_CG_COLOURSPACE = RGB_Colourspace(
     AP1_TO_XYZ_MATRIX,
     XYZ_TO_AP1_MATRIX,
     function_linear,
-    function_linear)  # yapf: disable
+    function_linear, )
 ACES_CG_COLOURSPACE.__doc__ = """
 *ACEScg* colourspace, a working space for paint/compositor applications that
 don't support ACES2065-1 or ACEScc.
@@ -213,7 +213,7 @@ ACES_CC_COLOURSPACE = RGB_Colourspace(
     AP1_TO_XYZ_MATRIX,
     XYZ_TO_AP1_MATRIX,
     log_encoding_ACEScc,
-    log_decoding_ACEScc)  # yapf: disable
+    log_decoding_ACEScc, )
 ACES_CC_COLOURSPACE.__doc__ = """
 *ACEScc* colourspace, a working space for color correctors, target for ASC-CDL
 values created on-set.
@@ -236,7 +236,7 @@ ACES_CCT_COLOURSPACE = RGB_Colourspace(
     AP1_TO_XYZ_MATRIX,
     XYZ_TO_AP1_MATRIX,
     log_encoding_ACEScct,
-    log_decoding_ACEScct)  # yapf: disable
+    log_decoding_ACEScct, )
 ACES_CCT_COLOURSPACE.__doc__ = """
 *ACEScct* colourspace, an alternative working space for colour correctors,
 intended to be transient and internal to software or hardware systems,
@@ -260,7 +260,7 @@ ACES_PROXY_COLOURSPACE = RGB_Colourspace(
     AP1_TO_XYZ_MATRIX,
     XYZ_TO_AP1_MATRIX,
     log_encoding_ACESproxy,
-    log_decoding_ACESproxy)  # yapf: disable
+    log_decoding_ACESproxy, )
 ACES_PROXY_COLOURSPACE.__doc__ = """
 *ACESproxy* colourspace, a lightweight encoding for transmission over HD-SDI
 (or other production transmission schemes), onset look management. Not

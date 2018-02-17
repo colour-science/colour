@@ -715,7 +715,7 @@ def rayleigh_scattering_spd(shape=DEFAULT_SPECTRAL_SHAPE,
 
     Examples
     --------
-    >>> from colour import numpy_print_options
+    >>> from colour.utilities import numpy_print_options
     >>> with numpy_print_options(suppress=True):
     ...     rayleigh_scattering_spd()  # doctest: +ELLIPSIS
     SpectralPowerDistribution([[ 360.        ,    0.5991013...],

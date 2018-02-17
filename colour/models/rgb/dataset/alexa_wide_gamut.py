@@ -59,29 +59,30 @@ ALEXA_WIDE_GAMUT_ILLUMINANT = 'D65'
 ALEXA_WIDE_GAMUT_WHITEPOINT : unicode
 """
 
-ALEXA_WIDE_GAMUT_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
-    [ALEXA_WIDE_GAMUT_ILLUMINANT])  # yapf: disable
+ALEXA_WIDE_GAMUT_WHITEPOINT = (ILLUMINANTS[
+    'CIE 1931 2 Degree Standard Observer'][ALEXA_WIDE_GAMUT_ILLUMINANT])
 """
 *ALEXA Wide Gamut* colourspace whitepoint.
 
 ALEXA_WIDE_GAMUT_WHITEPOINT : ndarray
 """
 
-ALEXA_WIDE_GAMUT_TO_XYZ_MATRIX = np.array(
-    [[0.638008, 0.214704, 0.097744],
-     [0.291954, 0.823841, -0.115795],
-     [0.002798, -0.067034, 1.153294]])  # yapf: disable
+ALEXA_WIDE_GAMUT_TO_XYZ_MATRIX = np.array([
+    [0.638008, 0.214704, 0.097744],
+    [0.291954, 0.823841, -0.115795],
+    [0.002798, -0.067034, 1.153294],
+])
 """
 *ALEXA Wide Gamut* colourspace to *CIE XYZ* tristimulus values matrix.
 
 ALEXA_WIDE_GAMUT_TO_XYZ_MATRIX : array_like, (3, 3)
 """
 
-XYZ_TO_ALEXA_WIDE_GAMUT_MATRIX = np.array(
-    [[1.789066, -0.482534, -0.200076],
-     [-0.639849, 1.396400, 0.194432],
-     [-0.041532, 0.082335, 0.878868]])  # yapf: disable
+XYZ_TO_ALEXA_WIDE_GAMUT_MATRIX = np.array([
+    [1.789066, -0.482534, -0.200076],
+    [-0.639849, 1.396400, 0.194432],
+    [-0.041532, 0.082335, 0.878868],
+])
 """
 *CIE XYZ* tristimulus values to *ALEXA Wide Gamut* colourspace matrix.
 
@@ -96,7 +97,7 @@ ALEXA_WIDE_GAMUT_COLOURSPACE = RGB_Colourspace(
     ALEXA_WIDE_GAMUT_TO_XYZ_MATRIX,
     XYZ_TO_ALEXA_WIDE_GAMUT_MATRIX,
     log_encoding_ALEXALogC,
-    log_decoding_ALEXALogC)  # yapf: disable
+    log_decoding_ALEXALogC, )
 ALEXA_WIDE_GAMUT_COLOURSPACE.__doc__ = """
 *ALEXA Wide Gamut* colourspace.
 

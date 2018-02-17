@@ -333,7 +333,8 @@ def adjust_tristimulus_weighting_factors_ASTME30815(W, shape_r, shape_t):
     Examples
     --------
     >>> from colour import (CMFS, CIE_standard_illuminant_A_function,
-    ...     SpectralPowerDistribution, SpectralShape, numpy_print_options)
+    ...     SpectralPowerDistribution, SpectralShape)
+    >>> from colour.utilities import numpy_print_options
     >>> cmfs = CMFS['CIE 1964 10 Degree Standard Observer']
     >>> wl = cmfs.shape.range()
     >>> A = SpectralPowerDistribution(

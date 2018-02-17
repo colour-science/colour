@@ -6,8 +6,12 @@ Yellowness Index :math:`Y`
 
 Defines *yellowness* index :math:`Y` computation objects:
 
--   :func:`colour.colorimetry.yellowness_ASTMD1925`
--   :func:`colour.colorimetry.yellowness_ASTME313`
+-   :func:`colour.colorimetry.yellowness_ASTMD1925`: *Yellowness* index
+    :math:`YI` computation of given sample *CIE XYZ* tristimulus values using
+    *ASTM D1925* method.
+-   :func:`colour.colorimetry.yellowness_ASTME313`: *Yellowness* index
+    :math:`YI` computation of given sample *CIE XYZ* tristimulus values using
+    *ASTM E313* method.
 
 See Also
 --------

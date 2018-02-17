@@ -100,7 +100,7 @@ CIE_RGB_COLOURSPACE = RGB_Colourspace(
     CIE_RGB_TO_XYZ_MATRIX,
     XYZ_TO_CIE_RGB_MATRIX,
     partial(function_gamma, exponent=1 / 2.2),
-    partial(function_gamma, exponent=2.2))  # yapf: disable
+    partial(function_gamma, exponent=2.2), )
 CIE_RGB_COLOURSPACE.__doc__ = """
 *CIE RGB* colourspace.
 

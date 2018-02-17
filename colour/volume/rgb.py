@@ -118,7 +118,7 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
 
     Examples
     --------
-    >>> from colour import sRGB_COLOURSPACE as sRGB
+    >>> from colour.models import sRGB_COLOURSPACE as sRGB
     >>> prng = np.random.RandomState(2)
     >>> sample_RGB_colourspace_volume_MonteCarlo(sRGB, 10e3, random_state=prng)
     ... # doctest: +ELLIPSIS

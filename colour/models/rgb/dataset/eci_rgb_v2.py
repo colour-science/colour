@@ -112,7 +112,6 @@ def _scale_domain_0_100_range_0_1(a, callable_):
     return callable_(a * 100, Y_n=100) / 100
 
 
-# yapf: disable
 ECI_RGB_V2_COLOURSPACE = RGB_Colourspace(
     'ECI RGB v2',
     ECI_RGB_V2_PRIMARIES,
@@ -121,7 +120,7 @@ ECI_RGB_V2_COLOURSPACE = RGB_Colourspace(
     ECI_RGB_V2_TO_XYZ_MATRIX,
     XYZ_TO_ECI_RGB_V2_MATRIX,
     partial(_scale_domain_0_100_range_0_1, callable_=lightness_CIE1976),
-    partial(_scale_domain_0_100_range_0_1, callable_=luminance_CIE1976))
+    partial(_scale_domain_0_100_range_0_1, callable_=luminance_CIE1976), )
 ECI_RGB_V2_COLOURSPACE.__doc__ = """
 *ECI RGB v2* colourspace.
 

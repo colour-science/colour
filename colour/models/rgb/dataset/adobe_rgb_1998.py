@@ -99,7 +99,7 @@ ADOBE_RGB_1998_COLOURSPACE = RGB_Colourspace(
     ADOBE_RGB_1998_TO_XYZ_MATRIX,
     XYZ_TO_ADOBE_RGB_1998_MATRIX,
     partial(function_gamma, exponent=1 / (563 / 256)),
-    partial(function_gamma, exponent=563 / 256))  # yapf: disable
+    partial(function_gamma, exponent=563 / 256), )
 ADOBE_RGB_1998_COLOURSPACE.__doc__ = """
 *Adobe RGB (1998)* colourspace.
 
