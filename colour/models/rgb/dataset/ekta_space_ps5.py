@@ -81,7 +81,6 @@ XYZ_TO_EKTA_SPACE_PS_5_MATRIX = np.linalg.inv(EKTA_SPACE_PS_5_TO_XYZ_MATRIX)
 XYZ_TO_EKTA_SPACE_PS_5_MATRIX : array_like, (3, 3)
 """
 
-
 EKTA_SPACE_PS_5_COLOURSPACE = RGB_Colourspace(
     'Ekta Space PS 5',
     EKTA_SPACE_PS_5_PRIMARIES,
