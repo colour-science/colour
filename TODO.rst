@@ -4,99 +4,123 @@ Colour - TODO
 TODO
 ----
 
-- colour (22 items in 15 files)
+-   colour/adaptation/__init__.py
 
-    - appearance (7 items in 5 files)
+    -   Line 203 : # TODO: Handle scaling with metadata.
 
-        - ciecam02.py
 
-            - (257, 7) # TODO: Compute hue composition.
+-   colour/algebra/tests/test_interpolation.py
 
-        - hunt.py
+    -   Line 423 : # TODO: Revisit if the interpolator can be applied on non-uniform "x" independent variable.
 
-            - (384, 7) # TODO: Implement hue quadrature & composition computation.
-            - (415, 7) # TODO: Implement whiteness-blackness :math:`Q_{wb}` computation.
 
-        - llab.py
+-   colour/appearance/cam16.py
 
-            - (297, 7) # TODO: Implement hue composition computation.
+    -   Line 271 : # TODO: Compute hue composition.
 
-        - nayatani95.py
 
-            - (244, 7) # TODO: Implement hue quadrature & composition computation.
-            - (256, 7) # TODO: Investigate components usage.
+-   colour/appearance/ciecam02.py
 
-        - rlab.py
+    -   Line 282 : # TODO: Compute hue composition.
 
-            - (235, 7) # TODO: Implement hue composition computation.
 
-    - colorimetry (4 items in 3 files)
+-   colour/appearance/hunt.py
 
-        - tests (2 items in 1 file)
+    -   Line 409 : # TODO: Implement hue quadrature & composition computation.
+    -   Line 440 : # TODO: Implement whiteness-blackness :math:`Q_{wb}` computation.
 
-            - tests_spectrum.py
 
-                - (2352, 11) # TODO: Remove statement whenever we make "Scipy" 0.19.0 the minimum version.
-                - (2834, 11) # TODO: Remove statement whenever we make "Scipy" 0.19.0 the minimum version.
+-   colour/appearance/llab.py
 
-        - spectrum.py
+    -   Line 325 : # TODO: Implement hue composition computation.
 
-            - (1920, 11) # TODO: Provide support for fractional interval like 0.1, etc...
 
-        - tristimulus.py
+-   colour/appearance/nayatani95.py
 
-            - (672, 11) # TODO: Investigate code vectorisation.
+    -   Line 258 : # TODO: Implement hue quadrature & composition computation.
+    -   Line 270 : # TODO: Investigate components usage. M_RG, M_YB = tsplit(colourfulness_components(C_RG, C_YB, brightness_ideal_white))
 
-    - models (4 items in 3 files)
 
-        - rgb (4 items in 3 files)
+-   colour/appearance/rlab.py
 
-            - tests (1 item in 1 file)
+    -   Line 259 : # TODO: Implement hue composition computation.
 
-                - tests_derivation.py
 
-                    - (275, 11) # TODO: Simplify that monster.
+-   colour/appearance/tests/test_cam16.py
 
-            - derivation.py
+    -   Line 35 : # TODO: The current fixture data is generated from direct computations using our model implementation. We have asked ground truth data to Li et al. (2016) and will update the "cam16.csv" file accordingly whenever we receive it.
 
-                - (215, 7) # TODO: Investigate if we return an ndarray here with primaries and
 
-            - rgb_colourspace.py
+-   colour/colorimetry/spectrum.py
 
-                - (515, 11) # TODO: Revisit for potential behaviour / type checking.
-                - (542, 11) # TODO: Revisit for potential behaviour / type checking.
+    -   Line 1108 : # TODO: Provide support for fractional interval like 0.1, etc...
 
-    - notation (5 items in 2 files)
 
-        - tests (3 items in 1 file)
+-   colour/colorimetry/tristimulus.py
 
-            - tests_munsell.py
+    -   Line 687 : # TODO: Investigate code vectorisation.
 
-                - (67, 3) # TODO: Investigate if tests can be simplified by using a common valid set of specifications.
-                - (4399, 11) # TODO: This test is covered by the previous class, do we need a dedicated one?
-                - (4441, 11) # TODO: This test is covered by the previous class, do we need a dedicated one?
 
-        - munsell.py
+-   colour/colorimetry/tests/test_spectrum.py
 
-            - (802, 11) # TODO: Consider refactoring implementation.
-            - (1129, 11) # TODO: Should raise KeyError, need to check the tests.
+    -   Line 1442 : # TODO: Remove statement whenever we make "Scipy" 0.19.0 the minimum version. Skipping tests because of "Scipy" 0.19.0 interpolation code changes.
+    -   Line 1638 : # TODO: Remove statement whenever we make "Scipy" 0.19.0 the minimum version. Skipping tests because of "Scipy" 0.19.0 interpolation code changes.
 
-    - plotting (1 item in 1 file)
 
-        - colorimetry.py
+-   colour/continuous/multi_signal.py
 
-            - (599, 11) # TODO: Handle condition statement with metadata capabilities.
+    -   Line 673 : # TODO: Discuss what is the most suitable behaviour, either the following or __str__ one.
+    -   Line 1282 : # TODO: Implement support for Signal class passing.
 
-    - volume (1 item in 1 file)
 
-        - rgb.py
+-   colour/continuous/signal.py
 
-            - (308, 7) # TODO: Investigate for generator yielding directly a ndarray.
+    -   Line 372 : # TODO: Check for interpolator capabilities.
+    -   Line 437 : # TODO: Check for extrapolator capabilities.
+    -   Line 577 : # TODO: Discuss what is the most suitable behaviour, either the following or __str__ one.
+
+
+-   colour/models/rgb/derivation.py
+
+    -   Line 219 : # TODO: Investigate if we return an ndarray here with primaries and whitepoint stacked together.
+
+
+-   colour/models/rgb/rgb_colourspace.py
+
+    -   Line 533 : # TODO: Revisit for potential behaviour / type checking.
+    -   Line 566 : # TODO: Revisit for potential behaviour / type checking.
+
+
+-   colour/models/rgb/tests/test_derivation.py
+
+    -   Line 282 : # TODO: Simplify that monster.
+
+
+-   colour/notation/munsell.py
+
+    -   Line 909 : # TODO: Consider refactoring implementation.
+    -   Line 1248 : # TODO: Should raise KeyError, need to check the tests.
+
+
+-   colour/notation/tests/test_munsell.py
+
+    -   Line 1181 : # TODO: This test is covered by the previous class, do we need a dedicated one?
+    -   Line 1225 : # TODO: This test is covered by the previous class, do we need a dedicated one?
+
+
+-   colour/plotting/colorimetry.py
+
+    -   Line 624 : # TODO: Handle condition statement with metadata capabilities.
+
+
+-   colour/volume/rgb.py
+
+    -   Line 306 : # TODO: Investigate for generator yielding directly a ndarray.
 
 About
 -----
 
-| **Colour** by Colour Developers - 2013-2018
+| **Colour** by Colour Developers
 | Copyright © 2013-2018 – Colour Developers – `colour-science@googlegroups.com <colour-science@googlegroups.com>`_
 | This software is released under terms of New BSD License: http://opensource.org/licenses/BSD-3-Clause
 | `http://github.com/colour-science/colour <http://github.com/colour-science/colour>`_
