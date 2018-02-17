@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Munsell Renotation System Dataset - 1929 Munsell Colours

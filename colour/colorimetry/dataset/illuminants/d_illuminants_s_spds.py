@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 CIE Standard Illuminant D Series :math:`S_n(\lambda)` Distributions

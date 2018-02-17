@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Defines unit tests for :mod:`colour.recovery.smits1999` module.

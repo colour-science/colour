@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 :math:`\Delta E_{ab}` - Delta E Colour Difference

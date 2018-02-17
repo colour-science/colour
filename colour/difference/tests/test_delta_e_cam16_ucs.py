@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Defines unit tests for :mod:`colour.difference.delta_e_cam16_ucs` module.

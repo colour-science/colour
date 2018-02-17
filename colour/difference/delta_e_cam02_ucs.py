@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 :math:`\Delta E'` - Delta E Colour Difference - Luo, Cui and Li (2006)

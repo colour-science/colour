@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 DCI-P3 & DCI-P3+ Colourspaces

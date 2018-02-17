@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Showcases reflectance recovery computations using *Meng et alii (2015)* method.

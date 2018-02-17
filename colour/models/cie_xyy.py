@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Tristimulus Values, CIE xyY Colourspace and Chromaticity Coordinates

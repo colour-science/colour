@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Defines unit tests for :mod:`colour.colorimetry.blackbody` module.
