@@ -1544,7 +1544,7 @@ API_CHANGES.update({
     ]
 })
 """
-Defines *Colour* API changes.
+Defines *colour* package API changes.
 
 API_CHANGES : dict
 """
