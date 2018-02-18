@@ -367,8 +367,7 @@ def tag(ctx):
                 PYTHON_PACKAGE_NAME, version))
 
         ctx.run('git flow release start v{0}'.format(version))
-        ctx.run('git flow release finish -m "Create {0} v{1} version." v{1}'.
-                format(APPLICATION_NAME, version))
+        ctx.run('git flow release finish v{0}'.format(version))
 
 
 @task(clean, build)
