@@ -243,7 +243,7 @@ __application_name__ = 'Colour'
 
 __major_version__ = '0'
 __minor_version__ = '3'
-__change_version__ = '10'
+__change_version__ = '11'
 __version__ = '.'.join(
     (__major_version__,
      __minor_version__,
@@ -1544,7 +1544,7 @@ API_CHANGES.update({
     ]
 })
 """
-Defines *Colour* API changes.
+Defines *colour* package API changes.
 
 API_CHANGES : dict
 """

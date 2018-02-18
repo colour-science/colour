@@ -9,6 +9,7 @@ Defines verbose related objects.
 from __future__ import division, unicode_literals
 
 import numpy as np
+import warnings
 from contextlib import contextmanager
 from itertools import chain
 from textwrap import TextWrapper
@@ -190,11 +191,15 @@ def suppress_warnings(colour_warnings_only=True):
         warnings.
     """
 
+    filters = warnings.filters
+    show_warnings = warnings.showwarning
+
     filter_warnings(colour_warnings_only=colour_warnings_only)
     try:
         yield
     finally:
-        filter_warnings(False)
+        warnings.filters = filters
+        warnings.showwarning = show_warnings
 
 
 @contextmanager

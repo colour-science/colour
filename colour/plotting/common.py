@@ -326,7 +326,7 @@ def boundaries(**kwargs):
 
     axes = matplotlib.pyplot.gca()
     if settings.bounding_box is None:
-        x_limit_min, x_limit_max, y_limit_min, y_limit_max = (settings.limits)
+        x_limit_min, x_limit_max, y_limit_min, y_limit_max = settings.limits
         x_margin_min, x_margin_max, y_margin_min, y_margin_max = (
             settings.margins)
         if settings.x_tighten:

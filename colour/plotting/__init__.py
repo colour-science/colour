@@ -193,7 +193,7 @@ API_CHANGES = {
     ]
 }
 """
-Defines *Colour* API changes.
+Defines *colour.plotting* sub-package API changes.
 
 API_CHANGES : dict
 """
