@@ -546,7 +546,7 @@ chromaticity_diagram_colours_CIE1976UCS`, :func:`colour.plotting.render`},
 
     settings.update({
         'standalone':
-            False,
+            True,
         'title':
             'CIE 1976 UCS Chromaticity Diagram - {0}'.format(cmfs.strict_name),
         'x_label':

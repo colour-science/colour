@@ -4,7 +4,8 @@ Showcases common plotting examples.
 """
 
 from colour.plotting import (ColourSwatch, colour_plotting_defaults,
-                             multi_colour_swatches_plot, single_colour_swatch_plot)
+                             multi_colour_swatches_plot,
+                             single_colour_swatch_plot)
 from colour.utilities import message_box
 
 message_box('Common Plots')

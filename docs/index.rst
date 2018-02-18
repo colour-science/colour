@@ -1,7 +1,7 @@
 Colour Science for Python
 =========================
 
-..  image:: _static/Colour_Logo_Medium_001.png
+..  image:: _static/Logo_Medium_001.png
 
 `Colour <https://github.com/colour-science/colour>`_ is a
 `Python <https://www.python.org/>`_ colour science package implementing a

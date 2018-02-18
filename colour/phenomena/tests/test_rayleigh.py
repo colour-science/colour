@@ -15,8 +15,8 @@ from colour.phenomena.rayleigh import (
     N2_depolarisation, O2_depolarisation, F_air_Penndorf1957, F_air_Young1981,
     F_air_Bates1984, F_air_Bodhaine1999, molecular_density,
     mean_molecular_weights, gravity_List1968)
-from colour.phenomena import (
-    scattering_cross_section, rayleigh_optical_depth, rayleigh_scattering_spd)
+from colour.phenomena import (scattering_cross_section, rayleigh_optical_depth,
+                              rayleigh_scattering_spd)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'

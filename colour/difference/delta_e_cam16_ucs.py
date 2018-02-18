@@ -26,7 +26,6 @@ References
 
 from __future__ import division, unicode_literals
 
-
 from colour.difference.delta_e_cam02_ucs import (
     delta_E_Luo2006, delta_E_CAM02LCD, delta_E_CAM02SCD, delta_E_CAM02UCS)
 from colour.models.cam16_ucs import (
