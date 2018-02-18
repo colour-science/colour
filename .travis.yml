@@ -40,7 +40,7 @@ before_script:
 
 script:
   - flake8 colour --exclude=examples
-  - nosetests --nocapture --with-doctest --doctest-options=+ELLIPSIS --with-coverage --cover-package=colour -exclude-dir=
+  - nosetests --nocapture --with-doctest --doctest-options=+ELLIPSIS --with-coverage --cover-package=colour colour
 
 after_success:
   - coveralls
