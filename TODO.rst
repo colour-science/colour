@@ -51,6 +51,11 @@ TODO
     -   Line 35 : # TODO: The current fixture data is generated from direct computations using our model implementation. We have asked ground truth data to Li et al. (2016) and will update the "cam16.csv" file accordingly whenever we receive it.
 
 
+-   colour/characterisation/tests/test_fitting.py
+
+    -   Line 105 : # TODO: This test case is responsible for the following output: ** On entry to DLASCL, parameter number  4 had an illegal value We should investigate for an effective way to capture the output.
+
+
 -   colour/colorimetry/spectrum.py
 
     -   Line 1108 : # TODO: Provide support for fractional interval like 0.1, etc...
@@ -93,7 +98,7 @@ TODO
 
 -   colour/models/rgb/tests/test_derivation.py
 
-    -   Line 282 : # TODO: Simplify that monster.
+    -   Line 279 : # TODO: Simplify that monster.
 
 
 -   colour/notation/munsell.py

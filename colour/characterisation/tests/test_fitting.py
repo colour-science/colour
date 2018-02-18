@@ -103,17 +103,17 @@ class TestFirstOrderColourFit(unittest.TestCase):
         definition nan support.
         """
 
-        cases = [-1.0, 0.0, 1.0, np.nan]
+        # TODO: This test case is responsible for the following output:
+        # ** On entry to DLASCL, parameter number  4 had an illegal value
+        # We should investigate for an effective way to capture the output.
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))
         for case in cases:
             try:
                 first_order_colour_fit(
                     np.vstack((M1, case)), np.vstack((M2, case)))
             except (ValueError, LinAlgError):
-                import traceback
-                from colour.utilities import warning
-
-                warning(traceback.format_exc())
+                pass
 
 
 if __name__ == '__main__':

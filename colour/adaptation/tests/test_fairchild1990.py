@@ -117,10 +117,7 @@ chromatic_adaptation_Fairchild1990` definition nan support.
             try:
                 chromatic_adaptation_Fairchild1990(XYZ_1, XYZ_n, XYZ_r, Y_n)
             except np.linalg.linalg.LinAlgError:
-                import traceback
-                from colour.utilities import warning
-
-                warning(traceback.format_exc())
+                pass
 
 
 if __name__ == '__main__':

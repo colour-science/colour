@@ -490,10 +490,7 @@ class TestLinearInterpolator(unittest.TestCase):
                     np.array(case), np.array(case))
                 linear_interpolator(case[0])
             except ValueError:
-                import traceback
-                from colour.utilities import warning
-
-                warning(traceback.format_exc())
+                pass
 
 
 class TestSpragueInterpolator(unittest.TestCase):
@@ -559,10 +556,7 @@ class TestSpragueInterpolator(unittest.TestCase):
                     np.array(case), np.array(case))
                 sprague_interpolator(case[0])
             except AssertionError:
-                import traceback
-                from colour.utilities import warning
-
-                warning(traceback.format_exc())
+                pass
 
 
 class TestCubicSplineInterpolator(unittest.TestCase):
@@ -674,10 +668,7 @@ class TestNullInterpolator(unittest.TestCase):
                     np.array(case), np.array(case))
                 null_interpolator(case[0])
             except ValueError:
-                import traceback
-                from colour.utilities import warning
-
-                warning(traceback.format_exc())
+                pass
 
 
 class TestLagrangeCoefficients(unittest.TestCase):

@@ -134,10 +134,7 @@ class TestNormalisedPrimaryMatrix(unittest.TestCase):
             try:
                 normalised_primary_matrix(P, W)
             except np.linalg.linalg.LinAlgError:
-                import traceback
-                from colour.utilities import warning
-
-                warning(traceback.format_exc())
+                pass
 
 
 class TestChromaticallyAdaptedPrimaries(unittest.TestCase):
@@ -366,10 +363,7 @@ class TestRGBLuminance(unittest.TestCase):
             try:
                 RGB_luminance(RGB, P, W)
             except np.linalg.linalg.LinAlgError:
-                import traceback
-                from colour.utilities import warning
-
-                warning(traceback.format_exc())
+                pass
 
 
 if __name__ == '__main__':
