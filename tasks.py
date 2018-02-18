@@ -87,7 +87,9 @@ def tests(ctx, nose=True):
 
     if nose:
         message_box('Running "Nosetests"...')
-        ctx.run('nosetests --with-doctest {0}'.format(PYTHON_PACKAGE_NAME))
+        ctx.run(
+            'nosetests --with-doctest --with-coverage --cover-package={0} {0}'.
+            format(PYTHON_PACKAGE_NAME))
     else:
         message_box('Running "Pytest"...')
         ctx.run('pytest -W ignore')
