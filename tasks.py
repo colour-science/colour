@@ -22,7 +22,7 @@ __status__ = 'Production'
 
 __all__ = [
     'APPLICATION_NAME', 'PYTHON_PACKAGE_NAME', 'PYPI_PACKAGE_NAME', 'clean',
-    'tests', 'formatting', 'quality', 'examples', 'docs', 'todo', 'preflight',
+    'formatting', 'tests', 'quality', 'examples', 'docs', 'todo', 'preflight',
     'build', 'virtualise', 'tag', 'release', 'sha256'
 ]
 
@@ -68,35 +68,7 @@ def clean(ctx, docs=True, bytecode=False):
 
 
 @task
-def tests(ctx, nose=True):
-    """
-    Runs the unit tests with *Nose* or *Pytest*.
-
-    Parameters
-    ----------
-    ctx : invoke.context.Context
-        Context.
-    nose : bool, optional
-        Whether to use *Nose* or *Pytest*.
-
-    Returns
-    -------
-    bool
-        Task success.
-    """
-
-    if nose:
-        message_box('Running "Nosetests"...')
-        ctx.run(
-            'nosetests --with-doctest --with-coverage --cover-package={0} {0}'.
-            format(PYTHON_PACKAGE_NAME))
-    else:
-        message_box('Running "Pytest"...')
-        ctx.run('pytest -W ignore')
-
-
-@task
-def formatting(ctx, yapf=True, asciify=True):
+def formatting(ctx, yapf=False, asciify=True):
     """
     Formats the codebase with *Yapf* and converts unicode characters to ASCII.
 
@@ -123,6 +95,34 @@ def formatting(ctx, yapf=True, asciify=True):
         message_box('Converting unicode characters to ASCII...')
         with ctx.cd('utilities'):
             ctx.run('./unicode_to_ascii.py')
+
+
+@task
+def tests(ctx, nose=True):
+    """
+    Runs the unit tests with *Nose* or *Pytest*.
+
+    Parameters
+    ----------
+    ctx : invoke.context.Context
+        Context.
+    nose : bool, optional
+        Whether to use *Nose* or *Pytest*.
+
+    Returns
+    -------
+    bool
+        Task success.
+    """
+
+    if nose:
+        message_box('Running "Nosetests"...')
+        ctx.run(
+            'nosetests --with-doctest --with-coverage --cover-package={0} {0}'.
+            format(PYTHON_PACKAGE_NAME))
+    else:
+        message_box('Running "Pytest"...')
+        ctx.run('pytest -W ignore')
 
 
 @task
@@ -246,10 +246,10 @@ def todo(ctx):
         ctx.run('./export_todo.py')
 
 
-@task(tests, formatting, quality, examples)
+@task(formatting, tests, quality, examples)
 def preflight(ctx):
     """
-    Performs the preflight tasks, i.e. *tests*, *formatting*, *quality*, and
+    Performs the preflight tasks, i.e. *formatting*, *tests*, *quality*, and
     *examples*.
 
     Parameters
@@ -263,7 +263,7 @@ def preflight(ctx):
         Task success.
     """
 
-    message_box('Entering "Preflight"...')
+    message_box('Finishing "Preflight"...')
 
 
 @task(docs, todo, preflight)
