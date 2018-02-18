@@ -411,4 +411,4 @@ def sha256(ctx):
 
     message_box('Computing "sha256"...')
     with ctx.cd('dist'):
-        ctx.run('openssl sha256 colour-science-*.tar.gz')
+        ctx.run('openssl sha256 {0}-*.tar.gz'.format(PYPI_PACKAGE_NAME))
