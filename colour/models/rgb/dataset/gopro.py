@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 GoPro Colourspaces
@@ -6,7 +5,7 @@ GoPro Colourspaces
 
 Defines the *GoPro* colourspaces:
 
--   :attr:`PROTUNE_NATIVE_COLOURSPACE`.
+-   :attr:`colour.models.PROTUNE_NATIVE_COLOURSPACE`.
 
 See Also
 --------
@@ -17,17 +16,19 @@ blob/master/notebooks/models/rgb.ipynb>`_
 Notes
 -----
 -   The *Protune Native* colourspace primaries were derived using the method
-    outlined in [2]_ followed with a chromatic adaptation step to
-    *CIE Standard Illuminant D Series D65* using
+    outlined in :cite:`Mansencal2015d` followed with a chromatic adaptation
+    step to *CIE Standard Illuminant D Series D65* using
     :func:`colour.chromatically_adapted_primaries` definition.
 
 References
 ----------
-.. [1]  GoPro, Duiker, H.-P., & Mansencal, T. (2016). gopro.py. Retrieved
-        April 12, 2017, from https://github.com/hpd/OpenColorIO-Configs/blob/\
-master/aces_1.0.3/python/aces_ocio/colorspaces/gopro.py
-.. [2]  Mansencal, T. (2015). RED Colourspaces Derivation. Retrieved May 20,
-        2015, from http://colour-science.org/posts/red-colourspaces-derivation
+-   :cite:`GoPro2016a` : GoPro, Duiker, H.-P., & Mansencal, T. (2016).
+    gopro.py. Retrieved April 12, 2017, from
+    https://github.com/hpd/OpenColorIO-Configs/blob/master/aces_1.0.3/python/\
+aces_ocio/colorspaces/gopro.py
+-   :cite:`Mansencal2015d` : Mansencal, T. (2015). RED Colourspaces Derivation.
+    Retrieved May 20, 2015, from
+    http://colour-science.org/posts/red-colourspaces-derivation
 """
 
 from __future__ import division, unicode_literals
@@ -39,7 +40,7 @@ from colour.models.rgb import (RGB_Colourspace, log_decoding_Protune,
                                log_encoding_Protune, normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -51,10 +52,11 @@ __all__ = [
     'XYZ_TO_PROTUNE_NATIVE_MATRIX', 'PROTUNE_NATIVE_COLOURSPACE'
 ]
 
-PROTUNE_NATIVE_PRIMARIES = np.array(
-    [[0.698480461493841, 0.193026445370121],
-     [0.329555378387345, 1.024596624134644],
-     [0.108442631407675, -0.034678569754016]])  # yapf: disable
+PROTUNE_NATIVE_PRIMARIES = np.array([
+    [0.698480461493841, 0.193026445370121],
+    [0.329555378387345, 1.024596624134644],
+    [0.108442631407675, -0.034678569754016],
+])
 """
 *Protune Native* colourspace primaries.
 
@@ -99,9 +101,14 @@ PROTUNE_NATIVE_COLOURSPACE = RGB_Colourspace(
     PROTUNE_NATIVE_TO_XYZ_MATRIX,
     XYZ_TO_PROTUNE_NATIVE_MATRIX,
     log_encoding_Protune,
-    log_decoding_Protune)  # yapf: disable
-"""
+    log_decoding_Protune, )
+PROTUNE_NATIVE_COLOURSPACE.__doc__ = """
 *Protune Native* colourspace.
+
+References
+----------
+-   :cite:`GoPro2016a`
+-   :cite:`Mansencal2015d`
 
 PROTUNE_NATIVE_COLOURSPACE : RGB_Colourspace
 """

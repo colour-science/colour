@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Showcases *Colour Rendering Index* (CRI) computations.
@@ -7,7 +6,7 @@ Showcases *Colour Rendering Index* (CRI) computations.
 from pprint import pprint
 
 import colour
-from colour.utilities.verbose import message_box
+from colour.utilities import message_box
 
 message_box('Colour Rendering Index Computations')
 
@@ -116,4 +115,4 @@ SAMPLE_SPD_DATA = {
 }
 
 print(colour.colour_rendering_index(
-    colour.SpectralPowerDistribution('Sample', SAMPLE_SPD_DATA)))
+    colour.SpectralPowerDistribution(SAMPLE_SPD_DATA, name='Sample')))

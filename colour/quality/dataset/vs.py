@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 CQS Test Colour Samples Spectral Power Distributions
@@ -8,7 +7,7 @@ Defines the *CQS (Color Quality Scale)* test colour samples spectral power
 distributions.
 
 The *2005 NIST-CQS* test colour samples data is in the form of a *dict* of
-:class:`colour.colorimetry.spectrum.SpectralPowerDistribution` classes as
+:class:`colour.SpectralPowerDistribution` classes as
 follows::
 
     {'name': SpectralPowerDistribution, ..., 'name': SpectralPowerDistribution}
@@ -21,8 +20,9 @@ blob/master/notebooks/quality/cqs.ipynb>`_
 
 References
 ----------
-.. [1]  Ohno, Y., & Davis, W. (2008). NIST CQS simulation 7.4. Retrieved from
-        http://cie2.nist.gov/TC1-69/NIST CQS simulation 7.4.xls
+-   :cite:`Ohno2008a` : Ohno, Y., & Davis, W. (2008). NIST CQS simulation 7.4.
+    Retrieved from https://drive.google.com/file/d/\
+1PsuU6QjUJjCX6tQyCud6ul2Tbs8rYWW9/view?usp=sharing
 """
 
 from __future__ import division, unicode_literals
@@ -31,7 +31,7 @@ from colour.colorimetry import SpectralPowerDistribution
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -1484,10 +1484,14 @@ VS_SPDS_DATA = {
 }
 
 VS_SPDS = CaseInsensitiveMapping(
-    dict((key, SpectralPowerDistribution(key, value))
+    dict((key, SpectralPowerDistribution(value, name=key))
          for key, value in VS_SPDS_DATA.items()))
 """
 CQS test colour samples spectral power distributions.
+
+References
+----------
+-   :cite:`Ohno2008a`
 
 VS_SPDS : CaseInsensitiveMapping
 """

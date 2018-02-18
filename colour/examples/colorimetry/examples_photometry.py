@@ -1,11 +1,10 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Showcases *Photometry* computations.
 """
 
 import colour
-from colour.utilities.verbose import message_box
+from colour.utilities import message_box
 
 message_box('"Photometry" Computations')
 

@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Showcases colorimetry plotting examples.
@@ -7,8 +6,13 @@ Showcases colorimetry plotting examples.
 from pprint import pprint
 
 import colour
-from colour.plotting import *  # noqa
-from colour.utilities.verbose import message_box
+from colour.plotting import (
+    ASTM_G_173_ETR, blackbody_colours_plot, blackbody_spectral_radiance_plot,
+    colour_plotting_defaults, multi_cmfs_plot,
+    multi_illuminants_relative_spd_plot, multi_lightness_function_plot,
+    multi_spd_plot, single_cmfs_plot, single_illuminant_relative_spd_plot,
+    single_lightness_function_plot, single_spd_plot, visible_spectrum_plot)
+from colour.utilities import message_box
 
 message_box('Colorimetry Plots')
 
@@ -38,7 +42,11 @@ print('\n')
 message_box(('Plotting "CIE Standard Illuminant D Series" "S" spectral power '
              'distributions.'))
 multi_spd_plot(
-    [value for key, value in sorted(colour.D_ILLUMINANTS_S_SPDS.items())],
+    [
+        value
+        for key, value in sorted(
+            colour.colorimetry.D_ILLUMINANTS_S_SPDS.items())
+    ],
     title='CIE Standard Illuminant D Series - S Distributions')
 
 print('\n')
@@ -582,18 +590,19 @@ white_marble_spd_data = {
 }
 
 message_box('Plotting various single spectral power distributions.')
-single_spd_plot(colour.SpectralPowerDistribution('Custom', sample_spd_data))
 single_spd_plot(
-    colour.SpectralPowerDistribution('Galvanized Steel Metal',
-                                     galvanized_steel_metal_spd_data))
+    colour.SpectralPowerDistribution(sample_spd_data, name='Custom'))
+single_spd_plot(
+    colour.SpectralPowerDistribution(
+        galvanized_steel_metal_spd_data, name='Galvanized Steel Metal'))
 
 print('\n')
 
 message_box('Plotting multiple spectral power distributions.')
-multi_spd_plot(
-    (colour.SpectralPowerDistribution('Galvanized Steel Metal',
-                                      galvanized_steel_metal_spd_data),
-     colour.SpectralPowerDistribution('White Marble', white_marble_spd_data)))
+multi_spd_plot((colour.SpectralPowerDistribution(
+    galvanized_steel_metal_spd_data, name='Galvanized Steel Metal'),
+                colour.SpectralPowerDistribution(
+                    white_marble_spd_data, name='White Marble')))
 
 print('\n')
 
@@ -802,10 +811,10 @@ street_light_spd_data = {
     780: 8.8190000e-002
 }
 
-street_light_spd = colour.SpectralPowerDistribution('Street Light',
-                                                    street_light_spd_data)
+street_light_spd = colour.SpectralPowerDistribution(
+    street_light_spd_data, name='Street Light')
 
-bandpass_corrected_street_light_spd = street_light_spd.clone()
+bandpass_corrected_street_light_spd = street_light_spd.copy()
 bandpass_corrected_street_light_spd.name = 'Street Light (Bandpass Corrected)'
 bandpass_corrected_street_light_spd = colour.bandpass_correction(
     bandpass_corrected_street_light_spd, method='Stearns 1988')
@@ -931,9 +940,10 @@ print('\n')
 message_box('Comparing theoretical and measured "Sun" spectral distributions.')
 # Arbitrary ASTM_G_173_ETR scaling factor calculated with
 # :func:`colour.spectral_to_XYZ` definition.
-ASTM_G_173_spd = ASTM_G_173_ETR.clone() * 1.37905559e+13
+ASTM_G_173_spd = ASTM_G_173_ETR.copy() * 1.37905559e+13
 
-ASTM_G_173_spd.interpolate(colour.SpectralShape(interval=5), method='Linear')
+ASTM_G_173_spd.interpolate(
+    colour.SpectralShape(interval=5), interpolator=colour.LinearInterpolator)
 
 blackbody_spd = colour.blackbody_spd(5778, ASTM_G_173_spd.shape)
 blackbody_spd.name = 'The Sun - 5778K'

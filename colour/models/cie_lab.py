@@ -1,26 +1,26 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-CIE Lab Colourspace
-===================
+CIE L*a*b* Colourspace
+======================
 
-Defines the *CIE Lab* colourspace transformations:
+Defines the *CIE L\*a\*b\** colourspace transformations:
 
--   :func:`XYZ_to_Lab`
--   :func:`Lab_to_XYZ`
--   :func:`Lab_to_LCHab`
--   :func:`LCHab_to_Lab`
+-   :func:`colour.XYZ_to_Lab`
+-   :func:`colour.Lab_to_XYZ`
+-   :func:`colour.Lab_to_LCHab`
+-   :func:`colour.LCHab_to_Lab`
 
 See Also
 --------
-`CIE Lab Colourspace Jupyter Notebook
+`CIE L*a*b* Colourspace Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/cie_lab.ipynb>`_
 
 References
 ----------
-.. [1]  CIE TC 1-48. (2004). CIE 1976 uniform colour spaces. In CIE 015:2004
-        Colorimetry, 3rd Edition (p. 24). ISBN:978-3-901-90633-6
+-   :cite:`CIETC1-482004m` : CIE TC 1-48. (2004). CIE 1976 uniform colour
+    spaces. In CIE 015:2004 Colorimetry, 3rd Edition (p. 24).
+    ISBN:978-3-901-90633-6
 """
 
 from __future__ import division, unicode_literals
@@ -34,7 +34,7 @@ from colour.models import xy_to_xyY, xyY_to_XYZ
 from colour.utilities import tsplit, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -47,7 +47,7 @@ def XYZ_to_Lab(
         XYZ,
         illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']):
     """
-    Converts from *CIE XYZ* tristimulus values to *CIE Lab* colourspace.
+    Converts from *CIE XYZ* tristimulus values to *CIE L\*a\*b\** colourspace.
 
     Parameters
     ----------
@@ -60,7 +60,7 @@ def XYZ_to_Lab(
     Returns
     -------
     ndarray
-        *CIE Lab* colourspace array.
+        *CIE L\*a\*b\** colourspace array.
 
     Notes
     -----
@@ -68,6 +68,10 @@ def XYZ_to_Lab(
     -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
         colourspace array are in domain [0, :math:`\infty`].
     -   Output *Lightness* :math:`L^*` is in range [0, 100].
+
+    References
+    ----------
+    -   :cite:`CIETC1-482004m`
 
     Examples
     --------
@@ -99,12 +103,12 @@ def Lab_to_XYZ(
         Lab,
         illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']):
     """
-    Converts from *CIE Lab* colourspace to *CIE XYZ* tristimulus values.
+    Converts from *CIE L\*a\*b\** colourspace to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
     Lab : array_like
-        *CIE Lab* colourspace array.
+        *CIE L\*a\*b\** colourspace array.
     illuminant : array_like, optional
         Reference *illuminant* *xy* chromaticity coordinates or *CIE xyY*
         colourspace array.
@@ -120,6 +124,10 @@ def Lab_to_XYZ(
     -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
         colourspace array are in domain [0, :math:`\infty`].
     -   Output *CIE XYZ* tristimulus values are in range [0, 1].
+
+    References
+    ----------
+    -   :cite:`CIETC1-482004m`
 
     Examples
     --------
@@ -146,21 +154,25 @@ def Lab_to_XYZ(
 
 def Lab_to_LCHab(Lab):
     """
-    Converts from *CIE Lab* colourspace to *CIE LCHab* colourspace.
+    Converts from *CIE L\*a\*b\** colourspace to *CIE L\*C\*Hab* colourspace.
 
     Parameters
     ----------
     Lab : array_like
-        *CIE Lab* colourspace array.
+        *CIE L\*a\*b\** colourspace array.
 
     Returns
     -------
     ndarray
-        *CIE LCHab* colourspace array.
+        *CIE L\*C\*Hab* colourspace array.
 
     Notes
     -----
     -   *Lightness* :math:`L^*` is in domain [0, 100].
+
+    References
+    ----------
+    -   :cite:`CIETC1-482004m`
 
     Examples
     --------
@@ -180,21 +192,25 @@ def Lab_to_LCHab(Lab):
 
 def LCHab_to_Lab(LCHab):
     """
-    Converts from *CIE LCHab* colourspace to *CIE Lab* colourspace.
+    Converts from *CIE L\*C\*Hab* colourspace to *CIE L\*a\*b\** colourspace.
 
     Parameters
     ----------
     LCHab : array_like
-        *CIE LCHab* colourspace array.
+        *CIE L\*C\*Hab* colourspace array.
 
     Returns
     -------
     ndarray
-        *CIE Lab* colourspace array.
+        *CIE L\*a\*b\** colourspace array.
 
     Notes
     -----
     -   *Lightness* :math:`L^*` is in domain [0, 100].
+
+    References
+    ----------
+    -   :cite:`CIETC1-482004m`
 
     Examples
     --------

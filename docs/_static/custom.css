@@ -1,0 +1,26 @@
+p {
+    margin-bottom: 8px !important;
+}
+
+.wy-table-responsive table td {
+    background-color: rgb(252, 252, 252) !important;
+    border: 0 !important;
+    padding: 2px 4px 2px 0px !important;
+    vertical-align: top !important;
+    white-space: normal !important;
+}
+
+.wy-table-responsive {
+    overflow: visible !important;
+}
+
+.wy-table-bordered-all, .rst-content table.docutils {
+    border: 0 !important;
+}
+
+div.highlight-text {
+    background-color: rgb(252, 252, 252) !important;
+    border: 0 !important;
+    font-family: monospace;
+    margin: -24px 0 24px 0;
+}

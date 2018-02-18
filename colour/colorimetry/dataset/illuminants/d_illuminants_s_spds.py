@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 CIE Standard Illuminant D Series :math:`S_n(\lambda)` Distributions
@@ -16,13 +15,12 @@ blob/master/notebooks/colorimetry/illuminants.ipynb>`_
 
 References
 ----------
-.. [1]  Wyszecki, G., & Stiles, W. S. (2000). CIE Method of Calculating
-        D-Illuminants. In Color Science: Concepts and Methods,
-        Quantitative Data and Formulae (pp. 145–146). Wiley.
-        ISBN:978-0471399186
-.. [2]  Lindbloom, B. (2007). Spectral Power Distribution of a
-        CIE D-Illuminant. Retrieved April 05, 2014, from
-        http://www.brucelindbloom.com/Eqn_DIlluminant.html
+-   :cite:`Lindbloom2007a` : Lindbloom, B. (2007). Spectral Power Distribution
+    of a CIE D-Illuminant. Retrieved April 5, 2014, from
+    http://www.brucelindbloom.com/Eqn_DIlluminant.html
+-   :cite:`Wyszecki2000z` : Wyszecki, G., & Stiles, W. S. (2000). CIE Method of
+    Calculating D-Illuminants. In Color Science: Concepts and Methods,
+    Quantitative Data and Formulae (pp. 145-146). Wiley. ISBN:978-0471399186
 """
 
 from __future__ import division, unicode_literals
@@ -31,7 +29,7 @@ from colour.colorimetry import SpectralPowerDistribution
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -211,13 +209,21 @@ D_ILLUMINANTS_S_SPDS_DATA = {
 }
 
 D_ILLUMINANTS_S_SPDS = CaseInsensitiveMapping({
-    'S0': SpectralPowerDistribution('S0', D_ILLUMINANTS_S_SPDS_DATA['S0']),
-    'S1': SpectralPowerDistribution('S1', D_ILLUMINANTS_S_SPDS_DATA['S1']),
-    'S2': SpectralPowerDistribution('S2', D_ILLUMINANTS_S_SPDS_DATA['S2'])
+    'S0':
+        SpectralPowerDistribution(D_ILLUMINANTS_S_SPDS_DATA['S0'], name='S0'),
+    'S1':
+        SpectralPowerDistribution(D_ILLUMINANTS_S_SPDS_DATA['S1'], name='S1'),
+    'S2':
+        SpectralPowerDistribution(D_ILLUMINANTS_S_SPDS_DATA['S2'], name='S2')
 })
 """
 *CIE Standard Illuminant D Series* :math:`S_n(\lambda)` spectral power
 distributions
+
+References
+----------
+-   :cite:`Lindbloom2007a`
+-   :cite:`Wyszecki2000z`
 
 D_ILLUMINANTS_S_SPDS : CaseInsensitiveMapping
    **{'S0', 'S1', 'S1'}**

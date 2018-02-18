@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Showcases colour spectral bandpass dependence correction computations.
@@ -7,7 +6,7 @@ Showcases colour spectral bandpass dependence correction computations.
 import numpy as np
 
 import colour
-from colour.utilities.verbose import message_box
+from colour.utilities import message_box
 
 message_box('Spectral Bandpass Dependence Correction')
 
@@ -99,6 +98,6 @@ sample_spd_data = {
     780: 0.421
 }
 
-spd = colour.SpectralPowerDistribution('Sample', sample_spd_data)
+spd = colour.SpectralPowerDistribution(sample_spd_data, name='Sample')
 uncorrected_values = spd.values
 print(np.dstack((uncorrected_values, colour.bandpass_correction(spd).values)))

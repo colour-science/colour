@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 RGB Colourspace Derivation
@@ -8,11 +7,11 @@ Defines objects related to *RGB* colourspace derivation, essentially
 calculating the normalised primary matrix for given *RGB* colourspace primaries
 and whitepoint:
 
--   :func:`normalised_primary_matrix`
--   :func:`chromatically_adapted_primaries`
--   :func:`primaries_whitepoint`
--   :func:`RGB_luminance_equation`
--   :func:`RGB_luminance`
+-   :func:`colour.normalised_primary_matrix`
+-   :func:`colour.chromatically_adapted_primaries`
+-   :func:`colour.primaries_whitepoint`
+-   :func:`colour.RGB_luminance_equation`
+-   :func:`colour.RGB_luminance`
 
 See Also
 --------
@@ -22,9 +21,13 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  Society of Motion Picture and Television Engineers. (1993). Derivation
-        of Basic Television Color Equations. In RP 177:1993 (Vol. RP 177:199).
-        doi:10.5594/S9781614821915
+-   :cite:`SocietyofMotionPictureandTelevisionEngineers1993a` : Society of
+    Motion Picture and Television Engineers. (1993). RP 177:1993 : Derivation
+    of Basic Television Color Equations. RP 177:1993 (Vol. RP 177:199). The
+    Society of Motion Picture and Television Engineers.
+    doi:10.5594/S9781614821915
+-   :cite:`Trieu2015a` : Trieu, T. (2015). Private Discussion with
+    Mansencal, T.
 """
 
 from __future__ import division, unicode_literals
@@ -36,7 +39,7 @@ from colour.models import XYZ_to_xy, XYZ_to_xyY, xy_to_XYZ
 from colour.utilities import tsplit
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -92,11 +95,15 @@ def normalised_primary_matrix(primaries, whitepoint):
     ndarray, (3, 3)
         *Normalised primary matrix*.
 
+    References
+    ----------
+    -   :cite:`SocietyofMotionPictureandTelevisionEngineers1993a`
+
     Examples
     --------
     >>> p = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
-    >>> whitepoint = np.array([0.32168, 0.33767])
-    >>> normalised_primary_matrix(p, whitepoint)  # doctest: +ELLIPSIS
+    >>> w = np.array([0.32168, 0.33767])
+    >>> normalised_primary_matrix(p, w)  # doctest: +ELLIPSIS
     array([[  9.5255239...e-01,   0.0000000...e+00,   9.3678631...e-05],
            [  3.4396645...e-01,   7.2816609...e-01,  -7.2132546...e-02],
            [  0.0000000...e+00,   0.0000000...e+00,   1.0088251...e+00]])
@@ -123,7 +130,7 @@ def chromatically_adapted_primaries(primaries,
                                     chromatic_adaptation_transform='CAT02'):
     """
     Chromatically adapts given *primaries* :math:`xy` chromaticity coordinates
-    from test `whitepoint_t` to reference `whitepoint_r`.
+    from test ``whitepoint_t`` to reference ``whitepoint_r``.
 
 
     Parameters
@@ -148,14 +155,12 @@ def chromatically_adapted_primaries(primaries,
     Examples
     --------
     >>> p = np.array([0.64, 0.33, 0.30, 0.60, 0.15, 0.06])
-    >>> whitepoint_t = np.array([0.31270, 0.32900])
-    >>> whitepoint_r = np.array([0.34570, 0.35850])
+    >>> w_t = np.array([0.31270, 0.32900])
+    >>> w_r = np.array([0.34570, 0.35850])
     >>> chromatic_adaptation_transform = 'Bradford'
-    >>> chromatically_adapted_primaries(  # doctest: +ELLIPSIS
-    ...     p,
-    ...     whitepoint_t,
-    ...     whitepoint_r,
-    ...     chromatic_adaptation_transform)
+    >>> chromatically_adapted_primaries(p, w_t, w_r,
+    ...                                 chromatic_adaptation_transform)
+    ... # doctest: +ELLIPSIS
     array([[ 0.6484414...,  0.3308533...],
            [ 0.3211951...,  0.5978443...],
            [ 0.1558932...,  0.0660492...]])
@@ -190,7 +195,7 @@ def primaries_whitepoint(npm):
 
     References
     ----------
-    .. [2]  Trieu, T. (2015). Private Discussion with Mansencal, T.
+    -   :cite:`Trieu2015a`
 
     Examples
     --------

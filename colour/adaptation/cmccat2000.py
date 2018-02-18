@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 CMCCAT2000 Chromatic Adaptation Model
@@ -6,11 +5,11 @@ CMCCAT2000 Chromatic Adaptation Model
 
 Defines *CMCCAT2000* chromatic adaptation model objects:
 
--   :class:`CMCCAT2000_InductionFactors`
--   :class:`CMCCAT2000_VIEWING_CONDITIONS`
--   :func:`chromatic_adaptation_forward_CMCCAT2000`
--   :func:`chromatic_adaptation_reverse_CMCCAT2000`
--   :func:`chromatic_adaptation_CMCCAT2000`
+-   :class:`colour.adaptation.CMCCAT2000_InductionFactors`
+-   :class:`colour.CMCCAT2000_VIEWING_CONDITIONS`
+-   :func:`colour.adaptation.chromatic_adaptation_forward_CMCCAT2000`
+-   :func:`colour.adaptation.chromatic_adaptation_reverse_CMCCAT2000`
+-   :func:`colour.adaptation.chromatic_adaptation_CMCCAT2000`
 
 See Also
 --------
@@ -20,12 +19,12 @@ blob/master/notebooks/adaptation/cmccat2000.ipynb>`_
 
 References
 ----------
-.. [1]  Li, C., Luo, M. R., Rigg, B., & Hunt, R. W. G. (2002). CMC 2000
-        chromatic adaptation transform: CMCCAT2000. Color Research & …, 27(1),
-        49–58. doi:10.1002/col.10005
-.. [2]  Westland, S., Ripamonti, C., & Cheung, V. (2012). CMCCAT2000. In
-        Computational Colour Science Using MATLAB (2nd ed., pp. 83–86).
-        ISBN:978-0-470-66569-5
+-   :cite:`Li2002a` : Li, C., Luo, M. R., Rigg, B., & Hunt, R. W. G. (2002).
+    CMC 2000 chromatic adaptation transform: CMCCAT2000. Color Research &
+    Application, 27(1), 49-58. doi:10.1002/col.10005
+-   :cite:`Westland2012k` : Westland, S., Ripamonti, C., & Cheung, V. (2012).
+    CMCCAT2000. In Computational Colour Science Using MATLAB
+    (2nd ed., pp. 83-86). ISBN:978-0-470-66569-5
 """
 
 from __future__ import division, unicode_literals
@@ -37,7 +36,7 @@ from colour.adaptation import CMCCAT2000_CAT
 from colour.utilities import CaseInsensitiveMapping, dot_vector
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -67,6 +66,11 @@ class CMCCAT2000_InductionFactors(
     ----------
     F : numeric or array_like
         :math:`F` surround condition.
+
+    References
+    ----------
+    -   :cite:`Li2002a`
+    -   :cite:`Westland2012k`
     """
 
 
@@ -75,8 +79,13 @@ CMCCAT2000_VIEWING_CONDITIONS = CaseInsensitiveMapping({
     'Dim': CMCCAT2000_InductionFactors(0.8),
     'Dark': CMCCAT2000_InductionFactors(0.8)
 })
-"""
+CMCCAT2000_VIEWING_CONDITIONS.__doc__ = """
 Reference *CMCCAT2000* chromatic adaptation model viewing conditions.
+
+References
+----------
+-   :cite:`Li2002a`
+-   :cite:`Westland2012k`
 
 CMCCAT2000_VIEWING_CONDITIONS : CaseInsensitiveMapping
     ('Average', 'Dim', 'Dark')
@@ -126,6 +135,11 @@ def chromatic_adaptation_forward_CMCCAT2000(
         domain [0, 100].
     -   Output *CIE XYZ_c* tristimulus values are in range [0, 100].
 
+    References
+    ----------
+    -   :cite:`Li2002a`
+    -   :cite:`Westland2012k`
+
     Examples
     --------
     >>> XYZ = np.array([22.48, 22.74, 8.54])
@@ -133,8 +147,8 @@ def chromatic_adaptation_forward_CMCCAT2000(
     >>> XYZ_wr = np.array([94.81, 100.00, 107.30])
     >>> L_A1 = 200
     >>> L_A2 = 200
-    >>> chromatic_adaptation_forward_CMCCAT2000(  # doctest: +ELLIPSIS
-    ...     XYZ, XYZ_w, XYZ_wr, L_A1, L_A2)
+    >>> chromatic_adaptation_forward_CMCCAT2000(XYZ, XYZ_w, XYZ_wr, L_A1, L_A2)
+    ... # doctest: +ELLIPSIS
     array([ 19.5269832...,  23.0683396...,  24.9717522...])
     """
 
@@ -204,6 +218,11 @@ def chromatic_adaptation_reverse_CMCCAT2000(
         are in domain [0, 100].
     -   Output *CIE XYZ* tristimulus values are in range [0, 100].
 
+    References
+    ----------
+    -   :cite:`Li2002a`
+    -   :cite:`Westland2012k`
+
     Examples
     --------
     >>> XYZ_c = np.array([19.53, 23.07, 24.97])
@@ -211,8 +230,9 @@ def chromatic_adaptation_reverse_CMCCAT2000(
     >>> XYZ_wr = np.array([94.81, 100.00, 107.30])
     >>> L_A1 = 200
     >>> L_A2 = 200
-    >>> chromatic_adaptation_reverse_CMCCAT2000(  # doctest: +ELLIPSIS
-    ...     XYZ_c, XYZ_w, XYZ_wr, L_A1, L_A2)
+    >>> chromatic_adaptation_reverse_CMCCAT2000(XYZ_c, XYZ_w, XYZ_wr, L_A1,
+    ...                                         L_A2)
+    ... # doctest: +ELLIPSIS
     array([ 22.4839876...,  22.7419485...,   8.5393392...])
     """
 
@@ -246,14 +266,14 @@ def chromatic_adaptation_CMCCAT2000(
         L_A1,
         L_A2,
         surround=CMCCAT2000_VIEWING_CONDITIONS['Average'],
-        method='Forward'):
+        direction='Forward'):
     """
     Adapts given stimulus *CIE XYZ* tristimulus values using given viewing
     conditions.
 
     This definition is a convenient wrapper around
-    :func:`chromatic_adaptation_forward_CMCCAT2000` and
-    :func:`chromatic_adaptation_reverse_CMCCAT2000`.
+    :func:`colour.adaptation.chromatic_adaptation_forward_CMCCAT2000` and
+    :func:`colour.adaptation.chromatic_adaptation_reverse_CMCCAT2000`.
 
     Parameters
     ----------
@@ -271,9 +291,9 @@ def chromatic_adaptation_CMCCAT2000(
         Luminance of reference adapting field :math:`L_{A2}` in :math:`cd/m^2`.
     surround : CMCCAT2000_InductionFactors, optional
         Surround viewing conditions induction factors.
-    method : unicode, optional
+    direction : unicode, optional
         **{'Forward', 'Reverse'}**,
-        Chromatic adaptation method.
+        Chromatic adaptation direction.
 
     Returns
     -------
@@ -290,6 +310,11 @@ def chromatic_adaptation_CMCCAT2000(
         domain [0, 100].
     -   Output *CIE XYZ* tristimulus values are in range [0, 100].
 
+    References
+    ----------
+    -   :cite:`Li2002a`
+    -   :cite:`Westland2012k`
+
     Examples
     --------
     >>> XYZ = np.array([22.48, 22.74, 8.54])
@@ -297,8 +322,9 @@ def chromatic_adaptation_CMCCAT2000(
     >>> XYZ_wr = np.array([94.81, 100.00, 107.30])
     >>> L_A1 = 200
     >>> L_A2 = 200
-    >>> chromatic_adaptation_CMCCAT2000(  # doctest: +ELLIPSIS
-    ...     XYZ, XYZ_w, XYZ_wr, L_A1, L_A2, method='Forward')
+    >>> chromatic_adaptation_CMCCAT2000(
+    ...     XYZ, XYZ_w, XYZ_wr, L_A1, L_A2, direction='Forward')
+    ... # doctest: +ELLIPSIS
     array([ 19.5269832...,  23.0683396...,  24.9717522...])
 
     Using the *CMCCAT2000* reverse model:
@@ -308,12 +334,13 @@ def chromatic_adaptation_CMCCAT2000(
     >>> XYZ_wr = np.array([94.81, 100.00, 107.30])
     >>> L_A1 = 200
     >>> L_A2 = 200
-    >>> chromatic_adaptation_CMCCAT2000(  # doctest: +ELLIPSIS
-    ...     XYZ, XYZ_w, XYZ_wr, L_A1, L_A2, method='Reverse')
+    >>> chromatic_adaptation_CMCCAT2000(
+    ...     XYZ, XYZ_w, XYZ_wr, L_A1, L_A2, direction='Reverse')
+    ... # doctest: +ELLIPSIS
     array([ 22.48,  22.74,   8.54])
     """
 
-    if method.lower() == 'forward':
+    if direction.lower() == 'forward':
         return chromatic_adaptation_forward_CMCCAT2000(XYZ, XYZ_w, XYZ_wr,
                                                        L_A1, L_A2, surround)
     else:

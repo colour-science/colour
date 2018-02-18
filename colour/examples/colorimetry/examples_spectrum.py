@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Showcases colour spectrum computations.
@@ -7,7 +6,7 @@ Showcases colour spectrum computations.
 import numpy as np
 
 import colour
-from colour.utilities.verbose import message_box
+from colour.utilities import message_box
 
 message_box('Spectrum Computations')
 
@@ -95,7 +94,7 @@ sample_spd_data = {
     780: 0.421
 }
 
-spd = colour.SpectralPowerDistribution('Sample', sample_spd_data)
+spd = colour.SpectralPowerDistribution(sample_spd_data, name='Sample')
 
 message_box('Sample spectral power distribution shape.')
 print(spd.shape)
@@ -112,7 +111,7 @@ message_box(('Sample spectral power distribution cloning:\n'
              '\nCloning is a convenient way to get a copy of the spectral '
              'power distribution, this an important feature because some '
              'operations happen in place.'))
-clone_spd = spd.clone()
+clone_spd = spd.copy()
 print(id(spd), id(clone_spd))
 
 print('\n')
@@ -125,7 +124,7 @@ print(clone_spd[380], clone_spd_alternate[380])
 print('\n')
 
 message_box('Regular arithmetical operation: adding an array.')
-print((clone_spd + np.linspace(0, 1, len(clone_spd))).values)
+print((clone_spd + np.linspace(0, 1, len(clone_spd.wavelengths))).values)
 
 print('\n')
 
@@ -142,7 +141,7 @@ print(clone_spd[380])
 print('\n')
 
 message_box('In-place arithmetical operation: adding an array.')
-clone_spd += np.linspace(0, 1, len(clone_spd))
+clone_spd += np.linspace(0, 1, len(clone_spd.wavelengths))
 print(clone_spd.values)
 
 print('\n')

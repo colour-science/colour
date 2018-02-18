@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Hunt Colour Appearance Model
@@ -6,10 +5,10 @@ Hunt Colour Appearance Model
 
 Defines *Hunt* colour appearance model objects:
 
--   :class:`Hunt_InductionFactors`
--   :attr:`HUNT_VIEWING_CONDITIONS`
--   :class:`Hunt_Specification`
--   :func:`XYZ_to_Hunt`
+-   :class:`colour.appearance.Hunt_InductionFactors`
+-   :attr:`colour.HUNT_VIEWING_CONDITIONS`
+-   :class:`colour.Hunt_Specification`
+-   :func:`colour.XYZ_to_Hunt`
 
 See Also
 --------
@@ -19,10 +18,10 @@ blob/master/notebooks/appearance/hunt.ipynb>`_
 
 References
 ----------
-.. [1]  Fairchild, M. D. (2013). The Hunt Model. In Color Appearance Models
-        (3rd ed., pp. 5094–5556). Wiley. ASIN:B00DAYO8E2
-.. [2]  Hunt, R. W. G. (2004). The Reproduction of Colour (6th ed.). Wiley.
-        ISBN:978-0-470-02425-6
+-   :cite:`Fairchild2013u` : Fairchild, M. D. (2013). The Hunt Model. In Color
+    Appearance Models (3rd ed., pp. 5094-5556). Wiley. ISBN:B00DAYO8E2
+-   :cite:`Hunt2004b` : Hunt, R. W. G. (2004). The Reproduction of Colour
+    (6th ed.). Chichester, UK: John Wiley & Sons, Ltd. doi:10.1002/0470024275
 """
 
 from __future__ import division, unicode_literals
@@ -34,7 +33,7 @@ from colour.utilities import (CaseInsensitiveMapping, dot_vector, tsplit,
                               tstack, warning)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -74,11 +73,17 @@ class Hunt_InductionFactors(
         *Brightness* background induction factor :math:`N_{bb}`, approximated
         using tristimulus values :math:`Y_w` and :math:`Y_b` of
         respectively the reference white and the background if not specified.
+
+    References
+    ----------
+    -   :cite:`Fairchild2013u`
+    -   :cite:`Hunt2004b`
     """
 
     def __new__(cls, N_c, N_b, N_cb=None, N_bb=None):
         """
-        Returns a new instance of the :class:`Hunt_InductionFactors` class.
+        Returns a new instance of the
+        :class:`colour.appearance.Hunt_InductionFactors` class.
         """
 
         return super(Hunt_InductionFactors, cls).__new__(
@@ -97,8 +102,13 @@ HUNT_VIEWING_CONDITIONS = CaseInsensitiveMapping({
     'Projected Transparencies, Dark Surrounds':
         Hunt_InductionFactors(0.7, 10)
 })
-"""
+HUNT_VIEWING_CONDITIONS.__doc__ = """
 Reference *Hunt* colour appearance model viewing conditions.
+
+References
+----------
+-   :cite:`Fairchild2013u`
+-   :cite:`Hunt2004b`
 
 HUNT_VIEWING_CONDITIONS : CaseInsensitiveMapping
     **{'Small Areas, Uniform Background & Surrounds',
@@ -131,10 +141,11 @@ HUE_DATA_FOR_HUE_QUADRATURE = {
     'e_s': np.array([0.8, 0.7, 1.0, 1.2])
 }
 
-XYZ_TO_HPE_MATRIX = np.array(
-    [[0.38971, 0.68898, -0.07868],
-     [-0.22981, 1.18340, 0.04641],
-     [0.00000, 0.00000, 1.00000]])  # yapf: disable
+XYZ_TO_HPE_MATRIX = np.array([
+    [0.38971, 0.68898, -0.07868],
+    [-0.22981, 1.18340, 0.04641],
+    [0.00000, 0.00000, 1.00000],
+])
 """
 *Hunt* colour appearance model *CIE XYZ* tristimulus values to
 *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` colourspace matrix.
@@ -178,6 +189,11 @@ class Hunt_ReferenceSpecification(
         *Hue* :math:`h` quadrature :math:`H`.
     H_C : numeric or array_like
         *Hue* :math:`h` composition :math:`H_C`.
+
+    References
+    ----------
+    -   :cite:`Fairchild2013u`
+    -   :cite:`Hunt2004b`
     """
 
 
@@ -213,6 +229,11 @@ class Hunt_Specification(
     Notes
     -----
     -   This specification is the one used in the current model implementation.
+
+    References
+    ----------
+    -   :cite:`Fairchild2013u`
+    -   :cite:`Hunt2004b`
     """
 
 
@@ -271,6 +292,16 @@ def XYZ_to_Hunt(XYZ,
     discount_illuminant : bool, optional
        Truth value indicating if the illuminant should be discounted.
 
+    Returns
+    -------
+    Hunt_Specification
+        *Hunt* colour appearance model specification.
+
+    Raises
+    ------
+    ValueError
+        If an illegal arguments combination is specified.
+
     Warning
     -------
     The input domain of that definition is non standard!
@@ -282,15 +313,10 @@ def XYZ_to_Hunt(XYZ,
     -   Input *CIE XYZ_w* tristimulus values are in domain [0, 100].
     -   Input *CIE XYZ_p* tristimulus values are in domain [0, 100].
 
-    Returns
-    -------
-    Hunt_Specification
-        *Hunt* colour appearance model specification.
-
-    Raises
-    ------
-    ValueError
-        If an illegal arguments combination is specified.
+    References
+    ----------
+    -   :cite:`Fairchild2013u`
+    -   :cite:`Hunt2004b`
 
     Examples
     --------
@@ -300,8 +326,8 @@ def XYZ_to_Hunt(XYZ,
     >>> L_A = 318.31
     >>> surround = HUNT_VIEWING_CONDITIONS['Normal Scenes']
     >>> CCT_w = 6504.0
-    >>> XYZ_to_Hunt(  # doctest: +ELLIPSIS
-    ...     XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w)
+    >>> XYZ_to_Hunt(XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w)
+    ... # doctest: +ELLIPSIS
     Hunt_Specification(J=30.0462678..., C=0.1210508..., h=269.2737594..., \
 s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
     """
@@ -673,8 +699,8 @@ def adjusted_reference_white_signals(rgb_p, rgb_b, rgb_w, p):
     >>> rgb_b = np.array([0.99984505, 0.99983840, 0.99982674])
     >>> rgb_w = np.array([97.37325710, 101.54968030, 108.88000000])
     >>> p = 0.1
-    >>> adjusted_reference_white_signals(  # doctest: +ELLIPSIS
-    ...     rgb_p, rgb_b, rgb_w, p)
+    >>> adjusted_reference_white_signals(rgb_p, rgb_b, rgb_w, p)
+    ... # doctest: +ELLIPSIS
     array([ 88.0792742...,  91.8569553...,  98.4876543...])
     """
 
@@ -773,7 +799,8 @@ def hue_angle(C):
     >>> C = np.array([
     ...     -5.365865581996587e-05,
     ...     -0.000571699383647,
-    ...     0.000625358039467])
+    ...     0.000625358039467
+    ... ])
     >>> hue_angle(C)  # doctest: +ELLIPSIS
     269.2737594...
     """
@@ -873,13 +900,14 @@ def yellowness_blueness_response(C, e_s, N_c, N_cb, F_t):
     >>> C = np.array([
     ...     -5.365865581996587e-05,
     ...     -0.000571699383647,
-    ...     0.000625358039467])
+    ...     0.000625358039467
+    ... ])
     >>> e_s = 1.110836504862630
     >>> N_c = 1.0
     >>> N_cb = 0.725000000000000
     >>> F_t = 0.99968593951195
-    >>> yellowness_blueness_response(  # doctest: +ELLIPSIS
-    ...     C, e_s, N_c, N_cb, F_t)
+    >>> yellowness_blueness_response(C, e_s, N_c, N_cb, F_t)
+    ... # doctest: +ELLIPSIS
     -0.0082372...
     """
 
@@ -920,7 +948,8 @@ def redness_greenness_response(C, e_s, N_c, N_cb):
     >>> C = np.array([
     ...     -5.365865581996587e-05,
     ...     -0.000571699383647,
-    ...     0.000625358039467])
+    ...     0.000625358039467
+    ... ])
     >>> e_s = 1.110836504862630
     >>> N_c = 1.0
     >>> N_cb = 0.725000000000000

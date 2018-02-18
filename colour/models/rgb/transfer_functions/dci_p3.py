@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 DCI-P3 Colourspace
@@ -7,8 +6,8 @@ DCI-P3 Colourspace
 Defines the *DCI-P3* colourspace opto-electrical transfer function
 (OETF / OECF) and electro-optical transfer function (EOTF / EOCF):
 
--   :func:`oetf_DCIP3`
--   :func:`eotf_DCIP3`
+-   :func:`colour.models.oetf_DCIP3`
+-   :func:`colour.models.eotf_DCIP3`
 
 See Also
 --------
@@ -18,9 +17,9 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  Digital Cinema Initiatives. (2007). Digital Cinema System
-        Specification - Version 1.1. Retrieved from
-        http://www.dcimovies.com/archives/spec_v1_1/\
+-   :cite:`DigitalCinemaInitiatives2007b` : Digital Cinema Initiatives. (2007).
+    Digital Cinema System Specification - Version 1.1. Retrieved from
+    http://www.dcimovies.com/archives/spec_v1_1/\
 DCI_DCinema_System_Spec_v1_1.pdf
 """
 
@@ -29,7 +28,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -52,6 +51,10 @@ def oetf_DCIP3(XYZ):
     -------
     numeric or ndarray
         Non-linear *CIE XYZ'* tristimulus values.
+
+    References
+    ----------
+    -   :cite:`DigitalCinemaInitiatives2007b`
 
     Examples
     --------
@@ -78,6 +81,10 @@ def eotf_DCIP3(XYZ_p):
     -------
     numeric or ndarray
         *CIE XYZ* tristimulus values.
+
+    References
+    ----------
+    -   :cite:`DigitalCinemaInitiatives2007b`
 
     Examples
     --------

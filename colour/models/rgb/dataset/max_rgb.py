@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Max RGB Colourspace
@@ -6,7 +5,7 @@ Max RGB Colourspace
 
 Defines the *Max RGB* colourspace:
 
--   :attr:`MAX_RGB_COLOURSPACE`.
+-   :attr:`colour.models.MAX_RGB_COLOURSPACE`.
 
 See Also
 --------
@@ -16,8 +15,8 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  HutchColor. (n.d.). MaxRGB (4 K). Retrieved from
-        http://www.hutchcolor.com/profiles/MaxRGB.zip
+-   :cite:`HutchColorf` : HutchColor. (n.d.). MaxRGB (4 K). Retrieved from
+    http://www.hutchcolor.com/profiles/MaxRGB.zip
 """
 
 from __future__ import division, unicode_literals
@@ -30,7 +29,7 @@ from colour.models.rgb import (RGB_Colourspace, function_gamma,
                                normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -41,10 +40,11 @@ __all__ = [
     'MAX_RGB_TO_XYZ_MATRIX', 'XYZ_TO_MAX_RGB_MATRIX', 'MAX_RGB_COLOURSPACE'
 ]
 
-MAX_RGB_PRIMARIES = np.array(
-    [[0.73413379, 0.26586621],
-     [0.10039113, 0.89960887],
-     [0.03621495, 0.00000000]])  # yapf: disable
+MAX_RGB_PRIMARIES = np.array([
+    [0.73413379, 0.26586621],
+    [0.10039113, 0.89960887],
+    [0.03621495, 0.00000000],
+])
 """
 *Max RGB* colourspace primaries.
 
@@ -89,9 +89,13 @@ MAX_RGB_COLOURSPACE = RGB_Colourspace(
     MAX_RGB_TO_XYZ_MATRIX,
     XYZ_TO_MAX_RGB_MATRIX,
     partial(function_gamma, exponent=1 / 2.2),
-    partial(function_gamma, exponent=2.2))  # yapf: disable
-"""
+    partial(function_gamma, exponent=2.2), )
+MAX_RGB_COLOURSPACE.__doc__ = """
 *Max RGB* colourspace.
+
+References
+----------
+-   :cite:`HutchColorf`
 
 MAX_RGB_COLOURSPACE : RGB_Colourspace
 """

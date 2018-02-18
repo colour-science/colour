@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Geometry Plotting Utilities
@@ -6,9 +5,9 @@ Geometry Plotting Utilities
 
 Defines geometry plotting utilities objects:
 
--   :func:`quad`
--   :func:`grid`
--   :func:`cube`
+-   :func:`colour.plotting.quad`
+-   :func:`colour.plotting.grid`
+-   :func:`colour.plotting.cube`
 """
 
 from __future__ import division
@@ -16,7 +15,7 @@ from __future__ import division
 import numpy as np
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'

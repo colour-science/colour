@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 DICOM - Grayscale Standard Display Function
@@ -8,8 +7,8 @@ Defines the *DICOM - Grayscale Standard Display Function* opto-electrical
 transfer function (OETF / OECF) and electro-optical transfer function
 (EOTF / EOCF):
 
--   :func:`oetf_DICOMGSDF`
--   :func:`eotf_DICOMGSDF`
+-   :func:`colour.models.oetf_DICOMGSDF`
+-   :func:`colour.models.eotf_DICOMGSDF`
 
 The Grayscale Standard Display Function is defined for the Luminance Range
 from :math:`0.05` to :math:`4000 cd/m^2`. The minimum Luminance corresponds
@@ -26,10 +25,10 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  National Electrical Manufacturers Association. (2004). Digital Imaging
-        and Communications in Medicine ( DICOM ) Part 14 :
-        Grayscale Standard Display Function. Medicine, 10(S1), 3–4.
-        doi:10.1007/BF03168637
+-   :cite:`NationalElectricalManufacturersAssociation2004b` : National
+    Electrical Manufacturers Association. (2004). Digital Imaging and
+    Communications in Medicine (DICOM) Part 14: Grayscale Standard Display
+    Function. Retrieved from http://medical.nema.org/dicom/2004/04_14PU.PDF
 """
 
 from __future__ import division, unicode_literals
@@ -39,7 +38,7 @@ import numpy as np
 from colour.utilities import Structure, as_numeric
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -66,7 +65,7 @@ DICOMGSDF_CONSTANTS = Structure(
     F=-1.1878455,
     G=-0.18014349,
     H=0.14710899,
-    I=-0.017046845)
+    I=-0.017046845)  # noqa
 """
 *DICOM Grayscale Standard Display Function* constants.
 
@@ -89,6 +88,10 @@ def oetf_DICOMGSDF(L):
     numeric or ndarray
         Just-Noticeable Difference (JND) Index, :math:`j` in domain 1 to 1023.
 
+    References
+    ----------
+    -   :cite:`NationalElectricalManufacturersAssociation2004b`
+
     Examples
     --------
     >>> oetf_DICOMGSDF(130.065284012159790)  # doctest: +ELLIPSIS
@@ -107,7 +110,7 @@ def oetf_DICOMGSDF(L):
     F = DICOMGSDF_CONSTANTS.F
     G = DICOMGSDF_CONSTANTS.G
     H = DICOMGSDF_CONSTANTS.H
-    I = DICOMGSDF_CONSTANTS.I
+    I = DICOMGSDF_CONSTANTS.I  # noqa
 
     L = (A + B * L_lg + C * L_lg ** 2 + D * L_lg ** 3 + E * L_lg ** 4 +
          F * L_lg ** 5 + G * L_lg ** 6 + H * L_lg ** 7 + I * L_lg ** 8)
@@ -129,6 +132,10 @@ def eotf_DICOMGSDF(J):
     -------
     numeric or ndarray
         Corresponding *luminance* :math:`L`.
+
+    References
+    ----------
+    -   :cite:`NationalElectricalManufacturersAssociation2004b`
 
     Examples
     --------

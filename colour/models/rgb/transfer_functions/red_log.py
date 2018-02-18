@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 RED Log Encodings
@@ -6,14 +5,14 @@ RED Log Encodings
 
 Defines the *RED* log encodings:
 
--   :func:`log_encoding_REDLog`
--   :func:`log_decoding_REDLog`
--   :func:`log_encoding_REDLogFilm`
--   :func:`log_decoding_REDLogFilm`
--   :func:`log_encoding_Log3G10`
--   :func:`log_decoding_Log3G10`
--   :func:`log_encoding_Log3G12`
--   :func:`log_decoding_Log3G12`
+-   :func:`colour.models.log_encoding_REDLog`
+-   :func:`colour.models.log_decoding_REDLog`
+-   :func:`colour.models.log_encoding_REDLogFilm`
+-   :func:`colour.models.log_decoding_REDLogFilm`
+-   :func:`colour.models.log_encoding_Log3G10`
+-   :func:`colour.models.log_decoding_Log3G10`
+-   :func:`colour.models.log_encoding_Log3G12`
+-   :func:`colour.models.log_decoding_Log3G12`
 
 See Also
 --------
@@ -23,10 +22,11 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  Sony Imageworks. (2012). make.py. Retrieved November 27, 2014, from
-        https://github.com/imageworks/OpenColorIO-Configs/\
+-   :cite:`Nattress2016a` : Nattress, G. (2016). Private Discussion with
+    Shaw, N.
+-   :cite:`SonyImageworks2012a` : Sony Imageworks. (2012). make.py. Retrieved
+    November 27, 2014, from https://github.com/imageworks/OpenColorIO-Configs/\
 blob/master/nuke-default/make.py
-.. [2]  Nattress, G. (2016). Private Discussion with Shaw, N.
 """
 
 from __future__ import division, unicode_literals
@@ -37,7 +37,7 @@ from colour.models.rgb.transfer_functions import (log_encoding_Cineon,
                                                   log_decoding_Cineon)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -66,6 +66,10 @@ def log_encoding_REDLog(x, black_offset=10 ** ((0 - 1023) / 511)):
     -------
     numeric or ndarray
         Non-linear data :math:`y`.
+
+    References
+    ----------
+    -   :cite:`SonyImageworks2012a`
 
     Examples
     --------
@@ -96,6 +100,10 @@ def log_decoding_REDLog(y, black_offset=10 ** ((0 - 1023) / 511)):
     numeric or ndarray
         Linear data :math:`x`.
 
+    References
+    ----------
+    -   :cite:`SonyImageworks2012a`
+
     Examples
     --------
     >>> log_decoding_REDLog(0.637621845988175)  # doctest: +ELLIPSIS
@@ -125,6 +133,10 @@ def log_encoding_REDLogFilm(x, black_offset=10 ** ((95 - 685) / 300)):
     numeric or ndarray
         Non-linear data :math:`y`.
 
+    References
+    ----------
+    -   :cite:`SonyImageworks2012a`
+
     Examples
     --------
     >>> log_encoding_REDLogFilm(0.18)  # doctest: +ELLIPSIS
@@ -151,6 +163,10 @@ def log_decoding_REDLogFilm(y, black_offset=10 ** ((95 - 685) / 300)):
     numeric or ndarray
         Linear data :math:`x`.
 
+    References
+    ----------
+    -   :cite:`SonyImageworks2012a`
+
     Examples
     --------
     >>> log_decoding_REDLogFilm(0.457319613085418)  # doctest: +ELLIPSIS
@@ -170,7 +186,7 @@ def log_encoding_Log3G10(x, legacy_curve=False):
     x : numeric or array_like
         Linear data :math:`x`.
     legacy_curve : bool, optional
-        Whether to use the v1 *Log3G10* log encoding curve. Default is `False`.
+        Whether to use the v1 *Log3G10* log encoding curve. Default is *False*.
 
     Returns
     -------
@@ -211,6 +227,10 @@ def log_encoding_Log3G10(x, legacy_curve=False):
             B = 25 * (np.sqrt(16381.0) - 3) / 9
             A = 1 / np.log10(B * 737.28 + 1)
 
+    References
+    ----------
+    -   :cite:`Nattress2016a`
+
     Examples
     --------
     >>> log_encoding_Log3G10(0.18, legacy_curve=True)  # doctest: +ELLIPSIS
@@ -238,12 +258,16 @@ def log_decoding_Log3G10(y, legacy_curve=False):
     y : numeric or array_like
         Non-linear data :math:`y`.
     legacy_curve : bool, optional
-        Whether to use the v1 *Log3G10* log encoding curve. Default is `False`.
+        Whether to use the v1 *Log3G10* log encoding curve. Default is *False*.
 
     Returns
     -------
     numeric or ndarray
         Linear data :math:`x`.
+
+    References
+    ----------
+    -   :cite:`Nattress2016a`
 
     Examples
     --------
@@ -278,6 +302,10 @@ def log_encoding_Log3G12(x):
     numeric or ndarray
         Non-linear data :math:`y`.
 
+    References
+    ----------
+    -   :cite:`Nattress2016a`
+
     Examples
     --------
     >>> log_encoding_Log3G12(0.18)  # doctest: +ELLIPSIS
@@ -303,6 +331,10 @@ def log_decoding_Log3G12(y):
     -------
     numeric or ndarray
         Linear data :math:`x`.
+
+    References
+    ----------
+    -   :cite:`Nattress2016a`
 
     Examples
     --------

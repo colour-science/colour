@@ -1,14 +1,13 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 sRGB Colourspace
 ================
 
 Defines *sRGB* colourspace opto-electrical transfer function (OETF / OECF) and
-electro-optical transfer function (EOTF / EOCF):
+its reverse:
 
--   :func:`oetf_sRGB`
--   :func:`eotf_sRGB`
+-   :func:`colour.models.oetf_sRGB`
+-   :func:`colour.models.oetf_reverse_sRGB`
 
 See Also
 --------
@@ -18,31 +17,33 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  International Electrotechnical Commission. (1999). IEC 61966-2-1:1999 -
-        Multimedia systems and equipment - Colour measurement and management -
-        Part 2-1: Colour management - Default RGB colour space - sRGB, 51.
-        Retrieved from https://webstore.iec.ch/publication/6169
-.. [2]  International Telecommunication Union. (2015). Recommendation
-        ITU-R BT.709-6 - Parameter values for the HDTV standards for
-        production and international programme exchange BT Series Broadcasting
-        service (Vol. 5). Retrieved from https://www.itu.int/dms_pubrec/\
-itu-r/rec/bt/R-REC-BT.709-6-201506-I!!PDF-E.pdf
+-   :cite:`InternationalElectrotechnicalCommission1999a` : International
+    Electrotechnical Commission. (1999). IEC 61966-2-1:1999 - Multimedia
+    systems and equipment - Colour measurement and management - Part 2-1:
+    Colour management - Default RGB colour space - sRGB. Retrieved from
+    https://webstore.iec.ch/publication/6169
+-   :cite:`InternationalTelecommunicationUnion2015i` : International
+    Telecommunication Union. (2015). Recommendation ITU-R BT.709-6 - Parameter
+    values for the HDTV standards for production and international programme
+    exchange BT Series Broadcasting service. Retrieved from
+    https://www.itu.int/dms_pubrec/itu-r/rec/bt/\
+R-REC-BT.709-6-201506-I!!PDF-E.pdf
 """
 
 from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import as_numeric, warning
+from colour.utilities import as_numeric
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['oetf_sRGB', 'eotf_sRGB']
+__all__ = ['oetf_sRGB', 'oetf_reverse_sRGB']
 
 
 def oetf_sRGB(L):
@@ -60,6 +61,11 @@ def oetf_sRGB(L):
     numeric or ndarray
         Corresponding electrical signal :math:`V`.
 
+    References
+    ----------
+    -   :cite:`InternationalElectrotechnicalCommission1999a`
+    -   :cite:`InternationalTelecommunicationUnion2015i`
+
     Examples
     --------
     >>> oetf_sRGB(0.18)  # doctest: +ELLIPSIS
@@ -72,10 +78,10 @@ def oetf_sRGB(L):
         np.where(L <= 0.0031308, L * 12.92, 1.055 * (L ** (1 / 2.4)) - 0.055))
 
 
-def eotf_sRGB(V):
+def oetf_reverse_sRGB(V):
     """
-    Defines the *sRGB* colourspace electro-optical transfer function
-    (EOTF / EOCF).
+    Defines the *sRGB* colourspace reverse opto-electronic transfer function
+    (OETF / OECF).
 
     Parameters
     ----------
@@ -87,19 +93,16 @@ def eotf_sRGB(V):
     numeric or ndarray
         Corresponding *luminance* :math:`L` of the image.
 
+    References
+    ----------
+    -   :cite:`InternationalElectrotechnicalCommission1999a`
+    -   :cite:`InternationalTelecommunicationUnion2015i`
+
     Examples
     --------
-    >>> eotf_sRGB(0.461356129500442)  # doctest: +ELLIPSIS
+    >>> oetf_reverse_sRGB(0.461356129500442)  # doctest: +ELLIPSIS
     0.1...
     """
-
-    warning(('*sRGB* *OETF* is a piece-wise function: in order to reduce '
-             'noise in dark region, a line segment limits the slope of the '
-             'power function (slope of a power function is infinite at zero). '
-             'This is not needed for *sRGB* *EOTF*, a pure gamma 2.2 function '
-             'should be use instead. This definition is used for symmetry in '
-             'unit tests and others computations but should not be used as an '
-             '*EOTF*!'))
 
     V = np.asarray(V)
 

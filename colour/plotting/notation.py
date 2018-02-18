@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Colour Notation Systems Plotting
@@ -6,8 +5,8 @@ Colour Notation Systems Plotting
 
 Defines the colour notation systems plotting objects:
 
--   :func:`single_munsell_value_function_plot`
--   :func:`multi_munsell_value_function_plot`
+-   :func:`colour.plotting.single_munsell_value_function_plot`
+-   :func:`colour.plotting.multi_munsell_value_function_plot`
 """
 
 from __future__ import division
@@ -16,11 +15,10 @@ import numpy as np
 import pylab
 
 from colour.notation import MUNSELL_VALUE_METHODS
-from colour.plotting import (DEFAULT_FIGURE_WIDTH, boundaries, canvas,
-                             decorate, display)
+from colour.plotting import DEFAULT_FIGURE_WIDTH, canvas, render
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -43,9 +41,8 @@ def single_munsell_value_function_plot(function='ASTM D1535-08', **kwargs):
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
 
     Returns
     -------
@@ -76,9 +73,8 @@ def multi_munsell_value_function_plot(functions=None, **kwargs):
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
 
     Returns
     -------
@@ -117,7 +113,7 @@ def multi_munsell_value_function_plot(functions=None, **kwargs):
         pylab.plot(
             samples, [function(x) for x in samples],
             label=u'{0}'.format(name),
-            linewidth=2)
+            linewidth=1)
 
     settings.update({
         'title': '{0} - Munsell Functions'.format(', '.join(functions)),
@@ -132,7 +128,4 @@ def multi_munsell_value_function_plot(functions=None, **kwargs):
     })
     settings.update(kwargs)
 
-    boundaries(**settings)
-    decorate(**settings)
-
-    return display(**settings)
+    return render(**settings)

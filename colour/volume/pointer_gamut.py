@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Pointer's Gamut Volume Computations
@@ -20,7 +19,7 @@ from colour.models import (Lab_to_XYZ, LCHab_to_Lab, POINTER_GAMUT_DATA,
 from colour.volume import is_within_mesh_volume
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -55,8 +54,7 @@ def is_within_pointer_gamut(XYZ, tolerance=None):
     >>> import numpy as np
     >>> is_within_pointer_gamut(np.array([0.3205, 0.4131, 0.5100]))
     array(True, dtype=bool)
-    >>> a = np.array([[0.3205, 0.4131, 0.5100],
-    ...               [0.0005, 0.0031, 0.0010]])
+    >>> a = np.array([[0.3205, 0.4131, 0.5100], [0.0005, 0.0031, 0.0010]])
     >>> is_within_pointer_gamut(a)
     array([ True, False], dtype=bool)
     """

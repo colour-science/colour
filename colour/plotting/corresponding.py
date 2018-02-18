@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Corresponding Chromaticities Prediction Plotting
@@ -6,19 +5,18 @@ Corresponding Chromaticities Prediction Plotting
 
 Defines corresponding chromaticities prediction plotting objects:
 
--   :func:`corresponding_chromaticities_prediction_plot`
+-   :func:`colour.plotting.corresponding_chromaticities_prediction_plot`
 """
 
 from __future__ import division
 import pylab
 
 from colour.corresponding import corresponding_chromaticities_prediction
-from colour.plotting import (CIE_1976_UCS_chromaticity_diagram_plot,
-                             DEFAULT_FIGURE_WIDTH, boundaries, canvas,
-                             decorate, display)
+from colour.plotting import (chromaticity_diagram_plot_CIE1976UCS,
+                             DEFAULT_FIGURE_WIDTH, canvas, render)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -47,11 +45,10 @@ def corresponding_chromaticities_prediction_plot(experiment=1,
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
     show_diagram_colours : bool, optional
-        {:func:`CIE_1976_UCS_chromaticity_diagram_plot`}
+        {:func:`colour.plotting.chromaticity_diagram_plot_CIE1976UCS`}
         Whether to display the chromaticity diagram background colours.
 
     Returns
@@ -82,13 +79,13 @@ def corresponding_chromaticities_prediction_plot(experiment=1,
     })
     settings.update(kwargs)
 
-    CIE_1976_UCS_chromaticity_diagram_plot(**settings)
+    chromaticity_diagram_plot_CIE1976UCS(**settings)
 
     results = corresponding_chromaticities_prediction(
         experiment, transform=transform)
 
     for result in results:
-        name, uvp_t, uvp_m, uvp_p = result
+        _name, uvp_t, uvp_m, uvp_p = result
         pylab.arrow(
             uvp_t[0],
             uvp_t[1],
@@ -109,7 +106,4 @@ def corresponding_chromaticities_prediction_plot(experiment=1,
     })
     settings.update(kwargs)
 
-    boundaries(**settings)
-    decorate(**settings)
-
-    return display(**settings)
+    return render(**settings)

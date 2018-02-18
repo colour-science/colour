@@ -1,24 +1,75 @@
-colour\.corresponding Package
-=============================
+Corresponding Chromaticities
+============================
 
-Sub-Packages
-------------
+.. contents:: :local:
 
-.. toctree::
+Prediction
+----------
 
-    colour.corresponding.dataset
+``colour``
 
-Sub-Modules
------------
+.. currentmodule:: colour
 
-.. toctree::
+.. autosummary::
+    :toctree: generated/
 
-   colour.corresponding.prediction
+    corresponding_chromaticities_prediction
+    CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS
 
-Module Contents
----------------
+**Dataset**
 
-.. automodule:: colour.corresponding
-    :members:
-    :undoc-members:
-    :show-inheritance:
+``colour``
+
+.. autosummary::
+    :toctree: generated/
+
+    BRENEMAN_EXPERIMENTS
+    BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES
+
+Fairchild (1990)
+~~~~~~~~~~~~~~~~
+
+``colour.corresponding``
+
+.. currentmodule:: colour.corresponding
+
+.. autosummary::
+    :toctree: generated/
+
+    corresponding_chromaticities_prediction_Fairchild1990
+
+CIE 1994
+~~~~~~~~
+
+``colour.corresponding``
+
+.. currentmodule:: colour.corresponding
+
+.. autosummary::
+    :toctree: generated/
+
+    corresponding_chromaticities_prediction_CIE1994
+
+CMCCAT2000
+~~~~~~~~~~
+
+``colour.corresponding``
+
+.. currentmodule:: colour.corresponding
+
+.. autosummary::
+    :toctree: generated/
+
+    corresponding_chromaticities_prediction_CMCCAT2000
+
+Von Kries
+~~~~~~~~~
+
+``colour.corresponding``
+
+.. currentmodule:: colour.corresponding
+
+.. autosummary::
+    :toctree: generated/
+
+    corresponding_chromaticities_prediction_VonKries

@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Dominant Wavelength and Purity
@@ -7,10 +6,10 @@ Dominant Wavelength and Purity
 Defines objects to compute the *dominant wavelength* and *purity* of a colour
 and related quantities:
 
--   :func:`dominant_wavelength`
--   :func:`complementary_wavelength`
--   :func:`excitation_purity`
--   :func:`colorimetric_purity`
+-   :func:`colour.dominant_wavelength`
+-   :func:`colour.complementary_wavelength`
+-   :func:`colour.excitation_purity`
+-   :func:`colour.colorimetric_purity`
 
 See Also
 --------
@@ -20,11 +19,13 @@ blob/master/notebooks/colorimetry/dominant_wavelength.ipynb>`_
 
 References
 ----------
-.. [1]  CIE TC 1-48. (2004). 9.1 Dominant wavelength and purity. In CIE
-        015:2004 Colorimetry, 3rd Edition (pp. 32–33). ISBN:978-3-901-90633-6
-.. [2]  Erdogan, T. (n.d.). How to Calculate Luminosity, Dominant Wavelength,
-        and Excitation Purity, 7. Retrieved from http://www.semrock.com/Data/\
-Sites/1/semrockpdfs/whitepaper_howtocalculateluminositywavelengthandpurity.pdf
+-   :cite:`CIETC1-482004o` : CIE TC 1-48. (2004). 9.1 Dominant wavelength and
+    purity. In CIE 015:2004 Colorimetry, 3rd Edition (pp. 32-33).
+    ISBN:978-3-901-90633-6
+-   :cite:`Erdogana` : Erdogan, T. (n.d.). How to Calculate Luminosity,
+    Dominant Wavelength, and Excitation Purity. Retrieved from
+    http://www.semrock.com/Data/Sites/1/semrockpdfs/\
+whitepaper_howtocalculateluminositywavelengthandpurity.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -38,7 +39,7 @@ from colour.colorimetry import CMFS
 from colour.models import XYZ_to_xy
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -154,9 +155,10 @@ def dominant_wavelength(xy,
         *Dominant wavelength*, first intersection point *xy* chromaticity
         coordinates, second intersection point *xy* chromaticity coordinates.
 
-    See Also
-    --------
-    complementary_wavelength
+    References
+    ----------
+    -   :cite:`CIETC1-482004o`
+    -   :cite:`Erdogana`
 
     Examples
     --------
@@ -240,9 +242,10 @@ def complementary_wavelength(xy,
         *Complementary wavelength*, first intersection point *xy* chromaticity
         coordinates, second intersection point *xy* chromaticity coordinates.
 
-    See Also
-    --------
-    dominant_wavelength
+    References
+    ----------
+    -   :cite:`CIETC1-482004o`
+    -   :cite:`Erdogana`
 
     Examples
     --------
@@ -291,6 +294,11 @@ def excitation_purity(xy,
     numeric or array_like
         *Excitation purity* :math:`P_e`.
 
+    References
+    ----------
+    -   :cite:`CIETC1-482004o`
+    -   :cite:`Erdogana`
+
     Examples
     --------
     >>> xy = np.array([0.28350, 0.68700])
@@ -300,7 +308,7 @@ def excitation_purity(xy,
     0.9386035...
     """
 
-    wl, xy_wl, xy_cwl = dominant_wavelength(xy, xy_n, cmfs)
+    _wl, xy_wl, _xy_cwl = dominant_wavelength(xy, xy_n, cmfs)
 
     P_e = euclidean_distance(xy_n, xy) / euclidean_distance(xy_n, xy_wl)
 
@@ -328,6 +336,11 @@ def colorimetric_purity(xy,
     numeric or array_like
         *Colorimetric purity* :math:`P_c`.
 
+    References
+    ----------
+    -   :cite:`CIETC1-482004o`
+    -   :cite:`Erdogana`
+
     Examples
     --------
     >>> xy = np.array([0.28350, 0.68700])
@@ -339,7 +352,7 @@ def colorimetric_purity(xy,
 
     xy = np.asarray(xy)
 
-    wl, xy_wl, xy_cwl = dominant_wavelength(xy, xy_n, cmfs)
+    _wl, xy_wl, _xy_cwl = dominant_wavelength(xy, xy_n, cmfs)
     P_e = excitation_purity(xy, xy_n, cmfs)
 
     P_c = P_e * xy_wl[..., 1] / xy[..., 1]

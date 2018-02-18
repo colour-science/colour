@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 ECI RGB v2 Colourspace
@@ -6,7 +5,7 @@ ECI RGB v2 Colourspace
 
 Defines the *ECI RGB v2* colourspace:
 
--   :attr:`ECI_RGB_V2_COLOURSPACE`.
+-   :attr:`colour.models.ECI_RGB_V2_COLOURSPACE`.
 
 See Also
 --------
@@ -16,8 +15,9 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  European Color Initiative. (2002). ECI RGB v2. Retrieved from
-        http://www.eci.org/_media/downloads/icc_profiles_from_eci/ecirgbv20.zip
+-   :cite:`EuropeanColorInitiative2002a` : European Color Initiative. (2002).
+    ECI RGB v2. Retrieved from
+    http://www.eci.org/_media/downloads/icc_profiles_from_eci/ecirgbv20.zip
 """
 
 from __future__ import division, unicode_literals
@@ -30,7 +30,7 @@ from colour.colorimetry import (ILLUMINANTS, lightness_CIE1976,
 from colour.models.rgb import RGB_Colourspace, normalised_primary_matrix
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -42,10 +42,11 @@ __all__ = [
     'ECI_RGB_V2_COLOURSPACE'
 ]
 
-ECI_RGB_V2_PRIMARIES = np.array(
-    [[0.670103092783505, 0.329896907216495],
-     [0.209905660377358, 0.709905660377358],
-     [0.140061791967044, 0.080329557157570]])  # yapf: disable
+ECI_RGB_V2_PRIMARIES = np.array([
+    [0.670103092783505, 0.329896907216495],
+    [0.209905660377358, 0.709905660377358],
+    [0.140061791967044, 0.080329557157570],
+])
 """
 *ECI RGB v2* colourspace primaries.
 
@@ -95,9 +96,9 @@ def _scale_domain_0_100_range_0_1(a, callable_):
         *Luminance* :math:`Y` or *Lightness* :math:`L^*` array.
     callable_ : callable
         *Luminance* :math:`Y` or *Lightness* :math:`L^*` computation
-        definition, i.e., :func:`colour.lightness_CIE1976` or
-        :func:`colour.luminance_CIE1976`. Reference white *luminance*
-        :math:`Y_n` has implicit value of :math:`100\ cd/m^2`.
+        definition, i.e., :func:`colour.colorimetry.lightness_CIE1976` or
+        :func:`colour.colorimetry.luminance_CIE1976`. Reference white
+        *luminance* :math:`Y_n` has implicit value of :math:`100\ cd/m^2`.
 
     Returns
     -------
@@ -117,14 +118,14 @@ ECI_RGB_V2_COLOURSPACE = RGB_Colourspace(
     ECI_RGB_V_ILLUMINANT,
     ECI_RGB_V2_TO_XYZ_MATRIX,
     XYZ_TO_ECI_RGB_V2_MATRIX,
-    partial(
-        _scale_domain_0_100_range_0_1,
-        callable_=lightness_CIE1976),
-    partial(
-        _scale_domain_0_100_range_0_1,
-        callable_=luminance_CIE1976))  # yapf: disable
-"""
+    partial(_scale_domain_0_100_range_0_1, callable_=lightness_CIE1976),
+    partial(_scale_domain_0_100_range_0_1, callable_=luminance_CIE1976), )
+ECI_RGB_V2_COLOURSPACE.__doc__ = """
 *ECI RGB v2* colourspace.
+
+References
+----------
+-   :cite:`EuropeanColorInitiative2002a`
 
 ECI_RGB_V2_COLOURSPACE : RGB_Colourspace
 """

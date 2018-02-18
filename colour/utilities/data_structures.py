@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Data Structures
@@ -6,13 +5,24 @@ Data Structures
 
 Defines various data structures classes:
 
--   :class:`ArbitraryPrecisionMapping`: A mutable mapping / *dict* like object
-    where numeric keys are stored with an arbitrary precision.
--   :class:`Structure`: An object similar to C/C++ structured type.
--   :class:`Lookup`: A *dict* sub-class acting as a lookup to retrieve keys by
-    values.
--   :class:`CaseInsensitiveMapping`: A case insensitive mapping allowing values
-    retrieving from keys while ignoring the key case.
+-   :class:`colour.utilities.Structure`: An object similar to C/C++ structured
+    type.
+-   :class:`colour.utilities.Lookup`: A *dict* sub-class acting as a lookup to
+    retrieve keys by values.
+-   :class:`colour.utilities.CaseInsensitiveMapping`: A case insensitive
+    mapping allowing values retrieving from keys while ignoring the key case.
+
+References
+----------
+-   :cite:`Mansencalc` : Mansencal, T. (n.d.). Lookup. Retrieved from
+    https://github.com/KelSolaar/Foundations/blob/develop/foundations/\
+data_structures.py
+-   :cite:`Mansencald` : Mansencal, T. (n.d.). Structure. Retrieved from
+    https://github.com/KelSolaar/Foundations/blob/develop/foundations/\
+data_structures.py
+-   :cite:`Reitza` : Reitz, K. (n.d.). CaseInsensitiveDict. Retrieved from
+    https://github.com/kennethreitz/requests/blob/v1.2.3/requests/\
+structures.py#L37
 """
 
 from __future__ import division, unicode_literals
@@ -20,259 +30,13 @@ from __future__ import division, unicode_literals
 from collections import Mapping, MutableMapping
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = [
-    'ArbitraryPrecisionMapping', 'Structure', 'Lookup',
-    'CaseInsensitiveMapping'
-]
-
-
-class ArbitraryPrecisionMapping(MutableMapping):
-    """
-    Implements a mutable mapping / *dict* like object where numeric keys are
-    stored with an arbitrary precision.
-
-    Parameters
-    ----------
-    data : dict, optional
-        *dict* of data to store into the mapping at initialisation.
-    key_decimals : int, optional
-        Decimals count the keys will be rounded at
-
-    Other Parameters
-    ----------------
-    \**kwargs : dict, optional
-        Key / Value pairs to store into the mapping at initialisation.
-
-    Attributes
-    ----------
-    key_decimals
-
-    Methods
-    -------
-    __setitem__
-    __getitem__
-    __delitem__
-    __contains__
-    __iter__
-    __len__
-
-    Examples
-    --------
-    >>> data1 = {0.1999999998: 'Nemo', 0.2000000000: 'John'}
-    >>> apm1 = ArbitraryPrecisionMapping(data1, key_decimals=10)
-    >>> # Doctests skip for Python 2.x compatibility.
-    >>> tuple(apm1.keys())  # doctest: +SKIP
-    (0.1999999998, 0.2)
-    >>> apm2 = ArbitraryPrecisionMapping(data1, key_decimals=7)
-    >>> # Doctests skip for Python 2.x compatibility.
-    >>> tuple(apm2.keys())  # doctest: +SKIP
-    (0.2,)
-    """
-
-    def __init__(self, data=None, key_decimals=0, **kwargs):
-        self._data = dict()
-        self._key_decimals = None
-        self.key_decimals = key_decimals
-
-        self.update({} if data is None else data, **kwargs)
-
-    @property
-    def data(self):
-        """
-        Property for **self.data** attribute.
-
-        Returns
-        -------
-        dict
-            :class:`ArbitraryPrecisionMapping` data structure.
-
-        Warning
-        -------
-        :attr:`ArbitraryPrecisionMapping.data` is read only.
-        """
-
-        return self._data
-
-    @data.setter
-    def data(self, value):
-        """
-        Setter for **self.data** attribute.
-
-        Parameters
-        ----------
-        value : object
-            Attribute value.
-        """
-
-        raise AttributeError('"{0}" attribute is read only!'.format('data'))
-
-    @property
-    def key_decimals(self):
-        """
-        Property for **self._key_decimals** private attribute.
-
-        Returns
-        -------
-        unicode
-            self._key_decimals.
-        """
-
-        return self._key_decimals
-
-    @key_decimals.setter
-    def key_decimals(self, value):
-        """
-        Setter for **self._key_decimals** private attribute.
-
-        Parameters
-        ----------
-        value : unicode
-            Attribute value.
-        """
-
-        if value is not None:
-            assert isinstance(value, int), (
-                '"{0}" attribute: "{1}" is not a "int" instance!').format(
-                    'key_decimals', value)
-        self._key_decimals = value
-
-    def _round(self, item):
-        """
-        Rounds given item if numeric.
-
-        Parameters
-        ----------
-        item : object
-            Attribute.
-
-        Parameters
-        ----------
-        item : object
-            Attribute.
-
-        Notes
-        -----
-        -   Reimplements the :meth:`MutableMapping.__setitem__` method.
-        """
-
-        try:
-            return round(item, self._key_decimals)
-        except TypeError:
-            return item
-
-    def __setitem__(self, item, value):
-        """
-        Sets given item (rounded if numeric) with given value.
-
-        Parameters
-        ----------
-        item : object
-            Attribute.
-        value : object
-            Value.
-
-        Notes
-        -----
-        -   Reimplements the :meth:`MutableMapping.__setitem__` method.
-        """
-
-        self._data[self._round(item)] = value
-
-    def __getitem__(self, item):
-        """
-        Returns the value of given item (rounded if numeric).
-
-        Parameters
-        ----------
-        item : unicode
-            Item (rounded if numeric) name.
-
-        Returns
-        -------
-        object
-            Item value.
-
-        Notes
-        -----
-        -   Reimplements the :meth:`MutableMapping.__getitem__` method.
-        """
-
-        return self._data[self._round(item)]
-
-    def __delitem__(self, item):
-        """
-        Deletes the item (rounded if numeric) with given value.
-
-        Parameters
-        ----------
-        item : unicode
-            Item (rounded if numeric) name.
-
-        Notes
-        -----
-        -   Reimplements the :meth:`MutableMapping.__delitem__` method.
-        """
-
-        del self._data[self._round(item)]
-
-    def __contains__(self, item):
-        """
-        Returns if the mapping contains given item (rounded if numeric).
-
-        Parameters
-        ----------
-        item : unicode
-            Item (rounded if numeric) name.
-
-        Returns
-        -------
-        bool
-            Is item in mapping.
-
-        Notes
-        -----
-        -   Reimplements the :meth:`MutableMapping.__contains__` method.
-        """
-
-        return self._round(item) in self._data
-
-    def __iter__(self):
-        """
-        Iterates over the items (rounded if numeric) names in the mapping.
-
-        Returns
-        -------
-        generator
-            Item names.
-
-        Notes
-        -----
-        -   Reimplements the :meth:`MutableMapping.__iter__` method.
-        """
-
-        return iter(self._data)
-
-    def __len__(self):
-        """
-        Returns the items count.
-
-        Returns
-        -------
-        int
-            Items count.
-
-        Notes
-        -----
-        -   Reimplements the :meth:`MutableMapping.__iter__` method.
-        """
-
-        return len(self._data)
+__all__ = ['Structure', 'Lookup', 'CaseInsensitiveMapping']
 
 
 class Structure(dict):
@@ -295,9 +59,7 @@ class Structure(dict):
 
     References
     ----------
-    .. [1]  Mansencal, T. (n.d.). Structure. Retrieved from
-            https://github.com/KelSolaar/Foundations/\
-blob/develop/foundations/data_structures.py
+    -   :cite:`Mansencald`
 
     Examples
     --------
@@ -324,10 +86,6 @@ blob/develop/foundations/data_structures.py
         ----------
         attribute : unicode
             Attribute name.
-
-        Notes
-        -----
-        -   Reimplements the :meth:`dict.__getattr__` method.
 
         Returns
         -------
@@ -356,10 +114,6 @@ blob/develop/foundations/data_structures.py
             Attribute.
         value : object
             Value.
-
-        Notes
-        -----
-        -   Reimplements the :meth:`dict.__setattr__` method.
         """
 
         dict.__setitem__(self, attribute, value)
@@ -375,10 +129,6 @@ blob/develop/foundations/data_structures.py
         ----------
         attribute : object
             Attribute.
-
-        Notes
-        -----
-        -   Reimplements the :meth:`dict.__delattr__` method.
         """
 
         dict.__delitem__(self, attribute)
@@ -396,10 +146,6 @@ blob/develop/foundations/data_structures.py
             Arguments.
         \**kwargs : dict, optional
             Keywords arguments.
-
-        Notes
-        -----
-        -   Reimplements the :meth:`dict.update` method.
         """
 
         dict.update(self, *args, **kwargs)
@@ -417,9 +163,7 @@ class Lookup(dict):
 
     References
     ----------
-    .. [2]  Mansencal, T. (n.d.). Lookup. Retrieved from
-            https://github.com/KelSolaar/Foundations/\
-blob/develop/foundations/data_structures.py
+    -   :cite:`Mansencalc`
 
     Examples
     --------
@@ -504,9 +248,7 @@ class CaseInsensitiveMapping(MutableMapping):
 
     References
     ----------
-    .. [3]  Reitz, K. (n.d.). CaseInsensitiveDict. Retrieved from
-            https://github.com/kennethreitz/requests/\
-blob/v1.2.3/requests/structures.py#L37
+    -   :cite:`Reitza`
 
     Examples
     --------
@@ -523,32 +265,20 @@ blob/v1.2.3/requests/structures.py#L37
     @property
     def data(self):
         """
-        Property for **self.data** attribute.
+        Getter and setter property for the data.
+
+        Parameters
+        ----------
+        value : dict
+            Value to set the data with.
 
         Returns
         -------
         dict
-            :class:`ArbitraryPrecisionMapping` data structure.
-
-        Warning
-        -------
-        :attr:`ArbitraryPrecisionMapping.data` is read only.
+            Data.
         """
 
         return self._data
-
-    @data.setter
-    def data(self, value):
-        """
-        Setter for **self.data** attribute.
-
-        Parameters
-        ----------
-        value : object
-            Attribute value.
-        """
-
-        raise AttributeError('"{0}" attribute is read only!'.format('data'))
 
     def __setitem__(self, item, value):
         """
@@ -565,10 +295,6 @@ blob/v1.2.3/requests/structures.py#L37
             Attribute.
         value : object
             Value.
-
-        Notes
-        -----
-        -   Reimplements the :meth:`MutableMapping.__setitem__` method.
         """
 
         self._data[item.lower()] = (item, value)
@@ -588,10 +314,6 @@ blob/v1.2.3/requests/structures.py#L37
         -------
         object
             Item value.
-
-        Notes
-        -----
-        -   Reimplements the :meth:`MutableMapping.__getitem__` method.
         """
 
         return self._data[item.lower()][1]
@@ -606,10 +328,6 @@ blob/v1.2.3/requests/structures.py#L37
         ----------
         item : unicode
             Item name.
-
-        Notes
-        -----
-        -   Reimplements the :meth:`MutableMapping.__delitem__` method.
         """
 
         del self._data[item.lower()]
@@ -627,10 +345,6 @@ blob/v1.2.3/requests/structures.py#L37
         -------
         bool
             Is item in mapping.
-
-        Notes
-        -----
-        -   Reimplements the :meth:`MutableMapping.__contains__` method.
         """
 
         return item.lower() in self._data
@@ -645,10 +359,6 @@ blob/v1.2.3/requests/structures.py#L37
         -------
         generator
             Item names.
-
-        Notes
-        -----
-        -   Reimplements the :meth:`MutableMapping.__iter__` method.
         """
 
         return (item for item, value in self._data.values())
@@ -661,10 +371,6 @@ blob/v1.2.3/requests/structures.py#L37
         -------
         int
             Items count.
-
-        Notes
-        -----
-        -   Reimplements the :meth:`MutableMapping.__iter__` method.
         """
 
         return len(self._data)
@@ -682,10 +388,6 @@ blob/v1.2.3/requests/structures.py#L37
         -------
         bool
             Equality.
-
-        Notes
-        -----
-        -   Reimplements the :meth:`MutableMapping.__eq__` method.
         """
 
         if isinstance(item, Mapping):
@@ -708,10 +410,6 @@ blob/v1.2.3/requests/structures.py#L37
         -------
         bool
             Inequality.
-
-        Notes
-        -----
-        -   Reimplements the :meth:`MutableMapping.__ne__` method.
         """
 
         return not (self == item)
@@ -724,10 +422,6 @@ blob/v1.2.3/requests/structures.py#L37
         -------
         unicode
             Mapping representation.
-
-        Notes
-        -----
-        -   Reimplements the :meth:`MutableMapping.__repr__` method.
         """
 
         return '{0}({1})'.format(self.__class__.__name__, dict(self.items()))
@@ -743,8 +437,8 @@ blob/v1.2.3/requests/structures.py#L37
 
         Notes
         -----
-        -   The :class:`CaseInsensitiveMapping` class copy returned is a simple
-            *copy* not a *deepcopy*.
+        -   The :class:`colour.utilities.CaseInsensitiveMapping` class copy
+            returned is a simple *copy* not a *deepcopy*.
         """
 
         return CaseInsensitiveMapping(self._data.values())

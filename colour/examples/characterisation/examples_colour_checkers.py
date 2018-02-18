@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Showcases colour rendition charts computations.
@@ -8,7 +7,7 @@ import numpy as np
 from pprint import pprint
 
 import colour
-from colour.utilities.verbose import message_box
+from colour.utilities import message_box
 
 message_box('Colour Rendition Charts Computations')
 
@@ -38,8 +37,8 @@ for index, name, xyY in data:
     RGB = colour.XYZ_to_RGB(
         colour.xyY_to_XYZ(xyY), illuminant,
         colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65'],
-        colour.sRGB_COLOURSPACE.XYZ_to_RGB_matrix, 'Bradford',
-        colour.sRGB_COLOURSPACE.encoding_cctf)
+        colour.RGB_COLOURSPACES['sRGB'].XYZ_to_RGB_matrix, 'Bradford',
+        colour.RGB_COLOURSPACES['sRGB'].encoding_cctf)
 
     RGB = [int(round(x * 255)) if x >= 0 else 0 for x in np.ravel(RGB)]
     print('"{0}": {1}'.format(name, RGB))

@@ -1,25 +1,31 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Common Utilities
 ================
 
 Defines common utilities objects that don't fall in any specific category.
+
+References
+----------
+-   :cite:`Kienzle2011a` : Kienzle, P., Patel, N., & Krycka, J. (2011).
+    refl1d.numpyerrors - Refl1D v0.6.19 documentation. Retrieved January 30,
+    2015, from http://www.reflectometry.org/danse/docs/refl1d/_modules/\
+refl1d/numpyerrors.html
 """
 
 from __future__ import division, unicode_literals
 
-from copy import deepcopy
+import inspect
 import functools
 import numpy as np
-import sys
 import warnings
+from copy import deepcopy
 from six import string_types
 
 from colour.constants import INTEGER_THRESHOLD
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -28,8 +34,8 @@ __status__ = 'Production'
 __all__ = [
     'handle_numpy_errors', 'ignore_numpy_errors', 'raise_numpy_errors',
     'print_numpy_errors', 'warn_numpy_errors', 'ignore_python_warnings',
-    'batch', 'is_openimageio_installed', 'is_iterable', 'is_string',
-    'is_numeric', 'is_integer', 'filter_kwargs'
+    'batch', 'is_openimageio_installed', 'is_pandas_installed', 'is_iterable',
+    'is_string', 'is_numeric', 'is_integer', 'filter_kwargs', 'first_item'
 ]
 
 
@@ -48,10 +54,7 @@ def handle_numpy_errors(**kwargs):
 
     References
     ----------
-    .. [1]  Kienzle, P., Patel, N., & Krycka, J. (2011). refl1d.numpyerrors -
-            Refl1D v0.6.19 documentation. Retrieved January 30, 2015, from
-            http://www.reflectometry.org/danse/docs/refl1d/_modules/\
-refl1d/numpyerrors.html
+    -   :cite:`Kienzle2011a`
 
     Examples
     --------
@@ -181,6 +184,37 @@ def is_openimageio_installed(raise_exception=False):
         return False
 
 
+def is_pandas_installed(raise_exception=False):
+    """
+    Returns if *Pandas* is installed and available.
+
+    Parameters
+    ----------
+    raise_exception : bool
+        Raise exception if *Pandas* is unavailable.
+
+    Returns
+    -------
+    bool
+        Is *Pandas* installed.
+
+    Raises
+    ------
+    ImportError
+        If *Pandas* is not installed.
+    """
+
+    try:
+        import pandas  # noqa
+
+        return True
+    except ImportError as error:
+        if raise_exception:
+            raise ImportError(('"Pandas" related Api features '
+                               'are not available: "{0}".').format(error))
+        return False
+
+
 def is_iterable(a):
     """
     Returns if given :math:`a` variable is iterable.
@@ -203,12 +237,7 @@ def is_iterable(a):
     False
     """
 
-    try:
-        for _ in a:
-            break
-        return True
-    except TypeError:
-        return False
+    return is_string(a) or (True if getattr(a, '__iter__', False) else False)
 
 
 def is_string(a):
@@ -227,9 +256,9 @@ def is_string(a):
 
     Examples
     --------
-    >>> is_string('I`m a string!')
+    >>> is_string("I'm a string!")
     True
-    >>> is_string(['I`m a string!'])
+    >>> is_string(["I'm a string!"])
     False
     """
 
@@ -249,10 +278,6 @@ def is_numeric(a):
     -------
     bool
         Is :math:`a` variable a number.
-
-    See Also
-    --------
-    is_integer
 
     Examples
     --------
@@ -284,10 +309,6 @@ def is_integer(a):
     -----
     -   The determination threshold is defined by the
         :attr:`colour.algebra.common.INTEGER_THRESHOLD` attribute.
-
-    See Also
-    --------
-    is_numeric
 
     Examples
     --------
@@ -336,13 +357,38 @@ def filter_kwargs(function, **kwargs):
     """
 
     kwargs = deepcopy(kwargs)
-    if sys.version_info[0] >= 3:
-        args = function.__code__.co_varnames
-    else:
-        args = function.func_code.co_varnames
+    args, _varargs, _keywords, _defaults = inspect.getargspec(function)
 
     args = set(kwargs.keys()) - set(args)
     for key in args:
         kwargs.pop(key)
 
     return kwargs
+
+
+def first_item(a):
+    """
+    Return the first item of an iterable.
+
+    Parameters
+    ----------
+    a : object
+        Iterable to get the first item from.
+
+    Returns
+    -------
+    object
+
+    Raises
+    ------
+    StopIteration
+        If the iterable is empty.
+
+    Examples
+    --------
+    >>> a = range(10)
+    >>> first_item(a)
+    0
+    """
+
+    return next(iter(a))

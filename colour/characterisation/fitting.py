@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Colour Fitting
@@ -18,7 +17,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -74,7 +73,8 @@ def first_order_colour_fit(m_1, m_2):
     ...      [0.35458526, 0.35318419, 0.35524431],
     ...      [0.17976704, 0.18000531, 0.17991488],
     ...      [0.09351417, 0.09510603, 0.09675027],
-    ...      [0.03405071, 0.03295077, 0.03702047]])
+    ...      [0.03405071, 0.03295077, 0.03702047]]
+    ... )
     >>> m_2 = np.array(
     ...     [[0.15579559, 0.09715755, 0.07514556],
     ...      [0.39113140, 0.25943419, 0.21266708],
@@ -99,7 +99,8 @@ def first_order_colour_fit(m_1, m_2):
     ...      [0.33045354, 0.32904184, 0.33228886],
     ...      [0.18001305, 0.17978567, 0.18004416],
     ...      [0.10283975, 0.10424680, 0.10384975],
-    ...      [0.04742204, 0.04772203, 0.04914226]])
+    ...      [0.04742204, 0.04772203, 0.04914226]]
+    ... )
     >>> first_order_colour_fit(m_1, m_2)  # doctest: +ELLIPSIS
     array([[ 0.6982266...,  0.0307162...,  0.1621042...],
            [ 0.0689349...,  0.6757961...,  0.1643038...],

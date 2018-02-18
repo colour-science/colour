@@ -1,31 +1,36 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-CIE Luv Colourspace
-===================
+CIE L*u*v* Colourspace
+======================
 
-Defines the *CIE Luv* colourspace transformations:
+Defines the *CIE L\*u\*v\** colourspace transformations:
 
--   :func:`XYZ_to_Luv`
--   :func:`Luv_to_XYZ`
--   :func:`Luv_to_uv`
--   :func:`Luv_uv_to_xy`
--   :func:`Luv_to_LCHuv`
--   :func:`LCHuv_to_Luv`
+-   :func:`colour.XYZ_to_Luv`
+-   :func:`colour.Luv_to_XYZ`
+-   :func:`colour.Luv_to_uv`
+-   :func:`colour.Luv_uv_to_xy`
+-   :func:`colour.Luv_to_LCHuv`
+-   :func:`colour.LCHuv_to_Luv`
 
 See Also
 --------
-`CIE Luv Colourspace Jupyter Notebook
+`CIE L*u*v* Colourspace Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/cie_luv.ipynb>`_
 
 References
 ----------
-.. [1]  CIE TC 1-48. (2004). CIE 1976 uniform colour spaces. In CIE 015:2004
-        Colorimetry, 3rd Edition (p. 24). ISBN:978-3-901-90633-6
-.. [2]  CIE TC 1-48. (2004). CIE 1976 uniform chromaticity scale diagram (UCS
-        diagram). In CIE 015:2004 Colorimetry, 3rd Edition (p. 24).
-        ISBN:978-3-901-90633-6
+-   :cite:`CIETC1-482004j` : CIE TC 1-48. (2004). CIE 1976 uniform chromaticity
+    scale diagram (UCS diagram). In CIE 015:2004 Colorimetry, 3rd Edition
+    (p. 24). ISBN:978-3-901-90633-6
+-   :cite:`CIETC1-482004m` : CIE TC 1-48. (2004). CIE 1976 uniform colour
+    spaces. In CIE 015:2004 Colorimetry, 3rd Edition (p. 24).
+    ISBN:978-3-901-90633-6
+-   :cite:`Wikipediaci` : Wikipedia. (n.d.). The reverse transformation.
+    Retrieved February 24, 2014, from http://en.wikipedia.org/wiki/\
+CIELUV#The_reverse_transformation
+-   :cite:`Wikipediaby` : Wikipedia. (n.d.). CIELUV. Retrieved February 24,
+    2014, from http://en.wikipedia.org/wiki/CIELUV
 """
 
 from __future__ import division, unicode_literals
@@ -39,7 +44,7 @@ from colour.models import xy_to_xyY, xyY_to_XYZ
 from colour.utilities import tsplit, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -55,7 +60,7 @@ def XYZ_to_Luv(
         XYZ,
         illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']):
     """
-    Converts from *CIE XYZ* tristimulus values to *CIE Luv* colourspace.
+    Converts from *CIE XYZ* tristimulus values to *CIE L\*u\*v\** colourspace.
 
     Parameters
     ----------
@@ -68,7 +73,7 @@ def XYZ_to_Luv(
     Returns
     -------
     ndarray
-        *CIE Luv* colourspace array.
+        *CIE L\*u\*v\** colourspace array.
 
     Notes
     -----
@@ -76,6 +81,11 @@ def XYZ_to_Luv(
     -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
         colourspace array are in domain [0, :math:`\infty`].
     -   Output :math:`L^*` is in range [0, 100].
+
+    References
+    ----------
+    -   :cite:`CIETC1-482004m`
+    -   :cite:`Wikipediaby`
 
     Examples
     --------
@@ -105,12 +115,12 @@ def Luv_to_XYZ(
         Luv,
         illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']):
     """
-    Converts from *CIE Luv* colourspace to *CIE XYZ* tristimulus values.
+    Converts from *CIE L\*u\*v\** colourspace to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
     Luv : array_like
-        *CIE Luv* colourspace array.
+        *CIE L\*u\*v\** colourspace array.
     illuminant : array_like, optional
         Reference *illuminant* *xy* chromaticity coordinates or *CIE xyY*
         colourspace array.
@@ -126,6 +136,11 @@ def Luv_to_XYZ(
     -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
         colourspace array are in domain [0, :math:`\infty`].
     -   Output *CIE XYZ* tristimulus values are in range [0, 1].
+
+    References
+    ----------
+    -   :cite:`CIETC1-482004m`
+    -   :cite:`Wikipediaby`
 
     Examples
     --------
@@ -158,13 +173,13 @@ def Luv_to_uv(
         Luv,
         illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']):
     """
-    Returns the :math:`uv^p` chromaticity coordinates from given *CIE Luv*
-    colourspace array.
+    Returns the :math:`uv^p` chromaticity coordinates from given
+    *CIE L\*u\*v\** colourspace array.
 
     Parameters
     ----------
     Luv : array_like
-        *CIE Luv* colourspace array.
+        *CIE L\*u\*v\** colourspace array.
     illuminant : array_like, optional
         Reference *illuminant* *xy* chromaticity coordinates or *CIE xyY*
         colourspace array.
@@ -180,6 +195,10 @@ def Luv_to_uv(
     -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
         colourspace array are in domain [0, :math:`\infty`].
     -   Output :math:`uv^p` chromaticity coordinates are in range [0, 1].
+
+    References
+    ----------
+    -   :cite:`CIETC1-482004j`
 
     Examples
     --------
@@ -197,13 +216,13 @@ def Luv_to_uv(
 
 def Luv_uv_to_xy(uv):
     """
-    Returns the *xy* chromaticity coordinates from given *CIE Luv* colourspace
-    :math:`uv^p` chromaticity coordinates.
+    Returns the *xy* chromaticity coordinates from given *CIE L\*u\*v\**
+    colourspace :math:`uv^p` chromaticity coordinates.
 
     Parameters
     ----------
     uv : array_like
-        *CIE Luv u"v"* chromaticity coordinates.
+        *CIE L\*u\*v\* u"v"* chromaticity coordinates.
 
     Returns
     -------
@@ -217,8 +236,7 @@ def Luv_uv_to_xy(uv):
 
     References
     ----------
-    .. [3]  Wikipedia. (n.d.). The reverse transformation. Retrieved from
-            http://en.wikipedia.org/wiki/CIELUV#The_reverse_transformation
+    -   :cite:`Wikipediaci`
 
     Examples
     --------
@@ -236,21 +254,25 @@ def Luv_uv_to_xy(uv):
 
 def Luv_to_LCHuv(Luv):
     """
-    Converts from *CIE Luv* colourspace to *CIE LCHuv* colourspace.
+    Converts from *CIE L\*u\*v\** colourspace to *CIE L\*C\*Huv* colourspace.
 
     Parameters
     ----------
     Luv : array_like
-        *CIE Luv* colourspace array.
+        *CIE L\*u\*v\** colourspace array.
 
     Returns
     -------
     ndarray
-        *CIE LCHuv* colourspace array.
+        *CIE L\*C\*Huv* colourspace array.
 
     Notes
     -----
     -   Input / output :math:`L^*` is in domain / range [0, 100].
+
+    References
+    ----------
+    -   :cite:`CIETC1-482004m`
 
     Examples
     --------
@@ -270,21 +292,25 @@ def Luv_to_LCHuv(Luv):
 
 def LCHuv_to_Luv(LCHuv):
     """
-    Converts from *CIE LCHuv* colourspace to *CIE Luv* colourspace.
+    Converts from *CIE L\*C\*Huv* colourspace to *CIE L\*u\*v\** colourspace.
 
     Parameters
     ----------
     LCHuv : array_like
-        *CIE LCHuv* colourspace array.
+        *CIE L\*C\*Huv* colourspace array.
 
     Returns
     -------
     ndarray
-        *CIE Luv* colourspace array.
+        *CIE L\*u\*v\** colourspace array.
 
     Notes
     -----
     -   Input / output :math:`L^*` is in domain / range [0, 100].
+
+    References
+    ----------
+    -   :cite:`CIETC1-482004m`
 
     Examples
     --------

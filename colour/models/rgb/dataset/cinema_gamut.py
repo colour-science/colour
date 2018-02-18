@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Cinema Gamut Colourspace
@@ -6,7 +5,7 @@ Cinema Gamut Colourspace
 
 Defines the *Canon* *Cinema Gamut* colourspace:
 
--   :attr:`CINEMA_GAMUT_COLOURSPACE`.
+-   :attr:`colour.models.CINEMA_GAMUT_COLOURSPACE`.
 
 See Also
 --------
@@ -16,9 +15,9 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  Canon. (2014). EOS C500 Firmware Update. Retrieved August 27, 2016,
-        from https://www.usa.canon.com/internet/portal/us/home/explore/\
-product-showcases/cameras-and-lenses/cinema-eos-firmware/c500
+-   :cite:`Canon2014a` : Canon. (2014). EOS C500 Firmware Update. Retrieved
+    August 27, 2016, from https://www.usa.canon.com/internet/portal/us/home/\
+explore/product-showcases/cameras-and-lenses/cinema-eos-firmware/c500
 """
 
 from __future__ import division, unicode_literals
@@ -30,7 +29,7 @@ from colour.models.rgb import (RGB_Colourspace, function_linear,
                                normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -42,10 +41,11 @@ __all__ = [
     'XYZ_TO_CINEMA_GAMUT_MATRIX', 'CINEMA_GAMUT_COLOURSPACE'
 ]
 
-CINEMA_GAMUT_PRIMARIES = np.array(
-    [[0.7400, 0.2700],
-     [0.1700, 1.1400],
-     [0.0800, -0.1000]])  # yapf: disable
+CINEMA_GAMUT_PRIMARIES = np.array([
+    [0.7400, 0.2700],
+    [0.1700, 1.1400],
+    [0.0800, -0.1000],
+])
 """
 *Cinema Gamut* colourspace primaries.
 
@@ -59,9 +59,8 @@ CINEMA_GAMUT_ILLUMINANT = 'D65'
 CINEMA_GAMUT_ILLUMINANT : unicode
 """
 
-CINEMA_GAMUT_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
-    [CINEMA_GAMUT_ILLUMINANT])  # yapf: disable
+CINEMA_GAMUT_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+    CINEMA_GAMUT_ILLUMINANT])
 """
 *Cinema Gamut* colourspace whitepoint.
 
@@ -91,9 +90,13 @@ CINEMA_GAMUT_COLOURSPACE = RGB_Colourspace(
     CINEMA_GAMUT_TO_XYZ_MATRIX,
     XYZ_TO_CINEMA_GAMUT_MATRIX,
     function_linear,
-    function_linear)  # yapf: disable
-"""
+    function_linear, )
+CINEMA_GAMUT_COLOURSPACE.__doc__ = """
 *Cinema Gamut* colourspace.
+
+References
+----------
+-   :cite:`Canon2014a`
 
 CINEMA_GAMUT_COLOURSPACE : RGB_Colourspace
 """

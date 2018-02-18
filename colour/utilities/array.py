@@ -1,34 +1,46 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Array Utilities
 ===============
 
 Defines array utilities objects.
+
+References
+----------
+-   :cite:`Castro2014a` : Castro, S. (2014). Numpy: Fastest way of computing
+    diagonal for each row of a 2d array. Retrieved August 22, 2014, from
+    http://stackoverflow.com/questions/26511401/\
+numpy-fastest-way-of-computing-diagonal-for-each-row-of-a-2d-array/\
+26517247#26517247
+-   :cite:`Yorke2014a` : Yorke, R. (2014). Python: Change format of np.array or
+    allow tolerance in in1d function. Retrieved March 27, 2015, from
+    http://stackoverflow.com/a/23521245/931625
 """
 
 from __future__ import division, unicode_literals
 
 import numpy as np
 from collections import Mapping
+from contextlib import contextmanager
 
-from colour.constants import EPSILON
+from colour.constants import DEFAULT_FLOAT_DTYPE, EPSILON
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'as_numeric', 'as_namedtuple', 'closest', 'normalise_maximum', 'interval',
-    'is_uniform', 'in_array', 'tstack', 'tsplit', 'row_as_diagonal',
-    'dot_vector', 'dot_matrix', 'orient', 'centroid', 'linear_conversion'
+    'as_numeric', 'as_namedtuple', 'closest_indexes', 'closest',
+    'normalise_maximum', 'interval', 'is_uniform', 'in_array', 'tstack',
+    'tsplit', 'row_as_diagonal', 'dot_vector', 'dot_matrix', 'orient',
+    'centroid', 'linear_conversion', 'fill_nan', 'ndarray_write'
 ]
 
 
-def as_numeric(a, type_=np.float_):
+def as_numeric(a, type_=DEFAULT_FLOAT_DTYPE):
     """
     Converts given :math:`a` variable to *numeric*. In the event where
     :math:`a` cannot be converted, it is passed as is.
@@ -44,10 +56,6 @@ def as_numeric(a, type_=np.float_):
     -------
     ndarray
         :math:`a` variable converted to *numeric*.
-
-    See Also
-    --------
-    as_stack, as_shape, auto_axis
 
     Examples
     --------
@@ -110,35 +118,69 @@ def as_namedtuple(a, named_tuple):
         return named_tuple(*a)
 
 
-def closest(a, b):
+def closest_indexes(a, b):
     """
-    Returns closest :math:`a` variable element to reference :math:`b` variable.
+    Returns the :math:`a` variable closest element indexes to reference
+    :math:`b` variable elements.
 
     Parameters
     ----------
     a : array_like
-        Variable to search for the closest element.
+        Variable to search for the closest element indexes.
     b : numeric
         Reference variable.
 
     Returns
     -------
     numeric
-        Closest :math:`a` variable element.
+        Closest :math:`a` variable element indexes.
 
     Examples
     --------
-    >>> a = np.array([24.31357115,
-    ...               63.62396289,
-    ...               55.71528816,
-    ...               62.70988028,
-    ...               46.84480573,
-    ...               25.40026416])
-    >>> closest(a, 63)
-    62.70988028
+    >>> a = np.array([24.31357115, 63.62396289, 55.71528816,
+    ...               62.70988028, 46.84480573, 25.40026416])
+    >>> closest_indexes(a, 63)
+    array([3])
+    >>> closest_indexes(a, [63, 25])
+    array([3, 5])
     """
 
-    return a[(np.abs(np.array(a) - b)).argmin()]
+    a = np.ravel(a)[:, np.newaxis]
+    b = np.ravel(b)[np.newaxis, :]
+
+    return np.abs(a - b).argmin(axis=0)
+
+
+def closest(a, b):
+    """
+    Returns the :math:`a` variable closest elements to reference :math:`b`
+    variable elements.
+
+    Parameters
+    ----------
+    a : array_like
+        Variable to search for the closest elements.
+    b : numeric
+        Reference variable.
+
+    Returns
+    -------
+    numeric
+        Closest :math:`a` variable elements.
+
+    Examples
+    --------
+    >>> a = np.array([24.31357115, 63.62396289, 55.71528816,
+    ...               62.70988028, 46.84480573, 25.40026416])
+    >>> closest(a, 63)
+    array([ 62.70988028])
+    >>> closest(a, [63, 25])
+    array([ 62.70988028,  25.40026416])
+    """
+
+    a = np.array(a)
+
+    return a[closest_indexes(a, b)]
 
 
 def normalise_maximum(a, axis=None, factor=1, clip=True):
@@ -177,7 +219,7 @@ def normalise_maximum(a, axis=None, factor=1, clip=True):
     return np.clip(a, 0, factor) if clip else a
 
 
-def interval(distribution):
+def interval(distribution, unique=True):
     """
     Returns the interval size of given distribution.
 
@@ -185,6 +227,9 @@ def interval(distribution):
     ----------
     distribution : array_like
         Distribution to retrieve the interval.
+    unique : bool, optional
+        Whether to return unique intervals if  the distribution is
+        non-uniformly spaced or the complete intervals
 
     Returns
     -------
@@ -198,18 +243,26 @@ def interval(distribution):
     >>> y = np.array([1, 2, 3, 4, 5])
     >>> interval(y)
     array([1])
+    >>> interval(y, False)
+    array([1, 1, 1, 1])
 
     Non-uniformly spaced variable:
 
     >>> y = np.array([1, 2, 3, 4, 8])
     >>> interval(y)
     array([1, 4])
+    >>> interval(y, False)
+    array([1, 1, 1, 4])
     """
 
-    distribution = np.sort(distribution)
+    distribution = np.asarray(distribution)
     i = np.arange(distribution.size - 1)
 
-    return np.unique(distribution[i + 1] - distribution[i])
+    differences = np.abs(distribution[i + 1] - distribution[i])
+    if unique:
+        return np.unique(differences)
+    else:
+        return differences
 
 
 def is_uniform(distribution):
@@ -266,9 +319,7 @@ def in_array(a, b, tolerance=EPSILON):
 
     References
     ----------
-    .. [1]  Yorke, R. (2014). Python: Change format of np.array or allow
-            tolerance in in1d function. Retrieved March 27, 2015, from
-            http://stackoverflow.com/a/23521245/931625
+    -   :cite:`Yorke2014a`
 
     Examples
     --------
@@ -292,7 +343,7 @@ def tstack(a):
     """
     Stacks arrays in sequence along the last axis (tail).
 
-    Rebuilds arrays divided by :func:`tsplit`.
+    Rebuilds arrays divided by :func:`colour.utilities.tsplit`.
 
     Parameters
     ----------
@@ -302,10 +353,6 @@ def tstack(a):
     Returns
     -------
     ndarray
-
-    See Also
-    --------
-    tsplit
 
     Examples
     --------
@@ -356,31 +403,31 @@ def tsplit(a):
     -------
     ndarray
 
-    See Also
-    --------
-    tstack
-
     Examples
     --------
     >>> a = np.array([0, 0, 0])
     >>> tsplit(a)
     array([0, 0, 0])
-    >>> a = np.array([[0, 0, 0],
-    ...               [1, 1, 1],
-    ...               [2, 2, 2],
-    ...               [3, 3, 3],
-    ...               [4, 4, 4],
-    ...               [5, 5, 5]])
+    >>> a = np.array(
+    ...     [[0, 0, 0],
+    ...      [1, 1, 1],
+    ...      [2, 2, 2],
+    ...      [3, 3, 3],
+    ...      [4, 4, 4],
+    ...      [5, 5, 5]]
+    ... )
     >>> tsplit(a)
     array([[0, 1, 2, 3, 4, 5],
            [0, 1, 2, 3, 4, 5],
            [0, 1, 2, 3, 4, 5]])
-    >>> a = np.array([[[0, 0, 0],
-    ...                [1, 1, 1],
-    ...                [2, 2, 2],
-    ...                [3, 3, 3],
-    ...                [4, 4, 4],
-    ...                [5, 5, 5]]])
+    >>> a = np.array(
+    ...     [[[0, 0, 0],
+    ...       [1, 1, 1],
+    ...       [2, 2, 2],
+    ...       [3, 3, 3],
+    ...       [4, 4, 4],
+    ...       [5, 5, 5]]]
+    ... )
     >>> tsplit(a)
     array([[[0, 1, 2, 3, 4, 5]],
     <BLANKLINE>
@@ -409,19 +456,17 @@ def row_as_diagonal(a):
 
     References
     ----------
-    .. [1]  Castro, S. (2014). Numpy: Fastest way of computing diagonal for
-            each row of a 2d array. Retrieved August 22, 2014, from
-            http://stackoverflow.com/questions/26511401/\
-numpy-fastest-way-of-computing-diagonal-for-each-row-of-a-2d-array/\
-26517247#26517247
+    -   :cite:`Castro2014a`
 
     Examples
     --------
-    >>> a = np.array([[0.25891593, 0.07299478, 0.36586996],
-    ...               [0.30851087, 0.37131459, 0.16274825],
-    ...               [0.71061831, 0.67718718, 0.09562581],
-    ...               [0.71588836, 0.76772047, 0.15476079],
-    ...               [0.92985142, 0.22263399, 0.88027331]])
+    >>> a = np.array(
+    ...     [[0.25891593, 0.07299478, 0.36586996],
+    ...       [0.30851087, 0.37131459, 0.16274825],
+    ...       [0.71061831, 0.67718718, 0.09562581],
+    ...       [0.71588836, 0.76772047, 0.15476079],
+    ...       [0.92985142, 0.22263399, 0.88027331]]
+    ... )
     >>> row_as_diagonal(a)
     array([[[ 0.25891593,  0.        ,  0.        ],
             [ 0.        ,  0.07299478,  0.        ],
@@ -468,15 +513,13 @@ def dot_vector(m, v):
     -------
     ndarray
 
-    See Also
-    --------
-    dot_matrix
-
     Examples
     --------
-    >>> m = np.array([[0.7328, 0.4296, -0.1624],
-    ...               [-0.7036, 1.6975, 0.0061],
-    ...               [0.0030, 0.0136, 0.9834]])
+    >>> m = np.array(
+    ...     [[0.7328, 0.4296, -0.1624],
+    ...      [-0.7036, 1.6975, 0.0061],
+    ...      [0.0030, 0.0136, 0.9834]]
+    ... )
     >>> m = np.reshape(np.tile(m, (6, 1)), (6, 3, 3))
     >>> v = np.array([0.07049534, 0.10080000, 0.09558313])
     >>> v = np.tile(v, (6, 1))
@@ -512,15 +555,13 @@ def dot_matrix(a, b):
     -------
     ndarray
 
-    See Also
-    --------
-    dot_matrix
-
     Examples
     --------
-    >>> a = np.array([[0.7328, 0.4296, -0.1624],
-    ...               [-0.7036, 1.6975, 0.0061],
-    ...               [0.0030, 0.0136, 0.9834]])
+    >>> a = np.array(
+    ...     [[0.7328, 0.4296, -0.1624],
+    ...      [-0.7036, 1.6975, 0.0061],
+    ...      [0.0030, 0.0136, 0.9834]]
+    ... )
     >>> a = np.reshape(np.tile(a, (6, 1)), (6, 3, 3))
     >>> b = a
     >>> dot_matrix(a, b)  # doctest: +ELLIPSIS
@@ -554,7 +595,7 @@ def dot_matrix(a, b):
 
 def orient(a, orientation):
     """
-    Orient given array accordingly to given `orientation` value.
+    Orient given array according to given ``orientation`` value.
 
     Parameters
     ----------
@@ -677,3 +718,82 @@ def linear_conversion(a, old_range, new_range):
     out_min, out_max = tsplit(new_range)
 
     return ((a - in_min) / (in_max - in_min)) * (out_max - out_min) + out_min
+
+
+def fill_nan(a, method='Interpolation', default=0):
+    """
+    Fills given array NaNs according to given method.
+
+    Parameters
+    ----------
+    a : array_like
+        Array to fill the NaNs of.
+    method : unicode
+        **{'Interpolation', 'Constant'}**,
+        *Interpolation* method linearly interpolates through the NaNs,
+        *Constant* method replaces NaNs with ``default``.
+    default : numeric
+        Value to use with the *Constant* method.
+
+    Returns
+    -------
+    ndarray
+        NaNs filled array.
+
+    Examples
+    --------
+    >>> a = np.array([0.1, 0.2, np.nan, 0.4, 0.5])
+    >>> fill_nan(a)
+    array([ 0.1,  0.2,  0.3,  0.4,  0.5])
+    >>> fill_nan(a, method='Constant')
+    array([ 0.1,  0.2,  0. ,  0.4,  0.5])
+    """
+
+    a = np.copy(a)
+
+    mask = np.isnan(a)
+
+    if method.lower() == 'interpolation':
+        a[mask] = np.interp(
+            np.flatnonzero(mask), np.flatnonzero(~mask), a[~mask])
+    elif method.lower() == 'constant':
+        a[mask] = default
+
+    return a
+
+
+@contextmanager
+def ndarray_write(a):
+    """
+    A context manager setting given array writeable to perform an operation
+    and then read-only.
+
+    Parameters
+    ----------
+    a : array_like
+        Array to perform an operation.
+
+    Returns
+    -------
+    ndarray
+        Array.
+
+    Examples
+    --------
+    >>> a = np.linspace(0, 1, 10)
+    >>> a.setflags(write=False)
+    >>> try:
+    ...     a += 1
+    ... except ValueError:
+    ...     pass
+    >>> with ndarray_write(a):
+    ...     a +=1
+    """
+
+    a = np.asarray(a)
+
+    a.setflags(write=True)
+
+    yield a
+
+    a.setflags(write=False)

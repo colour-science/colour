@@ -1,13 +1,12 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Michaelis–Menten Kinetics
+Michaelis-Menten Kinetics
 =========================
 
-Implements support for *Michaelis–Menten* kinetics, a model of enzyme kinetics:
+Implements support for *Michaelis-Menten* kinetics, a model of enzyme kinetics:
 
--   :func:`reaction_rate_MichealisMenten`
--   :func:`substrate_concentration_MichealisMenten`
+-   :func:`colour.biochemistry.reaction_rate_MichealisMenten`
+-   :func:`colour.biochemistry.substrate_concentration_MichealisMenten`
 
 See Also
 --------
@@ -17,8 +16,9 @@ blob/master/notebooks/biochemistry/michaelis_menten.ipynb>`_
 
 References
 ----------
-.. [1]  Wikipedia. (n.d.). Michaelis–Menten kinetics. Retrieved April 29, 2017,
-        from https://en.wikipedia.org/wiki/Michaelis–Menten_kinetics
+-   :cite:`Wikipediace` : Wikipedia. (n.d.). Michaelis-Menten kinetics.
+    Retrieved April 29, 2017, from https://en.wikipedia.org/wiki/\
+Michaelis-Menten_kinetics
 """
 
 from __future__ import division, unicode_literals
@@ -26,7 +26,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -57,6 +57,10 @@ def reaction_rate_MichealisMenten(S, V_max, K_m):
     -------
     array_like
         Reaction rate :math:`v`.
+
+    References
+    ----------
+    -   :cite:`Wikipediace`
 
     Examples
     --------
@@ -94,10 +98,14 @@ def substrate_concentration_MichealisMenten(v, V_max, K_m):
     array_like
         Concentration of a substrate :math:`S`.
 
+    References
+    ----------
+    -   :cite:`Wikipediace`
+
     Examples
     --------
-    >>> substrate_concentration_MichealisMenten(
-    ...     0.961538461538461, 2.5, 0.8)  # doctest: +ELLIPSIS
+    >>> substrate_concentration_MichealisMenten(0.961538461538461, 2.5, 0.8)
+    ... # doctest: +ELLIPSIS
     0.4999999...
     """
 

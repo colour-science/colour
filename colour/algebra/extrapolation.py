@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Extrapolation
@@ -6,17 +5,27 @@ Extrapolation
 
 Defines classes for extrapolating variables:
 
--   :class:`Extrapolator`: 1-D function extrapolation.
+-   :class:`colour.Extrapolator`: 1-D function extrapolation.
+
+References
+----------
+-   :cite:`Sastanina` : sastanin. (n.d.). How to make scipy.interpolate give
+    an extrapolated result beyond the input range? Retrieved August 8, 2014,
+    from http://stackoverflow.com/a/2745496/931625
+-   :cite:`Westland2012i` : Westland, S., Ripamonti, C., & Cheung, V. (2012).
+    Extrapolation Methods. In Computational Colour Science Using MATLAB
+    (2nd ed., p. 38). ISBN:978-0-470-66569-5
 """
 
 from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.utilities import as_numeric, is_numeric, is_string
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -29,8 +38,8 @@ class Extrapolator(object):
     """
     Extrapolates the 1-D function of given interpolator.
 
-    The :class:`Extrapolator` class acts as a wrapper around a given *Colour*
-    or *scipy* interpolator class instance with compatible signature.
+    The :class:`colour.Extrapolator` class acts as a wrapper around a given
+    *Colour* or *scipy* interpolator class instance with compatible signature.
     Two extrapolation methods are available:
 
     -   *Linear*: Linearly extrapolates given points using the slope defined by
@@ -54,6 +63,8 @@ class Extrapolator(object):
         Value to return for x < xi[0].
     right : numeric, optional
         Value to return for x > xi[-1].
+    dtype : type
+        Data type used for internal conversions.
 
     Methods
     -------
@@ -65,9 +76,8 @@ class Extrapolator(object):
 
     References
     ----------
-    .. [1]  sastanin. (n.d.). How to make scipy.interpolate give an
-            extrapolated result beyond the input range? Retrieved August 08,
-            2014, from http://stackoverflow.com/a/2745496/931625
+    -   :cite:`Sastanina`
+    -   :cite:`Westland2012i`
 
     Examples
     --------
@@ -109,7 +119,8 @@ class Extrapolator(object):
                  interpolator=None,
                  method='Linear',
                  left=None,
-                 right=None):
+                 right=None,
+                 dtype=DEFAULT_FLOAT_DTYPE):
 
         self._interpolator = None
         self.interpolator = interpolator
@@ -120,15 +131,24 @@ class Extrapolator(object):
         self._left = None
         self.left = left
 
+        self._dtype = dtype
+
     @property
     def interpolator(self):
         """
-        Property for **self._interpolator** private attribute.
+        Getter and setter property for the *Colour* or *scipy* interpolator
+        class instance.
+
+        Parameters
+        ----------
+        value : callable
+            Value to set the *Colour* or *scipy* interpolator class instance
+            with.
 
         Returns
         -------
-        object
-            self._interpolator
+        callable
+            *Colour* or *scipy* interpolator class instance.
         """
 
         return self._interpolator
@@ -136,12 +156,7 @@ class Extrapolator(object):
     @interpolator.setter
     def interpolator(self, value):
         """
-        Setter for **self._interpolator** private attribute.
-
-        Parameters
-        ----------
-        value : object
-            Attribute value.
+        Setter for the **self.interpolator** property.
         """
 
         if value is not None:
@@ -155,12 +170,17 @@ class Extrapolator(object):
     @property
     def method(self):
         """
-        Property for **self._method** private attribute.
+        Getter and setter property for the extrapolation method.
+
+        Parameters
+        ----------
+        value : unicode
+            Value to set the extrapolation method. with.
 
         Returns
         -------
         unicode
-            self._method
+            Extrapolation method.
         """
 
         return self._method
@@ -168,18 +188,13 @@ class Extrapolator(object):
     @method.setter
     def method(self, value):
         """
-        Setter for **self._method** private attribute.
-
-        Parameters
-        ----------
-        value : unicode
-            Attribute value.
+        Setter for the **self.method** property.
         """
 
         if value is not None:
-            assert is_string(value), (('"{0}" attribute: "{1}" is not a '
-                                       '"string" like object!').format(
-                                           'method', value))
+            assert is_string(value), (
+                ('"{0}" attribute: "{1}" is not a "string" like object!'
+                 ).format('method', value))
             value = value.lower()
 
         self._method = value
@@ -187,12 +202,17 @@ class Extrapolator(object):
     @property
     def left(self):
         """
-        Property for **self._left** private attribute.
+        Getter and setter property for left value to return for x < xi[0].
+
+        Parameters
+        ----------
+        value : numeric
+            Left value to return for x < xi[0].
 
         Returns
         -------
         numeric
-            self._left
+            Left value to return for x < xi[0].
         """
 
         return self._left
@@ -200,12 +220,7 @@ class Extrapolator(object):
     @left.setter
     def left(self, value):
         """
-        Setter for **self._left** private attribute.
-
-        Parameters
-        ----------
-        value : numeric
-            Attribute value.
+        Setter for the **self.left** property.
         """
 
         if value is not None:
@@ -217,12 +232,17 @@ class Extrapolator(object):
     @property
     def right(self):
         """
-        Property for **self._right** private attribute.
+        Getter and setter property for right value to return for x > xi[-1].
+
+        Parameters
+        ----------
+        value : numeric
+            Right value to return for x > xi[-1].
 
         Returns
         -------
         numeric
-            self._right
+            Right value to return for x > xi[-1].
         """
 
         return self._right
@@ -230,12 +250,7 @@ class Extrapolator(object):
     @right.setter
     def right(self, value):
         """
-        Setter for **self._right** private attribute.
-
-        Parameters
-        ----------
-        value : numeric
-            Attribute value.
+        Setter for the **self.right** property.
         """
 
         if value is not None:
@@ -259,7 +274,7 @@ class Extrapolator(object):
             Extrapolated points value(s).
         """
 
-        x = np.atleast_1d(x).astype(np.float_)
+        x = np.atleast_1d(x).astype(self._dtype)
 
         xe = as_numeric(self._evaluate(x))
 

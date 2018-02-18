@@ -1,23 +1,32 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-RGB Colourspace & Transformations
-=================================
+RGB Colourspace and Transformations
+===================================
 
-Defines the :class:`RGB_Colourspace` class for the *RGB* colourspaces dataset
-from :mod:`colour.models.dataset.aces_rgb`, etc... and the following *RGB*
-colourspace transformations or helper definitions:
+Defines the :class:`colour.RGB_Colourspace` class for the *RGB* colourspaces
+dataset from :mod:`colour.models.dataset.aces_rgb`, etc... and the following
+*RGB* colourspace transformations or helper definitions:
 
--   :func:`XYZ_to_RGB`
--   :func:`RGB_to_XYZ`
--   :func:`RGB_to_RGB_matrix`
--   :func:`RGB_to_RGB`
+-   :func:`colour.XYZ_to_RGB`
+-   :func:`colour.RGB_to_XYZ`
+-   :func:`colour.RGB_to_RGB_matrix`
+-   :func:`colour.RGB_to_RGB`
 
 See Also
 --------
 `RGB Colourspaces Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/blob/\
 master/notebooks/models/rgb.ipynb>`_
+References
+----------
+-   :cite:`InternationalElectrotechnicalCommission1999a` : International
+    Electrotechnical Commission. (1999). IEC 61966-2-1:1999 - Multimedia
+    systems and equipment - Colour measurement and management - Part 2-1:
+    Colour management - Default RGB colour space - sRGB. Retrieved from
+    https://webstore.iec.ch/publication/6169
+-   :cite:`Panasonic2014a` : Panasonic. (2014). VARICAM V-Log/V-Gamut.
+    Retrieved from http://pro-av.panasonic.net/en/varicam/common/pdf/\
+VARICAM_V-Log_V-Gamut.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -30,7 +39,7 @@ from colour.adaptation import chromatic_adaptation_matrix_VonKries
 from colour.utilities import dot_matrix, dot_vector, is_string
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -54,14 +63,14 @@ class RGB_Colourspace(object):
     common to have normalised primary matrices rounded at different
     decimals. This can yield large discrepancies in computations.
 
-    Such an occurrence is the *V-Gamut* colourspace white paper [1]_, that
-    defines the *V-Gamut* to *Rec. 709* conversion matrix as follows::
+    Such an occurrence is the *V-Gamut* colourspace white paper, that defines
+    the *V-Gamut* to *ITU-R BT.709* conversion matrix as follows::
 
         [[ 1.806576 -0.695697 -0.110879]
          [-0.170090  1.305955 -0.135865]
          [-0.025206 -0.154468  1.179674]]
 
-    Computing this matrix using *Rec. 709* colourspace derived normalised
+    Computing this matrix using *ITU-R BT.709* colourspace derived normalised
     primary matrix yields::
 
         [[ 1.8065736 -0.6956981 -0.1108786]
@@ -78,21 +87,22 @@ class RGB_Colourspace(object):
 
     In order to provide support for both literature defined dataset and
     accurate computations enabling transformations without loss of precision,
-    the :class:`RGB_Colourspace` class provides two sets of transformation
-    matrices:
+    the :class:`colour.RGB_Colourspace` class provides two sets of
+    transformation matrices:
 
         -   Instantiation transformation matrices
         -   Derived transformation matrices
 
-    Upon instantiation, the :class:`RGB_Colourspace` class stores the given
-    `RGB_to_XYZ_matrix` and `XYZ_to_RGB_matrix` arguments and also
-    computes their derived counterpart using the `primaries` and `whitepoint`
-    arguments.
+    Upon instantiation, the :class:`colour.RGB_Colourspace` class stores the
+    given ``RGB_to_XYZ_matrix`` and ``XYZ_to_RGB_matrix`` arguments and also
+    computes their derived counterpart using the ``primaries`` and
+    ``whitepoint`` arguments.
 
     Whether the initialisation or derived matrices are used in subsequent
     computations is dependent on the
-    :attr:`RGB_Colourspace.use_derived_RGB_to_XYZ_matrix` and
-    :attr:`RGB_Colourspace.use_derived_XYZ_to_RGB_matrix` attributes values.
+    :attr:`colour.RGB_Colourspace.use_derived_RGB_to_XYZ_matrix` and
+    :attr:`colour.RGB_Colourspace.use_derived_XYZ_to_RGB_matrix` attributes
+    values.
 
     Parameters
     ----------
@@ -119,11 +129,11 @@ class RGB_Colourspace(object):
         :math:`R'G'B'` video component signal value to tristimulus values at
         the display.
     use_derived_RGB_to_XYZ_matrix : bool, optional
-        Whether to use the declaration time normalised primary matrix or to
+        Whether to use the instantiation time normalised primary matrix or to
         use a computed derived normalised primary matrix.
     use_derived_XYZ_to_RGB_matrix : bool, optional
-        Whether to use the declaration time normalised primary matrix or to
-        use a computed derived inverse normalised primary matrix.
+        Whether to use the instantiation time inverse normalised primary
+        matrix or to use a computed derived inverse normalised primary matrix.
 
     Attributes
     ----------
@@ -140,28 +150,24 @@ class RGB_Colourspace(object):
 
     Methods
     -------
+    __str__
+    __repr__
     use_derived_transformation_matrices
 
     Notes
     -----
     -   The normalised primary matrix defined by
-        :attr:`RGB_Colourspace.RGB_to_XYZ_matrix` attribute is treated as the
-        prime matrix from which the inverse will be calculated as required by
-        the internal derivation mechanism. This behaviour has been chosen in
-        accordance with literature where commonly a *RGB* colourspace is
-        defined by its normalised primary matrix as it is directly computed
+        :attr:`colour.RGB_Colourspace.RGB_to_XYZ_matrix` attribute is treated
+        as the prime matrix from which the inverse will be calculated as
+        required by the internal derivation mechanism. This behaviour has been
+        chosen in accordance with literature where commonly a *RGB* colourspace
+        is defined by its normalised primary matrix as it is directly computed
         from the chosen primaries and whitepoint.
 
     References
     ----------
-    .. [1]  Panasonic. (2014). VARICAM V-Log/V-Gamut. Retrieved from
-            http://pro-av.panasonic.net/en/varicam/common/pdf/\
-VARICAM_V-Log_V-Gamut.pdf
-    .. [2]  International Electrotechnical Commission. (1999). IEC
-        61966-2-1:1999 - Multimedia systems and equipment - Colour measurement
-        and management - Part 2-1: Colour management - Default RGB colour
-        space - sRGB, 51. Retrieved from
-        https://webstore.iec.ch/publication/6169
+    -   :cite:`InternationalElectrotechnicalCommission1999a`
+    -   :cite:`Panasonic2014a`
 
     Examples
     --------
@@ -169,13 +175,8 @@ VARICAM_V-Log_V-Gamut.pdf
     >>> whitepoint = np.array([0.32168, 0.33767])
     >>> RGB_to_XYZ_matrix = np.identity(3)
     >>> XYZ_to_RGB_matrix = np.identity(3)
-    >>> colourspace = RGB_Colourspace(
-    ...     'RGB Colourspace',
-    ...     p,
-    ...     whitepoint,
-    ...     'D60',
-    ...     RGB_to_XYZ_matrix,
-    ...     XYZ_to_RGB_matrix)
+    >>> colourspace = RGB_Colourspace('RGB Colourspace', p, whitepoint, 'D60',
+    ...                               RGB_to_XYZ_matrix, XYZ_to_RGB_matrix)
     >>> colourspace.RGB_to_XYZ_matrix
     array([[ 1.,  0.,  0.],
            [ 0.,  1.,  0.],
@@ -244,12 +245,17 @@ VARICAM_V-Log_V-Gamut.pdf
     @property
     def name(self):
         """
-        Property for **self._name** private attribute.
+        Getter and setter property for the name.
+
+        Parameters
+        ----------
+        value : unicode
+            Value to set the name with.
 
         Returns
         -------
         unicode
-            self._name.
+            Name.
         """
 
         return self._name
@@ -257,29 +263,29 @@ VARICAM_V-Log_V-Gamut.pdf
     @name.setter
     def name(self, value):
         """
-        Setter for **self._name** private attribute.
-
-        Parameters
-        ----------
-        value : unicode
-            Attribute value.
+        Setter for the **self.name** property.
         """
 
         if value is not None:
             assert is_string(value), (
-                ('"{0}" attribute: "{1}" is not a "string" like object!'
-                 ).format('name', value))
+                '"{0}" attribute: "{1}" is not a "string" like object!'.format(
+                    'name', value))
         self._name = value
 
     @property
     def primaries(self):
         """
-        Property for **self._primaries** private attribute.
+        Getter and setter property for the primaries.
+
+        Parameters
+        ----------
+        value : array_like
+            Value to set the primaries with.
 
         Returns
         -------
-        array_like, (3, 2)
-            self._primaries.
+        array_like
+            Primaries.
         """
 
         return self._primaries
@@ -287,16 +293,11 @@ VARICAM_V-Log_V-Gamut.pdf
     @primaries.setter
     def primaries(self, value):
         """
-        Setter for **self._primaries** private attribute.
-
-        Parameters
-        ----------
-        value : array_like, (3, 2)
-            Attribute value.
+        Setter for the **self.primaries** property.
         """
 
         if value is not None:
-            value = np.asarray(value)
+            value = np.reshape(value, (3, 2))
         self._primaries = value
 
         self._derive_transformation_matrices()
@@ -304,12 +305,17 @@ VARICAM_V-Log_V-Gamut.pdf
     @property
     def whitepoint(self):
         """
-        Property for **self._whitepoint** private attribute.
+        Getter and setter property for the whitepoint.
+
+        Parameters
+        ----------
+        value : array_like
+            Value to set the whitepoint with.
 
         Returns
         -------
         array_like
-            self._whitepoint.
+            Whitepoint.
         """
 
         return self._whitepoint
@@ -317,18 +323,13 @@ VARICAM_V-Log_V-Gamut.pdf
     @whitepoint.setter
     def whitepoint(self, value):
         """
-        Setter for **self._whitepoint** private attribute.
-
-        Parameters
-        ----------
-        value : array_like
-            Attribute value.
+        Setter for the **self.whitepoint** property.
         """
 
         if value is not None:
-            assert isinstance(value, (tuple, list, np.ndarray, np.matrix)), ((
+            assert isinstance(value, (tuple, list, np.ndarray, np.matrix)), (
                 '"{0}" attribute: "{1}" is not a "tuple", "list", "ndarray" '
-                'or "matrix" instance!').format('whitepoint', value))
+                'or "matrix" instance!'.format('whitepoint', value))
             value = np.asarray(value)
         self._whitepoint = value
 
@@ -337,12 +338,17 @@ VARICAM_V-Log_V-Gamut.pdf
     @property
     def illuminant(self):
         """
-        Property for **self._illuminant** private attribute.
+        Getter and setter property for the illuminant.
+
+        Parameters
+        ----------
+        value : unicode
+            Value to set the illuminant with.
 
         Returns
         -------
         unicode
-            self._illuminant.
+            Illuminant.
         """
 
         return self._illuminant
@@ -350,29 +356,32 @@ VARICAM_V-Log_V-Gamut.pdf
     @illuminant.setter
     def illuminant(self, value):
         """
-        Setter for **self._illuminant** private attribute.
-
-        Parameters
-        ----------
-        value : unicode
-            Attribute value.
+        Setter for the **self.whitepoint** property.
         """
 
         if value is not None:
-            assert is_string(value), (('"{0}" attribute: "{1}" is not a '
-                                       '"string" like object!').format(
-                                           'illuminant', value))
+            assert is_string(value), (
+                '"{0}" attribute: "{1}" is not a "string" like object!'.format(
+                    'illuminant', value))
         self._illuminant = value
 
     @property
     def RGB_to_XYZ_matrix(self):
         """
-        Property for **RGB_to_XYZ_matrix** attribute.
+        Getter and setter property for the transformation matrix from
+        colourspace to *CIE XYZ* tristimulus values.
+
+        Parameters
+        ----------
+        value : array_like
+            Transformation matrix from colourspace to *CIE XYZ* tristimulus
+            values.
 
         Returns
         -------
-        array_like, (3, 3)
-            RGB_to_XYZ_matrix.
+        array_like
+            Transformation matrix from colourspace to *CIE XYZ* tristimulus
+            values.
         """
 
         if not self._use_derived_RGB_to_XYZ_matrix:
@@ -383,12 +392,7 @@ VARICAM_V-Log_V-Gamut.pdf
     @RGB_to_XYZ_matrix.setter
     def RGB_to_XYZ_matrix(self, value):
         """
-        Setter for **RGB_to_XYZ_matrix** attribute.
-
-        Parameters
-        ----------
-        value : array_like
-            Attribute value.
+        Setter for the **self.RGB_to_XYZ_matrix** property.
         """
 
         if value is not None:
@@ -398,12 +402,20 @@ VARICAM_V-Log_V-Gamut.pdf
     @property
     def XYZ_to_RGB_matrix(self):
         """
-        Property for **XYZ_to_RGB_matrix** attribute.
+        Getter and setter property for the transformation matrix from *CIE XYZ*
+        tristimulus values to colourspace.
+
+        Parameters
+        ----------
+        value : array_like
+            Transformation matrix from *CIE XYZ* tristimulus values to
+            colourspace.
 
         Returns
         -------
-        array_like, (3, 3)
-            XYZ_to_RGB_matrix.
+        array_like
+            Transformation matrix from *CIE XYZ* tristimulus values to
+            colourspace.
         """
 
         if not self._use_derived_XYZ_to_RGB_matrix:
@@ -414,12 +426,7 @@ VARICAM_V-Log_V-Gamut.pdf
     @XYZ_to_RGB_matrix.setter
     def XYZ_to_RGB_matrix(self, value):
         """
-        Setter for **XYZ_to_RGB_matrix** attribute.
-
-        Parameters
-        ----------
-        value : array_like
-            Attribute value.
+        Setter for the **self.XYZ_to_RGB_matrix** property.
         """
 
         if value is not None:
@@ -429,12 +436,21 @@ VARICAM_V-Log_V-Gamut.pdf
     @property
     def encoding_cctf(self):
         """
-        Property for **self._encoding_cctf** private attribute.
+        Getter and setter property for the encoding colour component transfer
+        function (Encoding CCTF) / opto-electronic transfer function
+        (OETF / OECF).
+
+        Parameters
+        ----------
+        value : callable
+            Encoding colour component transfer function (Encoding CCTF) /
+            opto-electronic transfer function (OETF / OECF).
 
         Returns
         -------
         callable
-            self._encoding_cctf.
+            Encoding colour component transfer function (Encoding CCTF) /
+            opto-electronic transfer function (OETF / OECF).
         """
 
         return self._encoding_cctf
@@ -442,12 +458,7 @@ VARICAM_V-Log_V-Gamut.pdf
     @encoding_cctf.setter
     def encoding_cctf(self, value):
         """
-        Setter for **self._encoding_cctf** private attribute.
-
-        Parameters
-        ----------
-        value : callable
-            Attribute value.
+        Setter for the **self.encoding_cctf** property.
         """
 
         if value is not None:
@@ -460,12 +471,21 @@ VARICAM_V-Log_V-Gamut.pdf
     @property
     def decoding_cctf(self):
         """
-        Property for **self._decoding_cctf** private attribute.
+        Getter and setter property for the decoding colour component transfer
+        function (Decoding CCTF) / electro-optical transfer function
+        (EOTF / EOCF).
+
+        Parameters
+        ----------
+        value : callable
+            Decoding colour component transfer function (Decoding CCTF) /
+            electro-optical transfer function (EOTF / EOCF).
 
         Returns
         -------
         callable
-            self._decoding_cctf.
+            Decoding colour component transfer function (Decoding CCTF) /
+            electro-optical transfer function (EOTF / EOCF).
         """
 
         return self._decoding_cctf
@@ -473,12 +493,7 @@ VARICAM_V-Log_V-Gamut.pdf
     @decoding_cctf.setter
     def decoding_cctf(self, value):
         """
-        Setter for **self._decoding_cctf** private attribute.
-
-        Parameters
-        ----------
-        value : callable
-            Attribute value.
+        Setter for the **self.decoding_cctf** property.
         """
 
         if value is not None:
@@ -491,12 +506,21 @@ VARICAM_V-Log_V-Gamut.pdf
     @property
     def use_derived_RGB_to_XYZ_matrix(self):
         """
-        Property for **self._use_derived_RGB_to_XYZ_matrix** private attribute.
+        Getter and setter property for whether to use the instantiation time
+        normalised primary matrix or to use a computed derived normalised
+        primary matrix.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to use the instantiation time normalised primary matrix or
+            to use a computed derived normalised primary matrix.
 
         Returns
         -------
         bool
-            self._use_derived_RGB_to_XYZ_matrix.
+            Whether to use the instantiation time normalised primary matrix or
+            to use a computed derived normalised primary matrix.
         """
 
         return self._use_derived_RGB_to_XYZ_matrix
@@ -504,12 +528,7 @@ VARICAM_V-Log_V-Gamut.pdf
     @use_derived_RGB_to_XYZ_matrix.setter
     def use_derived_RGB_to_XYZ_matrix(self, value):
         """
-        Setter for **self._use_derived_RGB_to_XYZ_matrix** private attribute.
-
-        Parameters
-        ----------
-        value : bool
-            Attribute value.
+        Setter for the **self.use_derived_RGB_to_XYZ_matrix** property.
         """
 
         # TODO: Revisit for potential behaviour / type checking.
@@ -518,12 +537,23 @@ VARICAM_V-Log_V-Gamut.pdf
     @property
     def use_derived_XYZ_to_RGB_matrix(self):
         """
-        Property for **self._use_derived_XYZ_to_RGB_matrix** private attribute.
+        Getter and setter property for Whether to use the instantiation time
+        inverse normalised primary matrix or to use a computed derived inverse
+        normalised primary matrix.
+
+        Parameters
+        ----------
+        value : bool
+            Whether to use the instantiation time inverse normalised primary
+            matrix or to use a computed derived inverse normalised primary
+            matrix.
 
         Returns
         -------
         bool
-            self._use_derived_XYZ_to_RGB_matrix.
+            Whether to use the instantiation time inverse normalised primary
+            matrix or to use a computed derived inverse normalised primary
+            matrix.
         """
 
         return self._use_derived_XYZ_to_RGB_matrix
@@ -531,16 +561,163 @@ VARICAM_V-Log_V-Gamut.pdf
     @use_derived_XYZ_to_RGB_matrix.setter
     def use_derived_XYZ_to_RGB_matrix(self, value):
         """
-        Setter for **self._use_derived_XYZ_to_RGB_matrix** private attribute.
-
-        Parameters
-        ----------
-        value : bool
-            Attribute value.
+        Setter for the **self.use_derived_XYZ_to_RGB_matrix** property.
         """
 
         # TODO: Revisit for potential behaviour / type checking.
         self._use_derived_XYZ_to_RGB_matrix = value
+
+    def __str__(self):
+        """
+        Returns a formatted string representation of the *RGB* colourspace.
+
+        Returns
+        -------
+        unicode
+            Formatted string representation.
+
+        Examples
+        --------
+        >>> p = np.array(
+        ...     [0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
+        >>> whitepoint = np.array([0.32168, 0.33767])
+        >>> RGB_to_XYZ_matrix = np.identity(3)
+        >>> XYZ_to_RGB_matrix = np.identity(3)
+        >>> encoding_cctf = lambda x: x
+        >>> decoding_cctf = lambda x: x
+        >>> print(RGB_Colourspace('RGB Colourspace', p, whitepoint, 'D60',
+        ...                       RGB_to_XYZ_matrix, XYZ_to_RGB_matrix,
+        ...                       encoding_cctf, decoding_cctf))
+        ... # doctest: +ELLIPSIS
+        RGB Colourspace
+        ---------------
+        <BLANKLINE>
+        Primaries          : [[  7.34700000e-01   2.65300000e-01]
+                              [  0.00000000e+00   1.00000000e+00]
+                              [  1.00000000e-04  -7.70000000e-02]]
+        Whitepoint         : [ 0.32168  0.33767]
+        Whitepoint Name    : D60
+        Encoding CCTF      : <function <lambda> at 0x...>
+        Decoding CCTF      : <function <lambda> at 0x...>
+        NPM                : [[ 1.  0.  0.]
+                              [ 0.  1.  0.]
+                              [ 0.  0.  1.]]
+        NPM -1             : [[ 1.  0.  0.]
+                              [ 0.  1.  0.]
+                              [ 0.  0.  1.]]
+        Derived NPM        : \
+[[  9.5255239...e-01   0.0000000...e+00   9.3678631...e-05]
+                             \
+ [  3.4396645...e-01   7.2816609...e-01  -7.2132546...e-02]
+                             \
+ [  0.0000000...e+00   0.0000000...e+00   1.0088251...e+00]]
+        Derived NPM -1     : \
+[[  1.0498110...e+00   0.0000000...e+00  -9.7484540...e-05]
+                             \
+ [ -4.9590302...e-01   1.3733130...e+00   9.8240036...e-02]
+                             \
+ [  0.0000000...e+00   0.0000000...e+00   9.9125201...e-01]]
+        Use Derived NPM    : False
+        Use Derived NPM -1 : False
+        """
+
+        def _indent_array(a):
+            """
+            Indents given array string representation.
+            """
+
+            return str(a).replace(' [', ' ' * 22 + '[')
+
+        return ('{0}\n'
+                '{1}\n\n'
+                'Primaries          : {2}\n'
+                'Whitepoint         : {3}\n'
+                'Whitepoint Name    : {4}\n'
+                'Encoding CCTF      : {5}\n'
+                'Decoding CCTF      : {6}\n'
+                'NPM                : {7}\n'
+                'NPM -1             : {8}\n'
+                'Derived NPM        : {9}\n'
+                'Derived NPM -1     : {10}\n'
+                'Use Derived NPM    : {11}\n'
+                'Use Derived NPM -1 : {12}').format(
+                    self.name, '-' * len(self.name),
+                    _indent_array(self.primaries), self.whitepoint,
+                    self.illuminant, self.encoding_cctf, self.decoding_cctf,
+                    _indent_array(self._RGB_to_XYZ_matrix),
+                    _indent_array(self._XYZ_to_RGB_matrix),
+                    _indent_array(self._derived_RGB_to_XYZ_matrix),
+                    _indent_array(self._derived_XYZ_to_RGB_matrix),
+                    self.use_derived_RGB_to_XYZ_matrix,
+                    self.use_derived_XYZ_to_RGB_matrix)
+
+    def __repr__(self):
+        """
+        Returns an (almost) evaluable string representation of the *RGB*
+        colourspace.
+
+        Returns
+        -------
+        unicode
+            (Almost) evaluable string representation.
+
+        Examples
+        --------
+        >>> p = np.array(
+        ...     [0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
+        >>> whitepoint = np.array([0.32168, 0.33767])
+        >>> RGB_to_XYZ_matrix = np.identity(3)
+        >>> XYZ_to_RGB_matrix = np.identity(3)
+        >>> encoding_cctf = lambda x: x
+        >>> decoding_cctf = lambda x: x
+        >>> RGB_Colourspace('RGB Colourspace', p, whitepoint, 'D60',
+        ...                 RGB_to_XYZ_matrix, XYZ_to_RGB_matrix,
+        ...                 encoding_cctf, decoding_cctf)
+        ... # doctest: +ELLIPSIS
+        RGB_Colourspace(RGB Colourspace,
+                        [[  7.34700000e-01,   2.65300000e-01],
+                         [  0.00000000e+00,   1.00000000e+00],
+                         [  1.00000000e-04,  -7.70000000e-02]],
+                        [ 0.32168,  0.33767],
+                        D60,
+                        [[ 1.,  0.,  0.],
+                         [ 0.,  1.,  0.],
+                         [ 0.,  0.,  1.]],
+                        [[ 1.,  0.,  0.],
+                         [ 0.,  1.,  0.],
+                         [ 0.,  0.,  1.]],
+                        <function <lambda> at 0x...>,
+                        <function <lambda> at 0x...>,
+                        False,
+                        False)
+        """
+
+        def _indent_array(a):
+            """
+            Indents given array evaluable string representation.
+            """
+
+            representation = repr(a).replace(' [', '{0}['.format(' ' * 11))
+            representation = representation.replace('array(', ' ' * 16)
+            return representation.replace(')', '')
+
+        return ('RGB_Colourspace({0},\n'
+                '{2},\n'
+                '{3},\n'
+                '{1}{4},\n'
+                '{5},\n'
+                '{6},\n'
+                '{1}{7},\n'
+                '{1}{8},\n'
+                '{1}{9},\n'
+                '{1}{10})').format(
+                    self.name, ' ' * 16,
+                    _indent_array(self.primaries),
+                    _indent_array(self.whitepoint), self.illuminant,
+                    _indent_array(self.RGB_to_XYZ_matrix),
+                    _indent_array(self.XYZ_to_RGB_matrix), self.encoding_cctf,
+                    self.decoding_cctf, self.use_derived_RGB_to_XYZ_matrix,
+                    self.use_derived_XYZ_to_RGB_matrix)
 
     def _derive_transformation_matrices(self):
         """
@@ -629,16 +806,13 @@ def XYZ_to_RGB(XYZ,
     >>> illuminant_XYZ = np.array([0.34570, 0.35850])
     >>> illuminant_RGB = np.array([0.31270, 0.32900])
     >>> chromatic_adaptation_transform = 'Bradford'
-    >>> XYZ_to_RGB_matrix = np.array([
-    ...     [3.24062548, -1.53720797, -0.49862860],
-    ...     [-0.96893071, 1.87575606, 0.04151752],
-    ...     [0.05571012, -0.20402105, 1.05699594]])
-    >>> XYZ_to_RGB(
-    ...     XYZ,
-    ...     illuminant_XYZ,
-    ...     illuminant_RGB,
-    ...     XYZ_to_RGB_matrix,
-    ...     chromatic_adaptation_transform)  # doctest: +ELLIPSIS
+    >>> XYZ_to_RGB_matrix = np.array(
+    ...     [[3.24062548, -1.53720797, -0.49862860],
+    ...      [-0.96893071, 1.87575606, 0.04151752],
+    ...      [0.05571012, -0.20402105, 1.05699594]]
+    ... )
+    >>> XYZ_to_RGB(XYZ, illuminant_XYZ, illuminant_RGB, XYZ_to_RGB_matrix,
+    ...            chromatic_adaptation_transform)  # doctest: +ELLIPSIS
     array([ 0.0110015...,  0.1273504...,  0.1163271...])
     """
 
@@ -707,16 +881,13 @@ def RGB_to_XYZ(RGB,
     >>> illuminant_RGB = np.array([0.31270, 0.32900])
     >>> illuminant_XYZ = np.array([0.34570, 0.35850])
     >>> chromatic_adaptation_transform = 'Bradford'
-    >>> RGB_to_XYZ_matrix = np.array([
-    ...     [0.41240000, 0.35760000, 0.18050000],
-    ...     [0.21260000, 0.71520000, 0.07220000],
-    ...     [0.01930000, 0.11920000, 0.95050000]])
-    >>> RGB_to_XYZ(
-    ...     RGB,
-    ...     illuminant_RGB,
-    ...     illuminant_XYZ,
-    ...     RGB_to_XYZ_matrix,
-    ...     chromatic_adaptation_transform)  # doctest: +ELLIPSIS
+    >>> RGB_to_XYZ_matrix = np.array(
+    ...     [[0.41240000, 0.35760000, 0.18050000],
+    ...      [0.21260000, 0.71520000, 0.07220000],
+    ...      [0.01930000, 0.11920000, 0.95050000]]
+    ... )
+    >>> RGB_to_XYZ(RGB, illuminant_RGB, illuminant_XYZ, RGB_to_XYZ_matrix,
+    ...            chromatic_adaptation_transform)  # doctest: +ELLIPSIS
     array([ 0.0704953...,  0.1008    ,  0.0955831...])
     """
 
@@ -762,11 +933,9 @@ def RGB_to_RGB_matrix(input_colourspace,
 
     Examples
     --------
-    >>> from colour import sRGB_COLOURSPACE, PROPHOTO_RGB_COLOURSPACE
-    >>> RGB = np.array([0.01103742, 0.12734226, 0.11632971])
-    >>> RGB_to_RGB_matrix(
-    ...     sRGB_COLOURSPACE,
-    ...     PROPHOTO_RGB_COLOURSPACE)  # doctest: +ELLIPSIS
+    >>> from colour.models import sRGB_COLOURSPACE, PROPHOTO_RGB_COLOURSPACE
+    >>> RGB_to_RGB_matrix(sRGB_COLOURSPACE, PROPHOTO_RGB_COLOURSPACE)
+    ... # doctest: +ELLIPSIS
     array([[ 0.5288241...,  0.3340609...,  0.1373616...],
            [ 0.0975294...,  0.8790074...,  0.0233981...],
            [ 0.0163599...,  0.1066124...,  0.8772485...]])
@@ -826,12 +995,10 @@ def RGB_to_RGB(RGB,
 
     Examples
     --------
-    >>> from colour import sRGB_COLOURSPACE, PROPHOTO_RGB_COLOURSPACE
+    >>> from colour.models import sRGB_COLOURSPACE, PROPHOTO_RGB_COLOURSPACE
     >>> RGB = np.array([0.01103742, 0.12734226, 0.11632971])
-    >>> RGB_to_RGB(
-    ...     RGB,
-    ...     sRGB_COLOURSPACE,
-    ...     PROPHOTO_RGB_COLOURSPACE)  # doctest: +ELLIPSIS
+    >>> RGB_to_RGB(RGB, sRGB_COLOURSPACE, PROPHOTO_RGB_COLOURSPACE)
+    ... # doctest: +ELLIPSIS
     array([ 0.0643561...,  0.1157331...,  0.1158069...])
     """
 

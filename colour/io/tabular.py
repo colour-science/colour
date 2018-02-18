@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 CSV Tabular Data Input / Output
@@ -6,21 +5,21 @@ CSV Tabular Data Input / Output
 
 Defines various input / output objects for *CSV* tabular data files:
 
--   :func:`read_spectral_data_from_csv_file`
--   :func:`read_spds_from_csv_file`
--   :func:`write_spds_to_csv_file`
+-   :func:`colour.read_spectral_data_from_csv_file`
+-   :func:`colour.read_spds_from_csv_file`
+-   :func:`colour.write_spds_to_csv_file`
 """
 
 from __future__ import division, unicode_literals
 
-import numpy as np
 from collections import OrderedDict
 import csv
 
 from colour.colorimetry import SpectralPowerDistribution
+from colour.constants import DEFAULT_FLOAT_DTYPE
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -86,11 +85,8 @@ def read_spectral_data_from_csv_file(path,
     --------
     >>> import os
     >>> from pprint import pprint
-    >>> csv_file = os.path.join(
-    ...     os.path.dirname(__file__),
-    ...     'tests',
-    ...     'resources',
-    ...     'colorchecker_n_ohta.csv')
+    >>> csv_file = os.path.join(os.path.dirname(__file__), 'tests',
+    ...                         'resources', 'colorchecker_n_ohta.csv')
     >>> spds_data = read_spectral_data_from_csv_file(csv_file)
     >>> pprint(list(spds_data.keys()))
     ['1',
@@ -134,19 +130,18 @@ def read_spectral_data_from_csv_file(path,
         for line in reader:
             for field in fields:
                 try:
-                    value = np.float_(line[field])
+                    value = DEFAULT_FLOAT_DTYPE(line[field])
                 except ValueError:
                     value = default
 
-                data[field][np.float_(line[wavelength])] = value
+                data[field][DEFAULT_FLOAT_DTYPE(line[wavelength])] = value
         return data
 
 
 def read_spds_from_csv_file(path, delimiter=',', fields=None, default=0):
     """
     Reads the spectral data from given *CSV* file and return its content as an
-    *OrderedDict* of
-    :class:`colour.colorimetry.spectrum.SpectralPowerDistribution` classes.
+    *OrderedDict* of :class:`colour.SpectralPowerDistribution` classes.
 
     Parameters
     ----------
@@ -163,28 +158,110 @@ def read_spds_from_csv_file(path, delimiter=',', fields=None, default=0):
     Returns
     -------
     OrderedDict
-        :class:`colour.colorimetry.spectrum.SpectralPowerDistribution`
-        classes of given *CSV* file.
+        :class:`colour.SpectralPowerDistribution` classes of given *CSV* file.
 
     Examples
     --------
+    >>> from colour.utilities import numpy_print_options
     >>> import os
-    >>> csv_file = os.path.join(
-    ...     os.path.dirname(__file__),
-    ...     'tests',
-    ...     'resources',
-    ...     'colorchecker_n_ohta.csv')
+    >>> csv_file = os.path.join(os.path.dirname(__file__), 'tests',
+    ...                         'resources', 'colorchecker_n_ohta.csv')
     >>> spds = read_spds_from_csv_file(csv_file)
     >>> print(tuple(spds.keys()))
     ('1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', \
 '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24')
-    >>> print(spds['1'])
-    SpectralPowerDistribution('1', (380.0, 780.0, 5.0))
+    >>> with numpy_print_options(suppress=True):
+    ...     spds['1']  # doctest: +ELLIPSIS
+    SpectralPowerDistribution([[ 380.   ,    0.048],
+                               [ 385.   ,    0.051],
+                               [ 390.   ,    0.055],
+                               [ 395.   ,    0.06 ],
+                               [ 400.   ,    0.065],
+                               [ 405.   ,    0.068],
+                               [ 410.   ,    0.068],
+                               [ 415.   ,    0.067],
+                               [ 420.   ,    0.064],
+                               [ 425.   ,    0.062],
+                               [ 430.   ,    0.059],
+                               [ 435.   ,    0.057],
+                               [ 440.   ,    0.055],
+                               [ 445.   ,    0.054],
+                               [ 450.   ,    0.053],
+                               [ 455.   ,    0.053],
+                               [ 460.   ,    0.052],
+                               [ 465.   ,    0.052],
+                               [ 470.   ,    0.052],
+                               [ 475.   ,    0.053],
+                               [ 480.   ,    0.054],
+                               [ 485.   ,    0.055],
+                               [ 490.   ,    0.057],
+                               [ 495.   ,    0.059],
+                               [ 500.   ,    0.061],
+                               [ 505.   ,    0.062],
+                               [ 510.   ,    0.065],
+                               [ 515.   ,    0.067],
+                               [ 520.   ,    0.07 ],
+                               [ 525.   ,    0.072],
+                               [ 530.   ,    0.074],
+                               [ 535.   ,    0.075],
+                               [ 540.   ,    0.076],
+                               [ 545.   ,    0.078],
+                               [ 550.   ,    0.079],
+                               [ 555.   ,    0.082],
+                               [ 560.   ,    0.087],
+                               [ 565.   ,    0.092],
+                               [ 570.   ,    0.1  ],
+                               [ 575.   ,    0.107],
+                               [ 580.   ,    0.115],
+                               [ 585.   ,    0.122],
+                               [ 590.   ,    0.129],
+                               [ 595.   ,    0.134],
+                               [ 600.   ,    0.138],
+                               [ 605.   ,    0.142],
+                               [ 610.   ,    0.146],
+                               [ 615.   ,    0.15 ],
+                               [ 620.   ,    0.154],
+                               [ 625.   ,    0.158],
+                               [ 630.   ,    0.163],
+                               [ 635.   ,    0.167],
+                               [ 640.   ,    0.173],
+                               [ 645.   ,    0.18 ],
+                               [ 650.   ,    0.188],
+                               [ 655.   ,    0.196],
+                               [ 660.   ,    0.204],
+                               [ 665.   ,    0.213],
+                               [ 670.   ,    0.222],
+                               [ 675.   ,    0.231],
+                               [ 680.   ,    0.242],
+                               [ 685.   ,    0.251],
+                               [ 690.   ,    0.261],
+                               [ 695.   ,    0.271],
+                               [ 700.   ,    0.282],
+                               [ 705.   ,    0.294],
+                               [ 710.   ,    0.305],
+                               [ 715.   ,    0.318],
+                               [ 720.   ,    0.334],
+                               [ 725.   ,    0.354],
+                               [ 730.   ,    0.372],
+                               [ 735.   ,    0.392],
+                               [ 740.   ,    0.409],
+                               [ 745.   ,    0.42 ],
+                               [ 750.   ,    0.436],
+                               [ 755.   ,    0.45 ],
+                               [ 760.   ,    0.462],
+                               [ 765.   ,    0.465],
+                               [ 770.   ,    0.448],
+                               [ 775.   ,    0.432],
+                               [ 780.   ,    0.421]],
+                              interpolator=SpragueInterpolator,
+                              interpolator_args={},
+                              extrapolator=Extrapolator,
+                              extrapolator_args={...})
     """
 
     data = read_spectral_data_from_csv_file(path, delimiter, fields, default)
 
-    spds = OrderedDict(((key, SpectralPowerDistribution(key, value))
+    spds = OrderedDict(((key, SpectralPowerDistribution(value, name=key))
                         for key, value in data.items()))
     return spds
 

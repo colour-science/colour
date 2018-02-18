@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 :math:`\Delta E_{ab}` - Delta E Colour Difference
@@ -8,10 +7,10 @@ Defines :math:`\Delta E_{ab}` colour difference computation objects:
 
 The following methods are available:
 
--   :func:`delta_E_CIE1976`
--   :func:`delta_E_CIE1994`
--   :func:`delta_E_CIE2000`
--   :func:`delta_E_CMC`
+-   :func:`colour.difference.delta_E_CIE1976`
+-   :func:`colour.difference.delta_E_CIE1994`
+-   :func:`colour.difference.delta_E_CIE2000`
+-   :func:`colour.difference.delta_E_CMC`
 
 See Also
 --------
@@ -21,8 +20,20 @@ blob/master/notebooks/difference/delta_e.ipynb>`_
 
 References
 ----------
-.. [1]  Wikipedia. (n.d.). Color difference. Retrieved August 29, 2014, from
-        http://en.wikipedia.org/wiki/Color_difference
+-   :cite:`Lindbloom2003c` : Lindbloom, B. (2003). Delta E (CIE 1976).
+    Retrieved February 24, 2014, from
+    http://brucelindbloom.com/Eqn_DeltaE_CIE76.html
+-   :cite:`Lindbloom2009e` : Lindbloom, B. (2009). Delta E (CIE 2000).
+    Retrieved February 24, 2014, from
+    http://brucelindbloom.com/Eqn_DeltaE_CIE2000.html
+-   :cite:`Lindbloom2009f` : Lindbloom, B. (2009). Delta E (CMC). Retrieved
+    February 24, 2014, from http://brucelindbloom.com/Eqn_DeltaE_CMC.html
+-   :cite:`Lindbloom2011a` : Lindbloom, B. (2011). Delta E (CIE 1994).
+    Retrieved February 24, 2014, from
+    http://brucelindbloom.com/Eqn_DeltaE_CIE94.html
+-   :cite:`Melgosa2013b` : Melgosa, M. (2013). CIE / ISO new standard:
+    CIEDE2000. Retrieved from http://www.color.org/events/colorimetry/\
+Melgosa_CIEDE2000_Workshop-July4.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -30,46 +41,40 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.algebra import euclidean_distance
-from colour.utilities import CaseInsensitiveMapping, filter_kwargs, tsplit
+from colour.utilities import tsplit
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'delta_E_CIE1976', 'delta_E_CIE1994', 'delta_E_CIE2000', 'delta_E_CMC',
-    'DELTA_E_METHODS', 'delta_E'
+    'delta_E_CIE1976', 'delta_E_CIE1994', 'delta_E_CIE2000', 'delta_E_CMC'
 ]
 
 
 def delta_E_CIE1976(Lab_1, Lab_2):
     """
-    Returns the difference :math:`\Delta E_{ab}` between two given *CIE Lab*
-    colourspace arrays using *CIE 1976* recommendation.
+    Returns the difference :math:`\Delta E_{ab}` between two given
+    *CIE L\*a\*b\** colourspace arrays using *CIE 1976* recommendation.
 
     Parameters
     ----------
     Lab_1 : array_like
-        *CIE Lab* colourspace array 1.
+        *CIE L\*a\*b\** colourspace array 1.
     Lab_2 : array_like
-        *CIE Lab* colourspace array 2.
+        *CIE L\*a\*b\** colourspace array 2.
 
     Returns
     -------
     numeric or ndarray
         Colour difference :math:`\Delta E_{ab}`.
 
-    See Also
-    --------
-    colour.euclidean_distance
-
     References
     ----------
-    .. [2]  Lindbloom, B. (2003). Delta E (CIE 1976). Retrieved February 24,
-            2014, from http://brucelindbloom.com/Eqn_DeltaE_CIE76.html
+    -   :cite:`Lindbloom2003c`
 
     Examples
     --------
@@ -86,15 +91,15 @@ def delta_E_CIE1976(Lab_1, Lab_2):
 
 def delta_E_CIE1994(Lab_1, Lab_2, textiles=False):
     """
-    Returns the difference :math:`\Delta E_{ab}` between two given *CIE Lab*
-    colourspace arrays using *CIE 1994* recommendation.
+    Returns the difference :math:`\Delta E_{ab}` between two given
+    *CIE L\*a\*b\** colourspace arrays using *CIE 1994* recommendation.
 
     Parameters
     ----------
     Lab_1 : array_like
-        *CIE Lab* colourspace array 1.
+        *CIE L\*a\*b\** colourspace array 1.
     Lab_2 : array_like
-        *CIE Lab* colourspace array 2.
+        *CIE L\*a\*b\** colourspace array 2.
     textiles : bool, optional
         Textiles application specific parametric factors
         :math:`k_L=2,\ k_C=k_H=1,\ k_1=0.048,\ k_2=0.014` weights are used
@@ -108,14 +113,13 @@ def delta_E_CIE1994(Lab_1, Lab_2, textiles=False):
     Notes
     -----
     -   *CIE 1994* colour differences are not symmetrical: difference between
-        `Lab_1` and `Lab_2` may not be the same as difference between `Lab_2`
-        and `Lab_1` thus one colour must be understood to be the reference
-        against which a sample colour is compared.
+        ``Lab_1`` and ``Lab_2`` may not be the same as difference between
+        ``Lab_2`` and ``Lab_1`` thus one colour must be understood to be the
+        reference against which a sample colour is compared.
 
     References
     ----------
-    .. [3]  Lindbloom, B. (2011). Delta E (CIE 1994). Retrieved February 24,
-            2014, from http://brucelindbloom.com/Eqn_DeltaE_CIE94.html
+    -   :cite:`Lindbloom2011a`
 
     Examples
     --------
@@ -161,15 +165,15 @@ def delta_E_CIE1994(Lab_1, Lab_2, textiles=False):
 
 def delta_E_CIE2000(Lab_1, Lab_2, textiles=False):
     """
-    Returns the difference :math:`\Delta E_{ab}` between two given *CIE Lab*
-    colourspace arrays using *CIE 2000* recommendation.
+    Returns the difference :math:`\Delta E_{ab}` between two given
+    *CIE L\*a\*b\** colourspace arrays using *CIE 2000* recommendation.
 
     Parameters
     ----------
     Lab_1 : array_like
-        *CIE Lab* colourspace array 1.
+        *CIE L\*a\*b\** colourspace array 1.
     Lab_2 : array_like
-        *CIE Lab* colourspace array 2.
+        *CIE L\*a\*b\** colourspace array 2.
     textiles : bool, optional
         Textiles application specific parametric factors
         :math:`k_L=2,\ k_C=k_H=1` weights are used instead of
@@ -183,11 +187,11 @@ def delta_E_CIE2000(Lab_1, Lab_2, textiles=False):
     Notes
     -----
     -   *CIE 2000* colour differences are not symmetrical: difference between
-        `Lab_1` and `Lab_2` may not be the same as difference between `Lab_2`
-        and `Lab_1` thus one colour must be understood to be the reference
-        against which a sample colour is compared.
+        ``Lab_1`` and ``Lab_2`` may not be the same as difference between
+        ``Lab_2`` and ``Lab_1`` thus one colour must be understood to be the
+        reference against which a sample colour is compared.
     -   Parametric factors :math:`k_L=k_C=k_H=1` weights under
-        *reference conditions*: [5]_
+        *reference conditions*:
 
         -   Illumination: D65 source
         -   Illuminance: 1000 lx
@@ -202,11 +206,8 @@ def delta_E_CIE2000(Lab_1, Lab_2, textiles=False):
 
     References
     ----------
-    .. [4]  Lindbloom, B. (2009). Delta E (CIE 2000). Retrieved February 24,
-            2014, from http://brucelindbloom.com/Eqn_DeltaE_CIE2000.html
-    .. [5]  Melgosa, M. (2013). CIE / ISO new standard: CIEDE2000, 2013(July).
-            Retrieved from http://www.color.org/events/colorimetry/\
-Melgosa_CIEDE2000_Workshop-July4.pdf
+    -   :cite:`Lindbloom2009e`
+    -   :cite:`Melgosa2013b`
 
     Examples
     --------
@@ -286,10 +287,11 @@ Melgosa_CIEDE2000_Workshop-July4.pdf
     return d_E
 
 
-def delta_E_CMC(Lab_1, Lab_2, l=2, c=1):
+def delta_E_CMC(Lab_1, Lab_2, l=2, c=1):  # noqa
     """
-    Returns the difference :math:`\Delta E_{ab}` between two given *CIE Lab*
-    colourspace arrays using *Colour Measurement Committee* recommendation.
+    Returns the difference :math:`\Delta E_{ab}` between two given
+    *CIE L\*a\*b\** colourspace arrays using *Colour Measurement Committee*
+    recommendation.
 
     The quasimetric has two parameters: *Lightness* (l) and *chroma* (c),
     allowing the users to weight the difference based on the ratio of l:c.
@@ -299,9 +301,9 @@ def delta_E_CMC(Lab_1, Lab_2, l=2, c=1):
     Parameters
     ----------
     Lab_1 : array_like
-        *CIE Lab* colourspace array 1.
+        *CIE L\*a\*b\** colourspace array 1.
     Lab_2 : array_like
-        *CIE Lab* colourspace array 2.
+        *CIE L\*a\*b\** colourspace array 2.
     l : numeric, optional
         Lightness weighting factor.
     c : numeric, optional
@@ -314,8 +316,7 @@ def delta_E_CMC(Lab_1, Lab_2, l=2, c=1):
 
     References
     ----------
-    .. [5]  Lindbloom, B. (2009). Delta E (CMC). Retrieved February 24, 2014,
-            from http://brucelindbloom.com/Eqn_DeltaE_CMC.html
+    -   :cite:`Lindbloom2009f`
 
     Examples
     --------
@@ -356,84 +357,3 @@ def delta_E_CMC(Lab_1, Lab_2, l=2, c=1):
     d_E = np.sqrt(v_1 ** 2 + v_2 ** 2 + (delta_H2 / (v_3 * v_3)))
 
     return d_E
-
-
-DELTA_E_METHODS = CaseInsensitiveMapping({
-    'CIE 1976': delta_E_CIE1976,
-    'CIE 1994': delta_E_CIE1994,
-    'CIE 2000': delta_E_CIE2000,
-    'CMC': delta_E_CMC
-})
-"""
-Supported *Delta E* computations methods.
-
-DELTA_E_METHODS : CaseInsensitiveMapping
-    **{'CIE 1976', 'CIE 1994', 'CIE 2000', 'CMC'}**
-
-Aliases:
-
--   'cie1976': 'CIE 1976'
--   'cie1994': 'CIE 1994'
--   'cie2000': 'CIE 2000'
-"""
-DELTA_E_METHODS['cie1976'] = DELTA_E_METHODS['CIE 1976']
-DELTA_E_METHODS['cie1994'] = DELTA_E_METHODS['CIE 1994']
-DELTA_E_METHODS['cie2000'] = DELTA_E_METHODS['CIE 2000']
-
-
-def delta_E(Lab_1, Lab_2, method='CMC', **kwargs):
-    """
-    Returns the difference :math:`\Delta E_{ab}` between two given *CIE Lab*
-    colourspace arrays using given method.
-
-    Parameters
-    ----------
-    Lab_1 : array_like
-        *CIE Lab* colourspace array 1.
-    Lab_2 : array_like
-        *CIE Lab* colourspace array 2.
-    method : unicode, optional
-        **{'CMC', 'CIE 1976', 'CIE 1994', 'CIE 2000'}**,
-        Computation method.
-
-    Other Parameters
-    ----------------
-    textiles : bool, optional
-        {:func:`delta_E_CIE1994`, :func:`delta_E_CIE2000`},
-        Textiles application specific parametric factors
-        :math:`k_L=2,\ k_C=k_H=1,\ k_1=0.048,\ k_2=0.014` weights are used
-        instead of :math:`k_L=k_C=k_H=1,\ k_1=0.045,\ k_2=0.015`.
-    l : numeric, optional
-        {:func:`delta_E_CIE2000`},
-        Lightness weighting factor.
-    c : numeric, optional
-        {:func:`delta_E_CIE2000`},
-        Chroma weighting factor.
-
-    Returns
-    -------
-    numeric or ndarray
-        Colour difference :math:`\Delta E_{ab}`.
-
-    Examples
-    --------
-    >>> Lab_1 = np.array([100.00000000, 21.57210357, 272.22819350])
-    >>> Lab_2 = np.array([100.00000000, 426.67945353, 72.39590835])
-    >>> delta_E(Lab_1, Lab_2)  # doctest: +ELLIPSIS
-    172.7047712...
-    >>> delta_E(Lab_1, Lab_2, method='CIE 1976')  # doctest: +ELLIPSIS
-    451.7133019...
-    >>> delta_E(Lab_1, Lab_2, method='CIE 1994')  # doctest: +ELLIPSIS
-    83.7792255...
-    >>> delta_E(  # doctest: +ELLIPSIS
-    ...     Lab_1, Lab_2, method='CIE 1994', textiles=False)
-    83.7792255...
-    >>> delta_E(Lab_1, Lab_2, method='CIE 2000')  # doctest: +ELLIPSIS
-    94.0356490...
-    """
-
-    function = DELTA_E_METHODS[method]
-
-    filter_kwargs(function, **kwargs)
-
-    return function(Lab_1, Lab_2, **kwargs)

@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Showcases *Academy Color Encoding System* *Input Device Transform* related
@@ -6,7 +5,7 @@ computations.
 """
 
 import colour
-from colour.utilities.verbose import message_box
+from colour.utilities import message_box
 
 message_box('"ACES" "Input Device Transform" Computations')
 
@@ -24,11 +23,11 @@ print('\n')
 message_box(('Computing "ACES" relative exposure values for various ideal '
              'reflectors:\n'
              '\n\t("18%", \n\t"100%")'))
-wavelengths = colour.ACES_RICD.wavelengths
+wavelengths = colour.models.ACES_RICD.wavelengths
 gray_reflector = colour.SpectralPowerDistribution(
-    '18%', dict(zip(wavelengths, [0.18] * len(wavelengths))))
+    dict(zip(wavelengths, [0.18] * len(wavelengths))), name='18%')
 print(repr(colour.spectral_to_aces_relative_exposure_values(gray_reflector)))
 
 perfect_reflector = colour.SpectralPowerDistribution(
-    '100%', dict(zip(wavelengths, [1.] * len(wavelengths))))
+    dict(zip(wavelengths, [1.] * len(wavelengths))), name='100%')
 print(colour.spectral_to_aces_relative_exposure_values(perfect_reflector))

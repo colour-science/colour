@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 ColourCheckers Chromaticity Coordinates
@@ -13,12 +12,15 @@ follows::
 
 The following *ColourCheckers* data is available:
 
--   :attr:`BABELCOLOR_AVERAGE`: Average data derived from measurements of 30
-    *ColourChecker* charts.
--   :attr:`COLORCHECKER_2005`: Reference data from *GretagMacbeth* published in
-    2005.
--   :attr:`COLORCHECKER_1976`: *ColourChecker* developed by *McCamy et al.* at
-    Macbeth, a Division of Kollmorgen.
+-   :attr:`colour.characterisation.dataset.colour_checkers.\
+chromaticity_coordinates.BABELCOLOR_AVERAGE`: Average data derived from
+    measurements of 30 *ColourChecker* charts.
+-   :attr:`colour.characterisation.dataset.colour_checkers.\
+chromaticity_coordinates.COLORCHECKER_2005`: Reference data from
+    *GretagMacbeth* published in 2005.
+-   :attr:`colour.characterisation.dataset.colour_checkers.\
+chromaticity_coordinates.COLORCHECKER_1976`: *ColourChecker* developed by
+    *McCamy et alii* at Macbeth, a Division of Kollmorgen.
 
 See Also
 --------
@@ -28,11 +30,12 @@ blob/master/notebooks/characterisation/fitting.ipynb>`_
 
 References
 ----------
-.. [1]  BabelColor. (2012). ColorChecker RGB and spectra. Retrieved from
-        http://www.babelcolor.com/download/ColorChecker_RGB_and_spectra.xls
-.. [2]  BabelColor. (2012). The ColorChecker (since 1976!). Retrieved
-        September 26, 2014, from
-        http://www.babelcolor.com/main_level/ColorChecker.htm
+-   :cite:`BabelColor2012b` : BabelColor. (2012). The ColorChecker
+    (since 1976!). Retrieved September 26, 2014, from
+    http://www.babelcolor.com/main_level/ColorChecker.htm
+-   :cite:`BabelColor2012c` : BabelColor. (2012). ColorChecker RGB and spectra.
+    Retrieved from http://www.babelcolor.com/download/\
+ColorChecker_RGB_and_spectra.xls
 """
 
 from __future__ import division, unicode_literals
@@ -43,8 +46,12 @@ from collections import namedtuple
 from colour.colorimetry import ILLUMINANTS
 from colour.utilities import CaseInsensitiveMapping
 
-__author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__author__ = 'Colour Developers, Danny Pascale '
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ += ', '
+__copyright__ += (
+    'BabelColor ColorChecker data: Copyright (C) 2004-2012 Danny Pascale '
+    '(www.babelcolor.com); used by permission.')
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -193,7 +200,7 @@ COLORCHECKER_1976 = [
     ColourChecker_Specification(*x) for x in COLORCHECKER_1976_DATA
 ]
 """
-*ColourChecker* developed by *McCamy et al.* at Macbeth, a Division of
+*ColourChecker* developed by *McCamy et alii* at Macbeth, a Division of
 Kollmorgen.
 
 COLORCHECKER_1976 : list
@@ -216,8 +223,13 @@ COLOURCHECKERS = CaseInsensitiveMapping({
             COLORCHECKER_1976,
             COLORCHECKER_1976_ILLUMINANT)
 })  # yapf: disable
-"""
+COLOURCHECKERS.__doc__ = """
 Aggregated *ColourCheckers* chromaticity coordinates.
+
+References
+----------
+-   :cite:`BabelColor2012b`
+-   :cite:`BabelColor2012c`
 
 COLOURCHECKERS : CaseInsensitiveMapping
     **{'BabelColor Average', 'ColorChecker 2005', 'ColorChecker 1976'}**

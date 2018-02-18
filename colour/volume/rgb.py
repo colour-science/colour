@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 RGB Colourspace Volume Computation
@@ -6,10 +5,11 @@ RGB Colourspace Volume Computation
 
 Defines various RGB colourspace volume computation objects:
 
--   :func:`RGB_colourspace_limits`
--   :func:`RGB_colourspace_volume_MonteCarlo`
--   :func:`RGB_colourspace_pointer_gamut_coverage_MonteCarlo`
--   :func:`RGB_colourspace_visible_spectrum_coverage_MonteCarlo`
+-   :func:`colour.RGB_colourspace_limits`
+-   :func:`colour.RGB_colourspace_volume_MonteCarlo`
+-   :func:`colour.RGB_colourspace_volume_coverage_MonteCarlo`
+-   :func:`colour.RGB_colourspace_pointer_gamut_coverage_MonteCarlo`
+-   :func:`colour.RGB_colourspace_visible_spectrum_coverage_MonteCarlo`
 
 See Also
 --------
@@ -30,7 +30,7 @@ from colour.models import (Lab_to_XYZ, RGB_to_XYZ, XYZ_to_Lab, XYZ_to_RGB)
 from colour.volume import is_within_pointer_gamut, is_within_visible_spectrum
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -47,8 +47,8 @@ __all__ = [
 def _wrapper_RGB_colourspace_volume_MonteCarlo(args):
     """
     Convenient wrapper to be able to call
-    :func:`sample_RGB_colourspace_volume_MonteCarlo`: definition with multiple
-    arguments.
+    :func:`colour.volume.rgb.sample_RGB_colourspace_volume_MonteCarlo`:
+    definition with multiple arguments.
 
     Parameters
     ----------
@@ -117,10 +117,10 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
 
     Examples
     --------
-    >>> from colour import sRGB_COLOURSPACE as sRGB
+    >>> from colour.models import sRGB_COLOURSPACE as sRGB
     >>> prng = np.random.RandomState(2)
-    >>> sample_RGB_colourspace_volume_MonteCarlo(
-    ...     sRGB, 10e3, random_state=prng)  # doctest: +ELLIPSIS
+    >>> sample_RGB_colourspace_volume_MonteCarlo(sRGB, 10e3, random_state=prng)
+    ... # doctest: +ELLIPSIS
     9...
     """
 
@@ -241,8 +241,9 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
     >>> from colour import sRGB_COLOURSPACE as sRGB
     >>> prng = np.random.RandomState(2)
     >>> processes = 1
-    >>> RGB_colourspace_volume_MonteCarlo(  # doctest: +ELLIPSIS
-    ...     sRGB, 10e3, random_state=prng, processes=processes)
+    >>> RGB_colourspace_volume_MonteCarlo(sRGB, 10e3, random_state=prng,
+    ...                                   processes=processes)
+    ... # doctest: +ELLIPSIS
     858...
     """
 
@@ -294,11 +295,9 @@ def RGB_colourspace_volume_coverage_MonteCarlo(
     --------
     >>> from colour import sRGB_COLOURSPACE as sRGB
     >>> prng = np.random.RandomState(2)
-    >>> RGB_colourspace_volume_coverage_MonteCarlo(  # doctest: +ELLIPSIS
-    ...     sRGB,
-    ...     is_within_pointer_gamut,
-    ...     10e3,
-    ...     random_state=prng)
+    >>> RGB_colourspace_volume_coverage_MonteCarlo(
+    ...     sRGB, is_within_pointer_gamut, 10e3, random_state=prng)
+    ... # doctest: +ELLIPSIS
     83...
     """
 
@@ -350,9 +349,7 @@ def RGB_colourspace_pointer_gamut_coverage_MonteCarlo(
     >>> from colour import sRGB_COLOURSPACE as sRGB
     >>> prng = np.random.RandomState(2)
     >>> RGB_colourspace_pointer_gamut_coverage_MonteCarlo(
-    ...     sRGB,
-    ...     10e3,
-    ...     random_state=prng)  # doctest: +ELLIPSIS
+    ...     sRGB, 10e3, random_state=prng)  # doctest: +ELLIPSIS
     83...
     """
 
@@ -392,9 +389,7 @@ def RGB_colourspace_visible_spectrum_coverage_MonteCarlo(
     >>> from colour import sRGB_COLOURSPACE as sRGB
     >>> prng = np.random.RandomState(2)
     >>> RGB_colourspace_visible_spectrum_coverage_MonteCarlo(
-    ...     sRGB,
-    ...     10e3,
-    ...     random_state=prng)  # doctest: +ELLIPSIS
+    ...     sRGB, 10e3, random_state=prng)  # doctest: +ELLIPSIS
     36...
     """
 

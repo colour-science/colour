@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 LLAB(l:c) Colour Appearance Model
@@ -6,10 +5,10 @@ LLAB(l:c) Colour Appearance Model
 
 Defines *LLAB(l:c)* colour appearance model objects:
 
--   :class:`LLAB_InductionFactors`
--   :attr:`LLAB_VIEWING_CONDITIONS`
--   :class:`LLAB_Specification`
--   :func:`XYZ_to_LLAB`
+-   :class:`colour.appearance.LLAB_InductionFactors`
+-   :attr:`colour.LLAB_VIEWING_CONDITIONS`
+-   :class:`colour.LLAB_Specification`
+-   :func:`colour.XYZ_to_LLAB`
 
 See Also
 --------
@@ -19,18 +18,17 @@ blob/master/notebooks/appearance/llab.ipynb>`_
 
 References
 ----------
-.. [1]  Fairchild, M. D. (2013). LLAB Model. In Color Appearance Models
-        (3rd ed., pp. 6025–6178). Wiley. ASIN:B00DAYO8E2
-.. [2]  Luo, M. R., & Morovic, J. (1996). Two Unsolved Issues in Colour
-        Management – Colour Appearance and Gamut Mapping. In Conference: 5th
-        International Conference on High Technology: Imaging Science and
-        Technology – Evolution & Promise (pp. 136–147). Retrieved from
-        http://www.researchgate.net/publication/\
-236348295_Two_Unsolved_Issues_in_Colour_Management\
-_Colour_Appearance_and_Gamut_Mapping
-.. [3]  Luo, M. R., Lo, M.-C., & Kuo, W.-G. (1996). The LLAB (l:c) colour
-        model. Color Research & Application, 21(6), 412–429.
-        doi:10.1002/(SICI)1520-6378(199612)21:6<412::AID-COL4>3.0.CO;2-Z
+-   :cite:`Fairchild2013x` : Fairchild, M. D. (2013). LLAB Model. In Color
+    Appearance Models (3rd ed., pp. 6025-6178). Wiley. ISBN:B00DAYO8E2
+-   :cite:`Luo1996b` : Luo, M. R., Lo, M.-C., & Kuo, W.-G. (1996). The LLAB
+    (l:c) colour model. Color Research & Application, 21(6), 412-429.
+    doi:10.1002/(SICI)1520-6378(199612)21:6<412::AID-COL4>3.0.CO;2-Z
+-   :cite:`Luo1996c` : Luo, M. R., & Morovic, J. (1996). Two Unsolved Issues in
+    Colour Management - Colour Appearance and Gamut Mapping. In Conference:
+    5th International Conference on High Technology: Imaging Science and
+    Technology - Evolution & Promise (pp. 136-147). Retrieved from
+    http://www.researchgate.net/publication/\236348295_Two_Unsolved_Issues_in\
+_Colour_Management__Colour_Appearance_and_Gamut_Mapping
 """
 
 from __future__ import division, unicode_literals
@@ -42,7 +40,7 @@ from colour.algebra import polar_to_cartesian
 from colour.utilities import CaseInsensitiveMapping, dot_vector, tsplit, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -73,6 +71,12 @@ class LLAB_InductionFactors(
         *Lightness* induction factor :math:`F_L`.
     F_C : numeric or array_like
         *Chroma* induction factor :math:`F_C`.
+
+    References
+    ----------
+    -   :cite:`Fairchild2013x`
+    -   :cite:`Luo1996b`
+    -   :cite:`Luo1996c`
     """
 
 
@@ -88,8 +92,14 @@ LLAB_VIEWING_CONDITIONS = CaseInsensitiveMapping({
     '35mm Projection Transparency, Dark Surround': (LLAB_InductionFactors(
         0.7, 4, 1, 1))
 })
-"""
+LLAB_VIEWING_CONDITIONS.__doc__ = """
 Reference *LLAB(l:c)* colour appearance model viewing conditions.
+
+References
+----------
+-   :cite:`Fairchild2013x`
+-   :cite:`Luo1996b`
+-   :cite:`Luo1996c`
 
 LLAB_VIEWING_CONDITIONS : CaseInsensitiveMapping
     **{'Reference Samples & Images, Average Surround, Subtending > 4',
@@ -121,10 +131,11 @@ LLAB_VIEWING_CONDITIONS['sheet_dim'] = (
 LLAB_VIEWING_CONDITIONS['projected_dark'] = (
     LLAB_VIEWING_CONDITIONS['35mm Projection Transparency, Dark Surround'])
 
-LLAB_XYZ_TO_RGB_MATRIX = np.array(
-    [[0.8951, 0.2664, -0.1614],
-     [-0.7502, 1.7135, 0.0367],
-     [0.0389, -0.0685, 1.0296]])  # yapf: disable
+LLAB_XYZ_TO_RGB_MATRIX = np.array([
+    [0.8951, 0.2664, -0.1614],
+    [-0.7502, 1.7135, 0.0367],
+    [0.0389, -0.0685, 1.0296],
+])
 """
 LLAB(l:c) colour appearance model *CIE XYZ* tristimulus values to normalised
 cone responses matrix.
@@ -168,6 +179,12 @@ class LLAB_ReferenceSpecification(
         Opponent signal :math:`A_L`.
     B_L : numeric or array_like
         Opponent signal :math:`B_L`.
+
+    References
+    ----------
+    -   :cite:`Fairchild2013x`
+    -   :cite:`Luo1996b`
+    -   :cite:`Luo1996c`
     """
 
 
@@ -203,6 +220,12 @@ class LLAB_Specification(
     Notes
     -----
     -   This specification is the one used in the current model implementation.
+
+    References
+    ----------
+    -   :cite:`Fairchild2013x`
+    -   :cite:`Luo1996b`
+    -   :cite:`Luo1996c`
     """
 
 
@@ -243,6 +266,12 @@ def XYZ_to_LLAB(
     -----
     -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
     -   Input *CIE XYZ_0* tristimulus values are in domain [0, 100].
+
+    References
+    ----------
+    -   :cite:`Fairchild2013x`
+    -   :cite:`Luo1996b`
+    -   :cite:`Luo1996c`
 
     Examples
     --------
@@ -428,7 +457,7 @@ def opponent_colour_dimensions(XYZ, Y_b, F_S, F_L):
     Returns opponent colour dimensions from given adapted *CIE XYZ* tristimulus
     values.
 
-    The opponent colour dimensions are based on a modified *CIE Lab*
+    The opponent colour dimensions are based on a modified *CIE L\*a\*b\**
     colourspace formulae.
 
     Parameters
@@ -465,7 +494,7 @@ def opponent_colour_dimensions(XYZ, Y_b, F_S, F_L):
     # Account for background lightness contrast.
     z = 1 + F_L * ((Y_b / 100) ** 0.5)
 
-    # Computing modified *CIE Lab* colourspace array.
+    # Computing modified *CIE L\*a\*b\** colourspace array.
     L = 116 * (f(Y / 100, F_S) ** z) - 16
     a = 500 * (f(X / 95.05, F_S) - f(Y / 100, F_S))
     b = 200 * (f(Y / 100, F_S) - f(Z / 108.88, F_S))

@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Showcases *Colour Quality Scale* (CQS) computations.
@@ -7,7 +6,7 @@ Showcases *Colour Quality Scale* (CQS) computations.
 from pprint import pprint
 
 import colour
-from colour.utilities.verbose import message_box
+from colour.utilities import message_box
 
 message_box('"Colour Quality Scale (CQS)" Computations')
 
@@ -118,4 +117,4 @@ SAMPLE_SPD_DATA = {
 }
 
 print(colour.colour_quality_scale(
-    colour.SpectralPowerDistribution('Sample', SAMPLE_SPD_DATA)))
+    colour.SpectralPowerDistribution(SAMPLE_SPD_DATA, name='Sample')))

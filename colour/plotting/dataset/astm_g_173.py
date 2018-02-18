@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 ASTM G-173 Solar Spectral Irradiance
@@ -9,17 +8,19 @@ various plotting objects.
 
 References
 ----------
-.. [1]  Renewable Resource Data Center. (2003). Reference Solar Spectral
-        Irradiance: ASTM G-173. Retrieved August 23, 2014, from
-        http://rredc.nrel.gov/solar/spectra/am1.5/ASTMG173/ASTMG173.html
+-   :cite:`RenewableResourceDataCenter2003a` : Renewable Resource Data Center.
+    (2003). Reference Solar Spectral Irradiance: ASTM G-173. Retrieved August
+    23, 2014, from
+    http://rredc.nrel.gov/solar/spectra/am1.5/ASTMG173/ASTMG173.html
 """
 
 from __future__ import division, unicode_literals
 
+from colour.algebra import LinearInterpolator
 from colour.colorimetry import SpectralPowerDistribution
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -2032,11 +2033,17 @@ ASTM_G_173_ETR_DATA = {
     4000.0: 0.00868
 }
 
-ASTM_G_173_ETR = SpectralPowerDistribution('ASTM G-173 ETR',
-                                           ASTM_G_173_ETR_DATA)
+ASTM_G_173_ETR = SpectralPowerDistribution(
+    ASTM_G_173_ETR_DATA,
+    name='ASTM G-173 ETR',
+    interpolator=LinearInterpolator)
 """
 Extraterrestrial Radiation (solar spectrum at top of atmosphere) at mean
 Earth-Sun distance.
+
+References
+----------
+-   :cite:`RenewableResourceDataCenter2003a`
 
 ASTM_G_173_ETR : SpectralPowerDistribution
 """

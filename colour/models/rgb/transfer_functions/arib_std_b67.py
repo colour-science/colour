@@ -1,14 +1,13 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 ARIB STD-B67 (Hybrid Log-Gamma)
 ===============================
 
 Defines *ARIB STD-B67 (Hybrid Log-Gamma)* opto-electrical transfer function
-(OETF / OECF) and electro-optical transfer function (EOTF / EOCF):
+(OETF / OECF) and its reverse:
 
--   :func:`oetf_ARIBSTDB67`
--   :func:`eotf_ARIBSTDB67`
+-   :func:`colour.models.oetf_ARIBSTDB67`
+-   :func:`colour.models.oetf_reverse_ARIBSTDB67`
 
 See Also
 --------
@@ -18,26 +17,29 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  Association of Radio Industries and Businesses. (2015). Essential
-        Parameter Values for the Extended Image Dynamic Range Television
-        (EIDRTV) System for Programme Production. Arib Std-B67. Retrieved from
-        http://www.arib.or.jp/english/html/overview/std-b67.html
+-   :cite:`AssociationofRadioIndustriesandBusinesses2015a` : Association of
+    Radio Industries and Businesses. (2015). Essential Parameter Values for the
+    Extended Image Dynamic Range Television (EIDRTV) System for Programme
+    Production. Retrieved from
+    https://www.arib.or.jp/english/std_tr/broadcasting/desc/std-b67.html
 """
 
 from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import Structure, as_numeric, warning
+from colour.utilities import Structure, as_numeric
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['ARIBSTDB67_CONSTANTS', 'oetf_ARIBSTDB67', 'eotf_ARIBSTDB67']
+__all__ = [
+    'ARIBSTDB67_CONSTANTS', 'oetf_ARIBSTDB67', 'oetf_reverse_ARIBSTDB67'
+]
 
 ARIBSTDB67_CONSTANTS = Structure(a=0.17883277, b=0.28466892, c=0.55991073)
 """
@@ -66,6 +68,10 @@ def oetf_ARIBSTDB67(E, r=0.5):
     numeric or ndarray
         Resulting non-linear signal :math:`E'`.
 
+    References
+    ----------
+    -   :cite:`AssociationofRadioIndustriesandBusinesses2015a`
+
     Examples
     --------
     >>> oetf_ARIBSTDB67(0.18)  # doctest: +ELLIPSIS
@@ -83,10 +89,10 @@ def oetf_ARIBSTDB67(E, r=0.5):
     return as_numeric(E_p)
 
 
-def eotf_ARIBSTDB67(E_p, r=0.5):
+def oetf_reverse_ARIBSTDB67(E_p, r=0.5):
     """
-    Defines *ARIB STD-B67 (Hybrid Log-Gamma)* electro-optical transfer
-    function (EOTF / EOCF).
+    Defines *ARIB STD-B67 (Hybrid Log-Gamma)* reverse opto-electrical transfer
+    function (OETF / OECF).
 
     Parameters
     ----------
@@ -102,22 +108,15 @@ def eotf_ARIBSTDB67(E_p, r=0.5):
         proportional to the implicit light intensity that would be detected
         with a reference camera color channel R, G, B.
 
-    Warning
-    -------
-    *ARIB STD-B67 (Hybrid Log-Gamma)* doesn't specify an electro-optical
-    transfer function. This definition is used for symmetry in unit tests and
-    other computations but should not be used as an *EOTF*.
+    References
+    ----------
+    -   :cite:`AssociationofRadioIndustriesandBusinesses2015a`
 
     Examples
     --------
-    >>> eotf_ARIBSTDB67(0.212132034355964)  # doctest: +ELLIPSIS
+    >>> oetf_reverse_ARIBSTDB67(0.212132034355964)  # doctest: +ELLIPSIS
     0.1799999...
     """
-
-    warning(('*ARIB STD-B67 (Hybrid Log-Gamma)* doesn\'t specify an '
-             'electro-optical transfer function. This definition is used '
-             'for symmetry in unit tests and others computations but should '
-             'not be used as an *EOTF*!'))
 
     E_p = np.asarray(E_p)
 

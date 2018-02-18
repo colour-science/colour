@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Coordinates System Transformations
@@ -8,20 +7,26 @@ Defines objects to apply transformations on coordinates systems.
 
 The following transformations are available:
 
--   :func:`cartesian_to_spherical`: Cartesian to Spherical transformation.
--   :func:`spherical_to_cartesian`: Spherical to Cartesian transformation.
--   :func:`cartesian_to_polar`: Cartesian to Polar transformation.
--   :func:`polar_to_cartesian`: Polar to Cartesian transformation.
--   :func:`cartesian_to_cylindrical`: Cartesian to Cylindrical transformation.
--   :func:`cylindrical_to_cartesian`: Cylindrical to Cartesian transformation.
+-   :func:`colour.algebra.cartesian_to_spherical`: Cartesian to Spherical
+    transformation.
+-   :func:`colour.algebra.spherical_to_cartesian`: Spherical to Cartesian
+    transformation.
+-   :func:`colour.algebra.cartesian_to_polar`: Cartesian to Polar
+    transformation.
+-   :func:`colour.algebra.polar_to_cartesian`: Polar to Cartesian
+    transformation.
+-   :func:`colour.algebra.cartesian_to_cylindrical`: Cartesian to Cylindrical
+    transformation.
+-   :func:`colour.algebra.cylindrical_to_cartesian`: Cylindrical to Cartesian
+    transformation.
 
 References
 ----------
-.. [1]  Wikipedia. (n.d.). List of common coordinate transformations.
-        Retrieved from http://en.wikipedia.org/wiki/\
-List_of_common_coordinate_transformations
-.. [2]  Wikipedia. (n.d.). ISO 31-11. misc. Retrieved from
-        https://en.wikipedia.org/wiki/ISO_31-11
+-   :cite:`Wikipediacl` : Wikipedia. (n.d.). List of common coordinate
+    transformations. Retrieved July 18, 2014, from
+    http://en.wikipedia.org/wiki/List_of_common_coordinate_transformations
+-   :cite:`Wikipediacn` : Wikipedia. (n.d.). ISO 31-11. Retrieved July 31,
+    2016, from https://en.wikipedia.org/wiki/ISO_31-11
 """
 
 from __future__ import division, unicode_literals
@@ -31,7 +36,7 @@ import numpy as np
 from colour.utilities import tsplit, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -60,10 +65,10 @@ def cartesian_to_spherical(a):
     ndarray
         Spherical coordinates array :math:`\\rho\\theta\phi`.
 
-    See Also
-    --------
-    spherical_to_cartesian, cartesian_to_polar, polar_to_cartesian,
-    cartesian_to_cylindrical, cylindrical_to_cartesian
+    References
+    ----------
+    -   :cite:`Wikipediacl`
+    -   :cite:`Wikipediacn`
 
     Examples
     --------
@@ -99,10 +104,10 @@ def spherical_to_cartesian(a):
     ndarray
         Cartesian coordinates array :math:`xyz`.
 
-    See Also
-    --------
-    cartesian_to_spherical, cartesian_to_polar, polar_to_cartesian,
-    cartesian_to_cylindrical, cylindrical_to_cartesian
+    References
+    ----------
+    -   :cite:`Wikipediacl`
+    -   :cite:`Wikipediacn`
 
     Examples
     --------
@@ -138,10 +143,10 @@ def cartesian_to_polar(a):
     ndarray
         Polar coordinates array :math:`\\rho\phi`.
 
-    See Also
-    --------
-    cartesian_to_spherical, spherical_to_cartesian, polar_to_cartesian,
-    cartesian_to_cylindrical, cylindrical_to_cartesian
+    References
+    ----------
+    -   :cite:`Wikipediacl`
+    -   :cite:`Wikipediacn`
 
     Examples
     --------
@@ -173,10 +178,10 @@ def polar_to_cartesian(a):
     ndarray
         Cartesian coordinates array :math:`xy`.
 
-    See Also
-    --------
-    cartesian_to_spherical, spherical_to_cartesian, cartesian_to_polar,
-    cartesian_to_cylindrical, cylindrical_to_cartesian
+    References
+    ----------
+    -   :cite:`Wikipediacl`
+    -   :cite:`Wikipediacn`
 
     Examples
     --------
@@ -209,10 +214,10 @@ def cartesian_to_cylindrical(a):
     ndarray
         Cylindrical coordinates array :math:`\\rho\phi z`.
 
-    See Also
-    --------
-    cartesian_to_spherical, spherical_to_cartesian, cartesian_to_polar,
-    polar_to_cartesian, cylindrical_to_cartesian
+    References
+    ----------
+    -   :cite:`Wikipediacl`
+    -   :cite:`Wikipediacn`
 
     Examples
     --------
@@ -244,10 +249,10 @@ def cylindrical_to_cartesian(a):
     ndarray
         Cartesian coordinates array :math:`xyz`.
 
-    See Also
-    --------
-    cartesian_to_spherical, spherical_to_cartesian, cartesian_to_polar,
-    polar_to_cartesian, cartesian_to_cylindrical
+    References
+    ----------
+    -   :cite:`Wikipediacl`
+    -   :cite:`Wikipediacn`
 
     Examples
     --------

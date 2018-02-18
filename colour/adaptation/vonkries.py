@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Von Kries Chromatic Adaptation Model
@@ -6,8 +5,8 @@ Von Kries Chromatic Adaptation Model
 
 Defines *Von Kries* chromatic adaptation model objects:
 
--   :func:`chromatic_adaptation_matrix_VonKries`
--   :func:`chromatic_adaptation_VonKries`
+-   :func:`colour.adaptation.chromatic_adaptation_matrix_VonKries`
+-   :func:`colour.adaptation.chromatic_adaptation_VonKries`
 
 See Also
 --------
@@ -17,8 +16,9 @@ blob/master/notebooks/adaptation/vonkries.ipynb>`_
 
 References
 ----------
-.. [1]  Fairchild, M. D. (2013). Chromatic Adaptation Models. In Color
-        Appearance Models (3rd ed., pp. 4179–4252). Wiley. ASIN:B00DAYO8E2
+-   :cite:`Fairchild2013t` : Fairchild, M. D. (2013). Chromatic Adaptation
+    Models. In Color Appearance Models (3rd ed., pp. 4179-4252). Wiley.
+    ISBN:B00DAYO8E2
 """
 
 from __future__ import division, unicode_literals
@@ -29,7 +29,7 @@ from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
 from colour.utilities import dot_matrix, dot_vector, row_as_diagonal
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -67,12 +67,16 @@ def chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
     KeyError
         If chromatic adaptation method is not defined.
 
+    References
+    ----------
+    -   :cite:`Fairchild2013t`
+
     Examples
     --------
     >>> XYZ_w = np.array([1.09846607, 1.00000000, 0.35582280])
     >>> XYZ_wr = np.array([0.95042855, 1.00000000, 1.08890037])
-    >>> chromatic_adaptation_matrix_VonKries(  # doctest: +ELLIPSIS
-    ...     XYZ_w, XYZ_wr)
+    >>> chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr)
+    ... # doctest: +ELLIPSIS
     array([[ 0.8687653..., -0.1416539...,  0.3871961...],
            [-0.1030072...,  1.0584014...,  0.1538646...],
            [ 0.0078167...,  0.0267875...,  2.9608177...]])
@@ -82,8 +86,8 @@ def chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
     >>> XYZ_w = np.array([1.09846607, 1.00000000, 0.35582280])
     >>> XYZ_wr = np.array([0.95042855, 1.00000000, 1.08890037])
     >>> method = 'Bradford'
-    >>> chromatic_adaptation_matrix_VonKries(  # doctest: +ELLIPSIS
-    ...     XYZ_w, XYZ_wr, method)
+    >>> chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, method)
+    ... # doctest: +ELLIPSIS
     array([[ 0.8446794..., -0.1179355...,  0.3948940...],
            [-0.1366408...,  1.1041236...,  0.1291981...],
            [ 0.0798671..., -0.1349315...,  3.1928829...]])
@@ -134,6 +138,10 @@ def chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, transform='CAT02'):
     ndarray
         *CIE XYZ_c* tristimulus values of the stimulus corresponding colour.
 
+    References
+    ----------
+    -   :cite:`Fairchild2013t`
+
     Examples
     --------
     >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
@@ -147,9 +155,9 @@ def chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, transform='CAT02'):
     >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
     >>> XYZ_w = np.array([1.09846607, 1.00000000, 0.35582280])
     >>> XYZ_wr = np.array([0.95042855, 1.00000000, 1.08890037])
-    >>> method = 'Bradford'
-    >>> chromatic_adaptation_VonKries(  # doctest: +ELLIPSIS
-    ...     XYZ, XYZ_w, XYZ_wr, method)
+    >>> transform = 'Bradford'
+    >>> chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, transform)
+    ... # doctest: +ELLIPSIS
     array([ 0.0854032...,  0.1140122...,  0.2972149...])
     """
 

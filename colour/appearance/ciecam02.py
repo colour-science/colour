@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 CIECAM02 Colour Appearance Model
@@ -6,11 +5,11 @@ CIECAM02 Colour Appearance Model
 
 Defines *CIECAM02* colour appearance model objects:
 
--   :class:`CIECAM02_InductionFactors`
--   :attr:`CIECAM02_VIEWING_CONDITIONS`
--   :class:`CIECAM02_Specification`
--   :func:`XYZ_to_CIECAM02`
--   :func:`CIECAM02_to_XYZ`
+-   :class:`colour.appearance.CIECAM02_InductionFactors`
+-   :attr:`colour.CIECAM02_VIEWING_CONDITIONS`
+-   :class:`colour.CIECAM02_Specification`
+-   :func:`colour.XYZ_to_CIECAM02`
+-   :func:`colour.CIECAM02_to_XYZ`
 
 See Also
 --------
@@ -20,21 +19,19 @@ blob/master/notebooks/appearance/ciecam02.ipynb>`_
 
 References
 ----------
-.. [1]  Wikipedia. (n.d.). CIECAM02. Retrieved August 14, 2014, from
-        http://en.wikipedia.org/wiki/CIECAM02
-.. [2]  Fairchild, M. D. (2004). CIECAM02. In Color Appearance Models
-        (2nd ed., pp. 289–301). Wiley. ISBN:978-0470012161
-.. [3]  Westland, S., Ripamonti, C., & Cheung, V. (2012). Extrapolation
-        Methods. Computational Colour Science Using MATLAB (2nd ed., p. 38).
-        ISBN:978-0-470-66569-5
-.. [4]  Moroney, N., Fairchild, M. D., Hunt, R. W. G., Li, C., Luo, M. R., &
-        Newman, T. (n.d.). The CIECAM02 Color Appearance Model. Color and
-        Imaging Conference, 2002(1), 23–27. Retrieved from
-        http://www.ingentaconnect.com/content/ist/cic\
-/2002/00002002/00000001/art00006
-.. [5]  Luo, M. R., & Li, C. (2013). CIECAM02 and Its Recent Developments.
-        In Advanced Color Image Processing and Analysis (pp. 19–58).
-        doi:10.1007/978-1-4419-6190-7
+-   :cite:`Fairchild2004c` : Wikipedia. (n.d.). CIECAM02. Retrieved August 14,
+    2014, from http://en.wikipedia.org/wiki/CIECAM02
+-   :cite:`Luo2013` : Luo, M. R., & Li, C. (2013). CIECAM02 and Its Recent
+    Developments. In C. Fernandez-Maloigne (Ed.), Advanced Color Image
+    Processing and Analysis (pp. 19-58). New York, NY: Springer New York.
+    doi:10.1007/978-1-4419-6190-7
+-   :cite:`Moroneya` : Moroney, N., Fairchild, M. D., Hunt, R. W. G., Li, C.,
+    Luo, M. R., & Newman, T. (2002). The CIECAM02 Color Appearance Model.
+    Color and Imaging Conference, (1), 23-27. Retrieved from
+    http://www.ingentaconnect.com/\
+content/ist/cic/2002/00002002/00000001/art00006
+-   :cite:`Wikipediach` : Wikipedia. (n.d.). CIECAM02. Retrieved August 14,
+    2014, from http://en.wikipedia.org/wiki/CIECAM02
 """
 
 from __future__ import division, unicode_literals
@@ -51,7 +48,7 @@ from colour.utilities import (CaseInsensitiveMapping, as_namedtuple,
                               tstack)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -98,6 +95,13 @@ class CIECAM02_InductionFactors(
         Exponential non linearity :math:`c`.
     N_c : numeric or array_like
         Chromatic induction factor :math:`N_c`.
+
+    References
+    ----------
+    -   :cite:`Fairchild2004c`
+    -   :cite:`Luo2013`
+    -   :cite:`Moroneya`
+    -   :cite:`Wikipediach`
     """
 
 
@@ -106,8 +110,15 @@ CIECAM02_VIEWING_CONDITIONS = CaseInsensitiveMapping({
     'Dim': CIECAM02_InductionFactors(0.9, 0.59, 0.95),
     'Dark': CIECAM02_InductionFactors(0.8, 0.525, 0.8)
 })
-"""
+CIECAM02_VIEWING_CONDITIONS.__doc__ = """
 Reference *CIECAM02* colour appearance model viewing conditions.
+
+References
+----------
+-   :cite:`Fairchild2004c`
+-   :cite:`Luo2013`
+-   :cite:`Moroneya`
+-   :cite:`Wikipediach`
 
 CIECAM02_VIEWING_CONDITIONS : CaseInsensitiveMapping
     **{'Average', 'Dim', 'Dark'}**
@@ -144,6 +155,13 @@ class CIECAM02_Specification(
         *Hue* :math:`h` quadrature :math:`H`.
     HC : numeric or array_like
         *Hue* :math:`h` composition :math:`H^C`.
+
+    References
+    ----------
+    -   :cite:`Fairchild2004c`
+    -   :cite:`Luo2013`
+    -   :cite:`Moroneya`
+    -   :cite:`Wikipediach`
     """
 
     def __new__(cls,
@@ -156,7 +174,8 @@ class CIECAM02_Specification(
                 H=None,
                 HC=None):
         """
-        Returns a new instance of the :class:`CIECAM02_Specification` class.
+        Returns a new instance of the :class:`colour.CIECAM02_Specification`
+        class.
         """
 
         return super(CIECAM02_Specification, cls).__new__(
@@ -205,6 +224,13 @@ def XYZ_to_CIECAM02(XYZ,
     -----
     -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
     -   Input *CIE XYZ_w* tristimulus values are in domain [0, 100].
+
+    References
+    ----------
+    -   :cite:`Fairchild2004c`
+    -   :cite:`Luo2013`
+    -   :cite:`Moroneya`
+    -   :cite:`Wikipediach`
 
     Examples
     --------
@@ -306,7 +332,7 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
         to be 20% of the luminance of a white object in the scene).
     Y_b : numeric or array_like
         Relative luminance of background :math:`Y_b` in :math:`cd/m^2`.
-    surround : CIECAM02_Surround, optional
+    surround : CIECAM02_InductionFactors, optional
         Surround viewing conditions.
     discount_illuminant : bool, optional
         Discount the illuminant.
@@ -320,7 +346,7 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
     ------
     ValueError
         If neither *C* or *M* correlates have been defined in the
-        `CIECAM02_specification` argument.
+        ``CIECAM02_specification`` argument.
 
     Warning
     -------
@@ -328,17 +354,23 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
 
     Notes
     -----
-    -   `CIECAM02_specification` can also be passed as a compatible argument
-        :func:`colour.as_namedtuple` definition.
+    -   ``CIECAM02_specification`` can also be passed as a compatible argument
+        :func:`colour.utilities.as_namedtuple` definition.
     -   Input *CIE XYZ_w* tristimulus values are in domain [0, 100].
     -   Output *CIE XYZ* tristimulus values are in range [0, 100].
 
+    References
+    ----------
+    -   :cite:`Fairchild2004c`
+    -   :cite:`Luo2013`
+    -   :cite:`Moroneya`
+    -   :cite:`Wikipediach`
+
     Examples
     --------
-    >>> specification = CIECAM02_Specification(
-    ...     J=41.731091132513917,
-    ...     C=0.104707757171031,
-    ...     h=219.048432658311780)
+    >>> specification = CIECAM02_Specification(J=41.731091132513917,
+    ...                                        C=0.104707757171031,
+    ...                                        h=219.048432658311780)
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
     >>> Y_b = 20.0
@@ -346,8 +378,8 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
     array([ 19.01...,  20...  ,  21.78...])
     """
 
-    J, C, h, s, Q, M, H, HC = as_namedtuple(CIECAM02_specification,
-                                            CIECAM02_Specification)
+    J, C, h, _s, _Q, M, _H, _HC = as_namedtuple(CIECAM02_specification,
+                                                CIECAM02_Specification)
 
     _X_w, Y_w, _Zw = tsplit(XYZ_w)
 
@@ -490,8 +522,8 @@ def viewing_condition_dependent_parameters(Y_b, Y_w, L_A):
 
     Examples
     --------
-    >>> viewing_condition_dependent_parameters(  # doctest: +ELLIPSIS
-    ...     20.0, 100.0, 318.31)
+    >>> viewing_condition_dependent_parameters(20.0, 100.0, 318.31)
+    ... # doctest: +ELLIPSIS
     array([ 0.2...,  1.1675444...,  1.000304...,  1.000304...,  1.9272136...])
     """
 
@@ -567,8 +599,8 @@ def full_chromatic_adaptation_forward(RGB, RGB_w, Y_w, D):
     >>> RGB_w = np.array([94.930528, 103.536988, 108.717742])
     >>> Y_w = 100.0
     >>> D = 0.994468780088
-    >>> full_chromatic_adaptation_forward(  # doctest: +ELLIPSIS
-    ...     RGB, RGB_w, Y_w, D)
+    >>> full_chromatic_adaptation_forward(RGB, RGB_w, Y_w, D)
+    ... # doctest: +ELLIPSIS
     array([ 19.9937078...,  20.0039363...,  20.0132638...])
     """
 
@@ -699,14 +731,15 @@ def post_adaptation_non_linear_response_compression_forward(RGB, F_L):
 
     Notes
     -----
-    -   This definition implements negative values handling as per [5]_.
+    -   This definition implements negative values handling as per
+        :cite:`Luo2013`.
 
     Examples
     --------
     >>> RGB = np.array([19.99693975, 20.00186123, 20.01350530])
     >>> F_L = 1.16754446415
-    >>> post_adaptation_non_linear_response_compression_forward(
-    ...     RGB, F_L)  # doctest: +ELLIPSIS
+    >>> post_adaptation_non_linear_response_compression_forward(RGB, F_L)
+    ... # doctest: +ELLIPSIS
     array([ 7.9463202...,  7.9471152...,  7.9489959...])
     """
 
@@ -740,8 +773,8 @@ def post_adaptation_non_linear_response_compression_reverse(RGB, F_L):
     --------
     >>> RGB = np.array([7.94632020, 7.94711528, 7.94899595])
     >>> F_L = 1.16754446415
-    >>> post_adaptation_non_linear_response_compression_reverse(
-    ...     RGB, F_L)  # doctest: +ELLIPSIS
+    >>> post_adaptation_non_linear_response_compression_reverse(RGB, F_L)
+    ... # doctest: +ELLIPSIS
     array([ 19.9969397...,  20.0018612...,  20.0135052...])
     """
 
@@ -806,7 +839,8 @@ def opponent_colour_dimensions_reverse(P_n, h):
 
     Notes
     -----
-    -   This definition implements negative values handling as per [5]_.
+    -   This definition implements negative values handling as per
+        :cite:`Luo2013`.
 
     Examples
     --------
@@ -1147,8 +1181,8 @@ def temporary_magnitude_quantity_forward(N_c, N_cb, e_t, a, b, RGB_a):
     >>> a = -0.000624112068243
     >>> b = -0.000506270106773
     >>> RGB_a = np.array([7.94632020, 7.94711528, 7.94899595])
-    >>> temporary_magnitude_quantity_forward(  # doctest: +ELLIPSIS
-    ...     N_c, N_cb, e_t, a, b, RGB_a)
+    >>> temporary_magnitude_quantity_forward(N_c, N_cb, e_t, a, b, RGB_a)
+    ... # doctest: +ELLIPSIS
     0.1497462...
     """
 
@@ -1186,7 +1220,8 @@ def temporary_magnitude_quantity_reverse(C, J, n):
 
     Notes
     -----
-    -   This definition implements negative values handling as per [5]_.
+    -   This definition implements negative values handling as per
+        :cite:`Luo2013`.
 
     Examples
     --------
@@ -1244,8 +1279,8 @@ def chroma_correlate(J, n, N_c, N_cb, e_t, a, b, RGB_a):
     >>> a = -0.000624112068243
     >>> b = -0.000506270106773
     >>> RGB_a = np.array([7.94632020, 7.94711528, 7.94899595])
-    >>> chroma_correlate(  # doctest: +ELLIPSIS
-    ...     J, n, N_c, N_cb, e_t, a, b, RGB_a)
+    >>> chroma_correlate(J, n, N_c, N_cb, e_t, a, b, RGB_a)
+    ... # doctest: +ELLIPSIS
     0.1047077...
     """
 
@@ -1397,8 +1432,8 @@ def post_adaptation_non_linear_response_compression_matrix(P_2, a, b):
     >>> P_2 = 24.2372054671
     >>> a = -0.000624112068243
     >>> b = -0.000506270106773
-    >>> post_adaptation_non_linear_response_compression_matrix(
-    ...     P_2, a, b)  # doctest: +ELLIPSIS
+    >>> post_adaptation_non_linear_response_compression_matrix(P_2, a, b)
+    ... # doctest: +ELLIPSIS
     array([ 7.9463202...,  7.9471152...,  7.9489959...])
     """
 

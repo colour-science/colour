@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 CIE 1994 Chromatic Adaptation Model
@@ -6,7 +5,7 @@ CIE 1994 Chromatic Adaptation Model
 
 Defines *CIE 1994* chromatic adaptation model objects:
 
--   :func:`chromatic_adaptation_CIE1994`
+-   :func:`colour.adaptation.chromatic_adaptation_CIE1994`
 
 See Also
 --------
@@ -16,9 +15,9 @@ blob/master/notebooks/adaptation/cie1994.ipynb>`_
 
 References
 ----------
-.. [1]  CIE TC 1-32. (1994). CIE 109-1994 A Method of Predicting Corresponding
-        Colours under Different Chromatic and Illuminance Adaptations
-        (pp. 1–18). ISBN:978-3-900734-51-0
+-   :cite:`CIETC1-321994b` : CIE TC 1-32. (1994). CIE 109-1994 A Method of
+    Predicting Corresponding Colours under Different Chromatic and Illuminance
+    Adaptations. ISBN:978-3-900734-51-0
 """
 
 from __future__ import division, unicode_literals
@@ -29,7 +28,7 @@ from colour.adaptation import VON_KRIES_CAT
 from colour.utilities import dot_vector, tsplit, tstack, warning
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -93,12 +92,16 @@ def chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2, n=1):
 
     Warning
     -------
-    The input domain of that definition is non standard!
+    The input domain and output range of that definition are non standard!
 
     Notes
     -----
     -   Input *CIE XYZ_1* tristimulus values are in domain [0, 100].
     -   Output *CIE XYZ_2* tristimulus values are in range [0, 100].
+
+    References
+    ----------
+    -   :cite:`CIETC1-321994b`
 
     Examples
     --------
@@ -108,8 +111,8 @@ def chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2, n=1):
     >>> Y_o = 20
     >>> E_o1 = 1000
     >>> E_o2 = 1000
-    >>> chromatic_adaptation_CIE1994(  # doctest: +ELLIPSIS
-    ...     XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)
+    >>> chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)
+    ... # doctest: +ELLIPSIS
     array([ 24.0337952...,  21.1562121...,  17.6430119...])
     """
 
@@ -445,8 +448,8 @@ def corresponding_colour(RGB_1, xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, K, n=1):
     >>> bRGB_o2 = np.array([3.68102374, 3.68102256, 3.56557351])
     >>> Y_o = 20
     >>> K = 1.0
-    >>> corresponding_colour(  # doctest: +ELLIPSIS
-    ...     RGB_1, xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, K)
+    >>> corresponding_colour(RGB_1, xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, K)
+    ... # doctest: +ELLIPSIS
     array([ 23.1636901...,  20.0211948...,  16.2001664...])
     """
 

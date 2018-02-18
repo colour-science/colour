@@ -12,8 +12,10 @@ import os
 from abc import ABCMeta, abstractmethod
 from collections import defaultdict
 
+from colour.constants import DEFAULT_FLOAT_DTYPE
+
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -85,7 +87,7 @@ class ColourAppearanceModelTest(object):
             for case_data in csv.DictReader(in_file):
                 for key in case_data:
                     try:
-                        case_data[key] = np.float_(case_data[key])
+                        case_data[key] = DEFAULT_FLOAT_DTYPE(case_data[key])
                     except ValueError:
                         pass
                 result.append(case_data)
@@ -174,8 +176,8 @@ class ColourAppearanceModelTest(object):
     def fixtures(self):
         """
         Returns the fixtures case for tested colour appearance model and
-        filter them accordingly with
-        :attr:`ColourAppearanceModelTest.LIMITED_FIXTURES` value.
+        filter them accordingly with :attr:`colour.appearance.tests.common.\
+ColourAppearanceModelTest.LIMITED_FIXTURES` value.
 
         Returns
         -------

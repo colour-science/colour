@@ -1,12 +1,15 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Showcases colour quality plotting examples.
 """
 
 import colour
-from colour.plotting import *  # noqa
-from colour.utilities.verbose import message_box
+from colour.plotting import (colour_plotting_defaults,
+                             multi_spd_colour_quality_scale_bars_plot,
+                             multi_spd_colour_rendering_index_bars_plot,
+                             single_spd_colour_quality_scale_bars_plot,
+                             single_spd_colour_rendering_index_bars_plot)
+from colour.utilities import message_box
 
 message_box('Colour Quality Plots')
 

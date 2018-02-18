@@ -36,11 +36,19 @@ Development & Technical Support
 
     CIECAM02 improvements, technical support.
 
+-   **Ofek Lev**
+
+    Documentation improvements.
+
 Acknowledgements
 ----------------
 -   **Steve Agland**, *Supervising Lighting Technical Director @ Animal Logic*
 
     Technical support.
+
+-   **Tim Borer**, *Lead Engineer @ BBC Research & Development*
+
+    *ITU-R BT.2100* technical support.
 
 -   **Paul Centore**, *Mathematician & Colour Scientist*
 
@@ -71,21 +79,38 @@ Special Mentions
 
 -   **Aurélia Sellier**, *Line Producer @ Cube Creative*
 
-Contributors
-------------
+Issues & Discussions
+--------------------
 
+-   Joseph Goldstone
+-   Nick Porcino
 -   Nick Spiker
--   fangjy88
--   henczati
--   jaguarondi
--   Ron024
--   sobotka
--   zachlewis
+-   @Ampersandme
+-   @Chandler
+-   @Kunkka1988
+-   @Rob-Welch
+-   @Ron024
+-   @awehring
+-   @brandondube
+-   @fangjy88
+-   @eyeforcolor
+-   @foutoucour
+-   @henczati
+-   @jaguarondi
+-   @iCagarro
+-   @lensz
+-   @naavis
+-   @nschloe
+-   @peteroupc
+-   @sobotka
+-   @stakemura
+-   @tingeman
+-   @zachlewis
 
 About
 -----
 
-| **Colour** by Colour Developers - 2013-2017
-| Copyright © 2013-2017 – Colour Developers – `colour-science@googlegroups.com <colour-science@googlegroups.com>`_
+| **Colour** by Colour Developers - 2013-2018
+| Copyright © 2013-2018 – Colour Developers – `colour-science@googlegroups.com <colour-science@googlegroups.com>`_
 | This software is released under terms of New BSD License: http://opensource.org/licenses/BSD-3-Clause
 | `http://github.com/colour-science/colour <http://github.com/colour-science/colour>`_

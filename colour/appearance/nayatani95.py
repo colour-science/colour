@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Nayatani (1995) Colour Appearance Model
@@ -6,8 +5,8 @@ Nayatani (1995) Colour Appearance Model
 
 Defines *Nayatani (1995)* colour appearance model objects:
 
--   :class:`Nayatani95_Specification`
--   :func:`XYZ_to_Nayatani95`
+-   :class:`colour.Nayatani95_Specification`
+-   :func:`colour.XYZ_to_Nayatani95`
 
 See Also
 --------
@@ -17,12 +16,13 @@ blob/master/notebooks/appearance/nayatani95.ipynb>`_
 
 References
 ----------
-.. [1]  Fairchild, M. D. (2013). The Nayatani et al. Model. In Color
-        Appearance Models (3rd ed., pp. 4810–5085). Wiley. ASIN:B00DAYO8E2
-.. [2]  Nayatani, Y., Sobagaki, H., & Yano, K. H. T. (1995). Lightness
-        dependency of chroma scales of a nonlinear color-appearance model and
-        its latest formulation. Color Research & Application, 20(3), 156–167.
-        doi:10.1002/col.5080200305
+-   :cite:`Fairchild2013ba` : Fairchild, M. D. (2013). The Nayatani et al.
+    Model. In Color Appearance Models (3rd ed., pp. 4810-5085). Wiley.
+    ISBN:B00DAYO8E2
+-   :cite:`Nayatani1995a` : Nayatani, Y., Sobagaki, H., & Yano, K. H. T.
+    (1995). Lightness dependency of chroma scales of a nonlinear
+    color-appearance model and its latest formulation. Color Research &
+    Application, 20(3), 156-167. doi:10.1002/col.5080200305
 """
 
 from __future__ import division, unicode_literals
@@ -37,7 +37,7 @@ from colour.models import XYZ_to_xy
 from colour.utilities import dot_vector, tsplit, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -96,6 +96,11 @@ class Nayatani95_ReferenceSpecification(
         *Hue* :math:`h` composition :math:`H_C`.
     Lstar_N : numeric or array_like
         Correlate of *normalised achromatic Lightness* :math:`L_n^\star`.
+
+    References
+    ----------
+    -   :cite:`Fairchild2013ba`
+    -   :cite:`Nayatani1995a`
     """
 
 
@@ -133,6 +138,11 @@ class Nayatani95_Specification(
     Notes
     -----
     -   This specification is the one used in the current model implementation.
+
+    References
+    ----------
+    -   :cite:`Fairchild2013ba`
+    -   :cite:`Nayatani1995a`
     """
 
 
@@ -171,6 +181,11 @@ def XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or, n=1):
     -----
     -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
     -   Input *CIE XYZ_n* tristimulus values are in domain [0, 100].
+
+    References
+    ----------
+    -   :cite:`Fairchild2013ba`
+    -   :cite:`Nayatani1995a`
 
     Examples
     --------
@@ -383,8 +398,8 @@ def achromatic_response(RGB, bRGB_o, xez, bL_or, eR, eG, n=1):
     >>> eR = 1.0
     >>> eG = 1.758
     >>> n = 1.0
-    >>> achromatic_response(  # doctest: +ELLIPSIS
-    ...     RGB, bRGB_o, xez, bL_or, eR, eG, n)
+    >>> achromatic_response(RGB, bRGB_o, xez, bL_or, eR, eG, n)
+    ... # doctest: +ELLIPSIS
     -0.0001169...
     """
 
@@ -553,8 +568,8 @@ def ideal_white_brightness_correlate(bRGB_o, xez, bL_or, n):
     >>> xez = np.array([1.00004219, 0.99998001, 0.99975794])
     >>> bL_or = 3.681021495604089
     >>> n = 1.0
-    >>> ideal_white_brightness_correlate(  # doctest: +ELLIPSIS
-    ...     bRGB_o, xez, bL_or, n)
+    >>> ideal_white_brightness_correlate(bRGB_o, xez, bL_or, n)
+    ... # doctest: +ELLIPSIS
     125.2435392...
     """
 
@@ -617,8 +632,8 @@ def normalised_achromatic_lightness_correlate(B_r, B_rw):
     --------
     >>> B_r = 62.626673467230766
     >>> B_rw = 125.24353925846037
-    >>> normalised_achromatic_lightness_correlate(  # doctest: +ELLIPSIS
-    ...     B_r, B_rw)
+    >>> normalised_achromatic_lightness_correlate(B_r, B_rw)
+    ... # doctest: +ELLIPSIS
     50.0039154...
     """
 

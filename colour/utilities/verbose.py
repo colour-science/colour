@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Verbose
@@ -9,23 +8,30 @@ Defines verbose related objects.
 
 from __future__ import division, unicode_literals
 
+import numpy as np
+import warnings
+from contextlib import contextmanager
 from itertools import chain
 from textwrap import TextWrapper
 from warnings import filterwarnings, warn
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['ColourWarning', 'message_box', 'warning', 'filter_warnings']
+__all__ = [
+    'ColourWarning', 'message_box', 'warning', 'filter_warnings',
+    'suppress_warnings', 'numpy_print_options'
+]
 
 
 class ColourWarning(Warning):
     """
-    This is the base class of *Colour* warnings. It is a subclass of `Warning`.
+    This is the base class of *Colour* warnings. It is a subclass of
+    :class:`Warning`.
     """
 
     pass
@@ -170,3 +176,56 @@ def filter_warnings(state=True, colour_warnings_only=True):
         category=ColourWarning if colour_warnings_only else Warning)
 
     return True
+
+
+@contextmanager
+def suppress_warnings(colour_warnings_only=True):
+    """
+    A context manager filtering *Colour* and also optionally overall Python
+    warnings.
+
+    Parameters
+    ----------
+    colour_warnings_only : bool, optional
+        Whether to only filter *Colour* warnings or also overall Python
+        warnings.
+    """
+
+    filters = warnings.filters
+    show_warnings = warnings.showwarning
+
+    filter_warnings(colour_warnings_only=colour_warnings_only)
+    try:
+        yield
+    finally:
+        warnings.filters = filters
+        warnings.showwarning = show_warnings
+
+
+@contextmanager
+def numpy_print_options(*args, **kwargs):
+    """
+    A context manager implementing context changes to *Numpy* print behaviour.
+
+    Other Parameters
+    ----------------
+    \*args : list, optional
+        Arguments.
+    \**kwargs : dict, optional
+        Keywords arguments.
+
+    Examples
+    -------
+    >>> np.array([np.pi])  # doctest: +ELLIPSIS
+    array([ 3.1415926...])
+    >>> with numpy_print_options(formatter={'float': '{:0.1f}'.format}):
+    ...      np.array([np.pi])
+    array([3.1])
+    """
+
+    options = np.get_printoptions()
+    np.set_printoptions(*args, **kwargs)
+    try:
+        yield
+    finally:
+        np.set_printoptions(**options)

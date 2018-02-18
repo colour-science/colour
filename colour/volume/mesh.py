@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Mesh Volume Computations Helpers
@@ -13,7 +12,7 @@ import numpy as np
 from scipy.spatial import Delaunay
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -30,7 +29,7 @@ def is_within_mesh_volume(points, mesh, tolerance=None):
     Parameters
     ----------
     points : array_like
-        Points to check if they are within `mesh` volume.
+        Points to check if they are within ``mesh`` volume.
     mesh : array_like
         Points of the volume used to generate the Delaunay triangulation.
     tolerance : numeric, optional
@@ -43,11 +42,13 @@ def is_within_mesh_volume(points, mesh, tolerance=None):
 
     Examples
     --------
-    >>> mesh = np.array([[-1.0, -1.0, 1.0],
-    ...                  [1.0, -1.0, 1.0],
-    ...                  [1.0, -1.0, -1.0],
-    ...                  [-1.0, -1.0, -1.0],
-    ...                  [0.0, 1.0, 0.0]])
+    >>> mesh = np.array(
+    ...     [[-1.0, -1.0, 1.0],
+    ...       [1.0, -1.0, 1.0],
+    ...       [1.0, -1.0, -1.0],
+    ...       [-1.0, -1.0, -1.0],
+    ...       [0.0, 1.0, 0.0]]
+    ... )
     >>> is_within_mesh_volume(np.array([0.0005, 0.0031, 0.0010]), mesh)
     array(True, dtype=bool)
     >>> a = np.array([[0.0005, 0.0031, 0.0010],

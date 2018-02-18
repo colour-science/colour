@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 SMPTE ST 2084:2014
@@ -7,8 +6,8 @@ SMPTE ST 2084:2014
 Defines *SMPTE ST 2084:2014* opto-electrical transfer function (OETF / OECF)
 and electro-optical transfer function (EOTF / EOCF):
 
--   :func:`eotf_ST2084`
--   :func:`oetf_ST2084`
+-   :func:`colour.models.eotf_ST2084`
+-   :func:`colour.models.oetf_ST2084`
 
 See Also
 --------
@@ -18,13 +17,14 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  Society of Motion Picture and Television Engineers. (2014). SMPTE
-        ST 2084:2014 - Dynamic Range Electro-Optical Transfer Function of
-        Mastering Reference Displays. doi:10.5594/SMPTE.ST2084.2014
-.. [2]  Miller, S., & Dolby Laboratories. (2014). A Perceptual EOTF for
-        Extended Dynamic Range Imagery, 1–17. Retrieved from
-        https://www.smpte.org/sites/default/files/\
+-   :cite:`Miller2014a` : Miller, S., & Dolby Laboratories. (2014).
+    A Perceptual EOTF for Extended Dynamic Range Imagery. Retrieved from
+    https://www.smpte.org/sites/default/files/\
 2014-05-06-EOTF-Miller-1-2-handout.pdf
+-   :cite:`SocietyofMotionPictureandTelevisionEngineers2014a` : Society of
+    Motion Picture and Television Engineers. (2014). SMPTE ST 2084:2014 -
+    Dynamic Range Electro-Optical Transfer Function of Mastering Reference
+    Displays. doi:10.5594/SMPTE.ST2084.2014
 """
 
 from __future__ import division, unicode_literals
@@ -34,7 +34,7 @@ import numpy as np
 from colour.utilities import Structure
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -49,8 +49,8 @@ ST2084_CONSTANTS = Structure(
     c_2=2413 / 4096 * 32,
     c_3=2392 / 4096 * 32)
 """
-*SMPTE ST 2084:2014* opto-electrical transfer function (OETF / OECF) and
-electro-optical transfer function (EOTF / EOCF) constants.
+Constants for *SMPTE ST 2084:2014* opto-electrical transfer function
+(OETF / OECF) and electro-optical transfer function (EOTF / EOCF).
 
 ST2084_CONSTANTS : Structure
 """
@@ -77,10 +77,15 @@ def oetf_ST2084(C, L_p=10000):
         and which is not directly proportional to the optical output of a
         display device.
 
+    References
+    ----------
+    -   :cite:`Miller2014a`
+    -   :cite:`SocietyofMotionPictureandTelevisionEngineers2014a`
+
     Examples
     --------
-    >>> oetf_ST2084(0.18)  # doctest: +ELLIPSIS
-    0.0794209...
+    >>> oetf_ST2084(10.0, 1000)  # doctest: +ELLIPSIS
+    0.5080784...
     """
 
     C = np.asarray(C)
@@ -117,10 +122,15 @@ def eotf_ST2084(N, L_p=10000):
           Target optical output :math:`C` in :math:`cd/m^2` of the ideal
           reference display.
 
+    References
+    ----------
+    -   :cite:`Miller2014a`
+    -   :cite:`SocietyofMotionPictureandTelevisionEngineers2014a`
+
     Examples
     --------
-    >>> eotf_ST2084(0.079420969944927)  # doctest: +ELLIPSIS
-    0.1...
+    >>> eotf_ST2084(0.508078421517399)  # doctest: +ELLIPSIS
+    100.0000000...
     """
 
     N = np.asarray(N)

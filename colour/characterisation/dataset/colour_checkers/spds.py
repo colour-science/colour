@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 ColourCheckers Spectral Power Distributions
@@ -7,15 +6,16 @@ ColourCheckers Spectral Power Distributions
 Defines *ColourCheckers* spectral power distributions.
 
 Each *ColourChecker* data is in the form of a *dict* of
-:class:`colour.colorimetry.spectrum.SpectralPowerDistribution` classes as
-follows::
+:class:`colour.SpectralPowerDistribution` classes as follows::
 
     {'name': SpectralPowerDistribution, ..., 'name': SpectralPowerDistribution}
 
 The following *ColourCheckers* data is available:
 
--   :attr:`COLORCHECKER_N_OHTA_SPDS`: Measured by Ohta (1997).
--   :attr:`BABELCOLOR_AVERAGE_SPDS`: Average data derived from measurements of
+-   :attr:`colour.characterisation.dataset.colour_checkers.spds.\
+COLORCHECKER_N_OHTA_SPDS`: Measured by Ohta (1997).
+-   :attr:`colour.characterisation.dataset.colour_checkers.spds.\
+BABELCOLOR_AVERAGE_SPDS`: Average data derived from measurements of
     30 *ColourChecker* charts.
 
 See Also
@@ -26,14 +26,17 @@ blob/master/notebooks/characterisation/fitting.ipynb>`_
 
 References
 ----------
-.. [1]  Ohta, N. (1997). The basis of color reproduction engineering.
-.. [2]  Munsell Color Science. (n.d.). Macbeth Colorchecker. Retrieved from
-        http://www.rit-mcsl.org/UsefulData/MacbethColorChecker.xls
-.. [3]  BabelColor. (2012). ColorChecker RGB and spectra. Retrieved from
-        http://www.babelcolor.com/download/ColorChecker_RGB_and_spectra.xls
-.. [4]  BabelColor. (2012). The ColorChecker (since 1976!). Retrieved
-        September 26, 2014, from
-        http://www.babelcolor.com/main_level/ColorChecker.htm
+-   :cite:`BabelColor2012b` : BabelColor. (2012). The ColorChecker
+    (since 1976!). Retrieved September 26, 2014, from
+    http://www.babelcolor.com/main_level/ColorChecker.htm
+-   :cite:`BabelColor2012c` : BabelColor. (2012). ColorChecker RGB and spectra.
+    Retrieved from http://www.babelcolor.com/download/\
+ColorChecker_RGB_and_spectra.xls
+-   :cite:`MunsellColorScienceb` : Munsell Color Science. (n.d.). Macbeth
+    Colorchecker. Retrieved from http://www.rit-mcsl.org/UsefulData/\
+MacbethColorChecker.xls
+-   :cite:`Ohta1997a` : Ohta, N. (1997). The basis of color reproduction
+    engineering.
 """
 
 from __future__ import division, unicode_literals
@@ -42,7 +45,11 @@ from colour.colorimetry import SpectralPowerDistribution
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
+__copyright__ += ', '
+__copyright__ += (
+    'BabelColor ColorChecker data: Copyright (C) 2004-2012 Danny Pascale '
+    '(www.babelcolor.com); used by permission.')
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -2076,9 +2083,8 @@ COLORCHECKER_N_OHTA_SPDS_DATA = {
     }
 }
 
-COLORCHECKER_N_OHTA_SPDS = dict(
-    (key, SpectralPowerDistribution(key, value))
-    for key, value in COLORCHECKER_N_OHTA_SPDS_DATA.items())
+COLORCHECKER_N_OHTA_SPDS = dict((key, SpectralPowerDistribution(
+    value, name=key)) for key, value in COLORCHECKER_N_OHTA_SPDS_DATA.items())
 """
 Measured by *Ohta (1997)*.
 
@@ -3000,9 +3006,8 @@ BABELCOLOR_AVERAGE_SPDS_DATA = {
     }
 }
 
-BABELCOLOR_AVERAGE_SPDS = dict(
-    (key, SpectralPowerDistribution(key, value))
-    for key, value in BABELCOLOR_AVERAGE_SPDS_DATA.items())
+BABELCOLOR_AVERAGE_SPDS = dict((key, SpectralPowerDistribution(
+    value, name=key)) for key, value in BABELCOLOR_AVERAGE_SPDS_DATA.items())
 """
 Average data derived from measurements of 30 *ColourChecker* charts.
 
@@ -3013,8 +3018,15 @@ COLOURCHECKERS_SPDS = CaseInsensitiveMapping({
     'BabelColor Average': BABELCOLOR_AVERAGE_SPDS,
     'ColorChecker N Ohta': COLORCHECKER_N_OHTA_SPDS
 })
-"""
+COLOURCHECKERS_SPDS.__doc__ = """
 Aggregated *ColourCheckers* spectral power distributions.
+
+References
+----------
+-   :cite:`Ohta1997a`
+-   :cite:`BabelColor2012b`
+-   :cite:`BabelColor2012c`
+-   :cite:`MunsellColorScienceb`
 
 COLOURCHECKERS : CaseInsensitiveMapping
     **{'BabelColor Average', 'ColorChecker N Ohta'}**

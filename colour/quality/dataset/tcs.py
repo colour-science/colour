@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Test Colour Samples Spectral Power Distributions
@@ -7,8 +6,7 @@ Test Colour Samples Spectral Power Distributions
 Defines the *CIE 1995* test colour samples spectral power distributions.
 
 The *CIE 1995* test colour samples data is in the form of a *dict* of
-:class:`colour.colorimetry.spectrum.SpectralPowerDistribution` classes as
-follows::
+:class:`colour.SpectralPowerDistribution` classes as follows::
 
     {'name': SpectralPowerDistribution, ..., 'name': SpectralPowerDistribution}
 
@@ -20,8 +18,9 @@ blob/master/notebooks/quality/cri.ipynb>`_
 
 References
 ----------
-.. [1]  Ohno, Y., & Davis, W. (2008). NIST CQS simulation 7.4. Retrieved from
-        http://cie2.nist.gov/TC1-69/NIST CQS simulation 7.4.xls
+-   :cite:`Ohno2008a` : Ohno, Y., & Davis, W. (2008). NIST CQS simulation 7.4.
+    Retrieved from https://drive.google.com/file/d/\
+1PsuU6QjUJjCX6tQyCud6ul2Tbs8rYWW9/view?usp=sharing
 """
 
 from __future__ import division, unicode_literals
@@ -30,7 +29,7 @@ from colour.colorimetry import SpectralPowerDistribution
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -1444,10 +1443,14 @@ TCS_SPDS_DATA = {
 }
 
 TCS_SPDS = CaseInsensitiveMapping(
-    dict((key, SpectralPowerDistribution(key, value))
+    dict((key, SpectralPowerDistribution(value, name=key))
          for key, value in TCS_SPDS_DATA.items()))
 """
 Test colour samples spectral power distributions.
+
+References
+----------
+-   :cite:`Ohno2008a`
 
 TCS_SPDS : CaseInsensitiveMapping
 """

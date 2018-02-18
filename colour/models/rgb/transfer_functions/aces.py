@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Academy Color Encoding System - Log Encodings
@@ -6,10 +5,10 @@ Academy Color Encoding System - Log Encodings
 
 Defines the *Academy Color Encoding System* (ACES) log encodings:
 
--   :func:`log_encoding_ACESproxy`
--   :func:`log_decoding_ACESproxy`
--   :func:`log_encoding_ACEScc`
--   :func:`log_decoding_ACEScc`
+-   :func:`colour.models.log_encoding_ACESproxy`
+-   :func:`colour.models.log_decoding_ACESproxy`
+-   :func:`colour.models.log_encoding_ACEScc`
+-   :func:`colour.models.log_decoding_ACEScc`
 -   :func:'log_encoding_ACEScct'
 -   :func:'log_decoding_ACEScct'
 
@@ -21,43 +20,50 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  The Academy of Motion Picture Arts and Sciences, Science and
-        Technology Council, & Academy Color Encoding System (ACES) Project
-        Subcommittee. (n.d.). Academy Color Encoding System. Retrieved
-        February 24, 2014, from
-        http://www.oscars.org/science-technology/council/projects/aces.html
-.. [2]  The Academy of Motion Picture Arts and Sciences, Science and
-        Technology Council, & Academy Color Encoding System (ACES) Project
-        Subcommittee. (2014). Technical Bulletin TB-2014-004 - Informative
-        Notes on SMPTE ST 2065-1 – Academy Color Encoding Specification
-        (ACES). Retrieved from
-        https://github.com/ampas/aces-dev/tree/master/documents
-.. [3]  The Academy of Motion Picture Arts and Sciences, Science and
-        Technology Council, & Academy Color Encoding System (ACES) Project
-        Subcommittee. (2014). Specification S-2014-003 - ACEScc , A
-        Logarithmic Encoding of ACES Data for use within Color Grading
-        Systems. Retrieved from
-        https://github.com/ampas/aces-dev/tree/master/documents
-.. [4]  The Academy of Motion Picture Arts and Sciences, Science and
-        Technology Council, & Academy Color Encoding System (ACES) Project
-        Subcommittee. (2014). Specification S-2013-001 - ACESproxy , an
-        Integer Log Encoding of ACES Image Data. Retrieved from
-        https://github.com/ampas/aces-dev/tree/master/documents
-.. [5]  The Academy of Motion Picture Arts and Sciences. (2016).
-        Specification S-2016-001 - ACEScct, A Quasi-Logarithmic
-        Encoding of ACES Data for use within Color Grading Systems.
-        Retrieved October 10, 2016, from
-        https://github.com/ampas/aces-dev/tree/v1.0.3/documents
+-   :cite:`TheAcademyofMotionPictureArtsandSciences2014q` : The Academy of
+    Motion Picture Arts and Sciences, Science and Technology Council, & Academy
+    Color Encoding System (ACES) Project Subcommittee. (2014). Technical
+    Bulletin TB-2014-004 - Informative Notes on SMPTE ST 2065-1 - Academy Color
+    Encoding Specification (ACES). Retrieved from
+    https://github.com/ampas/aces-dev/tree/master/documents
+-   :cite:`TheAcademyofMotionPictureArtsandSciences2014r` : The Academy of
+    Motion Picture Arts and Sciences, Science and Technology Council, & Academy
+    Color Encoding System (ACES) Project Subcommittee. (2014). Technical
+    Bulletin TB-2014-012 - Academy Color Encoding System Version 1.0 Component
+    Names. Retrieved from
+    https://github.com/ampas/aces-dev/tree/master/documents
+-   :cite:`TheAcademyofMotionPictureArtsandSciences2014s` : The Academy of
+    Motion Picture Arts and Sciences, Science and Technology Council, & Academy
+    Color Encoding System (ACES) Project Subcommittee. (2014). Specification
+    S-2013-001 - ACESproxy , an Integer Log Encoding of ACES Image Data.
+    Retrieved from https://github.com/ampas/aces-dev/tree/master/documents
+-   :cite:`TheAcademyofMotionPictureArtsandSciences2014t` : The Academy of
+    Motion Picture Arts and Sciences, Science and Technology Council, & Academy
+    Color Encoding System (ACES) Project Subcommittee. (2014). Specification
+    S-2014-003 - ACEScc , A Logarithmic Encoding of ACES Data for use within
+    Color Grading Systems. Retrieved from
+    https://github.com/ampas/aces-dev/tree/master/documents
+-   :cite:`TheAcademyofMotionPictureArtsandSciences2016c` : The Academy of
+    Motion Picture Arts and Sciences, Science and Technology Council, & Academy
+    Color Encoding System (ACES) Project. (2016). Specification S-2016-001 -
+    ACEScct, A Quasi-Logarithmic Encoding of ACES Data for use within Color
+    Grading Systems. Retrieved October 10, 2016, from
+    https://github.com/ampas/aces-dev/tree/v1.0.3/documents
+-   :cite:`TheAcademyofMotionPictureArtsandSciencese` : The Academy of Motion
+    Picture Arts and Sciences, Science and Technology Council, & Academy Color
+    Encoding System (ACES) Project Subcommittee. (n.d.). Academy Color Encoding
+    System. Retrieved February 24, 2014, from
+    http://www.oscars.org/science-technology/council/projects/aces.html
 """
 
 from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import CaseInsensitiveMapping, Structure, as_numeric
+from colour.utilities import Structure, as_numeric
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -94,15 +100,15 @@ ACES_PROXY_12_CONSTANTS = Structure(
 ACES_PROXY_12_CONSTANTS : Structure
 """
 
-ACES_PROXY_CONSTANTS = CaseInsensitiveMapping({
-    '10 Bit': ACES_PROXY_10_CONSTANTS,
-    '12 Bit': ACES_PROXY_12_CONSTANTS
-})
+ACES_PROXY_CONSTANTS = {
+    10: ACES_PROXY_10_CONSTANTS,
+    12: ACES_PROXY_12_CONSTANTS
+}
 """
 Aggregated *ACESproxy* colourspace constants.
 
-ACES_PROXY_CONSTANTS : CaseInsensitiveMapping
-    **{'10 Bit', '12 Bit'}**
+ACES_PROXY_CONSTANTS : dict
+    **{10, 12}**
 """
 
 ACES_CCT_CONSTANTS = Structure(
@@ -117,7 +123,7 @@ ACES_CCT_CONSTANTS : Structure
 """
 
 
-def log_encoding_ACESproxy(lin_AP1, bit_depth='10 Bit'):
+def log_encoding_ACESproxy(lin_AP1, bit_depth=10):
     """
     Defines the *ACESproxy* colourspace log encoding curve / opto-electronic
     transfer function.
@@ -126,14 +132,21 @@ def log_encoding_ACESproxy(lin_AP1, bit_depth='10 Bit'):
     ----------
     lin_AP1 : numeric or array_like
         *lin_AP1* value.
-    bit_depth : unicode, optional
-        **{'10 Bit', '12 Bit'}**,
+    bit_depth : int, optional
+        **{10, 12}**,
         *ACESproxy* bit depth.
 
     Returns
     -------
     numeric or ndarray
         *ACESproxy* non-linear value.
+
+    References
+    ----------
+    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
+    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014r`
+    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014s`
+    -   :cite:`TheAcademyofMotionPictureArtsandSciencese`
 
     Examples
     --------
@@ -164,7 +177,7 @@ def log_encoding_ACESproxy(lin_AP1, bit_depth='10 Bit'):
     return as_numeric(output, int)
 
 
-def log_decoding_ACESproxy(ACESproxy, bit_depth='10 Bit'):
+def log_decoding_ACESproxy(ACESproxy, bit_depth=10):
     """
     Defines the *ACESproxy* colourspace log decoding curve / electro-optical
     transfer function.
@@ -173,14 +186,21 @@ def log_decoding_ACESproxy(ACESproxy, bit_depth='10 Bit'):
     ----------
     ACESproxy : numeric or array_like
         *ACESproxy* non-linear value.
-    bit_depth : unicode, optional
-        **{'10 Bit', '12 Bit'}**,
+    bit_depth : int, optional
+        **{10, 12}**,
         *ACESproxy* bit depth.
 
     Returns
     -------
     numeric or ndarray
         *lin_AP1* value.
+
+    References
+    ----------
+    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
+    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014r`
+    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014s`
+    -   :cite:`TheAcademyofMotionPictureArtsandSciencese`
 
     Examples
     --------
@@ -212,6 +232,13 @@ def log_encoding_ACEScc(lin_AP1):
     numeric or ndarray
         *ACEScc* non-linear value.
 
+    References
+    ----------
+    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
+    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014r`
+    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014t`
+    -   :cite:`TheAcademyofMotionPictureArtsandSciencese`
+
     Examples
     --------
     >>> log_encoding_ACEScc(0.18)  # doctest: +ELLIPSIS
@@ -220,7 +247,7 @@ def log_encoding_ACEScc(lin_AP1):
 
     lin_AP1 = np.asarray(lin_AP1)
 
-    output = np.where(lin_AP1 < 0, (np.log2(2 ** -15 * 0.5) + 9.72) / 17.52,
+    output = np.where(lin_AP1 < 0, (np.log2(2 ** -16) + 9.72) / 17.52,
                       (np.log2(2 ** -16 + lin_AP1 * 0.5) + 9.72) / 17.52)
     output = np.where(lin_AP1 >= 2 ** -15, (np.log2(lin_AP1) + 9.72) / 17.52,
                       output)
@@ -242,6 +269,13 @@ def log_decoding_ACEScc(ACEScc):
     -------
     numeric or ndarray
         *lin_AP1* value.
+
+    References
+    ----------
+    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
+    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014r`
+    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014t`
+    -   :cite:`TheAcademyofMotionPictureArtsandSciencese`
 
     Examples
     --------
@@ -274,6 +308,13 @@ def log_encoding_ACEScct(lin_AP1):
     numeric or ndarray
         *ACEScct* non-linear value.
 
+    References
+    ----------
+    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
+    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014r`
+    -   :cite:`TheAcademyofMotionPictureArtsandSciences2016c`
+    -   :cite:`TheAcademyofMotionPictureArtsandSciencese`
+
     Examples
     --------
     >>> log_encoding_ACEScct(0.18)  # doctest: +ELLIPSIS
@@ -305,6 +346,13 @@ def log_decoding_ACEScct(ACEScct):
     -------
     numeric or ndarray
         *lin_AP1* value.
+
+    References
+    ----------
+    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
+    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014r`
+    -   :cite:`TheAcademyofMotionPictureArtsandSciences2016c`
+    -   :cite:`TheAcademyofMotionPictureArtsandSciencese`
 
     Examples
     --------

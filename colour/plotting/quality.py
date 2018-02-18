@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Colour Quality Plotting
@@ -6,10 +5,10 @@ Colour Quality Plotting
 
 Defines the colour quality plotting objects:
 
--   :func:`single_spd_colour_rendering_index_bars_plot`
--   :func:`multi_spd_colour_rendering_index_bars_plot`
--   :func:`single_spd_colour_quality_scale_bars_plot`
--   :func:`multi_spd_colour_quality_scale_bars_plot`
+-   :func:`colour.plotting.single_spd_colour_rendering_index_bars_plot`
+-   :func:`colour.plotting.multi_spd_colour_rendering_index_bars_plot`
+-   :func:`colour.plotting.single_spd_colour_quality_scale_bars_plot`
+-   :func:`colour.plotting.multi_spd_colour_quality_scale_bars_plot`
 """
 
 from __future__ import division
@@ -18,16 +17,16 @@ import numpy as np
 import pylab
 from itertools import cycle
 
+from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.models import XYZ_to_sRGB
+from colour.plotting import (DEFAULT_FIGURE_WIDTH, DEFAULT_HATCH_PATTERNS,
+                             canvas, label_rectangles, render)
 from colour.quality import (colour_quality_scale, colour_rendering_index)
 from colour.quality.cri import TCS_ColorimetryData
-from colour.plotting import (DEFAULT_FIGURE_WIDTH, DEFAULT_HATCH_PATTERNS,
-                             boundaries, canvas, decorate, display,
-                             label_rectangles)
 from colour.utilities import warning
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -64,9 +63,8 @@ def colour_quality_bars_plot(specifications,
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
 
     Returns
     -------
@@ -75,13 +73,11 @@ def colour_quality_bars_plot(specifications,
 
     Examples
     --------
-    >>> from colour import (
-    ...     ILLUMINANTS_RELATIVE_SPDS,
-    ...     LIGHT_SOURCES_RELATIVE_SPDS,
-    ...     SpectralShape)
+    >>> from colour import (ILLUMINANTS_RELATIVE_SPDS,
+    ...                     LIGHT_SOURCES_RELATIVE_SPDS, SpectralShape)
     >>> illuminant = ILLUMINANTS_RELATIVE_SPDS['F2']
     >>> light_source = LIGHT_SOURCES_RELATIVE_SPDS['Kinoton 75P']
-    >>> light_source = light_source.clone().align(SpectralShape(360, 830, 1))
+    >>> light_source = light_source.copy().align(SpectralShape(360, 830, 1))
     >>> cqs_i = colour_quality_scale(illuminant, additional_data=True)
     >>> cqs_l = colour_quality_scale(light_source, additional_data=True)
     >>> colour_quality_bars_plot([cqs_i, cqs_l])  # doctest: +SKIP
@@ -109,7 +105,7 @@ def colour_quality_bars_plot(specifications,
 
         x = (i + np.arange(
             0, (count_Q_as + 1) * (count_s + 1), (count_s + 1),
-            dtype=np.float_)) * bar_width
+            dtype=DEFAULT_FLOAT_DTYPE)) * bar_width
         y = [s[1].Q_a for s in sorted(Q_as.items(), key=lambda s: s[0])]
         y = np.array([Q_a] + list(y))
 
@@ -139,13 +135,12 @@ def colour_quality_bars_plot(specifications,
 
     pylab.axhline(y=100, color='black', linestyle='--')
 
-    pylab.xticks((np.arange(
-        0, (count_Q_as + 1) * (count_s + 1),
-        (count_s + 1), dtype=np.float_) * bar_width +
-                  (count_s * bar_width / 2)), ['Qa'] + [
-                      'Q{0}'.format(index + 1)
-                      for index in range(0, count_Q_as + 1, 1)
-                  ])
+    pylab.xticks(
+        (np.arange(
+            0, (count_Q_as + 1) * (count_s + 1), (count_s + 1),
+            dtype=DEFAULT_FLOAT_DTYPE) * bar_width +
+         (count_s * bar_width / 2)), ['Qa'] +
+        ['Q{0}'.format(index + 1) for index in range(0, count_Q_as + 1, 1)])
     pylab.yticks(range(0, 100 + y_ticks_interval, y_ticks_interval))
 
     settings.update({
@@ -163,10 +158,7 @@ def colour_quality_bars_plot(specifications,
     })
     settings.update(kwargs)
 
-    boundaries(**settings)
-    decorate(**settings)
-
-    return display(**settings)
+    return render(**settings)
 
 
 def single_spd_colour_rendering_index_bars_plot(spd, **kwargs):
@@ -183,17 +175,16 @@ def single_spd_colour_rendering_index_bars_plot(spd, **kwargs):
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
     labels : bool, optional
-        {:func:`colour_quality_bars_plot`},
+        {:func:`colour.plotting.quality.colour_quality_bars_plot`},
         Add labels above bars.
     hatching : bool or None, optional
-        {:func:`colour_quality_bars_plot`},
+        {:func:`colour.plotting.quality.colour_quality_bars_plot`},
         Use hatching for the bars.
     hatching_repeat : int, optional
-        {:func:`colour_quality_bars_plot`},
+        {:func:`colour.plotting.quality.colour_quality_bars_plot`},
         Hatching pattern repeat.
 
     Returns
@@ -205,8 +196,8 @@ def single_spd_colour_rendering_index_bars_plot(spd, **kwargs):
     --------
     >>> from colour import ILLUMINANTS_RELATIVE_SPDS
     >>> illuminant = ILLUMINANTS_RELATIVE_SPDS['F2']
-    >>> single_spd_colour_rendering_index_bars_plot(  # doctest: +SKIP
-    ...     illuminant)
+    >>> single_spd_colour_rendering_index_bars_plot(illuminant)
+    ... # doctest: +SKIP
     """
 
     return multi_spd_colour_rendering_index_bars_plot([spd], **kwargs)
@@ -226,17 +217,16 @@ def multi_spd_colour_rendering_index_bars_plot(spds, **kwargs):
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
     labels : bool, optional
-        {:func:`colour_quality_bars_plot`},
+        {:func:`colour.plotting.quality.colour_quality_bars_plot`},
         Add labels above bars.
     hatching : bool or None, optional
-        {:func:`colour_quality_bars_plot`},
+        {:func:`colour.plotting.quality.colour_quality_bars_plot`},
         Use hatching for the bars.
     hatching_repeat : int, optional
-        {:func:`colour_quality_bars_plot`},
+        {:func:`colour.plotting.quality.colour_quality_bars_plot`},
         Hatching pattern repeat.
 
     Returns
@@ -246,13 +236,12 @@ def multi_spd_colour_rendering_index_bars_plot(spds, **kwargs):
 
     Examples
     --------
-    >>> from colour import (
-    ...     ILLUMINANTS_RELATIVE_SPDS,
-    ...     LIGHT_SOURCES_RELATIVE_SPDS)
+    >>> from colour import (ILLUMINANTS_RELATIVE_SPDS,
+    ...                     LIGHT_SOURCES_RELATIVE_SPDS)
     >>> illuminant = ILLUMINANTS_RELATIVE_SPDS['F2']
     >>> light_source = LIGHT_SOURCES_RELATIVE_SPDS['Kinoton 75P']
-    >>> multi_spd_colour_rendering_index_bars_plot(  # doctest: +SKIP
-    ...     [illuminant, light_source])
+    >>> multi_spd_colour_rendering_index_bars_plot([illuminant, light_source])
+    ... # doctest: +SKIP
     """
 
     settings = {}
@@ -279,13 +268,11 @@ def multi_spd_colour_rendering_index_bars_plot(spds, **kwargs):
     settings = {
         'title':
             'Colour Rendering Index - {0}'
-            .format(', '.join([spd.title for spd in spds]))
+            .format(', '.join([spd.strict_name for spd in spds]))
     }
     settings.update(kwargs)
 
-    decorate(**settings)
-
-    return display(**settings)
+    return render(with_boundaries=False, **settings)
 
 
 def single_spd_colour_quality_scale_bars_plot(spd, **kwargs):
@@ -302,17 +289,16 @@ def single_spd_colour_quality_scale_bars_plot(spd, **kwargs):
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
     labels : bool, optional
-        {:func:`colour_quality_bars_plot`},
+        {:func:`colour.plotting.quality.colour_quality_bars_plot`},
         Add labels above bars.
     hatching : bool or None, optional
-        {:func:`colour_quality_bars_plot`},
+        {:func:`colour.plotting.quality.colour_quality_bars_plot`},
         Use hatching for the bars.
     hatching_repeat : int, optional
-        {:func:`colour_quality_bars_plot`},
+        {:func:`colour.plotting.quality.colour_quality_bars_plot`},
         Hatching pattern repeat.
 
     Returns
@@ -324,8 +310,8 @@ def single_spd_colour_quality_scale_bars_plot(spd, **kwargs):
     --------
     >>> from colour import ILLUMINANTS_RELATIVE_SPDS
     >>> illuminant = ILLUMINANTS_RELATIVE_SPDS['F2']
-    >>> single_spd_colour_quality_scale_bars_plot(  # doctest: +SKIP
-    ...     illuminant)
+    >>> single_spd_colour_quality_scale_bars_plot(illuminant)
+    ... # doctest: +SKIP
     """
 
     return multi_spd_colour_quality_scale_bars_plot([spd], **kwargs)
@@ -345,17 +331,16 @@ def multi_spd_colour_quality_scale_bars_plot(spds, **kwargs):
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
     labels : bool, optional
-        {:func:`colour_quality_bars_plot`},
+        {:func:`colour.plotting.quality.colour_quality_bars_plot`},
         Add labels above bars.
     hatching : bool or None, optional
-        {:func:`colour_quality_bars_plot`},
+        {:func:`colour.plotting.quality.colour_quality_bars_plot`},
         Use hatching for the bars.
     hatching_repeat : int, optional
-        {:func:`colour_quality_bars_plot`},
+        {:func:`colour.plotting.quality.colour_quality_bars_plot`},
         Hatching pattern repeat.
 
     Returns
@@ -365,13 +350,12 @@ def multi_spd_colour_quality_scale_bars_plot(spds, **kwargs):
 
     Examples
     --------
-    >>> from colour import (
-    ...     ILLUMINANTS_RELATIVE_SPDS,
-    ...     LIGHT_SOURCES_RELATIVE_SPDS)
+    >>> from colour import (ILLUMINANTS_RELATIVE_SPDS,
+    ...                     LIGHT_SOURCES_RELATIVE_SPDS)
     >>> illuminant = ILLUMINANTS_RELATIVE_SPDS['F2']
     >>> light_source = LIGHT_SOURCES_RELATIVE_SPDS['Kinoton 75P']
-    >>> multi_spd_colour_quality_scale_bars_plot(  # doctest: +SKIP
-    ...     [illuminant, light_source])
+    >>> multi_spd_colour_quality_scale_bars_plot([illuminant, light_source])
+    ... # doctest: +SKIP
     """
 
     settings = {}
@@ -386,10 +370,8 @@ def multi_spd_colour_quality_scale_bars_plot(spds, **kwargs):
     settings = {
         'title':
             'Colour Quality Scale - {0}'
-            .format(', '.join([spd.title for spd in spds]))
+            .format(', '.join([spd.strict_name for spd in spds]))
     }
     settings.update(kwargs)
 
-    decorate(**settings)
-
-    return display(**settings)
+    return render(with_boundaries=False, **settings)

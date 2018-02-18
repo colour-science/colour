@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Hexadecimal Triplet Notation
@@ -6,8 +5,8 @@ Hexadecimal Triplet Notation
 
 Defines objects for hexadecimal triplet notation:
 
--   :func:`RGB_to_HEX`
--   :func:`HEX_to_RGB`
+-   :func:`colour.notation.RGB_to_HEX`
+-   :func:`colour.notation.HEX_to_RGB`
 """
 
 from __future__ import division, unicode_literals
@@ -15,7 +14,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'

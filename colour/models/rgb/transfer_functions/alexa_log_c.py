@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 ALEXA Log C Log Encoding
@@ -6,8 +5,8 @@ ALEXA Log C Log Encoding
 
 Defines the *ALEXA Log C* log encoding:
 
--   :func:`log_encoding_ALEXALogC`
--   :func:`log_decoding_ALEXALogC`
+-   :func:`colour.models.log_encoding_ALEXALogC`
+-   :func:`colour.models.log_decoding_ALEXALogC`
 
 See Also
 --------
@@ -17,8 +16,8 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  ARRI. (2012). ALEXA - Log C Curve - Usage in VFX. Retrieved from
-        http://www.arri.com/?eID=registration&file_uid=8026
+-   :cite:`ARRI2012a` : ARRI. (2012). ALEXA - Log C Curve - Usage in VFX.
+    Retrieved from http://www.arri.com/?eID=registration&file_uid=8026
 """
 
 from __future__ import division, unicode_literals
@@ -28,7 +27,7 @@ import numpy as np
 from colour.utilities import CaseInsensitiveMapping, as_numeric
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -213,6 +212,10 @@ def log_encoding_ALEXALogC(x,
     numeric or ndarray
         *ALEXA Log C* encoded data :math:`t`.
 
+    References
+    ----------
+    -   :cite:`ARRI2012a`
+
     Examples
     --------
     >>> log_encoding_ALEXALogC(0.18)  # doctest: +ELLIPSIS
@@ -253,6 +256,10 @@ def log_decoding_ALEXALogC(t,
     -------
     numeric or ndarray
         Linear data :math:`x`.
+
+    References
+    ----------
+    -   :cite:`ARRI2012a`
 
     Examples
     --------

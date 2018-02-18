@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Smits (1999) - Reflectance Recovery Dataset
@@ -8,18 +7,18 @@ Defines the dataset for reflectance recovery using *Smits (1999)* method.
 
 References
 ----------
-.. [1]  Smits, B. (1999). An RGB-to-Spectrum Conversion for Reflectances.
-        Journal of Graphics Tools, 4(4), 11–22.
-        doi:10.1080/10867651.1999.10487511
+-   :cite:`Smits1999a` : Smits, B. (1999). An RGB-to-Spectrum Conversion for
+    Reflectances. Journal of Graphics Tools, 4(4), 11-22.
+    doi:10.1080/10867651.1999.10487511
 """
 
 from __future__ import division, unicode_literals
 
 from colour.colorimetry.spectrum import SpectralPowerDistribution
-from colour.utilities import CaseInsensitiveMapping
+from colour.utilities import CaseInsensitiveMapping, filter_warnings
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -114,24 +113,54 @@ SMITS_1999_SPDS_DATA = {
     }
 }
 
+filter_warnings(True)
+"""
+Filtering warnings issued by Smits (1999) non-uniform wavelengths distribution.
+Using `np.linspace(380, 720, 10)` does not solve the issue:
+
+>>> colour.utilities.interval(np.linspace(380, 720, 10))
+array([ 37.77777778,  37.77777778,  37.77777778])
+"""
+
 SMITS_1999_SPDS = CaseInsensitiveMapping({
     'white':
-        SpectralPowerDistribution('white', SMITS_1999_SPDS_DATA['white']),
+        SpectralPowerDistribution(
+            SMITS_1999_SPDS_DATA['white'],
+            name='white'),
     'cyan':
-        SpectralPowerDistribution('cyan', SMITS_1999_SPDS_DATA['cyan']),
+        SpectralPowerDistribution(
+            SMITS_1999_SPDS_DATA['cyan'],
+            name='cyan'),
     'magenta':
-        SpectralPowerDistribution('magenta', SMITS_1999_SPDS_DATA['magenta']),
+        SpectralPowerDistribution(
+            SMITS_1999_SPDS_DATA['magenta'],
+            name='magenta'),
     'yellow':
-        SpectralPowerDistribution('yellow', SMITS_1999_SPDS_DATA['yellow']),
+        SpectralPowerDistribution(
+            SMITS_1999_SPDS_DATA['yellow'],
+            name='yellow'),
     'red':
-        SpectralPowerDistribution('red', SMITS_1999_SPDS_DATA['red']),
+        SpectralPowerDistribution(
+            SMITS_1999_SPDS_DATA['red'],
+            name='red'),
     'green':
-        SpectralPowerDistribution('green', SMITS_1999_SPDS_DATA['green']),
+        SpectralPowerDistribution(
+            SMITS_1999_SPDS_DATA['green'],
+            name='green'),
     'blue':
-        SpectralPowerDistribution('blue', SMITS_1999_SPDS_DATA['blue'])
-})
-"""
+        SpectralPowerDistribution(
+            SMITS_1999_SPDS_DATA['blue'],
+            name='blue')
+})  # yapf: disable
+SMITS_1999_SPDS.__doc__ = """
 *Smits (1999)* spectral power distributions.
+
+References
+----------
+-   :cite:`Smits1999a`
 
 SMITS_1999_SPDS : CaseInsensitiveMapping
 """
+
+# Restoring warnings original state.
+filter_warnings(False)

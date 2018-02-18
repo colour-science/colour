@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Academy Color Encoding System - Input Transform
@@ -6,7 +5,7 @@ Academy Color Encoding System - Input Transform
 
 Defines the *Academy Color Encoding System* (ACES) *Input Transform* utilities:
 
--   :func:`spectral_to_aces_relative_exposure_values`
+-   :func:`colour.spectral_to_aces_relative_exposure_values`
 
 See Also
 --------
@@ -16,22 +15,23 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  The Academy of Motion Picture Arts and Sciences, Science and
-        Technology Council, & Academy Color Encoding System (ACES) Project
-        Subcommittee. (n.d.). Academy Color Encoding System. Retrieved
-        February 24, 2014, from
-        http://www.oscars.org/science-technology/council/projects/aces.html
-.. [2]  The Academy of Motion Picture Arts and Sciences, Science and
-        Technology Council, & Academy Color Encoding System (ACES) Project
-        Subcommittee. (2014). Technical Bulletin TB-2014-004 - Informative
-        Notes on SMPTE ST 2065-1 – Academy Color Encoding Specification
-        (ACES). Retrieved from
-        https://github.com/ampas/aces-dev/tree/master/documents
-.. [3]  The Academy of Motion Picture Arts and Sciences, Science and
-        Technology Council, & Academy Color Encoding System (ACES) Project
-        Subcommittee. (2014). Technical Bulletin TB-2014-012 - Academy Color
-        Encoding System Version 1.0 Component Names. Retrieved from
-        https://github.com/ampas/aces-dev/tree/master/documents
+-   :cite:`TheAcademyofMotionPictureArtsandSciences2014q` : The Academy of
+    Motion Picture Arts and Sciences, Science and Technology Council, & Academy
+    Color Encoding System (ACES) Project Subcommittee. (2014). Technical
+    Bulletin TB-2014-004 - Informative Notes on SMPTE ST 2065-1 - Academy Color
+    Encoding Specification (ACES). Retrieved from
+    https://github.com/ampas/aces-dev/tree/master/documents
+-   :cite:`TheAcademyofMotionPictureArtsandSciences2014r` : The Academy of
+    Motion Picture Arts and Sciences, Science and Technology Council, & Academy
+    Color Encoding System (ACES) Project Subcommittee. (2014). Technical
+    Bulletin TB-2014-012 - Academy Color Encoding System Version 1.0 Component
+    Names. Retrieved from
+    https://github.com/ampas/aces-dev/tree/master/documents
+-   :cite:`TheAcademyofMotionPictureArtsandSciencese` : The Academy of Motion
+    Picture Arts and Sciences, Science and Technology Council, & Academy Color
+    Encoding System (ACES) Project Subcommittee. (n.d.). Academy Color Encoding
+    System. Retrieved February 24, 2014, from
+    http://www.oscars.org/science-technology/council/projects/aces.html
 """
 
 from __future__ import division, unicode_literals
@@ -40,9 +40,10 @@ import numpy as np
 
 from colour.colorimetry import ILLUMINANTS_RELATIVE_SPDS
 from colour.models.rgb import ACES_RICD
+from colour.utilities import tsplit
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -80,12 +81,11 @@ def spectral_to_aces_relative_exposure_values(
     -   Output *ACES2065-1* colourspace relative exposure values array is in
         range [0, 1].
 
-    See Also
-    --------
-    :func:`colour.colorimetry.tristimulus.spectral_to_XYZ`
-
     References
     ----------
+    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
+    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014r`
+    -   :cite:`TheAcademyofMotionPictureArtsandSciencese`
 
     Examples
     --------
@@ -97,16 +97,15 @@ def spectral_to_aces_relative_exposure_values(
 
     shape = ACES_RICD.shape
     if spd.shape != ACES_RICD.shape:
-        spd = spd.clone().align(shape)
+        spd = spd.copy().align(shape)
 
     if illuminant.shape != ACES_RICD.shape:
-        illuminant = illuminant.clone().align(shape)
+        illuminant = illuminant.copy().align(shape)
 
     spd = spd.values
     illuminant = illuminant.values
 
-    r_bar, g_bar, b_bar = (ACES_RICD.r_bar.values, ACES_RICD.g_bar.values,
-                           ACES_RICD.b_bar.values)
+    r_bar, g_bar, b_bar = tsplit(ACES_RICD.values)
 
     def k(x, y):
         """

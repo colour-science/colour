@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Input / Output Common Utilities
@@ -13,7 +12,7 @@ from __future__ import division, unicode_literals
 from pprint import pformat
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -40,11 +39,8 @@ def format_spectral_data(data):
     --------
     >>> import os
     >>> from colour import read_spectral_data_from_csv_file
-    >>> csv_file = os.path.join(
-    ...     os.path.dirname(__file__),
-    ...     'tests',
-    ...     'resources',
-    ...     'colorchecker_n_ohta.csv')
+    >>> csv_file = os.path.join(os.path.dirname(__file__), 'tests',
+    ...                         'resources', 'colorchecker_n_ohta.csv')
     >>> spds_data = {'1': read_spectral_data_from_csv_file(csv_file)['1']}
     >>> print(format_spectral_data(spds_data['1']))  # doctest: +ELLIPSIS
     {380.0: 0.0...,

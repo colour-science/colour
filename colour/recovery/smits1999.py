@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Smits (1999) - Reflectance Recovery
@@ -14,22 +13,22 @@ blob/master/notebooks/recovery/smits1999.ipynb>`_
 
 References
 ----------
-.. [1]  Smits, B. (1999). An RGB-to-Spectrum Conversion for Reflectances.
-        Journal of Graphics Tools, 4(4), 11–22.
-        doi:10.1080/10867651.1999.10487511
+-   :cite:`Smits1999a` : Smits, B. (1999). An RGB-to-Spectrum Conversion for
+    Reflectances. Journal of Graphics Tools, 4(4), 11-22.
+    doi:10.1080/10867651.1999.10487511
 """
 
 from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import ILLUMINANTS, zeros_spd
+from colour.colorimetry import ILLUMINANTS
 from colour.models import (XYZ_to_RGB, normalised_primary_matrix,
                            sRGB_COLOURSPACE)
 from colour.recovery import SMITS_1999_SPDS
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -66,7 +65,7 @@ SMITS1999_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
 """
 
 
-def XYZ_to_RGB_Smits1999(XYZ, chromatic_adaptation_transform='Bradford'):
+def XYZ_to_RGB_Smits1999(XYZ):
     """
     Convenient object to convert from *CIE XYZ* tristimulus values to *RGB*
     colourspace in conditions required by the current *Smits (1999)* method
@@ -76,11 +75,6 @@ def XYZ_to_RGB_Smits1999(XYZ, chromatic_adaptation_transform='Bradford'):
     ----------
     XYZ : array_like
         *CIE XYZ* tristimulus values.
-    chromatic_adaptation_transform : unicode, optional
-        **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
-        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
-        'Bianco PC'}**,
-        *Chromatic adaptation* method.
 
     Returns
     -------
@@ -103,7 +97,6 @@ def XYZ_to_RGB_Smits1999(XYZ, chromatic_adaptation_transform='Bradford'):
         SMITS1999_WHITEPOINT,
         SMITS1999_WHITEPOINT,
         SMITS1999_XYZ_TO_RGB_MATRIX,
-        chromatic_adaptation_transform,
         encoding_cctf=None)
 
 
@@ -115,31 +108,50 @@ def RGB_to_spectral_Smits1999(RGB):
     Parameters
     ----------
     RGB : array_like, (3,)
-        *RGB* colourspace array.
+        *RGB* colourspace array to recover the spectral power distribution
+        from.
 
     Returns
     -------
     SpectralPowerDistribution
         Recovered spectral power distribution.
 
+    References
+    ----------
+    -   :cite:`Smits1999a`
+
     Examples
     --------
+    >>> from colour.utilities import numpy_print_options
     >>> RGB = np.array([0.02144962, 0.13154603, 0.09287601])
-    >>> print(RGB_to_spectral_Smits1999(RGB))  # doctest: +ELLIPSIS
-    SpectralPowerDistribution('Smits (1999) - \
-[ 0.02144962  0.13154603  0.09287601]', (380.0, 720.0, 37.7777777...))
+    >>> with numpy_print_options(suppress=True):
+    ...     RGB_to_spectral_Smits1999(RGB)  # doctest: +ELLIPSIS
+    SpectralPowerDistribution([[ 380.        ,    0.0908046...],
+                               [ 417.7778    ,    0.0887761...],
+                               [ 455.5556    ,    0.0939795...],
+                               [ 493.3333    ,    0.1236033...],
+                               [ 531.1111    ,    0.1315788...],
+                               [ 568.8889    ,    0.1293411...],
+                               [ 606.6667    ,    0.0392680...],
+                               [ 644.4444    ,    0.0214496...],
+                               [ 682.2222    ,    0.0214496...],
+                               [ 720.        ,    0.0215463...]],
+                              interpolator=CubicSplineInterpolator,
+                              interpolator_args={},
+                              extrapolator=Extrapolator,
+                              extrapolator_args={...})
     """
 
-    white_spd = SMITS_1999_SPDS['white'].clone()
-    cyan_spd = SMITS_1999_SPDS['cyan'].clone()
-    magenta_spd = SMITS_1999_SPDS['magenta'].clone()
-    yellow_spd = SMITS_1999_SPDS['yellow'].clone()
-    red_spd = SMITS_1999_SPDS['red'].clone()
-    green_spd = SMITS_1999_SPDS['green'].clone()
-    blue_spd = SMITS_1999_SPDS['blue'].clone()
+    white_spd = SMITS_1999_SPDS['white'].copy()
+    cyan_spd = SMITS_1999_SPDS['cyan'].copy()
+    magenta_spd = SMITS_1999_SPDS['magenta'].copy()
+    yellow_spd = SMITS_1999_SPDS['yellow'].copy()
+    red_spd = SMITS_1999_SPDS['red'].copy()
+    green_spd = SMITS_1999_SPDS['green'].copy()
+    blue_spd = SMITS_1999_SPDS['blue'].copy()
 
     R, G, B = np.ravel(RGB)
-    spd = zeros_spd(SMITS_1999_SPDS['white'].shape)
+    spd = white_spd.copy() * 0
     spd.name = 'Smits (1999) - {0}'.format(RGB)
 
     if R <= G and R <= B:

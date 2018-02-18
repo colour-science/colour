@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 :math:`IC_TC_P` Colour Encoding
@@ -6,8 +5,8 @@
 
 Defines the :math:`IC_TC_P` colour encoding related transformations:
 
--   :func:`RGB_to_ICTCP`
--   :func:`ICTCP_to_RGB`
+-   :func:`colour.RGB_to_ICTCP`
+-   :func:`colour.ICTCP_to_RGB`
 
 See Also
 --------
@@ -17,13 +16,14 @@ blob/master/notebooks/models/ictcp.ipynb>`_
 
 References
 ----------
-.. [1]  Dolby. (2016). WHAT IS ICTCP? - INTRODUCTION. Retrieved from
-        https://www.dolby.com/us/en/technologies/dolby-vision/\
+-   :cite:`Dolby2016a` : Dolby. (2016). WHAT IS ICTCP? - INTRODUCTION.
+    Retrieved from https://www.dolby.com/us/en/technologies/dolby-vision/\
 ICtCp-white-paper.pdf
-.. [2]  Lu, T., Pu, F., Yin, P., Chen, T., Husak, W., Pytlarz, J., … Su, G.-M.
-        (2016). ICTCP Colour Space and Its Compression Performance for High
-        Dynamic Range and Wide Colour Gamut Video Distribution. ZTE
-        Communications, 14(1), 32–38. doi:10.3969/j.
+-   :cite:`Lu2016c` : Lu, T., Pu, F., Yin, P., Chen, T., Husak, W.,
+    Pytlarz, J.,  Su, G.-M. (2016). ITP Colour Space and Its Compression
+    Performance for High Dynamic Range and Wide Colour Gamut Video
+    Distribution. ZTE Communications, 14(1), 32-38. Retrieved from
+    http://www.cnki.net/kcms/detail/34.1294.TN.20160205.1903.006.html
 """
 
 from __future__ import division, unicode_literals
@@ -34,7 +34,7 @@ from colour.models.rgb.transfer_functions import oetf_ST2084, eotf_ST2084
 from colour.utilities import dot_vector
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -46,28 +46,30 @@ __all__ = [
     'RGB_to_ICTCP', 'ICTCP_to_RGB'
 ]
 
-ICTCP_RGB_TO_LMS_MATRIX = np.array(
-    [[1688, 2146, 262],
-     [683, 2951, 462],
-     [99, 309, 3688]]) / 4096  # yapf: disable
+ICTCP_RGB_TO_LMS_MATRIX = np.array([
+    [1688, 2146, 262],
+    [683, 2951, 462],
+    [99, 309, 3688],
+]) / 4096
 """
-*Rec. 2020* colourspace to normalised cone responses matrix.
+*ITU-R BT.2020* colourspace to normalised cone responses matrix.
 
 ICTCP_RGB_TO_LMS_MATRIX : array_like, (3, 3)
 """
 
 ICTCP_LMS_TO_RGB_MATRIX = np.linalg.inv(ICTCP_RGB_TO_LMS_MATRIX)
 """
-:math:`IC_TC_P` colourspace normalised cone responses to *Rec. 2020*
+:math:`IC_TC_P` colourspace normalised cone responses to *ITU-R BT.2020*
 colourspace matrix.
 
 ICTCP_LMS_TO_RGB_MATRIX : array_like, (3, 3)
 """
 
-ICTCP_LMS_P_TO_ICTCP_MATRIX = np.array(
-    [[2048, 2048, 0],
-     [6610, -13613, 7003],
-     [17933, -17390, -543]]) / 4096  # yapf: disable
+ICTCP_LMS_P_TO_ICTCP_MATRIX = np.array([
+    [2048, 2048, 0],
+    [6610, -13613, 7003],
+    [17933, -17390, -543],
+]) / 4096
 """
 :math:`LMS_p` *SMPTE ST 2084:2014* encoded normalised cone responses to
 :math:`IC_TC_P` colour encoding matrix.
@@ -86,12 +88,13 @@ ICTCP_ICTCP_TO_LMS_P_MATRIX : array_like, (3, 3)
 
 def RGB_to_ICTCP(RGB, L_p=10000):
     """
-    Converts from *Rec. 2020* colourspace to :math:`IC_TC_P` colour encoding.
+    Converts from *ITU-R BT.2020* colourspace to :math:`IC_TC_P` colour
+    encoding.
 
     Parameters
     ----------
     RGB : array_like
-        *Rec. 2020* colourspace array.
+        *ITU-R BT.2020* colourspace array.
     L_p : numeric, optional
         Display peak luminance :math:`cd/m^2` for *SMPTE ST 2084:2014*
         non-linear encoding.
@@ -100,6 +103,11 @@ def RGB_to_ICTCP(RGB, L_p=10000):
     -------
     ndarray
         :math:`IC_TC_P` colour encoding array.
+
+    References
+    ----------
+    -   :cite:`Dolby2016a`
+    -   :cite:`Lu2016c`
 
     Examples
     --------
@@ -117,7 +125,8 @@ def RGB_to_ICTCP(RGB, L_p=10000):
 
 def ICTCP_to_RGB(ICTCP, L_p=10000):
     """
-    Converts from :math:`IC_TC_P` colour encoding to *Rec. 2020* colourspace.
+    Converts from :math:`IC_TC_P` colour encoding to *ITU-R BT.2020*
+    colourspace.
 
     Parameters
     ----------
@@ -130,7 +139,12 @@ def ICTCP_to_RGB(ICTCP, L_p=10000):
     Returns
     -------
     ndarray
-        *Rec. 2020* colourspace array.
+        *ITU-R BT.2020* colourspace array.
+
+    References
+    ----------
+    -   :cite:`Dolby2016a`
+    -   :cite:`Lu2016c`
 
     Examples
     --------

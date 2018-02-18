@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Random Numbers Utilities
@@ -6,7 +5,7 @@ Random Numbers Utilities
 
 Defines random numbers generator objects:
 
--   :func:`random_triplet_generator`
+-   :func:`colour.algebra.random_triplet_generator`
 """
 
 from __future__ import division, unicode_literals
@@ -16,7 +15,7 @@ import numpy as np
 from colour.utilities import warning
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -62,8 +61,8 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
     --------
     >>> from pprint import pprint
     >>> prng = np.random.RandomState(4)
-    >>> pprint(  # doctest: +ELLIPSIS
-    ...     tuple(random_triplet_generator(10, random_state=prng)))
+    >>> pprint(tuple(random_triplet_generator(10, random_state=prng)))
+    ... # doctest: +ELLIPSIS
     (array([ 0.9670298...,  0.5472322...,  0.9726843...]),
      array([ 0.7148159...,  0.6977288...,  0.2160895...]),
      array([ 0.9762744...,  0.0062302...,  0.2529823...]),

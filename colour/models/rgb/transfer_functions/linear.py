@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Linear Colour Component Transfer Function
@@ -7,7 +6,7 @@ Linear Colour Component Transfer Function
 Defines linear encoding / decoding colour component transfer function related
 objects:
 
-- :func:`function_linear`
+- :func:`colour.function_linear`
 
 See Also
 --------
@@ -19,7 +18,7 @@ blob/master/notebooks/models/rgb.ipynb>`_
 from __future__ import division, unicode_literals
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'

@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Colour Quality Scale
@@ -6,8 +5,8 @@ Colour Quality Scale
 
 Defines *Colour Quality Scale* (CQS) computation objects:
 
--   :class:`CQS_Specification`
--   :func:`colour_quality_scale`
+-   :class:`colour.quality.CQS_Specification`
+-   :func:`colour.colour_quality_scale`
 
 See Also
 --------
@@ -17,11 +16,11 @@ blob/master/notebooks/quality/cqs.ipynb>`_
 
 References
 ----------
-.. [1]  Davis, W., & Ohno, Y. (2010). Color quality scale. Optical
-        Engineering, 49(3), 33602–33616. doi:10.1117/1.3360335
-
-.. [2]  Ohno, Y., & Davis, W. (2008). NIST CQS simulation 7.4. Retrieved from
-        http://cie2.nist.gov/TC1-69/NIST CQS simulation 7.4.xls
+-   :cite:`Davis2010a` : Davis, W., & Ohno, Y. (2010). Color quality scale.
+    Optical Engineering, 49(3), 33602. doi:10.1117/1.3360335
+-   :cite:`Ohno2008a` : Ohno, Y., & Davis, W. (2008). NIST CQS simulation 7.4.
+    Retrieved from https://drive.google.com/file/d/\
+1PsuU6QjUJjCX6tQyCud6ul2Tbs8rYWW9/view?usp=sharing
 """
 
 from __future__ import division, unicode_literals
@@ -41,7 +40,7 @@ from colour.adaptation import chromatic_adaptation_VonKries
 from colour.utilities import tsplit
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -97,7 +96,7 @@ class CQS_Specification(
     Q_g : numeric
          Gamut area scale :math:`Q_g` representing the relative gamut formed
          by the (:math:`a^*`, :math:`b^*`) coordinates of the 15 samples
-         illuminated by the test light source in the *CIE LAB* object
+         illuminated by the test light source in the *CIE L\*a\*b\** object
          colourspace.
     Q_d : numeric
         Relative gamut area scale :math:`Q_d`.
@@ -105,6 +104,11 @@ class CQS_Specification(
         Individual *Colour Quality Scale* (CQS) data for each sample.
     colorimetry_data : tuple
         Colorimetry data for the test and reference computations.
+
+    References
+    ----------
+    -   :cite:`Davis2010a`
+    -   :cite:`Ohno2008a`
     """
 
 
@@ -125,21 +129,25 @@ def colour_quality_scale(spd_test, additional_data=False):
     numeric or CQS_Specification
         Color quality scale.
 
+    References
+    ----------
+    -   :cite:`Davis2010a`
+    -   :cite:`Ohno2008a`
+
     Examples
     --------
     >>> from colour import ILLUMINANTS_RELATIVE_SPDS
     >>> spd = ILLUMINANTS_RELATIVE_SPDS['F2']
     >>> colour_quality_scale(spd)  # doctest: +ELLIPSIS
-    64.6864169...
+    64.6863391...
     """
 
-    cmfs = STANDARD_OBSERVERS_CMFS[
-        'CIE 1931 2 Degree Standard Observer'].clone().trim_wavelengths(
-            ASTME30815_PRACTISE_SHAPE)
+    cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'].copy(
+    ).trim(ASTME30815_PRACTISE_SHAPE)
 
     shape = cmfs.shape
-    spd_test = spd_test.clone().align(shape)
-    vs_spds = {spd.name: spd.clone().align(shape) for spd in VS_SPDS.values()}
+    spd_test = spd_test.copy().align(shape)
+    vs_spds = {spd.name: spd.copy().align(shape) for spd in VS_SPDS.values()}
 
     XYZ = spectral_to_XYZ(spd_test, cmfs)
     uv = UCS_to_uv(XYZ_to_UCS(XYZ))
@@ -194,12 +202,12 @@ def colour_quality_scale(spd_test, additional_data=False):
 
 def gamut_area(Lab):
     """
-    Returns the gamut area :math:`G` covered by given *CIE Lab* matrices.
+    Returns the gamut area :math:`G` covered by given *CIE L\*a\*b\** matrices.
 
     Parameters
     ----------
     Lab : array_like
-        *CIE Lab* colourspace matrices.
+        *CIE L\*a\*b\** colourspace matrices.
 
     Returns
     -------
@@ -223,7 +231,8 @@ def gamut_area(Lab):
     ...     np.array([69.63154351, 28.24532497, 59.45609803]),
     ...     np.array([61.26281449, 40.87950839, 44.97606172]),
     ...     np.array([41.62567821, 57.34129516, 27.46718170]),
-    ...     np.array([40.52565174, 48.87449192, 3.45121680])]
+    ...     np.array([40.52565174, 48.87449192, 3.45121680])
+    ... ]
     >>> gamut_area(Lab)  # doctest: +ELLIPSIS
     8335.9482018...
     """

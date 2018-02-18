@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Panalog Encoding
@@ -6,8 +5,8 @@ Panalog Encoding
 
 Defines the *Panalog* encoding:
 
--   :func:`log_encoding_Panalog`
--   :func:`log_decoding_Panalog`
+-   :func:`colour.models.log_encoding_Panalog`
+-   :func:`colour.models.log_decoding_Panalog`
 
 See Also
 --------
@@ -17,8 +16,8 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  Sony Imageworks. (2012). make.py. Retrieved November 27, 2014, from
-        https://github.com/imageworks/OpenColorIO-Configs/\
+-   :cite:`SonyImageworks2012a` : Sony Imageworks. (2012). make.py. Retrieved
+    November 27, 2014, from https://github.com/imageworks/OpenColorIO-Configs/\
 blob/master/nuke-default/make.py
 """
 
@@ -27,7 +26,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -57,6 +56,10 @@ def log_encoding_Panalog(x, black_offset=10 ** ((64 - 681) / 444)):
     --------
     These are estimations known to be close enough, the actual log encoding
     curves are not published.
+
+    References
+    ----------
+    -   :cite:`SonyImageworks2012a`
 
     Examples
     --------
@@ -91,6 +94,10 @@ def log_decoding_Panalog(y, black_offset=10 ** ((64 - 681) / 444)):
     --------
     These are estimations known to be close enough, the actual log encoding
     curves are not published.
+
+    References
+    ----------
+    -   :cite:`SonyImageworks2012a`
 
     Examples
     --------

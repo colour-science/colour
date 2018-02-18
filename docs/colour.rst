@@ -1,10 +1,8 @@
-colour Package
-==============
-
-Sub-Packages
-------------
+Colour
+======
 
 .. toctree::
+    :maxdepth: 3
 
     colour.adaptation
     colour.algebra
@@ -13,23 +11,16 @@ Sub-Packages
     colour.characterisation
     colour.colorimetry
     colour.constants
+    colour.continuous
     colour.corresponding
     colour.difference
     colour.io
     colour.models
     colour.notation
-    colour.phenomenons
+    colour.phenomena
     colour.plotting
     colour.quality
     colour.recovery
     colour.temperature
     colour.utilities
     colour.volume
-
-Module Contents
----------------
-
-.. automodule:: colour
-    :members:
-    :undoc-members:
-    :show-inheritance:

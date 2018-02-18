@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Geometry
@@ -6,10 +5,22 @@ Geometry
 
 Defines objects related to geometrical computations:
 
--   :func:`normalise_vector`
--   :func:`euclidean_distance`
--   :func:`extend_line_segment`
--   :func:`intersect_line_segments`
+-   :func:`colour.algebra.normalise_vector`
+-   :func:`colour.algebra.euclidean_distance`
+-   :func:`colour.algebra.extend_line_segment`
+-   :func:`colour.algebra.intersect_line_segments`
+
+References
+----------
+-   :cite:`Bourkea` : Bourke, P. (n.d.). Intersection point of two line
+    segments in 2 dimensions. Retrieved January 15, 2016, from
+    http://paulbourke.net/geometry/pointlineplane/
+-   :cite:`Erdema` : Erdem, U. M. (n.d.). Fast Line Segment Intersection.
+    Retrieved January 15, 2016, from http://www.mathworks.com/matlabcentral/\
+fileexchange/27205-fast-line-segment-intersection
+-   :cite:`Saeedna` : Saeedn. (n.d.). Extend a line segment a specific
+    distance. Retrieved January 16, 2016, from http://stackoverflow.com/\
+questions/7740507/extend-a-line-segment-a-specific-distance
 """
 
 from __future__ import division, unicode_literals
@@ -20,7 +31,7 @@ from collections import namedtuple
 from colour.utilities import tsplit, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -105,9 +116,7 @@ def extend_line_segment(a, b, distance=1):
 
     References
     ----------
-    .. [1]  Saeedn. (n.d.). Extend a line segment a specific distance.
-            Retrieved January 16, 2016, from http://stackoverflow.com/\
-questions/7740507/extend-a-line-segment-a-specific-distance
+    -   :cite:`Saeedna`
 
     Notes
     -----
@@ -139,7 +148,8 @@ class LineSegmentsIntersections_Specification(
                    ('xy', 'intersect', 'parallel', 'coincident'))):
     """
     Defines the specification for intersection of line segments :math:`l_1` and
-    :math:`l_2` returned by :func:`intersect_line_segments` definition.
+    :math:`l_2` returned by :func:`colour.algebra.intersect_line_segments`
+    definition.
 
     Parameters
     ----------
@@ -184,13 +194,8 @@ def intersect_line_segments(l_1, l_2):
 
     References
     ----------
-    .. [2]  Bourke, P. (n.d.). Intersection point of two line segments in 2
-            dimensions. Retrieved January 15, 2016, from
-            http://paulbourke.net/geometry/pointlineplane/
-    .. [3]  Erdem, U. M. (n.d.). Fast Line Segment Intersection. Retrieved
-            January 15, 2016, from
-            http://www.mathworks.com/matlabcentral/fileexchange/\
-27205-fast-line-segment-intersection
+    -   :cite:`Bourkea`
+    -   :cite:`Erdema`
 
     Notes
     -----
@@ -198,16 +203,20 @@ def intersect_line_segments(l_1, l_2):
 
     Examples
     --------
-    >>> l_1 = np.array([[[0.15416284, 0.7400497],
-    ...                  [0.26331502, 0.53373939]],
-    ...                 [[0.01457496, 0.91874701],
-    ...                  [0.90071485, 0.03342143]]])
-    >>> l_2 = np.array([[[0.95694934, 0.13720932],
-    ...                  [0.28382835, 0.60608318]],
-    ...                 [[0.94422514, 0.85273554],
-    ...                  [0.00225923, 0.52122603]],
-    ...                 [[0.55203763, 0.48537741],
-    ...                  [0.76813415, 0.16071675]]])
+    >>> l_1 = np.array(
+    ...     [[[0.15416284, 0.7400497],
+    ...       [0.26331502, 0.53373939]],
+    ...      [[0.01457496, 0.91874701],
+    ...       [0.90071485, 0.03342143]]]
+    ... )
+    >>> l_2 = np.array(
+    ...     [[[0.95694934, 0.13720932],
+    ...        [0.28382835, 0.60608318]],
+    ...       [[0.94422514, 0.85273554],
+    ...        [0.00225923, 0.52122603]],
+    ...       [[0.55203763, 0.48537741],
+    ...        [0.76813415, 0.16071675]]]
+    ... )
     >>> s = intersect_line_segments(l_1, l_2)
     >>> s.xy  # doctest: +ELLIPSIS
     array([[[        nan,         nan],
@@ -234,8 +243,9 @@ def intersect_line_segments(l_1, l_2):
     r_1, c_1 = l_1.shape[0], l_1.shape[1]
     r_2, c_2 = l_2.shape[0], l_2.shape[1]
 
-    x_1, y_1, x_2, y_2 = [np.tile(l_1[:, i, np.newaxis], (1, r_2))
-                          for i in range(c_1)]  # yapf: disable
+    x_1, y_1, x_2, y_2 = [
+        np.tile(l_1[:, i, np.newaxis], (1, r_2)) for i in range(c_1)
+    ]
 
     l_2 = np.transpose(l_2)
 

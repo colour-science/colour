@@ -1,23 +1,22 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-CIE UVW Colourspace
-===================
+CIE 1964 U*V*W* Colourspace
+===========================
 
-Defines the *CIE U\*V\*W\** colourspace transformations:
+Defines the *CIE 1964 U\*V\*W\** colourspace transformations:
 
--   :func:`XYZ_to_UVW`
+-   :func:`colour.XYZ_to_UVW`
 
 See Also
 --------
-`CIE UVW Colourspace Jupyter Notebook
+`CIE U*V*W* Colourspace Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/cie_uvw.ipynb>`_
 
 References
 ----------
-.. [1]  Wikipedia. (n.d.). CIE 1964 color space. Retrieved June 10, 2014, from
-        http://en.wikipedia.org/wiki/CIE_1964_color_space
+-   :cite:`Wikipediacj` : Wikipedia. (n.d.). CIE 1964 color space. Retrieved
+    June 10, 2014, from http://en.wikipedia.org/wiki/CIE_1964_color_space
 """
 
 from __future__ import division, unicode_literals
@@ -28,7 +27,7 @@ from colour.models import (UCS_to_uv, XYZ_to_UCS, XYZ_to_xyY, xy_to_xyY,
 from colour.utilities import tsplit, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -57,16 +56,20 @@ def XYZ_to_UVW(
     ndarray
         *CIE 1964 U\*V\*W\** colourspace array.
 
+    Warning
+    -------
+    The input domain and output range of that definition are non standard!
+
     Notes
     -----
     -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
     -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
         colourspace array are in domain [0, :math:`\infty`].
-    -   Output *CIE UVW* colourspace array is in range [0, 100].
+    -   Output *CIE 1964 U\*V\*W\** colourspace array is in range [0, 100].
 
-    Warning
-    -------
-    The input / output domains of that definition are non standard!
+    References
+    ----------
+    -   :cite:`Wikipediacj`
 
     Examples
     --------

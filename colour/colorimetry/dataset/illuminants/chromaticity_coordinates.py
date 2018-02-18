@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Illuminants Chromaticity Coordinates
@@ -22,7 +21,7 @@ The following *CIE* illuminants are available:
 
 The following other illuminants are available:
 
-- DCI-P3 (*CIE 1931 2 Degree Standard Observer* only) [2]_
+- DCI-P3 (*CIE 1931 2 Degree Standard Observer* only)
 
 See Also
 --------
@@ -39,19 +38,19 @@ matching spectral power distribution is Kinoton 75P projector.
 Notes
 -----
 -   *CIE* illuminants with chromaticity coordinates not defined in the
-    reference [1]_ have been calculated using their relative spectral power
-    distributions and the
+    reference :cite:`Wikipediack` have been calculated using their relative
+    spectral power distributions and the
     :func:`colour.colorimetry.tristimulus.spectral_to_XYZ` definition.
 
 References
 ----------
-.. [1]  Wikipedia. (n.d.). White points of standard illuminants. Retrieved
-        February 24, 2014, from http://en.wikipedia.org/wiki/\
-Standard_illuminant#White_points_of_standard_illuminants
-.. [2]  Digital Cinema Initiatives. (2007). Digital Cinema System
-        Specification - Version 1.1. Retrieved from
-        http://www.dcimovies.com/archives/spec_v1_1/\
+-   :cite:`DigitalCinemaInitiatives2007b` : Digital Cinema Initiatives. (2007).
+    Digital Cinema System Specification - Version 1.1. Retrieved from
+    http://www.dcimovies.com/archives/spec_v1_1/\
 DCI_DCinema_System_Spec_v1_1.pdf
+-   :cite:`Wikipediack` : Wikipedia. (n.d.). White points of standard
+    illuminants. Retrieved February 24, 2014, from http://en.wikipedia.org/\
+wiki/Standard_illuminant#White_points_of_standard_illuminants
 """
 
 from __future__ import division, unicode_literals
@@ -61,7 +60,7 @@ import numpy as np
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -99,6 +98,11 @@ ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER = CaseInsensitiveMapping({
 *CIE* illuminant chromaticity coordinates for
 *CIE 1931 2 Degree Standard Observer*.
 
+References
+----------
+-   :cite:`Wikipediack`
+-   :cite:`DigitalCinemaInitiatives2007b`
+
 ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER : CaseInsensitiveMapping
 """
 
@@ -129,6 +133,10 @@ ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER = CaseInsensitiveMapping({
 *CIE* illuminant chromaticity coordinates for
 *CIE 1964 10 Degree Standard Observer*.
 
+References
+----------
+-   :cite:`Wikipediack`
+
 ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER : CaseInsensitiveMapping
 """
 
@@ -138,8 +146,13 @@ ILLUMINANTS = CaseInsensitiveMapping({
     'CIE 1964 10 Degree Standard Observer':
         ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER
 })
-"""
+ILLUMINANTS.__doc__ = """
 Aggregated *CIE* illuminants chromaticity coordinates.
+
+References
+----------
+-   :cite:`Wikipediack`
+-   :cite:`DigitalCinemaInitiatives2007b`
 
 ILLUMINANTS : CaseInsensitiveMapping
     **{'CIE 1931 2 Degree Standard Observer',

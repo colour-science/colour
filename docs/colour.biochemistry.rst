@@ -1,17 +1,17 @@
-colour\.biochemistry Package
-============================
+Biochemistry
+============
 
-Sub-Modules
------------
+.. contents:: :local:
 
-.. toctree::
+Michaelis–Menten Kinetics
+-------------------------
 
-   colour.biochemistry.michaelis_menten
+``colour.biochemistry``
 
-Module Contents
----------------
+.. currentmodule:: colour.biochemistry
 
-.. automodule:: colour.biochemistry
-    :members:
-    :undoc-members:
-    :show-inheritance:
+.. autosummary::
+    :toctree: generated/
+
+    reaction_rate_MichealisMenten
+    substrate_concentration_MichealisMenten

@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Munsell Renotation System Dataset - All Munsell Colours
@@ -13,10 +12,30 @@ See Also
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/notation/munsell.ipynb>`_
 
+Notes
+-----
+-   The Munsell Renotation data commonly available within the all.dat,
+    experimental.dat and real.dat files features *CIE xyY* colourspace values
+    that are scaled by a :math:`1 / 0.975 \simeq 1.02568` factor. If you are
+    performing conversions using *Munsell* *Colorlab* specification,
+    e.g. *2.5R 9/2*, according to *ASTM D1535-08e1* method, you should not
+    scale the output :math:`Y` Luminance. However, if you use directly the
+    *CIE xyY* colourspace values from the Munsell Renotation data data, you
+    should scale the :math:`Y` Luminance before conversions by a :math:`0.975`
+    factor.
+
+    *ASTM D1535-08e1* states that::
+
+        The coefficients of this equation are obtained from the 1943 equation
+        by multiplying each coefficient by 0.975, the reflectance factor of
+        magnesium oxide with respect to the perfect reflecting diffuser, and
+        rounding to ve digits of precision.
+
 References
 ----------
-.. [1]  Munsell Color Science. (n.d.). Munsell Colours Data. Retrieved August
-        20, 2014, from http://www.cis.rit.edu/research/mcsl2/online/munsell.php
+-   :cite:`MunsellColorSciencec` : Munsell Color Science. (n.d.). Munsell
+    Colours Data. Retrieved August 20, 2014, from
+    http://www.cis.rit.edu/research/mcsl2/online/munsell.php
 """
 
 from __future__ import division, unicode_literals
@@ -24,7 +43,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -5032,6 +5051,10 @@ MUNSELL_COLOURS_ALL = (
 # yapf: enable
 """
 *All* published *Munsell* colours, including the extrapolated colors.
+
+References
+----------
+-   :cite:`MunsellColorSciencec`
 
 MUNSELL_COLOURS_ALL : tuple
    (('hue', 'value', 'chroma'), np.array(['x', 'y', 'Y']))

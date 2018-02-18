@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 RIMM, ROMM and ERIMM Encodings
@@ -7,14 +6,14 @@ RIMM, ROMM and ERIMM Encodings
 Defines the *RIMM, ROMM and ERIMM* encodings opto-electrical transfer functions
 (OETF / OECF) and electro-optical transfer functions (EOTF / EOCF):
 
--   :func:`oetf_ROMMRGB`
--   :func:`eotf_ROMMRGB`
--   :func:`oetf_ProPhotoRGB`
--   :func:`eotf_ProPhotoRGB`
--   :func:`oetf_RIMMRGB`
--   :func:`eotf_RIMMRGB`
--   :func:`log_encoding_ERIMMRGB`
--   :func:`log_decoding_ERIMMRGB`
+-   :func:`colour.models.oetf_ROMMRGB`
+-   :func:`colour.models.eotf_ROMMRGB`
+-   :func:`colour.models.oetf_ProPhotoRGB`
+-   :func:`colour.models.eotf_ProPhotoRGB`
+-   :func:`colour.models.oetf_RIMMRGB`
+-   :func:`colour.models.eotf_RIMMRGB`
+-   :func:`colour.models.log_encoding_ERIMMRGB`
+-   :func:`colour.models.log_decoding_ERIMMRGB`
 
 See Also
 --------
@@ -24,11 +23,12 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  Spaulding, K. E., Woolfe, G. J., & Giorgianni, E. J. (2000). Reference
-        Input/Output Medium Metric RGB Color Encodings (RIMM/ROMM RGB), 1–8.
-        Retrieved from http://www.photo-lovers.org/pdf/color/romm.pdf
-.. [3]  ANSI. (2003). Specification of ROMM RGB. Retrieved from
-        http://www.color.org/ROMMRGB.pdf
+-   :cite:`ANSI2003a` : ANSI. (2003). Specification of ROMM RGB. Retrieved from
+    http://www.color.org/ROMMRGB.pdf
+-   :cite:`Spaulding2000b` : Spaulding, K. E., Woolfe, G. J., &
+    Giorgianni, E. J. (2000). Reference Input/Output Medium Metric RGB Color
+    Encodings (RIMM/ROMM RGB). Retrieved from
+    http://www.photo-lovers.org/pdf/color/romm.pdf
 """
 
 from __future__ import division, unicode_literals
@@ -38,7 +38,7 @@ import numpy as np
 from colour.utilities import as_numeric
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -69,6 +69,11 @@ def oetf_ROMMRGB(X, I_max=255):
     numeric or ndarray
         Non-linear data :math:`X'_{ROMM}`.
 
+    References
+    ----------
+    -   :cite:`ANSI2003a`
+    -   :cite:`Spaulding2000b`
+
     Examples
     --------
     >>> oetf_ROMMRGB(0.18)  # doctest: +ELLIPSIS
@@ -80,9 +85,7 @@ def oetf_ROMMRGB(X, I_max=255):
     E_t = 16 ** (1.8 / (1 - 1.8))
 
     return as_numeric(
-        np.clip(
-            np.where(X < E_t, X * 16 * I_max, X ** (1 / 1.8) * I_max), 0,
-            I_max))
+        np.where(X < E_t, X * 16 * I_max, X ** (1 / 1.8) * I_max))
 
 
 def eotf_ROMMRGB(X_p, I_max=255):
@@ -102,6 +105,11 @@ def eotf_ROMMRGB(X_p, I_max=255):
     -------
     numeric or ndarray
         Linear data :math:`X_{ROMM}`.
+
+    References
+    ----------
+    -   :cite:`ANSI2003a`
+    -   :cite:`Spaulding2000b`
 
     Examples
     --------
@@ -145,6 +153,10 @@ def oetf_RIMMRGB(X, I_max=255, E_clip=2.0):
     numeric or ndarray
         Non-linear data :math:`X'_{RIMM}`.
 
+    References
+    ----------
+    -   :cite:`Spaulding2000b`
+
     Examples
     --------
     >>> oetf_RIMMRGB(0.18)  # doctest: +ELLIPSIS
@@ -181,6 +193,10 @@ def eotf_RIMMRGB(X_p, I_max=255, E_clip=2.0):
     -------
     numeric or ndarray
         Linear data :math:`X_{RIMM}`.
+
+    References
+    ----------
+    -   :cite:`Spaulding2000b`
 
     Examples
     --------
@@ -222,6 +238,10 @@ def log_encoding_ERIMMRGB(X, I_max=255, E_min=0.001, E_clip=316.2):
     numeric or ndarray
         Non-linear data :math:`X'_{ERIMM}`.
 
+    References
+    ----------
+    -   :cite:`Spaulding2000b`
+
     Examples
     --------
     >>> log_encoding_ERIMMRGB(0.18)  # doctest: +ELLIPSIS
@@ -262,6 +282,10 @@ def log_decoding_ERIMMRGB(X_p, I_max=255, E_min=0.001, E_clip=316.2):
     -------
     numeric or ndarray
         Linear data :math:`X_{ERIMM}`.
+
+    References
+    ----------
+    -   :cite:`Spaulding2000b`
 
     Examples
     --------

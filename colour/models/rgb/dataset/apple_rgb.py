@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Apple RGB Colourspace
@@ -6,7 +5,7 @@ Apple RGB Colourspace
 
 Defines the *Apple RGB* colourspace:
 
--   :attr:`APPLE_RGB_COLOURSPACE`.
+-   :attr:`colour.models.APPLE_RGB_COLOURSPACE`.
 
 See Also
 --------
@@ -16,8 +15,8 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
-.. [1]  Susstrunk, S., Buckley, R., & Swen, S. (1999). Standard RGB Color
-        Spaces. New York, 127–134. ISBN:2166-9635
+-   :cite:`Susstrunk1999a` : Susstrunk, S., Buckley, R., & Swen, S. (1999).
+    Standard RGB Color Spaces. ISBN:2166-9635
 """
 
 from __future__ import division, unicode_literals
@@ -30,7 +29,7 @@ from colour.models.rgb import (RGB_Colourspace, function_gamma,
                                normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -42,10 +41,11 @@ __all__ = [
     'APPLE_RGB_COLOURSPACE'
 ]
 
-APPLE_RGB_PRIMARIES = np.array(
-    [[0.6250, 0.3400],
-     [0.2800, 0.5950],
-     [0.1550, 0.0700]])  # yapf: disable
+APPLE_RGB_PRIMARIES = np.array([
+    [0.6250, 0.3400],
+    [0.2800, 0.5950],
+    [0.1550, 0.0700],
+])
 """
 *Apple RGB* colourspace primaries.
 
@@ -90,9 +90,13 @@ APPLE_RGB_COLOURSPACE = RGB_Colourspace(
     APPLE_RGB_TO_XYZ_MATRIX,
     XYZ_TO_APPLE_RGB_MATRIX,
     partial(function_gamma, exponent=1 / 1.8),
-    partial(function_gamma, exponent=1.8))  # yapf: disable
-"""
+    partial(function_gamma, exponent=1.8), )
+APPLE_RGB_COLOURSPACE.__doc__ = """
 *Apple RGB* colourspace.
+
+References
+----------
+-   :cite:`Susstrunk1999a`
 
 APPLE_RGB_COLOURSPACE : RGB_Colourspace
 """

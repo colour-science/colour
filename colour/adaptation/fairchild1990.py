@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Fairchild (1990) Chromatic Adaptation Model
@@ -6,7 +5,7 @@ Fairchild (1990) Chromatic Adaptation Model
 
 Defines *Fairchild (1990)* chromatic adaptation model objects:
 
--   :func:`chromatic_adaptation_Fairchild1990`
+-   :func:`colour.adaptation.chromatic_adaptation_Fairchild1990`
 
 See Also
 --------
@@ -16,11 +15,11 @@ blob/master/notebooks/adaptation/fairchild1990.ipynb>`_
 
 References
 ----------
-.. [1]  Fairchild, M. D. (1991). Formulation and testing of an
-        incomplete-chromatic-adaptation model. Color Research & Application,
-        16(4), 243–250. doi:10.1002/col.5080160406
-.. [2]  Fairchild, M. D. (2013). FAIRCHILD’S 1990 MODEL. In Color Appearance
-        Models (3rd ed., pp. 4418–4495). Wiley. ASIN:B00DAYO8E2
+-   :cite:`Fairchild1991a` : Fairchild, M. D. (1991). Formulation and testing
+    of an incomplete-chromatic-adaptation model. Color Research & Application,
+    16(4), 243-250. doi:10.1002/col.5080160406
+-   :cite:`Fairchild2013s` : Fairchild, M. D. (2013). FAIRCHILD'S 1990 MODEL.
+    In Color Appearance Models (3rd ed., pp. 4418-4495). Wiley. ISBN:B00DAYO8E2
 """
 
 from __future__ import division, unicode_literals
@@ -31,7 +30,7 @@ from colour.adaptation import VON_KRIES_CAT
 from colour.utilities import dot_vector, row_as_diagonal, tsplit, tstack
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -92,7 +91,7 @@ def chromatic_adaptation_Fairchild1990(XYZ_1,
 
     Warning
     -------
-    The input domain of that definition is non standard!
+    The input domain and output range of that definition are non standard!
 
     Notes
     -----
@@ -100,14 +99,19 @@ def chromatic_adaptation_Fairchild1990(XYZ_1,
         in domain [0, 100].
     -   Output *CIE XYZ_2* tristimulus values are in range [0, 100].
 
+    References
+    ----------
+    -   :cite:`Fairchild1991a`
+    -   :cite:`Fairchild2013s`
+
     Examples
     --------
     >>> XYZ_1 = np.array([19.53, 23.07, 24.97])
     >>> XYZ_n = np.array([111.15, 100.00, 35.20])
     >>> XYZ_r = np.array([94.81, 100.00, 107.30])
     >>> Y_n = 200
-    >>> chromatic_adaptation_Fairchild1990(  # doctest: +ELLIPSIS
-    ...     XYZ_1, XYZ_n, XYZ_r, Y_n)
+    >>> chromatic_adaptation_Fairchild1990(XYZ_1, XYZ_n, XYZ_r, Y_n)
+    ... # doctest: +ELLIPSIS
     array([ 23.3252634...,  23.3245581...,  76.1159375...])
     """
 

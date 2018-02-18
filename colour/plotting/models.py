@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Colour Models Plotting
@@ -6,14 +5,20 @@ Colour Models Plotting
 
 Defines the colour models plotting objects:
 
--   :func:`RGB_colourspaces_CIE_1931_chromaticity_diagram_plot`
--   :func:`RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot`
--   :func:`RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot`
--   :func:`RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot`
--   :func:`RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot`
--   :func:`RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot`
--   :func:`single_cctf_plot`
--   :func:`multi_cctf_plot`
+-   :func:`colour.plotting.\
+RGB_colourspaces_chromaticity_diagram_plot_CIE1931`
+-   :func:`colour.plotting.\
+RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS`
+-   :func:`colour.plotting.\
+RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS`
+-   :func:`colour.plotting.\
+RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931`
+-   :func:`colour.plotting.\
+RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS`
+-   :func:`colour.plotting.\
+RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS`
+-   :func:`colour.plotting.single_cctf_plot`
+-   :func:`colour.plotting.multi_cctf_plot`
 """
 
 from __future__ import division
@@ -27,31 +32,34 @@ from colour.models import (LCHab_to_Lab, Lab_to_XYZ, Luv_to_uv,
                            POINTER_GAMUT_ILLUMINANT, RGB_to_XYZ, UCS_to_uv,
                            XYZ_to_Luv, XYZ_to_UCS, XYZ_to_xy, xy_to_XYZ)
 from colour.plotting import (
-    CIE_1931_chromaticity_diagram_plot, CIE_1960_UCS_chromaticity_diagram_plot,
-    CIE_1976_UCS_chromaticity_diagram_plot, DEFAULT_FIGURE_WIDTH,
-    DEFAULT_PLOTTING_ILLUMINANT, boundaries, canvas, colour_cycle, decorate,
-    display, get_RGB_colourspace, get_cmfs)
+    chromaticity_diagram_plot_CIE1931, chromaticity_diagram_plot_CIE1960UCS,
+    chromaticity_diagram_plot_CIE1976UCS, DEFAULT_FIGURE_WIDTH,
+    DEFAULT_PLOTTING_ILLUMINANT, canvas, colour_cycle, get_RGB_colourspace,
+    get_cmfs, render)
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'RGB_colourspaces_CIE_1931_chromaticity_diagram_plot',
-    'RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot',
-    'RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot',
-    'RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot',
-    'RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot',
-    'RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot',
+    'RGB_colourspaces_chromaticity_diagram_plot_CIE1931',
+    'RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS',
+    'RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS',
+    'RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931',
+    'RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS',
+    'RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS',
     'single_cctf_plot', 'multi_cctf_plot'
 ]
 
 
-def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
-        colourspaces=None, cmfs='CIE 1931 2 Degree Standard Observer',
+def RGB_colourspaces_chromaticity_diagram_plot_CIE1931(
+        colourspaces=None,
+        cmfs='CIE 1931 2 Degree Standard Observer',
+        chromaticity_diagram_callable_CIE1931=(
+            chromaticity_diagram_plot_CIE1931),
         **kwargs):
     """
     Plots given *RGB* colourspaces in *CIE 1931 Chromaticity Diagram*.
@@ -62,16 +70,21 @@ def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
         *RGB* colourspaces to plot.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
+    chromaticity_diagram_callable_CIE1931 : callable, optional
+        Callable responsible for drawing the *CIE 1931 Chromaticity Diagram*.
 
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
     show_diagram_colours : bool, optional
-        {:func:`CIE_1931_chromaticity_diagram_plot`},
+        {:func:`colour.plotting.chromaticity_diagram_plot_CIE1931`},
         Whether to display the chromaticity diagram background colours.
+    use_cached_diagram_colours : bool, optional
+        {:func:`colour.plotting.chromaticity_diagram_plot_CIE1931`},
+        Whether to used the cached chromaticity diagram background colours
+        image.
 
     Returns
     -------
@@ -80,9 +93,9 @@ def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
 
     Examples
     --------
-    >>> c = ['Rec. 709', 'ACEScg', 'S-Gamut']
-    >>> RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
-    ...     c)  # doctest: +SKIP
+    >>> c = ['ITU-R Rec. 709', 'ACEScg', 'S-Gamut']
+    >>> RGB_colourspaces_chromaticity_diagram_plot_CIE1931(c)
+    ... # doctest: +SKIP
     """
 
     settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
@@ -91,7 +104,7 @@ def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
     canvas(**settings)
 
     if colourspaces is None:
-        colourspaces = ('Rec. 709', 'ACEScg', 'S-Gamut', 'Pointer Gamut')
+        colourspaces = ('ITU-R BT.709', 'ACEScg', 'S-Gamut', 'Pointer Gamut')
 
     cmfs, name = get_cmfs(cmfs), cmfs
 
@@ -104,7 +117,7 @@ def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
     }
     settings.update(kwargs)
 
-    CIE_1931_chromaticity_diagram_plot(**settings)
+    chromaticity_diagram_callable_CIE1931(**settings)
 
     x_limit_min, x_limit_max = [-0.1], [0.9]
     y_limit_min, y_limit_max = [-0.1], [0.9]
@@ -127,12 +140,12 @@ def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
                 label='Pointer\'s Gamut',
                 color=colour_p,
                 alpha=alpha_p,
-                linewidth=2)
+                linewidth=1)
             pylab.plot(
                 (xy[-1][0], xy[0][0]), (xy[-1][1], xy[0][1]),
                 color=colour_p,
                 alpha=alpha_p,
-                linewidth=2)
+                linewidth=1)
 
             XYZ = Lab_to_XYZ(
                 LCHab_to_Lab(POINTER_GAMUT_DATA), POINTER_GAMUT_ILLUMINANT)
@@ -156,24 +169,24 @@ def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
                 (W[0], W[0]), (W[1], W[1]),
                 color=(r, g, b),
                 label=colourspace.name,
-                linewidth=2)
+                linewidth=1)
             pylab.plot(
-                (W[0], W[0]), (W[1], W[1]), 'o', color=(r, g, b), linewidth=2)
+                (W[0], W[0]), (W[1], W[1]), 'o', color=(r, g, b), linewidth=1)
             pylab.plot(
                 (P[0, 0], P[1, 0]), (P[0, 1], P[1, 1]),
                 'o-',
                 color=(r, g, b),
-                linewidth=2)
+                linewidth=1)
             pylab.plot(
                 (P[1, 0], P[2, 0]), (P[1, 1], P[2, 1]),
                 'o-',
                 color=(r, g, b),
-                linewidth=2)
+                linewidth=1)
             pylab.plot(
                 (P[2, 0], P[0, 0]), (P[2, 1], P[0, 1]),
                 'o-',
                 color=(r, g, b),
-                linewidth=2)
+                linewidth=1)
 
             x_limit_min.append(np.amin(P[..., 0]) - 0.1)
             y_limit_min.append(np.amin(P[..., 1]) - 0.1)
@@ -196,14 +209,14 @@ def RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(
     })
     settings.update(kwargs)
 
-    boundaries(**settings)
-    decorate(**settings)
-
-    return display(**settings)
+    return render(**settings)
 
 
-def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
-        colourspaces=None, cmfs='CIE 1931 2 Degree Standard Observer',
+def RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS(
+        colourspaces=None,
+        cmfs='CIE 1931 2 Degree Standard Observer',
+        chromaticity_diagram_callable_CIE1960UCS=(
+            chromaticity_diagram_plot_CIE1960UCS),
         **kwargs):
     """
     Plots given *RGB* colourspaces in *CIE 1960 UCS Chromaticity Diagram*.
@@ -214,16 +227,22 @@ def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
         *RGB* colourspaces to plot.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
+    chromaticity_diagram_callable_CIE1960UCS : callable, optional
+        Callable responsible for drawing the
+        *CIE 1960 UCS Chromaticity Diagram*.
 
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
     show_diagram_colours : bool, optional
-        {:func:`CIE_1960_UCS_chromaticity_diagram_plot`},
+        {:func:`colour.plotting.chromaticity_diagram_plot_CIE1960UCS`},
         Whether to display the chromaticity diagram background colours.
+    use_cached_diagram_colours : bool, optional
+        {:func:`colour.plotting.chromaticity_diagram_plot_CIE1960UCS`},
+        Whether to used the cached chromaticity diagram background colours
+        image.
 
     Returns
     -------
@@ -232,9 +251,9 @@ def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
 
     Examples
     --------
-    >>> c = ['Rec. 709', 'ACEScg', 'S-Gamut']
-    >>> RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
-    ...     c)  # doctest: +SKIP
+    >>> c = ['ITU-R Rec. 709', 'ACEScg', 'S-Gamut']
+    >>> RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS(c)
+    ... # doctest: +SKIP
     """
 
     settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
@@ -243,7 +262,7 @@ def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
     canvas(**settings)
 
     if colourspaces is None:
-        colourspaces = ('Rec. 709', 'ACEScg', 'S-Gamut', 'Pointer Gamut')
+        colourspaces = ('ITU-R BT.709', 'ACEScg', 'S-Gamut', 'Pointer Gamut')
 
     cmfs, name = get_cmfs(cmfs), cmfs
 
@@ -256,7 +275,7 @@ def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
     }
     settings.update(kwargs)
 
-    CIE_1960_UCS_chromaticity_diagram_plot(**settings)
+    chromaticity_diagram_callable_CIE1960UCS(**settings)
 
     x_limit_min, x_limit_max = [-0.1], [0.7]
     y_limit_min, y_limit_max = [-0.2], [0.6]
@@ -279,12 +298,12 @@ def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
                 label='Pointer\'s Gamut',
                 color=colour_p,
                 alpha=alpha_p,
-                linewidth=2)
+                linewidth=1)
             pylab.plot(
                 (uv[-1][0], uv[0][0]), (uv[-1][1], uv[0][1]),
                 color=colour_p,
                 alpha=alpha_p,
-                linewidth=2)
+                linewidth=1)
 
             XYZ = Lab_to_XYZ(
                 LCHab_to_Lab(POINTER_GAMUT_DATA), POINTER_GAMUT_ILLUMINANT)
@@ -314,24 +333,24 @@ def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
                 (W[0], W[0]), (W[1], W[1]),
                 color=(r, g, b),
                 label=colourspace.name,
-                linewidth=2)
+                linewidth=1)
             pylab.plot(
-                (W[0], W[0]), (W[1], W[1]), 'o', color=(r, g, b), linewidth=2)
+                (W[0], W[0]), (W[1], W[1]), 'o', color=(r, g, b), linewidth=1)
             pylab.plot(
                 (P[0, 0], P[1, 0]), (P[0, 1], P[1, 1]),
                 'o-',
                 color=(r, g, b),
-                linewidth=2)
+                linewidth=1)
             pylab.plot(
                 (P[1, 0], P[2, 0]), (P[1, 1], P[2, 1]),
                 'o-',
                 color=(r, g, b),
-                linewidth=2)
+                linewidth=1)
             pylab.plot(
                 (P[2, 0], P[0, 0]), (P[2, 1], P[0, 1]),
                 'o-',
                 color=(r, g, b),
-                linewidth=2)
+                linewidth=1)
 
             x_limit_min.append(np.amin(P[..., 0]) - 0.1)
             y_limit_min.append(np.amin(P[..., 1]) - 0.1)
@@ -354,14 +373,14 @@ def RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(
     })
     settings.update(kwargs)
 
-    boundaries(**settings)
-    decorate(**settings)
-
-    return display(**settings)
+    return render(**settings)
 
 
-def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
-        colourspaces=None, cmfs='CIE 1931 2 Degree Standard Observer',
+def RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS(
+        colourspaces=None,
+        cmfs='CIE 1931 2 Degree Standard Observer',
+        chromaticity_diagram_callable_CIE1976UCS=(
+            chromaticity_diagram_plot_CIE1976UCS),
         **kwargs):
     """
     Plots given *RGB* colourspaces in *CIE 1976 UCS Chromaticity Diagram*.
@@ -372,16 +391,22 @@ def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
         *RGB* colourspaces to plot.
     cmfs : unicode, optional
         Standard observer colour matching functions used for diagram bounds.
+    chromaticity_diagram_callable_CIE1976UCS : callable, optional
+        Callable responsible for drawing the
+        *CIE 1976 UCS Chromaticity Diagram*.
 
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
     show_diagram_colours : bool, optional
-        {:func:`CIE_1976_UCS_chromaticity_diagram_plot`},
+        {:func:`colour.plotting.chromaticity_diagram_plot_CIE1976UCS`},
         Whether to display the chromaticity diagram background colours.
+    use_cached_diagram_colours : bool, optional
+        {:func:`colour.plotting.chromaticity_diagram_plot_CIE1976UCS`},
+        Whether to used the cached chromaticity diagram background colours
+        image.
 
     Returns
     -------
@@ -390,9 +415,9 @@ def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
 
     Examples
     --------
-    >>> c = ['Rec. 709', 'ACEScg', 'S-Gamut']
-    >>> RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
-    ...     c)  # doctest: +SKIP
+    >>> c = ['ITU-R Rec. 709', 'ACEScg', 'S-Gamut']
+    >>> RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS(c)
+    ... # doctest: +SKIP
     """
 
     settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
@@ -401,7 +426,7 @@ def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
     canvas(**settings)
 
     if colourspaces is None:
-        colourspaces = ('Rec. 709', 'ACEScg', 'S-Gamut', 'Pointer Gamut')
+        colourspaces = ('ITU-R BT.709', 'ACEScg', 'S-Gamut', 'Pointer Gamut')
 
     cmfs, name = get_cmfs(cmfs), cmfs
 
@@ -416,7 +441,7 @@ def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
     }
     settings.update(kwargs)
 
-    CIE_1976_UCS_chromaticity_diagram_plot(**settings)
+    chromaticity_diagram_callable_CIE1976UCS(**settings)
 
     x_limit_min, x_limit_max = [-0.1], [0.7]
     y_limit_min, y_limit_max = [-0.1], [0.7]
@@ -441,12 +466,12 @@ def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
                 label='Pointer\'s Gamut',
                 color=colour_p,
                 alpha=alpha_p,
-                linewidth=2)
+                linewidth=1)
             pylab.plot(
                 (uv[-1][0], uv[0][0]), (uv[-1][1], uv[0][1]),
                 color=colour_p,
                 alpha=alpha_p,
-                linewidth=2)
+                linewidth=1)
 
             XYZ = Lab_to_XYZ(
                 LCHab_to_Lab(POINTER_GAMUT_DATA), POINTER_GAMUT_ILLUMINANT)
@@ -478,24 +503,24 @@ def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
                 (W[0], W[0]), (W[1], W[1]),
                 color=(r, g, b),
                 label=colourspace.name,
-                linewidth=2)
+                linewidth=1)
             pylab.plot(
-                (W[0], W[0]), (W[1], W[1]), 'o', color=(r, g, b), linewidth=2)
+                (W[0], W[0]), (W[1], W[1]), 'o', color=(r, g, b), linewidth=1)
             pylab.plot(
                 (P[0, 0], P[1, 0]), (P[0, 1], P[1, 1]),
                 'o-',
                 color=(r, g, b),
-                linewidth=2)
+                linewidth=1)
             pylab.plot(
                 (P[1, 0], P[2, 0]), (P[1, 1], P[2, 1]),
                 'o-',
                 color=(r, g, b),
-                linewidth=2)
+                linewidth=1)
             pylab.plot(
                 (P[2, 0], P[0, 0]), (P[2, 1], P[0, 1]),
                 'o-',
                 color=(r, g, b),
-                linewidth=2)
+                linewidth=1)
 
             x_limit_min.append(np.amin(P[..., 0]) - 0.1)
             y_limit_min.append(np.amin(P[..., 1]) - 0.1)
@@ -518,14 +543,15 @@ def RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(
     })
     settings.update(kwargs)
 
-    boundaries(**settings)
-    decorate(**settings)
-
-    return display(**settings)
+    return render(**settings)
 
 
-def RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot(
-        RGB, colourspace, **kwargs):
+def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931(
+        RGB,
+        colourspace='sRGB',
+        chromaticity_diagram_callable_CIE1931=(
+            RGB_colourspaces_chromaticity_diagram_plot_CIE1931),
+        **kwargs):
     """
     Plots given *RGB* colourspace array in *CIE 1931 Chromaticity Diagram*.
 
@@ -533,18 +559,23 @@ def RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot(
     ----------
     RGB : array_like
         *RGB* colourspace array.
-    colourspace : unicode
+    colourspace : optional, unicode
         *RGB* colourspace of the *RGB* array.
+    chromaticity_diagram_callable_CIE1931 : callable, optional
+        Callable responsible for drawing the *CIE 1931 Chromaticity Diagram*.
 
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
     show_diagram_colours : bool, optional
-        {:func:`CIE_1931_chromaticity_diagram_plot`},
+        {:func:`colour.plotting.chromaticity_diagram_plot_CIE1931`},
         Whether to display the chromaticity diagram background colours.
+    use_cached_diagram_colours : bool, optional
+        {:func:`colour.plotting.chromaticity_diagram_plot_CIE1931`},
+        Whether to used the cached chromaticity diagram background colours
+        image.
 
     Returns
     -------
@@ -554,9 +585,9 @@ def RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot(
     Examples
     --------
     >>> RGB = np.random.random((10, 10, 3))
-    >>> c = 'Rec. 709'
-    >>> RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot(
-    ...     RGB, c)  # doctest: +SKIP
+    >>> c = 'ITU-R Rec. 709'
+    >>> RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931(RGB, c)
+    ... # doctest: +SKIP
     """
 
     settings = {}
@@ -566,7 +597,7 @@ def RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot(
     colourspace, name = get_RGB_colourspace(colourspace), colourspace
     settings['colourspaces'] = ([name] + settings.get('colourspaces', []))
 
-    RGB_colourspaces_CIE_1931_chromaticity_diagram_plot(**settings)
+    chromaticity_diagram_callable_CIE1931(**settings)
 
     alpha_p, colour_p = 0.85, 'black'
 
@@ -580,14 +611,15 @@ def RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot(
     settings.update({'standalone': True})
     settings.update(kwargs)
 
-    boundaries(**settings)
-    decorate(**settings)
-
-    return display(**settings)
+    return render(**settings)
 
 
-def RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot(
-        RGB, colourspace, **kwargs):
+def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS(
+        RGB,
+        colourspace='sRGB',
+        chromaticity_diagram_callable_CIE1960UCS=(
+            RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS),
+        **kwargs):
     """
     Plots given *RGB* colourspace array in *CIE 1960 UCS Chromaticity Diagram*.
 
@@ -595,18 +627,24 @@ def RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot(
     ----------
     RGB : array_like
         *RGB* colourspace array.
-    colourspace : unicode
+    colourspace : optional, unicode
         *RGB* colourspace of the *RGB* array.
+    chromaticity_diagram_callable_CIE1960UCS : callable, optional
+        Callable responsible for drawing the
+        *CIE 1960 UCS Chromaticity Diagram*.
 
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
     show_diagram_colours : bool, optional
-        {:func:`CIE_1960_UCS_chromaticity_diagram_plot`},
+        {:func:`colour.plotting.chromaticity_diagram_plot_CIE1960UCS`},
         Whether to display the chromaticity diagram background colours.
+    use_cached_diagram_colours : bool, optional
+        {:func:`colour.plotting.chromaticity_diagram_plot_CIE1960UCS`},
+        Whether to used the cached chromaticity diagram background colours
+        image.
 
     Returns
     -------
@@ -616,8 +654,8 @@ def RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot(
     Examples
     --------
     >>> RGB = np.random.random((10, 10, 3))
-    >>> c = 'Rec. 709'
-    >>> RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot(
+    >>> c = 'ITU-R BT.709'
+    >>> RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS(
     ...     RGB, c)  # doctest: +SKIP
     """
 
@@ -628,7 +666,7 @@ def RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot(
     colourspace, name = get_RGB_colourspace(colourspace), colourspace
     settings['colourspaces'] = ([name] + settings.get('colourspaces', []))
 
-    RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot(**settings)
+    chromaticity_diagram_callable_CIE1960UCS(**settings)
 
     alpha_p, colour_p = 0.85, 'black'
 
@@ -643,14 +681,15 @@ def RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot(
     settings.update({'standalone': True})
     settings.update(kwargs)
 
-    boundaries(**settings)
-    decorate(**settings)
-
-    return display(**settings)
+    return render(**settings)
 
 
-def RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot(
-        RGB, colourspace, **kwargs):
+def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS(
+        RGB,
+        colourspace='sRGB',
+        chromaticity_diagram_callable_CIE1976UCS=(
+            RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS),
+        **kwargs):
     """
     Plots given *RGB* colourspace array in *CIE 1976 UCS Chromaticity Diagram*.
 
@@ -658,18 +697,24 @@ def RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot(
     ----------
     RGB : array_like
         *RGB* colourspace array.
-    colourspace : unicode
+    colourspace : optional, unicode
         *RGB* colourspace of the *RGB* array.
+    chromaticity_diagram_callable_CIE1976UCS : callable, optional
+        Callable responsible for drawing the
+        *CIE 1976 UCS Chromaticity Diagram*.
 
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
     show_diagram_colours : bool, optional
-        {:func:`CIE_1976_UCS_chromaticity_diagram_plot`},
+        {:func:`colour.plotting.chromaticity_diagram_plot_CIE1976UCS`},
         Whether to display the chromaticity diagram background colours.
+    use_cached_diagram_colours : bool, optional
+        {:func:`colour.plotting.chromaticity_diagram_plot_CIE1976UCS`},
+        Whether to used the cached chromaticity diagram background colours
+        image.
 
     Returns
     -------
@@ -679,8 +724,8 @@ def RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot(
     Examples
     --------
     >>> RGB = np.random.random((10, 10, 3))
-    >>> c = 'Rec. 709'
-    >>> RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot(
+    >>> c = 'ITU-R BT.709'
+    >>> RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS(
     ...     RGB, c)  # doctest: +SKIP
     """
 
@@ -691,7 +736,7 @@ def RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot(
     colourspace, name = get_RGB_colourspace(colourspace), colourspace
     settings['colourspaces'] = ([name] + settings.get('colourspaces', []))
 
-    RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot(**settings)
+    chromaticity_diagram_callable_CIE1976UCS(**settings)
 
     alpha_p, colour_p = 0.85, 'black'
 
@@ -707,13 +752,11 @@ def RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot(
     settings.update({'standalone': True})
     settings.update(kwargs)
 
-    boundaries(**settings)
-    decorate(**settings)
-
-    return display(**settings)
+    return render(**settings)
 
 
-def single_cctf_plot(colourspace='Rec. 709', decoding_cctf=False, **kwargs):
+def single_cctf_plot(colourspace='ITU-R BT.709', decoding_cctf=False,
+                     **kwargs):
     """
     Plots given colourspace colour component transfer function.
 
@@ -727,9 +770,8 @@ def single_cctf_plot(colourspace='Rec. 709', decoding_cctf=False, **kwargs):
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
 
     Returns
     -------
@@ -765,9 +807,8 @@ def multi_cctf_plot(colourspaces=None, decoding_cctf=False, **kwargs):
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`boundaries`, :func:`canvas`, :func:`decorate`,
-        :func:`display`},
-        Please refer to the documentation of the previously listed definitions.
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definition.
 
     Returns
     -------
@@ -776,7 +817,7 @@ def multi_cctf_plot(colourspaces=None, decoding_cctf=False, **kwargs):
 
     Examples
     --------
-    >>> multi_cctf_plot(['Rec. 709', 'sRGB'])  # doctest: +SKIP
+    >>> multi_cctf_plot(['ITU-R BT.709', 'sRGB'])  # doctest: +SKIP
     """
 
     settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
@@ -785,7 +826,7 @@ def multi_cctf_plot(colourspaces=None, decoding_cctf=False, **kwargs):
     canvas(**settings)
 
     if colourspaces is None:
-        colourspaces = ('Rec. 709', 'sRGB')
+        colourspaces = ('ITU-R BT.709', 'sRGB')
 
     samples = np.linspace(0, 1, 1000)
     for colourspace in colourspaces:
@@ -795,7 +836,7 @@ def multi_cctf_plot(colourspaces=None, decoding_cctf=False, **kwargs):
                 if decoding_cctf else colourspace.encoding_cctf(samples))
 
         pylab.plot(
-            samples, RGBs, label=u'{0}'.format(colourspace.name), linewidth=2)
+            samples, RGBs, label=u'{0}'.format(colourspace.name), linewidth=1)
 
     mode = 'Decoding' if decoding_cctf else 'Encoding'
     settings.update({
@@ -811,7 +852,4 @@ def multi_cctf_plot(colourspaces=None, decoding_cctf=False, **kwargs):
     })
     settings.update(kwargs)
 
-    boundaries(**settings)
-    decorate(**settings)
-
-    return display(**settings)
+    return render(**settings)

@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Corresponding Chromaticities Prediction
@@ -14,10 +13,27 @@ blob/master/notebooks/corresponding/prediction.ipynb>`_
 
 References
 ----------
-.. [1]  Breneman, E. J. (1987). Corresponding chromaticities for different
-        states of adaptation to complex visual fields. JOSA A, 4(6). Retrieved
-        from http://www.opticsinfobase.org/josaa/\
-fulltext.cfm?uri=josaa-4-6-1115&id=2783
+-   :cite:`Breneman1987b` : Breneman, E. J. (1987). Corresponding
+    chromaticities for different states of adaptation to complex visual fields.
+    Journal of the Optical Society of America A, 4(6), 1115.
+    doi:10.1364/JOSAA.4.001115
+-   :cite:`CIETC1-321994b` : CIE TC 1-32. (1994). CIE 109-1994 A Method of
+    Predicting Corresponding Colours under Different Chromatic and Illuminance
+    Adaptations. ISBN:978-3-900734-51-0
+-   :cite:`Fairchild1991a` : Fairchild, M. D. (1991). Formulation and testing
+    of an incomplete-chromatic-adaptation model. Color Research & Application,
+    16(4), 243-250. doi:10.1002/col.5080160406
+-   :cite:`Fairchild2013s` : Fairchild, M. D. (2013). FAIRCHILD'S 1990 MODEL.
+    In Color Appearance Models (3rd ed., pp. 4418-4495). Wiley. ISBN:B00DAYO8E2
+-   :cite:`Fairchild2013t` : Fairchild, M. D. (2013). Chromatic Adaptation
+    Models. In Color Appearance Models (3rd ed., pp. 4179-4252). Wiley.
+    ISBN:B00DAYO8E2
+-   :cite:`Li2002a` : Li, C., Luo, M. R., Rigg, B., & Hunt, R. W. G. (2002).
+    CMC 2000 chromatic adaptation transform: CMCCAT2000. Color Research &
+    Application, 27(1), 49-58. doi:10.1002/col.10005
+-   :cite:`Westland2012k` : Westland, S., Ripamonti, C., & Cheung, V. (2012).
+    CMCCAT2000. In Computational Colour Science Using MATLAB
+    (2nd ed., pp. 83-86). ISBN:978-0-470-66569-5
 """
 
 from __future__ import division, unicode_literals
@@ -34,7 +50,7 @@ from colour.models import (Luv_to_uv, Luv_uv_to_xy, XYZ_to_Luv, XYZ_to_xy,
 from colour.utilities import CaseInsensitiveMapping, filter_kwargs
 
 __author__ = 'Colour Developers'
-__copyright__ = 'Copyright (C) 2013-2017 - Colour Developers'
+__copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
 __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
@@ -42,9 +58,9 @@ __status__ = 'Production'
 
 __all__ = [
     'CorrespondingChromaticitiesPrediction',
+    'corresponding_chromaticities_prediction_Fairchild1990',
     'corresponding_chromaticities_prediction_CIE1994',
     'corresponding_chromaticities_prediction_CMCCAT2000',
-    'corresponding_chromaticities_prediction_Fairchild1990',
     'corresponding_chromaticities_prediction_VonKries',
     'CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS',
     'corresponding_chromaticities_prediction'
@@ -70,6 +86,68 @@ class CorrespondingChromaticitiesPrediction(
     """
 
 
+def corresponding_chromaticities_prediction_Fairchild1990(experiment=1):
+    """
+    Returns the corresponding chromaticities prediction for *Fairchild (1990)*
+    chromatic adaptation model.
+
+    Parameters
+    ----------
+    experiment : integer, optional
+        {1, 2, 3, 4, 6, 8, 9, 11, 12}
+        *Breneman (1987)* experiment number.
+
+    Returns
+    -------
+    tuple
+        Corresponding chromaticities prediction.
+
+    References
+    ----------
+    -   :cite:`Breneman1987b`
+    -   :cite:`Fairchild1991a`
+    -   :cite:`Fairchild2013s`
+
+    Examples
+    --------
+    >>> from pprint import pprint
+    >>> pr = corresponding_chromaticities_prediction_Fairchild1990(2)
+    >>> pr = [(p.uvp_m, p.uvp_p) for p in pr]
+    >>> pprint(pr)  # doctest: +SKIP
+    [((0.207, 0.486), (0.2089528..., 0.4724034...)),
+     ((0.449, 0.511), (0.4375652..., 0.5121030...)),
+     ((0.263, 0.505), (0.2621362..., 0.4972538...)),
+     ((0.322, 0.545), (0.3235312..., 0.5475665...)),
+     ((0.316, 0.537), (0.3151390..., 0.5398333...)),
+     ((0.265, 0.553), (0.2634745..., 0.5544335...)),
+     ((0.221, 0.538), (0.2211595..., 0.5324470...)),
+     ((0.135, 0.532), (0.1396949..., 0.5207234...)),
+     ((0.145, 0.472), (0.1512288..., 0.4533041...)),
+     ((0.163, 0.331), (0.1715691..., 0.3026264...)),
+     ((0.176, 0.431), (0.1825792..., 0.4077892...)),
+     ((0.244, 0.349), (0.2418904..., 0.3413401...))]
+    """
+
+    experiment_results = list(BRENEMAN_EXPERIMENTS[experiment])
+
+    illuminants = experiment_results.pop(0)
+    XYZ_n = xy_to_XYZ(Luv_uv_to_xy(illuminants.uvp_t)) * 100
+    XYZ_r = xy_to_XYZ(Luv_uv_to_xy(illuminants.uvp_m)) * 100
+    xy_r = XYZ_to_xy(XYZ_r)
+    Y_n = BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES[experiment].Y
+
+    prediction = []
+    for result in experiment_results:
+        XYZ_1 = xy_to_XYZ(Luv_uv_to_xy(result.uvp_t)) * 100
+        XYZ_2 = chromatic_adaptation_Fairchild1990(XYZ_1, XYZ_n, XYZ_r, Y_n)
+        uvp = Luv_to_uv(XYZ_to_Luv(XYZ_2, xy_r), xy_r)
+        prediction.append(
+            CorrespondingChromaticitiesPrediction(result.name, result.uvp_t,
+                                                  result.uvp_m, uvp))
+
+    return tuple(prediction)
+
+
 def corresponding_chromaticities_prediction_CIE1994(experiment=1):
     """
     Returns the corresponding chromaticities prediction for *CIE 1994*
@@ -85,6 +163,11 @@ def corresponding_chromaticities_prediction_CIE1994(experiment=1):
     -------
     tuple
         Corresponding chromaticities prediction.
+
+    References
+    ----------
+    -   :cite:`Breneman1987b`
+    -   :cite:`CIETC1-321994b`
 
     Examples
     --------
@@ -144,6 +227,12 @@ def corresponding_chromaticities_prediction_CMCCAT2000(experiment=1):
     tuple
         Corresponding chromaticities prediction.
 
+    References
+    ----------
+    -   :cite:`Breneman1987b`
+    -   :cite:`Li2002a`
+    -   :cite:`Westland2012k`
+
     Examples
     --------
     >>> from pprint import pprint
@@ -185,62 +274,6 @@ def corresponding_chromaticities_prediction_CMCCAT2000(experiment=1):
     return tuple(prediction)
 
 
-def corresponding_chromaticities_prediction_Fairchild1990(experiment=1):
-    """
-    Returns the corresponding chromaticities prediction for *Fairchild (1990)*
-    chromatic adaptation model.
-
-    Parameters
-    ----------
-    experiment : integer, optional
-        {1, 2, 3, 4, 6, 8, 9, 11, 12}
-        *Breneman (1987)* experiment number.
-
-    Returns
-    -------
-    tuple
-        Corresponding chromaticities prediction.
-
-    Examples
-    --------
-    >>> from pprint import pprint
-    >>> pr = corresponding_chromaticities_prediction_Fairchild1990(2)
-    >>> pr = [(p.uvp_m, p.uvp_p) for p in pr]
-    >>> pprint(pr)  # doctest: +SKIP
-    [((0.207, 0.486), (0.2089528..., 0.4724034...)),
-     ((0.449, 0.511), (0.4375652..., 0.5121030...)),
-     ((0.263, 0.505), (0.2621362..., 0.4972538...)),
-     ((0.322, 0.545), (0.3235312..., 0.5475665...)),
-     ((0.316, 0.537), (0.3151390..., 0.5398333...)),
-     ((0.265, 0.553), (0.2634745..., 0.5544335...)),
-     ((0.221, 0.538), (0.2211595..., 0.5324470...)),
-     ((0.135, 0.532), (0.1396949..., 0.5207234...)),
-     ((0.145, 0.472), (0.1512288..., 0.4533041...)),
-     ((0.163, 0.331), (0.1715691..., 0.3026264...)),
-     ((0.176, 0.431), (0.1825792..., 0.4077892...)),
-     ((0.244, 0.349), (0.2418904..., 0.3413401...))]
-    """
-
-    experiment_results = list(BRENEMAN_EXPERIMENTS[experiment])
-
-    illuminants = experiment_results.pop(0)
-    XYZ_n = xy_to_XYZ(Luv_uv_to_xy(illuminants.uvp_t)) * 100
-    XYZ_r = xy_to_XYZ(Luv_uv_to_xy(illuminants.uvp_m)) * 100
-    xy_r = XYZ_to_xy(XYZ_r)
-    Y_n = BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES[experiment].Y
-
-    prediction = []
-    for result in experiment_results:
-        XYZ_1 = xy_to_XYZ(Luv_uv_to_xy(result.uvp_t)) * 100
-        XYZ_2 = chromatic_adaptation_Fairchild1990(XYZ_1, XYZ_n, XYZ_r, Y_n)
-        uvp = Luv_to_uv(XYZ_to_Luv(XYZ_2, xy_r), xy_r)
-        prediction.append(
-            CorrespondingChromaticitiesPrediction(result.name, result.uvp_t,
-                                                  result.uvp_m, uvp))
-
-    return tuple(prediction)
-
-
 def corresponding_chromaticities_prediction_VonKries(experiment=1,
                                                      transform='CAT02'):
     """
@@ -262,6 +295,11 @@ def corresponding_chromaticities_prediction_VonKries(experiment=1,
     -------
     tuple
         Corresponding chromaticities prediction.
+
+    References
+    ----------
+    -   :cite:`Breneman1987b`
+    -   :cite:`Fairchild2013t`
 
     Examples
     --------
@@ -308,8 +346,18 @@ CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS = CaseInsensitiveMapping({
     'Fairchild 1990': corresponding_chromaticities_prediction_Fairchild1990,
     'Von Kries': corresponding_chromaticities_prediction_VonKries
 })
-"""
+CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS.__doc__ = """
 Aggregated corresponding chromaticities prediction models.
+
+References
+----------
+-   :cite:`Breneman1987b`
+-   :cite:`CIETC1-321994b`
+-   :cite:`Fairchild1991a`
+-   :cite:`Fairchild2013s`
+-   :cite:`Fairchild2013t`
+-   :cite:`Li2002a`
+-   :cite:`Westland2012k`
 
 CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS : CaseInsensitiveMapping
     **{'CIE 1994', 'CMCCAT2000', 'Fairchild 1990', 'Von Kries'}**
@@ -341,7 +389,7 @@ def corresponding_chromaticities_prediction(experiment=1,
     Other Parameters
     ----------------
     transform : unicode, optional
-        {:func:`corresponding_chromaticities_prediction_VonKries`},
+        {:func:`colour.corresponding.corresponding_chromaticities_prediction_VonKries`},
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
         'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
         'Bianco PC'}**,
@@ -351,6 +399,16 @@ def corresponding_chromaticities_prediction(experiment=1,
     -------
     tuple
         Corresponding chromaticities prediction.
+
+    References
+    ----------
+    -   :cite:`Breneman1987b`
+    -   :cite:`CIETC1-321994b`
+    -   :cite:`Fairchild1991a`
+    -   :cite:`Fairchild2013s`
+    -   :cite:`Fairchild2013t`
+    -   :cite:`Li2002a`
+    -   :cite:`Westland2012k`
 
     Examples
     --------
@@ -374,6 +432,4 @@ def corresponding_chromaticities_prediction(experiment=1,
 
     function = CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS[model]
 
-    filter_kwargs(function, **kwargs)
-
-    return function(experiment, **kwargs)
+    return function(experiment, **filter_kwargs(function, **kwargs))

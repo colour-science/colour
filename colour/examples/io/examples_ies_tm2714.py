@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
 Showcases input / output *IES TM-27-14* spectral data XML files related
@@ -6,10 +5,9 @@ examples.
 """
 
 import os
-from pprint import pprint
 
 import colour
-from colour.utilities.verbose import message_box
+from colour.utilities import message_box
 
 RESOURCES_DIRECTORY = os.path.join(os.path.dirname(__file__), 'resources')
 
@@ -48,4 +46,4 @@ print('Bandwidth Corrected: {0}'.format(spd.bandwidth_corrected))
 print('\n')
 
 message_box('"IES TM-27-14" spectral data "XML" file spectral data:')
-pprint(list(spd.items))
+print(spd)
