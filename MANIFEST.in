@@ -2,11 +2,13 @@ include COPYING
 include LICENSE
 include *.bib
 include *.rst
+include docs/_build/latex/Colour.pdf
 graft colour/appearance/tests/fixtures
 graft colour/examples
 graft colour/io
 graft colour/plotting
-graft docs/_build
+graft docs/_build/html
+graft docs/_build/doctrees
 graft utilities
 global-exclude *.pyc
 global-exclude *.pyo
