@@ -388,8 +388,8 @@ def release(ctx):
 
     message_box('Releasing...')
     with ctx.cd('dist'):
-        ctx.run('twine upload dist/*.tar.gz')
-        ctx.run('twine upload dist/*.whl')
+        ctx.run('twine upload *.tar.gz')
+        ctx.run('twine upload *.whl')
 
 
 @task
