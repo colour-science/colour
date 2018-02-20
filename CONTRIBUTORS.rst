@@ -92,6 +92,7 @@ Issues & Discussions
 -   @Ron024
 -   @awehring
 -   @brandondube
+-   @cclauss
 -   @fangjy88
 -   @eyeforcolor
 -   @foutoucour
