@@ -6,8 +6,10 @@ Unicode to ASCII Utility
 """
 
 import sys
-reload(sys)
-sys.setdefaultencoding('utf-8')
+if sys.version_info[0] <= 3:
+    # Smelly hack for Python 2.x: https://stackoverflow.com/q/3828723/931625
+    reload(sys)  # noqa
+    sys.setdefaultencoding('utf-8')
 
 import codecs
 import os
