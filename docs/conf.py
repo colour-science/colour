@@ -213,9 +213,9 @@ latex_elements = {
     # Additional stuff for the LaTeX preamble.
     'preamble':
         """
-        \usepackage{charter}
-        \usepackage[defaultsans]{lato}
-        \usepackage{inconsolata}
+        \\usepackage{charter}
+        \\usepackage[defaultsans]{lato}
+        \\usepackage{inconsolata}
         """,
 }
 
