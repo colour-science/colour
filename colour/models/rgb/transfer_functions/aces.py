@@ -9,8 +9,8 @@ Defines the *Academy Color Encoding System* (ACES) log encodings:
 -   :func:`colour.models.log_decoding_ACESproxy`
 -   :func:`colour.models.log_encoding_ACEScc`
 -   :func:`colour.models.log_decoding_ACEScc`
--   :func:'log_encoding_ACEScct'
--   :func:'log_decoding_ACEScct'
+-   :func:`colour.models.log_encoding_ACEScct`
+-   :func:`colour.models.log_decoding_ACEScct`
 
 See Also
 --------
