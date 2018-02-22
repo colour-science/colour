@@ -46,7 +46,11 @@ VLOG_CONSTANTS : Structure
 """
 
 
-def log_encoding_VLog(L_in, bit_depth=10, out_legal=True, in_reflection=True):
+def log_encoding_VLog(L_in,
+                      bit_depth=10,
+                      out_legal=True,
+                      in_reflection=True,
+                      constants=VLOG_CONSTANTS):
     """
     Defines the *Panasonic V-Log* log encoding curve / opto-electronic transfer
     function.
@@ -62,6 +66,8 @@ def log_encoding_VLog(L_in, bit_depth=10, out_legal=True, in_reflection=True):
         encoded in legal range.
     in_reflection : bool, optional
         Whether the light level :math`L_{in}` to a camera is reflection.
+    constants : Structure, optional
+        *Panasonic V-Log* constants.
 
     Returns
     -------
@@ -83,10 +89,10 @@ def log_encoding_VLog(L_in, bit_depth=10, out_legal=True, in_reflection=True):
     if not in_reflection:
         L_in = L_in * 0.9
 
-    cut1 = VLOG_CONSTANTS.cut1
-    b = VLOG_CONSTANTS.b
-    c = VLOG_CONSTANTS.c
-    d = VLOG_CONSTANTS.d
+    cut1 = constants.cut1
+    b = constants.b
+    c = constants.c
+    d = constants.d
 
     V_out = np.where(L_in < cut1, 5.6 * L_in + 0.125,
                      c * np.log10(L_in + b) + d)
@@ -96,7 +102,11 @@ def log_encoding_VLog(L_in, bit_depth=10, out_legal=True, in_reflection=True):
     return as_numeric(V_out)
 
 
-def log_decoding_VLog(V_out, bit_depth=10, in_legal=True, out_reflection=True):
+def log_decoding_VLog(V_out,
+                      bit_depth=10,
+                      in_legal=True,
+                      out_reflection=True,
+                      constants=VLOG_CONSTANTS):
     """
     Defines the *Panasonic V-Log* log decoding curve / electro-optical transfer
     function.
@@ -112,6 +122,8 @@ def log_decoding_VLog(V_out, bit_depth=10, in_legal=True, out_reflection=True):
         encoded in legal range.
     out_reflection : bool, optional
         Whether the light level :math`L_{in}` to a camera is reflection.
+    constants : Structure, optional
+        *Panasonic V-Log* constants.
 
     Returns
     -------
@@ -132,10 +144,10 @@ def log_decoding_VLog(V_out, bit_depth=10, in_legal=True, out_reflection=True):
 
     V_out = V_out if in_legal else full_to_legal(V_out, bit_depth)
 
-    cut2 = VLOG_CONSTANTS.cut2
-    b = VLOG_CONSTANTS.b
-    c = VLOG_CONSTANTS.c
-    d = VLOG_CONSTANTS.d
+    cut2 = constants.cut2
+    b = constants.b
+    c = constants.c
+    d = constants.d
 
     L_in = np.where(V_out < cut2, (V_out - 0.125) / 5.6,
                     np.power(10, ((V_out - d) / c)) - b)

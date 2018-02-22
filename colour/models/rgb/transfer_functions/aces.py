@@ -9,8 +9,8 @@ Defines the *Academy Color Encoding System* (ACES) log encodings:
 -   :func:`colour.models.log_decoding_ACESproxy`
 -   :func:`colour.models.log_encoding_ACEScc`
 -   :func:`colour.models.log_decoding_ACEScc`
--   :func:'log_encoding_ACEScct'
--   :func:'log_decoding_ACEScct'
+-   :func:`colour.models.log_encoding_ACEScct`
+-   :func:`colour.models.log_decoding_ACEScct`
 
 See Also
 --------
@@ -123,7 +123,9 @@ ACES_CCT_CONSTANTS : Structure
 """
 
 
-def log_encoding_ACESproxy(lin_AP1, bit_depth=10):
+def log_encoding_ACESproxy(lin_AP1,
+                           bit_depth=10,
+                           constants=ACES_PROXY_CONSTANTS):
     """
     Defines the *ACESproxy* colourspace log encoding curve / opto-electronic
     transfer function.
@@ -135,6 +137,8 @@ def log_encoding_ACESproxy(lin_AP1, bit_depth=10):
     bit_depth : int, optional
         **{10, 12}**,
         *ACESproxy* bit depth.
+    constants : Structure, optional
+        *ACESproxy* constants.
 
     Returns
     -------
@@ -156,7 +160,7 @@ def log_encoding_ACESproxy(lin_AP1, bit_depth=10):
 
     lin_AP1 = np.asarray(lin_AP1)
 
-    constants = ACES_PROXY_CONSTANTS[bit_depth]
+    constants = constants[bit_depth]
 
     CV_min = np.resize(constants.CV_min, lin_AP1.shape)
     CV_max = np.resize(constants.CV_max, lin_AP1.shape)
@@ -177,7 +181,9 @@ def log_encoding_ACESproxy(lin_AP1, bit_depth=10):
     return as_numeric(output, int)
 
 
-def log_decoding_ACESproxy(ACESproxy, bit_depth=10):
+def log_decoding_ACESproxy(ACESproxy,
+                           bit_depth=10,
+                           constants=ACES_PROXY_CONSTANTS):
     """
     Defines the *ACESproxy* colourspace log decoding curve / electro-optical
     transfer function.
@@ -189,6 +195,8 @@ def log_decoding_ACESproxy(ACESproxy, bit_depth=10):
     bit_depth : int, optional
         **{10, 12}**,
         *ACESproxy* bit depth.
+    constants : Structure, optional
+        *ACESproxy* constants.
 
     Returns
     -------
@@ -210,7 +218,7 @@ def log_decoding_ACESproxy(ACESproxy, bit_depth=10):
 
     ACESproxy = np.asarray(ACESproxy).astype(np.int)
 
-    constants = ACES_PROXY_CONSTANTS[bit_depth]
+    constants = constants[bit_depth]
 
     return (2 **
             (((ACESproxy - constants.mid_CV_offset) / constants.steps_per_stop
@@ -293,7 +301,7 @@ def log_decoding_ACEScc(ACEScc):
     return as_numeric(output)
 
 
-def log_encoding_ACEScct(lin_AP1):
+def log_encoding_ACEScct(lin_AP1, constants=ACES_CCT_CONSTANTS):
     """
     Defines the *ACEScct* colourspace log encoding / opto-electronic transfer
     function.
@@ -302,6 +310,8 @@ def log_encoding_ACEScct(lin_AP1):
     ----------
     lin_AP1 : numeric or array_like
         *lin_AP1* value.
+    constants : Structure, optional
+        *ACEScct* constants.
 
     Returns
     -------
@@ -321,8 +331,6 @@ def log_encoding_ACEScct(lin_AP1):
     0.4135884...
     """
 
-    constants = ACES_CCT_CONSTANTS
-
     lin_AP1 = np.asarray(lin_AP1)
 
     output = np.where(lin_AP1 <= constants.X_BRK,
@@ -332,7 +340,7 @@ def log_encoding_ACEScct(lin_AP1):
     return as_numeric(output)
 
 
-def log_decoding_ACEScct(ACEScct):
+def log_decoding_ACEScct(ACEScct, constants=ACES_CCT_CONSTANTS):
     """
     Defines the *ACEScct* colourspace log decoding / electro-optical transfer
     function.
@@ -341,6 +349,8 @@ def log_decoding_ACEScct(ACEScct):
     ----------
     ACEScct : numeric or array_like
         *ACEScct* non-linear value.
+    constants : Structure, optional
+        *ACEScct* constants.
 
     Returns
     -------
@@ -359,8 +369,6 @@ def log_decoding_ACEScct(ACEScct):
     >>> log_decoding_ACEScct(0.413588402492442)  # doctest: +ELLIPSIS
     0.1799999...
     """
-
-    constants = ACES_CCT_CONSTANTS
 
     ACEScct = np.asarray(ACEScct)
 

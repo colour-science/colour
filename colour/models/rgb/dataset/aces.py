@@ -8,7 +8,7 @@ Defines the *Academy Color Encoding System* (ACES) related encodings:
 -   :attr:`colour.models.ACES_2065_1_COLOURSPACE`
 -   :attr:`colour.models.ACES_CG_COLOURSPACE`
 -   :attr:`colour.models.ACES_CC_COLOURSPACE`
--   :attr:'ACES_CCT_COLOURSPACE'
+-   :attr:`colour.models.ACES_CCT_COLOURSPACE`
 -   :attr:`colour.models.ACES_PROXY_COLOURSPACE`
 
 See Also

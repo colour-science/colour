@@ -49,7 +49,7 @@ ARIBSTDB67_CONSTANTS : Structure
 """
 
 
-def oetf_ARIBSTDB67(E, r=0.5):
+def oetf_ARIBSTDB67(E, r=0.5, constants=ARIBSTDB67_CONSTANTS):
     """
     Defines *ARIB STD-B67 (Hybrid Log-Gamma)* opto-electrical transfer
     function (OETF / OECF).
@@ -62,6 +62,8 @@ def oetf_ARIBSTDB67(E, r=0.5):
         camera color channel R, G, B.
     r : numeric, optional
         Video level corresponding to reference white level.
+    constants : Structure, optional
+        *ARIB STD-B67 (Hybrid Log-Gamma)* constants.
 
     Returns
     -------
@@ -80,16 +82,16 @@ def oetf_ARIBSTDB67(E, r=0.5):
 
     E = np.asarray(E)
 
-    a = ARIBSTDB67_CONSTANTS.a
-    b = ARIBSTDB67_CONSTANTS.b
-    c = ARIBSTDB67_CONSTANTS.c
+    a = constants.a
+    b = constants.b
+    c = constants.c
 
     E_p = np.where(E <= 1, r * np.sqrt(E), a * np.log(E - b) + c)
 
     return as_numeric(E_p)
 
 
-def oetf_reverse_ARIBSTDB67(E_p, r=0.5):
+def oetf_reverse_ARIBSTDB67(E_p, r=0.5, constants=ARIBSTDB67_CONSTANTS):
     """
     Defines *ARIB STD-B67 (Hybrid Log-Gamma)* reverse opto-electrical transfer
     function (OETF / OECF).
@@ -100,6 +102,8 @@ def oetf_reverse_ARIBSTDB67(E_p, r=0.5):
         Non-linear signal :math:`E'`.
     r : numeric, optional
         Video level corresponding to reference white level.
+    constants : Structure, optional
+        *ARIB STD-B67 (Hybrid Log-Gamma)* constants.
 
     Returns
     -------
@@ -120,9 +124,9 @@ def oetf_reverse_ARIBSTDB67(E_p, r=0.5):
 
     E_p = np.asarray(E_p)
 
-    a = ARIBSTDB67_CONSTANTS.a
-    b = ARIBSTDB67_CONSTANTS.b
-    c = ARIBSTDB67_CONSTANTS.c
+    a = constants.a
+    b = constants.b
+    c = constants.c
 
     E = np.where(E_p <= oetf_ARIBSTDB67(1), (E_p / r) ** 2,
                  np.exp((E_p - c) / a) + b)
