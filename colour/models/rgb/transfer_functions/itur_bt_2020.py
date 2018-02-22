@@ -50,7 +50,7 @@ BT2020_CONSTANTS : Structure
 """
 
 
-def oetf_BT2020(E, is_12_bits_system=False):
+def oetf_BT2020(E, is_12_bits_system=False, constants=BT2020_CONSTANTS):
     """
     Defines *Recommendation ITU-R BT.2020* opto-electrical transfer function
     (OETF / OECF).
@@ -63,6 +63,8 @@ def oetf_BT2020(E, is_12_bits_system=False):
         with a reference camera colour channel R, G, B.
     is_12_bits_system : bool
         *BT.709* *alpha* and *beta* constants are used if system is not 12-bit.
+    constants : Structure, optional
+        *Recommendation ITU-R BT.2020* constants.
 
     Returns
     -------
@@ -81,13 +83,13 @@ def oetf_BT2020(E, is_12_bits_system=False):
 
     E = np.asarray(E)
 
-    a = BT2020_CONSTANTS.alpha(is_12_bits_system)
-    b = BT2020_CONSTANTS.beta(is_12_bits_system)
+    a = constants.alpha(is_12_bits_system)
+    b = constants.beta(is_12_bits_system)
 
     return as_numeric(np.where(E < b, E * 4.5, a * (E ** 0.45) - (a - 1)))
 
 
-def eotf_BT2020(E_p, is_12_bits_system=False):
+def eotf_BT2020(E_p, is_12_bits_system=False, constants=BT2020_CONSTANTS):
     """
     Defines *Recommendation ITU-R BT.2020* electro-optical transfer function
     (EOTF / EOCF).
@@ -98,6 +100,8 @@ def eotf_BT2020(E_p, is_12_bits_system=False):
         Non-linear signal :math:`E'`.
     is_12_bits_system : bool
         *BT.709* *alpha* and *beta* constants are used if system is not 12-bit.
+    constants : Structure, optional
+        *Recommendation ITU-R BT.2020* constants.
 
     Returns
     -------
@@ -116,8 +120,8 @@ def eotf_BT2020(E_p, is_12_bits_system=False):
 
     E_p = np.asarray(E_p)
 
-    a = BT2020_CONSTANTS.alpha(is_12_bits_system)
-    b = BT2020_CONSTANTS.beta(is_12_bits_system)
+    a = constants.alpha(is_12_bits_system)
+    b = constants.beta(is_12_bits_system)
 
     return as_numeric(
         np.where(E_p < oetf_BT2020(b), E_p / 4.5, ((E_p + (a - 1)) / a) ** (
