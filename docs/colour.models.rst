@@ -182,6 +182,19 @@ hdr-CIELAB Colourspace
     hdr_CIELab_to_XYZ
     HDR_CIELAB_METHODS
 
+:math:`JzAzBz` Colourspace
+--------------------------
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    XYZ_to_JzAzBz
+    JzAzBz_to_XYZ
+
 RGB Colourspace and Transformations
 -----------------------------------
 

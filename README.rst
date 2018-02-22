@@ -443,6 +443,15 @@ ICTCP Colour Encoding
     >>> colour.RGB_to_ICTCP([0.35181454, 0.26934757, 0.21288023])
     array([ 0.09554079, -0.00890639,  0.01389286])
 
+JzAzBz Colourspace
+******************
+
+.. code-block:: python
+
+    >>> import colour
+    >>> colour.XYZ_to_JzAzBz(XYZ)
+    array([ 0.00357804, -0.00295507,  0.00038998])
+
 HSV Colourspace
 ***************
 
