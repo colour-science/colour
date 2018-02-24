@@ -244,8 +244,7 @@ def multi_spd_colour_rendering_index_bars_plot(spds, **kwargs):
     ... # doctest: +SKIP
     """
 
-    settings = {}
-    settings.update(kwargs)
+    settings = dict(kwargs)
     settings.update({'standalone': False})
 
     specifications = [
@@ -358,8 +357,7 @@ def multi_spd_colour_quality_scale_bars_plot(spds, **kwargs):
     ... # doctest: +SKIP
     """
 
-    settings = {}
-    settings.update(kwargs)
+    settings = dict(kwargs)
     settings.update({'standalone': False})
 
     specifications = [
