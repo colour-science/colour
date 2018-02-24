@@ -45,11 +45,9 @@ def corresponding_chromaticities_prediction_plot(experiment=1,
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.render`},
+        {:func:`colour.plotting.chromaticity_diagram_plot`,
+        :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definition.
-    show_diagram_colours : bool, optional
-        {:func:`colour.plotting.chromaticity_diagram_plot_CIE1976UCS`}
-        Whether to display the chromaticity diagram background colours.
 
     Returns
     -------
