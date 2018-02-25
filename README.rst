@@ -292,6 +292,9 @@ Examples
     >>> colour.RGB_to_YCbCr([1.0, 1.0, 1.0])
     array([ 0.92156863,  0.50196078,  0.50196078])
 
+    >>> colour.RGB_to_YCbCr([0.75, 0.75, 0.0])
+    array([ 0.5625,  0.375 ,  0.1875])
+
 **RGB Colourspaces**
 
 .. code-block:: python

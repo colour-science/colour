@@ -520,6 +520,19 @@ Y'CbCr Colour Encoding
     legal_to_full
     CV_range
 
+YCoCg Colour Encoding
+^^^^^^^^^^^^^^^^^^^^^
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    RGB_to_YCoCg
+    YCoCg_to_RGB
+
 :math:`IC_TC_P` Colour Encoding
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
