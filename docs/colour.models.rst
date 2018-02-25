@@ -52,8 +52,8 @@ CIE L*u*v* Colourspace
     Luv_to_uv
     Luv_uv_to_xy
 
-CIE UCS Colourspace
--------------------
+CIE 1960 UCS Colourspace
+------------------------
 
 ``colour``
 

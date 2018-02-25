@@ -89,7 +89,7 @@ print(colour.XYZ_to_sRGB(XYZ, D50))
 
 print('\n')
 
-message_box(('Converting to "CIE UCS" colourspace from given "CIE XYZ" '
+message_box(('Converting to "CIE 1960 UCS" colourspace from given "CIE XYZ" '
              'tristimulus values:\n'
              '\n\t{0}'.format(XYZ)))
 print(colour.XYZ_to_UCS(XYZ))
@@ -97,8 +97,8 @@ print(colour.XYZ_to_UCS(XYZ))
 print('\n')
 
 UCS = np.array([0.76117564, 1.00000000, 1.17819430])
-message_box(('Converting to "CIE XYZ" tristimulus values from given "CIE UCS" '
-             'colourspace values:\n'
+message_box(('Converting to "CIE XYZ" tristimulus values from given'
+             '"CIE 1960 UCS" colourspace values:\n'
              '\n\t{0}'.format(UCS)))
 print(colour.UCS_to_XYZ(UCS))
 

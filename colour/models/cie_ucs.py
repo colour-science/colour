@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-CIE UCS Colourspace
-===================
+CIE 1960 UCS Colourspace
+========================
 
-Defines the *CIE UCS* colourspace transformations:
+Defines the *CIE 1960 UCS* colourspace transformations:
 
 -   :func:`colour.XYZ_to_UCS`
 -   :func:`colour.UCS_to_XYZ`
@@ -41,7 +41,7 @@ __all__ = ['XYZ_to_UCS', 'UCS_to_XYZ', 'UCS_to_uv', 'UCS_uv_to_xy']
 
 def XYZ_to_UCS(XYZ):
     """
-    Converts from *CIE XYZ* tristimulus values to *CIE UCS* colourspace.
+    Converts from *CIE XYZ* tristimulus values to *CIE 1960 UCS* colourspace.
 
     Parameters
     ----------
@@ -51,12 +51,12 @@ def XYZ_to_UCS(XYZ):
     Returns
     -------
     ndarray
-        *CIE UCS* colourspace array.
+        *CIE 1960 UCS* colourspace array.
 
     Notes
     -----
     -   Input *CIE XYZ* tristimulus values are in domain [0, 1].
-    -   Output *CIE UCS* colourspace array is in range [0, 1].
+    -   Output *CIE 1960 UCS* colourspace array is in range [0, 1].
 
     References
     ----------
@@ -80,12 +80,12 @@ def XYZ_to_UCS(XYZ):
 
 def UCS_to_XYZ(UVW):
     """
-    Converts from *CIE UCS* colourspace to *CIE XYZ* tristimulus values.
+    Converts from *CIE 1960 UCS* colourspace to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
     UVW : array_like
-        *CIE UCS* colourspace array.
+        *CIE 1960 UCS* colourspace array.
 
     Returns
     -------
@@ -94,7 +94,7 @@ def UCS_to_XYZ(UVW):
 
     Notes
     -----
-    -   Input *CIE UCS* colourspace array is in domain [0, 1].
+    -   Input *CIE 1960 UCS* colourspace array is in domain [0, 1].
     -   Output *CIE XYZ* tristimulus values are in range [0, 1].
 
     References
@@ -119,13 +119,13 @@ def UCS_to_XYZ(UVW):
 
 def UCS_to_uv(UVW):
     """
-    Returns the *uv* chromaticity coordinates from given *CIE UCS* colourspace
-    array.
+    Returns the *uv* chromaticity coordinates from given *CIE 1960 UCS*
+    colourspace array.
 
     Parameters
     ----------
     UVW : array_like
-        *CIE UCS* colourspace array.
+        *CIE 1960 UCS* colourspace array.
 
     Returns
     -------
@@ -134,7 +134,7 @@ def UCS_to_uv(UVW):
 
     Notes
     -----
-    -   Input *CIE UCS* colourspace array is in domain [0, 1].
+    -   Input *CIE 1960 UCS* colourspace array is in domain [0, 1].
     -   Output *uv* chromaticity coordinates are in range [0, 1].
 
     References
@@ -158,8 +158,8 @@ def UCS_to_uv(UVW):
 
 def UCS_uv_to_xy(uv):
     """
-    Returns the *xy* chromaticity coordinates from given *CIE UCS* colourspace
-    *uv* chromaticity coordinates.
+    Returns the *xy* chromaticity coordinates from given *CIE 1960 UCS*
+    colourspace *uv* chromaticity coordinates.
 
     Parameters
     ----------
