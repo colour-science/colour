@@ -56,8 +56,8 @@ print('\n')
 message_box(('Computing "Delta E" with "CMC" method from given "CIE L*a*b*" '
              'colourspace matrices with imperceptibility threshold:\n'
              '\n\t{0}\n\t{1}'.format(Lab1, Lab2)))
-print(colour.delta_E(Lab1, Lab2, method='CMC', l=1))
-print(colour.difference.delta_E_CMC(Lab1, Lab2, l=1))
+print(colour.delta_E(Lab1, Lab2, method='CMC', l=1))  # noqa
+print(colour.difference.delta_E_CMC(Lab1, Lab2, l=1))  # noqa
 
 print('\n')
 
