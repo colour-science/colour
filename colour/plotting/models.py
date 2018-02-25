@@ -117,7 +117,7 @@ def RGB_colourspaces_chromaticity_diagram_plot(
         'method':
             method,
         'title':
-            '{0} - {1} - {2} Chromaticity Diagram'.format(
+            '{0}\n{1} - {2} Chromaticity Diagram'.format(
                 ', '.join(colourspaces), name, method),
         'standalone':
             False
