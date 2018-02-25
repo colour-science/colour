@@ -106,8 +106,8 @@ Hunter Rd,a,b Colour Scale
     XYZ_to_Hunter_Rdab
 
 
-Luo, Cui and Li (2006)
-----------------------
+CAM02-LCD, CAM02-SCD, and CAM02-UCS Colourspaces - Luo, Cui and Li (2006)
+-------------------------------------------------------------------------
 
 ``colour``
 
@@ -123,8 +123,8 @@ Luo, Cui and Li (2006)
     JMh_CIECAM02_to_CAM02UCS
     CAM02UCS_to_JMh_CIECAM02
 
-Li, Li, Wang, Zu, Luo, Cui, Melgosa, Brill and Pointer (2017)
--------------------------------------------------------------
+CAM16-LCD, CAM16-SCD, and CAM16-UCS Colourspaces - Li et al. (2017)
+-------------------------------------------------------------------
 
 ``colour``
 
