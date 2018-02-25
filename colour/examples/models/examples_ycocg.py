@@ -11,7 +11,7 @@ from colour.utilities import message_box
 message_box('"YCoCg" Colour Encoding Computations')
 
 RGB = np.array([0.75, 0.75, 0.0])
-message_box(('Converting to "YCoCg" colour encoding from given "RGB" ' 
+message_box(('Converting to "YCoCg" colour encoding from given "RGB" '
              'colourspace values:\n'
              '\n\t{0}'.format(RGB)))
 print(colour.RGB_to_YCoCg(RGB))

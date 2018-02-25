@@ -340,7 +340,8 @@ def chromaticity_diagram_plot_CIE1960UCS(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.chromaticity_diagram_colours
+        {:func:`colour.plotting.chromaticity_diagram_colours,
+        :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
     Returns

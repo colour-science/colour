@@ -39,7 +39,7 @@ before_script:
   - export PYTHONWARNINGS=ignore
 
 script:
-  - flake8 colour --exclude=examples
+  - flake8 colour
   - nosetests --nocapture --with-doctest --doctest-options=+ELLIPSIS --with-coverage --cover-package=colour colour
 
 after_success:
