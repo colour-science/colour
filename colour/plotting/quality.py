@@ -43,7 +43,7 @@ __all__ = [
 def colour_quality_bars_plot(specifications,
                              labels=True,
                              hatching=None,
-                             hatching_repeat=1,
+                             hatching_repeat=2,
                              **kwargs):
     """
     Plots the colour quality data of given illuminants or light sources colour
@@ -122,6 +122,8 @@ def colour_quality_bars_plot(specifications,
             y,
             color=colours,
             width=bar_width,
+            linewidth=1,
+            edgecolor='black',
             hatch=(next(patterns) * hatching_repeat if hatching else None),
             label=specification.name)
 

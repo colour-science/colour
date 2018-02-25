@@ -143,7 +143,7 @@ def single_spd_plot(spd,
     axes.bar(
         x=wavelengths,
         height=max(values),
-        width=1,
+        width=1.025,
         color=colours,
         align='edge',
         clip_path=polygon)
@@ -772,7 +772,7 @@ def blackbody_colours_plot(shape=SpectralShape(150, 12500, 50),
     axes.bar(
         x=temperatures,
         height=1,
-        width=shape.interval,
+        width=shape.interval + (0.025 * shape.interval),
         color=colours,
         align='edge')
 
