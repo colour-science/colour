@@ -8,10 +8,6 @@ Defines the *YCoCg* colour encoding related transformations:
 -   :func:`colour.RGB_to_YCoCg`
 -   :func:`colour.YCoCg_to_RGB`
 
-Notes
------
--   *YCoCg* is not an absolute colourspace.
-
 See Also
 --------
 `YCoCg Colours Encoding Jupyter Notebook
