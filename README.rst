@@ -425,8 +425,8 @@ Y'CbCr Colour Encoding
     >>> colour.RGB_to_YCbCr([1.0, 1.0, 1.0])
     array([ 0.92156863,  0.50196078,  0.50196078])
 
-YCoC Colour Encoding
-********************
+YCoCg Colour Encoding
+*********************
 
 .. code-block:: python
 
