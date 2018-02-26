@@ -270,6 +270,22 @@ print(colour.hdr_IPT_to_XYZ(IPT_hdr))
 
 print('\n')
 
+XYZ = np.array([1.14176346, 1.00000000, 0.49815206])
+message_box(('Converting to "JzAzBz" colourspace from given "CIE XYZ" '
+             'tristimulus values:\n'
+             '\n\t{0}'.format(XYZ)))
+print(colour.XYZ_to_JzAzBz(XYZ))
+
+print('\n')
+
+JzAzBz = np.array([0.01827801, 0.00887574, 0.0131831])
+message_box(('Converting to "CIE XYZ" tristimulus values from given "JzAzBz" '
+             'colourspace values:\n'
+             '\n\t{0}'.format(JzAzBz)))
+print(colour.JzAzBz_to_XYZ(JzAzBz))
+
+print('\n')
+
 XYZ = np.array([19.01, 20.00, 21.78])
 XYZ_w = np.array([95.05, 100.00, 108.88])
 L_A = 318.31
