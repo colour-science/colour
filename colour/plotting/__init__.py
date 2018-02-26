@@ -19,6 +19,7 @@ from .common import (
     label_rectangles, equal_axes3d, get_RGB_colourspace, get_cmfs,
     get_illuminant, single_colour_swatch_plot, multi_colour_swatch_plot,
     image_plot)
+from .blindness import cvd_simulation_Machado2009_plot
 from .colorimetry import (
     single_spd_plot, multi_spd_plot, single_cmfs_plot, multi_cmfs_plot,
     single_illuminant_relative_spd_plot, multi_illuminant_relative_spd_plot,
@@ -33,7 +34,7 @@ from .diagrams import (chromaticity_diagram_plot_CIE1931,
                        spds_chromaticity_diagram_plot_CIE1960UCS,
                        spds_chromaticity_diagram_plot_CIE1976UCS)
 from .corresponding import corresponding_chromaticities_prediction_plot
-from .geometry import (quad, grid, cube)
+from .geometry import quad, grid, cube
 from .models import (
     RGB_colourspaces_chromaticity_diagram_plot_CIE1931,
     RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS,
@@ -66,6 +67,7 @@ __all__ += [
     'get_cmfs', 'get_illuminant', 'single_colour_swatch_plot',
     'multi_colour_swatch_plot', 'image_plot'
 ]
+__all__ += ['cvd_simulation_Machado2009_plot']
 __all__ += [
     'single_spd_plot', 'multi_spd_plot', 'single_cmfs_plot', 'multi_cmfs_plot',
     'single_illuminant_relative_spd_plot',

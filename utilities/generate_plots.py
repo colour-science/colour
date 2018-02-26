@@ -152,6 +152,10 @@ def generate_documentation_plots(output_directory):
     # *************************************************************************
     # Documentation
     # *************************************************************************
+    arguments['filename'] = os.path.join(
+        output_directory, 'Plotting_CVD_Simulation_Machado2009_Plot.png')
+    cvd_simulation_Machado2009_plot(RGB, **arguments)
+
     arguments['filename'] = os.path.join(output_directory,
                                          'Plotting_Colour_Checker_Plot.png')
     colour_checker_plot('ColorChecker 2005', **arguments)

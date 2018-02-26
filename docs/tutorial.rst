@@ -37,6 +37,7 @@ around various sub-packages:
 -  :doc:`algebra <colour.algebra>`: Algebra utilities.
 -  :doc:`appearance <colour.appearance>`: Colour appearance models.
 -  :doc:`biochemistry <colour.biochemistry>`: Biochemistry computations.
+-  :doc:`blindness <colour.blindness>`: Colour vision deficiency models.
 -  :doc:`continuous <colour.continuous>`: Base objects for continuous data representation.
 -  :doc:`characterisation <colour.characterisation>`: Colour fitting and camera characterisation.
 -  :doc:`colorimetry <colour.colorimetry>`: Core objects for colour computations.
@@ -80,10 +81,11 @@ The various sub-packages also expose their public API:
     import colour.plotting
 
     for sub_package in ('adaptation', 'algebra', 'appearance', 'biochemistry',
-                        'characterisation', 'colorimetry', 'constants',
-                        'continuous', 'corresponding', 'difference', 'io',
-                        'models', 'notation', 'phenomena', 'plotting', 'quality',
-                        'recovery', 'temperature', 'utilities', 'volume'):
+                        'blindness', 'characterisation', 'colorimetry',
+                        'constants', 'continuous', 'corresponding',
+                        'difference', 'io', 'models', 'notation', 'phenomena',
+                        'plotting', 'quality', 'recovery', 'temperature',
+                        'utilities', 'volume'):
         print(sub_package.title())
         pprint(getattr(colour, sub_package).__all__[:5] + ['...'])
         print('\n')
@@ -121,6 +123,14 @@ The various sub-packages also expose their public API:
     Biochemistry
     ['reaction_rate_MichealisMenten',
      'substrate_concentration_MichealisMenten',
+     '...']
+
+
+    Blindness
+    ['CVD_MATRICES_MACHADO2010',
+     'anomalous_trichromacy_cmfs_Machado2009',
+     'anomalous_trichromacy_matrix_Machado2009',
+     'cvd_matrix_Machado2009',
      '...']
 
 

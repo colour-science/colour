@@ -49,6 +49,19 @@ Colorimetry
     blackbody_spectral_radiance_plot
     blackbody_colours_plot
 
+Colour Vision Deficiency
+------------------------
+
+``colour.plotting``
+
+.. currentmodule:: colour.plotting
+
+.. autosummary::
+    :toctree: generated/
+
+    cvd_simulation_Machado2009_plot
+
+
 Colour Characterisation
 -----------------------
 

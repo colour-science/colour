@@ -631,6 +631,22 @@ Munsell Colour
     >>> colour.munsell_colour_to_xyY('4.2YR 8.1/5.3')
     array([ 0.38736945,  0.35751656,  0.59362   ])
 
+Colour Blindness
+^^^^^^^^^^^^^^^^
+
+.. code-block:: python
+
+    >>> import colour
+    >>> cmfs = colour.LMS_CMFS['Stockman & Sharpe 2 Degree Cone Fundamentals']
+    >>> colour.anomalous_trichromacy_cmfs_Machado2009(cmfs, np.array([15, 0, 0]))[450]
+    array([ 0.08912884,  0.0870524 ,  0.955393  ])
+    >>> primaries = colour.DISPLAYS_RGB_PRIMARIES['Apple Studio Display']
+    >>> d_LMS = (15, 0, 0)
+    >>> colour.anomalous_trichromacy_matrix_Machado2009(cmfs, primaries, d_LMS)
+    array([[-0.27774652,  2.65150084, -1.37375432],
+           [ 0.27189369,  0.20047862,  0.52762768],
+           [ 0.00644047,  0.25921579,  0.73434374]])
+
 Optical Phenomena
 ^^^^^^^^^^^^^^^^^
 
