@@ -269,10 +269,6 @@ def luminance_Fairchild2011(L_hdr, epsilon=0.710, method='hdr-CIELAB'):
     array_like
         *luminance* :math:`Y`.
 
-    Warning
-    -------
-    The output range of that definition is non standard!
-
     Notes
     -----
     -   Output *luminance* :math:`Y` is in range [0, math:`\infty`].
@@ -396,9 +392,14 @@ def luminance(LV, method='CIE 1976', **kwargs):
     10.1488096...
     >>> luminance(24.902290269546651, epsilon=1.836, method='Fairchild 2010')
     ... # doctest: +ELLIPSIS
-    0.1007999...
+    10.0799999...
     """
 
     function = LUMINANCE_METHODS[method]
 
-    return function(LV, **filter_kwargs(function, **kwargs))
+    Y_n = function(LV, **filter_kwargs(function, **kwargs))
+
+    if function in (luminance_Fairchild2010, luminance_Fairchild2011):
+        Y_n *= 100
+
+    return Y_n

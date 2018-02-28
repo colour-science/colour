@@ -271,10 +271,6 @@ def lightness_Fairchild2011(Y, epsilon=0.710, method='hdr-CIELAB'):
     array_like
         *Lightness* :math:`L_{hdr}`.
 
-    Warning
-    -------
-    The input domain of that definition is non standard!
-
     Notes
     -----
     -   Input *luminance* :math:`Y` is in domain [0, :math:`\infty`].
@@ -391,11 +387,14 @@ def lightness(Y, method='CIE 1976', **kwargs):
     36.2505626...
     >>> lightness(10.08, method='Wyszecki 1963')  # doctest: +ELLIPSIS
     37.0041149...
-    >>> lightness(10.08 / 100, epsilon=1.836, method='Fairchild 2010')
+    >>> lightness(10.08, epsilon=1.836, method='Fairchild 2010')
     ... # doctest: +ELLIPSIS
     24.9022902...
     """
 
     function = LIGHTNESS_METHODS[method]
+
+    if function in (lightness_Fairchild2010, lightness_Fairchild2011):
+        Y = np.asarray(Y) / 100
 
     return function(Y, **filter_kwargs(function, **kwargs))
