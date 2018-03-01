@@ -149,6 +149,7 @@ Lightness Computation
     >>> sorted(colour.LIGHTNESS_METHODS.keys())
     [u'CIE 1976',
      u'Fairchild 2010',
+     u'Fairchild 2011',
      u'Glasser 1958',
      u'Lstar1976',
      u'Wyszecki 1963']
@@ -164,6 +165,7 @@ Luminance Computation
     [u'ASTM D1535-08',
      u'CIE 1976',
      u'Fairchild 2010',
+     u'Fairchild 2011',
      u'Newhall 1943',
      u'astm2008',
      u'cie1976']
