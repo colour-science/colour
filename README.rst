@@ -79,12 +79,17 @@ with detailed historical and theoretical context and images:
 Examples
 ~~~~~~~~
 
+Most of the objects are available from the **colour** namespace:
+
+.. code-block:: python
+
+    >>> import colour
+
 Chromatic Adaptation
 ^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: python
 
-    >>> import colour
     >>> XYZ = [0.07049534, 0.10080000, 0.09558313]
     >>> A = colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['A']
     >>> D65 = colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']
@@ -102,7 +107,6 @@ Kernel Interpolation
 
 .. code-block:: python
 
-    >>> import colour
     >>> y = [5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500]
     >>> x = range(len(y))
     >>> colour.KernelInterpolator(x, y)([0.25, 0.75, 5.50])
@@ -113,7 +117,6 @@ Sprague (1880) Interpolation
 
 .. code-block:: python
 
-    >>> import colour
     >>> y = [5.9200, 9.3700, 10.8135, 4.5100, 69.5900, 27.8007, 86.0500]
     >>> x = range(len(y))
     >>> colour.SpragueInterpolator(x, y)([0.25, 0.75, 5.50])
@@ -124,7 +127,6 @@ Spectral Computations
 
 .. code-block:: python
 
-    >>> import colour
     >>> colour.spectral_to_XYZ(colour.LIGHT_SOURCES_RELATIVE_SPDS['Neodimium Incandescent'])
     array([ 36.94726204,  32.62076174,  13.0143849 ])
     >>> sorted(colour.SPECTRAL_TO_XYZ_METHODS.keys())
@@ -135,7 +137,6 @@ Blackbody Spectral Radiance Computation
 
 .. code-block:: python
 
-    >>> import colour
     >>> colour.blackbody_spd(5000)
     SpectralPowerDistribution([[  3.60000000e+02,   6.65427827e+12],
                                [  3.61000000e+02,   6.70960528e+12],
@@ -154,7 +155,6 @@ Dominant, Complementary Wavelength & Colour Purity Computation
 
 .. code-block:: python
 
-    >>> import colour
     >>> xy = [0.26415, 0.37770]
     >>> xy_n = [0.31270, 0.32900]
     >>> colour.dominant_wavelength(xy, xy_n)
@@ -167,7 +167,6 @@ Lightness Computation
 
 .. code-block:: python
 
-    >>> import colour
     >>> colour.lightness(10.08)
     24.902290269546651
     >>> sorted(colour.LIGHTNESS_METHODS.keys())
@@ -182,7 +181,6 @@ Luminance Computation
 
 .. code-block:: python
 
-    >>> import colour
     >>> colour.luminance(37.98562910)
     10.080000001314646
     >>> sorted(colour.LUMINANCE_METHODS.keys())
@@ -198,7 +196,6 @@ Whiteness Computation
 
 .. code-block:: python
 
-    >>> import colour
     >>> colour.whiteness(xy=[0.3167, 0.3334], Y=100, xy_n=[0.3139, 0.3311])
     array([ 93.85 ,  -1.305])
     >>> sorted(colour.WHITENESS_METHODS.keys())
@@ -215,7 +212,6 @@ Yellowness Computation
 
 .. code-block:: python
 
-    >>> import colour
     >>> XYZ = [95.00000000, 100.00000000, 105.00000000]
     >>> colour.yellowness(XYZ)
     11.065000000000003
@@ -230,7 +226,6 @@ Luminous Flux
 
 .. code-block:: python
 
-    >>> import colour
     >>> spd = colour.LIGHT_SOURCES_RELATIVE_SPDS['Neodimium Incandescent']
     >>> colour.luminous_flux(spd)
     3807.655527367202
@@ -240,7 +235,6 @@ Luminous Efficiency
 
 .. code-block:: python
 
-    >>> import colour
     >>> spd = colour.LIGHT_SOURCES_RELATIVE_SPDS['Neodimium Incandescent']
     >>> colour.luminous_efficiency(spd)
     0.19943935624521045
@@ -250,7 +244,6 @@ Luminous Efficacy
 
 .. code-block:: python
 
-    >>> import colour
     >>> spd = colour.LIGHT_SOURCES_RELATIVE_SPDS['Neodimium Incandescent']
     >>> colour.luminous_efficacy(spd)
     136.21708031547874
@@ -263,7 +256,6 @@ CIE xyY Colourspace
 
 .. code-block:: python
 
-    >>> import colour
     >>> colour.XYZ_to_xyY([0.07049534, 0.10080000, 0.09558313])
     array([ 0.26414772,  0.37770001,  0.1008    ])
 
@@ -272,7 +264,6 @@ CIE L*a*b* Colourspace
 
 .. code-block:: python
 
-    >>> import colour
     >>> colour.XYZ_to_Lab([0.07049534, 0.10080000, 0.09558313])
     array([ 37.9856291 , -23.62907688,  -4.41746615])
 
@@ -281,7 +272,6 @@ CIE L*u*v* Colourspace
 
 .. code-block:: python
 
-    >>> import colour
     >>> colour.XYZ_to_Luv([0.07049534, 0.10080000, 0.09558313])
     array([ 37.9856291 , -28.80219593,  -1.35800706])
 
@@ -290,7 +280,6 @@ CIE 1960 UCS Colourspace
 
 .. code-block:: python
 
-    >>> import colour
     >>> colour.XYZ_to_UCS([0.07049534, 0.10080000, 0.09558313])
     array([ 0.04699689,  0.1008    ,  0.1637439 ])
 
@@ -299,7 +288,6 @@ CIE 1964 U*V*W* Colourspace
 
 .. code-block:: python
 
-    >>> import colour
     >>> colour.XYZ_to_UVW([0.07049534, 0.10080000, 0.09558313])
     array([ 4.0680797 ,  0.12787175, -5.36516614])
 
@@ -308,7 +296,6 @@ Hunter L,a,b Colour Scale
 
 .. code-block:: python
 
-    >>> import colour
     >>> colour.XYZ_to_Hunter_Lab([7.049534, 10.080000, 9.558313])
     array([ 31.74901573, -15.11462629,  -2.78660758])
 
@@ -317,7 +304,6 @@ Hunter Rd,a,b Colour Scale
 
 .. code-block:: python
 
-    >>> import colour
     >>> colour.XYZ_to_Hunter_Rdab([7.049534, 10.080000, 9.558313])
     array([ 10.08      , -18.67653764,  -3.44329925])
 
@@ -326,7 +312,6 @@ CAM02-LCD, CAM02-SCD, and CAM02-UCS Colourspaces - Luo, Cui and Li (2006)
 
 .. code-block:: python
 
-    >>> import colour
     >>> XYZ = np.array([19.01, 20.00, 21.78])
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
@@ -343,7 +328,6 @@ CAM16-LCD, CAM16-SCD, and CAM16-UCS Colourspaces - Li et al. (2017)
 
 .. code-block:: python
 
-    >>> import colour
     >>> XYZ = np.array([19.01, 20.00, 21.78])
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
@@ -359,7 +343,6 @@ IPT Colourspace
 
 .. code-block:: python
 
-    >>> import colour
     >>> colour.XYZ_to_IPT([0.07049534, 0.10080000, 0.09558313])
     array([ 0.36571124, -0.11114798,  0.01594746])
 
@@ -368,7 +351,6 @@ hdr-CIELAB Colourspace
 
 .. code-block:: python
 
-    >>> import colour
     >>> colour.XYZ_to_hdr_CIELab([0.07049534, 0.10080000, 0.09558313])
     array([ 24.90206646, -46.83127607, -10.14274843])
 
@@ -377,7 +359,6 @@ hdr-IPT Colourspace
 
 .. code-block:: python
 
-    >>> import colour
     >>> colour.XYZ_to_hdr_IPT([0.07049534, 0.10080000, 0.09558313])
     array([ 25.18261761, -22.62111297,   3.18511729])
 
@@ -386,7 +367,6 @@ RGB Colourspace and Transformations
 
 .. code-block:: python
 
-    >>> import colour
     >>> XYZ = [0.07049534, 0.10080000, 0.09558313]
     >>> illuminant_XYZ = [0.34570, 0.35850]
     >>> illuminant_RGB = [0.31270, 0.32900]
@@ -408,7 +388,6 @@ RGB Colourspace Derivation
 
 .. code-block:: python
 
-    >>> import colour
     >>> p = [0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]
     >>> w = [0.32168, 0.33767]
     >>> colour.normalised_primary_matrix(p, w)
@@ -421,7 +400,6 @@ Y'CbCr Colour Encoding
 
 .. code-block:: python
 
-    >>> import colour
     >>> colour.RGB_to_YCbCr([1.0, 1.0, 1.0])
     array([ 0.92156863,  0.50196078,  0.50196078])
 
@@ -430,7 +408,6 @@ YCoCg Colour Encoding
 
 .. code-block:: python
 
-    >>> import colour
     >>> colour.RGB_to_YCoCg([0.75, 0.75, 0.0])
     array([ 0.5625,  0.375 ,  0.1875])
 
@@ -439,7 +416,6 @@ ICTCP Colour Encoding
 
 .. code-block:: python
 
-    >>> import colour
     >>> colour.RGB_to_ICTCP([0.35181454, 0.26934757, 0.21288023])
     array([ 0.09554079, -0.00890639,  0.01389286])
 
@@ -448,7 +424,6 @@ JzAzBz Colourspace
 
 .. code-block:: python
 
-    >>> import colour
     >>> colour.XYZ_to_JzAzBz(XYZ)
     array([ 0.00357804, -0.00295507,  0.00038998])
 
@@ -457,7 +432,6 @@ HSV Colourspace
 
 .. code-block:: python
 
-    >>> import colour
     >>> colour.RGB_to_HSV([0.49019608, 0.98039216, 0.25098039])
     array([ 0.27867383,  0.744     ,  0.98039216])
 
@@ -466,7 +440,6 @@ Prismatic Colourspace
 
 .. code-block:: python
 
-    >>> import colour
     >>> colour.RGB_to_Prismatic([0.25, 0.50, 0.75])
     array([ 0.75      ,  0.16666667,  0.33333333,  0.5       ])
 
@@ -475,7 +448,6 @@ RGB Colourspaces
 
 .. code-block:: python
 
-    >>> import colour
     >>> sorted(colour.RGB_COLOURSPACES.keys())
     [u'ACES2065-1',
      u'ACEScc',
@@ -532,7 +504,6 @@ OETFs
 
 .. code-block:: python
 
-    >>> import colour
     >>> sorted(colour.OETFS.keys())
     ['ARIB STD-B67',
      'DCI-P3',
@@ -554,7 +525,6 @@ EOTFs
 
 .. code-block:: python
 
-    >>> import colour
     >>> sorted(colour.EOTFS.keys())
     ['DCI-P3',
      'DICOM GSDF',
@@ -573,7 +543,6 @@ OOTFs
 
 .. code-block:: python
 
-    >>> import colour
     >>> sorted(colour.OOTFS.keys())
     ['ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ']
 
@@ -582,7 +551,6 @@ Log Encoding / Decoding Curves
 
 .. code-block:: python
 
-    >>> import colour
     >>> sorted(colour.LOG_ENCODING_CURVES.keys())
     ['ACEScc',
      'ACEScct',
@@ -611,7 +579,6 @@ Chromatic Adaptation Models
 
 .. code-block:: python
 
-    >>> import colour
     >>> XYZ = [0.07049534, 0.10080000, 0.09558313]
     >>> XYZ_w = [1.09846607, 1.00000000, 0.35582280]
     >>> XYZ_wr = [0.95042855, 1.00000000, 1.08890037]
@@ -623,7 +590,6 @@ Colour Appearance Models
 
 .. code-block:: python
 
-    >>> import colour
     >>> XYZ = [19.01, 20.00, 21.78]
     >>> XYZ_w = [95.05, 100.00, 108.88]
     >>> L_A = 318.31
@@ -636,7 +602,6 @@ Colour Difference
 
 .. code-block:: python
 
-    >>> import colour
     >>> Lab_1 = [100.00000000, 21.57210357, 272.22819350]
     >>> Lab_2 = [100.00000000, 426.67945353, 72.39590835]
     >>> colour.delta_E(Lab_1, Lab_2)
@@ -664,7 +629,6 @@ Munsell Value
 
 .. code-block:: python
 
-    >>> import colour
     >>> colour.munsell_value(10.1488096782)
     3.7462971142584354
     >>> sorted(colour.MUNSELL_VALUE_METHODS.keys())
@@ -682,7 +646,6 @@ Munsell Colour
 
 .. code-block:: python
 
-    >>> import colour
     >>> colour.xyY_to_munsell_colour([0.38736945, 0.35751656, 0.59362000])
     u'4.2YR 8.1/5.3'
     >>> colour.munsell_colour_to_xyY('4.2YR 8.1/5.3')
@@ -693,7 +656,6 @@ Optical Phenomena
 
 .. code-block:: python
 
-    >>> import colour
     >>> colour.rayleigh_scattering_spd()
     SpectralPowerDistribution([[  3.60000000e+02,   5.99101337e-01],
                                [  3.61000000e+02,   5.92170690e-01],
@@ -715,7 +677,6 @@ Colour Rendering Index
 
 .. code-block:: python
 
-    >>> import colour
     >>> colour.colour_quality_scale(colour.ILLUMINANTS_RELATIVE_SPDS['F2'])
     64.686416902221609
 
@@ -724,7 +685,6 @@ Colour Quality Scale
 
 .. code-block:: python
 
-    >>> import colour
     >>> colour.colour_rendering_index(colour.ILLUMINANTS_RELATIVE_SPDS['F2'])
     64.151520202968015
 
@@ -733,7 +693,6 @@ Reflectance Recovery
 
 .. code-block:: python
 
-    >>> import colour
     >>> colour.XYZ_to_spectral([0.07049534, 0.10080000, 0.09558313])
     SpectralPowerDistribution([[  3.60000000e+02,   7.96361498e-04],
                                [  3.65000000e+02,   7.96489667e-04],
@@ -754,7 +713,6 @@ Correlated Colour Temperature Computation Methods
 
 .. code-block:: python
 
-    >>> import colour
     >>> colour.uv_to_CCT([0.1978, 0.3122])
     array([  6.50751282e+03,   3.22335875e-03])
     >>> sorted(colour.UV_TO_CCT_METHODS.keys())
@@ -775,7 +733,6 @@ Volume
 
 .. code-block:: python
 
-    >>> import colour
     >>> colour.RGB_colourspace_volume_MonteCarlo(colour.sRGB_COLOURSPACE)
     857011.5
 
@@ -844,7 +801,6 @@ Luminous Efficiency
 
 .. code-block:: python
 
-    >>> import colour
     >>> from colour.plotting import *
     >>> colour_plotting_defaults()
     >>> mesopic_luminous_efficiency_function = (
@@ -865,7 +821,6 @@ Colour Checker
 
 .. code-block:: python
 
-    >>> import colour
     >>> from colour.plotting import *
     >>> colour_plotting_defaults()
     >>> multi_spd_plot(

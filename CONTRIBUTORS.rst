@@ -100,10 +100,12 @@ Issues & Discussions
 -   @henczati
 -   @jaguarondi
 -   @iCagarro
+-   @iinnovations
 -   @lensz
 -   @naavis
 -   @nschloe
 -   @peteroupc
+-   @shanest
 -   @sobotka
 -   @stakemura
 -   @tingeman
