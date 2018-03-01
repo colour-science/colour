@@ -27,17 +27,17 @@ from __future__ import absolute_import
 
 from colour.utilities import CaseInsensitiveMapping, filter_kwargs
 
+from .cam02_ucs import (delta_E_CAM02LCD, delta_E_CAM02SCD,
+                        delta_E_CAM02UCS)
+from .cam16_ucs import (delta_E_CAM16LCD, delta_E_CAM16SCD,
+                        delta_E_CAM16UCS)
 from .delta_e import (delta_E_CIE1976, delta_E_CIE1994, delta_E_CIE2000,
                       delta_E_CMC)
-from .delta_e_cam02_ucs import (delta_E_CAM02LCD, delta_E_CAM02SCD,
-                                delta_E_CAM02UCS)
-from .delta_e_cam16_ucs import (delta_E_CAM16LCD, delta_E_CAM16SCD,
-                                delta_E_CAM16UCS)
-__all__ = [
+__all__ = ['delta_E_CAM02LCD', 'delta_E_CAM02SCD', 'delta_E_CAM02UCS']
+__all__ += ['delta_E_CAM16LCD', 'delta_E_CAM16SCD', 'delta_E_CAM16UCS']
+__all__ += [
     'delta_E_CIE1976', 'delta_E_CIE1994', 'delta_E_CIE2000', 'delta_E_CMC'
 ]
-__all__ += ['delta_E_CAM02LCD', 'delta_E_CAM02SCD', 'delta_E_CAM02UCS']
-__all__ += ['delta_E_CAM16LCD', 'delta_E_CAM16SCD', 'delta_E_CAM16UCS']
 
 DELTA_E_METHODS = CaseInsensitiveMapping({
     'CIE 1976': delta_E_CIE1976,

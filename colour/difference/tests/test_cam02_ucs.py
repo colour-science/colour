@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Defines unit tests for :mod:`colour.difference.delta_e_cam02_ucs` module.
+Defines unit tests for :mod:`colour.difference.cam02_ucs` module.
 """
 
 from __future__ import division, unicode_literals
@@ -11,7 +11,7 @@ from itertools import permutations
 
 from colour.difference import (delta_E_CAM02LCD, delta_E_CAM02SCD,
                                delta_E_CAM02UCS)
-from colour.difference.delta_e_cam02_ucs import delta_E_Luo2006
+from colour.difference.cam02_ucs import delta_E_Luo2006
 from colour.models.cam02_ucs import COEFFICIENTS_UCS_LUO2006
 from colour.utilities import ignore_numpy_errors
 
@@ -27,14 +27,13 @@ __all__ = ['TestDelta_E_Luo2006']
 
 class TestDelta_E_Luo2006(unittest.TestCase):
     """
-    Defines :func:`colour.difference.delta_e_cam02_ucs.delta_E_Luo2006`
-    definition unit tests methods.
+    Defines :func:`colour.difference.cam02_ucs.delta_E_Luo2006` definition unit
+    tests methods.
     """
 
     def test_delta_E_Luo2006(self):
         """
-        Tests :func:`colour.difference.delta_e_cam02_ucs.delta_E_Luo2006`
-        definition.
+        Tests :func:`colour.difference.cam02_ucs.delta_E_Luo2006` definition.
         """
 
         self.assertAlmostEqual(
@@ -77,8 +76,8 @@ class TestDelta_E_Luo2006(unittest.TestCase):
 
     def test_n_dimensional_delta_E_Luo2006(self):
         """
-        Tests :func:`colour.difference.delta_e_cam02_ucs.delta_E_Luo2006`
-        definition n-dimensional arrays support.
+        Tests :func:`colour.difference.cam02_ucs.delta_E_Luo2006` definition
+        n-dimensional arrays support.
         """
 
         Jpapbp_1 = np.array([54.90433134, -0.08450395, -0.06854831])
@@ -111,7 +110,7 @@ class TestDelta_E_Luo2006(unittest.TestCase):
     @ignore_numpy_errors
     def test_nan_delta_E_Luo2006(self):
         """
-        Tests :func:`colour.difference.delta_e_cam02_ucs.delta_E_Luo2006`
+        Tests :func:`colour.difference.cam02_ucs.delta_E_Luo2006`
         definition nan support.
         """
 
