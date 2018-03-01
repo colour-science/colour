@@ -727,7 +727,7 @@ Visible Spectrum
     >>> colour_plotting_defaults()
     >>> visible_spectrum_plot('CIE 1931 2 Degree Standard Observer')
 
-..  image:: docs/_static/Examples_Plotting_Visible_Spectrum.png
+..  image:: _static/Examples_Plotting_Visible_Spectrum.png
 
 Spectral Power Distribution
 ***************************
@@ -738,7 +738,7 @@ Spectral Power Distribution
     >>> colour_plotting_defaults()
     >>> single_illuminant_relative_spd_plot('F1')
 
-..  image:: docs/_static/Examples_Plotting_Illuminant_F1_SPD.png
+..  image:: _static/Examples_Plotting_Illuminant_F1_SPD.png
 
 Blackbody
 *********
@@ -759,7 +759,7 @@ Blackbody
     ...     legend_location='upper right',
     ...     bounding_box=(0, 1250, 0, 2.5e15))
 
-..  image:: docs/_static/Examples_Plotting_Blackbodies.png
+..  image:: _static/Examples_Plotting_Blackbodies.png
 
 Colour Matching Functions
 *************************
@@ -773,7 +773,7 @@ Colour Matching Functions
     ...     y_label='Sensitivity',
     ...     bounding_box=(390, 870, 0, 1.1))
 
-..  image:: docs/_static/Examples_Plotting_Cone_Fundamentals.png
+..  image:: _static/Examples_Plotting_Cone_Fundamentals.png
 
 Luminous Efficiency
 *******************
@@ -793,7 +793,7 @@ Luminous Efficiency
     ...     y_tighten=True,
     ...     margins=(0, 0, 0, .1))
 
-..  image:: docs/_static/Examples_Plotting_Luminous_Efficiency.png
+..  image:: _static/Examples_Plotting_Luminous_Efficiency.png
 
 Colour Checker
 **************
@@ -812,7 +812,7 @@ Colour Checker
     ...     title=('BabelColor Average - '
     ...            'Relative Spectral Power Distributions'))
 
-..  image:: docs/_static/Examples_Plotting_BabelColor_Average.png
+..  image:: _static/Examples_Plotting_BabelColor_Average.png
 
 .. code-block:: python
 
@@ -820,7 +820,7 @@ Colour Checker
     >>> colour_plotting_defaults()
     >>> colour_checker_plot('ColorChecker 2005', text_display=False)
 
-..  image:: docs/_static/Examples_Plotting_ColorChecker_2005.png
+..  image:: _static/Examples_Plotting_ColorChecker_2005.png
 
 Chromaticities Prediction
 *************************
@@ -831,7 +831,7 @@ Chromaticities Prediction
     >>> colour_plotting_defaults()
     >>> corresponding_chromaticities_prediction_plot(2, 'Von Kries', 'Bianco')
 
-..  image:: docs/_static/Examples_Plotting_Chromaticities_Prediction.png
+..  image:: _static/Examples_Plotting_Chromaticities_Prediction.png
 
 Colour Temperature
 ******************
@@ -842,7 +842,7 @@ Colour Temperature
     >>> colour_plotting_defaults()
     >>> planckian_locus_chromaticity_diagram_plot_CIE1931(['A', 'B', 'C'])
 
-..  image:: docs/_static/Examples_Plotting_CCT_CIE_1976_UCS_Chromaticity_Diagram.png
+..  image:: _static/Examples_Plotting_CCT_CIE_1976_UCS_Chromaticity_Diagram.png
 
 
 Chromaticities
@@ -857,7 +857,7 @@ Chromaticities
     >>> RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931(
     ...     RGB, 'ITU-R BT.709', colourspaces=['ACEScg', 'S-Gamut', 'Pointer Gamut'])
 
-..  image:: docs/_static/Examples_Plotting_Chromaticities_CIE_1931_Chromaticity_Diagram.png
+..  image:: _static/Examples_Plotting_Chromaticities_CIE_1931_Chromaticity_Diagram.png
 
 Colour Rendering Index
 **********************
@@ -869,7 +869,7 @@ Colour Rendering Index
     >>> single_spd_colour_rendering_index_bars_plot(
     ...     colour.ILLUMINANTS_RELATIVE_SPDS['F2'])
 
-..  image:: docs/_static/Examples_Plotting_CRI.png
+..  image:: _static/Examples_Plotting_CRI.png
 
 Contributing
 ------------
