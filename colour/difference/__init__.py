@@ -2,6 +2,10 @@
 """
 References
 ----------
+-   :cite:`ASTMInternational2007` : ASTM International. (2007). ASTM D2244-07 -
+    Standard Practice for Calculation of Color Tolerances and Color Differences
+    from Instrumentally Measured Color Coordinates, i, 1-10.
+    doi:10.1520/D2244-07
 -   :cite:`Li2017` : Li, C., Li, Z., Wang, Z., Xu, Y., Luo, M. R., Cui, G.,
     Pointer, M. (2017). Comprehensive color solutions: CAM16, CAT16, and
     CAM16-UCS. Color Research & Application, 42(6), 703-718.
@@ -31,17 +35,18 @@ from __future__ import absolute_import
 
 from colour.utilities import CaseInsensitiveMapping, filter_kwargs
 
-from .cam02_ucs import (delta_E_CAM02LCD, delta_E_CAM02SCD,
-                        delta_E_CAM02UCS)
-from .cam16_ucs import (delta_E_CAM16LCD, delta_E_CAM16SCD,
-                        delta_E_CAM16UCS)
+from .cam02_ucs import (delta_E_CAM02LCD, delta_E_CAM02SCD, delta_E_CAM02UCS)
+from .cam16_ucs import (delta_E_CAM16LCD, delta_E_CAM16SCD, delta_E_CAM16UCS)
 from .delta_e import (delta_E_CIE1976, delta_E_CIE1994, delta_E_CIE2000,
                       delta_E_CMC)
+from .din99 import delta_E_DIN99
+
 __all__ = ['delta_E_CAM02LCD', 'delta_E_CAM02SCD', 'delta_E_CAM02UCS']
 __all__ += ['delta_E_CAM16LCD', 'delta_E_CAM16SCD', 'delta_E_CAM16UCS']
 __all__ += [
     'delta_E_CIE1976', 'delta_E_CIE1994', 'delta_E_CIE2000', 'delta_E_CMC'
 ]
+__all__ += ['delta_E_DIN99']
 
 DELTA_E_METHODS = CaseInsensitiveMapping({
     'CIE 1976': delta_E_CIE1976,
@@ -54,12 +59,14 @@ DELTA_E_METHODS = CaseInsensitiveMapping({
     'CAM16-LCD': delta_E_CAM16LCD,
     'CAM16-SCD': delta_E_CAM16SCD,
     'CAM16-UCS': delta_E_CAM16UCS,
+    'DIN99': delta_E_DIN99,
 })
 DELTA_E_METHODS.__doc__ = """
 Supported :math:`\Delta E_{ab}` computations methods.
 
 References
 ----------
+-   :cite:`ASTMInternational2007`
 -   :cite:`Li2017`
 -   :cite:`Lindbloom2003c`
 -   :cite:`Lindbloom2011a`
@@ -71,7 +78,7 @@ References
 
 DELTA_E_METHODS : CaseInsensitiveMapping
     **{'CIE 1976', 'CIE 1994', 'CIE 2000', 'CMC', 'CAM02-LCD', 'CAM02-SCD',
-    'CAM02-UCS', 'CAM16-LCD', 'CAM16-SCD', 'CAM16-UCS'}**
+    'CAM02-UCS', 'CAM16-LCD', 'CAM16-SCD', 'CAM16-UCS', 'DIN99'}**
 
 Aliases:
 
@@ -97,17 +104,19 @@ def delta_E(a, b, method='CIE 2000', **kwargs):
         *CIE L\*a\*b\** or :math:`J'a'b'` colourspace array :math:`b`.
     method : unicode, optional
         **{'CIE 2000', 'CIE 1976', 'CIE 1994', 'CMC', 'CAM02-LCD', 'CAM02-SCD',
-        'CAM02-UCS', 'CAM16-LCD', 'CAM16-SCD', 'CAM16-UCS'}**
+        'CAM02-UCS', 'CAM16-LCD', 'CAM16-SCD', 'CAM16-UCS', 'DIN99'}**
         Computation method.
 
     Other Parameters
     ----------------
     textiles : bool, optional
         {:func:`colour.difference.delta_E_CIE1994`,
-        :func:`colour.difference.delta_E_CIE2000`},
+        :func:`colour.difference.delta_E_CIE2000`,
+        :func:`colour.difference.delta_E_DIN99`},
         Textiles application specific parametric factors
-        :math:`k_L=2,\ k_C=k_H=1,\ k_1=0.048,\ k_2=0.014` weights are used
-        instead of :math:`k_L=k_C=k_H=1,\ k_1=0.045,\ k_2=0.015`.
+        :math:`k_L=2,\ k_C=k_H=1,\ k_1=0.048,\ k_2=0.014,\ k_E=2, \ k_CH=0.5`
+        weights are used instead of
+        :math:`k_L=k_C=k_H=1,\ k_1=0.045,\ k_2=0.015,\ k_E=k_CH=1.0`.
     l : numeric, optional
         {:func:`colour.difference.delta_E_CIE2000`},
         Lightness weighting factor.
@@ -122,6 +131,7 @@ def delta_E(a, b, method='CIE 2000', **kwargs):
 
     References
     ----------
+    -   :cite:`ASTMInternational2007`
     -   :cite:`Li2017`
     -   :cite:`Lindbloom2003c`
     -   :cite:`Lindbloom2011a`
@@ -147,6 +157,8 @@ def delta_E(a, b, method='CIE 2000', **kwargs):
     >>> delta_E(a, b, method='CIE 1994', textiles=False)
     ... # doctest: +ELLIPSIS
     83.7792255...
+    >>> delta_E(a, b, method='DIN99')  # doctest: +ELLIPSIS
+    66.1119282...
     >>> a = np.array([54.90433134, -0.08450395, -0.06854831])
     >>> b = np.array([54.90433134, -0.08442362, -0.06848314])
     >>> delta_E(a, b, method='CAM02-UCS')  # doctest: +ELLIPSIS

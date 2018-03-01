@@ -596,6 +596,7 @@ Colour Difference
      'CIE 1994',
      'CIE 2000',
      'CMC',
+     'DIN99',
      'cie1976',
      'cie1994',
      'cie2000']
