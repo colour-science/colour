@@ -19,9 +19,10 @@ blob/master/notebooks/models/cam16_ucs.ipynb>`_
 
 References
 ----------
--   Li, C., Li, Z., Wang, Z., Xu, Y., Luo, M. R., Cui, G.,  Pointer,
-    M. (2017). Comprehensive color solutions: CAM16, CAT16, and CAM16-UCS.
-    Color Research & Application, 42(6), 703-718. doi:10.1002/col.22131
+-   :cite:`Li2017` : Li, C., Li, Z., Wang, Z., Xu, Y., Luo, M. R., Cui, G.,
+    Pointer, M. (2017). Comprehensive color solutions: CAM16, CAT16, and
+    CAM16-UCS. Color Research & Application, 42(6), 703-718.
+    doi:10.1002/col.22131
 """
 
 from __future__ import division, unicode_literals

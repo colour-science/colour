@@ -2,6 +2,10 @@
 """
 References
 ----------
+-   :cite:`Li2017` : Li, C., Li, Z., Wang, Z., Xu, Y., Luo, M. R., Cui, G.,
+    Pointer, M. (2017). Comprehensive color solutions: CAM16, CAT16, and
+    CAM16-UCS. Color Research & Application, 42(6), 703-718.
+    doi:10.1002/col.22131
 -   :cite:`Lindbloom2003c` : Lindbloom, B. (2003). Delta E (CIE 1976).
     Retrieved February 24, 2014, from
     http://brucelindbloom.com/Eqn_DeltaE_CIE76.html
@@ -56,6 +60,7 @@ Supported :math:`\Delta E_{ab}` computations methods.
 
 References
 ----------
+-   :cite:`Li2017`
 -   :cite:`Lindbloom2003c`
 -   :cite:`Lindbloom2011a`
 -   :cite:`Lindbloom2009e`
@@ -114,6 +119,17 @@ def delta_E(a, b, method='CIE 2000', **kwargs):
     -------
     numeric or ndarray
         Colour difference :math:`\Delta E_{ab}`.
+
+    References
+    ----------
+    -   :cite:`Li2017`
+    -   :cite:`Lindbloom2003c`
+    -   :cite:`Lindbloom2011a`
+    -   :cite:`Lindbloom2009e`
+    -   :cite:`Lindbloom2009f`
+    -   :cite:`Luo2006b`
+    -   :cite:`Melgosa2013b`
+    -   :cite:`Wikipediabu`
 
     Examples
     --------
