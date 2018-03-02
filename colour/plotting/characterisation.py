@@ -58,12 +58,10 @@ def colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
     text_display : bool, optional
         {:func:`colour.plotting.multi_colour_swatches_plot`},
         Display colour text.
-    text_size : numeric, optional
+    text_parameters : dict, optional
         {:func:`colour.plotting.multi_colour_swatches_plot`},
-        Colour text size.
-    text_offset : numeric, optional
-        {:func:`colour.plotting.multi_colour_swatches_plot`},
-        Colour text offset.
+        Parameters for the :func:`pylab.text` definition, ``offset`` can be
+        set to define the text offset.
 
     Returns
     -------

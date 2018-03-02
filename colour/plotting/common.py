@@ -706,12 +706,10 @@ def single_colour_swatch_plot(colour_swatch, **kwargs):
     text_display : bool, optional
         {:func:`colour.plotting.multi_colour_swatches_plot`},
         Display colour text.
-    text_size : numeric, optional
+    text_parameters : dict, optional
         {:func:`colour.plotting.multi_colour_swatches_plot`},
-        Colour text size.
-    text_offset : numeric, optional
-        {:func:`colour.plotting.multi_colour_swatches_plot`},
-        Colour text offset.
+        Parameters for the :func:`pylab.text` definition, ``offset`` can be
+        set to define the text offset.
 
     Returns
     -------
@@ -733,8 +731,7 @@ def multi_colour_swatches_plot(colour_swatches,
                                spacing=0,
                                columns=3,
                                text_display=True,
-                               text_size='large',
-                               text_offset=0.075,
+                               text_parameters=None,
                                background_colour=(1.0, 1.0, 1.0),
                                **kwargs):
     """
@@ -754,10 +751,9 @@ def multi_colour_swatches_plot(colour_swatches,
         Colour swatches columns count.
     text_display : bool, optional
         Display colour text.
-    text_size : numeric, optional
-        Colour text size.
-    text_offset : numeric, optional
-        Colour text offset.
+    text_parameters : dict, optional
+        Parameters for the :func:`pylab.text` definition, ``offset`` can be
+        set to define the text offset.
     background_colour : array_like or unicode, optional
         Background colour.
 
@@ -778,6 +774,14 @@ def multi_colour_swatches_plot(colour_swatches,
     >>> cp2 = ColourSwatch(RGB=(0.77875824, 0.57726450, 0.50453169))
     >>> multi_colour_swatches_plot([cp1, cp2])  # doctest: +SKIP
     """
+
+    text_settings = {
+        'size': 'small',
+        'offset': 0.05,
+    }
+    if text_parameters is not None:
+        text_settings.update(text_parameters)
+    text_offset = text_settings.pop('offset')
 
     canvas(**kwargs)
 
@@ -800,7 +804,7 @@ def multi_colour_swatches_plot(colour_swatches,
                 y_0 + text_offset,
                 colour_swatch.name,
                 clip_on=True,
-                size=text_size)
+                **text_settings)
 
         offset_X += width + spacing
 
