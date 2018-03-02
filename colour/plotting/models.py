@@ -106,7 +106,7 @@ def RGB_colourspaces_chromaticity_diagram_plot(
     canvas(**settings)
 
     if colourspaces is None:
-        colourspaces = ('ITU-R BT.709', 'ACEScg', 'S-Gamut', 'Pointer Gamut')
+        colourspaces = ['ITU-R BT.709', 'ACEScg', 'S-Gamut', 'Pointer Gamut']
 
     cmfs, name = get_cmfs(cmfs), cmfs
 
