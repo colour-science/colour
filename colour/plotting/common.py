@@ -828,10 +828,8 @@ def multi_colour_swatches_plot(colour_swatches,
 
 
 def image_plot(image,
-               label=None,
-               label_size=15,
-               label_colour=None,
-               label_alpha=0.85,
+               text=None,
+               text_parameters=None,
                interpolation='nearest',
                colour_map=matplotlib.cm.Greys_r,
                **kwargs):
@@ -842,14 +840,11 @@ def image_plot(image,
     ----------
     image : array_like
         Image to plot.
-    label: unicode, optional
-        Image label.
-    label_size: int, optional
-        Image label font size.
-    label_colour: array_like or unicode, optional
-        Image label colour.
-    label_alpha: numeric, optional
-        Image label alpha.
+    text : unicode, optional
+        Image text.
+    text_parameters : dict, optional
+        Parameters for the :func:`pylab.text` definition, ``offset`` can be
+        set to define the text offset.
     interpolation: unicode, optional
         **{'nearest', None, 'none', 'bilinear', 'bicubic', 'spline16',
         'spline36', 'hanning', 'hamming', 'hermite', 'kaiser', 'quadric',
@@ -880,6 +875,16 @@ def image_plot(image,
     >>> image_plot(image)  # doctest: +SKIP
     """
 
+    text_settings = {
+        'size': 'large',
+        'offset': 5,
+        'color': (1, 1, 1),
+        'alpha': 0.85
+    }
+    if text_parameters is not None:
+        text_settings.update(text_parameters)
+    text_offset = text_settings.pop('offset')
+
     image = np.asarray(image)
 
     pylab.imshow(
@@ -887,14 +892,8 @@ def image_plot(image,
 
     height = image.shape[0]
 
-    if label is not None:
-        pylab.text(
-            0 + label_size,
-            height - label_size,
-            label,
-            color=label_colour if label_colour is not None else (1, 1, 1),
-            alpha=label_alpha,
-            fontsize=label_size)
+    if text is not None:
+        pylab.text(text_offset / 2, height - text_offset, text)
 
     settings = {
         'x_ticker': False,
