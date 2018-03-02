@@ -27,7 +27,7 @@ from colour.models import (Luv_to_uv, Luv_uv_to_xy, UCS_to_uv, UCS_uv_to_xy,
                            xy_to_XYZ)
 from colour.plotting import (DEFAULT_FIGURE_WIDTH, DEFAULT_PLOTTING_ILLUMINANT,
                              canvas, get_cmfs, render)
-from colour.utilities import normalise_maximum, tstack
+from colour.utilities import normalise_maximum, suppress_warnings, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -47,7 +47,7 @@ __all__ = [
 ]
 
 
-def chromaticity_diagram_colours(samples=192,
+def chromaticity_diagram_colours(samples=256,
                                  cmfs='CIE 1931 2 Degree Standard Observer',
                                  method='CIE 1931',
                                  **kwargs):
@@ -91,24 +91,25 @@ def chromaticity_diagram_colours(samples=192,
         np.linspace(0, 1, samples), np.linspace(1, 0, samples))
     ij = tstack((ii, jj))
 
-    method = method.upper()
-    if method == 'CIE 1931':
-        XYZ = xy_to_XYZ(ij)
-        spectral_locus = XYZ_to_xy(cmfs.values, illuminant)
-    elif method == 'CIE 1960 UCS':
-        XYZ = xy_to_XYZ(UCS_uv_to_xy(ij))
-        spectral_locus = UCS_to_uv(XYZ_to_UCS(cmfs.values))
-    elif method == 'CIE 1976 UCS':
-        XYZ = xy_to_XYZ(Luv_uv_to_xy(ij))
-        spectral_locus = Luv_to_uv(
-            XYZ_to_Luv(cmfs.values, illuminant), illuminant)
-    else:
-        raise ValueError(
-            'Invalid method: "{0}", must be one of '
-            '{\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\'}'.format(
-                method))
+    with suppress_warnings(False):
+        method = method.upper()
+        if method == 'CIE 1931':
+            XYZ = xy_to_XYZ(ij)
+            spectral_locus = XYZ_to_xy(cmfs.values, illuminant)
+        elif method == 'CIE 1960 UCS':
+            XYZ = xy_to_XYZ(UCS_uv_to_xy(ij))
+            spectral_locus = UCS_to_uv(XYZ_to_UCS(cmfs.values))
+        elif method == 'CIE 1976 UCS':
+            XYZ = xy_to_XYZ(Luv_uv_to_xy(ij))
+            spectral_locus = Luv_to_uv(
+                XYZ_to_Luv(cmfs.values, illuminant), illuminant)
+        else:
+            raise ValueError(
+                'Invalid method: "{0}", must be one of '
+                '{\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\'}'.format(
+                    method))
 
-    RGB = normalise_maximum(XYZ_to_sRGB(XYZ, illuminant), axis=-1)
+        RGB = normalise_maximum(XYZ_to_sRGB(XYZ, illuminant), axis=-1)
 
     polygon = Polygon(spectral_locus, facecolor='none', edgecolor='none')
     axes.add_patch(polygon)

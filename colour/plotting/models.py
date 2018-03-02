@@ -32,10 +32,10 @@ from colour.models import (LCHab_to_Lab, Lab_to_XYZ, Luv_to_uv,
                            POINTER_GAMUT_ILLUMINANT, RGB_to_XYZ, UCS_to_uv,
                            XYZ_to_Luv, XYZ_to_UCS, XYZ_to_xy, xy_to_XYZ)
 from colour.plotting import (
-    chromaticity_diagram_plot_CIE1931, chromaticity_diagram_plot_CIE1960UCS,
-    chromaticity_diagram_plot_CIE1976UCS, DEFAULT_FIGURE_WIDTH,
-    DEFAULT_PLOTTING_ILLUMINANT, canvas, colour_cycle, get_RGB_colourspace,
-    get_cmfs, render)
+    DEFAULT_FIGURE_WIDTH, DEFAULT_PLOTTING_ILLUMINANT,
+    DEFAULT_PLOTTING_ENCODING_CCTF, chromaticity_diagram_plot_CIE1931,
+    chromaticity_diagram_plot_CIE1960UCS, chromaticity_diagram_plot_CIE1976UCS,
+    canvas, colour_cycle, get_RGB_colourspace, get_cmfs, render)
 from colour.plotting.diagrams import chromaticity_diagram_plot
 
 __author__ = 'Colour Developers'
@@ -233,7 +233,7 @@ def RGB_colourspaces_chromaticity_diagram_plot(
     for colourspace in colourspaces:
         colourspace, name = get_RGB_colourspace(colourspace), colourspace
 
-        R, G, G, _A = next(cycle)
+        R, G, B, _A = next(cycle)
 
         # RGB colourspaces such as *ACES2065-1* have primaries with
         # chromaticity coordinates set to 0 thus we prevent nan from being
@@ -245,25 +245,25 @@ def RGB_colourspaces_chromaticity_diagram_plot(
 
         pylab.plot(
             (W[0], W[0]), (W[1], W[1]),
-            color=(R, G, G),
+            color=(R, G, B),
             label=colourspace.name,
             linewidth=1)
         pylab.plot(
-            (W[0], W[0]), (W[1], W[1]), 'o', color=(R, G, G), linewidth=1)
+            (W[0], W[0]), (W[1], W[1]), 'o', color=(R, G, B), linewidth=1)
         pylab.plot(
             (P[0, 0], P[1, 0]), (P[0, 1], P[1, 1]),
             'o-',
-            color=(R, G, G),
+            color=(R, G, B),
             linewidth=1)
         pylab.plot(
             (P[1, 0], P[2, 0]), (P[1, 1], P[2, 1]),
             'o-',
-            color=(R, G, G),
+            color=(R, G, B),
             linewidth=1)
         pylab.plot(
             (P[2, 0], P[0, 0]), (P[2, 1], P[0, 1]),
             'o-',
-            color=(R, G, G),
+            color=(R, G, B),
             linewidth=1)
 
         x_limit_min.append(np.amin(P[..., 0]) - 0.1)
@@ -439,6 +439,7 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot(
         chromaticity_diagram_callable=(
             RGB_colourspaces_chromaticity_diagram_plot),
         method='CIE 1931',
+        scatter_parameters=None,
         **kwargs):
     """
     Plots given *RGB* colourspace array in the *CIE 1931 Chromaticity Diagram*.
@@ -454,6 +455,9 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot(
     method : unicode, optional
         **{'CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'}**,
         *Chromaticity Diagram* method.
+    scatter_parameters : dict, optional
+        Parameters for the :func:`pylab.scatter` definition, if ``c`` is set to
+        *RGB*, the scatter will use given ``RGB`` colours.
 
     Other Parameters
     ----------------
@@ -475,15 +479,31 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot(
     ... # doctest: +SKIP
     """
 
+    scatter_settings = {
+        's': 40,
+        'c': 'RGB',
+        'marker': 'o',
+        'alpha': 0.85,
+        'linewidths': 0.1,
+        'edgecolors': 'black',
+    }
+    if scatter_parameters is not None:
+        scatter_settings.update(scatter_parameters)
+
     settings = dict(kwargs)
     settings.update({'standalone': False})
 
     colourspace, name = get_RGB_colourspace(colourspace), colourspace
-    settings['colourspaces'] = ([name] + settings.get('colourspaces', []))
+    settings['colourspaces'] = [name] + settings.get('colourspaces', [])
 
     chromaticity_diagram_callable(**settings)
 
-    alpha_p, colour_p = 0.85, 'black'
+    use_RGB_colours = scatter_settings['c'].upper() == 'RGB'
+    if use_RGB_colours:
+        RGB = RGB.reshape(-1, 3)
+        RGB = RGB[RGB[:, 1].argsort()]
+        scatter_settings['c'] = np.clip(
+            DEFAULT_PLOTTING_ENCODING_CCTF(RGB), 0, 1)
 
     XYZ = RGB_to_XYZ(RGB, colourspace.whitepoint, colourspace.whitepoint,
                      colourspace.RGB_to_XYZ_matrix)
@@ -498,8 +518,7 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot(
         ij = Luv_to_uv(
             XYZ_to_Luv(XYZ, colourspace.whitepoint), colourspace.whitepoint)
 
-    pylab.scatter(
-        ij[..., 0], ij[..., 1], alpha=alpha_p / 2, color=colour_p, marker='+')
+    pylab.scatter(ij[..., 0], ij[..., 1], **scatter_settings)
 
     settings.update({'standalone': True})
     settings.update(kwargs)
@@ -512,6 +531,7 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931(
         colourspace='sRGB',
         chromaticity_diagram_callable_CIE1931=(
             RGB_colourspaces_chromaticity_diagram_plot_CIE1931),
+        scatter_parameters=None,
         **kwargs):
     """
     Plots given *RGB* colourspace array in the *CIE 1931 Chromaticity Diagram*.
@@ -524,6 +544,9 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931(
         *RGB* colourspace of the *RGB* array.
     chromaticity_diagram_callable_CIE1931 : callable, optional
         Callable responsible for drawing the *CIE 1931 Chromaticity Diagram*.
+    scatter_parameters : dict, optional
+        Parameters for the :func:`pylab.scatter` definition, if ``c`` is set to
+        *RGB*, the scatter will use given ``RGB`` colours.
 
     Other Parameters
     ----------------
@@ -549,7 +572,11 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931(
     settings.update({'method': 'CIE 1931'})
 
     return RGB_chromaticity_coordinates_chromaticity_diagram_plot(
-        RGB, colourspace, chromaticity_diagram_callable_CIE1931, **settings)
+        RGB,
+        colourspace,
+        chromaticity_diagram_callable_CIE1931,
+        scatter_parameters=scatter_parameters,
+        **settings)
 
 
 def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS(
@@ -557,6 +584,7 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS(
         colourspace='sRGB',
         chromaticity_diagram_callable_CIE1960UCS=(
             RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS),
+        scatter_parameters=None,
         **kwargs):
     """
     Plots given *RGB* colourspace array in the
@@ -571,6 +599,9 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS(
     chromaticity_diagram_callable_CIE1960UCS : callable, optional
         Callable responsible for drawing the
         *CIE 1960 UCS Chromaticity Diagram*.
+    scatter_parameters : dict, optional
+        Parameters for the :func:`pylab.scatter` definition, if ``c`` is set to
+        *RGB*, the scatter will use given ``RGB`` colours.
 
     Other Parameters
     ----------------
@@ -596,7 +627,11 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS(
     settings.update({'method': 'CIE 1960 UCS'})
 
     return RGB_chromaticity_coordinates_chromaticity_diagram_plot(
-        RGB, colourspace, chromaticity_diagram_callable_CIE1960UCS, **settings)
+        RGB,
+        colourspace,
+        chromaticity_diagram_callable_CIE1960UCS,
+        scatter_parameters=scatter_parameters,
+        **settings)
 
 
 def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS(
@@ -604,6 +639,7 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS(
         colourspace='sRGB',
         chromaticity_diagram_callable_CIE1976UCS=(
             RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS),
+        scatter_parameters=None,
         **kwargs):
     """
     Plots given *RGB* colourspace array in the
@@ -618,6 +654,9 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS(
     chromaticity_diagram_callable_CIE1976UCS : callable, optional
         Callable responsible for drawing the
         *CIE 1976 UCS Chromaticity Diagram*.
+    scatter_parameters : dict, optional
+        Parameters for the :func:`pylab.scatter` definition, if ``c`` is set to
+        *RGB*, the scatter will use given ``RGB`` colours.
 
     Other Parameters
     ----------------
@@ -643,7 +682,11 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS(
     settings.update({'method': 'CIE 1976 UCS'})
 
     return RGB_chromaticity_coordinates_chromaticity_diagram_plot(
-        RGB, colourspace, chromaticity_diagram_callable_CIE1976UCS, **settings)
+        RGB,
+        colourspace,
+        chromaticity_diagram_callable_CIE1976UCS,
+        scatter_parameters=scatter_parameters,
+        **settings)
 
 
 def single_cctf_plot(colourspace='ITU-R BT.709', decoding_cctf=False,
