@@ -18,6 +18,7 @@ from __future__ import division
 import bisect
 import numpy as np
 import pylab
+from matplotlib.collections import LineCollection
 from matplotlib.patches import Polygon
 
 from colour.algebra import normalise_vector
@@ -27,7 +28,8 @@ from colour.models import (Luv_to_uv, Luv_uv_to_xy, UCS_to_uv, UCS_uv_to_xy,
 from colour.plotting import (
     DEFAULT_FIGURE_WIDTH, DEFAULT_PLOTTING_COLOURSPACE,
     XYZ_to_plotting_colourspace, canvas, get_cmfs, render)
-from colour.utilities import normalise_maximum, suppress_warnings, tstack
+from colour.utilities import (is_string, normalise_maximum, suppress_warnings,
+                              tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -37,8 +39,8 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'chromaticity_diagram_colours', 'chromaticity_diagram_plot',
-    'chromaticity_diagram_plot_CIE1931',
+    'spectral_locus_plot', 'chromaticity_diagram_colours_plot',
+    'chromaticity_diagram_plot', 'chromaticity_diagram_plot_CIE1931',
     'chromaticity_diagram_plot_CIE1960UCS',
     'chromaticity_diagram_plot_CIE1976UCS', 'spds_chromaticity_diagram_plot',
     'spds_chromaticity_diagram_plot_CIE1931',
@@ -47,10 +49,155 @@ __all__ = [
 ]
 
 
-def chromaticity_diagram_colours(samples=256,
-                                 cmfs='CIE 1931 2 Degree Standard Observer',
-                                 method='CIE 1931',
-                                 **kwargs):
+def spectral_locus_plot(cmfs='CIE 1931 2 Degree Standard Observer',
+                        spectral_locus_colours='black',
+                        spectral_locus_labels=None,
+                        method='CIE 1931',
+                        **kwargs):
+    """
+    Plots the *Spectral Locus* accordingly to given method.
+
+    Parameters
+    ----------
+    cmfs : unicode, optional
+        Standard observer colour matching functions defining the
+        *Spectral Locus*.
+    spectral_locus_colours : array_like or unicode, optional
+        *Spectral Locus* colours, if ``spectral_locus_colours`` is set to
+        *RGB*, the colours will be computed accordingly to the corresponding
+        chromaticity coordinates.
+    spectral_locus_labels : array_like, optional
+        Array of wavelength labels used to customise which labels will be drawn
+        around the spectral locus. Passing an empty array will result in no
+        wavelength labels being drawn.
+    method : unicode, optional
+        **{'CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'}**,
+        *Chromaticity Diagram* method.
+
+    Other Parameters
+    ----------------
+    \**kwargs : dict, optional
+        {:func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
+
+    Returns
+    -------
+    Figure
+        Current figure or None.
+
+    Examples
+    --------
+    >>> spectral_locus_plot()  # doctest: +SKIP
+    """
+
+    settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
+    settings.update(kwargs)
+
+    axes = canvas(**settings).gca()
+
+    cmfs = get_cmfs(cmfs)
+
+    illuminant = DEFAULT_PLOTTING_COLOURSPACE.whitepoint
+
+    wavelengths = cmfs.wavelengths
+    equal_energy = np.array([1 / 3] * 2)
+
+    method = method.upper()
+    if method == 'CIE 1931':
+        ij = XYZ_to_xy(cmfs.values, illuminant)
+        labels = ((390, 460, 470, 480, 490, 500, 510, 520, 540, 560, 580, 600,
+                   620, 700)
+                  if spectral_locus_labels is None else spectral_locus_labels)
+    elif method == 'CIE 1960 UCS':
+        ij = UCS_to_uv(XYZ_to_UCS(cmfs.values))
+        labels = ((420, 440, 450, 460, 470, 480, 490, 500, 510, 520, 530, 540,
+                   550, 560, 570, 580, 590, 600, 610, 620, 630, 645, 680)
+                  if spectral_locus_labels is None else spectral_locus_labels)
+    elif method == 'CIE 1976 UCS':
+        ij = Luv_to_uv(XYZ_to_Luv(cmfs.values, illuminant), illuminant)
+        labels = ((420, 440, 450, 460, 470, 480, 490, 500, 510, 520, 530, 540,
+                   550, 560, 570, 580, 590, 600, 610, 620, 630, 645, 680)
+                  if spectral_locus_labels is None else spectral_locus_labels)
+    else:
+        raise ValueError(
+            'Invalid method: "{0}", must be one of '
+            '{\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\'}'.format(
+                method))
+
+    pl_ij = tstack([
+        np.linspace(ij[0][0], ij[-1][0], 20),
+        np.linspace(ij[0][1], ij[-1][1], 20)
+    ]).reshape(-1, 1, 2)
+    sl_ij = np.copy(ij).reshape(-1, 1, 2)
+
+    if spectral_locus_colours.upper() == 'RGB':
+        spectral_locus_colours = normalise_maximum(
+            XYZ_to_plotting_colourspace(cmfs.values), axis=-1)
+
+        if method == 'CIE 1931':
+            XYZ = xy_to_XYZ(pl_ij)
+        elif method == 'CIE 1960 UCS':
+            XYZ = xy_to_XYZ(UCS_uv_to_xy(pl_ij))
+        elif method == 'CIE 1976 UCS':
+            XYZ = xy_to_XYZ(Luv_uv_to_xy(pl_ij))
+        purple_line_colours = normalise_maximum(
+            XYZ_to_plotting_colourspace(XYZ.reshape(-1, 3)), axis=-1)
+    else:
+        purple_line_colours = spectral_locus_colours
+
+    for slp_ij, slp_colours in ((pl_ij, purple_line_colours),
+                                (sl_ij, spectral_locus_colours)):
+        line_collection = LineCollection(
+            np.concatenate([slp_ij[:-1], slp_ij[1:]], axis=1),
+            colors=slp_colours)
+        axes.add_collection(line_collection)
+
+    wl_ij = dict(tuple(zip(wavelengths, ij)))
+    for label in labels:
+        i, j = wl_ij[label]
+
+        index = bisect.bisect(wavelengths, label)
+        left = wavelengths[index - 1] if index >= 0 else wavelengths[index]
+        right = (wavelengths[index]
+                 if index < len(wavelengths) else wavelengths[-1])
+
+        dx = wl_ij[right][0] - wl_ij[left][0]
+        dy = wl_ij[right][1] - wl_ij[left][1]
+
+        ij = np.array([i, j])
+        direction = np.array([-dy, dx])
+
+        normal = (np.array([-dy, dx]) if np.dot(
+            normalise_vector(ij - equal_energy), normalise_vector(direction)) >
+                  0 else np.array([dy, -dx]))
+        normal = normalise_vector(normal) / 30
+
+        label_colour = (spectral_locus_colours
+                        if is_string(spectral_locus_colours) else
+                        spectral_locus_colours[index])
+        pylab.plot(
+            (i, i + normal[0] * 0.75), (j, j + normal[1] * 0.75),
+            color=label_colour)
+
+        pylab.plot(i, j, 'o', color=label_colour)
+
+        pylab.text(
+            i + normal[0],
+            j + normal[1],
+            label,
+            clip_on=True,
+            ha='left' if normal[0] >= 0 else 'right',
+            va='center',
+            fontdict={'size': 'small'})
+
+    return render(**kwargs)
+
+
+def chromaticity_diagram_colours_plot(
+        samples=256,
+        cmfs='CIE 1931 2 Degree Standard Observer',
+        method='CIE 1931',
+        **kwargs):
     """
     Plots the *Chromaticity Diagram* colours accordingly to given method.
 
@@ -78,10 +225,13 @@ def chromaticity_diagram_colours(samples=256,
 
     Examples
     --------
-    >>> chromaticity_diagram_colours()  # doctest: +SKIP
+    >>> chromaticity_diagram_colours_plot()  # doctest: +SKIP
     """
 
-    axes = canvas(**kwargs).gca()
+    settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
+    settings.update(kwargs)
+
+    axes = canvas(**settings).gca()
 
     cmfs = get_cmfs(cmfs)
 
@@ -125,7 +275,7 @@ def chromaticity_diagram_colours(samples=256,
 
 def chromaticity_diagram_plot(cmfs='CIE 1931 2 Degree Standard Observer',
                               show_diagram_colours=True,
-                              wavelength_labels=None,
+                              show_spectral_locus=True,
                               method='CIE 1931',
                               **kwargs):
     """
@@ -137,11 +287,9 @@ def chromaticity_diagram_plot(cmfs='CIE 1931 2 Degree Standard Observer',
         Standard observer colour matching functions used for
         *Chromaticity Diagram* bounds.
     show_diagram_colours : bool, optional
-        Whether to display the chromaticity diagram background colours.
-    wavelength_labels : array_like, optional
-        Array of wavelength labels used to customise which labels will be drawn
-        around the spectral locus. Passing an empty array will result in no
-        wavelength labels being drawn.
+        Whether to display the *Chromaticity Diagram* background colours.
+    show_spectral_locus : bool, optional
+        Whether to display the *Spectral Locus*.
     method : unicode, optional
         **{'CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'}**,
         *Chromaticity Diagram* method.
@@ -149,7 +297,8 @@ def chromaticity_diagram_plot(cmfs='CIE 1931 2 Degree Standard Observer',
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.chromaticity_diagram_colours,
+        {:func:`colour.plotting.diagrams.spectral_locus_plot`,
+        :func:`colour.plotting.diagrams.chromaticity_diagram_colours_plot`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -170,87 +319,28 @@ def chromaticity_diagram_plot(cmfs='CIE 1931 2 Degree Standard Observer',
 
     cmfs = get_cmfs(cmfs)
 
-    illuminant = DEFAULT_PLOTTING_COLOURSPACE.whitepoint
-
     if show_diagram_colours:
         settings = {'method': method, 'standalone': False}
         settings.update(kwargs)
-        chromaticity_diagram_colours(**settings)
+        chromaticity_diagram_colours_plot(**settings)
 
-    wavelengths = cmfs.wavelengths
-    equal_energy = np.array([1 / 3] * 2)
+    if show_spectral_locus:
+        settings = {'method': method, 'standalone': False}
+        settings.update(kwargs)
+        spectral_locus_plot(**settings)
 
     method = method.upper()
     if method == 'CIE 1931':
-        ij = XYZ_to_xy(cmfs.values, illuminant)
         x_label, y_label = 'CIE x', 'CIE y'
-        wl_labels = (390, 460, 470, 480, 490, 500, 510, 520, 540, 560, 580,
-                     600, 620, 700)
     elif method == 'CIE 1960 UCS':
-        ij = UCS_to_uv(XYZ_to_UCS(cmfs.values))
         x_label, y_label = 'CIE u', 'CIE v'
-        wl_labels = (420, 440, 450, 460, 470, 480, 490, 500, 510, 520, 530,
-                     540, 550, 560, 570, 580, 590, 600, 610, 620, 630, 645,
-                     680)
     elif method == 'CIE 1976 UCS':
-        ij = Luv_to_uv(XYZ_to_Luv(cmfs.values, illuminant), illuminant)
         x_label, y_label = 'CIE u\'', 'CIE v\'',
-        wl_labels = (420, 440, 450, 460, 470, 480, 490, 500, 510, 520, 530,
-                     540, 550, 560, 570, 580, 590, 600, 610, 620, 630, 645,
-                     680)
     else:
         raise ValueError(
             'Invalid method: "{0}", must be one of '
             '{\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\'}'.format(
                 method))
-
-    wavelengths_chromaticity_coordinates = dict(tuple(zip(wavelengths, ij)))
-
-    pylab.plot(ij[..., 0], ij[..., 1], color='black', linewidth=1)
-    pylab.plot(
-        (ij[-1][0], ij[0][0]), (ij[-1][1], ij[0][1]),
-        color='black',
-        linewidth=1)
-
-    if wavelength_labels is not None:
-        wl_labels = wavelength_labels
-
-    for wl_label in wl_labels:
-        i, j = wavelengths_chromaticity_coordinates[wl_label]
-        pylab.plot(i, j, 'o', color='black', linewidth=1)
-
-        index = bisect.bisect(wavelengths, wl_label)
-        left = wavelengths[index - 1] if index >= 0 else wavelengths[index]
-        right = (wavelengths[index]
-                 if index < len(wavelengths) else wavelengths[-1])
-
-        dx = (wavelengths_chromaticity_coordinates[right][0] -
-              wavelengths_chromaticity_coordinates[left][0])
-        dy = (wavelengths_chromaticity_coordinates[right][1] -
-              wavelengths_chromaticity_coordinates[left][1])
-
-        ij = np.array([i, j])
-        direction = np.array([-dy, dx])
-
-        normal = (np.array([-dy, dx]) if np.dot(
-            normalise_vector(ij - equal_energy), normalise_vector(direction)) >
-                  0 else np.array([dy, -dx]))
-        normal = normalise_vector(normal)
-        normal /= 25
-
-        pylab.plot(
-            (i, i + normal[0] * 0.75), (j, j + normal[1] * 0.75),
-            color='black',
-            linewidth=1.5)
-        pylab.text(
-            i + normal[0],
-            j + normal[1],
-            wl_label,
-            color='black',
-            clip_on=True,
-            ha='left' if normal[0] >= 0 else 'right',
-            va='center',
-            fontdict={'size': 'small'})
 
     ticks = np.arange(-10, 10, 0.1)
 
@@ -278,7 +368,7 @@ def chromaticity_diagram_plot(cmfs='CIE 1931 2 Degree Standard Observer',
 def chromaticity_diagram_plot_CIE1931(
         cmfs='CIE 1931 2 Degree Standard Observer',
         show_diagram_colours=True,
-        wavelength_labels=None,
+        show_spectral_locus=True,
         **kwargs):
     """
     Plots the *CIE 1931 Chromaticity Diagram*.
@@ -289,16 +379,14 @@ def chromaticity_diagram_plot_CIE1931(
         Standard observer colour matching functions used for
         *Chromaticity Diagram* bounds.
     show_diagram_colours : bool, optional
-        Whether to display the chromaticity diagram background colours.
-    wavelength_labels : array_like, optional
-        Array of wavelength labels used to customise which labels will be drawn
-        around the spectral locus. Passing an empty array will result in no
-        wavelength labels being drawn.
+        Whether to display the *Chromaticity Diagram* background colours.
+    show_spectral_locus : bool, optional
+        Whether to display the *Spectral Locus*.
 
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.chromaticity_diagram_colours,
+        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -316,13 +404,13 @@ def chromaticity_diagram_plot_CIE1931(
     settings.update({'method': 'CIE 1931'})
 
     return chromaticity_diagram_plot(cmfs, show_diagram_colours,
-                                     wavelength_labels, **settings)
+                                     show_spectral_locus, **settings)
 
 
 def chromaticity_diagram_plot_CIE1960UCS(
         cmfs='CIE 1931 2 Degree Standard Observer',
         show_diagram_colours=True,
-        wavelength_labels=None,
+        show_spectral_locus=True,
         **kwargs):
     """
     Plots the *CIE 1960 UCS Chromaticity Diagram*.
@@ -333,16 +421,14 @@ def chromaticity_diagram_plot_CIE1960UCS(
         Standard observer colour matching functions used for
         *Chromaticity Diagram* bounds.
     show_diagram_colours : bool, optional
-        Whether to display the chromaticity diagram background colours.
-    wavelength_labels : array_like, optional
-        Array of wavelength labels used to customise which labels will be drawn
-        around the spectral locus. Passing an empty array will result in no
-        wavelength labels being drawn.
+        Whether to display the *Chromaticity Diagram* background colours.
+    show_spectral_locus : bool, optional
+        Whether to display the *Spectral Locus*.
 
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.chromaticity_diagram_colours,
+        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -360,13 +446,13 @@ def chromaticity_diagram_plot_CIE1960UCS(
     settings.update({'method': 'CIE 1960 UCS'})
 
     return chromaticity_diagram_plot(cmfs, show_diagram_colours,
-                                     wavelength_labels, **settings)
+                                     show_spectral_locus, **settings)
 
 
 def chromaticity_diagram_plot_CIE1976UCS(
         cmfs='CIE 1931 2 Degree Standard Observer',
         show_diagram_colours=True,
-        wavelength_labels=None,
+        show_spectral_locus=True,
         **kwargs):
     """
     Plots the *CIE 1976 UCS Chromaticity Diagram*.
@@ -377,16 +463,14 @@ def chromaticity_diagram_plot_CIE1976UCS(
         Standard observer colour matching functions used for
         *Chromaticity Diagram* bounds.
     show_diagram_colours : bool, optional
-        Whether to display the chromaticity diagram background colours.
-    wavelength_labels : array_like, optional
-        Array of wavelength labels used to customise which labels will be drawn
-        around the spectral locus. Passing an empty array will result in no
-        wavelength labels being drawn.
+        Whether to display the *Chromaticity Diagram* background colours.
+    show_spectral_locus : bool, optional
+        Whether to display the *Spectral Locus*.
 
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.chromaticity_diagram_colours,
+        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -404,7 +488,7 @@ def chromaticity_diagram_plot_CIE1976UCS(
     settings.update({'method': 'CIE 1976 UCS'})
 
     return chromaticity_diagram_plot(cmfs, show_diagram_colours,
-                                     wavelength_labels, **settings)
+                                     show_spectral_locus, **settings)
 
 
 def spds_chromaticity_diagram_plot(
@@ -437,7 +521,7 @@ def spds_chromaticity_diagram_plot(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definition.
 
@@ -553,7 +637,7 @@ def spds_chromaticity_diagram_plot_CIE1931(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definition.
 
@@ -606,7 +690,7 @@ def spds_chromaticity_diagram_plot_CIE1960UCS(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definition.
 
@@ -659,7 +743,7 @@ def spds_chromaticity_diagram_plot_CIE1976UCS(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definition.
 

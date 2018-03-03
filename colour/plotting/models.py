@@ -84,7 +84,7 @@ def RGB_colourspaces_chromaticity_diagram_plot(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definition.
 
@@ -310,7 +310,7 @@ def RGB_colourspaces_chromaticity_diagram_plot_CIE1931(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definition.
 
@@ -356,7 +356,7 @@ def RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definition.
 
@@ -403,7 +403,7 @@ def RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definition.
 
@@ -456,7 +456,7 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definition.
 
@@ -546,7 +546,7 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definition.
 
@@ -601,7 +601,7 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definition.
 
@@ -656,7 +656,7 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definition.
 

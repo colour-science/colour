@@ -45,7 +45,7 @@ def corresponding_chromaticities_prediction_plot(experiment=1,
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definition.
 

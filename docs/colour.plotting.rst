@@ -90,6 +90,19 @@ CIE Chromaticity Diagrams
     spds_chromaticity_diagram_plot_CIE1960UCS
     spds_chromaticity_diagram_plot_CIE1976UCS
 
+**Ancillary Objects**
+
+``colour.plotting.diagrams``
+
+.. currentmodule:: colour.plotting.diagrams
+
+.. autosummary::
+    :toctree: generated/
+
+    spectral_locus_plot
+    chromaticity_diagram_colours_plot
+    chromaticity_diagram_plot
+
 Colour Models
 -------------
 
@@ -108,6 +121,18 @@ Colour Models
     RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS
     single_cctf_plot
     multi_cctf_plot
+
+**Ancillary Objects**
+
+``colour.plotting.models``
+
+.. currentmodule:: colour.plotting.models
+
+.. autosummary::
+    :toctree: generated/
+
+    RGB_colourspaces_chromaticity_diagram_plot
+    RGB_chromaticity_coordinates_chromaticity_diagram_plot
 
 Colour Notation Systems
 -----------------------
@@ -162,6 +187,17 @@ Colour Temperature & Correlated Colour Temperature
 
     planckian_locus_chromaticity_diagram_plot_CIE1931
     planckian_locus_chromaticity_diagram_plot_CIE1960UCS
+
+**Ancillary Objects**
+
+``colour.plotting.temperature``
+
+.. currentmodule:: colour.plotting.temperature
+
+.. autosummary::
+    :toctree: generated/
+
+    planckian_locus_chromaticity_diagram_plot
 
 Colour Models Volume
 --------------------
