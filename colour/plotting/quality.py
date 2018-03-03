@@ -123,7 +123,6 @@ def colour_quality_bars_plot(specifications,
             y,
             color=colours,
             width=bar_width,
-            linewidth=1,
             edgecolor='black',
             hatch=(next(patterns) * hatching_repeat if hatching else None),
             label=specification.name)

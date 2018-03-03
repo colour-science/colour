@@ -148,7 +148,7 @@ def single_spd_plot(spd,
         color=colours,
         align='edge',
         clip_path=polygon)
-    axes.plot(wavelengths, values, color='black', linewidth=1)
+    axes.plot(wavelengths, values, color='black')
 
     settings = {
         'title': '{0} - {1}'.format(spd.strict_name, cmfs.strict_name),
@@ -241,16 +241,12 @@ def multi_spd_plot(spds,
             XYZ = spectral_to_XYZ(spd, cmfs, illuminant) / 100
             if normalise_spds_colours:
                 XYZ = normalise_maximum(XYZ, clip=False)
+
             RGB = np.clip(XYZ_to_plotting_colourspace(XYZ), 0, 1)
 
-            pylab.plot(
-                wavelengths,
-                values,
-                color=RGB,
-                label=spd.strict_name,
-                linewidth=1)
+            pylab.plot(wavelengths, values, color=RGB, label=spd.strict_name)
         else:
-            pylab.plot(wavelengths, values, label=spd.strict_name, linewidth=1)
+            pylab.plot(wavelengths, values, label=spd.strict_name)
 
     settings = {
         'x_label':
@@ -360,8 +356,7 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
                 values,
                 color=rgb,
                 label=u'{0} - {1}'.format(cmfs_i.labels[i],
-                                          cmfs_i.strict_name),
-                linewidth=1)
+                                          cmfs_i.strict_name))
 
     settings = {
         'title':
@@ -623,8 +618,7 @@ def multi_lightness_function_plot(functions=None, **kwargs):
             raise KeyError(('"{0}" "Lightness" function not found in factory '
                             '"Lightness" functions: "{1}".').format(
                                 name, sorted(LIGHTNESS_METHODS.keys())))
-        pylab.plot(
-            samples, function(samples), label='{0}'.format(name), linewidth=1)
+        pylab.plot(samples, function(samples), label='{0}'.format(name))
 
     settings.update({
         'title': '{0} - Lightness Functions'.format(', '.join(functions)),

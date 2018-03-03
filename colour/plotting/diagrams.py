@@ -511,7 +511,6 @@ def spds_chromaticity_diagram_plot(
                 spd.name,
                 xy=ij,
                 xytext=(50, 30),
-                color='black',
                 textcoords='offset points',
                 arrowprops=dict(
                     arrowstyle='->', connectionstyle='arc3, rad=0.2'))

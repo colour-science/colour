@@ -493,13 +493,11 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
             points[..., 1],
             points[..., 2],
             color=c,
-            linewidth=1,
             zorder=1)
         pylab.plot(
             (points[-1][0], points[0][0]), (points[-1][1], points[0][1]),
             (points[-1][2], points[0][2]),
             color=c,
-            linewidth=1,
             zorder=1)
 
     quads, RGB_f, RGB_e = [], [], []

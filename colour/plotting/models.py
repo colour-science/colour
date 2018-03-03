@@ -212,13 +212,11 @@ def RGB_colourspaces_chromaticity_diagram_plot(
             ij[..., 1],
             label='Pointer\'s Gamut',
             color=colour_p,
-            alpha=alpha_p,
-            linewidth=1)
+            alpha=alpha_p)
         pylab.plot(
             (ij[-1][0], ij[0][0]), (ij[-1][1], ij[0][1]),
             color=colour_p,
-            alpha=alpha_p,
-            linewidth=1)
+            alpha=alpha_p)
 
         XYZ = Lab_to_XYZ(
             LCHab_to_Lab(POINTER_GAMUT_DATA), POINTER_GAMUT_ILLUMINANT)
@@ -246,25 +244,21 @@ def RGB_colourspaces_chromaticity_diagram_plot(
         pylab.plot(
             (W[0], W[0]), (W[1], W[1]),
             color=(R, G, B),
-            label=colourspace.name,
-            linewidth=1)
+            label=colourspace.name)
         pylab.plot(
-            (W[0], W[0]), (W[1], W[1]), 'o', color=(R, G, B), linewidth=1)
+            (W[0], W[0]), (W[1], W[1]), 'o', color=(R, G, B))
         pylab.plot(
             (P[0, 0], P[1, 0]), (P[0, 1], P[1, 1]),
             'o-',
-            color=(R, G, B),
-            linewidth=1)
+            color=(R, G, B))
         pylab.plot(
             (P[1, 0], P[2, 0]), (P[1, 1], P[2, 1]),
             'o-',
-            color=(R, G, B),
-            linewidth=1)
+            color=(R, G, B))
         pylab.plot(
             (P[2, 0], P[0, 0]), (P[2, 1], P[0, 1]),
             'o-',
-            color=(R, G, B),
-            linewidth=1)
+            color=(R, G, B))
 
         x_limit_min.append(np.amin(P[..., 0]) - 0.1)
         y_limit_min.append(np.amin(P[..., 1]) - 0.1)
@@ -484,8 +478,6 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot(
         'c': 'RGB',
         'marker': 'o',
         'alpha': 0.85,
-        'linewidths': 0.1,
-        'edgecolors': 'black',
     }
     if scatter_parameters is not None:
         scatter_settings.update(scatter_parameters)
@@ -773,7 +765,7 @@ def multi_cctf_plot(colourspaces=None, decoding_cctf=False, **kwargs):
                 if decoding_cctf else colourspace.encoding_cctf(samples))
 
         pylab.plot(
-            samples, RGBs, label=u'{0}'.format(colourspace.name), linewidth=1)
+            samples, RGBs, label=u'{0}'.format(colourspace.name))
 
     mode = 'Decoding' if decoding_cctf else 'Encoding'
     settings.update({

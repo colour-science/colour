@@ -112,8 +112,7 @@ def multi_munsell_value_function_plot(functions=None, **kwargs):
 
         pylab.plot(
             samples, [function(x) for x in samples],
-            label=u'{0}'.format(name),
-            linewidth=1)
+            label=u'{0}'.format(name))
 
     settings.update({
         'title': '{0} - Munsell Functions'.format(', '.join(functions)),
