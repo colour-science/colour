@@ -33,8 +33,8 @@ import matplotlib.ticker
 import numpy as np
 import pylab
 
-from colour.colorimetry import CMFS, ILLUMINANTS, ILLUMINANTS_RELATIVE_SPDS
-from colour.models import RGB_COLOURSPACES
+from colour.colorimetry import CMFS, ILLUMINANTS_RELATIVE_SPDS
+from colour.models import RGB_COLOURSPACES, XYZ_to_RGB
 from colour.utilities import Structure
 
 __author__ = 'Colour Developers'
@@ -48,12 +48,12 @@ __all__ = [
     'PLOTTING_RESOURCES_DIRECTORY', 'DEFAULT_FIGURE_ASPECT_RATIO',
     'DEFAULT_FIGURE_WIDTH', 'DEFAULT_FIGURE_HEIGHT', 'DEFAULT_FIGURE_SIZE',
     'DEFAULT_FONT_SIZE', 'DEFAULT_COLOUR_CYCLE', 'DEFAULT_HATCH_PATTERNS',
-    'DEFAULT_PARAMETERS', 'DEFAULT_PLOTTING_ILLUMINANT',
-    'DEFAULT_PLOTTING_ENCODING_CCTF', 'colour_plotting_defaults',
-    'ColourSwatch', 'colour_cycle', 'canvas', 'camera', 'boundaries',
-    'decorate', 'display', 'render', 'label_rectangles', 'equal_axes3d',
-    'get_RGB_colourspace', 'get_cmfs', 'get_illuminant',
-    'single_colour_swatch_plot', 'multi_colour_swatches_plot', 'image_plot'
+    'DEFAULT_PARAMETERS', 'DEFAULT_PLOTTING_COLOURSPACE',
+    'XYZ_to_plotting_colourspace', 'colour_plotting_defaults', 'ColourSwatch',
+    'colour_cycle', 'canvas', 'camera', 'boundaries', 'decorate', 'display',
+    'render', 'label_rectangles', 'equal_axes3d', 'get_RGB_colourspace',
+    'get_cmfs', 'get_illuminant', 'single_colour_swatch_plot',
+    'multi_colour_swatches_plot', 'image_plot'
 ]
 
 PLOTTING_RESOURCES_DIRECTORY = os.path.join(
@@ -131,21 +131,61 @@ Default plotting parameters.
 DEFAULT_PARAMETERS : dict
 """
 
-DEFAULT_PLOTTING_ILLUMINANT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65'])
+DEFAULT_PLOTTING_COLOURSPACE = RGB_COLOURSPACES['sRGB']
 """
-Default plotting illuminant: *CIE Illuminant D Series* *D65*.
+Default plotting colourspace: *sRGB*.
 
-DEFAULT_PLOTTING_ILLUMINANT : ndarray
+DEFAULT_PLOTTING_COLOURSPACE : ndarray
 """
 
-DEFAULT_PLOTTING_ENCODING_CCTF = RGB_COLOURSPACES['sRGB'].encoding_cctf
-"""
-Default plotting encoding colour component transfer function / opto-electronic
-transfer function: *sRGB*.
 
-DEFAULT_PLOTTING_ENCODING_CCTF : object
-"""
+def XYZ_to_plotting_colourspace(XYZ,
+                                illuminant=RGB_COLOURSPACES['sRGB'].whitepoint,
+                                chromatic_adaptation_transform='CAT02',
+                                apply_encoding_cctf=True):
+    """
+    Converts from *CIE XYZ* tristimulus values to
+    :attr:`colour.plotting.DEFAULT_PLOTTING_COLOURSPACE` colourspace.
+
+    Parameters
+    ----------
+    XYZ : array_like
+        *CIE XYZ* tristimulus values.
+    illuminant : array_like, optional
+        Source illuminant chromaticity coordinates.
+    chromatic_adaptation_transform : unicode, optional
+        **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
+        'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
+        'Bianco PC'}**,
+        *Chromatic adaptation* transform.
+    apply_encoding_cctf : bool, optional
+        Apply :attr:`colour.plotting.DEFAULT_PLOTTING_COLOURSPACE` colourspace
+        encoding colour component transfer function / opto-electronic transfer
+        function.
+
+    Returns
+    -------
+    ndarray
+        :attr:`colour.plotting.DEFAULT_PLOTTING_COLOURSPACE` colourspace colour
+        array.
+
+    Notes
+    -----
+    -   Input *CIE XYZ* tristimulus values are in domain [0, 1].
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
+    >>> XYZ_to_plotting_colourspace(XYZ)  # doctest: +ELLIPSIS
+    array([ 0.1749881...,  0.3881947...,  0.3216031...])
+    """
+
+    return XYZ_to_RGB(XYZ, illuminant, DEFAULT_PLOTTING_COLOURSPACE.whitepoint,
+                      DEFAULT_PLOTTING_COLOURSPACE.XYZ_to_RGB_matrix,
+                      chromatic_adaptation_transform,
+                      DEFAULT_PLOTTING_COLOURSPACE.encoding_cctf
+                      if apply_encoding_cctf else None)
 
 
 def colour_plotting_defaults(parameters=None):

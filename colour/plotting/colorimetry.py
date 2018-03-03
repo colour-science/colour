@@ -36,10 +36,10 @@ from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE, ILLUMINANTS,
                                 ILLUMINANTS_RELATIVE_SPDS, LIGHTNESS_METHODS,
                                 SpectralShape, blackbody_spd, ones_spd,
                                 spectral_to_XYZ, wavelength_to_XYZ)
-from colour.models import XYZ_to_sRGB
-from colour.plotting import (ColourSwatch, DEFAULT_PLOTTING_ENCODING_CCTF,
-                             DEFAULT_FIGURE_WIDTH, canvas, get_cmfs,
-                             get_illuminant, render, single_colour_swatch_plot)
+from colour.plotting import (ColourSwatch, DEFAULT_PLOTTING_COLOURSPACE,
+                             DEFAULT_FIGURE_WIDTH, XYZ_to_plotting_colourspace,
+                             canvas, get_cmfs, get_illuminant, render,
+                             single_colour_swatch_plot)
 from colour.utilities import normalise_maximum, suppress_warnings, tstack
 
 __author__ = 'Colour Developers'
@@ -118,7 +118,7 @@ def single_spd_plot(spd,
     )]
     values = spd[wavelengths]
 
-    colours = XYZ_to_sRGB(
+    colours = XYZ_to_plotting_colourspace(
         wavelength_to_XYZ(wavelengths, cmfs),
         ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['E'],
         apply_encoding_cctf=False)
@@ -126,7 +126,8 @@ def single_spd_plot(spd,
     if not out_of_gamut_clipping:
         colours += np.abs(np.min(colours))
 
-    colours = DEFAULT_PLOTTING_ENCODING_CCTF(normalise_maximum(colours))
+    colours = DEFAULT_PLOTTING_COLOURSPACE.encoding_cctf(
+        normalise_maximum(colours))
 
     x_min, x_max = min(wavelengths), max(wavelengths)
     y_min, y_max = 0, max(values)
@@ -223,8 +224,8 @@ def multi_spd_plot(spds,
 
     cmfs = get_cmfs(cmfs)
 
-    if use_spds_colours:
-        illuminant = ILLUMINANTS_RELATIVE_SPDS['D65']
+    illuminant = ILLUMINANTS_RELATIVE_SPDS[
+        DEFAULT_PLOTTING_COLOURSPACE.illuminant]
 
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
     for spd in spds:
@@ -240,7 +241,7 @@ def multi_spd_plot(spds,
             XYZ = spectral_to_XYZ(spd, cmfs, illuminant) / 100
             if normalise_spds_colours:
                 XYZ = normalise_maximum(XYZ, clip=False)
-            RGB = np.clip(XYZ_to_sRGB(XYZ), 0, 1)
+            RGB = np.clip(XYZ_to_plotting_colourspace(XYZ), 0, 1)
 
             pylab.plot(
                 wavelengths,
@@ -695,7 +696,7 @@ def blackbody_spectral_radiance_plot(
     single_spd_plot(spd, cmfs.name, **settings)
 
     XYZ = spectral_to_XYZ(spd, cmfs)
-    RGB = normalise_maximum(XYZ_to_sRGB(XYZ / 100))
+    RGB = normalise_maximum(XYZ_to_plotting_colourspace(XYZ / 100))
 
     matplotlib.pyplot.subplot(212)
 
@@ -756,7 +757,7 @@ def blackbody_colours_plot(shape=SpectralShape(150, 12500, 50),
             spd = blackbody_spd(temperature, cmfs.shape)
 
             XYZ = spectral_to_XYZ(spd, cmfs)
-            RGB = normalise_maximum(XYZ_to_sRGB(XYZ / 100))
+            RGB = normalise_maximum(XYZ_to_plotting_colourspace(XYZ / 100))
 
             colours.append(RGB)
             temperatures.append(temperature)

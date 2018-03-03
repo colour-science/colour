@@ -23,10 +23,10 @@ from matplotlib.patches import Polygon
 from colour.algebra import normalise_vector
 from colour.colorimetry import spectral_to_XYZ
 from colour.models import (Luv_to_uv, Luv_uv_to_xy, UCS_to_uv, UCS_uv_to_xy,
-                           XYZ_to_Luv, XYZ_to_UCS, XYZ_to_sRGB, XYZ_to_xy,
-                           xy_to_XYZ)
-from colour.plotting import (DEFAULT_FIGURE_WIDTH, DEFAULT_PLOTTING_ILLUMINANT,
-                             canvas, get_cmfs, render)
+                           XYZ_to_Luv, XYZ_to_UCS, XYZ_to_xy, xy_to_XYZ)
+from colour.plotting import (
+    DEFAULT_FIGURE_WIDTH, DEFAULT_PLOTTING_COLOURSPACE,
+    XYZ_to_plotting_colourspace, canvas, get_cmfs, render)
 from colour.utilities import normalise_maximum, suppress_warnings, tstack
 
 __author__ = 'Colour Developers'
@@ -85,7 +85,7 @@ def chromaticity_diagram_colours(samples=256,
 
     cmfs = get_cmfs(cmfs)
 
-    illuminant = DEFAULT_PLOTTING_ILLUMINANT
+    illuminant = DEFAULT_PLOTTING_COLOURSPACE.whitepoint
 
     ii, jj = np.meshgrid(
         np.linspace(0, 1, samples), np.linspace(1, 0, samples))
@@ -109,7 +109,8 @@ def chromaticity_diagram_colours(samples=256,
                 '{\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\'}'.format(
                     method))
 
-        RGB = normalise_maximum(XYZ_to_sRGB(XYZ, illuminant), axis=-1)
+        RGB = normalise_maximum(
+            XYZ_to_plotting_colourspace(XYZ, illuminant), axis=-1)
 
     polygon = Polygon(spectral_locus, facecolor='none', edgecolor='none')
     axes.add_patch(polygon)
@@ -169,7 +170,7 @@ def chromaticity_diagram_plot(cmfs='CIE 1931 2 Degree Standard Observer',
 
     cmfs = get_cmfs(cmfs)
 
-    illuminant = DEFAULT_PLOTTING_ILLUMINANT
+    illuminant = DEFAULT_PLOTTING_COLOURSPACE.whitepoint
 
     if show_diagram_colours:
         settings = {'method': method, 'standalone': False}

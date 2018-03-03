@@ -27,15 +27,15 @@ import numpy as np
 import pylab
 
 from colour.constants import EPSILON
-from colour.models import (LCHab_to_Lab, Lab_to_XYZ, Luv_to_uv,
-                           POINTER_GAMUT_BOUNDARIES, POINTER_GAMUT_DATA,
-                           POINTER_GAMUT_ILLUMINANT, RGB_to_XYZ, UCS_to_uv,
-                           XYZ_to_Luv, XYZ_to_UCS, XYZ_to_xy, xy_to_XYZ)
+from colour.models import (
+    LCHab_to_Lab, Lab_to_XYZ, Luv_to_uv, POINTER_GAMUT_BOUNDARIES,
+    POINTER_GAMUT_DATA, POINTER_GAMUT_ILLUMINANT, RGB_to_RGB, RGB_to_XYZ,
+    UCS_to_uv, XYZ_to_Luv, XYZ_to_UCS, XYZ_to_xy, xy_to_XYZ)
 from colour.plotting import (
-    DEFAULT_FIGURE_WIDTH, DEFAULT_PLOTTING_ILLUMINANT,
-    DEFAULT_PLOTTING_ENCODING_CCTF, chromaticity_diagram_plot_CIE1931,
-    chromaticity_diagram_plot_CIE1960UCS, chromaticity_diagram_plot_CIE1976UCS,
-    canvas, colour_cycle, get_RGB_colourspace, get_cmfs, render)
+    DEFAULT_FIGURE_WIDTH, DEFAULT_PLOTTING_COLOURSPACE,
+    chromaticity_diagram_plot_CIE1931, chromaticity_diagram_plot_CIE1960UCS,
+    chromaticity_diagram_plot_CIE1976UCS, canvas, colour_cycle,
+    get_RGB_colourspace, get_cmfs, render)
 from colour.plotting.diagrams import chromaticity_diagram_plot
 
 __author__ = 'Colour Developers'
@@ -110,7 +110,7 @@ def RGB_colourspaces_chromaticity_diagram_plot(
 
     cmfs, name = get_cmfs(cmfs), cmfs
 
-    illuminant = DEFAULT_PLOTTING_ILLUMINANT
+    illuminant = DEFAULT_PLOTTING_COLOURSPACE.whitepoint
 
     method = method.upper()
     settings = {
@@ -500,10 +500,13 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot(
 
     use_RGB_colours = scatter_settings['c'].upper() == 'RGB'
     if use_RGB_colours:
-        RGB = RGB.reshape(-1, 3)
         RGB = RGB[RGB[:, 1].argsort()]
         scatter_settings['c'] = np.clip(
-            DEFAULT_PLOTTING_ENCODING_CCTF(RGB), 0, 1)
+            RGB_to_RGB(
+                RGB,
+                colourspace,
+                DEFAULT_PLOTTING_COLOURSPACE,
+                apply_encoding_cctf=True).reshape(-1, 3), 0, 1)
 
     XYZ = RGB_to_XYZ(RGB, colourspace.whitepoint, colourspace.whitepoint,
                      colourspace.RGB_to_XYZ_matrix)
