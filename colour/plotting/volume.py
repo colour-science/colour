@@ -20,7 +20,7 @@ from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.models import RGB_to_XYZ
 from colour.models.common import (COLOURSPACE_MODELS_LABELS,
                                   XYZ_to_colourspace_model)
-from colour.plotting import (DEFAULT_PLOTTING_ILLUMINANT, cube,
+from colour.plotting import (DEFAULT_PLOTTING_COLOURSPACE, cube,
                              get_RGB_colourspace, get_cmfs, grid, render)
 from colour.utilities import Structure, tsplit, tstack
 
@@ -472,7 +472,7 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
     figure = matplotlib.pyplot.figure()
     axes = figure.add_subplot(111, projection='3d')
 
-    illuminant = DEFAULT_PLOTTING_ILLUMINANT
+    illuminant = DEFAULT_PLOTTING_COLOURSPACE.whitepoint
 
     points = np.zeros((4, 3))
     if spectral_locus:
@@ -493,13 +493,11 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
             points[..., 1],
             points[..., 2],
             color=c,
-            linewidth=1,
             zorder=1)
         pylab.plot(
             (points[-1][0], points[0][0]), (points[-1][1], points[0][1]),
             (points[-1][2], points[0][2]),
             color=c,
-            linewidth=1,
             zorder=1)
 
     quads, RGB_f, RGB_e = [], [], []

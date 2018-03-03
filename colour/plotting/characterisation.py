@@ -15,9 +15,9 @@ import pylab
 
 from colour.characterisation import COLOURCHECKERS
 from colour.models import RGB_COLOURSPACES
-from colour.models import XYZ_to_sRGB, xyY_to_XYZ
-from colour.plotting import (ColourSwatch, canvas, multi_colour_swatches_plot,
-                             render)
+from colour.models import xyY_to_XYZ
+from colour.plotting import (ColourSwatch, XYZ_to_plotting_colourspace, canvas,
+                             multi_colour_swatches_plot, render)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -58,12 +58,10 @@ def colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
     text_display : bool, optional
         {:func:`colour.plotting.multi_colour_swatches_plot`},
         Display colour text.
-    text_size : numeric, optional
+    text_parameters : dict, optional
         {:func:`colour.plotting.multi_colour_swatches_plot`},
-        Colour text size.
-    text_offset : numeric, optional
-        {:func:`colour.plotting.multi_colour_swatches_plot`},
-        Colour text offset.
+        Parameters for the :func:`pylab.text` definition, ``offset`` can be
+        set to define the text offset.
 
     Returns
     -------
@@ -93,7 +91,7 @@ def colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
     colour_swatches = []
     for _index, label, xyY in data:
         XYZ = xyY_to_XYZ(xyY)
-        RGB = XYZ_to_sRGB(XYZ, illuminant)
+        RGB = XYZ_to_plotting_colourspace(XYZ, illuminant)
 
         colour_swatches.append(
             ColourSwatch(label.title(), np.clip(np.ravel(RGB), 0, 1)))

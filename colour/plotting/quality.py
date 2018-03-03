@@ -18,9 +18,9 @@ import pylab
 from itertools import cycle
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
-from colour.models import XYZ_to_sRGB
 from colour.plotting import (DEFAULT_FIGURE_WIDTH, DEFAULT_HATCH_PATTERNS,
-                             canvas, label_rectangles, render)
+                             XYZ_to_plotting_colourspace, canvas,
+                             label_rectangles, render)
 from colour.quality import (colour_quality_scale, colour_rendering_index)
 from colour.quality.cri import TCS_ColorimetryData
 from colour.utilities import warning
@@ -99,9 +99,10 @@ def colour_quality_bars_plot(specifications,
                                        specification.colorimetry_data)
 
         count_Q_as = len(Q_as)
-        colours = (
-            [[1] * 3] +
-            [np.clip(XYZ_to_sRGB(x.XYZ), 0, 1) for x in colorimetry_data[0]])
+        colours = ([[1] * 3] + [
+            np.clip(XYZ_to_plotting_colourspace(x.XYZ), 0, 1)
+            for x in colorimetry_data[0]
+        ])
 
         x = (i + np.arange(
             0, (count_Q_as + 1) * (count_s + 1), (count_s + 1),
@@ -122,7 +123,6 @@ def colour_quality_bars_plot(specifications,
             y,
             color=colours,
             width=bar_width,
-            linewidth=1,
             edgecolor='black',
             hatch=(next(patterns) * hatching_repeat if hatching else None),
             label=specification.name)

@@ -60,7 +60,7 @@ def planckian_locus_chromaticity_diagram_plot(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definition.
 
@@ -152,17 +152,16 @@ def planckian_locus_chromaticity_diagram_plot(
         for x in np.arange(start, end + 250, 250)
     ])
 
-    pylab.plot(ij[..., 0], ij[..., 1], color='black', linewidth=1)
+    pylab.plot(ij[..., 0], ij[..., 1])
 
     for i in (1667, 2000, 2500, 3000, 4000, 6000, 10000):
         i0, j0 = uv_to_ij(CCT_to_uv(i, 'Robertson 1968', D_uv=-D_uv))
         i1, j1 = uv_to_ij(CCT_to_uv(i, 'Robertson 1968', D_uv=D_uv))
-        pylab.plot((i0, i1), (j0, j1), color='black', linewidth=1)
+        pylab.plot((i0, i1), (j0, j1))
         pylab.annotate(
             '{0}K'.format(i),
             xy=(i0, j0),
             xytext=(0, -10),
-            color='black',
             textcoords='offset points',
             size='x-small')
 
@@ -175,13 +174,12 @@ def planckian_locus_chromaticity_diagram_plot(
                                   sorted(ILLUMINANTS[cmfs.name].keys())))
         ij = xy_to_ij(xy)
 
-        pylab.plot(ij[0], ij[1], 'o', color='white', linewidth=1)
+        pylab.plot(ij[0], ij[1], 'o', color='white')
 
         pylab.annotate(
             illuminant,
             xy=(ij[0], ij[1]),
             xytext=(-50, 30),
-            color='black',
             textcoords='offset points',
             arrowprops=dict(arrowstyle='->', connectionstyle='arc3, rad=-0.2'))
 
@@ -215,7 +213,7 @@ def planckian_locus_chromaticity_diagram_plot_CIE1931(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definition.
 
@@ -262,7 +260,7 @@ def planckian_locus_chromaticity_diagram_plot_CIE1960UCS(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definition.
 

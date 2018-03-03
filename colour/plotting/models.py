@@ -27,15 +27,15 @@ import numpy as np
 import pylab
 
 from colour.constants import EPSILON
-from colour.models import (LCHab_to_Lab, Lab_to_XYZ, Luv_to_uv,
-                           POINTER_GAMUT_BOUNDARIES, POINTER_GAMUT_DATA,
-                           POINTER_GAMUT_ILLUMINANT, RGB_to_XYZ, UCS_to_uv,
-                           XYZ_to_Luv, XYZ_to_UCS, XYZ_to_xy, xy_to_XYZ)
+from colour.models import (
+    LCHab_to_Lab, Lab_to_XYZ, Luv_to_uv, POINTER_GAMUT_BOUNDARIES,
+    POINTER_GAMUT_DATA, POINTER_GAMUT_ILLUMINANT, RGB_to_RGB, RGB_to_XYZ,
+    UCS_to_uv, XYZ_to_Luv, XYZ_to_UCS, XYZ_to_xy, xy_to_XYZ)
 from colour.plotting import (
-    DEFAULT_FIGURE_WIDTH, DEFAULT_PLOTTING_ILLUMINANT,
-    DEFAULT_PLOTTING_ENCODING_CCTF, chromaticity_diagram_plot_CIE1931,
-    chromaticity_diagram_plot_CIE1960UCS, chromaticity_diagram_plot_CIE1976UCS,
-    canvas, colour_cycle, get_RGB_colourspace, get_cmfs, render)
+    DEFAULT_FIGURE_WIDTH, DEFAULT_PLOTTING_COLOURSPACE,
+    chromaticity_diagram_plot_CIE1931, chromaticity_diagram_plot_CIE1960UCS,
+    chromaticity_diagram_plot_CIE1976UCS, canvas, colour_cycle,
+    get_RGB_colourspace, get_cmfs, render)
 from colour.plotting.diagrams import chromaticity_diagram_plot
 
 __author__ = 'Colour Developers'
@@ -84,7 +84,7 @@ def RGB_colourspaces_chromaticity_diagram_plot(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definition.
 
@@ -106,11 +106,11 @@ def RGB_colourspaces_chromaticity_diagram_plot(
     canvas(**settings)
 
     if colourspaces is None:
-        colourspaces = ('ITU-R BT.709', 'ACEScg', 'S-Gamut', 'Pointer Gamut')
+        colourspaces = ['ITU-R BT.709', 'ACEScg', 'S-Gamut', 'Pointer Gamut']
 
     cmfs, name = get_cmfs(cmfs), cmfs
 
-    illuminant = DEFAULT_PLOTTING_ILLUMINANT
+    illuminant = DEFAULT_PLOTTING_COLOURSPACE.whitepoint
 
     method = method.upper()
     settings = {
@@ -212,13 +212,11 @@ def RGB_colourspaces_chromaticity_diagram_plot(
             ij[..., 1],
             label='Pointer\'s Gamut',
             color=colour_p,
-            alpha=alpha_p,
-            linewidth=1)
+            alpha=alpha_p)
         pylab.plot(
             (ij[-1][0], ij[0][0]), (ij[-1][1], ij[0][1]),
             color=colour_p,
-            alpha=alpha_p,
-            linewidth=1)
+            alpha=alpha_p)
 
         XYZ = Lab_to_XYZ(
             LCHab_to_Lab(POINTER_GAMUT_DATA), POINTER_GAMUT_ILLUMINANT)
@@ -246,25 +244,21 @@ def RGB_colourspaces_chromaticity_diagram_plot(
         pylab.plot(
             (W[0], W[0]), (W[1], W[1]),
             color=(R, G, B),
-            label=colourspace.name,
-            linewidth=1)
+            label=colourspace.name)
         pylab.plot(
-            (W[0], W[0]), (W[1], W[1]), 'o', color=(R, G, B), linewidth=1)
+            (W[0], W[0]), (W[1], W[1]), 'o', color=(R, G, B))
         pylab.plot(
             (P[0, 0], P[1, 0]), (P[0, 1], P[1, 1]),
             'o-',
-            color=(R, G, B),
-            linewidth=1)
+            color=(R, G, B))
         pylab.plot(
             (P[1, 0], P[2, 0]), (P[1, 1], P[2, 1]),
             'o-',
-            color=(R, G, B),
-            linewidth=1)
+            color=(R, G, B))
         pylab.plot(
             (P[2, 0], P[0, 0]), (P[2, 1], P[0, 1]),
             'o-',
-            color=(R, G, B),
-            linewidth=1)
+            color=(R, G, B))
 
         x_limit_min.append(np.amin(P[..., 0]) - 0.1)
         y_limit_min.append(np.amin(P[..., 1]) - 0.1)
@@ -316,7 +310,7 @@ def RGB_colourspaces_chromaticity_diagram_plot_CIE1931(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definition.
 
@@ -362,7 +356,7 @@ def RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definition.
 
@@ -409,7 +403,7 @@ def RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definition.
 
@@ -462,7 +456,7 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definition.
 
@@ -484,8 +478,6 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot(
         'c': 'RGB',
         'marker': 'o',
         'alpha': 0.85,
-        'linewidths': 0.1,
-        'edgecolors': 'black',
     }
     if scatter_parameters is not None:
         scatter_settings.update(scatter_parameters)
@@ -500,10 +492,13 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot(
 
     use_RGB_colours = scatter_settings['c'].upper() == 'RGB'
     if use_RGB_colours:
-        RGB = RGB.reshape(-1, 3)
         RGB = RGB[RGB[:, 1].argsort()]
         scatter_settings['c'] = np.clip(
-            DEFAULT_PLOTTING_ENCODING_CCTF(RGB), 0, 1)
+            RGB_to_RGB(
+                RGB,
+                colourspace,
+                DEFAULT_PLOTTING_COLOURSPACE,
+                apply_encoding_cctf=True).reshape(-1, 3), 0, 1)
 
     XYZ = RGB_to_XYZ(RGB, colourspace.whitepoint, colourspace.whitepoint,
                      colourspace.RGB_to_XYZ_matrix)
@@ -551,7 +546,7 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definition.
 
@@ -606,7 +601,7 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definition.
 
@@ -661,7 +656,7 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definition.
 
@@ -770,7 +765,7 @@ def multi_cctf_plot(colourspaces=None, decoding_cctf=False, **kwargs):
                 if decoding_cctf else colourspace.encoding_cctf(samples))
 
         pylab.plot(
-            samples, RGBs, label=u'{0}'.format(colourspace.name), linewidth=1)
+            samples, RGBs, label=u'{0}'.format(colourspace.name))
 
     mode = 'Decoding' if decoding_cctf else 'Encoding'
     settings.update({

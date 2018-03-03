@@ -45,7 +45,7 @@ def corresponding_chromaticities_prediction_plot(experiment=1,
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definition.
 
@@ -90,9 +90,7 @@ def corresponding_chromaticities_prediction_plot(experiment=1,
             uvp_p[0] - uvp_t[0] - 0.1 * (uvp_p[0] - uvp_t[0]),
             uvp_p[1] - uvp_t[1] - 0.1 * (uvp_p[1] - uvp_t[1]),
             head_width=0.005,
-            head_length=0.005,
-            linewidth=0.5,
-            color='black')
+            head_length=0.005)
         pylab.plot(uvp_t[0], uvp_t[1], 'o', color='white')
         pylab.plot(uvp_m[0], uvp_m[1], '^', color='white')
         pylab.plot(uvp_p[0], uvp_p[1], '^', color='black')
