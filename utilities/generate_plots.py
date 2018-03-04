@@ -48,6 +48,8 @@ def generate_documentation_plots(output_directory):
 
     colour_plotting_defaults()
 
+    np.random.seed(0)
+
     # *************************************************************************
     # "README.rst"
     # *************************************************************************
@@ -330,7 +332,6 @@ def generate_documentation_plots(output_directory):
     arguments['filename'] = os.path.join(
         output_directory,
         'Plotting_RGB_Chromaticity_Coordinates_Chromaticity_Diagram_Plot.png')
-    np.random.seed(0)
     RGB = np.random.random((128, 128, 3))
     RGB_chromaticity_coordinates_chromaticity_diagram_plot(
         RGB, 'ITU-R BT.709', **arguments)
