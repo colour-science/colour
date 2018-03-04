@@ -51,8 +51,11 @@ def single_munsell_value_function_plot(function='ASTM D1535-08', **kwargs):
 
     Examples
     --------
-    >>> f = 'ASTM D1535-08'
-    >>> single_munsell_value_function_plot(f)  # doctest: +SKIP
+    >>> single_munsell_value_function_plot('ASTM D1535-08')  # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_Single_Munsell_Value_Function_Plot.png
+        :align: center
+        :alt: single_munsell_value_function_plot
     """
 
     settings = {'title': '{0} - Munsell Value Function'.format(function)}
@@ -89,8 +92,12 @@ def multi_munsell_value_function_plot(functions=None, **kwargs):
 
     Examples
     --------
-    >>> fs = ('ASTM D1535-08', 'McCamy 1987')
-    >>> multi_munsell_value_function_plot(fs)  # doctest: +SKIP
+    >>> multi_munsell_value_function_plot(['ASTM D1535-08', 'McCamy 1987'])
+    ... # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_Multi_Munsell_Value_Function_Plot.png
+        :align: center
+        :alt: multi_munsell_value_function_plot
     """
 
     settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}

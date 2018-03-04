@@ -450,8 +450,12 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
 
     Examples
     --------
-    >>> c = ['ITU-R BT.709', 'ACEScg', 'S-Gamut']
-    >>> RGB_colourspaces_gamuts_plot(c)  # doctest: +SKIP
+    >>> RGB_colourspaces_gamuts_plot(['ITU-R BT.709', 'ACEScg', 'S-Gamut'])
+    ... # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_RGB_Colourspaces_Gamuts_Plot.png
+        :align: center
+        :alt: RGB_colourspaces_gamuts_plot
     """
 
     if colourspaces is None:
@@ -489,11 +493,7 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
              if spectral_locus_colour is None else spectral_locus_colour)
 
         pylab.plot(
-            points[..., 0],
-            points[..., 1],
-            points[..., 2],
-            color=c,
-            zorder=1)
+            points[..., 0], points[..., 1], points[..., 2], color=c, zorder=1)
         pylab.plot(
             (points[-1][0], points[0][0]), (points[-1][1], points[0][1]),
             (points[-1][2], points[0][2]),
@@ -629,8 +629,12 @@ def RGB_scatter_plot(RGB,
 
     Examples
     --------
-    >>> c = 'ITU-R BT.709'
-    >>> RGB_scatter_plot(c)  # doctest: +SKIP
+    >>> RGB = np.random.random((128, 128, 3))
+    >>> RGB_scatter_plot(RGB, 'ITU-R BT.709')  # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_RGB_Scatter_Plot.png
+        :align: center
+        :alt: RGB_scatter_plot
     """
 
     colourspace = get_RGB_colourspace(colourspace)

@@ -24,7 +24,7 @@ Common
     label_rectangles
     equal_axes3d
     single_colour_swatch_plot
-    multi_colour_swatches_plot
+    multi_colour_swatch_plot
     image_plot
 
 Colorimetry
@@ -42,7 +42,7 @@ Colorimetry
     single_cmfs_plot
     multi_cmfs_plot
     single_illuminant_relative_spd_plot
-    multi_illuminants_relative_spd_plot
+    multi_illuminant_relative_spd_plot
     visible_spectrum_plot
     single_lightness_function_plot
     multi_lightness_function_plot
@@ -174,6 +174,17 @@ Colour Quality
     multi_spd_colour_rendering_index_bars_plot
     single_spd_colour_quality_scale_bars_plot
     multi_spd_colour_quality_scale_bars_plot
+
+**Ancillary Objects**
+
+``colour.plotting.quality``
+
+.. currentmodule:: colour.plotting.quality
+
+.. autosummary::
+    :toctree: generated/
+
+    colour_quality_bars_plot
 
 Colour Temperature & Correlated Colour Temperature
 --------------------------------------------------

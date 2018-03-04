@@ -63,10 +63,13 @@ def planckian_locus_plot(planckian_locus_colours='black',
     Figure
         Current figure or None.
 
-
     Examples
     --------
     >>> planckian_locus_plot()  # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_Planckian_Locus_Plot.png
+        :align: center
+        :alt: planckian_locus_plot
     """
 
     settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
@@ -163,6 +166,11 @@ def planckian_locus_chromaticity_diagram_plot(
     --------
     >>> planckian_locus_chromaticity_diagram_plot(['A', 'B', 'C'])
     ... # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_\
+Planckian_Locus_Chromaticity_Diagram_Plot.png
+        :align: center
+        :alt: planckian_locus_chromaticity_diagram_plot
     """
 
     if illuminants is None:
@@ -281,6 +289,11 @@ planckian_locus_chromaticity_diagram_plot`,
     --------
     >>> planckian_locus_chromaticity_diagram_plot_CIE1931(['A', 'B', 'C'])
     ... # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_\
+Planckian_Locus_Chromaticity_Diagram_Plot_CIE1931.png
+        :align: center
+        :alt: planckian_locus_chromaticity_diagram_plot_CIE1931
     """
 
     settings = dict(kwargs)
@@ -329,6 +342,11 @@ planckian_locus_chromaticity_diagram_plot`,
     --------
     >>> planckian_locus_chromaticity_diagram_plot_CIE1960UCS(['A', 'C', 'E'])
     ... # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_\
+Planckian_Locus_Chromaticity_Diagram_Plot_CIE1960UCS.png
+        :align: center
+        :alt: planckian_locus_chromaticity_diagram_plot_CIE1960UCS
     """
 
     settings = dict(kwargs)

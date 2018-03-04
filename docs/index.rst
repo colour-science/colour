@@ -718,13 +718,18 @@ Volume
 Plotting
 ^^^^^^^^
 
-Visible Spectrum
-****************
+Most of the objects are available from the **colour.plotting** namespace:
 
 .. code-block:: python
 
     >>> from colour.plotting import *
     >>> colour_plotting_defaults()
+
+Visible Spectrum
+****************
+
+.. code-block:: python
+
     >>> visible_spectrum_plot('CIE 1931 2 Degree Standard Observer')
 
 ..  image:: _static/Examples_Plotting_Visible_Spectrum.png
@@ -734,8 +739,6 @@ Spectral Power Distribution
 
 .. code-block:: python
 
-    >>> from colour.plotting import *
-    >>> colour_plotting_defaults()
     >>> single_illuminant_relative_spd_plot('F1')
 
 ..  image:: _static/Examples_Plotting_Illuminant_F1_SPD.png
@@ -745,8 +748,6 @@ Blackbody
 
 .. code-block:: python
 
-    >>> from colour.plotting import *
-    >>> colour_plotting_defaults()
     >>> blackbody_spds = [
     ...     colour.blackbody_spd(i, colour.SpectralShape(0, 10000, 10))
     ...     for i in range(1000, 15000, 1000)
@@ -766,8 +767,6 @@ Colour Matching Functions
 
 .. code-block:: python
 
-    >>> from colour.plotting import *
-    >>> colour_plotting_defaults()
     >>> single_cmfs_plot(
     ...     'Stockman & Sharpe 2 Degree Cone Fundamentals',
     ...     y_label='Sensitivity',
@@ -780,8 +779,6 @@ Luminous Efficiency
 
 .. code-block:: python
 
-    >>> from colour.plotting import *
-    >>> colour_plotting_defaults()
     >>> mesopic_luminous_efficiency_function = (
     ...     colour.mesopic_luminous_efficiency_function(0.2))
     >>> multi_spd_plot(
@@ -800,8 +797,8 @@ Colour Checker
 
 .. code-block:: python
 
-    >>> from colour.plotting import *
-    >>> colour_plotting_defaults()
+    >>> from colour.characterisation.dataset.colour_checkers.spds import (
+    ...     COLOURCHECKER_INDEXES_TO_NAMES_MAPPING)
     >>> multi_spd_plot(
     ...     [
     ...         colour.COLOURCHECKERS_SPDS['BabelColor Average'][value]
@@ -816,8 +813,6 @@ Colour Checker
 
 .. code-block:: python
 
-    >>> from colour.plotting import *
-    >>> colour_plotting_defaults()
     >>> colour_checker_plot('ColorChecker 2005', text_display=False)
 
 ..  image:: _static/Examples_Plotting_ColorChecker_2005.png
@@ -827,8 +822,6 @@ Chromaticities Prediction
 
 .. code-block:: python
 
-    >>> from colour.plotting import *
-    >>> colour_plotting_defaults()
     >>> corresponding_chromaticities_prediction_plot(2, 'Von Kries', 'Bianco')
 
 ..  image:: _static/Examples_Plotting_Chromaticities_Prediction.png
@@ -838,11 +831,9 @@ Colour Temperature
 
 .. code-block:: python
 
-    >>> from colour.plotting import *
-    >>> colour_plotting_defaults()
-    >>> planckian_locus_chromaticity_diagram_plot_CIE1931(['A', 'B', 'C'])
+    >>> planckian_locus_chromaticity_diagram_plot_CIE1960UCS(['A', 'B', 'C'])
 
-..  image:: _static/Examples_Plotting_CCT_CIE_1976_UCS_Chromaticity_Diagram.png
+..  image:: _static/Examples_Plotting_CCT_CIE_1960_UCS_Chromaticity_Diagram.png
 
 
 Chromaticities
@@ -851,8 +842,6 @@ Chromaticities
 .. code-block:: python
 
     >>> import numpy as np
-    >>> from colour.plotting import *
-    >>> colour_plotting_defaults()
     >>> RGB = np.random.random((32, 32, 3))
     >>> RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931(
     ...     RGB, 'ITU-R BT.709', colourspaces=['ACEScg', 'S-Gamut', 'Pointer Gamut'])
@@ -864,8 +853,6 @@ Colour Rendering Index
 
 .. code-block:: python
 
-    >>> from colour.plotting import *
-    >>> colour_plotting_defaults()
     >>> single_spd_colour_rendering_index_bars_plot(
     ...     colour.ILLUMINANTS_RELATIVE_SPDS['F2'])
 

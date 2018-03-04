@@ -17,11 +17,11 @@ from .common import (
     XYZ_to_plotting_colourspace, colour_plotting_defaults, ColourSwatch,
     colour_cycle, canvas, camera, boundaries, decorate, display, render,
     label_rectangles, equal_axes3d, get_RGB_colourspace, get_cmfs,
-    get_illuminant, single_colour_swatch_plot, multi_colour_swatches_plot,
+    get_illuminant, single_colour_swatch_plot, multi_colour_swatch_plot,
     image_plot)
 from .colorimetry import (
     single_spd_plot, multi_spd_plot, single_cmfs_plot, multi_cmfs_plot,
-    single_illuminant_relative_spd_plot, multi_illuminants_relative_spd_plot,
+    single_illuminant_relative_spd_plot, multi_illuminant_relative_spd_plot,
     visible_spectrum_plot, single_lightness_function_plot,
     multi_lightness_function_plot, blackbody_spectral_radiance_plot,
     blackbody_colours_plot)
@@ -64,12 +64,12 @@ __all__ += [
     'colour_cycle', 'canvas', 'camera', 'boundaries', 'decorate', 'display',
     'render', 'label_rectangles', 'equal_axes3d', 'get_RGB_colourspace',
     'get_cmfs', 'get_illuminant', 'single_colour_swatch_plot',
-    'multi_colour_swatches_plot', 'image_plot'
+    'multi_colour_swatch_plot', 'image_plot'
 ]
 __all__ += [
     'single_spd_plot', 'multi_spd_plot', 'single_cmfs_plot', 'multi_cmfs_plot',
     'single_illuminant_relative_spd_plot',
-    'multi_illuminants_relative_spd_plot', 'visible_spectrum_plot',
+    'multi_illuminant_relative_spd_plot', 'visible_spectrum_plot',
     'single_lightness_function_plot', 'multi_lightness_function_plot',
     'blackbody_spectral_radiance_plot', 'blackbody_colours_plot'
 ]
@@ -118,6 +118,7 @@ class plotting(ModuleAPI):
         return super(plotting, self).__getattr__(attribute)
 
 
+# v0.3.11
 API_CHANGES = {
     'Renamed': [
         [
@@ -197,6 +198,18 @@ Defines *colour.plotting* sub-package API changes.
 
 API_CHANGES : dict
 """
+
+# v0.3.12
+API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
+    [
+        'colour.plotting.multi_illuminants_relative_spd_plot',
+        'colour.plotting.multi_illuminant_relative_spd_plot',
+    ],
+    [
+        'colour.plotting.multi_colour_swatches_plot',
+        'colour.plotting.multi_colour_swatch_plot',
+    ],
+]
 
 
 def _setup_api_changes():

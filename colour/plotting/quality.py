@@ -81,6 +81,10 @@ def colour_quality_bars_plot(specifications,
     >>> cqs_i = colour_quality_scale(illuminant, additional_data=True)
     >>> cqs_l = colour_quality_scale(light_source, additional_data=True)
     >>> colour_quality_bars_plot([cqs_i, cqs_l])  # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_Colour_Quality_Bars_Plot.png
+        :align: center
+        :alt: colour_quality_bars_plot
     """
 
     settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
@@ -200,6 +204,11 @@ def single_spd_colour_rendering_index_bars_plot(spd, **kwargs):
     >>> illuminant = ILLUMINANTS_RELATIVE_SPDS['F2']
     >>> single_spd_colour_rendering_index_bars_plot(illuminant)
     ... # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_\
+Single_Spd_Colour_Rendering_Index_Bars_Plot.png
+        :align: center
+        :alt: single_spd_colour_rendering_index_bars_plot
     """
 
     return multi_spd_colour_rendering_index_bars_plot([spd], **kwargs)
@@ -244,6 +253,11 @@ def multi_spd_colour_rendering_index_bars_plot(spds, **kwargs):
     >>> light_source = LIGHT_SOURCES_RELATIVE_SPDS['Kinoton 75P']
     >>> multi_spd_colour_rendering_index_bars_plot([illuminant, light_source])
     ... # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_\
+Multi_Spd_Colour_Rendering_Index_Bars_Plot.png
+        :align: center
+        :alt: multi_spd_colour_rendering_index_bars_plot
     """
 
     settings = dict(kwargs)
@@ -313,6 +327,11 @@ def single_spd_colour_quality_scale_bars_plot(spd, **kwargs):
     >>> illuminant = ILLUMINANTS_RELATIVE_SPDS['F2']
     >>> single_spd_colour_quality_scale_bars_plot(illuminant)
     ... # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_\
+Single_Spd_Colour_Quality_Scale_Bars_Plot.png
+        :align: center
+        :alt: single_spd_colour_quality_scale_bars_plot
     """
 
     return multi_spd_colour_quality_scale_bars_plot([spd], **kwargs)
@@ -357,6 +376,11 @@ def multi_spd_colour_quality_scale_bars_plot(spds, **kwargs):
     >>> light_source = LIGHT_SOURCES_RELATIVE_SPDS['Kinoton 75P']
     >>> multi_spd_colour_quality_scale_bars_plot([illuminant, light_source])
     ... # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_\
+Multi_Spd_Colour_Quality_Scale_Bars_Plot.png
+        :align: center
+        :alt: multi_spd_colour_quality_scale_bars_plot
     """
 
     settings = dict(kwargs)

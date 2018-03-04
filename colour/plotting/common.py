@@ -16,7 +16,7 @@ Defines the common plotting objects:
 -   :func:`colour.plotting.label_rectangles`
 -   :func:`colour.plotting.equal_axes3d`
 -   :func:`colour.plotting.single_colour_swatch_plot`
--   :func:`colour.plotting.multi_colour_swatches_plot`
+-   :func:`colour.plotting.multi_colour_swatch_plot`
 -   :func:`colour.plotting.image_plot`
 """
 
@@ -53,7 +53,7 @@ __all__ = [
     'colour_cycle', 'canvas', 'camera', 'boundaries', 'decorate', 'display',
     'render', 'label_rectangles', 'equal_axes3d', 'get_RGB_colourspace',
     'get_cmfs', 'get_illuminant', 'single_colour_swatch_plot',
-    'multi_colour_swatches_plot', 'image_plot'
+    'multi_colour_swatch_plot', 'image_plot'
 ]
 
 PLOTTING_RESOURCES_DIRECTORY = os.path.join(
@@ -422,6 +422,7 @@ def decorate(**kwargs):
     no_axes : bool, optional
         Whether to turn off the axes. Default is *False*.
 
+
     Returns
     -------
     Axes
@@ -487,6 +488,10 @@ def display(**kwargs):
 
     Other Parameters
     ----------------
+    transparent_background : bool, optional
+        Whether to turn off the background patch. Default is *False*.
+    tight_layout : bool, optional
+        Whether to use tight layout. Default is *False*.
     standalone : bool, optional
         Whether to show the figure.
     filename : unicode, optional
@@ -498,10 +503,20 @@ def display(**kwargs):
         Current figure or None.
     """
 
-    settings = Structure(**{'standalone': True, 'filename': None})
+    settings = Structure(**{
+        'transparent_background': False,
+        'tight_layout': False,
+        'standalone': True,
+        'filename': None
+    })
     settings.update(kwargs)
 
     figure = matplotlib.pyplot.gcf()
+
+    if settings.transparent_background:
+        figure.patch.set_visible(False)
+    if settings.tight_layout:
+        figure.tight_layout()
     if settings.standalone:
         if settings.filename is not None:
             pylab.savefig(settings.filename)
@@ -732,22 +747,22 @@ def single_colour_swatch_plot(colour_swatch, **kwargs):
         {:func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definition.
     width : numeric, optional
-        {:func:`colour.plotting.multi_colour_swatches_plot`},
+        {:func:`colour.plotting.multi_colour_swatch_plot`},
         Colour swatch width.
     height : numeric, optional
-        {:func:`colour.plotting.multi_colour_swatches_plot`},
+        {:func:`colour.plotting.multi_colour_swatch_plot`},
         Colour swatch height.
     spacing : numeric, optional
-        {:func:`colour.plotting.multi_colour_swatches_plot`},
+        {:func:`colour.plotting.multi_colour_swatch_plot`},
         Colour swatches spacing.
     columns : int, optional
-        {:func:`colour.plotting.multi_colour_swatches_plot`},
+        {:func:`colour.plotting.multi_colour_swatch_plot`},
         Colour swatches columns count.
     text_display : bool, optional
-        {:func:`colour.plotting.multi_colour_swatches_plot`},
+        {:func:`colour.plotting.multi_colour_swatch_plot`},
         Display colour text.
     text_parameters : dict, optional
-        {:func:`colour.plotting.multi_colour_swatches_plot`},
+        {:func:`colour.plotting.multi_colour_swatch_plot`},
         Parameters for the :func:`pylab.text` definition, ``offset`` can be
         set to define the text offset.
 
@@ -758,22 +773,26 @@ def single_colour_swatch_plot(colour_swatch, **kwargs):
 
     Examples
     --------
-    >>> RGB = (0.32315746, 0.32983556, 0.33640183)
-    >>> single_colour_swatch_plot(ColourSwatch(RGB))  # doctest: +SKIP
+    >>> RGB = ColourSwatch(RGB=(0.32315746, 0.32983556, 0.33640183))
+    >>> single_colour_swatch_plot(RGB)  # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_Single_Colour_Swatch_Plot.png
+        :align: center
+        :alt: single_colour_swatch_plot
     """
 
-    return multi_colour_swatches_plot((colour_swatch, ), **kwargs)
+    return multi_colour_swatch_plot((colour_swatch, ), **kwargs)
 
 
-def multi_colour_swatches_plot(colour_swatches,
-                               width=1,
-                               height=1,
-                               spacing=0,
-                               columns=3,
-                               text_display=True,
-                               text_parameters=None,
-                               background_colour=(1.0, 1.0, 1.0),
-                               **kwargs):
+def multi_colour_swatch_plot(colour_swatches,
+                             width=1,
+                             height=1,
+                             spacing=0,
+                             columns=3,
+                             text_display=True,
+                             text_parameters=None,
+                             background_colour=(1.0, 1.0, 1.0),
+                             **kwargs):
     """
     Plots given colours swatches.
 
@@ -810,9 +829,13 @@ def multi_colour_swatches_plot(colour_swatches,
 
     Examples
     --------
-    >>> cp1 = ColourSwatch(RGB=(0.45293517, 0.31732158, 0.26414773))
-    >>> cp2 = ColourSwatch(RGB=(0.77875824, 0.57726450, 0.50453169))
-    >>> multi_colour_swatches_plot([cp1, cp2])  # doctest: +SKIP
+    >>> RGB_1 = ColourSwatch(RGB=(0.45293517, 0.31732158, 0.26414773))
+    >>> RGB_2 = ColourSwatch(RGB=(0.77875824, 0.57726450, 0.50453169))
+    >>> multi_colour_swatch_plot([RGB_1, RGB_2])  # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_Multi_Colour_Swatch_Plot.png
+        :align: center
+        :alt: multi_colour_swatch_plot
     """
 
     text_settings = {
@@ -907,12 +930,15 @@ def image_plot(image,
     Examples
     --------
     >>> import os
+    >>> import colour
     >>> from colour import read_image
-    >>> path = os.path.join('resources',
-    ...                     ('CIE_1931_Chromaticity_Diagram'
-    ...                      '_CIE_1931_2_Degree_Standard_Observer.png'))
-    >>> image = read_image(path)  # doctest: +SKIP
-    >>> image_plot(image)  # doctest: +SKIP
+    >>> path = os.path.join(
+    ...     colour.__path__[0], '..', 'docs', '_static', 'Logo_Medium_001.png')
+    >>> image_plot(read_image(path))  # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_Image_Plot.png
+        :align: center
+        :alt: image_plot
     """
 
     text_settings = {

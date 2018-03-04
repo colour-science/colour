@@ -95,9 +95,14 @@ def RGB_colourspaces_chromaticity_diagram_plot(
 
     Examples
     --------
-    >>> c = ['ITU-R Rec. 709', 'ACEScg', 'S-Gamut']
-    >>> RGB_colourspaces_chromaticity_diagram_plot(c)
+    >>> RGB_colourspaces_chromaticity_diagram_plot(
+    ...     ['ITU-R BT.709', 'ACEScg', 'S-Gamut'])
     ... # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_\
+RGB_Colourspaces_Chromaticity_Diagram_Plot.png
+        :align: center
+        :alt: RGB_colourspaces_chromaticity_diagram_plot
     """
 
     settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
@@ -245,20 +250,13 @@ def RGB_colourspaces_chromaticity_diagram_plot(
             (W[0], W[0]), (W[1], W[1]),
             color=(R, G, B),
             label=colourspace.name)
+        pylab.plot((W[0], W[0]), (W[1], W[1]), 'o', color=(R, G, B))
         pylab.plot(
-            (W[0], W[0]), (W[1], W[1]), 'o', color=(R, G, B))
+            (P[0, 0], P[1, 0]), (P[0, 1], P[1, 1]), 'o-', color=(R, G, B))
         pylab.plot(
-            (P[0, 0], P[1, 0]), (P[0, 1], P[1, 1]),
-            'o-',
-            color=(R, G, B))
+            (P[1, 0], P[2, 0]), (P[1, 1], P[2, 1]), 'o-', color=(R, G, B))
         pylab.plot(
-            (P[1, 0], P[2, 0]), (P[1, 1], P[2, 1]),
-            'o-',
-            color=(R, G, B))
-        pylab.plot(
-            (P[2, 0], P[0, 0]), (P[2, 1], P[0, 1]),
-            'o-',
-            color=(R, G, B))
+            (P[2, 0], P[0, 0]), (P[2, 1], P[0, 1]), 'o-', color=(R, G, B))
 
         x_limit_min.append(np.amin(P[..., 0]) - 0.1)
         y_limit_min.append(np.amin(P[..., 1]) - 0.1)
@@ -321,9 +319,14 @@ def RGB_colourspaces_chromaticity_diagram_plot_CIE1931(
 
     Examples
     --------
-    >>> c = ['ITU-R Rec. 709', 'ACEScg', 'S-Gamut']
-    >>> RGB_colourspaces_chromaticity_diagram_plot_CIE1931(c)
+    >>> RGB_colourspaces_chromaticity_diagram_plot_CIE1931(
+    ...     ['ITU-R BT.709', 'ACEScg', 'S-Gamut'])
     ... # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_\
+RGB_Colourspaces_Chromaticity_Diagram_Plot_CIE1931.png
+        :align: center
+        :alt: RGB_colourspaces_chromaticity_diagram_plot_CIE1931
     """
 
     settings = dict(kwargs)
@@ -367,9 +370,14 @@ def RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS(
 
     Examples
     --------
-    >>> c = ['ITU-R Rec. 709', 'ACEScg', 'S-Gamut']
-    >>> RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS(c)
+    >>> RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS((
+    ...     ['ITU-R BT.709', 'ACEScg', 'S-Gamut'])
     ... # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_\
+RGB_Colourspaces_Chromaticity_Diagram_Plot_CIE1960UCS.png
+        :align: center
+        :alt: RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS
     """
 
     settings = dict(kwargs)
@@ -414,9 +422,14 @@ def RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS(
 
     Examples
     --------
-    >>> c = ['ITU-R Rec. 709', 'ACEScg', 'S-Gamut']
-    >>> RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS(c)
+    >>> RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS((
+    ...     ['ITU-R BT.709', 'ACEScg', 'S-Gamut'])
     ... # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_\
+RGB_Colourspaces_Chromaticity_Diagram_Plot_CIE1976UCS.png
+        :align: center
+        :alt: RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS
     """
 
     settings = dict(kwargs)
@@ -467,10 +480,15 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot(
 
     Examples
     --------
-    >>> RGB = np.random.random((10, 10, 3))
-    >>> c = 'ITU-R Rec. 709'
-    >>> RGB_chromaticity_coordinates_chromaticity_diagram_plot(RGB, c)
+    >>> RGB = np.random.random((128, 128, 3))
+    >>> RGB_chromaticity_coordinates_chromaticity_diagram_plot(
+    ...     RGB, 'ITU-R BT.709')
     ... # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_\
+RGB_Chromaticity_Coordinates_Chromaticity_Diagram_Plot.png
+        :align: center
+        :alt: RGB_chromaticity_coordinates_chromaticity_diagram_plot
     """
 
     scatter_settings = {
@@ -557,10 +575,15 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931(
 
     Examples
     --------
-    >>> RGB = np.random.random((10, 10, 3))
-    >>> c = 'ITU-R Rec. 709'
-    >>> RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931(RGB, c)
+    >>> RGB = np.random.random((128, 128, 3))
+    >>> RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931(
+    ...     RGB, 'ITU-R BT.709')
     ... # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_\
+RGB_Chromaticity_Coordinates_Chromaticity_Diagram_Plot_CIE1931.png
+        :align: center
+        :alt: RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931
     """
 
     settings = dict(kwargs)
@@ -612,10 +635,15 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS(
 
     Examples
     --------
-    >>> RGB = np.random.random((10, 10, 3))
-    >>> c = 'ITU-R BT.709'
+    >>> RGB = np.random.random((128, 128, 3))
     >>> RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS(
-    ...     RGB, c)  # doctest: +SKIP
+    ...     RGB, 'ITU-R BT.709')
+    ... # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_\
+RGB_Chromaticity_Coordinates_Chromaticity_Diagram_Plot_CIE1960UCS.png
+        :align: center
+        :alt: RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS
     """
 
     settings = dict(kwargs)
@@ -667,10 +695,15 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS(
 
     Examples
     --------
-    >>> RGB = np.random.random((10, 10, 3))
-    >>> c = 'ITU-R BT.709'
+    >>> RGB = np.random.random((128, 128, 3))
     >>> RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS(
-    ...     RGB, c)  # doctest: +SKIP
+    ...     RGB, 'ITU-R BT.709')
+    ... # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_\
+RGB_Chromaticity_Coordinates_Chromaticity_Diagram_Plot_CIE1976UCS.png
+        :align: center
+        :alt: RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS
     """
 
     settings = dict(kwargs)
@@ -694,7 +727,7 @@ def single_cctf_plot(colourspace='ITU-R BT.709', decoding_cctf=False,
     colourspace : unicode, optional
         *RGB* Colourspace colour component transfer function to plot.
     decoding_cctf : bool
-        Plot decoding colour component transfer function instead.
+        Plot the decoding colour component transfer function instead.
 
     Other Parameters
     ----------------
@@ -709,7 +742,11 @@ def single_cctf_plot(colourspace='ITU-R BT.709', decoding_cctf=False,
 
     Examples
     --------
-    >>> single_cctf_plot()  # doctest: +SKIP
+    >>> single_cctf_plot('ITU-R BT.709')  # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_Single_CCTF_Plot.png
+        :align: center
+        :alt: single_cctf_plot
     """
 
     settings = {
@@ -731,7 +768,7 @@ def multi_cctf_plot(colourspaces=None, decoding_cctf=False, **kwargs):
     colourspaces : array_like, optional
         Colourspaces colour component transfer function to plot.
     decoding_cctf : bool
-        Plot decoding colour component transfer function instead.
+        Plot the decoding colour component transfer function instead.
 
     Other Parameters
     ----------------
@@ -747,6 +784,10 @@ def multi_cctf_plot(colourspaces=None, decoding_cctf=False, **kwargs):
     Examples
     --------
     >>> multi_cctf_plot(['ITU-R BT.709', 'sRGB'])  # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_Multi_CCTF_Plot.png
+        :align: center
+        :alt: multi_cctf_plot
     """
 
     settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
@@ -764,8 +805,7 @@ def multi_cctf_plot(colourspaces=None, decoding_cctf=False, **kwargs):
         RGBs = (colourspace.decoding_cctf(samples)
                 if decoding_cctf else colourspace.encoding_cctf(samples))
 
-        pylab.plot(
-            samples, RGBs, label=u'{0}'.format(colourspace.name))
+        pylab.plot(samples, RGBs, label=u'{0}'.format(colourspace.name))
 
     mode = 'Decoding' if decoding_cctf else 'Encoding'
     settings.update({
