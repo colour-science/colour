@@ -87,7 +87,11 @@ def spectral_locus_plot(cmfs='CIE 1931 2 Degree Standard Observer',
 
     Examples
     --------
-    >>> spectral_locus_plot()  # doctest: +SKIP
+    >>> spectral_locus_plot(spectral_locus_colours='RGB')  # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_Spectral_Locus_Plot.png
+        :align: center
+        :alt: spectral_locus_plot
     """
 
     settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
@@ -226,6 +230,10 @@ def chromaticity_diagram_colours_plot(
     Examples
     --------
     >>> chromaticity_diagram_colours_plot()  # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_Chromaticity_Diagram_Colours_Plot.png
+        :align: center
+        :alt: chromaticity_diagram_colours_plot
     """
 
     settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
@@ -310,6 +318,10 @@ def chromaticity_diagram_plot(cmfs='CIE 1931 2 Degree Standard Observer',
     Examples
     --------
     >>> chromaticity_diagram_plot()  # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_Chromaticity_Diagram_Plot.png
+        :align: center
+        :alt: chromaticity_diagram_plot
     """
 
     settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
@@ -398,6 +410,10 @@ def chromaticity_diagram_plot_CIE1931(
     Examples
     --------
     >>> chromaticity_diagram_plot_CIE1931()  # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_Chromaticity_Diagram_Plot_CIE1931.png
+        :align: center
+        :alt: chromaticity_diagram_plot_CIE1931
     """
 
     settings = dict(kwargs)
@@ -440,6 +456,10 @@ def chromaticity_diagram_plot_CIE1960UCS(
     Examples
     --------
     >>> chromaticity_diagram_plot_CIE1960UCS()  # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_Chromaticity_Diagram_Plot_CIE1960UCS.png
+        :align: center
+        :alt: chromaticity_diagram_plot_CIE1960UCS
     """
 
     settings = dict(kwargs)
@@ -482,6 +502,10 @@ def chromaticity_diagram_plot_CIE1976UCS(
     Examples
     --------
     >>> chromaticity_diagram_plot_CIE1976UCS()  # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_Chromaticity_Diagram_Plot_CIE1976UCS.png
+        :align: center
+        :alt: chromaticity_diagram_plot_CIE1976UCS
     """
 
     settings = dict(kwargs)
@@ -536,6 +560,10 @@ def spds_chromaticity_diagram_plot(
     >>> A = ILLUMINANTS_RELATIVE_SPDS['A']
     >>> D65 = ILLUMINANTS_RELATIVE_SPDS['D65']
     >>> spds_chromaticity_diagram_plot([A, D65])  # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_SPDS_Chromaticity_Diagram_Plot.png
+        :align: center
+        :alt: spds_chromaticity_diagram_plot
     """
 
     settings = dict(kwargs)
@@ -652,6 +680,10 @@ def spds_chromaticity_diagram_plot_CIE1931(
     >>> A = ILLUMINANTS_RELATIVE_SPDS['A']
     >>> D65 = ILLUMINANTS_RELATIVE_SPDS['D65']
     >>> spds_chromaticity_diagram_plot_CIE1931([A, D65])  # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_SPDS_Chromaticity_Diagram_Plot_CIE1931.png
+        :align: center
+        :alt: spds_chromaticity_diagram_plot_CIE1931
     """
 
     settings = dict(kwargs)
@@ -705,6 +737,11 @@ def spds_chromaticity_diagram_plot_CIE1960UCS(
     >>> A = ILLUMINANTS_RELATIVE_SPDS['A']
     >>> D65 = ILLUMINANTS_RELATIVE_SPDS['D65']
     >>> spds_chromaticity_diagram_plot_CIE1960UCS([A, D65])  # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_\
+SPDS_Chromaticity_Diagram_Plot_CIE1960UCS.png
+        :align: center
+        :alt: spds_chromaticity_diagram_plot_CIE1960UCS
     """
 
     settings = dict(kwargs)
@@ -758,6 +795,11 @@ def spds_chromaticity_diagram_plot_CIE1976UCS(
     >>> A = ILLUMINANTS_RELATIVE_SPDS['A']
     >>> D65 = ILLUMINANTS_RELATIVE_SPDS['D65']
     >>> spds_chromaticity_diagram_plot_CIE1976UCS([A, D65])  # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_\
+SPDS_Chromaticity_Diagram_Plot_CIE1976UCS.png
+        :align: center
+        :alt: spds_chromaticity_diagram_plot_CIE1976UCS
     """
 
     settings = dict(kwargs)

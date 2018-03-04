@@ -78,6 +78,10 @@ def single_rayleigh_scattering_spd_plot(
     Examples
     --------
     >>> single_rayleigh_scattering_spd_plot()  # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_Single_Rayleigh_Scattering_SPD_Plot.png
+        :align: center
+        :alt: single_rayleigh_scattering_spd_plot
     """
 
     title = 'Rayleigh Scattering'
@@ -116,6 +120,10 @@ def the_blue_sky_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     Examples
     --------
     >>> the_blue_sky_plot()  # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_The_Blue_Sky_Plot.png
+        :align: center
+        :alt: the_blue_sky_plot
     """
 
     canvas(**kwargs)

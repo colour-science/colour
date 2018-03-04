@@ -56,7 +56,13 @@ def corresponding_chromaticities_prediction_plot(experiment=1,
 
     Examples
     --------
-    >>> corresponding_chromaticities_prediction_plot()  # doctest: +SKIP
+    >>> corresponding_chromaticities_prediction_plot(1, 'Von Kries', 'CAT02')
+    ... # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_\
+Corresponding_Chromaticities_Prediction_Plot.png
+        :align: center
+        :alt: corresponding_chromaticities_prediction_plot
     """
 
     settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
@@ -89,6 +95,7 @@ def corresponding_chromaticities_prediction_plot(experiment=1,
             uvp_t[1],
             uvp_p[0] - uvp_t[0] - 0.1 * (uvp_p[0] - uvp_t[0]),
             uvp_p[1] - uvp_t[1] - 0.1 * (uvp_p[1] - uvp_t[1]),
+            color='black',
             head_width=0.005,
             head_length=0.005)
         pylab.plot(uvp_t[0], uvp_t[1], 'o', color='white')

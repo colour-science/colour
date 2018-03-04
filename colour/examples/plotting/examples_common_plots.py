@@ -4,7 +4,7 @@ Showcases common plotting examples.
 """
 
 from colour.plotting import (ColourSwatch, colour_plotting_defaults,
-                             multi_colour_swatches_plot,
+                             multi_colour_swatch_plot,
                              single_colour_swatch_plot)
 from colour.utilities import message_box
 
@@ -21,7 +21,7 @@ single_colour_swatch_plot(
 print('\n')
 
 message_box('Plotting multiple colours.')
-multi_colour_swatches_plot(
+multi_colour_swatch_plot(
     (ColourSwatch('Dark Skin', RGB=(0.45293517, 0.31732158, 0.26414773)),
      ColourSwatch('Light Skin', RGB=(0.77875824, 0.57726450, 0.50453169))),
     spacing=0,

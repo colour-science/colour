@@ -17,7 +17,7 @@ from colour.characterisation import COLOURCHECKERS
 from colour.models import RGB_COLOURSPACES
 from colour.models import xyY_to_XYZ
 from colour.plotting import (ColourSwatch, XYZ_to_plotting_colourspace, canvas,
-                             multi_colour_swatches_plot, render)
+                             multi_colour_swatch_plot, render)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -44,22 +44,22 @@ def colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
         {:func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definition.
     width : numeric, optional
-        {:func:`colour.plotting.multi_colour_swatches_plot`},
+        {:func:`colour.plotting.multi_colour_swatch_plot`},
         Colour swatch width.
     height : numeric, optional
-        {:func:`colour.plotting.multi_colour_swatches_plot`},
+        {:func:`colour.plotting.multi_colour_swatch_plot`},
         Colour swatch height.
     spacing : numeric, optional
-        {:func:`colour.plotting.multi_colour_swatches_plot`},
+        {:func:`colour.plotting.multi_colour_swatch_plot`},
         Colour swatches spacing.
     columns : int, optional
-        {:func:`colour.plotting.multi_colour_swatches_plot`},
+        {:func:`colour.plotting.multi_colour_swatch_plot`},
         Colour swatches columns count.
     text_display : bool, optional
-        {:func:`colour.plotting.multi_colour_swatches_plot`},
+        {:func:`colour.plotting.multi_colour_swatch_plot`},
         Display colour text.
     text_parameters : dict, optional
-        {:func:`colour.plotting.multi_colour_swatches_plot`},
+        {:func:`colour.plotting.multi_colour_swatch_plot`},
         Parameters for the :func:`pylab.text` definition, ``offset`` can be
         set to define the text offset.
 
@@ -76,7 +76,11 @@ def colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
 
     Examples
     --------
-    >>> colour_checker_plot()  # doctest: +SKIP
+    >>> colour_checker_plot('ColorChecker 2005')  # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_Colour_Checker_Plot.png
+        :align: center
+        :alt: colour_checker_plot
     """
 
     canvas(**kwargs)
@@ -113,7 +117,7 @@ def colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
     }
     settings.update(kwargs)
 
-    multi_colour_swatches_plot(colour_swatches, **settings)
+    multi_colour_swatch_plot(colour_swatches, **settings)
 
     text_x = width * (columns / 2) + (columns * (spacing / 2)) - spacing / 2
     text_y = -(len(colour_swatches) / columns + spacing / 2)

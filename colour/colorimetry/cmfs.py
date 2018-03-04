@@ -85,7 +85,7 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
             data,
             domain,
             labels=('l_bar', 'm_bar', 's_bar'),
-            strict_labels=('$\\bar{l}$', '$\\bar{m}', '$\\bar{s}'),
+            strict_labels=('$\\bar{l}$', '$\\bar{m}$', '$\\bar{s}$'),
             **kwargs)
 
 
@@ -136,7 +136,7 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
             data,
             domain,
             labels=('r_bar', 'g_bar', 'b_bar'),
-            strict_labels=('$\\bar{r}$', '$\\bar{g}', '$\\bar{b}'),
+            strict_labels=('$\\bar{r}$', '$\\bar{g}$', '$\\bar{b}$'),
             **kwargs)
 
 
@@ -188,5 +188,5 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
             data,
             domain,
             labels=('x_bar', 'y_bar', 'z_bar'),
-            strict_labels=('$\\bar{x}$', '$\\bar{y}', '$\\bar{z}'),
+            strict_labels=('$\\bar{x}$', '$\\bar{y}$', '$\\bar{z}$'),
             **kwargs)

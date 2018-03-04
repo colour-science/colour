@@ -10,7 +10,7 @@ Defines the colorimetry plotting objects:
 -   :func:`colour.plotting.single_cmfs_plot`
 -   :func:`colour.plotting.multi_cmfs_plot`
 -   :func:`colour.plotting.single_illuminant_relative_spd_plot`
--   :func:`colour.plotting.multi_illuminants_relative_spd_plot`
+-   :func:`colour.plotting.multi_illuminant_relative_spd_plot`
 -   :func:`colour.plotting.visible_spectrum_plot`
 -   :func:`colour.plotting.single_lightness_function_plot`
 -   :func:`colour.plotting.multi_lightness_function_plot`
@@ -32,10 +32,9 @@ from matplotlib.patches import Polygon
 from six.moves import reduce
 
 from colour.algebra import LinearInterpolator
-from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE, ILLUMINANTS,
-                                ILLUMINANTS_RELATIVE_SPDS, LIGHTNESS_METHODS,
-                                SpectralShape, blackbody_spd, ones_spd,
-                                spectral_to_XYZ, wavelength_to_XYZ)
+from colour.colorimetry import (
+    ILLUMINANTS, ILLUMINANTS_RELATIVE_SPDS, LIGHTNESS_METHODS, SpectralShape,
+    blackbody_spd, ones_spd, spectral_to_XYZ, wavelength_to_XYZ)
 from colour.plotting import (ColourSwatch, DEFAULT_PLOTTING_COLOURSPACE,
                              DEFAULT_FIGURE_WIDTH, XYZ_to_plotting_colourspace,
                              canvas, get_cmfs, get_illuminant, render,
@@ -52,7 +51,7 @@ __status__ = 'Production'
 __all__ = [
     'single_spd_plot', 'multi_spd_plot', 'single_cmfs_plot', 'multi_cmfs_plot',
     'single_illuminant_relative_spd_plot',
-    'multi_illuminants_relative_spd_plot', 'visible_spectrum_plot',
+    'multi_illuminant_relative_spd_plot', 'visible_spectrum_plot',
     'single_lightness_function_plot', 'multi_lightness_function_plot',
     'blackbody_spectral_radiance_plot', 'blackbody_colours_plot'
 ]
@@ -104,6 +103,10 @@ def single_spd_plot(spd,
     ... }
     >>> spd = SpectralPowerDistribution(data, name='Custom')
     >>> single_spd_plot(spd)  # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_Single_SPD_Plot.png
+        :align: center
+        :alt: single_spd_plot
     """
 
     axes = canvas(**kwargs).gca()
@@ -130,7 +133,7 @@ def single_spd_plot(spd,
         normalise_maximum(colours))
 
     x_min, x_max = min(wavelengths), max(wavelengths)
-    y_min, y_max = 0, max(values)
+    y_min, y_max = 0, max(values) + max(values) * 0.05
 
     polygon = Polygon(
         np.vstack([
@@ -158,7 +161,6 @@ def single_spd_plot(spd,
         'x_tighten': True,
         'y_tighten': True
     }
-
     settings.update(kwargs)
 
     return render(**settings)
@@ -218,6 +220,10 @@ def multi_spd_plot(spds,
     >>> spd1 = SpectralPowerDistribution(data_1, name='Custom 1')
     >>> spd2 = SpectralPowerDistribution(data_2, name='Custom 2')
     >>> multi_spd_plot([spd1, spd2])  # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_Multi_SPD_Plot.png
+        :align: center
+        :alt: multi_spd_plot
     """
 
     canvas(**kwargs)
@@ -262,7 +268,7 @@ def multi_spd_plot(spds,
         'legend_location':
             'upper left',
         'limits': (min(x_limit_min), max(x_limit_max), min(y_limit_min),
-                   max(y_limit_max))
+                   max(y_limit_max) + max(y_limit_max) * 0.05)
     }
     settings.update(kwargs)
 
@@ -291,7 +297,12 @@ def single_cmfs_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
 
     Examples
     --------
-    >>> single_cmfs_plot()  # doctest: +SKIP
+    >>> single_cmfs_plot('CIE 1931 2 Degree Standard Observer')
+    ... # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_Single_CMFS_Plot.png
+        :align: center
+        :alt: single_cmfs_plot
     """
 
     cmfs = get_cmfs(cmfs)
@@ -325,10 +336,13 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
 
     Examples
     --------
-    >>> cmfs = [
-    ... 'CIE 1931 2 Degree Standard Observer',
-    ... 'CIE 1964 10 Degree Standard Observer']
+    >>> cmfs = ('CIE 1931 2 Degree Standard Observer',
+    ...         'CIE 1964 10 Degree Standard Observer')
     >>> multi_cmfs_plot(cmfs)  # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_Multi_CMFS_Plot.png
+        :align: center
+        :alt: multi_cmfs_plot
     """
 
     canvas(**kwargs)
@@ -355,7 +369,7 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
                 cmfs_i.wavelengths,
                 values,
                 color=rgb,
-                label=u'{0} - {1}'.format(cmfs_i.labels[i],
+                label=u'{0} - {1}'.format(cmfs_i.strict_labels[i],
                                           cmfs_i.strict_name))
 
     settings = {
@@ -379,7 +393,7 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
         'y_axis_line':
             True,
         'limits': (min(x_limit_min), max(x_limit_max), min(y_limit_min),
-                   max(y_limit_max))
+                   max(y_limit_max) + max(y_limit_max) * 0.05)
     }
     settings.update(kwargs)
 
@@ -420,7 +434,11 @@ def single_illuminant_relative_spd_plot(
 
     Examples
     --------
-    >>> single_illuminant_relative_spd_plot()  # doctest: +SKIP
+    >>> single_illuminant_relative_spd_plot('A')  # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_Single_Illuminant_Relative_SPD_Plot.png
+        :align: center
+        :alt: single_illuminant_relative_spd_plot
     """
 
     cmfs = get_cmfs(cmfs)
@@ -434,7 +452,7 @@ def single_illuminant_relative_spd_plot(
     return single_spd_plot(illuminant, **settings)
 
 
-def multi_illuminants_relative_spd_plot(illuminants=None, **kwargs):
+def multi_illuminant_relative_spd_plot(illuminants=None, **kwargs):
     """
     Plots given illuminants relative spectral power distributions.
 
@@ -462,7 +480,11 @@ def multi_illuminants_relative_spd_plot(illuminants=None, **kwargs):
 
     Examples
     --------
-    >>> multi_illuminants_relative_spd_plot(['A', 'B', 'C'])  # doctest: +SKIP
+    >>> multi_illuminant_relative_spd_plot(['A', 'B', 'C'])  # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_Multi_Illuminant_Relative_SPD_Plot.png
+        :align: center
+        :alt: multi_illuminant_relative_spd_plot
     """
 
     if illuminants is None:
@@ -518,17 +540,29 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
     Examples
     --------
     >>> visible_spectrum_plot()  # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_Visible_Spectrum_Plot.png
+        :align: center
+        :alt: visible_spectrum_plot
     """
 
-    settings = {'y_label': None, 'y_ticker': False, 'standalone': False}
+    cmfs, name = get_cmfs(cmfs), cmfs
+
+    x_min, x_max = min(cmfs.wavelengths), max(cmfs.wavelengths)
+    y_min, y_max = 0, 1
+
+    settings = {
+        'standalone': False,
+        'y_label': None,
+        'y_ticker': False,
+        'limits': (x_min, x_max, y_min, y_max),
+    }
 
     single_spd_plot(
-        ones_spd(DEFAULT_SPECTRAL_SHAPE),
-        cmfs=cmfs,
+        ones_spd(cmfs.shape),
+        cmfs=name,
         out_of_gamut_clipping=out_of_gamut_clipping,
         **settings)
-
-    cmfs = get_cmfs(cmfs)
 
     settings = {
         'title': 'The Visible Spectrum - {0}'.format(cmfs.strict_name),
@@ -562,7 +596,11 @@ def single_lightness_function_plot(function='CIE 1976', **kwargs):
 
     Examples
     --------
-    >>> single_lightness_function_plot()  # doctest: +SKIP
+    >>> single_lightness_function_plot('CIE 1976')  # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_Single_Lightness_Function_Plot.png
+        :align: center
+        :alt: single_lightness_function_plot
     """
 
     settings = {'title': '{0} - Lightness Function'.format(function)}
@@ -599,8 +637,12 @@ def multi_lightness_function_plot(functions=None, **kwargs):
 
     Examples
     --------
-    >>> fs = ('CIE 1976', 'Wyszecki 1963')
-    >>> multi_lightness_function_plot(fs)  # doctest: +SKIP
+    >>> multi_lightness_function_plot(['CIE 1976', 'Wyszecki 1963'])
+    ... # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_Multi_Lightness_Function_Plot.png
+        :align: center
+        :alt: multi_lightness_function_plot
     """
 
     settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
@@ -666,7 +708,12 @@ def blackbody_spectral_radiance_plot(
 
     Examples
     --------
-    >>> blackbody_spectral_radiance_plot()  # doctest: +SKIP
+    >>> blackbody_spectral_radiance_plot(3500, blackbody='VY Canis Major')
+    ... # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_Blackbody_Spectral_Radiance_Plot.png
+        :align: center
+        :alt: blackbody_spectral_radiance_plot
     """
 
     canvas(**kwargs)
@@ -736,7 +783,11 @@ def blackbody_colours_plot(shape=SpectralShape(150, 12500, 50),
 
     Examples
     --------
-    >>> blackbody_colours_plot()  # doctest: +SKIP
+    >>> blackbody_colours_plot(SpectralShape(150, 12500, 50))  # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_Blackbody_Colours_Plot.png
+        :align: center
+        :alt: blackbody_colours_plot
     """
 
     axes = canvas(**kwargs).gca()

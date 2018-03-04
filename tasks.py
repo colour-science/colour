@@ -194,7 +194,7 @@ def examples(ctx, plots=False):
 
 
 @task
-def docs(ctx, html=True, pdf=True):
+def docs(ctx, plots=True, html=True, pdf=True):
     """
     Builds the documentation.
 
@@ -202,6 +202,8 @@ def docs(ctx, html=True, pdf=True):
     ----------
     ctx : invoke.context.Context
         Context.
+    plots : bool, optional
+        Whether to generate the documentation plots.
     html : bool, optional
         Whether to build the *HTML* documentation.
     pdf : bool, optional
@@ -212,6 +214,11 @@ def docs(ctx, html=True, pdf=True):
     bool
         Task success.
     """
+
+    with ctx.cd('utilities'):
+        if plots:
+            message_box('Generating plots...')
+            ctx.run('./generate_plots.py')
 
     with ctx.prefix('export COLOUR_SCIENCE_DOCUMENTATION_BUILD=True'):
         with ctx.cd('docs'):

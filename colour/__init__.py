@@ -269,6 +269,7 @@ colour.__minor_version__ = __minor_version__
 colour.__change_version__ = __change_version__
 colour.__version__ = __version__
 
+# v0.3.11
 API_CHANGES = {
     'Future Access Change': [
         [
