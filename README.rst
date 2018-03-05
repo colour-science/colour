@@ -836,7 +836,7 @@ Colour Checker
 
 .. code-block:: python
 
-    >>> colour_checker_plot('ColorChecker 2005', text_display=False)
+    >>> colour_checker_plot('ColorChecker 2005', text_parameters={'visible': False})
 
 ..  image:: docs/_static/Examples_Plotting_ColorChecker_2005.png
 

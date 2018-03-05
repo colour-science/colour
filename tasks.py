@@ -6,12 +6,17 @@ Invoke - Tasks
 
 from __future__ import unicode_literals
 
+import fnmatch
+import glob
 import os
 import re
+import shutil
+import tempfile
 from invoke import task
 
 import colour
-from colour.utilities import message_box
+from colour import read_image
+from colour.utilities import message_box, metric_psnr
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -176,9 +181,6 @@ def examples(ctx, plots=False):
 
     message_box('Running examples...')
 
-    import fnmatch
-    import os
-
     for root, dirnames, filenames in os.walk(
             os.path.join(PYTHON_PACKAGE_NAME, 'examples')):
         for filename in fnmatch.filter(filenames, '*.py'):
@@ -215,10 +217,32 @@ def docs(ctx, plots=True, html=True, pdf=True):
         Task success.
     """
 
-    with ctx.cd('utilities'):
-        if plots:
-            message_box('Generating plots...')
-            ctx.run('./generate_plots.py')
+    if plots:
+        temporary_directory = tempfile.mkdtemp()
+        test_directory = os.path.join('docs', '_static')
+        reference_directory = os.path.join(temporary_directory, '_static')
+        try:
+            shutil.copytree(test_directory, reference_directory)
+            similar_plots = []
+            with ctx.cd('utilities'):
+                message_box('Generating plots...')
+                ctx.run('./generate_plots.py')
+
+                png_files = glob.glob('{0}/*.png'.format(reference_directory))
+                for reference_png_file in png_files:
+                    test_png_file = os.path.join(
+                        test_directory, os.path.basename(reference_png_file))
+                    psnr = metric_psnr(
+                        read_image(str(reference_png_file))[::3, ::3],
+                        read_image(str(test_png_file))[::3, ::3])
+                    if psnr > 70:
+                        similar_plots.append(test_png_file)
+            with ctx.cd('docs/_static'):
+                for similar_plot in similar_plots:
+                    ctx.run('git checkout -- {0}'.format(
+                        os.path.basename(similar_plot)))
+        finally:
+            shutil.rmtree(temporary_directory)
 
     with ctx.prefix('export COLOUR_SCIENCE_DOCUMENTATION_BUILD=True'):
         with ctx.cd('docs'):
