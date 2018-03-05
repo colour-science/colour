@@ -758,9 +758,6 @@ def single_colour_swatch_plot(colour_swatch, **kwargs):
     columns : int, optional
         {:func:`colour.plotting.multi_colour_swatch_plot`},
         Colour swatches columns count.
-    text_display : bool, optional
-        {:func:`colour.plotting.multi_colour_swatch_plot`},
-        Display colour text.
     text_parameters : dict, optional
         {:func:`colour.plotting.multi_colour_swatch_plot`},
         Parameters for the :func:`pylab.text` definition, ``offset`` can be
@@ -789,7 +786,6 @@ def multi_colour_swatch_plot(colour_swatches,
                              height=1,
                              spacing=0,
                              columns=3,
-                             text_display=True,
                              text_parameters=None,
                              background_colour=(1.0, 1.0, 1.0),
                              **kwargs):
@@ -808,11 +804,10 @@ def multi_colour_swatch_plot(colour_swatches,
         Colour swatches spacing.
     columns : int, optional
         Colour swatches columns count.
-    text_display : bool, optional
-        Display colour text.
     text_parameters : dict, optional
-        Parameters for the :func:`pylab.text` definition, ``offset`` can be
-        set to define the text offset.
+        Parameters for the :func:`pylab.text` definition, ``visible`` can be
+        set to make the text visible,``offset`` can be set to define the text
+        offset.
     background_colour : array_like or unicode, optional
         Background colour.
 
@@ -839,7 +834,7 @@ def multi_colour_swatch_plot(colour_swatches,
     """
 
     text_settings = {
-        'size': 'small',
+        'visible': True,
         'offset': 0.05,
     }
     if text_parameters is not None:
@@ -861,7 +856,7 @@ def multi_colour_swatch_plot(colour_swatches,
         pylab.fill(
             (x_0, x_1, x_1, x_0), (y_0, y_0, y_1, y_1),
             color=colour_swatches[i].RGB)
-        if colour_swatch.name is not None and text_display:
+        if colour_swatch.name is not None and text_settings['visible']:
             pylab.text(
                 x_0 + text_offset,
                 y_0 + text_offset,
@@ -891,7 +886,6 @@ def multi_colour_swatch_plot(colour_swatches,
 
 
 def image_plot(image,
-               text=None,
                text_parameters=None,
                interpolation='nearest',
                colour_map=matplotlib.cm.Greys_r,
@@ -903,8 +897,6 @@ def image_plot(image,
     ----------
     image : array_like
         Image to plot.
-    text : unicode, optional
-        Image text.
     text_parameters : dict, optional
         Parameters for the :func:`pylab.text` definition, ``offset`` can be
         set to define the text offset.
@@ -942,7 +934,7 @@ def image_plot(image,
     """
 
     text_settings = {
-        'size': 'large',
+        'text': None,
         'offset': 5,
         'color': (1, 1, 1),
         'alpha': 0.85
@@ -958,8 +950,9 @@ def image_plot(image,
 
     height = image.shape[0]
 
-    if text is not None:
-        pylab.text(text_offset / 2, height - text_offset, text)
+    if text_settings['text'] is not None:
+        pylab.text(text_offset / 2, height - text_offset,
+                   text_settings['text'], **text_settings)
 
     settings = {
         'x_ticker': False,

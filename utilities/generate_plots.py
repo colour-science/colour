@@ -120,7 +120,8 @@ def generate_documentation_plots(output_directory):
 
     arguments['filename'] = os.path.join(
         output_directory, 'Examples_Plotting_ColorChecker_2005.png')
-    colour_checker_plot('ColorChecker 2005', text_display=False, **arguments)
+    colour_checker_plot(
+        'ColorChecker 2005', text_parameters={'visible': False}, **arguments)
 
     arguments['filename'] = os.path.join(
         output_directory, 'Examples_Plotting_Chromaticities_Prediction.png')
@@ -560,7 +561,9 @@ def generate_documentation_plots(output_directory):
     XYZ = colour.spectral_to_XYZ(spd, cmfs, illuminant)
     RGB = colour.XYZ_to_sRGB(XYZ / 100)
     single_colour_swatch_plot(
-        ColourSwatch('Sample', RGB), text_size=32, **arguments)
+        ColourSwatch('Sample', RGB),
+        text_parameters={'size': 'x-large'},
+        **arguments)
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Tutorial_Neutral5.png')
@@ -569,12 +572,16 @@ def generate_documentation_plots(output_directory):
     XYZ = colour.spectral_to_XYZ(patch_spd, cmfs, illuminant)
     RGB = colour.XYZ_to_sRGB(XYZ / 100)
     single_colour_swatch_plot(
-        ColourSwatch(patch_name.title(), RGB), text_size=32, **arguments)
+        ColourSwatch(patch_name.title(), RGB),
+        text_parameters={'size': 'x-large'},
+        **arguments)
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Tutorial_Colour_Checker.png')
     colour_checker_plot(
-        colour_checker='ColorChecker 2005', text_display=False, **arguments)
+        colour_checker='ColorChecker 2005',
+        text_parameters={'visible': False},
+        **arguments)
 
     arguments['filename'] = os.path.join(
         output_directory, 'Tutorial_CIE_1931_Chromaticity_Diagram.png')

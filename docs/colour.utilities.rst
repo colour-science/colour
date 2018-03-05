@@ -58,6 +58,19 @@ Array
     fill_nan
     ndarray_write
 
+Metrics
+-------
+
+``colour.utilities``
+
+.. currentmodule:: colour.utilities
+
+.. autosummary::
+    :toctree: generated/
+
+    metric_mse
+    metric_psnr
+
 Data Structures
 ---------------
 

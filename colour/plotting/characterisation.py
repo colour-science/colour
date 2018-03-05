@@ -55,9 +55,6 @@ def colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
     columns : int, optional
         {:func:`colour.plotting.multi_colour_swatch_plot`},
         Colour swatches columns count.
-    text_display : bool, optional
-        {:func:`colour.plotting.multi_colour_swatch_plot`},
-        Display colour text.
     text_parameters : dict, optional
         {:func:`colour.plotting.multi_colour_swatch_plot`},
         Parameters for the :func:`pylab.text` definition, ``offset`` can be
@@ -111,7 +108,9 @@ def colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
         'height': height,
         'spacing': spacing,
         'columns': columns,
-        'text_size': 8,
+        'text_parameters': {
+            'size': 8
+        },
         'background_colour': background_colour,
         'margins': (-0.125, 0.125, -0.5, 0.125)
     }
