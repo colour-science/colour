@@ -39,7 +39,7 @@ import numpy as np
 
 from colour.blindness import CVD_MATRICES_MACHADO2010
 from colour.colorimetry import SpectralShape
-from colour.utilities import dot_matrix, dot_vector, tsplit, tstack
+from colour.utilities import dot_matrix, dot_vector, tsplit, tstack, warning
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -160,6 +160,15 @@ def anomalous_trichromacy_cmfs_Machado2009(cmfs, d_LMS):
         Anomalous trichromacy *LMS* cone fundamentals colour matching
         functions.
 
+    Warning
+    -------
+    *Machado et alii (2009)* simulation of tritanomaly is based on the shift
+    paradigm as an approximation to the actual phenomenon and restrain the
+    model from trying to model tritanopia.
+    The pre-generated matrices are using a shift value in domain [5, 59]
+    contrary to the domain [0, 20] used for protanomaly and deuteranomaly
+    simulation.
+
     References
     ----------
     -   :cite:`Colblindorb`
@@ -184,8 +193,17 @@ def anomalous_trichromacy_cmfs_Machado2009(cmfs, d_LMS):
 
     cmfs.extrapolator_args = {'method': 'Constant', 'left': 0, 'right': 0}
 
-    L, M, S = tsplit(cmfs.values)
+    L, M, _S = tsplit(cmfs.values)
     d_L, d_M, d_S = tsplit(d_LMS)
+
+    if d_S != 0:
+        warning(
+            '"Machado et alii (2009)" simulation of tritanomaly is based on '
+            'the shift paradigm as an approximation to the actual phenomenon '
+            'and restrain the model from trying to model tritanopia.\n'
+            'The pre-generated matrices are using a shift value in domain '
+            '[5, 59] contrary to the domain [0, 20] used for protanomaly and '
+            'deuteranomaly simulation.')
 
     area_L = np.trapz(L, cmfs.wavelengths)
     area_M = np.trapz(M, cmfs.wavelengths)
@@ -202,15 +220,13 @@ def anomalous_trichromacy_cmfs_Machado2009(cmfs, d_LMS):
     # CVD_Simulation/CVD_Simulation.html#Errata
     L_a = alpha(d_L) * L + 0.96 * area_L / area_M * (1 - alpha(d_L)) * M
     M_a = alpha(d_M) * M + 1 / 0.96 * area_M / area_L * (1 - alpha(d_M)) * L
-    # TODO: Check inconsistency with ground truth values, d_S domain seems
-    # to be [5.00056688094503, 59.00590434857581] instead of [0, 20].
     S_a = cmfs[cmfs.wavelengths - d_S][:, 2]
 
     LMS_a = tstack((L_a, M_a, S_a))
     cmfs[cmfs.wavelengths] = LMS_a
 
     severity = '{0}, {1}, {2}'.format(d_L, d_M, d_S)
-    template = '{0} - Anomalous trichromacy ({1})'
+    template = '{0} - Anomalous Trichromacy ({1})'
     cmfs.name = template.format(cmfs.name, severity)
     cmfs.strict_name = template.format(cmfs.strict_name, severity)
 
@@ -315,6 +331,15 @@ def cvd_matrix_Machado2009(deficiency, severity):
            [ 0.043169...,  0.933774...,  0.023058...],
            [-0.004238..., -0.002451...,  1.006689...]])
     """
+
+    if deficiency.lower() == 'tritanomaly':
+        warning(
+            '"Machado et alii (2009)" simulation of tritanomaly is based on '
+            'the shift paradigm as an approximation to the actual phenomenon '
+            'and restrain the model from trying to model tritanopia.\n'
+            'The pre-generated matrices are using a shift value in domain '
+            '[5, 59] contrary to the domain [0, 20] used for protanomaly and '
+            'deuteranomaly simulation.')
 
     matrices = CVD_MATRICES_MACHADO2010[deficiency]
     samples = np.array(sorted(matrices.keys()))
