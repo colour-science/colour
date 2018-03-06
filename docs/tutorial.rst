@@ -837,7 +837,7 @@ interpolator.
 .. code:: python
 
     # *Colour* can emit a substantial amount of warnings, we filter them.
-    colour.filter_warnings()
+    colour.utilities.filter_warnings(True, False)
 
     # Copying the sample spectral power distribution.
     spd_copy = spd.copy()
@@ -1192,8 +1192,7 @@ We can for instance converts the *CIE XYZ* tristimulus values into
     # Plotting the *sRGB* colourspace colour of the *Sample* spectral power distribution.
     single_colour_swatch_plot(
         ColourSwatch('Sample', RGB),
-        text_parameters={'size': 'x-large'},
-        **arguments)
+        text_parameters={'size': 'x-large'})
 
 
 
@@ -1248,8 +1247,7 @@ various colour rendition charts:
 
     single_colour_swatch_plot(
         ColourSwatch(patch_name.title(), RGB),
-        text_parameters={'size': 'x-large'},
-        **arguments)
+        text_parameters={'size': 'x-large'})
 
 
 
