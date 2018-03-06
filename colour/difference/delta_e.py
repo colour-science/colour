@@ -57,7 +57,7 @@ __all__ = [
 
 def delta_E_CIE1976(Lab_1, Lab_2):
     """
-    Returns the difference :math:`\Delta E_{ab}` between two given
+    Returns the difference :math:`\Delta E_{76}` between two given
     *CIE L\*a\*b\** colourspace arrays using *CIE 1976* recommendation.
 
     Parameters
@@ -70,7 +70,7 @@ def delta_E_CIE1976(Lab_1, Lab_2):
     Returns
     -------
     numeric or ndarray
-        Colour difference :math:`\Delta E_{ab}`.
+        Colour difference :math:`\Delta E_{76}`.
 
     References
     ----------
@@ -91,7 +91,7 @@ def delta_E_CIE1976(Lab_1, Lab_2):
 
 def delta_E_CIE1994(Lab_1, Lab_2, textiles=False):
     """
-    Returns the difference :math:`\Delta E_{ab}` between two given
+    Returns the difference :math:`\Delta E_{94}` between two given
     *CIE L\*a\*b\** colourspace arrays using *CIE 1994* recommendation.
 
     Parameters
@@ -108,7 +108,7 @@ def delta_E_CIE1994(Lab_1, Lab_2, textiles=False):
     Returns
     -------
     numeric or ndarray
-        Colour difference :math:`\Delta E_{ab}`.
+        Colour difference :math:`\Delta E_{94}`.
 
     Notes
     -----
@@ -165,7 +165,7 @@ def delta_E_CIE1994(Lab_1, Lab_2, textiles=False):
 
 def delta_E_CIE2000(Lab_1, Lab_2, textiles=False):
     """
-    Returns the difference :math:`\Delta E_{ab}` between two given
+    Returns the difference :math:`\Delta E_{00}` between two given
     *CIE L\*a\*b\** colourspace arrays using *CIE 2000* recommendation.
 
     Parameters
@@ -182,7 +182,7 @@ def delta_E_CIE2000(Lab_1, Lab_2, textiles=False):
     Returns
     -------
     numeric or ndarray
-        Colour difference :math:`\Delta E_{ab}`.
+        Colour difference :math:`\Delta E_{00}`.
 
     Notes
     -----
@@ -201,7 +201,7 @@ def delta_E_CIE2000(Lab_1, Lab_2, textiles=False):
         -   Sample size: Greater than 4 degrees
         -   Sample separation: Direct edge contact
         -   Sample colour-difference magnitude: Lower than 5.0
-            :math:`\Delta E_{ab}`
+            :math:`\Delta E_{00}`
         -   Sample structure: Homogeneous (without texture)
 
     References
@@ -289,7 +289,7 @@ def delta_E_CIE2000(Lab_1, Lab_2, textiles=False):
 
 def delta_E_CMC(Lab_1, Lab_2, l=2, c=1):  # noqa
     """
-    Returns the difference :math:`\Delta E_{ab}` between two given
+    Returns the difference :math:`\Delta E_{CMC}` between two given
     *CIE L\*a\*b\** colourspace arrays using *Colour Measurement Committee*
     recommendation.
 
@@ -312,7 +312,7 @@ def delta_E_CMC(Lab_1, Lab_2, l=2, c=1):  # noqa
     Returns
     -------
     numeric or ndarray
-        Colour difference :math:`\Delta E_{ab}`.
+        Colour difference :math:`\Delta E_{CMC}`.
 
     References
     ----------

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Defines unit tests for :mod:`colour.difference.delta_e` module.
+
 References
 ----------
 -   :cite:`Sharma2005b` : Sharma, G., Wu, W., & Dalal, E. N. (2005). The

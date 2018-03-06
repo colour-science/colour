@@ -61,6 +61,14 @@ print(colour.difference.delta_E_CMC(Lab1, Lab2, l=1))  # noqa
 
 print('\n')
 
+message_box(('Computing "Delta E" with "DIN99" method from given '
+             '"CIE L*a*b*" colourspace matrices:\n'
+             '\n\t{0}\n\t{1}'.format(Lab1, Lab2)))
+print(colour.delta_E(Lab1, Lab2, method='DIN99'))
+print(colour.difference.delta_E_DIN99(Lab1, Lab2))
+
+print('\n')
+
 Jpapbp_1 = np.array([54.90433134, -0.08450395, -0.06854831])
 Jpapbp_2 = np.array([54.80352754, -3.96940084, -13.57591013])
 message_box(('Computing "Delta E" with "Luo et al. (2006)" "CAM02-LCD" method '
