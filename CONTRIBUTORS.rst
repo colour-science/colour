@@ -91,6 +91,7 @@ Issues & Discussions
 -   @Kunkka1988
 -   @Rob-Welch
 -   @Ron024
+-   @Willingo
 -   @awehring
 -   @brandondube
 -   @cclauss
@@ -108,6 +109,7 @@ Issues & Discussions
 -   @shanest
 -   @sobotka
 -   @stakemura
+-   @tashdor
 -   @tingeman
 -   @zachlewis
 
