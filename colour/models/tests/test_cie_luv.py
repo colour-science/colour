@@ -10,7 +10,7 @@ import unittest
 from itertools import permutations
 
 from colour.models import (XYZ_to_Luv, Luv_to_XYZ, Luv_to_uv, Luv_uv_to_xy,
-                           Luv_to_LCHuv, LCHuv_to_Luv)
+                           xy_to_Luv_uv, Luv_to_LCHuv, LCHuv_to_Luv)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -22,7 +22,7 @@ __status__ = 'Production'
 
 __all__ = [
     'TestXYZ_to_Luv', 'TestLuv_to_XYZ', 'TestLuv_to_uv', 'TestLuv_to_LCHuv',
-    'TestLCHuv_to_Luv'
+    'TestLCHuv_to_Luv', 'TestLuv_uv_to_xy', 'TestXy_to_Luv_uv'
 ]
 
 
@@ -483,6 +483,64 @@ class TestLuv_uv_to_xy(unittest.TestCase):
         for case in cases:
             uv = np.array(case)
             Luv_uv_to_xy(uv)
+
+
+class TestXy_to_Luv_uv(unittest.TestCase):
+    """
+    Defines :func:`colour.models.cie_luv.xy_to_Luv_uv` definition unit tests
+    methods.
+    """
+
+    def test_xy_to_Luv_uv(self):
+        """
+        Tests :func:`colour.models.cie_luv.xy_to_Luv_uv` definition.
+        """
+
+        np.testing.assert_almost_equal(
+            xy_to_Luv_uv(np.array([0.26414773, 0.37770001])),
+            np.array([0.15085310, 0.48532971]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            xy_to_Luv_uv(np.array([0.50453169, 0.37440000])),
+            np.array([0.31125983, 0.51970032]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            xy_to_Luv_uv(np.array([0.47670437, 0.35790000])),
+            np.array([0.30069387, 0.50794847]),
+            decimal=7)
+
+    def test_n_dimensional_xy_to_Luv_uv(self):
+        """
+        Tests :func:`colour.models.cie_luv.xy_to_Luv_uv` definition
+        n-dimensional arrays support.
+        """
+
+        xy = np.array([0.26414773, 0.37770001])
+        uv = np.array([0.15085310, 0.48532971])
+        np.testing.assert_almost_equal(xy_to_Luv_uv(xy), uv, decimal=7)
+
+        xy = np.tile(xy, (6, 1))
+        uv = np.tile(uv, (6, 1))
+        np.testing.assert_almost_equal(xy_to_Luv_uv(xy), uv, decimal=7)
+
+        xy = np.reshape(xy, (2, 3, 2))
+        uv = np.reshape(uv, (2, 3, 2))
+        np.testing.assert_almost_equal(xy_to_Luv_uv(xy), uv, decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_xy_to_Luv_uv(self):
+        """
+        Tests :func:`colour.models.cie_luv.xy_to_Luv_uv` definition nan
+        support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=2))
+        for case in cases:
+            xy = np.array(case)
+            xy_to_Luv_uv(xy)
 
 
 if __name__ == '__main__':

@@ -119,6 +119,14 @@ print(colour.UCS_uv_to_xy(uv))
 
 print('\n')
 
+xy = np.array([0.43250000, 0.37879999])
+message_box(('Converting to "CIE UCS" colourspace "uv" chromaticity '
+             'coordinates from given "xy" chromaticity coordinates:\n'
+             '\n\t{0}'.format(xy)))
+print(colour.xy_to_UCS_uv(xy))
+
+print('\n')
+
 message_box(('Converting to "CIE 1964 U*V*W*" colourspace from given'
              '"CIE XYZ" tristimulus values:\n'
              '\n\t{0}'.format(XYZ)))
@@ -153,6 +161,14 @@ message_box(('Converting to "xy" chromaticity coordinates from given '
              '"CIE L*u*v*" colourspace "u"v"" chromaticity coordinates:\n'
              '\n\t{0}'.format(uv)))
 print(colour.Luv_uv_to_xy(uv))
+
+print('\n')
+
+xy = np.array([0.43250000, 0.37879999])
+message_box(('Converting to "CIE L*u*v*" colourspace "u"v"" chromaticity '
+             'coordinates from given "xy" chromaticity coordinates:\n'
+             '\n\t{0}'.format(xy)))
+print(colour.xy_to_Luv_uv(xy))
 
 print('\n')
 

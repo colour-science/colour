@@ -9,6 +9,7 @@ Defines the *CIE 1960 UCS* colourspace transformations:
 -   :func:`colour.UCS_to_XYZ`
 -   :func:`colour.UCS_to_uv`
 -   :func:`colour.UCS_uv_to_xy`
+-   :func:`colour.xy_to_UCS_uv`
 
 See Also
 --------
@@ -36,7 +37,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['XYZ_to_UCS', 'UCS_to_XYZ', 'UCS_to_uv', 'UCS_uv_to_xy']
+__all__ = [
+    'XYZ_to_UCS', 'UCS_to_XYZ', 'UCS_to_uv', 'UCS_uv_to_xy', 'xy_to_UCS_uv'
+]
 
 
 def XYZ_to_UCS(XYZ):
@@ -190,6 +193,47 @@ def UCS_uv_to_xy(uv):
 
     u, v = tsplit(uv)
 
-    xy = tstack((3 * u / (2 * u - 8 * v + 4), 2 * v / (2 * u - 8 * v + 4)))
+    d = 2 * u - 8 * v + 4
+    xy = tstack((3 * u / d, 2 * v / d))
 
     return xy
+
+
+def xy_to_UCS_uv(xy):
+    """
+    Returns the *CIE 1960 UCS* colourspace *uv* chromaticity coordinates from
+    given *xy* chromaticity coordinates.
+
+    Parameters
+    ----------
+    xy : array_like
+        *xy* chromaticity coordinates.
+
+    Returns
+    -------
+    ndarray
+        *CIE UCS uv* chromaticity coordinates.
+
+    Notes
+    -----
+    -   Input *xy* chromaticity coordinates are in range [0, 1].
+    -   Output *uv* chromaticity coordinates are in domain [0, 1].
+
+    References
+    ----------
+    -   :cite:`Wikipediabr`
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> xy = np.array([0.2641477, 0.37770001])
+    >>> xy_to_UCS_uv(xy)  # doctest: +ELLIPSIS
+    array([ 0.1508530...,  0.3235531...])
+    """
+
+    x, y = tsplit(xy)
+
+    d = 12 * y - 2 * x + 3
+    uv = tstack((4 * x / d, 6 * y / d))
+
+    return uv

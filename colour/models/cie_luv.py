@@ -9,6 +9,7 @@ Defines the *CIE L\*u\*v\** colourspace transformations:
 -   :func:`colour.Luv_to_XYZ`
 -   :func:`colour.Luv_to_uv`
 -   :func:`colour.Luv_uv_to_xy`
+-   :func:`colour.xy_to_Luv_uv`
 -   :func:`colour.Luv_to_LCHuv`
 -   :func:`colour.LCHuv_to_Luv`
 
@@ -51,8 +52,8 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'XYZ_to_Luv', 'Luv_to_XYZ', 'Luv_to_uv', 'Luv_uv_to_xy', 'Luv_to_LCHuv',
-    'LCHuv_to_Luv'
+    'XYZ_to_Luv', 'Luv_to_XYZ', 'Luv_to_uv', 'Luv_uv_to_xy', 'xy_to_Luv_uv',
+    'Luv_to_LCHuv', 'LCHuv_to_Luv'
 ]
 
 
@@ -247,9 +248,49 @@ def Luv_uv_to_xy(uv):
 
     u, v = tsplit(uv)
 
-    xy = tstack((9 * u / (6 * u - 16 * v + 12), 4 * v / (6 * u - 16 * v + 12)))
+    d = 6 * u - 16 * v + 12
+    xy = tstack((9 * u / d, 4 * v / d))
 
     return xy
+
+
+def xy_to_Luv_uv(xy):
+    """
+    Returns the *CIE L\*u\*v\** colourspace :math:`uv^p` chromaticity
+    coordinates from given *xy* chromaticity coordinates.
+
+    Parameters
+    ----------
+    xy : array_like
+        *xy* chromaticity coordinates.
+
+    Returns
+    -------
+    ndarray
+        *CIE L\*u\*v\* u"v"* chromaticity coordinates.
+
+    Notes
+    -----
+    -   Input *xy* is in range [0, 1].
+    -   Output :math:`uv^p` chromaticity coordinates are in domain [0, 1].
+
+    References
+    ----------
+    -   :cite:`Wikipediaby`
+
+    Examples
+    --------
+    >>> xy = np.array([0.26414772, 0.37770001])
+    >>> xy_to_Luv_uv(xy)  # doctest: +ELLIPSIS
+    array([ 0.1508531...,  0.4853297...])
+    """
+
+    x, y = tsplit(xy)
+
+    d = -2 * x + 12 * y + 3
+    uv = tstack((4 * x / d, 9 * y / d))
+
+    return uv
 
 
 def Luv_to_LCHuv(Luv):

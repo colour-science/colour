@@ -30,7 +30,7 @@ from colour.constants import EPSILON
 from colour.models import (
     LCHab_to_Lab, Lab_to_XYZ, Luv_to_uv, POINTER_GAMUT_BOUNDARIES,
     POINTER_GAMUT_DATA, POINTER_GAMUT_ILLUMINANT, RGB_to_RGB, RGB_to_XYZ,
-    UCS_to_uv, XYZ_to_Luv, XYZ_to_UCS, XYZ_to_xy, xy_to_XYZ)
+    UCS_to_uv, XYZ_to_Luv, XYZ_to_UCS, XYZ_to_xy, xy_to_Luv_uv, xy_to_UCS_uv)
 from colour.plotting import (
     DEFAULT_FIGURE_WIDTH, DEFAULT_PLOTTING_COLOURSPACE,
     chromaticity_diagram_plot_CIE1931, chromaticity_diagram_plot_CIE1960UCS,
@@ -115,8 +115,6 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot.png
 
     cmfs, name = get_cmfs(cmfs), cmfs
 
-    illuminant = DEFAULT_PLOTTING_COLOURSPACE.whitepoint
-
     method = method.upper()
     settings = {
         'method':
@@ -142,7 +140,7 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot.png
 
             return XYZ_to_xy(XYZ, *args)
 
-        def xy_to_ij(xy, *args):
+        def xy_to_ij(xy):
             """
             Converts given *xy* chromaticity coordinates to *ij* chromaticity
             coordinates.
@@ -162,13 +160,13 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot.png
 
             return UCS_to_uv(XYZ_to_UCS(XYZ))
 
-        def xy_to_ij(xy, *args):
+        def xy_to_ij(xy):
             """
             Converts given *xy* chromaticity coordinates to *ij* chromaticity
             coordinates.
             """
 
-            return XYZ_to_ij(xy_to_XYZ(xy), *args)
+            return xy_to_UCS_uv(xy)
 
         x_limit_min, x_limit_max = [-0.1], [0.7]
         y_limit_min, y_limit_max = [-0.2], [0.6]
@@ -183,13 +181,13 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot.png
 
             return Luv_to_uv(XYZ_to_Luv(XYZ, *args), *args)
 
-        def xy_to_ij(xy, *args):
+        def xy_to_ij(xy):
             """
             Converts given *xy* chromaticity coordinates to *ij* chromaticity
             coordinates.
             """
 
-            return XYZ_to_ij(xy_to_XYZ(xy), *args)
+            return xy_to_Luv_uv(xy)
 
         x_limit_min, x_limit_max = [-0.1], [0.7]
         y_limit_min, y_limit_max = [-0.1], [0.7]
@@ -210,7 +208,7 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot.png
     if 'Pointer Gamut' in colourspaces:
         colourspaces.remove('Pointer Gamut')
 
-        ij = xy_to_ij(np.asarray(POINTER_GAMUT_BOUNDARIES), illuminant)
+        ij = xy_to_ij(np.asarray(POINTER_GAMUT_BOUNDARIES))
         alpha_p, colour_p = 0.85, '0.95'
         pylab.plot(
             ij[..., 0],
@@ -243,8 +241,8 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot.png
         # yield by zero division in later colour transformations.
         P = np.where(colourspace.primaries == 0, EPSILON,
                      colourspace.primaries)
-        P = xy_to_ij(P, illuminant)
-        W = xy_to_ij(colourspace.whitepoint, illuminant)
+        P = xy_to_ij(P)
+        W = xy_to_ij(colourspace.whitepoint)
 
         pylab.plot(
             (W[0], W[0]), (W[1], W[1]),

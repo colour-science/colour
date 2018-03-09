@@ -105,7 +105,7 @@ from .models import (
     normalised_primary_matrix, oetf, oetf_reverse, ootf, ootf_reverse,
     primaries_whitepoint, sRGB_to_XYZ,
     spectral_to_aces_relative_exposure_values, xyY_to_XYZ, xyY_to_xy,
-    xy_to_XYZ, xy_to_xyY)
+    xy_to_Luv_uv, xy_to_UCS_uv, xy_to_XYZ, xy_to_xyY)
 from .corresponding import (BRENEMAN_EXPERIMENTS,
                             BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES,
                             CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS,
@@ -213,7 +213,7 @@ __all__ += [
     'normalised_primary_matrix', 'oetf', 'oetf_reverse', 'ootf',
     'ootf_reverse', 'primaries_whitepoint', 'sRGB_to_XYZ',
     'spectral_to_aces_relative_exposure_values', 'xyY_to_XYZ', 'xyY_to_xy',
-    'xy_to_XYZ', 'xy_to_xyY'
+    'xy_to_Luv_uv', 'xy_to_UCS_uv', 'xy_to_XYZ', 'xy_to_xyY'
 ]
 __all__ += [
     'BRENEMAN_EXPERIMENTS', 'BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES',

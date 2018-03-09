@@ -9,7 +9,8 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.models import XYZ_to_UCS, UCS_to_XYZ, UCS_to_uv, UCS_uv_to_xy
+from colour.models import (XYZ_to_UCS, UCS_to_XYZ, UCS_to_uv, UCS_uv_to_xy,
+                           xy_to_UCS_uv)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -20,7 +21,8 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'TestXYZ_to_UCS', 'TestUCS_to_XYZ', 'TestUCS_to_uv', 'TestUCS_uv_to_xy'
+    'TestXYZ_to_UCS', 'TestUCS_to_XYZ', 'TestUCS_to_uv', 'TestUCS_uv_to_xy',
+    'TestXy_to_UCS_uv'
 ]
 
 
@@ -251,6 +253,64 @@ class TestUCS_uv_to_xy(unittest.TestCase):
         for case in cases:
             uv = np.array(case)
             UCS_uv_to_xy(uv)
+
+
+class TestXy_to_UCS_uv(unittest.TestCase):
+    """
+    Defines :func:`colour.models.cie_ucs.xy_to_UCS_uv` definition unit tests
+    methods.
+    """
+
+    def test_xy_to_UCS_uv(self):
+        """
+        Tests :func:`colour.models.cie_ucs.xy_to_UCS_uv` definition.
+        """
+
+        np.testing.assert_almost_equal(
+            xy_to_UCS_uv(np.array([0.26414771, 0.37770001])),
+            np.array([0.15085309, 0.32355314]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            xy_to_UCS_uv(np.array([0.50453169, 0.37440000])),
+            np.array([0.31125983, 0.34646688]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            xy_to_UCS_uv(np.array([0.47670437, 0.35789998])),
+            np.array([0.30069388, 0.33863231]),
+            decimal=7)
+
+    def test_n_dimensional_xy_to_UCS_uv(self):
+        """
+        Tests :func:`colour.models.cie_ucs.xy_to_UCS_uv` definition
+        n-dimensional arrays support.
+        """
+
+        xy = np.array([0.26414771, 0.37770001])
+        uv = np.array([0.15085309, 0.32355314])
+        np.testing.assert_almost_equal(xy_to_UCS_uv(xy), uv, decimal=7)
+
+        xy = np.tile(xy, (6, 1))
+        uv = np.tile(uv, (6, 1))
+        np.testing.assert_almost_equal(xy_to_UCS_uv(xy), uv, decimal=7)
+
+        xy = np.reshape(xy, (2, 3, 2))
+        uv = np.reshape(uv, (2, 3, 2))
+        np.testing.assert_almost_equal(xy_to_UCS_uv(xy), uv, decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_xy_to_UCS_uv(self):
+        """
+        Tests :func:`colour.models.cie_ucs.xy_to_UCS_uv` definition nan
+        support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=2))
+        for case in cases:
+            xy = np.array(case)
+            xy_to_UCS_uv(xy)
 
 
 if __name__ == '__main__':
