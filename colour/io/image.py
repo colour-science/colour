@@ -155,7 +155,7 @@ def write_image(image, path, bit_depth='float32', attributes=None):
 
     >>> import os
     >>> path = os.path.join('tests', 'resources', 'CMSTestPattern.exr')
-    >>> image = read_image(path)
+    >>> image = read_image(path)  # doctest: +SKIP
     >>> path = os.path.join('tests', 'resources', 'CMSTestPattern.tif')
     >>> write_image(image, path)  # doctest: +SKIP
     True
