@@ -16,6 +16,17 @@ Image Data
     read_image
     write_image
 
+**Ancillary Objects**
+
+``colour.io``
+
+.. currentmodule:: colour.io
+
+.. autosummary::
+    :toctree: generated/
+
+    ImageAttribute_Specification
+
 CSV Tabular Data
 ----------------
 
