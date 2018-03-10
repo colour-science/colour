@@ -71,7 +71,8 @@ def exponent_hdr_IPT(Y_s, Y_abs, method='Fairchild 2011'):
     Parameters
     ----------
     Y_s : numeric or array_like
-        Relative luminance :math:`Y_s` of the surround in range [0, 1].
+        Relative luminance :math:`Y_s` of the surround normalised to domain
+        [0, 1].
     Y_abs : numeric or array_like
         Absolute luminance :math:`Y_{abs}` of the scene diffuse white in
         :math:`cd/m^2`.
@@ -123,7 +124,8 @@ def XYZ_to_hdr_IPT(XYZ, Y_s=0.2, Y_abs=100, method='Fairchild 2011'):
     XYZ : array_like
         *CIE XYZ* tristimulus values.
     Y_s : numeric or array_like
-        Relative luminance :math:`Y_s` of the surround in domain [0, 1].
+        Relative luminance :math:`Y_s` of the surround normalised to domain
+        [0, 1].
     Y_abs : numeric or array_like
         Absolute luminance :math:`Y_{abs}` of the scene diffuse white in
         :math:`cd/m^2`.
@@ -184,7 +186,8 @@ def hdr_IPT_to_XYZ(IPT_hdr, Y_s=0.2, Y_abs=100, method='Fairchild 2011'):
     IPT_hdr : array_like
         *hdr-IPT* colourspace array.
     Y_s : numeric or array_like
-        Relative luminance :math:`Y_s` of the surround in domain [0, 1].
+        Relative luminance :math:`Y_s` of the surround normalised to domain
+        [0, 1].
     Y_abs : numeric or array_like
         Absolute luminance :math:`Y_{abs}` of the scene diffuse white in
         :math:`cd/m^2`.

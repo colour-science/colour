@@ -186,17 +186,18 @@ def XYZ_to_RLAB(XYZ,
     Parameters
     ----------
     XYZ : array_like
-        *CIE XYZ* tristimulus values of test sample / stimulus in domain
-        [0, 100].
+        *CIE XYZ* tristimulus values of test sample / stimulus normalised to
+        domain [0, 100].
     XYZ_n : array_like
-        *CIE XYZ* tristimulus values of reference white in domain [0, 100].
+        *CIE XYZ* tristimulus values of reference white normalised to domain
+        [0, 100].
     Y_n : numeric or array_like
         Absolute adapting luminance in :math:`cd/m^2`.
     sigma : numeric or array_like, optional
         Relative luminance of the surround, see
         :attr:`colour.RLAB_VIEWING_CONDITIONS` for reference.
     D : numeric or array_like, optional
-        *Discounting-the-Illuminant* factor in domain [0, 1].
+        *Discounting-the-Illuminant* factor normalised to domain [0, 1].
 
     Returns
     -------
@@ -209,8 +210,8 @@ def XYZ_to_RLAB(XYZ,
 
     Notes
     -----
-    -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
-    -   Input *CIE XYZ_n* tristimulus values are in domain [0, 100].
+    -   Input *CIE XYZ* tristimulus values are normalised to domain [0, 100].
+    -   Input *CIE XYZ_n* tristimulus values are normalised to domain [0, 100].
 
     References
     ----------

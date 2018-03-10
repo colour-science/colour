@@ -58,8 +58,8 @@ def XYZ_to_UCS(XYZ):
 
     Notes
     -----
-    -   Input *CIE XYZ* tristimulus values are in domain [0, 1].
-    -   Output *CIE 1960 UCS* colourspace array is in range [0, 1].
+    -   Input *CIE XYZ* tristimulus values are normalised to domain [0, 1].
+    -   Output *CIE 1960 UCS* colourspace array is normalised to range [0, 1].
 
     References
     ----------
@@ -97,8 +97,8 @@ def UCS_to_XYZ(UVW):
 
     Notes
     -----
-    -   Input *CIE 1960 UCS* colourspace array is in domain [0, 1].
-    -   Output *CIE XYZ* tristimulus values are in range [0, 1].
+    -   Input *CIE 1960 UCS* colourspace array is normalised to domain [0, 1].
+    -   Output *CIE XYZ* tristimulus values are normalised to range [0, 1].
 
     References
     ----------
@@ -137,8 +137,8 @@ def UCS_to_uv(UVW):
 
     Notes
     -----
-    -   Input *CIE 1960 UCS* colourspace array is in domain [0, 1].
-    -   Output *uv* chromaticity coordinates are in range [0, 1].
+    -   Input *CIE 1960 UCS* colourspace array is normalised to domain [0, 1].
+    -   Output *uv* chromaticity coordinates are normalised to range [0, 1].
 
     References
     ----------
@@ -176,8 +176,8 @@ def UCS_uv_to_xy(uv):
 
     Notes
     -----
-    -   Input *uv* chromaticity coordinates are in domain [0, 1].
-    -   Output *xy* chromaticity coordinates are in range [0, 1].
+    -   Input *uv* chromaticity coordinates are normalised to domain [0, 1].
+    -   Output *xy* chromaticity coordinates are normalised to range [0, 1].
 
     References
     ----------
@@ -216,8 +216,8 @@ def xy_to_UCS_uv(xy):
 
     Notes
     -----
-    -   Input *xy* chromaticity coordinates are in range [0, 1].
-    -   Output *uv* chromaticity coordinates are in domain [0, 1].
+    -   Input *xy* chromaticity coordinates are normalised to domain [0, 1].
+    -   Output *uv* chromaticity coordinates are normalised to range [0, 1].
 
     References
     ----------

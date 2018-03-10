@@ -78,8 +78,8 @@ def spectral_to_aces_relative_exposure_values(
 
     Notes
     -----
-    -   Output *ACES2065-1* colourspace relative exposure values array is in
-        range [0, 1].
+    -   Output *ACES2065-1* colourspace relative exposure values array
+        normalised to range [0, 1].
 
     References
     ----------

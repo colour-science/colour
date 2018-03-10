@@ -74,7 +74,7 @@ def oetf_ST2084(C, L_p=10000, constants=ST2084_CONSTANTS):
     Returns
     -------
     numeric or ndarray
-        Color value abbreviated as :math:`N`, normalized to the range [0, 1],
+        Color value abbreviated as :math:`N`, normalised to range [0, 1],
         that is directly proportional to the encoded signal representation,
         and which is not directly proportional to the optical output of a
         display device.
@@ -111,7 +111,7 @@ def eotf_ST2084(N, L_p=10000, constants=ST2084_CONSTANTS):
     Parameters
     ----------
     N : numeric or array_like
-        Color value abbreviated as :math:`N`, normalized to the range [0, 1],
+        Color value abbreviated as :math:`N`, normalised to range [0, 1],
         that is directly proportional to the encoded signal representation,
         and which is not directly proportional to the optical output of a
         display device.

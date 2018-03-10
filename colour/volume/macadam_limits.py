@@ -84,7 +84,7 @@ def is_within_macadam_limits(xyY, illuminant, tolerance=None):
 
     Notes
     -----
-    -   Input *CIE xyY* colourspace array is in domain [0, 1].
+    -   Input *CIE xyY* colourspace array is normalised to domain [0, 1].
 
     Examples
     --------

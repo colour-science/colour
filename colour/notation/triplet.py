@@ -39,7 +39,7 @@ def RGB_to_HEX(RGB):
 
     Notes
     -----
-    -   Input *RGB* colourspace array is in domain [0, 1].
+    -   Input *RGB* colourspace array is normalised to domain [0, 1].
 
     Examples
     --------
@@ -75,7 +75,7 @@ def HEX_to_RGB(HEX):
 
     Notes
     -----
-    -   Output *RGB* colourspace array is in range [0, 1].
+    -   Output *RGB* colourspace array is normalised to range [0, 1].
 
     Examples
     --------

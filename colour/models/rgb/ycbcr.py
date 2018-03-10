@@ -211,12 +211,12 @@ def RGB_to_YCbCr(RGB,
     -----
     -   The default arguments, ``**{'in_bits': 10, 'in_legal': False,
         'in_int': False, 'out_bits': 8, 'out_legal': True, 'out_int': False}``
-        transform a float *R'G'B'* input array in range [0, 1] (``in_bits`` is
-        ignored) to a float *Y'CbCr* output array where *Y'* is in range
-        [16 / 255, 235 / 255] and *Cb* and *Cr* are in range
-        [16 / 255, 240./255]. The float values are calculated based on an
-        [0, 255] integer range, but no 8-bit quantisation or clamping are
-        performed.
+        transform a float *R'G'B'* input array normalised to domain [0, 1]
+        (``in_bits`` is ignored) to a float *Y'CbCr* output array where *Y'* is
+        normalised to range [16 / 255, 235 / 255] and *Cb* and *Cr* are
+        normalised to range [16 / 255, 240./255]. The float values are
+        calculated based on an [0, 255] integer range, but no 8-bit
+        quantisation or clamping are performed.
 
     References
     ----------

@@ -84,8 +84,8 @@ def whiteness_Berger1959(XYZ, XYZ_0):
 
     Notes
     -----
-    -   Input *CIE XYZ* and *CIE XYZ_0* tristimulus values are in domain
-        [0, 100].
+    -   Input *CIE XYZ* and *CIE XYZ_0* tristimulus values are normalised to
+        domain [0, 100].
     -   *Whiteness* :math:`WI` values larger than 33.33 indicate a bluish
         white and values smaller than 33.33 indicate a yellowish white.
 
@@ -132,8 +132,8 @@ def whiteness_Taube1960(XYZ, XYZ_0):
 
     Notes
     -----
-    -   Input *CIE XYZ* and *CIE XYZ_0* tristimulus values are in domain
-        [0, 100].
+    -   Input *CIE XYZ* and *CIE XYZ_0* tristimulus values are normalised to
+        domain [0, 100].
     -   *Whiteness* :math:`WI` values larger than 100 indicate a bluish
         white and values smaller than 100 indicate a yellowish white.
 
@@ -174,7 +174,8 @@ def whiteness_Stensby1968(Lab):
 
     Notes
     -----
-    -   Input *CIE L\*a\*b\** colourspace array is in domain [0, 100].
+    -   Input *CIE L\*a\*b\** colourspace array is normalised to domain
+        [0, 100].
     -   *Whiteness* :math:`WI` values larger than 100 indicate a bluish
         white and values smaller than 100 indicate a yellowish white.
 
@@ -217,7 +218,7 @@ def whiteness_ASTME313(XYZ):
 
     Notes
     -----
-    -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
+    -   Input *CIE XYZ* tristimulus values are normalised to domain [0, 100].
 
     References
     ----------
@@ -261,7 +262,7 @@ def whiteness_Ganz1979(xy, Y):
 
     Notes
     -----
-    -   Input tristimulus :math:`Y` value is in domain [0, 100].
+    -   Input tristimulus :math:`Y` value is normalised to domain [0, 100].
     -   The formula coefficients are valid for
         *CIE Standard Illuminant D Series* *D65* and
         *CIE 1964 10 Degree Standard Observer*.
@@ -329,7 +330,7 @@ def whiteness_CIE2004(xy,
 
     Notes
     -----
-    -   Input tristimulus :math:`Y` value is in domain [0, 100].
+    -   Input tristimulus :math:`Y` value is normalised to domain [0, 100].
     -   This method may be used only for samples whose values of :math:`W` or
         :math:`W_{10}` lie within the following limits: greater than 40 and
         less than 5Y - 280, or 5Y10 - 280.

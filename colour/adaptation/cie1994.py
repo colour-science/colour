@@ -67,8 +67,8 @@ def chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2, n=1):
     Parameters
     ----------
     XYZ_1 : array_like
-        *CIE XYZ* tristimulus values of test sample / stimulus in domain
-        [0, 100].
+        *CIE XYZ* tristimulus values of test sample / stimulus normalised to
+        domain [0, 100].
     xy_o1 : array_like
         Chromaticity coordinates :math:`x_{o1}` and :math:`y_{o1}` of test
         illuminant and background.
@@ -76,8 +76,8 @@ def chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2, n=1):
         Chromaticity coordinates :math:`x_{o2}` and :math:`y_{o2}` of reference
         illuminant and background.
     Y_o : numeric
-        Luminance factor :math:`Y_o` of achromatic background as percentage in
-        domain [18, 100].
+        Luminance factor :math:`Y_o` of achromatic background as percentage
+        normalised to domain [18, 100].
     E_o1 : numeric
         Test illuminance :math:`E_{o1}` in :math:`cd/m^2`.
     E_o2 : numeric
@@ -96,8 +96,8 @@ def chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2, n=1):
 
     Notes
     -----
-    -   Input *CIE XYZ_1* tristimulus values are in domain [0, 100].
-    -   Output *CIE XYZ_2* tristimulus values are in range [0, 100].
+    -   Input *CIE XYZ_1* tristimulus values are normalised to domain [0, 100].
+    -   Output *CIE XYZ_2* tristimulus values are normalised to range [0, 100].
 
     References
     ----------
@@ -237,8 +237,8 @@ def effective_adapting_responses(xez, Y_o, E_o):
     E_o : numeric
         Test or reference illuminance :math:`E_{o}` in lux.
     Y_o : numeric
-        Luminance factor :math:`Y_o` of achromatic background as percentage in
-        domain [18, 100].
+        Luminance factor :math:`Y_o` of achromatic background as percentage
+        normalised to domain [18, 100].
 
     Returns
     -------
@@ -367,8 +367,8 @@ def K_coefficient(xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, n=1):
         :math:`\\beta_1(G_{o2})` and :math:`\\beta_2(B_{o2})` of reference
         sample.
     Y_o : numeric or array_like
-        Luminance factor :math:`Y_o` of achromatic background as percentage in
-        domain [18, 100].
+        Luminance factor :math:`Y_o` of achromatic background as percentage
+        normalised to domain [18, 100].
     n : numeric or array_like, optional
         Noise component in fundamental primary system.
 
@@ -426,8 +426,8 @@ def corresponding_colour(RGB_1, xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, K, n=1):
         :math:`\\beta_1(G_{o2})` and :math:`\\beta_2(B_{o2})` of reference
         sample.
     Y_o : numeric or array_like
-        Luminance factor :math:`Y_o` of achromatic background as percentage in
-        domain [18, 100].
+        Luminance factor :math:`Y_o` of achromatic background as percentage
+        normalised to domain [18, 100].
     K : numeric or array_like
         Coefficient :math:`K`.
     n : numeric or array_like, optional

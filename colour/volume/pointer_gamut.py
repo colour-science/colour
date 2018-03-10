@@ -47,7 +47,7 @@ def is_within_pointer_gamut(XYZ, tolerance=None):
 
     Notes
     -----
-    -   Input *CIE XYZ* tristimulus values are in domain [0, 1].
+    -   Input *CIE XYZ* tristimulus values are normalised to domain [0, 1].
 
     Examples
     --------

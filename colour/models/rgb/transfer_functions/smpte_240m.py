@@ -47,13 +47,13 @@ def oetf_SMPTE240M(L_c):
     Parameters
     ----------
     L_c : numeric or array_like
-        Light input :math:`L_c` to the reference camera normalized to the
+        Light input :math:`L_c` to the reference camera normalised to the
         system reference white.
 
     Returns
     -------
     numeric or ndarray
-        Video signal output :math:`V_c` of the reference camera normalized to
+        Video signal output :math:`V_c` of the reference camera normalised to
         the system reference white.
 
     References
@@ -80,12 +80,12 @@ def eotf_SMPTE240M(V_r):
     ----------
     V_r : numeric or array_like
         Video signal level :math:`V_r` driving the reference reproducer
-        normalized to the system reference white.
+        normalised to the system reference white.
 
     Returns
     -------
     numeric or ndarray
-         Light output :math:`L_r` from the reference reproducer normalized to
+         Light output :math:`L_r` from the reference reproducer normalised to
          the system reference white.
 
     References

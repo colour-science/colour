@@ -97,8 +97,8 @@ def lightness_Glasser1958(Y):
 
     Notes
     -----
-    -   Input *luminance* :math:`Y` is in domain [0, 100].
-    -   Output *Lightness* :math:`L` is in range [0, 100].
+    -   Input *luminance* :math:`Y` is normalised to domain [0, 100].
+    -   Output *Lightness* :math:`L` is normalised to range [0, 100].
 
     References
     ----------
@@ -135,8 +135,8 @@ def lightness_Wyszecki1963(Y):
 
     Notes
     -----
-    -   Input *luminance* :math:`Y` is in domain [0, 100].
-    -   Output *Lightness* :math:`W` is in range [0, 100].
+    -   Input *luminance* :math:`Y` is normalised to domain [0, 100].
+    -   Output *Lightness* :math:`W` is normalised to range [0, 100].
 
     References
     ----------
@@ -179,8 +179,9 @@ def lightness_CIE1976(Y, Y_n=100):
 
     Notes
     -----
-    -   Input *luminance* :math:`Y` and :math:`Y_n` are in domain [0, 100].
-    -   Output *Lightness* :math:`L^*` is in range [0, 100].
+    -   Input *luminance* :math:`Y` and :math:`Y_n` are normalised to domain
+        [0, 100].
+    -   Output *Lightness* :math:`L^*` is normalised to range [0, 100].
 
     References
     ----------
@@ -228,7 +229,7 @@ def lightness_Fairchild2010(Y, epsilon=1.836):
 
     Notes
     -----
-    -   Input *luminance* :math:`Y` is in domain [0, :math:`\infty`].
+    -   Input *luminance* :math:`Y` is normalised to domain [0, 1].
 
     References
     ----------
@@ -273,7 +274,7 @@ def lightness_Fairchild2011(Y, epsilon=0.710, method='hdr-CIELAB'):
 
     Notes
     -----
-    -   Input *luminance* :math:`Y` is in domain [0, :math:`\infty`].
+    -   Input *luminance* :math:`Y` is normalised to domain [0, 1].
 
     References
     ----------
@@ -361,9 +362,9 @@ def lightness(Y, method='CIE 1976', **kwargs):
 
     Notes
     -----
-    -   Input *luminance* :math:`Y` and optional :math:`Y_n` are in domain
-        [0, 100] or [0, :math:`\infty`].
-    -   Output *Lightness* :math:`L` is in range [0, 100].
+    -   Input *luminance* :math:`Y` and optional :math:`Y_n` are normalised to
+        domain [0, 100].
+    -   Output *Lightness* :math:`L` is normalised to range [0, 100].
 
     References
     ----------

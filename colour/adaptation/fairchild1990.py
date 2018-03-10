@@ -72,8 +72,8 @@ def chromatic_adaptation_Fairchild1990(XYZ_1,
     Parameters
     ----------
     XYZ_1 : array_like
-        *CIE XYZ_1* tristimulus values of test sample / stimulus in domain
-        [0, 100].
+        *CIE XYZ_1* tristimulus values of test sample / stimulus normalised to
+        domain [0, 100].
     XYZ_n : array_like
         Test viewing condition *CIE XYZ_n* tristimulus values of whitepoint.
     XYZ_r : array_like
@@ -96,8 +96,8 @@ def chromatic_adaptation_Fairchild1990(XYZ_1,
     Notes
     -----
     -   Input *CIE XYZ_1*, *CIE XYZ_n* and *CIE XYZ_r* tristimulus values are
-        in domain [0, 100].
-    -   Output *CIE XYZ_2* tristimulus values are in range [0, 100].
+        normalised to domain [0, 100].
+    -   Output *CIE XYZ_2* tristimulus values are normalised to range [0, 100].
 
     References
     ----------

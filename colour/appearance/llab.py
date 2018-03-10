@@ -64,7 +64,8 @@ class LLAB_InductionFactors(
     Parameters
     ----------
     D : numeric or array_like
-         *Discounting-the-Illuminant* factor :math:`D` in domain [0, 1].
+         *Discounting-the-Illuminant* factor :math:`D` normalised to domain
+         [0, 1].
     F_S : numeric or array_like
         Surround induction factor :math:`F_S`.
     F_L : numeric or array_like
@@ -242,10 +243,11 @@ def XYZ_to_LLAB(
     Parameters
     ----------
     XYZ : array_like
-        *CIE XYZ* tristimulus values of test sample / stimulus in domain
-        [0, 100].
+        *CIE XYZ* tristimulus values of test sample / stimulus normalised to
+        domain [0, 100].
     XYZ_0 : array_like
-        *CIE XYZ* tristimulus values of reference white in domain [0, 100].
+        *CIE XYZ* tristimulus values of reference white normalised to domain
+        [0, 100].
     Y_b : numeric or array_like
         Luminance factor of the background in :math:`cd/m^2`.
     L : numeric or array_like
@@ -264,8 +266,8 @@ def XYZ_to_LLAB(
 
     Notes
     -----
-    -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
-    -   Input *CIE XYZ_0* tristimulus values are in domain [0, 100].
+    -   Input *CIE XYZ* tristimulus values are normalised to domain [0, 100].
+    -   Input *CIE XYZ_0* tristimulus values are normalised to domain [0, 100].
 
     References
     ----------
@@ -379,7 +381,7 @@ def chromatic_adaptation(RGB, RGB_0, RGB_0r, Y, D=1):
     Y : numeric or array_like
         Tristimulus values :math:`Y` of the stimulus.
     D : numeric or array_like, optional
-         *Discounting-the-Illuminant* factor in domain [0, 1].
+         *Discounting-the-Illuminant* factor normalised to domain [0, 1].
 
     Returns
     -------

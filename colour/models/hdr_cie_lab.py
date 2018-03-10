@@ -71,7 +71,8 @@ def exponent_hdr_CIELab(Y_s, Y_abs, method='Fairchild 2011'):
     Parameters
     ----------
     Y_s : numeric or array_like
-        Relative luminance :math:`Y_s` of the surround in range [0, 1].
+        Relative luminance :math:`Y_s` of the surround normalised to domain
+        [0, 1].
     Y_abs : numeric or array_like
         Absolute luminance :math:`Y_{abs}` of the scene diffuse white in
         :math:`cd/m^2`.
@@ -131,7 +132,8 @@ def XYZ_to_hdr_CIELab(
         Reference *illuminant* *xy* chromaticity coordinates or *CIE xyY*
         colourspace array.
     Y_s : numeric or array_like
-        Relative luminance :math:`Y_s` of the surround in domain [0, 1].
+        Relative luminance :math:`Y_s` of the surround normalised to domain
+        [0, 1].
     Y_abs : numeric or array_like
         Absolute luminance :math:`Y_{abs}` of the scene diffuse white in
         :math:`cd/m^2`.
@@ -153,9 +155,9 @@ def XYZ_to_hdr_CIELab(
         :math:`L_{hdr}`, *chroma* :math:`C_{hdr}` and *hue* :math:`h_{hdr}`
         correlates can be safely performed with :func:`colour.LCHab_to_Lab`
         definition.
-    -   Input *CIE XYZ* tristimulus values are in domain [0, math:`\infty`].
+    -   Input *CIE XYZ* tristimulus values are normalised to domain [0, 1].
     -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
-        colourspace array are in domain [0, :math:`\infty`].
+        colourspace array are normalised to domain [0, 1].
 
     References
     ----------
@@ -213,7 +215,8 @@ def hdr_CIELab_to_XYZ(
         Reference *illuminant* *xy* chromaticity coordinates or *CIE xyY*
         colourspace array.
     Y_s : numeric or array_like
-        Relative luminance :math:`Y_s` of the surround in domain [0, 1].
+        Relative luminance :math:`Y_s` of the surround normalised to domain
+        [0, 1].
     Y_abs : numeric or array_like
         Absolute luminance :math:`Y_{abs}` of the scene diffuse white in
         :math:`cd/m^2`.
@@ -229,8 +232,8 @@ def hdr_CIELab_to_XYZ(
     Notes
     -----
     -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
-        colourspace array are in domain [0, :math:`\infty`].
-    -   Output *CIE XYZ* tristimulus values are in range [0, math:`\infty`].
+        colourspace array are normalised to domain [0, 1].
+    -   Output *CIE XYZ* tristimulus values are normalised to range [0, 1].
 
     References
     ----------

@@ -56,7 +56,7 @@ def eotf_reverse_BT1886(L, L_B=0, L_W=1):
     Returns
     -------
     numeric or ndarray
-        Input video signal level (normalized, black at :math:`V = 0`, to white
+        Input video signal level (normalised, black at :math:`V = 0`, to white
         at :math:`V = 1`.
 
     References
@@ -91,7 +91,7 @@ def eotf_BT1886(V, L_B=0, L_W=1):
     Parameters
     ----------
     V : numeric or array_like
-        Input video signal level (normalized, black at :math:`V = 0`, to white
+        Input video signal level (normalised, black at :math:`V = 0`, to white
         at :math:`V = 1`. For content mastered per
         *Recommendation ITU-R BT.709*, 10-bit digital code values :math:`D` map
         into values of :math:`V` per the following equation:

@@ -55,7 +55,7 @@ def XYZ_to_sRGB(XYZ,
 
     Notes
     -----
-    -   Input *CIE XYZ* tristimulus values are in domain [0, 1].
+    -   Input *CIE XYZ* tristimulus values are normalised to domain [0, 1].
 
     Examples
     --------
@@ -100,7 +100,7 @@ def sRGB_to_XYZ(RGB,
 
     Notes
     -----
-    -   Input *RGB* colourspace array is in domain [0, 1].
+    -   Input *RGB* colourspace array is normalised to domain [0, 1].
 
     Examples
     --------

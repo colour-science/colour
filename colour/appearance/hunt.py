@@ -256,12 +256,14 @@ def XYZ_to_Hunt(XYZ,
     Parameters
     ----------
     XYZ : array_like
-        *CIE XYZ* tristimulus values of test sample / stimulus in domain
-        [0, 100].
+        *CIE XYZ* tristimulus values of test sample / stimulus normalised to
+        domain [0, 100].
     XYZ_w : array_like
-        *CIE XYZ* tristimulus values of reference white in domain [0, 100].
+        *CIE XYZ* tristimulus values of reference white normalised to domain
+        [0, 100].
     XYZ_b : array_like
-        *CIE XYZ* tristimulus values of background in domain [0, 100].
+        *CIE XYZ* tristimulus values of background normalised to domain
+        [0, 100].
     L_A : numeric or array_like
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`.
     surround : Hunt_InductionFactors, optional
@@ -273,12 +275,13 @@ def XYZ_to_Hunt(XYZ,
         Correlated color temperature :math:`T_{cp}`: of the illuminant, needed
         to approximate :math:`L_{AS}`.
     XYZ_p : array_like, optional
-        *CIE XYZ* tristimulus values of proximal field in domain [0, 100],
+        *CIE XYZ* tristimulus values of proximal field normalised to domain
+        [0, 100],
         assumed to be equal to background if not specified.
     p : numeric or array_like, optional
-        Simultaneous contrast / assimilation factor :math:`p` with value in
-        domain [-1, 0] when simultaneous contrast occurs and domain [0, 1]
-        when assimilation occurs.
+        Simultaneous contrast / assimilation factor :math:`p` with value
+        normalised to domain [-1, 0] when simultaneous contrast occurs and
+        normalised to domain [0, 1] when assimilation occurs.
     S : numeric or array_like, optional
         Scotopic response :math:`S` to the stimulus, approximated using
         tristimulus values :math:`Y` of the stimulus if not specified.
@@ -308,10 +311,8 @@ def XYZ_to_Hunt(XYZ,
 
     Notes
     -----
-    -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
-    -   Input *CIE XYZ_b* tristimulus values are in domain [0, 100].
-    -   Input *CIE XYZ_w* tristimulus values are in domain [0, 100].
-    -   Input *CIE XYZ_p* tristimulus values are in domain [0, 100].
+    -   Input *CIE XYZ*, *CIE XYZ_b*, *CIE XYZ_w* and *CIE XYZ_p* tristimulus
+        values are normalised to domain [0, 100].
 
     References
     ----------
@@ -588,22 +589,25 @@ def chromatic_adaptation(XYZ,
     Parameters
     ----------
     XYZ : array_like
-        *CIE XYZ* tristimulus values of test sample in domain [0, 100].
+        *CIE XYZ* tristimulus values of test sample normalised to domain
+        [0, 100].
     XYZ_b : array_like
-        *CIE XYZ* tristimulus values of background in domain [0, 100].
+        *CIE XYZ* tristimulus values of background normalised to domain
+        [0, 100].
     XYZ_w : array_like
-        *CIE XYZ* tristimulus values of reference white in domain [0, 100].
+        *CIE XYZ* tristimulus values of reference white normalised to domain
+        [0, 100].
     L_A : numeric or array_like
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`.
     F_L : numeric or array_like
         Luminance adaptation factor :math:`F_L`.
     XYZ_p : array_like, optional
-        *CIE XYZ* tristimulus values of proximal field in domain [0, 100],
-        assumed to be equal to background if not specified.
+        *CIE XYZ* tristimulus values of proximal field normalised to domain
+        [0, 100], assumed to be equal to background if not specified.
     p : numeric or array_like, optional
-        Simultaneous contrast / assimilation factor :math:`p` with value in
-        domain [-1, 0] when simultaneous contrast occurs and domain [0, 1]
-        when assimilation occurs.
+        Simultaneous contrast / assimilation factor :math:`p` with value
+        normalised to  domain [-1, 0] when simultaneous contrast occurs and
+        normalised to domain [0, 1] when assimilation occurs.
     helson_judd_effect : bool, optional
         Truth value indicating whether the *Helson-Judd* effect should be
         accounted for.
@@ -683,9 +687,9 @@ def adjusted_reference_white_signals(rgb_p, rgb_b, rgb_w, p):
         Cone signals array *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta`
         colourspace array of the reference white.
     p : numeric or array_like
-        Simultaneous contrast / assimilation factor :math:`p` with value in
-        domain [-1, 0] when simultaneous contrast occurs and domain [0, 1]
-        when assimilation occurs.
+        Simultaneous contrast / assimilation factor :math:`p` with value
+        normalised to domain [-1, 0] when simultaneous contrast occurs and
+        normalised to domain [0, 1] when assimilation occurs.
 
     Returns
     -------

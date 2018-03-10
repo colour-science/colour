@@ -57,7 +57,7 @@ def oetf_ARIBSTDB67(E, r=0.5, constants=ARIBSTDB67_CONSTANTS):
     Parameters
     ----------
     E : numeric or array_like
-        Voltage normalized by the reference white level and proportional to
+        Voltage normalised by the reference white level and proportional to
         the implicit light intensity that would be detected with a reference
         camera color channel R, G, B.
     r : numeric, optional
@@ -108,7 +108,7 @@ def oetf_reverse_ARIBSTDB67(E_p, r=0.5, constants=ARIBSTDB67_CONSTANTS):
     Returns
     -------
     numeric or ndarray
-        Voltage :math:`E` normalized by the reference white level and
+        Voltage :math:`E` normalised by the reference white level and
         proportional to the implicit light intensity that would be detected
         with a reference camera color channel R, G, B.
 

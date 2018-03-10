@@ -147,10 +147,11 @@ def XYZ_to_ATD95(XYZ, XYZ_0, Y_0, k_1, k_2, sigma=300):
     Parameters
     ----------
     XYZ : array_like
-        *CIE XYZ* tristimulus values of test sample / stimulus in domain
-        [0, 100].
+        *CIE XYZ* tristimulus values of test sample / stimulus normalised to
+        domain [0, 100].
     XYZ_0 : array_like
-        *CIE XYZ* tristimulus values of reference white in domain [0, 100].
+        *CIE XYZ* tristimulus values of reference white normalised to domain
+        [0, 100].
     Y_0 : numeric or array_like
         Absolute adapting field luminance in :math:`cd/m^2`.
     k_1 : numeric or array_like
@@ -171,8 +172,8 @@ def XYZ_to_ATD95(XYZ, XYZ_0, Y_0, k_1, k_2, sigma=300):
 
     Notes
     -----
-    -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
-    -   Input *CIE XYZ_0* tristimulus values are in domain [0, 100].
+    -   Input *CIE XYZ* tristimulus values are normalised to domain [0, 100].
+    -   Input *CIE XYZ_0* tristimulus values are normalised to domain [0, 100].
     -   For unrelated colors, there is only self-adaptation and :math:`k_1` is
         set to 1.0 while :math:`k_2` is set to 0.0. For related colors such as
         typical colorimetric applications, :math:`k_1` is set to 0.0 and

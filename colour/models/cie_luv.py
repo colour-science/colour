@@ -78,10 +78,10 @@ def XYZ_to_Luv(
 
     Notes
     -----
-    -   Input *CIE XYZ* tristimulus values are in domain [0, 1].
+    -   Input *CIE XYZ* tristimulus values are normalised to domain [0, 1].
     -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
-        colourspace array are in domain [0, :math:`\infty`].
-    -   Output :math:`L^*` is in range [0, 100].
+        colourspace array are normalised to domain [0, 1].
+    -   Output :math:`L^*` is normalised to range [0, 100].
 
     References
     ----------
@@ -133,10 +133,10 @@ def Luv_to_XYZ(
 
     Notes
     -----
-    -   Input :math:`L^*` is in domain [0, 100].
+    -   Input :math:`L^*` is normalised to domain [0, 100].
     -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
-        colourspace array are in domain [0, :math:`\infty`].
-    -   Output *CIE XYZ* tristimulus values are in range [0, 1].
+        colourspace array are normalised to domain [0, 1].
+    -   Output *CIE XYZ* tristimulus values are normalised to range [0, 1].
 
     References
     ----------
@@ -192,10 +192,11 @@ def Luv_to_uv(
 
     Notes
     -----
-    -   Input :math:`L^*` is in domain [0, 100].
+    -   Input :math:`L^*` is normalised to domain [0, 100].
     -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
-        colourspace array are in domain [0, :math:`\infty`].
-    -   Output :math:`uv^p` chromaticity coordinates are in range [0, 1].
+        colourspace array are normalised to domain [0, 1].
+    -   Output :math:`uv^p` chromaticity coordinates are normalised to range
+        [0, 1].
 
     References
     ----------
@@ -232,8 +233,9 @@ def Luv_uv_to_xy(uv):
 
     Notes
     -----
-    -   Input :math:`uv^p` chromaticity coordinates are in domain [0, 1].
-    -   Output *xy* is in range [0, 1].
+    -   Input :math:`uv^p` chromaticity coordinates are normalised to domain
+        [0, 1].
+    -   Output *xy* is normalised to range [0, 1].
 
     References
     ----------
@@ -271,8 +273,9 @@ def xy_to_Luv_uv(xy):
 
     Notes
     -----
-    -   Input *xy* is in range [0, 1].
-    -   Output :math:`uv^p` chromaticity coordinates are in domain [0, 1].
+    -   Input *xy* is normalised to domain [0, 1].
+    -   Output :math:`uv^p` chromaticity coordinates are normalised to range
+        [0, 1].
 
     References
     ----------
@@ -309,7 +312,7 @@ def Luv_to_LCHuv(Luv):
 
     Notes
     -----
-    -   Input / output :math:`L^*` is in domain / range [0, 100].
+    -   Input / output :math:`L^*` is normalised to domain / range [0, 100].
 
     References
     ----------
@@ -347,7 +350,7 @@ def LCHuv_to_Luv(LCHuv):
 
     Notes
     -----
-    -   Input / output :math:`L^*` is in domain / range [0, 100].
+    -   Input / output :math:`L^*` is normalised to domain / range [0, 100].
 
     References
     ----------

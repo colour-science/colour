@@ -83,14 +83,14 @@ def oetf_BT2100_PQ(E):
     E : numeric or array_like
         :math:`E = {R_S, G_S, B_S; Y_S; or I_S}` is the signal determined by
         scene light and scaled by camera exposure. The values :math:`E`,
-        :math:`R_S`, :math:`G_S`, :math:`B_S`, :math:`Y_S`, :math:`I_S` are in
-        the range [0, 1].
+        :math:`R_S`, :math:`G_S`, :math:`B_S`, :math:`Y_S`, :math:`I_S` are
+        normalised to range [0, 1].
 
     Returns
     -------
     numeric or ndarray
         :math:`E` is the resulting non-linear signal (:math:`R'`, :math:`G'`,
-        :math:`B'`) in the range [0, 1].
+        :math:`B'`) normalised to range [0, 1].
 
     References
     ----------
@@ -115,15 +115,15 @@ def oetf_reverse_BT2100_PQ(E_p):
     ----------
     E_p : numeric or array_like
         :math:`E` is the resulting non-linear signal (:math:`R'`, :math:`G'`,
-        :math:`B'`) in the range [0, 1].
+        :math:`B'`) normalised to range [0, 1].
 
     Returns
     -------
     numeric or ndarray
         :math:`E = {R_S, G_S, B_S; Y_S; or I_S}` is the signal determined by
         scene light and scaled by camera exposure. The values :math:`E`,
-        :math:`R_S`, :math:`G_S`, :math:`B_S`, :math:`Y_S`, :math:`I_S` are in
-        the range [0, 1].
+        :math:`R_S`, :math:`G_S`, :math:`B_S`, :math:`Y_S`, :math:`I_S` are
+        normalised to range [0, 1].
 
     References
     ----------
@@ -217,8 +217,8 @@ def ootf_BT2100_PQ(E):
     E : numeric or array_like
         :math:`E = {R_S, G_S, B_S; Y_S; or I_S}` is the signal determined by
         scene light and scaled by camera exposure. The values :math:`E`,
-        :math:`R_S`, :math:`G_S`, :math:`B_S`, :math:`Y_S`, :math:`I_S` are in
-        the range [0, 1].
+        :math:`R_S`, :math:`G_S`, :math:`B_S`, :math:`Y_S`, :math:`I_S` are
+        normalised to range [0, 1].
 
     Returns
     -------
@@ -258,8 +258,8 @@ def ootf_reverse_BT2100_PQ(F_D):
     numeric or ndarray
         :math:`E = {R_S, G_S, B_S; Y_S; or I_S}` is the signal determined by
         scene light and scaled by camera exposure. The values :math:`E`,
-        :math:`R_S`, :math:`G_S`, :math:`B_S`, :math:`Y_S`, :math:`I_S` are in
-        the range [0, 1].
+        :math:`R_S`, :math:`G_S`, :math:`B_S`, :math:`Y_S`, :math:`I_S` are
+        normalised to range [0, 1].
 
     References
     ----------
@@ -321,13 +321,13 @@ def oetf_BT2100_HLG(E):
     E : numeric or array_like
         :math:`E` is the signal for each colour component
         :math:`{R_S, G_S, B_S}` proportional to scene linear light and scaled
-        by camera exposure, normalized to the range [0, 1].
+        by camera exposure, normalised to range [0, 1].
 
     Returns
     -------
     numeric or ndarray
-        :math:`E` is the resulting non-linear signal :math:`{R', G', B'}` in
-        the range [0, 1].
+        :math:`E` is the resulting non-linear signal :math:`{R', G', B'}`
+        normalised to range [0, 1].
 
     References
     ----------
@@ -351,15 +351,15 @@ def oetf_reverse_BT2100_HLG(E):
     Parameters
     ----------
     E_p : numeric or array_like
-        :math:`E` is the resulting non-linear signal :math:`{R', G', B'}` in
-        the range [0, 1].
+        :math:`E` is the resulting non-linear signal :math:`{R', G', B'}`
+        normalised to range [0, 1].
 
     Returns
     -------
     numeric or ndarray
         :math:`E` is the signal for each colour component
         :math:`{R_S, G_S, B_S}` proportional to scene linear light and scaled
-        by camera exposure, normalized to the range [0, 1].
+        by camera exposure, normalised to range [0, 1].
 
     References
     ----------
@@ -386,7 +386,7 @@ def eotf_BT2100_HLG(E_p, L_B=0, L_W=1000, gamma=None):
     ----------
     E_p : numeric or array_like
         :math:`E'` denotes a non-linear colour value :math:`{R', G', B'}` or
-        :math:`{L', M', S'}` in *HLG* space in range [0, 1].
+        :math:`{L', M', S'}` in *HLG* space normalised to domain [0, 1].
     L_B : numeric, optional
         :math:`L_B` is the display luminance for black in :math:`cd/m^2`.
     L_W : numeric, optional
@@ -441,7 +441,7 @@ def eotf_reverse_BT2100_HLG(F_D, L_B=0, L_W=1000, gamma=None):
     -------
     numeric or ndarray
         :math:`E'` denotes a non-linear colour value :math:`{R', G', B'}` or
-        :math:`{L', M', S'}` in *HLG* space in range [0, 1].
+        :math:`{L', M', S'}` in *HLG* space normalised to range [0, 1].
 
     References
     ----------
@@ -469,7 +469,7 @@ def ootf_BT2100_HLG(E, L_B=0, L_W=1000, gamma=None):
     E : numeric or array_like
         :math:`E` is the signal for each colour component
         :math:`{R_S, G_S, B_S}` proportional to scene linear light and scaled
-        by camera exposure, normalized to the range [0, 1].
+        by camera exposure, normalised to range [0, 1].
     L_B : numeric, optional
         :math:`L_B` is the display luminance for black in :math:`cd/m^2`.
     L_W : numeric, optional
@@ -550,7 +550,7 @@ def ootf_reverse_BT2100_HLG(F_D, L_B=0, L_W=1000, gamma=None):
     numeric or ndarray
         :math:`E` is the signal for each colour component
         :math:`{R_S, G_S, B_S}` proportional to scene linear light and scaled
-        by camera exposure, normalized to the range [0, 1].
+        by camera exposure, normalised to range [0, 1].
 
     References
     ----------

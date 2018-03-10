@@ -70,7 +70,7 @@ def yellowness_ASTMD1925(XYZ):
 
     Notes
     -----
-    -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
+    -   Input *CIE XYZ* tristimulus values are normalised to domain [0, 100].
 
     References
     ----------
@@ -115,7 +115,7 @@ def yellowness_ASTME313(XYZ):
 
     Notes
     -----
-    -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
+    -   Input *CIE XYZ* tristimulus values are normalised to domain [0, 100].
 
     References
     ----------

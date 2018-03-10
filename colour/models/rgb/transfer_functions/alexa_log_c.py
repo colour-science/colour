@@ -179,7 +179,7 @@ ALEXA_LOG_C_CURVE_CONVERSION_DATA = CaseInsensitiveMapping({
 })  # yapf: disable
 """
 *ALEXA Log C* curve conversion data between signal and linear scene exposure
-factor for *SUP 3.x* and signal and normalized sensor signal for *SUP 2.x*.
+factor for *SUP 3.x* and signal and normalised sensor signal for *SUP 2.x*.
 
 ALEXA_LOG_C_CURVE_CONVERSION_DATA : CaseInsensitiveMapping
     **{'SUP 3.x', 'SUP 2.x'}**

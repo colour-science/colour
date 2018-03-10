@@ -406,7 +406,7 @@ def spectral_to_XYZ_integration(
 
     Notes
     -----
-    -   Output *CIE XYZ* tristimulus values are in range [0, 100].
+    -   Output *CIE XYZ* tristimulus values are normalised to range [0, 100].
 
     References
     ----------
@@ -498,7 +498,7 @@ def spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
 
     Notes
     -----
-    -   Output *CIE XYZ* tristimulus values are in range [0, 100].
+    -   Output *CIE XYZ* tristimulus values are normalised to range [0, 100].
 
     References
     ----------
@@ -612,7 +612,7 @@ _TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their identifier key is
 
     Notes
     -----
-    -   Output *CIE XYZ* tristimulus values are in range [0, 100].
+    -   Output *CIE XYZ* tristimulus values are normalised to range [0, 100].
 
     References
     ----------
@@ -774,7 +774,7 @@ def spectral_to_XYZ(
 
     Notes
     -----
-    -   Output *CIE XYZ* tristimulus values are in range [0, 100].
+    -   Output *CIE XYZ* tristimulus values are normalised to range [0, 100].
 
     References
     ----------
@@ -856,7 +856,7 @@ def wavelength_to_XYZ(
 
     Notes
     -----
-    -   Output *CIE XYZ* tristimulus values are in range [0, 1].
+    -   Output *CIE XYZ* tristimulus values are normalised to range [0, 1].
 
     Examples
     --------

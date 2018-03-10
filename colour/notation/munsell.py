@@ -302,8 +302,8 @@ def munsell_value_Priest1920(Y):
 
     Notes
     -----
-    -   Input *Y* is in domain [0, 100].
-    -   Output *V* is in range [0, 10].
+    -   Input *Y* is normalised to domain [0, 100].
+    -   Output *V* is normalised to range [0, 10].
 
     References
     ----------
@@ -339,8 +339,8 @@ def munsell_value_Munsell1933(Y):
 
     Notes
     -----
-    -   Input *Y* is in domain [0, 100].
-    -   Output *V* is in range [0, 10].
+    -   Input *Y* is normalised to domain [0, 100].
+    -   Output *V* is normalised to range [0, 10].
 
     References
     ----------
@@ -377,8 +377,8 @@ def munsell_value_Moon1943(Y):
 
     Notes
     -----
-    -   Input *Y* is in domain [0, 100].
-    -   Output *V* is in range [0, 10].
+    -   Input *Y* is normalised to domain [0, 100].
+    -   Output *V* is normalised to range [0, 10].
 
     References
     ----------
@@ -414,8 +414,8 @@ def munsell_value_Saunderson1944(Y):
 
     Notes
     -----
-    -   Input *Y* is in domain [0, 100].
-    -   Output *V* is in range [0, 10].
+    -   Input *Y* is normalised to domain [0, 100].
+    -   Output *V* is normalised to range [0, 10].
 
     References
     ----------
@@ -451,8 +451,8 @@ def munsell_value_Ladd1955(Y):
 
     Notes
     -----
-    -   Input *Y* is in domain [0, 100].
-    -   Output *V* is in range [0, 10].
+    -   Input *Y* is normalised to domain [0, 100].
+    -   Output *V* is normalised to range [0, 10].
 
     References
     ----------
@@ -488,8 +488,8 @@ def munsell_value_McCamy1987(Y):
 
     Notes
     -----
-    -   Input *Y* is in domain [0, 100].
-    -   Output *V* is in range [0, 10].
+    -   Input *Y* is normalised to domain [0, 100].
+    -   Output *V* is normalised to range [0, 10].
 
     References
     ----------
@@ -531,8 +531,8 @@ def munsell_value_ASTMD153508(Y):
 
     Notes
     -----
-    -   Input *Y* is in domain [0, 100].
-    -   Output *V* is in range [0, 10].
+    -   Input *Y* is normalised to domain [0, 100].
+    -   Output *V* is normalised to range [0, 10].
 
     References
     ----------
@@ -600,8 +600,8 @@ def munsell_value(Y, method='ASTM D1535-08'):
 
     Notes
     -----
-    -   Input *Y* is in domain [0, 100].
-    -   Output *V* is in range [0, 10].
+    -   Input *Y* is normalised to domain [0, 100].
+    -   Output *V* is normalised to range [0, 10].
 
     References
     ----------
@@ -646,10 +646,11 @@ def munsell_specification_to_xyY(specification):
 
     Notes
     -----
-    -   Input *Munsell* *Colorlab* specification hue must be in domain [0, 10].
-    -   Input *Munsell* *Colorlab* specification value must be in domain
+    -   Input *Munsell* *Colorlab* specification hue is normalised to domain
         [0, 10].
-    -   Output *CIE xyY* colourspace array is in range [0, 1].
+    -   Input *Munsell* *Colorlab* specification value is normalised to domain
+        [0, 10].
+    -   Output *CIE xyY* colourspace array is normalised to range [0, 1].
 
     References
     ----------
@@ -670,11 +671,11 @@ def munsell_specification_to_xyY(specification):
         hue, value, chroma, code = specification
 
         assert 0 <= hue <= 10, (
-            '"{0}" specification hue must be in domain [0, 10]!'.format(
-                specification))
+            '"{0}" specification hue must be normalised to domain '
+            '[0, 10]!'.format(specification))
         assert 0 <= value <= 10, (
-            '"{0}" specification value must be in domain [0, 10]!'.format(
-                specification))
+            '"{0}" specification value must be normalised to domain '
+            '[0, 10]!'.format(specification))
 
     Y = luminance_ASTMD153508(value)
 
@@ -722,7 +723,7 @@ def munsell_colour_to_xyY(munsell_colour):
 
     Notes
     -----
-    -   Output *CIE xyY* colourspace array is in range [0, 1].
+    -   Output *CIE xyY* colourspace array is normalised to range [0, 1].
 
     References
     ----------
@@ -766,7 +767,7 @@ def xyY_to_munsell_specification(xyY):
 
     Notes
     -----
-    -   Input *CIE xyY* colourspace array is in domain [0, 1].
+    -   Input *CIE xyY* colourspace array is normalised to domain [0, 1].
 
     References
     ----------
@@ -994,7 +995,7 @@ def xyY_to_munsell_colour(xyY,
 
     Notes
     -----
-    -   Input *CIE xyY* colourspace array is in domain [0, 1].
+    -   Input *CIE xyY* colourspace array is normalised to domain [0, 1].
 
     References
     ----------
@@ -1188,14 +1189,14 @@ def munsell_specification_to_munsell_colour(specification,
         code_values = MUNSELL_HUE_LETTER_CODES.values()
 
         assert 0 <= hue <= 10, (
-            '"{0}" specification hue must be in domain [0, 10]!'.format(
-                specification))
+            '"{0}" specification hue must be normalised to domain '
+            '[0, 10]!'.format(specification))
         assert 0 <= value <= 10, (
-            '"{0}" specification value must be in domain [0, 10]!'.format(
-                specification))
+            '"{0}" specification value must be normalised to domain '
+            '[0, 10]!'.format(specification))
         assert 2 <= chroma <= 50, (
-            '"{0}" specification chroma must be in domain [2, 50]!'.format(
-                specification))
+            '"{0}" specification chroma must be normalised to domain '
+            '[2, 50]!'.format(specification))
         assert code in code_values, (
             '"{0}" specification code must one of "{1}"!'.format(
                 specification, code_values))
@@ -1430,7 +1431,7 @@ def hue_angle_to_hue(hue_angle):
 def hue_to_ASTM_hue(hue, code):
     """
     Converts from the *Munsell* *Colorlab* specification hue to *ASTM* hue
-    number in range [0, 100].
+    number normalised to range [0, 100].
 
     Parameters
     ----------
@@ -1476,10 +1477,10 @@ def interpolation_method_from_renotation_ovoid(specification):
 
     Notes
     -----
-    -   Input *Munsell* *Colorlab* specification value must be an integer in
-        domain [0, 10].
+    -   Input *Munsell* *Colorlab* specification value must be an integer
+        normalised to domain [0, 10].
     -   Input *Munsell* *Colorlab* specification chroma must be an integer and
-        a multiple of 2 in domain [2, 50].
+        a multiple of 2 normalised to domain [2, 50].
 
     References
     ----------
@@ -1504,8 +1505,8 @@ def interpolation_method_from_renotation_ovoid(specification):
         hue, value, chroma, code = specification
 
         assert 0 <= value <= 10, (
-            '"{0}" specification value must be in domain [0, 10]!'.format(
-                specification))
+            '"{0}" specification value must be normalised to domain '
+            '[0, 10]!'.format(specification))
         assert is_integer(value), (
             '"{0}" specification value must be an integer!'.format(
                 specification))
@@ -1517,8 +1518,8 @@ def interpolation_method_from_renotation_ovoid(specification):
             interpolation_method = 0
 
         assert 2 <= chroma <= 50, (
-            '"{0}" specification chroma must be in domain [2, 50]!'.format(
-                specification))
+            '"{0}" specification chroma must be normalised to domain '
+            '[2, 50]!'.format(specification))
         assert abs(2 *
                    (chroma / 2 - round(chroma / 2))) <= INTEGER_THRESHOLD, ((
                        '"{0}" specification chroma must be an integer and '
@@ -1768,10 +1769,10 @@ def xy_from_renotation_ovoid(specification):
 
     Notes
     -----
-    -   Input *Munsell* *Colorlab* specification value must be an integer in
-        domain [1, 9].
+    -   Input *Munsell* *Colorlab* specification value must be an integer
+        normalised to domain [1, 9].
     -   Input *Munsell* *Colorlab* specification chroma must be an integer and
-        a multiple of 2 in domain [2, 50].
+        a multiple of 2 normalised to domain [2, 50].
 
     References
     ----------
@@ -1793,8 +1794,8 @@ def xy_from_renotation_ovoid(specification):
         hue, value, chroma, code = specification
 
         assert 1 <= value <= 9, (
-            '"{0}" specification value must be in domain [1, 9]!'.format(
-                specification))
+            '"{0}" specification value must be normalised to domain '
+            '[1, 9]!'.format(specification))
         assert is_integer(value), (
             '"{0}" specification value must be an integer!'.format(
                 specification))
@@ -1802,8 +1803,8 @@ def xy_from_renotation_ovoid(specification):
         value = round(value)
 
         assert 2 <= chroma <= 50, (
-            '"{0}" specification chroma must be in domain [2, 50]!'.format(
-                specification))
+            '"{0}" specification chroma must be normalised to domain '
+            '[2, 50]!'.format(specification))
         assert abs(2 *
                    (chroma / 2 - round(chroma / 2))) <= INTEGER_THRESHOLD, ((
                        '"{0}" specification chroma must be an integer and '
@@ -1897,7 +1898,7 @@ def LCHab_to_munsell_specification(LCHab):
 
     Notes
     -----
-    -   Input :math:`L^*` is in domain [0, 100].
+    -   Input :math:`L^*` is normalised to domain [0, 100].
 
     References
     ----------
@@ -1980,7 +1981,7 @@ def maximum_chroma_from_renotation(hue, value, code):
         return 0
 
     assert 1 <= value <= 10, (
-        '"{0}" value must be in domain [1, 10]!'.format(value))
+        '"{0}" value must be normalised to domain [1, 10]!'.format(value))
 
     if value % 1 == 0:
         value_minus = value
@@ -2036,9 +2037,9 @@ def munsell_specification_to_xy(specification):
 
     Notes
     -----
-    -   Input *Munsell* *Colorlab* specification value must be an integer in
-        domain [0, 10].
-    -   Output *xy* chromaticity coordinates are in range [0, 1].
+    -   Input *Munsell* *Colorlab* specification value must be an integer
+        normalised to domain [0, 10].
+    -   Output *xy* chromaticity coordinates are normalised to range [0, 1].
 
     References
     ----------
@@ -2059,8 +2060,8 @@ def munsell_specification_to_xy(specification):
         hue, value, chroma, code = specification
 
         assert 0 <= value <= 10, (
-            '"{0}" specification value must be in domain [0, 10]!'.format(
-                specification))
+            '"{0}" specification value must be normalised to domain '
+            '[0, 10]!'.format(specification))
         assert is_integer(value), (
             '"{0}" specification value must be an integer!'.format(
                 specification))

@@ -194,7 +194,7 @@ def corresponding_chromaticities_prediction_CIE1994(experiment=1):
     illuminants = experiment_results.pop(0)
     xy_o1 = Luv_uv_to_xy(illuminants.uvp_t)
     xy_o2 = Luv_uv_to_xy(illuminants.uvp_m)
-    # :math:`Y_o` is set to an arbitrary value in domain [18, 100].
+    # :math:`Y_o` is set to an arbitrary value normalised to domain [18, 100].
     Y_o = 18
     E_o1 = E_o2 = BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES[experiment].Y
 

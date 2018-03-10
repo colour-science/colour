@@ -197,10 +197,11 @@ def XYZ_to_CIECAM02(XYZ,
     Parameters
     ----------
     XYZ : array_like
-        *CIE XYZ* tristimulus values of test sample / stimulus in domain
-        [0, 100].
+        *CIE XYZ* tristimulus values of test sample / stimulus normalised to
+        domain [0, 100].
     XYZ_w : array_like
-        *CIE XYZ* tristimulus values of reference white in domain [0, 100].
+        *CIE XYZ* tristimulus values of reference white normalised to domain
+        [0, 100].
     L_A : numeric or array_like
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`, (often taken
         to be 20% of the luminance of a white object in the scene).
@@ -222,8 +223,8 @@ def XYZ_to_CIECAM02(XYZ,
 
     Notes
     -----
-    -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
-    -   Input *CIE XYZ_w* tristimulus values are in domain [0, 100].
+    -   Input *CIE XYZ* tristimulus values are normalised to domain [0, 100].
+    -   Input *CIE XYZ_w* tristimulus values are normalised to domain [0, 100].
 
     References
     ----------
@@ -356,8 +357,8 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
     -----
     -   ``CIECAM02_specification`` can also be passed as a compatible argument
         :func:`colour.utilities.as_namedtuple` definition.
-    -   Input *CIE XYZ_w* tristimulus values are in domain [0, 100].
-    -   Output *CIE XYZ* tristimulus values are in range [0, 100].
+    -   Input *CIE XYZ_w* tristimulus values are normalised to domain [0, 100].
+    -   Output *CIE XYZ* tristimulus values are normalised to range [0, 100].
 
     References
     ----------

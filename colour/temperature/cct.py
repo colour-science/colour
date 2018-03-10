@@ -624,7 +624,7 @@ def CCT_to_uv_Krystek1985(CCT):
     Notes
     -----
     -   *Krystek (1985)* method computations are valid for correlated colour
-        temperature :math:`T_{cp}` in domain [1000, 15000].
+        temperature :math:`T_{cp}` normalised to domain [1000, 15000].
 
     References
     ----------

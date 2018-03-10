@@ -51,7 +51,7 @@ def is_within_visible_spectrum(
 
     Notes
     -----
-    -   Input *CIE XYZ* tristimulus values are in domain [0, 1].
+    -   Input *CIE XYZ* tristimulus values are normalised to domain [0, 1].
 
     Examples
     --------

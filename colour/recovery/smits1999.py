@@ -83,7 +83,7 @@ def XYZ_to_RGB_Smits1999(XYZ):
 
     Notes
     -----
-    -   Input *CIE XYZ* tristimulus values are in domain [0, 1].
+    -   Input *CIE XYZ* tristimulus values are normalised to domain [0, 1].
 
     Examples
     --------

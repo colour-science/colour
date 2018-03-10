@@ -153,18 +153,19 @@ def XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or, n=1):
     Parameters
     ----------
     XYZ : array_like
-        *CIE XYZ* tristimulus values of test sample / stimulus in domain
-        [0, 100].
+        *CIE XYZ* tristimulus values of test sample / stimulus normalised to
+        domain [0, 100].
     XYZ_n : array_like
-        *CIE XYZ* tristimulus values of reference white in domain [0, 100].
+        *CIE XYZ* tristimulus values of reference white normalised to domain
+        [0, 100].
     Y_o : numeric or array_like
-        Luminance factor :math:`Y_o` of achromatic background as percentage in
-        domain [0.18, 1.0]
+        Luminance factor :math:`Y_o` of achromatic background as percentage
+        normalised to domain [0.18, 1.0]
     E_o : numeric or array_like
         Illuminance :math:`E_o` of the viewing field in lux.
     E_or : numeric or array_like
-        Normalising illuminance :math:`E_{or}` in lux usually in domain
-        [1000, 3000]
+        Normalising illuminance :math:`E_{or}` in lux usually normalised to
+        domain [1000, 3000]
     n : numeric or array_like, optional
         Noise term used in the non linear chromatic adaptation model.
 
@@ -179,8 +180,8 @@ def XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or, n=1):
 
     Notes
     -----
-    -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
-    -   Input *CIE XYZ_n* tristimulus values are in domain [0, 100].
+    -   Input *CIE XYZ* tristimulus values are normalised to domain [0, 100].
+    -   Input *CIE XYZ_n* tristimulus values are normalised to domain [0, 100].
 
     References
     ----------

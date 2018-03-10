@@ -64,10 +64,10 @@ def XYZ_to_Lab(
 
     Notes
     -----
-    -   Input *CIE XYZ* tristimulus values are in domain [0, 1].
+    -   Input *CIE XYZ* tristimulus values are normalised to domain [0, 1].
     -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
-        colourspace array are in domain [0, :math:`\infty`].
-    -   Output *Lightness* :math:`L^*` is in range [0, 100].
+        colourspace array are normalised to domain [0, 1].
+    -   Output *Lightness* :math:`L^*` is normalised to range [0, 100].
 
     References
     ----------
@@ -120,10 +120,10 @@ def Lab_to_XYZ(
 
     Notes
     -----
-    -   Input *Lightness* :math:`L^*` is in domain [0, 100].
+    -   Input *Lightness* :math:`L^*` is normalised to domain [0, 100].
     -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
-        colourspace array are in domain [0, :math:`\infty`].
-    -   Output *CIE XYZ* tristimulus values are in range [0, 1].
+        colourspace array are normalised to domain [0, 1].
+    -   Output *CIE XYZ* tristimulus values are normalised to range [0, 1].
 
     References
     ----------
@@ -168,7 +168,7 @@ def Lab_to_LCHab(Lab):
 
     Notes
     -----
-    -   *Lightness* :math:`L^*` is in domain [0, 100].
+    -   *Lightness* :math:`L^*` is normalised to domain [0, 100].
 
     References
     ----------
@@ -206,7 +206,7 @@ def LCHab_to_Lab(LCHab):
 
     Notes
     -----
-    -   *Lightness* :math:`L^*` is in domain [0, 100].
+    -   *Lightness* :math:`L^*` is normalised to domain [0, 100].
 
     References
     ----------

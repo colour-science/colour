@@ -112,8 +112,8 @@ def chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method='Von Kries', **kwargs):
         Luminance :math:`Y_n` of test adapting stimulus in :math:`cd/m^2`.
     Y_o : numeric
         {:func:`colour.adaptation.chromatic_adaptation_CIE1994`},
-        Luminance factor :math:`Y_o` of achromatic background as percentage in
-        domain [18, 100].
+        Luminance factor :math:`Y_o` of achromatic background as percentage
+        normalised to domain [18, 100].
     direction : unicode, optional
         {:func:`colour.adaptation.chromatic_adaptation_CMCCAT2000`},
         **{'Forward', 'Reverse'}**,
@@ -138,6 +138,12 @@ def chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method='Von Kries', **kwargs):
     -------
     ndarray
         *CIE XYZ_c* tristimulus values of the stimulus corresponding colour.
+
+    Notes
+    -----
+    -   Input *CIE XYZ*, *CIE XYZ_w* and *CIE XYZ_wr* tristimulus values are
+        normalised to domain [0, 1].
+    -   Output *CIE XYZ_c* tristimulus values are normalised to domain [0, 1].
 
     References
     ----------

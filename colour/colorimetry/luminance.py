@@ -96,8 +96,8 @@ def luminance_Newhall1943(V):
 
     Notes
     -----
-    -   Input *Munsell* value :math:`V` is in domain [0, 10].
-    -   Output *luminance* :math:`R_Y` is in range [0, 100].
+    -   Input *Munsell* value :math:`V` is normalised to domain [0, 10].
+    -   Output *luminance* :math:`R_Y` is normalised to range [0, 100].
 
     References
     ----------
@@ -134,8 +134,8 @@ def luminance_ASTMD153508(V):
 
     Notes
     -----
-    -   Input *Munsell* value :math:`V` is in domain [0, 10].
-    -   Output *luminance* :math:`Y` is in range [0, 100].
+    -   Input *Munsell* value :math:`V` is normalised to domain [0, 10].
+    -   Output *luminance* :math:`Y` is normalised to range [0, 100].
 
     References
     ----------
@@ -175,8 +175,8 @@ def luminance_CIE1976(Lstar, Y_n=100):
     Notes
     -----
     -   Input *Lightness* :math:`L^*` and reference white *luminance*
-        :math:`Y_n` are in domain [0, 100].
-    -   Output *luminance* :math:`Y` is in range [0, 100].
+        :math:`Y_n` are normalised to domain [0, 100].
+    -   Output *luminance* :math:`Y` is normalised to range [0, 100].
 
     References
     ----------
@@ -225,7 +225,7 @@ def luminance_Fairchild2010(L_hdr, epsilon=1.836):
 
     Notes
     -----
-    -   Output *luminance* :math:`Y` is in range [0, math:`\infty`].
+    -   Output *luminance* :math:`Y` is normalised to range [0, 1].
 
     References
     ----------
@@ -271,7 +271,7 @@ def luminance_Fairchild2011(L_hdr, epsilon=0.710, method='hdr-CIELAB'):
 
     Notes
     -----
-    -   Output *luminance* :math:`Y` is in range [0, math:`\infty`].
+    -   Output *luminance* :math:`Y` is normalised to range [0, 1].
 
     References
     ----------
@@ -363,10 +363,9 @@ def luminance(LV, method='CIE 1976', **kwargs):
 
     Notes
     -----
-    -   Input *LV* is in domain [0, 100], [0, 10] or [0, 1] and optional
-        *luminance* :math:`Y_n` is in domain [0, 100].
-    -   Output *luminance* :math:`Y` is in range [0, 100] or
-        [0, math:`\infty`].
+    -   Input *LV* is normalised to domain [0, 10] or [0, 100] and
+        optional *luminance* :math:`Y_n` is normalised to domain [0, 100].
+    -   Output *luminance* :math:`Y` is normalised to range [0, 100].
 
     References
     ----------

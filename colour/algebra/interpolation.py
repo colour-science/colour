@@ -1005,7 +1005,8 @@ class SpragueInterpolator(object):
                 '"y" dependent variable must have exactly one dimension!')
 
             assert len(value) >= 6, (
-                '"y" dependent variable values count must be in domain [6:]!')
+                '"y" dependent variable values count must be normalised to'
+                'domain [6:]!')
 
             yp1 = np.ravel((np.dot(self.SPRAGUE_C_COEFFICIENTS[0],
                                    np.array(value[0:6]).reshape(

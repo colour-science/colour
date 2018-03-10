@@ -59,7 +59,7 @@ def Lab_to_DIN99(Lab, k_E=1, k_CH=1):
 
     Notes
     -----
-    -   Input *Lightness* :math:`L^*` is in domain [0, 100].
+    -   Input *Lightness* :math:`L^*` is normalised to domain [0, 100].
 
     References
     ----------

@@ -64,7 +64,7 @@ def XYZ_to_K_ab_HunterLab1966(XYZ):
 
     Notes
     -----
-    -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
+    -   Input *CIE XYZ* tristimulus values are normalised to domain [0, 100].
 
     References
     ----------
@@ -113,9 +113,9 @@ def XYZ_to_Hunter_Lab(XYZ,
 
     Notes
     -----
-    -   Input *CIE XYZ* and reference *illuminant* tristimulus values are in
-        domain [0, 100].
-    -   Output *Lightness* :math:`L^*` is in range [0, 100].
+    -   Input *CIE XYZ* and reference *illuminant* tristimulus values are
+        normalised to domain [0, 100].
+    -   Output *Lightness* :math:`L^*` is normalised to range [0, 100].
 
     References
     ----------
@@ -173,10 +173,10 @@ def Hunter_Lab_to_XYZ(Lab,
 
     Notes
     -----
-    -   Input *Lightness* :math:`L^*` is in domain [0, 100].
-    -   Input *CIE XYZ* and reference *illuminant* tristimulus values are in
-        domain [0, 100].
-    -   Output *CIE XYZ* tristimulus values are in range [0, 100].
+    -   Input *Lightness* :math:`L^*` is normalised to domain [0, 100].
+    -   Input *CIE XYZ* and reference *illuminant* tristimulus values are
+        normalised to domain [0, 100].
+    -   Output *CIE XYZ* tristimulus values are normalised to range [0, 100].
 
     References
     ----------

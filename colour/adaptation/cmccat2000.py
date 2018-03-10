@@ -131,9 +131,9 @@ def chromatic_adaptation_forward_CMCCAT2000(
 
     Notes
     -----
-    -   Input *CIE XYZ*, *CIE XYZ_w* and *CIE XYZ_wr* tristimulus values are in
-        domain [0, 100].
-    -   Output *CIE XYZ_c* tristimulus values are in range [0, 100].
+    -   Input *CIE XYZ*, *CIE XYZ_w* and *CIE XYZ_wr* tristimulus values are
+        normalised to domain [0, 100].
+    -   Output *CIE XYZ_c* tristimulus values are normalised to range [0, 100].
 
     References
     ----------
@@ -215,8 +215,8 @@ def chromatic_adaptation_reverse_CMCCAT2000(
     Notes
     -----
     -   Input *CIE XYZ_c*, *CIE XYZ_w* and *CIE XYZ_wr* tristimulus values
-        are in domain [0, 100].
-    -   Output *CIE XYZ* tristimulus values are in range [0, 100].
+        are normalised to domain [0, 100].
+    -   Output *CIE XYZ* tristimulus values are normalised to range [0, 100].
 
     References
     ----------
@@ -306,9 +306,9 @@ def chromatic_adaptation_CMCCAT2000(
 
     Notes
     -----
-    -   Input *CIE XYZ*, *CIE XYZ_w* and *CIE XYZ_wr* tristimulus values are in
-        domain [0, 100].
-    -   Output *CIE XYZ* tristimulus values are in range [0, 100].
+    -   Input *CIE XYZ*, *CIE XYZ_w* and *CIE XYZ_wr* tristimulus values are
+        normalised to domain [0, 100].
+    -   Output *CIE XYZ* tristimulus values are normalised to range [0, 100].
 
     References
     ----------

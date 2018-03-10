@@ -63,8 +63,8 @@ def XYZ_to_Hunter_Rdab(XYZ,
 
     Notes
     -----
-    -   Input *CIE XYZ* and reference *illuminant* tristimulus values are in
-        domain [0, 100].
+    -   Input *CIE XYZ* and reference *illuminant* tristimulus values are
+        normalised to domain [0, 100].
 
     References
     ----------

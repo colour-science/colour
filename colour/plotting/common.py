@@ -171,7 +171,7 @@ def XYZ_to_plotting_colourspace(XYZ,
 
     Notes
     -----
-    -   Input *CIE XYZ* tristimulus values are in domain [0, 1].
+    -   Input *CIE XYZ* tristimulus values are normalised to domain [0, 1].
 
     Examples
     --------

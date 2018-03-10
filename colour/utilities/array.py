@@ -197,7 +197,7 @@ def normalise_maximum(a, axis=None, factor=1, clip=True):
     factor : numeric, optional
         Normalization factor.
     clip : bool, optional
-        Clip values between in domain [0, 'factor'].
+        Clip values to domain [0, 'factor'].
 
     Returns
     -------
@@ -678,7 +678,8 @@ def centroid(a):
     a_ci = []
     for axis in coordinates:
         axis = np.transpose(axis)
-        # Aligning axis for N-D arrays where N is in range [3, :math:`\infty`]
+        # Aligning axis for N-D arrays where N is normalised to
+        # range [3, :math:`\infty`]
         for i in range(axis.ndim - 2, 0, -1):
             axis = np.rollaxis(axis, i - 1, axis.ndim)
 

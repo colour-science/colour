@@ -58,7 +58,7 @@ def oetf_BT2020(E, is_12_bits_system=False, constants=BT2020_CONSTANTS):
     Parameters
     ----------
     E : numeric or array_like
-        Voltage :math:`E` normalized by the reference white level and
+        Voltage :math:`E` normalised by the reference white level and
         proportional to the implicit light intensity that would be detected
         with a reference camera colour channel R, G, B.
     is_12_bits_system : bool

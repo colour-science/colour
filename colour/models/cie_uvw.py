@@ -62,10 +62,11 @@ def XYZ_to_UVW(
 
     Notes
     -----
-    -   Input *CIE XYZ* tristimulus values are in domain [0, 100].
+    -   Input *CIE XYZ* tristimulus values are normalised to domain [0, 100].
     -   Input *illuminant* *xy* chromaticity coordinates or *CIE xyY*
-        colourspace array are in domain [0, :math:`\infty`].
-    -   Output *CIE 1964 U\*V\*W\** colourspace array is in range [0, 100].
+        colourspace array are normalised to domain [0, 1].
+    -   Output *CIE 1964 U\*V\*W\** colourspace array is normalised to range
+        [0, 100].
 
     References
     ----------
