@@ -27,7 +27,8 @@ print('\n')
 message_box('Using an alternative illuminant.')
 print(colour.XYZ_to_xyY(
     np.array([0.00000000, 0.00000000, 0.00000000]),
-    colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D60'], ))
+    colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D60'],
+))
 
 print('\n')
 
@@ -64,7 +65,8 @@ print(colour.XYZ_to_RGB(
     colour.RGB_COLOURSPACES['sRGB'].whitepoint,
     colour.RGB_COLOURSPACES['sRGB'].XYZ_to_RGB_matrix,
     'Bradford',
-    colour.RGB_COLOURSPACES['sRGB'].encoding_cctf, ))
+    colour.RGB_COLOURSPACES['sRGB'].encoding_cctf,
+))
 
 print('\n')
 
@@ -78,7 +80,8 @@ print(colour.RGB_to_XYZ(
     D50,
     colour.RGB_COLOURSPACES['sRGB'].RGB_to_XYZ_matrix,
     'Bradford',
-    colour.RGB_COLOURSPACES['sRGB'].decoding_cctf, ))
+    colour.RGB_COLOURSPACES['sRGB'].decoding_cctf,
+))
 
 print('\n')
 
