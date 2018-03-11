@@ -96,6 +96,7 @@ class TestFirstOrderColourFit(unittest.TestCase):
                       [-0.06314955, 0.09212470, 0.97134152]]),
             decimal=7)
 
+    @unittest.skip('Raises Intel MKL errors and hangs unit tests process.')
     @ignore_numpy_errors
     def test_nan_first_order_colour_fit(self):
         """
@@ -106,6 +107,9 @@ class TestFirstOrderColourFit(unittest.TestCase):
         # TODO: This test case is responsible for the following output:
         # ** On entry to DLASCL, parameter number  4 had an illegal value
         # We should investigate for an effective way to capture the output.
+        # Recently is has also been responsible for unit tests process hanging
+        # on some configurations.
+
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))
         for case in cases:
