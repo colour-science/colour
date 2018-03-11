@@ -4,9 +4,14 @@ Colour - TODO
 TODO
 ----
 
+-   colour/__init__.py
+
+    -   Line 256 : # TODO: Remove legacy printing support when deemed appropriate.
+
+
 -   colour/adaptation/__init__.py
 
-    -   Line 203 : # TODO: Handle scaling with metadata.
+    -   Line 209 : # TODO: Handle scaling with metadata.
 
 
 -   colour/algebra/tests/test_interpolation.py
@@ -16,34 +21,34 @@ TODO
 
 -   colour/appearance/cam16.py
 
-    -   Line 271 : # TODO: Compute hue composition.
+    -   Line 272 : # TODO: Compute hue composition.
 
 
 -   colour/appearance/ciecam02.py
 
-    -   Line 282 : # TODO: Compute hue composition.
+    -   Line 283 : # TODO: Compute hue composition.
 
 
 -   colour/appearance/hunt.py
 
-    -   Line 409 : # TODO: Implement hue quadrature & composition computation.
-    -   Line 440 : # TODO: Implement whiteness-blackness :math:`Q_{wb}` computation.
+    -   Line 410 : # TODO: Implement hue quadrature & composition computation.
+    -   Line 441 : # TODO: Implement whiteness-blackness :math:`Q_{wb}` computation.
 
 
 -   colour/appearance/llab.py
 
-    -   Line 325 : # TODO: Implement hue composition computation.
+    -   Line 327 : # TODO: Implement hue composition computation.
 
 
 -   colour/appearance/nayatani95.py
 
-    -   Line 258 : # TODO: Implement hue quadrature & composition computation.
-    -   Line 270 : # TODO: Investigate components usage. M_RG, M_YB = tsplit(colourfulness_components(C_RG, C_YB, brightness_ideal_white))
+    -   Line 259 : # TODO: Implement hue quadrature & composition computation.
+    -   Line 271 : # TODO: Investigate components usage. M_RG, M_YB = tsplit(colourfulness_components(C_RG, C_YB, brightness_ideal_white))
 
 
 -   colour/appearance/rlab.py
 
-    -   Line 259 : # TODO: Implement hue composition computation.
+    -   Line 260 : # TODO: Implement hue composition computation.
 
 
 -   colour/appearance/tests/test_cam16.py
@@ -53,7 +58,7 @@ TODO
 
 -   colour/characterisation/tests/test_fitting.py
 
-    -   Line 105 : # TODO: This test case is responsible for the following output: ** On entry to DLASCL, parameter number  4 had an illegal value We should investigate for an effective way to capture the output.
+    -   Line 106 : # TODO: This test case is responsible for the following output: ** On entry to DLASCL, parameter number  4 had an illegal value We should investigate for an effective way to capture the output. Recently is has also been responsible for unit tests process hanging on some configurations.
 
 
 -   colour/colorimetry/spectrum.py
@@ -103,19 +108,14 @@ TODO
 
 -   colour/notation/munsell.py
 
-    -   Line 909 : # TODO: Consider refactoring implementation.
-    -   Line 1248 : # TODO: Should raise KeyError, need to check the tests.
+    -   Line 910 : # TODO: Consider refactoring implementation.
+    -   Line 1249 : # TODO: Should raise KeyError, need to check the tests.
 
 
 -   colour/notation/tests/test_munsell.py
 
     -   Line 1181 : # TODO: This test is covered by the previous class, do we need a dedicated one?
     -   Line 1225 : # TODO: This test is covered by the previous class, do we need a dedicated one?
-
-
--   colour/plotting/colorimetry.py
-
-    -   Line 624 : # TODO: Handle condition statement with metadata capabilities.
 
 
 -   colour/volume/rgb.py
