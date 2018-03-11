@@ -132,8 +132,8 @@ print('\n')
 
 message_box(('Converting to "CIE 1964 U*V*W*" colourspace from given'
              '"CIE XYZ" tristimulus values:\n'
-             '\n\t{0}'.format(XYZ)))
-print(colour.XYZ_to_UVW(XYZ))
+             '\n\t{0}'.format(XYZ * 100)))
+print(colour.XYZ_to_UVW(XYZ * 100))
 
 print('\n')
 
