@@ -321,6 +321,23 @@ print(colour.JzAzBz_to_XYZ(JzAzBz))
 
 print('\n')
 
+message_box(('Converting to "OSA UCS" colourspace from given "CIE XYZ" '
+             'tristimulus values under the '
+             '"CIE 1964 10 Degree Standard Observer":\n'
+             '\n\t{0}'.format(XYZ * 100)))
+print(colour.XYZ_to_OSA_UCS(XYZ * 100))
+
+print('\n')
+
+Ljg = np.array([7.13638038, 6.86374936, -5.97563982])
+message_box(('Converting to "CIE XYZ" tristimulus values under the '
+             '"CIE 1964 10 Degree Standard Observer" '
+             'from "OSA UCS" colourspace:\n'
+             '\n\t{0}'.format(Ljg)))
+print(colour.OSA_UCS_to_XYZ(Ljg))
+
+print('\n')
+
 XYZ = np.array([19.01, 20.00, 21.78])
 XYZ_w = np.array([95.05, 100.00, 108.88])
 L_A = 318.31
