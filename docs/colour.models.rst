@@ -156,20 +156,6 @@ IPT Colourspace
     IPT_to_XYZ
     IPT_hue_angle
 
-hdr-IPT Colourspace
--------------------
-
-``colour``
-
-.. currentmodule:: colour
-
-.. autosummary::
-    :toctree: generated/
-
-    XYZ_to_hdr_IPT
-    hdr_IPT_to_XYZ
-    HDR_IPT_METHODS
-
 hdr-CIELAB Colourspace
 ----------------------
 
@@ -183,6 +169,20 @@ hdr-CIELAB Colourspace
     XYZ_to_hdr_CIELab
     hdr_CIELab_to_XYZ
     HDR_CIELAB_METHODS
+
+hdr-IPT Colourspace
+-------------------
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    XYZ_to_hdr_IPT
+    hdr_IPT_to_XYZ
+    HDR_IPT_METHODS
 
 :math:`JzAzBz` Colourspace
 --------------------------
