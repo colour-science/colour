@@ -231,7 +231,7 @@ s=25.3564036..., Q=193.0617673..., M=12.4128523..., H=267.0983345..., HC=None)
 
     # Computing degree of adaptation :math:`D`.
     D = (np.clip(degree_of_adaptation(surround.F, L_A), 0, 1)
-         if not discount_illuminant else 1)
+         if not discount_illuminant else np.ones(L_A.shape))
 
     n, F_L, N_bb, N_cb, z = tsplit(
         viewing_condition_dependent_parameters(Y_b, Y_w, L_A))
@@ -376,7 +376,7 @@ def CAM16_to_XYZ(CAM16_specification,
 
     # Computing degree of adaptation :math:`D`.
     D = (np.clip(degree_of_adaptation(surround.F, L_A), 0, 1)
-         if not discount_illuminant else 1)
+         if not discount_illuminant else np.ones(L_A.shape))
 
     n, F_L, N_bb, N_cb, z = tsplit(
         viewing_condition_dependent_parameters(Y_b, Y_w, L_A))
