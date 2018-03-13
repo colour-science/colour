@@ -1,6 +1,6 @@
-@misc{AdobeSystems2013,
+@misc{AdobeSystems2013a,
 author = {{Adobe Systems}},
-title = {{Adobe DNG Software Development Kit (SDK) - 1.3.0.0 - dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp::dng_temperature::Set_xy_coord}},
+title = {{Adobe DNG Software Development Kit (SDK) - 1.3.0.0 - dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp::dng_temperature::xy_coord}},
 url = {https://www.adobe.com/support/downloads/dng/dng_sdk.html},
 year = {2013}
 }
@@ -13,9 +13,9 @@ url = {http://www.adobe.com/digitalimag/pdfs/AdobeRGB1998.pdf},
 volume = {2704},
 year = {2005}
 }
-@misc{AdobeSystems2013a,
+@misc{AdobeSystems2013,
 author = {{Adobe Systems}},
-title = {{Adobe DNG Software Development Kit (SDK) - 1.3.0.0 - dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp::dng_temperature::xy_coord}},
+title = {{Adobe DNG Software Development Kit (SDK) - 1.3.0.0 - dng_sdk_1_3/dng_sdk/source/dng_temperature.cpp::dng_temperature::Set_xy_coord}},
 url = {https://www.adobe.com/support/downloads/dng/dng_sdk.html},
 year = {2013}
 }
@@ -43,6 +43,31 @@ title = {{Essential Parameter Values for the Extended Image Dynamic Range Televi
 url = {https://www.arib.or.jp/english/std_tr/broadcasting/desc/std-b67.html},
 year = {2015}
 }
+@misc{ASTMInternational2011a,
+abstract = {This standard is issued under the fixed designation E2022; the number immediately following the designation indicates the year of original adoption or, in the case of revision, the year of last revision. A number in parentheses indicates the year of last reapproval. A superscript epsilon) indicates an editorial change since the last revision or reapproval.},
+author = {{ASTM International}},
+doi = {10.1520/E2022-11},
+file = {:Users/kelsolaar/Google Drive/Documents/Mendeley Desktop/ASTM International - 2011 - ASTM E2022-11 - Standard Practice for Calculation of Weighting Factors for Tristimulus Integration.pdf:pdf},
+pages = {1--10},
+title = {{ASTM E2022-11 - Standard Practice for Calculation of Weighting Factors for Tristimulus Integration}},
+year = {2011}
+}
+@misc{ASTMInternational2008a,
+author = {{ASTM International}},
+doi = {10.1520/D1535-08E01},
+title = {{ASTM D1535-08e1 - Standard Practice for Specifying Color by the Munsell System}},
+year = {2008}
+}
+@misc{ASTMInternational1989a,
+annote = {https://law.resource.org/pub/us/cfr/ibr/003/a},
+author = {{ASTM International}},
+file = {:Users/kelsolaar/Google Drive/Documents/Mendeley Desktop/ASTM International - 1989 - ASTM D1535-89 - Standard Practice for Specifying Color by the Munsell System.pdf:pdf},
+keywords = {D1535,Munsell,Munsell color order system,Munsell notation,color},
+pages = {1--29},
+title = {{ASTM D1535-89 - Standard Practice for Specifying Color by the Munsell System}},
+url = {http://www.astm.org/DATABASE.CART/HISTORICAL/D1535-89.htm},
+year = {1989}
+}
 @misc{ASTMInternational2015b,
 author = {{ASTM International}},
 doi = {10.1520/E0308-15},
@@ -58,31 +83,6 @@ pages = {1--10},
 title = {{ASTM D2244-07 - Standard Practice for Calculation of Color Tolerances and Color Differences from Instrumentally Measured Color Coordinates}},
 volume = {i},
 year = {2007}
-}
-@misc{ASTMInternational1989a,
-annote = {https://law.resource.org/pub/us/cfr/ibr/003/a},
-author = {{ASTM International}},
-file = {:Users/kelsolaar/Google Drive/Documents/Mendeley Desktop/ASTM International - 1989 - ASTM D1535-89 - Standard Practice for Specifying Color by the Munsell System.pdf:pdf},
-keywords = {D1535,Munsell,Munsell color order system,Munsell notation,color},
-pages = {1--29},
-title = {{ASTM D1535-89 - Standard Practice for Specifying Color by the Munsell System}},
-url = {http://www.astm.org/DATABASE.CART/HISTORICAL/D1535-89.htm},
-year = {1989}
-}
-@misc{ASTMInternational2008a,
-author = {{ASTM International}},
-doi = {10.1520/D1535-08E01},
-title = {{ASTM D1535-08e1 - Standard Practice for Specifying Color by the Munsell System}},
-year = {2008}
-}
-@misc{ASTMInternational2011a,
-abstract = {This standard is issued under the fixed designation E2022; the number immediately following the designation indicates the year of original adoption or, in the case of revision, the year of last revision. A number in parentheses indicates the year of last reapproval. A superscript epsilon) indicates an editorial change since the last revision or reapproval.},
-author = {{ASTM International}},
-doi = {10.1520/E2022-11},
-file = {:Users/kelsolaar/Google Drive/Documents/Mendeley Desktop/ASTM International - 2011 - ASTM E2022-11 - Standard Practice for Calculation of Weighting Factors for Tristimulus Integration.pdf:pdf},
-pages = {1--10},
-title = {{ASTM E2022-11 - Standard Practice for Calculation of Weighting Factors for Tristimulus Integration}},
-year = {2011}
 }
 @misc{BabelColor2012c,
 author = {BabelColor},
@@ -188,6 +188,12 @@ title = {{Principles of Digital Image Processing}},
 url = {http://link.springer.com/10.1007/978-1-84800-195-4},
 year = {2009}
 }
+@misc{Canona,
+author = {Canon},
+title = {{EOS C300 Mark II - EOS C300 Mark II Input Transform Version 2.0 (for Cinema Gamut / BT.2020)}},
+url = {https://www.usa.canon.com/internet/portal/us/home/support/details/cameras/cinema-eos/eos-c300-mark-ii},
+urldate = {2016-08-23}
+}
 @misc{Canon2014a,
 author = {Canon},
 title = {{EOS C500 Firmware Update}},
@@ -195,17 +201,18 @@ url = {https://www.usa.canon.com/internet/portal/us/home/explore/product-showcas
 urldate = {2016-08-27},
 year = {2014}
 }
-@misc{Canona,
-author = {Canon},
-title = {{EOS C300 Mark II - EOS C300 Mark II Input Transform Version 2.0 (for Cinema Gamut / BT.2020)}},
-url = {https://www.usa.canon.com/internet/portal/us/home/support/details/cameras/cinema-eos/eos-c300-mark-ii},
-urldate = {2016-08-23}
-}
 @misc{Castro2014a,
 author = {Castro, Saullo},
 title = {{Numpy: Fastest way of computing diagonal for each row of a 2d array}},
 url = {http://stackoverflow.com/questions/26511401/numpy-fastest-way-of-computing-diagonal-for-each-row-of-a-2d-array/26517247#26517247},
 urldate = {2014-08-22},
+year = {2014}
+}
+@misc{Centore2014q,
+annote = {http://www.99main.com/$\sim$centore/MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html},
+author = {Centore, Paul},
+title = {{MunsellAndKubelkaMunkToolboxApr2014 - MunsellRenotationRoutines/MunsellToxyForIntegerMunsellValue.m}},
+url = {https://github.com/colour-science/MunsellAndKubelkaMunkToolbox},
 year = {2014}
 }
 @article{Centore2012a,
@@ -236,38 +243,10 @@ title = {{The Munsell and Kubelka-Munk Toolbox}},
 url = {http://www.munsellcolourscienceforpainters.com/MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html},
 urldate = {2018-01-23}
 }
-@misc{Centore2014o,
+@misc{Centore2014k,
 annote = {http://www.99main.com/$\sim$centore/MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html},
 author = {Centore, Paul},
-title = {{MunsellAndKubelkaMunkToolboxApr2014 - MunsellSystemRoutines/BoundingRenotationHues.m}},
-url = {https://github.com/colour-science/MunsellAndKubelkaMunkToolbox},
-year = {2014}
-}
-@misc{Centore2014l,
-annote = {http://www.99main.com/$\sim$centore/MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html},
-author = {Centore, Paul},
-title = {{MunsellAndKubelkaMunkToolboxApr2014 - MunsellSystemRoutines/LinearVsRadialInterpOnRenotationOvoid.m}},
-url = {https://github.com/colour-science/MunsellAndKubelkaMunkToolbox},
-year = {2014}
-}
-@misc{Centore2014m,
-annote = {http://www.99main.com/$\sim$centore/MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html},
-author = {Centore, Paul},
-title = {{MunsellAndKubelkaMunkToolboxApr2014 - MunsellRenotationRoutines/MunsellToxyY.m}},
-url = {https://github.com/colour-science/MunsellAndKubelkaMunkToolbox},
-year = {2014}
-}
-@misc{Centore2014n,
-annote = {http://www.99main.com/$\sim$centore/MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html},
-author = {Centore, Paul},
-title = {{MunsellAndKubelkaMunkToolboxApr2014 - MunsellRenotationRoutines/FindHueOnRenotationOvoid.m}},
-url = {https://github.com/colour-science/MunsellAndKubelkaMunkToolbox},
-year = {2014}
-}
-@misc{Centore2014t,
-annote = {http://www.99main.com/$\sim$centore/MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html},
-author = {Centore, Paul},
-title = {{MunsellAndKubelkaMunkToolboxApr2014 - MunsellRenotationRoutines/ChromDiagHueAngleToMunsellHue.m}},
+title = {{MunsellAndKubelkaMunkToolboxApr2014 - MunsellRenotationRoutines/MunsellHueToASTMHue.m}},
 url = {https://github.com/colour-science/MunsellAndKubelkaMunkToolbox},
 year = {2014}
 }
@@ -292,19 +271,46 @@ title = {{MunsellAndKubelkaMunkToolboxApr2014 - MunsellRenotationRoutines/Munsel
 url = {https://github.com/colour-science/MunsellAndKubelkaMunkToolbox},
 year = {2014}
 }
-@misc{Centore2014k,
+@misc{Centore2014n,
 annote = {http://www.99main.com/$\sim$centore/MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html},
 author = {Centore, Paul},
-title = {{MunsellAndKubelkaMunkToolboxApr2014 - MunsellRenotationRoutines/MunsellHueToASTMHue.m}},
+title = {{MunsellAndKubelkaMunkToolboxApr2014 - MunsellRenotationRoutines/FindHueOnRenotationOvoid.m}},
 url = {https://github.com/colour-science/MunsellAndKubelkaMunkToolbox},
 year = {2014}
 }
-@misc{Centore2014q,
+@misc{Centore2014t,
 annote = {http://www.99main.com/$\sim$centore/MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html},
 author = {Centore, Paul},
-title = {{MunsellAndKubelkaMunkToolboxApr2014 - MunsellRenotationRoutines/MunsellToxyForIntegerMunsellValue.m}},
+title = {{MunsellAndKubelkaMunkToolboxApr2014 - MunsellRenotationRoutines/ChromDiagHueAngleToMunsellHue.m}},
 url = {https://github.com/colour-science/MunsellAndKubelkaMunkToolbox},
 year = {2014}
+}
+@misc{Centore2014l,
+annote = {http://www.99main.com/$\sim$centore/MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html},
+author = {Centore, Paul},
+title = {{MunsellAndKubelkaMunkToolboxApr2014 - MunsellSystemRoutines/LinearVsRadialInterpOnRenotationOvoid.m}},
+url = {https://github.com/colour-science/MunsellAndKubelkaMunkToolbox},
+year = {2014}
+}
+@misc{Centore2014m,
+annote = {http://www.99main.com/$\sim$centore/MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html},
+author = {Centore, Paul},
+title = {{MunsellAndKubelkaMunkToolboxApr2014 - MunsellRenotationRoutines/MunsellToxyY.m}},
+url = {https://github.com/colour-science/MunsellAndKubelkaMunkToolbox},
+year = {2014}
+}
+@misc{Centore2014o,
+annote = {http://www.99main.com/$\sim$centore/MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html},
+author = {Centore, Paul},
+title = {{MunsellAndKubelkaMunkToolboxApr2014 - MunsellSystemRoutines/BoundingRenotationHues.m}},
+url = {https://github.com/colour-science/MunsellAndKubelkaMunkToolbox},
+year = {2014}
+}
+@misc{CIEcf,
+author = {CIE},
+file = {:Users/kelsolaar/Google Drive/Documents/Mendeley Desktop/CIE - Unknown - CIE Spectral Data.xls:xls},
+title = {{CIE Spectral Data}},
+url = {http://files.cie.co.at/204.xls}
 }
 @misc{CIEce,
 author = {CIE},
@@ -312,12 +318,6 @@ file = {:Users/kelsolaar/Google Drive/Documents/Mendeley Desktop/CIE - 2004 - CI
 title = {{CIE 15:2004 Tables Data}},
 url = {https://law.resource.org/pub/us/cfr/ibr/003/cie.15.2004.tables.xls},
 year = {2004}
-}
-@misc{CIEcf,
-author = {CIE},
-file = {:Users/kelsolaar/Google Drive/Documents/Mendeley Desktop/CIE - Unknown - CIE Spectral Data.xls:xls},
-title = {{CIE Spectral Data}},
-url = {http://files.cie.co.at/204.xls}
 }
 @misc{CIETC1-321994b,
 author = {{CIE TC 1-32}},
@@ -337,23 +337,13 @@ title = {{CIE 170-1:2006 Fundamental Chromaticity Diagram with Physiological Axe
 url = {http://div1.cie.co.at/?i_ca_id=551&pubid=48},
 year = {2006}
 }
-@incollection{CIETC1-382005f,
+@incollection{CIETC1-382005e,
 author = {{CIE TC 1-38}},
 booktitle = {CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations},
-chapter = {9.2.4},
+chapter = {9},
 isbn = {978-3-901-90641-1},
-pages = {1--27},
-title = {{9.2.4 Method of interpolation for uniformly spaced independent variable}},
-url = {http://div1.cie.co.at/?i_ca_id=551&pubid=47},
-year = {2005}
-}
-@incollection{CIETC1-382005h,
-author = {{CIE TC 1-38}},
-booktitle = {CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations},
-chapter = {Table V},
-isbn = {978-3-901-90641-1},
-pages = {19},
-title = {{Table V. Values of the c-coefficients of Equ.s 6 and 7.}},
+pages = {14--19},
+title = {{9. INTERPOLATION}},
 url = {http://div1.cie.co.at/?i_ca_id=551&pubid=47},
 year = {2005}
 }
@@ -367,13 +357,23 @@ title = {{EXTRAPOLATION}},
 url = {http://div1.cie.co.at/?i_ca_id=551&pubid=47},
 year = {2005}
 }
-@incollection{CIETC1-382005e,
+@incollection{CIETC1-382005h,
 author = {{CIE TC 1-38}},
 booktitle = {CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations},
-chapter = {9},
+chapter = {Table V},
 isbn = {978-3-901-90641-1},
-pages = {14--19},
-title = {{9. INTERPOLATION}},
+pages = {19},
+title = {{Table V. Values of the c-coefficients of Equ.s 6 and 7.}},
+url = {http://div1.cie.co.at/?i_ca_id=551&pubid=47},
+year = {2005}
+}
+@incollection{CIETC1-382005f,
+author = {{CIE TC 1-38}},
+booktitle = {CIE 167:2005 Recommended Practice for Tabulating Spectral Data for Use in Colour Computations},
+chapter = {9.2.4},
+isbn = {978-3-901-90641-1},
+pages = {1--27},
+title = {{9.2.4 Method of interpolation for uniformly spaced independent variable}},
 url = {http://div1.cie.co.at/?i_ca_id=551&pubid=47},
 year = {2005}
 }
@@ -384,6 +384,37 @@ chapter = {8.1},
 isbn = {978-3-901-90633-6},
 pages = {24},
 title = {{CIE 1976 uniform chromaticity scale diagram (UCS diagram)}},
+url = {http://www.cie.co.at/publications/colorimetry-3rd-edition},
+year = {2004}
+}
+@incollection{CIETC1-482004m,
+author = {{CIE TC 1-48}},
+booktitle = {CIE 015:2004 Colorimetry, 3rd Edition},
+chapter = {8.2},
+isbn = {978-3-901-90633-6},
+pages = {24},
+title = {{CIE 1976 uniform colour spaces}},
+url = {http://www.cie.co.at/publications/colorimetry-3rd-edition},
+year = {2004}
+}
+@incollection{CIETC1-482004i,
+author = {{CIE TC 1-48}},
+booktitle = {CIE 015:2004 Colorimetry, 3rd Edition},
+chapter = {APPENDIX E},
+file = {:Users/kelsolaar/Google Drive/Documents/Mendeley Desktop/CIE TC 1-48 - 2004 - APPENDIX E. INFORMATION ON THE USE OF PLANCK'S EQUATION FOR STANDARD AIR.pdf:pdf},
+isbn = {978-3-901-90633-6},
+pages = {77--82},
+title = {{APPENDIX E. INFORMATION ON THE USE OF PLANCK'S EQUATION FOR STANDARD AIR}},
+url = {http://www.cie.co.at/publications/colorimetry-3rd-edition},
+year = {2004}
+}
+@incollection{CIETC1-482004o,
+author = {{CIE TC 1-48}},
+booktitle = {CIE 015:2004 Colorimetry, 3rd Edition},
+chapter = {9.1},
+isbn = {978-3-901-90633-6},
+pages = {32--33},
+title = {{9.1 Dominant wavelength and purity}},
 url = {http://www.cie.co.at/publications/colorimetry-3rd-edition},
 year = {2004}
 }
@@ -427,43 +458,6 @@ title = {{Extrapolation}},
 url = {http://www.cie.co.at/publications/colorimetry-3rd-edition},
 year = {2004}
 }
-@incollection{CIETC1-482004o,
-author = {{CIE TC 1-48}},
-booktitle = {CIE 015:2004 Colorimetry, 3rd Edition},
-chapter = {9.1},
-isbn = {978-3-901-90633-6},
-pages = {32--33},
-title = {{9.1 Dominant wavelength and purity}},
-url = {http://www.cie.co.at/publications/colorimetry-3rd-edition},
-year = {2004}
-}
-@incollection{CIETC1-482004i,
-author = {{CIE TC 1-48}},
-booktitle = {CIE 015:2004 Colorimetry, 3rd Edition},
-chapter = {APPENDIX E},
-file = {:Users/kelsolaar/Google Drive/Documents/Mendeley Desktop/CIE TC 1-48 - 2004 - APPENDIX E. INFORMATION ON THE USE OF PLANCK'S EQUATION FOR STANDARD AIR.pdf:pdf},
-isbn = {978-3-901-90633-6},
-pages = {77--82},
-title = {{APPENDIX E. INFORMATION ON THE USE OF PLANCK'S EQUATION FOR STANDARD AIR}},
-url = {http://www.cie.co.at/publications/colorimetry-3rd-edition},
-year = {2004}
-}
-@incollection{CIETC1-482004m,
-author = {{CIE TC 1-48}},
-booktitle = {CIE 015:2004 Colorimetry, 3rd Edition},
-chapter = {8.2},
-isbn = {978-3-901-90633-6},
-pages = {24},
-title = {{CIE 1976 uniform colour spaces}},
-url = {http://www.cie.co.at/publications/colorimetry-3rd-edition},
-year = {2004}
-}
-@misc{Colblindorb,
-author = {Colblindor},
-title = {{Protanopia - Red-Green Color Blindness}},
-url = {http://www.color-blindness.com/protanopia-red-green-color-blindness/},
-urldate = {2015-07-04}
-}
 @misc{Colblindora,
 author = {Colblindor},
 title = {{Deuteranopia - Red-Green Color Blindness}},
@@ -476,34 +470,28 @@ title = {{Tritanopia - Blue-Yellow Color Blindness}},
 url = {http://www.color-blindness.com/tritanopia-blue-yellow-color-blindness/},
 urldate = {2015-07-04}
 }
+@misc{Colblindorb,
+author = {Colblindor},
+title = {{Protanopia - Red-Green Color Blindness}},
+url = {http://www.color-blindness.com/protanopia-red-green-color-blindness/},
+urldate = {2015-07-04}
+}
 @misc{Cottrella,
 annote = {http://www.russellcottrell.com/photo/RussellRGB.htm},
 author = {Cottrell, Russell},
 title = {{The Russell RGB working color space}},
 url = {http://www.russellcottrell.com/photo/downloads/RussellRGB.icc}
 }
-@misc{CVRLu,
+@misc{CVRLr,
 author = {CVRL},
-title = {{Cone Fundamentals}},
-url = {http://www.cvrl.org/cones.htm},
-urldate = {2014-06-23}
-}
-@misc{CVRLs,
-author = {CVRL},
-title = {{Older CIE Standards}},
-url = {http://cvrl.ioo.ucl.ac.uk/cie.htm},
+title = {{New CIE XYZ functions transformed from the CIE (2006) LMS functions}},
+url = {http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm},
 urldate = {2014-02-24}
 }
-@misc{CVRLq,
+@misc{CVRLt,
 author = {CVRL},
-title = {{Luminous efficiency}},
-url = {http://www.cvrl.org/lumindex.htm},
-urldate = {2014-04-19}
-}
-@misc{CVRLw,
-author = {CVRL},
-title = {{Stiles & Burch individual 2-deg colour matching data}},
-url = {http://www.cvrl.org/stilesburch2_ind.htm},
+title = {{Stiles & Burch individual 10-deg colour matching data}},
+url = {http://www.cvrl.org/stilesburch10_ind.htm},
 urldate = {2014-02-24}
 }
 @misc{CVRLv,
@@ -518,17 +506,29 @@ title = {{CIE (2012) 10-deg XYZ "physiologically-relevant" colour matching funct
 url = {http://www.cvrl.org/database/text/cienewxyz/cie2012xyz10.htm},
 urldate = {2014-06-25}
 }
-@misc{CVRLt,
+@misc{CVRLw,
 author = {CVRL},
-title = {{Stiles & Burch individual 10-deg colour matching data}},
-url = {http://www.cvrl.org/stilesburch10_ind.htm},
+title = {{Stiles & Burch individual 2-deg colour matching data}},
+url = {http://www.cvrl.org/stilesburch2_ind.htm},
 urldate = {2014-02-24}
 }
-@misc{CVRLr,
+@misc{CVRLq,
 author = {CVRL},
-title = {{New CIE XYZ functions transformed from the CIE (2006) LMS functions}},
-url = {http://cvrl.ioo.ucl.ac.uk/ciexyzpr.htm},
+title = {{Luminous efficiency}},
+url = {http://www.cvrl.org/lumindex.htm},
+urldate = {2014-04-19}
+}
+@misc{CVRLs,
+author = {CVRL},
+title = {{Older CIE Standards}},
+url = {http://cvrl.ioo.ucl.ac.uk/cie.htm},
 urldate = {2014-02-24}
+}
+@misc{CVRLu,
+author = {CVRL},
+title = {{Cone Fundamentals}},
+url = {http://www.cvrl.org/cones.htm},
+urldate = {2014-06-23}
 }
 @article{Darrodi2015a,
 author = {Darrodi, Maryam Mohammadzadeh and Finlayson, Graham and Goodman, Teresa and Mackiewicz, Michal},
@@ -574,34 +574,10 @@ title = {{WHAT IS ICTCP? - INTRODUCTION}},
 url = {https://www.dolby.com/us/en/technologies/dolby-vision/ICtCp-white-paper.pdf},
 year = {2016}
 }
-@misc{EasyRGBo,
+@misc{EasyRGBl,
 author = {EasyRGB},
-title = {{CMY —> CMYK}},
-url = {http://www.easyrgb.com/index.php?X=MATH&H=13#text13},
-urldate = {2014-05-18}
-}
-@misc{EasyRGBk,
-author = {EasyRGB},
-title = {{HSL —> RGB}},
-url = {http://www.easyrgb.com/index.php?X=MATH&H=19#text19},
-urldate = {2014-05-18}
-}
-@misc{EasyRGBn,
-author = {EasyRGB},
-title = {{HSV —> RGB}},
-url = {http://www.easyrgb.com/index.php?X=MATH&H=21#text21},
-urldate = {2014-05-18}
-}
-@misc{EasyRGBm,
-author = {EasyRGB},
-title = {{CMYK —> CMY}},
-url = {http://www.easyrgb.com/index.php?X=MATH&H=14#text14},
-urldate = {2014-05-18}
-}
-@misc{EasyRGBh,
-author = {EasyRGB},
-title = {{RGB —> CMY}},
-url = {http://www.easyrgb.com/index.php?X=MATH&H=11#text11},
+title = {{RGB —> HSL}},
+url = {http://www.easyrgb.com/index.php?X=MATH&H=18#text18},
 urldate = {2014-05-18}
 }
 @misc{EasyRGBj,
@@ -616,10 +592,34 @@ title = {{CMY —> RGB}},
 url = {http://www.easyrgb.com/index.php?X=MATH&H=12#text12},
 urldate = {2014-05-18}
 }
-@misc{EasyRGBl,
+@misc{EasyRGBh,
 author = {EasyRGB},
-title = {{RGB —> HSL}},
-url = {http://www.easyrgb.com/index.php?X=MATH&H=18#text18},
+title = {{RGB —> CMY}},
+url = {http://www.easyrgb.com/index.php?X=MATH&H=11#text11},
+urldate = {2014-05-18}
+}
+@misc{EasyRGBm,
+author = {EasyRGB},
+title = {{CMYK —> CMY}},
+url = {http://www.easyrgb.com/index.php?X=MATH&H=14#text14},
+urldate = {2014-05-18}
+}
+@misc{EasyRGBk,
+author = {EasyRGB},
+title = {{HSL —> RGB}},
+url = {http://www.easyrgb.com/index.php?X=MATH&H=19#text19},
+urldate = {2014-05-18}
+}
+@misc{EasyRGBn,
+author = {EasyRGB},
+title = {{HSV —> RGB}},
+url = {http://www.easyrgb.com/index.php?X=MATH&H=21#text21},
+urldate = {2014-05-18}
+}
+@misc{EasyRGBo,
+author = {EasyRGB},
+title = {{CMY —> CMYK}},
+url = {http://www.easyrgb.com/index.php?X=MATH&H=13#text13},
 urldate = {2014-05-18}
 }
 @misc{Erdema,
@@ -665,57 +665,70 @@ title = {{Brightness, lightness, and specifying color in high-dynamic-range scen
 url = {http://proceedings.spiedigitallibrary.org/proceeding.aspx?doi=10.1117/12.872075},
 year = {2011}
 }
-@incollection{Fairchild2013t,
+@misc{Fairchildb,
+author = {Fairchild, Mark D.},
+title = {{Fairchild YSh}},
+url = {http://rit-mcsl.org/fairchild//files/FairchildYSh.zip}
+}
+@incollection{Fairchild2013v,
+author = {Fairchild, Mark D.},
+booktitle = {Color Appearance Models},
+chapter = {14.2},
+edition = {3},
+isbn = {B00DAYO8E2},
+pages = {5852--5991},
+publisher = {Wiley},
+series = {The Wiley-IS&T Series in Imaging Science and Technology},
+title = {{ATD Model}},
+year = {2013}
+}
+@incollection{Fairchild2004c,
+author = {Fairchild, Mark D.},
+booktitle = {Color Appearance Models},
+chapter = {CIECAM02},
+edition = {2},
+file = {:Users/kelsolaar/Google Drive/Documents/Mendeley Desktop/Fairchild - 2004 - CIECAM02.pdf:pdf},
+isbn = {978-0470012161},
+pages = {289--301},
+publisher = {Wiley},
+series = {The Wiley-IS&T Series in Imaging Science and Technology},
+title = {{CIECAM02}},
+year = {2004}
+}
+@incollection{Fairchild2013s,
 author = {Fairchild, Mark D.},
 booktitle = {Color Appearance Models},
 chapter = {11},
 edition = {3},
 isbn = {B00DAYO8E2},
-pages = {4179--4252},
+pages = {4418--4495},
 publisher = {Wiley},
 series = {The Wiley-IS&T Series in Imaging Science and Technology},
-title = {{Chromatic Adaptation Models}},
+title = {{FAIRCHILD'S 1990 MODEL}},
 year = {2013}
 }
-@incollection{Fairchild2013y,
+@incollection{Fairchild2013u,
 author = {Fairchild, Mark D.},
 booktitle = {Color Appearance Models},
-chapter = {20.3},
+chapter = {12},
 edition = {3},
 isbn = {B00DAYO8E2},
-pages = {6197--6223},
+pages = {5094--5556},
 publisher = {Wiley},
 series = {The Wiley-IS&T Series in Imaging Science and Technology},
-title = {{IPT Colourspace}},
+title = {{The Hunt Model}},
 year = {2013}
 }
-@article{Fairchild1996a,
-abstract = {The prediction of color appearance using the RLAB color space has been tested for a variety of viewing conditions and stimulus types. These tests have shown that RLAB performs well for complex stimuli and not-so-well for simple stimuli. This article reviews the various psychophysical results, interprets their differences, and describes evolutionary enhancements to the RLAB model that simplify it and improve its performance. (C) 1996 John Wiley & Sons, Inc.},
-annote = {https://ritdml.rit.edu/bitstream/handle/1850/7857/MFairchildArticle12-06-1998.pdf},
-author = {Fairchild, Mark D.},
-doi = {10.1002/(SICI)1520-6378(199610)21:5<338::AID-COL3>3.0.CO;2-Z},
-file = {:Users/kelsolaar/Google Drive/Documents/Mendeley Desktop/Fairchild - 1996 - Refinement of the RLAB color space.pdf:pdf},
-issn = {0361-2317},
-journal = {Color Research & Application},
-keywords = {color appearance,color spaces,color-appearance models},
-month = {oct},
-number = {5},
-pages = {338--346},
-title = {{Refinement of the RLAB color space}},
-url = {http://doi.wiley.com/10.1002/%28SICI%291520-6378%28199610%2921%3A5%3C338%3A%3AAID-COL3%3E3.0.CO%3B2-Z},
-volume = {21},
-year = {1996}
-}
-@incollection{Fairchild2013w,
+@incollection{Fairchild2013ba,
 author = {Fairchild, Mark D.},
 booktitle = {Color Appearance Models},
-chapter = {13},
+chapter = {11},
 edition = {3},
 isbn = {B00DAYO8E2},
-pages = {5563--5824},
+pages = {4810--5085},
 publisher = {Wiley},
 series = {The Wiley-IS&T Series in Imaging Science and Technology},
-title = {{The RLAB Model}},
+title = {{The Nayatani et al. Model}},
 year = {2013}
 }
 @article{Fairchild1991a,
@@ -745,71 +758,58 @@ series = {The Wiley-IS&T Series in Imaging Science and Technology},
 title = {{LLAB Model}},
 year = {2013}
 }
-@incollection{Fairchild2013u,
+@incollection{Fairchild2013w,
 author = {Fairchild, Mark D.},
 booktitle = {Color Appearance Models},
-chapter = {12},
+chapter = {13},
 edition = {3},
 isbn = {B00DAYO8E2},
-pages = {5094--5556},
+pages = {5563--5824},
 publisher = {Wiley},
 series = {The Wiley-IS&T Series in Imaging Science and Technology},
-title = {{The Hunt Model}},
+title = {{The RLAB Model}},
 year = {2013}
 }
-@incollection{Fairchild2013ba,
+@article{Fairchild1996a,
+abstract = {The prediction of color appearance using the RLAB color space has been tested for a variety of viewing conditions and stimulus types. These tests have shown that RLAB performs well for complex stimuli and not-so-well for simple stimuli. This article reviews the various psychophysical results, interprets their differences, and describes evolutionary enhancements to the RLAB model that simplify it and improve its performance. (C) 1996 John Wiley & Sons, Inc.},
+annote = {https://ritdml.rit.edu/bitstream/handle/1850/7857/MFairchildArticle12-06-1998.pdf},
+author = {Fairchild, Mark D.},
+doi = {10.1002/(SICI)1520-6378(199610)21:5<338::AID-COL3>3.0.CO;2-Z},
+file = {:Users/kelsolaar/Google Drive/Documents/Mendeley Desktop/Fairchild - 1996 - Refinement of the RLAB color space.pdf:pdf},
+issn = {0361-2317},
+journal = {Color Research & Application},
+keywords = {color appearance,color spaces,color-appearance models},
+month = {oct},
+number = {5},
+pages = {338--346},
+title = {{Refinement of the RLAB color space}},
+url = {http://doi.wiley.com/10.1002/%28SICI%291520-6378%28199610%2921%3A5%3C338%3A%3AAID-COL3%3E3.0.CO%3B2-Z},
+volume = {21},
+year = {1996}
+}
+@incollection{Fairchild2013t,
 author = {Fairchild, Mark D.},
 booktitle = {Color Appearance Models},
 chapter = {11},
 edition = {3},
 isbn = {B00DAYO8E2},
-pages = {4810--5085},
+pages = {4179--4252},
 publisher = {Wiley},
 series = {The Wiley-IS&T Series in Imaging Science and Technology},
-title = {{The Nayatani et al. Model}},
+title = {{Chromatic Adaptation Models}},
 year = {2013}
 }
-@incollection{Fairchild2013s,
+@incollection{Fairchild2013y,
 author = {Fairchild, Mark D.},
 booktitle = {Color Appearance Models},
-chapter = {11},
+chapter = {20.3},
 edition = {3},
 isbn = {B00DAYO8E2},
-pages = {4418--4495},
+pages = {6197--6223},
 publisher = {Wiley},
 series = {The Wiley-IS&T Series in Imaging Science and Technology},
-title = {{FAIRCHILD'S 1990 MODEL}},
+title = {{IPT Colourspace}},
 year = {2013}
-}
-@incollection{Fairchild2004c,
-author = {Fairchild, Mark D.},
-booktitle = {Color Appearance Models},
-chapter = {CIECAM02},
-edition = {2},
-file = {:Users/kelsolaar/Google Drive/Documents/Mendeley Desktop/Fairchild - 2004 - CIECAM02.pdf:pdf},
-isbn = {978-0470012161},
-pages = {289--301},
-publisher = {Wiley},
-series = {The Wiley-IS&T Series in Imaging Science and Technology},
-title = {{CIECAM02}},
-year = {2004}
-}
-@incollection{Fairchild2013v,
-author = {Fairchild, Mark D.},
-booktitle = {Color Appearance Models},
-chapter = {14.2},
-edition = {3},
-isbn = {B00DAYO8E2},
-pages = {5852--5991},
-publisher = {Wiley},
-series = {The Wiley-IS&T Series in Imaging Science and Technology},
-title = {{ATD Model}},
-year = {2013}
-}
-@misc{Fairchildb,
-author = {Fairchild, Mark D.},
-title = {{Fairchild YSh}},
-url = {http://rit-mcsl.org/fairchild//files/FairchildYSh.zip}
 }
 @inproceedings{Fairchild2010,
 author = {Fairchild, Mark D. and Wyble, David R.},
@@ -948,15 +948,13 @@ title = {{The Reproduction of Colour}},
 url = {http://doi.wiley.com/10.1002/0470024275},
 year = {2004}
 }
-@misc{HunterLab2008b,
+@misc{HunterLab2012a,
 author = {HunterLab},
-file = {:Users/kelsolaar/Google Drive/Documents/Mendeley Desktop/HunterLab - 2008 - Hunter L,a,b Color Scale.pdf:pdf},
-number = {9},
-pages = {1--4},
-title = {{Hunter L,a,b Color Scale}},
-url = {http://www.hunterlab.se/wp-content/uploads/2012/11/Hunter-L-a-b.pdf},
-volume = {8},
-year = {2008}
+file = {:Users/kelsolaar/Google Drive/Documents/Mendeley Desktop/HunterLab - 2012 - Hunter Rd,a,b Color Scale – History and Application.pdf:pdf},
+keywords = {a rd,b rd,hunter rd,opponent color scale,rd a b,rdab},
+title = {{Hunter Rd,a,b Color Scale – History and Application}},
+url = {https://hunterlabdotcom.files.wordpress.com/2012/07/an-1016-hunter-rd-a-b-color-scale-update-12-07-03.pdf},
+year = {2012}
 }
 @misc{HunterLab2008c,
 author = {HunterLab},
@@ -969,13 +967,27 @@ url = {https://support.hunterlab.com/hc/en-us/article_attachments/201437785/an02
 volume = {14},
 year = {2008}
 }
-@misc{HunterLab2012a,
+@misc{HunterLab2008b,
 author = {HunterLab},
-file = {:Users/kelsolaar/Google Drive/Documents/Mendeley Desktop/HunterLab - 2012 - Hunter Rd,a,b Color Scale – History and Application.pdf:pdf},
-keywords = {a rd,b rd,hunter rd,opponent color scale,rd a b,rdab},
-title = {{Hunter Rd,a,b Color Scale – History and Application}},
-url = {https://hunterlabdotcom.files.wordpress.com/2012/07/an-1016-hunter-rd-a-b-color-scale-update-12-07-03.pdf},
-year = {2012}
+file = {:Users/kelsolaar/Google Drive/Documents/Mendeley Desktop/HunterLab - 2008 - Hunter L,a,b Color Scale.pdf:pdf},
+number = {9},
+pages = {1--4},
+title = {{Hunter L,a,b Color Scale}},
+url = {http://www.hunterlab.se/wp-content/uploads/2012/11/Hunter-L-a-b.pdf},
+volume = {8},
+year = {2008}
+}
+@misc{HutchColord,
+annote = {http://www.hutchcolor.com/profiles.html},
+author = {HutchColor},
+title = {{BestRGB (4 K)}},
+url = {http://www.hutchcolor.com/profiles/BestRGB.zip}
+}
+@misc{HutchColorg,
+annote = {http://www.hutchcolor.com/profiles.html},
+author = {HutchColor},
+title = {{DonRGB4 (4 K)}},
+url = {http://www.hutchcolor.com/profiles/DonRGB4.zip}
 }
 @misc{HutchColore,
 annote = {http://www.hutchcolor.com/profiles.html},
@@ -988,18 +1000,6 @@ annote = {http://www.hutchcolor.com/profiles.html},
 author = {HutchColor},
 title = {{MaxRGB (4 K)}},
 url = {http://www.hutchcolor.com/profiles/MaxRGB.zip}
-}
-@misc{HutchColorg,
-annote = {http://www.hutchcolor.com/profiles.html},
-author = {HutchColor},
-title = {{DonRGB4 (4 K)}},
-url = {http://www.hutchcolor.com/profiles/DonRGB4.zip}
-}
-@misc{HutchColord,
-annote = {http://www.hutchcolor.com/profiles.html},
-author = {HutchColor},
-title = {{BestRGB (4 K)}},
-url = {http://www.hutchcolor.com/profiles/BestRGB.zip}
 }
 @misc{IESComputerCommittee2014a,
 author = {{IES Computer Committee} and {TM-27-14 Working Group}},
@@ -1030,20 +1030,13 @@ title = {{Recommendation ITU-T T.871 - Information technology – Digital compre
 url = {https://www.itu.int/rec/dologin_pub.asp?lang=e&id=T-REC-T.871-201105-I!!PDF-E&type=items},
 year = {2011}
 }
-@misc{InternationalTelecommunicationUnion2011f,
+@misc{InternationalTelecommunicationUnion1998a,
 author = {{International Telecommunication Union}},
-file = {:Users/kelsolaar/Google Drive/Documents/Mendeley Desktop/International Telecommunication Union - 2011 - Recommendation ITU-R BT.601-7 - Studio encoding parameters of digital television for stan.pdf:pdf},
-title = {{Recommendation ITU-R BT.601-7 - Studio encoding parameters of digital television for standard 4:3 and wide-screen 16:9 aspect ratios}},
-url = {http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.601-7-201103-I!!PDF-E.pdf},
-year = {2011}
-}
-@misc{InternationalTelecommunicationUnion2015i,
-author = {{International Telecommunication Union}},
-file = {:Users/kelsolaar/Google Drive/Documents/Mendeley Desktop/International Telecommunication Union - 2015 - Recommendation ITU-R BT.709-6 - Parameter values for the HDTV standards for production an.pdf:pdf},
-pages = {1--32},
-title = {{Recommendation ITU-R BT.709-6 - Parameter values for the HDTV standards for production and international programme exchange BT Series Broadcasting service}},
-url = {https://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.709-6-201506-I!!PDF-E.pdf},
-year = {2015}
+file = {:Users/kelsolaar/Google Drive/Documents/Mendeley Desktop/International Telecommunication Union - 1998 - Recommendation ITU-R BT.470-6 - CONVENTIONAL TELEVISION SYSTEMS.pdf:pdf},
+pages = {1--36},
+title = {{Recommendation ITU-R BT.470-6 - CONVENTIONAL TELEVISION SYSTEMS}},
+url = {http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf},
+year = {1998}
 }
 @misc{InternationalTelecommunicationUnion2015h,
 abstract = {The role of the Radiocommunication Sector is to ensure the rational, equitable, efficient and economical use of the radio-frequency spectrum by all radiocommunication services, including satellite services, and carry out studies without limit of frequency range on the basis of which Recommendations are adopted. The regulatory and policy functions of the Radiocommunication Sector are performed by World and Regional Radiocommunication Conferences and Radiocommunication Assemblies supported by Study Groups},
@@ -1062,13 +1055,20 @@ title = {{Recommendation ITU-R BT.2100-1 - Image parameter values for high dynam
 url = {https://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.2100-1-201706-I!!PDF-E.pdf},
 year = {2016}
 }
-@misc{InternationalTelecommunicationUnion1998a,
+@misc{InternationalTelecommunicationUnion2015i,
 author = {{International Telecommunication Union}},
-file = {:Users/kelsolaar/Google Drive/Documents/Mendeley Desktop/International Telecommunication Union - 1998 - Recommendation ITU-R BT.470-6 - CONVENTIONAL TELEVISION SYSTEMS.pdf:pdf},
-pages = {1--36},
-title = {{Recommendation ITU-R BT.470-6 - CONVENTIONAL TELEVISION SYSTEMS}},
-url = {http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.470-6-199811-S!!PDF-E.pdf},
-year = {1998}
+file = {:Users/kelsolaar/Google Drive/Documents/Mendeley Desktop/International Telecommunication Union - 2015 - Recommendation ITU-R BT.709-6 - Parameter values for the HDTV standards for production an.pdf:pdf},
+pages = {1--32},
+title = {{Recommendation ITU-R BT.709-6 - Parameter values for the HDTV standards for production and international programme exchange BT Series Broadcasting service}},
+url = {https://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.709-6-201506-I!!PDF-E.pdf},
+year = {2015}
+}
+@misc{InternationalTelecommunicationUnion2011f,
+author = {{International Telecommunication Union}},
+file = {:Users/kelsolaar/Google Drive/Documents/Mendeley Desktop/International Telecommunication Union - 2011 - Recommendation ITU-R BT.601-7 - Studio encoding parameters of digital television for stan.pdf:pdf},
+title = {{Recommendation ITU-R BT.601-7 - Studio encoding parameters of digital television for standard 4:3 and wide-screen 16:9 aspect ratios}},
+url = {http://www.itu.int/dms_pubrec/itu-r/rec/bt/R-REC-BT.601-7-201103-I!!PDF-E.pdf},
+year = {2011}
 }
 @article{Kang2002a,
 annote = {http://icpr.snu.ac.kr/resource/wop.pdf/J01/2002/041/R06/J012002041R060865.pdf},
@@ -1151,40 +1151,26 @@ title = {{The Problem with CAT02 and Its Correction}},
 url = {https://pdfs.semanticscholar.org/b5a9/0215ad9a1fb6b01f310b3d64305f7c9feb3a.pdf},
 year = {2007}
 }
-@misc{Lindbloom2003d,
+@misc{Lindbloom2009f,
 author = {Lindbloom, Bruce},
-title = {{A Continuity Study of the CIE L* Function}},
-url = {http://brucelindbloom.com/LContinuity.html},
-urldate = {2014-02-24},
-year = {2003}
-}
-@misc{Lindbloom2003e,
-author = {Lindbloom, Bruce},
-title = {{XYZ to xyY}},
-url = {http://www.brucelindbloom.com/Eqn_XYZ_to_xyY.html},
-urldate = {2014-02-24},
-year = {2003}
-}
-@misc{Lindbloom2009e,
-author = {Lindbloom, Bruce},
-title = {{Delta E (CIE 2000)}},
-url = {http://brucelindbloom.com/Eqn_DeltaE_CIE2000.html},
+title = {{Delta E (CMC)}},
+url = {http://brucelindbloom.com/Eqn_DeltaE_CMC.html},
 urldate = {2014-02-24},
 year = {2009}
 }
-@misc{Lindbloom2009g,
+@misc{Lindbloom2014a,
 author = {Lindbloom, Bruce},
-title = {{Chromatic Adaptation}},
-url = {http://brucelindbloom.com/Eqn_ChromAdapt.html},
+title = {{RGB Working Space Information}},
+url = {http://www.brucelindbloom.com/WorkingSpaceInfo.html},
+urldate = {2014-04-11},
+year = {2014}
+}
+@misc{Lindbloom2009d,
+author = {Lindbloom, Bruce},
+title = {{xyY to XYZ}},
+url = {http://www.brucelindbloom.com/Eqn_xyY_to_XYZ.html},
 urldate = {2014-02-24},
 year = {2009}
-}
-@misc{Lindbloom2011a,
-author = {Lindbloom, Bruce},
-title = {{Delta E (CIE 1994)}},
-url = {http://brucelindbloom.com/Eqn_DeltaE_CIE94.html},
-urldate = {2014-02-24},
-year = {2011}
 }
 @misc{Lindbloom2003c,
 author = {Lindbloom, Bruce},
@@ -1200,26 +1186,40 @@ url = {http://www.brucelindbloom.com/Eqn_DIlluminant.html},
 urldate = {2014-04-05},
 year = {2007}
 }
-@misc{Lindbloom2009d,
+@misc{Lindbloom2011a,
 author = {Lindbloom, Bruce},
-title = {{xyY to XYZ}},
-url = {http://www.brucelindbloom.com/Eqn_xyY_to_XYZ.html},
+title = {{Delta E (CIE 1994)}},
+url = {http://brucelindbloom.com/Eqn_DeltaE_CIE94.html},
+urldate = {2014-02-24},
+year = {2011}
+}
+@misc{Lindbloom2009g,
+author = {Lindbloom, Bruce},
+title = {{Chromatic Adaptation}},
+url = {http://brucelindbloom.com/Eqn_ChromAdapt.html},
 urldate = {2014-02-24},
 year = {2009}
 }
-@misc{Lindbloom2014a,
+@misc{Lindbloom2003e,
 author = {Lindbloom, Bruce},
-title = {{RGB Working Space Information}},
-url = {http://www.brucelindbloom.com/WorkingSpaceInfo.html},
-urldate = {2014-04-11},
-year = {2014}
+title = {{XYZ to xyY}},
+url = {http://www.brucelindbloom.com/Eqn_XYZ_to_xyY.html},
+urldate = {2014-02-24},
+year = {2003}
 }
-@misc{Lindbloom2009f,
+@misc{Lindbloom2009e,
 author = {Lindbloom, Bruce},
-title = {{Delta E (CMC)}},
-url = {http://brucelindbloom.com/Eqn_DeltaE_CMC.html},
+title = {{Delta E (CIE 2000)}},
+url = {http://brucelindbloom.com/Eqn_DeltaE_CIE2000.html},
 urldate = {2014-02-24},
 year = {2009}
+}
+@misc{Lindbloom2003d,
+author = {Lindbloom, Bruce},
+title = {{A Continuity Study of the CIE L* Function}},
+url = {http://brucelindbloom.com/LContinuity.html},
+urldate = {2014-02-24},
+year = {2003}
 }
 @article{Lu2016c,
 abstract = {High Dynamic Range (HDR) and Wider Colour Gamut (WCG) content represents a greater range of luminance levels and a more complete reproduction of colours found in real⁃world scenes. The current video distribution environments deliver Standard Dynamic Range (SDR) signal Y′CbCr. For HDR and WCG content, it is desirable to examine if such signal format still works well for compression, and to know if the overall system performance can be further improved by exploring different signal formats. In this paper, ITP (ICTCP) colour space is presented. The paper concentrates on examining the two aspects of ITP colour space: 1) ITP characteristics in terms of signal quantization at a given bit depth; 2) ITP compression performance. The analysis and simulation results show that ITP 10 bit has better properties than Y′CbCr⁃PQ 10bit in colour quantization, constant luminance, hue property and chroma subsampling, and it also has good compression efficiency. Therefore it is desirable to adopt ITP colour space as a new signal format for HDR/WCG video compression.},
@@ -1342,11 +1342,6 @@ title = {{YCoCg-R: A Color Space with RGB Reversibility and Low Dynamic Range}},
 url = {https://www.microsoft.com/en-us/research/wp-content/uploads/2016/06/Malvar_Sullivan_YCoCg-R_JVT-I014r3-2.pdf},
 year = {2003}
 }
-@misc{Mansencald,
-author = {Mansencal, Thomas},
-title = {{Structure}},
-url = {https://github.com/KelSolaar/Foundations/blob/develop/foundations/data_structures.py}
-}
 @misc{Mansencal2015d,
 author = {Mansencal, Thomas},
 title = {{RED Colourspaces Derivation}},
@@ -1357,6 +1352,11 @@ year = {2015}
 @misc{Mansencalc,
 author = {Mansencal, Thomas},
 title = {{Lookup}},
+url = {https://github.com/KelSolaar/Foundations/blob/develop/foundations/data_structures.py}
+}
+@misc{Mansencald,
+author = {Mansencal, Thomas},
+title = {{Structure}},
 url = {https://github.com/KelSolaar/Foundations/blob/develop/foundations/data_structures.py}
 }
 @misc{Melgosa2013b,
@@ -1402,17 +1402,17 @@ title = {{The CIECAM02 Color Appearance Model}},
 url = {http://www.ingentaconnect.com/content/ist/cic/2002/00002002/00000001/art00006},
 year = {2002}
 }
-@misc{MunsellColorSciencec,
-author = {{Munsell Color Science}},
-title = {{Munsell Colours Data}},
-url = {http://www.cis.rit.edu/research/mcsl2/online/munsell.php},
-urldate = {2014-08-20}
-}
 @misc{MunsellColorScienceb,
 annote = {http://www.cis.rit.edu/research/mcsl2/online/cie.php},
 author = {{Munsell Color Science}},
 title = {{Macbeth Colorchecker}},
 url = {http://www.rit-mcsl.org/UsefulData/MacbethColorChecker.xls}
+}
+@misc{MunsellColorSciencec,
+author = {{Munsell Color Science}},
+title = {{Munsell Colours Data}},
+url = {http://www.cis.rit.edu/research/mcsl2/online/munsell.php},
+urldate = {2014-08-20}
 }
 @misc{NationalElectricalManufacturersAssociation2004b,
 annote = {http://www.ncbi.nlm.nih.gov/pubmed/2188123},
@@ -1599,6 +1599,31 @@ url = {http://www.tandfonline.com/doi/abs/10.1080/10867651.1999.10487511},
 volume = {4},
 year = {1999}
 }
+@book{SocietyofMotionPictureandTelevisionEngineers2004a,
+abstract = {cie Scope This practice specifies the chromaticity values of the red, green, and blue visible radiation emitted by the primaries and the chromaticity of the white point for professional monitors used in systems based on SMPTE C colorimetry.},
+annote = {http://standards.smpte.org/content/978-1-61482-164-9/rp-145-2004/SEC1.abstract},
+author = {{Society of Motion Picture and Television Engineers}},
+booktitle = {RP 145:2004},
+doi = {10.5594/S9781614821649},
+file = {:Users/kelsolaar/Google Drive/Documents/Mendeley Desktop/Society of Motion Picture and Television Engineers - 2004 - RP 1452004 SMPTE C Color Monitor Colorimetry.pdf:pdf},
+isbn = {978-1-61482-164-9},
+month = {jan},
+publisher = {The Society of Motion Picture and Television Engineers},
+title = {{RP 145:2004: SMPTE C Color Monitor Colorimetry}},
+url = {http://standards.smpte.org/lookup/doi/10.5594/S9781614821649},
+volume = {RP 145:200},
+year = {2004}
+}
+@misc{SocietyofMotionPictureandTelevisionEngineers2014a,
+abstract = {This standard specifies an EOTF characterizing high-dynamic-range reference displays used primarily for mastering non-broadcast content. This standard also specifies an Inverse-EOTF derived from the EOTF.},
+author = {{Society of Motion Picture and Television Engineers}},
+doi = {10.5594/SMPTE.ST2084.2014},
+file = {:Users/kelsolaar/Google Drive/Documents/Mendeley Desktop/Society of Motion Picture and Television Engineers - 2014 - SMPTE ST 20842014 - Dynamic Range Electro-Optical Transfer Function of Maste.pdf:pdf},
+pages = {1--14},
+title = {{SMPTE ST 2084:2014 - Dynamic Range Electro-Optical Transfer Function of Mastering Reference Displays}},
+url = {http://www.techstreet.com/products/1883436},
+year = {2014}
+}
 @misc{SocietyofMotionPictureandTelevisionEngineers1999b,
 author = {{Society of Motion Picture and Television Engineers}},
 file = {:Users/kelsolaar/Google Drive/Documents/Mendeley Desktop/Society of Motion Picture and Television Engineers - 1999 - ANSISMPTE 240M-1995 - Signal Parameters - 1125-Line High-Definition Producti.pdf:pdf},
@@ -1623,30 +1648,18 @@ url = {http://standards.smpte.org/lookup/doi/10.5594/S9781614821915},
 volume = {RP 177:199},
 year = {1993}
 }
-@misc{SocietyofMotionPictureandTelevisionEngineers2014a,
-abstract = {This standard specifies an EOTF characterizing high-dynamic-range reference displays used primarily for mastering non-broadcast content. This standard also specifies an Inverse-EOTF derived from the EOTF.},
-author = {{Society of Motion Picture and Television Engineers}},
-doi = {10.5594/SMPTE.ST2084.2014},
-file = {:Users/kelsolaar/Google Drive/Documents/Mendeley Desktop/Society of Motion Picture and Television Engineers - 2014 - SMPTE ST 20842014 - Dynamic Range Electro-Optical Transfer Function of Maste.pdf:pdf},
-pages = {1--14},
-title = {{SMPTE ST 2084:2014 - Dynamic Range Electro-Optical Transfer Function of Mastering Reference Displays}},
-url = {http://www.techstreet.com/products/1883436},
-year = {2014}
+@misc{SonyCorporation2012a,
+author = {{Sony Corporation}},
+file = {:Users/kelsolaar/Google Drive/Documents/Mendeley Desktop/Sony Corporation - 2012 - S-Log2 Technical Paper.pdf:pdf},
+pages = {1--9},
+title = {{S-Log2 Technical Paper}},
+url = {https://pro.sony.com/bbsccms/assets/files/micro/dmpc/training/S-Log2_Technical_PaperV1_0.pdf},
+year = {2012}
 }
-@book{SocietyofMotionPictureandTelevisionEngineers2004a,
-abstract = {cie Scope This practice specifies the chromaticity values of the red, green, and blue visible radiation emitted by the primaries and the chromaticity of the white point for professional monitors used in systems based on SMPTE C colorimetry.},
-annote = {http://standards.smpte.org/content/978-1-61482-164-9/rp-145-2004/SEC1.abstract},
-author = {{Society of Motion Picture and Television Engineers}},
-booktitle = {RP 145:2004},
-doi = {10.5594/S9781614821649},
-file = {:Users/kelsolaar/Google Drive/Documents/Mendeley Desktop/Society of Motion Picture and Television Engineers - 2004 - RP 1452004 SMPTE C Color Monitor Colorimetry.pdf:pdf},
-isbn = {978-1-61482-164-9},
-month = {jan},
-publisher = {The Society of Motion Picture and Television Engineers},
-title = {{RP 145:2004: SMPTE C Color Monitor Colorimetry}},
-url = {http://standards.smpte.org/lookup/doi/10.5594/S9781614821649},
-volume = {RP 145:200},
-year = {2004}
+@misc{SonyCorporatione,
+author = {{Sony Corporation}},
+title = {{S-Gamut3_S-Gamut3Cine_Matrix.xlsx}},
+url = {https://community.sony.com/sony/attachments/sony/large-sensor-camera-F5-F55/12359/3/S-Gamut3_S-Gamut3Cine_Matrix.xlsx}
 }
 @misc{SonyCorporation,
 author = {{Sony Corporation}},
@@ -1661,19 +1674,6 @@ file = {:Users/kelsolaar/Google Drive/Documents/Mendeley Desktop/Sony Corporatio
 pages = {1--7},
 title = {{Technical Summary for S-Gamut3.Cine/S-Log3 and S-Gamut3/S-Log3}},
 url = {http://community.sony.com/sony/attachments/sony/large-sensor-camera-F5-F55/12359/2/TechnicalSummary_for_S-Gamut3Cine_S-Gamut3_S-Log3_V1_00.pdf}
-}
-@misc{SonyCorporatione,
-author = {{Sony Corporation}},
-title = {{S-Gamut3_S-Gamut3Cine_Matrix.xlsx}},
-url = {https://community.sony.com/sony/attachments/sony/large-sensor-camera-F5-F55/12359/3/S-Gamut3_S-Gamut3Cine_Matrix.xlsx}
-}
-@misc{SonyCorporation2012a,
-author = {{Sony Corporation}},
-file = {:Users/kelsolaar/Google Drive/Documents/Mendeley Desktop/Sony Corporation - 2012 - S-Log2 Technical Paper.pdf:pdf},
-pages = {1--9},
-title = {{S-Log2 Technical Paper}},
-url = {https://pro.sony.com/bbsccms/assets/files/micro/dmpc/training/S-Log2_Technical_PaperV1_0.pdf},
-year = {2012}
 }
 @misc{SonyImageworks2012a,
 author = {{Sony Imageworks}},
@@ -1731,21 +1731,21 @@ url = {https://github.com/ampas/aces-dev/tree/v1.0.3/documents},
 urldate = {2016-10-10},
 year = {2016}
 }
-@misc{TheAcademyofMotionPictureArtsandSciences2014q,
+@misc{TheAcademyofMotionPictureArtsandSciences2014t,
 author = {{The Academy of Motion Picture Arts and Sciences} and {Science and Technology Council} and {Academy Color Encoding System (ACES) Project Subcommittee}},
-file = {:Users/kelsolaar/Google Drive/Documents/Mendeley Desktop/The Academy of Motion Picture Arts and Sciences, Science and Technology Council, Academy Color Encoding System (ACES) Project Subcommi.pdf:pdf},
-pages = {1--40},
-title = {{Technical Bulletin TB-2014-004 - Informative Notes on SMPTE ST 2065-1 – Academy Color Encoding Specification (ACES)}},
+file = {:Users/kelsolaar/Google Drive/Documents/Mendeley Desktop/The Academy of Motion Picture Arts and Sciences, Science and Technology Council, Academy Color Encoding System (ACES) Project Subcomm(6).pdf:pdf},
+pages = {1--12},
+title = {{Specification S-2014-003 - ACEScc , A Logarithmic Encoding of ACES Data for use within Color Grading Systems}},
 url = {https://github.com/ampas/aces-dev/tree/master/documents},
 year = {2014}
 }
-@misc{TheAcademyofMotionPictureArtsandSciences2014r,
+@misc{TheAcademyofMotionPictureArtsandSciences2015b,
 author = {{The Academy of Motion Picture Arts and Sciences} and {Science and Technology Council} and {Academy Color Encoding System (ACES) Project Subcommittee}},
-file = {:Users/kelsolaar/Google Drive/Documents/Mendeley Desktop/The Academy of Motion Picture Arts and Sciences, Science and Technology Council, Academy Color Encoding System (ACES) Project Subcom(12).pdf:pdf},
-pages = {1--8},
-title = {{Technical Bulletin TB-2014-012 - Academy Color Encoding System Version 1.0 Component Names}},
+file = {:Users/kelsolaar/Google Drive/Documents/Mendeley Desktop/The Academy of Motion Picture Arts and Sciences, Science and Technology Council, Academy Color Encoding System (ACES) Project Subcom(13).pdf:pdf},
+pages = {1--9},
+title = {{Specification S-2014-004 - ACEScg – A Working Space for CGI Render and Compositing}},
 url = {https://github.com/ampas/aces-dev/tree/master/documents},
-year = {2014}
+year = {2015}
 }
 @misc{TheAcademyofMotionPictureArtsandSciences2014s,
 author = {{The Academy of Motion Picture Arts and Sciences} and {Science and Technology Council} and {Academy Color Encoding System (ACES) Project Subcommittee}},
@@ -1755,11 +1755,11 @@ title = {{Specification S-2013-001 - ACESproxy , an Integer Log Encoding of ACES
 url = {https://github.com/ampas/aces-dev/tree/master/documents},
 year = {2014}
 }
-@misc{TheAcademyofMotionPictureArtsandSciences2014t,
+@misc{TheAcademyofMotionPictureArtsandSciences2014q,
 author = {{The Academy of Motion Picture Arts and Sciences} and {Science and Technology Council} and {Academy Color Encoding System (ACES) Project Subcommittee}},
-file = {:Users/kelsolaar/Google Drive/Documents/Mendeley Desktop/The Academy of Motion Picture Arts and Sciences, Science and Technology Council, Academy Color Encoding System (ACES) Project Subcomm(6).pdf:pdf},
-pages = {1--12},
-title = {{Specification S-2014-003 - ACEScc , A Logarithmic Encoding of ACES Data for use within Color Grading Systems}},
+file = {:Users/kelsolaar/Google Drive/Documents/Mendeley Desktop/The Academy of Motion Picture Arts and Sciences, Science and Technology Council, Academy Color Encoding System (ACES) Project Subcommi.pdf:pdf},
+pages = {1--40},
+title = {{Technical Bulletin TB-2014-004 - Informative Notes on SMPTE ST 2065-1 – Academy Color Encoding Specification (ACES)}},
 url = {https://github.com/ampas/aces-dev/tree/master/documents},
 year = {2014}
 }
@@ -1769,13 +1769,13 @@ title = {{Academy Color Encoding System}},
 url = {http://www.oscars.org/science-technology/council/projects/aces.html},
 urldate = {2014-02-24}
 }
-@misc{TheAcademyofMotionPictureArtsandSciences2015b,
+@misc{TheAcademyofMotionPictureArtsandSciences2014r,
 author = {{The Academy of Motion Picture Arts and Sciences} and {Science and Technology Council} and {Academy Color Encoding System (ACES) Project Subcommittee}},
-file = {:Users/kelsolaar/Google Drive/Documents/Mendeley Desktop/The Academy of Motion Picture Arts and Sciences, Science and Technology Council, Academy Color Encoding System (ACES) Project Subcom(13).pdf:pdf},
-pages = {1--9},
-title = {{Specification S-2014-004 - ACEScg – A Working Space for CGI Render and Compositing}},
+file = {:Users/kelsolaar/Google Drive/Documents/Mendeley Desktop/The Academy of Motion Picture Arts and Sciences, Science and Technology Council, Academy Color Encoding System (ACES) Project Subcom(12).pdf:pdf},
+pages = {1--8},
+title = {{Technical Bulletin TB-2014-012 - Academy Color Encoding System Version 1.0 Component Names}},
 url = {https://github.com/ampas/aces-dev/tree/master/documents},
-year = {2015}
+year = {2014}
 }
 @misc{Thorpe2012a,
 author = {Thorpe, Larry},
@@ -1788,36 +1788,6 @@ year = {2012}
 author = {Trieu, Tashi},
 title = {{Private Discussion with Mansencal, T.}},
 year = {2015}
-}
-@incollection{Westland2012k,
-author = {Westland, Stephen and Ripamonti, Caterina and Cheung, Vien},
-booktitle = {Computational Colour Science Using MATLAB},
-chapter = {6.2.3},
-edition = {2},
-isbn = {978-0-470-66569-5},
-pages = {83--86},
-title = {{CMCCAT2000}},
-year = {2012}
-}
-@incollection{Westland2012h,
-author = {Westland, Stephen and Ripamonti, Caterina and Cheung, Vien},
-booktitle = {Computational Colour Science Using MATLAB},
-chapter = {4.3},
-edition = {2},
-isbn = {978-0-470-66569-5},
-pages = {29--37},
-title = {{Interpolation Methods}},
-year = {2012}
-}
-@incollection{Westland2012i,
-author = {Westland, Stephen and Ripamonti, Caterina and Cheung, Vien},
-booktitle = {Computational Colour Science Using MATLAB},
-chapter = {4.4},
-edition = {2},
-isbn = {978-0-470-66569-5},
-pages = {38},
-title = {{Extrapolation Methods}},
-year = {2012}
 }
 @incollection{Westland2012g,
 author = {Westland, Stephen and Ripamonti, Caterina and Cheung, Vien},
@@ -1839,143 +1809,53 @@ pages = {38},
 title = {{Correction for Spectral Bandpass}},
 year = {2012}
 }
+@incollection{Westland2012i,
+author = {Westland, Stephen and Ripamonti, Caterina and Cheung, Vien},
+booktitle = {Computational Colour Science Using MATLAB},
+chapter = {4.4},
+edition = {2},
+isbn = {978-0-470-66569-5},
+pages = {38},
+title = {{Extrapolation Methods}},
+year = {2012}
+}
+@incollection{Westland2012h,
+author = {Westland, Stephen and Ripamonti, Caterina and Cheung, Vien},
+booktitle = {Computational Colour Science Using MATLAB},
+chapter = {4.3},
+edition = {2},
+isbn = {978-0-470-66569-5},
+pages = {29--37},
+title = {{Interpolation Methods}},
+year = {2012}
+}
+@incollection{Westland2012k,
+author = {Westland, Stephen and Ripamonti, Caterina and Cheung, Vien},
+booktitle = {Computational Colour Science Using MATLAB},
+chapter = {6.2.3},
+edition = {2},
+isbn = {978-0-470-66569-5},
+pages = {83--86},
+title = {{CMCCAT2000}},
+year = {2012}
+}
+@misc{Wikipediabs,
+author = {Wikipedia},
+title = {{Lightness}},
+url = {http://en.wikipedia.org/wiki/Lightness},
+urldate = {2014-04-13}
+}
+@misc{Wikipediabx,
+author = {Wikipedia},
+title = {{Rayleigh scattering}},
+url = {http://en.wikipedia.org/wiki/Rayleigh_scattering},
+urldate = {2014-09-23}
+}
 @misc{Wikipediacn,
 author = {Wikipedia},
 title = {{ISO 31-11}},
 url = {https://en.wikipedia.org/wiki/ISO_31-11},
 urldate = {2016-07-31}
-}
-@misc{Wikipediabr,
-author = {Wikipedia},
-title = {{Relation to CIE XYZ}},
-url = {http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIE_XYZ},
-urldate = {2014-02-24}
-}
-@misc{Wikipediacp,
-author = {Wikipedia},
-title = {{Color temperature}},
-url = {http://en.wikipedia.org/wiki/Color_temperature},
-urldate = {2014-06-28}
-}
-@misc{Wikipediabw,
-author = {Wikipedia},
-title = {{CIE 1960 color space}},
-url = {http://en.wikipedia.org/wiki/CIE_1960_color_space},
-urldate = {2014-02-24}
-}
-@misc{Wikipediaa,
-author = {Wikipedia},
-title = {{Luminance}},
-url = {https://en.wikipedia.org/wiki/Luminance},
-urldate = {2018-02-10}
-}
-@misc{Wikipedia,
-author = {Wikipedia},
-title = {{Lanczos resampling}},
-url = {https://en.wikipedia.org/wiki/Lanczos_resampling},
-urldate = {2017-10-14}
-}
-@misc{Wikipediacf,
-author = {Wikipedia},
-title = {{Approximation}},
-url = {http://en.wikipedia.org/wiki/Color_temperature#Approximation},
-urldate = {2014-06-28}
-}
-@misc{Wikipediacm,
-author = {Wikipedia},
-title = {{Luminous Efficacy}},
-url = {https://en.wikipedia.org/wiki/Luminous_efficacy},
-urldate = {2016-04-03}
-}
-@misc{Wikipediacq,
-author = {Wikipedia},
-title = {{Luminosity function}},
-url = {https://en.wikipedia.org/wiki/Luminosity_function#Details},
-urldate = {2014-10-20}
-}
-@misc{Wikipediacd,
-author = {Wikipedia},
-title = {{Wide-gamut RGB color space}},
-url = {http://en.wikipedia.org/wiki/Wide-gamut_RGB_color_space},
-urldate = {2014-04-13}
-}
-@misc{Wikipediaci,
-author = {Wikipedia},
-title = {{The reverse transformation}},
-url = {http://en.wikipedia.org/wiki/CIELUV#The_reverse_transformation},
-urldate = {2014-02-24}
-}
-@misc{Wikipediaby,
-author = {Wikipedia},
-title = {{CIELUV}},
-url = {http://en.wikipedia.org/wiki/CIELUV},
-urldate = {2014-02-24}
-}
-@misc{Wikipediace,
-author = {Wikipedia},
-title = {{Michaelis–Menten kinetics}},
-url = {https://en.wikipedia.org/wiki/Michaelis–Menten_kinetics},
-urldate = {2017-04-29}
-}
-@misc{Wikipediacl,
-author = {Wikipedia},
-title = {{List of common coordinate transformations}},
-url = {http://en.wikipedia.org/wiki/List_of_common_coordinate_transformations},
-urldate = {2014-07-18}
-}
-@misc{Wikipediabv,
-author = {Wikipedia},
-title = {{Surfaces}},
-url = {http://en.wikipedia.org/wiki/Gamut#Surfaces},
-urldate = {2014-09-10}
-}
-@misc{Wikipediabu,
-author = {Wikipedia},
-title = {{Color difference}},
-url = {http://en.wikipedia.org/wiki/Color_difference},
-urldate = {2014-08-29}
-}
-@misc{Wikipediack,
-author = {Wikipedia},
-title = {{White points of standard illuminants}},
-url = {http://en.wikipedia.org/wiki/Standard_illuminant#White_points_of_standard_illuminants},
-urldate = {2014-02-24}
-}
-@misc{Wikipediacc,
-author = {Wikipedia},
-title = {{Mesopic weighting function}},
-url = {http://en.wikipedia.org/wiki/Mesopic_vision#Mesopic_weighting_function},
-urldate = {2014-06-20}
-}
-@misc{Wikipediabt,
-author = {Wikipedia},
-title = {{CAT02}},
-url = {http://en.wikipedia.org/wiki/CIECAM02#CAT02},
-urldate = {2014-02-24}
-}
-@misc{Wikipediach,
-author = {Wikipedia},
-title = {{CIECAM02}},
-url = {http://en.wikipedia.org/wiki/CIECAM02},
-urldate = {2014-08-14}
-}
-@misc{Wikipediacj,
-author = {Wikipedia},
-title = {{CIE 1964 color space}},
-url = {http://en.wikipedia.org/wiki/CIE_1964_color_space},
-urldate = {2014-06-10}
-}
-@misc{Wikipediacb,
-author = {Wikipedia},
-title = {{Lagrange polynomial - Definition}},
-url = {https://en.wikipedia.org/wiki/Lagrange_polynomial#Definition},
-urldate = {2016-01-20}
-}
-@misc{Wikipediaco,
-author = {Wikipedia},
-title = {{Whiteness}},
-url = {http://en.wikipedia.org/wiki/Whiteness},
-urldate = {2014-09-17}
 }
 @misc{Wikipediacg,
 author = {Wikipedia},
@@ -1995,17 +1875,137 @@ title = {{YCbCr}},
 url = {https://en.wikipedia.org/wiki/YCbCr},
 urldate = {2016-02-29}
 }
-@misc{Wikipediabs,
+@misc{Wikipediaco,
 author = {Wikipedia},
-title = {{Lightness}},
-url = {http://en.wikipedia.org/wiki/Lightness},
+title = {{Whiteness}},
+url = {http://en.wikipedia.org/wiki/Whiteness},
+urldate = {2014-09-17}
+}
+@misc{Wikipediabr,
+author = {Wikipedia},
+title = {{Relation to CIE XYZ}},
+url = {http://en.wikipedia.org/wiki/CIE_1960_color_space#Relation_to_CIE_XYZ},
+urldate = {2014-02-24}
+}
+@misc{Wikipediacp,
+author = {Wikipedia},
+title = {{Color temperature}},
+url = {http://en.wikipedia.org/wiki/Color_temperature},
+urldate = {2014-06-28}
+}
+@misc{Wikipediach,
+author = {Wikipedia},
+title = {{CIECAM02}},
+url = {http://en.wikipedia.org/wiki/CIECAM02},
+urldate = {2014-08-14}
+}
+@misc{Wikipediacj,
+author = {Wikipedia},
+title = {{CIE 1964 color space}},
+url = {http://en.wikipedia.org/wiki/CIE_1964_color_space},
+urldate = {2014-06-10}
+}
+@misc{Wikipediacb,
+author = {Wikipedia},
+title = {{Lagrange polynomial - Definition}},
+url = {https://en.wikipedia.org/wiki/Lagrange_polynomial#Definition},
+urldate = {2016-01-20}
+}
+@misc{Wikipedia,
+author = {Wikipedia},
+title = {{Lanczos resampling}},
+url = {https://en.wikipedia.org/wiki/Lanczos_resampling},
+urldate = {2017-10-14}
+}
+@misc{Wikipediabt,
+author = {Wikipedia},
+title = {{CAT02}},
+url = {http://en.wikipedia.org/wiki/CIECAM02#CAT02},
+urldate = {2014-02-24}
+}
+@misc{Wikipediack,
+author = {Wikipedia},
+title = {{White points of standard illuminants}},
+url = {http://en.wikipedia.org/wiki/Standard_illuminant#White_points_of_standard_illuminants},
+urldate = {2014-02-24}
+}
+@misc{Wikipediacc,
+author = {Wikipedia},
+title = {{Mesopic weighting function}},
+url = {http://en.wikipedia.org/wiki/Mesopic_vision#Mesopic_weighting_function},
+urldate = {2014-06-20}
+}
+@misc{Wikipediabu,
+author = {Wikipedia},
+title = {{Color difference}},
+url = {http://en.wikipedia.org/wiki/Color_difference},
+urldate = {2014-08-29}
+}
+@misc{Wikipediacl,
+author = {Wikipedia},
+title = {{List of common coordinate transformations}},
+url = {http://en.wikipedia.org/wiki/List_of_common_coordinate_transformations},
+urldate = {2014-07-18}
+}
+@misc{Wikipediabv,
+author = {Wikipedia},
+title = {{Surfaces}},
+url = {http://en.wikipedia.org/wiki/Gamut#Surfaces},
+urldate = {2014-09-10}
+}
+@misc{Wikipediace,
+author = {Wikipedia},
+title = {{Michaelis–Menten kinetics}},
+url = {https://en.wikipedia.org/wiki/Michaelis–Menten_kinetics},
+urldate = {2017-04-29}
+}
+@misc{Wikipediaci,
+author = {Wikipedia},
+title = {{The reverse transformation}},
+url = {http://en.wikipedia.org/wiki/CIELUV#The_reverse_transformation},
+urldate = {2014-02-24}
+}
+@misc{Wikipediaby,
+author = {Wikipedia},
+title = {{CIELUV}},
+url = {http://en.wikipedia.org/wiki/CIELUV},
+urldate = {2014-02-24}
+}
+@misc{Wikipediacd,
+author = {Wikipedia},
+title = {{Wide-gamut RGB color space}},
+url = {http://en.wikipedia.org/wiki/Wide-gamut_RGB_color_space},
 urldate = {2014-04-13}
 }
-@misc{Wikipediabx,
+@misc{Wikipediabw,
 author = {Wikipedia},
-title = {{Rayleigh scattering}},
-url = {http://en.wikipedia.org/wiki/Rayleigh_scattering},
-urldate = {2014-09-23}
+title = {{CIE 1960 color space}},
+url = {http://en.wikipedia.org/wiki/CIE_1960_color_space},
+urldate = {2014-02-24}
+}
+@misc{Wikipediaa,
+author = {Wikipedia},
+title = {{Luminance}},
+url = {https://en.wikipedia.org/wiki/Luminance},
+urldate = {2018-02-10}
+}
+@misc{Wikipediacq,
+author = {Wikipedia},
+title = {{Luminosity function}},
+url = {https://en.wikipedia.org/wiki/Luminosity_function#Details},
+urldate = {2014-10-20}
+}
+@misc{Wikipediacf,
+author = {Wikipedia},
+title = {{Approximation}},
+url = {http://en.wikipedia.org/wiki/Color_temperature#Approximation},
+urldate = {2014-06-28}
+}
+@misc{Wikipediacm,
+author = {Wikipedia},
+title = {{Luminous Efficacy}},
+url = {https://en.wikipedia.org/wiki/Luminous_efficacy},
+urldate = {2016-04-03}
 }
 @misc{Wikipediab,
 author = {Wikipedia},
@@ -2035,58 +2035,22 @@ url = {https://www.osapublishing.org/abstract.cfm?URI=josa-53-11-1318},
 volume = {53},
 year = {1963}
 }
-@incollection{Wyszecki2000be,
+@incollection{Wyszecki2000bd,
 author = {Wyszecki, G{\"{u}}nther and Stiles, W. S.},
 booktitle = {Color Science: Concepts and Methods, Quantitative Data and Formulae},
 isbn = {978-0471399186},
-pages = {141},
+pages = {167},
 publisher = {Wiley},
-title = {{The CIE 1964 Standard Observer}},
+title = {{CIE 1976 (L*u*v*)-Space and Color-Difference Formula}},
 year = {2000}
 }
-@incollection{Wyszecki2000y,
+@incollection{Wyszecki2000bh,
 author = {Wyszecki, G{\"{u}}nther and Stiles, W. S.},
 booktitle = {Color Science: Concepts and Methods, Quantitative Data and Formulae},
 isbn = {978-0471399186},
-pages = {224--229},
+pages = {778--779},
 publisher = {Wiley},
-title = {{DISTRIBUTION TEMPERATURE, COLOR TEMPERATURE, AND CORRELATED COLOR TEMPERATURE}},
-year = {2000}
-}
-@incollection{Wyszecki2000bg,
-author = {Wyszecki, G{\"{u}}nther and Stiles, W. S.},
-booktitle = {Color Science: Concepts and Methods, Quantitative Data and Formulae},
-isbn = {978-0471399186},
-pages = {138--139},
-publisher = {Wiley},
-title = {{Table 1(3.3.3)}},
-year = {2000}
-}
-@incollection{Wyszecki2000ba,
-author = {Wyszecki, G{\"{u}}nther and Stiles, W. S.},
-booktitle = {Color Science: Concepts and Methods, Quantitative Data and Formulae},
-isbn = {978-0471399186},
-pages = {837--839},
-publisher = {Wiley},
-title = {{Table I(6.5.3) Whiteness Formulae (Whiteness Measure Denoted by W)}},
-year = {2000}
-}
-@incollection{Wyszecki2000s,
-author = {Wyszecki, G{\"{u}}nther and Stiles, W. S.},
-booktitle = {Color Science: Concepts and Methods, Quantitative Data and Formulae},
-isbn = {978-0471399186},
-pages = {256--259,395},
-publisher = {Wiley},
-title = {{Standard Photometric Observers}},
-year = {2000}
-}
-@incollection{Wyszecki2000bb,
-author = {Wyszecki, G{\"{u}}nther and Stiles, W. S.},
-booktitle = {Color Science: Concepts and Methods, Quantitative Data and Formulae},
-isbn = {978-0471399186},
-pages = {776--777},
-publisher = {Wiley},
-title = {{Table I(3.7)}},
+title = {{Table II(3.7)}},
 year = {2000}
 }
 @incollection{Wyszecki2000z,
@@ -2116,22 +2080,58 @@ publisher = {Wiley},
 title = {{Integration Replaced by Summation}},
 year = {2000}
 }
-@incollection{Wyszecki2000bd,
+@incollection{Wyszecki2000s,
 author = {Wyszecki, G{\"{u}}nther and Stiles, W. S.},
 booktitle = {Color Science: Concepts and Methods, Quantitative Data and Formulae},
 isbn = {978-0471399186},
-pages = {167},
+pages = {256--259,395},
 publisher = {Wiley},
-title = {{CIE 1976 (L*u*v*)-Space and Color-Difference Formula}},
+title = {{Standard Photometric Observers}},
 year = {2000}
 }
-@incollection{Wyszecki2000bh,
+@incollection{Wyszecki2000bb,
 author = {Wyszecki, G{\"{u}}nther and Stiles, W. S.},
 booktitle = {Color Science: Concepts and Methods, Quantitative Data and Formulae},
 isbn = {978-0471399186},
-pages = {778--779},
+pages = {776--777},
 publisher = {Wiley},
-title = {{Table II(3.7)}},
+title = {{Table I(3.7)}},
+year = {2000}
+}
+@incollection{Wyszecki2000bg,
+author = {Wyszecki, G{\"{u}}nther and Stiles, W. S.},
+booktitle = {Color Science: Concepts and Methods, Quantitative Data and Formulae},
+isbn = {978-0471399186},
+pages = {138--139},
+publisher = {Wiley},
+title = {{Table 1(3.3.3)}},
+year = {2000}
+}
+@incollection{Wyszecki2000ba,
+author = {Wyszecki, G{\"{u}}nther and Stiles, W. S.},
+booktitle = {Color Science: Concepts and Methods, Quantitative Data and Formulae},
+isbn = {978-0471399186},
+pages = {837--839},
+publisher = {Wiley},
+title = {{Table I(6.5.3) Whiteness Formulae (Whiteness Measure Denoted by W)}},
+year = {2000}
+}
+@incollection{Wyszecki2000y,
+author = {Wyszecki, G{\"{u}}nther and Stiles, W. S.},
+booktitle = {Color Science: Concepts and Methods, Quantitative Data and Formulae},
+isbn = {978-0471399186},
+pages = {224--229},
+publisher = {Wiley},
+title = {{DISTRIBUTION TEMPERATURE, COLOR TEMPERATURE, AND CORRELATED COLOR TEMPERATURE}},
+year = {2000}
+}
+@incollection{Wyszecki2000be,
+author = {Wyszecki, G{\"{u}}nther and Stiles, W. S.},
+booktitle = {Color Science: Concepts and Methods, Quantitative Data and Formulae},
+isbn = {978-0471399186},
+pages = {141},
+publisher = {Wiley},
+title = {{The CIE 1964 Standard Observer}},
 year = {2000}
 }
 @misc{X-Rite2012a,

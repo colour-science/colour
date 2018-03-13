@@ -12,6 +12,7 @@ Sub-packages
 -   algebra: Algebra utilities.
 -   appearance: Colour appearance models.
 -   biochemistry: Biochemistry computations.
+-   blindness: Colour vision deficiency models.
 -   continuous: Base objects for continuous data representation.
 -   characterisation: Colour fitting and camera characterisation.
 -   colorimetry: Core objects for colour computations.
@@ -64,6 +65,9 @@ from .colorimetry import (
     luminous_efficacy, luminous_efficiency, luminous_flux,
     mesopic_luminous_efficiency_function, ones_spd, spectral_to_XYZ,
     wavelength_to_XYZ, whiteness, yellowness, zeros_spd)
+from .blindness import (
+    CVD_MATRICES_MACHADO2010, anomalous_trichromacy_cmfs_Machado2009,
+    anomalous_trichromacy_matrix_Machado2009, cvd_matrix_Machado2009)
 from .appearance import (
     ATD95_Specification, CAM16_Specification, CAM16_VIEWING_CONDITIONS,
     CAM16_to_XYZ, CIECAM02_Specification, CIECAM02_VIEWING_CONDITIONS,
@@ -163,6 +167,10 @@ __all__ += [
     'luminous_efficacy', 'luminous_efficiency', 'luminous_flux',
     'mesopic_luminous_efficiency_function', 'ones_spd', 'spectral_to_XYZ',
     'wavelength_to_XYZ', 'whiteness', 'yellowness', 'zeros_spd'
+]
+__all__ += [
+    'CVD_MATRICES_MACHADO2010', 'anomalous_trichromacy_cmfs_Machado2009',
+    'anomalous_trichromacy_matrix_Machado2009', 'cvd_matrix_Machado2009'
 ]
 __all__ += [
     'ATD95_Specification', 'CAM16_Specification', 'CAM16_VIEWING_CONDITIONS',
