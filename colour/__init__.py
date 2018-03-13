@@ -255,7 +255,10 @@ __version__ = '.'.join(
      __change_version__))  # yapf: disable
 
 # TODO: Remove legacy printing support when deemed appropriate.
-np.set_printoptions(legacy='1.13')
+try:
+    np.set_printoptions(legacy='1.13')
+except TypeError:
+    pass
 
 
 # ----------------------------------------------------------------------------#
