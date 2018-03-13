@@ -38,13 +38,29 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['BT2020_CONSTANTS', 'oetf_BT2020', 'eotf_BT2020']
+__all__ = [
+    'BT2020_CONSTANTS', 'BT2020_CONSTANTS_PRECISE', 'oetf_BT2020',
+    'eotf_BT2020'
+]
 
 BT2020_CONSTANTS = Structure(
     alpha=lambda x: 1.0993 if x else 1.099,
     beta=lambda x: 0.0181 if x else 0.018)
 """
 *BT.2020* colourspace constants.
+
+BT2020_CONSTANTS : Structure
+"""
+
+BT2020_CONSTANTS_PRECISE = Structure(
+    alpha=lambda x: 1.09929682680944, beta=lambda x: 0.018053968510807)
+"""
+*BT.2020* colourspace constants at double precision to connect the two curve
+segments smoothly.
+
+References
+----------
+-   :cite:`InternationalTelecommunicationUnion2015h`
 
 BT2020_CONSTANTS : Structure
 """
