@@ -15,7 +15,7 @@ from .cie_luv import (XYZ_to_Luv, Luv_to_XYZ, Luv_to_uv, Luv_uv_to_xy,
                       xy_to_Luv_uv, Luv_to_LCHuv, LCHuv_to_Luv)
 from .cie_ucs import (XYZ_to_UCS, UCS_to_XYZ, UCS_to_uv, UCS_uv_to_xy,
                       xy_to_UCS_uv)
-from .cie_uvw import XYZ_to_UVW
+from .cie_uvw import XYZ_to_UVW, UVW_to_XYZ
 from .din99 import Lab_to_DIN99
 from .hdr_cie_lab import (HDR_CIELAB_METHODS, XYZ_to_hdr_CIELab,
                           hdr_CIELab_to_XYZ)
@@ -53,7 +53,7 @@ __all__ += [
 __all__ += [
     'XYZ_to_UCS', 'UCS_to_XYZ', 'UCS_to_uv', 'UCS_uv_to_xy', 'xy_to_UCS_uv'
 ]
-__all__ += ['XYZ_to_UVW']
+__all__ += ['XYZ_to_UVW', 'UVW_to_XYZ']
 __all__ += ['Lab_to_DIN99']
 __all__ += ['HDR_CIELAB_METHODS', 'XYZ_to_hdr_CIELab', 'hdr_CIELab_to_XYZ']
 __all__ += [
