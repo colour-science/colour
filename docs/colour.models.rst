@@ -80,6 +80,7 @@ CIE 1964 U*V*W* Colourspace
     :toctree: generated/
 
     XYZ_to_UVW
+    UVW_to_XYZ
 
 Hunter L,a,b Colour Scale
 -------------------------

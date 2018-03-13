@@ -137,6 +137,14 @@ print(colour.XYZ_to_UVW(XYZ * 100))
 
 print('\n')
 
+UVW = np.array([64.09202202, 19.08416353, 99.03972084])
+message_box(('Converting to "CIE XYZ" tristimulus values from given'
+             '"CIE 1964 U*V*W*" colourspace values:\n'
+             '\n\t{0}'.format(UVW)))
+print(colour.UVW_to_XYZ(UVW) / 100)
+
+print('\n')
+
 message_box(('Converting to "CIE L*u*v*" colourspace from given "CIE XYZ" '
              'tristimulus values:\n'
              '\n\t{0}'.format(XYZ)))
