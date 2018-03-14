@@ -6,6 +6,7 @@ CIE 1964 U*V*W* Colourspace
 Defines the *CIE 1964 U\*V\*W\** colourspace transformations:
 
 -   :func:`colour.XYZ_to_UVW`
+-   :func:`colour.UVW_to_XYZ`
 
 See Also
 --------
