@@ -107,6 +107,7 @@ Hunter Rd,a,b Colour Scale
     :toctree: generated/
 
     XYZ_to_Hunter_Rdab
+    Hunter_Rdab_to_XYZ
 
 
 CAM02-LCD, CAM02-SCD, and CAM02-UCS Colourspaces - Luo, Cui and Li (2006)
