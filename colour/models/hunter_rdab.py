@@ -6,6 +6,7 @@ Hunter Rd,a,b Colour Scale
 Defines the *Hunter Rd,a,b* colour scale transformations:
 
 -   :func:`colour.XYZ_to_Hunter_Rdab`
+-   :func:`colour.Hunter_Rdab_to_XYZ`
 
 See Also
 --------
@@ -34,7 +35,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['XYZ_to_Hunter_Rdab']
+__all__ = ['XYZ_to_Hunter_Rdab', 'Hunter_Rdab_to_XYZ']
 
 
 def XYZ_to_Hunter_Rdab(XYZ,
@@ -96,3 +97,63 @@ def XYZ_to_Hunter_Rdab(XYZ,
     R_d_ab = tstack((R_d, a_Rd, b_Rd))
 
     return R_d_ab
+
+
+def Hunter_Rdab_to_XYZ(R_d_ab,
+                       XYZ_n=HUNTERLAB_ILLUMINANTS[
+                           'CIE 1931 2 Degree Standard Observer']['D50'].XYZ_n,
+                       K_ab=HUNTERLAB_ILLUMINANTS[
+                           'CIE 1931 2 Degree Standard Observer']['D50'].K_ab):
+    """
+    Converts from *Hunter Rd,a,b* colour scale to *CIE XYZ* tristimulus values.
+
+    Parameters
+    ----------
+    R_d_ab : array_like
+        *Hunter Rd,a,b* colour scale array.
+    XYZ_n : array_like, optional
+        Reference *illuminant* tristimulus values.
+    K_ab : array_like, optional
+        Reference *illuminant* chromaticity coefficients, if ``K_ab`` is set to
+        *None* it will be computed using
+        :func:`colour.XYZ_to_K_ab_HunterLab1966`.
+
+    Returns
+    -------
+    ndarray
+        *CIE XYZ* tristimulus values.
+
+    Notes
+    -----
+    -   Input reference *illuminant* tristimulus values are normalised to
+        domain [0, 100].
+    -   Output *CIE XYZ* tristimulus values are normalised to range [0, 100].
+
+    References
+    ----------
+    -   :cite:`HunterLab2012a`
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> R_d_ab = np.array([10.08000000, -18.67653764, -3.44329925])
+    >>> D50 = HUNTERLAB_ILLUMINANTS[
+    ...     'CIE 1931 2 Degree Standard Observer']['D50']
+    >>> Hunter_Rdab_to_XYZ(R_d_ab, D50.XYZ_n, D50.K_ab)
+    ... # doctest: +ELLIPSIS
+    array([  7.049534...,  10.08    ...,   9.558313...])
+    """
+
+    R_d, a_Rd, b_Rd = tsplit(R_d_ab)
+    X_n, Y_n, Z_n = tsplit(XYZ_n)
+    K_a, K_b = (tsplit(XYZ_to_K_ab_HunterLab1966(XYZ_n))
+                if K_ab is None else tsplit(K_ab))
+
+    f = 0.51 * ((21 + 0.2 * R_d) / (1 + 0.2 * R_d))
+    Rd_Yn = R_d / Y_n
+    X = (a_Rd / (K_a * f) + Rd_Yn) * X_n
+    Z = -(b_Rd / (K_b * f) - Rd_Yn) * Z_n
+
+    XYZ = tstack((X, R_d, Z))
+
+    return XYZ

@@ -251,6 +251,14 @@ print(colour.XYZ_to_Hunter_Rdab(XYZ))
 
 print('\n')
 
+R_d_ab = np.array([100.00000000, 31.90091697, 23.04795077])
+message_box(('Converting to "CIE XYZ" tristimulus values from given'
+             '"Hunter Rd,a,b" colour scale values:\n'
+             '\n\t{0}'.format(R_d_ab)))
+print(colour.Hunter_Rdab_to_XYZ(R_d_ab))
+
+print('\n')
+
 XYZ = np.array([1.14176346, 1.00000000, 0.49815206])
 message_box(('Converting to "IPT" colourspace from given "CIE XYZ" '
              'tristimulus values:\n'
