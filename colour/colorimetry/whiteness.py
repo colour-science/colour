@@ -47,9 +47,8 @@ apps_engineering_techdocuments/c/09_color_calculations_en.pdf
 
 from __future__ import division, unicode_literals
 
-import numpy as np
-
-from colour.utilities import CaseInsensitiveMapping, tsplit, tstack
+from colour.utilities import (CaseInsensitiveMapping, filter_kwargs,
+                              from_range_100, to_domain_100, tsplit, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -99,18 +98,19 @@ def whiteness_Berger1959(XYZ, XYZ_0):
 
     Examples
     --------
+    >>> import numpy as np
     >>> XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
     >>> XYZ_0 = np.array([94.80966767, 100.00000000, 107.30513595])
     >>> whiteness_Berger1959(XYZ, XYZ_0)  # doctest: +ELLIPSIS
     30.3638017...
     """
 
-    X, Y, Z = tsplit(XYZ)
-    X_0, _Y_0, Z_0 = tsplit(XYZ_0)
+    X, Y, Z = tsplit(to_domain_100(XYZ))
+    X_0, _Y_0, Z_0 = tsplit(to_domain_100(XYZ_0))
 
     WI = 0.333 * Y + 125 * (Z / Z_0) - 125 * (X / X_0)
 
-    return WI
+    return from_range_100(WI)
 
 
 def whiteness_Taube1960(XYZ, XYZ_0):
@@ -143,18 +143,19 @@ def whiteness_Taube1960(XYZ, XYZ_0):
 
     Examples
     --------
+    >>> import numpy as np
     >>> XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
     >>> XYZ_0 = np.array([94.80966767, 100.00000000, 107.30513595])
     >>> whiteness_Taube1960(XYZ, XYZ_0)  # doctest: +ELLIPSIS
     91.4071738...
     """
 
-    _X, Y, Z = tsplit(XYZ)
-    _X_0, _Y_0, Z_0 = tsplit(XYZ_0)
+    _X, Y, Z = tsplit(to_domain_100(XYZ))
+    _X_0, _Y_0, Z_0 = tsplit(to_domain_100(XYZ_0))
 
     WI = 400 * (Z / Z_0) - 3 * Y
 
-    return WI
+    return from_range_100(WI)
 
 
 def whiteness_Stensby1968(Lab):
@@ -185,16 +186,17 @@ def whiteness_Stensby1968(Lab):
 
     Examples
     --------
+    >>> import numpy as np
     >>> Lab = np.array([100.00000000, -2.46875131, -16.72486654])
     >>> whiteness_Stensby1968(Lab)  # doctest: +ELLIPSIS
     142.7683456...
     """
 
-    L, a, b = tsplit(Lab)
+    L, a, b = tsplit(to_domain_100(Lab))
 
     WI = L - 3 * b + 3 * a
 
-    return WI
+    return from_range_100(WI)
 
 
 def whiteness_ASTME313(XYZ):
@@ -226,16 +228,17 @@ def whiteness_ASTME313(XYZ):
 
     Examples
     --------
+    >>> import numpy as np
     >>> XYZ = np.array([95.00000000, 100.00000000, 105.00000000])
     >>> whiteness_ASTME313(XYZ)  # doctest: +ELLIPSIS
     55.7400000...
     """
 
-    _X, Y, Z = tsplit(XYZ)
+    _X, Y, Z = tsplit(to_domain_100(XYZ))
 
     WI = 3.388 * Z - 3 * Y
 
-    return WI
+    return from_range_100(WI)
 
 
 def whiteness_Ganz1979(xy, Y):
@@ -279,20 +282,21 @@ def whiteness_Ganz1979(xy, Y):
 
     Examples
     --------
+    >>> import numpy as np
     >>> xy = np.array([0.3167, 0.3334])
     >>> whiteness_Ganz1979(xy, 100)  # doctest: +ELLIPSIS
     array([ 85.6003766...,   0.6789003...])
     """
 
     x, y = tsplit(xy)
-    Y = np.asarray(Y)
+    Y = to_domain_100(Y)
 
     W = Y - 1868.322 * x - 3695.690 * y + 1809.441
     T = -1001.223 * x + 748.366 * y + 68.261
 
     WT = tstack((W, T))
 
-    return WT
+    return from_range_100(WT)
 
 
 def whiteness_CIE2004(xy,
@@ -349,6 +353,7 @@ def whiteness_CIE2004(xy,
 
     Examples
     --------
+    >>> import numpy as np
     >>> xy = np.array([0.3167, 0.3334])
     >>> xy_n = np.array([0.3139, 0.3311])
     >>> whiteness_CIE2004(xy, 100, xy_n)  # doctest: +ELLIPSIS
@@ -356,7 +361,7 @@ def whiteness_CIE2004(xy,
     """
 
     x, y = tsplit(xy)
-    Y = np.asarray(Y)
+    Y = to_domain_100(Y)
     x_n, y_n = tsplit(xy_n)
 
     W = Y + 800 * (x_n - x) + 1700 * (y_n - y)
@@ -364,7 +369,7 @@ def whiteness_CIE2004(xy,
 
     WT = tstack((W, T))
 
-    return WT
+    return from_range_100(WT)
 
 
 WHITENESS_METHODS = CaseInsensitiveMapping({
@@ -402,7 +407,7 @@ def whiteness(method='CIE 2004', **kwargs):
     ----------
     method : unicode, optional
         **{'CIE 2004', 'Berger 1959', 'Taube 1960', 'Stensby 1968',
-        'ASTM E313', 'Ganz 1979', 'CIE 2004'}**,
+        'ASTM E313', 'Ganz 1979'}**,
         Computation method.
 
     Other Parameters
@@ -451,6 +456,7 @@ def whiteness(method='CIE 2004', **kwargs):
 
     Examples
     --------
+    >>> import numpy as np
     >>> xy = np.array([0.3167, 0.3334])
     >>> Y = 100
     >>> xy_n = np.array([0.3139, 0.3311])
@@ -463,4 +469,6 @@ def whiteness(method='CIE 2004', **kwargs):
     91.4071738...
     """
 
-    return WHITENESS_METHODS.get(method)(**kwargs)
+    function = WHITENESS_METHODS.get(method)
+
+    return function(**filter_kwargs(function, **kwargs))

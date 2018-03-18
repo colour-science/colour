@@ -24,7 +24,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import tsplit, tstack
+from colour.utilities import from_range_1, to_domain_1, tsplit, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -69,7 +69,7 @@ def RGB_to_Prismatic(RGB):
     array([ 0.45...,  0.6...,  0.75...])
     """
 
-    RGB = np.asarray(RGB)
+    RGB = to_domain_1(RGB)
 
     L = np.max(RGB, axis=-1)
     s = np.sum(RGB, axis=-1)[..., np.newaxis]
@@ -78,7 +78,9 @@ def RGB_to_Prismatic(RGB):
     one_s[s == 0] = 0
     r, g, b = tsplit(one_s * RGB)
 
-    return tstack((L, r, g, b))
+    Lrgb = tstack((L, r, g, b))
+
+    return from_range_1(Lrgb)
 
 
 def Prismatic_to_RGB(Lrgb):
@@ -107,7 +109,7 @@ def Prismatic_to_RGB(Lrgb):
     array([ 0.25...   ,  0.4999999...,  0.75...  ])
     """
 
-    Lrgb = np.asarray(Lrgb)
+    Lrgb = to_domain_1(Lrgb)
 
     rgb = Lrgb[..., 1:]
     m = np.max(rgb, axis=-1)[..., np.newaxis]
@@ -116,4 +118,4 @@ def Prismatic_to_RGB(Lrgb):
     RGB[m == 0] = 0
     RGB = RGB * rgb
 
-    return RGB
+    return from_range_1(RGB)

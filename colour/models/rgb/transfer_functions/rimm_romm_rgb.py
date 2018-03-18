@@ -35,8 +35,8 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.constants import DEFAULT_FLOAT_DTYPE
-from colour.utilities import as_numeric
+from colour.utilities import (as_numeric, domain_range_scale, from_range_1,
+                              to_domain_1)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -85,7 +85,7 @@ def oetf_ROMMRGB(X, bit_depth=8, out_int=False):
     98
     """
 
-    X = np.asarray(X)
+    X = to_domain_1(X)
 
     I_max = 2 ** bit_depth - 1
 
@@ -96,7 +96,7 @@ def oetf_ROMMRGB(X, bit_depth=8, out_int=False):
     if out_int:
         return as_numeric(np.round(X_p), np.int_)
     else:
-        return as_numeric(X_p / I_max)
+        return as_numeric(from_range_1(X_p / I_max))
 
 
 def eotf_ROMMRGB(X_p, bit_depth=8, in_int=False):
@@ -132,7 +132,7 @@ def eotf_ROMMRGB(X_p, bit_depth=8, in_int=False):
     0.1...
     """
 
-    X_p = np.asarray(X_p, dtype=DEFAULT_FLOAT_DTYPE)
+    X_p = to_domain_1(X_p)
 
     I_max = 2 ** bit_depth - 1
 
@@ -144,7 +144,7 @@ def eotf_ROMMRGB(X_p, bit_depth=8, in_int=False):
     X = np.where(X_p < 16 * E_t * I_max, X_p / (16 * I_max), (X_p / I_max)
                  ** 1.8)
 
-    return as_numeric(X)
+    return as_numeric(from_range_1(X))
 
 
 oetf_ProPhotoRGB = oetf_ROMMRGB
@@ -188,22 +188,20 @@ def oetf_RIMMRGB(X, bit_depth=8, out_int=False, E_clip=2.0):
     74
     """
 
-    X = np.asarray(X)
+    X = to_domain_1(X)
 
     I_max = 2 ** bit_depth - 1
 
     V_clip = 1.099 * E_clip ** 0.45 - 0.099
     q = I_max / V_clip
 
-    X_p_RIMM = np.select([X < 0.0, X < 0.018, X >= 0.018, X > E_clip],
-                         [0, 4.5 * X, 1.099 * (X ** 0.45) - 0.099, I_max])
-
-    X_p_RIMM *= q
+    X_p = q * np.select([X < 0.0, X < 0.018, X >= 0.018, X > E_clip],
+                        [0, 4.5 * X, 1.099 * (X ** 0.45) - 0.099, I_max])
 
     if out_int:
-        return as_numeric(np.round(X_p_RIMM), np.int_)
+        return as_numeric(np.round(X_p), np.int_)
     else:
-        return as_numeric(X_p_RIMM / I_max)
+        return as_numeric(from_range_1(X_p / I_max))
 
 
 def eotf_RIMMRGB(X_p, bit_depth=8, in_int=False, E_clip=2.0):
@@ -240,7 +238,7 @@ def eotf_RIMMRGB(X_p, bit_depth=8, in_int=False, E_clip=2.0):
     0.1...
     """
 
-    X_p = np.asarray(X_p, dtype=DEFAULT_FLOAT_DTYPE)
+    X_p = to_domain_1(X_p)
 
     I_max = 2 ** bit_depth - 1
 
@@ -251,11 +249,12 @@ def eotf_RIMMRGB(X_p, bit_depth=8, in_int=False, E_clip=2.0):
 
     m = V_clip * X_p / I_max
 
-    X_RIMM = np.where(
-        X_p / I_max < oetf_RIMMRGB(0.018, bit_depth, E_clip=E_clip), m / 4.5,
-        ((m + 0.099) / 1.099) ** (1 / 0.45))
+    with domain_range_scale('ignore'):
+        X = np.where(
+            X_p / I_max < oetf_RIMMRGB(0.018, bit_depth, E_clip=E_clip),
+            m / 4.5, ((m + 0.099) / 1.099) ** (1 / 0.45))
 
-    return as_numeric(X_RIMM)
+    return as_numeric(from_range_1(X))
 
 
 def log_encoding_ERIMMRGB(X,
@@ -298,22 +297,30 @@ def log_encoding_ERIMMRGB(X,
     105
     """
 
-    X = np.asarray(X)
+    X = to_domain_1(X)
 
     I_max = 2 ** bit_depth - 1
 
     E_t = np.exp(1) * E_min
 
-    X_p = np.select([X < 0.0, X <= E_t, X > E_t, X > E_clip], [
-        0, I_max * ((np.log(E_t) - np.log(E_min)) /
-                    (np.log(E_clip) - np.log(E_min))) * (X / E_t), I_max *
-        ((np.log(X) - np.log(E_min)) / (np.log(E_clip) - np.log(E_min))), I_max
+    X_p = np.select([
+        X < 0.0,
+        X <= E_t,
+        X > E_t,
+        X > E_clip,
+    ], [
+        0,
+        I_max * ((np.log(E_t) - np.log(E_min)) /
+                 (np.log(E_clip) - np.log(E_min))) * (X / E_t),
+        I_max * ((np.log(X) - np.log(E_min)) /
+                 (np.log(E_clip) - np.log(E_min))),
+        I_max,
     ])
 
     if out_int:
         return as_numeric(np.round(X_p), np.int_)
     else:
-        return as_numeric(X_p / I_max)
+        return as_numeric(from_range_1(X_p / I_max))
 
 
 def log_decoding_ERIMMRGB(X_p,
@@ -356,7 +363,7 @@ def log_decoding_ERIMMRGB(X_p,
     0.1...
     """
 
-    X_p = np.asarray(X_p, dtype=DEFAULT_FLOAT_DTYPE)
+    X_p = to_domain_1(X_p)
 
     I_max = 2 ** bit_depth - 1
 
@@ -372,4 +379,4 @@ def log_decoding_ERIMMRGB(X_p,
                  np.exp((X_p / I_max) *
                         (np.log(E_clip) - np.log(E_min)) + np.log(E_min)))
 
-    return as_numeric(X)
+    return as_numeric(from_range_1(X))

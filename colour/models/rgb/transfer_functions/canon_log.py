@@ -40,7 +40,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
-from colour.utilities import as_numeric
+from colour.utilities import (as_numeric, domain_range_scale, from_range_1,
+                              to_domain_1)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -88,18 +89,19 @@ def log_encoding_CanonLog(x, bit_depth=10, out_legal=True, in_reflection=True):
     34.3389651...
     """
 
-    x = np.asarray(x)
+    x = to_domain_1(x)
 
     if in_reflection:
         x = x / 0.9
 
-    clog = np.where(x < log_decoding_CanonLog(0.0730597, bit_depth, False),
-                    -(0.529136 * (np.log10(-x * 10.1596 + 1)) - 0.0730597),
-                    0.529136 * np.log10(10.1596 * x + 1) + 0.0730597)
+    with domain_range_scale('ignore'):
+        clog = np.where(x < log_decoding_CanonLog(0.0730597, bit_depth, False),
+                        -(0.529136 * (np.log10(-x * 10.1596 + 1)) - 0.0730597),
+                        0.529136 * np.log10(10.1596 * x + 1) + 0.0730597)
 
     clog = full_to_legal(clog, bit_depth) if out_legal else clog
 
-    return as_numeric(clog)
+    return as_numeric(from_range_1(clog))
 
 
 def log_decoding_CanonLog(clog,
@@ -137,7 +139,7 @@ def log_decoding_CanonLog(clog,
     0.17999999...
     """
 
-    clog = np.asarray(clog)
+    clog = to_domain_1(clog)
 
     clog = legal_to_full(clog, bit_depth) if in_legal else clog
 
@@ -148,7 +150,7 @@ def log_decoding_CanonLog(clog,
     if out_reflection:
         x = x * 0.9
 
-    return as_numeric(x)
+    return as_numeric(from_range_1(x))
 
 
 def log_encoding_CanonLog2(x, bit_depth=10, out_legal=True,
@@ -184,19 +186,20 @@ def log_encoding_CanonLog2(x, bit_depth=10, out_legal=True,
     39.8254694...
     """
 
-    x = np.asarray(x)
+    x = to_domain_1(x)
 
     if in_reflection:
         x = x / 0.9
 
-    clog2 = np.where(x < log_decoding_CanonLog2(0.035388128, bit_depth, False),
-                     -(0.281863093 *
-                       (np.log10(-x * 87.09937546 + 1)) - 0.035388128),
-                     0.281863093 * np.log10(x * 87.09937546 + 1) + 0.035388128)
+    with domain_range_scale('ignore'):
+        clog2 = np.where(
+            x < log_decoding_CanonLog2(0.035388128, bit_depth, False),
+            -(0.281863093 * (np.log10(-x * 87.09937546 + 1)) - 0.035388128),
+            0.281863093 * np.log10(x * 87.09937546 + 1) + 0.035388128)
 
     clog2 = full_to_legal(clog2, bit_depth) if out_legal else clog2
 
-    return as_numeric(clog2)
+    return as_numeric(from_range_1(clog2))
 
 
 def log_decoding_CanonLog2(clog2,
@@ -234,7 +237,7 @@ def log_decoding_CanonLog2(clog2,
     0.1799999...
     """
 
-    clog2 = np.asarray(clog2)
+    clog2 = to_domain_1(clog2)
 
     clog2 = legal_to_full(clog2, bit_depth) if in_legal else clog2
 
@@ -247,7 +250,7 @@ def log_decoding_CanonLog2(clog2,
     if out_reflection:
         x = x * 0.9
 
-    return as_numeric(x)
+    return as_numeric(from_range_1(x))
 
 
 def log_encoding_CanonLog3(x, bit_depth=10, out_legal=True,
@@ -296,22 +299,23 @@ def log_encoding_CanonLog3(x, bit_depth=10, out_legal=True,
     34.3389369...
     """
 
-    x = np.asarray(x)
+    x = to_domain_1(x)
 
     if in_reflection:
         x = x / 0.9
 
-    clog3 = np.select(
-        (x < log_decoding_CanonLog3(0.04076162, bit_depth, False, False),
-         x <= log_decoding_CanonLog3(0.105357102, bit_depth, False, False),
-         x > log_decoding_CanonLog3(0.105357102, bit_depth, False, False)),
-        (-0.42889912 * np.log10(-x * 14.98325 + 1) + 0.07623209,
-         2.3069815 * x + 0.073059361,
-         0.42889912 * np.log10(x * 14.98325 + 1) + 0.069886632))
+    with domain_range_scale('ignore'):
+        clog3 = np.select(
+            (x < log_decoding_CanonLog3(0.04076162, bit_depth, False, False),
+             x <= log_decoding_CanonLog3(0.105357102, bit_depth, False, False),
+             x > log_decoding_CanonLog3(0.105357102, bit_depth, False, False)),
+            (-0.42889912 * np.log10(-x * 14.98325 + 1) + 0.07623209,
+             2.3069815 * x + 0.073059361,
+             0.42889912 * np.log10(x * 14.98325 + 1) + 0.069886632))
 
     clog3 = full_to_legal(clog3, bit_depth) if out_legal else clog3
 
-    return as_numeric(clog3)
+    return as_numeric(from_range_1(clog3))
 
 
 def log_decoding_CanonLog3(clog3,
@@ -349,7 +353,7 @@ def log_decoding_CanonLog3(clog3,
     0.1800000...
     """
 
-    clog3 = np.asarray(clog3)
+    clog3 = to_domain_1(clog3)
 
     clog3 = legal_to_full(clog3, bit_depth) if in_legal else clog3
 
@@ -362,4 +366,4 @@ def log_decoding_CanonLog3(clog3,
     if out_reflection:
         x = x * 0.9
 
-    return as_numeric(x)
+    return as_numeric(from_range_1(x))

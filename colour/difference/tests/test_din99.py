@@ -11,7 +11,7 @@ from itertools import permutations
 
 from colour.difference import delta_E_DIN99
 
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -102,6 +102,24 @@ class TestDelta_E_DIN99(unittest.TestCase):
         delta_E = np.reshape(delta_E, (2, 3))
         np.testing.assert_almost_equal(
             delta_E_DIN99(Lab_1, Lab_2), delta_E, decimal=7)
+
+    def test_domain_range_scale_delta_E_DIN99(self):
+        """
+        Tests :func:`colour.difference.din99.delta_E_DIN99` definition
+        domain and range scale support.
+        """
+
+        Lab_1 = np.array([60.25740000, -34.00990000, 36.26770000])
+        Lab_2 = np.array([60.46260000, -34.17510000, 39.43870000])
+        delta_E = delta_E_DIN99(Lab_1, Lab_2)
+
+        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    delta_E_DIN99(Lab_1 * factor, Lab_2 * factor),
+                    delta_E,
+                    decimal=7)
 
     @ignore_numpy_errors
     def test_nan_delta_E_DIN99(self):

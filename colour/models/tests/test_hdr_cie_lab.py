@@ -11,7 +11,7 @@ from itertools import permutations
 
 from colour.models import XYZ_to_hdr_CIELab, hdr_CIELab_to_XYZ
 from colour.models.hdr_cie_lab import exponent_hdr_CIELab
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -60,6 +60,7 @@ class TestExponent_hdr_CIELab(unittest.TestCase):
         Y_s = 0.2
         Y_abs = 100
         epsilon = 0.473851073746817
+
         np.testing.assert_almost_equal(
             exponent_hdr_CIELab(Y_s, Y_abs), epsilon, decimal=7)
 
@@ -80,6 +81,24 @@ class TestExponent_hdr_CIELab(unittest.TestCase):
         epsilon = np.reshape(epsilon, (2, 3, 1))
         np.testing.assert_almost_equal(
             exponent_hdr_CIELab(Y_s, Y_abs), epsilon, decimal=7)
+
+    def test_domain_range_scale_exponent_hdr_CIELab(self):
+        """
+        Tests :func:`colour.models.hdr_cie_lab.exponent_hdr_CIELab` definition
+        domain and range scale support.
+        """
+
+        Y_s = 0.2
+        Y_abs = 100
+        epsilon = exponent_hdr_CIELab(Y_s, Y_abs)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    exponent_hdr_CIELab(Y_s * factor, Y_abs),
+                    epsilon,
+                    decimal=7)
 
     @ignore_numpy_errors
     def test_nan_exponent_hdr_CIELab(self):
@@ -168,6 +187,27 @@ class TestXYZ_to_hdr_CIELab(unittest.TestCase):
         np.testing.assert_almost_equal(
             XYZ_to_hdr_CIELab(XYZ, illuminant, Y_s, Y_abs), Lab_hdr, decimal=7)
 
+    def test_domain_range_scale_XYZ_to_hdr_CIELab(self):
+        """
+        Tests :func:`colour.models.hdr_cie_lab.XYZ_to_hdr_CIELab` definition
+        domain and range scale support.
+        """
+
+        XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
+        illuminant = np.array([0.34570, 0.35850])
+        Y_s = 0.2
+        Y_abs = 100
+        Lab_hdr = XYZ_to_hdr_CIELab(XYZ, illuminant, Y_s, Y_abs)
+
+        d_r = (('reference', 1, 1), (1, 1, 0.01), (100, 100, 1))
+        for scale, factor_a, factor_b in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    XYZ_to_hdr_CIELab(XYZ * factor_a, illuminant,
+                                      Y_s * factor_a, Y_abs),
+                    Lab_hdr * factor_b,
+                    decimal=7)
+
     @ignore_numpy_errors
     def test_nan_XYZ_to_hdr_CIELab(self):
         """
@@ -254,6 +294,27 @@ class TestHdr_CIELab_to_XYZ(unittest.TestCase):
         XYZ = np.reshape(XYZ, (2, 3, 3))
         np.testing.assert_almost_equal(
             hdr_CIELab_to_XYZ(Lab_hdr, illuminant, Y_s, Y_abs), XYZ, decimal=7)
+
+    def test_domain_range_scale_hdr_CIELab_to_XYZ(self):
+        """
+        Tests :func:`colour.models.hdr_cie_lab.hdr_CIELab_to_XYZ` definition
+        domain and range scale support.
+        """
+
+        Lab_hdr = np.array([26.46461067, -24.61332600, -4.84796811])
+        illuminant = np.array([0.34570, 0.35850])
+        Y_s = 0.2
+        Y_abs = 100
+        XYZ = hdr_CIELab_to_XYZ(Lab_hdr, illuminant, Y_s, Y_abs)
+
+        d_r = (('reference', 1, 1, 1), (1, 0.01, 1, 1), (100, 1, 100, 100))
+        for scale, factor_a, factor_b, factor_c in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    hdr_CIELab_to_XYZ(Lab_hdr * factor_a, illuminant,
+                                      Y_s * factor_b, Y_abs),
+                    XYZ * factor_c,
+                    decimal=7)
 
     @ignore_numpy_errors
     def test_nan_hdr_CIELab_to_XYZ(self):

@@ -9,9 +9,10 @@ from __future__ import division, unicode_literals
 import numpy as np
 from itertools import permutations
 
-from colour.appearance import Hunt_InductionFactors, XYZ_to_Hunt
+from colour.appearance import (HUNT_VIEWING_CONDITIONS, Hunt_InductionFactors,
+                               XYZ_to_Hunt)
 from colour.appearance.tests.common import ColourAppearanceModelTest
-from colour.utilities import ignore_numpy_errors, tstack
+from colour.utilities import domain_range_scale, ignore_numpy_errors, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -69,6 +70,39 @@ class TestHuntColourAppearanceModel(ColourAppearanceModelTest):
             CCT_w=data['T'])
 
         return specification
+
+    def test_domain_range_scale_XYZ_to_Hunt(self):
+        """
+        Tests :func:`colour.appearance.hunt.XYZ_to_Hunt` definition domain
+        and range scale support.
+        """
+
+        XYZ = np.array([19.01, 20.00, 21.78])
+        XYZ_w = np.array([95.05, 100.00, 108.88])
+        XYZ_b = np.array([95.05, 100.00, 108.88])
+        L_A = 318.31
+        surround = HUNT_VIEWING_CONDITIONS['Normal Scenes']
+        CCT_w = 6504.0
+        specification = XYZ_to_Hunt(
+            XYZ, XYZ_w, XYZ_b, L_A, surround, CCT_w=CCT_w)[:-2]
+
+        d_r = (
+            ('reference', 1, 1),
+            (1, 0.01, np.array([1, 1, 1 / 360, 1, 1, 1])),
+            (100, 1, np.array([1, 1, 100 / 360, 1, 1, 1])),
+        )
+        for scale, factor_a, factor_b in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    XYZ_to_Hunt(
+                        XYZ * factor_a,
+                        XYZ_w * factor_a,
+                        XYZ_b * factor_a,
+                        L_A,
+                        surround,
+                        CCT_w=CCT_w)[:-2],
+                    specification * factor_b,
+                    decimal=7)
 
     @ignore_numpy_errors
     def test_nan_XYZ_to_Hunt(self):

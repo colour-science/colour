@@ -26,6 +26,7 @@ from colour.colorimetry import ILLUMINANTS
 from colour.models import (XYZ_to_RGB, normalised_primary_matrix,
                            sRGB_COLOURSPACE)
 from colour.recovery import SMITS_1999_SPDS
+from colour.utilities import to_domain_1
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -150,7 +151,7 @@ def RGB_to_spectral_Smits1999(RGB):
     green_spd = SMITS_1999_SPDS['green'].copy()
     blue_spd = SMITS_1999_SPDS['blue'].copy()
 
-    R, G, B = np.ravel(RGB)
+    R, G, B = to_domain_1(RGB)
     spd = white_spd.copy() * 0
     spd.name = 'Smits (1999) - {0}'.format(RGB)
 

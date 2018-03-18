@@ -40,8 +40,8 @@ from colour.plotting import (ColourSwatch, COLOUR_STYLE_CONSTANTS,
                              XYZ_to_plotting_colourspace, artist, filter_cmfs,
                              filter_illuminants, override_style, render,
                              single_colour_swatch_plot)
-from colour.utilities import (first_item, normalise_maximum, suppress_warnings,
-                              tstack)
+from colour.utilities import (domain_range_scale, first_item,
+                              normalise_maximum, suppress_warnings, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -250,7 +250,9 @@ def multi_spd_plot(spds,
         y_limit_max.append(max(values))
 
         if use_spds_colours:
-            XYZ = spectral_to_XYZ(spd, cmfs, illuminant) / 100
+            with domain_range_scale('1'):
+                XYZ = spectral_to_XYZ(spd, cmfs, illuminant)
+
             if normalise_spds_colours:
                 XYZ = normalise_maximum(XYZ, clip=False)
 
@@ -350,9 +352,10 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
         cmfs = ('CIE 1931 2 Degree Standard Observer',
                 'CIE 1964 10 Degree Standard Observer')
 
-    cmfs = list(OrderedDict.fromkeys(
-        itertools.chain.from_iterable(
-            [filter_cmfs(cmfs_i) for cmfs_i in cmfs])))
+    cmfs = list(
+        OrderedDict.fromkeys(
+            itertools.chain.from_iterable(
+                [filter_cmfs(cmfs_i) for cmfs_i in cmfs])))
 
     figure, axes = artist(**kwargs)
 
@@ -489,9 +492,11 @@ def multi_illuminant_spd_plot(illuminants=None, **kwargs):
     if illuminants is None:
         illuminants = ('A', 'B', 'C')
 
-    illuminants = list(OrderedDict.fromkeys(
-        itertools.chain.from_iterable(
-            [filter_illuminants(illuminant) for illuminant in illuminants])))
+    illuminants = list(
+        OrderedDict.fromkeys(
+            itertools.chain.from_iterable([
+                filter_illuminants(illuminant) for illuminant in illuminants
+            ])))
 
     title = '{0} - Illuminants Spectral Power Distributions'.format(
         ', '.join([illuminant.strict_name for illuminant in illuminants]))
@@ -738,8 +743,11 @@ def blackbody_spectral_radiance_plot(
     single_spd_plot(spd, cmfs.name, **settings)
 
     axes = figure.add_subplot(212)
-    XYZ = spectral_to_XYZ(spd, cmfs)
-    RGB = normalise_maximum(XYZ_to_plotting_colourspace(XYZ / 100))
+
+    with domain_range_scale('1'):
+        XYZ = spectral_to_XYZ(spd, cmfs)
+
+    RGB = normalise_maximum(XYZ_to_plotting_colourspace(XYZ))
 
     settings = {
         'axes': axes,
@@ -813,8 +821,10 @@ def blackbody_colours_plot(
         for temperature in shape:
             spd = blackbody_spd(temperature, cmfs.shape)
 
-            XYZ = spectral_to_XYZ(spd, cmfs)
-            RGB = normalise_maximum(XYZ_to_plotting_colourspace(XYZ / 100))
+            with domain_range_scale('1'):
+                XYZ = spectral_to_XYZ(spd, cmfs)
+
+            RGB = normalise_maximum(XYZ_to_plotting_colourspace(XYZ))
 
             colours.append(RGB)
             temperatures.append(temperature)

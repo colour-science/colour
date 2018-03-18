@@ -28,7 +28,7 @@ CIE_1960_color_space#Relation_to_CIE_XYZ
 
 from __future__ import division, unicode_literals
 
-from colour.utilities import tsplit, tstack
+from colour.utilities import from_range_1, to_domain_1, tsplit, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -74,11 +74,11 @@ def XYZ_to_UCS(XYZ):
     array([ 0.0469968...,  0.1008    ,  0.1637439...])
     """
 
-    X, Y, Z = tsplit(XYZ)
+    X, Y, Z = tsplit(to_domain_1(XYZ))
 
     UVW = tstack((2 / 3 * X, Y, 1 / 2 * (-X + 3 * Y + Z)))
 
-    return UVW
+    return from_range_1(UVW)
 
 
 def UCS_to_XYZ(UVW):
@@ -113,11 +113,11 @@ def UCS_to_XYZ(UVW):
     array([ 0.0704953...,  0.1008    ,  0.0955831...])
     """
 
-    U, V, W = tsplit(UVW)
+    U, V, W = tsplit(to_domain_1(UVW))
 
     XYZ = tstack((3 / 2 * U, V, 3 / 2 * U - (3 * V) + (2 * W)))
 
-    return XYZ
+    return from_range_1(XYZ)
 
 
 def UCS_to_uv(UVW):
@@ -152,7 +152,7 @@ def UCS_to_uv(UVW):
     array([ 0.1508530...,  0.3235531...])
     """
 
-    U, V, W = tsplit(UVW)
+    U, V, W = tsplit(to_domain_1(UVW))
 
     uv = tstack((U / (U + V + W), V / (U + V + W)))
 

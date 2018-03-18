@@ -44,7 +44,7 @@ from colour.colorimetry import ILLUMINANTS_SPDS, spectral_to_XYZ
 from colour.models import XYZ_to_xy
 from colour.models.rgb import (ACES_2065_1_COLOURSPACE, ACES_RICD, RGB_to_XYZ,
                                XYZ_to_RGB, normalised_primary_matrix)
-from colour.utilities import tsplit
+from colour.utilities import from_range_1, tsplit
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -159,4 +159,4 @@ def spectral_to_aces_relative_exposure_values(
                            ACES_2065_1_COLOURSPACE.whitepoint,
                            ACES_2065_1_COLOURSPACE.XYZ_to_RGB_matrix)
 
-    return E_rgb
+    return from_range_1(E_rgb)

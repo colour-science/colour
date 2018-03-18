@@ -42,7 +42,8 @@ from colour.appearance.ciecam02 import (
     saturation_correlate, temporary_magnitude_quantity_reverse,
     viewing_condition_dependent_parameters)
 from colour.utilities import (CaseInsensitiveMapping, as_namedtuple,
-                              dot_vector, tsplit)
+                              dot_vector, from_range_100, from_range_degrees,
+                              to_domain_100, to_domain_degrees, tsplit)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2015-2018 - Colour Developers'
@@ -110,8 +111,8 @@ CAM16_VIEWING_CONDITIONS : CaseInsensitiveMapping
 
 
 class CAM16_Specification(
-        namedtuple('CAM16_Specification', ('J', 'C', 'h', 's', 'Q', 'M', 'H',
-                                           'HC'))):
+        namedtuple('CAM16_Specification',
+                   ('J', 'C', 'h', 's', 'Q', 'M', 'H', 'HC'))):
     """
     Defines the *CAM16* colour appearance model specification.
 
@@ -217,6 +218,8 @@ def XYZ_to_CAM16(XYZ,
 s=2.3450150..., Q=195.3717089..., M=0.1074367..., H=275.5949861..., HC=None)
     """
 
+    XYZ = to_domain_100(XYZ)
+    XYZ_w = to_domain_100(XYZ_w)
     _X_w, Y_w, _Z_w = tsplit(XYZ_w)
     L_A = np.asarray(L_A)
     Y_b = np.asarray(Y_b)
@@ -291,7 +294,8 @@ s=2.3450150..., Q=195.3717089..., M=0.1074367..., H=275.5949861..., HC=None)
     # Computing the correlate of *saturation* :math:`s`.
     s = saturation_correlate(M, Q)
 
-    return CAM16_Specification(J, C, h, s, Q, M, H, None)
+    return CAM16_Specification(J, C, from_range_degrees(h), s, Q, M,
+                               from_range_degrees(H), None)
 
 
 def CAM16_to_XYZ(CAM16_specification,
@@ -366,7 +370,9 @@ def CAM16_to_XYZ(CAM16_specification,
                                                 CAM16_Specification)
     L_A = np.asarray(L_A)
 
-    _X_w, Y_w, _Zw = tsplit(XYZ_w)
+    h = to_domain_degrees(h)
+    XYZ_w = to_domain_100(XYZ_w)
+    _X_w, Y_w, _Z_w = tsplit(XYZ_w)
 
     # Step 0
     # Converting *CIE XYZ* tristimulus values to sharpened *RGB* values.
@@ -429,4 +435,4 @@ def CAM16_to_XYZ(CAM16_specification,
     # Step 7
     XYZ = dot_vector(M_16_INVERSE, RGB)
 
-    return XYZ
+    return from_range_100(XYZ)

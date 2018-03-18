@@ -28,7 +28,8 @@ apps_engineering_techdocuments/c/09_color_calculations_en.pdf
 
 from __future__ import division, unicode_literals
 
-from colour.utilities import CaseInsensitiveMapping, tsplit
+from colour.utilities import (CaseInsensitiveMapping, from_range_100,
+                              to_domain_100, tsplit)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -84,11 +85,11 @@ def yellowness_ASTMD1925(XYZ):
     10.2999999...
     """
 
-    X, Y, Z = tsplit(XYZ)
+    X, Y, Z = tsplit(to_domain_100(XYZ))
 
     YI = (100 * (1.28 * X - 1.06 * Z)) / Y
 
-    return YI
+    return from_range_100(YI)
 
 
 def yellowness_ASTME313(XYZ):
@@ -129,11 +130,11 @@ def yellowness_ASTME313(XYZ):
     11.0650000...
     """
 
-    _X, Y, Z = tsplit(XYZ)
+    _X, Y, Z = tsplit(to_domain_100(XYZ))
 
     WI = 100 * (1 - (0.847 * Z) / Y)
 
-    return WI
+    return from_range_100(WI)
 
 
 YELLOWNESS_METHODS = CaseInsensitiveMapping({

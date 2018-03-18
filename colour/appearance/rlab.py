@@ -32,7 +32,8 @@ from collections import namedtuple
 
 from colour.appearance.hunt import XYZ_TO_HPE_MATRIX, XYZ_to_rgb
 from colour.utilities import (CaseInsensitiveMapping, dot_matrix, dot_vector,
-                              tsplit, row_as_diagonal)
+                              from_range_degrees, to_domain_100, tsplit,
+                              row_as_diagonal)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -230,6 +231,8 @@ def XYZ_to_RLAB(XYZ,
 s=1.1010410..., HC=None, a=15.5711021..., b=-52.6142956...)
     """
 
+    XYZ = to_domain_100(XYZ)
+    XYZ_n = to_domain_100(XYZ_n)
     Y_n = np.asarray(Y_n)
     D = np.asarray(D)
     sigma = np.asarray(sigma)
@@ -266,4 +269,4 @@ s=1.1010410..., HC=None, a=15.5711021..., b=-52.6142956...)
     # Computing the correlate of *saturation* :math:`s^R`.
     sR = CR / LR
 
-    return RLAB_Specification(LR, CR, hR, sR, None, aR, bR)
+    return RLAB_Specification(LR, CR, from_range_degrees(hR), sR, None, aR, bR)

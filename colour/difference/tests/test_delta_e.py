@@ -20,7 +20,7 @@ from colour.difference import (delta_E_CIE1976, delta_E_CIE1994,
                                delta_E_CIE2000, delta_E_CMC)
 
 from colour.algebra import euclidean_distance
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -69,6 +69,23 @@ class TestDelta_E_CIE1976(unittest.TestCase):
         """
 
         pass
+
+    def test_domain_range_scale_delta_E_CIE1976(self):
+        """
+        Tests :func:`colour.difference.delta_e.delta_E_CIE1976` definition
+        domain and range scale support.
+        """
+
+        Lab_1 = np.array([100.00000000, 21.57210357, 272.22819350])
+        Lab_2 = np.array([100.00000000, 426.67945353, 72.39590835])
+
+        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    delta_E_CIE1976(Lab_1 * factor, Lab_2 * factor),
+                    euclidean_distance(Lab_1, Lab_2),
+                    decimal=7)
 
     @ignore_numpy_errors
     def test_nan_delta_E_CIE1976(self):
@@ -160,6 +177,24 @@ class TestDelta_E_CIE1994(unittest.TestCase):
         np.testing.assert_almost_equal(
             delta_E_CIE1994(Lab_1, Lab_2), delta_E, decimal=7)
 
+    def test_domain_range_scale_delta_E_CIE1994(self):
+        """
+        Tests :func:`colour.difference.delta_e.delta_E_CIE1994` definition
+        domain and range scale support.
+        """
+
+        Lab_1 = np.array([100.00000000, 21.57210357, 272.22819350])
+        Lab_2 = np.array([100.00000000, 426.67945353, 72.39590835])
+        delta_E = delta_E_CIE1994(Lab_1, Lab_2)
+
+        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    delta_E_CIE1994(Lab_1 * factor, Lab_2 * factor),
+                    delta_E,
+                    decimal=7)
+
     @ignore_numpy_errors
     def test_nan_delta_E_CIE1994(self):
         """
@@ -212,7 +247,7 @@ class TestDelta_E_CIE2000(unittest.TestCase):
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([50.00000000, 426.67945353, 72.39590835]),
                 textiles=True),
-            95.792053524049422,
+            95.79205352,
             places=7)
 
         self.assertAlmostEqual(
@@ -220,7 +255,7 @@ class TestDelta_E_CIE2000(unittest.TestCase):
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([50.00000000, 74.05216981, 276.45318193]),
                 textiles=True),
-            23.554209427829978,
+            23.55420943,
             places=7)
 
         self.assertAlmostEqual(
@@ -228,7 +263,7 @@ class TestDelta_E_CIE2000(unittest.TestCase):
                 np.array([100.00000000, 21.57210357, 272.22819350]),
                 np.array([50.00000000, 8.32281957, -73.58297716]),
                 textiles=True),
-            70.631980031759809,
+            70.63198003,
             places=7)
 
     def test_n_dimensional_delta_E_CIE2000(self):
@@ -239,7 +274,7 @@ class TestDelta_E_CIE2000(unittest.TestCase):
 
         Lab_1 = np.array([100.00000000, 21.57210357, 272.22819350])
         Lab_2 = np.array([100.00000000, 426.67945353, 72.39590835])
-        delta_E = 94.035649026659485
+        delta_E = 94.03564903
         np.testing.assert_almost_equal(
             delta_E_CIE2000(Lab_1, Lab_2), delta_E, decimal=7)
 
@@ -254,6 +289,24 @@ class TestDelta_E_CIE2000(unittest.TestCase):
         delta_E = np.reshape(delta_E, (2, 3))
         np.testing.assert_almost_equal(
             delta_E_CIE2000(Lab_1, Lab_2), delta_E, decimal=7)
+
+    def test_domain_range_scale_delta_E_CIE2000(self):
+        """
+        Tests :func:`colour.difference.delta_e.delta_E_CIE2000` definition
+        domain and range scale support.
+        """
+
+        Lab_1 = np.array([100.00000000, 21.57210357, 272.22819350])
+        Lab_2 = np.array([100.00000000, 426.67945353, 72.39590835])
+        delta_E = delta_E_CIE2000(Lab_1, Lab_2)
+
+        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    delta_E_CIE2000(Lab_1 * factor, Lab_2 * factor),
+                    delta_E,
+                    decimal=7)
 
     @ignore_numpy_errors
     def test_nan_delta_E_CIE2000(self):
@@ -444,6 +497,24 @@ class TestDelta_E_CMC(unittest.TestCase):
         delta_E = np.reshape(delta_E, (2, 3))
         np.testing.assert_almost_equal(
             delta_E_CMC(Lab_1, Lab_2), delta_E, decimal=7)
+
+    def test_domain_range_scale_delta_E_CMC(self):
+        """
+        Tests :func:`colour.difference.delta_e.delta_E_CMC` definition
+        domain and range scale support.
+        """
+
+        Lab_1 = np.array([100.00000000, 21.57210357, 272.22819350])
+        Lab_2 = np.array([100.00000000, 426.67945353, 72.39590835])
+        delta_E = delta_E_CMC(Lab_1, Lab_2)
+
+        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    delta_E_CMC(Lab_1 * factor, Lab_2 * factor),
+                    delta_E,
+                    decimal=7)
 
     @ignore_numpy_errors
     def test_nan_delta_E_CMC(self):

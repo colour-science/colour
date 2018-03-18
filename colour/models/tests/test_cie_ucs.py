@@ -11,7 +11,7 @@ from itertools import permutations
 
 from colour.models import (XYZ_to_UCS, UCS_to_XYZ, UCS_to_uv, UCS_uv_to_xy,
                            xy_to_UCS_uv)
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -70,6 +70,21 @@ class TestXYZ_to_UCS(unittest.TestCase):
         XYZ = np.reshape(XYZ, (2, 3, 3))
         np.testing.assert_almost_equal(XYZ_to_UCS(XYZ), UCS, decimal=7)
 
+    def test_domain_range_scale_XYZ_to_UCS(self):
+        """
+        Tests :func:`colour.models.cie_ucs.XYZ_to_UCS` definition domain and
+        range scale support.
+        """
+
+        XYZ = np.array([0.0704953400, 0.1008000000, 0.0955831300])
+        UCS = XYZ_to_UCS(XYZ)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    XYZ_to_UCS(XYZ * factor), UCS * factor, decimal=7)
+
     @ignore_numpy_errors
     def test_nan_XYZ_to_UCS(self):
         """
@@ -127,6 +142,21 @@ class TestUCS_to_XYZ(unittest.TestCase):
         XYZ = np.reshape(XYZ, (2, 3, 3))
         np.testing.assert_almost_equal(UCS_to_XYZ(UCS), XYZ, decimal=7)
 
+    def test_domain_range_scale_UCS_to_XYZ(self):
+        """
+        Tests :func:`colour.models.cie_ucs.UCS_to_XYZ` definition domain and
+        range scale support.
+        """
+
+        UCS = np.array([0.0469968933, 0.1008000000, 0.1637438950])
+        XYZ = UCS_to_XYZ(UCS)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    UCS_to_XYZ(UCS * factor), XYZ * factor, decimal=7)
+
     @ignore_numpy_errors
     def test_nan_UCS_to_XYZ(self):
         """
@@ -183,6 +213,21 @@ class TestUCS_to_uv(unittest.TestCase):
         UCS = np.reshape(UCS, (2, 3, 3))
         uv = np.reshape(uv, (2, 3, 2))
         np.testing.assert_almost_equal(UCS_to_uv(UCS), uv, decimal=7)
+
+    def test_domain_range_scale_UCS_to_uv(self):
+        """
+        Tests :func:`colour.models.cie_ucs.UCS_to_uv` definition domain and
+        range scale support.
+        """
+
+        UCS = np.array([0.0469968933, 0.1008000000, 0.1637438950])
+        uv = UCS_to_uv(UCS)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    UCS_to_uv(UCS * factor), uv, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_UCS_to_uv(self):

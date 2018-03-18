@@ -29,7 +29,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
-from colour.utilities import (CaseInsensitiveMapping, dot_vector, tsplit,
+from colour.utilities import (CaseInsensitiveMapping, dot_vector,
+                              from_range_degrees, to_domain_100, tsplit,
                               tstack, warning)
 
 __author__ = 'Colour Developers'
@@ -163,8 +164,8 @@ HPE_TO_XYZ_MATRIX : array_like, (3, 3)
 
 
 class Hunt_ReferenceSpecification(
-        namedtuple('Hunt_ReferenceSpecification', ('J', 'C_94', 'h_S', 's',
-                                                   'Q', 'M_94', 'H', 'H_C'))):
+        namedtuple('Hunt_ReferenceSpecification',
+                   ('J', 'C_94', 'h_S', 's', 'Q', 'M_94', 'H', 'H_C'))):
     """
     Defines the *Hunt* colour appearance model reference specification.
 
@@ -198,8 +199,8 @@ class Hunt_ReferenceSpecification(
 
 
 class Hunt_Specification(
-        namedtuple('Hunt_Specification', ('J', 'C', 'h', 's', 'Q', 'M', 'H',
-                                          'HC'))):
+        namedtuple('Hunt_Specification',
+                   ('J', 'C', 'h', 's', 'Q', 'M', 'H', 'HC'))):
     """
     Defines the *Hunt* colour appearance model specification.
 
@@ -276,8 +277,7 @@ def XYZ_to_Hunt(XYZ,
         to approximate :math:`L_{AS}`.
     XYZ_p : array_like, optional
         *CIE XYZ* tristimulus values of proximal field normalised to domain
-        [0, 100],
-        assumed to be equal to background if not specified.
+        [0, 100], assumed to be equal to background if not specified.
     p : numeric or array_like, optional
         Simultaneous contrast / assimilation factor :math:`p` with value
         normalised to domain [-1, 0] when simultaneous contrast occurs and
@@ -332,14 +332,16 @@ def XYZ_to_Hunt(XYZ,
     Hunt_Specification(J=30.0462678..., C=0.1210508..., h=269.2737594..., \
 s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
     """
-
+    XYZ = to_domain_100(XYZ)
+    XYZ_w = to_domain_100(XYZ_w)
+    XYZ_b = to_domain_100(XYZ_b)
     _X, Y, _Z = tsplit(XYZ)
-    X_b, Y_b, _Z_b = tsplit(XYZ_b)
     _X_w, Y_w, _Z_w = tsplit(XYZ_w)
+    X_b, Y_b, _Z_b = tsplit(XYZ_b)
 
     # Arguments handling.
     if XYZ_p is not None:
-        X_p, Y_p, Z_p = tsplit(XYZ_p)
+        X_p, Y_p, Z_p = tsplit(to_domain_100(XYZ_p))
     else:
         X_p = X_b
         Y_p = Y_b
@@ -456,7 +458,8 @@ s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
     # -------------------------------------------------------------------------
     M_94 = colourfulness_correlate(F_L, C_94)
 
-    return Hunt_Specification(J, C_94, h, s, Q, M_94, None, None)
+    return Hunt_Specification(J, C_94, from_range_degrees(h), s, Q, M_94, None,
+                              None)
 
 
 def luminance_level_adaptation_factor(L_A):

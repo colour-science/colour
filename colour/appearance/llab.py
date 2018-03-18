@@ -37,7 +37,9 @@ import numpy as np
 from collections import namedtuple
 
 from colour.algebra import polar_to_cartesian
-from colour.utilities import CaseInsensitiveMapping, dot_vector, tsplit, tstack
+from colour.utilities import (CaseInsensitiveMapping, dot_vector,
+                              from_range_degrees, to_domain_100, tsplit,
+                              tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -287,9 +289,9 @@ def XYZ_to_LLAB(
 s=0.0002395..., M=0.0190185..., HC=None, a=..., b=-0.0190185...)
     """
 
-    _X, Y, _Z = tsplit(XYZ)
-    RGB = XYZ_to_RGB_LLAB(XYZ)
-    RGB_0 = XYZ_to_RGB_LLAB(XYZ_0)
+    _X, Y, _Z = tsplit(to_domain_100(XYZ))
+    RGB = XYZ_to_RGB_LLAB(to_domain_100(XYZ))
+    RGB_0 = XYZ_to_RGB_LLAB(to_domain_100(XYZ_0))
 
     # Reference illuminant *CIE Standard Illuminant D Series* *D65*.
     XYZ_0r = np.array([95.05, 100.00, 108.88])
@@ -332,7 +334,8 @@ s=0.0002395..., M=0.0190185..., HC=None, a=..., b=-0.0190185...)
     # -------------------------------------------------------------------------
     A_L, B_L = tsplit(final_opponent_signals(C_L, h_L))
 
-    return LLAB_Specification(L_L, Ch_L, h_L, s_L, C_L, None, A_L, B_L)
+    return LLAB_Specification(L_L, Ch_L, from_range_degrees(h_L), s_L, C_L,
+                              None, A_L, B_L)
 
 
 def XYZ_to_RGB_LLAB(XYZ):

@@ -29,6 +29,8 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.utilities import from_range_1, to_domain_1
+
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
@@ -69,7 +71,7 @@ def eotf_reverse_BT1886(L, L_B=0, L_W=1):
     0.4090077...
     """
 
-    L = np.asarray(L)
+    L = to_domain_1(L)
 
     gamma = 2.40
     gamma_d = 1 / gamma
@@ -80,7 +82,7 @@ def eotf_reverse_BT1886(L, L_B=0, L_W=1):
 
     V = (L / a) ** gamma_d - b
 
-    return V
+    return from_range_1(V)
 
 
 def eotf_BT1886(V, L_B=0, L_W=1):
@@ -116,7 +118,7 @@ def eotf_BT1886(V, L_B=0, L_W=1):
     0.1169918...
     """
 
-    V = np.asarray(V)
+    V = to_domain_1(V)
 
     gamma = 2.40
     gamma_d = 1 / gamma
@@ -126,4 +128,4 @@ def eotf_BT1886(V, L_B=0, L_W=1):
     b = L_B ** gamma_d / n
     L = a * np.maximum(V + b, 0) ** gamma
 
-    return L
+    return from_range_1(L)

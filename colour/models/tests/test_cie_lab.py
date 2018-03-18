@@ -10,7 +10,7 @@ import unittest
 from itertools import permutations
 
 from colour.models import XYZ_to_Lab, Lab_to_XYZ, Lab_to_LCHab, LCHab_to_Lab
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -104,6 +104,24 @@ class TestXYZ_to_Lab(unittest.TestCase):
         Lab = np.reshape(Lab, (2, 3, 3))
         np.testing.assert_almost_equal(
             XYZ_to_Lab(XYZ, illuminant), Lab, decimal=7)
+
+    def test_domain_range_scale_XYZ_to_Lab(self):
+        """
+        Tests :func:`colour.models.cie_lab.XYZ_to_Lab` definition
+        domain and range scale support.
+        """
+
+        XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
+        illuminant = np.array([0.34570, 0.35850])
+        Lab = XYZ_to_Lab(XYZ, illuminant)
+
+        d_r = (('reference', 1, 1), (1, 1, 0.01), (100, 100, 1))
+        for scale, factor_a, factor_b in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    XYZ_to_Lab(XYZ * factor_a, illuminant),
+                    Lab * factor_b,
+                    decimal=7)
 
     @ignore_numpy_errors
     def test_nan_XYZ_to_Lab(self):
@@ -200,6 +218,24 @@ class TestLab_to_XYZ(unittest.TestCase):
         np.testing.assert_almost_equal(
             Lab_to_XYZ(Lab, illuminant), XYZ, decimal=7)
 
+    def test_domain_range_scale_Lab_to_XYZ(self):
+        """
+        Tests :func:`colour.models.cie_lab.Lab_to_XYZ` definition
+        domain and range scale support.
+        """
+
+        Lab = np.array([37.98562910, -23.62907688, -4.41746615])
+        illuminant = np.array([0.34570, 0.35850])
+        XYZ = Lab_to_XYZ(Lab, illuminant)
+
+        d_r = (('reference', 1, 1), (1, 0.01, 1), (100, 1, 100))
+        for scale, factor_a, factor_b in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    Lab_to_XYZ(Lab * factor_a, illuminant),
+                    XYZ * factor_b,
+                    decimal=7)
+
     @ignore_numpy_errors
     def test_nan_Lab_to_XYZ(self):
         """
@@ -258,6 +294,22 @@ class TestLab_to_LCHab(unittest.TestCase):
         LCHab = np.reshape(LCHab, (2, 3, 3))
         np.testing.assert_almost_equal(Lab_to_LCHab(Lab), LCHab, decimal=7)
 
+    def test_domain_range_scale_Lab_to_LCHab(self):
+        """
+        Tests :func:`colour.models.cie_lab.Lab_to_LCHab` definition domain and
+        range scale support.
+        """
+
+        Lab = np.array([37.98562910, -23.62907688, -4.41746615])
+        LCHab = Lab_to_LCHab(Lab)
+
+        d_r = (('reference', 1, 1), (1, 0.01, np.array([0.01, 0.01, 1 / 360])),
+               (100, 1, np.array([1, 1, 1 / 3.6])))
+        for scale, factor_a, factor_b in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    Lab_to_LCHab(Lab * factor_a), LCHab * factor_b, decimal=7)
+
     @ignore_numpy_errors
     def test_nan_Lab_to_LCHab(self):
         """
@@ -315,6 +367,22 @@ class TestLCHab_to_Lab(unittest.TestCase):
         LCHab = np.reshape(LCHab, (2, 3, 3))
         Lab = np.reshape(Lab, (2, 3, 3))
         np.testing.assert_almost_equal(LCHab_to_Lab(LCHab), Lab, decimal=7)
+
+    def test_domain_range_scale_LCHab_to_Lab(self):
+        """
+        Tests :func:`colour.models.cie_lab.LCHab_to_Lab` definition domain and
+        range scale support.
+        """
+
+        LCHab = np.array([37.98562910, 24.03845422, 190.58923377])
+        Lab = LCHab_to_Lab(LCHab)
+
+        d_r = (('reference', 1, 1), (1, np.array([0.01, 0.01, 1 / 360]), 0.01),
+               (100, np.array([1, 1, 1 / 3.6]), 1))
+        for scale, factor_a, factor_b in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    LCHab_to_Lab(LCHab * factor_a), Lab * factor_b, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_LCHab_to_Lab(self):

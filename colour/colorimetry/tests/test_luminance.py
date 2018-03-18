@@ -8,10 +8,11 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.colorimetry.luminance import (
-    luminance_Newhall1943, luminance_CIE1976, luminance_ASTMD153508,
-    luminance_Fairchild2010, luminance_Fairchild2011)
-from colour.utilities import ignore_numpy_errors
+from colour.colorimetry import (luminance_Newhall1943, luminance_CIE1976,
+                                luminance_ASTMD153508, luminance_Fairchild2010,
+                                luminance_Fairchild2011)
+from colour.colorimetry.luminance import luminance
+from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -23,7 +24,7 @@ __status__ = 'Production'
 __all__ = [
     'TestLuminanceNewhall1943', 'TestLuminanceASTMD153508',
     'TestLuminanceCIE1976', 'TestLuminanceFairchild2010',
-    'TestLuminanceFairchild2011'
+    'TestLuminanceFairchild2011', 'TestLuminance'
 ]
 
 
@@ -50,7 +51,7 @@ class TestLuminanceNewhall1943(unittest.TestCase):
 
     def test_n_dimensional_luminance_Newhall1943(self):
         """
-        Tests :func:`colour.colorimetry.lightness.luminance_Newhall1943`
+        Tests :func:`colour.colorimetry.luminance.luminance_Newhall1943`
         definition n-dimensional arrays support.
         """
 
@@ -69,6 +70,22 @@ class TestLuminanceNewhall1943(unittest.TestCase):
         V = np.reshape(V, (2, 3, 1))
         Y = np.reshape(Y, (2, 3, 1))
         np.testing.assert_almost_equal(luminance_Newhall1943(V), Y, decimal=7)
+
+    def test_domain_range_scale_luminance_Newhall1943(self):
+        """
+        Tests :func:`colour.colorimetry.luminance.luminance_Newhall1943`
+        definition domain and range scale support.
+        """
+
+        Y = luminance_Newhall1943(3.74629715)
+
+        d_r = (('reference', 1, 1), (1, 0.1, 0.01), (100, 10, 1))
+        for scale, factor_a, factor_b in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    luminance_Newhall1943(3.74629715 * factor_a),
+                    Y * factor_b,
+                    decimal=7)
 
     @ignore_numpy_errors
     def test_nan_luminance_Newhall1943(self):
@@ -104,7 +121,7 @@ class TestLuminanceASTMD153508(unittest.TestCase):
 
     def test_n_dimensional_luminance_ASTMD153508(self):
         """
-        Tests :func:`colour.colorimetry.lightness.luminance_ASTMD153508`
+        Tests :func:`colour.colorimetry.luminance.luminance_ASTMD153508`
         definition n-dimensional arrays support.
         """
 
@@ -123,6 +140,22 @@ class TestLuminanceASTMD153508(unittest.TestCase):
         V = np.reshape(V, (2, 3, 1))
         Y = np.reshape(Y, (2, 3, 1))
         np.testing.assert_almost_equal(luminance_ASTMD153508(V), Y, decimal=7)
+
+    def test_domain_range_scale_luminance_ASTMD153508(self):
+        """
+        Tests :func:`colour.colorimetry.luminance.luminance_ASTMD153508`
+        definition domain and range scale support.
+        """
+
+        Y = luminance_ASTMD153508(3.74629715)
+
+        d_r = (('reference', 1, 1), (1, 0.1, 0.01), (100, 10, 1))
+        for scale, factor_a, factor_b in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    luminance_ASTMD153508(3.74629715 * factor_a),
+                    Y * factor_b,
+                    decimal=7)
 
     @ignore_numpy_errors
     def test_nan_luminance_ASTMD153508(self):
@@ -167,7 +200,7 @@ class TestLuminanceCIE1976(unittest.TestCase):
 
     def test_n_dimensional_luminance_CIE1976(self):
         """
-        Tests :func:`colour.colorimetry.lightness.luminance_CIE1976`
+        Tests :func:`colour.colorimetry.luminance.luminance_CIE1976`
         definition n-dimensional arrays support.
         """
 
@@ -186,6 +219,22 @@ class TestLuminanceCIE1976(unittest.TestCase):
         Lstar = np.reshape(Lstar, (2, 3, 1))
         Y = np.reshape(Y, (2, 3, 1))
         np.testing.assert_almost_equal(luminance_CIE1976(Lstar), Y, decimal=7)
+
+    def test_domain_range_scale_luminance_CIE1976(self):
+        """
+        Tests :func:`colour.colorimetry.luminance.luminance_CIE1976`
+        definition domain and range scale support.
+        """
+
+        Y = luminance_CIE1976(37.98562910, 100)
+
+        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    luminance_CIE1976(37.98562910 * factor, 100 * factor),
+                    Y * factor,
+                    decimal=7)
 
     @ignore_numpy_errors
     def test_nan_luminance_CIE1976(self):
@@ -235,7 +284,7 @@ class TestLuminanceFairchild2010(unittest.TestCase):
 
     def test_n_dimensional_luminance_Fairchild2010(self):
         """
-        Tests :func:`colour.colorimetry.lightness.luminance_Fairchild2010`
+        Tests :func:`colour.colorimetry.luminance.luminance_Fairchild2010`
         definition n-dimensional arrays support.
         """
 
@@ -258,6 +307,22 @@ class TestLuminanceFairchild2010(unittest.TestCase):
         Y = np.reshape(Y, (2, 3, 1))
         np.testing.assert_almost_equal(
             luminance_Fairchild2010(L_hdr), Y, decimal=7)
+
+    def test_domain_range_scale_luminance_Fairchild2010(self):
+        """
+        Tests :func:`colour.colorimetry.luminance.luminance_Fairchild2010`
+        definition domain and range scale support.
+        """
+
+        Y = luminance_Fairchild2010(24.902290269546651)
+
+        d_r = (('reference', 1, 1), (1, 0.01, 1), (100, 1, 100))
+        for scale, factor_a, factor_b in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    luminance_Fairchild2010(24.902290269546651 * factor_a),
+                    Y * factor_b,
+                    decimal=7)
 
     @ignore_numpy_errors
     def test_nan_luminance_Fairchild2010(self):
@@ -308,7 +373,7 @@ class TestLuminanceFairchild2011(unittest.TestCase):
 
     def test_n_dimensional_luminance_Fairchild2011(self):
         """
-        Tests :func:`colour.colorimetry.lightness.luminance_Fairchild2011`
+        Tests :func:`colour.colorimetry.luminance.luminance_Fairchild2011`
         definition n-dimensional arrays support.
         """
 
@@ -332,6 +397,22 @@ class TestLuminanceFairchild2011(unittest.TestCase):
         np.testing.assert_almost_equal(
             luminance_Fairchild2011(L_hdr), Y, decimal=7)
 
+    def test_domain_range_scale_luminance_Fairchild2011(self):
+        """
+        Tests :func:`colour.colorimetry.luminance.luminance_Fairchild2011`
+        definition domain and range scale support.
+        """
+
+        Y = luminance_Fairchild2011(26.459509817572265)
+
+        d_r = (('reference', 1, 1), (1, 0.01, 1), (100, 1, 100))
+        for scale, factor_a, factor_b in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    luminance_Fairchild2011(26.459509817572265 * factor_a),
+                    Y * factor_b,
+                    decimal=7)
+
     @ignore_numpy_errors
     def test_nan_luminance_Fairchild2011(self):
         """
@@ -341,6 +422,33 @@ class TestLuminanceFairchild2011(unittest.TestCase):
 
         luminance_Fairchild2011(
             np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
+
+
+class TestLuminance(unittest.TestCase):
+    """
+    Defines :func:`colour.colorimetry.luminance.luminance` definition unit
+    tests methods.
+    """
+
+    def test_domain_range_scale_luminance(self):
+        """
+        Tests :func:`colour.colorimetry.luminance.luminance` definition
+        domain and range scale support.
+        """
+
+        m = ('Newhall 1943', 'ASTM D1535-08', 'CIE 1976', 'Fairchild 2010',
+             'Fairchild 2011')
+        v = [luminance(37.98562910, method, Y_n=100) for method in m]
+
+        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        for method, value in zip(m, v):
+            for scale, factor in d_r:
+                with domain_range_scale(scale):
+                    np.testing.assert_almost_equal(
+                        luminance(
+                            37.98562910 * factor, method, Y_n=100 * factor),
+                        value * factor,
+                        decimal=7)
 
 
 if __name__ == '__main__':

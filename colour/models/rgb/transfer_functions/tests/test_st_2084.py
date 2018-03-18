@@ -10,7 +10,7 @@ import numpy as np
 import unittest
 
 from colour.models.rgb.transfer_functions import oetf_ST2084, eotf_ST2084
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -64,6 +64,21 @@ oetf_ST2084` definition n-dimensional arrays support.
         N = np.reshape(N, (2, 3, 1))
         np.testing.assert_almost_equal(oetf_ST2084(C), N, decimal=7)
 
+    def test_domain_range_scale_oetf_ST2084(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.st_2084.\
+oetf_ST2084` definition domain and range scale support.
+        """
+
+        C = 100
+        N = oetf_ST2084(C)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    oetf_ST2084(C * factor), N * factor, decimal=7)
+
     @ignore_numpy_errors
     def test_nan_oetf_ST2084(self):
         """
@@ -115,6 +130,21 @@ eotf_ST2084` definition n-dimensional arrays support.
         N = np.reshape(N, (2, 3, 1))
         C = np.reshape(C, (2, 3, 1))
         np.testing.assert_almost_equal(eotf_ST2084(N), C, decimal=7)
+
+    def test_domain_range_scale_eotf_ST2084(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.st_2084.\
+eotf_ST2084` definition domain and range scale support.
+        """
+
+        N = 0.508078421517399
+        C = eotf_ST2084(N)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    eotf_ST2084(N * factor), C * factor, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_eotf_ST2084(self):

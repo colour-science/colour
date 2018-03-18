@@ -37,8 +37,8 @@ import numpy as np
 from colour.algebra import lagrange_coefficients
 from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE, SpectralShape,
                                 STANDARD_OBSERVERS_CMFS, ones_spd)
-from colour.utilities import (CaseInsensitiveMapping, filter_kwargs, tsplit,
-                              warning)
+from colour.utilities import (CaseInsensitiveMapping, filter_kwargs,
+                              from_range_100, tsplit, warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -468,7 +468,7 @@ def spectral_to_XYZ_integration(
 
     XYZ = k * np.sum(np.array([X_p, Y_p, Z_p]), axis=-1)
 
-    return XYZ
+    return from_range_100(XYZ)
 
 
 def spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
@@ -559,7 +559,7 @@ def spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
 
     XYZ = np.sum(W * R[..., np.newaxis], axis=0)
 
-    return XYZ
+    return from_range_100(XYZ)
 
 
 def spectral_to_XYZ_ASTME30815(
@@ -924,7 +924,7 @@ def multi_spectral_to_XYZ_integration(
 
     XYZ = k * np.sum(np.array([X_p, Y_p, Z_p]), axis=-1)
 
-    return np.rollaxis(XYZ, 0, msa.ndim)
+    return from_range_100(np.rollaxis(XYZ, 0, msa.ndim))
 
 
 MULTI_SPECTRAL_TO_XYZ_METHODS = CaseInsensitiveMapping({

@@ -27,7 +27,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.adaptation import VON_KRIES_CAT
-from colour.utilities import dot_vector, row_as_diagonal, tsplit, tstack
+from colour.utilities import (dot_vector, from_range_100, row_as_diagonal,
+                              to_domain_100, tsplit, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -115,9 +116,9 @@ def chromatic_adaptation_Fairchild1990(XYZ_1,
     array([ 23.3252634...,  23.3245581...,  76.1159375...])
     """
 
-    XYZ_1 = np.asarray(XYZ_1)
-    XYZ_n = np.asarray(XYZ_n)
-    XYZ_r = np.asarray(XYZ_r)
+    XYZ_1 = to_domain_100(XYZ_1)
+    XYZ_n = to_domain_100(XYZ_n)
+    XYZ_r = to_domain_100(XYZ_r)
     Y_n = np.asarray(Y_n)
 
     LMS_1 = dot_vector(FAIRCHILD1990_XYZ_TO_RGB_MATRIX, XYZ_1)
@@ -144,7 +145,7 @@ def chromatic_adaptation_Fairchild1990(XYZ_1,
     LMS_c = dot_vector(np.linalg.inv(A_2), LMSp_2)
     XYZ_c = dot_vector(FAIRCHILD1990_RGB_TO_XYZ_MATRIX, LMS_c)
 
-    return XYZ_c
+    return from_range_100(XYZ_c)
 
 
 def XYZ_to_RGB_Fairchild1990(XYZ):

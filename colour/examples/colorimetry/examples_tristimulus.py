@@ -107,7 +107,7 @@ print('\n')
 
 message_box(('Computing "CIE Standard Illuminant A" chromaticity coordinates '
              'from its relative spectral power distribution.'))
-print(colour.XYZ_to_xy(colour.spectral_to_XYZ(illuminant, cmfs)))
+print(colour.XYZ_to_xy(colour.spectral_to_XYZ(illuminant, cmfs) / 100))
 
 print('\n')
 

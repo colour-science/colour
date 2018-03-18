@@ -32,7 +32,9 @@ import numpy as np
 from collections import namedtuple
 
 from colour.algebra import cartesian_to_polar, polar_to_cartesian
-from colour.utilities import CaseInsensitiveMapping, tsplit, tstack
+from colour.utilities import (CaseInsensitiveMapping, from_range_100,
+                              from_range_degrees, to_domain_100,
+                              to_domain_degrees, tsplit, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -116,6 +118,10 @@ def JMh_CIECAM02_to_UCS_Luo2006(JMh, coefficients):
     """
 
     J, M, h = tsplit(JMh)
+    J = to_domain_100(J)
+    M = to_domain_100(M)
+    h = to_domain_degrees(h)
+
     _K_L, c_1, c_2 = tsplit(coefficients)
 
     J_p = ((1 + 100 * c_1) * J) / (1 + c_1 * J)
@@ -123,7 +129,9 @@ def JMh_CIECAM02_to_UCS_Luo2006(JMh, coefficients):
 
     a_p, b_p = tsplit(polar_to_cartesian(tstack((M_p, np.radians(h)))))
 
-    return tstack((J_p, a_p, b_p))
+    Jpapbp = tstack((J_p, a_p, b_p))
+
+    return from_range_100(Jpapbp)
 
 
 def UCS_Luo2006_to_JMh_CIECAM02(Jpapbp, coefficients):
@@ -155,7 +163,7 @@ def UCS_Luo2006_to_JMh_CIECAM02(Jpapbp, coefficients):
     array([  4.1731091...e+01,   1.0884217...e-01,   2.1904843...e+02])
     """
 
-    J_p, a_p, b_p = tsplit(Jpapbp)
+    J_p, a_p, b_p = tsplit(to_domain_100(Jpapbp))
     _K_L, c_1, c_2 = tsplit(coefficients)
 
     J = -J_p / (c_1 * J_p - 1 - 100 * c_1)
@@ -164,7 +172,10 @@ def UCS_Luo2006_to_JMh_CIECAM02(Jpapbp, coefficients):
 
     M = (np.exp(M_p / (1 / c_2)) - 1) / c_2
 
-    return tstack((J, M, np.degrees(h) % 360))
+    JMh = tstack((from_range_100(J), from_range_100(M),
+                  from_range_degrees(np.degrees(h) % 360)))
+
+    return JMh
 
 
 def JMh_CIECAM02_to_CAM02LCD(JMh):

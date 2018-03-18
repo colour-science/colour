@@ -33,10 +33,11 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.models import (xy_to_XYZ, xy_to_xyY, xyY_to_XYZ)
+from colour.models import xy_to_XYZ, xy_to_xyY, xyY_to_XYZ
 from colour.models.rgb import normalised_primary_matrix
 from colour.adaptation import chromatic_adaptation_matrix_VonKries
-from colour.utilities import dot_matrix, dot_vector, is_string
+from colour.utilities import (domain_range_scale, dot_matrix, dot_vector,
+                              from_range_1, to_domain_1, is_string)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -711,8 +712,7 @@ class RGB_Colourspace(object):
                 '{1}{8},\n'
                 '{1}{9},\n'
                 '{1}{10})').format(
-                    self.name, ' ' * 16,
-                    _indent_array(self.primaries),
+                    self.name, ' ' * 16, _indent_array(self.primaries),
                     _indent_array(self.whitepoint), self.illuminant,
                     _indent_array(self.RGB_to_XYZ_matrix),
                     _indent_array(self.XYZ_to_RGB_matrix), self.encoding_cctf,
@@ -817,6 +817,8 @@ def XYZ_to_RGB(XYZ,
     array([ 0.0110015...,  0.1273504...,  0.1163271...])
     """
 
+    XYZ = to_domain_1(XYZ)
+
     if chromatic_adaptation_transform is not None:
         M_CAT = chromatic_adaptation_matrix_VonKries(
             xyY_to_XYZ(xy_to_xyY(illuminant_XYZ)),
@@ -828,9 +830,10 @@ def XYZ_to_RGB(XYZ,
     RGB = dot_vector(XYZ_to_RGB_matrix, XYZ)
 
     if encoding_cctf is not None:
-        RGB = encoding_cctf(RGB)
+        with domain_range_scale('ignore'):
+            RGB = encoding_cctf(RGB)
 
-    return RGB
+    return from_range_1(RGB)
 
 
 def RGB_to_XYZ(RGB,
@@ -894,8 +897,11 @@ def RGB_to_XYZ(RGB,
     array([ 0.0704953...,  0.1008    ,  0.0955831...])
     """
 
+    RGB = to_domain_1(RGB)
+
     if decoding_cctf is not None:
-        RGB = decoding_cctf(RGB)
+        with domain_range_scale('ignore'):
+            RGB = decoding_cctf(RGB)
 
     XYZ = dot_vector(RGB_to_XYZ_matrix, RGB)
 
@@ -907,7 +913,7 @@ def RGB_to_XYZ(RGB,
 
         XYZ = dot_vector(M_CAT, XYZ)
 
-    return XYZ
+    return from_range_1(XYZ)
 
 
 def RGB_to_RGB_matrix(input_colourspace,
@@ -1013,8 +1019,11 @@ def RGB_to_RGB(RGB,
     array([ 0.0643561...,  0.1157331...,  0.1158069...])
     """
 
+    RGB = to_domain_1(RGB)
+
     if apply_decoding_cctf:
-        RGB = input_colourspace.decoding_cctf(RGB)
+        with domain_range_scale('ignore'):
+            RGB = input_colourspace.decoding_cctf(RGB)
 
     M = RGB_to_RGB_matrix(input_colourspace, output_colourspace,
                           chromatic_adaptation_transform)
@@ -1022,6 +1031,7 @@ def RGB_to_RGB(RGB,
     RGB = dot_vector(M, RGB)
 
     if apply_encoding_cctf:
-        RGB = output_colourspace.encoding_cctf(RGB)
+        with domain_range_scale('ignore'):
+            RGB = output_colourspace.encoding_cctf(RGB)
 
-    return RGB
+    return from_range_1(RGB)

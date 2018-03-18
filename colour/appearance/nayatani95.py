@@ -34,7 +34,8 @@ from colour.adaptation.cie1994 import (CIE1994_XYZ_TO_RGB_MATRIX, beta_1,
                                        exponential_factors,
                                        intermediate_values)
 from colour.models import XYZ_to_xy
-from colour.utilities import dot_vector, tsplit, tstack
+from colour.utilities import (dot_vector, from_range_degrees, to_domain_100,
+                              tsplit, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -66,9 +67,10 @@ NAYATANI95_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
 
 
 class Nayatani95_ReferenceSpecification(
-        namedtuple('Nayatani95_ReferenceSpecification',
-                   ('Lstar_P', 'C', 'theta', 'S', 'B_r', 'M', 'H', 'H_C',
-                    'Lstar_N'))):
+        namedtuple(
+            'Nayatani95_ReferenceSpecification',
+            ('Lstar_P', 'C', 'theta', 'S', 'B_r', 'M', 'H', 'H_C', 'Lstar_N'))
+):
     """
     Defines the *Nayatani (1995)* colour appearance model reference
     specification.
@@ -105,8 +107,9 @@ class Nayatani95_ReferenceSpecification(
 
 
 class Nayatani95_Specification(
-        namedtuple('Nayatani95_Specification', ('Lstar_P', 'C', 'h', 's', 'Q',
-                                                'M', 'H', 'HC', 'Lstar_N'))):
+        namedtuple(
+            'Nayatani95_Specification',
+            ('Lstar_P', 'C', 'h', 's', 'Q', 'M', 'H', 'HC', 'Lstar_N'))):
     """
     Defines the *Nayatani (1995)* colour appearance model specification.
 
@@ -201,6 +204,8 @@ h=257.5232268..., s=0.0133550..., Q=62.6266734..., M=0.0167262..., H=None, \
 HC=None, Lstar_N=50.0039154...)
     """
 
+    XYZ = to_domain_100(XYZ)
+    XYZ_n = to_domain_100(XYZ_n)
     Y_o = np.asarray(Y_o)
     E_o = np.asarray(E_o)
     E_or = np.asarray(E_or)
@@ -211,7 +216,7 @@ HC=None, Lstar_N=50.0039154...)
     L_or = illuminance_to_luminance(E_or, Y_o)
 
     # Computing :math:`\xi`, :math:`\eta`, :math:`\zeta` values.
-    xez = intermediate_values(XYZ_to_xy(XYZ_n))
+    xez = intermediate_values(XYZ_to_xy(XYZ_n / 100))
     xi, eta, _zeta = tsplit(xez)
 
     # Computing adapting field cone responses.
@@ -274,8 +279,8 @@ HC=None, Lstar_N=50.0039154...)
     # brightness_ideal_white))
     M = colourfulness_correlate(C, brightness_ideal_white)
 
-    return Nayatani95_Specification(Lstar_P, C, theta, S, B_r, M, None, None,
-                                    Lstar_N)
+    return Nayatani95_Specification(Lstar_P, C, from_range_degrees(theta), S,
+                                    B_r, M, None, None, Lstar_N)
 
 
 def illuminance_to_luminance(E, Y_f):
