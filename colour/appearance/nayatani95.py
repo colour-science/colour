@@ -213,7 +213,7 @@ HC=None, Lstar_N=50.0039154...)
     L_or = illuminance_to_luminance(E_or, Y_o)
 
     # Computing :math:`\xi`, :math:`\eta`, :math:`\zeta` values.
-    xez = intermediate_values(XYZ_to_xy(XYZ_n))
+    xez = intermediate_values(XYZ_to_xy(XYZ_n / 100))
     xi, eta, _zeta = tsplit(xez)
 
     # Computing adapting field cone responses.

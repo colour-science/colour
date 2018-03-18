@@ -64,8 +64,8 @@ class VS_ColorimetryData(
 
 
 class VS_ColourQualityScaleData(
-        namedtuple('VS_ColourQualityScaleData', ('name', 'Q_a', 'D_C_ab',
-                                                 'D_E_ab', 'D_Ep_ab'))):
+        namedtuple('VS_ColourQualityScaleData',
+                   ('name', 'Q_a', 'D_C_ab', 'D_E_ab', 'D_Ep_ab'))):
     """
     Defines the the class storing *VS test colour samples* colour quality
     scale data.
@@ -149,7 +149,7 @@ def colour_quality_scale(spd_test, additional_data=False):
     spd_test = spd_test.copy().align(shape)
     vs_spds = {spd.name: spd.copy().align(shape) for spd in VS_SPDS.values()}
 
-    XYZ = spectral_to_XYZ(spd_test, cmfs)
+    XYZ = spectral_to_XYZ(spd_test, cmfs) / 100
     uv = UCS_to_uv(XYZ_to_UCS(XYZ))
     CCT, _D_uv = uv_to_CCT_Ohno2013(uv)
 
@@ -193,9 +193,9 @@ def colour_quality_scale(spd_test, additional_data=False):
     Q_d = G_t / G_r * CCT_f * 100
 
     if additional_data:
-        return CQS_Specification(spd_test.name, Q_a, Q_f, Q_p, Q_g, Q_d, Q_as,
-                                 (test_vs_colorimetry_data,
-                                  reference_vs_colorimetry_data))
+        return CQS_Specification(
+            spd_test.name, Q_a, Q_f, Q_p, Q_g, Q_d, Q_as,
+            (test_vs_colorimetry_data, reference_vs_colorimetry_data))
     else:
         return Q_a
 

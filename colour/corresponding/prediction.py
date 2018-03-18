@@ -258,7 +258,7 @@ def corresponding_chromaticities_prediction_CMCCAT2000(experiment=1):
     illuminants = experiment_results.pop(0)
     XYZ_w = xy_to_XYZ(Luv_uv_to_xy(illuminants.uvp_t)) * 100
     XYZ_wr = xy_to_XYZ(Luv_uv_to_xy(illuminants.uvp_m)) * 100
-    xy_wr = XYZ_to_xy(XYZ_wr)
+    xy_wr = XYZ_to_xy(XYZ_wr / 100)
     L_A1 = L_A2 = BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES[experiment].Y
 
     prediction = []
@@ -266,7 +266,7 @@ def corresponding_chromaticities_prediction_CMCCAT2000(experiment=1):
         XYZ_1 = xy_to_XYZ(Luv_uv_to_xy(result.uvp_t)) * 100
         XYZ_2 = chromatic_adaptation_CMCCAT2000(XYZ_1, XYZ_w, XYZ_wr, L_A1,
                                                 L_A2)
-        uvp = Luv_to_uv(XYZ_to_Luv(XYZ_2, xy_wr), xy_wr)
+        uvp = Luv_to_uv(XYZ_to_Luv(XYZ_2 / 100, xy_wr), xy_wr)
         prediction.append(
             CorrespondingChromaticitiesPrediction(result.name, result.uvp_t,
                                                   result.uvp_m, uvp))

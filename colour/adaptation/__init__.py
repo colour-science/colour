@@ -223,7 +223,10 @@ def chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method='Von Kries', **kwargs):
     if function is chromatic_adaptation_CIE1994:
         from colour import XYZ_to_xy
 
-        kwargs.update({'xy_o1': XYZ_to_xy(XYZ_w), 'xy_o2': XYZ_to_xy(XYZ_wr)})
+        kwargs.update({
+            'xy_o1': XYZ_to_xy(XYZ_w / 100),
+            'xy_o2': XYZ_to_xy(XYZ_wr / 100)
+        })
     elif function is chromatic_adaptation_Fairchild1990:
         kwargs.update({'XYZ_n': XYZ_w, 'XYZ_r': XYZ_wr})
 

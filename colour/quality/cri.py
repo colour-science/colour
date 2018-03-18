@@ -64,8 +64,8 @@ class TCS_ColourQualityScaleData(
 
 
 class CRI_Specification(
-        namedtuple('CRI_Specification', ('name', 'Q_a', 'Q_as',
-                                         'colorimetry_data'))):
+        namedtuple('CRI_Specification',
+                   ('name', 'Q_a', 'Q_as', 'colorimetry_data'))):
     """
     Defines the *Colour Rendering Index* (CRI) colour quality specification.
 
@@ -122,7 +122,7 @@ def colour_rendering_index(spd_test, additional_data=False):
     spd_test = spd_test.copy().align(shape)
     tcs_spds = {spd.name: spd.copy().align(shape) for spd in TCS_SPDS.values()}
 
-    XYZ = spectral_to_XYZ(spd_test, cmfs)
+    XYZ = spectral_to_XYZ(spd_test, cmfs) / 100
     uv = UCS_to_uv(XYZ_to_UCS(XYZ))
     CCT, _D_uv = uv_to_CCT_Robertson1968(uv)
 
@@ -146,9 +146,9 @@ def colour_rendering_index(spd_test, additional_data=False):
         [v.Q_a for k, v in Q_as.items() if k in (1, 2, 3, 4, 5, 6, 7, 8)])
 
     if additional_data:
-        return CRI_Specification(spd_test.name, Q_a, Q_as,
-                                 (test_tcs_colorimetry_data,
-                                  reference_tcs_colorimetry_data))
+        return CRI_Specification(
+            spd_test.name, Q_a, Q_as,
+            (test_tcs_colorimetry_data, reference_tcs_colorimetry_data))
     else:
         return Q_a
 
