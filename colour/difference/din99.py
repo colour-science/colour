@@ -23,8 +23,11 @@ References
 
 from __future__ import division, unicode_literals
 
+import numpy as np
+
 from colour.algebra import euclidean_distance
 from colour.models import Lab_to_DIN99
+from colour.utilities import inspect_domain_100
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -65,6 +68,9 @@ def delta_E_DIN99(Lab_1, Lab_2, textiles=False):
     >>> delta_E_DIN99(Lab_1, Lab_2)  # doctest: +ELLIPSIS
     1.1772166...
     """
+
+    Lab_1 = np.asarray(inspect_domain_100(Lab_1))
+    Lab_2 = np.asarray(inspect_domain_100(Lab_2))
 
     k_E = 2 if textiles else 1
     k_CH = 0.5 if textiles else 1

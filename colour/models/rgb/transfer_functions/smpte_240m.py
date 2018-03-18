@@ -28,7 +28,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import as_numeric
+from colour.utilities import as_numeric, inspect_domain_1
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -66,7 +66,7 @@ def oetf_SMPTE240M(L_c):
     0.4022857...
     """
 
-    L_c = np.asarray(L_c)
+    L_c = np.asarray(inspect_domain_1(L_c))
 
     return as_numeric(
         np.where(L_c < 0.0228, 4 * L_c, 1.1115 * L_c ** 0.45 - 0.1115))
@@ -98,7 +98,7 @@ def eotf_SMPTE240M(V_r):
     0.1...
     """
 
-    V_r = np.asarray(V_r)
+    V_r = np.asarray(inspect_domain_1(V_r))
 
     return as_numeric(
         np.where(V_r < oetf_SMPTE240M(0.0228), V_r / 4, ((

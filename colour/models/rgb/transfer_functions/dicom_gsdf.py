@@ -35,7 +35,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import Structure, as_numeric
+from colour.utilities import Structure, as_numeric, inspect_domain_int
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -98,7 +98,7 @@ def oetf_DICOMGSDF(L):
     511.9964806...
     """
 
-    L = np.asarray(L)
+    L = np.asarray(inspect_domain_int(L))
 
     L_lg = np.log10(L)
 
@@ -143,7 +143,7 @@ def eotf_DICOMGSDF(J):
     130.0652840...
     """
 
-    J = np.asarray(J)
+    J = np.asarray(inspect_domain_int(J))
 
     a = DICOMGSDF_CONSTANTS.a
     b = DICOMGSDF_CONSTANTS.b

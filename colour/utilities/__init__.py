@@ -13,8 +13,10 @@ from .array import (as_numeric, as_namedtuple, closest_indexes, closest,
                     centroid, linear_conversion, fill_nan, ndarray_write)
 from .data_structures import Lookup, Structure, CaseInsensitiveMapping
 from .metrics import metric_mse, metric_psnr
-from .verbose import (ColourWarning, message_box, warning, filter_warnings,
-                      suppress_warnings, numpy_print_options)
+from .verbose import (ColourWarning, message_box, show_warning, warning,
+                      filter_warnings, suppress_warnings, numpy_print_options,
+                      inspect_domain_1, inspect_domain_10, inspect_domain_100,
+                      inspect_domain_int)
 
 __all__ = [
     'handle_numpy_errors', 'ignore_numpy_errors', 'raise_numpy_errors',
@@ -31,6 +33,8 @@ __all__ += [
 __all__ += ['Lookup', 'Structure', 'CaseInsensitiveMapping']
 __all__ += ['metric_mse', 'metric_psnr']
 __all__ += [
-    'ColourWarning', 'message_box', 'warning', 'filter_warnings',
-    'suppress_warnings', 'numpy_print_options'
+    'ColourWarning', 'message_box', 'show_warning', 'warning',
+    'filter_warnings', 'suppress_warnings', 'numpy_print_options',
+    'inspect_domain_1', 'inspect_domain_10', 'inspect_domain_100',
+    'inspect_domain_int'
 ]

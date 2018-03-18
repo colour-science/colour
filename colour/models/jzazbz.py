@@ -28,7 +28,8 @@ import numpy as np
 
 from colour.models.rgb.transfer_functions import oetf_ST2084, eotf_ST2084
 from colour.models.rgb.transfer_functions.st_2084 import ST2084_CONSTANTS
-from colour.utilities import Structure, dot_vector, tsplit, tstack
+from colour.utilities import (Structure, dot_vector, inspect_domain_1, tsplit,
+                              tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -131,7 +132,7 @@ def XYZ_to_JzAzBz(XYZ_D65, constants=JZAZBZ_CONSTANTS):
     array([ 0.0176682...,  0.0006417..., -0.0005290...])
     """
 
-    X_D65, Y_D65, Z_D65 = tsplit(XYZ_D65)
+    X_D65, Y_D65, Z_D65 = tsplit(inspect_domain_1(XYZ_D65))
 
     X_p_D65 = constants.b * X_D65 - (constants.b - 1) * Z_D65
     Y_p_D65 = constants.g * Y_D65 - (constants.g - 1) * X_D65
@@ -180,7 +181,7 @@ def JzAzBz_to_XYZ(JzAzBz, constants=JZAZBZ_CONSTANTS):
     array([ 0.9690723...,  1.0000000...,  1.1217920...])
     """
 
-    J_z, A_z, B_z = tsplit(JzAzBz)
+    J_z, A_z, B_z = tsplit(inspect_domain_1(JzAzBz))
 
     I_z = ((J_z + constants.d_0) / (1 + constants.d - constants.d *
                                     (J_z + constants.d_0)))

@@ -29,8 +29,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
-from colour.utilities import (CaseInsensitiveMapping, dot_vector, tsplit,
-                              tstack, warning)
+from colour.utilities import (CaseInsensitiveMapping, dot_vector,
+                              inspect_domain_100, tsplit, tstack, warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -333,9 +333,9 @@ def XYZ_to_Hunt(XYZ,
 s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
     """
 
-    _X, Y, _Z = tsplit(XYZ)
-    X_b, Y_b, _Z_b = tsplit(XYZ_b)
-    _X_w, Y_w, _Z_w = tsplit(XYZ_w)
+    _X, Y, _Z = tsplit(inspect_domain_100(XYZ))
+    X_b, Y_b, _Z_b = tsplit(inspect_domain_100(XYZ_b))
+    _X_w, Y_w, _Z_w = tsplit(inspect_domain_100(XYZ_w))
 
     # Arguments handling.
     if XYZ_p is not None:

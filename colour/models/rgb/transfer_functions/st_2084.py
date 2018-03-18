@@ -31,7 +31,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import Structure
+from colour.utilities import Structure, inspect_domain_1
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -90,7 +90,7 @@ def oetf_ST2084(C, L_p=10000, constants=ST2084_CONSTANTS):
     0.5080784...
     """
 
-    C = np.asarray(C)
+    C = np.asarray(inspect_domain_1(C))
 
     Y_p = (C / L_p) ** constants.m_1
 
@@ -137,7 +137,7 @@ def eotf_ST2084(N, L_p=10000, constants=ST2084_CONSTANTS):
     100.0000000...
     """
 
-    N = np.asarray(N)
+    N = np.asarray(inspect_domain_1(N))
 
     m_1_d = 1 / constants.m_1
     m_2_d = 1 / constants.m_2

@@ -26,7 +26,7 @@ from __future__ import division, unicode_literals
 
 from colour.colorimetry import HUNTERLAB_ILLUMINANTS
 from colour.models import XYZ_to_K_ab_HunterLab1966
-from colour.utilities import tsplit, tstack
+from colour.utilities import inspect_domain_100, tsplit, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -82,8 +82,8 @@ def XYZ_to_Hunter_Rdab(XYZ,
     array([ 10.08      , -18.6765376...,  -3.4432992...])
     """
 
-    X, Y, Z = tsplit(XYZ)
-    X_n, Y_n, Z_n = tsplit(XYZ_n)
+    X, Y, Z = tsplit(inspect_domain_100(XYZ))
+    X_n, Y_n, Z_n = tsplit(inspect_domain_100(XYZ_n))
     K_a, K_b = (tsplit(XYZ_to_K_ab_HunterLab1966(XYZ_n))
                 if K_ab is None else tsplit(K_ab))
 
@@ -144,7 +144,7 @@ def Hunter_Rdab_to_XYZ(R_d_ab,
     array([  7.049534...,  10.08    ...,   9.558313...])
     """
 
-    R_d, a_Rd, b_Rd = tsplit(R_d_ab)
+    R_d, a_Rd, b_Rd = tsplit(inspect_domain_100(R_d_ab))
     X_n, Y_n, Z_n = tsplit(XYZ_n)
     K_a, K_b = (tsplit(XYZ_to_K_ab_HunterLab1966(XYZ_n))
                 if K_ab is None else tsplit(K_ab))

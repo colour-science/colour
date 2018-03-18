@@ -28,7 +28,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import Structure, as_numeric
+from colour.utilities import Structure, as_numeric, inspect_domain_1
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -80,7 +80,7 @@ def oetf_ARIBSTDB67(E, r=0.5, constants=ARIBSTDB67_CONSTANTS):
     0.2121320...
     """
 
-    E = np.asarray(E)
+    E = np.asarray(inspect_domain_1(E))
 
     a = constants.a
     b = constants.b
@@ -122,7 +122,7 @@ def oetf_reverse_ARIBSTDB67(E_p, r=0.5, constants=ARIBSTDB67_CONSTANTS):
     0.1799999...
     """
 
-    E_p = np.asarray(E_p)
+    E_p = np.asarray(inspect_domain_1(E_p))
 
     a = constants.a
     b = constants.b

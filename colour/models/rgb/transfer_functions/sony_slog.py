@@ -33,8 +33,9 @@ TechnicalSummary_for_S-Gamut3Cine_S-Gamut3_S-Log3_V1_00.pdf
 from __future__ import division, unicode_literals
 
 import numpy as np
-from colour.utilities import as_numeric
+
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
+from colour.utilities import as_numeric, inspect_domain_1
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -86,7 +87,7 @@ def log_encoding_SLog(x, bit_depth=10, out_legal=True, in_reflection=True):
     0.3708204...
     """
 
-    x = np.asarray(x)
+    x = np.asarray(inspect_domain_1(x))
 
     if in_reflection:
         x = x / 0.9
@@ -139,7 +140,7 @@ def log_decoding_SLog(y, bit_depth=10, in_legal=True, out_reflection=True):
     0.1...
     """
 
-    y = np.asarray(y)
+    y = np.asarray(inspect_domain_1(y))
 
     x = legal_to_full(y, bit_depth) if in_legal else y
 
@@ -190,8 +191,8 @@ def log_encoding_SLog2(x, bit_depth=10, out_legal=True, in_reflection=True):
     0.3262865...
     """
 
-    return log_encoding_SLog(x * 155 / 219, bit_depth, out_legal,
-                             in_reflection)
+    return log_encoding_SLog(
+        inspect_domain_1(x) * 155 / 219, bit_depth, out_legal, in_reflection)
 
 
 def log_decoding_SLog2(y, bit_depth=10, in_legal=True, out_reflection=True):
@@ -233,8 +234,8 @@ def log_decoding_SLog2(y, bit_depth=10, in_legal=True, out_reflection=True):
     0.1...
     """
 
-    return 219 * log_decoding_SLog(y, bit_depth, in_legal,
-                                   out_reflection) / 155
+    return 219 * log_decoding_SLog(
+        inspect_domain_1(y), bit_depth, in_legal, out_reflection) / 155
 
 
 def log_encoding_SLog3(x, bit_depth=10, out_legal=True, in_reflection=True):
@@ -274,7 +275,7 @@ def log_encoding_SLog3(x, bit_depth=10, out_legal=True, in_reflection=True):
     0.3995079...
     """
 
-    x = np.asarray(x)
+    x = np.asarray(inspect_domain_1(x))
 
     if not in_reflection:
         x = x * 0.9
@@ -327,7 +328,7 @@ def log_decoding_SLog3(y, bit_depth=10, in_legal=True, out_reflection=True):
     0.1...
     """
 
-    y = np.asarray(y)
+    y = np.asarray(inspect_domain_1(y))
 
     y = y if in_legal else full_to_legal(y, bit_depth)
 

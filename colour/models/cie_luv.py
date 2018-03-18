@@ -42,7 +42,8 @@ from colour.algebra import cartesian_to_polar, polar_to_cartesian
 from colour.colorimetry import ILLUMINANTS
 from colour.constants import CIE_E, CIE_K
 from colour.models import xy_to_xyY, xyY_to_XYZ
-from colour.utilities import tsplit, tstack
+from colour.utilities import (inspect_domain_1, inspect_domain_100, tsplit,
+                              tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -95,8 +96,9 @@ def XYZ_to_Luv(
     array([ 37.9856291..., -28.8021959...,  -1.3580070...])
     """
 
-    X, Y, Z = tsplit(XYZ)
-    X_r, Y_r, Z_r = tsplit(xyY_to_XYZ(xy_to_xyY(illuminant)))
+    X, Y, Z = tsplit(inspect_domain_1(XYZ))
+
+    X_r, Y_r, Z_r = tsplit(xyY_to_XYZ(xy_to_xyY(inspect_domain_1(illuminant))))
 
     y_r = Y / Y_r
 
@@ -150,8 +152,9 @@ def Luv_to_XYZ(
     array([ 0.0704953...,  0.1008    ,  0.0955831...])
     """
 
-    L, u, v = tsplit(Luv)
-    X_r, Y_r, Z_r = tsplit(xyY_to_XYZ(xy_to_xyY(illuminant)))
+    L, u, v = tsplit(inspect_domain_100(Luv))
+
+    X_r, Y_r, Z_r = tsplit(xyY_to_XYZ(xy_to_xyY(inspect_domain_1(illuminant))))
 
     Y = np.where(L > CIE_E * CIE_K, ((L + 16) / 116) ** 3, L / CIE_K)
 
@@ -208,6 +211,8 @@ def Luv_to_uv(
     >>> Luv_to_uv(Luv)  # doctest: +ELLIPSIS
     array([ 0.1508531...,  0.4853297...])
     """
+
+    Luv = np.asarray(inspect_domain_100(Luv))
 
     X, Y, Z = tsplit(Luv_to_XYZ(Luv, illuminant))
 
@@ -325,7 +330,7 @@ def Luv_to_LCHuv(Luv):
     array([  37.9856291...,   28.8341927...,  182.6994640...])
     """
 
-    L, u, v = tsplit(Luv)
+    L, u, v = tsplit(inspect_domain_100(Luv))
 
     C, H = tsplit(cartesian_to_polar(tstack((u, v))))
 
@@ -363,7 +368,7 @@ def LCHuv_to_Luv(LCHuv):
     array([ 37.9856291..., -28.8021959...,  -1.3580070...])
     """
 
-    L, C, H = tsplit(LCHuv)
+    L, C, H = tsplit(inspect_domain_100(LCHuv))
 
     u, v = tsplit(polar_to_cartesian(tstack((C, np.radians(H)))))
 

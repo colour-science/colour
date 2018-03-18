@@ -34,7 +34,7 @@ from colour.adaptation.cie1994 import (CIE1994_XYZ_TO_RGB_MATRIX, beta_1,
                                        exponential_factors,
                                        intermediate_values)
 from colour.models import XYZ_to_xy
-from colour.utilities import dot_vector, tsplit, tstack
+from colour.utilities import dot_vector, inspect_domain_100, tsplit, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -201,6 +201,8 @@ h=257.5232268..., s=0.0133550..., Q=62.6266734..., M=0.0167262..., H=None, \
 HC=None, Lstar_N=50.0039154...)
     """
 
+    XYZ = np.asarray(inspect_domain_100(XYZ))
+    XYZ_n = np.asarray(inspect_domain_100(XYZ_n))
     Y_o = np.asarray(Y_o)
     E_o = np.asarray(E_o)
     E_or = np.asarray(E_or)

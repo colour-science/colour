@@ -24,7 +24,8 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import CaseInsensitiveMapping, as_numeric
+from colour.utilities import (CaseInsensitiveMapping, as_numeric,
+                              inspect_domain_1)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -222,7 +223,7 @@ def log_encoding_ALEXALogC(x,
     0.3910068...
     """
 
-    x = np.asarray(x)
+    x = np.asarray(inspect_domain_1(x))
 
     cut, a, b, c, d, e, f, _e_cut_f = (
         ALEXA_LOG_C_CURVE_CONVERSION_DATA[firmware][method][EI])
@@ -267,7 +268,7 @@ def log_decoding_ALEXALogC(t,
     0.18...
     """
 
-    t = np.asarray(t)
+    t = np.asarray(inspect_domain_1(t))
 
     cut, a, b, c, d, e, f, _e_cut_f = (
         ALEXA_LOG_C_CURVE_CONVERSION_DATA[firmware][method][EI])

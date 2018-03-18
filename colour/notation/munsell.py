@@ -131,8 +131,9 @@ from colour.constants import (DEFAULT_FLOAT_DTYPE, INTEGER_THRESHOLD,
 from colour.models import Lab_to_LCHab, XYZ_to_Lab, XYZ_to_xy, xyY_to_XYZ
 from colour.volume import is_within_macadam_limits
 from colour.notation import MUNSELL_COLOURS_ALL
-from colour.utilities import (CaseInsensitiveMapping, Lookup, is_integer,
-                              is_numeric, tsplit, warning)
+from colour.utilities import (CaseInsensitiveMapping, Lookup, inspect_domain_1,
+                              inspect_domain_100, is_integer, is_numeric,
+                              tsplit, warning)
 
 __author__ = 'Colour Developers, Paul Centore'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -315,7 +316,7 @@ def munsell_value_Priest1920(Y):
     3.1749015...
     """
 
-    Y = np.asarray(Y)
+    Y = np.asarray(inspect_domain_100(Y))
 
     V = 10 * np.sqrt(Y / 100)
 
@@ -352,7 +353,7 @@ def munsell_value_Munsell1933(Y):
     3.7918355...
     """
 
-    Y = np.asarray(Y)
+    Y = np.asarray(inspect_domain_100(Y))
 
     V = np.sqrt(1.4742 * Y - 0.004743 * (Y * Y))
 
@@ -390,7 +391,7 @@ def munsell_value_Moon1943(Y):
     3.7462971...
     """
 
-    Y = np.asarray(Y)
+    Y = np.asarray(inspect_domain_100(Y))
 
     V = 1.4 * Y ** 0.426
 
@@ -427,7 +428,7 @@ def munsell_value_Saunderson1944(Y):
     3.6865080...
     """
 
-    Y = np.asarray(Y)
+    Y = np.asarray(inspect_domain_100(Y))
 
     V = 2.357 * (Y ** 0.343) - 1.52
 
@@ -464,7 +465,7 @@ def munsell_value_Ladd1955(Y):
     3.6952862...
     """
 
-    Y = np.asarray(Y)
+    Y = np.asarray(inspect_domain_100(Y))
 
     V = 2.468 * (Y ** (1 / 3)) - 1.636
 
@@ -501,7 +502,7 @@ def munsell_value_McCamy1987(Y):
     array(3.7347235...)
     """
 
-    Y = np.asarray(Y)
+    Y = np.asarray(inspect_domain_100(Y))
 
     V = np.where(Y <= 0.9, 0.87445 * (Y ** 0.9967),
                  (2.49268 * (Y ** (1 / 3)) - 1.5614 -
@@ -544,7 +545,7 @@ def munsell_value_ASTMD153508(Y):
     3.7462971...
     """
 
-    Y = np.asarray(Y)
+    Y = np.asarray(inspect_domain_100(Y))
 
     V = _munsell_value_ASTMD153508_interpolator()(Y)
 
@@ -626,7 +627,7 @@ def munsell_value(Y, method='ASTM D1535-08'):
     array(3.7347235...)
     """
 
-    return MUNSELL_VALUE_METHODS.get(method)(Y)
+    return MUNSELL_VALUE_METHODS.get(method)(inspect_domain_100(Y))
 
 
 def munsell_specification_to_xyY(specification):
@@ -780,11 +781,11 @@ def xyY_to_munsell_specification(xyY):
     (4.2000019..., 8.0999999..., 5.2999996..., 6)
     """
 
+    x, y, Y = np.ravel(inspect_domain_1(xyY))
+
     if not is_within_macadam_limits(xyY, MUNSELL_DEFAULT_ILLUMINANT):
         warning('"{0}" is not within "MacAdam" limits for illuminant '
                 '"{1}"!'.format(xyY, MUNSELL_DEFAULT_ILLUMINANT))
-
-    x, y, Y = np.ravel(xyY)
 
     # Scaling *Y* for algorithm needs.
     value = munsell_value_ASTMD153508(Y * 100)

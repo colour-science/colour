@@ -25,7 +25,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import tsplit, tstack
+from colour.utilities import inspect_domain_100, tsplit, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -73,7 +73,7 @@ def Lab_to_DIN99(Lab, k_E=1, k_CH=1):
     array([ 49.6010164..., -16.2314573...,   1.0761812...])
     """
 
-    L, a, b = tsplit(Lab)
+    L, a, b = tsplit(inspect_domain_100(Lab))
 
     cos_16 = np.cos(np.radians(16))
     sin_16 = np.sin(np.radians(16))

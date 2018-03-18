@@ -26,7 +26,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import dot_vector
+from colour.utilities import dot_vector, inspect_domain_1
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -92,6 +92,8 @@ def RGB_to_YCoCg(RGB):
     array([ 0.5625,  0.125 , -0.0625])
     """
 
+    RGB = np.asarray(inspect_domain_1(RGB))
+
     return dot_vector(RGB_TO_YCOCG_MATRIX, RGB)
 
 
@@ -121,5 +123,7 @@ def YCoCg_to_RGB(YCoCg):
     >>> YCoCg_to_RGB(np.array([0.5625, 0.125, -0.0625]))
     array([ 0.75,  0.5 ,  0.5 ])
     """
+
+    YCoCg = np.asarray(inspect_domain_1(YCoCg))
 
     return dot_vector(YCOCG_TO_RGB_MATRIX, YCoCg)

@@ -31,7 +31,8 @@ from colour.algebra import cartesian_to_polar, polar_to_cartesian
 from colour.colorimetry import ILLUMINANTS
 from colour.constants import CIE_E, CIE_K
 from colour.models import xy_to_xyY, xyY_to_XYZ
-from colour.utilities import tsplit, tstack
+from colour.utilities import (inspect_domain_1, inspect_domain_100, tsplit,
+                              tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -80,13 +81,14 @@ def XYZ_to_Lab(
     array([ 37.9856291..., -23.6290768...,  -4.4174661...])
     """
 
-    XYZ = np.asarray(XYZ)
-    XYZ_r = xyY_to_XYZ(xy_to_xyY(illuminant))
+    XYZ = np.asarray(inspect_domain_1(XYZ))
+
+    XYZ_r = xyY_to_XYZ(xy_to_xyY(inspect_domain_1(illuminant)))
 
     XYZ_f = XYZ / XYZ_r
 
-    XYZ_f = np.where(XYZ_f > CIE_E,
-                     np.power(XYZ_f, 1 / 3), (CIE_K * XYZ_f + 16) / 116)
+    XYZ_f = np.where(XYZ_f > CIE_E, np.power(XYZ_f, 1 / 3),
+                     (CIE_K * XYZ_f + 16) / 116)
 
     X_f, Y_f, Z_f = tsplit(XYZ_f)
 
@@ -136,8 +138,9 @@ def Lab_to_XYZ(
     array([ 0.0704953...,  0.1008    ,  0.0955831...])
     """
 
-    L, a, b = tsplit(Lab)
-    XYZ_r = xyY_to_XYZ(xy_to_xyY(illuminant))
+    L, a, b = tsplit(inspect_domain_100(Lab))
+
+    XYZ_r = xyY_to_XYZ(xy_to_xyY(inspect_domain_1(illuminant)))
 
     f_y = (L + 16) / 116
     f_x = a / 500 + f_y
@@ -181,7 +184,7 @@ def Lab_to_LCHab(Lab):
     array([  37.9856291...,   24.0384542...,  190.5892337...])
     """
 
-    L, a, b = tsplit(Lab)
+    L, a, b = tsplit(inspect_domain_100(Lab))
 
     C, H = tsplit(cartesian_to_polar(tstack((a, b))))
 
@@ -219,7 +222,7 @@ def LCHab_to_Lab(LCHab):
     array([ 37.9856291..., -23.6290768...,  -4.4174661...])
     """
 
-    L, C, H = tsplit(LCHab)
+    L, C, H = tsplit(inspect_domain_100(LCHab))
 
     a, b = tsplit(polar_to_cartesian(tstack((C, np.radians(H)))))
 

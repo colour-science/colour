@@ -25,6 +25,8 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.utilities import inspect_domain_1
+
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
@@ -72,7 +74,7 @@ def log_encoding_PivotedLog(x,
     0.4349951...
     """
 
-    x = np.asarray(x)
+    x = np.asarray(inspect_domain_1(x))
 
     return ((log_reference + np.log10(x / linear_reference) /
              (density_per_code_value / negative_gamma)) / 1023)
@@ -115,7 +117,7 @@ def log_decoding_PivotedLog(y,
     0.1...
     """
 
-    y = np.asarray(y)
+    y = np.asarray(inspect_domain_1(y))
 
     return (10 **
             ((y * 1023 - log_reference) *

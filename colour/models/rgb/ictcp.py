@@ -31,7 +31,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.models.rgb.transfer_functions import oetf_ST2084, eotf_ST2084
-from colour.utilities import dot_vector
+from colour.utilities import dot_vector, inspect_domain_1
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -116,6 +116,8 @@ def RGB_to_ICTCP(RGB, L_p=10000):
     array([ 0.0955407..., -0.0089063...,  0.0138928...])
     """
 
+    RGB = np.asarray(inspect_domain_1(RGB))
+
     LMS = dot_vector(ICTCP_RGB_TO_LMS_MATRIX, RGB)
     LMS_p = oetf_ST2084(LMS, L_p)
     ICTCP = dot_vector(ICTCP_LMS_P_TO_ICTCP_MATRIX, LMS_p)
@@ -152,6 +154,8 @@ def ICTCP_to_RGB(ICTCP, L_p=10000):
     >>> ICTCP_to_RGB(ICTCP)  # doctest: +ELLIPSIS
     array([ 0.3518145...,  0.2693475...,  0.2128802...])
     """
+
+    ICTCP = np.asarray(inspect_domain_1(ICTCP))
 
     LMS_p = dot_vector(ICTCP_ICTCP_TO_LMS_P_MATRIX, ICTCP)
     LMS = eotf_ST2084(LMS_p, L_p)

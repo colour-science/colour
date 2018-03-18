@@ -34,7 +34,8 @@ from colour.colorimetry import (
     ILLUMINANTS, lightness_Fairchild2010, lightness_Fairchild2011,
     luminance_Fairchild2010, luminance_Fairchild2011)
 from colour.models import xy_to_xyY, xyY_to_XYZ
-from colour.utilities import tsplit, tstack
+from colour.utilities import (inspect_domain_1, inspect_domain_100, tsplit,
+                              tstack)
 from colour.utilities.documentation import DocstringTuple
 
 __author__ = 'Colour Developers'
@@ -173,8 +174,9 @@ def XYZ_to_hdr_CIELab(
     array([ 24.9020664..., -46.8312760..., -10.1427484...])
     """
 
-    X, Y, Z = tsplit(XYZ)
-    X_n, Y_n, Z_n = tsplit(xyY_to_XYZ(xy_to_xyY(illuminant)))
+    X, Y, Z = tsplit(inspect_domain_1(XYZ))
+
+    X_n, Y_n, Z_n = tsplit(xyY_to_XYZ(xy_to_xyY(inspect_domain_1(illuminant))))
 
     method_l = method.lower()
     assert method.lower() in [
@@ -251,8 +253,9 @@ def hdr_CIELab_to_XYZ(
     array([ 0.0704953...,  0.1008    ,  0.0955831...])
     """
 
-    L_hdr, a_hdr, b_hdr = tsplit(Lab_hdr)
-    X_n, Y_n, Z_n = tsplit(xyY_to_XYZ(xy_to_xyY(illuminant)))
+    L_hdr, a_hdr, b_hdr = tsplit(inspect_domain_100(Lab_hdr))
+
+    X_n, Y_n, Z_n = tsplit(xyY_to_XYZ(xy_to_xyY(inspect_domain_1(illuminant))))
 
     method_l = method.lower()
     assert method.lower() in [

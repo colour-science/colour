@@ -49,7 +49,8 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import CaseInsensitiveMapping, tsplit, tstack
+from colour.utilities import (CaseInsensitiveMapping, inspect_domain_100,
+                              tsplit, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -105,8 +106,8 @@ def whiteness_Berger1959(XYZ, XYZ_0):
     30.3638017...
     """
 
-    X, Y, Z = tsplit(XYZ)
-    X_0, _Y_0, Z_0 = tsplit(XYZ_0)
+    X, Y, Z = tsplit(inspect_domain_100(XYZ))
+    X_0, _Y_0, Z_0 = tsplit(inspect_domain_100(XYZ_0))
 
     WI = 0.333 * Y + 125 * (Z / Z_0) - 125 * (X / X_0)
 
@@ -149,8 +150,8 @@ def whiteness_Taube1960(XYZ, XYZ_0):
     91.4071738...
     """
 
-    _X, Y, Z = tsplit(XYZ)
-    _X_0, _Y_0, Z_0 = tsplit(XYZ_0)
+    _X, Y, Z = tsplit(inspect_domain_100(XYZ))
+    _X_0, _Y_0, Z_0 = tsplit(inspect_domain_100(XYZ_0))
 
     WI = 400 * (Z / Z_0) - 3 * Y
 
@@ -190,7 +191,7 @@ def whiteness_Stensby1968(Lab):
     142.7683456...
     """
 
-    L, a, b = tsplit(Lab)
+    L, a, b = tsplit(inspect_domain_100(Lab))
 
     WI = L - 3 * b + 3 * a
 
@@ -231,7 +232,7 @@ def whiteness_ASTME313(XYZ):
     55.7400000...
     """
 
-    _X, Y, Z = tsplit(XYZ)
+    _X, Y, Z = tsplit(inspect_domain_100(XYZ))
 
     WI = 3.388 * Z - 3 * Y
 
@@ -285,7 +286,7 @@ def whiteness_Ganz1979(xy, Y):
     """
 
     x, y = tsplit(xy)
-    Y = np.asarray(Y)
+    Y = np.asarray(inspect_domain_100(Y))
 
     W = Y - 1868.322 * x - 3695.690 * y + 1809.441
     T = -1001.223 * x + 748.366 * y + 68.261
@@ -356,7 +357,7 @@ def whiteness_CIE2004(xy,
     """
 
     x, y = tsplit(xy)
-    Y = np.asarray(Y)
+    Y = np.asarray(inspect_domain_100(Y))
     x_n, y_n = tsplit(xy_n)
 
     W = Y + 800 * (x_n - x) + 1700 * (y_n - y)
@@ -462,5 +463,10 @@ def whiteness(method='CIE 2004', **kwargs):
     >>> whiteness(XYZ=XYZ, XYZ_0=XYZ_0, method=method)  # doctest: +ELLIPSIS
     91.4071738...
     """
+
+    inspect_domain_100(kwargs.get('Lab'))
+    inspect_domain_100(kwargs.get('XYZ'))
+    inspect_domain_100(kwargs.get('XYZ_0'))
+    inspect_domain_100(kwargs.get('Y'))
 
     return WHITENESS_METHODS.get(method)(**kwargs)

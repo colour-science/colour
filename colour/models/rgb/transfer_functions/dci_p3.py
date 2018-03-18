@@ -27,6 +27,8 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.utilities import inspect_domain_1, inspect_domain_int
+
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
@@ -62,7 +64,7 @@ def oetf_DCIP3(XYZ):
     461.9922059...
     """
 
-    XYZ = np.asarray(XYZ)
+    XYZ = np.asarray(inspect_domain_1(XYZ))
 
     return 4095 * (XYZ / 52.37) ** (1 / 2.6)
 
@@ -92,6 +94,6 @@ def eotf_DCIP3(XYZ_p):
     0.18...
     """
 
-    XYZ_p = np.asarray(XYZ_p)
+    XYZ_p = np.asarray(inspect_domain_int(XYZ_p))
 
     return 52.37 * (XYZ_p / 4095) ** 2.6

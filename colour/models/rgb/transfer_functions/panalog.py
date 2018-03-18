@@ -25,6 +25,8 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.utilities import inspect_domain_1
+
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
@@ -67,7 +69,7 @@ def log_encoding_Panalog(x, black_offset=10 ** ((64 - 681) / 444)):
     0.3745767...
     """
 
-    x = np.asarray(x)
+    x = np.asarray(inspect_domain_1(x))
 
     return ((
         681 + 444 * np.log10(x * (1 - black_offset) + black_offset)) / 1023)
@@ -105,7 +107,7 @@ def log_decoding_Panalog(y, black_offset=10 ** ((64 - 681) / 444)):
     0.1...
     """
 
-    y = np.asarray(y)
+    y = np.asarray(inspect_domain_1(y))
 
     return ((10 ** ((1023 * y - 681) / 444) - black_offset) /
             (1 - black_offset))

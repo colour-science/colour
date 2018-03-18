@@ -42,7 +42,7 @@ from colour.appearance.ciecam02 import (
     saturation_correlate, temporary_magnitude_quantity_reverse,
     viewing_condition_dependent_parameters)
 from colour.utilities import (CaseInsensitiveMapping, as_namedtuple,
-                              dot_vector, tsplit)
+                              dot_vector, inspect_domain_100, tsplit)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2015-2018 - Colour Developers'
@@ -221,7 +221,8 @@ def XYZ_to_CAM16(XYZ,
 s=25.3564036..., Q=193.0617673..., M=12.4128523..., H=267.0983345..., HC=None)
     """
 
-    _X_w, Y_w, _Z_w = tsplit(XYZ_w)
+    XYZ = np.asarray(inspect_domain_100(XYZ))
+    _X_w, Y_w, _Z_w = tsplit(inspect_domain_100(XYZ_w))
     L_A = np.asarray(L_A)
     Y_b = np.asarray(Y_b)
 
@@ -367,8 +368,7 @@ def CAM16_to_XYZ(CAM16_specification,
 
     J, C, h, _s, _Q, M, _H, _HC = as_namedtuple(CAM16_specification,
                                                 CAM16_Specification)
-
-    _X_w, Y_w, _Zw = tsplit(XYZ_w)
+    _X_w, Y_w, _Zw = tsplit(inspect_domain_100(XYZ_w))
 
     # Step 0
     # Converting *CIE XYZ* tristimulus values to sharpened *RGB* values.

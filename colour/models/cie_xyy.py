@@ -34,7 +34,7 @@ import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
 from colour.constants import DEFAULT_FLOAT_DTYPE
-from colour.utilities import tsplit, tstack
+from colour.utilities import inspect_domain_1, tsplit, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -85,7 +85,7 @@ def XYZ_to_xyY(
     array([ 0.2641477...,  0.3777000...,  0.1008    ])
     """
 
-    XYZ = np.asarray(XYZ)
+    XYZ = np.asarray(inspect_domain_1(XYZ))
     X, Y, Z = tsplit(XYZ)
     xy_w = np.asarray(illuminant)
 
@@ -130,7 +130,7 @@ def xyY_to_XYZ(xyY):
     array([ 0.0704953...,  0.1008    ,  0.0955831...])
     """
 
-    x, y, Y = tsplit(xyY)
+    x, y, Y = tsplit(inspect_domain_1(xyY))
 
     XYZ = np.where((y == 0)[..., np.newaxis],
                    tstack((y, y, y)),
@@ -188,6 +188,7 @@ def xy_to_xyY(xy, Y=1):
     """
 
     xy = np.asarray(xy)
+    Y = inspect_domain_1(Y)
 
     shape = xy.shape
     # Assuming ``xy`` is actually a *CIE xyY* colourspace array argument and
@@ -239,7 +240,7 @@ def xyY_to_xy(xyY):
     array([ 0.2641477...,  0.3777000...])
     """
 
-    xyY = np.asarray(xyY)
+    xyY = np.asarray(inspect_domain_1(xyY))
 
     shape = xyY.shape
     # Assuming ``xyY`` is actually a *xy* chromaticity coordinates argument and

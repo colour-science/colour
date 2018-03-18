@@ -55,7 +55,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import tsplit, tstack
+from colour.utilities import inspect_domain_1, tsplit, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -101,6 +101,8 @@ def RGB_to_HSV(RGB):
     >>> RGB_to_HSV(RGB)  # doctest: +ELLIPSIS
     array([ 0.2786738...,  0.744     ,  0.98039216])
     """
+
+    RGB = np.asarray(inspect_domain_1(RGB))
 
     maximum = np.amax(RGB, -1)
     delta = np.ptp(RGB, -1)
@@ -160,7 +162,7 @@ def HSV_to_RGB(HSV):
     array([ 0.4901960...,  0.9803921...,  0.2509803...])
     """
 
-    H, S, V = tsplit(HSV)
+    H, S, V = tsplit(inspect_domain_1(HSV))
 
     h = np.asarray(H * 6)
     h[np.asarray(h == 6)] = 0
@@ -217,6 +219,8 @@ def RGB_to_HSL(RGB):
     >>> RGB_to_HSL(RGB)  # doctest: +ELLIPSIS
     array([ 0.2786738...,  0.9489796...,  0.6156862...])
     """
+
+    RGB = np.asarray(inspect_domain_1(RGB))
 
     minimum = np.amin(RGB, -1)
     maximum = np.amax(RGB, -1)
@@ -278,7 +282,7 @@ def HSL_to_RGB(HSL):
     array([ 0.4901960...,  0.9803921...,  0.2509803...])
     """
 
-    H, S, L = tsplit(HSL)
+    H, S, L = tsplit(inspect_domain_1(HSL))
 
     def H_to_RGB(vi, vj, vH):
         """
@@ -349,7 +353,7 @@ def RGB_to_CMY(RGB):
     array([ 0.5098039...,  0.0196078...,  0.7490196...])
     """
 
-    CMY = 1 - np.asarray(RGB)
+    CMY = 1 - np.asarray(inspect_domain_1(RGB))
 
     return CMY
 
@@ -384,7 +388,7 @@ def CMY_to_RGB(CMY):
     array([ 0.4901960...,  0.9803921...,  0.2509803...])
     """
 
-    RGB = 1 - np.asarray(CMY)
+    RGB = 1 - np.asarray(inspect_domain_1(CMY))
 
     return RGB
 
@@ -419,7 +423,7 @@ def CMY_to_CMYK(CMY):
     array([ 0.5       ,  0.        ,  0.744     ,  0.0196078...])
     """
 
-    C, M, Y = tsplit(CMY)
+    C, M, Y = tsplit(inspect_domain_1(CMY))
 
     K = np.ones(C.shape)
     K = np.where(C < K, C, K)
@@ -469,7 +473,7 @@ def CMYK_to_CMY(CMYK):
     array([ 0.5098039...,  0.0196078...,  0.7490196...])
     """
 
-    C, M, Y, K = tsplit(CMYK)
+    C, M, Y, K = tsplit(inspect_domain_1(CMYK))
 
     CMY = tstack((C * (1 - K) + K, M * (1 - K) + K, Y * (1 - K) + K))
 

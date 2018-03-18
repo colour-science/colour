@@ -35,7 +35,7 @@ from colour.colorimetry import (
     luminance_Fairchild2011)
 from colour.models.ipt import (IPT_XYZ_TO_LMS_MATRIX, IPT_LMS_TO_XYZ_MATRIX,
                                IPT_LMS_TO_IPT_MATRIX, IPT_IPT_TO_LMS_MATRIX)
-from colour.utilities import dot_vector
+from colour.utilities import inspect_domain_1, inspect_domain_100, dot_vector
 from colour.utilities.documentation import DocstringTuple
 
 __author__ = 'Colour Developers'
@@ -157,6 +157,8 @@ def XYZ_to_hdr_IPT(XYZ, Y_s=0.2, Y_abs=100, method='Fairchild 2011'):
     array([ 94.6592917...,   0.3804177...,  -0.2673118...])
     """
 
+    XYZ = np.asarray(inspect_domain_1(XYZ))
+
     method_l = method.lower()
     assert method.lower() in [
         m.lower() for m in HDR_IPT_METHODS
@@ -215,6 +217,8 @@ def hdr_IPT_to_XYZ(IPT_hdr, Y_s=0.2, Y_abs=100, method='Fairchild 2011'):
     ... # doctest: +ELLIPSIS
     array([ 0.9690723...,  1.        ,  1.1217921...])
     """
+
+    IPT_hdr = np.asarray(inspect_domain_100(IPT_hdr))
 
     method_l = method.lower()
     assert method.lower() in [

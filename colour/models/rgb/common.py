@@ -14,7 +14,10 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 from __future__ import division, unicode_literals
 
+import numpy as np
+
 from colour.models.rgb import RGB_COLOURSPACES, RGB_to_XYZ, XYZ_to_RGB
+from colour.utilities import inspect_domain_1
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -65,6 +68,8 @@ def XYZ_to_sRGB(XYZ,
     array([ 0.1749881...,  0.3881947...,  0.3216031...])
     """
 
+    XYZ = np.asarray(inspect_domain_1(XYZ))
+
     sRGB = RGB_COLOURSPACES['sRGB']
     return XYZ_to_RGB(XYZ, illuminant, sRGB.whitepoint, sRGB.XYZ_to_RGB_matrix,
                       chromatic_adaptation_transform, sRGB.encoding_cctf
@@ -109,6 +114,8 @@ def sRGB_to_XYZ(RGB,
     >>> sRGB_to_XYZ(RGB)  # doctest: +ELLIPSIS
     array([ 0.0704953...,  0.1008...,  0.0955831...])
     """
+
+    RGB = np.asarray(inspect_domain_1(RGB))
 
     sRGB = RGB_COLOURSPACES['sRGB']
     return RGB_to_XYZ(RGB, sRGB.whitepoint, illuminant, sRGB.RGB_to_XYZ_matrix,

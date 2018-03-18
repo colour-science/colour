@@ -35,7 +35,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import as_numeric
+from colour.utilities import as_numeric, inspect_domain_1, inspect_domain_int
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -80,7 +80,7 @@ def oetf_ROMMRGB(X, I_max=255):
     98.3564133...
     """
 
-    X = np.asarray(X)
+    X = np.asarray(inspect_domain_1(X))
 
     E_t = 16 ** (1.8 / (1 - 1.8))
 
@@ -117,7 +117,7 @@ def eotf_ROMMRGB(X_p, I_max=255):
     0.1...
     """
 
-    X_p = np.asarray(X_p)
+    X_p = np.asarray(inspect_domain_int(X_p))
 
     E_t = 16 ** (1.8 / (1 - 1.8))
 
@@ -163,7 +163,7 @@ def oetf_RIMMRGB(X, I_max=255, E_clip=2.0):
     74.3768017...
     """
 
-    X = np.asarray(X)
+    X = np.asarray(inspect_domain_1(X))
 
     V_clip = 1.099 * E_clip ** 0.45 - 0.099
     q = I_max / V_clip
@@ -204,7 +204,7 @@ def eotf_RIMMRGB(X_p, I_max=255, E_clip=2.0):
     0.1...
     """
 
-    X_p = np.asarray(X_p)
+    X_p = np.asarray(inspect_domain_int(X_p))
 
     V_clip = 1.099 * E_clip ** 0.45 - 0.099
 
@@ -248,7 +248,7 @@ def log_encoding_ERIMMRGB(X, I_max=255, E_min=0.001, E_clip=316.2):
     104.5633593...
     """
 
-    X = np.asarray(X)
+    X = np.asarray(inspect_domain_1(X))
 
     E_t = np.exp(1) * E_min
 
@@ -293,7 +293,7 @@ def log_decoding_ERIMMRGB(X_p, I_max=255, E_min=0.001, E_clip=316.2):
     0.1...
     """
 
-    X_p = np.asarray(X_p)
+    X_p = np.asarray(inspect_domain_int(X_p))
 
     E_t = np.exp(1) * E_min
 

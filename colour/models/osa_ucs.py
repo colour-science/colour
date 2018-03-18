@@ -32,7 +32,7 @@ import numpy as np
 from scipy.optimize import fmin
 
 from colour.models import XYZ_to_xyY
-from colour.utilities import dot_vector, tsplit, tstack
+from colour.utilities import dot_vector, inspect_domain_100, tsplit, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -94,7 +94,7 @@ def XYZ_to_OSA_UCS(XYZ):
     array([-4.490068...,  0.7030593...,  3.0346366...])
     """
 
-    x, y, Y = tsplit(XYZ_to_xyY(XYZ))
+    x, y, Y = tsplit(XYZ_to_xyY(inspect_domain_100(XYZ)))
 
     Y_0 = Y * (4.4934 * x ** 2 + 4.3034 * y ** 2 - 4.276 * x * y - 1.3744 * x -
                2.5643 * y + 1.8103)
@@ -160,7 +160,7 @@ def OSA_UCS_to_XYZ(Ljg, optimisation_parameters=None):
     array([  7.0495049...,  10.0799723...,   9.5583020...])
     """
 
-    Ljg = np.asarray(Ljg)
+    Ljg = np.asarray(inspect_domain_100(Ljg))
     shape = Ljg.shape
     Ljg = np.atleast_1d(Ljg.reshape((-1, 3)))
 

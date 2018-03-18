@@ -60,7 +60,8 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import Structure, as_numeric
+from colour.utilities import (Structure, as_numeric, inspect_domain_1,
+                              inspect_domain_int)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -158,7 +159,7 @@ def log_encoding_ACESproxy(lin_AP1,
     426
     """
 
-    lin_AP1 = np.asarray(lin_AP1)
+    lin_AP1 = np.asarray(inspect_domain_1(lin_AP1))
 
     constants = constants[bit_depth]
 
@@ -216,7 +217,7 @@ def log_decoding_ACESproxy(ACESproxy,
     0.1792444...
     """
 
-    ACESproxy = np.asarray(ACESproxy).astype(np.int)
+    ACESproxy = np.asarray(inspect_domain_int(ACESproxy)).astype(np.int)
 
     constants = constants[bit_depth]
 
@@ -253,7 +254,7 @@ def log_encoding_ACEScc(lin_AP1):
     0.4135884...
     """
 
-    lin_AP1 = np.asarray(lin_AP1)
+    lin_AP1 = np.asarray(inspect_domain_1(lin_AP1))
 
     output = np.where(lin_AP1 < 0, (np.log2(2 ** -16) + 9.72) / 17.52,
                       (np.log2(2 ** -16 + lin_AP1 * 0.5) + 9.72) / 17.52)
@@ -291,7 +292,7 @@ def log_decoding_ACEScc(ACEScc):
     0.1799999...
     """
 
-    ACEScc = np.asarray(ACEScc)
+    ACEScc = np.asarray(inspect_domain_1(ACEScc))
 
     output = np.where(ACEScc < (9.72 - 15) / 17.52,
                       (2 ** (ACEScc * 17.52 - 9.72) - 2 ** -16) * 2, 2
@@ -331,7 +332,7 @@ def log_encoding_ACEScct(lin_AP1, constants=ACES_CCT_CONSTANTS):
     0.4135884...
     """
 
-    lin_AP1 = np.asarray(lin_AP1)
+    lin_AP1 = np.asarray(inspect_domain_1(lin_AP1))
 
     output = np.where(lin_AP1 <= constants.X_BRK,
                       constants.A * lin_AP1 + constants.B,
@@ -370,7 +371,7 @@ def log_decoding_ACEScct(ACEScct, constants=ACES_CCT_CONSTANTS):
     0.1799999...
     """
 
-    ACEScct = np.asarray(ACEScct)
+    ACEScct = np.asarray(inspect_domain_1(ACEScct))
 
     output = np.where(ACEScct > constants.Y_BRK, 2 ** (ACEScct * 17.52 - 9.72),
                       (ACEScct - constants.B) / constants.A)

@@ -29,7 +29,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import as_numeric
+from colour.utilities import as_numeric, inspect_domain_1
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -66,7 +66,7 @@ def oetf_BT601(L):
     0.4090077...
     """
 
-    L = np.asarray(L)
+    L = np.asarray(inspect_domain_1(L))
 
     return as_numeric(
         np.where(L < 0.018, L * 4.5, 1.099 * (L ** 0.45) - 0.099))
@@ -97,7 +97,7 @@ def oetf_reverse_BT601(E):
     0.1...
     """
 
-    E = np.asarray(E)
+    E = np.asarray(inspect_domain_1(E))
 
     return as_numeric(
         np.where(E < oetf_BT601(0.018), E / 4.5, ((E + 0.099) / 1.099) ** (

@@ -28,7 +28,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import dot_vector, tsplit
+from colour.utilities import inspect_domain_1, dot_vector, tsplit
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -109,6 +109,8 @@ def XYZ_to_IPT(XYZ):
     array([ 1.0030082...,  0.0190691..., -0.0136929...])
     """
 
+    XYZ = np.asarray(inspect_domain_1(XYZ))
+
     LMS = dot_vector(IPT_XYZ_TO_LMS_MATRIX, XYZ)
     LMS_prime = np.sign(LMS) * np.abs(LMS) ** 0.43
     IPT = dot_vector(IPT_LMS_TO_IPT_MATRIX, LMS_prime)
@@ -140,6 +142,8 @@ def IPT_to_XYZ(IPT):
     >>> IPT_to_XYZ(IPT)  # doctest: +ELLIPSIS
     array([ 0.9690723...,  1.        ,  1.1217921...])
     """
+
+    IPT = np.asarray(inspect_domain_1(IPT))
 
     LMS = dot_vector(IPT_IPT_TO_LMS_MATRIX, IPT)
     LMS_prime = np.sign(LMS) * np.abs(LMS) ** (1 / 0.43)
@@ -173,7 +177,7 @@ def IPT_hue_angle(IPT):
     48.2852074...
     """
 
-    _I, P, T = tsplit(IPT)
+    _I, P, T = tsplit(inspect_domain_1(IPT))
 
     hue = np.degrees(np.arctan2(T, P)) % 360
 

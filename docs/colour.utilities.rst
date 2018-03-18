@@ -111,3 +111,7 @@ Verbose
     :toctree: generated/
 
     ColourWarning
+    inspect_domain_1
+    inspect_domain_10
+    inspect_domain_100
+    inspect_domain_int

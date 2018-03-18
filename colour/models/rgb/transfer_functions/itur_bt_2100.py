@@ -45,7 +45,8 @@ import numpy as np
 from colour.models.rgb.transfer_functions import (
     eotf_BT1886, eotf_ST2084, eotf_reverse_BT1886, oetf_ARIBSTDB67, oetf_BT709,
     oetf_ST2084, oetf_reverse_ARIBSTDB67, oetf_reverse_BT709)
-from colour.utilities import as_numeric, tsplit, tstack, warning
+from colour.utilities import (as_numeric, inspect_domain_1, tsplit, tstack,
+                              warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -103,7 +104,7 @@ def oetf_BT2100_PQ(E):
     0.7247698...
     """
 
-    return oetf_ST2084(ootf_BT2100_PQ(E), 10000)
+    return oetf_ST2084(ootf_BT2100_PQ(inspect_domain_1(E)), 10000)
 
 
 def oetf_reverse_BT2100_PQ(E_p):
@@ -136,7 +137,7 @@ def oetf_reverse_BT2100_PQ(E_p):
     0.0999999...
     """
 
-    return ootf_reverse_BT2100_PQ(eotf_ST2084(E_p, 10000))
+    return ootf_reverse_BT2100_PQ(eotf_ST2084(inspect_domain_1(E_p), 10000))
 
 
 def eotf_BT2100_PQ(E_p):
@@ -170,7 +171,7 @@ def eotf_BT2100_PQ(E_p):
     779.9883608...
     """
 
-    return eotf_ST2084(E_p, 10000)
+    return eotf_ST2084(inspect_domain_1(E_p), 10000)
 
 
 def eotf_reverse_BT2100_PQ(F_D):
@@ -202,7 +203,7 @@ def eotf_reverse_BT2100_PQ(F_D):
     0.7247698...
     """
 
-    return oetf_ST2084(F_D, 10000)
+    return oetf_ST2084(inspect_domain_1(F_D), 10000)
 
 
 def ootf_BT2100_PQ(E):
@@ -237,7 +238,7 @@ def ootf_BT2100_PQ(E):
     779.9883608...
     """
 
-    E = np.asarray(E)
+    E = np.asarray(inspect_domain_1(E))
 
     return 100 * eotf_BT1886(oetf_BT709(59.5208 * E))
 
@@ -272,7 +273,7 @@ def ootf_reverse_BT2100_PQ(F_D):
     0.1000000...
     """
 
-    F_D = np.asarray(F_D)
+    F_D = np.asarray(inspect_domain_1(F_D))
 
     return oetf_reverse_BT709(eotf_reverse_BT1886(F_D / 100)) / 59.5208
 
@@ -340,7 +341,7 @@ def oetf_BT2100_HLG(E):
     0.2121320...
     """
 
-    return oetf_ARIBSTDB67(12 * E)
+    return oetf_ARIBSTDB67(12 * inspect_domain_1(E))
 
 
 def oetf_reverse_BT2100_HLG(E):
@@ -372,7 +373,7 @@ def oetf_reverse_BT2100_HLG(E):
     0.0149999...
     """
 
-    return oetf_reverse_ARIBSTDB67(E) / 12
+    return oetf_reverse_ARIBSTDB67(inspect_domain_1(E)) / 12
 
 
 def eotf_BT2100_HLG(E_p, L_B=0, L_W=1000, gamma=None):
@@ -414,7 +415,8 @@ def eotf_BT2100_HLG(E_p, L_B=0, L_W=1000, gamma=None):
     6.4760398...
     """
 
-    return ootf_BT2100_HLG(oetf_reverse_ARIBSTDB67(E_p) / 12, L_B, L_W, gamma)
+    return ootf_BT2100_HLG(
+        oetf_reverse_ARIBSTDB67(inspect_domain_1(E_p)) / 12, L_B, L_W, gamma)
 
 
 def eotf_reverse_BT2100_HLG(F_D, L_B=0, L_W=1000, gamma=None):
@@ -454,7 +456,8 @@ def eotf_reverse_BT2100_HLG(F_D, L_B=0, L_W=1000, gamma=None):
     0.2121320...
     """
 
-    return oetf_ARIBSTDB67(ootf_reverse_BT2100_HLG(F_D, L_B, L_W, gamma) * 12)
+    return oetf_ARIBSTDB67(
+        ootf_reverse_BT2100_HLG(inspect_domain_1(F_D), L_B, L_W, gamma) * 12)
 
 
 def ootf_BT2100_HLG(E, L_B=0, L_W=1000, gamma=None):
@@ -496,7 +499,7 @@ def ootf_BT2100_HLG(E, L_B=0, L_W=1000, gamma=None):
     63.0957344...
     """
 
-    E = np.atleast_1d(E)
+    E = np.atleast_1d(inspect_domain_1(E))
 
     if E.shape[-1] != 3:
         warning(
@@ -563,7 +566,7 @@ def ootf_reverse_BT2100_HLG(F_D, L_B=0, L_W=1000, gamma=None):
     0.1000000...
     """
 
-    F_D = np.atleast_1d(F_D)
+    F_D = np.atleast_1d(inspect_domain_1(F_D))
 
     if F_D.shape[-1] != 3:
         warning(

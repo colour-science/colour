@@ -29,7 +29,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import Structure, as_numeric
+from colour.utilities import Structure, as_numeric, inspect_domain_1
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -97,7 +97,7 @@ def oetf_BT2020(E, is_12_bits_system=False, constants=BT2020_CONSTANTS):
     0.4090077...
     """
 
-    E = np.asarray(E)
+    E = np.asarray(inspect_domain_1(E))
 
     a = constants.alpha(is_12_bits_system)
     b = constants.beta(is_12_bits_system)
@@ -134,7 +134,7 @@ def eotf_BT2020(E_p, is_12_bits_system=False, constants=BT2020_CONSTANTS):
     0.4999999...
     """
 
-    E_p = np.asarray(E_p)
+    E_p = np.asarray(inspect_domain_1(E_p))
 
     a = constants.alpha(is_12_bits_system)
     b = constants.beta(is_12_bits_system)

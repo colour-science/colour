@@ -25,7 +25,8 @@ from __future__ import absolute_import
 
 import numpy as np
 
-from colour.utilities import CaseInsensitiveMapping, filter_kwargs
+from colour.utilities import (CaseInsensitiveMapping, filter_kwargs,
+                              inspect_domain_1)
 
 from .dataset import *  # noqa
 from . import dataset
@@ -200,9 +201,9 @@ def chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method='Von Kries', **kwargs):
     array([ 0.2332526...,  0.2332455...,  0.7611593...])
     """
 
-    XYZ = np.asarray(XYZ)
-    XYZ_w = np.asarray(XYZ_w)
-    XYZ_wr = np.asarray(XYZ_wr)
+    XYZ = np.asarray(inspect_domain_1(XYZ))
+    XYZ_w = np.asarray(inspect_domain_1(XYZ_w))
+    XYZ_wr = np.asarray(inspect_domain_1(XYZ_wr))
 
     function = CHROMATIC_ADAPTATION_METHODS[method]
 

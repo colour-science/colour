@@ -36,6 +36,8 @@ import numpy as np
 from colour.models.rgb.transfer_functions import (log_encoding_Cineon,
                                                   log_decoding_Cineon)
 
+from colour.utilities import inspect_domain_1
+
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
@@ -77,7 +79,7 @@ def log_encoding_REDLog(x, black_offset=10 ** ((0 - 1023) / 511)):
     0.6376218...
     """
 
-    x = np.asarray(x)
+    x = np.asarray(inspect_domain_1(x))
 
     return ((
         1023 + 511 * np.log10(x * (1 - black_offset) + black_offset)) / 1023)
@@ -110,7 +112,7 @@ def log_decoding_REDLog(y, black_offset=10 ** ((0 - 1023) / 511)):
     0.1...
     """
 
-    y = np.asarray(y)
+    y = np.asarray(inspect_domain_1(y))
 
     return (((10 ** ((1023 * y - 1023) / 511)) - black_offset) /
             (1 - black_offset))
@@ -143,7 +145,7 @@ def log_encoding_REDLogFilm(x, black_offset=10 ** ((95 - 685) / 300)):
     0.4573196...
     """
 
-    return log_encoding_Cineon(x, black_offset)
+    return log_encoding_Cineon(inspect_domain_1(x), black_offset)
 
 
 def log_decoding_REDLogFilm(y, black_offset=10 ** ((95 - 685) / 300)):
@@ -173,7 +175,7 @@ def log_decoding_REDLogFilm(y, black_offset=10 ** ((95 - 685) / 300)):
     0.1799999...
     """
 
-    return log_decoding_Cineon(y, black_offset)
+    return log_decoding_Cineon(inspect_domain_1(y), black_offset)
 
 
 def log_encoding_Log3G10(x, legacy_curve=False):
@@ -239,7 +241,7 @@ def log_encoding_Log3G10(x, legacy_curve=False):
     0.0915514...
     """
 
-    x = np.asarray(x)
+    x = np.asarray(inspect_domain_1(x))
 
     if legacy_curve:
         return np.sign(x) * 0.222497 * np.log10((np.abs(x) * 169.379333) + 1)
@@ -277,7 +279,7 @@ def log_decoding_Log3G10(y, legacy_curve=False):
     184.3223476...
     """
 
-    y = np.asarray(y)
+    y = np.asarray(inspect_domain_1(y))
 
     if legacy_curve:
         return (np.sign(y) *
@@ -312,7 +314,7 @@ def log_encoding_Log3G12(x):
     0.3333326...
     """
 
-    x = np.asarray(x)
+    x = np.asarray(inspect_domain_1(x))
 
     return np.sign(x) * 0.184904 * np.log10((np.abs(x) * 347.189667) + 1)
 
@@ -342,7 +344,7 @@ def log_decoding_Log3G12(y):
     0.1800015...
     """
 
-    y = np.asarray(y)
+    y = np.asarray(inspect_domain_1(y))
 
     return (np.sign(y) *
             (np.power(10.0, np.abs(y) / 0.184904) - 1) / 347.189667)

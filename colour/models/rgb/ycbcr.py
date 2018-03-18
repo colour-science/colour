@@ -56,7 +56,8 @@ import numpy as np
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.models.rgb.transfer_functions import (CV_range, oetf_BT2020,
                                                   eotf_BT2020)
-from colour.utilities import CaseInsensitiveMapping, tsplit, tstack
+from colour.utilities import (CaseInsensitiveMapping, inspect_domain_1,
+                              inspect_domain_int, tsplit, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -272,7 +273,10 @@ def RGB_to_YCbCr(RGB,
     array([ 36, 136, 175])
     """
 
-    RGB = np.asarray(RGB)
+    if in_int:
+        RGB = np.asarray(inspect_domain_int(RGB))
+    else:
+        RGB = np.asarray(inspect_domain_1(RGB))
     Kr, Kb = K
     RGB_min, RGB_max = kwargs.get('in_range',
                                   CV_range(in_bits, in_legal, in_int))
@@ -380,7 +384,10 @@ def YCbCr_to_RGB(YCbCr,
     array([ 0.5,  0.5,  0.5])
     """
 
-    YCbCr = np.asarray(YCbCr)
+    if in_int:
+        YCbCr = np.asarray(inspect_domain_int(YCbCr))
+    else:
+        YCbCr = np.asarray(inspect_domain_1(YCbCr))
     Y, Cb, Cr = tsplit(YCbCr.astype(DEFAULT_FLOAT_DTYPE))
     Kr, Kb = K
     Y_min, Y_max, C_min, C_max = kwargs.get('in_range',
@@ -467,8 +474,7 @@ def RGB_to_YcCbcCrc(RGB,
     array([422, 512, 512])
     """
 
-    RGB = np.asarray(RGB)
-    R, G, B = tsplit(RGB)
+    R, G, B = tsplit(inspect_domain_1(RGB))
     Y_min, Y_max, C_min, C_max = kwargs.get('out_range',
                                             YCbCr_ranges(
                                                 out_bits, out_legal, out_int))
@@ -552,7 +558,10 @@ def YcCbcCrc_to_RGB(YcCbcCrc,
     array([ 0.1800903...,  0.1800903...,  0.1800903...])
     """
 
-    YcCbcCrc = np.asarray(YcCbcCrc)
+    if in_int:
+        YcCbcCrc = np.asarray(inspect_domain_int(YcCbcCrc))
+    else:
+        YcCbcCrc = np.asarray(inspect_domain_1(YcCbcCrc))
     Yc, Cbc, Crc = tsplit(YcCbcCrc.astype(DEFAULT_FLOAT_DTYPE))
     Y_min, Y_max, C_min, C_max = kwargs.get('in_range',
                                             YCbCr_ranges(

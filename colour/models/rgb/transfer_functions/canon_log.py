@@ -40,7 +40,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
-from colour.utilities import as_numeric
+from colour.utilities import as_numeric, inspect_domain_1
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -88,7 +88,7 @@ def log_encoding_CanonLog(x, bit_depth=10, out_legal=True, in_reflection=True):
     34.3389651...
     """
 
-    x = np.asarray(x)
+    x = np.asarray(inspect_domain_1(x))
 
     if in_reflection:
         x = x / 0.9
@@ -137,7 +137,7 @@ def log_decoding_CanonLog(clog,
     0.17999999...
     """
 
-    clog = np.asarray(clog)
+    clog = np.asarray(inspect_domain_1(clog))
 
     clog = legal_to_full(clog, bit_depth) if in_legal else clog
 
@@ -184,7 +184,7 @@ def log_encoding_CanonLog2(x, bit_depth=10, out_legal=True,
     39.8254694...
     """
 
-    x = np.asarray(x)
+    x = np.asarray(inspect_domain_1(x))
 
     if in_reflection:
         x = x / 0.9
@@ -234,7 +234,7 @@ def log_decoding_CanonLog2(clog2,
     0.1799999...
     """
 
-    clog2 = np.asarray(clog2)
+    clog2 = np.asarray(inspect_domain_1(clog2))
 
     clog2 = legal_to_full(clog2, bit_depth) if in_legal else clog2
 
@@ -296,7 +296,7 @@ def log_encoding_CanonLog3(x, bit_depth=10, out_legal=True,
     34.3389369...
     """
 
-    x = np.asarray(x)
+    x = np.asarray(inspect_domain_1(x))
 
     if in_reflection:
         x = x / 0.9
@@ -349,7 +349,7 @@ def log_decoding_CanonLog3(clog3,
     0.1800000...
     """
 
-    clog3 = np.asarray(clog3)
+    clog3 = np.asarray(inspect_domain_1(clog3))
 
     clog3 = legal_to_full(clog3, bit_depth) if in_legal else clog3
 

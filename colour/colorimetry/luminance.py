@@ -63,7 +63,9 @@ import numpy as np
 
 from colour.biochemistry import substrate_concentration_MichealisMenten
 from colour.constants import CIE_E, CIE_K
-from colour.utilities import CaseInsensitiveMapping, as_numeric, filter_kwargs
+from colour.utilities import (CaseInsensitiveMapping, as_numeric,
+                              filter_kwargs, inspect_domain_10,
+                              inspect_domain_100)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -109,7 +111,7 @@ def luminance_Newhall1943(V):
     10.4089874...
     """
 
-    V = np.asarray(V)
+    V = np.asarray(inspect_domain_10(V))
 
     R_Y = (1.2219 * V - 0.23111 * (V * V) + 0.23951 * (V ** 3) - 0.021009 *
            (V ** 4) + 0.0008404 * (V ** 5))
@@ -147,7 +149,7 @@ def luminance_ASTMD153508(V):
     10.1488096...
     """
 
-    V = np.asarray(V)
+    V = np.asarray(inspect_domain_10(V))
 
     Y = (1.1914 * V - 0.22533 * (V ** 2) + 0.23352 * (V ** 3) - 0.020484 *
          (V ** 4) + 0.00081939 * (V ** 5))
@@ -191,8 +193,8 @@ def luminance_CIE1976(Lstar, Y_n=100):
     9.5760000...
     """
 
-    Lstar = np.asarray(Lstar)
-    Y_n = np.asarray(Y_n)
+    Lstar = np.asarray(inspect_domain_100(Lstar))
+    Y_n = np.asarray(inspect_domain_100(Y_n))
 
     Y = as_numeric(
         np.where(Lstar > CIE_K * CIE_E,
@@ -238,7 +240,7 @@ def luminance_Fairchild2010(L_hdr, epsilon=1.836):
     0.1007999...
     """
 
-    L_hdr = np.asarray(L_hdr)
+    L_hdr = np.asarray(inspect_domain_100(L_hdr))
 
     Y = np.exp(
         np.log(
@@ -286,7 +288,7 @@ def luminance_Fairchild2011(L_hdr, epsilon=0.710, method='hdr-CIELAB'):
     0.1007999...
     """
 
-    L_hdr = np.asarray(L_hdr)
+    L_hdr = np.asarray(inspect_domain_100(L_hdr))
 
     if method.lower() == 'hdr-cielab':
         maximum_perception = 247
@@ -394,7 +396,13 @@ def luminance(LV, method='CIE 1976', **kwargs):
     10.0799999...
     """
 
+    inspect_domain_100(kwargs.get('Y_n'))
+
     function = LUMINANCE_METHODS[method]
+    if function in (luminance_Newhall1943, luminance_ASTMD153508):
+        LV = np.asarray(inspect_domain_10(LV))
+    else:
+        LV = np.asarray(inspect_domain_100(LV))
 
     Y_n = function(LV, **filter_kwargs(function, **kwargs))
 
