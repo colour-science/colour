@@ -1,5 +1,5 @@
-colour\.models\.eotf\_DCIP3
-===========================
+colour.models.eotf\_DCIP3
+=========================
 
 .. currentmodule:: colour.models
 

@@ -1,5 +1,5 @@
-colour\.adaptation\.chromatic\_adaptation\_Fairchild1990
-========================================================
+colour.adaptation.chromatic\_adaptation\_Fairchild1990
+======================================================
 
 .. currentmodule:: colour.adaptation
 

@@ -1,5 +1,5 @@
-colour\.RGB\_luminance
-======================
+colour.RGB\_luminance
+=====================
 
 .. currentmodule:: colour
 

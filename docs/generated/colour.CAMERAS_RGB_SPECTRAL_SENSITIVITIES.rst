@@ -1,5 +1,5 @@
-colour\.CAMERAS\_RGB\_SPECTRAL\_SENSITIVITIES
-=============================================
+colour.CAMERAS\_RGB\_SPECTRAL\_SENSITIVITIES
+============================================
 
 .. currentmodule:: colour
 

@@ -1,5 +1,5 @@
-colour\.phenomena\.rayleigh\_optical\_depth
-===========================================
+colour.phenomena.rayleigh\_optical\_depth
+=========================================
 
 .. currentmodule:: colour.phenomena
 

@@ -1,5 +1,5 @@
-colour\.plotting\.cvd\_simulation\_Machado2009\_plot
-====================================================
+colour.plotting.cvd\_simulation\_Machado2009\_plot
+==================================================
 
 .. currentmodule:: colour.plotting
 

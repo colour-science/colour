@@ -1,5 +1,5 @@
-colour\.PchipInterpolator
-=========================
+colour.PchipInterpolator
+========================
 
 .. currentmodule:: colour
 
@@ -26,5 +26,15 @@ colour\.PchipInterpolator
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~PchipInterpolator.axis
+      ~PchipInterpolator.c
+      ~PchipInterpolator.extrapolate
+      ~PchipInterpolator.x
+      ~PchipInterpolator.y
    
    

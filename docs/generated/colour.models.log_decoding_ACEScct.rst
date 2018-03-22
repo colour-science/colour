@@ -1,5 +1,5 @@
-colour\.models\.log\_decoding\_ACEScct
-======================================
+colour.models.log\_decoding\_ACEScct
+====================================
 
 .. currentmodule:: colour.models
 

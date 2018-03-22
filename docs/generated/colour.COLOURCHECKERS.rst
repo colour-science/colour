@@ -1,5 +1,5 @@
-colour\.COLOURCHECKERS
-======================
+colour.COLOURCHECKERS
+=====================
 
 .. currentmodule:: colour
 

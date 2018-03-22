@@ -1,5 +1,5 @@
-colour\.utilities\.Structure
-============================
+colour.utilities.Structure
+==========================
 
 .. currentmodule:: colour.utilities
 

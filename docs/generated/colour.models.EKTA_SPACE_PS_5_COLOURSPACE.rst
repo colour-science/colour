@@ -1,5 +1,5 @@
-colour\.models\.EKTA\_SPACE\_PS\_5\_COLOURSPACE
-===============================================
+colour.models.EKTA\_SPACE\_PS\_5\_COLOURSPACE
+=============================================
 
 .. currentmodule:: colour.models
 

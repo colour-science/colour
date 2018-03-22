@@ -1,5 +1,5 @@
-colour\.utilities\.is\_iterable
-===============================
+colour.utilities.is\_iterable
+=============================
 
 .. currentmodule:: colour.utilities
 

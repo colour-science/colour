@@ -1,5 +1,5 @@
-colour\.colorimetry\.planck\_law
-================================
+colour.colorimetry.planck\_law
+==============================
 
 .. currentmodule:: colour.colorimetry
 

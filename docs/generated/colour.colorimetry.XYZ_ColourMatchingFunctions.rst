@@ -1,5 +1,5 @@
-colour\.colorimetry\.XYZ\_ColourMatchingFunctions
-=================================================
+colour.colorimetry.XYZ\_ColourMatchingFunctions
+===============================================
 
 .. currentmodule:: colour.colorimetry
 
@@ -34,5 +34,33 @@ colour\.colorimetry\.XYZ\_ColourMatchingFunctions
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~XYZ_ColourMatchingFunctions.data
+      ~XYZ_ColourMatchingFunctions.domain
+      ~XYZ_ColourMatchingFunctions.dtype
+      ~XYZ_ColourMatchingFunctions.extrapolator
+      ~XYZ_ColourMatchingFunctions.extrapolator_args
+      ~XYZ_ColourMatchingFunctions.function
+      ~XYZ_ColourMatchingFunctions.interpolator
+      ~XYZ_ColourMatchingFunctions.interpolator_args
+      ~XYZ_ColourMatchingFunctions.items
+      ~XYZ_ColourMatchingFunctions.labels
+      ~XYZ_ColourMatchingFunctions.mapping
+      ~XYZ_ColourMatchingFunctions.name
+      ~XYZ_ColourMatchingFunctions.range
+      ~XYZ_ColourMatchingFunctions.shape
+      ~XYZ_ColourMatchingFunctions.signals
+      ~XYZ_ColourMatchingFunctions.strict_labels
+      ~XYZ_ColourMatchingFunctions.strict_name
+      ~XYZ_ColourMatchingFunctions.title
+      ~XYZ_ColourMatchingFunctions.values
+      ~XYZ_ColourMatchingFunctions.wavelengths
+      ~XYZ_ColourMatchingFunctions.x
+      ~XYZ_ColourMatchingFunctions.y
+      ~XYZ_ColourMatchingFunctions.z
    
    

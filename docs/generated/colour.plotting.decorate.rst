@@ -1,5 +1,5 @@
-colour\.plotting\.decorate
-==========================
+colour.plotting.decorate
+========================
 
 .. currentmodule:: colour.plotting
 

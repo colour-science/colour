@@ -1,5 +1,5 @@
-colour\.D\_illuminant\_relative\_spd
-====================================
+colour.D\_illuminant\_relative\_spd
+===================================
 
 .. currentmodule:: colour
 

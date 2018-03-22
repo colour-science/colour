@@ -1,5 +1,5 @@
-colour\.continuous\.AbstractContinuousFunction
-==============================================
+colour.continuous.AbstractContinuousFunction
+============================================
 
 .. currentmodule:: colour.continuous
 
@@ -23,5 +23,18 @@ colour\.continuous\.AbstractContinuousFunction
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~AbstractContinuousFunction.domain
+      ~AbstractContinuousFunction.extrapolator
+      ~AbstractContinuousFunction.extrapolator_args
+      ~AbstractContinuousFunction.function
+      ~AbstractContinuousFunction.interpolator
+      ~AbstractContinuousFunction.interpolator_args
+      ~AbstractContinuousFunction.name
+      ~AbstractContinuousFunction.range
    
    

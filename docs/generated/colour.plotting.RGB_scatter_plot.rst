@@ -1,5 +1,5 @@
-colour\.plotting\.RGB\_scatter\_plot
-====================================
+colour.plotting.RGB\_scatter\_plot
+==================================
 
 .. currentmodule:: colour.plotting
 

@@ -1,5 +1,5 @@
-colour\.chromatic\_adaptation
-=============================
+colour.chromatic\_adaptation
+============================
 
 .. currentmodule:: colour
 

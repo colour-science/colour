@@ -1,5 +1,5 @@
-colour\.adaptation\.SHARP\_CAT
-==============================
+colour.adaptation.SHARP\_CAT
+============================
 
 .. currentmodule:: colour.adaptation
 

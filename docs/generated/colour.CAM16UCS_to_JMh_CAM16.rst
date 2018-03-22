@@ -1,5 +1,5 @@
-colour\.CAM16UCS\_to\_JMh\_CAM16
-================================
+colour.CAM16UCS\_to\_JMh\_CAM16
+===============================
 
 .. currentmodule:: colour
 

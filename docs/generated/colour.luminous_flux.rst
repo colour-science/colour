@@ -1,5 +1,5 @@
-colour\.luminous\_flux
-======================
+colour.luminous\_flux
+=====================
 
 .. currentmodule:: colour
 

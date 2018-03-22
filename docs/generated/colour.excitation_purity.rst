@@ -1,5 +1,5 @@
-colour\.excitation\_purity
-==========================
+colour.excitation\_purity
+=========================
 
 .. currentmodule:: colour
 

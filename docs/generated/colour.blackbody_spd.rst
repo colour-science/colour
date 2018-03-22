@@ -1,5 +1,5 @@
-colour\.blackbody\_spd
-======================
+colour.blackbody\_spd
+=====================
 
 .. currentmodule:: colour
 

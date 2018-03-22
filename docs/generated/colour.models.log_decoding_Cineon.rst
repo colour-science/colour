@@ -1,5 +1,5 @@
-colour\.models\.log\_decoding\_Cineon
-=====================================
+colour.models.log\_decoding\_Cineon
+===================================
 
 .. currentmodule:: colour.models
 

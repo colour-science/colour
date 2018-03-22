@@ -1,5 +1,5 @@
-colour\.recovery\.SMITS\_1999\_SPDS
-===================================
+colour.recovery.SMITS\_1999\_SPDS
+=================================
 
 .. currentmodule:: colour.recovery
 

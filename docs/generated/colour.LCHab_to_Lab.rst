@@ -1,5 +1,5 @@
-colour\.LCHab\_to\_Lab
-======================
+colour.LCHab\_to\_Lab
+=====================
 
 .. currentmodule:: colour
 

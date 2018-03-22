@@ -1,5 +1,5 @@
-colour\.POINTER\_GAMUT\_DATA
-============================
+colour.POINTER\_GAMUT\_DATA
+===========================
 
 .. currentmodule:: colour
 

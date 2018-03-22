@@ -1,5 +1,5 @@
-colour\.COLOURCHECKERS\_SPDS
-============================
+colour.COLOURCHECKERS\_SPDS
+===========================
 
 .. currentmodule:: colour
 

@@ -1,5 +1,5 @@
-colour\.primaries\_whitepoint
-=============================
+colour.primaries\_whitepoint
+============================
 
 .. currentmodule:: colour
 

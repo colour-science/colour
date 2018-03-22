@@ -1,5 +1,5 @@
-colour\.models\.XTREME\_RGB\_COLOURSPACE
-========================================
+colour.models.XTREME\_RGB\_COLOURSPACE
+======================================
 
 .. currentmodule:: colour.models
 

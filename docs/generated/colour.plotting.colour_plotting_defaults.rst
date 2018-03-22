@@ -1,5 +1,5 @@
-colour\.plotting\.colour\_plotting\_defaults
-============================================
+colour.plotting.colour\_plotting\_defaults
+==========================================
 
 .. currentmodule:: colour.plotting
 

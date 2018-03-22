@@ -1,5 +1,5 @@
-colour\.utilities\.numpy\_print\_options
-========================================
+colour.utilities.numpy\_print\_options
+======================================
 
 .. currentmodule:: colour.utilities
 

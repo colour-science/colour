@@ -1,5 +1,5 @@
-colour\.function\_gamma
-=======================
+colour.function\_gamma
+======================
 
 .. currentmodule:: colour
 

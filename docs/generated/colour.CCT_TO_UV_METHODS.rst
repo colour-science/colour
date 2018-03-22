@@ -1,5 +1,5 @@
-colour\.CCT\_TO\_UV\_METHODS
-============================
+colour.CCT\_TO\_UV\_METHODS
+===========================
 
 .. currentmodule:: colour
 

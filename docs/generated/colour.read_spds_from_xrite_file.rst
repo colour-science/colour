@@ -1,5 +1,5 @@
-colour\.read\_spds\_from\_xrite\_file
-=====================================
+colour.read\_spds\_from\_xrite\_file
+====================================
 
 .. currentmodule:: colour
 

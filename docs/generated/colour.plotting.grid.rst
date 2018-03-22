@@ -1,5 +1,5 @@
-colour\.plotting\.grid
-======================
+colour.plotting.grid
+====================
 
 .. currentmodule:: colour.plotting
 

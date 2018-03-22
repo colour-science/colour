@@ -1,5 +1,5 @@
-colour\.corresponding\_chromaticities\_prediction
-=================================================
+colour.corresponding\_chromaticities\_prediction
+================================================
 
 .. currentmodule:: colour
 

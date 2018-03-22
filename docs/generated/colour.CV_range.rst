@@ -1,5 +1,5 @@
-colour\.CV\_range
-=================
+colour.CV\_range
+================
 
 .. currentmodule:: colour
 

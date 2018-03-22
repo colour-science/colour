@@ -1,5 +1,5 @@
-colour\.mesopic\_luminous\_efficiency\_function
-===============================================
+colour.mesopic\_luminous\_efficiency\_function
+==============================================
 
 .. currentmodule:: colour
 

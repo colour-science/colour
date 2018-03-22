@@ -1,5 +1,5 @@
-colour\.models\.log\_decoding\_Log3G12
-======================================
+colour.models.log\_decoding\_Log3G12
+====================================
 
 .. currentmodule:: colour.models
 

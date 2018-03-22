@@ -1,5 +1,5 @@
-colour\.models\.RUSSELL\_RGB\_COLOURSPACE
-=========================================
+colour.models.RUSSELL\_RGB\_COLOURSPACE
+=======================================
 
 .. currentmodule:: colour.models
 

@@ -1,5 +1,5 @@
-colour\.constants\.PLANCK\_CONSTANT
-===================================
+colour.constants.PLANCK\_CONSTANT
+=================================
 
 .. currentmodule:: colour.constants
 

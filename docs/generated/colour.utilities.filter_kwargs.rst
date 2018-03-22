@@ -1,5 +1,5 @@
-colour\.utilities\.filter\_kwargs
-=================================
+colour.utilities.filter\_kwargs
+===============================
 
 .. currentmodule:: colour.utilities
 

@@ -1,5 +1,5 @@
-colour\.kernel\_linear
-======================
+colour.kernel\_linear
+=====================
 
 .. currentmodule:: colour
 

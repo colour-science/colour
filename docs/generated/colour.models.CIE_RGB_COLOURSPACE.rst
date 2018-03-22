@@ -1,5 +1,5 @@
-colour\.models\.CIE\_RGB\_COLOURSPACE
-=====================================
+colour.models.CIE\_RGB\_COLOURSPACE
+===================================
 
 .. currentmodule:: colour.models
 

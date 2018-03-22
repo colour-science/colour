@@ -1,5 +1,5 @@
-colour\.SCOTOPIC\_LEFS
-======================
+colour.SCOTOPIC\_LEFS
+=====================
 
 .. currentmodule:: colour
 

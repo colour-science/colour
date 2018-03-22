@@ -1,5 +1,5 @@
-colour\.utilities\.metric\_psnr
-===============================
+colour.utilities.metric\_psnr
+=============================
 
 .. currentmodule:: colour.utilities
 

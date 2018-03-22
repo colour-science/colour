@@ -1,5 +1,5 @@
-colour\.plotting\.multi\_spd\_plot
-==================================
+colour.plotting.multi\_spd\_plot
+================================
 
 .. currentmodule:: colour.plotting
 

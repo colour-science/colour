@@ -1,5 +1,5 @@
-colour\.RLAB\_D\_FACTOR
-=======================
+colour.RLAB\_D\_FACTOR
+======================
 
 .. currentmodule:: colour
 

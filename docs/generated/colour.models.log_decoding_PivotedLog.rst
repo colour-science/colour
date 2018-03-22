@@ -1,5 +1,5 @@
-colour\.models\.log\_decoding\_PivotedLog
-=========================================
+colour.models.log\_decoding\_PivotedLog
+=======================================
 
 .. currentmodule:: colour.models
 

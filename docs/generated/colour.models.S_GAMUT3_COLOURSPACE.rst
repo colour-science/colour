@@ -1,5 +1,5 @@
-colour\.models\.S\_GAMUT3\_COLOURSPACE
-======================================
+colour.models.S\_GAMUT3\_COLOURSPACE
+====================================
 
 .. currentmodule:: colour.models
 

@@ -1,5 +1,5 @@
-colour\.constants\.K\_M
-=======================
+colour.constants.K\_M
+=====================
 
 .. currentmodule:: colour.constants
 

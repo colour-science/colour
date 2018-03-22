@@ -1,5 +1,5 @@
-colour\.XYZ\_to\_CAM16
-======================
+colour.XYZ\_to\_CAM16
+=====================
 
 .. currentmodule:: colour
 

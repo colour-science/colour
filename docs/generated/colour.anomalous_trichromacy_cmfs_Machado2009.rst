@@ -1,5 +1,5 @@
-colour\.anomalous\_trichromacy\_cmfs\_Machado2009
-=================================================
+colour.anomalous\_trichromacy\_cmfs\_Machado2009
+================================================
 
 .. currentmodule:: colour
 

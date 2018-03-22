@@ -1,5 +1,5 @@
-colour\.plotting\.quad
-======================
+colour.plotting.quad
+====================
 
 .. currentmodule:: colour.plotting
 

@@ -1,5 +1,5 @@
-colour\.utilities\.interval
-===========================
+colour.utilities.interval
+=========================
 
 .. currentmodule:: colour.utilities
 

@@ -1,5 +1,5 @@
-colour\.HDR\_CIELAB\_METHODS
-============================
+colour.HDR\_CIELAB\_METHODS
+===========================
 
 .. currentmodule:: colour
 

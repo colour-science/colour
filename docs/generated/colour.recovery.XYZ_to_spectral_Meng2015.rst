@@ -1,5 +1,5 @@
-colour\.recovery\.XYZ\_to\_spectral\_Meng2015
-=============================================
+colour.recovery.XYZ\_to\_spectral\_Meng2015
+===========================================
 
 .. currentmodule:: colour.recovery
 

@@ -1,5 +1,5 @@
-colour\.EOTFS\_REVERSE
-======================
+colour.EOTFS\_REVERSE
+=====================
 
 .. currentmodule:: colour
 

@@ -1,5 +1,5 @@
-colour\.models\.COLOR\_MATCH\_RGB\_COLOURSPACE
-==============================================
+colour.models.COLOR\_MATCH\_RGB\_COLOURSPACE
+============================================
 
 .. currentmodule:: colour.models
 

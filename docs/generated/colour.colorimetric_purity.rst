@@ -1,5 +1,5 @@
-colour\.colorimetric\_purity
-============================
+colour.colorimetric\_purity
+===========================
 
 .. currentmodule:: colour
 

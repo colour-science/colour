@@ -1,5 +1,5 @@
-colour\.colorimetry\.LMS\_2\_degree\_cmfs\_to\_XYZ\_2\_degree\_cmfs
-===================================================================
+colour.colorimetry.LMS\_2\_degree\_cmfs\_to\_XYZ\_2\_degree\_cmfs
+=================================================================
 
 .. currentmodule:: colour.colorimetry
 

@@ -1,5 +1,5 @@
-colour\.utilities\.metric\_mse
-==============================
+colour.utilities.metric\_mse
+============================
 
 .. currentmodule:: colour.utilities
 

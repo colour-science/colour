@@ -1,5 +1,5 @@
-colour\.models\.oetf\_RIMMRGB
-=============================
+colour.models.oetf\_RIMMRGB
+===========================
 
 .. currentmodule:: colour.models
 

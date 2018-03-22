@@ -1,5 +1,5 @@
-colour\.models\.log\_encoding\_Protune
-======================================
+colour.models.log\_encoding\_Protune
+====================================
 
 .. currentmodule:: colour.models
 

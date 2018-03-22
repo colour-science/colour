@@ -1,5 +1,5 @@
-colour\.colour\_quality\_scale
-==============================
+colour.colour\_quality\_scale
+=============================
 
 .. currentmodule:: colour
 

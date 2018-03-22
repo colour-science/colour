@@ -1,5 +1,5 @@
-colour\.colorimetry\.luminance\_Newhall1943
-===========================================
+colour.colorimetry.luminance\_Newhall1943
+=========================================
 
 .. currentmodule:: colour.colorimetry
 

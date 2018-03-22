@@ -1,5 +1,5 @@
-colour\.HDR\_IPT\_METHODS
-=========================
+colour.HDR\_IPT\_METHODS
+========================
 
 .. currentmodule:: colour
 

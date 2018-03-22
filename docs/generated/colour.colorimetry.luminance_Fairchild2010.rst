@@ -1,5 +1,5 @@
-colour\.colorimetry\.luminance\_Fairchild2010
-=============================================
+colour.colorimetry.luminance\_Fairchild2010
+===========================================
 
 .. currentmodule:: colour.colorimetry
 

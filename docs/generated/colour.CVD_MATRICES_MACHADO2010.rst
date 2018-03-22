@@ -1,5 +1,5 @@
-colour\.CVD\_MATRICES\_MACHADO2010
-==================================
+colour.CVD\_MATRICES\_MACHADO2010
+=================================
 
 .. currentmodule:: colour
 

@@ -1,5 +1,5 @@
-colour\.PHOTOPIC\_LEFS
-======================
+colour.PHOTOPIC\_LEFS
+=====================
 
 .. currentmodule:: colour
 

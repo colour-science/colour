@@ -1,5 +1,5 @@
-colour\.CIECAM02\_VIEWING\_CONDITIONS
-=====================================
+colour.CIECAM02\_VIEWING\_CONDITIONS
+====================================
 
 .. currentmodule:: colour
 

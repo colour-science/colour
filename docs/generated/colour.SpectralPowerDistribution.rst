@@ -1,5 +1,5 @@
-colour\.SpectralPowerDistribution
-=================================
+colour.SpectralPowerDistribution
+================================
 
 .. currentmodule:: colour
 
@@ -34,5 +34,26 @@ colour\.SpectralPowerDistribution
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~SpectralPowerDistribution.data
+      ~SpectralPowerDistribution.domain
+      ~SpectralPowerDistribution.dtype
+      ~SpectralPowerDistribution.extrapolator
+      ~SpectralPowerDistribution.extrapolator_args
+      ~SpectralPowerDistribution.function
+      ~SpectralPowerDistribution.interpolator
+      ~SpectralPowerDistribution.interpolator_args
+      ~SpectralPowerDistribution.items
+      ~SpectralPowerDistribution.name
+      ~SpectralPowerDistribution.range
+      ~SpectralPowerDistribution.shape
+      ~SpectralPowerDistribution.strict_name
+      ~SpectralPowerDistribution.title
+      ~SpectralPowerDistribution.values
+      ~SpectralPowerDistribution.wavelengths
    
    

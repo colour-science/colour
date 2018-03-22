@@ -1,5 +1,5 @@
-colour\.XYZ\_to\_hdr\_IPT
-=========================
+colour.XYZ\_to\_hdr\_IPT
+========================
 
 .. currentmodule:: colour
 

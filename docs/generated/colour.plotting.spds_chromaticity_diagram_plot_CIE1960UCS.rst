@@ -1,5 +1,5 @@
-colour\.plotting\.spds\_chromaticity\_diagram\_plot\_CIE1960UCS
-===============================================================
+colour.plotting.spds\_chromaticity\_diagram\_plot\_CIE1960UCS
+=============================================================
 
 .. currentmodule:: colour.plotting
 

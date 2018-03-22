@@ -1,5 +1,5 @@
-colour\.plotting\.RGB\_colourspaces\_chromaticity\_diagram\_plot\_CIE1976UCS
-============================================================================
+colour.plotting.RGB\_colourspaces\_chromaticity\_diagram\_plot\_CIE1976UCS
+==========================================================================
 
 .. currentmodule:: colour.plotting
 

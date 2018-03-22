@@ -1,5 +1,5 @@
-colour\.colorimetry\.spectral\_to\_XYZ\_integration
-===================================================
+colour.colorimetry.spectral\_to\_XYZ\_integration
+=================================================
 
 .. currentmodule:: colour.colorimetry
 

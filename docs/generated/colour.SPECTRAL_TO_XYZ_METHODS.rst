@@ -1,5 +1,5 @@
-colour\.SPECTRAL\_TO\_XYZ\_METHODS
-==================================
+colour.SPECTRAL\_TO\_XYZ\_METHODS
+=================================
 
 .. currentmodule:: colour
 

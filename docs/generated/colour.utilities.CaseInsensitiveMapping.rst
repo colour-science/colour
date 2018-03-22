@@ -1,5 +1,5 @@
-colour\.utilities\.CaseInsensitiveMapping
-=========================================
+colour.utilities.CaseInsensitiveMapping
+=======================================
 
 .. currentmodule:: colour.utilities
 
@@ -32,5 +32,11 @@ colour\.utilities\.CaseInsensitiveMapping
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~CaseInsensitiveMapping.data
    
    

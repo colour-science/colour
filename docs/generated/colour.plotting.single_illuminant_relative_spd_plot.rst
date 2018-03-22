@@ -1,5 +1,5 @@
-colour\.plotting\.single\_illuminant\_relative\_spd\_plot
-=========================================================
+colour.plotting.single\_illuminant\_relative\_spd\_plot
+=======================================================
 
 .. currentmodule:: colour.plotting
 

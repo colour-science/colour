@@ -1,5 +1,5 @@
-colour\.algebra\.cylindrical\_to\_cartesian
-===========================================
+colour.algebra.cylindrical\_to\_cartesian
+=========================================
 
 .. currentmodule:: colour.algebra
 

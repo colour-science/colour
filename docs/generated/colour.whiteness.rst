@@ -1,5 +1,5 @@
-colour\.whiteness
-=================
+colour.whiteness
+================
 
 .. currentmodule:: colour
 

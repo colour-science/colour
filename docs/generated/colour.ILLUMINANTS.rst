@@ -1,5 +1,5 @@
-colour\.ILLUMINANTS
-===================
+colour.ILLUMINANTS
+==================
 
 .. currentmodule:: colour
 

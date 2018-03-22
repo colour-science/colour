@@ -1,5 +1,5 @@
-colour\.models\.oetf\_ARIBSTDB67
-================================
+colour.models.oetf\_ARIBSTDB67
+==============================
 
 .. currentmodule:: colour.models
 

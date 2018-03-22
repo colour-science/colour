@@ -1,5 +1,5 @@
-colour\.REFLECTANCE\_RECOVERY\_METHODS
-======================================
+colour.REFLECTANCE\_RECOVERY\_METHODS
+=====================================
 
 .. currentmodule:: colour
 

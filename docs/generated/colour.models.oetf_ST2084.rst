@@ -1,5 +1,5 @@
-colour\.models\.oetf\_ST2084
-============================
+colour.models.oetf\_ST2084
+==========================
 
 .. currentmodule:: colour.models
 

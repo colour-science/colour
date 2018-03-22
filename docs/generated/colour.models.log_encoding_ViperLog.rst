@@ -1,5 +1,5 @@
-colour\.models\.log\_encoding\_ViperLog
-=======================================
+colour.models.log\_encoding\_ViperLog
+=====================================
 
 .. currentmodule:: colour.models
 

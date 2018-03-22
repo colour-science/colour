@@ -1,5 +1,5 @@
-colour\.CMCCAT2000\_VIEWING\_CONDITIONS
-=======================================
+colour.CMCCAT2000\_VIEWING\_CONDITIONS
+======================================
 
 .. currentmodule:: colour
 

@@ -1,5 +1,5 @@
-colour\.SpragueInterpolator
-===========================
+colour.SpragueInterpolator
+==========================
 
 .. currentmodule:: colour
 
@@ -18,5 +18,13 @@ colour\.SpragueInterpolator
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~SpragueInterpolator.SPRAGUE_C_COEFFICIENTS
+      ~SpragueInterpolator.x
+      ~SpragueInterpolator.y
    
    

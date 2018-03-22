@@ -1,5 +1,5 @@
-colour\.utilities\.suppress\_warnings
-=====================================
+colour.utilities.suppress\_warnings
+===================================
 
 .. currentmodule:: colour.utilities
 

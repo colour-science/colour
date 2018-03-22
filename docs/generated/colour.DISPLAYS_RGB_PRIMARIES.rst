@@ -1,5 +1,5 @@
-colour\.DISPLAYS\_RGB\_PRIMARIES
-================================
+colour.DISPLAYS\_RGB\_PRIMARIES
+===============================
 
 .. currentmodule:: colour
 

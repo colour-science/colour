@@ -1,5 +1,5 @@
-colour\.cvd\_matrix\_Machado2009
-================================
+colour.cvd\_matrix\_Machado2009
+===============================
 
 .. currentmodule:: colour
 

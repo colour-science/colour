@@ -1,5 +1,5 @@
-colour\.models\.log\_decoding\_ALEXALogC
-========================================
+colour.models.log\_decoding\_ALEXALogC
+======================================
 
 .. currentmodule:: colour.models
 

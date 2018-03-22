@@ -1,5 +1,5 @@
-colour\.RLAB\_Specification
-===========================
+colour.RLAB\_Specification
+==========================
 
 .. currentmodule:: colour
 
@@ -19,5 +19,17 @@ colour\.RLAB\_Specification
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~RLAB_Specification.C
+      ~RLAB_Specification.HC
+      ~RLAB_Specification.J
+      ~RLAB_Specification.a
+      ~RLAB_Specification.b
+      ~RLAB_Specification.h
+      ~RLAB_Specification.s
    
    

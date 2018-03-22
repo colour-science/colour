@@ -1,5 +1,5 @@
-colour\.appearance\.CAM16\_InductionFactors
-===========================================
+colour.appearance.CAM16\_InductionFactors
+=========================================
 
 .. currentmodule:: colour.appearance
 
@@ -19,5 +19,13 @@ colour\.appearance\.CAM16\_InductionFactors
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~CAM16_InductionFactors.F
+      ~CAM16_InductionFactors.N_c
+      ~CAM16_InductionFactors.c
    
    

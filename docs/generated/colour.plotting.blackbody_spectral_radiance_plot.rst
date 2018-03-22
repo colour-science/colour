@@ -1,5 +1,5 @@
-colour\.plotting\.blackbody\_spectral\_radiance\_plot
-=====================================================
+colour.plotting.blackbody\_spectral\_radiance\_plot
+===================================================
 
 .. currentmodule:: colour.plotting
 

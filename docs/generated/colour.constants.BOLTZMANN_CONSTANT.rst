@@ -1,5 +1,5 @@
-colour\.constants\.BOLTZMANN\_CONSTANT
-======================================
+colour.constants.BOLTZMANN\_CONSTANT
+====================================
 
 .. currentmodule:: colour.constants
 

@@ -1,5 +1,5 @@
-colour\.utilities\.orient
-=========================
+colour.utilities.orient
+=======================
 
 .. currentmodule:: colour.utilities
 

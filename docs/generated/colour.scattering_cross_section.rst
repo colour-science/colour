@@ -1,5 +1,5 @@
-colour\.scattering\_cross\_section
-==================================
+colour.scattering\_cross\_section
+=================================
 
 .. currentmodule:: colour
 

@@ -1,5 +1,5 @@
-colour\.plotting\.boundaries
-============================
+colour.plotting.boundaries
+==========================
 
 .. currentmodule:: colour.plotting
 

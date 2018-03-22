@@ -1,5 +1,5 @@
-colour\.models\.BT2020\_COLOURSPACE
-===================================
+colour.models.BT2020\_COLOURSPACE
+=================================
 
 .. currentmodule:: colour.models
 

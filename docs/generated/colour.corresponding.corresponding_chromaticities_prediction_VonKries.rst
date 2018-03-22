@@ -1,5 +1,5 @@
-colour\.corresponding\.corresponding\_chromaticities\_prediction\_VonKries
-==========================================================================
+colour.corresponding.corresponding\_chromaticities\_prediction\_VonKries
+========================================================================
 
 .. currentmodule:: colour.corresponding
 

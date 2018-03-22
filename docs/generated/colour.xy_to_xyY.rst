@@ -1,5 +1,5 @@
-colour\.xy\_to\_xyY
-===================
+colour.xy\_to\_xyY
+==================
 
 .. currentmodule:: colour
 

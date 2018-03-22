@@ -1,5 +1,5 @@
-colour\.bandpass\_correction
-============================
+colour.bandpass\_correction
+===========================
 
 .. currentmodule:: colour
 

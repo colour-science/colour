@@ -1,5 +1,5 @@
-colour\.plotting\.cube
-======================
+colour.plotting.cube
+====================
 
 .. currentmodule:: colour.plotting
 

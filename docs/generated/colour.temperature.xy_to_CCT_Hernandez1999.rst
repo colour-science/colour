@@ -1,5 +1,5 @@
-colour\.temperature\.xy\_to\_CCT\_Hernandez1999
-===============================================
+colour.temperature.xy\_to\_CCT\_Hernandez1999
+=============================================
 
 .. currentmodule:: colour.temperature
 

@@ -1,5 +1,5 @@
-colour\.is\_within\_pointer\_gamut
-==================================
+colour.is\_within\_pointer\_gamut
+=================================
 
 .. currentmodule:: colour
 

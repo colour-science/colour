@@ -1,5 +1,5 @@
-colour\.CAM16\_Specification
-============================
+colour.CAM16\_Specification
+===========================
 
 .. currentmodule:: colour
 
@@ -19,5 +19,18 @@ colour\.CAM16\_Specification
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~CAM16_Specification.C
+      ~CAM16_Specification.H
+      ~CAM16_Specification.HC
+      ~CAM16_Specification.J
+      ~CAM16_Specification.M
+      ~CAM16_Specification.Q
+      ~CAM16_Specification.h
+      ~CAM16_Specification.s
    
    

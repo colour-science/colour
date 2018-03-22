@@ -1,5 +1,5 @@
-colour\.colorimetry\.spectral\_to\_XYZ\_tristimulus\_weighting\_factors\_ASTME30815
-===================================================================================
+colour.colorimetry.spectral\_to\_XYZ\_tristimulus\_weighting\_factors\_ASTME30815
+=================================================================================
 
 .. currentmodule:: colour.colorimetry
 

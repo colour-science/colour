@@ -1,5 +1,5 @@
-colour\.xyY\_to\_munsell\_colour
-================================
+colour.xyY\_to\_munsell\_colour
+===============================
 
 .. currentmodule:: colour
 

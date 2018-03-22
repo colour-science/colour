@@ -1,5 +1,5 @@
-colour\.colorimetry\.whiteness\_Berger1959
-==========================================
+colour.colorimetry.whiteness\_Berger1959
+========================================
 
 .. currentmodule:: colour.colorimetry
 

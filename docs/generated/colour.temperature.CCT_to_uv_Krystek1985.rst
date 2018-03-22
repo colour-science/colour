@@ -1,5 +1,5 @@
-colour\.temperature\.CCT\_to\_uv\_Krystek1985
-=============================================
+colour.temperature.CCT\_to\_uv\_Krystek1985
+===========================================
 
 .. currentmodule:: colour.temperature
 

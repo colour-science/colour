@@ -1,5 +1,5 @@
-colour\.ones\_spd
-=================
+colour.ones\_spd
+================
 
 .. currentmodule:: colour
 

@@ -1,5 +1,5 @@
-colour\.YELLOWNESS\_METHODS
-===========================
+colour.YELLOWNESS\_METHODS
+==========================
 
 .. currentmodule:: colour
 

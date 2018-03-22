@@ -1,5 +1,5 @@
-colour\.SpectralShape
-=====================
+colour.SpectralShape
+====================
 
 .. currentmodule:: colour
 
@@ -19,5 +19,14 @@ colour\.SpectralShape
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~SpectralShape.boundaries
+      ~SpectralShape.end
+      ~SpectralShape.interval
+      ~SpectralShape.start
    
    

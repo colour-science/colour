@@ -1,5 +1,5 @@
-colour\.models\.log\_decoding\_CanonLog
-=======================================
+colour.models.log\_decoding\_CanonLog
+=====================================
 
 .. currentmodule:: colour.models
 

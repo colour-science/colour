@@ -1,5 +1,5 @@
-colour\.POINTER\_GAMUT\_ILLUMINANT
-==================================
+colour.POINTER\_GAMUT\_ILLUMINANT
+=================================
 
 .. currentmodule:: colour
 

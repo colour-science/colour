@@ -1,5 +1,5 @@
-colour\.utilities\.filter\_warnings
-===================================
+colour.utilities.filter\_warnings
+=================================
 
 .. currentmodule:: colour.utilities
 

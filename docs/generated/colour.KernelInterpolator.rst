@@ -1,5 +1,5 @@
-colour\.KernelInterpolator
-==========================
+colour.KernelInterpolator
+=========================
 
 .. currentmodule:: colour
 
@@ -18,5 +18,16 @@ colour\.KernelInterpolator
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~KernelInterpolator.kernel
+      ~KernelInterpolator.kernel_args
+      ~KernelInterpolator.padding_args
+      ~KernelInterpolator.window
+      ~KernelInterpolator.x
+      ~KernelInterpolator.y
    
    

@@ -1,5 +1,5 @@
-colour\.algebra\.euclidean\_distance
-====================================
+colour.algebra.euclidean\_distance
+==================================
 
 .. currentmodule:: colour.algebra
 

@@ -1,5 +1,5 @@
-colour\.temperature\.CCT\_to\_uv\_Ohno2013
-==========================================
+colour.temperature.CCT\_to\_uv\_Ohno2013
+========================================
 
 .. currentmodule:: colour.temperature
 

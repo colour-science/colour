@@ -1,5 +1,5 @@
-colour\.plotting\.RGB\_chromaticity\_coordinates\_chromaticity\_diagram\_plot\_CIE1931
-======================================================================================
+colour.plotting.RGB\_chromaticity\_coordinates\_chromaticity\_diagram\_plot\_CIE1931
+====================================================================================
 
 .. currentmodule:: colour.plotting
 

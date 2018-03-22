@@ -1,5 +1,5 @@
-colour\.plotting\.multi\_lightness\_function\_plot
-==================================================
+colour.plotting.multi\_lightness\_function\_plot
+================================================
 
 .. currentmodule:: colour.plotting
 

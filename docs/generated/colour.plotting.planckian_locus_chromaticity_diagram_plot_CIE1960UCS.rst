@@ -1,5 +1,5 @@
-colour\.plotting\.planckian\_locus\_chromaticity\_diagram\_plot\_CIE1960UCS
-===========================================================================
+colour.plotting.planckian\_locus\_chromaticity\_diagram\_plot\_CIE1960UCS
+=========================================================================
 
 .. currentmodule:: colour.plotting
 

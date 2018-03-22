@@ -1,5 +1,5 @@
-colour\.models\.log\_encoding\_ERIMMRGB
-=======================================
+colour.models.log\_encoding\_ERIMMRGB
+=====================================
 
 .. currentmodule:: colour.models
 

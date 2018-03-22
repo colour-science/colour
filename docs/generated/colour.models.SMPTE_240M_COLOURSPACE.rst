@@ -1,5 +1,5 @@
-colour\.models\.SMPTE\_240M\_COLOURSPACE
-========================================
+colour.models.SMPTE\_240M\_COLOURSPACE
+======================================
 
 .. currentmodule:: colour.models
 

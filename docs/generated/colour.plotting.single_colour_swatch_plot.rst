@@ -1,5 +1,5 @@
-colour\.plotting\.single\_colour\_swatch\_plot
-==============================================
+colour.plotting.single\_colour\_swatch\_plot
+============================================
 
 .. currentmodule:: colour.plotting
 

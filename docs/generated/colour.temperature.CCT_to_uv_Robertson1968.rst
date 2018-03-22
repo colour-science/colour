@@ -1,5 +1,5 @@
-colour\.temperature\.CCT\_to\_uv\_Robertson1968
-===============================================
+colour.temperature.CCT\_to\_uv\_Robertson1968
+=============================================
 
 .. currentmodule:: colour.temperature
 
