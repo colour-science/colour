@@ -1,5 +1,5 @@
-colour\.YCBCR\_WEIGHTS
-======================
+colour.YCBCR\_WEIGHTS
+=====================
 
 .. currentmodule:: colour
 

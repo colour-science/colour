@@ -1,5 +1,5 @@
-colour\.adaptation\.VON\_KRIES\_CAT
-===================================
+colour.adaptation.VON\_KRIES\_CAT
+=================================
 
 .. currentmodule:: colour.adaptation
 

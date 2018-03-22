@@ -1,5 +1,5 @@
-colour\.colorimetry\.whiteness\_Taube1960
-=========================================
+colour.colorimetry.whiteness\_Taube1960
+=======================================
 
 .. currentmodule:: colour.colorimetry
 

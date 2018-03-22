@@ -1,5 +1,5 @@
-colour\.constants\.LIGHT\_SPEED
-===============================
+colour.constants.LIGHT\_SPEED
+=============================
 
 .. currentmodule:: colour.constants
 

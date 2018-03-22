@@ -1,5 +1,5 @@
-colour\.models\.RIMM\_RGB\_COLOURSPACE
-======================================
+colour.models.RIMM\_RGB\_COLOURSPACE
+====================================
 
 .. currentmodule:: colour.models
 

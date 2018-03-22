@@ -1,5 +1,5 @@
-colour\.function\_linear
-========================
+colour.function\_linear
+=======================
 
 .. currentmodule:: colour
 

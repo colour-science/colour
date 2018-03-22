@@ -1,5 +1,5 @@
-colour\.LMS\_CMFS
-=================
+colour.LMS\_CMFS
+================
 
 .. currentmodule:: colour
 

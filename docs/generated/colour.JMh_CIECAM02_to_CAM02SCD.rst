@@ -1,5 +1,5 @@
-colour\.JMh\_CIECAM02\_to\_CAM02SCD
-===================================
+colour.JMh\_CIECAM02\_to\_CAM02SCD
+==================================
 
 .. currentmodule:: colour
 

@@ -1,5 +1,5 @@
-colour\.ATD95\_Specification
-============================
+colour.ATD95\_Specification
+===========================
 
 .. currentmodule:: colour
 
@@ -19,5 +19,19 @@ colour\.ATD95\_Specification
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ATD95_Specification.A_1
+      ~ATD95_Specification.A_2
+      ~ATD95_Specification.C
+      ~ATD95_Specification.D_1
+      ~ATD95_Specification.D_2
+      ~ATD95_Specification.Q
+      ~ATD95_Specification.T_1
+      ~ATD95_Specification.T_2
+      ~ATD95_Specification.h
    
    

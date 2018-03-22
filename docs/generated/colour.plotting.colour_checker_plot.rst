@@ -1,5 +1,5 @@
-colour\.plotting\.colour\_checker\_plot
-=======================================
+colour.plotting.colour\_checker\_plot
+=====================================
 
 .. currentmodule:: colour.plotting
 

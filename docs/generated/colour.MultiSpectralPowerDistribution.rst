@@ -1,5 +1,5 @@
-colour\.MultiSpectralPowerDistribution
-======================================
+colour.MultiSpectralPowerDistribution
+=====================================
 
 .. currentmodule:: colour
 
@@ -34,5 +34,33 @@ colour\.MultiSpectralPowerDistribution
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~MultiSpectralPowerDistribution.data
+      ~MultiSpectralPowerDistribution.domain
+      ~MultiSpectralPowerDistribution.dtype
+      ~MultiSpectralPowerDistribution.extrapolator
+      ~MultiSpectralPowerDistribution.extrapolator_args
+      ~MultiSpectralPowerDistribution.function
+      ~MultiSpectralPowerDistribution.interpolator
+      ~MultiSpectralPowerDistribution.interpolator_args
+      ~MultiSpectralPowerDistribution.items
+      ~MultiSpectralPowerDistribution.labels
+      ~MultiSpectralPowerDistribution.mapping
+      ~MultiSpectralPowerDistribution.name
+      ~MultiSpectralPowerDistribution.range
+      ~MultiSpectralPowerDistribution.shape
+      ~MultiSpectralPowerDistribution.signals
+      ~MultiSpectralPowerDistribution.strict_labels
+      ~MultiSpectralPowerDistribution.strict_name
+      ~MultiSpectralPowerDistribution.title
+      ~MultiSpectralPowerDistribution.values
+      ~MultiSpectralPowerDistribution.wavelengths
+      ~MultiSpectralPowerDistribution.x
+      ~MultiSpectralPowerDistribution.y
+      ~MultiSpectralPowerDistribution.z
    
    

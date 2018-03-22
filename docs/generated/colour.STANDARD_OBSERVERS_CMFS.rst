@@ -1,5 +1,5 @@
-colour\.STANDARD\_OBSERVERS\_CMFS
-=================================
+colour.STANDARD\_OBSERVERS\_CMFS
+================================
 
 .. currentmodule:: colour
 

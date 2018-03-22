@@ -1,5 +1,5 @@
-colour\.zeros\_spd
-==================
+colour.zeros\_spd
+=================
 
 .. currentmodule:: colour
 

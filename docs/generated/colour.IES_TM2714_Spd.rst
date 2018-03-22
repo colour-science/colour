@@ -1,5 +1,5 @@
-colour\.IES\_TM2714\_Spd
-========================
+colour.IES\_TM2714\_Spd
+=======================
 
 .. currentmodule:: colour
 
@@ -36,5 +36,34 @@ colour\.IES\_TM2714\_Spd
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~IES_TM2714_Spd.bandwidth_FWHM
+      ~IES_TM2714_Spd.bandwidth_corrected
+      ~IES_TM2714_Spd.data
+      ~IES_TM2714_Spd.domain
+      ~IES_TM2714_Spd.dtype
+      ~IES_TM2714_Spd.extrapolator
+      ~IES_TM2714_Spd.extrapolator_args
+      ~IES_TM2714_Spd.function
+      ~IES_TM2714_Spd.header
+      ~IES_TM2714_Spd.interpolator
+      ~IES_TM2714_Spd.interpolator_args
+      ~IES_TM2714_Spd.items
+      ~IES_TM2714_Spd.mapping
+      ~IES_TM2714_Spd.name
+      ~IES_TM2714_Spd.path
+      ~IES_TM2714_Spd.range
+      ~IES_TM2714_Spd.reflection_geometry
+      ~IES_TM2714_Spd.shape
+      ~IES_TM2714_Spd.spectral_quantity
+      ~IES_TM2714_Spd.strict_name
+      ~IES_TM2714_Spd.title
+      ~IES_TM2714_Spd.transmission_geometry
+      ~IES_TM2714_Spd.values
+      ~IES_TM2714_Spd.wavelengths
    
    

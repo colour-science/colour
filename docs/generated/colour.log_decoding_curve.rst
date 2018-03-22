@@ -1,5 +1,5 @@
-colour\.log\_decoding\_curve
-============================
+colour.log\_decoding\_curve
+===========================
 
 .. currentmodule:: colour
 

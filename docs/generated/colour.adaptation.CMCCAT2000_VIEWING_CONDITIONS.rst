@@ -1,5 +1,5 @@
-colour\.adaptation\.CMCCAT2000\_VIEWING\_CONDITIONS
-===================================================
+colour.adaptation.CMCCAT2000\_VIEWING\_CONDITIONS
+=================================================
 
 .. currentmodule:: colour.adaptation
 

@@ -1,5 +1,5 @@
-colour\.utilities\.normalise\_maximum
-=====================================
+colour.utilities.normalise\_maximum
+===================================
 
 .. currentmodule:: colour.utilities
 

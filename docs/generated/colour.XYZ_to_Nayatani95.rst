@@ -1,5 +1,5 @@
-colour\.XYZ\_to\_Nayatani95
-===========================
+colour.XYZ\_to\_Nayatani95
+==========================
 
 .. currentmodule:: colour
 

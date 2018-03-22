@@ -1,5 +1,5 @@
-colour\.XYZ\_to\_JzAzBz
-=======================
+colour.XYZ\_to\_JzAzBz
+======================
 
 .. currentmodule:: colour
 

@@ -1,5 +1,5 @@
-colour\.plotting\.RGB\_colourspaces\_gamuts\_plot
-=================================================
+colour.plotting.RGB\_colourspaces\_gamuts\_plot
+===============================================
 
 .. currentmodule:: colour.plotting
 

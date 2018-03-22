@@ -1,5 +1,5 @@
-colour\.full\_to\_legal
-=======================
+colour.full\_to\_legal
+======================
 
 .. currentmodule:: colour
 

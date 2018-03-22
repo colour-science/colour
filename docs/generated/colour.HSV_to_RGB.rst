@@ -1,5 +1,5 @@
-colour\.HSV\_to\_RGB
-====================
+colour.HSV\_to\_RGB
+===================
 
 .. currentmodule:: colour
 

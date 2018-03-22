@@ -1,5 +1,5 @@
-colour\.NullInterpolator
-========================
+colour.NullInterpolator
+=======================
 
 .. currentmodule:: colour
 
@@ -18,5 +18,15 @@ colour\.NullInterpolator
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~NullInterpolator.absolute_tolerance
+      ~NullInterpolator.default
+      ~NullInterpolator.relative_tolerance
+      ~NullInterpolator.x
+      ~NullInterpolator.y
    
    

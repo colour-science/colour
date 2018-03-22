@@ -1,5 +1,5 @@
-colour\.read\_image
-===================
+colour.read\_image
+==================
 
 .. currentmodule:: colour
 

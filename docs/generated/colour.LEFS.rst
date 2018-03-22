@@ -1,5 +1,5 @@
-colour\.LEFS
-============
+colour.LEFS
+===========
 
 .. currentmodule:: colour
 

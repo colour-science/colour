@@ -1,5 +1,5 @@
-colour\.CAM16\_VIEWING\_CONDITIONS
-==================================
+colour.CAM16\_VIEWING\_CONDITIONS
+=================================
 
 .. currentmodule:: colour
 

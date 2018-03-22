@@ -1,5 +1,5 @@
-colour\.write\_spds\_to\_csv\_file
-==================================
+colour.write\_spds\_to\_csv\_file
+=================================
 
 .. currentmodule:: colour
 

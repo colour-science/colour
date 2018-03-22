@@ -1,5 +1,5 @@
-colour\.YcCbcCrc\_to\_RGB
-=========================
+colour.YcCbcCrc\_to\_RGB
+========================
 
 .. currentmodule:: colour
 

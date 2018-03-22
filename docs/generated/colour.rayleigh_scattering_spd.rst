@@ -1,5 +1,5 @@
-colour\.rayleigh\_scattering\_spd
-=================================
+colour.rayleigh\_scattering\_spd
+================================
 
 .. currentmodule:: colour
 

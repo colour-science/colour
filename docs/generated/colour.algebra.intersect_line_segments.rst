@@ -1,5 +1,5 @@
-colour\.algebra\.intersect\_line\_segments
-==========================================
+colour.algebra.intersect\_line\_segments
+========================================
 
 .. currentmodule:: colour.algebra
 

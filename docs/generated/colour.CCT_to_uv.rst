@@ -1,5 +1,5 @@
-colour\.CCT\_to\_uv
-===================
+colour.CCT\_to\_uv
+==================
 
 .. currentmodule:: colour
 

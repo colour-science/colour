@@ -1,5 +1,5 @@
-colour\.plotting\.colour\_cycle
-===============================
+colour.plotting.colour\_cycle
+=============================
 
 .. currentmodule:: colour.plotting
 

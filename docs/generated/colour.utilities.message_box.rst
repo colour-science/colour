@@ -1,5 +1,5 @@
-colour\.utilities\.message\_box
-===============================
+colour.utilities.message\_box
+=============================
 
 .. currentmodule:: colour.utilities
 

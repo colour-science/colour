@@ -1,5 +1,5 @@
-colour\.models\.BT470\_525\_COLOURSPACE
-=======================================
+colour.models.BT470\_525\_COLOURSPACE
+=====================================
 
 .. currentmodule:: colour.models
 

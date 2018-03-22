@@ -1,5 +1,5 @@
-colour\.HSL\_to\_RGB
-====================
+colour.HSL\_to\_RGB
+===================
 
 .. currentmodule:: colour
 

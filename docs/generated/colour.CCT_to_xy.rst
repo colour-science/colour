@@ -1,5 +1,5 @@
-colour\.CCT\_to\_xy
-===================
+colour.CCT\_to\_xy
+==================
 
 .. currentmodule:: colour
 

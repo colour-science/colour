@@ -1,5 +1,5 @@
-colour\.RGB\_to\_RGB\_matrix
-============================
+colour.RGB\_to\_RGB\_matrix
+===========================
 
 .. currentmodule:: colour
 

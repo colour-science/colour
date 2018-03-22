@@ -1,5 +1,5 @@
-colour\.CIECAM02\_Specification
-===============================
+colour.CIECAM02\_Specification
+==============================
 
 .. currentmodule:: colour
 
@@ -19,5 +19,18 @@ colour\.CIECAM02\_Specification
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~CIECAM02_Specification.C
+      ~CIECAM02_Specification.H
+      ~CIECAM02_Specification.HC
+      ~CIECAM02_Specification.J
+      ~CIECAM02_Specification.M
+      ~CIECAM02_Specification.Q
+      ~CIECAM02_Specification.h
+      ~CIECAM02_Specification.s
    
    

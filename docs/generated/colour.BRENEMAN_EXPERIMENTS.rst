@@ -1,5 +1,5 @@
-colour\.BRENEMAN\_EXPERIMENTS
-=============================
+colour.BRENEMAN\_EXPERIMENTS
+============================
 
 .. currentmodule:: colour
 

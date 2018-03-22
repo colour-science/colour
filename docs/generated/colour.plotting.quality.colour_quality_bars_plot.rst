@@ -1,5 +1,5 @@
-colour\.plotting\.quality\.colour\_quality\_bars\_plot
-======================================================
+colour.plotting.quality.colour\_quality\_bars\_plot
+===================================================
 
 .. currentmodule:: colour.plotting.quality
 

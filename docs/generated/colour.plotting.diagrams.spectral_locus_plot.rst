@@ -1,5 +1,5 @@
-colour\.plotting\.diagrams\.spectral\_locus\_plot
-=================================================
+colour.plotting.diagrams.spectral\_locus\_plot
+==============================================
 
 .. currentmodule:: colour.plotting.diagrams
 

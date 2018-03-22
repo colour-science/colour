@@ -1,5 +1,5 @@
-colour\.DEFAULT\_SPECTRAL\_SHAPE
-================================
+colour.DEFAULT\_SPECTRAL\_SHAPE
+===============================
 
 .. currentmodule:: colour
 

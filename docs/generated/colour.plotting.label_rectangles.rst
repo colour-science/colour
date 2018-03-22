@@ -1,5 +1,5 @@
-colour\.plotting\.label\_rectangles
-===================================
+colour.plotting.label\_rectangles
+=================================
 
 .. currentmodule:: colour.plotting
 

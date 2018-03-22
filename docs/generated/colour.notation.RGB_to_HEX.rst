@@ -1,5 +1,5 @@
-colour\.notation\.RGB\_to\_HEX
-==============================
+colour.notation.RGB\_to\_HEX
+============================
 
 .. currentmodule:: colour.notation
 

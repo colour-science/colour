@@ -1,5 +1,5 @@
-colour\.models\.log\_encoding\_REDLogFilm
-=========================================
+colour.models.log\_encoding\_REDLogFilm
+=======================================
 
 .. currentmodule:: colour.models
 

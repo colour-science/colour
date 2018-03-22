@@ -1,5 +1,5 @@
-colour\.models\.log\_decoding\_SLog
-===================================
+colour.models.log\_decoding\_SLog
+=================================
 
 .. currentmodule:: colour.models
 

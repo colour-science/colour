@@ -1,5 +1,5 @@
-colour\.utilities\.closest\_indexes
-===================================
+colour.utilities.closest\_indexes
+=================================
 
 .. currentmodule:: colour.utilities
 

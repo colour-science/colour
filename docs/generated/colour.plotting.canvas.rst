@@ -1,5 +1,5 @@
-colour\.plotting\.canvas
-========================
+colour.plotting.canvas
+======================
 
 .. currentmodule:: colour.plotting
 

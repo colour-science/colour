@@ -1,5 +1,5 @@
-colour\.RGB\_luminance\_equation
-================================
+colour.RGB\_luminance\_equation
+===============================
 
 .. currentmodule:: colour
 

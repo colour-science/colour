@@ -1,5 +1,5 @@
-colour\.utilities\.in\_array
-============================
+colour.utilities.in\_array
+==========================
 
 .. currentmodule:: colour.utilities
 

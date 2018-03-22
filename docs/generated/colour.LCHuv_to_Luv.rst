@@ -1,5 +1,5 @@
-colour\.LCHuv\_to\_Luv
-======================
+colour.LCHuv\_to\_Luv
+=====================
 
 .. currentmodule:: colour
 

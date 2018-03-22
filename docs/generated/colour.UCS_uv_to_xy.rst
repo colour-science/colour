@@ -1,5 +1,5 @@
-colour\.UCS\_uv\_to\_xy
-=======================
+colour.UCS\_uv\_to\_xy
+======================
 
 .. currentmodule:: colour
 

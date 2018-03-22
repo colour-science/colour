@@ -1,5 +1,5 @@
-colour\.notation\.munsell\_value\_ASTMD153508
-=============================================
+colour.notation.munsell\_value\_ASTMD153508
+===========================================
 
 .. currentmodule:: colour.notation
 

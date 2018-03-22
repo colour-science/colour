@@ -1,5 +1,5 @@
-colour\.plotting\.image\_plot
-=============================
+colour.plotting.image\_plot
+===========================
 
 .. currentmodule:: colour.plotting
 

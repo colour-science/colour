@@ -1,5 +1,5 @@
-colour\.io\.ImageAttribute\_Specification
-=========================================
+colour.io.ImageAttribute\_Specification
+=======================================
 
 .. currentmodule:: colour.io
 
@@ -19,5 +19,13 @@ colour\.io\.ImageAttribute\_Specification
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~ImageAttribute_Specification.name
+      ~ImageAttribute_Specification.type_
+      ~ImageAttribute_Specification.value
    
    

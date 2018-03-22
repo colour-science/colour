@@ -1,5 +1,5 @@
-colour\.normalised\_primary\_matrix
-===================================
+colour.normalised\_primary\_matrix
+==================================
 
 .. currentmodule:: colour
 

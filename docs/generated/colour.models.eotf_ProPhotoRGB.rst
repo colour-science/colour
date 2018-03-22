@@ -1,5 +1,5 @@
-colour\.models\.eotf\_ProPhotoRGB
-=================================
+colour.models.eotf\_ProPhotoRGB
+===============================
 
 .. currentmodule:: colour.models
 

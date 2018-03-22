@@ -1,5 +1,5 @@
-colour\.LLAB\_Specification
-===========================
+colour.LLAB\_Specification
+==========================
 
 .. currentmodule:: colour
 
@@ -19,5 +19,18 @@ colour\.LLAB\_Specification
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~LLAB_Specification.C
+      ~LLAB_Specification.HC
+      ~LLAB_Specification.J
+      ~LLAB_Specification.M
+      ~LLAB_Specification.a
+      ~LLAB_Specification.b
+      ~LLAB_Specification.h
+      ~LLAB_Specification.s
    
    

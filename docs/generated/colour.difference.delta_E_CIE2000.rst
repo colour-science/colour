@@ -1,5 +1,5 @@
-colour\.difference\.delta\_E\_CIE2000
-=====================================
+colour.difference.delta\_E\_CIE2000
+===================================
 
 .. currentmodule:: colour.difference
 

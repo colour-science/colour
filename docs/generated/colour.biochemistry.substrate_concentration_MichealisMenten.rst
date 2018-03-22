@@ -1,5 +1,5 @@
-colour\.biochemistry\.substrate\_concentration\_MichealisMenten
-===============================================================
+colour.biochemistry.substrate\_concentration\_MichealisMenten
+=============================================================
 
 .. currentmodule:: colour.biochemistry
 

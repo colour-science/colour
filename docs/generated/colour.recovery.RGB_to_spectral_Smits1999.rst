@@ -1,5 +1,5 @@
-colour\.recovery\.RGB\_to\_spectral\_Smits1999
-==============================================
+colour.recovery.RGB\_to\_spectral\_Smits1999
+============================================
 
 .. currentmodule:: colour.recovery
 

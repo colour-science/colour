@@ -1,5 +1,5 @@
-colour\.Luv\_to\_XYZ
-====================
+colour.Luv\_to\_XYZ
+===================
 
 .. currentmodule:: colour
 

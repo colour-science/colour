@@ -1,5 +1,5 @@
-colour\.RGB\_colourspace\_limits
-================================
+colour.RGB\_colourspace\_limits
+===============================
 
 .. currentmodule:: colour
 

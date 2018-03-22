@@ -1,5 +1,5 @@
-colour\.models\.sRGB\_COLOURSPACE
-=================================
+colour.models.sRGB\_COLOURSPACE
+===============================
 
 .. currentmodule:: colour.models
 

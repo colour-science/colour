@@ -1,5 +1,5 @@
-colour\.adaptation\.FAIRCHILD\_CAT
-==================================
+colour.adaptation.FAIRCHILD\_CAT
+================================
 
 .. currentmodule:: colour.adaptation
 

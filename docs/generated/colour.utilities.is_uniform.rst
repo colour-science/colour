@@ -1,5 +1,5 @@
-colour\.utilities\.is\_uniform
-==============================
+colour.utilities.is\_uniform
+============================
 
 .. currentmodule:: colour.utilities
 

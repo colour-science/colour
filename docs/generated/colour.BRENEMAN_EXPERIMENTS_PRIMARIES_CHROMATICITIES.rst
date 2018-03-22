@@ -1,5 +1,5 @@
-colour\.BRENEMAN\_EXPERIMENTS\_PRIMARIES\_CHROMATICITIES
-========================================================
+colour.BRENEMAN\_EXPERIMENTS\_PRIMARIES\_CHROMATICITIES
+=======================================================
 
 .. currentmodule:: colour
 

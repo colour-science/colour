@@ -1,5 +1,5 @@
-colour\.utilities\.as\_numeric
-==============================
+colour.utilities.as\_numeric
+============================
 
 .. currentmodule:: colour.utilities
 

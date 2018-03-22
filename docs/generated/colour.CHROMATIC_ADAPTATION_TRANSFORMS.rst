@@ -1,5 +1,5 @@
-colour\.CHROMATIC\_ADAPTATION\_TRANSFORMS
-=========================================
+colour.CHROMATIC\_ADAPTATION\_TRANSFORMS
+========================================
 
 .. currentmodule:: colour
 

@@ -1,5 +1,5 @@
-colour\.utilities\.row\_as\_diagonal
-====================================
+colour.utilities.row\_as\_diagonal
+==================================
 
 .. currentmodule:: colour.utilities
 

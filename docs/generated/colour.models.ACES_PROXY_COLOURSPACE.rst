@@ -1,5 +1,5 @@
-colour\.models\.ACES\_PROXY\_COLOURSPACE
-========================================
+colour.models.ACES\_PROXY\_COLOURSPACE
+======================================
 
 .. currentmodule:: colour.models
 

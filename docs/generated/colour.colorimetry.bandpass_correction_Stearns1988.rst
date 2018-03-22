@@ -1,5 +1,5 @@
-colour\.colorimetry\.bandpass\_correction\_Stearns1988
-======================================================
+colour.colorimetry.bandpass\_correction\_Stearns1988
+====================================================
 
 .. currentmodule:: colour.colorimetry
 

@@ -1,5 +1,5 @@
-colour\.RLAB\_VIEWING\_CONDITIONS
-=================================
+colour.RLAB\_VIEWING\_CONDITIONS
+================================
 
 .. currentmodule:: colour
 

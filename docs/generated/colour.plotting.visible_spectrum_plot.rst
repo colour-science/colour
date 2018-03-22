@@ -1,5 +1,5 @@
-colour\.plotting\.visible\_spectrum\_plot
-=========================================
+colour.plotting.visible\_spectrum\_plot
+=======================================
 
 .. currentmodule:: colour.plotting
 

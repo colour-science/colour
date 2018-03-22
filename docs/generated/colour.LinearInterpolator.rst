@@ -1,5 +1,5 @@
-colour\.LinearInterpolator
-==========================
+colour.LinearInterpolator
+=========================
 
 .. currentmodule:: colour
 
@@ -18,5 +18,12 @@ colour\.LinearInterpolator
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~LinearInterpolator.x
+      ~LinearInterpolator.y
    
    

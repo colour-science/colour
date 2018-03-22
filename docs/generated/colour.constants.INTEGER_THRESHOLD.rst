@@ -1,5 +1,5 @@
-colour\.constants\.INTEGER\_THRESHOLD
-=====================================
+colour.constants.INTEGER\_THRESHOLD
+===================================
 
 .. currentmodule:: colour.constants
 

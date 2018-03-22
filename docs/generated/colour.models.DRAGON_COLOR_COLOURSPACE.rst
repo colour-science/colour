@@ -1,5 +1,5 @@
-colour\.models\.DRAGON\_COLOR\_COLOURSPACE
-==========================================
+colour.models.DRAGON\_COLOR\_COLOURSPACE
+========================================
 
 .. currentmodule:: colour.models
 

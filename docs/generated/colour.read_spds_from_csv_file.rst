@@ -1,5 +1,5 @@
-colour\.read\_spds\_from\_csv\_file
-===================================
+colour.read\_spds\_from\_csv\_file
+==================================
 
 .. currentmodule:: colour
 

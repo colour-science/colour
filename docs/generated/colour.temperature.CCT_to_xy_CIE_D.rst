@@ -1,5 +1,5 @@
-colour\.temperature\.CCT\_to\_xy\_CIE\_D
-========================================
+colour.temperature.CCT\_to\_xy\_CIE\_D
+======================================
 
 .. currentmodule:: colour.temperature
 

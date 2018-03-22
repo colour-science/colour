@@ -1,5 +1,5 @@
-colour\.models\.spectral\_to\_aces\_relative\_exposure\_values
-==============================================================
+colour.models.spectral\_to\_aces\_relative\_exposure\_values
+============================================================
 
 .. currentmodule:: colour.models
 

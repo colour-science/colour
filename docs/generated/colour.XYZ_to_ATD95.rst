@@ -1,5 +1,5 @@
-colour\.XYZ\_to\_ATD95
-======================
+colour.XYZ\_to\_ATD95
+=====================
 
 .. currentmodule:: colour
 

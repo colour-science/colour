@@ -1,5 +1,5 @@
-colour\.plotting\.diagrams\.chromaticity\_diagram\_colours\_plot
-================================================================
+colour.plotting.diagrams.chromaticity\_diagram\_colours\_plot
+=============================================================
 
 .. currentmodule:: colour.plotting.diagrams
 

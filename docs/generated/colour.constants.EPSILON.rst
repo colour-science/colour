@@ -1,5 +1,5 @@
-colour\.constants\.EPSILON
-==========================
+colour.constants.EPSILON
+========================
 
 .. currentmodule:: colour.constants
 

@@ -1,5 +1,5 @@
-colour\.JMh\_CAM16\_to\_CAM16LCD
-================================
+colour.JMh\_CAM16\_to\_CAM16LCD
+===============================
 
 .. currentmodule:: colour
 

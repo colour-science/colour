@@ -1,5 +1,5 @@
-colour\.LOG\_ENCODING\_CURVES
-=============================
+colour.LOG\_ENCODING\_CURVES
+============================
 
 .. currentmodule:: colour
 

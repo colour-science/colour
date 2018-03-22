@@ -1,5 +1,5 @@
-colour\.models\.eotf\_reverse\_BT1886
-=====================================
+colour.models.eotf\_reverse\_BT1886
+===================================
 
 .. currentmodule:: colour.models
 

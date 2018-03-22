@@ -1,5 +1,5 @@
-colour\.BANDPASS\_CORRECTION\_METHODS
-=====================================
+colour.BANDPASS\_CORRECTION\_METHODS
+====================================
 
 .. currentmodule:: colour
 

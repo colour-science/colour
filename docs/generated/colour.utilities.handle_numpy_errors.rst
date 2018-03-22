@@ -1,5 +1,5 @@
-colour\.utilities\.handle\_numpy\_errors
-========================================
+colour.utilities.handle\_numpy\_errors
+======================================
 
 .. currentmodule:: colour.utilities
 

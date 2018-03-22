@@ -1,5 +1,5 @@
-colour\.utilities\.linear\_conversion
-=====================================
+colour.utilities.linear\_conversion
+===================================
 
 .. currentmodule:: colour.utilities
 

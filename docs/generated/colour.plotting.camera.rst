@@ -1,5 +1,5 @@
-colour\.plotting\.camera
-========================
+colour.plotting.camera
+======================
 
 .. currentmodule:: colour.plotting
 

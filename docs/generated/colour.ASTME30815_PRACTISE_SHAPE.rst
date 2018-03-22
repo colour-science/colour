@@ -1,5 +1,5 @@
-colour\.ASTME30815\_PRACTISE\_SHAPE
-===================================
+colour.ASTME30815\_PRACTISE\_SHAPE
+==================================
 
 .. currentmodule:: colour
 

@@ -1,5 +1,5 @@
-colour\.MUNSELL\_VALUE\_METHODS
-===============================
+colour.MUNSELL\_VALUE\_METHODS
+==============================
 
 .. currentmodule:: colour
 

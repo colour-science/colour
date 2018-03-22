@@ -1,5 +1,5 @@
-colour\.adaptation\.chromatic\_adaptation\_CIE1994
-==================================================
+colour.adaptation.chromatic\_adaptation\_CIE1994
+================================================
 
 .. currentmodule:: colour.adaptation
 

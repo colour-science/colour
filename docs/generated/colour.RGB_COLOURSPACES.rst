@@ -1,5 +1,5 @@
-colour\.RGB\_COLOURSPACES
-=========================
+colour.RGB\_COLOURSPACES
+========================
 
 .. currentmodule:: colour
 

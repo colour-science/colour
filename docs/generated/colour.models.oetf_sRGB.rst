@@ -1,5 +1,5 @@
-colour\.models\.oetf\_sRGB
-==========================
+colour.models.oetf\_sRGB
+========================
 
 .. currentmodule:: colour.models
 

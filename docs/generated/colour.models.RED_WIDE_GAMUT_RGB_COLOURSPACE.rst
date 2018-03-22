@@ -1,5 +1,5 @@
-colour\.models\.RED\_WIDE\_GAMUT\_RGB\_COLOURSPACE
-==================================================
+colour.models.RED\_WIDE\_GAMUT\_RGB\_COLOURSPACE
+================================================
 
 .. currentmodule:: colour.models
 

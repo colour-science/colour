@@ -1,5 +1,5 @@
-colour\.plotting\.equal\_axes3d
-===============================
+colour.plotting.equal\_axes3d
+=============================
 
 .. currentmodule:: colour.plotting
 

@@ -1,5 +1,5 @@
-colour\.models\.MAX\_RGB\_COLOURSPACE
-=====================================
+colour.models.MAX\_RGB\_COLOURSPACE
+===================================
 
 .. currentmodule:: colour.models
 

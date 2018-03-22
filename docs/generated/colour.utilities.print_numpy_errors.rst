@@ -1,5 +1,5 @@
-colour\.utilities\.print\_numpy\_errors
-=======================================
+colour.utilities.print\_numpy\_errors
+=====================================
 
 .. currentmodule:: colour.utilities
 

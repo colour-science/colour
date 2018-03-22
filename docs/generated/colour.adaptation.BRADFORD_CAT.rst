@@ -1,5 +1,5 @@
-colour\.adaptation\.BRADFORD\_CAT
-=================================
+colour.adaptation.BRADFORD\_CAT
+===============================
 
 .. currentmodule:: colour.adaptation
 

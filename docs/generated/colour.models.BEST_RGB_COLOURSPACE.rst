@@ -1,5 +1,5 @@
-colour\.models\.BEST\_RGB\_COLOURSPACE
-======================================
+colour.models.BEST\_RGB\_COLOURSPACE
+====================================
 
 .. currentmodule:: colour.models
 

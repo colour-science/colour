@@ -1,5 +1,5 @@
-colour\.utilities\.fill\_nan
-============================
+colour.utilities.fill\_nan
+==========================
 
 .. currentmodule:: colour.utilities
 

@@ -11,6 +11,8 @@ Defines objects for tristimulus values computation from spectral data:
 spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815`
 -   :func:`colour.colorimetry.spectral_to_XYZ_ASTME30815`
 -   :func:`colour.spectral_to_XYZ`
+-   :func:`colour.colorimetry.multi_spectral_to_XYZ_integration`
+-   :func:`colour.multi_spectral_to_XYZ`
 -   :func:`colour.wavelength_to_XYZ`
 
 The default implementation is based on practise *ASTM E308-15* method.
@@ -52,6 +54,7 @@ __all__ = [
     'spectral_to_XYZ_integration',
     'spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815',
     'spectral_to_XYZ_ASTME30815', 'SPECTRAL_TO_XYZ_METHODS', 'spectral_to_XYZ',
+    'MULTI_SPECTRAL_TO_XYZ_METHODS', 'multi_spectral_to_XYZ',
     'wavelength_to_XYZ'
 ]
 
@@ -823,6 +826,203 @@ def spectral_to_XYZ(
     return function(spd, cmfs, illuminant, **filter_kwargs(function, **kwargs))
 
 
+def multi_spectral_to_XYZ_integration(
+        msa,
+        shape,
+        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
+        illuminant=ones_spd(STANDARD_OBSERVERS_CMFS[
+            'CIE 1931 2 Degree Standard Observer'].shape)):
+    """
+    Converts given multi-spectral array :math:`msa` with given spectral shape
+    to *CIE XYZ* tristimulus values using given colour matching functions and
+    illuminant.
+
+    Parameters
+    ----------
+    msa : array_like
+        Multi-spectral array :math:`msa`, the wavelengths are expected to be
+        in the last axis, e.g. for a 512x384 multi-spectral image with 77 bins,
+        ``msa`` shape should be (384, 512, 77).
+    shape : SpectralShape, optional
+        Spectral shape of the multi-spectral array :math:`msa`, ``cmfs`` and
+        ``illuminant`` will be aligned with it.
+    cmfs : XYZ_ColourMatchingFunctions
+        Standard observer colour matching functions.
+    illuminant : SpectralPowerDistribution, optional
+        Illuminant spectral power distribution.
+
+    Returns
+    -------
+    array_like
+        *CIE XYZ* tristimulus values, for a 512x384 multi-spectral image with
+        77 bins, the output shape will be (384, 512, 3).
+
+    References
+    ----------
+    -   :cite:`Wyszecki2000bf`
+
+    Examples
+    --------
+    >>> from colour import ILLUMINANTS_RELATIVE_SPDS
+    >>> msa = np.array([
+    ...     [
+    ...         [0.0137, 0.0913, 0.0152, 0.0281, 0.1918, 0.0430],
+    ...         [0.0159, 0.3145, 0.0842, 0.0907, 0.7103, 0.0437],
+    ...         [0.0096, 0.2582, 0.4139, 0.2228, 0.0041, 0.3744],
+    ...         [0.0111, 0.0709, 0.0220, 0.1249, 0.1817, 0.0020],
+    ...         [0.0179, 0.2971, 0.5630, 0.2375, 0.0024, 0.5819],
+    ...         [0.1057, 0.4620, 0.1918, 0.5625, 0.4209, 0.0027],
+    ...     ],
+    ...     [
+    ...         [0.0433, 0.2683, 0.2373, 0.0518, 0.0118, 0.0823],
+    ...         [0.0258, 0.0831, 0.0430, 0.3230, 0.2302, 0.0081],
+    ...         [0.0248, 0.1203, 0.0054, 0.0065, 0.1860, 0.3625],
+    ...         [0.0186, 0.1292, 0.0079, 0.4006, 0.9404, 0.3213],
+    ...         [0.0310, 0.1682, 0.3719, 0.0861, 0.0041, 0.7849],
+    ...         [0.0473, 0.3221, 0.2268, 0.3161, 0.1124, 0.0024],
+    ...     ],
+    ... ])
+    >>> D65 = ILLUMINANTS_RELATIVE_SPDS['D65']
+    >>> multi_spectral_to_XYZ(
+    ... msa, SpectralShape(400, 700, 60), illuminant=D65)
+    ... # doctest: +ELLIPSIS
+    array([[[  7.1958378...,   3.8605390...,  10.1016398...],
+            [ 25.5738615...,  14.7200581...,  34.8440007...],
+            [ 17.5854414...,  28.5668344...,  30.1806687...],
+            [ 11.3271912...,   8.4598177...,   7.9015758...],
+            [ 19.6581831...,  35.5918480...,  35.1430220...],
+            [ 45.8212491...,  39.2600939...,  51.7907710...]],
+    <BLANKLINE>
+           [[  8.8287837...,  13.3870357...,  30.5702050...],
+            [ 22.3324362...,  18.9560919...,   9.3952305...],
+            [  6.6887212...,   2.5728891...,  13.2618778...],
+            [ 41.8166227...,  27.1191979...,  14.2627944...],
+            [  9.2414098...,  20.2056200...,  20.1992502...],
+            [ 24.7830551...,  26.2221584...,  36.4430633...]]])
+    """
+
+    msa = np.asarray(msa)
+
+    if cmfs.shape != shape:
+        warning('Aligning "{0}" cmfs shape to "{1}".'.format(cmfs.name, shape))
+        cmfs = cmfs.copy().align(shape)
+
+    if illuminant.shape != shape:
+        warning('Aligning "{0}" illuminant shape to "{1}".'.format(
+            illuminant.name, shape))
+        illuminant = illuminant.copy().align(shape)
+
+    S = illuminant.values
+    x_bar, y_bar, z_bar = tsplit(cmfs.values)
+    dw = cmfs.shape.interval
+
+    k = 100 / (np.sum(y_bar * S) * dw)
+
+    X_p = msa * x_bar * S * dw
+    Y_p = msa * y_bar * S * dw
+    Z_p = msa * z_bar * S * dw
+
+    XYZ = k * np.sum(np.array([X_p, Y_p, Z_p]), axis=-1)
+
+    return np.rollaxis(XYZ, 0, msa.ndim)
+
+
+MULTI_SPECTRAL_TO_XYZ_METHODS = CaseInsensitiveMapping({
+    'Integration': multi_spectral_to_XYZ_integration
+})
+MULTI_SPECTRAL_TO_XYZ_METHODS.__doc__ = """
+Supported multi spectral array to *CIE XYZ* tristimulus values conversion
+methods.
+
+References
+----------
+-   :cite:`Wyszecki2000bf`
+
+MULTI_SPECTRAL_TO_XYZ_METHODS : CaseInsensitiveMapping
+    **{'Integration'}**
+"""
+
+
+def multi_spectral_to_XYZ(
+        msa,
+        shape=DEFAULT_SPECTRAL_SHAPE,
+        cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
+        illuminant=ones_spd(ASTME30815_PRACTISE_SHAPE),
+        method='Integration'):
+    """
+    Converts given multi-spectral array :math:`msa` with given spectral shape
+    to *CIE XYZ* tristimulus values using given colour matching functions and
+    illuminant.
+
+    Parameters
+    ----------
+    msa : array_like
+        Multi-spectral array :math:`msa`, the wavelengths are expected to be
+        in the last axis, e.g. for a 512x384 multi-spectral image with 77 bins,
+        ``msa`` shape should be (384, 512, 77).
+    shape : SpectralShape, optional
+        Spectral shape of the multi-spectral array :math:`msa`, ``cmfs`` and
+        ``illuminant`` will be aligned with it.
+    cmfs : XYZ_ColourMatchingFunctions
+        Standard observer colour matching functions.
+    illuminant : SpectralPowerDistribution, optional
+        Illuminant spectral power distribution.
+    method : unicode, optional
+        **{'Integration'}**,
+        Computation method.
+
+    Returns
+    -------
+    array_like
+        *CIE XYZ* tristimulus values, for a 512x384 multi-spectral image with
+        77 bins, the output shape will be (384, 512, 3).
+
+    References
+    ----------
+    -   :cite:`Wyszecki2000bf`
+
+    Examples
+    --------
+    >>> msa = np.array([
+    ...     [
+    ...         [0.0137, 0.0913, 0.0152, 0.0281, 0.1918, 0.0430],
+    ...         [0.0159, 0.3145, 0.0842, 0.0907, 0.7103, 0.0437],
+    ...         [0.0096, 0.2582, 0.4139, 0.2228, 0.0041, 0.3744],
+    ...         [0.0111, 0.0709, 0.0220, 0.1249, 0.1817, 0.0020],
+    ...         [0.0179, 0.2971, 0.5630, 0.2375, 0.0024, 0.5819],
+    ...         [0.1057, 0.4620, 0.1918, 0.5625, 0.4209, 0.0027],
+    ...     ],
+    ...     [
+    ...         [0.0433, 0.2683, 0.2373, 0.0518, 0.0118, 0.0823],
+    ...         [0.0258, 0.0831, 0.0430, 0.3230, 0.2302, 0.0081],
+    ...         [0.0248, 0.1203, 0.0054, 0.0065, 0.1860, 0.3625],
+    ...         [0.0186, 0.1292, 0.0079, 0.4006, 0.9404, 0.3213],
+    ...         [0.0310, 0.1682, 0.3719, 0.0861, 0.0041, 0.7849],
+    ...         [0.0473, 0.3221, 0.2268, 0.3161, 0.1124, 0.0024],
+    ...     ],
+    ... ])
+    >>> multi_spectral_to_XYZ(msa, SpectralShape(400, 700, 60))
+    ... # doctest: +ELLIPSIS
+    array([[[  7.6862675...,   4.0925470...,   8.4950412...],
+            [ 27.4119366...,  15.5014764...,  29.2825122...],
+            [ 17.1283666...,  27.7798651...,  25.5232032...],
+            [ 11.9824544...,   8.8127109...,   6.6518695...],
+            [ 19.1030682...,  34.4597818...,  29.7653804...],
+            [ 46.8243374...,  39.9551652...,  43.6541858...]],
+    <BLANKLINE>
+           [[  8.0978189...,  12.7544378...,  25.8004512...],
+            [ 23.4360673...,  19.6127966...,   7.9342408...],
+            [  7.0933208...,   2.7894394...,  11.1527704...],
+            [ 45.6313772...,  29.0068105...,  11.9934522...],
+            [  8.9327884...,  19.4008147...,  17.1534186...],
+            [ 24.6610235...,  26.1093760...,  30.7298791...]]])
+    """
+
+    function = MULTI_SPECTRAL_TO_XYZ_METHODS[method]
+
+    return function(msa, shape, cmfs, illuminant)
+
+
 def wavelength_to_XYZ(
         wavelength,
         cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']):
@@ -871,8 +1071,9 @@ def wavelength_to_XYZ(
     cmfs_shape = cmfs.shape
     if (np.min(wavelength) < cmfs_shape.start or
             np.max(wavelength) > cmfs_shape.end):
-        raise ValueError('"{0} nm" wavelength is not in "[{1}, {2}]" domain!'.
-                         format(wavelength, cmfs_shape.start, cmfs_shape.end))
+        raise ValueError(
+            '"{0} nm" wavelength is not in "[{1}, {2}]" domain!'.format(
+                wavelength, cmfs_shape.start, cmfs_shape.end))
 
     XYZ = np.reshape(cmfs[np.ravel(wavelength)],
                      np.asarray(wavelength).shape + (3, ))

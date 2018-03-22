@@ -1,5 +1,5 @@
-colour\.models\.CINEMA\_GAMUT\_COLOURSPACE
-==========================================
+colour.models.CINEMA\_GAMUT\_COLOURSPACE
+========================================
 
 .. currentmodule:: colour.models
 

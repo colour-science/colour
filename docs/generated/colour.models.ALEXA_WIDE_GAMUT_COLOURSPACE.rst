@@ -1,5 +1,5 @@
-colour\.models\.ALEXA\_WIDE\_GAMUT\_COLOURSPACE
-===============================================
+colour.models.ALEXA\_WIDE\_GAMUT\_COLOURSPACE
+=============================================
 
 .. currentmodule:: colour.models
 

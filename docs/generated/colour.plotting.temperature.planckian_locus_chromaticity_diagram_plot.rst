@@ -1,5 +1,5 @@
-colour\.plotting\.temperature\.planckian\_locus\_chromaticity\_diagram\_plot
-============================================================================
+colour.plotting.temperature.planckian\_locus\_chromaticity\_diagram\_plot
+=========================================================================
 
 .. currentmodule:: colour.plotting.temperature
 

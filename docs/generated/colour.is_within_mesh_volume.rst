@@ -1,5 +1,5 @@
-colour\.is\_within\_mesh\_volume
-================================
+colour.is\_within\_mesh\_volume
+===============================
 
 .. currentmodule:: colour
 

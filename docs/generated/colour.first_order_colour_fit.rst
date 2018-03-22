@@ -1,5 +1,5 @@
-colour\.first\_order\_colour\_fit
-=================================
+colour.first\_order\_colour\_fit
+================================
 
 .. currentmodule:: colour
 

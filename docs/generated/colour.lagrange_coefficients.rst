@@ -1,5 +1,5 @@
-colour\.lagrange\_coefficients
-==============================
+colour.lagrange\_coefficients
+=============================
 
 .. currentmodule:: colour
 

@@ -1,5 +1,5 @@
-colour\.utilities\.centroid
-===========================
+colour.utilities.centroid
+=========================
 
 .. currentmodule:: colour.utilities
 

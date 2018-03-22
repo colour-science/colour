@@ -1,5 +1,5 @@
-colour\.constants\.CIE\_E
-=========================
+colour.constants.CIE\_E
+=======================
 
 .. currentmodule:: colour.constants
 

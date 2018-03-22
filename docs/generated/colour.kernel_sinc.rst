@@ -1,5 +1,5 @@
-colour\.kernel\_sinc
-====================
+colour.kernel\_sinc
+===================
 
 .. currentmodule:: colour
 

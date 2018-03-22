@@ -1,5 +1,5 @@
-colour\.DELTA\_E\_METHODS
-=========================
+colour.DELTA\_E\_METHODS
+========================
 
 .. currentmodule:: colour
 

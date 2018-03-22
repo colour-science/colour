@@ -1,5 +1,5 @@
-colour\.XYZ\_to\_CIECAM02
-=========================
+colour.XYZ\_to\_CIECAM02
+========================
 
 .. currentmodule:: colour
 

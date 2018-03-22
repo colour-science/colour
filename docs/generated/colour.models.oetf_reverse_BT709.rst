@@ -1,5 +1,5 @@
-colour\.models\.oetf\_reverse\_BT709
-====================================
+colour.models.oetf\_reverse\_BT709
+==================================
 
 .. currentmodule:: colour.models
 

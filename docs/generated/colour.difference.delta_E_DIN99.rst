@@ -1,5 +1,5 @@
-colour\.difference\.delta\_E\_DIN99
-===================================
+colour.difference.delta\_E\_DIN99
+=================================
 
 .. currentmodule:: colour.difference
 

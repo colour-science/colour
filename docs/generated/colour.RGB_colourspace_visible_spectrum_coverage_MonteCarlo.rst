@@ -1,5 +1,5 @@
-colour\.RGB\_colourspace\_visible\_spectrum\_coverage\_MonteCarlo
-=================================================================
+colour.RGB\_colourspace\_visible\_spectrum\_coverage\_MonteCarlo
+================================================================
 
 .. currentmodule:: colour
 

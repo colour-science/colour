@@ -1,5 +1,5 @@
-colour\.models\.ACES\_RICD
-==========================
+colour.models.ACES\_RICD
+========================
 
 .. currentmodule:: colour.models
 

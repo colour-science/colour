@@ -1,5 +1,5 @@
-colour\.colorimetry\.whiteness\_Stensby1968
-===========================================
+colour.colorimetry.whiteness\_Stensby1968
+=========================================
 
 .. currentmodule:: colour.colorimetry
 

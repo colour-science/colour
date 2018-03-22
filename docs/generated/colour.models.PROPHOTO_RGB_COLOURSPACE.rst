@@ -1,5 +1,5 @@
-colour\.models\.PROPHOTO\_RGB\_COLOURSPACE
-==========================================
+colour.models.PROPHOTO\_RGB\_COLOURSPACE
+========================================
 
 .. currentmodule:: colour.models
 

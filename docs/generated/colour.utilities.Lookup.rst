@@ -1,5 +1,5 @@
-colour\.utilities\.Lookup
-=========================
+colour.utilities.Lookup
+=======================
 
 .. currentmodule:: colour.utilities
 

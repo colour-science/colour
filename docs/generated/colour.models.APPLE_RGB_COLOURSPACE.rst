@@ -1,5 +1,5 @@
-colour\.models\.APPLE\_RGB\_COLOURSPACE
-=======================================
+colour.models.APPLE\_RGB\_COLOURSPACE
+=====================================
 
 .. currentmodule:: colour.models
 

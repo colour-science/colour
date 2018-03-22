@@ -1,5 +1,5 @@
-colour\.luminous\_efficacy
-==========================
+colour.luminous\_efficacy
+=========================
 
 .. currentmodule:: colour
 

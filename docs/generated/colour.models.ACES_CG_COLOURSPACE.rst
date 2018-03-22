@@ -1,5 +1,5 @@
-colour\.models\.ACES\_CG\_COLOURSPACE
-=====================================
+colour.models.ACES\_CG\_COLOURSPACE
+===================================
 
 .. currentmodule:: colour.models
 

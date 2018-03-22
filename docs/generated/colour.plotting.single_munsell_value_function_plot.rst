@@ -1,5 +1,5 @@
-colour\.plotting\.single\_munsell\_value\_function\_plot
-========================================================
+colour.plotting.single\_munsell\_value\_function\_plot
+======================================================
 
 .. currentmodule:: colour.plotting
 

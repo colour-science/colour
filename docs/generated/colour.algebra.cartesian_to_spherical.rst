@@ -1,5 +1,5 @@
-colour\.algebra\.cartesian\_to\_spherical
-=========================================
+colour.algebra.cartesian\_to\_spherical
+=======================================
 
 .. currentmodule:: colour.algebra
 

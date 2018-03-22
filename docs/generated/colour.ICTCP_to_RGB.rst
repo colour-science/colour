@@ -1,5 +1,5 @@
-colour\.ICTCP\_to\_RGB
-======================
+colour.ICTCP\_to\_RGB
+=====================
 
 .. currentmodule:: colour
 

@@ -1,5 +1,5 @@
-colour\.ILLUMINANTS\_RELATIVE\_SPDS
-===================================
+colour.ILLUMINANTS\_RELATIVE\_SPDS
+==================================
 
 .. currentmodule:: colour
 

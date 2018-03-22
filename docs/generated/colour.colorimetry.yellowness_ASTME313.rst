@@ -1,5 +1,5 @@
-colour\.colorimetry\.yellowness\_ASTME313
-=========================================
+colour.colorimetry.yellowness\_ASTME313
+=======================================
 
 .. currentmodule:: colour.colorimetry
 

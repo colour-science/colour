@@ -1,5 +1,5 @@
-colour\.adaptation\.CAT02\_CAT
-==============================
+colour.adaptation.CAT02\_CAT
+============================
 
 .. currentmodule:: colour.adaptation
 

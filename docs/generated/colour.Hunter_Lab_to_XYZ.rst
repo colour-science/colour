@@ -1,5 +1,5 @@
-colour\.Hunter\_Lab\_to\_XYZ
-============================
+colour.Hunter\_Lab\_to\_XYZ
+===========================
 
 .. currentmodule:: colour
 

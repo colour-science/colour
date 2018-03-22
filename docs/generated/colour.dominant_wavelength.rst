@@ -1,5 +1,5 @@
-colour\.dominant\_wavelength
-============================
+colour.dominant\_wavelength
+===========================
 
 .. currentmodule:: colour
 

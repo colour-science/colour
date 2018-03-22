@@ -1,5 +1,5 @@
-colour\.appearance\.CIECAM02\_InductionFactors
-==============================================
+colour.appearance.CIECAM02\_InductionFactors
+============================================
 
 .. currentmodule:: colour.appearance
 
@@ -19,5 +19,13 @@ colour\.appearance\.CIECAM02\_InductionFactors
    
 
    
+   
+   .. rubric:: Attributes
+
+   .. autosummary::
+   
+      ~CIECAM02_InductionFactors.F
+      ~CIECAM02_InductionFactors.N_c
+      ~CIECAM02_InductionFactors.c
    
    

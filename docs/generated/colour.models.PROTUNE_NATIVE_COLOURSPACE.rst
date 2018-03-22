@@ -1,5 +1,5 @@
-colour\.models\.PROTUNE\_NATIVE\_COLOURSPACE
-============================================
+colour.models.PROTUNE\_NATIVE\_COLOURSPACE
+==========================================
 
 .. currentmodule:: colour.models
 
