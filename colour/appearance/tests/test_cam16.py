@@ -74,6 +74,23 @@ class TestCAM16ColourAppearanceModelForward(ColourAppearanceModelTest):
 
         return specification
 
+    @ignore_numpy_errors
+    def test_nan_XYZ_to_CAM16(self):
+        """
+        Tests :func:`colour.appearance.cam16.XYZ_to_CAM16` definition
+        nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            XYZ = np.array(case)
+            XYZ_w = np.array(case)
+            L_A = case[0]
+            Y_b = case[0]
+            surround = CAM16_InductionFactors(case[0], case[0], case[0])
+            XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround)
+
 
 class TestCAM16ColourAppearanceModelReverse(ColourAppearanceModelTest):
     """
@@ -177,23 +194,6 @@ class TestCAM16ColourAppearanceModelReverse(ColourAppearanceModelTest):
 
             np.testing.assert_almost_equal(
                 value, expected, decimal=1, err_msg=error_message)
-
-    @ignore_numpy_errors
-    def test_nan_XYZ_to_CAM16(self):
-        """
-        Tests :func:`colour.appearance.cam16.XYZ_to_CAM16` definition
-        nan support.
-        """
-
-        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
-        cases = set(permutations(cases * 3, r=3))
-        for case in cases:
-            XYZ = np.array(case)
-            XYZ_w = np.array(case)
-            L_A = case[0]
-            Y_b = case[0]
-            surround = CAM16_InductionFactors(case[0], case[0], case[0])
-            XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround)
 
     @ignore_numpy_errors
     def test_nan_CAM16_to_XYZ(self):
