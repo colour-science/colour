@@ -58,6 +58,8 @@ Conversion to Tristimulus Values
 
     spectral_to_XYZ
     SPECTRAL_TO_XYZ_METHODS
+    multi_spectral_to_XYZ
+    MULTI_SPECTRAL_TO_XYZ_METHODS
     wavelength_to_XYZ
 
 ASTM E308-15
@@ -97,6 +99,7 @@ Integration
     :toctree: generated/
 
     spectral_to_XYZ_integration
+    multi_spectral_to_XYZ_integration
 
 Spectral Bandpass Dependence Correction
 ---------------------------------------
