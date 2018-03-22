@@ -186,6 +186,19 @@ hdr-IPT Colourspace
     hdr_IPT_to_XYZ
     HDR_IPT_METHODS
 
+OSA UCS Colourspace
+-------------------
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    XYZ_to_OSA_UCS
+    OSA_UCS_to_XYZ
+
 :math:`JzAzBz` Colourspace
 --------------------------
 
