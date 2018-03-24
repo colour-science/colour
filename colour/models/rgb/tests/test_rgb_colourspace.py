@@ -173,7 +173,7 @@ class TestRGB_Colourspace(unittest.TestCase):
         RGB_to_XYZ_matrix = np.identity(3)
         XYZ_to_RGB_matrix = np.identity(3)
         self._colourspace = RGB_Colourspace(
-            'RGB Colourspace', p, whitepoint, 'D60', RGB_to_XYZ_matrix,
+            'RGB Colourspace', p, whitepoint, 'ACES', RGB_to_XYZ_matrix,
             XYZ_to_RGB_matrix, lambda x: x, lambda x: x)
 
     def test_required_attributes(self):
@@ -221,7 +221,7 @@ class TestRGB_Colourspace(unittest.TestCase):
                           [  0.00000000e+00   1.00000000e+00]
                           [  1.00000000e-04  -7.70000000e-02]]
     Whitepoint         : [ 0.32168  0.33767]
-    Whitepoint Name    : D60
+    Whitepoint Name    : ACES
     Encoding CCTF      : <function TestRGB_Colourspace.setUp.<locals>.<lambda>
     Decoding CCTF      : <function TestRGB_Colourspace.setUp.<locals>.<lambda>
     NPM                : [[ 1.  0.  0.]
@@ -257,7 +257,7 @@ __repr__` method.
                          [  0.00000000e+00,   1.00000000e+00],
                          [  1.00000000e-04,  -7.70000000e-02]],
                         [ 0.32168,  0.33767],
-                        D60,
+                        ACES,
                         [[ 1.,  0.,  0.],
                          [ 0.,  1.,  0.],
                          [ 0.,  0.,  1.]],

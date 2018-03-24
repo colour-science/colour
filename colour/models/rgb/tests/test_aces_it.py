@@ -38,17 +38,20 @@ spectral_to_aces_relative_exposure_values` definition.
         grey_reflector = constant_spd(0.18, shape)
         np.testing.assert_almost_equal(
             spectral_to_aces_relative_exposure_values(grey_reflector),
-            np.array([0.18, 0.18, 0.18]))
+            np.array([0.18, 0.18, 0.18]),
+            decimal=7)
 
         perfect_reflector = ones_spd(shape)
         np.testing.assert_almost_equal(
             spectral_to_aces_relative_exposure_values(perfect_reflector),
-            np.array([0.97783784, 0.97783784, 0.97783784]))
+            np.array([0.97783784, 0.97783784, 0.97783784]),
+            decimal=7)
 
-        dark_skin = (COLOURCHECKERS_SPDS['ColorChecker N Ohta']['dark skin'])
+        dark_skin = COLOURCHECKERS_SPDS['ColorChecker N Ohta']['dark skin']
         np.testing.assert_almost_equal(
             spectral_to_aces_relative_exposure_values(dark_skin),
-            np.array([0.11876978, 0.08708666, 0.0589442]))
+            np.array([0.11717855, 0.08663479, 0.05897071]),
+            decimal=7)
 
 
 if __name__ == '__main__':

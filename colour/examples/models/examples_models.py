@@ -27,7 +27,7 @@ print('\n')
 message_box('Using an alternative illuminant.')
 print(colour.XYZ_to_xyY(
     np.array([0.00000000, 0.00000000, 0.00000000]),
-    colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D60'],
+    colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['ACES'],
 ))
 
 print('\n')
