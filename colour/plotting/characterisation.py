@@ -90,7 +90,7 @@ def colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
 
     _name, data, illuminant = colour_checker
     colour_swatches = []
-    for _index, label, xyY in data:
+    for label, xyY in data.items():
         XYZ = xyY_to_XYZ(xyY)
         RGB = XYZ_to_plotting_colourspace(XYZ, illuminant)
 
