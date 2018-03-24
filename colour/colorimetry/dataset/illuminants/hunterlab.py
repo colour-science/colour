@@ -58,9 +58,9 @@ HunterLab_Illuminant_Specification = namedtuple(
 HUNTERLAB_ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER_DATA = (
     ('A', np.array([109.83, 100.00, 35.55]), np.array([185.20, 38.40])),
     ('C', np.array([98.04, 100.00, 118.11]), np.array([175.00, 70.00])),
-    ('D65', np.array([95.02, 100.00, 108.82]), np.array([172.30, 67.20])),
     ('D50', np.array([96.38, 100.00, 82.45]), np.array([173.51, 58.48])),
     ('D60', np.array([95.23, 100.00, 100.86]), np.array([172.47, 64.72])),
+    ('D65', np.array([95.02, 100.00, 108.82]), np.array([172.30, 67.20])),
     ('D75', np.array([94.96, 100.00, 122.53]), np.array([172.22, 71.30])),
     ('F2', np.array([98.09, 100.00, 67.53]), np.array([175.00, 52.90])),
     ('TL 4', np.array([101.40, 100.00, 65.90]), np.array([178.00, 52.30])),
