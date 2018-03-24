@@ -6,8 +6,6 @@ Showcases characterisation plotting examples.
 from pprint import pprint
 
 import colour
-from colour.characterisation.dataset.colour_checkers.spds import (
-    COLOURCHECKER_INDEXES_TO_NAMES_MAPPING)
 from colour.plotting import (colour_plotting_defaults, colour_checker_plot,
                              multi_spd_plot)
 from colour.utilities import message_box
@@ -28,11 +26,7 @@ print('\n')
 message_box(('Plotting "BabelColor Average" colour rendition charts spectral '
              'power distributions.'))
 multi_spd_plot(
-    [
-        colour.COLOURCHECKERS_SPDS['BabelColor Average'][value]
-        for key, value in sorted(
-            COLOURCHECKER_INDEXES_TO_NAMES_MAPPING.items())
-    ],
+    colour.COLOURCHECKERS_SPDS['BabelColor Average'].values(),
     use_spds_colours=True,
     title=('BabelColor Average - '
            'Relative Spectral Power Distributions'))
