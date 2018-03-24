@@ -12,8 +12,6 @@ import os
 import pylab
 
 import colour
-from colour.characterisation.dataset.colour_checkers.spds import (
-    COLOURCHECKER_INDEXES_TO_NAMES_MAPPING)
 from colour.plotting import *
 from colour.plotting.diagrams import (
     spectral_locus_plot, chromaticity_diagram_colours_plot,
@@ -108,11 +106,7 @@ def generate_documentation_plots(output_directory):
     arguments['filename'] = os.path.join(
         output_directory, 'Examples_Plotting_BabelColor_Average.png')
     multi_spd_plot(
-        [
-            colour.COLOURCHECKERS_SPDS['BabelColor Average'][value]
-            for key, value in sorted(
-                COLOURCHECKER_INDEXES_TO_NAMES_MAPPING.items())
-        ],
+        colour.COLOURCHECKERS_SPDS['BabelColor Average'].values(),
         use_spds_colours=True,
         title=('BabelColor Average - '
                'Relative Spectral Power Distributions'),
