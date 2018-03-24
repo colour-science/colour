@@ -128,7 +128,7 @@ class TestColourRenderingIndex(unittest.TestCase):
 
         self.assertAlmostEqual(
             colour_rendering_index(SpectralPowerDistribution(SAMPLE_SPD_DATA)),
-            70.805386570659394,
+            70.813839034481575,
             places=7)
 
 

@@ -34,7 +34,7 @@ class TestColourQualityScale(unittest.TestCase):
 
         self.assertAlmostEqual(
             colour_quality_scale(ILLUMINANTS_RELATIVE_SPDS['F1']),
-            75.342591389578701,
+            75.332008182589348,
             places=7)
 
         self.assertAlmostEqual(
@@ -57,7 +57,7 @@ class TestColourQualityScale(unittest.TestCase):
         self.assertAlmostEqual(
             colour_quality_scale(
                 LIGHT_SOURCES_RELATIVE_SPDS['H38HT-100 (Mercury)']),
-            22.870604734960732,
+            22.860610106043985,
             places=7)
 
         self.assertAlmostEqual(
