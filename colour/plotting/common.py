@@ -785,9 +785,10 @@ def multi_colour_swatch_plot(colour_swatches,
                              width=1,
                              height=1,
                              spacing=0,
-                             columns=3,
+                             columns=None,
                              text_parameters=None,
                              background_colour=(1.0, 1.0, 1.0),
+                             compare_swatches=None,
                              **kwargs):
     """
     Plots given colours swatches.
@@ -795,7 +796,7 @@ def multi_colour_swatch_plot(colour_swatches,
     Parameters
     ----------
     colour_swatches : list
-        ColourSwatch sequence.
+        Colour swatch sequence.
     width : numeric, optional
         Colour swatch width.
     height : numeric, optional
@@ -803,13 +804,22 @@ def multi_colour_swatch_plot(colour_swatches,
     spacing : numeric, optional
         Colour swatches spacing.
     columns : int, optional
-        Colour swatches columns count.
+        Colour swatches columns count, defaults to the colour swatch count or
+        half of it if comparing.
     text_parameters : dict, optional
         Parameters for the :func:`pylab.text` definition, ``visible`` can be
         set to make the text visible,``offset`` can be set to define the text
         offset.
     background_colour : array_like or unicode, optional
         Background colour.
+    compare_swatches : unicode, optional
+        **{None, 'Stacked', 'Diagonal'}**,
+        Whether to compare the swatches, in which case the colour swatch
+        count must be an even number with alternating reference colour swatches
+        and test colour swatches. *Stacked* will draw the test colour swatch in
+        the center of the reference colour swatch, *Diagonal* will draw
+        the reference colour swatch in the upper left diagonal area and the
+        test colour swatch in the bottom right diagonal area.
 
     Other Parameters
     ----------------
@@ -833,6 +843,20 @@ def multi_colour_swatch_plot(colour_swatches,
         :alt: multi_colour_swatch_plot
     """
 
+    if compare_swatches is not None:
+        assert len(colour_swatches) % 2 == 0, (
+            'Cannot compare an odd number of colour swatches!')
+
+        reference_colour_swatches = colour_swatches[0::2]
+        test_colour_swatches = colour_swatches[1::2]
+    else:
+        reference_colour_swatches = test_colour_swatches = colour_swatches
+
+    compare_swatches = str(compare_swatches).lower()
+
+    if columns is None:
+        columns = len(reference_colour_swatches)
+
     text_settings = {
         'visible': True,
         'offset': 0.05,
@@ -845,7 +869,7 @@ def multi_colour_swatch_plot(colour_swatches,
 
     offset_X = offset_Y = 0
     x_min, x_max, y_min, y_max = 0, width, 0, height
-    for i, colour_swatch in enumerate(colour_swatches):
+    for i, colour_swatch in enumerate(reference_colour_swatches):
         if i % columns == 0 and i != 0:
             offset_X = 0
             offset_Y -= height + spacing
@@ -855,7 +879,29 @@ def multi_colour_swatch_plot(colour_swatches,
 
         pylab.fill(
             (x_0, x_1, x_1, x_0), (y_0, y_0, y_1, y_1),
-            color=colour_swatches[i].RGB)
+            color=reference_colour_swatches[i].RGB)
+
+        if compare_swatches == 'stacked':
+            margin_X = width * 0.25
+            margin_Y = height * 0.25
+            pylab.fill(
+                (
+                    x_0 + margin_X,
+                    x_1 - margin_X,
+                    x_1 - margin_X,
+                    x_0 + margin_X,
+                ), (
+                    y_0 + margin_Y,
+                    y_0 + margin_Y,
+                    y_1 - margin_Y,
+                    y_1 - margin_Y,
+                ),
+                color=test_colour_swatches[i].RGB)
+        else:
+            pylab.fill(
+                (x_0, x_1, x_1), (y_0, y_0, y_1),
+                color=test_colour_swatches[i].RGB)
+
         if colour_swatch.name is not None and text_settings['visible']:
             pylab.text(
                 x_0 + text_offset,
