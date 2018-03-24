@@ -109,7 +109,7 @@ prior to *ACES* 1.0 release).
 AP1 : ndarray, (3, 2)
 """
 
-ACES_ILLUMINANT = 'D60'
+ACES_ILLUMINANT = 'ACES'
 """
 *ACES2065-1* colourspace whitepoint name as illuminant.
 

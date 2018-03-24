@@ -175,7 +175,7 @@ class RGB_Colourspace(object):
     >>> whitepoint = np.array([0.32168, 0.33767])
     >>> RGB_to_XYZ_matrix = np.identity(3)
     >>> XYZ_to_RGB_matrix = np.identity(3)
-    >>> colourspace = RGB_Colourspace('RGB Colourspace', p, whitepoint, 'D60',
+    >>> colourspace = RGB_Colourspace('RGB Colourspace', p, whitepoint, 'ACES',
     ...                               RGB_to_XYZ_matrix, XYZ_to_RGB_matrix)
     >>> colourspace.RGB_to_XYZ_matrix
     array([[ 1.,  0.,  0.],
@@ -585,7 +585,7 @@ class RGB_Colourspace(object):
         >>> XYZ_to_RGB_matrix = np.identity(3)
         >>> encoding_cctf = lambda x: x
         >>> decoding_cctf = lambda x: x
-        >>> print(RGB_Colourspace('RGB Colourspace', p, whitepoint, 'D60',
+        >>> print(RGB_Colourspace('RGB Colourspace', p, whitepoint, 'ACES',
         ...                       RGB_to_XYZ_matrix, XYZ_to_RGB_matrix,
         ...                       encoding_cctf, decoding_cctf))
         ... # doctest: +ELLIPSIS
@@ -596,7 +596,7 @@ class RGB_Colourspace(object):
                               [  0.00000000e+00   1.00000000e+00]
                               [  1.00000000e-04  -7.70000000e-02]]
         Whitepoint         : [ 0.32168  0.33767]
-        Whitepoint Name    : D60
+        Whitepoint Name    : ACES
         Encoding CCTF      : <function <lambda> at 0x...>
         Decoding CCTF      : <function <lambda> at 0x...>
         NPM                : [[ 1.  0.  0.]
@@ -670,7 +670,7 @@ class RGB_Colourspace(object):
         >>> XYZ_to_RGB_matrix = np.identity(3)
         >>> encoding_cctf = lambda x: x
         >>> decoding_cctf = lambda x: x
-        >>> RGB_Colourspace('RGB Colourspace', p, whitepoint, 'D60',
+        >>> RGB_Colourspace('RGB Colourspace', p, whitepoint, 'ACES',
         ...                 RGB_to_XYZ_matrix, XYZ_to_RGB_matrix,
         ...                 encoding_cctf, decoding_cctf)
         ... # doctest: +ELLIPSIS
@@ -679,7 +679,7 @@ class RGB_Colourspace(object):
                          [  0.00000000e+00,   1.00000000e+00],
                          [  1.00000000e-04,  -7.70000000e-02]],
                         [ 0.32168,  0.33767],
-                        D60,
+                        ACES,
                         [[ 1.,  0.,  0.],
                          [ 0.,  1.,  0.],
                          [ 0.,  0.,  1.]],

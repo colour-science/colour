@@ -59,7 +59,7 @@ S_FLARE_FACTOR = 0.18000 / (0.18000 + FLARE_PERCENTAGE)
 
 
 def spectral_to_aces_relative_exposure_values(
-        spd, illuminant=ILLUMINANTS_RELATIVE_SPDS['D60']):
+        spd, illuminant=ILLUMINANTS_RELATIVE_SPDS['D65']):
     """
     Converts given spectral power distribution to *ACES2065-1* colourspace
     relative exposure values.
@@ -92,7 +92,7 @@ def spectral_to_aces_relative_exposure_values(
     >>> from colour import COLOURCHECKERS_SPDS
     >>> spd = COLOURCHECKERS_SPDS['ColorChecker N Ohta']['dark skin']
     >>> spectral_to_aces_relative_exposure_values(spd)  # doctest: +ELLIPSIS
-    array([ 0.1187697...,  0.0870866...,  0.0589442...])
+    array([ 0.1171785...,  0.0866347...,  0.0589707...])
     """
 
     shape = ACES_RICD.shape

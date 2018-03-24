@@ -10,7 +10,8 @@ import unittest
 
 from colour.colorimetry import (D_illuminant_relative_spd,
                                 CIE_standard_illuminant_A_function,
-                                SpectralPowerDistribution)
+                                ILLUMINANTS_RELATIVE_SPDS)
+from colour.temperature import CCT_to_xy_CIE_D
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -20,66 +21,9 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'D60_SPD_DATA', 'A_DATA', 'TestD_illuminantRelativeSpd',
+    'A_DATA', 'TestD_illuminantRelativeSpd',
     'TestCIEStandardIlluminantAFunction'
 ]
-
-D60_SPD_DATA = {
-    300: 0.029370758174923,
-    310: 2.619241317964963,
-    320: 15.716890613128260,
-    330: 28.774580263919134,
-    340: 31.864839936661980,
-    350: 36.377426444674100,
-    360: 38.683115463162864,
-    370: 42.717548461834966,
-    380: 41.454940579637523,
-    390: 46.605319243279432,
-    400: 72.278593838848636,
-    410: 80.440599992794645,
-    420: 82.915026938943186,
-    430: 77.676263977317561,
-    440: 95.681274303793984,
-    450: 107.954820867505958,
-    460: 109.559186805074063,
-    470: 107.758140706827916,
-    480: 109.671404235341797,
-    490: 103.707873310050914,
-    500: 105.232198575232047,
-    510: 104.427666921854353,
-    520: 102.522933578052459,
-    530: 106.052670879047824,
-    540: 103.315154034581980,
-    550: 103.538598917326581,
-    560: 100.000000000000000,
-    570: 96.751421418866897,
-    580: 96.712822501540316,
-    590: 89.921479084426167,
-    600: 91.999793295044071,
-    610: 92.098709550672751,
-    620: 90.646002697010346,
-    630: 86.526482724860287,
-    640: 87.579186235501524,
-    650: 83.976140035832955,
-    660: 84.724074228057717,
-    670: 87.493490847729831,
-    680: 83.483070156949736,
-    690: 74.172451118766631,
-    700: 76.620385310991381,
-    710: 79.051849073755832,
-    720: 65.471370717416463,
-    730: 74.106079027252520,
-    740: 79.527120427726302,
-    750: 67.307162771623837,
-    760: 49.273538206159095,
-    770: 70.892412117890245,
-    780: 67.163996226304974,
-    790: 68.171370717416465,
-    800: 62.989808616705801,
-    810: 54.990892361077115,
-    820: 60.825600670913168,
-    830: 63.893495862261560
-}
 
 A_DATA = np.array([
     6.144617784123856,
@@ -191,11 +135,22 @@ class TestD_illuminantRelativeSpd(unittest.TestCase):
         definition.
         """
 
-        spd_r = SpectralPowerDistribution(D60_SPD_DATA)
-        spd_t = D_illuminant_relative_spd(np.array([0.32168, 0.33767]))
+        for name, CCT, tolerance in (
+            ('D50', 5000, 0.001),
+            ('D55', 5500, 0.001),
+            ('D65', 6500, 0.00001),
+            ('D75', 7500, 0.0001),
+        ):
+            CCT = CCT * 1.4388 / 1.4380
+            xy = CCT_to_xy_CIE_D(CCT)
+            spd_r = ILLUMINANTS_RELATIVE_SPDS[name]
+            spd_t = D_illuminant_relative_spd(xy)
 
-        np.testing.assert_array_equal(spd_r.domain, spd_t.domain)
-        np.testing.assert_almost_equal(spd_r.values, spd_t.values, decimal=7)
+            np.testing.assert_allclose(
+                spd_r.values,
+                spd_t[spd_r.wavelengths],
+                rtol=tolerance,
+                atol=tolerance)
 
 
 class TestCIEStandardIlluminantAFunction(unittest.TestCase):

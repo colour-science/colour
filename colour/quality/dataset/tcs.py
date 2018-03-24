@@ -35,7 +35,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TCS_APPROXIMATE_MUNSELL_NOTATIONS', 'TCS_SPDS_DATA', 'TCS_SPDS']
+__all__ = [
+    'TCS_INDEXES_TO_NAMES', 'TCS_APPROXIMATE_MUNSELL_NOTATIONS',
+    'TCS_SPDS_DATA', 'TCS_SPDS'
+]
 
 TCS_INDEXES_TO_NAMES = {
     1: 'TCS01',

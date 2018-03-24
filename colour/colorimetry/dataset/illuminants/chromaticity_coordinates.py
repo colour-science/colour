@@ -22,6 +22,7 @@ The following *CIE* illuminants are available:
 The following other illuminants are available:
 
 - DCI-P3 (*CIE 1931 2 Degree Standard Observer* only)
+- ACES (*CIE 1931 2 Degree Standard Observer* only)
 
 See Also
 --------
@@ -38,9 +39,10 @@ matching spectral power distribution is Kinoton 75P projector.
 Notes
 -----
 -   *CIE* illuminants with chromaticity coordinates not defined in the
-    reference :cite:`Wikipediack` have been calculated using their relative
-    spectral power distributions and the
-    :func:`colour.colorimetry.tristimulus.spectral_to_XYZ` definition.
+    reference :cite:`Wikipediack` have been calculated using their correlated
+    colour temperature and :func:`colour.temperature.CCT_to_xy_CIE_D`
+    :func:`colour.D_illuminant_relative_spd` and / or
+    :func:`colour.spectral_to_XYZ` definitions.
 
 References
 ----------
@@ -48,6 +50,12 @@ References
     Digital Cinema System Specification - Version 1.1. Retrieved from
     http://www.dcimovies.com/archives/spec_v1_1/\
 DCI_DCinema_System_Spec_v1_1.pdf
+-   :cite:`TheAcademyofMotionPictureArtsandSciences2014q` : The Academy of
+    Motion Picture Arts and Sciences, Science and Technology Council, & Academy
+    Color Encoding System (ACES) Project Subcommittee. (2014). Technical
+    Bulletin TB-2014-004 - Informative Notes on SMPTE ST 2065-1 - Academy Color
+    Encoding Specification (ACES). Retrieved from
+    https://github.com/ampas/aces-dev/tree/master/documents
 -   :cite:`Wikipediack` : Wikipedia. (n.d.). White points of standard
     illuminants. Retrieved February 24, 2014, from http://en.wikipedia.org/\
 wiki/Standard_illuminant#White_points_of_standard_illuminants
@@ -77,7 +85,7 @@ ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER = CaseInsensitiveMapping({
     'C': np.array([0.31006, 0.31616]),
     'D50': np.array([0.34570, 0.35850]),
     'D55': np.array([0.33242, 0.34743]),
-    'D60': np.array([0.32168, 0.33767]),
+    'D60': np.array([0.321626242047397, 0.337736995955436]),
     'D65': np.array([0.31270, 0.32900]),
     'D75': np.array([0.29902, 0.31485]),
     'E': np.array([1 / 3, 1 / 3]),
@@ -98,75 +106,13 @@ ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER = CaseInsensitiveMapping({
 *CIE* illuminant chromaticity coordinates for
 *CIE 1931 2 Degree Standard Observer*.
 
-References
-----------
--   :cite:`Wikipediack`
--   :cite:`DigitalCinemaInitiatives2007b`
-
 ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER : CaseInsensitiveMapping
 """
 
-ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER = CaseInsensitiveMapping({
-    'A': np.array([0.45117, 0.40594]),
-    'B': np.array([0.34980, 0.35270]),
-    'C': np.array([0.31039, 0.31905]),
-    'D50': np.array([0.34773, 0.35952]),
-    'D55': np.array([0.33411, 0.34877]),
-    'D60': np.array([0.322957407931312, 0.339135835524579]),
-    'D65': np.array([0.31382, 0.33100]),
-    'D75': np.array([0.29968, 0.31740]),
-    'E': np.array([1 / 3, 1 / 3]),
-    'F1': np.array([0.31811, 0.33559]),
-    'F2': np.array([0.37925, 0.36733]),
-    'F3': np.array([0.41761, 0.38324]),
-    'F4': np.array([0.44920, 0.39074]),
-    'F5': np.array([0.31975, 0.34246]),
-    'F6': np.array([0.38660, 0.37847]),
-    'F7': np.array([0.31569, 0.32960]),
-    'F8': np.array([0.34902, 0.35939]),
-    'F9': np.array([0.37829, 0.37045]),
-    'F10': np.array([0.35090, 0.35444]),
-    'F11': np.array([0.38541, 0.37123]),
-    'F12': np.array([0.44256, 0.39717])
+ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER.update({
+    'DCI-P3': np.array([0.31400, 0.35100]),
+    'ACES': np.array([0.32168, 0.33767])
 })
-"""
-*CIE* illuminant chromaticity coordinates for
-*CIE 1964 10 Degree Standard Observer*.
-
-References
-----------
--   :cite:`Wikipediack`
-
-ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER : CaseInsensitiveMapping
-"""
-
-ILLUMINANTS = CaseInsensitiveMapping({
-    'CIE 1931 2 Degree Standard Observer':
-        ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER,
-    'CIE 1964 10 Degree Standard Observer':
-        ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER
-})
-ILLUMINANTS.__doc__ = """
-Aggregated *CIE* illuminants chromaticity coordinates.
-
-References
-----------
--   :cite:`Wikipediack`
--   :cite:`DigitalCinemaInitiatives2007b`
-
-ILLUMINANTS : CaseInsensitiveMapping
-    **{'CIE 1931 2 Degree Standard Observer',
-    'CIE 1964 10 Degree Standard Observer'}**
-
-Aliases:
-
--   'cie_2_1931': 'CIE 1931 2 Degree Standard Observer'
--   'cie_10_1964': 'CIE 1964 10 Degree Standard Observer'
-"""
-ILLUMINANTS['cie_2_1931'] = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'])
-ILLUMINANTS['cie_10_1964'] = (
-    ILLUMINANTS['CIE 1964 10 Degree Standard Observer'])
 
 ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER.update({
     'FL3.1': np.array([0.440673532892235, 0.403295963187334]),
@@ -191,6 +137,36 @@ ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER.update({
     'HP5': np.array([0.377583057157757, 0.371347698500182])
 })
 
+ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER = CaseInsensitiveMapping({
+    'A': np.array([0.45117, 0.40594]),
+    'B': np.array([0.34980, 0.35270]),
+    'C': np.array([0.31039, 0.31905]),
+    'D50': np.array([0.34773, 0.35952]),
+    'D55': np.array([0.33411, 0.34877]),
+    'D60': np.array([0.322986926715820, 0.339275732345997]),
+    'D65': np.array([0.31382, 0.33100]),
+    'D75': np.array([0.29968, 0.31740]),
+    'E': np.array([1 / 3, 1 / 3]),
+    'F1': np.array([0.31811, 0.33559]),
+    'F2': np.array([0.37925, 0.36733]),
+    'F3': np.array([0.41761, 0.38324]),
+    'F4': np.array([0.44920, 0.39074]),
+    'F5': np.array([0.31975, 0.34246]),
+    'F6': np.array([0.38660, 0.37847]),
+    'F7': np.array([0.31569, 0.32960]),
+    'F8': np.array([0.34902, 0.35939]),
+    'F9': np.array([0.37829, 0.37045]),
+    'F10': np.array([0.35090, 0.35444]),
+    'F11': np.array([0.38541, 0.37123]),
+    'F12': np.array([0.44256, 0.39717])
+})
+"""
+*CIE* illuminant chromaticity coordinates for
+*CIE 1964 10 Degree Standard Observer*.
+
+ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER : CaseInsensitiveMapping
+"""
+
 ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER.update({
     'FL3.1': np.array([0.449830684010003, 0.390231404321266]),
     'FL3.2': np.array([0.386924116672933, 0.365756034732821]),
@@ -214,6 +190,46 @@ ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER.update({
     'HP5': np.array([0.380316415606638, 0.366617114797851])
 })
 
-ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER.update({
-    'DCI-P3': np.array([0.31400, 0.35100])
+ILLUMINANTS = CaseInsensitiveMapping({
+    'CIE 1931 2 Degree Standard Observer':
+        ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER,
+    'CIE 1964 10 Degree Standard Observer':
+        ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER
 })
+ILLUMINANTS.__doc__ = """
+Aggregated *CIE* illuminants chromaticity coordinates.
+
+Notes
+-----
+
+*CIE Illuminant D Series D60* illuminant chromaticity coordinates were
+computed as follows::
+
+    CCT = 6000 * 1.4388 / 1.438
+    xy = colour.temperature.CCT_to_xy_CIE_D(CCT)
+
+    spd = colour.D_illuminant_relative_spd(xy)
+    spd.interpolator = colour.LinearInterpolator
+    colour.XYZ_to_xy(
+        colour.spectral_to_XYZ(
+            spd, colour.CMFS['CIE 1964 10 Degree Standard Observer']) / 100.0)
+
+References
+----------
+-   :cite:`DigitalCinemaInitiatives2007b`
+-   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
+-   :cite:`Wikipediack`
+
+ILLUMINANTS : CaseInsensitiveMapping
+    **{'CIE 1931 2 Degree Standard Observer',
+    'CIE 1964 10 Degree Standard Observer'}**
+
+Aliases:
+
+-   'cie_2_1931': 'CIE 1931 2 Degree Standard Observer'
+-   'cie_10_1964': 'CIE 1964 10 Degree Standard Observer'
+"""
+ILLUMINANTS['cie_2_1931'] = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'])
+ILLUMINANTS['cie_10_1964'] = (
+    ILLUMINANTS['CIE 1964 10 Degree Standard Observer'])
