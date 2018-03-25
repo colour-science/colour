@@ -26,7 +26,8 @@ from .colorimetry import (
     visible_spectrum_plot, single_lightness_function_plot,
     multi_lightness_function_plot, blackbody_spectral_radiance_plot,
     blackbody_colours_plot)
-from .characterisation import colour_checker_plot
+from .characterisation import (single_colour_checker_plot,
+                               multi_colour_checker_plot)
 from .diagrams import (chromaticity_diagram_plot_CIE1931,
                        chromaticity_diagram_plot_CIE1960UCS,
                        chromaticity_diagram_plot_CIE1976UCS,
@@ -75,7 +76,7 @@ __all__ += [
     'single_lightness_function_plot', 'multi_lightness_function_plot',
     'blackbody_spectral_radiance_plot', 'blackbody_colours_plot'
 ]
-__all__ += ['colour_checker_plot']
+__all__ += ['single_colour_checker_plot', 'multi_colour_checker_plot']
 __all__ += [
     'chromaticity_diagram_plot_CIE1931',
     'chromaticity_diagram_plot_CIE1960UCS',
@@ -210,6 +211,10 @@ API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
     [
         'colour.plotting.multi_colour_swatches_plot',
         'colour.plotting.multi_colour_swatch_plot',
+    ],
+    [
+        'colour.plotting.colour_checker_plot',
+        'colour.plotting.single_colour_checker_plot',
     ],
 ]
 

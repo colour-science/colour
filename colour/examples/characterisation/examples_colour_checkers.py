@@ -25,15 +25,15 @@ message_box(('"ColorChecker 2005" colour rendition chart chromaticity '
              'coordinates data:\n'
              '\n\t("Patch Number", "Patch Name", "xyY")'))
 name, data, illuminant = colour.COLOURCHECKERS['ColorChecker 2005']
-for index, name, xyY in data:
-    print(index, name, xyY)
+for name, xyY in data.items():
+    print(name, xyY)
 
 print('\n')
 
 message_box(('Converting "ColorChecker 2005" colour rendition chart "CIE xyY" '
              'colourspace values to "sRGB" colourspace "RGB" values:\n'
              '\n\t("Patch Name", ["R", "G", "B"])'))
-for index, name, xyY in data:
+for name, xyY in data.items():
     RGB = colour.XYZ_to_RGB(
         colour.xyY_to_XYZ(xyY), illuminant,
         colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65'],

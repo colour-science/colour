@@ -72,7 +72,8 @@ Colour Characterisation
 .. autosummary::
     :toctree: generated/
 
-    colour_checker_plot
+    single_colour_checker_plot
+    multi_colour_checker_plot
 
 Corresponding Chromaticities
 ----------------------------
