@@ -136,8 +136,8 @@ def colour_quality_scale(spd_test, additional_data=False):
 
     Examples
     --------
-    >>> from colour import ILLUMINANTS_RELATIVE_SPDS
-    >>> spd = ILLUMINANTS_RELATIVE_SPDS['F2']
+    >>> from colour import ILLUMINANTS_SPDS
+    >>> spd = ILLUMINANTS_SPDS['F2']
     >>> colour_quality_scale(spd)  # doctest: +ELLIPSIS
     64.6863391...
     """

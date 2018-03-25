@@ -10,7 +10,7 @@ import unittest
 
 from colour.colorimetry import (D_illuminant_relative_spd,
                                 CIE_standard_illuminant_A_function,
-                                ILLUMINANTS_RELATIVE_SPDS)
+                                ILLUMINANTS_SPDS)
 from colour.temperature import CCT_to_xy_CIE_D
 
 __author__ = 'Colour Developers'
@@ -143,7 +143,7 @@ class TestD_illuminantRelativeSpd(unittest.TestCase):
         ):
             CCT = CCT * 1.4388 / 1.4380
             xy = CCT_to_xy_CIE_D(CCT)
-            spd_r = ILLUMINANTS_RELATIVE_SPDS[name]
+            spd_r = ILLUMINANTS_SPDS[name]
             spd_t = D_illuminant_relative_spd(xy)
 
             np.testing.assert_allclose(

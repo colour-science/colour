@@ -64,8 +64,8 @@ def luminous_flux(spd,
 
     Examples
     --------
-    >>> from colour import LIGHT_SOURCES_RELATIVE_SPDS
-    >>> spd = LIGHT_SOURCES_RELATIVE_SPDS['Neodimium Incandescent']
+    >>> from colour import LIGHT_SOURCES_SPDS
+    >>> spd = LIGHT_SOURCES_SPDS['Neodimium Incandescent']
     >>> luminous_flux(spd)  # doctest: +ELLIPSIS
     23807.6555273...
     """
@@ -106,8 +106,8 @@ def luminous_efficiency(
 
     Examples
     --------
-    >>> from colour import LIGHT_SOURCES_RELATIVE_SPDS
-    >>> spd = LIGHT_SOURCES_RELATIVE_SPDS['Neodimium Incandescent']
+    >>> from colour import LIGHT_SOURCES_SPDS
+    >>> spd = LIGHT_SOURCES_SPDS['Neodimium Incandescent']
     >>> luminous_efficiency(spd)  # doctest: +ELLIPSIS
     0.1994393...
     """
@@ -149,8 +149,8 @@ def luminous_efficacy(
 
     Examples
     --------
-    >>> from colour import LIGHT_SOURCES_RELATIVE_SPDS
-    >>> spd = LIGHT_SOURCES_RELATIVE_SPDS['Neodimium Incandescent']
+    >>> from colour import LIGHT_SOURCES_SPDS
+    >>> spd = LIGHT_SOURCES_SPDS['Neodimium Incandescent']
     >>> luminous_efficacy(spd)  # doctest: +ELLIPSIS
     136.2170803...
     """

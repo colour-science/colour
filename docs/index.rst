@@ -104,7 +104,7 @@ Spectral Computations
 
 .. code-block:: python
 
-    >>> colour.spectral_to_XYZ(colour.LIGHT_SOURCES_RELATIVE_SPDS['Neodimium Incandescent'])
+    >>> colour.spectral_to_XYZ(colour.LIGHT_SOURCES_SPDS['Neodimium Incandescent'])
     array([ 36.94726204,  32.62076174,  13.0143849 ])
     >>> sorted(colour.SPECTRAL_TO_XYZ_METHODS.keys())
     [u'ASTM E308-15', u'Integration', u'astm2015']
@@ -241,7 +241,7 @@ Luminous Flux
 
 .. code-block:: python
 
-    >>> spd = colour.LIGHT_SOURCES_RELATIVE_SPDS['Neodimium Incandescent']
+    >>> spd = colour.LIGHT_SOURCES_SPDS['Neodimium Incandescent']
     >>> colour.luminous_flux(spd)
     3807.655527367202
 
@@ -250,7 +250,7 @@ Luminous Efficiency
 
 .. code-block:: python
 
-    >>> spd = colour.LIGHT_SOURCES_RELATIVE_SPDS['Neodimium Incandescent']
+    >>> spd = colour.LIGHT_SOURCES_SPDS['Neodimium Incandescent']
     >>> colour.luminous_efficiency(spd)
     0.19943935624521045
 
@@ -259,7 +259,7 @@ Luminous Efficacy
 
 .. code-block:: python
 
-    >>> spd = colour.LIGHT_SOURCES_RELATIVE_SPDS['Neodimium Incandescent']
+    >>> spd = colour.LIGHT_SOURCES_SPDS['Neodimium Incandescent']
     >>> colour.luminous_efficacy(spd)
     136.21708031547874
 
@@ -717,7 +717,7 @@ Colour Rendering Index
 
 .. code-block:: python
 
-    >>> colour.colour_quality_scale(colour.ILLUMINANTS_RELATIVE_SPDS['F2'])
+    >>> colour.colour_quality_scale(colour.ILLUMINANTS_SPDS['F2'])
     64.686416902221609
 
 Colour Quality Scale
@@ -725,7 +725,7 @@ Colour Quality Scale
 
 .. code-block:: python
 
-    >>> colour.colour_rendering_index(colour.ILLUMINANTS_RELATIVE_SPDS['F2'])
+    >>> colour.colour_rendering_index(colour.ILLUMINANTS_SPDS['F2'])
     64.151520202968015
 
 Reflectance Recovery
@@ -915,7 +915,7 @@ Colour Rendering Index
 .. code-block:: python
 
     >>> single_spd_colour_rendering_index_bars_plot(
-    ...     colour.ILLUMINANTS_RELATIVE_SPDS['F2'])
+    ...     colour.ILLUMINANTS_SPDS['F2'])
 
 ..  image:: _static/Examples_Plotting_CRI.png
 

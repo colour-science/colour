@@ -184,10 +184,10 @@ Illuminants and Light Sources
     :toctree: generated/
 
     ILLUMINANTS
-    ILLUMINANTS_RELATIVE_SPDS
+    ILLUMINANTS_SPDS
     HUNTERLAB_ILLUMINANTS
     LIGHT_SOURCES
-    LIGHT_SOURCES_RELATIVE_SPDS
+    LIGHT_SOURCES_SPDS
 
 Dominant Wavelength and Purity
 ------------------------------

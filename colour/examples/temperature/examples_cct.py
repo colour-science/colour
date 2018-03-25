@@ -9,7 +9,7 @@ from colour.utilities import message_box
 message_box('Correlated Colour Temperature Computations')
 
 cmfs = colour.CMFS['CIE 1931 2 Degree Standard Observer']
-illuminant = colour.ILLUMINANTS_RELATIVE_SPDS['D65']
+illuminant = colour.ILLUMINANTS_SPDS['D65']
 xy = colour.XYZ_to_xy(colour.spectral_to_XYZ(illuminant, cmfs))
 uv = colour.UCS_to_uv(colour.XYZ_to_UCS(colour.xy_to_XYZ(xy)))
 message_box(('Converting to "CCT" and "D_uv" from given "CIE UCS" colourspace '

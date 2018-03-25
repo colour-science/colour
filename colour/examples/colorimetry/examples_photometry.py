@@ -8,7 +8,7 @@ from colour.utilities import message_box
 
 message_box('"Photometry" Computations')
 
-spd = colour.LIGHT_SOURCES_RELATIVE_SPDS['Neodimium Incandescent']
+spd = colour.LIGHT_SOURCES_SPDS['Neodimium Incandescent']
 message_box(('Computing "Luminous Flux" for given spectral power '
              'distribution:\n'
              '\n\t{0}'.format(spd.name)))

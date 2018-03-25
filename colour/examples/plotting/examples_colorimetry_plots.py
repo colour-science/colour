@@ -26,7 +26,7 @@ print('\n')
 
 message_box(('Plotting multiple illuminants relative spectral power '
              'distributions.'))
-pprint(sorted(colour.ILLUMINANTS_RELATIVE_SPDS.keys()))
+pprint(sorted(colour.ILLUMINANTS_SPDS.keys()))
 multi_illuminant_relative_spd_plot(
     ['A', 'B', 'C', 'D50', 'D55', 'D60', 'D65', 'D75', 'F1'])
 

@@ -33,7 +33,7 @@ import matplotlib.ticker
 import numpy as np
 import pylab
 
-from colour.colorimetry import CMFS, ILLUMINANTS_RELATIVE_SPDS
+from colour.colorimetry import CMFS, ILLUMINANTS_SPDS
 from colour.models import RGB_COLOURSPACES, XYZ_to_RGB
 from colour.utilities import Structure
 
@@ -724,10 +724,10 @@ def get_illuminant(illuminant):
         If the given illuminant is not found in the factory illuminants.
     """
 
-    illuminant, name = ILLUMINANTS_RELATIVE_SPDS.get(illuminant), illuminant
+    illuminant, name = ILLUMINANTS_SPDS.get(illuminant), illuminant
     if illuminant is None:
         raise KeyError('"{0}" not found in factory illuminants: "{1}".'.format(
-            name, ', '.join(sorted(ILLUMINANTS_RELATIVE_SPDS.keys()))))
+            name, ', '.join(sorted(ILLUMINANTS_SPDS.keys()))))
 
     return illuminant
 

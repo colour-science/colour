@@ -8,7 +8,7 @@ from __future__ import division, unicode_literals
 import unittest
 
 from colour.colorimetry import (
-    ILLUMINANTS_RELATIVE_SPDS, LIGHT_SOURCES_RELATIVE_SPDS, luminous_flux,
+    ILLUMINANTS_SPDS, LIGHT_SOURCES_SPDS, luminous_flux,
     luminous_efficiency, luminous_efficacy, zeros_spd)
 
 __author__ = 'Colour Developers'
@@ -35,19 +35,19 @@ class TestLuminousFlux(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            luminous_flux(ILLUMINANTS_RELATIVE_SPDS['F2'].copy().normalise()),
+            luminous_flux(ILLUMINANTS_SPDS['F2'].copy().normalise()),
             28588.73612977,
             places=7)
 
         self.assertAlmostEqual(
             luminous_flux(
-                LIGHT_SOURCES_RELATIVE_SPDS['Neodimium Incandescent']),
+                LIGHT_SOURCES_SPDS['Neodimium Incandescent']),
             23807.65552737,
             places=7)
 
         self.assertAlmostEqual(
             luminous_flux(
-                LIGHT_SOURCES_RELATIVE_SPDS['F32T8/TL841 (Triphosphor)']),
+                LIGHT_SOURCES_SPDS['F32T8/TL841 (Triphosphor)']),
             13090.06759053,
             places=7)
 
@@ -66,19 +66,19 @@ class TestLuminousEfficiency(unittest.TestCase):
 
         self.assertAlmostEqual(
             luminous_efficiency(
-                ILLUMINANTS_RELATIVE_SPDS['F2'].copy().normalise()),
+                ILLUMINANTS_SPDS['F2'].copy().normalise()),
             0.49317624,
             places=7)
 
         self.assertAlmostEqual(
             luminous_efficiency(
-                LIGHT_SOURCES_RELATIVE_SPDS['Neodimium Incandescent']),
+                LIGHT_SOURCES_SPDS['Neodimium Incandescent']),
             0.19943936,
             places=7)
 
         self.assertAlmostEqual(
             luminous_efficiency(
-                LIGHT_SOURCES_RELATIVE_SPDS['F32T8/TL841 (Triphosphor)']),
+                LIGHT_SOURCES_SPDS['F32T8/TL841 (Triphosphor)']),
             0.51080919,
             places=7)
 
@@ -97,19 +97,19 @@ class TestLuminousEfficacy(unittest.TestCase):
 
         self.assertAlmostEqual(
             luminous_efficacy(
-                ILLUMINANTS_RELATIVE_SPDS['F2'].copy().normalise()),
+                ILLUMINANTS_SPDS['F2'].copy().normalise()),
             336.83937176,
             places=7)
 
         self.assertAlmostEqual(
             luminous_efficacy(
-                LIGHT_SOURCES_RELATIVE_SPDS['Neodimium Incandescent']),
+                LIGHT_SOURCES_SPDS['Neodimium Incandescent']),
             136.21708032,
             places=7)
 
         self.assertAlmostEqual(
             luminous_efficacy(
-                LIGHT_SOURCES_RELATIVE_SPDS['F32T8/TL841 (Triphosphor)']),
+                LIGHT_SOURCES_SPDS['F32T8/TL841 (Triphosphor)']),
             348.88267549,
             places=7)
 

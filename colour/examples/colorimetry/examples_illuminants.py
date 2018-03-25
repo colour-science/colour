@@ -11,7 +11,7 @@ from colour.utilities import message_box
 message_box('Illuminants Dataset')
 
 message_box('Illuminants relative spectral power distributions dataset.')
-pprint(sorted(colour.ILLUMINANTS_RELATIVE_SPDS.keys()))
+pprint(sorted(colour.ILLUMINANTS_SPDS.keys()))
 
 print('\n')
 
