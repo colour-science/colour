@@ -9,7 +9,8 @@ import numpy as np
 import unittest
 
 from colour.characterisation import COLOURCHECKERS_SPDS
-from colour.colorimetry import constant_spd, ones_spd
+from colour.colorimetry import (ILLUMINANTS_RELATIVE_SPDS, constant_spd,
+                                ones_spd)
 from colour.models import ACES_RICD, spectral_to_aces_relative_exposure_values
 
 __author__ = 'Colour Developers'
@@ -51,6 +52,29 @@ spectral_to_aces_relative_exposure_values` definition.
         np.testing.assert_almost_equal(
             spectral_to_aces_relative_exposure_values(dark_skin),
             np.array([0.11717855, 0.08663479, 0.05897071]),
+            decimal=7)
+
+        dark_skin = COLOURCHECKERS_SPDS['ColorChecker N Ohta']['dark skin']
+        np.testing.assert_almost_equal(
+            spectral_to_aces_relative_exposure_values(
+                dark_skin, ILLUMINANTS_RELATIVE_SPDS['A']),
+            np.array([0.13584109, 0.09431910, 0.05928216]),
+            decimal=7)
+
+        dark_skin = COLOURCHECKERS_SPDS['ColorChecker N Ohta']['dark skin']
+        np.testing.assert_almost_equal(
+            spectral_to_aces_relative_exposure_values(
+                dark_skin, apply_chromatic_adaptation=True),
+            np.array([0.11807662, 0.0869023, 0.05891045]),
+            decimal=7)
+
+        dark_skin = COLOURCHECKERS_SPDS['ColorChecker N Ohta']['dark skin']
+        np.testing.assert_almost_equal(
+            spectral_to_aces_relative_exposure_values(
+                dark_skin,
+                apply_chromatic_adaptation=True,
+                chromatic_adaptation_transform='Bradford'),
+            np.array([0.11805856, 0.08688928, 0.05900204]),
             decimal=7)
 
 
