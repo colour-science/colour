@@ -16,7 +16,7 @@ import unittest
 
 from colour.algebra import LinearInterpolator
 from colour.colorimetry import (CMFS, CIE_standard_illuminant_A_function,
-                                ILLUMINANTS_RELATIVE_SPDS,
+                                ILLUMINANTS_SPDS,
                                 SpectralPowerDistribution, SpectralShape)
 from colour.colorimetry import (
     lagrange_coefficients_ASTME202211,
@@ -392,7 +392,7 @@ tristimulus_weighting_factors_ASTME202211` definition.
             np.round(twf, 3), A_CIE_1964_10_20_TWF, decimal=3)
 
         cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
-        D65 = ILLUMINANTS_RELATIVE_SPDS['D65'].copy().align(
+        D65 = ILLUMINANTS_SPDS['D65'].copy().align(
             cmfs.shape, interpolator=LinearInterpolator)
         twf = tristimulus_weighting_factors_ASTME202211(
             cmfs, D65, SpectralShape(360, 830, 20))
@@ -436,20 +436,20 @@ spectral_to_XYZ_integration`
         cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
         np.testing.assert_almost_equal(
             spectral_to_XYZ_integration(SAMPLE_SPD, cmfs,
-                                        ILLUMINANTS_RELATIVE_SPDS['A']),
+                                        ILLUMINANTS_SPDS['A']),
             np.array([14.46365624, 10.85827910, 2.04662343]),
             decimal=7)
 
         cmfs = CMFS['CIE 1964 10 Degree Standard Observer']
         np.testing.assert_almost_equal(
             spectral_to_XYZ_integration(SAMPLE_SPD, cmfs,
-                                        ILLUMINANTS_RELATIVE_SPDS['C']),
+                                        ILLUMINANTS_SPDS['C']),
             np.array([10.77031004, 9.44863775, 6.62745989]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             spectral_to_XYZ_integration(SAMPLE_SPD, cmfs,
-                                        ILLUMINANTS_RELATIVE_SPDS['F2']),
+                                        ILLUMINANTS_SPDS['F2']),
             np.array([11.57834054, 9.98738373, 3.95462625]),
             decimal=7)
 
@@ -472,41 +472,41 @@ spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815`
         cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
         np.testing.assert_almost_equal(
             spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
-                SAMPLE_SPD, cmfs, ILLUMINANTS_RELATIVE_SPDS['A']),
+                SAMPLE_SPD, cmfs, ILLUMINANTS_SPDS['A']),
             np.array([14.46366344, 10.85828513, 2.04663792]),
             decimal=7)
 
         cmfs = CMFS['CIE 1964 10 Degree Standard Observer']
         np.testing.assert_almost_equal(
             spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
-                SAMPLE_SPD, cmfs, ILLUMINANTS_RELATIVE_SPDS['C']),
+                SAMPLE_SPD, cmfs, ILLUMINANTS_SPDS['C']),
             np.array([10.77033881, 9.44864632, 6.62758924]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
-                SAMPLE_SPD, cmfs, ILLUMINANTS_RELATIVE_SPDS['F2']),
+                SAMPLE_SPD, cmfs, ILLUMINANTS_SPDS['F2']),
             np.array([11.57837130, 9.98734511, 3.95499522]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
                 SAMPLE_SPD.copy().trim(SpectralShape(400, 700, 5)), cmfs,
-                ILLUMINANTS_RELATIVE_SPDS['A']),
+                ILLUMINANTS_SPDS['A']),
             np.array([14.38180830, 10.74512906, 2.01579131]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
                 SAMPLE_SPD.copy().interpolate(SpectralShape(400, 700, 10)),
-                cmfs, ILLUMINANTS_RELATIVE_SPDS['A']),
+                cmfs, ILLUMINANTS_SPDS['A']),
             np.array([14.38284399, 10.74577954, 2.01553721]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
                 SAMPLE_SPD.copy().interpolate(SpectralShape(400, 700, 20)),
-                cmfs, ILLUMINANTS_RELATIVE_SPDS['A']),
+                cmfs, ILLUMINANTS_SPDS['A']),
             np.array([14.38356848, 10.74613294, 2.01526418]),
             decimal=7)
 
@@ -766,7 +766,7 @@ multi_spectral_to_XYZ_integration`
         cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
         np.testing.assert_almost_equal(
             multi_spectral_to_XYZ_integration(MSA, SpectralShape(
-                400, 700, 60), cmfs, ILLUMINANTS_RELATIVE_SPDS['D65']),
+                400, 700, 60), cmfs, ILLUMINANTS_SPDS['D65']),
             XYZ_D65,
             decimal=7)
 

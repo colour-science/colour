@@ -418,7 +418,7 @@ def spectral_to_XYZ_integration(
     Examples
     --------
     >>> from colour import (
-    ...     CMFS, ILLUMINANTS_RELATIVE_SPDS, SpectralPowerDistribution)
+    ...     CMFS, ILLUMINANTS_SPDS, SpectralPowerDistribution)
     >>> cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
     >>> data = {
     ...     400: 0.0641,
@@ -439,7 +439,7 @@ def spectral_to_XYZ_integration(
     ...     700: 0.2852
     ... }
     >>> spd = SpectralPowerDistribution(data)
-    >>> illuminant = ILLUMINANTS_RELATIVE_SPDS['D50']
+    >>> illuminant = ILLUMINANTS_SPDS['D50']
     >>> spectral_to_XYZ_integration(spd, cmfs, illuminant)
     ... # doctest: +ELLIPSIS
     array([ 11.5296285...,   9.9499467...,   4.7066079...])
@@ -510,7 +510,7 @@ def spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
     Examples
     --------
     >>> from colour import (
-    ...     CMFS, ILLUMINANTS_RELATIVE_SPDS, SpectralPowerDistribution)
+    ...     CMFS, ILLUMINANTS_SPDS, SpectralPowerDistribution)
     >>> cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
     >>> data = {
     ...     400: 0.0641,
@@ -531,7 +531,7 @@ def spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
     ...     700: 0.2852
     ... }
     >>> spd = SpectralPowerDistribution(data)
-    >>> illuminant = ILLUMINANTS_RELATIVE_SPDS['D50']
+    >>> illuminant = ILLUMINANTS_SPDS['D50']
     >>> spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
     ...     spd, cmfs, illuminant)  # doctest: +ELLIPSIS
     array([ 11.5296311...,   9.9505845...,   4.7098037...])
@@ -624,7 +624,7 @@ _TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their identifier key is
     Examples
     --------
     >>> from colour import (
-    ...     CMFS, ILLUMINANTS_RELATIVE_SPDS, SpectralPowerDistribution)
+    ...     CMFS, ILLUMINANTS_SPDS, SpectralPowerDistribution)
     >>> cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
     >>> data = {
     ...     400: 0.0641,
@@ -645,7 +645,7 @@ _TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their identifier key is
     ...     700: 0.2852
     ... }
     >>> spd = SpectralPowerDistribution(data)
-    >>> illuminant = ILLUMINANTS_RELATIVE_SPDS['D50']
+    >>> illuminant = ILLUMINANTS_SPDS['D50']
     >>> spectral_to_XYZ_ASTME30815(spd, cmfs, illuminant)
     ... # doctest: +ELLIPSIS
     array([ 11.5290265...,   9.9502091...,   4.7098882...])
@@ -788,7 +788,7 @@ def spectral_to_XYZ(
     Examples
     --------
     >>> from colour import (
-    ...     CMFS, ILLUMINANTS_RELATIVE_SPDS, SpectralPowerDistribution)
+    ...     CMFS, ILLUMINANTS_SPDS, SpectralPowerDistribution)
     >>> cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
     >>> data = {
     ...     400: 0.0641,
@@ -809,7 +809,7 @@ def spectral_to_XYZ(
     ...     700: 0.2852
     ... }
     >>> spd = SpectralPowerDistribution(data)
-    >>> illuminant = ILLUMINANTS_RELATIVE_SPDS['D50']
+    >>> illuminant = ILLUMINANTS_SPDS['D50']
     >>> spectral_to_XYZ(spd, cmfs, illuminant)
     ... # doctest: +ELLIPSIS
     array([ 11.5290265...,   9.9502091...,   4.7098882...])
@@ -863,7 +863,7 @@ def multi_spectral_to_XYZ_integration(
 
     Examples
     --------
-    >>> from colour import ILLUMINANTS_RELATIVE_SPDS
+    >>> from colour import ILLUMINANTS_SPDS
     >>> msa = np.array([
     ...     [
     ...         [0.0137, 0.0913, 0.0152, 0.0281, 0.1918, 0.0430],
@@ -882,7 +882,7 @@ def multi_spectral_to_XYZ_integration(
     ...         [0.0473, 0.3221, 0.2268, 0.3161, 0.1124, 0.0024],
     ...     ],
     ... ])
-    >>> D65 = ILLUMINANTS_RELATIVE_SPDS['D65']
+    >>> D65 = ILLUMINANTS_SPDS['D65']
     >>> multi_spectral_to_XYZ(
     ... msa, SpectralShape(400, 700, 60), illuminant=D65)
     ... # doctest: +ELLIPSIS

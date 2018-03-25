@@ -8,8 +8,8 @@ from __future__ import division, unicode_literals
 import unittest
 
 from colour.quality import colour_quality_scale
-from colour.colorimetry import (ILLUMINANTS_RELATIVE_SPDS,
-                                LIGHT_SOURCES_RELATIVE_SPDS)
+from colour.colorimetry import (ILLUMINANTS_SPDS,
+                                LIGHT_SOURCES_SPDS)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -33,36 +33,36 @@ class TestColourQualityScale(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            colour_quality_scale(ILLUMINANTS_RELATIVE_SPDS['F1']),
+            colour_quality_scale(ILLUMINANTS_SPDS['F1']),
             75.332008182589348,
             places=7)
 
         self.assertAlmostEqual(
-            colour_quality_scale(ILLUMINANTS_RELATIVE_SPDS['F2']),
+            colour_quality_scale(ILLUMINANTS_SPDS['F2']),
             64.686339173112856,
             places=7)
 
         self.assertAlmostEqual(
             colour_quality_scale(
-                LIGHT_SOURCES_RELATIVE_SPDS['Neodimium Incandescent']),
+                LIGHT_SOURCES_SPDS['Neodimium Incandescent']),
             87.655035241231985,
             places=7)
 
         self.assertAlmostEqual(
             colour_quality_scale(
-                LIGHT_SOURCES_RELATIVE_SPDS['F32T8/TL841 (Triphosphor)']),
+                LIGHT_SOURCES_SPDS['F32T8/TL841 (Triphosphor)']),
             83.179881092827671,
             places=7)
 
         self.assertAlmostEqual(
             colour_quality_scale(
-                LIGHT_SOURCES_RELATIVE_SPDS['H38HT-100 (Mercury)']),
+                LIGHT_SOURCES_SPDS['H38HT-100 (Mercury)']),
             22.860610106043985,
             places=7)
 
         self.assertAlmostEqual(
             colour_quality_scale(
-                LIGHT_SOURCES_RELATIVE_SPDS['Luxeon WW 2880']),
+                LIGHT_SOURCES_SPDS['Luxeon WW 2880']),
             84.879524259605077,
             places=7)
 

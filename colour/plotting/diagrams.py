@@ -556,9 +556,9 @@ def spds_chromaticity_diagram_plot(
 
     Examples
     --------
-    >>> from colour import ILLUMINANTS_RELATIVE_SPDS
-    >>> A = ILLUMINANTS_RELATIVE_SPDS['A']
-    >>> D65 = ILLUMINANTS_RELATIVE_SPDS['D65']
+    >>> from colour import ILLUMINANTS_SPDS
+    >>> A = ILLUMINANTS_SPDS['A']
+    >>> D65 = ILLUMINANTS_SPDS['D65']
     >>> spds_chromaticity_diagram_plot([A, D65])  # doctest: +SKIP
 
     .. image:: ../_static/Plotting_SPDS_Chromaticity_Diagram_Plot.png
@@ -676,9 +676,9 @@ def spds_chromaticity_diagram_plot_CIE1931(
 
     Examples
     --------
-    >>> from colour import ILLUMINANTS_RELATIVE_SPDS
-    >>> A = ILLUMINANTS_RELATIVE_SPDS['A']
-    >>> D65 = ILLUMINANTS_RELATIVE_SPDS['D65']
+    >>> from colour import ILLUMINANTS_SPDS
+    >>> A = ILLUMINANTS_SPDS['A']
+    >>> D65 = ILLUMINANTS_SPDS['D65']
     >>> spds_chromaticity_diagram_plot_CIE1931([A, D65])  # doctest: +SKIP
 
     .. image:: ../_static/Plotting_SPDS_Chromaticity_Diagram_Plot_CIE1931.png
@@ -733,9 +733,9 @@ def spds_chromaticity_diagram_plot_CIE1960UCS(
 
     Examples
     --------
-    >>> from colour import ILLUMINANTS_RELATIVE_SPDS
-    >>> A = ILLUMINANTS_RELATIVE_SPDS['A']
-    >>> D65 = ILLUMINANTS_RELATIVE_SPDS['D65']
+    >>> from colour import ILLUMINANTS_SPDS
+    >>> A = ILLUMINANTS_SPDS['A']
+    >>> D65 = ILLUMINANTS_SPDS['D65']
     >>> spds_chromaticity_diagram_plot_CIE1960UCS([A, D65])  # doctest: +SKIP
 
     .. image:: ../_static/Plotting_\
@@ -791,9 +791,9 @@ def spds_chromaticity_diagram_plot_CIE1976UCS(
 
     Examples
     --------
-    >>> from colour import ILLUMINANTS_RELATIVE_SPDS
-    >>> A = ILLUMINANTS_RELATIVE_SPDS['A']
-    >>> D65 = ILLUMINANTS_RELATIVE_SPDS['D65']
+    >>> from colour import ILLUMINANTS_SPDS
+    >>> A = ILLUMINANTS_SPDS['A']
+    >>> D65 = ILLUMINANTS_SPDS['D65']
     >>> spds_chromaticity_diagram_plot_CIE1976UCS([A, D65])  # doctest: +SKIP
 
     .. image:: ../_static/Plotting_\

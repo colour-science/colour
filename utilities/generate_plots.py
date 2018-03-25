@@ -141,7 +141,7 @@ def generate_documentation_plots(output_directory):
     arguments['filename'] = os.path.join(output_directory,
                                          'Examples_Plotting_CRI.png')
     single_spd_colour_rendering_index_bars_plot(
-        colour.ILLUMINANTS_RELATIVE_SPDS['F2'], **arguments)
+        colour.ILLUMINANTS_SPDS['F2'], **arguments)
 
     # *************************************************************************
     # Documentation
@@ -284,8 +284,8 @@ def generate_documentation_plots(output_directory):
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_SPDS_Chromaticity_Diagram_Plot.png')
-    A = colour.ILLUMINANTS_RELATIVE_SPDS['A']
-    D65 = colour.ILLUMINANTS_RELATIVE_SPDS['D65']
+    A = colour.ILLUMINANTS_SPDS['A']
+    D65 = colour.ILLUMINANTS_SPDS['D65']
     spds_chromaticity_diagram_plot([A, D65], **arguments)
 
     arguments['filename'] = os.path.join(
@@ -385,8 +385,8 @@ def generate_documentation_plots(output_directory):
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Colour_Quality_Bars_Plot.png')
-    illuminant = colour.ILLUMINANTS_RELATIVE_SPDS['F2']
-    light_source = colour.LIGHT_SOURCES_RELATIVE_SPDS['Kinoton 75P']
+    illuminant = colour.ILLUMINANTS_SPDS['F2']
+    light_source = colour.LIGHT_SOURCES_SPDS['Kinoton 75P']
     light_source = light_source.copy().align(colour.SpectralShape(360, 830, 1))
     cqs_i = colour.colour_quality_scale(illuminant, additional_data=True)
     cqs_l = colour.colour_quality_scale(light_source, additional_data=True)
@@ -395,26 +395,26 @@ def generate_documentation_plots(output_directory):
     arguments['filename'] = os.path.join(
         output_directory,
         'Plotting_Single_Spd_Colour_Rendering_Index_Bars_Plot.png')
-    illuminant = colour.ILLUMINANTS_RELATIVE_SPDS['F2']
+    illuminant = colour.ILLUMINANTS_SPDS['F2']
     single_spd_colour_rendering_index_bars_plot(illuminant, **arguments)
 
     arguments['filename'] = os.path.join(
         output_directory,
         'Plotting_Multi_Spd_Colour_Rendering_Index_Bars_Plot.png')
-    light_source = colour.LIGHT_SOURCES_RELATIVE_SPDS['Kinoton 75P']
+    light_source = colour.LIGHT_SOURCES_SPDS['Kinoton 75P']
     multi_spd_colour_rendering_index_bars_plot([illuminant, light_source],
                                                **arguments)
 
     arguments['filename'] = os.path.join(
         output_directory,
         'Plotting_Single_Spd_Colour_Quality_Scale_Bars_Plot.png')
-    illuminant = colour.ILLUMINANTS_RELATIVE_SPDS['F2']
+    illuminant = colour.ILLUMINANTS_SPDS['F2']
     single_spd_colour_quality_scale_bars_plot(illuminant, **arguments)
 
     arguments['filename'] = os.path.join(
         output_directory,
         'Plotting_Multi_Spd_Colour_Quality_Scale_Bars_Plot.png')
-    light_source = colour.LIGHT_SOURCES_RELATIVE_SPDS['Kinoton 75P']
+    light_source = colour.LIGHT_SOURCES_SPDS['Kinoton 75P']
     multi_spd_colour_quality_scale_bars_plot([illuminant, light_source],
                                              **arguments)
 
@@ -560,7 +560,7 @@ def generate_documentation_plots(output_directory):
     spd = colour.SpectralPowerDistribution(sample_spd_data)
     cmfs = colour.STANDARD_OBSERVERS_CMFS[
         'CIE 1931 2 Degree Standard Observer']
-    illuminant = colour.ILLUMINANTS_RELATIVE_SPDS['D65']
+    illuminant = colour.ILLUMINANTS_SPDS['D65']
     XYZ = colour.spectral_to_XYZ(spd, cmfs, illuminant)
     RGB = colour.XYZ_to_sRGB(XYZ / 100)
     single_colour_swatch_plot(

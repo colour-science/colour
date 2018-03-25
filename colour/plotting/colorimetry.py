@@ -33,7 +33,7 @@ from six.moves import reduce
 
 from colour.algebra import LinearInterpolator
 from colour.colorimetry import (
-    ILLUMINANTS, ILLUMINANTS_RELATIVE_SPDS, LIGHTNESS_METHODS, SpectralShape,
+    ILLUMINANTS, ILLUMINANTS_SPDS, LIGHTNESS_METHODS, SpectralShape,
     blackbody_spd, ones_spd, spectral_to_XYZ, wavelength_to_XYZ)
 from colour.plotting import (ColourSwatch, DEFAULT_PLOTTING_COLOURSPACE,
                              DEFAULT_FIGURE_WIDTH, XYZ_to_plotting_colourspace,
@@ -230,7 +230,7 @@ def multi_spd_plot(spds,
 
     cmfs = get_cmfs(cmfs)
 
-    illuminant = ILLUMINANTS_RELATIVE_SPDS[
+    illuminant = ILLUMINANTS_SPDS[
         DEFAULT_PLOTTING_COLOURSPACE.illuminant]
 
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []

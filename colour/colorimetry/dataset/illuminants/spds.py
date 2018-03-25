@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-Illuminants Relative Spectral Power Distributions
-=================================================
+Illuminants Spectral Power Distributions
+========================================
 
-Defines *CIE* illuminants relative spectral power distributions for the
+Defines *CIE* illuminants spectral power distributions for the
 *CIE 1931 2 Degree Standard Observer*.
 
 The *CIE* illuminants data is in the form of a *dict* of
@@ -57,9 +57,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['ILLUMINANTS_RELATIVE_SPDS_DATA', 'ILLUMINANTS_RELATIVE_SPDS']
+__all__ = ['ILLUMINANTS_SPDS_DATA', 'ILLUMINANTS_SPDS']
 
-ILLUMINANTS_RELATIVE_SPDS_DATA = {
+ILLUMINANTS_SPDS_DATA = {
     'A': {
         300: 0.930483,
         305: 1.128210,
@@ -3615,132 +3615,106 @@ ILLUMINANTS_RELATIVE_SPDS_DATA = {
     }
 }
 
-ILLUMINANTS_RELATIVE_SPDS = CaseInsensitiveMapping({
+ILLUMINANTS_SPDS = CaseInsensitiveMapping({
     'A':
-        SpectralPowerDistribution(
-            ILLUMINANTS_RELATIVE_SPDS_DATA['A'], name='A'),
+        SpectralPowerDistribution(ILLUMINANTS_SPDS_DATA['A'], name='A'),
     'B':
-        SpectralPowerDistribution(
-            ILLUMINANTS_RELATIVE_SPDS_DATA['B'], name='B'),
+        SpectralPowerDistribution(ILLUMINANTS_SPDS_DATA['B'], name='B'),
     'C':
-        SpectralPowerDistribution(
-            ILLUMINANTS_RELATIVE_SPDS_DATA['C'], name='C'),
+        SpectralPowerDistribution(ILLUMINANTS_SPDS_DATA['C'], name='C'),
     'D50':
-        SpectralPowerDistribution(
-            ILLUMINANTS_RELATIVE_SPDS_DATA['D50'], name='D50'),
+        SpectralPowerDistribution(ILLUMINANTS_SPDS_DATA['D50'], name='D50'),
     'D55':
-        SpectralPowerDistribution(
-            ILLUMINANTS_RELATIVE_SPDS_DATA['D55'], name='D55'),
+        SpectralPowerDistribution(ILLUMINANTS_SPDS_DATA['D55'], name='D55'),
     'D60':
-        SpectralPowerDistribution(
-            ILLUMINANTS_RELATIVE_SPDS_DATA['D60'], name='D60'),
+        SpectralPowerDistribution(ILLUMINANTS_SPDS_DATA['D60'], name='D60'),
     'D65':
-        SpectralPowerDistribution(
-            ILLUMINANTS_RELATIVE_SPDS_DATA['D65'], name='D65'),
+        SpectralPowerDistribution(ILLUMINANTS_SPDS_DATA['D65'], name='D65'),
     'D75':
-        SpectralPowerDistribution(
-            ILLUMINANTS_RELATIVE_SPDS_DATA['D75'], name='D75'),
+        SpectralPowerDistribution(ILLUMINANTS_SPDS_DATA['D75'], name='D75'),
     'E':
-        SpectralPowerDistribution(
-            ILLUMINANTS_RELATIVE_SPDS_DATA['E'], name='E'),
+        SpectralPowerDistribution(ILLUMINANTS_SPDS_DATA['E'], name='E'),
     'F1':
-        SpectralPowerDistribution(
-            ILLUMINANTS_RELATIVE_SPDS_DATA['F1'], name='F1'),
+        SpectralPowerDistribution(ILLUMINANTS_SPDS_DATA['F1'], name='F1'),
     'F2':
-        SpectralPowerDistribution(
-            ILLUMINANTS_RELATIVE_SPDS_DATA['F2'], name='F2'),
+        SpectralPowerDistribution(ILLUMINANTS_SPDS_DATA['F2'], name='F2'),
     'F3':
-        SpectralPowerDistribution(
-            ILLUMINANTS_RELATIVE_SPDS_DATA['F3'], name='F3'),
+        SpectralPowerDistribution(ILLUMINANTS_SPDS_DATA['F3'], name='F3'),
     'F4':
-        SpectralPowerDistribution(
-            ILLUMINANTS_RELATIVE_SPDS_DATA['F4'], name='F4'),
+        SpectralPowerDistribution(ILLUMINANTS_SPDS_DATA['F4'], name='F4'),
     'F5':
-        SpectralPowerDistribution(
-            ILLUMINANTS_RELATIVE_SPDS_DATA['F5'], name='F5'),
+        SpectralPowerDistribution(ILLUMINANTS_SPDS_DATA['F5'], name='F5'),
     'F6':
-        SpectralPowerDistribution(
-            ILLUMINANTS_RELATIVE_SPDS_DATA['F6'], name='F6'),
+        SpectralPowerDistribution(ILLUMINANTS_SPDS_DATA['F6'], name='F6'),
     'F7':
-        SpectralPowerDistribution(
-            ILLUMINANTS_RELATIVE_SPDS_DATA['F7'], name='F7'),
+        SpectralPowerDistribution(ILLUMINANTS_SPDS_DATA['F7'], name='F7'),
     'F8':
-        SpectralPowerDistribution(
-            ILLUMINANTS_RELATIVE_SPDS_DATA['F8'], name='F8'),
+        SpectralPowerDistribution(ILLUMINANTS_SPDS_DATA['F8'], name='F8'),
     'F9':
-        SpectralPowerDistribution(
-            ILLUMINANTS_RELATIVE_SPDS_DATA['F9'], name='F9'),
+        SpectralPowerDistribution(ILLUMINANTS_SPDS_DATA['F9'], name='F9'),
     'F10':
-        SpectralPowerDistribution(
-            ILLUMINANTS_RELATIVE_SPDS_DATA['F10'], name='F10'),
+        SpectralPowerDistribution(ILLUMINANTS_SPDS_DATA['F10'], name='F10'),
     'F11':
-        SpectralPowerDistribution(
-            ILLUMINANTS_RELATIVE_SPDS_DATA['F11'], name='F11'),
+        SpectralPowerDistribution(ILLUMINANTS_SPDS_DATA['F11'], name='F11'),
     'F12':
-        SpectralPowerDistribution(
-            ILLUMINANTS_RELATIVE_SPDS_DATA['F12'], name='F12'),
+        SpectralPowerDistribution(ILLUMINANTS_SPDS_DATA['F12'], name='F12'),
     'FL3.1':
         SpectralPowerDistribution(
-            ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.1'], name='FL3.1'),
+            ILLUMINANTS_SPDS_DATA['FL3.1'], name='FL3.1'),
     'FL3.2':
         SpectralPowerDistribution(
-            ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.2'], name='FL3.2'),
+            ILLUMINANTS_SPDS_DATA['FL3.2'], name='FL3.2'),
     'FL3.3':
         SpectralPowerDistribution(
-            ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.3'], name='FL3.3'),
+            ILLUMINANTS_SPDS_DATA['FL3.3'], name='FL3.3'),
     'FL3.4':
         SpectralPowerDistribution(
-            ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.4'], name='FL3.4'),
+            ILLUMINANTS_SPDS_DATA['FL3.4'], name='FL3.4'),
     'FL3.5':
         SpectralPowerDistribution(
-            ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.5'], name='FL3.5'),
+            ILLUMINANTS_SPDS_DATA['FL3.5'], name='FL3.5'),
     'FL3.6':
         SpectralPowerDistribution(
-            ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.6'], name='FL3.6'),
+            ILLUMINANTS_SPDS_DATA['FL3.6'], name='FL3.6'),
     'FL3.7':
         SpectralPowerDistribution(
-            ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.7'], name='FL3.7'),
+            ILLUMINANTS_SPDS_DATA['FL3.7'], name='FL3.7'),
     'FL3.8':
         SpectralPowerDistribution(
-            ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.8'], name='FL3.8'),
+            ILLUMINANTS_SPDS_DATA['FL3.8'], name='FL3.8'),
     'FL3.9':
         SpectralPowerDistribution(
-            ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.9'], name='FL3.9'),
+            ILLUMINANTS_SPDS_DATA['FL3.9'], name='FL3.9'),
     'FL3.10':
         SpectralPowerDistribution(
-            ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.10'], name='FL3.10'),
+            ILLUMINANTS_SPDS_DATA['FL3.10'], name='FL3.10'),
     'FL3.11':
         SpectralPowerDistribution(
-            ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.11'], name='FL3.11'),
+            ILLUMINANTS_SPDS_DATA['FL3.11'], name='FL3.11'),
     'FL3.12':
         SpectralPowerDistribution(
-            ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.12'], name='FL3.12'),
+            ILLUMINANTS_SPDS_DATA['FL3.12'], name='FL3.12'),
     'FL3.13':
         SpectralPowerDistribution(
-            ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.13'], name='FL3.13'),
+            ILLUMINANTS_SPDS_DATA['FL3.13'], name='FL3.13'),
     'FL3.14':
         SpectralPowerDistribution(
-            ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.14'], name='FL3.14'),
+            ILLUMINANTS_SPDS_DATA['FL3.14'], name='FL3.14'),
     'FL3.15':
         SpectralPowerDistribution(
-            ILLUMINANTS_RELATIVE_SPDS_DATA['FL3.15'], name='FL3.15'),
+            ILLUMINANTS_SPDS_DATA['FL3.15'], name='FL3.15'),
     'HP1':
-        SpectralPowerDistribution(
-            ILLUMINANTS_RELATIVE_SPDS_DATA['HP1'], name='HP1'),
+        SpectralPowerDistribution(ILLUMINANTS_SPDS_DATA['HP1'], name='HP1'),
     'HP2':
-        SpectralPowerDistribution(
-            ILLUMINANTS_RELATIVE_SPDS_DATA['HP2'], name='HP2'),
+        SpectralPowerDistribution(ILLUMINANTS_SPDS_DATA['HP2'], name='HP2'),
     'HP3':
-        SpectralPowerDistribution(
-            ILLUMINANTS_RELATIVE_SPDS_DATA['HP3'], name='HP3'),
+        SpectralPowerDistribution(ILLUMINANTS_SPDS_DATA['HP3'], name='HP3'),
     'HP4':
-        SpectralPowerDistribution(
-            ILLUMINANTS_RELATIVE_SPDS_DATA['HP4'], name='HP4'),
+        SpectralPowerDistribution(ILLUMINANTS_SPDS_DATA['HP4'], name='HP4'),
     'HP5':
-        SpectralPowerDistribution(
-            ILLUMINANTS_RELATIVE_SPDS_DATA['HP5'], name='HP5')
+        SpectralPowerDistribution(ILLUMINANTS_SPDS_DATA['HP5'], name='HP5')
 })
-ILLUMINANTS_RELATIVE_SPDS.__doc__ = """
+ILLUMINANTS_SPDS.__doc__ = """
 *CIE* illuminants relative spectral power distributions.
 
 Notes
@@ -3759,5 +3733,5 @@ References
 -   :cite:`CIEce`
 -   :cite:`CIEcf`
 
-ILLUMINANTS_RELATIVE_SPDS : CaseInsensitiveMapping
+ILLUMINANTS_SPDS : CaseInsensitiveMapping
 """

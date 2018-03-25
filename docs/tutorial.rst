@@ -341,9 +341,9 @@ for spectral related computations and many others:
      'ILLUMINANTS',
      'D_ILLUMINANTS_S_SPDS',
      'HUNTERLAB_ILLUMINANTS',
-     'ILLUMINANTS_RELATIVE_SPDS',
+     'ILLUMINANTS_SPDS',
      'LIGHT_SOURCES',
-     'LIGHT_SOURCES_RELATIVE_SPDS',
+     'LIGHT_SOURCES_SPDS',
      'LEFS',
      'PHOTOPIC_LEFS',
      'SCOTOPIC_LEFS',
@@ -425,9 +425,9 @@ following data:
      'ILLUMINANTS',
      'D_ILLUMINANTS_S_SPDS',
      'HUNTERLAB_ILLUMINANTS',
-     'ILLUMINANTS_RELATIVE_SPDS',
+     'ILLUMINANTS_SPDS',
      'LIGHT_SOURCES',
-     'LIGHT_SOURCES_RELATIVE_SPDS',
+     'LIGHT_SOURCES_SPDS',
      'LEFS',
      'PHOTOPIC_LEFS',
      'SCOTOPIC_LEFS']
@@ -1124,7 +1124,7 @@ can be calculated:
 
     spd = colour.SpectralPowerDistribution(sample_spd_data)
     cmfs = colour.STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
-    illuminant = colour.ILLUMINANTS_RELATIVE_SPDS['D65']
+    illuminant = colour.ILLUMINANTS_SPDS['D65']
 
     # Calculating the sample spectral power distribution *CIE XYZ* tristimulus values.
     XYZ = colour.spectral_to_XYZ(spd, cmfs, illuminant)
