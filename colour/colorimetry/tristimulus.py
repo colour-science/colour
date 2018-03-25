@@ -54,8 +54,8 @@ __all__ = [
     'spectral_to_XYZ_integration',
     'spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815',
     'spectral_to_XYZ_ASTME30815', 'SPECTRAL_TO_XYZ_METHODS', 'spectral_to_XYZ',
-    'MULTI_SPECTRAL_TO_XYZ_METHODS', 'multi_spectral_to_XYZ',
-    'wavelength_to_XYZ'
+    'multi_spectral_to_XYZ_integration', 'MULTI_SPECTRAL_TO_XYZ_METHODS',
+    'multi_spectral_to_XYZ', 'wavelength_to_XYZ'
 ]
 
 ASTME30815_PRACTISE_SHAPE = DEFAULT_SPECTRAL_SHAPE
