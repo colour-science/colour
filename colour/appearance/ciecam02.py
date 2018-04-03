@@ -107,7 +107,7 @@ class CIECAM02_InductionFactors(
 
 CIECAM02_VIEWING_CONDITIONS = CaseInsensitiveMapping({
     'Average': CIECAM02_InductionFactors(1, 0.69, 1),
-    'Dim': CIECAM02_InductionFactors(0.9, 0.59, 0.95),
+    'Dim': CIECAM02_InductionFactors(0.9, 0.59, 0.9),
     'Dark': CIECAM02_InductionFactors(0.8, 0.525, 0.8)
 })
 CIECAM02_VIEWING_CONDITIONS.__doc__ = """
