@@ -1,6 +1,6 @@
-colour.utilities.inspect\_domain\_10
+colour.utilities.to\_domain\_degrees
 ====================================
 
 .. currentmodule:: colour.utilities
 
-.. autofunction:: inspect_domain_10
+.. autofunction:: to_domain_degrees

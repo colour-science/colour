@@ -28,8 +28,8 @@ from colour.models import (Luv_to_uv, Luv_uv_to_xy, UCS_to_uv, UCS_uv_to_xy,
 from colour.plotting import (
     DEFAULT_FIGURE_WIDTH, DEFAULT_PLOTTING_COLOURSPACE,
     XYZ_to_plotting_colourspace, canvas, get_cmfs, render)
-from colour.utilities import (is_string, normalise_maximum, suppress_warnings,
-                              tstack)
+from colour.utilities import (domain_range_scale, is_string, normalise_maximum,
+                              suppress_warnings, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -613,7 +613,9 @@ def spds_chromaticity_diagram_plot(
                 method))
 
     for spd in spds:
-        XYZ = spectral_to_XYZ(spd) / 100
+        with domain_range_scale('1'):
+            XYZ = spectral_to_XYZ(spd)
+
         ij = XYZ_to_ij(XYZ)
 
         pylab.plot(ij[0], ij[1], 'o', color='white')

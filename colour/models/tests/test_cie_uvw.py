@@ -10,7 +10,7 @@ import unittest
 from itertools import permutations
 
 from colour.models import UVW_to_XYZ, XYZ_to_UVW
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -103,6 +103,24 @@ class TestXYZ_to_UVW(unittest.TestCase):
         np.testing.assert_almost_equal(
             XYZ_to_UVW(XYZ, illuminant), UVW, decimal=7)
 
+    def test_domain_range_scale_XYZ_to_UVW(self):
+        """
+        Tests :func:`colour.models.cie_uvw.XYZ_to_UVW` definition domain and
+        range scale support.
+        """
+
+        XYZ = np.array([0.07049534, 0.10080000, 0.09558313]) * 100
+        illuminant = np.array([0.34570, 0.35850])
+        UVW = XYZ_to_UVW(XYZ, illuminant)
+
+        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    XYZ_to_UVW(XYZ * factor, illuminant),
+                    UVW * factor,
+                    decimal=7)
+
     @ignore_numpy_errors
     def test_nan_XYZ_to_UVW(self):
         """
@@ -129,14 +147,12 @@ class TestUVW_to_XYZ(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            UVW_to_XYZ(
-                np.array([-28.05797333, -0.88194493, 37.00411491])),
+            UVW_to_XYZ(np.array([-28.05797333, -0.88194493, 37.00411491])),
             np.array([0.07049534, 0.10080000, 0.09558313]) * 100,
             decimal=7)
 
         np.testing.assert_almost_equal(
-            UVW_to_XYZ(
-                np.array([85.91004857, 17.74103859, 64.73769793])),
+            UVW_to_XYZ(np.array([85.91004857, 17.74103859, 64.73769793])),
             np.array([0.47097710, 0.34950000, 0.11301649]) * 100,
             decimal=7)
 
@@ -199,6 +215,24 @@ class TestUVW_to_XYZ(unittest.TestCase):
         UVW = np.reshape(UVW, (2, 3, 3))
         np.testing.assert_almost_equal(
             UVW_to_XYZ(UVW, illuminant), XYZ, decimal=7)
+
+    def test_domain_range_scale_UVW_to_XYZ(self):
+        """
+        Tests :func:`colour.models.cie_uvw.UVW_to_XYZ` definition domain and
+        range scale support.
+        """
+
+        UVW = np.array([-28.05797333, -0.88194493, 37.00411491])
+        illuminant = np.array([0.34570, 0.35850])
+        XYZ = UVW_to_XYZ(UVW, illuminant)
+
+        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    UVW_to_XYZ(UVW * factor, illuminant),
+                    XYZ * factor,
+                    decimal=7)
 
     @ignore_numpy_errors
     def test_nan_UVW_to_XYZ(self):

@@ -41,6 +41,8 @@ import sys
 from .utilities.deprecation import (FutureAccessChange, FutureAccessRemove,
                                     ModuleAPI, Removed, Renamed)
 from .utilities.documentation import is_documentation_building
+from .utilities.common import (domain_range_scale, get_domain_range_scale,
+                               set_domain_range_scale)
 
 from .adaptation import (CHROMATIC_ADAPTATION_METHODS,
                          CHROMATIC_ADAPTATION_TRANSFORMS,
@@ -141,7 +143,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = []
+__all__ = [
+    'domain_range_scale', 'get_domain_range_scale', 'set_domain_range_scale'
+]
 __all__ += [
     'CHROMATIC_ADAPTATION_METHODS', 'CHROMATIC_ADAPTATION_TRANSFORMS',
     'CMCCAT2000_VIEWING_CONDITIONS', 'chromatic_adaptation'

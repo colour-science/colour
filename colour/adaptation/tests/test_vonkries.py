@@ -12,7 +12,7 @@ from itertools import permutations
 
 from colour.adaptation import (chromatic_adaptation_matrix_VonKries,
                                chromatic_adaptation_VonKries)
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -133,6 +133,26 @@ chromatic_adaptation_matrix_VonKries` definition n-dimensional arrays support.
         np.testing.assert_almost_equal(
             chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr), M, decimal=7)
 
+    def test_domain_range_scale_chromatic_adaptation_VonKries(self):
+        """
+        Tests :func:`colour.adaptation.vonkries.\
+chromatic_adaptation_matrix_VonKries` definition domain and range scale
+        support.
+        """
+
+        XYZ_w = np.array([1.09846607, 1.00000000, 0.35582280])
+        XYZ_wr = np.array([0.95042855, 1.00000000, 1.08890037])
+        M = chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr)
+
+        d_r = (('reference', 1), (1, 1), (100, 0.01))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    chromatic_adaptation_matrix_VonKries(
+                        XYZ_w * factor, XYZ_wr * factor),
+                    M,
+                    decimal=7)
+
     @ignore_numpy_errors
     def test_nan_chromatic_adaptation_matrix_VonKries(self):
         """
@@ -243,6 +263,26 @@ class TestChromaticAdaptationVonKries(unittest.TestCase):
             chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr),
             XYZ_a,
             decimal=7)
+
+    def test_domain_range_scale_chromatic_adaptation_VonKries(self):
+        """
+        Tests :func:`colour.adaptation.vonkries.chromatic_adaptation_VonKries`
+        definition domain and range scale support.
+        """
+
+        XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
+        XYZ_w = np.array([1.09846607, 1.00000000, 0.35582280])
+        XYZ_wr = np.array([0.95042855, 1.00000000, 1.08890037])
+        XYZ_a = chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr)
+
+        d_r = (('reference', 1), (1, 1), (100, 0.01))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    chromatic_adaptation_VonKries(XYZ * factor, XYZ_w * factor,
+                                                  XYZ_wr * factor),
+                    XYZ_a * factor,
+                    decimal=7)
 
     @ignore_numpy_errors
     def test_nan_chromatic_adaptation_VonKries(self):

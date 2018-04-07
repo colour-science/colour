@@ -39,7 +39,8 @@ from colour.plotting import (ColourSwatch, DEFAULT_PLOTTING_COLOURSPACE,
                              DEFAULT_FIGURE_WIDTH, XYZ_to_plotting_colourspace,
                              canvas, get_cmfs, get_illuminant, render,
                              single_colour_swatch_plot)
-from colour.utilities import normalise_maximum, suppress_warnings, tstack
+from colour.utilities import (domain_range_scale, normalise_maximum,
+                              suppress_warnings, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -230,8 +231,7 @@ def multi_spd_plot(spds,
 
     cmfs = get_cmfs(cmfs)
 
-    illuminant = ILLUMINANTS_SPDS[
-        DEFAULT_PLOTTING_COLOURSPACE.illuminant]
+    illuminant = ILLUMINANTS_SPDS[DEFAULT_PLOTTING_COLOURSPACE.illuminant]
 
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
     for spd in spds:
@@ -244,7 +244,9 @@ def multi_spd_plot(spds,
         y_limit_max.append(max(values))
 
         if use_spds_colours:
-            XYZ = spectral_to_XYZ(spd, cmfs, illuminant) / 100
+            with domain_range_scale('1'):
+                XYZ = spectral_to_XYZ(spd, cmfs, illuminant)
+
             if normalise_spds_colours:
                 XYZ = normalise_maximum(XYZ, clip=False)
 
@@ -496,8 +498,8 @@ def multi_illuminant_relative_spd_plot(illuminants=None, **kwargs):
 
     settings = {
         'title':
-            '{0} - Illuminants Relative Spectral Power Distribution'
-            .format(', '.join([spd.strict_name for spd in spds])),
+            '{0} - Illuminants Relative Spectral Power Distribution'.format(
+                ', '.join([spd.strict_name for spd in spds])),
         'y_label':
             'Relative Power'
     }
@@ -736,8 +738,10 @@ def blackbody_spectral_radiance_plot(
 
     single_spd_plot(spd, cmfs.name, **settings)
 
-    XYZ = spectral_to_XYZ(spd, cmfs)
-    RGB = normalise_maximum(XYZ_to_plotting_colourspace(XYZ / 100))
+    with domain_range_scale('1'):
+        XYZ = spectral_to_XYZ(spd, cmfs)
+
+    RGB = normalise_maximum(XYZ_to_plotting_colourspace(XYZ))
 
     matplotlib.pyplot.subplot(212)
 
@@ -757,9 +761,10 @@ def blackbody_spectral_radiance_plot(
     return render(**settings)
 
 
-def blackbody_colours_plot(shape=SpectralShape(150, 12500, 50),
-                           cmfs='CIE 1931 2 Degree Standard Observer',
-                           **kwargs):
+def blackbody_colours_plot(
+        shape=SpectralShape(150, 12500, 50),
+        cmfs='CIE 1931 2 Degree Standard Observer',
+        **kwargs):
     """
     Plots blackbody colours.
 
@@ -801,8 +806,10 @@ def blackbody_colours_plot(shape=SpectralShape(150, 12500, 50),
         for temperature in shape:
             spd = blackbody_spd(temperature, cmfs.shape)
 
-            XYZ = spectral_to_XYZ(spd, cmfs)
-            RGB = normalise_maximum(XYZ_to_plotting_colourspace(XYZ / 100))
+            with domain_range_scale('1'):
+                XYZ = spectral_to_XYZ(spd, cmfs)
+
+            RGB = normalise_maximum(XYZ_to_plotting_colourspace(XYZ))
 
             colours.append(RGB)
             temperatures.append(temperature)

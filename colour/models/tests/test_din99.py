@@ -10,7 +10,7 @@ import unittest
 from itertools import permutations
 
 from colour.models import Lab_to_DIN99
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -67,6 +67,21 @@ class TestLab_to_DIN99(unittest.TestCase):
         Lab = np.reshape(Lab, (2, 3, 3))
         Lab_99 = np.reshape(Lab_99, (2, 3, 3))
         np.testing.assert_almost_equal(Lab_to_DIN99(Lab), Lab_99, decimal=7)
+
+    def test_domain_range_scale_Lab_to_DIN99(self):
+        """
+        Tests :func:`colour.models.din99.Lab_to_DIN99` definition
+        domain and range scale support.
+        """
+
+        Lab = np.array([37.98562910, -23.62907688, -4.41746615])
+        Lab_99 = Lab_to_DIN99(Lab)
+
+        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    Lab_to_DIN99(Lab * factor), Lab_99 * factor, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_Lab_to_DIN99(self):

@@ -45,7 +45,7 @@ from colour.appearance.hunt import (HPE_TO_XYZ_MATRIX, XYZ_TO_HPE_MATRIX,
 from colour.constants import EPSILON
 from colour.utilities import (CaseInsensitiveMapping, as_namedtuple,
                               as_numeric, dot_matrix, dot_vector,
-                              inspect_domain_100, tsplit, tstack)
+                              from_range_100, to_domain_100, tsplit, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -132,8 +132,8 @@ HUE_DATA_FOR_HUE_QUADRATURE = {
 
 
 class CIECAM02_Specification(
-        namedtuple('CIECAM02_Specification', ('J', 'C', 'h', 's', 'Q', 'M',
-                                              'H', 'HC'))):
+        namedtuple('CIECAM02_Specification',
+                   ('J', 'C', 'h', 's', 'Q', 'M', 'H', 'HC'))):
     """
     Defines the *CIECAM02* colour appearance model specification.
 
@@ -245,8 +245,9 @@ def XYZ_to_CIECAM02(XYZ,
 s=2.3603053..., Q=195.3713259..., M=0.1088421..., H=278.0607358..., HC=None)
     """
 
-    XYZ = inspect_domain_100(XYZ)
-    _X_w, Y_w, _Z_w = tsplit(inspect_domain_100(XYZ_w))
+    XYZ = to_domain_100(XYZ)
+    XYZ_w = to_domain_100(XYZ_w)
+    _X_w, Y_w, _Z_w = tsplit(XYZ_w)
     L_A = np.asarray(L_A)
     Y_b = np.asarray(Y_b)
 
@@ -382,7 +383,8 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
 
     J, C, h, _s, _Q, M, _H, _HC = as_namedtuple(CIECAM02_specification,
                                                 CIECAM02_Specification)
-    _X_w, Y_w, _Zw = tsplit(inspect_domain_100(XYZ_w))
+    XYZ_w = to_domain_100(XYZ_w)
+    _X_w, Y_w, _Z_w = tsplit(XYZ_w)
 
     n, F_L, N_bb, N_cb, z = tsplit(
         viewing_condition_dependent_parameters(Y_b, Y_w, L_A))
@@ -445,7 +447,7 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
     # tristimulus values.
     XYZ = dot_vector(CAT02_INVERSE_CAT, RGB)
 
-    return XYZ
+    return from_range_100(XYZ)
 
 
 def chromatic_induction_factors(n):

@@ -36,7 +36,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
-from colour.utilities import inspect_domain_100, tsplit, tstack
+from colour.utilities import to_domain_100, tsplit, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -197,8 +197,8 @@ A_1=0.1787931... T_1=0.0286942..., D_1=0.0107584..., A_2=0.0192182..., \
 T_2=0.0205377..., D_2=0.0107584...)
     """
 
-    XYZ = np.asarray(inspect_domain_100(XYZ))
-    XYZ_0 = np.asarray(inspect_domain_100(XYZ_0))
+    XYZ = to_domain_100(XYZ)
+    XYZ_0 = to_domain_100(XYZ_0)
     Y_0 = np.asarray(Y_0)
     k_1 = np.asarray(k_1)
     k_2 = np.asarray(k_2)
@@ -258,7 +258,7 @@ def luminance_to_retinal_illuminance(XYZ, Y_c):
     XYZ = np.asarray(XYZ)
     Y_c = np.asarray(Y_c)
 
-    return 18 * (Y_c[..., np.newaxis] * XYZ / 100.) ** 0.8
+    return 18 * (Y_c[..., np.newaxis] * XYZ / 100) ** 0.8
 
 
 def XYZ_to_LMS_ATD95(XYZ):

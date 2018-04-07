@@ -14,10 +14,8 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 from __future__ import division, unicode_literals
 
-import numpy as np
-
+from colour.colorimetry import ILLUMINANTS
 from colour.models.rgb import RGB_COLOURSPACES, RGB_to_XYZ, XYZ_to_RGB
-from colour.utilities import inspect_domain_1
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -29,10 +27,11 @@ __status__ = 'Production'
 __all__ = ['XYZ_to_sRGB', 'sRGB_to_XYZ']
 
 
-def XYZ_to_sRGB(XYZ,
-                illuminant=RGB_COLOURSPACES['sRGB'].whitepoint,
-                chromatic_adaptation_transform='CAT02',
-                apply_encoding_cctf=True):
+def XYZ_to_sRGB(
+        XYZ,
+        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65'],
+        chromatic_adaptation_transform='CAT02',
+        apply_encoding_cctf=True):
     """
     Converts from *CIE XYZ* tristimulus values to *sRGB* colourspace.
 
@@ -68,18 +67,23 @@ def XYZ_to_sRGB(XYZ,
     array([ 0.1749881...,  0.3881947...,  0.3216031...])
     """
 
-    XYZ = np.asarray(inspect_domain_1(XYZ))
-
     sRGB = RGB_COLOURSPACES['sRGB']
-    return XYZ_to_RGB(XYZ, illuminant, sRGB.whitepoint, sRGB.XYZ_to_RGB_matrix,
-                      chromatic_adaptation_transform, sRGB.encoding_cctf
-                      if apply_encoding_cctf else None)
+
+    return XYZ_to_RGB(
+        XYZ,
+        illuminant,
+        sRGB.whitepoint,
+        sRGB.XYZ_to_RGB_matrix,
+        chromatic_adaptation_transform,
+        sRGB.encoding_cctf if apply_encoding_cctf else None,
+    )
 
 
-def sRGB_to_XYZ(RGB,
-                illuminant=RGB_COLOURSPACES['sRGB'].whitepoint,
-                chromatic_adaptation_method='CAT02',
-                apply_decoding_cctf=True):
+def sRGB_to_XYZ(
+        RGB,
+        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65'],
+        chromatic_adaptation_method='CAT02',
+        apply_decoding_cctf=True):
     """
     Converts from *sRGB* colourspace to *CIE XYZ* tristimulus values.
 
@@ -115,9 +119,13 @@ def sRGB_to_XYZ(RGB,
     array([ 0.0704953...,  0.1008...,  0.0955831...])
     """
 
-    RGB = np.asarray(inspect_domain_1(RGB))
-
     sRGB = RGB_COLOURSPACES['sRGB']
-    return RGB_to_XYZ(RGB, sRGB.whitepoint, illuminant, sRGB.RGB_to_XYZ_matrix,
-                      chromatic_adaptation_method, sRGB.decoding_cctf
-                      if apply_decoding_cctf else None)
+
+    return RGB_to_XYZ(
+        RGB,
+        sRGB.whitepoint,
+        illuminant,
+        sRGB.RGB_to_XYZ_matrix,
+        chromatic_adaptation_method,
+        sRGB.decoding_cctf if apply_decoding_cctf else None,
+    )

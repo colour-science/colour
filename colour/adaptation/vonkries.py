@@ -26,8 +26,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
-from colour.utilities import (dot_matrix, dot_vector, inspect_domain_1,
-                              row_as_diagonal)
+from colour.utilities import (dot_matrix, dot_vector, from_range_1,
+                              row_as_diagonal, to_domain_1)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -94,8 +94,8 @@ def chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
            [ 0.0798671..., -0.1349315...,  3.1928829...]])
     """
 
-    XYZ_w = np.asarray(inspect_domain_1(XYZ_w))
-    XYZ_wr = np.asarray(inspect_domain_1(XYZ_wr))
+    XYZ_w = to_domain_1(XYZ_w)
+    XYZ_wr = to_domain_1(XYZ_wr)
 
     M = CHROMATIC_ADAPTATION_TRANSFORMS.get(transform)
 
@@ -165,9 +165,9 @@ def chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, transform='CAT02'):
     array([ 0.0854032...,  0.1140122...,  0.2972149...])
     """
 
-    XYZ = np.asarray(inspect_domain_1(XYZ))
+    XYZ = to_domain_1(XYZ)
 
     cat = chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform)
     XYZ_a = dot_vector(cat, XYZ)
 
-    return XYZ_a
+    return from_range_1(XYZ_a)

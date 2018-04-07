@@ -33,6 +33,7 @@ from colour.colorimetry import (
 from colour.quality.dataset.tcs import TCS_INDEXES_TO_NAMES, TCS_SPDS
 from colour.models import UCS_to_uv, XYZ_to_UCS, XYZ_to_xyY
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Robertson1968
+from colour.utilities import domain_range_scale
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -122,7 +123,9 @@ def colour_rendering_index(spd_test, additional_data=False):
     spd_test = spd_test.copy().align(shape)
     tcs_spds = {spd.name: spd.copy().align(shape) for spd in TCS_SPDS.values()}
 
-    XYZ = spectral_to_XYZ(spd_test, cmfs) / 100
+    with domain_range_scale('1'):
+        XYZ = spectral_to_XYZ(spd_test, cmfs)
+
     uv = UCS_to_uv(XYZ_to_UCS(XYZ))
     CCT, _D_uv = uv_to_CCT_Robertson1968(uv)
 

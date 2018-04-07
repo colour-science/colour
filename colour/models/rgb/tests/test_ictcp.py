@@ -10,7 +10,7 @@ import unittest
 from itertools import permutations
 
 from colour.models.rgb import RGB_to_ICTCP, ICTCP_to_RGB
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -65,6 +65,21 @@ class TestRGB_to_ICTCP(unittest.TestCase):
         RGB = np.reshape(RGB, (2, 3, 3))
         ICTCP = np.reshape(ICTCP, (2, 3, 3))
         np.testing.assert_almost_equal(RGB_to_ICTCP(RGB), ICTCP, decimal=7)
+
+    def test_domain_range_scale_RGB_to_ICTCP(self):
+        """
+        Tests :func:`colour.models.rgb.ictpt.RGB_to_ICTCP` definition domain
+        and range scale support.
+        """
+
+        RGB = np.array([0.25000000, 0.60000000, 0.05000000])
+        ICTCP = RGB_to_ICTCP(RGB)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    RGB_to_ICTCP(RGB * factor), ICTCP * factor, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_RGB_to_ICTCP(self):
@@ -125,6 +140,21 @@ class TestICTCP_to_RGB(unittest.TestCase):
         ICTCP = np.reshape(ICTCP, (2, 3, 3))
         RGB = np.reshape(RGB, (2, 3, 3))
         np.testing.assert_almost_equal(ICTCP_to_RGB(ICTCP), RGB, decimal=7)
+
+    def test_domain_range_scale_ICTCP_to_RGB(self):
+        """
+        Tests :func:`colour.models.rgb.ictpt.ICTCP_to_RGB` definition domain
+        and range scale support.
+        """
+
+        ICTCP = np.array([0.09554079, -0.00890639, 0.01389286])
+        RGB = ICTCP_to_RGB(ICTCP)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    ICTCP_to_RGB(ICTCP * factor), RGB * factor, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_ICTCP_to_RGB(self):

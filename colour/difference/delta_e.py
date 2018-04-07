@@ -41,7 +41,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.algebra import euclidean_distance
-from colour.utilities import inspect_domain_100, tsplit
+from colour.utilities import to_domain_100, tsplit
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -84,8 +84,7 @@ def delta_E_CIE1976(Lab_1, Lab_2):
     451.7133019...
     """
 
-    d_E = euclidean_distance(
-        inspect_domain_100(Lab_1), inspect_domain_100(Lab_2))
+    d_E = euclidean_distance(to_domain_100(Lab_1), to_domain_100(Lab_2))
 
     return d_E
 
@@ -132,8 +131,8 @@ def delta_E_CIE1994(Lab_1, Lab_2, textiles=False):
     88.3355530...
     """
 
-    L_1, a_1, b_1 = tsplit(inspect_domain_100(Lab_1))
-    L_2, a_2, b_2 = tsplit(inspect_domain_100(Lab_2))
+    L_1, a_1, b_1 = tsplit(to_domain_100(Lab_1))
+    L_2, a_2, b_2 = tsplit(to_domain_100(Lab_2))
 
     k_1 = 0.048 if textiles else 0.045
     k_2 = 0.014 if textiles else 0.015
@@ -223,8 +222,8 @@ def delta_E_CIE2000(Lab_1, Lab_2, textiles=False):
     95.7920535...
     """
 
-    L_1, a_1, b_1 = tsplit(inspect_domain_100(Lab_1))
-    L_2, a_2, b_2 = tsplit(inspect_domain_100(Lab_2))
+    L_1, a_1, b_1 = tsplit(to_domain_100(Lab_1))
+    L_2, a_2, b_2 = tsplit(to_domain_100(Lab_2))
 
     k_L = 2 if textiles else 1
     k_C = 1
@@ -327,8 +326,8 @@ def delta_E_CMC(Lab_1, Lab_2, l=2, c=1):  # noqa
     172.7047712...
     """
 
-    L_1, a_1, b_1 = tsplit(inspect_domain_100(Lab_1))
-    L_2, a_2, b_2 = tsplit(inspect_domain_100(Lab_2))
+    L_1, a_1, b_1 = tsplit(to_domain_100(Lab_1))
+    L_2, a_2, b_2 = tsplit(to_domain_100(Lab_2))
 
     c_1 = np.hypot(a_1, b_1)
     c_2 = np.hypot(a_2, b_2)

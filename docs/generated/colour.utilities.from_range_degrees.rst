@@ -1,6 +1,6 @@
-colour.utilities.inspect\_domain\_100
+colour.utilities.from\_range\_degrees
 =====================================
 
 .. currentmodule:: colour.utilities
 
-.. autofunction:: inspect_domain_100
+.. autofunction:: from_range_degrees

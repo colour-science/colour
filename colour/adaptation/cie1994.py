@@ -25,8 +25,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.adaptation import VON_KRIES_CAT
-from colour.utilities import (dot_vector, inspect_domain_100, tsplit, tstack,
-                              warning)
+from colour.utilities import (dot_vector, from_range_100, to_domain_100,
+                              tsplit, tstack, warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -117,7 +117,8 @@ def chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2, n=1):
     array([ 24.0337952...,  21.1562121...,  17.6430119...])
     """
 
-    Y_o = np.asarray(Y_o)
+    XYZ_1 = to_domain_100(XYZ_1)
+    Y_o = to_domain_100(Y_o)
     E_o1 = np.asarray(E_o1)
     E_o2 = np.asarray(E_o2)
 
@@ -125,7 +126,7 @@ def chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2, n=1):
         warning(('"Y_o" luminance factor must be in [18, 100] domain, '
                  'unpredictable results may occur!'))
 
-    RGB_1 = XYZ_to_RGB_CIE1994(inspect_domain_100(XYZ_1))
+    RGB_1 = XYZ_to_RGB_CIE1994(XYZ_1)
 
     xez_1 = intermediate_values(xy_o1)
     xez_2 = intermediate_values(xy_o2)
@@ -142,7 +143,7 @@ def chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2, n=1):
                                  n)
     XYZ_2 = RGB_to_XYZ_CIE1994(RGB_2)
 
-    return XYZ_2
+    return from_range_100(XYZ_2)
 
 
 def XYZ_to_RGB_CIE1994(XYZ):

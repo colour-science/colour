@@ -13,7 +13,7 @@ from colour.models.rgb.transfer_functions import (
     log_encoding_CanonLog, log_decoding_CanonLog, log_encoding_CanonLog2,
     log_decoding_CanonLog2, log_encoding_CanonLog3, log_decoding_CanonLog3)
 
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -92,6 +92,23 @@ log_encoding_CanonLog` definition n-dimensional arrays support.
         np.testing.assert_almost_equal(
             log_encoding_CanonLog(x), clog, decimal=7)
 
+    def test_domain_range_scale_log_encoding_CanonLog(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.canon_log.\
+log_encoding_CanonLog` definition domain and range scale support.
+        """
+
+        x = 0.18
+        clog = log_encoding_CanonLog(x)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    log_encoding_CanonLog(x * factor),
+                    clog * factor,
+                    decimal=7)
+
     @ignore_numpy_errors
     def test_nan_log_encoding_CanonLog(self):
         """
@@ -165,6 +182,23 @@ log_decoding_CanonLog` definition n-dimensional arrays support.
         x = np.reshape(x, (2, 3, 1))
         np.testing.assert_almost_equal(
             log_decoding_CanonLog(clog), x, decimal=7)
+
+    def test_domain_range_scale_log_decoding_CanonLog(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.canon_log.\
+log_decoding_CanonLog` definition domain and range scale support.
+        """
+
+        clog = 0.343389651726069
+        x = log_decoding_CanonLog(clog)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    log_decoding_CanonLog(clog * factor),
+                    x * factor,
+                    decimal=7)
 
     @ignore_numpy_errors
     def test_nan_log_decoding_CanonLog(self):
@@ -240,6 +274,23 @@ log_encoding_CanonLog2` definition n-dimensional arrays support.
         np.testing.assert_almost_equal(
             log_encoding_CanonLog2(x), clog2, decimal=7)
 
+    def test_domain_range_scale_log_encoding_CanonLog2(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.canon_log.\
+log_encoding_CanonLog2` definition domain and range scale support.
+        """
+
+        x = 0.18
+        clog2 = log_encoding_CanonLog2(x)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    log_encoding_CanonLog2(x * factor),
+                    clog2 * factor,
+                    decimal=7)
+
     @ignore_numpy_errors
     def test_nan_log_encoding_CanonLog2(self):
         """
@@ -313,6 +364,23 @@ log_decoding_CanonLog2` definition n-dimensional arrays support.
         x = np.reshape(x, (2, 3, 1))
         np.testing.assert_almost_equal(
             log_decoding_CanonLog2(clog2), x, decimal=7)
+
+    def test_domain_range_scale_log_decoding_CanonLog2(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.canon_log.\
+log_decoding_CanonLog2` definition domain and range scale support.
+        """
+
+        clog = 0.398254694983167
+        x = log_decoding_CanonLog2(clog)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    log_decoding_CanonLog2(clog * factor),
+                    x * factor,
+                    decimal=7)
 
     @ignore_numpy_errors
     def test_nan_log_decoding_CanonLog2(self):
@@ -388,6 +456,23 @@ log_encoding_CanonLog3` definition n-dimensional arrays support.
         np.testing.assert_almost_equal(
             log_encoding_CanonLog3(x), clog3, decimal=7)
 
+    def test_domain_range_scale_log_encoding_CanonLog3(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.canon_log.\
+log_encoding_CanonLog3` definition domain and range scale support.
+        """
+
+        x = 0.18
+        clog3 = log_encoding_CanonLog3(x)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    log_encoding_CanonLog3(x * factor),
+                    clog3 * factor,
+                    decimal=7)
+
     @ignore_numpy_errors
     def test_nan_log_encoding_CanonLog3(self):
         """
@@ -461,6 +546,23 @@ log_decoding_CanonLog3` definition n-dimensional arrays support.
         x = np.reshape(x, (2, 3, 1))
         np.testing.assert_almost_equal(
             log_decoding_CanonLog3(clog3), x, decimal=7)
+
+    def test_domain_range_scale_log_decoding_CanonLog3(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.canon_log.\
+log_decoding_CanonLog3` definition domain and range scale support.
+        """
+
+        clog = 0.343389369388687
+        x = log_decoding_CanonLog3(clog)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    log_decoding_CanonLog3(clog * factor),
+                    x * factor,
+                    decimal=7)
 
     @ignore_numpy_errors
     def test_nan_log_decoding_CanonLog3(self):
