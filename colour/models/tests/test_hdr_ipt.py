@@ -11,7 +11,7 @@ from itertools import permutations
 
 from colour.models import XYZ_to_hdr_IPT, hdr_IPT_to_XYZ
 from colour.models.hdr_ipt import exponent_hdr_IPT
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -155,6 +155,25 @@ class TestXYZ_to_hdr_IPT(unittest.TestCase):
         np.testing.assert_almost_equal(
             XYZ_to_hdr_IPT(XYZ, Y_s, Y_abs), IPT_hdr, decimal=7)
 
+    def test_domain_range_scale_XYZ_to_hdr_IPT(self):
+        """
+        Tests :func:`colour.models.hdr_ipt.XYZ_to_hdr_IPT` definition domain
+        and range scale support.
+        """
+
+        XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
+        Y_s = 0.2
+        Y_abs = 100
+        IPT_hdr = XYZ_to_hdr_IPT(XYZ, Y_s, Y_abs)
+
+        d_r = (('reference', 1, 1), (1, 1, 0.01), (100, 100, 1))
+        for scale, factor_a, factor_b in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    XYZ_to_hdr_IPT(XYZ * factor_a, Y_s, Y_abs),
+                    IPT_hdr * factor_b,
+                    decimal=7)
+
     @ignore_numpy_errors
     def test_nan_XYZ_to_hdr_IPT(self):
         """
@@ -235,6 +254,25 @@ class TestHdr_IPT_to_XYZ(unittest.TestCase):
         XYZ = np.reshape(XYZ, (2, 3, 3))
         np.testing.assert_almost_equal(
             hdr_IPT_to_XYZ(IPT_hdr, Y_s, Y_abs), XYZ, decimal=7)
+
+    def test_domain_range_scale_hdr_IPT_to_XYZ(self):
+        """
+        Tests :func:`colour.models.hdr_ipt.hdr_IPT_to_XYZ` definition domain
+        and range scale support.
+        """
+
+        IPT_hdr = np.array([24.88927680, -11.44574144, 1.63147707])
+        Y_s = 0.2
+        Y_abs = 100
+        XYZ = hdr_IPT_to_XYZ(IPT_hdr, Y_s, Y_abs)
+
+        d_r = (('reference', 1, 1), (1, 0.01, 1), (100, 1, 100))
+        for scale, factor_a, factor_b in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    hdr_IPT_to_XYZ(IPT_hdr * factor_a, Y_s, Y_abs),
+                    XYZ * factor_b,
+                    decimal=7)
 
     @ignore_numpy_errors
     def test_nan_hdr_IPT_to_XYZ(self):

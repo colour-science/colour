@@ -18,7 +18,7 @@ from colour.models import (RGB_COLOURSPACES, RGB_Colourspace, XYZ_to_RGB,
                            RGB_to_XYZ, RGB_to_RGB_matrix, RGB_to_RGB,
                            normalised_primary_matrix, oetf_sRGB,
                            oetf_reverse_sRGB)
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -93,8 +93,8 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
 
         ignored_colourspaces = ('ACESproxy', )
 
-        samples = np.hstack((np.linspace(0, 1, 1000), np.linspace(
-            0, 65504, 65504 * 10)))
+        samples = np.hstack((np.linspace(0, 1, 1000),
+                             np.linspace(0, 65504, 65504 * 10)))
 
         for colourspace in RGB_COLOURSPACES.values():
             encoding_cctf_s = colourspace.encoding_cctf(samples)
@@ -322,8 +322,7 @@ class TestXYZ_to_RGB(unittest.TestCase):
         np.testing.assert_almost_equal(
             XYZ_to_RGB(
                 np.array([0.11518475, 0.10080000, 0.05089373]),
-                np.array([0.34570, 0.35850]),
-                np.array([0.31270, 0.32900]),
+                np.array([0.34570, 0.35850]), np.array([0.31270, 0.32900]),
                 np.array([
                     [3.24062548, -1.53720797, -0.49862860],
                     [-0.96893071, 1.87575606, 0.04151752],
@@ -335,8 +334,7 @@ class TestXYZ_to_RGB(unittest.TestCase):
         np.testing.assert_almost_equal(
             XYZ_to_RGB(
                 np.array([0.11518475, 0.10080000, 0.05089373]),
-                np.array([0.34570, 0.35850]),
-                np.array([0.32168, 0.33767]),
+                np.array([0.34570, 0.35850]), np.array([0.32168, 0.33767]),
                 np.array([
                     [1.04981102, 0.00000000, -0.00009748],
                     [-0.49590302, 1.37331305, 0.09824004],
@@ -393,6 +391,30 @@ class TestXYZ_to_RGB(unittest.TestCase):
         np.testing.assert_almost_equal(
             XYZ_to_RGB(XYZ, W_R, W_T, M), RGB, decimal=7)
 
+    def test_domain_range_scale_XYZ_to_RGB(self):
+        """
+        Tests :func:`colour.models.rgb.rgb_colourspace.XYZ_to_RGB` definition
+        domain and range scale support.
+        """
+
+        XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
+        W_R = np.array([0.34570, 0.35850])
+        W_T = np.array([0.31270, 0.32900])
+        M = np.array([
+            [3.24062548, -1.53720797, -0.49862860],
+            [-0.96893071, 1.87575606, 0.04151752],
+            [0.05571012, -0.20402105, 1.05699594],
+        ])
+        RGB = XYZ_to_RGB(XYZ, W_R, W_T, M)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    XYZ_to_RGB(XYZ * factor, W_R, W_T, M),
+                    RGB * factor,
+                    decimal=7)
+
     @ignore_numpy_errors
     def test_nan_XYZ_to_RGB(self):
         """
@@ -424,8 +446,7 @@ class TestRGB_to_XYZ(unittest.TestCase):
         np.testing.assert_almost_equal(
             RGB_to_XYZ(
                 np.array([0.45286611, 0.31735742, 0.26418007]),
-                np.array([0.31270, 0.32900]),
-                np.array([0.34570, 0.35850]),
+                np.array([0.31270, 0.32900]), np.array([0.34570, 0.35850]),
                 np.array([
                     [0.41240000, 0.35760000, 0.18050000],
                     [0.21260000, 0.71520000, 0.07220000],
@@ -437,8 +458,7 @@ class TestRGB_to_XYZ(unittest.TestCase):
         np.testing.assert_almost_equal(
             RGB_to_XYZ(
                 np.array([0.11757966, 0.08781514, 0.06185473]),
-                np.array([0.32168, 0.33767]),
-                np.array([0.34570, 0.35850]),
+                np.array([0.32168, 0.33767]), np.array([0.34570, 0.35850]),
                 np.array([
                     [0.95255240, 0.00000000, 0.00009368],
                     [0.34396645, 0.72816610, -0.07213255],
@@ -498,6 +518,30 @@ class TestRGB_to_XYZ(unittest.TestCase):
         XYZ = np.reshape(XYZ, (2, 3, 3))
         np.testing.assert_almost_equal(
             RGB_to_XYZ(RGB, W_R, W_T, M), XYZ, decimal=7)
+
+    def test_domain_range_scale_XYZ_to_RGB(self):
+        """
+        Tests :func:`colour.models.rgb.rgb_colourspace.RGB_to_XYZ` definition
+        domain and range scale support.
+        """
+
+        RGB = np.array([0.00109657, 0.01282168, 0.01173596])
+        W_R = np.array([0.34570, 0.35850])
+        W_T = np.array([0.31270, 0.32900])
+        M = np.array([
+            [3.24062548, -1.53720797, -0.49862860],
+            [-0.96893071, 1.87575606, 0.04151752],
+            [0.05571012, -0.20402105, 1.05699594],
+        ])
+        XYZ = RGB_to_XYZ(RGB, W_R, W_T, M)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    RGB_to_XYZ(RGB * factor, W_R, W_T, M),
+                    XYZ * factor,
+                    decimal=7)
 
     @ignore_numpy_errors
     def test_nan_RGB_to_XYZ(self):
@@ -647,6 +691,26 @@ class TestRGB_to_RGB(unittest.TestCase):
             RGB_to_RGB(RGB_i, aces_2065_1_colourspace, sRGB_colourspace),
             RGB_o,
             decimal=7)
+
+    def test_domain_range_scale_XYZ_to_RGB(self):
+        """
+        Tests :func:`colour.models.rgb.rgb_colourspace.RGB_to_RGB` definition
+        domain and range scale support.
+        """
+
+        aces_2065_1_colourspace = RGB_COLOURSPACES['ACES2065-1']
+        sRGB_colourspace = RGB_COLOURSPACES['sRGB']
+        RGB_i = np.array([0.35521588, 0.41000000, 0.24177934])
+        RGB_o = RGB_to_RGB(RGB_i, aces_2065_1_colourspace, sRGB_colourspace)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    RGB_to_RGB(RGB_i * factor, aces_2065_1_colourspace,
+                               sRGB_colourspace),
+                    RGB_o * factor,
+                    decimal=7)
 
     @ignore_numpy_errors
     def test_nan_RGB_to_RGB(self):

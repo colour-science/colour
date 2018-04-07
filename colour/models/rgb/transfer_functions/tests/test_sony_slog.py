@@ -12,7 +12,7 @@ import unittest
 from colour.models.rgb.transfer_functions import (
     log_encoding_SLog, log_decoding_SLog, log_encoding_SLog2,
     log_decoding_SLog2, log_encoding_SLog3, log_decoding_SLog3)
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -85,6 +85,21 @@ log_encoding_SLog` definition n-dimensional arrays support.
         y = np.reshape(y, (2, 3, 1))
         np.testing.assert_almost_equal(log_encoding_SLog(x), y, decimal=7)
 
+    def test_domain_range_scale_log_encoding_SLog(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.sony_slog.\
+log_encoding_SLog` definition domain and range scale support.
+        """
+
+        x = 0.18
+        y = log_encoding_SLog(x)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    log_encoding_SLog(x * factor), y * factor, decimal=7)
+
     @ignore_numpy_errors
     def test_nan_log_encoding_SLog(self):
         """
@@ -148,6 +163,21 @@ log_decoding_SLog` definition n-dimensional arrays support.
         y = np.reshape(y, (2, 3, 1))
         x = np.reshape(x, (2, 3, 1))
         np.testing.assert_almost_equal(log_decoding_SLog(y), x, decimal=7)
+
+    def test_domain_range_scale_log_decoding_SLog(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.sony_slog.\
+log_decoding_SLog` definition domain and range scale support.
+        """
+
+        y = 0.384970815928670
+        x = log_decoding_SLog(y)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    log_decoding_SLog(y * factor), x * factor, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_log_decoding_SLog(self):
@@ -213,6 +243,21 @@ log_encoding_SLog2` definition n-dimensional arrays support.
         y = np.reshape(y, (2, 3, 1))
         np.testing.assert_almost_equal(log_encoding_SLog2(x), y, decimal=7)
 
+    def test_domain_range_scale_log_encoding_SLog2(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.sony_slog.\
+log_encoding_SLog2` definition domain and range scale support.
+        """
+
+        x = 0.18
+        y = log_encoding_SLog2(x)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    log_encoding_SLog2(x * factor), y * factor, decimal=7)
+
     @ignore_numpy_errors
     def test_nan_log_encoding_SLog2(self):
         """
@@ -276,6 +321,21 @@ log_decoding_SLog2` definition n-dimensional arrays support.
         y = np.reshape(y, (2, 3, 1))
         x = np.reshape(x, (2, 3, 1))
         np.testing.assert_almost_equal(log_decoding_SLog2(y), x, decimal=7)
+
+    def test_domain_range_scale_log_decoding_SLog2(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.sony_slog.\
+log_decoding_SLog2` definition domain and range scale support.
+        """
+
+        y = 0.339532524633774
+        x = log_decoding_SLog2(y)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    log_decoding_SLog2(y * factor), x * factor, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_log_decoding_SLog2(self):
@@ -341,6 +401,21 @@ log_encoding_SLog3` definition n-dimensional arrays support.
         y = np.reshape(y, (2, 3, 1))
         np.testing.assert_almost_equal(log_encoding_SLog3(x), y, decimal=7)
 
+    def test_domain_range_scale_log_encoding_SLog3(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.sony_slog.\
+log_encoding_SLog3` definition domain and range scale support.
+        """
+
+        x = 0.18
+        y = log_encoding_SLog3(x)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    log_encoding_SLog3(x * factor), y * factor, decimal=7)
+
     @ignore_numpy_errors
     def test_nan_log_encoding_SLog3(self):
         """
@@ -404,6 +479,21 @@ log_decoding_SLog3` definition n-dimensional arrays support.
         y = np.reshape(y, (2, 3, 1))
         x = np.reshape(x, (2, 3, 1))
         np.testing.assert_almost_equal(log_decoding_SLog3(y), x, decimal=7)
+
+    def test_domain_range_scale_log_decoding_SLog3(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.sony_slog.\
+log_decoding_SLog3` definition domain and range scale support.
+        """
+
+        y = 0.41055718475073
+        x = log_decoding_SLog3(y)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    log_decoding_SLog3(y * factor), x * factor, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_log_decoding_SLog3(self):

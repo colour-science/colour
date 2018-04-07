@@ -25,7 +25,8 @@ DCI_DCinema_System_Spec_v1_1.pdf
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+from colour.utilities import (from_range_1, from_range_int, to_domain_int,
+                              to_domain_1)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -62,9 +63,11 @@ def oetf_DCIP3(XYZ):
     461.9922059...
     """
 
-    XYZ = np.asarray(XYZ)
+    XYZ = to_domain_1(XYZ)
 
-    return 4095 * (XYZ / 52.37) ** (1 / 2.6)
+    XYZ_p = 4095 * (XYZ / 52.37) ** (1 / 2.6)
+
+    return from_range_int(XYZ_p, 12)
 
 
 def eotf_DCIP3(XYZ_p):
@@ -92,6 +95,8 @@ def eotf_DCIP3(XYZ_p):
     0.18...
     """
 
-    XYZ_p = np.asarray(XYZ_p)
+    XYZ_p = to_domain_int(XYZ_p, 12)
 
-    return 52.37 * (XYZ_p / 4095) ** 2.6
+    XYZ = 52.37 * (XYZ_p / 4095) ** 2.6
+
+    return from_range_1(XYZ)

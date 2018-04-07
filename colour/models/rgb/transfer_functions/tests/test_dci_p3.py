@@ -10,7 +10,7 @@ import numpy as np
 import unittest
 
 from colour.models.rgb.transfer_functions import (oetf_DCIP3, eotf_DCIP3)
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -62,6 +62,25 @@ oetf_DCIP3` definition n-dimensional arrays support.
         XYZ_p = np.reshape(XYZ_p, (2, 3, 1))
         np.testing.assert_almost_equal(oetf_DCIP3(XYZ), XYZ_p, decimal=7)
 
+    def test_domain_range_scale_oetf_DCIP3(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.dci_p3.\
+oetf_DCIP3` definition domain and range scale support.
+        """
+
+        XYZ = 0.18
+        XYZ_p = oetf_DCIP3(XYZ)
+
+        d_r = (
+            ('reference', 1, 1),
+            (1, 1, 1 / 4095),
+            (100, 100, 100 / 4095),
+        )
+        for scale, factor_a, factor_b in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    oetf_DCIP3(XYZ * factor_a), XYZ_p * factor_b, decimal=7)
+
     @ignore_numpy_errors
     def test_nan_oetf_DCIP3(self):
         """
@@ -111,6 +130,25 @@ eotf_DCIP3` definition n-dimensional arrays support.
         XYZ_p = np.reshape(XYZ_p, (2, 3, 1))
         XYZ = np.reshape(XYZ, (2, 3, 1))
         np.testing.assert_almost_equal(eotf_DCIP3(XYZ_p), XYZ, decimal=7)
+
+    def test_domain_range_scale_eotf_DCIP3(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.dci_p3.\
+eotf_DCIP3` definition domain and range scale support.
+        """
+
+        XYZ_p = 426.0
+        XYZ = eotf_DCIP3(XYZ_p)
+
+        d_r = (
+            ('reference', 1, 1),
+            (1, 1 / 4095, 1),
+            (100, 100 / 4095, 100),
+        )
+        for scale, factor_a, factor_b in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    eotf_DCIP3(XYZ_p * factor_a), XYZ * factor_b, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_eotf_DCIP3(self):

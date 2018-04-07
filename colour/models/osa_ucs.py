@@ -32,7 +32,8 @@ import numpy as np
 from scipy.optimize import fmin
 
 from colour.models import XYZ_to_xyY
-from colour.utilities import dot_vector, tsplit, tstack
+from colour.utilities import (domain_range_scale, dot_vector, from_range_100,
+                              to_domain_100, tsplit, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -94,6 +95,7 @@ def XYZ_to_OSA_UCS(XYZ):
     array([-4.490068...,  0.7030593...,  3.0346366...])
     """
 
+    XYZ = to_domain_100(XYZ)
     x, y, Y = tsplit(XYZ_to_xyY(XYZ))
 
     Y_0 = Y * (4.4934 * x ** 2 + 4.3034 * y ** 2 - 4.276 * x * y - 1.3744 * x -
@@ -113,7 +115,9 @@ def XYZ_to_OSA_UCS(XYZ):
     j = C * np.dot(RGB_3, np.array([1.7, 8, -9.7]))
     g = C * np.dot(RGB_3, np.array([-13.7, 17.7, -4]))
 
-    return tstack((L, j, g))
+    Ljg = tstack((L, j, g))
+
+    return from_range_100(Ljg)
 
 
 def OSA_UCS_to_XYZ(Ljg, optimisation_parameters=None):
@@ -160,7 +164,7 @@ def OSA_UCS_to_XYZ(Ljg, optimisation_parameters=None):
     array([  7.0495049...,  10.0799723...,   9.5583020...])
     """
 
-    Ljg = np.asarray(Ljg)
+    Ljg = to_domain_100(Ljg)
     shape = Ljg.shape
     Ljg = np.atleast_1d(Ljg.reshape((-1, 3)))
 
@@ -173,7 +177,11 @@ def OSA_UCS_to_XYZ(Ljg, optimisation_parameters=None):
         error function.
         """
 
-        return np.linalg.norm(XYZ_to_OSA_UCS(XYZ) - Ljg)
+        # Error must be computed in "reference" domain and range.
+        with domain_range_scale('ignore'):
+            error = np.linalg.norm(XYZ_to_OSA_UCS(XYZ) - Ljg)
+
+        return error
 
     x_0 = np.array([30, 30, 30])
     XYZ = np.array([
@@ -181,4 +189,4 @@ def OSA_UCS_to_XYZ(Ljg, optimisation_parameters=None):
         for Ljg_i in Ljg
     ])
 
-    return XYZ.reshape(shape)
+    return from_range_100(XYZ.reshape(shape))

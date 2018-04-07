@@ -35,7 +35,8 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import as_numeric
+from colour.utilities import (as_numeric, domain_range_scale, from_range_1,
+                              from_range_int, to_domain_1, to_domain_int)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -61,7 +62,7 @@ def oetf_ROMMRGB(X, I_max=255):
     X : numeric or array_like
         Linear data :math:`X_{ROMM}`.
     I_max : numeric, optional
-        Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
+        Maximum code value: 255, 4095 and 65535 for respectively 8-bit,
         12-bit and 16-bit per channel.
 
     Returns
@@ -80,12 +81,13 @@ def oetf_ROMMRGB(X, I_max=255):
     98.3564133...
     """
 
-    X = np.asarray(X)
+    X = to_domain_1(X)
 
     E_t = 16 ** (1.8 / (1 - 1.8))
 
-    return as_numeric(
-        np.where(X < E_t, X * 16 * I_max, X ** (1 / 1.8) * I_max))
+    X_p = np.where(X < E_t, X * 16 * I_max, X ** (1 / 1.8) * I_max)
+
+    return as_numeric(from_range_int(X_p, np.log2(I_max + 1)))
 
 
 def eotf_ROMMRGB(X_p, I_max=255):
@@ -98,7 +100,7 @@ def eotf_ROMMRGB(X_p, I_max=255):
     X_p : numeric or array_like
         Non-linear data :math:`X'_{ROMM}`.
     I_max : numeric, optional
-        Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
+        Maximum code value: 255, 4095 and 65535 for respectively 8-bit,
         12-bit and 16-bit per channel.
 
     Returns
@@ -117,13 +119,14 @@ def eotf_ROMMRGB(X_p, I_max=255):
     0.1...
     """
 
-    X_p = np.asarray(X_p)
+    X_p = to_domain_int(X_p, np.log2(I_max + 1))
 
     E_t = 16 ** (1.8 / (1 - 1.8))
 
-    return as_numeric(
-        np.where(X_p < 16 * E_t * I_max, X_p / (16 * I_max), (X_p / I_max) **
-                 1.8))
+    X = np.where(X_p < 16 * E_t * I_max, X_p / (16 * I_max), (X_p / I_max)
+                 ** 1.8)
+
+    return as_numeric(from_range_1(X))
 
 
 oetf_ProPhotoRGB = oetf_ROMMRGB
@@ -143,7 +146,7 @@ def oetf_RIMMRGB(X, I_max=255, E_clip=2.0):
     X : numeric or array_like
         Linear data :math:`X_{RIMM}`.
     I_max : numeric, optional
-        Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
+        Maximum code value: 255, 4095 and 65535 for respectively 8-bit,
         12-bit and 16-bit per channel.
     E_clip : numeric, optional
         Maximum exposure level.
@@ -163,15 +166,15 @@ def oetf_RIMMRGB(X, I_max=255, E_clip=2.0):
     74.3768017...
     """
 
-    X = np.asarray(X)
+    X = to_domain_1(X)
 
     V_clip = 1.099 * E_clip ** 0.45 - 0.099
     q = I_max / V_clip
 
-    X_p_RIMM = np.select([X < 0.0, X < 0.018, X >= 0.018, X > E_clip],
-                         [0, 4.5 * X, 1.099 * (X ** 0.45) - 0.099, I_max])
+    X_p = np.select([X < 0.0, X < 0.018, X >= 0.018, X > E_clip],
+                    [0, 4.5 * X, 1.099 * (X ** 0.45) - 0.099, I_max])
 
-    return as_numeric(q * X_p_RIMM)
+    return as_numeric(from_range_int(q * X_p, np.log2(I_max + 1)))
 
 
 def eotf_RIMMRGB(X_p, I_max=255, E_clip=2.0):
@@ -184,7 +187,7 @@ def eotf_RIMMRGB(X_p, I_max=255, E_clip=2.0):
     X_p : numeric or array_like
         Non-linear data :math:`X'_{RIMM}`.
     I_max : numeric, optional
-        Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
+        Maximum code value: 255, 4095 and 65535 for respectively 8-bit,
         12-bit and 16-bit per channel.
     E_clip : numeric, optional
         Maximum exposure level.
@@ -204,16 +207,17 @@ def eotf_RIMMRGB(X_p, I_max=255, E_clip=2.0):
     0.1...
     """
 
-    X_p = np.asarray(X_p)
+    X_p = to_domain_int(X_p, np.log2(I_max + 1))
 
     V_clip = 1.099 * E_clip ** 0.45 - 0.099
 
     m = V_clip * X_p / I_max
 
-    X_RIMM = np.where(X_p < oetf_RIMMRGB(0.018), m / 4.5, ((m + 0.099) / 1.099)
-                      ** (1 / 0.45))
+    with domain_range_scale('ignore'):
+        X = np.where(X_p < oetf_RIMMRGB(0.018), m / 4.5, ((m + 0.099) / 1.099)
+                     ** (1 / 0.45))
 
-    return as_numeric(X_RIMM)
+    return as_numeric(from_range_1(X))
 
 
 def log_encoding_ERIMMRGB(X, I_max=255, E_min=0.001, E_clip=316.2):
@@ -226,7 +230,7 @@ def log_encoding_ERIMMRGB(X, I_max=255, E_min=0.001, E_clip=316.2):
     X : numeric or array_like
         Linear data :math:`X_{ERIMM}`.
     I_max : numeric, optional
-        Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
+        Maximum code value: 255, 4095 and 65535 for respectively 8-bit,
         12-bit and 16-bit per channel.
     E_min : numeric, optional
         Minimum exposure limit.
@@ -248,17 +252,25 @@ def log_encoding_ERIMMRGB(X, I_max=255, E_min=0.001, E_clip=316.2):
     104.5633593...
     """
 
-    X = np.asarray(X)
+    X = to_domain_1(X)
 
     E_t = np.exp(1) * E_min
 
-    X_p = np.select([X < 0.0, X <= E_t, X > E_t, X > E_clip], [
-        0, I_max * ((np.log(E_t) - np.log(E_min)) /
-                    (np.log(E_clip) - np.log(E_min))) * (X / E_t), I_max *
-        ((np.log(X) - np.log(E_min)) / (np.log(E_clip) - np.log(E_min))), I_max
+    X_p = np.select([
+        X < 0.0,
+        X <= E_t,
+        X > E_t,
+        X > E_clip,
+    ], [
+        0,
+        I_max * ((np.log(E_t) - np.log(E_min)) /
+                 (np.log(E_clip) - np.log(E_min))) * (X / E_t),
+        I_max * ((np.log(X) - np.log(E_min)) /
+                 (np.log(E_clip) - np.log(E_min))),
+        I_max,
     ])
 
-    return as_numeric(X_p)
+    return as_numeric(from_range_int(X_p, np.log2(I_max + 1)))
 
 
 def log_decoding_ERIMMRGB(X_p, I_max=255, E_min=0.001, E_clip=316.2):
@@ -271,7 +283,7 @@ def log_decoding_ERIMMRGB(X_p, I_max=255, E_min=0.001, E_clip=316.2):
     X_p : numeric or array_like
         Non-linear data :math:`X'_{ERIMM}`.
     I_max : numeric, optional
-        Maximum code value: 255, 4095 and 650535 for respectively 8-bit,
+        Maximum code value: 255, 4095 and 65535 for respectively 8-bit,
         12-bit and 16-bit per channel.
     E_min : numeric, optional
         Minimum exposure limit.
@@ -293,15 +305,17 @@ def log_decoding_ERIMMRGB(X_p, I_max=255, E_min=0.001, E_clip=316.2):
     0.1...
     """
 
-    X_p = np.asarray(X_p)
+    X_p = to_domain_int(X_p, np.log2(I_max + 1))
 
     E_t = np.exp(1) * E_min
 
-    X = np.where(X_p <= I_max * ((np.log(E_t) - np.log(E_min)) /
-                                 (np.log(E_clip) - np.log(E_min))),
-                 (((np.log(E_clip) - np.log(E_min)) /
-                   (np.log(E_t) - np.log(E_min))) * ((X_p * E_t) / I_max)),
-                 np.exp((X_p / I_max) * (np.log(E_clip) - np.log(E_min)) +
-                        np.log(E_min)))
+    X = np.where(
+        X_p <= I_max * ((np.log(E_t) - np.log(E_min)) /
+                        (np.log(E_clip) - np.log(E_min))),
+        ((np.log(E_clip) - np.log(E_min)) / (np.log(E_t) - np.log(E_min))) *
+        ((X_p * E_t) / I_max),
+        np.exp((X_p / I_max) *
+               (np.log(E_clip) - np.log(E_min)) + np.log(E_min)),
+    )
 
-    return as_numeric(X)
+    return as_numeric(from_range_1(X))

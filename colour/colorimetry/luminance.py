@@ -63,7 +63,9 @@ import numpy as np
 
 from colour.biochemistry import substrate_concentration_MichealisMenten
 from colour.constants import CIE_E, CIE_K
-from colour.utilities import CaseInsensitiveMapping, as_numeric, filter_kwargs
+from colour.utilities import (
+    CaseInsensitiveMapping, as_numeric, filter_kwargs, from_range_1,
+    from_range_100, get_domain_range_scale, to_domain_10, to_domain_100)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -109,12 +111,12 @@ def luminance_Newhall1943(V):
     10.4089874...
     """
 
-    V = np.asarray(V)
+    V = to_domain_10(V)
 
     R_Y = (1.2219 * V - 0.23111 * (V * V) + 0.23951 * (V ** 3) - 0.021009 *
            (V ** 4) + 0.0008404 * (V ** 5))
 
-    return R_Y
+    return from_range_100(R_Y)
 
 
 def luminance_ASTMD153508(V):
@@ -147,12 +149,12 @@ def luminance_ASTMD153508(V):
     10.1488096...
     """
 
-    V = np.asarray(V)
+    V = to_domain_10(V)
 
     Y = (1.1914 * V - 0.22533 * (V ** 2) + 0.23352 * (V ** 3) - 0.020484 *
          (V ** 4) + 0.00081939 * (V ** 5))
 
-    return Y
+    return from_range_100(Y)
 
 
 def luminance_CIE1976(Lstar, Y_n=100):
@@ -191,14 +193,14 @@ def luminance_CIE1976(Lstar, Y_n=100):
     9.5760000...
     """
 
-    Lstar = np.asarray(Lstar)
-    Y_n = np.asarray(Y_n)
+    Lstar = to_domain_100(Lstar)
+    Y_n = to_domain_100(Y_n)
 
     Y = as_numeric(
         np.where(Lstar > CIE_K * CIE_E,
                  Y_n * ((Lstar + 16) / 116) ** 3, Y_n * (Lstar / CIE_K)))
 
-    return Y
+    return from_range_100(Y)
 
 
 def luminance_Fairchild2010(L_hdr, epsilon=1.836):
@@ -238,14 +240,14 @@ def luminance_Fairchild2010(L_hdr, epsilon=1.836):
     0.1007999...
     """
 
-    L_hdr = np.asarray(L_hdr)
+    L_hdr = to_domain_100(L_hdr)
 
     Y = np.exp(
         np.log(
             substrate_concentration_MichealisMenten(L_hdr - 0.02, 100, 0.184 **
                                                     epsilon)) / epsilon)
 
-    return Y
+    return from_range_1(Y)
 
 
 def luminance_Fairchild2011(L_hdr, epsilon=0.710, method='hdr-CIELAB'):
@@ -286,7 +288,7 @@ def luminance_Fairchild2011(L_hdr, epsilon=0.710, method='hdr-CIELAB'):
     0.1007999...
     """
 
-    L_hdr = np.asarray(L_hdr)
+    L_hdr = to_domain_100(L_hdr)
 
     if method.lower() == 'hdr-cielab':
         maximum_perception = 247
@@ -298,7 +300,7 @@ def luminance_Fairchild2011(L_hdr, epsilon=0.710, method='hdr-CIELAB'):
             substrate_concentration_MichealisMenten(
                 L_hdr - 0.02, maximum_perception, 2 ** epsilon)) / epsilon)
 
-    return Y
+    return from_range_1(Y)
 
 
 LUMINANCE_METHODS = CaseInsensitiveMapping({
@@ -385,20 +387,27 @@ def luminance(LV, method='CIE 1976', **kwargs):
     10.0800000...
     >>> luminance(37.98562910, Y_n=95)  # doctest: +ELLIPSIS
     9.5760000...
-    >>> luminance(3.74629715, method='Newhall 1943')  # doctest: +ELLIPSIS
-    10.4089874...
-    >>> luminance(3.74629715, method='ASTM D1535-08')  # doctest: +ELLIPSIS
-    10.1488096...
-    >>> luminance(24.902290269546651, epsilon=1.836, method='Fairchild 2010')
+    >>> luminance(37.98562910, method='Newhall 1943')  # doctest: +ELLIPSIS
+    10.7248419...
+    >>> luminance(37.98562910, method='ASTM D1535-08')  # doctest: +ELLIPSIS
+    10.4567636...
+    >>> luminance(37.98562910, epsilon=0.710, method='Fairchild 2011')
     ... # doctest: +ELLIPSIS
-    10.0799999...
+    18.0972065...
     """
 
     function = LUMINANCE_METHODS[method]
 
-    Y_n = function(LV, **filter_kwargs(function, **kwargs))
+    domain_range_reference = get_domain_range_scale() == 'reference'
+    domain_1 = (luminance_Fairchild2010, luminance_Fairchild2011)
+    domain_10 = (luminance_Newhall1943, luminance_ASTMD153508)
 
-    if function in (luminance_Fairchild2010, luminance_Fairchild2011):
-        Y_n *= 100
+    if function in domain_10 and domain_range_reference:
+        LV /= 10
 
-    return Y_n
+    Y_V = function(LV, **filter_kwargs(function, **kwargs))
+
+    if function in domain_1 and domain_range_reference:
+        Y_V *= 100
+
+    return Y_V

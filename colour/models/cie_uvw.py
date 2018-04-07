@@ -25,7 +25,7 @@ from __future__ import division, unicode_literals
 from colour.colorimetry import ILLUMINANTS
 from colour.models import (UCS_to_uv, UCS_uv_to_xy, XYZ_to_UCS, XYZ_to_xyY,
                            xy_to_UCS_uv, xyY_to_XYZ, xyY_to_xy)
-from colour.utilities import tsplit, tstack
+from colour.utilities import from_range_100, to_domain_100, tsplit, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -81,11 +81,14 @@ def XYZ_to_UVW(
     array([-28.0579733...,  -0.8819449...,  37.0041149...])
     """
 
-    xyY = XYZ_to_xyY(XYZ, xyY_to_xy(illuminant))
+    XYZ = to_domain_100(XYZ)
+
+    xy = xyY_to_xy(illuminant)
+    xyY = XYZ_to_xyY(XYZ, xy)
     _x, _y, Y = tsplit(xyY)
 
     u, v = tsplit(UCS_to_uv(XYZ_to_UCS(XYZ)))
-    u_0, v_0 = tsplit(xy_to_UCS_uv(xyY_to_xy(illuminant)))
+    u_0, v_0 = tsplit(xy_to_UCS_uv(xy))
 
     W = 25 * Y ** (1 / 3) - 17
     U = 13 * W * (u - u_0)
@@ -93,7 +96,7 @@ def XYZ_to_UVW(
 
     UVW = tstack((U, V, W))
 
-    return UVW
+    return from_range_100(UVW)
 
 
 def UVW_to_XYZ(
@@ -139,7 +142,8 @@ def UVW_to_XYZ(
     array([  7.049534...,  10.08    ...,   9.558313...])
     """
 
-    U, V, W = tsplit(UVW)
+    U, V, W = tsplit(to_domain_100(UVW))
+
     u_0, v_0 = tsplit(xy_to_UCS_uv(xyY_to_xy(illuminant)))
 
     Y = ((W + 17) / 25) ** 3
@@ -150,4 +154,4 @@ def UVW_to_XYZ(
 
     XYZ = xyY_to_XYZ(tstack((x, y, Y)))
 
-    return XYZ
+    return from_range_100(XYZ)

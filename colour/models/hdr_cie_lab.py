@@ -34,7 +34,8 @@ from colour.colorimetry import (
     ILLUMINANTS, lightness_Fairchild2010, lightness_Fairchild2011,
     luminance_Fairchild2010, luminance_Fairchild2011)
 from colour.models import xy_to_xyY, xyY_to_XYZ
-from colour.utilities import tsplit, tstack
+from colour.utilities import (domain_range_scale, from_range_1, from_range_100,
+                              to_domain_1, to_domain_100, tsplit, tstack)
 from colour.utilities.documentation import DocstringTuple
 
 __author__ = 'Colour Developers'
@@ -173,7 +174,8 @@ def XYZ_to_hdr_CIELab(
     array([ 24.9020664..., -46.8312760..., -10.1427484...])
     """
 
-    X, Y, Z = tsplit(XYZ)
+    X, Y, Z = tsplit(to_domain_1(XYZ))
+
     X_n, Y_n, Z_n = tsplit(xyY_to_XYZ(xy_to_xyY(illuminant)))
 
     method_l = method.lower()
@@ -189,13 +191,15 @@ def XYZ_to_hdr_CIELab(
 
     e = exponent_hdr_CIELab(Y_s, Y_abs, method)
 
-    L_hdr = lightness_callable(Y / Y_n, e)
-    a_hdr = 5 * (lightness_callable(X / X_n, e) - L_hdr)
-    b_hdr = 2 * (L_hdr - lightness_callable(Z / Z_n, e))
+    # Domain and range scaling has already be handled.
+    with domain_range_scale('ignore'):
+        L_hdr = lightness_callable(Y / Y_n, e)
+        a_hdr = 5 * (lightness_callable(X / X_n, e) - L_hdr)
+        b_hdr = 2 * (L_hdr - lightness_callable(Z / Z_n, e))
 
     Lab_hdr = tstack((L_hdr, a_hdr, b_hdr))
 
-    return Lab_hdr
+    return from_range_100(Lab_hdr)
 
 
 def hdr_CIELab_to_XYZ(
@@ -251,7 +255,8 @@ def hdr_CIELab_to_XYZ(
     array([ 0.0704953...,  0.1008    ,  0.0955831...])
     """
 
-    L_hdr, a_hdr, b_hdr = tsplit(Lab_hdr)
+    L_hdr, a_hdr, b_hdr = tsplit(to_domain_100(Lab_hdr))
+
     X_n, Y_n, Z_n = tsplit(xyY_to_XYZ(xy_to_xyY(illuminant)))
 
     method_l = method.lower()
@@ -267,10 +272,12 @@ def hdr_CIELab_to_XYZ(
 
     e = exponent_hdr_CIELab(Y_s, Y_abs, method)
 
-    Y = luminance_callable(L_hdr, e) * Y_n
-    X = luminance_callable((a_hdr + 5 * L_hdr) / 5, e) * X_n
-    Z = luminance_callable((-b_hdr + 2 * L_hdr) / 2, e) * Z_n
+    # Domain and range scaling has already be handled.
+    with domain_range_scale('ignore'):
+        Y = luminance_callable(L_hdr, e) * Y_n
+        X = luminance_callable((a_hdr + 5 * L_hdr) / 5, e) * X_n
+        Z = luminance_callable((-b_hdr + 2 * L_hdr) / 2, e) * Z_n
 
     XYZ = tstack((X, Y, Z))
 
-    return XYZ
+    return from_range_1(XYZ)

@@ -11,7 +11,7 @@ import unittest
 from itertools import permutations
 
 from colour.adaptation import chromatic_adaptation_CIE1994
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -114,6 +114,30 @@ class TestChromaticAdaptationCIE1994(unittest.TestCase):
             chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2),
             XYZ_2,
             decimal=7)
+
+    def test_domain_range_scale_chromatic_adaptation_CIE1994(self):
+        """
+        Tests :func:`colour.adaptation.cie1994.chromatic_adaptation_CIE1994`
+        definition domain and range scale support.
+        """
+
+        XYZ_1 = np.array([28.00, 21.26, 5.27])
+        xy_o1 = np.array([0.4476, 0.4074])
+        xy_o2 = np.array([0.3127, 0.3290])
+        Y_o = 20
+        E_o1 = 1000
+        E_o2 = 1000
+        XYZ_2 = chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1,
+                                             E_o2)
+
+        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    chromatic_adaptation_CIE1994(XYZ_1 * factor, xy_o1, xy_o2,
+                                                 Y_o * factor, E_o1, E_o2),
+                    XYZ_2 * factor,
+                    decimal=7)
 
     @ignore_numpy_errors
     def test_nan_chromatic_adaptation_CIE1994(self):

@@ -9,9 +9,10 @@ from __future__ import division, unicode_literals
 import numpy as np
 from itertools import permutations
 
-from colour.appearance import XYZ_to_RLAB
+from colour.appearance import (RLAB_D_FACTOR, RLAB_VIEWING_CONDITIONS,
+                               XYZ_to_RLAB)
 from colour.appearance.tests.common import ColourAppearanceModelTest
-from colour.utilities import ignore_numpy_errors, tstack
+from colour.utilities import domain_range_scale, ignore_numpy_errors, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -63,6 +64,28 @@ class TestRLABColourAppearanceModel(ColourAppearanceModelTest):
                                     data['D'])
 
         return specification
+
+    def test_domain_range_scale_XYZ_to_RLAB(self):
+        """
+        Tests :func:`colour.appearance.rlab.XYZ_to_RLAB` definition domain and
+        range scale support.
+        """
+
+        XYZ = np.array([19.01, 20.00, 21.78])
+        XYZ_n = np.array([109.85, 100, 35.58])
+        Y_n = 31.83
+        sigma = RLAB_VIEWING_CONDITIONS['Average']
+        D = RLAB_D_FACTOR['Hard Copy Images']
+        specification = XYZ_to_RLAB(XYZ, XYZ_n, Y_n, sigma, D)[:4]
+
+        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    XYZ_to_RLAB(XYZ * factor, XYZ_n * factor, Y_n, sigma,
+                                D)[:4],
+                    specification,
+                    decimal=7)
 
     @ignore_numpy_errors
     def test_nan_XYZ_to_RLAB(self):

@@ -11,7 +11,7 @@ import unittest
 
 from colour.models.rgb.transfer_functions import (log_encoding_Protune,
                                                   log_decoding_Protune)
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -64,6 +64,22 @@ log_encoding_Protune` definition n-dimensional arrays support.
         y = np.reshape(y, (2, 3, 1))
         np.testing.assert_almost_equal(log_encoding_Protune(x), y, decimal=7)
 
+    def test_domain_range_scale_log_encoding_Protune(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.gopro.\
+log_encoding_Protune` definition domain and range scale support.
+        """
+
+        x = 0.18
+        y = log_encoding_Protune(x)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    log_encoding_Protune(x * factor), y * factor,
+                    decimal=7)
+
     @ignore_numpy_errors
     def test_nan_log_encoding_Protune(self):
         """
@@ -115,6 +131,22 @@ log_decoding_Protune` definition n-dimensional arrays support.
         y = np.reshape(y, (2, 3, 1))
         x = np.reshape(x, (2, 3, 1))
         np.testing.assert_almost_equal(log_decoding_Protune(y), x, decimal=7)
+
+    def test_domain_range_scale_log_decoding_Protune(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.gopro.\
+log_decoding_Protune` definition domain and range scale support.
+        """
+
+        y = 0.645623486803636
+        x = log_decoding_Protune(y)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    log_decoding_Protune(y * factor), x * factor,
+                    decimal=7)
 
     @ignore_numpy_errors
     def test_nan_log_decoding_Protune(self):

@@ -10,7 +10,7 @@ import numpy as np
 import unittest
 
 from colour.models.rgb.transfer_functions import oetf_SMPTE240M, eotf_SMPTE240M
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -66,6 +66,21 @@ oetf_SMPTE240M` definition n-dimensional arrays support.
         V_c = np.reshape(V_c, (2, 3, 1))
         np.testing.assert_almost_equal(oetf_SMPTE240M(L_c), V_c, decimal=7)
 
+    def test_domain_range_scale_oetf_SMPTE240M(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.smpte_240m.\
+oetf_SMPTE240M` definition domain and range scale support.
+        """
+
+        L_c = 0.18
+        V_c = oetf_SMPTE240M(L_c)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    oetf_SMPTE240M(L_c * factor), V_c * factor, decimal=7)
+
     @ignore_numpy_errors
     def test_nan_oetf_SMPTE240M(self):
         """
@@ -104,21 +119,36 @@ eotf_SMPTE240M` definition.
 eotf_SMPTE240M` definition n-dimensional arrays support.
         """
 
-        V = 0.402285796753870
-        L = 0.18
-        np.testing.assert_almost_equal(eotf_SMPTE240M(V), L, decimal=7)
+        V_r = 0.402285796753870
+        L_r = 0.18
+        np.testing.assert_almost_equal(eotf_SMPTE240M(V_r), L_r, decimal=7)
 
-        V = np.tile(V, 6)
-        L = np.tile(L, 6)
-        np.testing.assert_almost_equal(eotf_SMPTE240M(V), L, decimal=7)
+        V_r = np.tile(V_r, 6)
+        L_r = np.tile(L_r, 6)
+        np.testing.assert_almost_equal(eotf_SMPTE240M(V_r), L_r, decimal=7)
 
-        V = np.reshape(V, (2, 3))
-        L = np.reshape(L, (2, 3))
-        np.testing.assert_almost_equal(eotf_SMPTE240M(V), L, decimal=7)
+        V_r = np.reshape(V_r, (2, 3))
+        L_r = np.reshape(L_r, (2, 3))
+        np.testing.assert_almost_equal(eotf_SMPTE240M(V_r), L_r, decimal=7)
 
-        V = np.reshape(V, (2, 3, 1))
-        L = np.reshape(L, (2, 3, 1))
-        np.testing.assert_almost_equal(eotf_SMPTE240M(V), L, decimal=7)
+        V_r = np.reshape(V_r, (2, 3, 1))
+        L_r = np.reshape(L_r, (2, 3, 1))
+        np.testing.assert_almost_equal(eotf_SMPTE240M(V_r), L_r, decimal=7)
+
+    def test_domain_range_scale_eotf_SMPTE240M(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.smpte_240m.\
+eotf_SMPTE240M` definition domain and range scale support.
+        """
+
+        V_r = 0.402285796753870
+        L_r = eotf_SMPTE240M(V_r)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    eotf_SMPTE240M(V_r * factor), L_r * factor, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_eotf_SMPTE240M(self):

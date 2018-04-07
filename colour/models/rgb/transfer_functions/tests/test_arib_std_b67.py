@@ -11,7 +11,7 @@ import unittest
 
 from colour.models.rgb.transfer_functions import (oetf_ARIBSTDB67,
                                                   oetf_reverse_ARIBSTDB67)
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -66,6 +66,21 @@ oetf_ARIBSTDB67` definition n-dimensional arrays support.
         E = np.reshape(E, (2, 3, 1))
         E_p = np.reshape(E_p, (2, 3, 1))
         np.testing.assert_almost_equal(oetf_ARIBSTDB67(E), E_p, decimal=7)
+
+    def test_domain_range_scale_oetf_ARIBSTDB67(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.arib_std_b67.\
+oetf_ARIBSTDB67` definition domain and range scale support.
+        """
+
+        E = 0.18
+        E_p = oetf_ARIBSTDB67(E)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    oetf_ARIBSTDB67(E * factor), E_p * factor, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_oetf_ARIBSTDB67(self):
@@ -124,6 +139,23 @@ oetf_reverse_ARIBSTDB67` definition n-dimensional arrays support.
         E = np.reshape(E, (2, 3, 1))
         np.testing.assert_almost_equal(
             oetf_reverse_ARIBSTDB67(E_p), E, decimal=7)
+
+    def test_domain_range_scale_oetf_reverse_ARIBSTDB67(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.arib_std_b67.\
+oetf_reverse_ARIBSTDB67` definition domain and range scale support.
+        """
+
+        E_p = 0.212132034355964
+        E = oetf_reverse_ARIBSTDB67(E_p)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    oetf_reverse_ARIBSTDB67(E_p * factor),
+                    E * factor,
+                    decimal=7)
 
     @ignore_numpy_errors
     def test_nan_oetf_reverse_ARIBSTDB67(self):

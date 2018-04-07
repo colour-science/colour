@@ -10,7 +10,7 @@ import unittest
 from itertools import permutations
 
 from colour.models import XYZ_to_JzAzBz, JzAzBz_to_XYZ
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -65,6 +65,21 @@ class TestXYZ_to_JzAzBz(unittest.TestCase):
         XYZ = np.reshape(XYZ, (2, 3, 3))
         JzAzBz = np.reshape(JzAzBz, (2, 3, 3))
         np.testing.assert_almost_equal(XYZ_to_JzAzBz(XYZ), JzAzBz, decimal=7)
+
+    def test_domain_range_scale_XYZ_to_JzAzBz(self):
+        """
+        Tests :func:`colour.models.jzazbz.XYZ_to_JzAzBz` definition domain and
+        range scale support.
+        """
+
+        XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
+        JzAzBz = XYZ_to_JzAzBz(XYZ)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    XYZ_to_JzAzBz(XYZ * factor), JzAzBz * factor, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_XYZ_to_JzAzBz(self):
@@ -123,6 +138,21 @@ class TestJzAzBz_to_XYZ(unittest.TestCase):
         JzAzBz = np.reshape(JzAzBz, (2, 3, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
         np.testing.assert_almost_equal(JzAzBz_to_XYZ(JzAzBz), XYZ, decimal=7)
+
+    def test_domain_range_scale_JzAzBz_to_XYZ(self):
+        """
+        Tests :func:`colour.models.jzazbz.JzAzBz_to_XYZ` definition domain and
+        range scale support.
+        """
+
+        JzAzBz = np.array([0.00357804, -0.00295507, 0.00038998])
+        XYZ = JzAzBz_to_XYZ(JzAzBz)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    JzAzBz_to_XYZ(JzAzBz * factor), XYZ * factor, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_JzAzBz_to_XYZ(self):

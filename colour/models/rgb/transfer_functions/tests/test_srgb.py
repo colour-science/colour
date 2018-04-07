@@ -10,7 +10,7 @@ import numpy as np
 import unittest
 
 from colour.models.rgb.transfer_functions import oetf_sRGB, oetf_reverse_sRGB
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -62,6 +62,21 @@ oetf_sRGB` definition n-dimensional arrays support.
         V = np.reshape(V, (2, 3, 1))
         np.testing.assert_almost_equal(oetf_sRGB(L), V, decimal=7)
 
+    def test_domain_range_scale_oetf_sRGB(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.sRGB.\
+oetf_sRGB` definition domain and range scale support.
+        """
+
+        L = 0.18
+        V = oetf_sRGB(L)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    oetf_sRGB(L * factor), V * factor, decimal=7)
+
     @ignore_numpy_errors
     def test_nan_oetf_sRGB(self):
         """
@@ -112,6 +127,21 @@ oetf_reverse_sRGB` definition n-dimensional arrays support.
         V = np.reshape(V, (2, 3, 1))
         L = np.reshape(L, (2, 3, 1))
         np.testing.assert_almost_equal(oetf_reverse_sRGB(V), L, decimal=7)
+
+    def test_domain_range_scale_oetf_reverse_sRGB(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.sRGB.\
+oetf_reverse_sRGB` definition domain and range scale support.
+        """
+
+        V = 0.461356129500442
+        L = oetf_reverse_sRGB(V)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    oetf_reverse_sRGB(V * factor), L * factor, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_oetf_reverse_sRGB(self):

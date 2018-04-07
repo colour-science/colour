@@ -22,6 +22,7 @@ from colour.plotting.models import (
 from colour.plotting.quality import colour_quality_bars_plot
 from colour.plotting.temperature import (
     planckian_locus_plot, planckian_locus_chromaticity_diagram_plot)
+from colour.utilities import domain_range_scale
 
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
@@ -562,7 +563,8 @@ def generate_documentation_plots(output_directory):
         'CIE 1931 2 Degree Standard Observer']
     illuminant = colour.ILLUMINANTS_SPDS['D65']
     XYZ = colour.spectral_to_XYZ(spd, cmfs, illuminant)
-    RGB = colour.XYZ_to_sRGB(XYZ / 100)
+    with domain_range_scale('1'):
+        RGB = colour.XYZ_to_sRGB(XYZ)
     single_colour_swatch_plot(
         ColourSwatch('Sample', RGB),
         text_parameters={'size': 'x-large'},
@@ -573,7 +575,8 @@ def generate_documentation_plots(output_directory):
     patch_name = 'neutral 5 (.70 D)'
     patch_spd = colour.COLOURCHECKERS_SPDS['ColorChecker N Ohta'][patch_name]
     XYZ = colour.spectral_to_XYZ(patch_spd, cmfs, illuminant)
-    RGB = colour.XYZ_to_sRGB(XYZ / 100)
+    with domain_range_scale('1'):
+        RGB = colour.XYZ_to_sRGB(XYZ)
     single_colour_swatch_plot(
         ColourSwatch(patch_name.title(), RGB),
         text_parameters={'size': 'x-large'},

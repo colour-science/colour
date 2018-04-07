@@ -34,7 +34,7 @@ import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
 from colour.constants import DEFAULT_FLOAT_DTYPE
-from colour.utilities import tsplit, tstack
+from colour.utilities import from_range_1, to_domain_1, tsplit, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -85,7 +85,7 @@ def XYZ_to_xyY(
     array([ 0.2641477...,  0.3777000...,  0.1008    ])
     """
 
-    XYZ = np.asarray(XYZ)
+    XYZ = to_domain_1(XYZ)
     X, Y, Z = tsplit(XYZ)
     xy_w = np.asarray(illuminant)
 
@@ -93,8 +93,10 @@ def XYZ_to_xyY(
     XYZ_n[..., 0:2] = xy_w
 
     xyY = np.where(
-        np.all(XYZ == 0, axis=-1)[..., np.newaxis], XYZ_n,
-        tstack((X / (X + Y + Z), Y / (X + Y + Z), Y)))
+        np.all(XYZ == 0, axis=-1)[..., np.newaxis],
+        XYZ_n,
+        tstack((X / (X + Y + Z), Y / (X + Y + Z), from_range_1(Y))),
+    )
 
     return xyY
 
@@ -131,12 +133,15 @@ def xyY_to_XYZ(xyY):
     """
 
     x, y, Y = tsplit(xyY)
+    Y = to_domain_1(Y)
 
-    XYZ = np.where((y == 0)[..., np.newaxis],
-                   tstack((y, y, y)),
-                   tstack((x * Y / y, Y, (1 - x - y) * Y / y)))
+    XYZ = np.where(
+        (y == 0)[..., np.newaxis],
+        tstack((y, y, y)),
+        tstack((x * Y / y, Y, (1 - x - y) * Y / y)),
+    )
 
-    return XYZ
+    return from_range_1(XYZ)
 
 
 def xy_to_xyY(xy, Y=1):
@@ -188,6 +193,7 @@ def xy_to_xyY(xy, Y=1):
     """
 
     xy = np.asarray(xy)
+    Y = to_domain_1(Y)
 
     shape = xy.shape
     # Assuming ``xy`` is actually a *CIE xyY* colourspace array argument and
@@ -197,7 +203,8 @@ def xy_to_xyY(xy, Y=1):
 
     x, y = tsplit(xy)
 
-    xyY = tstack((x, y, np.full(x.shape, Y, DEFAULT_FLOAT_DTYPE)))
+    Y = np.full(x.shape, from_range_1(Y), DEFAULT_FLOAT_DTYPE)
+    xyY = tstack((x, y, Y))
 
     return xyY
 
@@ -241,10 +248,9 @@ def xyY_to_xy(xyY):
 
     xyY = np.asarray(xyY)
 
-    shape = xyY.shape
     # Assuming ``xyY`` is actually a *xy* chromaticity coordinates argument and
     # returning it directly.
-    if shape[-1] == 2:
+    if xyY.shape[-1] == 2:
         return xyY
 
     xy = xyY[..., 0:2]
@@ -283,9 +289,7 @@ def xy_to_XYZ(xy):
     array([ 0.6993585...,  1.        ,  0.9482453...])
     """
 
-    XYZ = xyY_to_XYZ(xy_to_xyY(xy))
-
-    return XYZ
+    return xyY_to_XYZ(xy_to_xyY(xy))
 
 
 def XYZ_to_xy(
@@ -323,6 +327,4 @@ def XYZ_to_xy(
     array([ 0.2641477...,  0.3777000...])
     """
 
-    xy = xyY_to_xy(XYZ_to_xyY(XYZ, illuminant))
-
-    return xy
+    return xyY_to_xy(XYZ_to_xyY(XYZ, illuminant))

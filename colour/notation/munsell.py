@@ -131,8 +131,10 @@ from colour.constants import (DEFAULT_FLOAT_DTYPE, INTEGER_THRESHOLD,
 from colour.models import Lab_to_LCHab, XYZ_to_Lab, XYZ_to_xy, xyY_to_XYZ
 from colour.volume import is_within_macadam_limits
 from colour.notation import MUNSELL_COLOURS_ALL
-from colour.utilities import (CaseInsensitiveMapping, Lookup, is_integer,
-                              is_numeric, tsplit, warning)
+from colour.utilities import (
+    CaseInsensitiveMapping, Lookup, as_numeric, domain_range_scale,
+    from_range_1, from_range_10, get_domain_range_scale, to_domain_1,
+    to_domain_10, to_domain_100, is_integer, is_numeric, tsplit, warning)
 
 __author__ = 'Colour Developers, Paul Centore'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -315,11 +317,11 @@ def munsell_value_Priest1920(Y):
     3.1749015...
     """
 
-    Y = np.asarray(Y)
+    Y = to_domain_100(Y)
 
     V = 10 * np.sqrt(Y / 100)
 
-    return V
+    return from_range_10(V)
 
 
 def munsell_value_Munsell1933(Y):
@@ -352,11 +354,11 @@ def munsell_value_Munsell1933(Y):
     3.7918355...
     """
 
-    Y = np.asarray(Y)
+    Y = to_domain_100(Y)
 
     V = np.sqrt(1.4742 * Y - 0.004743 * (Y * Y))
 
-    return V
+    return from_range_10(V)
 
 
 def munsell_value_Moon1943(Y):
@@ -390,11 +392,11 @@ def munsell_value_Moon1943(Y):
     3.7462971...
     """
 
-    Y = np.asarray(Y)
+    Y = to_domain_100(Y)
 
     V = 1.4 * Y ** 0.426
 
-    return V
+    return from_range_10(V)
 
 
 def munsell_value_Saunderson1944(Y):
@@ -427,11 +429,11 @@ def munsell_value_Saunderson1944(Y):
     3.6865080...
     """
 
-    Y = np.asarray(Y)
+    Y = to_domain_100(Y)
 
     V = 2.357 * (Y ** 0.343) - 1.52
 
-    return V
+    return from_range_10(V)
 
 
 def munsell_value_Ladd1955(Y):
@@ -464,11 +466,11 @@ def munsell_value_Ladd1955(Y):
     3.6952862...
     """
 
-    Y = np.asarray(Y)
+    Y = to_domain_100(Y)
 
     V = 2.468 * (Y ** (1 / 3)) - 1.636
 
-    return V
+    return from_range_10(V)
 
 
 def munsell_value_McCamy1987(Y):
@@ -501,7 +503,7 @@ def munsell_value_McCamy1987(Y):
     array(3.7347235...)
     """
 
-    Y = np.asarray(Y)
+    Y = to_domain_100(Y)
 
     V = np.where(Y <= 0.9, 0.87445 * (Y ** 0.9967),
                  (2.49268 * (Y ** (1 / 3)) - 1.5614 -
@@ -511,7 +513,7 @@ def munsell_value_McCamy1987(Y):
                   (0.0221 / Y) * np.sin(0.39 * (Y - 2)) -
                   (0.0037 / (0.44 * Y)) * np.sin(1.28 * (Y - 0.53))))
 
-    return V
+    return from_range_10(V)
 
 
 def munsell_value_ASTMD153508(Y):
@@ -544,11 +546,11 @@ def munsell_value_ASTMD153508(Y):
     3.7462971...
     """
 
-    Y = np.asarray(Y)
+    Y = to_domain_100(Y)
 
     V = _munsell_value_ASTMD153508_interpolator()(Y)
 
-    return V
+    return from_range_10(V)
 
 
 MUNSELL_VALUE_METHODS = CaseInsensitiveMapping({
@@ -666,9 +668,15 @@ def munsell_specification_to_xyY(specification):
     """
 
     if is_grey_munsell_colour(specification):
+        specification = as_numeric(to_domain_10(specification))
         value = specification
     else:
-        hue, value, chroma, code = specification
+        chroma_scale = 50 if get_domain_range_scale() == '1' else 2
+        specification = to_domain_10(specification,
+                                     np.array([10, 10, chroma_scale, 10]))
+        hue, value, chroma, code = (
+            [as_numeric(i)
+             for i in specification[0:3]] + [int(specification[-1])])
 
         assert 0 <= hue <= 10, (
             '"{0}" specification hue must be normalised to domain '
@@ -677,7 +685,8 @@ def munsell_specification_to_xyY(specification):
             '"{0}" specification value must be normalised to domain '
             '[0, 10]!'.format(specification))
 
-    Y = luminance_ASTMD153508(value)
+    with domain_range_scale('ignore'):
+        Y = luminance_ASTMD153508(value)
 
     if is_integer(value):
         value_minus = value_plus = round(value)
@@ -699,12 +708,14 @@ def munsell_specification_to_xyY(specification):
         x = x_minus
         y = y_minus
     else:
-        Y_minus = luminance_ASTMD153508(value_minus)
-        Y_plus = luminance_ASTMD153508(value_plus)
+        with domain_range_scale('ignore'):
+            Y_minus = luminance_ASTMD153508(value_minus)
+            Y_plus = luminance_ASTMD153508(value_plus)
+
         x = LinearInterpolator((Y_minus, Y_plus), (x_minus, x_plus))(Y)
         y = LinearInterpolator((Y_minus, Y_plus), (y_minus, y_plus))(Y)
 
-    return np.array([x, y, Y / 100])
+    return np.array([x, y, from_range_1(Y / 100)])
 
 
 def munsell_colour_to_xyY(munsell_colour):
@@ -753,7 +764,7 @@ def xyY_to_munsell_specification(xyY):
 
     Returns
     -------
-    numeric or tuple
+    numeric or ndarray
         *Munsell* *Colorlab* specification.
 
     Raises
@@ -777,29 +788,33 @@ def xyY_to_munsell_specification(xyY):
     --------
     >>> xyY = np.array([0.38736945, 0.35751656, 0.59362000])
     >>> xyY_to_munsell_specification(xyY)  # doctest: +ELLIPSIS
-    (4.2000019..., 8.0999999..., 5.2999996..., 6)
+    array([ 4.2000019...,  8.0999999...,  5.2999996...,  6.        ])
     """
+
+    x, y, Y = tsplit(xyY)
+    Y = to_domain_1(Y)
 
     if not is_within_macadam_limits(xyY, MUNSELL_DEFAULT_ILLUMINANT):
         warning('"{0}" is not within "MacAdam" limits for illuminant '
                 '"{1}"!'.format(xyY, MUNSELL_DEFAULT_ILLUMINANT))
 
-    x, y, Y = np.ravel(xyY)
+    with domain_range_scale('ignore'):
+        value = munsell_value_ASTMD153508(Y * 100)
 
-    # Scaling *Y* for algorithm needs.
-    value = munsell_value_ASTMD153508(Y * 100)
     if is_integer(value):
         value = round(value)
 
-    x_center, y_center, Y_center = np.ravel(
-        munsell_specification_to_xyY(value))
+    with domain_range_scale('ignore'):
+        x_center, y_center, Y_center = np.ravel(
+            munsell_specification_to_xyY(value))
+
     rho_input, phi_input, _z_input = cartesian_to_cylindrical(
         (x - x_center, y - y_center, Y_center))
     phi_input = np.degrees(phi_input)
 
     grey_threshold = 1e-7
     if rho_input < grey_threshold:
-        return value
+        return from_range_10(value)
 
     X, Y, Z = np.ravel(xyY_to_XYZ((x, y, Y)))
     xi, yi = MUNSELL_DEFAULT_ILLUMINANT_CHROMATICITY_COORDINATES
@@ -832,8 +847,9 @@ def xyY_to_munsell_specification(xyY):
         if chroma_current > chroma_maximum:
             chroma_current = specification_current[2] = chroma_maximum
 
-        x_current, y_current, _Y_current = np.ravel(
-            munsell_specification_to_xyY(specification_current))
+        with domain_range_scale('ignore'):
+            x_current, y_current, _Y_current = np.ravel(
+                munsell_specification_to_xyY(specification_current))
 
         rho_current, phi_current, _z_current = cartesian_to_cylindrical(
             (x_current - x_center, y_current - y_center, Y_center))
@@ -866,9 +882,11 @@ def xyY_to_munsell_specification(xyY):
                 hue_angle_difference_inner -= 360
 
             hue_inner, code_inner = hue_angle_to_hue(hue_angle_inner)
-            x_inner, y_inner, _Y_inner = np.ravel(
-                munsell_specification_to_xyY((hue_inner, value, chroma_current,
-                                              code_inner)))
+
+            with domain_range_scale('ignore'):
+                x_inner, y_inner, _Y_inner = np.ravel(
+                    munsell_specification_to_xyY((hue_inner, value,
+                                                  chroma_current, code_inner)))
 
             if len(phi_differences) >= 2:
                 extrapolate = True
@@ -895,18 +913,24 @@ def xyY_to_munsell_specification(xyY):
             phi_differences_indexes]
 
         hue_angle_difference_new = Extrapolator(
-            LinearInterpolator(phi_differences, hue_angles_differences))(
-                0) % 360
+            LinearInterpolator(phi_differences,
+                               hue_angles_differences))(0) % 360
         hue_angle_new = (hue_angle_current + hue_angle_difference_new) % 360
 
         hue_new, code_new = hue_angle_to_hue(hue_angle_new)
         specification_current = [hue_new, value, chroma_current, code_new]
 
-        x_current, y_current, _Y_current = np.ravel(
-            munsell_specification_to_xyY(specification_current))
+        with domain_range_scale('ignore'):
+            x_current, y_current, _Y_current = np.ravel(
+                munsell_specification_to_xyY(specification_current))
+
+        chroma_scale = 50 if get_domain_range_scale() == '1' else 2
+
         difference = euclidean_distance((x, y), (x_current, y_current))
         if difference < convergence_threshold:
-            return tuple(specification_current)
+            return from_range_10(
+                np.array(specification_current),
+                np.array([10, 10, chroma_scale, 10]))
 
         # TODO: Consider refactoring implementation.
         hue_current, _value_current, chroma_current, code_current = (
@@ -916,8 +940,9 @@ def xyY_to_munsell_specification(xyY):
         if chroma_current > chroma_maximum:
             chroma_current = specification_current[2] = chroma_maximum
 
-        x_current, y_current, _Y_current = np.ravel(
-            munsell_specification_to_xyY(specification_current))
+        with domain_range_scale('ignore'):
+            x_current, y_current, _Y_current = np.ravel(
+                munsell_specification_to_xyY(specification_current))
 
         rho_current, phi_current, _z_current = cartesian_to_cylindrical(
             (x_current - x_center, y_current - y_center, Y_center))
@@ -941,8 +966,10 @@ def xyY_to_munsell_specification(xyY):
 
             specification_inner = (hue_current, value, chroma_inner,
                                    code_current)
-            x_inner, y_inner, _Y_inner = np.ravel(
-                munsell_specification_to_xyY(specification_inner))
+
+            with domain_range_scale('ignore'):
+                x_inner, y_inner, _Y_inner = np.ravel(
+                    munsell_specification_to_xyY(specification_inner))
 
             rho_inner, phi_inner, _z_inner = cartesian_to_cylindrical(
                 (x_inner - x_center, y_inner - y_center, Y_center))
@@ -960,11 +987,16 @@ def xyY_to_munsell_specification(xyY):
         chroma_new = LinearInterpolator(rho_bounds, chroma_bounds)(rho_input)
 
         specification_current = [hue_current, value, chroma_new, code_current]
-        x_current, y_current, _Y_current = np.ravel(
-            munsell_specification_to_xyY(specification_current))
+
+        with domain_range_scale('ignore'):
+            x_current, y_current, _Y_current = np.ravel(
+                munsell_specification_to_xyY(specification_current))
+
         difference = euclidean_distance((x, y), (x_current, y_current))
         if difference < convergence_threshold:
-            return tuple(specification_current)
+            return from_range_10(
+                np.array(specification_current),
+                np.array([10, 10, chroma_scale, 10]))
 
     raise RuntimeError(
         'Maximum outside iterations count reached without convergence!')
@@ -1365,9 +1397,9 @@ def hue_to_hue_angle(hue, code):
     """
 
     single_hue = ((17 - code) % 10 + (hue / 10) - 0.5) % 10
-    return LinearInterpolator((0, 2, 3, 4, 5, 6, 8, 9, 10),
-                              (0, 45, 70, 135, 160, 225, 255, 315,
-                               360))(single_hue)
+    return LinearInterpolator(
+        (0, 2, 3, 4, 5, 6, 8, 9, 10),
+        (0, 45, 70, 135, 160, 225, 255, 315, 360))(single_hue)
 
 
 def hue_angle_to_hue(hue_angle):
@@ -1999,14 +2031,14 @@ def maximum_chroma_from_renotation(hue, value, code):
 
     ma_limit_mcw = maximum_chromas[spc_for_indexes.index((hue_cw, value_minus,
                                                           code_cw))][1]
-    ma_limit_mccw = maximum_chromas[spc_for_indexes.index((
-        hue_ccw, value_minus, code_ccw))][1]
+    ma_limit_mccw = maximum_chromas[spc_for_indexes.index(
+        (hue_ccw, value_minus, code_ccw))][1]
 
     if value_plus <= 9:
-        ma_limit_pcw = maximum_chromas[spc_for_indexes.index((
-            hue_cw, value_plus, code_cw))][1]
-        ma_limit_pccw = maximum_chromas[spc_for_indexes.index((
-            hue_ccw, value_plus, code_ccw))][1]
+        ma_limit_pcw = maximum_chromas[spc_for_indexes.index(
+            (hue_cw, value_plus, code_cw))][1]
+        ma_limit_pccw = maximum_chromas[spc_for_indexes.index(
+            (hue_ccw, value_plus, code_ccw))][1]
         max_chroma = min(ma_limit_mcw, ma_limit_mccw, ma_limit_pcw,
                          ma_limit_pccw)
     else:

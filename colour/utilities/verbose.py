@@ -9,11 +9,15 @@ Defines verbose related objects.
 from __future__ import division, unicode_literals
 
 import numpy as np
+import sys
+import traceback
 import warnings
 from contextlib import contextmanager
 from itertools import chain
 from textwrap import TextWrapper
-from warnings import filterwarnings, warn
+from warnings import filterwarnings, formatwarning, warn
+
+from colour.utilities.documentation import DocstringInt
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -23,8 +27,8 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'ColourWarning', 'message_box', 'warning', 'filter_warnings',
-    'suppress_warnings', 'numpy_print_options'
+    'ColourWarning', 'message_box', 'show_warning', 'warning',
+    'filter_warnings', 'suppress_warnings', 'numpy_print_options'
 ]
 
 
@@ -34,7 +38,12 @@ class ColourWarning(Warning):
     :class:`Warning`.
     """
 
-    pass
+    DOMAIN_INSPECTION = DocstringInt(1)
+    DOMAIN_INSPECTION.__doc__ = """
+    Enables or disables domain inspection warnings.
+
+    DOMAIN_INSPECTION : bool
+    """
 
 
 def message_box(message, width=79, padding=3):
@@ -115,6 +124,63 @@ def message_box(message, width=79, padding=3):
     return True
 
 
+def show_warning(message,
+                 category,
+                 path,
+                 line,
+                 file_=None,
+                 code=None,
+                 frame_range=(1, 2)):
+    """
+    Replaces :func:`warnings.showwarning` definition to allow traceback
+    printing.
+
+    Parameters
+    ----------
+    message : unicode
+        Warning message.
+    category : Warning
+        :class:`Warning` sub-class.
+    path : unicode
+        File path to read the line at ``lineno`` from if ``line`` is None.
+    line : int
+        Line number to read the line at in ``filename`` if ``line`` is None.
+    file_ : file, optional
+        :class:`file` object to write the warning to, defaults to
+        :attr:`sys.stderr` attribute.
+    code : unicode, optional
+        Source code to be included in the warning message.
+    frame_range : array_like, optional
+        Traceback frame range, i.e first frame and numbers of frame above it.
+    """
+
+    if file_ is None:
+        file_ = sys.stderr
+        if file_ is None:
+            return
+
+    try:
+        # Generating a traceback to print useful warning origin.
+        frame_in, frame_out = frame_range
+
+        try:
+            raise ZeroDivisionError
+        except ZeroDivisionError:
+            frame = sys.exc_info()[2].tb_frame.f_back
+            while frame_in:
+                frame = frame.f_back
+                frame_in -= 1
+
+        traceback.print_stack(frame, frame_out, file_)
+
+        file_.write(formatwarning(message, category, path, line, code))
+    except (IOError, UnicodeError):
+        pass
+
+
+warnings.showwarning = show_warning
+
+
 def warning(*args, **kwargs):
     """
     Issues a warning.
@@ -170,6 +236,15 @@ def filter_warnings(state=True, colour_warnings_only=True):
     >>> filter_warnings(colour_warnings_only=False)
     True
     """
+
+    if not hasattr(ColourWarning, '_DOMAIN_INSPECTION'):
+        ColourWarning._DOMAIN_INSPECTION = ColourWarning.DOMAIN_INSPECTION
+
+    if state:
+        ColourWarning._DOMAIN_INSPECTION = ColourWarning.DOMAIN_INSPECTION
+        ColourWarning.DOMAIN_INSPECTION = False
+    else:
+        ColourWarning.DOMAIN_INSPECTION = ColourWarning._DOMAIN_INSPECTION
 
     filterwarnings(
         'ignore' if state else 'default',

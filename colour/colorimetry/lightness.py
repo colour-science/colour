@@ -63,8 +63,9 @@ import numpy as np
 
 from colour.biochemistry import reaction_rate_MichealisMenten
 from colour.constants import CIE_E, CIE_K
-from colour.utilities import (CaseInsensitiveMapping, as_numeric,
-                              filter_kwargs, warning)
+from colour.utilities import (
+    CaseInsensitiveMapping, as_numeric, filter_kwargs, from_range_100,
+    get_domain_range_scale, to_domain_1, to_domain_100, warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -110,11 +111,11 @@ def lightness_Glasser1958(Y):
     36.2505626...
     """
 
-    Y = np.asarray(Y)
+    Y = to_domain_100(Y)
 
     L = 25.29 * (Y ** (1 / 3)) - 18.38
 
-    return L
+    return from_range_100(L)
 
 
 def lightness_Wyszecki1963(Y):
@@ -148,7 +149,7 @@ def lightness_Wyszecki1963(Y):
     37.0041149...
     """
 
-    Y = np.asarray(Y)
+    Y = to_domain_100(Y)
 
     if np.any(Y < 1) or np.any(Y > 98):
         warning(('"W*" Lightness computation is only applicable for '
@@ -156,7 +157,7 @@ def lightness_Wyszecki1963(Y):
 
     W = 25 * (Y ** (1 / 3)) - 17
 
-    return W
+    return from_range_100(W)
 
 
 def lightness_CIE1976(Y, Y_n=100):
@@ -194,15 +195,15 @@ def lightness_CIE1976(Y, Y_n=100):
     37.9856290...
     """
 
-    Y = np.asarray(Y)
-    Y_n = np.asarray(Y_n)
+    Y = to_domain_100(Y)
+    Y_n = to_domain_100(Y_n)
 
     Lstar = Y / Y_n
 
     Lstar = as_numeric(
         np.where(Lstar <= CIE_E, CIE_K * Lstar, 116 * Lstar ** (1 / 3) - 16))
 
-    return Lstar
+    return from_range_100(Lstar)
 
 
 def lightness_Fairchild2010(Y, epsilon=1.836):
@@ -230,6 +231,7 @@ def lightness_Fairchild2010(Y, epsilon=1.836):
     Notes
     -----
     -   Input *luminance* :math:`Y` is normalised to domain [0, 1].
+    -   Output *Lightness* :math:`L_{hdr}` is normalised to range [0, 100].
 
     References
     ----------
@@ -241,14 +243,14 @@ def lightness_Fairchild2010(Y, epsilon=1.836):
     24.9022902...
     """
 
-    maximum_perception = 100
+    Y = to_domain_1(Y)
 
-    Y = np.asarray(Y)
+    maximum_perception = 100
 
     L_hdr = reaction_rate_MichealisMenten(Y ** epsilon, maximum_perception,
                                           0.184 ** epsilon) + 0.02
 
-    return L_hdr
+    return from_range_100(L_hdr)
 
 
 def lightness_Fairchild2011(Y, epsilon=0.710, method='hdr-CIELAB'):
@@ -275,6 +277,7 @@ def lightness_Fairchild2011(Y, epsilon=0.710, method='hdr-CIELAB'):
     Notes
     -----
     -   Input *luminance* :math:`Y` is normalised to domain [0, 1].
+    -   Output *Lightness* :math:`L_{hdr}` is normalised to range [0, 100].
 
     References
     ----------
@@ -289,7 +292,7 @@ def lightness_Fairchild2011(Y, epsilon=0.710, method='hdr-CIELAB'):
     26.3524672...
     """
 
-    Y = np.asarray(Y)
+    Y = to_domain_1(Y)
 
     if method.lower() == 'hdr-cielab':
         maximum_perception = 247
@@ -299,7 +302,7 @@ def lightness_Fairchild2011(Y, epsilon=0.710, method='hdr-CIELAB'):
     L_hdr = reaction_rate_MichealisMenten(Y ** epsilon, maximum_perception, 2
                                           ** epsilon) + 0.02
 
-    return L_hdr
+    return from_range_100(L_hdr)
 
 
 LIGHTNESS_METHODS = CaseInsensitiveMapping({
@@ -393,9 +396,14 @@ def lightness(Y, method='CIE 1976', **kwargs):
     24.9022902...
     """
 
+    Y = np.asarray(Y)
+
     function = LIGHTNESS_METHODS[method]
 
-    if function in (lightness_Fairchild2010, lightness_Fairchild2011):
-        Y = np.asarray(Y) / 100
+    domain_range_reference = get_domain_range_scale() == 'reference'
+    domain_1 = (lightness_Fairchild2010, lightness_Fairchild2011)
+
+    if function in domain_1 and domain_range_reference:
+        Y = Y / 100
 
     return function(Y, **filter_kwargs(function, **kwargs))

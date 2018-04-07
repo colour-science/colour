@@ -29,6 +29,7 @@ from scipy.optimize import minimize
 from colour.colorimetry import (STANDARD_OBSERVERS_CMFS,
                                 SpectralPowerDistribution, SpectralShape,
                                 ones_spd, spectral_to_XYZ_integration)
+from colour.utilities import to_domain_1, from_range_100
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -146,7 +147,7 @@ def XYZ_to_spectral_Meng2015(
     array([ 0.0705100...,  0.1007987...,  0.0956738...])
     """
 
-    XYZ = np.asarray(XYZ)
+    XYZ = to_domain_1(XYZ)
     shape = SpectralShape(cmfs.shape.start, cmfs.shape.end, interval)
     cmfs = cmfs.copy().align(shape)
     illuminant = ones_spd(shape)
@@ -181,8 +182,10 @@ def XYZ_to_spectral_Meng2015(
         method='SLSQP',
         constraints=constraints,
         bounds=bounds,
-        options={'ftol': tolerance,
-                 'maxiter': maximum_iterations})
+        options={
+            'ftol': tolerance,
+            'maxiter': maximum_iterations
+        })
 
     if not result.success:
         raise RuntimeError(
@@ -190,5 +193,6 @@ def XYZ_to_spectral_Meng2015(
                 XYZ, result.nit, result.message))
 
     return SpectralPowerDistribution(
-        dict(zip(wavelengths, result.x * 100)),
+        from_range_100(result.x * 100),
+        wavelengths,
         name='Meng (2015) - {0}'.format(XYZ))

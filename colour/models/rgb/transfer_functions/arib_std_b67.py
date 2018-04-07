@@ -28,7 +28,8 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import Structure, as_numeric
+from colour.utilities import (Structure, as_numeric, domain_range_scale,
+                              from_range_1, to_domain_1)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -80,7 +81,7 @@ def oetf_ARIBSTDB67(E, r=0.5, constants=ARIBSTDB67_CONSTANTS):
     0.2121320...
     """
 
-    E = np.asarray(E)
+    E = to_domain_1(E)
 
     a = constants.a
     b = constants.b
@@ -88,7 +89,7 @@ def oetf_ARIBSTDB67(E, r=0.5, constants=ARIBSTDB67_CONSTANTS):
 
     E_p = np.where(E <= 1, r * np.sqrt(E), a * np.log(E - b) + c)
 
-    return as_numeric(E_p)
+    return as_numeric(from_range_1(E_p))
 
 
 def oetf_reverse_ARIBSTDB67(E_p, r=0.5, constants=ARIBSTDB67_CONSTANTS):
@@ -122,13 +123,14 @@ def oetf_reverse_ARIBSTDB67(E_p, r=0.5, constants=ARIBSTDB67_CONSTANTS):
     0.1799999...
     """
 
-    E_p = np.asarray(E_p)
+    E_p = to_domain_1(E_p)
 
     a = constants.a
     b = constants.b
     c = constants.c
 
-    E = np.where(E_p <= oetf_ARIBSTDB67(1), (E_p / r) ** 2,
-                 np.exp((E_p - c) / a) + b)
+    with domain_range_scale('ignore'):
+        E = np.where(E_p <= oetf_ARIBSTDB67(1), (E_p / r) ** 2,
+                     np.exp((E_p - c) / a) + b)
 
-    return as_numeric(E)
+    return as_numeric(from_range_1(E))

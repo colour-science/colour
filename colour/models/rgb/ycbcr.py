@@ -56,7 +56,8 @@ import numpy as np
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.models.rgb.transfer_functions import (CV_range, oetf_BT2020,
                                                   eotf_BT2020)
-from colour.utilities import CaseInsensitiveMapping, tsplit, tstack
+from colour.utilities import (CaseInsensitiveMapping, domain_range_scale,
+                              from_range_1, to_domain_1, tsplit, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -272,7 +273,11 @@ def RGB_to_YCbCr(RGB,
     array([ 36, 136, 175])
     """
 
-    RGB = np.asarray(RGB)
+    if in_int:
+        RGB = np.asarray(RGB)
+    else:
+        RGB = to_domain_1(RGB)
+
     Kr, Kb = K
     RGB_min, RGB_max = kwargs.get('in_range',
                                   CV_range(in_bits, in_legal, in_int))
@@ -295,7 +300,7 @@ def RGB_to_YCbCr(RGB,
     Cr += (C_max + C_min) / 2
 
     YCbCr = tstack((Y, Cb, Cr))
-    YCbCr = np.round(YCbCr).astype(np.int_) if out_int else YCbCr
+    YCbCr = np.round(YCbCr).astype(np.int_) if out_int else from_range_1(YCbCr)
 
     return YCbCr
 
@@ -380,7 +385,11 @@ def YCbCr_to_RGB(YCbCr,
     array([ 0.5,  0.5,  0.5])
     """
 
-    YCbCr = np.asarray(YCbCr)
+    if in_int:
+        YCbCr = np.asarray(YCbCr)
+    else:
+        YCbCr = to_domain_1(YCbCr)
+
     Y, Cb, Cr = tsplit(YCbCr.astype(DEFAULT_FLOAT_DTYPE))
     Kr, Kb = K
     Y_min, Y_max, C_min, C_max = kwargs.get('in_range',
@@ -402,7 +411,7 @@ def YCbCr_to_RGB(YCbCr,
     RGB = tstack((R, G, B))
     RGB *= RGB_max - RGB_min
     RGB += RGB_min
-    RGB = np.round(RGB).astype(np.int_) if out_int else RGB
+    RGB = np.round(RGB).astype(np.int_) if out_int else from_range_1(RGB)
 
     return RGB
 
@@ -467,16 +476,18 @@ def RGB_to_YcCbcCrc(RGB,
     array([422, 512, 512])
     """
 
-    RGB = np.asarray(RGB)
-    R, G, B = tsplit(RGB)
+    R, G, B = tsplit(to_domain_1(RGB))
     Y_min, Y_max, C_min, C_max = kwargs.get('out_range',
                                             YCbCr_ranges(
                                                 out_bits, out_legal, out_int))
 
     Yc = 0.2627 * R + 0.6780 * G + 0.0593 * B
-    Yc = oetf_BT2020(Yc, is_12_bits_system=is_12_bits_system)
-    R = oetf_BT2020(R, is_12_bits_system=is_12_bits_system)
-    B = oetf_BT2020(B, is_12_bits_system=is_12_bits_system)
+
+    with domain_range_scale('ignore'):
+        Yc = oetf_BT2020(Yc, is_12_bits_system=is_12_bits_system)
+        R = oetf_BT2020(R, is_12_bits_system=is_12_bits_system)
+        B = oetf_BT2020(B, is_12_bits_system=is_12_bits_system)
+
     Cbc = np.where((B - Yc) <= 0, (B - Yc) / 1.9404, (B - Yc) / 1.5816)
     Crc = np.where((R - Yc) <= 0, (R - Yc) / 1.7184, (R - Yc) / 0.9936)
     Yc *= Y_max - Y_min
@@ -487,7 +498,8 @@ def RGB_to_YcCbcCrc(RGB,
     Crc += (C_max + C_min) / 2
 
     YcCbcCrc = tstack((Yc, Cbc, Crc))
-    YcCbcCrc = np.round(YcCbcCrc).astype(np.int_) if out_int else YcCbcCrc
+    YcCbcCrc = (np.round(YcCbcCrc).astype(np.int_)
+                if out_int else from_range_1(YcCbcCrc))
 
     return YcCbcCrc
 
@@ -552,7 +564,11 @@ def YcCbcCrc_to_RGB(YcCbcCrc,
     array([ 0.1800903...,  0.1800903...,  0.1800903...])
     """
 
-    YcCbcCrc = np.asarray(YcCbcCrc)
+    if in_int:
+        YcCbcCrc = np.asarray(YcCbcCrc)
+    else:
+        YcCbcCrc = to_domain_1(YcCbcCrc)
+
     Yc, Cbc, Crc = tsplit(YcCbcCrc.astype(DEFAULT_FLOAT_DTYPE))
     Y_min, Y_max, C_min, C_max = kwargs.get('in_range',
                                             YCbCr_ranges(
@@ -566,11 +582,14 @@ def YcCbcCrc_to_RGB(YcCbcCrc,
     Crc *= 1 / (C_max - C_min)
     B = np.where(Cbc <= 0, Cbc * 1.9404 + Yc, Cbc * 1.5816 + Yc)
     R = np.where(Crc <= 0, Crc * 1.7184 + Yc, Crc * 0.9936 + Yc)
-    Yc = eotf_BT2020(Yc, is_12_bits_system=is_12_bits_system)
-    B = eotf_BT2020(B, is_12_bits_system=is_12_bits_system)
-    R = eotf_BT2020(R, is_12_bits_system=is_12_bits_system)
+
+    with domain_range_scale('ignore'):
+        Yc = eotf_BT2020(Yc, is_12_bits_system=is_12_bits_system)
+        B = eotf_BT2020(B, is_12_bits_system=is_12_bits_system)
+        R = eotf_BT2020(R, is_12_bits_system=is_12_bits_system)
+
     G = (Yc - 0.0593 * B - 0.2627 * R) / 0.6780
 
     RGB = tstack((R, G, B))
 
-    return RGB
+    return from_range_1(RGB)

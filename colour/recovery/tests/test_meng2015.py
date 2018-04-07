@@ -11,6 +11,7 @@ import unittest
 from colour.colorimetry import (STANDARD_OBSERVERS_CMFS, SpectralShape,
                                 spectral_to_XYZ_integration)
 from colour.recovery import XYZ_to_spectral_Meng2015
+from colour.utilities import domain_range_scale
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -68,6 +69,25 @@ class TestXYZ_to_spectral_Meng2015(unittest.TestCase):
                 XYZ_to_spectral_Meng2015(XYZ, cmfs=cmfs_c), cmfs=cmfs_c) / 100,
             XYZ,
             decimal=7)
+
+    def test_domain_range_scale_XYZ_to_spectral_Meng2015(self):
+        """
+        Tests :func:`colour.recovery.meng2015.XYZ_to_spectral_Meng2015`
+        definition domain and range scale support.
+        """
+
+        XYZ_i = np.array([0.07049534, 0.10080000, 0.09558313])
+        XYZ_o = spectral_to_XYZ_integration(
+            XYZ_to_spectral_Meng2015(XYZ_i))
+
+        d_r = (('reference', 1, 1), (1, 1, 0.01), (100, 100, 1))
+        for scale, factor_a, factor_b in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    spectral_to_XYZ_integration(
+                        XYZ_to_spectral_Meng2015(XYZ_i * factor_a)),
+                    XYZ_o * factor_b,
+                    decimal=7)
 
 
 if __name__ == '__main__':

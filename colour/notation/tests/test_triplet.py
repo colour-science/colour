@@ -10,7 +10,7 @@ import unittest
 from itertools import permutations
 
 from colour.notation.triplet import (RGB_to_HEX, HEX_to_RGB)
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -62,6 +62,20 @@ class TestRGB_to_HEX(unittest.TestCase):
         RGB = np.reshape(RGB, (2, 3, 3))
         HEX = np.reshape(HEX, (2, 3))
         self.assertListEqual(RGB_to_HEX(RGB).tolist(), HEX.tolist())
+
+    def test_domain_range_scale_RGB_to_HEX(self):
+        """
+        Tests :func:`colour.notation.triplet.RGB_to_HEX` definition domain and
+        range scale support.
+        """
+
+        RGB = np.array([0.25000000, 0.60000000, 0.05000000])
+        HEX = RGB_to_HEX(RGB)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                self.assertEqual(RGB_to_HEX(RGB * factor), HEX)
 
     @ignore_numpy_errors
     def test_nan_RGB_to_HEX(self):
@@ -120,6 +134,21 @@ class TestHEX_to_RGB(unittest.TestCase):
         HEX = np.reshape(HEX, (2, 3))
         RGB = np.reshape(RGB, (2, 3, 3))
         np.testing.assert_almost_equal(HEX_to_RGB(HEX), RGB, decimal=2)
+
+    def test_domain_range_scale_HEX_to_RGB(self):
+        """
+        Tests :func:`colour.notation.triplet.HEX_to_RGB` definition domain and
+        range scale support.
+        """
+
+        HEX = '#3f990c'
+        RGB = HEX_to_RGB(HEX)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    HEX_to_RGB(HEX), RGB * factor, decimal=2)
 
 
 if __name__ == '__main__':

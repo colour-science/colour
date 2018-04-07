@@ -12,7 +12,7 @@ from itertools import permutations
 from colour.models.rgb.ycbcr import (RGB_to_YCbCr, YCbCr_to_RGB,
                                      RGB_to_YcCbcCrc, YcCbcCrc_to_RGB,
                                      YCBCR_WEIGHTS)
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -98,6 +98,21 @@ class TestRGB_to_YCbCr(unittest.TestCase):
         YCbCr = np.reshape(YCbCr, (4, 4, 4, 3))
         np.testing.assert_almost_equal(RGB_to_YCbCr(RGB), YCbCr)
 
+    def test_domain_range_scale_RGB_to_YCbCr(self):
+        """
+        Tests :func:`colour.models.rgb.prismatic.RGB_to_YCbCr` definition
+        domain and range scale support.
+        """
+
+        RGB = np.array([0.75, 0.5, 0.25])
+        YCbCr = RGB_to_YCbCr(RGB)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    RGB_to_YCbCr(RGB * factor), YCbCr * factor, decimal=7)
+
     @ignore_numpy_errors
     def test_nan_RGB_to_YCbCr(self):
         """
@@ -177,6 +192,21 @@ class TestYCbCr_to_RGB(unittest.TestCase):
         YCbCr = np.reshape(YCbCr, (4, 4, 4, 3))
         np.testing.assert_almost_equal(YCbCr_to_RGB(YCbCr), RGB)
 
+    def test_domain_range_scale_YCbCr_to_RGB(self):
+        """
+        Tests :func:`colour.models.rgb.prismatic.YCbCr_to_RGB` definition
+        domain and range scale support.
+        """
+
+        YCbCr = np.array([0.52230157, 0.36699593, 0.62183309])
+        RGB = YCbCr_to_RGB(YCbCr)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    YCbCr_to_RGB(YCbCr * factor), RGB * factor, decimal=7)
+
     @ignore_numpy_errors
     def test_nan_YCbCr_to_RGB(self):
         """
@@ -249,6 +279,23 @@ class TestRGB_to_YcCbcCrc(unittest.TestCase):
         np.testing.assert_almost_equal(
             RGB_to_YcCbcCrc(RGB), YcCbcCrc, decimal=7)
 
+    def test_domain_range_scale_RGB_to_YcCbcCrc(self):
+        """
+        Tests :func:`colour.models.rgb.prismatic.RGB_to_YcCbcCrc` definition
+        domain and range scale support.
+        """
+
+        RGB = np.array([0.75, 0.5, 0.25])
+        YcCbcCrc = RGB_to_YcCbcCrc(RGB)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    RGB_to_YcCbcCrc(RGB * factor),
+                    YcCbcCrc * factor,
+                    decimal=7)
+
     @ignore_numpy_errors
     def test_nan_RGB_to_YcCbcCrc(self):
         """
@@ -320,6 +367,23 @@ class TestYcCbcCrc_to_RGB(unittest.TestCase):
         YcCbcCrc = np.reshape(YcCbcCrc, (4, 4, 4, 3))
         np.testing.assert_almost_equal(
             YcCbcCrc_to_RGB(YcCbcCrc), RGB, decimal=7)
+
+    def test_domain_range_scale_YcCbcCrc_to_RGB(self):
+        """
+        Tests :func:`colour.models.rgb.prismatic.YcCbcCrc_to_RGB` definition
+        domain and range scale support.
+        """
+
+        YcCbcCrc = np.array([0.69943807, 0.38814348, 0.61264549])
+        RGB = YcCbcCrc_to_RGB(YcCbcCrc)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    YcCbcCrc_to_RGB(YcCbcCrc * factor),
+                    RGB * factor,
+                    decimal=7)
 
     @ignore_numpy_errors
     def test_nan_YcCbcCrc_to_RGB(self):

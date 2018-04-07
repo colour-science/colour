@@ -35,7 +35,8 @@ from colour.colorimetry import (
     luminance_Fairchild2011)
 from colour.models.ipt import (IPT_XYZ_TO_LMS_MATRIX, IPT_LMS_TO_XYZ_MATRIX,
                                IPT_LMS_TO_IPT_MATRIX, IPT_IPT_TO_LMS_MATRIX)
-from colour.utilities import dot_vector
+from colour.utilities import (domain_range_scale, from_range_1, from_range_100,
+                              to_domain_1, to_domain_100, dot_vector)
 from colour.utilities.documentation import DocstringTuple
 
 __author__ = 'Colour Developers'
@@ -157,6 +158,8 @@ def XYZ_to_hdr_IPT(XYZ, Y_s=0.2, Y_abs=100, method='Fairchild 2011'):
     array([ 94.6592917...,   0.3804177...,  -0.2673118...])
     """
 
+    XYZ = to_domain_1(XYZ)
+
     method_l = method.lower()
     assert method.lower() in [
         m.lower() for m in HDR_IPT_METHODS
@@ -171,10 +174,14 @@ def XYZ_to_hdr_IPT(XYZ, Y_s=0.2, Y_abs=100, method='Fairchild 2011'):
     e = exponent_hdr_IPT(Y_s, Y_abs, method)[..., np.newaxis]
 
     LMS = dot_vector(IPT_XYZ_TO_LMS_MATRIX, XYZ)
-    LMS_prime = np.sign(LMS) * np.abs(lightness_callable(LMS, e))
+
+    # Domain and range scaling has already be handled.
+    with domain_range_scale('ignore'):
+        LMS_prime = np.sign(LMS) * np.abs(lightness_callable(LMS, e))
+
     IPT = dot_vector(IPT_LMS_TO_IPT_MATRIX, LMS_prime)
 
-    return IPT
+    return from_range_100(IPT)
 
 
 def hdr_IPT_to_XYZ(IPT_hdr, Y_s=0.2, Y_abs=100, method='Fairchild 2011'):
@@ -216,6 +223,8 @@ def hdr_IPT_to_XYZ(IPT_hdr, Y_s=0.2, Y_abs=100, method='Fairchild 2011'):
     array([ 0.9690723...,  1.        ,  1.1217921...])
     """
 
+    IPT_hdr = to_domain_100(IPT_hdr)
+
     method_l = method.lower()
     assert method.lower() in [
         m.lower() for m in HDR_IPT_METHODS
@@ -230,7 +239,11 @@ def hdr_IPT_to_XYZ(IPT_hdr, Y_s=0.2, Y_abs=100, method='Fairchild 2011'):
     e = exponent_hdr_IPT(Y_s, Y_abs, method)[..., np.newaxis]
 
     LMS = dot_vector(IPT_IPT_TO_LMS_MATRIX, IPT_hdr)
-    LMS_prime = np.sign(LMS) * np.abs(luminance_callable(LMS, e))
+
+    # Domain and range scaling has already be handled.
+    with domain_range_scale('ignore'):
+        LMS_prime = np.sign(LMS) * np.abs(luminance_callable(LMS, e))
+
     XYZ = dot_vector(IPT_LMS_TO_XYZ_MATRIX, LMS_prime)
 
-    return XYZ
+    return from_range_1(XYZ)

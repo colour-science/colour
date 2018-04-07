@@ -16,7 +16,7 @@ from colour.models.rgb.transfer_functions import (
     eotf_reverse_BT2100_HLG, ootf_BT2100_HLG, ootf_reverse_BT2100_HLG)
 from colour.models.rgb.transfer_functions.itur_bt_2100 import (
     function_gamma_BT2100_HLG)
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -78,6 +78,21 @@ oetf_BT2100_PQ` definition n-dimensional arrays support.
         E_p = np.reshape(E_p, (2, 3, 1))
         np.testing.assert_almost_equal(oetf_BT2100_PQ(E), E_p, decimal=7)
 
+    def test_domain_range_scale_oetf_BT2100_PQ(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
+oetf_BT2100_PQ` definition domain and range scale support.
+        """
+
+        E = 0.1
+        E_p = oetf_BT2100_PQ(E)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    oetf_BT2100_PQ(E * factor), E_p * factor, decimal=7)
+
     @ignore_numpy_errors
     def test_nan_oetf_BT2100_PQ(self):
         """
@@ -135,6 +150,23 @@ oetf_reverse_BT2100_PQ` definition n-dimensional arrays support.
         np.testing.assert_almost_equal(
             oetf_reverse_BT2100_PQ(E_p), E, decimal=7)
 
+    def test_domain_range_scale_oetf_reverse_BT2100_PQ(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
+oetf_reverse_BT2100_PQ` definition domain and range scale support.
+        """
+
+        E_p = 0.724769816665726
+        E = oetf_reverse_BT2100_PQ(E_p)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    oetf_reverse_BT2100_PQ(E_p * factor),
+                    E * factor,
+                    decimal=7)
+
     @ignore_numpy_errors
     def test_nan_oetf_reverse_BT2100_PQ(self):
         """
@@ -186,6 +218,21 @@ eotf_BT2100_PQ` definition n-dimensional arrays support.
         E_p = np.reshape(E_p, (2, 3, 1))
         F_D = np.reshape(F_D, (2, 3, 1))
         np.testing.assert_almost_equal(eotf_BT2100_PQ(E_p), F_D, decimal=7)
+
+    def test_domain_range_scale_eotf_BT2100_PQ(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
+eotf_BT2100_PQ` definition domain and range scale support.
+        """
+
+        E_p = 0.724769816665726
+        F_D = eotf_BT2100_PQ(E_p)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    eotf_BT2100_PQ(E_p * factor), F_D * factor, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_eotf_BT2100_PQ(self):
@@ -245,6 +292,23 @@ eotf_reverse_BT2100_PQ` definition n-dimensional arrays support.
         np.testing.assert_almost_equal(
             eotf_reverse_BT2100_PQ(F_D), E_p, decimal=7)
 
+    def test_domain_range_scale_eotf_reverse_BT2100_PQ(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
+eotf_reverse_BT2100_PQ` definition domain and range scale support.
+        """
+
+        F_D = 779.98836083408537
+        E_p = eotf_reverse_BT2100_PQ(F_D)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    eotf_reverse_BT2100_PQ(F_D * factor),
+                    E_p * factor,
+                    decimal=7)
+
     @ignore_numpy_errors
     def test_nan_eotf_reverse_BT2100_PQ(self):
         """
@@ -297,6 +361,21 @@ ootf_BT2100_PQ` definition n-dimensional arrays support.
         E = np.reshape(E, (2, 3, 1))
         F_D = np.reshape(F_D, (2, 3, 1))
         np.testing.assert_almost_equal(ootf_BT2100_PQ(E), F_D, decimal=7)
+
+    def test_domain_range_scale_ootf_BT2100_PQ(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
+ootf_BT2100_PQ` definition domain and range scale support.
+        """
+
+        E = 0.1
+        F_D = ootf_BT2100_PQ(E)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    ootf_BT2100_PQ(E * factor), F_D * factor, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_ootf_BT2100_PQ(self):
@@ -353,6 +432,23 @@ ootf_reverse_BT2100_PQ` definition n-dimensional arrays support.
         E = np.reshape(E, (2, 3, 1))
         np.testing.assert_almost_equal(
             ootf_reverse_BT2100_PQ(F_D), E, decimal=7)
+
+    def test_domain_range_scale_ootf_reverse_BT2100_PQ(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
+ootf_reverse_BT2100_PQ` definition domain and range scale support.
+        """
+
+        F_D = 779.98836083411584
+        E = ootf_reverse_BT2100_PQ(F_D)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    ootf_reverse_BT2100_PQ(F_D * factor),
+                    E * factor,
+                    decimal=7)
 
     @ignore_numpy_errors
     def test_nan_ootf_reverse_BT2100_PQ(self):
@@ -432,6 +528,21 @@ oetf_BT2100_HLG` definition n-dimensional arrays support.
         E_p = np.reshape(E_p, (2, 3, 1))
         np.testing.assert_almost_equal(oetf_BT2100_HLG(E), E_p, decimal=7)
 
+    def test_domain_range_scale_oetf_BT2100_HLG(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
+oetf_BT2100_HLG` definition domain and range scale support.
+        """
+
+        E = 0.18 / 12
+        E_p = oetf_BT2100_HLG(E)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    oetf_BT2100_HLG(E * factor), E_p * factor, decimal=7)
+
     @ignore_numpy_errors
     def test_nan_oetf_BT2100_HLG(self):
         """
@@ -487,6 +598,23 @@ oetf_reverse_BT2100_HLG` definition n-dimensional arrays support.
         E = np.reshape(E, (2, 3, 1))
         np.testing.assert_almost_equal(
             oetf_reverse_BT2100_HLG(E_p), E, decimal=7)
+
+    def test_domain_range_scale_oetf_reverse_BT2100_HLG(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
+oetf_reverse_BT2100_HLG` definition domain and range scale support.
+        """
+
+        E_p = 0.212132034355964
+        E = oetf_reverse_BT2100_HLG(E_p)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    oetf_reverse_BT2100_HLG(E_p * factor),
+                    E * factor,
+                    decimal=7)
 
     @ignore_numpy_errors
     def test_nan_oetf_reverse_BT2100_HLG(self):
@@ -561,6 +689,21 @@ eotf_BT2100_HLG` definition n-dimensional arrays support.
         E_p = np.reshape(E_p, (2, 3, 3))
         F_D = np.reshape(F_D, (2, 3, 3))
         np.testing.assert_almost_equal(eotf_BT2100_HLG(E_p), F_D, decimal=7)
+
+    def test_domain_range_scale_eotf_BT2100_HLG(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
+eotf_BT2100_HLG` definition domain and range scale support.
+        """
+
+        E_p = 0.212132034355964
+        F_D = eotf_BT2100_HLG(E_p)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    eotf_BT2100_HLG(E_p * factor), F_D * factor, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_eotf_BT2100_HLG(self):
@@ -645,6 +788,23 @@ eotf_reverse_BT2100_HLG` definition n-dimensional arrays support.
         np.testing.assert_almost_equal(
             eotf_reverse_BT2100_HLG(F_D), E_p, decimal=7)
 
+    def test_domain_range_scale_eotf_reverse_BT2100_HLG(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
+eotf_reverse_BT2100_HLG` definition domain and range scale support.
+        """
+
+        F_D = 6.476039825649814
+        E_p = eotf_reverse_BT2100_HLG(F_D)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    eotf_reverse_BT2100_HLG(F_D * factor),
+                    E_p * factor,
+                    decimal=7)
+
     @ignore_numpy_errors
     def test_nan_eotf_reverse_BT2100_HLG(self):
         """
@@ -684,7 +844,7 @@ ootf_BT2100_HLG` definition.
             [[45.884942278760597, 0.000000000000000, -45.884942278760597],
              [-63.095734448019336, -63.095734448019336, -63.095734448019336],
              [63.095734448019336, 63.095734448019336, 63.095734448019336],
-             [51.320396090100672, -51.320396090100672, 51.320396090100672]]
+             [51.320396090100672, -51.320396090100672, 51.320396090100672]],
         )  # yapf: disable
         np.testing.assert_almost_equal(
             ootf_BT2100_HLG(
@@ -730,6 +890,21 @@ ootf_BT2100_HLG` definition n-dimensional arrays support.
         E = np.reshape(E, (2, 3, 3))
         F_D = np.reshape(F_D, (2, 3, 3))
         np.testing.assert_almost_equal(ootf_BT2100_HLG(E), F_D, decimal=7)
+
+    def test_domain_range_scale_ootf_BT2100_HLG(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
+ootf_BT2100_HLG` definition domain and range scale support.
+        """
+
+        E = 0.1
+        F_D = ootf_BT2100_HLG(E)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    ootf_BT2100_HLG(E * factor), F_D * factor, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_ootf_BT2100_HLG(self):
@@ -822,6 +997,23 @@ ootf_reverse_BT2100_HLG` definition n-dimensional arrays support.
         E = np.reshape(E, (2, 3, 3))
         np.testing.assert_almost_equal(
             ootf_reverse_BT2100_HLG(F_D), E, decimal=7)
+
+    def test_domain_range_scale_ootf_reverse_BT2100_HLG(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_2100.\
+ootf_reverse_BT2100_HLG` definition domain and range scale support.
+        """
+
+        F_D = 63.095734448019336
+        E = ootf_reverse_BT2100_HLG(F_D)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    ootf_reverse_BT2100_HLG(F_D * factor),
+                    E * factor,
+                    decimal=7)
 
     @ignore_numpy_errors
     def test_nan_ootf_reverse_BT2100_HLG(self):

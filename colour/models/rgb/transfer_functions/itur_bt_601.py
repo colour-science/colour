@@ -29,7 +29,8 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import as_numeric
+from colour.utilities import (as_numeric, domain_range_scale, from_range_1,
+                              to_domain_1)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -54,7 +55,7 @@ def oetf_BT601(L):
     Returns
     -------
     numeric or ndarray
-        Corresponding electrical signal :math:`Es`.
+        Corresponding electrical signal :math:`E`.
 
     References
     ----------
@@ -66,10 +67,11 @@ def oetf_BT601(L):
     0.4090077...
     """
 
-    L = np.asarray(L)
+    L = to_domain_1(L)
 
-    return as_numeric(
-        np.where(L < 0.018, L * 4.5, 1.099 * (L ** 0.45) - 0.099))
+    E = np.where(L < 0.018, L * 4.5, 1.099 * (L ** 0.45) - 0.099)
+
+    return as_numeric(from_range_1(E))
 
 
 def oetf_reverse_BT601(E):
@@ -97,8 +99,10 @@ def oetf_reverse_BT601(E):
     0.1...
     """
 
-    E = np.asarray(E)
+    E = to_domain_1(E)
 
-    return as_numeric(
-        np.where(E < oetf_BT601(0.018), E / 4.5, ((E + 0.099) / 1.099) ** (
-            1 / 0.45)))
+    with domain_range_scale('ignore'):
+        L = np.where(E < oetf_BT601(0.018), E / 4.5, ((E + 0.099) / 1.099)
+                     ** (1 / 0.45))
+
+    return as_numeric(from_range_1(L))

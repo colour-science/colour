@@ -35,7 +35,8 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import Structure, as_numeric
+from colour.utilities import (Structure, as_numeric, from_range_1,
+                              from_range_int, to_domain_int, to_domain_1)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -98,7 +99,7 @@ def oetf_DICOMGSDF(L):
     511.9964806...
     """
 
-    L = np.asarray(L)
+    L = to_domain_1(L)
 
     L_lg = np.log10(L)
 
@@ -112,10 +113,10 @@ def oetf_DICOMGSDF(L):
     H = DICOMGSDF_CONSTANTS.H
     I = DICOMGSDF_CONSTANTS.I  # noqa
 
-    L = (A + B * L_lg + C * L_lg ** 2 + D * L_lg ** 3 + E * L_lg ** 4 +
+    J = (A + B * L_lg + C * L_lg ** 2 + D * L_lg ** 3 + E * L_lg ** 4 +
          F * L_lg ** 5 + G * L_lg ** 6 + H * L_lg ** 7 + I * L_lg ** 8)
 
-    return as_numeric(L)
+    return as_numeric(from_range_int(J, 10))
 
 
 def eotf_DICOMGSDF(J):
@@ -143,7 +144,7 @@ def eotf_DICOMGSDF(J):
     130.0652840...
     """
 
-    J = np.asarray(J)
+    J = to_domain_int(J, 10)
 
     a = DICOMGSDF_CONSTANTS.a
     b = DICOMGSDF_CONSTANTS.b
@@ -166,4 +167,4 @@ def eotf_DICOMGSDF(J):
          (1 + b * J_ln + d * J_ln2 + f * J_ln3 + h * J_ln4 + k * J_ln5))
     L = 10 ** L
 
-    return as_numeric(L)
+    return as_numeric(from_range_1(L))

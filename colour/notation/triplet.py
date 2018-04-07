@@ -13,6 +13,8 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.utilities import from_range_1, to_domain_1
+
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
@@ -49,7 +51,7 @@ def RGB_to_HEX(RGB):
     '#aaddff'
     """
 
-    RGB = np.asarray(RGB)
+    RGB = to_domain_1(RGB)
 
     to_HEX = np.vectorize('{0:02x}'.format)
 
@@ -98,4 +100,4 @@ def HEX_to_RGB(HEX):
 
     RGB = np.asarray(to_RGB_v(HEX).tolist()) / 255
 
-    return RGB
+    return from_range_1(RGB)

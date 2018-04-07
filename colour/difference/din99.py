@@ -25,6 +25,7 @@ from __future__ import division, unicode_literals
 
 from colour.algebra import euclidean_distance
 from colour.models import Lab_to_DIN99
+from colour.utilities import get_domain_range_scale
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -69,7 +70,10 @@ def delta_E_DIN99(Lab_1, Lab_2, textiles=False):
     k_E = 2 if textiles else 1
     k_CH = 0.5 if textiles else 1
 
+    factor = 100 if get_domain_range_scale() == '1' else 1
+
     d_E = euclidean_distance(
-        Lab_to_DIN99(Lab_1, k_E, k_CH), Lab_to_DIN99(Lab_2, k_E, k_CH))
+        Lab_to_DIN99(Lab_1, k_E, k_CH) * factor,
+        Lab_to_DIN99(Lab_2, k_E, k_CH) * factor)
 
     return d_E

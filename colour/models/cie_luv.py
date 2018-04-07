@@ -42,7 +42,9 @@ from colour.algebra import cartesian_to_polar, polar_to_cartesian
 from colour.colorimetry import ILLUMINANTS
 from colour.constants import CIE_E, CIE_K
 from colour.models import xy_to_xyY, xyY_to_XYZ
-from colour.utilities import tsplit, tstack
+from colour.utilities import (from_range_1, from_range_100, from_range_degrees,
+                              to_domain_1, to_domain_100, to_domain_degrees,
+                              tsplit, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -95,7 +97,8 @@ def XYZ_to_Luv(
     array([ 37.9856291..., -28.8021959...,  -1.3580070...])
     """
 
-    X, Y, Z = tsplit(XYZ)
+    X, Y, Z = tsplit(to_domain_1(XYZ))
+
     X_r, Y_r, Z_r = tsplit(xyY_to_XYZ(xy_to_xyY(illuminant)))
 
     y_r = Y / Y_r
@@ -109,7 +112,7 @@ def XYZ_to_Luv(
 
     Luv = tstack((L, u, v))
 
-    return Luv
+    return from_range_100(Luv)
 
 
 def Luv_to_XYZ(
@@ -150,7 +153,8 @@ def Luv_to_XYZ(
     array([ 0.0704953...,  0.1008    ,  0.0955831...])
     """
 
-    L, u, v = tsplit(Luv)
+    L, u, v = tsplit(to_domain_100(Luv))
+
     X_r, Y_r, Z_r = tsplit(xyY_to_XYZ(xy_to_xyY(illuminant)))
 
     Y = np.where(L > CIE_E * CIE_K, ((L + 16) / 116) ** 3, L / CIE_K)
@@ -167,7 +171,7 @@ def Luv_to_XYZ(
 
     XYZ = tstack((X, Y, Z))
 
-    return XYZ
+    return from_range_1(XYZ)
 
 
 def Luv_to_uv(
@@ -208,6 +212,8 @@ def Luv_to_uv(
     >>> Luv_to_uv(Luv)  # doctest: +ELLIPSIS
     array([ 0.1508531...,  0.4853297...])
     """
+
+    Luv = to_domain_100(Luv)
 
     X, Y, Z = tsplit(Luv_to_XYZ(Luv, illuminant))
 
@@ -329,7 +335,7 @@ def Luv_to_LCHuv(Luv):
 
     C, H = tsplit(cartesian_to_polar(tstack((u, v))))
 
-    LCHuv = tstack((L, C, np.degrees(H) % 360))
+    LCHuv = tstack((L, C, from_range_degrees(np.degrees(H) % 360)))
 
     return LCHuv
 
@@ -365,7 +371,8 @@ def LCHuv_to_Luv(LCHuv):
 
     L, C, H = tsplit(LCHuv)
 
-    u, v = tsplit(polar_to_cartesian(tstack((C, np.radians(H)))))
+    u, v = tsplit(
+        polar_to_cartesian(tstack((C, np.radians(to_domain_degrees(H))))))
 
     Luv = tstack((L, u, v))
 
