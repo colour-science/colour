@@ -31,11 +31,11 @@ import numpy as np
 from collections import namedtuple
 
 from colour.appearance.ciecam02 import (
-    P, achromatic_response_forward, achromatic_response_reverse,
-    brightness_correlate, chroma_correlate, colourfulness_correlate,
-    degree_of_adaptation, eccentricity_factor, hue_angle, hue_quadrature,
-    lightness_correlate, opponent_colour_dimensions_forward,
-    opponent_colour_dimensions_reverse,
+    CIECAM02_VIEWING_CONDITIONS, P, achromatic_response_forward,
+    achromatic_response_reverse, brightness_correlate, chroma_correlate,
+    colourfulness_correlate, degree_of_adaptation, eccentricity_factor,
+    hue_angle, hue_quadrature, lightness_correlate,
+    opponent_colour_dimensions_forward, opponent_colour_dimensions_reverse,
     post_adaptation_non_linear_response_compression_forward,
     post_adaptation_non_linear_response_compression_reverse,
     post_adaptation_non_linear_response_compression_matrix,
@@ -96,11 +96,7 @@ class CAM16_InductionFactors(
     """
 
 
-CAM16_VIEWING_CONDITIONS = CaseInsensitiveMapping({
-    'Average': CAM16_InductionFactors(1.0, 0.69, 1.0),
-    'Dim': CAM16_InductionFactors(0.9, 0.59, 0.9),
-    'Dark': CAM16_InductionFactors(0.8, 0.525, 0.8)
-})
+CAM16_VIEWING_CONDITIONS = CaseInsensitiveMapping(CIECAM02_VIEWING_CONDITIONS)
 CAM16_VIEWING_CONDITIONS.__doc__ = """
 Reference *CAM16* colour appearance model viewing conditions.
 
