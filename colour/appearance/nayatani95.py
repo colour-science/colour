@@ -853,7 +853,7 @@ def chroma_correlate(Lstar_P, S):
     Lstar_P = np.asarray(Lstar_P)
     S = np.asarray(S)
 
-    C = ((Lstar_P / 50) ** 0.7) * S
+    C = np.sign(Lstar_P) * ((np.abs(Lstar_P) / 50) ** 0.7) * S
 
     return C
 
