@@ -36,7 +36,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
-from colour.utilities.array import tsplit, tstack
+from colour.utilities.array import dot_vector, tsplit, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -280,13 +280,15 @@ def XYZ_to_LMS_ATD95(XYZ):
     array([ 6.2283272...,  7.4780666...,  3.8859772...])
     """
 
-    X, Y, Z = tsplit(XYZ)
+    LMS = dot_vector([
+        [0.2435, 0.8524, -0.0516],
+        [-0.3954, 1.1642, 0.0837],
+        [0.0000, 0.0400, 0.6225],
+    ], XYZ)
 
-    L = ((0.66 * (0.2435 * X + 0.8524 * Y - 0.0516 * Z)) ** 0.7) + 0.024
-    M = ((-0.3954 * X + 1.1642 * Y + 0.0837 * Z) ** 0.7) + 0.036
-    S = ((0.43 * (0.04 * Y + 0.6225 * Z)) ** 0.7) + 0.31
-
-    LMS = tstack((L, M, S))
+    LMS *= np.array([0.66, 1.0, 0.43])
+    LMS = np.sign(LMS) * np.abs(LMS) ** 0.7
+    LMS += np.array([0.024, 0.036, 0.31])
 
     return LMS
 
