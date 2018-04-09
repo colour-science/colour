@@ -83,14 +83,23 @@ def whiteness_Berger1959(XYZ, XYZ_0):
 
     Notes
     -----
-    -   Input *CIE XYZ* and *CIE XYZ_0* tristimulus values are normalised to
-        domain [0, 100].
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ``    | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
+    | ``XYZ_0``  | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``WI``     | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     -   *Whiteness* :math:`WI` values larger than 33.33 indicate a bluish
         white and values smaller than 33.33 indicate a yellowish white.
-
-    Warning
-    -------
-    The input domain of that definition is non standard!
 
     References
     ----------
@@ -132,8 +141,21 @@ def whiteness_Taube1960(XYZ, XYZ_0):
 
     Notes
     -----
-    -   Input *CIE XYZ* and *CIE XYZ_0* tristimulus values are normalised to
-        domain [0, 100].
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ``    | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
+    | ``XYZ_0``  | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``WI``     | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     -   *Whiteness* :math:`WI` values larger than 100 indicate a bluish
         white and values smaller than 100 indicate a yellowish white.
 
@@ -175,8 +197,23 @@ def whiteness_Stensby1968(Lab):
 
     Notes
     -----
-    -   Input *CIE L\*a\*b\** colourspace array is normalised to domain
-        [0, 100].
+
+    +------------+-----------------------+-----------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1**   |
+    +============+=======================+=================+
+    | ``Lab``    | ``L`` : [0, 100]      | ``L`` : [0, 1]  |
+    |            |                       |                 |
+    |            | ``a`` : [-100, 100]   | ``a`` : [-1, 1] |
+    |            |                       |                 |
+    |            | ``b`` : [-100, 100]   | ``b`` : [-1, 1] |
+    +------------+-----------------------+-----------------+
+
+    +------------+-----------------------+-----------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1**   |
+    +============+=======================+=================+
+    | ``WI``     | [0, 100]              | [0, 1]          |
+    +------------+-----------------------+-----------------+
+
     -   *Whiteness* :math:`WI` values larger than 100 indicate a bluish
         white and values smaller than 100 indicate a yellowish white.
 
@@ -214,13 +251,20 @@ def whiteness_ASTME313(XYZ):
     numeric or ndarray
         *Whiteness* :math:`WI`.
 
-    Warning
-    -------
-    The input domain of that definition is non standard!
-
     Notes
     -----
-    -   Input *CIE XYZ* tristimulus values are normalised to domain [0, 100].
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ``    | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``WI``     | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
@@ -259,13 +303,21 @@ def whiteness_Ganz1979(xy, Y):
     ndarray
         *Whiteness* :math:`W` and *tint* :math:`T`.
 
-    Warning
-    -------
-    The input domain of that definition is non standard!
-
     Notes
     -----
-    -   Input tristimulus :math:`Y` value is normalised to domain [0, 100].
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``Y``      | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``WT``     | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     -   The formula coefficients are valid for
         *CIE Standard Illuminant D Series* *D65* and
         *CIE 1964 10 Degree Standard Observer*.
@@ -328,13 +380,21 @@ def whiteness_CIE2004(xy,
         *Whiteness* :math:`W` or :math:`W_{10}` and *tint* :math:`T` or
         :math:`T_{10}` of given sample.
 
-    Warning
-    -------
-    The input domain of that definition is non standard!
-
     Notes
     -----
-    -   Input tristimulus :math:`Y` value is normalised to domain [0, 100].
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``Y``      | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``WT``     | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     -   This method may be used only for samples whose values of :math:`W` or
         :math:`W_{10}` lie within the following limits: greater than 40 and
         less than 5Y - 280, or 5Y10 - 280.
@@ -446,6 +506,31 @@ def whiteness(method='CIE 2004', **kwargs):
     -------
     numeric or ndarray
         *whiteness* :math:`W`.
+
+    Notes
+    -----
+
+    +------------+-----------------------+-----------------+
+    | **Domain** | **Scale - Reference** |   **Scale - 1** |
+    +============+=======================+=================+
+    | ``Lab``    | ``L`` : [0, 100]      | ``L`` : [0, 1]  |
+    |            |                       |                 |
+    |            | ``a`` : [-100, 100]   | ``a`` : [-1, 1] |
+    |            |                       |                 |
+    |            | ``b`` : [-100, 100]   | ``b`` : [-1, 1] |
+    +------------+-----------------------+-----------------+
+    | ``XYZ``    | [0, 100]              |   [0, 1]        |
+    +------------+-----------------------+-----------------+
+    | ``XYZ_0``  | [0, 100]              |   [0, 1]        |
+    +------------+-----------------------+-----------------+
+    | ``Y``      | [0, 100]              |   [0, 1]        |
+    +------------+-----------------------+-----------------+
+
+    +------------+-----------------------+-----------------+
+    | **Range**  | **Scale - Reference** |   **Scale - 1** |
+    +============+=======================+=================+
+    | ``W``      | [0, 100]              |   [0, 1]        |
+    +------------+-----------------------+-----------------+
 
     References
     ----------

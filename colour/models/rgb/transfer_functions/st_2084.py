@@ -74,10 +74,24 @@ def oetf_ST2084(C, L_p=10000, constants=ST2084_CONSTANTS):
     Returns
     -------
     numeric or ndarray
-        Color value abbreviated as :math:`N`, normalised to range [0, 1],
-        that is directly proportional to the encoded signal representation,
-        and which is not directly proportional to the optical output of a
-        display device.
+        Color value abbreviated as :math:`N`, that is directly proportional to
+        the encoded signal representation, and which is not directly
+        proportional to the optical output of a display device.
+
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``C``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``N``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
@@ -111,10 +125,9 @@ def eotf_ST2084(N, L_p=10000, constants=ST2084_CONSTANTS):
     Parameters
     ----------
     N : numeric or array_like
-        Color value abbreviated as :math:`N`, normalised to range [0, 1],
-        that is directly proportional to the encoded signal representation,
-        and which is not directly proportional to the optical output of a
-        display device.
+        Color value abbreviated as :math:`N`, that is directly proportional to
+        the encoded signal representation, and which is not directly
+        proportional to the optical output of a display device.
     L_p : numeric, optional
         Display peak luminance :math:`cd/m^2`.
     constants : Structure, optional
@@ -125,6 +138,21 @@ def eotf_ST2084(N, L_p=10000, constants=ST2084_CONSTANTS):
     numeric or ndarray
           Target optical output :math:`C` in :math:`cd/m^2` of the ideal
           reference display.
+
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``N``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``C``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------

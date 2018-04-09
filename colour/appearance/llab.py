@@ -66,8 +66,7 @@ class LLAB_InductionFactors(
     Parameters
     ----------
     D : numeric or array_like
-         *Discounting-the-Illuminant* factor :math:`D` normalised to domain
-         [0, 1].
+         *Discounting-the-Illuminant* factor :math:`D`.
     F_S : numeric or array_like
         Surround induction factor :math:`F_S`.
     F_L : numeric or array_like
@@ -245,11 +244,9 @@ def XYZ_to_LLAB(
     Parameters
     ----------
     XYZ : array_like
-        *CIE XYZ* tristimulus values of test sample / stimulus normalised to
-        domain [0, 100].
+        *CIE XYZ* tristimulus values of test sample / stimulus.
     XYZ_0 : array_like
-        *CIE XYZ* tristimulus values of reference white normalised to domain
-        [0, 100].
+        *CIE XYZ* tristimulus values of reference white.
     Y_b : numeric or array_like
         Luminance factor of the background in :math:`cd/m^2`.
     L : numeric or array_like
@@ -262,14 +259,22 @@ def XYZ_to_LLAB(
     LLAB_Specification
         *LLAB(l:c)* colour appearance model specification.
 
-    Warning
-    -------
-    The output range of that definition is non standard!
-
     Notes
     -----
-    -   Input *CIE XYZ* tristimulus values are normalised to domain [0, 100].
-    -   Input *CIE XYZ_0* tristimulus values are normalised to domain [0, 100].
+
+    +--------------------------+-----------------------+---------------+
+    | **Domain**               | **Scale - Reference** | **Scale - 1** |
+    +==========================+=======================+===============+
+    | ``XYZ``                  | [0, 100]              | [0, 1]        |
+    +--------------------------+-----------------------+---------------+
+    | ``XYZ_0``                | [0, 100]              | [0, 1]        |
+    +--------------------------+-----------------------+---------------+
+
+    +--------------------------+-----------------------+---------------+
+    | **Range**                | **Scale - Reference** | **Scale - 1** |
+    +==========================+=======================+===============+
+    | ``LLAB_Specification.h`` | [0, 360]              | [0, 1]        |
+    +--------------------------+-----------------------+---------------+
 
     References
     ----------

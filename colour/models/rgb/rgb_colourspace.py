@@ -794,12 +794,22 @@ def XYZ_to_RGB(XYZ,
 
     Notes
     -----
-    -   Input *CIE XYZ* tristimulus values are normalised to domain [0, 1].
-    -   Input *illuminant_XYZ* *xy* chromaticity coordinates or *CIE xyY*
-        colourspace array are normalised to domain [0, 1].
-    -   Input *illuminant_RGB* *xy* chromaticity coordinates or *CIE xyY*
-        colourspace array are normalised to domain [0, 1].
-    -   Output *RGB* colourspace array is normalised to range [0, 1].
+
+    +--------------------+-----------------------+---------------+
+    | **Domain**         | **Scale - Reference** | **Scale - 1** |
+    +====================+=======================+===============+
+    | ``XYZ``            | [0, 1]                | [0, 1]        |
+    +--------------------+-----------------------+---------------+
+    | ``illuminant_XYZ`` | [0, 1]                | [0, 1]        |
+    +--------------------+-----------------------+---------------+
+    | ``illuminant_RGB`` | [0, 1]                | [0, 1]        |
+    +--------------------+-----------------------+---------------+
+
+    +--------------------+-----------------------+---------------+
+    | **Range**          | **Scale - Reference** | **Scale - 1** |
+    +====================+=======================+===============+
+    | ``RGB``            | [0, 1]                | [0, 1]        |
+    +--------------------+-----------------------+---------------+
 
     Examples
     --------
@@ -874,12 +884,22 @@ def RGB_to_XYZ(RGB,
 
     Notes
     -----
-    -   Input *RGB* colourspace array is normalised to domain [0, 1].
-    -   Input *illuminant_RGB* *xy* chromaticity coordinates or *CIE xyY*
-        colourspace array are normalised to domain [0, 1].
-    -   Input *illuminant_XYZ* *xy* chromaticity coordinates or *CIE xyY*
-        colourspace array are normalised to domain [0, 1].
-    -   Output *CIE XYZ* tristimulus values are normalised to range [0, 1].
+
+    +--------------------+-----------------------+---------------+
+    | **Domain**         | **Scale - Reference** | **Scale - 1** |
+    +====================+=======================+===============+
+    | ``RGB``            | [0, 1]                | [0, 1]        |
+    +--------------------+-----------------------+---------------+
+    | ``illuminant_XYZ`` | [0, 1]                | [0, 1]        |
+    +--------------------+-----------------------+---------------+
+    | ``illuminant_RGB`` | [0, 1]                | [0, 1]        |
+    +--------------------+-----------------------+---------------+
+
+    +--------------------+-----------------------+---------------+
+    | **Range**          | **Scale - Reference** | **Scale - 1** |
+    +====================+=======================+===============+
+    | ``XYZ``            | [0, 1]                | [0, 1]        |
+    +--------------------+-----------------------+---------------+
 
     Examples
     --------
@@ -1005,10 +1025,18 @@ def RGB_to_RGB(RGB,
 
     Notes
     -----
-    -   Input / output *RGB* colourspace arrays are normalised to
-        domain / range [0, 1].
-    -   Input / output *RGB* colourspace arrays are assumed to be representing
-        linear light values.
+
+    +--------------------+-----------------------+---------------+
+    | **Domain**         | **Scale - Reference** | **Scale - 1** |
+    +====================+=======================+===============+
+    | ``RGB``            | [0, 1]                | [0, 1]        |
+    +--------------------+-----------------------+---------------+
+
+    +--------------------+-----------------------+---------------+
+    | **Range**          | **Scale - Reference** | **Scale - 1** |
+    +====================+=======================+===============+
+    | ``RGB``            | [0, 1]                | [0, 1]        |
+    +--------------------+-----------------------+---------------+
 
     Examples
     --------

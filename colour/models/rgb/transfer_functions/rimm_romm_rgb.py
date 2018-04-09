@@ -72,6 +72,24 @@ def oetf_ROMMRGB(X, bit_depth=8, out_int=False):
     numeric or ndarray
         Non-linear data :math:`X'_{ROMM}`.
 
+    Notes
+    -----
+
+    +---------------+-----------------------+---------------+
+    | **Domain \*** | **Scale - Reference** | **Scale - 1** |
+    +===============+=======================+===============+
+    | ``X``         | [0, 1]                | [0, 1]        |
+    +---------------+-----------------------+---------------+
+
+    +---------------+-----------------------+---------------+
+    | **Range \***  | **Scale - Reference** | **Scale - 1** |
+    +===============+=======================+===============+
+    | ``X_p``       | [0, 1]                | [0, 1]        |
+    +---------------+-----------------------+---------------+
+
+    -   \* This definition has an output integer switch, thus the domain-range
+        scale information is only given for the floating point mode.
+
     References
     ----------
     -   :cite:`ANSI2003a`
@@ -118,6 +136,24 @@ def eotf_ROMMRGB(X_p, bit_depth=8, in_int=False):
     -------
     numeric or ndarray
         Linear data :math:`X_{ROMM}`.
+
+    Notes
+    -----
+
+    +---------------+-----------------------+---------------+
+    | **Domain \*** | **Scale - Reference** | **Scale - 1** |
+    +===============+=======================+===============+
+    | ``X_p``       | [0, 1]                | [0, 1]        |
+    +---------------+-----------------------+---------------+
+
+    +---------------+-----------------------+---------------+
+    | **Range \***  | **Scale - Reference** | **Scale - 1** |
+    +===============+=======================+===============+
+    | ``X``         | [0, 1]                | [0, 1]        |
+    +---------------+-----------------------+---------------+
+
+    -   \* This definition has an input integer switch, thus the domain-range
+        scale information is only given for the floating point mode.
 
     References
     ----------
@@ -176,6 +212,24 @@ def oetf_RIMMRGB(X, bit_depth=8, out_int=False, E_clip=2.0):
     numeric or ndarray
         Non-linear data :math:`X'_{RIMM}`.
 
+    Notes
+    -----
+
+    +---------------+-----------------------+---------------+
+    | **Domain \*** | **Scale - Reference** | **Scale - 1** |
+    +===============+=======================+===============+
+    | ``X``         | [0, 1]                | [0, 1]        |
+    +---------------+-----------------------+---------------+
+
+    +---------------+-----------------------+---------------+
+    | **Range \***  | **Scale - Reference** | **Scale - 1** |
+    +===============+=======================+===============+
+    | ``X_p``       | [0, 1]                | [0, 1]        |
+    +---------------+-----------------------+---------------+
+
+    -   \* This definition has an output integer switch, thus the domain-range
+        scale information is only given for the floating point mode.
+
     References
     ----------
     -   :cite:`Spaulding2000b`
@@ -225,6 +279,24 @@ def eotf_RIMMRGB(X_p, bit_depth=8, in_int=False, E_clip=2.0):
     -------
     numeric or ndarray
         Linear data :math:`X_{RIMM}`.
+
+    Notes
+    -----
+
+    +---------------+-----------------------+---------------+
+    | **Domain \*** | **Scale - Reference** | **Scale - 1** |
+    +===============+=======================+===============+
+    | ``X_p``       | [0, 1]                | [0, 1]        |
+    +---------------+-----------------------+---------------+
+
+    +---------------+-----------------------+---------------+
+    | **Range \***  | **Scale - Reference** | **Scale - 1** |
+    +===============+=======================+===============+
+    | ``X``         | [0, 1]                | [0, 1]        |
+    +---------------+-----------------------+---------------+
+
+    -   \* This definition has an input integer switch, thus the domain-range
+        scale information is only given for the floating point mode.
 
     References
     ----------
@@ -284,6 +356,24 @@ def log_encoding_ERIMMRGB(X,
     -------
     numeric or ndarray
         Non-linear data :math:`X'_{ERIMM}`.
+
+    Notes
+    -----
+
+    +---------------+-----------------------+---------------+
+    | **Domain \*** | **Scale - Reference** | **Scale - 1** |
+    +===============+=======================+===============+
+    | ``X``         | [0, 1]                | [0, 1]        |
+    +---------------+-----------------------+---------------+
+
+    +---------------+-----------------------+---------------+
+    | **Range \***  | **Scale - Reference** | **Scale - 1** |
+    +===============+=======================+===============+
+    | ``X_p``       | [0, 1]                | [0, 1]        |
+    +---------------+-----------------------+---------------+
+
+    -   \* This definition has an output integer switch, thus the domain-range
+        scale information is only given for the floating point mode.
 
     References
     ----------
@@ -350,6 +440,24 @@ def log_decoding_ERIMMRGB(X_p,
     -------
     numeric or ndarray
         Linear data :math:`X_{ERIMM}`.
+
+    Notes
+    -----
+
+    +---------------+-----------------------+---------------+
+    | **Domain \*** | **Scale - Reference** | **Scale - 1** |
+    +===============+=======================+===============+
+    | ``X_p``       | [0, 1]                | [0, 1]        |
+    +---------------+-----------------------+---------------+
+
+    +---------------+-----------------------+---------------+
+    | **Range \***  | **Scale - Reference** | **Scale - 1** |
+    +===============+=======================+===============+
+    | ``X``         | [0, 1]                | [0, 1]        |
+    +---------------+-----------------------+---------------+
+
+    -   \* This definition has an input integer switch, thus the domain-range
+        scale information is only given for the floating point mode.
 
     References
     ----------

@@ -257,14 +257,11 @@ def XYZ_to_Hunt(XYZ,
     Parameters
     ----------
     XYZ : array_like
-        *CIE XYZ* tristimulus values of test sample / stimulus normalised to
-        domain [0, 100].
+        *CIE XYZ* tristimulus values of test sample / stimulus.
     XYZ_w : array_like
-        *CIE XYZ* tristimulus values of reference white normalised to domain
-        [0, 100].
+        *CIE XYZ* tristimulus values of reference white.
     XYZ_b : array_like
-        *CIE XYZ* tristimulus values of background normalised to domain
-        [0, 100].
+        *CIE XYZ* tristimulus values of background.
     L_A : numeric or array_like
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`.
     surround : Hunt_InductionFactors, optional
@@ -276,8 +273,8 @@ def XYZ_to_Hunt(XYZ,
         Correlated color temperature :math:`T_{cp}`: of the illuminant, needed
         to approximate :math:`L_{AS}`.
     XYZ_p : array_like, optional
-        *CIE XYZ* tristimulus values of proximal field normalised to domain
-        [0, 100], assumed to be equal to background if not specified.
+        *CIE XYZ* tristimulus values of proximal field, assumed to be equal to
+        background if not specified.
     p : numeric or array_like, optional
         Simultaneous contrast / assimilation factor :math:`p` with value
         normalised to domain [-1, 0] when simultaneous contrast occurs and
@@ -305,14 +302,26 @@ def XYZ_to_Hunt(XYZ,
     ValueError
         If an illegal arguments combination is specified.
 
-    Warning
-    -------
-    The input domain of that definition is non standard!
-
     Notes
     -----
-    -   Input *CIE XYZ*, *CIE XYZ_b*, *CIE XYZ_w* and *CIE XYZ_p* tristimulus
-        values are normalised to domain [0, 100].
+
+    +--------------------------+-----------------------+---------------+
+    | **Domain**               | **Scale - Reference** | **Scale - 1** |
+    +==========================+=======================+===============+
+    | ``XYZ``                  | [0, 100]              | [0, 1]        |
+    +--------------------------+-----------------------+---------------+
+    | ``XYZ_w``                | [0, 100]              | [0, 1]        |
+    +--------------------------+-----------------------+---------------+
+    | ``XYZ_b``                | [0, 100]              | [0, 1]        |
+    +--------------------------+-----------------------+---------------+
+    | ``XYZ_p``                | [0, 100]              | [0, 1]        |
+    +--------------------------+-----------------------+---------------+
+
+    +--------------------------+-----------------------+---------------+
+    | **Range**                | **Scale - Reference** | **Scale - 1** |
+    +==========================+=======================+===============+
+    | ``Hunt_Specification.h`` | [0, 360]              | [0, 1]        |
+    +--------------------------+-----------------------+---------------+
 
     References
     ----------
@@ -592,21 +601,18 @@ def chromatic_adaptation(XYZ,
     Parameters
     ----------
     XYZ : array_like
-        *CIE XYZ* tristimulus values of test sample normalised to domain
-        [0, 100].
+        *CIE XYZ* tristimulus values of test sample.
     XYZ_b : array_like
-        *CIE XYZ* tristimulus values of background normalised to domain
-        [0, 100].
+        *CIE XYZ* tristimulus values of background.
     XYZ_w : array_like
-        *CIE XYZ* tristimulus values of reference white normalised to domain
-        [0, 100].
+        *CIE XYZ* tristimulus values of reference white.
     L_A : numeric or array_like
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`.
     F_L : numeric or array_like
         Luminance adaptation factor :math:`F_L`.
     XYZ_p : array_like, optional
-        *CIE XYZ* tristimulus values of proximal field normalised to domain
-        [0, 100], assumed to be equal to background if not specified.
+        *CIE XYZ* tristimulus values of proximal field, assumed to be equal to
+        background if not specified.
     p : numeric or array_like, optional
         Simultaneous contrast / assimilation factor :math:`p` with value
         normalised to  domain [-1, 0] when simultaneous contrast occurs and

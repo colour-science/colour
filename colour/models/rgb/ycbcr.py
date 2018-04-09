@@ -210,6 +210,22 @@ def RGB_to_YCbCr(RGB,
 
     Notes
     -----
+
+    +---------------+-----------------------+---------------+
+    | **Domain \*** | **Scale - Reference** | **Scale - 1** |
+    +===============+=======================+===============+
+    | ``RGB``       | [0, 1]                | [0, 1]        |
+    +---------------+-----------------------+---------------+
+
+    +---------------+-----------------------+---------------+
+    | **Range \***  | **Scale - Reference** | **Scale - 1** |
+    +===============+=======================+===============+
+    | ``YCbCr``     | [0, 1]                | [0, 1]        |
+    +---------------+-----------------------+---------------+
+
+    -   \* This definition has input and output integer switches, thus the
+        domain-range scale information is only given for the floating point
+        mode.
     -   The default arguments, ``**{'in_bits': 10, 'in_legal': False,
         'in_int': False, 'out_bits': 8, 'out_legal': True, 'out_int': False}``
         transform a float *R'G'B'* input array normalised to domain [0, 1]
@@ -364,6 +380,25 @@ def YCbCr_to_RGB(YCbCr,
     ndarray
         *R'G'B'* array of integer or float values.
 
+    Notes
+    -----
+
+    +---------------+-----------------------+---------------+
+    | **Domain \*** | **Scale - Reference** | **Scale - 1** |
+    +===============+=======================+===============+
+    | ``YCbCr``     | [0, 1]                | [0, 1]        |
+    +---------------+-----------------------+---------------+
+
+    +---------------+-----------------------+---------------+
+    | **Range \***  | **Scale - Reference** | **Scale - 1** |
+    +===============+=======================+===============+
+    | ``RGB``       | [0, 1]                | [0, 1]        |
+    +---------------+-----------------------+---------------+
+
+    -   \* This definition has input and output integer switches, thus the
+        domain-range scale information is only given for the floating point
+        mode.
+
     Warning
     -------
     For *Recommendation ITU-R BT.2020*, :func:`colour.YCbCr_to_RGB`
@@ -457,6 +492,25 @@ def RGB_to_YcCbcCrc(RGB,
     ndarray
         *Yc'Cbc'Crc'* colour encoding array of integer or float values.
 
+    Notes
+    -----
+
+    +---------------+-----------------------+---------------+
+    | **Domain \*** | **Scale - Reference** | **Scale - 1** |
+    +===============+=======================+===============+
+    | ``RGB``       | [0, 1]                | [0, 1]        |
+    +---------------+-----------------------+---------------+
+
+    +---------------+-----------------------+---------------+
+    | **Range \***  | **Scale - Reference** | **Scale - 1** |
+    +===============+=======================+===============+
+    | ``YcCbcCrc``  | [0, 1]                | [0, 1]        |
+    +---------------+-----------------------+---------------+
+
+    -   \* This definition has input and output integer switches, thus the
+        domain-range scale information is only given for the floating point
+        mode.
+
     Warning
     -------
     This definition is specifically for usage with
@@ -543,6 +597,25 @@ def YcCbcCrc_to_RGB(YcCbcCrc,
     -------
     ndarray
         *RGB* array of linear float values.
+
+    Notes
+    -----
+
+    +---------------+-----------------------+---------------+
+    | **Domain \*** | **Scale - Reference** | **Scale - 1** |
+    +===============+=======================+===============+
+    | ``YcCbcCrc``  | [0, 1]                | [0, 1]        |
+    +---------------+-----------------------+---------------+
+
+    +---------------+-----------------------+---------------+
+    | **Range \***  | **Scale - Reference** | **Scale - 1** |
+    +===============+=======================+===============+
+    | ``RGB``       | [0, 1]                | [0, 1]        |
+    +---------------+-----------------------+---------------+
+
+    -   \* This definition has input and output integer switches, thus the
+        domain-range scale information is only given for the floating point
+        mode.
 
     Warning
     -------

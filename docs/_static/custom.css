@@ -2,6 +2,10 @@ p {
     margin-bottom: 8px !important;
 }
 
+table.docutils {
+    width: 100% !important;
+}
+
 table.longtable.docutils td {
     background-color: rgb(252, 252, 252) !important;
     border: 0 !important;
@@ -12,21 +16,6 @@ table.longtable.docutils td {
 
 table.longtable.docutils {
     border: 0 !important;
-}
-
-table.colwidths-given.docutils.align-center {
-    border: 2px solid #e1e4e5; !important;
-    display: table; !important;
-    margin: unset; !important;
-    text-align: center; !important;
-}
-
-.rst-content table.docutils thead {
-    text-align: center; !important;
-}
-
-.wy-table-responsive {
-    overflow: visible !important;
 }
 
 div.highlight-text {

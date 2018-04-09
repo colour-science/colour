@@ -609,6 +609,17 @@ def generate_documentation_plots(output_directory):
         y_tighten=True,
         **arguments)
 
+    # *************************************************************************
+    # "basics.rst"
+    # *************************************************************************
+    arguments['filename'] = os.path.join(output_directory,
+                                         'Basics_Logo_Small_001_CIE_XYZ.png')
+    RGB = colour.read_image(
+        os.path.join(output_directory, 'Logo_Small_001.png'))[..., 0:3]
+    XYZ = colour.sRGB_to_XYZ(RGB)
+    colour.plotting.image_plot(
+        XYZ, text_parameters={'text': 'sRGB to XYZ'}, **arguments)
+
 
 if __name__ == '__main__':
     generate_documentation_plots(os.path.join('..', 'docs', '_static'))

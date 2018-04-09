@@ -442,7 +442,7 @@ def set_domain_range_scale(scale='Reference'):
         1.
 
     Parameters
-    -------
+    ----------
     scale : unicode or int
         **{'Reference', '1'}**,
         *Colour* domain-range scale to set.

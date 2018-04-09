@@ -114,7 +114,7 @@ def chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method='Von Kries', **kwargs):
     Y_o : numeric
         {:func:`colour.adaptation.chromatic_adaptation_CIE1994`},
         Luminance factor :math:`Y_o` of achromatic background normalised to
-        domain [0.18, 1].
+        domain [0.18, 1] in **'Reference'** domain-range scale.
     direction : unicode, optional
         {:func:`colour.adaptation.chromatic_adaptation_CMCCAT2000`},
         **{'Forward', 'Reverse'}**,
@@ -142,9 +142,24 @@ def chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method='Von Kries', **kwargs):
 
     Notes
     -----
-    -   Input *CIE XYZ*, *CIE XYZ_w* and *CIE XYZ_wr* tristimulus values are
-        normalised to domain [0, 1].
-    -   Output *CIE XYZ_c* tristimulus values are normalised to domain [0, 1].
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+    | ``XYZ_w``  | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+    | ``XYZ_wr`` | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+    | ``Y_o``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ_c``  | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------

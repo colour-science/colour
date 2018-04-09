@@ -62,10 +62,6 @@ def XYZ_to_K_ab_HunterLab1966(XYZ):
         *Hunter L,a,b* :math:`K_{a}` and :math:`K_{b}` chromaticity
         coefficients.
 
-    Notes
-    -----
-    -   Input *CIE XYZ* tristimulus values are normalised to domain [0, 100].
-
     References
     ----------
     -   :cite:`HunterLab2008c`
@@ -113,9 +109,24 @@ def XYZ_to_Hunter_Lab(XYZ,
 
     Notes
     -----
-    -   Input *CIE XYZ* and reference *illuminant* tristimulus values are
-        normalised to domain [0, 100].
-    -   Output *Lightness* :math:`L^*` is normalised to range [0, 100].
+
+    +------------+-----------------------+-----------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1**   |
+    +============+=======================+=================+
+    | ``XYZ``    | [0, 100]              | [0, 1]          |
+    +------------+-----------------------+-----------------+
+    | ``XYZ_n``  | [0, 100]              | [0, 1]          |
+    +------------+-----------------------+-----------------+
+
+    +------------+-----------------------+-----------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1**   |
+    +============+=======================+=================+
+    | ``Lab``    | ``L`` : [0, 100]      | ``L`` : [0, 1]  |
+    |            |                       |                 |
+    |            | ``a`` : [-100, 100]   | ``a`` : [-1, 1] |
+    |            |                       |                 |
+    |            | ``b`` : [-100, 100]   | ``b`` : [-1, 1] |
+    +------------+-----------------------+-----------------+
 
     References
     ----------
@@ -173,10 +184,24 @@ def Hunter_Lab_to_XYZ(Lab,
 
     Notes
     -----
-    -   Input *Lightness* :math:`L^*` is normalised to domain [0, 100].
-    -   Input *CIE XYZ* and reference *illuminant* tristimulus values are
-        normalised to domain [0, 100].
-    -   Output *CIE XYZ* tristimulus values are normalised to range [0, 100].
+
+    +------------+-----------------------+-----------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1**   |
+    +============+=======================+=================+
+    | ``Lab``    | ``L`` : [0, 100]      | ``L`` : [0, 1]  |
+    |            |                       |                 |
+    |            | ``a`` : [-100, 100]   | ``a`` : [-1, 1] |
+    |            |                       |                 |
+    |            | ``b`` : [-100, 100]   | ``b`` : [-1, 1] |
+    +------------+-----------------------+-----------------+
+    | ``XYZ_n``  | [0, 100]              | [0, 1]          |
+    +------------+-----------------------+-----------------+
+
+    +------------+-----------------------+-----------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1**   |
+    +============+=======================+=================+
+    | ``XYZ``    | [0, 100]              | [0, 1]          |
+    +------------+-----------------------+-----------------+
 
     References
     ----------

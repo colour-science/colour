@@ -74,6 +74,13 @@ def XYZ_to_spectral_Meng2015(
 
     Notes
     -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     -   The definition used to convert spectrum to *CIE XYZ* tristimulus
         values is :func:`colour.colorimetry.spectral_to_XYZ_integration`
         definition because it processes any measurement interval opposed to

@@ -56,6 +56,24 @@ def oetf_DCDM(XYZ, out_int=False):
     numeric or ndarray
         Non-linear *CIE XYZ'* tristimulus values.
 
+    Notes
+    -----
+
+    +---------------+-----------------------+---------------+
+    | **Domain \*** | **Scale - Reference** | **Scale - 1** |
+    +===============+=======================+===============+
+    | ``XYZ``       | [0, 1]                | [0, 1]        |
+    +---------------+-----------------------+---------------+
+
+    +---------------+-----------------------+---------------+
+    | **Range \***  | **Scale - Reference** | **Scale - 1** |
+    +===============+=======================+===============+
+    | ``XYZ_p``     | [0, 1]                | [0, 1]        |
+    +---------------+-----------------------+---------------+
+
+    -   \* This definition has an output integer switch, thus the domain-range
+        scale information is only given for the floating point mode.
+
     References
     ----------
     -   :cite:`DigitalCinemaInitiatives2007b`
@@ -94,6 +112,24 @@ def eotf_DCDM(XYZ_p, in_int=False):
     -------
     numeric or ndarray
         *CIE XYZ* tristimulus values.
+
+    Notes
+    -----
+
+    +---------------+-----------------------+---------------+
+    | **Domain \*** | **Scale - Reference** | **Scale - 1** |
+    +===============+=======================+===============+
+    | ``XYZ_p``     | [0, 1]                | [0, 1]        |
+    +---------------+-----------------------+---------------+
+
+    +---------------+-----------------------+---------------+
+    | **Range \***  | **Scale - Reference** | **Scale - 1** |
+    +===============+=======================+===============+
+    | ``XYZ``       | [0, 1]                | [0, 1]        |
+    +---------------+-----------------------+---------------+
+
+    -   \* This definition has an input integer switch, thus the domain-range
+        scale information is only given for the floating point mode.
 
     References
     ----------

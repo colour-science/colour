@@ -149,6 +149,24 @@ def log_encoding_ACESproxy(lin_AP1,
     numeric or ndarray
         *ACESproxy* non-linear value.
 
+    Notes
+    -----
+
+    +---------------+-----------------------+---------------+
+    | **Domain \*** | **Scale - Reference** | **Scale - 1** |
+    +===============+=======================+===============+
+    | ``lin_AP1``   | [0, 1]                | [0, 1]        |
+    +---------------+-----------------------+---------------+
+
+    +---------------+-----------------------+---------------+
+    | **Range \***  | **Scale - Reference** | **Scale - 1** |
+    +===============+=======================+===============+
+    | ``ACESproxy`` | [0, 1]                | [0, 1]        |
+    +---------------+-----------------------+---------------+
+
+    -   \* This definition has an output integer switch, thus the domain-range
+        scale information is only given for the floating point mode.
+
     References
     ----------
     -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
@@ -216,6 +234,24 @@ def log_decoding_ACESproxy(ACESproxy,
     numeric or ndarray
         *lin_AP1* value.
 
+    Notes
+    -----
+
+    +---------------+-----------------------+---------------+
+    | **Domain \*** | **Scale - Reference** | **Scale - 1** |
+    +===============+=======================+===============+
+    | ``ACESproxy`` | [0, 1]                | [0, 1]        |
+    +---------------+-----------------------+---------------+
+
+    +---------------+-----------------------+---------------+
+    | **Range \***  | **Scale - Reference** | **Scale - 1** |
+    +===============+=======================+===============+
+    | ``lin_AP1``   | [0, 1]                | [0, 1]        |
+    +---------------+-----------------------+---------------+
+
+    -   \* This definition has an input integer switch, thus the domain-range
+        scale information is only given for the floating point mode.
+
     References
     ----------
     -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
@@ -260,6 +296,21 @@ def log_encoding_ACEScc(lin_AP1):
     numeric or ndarray
         *ACEScc* non-linear value.
 
+    Notes
+    -----
+
+    +-------------+-----------------------+---------------+
+    | **Domain**  | **Scale - Reference** | **Scale - 1** |
+    +=============+=======================+===============+
+    | ``lin_AP1`` | [0, 1]                | [0, 1]        |
+    +-------------+-----------------------+---------------+
+
+    +-------------+-----------------------+---------------+
+    | **Range**   | **Scale - Reference** | **Scale - 1** |
+    +=============+=======================+===============+
+    | ``ACEScc``  | [0, 1]                | [0, 1]        |
+    +-------------+-----------------------+---------------+
+
     References
     ----------
     -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
@@ -297,6 +348,21 @@ def log_decoding_ACEScc(ACEScc):
     -------
     numeric or ndarray
         *lin_AP1* value.
+
+    Notes
+    -----
+
+    +-------------+-----------------------+---------------+
+    | **Domain**  | **Scale - Reference** | **Scale - 1** |
+    +=============+=======================+===============+
+    | ``ACEScc``  | [0, 1]                | [0, 1]        |
+    +-------------+-----------------------+---------------+
+
+    +-------------+-----------------------+---------------+
+    | **Range**   | **Scale - Reference** | **Scale - 1** |
+    +=============+=======================+===============+
+    | ``lin_AP1`` | [0, 1]                | [0, 1]        |
+    +-------------+-----------------------+---------------+
 
     References
     ----------
@@ -338,6 +404,21 @@ def log_encoding_ACEScct(lin_AP1, constants=ACES_CCT_CONSTANTS):
     -------
     numeric or ndarray
         *ACEScct* non-linear value.
+
+    Notes
+    -----
+
+    +-------------+-----------------------+---------------+
+    | **Domain**  | **Scale - Reference** | **Scale - 1** |
+    +=============+=======================+===============+
+    | ``lin_AP1`` | [0, 1]                | [0, 1]        |
+    +-------------+-----------------------+---------------+
+
+    +-------------+-----------------------+---------------+
+    | **Range**   | **Scale - Reference** | **Scale - 1** |
+    +=============+=======================+===============+
+    | ``ACEScct`` | [0, 1]                | [0, 1]        |
+    +-------------+-----------------------+---------------+
 
     References
     ----------
@@ -384,6 +465,21 @@ def log_decoding_ACEScct(ACEScct, constants=ACES_CCT_CONSTANTS):
     -   :cite:`TheAcademyofMotionPictureArtsandSciences2014r`
     -   :cite:`TheAcademyofMotionPictureArtsandSciences2016c`
     -   :cite:`TheAcademyofMotionPictureArtsandSciencese`
+
+    Notes
+    -----
+
+    +-------------+-----------------------+---------------+
+    | **Domain**  | **Scale - Reference** | **Scale - 1** |
+    +=============+=======================+===============+
+    | ``ACEScct`` | [0, 1]                | [0, 1]        |
+    +-------------+-----------------------+---------------+
+
+    +-------------+-----------------------+---------------+
+    | **Range**   | **Scale - Reference** | **Scale - 1** |
+    +=============+=======================+===============+
+    | ``lin_AP1`` | [0, 1]                | [0, 1]        |
+    +-------------+-----------------------+---------------+
 
     Examples
     --------

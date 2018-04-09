@@ -92,12 +92,17 @@ def spectral_to_aces_relative_exposure_values(
 
     Notes
     -----
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ``    | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     -   The chromatic adaptation method implemented here is a bit unusual
         as it involves building a new colourspace based on *ACES2065-1*
         colourspace primaries but using the whitepoint of the illuminant that
         the spectral power distribution was measured under.
-    -   Output *ACES2065-1* colourspace relative exposure values array
-        normalised to range [0, 1].
 
     References
     ----------

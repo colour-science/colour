@@ -173,11 +173,9 @@ def XYZ_to_CAM16(XYZ,
     Parameters
     ----------
     XYZ : array_like
-        *CIE XYZ* tristimulus values of test sample / stimulus normalised to
-        domain [0, 100].
+        *CIE XYZ* tristimulus values of test sample / stimulus.
     XYZ_w : array_like
-        *CIE XYZ* tristimulus values of reference white normalised to domain
-        [0, 100].
+        *CIE XYZ* tristimulus values of reference white.
     L_A : numeric or array_like
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`, (often taken
         to be 20% of the luminance of a white object in the scene).
@@ -193,14 +191,24 @@ def XYZ_to_CAM16(XYZ,
     CAM16_Specification
         *CAM16* colour appearance model specification.
 
-    Warning
-    -------
-    The input domain of that definition is non standard!
-
     Notes
     -----
-    -   Input *CIE XYZ* tristimulus values are normalised to domain [0, 100].
-    -   Input *CIE XYZ_w* tristimulus values are normalised to domain [0, 100].
+
+    +---------------------------+-----------------------+---------------+
+    | **Domain**                | **Scale - Reference** | **Scale - 1** |
+    +===========================+=======================+===============+
+    | ``XYZ``                   | [0, 100]              | [0, 1]        |
+    +---------------------------+-----------------------+---------------+
+    | ``XYZ_w``                 | [0, 100]              | [0, 1]        |
+    +---------------------------+-----------------------+---------------+
+
+    +---------------------------+-----------------------+---------------+
+    | **Range**                 | **Scale - Reference** | **Scale - 1** |
+    +===========================+=======================+===============+
+    | ``CAM16_Specification.h`` | [0, 360]              | [0, 1]        |
+    +---------------------------+-----------------------+---------------+
+    | ``CAM16_Specification.H`` | [0, 360]              | [0, 1]        |
+    +---------------------------+-----------------------+---------------+
 
     References
     ----------
@@ -339,16 +347,27 @@ def CAM16_to_XYZ(CAM16_specification,
         If neither *C* or *M* correlates have been defined in the
         ``CAM16_specification`` argument.
 
-    Warning
-    -------
-    The output range of that definition is non standard!
-
     Notes
     -----
+
+    +---------------------------+-----------------------+---------------+
+    | **Domain**                | **Scale - Reference** | **Scale - 1** |
+    +===========================+=======================+===============+
+    | ``CAM16_specification.h`` | [0, 360]              | [0, 1]        |
+    +---------------------------+-----------------------+---------------+
+    | ``CAM16_specification.H`` | [0, 360]              | [0, 1]        |
+    +---------------------------+-----------------------+---------------+
+    | ``XYZ_w``                 | [0, 100]              | [0, 1]        |
+    +---------------------------+-----------------------+---------------+
+
+    +---------------------------+-----------------------+---------------+
+    | **Range**                 | **Scale - Reference** | **Scale - 1** |
+    +===========================+=======================+===============+
+    | ``XYZ``                   | [0, 100]              | [0, 1]        |
+    +---------------------------+-----------------------+---------------+
+
     -   ``CAM16_specification`` can also be passed as a compatible argument
-        :func:`colour.utilities.as_namedtuple` definition.
-    -   Input *CIE XYZ_w* tristimulus values are normalised to domain [0, 100].
-    -   Output *CIE XYZ* tristimulus values are normalised to range [0, 100].
+        to :func:`colour.utilities.as_namedtuple` definition.
 
     References
     ----------

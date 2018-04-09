@@ -5,5 +5,6 @@ Colour Manual
     :maxdepth: 3
 
     tutorial
+    basics
     reference
     bibliography

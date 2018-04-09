@@ -81,6 +81,15 @@ def XYZ_to_spectral(XYZ, method='Meng 2015', **kwargs):
 
     Notes
     -----
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     -   *Smits (1999)* method will internally convert given *CIE XYZ*
         tristimulus values to *RGB* colourspace array assuming equal energy
         illuminant *E*.

@@ -58,8 +58,18 @@ def XYZ_to_UCS(XYZ):
 
     Notes
     -----
-    -   Input *CIE XYZ* tristimulus values are normalised to domain [0, 1].
-    -   Output *CIE 1960 UCS* colourspace array is normalised to range [0, 1].
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``UVW``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
@@ -97,8 +107,18 @@ def UCS_to_XYZ(UVW):
 
     Notes
     -----
-    -   Input *CIE 1960 UCS* colourspace array is normalised to domain [0, 1].
-    -   Output *CIE XYZ* tristimulus values are normalised to range [0, 1].
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``UVW``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
@@ -137,8 +157,12 @@ def UCS_to_uv(UVW):
 
     Notes
     -----
-    -   Input *CIE 1960 UCS* colourspace array is normalised to domain [0, 1].
-    -   Output *uv* chromaticity coordinates are normalised to range [0, 1].
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``UVW``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
@@ -174,11 +198,6 @@ def UCS_uv_to_xy(uv):
     ndarray
         *xy* chromaticity coordinates.
 
-    Notes
-    -----
-    -   Input *uv* chromaticity coordinates are normalised to domain [0, 1].
-    -   Output *xy* chromaticity coordinates are normalised to range [0, 1].
-
     References
     ----------
     -   :cite:`Wikipediabr`
@@ -213,11 +232,6 @@ def xy_to_UCS_uv(xy):
     -------
     ndarray
         *CIE UCS uv* chromaticity coordinates.
-
-    Notes
-    -----
-    -   Input *xy* chromaticity coordinates are normalised to domain [0, 1].
-    -   Output *uv* chromaticity coordinates are normalised to range [0, 1].
 
     References
     ----------

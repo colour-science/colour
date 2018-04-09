@@ -304,8 +304,18 @@ def munsell_value_Priest1920(Y):
 
     Notes
     -----
-    -   Input *Y* is normalised to domain [0, 100].
-    -   Output *V* is normalised to range [0, 10].
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``Y``      | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``V``      | [0, 10]               | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
@@ -341,8 +351,18 @@ def munsell_value_Munsell1933(Y):
 
     Notes
     -----
-    -   Input *Y* is normalised to domain [0, 100].
-    -   Output *V* is normalised to range [0, 10].
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``Y``      | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``V``      | [0, 10]               | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
@@ -379,8 +399,18 @@ def munsell_value_Moon1943(Y):
 
     Notes
     -----
-    -   Input *Y* is normalised to domain [0, 100].
-    -   Output *V* is normalised to range [0, 10].
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``Y``      | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``V``      | [0, 10]               | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
@@ -416,8 +446,18 @@ def munsell_value_Saunderson1944(Y):
 
     Notes
     -----
-    -   Input *Y* is normalised to domain [0, 100].
-    -   Output *V* is normalised to range [0, 10].
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``Y``      | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``V``      | [0, 10]               | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
@@ -453,8 +493,18 @@ def munsell_value_Ladd1955(Y):
 
     Notes
     -----
-    -   Input *Y* is normalised to domain [0, 100].
-    -   Output *V* is normalised to range [0, 10].
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``Y``      | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``V``      | [0, 10]               | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
@@ -490,8 +540,18 @@ def munsell_value_McCamy1987(Y):
 
     Notes
     -----
-    -   Input *Y* is normalised to domain [0, 100].
-    -   Output *V* is normalised to range [0, 10].
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``Y``      | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``V``      | [0, 10]               | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
@@ -533,8 +593,18 @@ def munsell_value_ASTMD153508(Y):
 
     Notes
     -----
-    -   Input *Y* is normalised to domain [0, 100].
-    -   Output *V* is normalised to range [0, 10].
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``Y``      | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``V``      | [0, 10]               | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
@@ -602,8 +672,18 @@ def munsell_value(Y, method='ASTM D1535-08'):
 
     Notes
     -----
-    -   Input *Y* is normalised to domain [0, 100].
-    -   Output *V* is normalised to range [0, 10].
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``Y``      | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``V``      | [0, 10]               | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
@@ -648,11 +728,24 @@ def munsell_specification_to_xyY(specification):
 
     Notes
     -----
-    -   Input *Munsell* *Colorlab* specification hue is normalised to domain
-        [0, 10].
-    -   Input *Munsell* *Colorlab* specification value is normalised to domain
-        [0, 10].
-    -   Output *CIE xyY* colourspace array is normalised to range [0, 1].
+
+    +-------------------+-----------------------+---------------+
+    | **Domain**        | **Scale - Reference** | **Scale - 1** |
+    +===================+=======================+===============+
+    | ``specification`` | ``hue``    : [0, 10]  | [0, 1]        |
+    |                   |                       |               |
+    |                   | ``value``  : [0, 10]  | [0, 1]        |
+    |                   |                       |               |
+    |                   | ``chroma`` : [0, 50]  | [0, 1]        |
+    |                   |                       |               |
+    |                   | ``code``   : [0, 10]  | [0, 1]        |
+    +-------------------+-----------------------+---------------+
+
+    +-------------------+-----------------------+---------------+
+    | **Range**         | **Scale - Reference** | **Scale - 1** |
+    +===================+=======================+===============+
+    | ``xyY``           | [0, 1]                | [0, 1]        |
+    +-------------------+-----------------------+---------------+
 
     References
     ----------
@@ -734,7 +827,12 @@ def munsell_colour_to_xyY(munsell_colour):
 
     Notes
     -----
-    -   Output *CIE xyY* colourspace array is normalised to range [0, 1].
+
+    +-----------+-----------------------+---------------+
+    | **Range** | **Scale - Reference** | **Scale - 1** |
+    +===========+=======================+===============+
+    | ``xyY``   | [0, 1]                | [0, 1]        |
+    +-----------+-----------------------+---------------+
 
     References
     ----------
@@ -778,7 +876,24 @@ def xyY_to_munsell_specification(xyY):
 
     Notes
     -----
-    -   Input *CIE xyY* colourspace array is normalised to domain [0, 1].
+
+    +-------------------+-----------------------+---------------+
+    | **Domain**        | **Scale - Reference** | **Scale - 1** |
+    +===================+=======================+===============+
+    | ``xyY``           | [0, 1]                | [0, 1]        |
+    +-------------------+-----------------------+---------------+
+
+    +-------------------+-----------------------+---------------+
+    | **Range**         | **Scale - Reference** | **Scale - 1** |
+    +===================+=======================+===============+
+    | ``specification`` | ``hue``    : [0, 10]  | [0, 1]        |
+    |                   |                       |               |
+    |                   | ``value``  : [0, 10]  | [0, 1]        |
+    |                   |                       |               |
+    |                   | ``chroma`` : [0, 50]  | [0, 1]        |
+    |                   |                       |               |
+    |                   | ``code``   : [0, 10]  | [0, 1]        |
+    +-------------------+-----------------------+---------------+
 
     References
     ----------
@@ -1027,7 +1142,12 @@ def xyY_to_munsell_colour(xyY,
 
     Notes
     -----
-    -   Input *CIE xyY* colourspace array is normalised to domain [0, 1].
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``xyY``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
@@ -1463,7 +1583,7 @@ def hue_angle_to_hue(hue_angle):
 def hue_to_ASTM_hue(hue, code):
     """
     Converts from the *Munsell* *Colorlab* specification hue to *ASTM* hue
-    number normalised to range [0, 100].
+    number.
 
     Parameters
     ----------
@@ -1475,7 +1595,7 @@ def hue_to_ASTM_hue(hue, code):
     Returns
     -------
     numeric
-        *ASM* hue number.
+        *ASTM* hue number.
 
     References
     ----------
@@ -1488,6 +1608,7 @@ def hue_to_ASTM_hue(hue, code):
     """
 
     ASTM_hue = 10 * ((7 - code) % 10) + hue
+
     return 100 if ASTM_hue == 0 else ASTM_hue
 
 
@@ -1506,13 +1627,6 @@ def interpolation_method_from_renotation_ovoid(specification):
     -------
     unicode or None ('Linear', 'Radial', None)
         Interpolation method.
-
-    Notes
-    -----
-    -   Input *Munsell* *Colorlab* specification value must be an integer
-        normalised to domain [0, 10].
-    -   Input *Munsell* *Colorlab* specification chroma must be an integer and
-        a multiple of 2 normalised to domain [2, 50].
 
     References
     ----------
@@ -1799,13 +1913,6 @@ def xy_from_renotation_ovoid(specification):
         If an invalid interpolation method is retrieved from internal
         computations.
 
-    Notes
-    -----
-    -   Input *Munsell* *Colorlab* specification value must be an integer
-        normalised to domain [1, 9].
-    -   Input *Munsell* *Colorlab* specification chroma must be an integer and
-        a multiple of 2 normalised to domain [2, 50].
-
     References
     ----------
     -   :cite:`Centore2014n`
@@ -1927,10 +2034,6 @@ def LCHab_to_munsell_specification(LCHab):
     -------
     tuple
         *Munsell* *Colorlab* specification.
-
-    Notes
-    -----
-    -   Input :math:`L^*` is normalised to domain [0, 100].
 
     References
     ----------
@@ -2066,12 +2169,6 @@ def munsell_specification_to_xy(specification):
     -------
     ndarray
         *xy* chromaticity coordinates.
-
-    Notes
-    -----
-    -   Input *Munsell* *Colorlab* specification value must be an integer
-        normalised to domain [0, 10].
-    -   Output *xy* chromaticity coordinates are normalised to range [0, 1].
 
     References
     ----------

@@ -70,8 +70,18 @@ def XYZ_to_xyY(
 
     Notes
     -----
-    -   Input *CIE XYZ* tristimulus values are normalised to domain [0, 1].
-    -   Output *CIE xyY* colourspace array is normalised to range [0, 1].
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``xyY``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
@@ -117,8 +127,18 @@ def xyY_to_XYZ(xyY):
 
     Notes
     -----
-    -   Input *CIE xyY* colourspace array is normalised to domain [0, 1].
-    -   Output *CIE XYZ* tristimulus values are normalised to range [0, 1].
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``xyY``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
@@ -168,12 +188,23 @@ def xy_to_xyY(xy, Y=1):
 
     Notes
     -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``xy``     | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``xyY``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     -   This definition is a convenient object provided to implement support of
         illuminant argument *luminance* value in various :mod:`colour.models`
         package objects such as :func:`colour.Lab_to_XYZ` or
         :func:`colour.Luv_to_XYZ`.
-    -   Input *xy* chromaticity coordinates are normalised to domain [0, 1].
-    -   Output *CIE xyY* colourspace array is normalised to range [0, 1].
 
     References
     ----------
@@ -229,8 +260,12 @@ def xyY_to_xy(xyY):
 
     Notes
     -----
-    -   Input *CIE xyY* colourspace array is normalised to domain [0, 1].
-    -   Output *xy* chromaticity coordinates are normalised to range [0, 1].
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``xyY``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
@@ -275,8 +310,18 @@ def xy_to_XYZ(xy):
 
     Notes
     -----
-    -   Input *xy* chromaticity coordinates are normalised to domain [0, 1].
-    -   Output *CIE XYZ* tristimulus values are normalised to range [0, 1].
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``xy``     | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
@@ -313,8 +358,12 @@ def XYZ_to_xy(
 
     Notes
     -----
-    -   Input *CIE XYZ* tristimulus values are normalised to domain [0, 1].
-    -   Output *xy* chromaticity coordinates are normalised to range [0, 1].
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------

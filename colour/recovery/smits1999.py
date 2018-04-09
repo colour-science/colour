@@ -82,10 +82,6 @@ def XYZ_to_RGB_Smits1999(XYZ):
     ndarray
         *RGB* colour array.
 
-    Notes
-    -----
-    -   Input *CIE XYZ* tristimulus values are normalised to domain [0, 1].
-
     Examples
     --------
     >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
@@ -116,6 +112,15 @@ def RGB_to_spectral_Smits1999(RGB):
     -------
     SpectralPowerDistribution
         Recovered spectral power distribution.
+
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``RGB``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------

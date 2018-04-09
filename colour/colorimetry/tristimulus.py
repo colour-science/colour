@@ -403,13 +403,14 @@ def spectral_to_XYZ_integration(
     ndarray, (3,)
         *CIE XYZ* tristimulus values.
 
-    Warning
-    -------
-    The output range of that definition is non standard!
-
     Notes
     -----
-    -   Output *CIE XYZ* tristimulus values are normalised to range [0, 100].
+
+    +-----------+-----------------------+---------------+
+    | **Range** | **Scale - Reference** | **Scale - 1** |
+    +===========+=======================+===============+
+    | ``XYZ``   | [0, 100]              | [0, 1]        |
+    +-----------+-----------------------+---------------+
 
     References
     ----------
@@ -495,13 +496,14 @@ def spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
     ndarray, (3,)
         *CIE XYZ* tristimulus values.
 
-    Warning
-    -------
-    The output range of that definition is non standard!
-
     Notes
     -----
-    -   Output *CIE XYZ* tristimulus values are normalised to range [0, 100].
+
+    +-----------+-----------------------+---------------+
+    | **Range** | **Scale - Reference** | **Scale - 1** |
+    +===========+=======================+===============+
+    | ``XYZ``   | [0, 100]              | [0, 1]        |
+    +-----------+-----------------------+---------------+
 
     References
     ----------
@@ -611,11 +613,15 @@ _TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their identifier key is
         Considering the above, one should be mindful that using similar colour
         matching functions and illuminant names but with different spectral
         data will lead to unexpected behaviour.
-    -   The output range of that definition is non standard!
 
     Notes
     -----
-    -   Output *CIE XYZ* tristimulus values are normalised to range [0, 100].
+
+    +-----------+-----------------------+---------------+
+    | **Range** | **Scale - Reference** | **Scale - 1** |
+    +===========+=======================+===============+
+    | ``XYZ``   | [0, 100]              | [0, 1]        |
+    +-----------+-----------------------+---------------+
 
     References
     ----------
@@ -771,13 +777,14 @@ def spectral_to_XYZ(
     ndarray, (3,)
         *CIE XYZ* tristimulus values.
 
-    Warning
-    -------
-    The output range of that definition is non standard!
-
     Notes
     -----
-    -   Output *CIE XYZ* tristimulus values are normalised to range [0, 100].
+
+    +-----------+-----------------------+---------------+
+    | **Range** | **Scale - Reference** | **Scale - 1** |
+    +===========+=======================+===============+
+    | ``XYZ``   | [0, 100]              | [0, 1]        |
+    +-----------+-----------------------+---------------+
 
     References
     ----------
@@ -856,6 +863,15 @@ def multi_spectral_to_XYZ_integration(
     array_like
         *CIE XYZ* tristimulus values, for a 512x384 multi-spectral image with
         77 bins, the output shape will be (384, 512, 3).
+
+    Notes
+    -----
+
+    +-----------+-----------------------+---------------+
+    | **Range** | **Scale - Reference** | **Scale - 1** |
+    +===========+=======================+===============+
+    | ``XYZ``   | [0, 100]              | [0, 1]        |
+    +-----------+-----------------------+---------------+
 
     References
     ----------
@@ -977,6 +993,15 @@ def multi_spectral_to_XYZ(
         *CIE XYZ* tristimulus values, for a 512x384 multi-spectral image with
         77 bins, the output shape will be (384, 512, 3).
 
+    Notes
+    -----
+
+    +-----------+-----------------------+---------------+
+    | **Range** | **Scale - Reference** | **Scale - 1** |
+    +===========+=======================+===============+
+    | ``XYZ``   | [0, 100]              | [0, 1]        |
+    +-----------+-----------------------+---------------+
+
     References
     ----------
     -   :cite:`Wyszecki2000bf`
@@ -1056,7 +1081,12 @@ def wavelength_to_XYZ(
 
     Notes
     -----
-    -   Output *CIE XYZ* tristimulus values are normalised to range [0, 1].
+
+    +-----------+-----------------------+---------------+
+    | **Range** | **Scale - Reference** | **Scale - 1** |
+    +===========+=======================+===============+
+    | ``XYZ``   | [0, 1]                | [0, 1]        |
+    +-----------+-----------------------+---------------+
 
     Examples
     --------

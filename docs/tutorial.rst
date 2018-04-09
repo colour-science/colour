@@ -58,7 +58,7 @@ around various sub-packages:
 -  :doc:`volume <colour.volume>`: Colourspace volumes computation and optimal colour
    stimuli.
 
-Most of the public API is available from the root colour namespace:
+Most of the public API is available from the root ``colour`` namespace:
 
 .. code:: python
 
