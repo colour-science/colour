@@ -92,7 +92,8 @@ class TestEotf_DCDM(unittest.TestCase):
 
         self.assertAlmostEqual(eotf_DCDM(0.21817973), 1.0, places=7)
 
-        self.assertAlmostEqual(eotf_DCDM(462, in_int=True), 0.18, places=7)
+        np.testing.assert_allclose(
+            eotf_DCDM(462, in_int=True), 0.18, atol=0.00001, rtol=0.00001)
 
     def test_n_dimensional_eotf_DCDM(self):
         """
