@@ -32,10 +32,11 @@ united-states/campaigns/workstations/pdfs/lp2480zx-dci--p3-emulation.pdf
 from __future__ import division, unicode_literals
 
 import numpy as np
+from functools import partial
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace, normalised_primary_matrix,
-                               oetf_DCIP3, eotf_DCIP3)
+from colour.models.rgb import (RGB_Colourspace, function_gamma,
+                               normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -131,8 +132,9 @@ DCI_P3_COLOURSPACE = RGB_Colourspace(
     DCI_P3_ILLUMINANT,
     DCI_P3_TO_XYZ_MATRIX,
     XYZ_TO_DCI_P3_MATRIX,
-    oetf_DCIP3,
-    eotf_DCIP3, )
+    partial(function_gamma, exponent=1 / 2.6),
+    partial(function_gamma, exponent=2.6),
+)
 DCI_P3_COLOURSPACE.__doc__ = """
 *DCI-P3* colourspace.
 
@@ -151,8 +153,9 @@ DCI_P3_P_COLOURSPACE = RGB_Colourspace(
     DCI_P3_ILLUMINANT,
     DCI_P3_P_TO_XYZ_MATRIX,
     XYZ_TO_DCI_P3_P_MATRIX,
-    oetf_DCIP3,
-    eotf_DCIP3, )
+    partial(function_gamma, exponent=1 / 2.6),
+    partial(function_gamma, exponent=2.6),
+)
 DCI_P3_P_COLOURSPACE.__doc__ = """
 *DCI-P3+* colourspace.
 

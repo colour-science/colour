@@ -14,7 +14,7 @@ from .canon_log import (log_encoding_CanonLog, log_decoding_CanonLog,
                         log_encoding_CanonLog2, log_decoding_CanonLog2,
                         log_encoding_CanonLog3, log_decoding_CanonLog3)
 from .cineon import log_encoding_Cineon, log_decoding_Cineon
-from .dci_p3 import oetf_DCIP3, eotf_DCIP3
+from .dcdm import oetf_DCDM, eotf_DCDM
 from .dicom_gsdf import oetf_DICOMGSDF, eotf_DICOMGSDF
 from .gamma import function_gamma
 from .gopro import log_encoding_Protune, log_decoding_Protune
@@ -59,7 +59,7 @@ __all__ += [
     'log_decoding_CanonLog3'
 ]
 __all__ += ['log_encoding_Cineon', 'log_decoding_Cineon']
-__all__ += ['oetf_DCIP3', 'eotf_DCIP3']
+__all__ += ['oetf_DCDM', 'eotf_DCDM']
 __all__ += ['oetf_DICOMGSDF', 'eotf_DICOMGSDF']
 __all__ += ['function_gamma']
 __all__ += ['log_encoding_Protune', 'log_decoding_Protune']
@@ -363,7 +363,7 @@ __all__ += ['log_encoding_curve', 'log_decoding_curve']
 
 OETFS = CaseInsensitiveMapping({
     'ARIB STD-B67': oetf_ARIBSTDB67,
-    'DCI-P3': oetf_DCIP3,
+    'DCDM': oetf_DCDM,
     'DICOM GSDF': oetf_DICOMGSDF,
     'ITU-R BT.2020': oetf_BT2020,
     'ITU-R BT.2100 HLG': oetf_BT2100_HLG,
@@ -381,7 +381,7 @@ OETFS.__doc__ = """
 Supported opto-electrical transfer functions (OETFs / OECFs).
 
 OETFS : CaseInsensitiveMapping
-    **{'sRGB', 'ARIB STD-B67', 'DCI-P3', 'DICOM GSDF', 'ITU-R BT.2020',
+    **{'sRGB', 'ARIB STD-B67', 'DCDM', 'DICOM GSDF', 'ITU-R BT.2020',
     'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ', 'ITU-R BT.601', 'ITU-R BT.709',
     'ProPhoto RGB', 'RIMM RGB', 'ROMM RGB', 'SMPTE 240M', 'ST 2084'}**
 """
@@ -398,7 +398,7 @@ def oetf(value, function='sRGB', **kwargs):
     value : numeric or array_like
         Value.
     function : unicode, optional
-        **{'sRGB', 'ARIB STD-B67', 'DCI-P3', 'DICOM GSDF', 'ITU-R BT.2020',
+        **{'sRGB', 'ARIB STD-B67', 'DCDM', 'DICOM GSDF', 'ITU-R BT.2020',
         'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ', 'ITU-R BT.601',
         'ITU-R BT.709', 'ProPhoto RGB', 'RIMM RGB', 'ROMM RGB', 'SMPTE 240M',
         'ST 2084'}**,
@@ -505,7 +505,7 @@ def oetf_reverse(value, function='sRGB', **kwargs):
 
 
 EOTFS = CaseInsensitiveMapping({
-    'DCI-P3': eotf_DCIP3,
+    'DCDM': eotf_DCDM,
     'DICOM GSDF': eotf_DICOMGSDF,
     'ITU-R BT.1886': eotf_BT1886,
     'ITU-R BT.2020': eotf_BT2020,
@@ -521,7 +521,7 @@ EOTFS.__doc__ = """
 Supported electro-optical transfer functions (EOTFs / EOCFs).
 
 EOTFS : CaseInsensitiveMapping
-    **{'DCI-P3', 'DICOM GSDF', 'ITU-R BT.1886', 'ITU-R BT.2020',
+    **{'DCDM', 'DICOM GSDF', 'ITU-R BT.1886', 'ITU-R BT.2020',
     'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ', 'ProPhoto RGB', 'RIMM RGB',
     'ROMM RGB', 'SMPTE 240M', 'ST 2084'}**
 """
@@ -537,7 +537,7 @@ def eotf(value, function='ITU-R BT.1886', **kwargs):
     value : numeric or array_like
         Value.
     function : unicode, optional
-        **{'ITU-R BT.1886', 'DCI-P3', 'DICOM GSDF', 'ITU-R BT.2020',
+        **{'ITU-R BT.1886', 'DCDM', 'DICOM GSDF', 'ITU-R BT.2020',
         'ITU-R BT.2100 HLG', 'ITU-R BT.2100 PQ', 'ProPhoto RGB', 'RIMM RGB',
         'ROMM RGB', 'SMPTE 240M', 'ST 2084'}**,
         Electro-optical transfer function (EOTF / EOCF).
