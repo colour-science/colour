@@ -101,11 +101,9 @@ def eotf_DCDM(XYZ_p, in_int=False):
 
     Examples
     --------
-    >>> eotf_DCDM(0.11281860951766724)
-    ... # doctest: +ELLIPSIS
+    >>> eotf_DCDM(0.11281860951766724)  # doctest: +ELLIPSIS
     0.18...
-    >>> eotf_DCDM(462, in_int=True)
-    ... # doctest: +ELLIPSIS
+    >>> eotf_DCDM(462, in_int=True)  # doctest: +ELLIPSIS
     0.18...
     """
 
