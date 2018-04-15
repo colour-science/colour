@@ -27,6 +27,8 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.constants import DEFAULT_FLOAT_DTYPE
+
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
@@ -63,7 +65,7 @@ def oetf_DCDM(XYZ, out_int=False):
     >>> oetf_DCDM(0.18)  # doctest: +ELLIPSIS
     0.1128186...
     >>> oetf_DCDM(0.18, out_int=True)  # doctest: +ELLIPSIS
-    461.9922059...
+    462
     """
 
     XYZ = np.asarray(XYZ)
@@ -71,7 +73,7 @@ def oetf_DCDM(XYZ, out_int=False):
     XYZ_p = (XYZ / 52.37) ** (1 / 2.6)
 
     if out_int:
-        XYZ_p *= 4095
+        XYZ_p = np.round(4095 * XYZ_p).astype(np.int_)
 
     return XYZ_p
 
@@ -102,12 +104,12 @@ def eotf_DCDM(XYZ_p, in_int=False):
     >>> eotf_DCDM(0.11281860951766724)
     ... # doctest: +ELLIPSIS
     0.18...
-    >>> eotf_DCDM(461.99220597484737, in_int=True)
+    >>> eotf_DCDM(462, in_int=True)
     ... # doctest: +ELLIPSIS
     0.18...
     """
 
-    XYZ_p = np.asarray(XYZ_p)
+    XYZ_p = np.asarray(XYZ_p, dtype=DEFAULT_FLOAT_DTYPE)
 
     if in_int:
         XYZ_p = XYZ_p / 4095
