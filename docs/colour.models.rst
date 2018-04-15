@@ -292,6 +292,7 @@ RGB Colourspaces
     CIE_RGB_COLOURSPACE
     CINEMA_GAMUT_COLOURSPACE
     COLOR_MATCH_RGB_COLOURSPACE
+    DCDM_XYZ_COLOURSPACE
     DCI_P3_COLOURSPACE
     DCI_P3_P_COLOURSPACE
     DON_RGB_4_COLOURSPACE
@@ -357,7 +358,7 @@ Opto-Electronic Transfer Functions
 
     oetf_ARIBSTDB67
     oetf_reverse_ARIBSTDB67
-    oetf_DCIP3
+    oetf_DCDM
     oetf_DICOMGSDF
     oetf_BT2020
     oetf_BT2100_HLG
@@ -410,7 +411,7 @@ Electro-Optical Transfer Functions
 .. autosummary::
     :toctree: generated/
 
-    eotf_DCIP3
+    eotf_DCDM
     eotf_DICOMGSDF
     eotf_BT1886
     eotf_reverse_BT1886

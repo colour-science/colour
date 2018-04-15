@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-DCI-P3 Colourspace
-==================
+Digital Cinema Distribution Master (DCDM)
+=========================================
 
-Defines the *DCI-P3* colourspace opto-electrical transfer function
-(OETF / OECF) and electro-optical transfer function (EOTF / EOCF):
+Defines the *DCDM* opto-electrical transfer function (OETF / OECF) and
+electro-optical transfer function (EOTF / EOCF):
 
--   :func:`colour.models.oetf_DCIP3`
--   :func:`colour.models.eotf_DCIP3`
+-   :func:`colour.models.oetf_DCDM`
+-   :func:`colour.models.eotf_DCDM`
 
 See Also
 --------
@@ -34,18 +34,20 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['oetf_DCIP3', 'eotf_DCIP3']
+__all__ = ['oetf_DCDM', 'eotf_DCDM']
 
 
-def oetf_DCIP3(XYZ):
+def oetf_DCDM(XYZ, out_int=False):
     """
-    Defines the *DCI-P3* colourspace opto-electronic transfer function
-    (OETF / OECF).
+    Defines the *DCDM* opto-electronic transfer function (OETF / OECF).
 
     Parameters
     ----------
     XYZ : numeric or array_like
         *CIE XYZ* tristimulus values.
+    out_int : bool, optional
+        Whether to return value as integer code value or float equivalent of a
+        code value at a given bit depth.
 
     Returns
     -------
@@ -58,24 +60,33 @@ def oetf_DCIP3(XYZ):
 
     Examples
     --------
-    >>> oetf_DCIP3(0.18)  # doctest: +ELLIPSIS
+    >>> oetf_DCDM(0.18)  # doctest: +ELLIPSIS
+    0.1128186...
+    >>> oetf_DCDM(0.18, out_int=True)  # doctest: +ELLIPSIS
     461.9922059...
     """
 
     XYZ = np.asarray(XYZ)
 
-    return 4095 * (XYZ / 52.37) ** (1 / 2.6)
+    XYZ_p = (XYZ / 52.37) ** (1 / 2.6)
+
+    if out_int:
+        XYZ_p *= 4095
+
+    return XYZ_p
 
 
-def eotf_DCIP3(XYZ_p):
+def eotf_DCDM(XYZ_p, in_int=False):
     """
-    Defines the *DCI-P3* colourspace electro-optical transfer function
-    (EOTF / EOCF).
+    Defines the *DCDM* electro-optical transfer function (EOTF / EOCF).
 
     Parameters
     ----------
     XYZ_p : numeric or array_like
         Non-linear *CIE XYZ'* tristimulus values.
+    in_int : bool, optional
+        Whether to treat the input value as integer code value or float
+        equivalent of a code value at a given bit depth.
 
     Returns
     -------
@@ -88,10 +99,17 @@ def eotf_DCIP3(XYZ_p):
 
     Examples
     --------
-    >>> eotf_DCIP3(461.99220597484737)  # doctest: +ELLIPSIS
+    >>> eotf_DCDM(0.11281860951766724)
+    ... # doctest: +ELLIPSIS
+    0.18...
+    >>> eotf_DCDM(461.99220597484737, in_int=True)
+    ... # doctest: +ELLIPSIS
     0.18...
     """
 
     XYZ_p = np.asarray(XYZ_p)
 
-    return 52.37 * (XYZ_p / 4095) ** 2.6
+    if in_int:
+        XYZ_p = XYZ_p / 4095
+
+    return 52.37 * XYZ_p ** 2.6
