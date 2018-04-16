@@ -60,6 +60,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.utilities import Structure, as_numeric
 
 __author__ = 'Colour Developers'
@@ -125,6 +126,7 @@ ACES_CCT_CONSTANTS : Structure
 
 def log_encoding_ACESproxy(lin_AP1,
                            bit_depth=10,
+                           out_int=False,
                            constants=ACES_PROXY_CONSTANTS):
     """
     Defines the *ACESproxy* colourspace log encoding curve / opto-electronic
@@ -137,6 +139,9 @@ def log_encoding_ACESproxy(lin_AP1,
     bit_depth : int, optional
         **{10, 12}**,
         *ACESproxy* bit depth.
+    out_int : bool, optional
+        Whether to return value as integer code value or float equivalent of a
+        code value at a given bit depth.
     constants : Structure, optional
         *ACESproxy* constants.
 
@@ -154,7 +159,9 @@ def log_encoding_ACESproxy(lin_AP1,
 
     Examples
     --------
-    >>> log_encoding_ACESproxy(0.18)
+    >>> log_encoding_ACESproxy(0.18)  # doctest: +ELLIPSIS
+    0.4164222...
+    >>> log_encoding_ACESproxy(0.18, out_int=True)
     426
     """
 
@@ -174,15 +181,19 @@ def log_encoding_ACESproxy(lin_AP1,
 
     output = np.where(
         lin_AP1 > 2 ** -9.72,
-        float_2_cv((np.log2(lin_AP1) + constants.mid_log_offset) *
-                   constants.steps_per_stop + constants.mid_CV_offset),
+        float_2_cv((np.log2(lin_AP1) + constants.mid_log_offset
+                    ) * constants.steps_per_stop + constants.mid_CV_offset),
         np.resize(CV_min, lin_AP1.shape))
 
-    return as_numeric(output, int)
+    if out_int:
+        return as_numeric(np.round(output), np.int_)
+    else:
+        return as_numeric(output / (2 ** bit_depth - 1))
 
 
 def log_decoding_ACESproxy(ACESproxy,
                            bit_depth=10,
+                           in_int=False,
                            constants=ACES_PROXY_CONSTANTS):
     """
     Defines the *ACESproxy* colourspace log decoding curve / electro-optical
@@ -195,6 +206,9 @@ def log_decoding_ACESproxy(ACESproxy,
     bit_depth : int, optional
         **{10, 12}**,
         *ACESproxy* bit depth.
+    in_int : bool, optional
+        Whether to treat the input value as integer code value or float
+        equivalent of a code value at a given bit depth.
     constants : Structure, optional
         *ACESproxy* constants.
 
@@ -212,17 +226,24 @@ def log_decoding_ACESproxy(ACESproxy,
 
     Examples
     --------
-    >>> log_decoding_ACESproxy(426)  # doctest: +ELLIPSIS
-    0.1792444...
+    >>> log_decoding_ACESproxy(0.416422287390029)  # doctest: +ELLIPSIS
+    0.1...
+    >>> log_decoding_ACESproxy(426, in_int=True)  # doctest: +ELLIPSIS
+    0.1...
     """
 
-    ACESproxy = np.asarray(ACESproxy).astype(np.int)
+    ACESproxy = np.asarray(ACESproxy, dtype=DEFAULT_FLOAT_DTYPE)
 
     constants = constants[bit_depth]
 
-    return (2 **
-            (((ACESproxy - constants.mid_CV_offset) / constants.steps_per_stop
-              - constants.mid_log_offset)))
+    if not in_int:
+        ACESproxy = ACESproxy * (2 ** bit_depth - 1)
+
+    output = (2 ** (
+        ((ACESproxy - constants.mid_CV_offset) / constants.steps_per_stop -
+         constants.mid_log_offset)))
+
+    return output
 
 
 def log_encoding_ACEScc(lin_AP1):
