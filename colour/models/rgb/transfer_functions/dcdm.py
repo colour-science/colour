@@ -64,7 +64,7 @@ def oetf_DCDM(XYZ, out_int=False):
     --------
     >>> oetf_DCDM(0.18)  # doctest: +ELLIPSIS
     0.1128186...
-    >>> oetf_DCDM(0.18, out_int=True)  # doctest: +ELLIPSIS
+    >>> oetf_DCDM(0.18, out_int=True)
     462
     """
 

@@ -41,13 +41,19 @@ log_encoding_ACESproxy`
 log_encoding_ACESproxy` definition.
         """
 
-        self.assertEqual(log_encoding_ACESproxy(0.0), 64)
+        self.assertAlmostEqual(
+            log_encoding_ACESproxy(0.0), 0.062561094819159, places=7)
 
-        self.assertEqual(log_encoding_ACESproxy(0.18), 426)
+        self.assertAlmostEqual(
+            log_encoding_ACESproxy(0.18), 0.416422287390029, places=7)
 
-        self.assertEqual(log_encoding_ACESproxy(0.18, 12), 1705)
+        self.assertAlmostEqual(
+            log_encoding_ACESproxy(0.18, 12), 0.416361416361416, places=7)
 
-        self.assertEqual(log_encoding_ACESproxy(1.0), 550)
+        self.assertAlmostEqual(
+            log_encoding_ACESproxy(1.0), 0.537634408602151, places=7)
+
+        self.assertEqual(log_encoding_ACESproxy(0.18, out_int=True), 426)
 
     def test_n_dimensional_log_encoding_ACESproxy(self):
         """
@@ -56,20 +62,24 @@ log_encoding_ACESproxy` definition n-dimensional arrays support.
         """
 
         linear = 0.18
-        log = 426
-        np.testing.assert_equal(log_encoding_ACESproxy(linear), log)
+        log = 0.416422287390029
+        np.testing.assert_almost_equal(
+            log_encoding_ACESproxy(linear), log, decimal=7)
 
         linear = np.tile(linear, 6)
         log = np.tile(log, 6)
-        np.testing.assert_equal(log_encoding_ACESproxy(linear), log)
+        np.testing.assert_almost_equal(
+            log_encoding_ACESproxy(linear), log, decimal=7)
 
         linear = np.reshape(linear, (2, 3))
         log = np.reshape(log, (2, 3))
-        np.testing.assert_equal(log_encoding_ACESproxy(linear), log)
+        np.testing.assert_almost_equal(
+            log_encoding_ACESproxy(linear), log, decimal=7)
 
         linear = np.reshape(linear, (2, 3, 1))
         log = np.reshape(log, (2, 3, 1))
-        np.testing.assert_almost_equal(log_encoding_ACESproxy(linear), log)
+        np.testing.assert_almost_equal(
+            log_encoding_ACESproxy(linear), log, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_log_encoding_ACESproxy(self):
@@ -95,16 +105,35 @@ log_decoding_ACESproxy`
 log_decoding_ACESproxy` definition.
         """
 
-        self.assertAlmostEqual(
-            log_decoding_ACESproxy(64), 0.001185737191792, places=7)
+        np.testing.assert_allclose(
+            log_decoding_ACESproxy(0.062561094819159),
+            0.0,
+            atol=0.01,
+            rtol=0.01)
 
-        self.assertAlmostEqual(
-            log_decoding_ACESproxy(426), 0.179244406001978, places=7)
+        np.testing.assert_allclose(
+            log_decoding_ACESproxy(0.416422287390029),
+            0.18,
+            atol=0.01,
+            rtol=0.01)
 
-        self.assertAlmostEqual(
-            log_decoding_ACESproxy(1705, 12), 0.179866697501353, places=7)
+        np.testing.assert_allclose(
+            log_decoding_ACESproxy(0.416361416361416, 12),
+            0.18,
+            atol=0.01,
+            rtol=0.01)
 
-        self.assertAlmostEqual(log_decoding_ACESproxy(550), 1.0, places=7)
+        np.testing.assert_allclose(
+            log_decoding_ACESproxy(0.537634408602151),
+            1.0,
+            atol=0.01,
+            rtol=0.01)
+
+        np.testing.assert_allclose(
+            log_decoding_ACESproxy(426, in_int=True),
+            0.18,
+            atol=0.01,
+            rtol=0.01)
 
     def test_n_dimensional_log_decoding_ACESproxy(self):
         """
@@ -112,7 +141,7 @@ log_decoding_ACESproxy` definition.
 log_decoding_ACESproxy` definition n-dimensional arrays support.
         """
 
-        log = 426.0
+        log = 0.416422287390029
         linear = 0.179244406001978
         np.testing.assert_almost_equal(
             log_decoding_ACESproxy(log), linear, decimal=7)

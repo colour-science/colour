@@ -42,10 +42,13 @@ oetf_ROMMRGB` definition.
 
         self.assertAlmostEqual(oetf_ROMMRGB(0.0), 0.0, places=7)
 
-        self.assertAlmostEqual(
-            oetf_ROMMRGB(0.18), 98.356413311540095, places=7)
+        self.assertAlmostEqual(oetf_ROMMRGB(0.18), 0.385711424751138, places=7)
 
-        self.assertAlmostEqual(oetf_ROMMRGB(1.0), 255.0, places=7)
+        self.assertAlmostEqual(oetf_ROMMRGB(1.0), 1.0, places=7)
+
+        self.assertEqual(oetf_ROMMRGB(0.18, out_int=True), 98)
+
+        self.assertEqual(oetf_ROMMRGB(0.18, bit_depth=12, out_int=True), 1579)
 
     def test_n_dimensional_oetf_ROMMRGB(self):
         """
@@ -54,7 +57,7 @@ oetf_ROMMRGB` definition n-dimensional arrays support.
         """
 
         X = 0.18
-        X_ROMM = 98.356413311540095
+        X_ROMM = 0.385711424751138
         np.testing.assert_almost_equal(oetf_ROMMRGB(X), X_ROMM, decimal=7)
 
         X = np.tile(X, 6)
@@ -93,10 +96,18 @@ eotf_ROMMRGB` definition.
 
         self.assertAlmostEqual(eotf_ROMMRGB(0.0), 0.0, places=7)
 
-        self.assertAlmostEqual(
-            eotf_ROMMRGB(98.356413311540095), 0.18, places=7)
+        self.assertAlmostEqual(eotf_ROMMRGB(0.385711424751138), 0.18, places=7)
 
-        self.assertAlmostEqual(eotf_ROMMRGB(255.0), 1.0, places=7)
+        self.assertAlmostEqual(eotf_ROMMRGB(1.0), 1.0, places=7)
+
+        np.testing.assert_allclose(
+            eotf_ROMMRGB(98, in_int=True), 0.18, atol=0.001, rtol=0.001)
+
+        np.testing.assert_allclose(
+            eotf_ROMMRGB(1579, bit_depth=12, in_int=True),
+            0.18,
+            atol=0.001,
+            rtol=0.001)
 
     def test_n_dimensional_eotf_ROMMRGB(self):
         """
@@ -104,7 +115,7 @@ eotf_ROMMRGB` definition.
 eotf_ROMMRGB` definition n-dimensional arrays support.
         """
 
-        L = 98.356413311540095
+        L = 0.385711424751138
         V = 0.18
         np.testing.assert_almost_equal(eotf_ROMMRGB(L), V, decimal=7)
 
@@ -144,11 +155,13 @@ oetf_RIMMRGB` definition.
 
         self.assertAlmostEqual(oetf_RIMMRGB(0.0), 0.0, places=7)
 
-        self.assertAlmostEqual(
-            oetf_RIMMRGB(0.18), 74.376801781315210, places=7)
+        self.assertAlmostEqual(oetf_RIMMRGB(0.18), 0.291673732475746, places=7)
 
-        self.assertAlmostEqual(
-            oetf_RIMMRGB(1.0), 181.846934745868940, places=7)
+        self.assertAlmostEqual(oetf_RIMMRGB(1.0), 0.713125234297525, places=7)
+
+        self.assertEqual(oetf_RIMMRGB(0.18, out_int=True), 74)
+
+        self.assertEqual(oetf_RIMMRGB(0.18, bit_depth=12, out_int=True), 1194)
 
     def test_n_dimensional_oetf_RIMMRGB(self):
         """
@@ -157,7 +170,7 @@ oetf_RIMMRGB` definition n-dimensional arrays support.
         """
 
         L = 0.18
-        V = 74.376801781315210
+        V = 0.291673732475746
         np.testing.assert_almost_equal(oetf_RIMMRGB(L), V, decimal=7)
 
         L = np.tile(L, 6)
@@ -196,11 +209,18 @@ eotf_RIMMRGB` definition.
 
         self.assertAlmostEqual(eotf_RIMMRGB(0.0), 0.0, places=7)
 
-        self.assertAlmostEqual(
-            eotf_RIMMRGB(74.376801781315210), 0.18, places=7)
+        self.assertAlmostEqual(eotf_RIMMRGB(0.291673732475746), 0.18, places=7)
 
-        self.assertAlmostEqual(
-            eotf_RIMMRGB(181.846934745868940), 1.0, places=7)
+        self.assertAlmostEqual(eotf_RIMMRGB(0.713125234297525), 1.0, places=7)
+
+        np.testing.assert_allclose(
+            eotf_RIMMRGB(74, in_int=True), 0.18, atol=0.005, rtol=0.005)
+
+        np.testing.assert_allclose(
+            eotf_RIMMRGB(1194, bit_depth=12, in_int=True),
+            0.18,
+            atol=0.005,
+            rtol=0.005)
 
     def test_n_dimensional_eotf_RIMMRGB(self):
         """
@@ -208,7 +228,7 @@ eotf_RIMMRGB` definition.
 eotf_RIMMRGB` definition n-dimensional arrays support.
         """
 
-        L = 74.376801781315210
+        L = 0.291673732475746
         V = 0.18
         np.testing.assert_almost_equal(eotf_RIMMRGB(L), V, decimal=7)
 
@@ -249,10 +269,15 @@ log_encoding_ERIMMRGB` definition.
         self.assertAlmostEqual(log_encoding_ERIMMRGB(0.0), 0.0, places=7)
 
         self.assertAlmostEqual(
-            log_encoding_ERIMMRGB(0.18), 104.563359320492940, places=7)
+            log_encoding_ERIMMRGB(0.18), 0.410052389492129, places=7)
 
         self.assertAlmostEqual(
-            log_encoding_ERIMMRGB(1.0), 139.09187348830370, places=7)
+            log_encoding_ERIMMRGB(1.0), 0.545458327405113, places=7)
+
+        self.assertEqual(log_encoding_ERIMMRGB(0.18, out_int=True), 105)
+
+        self.assertEqual(
+            log_encoding_ERIMMRGB(0.18, bit_depth=12, out_int=True), 1679)
 
     def test_n_dimensional_log_encoding_ERIMMRGB(self):
         """
@@ -261,7 +286,7 @@ log_encoding_ERIMMRGB` definition n-dimensional arrays support.
         """
 
         X = 0.18
-        X_ERIMM = 104.563359320492940
+        X_ERIMM = 0.410052389492129
         np.testing.assert_almost_equal(
             log_encoding_ERIMMRGB(X), X_ERIMM, decimal=7)
 
@@ -306,10 +331,22 @@ log_decoding_ERIMMRGB` definition.
         self.assertAlmostEqual(log_decoding_ERIMMRGB(0.0), 0.0, places=7)
 
         self.assertAlmostEqual(
-            log_decoding_ERIMMRGB(104.563359320492940), 0.18, places=7)
+            log_decoding_ERIMMRGB(0.410052389492129), 0.18, places=7)
 
         self.assertAlmostEqual(
-            log_decoding_ERIMMRGB(139.09187348830370), 1.0, places=7)
+            log_decoding_ERIMMRGB(0.545458327405113), 1.0, places=7)
+
+        np.testing.assert_allclose(
+            log_decoding_ERIMMRGB(105, in_int=True),
+            0.18,
+            atol=0.005,
+            rtol=0.005)
+
+        np.testing.assert_allclose(
+            log_decoding_ERIMMRGB(1679, bit_depth=12, in_int=True),
+            0.18,
+            atol=0.005,
+            rtol=0.005)
 
     def test_n_dimensional_log_decoding_ERIMMRGB(self):
         """
@@ -317,7 +354,7 @@ log_decoding_ERIMMRGB` definition.
 log_decoding_ERIMMRGB` definition n-dimensional arrays support.
         """
 
-        X_ERIMM = 104.563359320492940
+        X_ERIMM = 0.410052389492129
         X = 0.18
         np.testing.assert_almost_equal(
             log_decoding_ERIMMRGB(X_ERIMM), X, decimal=7)
