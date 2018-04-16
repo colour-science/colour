@@ -40,7 +40,7 @@ class TestOetf_DCDM(unittest.TestCase):
 
         self.assertAlmostEqual(oetf_DCDM(1.0), 0.21817973, places=7)
 
-        self.assertAlmostEqual(oetf_DCDM(0.18, out_int=True), 462, places=7)
+        self.assertEqual(oetf_DCDM(0.18, out_int=True), 462)
 
     def test_n_dimensional_oetf_DCDM(self):
         """
