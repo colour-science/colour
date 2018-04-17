@@ -36,13 +36,16 @@ oetf_DICOMGSDF` definition.
         """
 
         self.assertAlmostEqual(
-            round(oetf_DICOMGSDF(0.049981846913482)), 1, places=7)
+            oetf_DICOMGSDF(0.05), 0.001007281350787, places=7)
 
         self.assertAlmostEqual(
-            round(oetf_DICOMGSDF(130.065284012159790)), 512, places=7)
+            oetf_DICOMGSDF(130.0662), 0.500486263438448, places=7)
 
         self.assertAlmostEqual(
-            round(oetf_DICOMGSDF(3993.329585887327100)), 1023, places=7)
+            oetf_DICOMGSDF(4000), 1.000160314715578, places=7)
+
+        self.assertAlmostEqual(
+            oetf_DICOMGSDF(130.0662, out_int=True), 512, places=7)
 
     def test_n_dimensional_oetf_DICOMGSDF(self):
         """
@@ -50,25 +53,21 @@ oetf_DICOMGSDF` definition.
 oetf_DICOMGSDF` definition n-dimensional arrays support.
         """
 
-        L = 130.065284012159790
-        J = 512
-        np.testing.assert_almost_equal(
-            np.around(oetf_DICOMGSDF(L)), J, decimal=7)
+        L = 130.0662
+        J = 0.500486263438448
+        np.testing.assert_almost_equal(oetf_DICOMGSDF(L), J, decimal=7)
 
         L = np.tile(L, 6)
         J = np.tile(J, 6)
-        np.testing.assert_almost_equal(
-            np.around(oetf_DICOMGSDF(L)), J, decimal=7)
+        np.testing.assert_almost_equal(oetf_DICOMGSDF(L), J, decimal=7)
 
         L = np.reshape(L, (2, 3))
         J = np.reshape(J, (2, 3))
-        np.testing.assert_almost_equal(
-            np.around(oetf_DICOMGSDF(L)), J, decimal=7)
+        np.testing.assert_almost_equal(oetf_DICOMGSDF(L), J, decimal=7)
 
         L = np.reshape(L, (2, 3, 1))
         J = np.reshape(J, (2, 3, 1))
-        np.testing.assert_almost_equal(
-            np.around(oetf_DICOMGSDF(L)), J, decimal=7)
+        np.testing.assert_almost_equal(oetf_DICOMGSDF(L), J, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_oetf_DICOMGSDF(self):
@@ -92,13 +91,17 @@ eotf_DICOMGSDF` definition unit tests methods.
 eotf_DICOMGSDF` definition.
         """
 
-        self.assertAlmostEqual(eotf_DICOMGSDF(1), 0.049981846913482, places=7)
+        self.assertAlmostEqual(
+            eotf_DICOMGSDF(0.001007281350787), 0.050143440671692, places=7)
 
         self.assertAlmostEqual(
-            eotf_DICOMGSDF(512), 130.065284012159790, places=7)
+            eotf_DICOMGSDF(0.500486263438448), 130.062864706476550, places=7)
 
         self.assertAlmostEqual(
-            eotf_DICOMGSDF(1023), 3993.329585887327100, places=7)
+            eotf_DICOMGSDF(1.000160314715578), 3997.586161113322300, places=7)
+
+        self.assertAlmostEqual(
+            eotf_DICOMGSDF(512, in_int=True), 130.065284012159790, places=7)
 
     def test_n_dimensional_eotf_DICOMGSDF(self):
         """
@@ -106,8 +109,8 @@ eotf_DICOMGSDF` definition.
 eotf_DICOMGSDF` definition n-dimensional arrays support.
         """
 
-        J = 512
-        L = 130.065284012159790
+        J = 0.500486263438448
+        L = 130.062864706476550
         np.testing.assert_almost_equal(eotf_DICOMGSDF(J), L, decimal=7)
 
         J = np.tile(J, 6)

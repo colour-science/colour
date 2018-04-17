@@ -73,7 +73,7 @@ DICOMGSDF_CONSTANTS : Structure
 """
 
 
-def oetf_DICOMGSDF(L):
+def oetf_DICOMGSDF(L, out_int=False):
     """
     Defines the *DICOM - Grayscale Standard Display Function* opto-electronic
     transfer function (OETF / OECF).
@@ -82,11 +82,14 @@ def oetf_DICOMGSDF(L):
     ----------
     L : numeric or array_like
         *Luminance* :math:`L`.
+    out_int : bool, optional
+        Whether to return value as integer code value or float equivalent of a
+        code value at a given bit depth.
 
     Returns
     -------
     numeric or ndarray
-        Just-Noticeable Difference (JND) Index, :math:`j` in domain 1 to 1023.
+        Just-Noticeable Difference (JND) Index, :math:`j`.
 
     References
     ----------
@@ -94,8 +97,10 @@ def oetf_DICOMGSDF(L):
 
     Examples
     --------
-    >>> oetf_DICOMGSDF(130.065284012159790)  # doctest: +ELLIPSIS
-    511.9964806...
+    >>> oetf_DICOMGSDF(130.0662)  # doctest: +ELLIPSIS
+    0.5004862...
+    >>> oetf_DICOMGSDF(130.0662, out_int=True)
+    512
     """
 
     L = np.asarray(L)
@@ -115,10 +120,13 @@ def oetf_DICOMGSDF(L):
     L = (A + B * L_lg + C * L_lg ** 2 + D * L_lg ** 3 + E * L_lg ** 4 +
          F * L_lg ** 5 + G * L_lg ** 6 + H * L_lg ** 7 + I * L_lg ** 8)
 
-    return as_numeric(L)
+    if out_int:
+        return np.round(L).astype(np.int_)
+    else:
+        return as_numeric(L / 1023)
 
 
-def eotf_DICOMGSDF(J):
+def eotf_DICOMGSDF(J, in_int=False):
     """
     Defines the *DICOM - Grayscale Standard Display Function* electro-optical
     transfer function (EOTF / EOCF).
@@ -126,7 +134,10 @@ def eotf_DICOMGSDF(J):
     Parameters
     ----------
     J : numeric or array_like
-        Just-Noticeable Difference (JND) Index, :math:`j` in range 1 to 1023.
+        Just-Noticeable Difference (JND) Index, :math:`j`.
+    in_int : bool, optional
+        Whether to treat the input value as integer code value or float
+        equivalent of a code value at a given bit depth.
 
     Returns
     -------
@@ -139,11 +150,16 @@ def eotf_DICOMGSDF(J):
 
     Examples
     --------
-    >>> eotf_DICOMGSDF(512)  # doctest: +ELLIPSIS
+    >>> eotf_DICOMGSDF(0.500486263438448)  # doctest: +ELLIPSIS
+    130.0628647...
+    >>> eotf_DICOMGSDF(512, in_int=True)  # doctest: +ELLIPSIS
     130.0652840...
     """
 
     J = np.asarray(J)
+
+    if not in_int:
+        J = J * 1023
 
     a = DICOMGSDF_CONSTANTS.a
     b = DICOMGSDF_CONSTANTS.b
