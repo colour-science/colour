@@ -283,13 +283,13 @@ class TestLuminanceFairchild2011(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            luminance_Fairchild2011(26.459509817572265), 0.10079999, places=7)
+            luminance_Fairchild2011(48.248717574425029), 0.10079999, places=7)
 
         self.assertAlmostEqual(
-            luminance_Fairchild2011(71.708466023819625), 0.56759999, places=7)
+            luminance_Fairchild2011(87.712714139420314), 0.56759999, places=7)
 
         self.assertAlmostEqual(
-            luminance_Fairchild2011(93.030975393206475), 0.98319999, places=7)
+            luminance_Fairchild2011(102.9300402996804), 0.98319999, places=7)
 
         self.assertAlmostEqual(
             luminance_Fairchild2011(0.08672116154998, 2.75),
@@ -297,12 +297,12 @@ class TestLuminanceFairchild2011(unittest.TestCase):
             places=7)
 
         self.assertAlmostEqual(
-            luminance_Fairchild2011(244.07716520973938),
+            luminance_Fairchild2011(234.72925681957565),
             1008.00000000,
             places=7)
 
         self.assertAlmostEqual(
-            luminance_Fairchild2011(246.90681933957006),
+            luminance_Fairchild2011(245.57059778237573),
             100800.00000000,
             places=7)
 
@@ -312,7 +312,7 @@ class TestLuminanceFairchild2011(unittest.TestCase):
         definition n-dimensional arrays support.
         """
 
-        L_hdr = 26.459509817572265
+        L_hdr = 48.248717574425029
         Y = 10.08 / 100
         np.testing.assert_almost_equal(
             luminance_Fairchild2011(L_hdr), Y, decimal=7)

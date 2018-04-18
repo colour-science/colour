@@ -38,10 +38,10 @@ class TestExponent_hdr_CIELab(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            exponent_hdr_CIELab(0.2, 100), 0.709927693821670, places=7)
+            exponent_hdr_CIELab(0.2, 100), 0.473851073746817, places=7)
 
         self.assertAlmostEqual(
-            exponent_hdr_CIELab(0.4, 100), 0.512725556648984, places=7)
+            exponent_hdr_CIELab(0.4, 100), 0.656101486726362, places=7)
 
         self.assertAlmostEqual(
             exponent_hdr_CIELab(0.4, 100, method='Fairchild 2010'),
@@ -49,7 +49,7 @@ class TestExponent_hdr_CIELab(unittest.TestCase):
             places=7)
 
         self.assertAlmostEqual(
-            exponent_hdr_CIELab(0.2, 1000), 0.473285129214447, places=7)
+            exponent_hdr_CIELab(0.2, 1000), 0.710776610620225, places=7)
 
     def test_n_dimensional_exponent_hdr_CIELab(self):
         """
@@ -59,27 +59,27 @@ class TestExponent_hdr_CIELab(unittest.TestCase):
 
         Y_s = 0.2
         Y_abs = 100
-        e = 0.709927693821670
+        epsilon = 0.473851073746817
         np.testing.assert_almost_equal(
-            exponent_hdr_CIELab(Y_s, Y_abs), e, decimal=7)
+            exponent_hdr_CIELab(Y_s, Y_abs), epsilon, decimal=7)
 
         Y_s = np.tile(Y_s, 6)
         Y_abs = np.tile(Y_abs, 6)
-        e = np.tile(e, 6)
+        epsilon = np.tile(epsilon, 6)
         np.testing.assert_almost_equal(
-            exponent_hdr_CIELab(Y_s, Y_abs), e, decimal=7)
+            exponent_hdr_CIELab(Y_s, Y_abs), epsilon, decimal=7)
 
         Y_s = np.reshape(Y_s, (2, 3))
         Y_abs = np.reshape(Y_abs, (2, 3))
-        e = np.reshape(e, (2, 3))
+        epsilon = np.reshape(epsilon, (2, 3))
         np.testing.assert_almost_equal(
-            exponent_hdr_CIELab(Y_s, Y_abs), e, decimal=7)
+            exponent_hdr_CIELab(Y_s, Y_abs), epsilon, decimal=7)
 
         Y_s = np.reshape(Y_s, (2, 3, 1))
         Y_abs = np.reshape(Y_abs, (2, 3, 1))
-        e = np.reshape(e, (2, 3, 1))
+        epsilon = np.reshape(epsilon, (2, 3, 1))
         np.testing.assert_almost_equal(
-            exponent_hdr_CIELab(Y_s, Y_abs), e, decimal=7)
+            exponent_hdr_CIELab(Y_s, Y_abs), epsilon, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_exponent_hdr_CIELab(self):
@@ -105,14 +105,14 @@ class TestXYZ_to_hdr_CIELab(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             XYZ_to_hdr_CIELab(np.array([0.07049534, 0.10080000, 0.09558313])),
-            np.array([26.46461067, -24.61332600, -4.84796811]),
+            np.array([48.26598942, -28.18550823, -5.22082042]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_hdr_CIELab(
                 np.array([0.07049534, 0.10080000, 0.09558313]),
                 np.array([0.44757, 0.40745])),
-            np.array([26.46461067, -33.35816986, -42.86850246]),
+            np.array([48.26598942, -38.84903886, -41.14843669]),
             decimal=7)
 
         np.testing.assert_almost_equal(
@@ -126,13 +126,13 @@ class TestXYZ_to_hdr_CIELab(unittest.TestCase):
         np.testing.assert_almost_equal(
             XYZ_to_hdr_CIELab(
                 np.array([0.07049534, 0.10080000, 0.09558313]), Y_s=0.5),
-            np.array([55.57158803, -27.58973060, -5.03923267]),
+            np.array([20.06063623, -21.54852194, -4.36342250]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_hdr_CIELab(
                 np.array([0.07049534, 0.10080000, 0.09558313]), Y_abs=1000),
-            np.array([48.33166805, -28.18355309, -5.21974184]),
+            np.array([26.40477826, -24.58978787, -4.84444153]),
             decimal=7)
 
     def test_n_dimensional_XYZ_to_hdr_CIELab(self):
@@ -145,7 +145,7 @@ class TestXYZ_to_hdr_CIELab(unittest.TestCase):
         illuminant = np.array([0.34570, 0.35850])
         Y_s = 0.2
         Y_abs = 100
-        Lab_hdr = np.array([26.46461067, -24.61332600, -4.84796811])
+        Lab_hdr = np.array([48.26598942, -28.18550823, -5.22082042])
         np.testing.assert_almost_equal(
             XYZ_to_hdr_CIELab(XYZ, illuminant, Y_s, Y_abs), Lab_hdr, decimal=7)
 
@@ -198,26 +198,26 @@ class TestHdr_CIELab_to_XYZ(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             hdr_CIELab_to_XYZ(
-                np.array([26.46461067, -24.61332600, -4.84796811])),
+                np.array([48.26598942, -28.18550823, -5.22082042])),
             np.array([0.07049534, 0.10080000, 0.09558313]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             hdr_CIELab_to_XYZ(
-                np.array([26.46461067, -33.35816986, -42.86850246]),
+                np.array([48.26598942, -38.84903886, -41.14843669]),
                 np.array([0.44757, 0.40745])),
             np.array([0.07049534, 0.10080000, 0.09558313]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             hdr_CIELab_to_XYZ(
-                np.array([55.57158803, -27.58973060, -5.03923267]), Y_s=0.5),
+                np.array([20.06063623, -21.54852194, -4.36342250]), Y_s=0.5),
             np.array([0.07049534, 0.10080000, 0.09558313]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             hdr_CIELab_to_XYZ(
-                np.array([48.33166805, -28.18355309, -5.21974184]),
+                np.array([26.40477826, -24.58978787, -4.84444153]),
                 Y_abs=1000),
             np.array([0.07049534, 0.10080000, 0.09558313]),
             decimal=7)
@@ -228,7 +228,7 @@ class TestHdr_CIELab_to_XYZ(unittest.TestCase):
         n-dimensions support.
         """
 
-        Lab_hdr = np.array([26.46461067, -24.61332600, -4.84796811])
+        Lab_hdr = np.array([48.26598942, -28.18550823, -5.22082042])
         illuminant = np.array([0.34570, 0.35850])
         Y_s = 0.2
         Y_abs = 100

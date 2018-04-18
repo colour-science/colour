@@ -88,7 +88,7 @@ def exponent_hdr_CIELab(Y_s, Y_abs, method='Fairchild 2011'):
     Examples
     --------
     >>> exponent_hdr_CIELab(0.2, 100)  # doctest: +ELLIPSIS
-    0.7099276...
+    0.4738510...
     >>> exponent_hdr_CIELab(0.2, 100, method='Fairchild 2010')
     ... # doctest: +ELLIPSIS
     1.8360198...
@@ -110,7 +110,10 @@ def exponent_hdr_CIELab(Y_s, Y_abs, method='Fairchild 2011'):
 
     sf = 1.25 - 0.25 * (Y_s / 0.184)
     lf = np.log(318) / np.log(Y_abs)
-    epsilon *= sf * lf
+    if method_l == 'fairchild 2010':
+        epsilon *= sf * lf
+    else:
+        epsilon /= sf * lf
 
     return epsilon
 
@@ -168,7 +171,7 @@ def XYZ_to_hdr_CIELab(
     --------
     >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
     >>> XYZ_to_hdr_CIELab(XYZ)  # doctest: +ELLIPSIS
-    array([ 26.4646106..., -24.613326 ...,  -4.8479681...])
+    array([ 48.2659894..., -28.1855082...,  -5.2208204...])
     >>> XYZ_to_hdr_CIELab(XYZ, method='Fairchild 2010')  # doctest: +ELLIPSIS
     array([ 24.9020664..., -46.8312760..., -10.1427484...])
     """
@@ -242,7 +245,7 @@ def hdr_CIELab_to_XYZ(
 
     Examples
     --------
-    >>> Lab_hdr = np.array([26.46461067, -24.613326, -4.84796811])
+    >>> Lab_hdr = np.array([48.26598942, -28.18550823, -5.22082042])
     >>> hdr_CIELab_to_XYZ(Lab_hdr)  # doctest: +ELLIPSIS
     array([ 0.0704953...,  0.1008    ,  0.0955831...])
     >>> Lab_hdr = np.array([24.90206646, -46.83127607, -10.14274843])

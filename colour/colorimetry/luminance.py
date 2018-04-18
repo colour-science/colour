@@ -248,7 +248,7 @@ def luminance_Fairchild2010(L_hdr, epsilon=1.836):
     return Y
 
 
-def luminance_Fairchild2011(L_hdr, epsilon=0.710, method='hdr-CIELAB'):
+def luminance_Fairchild2011(L_hdr, epsilon=0.474, method='hdr-CIELAB'):
     """
     Computes *luminance* :math:`Y` of given *Lightness* :math:`L_{hdr}` using
     *Fairchild and Chen (2011)* method accordingly to *Michealis-Menten*
@@ -280,10 +280,10 @@ def luminance_Fairchild2011(L_hdr, epsilon=0.710, method='hdr-CIELAB'):
     Examples
     --------
     >>> luminance_Fairchild2011(26.459509817572265)  # doctest: +ELLIPSIS
-    0.1007999...
+    0.0227726...
     >>> luminance_Fairchild2011(26.352467267703549, method='hdr-IPT')
     ... # doctest: +ELLIPSIS
-    0.1007999...
+    0.0227726...
     """
 
     L_hdr = np.asarray(L_hdr)

@@ -274,22 +274,22 @@ class TestLightnessFairchild2011(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            lightness_Fairchild2011(10.08 / 100), 26.45950982, places=7)
+            lightness_Fairchild2011(10.08 / 100), 48.24871757, places=7)
 
         self.assertAlmostEqual(
-            lightness_Fairchild2011(56.76 / 100), 71.70846602, places=7)
+            lightness_Fairchild2011(56.76 / 100), 87.71271414, places=7)
 
         self.assertAlmostEqual(
-            lightness_Fairchild2011(98.32 / 100), 93.03097540, places=7)
+            lightness_Fairchild2011(98.32 / 100), 102.93004030, places=7)
 
         self.assertAlmostEqual(
             lightness_Fairchild2011(10.08 / 100, 2.75), 0.08672116, places=7)
 
         self.assertAlmostEqual(
-            lightness_Fairchild2011(1008), 244.07716521, places=7)
+            lightness_Fairchild2011(1008), 234.72925682, places=7)
 
         self.assertAlmostEqual(
-            lightness_Fairchild2011(100800), 246.90681934, places=7)
+            lightness_Fairchild2011(100800), 245.5705978, places=7)
 
     def test_n_dimensional_lightness_Fairchild2011(self):
         """
@@ -298,7 +298,7 @@ class TestLightnessFairchild2011(unittest.TestCase):
         """
 
         Y = 10.08 / 100
-        L = 26.45950982
+        L = 48.24871757
         np.testing.assert_almost_equal(
             lightness_Fairchild2011(Y), L, decimal=7)
 
