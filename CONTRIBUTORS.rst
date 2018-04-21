@@ -96,6 +96,7 @@ Issues & Discussions
 -   @awehring
 -   @brandondube
 -   @cclauss
+-   @codycuellar
 -   @fangjy88
 -   @eyeforcolor
 -   @foutoucour
