@@ -40,7 +40,7 @@ if os.environ.get('READTHEDOCS') == 'True':
 
 OPTIONAL_REQUIREMENTS = ['pandas']
 
-PLOTTING_REQUIREMENTS = ['matplotlib>=1.3.1']
+PLOTTING_REQUIREMENTS = ['matplotlib>=2.2.0']
 
 DOCS_REQUIREMENTS = [
     'sphinx>=1.6.6', 'sphinxcontrib-bibtex', 'sphinx_rtd_theme'
