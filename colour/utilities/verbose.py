@@ -6,7 +6,7 @@ Verbose
 Defines verbose related objects.
 """
 
-from __future__ import division, unicode_literals
+from __future__ import division, print_function, unicode_literals
 
 import numpy as np
 import warnings
@@ -37,7 +37,7 @@ class ColourWarning(Warning):
     pass
 
 
-def message_box(message, width=79, padding=3):
+def message_box(message, width=79, padding=3, print_callable=print):
     """
     Prints a message inside a box.
 
@@ -47,8 +47,10 @@ def message_box(message, width=79, padding=3):
         Message to print.
     width : int, optional
         Message box width.
-    padding : unicode
+    padding : unicode, optional
         Padding on each sides of the message.
+    print_callable : callable, optional
+        Callable used to print the message box.
 
     Returns
     -------
@@ -99,8 +101,8 @@ def message_box(message, width=79, padding=3):
         return '*{0}{1}{2}{0}*'.format(
             ' ' * padding, text, (' ' * (width - len(text) - padding * 2 - 2)))
 
-    print('=' * width)
-    print(inner(''))
+    print_callable('=' * width)
+    print_callable(inner(''))
 
     wrapper = TextWrapper(
         width=ideal_width, break_long_words=False, replace_whitespace=False)
@@ -108,10 +110,10 @@ def message_box(message, width=79, padding=3):
     lines = [wrapper.wrap(line) for line in message.split("\n")]
     lines = [' ' if len(line) == 0 else line for line in lines]
     for line in chain(*lines):
-        print(inner(line.expandtabs()))
+        print_callable(inner(line.expandtabs()))
 
-    print(inner(''))
-    print('=' * width)
+    print_callable(inner(''))
+    print_callable('=' * width)
     return True
 
 
