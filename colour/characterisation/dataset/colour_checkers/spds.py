@@ -5,8 +5,9 @@ ColourCheckers Spectral Power Distributions
 
 Defines *ColourCheckers* spectral power distributions.
 
-Each *ColourChecker* data is in the form of a *dict* of
-:class:`colour.SpectralPowerDistribution` classes as follows::
+Each *ColourChecker* data is in the form of :class:`OrderedDict`
+class instance of :class:`colour.SpectralPowerDistribution` classes as
+follows::
 
     {'name': SpectralPowerDistribution, ..., 'name': SpectralPowerDistribution}
 
