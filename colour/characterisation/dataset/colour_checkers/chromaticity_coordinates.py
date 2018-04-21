@@ -5,10 +5,10 @@ ColourCheckers Chromaticity Coordinates
 
 Defines *ColourCheckers* chromaticity coordinates in *CIE xyY* colourspace.
 
-Each *ColourChecker* data is in the form of a list of 24 *namedtuples* as
-follows::
+Each *ColourChecker* data is in the form of a list of an :class:`OrderedDict`
+class instance of 24 samples as follows::
 
-    [('index', 'name', 'xyY'), ..., ('index', 'name', 'xyY')]
+    {'name': 'xyY', ..., 'name': 'xyY'}
 
 The following *ColourCheckers* data is available:
 
@@ -65,7 +65,22 @@ __all__ = [
     'COLORCHECKER_1976_ILLUMINANT', 'COLORCHECKER_1976', 'COLOURCHECKERS'
 ]
 
-ColourChecker = namedtuple('ColourChecker', ('name', 'data', 'illuminant'))
+
+class ColourChecker(
+        namedtuple('ColourChecker', ('name', 'data', 'illuminant'))):
+    """
+    *ColourChecker* data.
+
+    Parameters
+    ----------
+    name : unicode
+        *ColourChecker* name.
+    data : OrderedDict
+        chromaticity coordinates in *CIE xyY* colourspace.
+    illuminant : array_like
+        *ColourChecker* illuminant chromaticity coordinates.
+    """
+
 
 BABELCOLOR_AVERAGE_DATA = OrderedDict((
     ('dark skin', np.array([0.4325, 0.3788, 0.1034])),

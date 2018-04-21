@@ -30,6 +30,17 @@ Colour Rendition Charts
     COLOURCHECKERS
     COLOURCHECKERS_SPDS
 
+**Ancillary Objects**
+
+``colour.characterisation``
+
+.. currentmodule:: colour.characterisation
+
+.. autosummary::
+    :toctree: generated/
+
+    ColourChecker
+
 Cameras
 -------
 
