@@ -9,7 +9,7 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.models import Lab_to_DIN99
+from colour.models import Lab_to_DIN99, DIN99_to_Lab
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -19,7 +19,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestLab_to_DIN99']
+__all__ = ['TestLab_to_DIN99', 'TestDIN99_to_Lab']
 
 
 class TestLab_to_DIN99(unittest.TestCase):
@@ -62,8 +62,6 @@ class TestLab_to_DIN99(unittest.TestCase):
         Lab_99 = np.tile(Lab_99, (6, 1))
         np.testing.assert_almost_equal(Lab_to_DIN99(Lab), Lab_99, decimal=7)
 
-        np.testing.assert_almost_equal(Lab_to_DIN99(Lab), Lab_99, decimal=7)
-
         Lab = np.reshape(Lab, (2, 3, 3))
         Lab_99 = np.reshape(Lab_99, (2, 3, 3))
         np.testing.assert_almost_equal(Lab_to_DIN99(Lab), Lab_99, decimal=7)
@@ -78,6 +76,62 @@ class TestLab_to_DIN99(unittest.TestCase):
         cases = set(permutations(cases * 3, r=3))
         for case in cases:
             Lab_to_DIN99(np.array(case))
+
+
+class TestDIN99_to_Lab(unittest.TestCase):
+    """
+    Defines :func:`colour.models.din99.DIN99_to_Lab` definition unit tests
+    methods.
+    """
+
+    def test_DIN99_to_Lab(self):
+        """
+        Tests :func:`colour.models.din99.DIN99_to_Lab` definition.
+        """
+
+        np.testing.assert_almost_equal(
+            DIN99_to_Lab(np.array([49.60101649, -16.23145730, 1.07618123])),
+            np.array([37.98562910, -23.62907688, -4.41746615]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            DIN99_to_Lab(np.array([70.57378525, -13.18189095, 17.98538208])),
+            np.array([60.25740000, -34.00990000, 36.26770000]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            DIN99_to_Lab(np.array([32.36697919, 3.83443742, -21.01059563])),
+            np.array([22.72330000, 20.09040000, -46.69400000]),
+            decimal=7)
+
+    def test_n_dimensional_DIN99_to_Lab(self):
+        """
+        Tests :func:`colour.models.din99.DIN99_to_Lab` definition n-dimensions
+        support.
+        """
+
+        Lab_99 = np.array([49.60101649, -16.23145730, 1.07618123])
+        Lab = np.array([37.98562910, -23.62907688, -4.41746615])
+        np.testing.assert_almost_equal(DIN99_to_Lab(Lab_99), Lab, decimal=7)
+
+        Lab_99 = np.tile(Lab_99, (6, 1))
+        Lab = np.tile(Lab, (6, 1))
+        np.testing.assert_almost_equal(DIN99_to_Lab(Lab_99), Lab, decimal=7)
+
+        Lab_99 = np.reshape(Lab_99, (2, 3, 3))
+        Lab = np.reshape(Lab, (2, 3, 3))
+        np.testing.assert_almost_equal(DIN99_to_Lab(Lab_99), Lab, decimal=7)
+
+    @ignore_numpy_errors
+    def test_nan_DIN99_to_Lab(self):
+        """
+        Tests :func:`colour.models.din99.DIN99_to_Lab` definition nan support.
+        """
+
+        cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
+        cases = set(permutations(cases * 3, r=3))
+        for case in cases:
+            DIN99_to_Lab(np.array(case))
 
 
 if __name__ == '__main__':

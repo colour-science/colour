@@ -6,6 +6,7 @@ DIN99 Colourspace
 Defines the *DIN99* colourspace transformations:
 
 -   :func:`colour.Lab_to_DIN99`
+-   :func:`colour.DIN99_to_Lab`
 
 See Also
 --------
@@ -34,7 +35,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['Lab_to_DIN99']
+__all__ = ['Lab_to_DIN99', 'DIN99_to_Lab']
 
 
 def Lab_to_DIN99(Lab, k_E=1, k_CH=1):
@@ -91,3 +92,59 @@ def Lab_to_DIN99(Lab, k_E=1, k_CH=1):
     L_99 = 105.509 * (np.log(1 + 0.0158 * L)) * k_E
 
     return tstack([L_99, a_99, b_99])
+
+
+def DIN99_to_Lab(Lab_99, k_E=1, k_CH=1):
+    """
+    Converts from *DIN99* colourspace to *CIE L\*a\*b\** colourspace.
+
+    Parameters
+    ----------
+    Lab_99 : array_like
+        *DIN99* colourspace array.
+    k_E : numeric, optional
+        Parametric factor :math:`K_E` used to compensate for texture and other
+        specimen presentation effects.
+    k_CH : numeric, optional
+        Parametric factor :math:`K_{CH}` used to compensate for texture and
+        other specimen presentation effects.
+
+    Returns
+    -------
+    ndarray
+        *CIE L\*a\*b\** colourspace array.
+
+    Notes
+    -----
+    -   Input *Lightness* :math:`L^*` is normalised to domain [0, 100].
+
+    References
+    ----------
+    -   :cite:`ASTMInternational2007`
+
+    Examples
+    --------
+    >>> import numpy as np
+    >>> Lab_99 = np.array([49.60101649, -16.2314573, 1.07618123])
+    >>> DIN99_to_Lab(Lab_99)  # doctest: +ELLIPSIS
+    array([ 37.9856291..., -23.6290768...,  -4.4174661...])
+    """
+
+    L_99, a_99, b_99 = tsplit(Lab_99)
+
+    cos_16 = np.cos(np.radians(16))
+    sin_16 = np.sin(np.radians(16))
+
+    h_99 = np.arctan2(b_99, a_99)
+
+    C_99 = np.sqrt(a_99 ** 2 + b_99 ** 2)
+    G = (np.exp(0.045 * C_99 * k_CH * k_E) - 1) / 0.045
+
+    e = G * np.cos(h_99)
+    f = G * np.sin(h_99)
+
+    a = e * cos_16 - (f / 0.7) * sin_16
+    b = e * sin_16 + (f / 0.7) * cos_16
+    L = (np.exp(L_99 * k_E / 105.509) - 1) / 0.0158
+
+    return tstack([L, a, b])
