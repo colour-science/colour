@@ -109,6 +109,18 @@ Hunter Rd,a,b Colour Scale
     XYZ_to_Hunter_Rdab
     Hunter_Rdab_to_XYZ
 
+DIN99 Colourspace
+-----------------
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    Lab_to_DIN99
+    DIN99_to_Lab
 
 CAM02-LCD, CAM02-SCD, and CAM02-UCS Colourspaces - Luo, Cui and Li (2006)
 -------------------------------------------------------------------------
