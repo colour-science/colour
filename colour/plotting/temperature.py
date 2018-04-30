@@ -101,7 +101,7 @@ def planckian_locus_plot(planckian_locus_colours='black',
         D_uv = 0.05
     else:
         raise ValueError('Invalid method: "{0}", must be one of '
-                         '{\'CIE 1931\', \'CIE 1960 UCS\''.format(method))
+                         '{\'CIE 1931\', \'CIE 1960 UCS\'}'.format(method))
 
     start, end = 1667, 100000
     ij = np.array([
@@ -210,7 +210,7 @@ Planckian_Locus_Chromaticity_Diagram_Plot.png
         limits = (-0.1, 0.7, -0.2, 0.6)
     else:
         raise ValueError('Invalid method: "{0}", must be one of '
-                         '{\'CIE 1931\', \'CIE 1960 UCS\''.format(method))
+                         '{\'CIE 1931\', \'CIE 1960 UCS\'}'.format(method))
 
     for illuminant in illuminants:
         xy = ILLUMINANTS.get(cmfs.name).get(illuminant)
