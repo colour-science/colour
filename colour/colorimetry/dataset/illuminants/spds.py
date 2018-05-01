@@ -47,6 +47,7 @@ References
 
 from __future__ import division, unicode_literals
 
+from colour.algebra import LinearInterpolator
 from colour.colorimetry.spectrum import SpectralPowerDistribution
 from colour.utilities import CaseInsensitiveMapping
 
@@ -3735,3 +3736,9 @@ References
 
 ILLUMINANTS_SPDS : CaseInsensitiveMapping
 """
+
+# *CIE 15:2004* recommends using linear interpolation for
+# *CIE Standard Illuminant D Series*, for consistency all the illuminants are
+# using a linear interpolator.
+for _spd in ILLUMINANTS_SPDS.values():
+    _spd.interpolator = LinearInterpolator

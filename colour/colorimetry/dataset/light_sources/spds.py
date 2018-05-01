@@ -56,6 +56,7 @@ References
 
 from __future__ import division, unicode_literals
 
+from colour.algebra import LinearInterpolator
 from colour.colorimetry.spectrum import SpectralPowerDistribution
 from colour.utilities import CaseInsensitiveMapping
 
@@ -5165,13 +5166,13 @@ Aggregated light sources spectral power distributions.
 LIGHT_SOURCES_SPDS : CaseInsensitiveMapping
 """
 
-# yapf: disable
-LIGHT_SOURCES_SPDS.update(
-    LIGHT_SOURCES_NIST_TRADITIONAL_SPDS)
-LIGHT_SOURCES_SPDS.update(
-    LIGHT_SOURCES_NIST_LED_SPDS)
-LIGHT_SOURCES_SPDS.update(
-    LIGHT_SOURCES_NIST_PHILIPS_SPDS)
-LIGHT_SOURCES_SPDS.update(
-    LIGHT_SOURCES_PROJECTORS_SPDS)
-# yapf: enable
+LIGHT_SOURCES_SPDS.update(LIGHT_SOURCES_NIST_TRADITIONAL_SPDS)
+LIGHT_SOURCES_SPDS.update(LIGHT_SOURCES_NIST_LED_SPDS)
+LIGHT_SOURCES_SPDS.update(LIGHT_SOURCES_NIST_PHILIPS_SPDS)
+LIGHT_SOURCES_SPDS.update(LIGHT_SOURCES_PROJECTORS_SPDS)
+
+# *CIE 15:2004* recommends using linear interpolation for
+# *CIE Standard Illuminant D Series*, for consistency all the light sources are
+# using a linear interpolator.
+for _spd in LIGHT_SOURCES_SPDS.values():
+    _spd.interpolator = LinearInterpolator
