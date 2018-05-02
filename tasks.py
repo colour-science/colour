@@ -357,7 +357,7 @@ def virtualise(ctx, tests=True):
 @task
 def tag(ctx):
     """
-    Tags the repository accordingly to defined version using *git-flow*.
+    Tags the repository according to defined version using *git-flow*.
 
     Parameters
     ----------

@@ -246,7 +246,7 @@ class ModuleAPI(object):
 
     def __dir__(self):
         """
-        Returns list of names in the module local scope filtered accordingly to
+        Returns list of names in the module local scope filtered according to
         the changes.
 
         Returns

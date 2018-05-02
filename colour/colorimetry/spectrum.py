@@ -1793,7 +1793,7 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
 
     def extrapolate(self, shape, extrapolator=None, extrapolator_args=None):
         """
-        Extrapolates the multi-spectral power distribution in-place accordingly
+        Extrapolates the multi-spectral power distribution in-place according
         to *CIE 15:2004* and *CIE 167:2005* recommendations or given
         extrapolation arguments.
 
@@ -1873,7 +1873,7 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
 
     def interpolate(self, shape, interpolator=None, interpolator_args=None):
         """
-        Interpolates the multi-spectral power distribution in-place accordingly
+        Interpolates the multi-spectral power distribution in-place according
         to *CIE 167:2005* recommendation or given interpolation arguments.
 
         Parameters
