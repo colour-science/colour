@@ -15,6 +15,7 @@ from .interpolation import (
     NullInterpolator, lagrange_coefficients)
 from .matrix import is_identity
 from .random import random_triplet_generator
+from .regression import least_square_mapping_MoorePenrose
 
 __all__ = []
 __all__ += coordinates.__all__
@@ -31,3 +32,4 @@ __all__ += [
 ]
 __all__ += ['is_identity']
 __all__ += ['random_triplet_generator']
+__all__ += ['least_square_mapping_MoorePenrose']
