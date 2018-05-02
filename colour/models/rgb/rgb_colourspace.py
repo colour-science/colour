@@ -763,7 +763,7 @@ def XYZ_to_RGB(XYZ,
                chromatic_adaptation_transform='CAT02',
                encoding_cctf=None):
     """
-    Converts from *CIE XYZ* tristimulus values to given *RGB* colourspace.
+    Converts from *CIE XYZ* tristimulus values to *RGB* colourspace array.
 
     Parameters
     ----------
@@ -838,7 +838,7 @@ def RGB_to_XYZ(RGB,
                chromatic_adaptation_transform='CAT02',
                decoding_cctf=None):
     """
-    Converts from given *RGB* colourspace to *CIE XYZ* tristimulus values.
+    Converts given *RGB* colourspace array to *CIE XYZ* tristimulus values.
 
     Parameters
     ----------
@@ -877,7 +877,7 @@ def RGB_to_XYZ(RGB,
 
     Examples
     --------
-    >>> RGB = np.array([0.01100154,  0.12735048,  0.11632713])
+    >>> RGB = np.array([0.01100154, 0.12735048, 0.11632713])
     >>> illuminant_RGB = np.array([0.31270, 0.32900])
     >>> illuminant_XYZ = np.array([0.34570, 0.35850])
     >>> chromatic_adaptation_transform = 'Bradford'
@@ -959,8 +959,8 @@ def RGB_to_RGB(RGB,
                apply_decoding_cctf=False,
                apply_encoding_cctf=False):
     """
-    Converts from given input *RGB* colourspace to output *RGB* colourspace
-    using given *chromatic adaptation* method.
+    Converts given *RGB* colourspace array from given input *RGB* colourspace
+    to output *RGB* colourspace using given *chromatic adaptation* method.
 
     Parameters
     ----------

@@ -55,7 +55,7 @@ def spectral_locus_plot(cmfs='CIE 1931 2 Degree Standard Observer',
                         method='CIE 1931',
                         **kwargs):
     """
-    Plots the *Spectral Locus* accordingly to given method.
+    Plots the *Spectral Locus* according to given method.
 
     Parameters
     ----------
@@ -64,7 +64,7 @@ def spectral_locus_plot(cmfs='CIE 1931 2 Degree Standard Observer',
         *Spectral Locus*.
     spectral_locus_colours : array_like or unicode, optional
         *Spectral Locus* colours, if ``spectral_locus_colours`` is set to
-        *RGB*, the colours will be computed accordingly to the corresponding
+        *RGB*, the colours will be computed according to the corresponding
         chromaticity coordinates.
     spectral_locus_labels : array_like, optional
         Array of wavelength labels used to customise which labels will be drawn
@@ -203,7 +203,7 @@ def chromaticity_diagram_colours_plot(
         method='CIE 1931',
         **kwargs):
     """
-    Plots the *Chromaticity Diagram* colours accordingly to given method.
+    Plots the *Chromaticity Diagram* colours according to given method.
 
     Parameters
     ----------
@@ -287,7 +287,7 @@ def chromaticity_diagram_plot(cmfs='CIE 1931 2 Degree Standard Observer',
                               method='CIE 1931',
                               **kwargs):
     """
-    Plots the *Chromaticity Diagram* accordingly to given method.
+    Plots the *Chromaticity Diagram* according to given method.
 
     Parameters
     ----------

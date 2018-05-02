@@ -65,7 +65,7 @@ def RGB_colourspaces_chromaticity_diagram_plot(
         method='CIE 1931',
         **kwargs):
     """
-    Plots given *RGB* colourspaces in the *Chromaticity Diagram* accordingly
+    Plots given *RGB* colourspaces in the *Chromaticity Diagram* according
     to given method.
 
     Parameters
