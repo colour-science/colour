@@ -83,9 +83,10 @@ from .characterisation import (
     DISPLAYS_RGB_PRIMARIES, POLYNOMIAL_EXPANSION_METHODS, polynomial_expansion,
     COLOUR_CORRECTION_MATRIX_METHODS, colour_correction_matrix,
     COLOUR_CORRECTION_METHODS, colour_correction)
-from .io import (IES_TM2714_Spd, read_image, read_spds_from_csv_file,
-                 read_spds_from_xrite_file, read_spectral_data_from_csv_file,
-                 write_image, write_spds_to_csv_file)
+from .io import (IES_TM2714_Spd, LUT1D, LUT2D, LUT3D, read_image, read_LUT,
+                 read_spds_from_csv_file, read_spds_from_xrite_file,
+                 read_spectral_data_from_csv_file, write_image, write_LUT,
+                 write_spds_to_csv_file)
 from .models import (
     CAM02LCD_to_JMh_CIECAM02, CAM02SCD_to_JMh_CIECAM02,
     CAM02UCS_to_JMh_CIECAM02, CAM16LCD_to_JMh_CAM16, CAM16SCD_to_JMh_CAM16,
@@ -197,9 +198,10 @@ __all__ += [
     'COLOUR_CORRECTION_METHODS', 'colour_correction'
 ]
 __all__ += [
-    'IES_TM2714_Spd', 'read_image', 'read_spds_from_csv_file',
-    'read_spds_from_xrite_file', 'read_spectral_data_from_csv_file',
-    'write_image', 'write_spds_to_csv_file'
+    'IES_TM2714_Spd', 'LUT1D', 'LUT2D', 'LUT3D', 'read_image', 'read_LUT',
+    'read_spds_from_csv_file', 'read_spds_from_xrite_file',
+    'read_spectral_data_from_csv_file', 'write_image', 'write_LUT',
+    'write_spds_to_csv_file'
 ]
 __all__ += [
     'CAM02LCD_to_JMh_CIECAM02', 'CAM02SCD_to_JMh_CIECAM02',

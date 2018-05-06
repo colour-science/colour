@@ -27,6 +27,36 @@ Image Data
 
     ImageAttribute_Specification
 
+Look Up Table (LUT) Data
+------------------------
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    LUT1D
+    LUT2D
+    LUT3D
+    read_LUT
+    write_LUT
+
+**Ancillary Objects**
+
+``colour.io``
+
+.. currentmodule:: colour.io
+
+.. autosummary::
+    :toctree: generated/
+
+    read_LUT_IridasCube
+    write_LUT_IridasCube
+    read_LUT_SonySPI1D
+    write_LUT_SonySPI1D
+
 CSV Tabular Data
 ----------------
 
