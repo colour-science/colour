@@ -877,7 +877,7 @@ dict_like
         Parameters
         ----------
         other : object
-            Object to test whether it is equal to multi-continuous signal.
+            Object to test whether it is equal to the multi-continuous signal.
 
         Returns
         -------

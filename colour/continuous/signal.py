@@ -754,7 +754,7 @@ class Signal(AbstractContinuousFunction):
         Parameters
         ----------
         other : object
-            Object to test whether it is equal to continuous signal.
+            Object to test whether it is equal to the continuous signal.
 
         Returns
         -------

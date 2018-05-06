@@ -529,7 +529,7 @@ class AbstractContinuousFunction:
 
     def __add__(self, a):
         """
-        Implements support for addition, must be reimplemented by sub-classes.
+        Implements support for addition.
 
         Parameters
         ----------
@@ -546,8 +546,7 @@ class AbstractContinuousFunction:
 
     def __iadd__(self, a):
         """
-        Implements support for in-place addition, must be reimplemented by
-        sub-classes.
+        Implements support for in-place addition.
 
         Parameters
         ----------
@@ -564,8 +563,7 @@ class AbstractContinuousFunction:
 
     def __sub__(self, a):
         """
-        Implements support for subtraction, must be reimplemented by
-        sub-classes.
+        Implements support for subtraction.
 
         Parameters
         ----------
@@ -582,8 +580,7 @@ class AbstractContinuousFunction:
 
     def __isub__(self, a):
         """
-        Implements support for in-place subtraction, must be reimplemented by
-        sub-classes.
+        Implements support for in-place subtraction.
 
         Parameters
         ----------
@@ -600,8 +597,7 @@ class AbstractContinuousFunction:
 
     def __mul__(self, a):
         """
-        Implements support for multiplication, must be reimplemented by
-        sub-classes.
+        Implements support for multiplication.
 
         Parameters
         ----------
@@ -618,8 +614,7 @@ class AbstractContinuousFunction:
 
     def __imul__(self, a):
         """
-        Implements support for in-place multiplication, must be reimplemented
-        by sub-classes.
+        Implements support for in-place multiplication.
 
         Parameters
         ----------
@@ -636,8 +631,7 @@ class AbstractContinuousFunction:
 
     def __div__(self, a):
         """
-        Implements support for division, must be reimplemented by
-        sub-classes.
+        Implements support for division.
 
         Parameters
         ----------
@@ -654,8 +648,7 @@ class AbstractContinuousFunction:
 
     def __idiv__(self, a):
         """
-        Implements support for in-place division, must be reimplemented by
-        sub-classes.
+        Implements support for in-place division.
 
         Parameters
         ----------
@@ -675,8 +668,7 @@ class AbstractContinuousFunction:
 
     def __pow__(self, a):
         """
-        Implements support for exponentiation, must be reimplemented by
-        sub-classes.
+        Implements support for exponentiation.
 
         Parameters
         ----------
@@ -693,8 +685,7 @@ class AbstractContinuousFunction:
 
     def __ipow__(self, a):
         """
-        Implements support for in-place exponentiation, must be reimplemented
-        by sub-classes.
+        Implements support for in-place exponentiation.
 
         Parameters
         ----------
@@ -793,8 +784,7 @@ class AbstractContinuousFunction:
 
     def copy(self):
         """
-        Returns a copy of the sub-class instance, must be reimplemented
-        by sub-classes.
+        Returns a copy of the sub-class instance.
 
         Returns
         -------
