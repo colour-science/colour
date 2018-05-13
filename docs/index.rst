@@ -347,11 +347,12 @@ CAM16-LCD, CAM16-SCD, and CAM16-UCS Colourspaces - Li et al. (2017)
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
     >>> Y_b = 20.0
+    >>> surround = colour.CAM16_VIEWING_CONDITIONS['Average']
     >>> specification = colour.XYZ_to_CAM16(
             XYZ, XYZ_w, L_A, Y_b, surround)
     >>> JMh = (specification.J, specification.M, specification.h)
     >>> colour.JMh_CAM16_to_CAM16UCS(JMh)
-    array([ 54.89102616,  -9.42910274,  -5.52845976])
+    array([ 54.90445024,  -0.08562125,  -0.0646796 ])
 
 IPT Colourspace
 ***************
