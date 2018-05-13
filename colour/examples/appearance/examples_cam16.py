@@ -27,9 +27,9 @@ print(specification)
 
 print('\n')
 
-J = 41.73109113
-C = 0.10470776
-h = 219.04843266
+J = 41.73120791
+C = 0.10335574
+h = 217.06795977
 specification = colour.CAM16_Specification(J, C, h)
 message_box(
     ('Converting to "CIE XYZ" tristimulus values using given '

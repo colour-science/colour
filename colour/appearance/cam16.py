@@ -213,8 +213,8 @@ def XYZ_to_CAM16(XYZ,
     >>> Y_b = 20.0
     >>> surround = CAM16_VIEWING_CONDITIONS['Average']
     >>> XYZ_to_CAM16(XYZ, XYZ_w, L_A, Y_b, surround)  # doctest: +ELLIPSIS
-    CAM16_Specification(J=41.7180250..., C=11.9413446..., h=210.3838955..., \
-s=25.3564036..., Q=193.0617673..., M=12.4128523..., H=267.0983345..., HC=None)
+    CAM16_Specification(J=41.7312079..., C=0.1033557..., h=217.0679597..., \
+s=2.3450150..., Q=195.3717089..., M=0.1074367..., H=275.5949861..., HC=None)
     """
 
     _X_w, Y_w, _Z_w = tsplit(XYZ_w)
@@ -232,7 +232,8 @@ s=25.3564036..., Q=193.0617673..., M=12.4128523..., H=267.0983345..., HC=None)
     n, F_L, N_bb, N_cb, z = tsplit(
         viewing_condition_dependent_parameters(Y_b, Y_w, L_A))
 
-    D_RGB = D[..., np.newaxis] * XYZ_w / RGB_w + 1 - D[..., np.newaxis]
+    D_RGB = (D[..., np.newaxis] * Y_w[..., np.newaxis] / RGB_w + 1 -
+             D[..., np.newaxis])
     RGB_wc = D_RGB * RGB_w
 
     # Applying forward post-adaptation non linear response compression.
@@ -351,9 +352,9 @@ def CAM16_to_XYZ(CAM16_specification,
 
     Examples
     --------
-    >>> specification = CAM16_Specification(J=41.718025051415616,
-    ...                                     C=11.941344635245843,
-    ...                                     h=210.38389558131118)
+    >>> specification = CAM16_Specification(J=41.731207905126638,
+    ...                                     C=0.103355738709070,
+    ...                                     h=217.067959767393010)
     >>> XYZ_w = np.array([95.05, 100.00, 108.88])
     >>> L_A = 318.31
     >>> Y_b = 20.0
@@ -377,7 +378,8 @@ def CAM16_to_XYZ(CAM16_specification,
     n, F_L, N_bb, N_cb, z = tsplit(
         viewing_condition_dependent_parameters(Y_b, Y_w, L_A))
 
-    D_RGB = D[..., np.newaxis] * XYZ_w / RGB_w + 1 - D[..., np.newaxis]
+    D_RGB = (D[..., np.newaxis] * Y_w[..., np.newaxis] / RGB_w + 1 -
+             D[..., np.newaxis])
     RGB_wc = D_RGB * RGB_w
 
     # Applying forward post-adaptation non linear response compression.
