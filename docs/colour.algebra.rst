@@ -31,6 +31,8 @@ Interpolation
     PchipInterpolator
     SpragueInterpolator
     lagrange_coefficients
+    TABLE_INTERPOLATION_METHODS
+    table_interpolation
 
 **Interpolation Kernels**
 
@@ -44,6 +46,18 @@ Interpolation
     kernel_sinc
     kernel_lanczos
     kernel_cardinal_spline
+
+**Ancillary Objects**
+
+``colour.algebra``
+
+.. currentmodule:: colour.algebra
+
+.. autosummary::
+    :toctree: generated/
+
+    table_interpolation_trilinear
+    table_interpolation_tetrahedral
 
 Coordinates
 -----------

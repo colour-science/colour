@@ -12,14 +12,19 @@ References
 from __future__ import division, unicode_literals
 
 import numpy as np
+import os
 import unittest
 from itertools import permutations
 
+from colour.algebra.interpolation import vertices_and_relative_coordinates
 from colour.algebra import (
     kernel_nearest_neighbour, kernel_linear, kernel_sinc, kernel_lanczos,
     kernel_cardinal_spline, KernelInterpolator, LinearInterpolator,
     SpragueInterpolator, CubicSplineInterpolator, PchipInterpolator,
-    NullInterpolator, lagrange_coefficients)
+    NullInterpolator, lagrange_coefficients, table_interpolation_trilinear,
+    table_interpolation_tetrahedral)
+from colour.algebra import random_triplet_generator
+from colour.io import read_LUT
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -33,12 +38,14 @@ __all__ = [
     'POINTS_DATA_A', 'LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES',
     'SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES',
     'CUBIC_SPLINE_INTERPOLATED_POINTS_DATA_A_X2_SAMPLES',
-    'LAGRANGE_COEFFICIENTS_A', 'LAGRANGE_COEFFICIENTS_B',
+    'LAGRANGE_COEFFICIENTS_A', 'LAGRANGE_COEFFICIENTS_B', 'LUT_TABLE',
     'TestKernelNearestNeighbour', 'TestKernelLinear', 'TestKernelSinc',
     'TestKernelLanczos', 'TestKernelCardinalSpline', 'TestKernelInterpolator',
     'TestLinearInterpolator', 'TestSpragueInterpolator',
     'TestCubicSplineInterpolator', 'TestPchipInterpolator',
-    'TestNullInterpolator', 'TestLagrangeCoefficients'
+    'TestNullInterpolator', 'TestLagrangeCoefficients',
+    'TestVerticesAndRelativeCoordinates', 'TestTableInterpolationTrilinear',
+    'TestTableInterpolationTetrahedral'
 ]
 
 POINTS_DATA_A = (9.3700, 12.3200, 12.4600, 9.5100, 5.9200, 4.3300, 4.2900,
@@ -145,6 +152,11 @@ LAGRANGE_COEFFICIENTS_B = np.array([
     [-0.0165000, 0.1045000, 0.9405000, -0.0285000],
     [-0.0083125, 0.0511875, 0.9725625, -0.0154375],
 ])
+
+LUT_TABLE = read_LUT(
+    os.path.join(
+        os.path.dirname(__file__), '..', '..', 'io', 'luts', 'tests',
+        'resources', 'iridas_cube', 'ColourCorrect.cube')).table
 
 
 class TestKernelNearestNeighbour(unittest.TestCase):
@@ -383,8 +395,10 @@ class TestKernelInterpolator(unittest.TestCase):
             decimal=7)
 
         kernel_interpolator = KernelInterpolator(
-            x, y, padding_args={'pad_width': (3, 3),
-                                'mode': 'mean'})
+            x, y, padding_args={
+                'pad_width': (3, 3),
+                'mode': 'mean'
+            })
         np.testing.assert_array_almost_equal(
             kernel_interpolator(x_i),
             np.array([
@@ -464,7 +478,8 @@ class TestLinearInterpolator(unittest.TestCase):
         linear_interpolator = LinearInterpolator(x, POINTS_DATA_A)
 
         for i, value in enumerate(
-                np.arange(0, len(POINTS_DATA_A) - 1 + interval, interval)):
+                np.arange(0,
+                          len(POINTS_DATA_A) - 1 + interval, interval)):
             self.assertAlmostEqual(
                 LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES[i],
                 linear_interpolator(value),
@@ -472,7 +487,8 @@ class TestLinearInterpolator(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             linear_interpolator(
-                np.arange(0, len(POINTS_DATA_A) - 1 + interval, interval)),
+                np.arange(0,
+                          len(POINTS_DATA_A) - 1 + interval, interval)),
             LINEAR_INTERPOLATED_POINTS_DATA_A_10_SAMPLES)
 
     @ignore_numpy_errors
@@ -530,7 +546,8 @@ class TestSpragueInterpolator(unittest.TestCase):
         sprague_interpolator = SpragueInterpolator(x, POINTS_DATA_A)
 
         for i, value in enumerate(
-                np.arange(0, len(POINTS_DATA_A) - 1 + interval, interval)):
+                np.arange(0,
+                          len(POINTS_DATA_A) - 1 + interval, interval)):
             self.assertAlmostEqual(
                 SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES[i],
                 sprague_interpolator(value),
@@ -538,7 +555,8 @@ class TestSpragueInterpolator(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             sprague_interpolator(
-                np.arange(0, len(POINTS_DATA_A) - 1 + interval, interval)),
+                np.arange(0,
+                          len(POINTS_DATA_A) - 1 + interval, interval)),
             SPRAGUE_INTERPOLATED_POINTS_DATA_A_10_SAMPLES)
 
     @ignore_numpy_errors
@@ -579,7 +597,8 @@ CubicSplineInterpolator.__call__` method.
         np.testing.assert_almost_equal(
             CubicSplineInterpolator(
                 np.linspace(0, 1, len(POINTS_DATA_A)),
-                POINTS_DATA_A)(np.linspace(0, 1, len(POINTS_DATA_A) * 2)),
+                POINTS_DATA_A)(np.linspace(0, 1,
+                                           len(POINTS_DATA_A) * 2)),
             CUBIC_SPLINE_INTERPOLATED_POINTS_DATA_A_X2_SAMPLES)
 
 
@@ -697,6 +716,159 @@ class TestLagrangeCoefficients(unittest.TestCase):
 
         lc = [lagrange_coefficients(i, 4) for i in np.linspace(1.05, 1.95, 19)]
         np.testing.assert_almost_equal(lc, LAGRANGE_COEFFICIENTS_B, decimal=7)
+
+
+class TestVerticesAndRelativeCoordinates(unittest.TestCase):
+    """
+    Defines :func:`colour.algebra.interpolation.\
+vertices_and_relative_coordinates` definition unit tests methods.
+    """
+
+    def test_vertices_and_relative_coordinates(self):
+        """
+        Tests :func:`colour.algebra.interpolation.\
+vertices_and_relative_coordinates` definition.
+        """
+
+        prng = np.random.RandomState(4)
+
+        V_xyz = list(random_triplet_generator(4, random_state=prng))
+        vertices, V_xyzr = vertices_and_relative_coordinates(V_xyz, LUT_TABLE)
+
+        np.testing.assert_almost_equal(
+            vertices,
+            np.array([
+                [
+                    [0.66666700, 0.33333300, 0.66666700],
+                    [0.58919500, 0.58919500, 0.13916400],
+                    [0.79789400, -0.03541200, -0.03541200],
+                    [0.34941600, 0.65774900, 0.04108300],
+                ],
+                [
+                    [0.78124600, 0.39062300, 1.17186900],
+                    [0.59460100, 0.59460100, 0.36958600],
+                    [0.75276700, -0.02847900, 0.36214400],
+                    [0.34043500, 0.74376900, 0.34043500],
+                ],
+                [
+                    [0.83331100, 0.83331100, 0.83331100],
+                    [0.66343200, 0.93018800, 0.12992000],
+                    [0.63333300, 0.31666700, 0.00000000],
+                    [0.34499100, 1.05021300, -0.00762100],
+                ],
+                [
+                    [0.83331100, 0.83331100, 1.24996300],
+                    [0.68274900, 0.99108200, 0.37441600],
+                    [0.73227800, 0.31562600, 0.31562600],
+                    [0.31420400, 1.12087100, 0.31420400],
+                ],
+                [
+                    [1.08610100, 0.30485500, 0.69547800],
+                    [0.89131800, 0.61982300, 0.07683300],
+                    [1.19684100, -0.05311700, -0.05311700],
+                    [0.58919500, 0.58919500, 0.13916400],
+                ],
+                [
+                    [1.00000000, 0.33333300, 1.00000000],
+                    [0.95000000, 0.63333300, 0.31666700],
+                    [1.16258800, -0.05037200, 0.35394800],
+                    [0.59460100, 0.59460100, 0.36958600],
+                ],
+                [
+                    [1.06561000, 0.64895700, 0.64895700],
+                    [0.88379200, 0.88379200, 0.20874600],
+                    [1.03843900, 0.31089900, -0.05287000],
+                    [0.66343200, 0.93018800, 0.12992000],
+                ],
+                [
+                    [1.00000000, 0.66666700, 1.00000000],
+                    [0.88919900, 0.88919900, 0.43916800],
+                    [1.13122500, 0.29792000, 0.29792000],
+                    [0.68274900, 0.99108200, 0.37441600],
+                ],
+            ]))
+        np.testing.assert_almost_equal(
+            V_xyzr,
+            np.array([
+                [0.90108952, 0.64169675, 0.91805308],
+                [0.14444798, 0.09318647, 0.64826849],
+                [0.92882336, 0.01869077, 0.75894709],
+                [0.30437460, 0.33814877, 0.59305522],
+            ]))
+
+
+class TestTableInterpolationTrilinear(unittest.TestCase):
+    """
+    Defines :func:`colour.algebra.interpolation.\
+table_interpolation_trilinear` definition unit tests methods.
+    """
+
+    def test_interpolation_trilinear(self):
+        """
+        Tests :func:`colour.algebra.interpolation.\
+table_interpolation_trilinear` definition.
+        """
+
+        prng = np.random.RandomState(4)
+
+        V_xyz = list(random_triplet_generator(16, random_state=prng))
+        np.testing.assert_almost_equal(
+            table_interpolation_trilinear(V_xyz, LUT_TABLE),
+            np.array([
+                [0.98672166, 0.55808067, 0.99363130],
+                [0.64740082, 0.63141883, 0.28210099],
+                [1.14071211, -0.04297464, 0.25579753],
+                [0.42407646, 0.80200337, 0.22761228],
+                [0.79801680, 0.90156621, 0.28876311],
+                [0.65658589, -0.00930645, 0.40915598],
+                [0.03130581, 0.92569074, 0.39140542],
+                [1.00832910, 0.82549005, 0.92203472],
+                [0.20306767, 0.08258446, 0.70768598],
+                [0.16379595, 0.71626593, 0.36531119],
+                [0.53877862, 0.97069050, 0.53332290],
+                [0.13245890, 0.16022942, 0.61274365],
+                [0.51507659, 0.63803637, 0.42594822],
+                [0.68378422, 0.42184386, 0.65426251],
+                [0.85498169, 0.15282812, 0.37687278],
+                [0.47181288, 0.68019563, 0.29117055],
+            ]))
+
+
+class TestTableInterpolationTetrahedral(unittest.TestCase):
+    """
+    Defines :func:`colour.algebra.interpolation.\
+table_interpolation_tetrahedral` definition unit tests methods.
+    """
+
+    def test_interpolation_tetrahedral(self):
+        """
+        Tests :func:`colour.algebra.interpolation.\
+table_interpolation_tetrahedral` definition.
+        """
+
+        prng = np.random.RandomState(4)
+
+        V_xyz = list(random_triplet_generator(16, random_state=prng))
+        np.testing.assert_almost_equal(
+            table_interpolation_tetrahedral(V_xyz, LUT_TABLE),
+            np.array([
+                [0.96897354, 0.54820419, 0.97559990],
+                [0.63837038, 0.62213755, 0.29231071],
+                [1.14186288, -0.04326366, 0.25603677],
+                [0.44183704, 0.79285984, 0.23380080],
+                [0.79218040, 0.88853862, 0.29006582],
+                [0.65177413, -0.00902084, 0.40478790],
+                [0.02611218, 0.92280959, 0.39893108],
+                [1.08047800, 0.89713815, 0.97712138],
+                [0.20878037, 0.09368311, 0.73556472],
+                [0.16334403, 0.71071353, 0.38368142],
+                [0.54800775, 1.04192908, 0.54226101],
+                [0.13652582, 0.19880418, 0.65141395],
+                [0.54158304, 0.67856272, 0.45861418],
+                [0.69089505, 0.43151838, 0.65853494],
+                [0.85661530, 0.15180629, 0.38219791],
+                [0.47688455, 0.67128537, 0.28398836],
+            ]))
 
 
 if __name__ == '__main__':

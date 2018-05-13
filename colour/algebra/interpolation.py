@@ -3,7 +3,7 @@
 Interpolation
 =============
 
-Defines classes for interpolating variables.
+Defines classes and definitions for interpolating variables.
 
 -   :class:`colour.KernelInterpolator`: 1-D function generic interpolation with
     arbitrary kernel.
@@ -17,9 +17,15 @@ Defines classes for interpolating variables.
 -   :class:`colour.NullInterpolator`: 1-D function null interpolation.
 -   :func:`colour.lagrange_coefficients`: Computation of
     *Lagrange Coefficients*.
+-   :func:`colour.table_interpolation_trilinear`: Trilinear interpolation with
+    table.
+-   :func:`colour.table_interpolation_tetrahedral`: Tetrahedral interpolation
+    with table.
 
 References
 ----------
+-   :cite:`Bourkeb` : Bourke, P. (n.d.). Trilinear Interpolation. Retrieved
+    from http://paulbourke.net/miscellaneous/interpolation/
 -   :cite:`Burger2009b` : Burger, W., & Burge, M. J. (2009). Principles of
     Digital Image Processing. London: Springer London.
     doi:10.1007/978-1-84800-195-4
@@ -34,6 +40,9 @@ References
 -   :cite:`Fairman1985b` : Fairman, H. S. (1985). The calculation of weight
     factors for tristimulus integration. Color Research & Application, 10(4),
     199-203. doi:10.1002/col.5080100407
+-   :cite:`Kirk2006` : Kirk, R. (2006). Truelight Software Library 2.0.
+    Retrieved from https://www.filmlight.ltd.uk/pdf/whitepapers/\
+FL-TL-TN-0057-SoftwareLib.pdf
 -   :cite:`Westland2012h` : Westland, S., Ripamonti, C., & Cheung, V. (2012).
     Interpolation Methods. In Computational Colour Science Using MATLAB
     (2nd ed., pp. 29-37). ISBN:978-0-470-66569-5
@@ -46,14 +55,16 @@ Lagrange_polynomial#Definition
 
 from __future__ import division, unicode_literals
 
+import itertools
 import numpy as np
 import scipy.interpolate
 from collections import OrderedDict, Mapping
 from six.moves import reduce
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
-from colour.utilities import (as_numeric, interval, is_integer, is_numeric,
-                              closest_indexes, warning)
+from colour.utilities import (CaseInsensitiveMapping, as_numeric, interval,
+                              is_integer, is_numeric, closest_indexes, tsplit,
+                              warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -66,7 +77,10 @@ __all__ = [
     'kernel_nearest_neighbour', 'kernel_linear', 'kernel_sinc',
     'kernel_lanczos', 'kernel_cardinal_spline', 'KernelInterpolator',
     'LinearInterpolator', 'SpragueInterpolator', 'CubicSplineInterpolator',
-    'PchipInterpolator', 'NullInterpolator', 'lagrange_coefficients'
+    'PchipInterpolator', 'NullInterpolator', 'lagrange_coefficients',
+    'vertices_and_relative_coordinates', 'table_interpolation_trilinear',
+    'table_interpolation_tetrahedral', 'TABLE_INTERPOLATION_METHODS',
+    'table_interpolation'
 ]
 
 
@@ -617,8 +631,8 @@ class KernelInterpolator(object):
         x_interval = interval(self._x)[0]
         x_f = np.floor(x / x_interval)
 
-        windows = (x_f[:, np.newaxis] + np.arange(-self._window + 1,
-                                                  self._window + 1))
+        windows = (x_f[:, np.newaxis] +
+                   np.arange(-self._window + 1, self._window + 1))
         clip_l = min(self._x_p) / x_interval
         clip_h = max(self._x_p) / x_interval
         windows = np.clip(windows, clip_l, clip_h) - clip_l
@@ -1505,3 +1519,310 @@ def lagrange_coefficients(r, n=4):
         L_n.append(reduce(lambda x, y: x * y, basis))  # noqa
 
     return np.array(L_n)
+
+
+def vertices_and_relative_coordinates(V_xyz, table):
+    """
+    Computes the vertices coordinates and indexes relative :math:`V_{xyzr}`
+    coordinates from given :math:`V_{xyzr}` values and interpolation table.
+
+    Parameters
+    ----------
+    V_xyz : array_like
+        :math:`V_{xyz}` values to transform to indexes relative
+        :math:`V_{xyzr}` values.
+    table : array_like
+        4-Dimensional (NxNxNx3) interpolation table.
+
+    Returns
+    -------
+    tuple
+        Vertices coordinates and indexes relative :math:`V_{xyzr}` coordinates.
+
+    Examples
+    --------
+    >>> import os
+    >>> import colour
+    >>> path = os.path.join(
+    ...     os.path.dirname(__file__),'..', 'io', 'luts', 'tests', 'resources',
+    ...     'iridas_cube', 'ColourCorrect.cube')
+    >>> LUT = colour.read_LUT(path)
+    >>> table = LUT.table
+    >>> prng = np.random.RandomState(4)
+    >>> V_xyz = colour.algebra.random_triplet_generator(3, random_state=prng)
+    >>> V_xyz = np.asarray(list(V_xyz))
+    >>> print(V_xyz)  # doctest: +ELLIPSIS
+    [[ 0.9670298...  0.5472322...  0.9726843...]
+     [ 0.7148159...  0.6977288...  0.2160895...]
+     [ 0.9762744...  0.0062302...  0.2529823...]]
+    >>> vertices, V_xyzr = vertices_and_relative_coordinates(V_xyz, table)
+    >>> print(vertices)
+    [[[ 0.666667  0.333333  0.666667]
+      [ 0.589195  0.589195  0.139164]
+      [ 0.797894 -0.035412 -0.035412]]
+    <BLANKLINE>
+     [[ 0.781246  0.390623  1.171869]
+      [ 0.594601  0.594601  0.369586]
+      [ 0.752767 -0.028479  0.362144]]
+    <BLANKLINE>
+     [[ 0.833311  0.833311  0.833311]
+      [ 0.663432  0.930188  0.12992 ]
+      [ 0.633333  0.316667  0.      ]]
+    <BLANKLINE>
+     [[ 0.833311  0.833311  1.249963]
+      [ 0.682749  0.991082  0.374416]
+      [ 0.732278  0.315626  0.315626]]
+    <BLANKLINE>
+     [[ 1.086101  0.304855  0.695478]
+      [ 0.891318  0.619823  0.076833]
+      [ 1.196841 -0.053117 -0.053117]]
+    <BLANKLINE>
+     [[ 1.        0.333333  1.      ]
+      [ 0.95      0.633333  0.316667]
+      [ 1.162588 -0.050372  0.353948]]
+    <BLANKLINE>
+     [[ 1.06561   0.648957  0.648957]
+      [ 0.883792  0.883792  0.208746]
+      [ 1.038439  0.310899 -0.05287 ]]
+    <BLANKLINE>
+     [[ 1.        0.666667  1.      ]
+      [ 0.889199  0.889199  0.439168]
+      [ 1.131225  0.29792   0.29792 ]]]
+    >>> print(V_xyzr)  # doctest: +ELLIPSIS
+    [[ 0.9010895...  0.6416967...  0.9180530...]
+     [ 0.1444479...  0.0931864...  0.6482684...]
+     [ 0.9288233...  0.0186907...  0.7589470...]]
+    """
+
+    V_xyz = np.clip(V_xyz, 0, 1)
+    table = np.asarray(table)
+
+    V_xyz = np.reshape(V_xyz, (-1, 3))
+
+    # Indexes computations where ``i_m`` is the maximum index value on a given
+    # table axis, ``i_f`` and ``i_c`` respectively the floor and ceiling
+    # indexes encompassing a given V_xyz value.
+    i_m = np.array(table.shape[0:-1]) - 1
+    i_f = np.floor(V_xyz * i_m).astype(np.int_)
+    i_c = np.clip(i_f + 1, 0, i_m)
+
+    # Relative to indexes ``V_xyz`` values.
+    V_xyzr = i_m * V_xyz - i_f
+
+    i_f_c = i_f, i_c
+
+    # Vertices computations by indexing ``table`` with the ``i_f`` and ``i_c``
+    # indexes. 8 encompassing vertices are computed for a given V_xyz value
+    # forming a cube around it:
+    vertices = np.array([
+        table[i_f_c[i[0]][..., 0], i_f_c[i[1]][..., 1], i_f_c[i[2]][..., 2]]
+        for i in itertools.product(*zip([0, 0, 0], [1, 1, 1]))
+    ])
+
+    return vertices, V_xyzr
+
+
+def table_interpolation_trilinear(V_xyz, table):
+    """
+    Performs trilinear interpolation of given :math:`V_{xyz}` values using
+    given interpolation table.
+
+    Parameters
+    ----------
+    V_xyz : array_like
+        :math:`V_{xyz}` values to interpolate.
+    table : array_like
+        4-Dimensional (NxNxNx3) interpolation table.
+
+    Returns
+    -------
+    ndarray
+        Interpolated :math:`V_{xyz}` values.
+
+    References
+    ----------
+    -   :cite:`Bourkeb`
+
+    Examples
+    --------
+    >>> import os
+    >>> import colour
+    >>> path = os.path.join(
+    ...     os.path.dirname(__file__),'..', 'io', 'luts', 'tests', 'resources',
+    ...     'iridas_cube', 'ColourCorrect.cube')
+    >>> LUT = colour.read_LUT(path)
+    >>> table = LUT.table
+    >>> prng = np.random.RandomState(4)
+    >>> V_xyz = colour.algebra.random_triplet_generator(3, random_state=prng)
+    >>> V_xyz = np.asarray(list(V_xyz))
+    >>> print(V_xyz)  # doctest: +ELLIPSIS
+    [[ 0.9670298...  0.5472322...  0.9726843...]
+     [ 0.7148159...  0.6977288...  0.2160895...]
+     [ 0.9762744...  0.0062302...  0.2529823...]]
+    >>> table_interpolation_trilinear(V_xyz, table)  # doctest: +ELLIPSIS
+    array([[ 0.9867216...,  0.5580806...,  0.9936313...],
+           [ 0.6474008...,  0.6314188...,  0.2821009...],
+           [ 1.1407121..., -0.0429746...,  0.2557975...]])
+    """
+
+    V_xyz = np.asarray(V_xyz)
+
+    vertices, V_xyzr = vertices_and_relative_coordinates(V_xyz, table)
+
+    vertices = np.moveaxis(vertices, 0, 1)
+    x, y, z = [f[:, np.newaxis] for f in tsplit(V_xyzr)]
+
+    weights = np.moveaxis(
+        np.transpose([(1 - x) * (1 - y) * (1 - z), (1 - x) * (1 - y) * z,
+                      (1 - x) * y * (1 - z), (1 - x) * y * z, x * (1 - y) *
+                      (1 - z), x * (1 - y) * z, x * y * (1 - z), x * y * z]),
+        0, -1)
+
+    xyz_o = np.reshape(np.sum(vertices * weights, 1), V_xyz.shape)
+
+    return xyz_o
+
+
+def table_interpolation_tetrahedral(V_xyz, table):
+    """
+    Performs tetrahedral interpolation of given :math:`V_{xyz}` values using
+    given interpolation table.
+
+    Parameters
+    ----------
+    V_xyz : array_like
+        :math:`V_{xyz}` values to interpolate.
+    table : array_like
+        4-Dimensional (NxNxNx3) interpolation table.
+
+    Returns
+    -------
+    ndarray
+        Interpolated :math:`V_{xyz}` values.
+
+    References
+    ----------
+    -   :cite:`Kirk2006`
+
+    Examples
+    --------
+    >>> import os
+    >>> import colour
+    >>> path = os.path.join(
+    ...     os.path.dirname(__file__),'..', 'io', 'luts', 'tests', 'resources',
+    ...     'iridas_cube', 'ColourCorrect.cube')
+    >>> LUT = colour.read_LUT(path)
+    >>> table = LUT.table
+    >>> prng = np.random.RandomState(4)
+    >>> V_xyz = colour.algebra.random_triplet_generator(3, random_state=prng)
+    >>> V_xyz = np.asarray(list(V_xyz))
+    >>> print(V_xyz)  # doctest: +ELLIPSIS
+    [[ 0.9670298...  0.5472322...  0.9726843...]
+     [ 0.7148159...  0.6977288...  0.2160895...]
+     [ 0.9762744...  0.0062302...  0.2529823...]]
+    >>> table_interpolation_tetrahedral(V_xyz, table)  # doctest: +ELLIPSIS
+    array([[ 0.9689735...,  0.5482041...,  0.9755999...],
+           [ 0.6383703...,  0.6221375...,  0.2923107...],
+           [ 1.1418628..., -0.0432636...,  0.2560367...]])
+    """
+
+    V_xyz = np.asarray(V_xyz)
+
+    vertices, V_xyzr = vertices_and_relative_coordinates(V_xyz, table)
+
+    vertices = np.moveaxis(vertices, 0, -1)
+    V000, V001, V010, V011, V100, V101, V110, V111 = tsplit(vertices)
+    x, y, z = [r[:, np.newaxis] for r in tsplit(V_xyzr)]
+
+    xyz_o = (1 - y) * V000 + (y - x) * V010 + (x - z) * V110 + z * V111
+    xyz_o = np.where(
+        np.logical_and(x > y, y > z),
+        (1 - x) * V000 + (x - y) * V100 + (y - z) * V110 + z * V111, xyz_o)
+    xyz_o = np.where(
+        np.logical_and(x > y, x > z),
+        (1 - x) * V000 + (x - z) * V100 + (z - y) * V101 + y * V111, xyz_o)
+    xyz_o = np.where(
+        np.logical_and(x > y, z >= x),
+        (1 - z) * V000 + (z - x) * V001 + (x - y) * V101 + y * V111, xyz_o)
+    xyz_o = np.where(
+        np.logical_and(y >= x, z > y),
+        (1 - z) * V000 + (z - y) * V001 + (y - x) * V011 + x * V111, xyz_o)
+    xyz_o = np.where(
+        np.logical_and(y >= x, z > x),
+        (1 - y) * V000 + (y - z) * V010 + (z - x) * V011 + x * V111, xyz_o)
+
+    xyz_o = np.reshape(xyz_o, V_xyz.shape)
+
+    return xyz_o
+
+
+TABLE_INTERPOLATION_METHODS = CaseInsensitiveMapping({
+    'Trilinear': table_interpolation_trilinear,
+    'Tetrahedral': table_interpolation_tetrahedral,
+})
+TABLE_INTERPOLATION_METHODS.__doc__ = """
+Supported table interpolation methods.
+
+References
+----------
+    -   :cite:`Bourkeb`
+    -   :cite:`Kirk2006`
+
+TABLE_INTERPOLATION_METHODS : CaseInsensitiveMapping
+    **{'Trilinear', 'Tetrahedral'}**
+"""
+
+
+def table_interpolation(V_xyz, table, method='Trilinear'):
+    """
+    Performs interpolation of given :math:`V_{xyz}` values using given
+    interpolation table.
+
+    Parameters
+    ----------
+    V_xyz : array_like
+        :math:`V_{xyz}` values to interpolate.
+    table : array_like
+        4-Dimensional (NxNxNx3) interpolation table.
+    method : unicode, optional
+        **{'Trilinear', 'Tetrahedral'}**,
+        Interpolation method.
+
+    Returns
+    -------
+    ndarray
+        Interpolated :math:`V_{xyz}` values.
+
+    References
+    ----------
+    -   :cite:`Bourkeb`
+    -   :cite:`Kirk2006`
+
+    Examples
+    --------
+    >>> import os
+    >>> import colour
+    >>> path = os.path.join(
+    ...     os.path.dirname(__file__),'..', 'io', 'luts', 'tests', 'resources',
+    ...     'iridas_cube', 'ColourCorrect.cube')
+    >>> LUT = colour.read_LUT(path)
+    >>> table = LUT.table
+    >>> prng = np.random.RandomState(4)
+    >>> V_xyz = colour.algebra.random_triplet_generator(3, random_state=prng)
+    >>> V_xyz = np.asarray(list(V_xyz))
+    >>> print(V_xyz)  # doctest: +ELLIPSIS
+    [[ 0.9670298...  0.5472322...  0.9726843...]
+     [ 0.7148159...  0.6977288...  0.2160895...]
+     [ 0.9762744...  0.0062302...  0.2529823...]]
+    >>> table_interpolation(V_xyz, table)  # doctest: +ELLIPSIS
+    array([[ 0.9867216...,  0.5580806...,  0.9936313...],
+           [ 0.6474008...,  0.6314188...,  0.2821009...],
+           [ 1.1407121..., -0.0429746...,  0.2557975...]])
+    >>> table_interpolation(V_xyz, table, method='Tetrahedral')
+    ... # doctest: +ELLIPSIS
+    array([[ 0.9689735...,  0.5482041...,  0.9755999...],
+           [ 0.6383703...,  0.6221375...,  0.2923107...],
+           [ 1.1418628..., -0.0432636...,  0.2560367...]])
+    """
+
+    return TABLE_INTERPOLATION_METHODS.get(method)(V_xyz, table)
