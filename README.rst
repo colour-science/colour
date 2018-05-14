@@ -23,7 +23,7 @@ Colour Science for Python
     :target: https://pypi.python.org/pypi/colour-science
     :alt: Package Version
 .. |zenodo| image:: https://img.shields.io/badge/DOI-10.5281/zenodo.1175177-blue.svg?style=flat-square
-    :target: http://dx.doi.org/10.5281/zenodo.1175177
+    :target: https://doi.org/10.5281/zenodo.1175177
     :alt: DOI
 
 .. end-badges
