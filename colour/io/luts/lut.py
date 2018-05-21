@@ -15,6 +15,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 from abc import ABCMeta, abstractmethod
 from copy import deepcopy
+# pylint: disable=W0622
 from operator import add, mul, pow, sub, iadd, imul, ipow, isub
 
 # Python 3 compatibility.
@@ -114,6 +115,7 @@ class AbstractLUT:
 
         self._domain = None
         self.domain = domain
+        # pylint: disable=E1121
         self._table = self.linear_table(size, domain)
         self.table = table
         self._comments = []
@@ -144,6 +146,7 @@ class AbstractLUT:
         """
 
         if value is not None:
+            # pylint: disable=E1121
             self._table = self._validate_table(value)
 
     @property
@@ -202,6 +205,7 @@ class AbstractLUT:
         """
 
         if value is not None:
+            # pylint: disable=E1121
             self._domain = self._validate_domain(value)
 
     @property
@@ -750,6 +754,7 @@ class LUT1D(AbstractLUT):
 
         super(LUT1D, self).__init__(table, name, 1, domain, size, comments)
 
+    # pylint: disable=W0221
     @staticmethod
     def _validate_table(table):
         """
@@ -772,6 +777,7 @@ class LUT1D(AbstractLUT):
 
         return table
 
+    # pylint: disable=W0221
     @staticmethod
     def _validate_domain(domain):
         """
@@ -795,6 +801,7 @@ class LUT1D(AbstractLUT):
 
         return domain
 
+    # pylint: disable=W0221
     @staticmethod
     def linear_table(size=10, domain=None):
         """
@@ -938,6 +945,7 @@ class LUT2D(AbstractLUT):
 
         super(LUT2D, self).__init__(table, name, 2, domain, size, comments)
 
+    # pylint: disable=W0221
     @staticmethod
     def _validate_table(table):
         """
@@ -960,6 +968,7 @@ class LUT2D(AbstractLUT):
 
         return table
 
+    # pylint: disable=W0221
     @staticmethod
     def _validate_domain(domain):
         """
@@ -983,6 +992,7 @@ class LUT2D(AbstractLUT):
 
         return domain
 
+    # pylint: disable=W0221
     @staticmethod
     def linear_table(size=10, domain=None):
         """
@@ -1142,6 +1152,7 @@ class LUT3D(AbstractLUT):
 
         super(LUT3D, self).__init__(table, name, 3, domain, size, comments)
 
+    # pylint: disable=W0221
     @staticmethod
     def _validate_table(table):
         """
@@ -1166,6 +1177,7 @@ class LUT3D(AbstractLUT):
 
         return table
 
+    # pylint: disable=W0221
     @staticmethod
     def _validate_domain(domain):
         """
@@ -1189,6 +1201,7 @@ class LUT3D(AbstractLUT):
 
         return domain
 
+    # pylint: disable=W0221
     @staticmethod
     def linear_table(size=33, domain=None):
         """
