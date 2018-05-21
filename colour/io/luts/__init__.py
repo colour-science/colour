@@ -171,7 +171,7 @@ def write_LUT(LUT, path, decimals=7, method=None, **kwargs):
     ...     'My LUT',
     ...     np.array([-0.1, 1.5]),
     ...     comments=['A first comment.', 'A second comment.'])
-    >>> write_LUT(LUT, 'My_LUT.cube')  # doctest: +SKIP
+    >>> write_LUT(LUT, 'My_LUT.spi1d')  # doctest: +SKIP
     """
 
     if method is None:
