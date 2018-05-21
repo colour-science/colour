@@ -72,10 +72,17 @@ class TestLUT(unittest.TestCase):
     :class:`colour.io.luts.lut.LUT3D` classes common unit tests methods.
     """
 
-    def setUp(self):
+    def __init__(self, *args):
         """
-        Initialises common tests attributes.
+        Create an instance of the class.
+
+        Other Parameters
+        ----------------
+        \*args : list, optional
+            Arguments.
         """
+
+        super(TestLUT, self).__init__(*args)
 
         self._LUT_factory = None
 
@@ -422,10 +429,17 @@ class TestLUT1D(TestLUT):
     Defines :func:`colour.io.luts.lut.LUT1D` class unit tests methods.
     """
 
-    def setUp(self):
+    def __init__(self, *args):
         """
-        Initialises common tests attributes.
+        Create an instance of the class.
+
+        Other Parameters
+        ----------------
+        \*args : list, optional
+            Arguments.
         """
+
+        super(TestLUT1D, self).__init__(*args)
 
         self._LUT_factory = LUT1D
 
@@ -473,10 +487,17 @@ class TestLUT2D(TestLUT):
     Defines :func:`colour.io.luts.lut.LUT2D` class unit tests methods.
     """
 
-    def setUp(self):
+    def __init__(self, *args):
         """
-        Initialises common tests attributes.
+        Create an instance of the class.
+
+        Other Parameters
+        ----------------
+        \*args : list, optional
+            Arguments.
         """
+
+        super(TestLUT2D, self).__init__(*args)
 
         self._LUT_factory = LUT2D
 
@@ -535,10 +556,17 @@ class TestLUT3D(TestLUT):
     Defines :func:`colour.io.luts.lut.LUT3D` class unit tests methods.
     """
 
-    def setUp(self):
+    def __init__(self, *args):
         """
-        Initialises common tests attributes.
+        Create an instance of the class.
+
+        Other Parameters
+        ----------------
+        \*args : list, optional
+            Arguments.
         """
+
+        super(TestLUT3D, self).__init__(*args)
 
         self._LUT_factory = LUT3D
 
