@@ -1734,22 +1734,21 @@ def table_interpolation_tetrahedral(V_xyz, table):
     V000, V001, V010, V011, V100, V101, V110, V111 = tsplit(vertices)
     x, y, z = [r[:, np.newaxis] for r in tsplit(V_xyzr)]
 
-    xyz_o = (1 - y) * V000 + (y - x) * V010 + (x - z) * V110 + z * V111
-    xyz_o = np.where(
+    xyz_o = np.select([
         np.logical_and(x > y, y > z),
-        (1 - x) * V000 + (x - y) * V100 + (y - z) * V110 + z * V111, xyz_o)
-    xyz_o = np.where(
         np.logical_and(x > y, x > z),
-        (1 - x) * V000 + (x - z) * V100 + (z - y) * V101 + y * V111, xyz_o)
-    xyz_o = np.where(
-        np.logical_and(x > y, z >= x),
-        (1 - z) * V000 + (z - x) * V001 + (x - y) * V101 + y * V111, xyz_o)
-    xyz_o = np.where(
-        np.logical_and(y >= x, z > y),
-        (1 - z) * V000 + (z - y) * V001 + (y - x) * V011 + x * V111, xyz_o)
-    xyz_o = np.where(
-        np.logical_and(y >= x, z > x),
-        (1 - y) * V000 + (y - z) * V010 + (z - x) * V011 + x * V111, xyz_o)
+        np.logical_and(x > y, np.logical_and(y <= z, x <= z)),
+        np.logical_and(x <= y, z > y),
+        np.logical_and(x <= y, z > x),
+        np.logical_and(x <= y, np.logical_and(z <= y, z <= x)),
+    ], [
+        (1 - x) * V000 + (x - y) * V100 + (y - z) * V110 + z * V111,
+        (1 - x) * V000 + (x - z) * V100 + (z - y) * V101 + y * V111,
+        (1 - z) * V000 + (z - x) * V001 + (x - y) * V101 + y * V111,
+        (1 - z) * V000 + (z - y) * V001 + (y - x) * V011 + x * V111,
+        (1 - y) * V000 + (y - z) * V010 + (z - x) * V011 + x * V111,
+        (1 - y) * V000 + (y - x) * V010 + (x - z) * V110 + z * V111,
+    ])
 
     xyz_o = np.reshape(xyz_o, V_xyz.shape)
 
