@@ -56,6 +56,8 @@ Look Up Table (LUT) Data
     write_LUT_IridasCube
     read_LUT_SonySPI1D
     write_LUT_SonySPI1D
+    read_LUT_SonySPI3D
+    write_LUT_SonySPI3D
 
 CSV Tabular Data
 ----------------
