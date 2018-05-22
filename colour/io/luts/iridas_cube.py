@@ -101,7 +101,7 @@ def read_LUT_IridasCube(path):
     title = re.sub('_|-|\.', ' ', os.path.splitext(os.path.basename(path))[0])
     domain_min, domain_max = np.array([0, 0, 0]), np.array([1, 1, 1])
     dimensions = 3
-    size = 3
+    size = 2
     table = []
     comments = []
 
