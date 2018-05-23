@@ -518,7 +518,7 @@ def chromaticity_diagram_plot_CIE1976UCS(
 def spds_chromaticity_diagram_plot(
         spds,
         cmfs='CIE 1931 2 Degree Standard Observer',
-        annotate=True,
+        annotate_parameters=None,
         chromaticity_diagram_callable=chromaticity_diagram_plot,
         method='CIE 1931',
         **kwargs):
@@ -533,9 +533,13 @@ def spds_chromaticity_diagram_plot(
     cmfs : unicode, optional
         Standard observer colour matching functions used for
         *Chromaticity Diagram* bounds.
-    annotate : bool
-        Should resulting chromaticity coordinates annotated with their
-        respective spectral power distribution names.
+    annotate_parameters : dict or array_like, optional
+        Parameters for the :func:`pylab.annotate` definition, used to annotate
+        the resulting chromaticity coordinates with their respective spectral
+        power distribution names if ``annotate`` is set to *True*.
+        ``annotate_parameters`` can be either a single dictionary applied to
+        all the arrows with same settings or a sequence of dictionaries with
+        different settings for each spectral power distribution.
     chromaticity_diagram_callable : callable, optional
         Callable responsible for drawing the *Chromaticity Diagram*.
     method : unicode, optional
@@ -612,20 +616,40 @@ def spds_chromaticity_diagram_plot(
             '{\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\'}'.format(
                 method))
 
-    for spd in spds:
+    annotate_settings_collection = [{
+        'annotate': True,
+        'xytext': (50, 30),
+        'textcoords': 'offset points',
+        'arrowprops': {
+            'arrowstyle': '->',
+            'connectionstyle': 'arc3, rad=0.2'
+        }
+    } for _ in range(len(spds))]
+
+    if annotate_parameters is not None:
+        if not isinstance(annotate_parameters, dict):
+            assert len(annotate_parameters) == len(spds), (
+                'Multiple annotate parameters defined, but they do not match '
+                'the spectral power distributions count!')
+
+        for i, annotate_settings in enumerate(annotate_settings_collection):
+            if isinstance(annotate_parameters, dict):
+                annotate_settings.update(annotate_parameters)
+            else:
+                annotate_settings.update(annotate_parameters[i])
+
+    for i, spd in enumerate(spds):
         XYZ = spectral_to_XYZ(spd) / 100
         ij = XYZ_to_ij(XYZ)
 
         pylab.plot(ij[0], ij[1], 'o', color='white')
 
-        if spd.name is not None and annotate:
-            pylab.annotate(
-                spd.name,
-                xy=ij,
-                xytext=(50, 30),
-                textcoords='offset points',
-                arrowprops=dict(
-                    arrowstyle='->', connectionstyle='arc3, rad=0.2'))
+        if (spd.name is not None and
+                annotate_settings_collection[i]['annotate']):
+            annotate_settings = annotate_settings_collection[i]
+            annotate_settings.pop('annotate')
+
+            pylab.annotate(spd.name, xy=ij, **annotate_settings)
 
     settings.update({
         'x_tighten': True,
@@ -641,7 +665,7 @@ def spds_chromaticity_diagram_plot(
 def spds_chromaticity_diagram_plot_CIE1931(
         spds,
         cmfs='CIE 1931 2 Degree Standard Observer',
-        annotate=True,
+        annotate_parameters=None,
         chromaticity_diagram_callable_CIE1931=(
             chromaticity_diagram_plot_CIE1931),
         **kwargs):
@@ -656,9 +680,13 @@ def spds_chromaticity_diagram_plot_CIE1931(
     cmfs : unicode, optional
         Standard observer colour matching functions used for
         *Chromaticity Diagram* bounds.
-    annotate : bool
-        Should resulting chromaticity coordinates annotated with their
-        respective spectral power distribution names.
+    annotate_parameters : dict or array_like, optional
+        Parameters for the :func:`pylab.annotate` definition, used to annotate
+        the resulting chromaticity coordinates with their respective spectral
+        power distribution names if ``annotate`` is set to *True*.
+        ``annotate_parameters`` can be either a single dictionary applied to
+        all the arrows with same settings or a sequence of dictionaries with
+        different settings for each spectral power distribution.
     chromaticity_diagram_callable_CIE1931 : callable, optional
         Callable responsible for drawing the *CIE 1931 Chromaticity Diagram*.
 
@@ -690,14 +718,14 @@ def spds_chromaticity_diagram_plot_CIE1931(
     settings.update({'method': 'CIE 1931'})
 
     return spds_chromaticity_diagram_plot(
-        spds, cmfs, annotate, chromaticity_diagram_callable_CIE1931,
+        spds, cmfs, annotate_parameters, chromaticity_diagram_callable_CIE1931,
         **settings)
 
 
 def spds_chromaticity_diagram_plot_CIE1960UCS(
         spds,
         cmfs='CIE 1931 2 Degree Standard Observer',
-        annotate=True,
+        annotate_parameters=None,
         chromaticity_diagram_callable_CIE1960UCS=(
             chromaticity_diagram_plot_CIE1960UCS),
         **kwargs):
@@ -712,9 +740,13 @@ def spds_chromaticity_diagram_plot_CIE1960UCS(
     cmfs : unicode, optional
         Standard observer colour matching functions used for
         *Chromaticity Diagram* bounds.
-    annotate : bool
-        Should resulting chromaticity coordinates annotated with their
-        respective spectral power distribution names.
+    annotate_parameters : dict or array_like, optional
+        Parameters for the :func:`pylab.annotate` definition, used to annotate
+        the resulting chromaticity coordinates with their respective spectral
+        power distribution names if ``annotate`` is set to *True*.
+        ``annotate_parameters`` can be either a single dictionary applied to
+        all the arrows with same settings or a sequence of dictionaries with
+        different settings for each spectral power distribution.
     chromaticity_diagram_callable_CIE1960UCS : callable, optional
         Callable responsible for drawing the
         *CIE 1960 UCS Chromaticity Diagram*.
@@ -748,14 +780,14 @@ SPDS_Chromaticity_Diagram_Plot_CIE1960UCS.png
     settings.update({'method': 'CIE 1960 UCS'})
 
     return spds_chromaticity_diagram_plot(
-        spds, cmfs, annotate, chromaticity_diagram_callable_CIE1960UCS,
-        **settings)
+        spds, cmfs, annotate_parameters,
+        chromaticity_diagram_callable_CIE1960UCS, **settings)
 
 
 def spds_chromaticity_diagram_plot_CIE1976UCS(
         spds,
         cmfs='CIE 1931 2 Degree Standard Observer',
-        annotate=True,
+        annotate_parameters=None,
         chromaticity_diagram_callable_CIE1976UCS=(
             chromaticity_diagram_plot_CIE1976UCS),
         **kwargs):
@@ -770,9 +802,13 @@ def spds_chromaticity_diagram_plot_CIE1976UCS(
     cmfs : unicode, optional
         Standard observer colour matching functions used for
         *Chromaticity Diagram* bounds.
-    annotate : bool
-        Should resulting chromaticity coordinates annotated with their
-        respective spectral power distribution names.
+    annotate_parameters : dict or array_like, optional
+        Parameters for the :func:`pylab.annotate` definition, used to annotate
+        the resulting chromaticity coordinates with their respective spectral
+        power distribution names if ``annotate`` is set to *True*.
+        ``annotate_parameters`` can be either a single dictionary applied to
+        all the arrows with same settings or a sequence of dictionaries with
+        different settings for each spectral power distribution.
     chromaticity_diagram_callable_CIE1976UCS : callable, optional
         Callable responsible for drawing the
         *CIE 1976 UCS Chromaticity Diagram*.
@@ -806,5 +842,5 @@ SPDS_Chromaticity_Diagram_Plot_CIE1976UCS.png
     settings.update({'method': 'CIE 1976 UCS'})
 
     return spds_chromaticity_diagram_plot(
-        spds, cmfs, annotate, chromaticity_diagram_callable_CIE1976UCS,
-        **settings)
+        spds, cmfs, annotate_parameters,
+        chromaticity_diagram_callable_CIE1976UCS, **settings)
