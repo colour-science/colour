@@ -40,6 +40,10 @@ Development & Technical Support
 
     Documentation improvements.
 
+-   **Katrin Leinweber**
+
+    Documentation improvements.
+
 Acknowledgements
 ----------------
 -   **Steve Agland**, *Supervising Lighting Technical Director @ Animal Logic*
