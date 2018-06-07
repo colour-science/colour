@@ -81,7 +81,7 @@ Acknowledgements
 Special Mentions
 ----------------
 
--   **Aurélia Sellier**, *Line Producer @ Cube Creative*
+-   **Aurélia Sellier**, *FX Production Coordinator @ Weta Digital*
 
 Issues & Discussions
 --------------------
