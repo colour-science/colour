@@ -89,6 +89,7 @@ Issues & Discussions
 -   @Chandler
 -   @Edwardlin-zlt
 -   @Kunkka1988
+-   @Legendin
 -   @Rob-Welch
 -   @Ron024
 -   @TFiFiE
