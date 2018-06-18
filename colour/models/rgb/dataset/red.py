@@ -23,7 +23,7 @@ References
 ----------
 -   :cite:`Mansencal2015d` : Mansencal, T. (2015). RED Colourspaces Derivation.
     Retrieved May 20, 2015, from
-    http://colour-science.org/posts/red-colourspaces-derivation
+    https://www.colour-science.org/posts/red-colourspaces-derivation
 -   :cite:`Nattress2016a` : Nattress, G. (2016). Private Discussion with
     Shaw, N.
 -   :cite:`SonyImageworks2012a` : Sony Imageworks. (2012). make.py. Retrieved

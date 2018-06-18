@@ -28,7 +28,7 @@ References
 aces_ocio/colorspaces/gopro.py
 -   :cite:`Mansencal2015d` : Mansencal, T. (2015). RED Colourspaces Derivation.
     Retrieved May 20, 2015, from
-    http://colour-science.org/posts/red-colourspaces-derivation
+    https://www.colour-science.org/posts/red-colourspaces-derivation
 """
 
 from __future__ import division, unicode_literals
