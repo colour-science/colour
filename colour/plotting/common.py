@@ -563,7 +563,8 @@ def render(with_boundaries=True, with_decorate=True, **kwargs):
     return display(**kwargs)
 
 
-def label_rectangles(rectangles,
+def label_rectangles(labels,
+                     rectangles,
                      rotation='vertical',
                      text_size=10,
                      offset=None):
@@ -572,6 +573,8 @@ def label_rectangles(rectangles,
 
     Parameters
     ----------
+    labels : array_like
+        Labels to display.
     rectangles : object
         Rectangles to used to set the labels value and position.
     rotation : unicode, optional
@@ -596,7 +599,7 @@ def label_rectangles(rectangles,
         x_m = max(x_m, rectangle.get_width())
         y_m = max(y_m, rectangle.get_height())
 
-    for rectangle in rectangles:
+    for i, rectangle in enumerate(rectangles):
         x = rectangle.get_x()
         height = rectangle.get_height()
         width = rectangle.get_width()
@@ -605,7 +608,7 @@ def label_rectangles(rectangles,
         pylab.text(
             x + width / 2 + offset[0] * width,
             height + offset[1] * y_m,
-            '{0:.1f}'.format(height),
+            '{0:.1f}'.format(labels[i]),
             ha=ha,
             va=va,
             rotation=rotation,
