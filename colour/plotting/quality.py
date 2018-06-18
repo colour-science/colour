@@ -23,7 +23,6 @@ from colour.plotting import (DEFAULT_FIGURE_WIDTH, DEFAULT_HATCH_PATTERNS,
                              label_rectangles, render)
 from colour.quality import (colour_quality_scale, colour_rendering_index)
 from colour.quality.cri import TCS_ColorimetryData
-from colour.utilities import warning
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -114,25 +113,24 @@ def colour_quality_bars_plot(specifications,
         y = [s[1].Q_a for s in sorted(Q_as.items(), key=lambda s: s[0])]
         y = np.array([Q_a] + list(y))
 
-        if np.sign(np.min(y)) < 0:
-            warning(
-                ('"{0}" spectral distribution has negative "Q_a" value(s), '
-                 'using absolute value(s) '
-                 'for plotting purpose!'.format(specification.name)))
-
-            y = np.abs(y)
-
         bars = pylab.bar(
             x,
-            y,
+            np.abs(y),
             color=colours,
             width=bar_width,
             edgecolor='black',
-            hatch=(next(patterns) * hatching_repeat if hatching else None),
             label=specification.name)
+
+        hatches = ([next(patterns) * hatching_repeat] * (count_Q_as + 1)
+                   if hatching else np.where(y < 0, next(patterns),
+                                             None).tolist())
+
+        for j, bar in enumerate(bars.patches):
+            bar.set_hatch(hatches[j])
 
         if labels:
             label_rectangles(
+                y,
                 bars,
                 rotation='horizontal' if count_s == 1 else 'vertical',
                 offset=(0 if count_s == 1 else 3 / 100 * count_s + 65 / 1000,

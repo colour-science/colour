@@ -557,6 +557,7 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
         'y_ticker': False,
         'limits': (x_min, x_max, y_min, y_max),
     }
+    settings.update(kwargs)
 
     single_spd_plot(
         ones_spd(cmfs.shape),
@@ -748,6 +749,7 @@ def blackbody_spectral_radiance_plot(
         'aspect': None,
         'standalone': False
     }
+    settings.update(kwargs)
 
     single_colour_swatch_plot(ColourSwatch(name='', RGB=RGB), **settings)
 

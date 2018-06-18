@@ -15,7 +15,7 @@ Features
 
 `Colour <https://github.com/colour-science/colour>`_ features a rich dataset
 and collection of objects, please see the
-`features <http://colour-science.org/features/>`_ page for more information.
+`features <https://www.colour-science.org/features/>`_ page for more information.
 
 Installation
 ------------
@@ -38,7 +38,7 @@ cross-platform:
     $ pip install colour-science
 
 The detailed installation procedure is described in the
-`Installation Guide <http://colour-science.org/installation-guide/>`_.
+`Installation Guide <https://www.colour-science.org/installation-guide/>`_.
 
 Usage
 -----
@@ -924,7 +924,7 @@ Contributing
 ------------
 
 If you would like to contribute to `Colour <https://github.com/colour-science/colour>`_,
-please refer to the following `Contributing <http://colour-science.org/contributing>`_ guide.
+please refer to the following `Contributing <https://www.colour-science.org/contributing>`_ guide.
 
 Changes
 -------
@@ -934,7 +934,7 @@ The changes are viewable on the `Releases <https://github.com/colour-science/col
 Bibliography
 ------------
 
-The bibliography is available on the `Bibliography <http://colour-science.org/bibliography/>`_ page.
+The bibliography is available on the `Bibliography <https://www.colour-science.org/bibliography/>`_ page.
 
 It is also viewable directly from the repository in
 `BibTeX <https://github.com/colour-science/colour/blob/develop/BIBLIOGRAPHY.bib>`_

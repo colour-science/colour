@@ -40,6 +40,10 @@ Development & Technical Support
 
     Documentation improvements.
 
+-   **Katrin Leinweber**
+
+    Documentation improvements.
+
 Acknowledgements
 ----------------
 -   **Steve Agland**, *Supervising Lighting Technical Director @ Animal Logic*
@@ -77,7 +81,7 @@ Acknowledgements
 Special Mentions
 ----------------
 
--   **Aurélia Sellier**, *Line Producer @ Cube Creative*
+-   **Aurélia Sellier**, *FX Production Coordinator @ Weta Digital*
 
 Issues & Discussions
 --------------------
@@ -88,7 +92,9 @@ Issues & Discussions
 -   @Ampersandme
 -   @Chandler
 -   @Edwardlin-zlt
+-   @Floschoe
 -   @Kunkka1988
+-   @Legendin
 -   @Rob-Welch
 -   @Ron024
 -   @TFiFiE
@@ -98,6 +104,7 @@ Issues & Discussions
 -   @cclauss
 -   @codycuellar
 -   @fangjy88
+-   @habemus-papadum
 -   @eyeforcolor
 -   @foutoucour
 -   @henczati
