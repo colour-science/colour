@@ -780,8 +780,9 @@ def XYZ_to_RGB(XYZ,
     chromatic_adaptation_transform : unicode, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
         'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
-        'Bianco PC'}**,
-        *Chromatic adaptation* transform.
+        'Bianco PC', None}**,
+        *Chromatic adaptation* transform, if *None* no chromatic adaptation is
+        performed.
     encoding_cctf : object, optional
         Encoding colour component transfer function (Encoding CCTF) or
         opto-electronic transfer function (OETF / OECF).
@@ -816,14 +817,15 @@ def XYZ_to_RGB(XYZ,
     array([ 0.0110015...,  0.1273504...,  0.1163271...])
     """
 
-    M = chromatic_adaptation_matrix_VonKries(
-        xyY_to_XYZ(xy_to_xyY(illuminant_XYZ)),
-        xyY_to_XYZ(xy_to_xyY(illuminant_RGB)),
-        transform=chromatic_adaptation_transform)
+    if chromatic_adaptation_transform is not None:
+        M_CAT = chromatic_adaptation_matrix_VonKries(
+            xyY_to_XYZ(xy_to_xyY(illuminant_XYZ)),
+            xyY_to_XYZ(xy_to_xyY(illuminant_RGB)),
+            transform=chromatic_adaptation_transform)
 
-    XYZ_a = dot_vector(M, XYZ)
+        XYZ = dot_vector(M_CAT, XYZ)
 
-    RGB = dot_vector(XYZ_to_RGB_matrix, XYZ_a)
+    RGB = dot_vector(XYZ_to_RGB_matrix, XYZ)
 
     if encoding_cctf is not None:
         RGB = encoding_cctf(RGB)
@@ -855,8 +857,9 @@ def RGB_to_XYZ(RGB,
     chromatic_adaptation_transform : unicode, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
         'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
-        'Bianco PC'}**,
-        *Chromatic adaptation* transform.
+        'Bianco PC', None}**,
+        *Chromatic adaptation* transform, if *None* no chromatic adaptation is
+        performed.
     decoding_cctf : object, optional
         Decoding colour component transfer function (Decoding CCTF) or
         electro-optical transfer function (EOTF / EOCF).
@@ -894,16 +897,17 @@ def RGB_to_XYZ(RGB,
     if decoding_cctf is not None:
         RGB = decoding_cctf(RGB)
 
-    M = chromatic_adaptation_matrix_VonKries(
-        xyY_to_XYZ(xy_to_xyY(illuminant_RGB)),
-        xyY_to_XYZ(xy_to_xyY(illuminant_XYZ)),
-        transform=chromatic_adaptation_transform)
-
     XYZ = dot_vector(RGB_to_XYZ_matrix, RGB)
 
-    XYZ_a = dot_vector(M, XYZ)
+    if chromatic_adaptation_transform is not None:
+        M_CAT = chromatic_adaptation_matrix_VonKries(
+            xyY_to_XYZ(xy_to_xyY(illuminant_RGB)),
+            xyY_to_XYZ(xy_to_xyY(illuminant_XYZ)),
+            transform=chromatic_adaptation_transform)
 
-    return XYZ_a
+        XYZ = dot_vector(M_CAT, XYZ)
+
+    return XYZ
 
 
 def RGB_to_RGB_matrix(input_colourspace,
@@ -923,8 +927,9 @@ def RGB_to_RGB_matrix(input_colourspace,
     chromatic_adaptation_transform : unicode, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
         'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
-        'Bianco PC'}**,
-        *Chromatic adaptation* transform.
+        'Bianco PC', None}**,
+        *Chromatic adaptation* transform, if *None* no chromatic adaptation is
+        performed.
 
     Returns
     -------
@@ -941,12 +946,16 @@ def RGB_to_RGB_matrix(input_colourspace,
            [ 0.0163599...,  0.1066124...,  0.8772485...]])
     """
 
-    cat = chromatic_adaptation_matrix_VonKries(
-        xy_to_XYZ(input_colourspace.whitepoint),
-        xy_to_XYZ(output_colourspace.whitepoint),
-        chromatic_adaptation_transform)
+    M = input_colourspace.RGB_to_XYZ_matrix
 
-    M = dot_matrix(cat, input_colourspace.RGB_to_XYZ_matrix)
+    if chromatic_adaptation_transform is not None:
+        M_CAT = chromatic_adaptation_matrix_VonKries(
+            xy_to_XYZ(input_colourspace.whitepoint),
+            xy_to_XYZ(output_colourspace.whitepoint),
+            chromatic_adaptation_transform)
+
+        M = dot_matrix(M_CAT, input_colourspace.RGB_to_XYZ_matrix)
+
     M = dot_matrix(output_colourspace.XYZ_to_RGB_matrix, M)
 
     return M
@@ -973,8 +982,9 @@ def RGB_to_RGB(RGB,
     chromatic_adaptation_transform : unicode, optional
         **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
         'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
-        'Bianco PC'}**,
-        *Chromatic adaptation* transform.
+        'Bianco PC', None}**,
+        *Chromatic adaptation* transform, if *None* no chromatic adaptation is
+        performed.
     apply_decoding_cctf : bool, optional
         Apply input colourspace decoding colour component transfer function /
         electro-optical transfer function.

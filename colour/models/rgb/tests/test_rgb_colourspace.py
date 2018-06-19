@@ -335,8 +335,19 @@ class TestXYZ_to_RGB(unittest.TestCase):
         np.testing.assert_almost_equal(
             XYZ_to_RGB(
                 np.array([0.11518475, 0.10080000, 0.05089373]),
-                np.array([0.34570, 0.35850]),
-                np.array([0.32168, 0.33767]),
+                np.array([0.34570, 0.35850]), np.array([0.31270, 0.32900]),
+                np.array([
+                    [3.24062548, -1.53720797, -0.49862860],
+                    [-0.96893071, 1.87575606, 0.04151752],
+                    [0.05571012, -0.20402105, 1.05699594],
+                ]), None, oetf_sRGB),
+            np.array([0.47651381, 0.31250332, 0.21989657]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            XYZ_to_RGB(
+                np.array([0.11518475, 0.10080000, 0.05089373]),
+                np.array([0.34570, 0.35850]), np.array([0.32168, 0.33767]),
                 np.array([
                     [1.04981102, 0.00000000, -0.00009748],
                     [-0.49590302, 1.37331305, 0.09824004],
@@ -431,6 +442,18 @@ class TestRGB_to_XYZ(unittest.TestCase):
                     [0.21260000, 0.71520000, 0.07220000],
                     [0.01930000, 0.11920000, 0.95050000],
                 ]), 'Bradford', oetf_reverse_sRGB),
+            np.array([0.11518475, 0.10080000, 0.05089373]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            RGB_to_XYZ(
+                np.array([0.47651381, 0.31250332, 0.21989657]),
+                np.array([0.31270, 0.32900]), np.array([0.34570, 0.35850]),
+                np.array([
+                    [0.41240000, 0.35760000, 0.18050000],
+                    [0.21260000, 0.71520000, 0.07220000],
+                    [0.01930000, 0.11920000, 0.95050000],
+                ]), None, oetf_reverse_sRGB),
             np.array([0.11518475, 0.10080000, 0.05089373]),
             decimal=7)
 
@@ -560,6 +583,25 @@ class TestRGB_to_RGB_matrix(unittest.TestCase):
             ]),
             decimal=7)
 
+        np.testing.assert_almost_equal(
+            RGB_to_RGB_matrix(aces_2065_1_colourspace, sRGB_colourspace,
+                              'Bradford'),
+            np.array([
+                [2.52140089, -1.13399575, -0.38756186],
+                [-0.27621406, 1.37259557, -0.09628236],
+                [-0.01532020, -0.15299256, 1.16838720],
+            ]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            RGB_to_RGB_matrix(aces_2065_1_colourspace, sRGB_colourspace, None),
+            np.array([
+                [2.55809607, -1.11933692, -0.39181451],
+                [-0.27771575, 1.36589396, -0.09353075],
+                [-0.01711199, -0.14854588, 1.08104848],
+            ]),
+            decimal=7)
+
 
 class TestRGB_to_RGB(unittest.TestCase):
     """
@@ -594,6 +636,13 @@ class TestRGB_to_RGB(unittest.TestCase):
                 np.array([0.35521588, 0.41000000, 0.24177934]),
                 aces_2065_1_colourspace, sRGB_colourspace, 'Bradford'),
             np.array([0.33699893, 0.44136948, 0.21432296]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            RGB_to_RGB(
+                np.array([0.35521588, 0.41000000, 0.24177934]),
+                aces_2065_1_colourspace, sRGB_colourspace, None),
+            np.array([0.35501555, 0.43875368, 0.19439293]),
             decimal=7)
 
         aces_cg_colourspace = RGB_COLOURSPACES['ACEScg']
