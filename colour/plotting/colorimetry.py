@@ -153,6 +153,7 @@ def single_spd_plot(spd,
         color=colours,
         align='edge',
         clip_path=polygon)
+
     axes.plot(wavelengths, values, color='black')
 
     settings = {
@@ -560,11 +561,14 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
     }
     settings.update(kwargs)
 
-    single_spd_plot(
+    figure = single_spd_plot(
         ones_spd(cmfs.shape),
         cmfs=name,
         out_of_gamut_clipping=out_of_gamut_clipping,
         **settings)
+
+    # Removing wavelength line as it doubles with the axes spine.
+    figure.gca().lines.pop(0)
 
     settings = {
         'title': 'The Visible Spectrum - {0}'.format(cmfs.strict_name),
