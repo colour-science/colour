@@ -63,6 +63,7 @@ def RGB_colourspaces_chromaticity_diagram_plot(
         cmfs='CIE 1931 2 Degree Standard Observer',
         chromaticity_diagram_callable=chromaticity_diagram_plot,
         method='CIE 1931',
+        show_whitepoints=True,
         **kwargs):
     """
     Plots given *RGB* colourspaces in the *Chromaticity Diagram* according
@@ -80,6 +81,8 @@ def RGB_colourspaces_chromaticity_diagram_plot(
     method : unicode, optional
         **{'CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'}**,
         *Chromaticity Diagram* method.
+    show_whitepoints : bool, optional
+        Whether to display the *RGB* colourspaces whitepoints.
 
     Other Parameters
     ----------------
@@ -248,7 +251,10 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot.png
             (W[0], W[0]), (W[1], W[1]),
             color=(R, G, B),
             label=colourspace.name)
-        pylab.plot((W[0], W[0]), (W[1], W[1]), 'o', color=(R, G, B))
+
+        if show_whitepoints:
+            pylab.plot((W[0], W[0]), (W[1], W[1]), 'o', color=(R, G, B))
+
         pylab.plot(
             (P[0, 0], P[1, 0]), (P[0, 1], P[1, 1]), 'o-', color=(R, G, B))
         pylab.plot(
