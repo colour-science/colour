@@ -23,15 +23,15 @@ Defines the common plotting objects:
 from __future__ import division
 
 import itertools
-import os
-from collections import namedtuple
-
 import matplotlib
 import matplotlib.cm
 import matplotlib.pyplot
 import matplotlib.ticker
 import numpy as np
+import os
 import pylab
+from collections import namedtuple
+from matplotlib.colors import LinearSegmentedColormap
 
 from colour.colorimetry import CMFS, ILLUMINANTS_SPDS
 from colour.models import RGB_COLOURSPACES, XYZ_to_RGB
@@ -237,7 +237,7 @@ def colour_cycle(**kwargs):
 
     Other Parameters
     ----------------
-    colour_cycle_map : unicode, optional
+    colour_cycle_map : unicode or LinearSegmentedColormap, optional
         Matplotlib colourmap name.
     colour_cycle_count : int, optional
         Colours count to pick in the colourmap.
@@ -257,8 +257,12 @@ def colour_cycle(**kwargs):
     if settings.colour_cycle_map is None:
         cycle = DEFAULT_COLOUR_CYCLE
     else:
-        cycle = getattr(matplotlib.pyplot.cm, settings.colour_cycle_map)(
-            np.linspace(0, 1, settings.colour_cycle_count))
+        samples = np.linspace(0, 1, settings.colour_cycle_count)
+        if isinstance(settings.colour_cycle_map, LinearSegmentedColormap):
+            cycle = settings.colour_cycle_map(samples)
+        else:
+            cycle = getattr(matplotlib.pyplot.cm,
+                            settings.colour_cycle_map)(samples)
 
     return itertools.cycle(cycle)
 
