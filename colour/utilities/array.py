@@ -705,6 +705,7 @@ def linear_conversion(a, old_range, new_range):
     Returns
     -------
     ndarray
+        Linear conversion result.
 
     Examples
     --------
