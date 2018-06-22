@@ -28,8 +28,8 @@ from colour.models import (Luv_to_uv, Luv_uv_to_xy, UCS_to_uv, UCS_uv_to_xy,
 from colour.plotting import (
     DEFAULT_FIGURE_WIDTH, DEFAULT_PLOTTING_COLOURSPACE,
     XYZ_to_plotting_colourspace, canvas, get_cmfs, render)
-from colour.utilities import (is_string, lerp, normalise_maximum,
-                              suppress_warnings, tstack)
+from colour.utilities import (is_string, normalise_maximum, suppress_warnings,
+                              tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -201,8 +201,7 @@ def chromaticity_diagram_colours_plot(
         samples=256,
         cmfs='CIE 1931 2 Degree Standard Observer',
         method='CIE 1931',
-        blend_colour=None,
-        blend_amount=0.5,
+        diagram_opacity=1.0,
         **kwargs):
     """
     Plots the *Chromaticity Diagram* colours according to given method.
@@ -217,10 +216,8 @@ def chromaticity_diagram_colours_plot(
     method : unicode, optional
         **{'CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'}**,
         *Chromaticity Diagram* method.
-    blend_colour : array_like, optional
-        Colour to blend the *Chromaticity Diagram* colours with.
-    blend_amount : numeric or array_like, optional
-        Amount of blending.
+    diagram_opacity : numeric, optional
+        Opacity of the *Chromaticity Diagram* colours.
 
     Other Parameters
     ----------------
@@ -276,15 +273,16 @@ def chromaticity_diagram_colours_plot(
         RGB = normalise_maximum(
             XYZ_to_plotting_colourspace(XYZ, illuminant), axis=-1)
 
-    if blend_colour is not None:
-        RGB = lerp(RGB, blend_colour, blend_amount)
-
     polygon = Polygon(spectral_locus, facecolor='none', edgecolor='none')
     axes.add_patch(polygon)
     # Preventing bounding box related issues as per
     # https://github.com/matplotlib/matplotlib/issues/10529
     image = pylab.imshow(
-        RGB, interpolation='bilinear', extent=(0, 1, 0, 1), clip_path=None)
+        RGB,
+        interpolation='bilinear',
+        extent=(0, 1, 0, 1),
+        clip_path=None,
+        alpha=diagram_opacity)
     image.set_clip_path(polygon)
 
     return render(**kwargs)
