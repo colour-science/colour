@@ -36,7 +36,7 @@ __all__ = [
     'as_numeric', 'as_namedtuple', 'closest_indexes', 'closest',
     'normalise_maximum', 'interval', 'is_uniform', 'in_array', 'tstack',
     'tsplit', 'row_as_diagonal', 'dot_vector', 'dot_matrix', 'orient',
-    'centroid', 'linear_conversion', 'fill_nan', 'ndarray_write'
+    'centroid', 'linear_conversion', 'lerp', 'fill_nan', 'ndarray_write'
 ]
 
 
@@ -720,6 +720,40 @@ def linear_conversion(a, old_range, new_range):
     out_min, out_max = tsplit(new_range)
 
     return ((a - in_min) / (in_max - in_min)) * (out_max - out_min) + out_min
+
+
+def lerp(a, b, c):
+    """
+    Performs a simple linear interpolation between given array :math:`a` and
+    array :math:`b` using :math:`c` value.
+
+    Parameters
+    ----------
+    a : array_like
+        Array :math:`a`, the start of the range in which to interpolate.
+    b : array_like
+        Array :math:`b`, the end of the range in which to interpolate.
+    c : array_like
+        Array :math:`c` value to use to interpolate between array :math:`a` and
+        array :math:`b.
+
+    Returns
+    -------
+    ndarray
+        Linear interpolation result.
+    Examples
+    --------
+    >>> a = 0
+    >>> b = 2
+    >>> lerp(a, b, 0.5)
+    1.0
+    """
+
+    a = np.asarray(a)
+    b = np.asarray(b)
+    c = np.asarray(c)
+
+    return (1 - c) * a + c * b
 
 
 def fill_nan(a, method='Interpolation', default=0):
