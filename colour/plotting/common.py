@@ -486,7 +486,7 @@ def decorate(**kwargs):
     else:
         axes.set_yticks([])
     if settings.grid:
-        pylab.grid(which=settings.grid_which, axis=settings.grid_axis)
+        pylab.grid(b=True, which=settings.grid_which, axis=settings.grid_axis)
     if settings.x_axis_line:
         pylab.axvline(color='black', linestyle='--')
     if settings.y_axis_line:
