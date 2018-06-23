@@ -138,7 +138,6 @@ def the_blue_sky_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
 
     matplotlib.pyplot.subplots_adjust(hspace=0.4)
 
-    matplotlib.pyplot.figure(1)
     matplotlib.pyplot.subplot(211)
 
     settings = {
