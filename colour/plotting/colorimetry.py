@@ -394,8 +394,9 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
             True,
         'y_axis_line':
             True,
-        'limits': (min(x_limit_min), max(x_limit_max), min(y_limit_min),
-                   max(y_limit_max) + max(y_limit_max) * 0.05)
+        'limits': (min(x_limit_min), max(x_limit_max),
+                   min(y_limit_min) - abs(min(y_limit_min)) * 0.05,
+                   max(y_limit_max) + abs(max(y_limit_max)) * 0.05)
     }
     settings.update(kwargs)
 
