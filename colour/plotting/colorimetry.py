@@ -818,10 +818,11 @@ def blackbody_colours_plot(
     x_min, x_max = min(temperatures), max(temperatures)
     y_min, y_max = 0, 1
 
+    padding = 0.1
     axes.bar(
-        x=temperatures,
+        x=np.array(temperatures) - padding,
         height=1,
-        width=shape.interval + (0.025 * shape.interval),
+        width=shape.interval + (padding * shape.interval),
         color=colours,
         align='edge')
 
