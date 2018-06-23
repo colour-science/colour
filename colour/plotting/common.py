@@ -406,10 +406,14 @@ def decorate(**kwargs):
         Whether to display the *X* axis ticker. Default is *True*.
     y_ticker : bool, optional
         Whether to display the *Y* axis ticker. Default is *True*.
-    x_ticker_locator : Locator, optional
-        Locator type for the *X* axis ticker.
-    y_ticker_locator : Locator, optional
-        Locator type for the *Y* axis ticker.
+    x_ticker_major_locator : Locator, optional
+        Locator type for the *X* axis major ticker.
+    y_ticker_major_locator : Locator, optional
+        Locator type for the *Y* axis major ticker.
+    x_ticker_minor_locator : Locator, optional
+        Locator type for the *X* axis minor ticker.
+    y_ticker_minor_locator : Locator, optional
+        Locator type for the *Y* axis minor ticker.
     grid : bool, optional
         Whether to display the grid. Default is *False*.
     grid_which : unicode, optional
@@ -433,25 +437,28 @@ def decorate(**kwargs):
         Current axes.
     """
 
-    settings = Structure(**{
-        'title': None,
-        'x_label': None,
-        'y_label': None,
-        'legend': False,
-        'legend_columns': 1,
-        'legend_location': 'upper right',
-        'x_ticker': True,
-        'y_ticker': True,
-        'x_ticker_locator': matplotlib.ticker.AutoMinorLocator(2),
-        'y_ticker_locator': matplotlib.ticker.AutoMinorLocator(2),
-        'grid': False,
-        'grid_which': 'both',
-        'grid_axis': 'both',
-        'x_axis_line': False,
-        'y_axis_line': False,
-        'aspect': None,
-        'no_axes': False
-    })
+    settings = Structure(
+        **{
+            'title': None,
+            'x_label': None,
+            'y_label': None,
+            'legend': False,
+            'legend_columns': 1,
+            'legend_location': 'upper right',
+            'x_ticker': True,
+            'y_ticker': True,
+            'x_ticker_major_locator': None,
+            'y_ticker_major_locator': None,
+            'x_ticker_minor_locator': None,
+            'y_ticker_minor_locator': None,
+            'grid': False,
+            'grid_which': 'both',
+            'grid_axis': 'both',
+            'x_axis_line': False,
+            'y_axis_line': False,
+            'aspect': None,
+            'no_axes': False
+        })
     settings.update(kwargs)
 
     axes = matplotlib.pyplot.gca()
@@ -465,11 +472,17 @@ def decorate(**kwargs):
         pylab.legend(
             loc=settings.legend_location, ncol=settings.legend_columns)
     if settings.x_ticker:
-        axes.xaxis.set_minor_locator(settings.x_ticker_locator)
+        if settings.x_ticker_major_locator is not None:
+            axes.xaxis.set_major_locator(settings.x_ticker_major_locator)
+        if settings.x_ticker_minor_locator is not None:
+            axes.xaxis.set_minor_locator(settings.x_ticker_minor_locator)
     else:
         axes.set_xticks([])
     if settings.y_ticker:
-        axes.yaxis.set_minor_locator(settings.y_ticker_locator)
+        if settings.y_ticker_major_locator is not None:
+            axes.yaxis.set_major_locator(settings.y_ticker_major_locator)
+        if settings.y_ticker_minor_locator is not None:
+            axes.yaxis.set_minor_locator(settings.y_ticker_minor_locator)
     else:
         axes.set_yticks([])
     if settings.grid:
