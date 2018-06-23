@@ -14,7 +14,7 @@ from colour.utilities import (as_numeric, as_namedtuple, closest_indexes,
                               closest, normalise_maximum, interval, is_uniform,
                               in_array, tstack, tsplit, row_as_diagonal,
                               dot_vector, dot_matrix, orient, centroid,
-                              linear_conversion, fill_nan, ndarray_write)
+                              linear_conversion, lerp, fill_nan, ndarray_write)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -28,7 +28,7 @@ __all__ = [
     'TestNormaliseMaximum', 'TestInterval', 'TestIsUniform', 'TestInArray',
     'TestTstack', 'TestTsplit', 'TestRowAsDiagonal', 'TestDotVector',
     'TestDotMatrix', 'TestOrient', 'TestCentroid', 'TestLinearConversion',
-    'TestFillNan', 'TestNdarrayWrite'
+    'TestLerp', 'TestFillNan', 'TestNdarrayWrite'
 ]
 
 
@@ -637,6 +637,38 @@ class TestLinearConversion(unittest.TestCase):
             np.array([
                 1.00000000, 1.23795474, 1.47590948, 1.71386422, 1.95181896,
                 2.18977370, 2.42772844, 2.66568318, 2.90363791, 3.14159265
+            ]),
+            decimal=8)
+
+
+class TestLerp(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.array.lerp` definition unit
+    tests methods.
+    """
+
+    def test_lerp(self):
+        """
+        Tests :func:`colour.utilities.array.lerp` definition.
+        """
+
+        np.testing.assert_almost_equal(
+            lerp(
+                np.linspace(0, 1, 10),
+                np.linspace(0, 2, 10),
+                np.linspace(0, 1, 10),
+            ),
+            np.array([
+                0.00000000,
+                0.12345679,
+                0.27160494,
+                0.44444444,
+                0.64197531,
+                0.86419753,
+                1.11111111,
+                1.38271605,
+                1.67901235,
+                2.00000000,
             ]),
             decimal=8)
 

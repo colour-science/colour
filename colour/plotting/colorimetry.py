@@ -144,13 +144,16 @@ def single_spd_plot(spd,
         facecolor='none',
         edgecolor='none')
     axes.add_patch(polygon)
+
+    padding = 0.1
     axes.bar(
-        x=wavelengths,
+        x=wavelengths - padding,
         height=max(values),
-        width=1.025,
+        width=1 + padding,
         color=colours,
         align='edge',
         clip_path=polygon)
+
     axes.plot(wavelengths, values, color='black')
 
     settings = {
@@ -230,8 +233,7 @@ def multi_spd_plot(spds,
 
     cmfs = get_cmfs(cmfs)
 
-    illuminant = ILLUMINANTS_SPDS[
-        DEFAULT_PLOTTING_COLOURSPACE.illuminant]
+    illuminant = ILLUMINANTS_SPDS[DEFAULT_PLOTTING_COLOURSPACE.illuminant]
 
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
     for spd in spds:
@@ -392,8 +394,9 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
             True,
         'y_axis_line':
             True,
-        'limits': (min(x_limit_min), max(x_limit_max), min(y_limit_min),
-                   max(y_limit_max) + max(y_limit_max) * 0.05)
+        'limits': (min(x_limit_min), max(x_limit_max),
+                   min(y_limit_min) - abs(min(y_limit_min)) * 0.05,
+                   max(y_limit_max) + abs(max(y_limit_max)) * 0.05)
     }
     settings.update(kwargs)
 
@@ -496,8 +499,8 @@ def multi_illuminant_relative_spd_plot(illuminants=None, **kwargs):
 
     settings = {
         'title':
-            '{0} - Illuminants Relative Spectral Power Distribution'
-            .format(', '.join([spd.strict_name for spd in spds])),
+            '{0} - Illuminants Relative Spectral Power Distribution'.format(
+                ', '.join([spd.strict_name for spd in spds])),
         'y_label':
             'Relative Power'
     }
@@ -559,11 +562,14 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
     }
     settings.update(kwargs)
 
-    single_spd_plot(
+    figure = single_spd_plot(
         ones_spd(cmfs.shape),
         cmfs=name,
         out_of_gamut_clipping=out_of_gamut_clipping,
         **settings)
+
+    # Removing wavelength line as it doubles with the axes spine.
+    figure.gca().lines.pop(0)
 
     settings = {
         'title': 'The Visible Spectrum - {0}'.format(cmfs.strict_name),
@@ -759,9 +765,10 @@ def blackbody_spectral_radiance_plot(
     return render(**settings)
 
 
-def blackbody_colours_plot(shape=SpectralShape(150, 12500, 50),
-                           cmfs='CIE 1931 2 Degree Standard Observer',
-                           **kwargs):
+def blackbody_colours_plot(
+        shape=SpectralShape(150, 12500, 50),
+        cmfs='CIE 1931 2 Degree Standard Observer',
+        **kwargs):
     """
     Plots blackbody colours.
 
@@ -812,10 +819,11 @@ def blackbody_colours_plot(shape=SpectralShape(150, 12500, 50),
     x_min, x_max = min(temperatures), max(temperatures)
     y_min, y_max = 0, 1
 
+    padding = 0.1
     axes.bar(
-        x=temperatures,
+        x=np.array(temperatures) - padding,
         height=1,
-        width=shape.interval + (0.025 * shape.interval),
+        width=shape.interval + (padding * shape.interval),
         color=colours,
         align='edge')
 

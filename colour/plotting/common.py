@@ -23,15 +23,15 @@ Defines the common plotting objects:
 from __future__ import division
 
 import itertools
-import os
-from collections import namedtuple
-
 import matplotlib
 import matplotlib.cm
 import matplotlib.pyplot
 import matplotlib.ticker
 import numpy as np
+import os
 import pylab
+from collections import namedtuple
+from matplotlib.colors import LinearSegmentedColormap
 
 from colour.colorimetry import CMFS, ILLUMINANTS_SPDS
 from colour.models import RGB_COLOURSPACES, XYZ_to_RGB
@@ -237,7 +237,7 @@ def colour_cycle(**kwargs):
 
     Other Parameters
     ----------------
-    colour_cycle_map : unicode, optional
+    colour_cycle_map : unicode or LinearSegmentedColormap, optional
         Matplotlib colourmap name.
     colour_cycle_count : int, optional
         Colours count to pick in the colourmap.
@@ -257,8 +257,12 @@ def colour_cycle(**kwargs):
     if settings.colour_cycle_map is None:
         cycle = DEFAULT_COLOUR_CYCLE
     else:
-        cycle = getattr(matplotlib.pyplot.cm, settings.colour_cycle_map)(
-            np.linspace(0, 1, settings.colour_cycle_count))
+        samples = np.linspace(0, 1, settings.colour_cycle_count)
+        if isinstance(settings.colour_cycle_map, LinearSegmentedColormap):
+            cycle = settings.colour_cycle_map(samples)
+        else:
+            cycle = getattr(matplotlib.pyplot.cm,
+                            settings.colour_cycle_map)(samples)
 
     return itertools.cycle(cycle)
 
@@ -402,10 +406,14 @@ def decorate(**kwargs):
         Whether to display the *X* axis ticker. Default is *True*.
     y_ticker : bool, optional
         Whether to display the *Y* axis ticker. Default is *True*.
-    x_ticker_locator : Locator, optional
-        Locator type for the *X* axis ticker.
-    y_ticker_locator : Locator, optional
-        Locator type for the *Y* axis ticker.
+    x_ticker_major_locator : Locator, optional
+        Locator type for the *X* axis major ticker.
+    y_ticker_major_locator : Locator, optional
+        Locator type for the *Y* axis major ticker.
+    x_ticker_minor_locator : Locator, optional
+        Locator type for the *X* axis minor ticker.
+    y_ticker_minor_locator : Locator, optional
+        Locator type for the *Y* axis minor ticker.
     grid : bool, optional
         Whether to display the grid. Default is *False*.
     grid_which : unicode, optional
@@ -429,25 +437,28 @@ def decorate(**kwargs):
         Current axes.
     """
 
-    settings = Structure(**{
-        'title': None,
-        'x_label': None,
-        'y_label': None,
-        'legend': False,
-        'legend_columns': 1,
-        'legend_location': 'upper right',
-        'x_ticker': True,
-        'y_ticker': True,
-        'x_ticker_locator': matplotlib.ticker.AutoMinorLocator(2),
-        'y_ticker_locator': matplotlib.ticker.AutoMinorLocator(2),
-        'grid': False,
-        'grid_which': 'both',
-        'grid_axis': 'both',
-        'x_axis_line': False,
-        'y_axis_line': False,
-        'aspect': None,
-        'no_axes': False
-    })
+    settings = Structure(
+        **{
+            'title': None,
+            'x_label': None,
+            'y_label': None,
+            'legend': False,
+            'legend_columns': 1,
+            'legend_location': 'upper right',
+            'x_ticker': True,
+            'y_ticker': True,
+            'x_ticker_major_locator': None,
+            'y_ticker_major_locator': None,
+            'x_ticker_minor_locator': None,
+            'y_ticker_minor_locator': None,
+            'grid': False,
+            'grid_which': 'major',
+            'grid_axis': 'both',
+            'x_axis_line': False,
+            'y_axis_line': False,
+            'aspect': None,
+            'no_axes': False
+        })
     settings.update(kwargs)
 
     axes = matplotlib.pyplot.gca()
@@ -461,15 +472,21 @@ def decorate(**kwargs):
         pylab.legend(
             loc=settings.legend_location, ncol=settings.legend_columns)
     if settings.x_ticker:
-        axes.xaxis.set_minor_locator(settings.x_ticker_locator)
+        if settings.x_ticker_major_locator is not None:
+            axes.xaxis.set_major_locator(settings.x_ticker_major_locator)
+        if settings.x_ticker_minor_locator is not None:
+            axes.xaxis.set_minor_locator(settings.x_ticker_minor_locator)
     else:
         axes.set_xticks([])
     if settings.y_ticker:
-        axes.yaxis.set_minor_locator(settings.y_ticker_locator)
+        if settings.y_ticker_major_locator is not None:
+            axes.yaxis.set_major_locator(settings.y_ticker_major_locator)
+        if settings.y_ticker_minor_locator is not None:
+            axes.yaxis.set_minor_locator(settings.y_ticker_minor_locator)
     else:
         axes.set_yticks([])
     if settings.grid:
-        pylab.grid(which=settings.grid_which, axis=settings.grid_axis)
+        pylab.grid(b=True, which=settings.grid_which, axis=settings.grid_axis)
     if settings.x_axis_line:
         pylab.axvline(color='black', linestyle='--')
     if settings.y_axis_line:

@@ -201,6 +201,7 @@ def chromaticity_diagram_colours_plot(
         samples=256,
         cmfs='CIE 1931 2 Degree Standard Observer',
         method='CIE 1931',
+        diagram_opacity=1.0,
         **kwargs):
     """
     Plots the *Chromaticity Diagram* colours according to given method.
@@ -215,6 +216,8 @@ def chromaticity_diagram_colours_plot(
     method : unicode, optional
         **{'CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'}**,
         *Chromaticity Diagram* method.
+    diagram_opacity : numeric, optional
+        Opacity of the *Chromaticity Diagram* colours.
 
     Other Parameters
     ----------------
@@ -275,7 +278,11 @@ def chromaticity_diagram_colours_plot(
     # Preventing bounding box related issues as per
     # https://github.com/matplotlib/matplotlib/issues/10529
     image = pylab.imshow(
-        RGB, interpolation='bilinear', extent=(0, 1, 0, 1), clip_path=None)
+        RGB,
+        interpolation='bilinear',
+        extent=(0, 1, 0, 1),
+        clip_path=None,
+        alpha=diagram_opacity)
     image.set_clip_path(polygon)
 
     return render(**kwargs)

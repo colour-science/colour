@@ -55,6 +55,7 @@ Array
     orient
     centroid
     linear_conversion
+    lerp
     fill_nan
     ndarray_write
 
