@@ -452,7 +452,7 @@ def decorate(**kwargs):
             'x_ticker_minor_locator': None,
             'y_ticker_minor_locator': None,
             'grid': False,
-            'grid_which': 'both',
+            'grid_which': 'major',
             'grid_axis': 'both',
             'x_axis_line': False,
             'y_axis_line': False,
