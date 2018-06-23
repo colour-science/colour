@@ -727,8 +727,6 @@ def blackbody_spectral_radiance_plot(
 
     cmfs = get_cmfs(cmfs)
 
-    matplotlib.pyplot.subplots_adjust(hspace=0.4)
-
     spd = blackbody_spd(temperature, cmfs.shape)
 
     matplotlib.pyplot.subplot(211)
