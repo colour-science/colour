@@ -735,7 +735,7 @@ def lerp(a, b, c):
         Array :math:`b`, the end of the range in which to interpolate.
     c : array_like
         Array :math:`c` value to use to interpolate between array :math:`a` and
-        array :math:`b.
+        array :math:`b`.
 
     Returns
     -------

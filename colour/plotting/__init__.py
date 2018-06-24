@@ -22,7 +22,7 @@ from .common import (
 from .blindness import cvd_simulation_Machado2009_plot
 from .colorimetry import (
     single_spd_plot, multi_spd_plot, single_cmfs_plot, multi_cmfs_plot,
-    single_illuminant_relative_spd_plot, multi_illuminant_relative_spd_plot,
+    single_illuminant_spd_plot, multi_illuminant_spd_plot,
     visible_spectrum_plot, single_lightness_function_plot,
     multi_lightness_function_plot, blackbody_spectral_radiance_plot,
     blackbody_colours_plot)
@@ -71,8 +71,8 @@ __all__ += [
 __all__ += ['cvd_simulation_Machado2009_plot']
 __all__ += [
     'single_spd_plot', 'multi_spd_plot', 'single_cmfs_plot', 'multi_cmfs_plot',
-    'single_illuminant_relative_spd_plot',
-    'multi_illuminant_relative_spd_plot', 'visible_spectrum_plot',
+    'single_illuminant_spd_plot',
+    'multi_illuminant_spd_plot', 'visible_spectrum_plot',
     'single_lightness_function_plot', 'multi_lightness_function_plot',
     'blackbody_spectral_radiance_plot', 'blackbody_colours_plot'
 ]
@@ -205,8 +205,12 @@ API_CHANGES : dict
 # v0.3.12
 API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
     [
+        'colour.plotting.single_illuminant_relative_spd_plot',
+        'colour.plotting.single_illuminant_spd_plot',
+    ],
+    [
         'colour.plotting.multi_illuminants_relative_spd_plot',
-        'colour.plotting.multi_illuminant_relative_spd_plot',
+        'colour.plotting.multi_illuminant_spd_plot',
     ],
     [
         'colour.plotting.multi_colour_swatches_plot',

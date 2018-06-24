@@ -9,8 +9,8 @@ import colour
 from colour.plotting import (
     ASTM_G_173_ETR, blackbody_colours_plot, blackbody_spectral_radiance_plot,
     colour_plotting_defaults, multi_cmfs_plot,
-    multi_illuminant_relative_spd_plot, multi_lightness_function_plot,
-    multi_spd_plot, single_cmfs_plot, single_illuminant_relative_spd_plot,
+    multi_illuminant_spd_plot, multi_lightness_function_plot,
+    multi_spd_plot, single_cmfs_plot, single_illuminant_spd_plot,
     single_lightness_function_plot, single_spd_plot, visible_spectrum_plot)
 from colour.utilities import message_box
 
@@ -20,21 +20,21 @@ colour_plotting_defaults()
 
 message_box(('Plotting a single illuminant relative spectral power '
              'distribution.'))
-single_illuminant_relative_spd_plot('F1')
+single_illuminant_spd_plot('F1')
 
 print('\n')
 
 message_box(('Plotting multiple illuminants relative spectral power '
              'distributions.'))
 pprint(sorted(colour.ILLUMINANTS_SPDS.keys()))
-multi_illuminant_relative_spd_plot(
+multi_illuminant_spd_plot(
     ['A', 'B', 'C', 'D50', 'D55', 'D60', 'D65', 'D75', 'F1'])
 
 print('\n')
 
 message_box(('Plotting "CIE Standard Illuminant "A", "B", and "C" with their '
              'normalised colours.'))
-multi_illuminant_relative_spd_plot(
+multi_illuminant_spd_plot(
     ['A', 'B', 'C'], use_spds_colours=True, normalise_spds_colours=True)
 
 print('\n')
