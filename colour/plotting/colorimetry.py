@@ -499,7 +499,7 @@ def multi_illuminant_spd_plot(illuminants=None, **kwargs):
 
     settings = {
         'title':
-            '{0} - Illuminants Spectral Power Distribution'.format(
+            '{0} - Illuminants Spectral Power Distributions'.format(
                 ', '.join([spd.strict_name for spd in spds])),
         'y_label':
             'Relative Power'
