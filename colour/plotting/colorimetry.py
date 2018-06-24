@@ -9,8 +9,8 @@ Defines the colorimetry plotting objects:
 -   :func:`colour.plotting.multi_spd_plot`
 -   :func:`colour.plotting.single_cmfs_plot`
 -   :func:`colour.plotting.multi_cmfs_plot`
--   :func:`colour.plotting.single_illuminant_relative_spd_plot`
--   :func:`colour.plotting.multi_illuminant_relative_spd_plot`
+-   :func:`colour.plotting.single_illuminant_spd_plot`
+-   :func:`colour.plotting.multi_illuminant_spd_plot`
 -   :func:`colour.plotting.visible_spectrum_plot`
 -   :func:`colour.plotting.single_lightness_function_plot`
 -   :func:`colour.plotting.multi_lightness_function_plot`
@@ -50,8 +50,8 @@ __status__ = 'Production'
 
 __all__ = [
     'single_spd_plot', 'multi_spd_plot', 'single_cmfs_plot', 'multi_cmfs_plot',
-    'single_illuminant_relative_spd_plot',
-    'multi_illuminant_relative_spd_plot', 'visible_spectrum_plot',
+    'single_illuminant_spd_plot',
+    'multi_illuminant_spd_plot', 'visible_spectrum_plot',
     'single_lightness_function_plot', 'multi_lightness_function_plot',
     'blackbody_spectral_radiance_plot', 'blackbody_colours_plot'
 ]
@@ -403,7 +403,7 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
     return render(**settings)
 
 
-def single_illuminant_relative_spd_plot(
+def single_illuminant_spd_plot(
         illuminant='A', cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     """
     Plots given single illuminant relative spectral power distribution.
@@ -437,11 +437,11 @@ def single_illuminant_relative_spd_plot(
 
     Examples
     --------
-    >>> single_illuminant_relative_spd_plot('A')  # doctest: +SKIP
+    >>> single_illuminant_spd_plot('A')  # doctest: +SKIP
 
     .. image:: ../_static/Plotting_Single_Illuminant_Relative_SPD_Plot.png
         :align: center
-        :alt: single_illuminant_relative_spd_plot
+        :alt: single_illuminant_spd_plot
     """
 
     cmfs = get_cmfs(cmfs)
@@ -455,7 +455,7 @@ def single_illuminant_relative_spd_plot(
     return single_spd_plot(illuminant, **settings)
 
 
-def multi_illuminant_relative_spd_plot(illuminants=None, **kwargs):
+def multi_illuminant_spd_plot(illuminants=None, **kwargs):
     """
     Plots given illuminants relative spectral power distributions.
 
@@ -483,11 +483,11 @@ def multi_illuminant_relative_spd_plot(illuminants=None, **kwargs):
 
     Examples
     --------
-    >>> multi_illuminant_relative_spd_plot(['A', 'B', 'C'])  # doctest: +SKIP
+    >>> multi_illuminant_spd_plot(['A', 'B', 'C'])  # doctest: +SKIP
 
     .. image:: ../_static/Plotting_Multi_Illuminant_Relative_SPD_Plot.png
         :align: center
-        :alt: multi_illuminant_relative_spd_plot
+        :alt: multi_illuminant_spd_plot
     """
 
     if illuminants is None:

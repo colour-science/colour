@@ -64,7 +64,7 @@ def generate_documentation_plots(output_directory):
 
     arguments['filename'] = os.path.join(
         output_directory, 'Examples_Plotting_Illuminant_F1_SPD.png')
-    single_illuminant_relative_spd_plot('F1', **arguments)
+    single_illuminant_spd_plot('F1', **arguments)
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Examples_Plotting_Blackbodies.png')
@@ -208,11 +208,11 @@ def generate_documentation_plots(output_directory):
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Single_Illuminant_Relative_SPD_Plot.png')
-    single_illuminant_relative_spd_plot('A', **arguments)
+    single_illuminant_spd_plot('A', **arguments)
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Multi_Illuminant_Relative_SPD_Plot.png')
-    multi_illuminant_relative_spd_plot(['A', 'B', 'C'], **arguments)
+    multi_illuminant_spd_plot(['A', 'B', 'C'], **arguments)
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Plotting_Visible_Spectrum_Plot.png')

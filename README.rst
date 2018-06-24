@@ -824,7 +824,7 @@ Spectral Power Distribution
 
 .. code-block:: python
 
-    >>> single_illuminant_relative_spd_plot('F1')
+    >>> single_illuminant_spd_plot('F1')
 
 ..  image:: docs/_static/Examples_Plotting_Illuminant_F1_SPD.png
 
