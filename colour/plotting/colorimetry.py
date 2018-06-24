@@ -406,7 +406,7 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
 def single_illuminant_spd_plot(
         illuminant='A', cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     """
-    Plots given single illuminant relative spectral power distribution.
+    Plots given single illuminant spectral power distribution.
 
     Parameters
     ----------
@@ -439,7 +439,7 @@ def single_illuminant_spd_plot(
     --------
     >>> single_illuminant_spd_plot('A')  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Single_Illuminant_Relative_SPD_Plot.png
+    .. image:: ../_static/Plotting_Single_Illuminant_SPD_Plot.png
         :align: center
         :alt: single_illuminant_spd_plot
     """
@@ -457,7 +457,7 @@ def single_illuminant_spd_plot(
 
 def multi_illuminant_spd_plot(illuminants=None, **kwargs):
     """
-    Plots given illuminants relative spectral power distributions.
+    Plots given illuminants spectral power distributions.
 
     Parameters
     ----------
@@ -485,7 +485,7 @@ def multi_illuminant_spd_plot(illuminants=None, **kwargs):
     --------
     >>> multi_illuminant_spd_plot(['A', 'B', 'C'])  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Multi_Illuminant_Relative_SPD_Plot.png
+    .. image:: ../_static/Plotting_Multi_Illuminant_SPD_Plot.png
         :align: center
         :alt: multi_illuminant_spd_plot
     """
@@ -499,7 +499,7 @@ def multi_illuminant_spd_plot(illuminants=None, **kwargs):
 
     settings = {
         'title':
-            '{0} - Illuminants Relative Spectral Power Distribution'.format(
+            '{0} - Illuminants Spectral Power Distribution'.format(
                 ', '.join([spd.strict_name for spd in spds])),
         'y_label':
             'Relative Power'

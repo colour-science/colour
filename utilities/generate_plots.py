@@ -109,7 +109,7 @@ def generate_documentation_plots(output_directory):
         colour.COLOURCHECKERS_SPDS['BabelColor Average'].values(),
         use_spds_colours=True,
         title=('BabelColor Average - '
-               'Relative Spectral Power Distributions'),
+               'Spectral Power Distributions'),
         **arguments)
 
     arguments['filename'] = os.path.join(
@@ -207,11 +207,11 @@ def generate_documentation_plots(output_directory):
     multi_cmfs_plot(cmfs, **arguments)
 
     arguments['filename'] = os.path.join(
-        output_directory, 'Plotting_Single_Illuminant_Relative_SPD_Plot.png')
+        output_directory, 'Plotting_Single_Illuminant_SPD_Plot.png')
     single_illuminant_spd_plot('A', **arguments)
 
     arguments['filename'] = os.path.join(
-        output_directory, 'Plotting_Multi_Illuminant_Relative_SPD_Plot.png')
+        output_directory, 'Plotting_Multi_Illuminant_SPD_Plot.png')
     multi_illuminant_spd_plot(['A', 'B', 'C'], **arguments)
 
     arguments['filename'] = os.path.join(output_directory,
