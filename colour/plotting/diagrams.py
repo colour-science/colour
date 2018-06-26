@@ -25,9 +25,9 @@ from colour.algebra import normalise_vector
 from colour.colorimetry import spectral_to_XYZ
 from colour.models import (Luv_to_uv, Luv_uv_to_xy, UCS_to_uv, UCS_uv_to_xy,
                            XYZ_to_Luv, XYZ_to_UCS, XYZ_to_xy, xy_to_XYZ)
-from colour.plotting import (
-    DEFAULT_FIGURE_WIDTH, DEFAULT_PLOTTING_COLOURSPACE,
-    XYZ_to_plotting_colourspace, canvas, get_cmfs, render)
+from colour.plotting import (DEFAULT_PLOTTING_SETTINGS,
+                             XYZ_to_plotting_colourspace, canvas, get_cmfs,
+                             render)
 from colour.utilities import (is_string, normalise_maximum, suppress_warnings,
                               tstack)
 
@@ -94,14 +94,17 @@ def spectral_locus_plot(cmfs='CIE 1931 2 Degree Standard Observer',
         :alt: spectral_locus_plot
     """
 
-    settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
+    settings = {
+        'figure_size': (DEFAULT_PLOTTING_SETTINGS.figure_width,
+                        DEFAULT_PLOTTING_SETTINGS.figure_width)
+    }
     settings.update(kwargs)
 
     axes = canvas(**settings).gca()
 
     cmfs = get_cmfs(cmfs)
 
-    illuminant = DEFAULT_PLOTTING_COLOURSPACE.whitepoint
+    illuminant = DEFAULT_PLOTTING_SETTINGS.colourspace.whitepoint
 
     wavelengths = cmfs.wavelengths
     equal_energy = np.array([1 / 3] * 2)
@@ -239,14 +242,17 @@ def chromaticity_diagram_colours_plot(
         :alt: chromaticity_diagram_colours_plot
     """
 
-    settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
+    settings = {
+        'figure_size': (DEFAULT_PLOTTING_SETTINGS.figure_width,
+                        DEFAULT_PLOTTING_SETTINGS.figure_width)
+    }
     settings.update(kwargs)
 
     axes = canvas(**settings).gca()
 
     cmfs = get_cmfs(cmfs)
 
-    illuminant = DEFAULT_PLOTTING_COLOURSPACE.whitepoint
+    illuminant = DEFAULT_PLOTTING_SETTINGS.colourspace.whitepoint
 
     ii, jj = np.meshgrid(
         np.linspace(0, 1, samples), np.linspace(1, 0, samples))
@@ -331,7 +337,10 @@ def chromaticity_diagram_plot(cmfs='CIE 1931 2 Degree Standard Observer',
         :alt: chromaticity_diagram_plot
     """
 
-    settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
+    settings = {
+        'figure_size': (DEFAULT_PLOTTING_SETTINGS.figure_width,
+                        DEFAULT_PLOTTING_SETTINGS.figure_width)
+    }
     settings.update(kwargs)
 
     canvas(**settings)

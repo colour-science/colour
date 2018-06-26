@@ -9,16 +9,13 @@ from colour.utilities.documentation import is_documentation_building
 
 from .dataset import *  # noqa
 from . import dataset
-from .common import (
-    PLOTTING_RESOURCES_DIRECTORY, DEFAULT_FIGURE_ASPECT_RATIO,
-    DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_HEIGHT, DEFAULT_FIGURE_SIZE,
-    DEFAULT_FONT_SIZE, DEFAULT_COLOUR_CYCLE, DEFAULT_HATCH_PATTERNS,
-    DEFAULT_PARAMETERS, DEFAULT_PLOTTING_COLOURSPACE,
-    XYZ_to_plotting_colourspace, colour_plotting_defaults, ColourSwatch,
-    colour_cycle, canvas, camera, boundaries, decorate, display, render,
-    label_rectangles, equal_axes3d, get_RGB_colourspace, get_cmfs,
-    get_illuminant, single_colour_swatch_plot, multi_colour_swatch_plot,
-    image_plot)
+from .common import (PLOTTING_RESOURCES_DIRECTORY, DEFAULT_PLOTTING_SETTINGS,
+                     XYZ_to_plotting_colourspace, colour_plotting_defaults,
+                     ColourSwatch, colour_cycle, canvas, camera, boundaries,
+                     decorate, display, render, label_rectangles, equal_axes3d,
+                     get_RGB_colourspace, get_cmfs, get_illuminant,
+                     single_colour_swatch_plot, multi_colour_swatch_plot,
+                     image_plot)
 from .blindness import cvd_simulation_Machado2009_plot
 from .colorimetry import (
     single_spd_plot, multi_spd_plot, single_cmfs_plot, multi_cmfs_plot,
@@ -58,10 +55,7 @@ from .volume import RGB_colourspaces_gamuts_plot, RGB_scatter_plot
 __all__ = []
 __all__ += dataset.__all__
 __all__ += [
-    'PLOTTING_RESOURCES_DIRECTORY', 'DEFAULT_FIGURE_ASPECT_RATIO',
-    'DEFAULT_FIGURE_WIDTH', 'DEFAULT_FIGURE_HEIGHT', 'DEFAULT_FIGURE_SIZE',
-    'DEFAULT_FONT_SIZE', 'DEFAULT_COLOUR_CYCLE', 'DEFAULT_HATCH_PATTERNS',
-    'DEFAULT_PARAMETERS', 'DEFAULT_PLOTTING_COLOURSPACE',
+    'PLOTTING_RESOURCES_DIRECTORY', 'DEFAULT_PLOTTING_SETTINGS',
     'XYZ_to_plotting_colourspace', 'colour_plotting_defaults', 'ColourSwatch',
     'colour_cycle', 'canvas', 'camera', 'boundaries', 'decorate', 'display',
     'render', 'label_rectangles', 'equal_axes3d', 'get_RGB_colourspace',
@@ -71,10 +65,10 @@ __all__ += [
 __all__ += ['cvd_simulation_Machado2009_plot']
 __all__ += [
     'single_spd_plot', 'multi_spd_plot', 'single_cmfs_plot', 'multi_cmfs_plot',
-    'single_illuminant_spd_plot',
-    'multi_illuminant_spd_plot', 'visible_spectrum_plot',
-    'single_lightness_function_plot', 'multi_lightness_function_plot',
-    'blackbody_spectral_radiance_plot', 'blackbody_colours_plot'
+    'single_illuminant_spd_plot', 'multi_illuminant_spd_plot',
+    'visible_spectrum_plot', 'single_lightness_function_plot',
+    'multi_lightness_function_plot', 'blackbody_spectral_radiance_plot',
+    'blackbody_colours_plot'
 ]
 __all__ += ['single_colour_checker_plot', 'multi_colour_checker_plot']
 __all__ += [

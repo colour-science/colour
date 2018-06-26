@@ -19,7 +19,7 @@ import pylab
 from colour.colorimetry import CMFS, ILLUMINANTS
 from colour.models import (UCS_uv_to_xy, XYZ_to_UCS, UCS_to_uv, xy_to_XYZ)
 from colour.temperature import CCT_to_uv
-from colour.plotting import (DEFAULT_FIGURE_WIDTH, canvas,
+from colour.plotting import (DEFAULT_PLOTTING_SETTINGS, canvas,
                              chromaticity_diagram_plot_CIE1931,
                              chromaticity_diagram_plot_CIE1960UCS, render)
 from colour.plotting.diagrams import chromaticity_diagram_plot
@@ -72,7 +72,10 @@ def planckian_locus_plot(planckian_locus_colours='black',
         :alt: planckian_locus_plot
     """
 
-    settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
+    settings = {
+        'figure_size': (DEFAULT_PLOTTING_SETTINGS.figure_width,
+                        DEFAULT_PLOTTING_SETTINGS.figure_width)
+    }
     settings.update(kwargs)
 
     canvas(**settings)

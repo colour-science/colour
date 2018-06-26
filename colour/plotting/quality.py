@@ -18,7 +18,7 @@ import pylab
 from itertools import cycle
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
-from colour.plotting import (DEFAULT_FIGURE_WIDTH, DEFAULT_HATCH_PATTERNS,
+from colour.plotting import (DEFAULT_PLOTTING_SETTINGS,
                              XYZ_to_plotting_colourspace, canvas,
                              label_rectangles, render)
 from colour.quality import (colour_quality_scale, colour_rendering_index)
@@ -86,7 +86,10 @@ def colour_quality_bars_plot(specifications,
         :alt: colour_quality_bars_plot
     """
 
-    settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
+    settings = {
+        'figure_size': (DEFAULT_PLOTTING_SETTINGS.figure_width,
+                        DEFAULT_PLOTTING_SETTINGS.figure_width)
+    }
     settings.update(kwargs)
 
     canvas(**settings)
@@ -94,7 +97,7 @@ def colour_quality_bars_plot(specifications,
     bar_width = 0.5
     y_ticks_interval = 10
     count_s, count_Q_as = len(specifications), 0
-    patterns = cycle(DEFAULT_HATCH_PATTERNS)
+    patterns = cycle(DEFAULT_PLOTTING_SETTINGS.hatch_patterns)
     if hatching is None:
         hatching = False if count_s == 1 else True
     for i, specification in enumerate(specifications):

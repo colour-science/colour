@@ -45,10 +45,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'PLOTTING_RESOURCES_DIRECTORY', 'DEFAULT_FIGURE_ASPECT_RATIO',
-    'DEFAULT_FIGURE_WIDTH', 'DEFAULT_FIGURE_HEIGHT', 'DEFAULT_FIGURE_SIZE',
-    'DEFAULT_FONT_SIZE', 'DEFAULT_COLOUR_CYCLE', 'DEFAULT_HATCH_PATTERNS',
-    'DEFAULT_PARAMETERS', 'DEFAULT_PLOTTING_COLOURSPACE',
+    'PLOTTING_RESOURCES_DIRECTORY', 'DEFAULT_PLOTTING_SETTINGS',
     'XYZ_to_plotting_colourspace', 'colour_plotting_defaults', 'ColourSwatch',
     'colour_cycle', 'canvas', 'camera', 'boundaries', 'decorate', 'display',
     'render', 'label_rectangles', 'equal_axes3d', 'get_RGB_colourspace',
@@ -64,78 +61,34 @@ Resources directory.
 RESOURCES_DIRECTORY : unicode
 """
 
-DEFAULT_FIGURE_ASPECT_RATIO = (np.sqrt(5) - 1) / 2
+DEFAULT_PLOTTING_SETTINGS = Structure(
+    **{
+        'figure_aspect_ratio': (np.sqrt(5) - 1) / 2,
+        'figure_width': 18,
+        'figure_height': 18 * (np.sqrt(5) - 1) / 2,
+        'figure_size': (18, 18 * (np.sqrt(5) - 1) / 2),
+        'font_size': 12,
+        'colour_cycle': ('r', 'g', 'b', 'c', 'm', 'y', 'k'),
+        'hatch_patterns': ('\\\\', 'o', 'x', '.', '*', '//'),
+        'dark_colour': 'black',
+        'light_colour': 'white',
+        'colourspace': RGB_COLOURSPACES['sRGB']
+    })
 """
-Default figure aspect ratio (Golden Number).
+Various defaults settings used across the plotting sub-package.
 
-DEFAULT_FIGURE_ASPECT_RATIO : float
-"""
+- *figure_aspect_ratio*: Default figure aspect ratio (Golden Number).
+- *figure_width*: Default figure width.
+- *figure_height*: Default figure height.
+- *figure_size*: Default figure size.
+- *font_size*: Default figure font size.
+- *colour_cycle*: Default colour cycle for plots.
+- *hatch_patterns*: Default hatch patterns for bar plots.
+- *dark_colour*: Default colour if a dark colour usage is hard defined.
+- *light_colour*: Default colour if a light colour usage is hard defined.
+- *colourspace*: Default plotting colourspace: *sRGB*.
 
-DEFAULT_FIGURE_WIDTH = 18
-"""
-Default figure width.
-
-DEFAULT_FIGURE_WIDTH : integer
-"""
-
-DEFAULT_FIGURE_HEIGHT = DEFAULT_FIGURE_WIDTH * DEFAULT_FIGURE_ASPECT_RATIO
-"""
-Default figure height.
-
-DEFAULT_FIGURE_HEIGHT : integer
-"""
-
-DEFAULT_FIGURE_SIZE = DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_HEIGHT
-"""
-Default figure size.
-
-DEFAULT_FIGURE_SIZE : tuple
-"""
-
-DEFAULT_FONT_SIZE = 12
-"""
-Default figure font size.
-
-DEFAULT_FONT_SIZE : numeric
-"""
-
-DEFAULT_COLOUR_CYCLE = ('r', 'g', 'b', 'c', 'm', 'y', 'k')
-"""
-Default colour cycle for plots.
-
-DEFAULT_COLOUR_CYCLE : tuple
-**{'r', 'g', 'b', 'c', 'm', 'y', 'k'}**
-"""
-
-DEFAULT_HATCH_PATTERNS = ('\\\\', 'o', 'x', '.', '*', '//')
-"""
-Default hatch patterns for bar plots.
-
-DEFAULT_HATCH_PATTERNS : tuple
-{'\\\\', 'o', 'x', '.', '*', '//'}
-"""
-
-DEFAULT_PARAMETERS = {
-    'figure.figsize': DEFAULT_FIGURE_SIZE,
-    'font.size': DEFAULT_FONT_SIZE,
-    'axes.titlesize': DEFAULT_FONT_SIZE * 1.25,
-    'axes.labelsize': DEFAULT_FONT_SIZE * 1.25,
-    'legend.fontsize': DEFAULT_FONT_SIZE * 0.9,
-    'xtick.labelsize': DEFAULT_FONT_SIZE,
-    'ytick.labelsize': DEFAULT_FONT_SIZE,
-    'axes.prop_cycle': matplotlib.cycler(color=DEFAULT_COLOUR_CYCLE)
-}
-"""
-Default plotting parameters.
-
-DEFAULT_PARAMETERS : dict
-"""
-
-DEFAULT_PLOTTING_COLOURSPACE = RGB_COLOURSPACES['sRGB']
-"""
-Default plotting colourspace: *sRGB*.
-
-DEFAULT_PLOTTING_COLOURSPACE : ndarray
+DEFAULT_PLOTTING_SETTINGS : Structure
 """
 
 
@@ -181,10 +134,11 @@ def XYZ_to_plotting_colourspace(XYZ,
     array([ 0.1749881...,  0.3881947...,  0.3216031...])
     """
 
-    return XYZ_to_RGB(XYZ, illuminant, DEFAULT_PLOTTING_COLOURSPACE.whitepoint,
-                      DEFAULT_PLOTTING_COLOURSPACE.XYZ_to_RGB_matrix,
+    return XYZ_to_RGB(XYZ, illuminant,
+                      DEFAULT_PLOTTING_SETTINGS.colourspace.whitepoint,
+                      DEFAULT_PLOTTING_SETTINGS.colourspace.XYZ_to_RGB_matrix,
                       chromatic_adaptation_transform,
-                      DEFAULT_PLOTTING_COLOURSPACE.encoding_cctf
+                      DEFAULT_PLOTTING_SETTINGS.colourspace.encoding_cctf
                       if apply_encoding_cctf else None)
 
 
@@ -203,7 +157,25 @@ def colour_plotting_defaults(parameters=None):
         Definition success.
     """
 
-    parameters = DEFAULT_PARAMETERS if parameters is None else parameters
+    default_parameters = {
+        'figure.figsize':
+            DEFAULT_PLOTTING_SETTINGS.figure_size,
+        'font.size':
+            DEFAULT_PLOTTING_SETTINGS.font_size,
+        'axes.titlesize':
+            DEFAULT_PLOTTING_SETTINGS.font_size * 1.25,
+        'axes.labelsize':
+            DEFAULT_PLOTTING_SETTINGS.font_size * 1.25,
+        'legend.fontsize':
+            DEFAULT_PLOTTING_SETTINGS.font_size * 0.9,
+        'xtick.labelsize':
+            DEFAULT_PLOTTING_SETTINGS.font_size,
+        'ytick.labelsize':
+            DEFAULT_PLOTTING_SETTINGS.font_size,
+        'axes.prop_cycle':
+            matplotlib.cycler(color=DEFAULT_PLOTTING_SETTINGS.colour_cycle)
+    }
+    parameters = default_parameters if parameters is None else parameters
 
     pylab.rcParams.update(parameters)
 
@@ -248,14 +220,15 @@ def colour_cycle(**kwargs):
         Colour cycle iterator.
     """
 
-    settings = Structure(**{
-        'colour_cycle_map': 'hsv',
-        'colour_cycle_count': len(DEFAULT_COLOUR_CYCLE)
-    })
+    settings = Structure(
+        **{
+            'colour_cycle_map': 'hsv',
+            'colour_cycle_count': len(DEFAULT_PLOTTING_SETTINGS.colour_cycle)
+        })
     settings.update(kwargs)
 
     if settings.colour_cycle_map is None:
-        cycle = DEFAULT_COLOUR_CYCLE
+        cycle = DEFAULT_PLOTTING_SETTINGS.colour_cycle
     else:
         samples = np.linspace(0, 1, settings.colour_cycle_count)
         if isinstance(settings.colour_cycle_map, LinearSegmentedColormap):
@@ -283,7 +256,8 @@ def canvas(**kwargs):
         Current figure.
     """
 
-    settings = Structure(**{'figure_size': DEFAULT_FIGURE_SIZE})
+    settings = Structure(
+        **{'figure_size': DEFAULT_PLOTTING_SETTINGS.figure_size})
     settings.update(kwargs)
 
     figure = matplotlib.pyplot.gcf()
