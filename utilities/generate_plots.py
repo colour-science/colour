@@ -44,7 +44,7 @@ def generate_documentation_plots(output_directory):
 
     colour.utilities.filter_warnings(True, False)
 
-    colour_plotting_defaults()
+    colour_plotting_style()
 
     np.random.seed(0)
 

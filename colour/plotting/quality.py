@@ -121,7 +121,7 @@ def colour_quality_bars_plot(specifications,
             np.abs(y),
             color=colours,
             width=bar_width,
-            edgecolor='black',
+            edgecolor=DEFAULT_PLOTTING_SETTINGS.dark_colour,
             label=specification.name)
 
         hatches = ([next(patterns) * hatching_repeat] * (count_Q_as + 1)
@@ -140,7 +140,8 @@ def colour_quality_bars_plot(specifications,
                         0.025),
                 text_size=-5 / 7 * count_s + 12.5)
 
-    pylab.axhline(y=100, color='black', linestyle='--')
+    pylab.axhline(
+        y=100, color=DEFAULT_PLOTTING_SETTINGS.dark_colour, linestyle='--')
 
     pylab.xticks(
         (np.arange(

@@ -153,7 +153,7 @@ def single_spd_plot(spd,
         align='edge',
         clip_path=polygon)
 
-    axes.plot(wavelengths, values, color='black')
+    axes.plot(wavelengths, values, color=DEFAULT_PLOTTING_SETTINGS.dark_colour)
 
     settings = {
         'title': '{0} - {1}'.format(spd.strict_name, cmfs.strict_name),

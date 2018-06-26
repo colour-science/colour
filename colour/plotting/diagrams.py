@@ -50,7 +50,7 @@ __all__ = [
 
 
 def spectral_locus_plot(cmfs='CIE 1931 2 Degree Standard Observer',
-                        spectral_locus_colours='black',
+                        spectral_locus_colours=None,
                         spectral_locus_labels=None,
                         method='CIE 1931',
                         **kwargs):
@@ -93,6 +93,9 @@ def spectral_locus_plot(cmfs='CIE 1931 2 Degree Standard Observer',
         :align: center
         :alt: spectral_locus_plot
     """
+
+    if spectral_locus_colours is None:
+        spectral_locus_colours = DEFAULT_PLOTTING_SETTINGS.dark_colour
 
     settings = {
         'figure_size': (DEFAULT_PLOTTING_SETTINGS.figure_width,
@@ -658,7 +661,8 @@ def spds_chromaticity_diagram_plot(
         XYZ = spectral_to_XYZ(spd) / 100
         ij = XYZ_to_ij(XYZ)
 
-        pylab.plot(ij[0], ij[1], 'o', color='white')
+        pylab.plot(
+            ij[0], ij[1], 'o', color=DEFAULT_PLOTTING_SETTINGS.light_colour)
 
         if (spd.name is not None and
                 annotate_settings_collection[i]['annotate']):

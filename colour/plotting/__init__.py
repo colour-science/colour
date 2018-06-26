@@ -10,7 +10,7 @@ from colour.utilities.documentation import is_documentation_building
 from .dataset import *  # noqa
 from . import dataset
 from .common import (PLOTTING_RESOURCES_DIRECTORY, DEFAULT_PLOTTING_SETTINGS,
-                     XYZ_to_plotting_colourspace, colour_plotting_defaults,
+                     XYZ_to_plotting_colourspace, colour_plotting_style,
                      ColourSwatch, colour_cycle, canvas, camera, boundaries,
                      decorate, display, render, label_rectangles, equal_axes3d,
                      get_RGB_colourspace, get_cmfs, get_illuminant,
@@ -56,7 +56,7 @@ __all__ = []
 __all__ += dataset.__all__
 __all__ += [
     'PLOTTING_RESOURCES_DIRECTORY', 'DEFAULT_PLOTTING_SETTINGS',
-    'XYZ_to_plotting_colourspace', 'colour_plotting_defaults', 'ColourSwatch',
+    'XYZ_to_plotting_colourspace', 'colour_plotting_style', 'ColourSwatch',
     'colour_cycle', 'canvas', 'camera', 'boundaries', 'decorate', 'display',
     'render', 'label_rectangles', 'equal_axes3d', 'get_RGB_colourspace',
     'get_cmfs', 'get_illuminant', 'single_colour_swatch_plot',
@@ -198,6 +198,10 @@ API_CHANGES : dict
 
 # v0.3.12
 API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
+    [
+        'colour.plotting.colour_plotting_defaults',
+        'colour.plotting.colour_plotting_style',
+    ],
     [
         'colour.plotting.single_illuminant_relative_spd_plot',
         'colour.plotting.single_illuminant_spd_plot',

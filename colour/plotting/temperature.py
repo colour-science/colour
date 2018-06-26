@@ -38,7 +38,7 @@ __all__ = [
 ]
 
 
-def planckian_locus_plot(planckian_locus_colours='black',
+def planckian_locus_plot(planckian_locus_colours=None,
                          method='CIE 1931',
                          **kwargs):
     """
@@ -71,6 +71,9 @@ def planckian_locus_plot(planckian_locus_colours='black',
         :align: center
         :alt: planckian_locus_plot
     """
+
+    if planckian_locus_colours is None:
+        planckian_locus_colours = DEFAULT_PLOTTING_SETTINGS.dark_colour
 
     settings = {
         'figure_size': (DEFAULT_PLOTTING_SETTINGS.figure_width,
@@ -224,7 +227,8 @@ Planckian_Locus_Chromaticity_Diagram_Plot.png
                                   sorted(ILLUMINANTS[cmfs.name].keys())))
         ij = xy_to_ij(xy)
 
-        pylab.plot(ij[0], ij[1], 'o', color='white')
+        pylab.plot(
+            ij[0], ij[1], 'o', color=DEFAULT_PLOTTING_SETTINGS.light_colour)
 
         pylab.annotate(
             illuminant,
@@ -236,8 +240,8 @@ Planckian_Locus_Chromaticity_Diagram_Plot.png
     settings.update({
         'title': ('{0} Illuminants - Planckian Locus\n'
                   '{1} Chromaticity Diagram - '
-                  'CIE 1931 2 Degree Standard Observer'
-                  ).format(', '.join(illuminants), method) if illuminants else
+                  'CIE 1931 2 Degree Standard Observer').format(
+                      ', '.join(illuminants), method) if illuminants else
                  ('Planckian Locus\n{0} Chromaticity Diagram - '
                   'CIE 1931 2 Degree Standard Observer'.format(method)),
         'x_tighten':

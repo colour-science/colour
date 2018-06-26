@@ -5,7 +5,7 @@ Common Plotting
 
 Defines the common plotting objects:
 
--   :func:`colour.plotting.colour_plotting_defaults`
+-   :func:`colour.plotting.colour_plotting_style`
 -   :func:`colour.plotting.colour_cycle`
 -   :func:`colour.plotting.canvas`
 -   :func:`colour.plotting.camera`
@@ -46,7 +46,7 @@ __status__ = 'Production'
 
 __all__ = [
     'PLOTTING_RESOURCES_DIRECTORY', 'DEFAULT_PLOTTING_SETTINGS',
-    'XYZ_to_plotting_colourspace', 'colour_plotting_defaults', 'ColourSwatch',
+    'XYZ_to_plotting_colourspace', 'colour_plotting_style', 'ColourSwatch',
     'colour_cycle', 'canvas', 'camera', 'boundaries', 'decorate', 'display',
     'render', 'label_rectangles', 'equal_axes3d', 'get_RGB_colourspace',
     'get_cmfs', 'get_illuminant', 'single_colour_swatch_plot',
@@ -63,11 +63,9 @@ RESOURCES_DIRECTORY : unicode
 
 DEFAULT_PLOTTING_SETTINGS = Structure(
     **{
-        'figure_aspect_ratio': (np.sqrt(5) - 1) / 2,
         'figure_width': 18,
         'figure_height': 18 * (np.sqrt(5) - 1) / 2,
         'figure_size': (18, 18 * (np.sqrt(5) - 1) / 2),
-        'font_size': 12,
         'colour_cycle': ('r', 'g', 'b', 'c', 'm', 'y', 'k'),
         'hatch_patterns': ('\\\\', 'o', 'x', '.', '*', '//'),
         'dark_colour': 'black',
@@ -77,11 +75,9 @@ DEFAULT_PLOTTING_SETTINGS = Structure(
 """
 Various defaults settings used across the plotting sub-package.
 
-- *figure_aspect_ratio*: Default figure aspect ratio (Golden Number).
 - *figure_width*: Default figure width.
 - *figure_height*: Default figure height.
 - *figure_size*: Default figure size.
-- *font_size*: Default figure font size.
 - *colour_cycle*: Default colour cycle for plots.
 - *hatch_patterns*: Default hatch patterns for bar plots.
 - *dark_colour*: Default colour if a dark colour usage is hard defined.
@@ -142,14 +138,14 @@ def XYZ_to_plotting_colourspace(XYZ,
                       if apply_encoding_cctf else None)
 
 
-def colour_plotting_defaults(parameters=None):
+def colour_plotting_style(parameters=None):
     """
-    Enables *Colour* default plotting parameters.
+    Enables *Colour* default plotting style.
 
     Parameters
     ----------
     parameters : dict, optional
-        Parameters to use for plotting.
+        Parameters to use for styling.
 
     Returns
     -------
@@ -163,9 +159,9 @@ def colour_plotting_defaults(parameters=None):
         'font.size':
             DEFAULT_PLOTTING_SETTINGS.font_size,
         'axes.titlesize':
-            DEFAULT_PLOTTING_SETTINGS.font_size * 1.25,
+            DEFAULT_PLOTTING_SETTINGS.font_size * 1.2,
         'axes.labelsize':
-            DEFAULT_PLOTTING_SETTINGS.font_size * 1.25,
+            DEFAULT_PLOTTING_SETTINGS.font_size * 1.1,
         'legend.fontsize':
             DEFAULT_PLOTTING_SETTINGS.font_size * 0.9,
         'xtick.labelsize':
@@ -462,9 +458,11 @@ def decorate(**kwargs):
     if settings.grid:
         pylab.grid(b=True, which=settings.grid_which, axis=settings.grid_axis)
     if settings.x_axis_line:
-        pylab.axvline(color='black', linestyle='--')
+        pylab.axvline(
+            color=DEFAULT_PLOTTING_SETTINGS.dark_colour, linestyle='--')
     if settings.y_axis_line:
-        pylab.axhline(color='black', linestyle='--')
+        pylab.axhline(
+            color=DEFAULT_PLOTTING_SETTINGS.dark_colour, linestyle='--')
     if settings.aspect:
         matplotlib.pyplot.axes().set_aspect(settings.aspect)
     if settings.no_axes:

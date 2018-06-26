@@ -99,12 +99,24 @@ Corresponding_Chromaticities_Prediction_Plot.png
             uvp_t[1],
             uvp_p[0] - uvp_t[0] - 0.1 * (uvp_p[0] - uvp_t[0]),
             uvp_p[1] - uvp_t[1] - 0.1 * (uvp_p[1] - uvp_t[1]),
-            color='black',
+            color=DEFAULT_PLOTTING_SETTINGS.dark_colour,
             head_width=0.005,
             head_length=0.005)
-        pylab.plot(uvp_t[0], uvp_t[1], 'o', color='white')
-        pylab.plot(uvp_m[0], uvp_m[1], '^', color='white')
-        pylab.plot(uvp_p[0], uvp_p[1], '^', color='black')
+        pylab.plot(
+            uvp_t[0],
+            uvp_t[1],
+            'o',
+            color=DEFAULT_PLOTTING_SETTINGS.light_colour)
+        pylab.plot(
+            uvp_m[0],
+            uvp_m[1],
+            '^',
+            color=DEFAULT_PLOTTING_SETTINGS.light_colour)
+        pylab.plot(
+            uvp_p[0],
+            uvp_p[1],
+            '^',
+            color=DEFAULT_PLOTTING_SETTINGS.dark_colour)
     settings.update({
         'x_tighten': True,
         'y_tighten': True,
