@@ -232,11 +232,11 @@ Planckian_Locus_Chromaticity_Diagram_Plot.png
 
     settings.update({
         'title': ('{0} Illuminants - Planckian Locus\n'
-                  'CIE 1931 Chromaticity Diagram - '
+                  '{1} Chromaticity Diagram - '
                   'CIE 1931 2 Degree Standard Observer'
-                  ).format(', '.join(illuminants)) if illuminants else
-                 ('Planckian Locus\nCIE 1931 Chromaticity Diagram - '
-                  'CIE 1931 2 Degree Standard Observer'),
+                  ).format(', '.join(illuminants), method) if illuminants else
+                 ('Planckian Locus\n{0} Chromaticity Diagram - '
+                  'CIE 1931 2 Degree Standard Observer'.format(method)),
         'x_tighten':
             True,
         'y_tighten':
