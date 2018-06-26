@@ -104,7 +104,7 @@ def planckian_locus_plot(planckian_locus_colours=None,
 
             return uv
 
-        D_uv = 0.05
+        D_uv = 0.025
     else:
         raise ValueError('Invalid method: "{0}", must be one of '
                          '{\'CIE 1931\', \'CIE 1960 UCS\'}'.format(method))
