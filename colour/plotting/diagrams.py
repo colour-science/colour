@@ -205,9 +205,9 @@ def spectral_locus_plot(cmfs='CIE 1931 2 Degree Standard Observer',
 
 def chromaticity_diagram_colours_plot(
         samples=256,
+        diagram_opacity=1.0,
         cmfs='CIE 1931 2 Degree Standard Observer',
         method='CIE 1931',
-        diagram_opacity=1.0,
         **kwargs):
     """
     Plots the *Chromaticity Diagram* colours according to given method.
@@ -216,14 +216,14 @@ def chromaticity_diagram_colours_plot(
     ----------
     samples : numeric, optional
         Samples count on one axis.
+    diagram_opacity : numeric, optional
+        Opacity of the *Chromaticity Diagram* colours.
     cmfs : unicode, optional
         Standard observer colour matching functions used for
         *Chromaticity Diagram* bounds.
     method : unicode, optional
         **{'CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'}**,
         *Chromaticity Diagram* method.
-    diagram_opacity : numeric, optional
-        Opacity of the *Chromaticity Diagram* colours.
 
     Other Parameters
     ----------------
