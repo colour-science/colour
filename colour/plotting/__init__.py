@@ -9,8 +9,8 @@ from colour.utilities.documentation import is_documentation_building
 
 from .dataset import *  # noqa
 from . import dataset
-from .common import (DEFAULT_PLOTTING_SETTINGS, XYZ_to_plotting_colourspace,
-                     colour_plotting_style, ColourSwatch, colour_cycle, canvas,
+from .common import (COLOUR_STYLE_CONSTANTS, XYZ_to_plotting_colourspace,
+                     colour_style, ColourSwatch, colour_cycle, canvas,
                      camera, boundaries, decorate, display, render,
                      label_rectangles, equal_axes3d, get_RGB_colourspace,
                      get_cmfs, get_illuminant, single_colour_swatch_plot,
@@ -54,8 +54,8 @@ from .volume import RGB_colourspaces_gamuts_plot, RGB_scatter_plot
 __all__ = []
 __all__ += dataset.__all__
 __all__ += [
-    'DEFAULT_PLOTTING_SETTINGS', 'XYZ_to_plotting_colourspace',
-    'colour_plotting_style', 'ColourSwatch', 'colour_cycle', 'canvas',
+    'COLOUR_STYLE_CONSTANTS', 'XYZ_to_plotting_colourspace',
+    'colour_style', 'ColourSwatch', 'colour_cycle', 'canvas',
     'camera', 'boundaries', 'decorate', 'display', 'render',
     'label_rectangles', 'equal_axes3d', 'get_RGB_colourspace', 'get_cmfs',
     'get_illuminant', 'single_colour_swatch_plot', 'multi_colour_swatch_plot',
@@ -199,7 +199,7 @@ API_CHANGES : dict
 API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
     [
         'colour.plotting.colour_plotting_defaults',
-        'colour.plotting.colour_plotting_style',
+        'colour.plotting.colour_style',
     ],
     [
         'colour.plotting.single_illuminant_relative_spd_plot',

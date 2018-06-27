@@ -25,7 +25,7 @@ from colour.algebra import normalise_vector
 from colour.colorimetry import spectral_to_XYZ
 from colour.models import (Luv_to_uv, Luv_uv_to_xy, UCS_to_uv, UCS_uv_to_xy,
                            XYZ_to_Luv, XYZ_to_UCS, XYZ_to_xy, xy_to_XYZ)
-from colour.plotting import (DEFAULT_PLOTTING_SETTINGS,
+from colour.plotting import (COLOUR_STYLE_CONSTANTS,
                              XYZ_to_plotting_colourspace, canvas, get_cmfs,
                              render)
 from colour.utilities import (is_string, normalise_maximum, suppress_warnings,
@@ -95,11 +95,11 @@ def spectral_locus_plot(cmfs='CIE 1931 2 Degree Standard Observer',
     """
 
     if spectral_locus_colours is None:
-        spectral_locus_colours = DEFAULT_PLOTTING_SETTINGS.dark_colour
+        spectral_locus_colours = COLOUR_STYLE_CONSTANTS.dark_colour
 
     settings = {
-        'figure_size': (DEFAULT_PLOTTING_SETTINGS.figure_width,
-                        DEFAULT_PLOTTING_SETTINGS.figure_width)
+        'figure_size': (COLOUR_STYLE_CONSTANTS.figure_width,
+                        COLOUR_STYLE_CONSTANTS.figure_width)
     }
     settings.update(kwargs)
 
@@ -107,7 +107,7 @@ def spectral_locus_plot(cmfs='CIE 1931 2 Degree Standard Observer',
 
     cmfs = get_cmfs(cmfs)
 
-    illuminant = DEFAULT_PLOTTING_SETTINGS.colourspace.whitepoint
+    illuminant = COLOUR_STYLE_CONSTANTS.colourspace.whitepoint
 
     wavelengths = cmfs.wavelengths
     equal_energy = np.array([1 / 3] * 2)
@@ -246,8 +246,8 @@ def chromaticity_diagram_colours_plot(
     """
 
     settings = {
-        'figure_size': (DEFAULT_PLOTTING_SETTINGS.figure_width,
-                        DEFAULT_PLOTTING_SETTINGS.figure_width)
+        'figure_size': (COLOUR_STYLE_CONSTANTS.figure_width,
+                        COLOUR_STYLE_CONSTANTS.figure_width)
     }
     settings.update(kwargs)
 
@@ -255,7 +255,7 @@ def chromaticity_diagram_colours_plot(
 
     cmfs = get_cmfs(cmfs)
 
-    illuminant = DEFAULT_PLOTTING_SETTINGS.colourspace.whitepoint
+    illuminant = COLOUR_STYLE_CONSTANTS.colourspace.whitepoint
 
     ii, jj = np.meshgrid(
         np.linspace(0, 1, samples), np.linspace(1, 0, samples))
@@ -341,8 +341,8 @@ def chromaticity_diagram_plot(cmfs='CIE 1931 2 Degree Standard Observer',
     """
 
     settings = {
-        'figure_size': (DEFAULT_PLOTTING_SETTINGS.figure_width,
-                        DEFAULT_PLOTTING_SETTINGS.figure_width)
+        'figure_size': (COLOUR_STYLE_CONSTANTS.figure_width,
+                        COLOUR_STYLE_CONSTANTS.figure_width)
     }
     settings.update(kwargs)
 
@@ -662,7 +662,7 @@ def spds_chromaticity_diagram_plot(
         ij = XYZ_to_ij(XYZ)
 
         pylab.plot(
-            ij[0], ij[1], 'o', color=DEFAULT_PLOTTING_SETTINGS.light_colour)
+            ij[0], ij[1], 'o', color=COLOUR_STYLE_CONSTANTS.lightest_colour)
 
         if (spd.name is not None and
                 annotate_settings_collection[i]['annotate']):

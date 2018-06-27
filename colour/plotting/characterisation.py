@@ -16,7 +16,7 @@ import pylab
 
 from colour.characterisation import COLOURCHECKERS
 from colour.models import xyY_to_XYZ
-from colour.plotting import (ColourSwatch, DEFAULT_PLOTTING_SETTINGS,
+from colour.plotting import (ColourSwatch, COLOUR_STYLE_CONSTANTS,
                              XYZ_to_plotting_colourspace, canvas,
                              multi_colour_swatch_plot, render)
 
@@ -173,7 +173,7 @@ def multi_colour_checker_plot(colour_checkers=None, **kwargs):
         text_y,
         '{0} - {1} - Colour Rendition Chart'.format(
             ', '.join(colour_checker_names),
-            DEFAULT_PLOTTING_SETTINGS.colourspace.name),
+            COLOUR_STYLE_CONSTANTS.colourspace.name),
         color='0.95',
         clip_on=True,
         ha='center')

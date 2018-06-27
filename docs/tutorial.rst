@@ -18,7 +18,7 @@ API but will still be a good introduction.
 
     from colour.plotting import *
 
-    colour_plotting_style()
+    colour_style()
 
     visible_spectrum_plot()
 

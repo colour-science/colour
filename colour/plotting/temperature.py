@@ -19,7 +19,7 @@ import pylab
 from colour.colorimetry import CMFS, ILLUMINANTS
 from colour.models import (UCS_uv_to_xy, XYZ_to_UCS, UCS_to_uv, xy_to_XYZ)
 from colour.temperature import CCT_to_uv
-from colour.plotting import (DEFAULT_PLOTTING_SETTINGS, canvas,
+from colour.plotting import (COLOUR_STYLE_CONSTANTS, canvas,
                              chromaticity_diagram_plot_CIE1931,
                              chromaticity_diagram_plot_CIE1960UCS, render)
 from colour.plotting.diagrams import chromaticity_diagram_plot
@@ -73,11 +73,11 @@ def planckian_locus_plot(planckian_locus_colours=None,
     """
 
     if planckian_locus_colours is None:
-        planckian_locus_colours = DEFAULT_PLOTTING_SETTINGS.dark_colour
+        planckian_locus_colours = COLOUR_STYLE_CONSTANTS.dark_colour
 
     settings = {
-        'figure_size': (DEFAULT_PLOTTING_SETTINGS.figure_width,
-                        DEFAULT_PLOTTING_SETTINGS.figure_width)
+        'figure_size': (COLOUR_STYLE_CONSTANTS.figure_width,
+                        COLOUR_STYLE_CONSTANTS.figure_width)
     }
     settings.update(kwargs)
 
@@ -258,7 +258,7 @@ Planckian_Locus_Chromaticity_Diagram_Plot.png
         ij = xy_to_ij(xy)
 
         pylab.plot(
-            ij[0], ij[1], 'o', color=DEFAULT_PLOTTING_SETTINGS.light_colour)
+            ij[0], ij[1], 'o', color=COLOUR_STYLE_CONSTANTS.lightest_colour)
 
         if (illuminant is not None and
                 annotate_settings_collection[i]['annotate']):

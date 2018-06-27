@@ -6,12 +6,12 @@ Showcases colour models volume and gamut plotting examples.
 import numpy as np
 
 from colour.plotting import (RGB_colourspaces_gamuts_plot, RGB_scatter_plot,
-                             colour_plotting_style)
+                             colour_style)
 from colour.utilities import message_box
 
 message_box('Colour Models Volume and Gamut Plots')
 
-colour_plotting_style()
+colour_style()
 
 message_box(('Plotting "ITU-R BT.709" RGB colourspace volume in "CIE xyY" '
              'colourspace.'))

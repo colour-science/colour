@@ -3,13 +3,13 @@
 Showcases corresponding chromaticities prediction plotting examples.
 """
 
-from colour.plotting import (colour_plotting_style,
+from colour.plotting import (colour_style,
                              corresponding_chromaticities_prediction_plot)
 from colour.utilities import message_box
 
 message_box('Corresponding Chromaticities Prediction Plots')
 
-colour_plotting_style()
+colour_style()
 
 message_box('Plotting corresponding chromaticities prediction with '
             '"Von Kries" chromatic adaptation model for "Breneman (1987)" '

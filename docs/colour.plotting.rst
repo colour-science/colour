@@ -13,7 +13,7 @@ Common
 .. autosummary::
     :toctree: generated/
 
-    colour_plotting_style
+    colour_style
     colour_cycle
     canvas
     camera

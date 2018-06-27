@@ -3,14 +3,14 @@
 Showcases common plotting examples.
 """
 
-from colour.plotting import (ColourSwatch, colour_plotting_style,
+from colour.plotting import (ColourSwatch, colour_style,
                              multi_colour_swatch_plot,
                              single_colour_swatch_plot)
 from colour.utilities import message_box
 
 message_box('Common Plots')
 
-colour_plotting_style()
+colour_style()
 
 message_box('Plotting a single colour.')
 single_colour_swatch_plot(

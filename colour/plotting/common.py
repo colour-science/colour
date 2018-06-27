@@ -5,7 +5,7 @@ Common Plotting
 
 Defines the common plotting objects:
 
--   :func:`colour.plotting.colour_plotting_style`
+-   :func:`colour.plotting.colour_style`
 -   :func:`colour.plotting.colour_cycle`
 -   :func:`colour.plotting.canvas`
 -   :func:`colour.plotting.camera`
@@ -44,24 +44,67 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'DEFAULT_PLOTTING_SETTINGS', 'XYZ_to_plotting_colourspace',
-    'colour_plotting_style', 'ColourSwatch', 'colour_cycle', 'canvas',
-    'camera', 'boundaries', 'decorate', 'display', 'render',
-    'label_rectangles', 'equal_axes3d', 'get_RGB_colourspace', 'get_cmfs',
-    'get_illuminant', 'single_colour_swatch_plot', 'multi_colour_swatch_plot',
-    'image_plot'
+    'COLOUR_STYLE_CONSTANTS', 'colour_style', 'XYZ_to_plotting_colourspace',
+    'ColourSwatch', 'colour_cycle', 'canvas', 'camera', 'boundaries',
+    'decorate', 'display', 'render', 'label_rectangles', 'equal_axes3d',
+    'get_RGB_colourspace', 'get_cmfs', 'get_illuminant',
+    'single_colour_swatch_plot', 'multi_colour_swatch_plot', 'image_plot'
 ]
 
-DEFAULT_PLOTTING_SETTINGS = Structure(
+COLOUR_STYLE_CONSTANTS = Structure(
     **{
-        'figure_width': 18,
-        'figure_height': 18 * (np.sqrt(5) - 1) / 2,
-        'figure_size': (18, 18 * (np.sqrt(5) - 1) / 2),
-        'colour_cycle': ('r', 'g', 'b', 'c', 'm', 'y', 'k'),
-        'hatch_patterns': ('\\\\', 'o', 'x', '.', '*', '//'),
-        'dark_colour': 'black',
-        'light_colour': 'white',
-        'colourspace': RGB_COLOURSPACES['sRGB']
+        'figure_width':
+            12.80,
+        'figure_height':
+            7.20,
+        'figure_size': (
+            12.80,
+            7.20,
+        ),
+        'figure_dpi':
+            100,
+        'font_size':
+            12,
+        'colour_cycle': (
+            '#F44336',
+            '#9C27B0',
+            '#3F51B5',
+            '#03A9F4',
+            '#009688',
+            '#8BC34A',
+            '#FFEB3B',
+            '#FF9800',
+            '#795548',
+            '#607D8B',
+        ),
+        'hatch_patterns': (
+            '\\\\',
+            'o',
+            'x',
+            '.',
+            '*',
+            '//',
+        ),
+        'darkest_colour':
+            '#111111',
+        'dark_colour':
+            '#333333',
+        'average_colour':
+            '#D5D5D5',
+        'light_colour':
+            '#F0F0F0',
+        'lightest_colour':
+            '#F5F5F5',
+        'high_opacity':
+            0.75,
+        'low_opacity':
+            0.25,
+        'size':
+            10,
+        'width':
+            1,
+        'colourspace':
+            RGB_COLOURSPACES['sRGB']
     })
 """
 Various defaults settings used across the plotting sub-package.
@@ -72,11 +115,90 @@ Various defaults settings used across the plotting sub-package.
 - *colour_cycle*: Default colour cycle for plots.
 - *hatch_patterns*: Default hatch patterns for bar plots.
 - *dark_colour*: Default colour if a dark colour usage is hard defined.
-- *light_colour*: Default colour if a light colour usage is hard defined.
+- *lightest_colour*: Default colour if a light colour usage is hard defined.
 - *colourspace*: Default plotting colourspace: *sRGB*.
 
-DEFAULT_PLOTTING_SETTINGS : Structure
+COLOUR_STYLE_CONSTANTS : Structure
 """
+
+
+def colour_style(use_style=True):
+    """
+    Returns *Colour* plotting style.
+
+    Parameters
+    ----------
+    use_style : bool, optional
+        Whether to use the style and load it into *Matplotlib*.
+
+    Returns
+    -------
+    dict
+        *Colour* style.
+    """
+
+    constants = COLOUR_STYLE_CONSTANTS
+    style = {
+        # Figure Size Settings
+        'figure.figsize': constants.figure_size,
+        'figure.dpi': constants.figure_dpi,
+        'savefig.dpi': constants.figure_dpi,
+
+        # Font Settings
+        'font.size': constants.font_size,
+        'axes.titlesize': constants.font_size * 1.2,
+        'axes.labelsize': constants.font_size * 1.1,
+        'legend.fontsize': constants.font_size * 0.9,
+        'xtick.labelsize': constants.font_size,
+        'ytick.labelsize': constants.font_size,
+
+        # Tick Settings
+        'xtick.minor.visible': True,
+        'ytick.minor.visible': True,
+        'xtick.direction': 'out',
+        'ytick.direction': 'out',
+        'xtick.major.size': constants.size * 1.5,
+        'xtick.minor.size': constants.size * 0.75,
+        'ytick.major.size': constants.size * 1.5,
+        'ytick.minor.size': constants.size * 0.75,
+        'xtick.major.width': constants.width,
+        'xtick.minor.width': constants.width,
+        'ytick.major.width': constants.width,
+        'ytick.minor.width': constants.width,
+
+        # Spine Settings
+        'axes.linewidth': constants.width,
+        'axes.edgecolor': constants.dark_colour,
+
+        # Title Settings
+        'axes.titlepad': constants.font_size * 0.75,
+
+        # Axes Settings
+        'axes.facecolor': constants.lightest_colour,
+
+        # Grid Settings
+        'grid.linewidth': constants.width * 0.5,
+        'grid.linestyle': '--',
+        'grid.color': constants.average_colour,
+
+        # Legend
+        'legend.frameon': True,
+        'legend.framealpha': constants.high_opacity,
+        'legend.fancybox': False,
+        'legend.facecolor': constants.light_colour,
+        'legend.borderpad': constants.width * 0.5,
+
+        # Lines
+        'lines.linewidth': constants.width,
+
+        # Cycle
+        'axes.prop_cycle': matplotlib.cycler(color=constants.colour_cycle),
+    }
+
+    if use_style:
+        pylab.rcParams.update(style)
+
+    return style
 
 
 def XYZ_to_plotting_colourspace(XYZ,
@@ -122,51 +244,11 @@ def XYZ_to_plotting_colourspace(XYZ,
     """
 
     return XYZ_to_RGB(XYZ, illuminant,
-                      DEFAULT_PLOTTING_SETTINGS.colourspace.whitepoint,
-                      DEFAULT_PLOTTING_SETTINGS.colourspace.XYZ_to_RGB_matrix,
+                      COLOUR_STYLE_CONSTANTS.colourspace.whitepoint,
+                      COLOUR_STYLE_CONSTANTS.colourspace.XYZ_to_RGB_matrix,
                       chromatic_adaptation_transform,
-                      DEFAULT_PLOTTING_SETTINGS.colourspace.encoding_cctf
+                      COLOUR_STYLE_CONSTANTS.colourspace.encoding_cctf
                       if apply_encoding_cctf else None)
-
-
-def colour_plotting_style(parameters=None):
-    """
-    Enables *Colour* default plotting style.
-
-    Parameters
-    ----------
-    parameters : dict, optional
-        Parameters to use for styling.
-
-    Returns
-    -------
-    bool
-        Definition success.
-    """
-
-    default_parameters = {
-        'figure.figsize':
-            DEFAULT_PLOTTING_SETTINGS.figure_size,
-        'font.size':
-            DEFAULT_PLOTTING_SETTINGS.font_size,
-        'axes.titlesize':
-            DEFAULT_PLOTTING_SETTINGS.font_size * 1.2,
-        'axes.labelsize':
-            DEFAULT_PLOTTING_SETTINGS.font_size * 1.1,
-        'legend.fontsize':
-            DEFAULT_PLOTTING_SETTINGS.font_size * 0.9,
-        'xtick.labelsize':
-            DEFAULT_PLOTTING_SETTINGS.font_size,
-        'ytick.labelsize':
-            DEFAULT_PLOTTING_SETTINGS.font_size,
-        'axes.prop_cycle':
-            matplotlib.cycler(color=DEFAULT_PLOTTING_SETTINGS.colour_cycle)
-    }
-    parameters = default_parameters if parameters is None else parameters
-
-    pylab.rcParams.update(parameters)
-
-    return True
 
 
 class ColourSwatch(namedtuple('ColourSwatch', ('name', 'RGB'))):
@@ -210,12 +292,12 @@ def colour_cycle(**kwargs):
     settings = Structure(
         **{
             'colour_cycle_map': 'hsv',
-            'colour_cycle_count': len(DEFAULT_PLOTTING_SETTINGS.colour_cycle)
+            'colour_cycle_count': len(COLOUR_STYLE_CONSTANTS.colour_cycle)
         })
     settings.update(kwargs)
 
     if settings.colour_cycle_map is None:
-        cycle = DEFAULT_PLOTTING_SETTINGS.colour_cycle
+        cycle = COLOUR_STYLE_CONSTANTS.colour_cycle
     else:
         samples = np.linspace(0, 1, settings.colour_cycle_count)
         if isinstance(settings.colour_cycle_map, LinearSegmentedColormap):
@@ -243,8 +325,7 @@ def canvas(**kwargs):
         Current figure.
     """
 
-    settings = Structure(
-        **{'figure_size': DEFAULT_PLOTTING_SETTINGS.figure_size})
+    settings = Structure(**{'figure_size': COLOUR_STYLE_CONSTANTS.figure_size})
     settings.update(kwargs)
 
     figure = matplotlib.pyplot.gcf()
@@ -275,10 +356,11 @@ def camera(**kwargs):
         Current axes.
     """
 
-    settings = Structure(
-        **{'camera_aspect': 'equal',
-           'elevation': None,
-           'azimuth': None})
+    settings = Structure(**{
+        'camera_aspect': 'equal',
+        'elevation': None,
+        'azimuth': None
+    })
     settings.update(kwargs)
 
     axes = matplotlib.pyplot.gca()
@@ -320,13 +402,14 @@ def boundaries(**kwargs):
         Current axes.
     """
 
-    settings = Structure(**{
-        'bounding_box': None,
-        'x_tighten': False,
-        'y_tighten': False,
-        'limits': (0, 1, 0, 1),
-        'margins': (0, 0, 0, 0)
-    })
+    settings = Structure(
+        **{
+            'bounding_box': None,
+            'x_tighten': False,
+            'y_tighten': False,
+            'limits': (0, 1, 0, 1),
+            'margins': (0, 0, 0, 0)
+        })
     settings.update(kwargs)
 
     axes = matplotlib.pyplot.gca()
@@ -449,11 +532,9 @@ def decorate(**kwargs):
     if settings.grid:
         pylab.grid(b=True, which=settings.grid_which, axis=settings.grid_axis)
     if settings.x_axis_line:
-        pylab.axvline(
-            color=DEFAULT_PLOTTING_SETTINGS.dark_colour, linestyle='--')
+        pylab.axvline(color=COLOUR_STYLE_CONSTANTS.dark_colour, linestyle='--')
     if settings.y_axis_line:
-        pylab.axhline(
-            color=DEFAULT_PLOTTING_SETTINGS.dark_colour, linestyle='--')
+        pylab.axhline(color=COLOUR_STYLE_CONSTANTS.dark_colour, linestyle='--')
     if settings.aspect:
         matplotlib.pyplot.axes().set_aspect(settings.aspect)
     if settings.no_axes:
@@ -483,12 +564,13 @@ def display(**kwargs):
         Current figure or None.
     """
 
-    settings = Structure(**{
-        'transparent_background': False,
-        'tight_layout': False,
-        'standalone': True,
-        'filename': None
-    })
+    settings = Structure(
+        **{
+            'transparent_background': False,
+            'tight_layout': False,
+            'standalone': True,
+            'filename': None
+        })
     settings.update(kwargs)
 
     figure = matplotlib.pyplot.gcf()
