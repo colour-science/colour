@@ -9,13 +9,12 @@ from colour.utilities.documentation import is_documentation_building
 
 from .dataset import *  # noqa
 from . import dataset
-from .common import (PLOTTING_RESOURCES_DIRECTORY, DEFAULT_PLOTTING_SETTINGS,
-                     XYZ_to_plotting_colourspace, colour_plotting_style,
-                     ColourSwatch, colour_cycle, canvas, camera, boundaries,
-                     decorate, display, render, label_rectangles, equal_axes3d,
-                     get_RGB_colourspace, get_cmfs, get_illuminant,
-                     single_colour_swatch_plot, multi_colour_swatch_plot,
-                     image_plot)
+from .common import (DEFAULT_PLOTTING_SETTINGS, XYZ_to_plotting_colourspace,
+                     colour_plotting_style, ColourSwatch, colour_cycle, canvas,
+                     camera, boundaries, decorate, display, render,
+                     label_rectangles, equal_axes3d, get_RGB_colourspace,
+                     get_cmfs, get_illuminant, single_colour_swatch_plot,
+                     multi_colour_swatch_plot, image_plot)
 from .blindness import cvd_simulation_Machado2009_plot
 from .colorimetry import (
     single_spd_plot, multi_spd_plot, single_cmfs_plot, multi_cmfs_plot,
@@ -55,12 +54,12 @@ from .volume import RGB_colourspaces_gamuts_plot, RGB_scatter_plot
 __all__ = []
 __all__ += dataset.__all__
 __all__ += [
-    'PLOTTING_RESOURCES_DIRECTORY', 'DEFAULT_PLOTTING_SETTINGS',
-    'XYZ_to_plotting_colourspace', 'colour_plotting_style', 'ColourSwatch',
-    'colour_cycle', 'canvas', 'camera', 'boundaries', 'decorate', 'display',
-    'render', 'label_rectangles', 'equal_axes3d', 'get_RGB_colourspace',
-    'get_cmfs', 'get_illuminant', 'single_colour_swatch_plot',
-    'multi_colour_swatch_plot', 'image_plot'
+    'DEFAULT_PLOTTING_SETTINGS', 'XYZ_to_plotting_colourspace',
+    'colour_plotting_style', 'ColourSwatch', 'colour_cycle', 'canvas',
+    'camera', 'boundaries', 'decorate', 'display', 'render',
+    'label_rectangles', 'equal_axes3d', 'get_RGB_colourspace', 'get_cmfs',
+    'get_illuminant', 'single_colour_swatch_plot', 'multi_colour_swatch_plot',
+    'image_plot'
 ]
 __all__ += ['cvd_simulation_Machado2009_plot']
 __all__ += [

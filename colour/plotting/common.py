@@ -28,7 +28,6 @@ import matplotlib.cm
 import matplotlib.pyplot
 import matplotlib.ticker
 import numpy as np
-import os
 import pylab
 from collections import namedtuple
 from matplotlib.colors import LinearSegmentedColormap
@@ -45,21 +44,13 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'PLOTTING_RESOURCES_DIRECTORY', 'DEFAULT_PLOTTING_SETTINGS',
-    'XYZ_to_plotting_colourspace', 'colour_plotting_style', 'ColourSwatch',
-    'colour_cycle', 'canvas', 'camera', 'boundaries', 'decorate', 'display',
-    'render', 'label_rectangles', 'equal_axes3d', 'get_RGB_colourspace',
-    'get_cmfs', 'get_illuminant', 'single_colour_swatch_plot',
-    'multi_colour_swatch_plot', 'image_plot'
+    'DEFAULT_PLOTTING_SETTINGS', 'XYZ_to_plotting_colourspace',
+    'colour_plotting_style', 'ColourSwatch', 'colour_cycle', 'canvas',
+    'camera', 'boundaries', 'decorate', 'display', 'render',
+    'label_rectangles', 'equal_axes3d', 'get_RGB_colourspace', 'get_cmfs',
+    'get_illuminant', 'single_colour_swatch_plot', 'multi_colour_swatch_plot',
+    'image_plot'
 ]
-
-PLOTTING_RESOURCES_DIRECTORY = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)), 'resources')
-"""
-Resources directory.
-
-RESOURCES_DIRECTORY : unicode
-"""
 
 DEFAULT_PLOTTING_SETTINGS = Structure(
     **{
