@@ -83,7 +83,7 @@ else:
     })
 
 
-def read_image(path, bit_depth='float32'):
+def read_image(path, bit_depth='float32', attributes=False):
     """
     Reads given image using *OpenImageIO*.
 
@@ -94,6 +94,8 @@ def read_image(path, bit_depth='float32'):
     bit_depth : unicode, optional
         **{'float32', 'uint8', 'uint16', 'float16'}**,
         Image bit_depth.
+    attributes : bool, optional
+        Whether to return the image attributes.
 
     Returns
     -------
@@ -124,7 +126,19 @@ def read_image(path, bit_depth='float32'):
         shape = (specification.height, specification.width,
                  specification.nchannels)
 
-        return np.squeeze(np.array(image.read_image(bit_depth)).reshape(shape))
+        image = np.squeeze(
+            np.array(image.read_image(bit_depth)).reshape(shape))
+        if attributes:
+            extra_attributes = []
+            for i in range(len(specification.extra_attribs)):
+                attribute = specification.extra_attribs[i]
+                extra_attributes.append(
+                    ImageAttribute_Specification(
+                        attribute.name, attribute.value, attribute.type))
+
+            return image, extra_attributes
+        else:
+            return image
 
 
 def write_image(image, path, bit_depth='float32', attributes=None):

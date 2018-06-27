@@ -32,10 +32,9 @@ from colour.models import (
     POINTER_GAMUT_DATA, POINTER_GAMUT_ILLUMINANT, RGB_to_RGB, RGB_to_XYZ,
     UCS_to_uv, XYZ_to_Luv, XYZ_to_UCS, XYZ_to_xy, xy_to_Luv_uv, xy_to_UCS_uv)
 from colour.plotting import (
-    DEFAULT_FIGURE_WIDTH, DEFAULT_PLOTTING_COLOURSPACE,
-    chromaticity_diagram_plot_CIE1931, chromaticity_diagram_plot_CIE1960UCS,
-    chromaticity_diagram_plot_CIE1976UCS, canvas, colour_cycle,
-    get_RGB_colourspace, get_cmfs, render)
+    DEFAULT_PLOTTING_SETTINGS, chromaticity_diagram_plot_CIE1931,
+    chromaticity_diagram_plot_CIE1960UCS, chromaticity_diagram_plot_CIE1976UCS,
+    canvas, colour_cycle, get_RGB_colourspace, get_cmfs, render)
 from colour.plotting.diagrams import chromaticity_diagram_plot
 
 __author__ = 'Colour Developers'
@@ -108,7 +107,10 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot.png
         :alt: RGB_colourspaces_chromaticity_diagram_plot
     """
 
-    settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
+    settings = {
+        'figure_size': (DEFAULT_PLOTTING_SETTINGS.figure_width,
+                        DEFAULT_PLOTTING_SETTINGS.figure_width)
+    }
     settings.update(kwargs)
 
     canvas(**settings)
@@ -519,7 +521,7 @@ RGB_Chromaticity_Coordinates_Chromaticity_Diagram_Plot.png
             RGB_to_RGB(
                 RGB,
                 colourspace,
-                DEFAULT_PLOTTING_COLOURSPACE,
+                DEFAULT_PLOTTING_SETTINGS.colourspace,
                 apply_encoding_cctf=True).reshape(-1, 3), 0, 1)
 
     XYZ = RGB_to_XYZ(RGB, colourspace.whitepoint, colourspace.whitepoint,
@@ -794,7 +796,10 @@ def multi_cctf_plot(colourspaces=None, decoding_cctf=False, **kwargs):
         :alt: multi_cctf_plot
     """
 
-    settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
+    settings = {
+        'figure_size': (DEFAULT_PLOTTING_SETTINGS.figure_width,
+                        DEFAULT_PLOTTING_SETTINGS.figure_width)
+    }
     settings.update(kwargs)
 
     canvas(**settings)

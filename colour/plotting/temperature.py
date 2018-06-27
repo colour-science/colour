@@ -19,7 +19,7 @@ import pylab
 from colour.colorimetry import CMFS, ILLUMINANTS
 from colour.models import (UCS_uv_to_xy, XYZ_to_UCS, UCS_to_uv, xy_to_XYZ)
 from colour.temperature import CCT_to_uv
-from colour.plotting import (DEFAULT_FIGURE_WIDTH, canvas,
+from colour.plotting import (DEFAULT_PLOTTING_SETTINGS, canvas,
                              chromaticity_diagram_plot_CIE1931,
                              chromaticity_diagram_plot_CIE1960UCS, render)
 from colour.plotting.diagrams import chromaticity_diagram_plot
@@ -38,7 +38,7 @@ __all__ = [
 ]
 
 
-def planckian_locus_plot(planckian_locus_colours='black',
+def planckian_locus_plot(planckian_locus_colours=None,
                          method='CIE 1931',
                          **kwargs):
     """
@@ -72,7 +72,13 @@ def planckian_locus_plot(planckian_locus_colours='black',
         :alt: planckian_locus_plot
     """
 
-    settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
+    if planckian_locus_colours is None:
+        planckian_locus_colours = DEFAULT_PLOTTING_SETTINGS.dark_colour
+
+    settings = {
+        'figure_size': (DEFAULT_PLOTTING_SETTINGS.figure_width,
+                        DEFAULT_PLOTTING_SETTINGS.figure_width)
+    }
     settings.update(kwargs)
 
     canvas(**settings)
@@ -98,7 +104,7 @@ def planckian_locus_plot(planckian_locus_colours='black',
 
             return uv
 
-        D_uv = 0.05
+        D_uv = 0.025
     else:
         raise ValueError('Invalid method: "{0}", must be one of '
                          '{\'CIE 1931\', \'CIE 1960 UCS\'}'.format(method))
@@ -127,6 +133,7 @@ def planckian_locus_plot(planckian_locus_colours='black',
 
 def planckian_locus_chromaticity_diagram_plot(
         illuminants=None,
+        annotate_parameters=None,
         chromaticity_diagram_callable=chromaticity_diagram_plot,
         method='CIE 1931',
         **kwargs):
@@ -138,6 +145,13 @@ def planckian_locus_chromaticity_diagram_plot(
     ----------
     illuminants : array_like, optional
         Factory illuminants to plot.
+    annotate_parameters : dict or array_like, optional
+        Parameters for the :func:`pylab.annotate` definition, used to annotate
+        the resulting chromaticity coordinates with their respective illuminant
+        names if ``annotate`` is set to *True*. ``annotate_parameters`` can be
+        either a single dictionary applied to all the arrows with same settings
+        or a sequence of dictionaries with different settings for each
+        illuminant.
     chromaticity_diagram_callable : callable, optional
         Callable responsible for drawing the *Chromaticity Diagram*.
     method : unicode, optional
@@ -212,7 +226,29 @@ Planckian_Locus_Chromaticity_Diagram_Plot.png
         raise ValueError('Invalid method: "{0}", must be one of '
                          '{\'CIE 1931\', \'CIE 1960 UCS\'}'.format(method))
 
-    for illuminant in illuminants:
+    annotate_settings_collection = [{
+        'annotate': True,
+        'xytext': (50, 30),
+        'textcoords': 'offset points',
+        'arrowprops': {
+            'arrowstyle': '->',
+            'connectionstyle': 'arc3, rad=0.2'
+        }
+    } for _ in range(len(illuminants))]
+
+    if annotate_parameters is not None:
+        if not isinstance(annotate_parameters, dict):
+            assert len(annotate_parameters) == len(illuminants), (
+                'Multiple annotate parameters defined, but they do not match '
+                'the illuminants count!')
+
+        for i, annotate_settings in enumerate(annotate_settings_collection):
+            if isinstance(annotate_parameters, dict):
+                annotate_settings.update(annotate_parameters)
+            else:
+                annotate_settings.update(annotate_parameters[i])
+
+    for i, illuminant in enumerate(illuminants):
         xy = ILLUMINANTS.get(cmfs.name).get(illuminant)
         if xy is None:
             raise KeyError(
@@ -221,22 +257,23 @@ Planckian_Locus_Chromaticity_Diagram_Plot.png
                                   sorted(ILLUMINANTS[cmfs.name].keys())))
         ij = xy_to_ij(xy)
 
-        pylab.plot(ij[0], ij[1], 'o', color='white')
+        pylab.plot(
+            ij[0], ij[1], 'o', color=DEFAULT_PLOTTING_SETTINGS.light_colour)
 
-        pylab.annotate(
-            illuminant,
-            xy=(ij[0], ij[1]),
-            xytext=(-50, 30),
-            textcoords='offset points',
-            arrowprops=dict(arrowstyle='->', connectionstyle='arc3, rad=-0.2'))
+        if (illuminant is not None and
+                annotate_settings_collection[i]['annotate']):
+            annotate_settings = annotate_settings_collection[i]
+            annotate_settings.pop('annotate')
+
+            pylab.annotate(illuminant, xy=ij, **annotate_settings)
 
     settings.update({
         'title': ('{0} Illuminants - Planckian Locus\n'
-                  'CIE 1931 Chromaticity Diagram - '
-                  'CIE 1931 2 Degree Standard Observer'
-                  ).format(', '.join(illuminants)) if illuminants else
-                 ('Planckian Locus\nCIE 1931 Chromaticity Diagram - '
-                  'CIE 1931 2 Degree Standard Observer'),
+                  '{1} Chromaticity Diagram - '
+                  'CIE 1931 2 Degree Standard Observer').format(
+                      ', '.join(illuminants), method) if illuminants else
+                 ('Planckian Locus\n{0} Chromaticity Diagram - '
+                  'CIE 1931 2 Degree Standard Observer'.format(method)),
         'x_tighten':
             True,
         'y_tighten':
@@ -253,6 +290,7 @@ Planckian_Locus_Chromaticity_Diagram_Plot.png
 
 def planckian_locus_chromaticity_diagram_plot_CIE1931(
         illuminants=None,
+        annotate_parameters=None,
         chromaticity_diagram_callable_CIE1931=(
             chromaticity_diagram_plot_CIE1931),
         **kwargs):
@@ -264,6 +302,13 @@ def planckian_locus_chromaticity_diagram_plot_CIE1931(
     ----------
     illuminants : array_like, optional
         Factory illuminants to plot.
+    annotate_parameters : dict or array_like, optional
+        Parameters for the :func:`pylab.annotate` definition, used to annotate
+        the resulting chromaticity coordinates with their respective illuminant
+        names if ``annotate`` is set to *True*. ``annotate_parameters`` can be
+        either a single dictionary applied to all the arrows with same settings
+        or a sequence of dictionaries with different settings for each
+        illuminant.
     chromaticity_diagram_callable_CIE1931 : callable, optional
         Callable responsible for drawing the *CIE 1931 Chromaticity Diagram*.
 
@@ -300,11 +345,13 @@ Planckian_Locus_Chromaticity_Diagram_Plot_CIE1931.png
     settings.update({'method': 'CIE 1931'})
 
     return planckian_locus_chromaticity_diagram_plot(
-        illuminants, chromaticity_diagram_callable_CIE1931, **settings)
+        illuminants, annotate_parameters,
+        chromaticity_diagram_callable_CIE1931, **settings)
 
 
 def planckian_locus_chromaticity_diagram_plot_CIE1960UCS(
         illuminants=None,
+        annotate_parameters=None,
         chromaticity_diagram_callable_CIE1960UCS=(
             chromaticity_diagram_plot_CIE1960UCS),
         **kwargs):
@@ -316,6 +363,13 @@ def planckian_locus_chromaticity_diagram_plot_CIE1960UCS(
     ----------
     illuminants : array_like, optional
         Factory illuminants to plot.
+    annotate_parameters : dict or array_like, optional
+        Parameters for the :func:`pylab.annotate` definition, used to annotate
+        the resulting chromaticity coordinates with their respective illuminant
+        names if ``annotate`` is set to *True*. ``annotate_parameters`` can be
+        either a single dictionary applied to all the arrows with same settings
+        or a sequence of dictionaries with different settings for each
+        illuminant.
     chromaticity_diagram_callable_CIE1960UCS : callable, optional
         Callable responsible for drawing the
         *CIE 1960 UCS Chromaticity Diagram*.
@@ -353,4 +407,5 @@ Planckian_Locus_Chromaticity_Diagram_Plot_CIE1960UCS.png
     settings.update({'method': 'CIE 1960 UCS'})
 
     return planckian_locus_chromaticity_diagram_plot(
-        illuminants, chromaticity_diagram_callable_CIE1960UCS, **settings)
+        illuminants, annotate_parameters,
+        chromaticity_diagram_callable_CIE1960UCS, **settings)

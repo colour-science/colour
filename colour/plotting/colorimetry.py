@@ -35,10 +35,9 @@ from colour.algebra import LinearInterpolator
 from colour.colorimetry import (
     ILLUMINANTS, ILLUMINANTS_SPDS, LIGHTNESS_METHODS, SpectralShape,
     blackbody_spd, ones_spd, spectral_to_XYZ, wavelength_to_XYZ)
-from colour.plotting import (ColourSwatch, DEFAULT_PLOTTING_COLOURSPACE,
-                             DEFAULT_FIGURE_WIDTH, XYZ_to_plotting_colourspace,
-                             canvas, get_cmfs, get_illuminant, render,
-                             single_colour_swatch_plot)
+from colour.plotting import (ColourSwatch, DEFAULT_PLOTTING_SETTINGS,
+                             XYZ_to_plotting_colourspace, canvas, get_cmfs,
+                             get_illuminant, render, single_colour_swatch_plot)
 from colour.utilities import normalise_maximum, suppress_warnings, tstack
 
 __author__ = 'Colour Developers'
@@ -50,10 +49,10 @@ __status__ = 'Production'
 
 __all__ = [
     'single_spd_plot', 'multi_spd_plot', 'single_cmfs_plot', 'multi_cmfs_plot',
-    'single_illuminant_spd_plot',
-    'multi_illuminant_spd_plot', 'visible_spectrum_plot',
-    'single_lightness_function_plot', 'multi_lightness_function_plot',
-    'blackbody_spectral_radiance_plot', 'blackbody_colours_plot'
+    'single_illuminant_spd_plot', 'multi_illuminant_spd_plot',
+    'visible_spectrum_plot', 'single_lightness_function_plot',
+    'multi_lightness_function_plot', 'blackbody_spectral_radiance_plot',
+    'blackbody_colours_plot'
 ]
 
 
@@ -129,7 +128,7 @@ def single_spd_plot(spd,
     if not out_of_gamut_clipping:
         colours += np.abs(np.min(colours))
 
-    colours = DEFAULT_PLOTTING_COLOURSPACE.encoding_cctf(
+    colours = DEFAULT_PLOTTING_SETTINGS.colourspace.encoding_cctf(
         normalise_maximum(colours))
 
     x_min, x_max = min(wavelengths), max(wavelengths)
@@ -154,7 +153,7 @@ def single_spd_plot(spd,
         align='edge',
         clip_path=polygon)
 
-    axes.plot(wavelengths, values, color='black')
+    axes.plot(wavelengths, values, color=DEFAULT_PLOTTING_SETTINGS.dark_colour)
 
     settings = {
         'title': '{0} - {1}'.format(spd.strict_name, cmfs.strict_name),
@@ -233,7 +232,8 @@ def multi_spd_plot(spds,
 
     cmfs = get_cmfs(cmfs)
 
-    illuminant = ILLUMINANTS_SPDS[DEFAULT_PLOTTING_COLOURSPACE.illuminant]
+    illuminant = ILLUMINANTS_SPDS[
+        DEFAULT_PLOTTING_SETTINGS.colourspace.illuminant]
 
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
     for spd in spds:
@@ -652,7 +652,10 @@ def multi_lightness_function_plot(functions=None, **kwargs):
         :alt: multi_lightness_function_plot
     """
 
-    settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
+    settings = {
+        'figure_size': (DEFAULT_PLOTTING_SETTINGS.figure_width,
+                        DEFAULT_PLOTTING_SETTINGS.figure_width)
+    }
     settings.update(kwargs)
 
     canvas(**settings)

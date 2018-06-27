@@ -4,14 +4,14 @@ Showcases optical phenomena plotting examples.
 """
 
 from colour.phenomena import rayleigh_scattering_spd
-from colour.plotting import (colour_plotting_defaults, multi_spd_plot,
+from colour.plotting import (colour_plotting_style, multi_spd_plot,
                              single_rayleigh_scattering_spd_plot,
                              the_blue_sky_plot)
 from colour.utilities import message_box
 
 message_box('Optical Phenomenons Plots')
 
-colour_plotting_defaults()
+colour_plotting_style()
 
 message_box(('Plotting a single "Rayleigh" scattering spectral power '
              'distribution.'))

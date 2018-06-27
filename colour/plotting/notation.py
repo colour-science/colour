@@ -15,7 +15,7 @@ import numpy as np
 import pylab
 
 from colour.notation import MUNSELL_VALUE_METHODS
-from colour.plotting import DEFAULT_FIGURE_WIDTH, canvas, render
+from colour.plotting import DEFAULT_PLOTTING_SETTINGS, canvas, render
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -100,7 +100,10 @@ def multi_munsell_value_function_plot(functions=None, **kwargs):
         :alt: multi_munsell_value_function_plot
     """
 
-    settings = {'figure_size': (DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_WIDTH)}
+    settings = {
+        'figure_size': (DEFAULT_PLOTTING_SETTINGS.figure_width,
+                        DEFAULT_PLOTTING_SETTINGS.figure_width)
+    }
     settings.update(kwargs)
 
     canvas(**settings)

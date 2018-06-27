@@ -6,13 +6,13 @@ Showcases characterisation plotting examples.
 from pprint import pprint
 
 import colour
-from colour.plotting import (colour_plotting_defaults, colour_checker_plot,
+from colour.plotting import (colour_plotting_style, colour_checker_plot,
                              multi_spd_plot)
 from colour.utilities import message_box
 
 message_box('Characterisation Plots')
 
-colour_plotting_defaults()
+colour_plotting_style()
 
 message_box('Plotting colour rendition charts.')
 pprint(sorted(colour.COLOURCHECKERS.keys()))

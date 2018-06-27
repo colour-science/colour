@@ -5,7 +5,7 @@ Common Plotting
 
 Defines the common plotting objects:
 
--   :func:`colour.plotting.colour_plotting_defaults`
+-   :func:`colour.plotting.colour_plotting_style`
 -   :func:`colour.plotting.colour_cycle`
 -   :func:`colour.plotting.canvas`
 -   :func:`colour.plotting.camera`
@@ -28,7 +28,6 @@ import matplotlib.cm
 import matplotlib.pyplot
 import matplotlib.ticker
 import numpy as np
-import os
 import pylab
 from collections import namedtuple
 from matplotlib.colors import LinearSegmentedColormap
@@ -45,97 +44,38 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'PLOTTING_RESOURCES_DIRECTORY', 'DEFAULT_FIGURE_ASPECT_RATIO',
-    'DEFAULT_FIGURE_WIDTH', 'DEFAULT_FIGURE_HEIGHT', 'DEFAULT_FIGURE_SIZE',
-    'DEFAULT_FONT_SIZE', 'DEFAULT_COLOUR_CYCLE', 'DEFAULT_HATCH_PATTERNS',
-    'DEFAULT_PARAMETERS', 'DEFAULT_PLOTTING_COLOURSPACE',
-    'XYZ_to_plotting_colourspace', 'colour_plotting_defaults', 'ColourSwatch',
-    'colour_cycle', 'canvas', 'camera', 'boundaries', 'decorate', 'display',
-    'render', 'label_rectangles', 'equal_axes3d', 'get_RGB_colourspace',
-    'get_cmfs', 'get_illuminant', 'single_colour_swatch_plot',
-    'multi_colour_swatch_plot', 'image_plot'
+    'DEFAULT_PLOTTING_SETTINGS', 'XYZ_to_plotting_colourspace',
+    'colour_plotting_style', 'ColourSwatch', 'colour_cycle', 'canvas',
+    'camera', 'boundaries', 'decorate', 'display', 'render',
+    'label_rectangles', 'equal_axes3d', 'get_RGB_colourspace', 'get_cmfs',
+    'get_illuminant', 'single_colour_swatch_plot', 'multi_colour_swatch_plot',
+    'image_plot'
 ]
 
-PLOTTING_RESOURCES_DIRECTORY = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)), 'resources')
+DEFAULT_PLOTTING_SETTINGS = Structure(
+    **{
+        'figure_width': 18,
+        'figure_height': 18 * (np.sqrt(5) - 1) / 2,
+        'figure_size': (18, 18 * (np.sqrt(5) - 1) / 2),
+        'colour_cycle': ('r', 'g', 'b', 'c', 'm', 'y', 'k'),
+        'hatch_patterns': ('\\\\', 'o', 'x', '.', '*', '//'),
+        'dark_colour': 'black',
+        'light_colour': 'white',
+        'colourspace': RGB_COLOURSPACES['sRGB']
+    })
 """
-Resources directory.
+Various defaults settings used across the plotting sub-package.
 
-RESOURCES_DIRECTORY : unicode
-"""
+- *figure_width*: Default figure width.
+- *figure_height*: Default figure height.
+- *figure_size*: Default figure size.
+- *colour_cycle*: Default colour cycle for plots.
+- *hatch_patterns*: Default hatch patterns for bar plots.
+- *dark_colour*: Default colour if a dark colour usage is hard defined.
+- *light_colour*: Default colour if a light colour usage is hard defined.
+- *colourspace*: Default plotting colourspace: *sRGB*.
 
-DEFAULT_FIGURE_ASPECT_RATIO = (np.sqrt(5) - 1) / 2
-"""
-Default figure aspect ratio (Golden Number).
-
-DEFAULT_FIGURE_ASPECT_RATIO : float
-"""
-
-DEFAULT_FIGURE_WIDTH = 18
-"""
-Default figure width.
-
-DEFAULT_FIGURE_WIDTH : integer
-"""
-
-DEFAULT_FIGURE_HEIGHT = DEFAULT_FIGURE_WIDTH * DEFAULT_FIGURE_ASPECT_RATIO
-"""
-Default figure height.
-
-DEFAULT_FIGURE_HEIGHT : integer
-"""
-
-DEFAULT_FIGURE_SIZE = DEFAULT_FIGURE_WIDTH, DEFAULT_FIGURE_HEIGHT
-"""
-Default figure size.
-
-DEFAULT_FIGURE_SIZE : tuple
-"""
-
-DEFAULT_FONT_SIZE = 12
-"""
-Default figure font size.
-
-DEFAULT_FONT_SIZE : numeric
-"""
-
-DEFAULT_COLOUR_CYCLE = ('r', 'g', 'b', 'c', 'm', 'y', 'k')
-"""
-Default colour cycle for plots.
-
-DEFAULT_COLOUR_CYCLE : tuple
-**{'r', 'g', 'b', 'c', 'm', 'y', 'k'}**
-"""
-
-DEFAULT_HATCH_PATTERNS = ('\\\\', 'o', 'x', '.', '*', '//')
-"""
-Default hatch patterns for bar plots.
-
-DEFAULT_HATCH_PATTERNS : tuple
-{'\\\\', 'o', 'x', '.', '*', '//'}
-"""
-
-DEFAULT_PARAMETERS = {
-    'figure.figsize': DEFAULT_FIGURE_SIZE,
-    'font.size': DEFAULT_FONT_SIZE,
-    'axes.titlesize': DEFAULT_FONT_SIZE * 1.25,
-    'axes.labelsize': DEFAULT_FONT_SIZE * 1.25,
-    'legend.fontsize': DEFAULT_FONT_SIZE * 0.9,
-    'xtick.labelsize': DEFAULT_FONT_SIZE,
-    'ytick.labelsize': DEFAULT_FONT_SIZE,
-    'axes.prop_cycle': matplotlib.cycler(color=DEFAULT_COLOUR_CYCLE)
-}
-"""
-Default plotting parameters.
-
-DEFAULT_PARAMETERS : dict
-"""
-
-DEFAULT_PLOTTING_COLOURSPACE = RGB_COLOURSPACES['sRGB']
-"""
-Default plotting colourspace: *sRGB*.
-
-DEFAULT_PLOTTING_COLOURSPACE : ndarray
+DEFAULT_PLOTTING_SETTINGS : Structure
 """
 
 
@@ -181,21 +121,22 @@ def XYZ_to_plotting_colourspace(XYZ,
     array([ 0.1749881...,  0.3881947...,  0.3216031...])
     """
 
-    return XYZ_to_RGB(XYZ, illuminant, DEFAULT_PLOTTING_COLOURSPACE.whitepoint,
-                      DEFAULT_PLOTTING_COLOURSPACE.XYZ_to_RGB_matrix,
+    return XYZ_to_RGB(XYZ, illuminant,
+                      DEFAULT_PLOTTING_SETTINGS.colourspace.whitepoint,
+                      DEFAULT_PLOTTING_SETTINGS.colourspace.XYZ_to_RGB_matrix,
                       chromatic_adaptation_transform,
-                      DEFAULT_PLOTTING_COLOURSPACE.encoding_cctf
+                      DEFAULT_PLOTTING_SETTINGS.colourspace.encoding_cctf
                       if apply_encoding_cctf else None)
 
 
-def colour_plotting_defaults(parameters=None):
+def colour_plotting_style(parameters=None):
     """
-    Enables *Colour* default plotting parameters.
+    Enables *Colour* default plotting style.
 
     Parameters
     ----------
     parameters : dict, optional
-        Parameters to use for plotting.
+        Parameters to use for styling.
 
     Returns
     -------
@@ -203,7 +144,25 @@ def colour_plotting_defaults(parameters=None):
         Definition success.
     """
 
-    parameters = DEFAULT_PARAMETERS if parameters is None else parameters
+    default_parameters = {
+        'figure.figsize':
+            DEFAULT_PLOTTING_SETTINGS.figure_size,
+        'font.size':
+            DEFAULT_PLOTTING_SETTINGS.font_size,
+        'axes.titlesize':
+            DEFAULT_PLOTTING_SETTINGS.font_size * 1.2,
+        'axes.labelsize':
+            DEFAULT_PLOTTING_SETTINGS.font_size * 1.1,
+        'legend.fontsize':
+            DEFAULT_PLOTTING_SETTINGS.font_size * 0.9,
+        'xtick.labelsize':
+            DEFAULT_PLOTTING_SETTINGS.font_size,
+        'ytick.labelsize':
+            DEFAULT_PLOTTING_SETTINGS.font_size,
+        'axes.prop_cycle':
+            matplotlib.cycler(color=DEFAULT_PLOTTING_SETTINGS.colour_cycle)
+    }
+    parameters = default_parameters if parameters is None else parameters
 
     pylab.rcParams.update(parameters)
 
@@ -248,14 +207,15 @@ def colour_cycle(**kwargs):
         Colour cycle iterator.
     """
 
-    settings = Structure(**{
-        'colour_cycle_map': 'hsv',
-        'colour_cycle_count': len(DEFAULT_COLOUR_CYCLE)
-    })
+    settings = Structure(
+        **{
+            'colour_cycle_map': 'hsv',
+            'colour_cycle_count': len(DEFAULT_PLOTTING_SETTINGS.colour_cycle)
+        })
     settings.update(kwargs)
 
     if settings.colour_cycle_map is None:
-        cycle = DEFAULT_COLOUR_CYCLE
+        cycle = DEFAULT_PLOTTING_SETTINGS.colour_cycle
     else:
         samples = np.linspace(0, 1, settings.colour_cycle_count)
         if isinstance(settings.colour_cycle_map, LinearSegmentedColormap):
@@ -283,7 +243,8 @@ def canvas(**kwargs):
         Current figure.
     """
 
-    settings = Structure(**{'figure_size': DEFAULT_FIGURE_SIZE})
+    settings = Structure(
+        **{'figure_size': DEFAULT_PLOTTING_SETTINGS.figure_size})
     settings.update(kwargs)
 
     figure = matplotlib.pyplot.gcf()
@@ -488,9 +449,11 @@ def decorate(**kwargs):
     if settings.grid:
         pylab.grid(b=True, which=settings.grid_which, axis=settings.grid_axis)
     if settings.x_axis_line:
-        pylab.axvline(color='black', linestyle='--')
+        pylab.axvline(
+            color=DEFAULT_PLOTTING_SETTINGS.dark_colour, linestyle='--')
     if settings.y_axis_line:
-        pylab.axhline(color='black', linestyle='--')
+        pylab.axhline(
+            color=DEFAULT_PLOTTING_SETTINGS.dark_colour, linestyle='--')
     if settings.aspect:
         matplotlib.pyplot.axes().set_aspect(settings.aspect)
     if settings.no_axes:

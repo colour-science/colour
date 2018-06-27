@@ -7,14 +7,14 @@ import numpy as np
 import os
 
 import colour
-from colour.plotting import (colour_plotting_defaults,
+from colour.plotting import (colour_plotting_style,
                              cvd_simulation_Machado2009_plot, image_plot)
 from colour.utilities.verbose import message_box
 
 RESOURCES_DIRECTORY = os.path.join(
     os.path.dirname(os.path.abspath(__file__)), 'resources')
 
-colour_plotting_defaults()
+colour_plotting_style()
 
 ISHIHARA_CBT_3_IMAGE = colour.oetf_reverse(
     colour.read_image(
