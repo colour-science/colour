@@ -1016,8 +1016,8 @@ def image_plot(image,
     text_settings = {
         'text': None,
         'offset': 5,
-        'color': (1, 1, 1),
-        'alpha': 0.85
+        'color': COLOUR_STYLE_CONSTANTS.lightest_colour,
+        'alpha': COLOUR_STYLE_CONSTANTS.high_opacity
     }
     if text_parameters is not None:
         text_settings.update(text_parameters)

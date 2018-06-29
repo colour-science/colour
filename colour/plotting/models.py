@@ -214,7 +214,8 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot.png
         colourspaces.remove('Pointer Gamut')
 
         ij = xy_to_ij(np.asarray(POINTER_GAMUT_BOUNDARIES))
-        alpha_p, colour_p = 0.85, '0.95'
+        alpha_p = COLOUR_STYLE_CONSTANTS.high_opacity
+        colour_p = COLOUR_STYLE_CONSTANTS.lightest_colour
         plt.plot(
             ij[..., 0],
             ij[..., 1],
