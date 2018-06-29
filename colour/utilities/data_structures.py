@@ -50,12 +50,6 @@ class Structure(dict):
     \**kwargs : dict, optional
         Key / Value pairs.
 
-    Methods
-    -------
-    __getattr__
-    __setattr__
-    __delattr__
-    update
 
     References
     ----------
@@ -75,81 +69,8 @@ class Structure(dict):
     """
 
     def __init__(self, *args, **kwargs):
-        dict.__init__(self, **kwargs)
-        self.__dict__.update(**kwargs)
-
-    def __getattr__(self, attribute):
-        """
-        Returns given attribute value.
-
-        Parameters
-        ----------
-        attribute : unicode
-            Attribute name.
-
-        Returns
-        -------
-        object
-            Attribute value.
-
-        Raises
-        ------
-        AttributeError
-            If the attribute is not defined.
-        """
-
-        try:
-            return dict.__getitem__(self, attribute)
-        except KeyError:
-            raise AttributeError('"{0}" object has no attribute "{1}"'.format(
-                self.__class__.__name__, attribute))
-
-    def __setattr__(self, attribute, value):
-        """
-        Sets both key and sibling attribute with given value.
-
-        Parameters
-        ----------
-        attribute : object
-            Attribute.
-        value : object
-            Value.
-        """
-
-        dict.__setitem__(self, attribute, value)
-        object.__setattr__(self, attribute, value)
-
-    __setitem__ = __setattr__
-
-    def __delattr__(self, attribute):
-        """
-        Deletes both key and sibling attribute.
-
-        Parameters
-        ----------
-        attribute : object
-            Attribute.
-        """
-
-        dict.__delitem__(self, attribute)
-        object.__delattr__(self, attribute)
-
-    __delitem__ = __delattr__
-
-    def update(self, *args, **kwargs):
-        """
-        Updates both keys and sibling attributes.
-
-        Other Parameters
-        ----------------
-        \*args : list, optional
-            Arguments.
-        \**kwargs : dict, optional
-            Keywords arguments.
-        """
-
-        dict.update(self, *args, **kwargs)
-        self.__dict__.update(*args, **kwargs)
+        super(Structure, self).__init__(*args, **kwargs)
+        self.__dict__ = self
 
 
 class Lookup(dict):

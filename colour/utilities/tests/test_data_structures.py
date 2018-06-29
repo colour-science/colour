@@ -26,17 +26,6 @@ class TestStructure(unittest.TestCase):
     tests methods.
     """
 
-    def test_required_methods(self):
-        """
-        Tests presence of required methods.
-        """
-
-        required_methods = ('__getattr__', '__setattr__', '__delattr__',
-                            'update')
-
-        for method in required_methods:
-            self.assertIn(method, dir(Structure))
-
     def test_Structure(self):
         """
         Tests :class:`colour.utilities.data_structures.Structure` class.
