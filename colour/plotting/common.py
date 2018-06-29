@@ -170,6 +170,7 @@ def colour_style(use_style=True):
         'axes.grid.axis': 'both',
 
         # Grid Settings
+        'axes.axisbelow': True,
         'grid.linewidth': constants.width * 0.5,
         'grid.linestyle': '--',
         'grid.color': constants.average_colour,
@@ -436,13 +437,6 @@ def decorate(**kwargs):
         Locator type for the *X* axis minor ticker.
     y_ticker_minor_locator : Locator, optional
         Locator type for the *Y* axis minor ticker.
-    grid : bool, optional
-        Whether to display the grid. Default is *False*.
-    grid_which : unicode, optional
-        Controls whether major tick grids, minor tick grids, or both are
-        affected. Default is *both*.
-    grid_axis : unicode, optional
-        Controls which set of grid-lines are drawn. Default is *both*.
     x_axis_line : bool, optional
         Whether to draw the *X* axis line. Default is *False*.
     y_axis_line : bool, optional
@@ -473,9 +467,6 @@ def decorate(**kwargs):
             'y_ticker_major_locator': None,
             'x_ticker_minor_locator': None,
             'y_ticker_minor_locator': None,
-            'grid': False,
-            'grid_which': 'major',
-            'grid_axis': 'both',
             'x_axis_line': False,
             'y_axis_line': False,
             'aspect': None,
@@ -507,8 +498,6 @@ def decorate(**kwargs):
             axes.yaxis.set_minor_locator(settings.y_ticker_minor_locator)
     else:
         axes.set_yticks([])
-    if settings.grid:
-        plt.grid(b=True, which=settings.grid_which, axis=settings.grid_axis)
     if settings.x_axis_line:
         plt.axvline(color=COLOUR_STYLE_CONSTANTS.dark_colour, linestyle='--')
     if settings.y_axis_line:
