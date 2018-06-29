@@ -962,10 +962,14 @@ def multi_colour_swatch_plot(colour_swatches,
     plt.gca().patch.set_facecolor(background_colour)
 
     settings = {
-        'x_ticker': False,
-        'y_ticker': False,
-        'bounding_box': (x_min, x_max, y_min, y_max),
-        'aspect': 'equal'
+        'x_ticker':
+            False,
+        'y_ticker':
+            False,
+        'bounding_box': (x_min - spacing, x_max + spacing, y_min - spacing,
+                         y_max + spacing),
+        'aspect':
+            'equal'
     }
     settings.update(kwargs)
 

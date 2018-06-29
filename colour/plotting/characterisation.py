@@ -157,26 +157,22 @@ def multi_colour_checker_plot(colour_checkers=None, **kwargs):
         },
         'background_colour': background_colour,
         'compare_swatches': 'Stacked' if compare_swatches else None,
-        'margins': (-0.125, 0.125, -0.5, 0.125)
     }
     settings.update(kwargs)
 
-    multi_colour_swatch_plot(colour_swatches, **settings)
-
-    text_x = width * (columns / 2) + (columns * (spacing / 2)) - spacing / 2
-    text_y = -((len(colour_swatches) / 2
-                if compare_swatches else len(colour_swatches)) / columns +
-               spacing / 2)
+    current_figure = multi_colour_swatch_plot(colour_swatches, **settings)
+    current_axes = current_figure.gca()
 
     plt.text(
-        text_x,
-        text_y,
+        0.5,
+        0.005,
         '{0} - {1} - Colour Rendition Chart'.format(
             ', '.join(colour_checker_names),
             COLOUR_STYLE_CONSTANTS.colourspace.name),
-        color='0.95',
-        clip_on=True,
-        ha='center')
+        transform=current_axes.transAxes,
+        color=COLOUR_STYLE_CONSTANTS.light_colour,
+        ha='center',
+        va='bottom')
 
     settings.update({
         'title': ', '.join(colour_checker_names),
