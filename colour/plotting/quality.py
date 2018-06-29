@@ -13,8 +13,8 @@ Defines the colour quality plotting objects:
 
 from __future__ import division
 
+import matplotlib.pyplot as plt
 import numpy as np
-import pylab
 from itertools import cycle
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
@@ -116,7 +116,7 @@ def colour_quality_bars_plot(specifications,
         y = [s[1].Q_a for s in sorted(Q_as.items(), key=lambda s: s[0])]
         y = np.array([Q_a] + list(y))
 
-        bars = pylab.bar(
+        bars = plt.bar(
             x,
             np.abs(y),
             color=colours,
@@ -140,16 +140,16 @@ def colour_quality_bars_plot(specifications,
                         0.025),
                 text_size=-5 / 7 * count_s + 12.5)
 
-    pylab.axhline(
+    plt.axhline(
         y=100, color=COLOUR_STYLE_CONSTANTS.dark_colour, linestyle='--')
 
-    pylab.xticks(
+    plt.xticks(
         (np.arange(
             0, (count_Q_as + 1) * (count_s + 1), (count_s + 1),
             dtype=DEFAULT_FLOAT_DTYPE) * bar_width +
          (count_s * bar_width / 2)), ['Qa'] +
         ['Q{0}'.format(index + 1) for index in range(0, count_Q_as + 1, 1)])
-    pylab.yticks(range(0, 100 + y_ticks_interval, y_ticks_interval))
+    plt.yticks(range(0, 100 + y_ticks_interval, y_ticks_interval))
 
     settings.update({
         'title':

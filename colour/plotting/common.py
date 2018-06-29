@@ -25,10 +25,9 @@ from __future__ import division
 import itertools
 import matplotlib
 import matplotlib.cm
-import matplotlib.pyplot
+import matplotlib.pyplot as plt
 import matplotlib.ticker
 import numpy as np
-import pylab
 from collections import namedtuple
 from matplotlib.colors import LinearSegmentedColormap
 
@@ -109,15 +108,6 @@ COLOUR_STYLE_CONSTANTS = Structure(
 """
 Various defaults settings used across the plotting sub-package.
 
-- *figure_width*: Default figure width.
-- *figure_height*: Default figure height.
-- *figure_size*: Default figure size.
-- *colour_cycle*: Default colour cycle for plots.
-- *hatch_patterns*: Default hatch patterns for bar plots.
-- *dark_colour*: Default colour if a dark colour usage is hard defined.
-- *lightest_colour*: Default colour if a light colour usage is hard defined.
-- *colourspace*: Default plotting colourspace: *sRGB*.
-
 COLOUR_STYLE_CONSTANTS : Structure
 """
 
@@ -175,6 +165,9 @@ def colour_style(use_style=True):
 
         # Axes Settings
         'axes.facecolor': constants.lightest_colour,
+        'axes.grid': True,
+        'axes.grid.which': 'major',
+        'axes.grid.axis': 'both',
 
         # Grid Settings
         'grid.linewidth': constants.width * 0.5,
@@ -196,7 +189,7 @@ def colour_style(use_style=True):
     }
 
     if use_style:
-        pylab.rcParams.update(style)
+        plt.rcParams.update(style)
 
     return style
 
@@ -303,7 +296,7 @@ def colour_cycle(**kwargs):
         if isinstance(settings.colour_cycle_map, LinearSegmentedColormap):
             cycle = settings.colour_cycle_map(samples)
         else:
-            cycle = getattr(matplotlib.pyplot.cm,
+            cycle = getattr(plt.cm,
                             settings.colour_cycle_map)(samples)
 
     return itertools.cycle(cycle)
@@ -328,9 +321,9 @@ def canvas(**kwargs):
     settings = Structure(**{'figure_size': COLOUR_STYLE_CONSTANTS.figure_size})
     settings.update(kwargs)
 
-    figure = matplotlib.pyplot.gcf()
+    figure = plt.gcf()
     if figure is None:
-        figure = matplotlib.pyplot.figure(figsize=settings.figure_size)
+        figure = plt.figure(figsize=settings.figure_size)
     else:
         figure.set_size_inches(settings.figure_size)
 
@@ -363,7 +356,7 @@ def camera(**kwargs):
     })
     settings.update(kwargs)
 
-    axes = matplotlib.pyplot.gca()
+    axes = plt.gca()
     if settings.camera_aspect == 'equal':
         equal_axes3d(axes)
 
@@ -412,18 +405,18 @@ def boundaries(**kwargs):
         })
     settings.update(kwargs)
 
-    axes = matplotlib.pyplot.gca()
+    axes = plt.gca()
     if settings.bounding_box is None:
         x_limit_min, x_limit_max, y_limit_min, y_limit_max = settings.limits
         x_margin_min, x_margin_max, y_margin_min, y_margin_max = (
             settings.margins)
         if settings.x_tighten:
-            pylab.xlim(x_limit_min + x_margin_min, x_limit_max + x_margin_max)
+            plt.xlim(x_limit_min + x_margin_min, x_limit_max + x_margin_max)
         if settings.y_tighten:
-            pylab.ylim(y_limit_min + y_margin_min, y_limit_max + y_margin_max)
+            plt.ylim(y_limit_min + y_margin_min, y_limit_max + y_margin_max)
     else:
-        pylab.xlim(settings.bounding_box[0], settings.bounding_box[1])
-        pylab.ylim(settings.bounding_box[2], settings.bounding_box[3])
+        plt.xlim(settings.bounding_box[0], settings.bounding_box[1])
+        plt.ylim(settings.bounding_box[2], settings.bounding_box[3])
 
     return axes
 
@@ -505,15 +498,15 @@ def decorate(**kwargs):
         })
     settings.update(kwargs)
 
-    axes = matplotlib.pyplot.gca()
+    axes = plt.gca()
     if settings.title:
-        pylab.title(settings.title)
+        plt.title(settings.title)
     if settings.x_label:
-        pylab.xlabel(settings.x_label)
+        plt.xlabel(settings.x_label)
     if settings.y_label:
-        pylab.ylabel(settings.y_label)
+        plt.ylabel(settings.y_label)
     if settings.legend:
-        pylab.legend(
+        plt.legend(
             loc=settings.legend_location, ncol=settings.legend_columns)
     if settings.x_ticker:
         if settings.x_ticker_major_locator is not None:
@@ -530,13 +523,13 @@ def decorate(**kwargs):
     else:
         axes.set_yticks([])
     if settings.grid:
-        pylab.grid(b=True, which=settings.grid_which, axis=settings.grid_axis)
+        plt.grid(b=True, which=settings.grid_which, axis=settings.grid_axis)
     if settings.x_axis_line:
-        pylab.axvline(color=COLOUR_STYLE_CONSTANTS.dark_colour, linestyle='--')
+        plt.axvline(color=COLOUR_STYLE_CONSTANTS.dark_colour, linestyle='--')
     if settings.y_axis_line:
-        pylab.axhline(color=COLOUR_STYLE_CONSTANTS.dark_colour, linestyle='--')
+        plt.axhline(color=COLOUR_STYLE_CONSTANTS.dark_colour, linestyle='--')
     if settings.aspect:
-        matplotlib.pyplot.axes().set_aspect(settings.aspect)
+        plt.axes().set_aspect(settings.aspect)
     if settings.no_axes:
         axes.set_axis_off()
 
@@ -573,7 +566,7 @@ def display(**kwargs):
         })
     settings.update(kwargs)
 
-    figure = matplotlib.pyplot.gcf()
+    figure = plt.gcf()
 
     if settings.transparent_background:
         figure.patch.set_visible(False)
@@ -581,10 +574,10 @@ def display(**kwargs):
         figure.tight_layout()
     if settings.standalone:
         if settings.filename is not None:
-            pylab.savefig(settings.filename)
+            plt.savefig(settings.filename)
         else:
-            pylab.show()
-        pylab.close()
+            plt.show()
+        plt.close()
 
         return None
     else:
@@ -667,7 +660,7 @@ def label_rectangles(labels,
         width = rectangle.get_width()
         ha = 'center'
         va = 'bottom'
-        pylab.text(
+        plt.text(
             x + width / 2 + offset[0] * width,
             height + offset[1] * y_m,
             '{0:.1f}'.format(labels[i]),
@@ -825,7 +818,7 @@ def single_colour_swatch_plot(colour_swatch, **kwargs):
         Colour swatches columns count.
     text_parameters : dict, optional
         {:func:`colour.plotting.multi_colour_swatch_plot`},
-        Parameters for the :func:`pylab.text` definition, ``offset`` can be
+        Parameters for the :func:`plt.text` definition, ``offset`` can be
         set to define the text offset.
 
     Returns
@@ -872,7 +865,7 @@ def multi_colour_swatch_plot(colour_swatches,
         Colour swatches columns count, defaults to the colour swatch count or
         half of it if comparing.
     text_parameters : dict, optional
-        Parameters for the :func:`pylab.text` definition, ``visible`` can be
+        Parameters for the :func:`plt.text` definition, ``visible`` can be
         set to make the text visible,``offset`` can be set to define the text
         offset.
     background_colour : array_like or unicode, optional
@@ -942,14 +935,14 @@ def multi_colour_swatch_plot(colour_swatches,
         x_0, x_1 = offset_X, offset_X + width
         y_0, y_1 = offset_Y, offset_Y + height
 
-        pylab.fill(
+        plt.fill(
             (x_0, x_1, x_1, x_0), (y_0, y_0, y_1, y_1),
             color=reference_colour_swatches[i].RGB)
 
         if compare_swatches == 'stacked':
             margin_X = width * 0.25
             margin_Y = height * 0.25
-            pylab.fill(
+            plt.fill(
                 (
                     x_0 + margin_X,
                     x_1 - margin_X,
@@ -963,12 +956,12 @@ def multi_colour_swatch_plot(colour_swatches,
                 ),
                 color=test_colour_swatches[i].RGB)
         else:
-            pylab.fill(
+            plt.fill(
                 (x_0, x_1, x_1), (y_0, y_0, y_1),
                 color=test_colour_swatches[i].RGB)
 
         if colour_swatch.name is not None and text_settings['visible']:
-            pylab.text(
+            plt.text(
                 x_0 + text_offset,
                 y_0 + text_offset,
                 colour_swatch.name,
@@ -981,7 +974,7 @@ def multi_colour_swatch_plot(colour_swatches,
     x_max = x_max * width + x_max * spacing - spacing
     y_min = offset_Y
 
-    matplotlib.pyplot.gca().patch.set_facecolor(background_colour)
+    plt.gca().patch.set_facecolor(background_colour)
 
     settings = {
         'x_tighten': True,
@@ -1009,7 +1002,7 @@ def image_plot(image,
     image : array_like
         Image to plot.
     text_parameters : dict, optional
-        Parameters for the :func:`pylab.text` definition, ``offset`` can be
+        Parameters for the :func:`plt.text` definition, ``offset`` can be
         set to define the text offset.
     interpolation: unicode, optional
         **{'nearest', None, 'none', 'bilinear', 'bicubic', 'spline16',
@@ -1056,14 +1049,14 @@ def image_plot(image,
 
     image = np.asarray(image)
 
-    pylab.imshow(
+    plt.imshow(
         np.clip(image, 0, 1), interpolation=interpolation, cmap=colour_map)
 
     height = image.shape[0]
 
     if text_settings['text'] is not None:
-        pylab.text(text_offset / 2, height - text_offset,
-                   text_settings['text'], **text_settings)
+        plt.text(text_offset / 2, height - text_offset,
+                 text_settings['text'], **text_settings)
 
     settings = {
         'x_ticker': False,

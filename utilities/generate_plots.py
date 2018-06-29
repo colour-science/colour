@@ -7,9 +7,9 @@ Generate Plots
 
 from __future__ import division, unicode_literals
 
+import matplotlib.pyplot as plt
 import numpy as np
 import os
-import pylab
 
 import colour
 from colour.plotting import *
@@ -591,9 +591,9 @@ def generate_documentation_plots(output_directory):
     xy = colour.XYZ_to_xy(XYZ)
     chromaticity_diagram_plot_CIE1931(standalone=False)
     x, y = xy
-    pylab.plot(x, y, 'o-', color='white')
+    plt.plot(x, y, 'o-', color='white')
     # Annotating the plot.
-    pylab.annotate(
+    plt.annotate(
         patch_spd.name.title(),
         xy=xy,
         xytext=(-50, 30),

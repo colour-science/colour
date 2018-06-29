@@ -11,7 +11,7 @@ Defines the optical phenomena plotting objects:
 
 from __future__ import division
 
-import matplotlib.pyplot
+import matplotlib.pyplot as plt
 
 from colour.colorimetry import spectral_to_XYZ
 from colour.phenomena import rayleigh_scattering_spd
@@ -136,7 +136,7 @@ def the_blue_sky_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
 
     spd = rayleigh_spd * ASTM_G_173_spd
 
-    matplotlib.pyplot.subplot(211)
+    plt.subplot(211)
 
     settings = {
         'title': 'The Blue Sky - Synthetic Spectral Power Distribution',
@@ -147,7 +147,7 @@ def the_blue_sky_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
 
     single_spd_plot(spd, name, **settings)
 
-    matplotlib.pyplot.subplot(212)
+    plt.subplot(212)
 
     settings = {
         'title':

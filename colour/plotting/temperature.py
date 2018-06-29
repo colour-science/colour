@@ -13,8 +13,8 @@ planckian_locus_chromaticity_diagram_plot_CIE1960UCS`
 
 from __future__ import division
 
+import matplotlib.pyplot as plt
 import numpy as np
-import pylab
 
 from colour.colorimetry import CMFS, ILLUMINANTS
 from colour.models import (UCS_uv_to_xy, XYZ_to_UCS, UCS_to_uv, xy_to_XYZ)
@@ -115,13 +115,13 @@ def planckian_locus_plot(planckian_locus_colours=None,
         for x in np.arange(start, end + 250, 250)
     ])
 
-    pylab.plot(ij[..., 0], ij[..., 1], color=planckian_locus_colours)
+    plt.plot(ij[..., 0], ij[..., 1], color=planckian_locus_colours)
 
     for i in (1667, 2000, 2500, 3000, 4000, 6000, 10000):
         i0, j0 = uv_to_ij(CCT_to_uv(i, 'Robertson 1968', D_uv=-D_uv))
         i1, j1 = uv_to_ij(CCT_to_uv(i, 'Robertson 1968', D_uv=D_uv))
-        pylab.plot((i0, i1), (j0, j1), color=planckian_locus_colours)
-        pylab.annotate(
+        plt.plot((i0, i1), (j0, j1), color=planckian_locus_colours)
+        plt.annotate(
             '{0}K'.format(i),
             xy=(i0, j0),
             xytext=(0, -10),
@@ -146,7 +146,7 @@ def planckian_locus_chromaticity_diagram_plot(
     illuminants : array_like, optional
         Factory illuminants to plot.
     annotate_parameters : dict or array_like, optional
-        Parameters for the :func:`pylab.annotate` definition, used to annotate
+        Parameters for the :func:`plt.annotate` definition, used to annotate
         the resulting chromaticity coordinates with their respective illuminant
         names if ``annotate`` is set to *True*. ``annotate_parameters`` can be
         either a single dictionary applied to all the arrows with same settings
@@ -257,7 +257,7 @@ Planckian_Locus_Chromaticity_Diagram_Plot.png
                                   sorted(ILLUMINANTS[cmfs.name].keys())))
         ij = xy_to_ij(xy)
 
-        pylab.plot(
+        plt.plot(
             ij[0], ij[1], 'o', color=COLOUR_STYLE_CONSTANTS.lightest_colour)
 
         if (illuminant is not None and
@@ -265,7 +265,7 @@ Planckian_Locus_Chromaticity_Diagram_Plot.png
             annotate_settings = annotate_settings_collection[i]
             annotate_settings.pop('annotate')
 
-            pylab.annotate(illuminant, xy=ij, **annotate_settings)
+            plt.annotate(illuminant, xy=ij, **annotate_settings)
 
     settings.update({
         'title': ('{0} Illuminants - Planckian Locus\n'
@@ -303,7 +303,7 @@ def planckian_locus_chromaticity_diagram_plot_CIE1931(
     illuminants : array_like, optional
         Factory illuminants to plot.
     annotate_parameters : dict or array_like, optional
-        Parameters for the :func:`pylab.annotate` definition, used to annotate
+        Parameters for the :func:`plt.annotate` definition, used to annotate
         the resulting chromaticity coordinates with their respective illuminant
         names if ``annotate`` is set to *True*. ``annotate_parameters`` can be
         either a single dictionary applied to all the arrows with same settings
@@ -364,7 +364,7 @@ def planckian_locus_chromaticity_diagram_plot_CIE1960UCS(
     illuminants : array_like, optional
         Factory illuminants to plot.
     annotate_parameters : dict or array_like, optional
-        Parameters for the :func:`pylab.annotate` definition, used to annotate
+        Parameters for the :func:`plt.annotate` definition, used to annotate
         the resulting chromaticity coordinates with their respective illuminant
         names if ``annotate`` is set to *True*. ``annotate_parameters`` can be
         either a single dictionary applied to all the arrows with same settings

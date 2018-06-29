@@ -11,9 +11,8 @@ Defines colour models volume and gamut plotting objects:
 
 from __future__ import division
 
-import matplotlib
+import matplotlib.pyplot as plt
 import numpy as np
-import pylab
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
@@ -473,7 +472,7 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
     })
     settings.update(kwargs)
 
-    figure = matplotlib.pyplot.figure()
+    figure = plt.figure()
     axes = figure.add_subplot(111, projection='3d')
 
     illuminant = COLOUR_STYLE_CONSTANTS.colourspace.whitepoint
@@ -492,9 +491,9 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
         c = ((0.0, 0.0, 0.0, 0.5)
              if spectral_locus_colour is None else spectral_locus_colour)
 
-        pylab.plot(
+        plt.plot(
             points[..., 0], points[..., 1], points[..., 2], color=c, zorder=1)
-        pylab.plot(
+        plt.plot(
             (points[-1][0], points[0][0]), (points[-1][1], points[0][1]),
             (points[-1][2], points[0][2]),
             color=c,
@@ -670,7 +669,7 @@ def RGB_scatter_plot(RGB,
         XYZ_to_colourspace_model(XYZ, colourspace.whitepoint,
                                  reference_colourspace), reference_colourspace)
 
-    axes = matplotlib.pyplot.gca()
+    axes = plt.gca()
     axes.scatter(
         points[..., 0],
         points[..., 1],

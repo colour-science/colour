@@ -25,9 +25,8 @@ References
 
 from __future__ import division
 
-import matplotlib.pyplot
+import matplotlib.pyplot as plt
 import numpy as np
-import pylab
 from matplotlib.patches import Polygon
 from six.moves import reduce
 
@@ -252,9 +251,9 @@ def multi_spd_plot(spds,
 
             RGB = np.clip(XYZ_to_plotting_colourspace(XYZ), 0, 1)
 
-            pylab.plot(wavelengths, values, color=RGB, label=spd.strict_name)
+            plt.plot(wavelengths, values, color=RGB, label=spd.strict_name)
         else:
-            pylab.plot(wavelengths, values, label=spd.strict_name)
+            plt.plot(wavelengths, values, label=spd.strict_name)
 
     settings = {
         'x_label':
@@ -367,7 +366,7 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
             y_limit_min.append(min(values))
             y_limit_max.append(max(values))
 
-            pylab.plot(
+            plt.plot(
                 cmfs_i.wavelengths,
                 values,
                 color=rgb,
@@ -390,8 +389,6 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
             True,
         'legend_location':
             'upper right',
-        'grid':
-            True,
         'y_axis_line':
             True,
         'limits': (min(x_limit_min), max(x_limit_max),
@@ -670,7 +667,7 @@ def multi_lightness_function_plot(functions=None, **kwargs):
             raise KeyError(('"{0}" "Lightness" function not found in factory '
                             '"Lightness" functions: "{1}".').format(
                                 name, sorted(LIGHTNESS_METHODS.keys())))
-        pylab.plot(samples, function(samples), label='{0}'.format(name))
+        plt.plot(samples, function(samples), label='{0}'.format(name))
 
     settings.update({
         'title': '{0} - Lightness Functions'.format(', '.join(functions)),
@@ -679,7 +676,6 @@ def multi_lightness_function_plot(functions=None, **kwargs):
         'x_tighten': True,
         'legend': True,
         'legend_location': 'upper left',
-        'grid': True,
         'limits': (0, 100, 0, 100),
         'aspect': 'equal'
     })
@@ -732,7 +728,7 @@ def blackbody_spectral_radiance_plot(
 
     spd = blackbody_spd(temperature, cmfs.shape)
 
-    matplotlib.pyplot.subplot(211)
+    plt.subplot(211)
 
     settings = {
         'title': '{0} - Spectral Radiance'.format(blackbody),
@@ -746,7 +742,7 @@ def blackbody_spectral_radiance_plot(
     XYZ = spectral_to_XYZ(spd, cmfs)
     RGB = normalise_maximum(XYZ_to_plotting_colourspace(XYZ / 100))
 
-    matplotlib.pyplot.subplot(212)
+    plt.subplot(212)
 
     settings = {
         'title': '{0} - Colour'.format(blackbody),

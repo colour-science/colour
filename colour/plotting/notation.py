@@ -11,8 +11,8 @@ Defines the colour notation systems plotting objects:
 
 from __future__ import division
 
+import matplotlib.pyplot as plt
 import numpy as np
-import pylab
 
 from colour.notation import MUNSELL_VALUE_METHODS
 from colour.plotting import COLOUR_STYLE_CONSTANTS, canvas, render
@@ -120,7 +120,7 @@ def multi_munsell_value_function_plot(functions=None, **kwargs):
                  'factory "Munsell" value functions: "{1}".').format(
                      name, sorted(MUNSELL_VALUE_METHODS.keys())))
 
-        pylab.plot(
+        plt.plot(
             samples, [function(x) for x in samples],
             label=u'{0}'.format(name))
 
@@ -131,7 +131,6 @@ def multi_munsell_value_function_plot(functions=None, **kwargs):
         'x_tighten': True,
         'legend': True,
         'legend_location': 'upper left',
-        'grid': True,
         'bounding_box': (0, 100, 0, 10),
         'aspect': 10
     })

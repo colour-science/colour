@@ -16,8 +16,8 @@ Defines the *CIE* chromaticity diagrams plotting objects:
 from __future__ import division
 
 import bisect
+import matplotlib.pyplot as plt
 import numpy as np
-import pylab
 from matplotlib.collections import LineCollection
 from matplotlib.patches import Polygon
 
@@ -185,13 +185,13 @@ def spectral_locus_plot(cmfs='CIE 1931 2 Degree Standard Observer',
         label_colour = (spectral_locus_colours
                         if is_string(spectral_locus_colours) else
                         spectral_locus_colours[index])
-        pylab.plot(
+        plt.plot(
             (i, i + normal[0] * 0.75), (j, j + normal[1] * 0.75),
             color=label_colour)
 
-        pylab.plot(i, j, 'o', color=label_colour)
+        plt.plot(i, j, 'o', color=label_colour)
 
-        pylab.text(
+        plt.text(
             i + normal[0],
             j + normal[1],
             label,
@@ -286,7 +286,7 @@ def chromaticity_diagram_colours_plot(
     axes.add_patch(polygon)
     # Preventing bounding box related issues as per
     # https://github.com/matplotlib/matplotlib/issues/10529
-    image = pylab.imshow(
+    image = plt.imshow(
         RGB,
         interpolation='bilinear',
         extent=(0, 1, 0, 1),
@@ -375,8 +375,8 @@ def chromaticity_diagram_plot(cmfs='CIE 1931 2 Degree Standard Observer',
 
     ticks = np.arange(-10, 10, 0.1)
 
-    pylab.xticks(ticks)
-    pylab.yticks(ticks)
+    plt.xticks(ticks)
+    plt.yticks(ticks)
 
     settings.update({
         'standalone':
@@ -387,8 +387,6 @@ def chromaticity_diagram_plot(cmfs='CIE 1931 2 Degree Standard Observer',
             x_label,
         'y_label':
             y_label,
-        'grid':
-            True,
         'bounding_box': (0, 1, 0, 1)
     })
     settings.update(kwargs)
@@ -553,7 +551,7 @@ def spds_chromaticity_diagram_plot(
         Standard observer colour matching functions used for
         *Chromaticity Diagram* bounds.
     annotate_parameters : dict or array_like, optional
-        Parameters for the :func:`pylab.annotate` definition, used to annotate
+        Parameters for the :func:`plt.annotate` definition, used to annotate
         the resulting chromaticity coordinates with their respective spectral
         power distribution names if ``annotate`` is set to *True*.
         ``annotate_parameters`` can be either a single dictionary applied to
@@ -661,7 +659,7 @@ def spds_chromaticity_diagram_plot(
         XYZ = spectral_to_XYZ(spd) / 100
         ij = XYZ_to_ij(XYZ)
 
-        pylab.plot(
+        plt.plot(
             ij[0], ij[1], 'o', color=COLOUR_STYLE_CONSTANTS.lightest_colour)
 
         if (spd.name is not None and
@@ -669,7 +667,7 @@ def spds_chromaticity_diagram_plot(
             annotate_settings = annotate_settings_collection[i]
             annotate_settings.pop('annotate')
 
-            pylab.annotate(spd.name, xy=ij, **annotate_settings)
+            plt.annotate(spd.name, xy=ij, **annotate_settings)
 
     settings.update({
         'x_tighten': True,
@@ -701,7 +699,7 @@ def spds_chromaticity_diagram_plot_CIE1931(
         Standard observer colour matching functions used for
         *Chromaticity Diagram* bounds.
     annotate_parameters : dict or array_like, optional
-        Parameters for the :func:`pylab.annotate` definition, used to annotate
+        Parameters for the :func:`plt.annotate` definition, used to annotate
         the resulting chromaticity coordinates with their respective spectral
         power distribution names if ``annotate`` is set to *True*.
         ``annotate_parameters`` can be either a single dictionary applied to
@@ -761,7 +759,7 @@ def spds_chromaticity_diagram_plot_CIE1960UCS(
         Standard observer colour matching functions used for
         *Chromaticity Diagram* bounds.
     annotate_parameters : dict or array_like, optional
-        Parameters for the :func:`pylab.annotate` definition, used to annotate
+        Parameters for the :func:`plt.annotate` definition, used to annotate
         the resulting chromaticity coordinates with their respective spectral
         power distribution names if ``annotate`` is set to *True*.
         ``annotate_parameters`` can be either a single dictionary applied to
@@ -823,7 +821,7 @@ def spds_chromaticity_diagram_plot_CIE1976UCS(
         Standard observer colour matching functions used for
         *Chromaticity Diagram* bounds.
     annotate_parameters : dict or array_like, optional
-        Parameters for the :func:`pylab.annotate` definition, used to annotate
+        Parameters for the :func:`plt.annotate` definition, used to annotate
         the resulting chromaticity coordinates with their respective spectral
         power distribution names if ``annotate`` is set to *True*.
         ``annotate_parameters`` can be either a single dictionary applied to

@@ -3,7 +3,7 @@
 Showcases interpolation computations.
 """
 
-import pylab
+import matplotlib.pyplot as plt
 
 import colour
 from colour.plotting import render
@@ -86,23 +86,23 @@ non_uniform_interpolated_spd.interpolate(colour.SpectralShape(interval=1))
 shape = base_spd.shape
 x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
 
-pylab.plot(
+plt.plot(
     base_spd.wavelengths,
     base_spd.values,
     'ro-',
     label=base_spd.name,
     linewidth=1)
-pylab.plot(
+plt.plot(
     uniform_interpolated_spd.wavelengths,
     uniform_interpolated_spd.values,
     label=uniform_interpolated_spd.name,
     linewidth=1)
-pylab.plot(
+plt.plot(
     uniform_pchip_interpolated_spd.wavelengths,
     uniform_pchip_interpolated_spd.values,
     label=uniform_pchip_interpolated_spd.name,
     linewidth=1)
-pylab.plot(
+plt.plot(
     non_uniform_interpolated_spd.wavelengths,
     non_uniform_interpolated_spd.values,
     label=non_uniform_interpolated_spd.name,

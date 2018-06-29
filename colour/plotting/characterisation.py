@@ -11,8 +11,8 @@ Defines the characterisation plotting objects:
 
 from __future__ import division
 
+import matplotlib.pyplot as plt
 import numpy as np
-import pylab
 
 from colour.characterisation import COLOURCHECKERS
 from colour.models import xyY_to_XYZ
@@ -168,7 +168,7 @@ def multi_colour_checker_plot(colour_checkers=None, **kwargs):
                 if compare_swatches else len(colour_swatches)) / columns +
                spacing / 2)
 
-    pylab.text(
+    plt.text(
         text_x,
         text_y,
         '{0} - {1} - Colour Rendition Chart'.format(

@@ -9,7 +9,8 @@ Defines corresponding chromaticities prediction plotting objects:
 """
 
 from __future__ import division
-import pylab
+
+import matplotlib.pyplot as plt
 
 from colour.corresponding import corresponding_chromaticities_prediction
 from colour.plotting import (COLOUR_STYLE_CONSTANTS,
@@ -94,7 +95,7 @@ Corresponding_Chromaticities_Prediction_Plot.png
 
     for result in results:
         _name, uvp_t, uvp_m, uvp_p = result
-        pylab.arrow(
+        plt.arrow(
             uvp_t[0],
             uvp_t[1],
             uvp_p[0] - uvp_t[0] - 0.1 * (uvp_p[0] - uvp_t[0]),
@@ -102,17 +103,17 @@ Corresponding_Chromaticities_Prediction_Plot.png
             color=COLOUR_STYLE_CONSTANTS.dark_colour,
             head_width=0.005,
             head_length=0.005)
-        pylab.plot(
+        plt.plot(
             uvp_t[0],
             uvp_t[1],
             'o',
             color=COLOUR_STYLE_CONSTANTS.lightest_colour)
-        pylab.plot(
+        plt.plot(
             uvp_m[0],
             uvp_m[1],
             '^',
             color=COLOUR_STYLE_CONSTANTS.lightest_colour)
-        pylab.plot(
+        plt.plot(
             uvp_p[0],
             uvp_p[1],
             '^',
