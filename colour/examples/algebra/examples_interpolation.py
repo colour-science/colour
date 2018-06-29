@@ -118,8 +118,6 @@ settings = {
         'Wavelength $\\lambda$ (nm)',
     'y_label':
         'Spectral Power Distribution',
-    'x_tighten':
-        True,
     'legend':
         True,
     'legend_location':
@@ -128,8 +126,8 @@ settings = {
         True,
     'y_ticker':
         True,
-    'limits': (min(x_limit_min), max(x_limit_max), min(y_limit_min),
-               max(y_limit_max))
+    'bounding_box': (min(x_limit_min), max(x_limit_max), min(y_limit_min),
+                     max(y_limit_max))
 }
 
 render(**settings)

@@ -210,7 +210,7 @@ Planckian_Locus_Chromaticity_Diagram_Plot.png
 
             return xy
 
-        limits = (-0.1, 0.9, -0.1, 0.9)
+        bounding_box = (-0.1, 0.9, -0.1, 0.9)
     elif method == 'CIE 1960 UCS':
 
         def xy_to_ij(xy):
@@ -221,7 +221,7 @@ Planckian_Locus_Chromaticity_Diagram_Plot.png
 
             return UCS_to_uv(XYZ_to_UCS(xy_to_XYZ(xy)))
 
-        limits = (-0.1, 0.7, -0.2, 0.6)
+        bounding_box = (-0.1, 0.7, -0.2, 0.6)
     else:
         raise ValueError('Invalid method: "{0}", must be one of '
                          '{\'CIE 1931\', \'CIE 1960 UCS\'}'.format(method))
@@ -274,12 +274,8 @@ Planckian_Locus_Chromaticity_Diagram_Plot.png
                       ', '.join(illuminants), method) if illuminants else
                  ('Planckian Locus\n{0} Chromaticity Diagram - '
                   'CIE 1931 2 Degree Standard Observer'.format(method)),
-        'x_tighten':
-            True,
-        'y_tighten':
-            True,
-        'limits':
-            limits,
+        'bounding_box':
+            bounding_box,
         'standalone':
             True
     })

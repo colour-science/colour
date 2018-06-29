@@ -395,26 +395,11 @@ def boundaries(**kwargs):
         Current axes.
     """
 
-    settings = Structure(
-        **{
-            'bounding_box': None,
-            'x_tighten': False,
-            'y_tighten': False,
-            'limits': (0, 1, 0, 1),
-            'margins': (0, 0, 0, 0)
-        })
+    settings = Structure(**{'bounding_box': None})
     settings.update(kwargs)
 
     axes = plt.gca()
-    if settings.bounding_box is None:
-        x_limit_min, x_limit_max, y_limit_min, y_limit_max = settings.limits
-        x_margin_min, x_margin_max, y_margin_min, y_margin_max = (
-            settings.margins)
-        if settings.x_tighten:
-            plt.xlim(x_limit_min + x_margin_min, x_limit_max + x_margin_max)
-        if settings.y_tighten:
-            plt.ylim(y_limit_min + y_margin_min, y_limit_max + y_margin_max)
-    else:
+    if settings.bounding_box:
         plt.xlim(settings.bounding_box[0], settings.bounding_box[1])
         plt.ylim(settings.bounding_box[2], settings.bounding_box[3])
 
@@ -977,11 +962,9 @@ def multi_colour_swatch_plot(colour_swatches,
     plt.gca().patch.set_facecolor(background_colour)
 
     settings = {
-        'x_tighten': True,
-        'y_tighten': True,
         'x_ticker': False,
         'y_ticker': False,
-        'limits': (x_min, x_max, y_min, y_max),
+        'bounding_box': (x_min, x_max, y_min, y_max),
         'aspect': 'equal'
     }
     settings.update(kwargs)

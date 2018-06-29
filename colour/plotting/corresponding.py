@@ -119,9 +119,7 @@ Corresponding_Chromaticities_Prediction_Plot.png
             '^',
             color=COLOUR_STYLE_CONSTANTS.dark_colour)
     settings.update({
-        'x_tighten': True,
-        'y_tighten': True,
-        'limits': (-0.1, 0.7, -0.1, 0.7),
+        'bounding_box': (-0.1, 0.7, -0.1, 0.7),
         'standalone': True
     })
     settings.update(kwargs)

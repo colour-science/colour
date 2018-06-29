@@ -274,11 +274,7 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot.png
             True,
         'legend_location':
             'upper right',
-        'x_tighten':
-            True,
-        'y_tighten':
-            True,
-        'limits': [
+        'bounding_box': [
             min(x_limit_min),
             max(x_limit_max),
             min(y_limit_min),
@@ -819,12 +815,11 @@ def multi_cctf_plot(colourspaces=None, decoding_cctf=False, **kwargs):
     mode = 'Decoding' if decoding_cctf else 'Encoding'
     settings.update({
         'title': '{0} - {1} CCTFs'.format(', '.join(colourspaces), mode),
-        'x_tighten': True,
         'x_label': 'Signal Value' if decoding_cctf else 'Tristimulus Value',
         'y_label': 'Tristimulus Value' if decoding_cctf else 'Signal Value',
         'legend': True,
         'legend_location': 'upper left',
-        'limits': (0, 1, 0, 1),
+        'bounding_box': (0, 1, 0, 1),
         'aspect': 'equal'
     })
     settings.update(kwargs)

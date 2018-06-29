@@ -158,9 +158,7 @@ def single_spd_plot(spd,
         'title': '{0} - {1}'.format(spd.strict_name, cmfs.strict_name),
         'x_label': 'Wavelength $\\lambda$ (nm)',
         'y_label': 'Spectral Power Distribution',
-        'limits': (x_min, x_max, y_min, y_max),
-        'x_tighten': True,
-        'y_tighten': True
+        'bounding_box': (x_min, x_max, y_min, y_max),
     }
     settings.update(kwargs)
 
@@ -260,16 +258,12 @@ def multi_spd_plot(spds,
             'Wavelength $\\lambda$ (nm)',
         'y_label':
             'Spectral Power Distribution',
-        'x_tighten':
-            True,
-        'y_tighten':
-            True,
         'legend':
             True,
         'legend_location':
             'upper left',
-        'limits': (min(x_limit_min), max(x_limit_max), min(y_limit_min),
-                   max(y_limit_max) + max(y_limit_max) * 0.05)
+        'bounding_box': (min(x_limit_min), max(x_limit_max), min(y_limit_min),
+                         max(y_limit_max) + max(y_limit_max) * 0.05)
     }
     settings.update(kwargs)
 
@@ -381,19 +375,15 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
             'Wavelength $\\lambda$ (nm)',
         'y_label':
             'Tristimulus Values',
-        'x_tighten':
-            True,
-        'y_tighten':
-            True,
         'legend':
             True,
         'legend_location':
             'upper right',
         'y_axis_line':
             True,
-        'limits': (min(x_limit_min), max(x_limit_max),
-                   min(y_limit_min) - abs(min(y_limit_min)) * 0.05,
-                   max(y_limit_max) + abs(max(y_limit_max)) * 0.05)
+        'bounding_box': (min(x_limit_min), max(x_limit_max),
+                         min(y_limit_min) - abs(min(y_limit_min)) * 0.05,
+                         max(y_limit_max) + abs(max(y_limit_max)) * 0.05)
     }
     settings.update(kwargs)
 
@@ -555,7 +545,7 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
         'standalone': False,
         'y_label': None,
         'y_ticker': False,
-        'limits': (x_min, x_max, y_min, y_max),
+        'bounding_box': (x_min, x_max, y_min, y_max),
     }
     settings.update(kwargs)
 
@@ -673,10 +663,9 @@ def multi_lightness_function_plot(functions=None, **kwargs):
         'title': '{0} - Lightness Functions'.format(', '.join(functions)),
         'x_label': 'Relative Luminance Y',
         'y_label': 'Lightness',
-        'x_tighten': True,
         'legend': True,
         'legend_location': 'upper left',
-        'limits': (0, 100, 0, 100),
+        'bounding_box': (0, 100, 0, 100),
         'aspect': 'equal'
     })
     settings.update(kwargs)
@@ -827,9 +816,7 @@ def blackbody_colours_plot(
         'title': 'Blackbody Colours',
         'x_label': 'Temperature K',
         'y_label': None,
-        'limits': (x_min, x_max, y_min, y_max),
-        'x_tighten': True,
-        'y_tighten': True,
+        'bounding_box': (x_min, x_max, y_min, y_max),
         'y_ticker': False
     }
     settings.update(kwargs)

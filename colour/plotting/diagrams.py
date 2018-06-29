@@ -603,7 +603,7 @@ def spds_chromaticity_diagram_plot(
 
             return XYZ_to_xy(XYZ)
 
-        limits = (-0.1, 0.9, -0.1, 0.9)
+        bounding_box = (-0.1, 0.9, -0.1, 0.9)
     elif method == 'CIE 1960 UCS':
 
         def XYZ_to_ij(XYZ):
@@ -614,7 +614,7 @@ def spds_chromaticity_diagram_plot(
 
             return UCS_to_uv(XYZ_to_UCS(XYZ))
 
-        limits = (-0.1, 0.7, -0.2, 0.6)
+        bounding_box = (-0.1, 0.7, -0.2, 0.6)
 
     elif method == 'CIE 1976 UCS':
 
@@ -626,7 +626,7 @@ def spds_chromaticity_diagram_plot(
 
             return Luv_to_uv(XYZ_to_Luv(XYZ))
 
-        limits = (-0.1, 0.7, -0.1, 0.7)
+        bounding_box = (-0.1, 0.7, -0.1, 0.7)
     else:
         raise ValueError(
             'Invalid method: "{0}", must be one of '
@@ -670,9 +670,7 @@ def spds_chromaticity_diagram_plot(
             plt.annotate(spd.name, xy=ij, **annotate_settings)
 
     settings.update({
-        'x_tighten': True,
-        'y_tighten': True,
-        'limits': limits,
+        'bounding_box': bounding_box,
         'standalone': True
     })
     settings.update(kwargs)

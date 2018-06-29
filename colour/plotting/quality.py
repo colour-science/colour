@@ -156,11 +156,8 @@ def colour_quality_bars_plot(specifications,
             'Colour Quality',
         'legend':
             hatching,
-        'x_tighten':
-            True,
-        'y_tighten':
-            True,
-        'limits': (-bar_width, ((count_Q_as + 1) * (count_s + 1)) / 2, 0, 120),
+        'bounding_box': (-bar_width, ((count_Q_as + 1) * (count_s + 1)) / 2, 0,
+                         120),
         'aspect':
             1 / (120 / (bar_width + len(Q_as) + bar_width * 2))
     })
