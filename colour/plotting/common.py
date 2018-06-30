@@ -7,14 +7,14 @@ Defines the common plotting objects:
 
 -   :func:`colour.plotting.colour_style`
 -   :func:`colour.plotting.colour_cycle`
--   :func:`colour.plotting.canvas`
+-   :func:`colour.plotting.artist`
 -   :func:`colour.plotting.camera`
 -   :func:`colour.plotting.decorate`
 -   :func:`colour.plotting.boundaries`
 -   :func:`colour.plotting.display`
 -   :func:`colour.plotting.render`
 -   :func:`colour.plotting.label_rectangles`
--   :func:`colour.plotting.equal_axes3d`
+-   :func:`colour.plotting.uniform_axes3d`
 -   :func:`colour.plotting.single_colour_swatch_plot`
 -   :func:`colour.plotting.multi_colour_swatch_plot`
 -   :func:`colour.plotting.image_plot`
@@ -44,27 +44,14 @@ __status__ = 'Production'
 
 __all__ = [
     'COLOUR_STYLE_CONSTANTS', 'colour_style', 'XYZ_to_plotting_colourspace',
-    'ColourSwatch', 'colour_cycle', 'canvas', 'camera', 'boundaries',
-    'decorate', 'display', 'render', 'label_rectangles', 'equal_axes3d',
+    'ColourSwatch', 'colour_cycle', 'artist', 'camera', 'boundaries',
+    'decorate', 'display', 'render', 'label_rectangles', 'uniform_axes3d',
     'get_RGB_colourspace', 'get_cmfs', 'get_illuminant',
     'single_colour_swatch_plot', 'multi_colour_swatch_plot', 'image_plot'
 ]
 
 COLOUR_STYLE_CONSTANTS = Structure(
     **{
-        'figure':
-            Structure(
-                **{
-                    'width': 12.80,
-                    'height': 7.20,
-                    'size': (
-                        12.80,
-                        7.20,
-                    ),
-                    'dpi': 100
-                }),
-        'font':
-            Structure(**{'size': 12}),
         'colour':
             Structure(
                 **{
@@ -109,8 +96,8 @@ COLOUR_STYLE_CONSTANTS = Structure(
             )}),
         'geometry':
             Structure(**{
-                'size': 10,
-                'width': 1
+                'long': 10,
+                'short': 1
             })
     })
 """
@@ -138,14 +125,13 @@ def colour_style(use_style=True):
     constants = COLOUR_STYLE_CONSTANTS
     style = {
         # Figure Size Settings
-        'figure.figsize': constants.figure.size,
-        'figure.dpi': constants.figure.dpi,
-        'savefig.dpi': constants.figure.dpi,
-        'savefig.transparent': True,
-        'savefig.bbox': 'tight',
+        'figure.figsize': (12.80, 7.20),
+        'figure.dpi': 100,
+        'savefig.dpi': 100,
+        'savefig.bbox': 'standard',
 
         # Font Settings
-        'font.size': constants.font.size,
+        'font.size': 12,
         'axes.titlesize': 'x-large',
         'axes.labelsize': 'larger',
         'legend.fontsize': 'small',
@@ -157,21 +143,21 @@ def colour_style(use_style=True):
         'ytick.minor.visible': True,
         'xtick.direction': 'out',
         'ytick.direction': 'out',
-        'xtick.major.size': constants.geometry.size * 1.5,
-        'xtick.minor.size': constants.geometry.size * 0.75,
-        'ytick.major.size': constants.geometry.size * 1.5,
-        'ytick.minor.size': constants.geometry.size * 0.75,
-        'xtick.major.width': constants.geometry.width,
-        'xtick.minor.width': constants.geometry.width,
-        'ytick.major.width': constants.geometry.width,
-        'ytick.minor.width': constants.geometry.width,
+        'xtick.major.size': constants.geometry.long * 1.5,
+        'xtick.minor.size': constants.geometry.long * 0.75,
+        'ytick.major.size': constants.geometry.long * 1.5,
+        'ytick.minor.size': constants.geometry.long * 0.75,
+        'xtick.major.width': constants.geometry.short,
+        'xtick.minor.width': constants.geometry.short,
+        'ytick.major.width': constants.geometry.short,
+        'ytick.minor.width': constants.geometry.short,
 
         # Spine Settings
-        'axes.linewidth': constants.geometry.width,
+        'axes.linewidth': constants.geometry.short,
         'axes.edgecolor': constants.colour.dark,
 
         # Title Settings
-        'axes.titlepad': constants.font.size * 0.75,
+        'axes.titlepad': 12 * 0.75,
 
         # Axes Settings
         'axes.facecolor': constants.colour.brightest,
@@ -181,7 +167,7 @@ def colour_style(use_style=True):
 
         # Grid Settings
         'axes.axisbelow': True,
-        'grid.linewidth': constants.geometry.width * 0.5,
+        'grid.linewidth': constants.geometry.short * 0.5,
         'grid.linestyle': '--',
         'grid.color': constants.colour.average,
 
@@ -190,10 +176,10 @@ def colour_style(use_style=True):
         'legend.framealpha': constants.opacity.high,
         'legend.fancybox': False,
         'legend.facecolor': constants.colour.bright,
-        'legend.borderpad': constants.geometry.width * 0.5,
+        'legend.borderpad': constants.geometry.short * 0.5,
 
         # Lines
-        'lines.linewidth': constants.geometry.width,
+        'lines.linewidth': constants.geometry.short,
 
         # Cycle
         'axes.prop_cycle': matplotlib.cycler(color=constants.colour.cycle),
@@ -312,32 +298,34 @@ def colour_cycle(**kwargs):
     return itertools.cycle(cycle)
 
 
-def canvas(**kwargs):
+def artist(**kwargs):
     """
-    Sets the figure size.
+    Returns the current figure and its axes or creates a new one.
 
     Other Parameters
     ----------------
-    figure_size : array_like, optional
-        Array defining figure *width* and *height* such as
-        *figure_size = (width, height)*.
+    axes : Axes, optional
+        Axes that will be passed through without creating a new figure.
+    uniform : unicode, optional
+        Whether to create the figure with an equal aspect ratio.
 
     Returns
     -------
-    Figure
-        Current figure.
+    tuple
+        Figure, axes.
     """
 
-    settings = Structure(**{'figure_size': COLOUR_STYLE_CONSTANTS.figure.size})
-    settings.update(kwargs)
+    width, height = plt.rcParams['figure.figsize']
 
-    figure = plt.gcf()
-    if figure is None:
-        figure = plt.figure(figsize=settings.figure_size)
+    figure_size = (width, width) if kwargs.get('uniform') else (width, height)
+
+    axes = kwargs.get('axes')
+    if axes is None:
+        figure = plt.figure(figsize=figure_size)
+
+        return figure, figure.gca()
     else:
-        figure.set_size_inches(settings.figure_size)
-
-    return figure
+        return plt.gcf(), axes
 
 
 def camera(**kwargs):
@@ -359,6 +347,8 @@ def camera(**kwargs):
         Current axes.
     """
 
+    axes = kwargs.get('axes', plt.gca())
+
     settings = Structure(**{
         'camera_aspect': 'equal',
         'elevation': None,
@@ -366,9 +356,8 @@ def camera(**kwargs):
     })
     settings.update(kwargs)
 
-    axes = plt.gca()
     if settings.camera_aspect == 'equal':
-        equal_axes3d(axes)
+        uniform_axes3d(axes)
 
     axes.view_init(elev=settings.elevation, azim=settings.azimuth)
 
@@ -391,13 +380,14 @@ def boundaries(**kwargs):
         Current axes.
     """
 
+    axes = kwargs.get('axes', plt.gca())
+
     settings = Structure(**{'bounding_box': None})
     settings.update(kwargs)
 
-    axes = plt.gca()
     if settings.bounding_box:
-        plt.xlim(settings.bounding_box[0], settings.bounding_box[1])
-        plt.ylim(settings.bounding_box[2], settings.bounding_box[3])
+        axes.set_xlim(settings.bounding_box[0], settings.bounding_box[1])
+        axes.set_ylim(settings.bounding_box[2], settings.bounding_box[3])
 
     return axes
 
@@ -447,6 +437,8 @@ def decorate(**kwargs):
         Current axes.
     """
 
+    axes = kwargs.get('axes', plt.gca())
+
     settings = Structure(
         **{
             'title': None,
@@ -468,15 +460,14 @@ def decorate(**kwargs):
         })
     settings.update(kwargs)
 
-    axes = plt.gca()
     if settings.title:
-        plt.title(settings.title)
+        axes.set_title(settings.title)
     if settings.x_label:
-        plt.xlabel(settings.x_label)
+        axes.set_xlabel(settings.x_label)
     if settings.y_label:
-        plt.ylabel(settings.y_label)
+        axes.set_ylabel(settings.y_label)
     if settings.legend:
-        plt.legend(loc=settings.legend_location, ncol=settings.legend_columns)
+        axes.legend(loc=settings.legend_location, ncol=settings.legend_columns)
     if settings.x_ticker:
         if settings.x_ticker_major_locator is not None:
             axes.xaxis.set_major_locator(settings.x_ticker_major_locator)
@@ -492,11 +483,11 @@ def decorate(**kwargs):
     else:
         axes.set_yticks([])
     if settings.x_axis_line:
-        plt.axvline(color=COLOUR_STYLE_CONSTANTS.colour.dark, linestyle='--')
+        axes.axvline(color=COLOUR_STYLE_CONSTANTS.colour.dark, linestyle='--')
     if settings.y_axis_line:
-        plt.axhline(color=COLOUR_STYLE_CONSTANTS.colour.dark, linestyle='--')
+        axes.axhline(color=COLOUR_STYLE_CONSTANTS.colour.dark, linestyle='--')
     if settings.aspect:
-        plt.axes().set_aspect(settings.aspect)
+        axes.set_aspect(settings.aspect)
     if settings.no_axes:
         axes.set_axis_off()
 
@@ -509,6 +500,8 @@ def display(**kwargs):
 
     Other Parameters
     ----------------
+    transparent_background : bool, optional
+        Whether to turn off the background patch. Default is *False*.
     standalone : bool, optional
         Whether to show the figure.
     filename : unicode, optional
@@ -520,25 +513,27 @@ def display(**kwargs):
         Current figure or None.
     """
 
-    settings = Structure(
-        **{
-            'standalone': True,
-            'filename': None
-        })
+    figure = kwargs.get('figure')
+    if figure is None:
+        figure = plt.gcf()
+
+    settings = Structure(**{
+        'transparent_background': True,
+        'standalone': True,
+        'filename': None
+    })
     settings.update(kwargs)
 
-    figure = plt.gcf()
+    if settings.transparent_background:
+        figure.patch.set_alpha(0)
 
     if settings.standalone:
         if settings.filename is not None:
-            plt.savefig(settings.filename)
+            figure.savefig(settings.filename)
         else:
-            plt.show()
-        plt.close()
+            figure.show()
 
-        return None
-    else:
-        return figure
+    return figure
 
 
 def render(**kwargs):
@@ -562,6 +557,10 @@ def render(**kwargs):
         Current figure or None.
     """
 
+    boundaries(**kwargs)
+
+    decorate(**kwargs)
+
     return display(**kwargs)
 
 
@@ -569,7 +568,8 @@ def label_rectangles(labels,
                      rectangles,
                      rotation='vertical',
                      text_size=10,
-                     offset=None):
+                     offset=None,
+                     **kwargs):
     """
     Add labels above given rectangles.
 
@@ -587,11 +587,20 @@ def label_rectangles(labels,
     offset : array_like, optional
         Labels offset as percentages of the largest rectangle dimensions.
 
+    Other Parameters
+    ----------------
+    axes : Axes, optional
+        Axes to use for plotting.
+
     Returns
     -------
     bool
         Definition success.
     """
+
+    axes = kwargs.get('axes')
+    if axes is None:
+        axes = plt.gca()
 
     if offset is None:
         offset = (0.0, 0.025)
@@ -607,7 +616,7 @@ def label_rectangles(labels,
         width = rectangle.get_width()
         ha = 'center'
         va = 'bottom'
-        plt.text(
+        axes.text(
             x + width / 2 + offset[0] * width,
             height + offset[1] * y_m,
             '{0:.1f}'.format(labels[i]),
@@ -620,7 +629,7 @@ def label_rectangles(labels,
     return True
 
 
-def equal_axes3d(axes):
+def uniform_axes3d(axes):
     """
     Sets equal aspect ratio to given 3d axes.
 
@@ -636,6 +645,7 @@ def equal_axes3d(axes):
     """
 
     axes.set_aspect('equal')
+
     extents = np.array(
         [getattr(axes, 'get_{}lim'.format(axis))() for axis in 'xyz'])
 
@@ -848,6 +858,8 @@ def multi_colour_swatch_plot(colour_swatches,
         :alt: multi_colour_swatch_plot
     """
 
+    figure, axes = artist(**kwargs)
+
     if compare_swatches is not None:
         assert len(colour_swatches) % 2 == 0, (
             'Cannot compare an odd number of colour swatches!')
@@ -870,8 +882,6 @@ def multi_colour_swatch_plot(colour_swatches,
         text_settings.update(text_parameters)
     text_offset = text_settings.pop('offset')
 
-    canvas(**kwargs)
-
     offset_X = offset_Y = 0
     x_min, x_max, y_min, y_max = 0, width, 0, height
     for i, colour_swatch in enumerate(reference_colour_swatches):
@@ -882,14 +892,14 @@ def multi_colour_swatch_plot(colour_swatches,
         x_0, x_1 = offset_X, offset_X + width
         y_0, y_1 = offset_Y, offset_Y + height
 
-        plt.fill(
+        axes.fill(
             (x_0, x_1, x_1, x_0), (y_0, y_0, y_1, y_1),
             color=reference_colour_swatches[i].RGB)
 
         if compare_swatches == 'stacked':
             margin_X = width * 0.25
             margin_Y = height * 0.25
-            plt.fill(
+            axes.fill(
                 (
                     x_0 + margin_X,
                     x_1 - margin_X,
@@ -903,12 +913,12 @@ def multi_colour_swatch_plot(colour_swatches,
                 ),
                 color=test_colour_swatches[i].RGB)
         else:
-            plt.fill(
+            axes.fill(
                 (x_0, x_1, x_1), (y_0, y_0, y_1),
                 color=test_colour_swatches[i].RGB)
 
         if colour_swatch.name is not None and text_settings['visible']:
-            plt.text(
+            axes.text(
                 x_0 + text_offset,
                 y_0 + text_offset,
                 colour_swatch.name,
@@ -921,9 +931,11 @@ def multi_colour_swatch_plot(colour_swatches,
     x_max = x_max * width + x_max * spacing - spacing
     y_min = offset_Y
 
-    plt.gca().patch.set_facecolor(background_colour)
+    axes.patch.set_facecolor(background_colour)
 
     settings = {
+        'axes':
+            axes,
         'x_ticker':
             False,
         'y_ticker':
@@ -986,9 +998,11 @@ def image_plot(image,
         :alt: image_plot
     """
 
+    figure, axes = artist(**kwargs)
+
     text_settings = {
         'text': None,
-        'offset': 5,
+        'offset': 0.005,
         'color': COLOUR_STYLE_CONSTANTS.colour.brightest,
         'alpha': COLOUR_STYLE_CONSTANTS.opacity.high
     }
@@ -998,23 +1012,27 @@ def image_plot(image,
 
     image = np.asarray(image)
 
-    plt.imshow(
+    axes.imshow(
         np.clip(image, 0, 1), interpolation=interpolation, cmap=colour_map)
 
-    height = image.shape[0]
+    width, height = image.shape[1], image.shape[0]
 
     if text_settings['text'] is not None:
-        plt.text(text_offset / 2, height - text_offset, text_settings['text'],
-                 **text_settings)
+        axes.text(
+            text_offset,
+            text_offset,
+            text_settings['text'],
+            transform=axes.transAxes,
+            ha='left',
+            va='bottom',
+            **text_settings)
 
     settings = {
         'x_ticker': False,
         'y_ticker': False,
         'no_axes': True,
-        'bounding_box': (0, 1, 0, 1)
+        'bounding_box': (0, width, 0, height)
     }
     settings.update(kwargs)
 
-    canvas(**settings)
-
-    return render(with_boundaries=False, **settings)
+    return render(**settings)

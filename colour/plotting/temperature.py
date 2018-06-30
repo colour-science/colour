@@ -19,7 +19,7 @@ import numpy as np
 from colour.colorimetry import CMFS, ILLUMINANTS
 from colour.models import (UCS_uv_to_xy, XYZ_to_UCS, UCS_to_uv, xy_to_XYZ)
 from colour.temperature import CCT_to_uv
-from colour.plotting import (COLOUR_STYLE_CONSTANTS, canvas,
+from colour.plotting import (COLOUR_STYLE_CONSTANTS, artist,
                              chromaticity_diagram_plot_CIE1931,
                              chromaticity_diagram_plot_CIE1960UCS, render)
 from colour.plotting.diagrams import chromaticity_diagram_plot
@@ -75,13 +75,10 @@ def planckian_locus_plot(planckian_locus_colours=None,
     if planckian_locus_colours is None:
         planckian_locus_colours = COLOUR_STYLE_CONSTANTS.colour.dark
 
-    settings = {
-        'figure_size': (COLOUR_STYLE_CONSTANTS.figure.width,
-                        COLOUR_STYLE_CONSTANTS.figure.width)
-    }
+    settings = {'uniform': True}
     settings.update(kwargs)
 
-    canvas(**settings)
+    figure, axes = artist(**settings)
 
     if method == 'CIE 1931':
 
@@ -120,13 +117,16 @@ def planckian_locus_plot(planckian_locus_colours=None,
     for i in (1667, 2000, 2500, 3000, 4000, 6000, 10000):
         i0, j0 = uv_to_ij(CCT_to_uv(i, 'Robertson 1968', D_uv=-D_uv))
         i1, j1 = uv_to_ij(CCT_to_uv(i, 'Robertson 1968', D_uv=D_uv))
-        plt.plot((i0, i1), (j0, j1), color=planckian_locus_colours)
-        plt.annotate(
+        axes.plot((i0, i1), (j0, j1), color=planckian_locus_colours)
+        axes.annotate(
             '{0}K'.format(i),
             xy=(i0, j0),
             xytext=(0, -10),
             textcoords='offset points',
             size='x-small')
+
+    settings = {}
+    settings.update(kwargs)
 
     return render(**settings)
 
@@ -190,10 +190,15 @@ Planckian_Locus_Chromaticity_Diagram_Plot.png
     if illuminants is None:
         illuminants = ('A', 'B', 'C')
 
+    settings = {'uniform': True}
+    settings.update(kwargs)
+
+    figure, axes = artist(**settings)
+
     cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
 
     method = method.upper()
-    settings = {'method': method, 'standalone': False}
+    settings = {'axes': axes, 'method': method, 'standalone': False}
     settings.update(kwargs)
 
     chromaticity_diagram_callable(**settings)
@@ -257,7 +262,7 @@ Planckian_Locus_Chromaticity_Diagram_Plot.png
                                   sorted(ILLUMINANTS[cmfs.name].keys())))
         ij = xy_to_ij(xy)
 
-        plt.plot(
+        axes.plot(
             ij[0], ij[1], 'o', color=COLOUR_STYLE_CONSTANTS.colour.brightest)
 
         if (illuminant is not None and

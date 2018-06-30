@@ -11,13 +11,12 @@ Defines the characterisation plotting objects:
 
 from __future__ import division
 
-import matplotlib.pyplot as plt
 import numpy as np
 
 from colour.characterisation import COLOURCHECKERS
 from colour.models import xyY_to_XYZ
 from colour.plotting import (ColourSwatch, COLOUR_STYLE_CONSTANTS,
-                             XYZ_to_plotting_colourspace, canvas,
+                             XYZ_to_plotting_colourspace,
                              multi_colour_swatch_plot, render)
 
 __author__ = 'Colour Developers'
@@ -114,8 +113,6 @@ def multi_colour_checker_plot(colour_checkers=None, **kwargs):
 
     compare_swatches = len(colour_checkers) == 2
 
-    canvas(**kwargs)
-
     colour_swatches = []
     colour_checker_names = []
     for colour_checker in colour_checkers:
@@ -160,21 +157,22 @@ def multi_colour_checker_plot(colour_checkers=None, **kwargs):
     }
     settings.update(kwargs)
 
-    current_figure = multi_colour_swatch_plot(colour_swatches, **settings)
-    current_axes = current_figure.gca()
+    figure = multi_colour_swatch_plot(colour_swatches, **settings)
+    axes = figure.gca()
 
-    plt.text(
+    axes.text(
         0.5,
         0.005,
         '{0} - {1} - Colour Rendition Chart'.format(
             ', '.join(colour_checker_names),
             COLOUR_STYLE_CONSTANTS.colour.colourspace.name),
-        transform=current_axes.transAxes,
+        transform=axes.transAxes,
         color=COLOUR_STYLE_CONSTANTS.colour.bright,
         ha='center',
         va='bottom')
 
     settings.update({
+        'axes': axes,
         'title': ', '.join(colour_checker_names),
         'facecolor': background_colour,
         'edgecolor': None,

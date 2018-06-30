@@ -16,7 +16,6 @@ Defines the *CIE* chromaticity diagrams plotting objects:
 from __future__ import division
 
 import bisect
-import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.collections import LineCollection
 from matplotlib.patches import Polygon
@@ -26,7 +25,7 @@ from colour.colorimetry import spectral_to_XYZ
 from colour.models import (Luv_to_uv, Luv_uv_to_xy, UCS_to_uv, UCS_uv_to_xy,
                            XYZ_to_Luv, XYZ_to_UCS, XYZ_to_xy, xy_to_XYZ)
 from colour.plotting import (COLOUR_STYLE_CONSTANTS,
-                             XYZ_to_plotting_colourspace, canvas, get_cmfs,
+                             XYZ_to_plotting_colourspace, artist, get_cmfs,
                              render)
 from colour.utilities import (is_string, normalise_maximum, suppress_warnings,
                               tstack)
@@ -97,13 +96,10 @@ def spectral_locus_plot(cmfs='CIE 1931 2 Degree Standard Observer',
     if spectral_locus_colours is None:
         spectral_locus_colours = COLOUR_STYLE_CONSTANTS.colour.dark
 
-    settings = {
-        'figure_size': (COLOUR_STYLE_CONSTANTS.figure.width,
-                        COLOUR_STYLE_CONSTANTS.figure.width)
-    }
+    settings = {'uniform': True}
     settings.update(kwargs)
 
-    axes = canvas(**settings).gca()
+    figure, axes = artist(**settings)
 
     cmfs = get_cmfs(cmfs)
 
@@ -185,13 +181,13 @@ def spectral_locus_plot(cmfs='CIE 1931 2 Degree Standard Observer',
         label_colour = (spectral_locus_colours
                         if is_string(spectral_locus_colours) else
                         spectral_locus_colours[index])
-        plt.plot(
+        axes.plot(
             (i, i + normal[0] * 0.75), (j, j + normal[1] * 0.75),
             color=label_colour)
 
-        plt.plot(i, j, 'o', color=label_colour)
+        axes.plot(i, j, 'o', color=label_colour)
 
-        plt.text(
+        axes.text(
             i + normal[0],
             j + normal[1],
             label,
@@ -245,13 +241,10 @@ def chromaticity_diagram_colours_plot(
         :alt: chromaticity_diagram_colours_plot
     """
 
-    settings = {
-        'figure_size': (COLOUR_STYLE_CONSTANTS.figure.width,
-                        COLOUR_STYLE_CONSTANTS.figure.width)
-    }
+    settings = {'uniform': True}
     settings.update(kwargs)
 
-    axes = canvas(**settings).gca()
+    figure, axes = artist(**settings)
 
     cmfs = get_cmfs(cmfs)
 
@@ -286,7 +279,7 @@ def chromaticity_diagram_colours_plot(
     axes.add_patch(polygon)
     # Preventing bounding box related issues as per
     # https://github.com/matplotlib/matplotlib/issues/10529
-    image = plt.imshow(
+    image = axes.imshow(
         RGB,
         interpolation='bilinear',
         extent=(0, 1, 0, 1),
@@ -340,23 +333,20 @@ def chromaticity_diagram_plot(cmfs='CIE 1931 2 Degree Standard Observer',
         :alt: chromaticity_diagram_plot
     """
 
-    settings = {
-        'figure_size': (COLOUR_STYLE_CONSTANTS.figure.width,
-                        COLOUR_STYLE_CONSTANTS.figure.width)
-    }
+    settings = {'uniform': True}
     settings.update(kwargs)
 
-    canvas(**settings)
+    figure, axes = artist(**settings)
 
     cmfs = get_cmfs(cmfs)
 
     if show_diagram_colours:
-        settings = {'method': method, 'standalone': False}
+        settings = {'axes': axes, 'method': method, 'standalone': False}
         settings.update(kwargs)
         chromaticity_diagram_colours_plot(**settings)
 
     if show_spectral_locus:
-        settings = {'method': method, 'standalone': False}
+        settings = {'axes': axes, 'method': method, 'standalone': False}
         settings.update(kwargs)
         spectral_locus_plot(**settings)
 
@@ -372,11 +362,6 @@ def chromaticity_diagram_plot(cmfs='CIE 1931 2 Degree Standard Observer',
             'Invalid method: "{0}", must be one of '
             '{\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\'}'.format(
                 method))
-
-    ticks = np.arange(-10, 10, 0.1)
-
-    plt.xticks(ticks)
-    plt.yticks(ticks)
 
     settings.update({
         'standalone':
@@ -587,8 +572,17 @@ def spds_chromaticity_diagram_plot(
         :alt: spds_chromaticity_diagram_plot
     """
 
-    settings = dict(kwargs)
-    settings.update({'method': method, 'cmfs': cmfs, 'standalone': False})
+    settings = {'uniform': True}
+    settings.update(kwargs)
+
+    figure, axes = artist(**settings)
+
+    settings.update({
+        'axes': axes,
+        'method': method,
+        'cmfs': cmfs,
+        'standalone': False
+    })
 
     chromaticity_diagram_callable(**settings)
 
@@ -659,7 +653,7 @@ def spds_chromaticity_diagram_plot(
         XYZ = spectral_to_XYZ(spd) / 100
         ij = XYZ_to_ij(XYZ)
 
-        plt.plot(
+        axes.plot(
             ij[0], ij[1], 'o', color=COLOUR_STYLE_CONSTANTS.colour.brightest)
 
         if (spd.name is not None and
@@ -667,12 +661,9 @@ def spds_chromaticity_diagram_plot(
             annotate_settings = annotate_settings_collection[i]
             annotate_settings.pop('annotate')
 
-            plt.annotate(spd.name, xy=ij, **annotate_settings)
+            axes.annotate(spd.name, xy=ij, **annotate_settings)
 
-    settings.update({
-        'bounding_box': bounding_box,
-        'standalone': True
-    })
+    settings.update({'bounding_box': bounding_box, 'standalone': True})
     settings.update(kwargs)
 
     return render(**settings)

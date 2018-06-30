@@ -11,11 +11,10 @@ Defines the colour notation systems plotting objects:
 
 from __future__ import division
 
-import matplotlib.pyplot as plt
 import numpy as np
 
 from colour.notation import MUNSELL_VALUE_METHODS
-from colour.plotting import COLOUR_STYLE_CONSTANTS, canvas, render
+from colour.plotting import artist, render
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -100,16 +99,13 @@ def multi_munsell_value_function_plot(functions=None, **kwargs):
         :alt: multi_munsell_value_function_plot
     """
 
-    settings = {
-        'figure_size': (COLOUR_STYLE_CONSTANTS.figure.width,
-                        COLOUR_STYLE_CONSTANTS.figure.width)
-    }
-    settings.update(kwargs)
-
-    canvas(**settings)
-
     if functions is None:
         functions = ('ASTM D1535-08', 'McCamy 1987')
+
+    settings = {'uniform': True}
+    settings.update(kwargs)
+
+    figure, axes = artist(**settings)
 
     samples = np.linspace(0, 100, 1000)
     for function in functions:
@@ -120,11 +116,11 @@ def multi_munsell_value_function_plot(functions=None, **kwargs):
                  'factory "Munsell" value functions: "{1}".').format(
                      name, sorted(MUNSELL_VALUE_METHODS.keys())))
 
-        plt.plot(
+        axes.plot(
             samples, [function(x) for x in samples],
             label=u'{0}'.format(name))
 
-    settings.update({
+    settings = {
         'title': '{0} - Munsell Functions'.format(', '.join(functions)),
         'x_label': 'Luminance Y',
         'y_label': 'Munsell Value V',
@@ -133,7 +129,7 @@ def multi_munsell_value_function_plot(functions=None, **kwargs):
         'legend_location': 'upper left',
         'bounding_box': (0, 100, 0, 10),
         'aspect': 10
-    })
+    }
     settings.update(kwargs)
 
     return render(**settings)

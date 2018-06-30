@@ -23,7 +23,6 @@ RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS`
 
 from __future__ import division
 
-import matplotlib.pyplot as plt
 import numpy as np
 
 from colour.constants import EPSILON
@@ -34,7 +33,7 @@ from colour.models import (
 from colour.plotting import (
     COLOUR_STYLE_CONSTANTS, chromaticity_diagram_plot_CIE1931,
     chromaticity_diagram_plot_CIE1960UCS, chromaticity_diagram_plot_CIE1976UCS,
-    canvas, colour_cycle, get_RGB_colourspace, get_cmfs, render)
+    artist, colour_cycle, get_RGB_colourspace, get_cmfs, render)
 from colour.plotting.diagrams import chromaticity_diagram_plot
 
 __author__ = 'Colour Developers'
@@ -107,21 +106,20 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot.png
         :alt: RGB_colourspaces_chromaticity_diagram_plot
     """
 
-    settings = {
-        'figure_size': (COLOUR_STYLE_CONSTANTS.figure.width,
-                        COLOUR_STYLE_CONSTANTS.figure.width)
-    }
-    settings.update(kwargs)
-
-    canvas(**settings)
-
     if colourspaces is None:
         colourspaces = ['ITU-R BT.709', 'ACEScg', 'S-Gamut', 'Pointer Gamut']
+
+    settings = {'uniform': True}
+    settings.update(kwargs)
+
+    figure, axes = artist(**settings)
 
     cmfs, name = get_cmfs(cmfs), cmfs
 
     method = method.upper()
     settings = {
+        'axes':
+            axes,
         'method':
             method,
         'title':
@@ -216,13 +214,13 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot.png
         ij = xy_to_ij(np.asarray(POINTER_GAMUT_BOUNDARIES))
         alpha_p = COLOUR_STYLE_CONSTANTS.opacity.high
         colour_p = COLOUR_STYLE_CONSTANTS.colour.brightest
-        plt.plot(
+        axes.plot(
             ij[..., 0],
             ij[..., 1],
             label='Pointer\'s Gamut',
             color=colour_p,
             alpha=alpha_p)
-        plt.plot(
+        axes.plot(
             (ij[-1][0], ij[0][0]), (ij[-1][1], ij[0][1]),
             color=colour_p,
             alpha=alpha_p)
@@ -230,7 +228,7 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot.png
         XYZ = Lab_to_XYZ(
             LCHab_to_Lab(POINTER_GAMUT_DATA), POINTER_GAMUT_ILLUMINANT)
         ij = XYZ_to_ij(XYZ, POINTER_GAMUT_ILLUMINANT)
-        plt.scatter(
+        axes.scatter(
             ij[..., 0],
             ij[..., 1],
             alpha=alpha_p / 2,
@@ -250,19 +248,19 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot.png
         P = xy_to_ij(P)
         W = xy_to_ij(colourspace.whitepoint)
 
-        plt.plot(
+        axes.plot(
             (W[0], W[0]), (W[1], W[1]),
             color=(R, G, B),
             label=colourspace.name)
 
         if show_whitepoints:
-            plt.plot((W[0], W[0]), (W[1], W[1]), 'o', color=(R, G, B))
+            axes.plot((W[0], W[0]), (W[1], W[1]), 'o', color=(R, G, B))
 
-        plt.plot(
+        axes.plot(
             (P[0, 0], P[1, 0]), (P[0, 1], P[1, 1]), 'o-', color=(R, G, B))
-        plt.plot(
+        axes.plot(
             (P[1, 0], P[2, 0]), (P[1, 1], P[2, 1]), 'o-', color=(R, G, B))
-        plt.plot(
+        axes.plot(
             (P[2, 0], P[0, 0]), (P[2, 1], P[0, 1]), 'o-', color=(R, G, B))
 
         x_limit_min.append(np.amin(P[..., 0]) - 0.1)
@@ -494,6 +492,11 @@ RGB_Chromaticity_Coordinates_Chromaticity_Diagram_Plot.png
         :alt: RGB_chromaticity_coordinates_chromaticity_diagram_plot
     """
 
+    settings = {'uniform': True}
+    settings.update(kwargs)
+
+    figure, axes = artist(**settings)
+
     scatter_settings = {
         's': 40,
         'c': 'RGB',
@@ -504,7 +507,7 @@ RGB_Chromaticity_Coordinates_Chromaticity_Diagram_Plot.png
         scatter_settings.update(scatter_parameters)
 
     settings = dict(kwargs)
-    settings.update({'standalone': False})
+    settings.update({'axes': axes, 'standalone': False})
 
     colourspace, name = get_RGB_colourspace(colourspace), colourspace
     settings['colourspaces'] = [name] + settings.get('colourspaces', [])
@@ -534,7 +537,7 @@ RGB_Chromaticity_Coordinates_Chromaticity_Diagram_Plot.png
         ij = Luv_to_uv(
             XYZ_to_Luv(XYZ, colourspace.whitepoint), colourspace.whitepoint)
 
-    plt.scatter(ij[..., 0], ij[..., 1], **scatter_settings)
+    axes.scatter(ij[..., 0], ij[..., 1], **scatter_settings)
 
     settings.update({'standalone': True})
     settings.update(kwargs)
@@ -793,16 +796,13 @@ def multi_cctf_plot(colourspaces=None, decoding_cctf=False, **kwargs):
         :alt: multi_cctf_plot
     """
 
-    settings = {
-        'figure_size': (COLOUR_STYLE_CONSTANTS.figure.width,
-                        COLOUR_STYLE_CONSTANTS.figure.width)
-    }
-    settings.update(kwargs)
-
-    canvas(**settings)
-
     if colourspaces is None:
         colourspaces = ('ITU-R BT.709', 'sRGB')
+
+    settings = {'uniform': True}
+    settings.update(kwargs)
+
+    figure, axes = artist(**settings)
 
     samples = np.linspace(0, 1, 1000)
     for colourspace in colourspaces:
@@ -811,10 +811,10 @@ def multi_cctf_plot(colourspaces=None, decoding_cctf=False, **kwargs):
         RGBs = (colourspace.decoding_cctf(samples)
                 if decoding_cctf else colourspace.encoding_cctf(samples))
 
-        plt.plot(samples, RGBs, label=u'{0}'.format(colourspace.name))
+        axes.plot(samples, RGBs, label=u'{0}'.format(colourspace.name))
 
     mode = 'Decoding' if decoding_cctf else 'Encoding'
-    settings.update({
+    settings = {
         'title': '{0} - {1} CCTFs'.format(', '.join(colourspaces), mode),
         'x_label': 'Signal Value' if decoding_cctf else 'Tristimulus Value',
         'y_label': 'Tristimulus Value' if decoding_cctf else 'Signal Value',
@@ -822,7 +822,7 @@ def multi_cctf_plot(colourspaces=None, decoding_cctf=False, **kwargs):
         'legend_location': 'upper left',
         'bounding_box': (0, 1, 0, 1),
         'aspect': 'equal'
-    })
+    }
     settings.update(kwargs)
 
     return render(**settings)

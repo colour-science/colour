@@ -19,7 +19,7 @@ from itertools import cycle
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.plotting import (COLOUR_STYLE_CONSTANTS,
-                             XYZ_to_plotting_colourspace, canvas,
+                             XYZ_to_plotting_colourspace, artist,
                              label_rectangles, render)
 from colour.quality import (colour_quality_scale, colour_rendering_index)
 from colour.quality.cri import TCS_ColorimetryData
@@ -86,13 +86,10 @@ def colour_quality_bars_plot(specifications,
         :alt: colour_quality_bars_plot
     """
 
-    settings = {
-        'figure_size': (COLOUR_STYLE_CONSTANTS.figure.width,
-                        COLOUR_STYLE_CONSTANTS.figure.width)
-    }
+    settings = {'uniform': True}
     settings.update(kwargs)
 
-    canvas(**settings)
+    figure, axes = artist(**settings)
 
     bar_width = 0.5
     y_ticks_interval = 10
@@ -140,18 +137,18 @@ def colour_quality_bars_plot(specifications,
                         0.025),
                 text_size=-5 / 7 * count_s + 12.5)
 
-    plt.axhline(
+    axes.axhline(
         y=100, color=COLOUR_STYLE_CONSTANTS.colour.dark, linestyle='--')
 
-    plt.xticks(
+    axes.set_xticks(
         (np.arange(
             0, (count_Q_as + 1) * (count_s + 1), (count_s + 1),
             dtype=DEFAULT_FLOAT_DTYPE) * bar_width +
          (count_s * bar_width / 2)), ['Qa'] +
         ['Q{0}'.format(index + 1) for index in range(0, count_Q_as + 1, 1)])
-    plt.yticks(range(0, 100 + y_ticks_interval, y_ticks_interval))
+    axes.set_yticks(range(0, 100 + y_ticks_interval, y_ticks_interval))
 
-    settings.update({
+    settings = {
         'title':
             'Colour Quality',
         'legend':
@@ -160,7 +157,7 @@ def colour_quality_bars_plot(specifications,
                          120),
         'aspect':
             1 / (120 / (bar_width + len(Q_as) + bar_width * 2))
-    })
+    }
     settings.update(kwargs)
 
     return render(**settings)

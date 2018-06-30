@@ -75,9 +75,9 @@ def cvd_simulation_Machado2009_plot(RGB,
     if M_a is None:
         M_a = cvd_matrix_Machado2009(deficiency, severity)
 
-    label = 'Deficiency: {0} - Severity: {1}'.format(deficiency, severity)
+    text = 'Deficiency: {0} - Severity: {1}'.format(deficiency, severity)
 
-    settings = {'label': None if M_a is None else label}
+    settings = {'text_parameters': {'text': None if M_a is None else text}}
     settings.update(kwargs)
 
     return image_plot(

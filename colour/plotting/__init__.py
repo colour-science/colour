@@ -10,9 +10,9 @@ from colour.utilities.documentation import is_documentation_building
 from .dataset import *  # noqa
 from . import dataset
 from .common import (COLOUR_STYLE_CONSTANTS, XYZ_to_plotting_colourspace,
-                     colour_style, ColourSwatch, colour_cycle, canvas,
+                     colour_style, ColourSwatch, colour_cycle, artist,
                      camera, boundaries, decorate, display, render,
-                     label_rectangles, equal_axes3d, get_RGB_colourspace,
+                     label_rectangles, uniform_axes3d, get_RGB_colourspace,
                      get_cmfs, get_illuminant, single_colour_swatch_plot,
                      multi_colour_swatch_plot, image_plot)
 from .blindness import cvd_simulation_Machado2009_plot
@@ -55,9 +55,9 @@ __all__ = []
 __all__ += dataset.__all__
 __all__ += [
     'COLOUR_STYLE_CONSTANTS', 'XYZ_to_plotting_colourspace',
-    'colour_style', 'ColourSwatch', 'colour_cycle', 'canvas',
+    'colour_style', 'ColourSwatch', 'colour_cycle', 'artist',
     'camera', 'boundaries', 'decorate', 'display', 'render',
-    'label_rectangles', 'equal_axes3d', 'get_RGB_colourspace', 'get_cmfs',
+    'label_rectangles', 'uniform_axes3d', 'get_RGB_colourspace', 'get_cmfs',
     'get_illuminant', 'single_colour_swatch_plot', 'multi_colour_swatch_plot',
     'image_plot'
 ]
@@ -200,6 +200,10 @@ API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
     [
         'colour.plotting.colour_plotting_defaults',
         'colour.plotting.colour_style',
+    ],
+    [
+        'colour.plotting.equal_axes3d',
+        'colour.plotting.uniform_axes3d',
     ],
     [
         'colour.plotting.single_illuminant_relative_spd_plot',
