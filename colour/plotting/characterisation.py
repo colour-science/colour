@@ -168,9 +168,9 @@ def multi_colour_checker_plot(colour_checkers=None, **kwargs):
         0.005,
         '{0} - {1} - Colour Rendition Chart'.format(
             ', '.join(colour_checker_names),
-            COLOUR_STYLE_CONSTANTS.colourspace.name),
+            COLOUR_STYLE_CONSTANTS.colour.colourspace.name),
         transform=current_axes.transAxes,
-        color=COLOUR_STYLE_CONSTANTS.light_colour,
+        color=COLOUR_STYLE_CONSTANTS.colour.bright,
         ha='center',
         va='bottom')
 

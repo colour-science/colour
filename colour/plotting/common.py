@@ -52,58 +52,66 @@ __all__ = [
 
 COLOUR_STYLE_CONSTANTS = Structure(
     **{
-        'figure_width':
-            12.80,
-        'figure_height':
-            7.20,
-        'figure_size': (
-            12.80,
-            7.20,
-        ),
-        'figure_dpi':
-            100,
-        'font_size':
-            12,
-        'colour_cycle': (
-            '#F44336',
-            '#9C27B0',
-            '#3F51B5',
-            '#03A9F4',
-            '#009688',
-            '#8BC34A',
-            '#FFEB3B',
-            '#FF9800',
-            '#795548',
-            '#607D8B',
-        ),
-        'hatch_patterns': (
-            '\\\\',
-            'o',
-            'x',
-            '.',
-            '*',
-            '//',
-        ),
-        'darkest_colour':
-            '#111111',
-        'dark_colour':
-            '#333333',
-        'average_colour':
-            '#D5D5D5',
-        'light_colour':
-            '#F0F0F0',
-        'lightest_colour':
-            '#F5F5F5',
-        'high_opacity':
-            0.75,
-        'low_opacity':
-            0.25,
-        'size':
-            10,
-        'width':
-            1,
-        'colourspace':
-            RGB_COLOURSPACES['sRGB']
+        'figure':
+            Structure(
+                **{
+                    'width': 12.80,
+                    'height': 7.20,
+                    'size': (
+                        12.80,
+                        7.20,
+                    ),
+                    'dpi': 100
+                }),
+        'font':
+            Structure(**{'size': 12}),
+        'colour':
+            Structure(
+                **{
+                    'darkest':
+                        '#111111',
+                    'dark':
+                        '#333333',
+                    'average':
+                        '#D5D5D5',
+                    'bright':
+                        '#F0F0F0',
+                    'brightest':
+                        '#F5F5F5',
+                    'cycle': (
+                        '#F44336',
+                        '#9C27B0',
+                        '#3F51B5',
+                        '#03A9F4',
+                        '#009688',
+                        '#8BC34A',
+                        '#FFEB3B',
+                        '#FF9800',
+                        '#795548',
+                        '#607D8B',
+                    ),
+                    'colourspace':
+                        RGB_COLOURSPACES['sRGB']
+                }),
+        'opacity':
+            Structure(**{
+                'high': 0.75,
+                'low': 0.25
+            }),
+        'hatch':
+            Structure(**{'patterns': (
+                '\\\\',
+                'o',
+                'x',
+                '.',
+                '*',
+                '//',
+            )}),
+        'geometry':
+            Structure(**{
+                'size': 10,
+                'width': 1
+            })
     })
 """
 Various defaults settings used across the plotting sub-package.
@@ -130,63 +138,63 @@ def colour_style(use_style=True):
     constants = COLOUR_STYLE_CONSTANTS
     style = {
         # Figure Size Settings
-        'figure.figsize': constants.figure_size,
-        'figure.dpi': constants.figure_dpi,
-        'savefig.dpi': constants.figure_dpi,
+        'figure.figsize': constants.figure.size,
+        'figure.dpi': constants.figure.dpi,
+        'savefig.dpi': constants.figure.dpi,
 
         # Font Settings
-        'font.size': constants.font_size,
-        'axes.titlesize': constants.font_size * 1.2,
-        'axes.labelsize': constants.font_size * 1.1,
-        'legend.fontsize': constants.font_size * 0.9,
-        'xtick.labelsize': constants.font_size,
-        'ytick.labelsize': constants.font_size,
+        'font.size': constants.font.size,
+        'axes.titlesize': constants.font.size * 1.2,
+        'axes.labelsize': constants.font.size * 1.1,
+        'legend.fontsize': constants.font.size * 0.9,
+        'xtick.labelsize': constants.font.size,
+        'ytick.labelsize': constants.font.size,
 
         # Tick Settings
         'xtick.minor.visible': True,
         'ytick.minor.visible': True,
         'xtick.direction': 'out',
         'ytick.direction': 'out',
-        'xtick.major.size': constants.size * 1.5,
-        'xtick.minor.size': constants.size * 0.75,
-        'ytick.major.size': constants.size * 1.5,
-        'ytick.minor.size': constants.size * 0.75,
-        'xtick.major.width': constants.width,
-        'xtick.minor.width': constants.width,
-        'ytick.major.width': constants.width,
-        'ytick.minor.width': constants.width,
+        'xtick.major.size': constants.geometry.size * 1.5,
+        'xtick.minor.size': constants.geometry.size * 0.75,
+        'ytick.major.size': constants.geometry.size * 1.5,
+        'ytick.minor.size': constants.geometry.size * 0.75,
+        'xtick.major.width': constants.geometry.width,
+        'xtick.minor.width': constants.geometry.width,
+        'ytick.major.width': constants.geometry.width,
+        'ytick.minor.width': constants.geometry.width,
 
         # Spine Settings
-        'axes.linewidth': constants.width,
-        'axes.edgecolor': constants.dark_colour,
+        'axes.linewidth': constants.geometry.width,
+        'axes.edgecolor': constants.colour.dark,
 
         # Title Settings
-        'axes.titlepad': constants.font_size * 0.75,
+        'axes.titlepad': constants.font.size * 0.75,
 
         # Axes Settings
-        'axes.facecolor': constants.lightest_colour,
+        'axes.facecolor': constants.colour.brightest,
         'axes.grid': True,
         'axes.grid.which': 'major',
         'axes.grid.axis': 'both',
 
         # Grid Settings
         'axes.axisbelow': True,
-        'grid.linewidth': constants.width * 0.5,
+        'grid.linewidth': constants.geometry.width * 0.5,
         'grid.linestyle': '--',
-        'grid.color': constants.average_colour,
+        'grid.color': constants.colour.average,
 
         # Legend
         'legend.frameon': True,
-        'legend.framealpha': constants.high_opacity,
+        'legend.framealpha': constants.opacity.high,
         'legend.fancybox': False,
-        'legend.facecolor': constants.light_colour,
-        'legend.borderpad': constants.width * 0.5,
+        'legend.facecolor': constants.colour.bright,
+        'legend.borderpad': constants.geometry.width * 0.5,
 
         # Lines
-        'lines.linewidth': constants.width,
+        'lines.linewidth': constants.geometry.width,
 
         # Cycle
-        'axes.prop_cycle': matplotlib.cycler(color=constants.colour_cycle),
+        'axes.prop_cycle': matplotlib.cycler(color=constants.colour.cycle),
     }
 
     if use_style:
@@ -237,12 +245,12 @@ def XYZ_to_plotting_colourspace(XYZ,
     array([ 0.1749881...,  0.3881947...,  0.3216031...])
     """
 
-    return XYZ_to_RGB(XYZ, illuminant,
-                      COLOUR_STYLE_CONSTANTS.colourspace.whitepoint,
-                      COLOUR_STYLE_CONSTANTS.colourspace.XYZ_to_RGB_matrix,
-                      chromatic_adaptation_transform,
-                      COLOUR_STYLE_CONSTANTS.colourspace.encoding_cctf
-                      if apply_encoding_cctf else None)
+    return XYZ_to_RGB(
+        XYZ, illuminant, COLOUR_STYLE_CONSTANTS.colour.colourspace.whitepoint,
+        COLOUR_STYLE_CONSTANTS.colour.colourspace.XYZ_to_RGB_matrix,
+        chromatic_adaptation_transform,
+        COLOUR_STYLE_CONSTANTS.colour.colourspace.encoding_cctf
+        if apply_encoding_cctf else None)
 
 
 class ColourSwatch(namedtuple('ColourSwatch', ('name', 'RGB'))):
@@ -286,19 +294,18 @@ def colour_cycle(**kwargs):
     settings = Structure(
         **{
             'colour_cycle_map': 'hsv',
-            'colour_cycle_count': len(COLOUR_STYLE_CONSTANTS.colour_cycle)
+            'colour_cycle_count': len(COLOUR_STYLE_CONSTANTS.colour.cycle)
         })
     settings.update(kwargs)
 
     if settings.colour_cycle_map is None:
-        cycle = COLOUR_STYLE_CONSTANTS.colour_cycle
+        cycle = COLOUR_STYLE_CONSTANTS.colour.cycle
     else:
         samples = np.linspace(0, 1, settings.colour_cycle_count)
         if isinstance(settings.colour_cycle_map, LinearSegmentedColormap):
             cycle = settings.colour_cycle_map(samples)
         else:
-            cycle = getattr(plt.cm,
-                            settings.colour_cycle_map)(samples)
+            cycle = getattr(plt.cm, settings.colour_cycle_map)(samples)
 
     return itertools.cycle(cycle)
 
@@ -319,7 +326,7 @@ def canvas(**kwargs):
         Current figure.
     """
 
-    settings = Structure(**{'figure_size': COLOUR_STYLE_CONSTANTS.figure_size})
+    settings = Structure(**{'figure_size': COLOUR_STYLE_CONSTANTS.figure.size})
     settings.update(kwargs)
 
     figure = plt.gcf()
@@ -482,8 +489,7 @@ def decorate(**kwargs):
     if settings.y_label:
         plt.ylabel(settings.y_label)
     if settings.legend:
-        plt.legend(
-            loc=settings.legend_location, ncol=settings.legend_columns)
+        plt.legend(loc=settings.legend_location, ncol=settings.legend_columns)
     if settings.x_ticker:
         if settings.x_ticker_major_locator is not None:
             axes.xaxis.set_major_locator(settings.x_ticker_major_locator)
@@ -499,9 +505,9 @@ def decorate(**kwargs):
     else:
         axes.set_yticks([])
     if settings.x_axis_line:
-        plt.axvline(color=COLOUR_STYLE_CONSTANTS.dark_colour, linestyle='--')
+        plt.axvline(color=COLOUR_STYLE_CONSTANTS.colour.dark, linestyle='--')
     if settings.y_axis_line:
-        plt.axhline(color=COLOUR_STYLE_CONSTANTS.dark_colour, linestyle='--')
+        plt.axhline(color=COLOUR_STYLE_CONSTANTS.colour.dark, linestyle='--')
     if settings.aspect:
         plt.axes().set_aspect(settings.aspect)
     if settings.no_axes:
@@ -1016,8 +1022,8 @@ def image_plot(image,
     text_settings = {
         'text': None,
         'offset': 5,
-        'color': COLOUR_STYLE_CONSTANTS.lightest_colour,
-        'alpha': COLOUR_STYLE_CONSTANTS.high_opacity
+        'color': COLOUR_STYLE_CONSTANTS.colour.brightest,
+        'alpha': COLOUR_STYLE_CONSTANTS.opacity.high
     }
     if text_parameters is not None:
         text_settings.update(text_parameters)
@@ -1031,8 +1037,8 @@ def image_plot(image,
     height = image.shape[0]
 
     if text_settings['text'] is not None:
-        plt.text(text_offset / 2, height - text_offset,
-                 text_settings['text'], **text_settings)
+        plt.text(text_offset / 2, height - text_offset, text_settings['text'],
+                 **text_settings)
 
     settings = {
         'x_ticker': False,

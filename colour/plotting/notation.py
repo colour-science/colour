@@ -101,8 +101,8 @@ def multi_munsell_value_function_plot(functions=None, **kwargs):
     """
 
     settings = {
-        'figure_size': (COLOUR_STYLE_CONSTANTS.figure_width,
-                        COLOUR_STYLE_CONSTANTS.figure_width)
+        'figure_size': (COLOUR_STYLE_CONSTANTS.figure.width,
+                        COLOUR_STYLE_CONSTANTS.figure.width)
     }
     settings.update(kwargs)
 

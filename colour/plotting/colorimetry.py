@@ -127,7 +127,7 @@ def single_spd_plot(spd,
     if not out_of_gamut_clipping:
         colours += np.abs(np.min(colours))
 
-    colours = COLOUR_STYLE_CONSTANTS.colourspace.encoding_cctf(
+    colours = COLOUR_STYLE_CONSTANTS.colour.colourspace.encoding_cctf(
         normalise_maximum(colours))
 
     x_min, x_max = min(wavelengths), max(wavelengths)
@@ -152,7 +152,7 @@ def single_spd_plot(spd,
         align='edge',
         clip_path=polygon)
 
-    axes.plot(wavelengths, values, color=COLOUR_STYLE_CONSTANTS.dark_colour)
+    axes.plot(wavelengths, values, color=COLOUR_STYLE_CONSTANTS.colour.dark)
 
     settings = {
         'title': '{0} - {1}'.format(spd.strict_name, cmfs.strict_name),
@@ -230,7 +230,7 @@ def multi_spd_plot(spds,
     cmfs = get_cmfs(cmfs)
 
     illuminant = ILLUMINANTS_SPDS[
-        COLOUR_STYLE_CONSTANTS.colourspace.illuminant]
+        COLOUR_STYLE_CONSTANTS.colour.colourspace.illuminant]
 
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
     for spd in spds:
@@ -640,8 +640,8 @@ def multi_lightness_function_plot(functions=None, **kwargs):
     """
 
     settings = {
-        'figure_size': (COLOUR_STYLE_CONSTANTS.figure_width,
-                        COLOUR_STYLE_CONSTANTS.figure_width)
+        'figure_size': (COLOUR_STYLE_CONSTANTS.figure.width,
+                        COLOUR_STYLE_CONSTANTS.figure.width)
     }
     settings.update(kwargs)
 

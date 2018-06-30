@@ -81,5 +81,5 @@ def cvd_simulation_Machado2009_plot(RGB,
     settings.update(kwargs)
 
     return image_plot(
-        COLOUR_STYLE_CONSTANTS.colourspace.encoding_cctf(
+        COLOUR_STYLE_CONSTANTS.colour.colourspace.encoding_cctf(
             dot_vector(M_a, RGB)), **settings)

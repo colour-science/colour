@@ -475,7 +475,7 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
     figure = plt.figure()
     axes = figure.add_subplot(111, projection='3d')
 
-    illuminant = COLOUR_STYLE_CONSTANTS.colourspace.whitepoint
+    illuminant = COLOUR_STYLE_CONSTANTS.colour.colourspace.whitepoint
 
     points = np.zeros((4, 3))
     if spectral_locus:

@@ -73,11 +73,11 @@ def planckian_locus_plot(planckian_locus_colours=None,
     """
 
     if planckian_locus_colours is None:
-        planckian_locus_colours = COLOUR_STYLE_CONSTANTS.dark_colour
+        planckian_locus_colours = COLOUR_STYLE_CONSTANTS.colour.dark
 
     settings = {
-        'figure_size': (COLOUR_STYLE_CONSTANTS.figure_width,
-                        COLOUR_STYLE_CONSTANTS.figure_width)
+        'figure_size': (COLOUR_STYLE_CONSTANTS.figure.width,
+                        COLOUR_STYLE_CONSTANTS.figure.width)
     }
     settings.update(kwargs)
 
@@ -258,7 +258,7 @@ Planckian_Locus_Chromaticity_Diagram_Plot.png
         ij = xy_to_ij(xy)
 
         plt.plot(
-            ij[0], ij[1], 'o', color=COLOUR_STYLE_CONSTANTS.lightest_colour)
+            ij[0], ij[1], 'o', color=COLOUR_STYLE_CONSTANTS.colour.brightest)
 
         if (illuminant is not None and
                 annotate_settings_collection[i]['annotate']):

@@ -108,8 +108,8 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot.png
     """
 
     settings = {
-        'figure_size': (COLOUR_STYLE_CONSTANTS.figure_width,
-                        COLOUR_STYLE_CONSTANTS.figure_width)
+        'figure_size': (COLOUR_STYLE_CONSTANTS.figure.width,
+                        COLOUR_STYLE_CONSTANTS.figure.width)
     }
     settings.update(kwargs)
 
@@ -214,8 +214,8 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot.png
         colourspaces.remove('Pointer Gamut')
 
         ij = xy_to_ij(np.asarray(POINTER_GAMUT_BOUNDARIES))
-        alpha_p = COLOUR_STYLE_CONSTANTS.high_opacity
-        colour_p = COLOUR_STYLE_CONSTANTS.lightest_colour
+        alpha_p = COLOUR_STYLE_CONSTANTS.opacity.high
+        colour_p = COLOUR_STYLE_CONSTANTS.colour.brightest
         plt.plot(
             ij[..., 0],
             ij[..., 1],
@@ -518,7 +518,7 @@ RGB_Chromaticity_Coordinates_Chromaticity_Diagram_Plot.png
             RGB_to_RGB(
                 RGB,
                 colourspace,
-                COLOUR_STYLE_CONSTANTS.colourspace,
+                COLOUR_STYLE_CONSTANTS.colour.colourspace,
                 apply_encoding_cctf=True).reshape(-1, 3), 0, 1)
 
     XYZ = RGB_to_XYZ(RGB, colourspace.whitepoint, colourspace.whitepoint,
@@ -794,8 +794,8 @@ def multi_cctf_plot(colourspaces=None, decoding_cctf=False, **kwargs):
     """
 
     settings = {
-        'figure_size': (COLOUR_STYLE_CONSTANTS.figure_width,
-                        COLOUR_STYLE_CONSTANTS.figure_width)
+        'figure_size': (COLOUR_STYLE_CONSTANTS.figure.width,
+                        COLOUR_STYLE_CONSTANTS.figure.width)
     }
     settings.update(kwargs)
 

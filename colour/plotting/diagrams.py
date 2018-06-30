@@ -95,11 +95,11 @@ def spectral_locus_plot(cmfs='CIE 1931 2 Degree Standard Observer',
     """
 
     if spectral_locus_colours is None:
-        spectral_locus_colours = COLOUR_STYLE_CONSTANTS.dark_colour
+        spectral_locus_colours = COLOUR_STYLE_CONSTANTS.colour.dark
 
     settings = {
-        'figure_size': (COLOUR_STYLE_CONSTANTS.figure_width,
-                        COLOUR_STYLE_CONSTANTS.figure_width)
+        'figure_size': (COLOUR_STYLE_CONSTANTS.figure.width,
+                        COLOUR_STYLE_CONSTANTS.figure.width)
     }
     settings.update(kwargs)
 
@@ -107,7 +107,7 @@ def spectral_locus_plot(cmfs='CIE 1931 2 Degree Standard Observer',
 
     cmfs = get_cmfs(cmfs)
 
-    illuminant = COLOUR_STYLE_CONSTANTS.colourspace.whitepoint
+    illuminant = COLOUR_STYLE_CONSTANTS.colour.colourspace.whitepoint
 
     wavelengths = cmfs.wavelengths
     equal_energy = np.array([1 / 3] * 2)
@@ -246,8 +246,8 @@ def chromaticity_diagram_colours_plot(
     """
 
     settings = {
-        'figure_size': (COLOUR_STYLE_CONSTANTS.figure_width,
-                        COLOUR_STYLE_CONSTANTS.figure_width)
+        'figure_size': (COLOUR_STYLE_CONSTANTS.figure.width,
+                        COLOUR_STYLE_CONSTANTS.figure.width)
     }
     settings.update(kwargs)
 
@@ -255,7 +255,7 @@ def chromaticity_diagram_colours_plot(
 
     cmfs = get_cmfs(cmfs)
 
-    illuminant = COLOUR_STYLE_CONSTANTS.colourspace.whitepoint
+    illuminant = COLOUR_STYLE_CONSTANTS.colour.colourspace.whitepoint
 
     ii, jj = np.meshgrid(
         np.linspace(0, 1, samples), np.linspace(1, 0, samples))
@@ -341,8 +341,8 @@ def chromaticity_diagram_plot(cmfs='CIE 1931 2 Degree Standard Observer',
     """
 
     settings = {
-        'figure_size': (COLOUR_STYLE_CONSTANTS.figure_width,
-                        COLOUR_STYLE_CONSTANTS.figure_width)
+        'figure_size': (COLOUR_STYLE_CONSTANTS.figure.width,
+                        COLOUR_STYLE_CONSTANTS.figure.width)
     }
     settings.update(kwargs)
 
@@ -660,7 +660,7 @@ def spds_chromaticity_diagram_plot(
         ij = XYZ_to_ij(XYZ)
 
         plt.plot(
-            ij[0], ij[1], 'o', color=COLOUR_STYLE_CONSTANTS.lightest_colour)
+            ij[0], ij[1], 'o', color=COLOUR_STYLE_CONSTANTS.colour.brightest)
 
         if (spd.name is not None and
                 annotate_settings_collection[i]['annotate']):

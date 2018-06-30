@@ -87,8 +87,8 @@ def colour_quality_bars_plot(specifications,
     """
 
     settings = {
-        'figure_size': (COLOUR_STYLE_CONSTANTS.figure_width,
-                        COLOUR_STYLE_CONSTANTS.figure_width)
+        'figure_size': (COLOUR_STYLE_CONSTANTS.figure.width,
+                        COLOUR_STYLE_CONSTANTS.figure.width)
     }
     settings.update(kwargs)
 
@@ -97,7 +97,7 @@ def colour_quality_bars_plot(specifications,
     bar_width = 0.5
     y_ticks_interval = 10
     count_s, count_Q_as = len(specifications), 0
-    patterns = cycle(COLOUR_STYLE_CONSTANTS.hatch_patterns)
+    patterns = cycle(COLOUR_STYLE_CONSTANTS.hatch.patterns)
     if hatching is None:
         hatching = False if count_s == 1 else True
     for i, specification in enumerate(specifications):
@@ -121,7 +121,7 @@ def colour_quality_bars_plot(specifications,
             np.abs(y),
             color=colours,
             width=bar_width,
-            edgecolor=COLOUR_STYLE_CONSTANTS.dark_colour,
+            edgecolor=COLOUR_STYLE_CONSTANTS.colour.dark,
             label=specification.name)
 
         hatches = ([next(patterns) * hatching_repeat] * (count_Q_as + 1)
@@ -141,7 +141,7 @@ def colour_quality_bars_plot(specifications,
                 text_size=-5 / 7 * count_s + 12.5)
 
     plt.axhline(
-        y=100, color=COLOUR_STYLE_CONSTANTS.dark_colour, linestyle='--')
+        y=100, color=COLOUR_STYLE_CONSTANTS.colour.dark, linestyle='--')
 
     plt.xticks(
         (np.arange(

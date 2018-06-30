@@ -68,8 +68,8 @@ Corresponding_Chromaticities_Prediction_Plot.png
     """
 
     settings = {
-        'figure_size': (COLOUR_STYLE_CONSTANTS.figure_width,
-                        COLOUR_STYLE_CONSTANTS.figure_width)
+        'figure_size': (COLOUR_STYLE_CONSTANTS.figure.width,
+                        COLOUR_STYLE_CONSTANTS.figure.width)
     }
     settings.update(kwargs)
 
@@ -100,24 +100,24 @@ Corresponding_Chromaticities_Prediction_Plot.png
             uvp_t[1],
             uvp_p[0] - uvp_t[0] - 0.1 * (uvp_p[0] - uvp_t[0]),
             uvp_p[1] - uvp_t[1] - 0.1 * (uvp_p[1] - uvp_t[1]),
-            color=COLOUR_STYLE_CONSTANTS.dark_colour,
+            color=COLOUR_STYLE_CONSTANTS.colour.dark,
             head_width=0.005,
             head_length=0.005)
         plt.plot(
             uvp_t[0],
             uvp_t[1],
             'o',
-            color=COLOUR_STYLE_CONSTANTS.lightest_colour)
+            color=COLOUR_STYLE_CONSTANTS.colour.brightest)
         plt.plot(
             uvp_m[0],
             uvp_m[1],
             '^',
-            color=COLOUR_STYLE_CONSTANTS.lightest_colour)
+            color=COLOUR_STYLE_CONSTANTS.colour.brightest)
         plt.plot(
             uvp_p[0],
             uvp_p[1],
             '^',
-            color=COLOUR_STYLE_CONSTANTS.dark_colour)
+            color=COLOUR_STYLE_CONSTANTS.colour.dark)
     settings.update({
         'bounding_box': (-0.1, 0.7, -0.1, 0.7),
         'standalone': True
