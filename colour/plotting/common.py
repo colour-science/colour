@@ -141,14 +141,16 @@ def colour_style(use_style=True):
         'figure.figsize': constants.figure.size,
         'figure.dpi': constants.figure.dpi,
         'savefig.dpi': constants.figure.dpi,
+        'savefig.transparent': True,
+        'savefig.bbox': 'tight',
 
         # Font Settings
         'font.size': constants.font.size,
-        'axes.titlesize': constants.font.size * 1.2,
-        'axes.labelsize': constants.font.size * 1.1,
-        'legend.fontsize': constants.font.size * 0.9,
-        'xtick.labelsize': constants.font.size,
-        'ytick.labelsize': constants.font.size,
+        'axes.titlesize': 'x-large',
+        'axes.labelsize': 'larger',
+        'legend.fontsize': 'small',
+        'xtick.labelsize': 'small',
+        'ytick.labelsize': 'small',
 
         # Tick Settings
         'xtick.minor.visible': True,
@@ -382,20 +384,6 @@ def boundaries(**kwargs):
     bounding_box : array_like, optional
         Array defining current axes limits such
         `bounding_box = (x min, x max, y min, y max)`.
-    x_tighten : bool, optional
-        Whether to tighten the *X* axis limit. Default is *False*.
-    y_tighten : bool, optional
-        Whether to tighten the *Y* axis limit. Default is *False*.
-    limits : array_like, optional
-        Array defining current axes limits such as
-        *limits = (x limit min, x limit max, y limit min, y limit max)*.
-        ``limits`` argument values are added to the ``margins`` argument values
-        to define the final bounding box for the current axes.
-    margins : array_like, optional
-        Array defining current axes margins such as
-        *margins = (x margin min, x margin max, y margin min, y margin max)*.
-        ``margins`` argument values are added to the ``limits`` argument values
-        to define the final bounding box for the current axes.
 
     Returns
     -------
@@ -452,7 +440,6 @@ def decorate(**kwargs):
         Matplotlib axes aspect.
     no_axes : bool, optional
         Whether to turn off the axes. Default is *False*.
-
 
     Returns
     -------
@@ -522,10 +509,6 @@ def display(**kwargs):
 
     Other Parameters
     ----------------
-    transparent_background : bool, optional
-        Whether to turn off the background patch. Default is *False*.
-    tight_layout : bool, optional
-        Whether to use tight layout. Default is *False*.
     standalone : bool, optional
         Whether to show the figure.
     filename : unicode, optional
@@ -539,8 +522,6 @@ def display(**kwargs):
 
     settings = Structure(
         **{
-            'transparent_background': False,
-            'tight_layout': False,
             'standalone': True,
             'filename': None
         })
@@ -548,10 +529,6 @@ def display(**kwargs):
 
     figure = plt.gcf()
 
-    if settings.transparent_background:
-        figure.patch.set_visible(False)
-    if settings.tight_layout:
-        figure.tight_layout()
     if settings.standalone:
         if settings.filename is not None:
             plt.savefig(settings.filename)
@@ -564,7 +541,7 @@ def display(**kwargs):
         return figure
 
 
-def render(with_boundaries=True, with_decorate=True, **kwargs):
+def render(**kwargs):
     """
     Convenient wrapper definition combining :func:`colour.plotting.decorate`,
     :func:`colour.plotting.boundaries` and :func:`colour.plotting.display`
@@ -572,10 +549,6 @@ def render(with_boundaries=True, with_decorate=True, **kwargs):
 
     Parameters
     ----------
-    with_boundaries : bool, optional
-        Whether to call :func:`colour.plotting.boundaries` definition.
-    with_decorate : bool, optional
-        Whether to call :func:`colour.plotting.decorate` definition.
 
     Other Parameters
     ----------------
@@ -588,12 +561,6 @@ def render(with_boundaries=True, with_decorate=True, **kwargs):
     Figure
         Current figure or None.
     """
-
-    if with_boundaries:
-        boundaries(**kwargs)
-
-    if with_decorate:
-        decorate(**kwargs)
 
     return display(**kwargs)
 
