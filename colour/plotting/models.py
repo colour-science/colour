@@ -130,6 +130,7 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot.png
         'title': title,
         'method': method,
     }
+    settings.update(kwargs)
 
     chromaticity_diagram_callable(**settings)
 
