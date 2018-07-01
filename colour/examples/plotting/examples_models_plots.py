@@ -14,12 +14,12 @@ from colour.plotting import (
     RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931,
     RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS,
     RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS,
-    colour_plotting_style, multi_cctf_plot, single_cctf_plot)
+    colour_style, multi_cctf_plot, single_cctf_plot)
 from colour.utilities import message_box
 
 message_box('Colour Models Plots')
 
-colour_plotting_style()
+colour_style()
 
 message_box('Plotting "RGB" colourspaces in "CIE 1931 Chromaticity Diagram".')
 pprint(sorted(colour.RGB_COLOURSPACES.keys()))

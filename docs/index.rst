@@ -785,7 +785,7 @@ Most of the objects are available from the **colour.plotting** namespace:
 .. code-block:: python
 
     >>> from colour.plotting import *
-    >>> colour_plotting_style()
+    >>> colour_style()
 
 Visible Spectrum
 ****************

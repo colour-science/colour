@@ -18,7 +18,7 @@ API but will still be a good introduction.
 
     from colour.plotting import *
 
-    colour_plotting_style()
+    colour_style()
 
     visible_spectrum_plot()
 
@@ -1300,7 +1300,7 @@ Chromaticity Diagram*:
 
 .. code:: python
 
-    import pylab
+    import matplotlib.pyplot as plt
 
     # Plotting the *CIE 1931 Chromaticity Diagram*.
     # The argument *standalone=False* is passed so that the plot doesn't get displayed
@@ -1309,14 +1309,14 @@ Chromaticity Diagram*:
 
     # Plotting the *xy* chromaticity coordinates.
     x, y = xy
-    pylab.plot(x, y, 'o-', color='white')
+    plt.plot(x, y, 'o-', color='white')
 
     # Annotating the plot.
-    pylab.annotate(patch_spd.name.title(),
-                   xy=xy,
-                   xytext=(-50, 30),
-                   textcoords='offset points',
-                   arrowprops=dict(arrowstyle='->', connectionstyle='arc3, rad=-0.2'))
+    plt.annotate(patch_spd.name.title(),
+                 xy=xy,
+                 xytext=(-50, 30),
+                 textcoords='offset points',
+                 arrowprops=dict(arrowstyle='->', connectionstyle='arc3, rad=-0.2'))
 
     # Displaying the plot.
     render(

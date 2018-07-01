@@ -25,9 +25,8 @@ References
 
 from __future__ import division
 
-import matplotlib.pyplot
+import matplotlib.pyplot as plt
 import numpy as np
-import pylab
 from matplotlib.patches import Polygon
 from six.moves import reduce
 
@@ -35,9 +34,10 @@ from colour.algebra import LinearInterpolator
 from colour.colorimetry import (
     ILLUMINANTS, ILLUMINANTS_SPDS, LIGHTNESS_METHODS, SpectralShape,
     blackbody_spd, ones_spd, spectral_to_XYZ, wavelength_to_XYZ)
-from colour.plotting import (ColourSwatch, DEFAULT_PLOTTING_SETTINGS,
-                             XYZ_to_plotting_colourspace, canvas, get_cmfs,
-                             get_illuminant, render, single_colour_swatch_plot)
+from colour.plotting import (ColourSwatch, COLOUR_STYLE_CONSTANTS,
+                             XYZ_to_plotting_colourspace, artist, get_cmfs,
+                             get_illuminant, override_style, render,
+                             single_colour_swatch_plot)
 from colour.utilities import normalise_maximum, suppress_warnings, tstack
 
 __author__ = 'Colour Developers'
@@ -56,6 +56,7 @@ __all__ = [
 ]
 
 
+@override_style()
 def single_spd_plot(spd,
                     cmfs='CIE 1931 2 Degree Standard Observer',
                     out_of_gamut_clipping=True,
@@ -77,13 +78,13 @@ def single_spd_plot(spd,
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     References
     ----------
@@ -108,7 +109,7 @@ def single_spd_plot(spd,
         :alt: single_spd_plot
     """
 
-    axes = canvas(**kwargs).gca()
+    figure, axes = artist(**kwargs)
 
     cmfs = get_cmfs(cmfs)
 
@@ -128,7 +129,7 @@ def single_spd_plot(spd,
     if not out_of_gamut_clipping:
         colours += np.abs(np.min(colours))
 
-    colours = DEFAULT_PLOTTING_SETTINGS.colourspace.encoding_cctf(
+    colours = COLOUR_STYLE_CONSTANTS.colour.colourspace.encoding_cctf(
         normalise_maximum(colours))
 
     x_min, x_max = min(wavelengths), max(wavelengths)
@@ -153,21 +154,21 @@ def single_spd_plot(spd,
         align='edge',
         clip_path=polygon)
 
-    axes.plot(wavelengths, values, color=DEFAULT_PLOTTING_SETTINGS.dark_colour)
+    axes.plot(wavelengths, values, color=COLOUR_STYLE_CONSTANTS.colour.dark)
 
     settings = {
+        'axes': axes,
+        'bounding_box': (x_min, x_max, y_min, y_max),
         'title': '{0} - {1}'.format(spd.strict_name, cmfs.strict_name),
         'x_label': 'Wavelength $\\lambda$ (nm)',
         'y_label': 'Spectral Power Distribution',
-        'limits': (x_min, x_max, y_min, y_max),
-        'x_tighten': True,
-        'y_tighten': True
     }
     settings.update(kwargs)
 
     return render(**settings)
 
 
+@override_style()
 def multi_spd_plot(spds,
                    cmfs='CIE 1931 2 Degree Standard Observer',
                    use_spds_colours=False,
@@ -190,13 +191,13 @@ def multi_spd_plot(spds,
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -228,12 +229,12 @@ def multi_spd_plot(spds,
         :alt: multi_spd_plot
     """
 
-    canvas(**kwargs)
+    figure, axes = artist(**kwargs)
 
     cmfs = get_cmfs(cmfs)
 
     illuminant = ILLUMINANTS_SPDS[
-        DEFAULT_PLOTTING_SETTINGS.colourspace.illuminant]
+        COLOUR_STYLE_CONSTANTS.colour.colourspace.illuminant]
 
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
     for spd in spds:
@@ -252,31 +253,25 @@ def multi_spd_plot(spds,
 
             RGB = np.clip(XYZ_to_plotting_colourspace(XYZ), 0, 1)
 
-            pylab.plot(wavelengths, values, color=RGB, label=spd.strict_name)
+            axes.plot(wavelengths, values, color=RGB, label=spd.strict_name)
         else:
-            pylab.plot(wavelengths, values, label=spd.strict_name)
+            axes.plot(wavelengths, values, label=spd.strict_name)
 
+    bounding_box = (min(x_limit_min), max(x_limit_max), min(y_limit_min),
+                    max(y_limit_max) + max(y_limit_max) * 0.05)
     settings = {
-        'x_label':
-            'Wavelength $\\lambda$ (nm)',
-        'y_label':
-            'Spectral Power Distribution',
-        'x_tighten':
-            True,
-        'y_tighten':
-            True,
-        'legend':
-            True,
-        'legend_location':
-            'upper left',
-        'limits': (min(x_limit_min), max(x_limit_max), min(y_limit_min),
-                   max(y_limit_max) + max(y_limit_max) * 0.05)
+        'axes': axes,
+        'bounding_box': bounding_box,
+        'legend': True,
+        'x_label': 'Wavelength $\\lambda$ (nm)',
+        'y_label': 'Spectral Power Distribution',
     }
     settings.update(kwargs)
 
     return render(**settings)
 
 
+@override_style()
 def single_cmfs_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     """
     Plots given colour matching functions.
@@ -289,13 +284,13 @@ def single_cmfs_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -316,6 +311,7 @@ def single_cmfs_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     return multi_cmfs_plot((cmfs.name, ), **settings)
 
 
+@override_style()
 def multi_cmfs_plot(cmfs=None, **kwargs):
     """
     Plots given colour matching functions.
@@ -328,13 +324,13 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -347,11 +343,13 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
         :alt: multi_cmfs_plot
     """
 
-    canvas(**kwargs)
-
     if cmfs is None:
         cmfs = ('CIE 1931 2 Degree Standard Observer',
                 'CIE 1964 10 Degree Standard Observer')
+
+    figure, axes = artist(**kwargs)
+
+    axes.axhline(color=COLOUR_STYLE_CONSTANTS.colour.dark, linestyle='--')
 
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
     for i, rgb in enumerate([(1, 0, 0), (0, 1, 0), (0, 0, 1)]):
@@ -367,44 +365,36 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
             y_limit_min.append(min(values))
             y_limit_max.append(max(values))
 
-            pylab.plot(
+            axes.plot(
                 cmfs_i.wavelengths,
                 values,
                 color=rgb,
                 label=u'{0} - {1}'.format(cmfs_i.strict_labels[i],
                                           cmfs_i.strict_name))
 
+    bounding_box = (min(x_limit_min), max(x_limit_max),
+                    min(y_limit_min) - abs(min(y_limit_min)) * 0.05,
+                    max(y_limit_max) + abs(max(y_limit_max)) * 0.05)
+    title = '{0} - Colour Matching Functions'.format(', '.join(
+        [get_cmfs(c).strict_name for c in cmfs]))
+
     settings = {
-        'title':
-            '{0} - Colour Matching Functions'
-            .format(', '.join([get_cmfs(c).strict_name for c in cmfs])),
-        'x_label':
-            'Wavelength $\\lambda$ (nm)',
-        'y_label':
-            'Tristimulus Values',
-        'x_tighten':
-            True,
-        'y_tighten':
-            True,
-        'legend':
-            True,
-        'legend_location':
-            'upper right',
-        'grid':
-            True,
-        'y_axis_line':
-            True,
-        'limits': (min(x_limit_min), max(x_limit_max),
-                   min(y_limit_min) - abs(min(y_limit_min)) * 0.05,
-                   max(y_limit_max) + abs(max(y_limit_max)) * 0.05)
+        'axes': axes,
+        'bounding_box': bounding_box,
+        'legend': True,
+        'title': title,
+        'x_label': 'Wavelength $\\lambda$ (nm)',
+        'y_label': 'Tristimulus Values',
     }
     settings.update(kwargs)
 
     return render(**settings)
 
 
-def single_illuminant_spd_plot(
-        illuminant='A', cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
+@override_style()
+def single_illuminant_spd_plot(illuminant='A',
+                               cmfs='CIE 1931 2 Degree Standard Observer',
+                               **kwargs):
     """
     Plots given single illuminant spectral power distribution.
 
@@ -418,8 +408,8 @@ def single_illuminant_spd_plot(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
     out_of_gamut_clipping : bool, optional
         {:func:`colour.plotting.single_spd_plot`},
         Whether to clip out of gamut colours otherwise, the colours will be
@@ -428,8 +418,8 @@ def single_illuminant_spd_plot(
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     References
     ----------
@@ -455,6 +445,7 @@ def single_illuminant_spd_plot(
     return single_spd_plot(illuminant, **settings)
 
 
+@override_style()
 def multi_illuminant_spd_plot(illuminants=None, **kwargs):
     """
     Plots given illuminants spectral power distributions.
@@ -467,8 +458,8 @@ def multi_illuminant_spd_plot(illuminants=None, **kwargs):
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
     use_spds_colours : bool, optional
         {:func:`colour.plotting.multi_spd_plot`}
         Whether to use spectral power distributions colours.
@@ -478,8 +469,8 @@ def multi_illuminant_spd_plot(illuminants=None, **kwargs):
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -497,18 +488,19 @@ def multi_illuminant_spd_plot(illuminants=None, **kwargs):
     for illuminant in illuminants:
         spds.append(get_illuminant(illuminant))
 
-    settings = {
-        'title':
-            '{0} - Illuminants Spectral Power Distributions'.format(
-                ', '.join([spd.strict_name for spd in spds])),
-        'y_label':
-            'Relative Power'
-    }
+    title = '{0} - Illuminants Spectral Power Distributions'.format(
+        ', '.join([spd.strict_name for spd in spds]))
+
+    settings = {'title': title, 'y_label': 'Relative Power'}
     settings.update(kwargs)
 
     return multi_spd_plot(spds, **settings)
 
 
+@override_style(**{
+    'ytick.left': False,
+    'ytick.labelleft': False,
+})
 def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
                           out_of_gamut_clipping=True,
                           **kwargs):
@@ -528,13 +520,13 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     References
     ----------
@@ -551,36 +543,36 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
 
     cmfs, name = get_cmfs(cmfs), cmfs
 
-    x_min, x_max = min(cmfs.wavelengths), max(cmfs.wavelengths)
-    y_min, y_max = 0, 1
+    bounding_box = (min(cmfs.wavelengths), max(cmfs.wavelengths), 0, 1)
 
     settings = {
-        'standalone': False,
+        'bounding_box': bounding_box,
         'y_label': None,
-        'y_ticker': False,
-        'limits': (x_min, x_max, y_min, y_max),
     }
     settings.update(kwargs)
+    settings['standalone'] = False
 
-    figure = single_spd_plot(
+    figure, axes = single_spd_plot(
         ones_spd(cmfs.shape),
         cmfs=name,
         out_of_gamut_clipping=out_of_gamut_clipping,
         **settings)
 
     # Removing wavelength line as it doubles with the axes spine.
-    figure.gca().lines.pop(0)
+    axes.lines.pop(0)
 
     settings = {
+        'axes': axes,
+        'standalone': True,
         'title': 'The Visible Spectrum - {0}'.format(cmfs.strict_name),
         'x_label': 'Wavelength $\\lambda$ (nm)',
-        'standalone': True
     }
     settings.update(kwargs)
 
     return render(**settings)
 
 
+@override_style()
 def single_lightness_function_plot(function='CIE 1976', **kwargs):
     """
     Plots given *Lightness* function.
@@ -593,13 +585,13 @@ def single_lightness_function_plot(function='CIE 1976', **kwargs):
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -616,6 +608,7 @@ def single_lightness_function_plot(function='CIE 1976', **kwargs):
     return multi_lightness_function_plot((function, ), **settings)
 
 
+@override_style()
 def multi_lightness_function_plot(functions=None, **kwargs):
     """
     Plots given *Lightness* functions.
@@ -628,13 +621,13 @@ def multi_lightness_function_plot(functions=None, **kwargs):
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Raises
     ------
@@ -652,16 +645,13 @@ def multi_lightness_function_plot(functions=None, **kwargs):
         :alt: multi_lightness_function_plot
     """
 
-    settings = {
-        'figure_size': (DEFAULT_PLOTTING_SETTINGS.figure_width,
-                        DEFAULT_PLOTTING_SETTINGS.figure_width)
-    }
-    settings.update(kwargs)
-
-    canvas(**settings)
-
     if functions is None:
         functions = ('CIE 1976', 'Wyszecki 1963')
+
+    settings = {'uniform': True}
+    settings.update(kwargs)
+
+    figure, axes = artist(**settings)
 
     samples = np.linspace(0, 100, 1000)
     for function in functions:
@@ -670,24 +660,24 @@ def multi_lightness_function_plot(functions=None, **kwargs):
             raise KeyError(('"{0}" "Lightness" function not found in factory '
                             '"Lightness" functions: "{1}".').format(
                                 name, sorted(LIGHTNESS_METHODS.keys())))
-        pylab.plot(samples, function(samples), label='{0}'.format(name))
 
-    settings.update({
+        axes.plot(samples, function(samples), label='{0}'.format(name))
+
+    settings = {
+        'axes': axes,
+        'aspect': 'equal',
+        'bounding_box': (0, 100, 0, 100),
+        'legend': True,
         'title': '{0} - Lightness Functions'.format(', '.join(functions)),
         'x_label': 'Relative Luminance Y',
         'y_label': 'Lightness',
-        'x_tighten': True,
-        'legend': True,
-        'legend_location': 'upper left',
-        'grid': True,
-        'limits': (0, 100, 0, 100),
-        'aspect': 'equal'
-    })
+    }
     settings.update(kwargs)
 
     return render(**settings)
 
 
+@override_style()
 def blackbody_spectral_radiance_plot(
         temperature=3500,
         cmfs='CIE 1931 2 Degree Standard Observer',
@@ -708,13 +698,13 @@ def blackbody_spectral_radiance_plot(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -726,45 +716,56 @@ def blackbody_spectral_radiance_plot(
         :alt: blackbody_spectral_radiance_plot
     """
 
-    canvas(**kwargs)
+    figure = plt.figure()
+
+    figure.subplots_adjust(hspace=COLOUR_STYLE_CONSTANTS.geometry.short / 2)
 
     cmfs = get_cmfs(cmfs)
 
     spd = blackbody_spd(temperature, cmfs.shape)
 
-    matplotlib.pyplot.subplot(211)
-
+    axes = figure.add_subplot(211)
     settings = {
+        'axes': axes,
         'title': '{0} - Spectral Radiance'.format(blackbody),
         'y_label': 'W / (sr m$^2$) / m',
-        'standalone': False
     }
     settings.update(kwargs)
+    settings['standalone'] = False
 
     single_spd_plot(spd, cmfs.name, **settings)
 
+    axes = figure.add_subplot(212)
     XYZ = spectral_to_XYZ(spd, cmfs)
     RGB = normalise_maximum(XYZ_to_plotting_colourspace(XYZ / 100))
 
-    matplotlib.pyplot.subplot(212)
-
     settings = {
+        'axes': axes,
+        'aspect': None,
         'title': '{0} - Colour'.format(blackbody),
         'x_label': '{0}K'.format(temperature),
         'y_label': '',
-        'aspect': None,
-        'standalone': False
     }
     settings.update(kwargs)
+    settings['standalone'] = False
 
-    single_colour_swatch_plot(ColourSwatch(name='', RGB=RGB), **settings)
+    figure, axes = single_colour_swatch_plot(
+        ColourSwatch(name='', RGB=RGB), **settings)
 
-    settings = {'standalone': True}
+    # Removing "x" and "y" ticks.
+    axes.set_xticks([])
+    axes.set_yticks([])
+
+    settings = {'axes': axes, 'standalone': True}
     settings.update(kwargs)
 
     return render(**settings)
 
 
+@override_style(**{
+    'ytick.left': False,
+    'ytick.labelleft': False,
+})
 def blackbody_colours_plot(
         shape=SpectralShape(150, 12500, 50),
         cmfs='CIE 1931 2 Degree Standard Observer',
@@ -782,13 +783,13 @@ def blackbody_colours_plot(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -799,7 +800,7 @@ def blackbody_colours_plot(
         :alt: blackbody_colours_plot
     """
 
-    axes = canvas(**kwargs).gca()
+    figure, axes = artist(**kwargs)
 
     cmfs = get_cmfs(cmfs)
 
@@ -828,13 +829,11 @@ def blackbody_colours_plot(
         align='edge')
 
     settings = {
+        'axes': axes,
+        'bounding_box': (x_min, x_max, y_min, y_max),
         'title': 'Blackbody Colours',
         'x_label': 'Temperature K',
         'y_label': None,
-        'limits': (x_min, x_max, y_min, y_max),
-        'x_tighten': True,
-        'y_tighten': True,
-        'y_ticker': False
     }
     settings.update(kwargs)
 

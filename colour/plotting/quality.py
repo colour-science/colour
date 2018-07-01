@@ -13,14 +13,14 @@ Defines the colour quality plotting objects:
 
 from __future__ import division
 
+import matplotlib.pyplot as plt
 import numpy as np
-import pylab
 from itertools import cycle
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
-from colour.plotting import (DEFAULT_PLOTTING_SETTINGS,
-                             XYZ_to_plotting_colourspace, canvas,
-                             label_rectangles, render)
+from colour.plotting import (COLOUR_STYLE_CONSTANTS,
+                             XYZ_to_plotting_colourspace, artist,
+                             label_rectangles, override_style, render)
 from colour.quality import (colour_quality_scale, colour_rendering_index)
 from colour.quality.cri import TCS_ColorimetryData
 
@@ -39,6 +39,7 @@ __all__ = [
 ]
 
 
+@override_style()
 def colour_quality_bars_plot(specifications,
                              labels=True,
                              hatching=None,
@@ -62,13 +63,13 @@ def colour_quality_bars_plot(specifications,
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -86,18 +87,15 @@ def colour_quality_bars_plot(specifications,
         :alt: colour_quality_bars_plot
     """
 
-    settings = {
-        'figure_size': (DEFAULT_PLOTTING_SETTINGS.figure_width,
-                        DEFAULT_PLOTTING_SETTINGS.figure_width)
-    }
+    settings = {'uniform': True}
     settings.update(kwargs)
 
-    canvas(**settings)
+    figure, axes = artist(**settings)
 
     bar_width = 0.5
     y_ticks_interval = 10
     count_s, count_Q_as = len(specifications), 0
-    patterns = cycle(DEFAULT_PLOTTING_SETTINGS.hatch_patterns)
+    patterns = cycle(COLOUR_STYLE_CONSTANTS.hatch.patterns)
     if hatching is None:
         hatching = False if count_s == 1 else True
     for i, specification in enumerate(specifications):
@@ -116,12 +114,12 @@ def colour_quality_bars_plot(specifications,
         y = [s[1].Q_a for s in sorted(Q_as.items(), key=lambda s: s[0])]
         y = np.array([Q_a] + list(y))
 
-        bars = pylab.bar(
+        bars = plt.bar(
             x,
             np.abs(y),
             color=colours,
             width=bar_width,
-            edgecolor=DEFAULT_PLOTTING_SETTINGS.dark_colour,
+            edgecolor=COLOUR_STYLE_CONSTANTS.colour.dark,
             label=specification.name)
 
         hatches = ([next(patterns) * hatching_repeat] * (count_Q_as + 1)
@@ -140,35 +138,33 @@ def colour_quality_bars_plot(specifications,
                         0.025),
                 text_size=-5 / 7 * count_s + 12.5)
 
-    pylab.axhline(
-        y=100, color=DEFAULT_PLOTTING_SETTINGS.dark_colour, linestyle='--')
+    axes.axhline(
+        y=100, color=COLOUR_STYLE_CONSTANTS.colour.dark, linestyle='--')
 
-    pylab.xticks(
+    axes.set_xticks(
         (np.arange(
             0, (count_Q_as + 1) * (count_s + 1), (count_s + 1),
             dtype=DEFAULT_FLOAT_DTYPE) * bar_width +
          (count_s * bar_width / 2)), ['Qa'] +
         ['Q{0}'.format(index + 1) for index in range(0, count_Q_as + 1, 1)])
-    pylab.yticks(range(0, 100 + y_ticks_interval, y_ticks_interval))
+    axes.set_yticks(range(0, 100 + y_ticks_interval, y_ticks_interval))
 
-    settings.update({
-        'title':
-            'Colour Quality',
-        'legend':
-            hatching,
-        'x_tighten':
-            True,
-        'y_tighten':
-            True,
-        'limits': (-bar_width, ((count_Q_as + 1) * (count_s + 1)) / 2, 0, 120),
-        'aspect':
-            1 / (120 / (bar_width + len(Q_as) + bar_width * 2))
-    })
+    aspect = 1 / (120 / (bar_width + len(Q_as) + bar_width * 2))
+    bounding_box = (-bar_width, ((count_Q_as + 1) * (count_s + 1)) / 2, 0, 120)
+
+    settings = {
+        'axes': axes,
+        'aspect': aspect,
+        'bounding_box': bounding_box,
+        'legend': hatching,
+        'title': 'Colour Quality',
+    }
     settings.update(kwargs)
 
     return render(**settings)
 
 
+@override_style()
 def single_spd_colour_rendering_index_bars_plot(spd, **kwargs):
     """
     Plots the *Colour Rendering Index* (CRI) of given illuminant or light
@@ -183,8 +179,8 @@ def single_spd_colour_rendering_index_bars_plot(spd, **kwargs):
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
     labels : bool, optional
         {:func:`colour.plotting.quality.colour_quality_bars_plot`},
         Add labels above bars.
@@ -197,8 +193,8 @@ def single_spd_colour_rendering_index_bars_plot(spd, **kwargs):
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -208,7 +204,7 @@ def single_spd_colour_rendering_index_bars_plot(spd, **kwargs):
     ... # doctest: +SKIP
 
     .. image:: ../_static/Plotting_\
-Single_Spd_Colour_Rendering_Index_Bars_Plot.png
+Single_SPD_Colour_Rendering_Index_Bars_Plot.png
         :align: center
         :alt: single_spd_colour_rendering_index_bars_plot
     """
@@ -216,6 +212,7 @@ Single_Spd_Colour_Rendering_Index_Bars_Plot.png
     return multi_spd_colour_rendering_index_bars_plot([spd], **kwargs)
 
 
+@override_style()
 def multi_spd_colour_rendering_index_bars_plot(spds, **kwargs):
     """
     Plots the *Colour Rendering Index* (CRI) of given illuminants or light
@@ -230,8 +227,8 @@ def multi_spd_colour_rendering_index_bars_plot(spds, **kwargs):
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
     labels : bool, optional
         {:func:`colour.plotting.quality.colour_quality_bars_plot`},
         Add labels above bars.
@@ -244,8 +241,8 @@ def multi_spd_colour_rendering_index_bars_plot(spds, **kwargs):
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -280,18 +277,21 @@ Multi_Spd_Colour_Rendering_Index_Bars_Plot.png
             colorimetry_data[0][i] = TCS_ColorimetryData(
                 c_d.name, c_d.XYZ / 100, c_d.uv, c_d.UVW)
 
-    colour_quality_bars_plot(specifications, **settings)
+    figure, axes = colour_quality_bars_plot(specifications, **settings)
+
+    title = 'Colour Rendering Index - {0}'.format(', '.join(
+        [spd.strict_name for spd in spds]))
 
     settings = {
-        'title':
-            'Colour Rendering Index - {0}'
-            .format(', '.join([spd.strict_name for spd in spds]))
+        'axes': axes,
+        'title': title,
     }
     settings.update(kwargs)
 
-    return render(with_boundaries=False, **settings)
+    return render(**settings)
 
 
+@override_style()
 def single_spd_colour_quality_scale_bars_plot(spd, **kwargs):
     """
     Plots the *Colour Quality Scale* (CQS) of given illuminant or light source
@@ -306,8 +306,8 @@ def single_spd_colour_quality_scale_bars_plot(spd, **kwargs):
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
     labels : bool, optional
         {:func:`colour.plotting.quality.colour_quality_bars_plot`},
         Add labels above bars.
@@ -320,8 +320,8 @@ def single_spd_colour_quality_scale_bars_plot(spd, **kwargs):
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -331,7 +331,7 @@ def single_spd_colour_quality_scale_bars_plot(spd, **kwargs):
     ... # doctest: +SKIP
 
     .. image:: ../_static/Plotting_\
-Single_Spd_Colour_Quality_Scale_Bars_Plot.png
+Single_SPD_Colour_Quality_Scale_Bars_Plot.png
         :align: center
         :alt: single_spd_colour_quality_scale_bars_plot
     """
@@ -339,6 +339,7 @@ Single_Spd_Colour_Quality_Scale_Bars_Plot.png
     return multi_spd_colour_quality_scale_bars_plot([spd], **kwargs)
 
 
+@override_style()
 def multi_spd_colour_quality_scale_bars_plot(spds, **kwargs):
     """
     Plots the *Colour Quality Scale* (CQS) of given illuminants or light
@@ -353,8 +354,8 @@ def multi_spd_colour_quality_scale_bars_plot(spds, **kwargs):
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
     labels : bool, optional
         {:func:`colour.plotting.quality.colour_quality_bars_plot`},
         Add labels above bars.
@@ -367,8 +368,8 @@ def multi_spd_colour_quality_scale_bars_plot(spds, **kwargs):
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -391,13 +392,16 @@ Multi_Spd_Colour_Quality_Scale_Bars_Plot.png
     specifications = [
         colour_quality_scale(spd, additional_data=True) for spd in spds
     ]
-    colour_quality_bars_plot(specifications, **settings)
+
+    figure, axes = colour_quality_bars_plot(specifications, **settings)
+
+    title = 'Colour Quality Scale - {0}'.format(', '.join(
+        [spd.strict_name for spd in spds]))
 
     settings = {
-        'title':
-            'Colour Quality Scale - {0}'
-            .format(', '.join([spd.strict_name for spd in spds]))
+        'axes': axes,
+        'title': title,
     }
     settings.update(kwargs)
 
-    return render(with_boundaries=False, **settings)
+    return render(**settings)

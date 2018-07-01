@@ -11,16 +11,17 @@ Defines the optical phenomena plotting objects:
 
 from __future__ import division
 
-import matplotlib.pyplot
+import matplotlib.pyplot as plt
 
 from colour.colorimetry import spectral_to_XYZ
 from colour.phenomena import rayleigh_scattering_spd
 from colour.phenomena.rayleigh import (
     AVERAGE_PRESSURE_MEAN_SEA_LEVEL, DEFAULT_ALTITUDE, DEFAULT_LATITUDE,
     STANDARD_AIR_TEMPERATURE, STANDARD_CO2_CONCENTRATION)
-from colour.plotting import (
-    ASTM_G_173_ETR, ColourSwatch, XYZ_to_plotting_colourspace, canvas,
-    get_cmfs, render, single_colour_swatch_plot, single_spd_plot)
+from colour.plotting import (ASTM_G_173_ETR, COLOUR_STYLE_CONSTANTS,
+                             ColourSwatch, XYZ_to_plotting_colourspace,
+                             get_cmfs, override_style, render,
+                             single_colour_swatch_plot, single_spd_plot)
 from colour.utilities import normalise_maximum
 
 __author__ = 'Colour Developers'
@@ -33,6 +34,7 @@ __status__ = 'Production'
 __all__ = ['single_rayleigh_scattering_spd_plot', 'the_blue_sky_plot']
 
 
+@override_style()
 def single_rayleigh_scattering_spd_plot(
         CO2_concentration=STANDARD_CO2_CONCENTRATION,
         temperature=STANDARD_AIR_TEMPERATURE,
@@ -62,8 +64,8 @@ def single_rayleigh_scattering_spd_plot(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
     out_of_gamut_clipping : bool, optional
         {:func:`colour.plotting.single_spd_plot`},
         Whether to clip out of gamut colours otherwise, the colours will be
@@ -72,8 +74,8 @@ def single_rayleigh_scattering_spd_plot(
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -97,6 +99,7 @@ def single_rayleigh_scattering_spd_plot(
     return single_spd_plot(spd, **settings)
 
 
+@override_style()
 def the_blue_sky_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     """
     Plots the blue sky.
@@ -109,13 +112,13 @@ def the_blue_sky_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -126,7 +129,9 @@ def the_blue_sky_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
         :alt: the_blue_sky_plot
     """
 
-    canvas(**kwargs)
+    figure = plt.figure()
+
+    figure.subplots_adjust(hspace=COLOUR_STYLE_CONSTANTS.geometry.short / 2)
 
     cmfs, name = get_cmfs(cmfs), cmfs
 
@@ -136,40 +141,46 @@ def the_blue_sky_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
 
     spd = rayleigh_spd * ASTM_G_173_spd
 
-    matplotlib.pyplot.subplot(211)
+    axes = figure.add_subplot(211)
 
     settings = {
+        'axes': axes,
         'title': 'The Blue Sky - Synthetic Spectral Power Distribution',
         'y_label': u'W / m-2 / nm-1',
-        'standalone': False
     }
     settings.update(kwargs)
+    settings['standalone'] = False
 
     single_spd_plot(spd, name, **settings)
 
-    matplotlib.pyplot.subplot(212)
+    axes = figure.add_subplot(212)
+
+    x_label = ('The sky is blue because molecules in the atmosphere '
+               'scatter shorter wavelengths more than longer ones.\n'
+               'The synthetic spectral power distribution is computed as '
+               'follows: '
+               '(ASTM G-173 ETR * Standard Air Rayleigh Scattering).')
 
     settings = {
-        'title':
-            'The Blue Sky - Colour',
-        'x_label': ('The sky is blue because molecules in the atmosphere '
-                    'scatter shorter wavelengths more than longer ones.\n'
-                    'The synthetic spectral power distribution is computed as '
-                    'follows: '
-                    '(ASTM G-173 ETR * Standard Air Rayleigh Scattering).'),
-        'y_label':
-            '',
-        'aspect':
-            None,
-        'standalone':
-            False
+        'axes': axes,
+        'aspect': None,
+        'title': 'The Blue Sky - Colour',
+        'x_label': x_label,
+        'y_label': '',
     }
+    settings.update(kwargs)
+    settings['standalone'] = False
 
     blue_sky_color = XYZ_to_plotting_colourspace(spectral_to_XYZ(spd))
-    single_colour_swatch_plot(
+
+    figure, axes = single_colour_swatch_plot(
         ColourSwatch('', normalise_maximum(blue_sky_color)), **settings)
 
-    settings = {'standalone': True}
+    # Removing "x" and "y" ticks.
+    axes.set_xticks([])
+    axes.set_yticks([])
+
+    settings = {'axes': axes, 'standalone': True}
     settings.update(kwargs)
 
     return render(**settings)

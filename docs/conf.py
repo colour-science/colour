@@ -24,7 +24,7 @@ autosummary_generate = True
 autodoc_mock_imports = [
     'matplotlib', 'matplotlib.cm', 'matplotlib.image', 'matplotlib.patches',
     'matplotlib.path', 'matplotlib.pyplot', 'matplotlib.ticker',
-    'mpl_toolkits.mplot3d', 'mpl_toolkits.mplot3d.art3d', 'pylab', 'scipy',
+    'mpl_toolkits.mplot3d', 'mpl_toolkits.mplot3d.art3d', 'scipy',
     'scipy.interpolate', 'scipy.ndimage', 'scipy.ndimage.filters',
     'scipy.optimize', 'scipy.spatial', 'scipy.spatial.distance'
 ]

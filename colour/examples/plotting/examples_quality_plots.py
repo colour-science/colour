@@ -4,7 +4,7 @@ Showcases colour quality plotting examples.
 """
 
 import colour
-from colour.plotting import (colour_plotting_style,
+from colour.plotting import (colour_style,
                              multi_spd_colour_quality_scale_bars_plot,
                              multi_spd_colour_rendering_index_bars_plot,
                              single_spd_colour_quality_scale_bars_plot,
@@ -13,7 +13,7 @@ from colour.utilities import message_box
 
 message_box('Colour Quality Plots')
 
-colour_plotting_style()
+colour_style()
 
 message_box('Plotting "F2" illuminant "Colour Rendering Index (CRI)".')
 single_spd_colour_rendering_index_bars_plot(

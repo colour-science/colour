@@ -9,12 +9,11 @@ Defines corresponding chromaticities prediction plotting objects:
 """
 
 from __future__ import division
-import pylab
 
 from colour.corresponding import corresponding_chromaticities_prediction
-from colour.plotting import (DEFAULT_PLOTTING_SETTINGS,
-                             chromaticity_diagram_plot_CIE1976UCS, canvas,
-                             render)
+from colour.plotting import (COLOUR_STYLE_CONSTANTS, artist,
+                             chromaticity_diagram_plot_CIE1976UCS,
+                             override_style, render)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -26,6 +25,7 @@ __status__ = 'Production'
 __all__ = ['corresponding_chromaticities_prediction_plot']
 
 
+@override_style()
 def corresponding_chromaticities_prediction_plot(experiment=1,
                                                  model='Von Kries',
                                                  transform='CAT02',
@@ -46,14 +46,15 @@ def corresponding_chromaticities_prediction_plot(experiment=1,
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -66,26 +67,25 @@ Corresponding_Chromaticities_Prediction_Plot.png
         :alt: corresponding_chromaticities_prediction_plot
     """
 
+    settings = {'uniform': True}
+    settings.update(kwargs)
+
+    figure, axes = artist(**settings)
+
+    title = (('Corresponding Chromaticities Prediction\n{0} ({1}) - '
+              'Experiment {2}\nCIE 1976 UCS Chromaticity Diagram').format(
+                  model, transform, experiment)
+             if model.lower() in ('von kries', 'vonkries') else
+             ('Corresponding Chromaticities Prediction\n{0} - '
+              'Experiment {1}\nCIE 1976 UCS Chromaticity Diagram').format(
+                  model, experiment))
+
     settings = {
-        'figure_size': (DEFAULT_PLOTTING_SETTINGS.figure_width,
-                        DEFAULT_PLOTTING_SETTINGS.figure_width)
+        'axes': axes,
+        'title': title,
     }
     settings.update(kwargs)
-
-    canvas(**settings)
-
-    settings.update({
-        'title': (('Corresponding Chromaticities Prediction\n{0} ({1}) - '
-                   'Experiment {2}\nCIE 1976 UCS Chromaticity Diagram').format(
-                       model, transform, experiment)
-                  if model.lower() in ('von kries', 'vonkries') else
-                  ('Corresponding Chromaticities Prediction\n{0} - '
-                   'Experiment {1}\nCIE 1976 UCS Chromaticity Diagram').format(
-                       model, experiment)),
-        'standalone':
-            False
-    })
-    settings.update(kwargs)
+    settings['standalone'] = False
 
     chromaticity_diagram_plot_CIE1976UCS(**settings)
 
@@ -94,34 +94,29 @@ Corresponding_Chromaticities_Prediction_Plot.png
 
     for result in results:
         _name, uvp_t, uvp_m, uvp_p = result
-        pylab.arrow(
+        axes.arrow(
             uvp_t[0],
             uvp_t[1],
             uvp_p[0] - uvp_t[0] - 0.1 * (uvp_p[0] - uvp_t[0]),
             uvp_p[1] - uvp_t[1] - 0.1 * (uvp_p[1] - uvp_t[1]),
-            color=DEFAULT_PLOTTING_SETTINGS.dark_colour,
+            color=COLOUR_STYLE_CONSTANTS.colour.dark,
             head_width=0.005,
             head_length=0.005)
-        pylab.plot(
+        axes.plot(
             uvp_t[0],
             uvp_t[1],
             'o',
-            color=DEFAULT_PLOTTING_SETTINGS.light_colour)
-        pylab.plot(
+            color=COLOUR_STYLE_CONSTANTS.colour.brightest)
+        axes.plot(
             uvp_m[0],
             uvp_m[1],
             '^',
-            color=DEFAULT_PLOTTING_SETTINGS.light_colour)
-        pylab.plot(
-            uvp_p[0],
-            uvp_p[1],
-            '^',
-            color=DEFAULT_PLOTTING_SETTINGS.dark_colour)
+            color=COLOUR_STYLE_CONSTANTS.colour.brightest)
+        axes.plot(
+            uvp_p[0], uvp_p[1], '^', color=COLOUR_STYLE_CONSTANTS.colour.dark)
     settings.update({
-        'x_tighten': True,
-        'y_tighten': True,
-        'limits': (-0.1, 0.7, -0.1, 0.7),
-        'standalone': True
+        'standalone': True,
+        'bounding_box': (-0.1, 0.7, -0.1, 0.7),
     })
     settings.update(kwargs)
 

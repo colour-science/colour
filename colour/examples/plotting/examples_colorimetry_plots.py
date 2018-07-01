@@ -8,7 +8,7 @@ from pprint import pprint
 import colour
 from colour.plotting import (
     ASTM_G_173_ETR, blackbody_colours_plot, blackbody_spectral_radiance_plot,
-    colour_plotting_style, multi_cmfs_plot,
+    colour_style, multi_cmfs_plot,
     multi_illuminant_spd_plot, multi_lightness_function_plot,
     multi_spd_plot, single_cmfs_plot, single_illuminant_spd_plot,
     single_lightness_function_plot, single_spd_plot, visible_spectrum_plot)
@@ -16,7 +16,7 @@ from colour.utilities import message_box
 
 message_box('Colorimetry Plots')
 
-colour_plotting_style()
+colour_style()
 
 message_box(('Plotting a single illuminant relative spectral power '
              'distribution.'))

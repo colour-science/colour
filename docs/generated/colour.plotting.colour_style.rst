@@ -1,6 +1,6 @@
-colour.plotting.equal\_axes3d
+colour.plotting.colour\_style
 =============================
 
 .. currentmodule:: colour.plotting
 
-.. autofunction:: equal_axes3d
+.. autofunction:: colour_style

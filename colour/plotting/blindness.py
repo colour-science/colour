@@ -11,7 +11,7 @@ Defines the colour blindness plotting objects:
 from __future__ import division
 
 from colour.blindness import cvd_matrix_Machado2009
-from colour.plotting import DEFAULT_PLOTTING_SETTINGS, image_plot
+from colour.plotting import COLOUR_STYLE_CONSTANTS, image_plot, override_style
 from colour.utilities import dot_vector
 
 __author__ = 'Colour Developers'
@@ -24,6 +24,7 @@ __status__ = 'Production'
 __all__ = ['cvd_simulation_Machado2009_plot']
 
 
+@override_style()
 def cvd_simulation_Machado2009_plot(RGB,
                                     deficiency='Protanomaly',
                                     severity=0.5,
@@ -49,8 +50,8 @@ def cvd_simulation_Machado2009_plot(RGB,
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
 
     Notes
     -----
@@ -58,8 +59,8 @@ def cvd_simulation_Machado2009_plot(RGB,
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -75,11 +76,11 @@ def cvd_simulation_Machado2009_plot(RGB,
     if M_a is None:
         M_a = cvd_matrix_Machado2009(deficiency, severity)
 
-    label = 'Deficiency: {0} - Severity: {1}'.format(deficiency, severity)
+    text = 'Deficiency: {0} - Severity: {1}'.format(deficiency, severity)
 
-    settings = {'label': None if M_a is None else label}
+    settings = {'text_parameters': {'text': None if M_a is None else text}}
     settings.update(kwargs)
 
     return image_plot(
-        DEFAULT_PLOTTING_SETTINGS.colourspace.encoding_cctf(
+        COLOUR_STYLE_CONSTANTS.colour.colourspace.encoding_cctf(
             dot_vector(M_a, RGB)), **settings)

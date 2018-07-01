@@ -24,7 +24,6 @@ RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS`
 from __future__ import division
 
 import numpy as np
-import pylab
 
 from colour.constants import EPSILON
 from colour.models import (
@@ -32,9 +31,10 @@ from colour.models import (
     POINTER_GAMUT_DATA, POINTER_GAMUT_ILLUMINANT, RGB_to_RGB, RGB_to_XYZ,
     UCS_to_uv, XYZ_to_Luv, XYZ_to_UCS, XYZ_to_xy, xy_to_Luv_uv, xy_to_UCS_uv)
 from colour.plotting import (
-    DEFAULT_PLOTTING_SETTINGS, chromaticity_diagram_plot_CIE1931,
+    COLOUR_STYLE_CONSTANTS, chromaticity_diagram_plot_CIE1931,
     chromaticity_diagram_plot_CIE1960UCS, chromaticity_diagram_plot_CIE1976UCS,
-    canvas, colour_cycle, get_RGB_colourspace, get_cmfs, render)
+    artist, colour_cycle, get_RGB_colourspace, get_cmfs, override_style,
+    render)
 from colour.plotting.diagrams import chromaticity_diagram_plot
 
 __author__ = 'Colour Developers'
@@ -57,6 +57,7 @@ __all__ = [
 ]
 
 
+@override_style()
 def RGB_colourspaces_chromaticity_diagram_plot(
         colourspaces=None,
         cmfs='CIE 1931 2 Degree Standard Observer',
@@ -86,14 +87,15 @@ def RGB_colourspaces_chromaticity_diagram_plot(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -107,34 +109,31 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot.png
         :alt: RGB_colourspaces_chromaticity_diagram_plot
     """
 
-    settings = {
-        'figure_size': (DEFAULT_PLOTTING_SETTINGS.figure_width,
-                        DEFAULT_PLOTTING_SETTINGS.figure_width)
-    }
-    settings.update(kwargs)
-
-    canvas(**settings)
-
     if colourspaces is None:
         colourspaces = ['ITU-R BT.709', 'ACEScg', 'S-Gamut', 'Pointer Gamut']
 
-    cmfs, name = get_cmfs(cmfs), cmfs
+    settings = {'uniform': True}
+    settings.update(kwargs)
+
+    figure, axes = artist(**settings)
 
     method = method.upper()
+
+    cmfs, name = get_cmfs(cmfs), cmfs
+
+    title = '{0}\n{1} - {2} Chromaticity Diagram'.format(
+        ', '.join(colourspaces), name, method)
+
     settings = {
-        'method':
-            method,
-        'title':
-            '{0}\n{1} - {2} Chromaticity Diagram'.format(
-                ', '.join(colourspaces), name, method),
-        'standalone':
-            False
+        'axes': axes,
+        'standalone': False,
+        'title': title,
+        'method': method,
     }
     settings.update(kwargs)
 
     chromaticity_diagram_callable(**settings)
 
-    method = method.upper()
     if method == 'CIE 1931':
 
         def XYZ_to_ij(XYZ, *args):
@@ -203,7 +202,6 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot.png
                 method))
 
     settings = {
-        'colour_cycle_map': 'rainbow',
         'colour_cycle_count': len(colourspaces)
     }
     settings.update(kwargs)
@@ -214,14 +212,15 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot.png
         colourspaces.remove('Pointer Gamut')
 
         ij = xy_to_ij(np.asarray(POINTER_GAMUT_BOUNDARIES))
-        alpha_p, colour_p = 0.85, '0.95'
-        pylab.plot(
+        alpha_p = COLOUR_STYLE_CONSTANTS.opacity.high
+        colour_p = COLOUR_STYLE_CONSTANTS.colour.brightest
+        axes.plot(
             ij[..., 0],
             ij[..., 1],
             label='Pointer\'s Gamut',
             color=colour_p,
             alpha=alpha_p)
-        pylab.plot(
+        axes.plot(
             (ij[-1][0], ij[0][0]), (ij[-1][1], ij[0][1]),
             color=colour_p,
             alpha=alpha_p)
@@ -229,7 +228,7 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot.png
         XYZ = Lab_to_XYZ(
             LCHab_to_Lab(POINTER_GAMUT_DATA), POINTER_GAMUT_ILLUMINANT)
         ij = XYZ_to_ij(XYZ, POINTER_GAMUT_ILLUMINANT)
-        pylab.scatter(
+        axes.scatter(
             ij[..., 0],
             ij[..., 1],
             alpha=alpha_p / 2,
@@ -249,19 +248,19 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot.png
         P = xy_to_ij(P)
         W = xy_to_ij(colourspace.whitepoint)
 
-        pylab.plot(
+        axes.plot(
             (W[0], W[0]), (W[1], W[1]),
             color=(R, G, B),
             label=colourspace.name)
 
         if show_whitepoints:
-            pylab.plot((W[0], W[0]), (W[1], W[1]), 'o', color=(R, G, B))
+            axes.plot((W[0], W[0]), (W[1], W[1]), 'o', color=(R, G, B))
 
-        pylab.plot(
+        axes.plot(
             (P[0, 0], P[1, 0]), (P[0, 1], P[1, 1]), 'o-', color=(R, G, B))
-        pylab.plot(
+        axes.plot(
             (P[1, 0], P[2, 0]), (P[1, 1], P[2, 1]), 'o-', color=(R, G, B))
-        pylab.plot(
+        axes.plot(
             (P[2, 0], P[0, 0]), (P[2, 1], P[0, 1]), 'o-', color=(R, G, B))
 
         x_limit_min.append(np.amin(P[..., 0]) - 0.1)
@@ -269,29 +268,24 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot.png
         x_limit_max.append(np.amax(P[..., 0]) + 0.1)
         y_limit_max.append(np.amax(P[..., 1]) + 0.1)
 
+    bounding_box = (
+        min(x_limit_min),
+        max(x_limit_max),
+        min(y_limit_min),
+        max(y_limit_max),
+    )
+
     settings.update({
-        'legend':
-            True,
-        'legend_location':
-            'upper right',
-        'x_tighten':
-            True,
-        'y_tighten':
-            True,
-        'limits': [
-            min(x_limit_min),
-            max(x_limit_max),
-            min(y_limit_min),
-            max(y_limit_max),
-        ],
-        'standalone':
-            True
+        'standalone': True,
+        'legend': True,
+        'bounding_box': bounding_box,
     })
     settings.update(kwargs)
 
     return render(**settings)
 
 
+@override_style()
 def RGB_colourspaces_chromaticity_diagram_plot_CIE1931(
         colourspaces=None,
         cmfs='CIE 1931 2 Degree Standard Observer',
@@ -314,14 +308,15 @@ def RGB_colourspaces_chromaticity_diagram_plot_CIE1931(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -342,6 +337,7 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot_CIE1931.png
         colourspaces, cmfs, chromaticity_diagram_callable_CIE1931, **settings)
 
 
+@override_style()
 def RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS(
         colourspaces=None,
         cmfs='CIE 1931 2 Degree Standard Observer',
@@ -365,14 +361,15 @@ def RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -394,6 +391,7 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot_CIE1960UCS.png
         **settings)
 
 
+@override_style()
 def RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS(
         colourspaces=None,
         cmfs='CIE 1931 2 Degree Standard Observer',
@@ -417,14 +415,15 @@ def RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -446,6 +445,7 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot_CIE1976UCS.png
         **settings)
 
 
+@override_style()
 def RGB_chromaticity_coordinates_chromaticity_diagram_plot(
         RGB,
         colourspace='sRGB',
@@ -469,20 +469,21 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot(
         **{'CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'}**,
         *Chromaticity Diagram* method.
     scatter_parameters : dict, optional
-        Parameters for the :func:`pylab.scatter` definition, if ``c`` is set to
+        Parameters for the :func:`plt.scatter` definition, if ``c`` is set to
         *RGB*, the scatter will use given ``RGB`` colours.
 
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -497,6 +498,13 @@ RGB_Chromaticity_Coordinates_Chromaticity_Diagram_Plot.png
         :alt: RGB_chromaticity_coordinates_chromaticity_diagram_plot
     """
 
+    settings = {'uniform': True}
+    settings.update(kwargs)
+
+    figure, axes = artist(**settings)
+
+    method = method.upper()
+
     scatter_settings = {
         's': 40,
         'c': 'RGB',
@@ -507,7 +515,7 @@ RGB_Chromaticity_Coordinates_Chromaticity_Diagram_Plot.png
         scatter_settings.update(scatter_parameters)
 
     settings = dict(kwargs)
-    settings.update({'standalone': False})
+    settings.update({'axes': axes, 'standalone': False})
 
     colourspace, name = get_RGB_colourspace(colourspace), colourspace
     settings['colourspaces'] = [name] + settings.get('colourspaces', [])
@@ -521,13 +529,12 @@ RGB_Chromaticity_Coordinates_Chromaticity_Diagram_Plot.png
             RGB_to_RGB(
                 RGB,
                 colourspace,
-                DEFAULT_PLOTTING_SETTINGS.colourspace,
+                COLOUR_STYLE_CONSTANTS.colour.colourspace,
                 apply_encoding_cctf=True).reshape(-1, 3), 0, 1)
 
     XYZ = RGB_to_XYZ(RGB, colourspace.whitepoint, colourspace.whitepoint,
                      colourspace.RGB_to_XYZ_matrix)
 
-    method = method.upper()
     if method == 'CIE 1931':
         ij = XYZ_to_xy(XYZ, colourspace.whitepoint)
     elif method == 'CIE 1960 UCS':
@@ -537,7 +544,7 @@ RGB_Chromaticity_Coordinates_Chromaticity_Diagram_Plot.png
         ij = Luv_to_uv(
             XYZ_to_Luv(XYZ, colourspace.whitepoint), colourspace.whitepoint)
 
-    pylab.scatter(ij[..., 0], ij[..., 1], **scatter_settings)
+    axes.scatter(ij[..., 0], ij[..., 1], **scatter_settings)
 
     settings.update({'standalone': True})
     settings.update(kwargs)
@@ -545,6 +552,7 @@ RGB_Chromaticity_Coordinates_Chromaticity_Diagram_Plot.png
     return render(**settings)
 
 
+@override_style()
 def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931(
         RGB,
         colourspace='sRGB',
@@ -564,20 +572,21 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931(
     chromaticity_diagram_callable_CIE1931 : callable, optional
         Callable responsible for drawing the *CIE 1931 Chromaticity Diagram*.
     scatter_parameters : dict, optional
-        Parameters for the :func:`pylab.scatter` definition, if ``c`` is set to
+        Parameters for the :func:`plt.scatter` definition, if ``c`` is set to
         *RGB*, the scatter will use given ``RGB`` colours.
 
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -603,6 +612,7 @@ RGB_Chromaticity_Coordinates_Chromaticity_Diagram_Plot_CIE1931.png
         **settings)
 
 
+@override_style()
 def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS(
         RGB,
         colourspace='sRGB',
@@ -624,20 +634,21 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS(
         Callable responsible for drawing the
         *CIE 1960 UCS Chromaticity Diagram*.
     scatter_parameters : dict, optional
-        Parameters for the :func:`pylab.scatter` definition, if ``c`` is set to
+        Parameters for the :func:`plt.scatter` definition, if ``c`` is set to
         *RGB*, the scatter will use given ``RGB`` colours.
 
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -663,6 +674,7 @@ RGB_Chromaticity_Coordinates_Chromaticity_Diagram_Plot_CIE1960UCS.png
         **settings)
 
 
+@override_style()
 def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS(
         RGB,
         colourspace='sRGB',
@@ -684,20 +696,21 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS(
         Callable responsible for drawing the
         *CIE 1976 UCS Chromaticity Diagram*.
     scatter_parameters : dict, optional
-        Parameters for the :func:`pylab.scatter` definition, if ``c`` is set to
+        Parameters for the :func:`plt.scatter` definition, if ``c`` is set to
         *RGB*, the scatter will use given ``RGB`` colours.
 
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -723,6 +736,7 @@ RGB_Chromaticity_Coordinates_Chromaticity_Diagram_Plot_CIE1976UCS.png
         **settings)
 
 
+@override_style()
 def single_cctf_plot(colourspace='ITU-R BT.709', decoding_cctf=False,
                      **kwargs):
     """
@@ -738,13 +752,13 @@ def single_cctf_plot(colourspace='ITU-R BT.709', decoding_cctf=False,
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -765,6 +779,7 @@ def single_cctf_plot(colourspace='ITU-R BT.709', decoding_cctf=False,
     return multi_cctf_plot([colourspace], decoding_cctf, **settings)
 
 
+@override_style()
 def multi_cctf_plot(colourspaces=None, decoding_cctf=False, **kwargs):
     """
     Plots given colourspaces colour component transfer functions.
@@ -779,13 +794,13 @@ def multi_cctf_plot(colourspaces=None, decoding_cctf=False, **kwargs):
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -796,16 +811,13 @@ def multi_cctf_plot(colourspaces=None, decoding_cctf=False, **kwargs):
         :alt: multi_cctf_plot
     """
 
-    settings = {
-        'figure_size': (DEFAULT_PLOTTING_SETTINGS.figure_width,
-                        DEFAULT_PLOTTING_SETTINGS.figure_width)
-    }
-    settings.update(kwargs)
-
-    canvas(**settings)
-
     if colourspaces is None:
         colourspaces = ('ITU-R BT.709', 'sRGB')
+
+    settings = {'uniform': True}
+    settings.update(kwargs)
+
+    figure, axes = artist(**settings)
 
     samples = np.linspace(0, 1, 1000)
     for colourspace in colourspaces:
@@ -814,20 +826,18 @@ def multi_cctf_plot(colourspaces=None, decoding_cctf=False, **kwargs):
         RGBs = (colourspace.decoding_cctf(samples)
                 if decoding_cctf else colourspace.encoding_cctf(samples))
 
-        pylab.plot(samples, RGBs, label=u'{0}'.format(colourspace.name))
+        axes.plot(samples, RGBs, label=u'{0}'.format(colourspace.name))
 
     mode = 'Decoding' if decoding_cctf else 'Encoding'
-    settings.update({
+    settings = {
+        'axes': axes,
+        'aspect': 'equal',
+        'bounding_box': (0, 1, 0, 1),
+        'legend': True,
         'title': '{0} - {1} CCTFs'.format(', '.join(colourspaces), mode),
-        'x_tighten': True,
         'x_label': 'Signal Value' if decoding_cctf else 'Tristimulus Value',
         'y_label': 'Tristimulus Value' if decoding_cctf else 'Signal Value',
-        'legend': True,
-        'legend_location': 'upper left',
-        'grid': True,
-        'limits': (0, 1, 0, 1),
-        'aspect': 'equal'
-    })
+    }
     settings.update(kwargs)
 
     return render(**settings)

@@ -12,13 +12,12 @@ Defines the characterisation plotting objects:
 from __future__ import division
 
 import numpy as np
-import pylab
 
 from colour.characterisation import COLOURCHECKERS
 from colour.models import xyY_to_XYZ
-from colour.plotting import (ColourSwatch, DEFAULT_PLOTTING_SETTINGS,
-                             XYZ_to_plotting_colourspace, canvas,
-                             multi_colour_swatch_plot, render)
+from colour.plotting import (ColourSwatch, COLOUR_STYLE_CONSTANTS,
+                             XYZ_to_plotting_colourspace, artist,
+                             multi_colour_swatch_plot, override_style, render)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -30,6 +29,7 @@ __status__ = 'Production'
 __all__ = ['single_colour_checker_plot', 'multi_colour_checker_plot']
 
 
+@override_style()
 def single_colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
     """
     Plots given colour checker.
@@ -42,14 +42,15 @@ def single_colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.multi_colour_swatch_plot`,
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.multi_colour_swatch_plot`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Raises
     ------
@@ -69,6 +70,14 @@ def single_colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
     return multi_colour_checker_plot([colour_checker], **kwargs)
 
 
+@override_style(
+    **{
+        'axes.grid': False,
+        'xtick.bottom': False,
+        'ytick.left': False,
+        'xtick.labelbottom': False,
+        'ytick.labelleft': False,
+    })
 def multi_colour_checker_plot(colour_checkers=None, **kwargs):
     """
     Plots and compares given colour checkers.
@@ -81,14 +90,15 @@ def multi_colour_checker_plot(colour_checkers=None, **kwargs):
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.multi_colour_swatch_plot`,
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.multi_colour_swatch_plot`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Raises
     ------
@@ -112,9 +122,9 @@ def multi_colour_checker_plot(colour_checkers=None, **kwargs):
         assert len(colour_checkers) <= 2, (
             'Only two colour checkers can be compared at a time!')
 
-    compare_swatches = len(colour_checkers) == 2
+    figure, axes = artist(**kwargs)
 
-    canvas(**kwargs)
+    compare_swatches = len(colour_checkers) == 2
 
     colour_swatches = []
     colour_checker_names = []
@@ -147,7 +157,7 @@ def multi_colour_checker_plot(colour_checkers=None, **kwargs):
     columns = 6
 
     settings = {
-        'standalone': False,
+        'axes': axes,
         'width': width,
         'height': height,
         'spacing': spacing,
@@ -157,32 +167,27 @@ def multi_colour_checker_plot(colour_checkers=None, **kwargs):
         },
         'background_colour': background_colour,
         'compare_swatches': 'Stacked' if compare_swatches else None,
-        'margins': (-0.125, 0.125, -0.5, 0.125)
     }
     settings.update(kwargs)
+    settings['standalone'] = False
 
     multi_colour_swatch_plot(colour_swatches, **settings)
 
-    text_x = width * (columns / 2) + (columns * (spacing / 2)) - spacing / 2
-    text_y = -((len(colour_swatches) / 2
-                if compare_swatches else len(colour_swatches)) / columns +
-               spacing / 2)
-
-    pylab.text(
-        text_x,
-        text_y,
+    axes.text(
+        0.5,
+        0.005,
         '{0} - {1} - Colour Rendition Chart'.format(
             ', '.join(colour_checker_names),
-            DEFAULT_PLOTTING_SETTINGS.colourspace.name),
-        color='0.95',
-        clip_on=True,
-        ha='center')
+            COLOUR_STYLE_CONSTANTS.colour.colourspace.name),
+        transform=axes.transAxes,
+        color=COLOUR_STYLE_CONSTANTS.colour.bright,
+        ha='center',
+        va='bottom')
 
     settings.update({
+        'axes': axes,
+        'standalone': True,
         'title': ', '.join(colour_checker_names),
-        'facecolor': background_colour,
-        'edgecolor': None,
-        'standalone': True
     })
 
     return render(**settings)
