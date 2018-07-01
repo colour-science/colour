@@ -203,6 +203,7 @@ def colour_style(use_style=True):
 
         # Lines
         'lines.linewidth': constants.geometry.short,
+        'lines.markersize': constants.geometry.short * 3,
 
         # Cycle
         'axes.prop_cycle': matplotlib.cycler(color=constants.colour.cycle),
