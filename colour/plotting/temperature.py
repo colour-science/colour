@@ -19,9 +19,9 @@ import numpy as np
 from colour.colorimetry import CMFS, ILLUMINANTS
 from colour.models import (UCS_uv_to_xy, XYZ_to_UCS, UCS_to_uv, xy_to_XYZ)
 from colour.temperature import CCT_to_uv
-from colour.plotting import (COLOUR_STYLE_CONSTANTS, artist,
-                             chromaticity_diagram_plot_CIE1931,
-                             chromaticity_diagram_plot_CIE1960UCS, render)
+from colour.plotting import (
+    COLOUR_STYLE_CONSTANTS, artist, chromaticity_diagram_plot_CIE1931,
+    chromaticity_diagram_plot_CIE1960UCS, override_style, render)
 from colour.plotting.diagrams import chromaticity_diagram_plot
 
 __author__ = 'Colour Developers'
@@ -38,6 +38,7 @@ __all__ = [
 ]
 
 
+@override_style()
 def planckian_locus_plot(planckian_locus_colours=None,
                          method='CIE 1931',
                          **kwargs):
@@ -55,13 +56,13 @@ def planckian_locus_plot(planckian_locus_colours=None,
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -125,12 +126,13 @@ def planckian_locus_plot(planckian_locus_colours=None,
             textcoords='offset points',
             size='x-small')
 
-    settings = {}
+    settings = {'axes': axes}
     settings.update(kwargs)
 
     return render(**settings)
 
 
+@override_style()
 def planckian_locus_chromaticity_diagram_plot(
         illuminants=None,
         annotate_parameters=None,
@@ -161,15 +163,16 @@ def planckian_locus_chromaticity_diagram_plot(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.temperature.planckian_locus_plot`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Raises
     ------
@@ -195,11 +198,13 @@ Planckian_Locus_Chromaticity_Diagram_Plot.png
 
     figure, axes = artist(**settings)
 
+    method = method.upper()
+
     cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
 
-    method = method.upper()
-    settings = {'axes': axes, 'method': method, 'standalone': False}
+    settings = {'axes': axes, 'method': method}
     settings.update(kwargs)
+    settings['standalone'] = False
 
     chromaticity_diagram_callable(**settings)
 
@@ -233,11 +238,11 @@ Planckian_Locus_Chromaticity_Diagram_Plot.png
 
     annotate_settings_collection = [{
         'annotate': True,
-        'xytext': (50, 30),
+        'xytext': (-50, 30),
         'textcoords': 'offset points',
         'arrowprops': {
             'arrowstyle': '->',
-            'connectionstyle': 'arc3, rad=0.2'
+            'connectionstyle': 'arc3, rad=-0.2'
         }
     } for _ in range(len(illuminants))]
 
@@ -272,28 +277,30 @@ Planckian_Locus_Chromaticity_Diagram_Plot.png
 
             plt.annotate(illuminant, xy=ij, **annotate_settings)
 
+    title = (('{0} Illuminants - Planckian Locus\n'
+              '{1} Chromaticity Diagram - '
+              'CIE 1931 2 Degree Standard Observer').format(
+        ', '.join(illuminants), method) if illuminants else
+             ('Planckian Locus\n{0} Chromaticity Diagram - '
+              'CIE 1931 2 Degree Standard Observer'.format(method)))
+
     settings.update({
-        'title': ('{0} Illuminants - Planckian Locus\n'
-                  '{1} Chromaticity Diagram - '
-                  'CIE 1931 2 Degree Standard Observer').format(
-                      ', '.join(illuminants), method) if illuminants else
-                 ('Planckian Locus\n{0} Chromaticity Diagram - '
-                  'CIE 1931 2 Degree Standard Observer'.format(method)),
-        'bounding_box':
-            bounding_box,
-        'standalone':
-            True
+        'axes': axes,
+        'standalone': True,
+        'bounding_box': bounding_box,
+        'title': title,
     })
     settings.update(kwargs)
 
     return render(**settings)
 
 
+@override_style()
 def planckian_locus_chromaticity_diagram_plot_CIE1931(
         illuminants=None,
         annotate_parameters=None,
         chromaticity_diagram_callable_CIE1931=(
-            chromaticity_diagram_plot_CIE1931),
+                chromaticity_diagram_plot_CIE1931),
         **kwargs):
     """
     Plots the *Planckian Locus* and given illuminants in
@@ -316,15 +323,16 @@ def planckian_locus_chromaticity_diagram_plot_CIE1931(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.temperature.\
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.temperature.\
 planckian_locus_chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Raises
     ------
@@ -350,11 +358,12 @@ Planckian_Locus_Chromaticity_Diagram_Plot_CIE1931.png
         chromaticity_diagram_callable_CIE1931, **settings)
 
 
+@override_style()
 def planckian_locus_chromaticity_diagram_plot_CIE1960UCS(
         illuminants=None,
         annotate_parameters=None,
         chromaticity_diagram_callable_CIE1960UCS=(
-            chromaticity_diagram_plot_CIE1960UCS),
+                chromaticity_diagram_plot_CIE1960UCS),
         **kwargs):
     """
     Plots the *Planckian Locus* and given illuminants in
@@ -378,15 +387,16 @@ def planckian_locus_chromaticity_diagram_plot_CIE1960UCS(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.temperature.\
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.temperature.\
 planckian_locus_chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Raises
     ------

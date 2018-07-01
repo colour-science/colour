@@ -16,8 +16,8 @@ import numpy as np
 from colour.characterisation import COLOURCHECKERS
 from colour.models import xyY_to_XYZ
 from colour.plotting import (ColourSwatch, COLOUR_STYLE_CONSTANTS,
-                             XYZ_to_plotting_colourspace,
-                             multi_colour_swatch_plot, render)
+                             XYZ_to_plotting_colourspace, artist,
+                             multi_colour_swatch_plot, override_style, render)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -29,6 +29,7 @@ __status__ = 'Production'
 __all__ = ['single_colour_checker_plot', 'multi_colour_checker_plot']
 
 
+@override_style()
 def single_colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
     """
     Plots given colour checker.
@@ -41,14 +42,15 @@ def single_colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.multi_colour_swatch_plot`,
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.multi_colour_swatch_plot`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Raises
     ------
@@ -68,6 +70,14 @@ def single_colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
     return multi_colour_checker_plot([colour_checker], **kwargs)
 
 
+@override_style(
+    **{
+        'axes.grid': False,
+        'xtick.bottom': False,
+        'ytick.left': False,
+        'xtick.labelbottom': False,
+        'ytick.labelleft': False,
+    })
 def multi_colour_checker_plot(colour_checkers=None, **kwargs):
     """
     Plots and compares given colour checkers.
@@ -80,14 +90,15 @@ def multi_colour_checker_plot(colour_checkers=None, **kwargs):
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.multi_colour_swatch_plot`,
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.multi_colour_swatch_plot`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Raises
     ------
@@ -110,6 +121,8 @@ def multi_colour_checker_plot(colour_checkers=None, **kwargs):
     else:
         assert len(colour_checkers) <= 2, (
             'Only two colour checkers can be compared at a time!')
+
+    figure, axes = artist(**kwargs)
 
     compare_swatches = len(colour_checkers) == 2
 
@@ -144,7 +157,7 @@ def multi_colour_checker_plot(colour_checkers=None, **kwargs):
     columns = 6
 
     settings = {
-        'standalone': False,
+        'axes': axes,
         'width': width,
         'height': height,
         'spacing': spacing,
@@ -156,9 +169,9 @@ def multi_colour_checker_plot(colour_checkers=None, **kwargs):
         'compare_swatches': 'Stacked' if compare_swatches else None,
     }
     settings.update(kwargs)
+    settings['standalone'] = False
 
-    figure = multi_colour_swatch_plot(colour_swatches, **settings)
-    axes = figure.gca()
+    multi_colour_swatch_plot(colour_swatches, **settings)
 
     axes.text(
         0.5,
@@ -173,10 +186,8 @@ def multi_colour_checker_plot(colour_checkers=None, **kwargs):
 
     settings.update({
         'axes': axes,
+        'standalone': True,
         'title': ', '.join(colour_checker_names),
-        'facecolor': background_colour,
-        'edgecolor': None,
-        'standalone': True
     })
 
     return render(**settings)

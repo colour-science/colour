@@ -14,7 +14,7 @@ from __future__ import division
 import numpy as np
 
 from colour.notation import MUNSELL_VALUE_METHODS
-from colour.plotting import artist, render
+from colour.plotting import artist, override_style, render
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -28,6 +28,7 @@ __all__ = [
 ]
 
 
+@override_style()
 def single_munsell_value_function_plot(function='ASTM D1535-08', **kwargs):
     """
     Plots given *Lightness* function.
@@ -40,13 +41,13 @@ def single_munsell_value_function_plot(function='ASTM D1535-08', **kwargs):
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -63,6 +64,7 @@ def single_munsell_value_function_plot(function='ASTM D1535-08', **kwargs):
     return multi_munsell_value_function_plot((function, ), **settings)
 
 
+@override_style()
 def multi_munsell_value_function_plot(functions=None, **kwargs):
     """
     Plots given *Munsell* value functions.
@@ -75,13 +77,13 @@ def multi_munsell_value_function_plot(functions=None, **kwargs):
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Raises
     ------
@@ -117,18 +119,16 @@ def multi_munsell_value_function_plot(functions=None, **kwargs):
                      name, sorted(MUNSELL_VALUE_METHODS.keys())))
 
         axes.plot(
-            samples, [function(x) for x in samples],
-            label=u'{0}'.format(name))
+            samples, [function(x) for x in samples], label=u'{0}'.format(name))
 
     settings = {
+        'axes': axes,
+        'aspect': 10,
+        'bounding_box': (0, 100, 0, 10),
+        'legend': True,
         'title': '{0} - Munsell Functions'.format(', '.join(functions)),
         'x_label': 'Luminance Y',
         'y_label': 'Munsell Value V',
-        'x_tighten': True,
-        'legend': True,
-        'legend_location': 'upper left',
-        'bounding_box': (0, 100, 0, 10),
-        'aspect': 10
     }
     settings.update(kwargs)
 

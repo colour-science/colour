@@ -33,7 +33,8 @@ from colour.models import (
 from colour.plotting import (
     COLOUR_STYLE_CONSTANTS, chromaticity_diagram_plot_CIE1931,
     chromaticity_diagram_plot_CIE1960UCS, chromaticity_diagram_plot_CIE1976UCS,
-    artist, colour_cycle, get_RGB_colourspace, get_cmfs, render)
+    artist, colour_cycle, get_RGB_colourspace, get_cmfs, override_style,
+    render)
 from colour.plotting.diagrams import chromaticity_diagram_plot
 
 __author__ = 'Colour Developers'
@@ -56,6 +57,7 @@ __all__ = [
 ]
 
 
+@override_style()
 def RGB_colourspaces_chromaticity_diagram_plot(
         colourspaces=None,
         cmfs='CIE 1931 2 Degree Standard Observer',
@@ -85,14 +87,15 @@ def RGB_colourspaces_chromaticity_diagram_plot(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -114,25 +117,22 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot.png
 
     figure, axes = artist(**settings)
 
+    method = method.upper()
+
     cmfs, name = get_cmfs(cmfs), cmfs
 
-    method = method.upper()
+    title = '{0}\n{1} - {2} Chromaticity Diagram'.format(
+        ', '.join(colourspaces), name, method)
+
     settings = {
-        'axes':
-            axes,
-        'method':
-            method,
-        'title':
-            '{0}\n{1} - {2} Chromaticity Diagram'.format(
-                ', '.join(colourspaces), name, method),
-        'standalone':
-            False
+        'axes': axes,
+        'standalone': False,
+        'title': title,
+        'method': method,
     }
-    settings.update(kwargs)
 
     chromaticity_diagram_callable(**settings)
 
-    method = method.upper()
     if method == 'CIE 1931':
 
         def XYZ_to_ij(XYZ, *args):
@@ -201,7 +201,6 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot.png
                 method))
 
     settings = {
-        'colour_cycle_map': 'rainbow',
         'colour_cycle_count': len(colourspaces)
     }
     settings.update(kwargs)
@@ -268,25 +267,24 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot.png
         x_limit_max.append(np.amax(P[..., 0]) + 0.1)
         y_limit_max.append(np.amax(P[..., 1]) + 0.1)
 
+    bounding_box = (
+        min(x_limit_min),
+        max(x_limit_max),
+        min(y_limit_min),
+        max(y_limit_max),
+    )
+
     settings.update({
-        'legend':
-            True,
-        'legend_location':
-            'upper right',
-        'bounding_box': [
-            min(x_limit_min),
-            max(x_limit_max),
-            min(y_limit_min),
-            max(y_limit_max),
-        ],
-        'standalone':
-            True
+        'standalone': True,
+        'legend': True,
+        'bounding_box': bounding_box,
     })
     settings.update(kwargs)
 
     return render(**settings)
 
 
+@override_style()
 def RGB_colourspaces_chromaticity_diagram_plot_CIE1931(
         colourspaces=None,
         cmfs='CIE 1931 2 Degree Standard Observer',
@@ -309,14 +307,15 @@ def RGB_colourspaces_chromaticity_diagram_plot_CIE1931(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -337,6 +336,7 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot_CIE1931.png
         colourspaces, cmfs, chromaticity_diagram_callable_CIE1931, **settings)
 
 
+@override_style()
 def RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS(
         colourspaces=None,
         cmfs='CIE 1931 2 Degree Standard Observer',
@@ -360,14 +360,15 @@ def RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -389,6 +390,7 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot_CIE1960UCS.png
         **settings)
 
 
+@override_style()
 def RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS(
         colourspaces=None,
         cmfs='CIE 1931 2 Degree Standard Observer',
@@ -412,14 +414,15 @@ def RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -441,6 +444,7 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot_CIE1976UCS.png
         **settings)
 
 
+@override_style()
 def RGB_chromaticity_coordinates_chromaticity_diagram_plot(
         RGB,
         colourspace='sRGB',
@@ -470,14 +474,15 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -496,6 +501,8 @@ RGB_Chromaticity_Coordinates_Chromaticity_Diagram_Plot.png
     settings.update(kwargs)
 
     figure, axes = artist(**settings)
+
+    method = method.upper()
 
     scatter_settings = {
         's': 40,
@@ -527,7 +534,6 @@ RGB_Chromaticity_Coordinates_Chromaticity_Diagram_Plot.png
     XYZ = RGB_to_XYZ(RGB, colourspace.whitepoint, colourspace.whitepoint,
                      colourspace.RGB_to_XYZ_matrix)
 
-    method = method.upper()
     if method == 'CIE 1931':
         ij = XYZ_to_xy(XYZ, colourspace.whitepoint)
     elif method == 'CIE 1960 UCS':
@@ -545,6 +551,7 @@ RGB_Chromaticity_Coordinates_Chromaticity_Diagram_Plot.png
     return render(**settings)
 
 
+@override_style()
 def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931(
         RGB,
         colourspace='sRGB',
@@ -570,14 +577,15 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -603,6 +611,7 @@ RGB_Chromaticity_Coordinates_Chromaticity_Diagram_Plot_CIE1931.png
         **settings)
 
 
+@override_style()
 def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS(
         RGB,
         colourspace='sRGB',
@@ -630,14 +639,15 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -663,6 +673,7 @@ RGB_Chromaticity_Coordinates_Chromaticity_Diagram_Plot_CIE1960UCS.png
         **settings)
 
 
+@override_style()
 def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS(
         RGB,
         colourspace='sRGB',
@@ -690,14 +701,15 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -723,6 +735,7 @@ RGB_Chromaticity_Coordinates_Chromaticity_Diagram_Plot_CIE1976UCS.png
         **settings)
 
 
+@override_style()
 def single_cctf_plot(colourspace='ITU-R BT.709', decoding_cctf=False,
                      **kwargs):
     """
@@ -738,13 +751,13 @@ def single_cctf_plot(colourspace='ITU-R BT.709', decoding_cctf=False,
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -765,6 +778,7 @@ def single_cctf_plot(colourspace='ITU-R BT.709', decoding_cctf=False,
     return multi_cctf_plot([colourspace], decoding_cctf, **settings)
 
 
+@override_style()
 def multi_cctf_plot(colourspaces=None, decoding_cctf=False, **kwargs):
     """
     Plots given colourspaces colour component transfer functions.
@@ -779,13 +793,13 @@ def multi_cctf_plot(colourspaces=None, decoding_cctf=False, **kwargs):
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -815,13 +829,13 @@ def multi_cctf_plot(colourspaces=None, decoding_cctf=False, **kwargs):
 
     mode = 'Decoding' if decoding_cctf else 'Encoding'
     settings = {
+        'axes': axes,
+        'aspect': 'equal',
+        'bounding_box': (0, 1, 0, 1),
+        'legend': True,
         'title': '{0} - {1} CCTFs'.format(', '.join(colourspaces), mode),
         'x_label': 'Signal Value' if decoding_cctf else 'Tristimulus Value',
         'y_label': 'Tristimulus Value' if decoding_cctf else 'Signal Value',
-        'legend': True,
-        'legend_location': 'upper left',
-        'bounding_box': (0, 1, 0, 1),
-        'aspect': 'equal'
     }
     settings.update(kwargs)
 

@@ -6,6 +6,7 @@ Common Plotting
 Defines the common plotting objects:
 
 -   :func:`colour.plotting.colour_style`
+-   :func:`colour.plotting.override_style`
 -   :func:`colour.plotting.colour_cycle`
 -   :func:`colour.plotting.artist`
 -   :func:`colour.plotting.camera`
@@ -22,6 +23,7 @@ Defines the common plotting objects:
 
 from __future__ import division
 
+import functools
 import itertools
 import matplotlib
 import matplotlib.cm
@@ -43,9 +45,9 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'COLOUR_STYLE_CONSTANTS', 'colour_style', 'XYZ_to_plotting_colourspace',
-    'ColourSwatch', 'colour_cycle', 'artist', 'camera', 'boundaries',
-    'decorate', 'display', 'render', 'label_rectangles', 'uniform_axes3d',
+    'COLOUR_STYLE_CONSTANTS', 'colour_style', 'override_style',
+    'XYZ_to_plotting_colourspace', 'ColourSwatch', 'colour_cycle', 'artist',
+    'camera', 'render', 'label_rectangles', 'uniform_axes3d',
     'get_RGB_colourspace', 'get_cmfs', 'get_illuminant',
     'single_colour_swatch_plot', 'multi_colour_swatch_plot', 'image_plot'
 ]
@@ -77,6 +79,20 @@ COLOUR_STYLE_CONSTANTS = Structure(
                         '#795548',
                         '#607D8B',
                     ),
+                    'map':
+                        LinearSegmentedColormap.from_list(
+                            'colour', (
+                                '#F44336',
+                                '#9C27B0',
+                                '#3F51B5',
+                                '#03A9F4',
+                                '#009688',
+                                '#8BC34A',
+                                '#FFEB3B',
+                                '#FF9800',
+                                '#795548',
+                                '#607D8B',
+                            )),
                     'colourspace':
                         RGB_COLOURSPACES['sRGB']
                 }),
@@ -135,10 +151,17 @@ def colour_style(use_style=True):
         'axes.titlesize': 'x-large',
         'axes.labelsize': 'larger',
         'legend.fontsize': 'small',
-        'xtick.labelsize': 'small',
-        'ytick.labelsize': 'small',
+        'xtick.labelsize': 'medium',
+        'ytick.labelsize': 'medium',
+
+        # Text Settings
+        'text.color': constants.colour.darkest,
 
         # Tick Settings
+        'xtick.top': False,
+        'xtick.bottom': True,
+        'ytick.right': False,
+        'ytick.left': True,
         'xtick.minor.visible': True,
         'ytick.minor.visible': True,
         'xtick.direction': 'out',
@@ -189,6 +212,58 @@ def colour_style(use_style=True):
         plt.rcParams.update(style)
 
     return style
+
+
+def override_style(**kwargs):
+    """
+    Decorator for overriding *Matplotlib* style.
+
+    Other Parameters
+    ----------------
+    \**kwargs : dict, optional
+        Keywords arguments.
+
+    Returns
+    -------
+    object
+
+    Examples
+    --------
+    >>> @override_style(**{'text.color': 'red'})
+    ... def f():
+    ...     plt.text(0.5, 0.5, 'This is a text!')
+    ...     plt.show()
+    >>> f()  # doctest: +SKIP
+    """
+
+    keyword_overrides = dict(kwargs)
+
+    def wrapper(function):
+        """
+        Wrapper for given function.
+        """
+
+        @functools.wraps(function)
+        def wrapped(*args, **kwargs):
+            """
+            Wrapped function.
+            """
+
+            keywords = dict(kwargs)
+            keywords.update(keyword_overrides)
+
+            style_overrides = {
+                key: value
+                for key, value in keywords.items()
+                if key in plt.rcParams.keys()
+            }
+
+            with plt.style.context(style_overrides):
+                return function(*args, **kwargs)
+
+        return wrapped
+
+    return wrapper
 
 
 def XYZ_to_plotting_colourspace(XYZ,
@@ -281,19 +356,16 @@ def colour_cycle(**kwargs):
 
     settings = Structure(
         **{
-            'colour_cycle_map': 'hsv',
+            'colour_cycle_map': COLOUR_STYLE_CONSTANTS.colour.map,
             'colour_cycle_count': len(COLOUR_STYLE_CONSTANTS.colour.cycle)
         })
     settings.update(kwargs)
 
-    if settings.colour_cycle_map is None:
-        cycle = COLOUR_STYLE_CONSTANTS.colour.cycle
+    samples = np.linspace(0, 1, settings.colour_cycle_count)
+    if isinstance(settings.colour_cycle_map, LinearSegmentedColormap):
+        cycle = settings.colour_cycle_map(samples)
     else:
-        samples = np.linspace(0, 1, settings.colour_cycle_count)
-        if isinstance(settings.colour_cycle_map, LinearSegmentedColormap):
-            cycle = settings.colour_cycle_map(samples)
-        else:
-            cycle = getattr(plt.cm, settings.colour_cycle_map)(samples)
+        cycle = getattr(plt.cm, settings.colour_cycle_map)(samples)
 
     return itertools.cycle(cycle)
 
@@ -334,12 +406,12 @@ def camera(**kwargs):
 
     Other Parameters
     ----------------
+    azimuth : numeric, optional
+        Camera azimuth.
     camera_aspect : unicode, optional
         Matplotlib axes aspect. Default is *equal*.
     elevation : numeric, optional
         Camera elevation.
-    azimuth : numeric, optional
-        Camera azimuth.
 
     Returns
     -------
@@ -364,101 +436,75 @@ def camera(**kwargs):
     return axes
 
 
-def boundaries(**kwargs):
+def render(**kwargs):
     """
-    Sets the plot boundaries.
+    Renders the current figure while adjusting various settings such as the
+    bounding box, the title or background transparency.
 
     Other Parameters
     ----------------
+    figure : Figure, optional
+        Figure to apply the render elements onto.
+    axes : Axes, optional
+        Axes to apply the render elements onto.
+    filename : unicode, optional
+        Figure will be saved using given ``filename`` argument.
+    standalone : bool, optional
+        Whether to show the figure and call :func:`plt.show` definition.
+    aspect : unicode, optional
+        Matplotlib axes aspect.
+    axes_visible : bool, optional
+        Whether the axes are visible. Default is *True*.
     bounding_box : array_like, optional
         Array defining current axes limits such
         `bounding_box = (x min, x max, y min, y max)`.
-
-    Returns
-    -------
-    Axes
-        Current axes.
-    """
-
-    axes = kwargs.get('axes', plt.gca())
-
-    settings = Structure(**{'bounding_box': None})
-    settings.update(kwargs)
-
-    if settings.bounding_box:
-        axes.set_xlim(settings.bounding_box[0], settings.bounding_box[1])
-        axes.set_ylim(settings.bounding_box[2], settings.bounding_box[3])
-
-    return axes
-
-
-def decorate(**kwargs):
-    """
-    Sets the figure decorations.
-
-    Other Parameters
-    ----------------
+    legend : bool, optional
+        Whether to display the legend. Default is *False*.
+    transparent_background : bool, optional
+        Whether to turn off the background patch. Default is *False*.
     title : unicode, optional
         Figure title.
     x_label : unicode, optional
         *X* axis label.
     y_label : unicode, optional
         *Y* axis label.
-    legend : bool, optional
-        Whether to display the legend. Default is *False*.
-    legend_columns : int, optional
-        Number of columns in the legend. Default is *1*.
-    legend_location : unicode, optional
-        Matplotlib legend location. Default is *upper right*.
-    x_ticker : bool, optional
-        Whether to display the *X* axis ticker. Default is *True*.
-    y_ticker : bool, optional
-        Whether to display the *Y* axis ticker. Default is *True*.
-    x_ticker_major_locator : Locator, optional
-        Locator type for the *X* axis major ticker.
-    y_ticker_major_locator : Locator, optional
-        Locator type for the *Y* axis major ticker.
-    x_ticker_minor_locator : Locator, optional
-        Locator type for the *X* axis minor ticker.
-    y_ticker_minor_locator : Locator, optional
-        Locator type for the *Y* axis minor ticker.
-    x_axis_line : bool, optional
-        Whether to draw the *X* axis line. Default is *False*.
-    y_axis_line : bool, optional
-        Whether to draw the *Y* axis line. Default is *False*.
-    aspect : unicode, optional
-        Matplotlib axes aspect.
-    no_axes : bool, optional
-        Whether to turn off the axes. Default is *False*.
 
     Returns
     -------
-    Axes
-        Current axes.
+    tuple
+        Current figure and axes.
     """
 
-    axes = kwargs.get('axes', plt.gca())
+    figure = kwargs.get('figure')
+    if figure is None:
+        figure = plt.gcf()
+
+    axes = kwargs.get('axes')
+    if axes is None:
+        axes = plt.gca()
 
     settings = Structure(
         **{
+            'filename': None,
+            'standalone': True,
+            'aspect': None,
+            'axes_visible': True,
+            'bounding_box': None,
+            'legend': False,
+            'transparent_background': True,
             'title': None,
             'x_label': None,
             'y_label': None,
-            'legend': False,
-            'legend_columns': 1,
-            'legend_location': 'upper right',
-            'x_ticker': True,
-            'y_ticker': True,
-            'x_ticker_major_locator': None,
-            'y_ticker_major_locator': None,
-            'x_ticker_minor_locator': None,
-            'y_ticker_minor_locator': None,
-            'x_axis_line': False,
-            'y_axis_line': False,
-            'aspect': None,
-            'no_axes': False
         })
     settings.update(kwargs)
+
+    if settings.aspect:
+        axes.set_aspect(settings.aspect)
+    if not settings.axes_visible:
+        axes.set_axis_off()
+    if settings.bounding_box:
+        axes.set_xlim(settings.bounding_box[0], settings.bounding_box[1])
+        axes.set_ylim(settings.bounding_box[2], settings.bounding_box[3])
 
     if settings.title:
         axes.set_title(settings.title)
@@ -467,101 +513,17 @@ def decorate(**kwargs):
     if settings.y_label:
         axes.set_ylabel(settings.y_label)
     if settings.legend:
-        axes.legend(loc=settings.legend_location, ncol=settings.legend_columns)
-    if settings.x_ticker:
-        if settings.x_ticker_major_locator is not None:
-            axes.xaxis.set_major_locator(settings.x_ticker_major_locator)
-        if settings.x_ticker_minor_locator is not None:
-            axes.xaxis.set_minor_locator(settings.x_ticker_minor_locator)
-    else:
-        axes.set_xticks([])
-    if settings.y_ticker:
-        if settings.y_ticker_major_locator is not None:
-            axes.yaxis.set_major_locator(settings.y_ticker_major_locator)
-        if settings.y_ticker_minor_locator is not None:
-            axes.yaxis.set_minor_locator(settings.y_ticker_minor_locator)
-    else:
-        axes.set_yticks([])
-    if settings.x_axis_line:
-        axes.axvline(color=COLOUR_STYLE_CONSTANTS.colour.dark, linestyle='--')
-    if settings.y_axis_line:
-        axes.axhline(color=COLOUR_STYLE_CONSTANTS.colour.dark, linestyle='--')
-    if settings.aspect:
-        axes.set_aspect(settings.aspect)
-    if settings.no_axes:
-        axes.set_axis_off()
-
-    return axes
-
-
-def display(**kwargs):
-    """
-    Sets the figure display.
-
-    Other Parameters
-    ----------------
-    transparent_background : bool, optional
-        Whether to turn off the background patch. Default is *False*.
-    standalone : bool, optional
-        Whether to show the figure.
-    filename : unicode, optional
-        Figure will be saved using given ``filename`` argument.
-
-    Returns
-    -------
-    Figure
-        Current figure or None.
-    """
-
-    figure = kwargs.get('figure')
-    if figure is None:
-        figure = plt.gcf()
-
-    settings = Structure(**{
-        'transparent_background': True,
-        'standalone': True,
-        'filename': None
-    })
-    settings.update(kwargs)
+        axes.legend()
 
     if settings.transparent_background:
         figure.patch.set_alpha(0)
-
     if settings.standalone:
         if settings.filename is not None:
             figure.savefig(settings.filename)
         else:
             figure.show()
 
-    return figure
-
-
-def render(**kwargs):
-    """
-    Convenient wrapper definition combining :func:`colour.plotting.decorate`,
-    :func:`colour.plotting.boundaries` and :func:`colour.plotting.display`
-    definitions.
-
-    Parameters
-    ----------
-
-    Other Parameters
-    ----------------
-    \**kwargs : dict, optional
-        {:func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
-
-    Returns
-    -------
-    Figure
-        Current figure or None.
-    """
-
-    boundaries(**kwargs)
-
-    decorate(**kwargs)
-
-    return display(**kwargs)
+    return figure, axes
 
 
 def label_rectangles(labels,
@@ -747,6 +709,14 @@ def get_illuminant(illuminant):
     return illuminant
 
 
+@override_style(
+    **{
+        'axes.grid': False,
+        'xtick.bottom': False,
+        'ytick.left': False,
+        'xtick.labelbottom': False,
+        'ytick.labelleft': False,
+    })
 def single_colour_swatch_plot(colour_swatch, **kwargs):
     """
     Plots given colour swatch.
@@ -759,8 +729,8 @@ def single_colour_swatch_plot(colour_swatch, **kwargs):
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
     width : numeric, optional
         {:func:`colour.plotting.multi_colour_swatch_plot`},
         Colour swatch width.
@@ -780,8 +750,8 @@ def single_colour_swatch_plot(colour_swatch, **kwargs):
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -796,6 +766,14 @@ def single_colour_swatch_plot(colour_swatch, **kwargs):
     return multi_colour_swatch_plot((colour_swatch, ), **kwargs)
 
 
+@override_style(
+    **{
+        'axes.grid': False,
+        'xtick.bottom': False,
+        'ytick.left': False,
+        'xtick.labelbottom': False,
+        'ytick.labelleft': False,
+    })
 def multi_colour_swatch_plot(colour_swatches,
                              width=1,
                              height=1,
@@ -839,13 +817,13 @@ def multi_colour_swatch_plot(colour_swatches,
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -875,8 +853,8 @@ def multi_colour_swatch_plot(colour_swatches,
         columns = len(reference_colour_swatches)
 
     text_settings = {
-        'visible': True,
         'offset': 0.05,
+        'visible': True,
     }
     if text_parameters is not None:
         text_settings.update(text_parameters)
@@ -933,23 +911,20 @@ def multi_colour_swatch_plot(colour_swatches,
 
     axes.patch.set_facecolor(background_colour)
 
+    bounding_box = (x_min - spacing, x_max + spacing, y_min - spacing,
+                    y_max + spacing)
+
     settings = {
-        'axes':
-            axes,
-        'x_ticker':
-            False,
-        'y_ticker':
-            False,
-        'bounding_box': (x_min - spacing, x_max + spacing, y_min - spacing,
-                         y_max + spacing),
-        'aspect':
-            'equal'
+        'axes': axes,
+        'bounding_box': bounding_box,
+        'aspect': 'equal',
     }
     settings.update(kwargs)
 
     return render(**settings)
 
 
+@override_style()
 def image_plot(image,
                text_parameters=None,
                interpolation='nearest',
@@ -976,13 +951,13 @@ def image_plot(image,
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -1004,7 +979,7 @@ def image_plot(image,
         'text': None,
         'offset': 0.005,
         'color': COLOUR_STYLE_CONSTANTS.colour.brightest,
-        'alpha': COLOUR_STYLE_CONSTANTS.opacity.high
+        'alpha': COLOUR_STYLE_CONSTANTS.opacity.high,
     }
     if text_parameters is not None:
         text_settings.update(text_parameters)
@@ -1028,10 +1003,9 @@ def image_plot(image,
             **text_settings)
 
     settings = {
-        'x_ticker': False,
-        'y_ticker': False,
-        'no_axes': True,
-        'bounding_box': (0, width, 0, height)
+        'axes': axes,
+        'bounding_box': (0, width, 0, height),
+        'axes_visible': False,
     }
     settings.update(kwargs)
 

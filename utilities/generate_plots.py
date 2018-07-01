@@ -317,19 +317,19 @@ def generate_documentation_plots(output_directory):
 
     arguments['filename'] = os.path.join(
         output_directory,
-        'Plotting_RGB_colourspaces_chromaticity_diagram_plot_CIE1931.png')
+        'Plotting_RGB_Colourspaces_Chromaticity_Diagram_Plot_CIE1931.png')
     RGB_colourspaces_chromaticity_diagram_plot_CIE1931(
         ['ITU-R BT.709', 'ACEScg', 'S-Gamut'], **arguments)
 
     arguments['filename'] = os.path.join(
         output_directory,
-        'Plotting_RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS.png')
+        'Plotting_RGB_Colourspaces_Chromaticity_Diagram_Plot_CIE1960UCS.png')
     RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS(
         ['ITU-R BT.709', 'ACEScg', 'S-Gamut'], **arguments)
 
     arguments['filename'] = os.path.join(
         output_directory,
-        'Plotting_RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS.png')
+        'Plotting_RGB_Colourspaces_Chromaticity_Diagram_Plot_CIE1976UCS.png')
     RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS(
         ['ITU-R BT.709', 'ACEScg', 'S-Gamut'], **arguments)
 
@@ -394,7 +394,7 @@ def generate_documentation_plots(output_directory):
 
     arguments['filename'] = os.path.join(
         output_directory,
-        'Plotting_Single_Spd_Colour_Rendering_Index_Bars_Plot.png')
+        'Plotting_Single_SPD_Colour_Rendering_Index_Bars_Plot.png')
     illuminant = colour.ILLUMINANTS_SPDS['F2']
     single_spd_colour_rendering_index_bars_plot(illuminant, **arguments)
 
@@ -407,7 +407,7 @@ def generate_documentation_plots(output_directory):
 
     arguments['filename'] = os.path.join(
         output_directory,
-        'Plotting_Single_Spd_Colour_Quality_Scale_Bars_Plot.png')
+        'Plotting_Single_SPD_Colour_Quality_Scale_Bars_Plot.png')
     illuminant = colour.ILLUMINANTS_SPDS['F2']
     single_spd_colour_quality_scale_bars_plot(illuminant, **arguments)
 
@@ -456,7 +456,7 @@ def generate_documentation_plots(output_directory):
     # "tutorial.rst"
     # *************************************************************************
     arguments['filename'] = os.path.join(output_directory,
-                                         'Tutorial_Visible_Spectrumv.png')
+                                         'Tutorial_Visible_Spectrum.png')
     visible_spectrum_plot(**arguments)
 
     arguments['filename'] = os.path.join(output_directory,

@@ -19,8 +19,8 @@ from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.models import RGB_to_XYZ
 from colour.models.common import (COLOURSPACE_MODELS_LABELS,
                                   XYZ_to_colourspace_model)
-from colour.plotting import (COLOUR_STYLE_CONSTANTS, cube,
-                             get_RGB_colourspace, get_cmfs, grid, render)
+from colour.plotting import (COLOUR_STYLE_CONSTANTS, cube, get_RGB_colourspace,
+                             get_cmfs, grid, override_style, render)
 from colour.utilities import Structure, tsplit, tstack
 
 __author__ = 'Colour Developers'
@@ -193,19 +193,20 @@ def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
 
     extent = np.max(np.abs(limits[..., 1] - limits[..., 0]))
 
-    settings = Structure(**{
-        'grid_face_colours': (0.25, 0.25, 0.25),
-        'grid_edge_colours': (0.50, 0.50, 0.50),
-        'grid_face_alpha': 0.1,
-        'grid_edge_alpha': 0.5,
-        'x_axis_colour': (0.0, 0.0, 0.0, 1.0),
-        'y_axis_colour': (0.0, 0.0, 0.0, 1.0),
-        'x_ticks_colour': (0.0, 0.0, 0.0, 0.85),
-        'y_ticks_colour': (0.0, 0.0, 0.0, 0.85),
-        'x_label_colour': (0.0, 0.0, 0.0, 0.85),
-        'y_label_colour': (0.0, 0.0, 0.0, 0.85),
-        'ticks_and_label_location': ('-x', '-y')
-    })
+    settings = Structure(
+        **{
+            'grid_face_colours': (0.25, 0.25, 0.25),
+            'grid_edge_colours': (0.50, 0.50, 0.50),
+            'grid_face_alpha': 0.1,
+            'grid_edge_alpha': 0.5,
+            'x_axis_colour': (0.0, 0.0, 0.0, 1.0),
+            'y_axis_colour': (0.0, 0.0, 0.0, 1.0),
+            'x_ticks_colour': (0.0, 0.0, 0.0, 0.85),
+            'y_ticks_colour': (0.0, 0.0, 0.0, 0.85),
+            'x_label_colour': (0.0, 0.0, 0.0, 0.85),
+            'y_label_colour': (0.0, 0.0, 0.0, 0.85),
+            'ticks_and_label_location': ('-x', '-y')
+        })
     settings.update(**kwargs)
 
     # Outer grid.
@@ -218,11 +219,13 @@ def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
 
     RGB_g = np.ones((quads_g.shape[0], quads_g.shape[-1]))
     RGB_gf = RGB_g * settings.grid_face_colours
-    RGB_gf = np.hstack((RGB_gf, np.full(
-        (RGB_gf.shape[0], 1), settings.grid_face_alpha, DEFAULT_FLOAT_DTYPE)))
+    RGB_gf = np.hstack((RGB_gf,
+                        np.full((RGB_gf.shape[0], 1), settings.grid_face_alpha,
+                                DEFAULT_FLOAT_DTYPE)))
     RGB_ge = RGB_g * settings.grid_edge_colours
-    RGB_ge = np.hstack((RGB_ge, np.full(
-        (RGB_ge.shape[0], 1), settings.grid_edge_alpha, DEFAULT_FLOAT_DTYPE)))
+    RGB_ge = np.hstack((RGB_ge,
+                        np.full((RGB_ge.shape[0], 1), settings.grid_edge_alpha,
+                                DEFAULT_FLOAT_DTYPE)))
 
     # Inner grid.
     quads_gs = grid(
@@ -234,12 +237,14 @@ def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
 
     RGB_gs = np.ones((quads_gs.shape[0], quads_gs.shape[-1]))
     RGB_gsf = RGB_gs * 0
-    RGB_gsf = np.hstack((RGB_gsf, np.full((RGB_gsf.shape[0], 1), 0,
-                                          DEFAULT_FLOAT_DTYPE)))
+    RGB_gsf = np.hstack((RGB_gsf,
+                         np.full((RGB_gsf.shape[0], 1), 0,
+                                 DEFAULT_FLOAT_DTYPE)))
     RGB_gse = np.clip(RGB_gs * settings.grid_edge_colours * 1.5, 0, 1)
-    RGB_gse = np.hstack((RGB_gse, np.full((RGB_gse.shape[0],
-                                           1), settings.grid_edge_alpha / 2,
-                                          DEFAULT_FLOAT_DTYPE)))
+    RGB_gse = np.hstack(
+        (RGB_gse,
+         np.full((RGB_gse.shape[0], 1), settings.grid_edge_alpha / 2,
+                 DEFAULT_FLOAT_DTYPE)))
 
     # Axis.
     thickness = extent / 1000
@@ -395,6 +400,7 @@ def RGB_identity_cube(plane=None,
     return quads, RGB
 
 
+@override_style()
 def RGB_colourspaces_gamuts_plot(colourspaces=None,
                                  reference_colourspace='CIE xyY',
                                  segments=8,
@@ -431,8 +437,9 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.volume.nadir_grid`},
-        Please refer to the documentation of the previously listed definition.
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.volume.nadir_grid`},
+        Please refer to the documentation of the previously listed definitions.
     face_colours : array_like, optional
         Face colours array such as `face_colours = (None, (0.5, 0.5, 1.0))`.
     edge_colours : array_like, optional
@@ -444,8 +451,8 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -461,15 +468,16 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
         colourspaces = ('ITU-R BT.709', 'ACEScg')
 
     count_c = len(colourspaces)
-    settings = Structure(**{
-        'face_colours': [None] * count_c,
-        'edge_colours': [None] * count_c,
-        'face_alpha': [1] * count_c,
-        'edge_alpha': [1] * count_c,
-        'title':
-            '{0} - {1} Reference Colourspace'.format(', '.join(colourspaces),
-                                                     reference_colourspace)
-    })
+    settings = Structure(
+        **{
+            'face_colours': [None] * count_c,
+            'edge_colours': [None] * count_c,
+            'face_alpha': [1] * count_c,
+            'edge_alpha': [1] * count_c,
+            'title':
+                '{0} - {1} Reference Colourspace'.format(
+                    ', '.join(colourspaces), reference_colourspace)
+        })
     settings.update(kwargs)
 
     figure = plt.figure()
@@ -520,15 +528,17 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
             RGB = np.ones(RGB.shape) * settings.face_colours[i]
 
         RGB_f.extend(
-            np.hstack((RGB, np.full((RGB.shape[0], 1), settings.face_alpha[i],
-                                    DEFAULT_FLOAT_DTYPE))))
+            np.hstack((RGB,
+                       np.full((RGB.shape[0], 1), settings.face_alpha[i],
+                               DEFAULT_FLOAT_DTYPE))))
 
         if settings.edge_colours[i] is not None:
             RGB = np.ones(RGB.shape) * settings.edge_colours[i]
 
         RGB_e.extend(
-            np.hstack((RGB, np.full((RGB.shape[0], 1), settings.edge_alpha[i],
-                                    DEFAULT_FLOAT_DTYPE))))
+            np.hstack((RGB,
+                       np.full((RGB.shape[0], 1), settings.edge_alpha[i],
+                               DEFAULT_FLOAT_DTYPE))))
 
     quads = np.asarray(quads)
     quads[np.isnan(quads)] = 0
@@ -567,12 +577,17 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
 
     axes.add_collection3d(collection)
 
-    settings.update({'camera_aspect': 'equal', 'no_axes': True})
+    settings.update({
+        'axes': axes,
+        'axes_visible': False,
+        'camera_aspect': 'equal'
+    })
     settings.update(kwargs)
 
     return render(**settings)
 
 
+@override_style()
 def RGB_scatter_plot(RGB,
                      colourspace,
                      reference_colourspace='CIE xyY',
@@ -618,13 +633,14 @@ def RGB_scatter_plot(RGB,
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.RGB_colourspaces_gamuts_plot`},
-        Please refer to the documentation of the previously listed definition.
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.RGB_colourspaces_gamuts_plot`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -642,14 +658,15 @@ def RGB_scatter_plot(RGB,
         colourspaces = (colourspace.name, )
 
     count_c = len(colourspaces)
-    settings = Structure(**{
-        'face_colours': [None] * count_c,
-        'edge_colours': [(0.25, 0.25, 0.25)] * count_c,
-        'face_alpha': [0.0] * count_c,
-        'edge_alpha': [0.1] * count_c,
-        'standalone': False
-    })
+    settings = Structure(
+        **{
+            'face_colours': [None] * count_c,
+            'edge_colours': [(0.25, 0.25, 0.25)] * count_c,
+            'face_alpha': [0.0] * count_c,
+            'edge_alpha': [0.1] * count_c,
+        })
     settings.update(kwargs)
+    settings['standalone'] = False
 
     RGB_colourspaces_gamuts_plot(
         colourspaces=colourspaces,
@@ -677,7 +694,7 @@ def RGB_scatter_plot(RGB,
         color=np.reshape(RGB, (-1, 3)),
         s=points_size)
 
-    settings.update({'standalone': True})
+    settings.update({'axes': axes, 'standalone': True})
     settings.update(kwargs)
 
     return render(**settings)

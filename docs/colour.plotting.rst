@@ -15,14 +15,11 @@ Common
 
     colour_style
     colour_cycle
-    canvas
+    artist
     camera
-    decorate
-    boundaries
-    display
     render
     label_rectangles
-    equal_axes3d
+    uniform_axes3d
     single_colour_swatch_plot
     multi_colour_swatch_plot
     image_plot

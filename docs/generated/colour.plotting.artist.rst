@@ -1,6 +1,6 @@
-colour.plotting.canvas
+colour.plotting.artist
 ======================
 
 .. currentmodule:: colour.plotting
 
-.. autofunction:: canvas
+.. autofunction:: artist

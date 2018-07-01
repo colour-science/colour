@@ -26,7 +26,7 @@ from colour.models import (Luv_to_uv, Luv_uv_to_xy, UCS_to_uv, UCS_uv_to_xy,
                            XYZ_to_Luv, XYZ_to_UCS, XYZ_to_xy, xy_to_XYZ)
 from colour.plotting import (COLOUR_STYLE_CONSTANTS,
                              XYZ_to_plotting_colourspace, artist, get_cmfs,
-                             render)
+                             override_style, render)
 from colour.utilities import (is_string, normalise_maximum, suppress_warnings,
                               tstack)
 
@@ -48,6 +48,7 @@ __all__ = [
 ]
 
 
+@override_style()
 def spectral_locus_plot(cmfs='CIE 1931 2 Degree Standard Observer',
                         spectral_locus_colours=None,
                         spectral_locus_labels=None,
@@ -76,13 +77,13 @@ def spectral_locus_plot(cmfs='CIE 1931 2 Degree Standard Observer',
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.render`},
+        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -101,6 +102,8 @@ def spectral_locus_plot(cmfs='CIE 1931 2 Degree Standard Observer',
 
     figure, axes = artist(**settings)
 
+    method = method.upper()
+
     cmfs = get_cmfs(cmfs)
 
     illuminant = COLOUR_STYLE_CONSTANTS.colour.colourspace.whitepoint
@@ -108,7 +111,6 @@ def spectral_locus_plot(cmfs='CIE 1931 2 Degree Standard Observer',
     wavelengths = cmfs.wavelengths
     equal_energy = np.array([1 / 3] * 2)
 
-    method = method.upper()
     if method == 'CIE 1931':
         ij = XYZ_to_xy(cmfs.values, illuminant)
         labels = ((390, 460, 470, 480, 490, 500, 510, 520, 540, 560, 580, 600,
@@ -175,7 +177,7 @@ def spectral_locus_plot(cmfs='CIE 1931 2 Degree Standard Observer',
 
         normal = (np.array([-dy, dx]) if np.dot(
             normalise_vector(ij - equal_energy), normalise_vector(direction)) >
-                  0 else np.array([dy, -dx]))
+                                         0 else np.array([dy, -dx]))
         normal = normalise_vector(normal) / 30
 
         label_colour = (spectral_locus_colours
@@ -196,9 +198,13 @@ def spectral_locus_plot(cmfs='CIE 1931 2 Degree Standard Observer',
             va='center',
             fontdict={'size': 'small'})
 
+    settings = {'axes': axes}
+    settings.update(kwargs)
+
     return render(**kwargs)
 
 
+@override_style()
 def chromaticity_diagram_colours_plot(
         samples=256,
         diagram_opacity=1.0,
@@ -224,13 +230,13 @@ def chromaticity_diagram_colours_plot(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -246,6 +252,8 @@ def chromaticity_diagram_colours_plot(
 
     figure, axes = artist(**settings)
 
+    method = method.upper()
+
     cmfs = get_cmfs(cmfs)
 
     illuminant = COLOUR_STYLE_CONSTANTS.colour.colourspace.whitepoint
@@ -255,7 +263,6 @@ def chromaticity_diagram_colours_plot(
     ij = tstack((ii, jj))
 
     with suppress_warnings(False):
-        method = method.upper()
         if method == 'CIE 1931':
             XYZ = xy_to_XYZ(ij)
             spectral_locus = XYZ_to_xy(cmfs.values, illuminant)
@@ -287,9 +294,13 @@ def chromaticity_diagram_colours_plot(
         alpha=diagram_opacity)
     image.set_clip_path(polygon)
 
+    settings = {'axes': axes}
+    settings.update(kwargs)
+
     return render(**kwargs)
 
 
+@override_style()
 def chromaticity_diagram_plot(cmfs='CIE 1931 2 Degree Standard Observer',
                               show_diagram_colours=True,
                               show_spectral_locus=True,
@@ -314,15 +325,16 @@ def chromaticity_diagram_plot(cmfs='CIE 1931 2 Degree Standard Observer',
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.diagrams.spectral_locus_plot`,
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.diagrams.spectral_locus_plot`,
         :func:`colour.plotting.diagrams.chromaticity_diagram_colours_plot`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -338,19 +350,24 @@ def chromaticity_diagram_plot(cmfs='CIE 1931 2 Degree Standard Observer',
 
     figure, axes = artist(**settings)
 
+    method = method.upper()
+
     cmfs = get_cmfs(cmfs)
 
     if show_diagram_colours:
-        settings = {'axes': axes, 'method': method, 'standalone': False}
+        settings = {'axes': axes, 'method': method}
         settings.update(kwargs)
+        settings['standalone'] = False
+
         chromaticity_diagram_colours_plot(**settings)
 
     if show_spectral_locus:
-        settings = {'axes': axes, 'method': method, 'standalone': False}
+        settings = {'axes': axes, 'method': method}
         settings.update(kwargs)
+        settings['standalone'] = False
+
         spectral_locus_plot(**settings)
 
-    method = method.upper()
     if method == 'CIE 1931':
         x_label, y_label = 'CIE x', 'CIE y'
     elif method == 'CIE 1960 UCS':
@@ -363,22 +380,22 @@ def chromaticity_diagram_plot(cmfs='CIE 1931 2 Degree Standard Observer',
             '{\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\'}'.format(
                 method))
 
+    title = '{0} Chromaticity Diagram - {1}'.format(method, cmfs.strict_name)
+
     settings.update({
-        'standalone':
-            True,
-        'title':
-            '{0} Chromaticity Diagram - {1}'.format(method, cmfs.strict_name),
-        'x_label':
-            x_label,
-        'y_label':
-            y_label,
-        'bounding_box': (0, 1, 0, 1)
+        'axes': axes,
+        'standalone': True,
+        'bounding_box': (0, 1, 0, 1),
+        'title': title,
+        'x_label': x_label,
+        'y_label': y_label,
     })
     settings.update(kwargs)
 
     return render(**settings)
 
 
+@override_style()
 def chromaticity_diagram_plot_CIE1931(
         cmfs='CIE 1931 2 Degree Standard Observer',
         show_diagram_colours=True,
@@ -400,14 +417,15 @@ def chromaticity_diagram_plot_CIE1931(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -425,6 +443,7 @@ def chromaticity_diagram_plot_CIE1931(
                                      show_spectral_locus, **settings)
 
 
+@override_style()
 def chromaticity_diagram_plot_CIE1960UCS(
         cmfs='CIE 1931 2 Degree Standard Observer',
         show_diagram_colours=True,
@@ -446,14 +465,15 @@ def chromaticity_diagram_plot_CIE1960UCS(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -471,6 +491,7 @@ def chromaticity_diagram_plot_CIE1960UCS(
                                      show_spectral_locus, **settings)
 
 
+@override_style()
 def chromaticity_diagram_plot_CIE1976UCS(
         cmfs='CIE 1931 2 Degree Standard Observer',
         show_diagram_colours=True,
@@ -492,14 +513,15 @@ def chromaticity_diagram_plot_CIE1976UCS(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -517,6 +539,7 @@ def chromaticity_diagram_plot_CIE1976UCS(
                                      show_spectral_locus, **settings)
 
 
+@override_style()
 def spds_chromaticity_diagram_plot(
         spds,
         cmfs='CIE 1931 2 Degree Standard Observer',
@@ -551,14 +574,15 @@ def spds_chromaticity_diagram_plot(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -577,16 +601,17 @@ def spds_chromaticity_diagram_plot(
 
     figure, axes = artist(**settings)
 
+    method = method.upper()
+
     settings.update({
         'axes': axes,
+        'standalone': False,
         'method': method,
         'cmfs': cmfs,
-        'standalone': False
     })
 
     chromaticity_diagram_callable(**settings)
 
-    method = method.upper()
     if method == 'CIE 1931':
 
         def XYZ_to_ij(XYZ):
@@ -629,11 +654,11 @@ def spds_chromaticity_diagram_plot(
 
     annotate_settings_collection = [{
         'annotate': True,
-        'xytext': (50, 30),
+        'xytext': (-50, 30),
         'textcoords': 'offset points',
         'arrowprops': {
             'arrowstyle': '->',
-            'connectionstyle': 'arc3, rad=0.2'
+            'connectionstyle': 'arc3, rad=-0.2'
         }
     } for _ in range(len(spds))]
 
@@ -663,18 +688,19 @@ def spds_chromaticity_diagram_plot(
 
             axes.annotate(spd.name, xy=ij, **annotate_settings)
 
-    settings.update({'bounding_box': bounding_box, 'standalone': True})
+    settings.update({'standalone': True, 'bounding_box': bounding_box})
     settings.update(kwargs)
 
     return render(**settings)
 
 
+@override_style()
 def spds_chromaticity_diagram_plot_CIE1931(
         spds,
         cmfs='CIE 1931 2 Degree Standard Observer',
         annotate_parameters=None,
         chromaticity_diagram_callable_CIE1931=(
-            chromaticity_diagram_plot_CIE1931),
+                chromaticity_diagram_plot_CIE1931),
         **kwargs):
     """
     Plots given spectral power distribution chromaticity coordinates into the
@@ -700,14 +726,15 @@ def spds_chromaticity_diagram_plot_CIE1931(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -729,12 +756,13 @@ def spds_chromaticity_diagram_plot_CIE1931(
         **settings)
 
 
+@override_style()
 def spds_chromaticity_diagram_plot_CIE1960UCS(
         spds,
         cmfs='CIE 1931 2 Degree Standard Observer',
         annotate_parameters=None,
         chromaticity_diagram_callable_CIE1960UCS=(
-            chromaticity_diagram_plot_CIE1960UCS),
+                chromaticity_diagram_plot_CIE1960UCS),
         **kwargs):
     """
     Plots given spectral power distribution chromaticity coordinates into the
@@ -761,14 +789,15 @@ def spds_chromaticity_diagram_plot_CIE1960UCS(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
@@ -791,12 +820,13 @@ SPDS_Chromaticity_Diagram_Plot_CIE1960UCS.png
         chromaticity_diagram_callable_CIE1960UCS, **settings)
 
 
+@override_style()
 def spds_chromaticity_diagram_plot_CIE1976UCS(
         spds,
         cmfs='CIE 1931 2 Degree Standard Observer',
         annotate_parameters=None,
         chromaticity_diagram_callable_CIE1976UCS=(
-            chromaticity_diagram_plot_CIE1976UCS),
+                chromaticity_diagram_plot_CIE1976UCS),
         **kwargs):
     """
     Plots given spectral power distribution chromaticity coordinates into the
@@ -823,14 +853,15 @@ def spds_chromaticity_diagram_plot_CIE1976UCS(
     Other Parameters
     ----------------
     \**kwargs : dict, optional
-        {:func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
-        Please refer to the documentation of the previously listed definition.
+        Please refer to the documentation of the previously listed definitions.
 
     Returns
     -------
-    Figure
-        Current figure or None.
+    tuple
+        Current figure and axes.
 
     Examples
     --------
