@@ -30,11 +30,14 @@ import matplotlib.cm
 import matplotlib.pyplot as plt
 import matplotlib.ticker
 import numpy as np
+import re
 from collections import namedtuple
 from matplotlib.colors import LinearSegmentedColormap
 
-from colour.colorimetry import CMFS, ILLUMINANTS_SPDS
-from colour.models import RGB_COLOURSPACES, XYZ_to_RGB
+from colour.colorimetry import (
+    CMFS, ILLUMINANTS_SPDS, LMS_ConeFundamentals, RGB_ColourMatchingFunctions,
+    SpectralPowerDistribution, XYZ_ColourMatchingFunctions)
+from colour.models import RGB_COLOURSPACES, RGB_Colourspace, XYZ_to_RGB
 from colour.utilities import Structure
 
 __author__ = 'Colour Developers'
@@ -48,7 +51,7 @@ __all__ = [
     'COLOUR_STYLE_CONSTANTS', 'colour_style', 'override_style',
     'XYZ_to_plotting_colourspace', 'ColourSwatch', 'colour_cycle', 'artist',
     'camera', 'render', 'label_rectangles', 'uniform_axes3d',
-    'get_RGB_colourspace', 'get_cmfs', 'get_illuminant',
+    'filter_RGB_colourspaces', 'filter_cmfs', 'filter_illuminants',
     'single_colour_swatch_plot', 'multi_colour_swatch_plot', 'image_plot'
 ]
 
@@ -622,92 +625,90 @@ def uniform_axes3d(axes):
     return True
 
 
-def get_RGB_colourspace(colourspace):
+def filter_RGB_colourspaces(filterer, flags=re.IGNORECASE):
     """
-    Returns the *RGB* colourspace with given name.
+    Returns the *RGB* colourspaces matching given filterer.
 
     Parameters
     ----------
-    colourspace : unicode
-        *RGB* colourspace name.
+    filterer : unicode or RGB_Colourspace
+        *RGB* colourspace filterer or :class:`colour.RGB_Colourspace` class
+        instance which will be passed through directly.
+    flags : int, optional
+        Regex flags.
 
     Returns
     -------
-    RGB_Colourspace
-        *RGB* colourspace.
-
-    Raises
-    ------
-    KeyError
-        If the given *RGB* colourspace is not found in the factory *RGB*
-        colourspaces.
+    list
+        Filtered *RGB* colourspaces.
     """
 
-    colourspace, name = RGB_COLOURSPACES.get(colourspace), colourspace
-    if colourspace is None:
-        raise KeyError(
-            ('"{0}" colourspace not found in factory RGB colourspaces: '
-             '"{1}".').format(name,
-                              ', '.join(sorted(RGB_COLOURSPACES.keys()))))
+    if isinstance(filterer, RGB_Colourspace):
+        return [filterer]
+    else:
+        return [
+            RGB_COLOURSPACES[colourspace] for colourspace in RGB_COLOURSPACES
+            if re.search(filterer, colourspace, flags)
+        ]
 
-    return colourspace
 
-
-def get_cmfs(cmfs):
+def filter_cmfs(filterer, flags=re.IGNORECASE):
     """
-    Returns the colour matching functions with given name.
+    Returns the colour matching functions matching given filterer.
 
     Parameters
     ----------
-    cmfs : unicode
-        Colour matching functions name.
+    filterer : unicode or LMS_ConeFundamentals or RGB_ColourMatchingFunctions \
+or XYZ_ColourMatchingFunctions
+        Colour matching functions filterer or
+        :class:`colour.LMS_ConeFundamentals`,
+        :class:`colour.RGB_ColourMatchingFunctions` or
+        :class:`colour.XYZ_ColourMatchingFunctions` class instance which will
+        be passed through directly.
+    flags : int, optional
+        Regex flags.
 
     Returns
     -------
-    RGB_ColourMatchingFunctions or XYZ_ColourMatchingFunctions
-        Colour matching functions.
-
-    Raises
-    ------
-    KeyError
-        If the given colour matching functions is not found in the factory
-        colour matching functions.
+    list
+        Filtered colour matching functions.
     """
 
-    cmfs, name = CMFS.get(cmfs), cmfs
-    if cmfs is None:
-        raise KeyError(
-            ('"{0}" not found in factory colour matching functions: '
-             '"{1}".').format(name, ', '.join(sorted(CMFS.keys()))))
-    return cmfs
+    if isinstance(filterer, (LMS_ConeFundamentals, RGB_ColourMatchingFunctions,
+                             XYZ_ColourMatchingFunctions)):
+        return [filterer]
+    else:
+        return [
+            CMFS[cmfs] for cmfs in CMFS if re.search(filterer, cmfs, flags)
+        ]
 
 
-def get_illuminant(illuminant):
+def filter_illuminants(filterer, flags=re.IGNORECASE):
     """
-    Returns the illuminant with given name.
+    Returns the illuminants matching given filterer.
 
     Parameters
     ----------
-    illuminant : unicode
-        Illuminant name.
+    filterer : unicode or SpectralPowerDistribution
+        Colour matching functions filterer or
+        :class:`colour.SpectralPowerDistribution` class instance which will
+        be passed through directly.
+    flags : int, optional
+        Regex flags.
 
     Returns
     -------
-    SpectralPowerDistribution
-        Illuminant.
-
-    Raises
-    ------
-    KeyError
-        If the given illuminant is not found in the factory illuminants.
+    list
+        Filtered illuminants.
     """
 
-    illuminant, name = ILLUMINANTS_SPDS.get(illuminant), illuminant
-    if illuminant is None:
-        raise KeyError('"{0}" not found in factory illuminants: "{1}".'.format(
-            name, ', '.join(sorted(ILLUMINANTS_SPDS.keys()))))
-
-    return illuminant
+    if isinstance(filterer, SpectralPowerDistribution):
+        return [filterer]
+    else:
+        return [
+            ILLUMINANTS_SPDS[illuminant] for illuminant in ILLUMINANTS_SPDS
+            if re.search(filterer, illuminant, flags)
+        ]
 
 
 @override_style(

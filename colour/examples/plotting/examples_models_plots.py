@@ -24,7 +24,7 @@ colour_style()
 message_box('Plotting "RGB" colourspaces in "CIE 1931 Chromaticity Diagram".')
 pprint(sorted(colour.RGB_COLOURSPACES.keys()))
 RGB_colourspaces_chromaticity_diagram_plot_CIE1931(
-    ['ITU-R BT.709', 'ACEScg', 'S-Gamut', 'Pointer Gamut'])
+    ['ITU-R BT.709', 'ACEScg', 'S-Gamut'], show_pointer_gamut=True)
 
 print('\n')
 
@@ -32,7 +32,7 @@ message_box(('Plotting "RGB" colourspaces in '
              '"CIE 1960 UCS Chromaticity Diagram".'))
 pprint(sorted(colour.RGB_COLOURSPACES.keys()))
 RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS(
-    ['ITU-R BT.709', 'ACEScg', 'S-Gamut', 'Pointer Gamut'])
+    ['ITU-R BT.709', 'ACEScg', 'S-Gamut'], show_pointer_gamut=True)
 
 print('\n')
 
@@ -40,7 +40,7 @@ message_box(('Plotting "RGB" colourspaces in '
              '"CIE 1976 UCS Chromaticity Diagram".'))
 pprint(sorted(colour.RGB_COLOURSPACES.keys()))
 RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS(
-    ['ITU-R BT.709', 'ACEScg', 'S-Gamut', 'Pointer Gamut'])
+    ['ITU-R BT.709', 'ACEScg', 'S-Gamut'], show_pointer_gamut=True)
 
 print('\n')
 
@@ -49,21 +49,28 @@ RGB = np.random.random((32, 32, 3))
 message_box('Plotting "RGB" chromaticity coordinates in '
             '"CIE 1931 Chromaticity Diagram".')
 RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931(
-    RGB, 'ITU-R BT.709', colourspaces=['ACEScg', 'S-Gamut', 'Pointer Gamut'])
+    RGB,
+    'ITU-R BT.709',
+    colourspaces=['ACEScg', 'S-Gamut'],
+    show_pointer_gamut=True)
 
 print('\n')
 
 message_box('Plotting "RGB" chromaticity coordinates in '
             '"CIE 1960 UCS Chromaticity Diagram".')
 RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS(
-    RGB, 'ITU-R BT.709', colourspaces=['ACEScg', 'S-Gamut', 'Pointer Gamut'])
+    RGB,
+    'ITU-R BT.709',
+    colourspaces=['ACEScg', 'S-Gamut'],
+    show_pointer_gamut=True)
 
 print('\n')
 
 message_box('Plotting "RGB" chromaticity coordinates in '
             '"CIE 1976 UCS Chromaticity Diagram".')
 RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS(
-    RGB, 'ITU-R BT.709', colourspaces=['ACEScg', 'S-Gamut', 'Pointer Gamut'])
+    RGB, 'ITU-R BT.709', colourspaces=['ACEScg', 'S-Gamut'],
+    show_pointer_gamut=True)
 
 print('\n')
 

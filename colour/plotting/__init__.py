@@ -12,7 +12,7 @@ from . import dataset
 from .common import (COLOUR_STYLE_CONSTANTS, colour_style, override_style,
                      XYZ_to_plotting_colourspace, ColourSwatch, colour_cycle,
                      artist, camera, render, label_rectangles, uniform_axes3d,
-                     get_RGB_colourspace, get_cmfs, get_illuminant,
+                     filter_RGB_colourspaces, filter_cmfs, filter_illuminants,
                      single_colour_swatch_plot, multi_colour_swatch_plot,
                      image_plot)
 from .blindness import cvd_simulation_Machado2009_plot
@@ -33,7 +33,7 @@ from .diagrams import (chromaticity_diagram_plot_CIE1931,
 from .corresponding import corresponding_chromaticities_prediction_plot
 from .geometry import quad, grid, cube
 from .models import (
-    RGB_colourspaces_chromaticity_diagram_plot_CIE1931,
+    pointer_gamut_plot, RGB_colourspaces_chromaticity_diagram_plot_CIE1931,
     RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS,
     RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS,
     RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931,
@@ -57,7 +57,7 @@ __all__ += [
     'COLOUR_STYLE_CONSTANTS', 'colour_style', 'override_style',
     'XYZ_to_plotting_colourspace', 'ColourSwatch', 'colour_cycle', 'artist',
     'camera', 'render', 'label_rectangles', 'uniform_axes3d',
-    'get_RGB_colourspace', 'get_cmfs', 'get_illuminant',
+    'filter_RGB_colourspaces', 'filter_cmfs', 'filter_illuminants',
     'single_colour_swatch_plot', 'multi_colour_swatch_plot', 'image_plot'
 ]
 __all__ += ['cvd_simulation_Machado2009_plot']
@@ -80,7 +80,7 @@ __all__ += [
 __all__ += ['corresponding_chromaticities_prediction_plot']
 __all__ += ['quad', 'grid', 'cube']
 __all__ += [
-    'RGB_colourspaces_chromaticity_diagram_plot_CIE1931',
+    'pointer_gamut_plot', 'RGB_colourspaces_chromaticity_diagram_plot_CIE1931',
     'RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS',
     'RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS',
     'RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931',
@@ -203,6 +203,18 @@ API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
     [
         'colour.plotting.equal_axes3d',
         'colour.plotting.uniform_axes3d',
+    ],
+    [
+        'colour.plotting.get_RGB_colourspace',
+        'colour.plotting.filter_RGB_colourspaces',
+    ],
+    [
+        'colour.plotting.get_cmfs',
+        'colour.plotting.filter_cmfs',
+    ],
+    [
+        'colour.plotting.get_illuminant',
+        'colour.plotting.filter_illuminants',
     ],
     [
         'colour.plotting.single_illuminant_relative_spd_plot',

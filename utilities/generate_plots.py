@@ -135,7 +135,8 @@ def generate_documentation_plots(output_directory):
     RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931(
         RGB,
         'ITU-R BT.709',
-        colourspaces=['ACEScg', 'S-Gamut', 'Pointer Gamut'],
+        colourspaces=['ACEScg', 'S-Gamut'],
+        show_pointer_gamut=True,
         **arguments)
 
     arguments['filename'] = os.path.join(output_directory,
@@ -305,9 +306,8 @@ def generate_documentation_plots(output_directory):
 
     arguments['filename'] = os.path.join(
         output_directory,
-        'Plotting_RGB_Colourspaces_Chromaticity_Diagram_Plot.png')
-    RGB_colourspaces_chromaticity_diagram_plot(
-        ['ITU-R BT.709', 'ACEScg', 'S-Gamut'], **arguments)
+        'Plotting_Pointer_Gamut_Plot.png')
+    pointer_gamut_plot(**arguments)
 
     arguments['filename'] = os.path.join(
         output_directory,

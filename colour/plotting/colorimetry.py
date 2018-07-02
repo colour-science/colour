@@ -25,6 +25,7 @@ References
 
 from __future__ import division
 
+import itertools
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.patches import Polygon
@@ -35,10 +36,11 @@ from colour.colorimetry import (
     ILLUMINANTS, ILLUMINANTS_SPDS, LIGHTNESS_METHODS, SpectralShape,
     blackbody_spd, ones_spd, spectral_to_XYZ, wavelength_to_XYZ)
 from colour.plotting import (ColourSwatch, COLOUR_STYLE_CONSTANTS,
-                             XYZ_to_plotting_colourspace, artist, get_cmfs,
-                             get_illuminant, override_style, render,
+                             XYZ_to_plotting_colourspace, artist, filter_cmfs,
+                             filter_illuminants, override_style, render,
                              single_colour_swatch_plot)
-from colour.utilities import normalise_maximum, suppress_warnings, tstack
+from colour.utilities import (first_item, normalise_maximum, suppress_warnings,
+                              tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -111,7 +113,7 @@ def single_spd_plot(spd,
 
     figure, axes = artist(**kwargs)
 
-    cmfs = get_cmfs(cmfs)
+    cmfs = first_item(filter_cmfs(cmfs))
 
     spd = spd.copy()
     spd.interpolator = LinearInterpolator
@@ -231,7 +233,7 @@ def multi_spd_plot(spds,
 
     figure, axes = artist(**kwargs)
 
-    cmfs = get_cmfs(cmfs)
+    cmfs = first_item(filter_cmfs(cmfs))
 
     illuminant = ILLUMINANTS_SPDS[
         COLOUR_STYLE_CONSTANTS.colour.colourspace.illuminant]
@@ -302,7 +304,7 @@ def single_cmfs_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
         :alt: single_cmfs_plot
     """
 
-    cmfs = get_cmfs(cmfs)
+    cmfs = first_item(filter_cmfs(cmfs))
     settings = {
         'title': '{0} - Colour Matching Functions'.format(cmfs.strict_name)
     }
@@ -347,17 +349,19 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
         cmfs = ('CIE 1931 2 Degree Standard Observer',
                 'CIE 1964 10 Degree Standard Observer')
 
+    cmfs = list(
+        itertools.chain.from_iterable(
+            [filter_cmfs(cmfs_i) for cmfs_i in cmfs]))
+
     figure, axes = artist(**kwargs)
 
     axes.axhline(color=COLOUR_STYLE_CONSTANTS.colour.dark, linestyle='--')
 
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
-    for i, rgb in enumerate([(1, 0, 0), (0, 1, 0), (0, 0, 1)]):
-        for j, cmfs_i in enumerate(cmfs):
-            cmfs_i = get_cmfs(cmfs_i)
-
-            rgb = [reduce(lambda y, _: y * 0.5, range(j), x) for x in rgb]
-            values = cmfs_i.values[:, i]
+    for i, cmfs_i in enumerate(cmfs):
+        for j, RGB in enumerate([(1, 0, 0), (0, 1, 0), (0, 0, 1)]):
+            RGB = [reduce(lambda y, _: y * 0.5, range(i), x) for x in RGB]
+            values = cmfs_i.values[:, j]
 
             shape = cmfs_i.shape
             x_limit_min.append(shape.start)
@@ -368,15 +372,15 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
             axes.plot(
                 cmfs_i.wavelengths,
                 values,
-                color=rgb,
-                label=u'{0} - {1}'.format(cmfs_i.strict_labels[i],
+                color=RGB,
+                label=u'{0} - {1}'.format(cmfs_i.strict_labels[j],
                                           cmfs_i.strict_name))
 
     bounding_box = (min(x_limit_min), max(x_limit_max),
                     min(y_limit_min) - abs(min(y_limit_min)) * 0.05,
                     max(y_limit_max) + abs(max(y_limit_max)) * 0.05)
     title = '{0} - Colour Matching Functions'.format(', '.join(
-        [get_cmfs(c).strict_name for c in cmfs]))
+        [cmfs_i.strict_name for cmfs_i in cmfs]))
 
     settings = {
         'axes': axes,
@@ -434,10 +438,10 @@ def single_illuminant_spd_plot(illuminant='A',
         :alt: single_illuminant_spd_plot
     """
 
-    cmfs = get_cmfs(cmfs)
+    cmfs = first_item(filter_cmfs(cmfs))
     title = 'Illuminant {0} - {1}'.format(illuminant, cmfs.strict_name)
 
-    illuminant = get_illuminant(illuminant)
+    illuminant = first_item(filter_illuminants(illuminant))
 
     settings = {'title': title, 'y_label': 'Relative Power'}
     settings.update(kwargs)
@@ -484,17 +488,17 @@ def multi_illuminant_spd_plot(illuminants=None, **kwargs):
     if illuminants is None:
         illuminants = ('A', 'B', 'C')
 
-    spds = []
-    for illuminant in illuminants:
-        spds.append(get_illuminant(illuminant))
+    illuminants = list(
+        itertools.chain.from_iterable(
+            [filter_illuminants(illuminant) for illuminant in illuminants]))
 
     title = '{0} - Illuminants Spectral Power Distributions'.format(
-        ', '.join([spd.strict_name for spd in spds]))
+        ', '.join([illuminant.strict_name for illuminant in illuminants]))
 
     settings = {'title': title, 'y_label': 'Relative Power'}
     settings.update(kwargs)
 
-    return multi_spd_plot(spds, **settings)
+    return multi_spd_plot(illuminants, **settings)
 
 
 @override_style(**{
@@ -541,20 +545,17 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
         :alt: visible_spectrum_plot
     """
 
-    cmfs, name = get_cmfs(cmfs), cmfs
+    cmfs = first_item(filter_cmfs(cmfs))
 
     bounding_box = (min(cmfs.wavelengths), max(cmfs.wavelengths), 0, 1)
 
-    settings = {
-        'bounding_box': bounding_box,
-        'y_label': None,
-    }
+    settings = {'bounding_box': bounding_box, 'y_label': None}
     settings.update(kwargs)
     settings['standalone'] = False
 
     figure, axes = single_spd_plot(
         ones_spd(cmfs.shape),
-        cmfs=name,
+        cmfs=cmfs,
         out_of_gamut_clipping=out_of_gamut_clipping,
         **settings)
 
@@ -720,7 +721,7 @@ def blackbody_spectral_radiance_plot(
 
     figure.subplots_adjust(hspace=COLOUR_STYLE_CONSTANTS.geometry.short / 2)
 
-    cmfs = get_cmfs(cmfs)
+    cmfs = first_item(filter_cmfs(cmfs))
 
     spd = blackbody_spd(temperature, cmfs.shape)
 
@@ -802,7 +803,7 @@ def blackbody_colours_plot(
 
     figure, axes = artist(**kwargs)
 
-    cmfs = get_cmfs(cmfs)
+    cmfs = first_item(filter_cmfs(cmfs))
 
     colours = []
     temperatures = []
