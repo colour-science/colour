@@ -11,6 +11,7 @@ Defines colour models volume and gamut plotting objects:
 
 from __future__ import division
 
+import itertools
 import matplotlib.pyplot as plt
 import numpy as np
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
@@ -19,9 +20,10 @@ from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.models import RGB_to_XYZ
 from colour.models.common import (COLOURSPACE_MODELS_LABELS,
                                   XYZ_to_colourspace_model)
-from colour.plotting import (COLOUR_STYLE_CONSTANTS, cube, get_RGB_colourspace,
-                             get_cmfs, grid, override_style, render)
-from colour.utilities import Structure, tsplit, tstack
+from colour.plotting import (COLOUR_STYLE_CONSTANTS, cube,
+                             filter_RGB_colourspaces, filter_cmfs, grid,
+                             override_style, render)
+from colour.utilities import Structure, first_item, tsplit, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -467,16 +469,26 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
     if colourspaces is None:
         colourspaces = ('ITU-R BT.709', 'ACEScg')
 
+    colourspaces = list(
+        itertools.chain.from_iterable([
+            filter_RGB_colourspaces(colourspace)
+            for colourspace in colourspaces
+        ]))
+
     count_c = len(colourspaces)
+
+    title = '{0} - {1} Reference Colourspace'.format(
+        ', '.join([colourspace.name for colourspace in colourspaces]),
+        reference_colourspace,
+    )
+
     settings = Structure(
         **{
             'face_colours': [None] * count_c,
             'edge_colours': [None] * count_c,
             'face_alpha': [1] * count_c,
             'edge_alpha': [1] * count_c,
-            'title':
-                '{0} - {1} Reference Colourspace'.format(
-                    ', '.join(colourspaces), reference_colourspace)
+            'title': title,
         })
     settings.update(kwargs)
 
@@ -487,7 +499,7 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
 
     points = np.zeros((4, 3))
     if spectral_locus:
-        cmfs = get_cmfs(cmfs)
+        cmfs = first_item(filter_cmfs(cmfs))
         XYZ = cmfs.values
 
         points = common_colourspace_model_axis_reorder(
@@ -509,20 +521,25 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
 
     quads, RGB_f, RGB_e = [], [], []
     for i, colourspace in enumerate(colourspaces):
-        colourspace = get_RGB_colourspace(colourspace)
         quads_c, RGB = RGB_identity_cube(
             width_segments=segments,
             height_segments=segments,
             depth_segments=segments)
 
-        XYZ = RGB_to_XYZ(quads_c, colourspace.whitepoint,
-                         colourspace.whitepoint, colourspace.RGB_to_XYZ_matrix)
+        XYZ = RGB_to_XYZ(
+            quads_c,
+            colourspace.whitepoint,
+            colourspace.whitepoint,
+            colourspace.RGB_to_XYZ_matrix,
+        )
 
         quads.extend(
             common_colourspace_model_axis_reorder(
-                XYZ_to_colourspace_model(XYZ, colourspace.whitepoint,
-                                         reference_colourspace),
-                reference_colourspace))
+                XYZ_to_colourspace_model(
+                    XYZ,
+                    colourspace.whitepoint,
+                    reference_colourspace,
+                ), reference_colourspace))
 
         if settings.face_colours[i] is not None:
             RGB = np.ones(RGB.shape) * settings.face_colours[i]
@@ -652,7 +669,7 @@ def RGB_scatter_plot(RGB,
         :alt: RGB_scatter_plot
     """
 
-    colourspace = get_RGB_colourspace(colourspace)
+    colourspace = first_item(filter_RGB_colourspaces(colourspace))
 
     if colourspaces is None:
         colourspaces = (colourspace.name, )

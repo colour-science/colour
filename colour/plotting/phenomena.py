@@ -20,9 +20,9 @@ from colour.phenomena.rayleigh import (
     STANDARD_AIR_TEMPERATURE, STANDARD_CO2_CONCENTRATION)
 from colour.plotting import (ASTM_G_173_ETR, COLOUR_STYLE_CONSTANTS,
                              ColourSwatch, XYZ_to_plotting_colourspace,
-                             get_cmfs, override_style, render,
+                             filter_cmfs, override_style, render,
                              single_colour_swatch_plot, single_spd_plot)
-from colour.utilities import normalise_maximum
+from colour.utilities import first_item, normalise_maximum
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -88,7 +88,7 @@ def single_rayleigh_scattering_spd_plot(
 
     title = 'Rayleigh Scattering'
 
-    cmfs = get_cmfs(cmfs)
+    cmfs = first_item(filter_cmfs(cmfs))
 
     settings = {'title': title, 'y_label': 'Optical Depth'}
     settings.update(kwargs)
@@ -133,7 +133,7 @@ def the_blue_sky_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
 
     figure.subplots_adjust(hspace=COLOUR_STYLE_CONSTANTS.geometry.short / 2)
 
-    cmfs, name = get_cmfs(cmfs), cmfs
+    cmfs = first_item(filter_cmfs(cmfs))
 
     ASTM_G_173_spd = ASTM_G_173_ETR.copy()
     rayleigh_spd = rayleigh_scattering_spd()
@@ -151,7 +151,7 @@ def the_blue_sky_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     settings.update(kwargs)
     settings['standalone'] = False
 
-    single_spd_plot(spd, name, **settings)
+    single_spd_plot(spd, cmfs, **settings)
 
     axes = figure.add_subplot(212)
 

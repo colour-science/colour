@@ -25,10 +25,10 @@ from colour.colorimetry import spectral_to_XYZ
 from colour.models import (Luv_to_uv, Luv_uv_to_xy, UCS_to_uv, UCS_uv_to_xy,
                            XYZ_to_Luv, XYZ_to_UCS, XYZ_to_xy, xy_to_XYZ)
 from colour.plotting import (COLOUR_STYLE_CONSTANTS,
-                             XYZ_to_plotting_colourspace, artist, get_cmfs,
+                             XYZ_to_plotting_colourspace, artist, filter_cmfs,
                              override_style, render)
-from colour.utilities import (is_string, normalise_maximum, suppress_warnings,
-                              tstack)
+from colour.utilities import (first_item, is_string, normalise_maximum,
+                              suppress_warnings, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -104,7 +104,7 @@ def spectral_locus_plot(cmfs='CIE 1931 2 Degree Standard Observer',
 
     method = method.upper()
 
-    cmfs = get_cmfs(cmfs)
+    cmfs = first_item(filter_cmfs(cmfs))
 
     illuminant = COLOUR_STYLE_CONSTANTS.colour.colourspace.whitepoint
 
@@ -177,7 +177,7 @@ def spectral_locus_plot(cmfs='CIE 1931 2 Degree Standard Observer',
 
         normal = (np.array([-dy, dx]) if np.dot(
             normalise_vector(ij - equal_energy), normalise_vector(direction)) >
-                                         0 else np.array([dy, -dx]))
+                  0 else np.array([dy, -dx]))
         normal = normalise_vector(normal) / 30
 
         label_colour = (spectral_locus_colours
@@ -254,7 +254,7 @@ def chromaticity_diagram_colours_plot(
 
     method = method.upper()
 
-    cmfs = get_cmfs(cmfs)
+    cmfs = first_item(filter_cmfs(cmfs))
 
     illuminant = COLOUR_STYLE_CONSTANTS.colour.colourspace.whitepoint
 
@@ -352,7 +352,7 @@ def chromaticity_diagram_plot(cmfs='CIE 1931 2 Degree Standard Observer',
 
     method = method.upper()
 
-    cmfs = get_cmfs(cmfs)
+    cmfs = first_item(filter_cmfs(cmfs))
 
     if show_diagram_colours:
         settings = {'axes': axes, 'method': method}
@@ -700,7 +700,7 @@ def spds_chromaticity_diagram_plot_CIE1931(
         cmfs='CIE 1931 2 Degree Standard Observer',
         annotate_parameters=None,
         chromaticity_diagram_callable_CIE1931=(
-                chromaticity_diagram_plot_CIE1931),
+            chromaticity_diagram_plot_CIE1931),
         **kwargs):
     """
     Plots given spectral power distribution chromaticity coordinates into the
@@ -762,7 +762,7 @@ def spds_chromaticity_diagram_plot_CIE1960UCS(
         cmfs='CIE 1931 2 Degree Standard Observer',
         annotate_parameters=None,
         chromaticity_diagram_callable_CIE1960UCS=(
-                chromaticity_diagram_plot_CIE1960UCS),
+            chromaticity_diagram_plot_CIE1960UCS),
         **kwargs):
     """
     Plots given spectral power distribution chromaticity coordinates into the
@@ -826,7 +826,7 @@ def spds_chromaticity_diagram_plot_CIE1976UCS(
         cmfs='CIE 1931 2 Degree Standard Observer',
         annotate_parameters=None,
         chromaticity_diagram_callable_CIE1976UCS=(
-                chromaticity_diagram_plot_CIE1976UCS),
+            chromaticity_diagram_plot_CIE1976UCS),
         **kwargs):
     """
     Plots given spectral power distribution chromaticity coordinates into the

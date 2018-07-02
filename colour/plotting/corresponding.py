@@ -80,10 +80,7 @@ Corresponding_Chromaticities_Prediction_Plot.png
               'Experiment {1}\nCIE 1976 UCS Chromaticity Diagram').format(
                   model, experiment))
 
-    settings = {
-        'axes': axes,
-        'title': title,
-    }
+    settings = {'axes': axes, 'title': title}
     settings.update(kwargs)
     settings['standalone'] = False
 
@@ -114,6 +111,7 @@ Corresponding_Chromaticities_Prediction_Plot.png
             color=COLOUR_STYLE_CONSTANTS.colour.brightest)
         axes.plot(
             uvp_p[0], uvp_p[1], '^', color=COLOUR_STYLE_CONSTANTS.colour.dark)
+
     settings.update({
         'standalone': True,
         'bounding_box': (-0.1, 0.7, -0.1, 0.7),

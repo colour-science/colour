@@ -23,6 +23,7 @@ RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS`
 
 from __future__ import division
 
+import itertools
 import numpy as np
 
 from colour.constants import EPSILON
@@ -33,9 +34,10 @@ from colour.models import (
 from colour.plotting import (
     COLOUR_STYLE_CONSTANTS, chromaticity_diagram_plot_CIE1931,
     chromaticity_diagram_plot_CIE1960UCS, chromaticity_diagram_plot_CIE1976UCS,
-    artist, colour_cycle, get_RGB_colourspace, get_cmfs, override_style,
+    artist, colour_cycle, filter_RGB_colourspaces, filter_cmfs, override_style,
     render)
 from colour.plotting.diagrams import chromaticity_diagram_plot
+from colour.utilities import first_item
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -45,7 +47,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'RGB_colourspaces_chromaticity_diagram_plot',
+    'pointer_gamut_plot', 'RGB_colourspaces_chromaticity_diagram_plot',
     'RGB_colourspaces_chromaticity_diagram_plot_CIE1931',
     'RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS',
     'RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS',
@@ -58,12 +60,137 @@ __all__ = [
 
 
 @override_style()
+def pointer_gamut_plot(method='CIE 1931', **kwargs):
+    """
+    Plots *Pointer's Gamut* according to given method.
+
+    Parameters
+    ----------
+    method : unicode, optional
+        **{'CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'}**,
+        Plotting method.
+
+    Other Parameters
+    ----------------
+    \**kwargs : dict, optional
+        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
+
+    Returns
+    -------
+    tuple
+        Current figure and axes.
+
+    Examples
+    --------
+    >>> pointer_gamut_plot()  # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_Pointer_Gamut_Plot.png
+        :align: center
+        :alt: pointer_gamut_plot
+    """
+
+    settings = {'uniform': True}
+    settings.update(kwargs)
+
+    figure, axes = artist(**settings)
+
+    method = method.upper()
+
+    if method == 'CIE 1931':
+
+        def XYZ_to_ij(XYZ, *args):
+            """
+            Converts given *CIE XYZ* tristimulus values to *ij* chromaticity
+            coordinates.
+            """
+
+            return XYZ_to_xy(XYZ, *args)
+
+        def xy_to_ij(xy):
+            """
+            Converts given *xy* chromaticity coordinates to *ij* chromaticity
+            coordinates.
+            """
+
+            return xy
+
+    elif method == 'CIE 1960 UCS':
+
+        def XYZ_to_ij(XYZ, *args):
+            """
+            Converts given *CIE XYZ* tristimulus values to *ij* chromaticity
+            coordinates.
+            """
+
+            return UCS_to_uv(XYZ_to_UCS(XYZ))
+
+        def xy_to_ij(xy):
+            """
+            Converts given *xy* chromaticity coordinates to *ij* chromaticity
+            coordinates.
+            """
+
+            return xy_to_UCS_uv(xy)
+
+    elif method == 'CIE 1976 UCS':
+
+        def XYZ_to_ij(XYZ, *args):
+            """
+            Converts given *CIE XYZ* tristimulus values to *ij* chromaticity
+            coordinates.
+            """
+
+            return Luv_to_uv(XYZ_to_Luv(XYZ, *args), *args)
+
+        def xy_to_ij(xy):
+            """
+            Converts given *xy* chromaticity coordinates to *ij* chromaticity
+            coordinates.
+            """
+
+            return xy_to_Luv_uv(xy)
+
+    else:
+        raise ValueError(
+            'Invalid method: "{0}", must be one of '
+            '{\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\'}'.format(
+                method))
+
+    ij = xy_to_ij(np.asarray(POINTER_GAMUT_BOUNDARIES))
+    alpha_p = COLOUR_STYLE_CONSTANTS.opacity.high
+    colour_p = COLOUR_STYLE_CONSTANTS.colour.brightest
+    axes.plot(
+        ij[..., 0],
+        ij[..., 1],
+        label='Pointer\'s Gamut',
+        color=colour_p,
+        alpha=alpha_p)
+    axes.plot(
+        (ij[-1][0], ij[0][0]), (ij[-1][1], ij[0][1]),
+        color=colour_p,
+        alpha=alpha_p)
+
+    XYZ = Lab_to_XYZ(
+        LCHab_to_Lab(POINTER_GAMUT_DATA), POINTER_GAMUT_ILLUMINANT)
+    ij = XYZ_to_ij(XYZ, POINTER_GAMUT_ILLUMINANT)
+    axes.scatter(
+        ij[..., 0], ij[..., 1], alpha=alpha_p / 2, color=colour_p, marker='+')
+
+    settings.update({'axes': axes})
+    settings.update(kwargs)
+
+    return render(**settings)
+
+
+@override_style()
 def RGB_colourspaces_chromaticity_diagram_plot(
         colourspaces=None,
         cmfs='CIE 1931 2 Degree Standard Observer',
         chromaticity_diagram_callable=chromaticity_diagram_plot,
         method='CIE 1931',
         show_whitepoints=True,
+        show_pointer_gamut=False,
         **kwargs):
     """
     Plots given *RGB* colourspaces in the *Chromaticity Diagram* according
@@ -83,12 +210,15 @@ def RGB_colourspaces_chromaticity_diagram_plot(
         *Chromaticity Diagram* method.
     show_whitepoints : bool, optional
         Whether to display the *RGB* colourspaces whitepoints.
+    show_pointer_gamut : bool, optional
+        Whether to display the *Pointer's Gamut*.
 
     Other Parameters
     ----------------
     \**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        :func:`colour.plotting.pointer_gamut_plot`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -110,7 +240,13 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot.png
     """
 
     if colourspaces is None:
-        colourspaces = ['ITU-R BT.709', 'ACEScg', 'S-Gamut', 'Pointer Gamut']
+        colourspaces = ['ITU-R BT.709', 'ACEScg', 'S-Gamut']
+
+    colourspaces = list(
+        itertools.chain.from_iterable([
+            filter_RGB_colourspaces(colourspace)
+            for colourspace in colourspaces
+        ]))
 
     settings = {'uniform': True}
     settings.update(kwargs)
@@ -119,30 +255,26 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot.png
 
     method = method.upper()
 
-    cmfs, name = get_cmfs(cmfs), cmfs
+    cmfs = first_item(filter_cmfs(cmfs))
 
     title = '{0}\n{1} - {2} Chromaticity Diagram'.format(
-        ', '.join(colourspaces), name, method)
+        ', '.join([colourspace.name for colourspace in colourspaces]),
+        cmfs.name, method)
 
-    settings = {
-        'axes': axes,
-        'standalone': False,
-        'title': title,
-        'method': method,
-    }
+    settings = {'axes': axes, 'title': title, 'method': method}
     settings.update(kwargs)
+    settings['standalone'] = False
 
     chromaticity_diagram_callable(**settings)
 
+    if show_pointer_gamut:
+        settings = {'axes': axes, 'method': method}
+        settings.update(kwargs)
+        settings['standalone'] = False
+
+        pointer_gamut_plot(**settings)
+
     if method == 'CIE 1931':
-
-        def XYZ_to_ij(XYZ, *args):
-            """
-            Converts given *CIE XYZ* tristimulus values to *ij* chromaticity
-            coordinates.
-            """
-
-            return XYZ_to_xy(XYZ, *args)
 
         def xy_to_ij(xy):
             """
@@ -156,14 +288,6 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot.png
         y_limit_min, y_limit_max = [-0.1], [0.9]
     elif method == 'CIE 1960 UCS':
 
-        def XYZ_to_ij(XYZ, *args):
-            """
-            Converts given *CIE XYZ* tristimulus values to *ij* chromaticity
-            coordinates.
-            """
-
-            return UCS_to_uv(XYZ_to_UCS(XYZ))
-
         def xy_to_ij(xy):
             """
             Converts given *xy* chromaticity coordinates to *ij* chromaticity
@@ -176,14 +300,6 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot.png
         y_limit_min, y_limit_max = [-0.2], [0.6]
 
     elif method == 'CIE 1976 UCS':
-
-        def XYZ_to_ij(XYZ, *args):
-            """
-            Converts given *CIE XYZ* tristimulus values to *ij* chromaticity
-            coordinates.
-            """
-
-            return Luv_to_uv(XYZ_to_Luv(XYZ, *args), *args)
 
         def xy_to_ij(xy):
             """
@@ -201,43 +317,12 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot.png
             '{\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\'}'.format(
                 method))
 
-    settings = {
-        'colour_cycle_count': len(colourspaces)
-    }
+    settings = {'colour_cycle_count': len(colourspaces)}
     settings.update(kwargs)
 
     cycle = colour_cycle(**settings)
 
-    if 'Pointer Gamut' in colourspaces:
-        colourspaces.remove('Pointer Gamut')
-
-        ij = xy_to_ij(np.asarray(POINTER_GAMUT_BOUNDARIES))
-        alpha_p = COLOUR_STYLE_CONSTANTS.opacity.high
-        colour_p = COLOUR_STYLE_CONSTANTS.colour.brightest
-        axes.plot(
-            ij[..., 0],
-            ij[..., 1],
-            label='Pointer\'s Gamut',
-            color=colour_p,
-            alpha=alpha_p)
-        axes.plot(
-            (ij[-1][0], ij[0][0]), (ij[-1][1], ij[0][1]),
-            color=colour_p,
-            alpha=alpha_p)
-
-        XYZ = Lab_to_XYZ(
-            LCHab_to_Lab(POINTER_GAMUT_DATA), POINTER_GAMUT_ILLUMINANT)
-        ij = XYZ_to_ij(XYZ, POINTER_GAMUT_ILLUMINANT)
-        axes.scatter(
-            ij[..., 0],
-            ij[..., 1],
-            alpha=alpha_p / 2,
-            color=colour_p,
-            marker='+')
-
     for colourspace in colourspaces:
-        colourspace, name = get_RGB_colourspace(colourspace), colourspace
-
         R, G, B, _A = next(cycle)
 
         # RGB colourspaces such as *ACES2065-1* have primaries with
@@ -517,8 +602,9 @@ RGB_Chromaticity_Coordinates_Chromaticity_Diagram_Plot.png
     settings = dict(kwargs)
     settings.update({'axes': axes, 'standalone': False})
 
-    colourspace, name = get_RGB_colourspace(colourspace), colourspace
-    settings['colourspaces'] = [name] + settings.get('colourspaces', [])
+    colourspace = first_item(filter_RGB_colourspaces(colourspace))
+    settings['colourspaces'] = (
+        [colourspace.name] + settings.get('colourspaces', []))
 
     chromaticity_diagram_callable(**settings)
 
@@ -814,6 +900,12 @@ def multi_cctf_plot(colourspaces=None, decoding_cctf=False, **kwargs):
     if colourspaces is None:
         colourspaces = ('ITU-R BT.709', 'sRGB')
 
+    colourspaces = list(
+        itertools.chain.from_iterable([
+            filter_RGB_colourspaces(colourspace)
+            for colourspace in colourspaces
+        ]))
+
     settings = {'uniform': True}
     settings.update(kwargs)
 
@@ -821,20 +913,21 @@ def multi_cctf_plot(colourspaces=None, decoding_cctf=False, **kwargs):
 
     samples = np.linspace(0, 1, 1000)
     for colourspace in colourspaces:
-        colourspace = get_RGB_colourspace(colourspace)
-
         RGBs = (colourspace.decoding_cctf(samples)
                 if decoding_cctf else colourspace.encoding_cctf(samples))
 
         axes.plot(samples, RGBs, label=u'{0}'.format(colourspace.name))
 
     mode = 'Decoding' if decoding_cctf else 'Encoding'
+    title = '{0} - {1} CCTFs'.format(', '.join(
+        [colourspace.name for colourspace in colourspaces]), mode)
+
     settings = {
         'axes': axes,
         'aspect': 'equal',
         'bounding_box': (0, 1, 0, 1),
         'legend': True,
-        'title': '{0} - {1} CCTFs'.format(', '.join(colourspaces), mode),
+        'title': title,
         'x_label': 'Signal Value' if decoding_cctf else 'Tristimulus Value',
         'y_label': 'Tristimulus Value' if decoding_cctf else 'Signal Value',
     }

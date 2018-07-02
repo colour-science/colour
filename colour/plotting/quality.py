@@ -282,10 +282,7 @@ Multi_Spd_Colour_Rendering_Index_Bars_Plot.png
     title = 'Colour Rendering Index - {0}'.format(', '.join(
         [spd.strict_name for spd in spds]))
 
-    settings = {
-        'axes': axes,
-        'title': title,
-    }
+    settings = {'axes': axes, 'title': title}
     settings.update(kwargs)
 
     return render(**settings)
@@ -398,10 +395,7 @@ Multi_Spd_Colour_Quality_Scale_Bars_Plot.png
     title = 'Colour Quality Scale - {0}'.format(', '.join(
         [spd.strict_name for spd in spds]))
 
-    settings = {
-        'axes': axes,
-        'title': title,
-    }
+    settings = {'axes': axes, 'title': title}
     settings.update(kwargs)
 
     return render(**settings)
