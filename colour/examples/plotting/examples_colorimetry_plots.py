@@ -883,10 +883,7 @@ message_box('Plotting photopic luminous efficiency functions.')
 multi_spd_plot(
     colour.PHOTOPIC_LEFS.values(),
     title='Luminous Efficiency Functions',
-    y_label='Luminous Efficiency',
-    legend_location='upper right',
-    y_tighten=True,
-    margins=(0, 0, 0, .1))
+    y_label='Luminous Efficiency')
 
 print('\n')
 
@@ -895,10 +892,7 @@ multi_spd_plot(
     (colour.PHOTOPIC_LEFS['CIE 2008 2 Degree Physiologically Relevant LEF'],
      colour.SCOTOPIC_LEFS['CIE 1951 Scotopic Standard Observer']),
     title='Photopic & Scotopic Luminous Efficiency Functions',
-    y_label='Luminous Efficiency',
-    legend_location='upper right',
-    y_tighten=True,
-    margins=(0, 0, 0, .1))
+    y_label='Luminous Efficiency')
 
 print('\n')
 
@@ -912,10 +906,7 @@ multi_spd_plot(
     (mesopic_luminous_efficiency_function,
      colour.PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer'],
      colour.SCOTOPIC_LEFS['CIE 1951 Scotopic Standard Observer']),
-    y_label='Luminous Efficiency',
-    legend_location='upper right',
-    y_tighten=True,
-    margins=(0, 0, 0, .1))
+    y_label='Luminous Efficiency')
 
 print('\n')
 
@@ -950,8 +941,7 @@ blackbody_spd.name = 'The Sun - 5778K'
 
 multi_spd_plot(
     (ASTM_G_173_spd, blackbody_spd),
-    y_label='W / (sr m$^2$) / m',
-    legend_location='upper right')
+    y_label='W / (sr m$^2$) / m')
 
 print('\n')
 
@@ -966,7 +956,6 @@ multi_spd_plot(
     y_label='W / (sr m$^2$) / m',
     use_spds_colours=True,
     normalise_spds_colours=True,
-    legend_location='upper right',
     bounding_box=(0, 1250, 0, 2.5e15))
 
 print('\n')

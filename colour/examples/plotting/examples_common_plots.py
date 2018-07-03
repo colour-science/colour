@@ -24,5 +24,4 @@ message_box('Plotting multiple colours.')
 multi_colour_swatch_plot(
     (ColourSwatch('Dark Skin', RGB=(0.45293517, 0.31732158, 0.26414773)),
      ColourSwatch('Light Skin', RGB=(0.77875824, 0.57726450, 0.50453169))),
-    spacing=0,
     text_size=32)
