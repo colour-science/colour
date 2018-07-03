@@ -14,6 +14,7 @@ from __future__ import division
 import itertools
 import matplotlib.pyplot as plt
 import numpy as np
+from collections import OrderedDict
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
@@ -469,11 +470,11 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
     if colourspaces is None:
         colourspaces = ('ITU-R BT.709', 'ACEScg')
 
-    colourspaces = list(
+    colourspaces = list(OrderedDict.fromkeys(
         itertools.chain.from_iterable([
             filter_RGB_colourspaces(colourspace)
             for colourspace in colourspaces
-        ]))
+        ])))
 
     count_c = len(colourspaces)
 

@@ -28,6 +28,7 @@ from __future__ import division
 import itertools
 import matplotlib.pyplot as plt
 import numpy as np
+from collections import OrderedDict
 from matplotlib.patches import Polygon
 from six.moves import reduce
 
@@ -349,9 +350,9 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
         cmfs = ('CIE 1931 2 Degree Standard Observer',
                 'CIE 1964 10 Degree Standard Observer')
 
-    cmfs = list(
+    cmfs = list(OrderedDict.fromkeys(
         itertools.chain.from_iterable(
-            [filter_cmfs(cmfs_i) for cmfs_i in cmfs]))
+            [filter_cmfs(cmfs_i) for cmfs_i in cmfs])))
 
     figure, axes = artist(**kwargs)
 
@@ -488,9 +489,9 @@ def multi_illuminant_spd_plot(illuminants=None, **kwargs):
     if illuminants is None:
         illuminants = ('A', 'B', 'C')
 
-    illuminants = list(
+    illuminants = list(OrderedDict.fromkeys(
         itertools.chain.from_iterable(
-            [filter_illuminants(illuminant) for illuminant in illuminants]))
+            [filter_illuminants(illuminant) for illuminant in illuminants])))
 
     title = '{0} - Illuminants Spectral Power Distributions'.format(
         ', '.join([illuminant.strict_name for illuminant in illuminants]))
