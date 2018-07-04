@@ -31,8 +31,7 @@ multi_spd_plot(
     rayleigh_spds,
     title=('Rayleigh Optical Depth - '
            'Comparing "C02" Concentration Influence'),
-    y_label='Optical Depth',
-    legend_location='upper right')
+    y_label='Optical Depth')
 
 print('\n')
 

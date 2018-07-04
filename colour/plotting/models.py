@@ -25,6 +25,7 @@ from __future__ import division
 
 import itertools
 import numpy as np
+from collections import OrderedDict
 
 from colour.constants import EPSILON
 from colour.models import (
@@ -242,11 +243,11 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot.png
     if colourspaces is None:
         colourspaces = ['ITU-R BT.709', 'ACEScg', 'S-Gamut']
 
-    colourspaces = list(
+    colourspaces = list(OrderedDict.fromkeys(
         itertools.chain.from_iterable([
             filter_RGB_colourspaces(colourspace)
             for colourspace in colourspaces
-        ]))
+        ])))
 
     settings = {'uniform': True}
     settings.update(kwargs)
@@ -900,11 +901,11 @@ def multi_cctf_plot(colourspaces=None, decoding_cctf=False, **kwargs):
     if colourspaces is None:
         colourspaces = ('ITU-R BT.709', 'sRGB')
 
-    colourspaces = list(
+    colourspaces = list(OrderedDict.fromkeys(
         itertools.chain.from_iterable([
             filter_RGB_colourspaces(colourspace)
             for colourspace in colourspaces
-        ]))
+        ])))
 
     settings = {'uniform': True}
     settings.update(kwargs)
