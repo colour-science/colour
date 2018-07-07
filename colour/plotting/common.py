@@ -115,7 +115,7 @@ COLOUR_STYLE_CONSTANTS = Structure(
             )}),
         'geometry':
             Structure(**{
-                'long': 10,
+                'long': 5,
                 'short': 1
             })
     })
@@ -169,9 +169,9 @@ def colour_style(use_style=True):
         'ytick.minor.visible': True,
         'xtick.direction': 'out',
         'ytick.direction': 'out',
-        'xtick.major.size': constants.geometry.long * 1.5,
+        'xtick.major.size': constants.geometry.long * 1.25,
         'xtick.minor.size': constants.geometry.long * 0.75,
-        'ytick.major.size': constants.geometry.long * 1.5,
+        'ytick.major.size': constants.geometry.long * 1.25,
         'ytick.minor.size': constants.geometry.long * 0.75,
         'xtick.major.width': constants.geometry.short,
         'xtick.minor.width': constants.geometry.short,
