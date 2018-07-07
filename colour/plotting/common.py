@@ -464,6 +464,8 @@ def render(**kwargs):
         `bounding_box = (x min, x max, y min, y max)`.
     legend : bool, optional
         Whether to display the legend. Default is *False*.
+    legend_columns : int, optional
+        Number of columns in the legend. Default is *1*.
     transparent_background : bool, optional
         Whether to turn off the background patch. Default is *False*.
     title : unicode, optional
@@ -495,6 +497,7 @@ def render(**kwargs):
             'axes_visible': True,
             'bounding_box': None,
             'legend': False,
+            'legend_columns': 1,
             'transparent_background': True,
             'title': None,
             'x_label': None,
@@ -517,7 +520,7 @@ def render(**kwargs):
     if settings.y_label:
         axes.set_ylabel(settings.y_label)
     if settings.legend:
-        axes.legend()
+        axes.legend(ncol=settings.legend_columns)
 
     if settings.transparent_background:
         figure.patch.set_alpha(0)
