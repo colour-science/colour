@@ -825,6 +825,8 @@ dict_like, optional
         self.extrapolator = extrapolator
         self.extrapolator_args = extrapolator_args
 
+        # The following self-assignment is written as intended and triggers the
+        # extrapolation.
         self[wavelengths] = self[wavelengths]
 
         self.extrapolator = self_extrapolator

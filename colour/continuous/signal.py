@@ -257,6 +257,8 @@ class Signal(AbstractContinuousFunction):
 
             self._dtype = value
 
+            # The following self-assignments are written as intended and
+            # triggers the rebuild of the underlying function.
             self.domain = self.domain
             self.range = self.range
 
