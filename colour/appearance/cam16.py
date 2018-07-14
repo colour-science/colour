@@ -364,6 +364,7 @@ def CAM16_to_XYZ(CAM16_specification,
 
     J, C, h, _s, _Q, M, _H, _HC = as_namedtuple(CAM16_specification,
                                                 CAM16_Specification)
+    L_A = np.asarray(L_A)
 
     _X_w, Y_w, _Zw = tsplit(XYZ_w)
 
