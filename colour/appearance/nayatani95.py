@@ -454,7 +454,7 @@ def tritanopic_response(RGB, bRGB_o, xez, n):
     bR_o, bG_o, bB_o = tsplit(bRGB_o)
     xi, eta, zeta = tsplit(xez)
 
-    t = (1 / 1) * bR_o * np.log10((R + n) / (20 * xi + n))
+    t = bR_o * np.log10((R + n) / (20 * xi + n))
     t += -(12 / 11) * bG_o * np.log10((G + n) / (20 * eta + n))
     t += (1 / 11) * bB_o * np.log10((B + n) / (20 * zeta + n))
 

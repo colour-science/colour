@@ -108,10 +108,10 @@ def chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
 
     D = row_as_diagonal(D)
 
-    cat = dot_matrix(np.linalg.inv(M), D)
-    cat = dot_matrix(cat, M)
+    M_CAT = dot_matrix(np.linalg.inv(M), D)
+    M_CAT = dot_matrix(M_CAT, M)
 
-    return cat
+    return M_CAT
 
 
 def chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, transform='CAT02'):
@@ -161,7 +161,7 @@ def chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, transform='CAT02'):
     array([ 0.0854032...,  0.1140122...,  0.2972149...])
     """
 
-    cat = chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform)
-    XYZ_a = dot_vector(cat, XYZ)
+    M_CAT = chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform)
+    XYZ_a = dot_vector(M_CAT, XYZ)
 
     return XYZ_a
