@@ -77,9 +77,11 @@ from .appearance import (
     XYZ_to_CAM16, XYZ_to_CIECAM02, XYZ_to_Hunt, XYZ_to_LLAB, XYZ_to_Nayatani95,
     XYZ_to_RLAB)
 from .difference import DELTA_E_METHODS, delta_E
-from .characterisation import (CAMERAS_RGB_SPECTRAL_SENSITIVITIES,
-                               COLOURCHECKERS, COLOURCHECKERS_SPDS,
-                               DISPLAYS_RGB_PRIMARIES, first_order_colour_fit)
+from .characterisation import (
+    CAMERAS_RGB_SPECTRAL_SENSITIVITIES, COLOURCHECKERS, COLOURCHECKERS_SPDS,
+    DISPLAYS_RGB_PRIMARIES, POLYNOMIAL_EXPANSION_METHODS, polynomial_expansion,
+    COLOUR_CORRECTION_MATRIX_METHODS, colour_correction_matrix,
+    COLOUR_CORRECTION_METHODS, colour_correction)
 from .io import (IES_TM2714_Spd, read_image, read_spds_from_csv_file,
                  read_spds_from_xrite_file, read_spectral_data_from_csv_file,
                  write_image, write_spds_to_csv_file)
@@ -187,7 +189,10 @@ __all__ += [
 __all__ += ['DELTA_E_METHODS', 'delta_E']
 __all__ += [
     'CAMERAS_RGB_SPECTRAL_SENSITIVITIES', 'COLOURCHECKERS',
-    'COLOURCHECKERS_SPDS', 'DISPLAYS_RGB_PRIMARIES', 'first_order_colour_fit'
+    'COLOURCHECKERS_SPDS', 'DISPLAYS_RGB_PRIMARIES',
+    'POLYNOMIAL_EXPANSION_METHODS', 'polynomial_expansion',
+    'COLOUR_CORRECTION_MATRIX_METHODS', 'colour_correction_matrix',
+    'COLOUR_CORRECTION_METHODS', 'colour_correction'
 ]
 __all__ += [
     'IES_TM2714_Spd', 'read_image', 'read_spds_from_csv_file',
@@ -1582,6 +1587,10 @@ API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
     [
         'colour.LIGHT_SOURCES_RELATIVE_SPDS',
         'colour.LIGHT_SOURCES_SPDS',
+    ],
+    [
+        'colour.first_order_colour_fit',
+        'colour.colour_correction_matrix',
     ],
 ]
 

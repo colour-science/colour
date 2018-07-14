@@ -646,6 +646,20 @@ Colour Difference
      'cie1994',
      'cie2000']
 
+Colour Correction
+^^^^^^^^^^^^^^^^^
+
+.. code-block:: python
+
+    >>> import numpy as np
+    >>> RGB = [0.17224810, 0.09170660, 0.06416938]
+    >>> M_T = np.random.random((24, 3))
+    >>> M_R = M_T + (np.random.random((24, 3)) - 0.5) * 0.5
+    >>> colour.colour_correction(RGB, M_T, M_R)
+    array([ 0.15205429,  0.08974029,  0.04141435])
+    >>> sorted(colour.COLOUR_CORRECTION_METHODS.keys())
+    [u'Cheung 2004', u'Finlayson 2015', u'Vandermonde']
+
 Colour Notation Systems
 ^^^^^^^^^^^^^^^^^^^^^^^
 

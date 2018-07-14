@@ -109,3 +109,15 @@ Random
     :toctree: generated/
 
     random_triplet_generator
+
+Regression
+----------
+
+``colour.algebra``
+
+.. currentmodule:: colour.algebra
+
+.. autosummary::
+    :toctree: generated/
+
+    least_square_mapping_MoorePenrose
