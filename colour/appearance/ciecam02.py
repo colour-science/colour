@@ -258,7 +258,8 @@ s=2.3603053..., Q=195.3713259..., M=0.1088421..., H=278.0607358..., HC=None)
     RGB_w = dot_vector(CAT02_CAT, XYZ_w)
 
     # Computing degree of adaptation :math:`D`.
-    D = degree_of_adaptation(surround.F, L_A) if not discount_illuminant else 1
+    D = (degree_of_adaptation(surround.F, L_A)
+         if not discount_illuminant else np.ones(L_A.shape))
 
     # Computing full chromatic adaptation.
     RGB_c = full_chromatic_adaptation_forward(RGB, RGB_w, Y_w, D)
@@ -381,6 +382,7 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
 
     J, C, h, _s, _Q, M, _H, _HC = as_namedtuple(CIECAM02_specification,
                                                 CIECAM02_Specification)
+    L_A = np.asarray(L_A)
 
     _X_w, Y_w, _Zw = tsplit(XYZ_w)
 
@@ -398,7 +400,8 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
     RGB_w = dot_vector(CAT02_CAT, XYZ_w)
 
     # Computing degree of adaptation :math:`D`.
-    D = degree_of_adaptation(surround.F, L_A) if not discount_illuminant else 1
+    D = (degree_of_adaptation(surround.F, L_A)
+         if not discount_illuminant else np.ones(L_A.shape))
 
     # Computing full chromatic adaptation.
     RGB_wc = full_chromatic_adaptation_forward(RGB_w, RGB_w, Y_w, D)
