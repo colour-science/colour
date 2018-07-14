@@ -791,6 +791,27 @@ Volume
     >>> colour.RGB_colourspace_volume_MonteCarlo(colour.sRGB_COLOURSPACE)
     857011.5
 
+IO
+^^
+
+Look Up Table (LUT) Data
+************************
+
+.. code-block:: python
+
+    >>> LUT = colour.read_LUT('ACES_Proxy_10_to_ACES.cube')
+    >>> print(LUT)
+    LUT2D - ACES Proxy 10 to ACES
+    -----------------------------
+    Dimensions : 2
+    Domain     : [[0 0 0]
+                  [1 1 1]]
+    Size       : (32, 3)
+
+    >>> RGB = [0.17224810, 0.09170660, 0.06416938]
+    >>> LUT.apply(RGB)
+    array([ 0.00575674,  0.00181493,  0.00121419])
+
 Plotting
 ^^^^^^^^
 

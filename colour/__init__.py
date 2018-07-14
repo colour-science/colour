@@ -45,11 +45,12 @@ from .utilities.documentation import is_documentation_building
 from .adaptation import (CHROMATIC_ADAPTATION_METHODS,
                          CHROMATIC_ADAPTATION_TRANSFORMS,
                          CMCCAT2000_VIEWING_CONDITIONS, chromatic_adaptation)
-from .algebra import (
-    CubicSplineInterpolator, Extrapolator, KernelInterpolator,
-    LinearInterpolator, NullInterpolator, PchipInterpolator,
-    SpragueInterpolator, kernel_cardinal_spline, kernel_lanczos, kernel_linear,
-    kernel_nearest_neighbour, kernel_sinc, lagrange_coefficients)
+from .algebra import (CubicSplineInterpolator, Extrapolator,
+                      KernelInterpolator, LinearInterpolator, NullInterpolator,
+                      PchipInterpolator, SpragueInterpolator,
+                      TABLE_INTERPOLATION_METHODS, kernel_cardinal_spline,
+                      kernel_lanczos, kernel_linear, kernel_nearest_neighbour,
+                      kernel_sinc, table_interpolation, lagrange_coefficients)
 from .colorimetry import (
     ASTME30815_PRACTISE_SHAPE, BANDPASS_CORRECTION_METHODS,
     CIE_standard_illuminant_A_function, CMFS, DEFAULT_SPECTRAL_SHAPE,
@@ -82,9 +83,10 @@ from .characterisation import (
     DISPLAYS_RGB_PRIMARIES, POLYNOMIAL_EXPANSION_METHODS, polynomial_expansion,
     COLOUR_CORRECTION_MATRIX_METHODS, colour_correction_matrix,
     COLOUR_CORRECTION_METHODS, colour_correction)
-from .io import (IES_TM2714_Spd, read_image, read_spds_from_csv_file,
-                 read_spds_from_xrite_file, read_spectral_data_from_csv_file,
-                 write_image, write_spds_to_csv_file)
+from .io import (IES_TM2714_Spd, LUT1D, LUT2D, LUT3D, read_image, read_LUT,
+                 read_spds_from_csv_file, read_spds_from_xrite_file,
+                 read_spectral_data_from_csv_file, write_image, write_LUT,
+                 write_spds_to_csv_file)
 from .models import (
     CAM02LCD_to_JMh_CIECAM02, CAM02SCD_to_JMh_CIECAM02,
     CAM02UCS_to_JMh_CIECAM02, CAM16LCD_to_JMh_CAM16, CAM16SCD_to_JMh_CAM16,
@@ -151,8 +153,9 @@ __all__ += [
 __all__ += [
     'CubicSplineInterpolator', 'Extrapolator', 'KernelInterpolator',
     'LinearInterpolator', 'NullInterpolator', 'PchipInterpolator',
-    'SpragueInterpolator', 'kernel_cardinal_spline', 'kernel_lanczos',
-    'kernel_linear', 'kernel_nearest_neighbour', 'kernel_sinc',
+    'SpragueInterpolator', 'TABLE_INTERPOLATION_METHODS',
+    'kernel_cardinal_spline', 'kernel_lanczos', 'kernel_linear',
+    'kernel_nearest_neighbour', 'kernel_sinc', 'table_interpolation',
     'lagrange_coefficients'
 ]
 __all__ += [
@@ -195,9 +198,10 @@ __all__ += [
     'COLOUR_CORRECTION_METHODS', 'colour_correction'
 ]
 __all__ += [
-    'IES_TM2714_Spd', 'read_image', 'read_spds_from_csv_file',
-    'read_spds_from_xrite_file', 'read_spectral_data_from_csv_file',
-    'write_image', 'write_spds_to_csv_file'
+    'IES_TM2714_Spd', 'LUT1D', 'LUT2D', 'LUT3D', 'read_image', 'read_LUT',
+    'read_spds_from_csv_file', 'read_spds_from_xrite_file',
+    'read_spectral_data_from_csv_file', 'write_image', 'write_LUT',
+    'write_spds_to_csv_file'
 ]
 __all__ += [
     'CAM02LCD_to_JMh_CIECAM02', 'CAM02SCD_to_JMh_CIECAM02',

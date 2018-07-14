@@ -4,6 +4,8 @@ Showcases interpolation computations.
 """
 
 import matplotlib.pyplot as plt
+import numpy as np
+import os
 
 import colour
 from colour.plotting import render
@@ -131,3 +133,24 @@ settings = {
 }
 
 render(**settings)
+
+print('\n')
+
+V_xyz = np.random.random((6, 3))
+message_box(('Performing "trilinear" interpolation of given "xyz" values:\n'
+             '\n{0}\n'
+             '\nusing given interpolation table.'.format(V_xyz)))
+path = os.path.join(
+    os.path.dirname(__file__), '..', '..', 'io', 'luts', 'tests', 'resources',
+    'iridas_cube', 'ColourCorrect.cube')
+table = colour.read_LUT(path).table
+print(colour.table_interpolation(V_xyz, table, method='Trilinear'))
+print(colour.algebra.table_interpolation_trilinear(V_xyz, table))
+
+print('\n')
+
+message_box(('Performing "tetrahedral" interpolation of given "xyz" values:\n'
+             '\n{0}\n'
+             '\nusing given interpolation table.'.format(V_xyz)))
+print(colour.table_interpolation(V_xyz, table, method='Tetrahedral'))
+print(colour.algebra.table_interpolation_tetrahedral(V_xyz, table))
