@@ -62,11 +62,15 @@ COLOUR_STYLE_CONSTANTS = Structure(
                 **{
                     'darkest':
                         '#111111',
+                    'darker':
+                        '#222222',
                     'dark':
                         '#333333',
                     'average':
                         '#D5D5D5',
                     'bright':
+                        '#EEEEEE',
+                    'brighter':
                         '#F0F0F0',
                     'brightest':
                         '#F5F5F5',
@@ -201,7 +205,7 @@ def colour_style(use_style=True):
         'legend.frameon': True,
         'legend.framealpha': constants.opacity.high,
         'legend.fancybox': False,
-        'legend.facecolor': constants.colour.bright,
+        'legend.facecolor': constants.colour.brighter,
         'legend.borderpad': constants.geometry.short * 0.5,
 
         # Lines
