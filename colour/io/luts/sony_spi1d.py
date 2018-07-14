@@ -188,6 +188,10 @@ def write_LUT_SonySPI1D(LUT, path, decimals=7):
         assert len(domain) == 2, 'Non-uniform "LUT" domain is unsupported!'
 
     def _format_array(array):
+        """
+        Formats given array as a *Sony* *.spi1d* data row.
+        """
+
         return ' {1:0.{0}f} {2:0.{0}f} {3:0.{0}f}'.format(decimals, *array)
 
     with open(path, 'w') as spi1d_file:

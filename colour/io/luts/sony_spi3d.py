@@ -145,6 +145,10 @@ def write_LUT_SonySPI3D(LUT, path, decimals=7):
     ])), '"LUT" domain must be [[0, 0, 0], [1, 1, 1]]!'
 
     def _format_array(array):
+        """
+        Formats given array as a *Sony* *.spi3d* data row.
+        """
+
         return '{1:d} {2:d} {3:d} {4:0.{0}f} {5:0.{0}f} {6:0.{0}f}'.format(
             decimals, *array)
 
