@@ -101,6 +101,7 @@ Issues & Discussions
 -   @Willingo
 -   @awehring
 -   @brandondube
+-   @briend
 -   @cclauss
 -   @codycuellar
 -   @fangjy88
