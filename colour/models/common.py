@@ -12,6 +12,7 @@ from colour.models import (Lab_to_LCHab, Luv_to_LCHuv, Luv_to_uv, UCS_to_uv,
                            XYZ_to_IPT, XYZ_to_Hunter_Lab, XYZ_to_Hunter_Rdab,
                            XYZ_to_Lab, XYZ_to_Luv, XYZ_to_UCS, XYZ_to_UVW,
                            XYZ_to_xy, XYZ_to_xyY, xy_to_XYZ)
+from colour.utilities import domain_range_scale
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -92,68 +93,70 @@ def XYZ_to_colourspace_model(XYZ, illuminant, model):
     array([ 0.2641477...,  0.3777000...])
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
     ... XYZ, W, 'CIE Lab')
-    array([ 37.9856291..., -23.6290768...,  -4.4174661...])
+    array([ 0.3798562..., -0.2362907..., -0.0441746...])
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
     ... XYZ, W, 'CIE LCHab')
-    array([  37.9856291...,   24.0384542...,  190.5892337...])
+    array([ 0.3798562...,  0.2403845...,  0.5294145...])
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
     ... XYZ, W, 'CIE Luv')
-    array([ 37.9856291..., -28.8021959...,  -1.3580070...])
+    array([ 0.3798562..., -0.2880219..., -0.0135800...])
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
     ... XYZ, W, 'CIE Luv uv')
     array([ 0.1508531...,  0.4853297...])
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
     ... XYZ, W, 'CIE LCHuv')
-    array([  37.9856291...,   28.8341927...,  182.6994640...])
+    array([ 0.37985629...,  0.2883419...,  0.5074985...])
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
     ... XYZ, W, 'CIE UCS uv')
     array([ 0.1508531...,  0.32355314...])
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
     ... XYZ, W, 'CIE UVW')
-    array([-28.0579733...,  -0.8819449...,  37.0041149...])
+    array([-0.2805797..., -0.0088194...,  0.3700411...])
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
     ... XYZ, W, 'IPT')
     array([ 0.3657112..., -0.1111479...,  0.0159474...])
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
     ... XYZ, W, 'Hunter Lab')
-    array([ 31.7490157..., -15.1351736...,  -2.7709606...])
+    array([ 0.3174901..., -0.1513517..., -0.0277096...])
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
     ... XYZ, W, 'Hunter Rdab')
-    array([ 10.08..., -18.7019271...,  -3.4239649...])
+    array([ 0.1008..., -0.1870192..., -0.0342396...])
     """
 
-    values = None
-    if model == 'CIE XYZ':
-        values = XYZ
-    elif model == 'CIE xyY':
-        values = XYZ_to_xyY(XYZ, illuminant)
-    elif model == 'CIE xy':
-        values = XYZ_to_xy(XYZ, illuminant)
-    elif model == 'CIE Lab':
-        values = XYZ_to_Lab(XYZ, illuminant)
-    elif model == 'CIE LCHab':
-        values = Lab_to_LCHab(XYZ_to_Lab(XYZ, illuminant))
-    elif model == 'CIE Luv':
-        values = XYZ_to_Luv(XYZ, illuminant)
-    elif model == 'CIE Luv uv':
-        values = Luv_to_uv(XYZ_to_Luv(XYZ, illuminant), illuminant)
-    elif model == 'CIE LCHuv':
-        values = Luv_to_LCHuv(XYZ_to_Luv(XYZ, illuminant))
-    elif model == 'CIE UCS':
-        values = XYZ_to_UCS(XYZ)
-    elif model == 'CIE UCS uv':
-        values = UCS_to_uv(XYZ_to_UCS(XYZ))
-    elif model == 'CIE UVW':
-        values = XYZ_to_UVW(XYZ * 100, illuminant)
-    elif model == 'IPT':
-        values = XYZ_to_IPT(XYZ)
-    elif model == 'Hunter Lab':
-        values = XYZ_to_Hunter_Lab(XYZ * 100, xy_to_XYZ(illuminant) * 100)
-    elif model == 'Hunter Rdab':
-        values = XYZ_to_Hunter_Rdab(XYZ * 100, xy_to_XYZ(illuminant) * 100)
+    with domain_range_scale(1):
+        values = None
+        if model == 'CIE XYZ':
+            values = XYZ
+        elif model == 'CIE xyY':
+            values = XYZ_to_xyY(XYZ, illuminant)
+        elif model == 'CIE xy':
+            values = XYZ_to_xy(XYZ, illuminant)
+        elif model == 'CIE Lab':
+            values = XYZ_to_Lab(XYZ, illuminant)
+        elif model == 'CIE LCHab':
+            values = Lab_to_LCHab(XYZ_to_Lab(XYZ, illuminant))
+        elif model == 'CIE Luv':
+            values = XYZ_to_Luv(XYZ, illuminant)
+        elif model == 'CIE Luv uv':
+            values = Luv_to_uv(XYZ_to_Luv(XYZ, illuminant), illuminant)
+        elif model == 'CIE LCHuv':
+            values = Luv_to_LCHuv(XYZ_to_Luv(XYZ, illuminant))
+        elif model == 'CIE UCS':
+            values = XYZ_to_UCS(XYZ)
+        elif model == 'CIE UCS uv':
+            values = UCS_to_uv(XYZ_to_UCS(XYZ))
+        elif model == 'CIE UVW':
+            values = XYZ_to_UVW(XYZ, illuminant)
+        elif model == 'IPT':
+            values = XYZ_to_IPT(XYZ)
+        elif model == 'Hunter Lab':
+            values = XYZ_to_Hunter_Lab(XYZ, xy_to_XYZ(illuminant))
+        elif model == 'Hunter Rdab':
+            values = XYZ_to_Hunter_Rdab(XYZ, xy_to_XYZ(illuminant))
 
-    if values is None:
-        raise ValueError('"{0}" not found in colourspace models: "{1}".'.
-                         format(model, ', '.join(COLOURSPACE_MODELS)))
+        if values is None:
+            raise ValueError(
+                '"{0}" not found in colourspace models: "{1}".'.format(
+                    model, ', '.join(COLOURSPACE_MODELS)))
 
-    return values
+        return values

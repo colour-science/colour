@@ -87,7 +87,6 @@ class CorrespondingChromaticitiesPrediction(
     """
 
 
-@domain_range_scale('1')
 def corresponding_chromaticities_prediction_Fairchild1990(experiment=1):
     """
     Returns the corresponding chromaticities prediction for *Fairchild (1990)*
@@ -130,27 +129,28 @@ def corresponding_chromaticities_prediction_Fairchild1990(experiment=1):
      ((0.244, 0.349), (0.2418904..., 0.3413401...))]
     """
 
-    experiment_results = list(BRENEMAN_EXPERIMENTS[experiment])
+    with domain_range_scale(1):
+        experiment_results = list(BRENEMAN_EXPERIMENTS[experiment])
 
-    illuminants = experiment_results.pop(0)
-    XYZ_n = xy_to_XYZ(Luv_uv_to_xy(illuminants.uvp_t))
-    XYZ_r = xy_to_XYZ(Luv_uv_to_xy(illuminants.uvp_m))
-    xy_r = XYZ_to_xy(XYZ_r)
-    Y_n = BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES[experiment].Y
+        illuminants = experiment_results.pop(0)
+        XYZ_n = xy_to_XYZ(Luv_uv_to_xy(illuminants.uvp_t))
+        XYZ_r = xy_to_XYZ(Luv_uv_to_xy(illuminants.uvp_m))
+        xy_r = XYZ_to_xy(XYZ_r)
+        Y_n = BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES[experiment].Y
 
-    prediction = []
-    for result in experiment_results:
-        XYZ_1 = xy_to_XYZ(Luv_uv_to_xy(result.uvp_t))
-        XYZ_2 = chromatic_adaptation_Fairchild1990(XYZ_1, XYZ_n, XYZ_r, Y_n)
-        uvp = Luv_to_uv(XYZ_to_Luv(XYZ_2, xy_r), xy_r)
-        prediction.append(
-            CorrespondingChromaticitiesPrediction(result.name, result.uvp_t,
-                                                  result.uvp_m, uvp))
+        prediction = []
+        for result in experiment_results:
+            XYZ_1 = xy_to_XYZ(Luv_uv_to_xy(result.uvp_t))
+            XYZ_2 = chromatic_adaptation_Fairchild1990(XYZ_1, XYZ_n, XYZ_r,
+                                                       Y_n)
+            uvp = Luv_to_uv(XYZ_to_Luv(XYZ_2, xy_r), xy_r)
+            prediction.append(
+                CorrespondingChromaticitiesPrediction(
+                    result.name, result.uvp_t, result.uvp_m, uvp))
 
-    return tuple(prediction)
+        return tuple(prediction)
 
 
-@domain_range_scale('1')
 def corresponding_chromaticities_prediction_CIE1994(experiment=1):
     """
     Returns the corresponding chromaticities prediction for *CIE 1994*
@@ -192,30 +192,31 @@ def corresponding_chromaticities_prediction_CIE1994(experiment=1):
      ((0.244, 0.349), (0.2454445..., 0.4018004...))]
     """
 
-    experiment_results = list(BRENEMAN_EXPERIMENTS[experiment])
+    with domain_range_scale(1):
+        experiment_results = list(BRENEMAN_EXPERIMENTS[experiment])
 
-    illuminants = experiment_results.pop(0)
-    xy_o1 = Luv_uv_to_xy(illuminants.uvp_t)
-    xy_o2 = Luv_uv_to_xy(illuminants.uvp_m)
-    # :math:`Y_o` is set to an arbitrary value normalised to domain
-    # [18, 100].
-    Y_o = 0.18
-    E_o1 = E_o2 = BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES[experiment].Y
+        illuminants = experiment_results.pop(0)
+        xy_o1 = Luv_uv_to_xy(illuminants.uvp_t)
+        xy_o2 = Luv_uv_to_xy(illuminants.uvp_m)
+        # :math:`Y_o` is set to an arbitrary value normalised to domain
+        # [18, 100].
+        Y_o = 0.18
+        E_o1 = E_o2 = BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES[
+            experiment].Y
 
-    prediction = []
-    for result in experiment_results:
-        XYZ_1 = xy_to_XYZ(Luv_uv_to_xy(result.uvp_t))
-        XYZ_2 = chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1,
-                                             E_o2)
-        uvp = Luv_to_uv(XYZ_to_Luv(XYZ_2, xy_o2), xy_o2)
-        prediction.append(
-            CorrespondingChromaticitiesPrediction(result.name, result.uvp_t,
-                                                  result.uvp_m, uvp))
+        prediction = []
+        for result in experiment_results:
+            XYZ_1 = xy_to_XYZ(Luv_uv_to_xy(result.uvp_t))
+            XYZ_2 = chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o,
+                                                 E_o1, E_o2)
+            uvp = Luv_to_uv(XYZ_to_Luv(XYZ_2, xy_o2), xy_o2)
+            prediction.append(
+                CorrespondingChromaticitiesPrediction(
+                    result.name, result.uvp_t, result.uvp_m, uvp))
 
-    return tuple(prediction)
+        return tuple(prediction)
 
 
-@domain_range_scale('1')
 def corresponding_chromaticities_prediction_CMCCAT2000(experiment=1):
     """
     Returns the corresponding chromaticities prediction for *CMCCAT2000*
@@ -258,25 +259,27 @@ def corresponding_chromaticities_prediction_CMCCAT2000(experiment=1):
      ((0.244, 0.349), (0.2287638..., 0.3499324...))]
     """
 
-    experiment_results = list(BRENEMAN_EXPERIMENTS[experiment])
+    with domain_range_scale(1):
+        experiment_results = list(BRENEMAN_EXPERIMENTS[experiment])
 
-    illuminants = experiment_results.pop(0)
-    XYZ_w = xy_to_XYZ(Luv_uv_to_xy(illuminants.uvp_t))
-    XYZ_wr = xy_to_XYZ(Luv_uv_to_xy(illuminants.uvp_m))
-    xy_wr = XYZ_to_xy(XYZ_wr)
-    L_A1 = L_A2 = BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES[experiment].Y
+        illuminants = experiment_results.pop(0)
+        XYZ_w = xy_to_XYZ(Luv_uv_to_xy(illuminants.uvp_t))
+        XYZ_wr = xy_to_XYZ(Luv_uv_to_xy(illuminants.uvp_m))
+        xy_wr = XYZ_to_xy(XYZ_wr)
+        L_A1 = L_A2 = BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES[
+            experiment].Y
 
-    prediction = []
-    for result in experiment_results:
-        XYZ_1 = xy_to_XYZ(Luv_uv_to_xy(result.uvp_t))
-        XYZ_2 = chromatic_adaptation_CMCCAT2000(XYZ_1, XYZ_w, XYZ_wr, L_A1,
-                                                L_A2)
-        uvp = Luv_to_uv(XYZ_to_Luv(XYZ_2, xy_wr), xy_wr)
-        prediction.append(
-            CorrespondingChromaticitiesPrediction(result.name, result.uvp_t,
-                                                  result.uvp_m, uvp))
+        prediction = []
+        for result in experiment_results:
+            XYZ_1 = xy_to_XYZ(Luv_uv_to_xy(result.uvp_t))
+            XYZ_2 = chromatic_adaptation_CMCCAT2000(XYZ_1, XYZ_w, XYZ_wr, L_A1,
+                                                    L_A2)
+            uvp = Luv_to_uv(XYZ_to_Luv(XYZ_2, xy_wr), xy_wr)
+            prediction.append(
+                CorrespondingChromaticitiesPrediction(
+                    result.name, result.uvp_t, result.uvp_m, uvp))
 
-    return tuple(prediction)
+        return tuple(prediction)
 
 
 def corresponding_chromaticities_prediction_VonKries(experiment=1,
