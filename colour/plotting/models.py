@@ -605,7 +605,7 @@ RGB_Chromaticity_Coordinates_Chromaticity_Diagram_Plot.png
 
     colourspace = first_item(filter_RGB_colourspaces(colourspace))
     settings['colourspaces'] = (
-        [colourspace.name] + settings.get('colourspaces', []))
+        ['^{0}$'.format(colourspace.name)] + settings.get('colourspaces', []))
 
     chromaticity_diagram_callable(**settings)
 
