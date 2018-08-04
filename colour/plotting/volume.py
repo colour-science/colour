@@ -41,13 +41,13 @@ __all__ = [
 
 def common_colourspace_model_axis_reorder(a, model=None):
     """
-    Reorder axis of given colourspace model :math:`a` values according to its
-    most common volume plotting axis order.
+    Reorder the axes of given colourspace model :math:`a` array according to
+    the most common volume plotting axes order.
 
     Parameters
     ----------
     a : array_like
-        Colourspace model values :math:`a`.
+        Colourspace model :math:`a` array.
     model : unicode, optional
         **{'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE Luv', 'CIE UCS', 'CIE UVW',
         'IPT', 'Hunter Lab', 'Hunter Rdab'}**
@@ -55,8 +55,8 @@ def common_colourspace_model_axis_reorder(a, model=None):
 
     Returns
     -------
-    Figure
-        Reordered colourspace model values.
+    ndarray
+        Reordered colourspace model :math:`a` array.
 
     Examples
     --------
