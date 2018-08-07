@@ -41,7 +41,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.algebra import euclidean_distance
-from colour.utilities import tsplit
+from colour.utilities import to_domain_100, tsplit
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -72,6 +72,25 @@ def delta_E_CIE1976(Lab_1, Lab_2):
     numeric or ndarray
         Colour difference :math:`\Delta E_{76}`.
 
+    Notes
+    -----
+
+    +------------+-----------------------+-------------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1**     |
+    +============+=======================+===================+
+    | ``Lab_1``  | ``L_1`` : [0, 100]    | ``L_1`` : [0, 1]  |
+    |            |                       |                   |
+    |            | ``a_1`` : [-100, 100] | ``a_1`` : [-1, 1] |
+    |            |                       |                   |
+    |            | ``b_1`` : [-100, 100] | ``b_1`` : [-1, 1] |
+    +------------+-----------------------+-------------------+
+    | ``Lab_2``  | ``L_2`` : [0, 100]    | ``L_2`` : [0, 1]  |
+    |            |                       |                   |
+    |            | ``a_2`` : [-100, 100] | ``a_2`` : [-1, 1] |
+    |            |                       |                   |
+    |            | ``b_2`` : [-100, 100] | ``b_2`` : [-1, 1] |
+    +------------+-----------------------+-------------------+
+
     References
     ----------
     -   :cite:`Lindbloom2003c`
@@ -84,7 +103,7 @@ def delta_E_CIE1976(Lab_1, Lab_2):
     451.7133019...
     """
 
-    d_E = euclidean_distance(Lab_1, Lab_2)
+    d_E = euclidean_distance(to_domain_100(Lab_1), to_domain_100(Lab_2))
 
     return d_E
 
@@ -112,6 +131,23 @@ def delta_E_CIE1994(Lab_1, Lab_2, textiles=False):
 
     Notes
     -----
+
+    +------------+-----------------------+-------------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1**     |
+    +============+=======================+===================+
+    | ``Lab_1``  | ``L_1`` : [0, 100]    | ``L_1`` : [0, 1]  |
+    |            |                       |                   |
+    |            | ``a_1`` : [-100, 100] | ``a_1`` : [-1, 1] |
+    |            |                       |                   |
+    |            | ``b_1`` : [-100, 100] | ``b_1`` : [-1, 1] |
+    +------------+-----------------------+-------------------+
+    | ``Lab_2``  | ``L_2`` : [0, 100]    | ``L_2`` : [0, 1]  |
+    |            |                       |                   |
+    |            | ``a_2`` : [-100, 100] | ``a_2`` : [-1, 1] |
+    |            |                       |                   |
+    |            | ``b_2`` : [-100, 100] | ``b_2`` : [-1, 1] |
+    +------------+-----------------------+-------------------+
+
     -   *CIE 1994* colour differences are not symmetrical: difference between
         ``Lab_1`` and ``Lab_2`` may not be the same as difference between
         ``Lab_2`` and ``Lab_1`` thus one colour must be understood to be the
@@ -131,14 +167,14 @@ def delta_E_CIE1994(Lab_1, Lab_2, textiles=False):
     88.3355530...
     """
 
+    L_1, a_1, b_1 = tsplit(to_domain_100(Lab_1))
+    L_2, a_2, b_2 = tsplit(to_domain_100(Lab_2))
+
     k_1 = 0.048 if textiles else 0.045
     k_2 = 0.014 if textiles else 0.015
     k_L = 2 if textiles else 1
     k_C = 1
     k_H = 1
-
-    L_1, a_1, b_1 = tsplit(Lab_1)
-    L_2, a_2, b_2 = tsplit(Lab_2)
 
     C_1 = np.hypot(a_1, b_1)
     C_2 = np.hypot(a_2, b_2)
@@ -186,6 +222,23 @@ def delta_E_CIE2000(Lab_1, Lab_2, textiles=False):
 
     Notes
     -----
+
+    +------------+-----------------------+-------------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1**     |
+    +============+=======================+===================+
+    | ``Lab_1``  | ``L_1`` : [0, 100]    | ``L_1`` : [0, 1]  |
+    |            |                       |                   |
+    |            | ``a_1`` : [-100, 100] | ``a_1`` : [-1, 1] |
+    |            |                       |                   |
+    |            | ``b_1`` : [-100, 100] | ``b_1`` : [-1, 1] |
+    +------------+-----------------------+-------------------+
+    | ``Lab_2``  | ``L_2`` : [0, 100]    | ``L_2`` : [0, 1]  |
+    |            |                       |                   |
+    |            | ``a_2`` : [-100, 100] | ``a_2`` : [-1, 1] |
+    |            |                       |                   |
+    |            | ``b_2`` : [-100, 100] | ``b_2`` : [-1, 1] |
+    +------------+-----------------------+-------------------+
+
     -   *CIE 2000* colour differences are not symmetrical: difference between
         ``Lab_1`` and ``Lab_2`` may not be the same as difference between
         ``Lab_2`` and ``Lab_1`` thus one colour must be understood to be the
@@ -222,12 +275,12 @@ def delta_E_CIE2000(Lab_1, Lab_2, textiles=False):
     95.7920535...
     """
 
+    L_1, a_1, b_1 = tsplit(to_domain_100(Lab_1))
+    L_2, a_2, b_2 = tsplit(to_domain_100(Lab_2))
+
     k_L = 2 if textiles else 1
     k_C = 1
     k_H = 1
-
-    L_1, a_1, b_1 = tsplit(Lab_1)
-    L_2, a_2, b_2 = tsplit(Lab_2)
 
     l_bar_prime = 0.5 * (L_1 + L_2)
 
@@ -263,8 +316,8 @@ def delta_E_CIE2000(Lab_1, Lab_2, textiles=False):
 
     delta_L_prime = L_2 - L_1
     delta_C_prime = c_2_prime - c_1_prime
-    delta_H_prime = (2 * np.sqrt(c_1_prime * c_2_prime) *
-                     np.sin(np.deg2rad(0.5 * delta_h_prime)))
+    delta_H_prime = (2 * np.sqrt(c_1_prime * c_2_prime) * np.sin(
+        np.deg2rad(0.5 * delta_h_prime)))
 
     s_L = 1 + ((0.015 * (l_bar_prime - 50) *
                 (l_bar_prime - 50)) / np.sqrt(20 + (l_bar_prime - 50) *
@@ -314,6 +367,25 @@ def delta_E_CMC(Lab_1, Lab_2, l=2, c=1):  # noqa
     numeric or ndarray
         Colour difference :math:`\Delta E_{CMC}`.
 
+    Notes
+    -----
+
+    +------------+-----------------------+-------------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1**     |
+    +============+=======================+===================+
+    | ``Lab_1``  | ``L_1`` : [0, 100]    | ``L_1`` : [0, 1]  |
+    |            |                       |                   |
+    |            | ``a_1`` : [-100, 100] | ``a_1`` : [-1, 1] |
+    |            |                       |                   |
+    |            | ``b_1`` : [-100, 100] | ``b_1`` : [-1, 1] |
+    +------------+-----------------------+-------------------+
+    | ``Lab_2``  | ``L_2`` : [0, 100]    | ``L_2`` : [0, 1]  |
+    |            |                       |                   |
+    |            | ``a_2`` : [-100, 100] | ``a_2`` : [-1, 1] |
+    |            |                       |                   |
+    |            | ``b_2`` : [-100, 100] | ``b_2`` : [-1, 1] |
+    +------------+-----------------------+-------------------+
+
     References
     ----------
     -   :cite:`Lindbloom2009f`
@@ -326,8 +398,8 @@ def delta_E_CMC(Lab_1, Lab_2, l=2, c=1):  # noqa
     172.7047712...
     """
 
-    L_1, a_1, b_1 = tsplit(Lab_1)
-    L_2, a_2, b_2 = tsplit(Lab_2)
+    L_1, a_1, b_1 = tsplit(to_domain_100(Lab_1))
+    L_2, a_2, b_2 = tsplit(to_domain_100(Lab_2))
 
     c_1 = np.hypot(a_1, b_1)
     c_2 = np.hypot(a_2, b_2)

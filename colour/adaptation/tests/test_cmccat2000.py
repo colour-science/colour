@@ -14,7 +14,7 @@ from colour.adaptation.cmccat2000 import (
     chromatic_adaptation_forward_CMCCAT2000,
     chromatic_adaptation_reverse_CMCCAT2000)
 
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -116,6 +116,31 @@ chromatic_adaptation_forward_CMCCAT2000` definition n-dimensional arrays
                                                     L_A2),
             XYZ_c,
             decimal=7)
+
+    def test_domain_range_scale_chromatic_adaptation_CMCCAT2000(self):
+        """
+        Tests :func:`colour.adaptation.cmccat2000.\
+chromatic_adaptation_forward_CMCCAT2000` definition domain and range scale
+        support.
+        """
+
+        XYZ = np.array([22.48, 22.74, 8.54])
+        XYZ_w = np.array([111.15, 100.00, 35.20])
+        XYZ_wr = np.array([94.81, 100.00, 107.30])
+        L_A1 = 200
+        L_A2 = 200
+        XYZ_c = chromatic_adaptation_forward_CMCCAT2000(
+            XYZ, XYZ_w, XYZ_wr, L_A1, L_A2)
+
+        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    chromatic_adaptation_forward_CMCCAT2000(
+                        XYZ * factor, XYZ_w * factor, XYZ_wr * factor, L_A1,
+                        L_A2),
+                    XYZ_c * factor,
+                    decimal=7)
 
     @ignore_numpy_errors
     def test_nan_chromatic_adaptation_forward_CMCCAT2000(self):
@@ -223,6 +248,31 @@ chromatic_adaptation_reverse_CMCCAT2000` definition n-dimensional arrays
                                                     L_A2),
             XYZ,
             decimal=7)
+
+    def test_domain_range_scale_chromatic_adaptation_CMCCAT2000(self):
+        """
+        Tests :func:`colour.adaptation.cmccat2000.\
+chromatic_adaptation_reverse_CMCCAT2000` definition domain and range scale
+        support.
+        """
+
+        XYZ_c = np.array([19.52698326, 23.06833960, 24.97175229])
+        XYZ_w = np.array([111.15, 100.00, 35.20])
+        XYZ_wr = np.array([94.81, 100.00, 107.30])
+        L_A1 = 200
+        L_A2 = 200
+        XYZ = chromatic_adaptation_reverse_CMCCAT2000(XYZ_c, XYZ_w, XYZ_wr,
+                                                      L_A1, L_A2)
+
+        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    chromatic_adaptation_reverse_CMCCAT2000(
+                        XYZ_c * factor, XYZ_w * factor, XYZ_wr * factor, L_A1,
+                        L_A2),
+                    XYZ * factor,
+                    decimal=7)
 
     @ignore_numpy_errors
     def test_nan_chromatic_adaptation_reverse_CMCCAT2000(self):

@@ -37,8 +37,8 @@ import numpy as np
 from colour.algebra import lagrange_coefficients
 from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE, SpectralShape,
                                 STANDARD_OBSERVERS_CMFS, ones_spd)
-from colour.utilities import (CaseInsensitiveMapping, filter_kwargs, tsplit,
-                              warning)
+from colour.utilities import (CaseInsensitiveMapping, filter_kwargs,
+                              from_range_100, tsplit, warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -403,13 +403,14 @@ def spectral_to_XYZ_integration(
     ndarray, (3,)
         *CIE XYZ* tristimulus values.
 
-    Warning
-    -------
-    The output range of that definition is non standard!
-
     Notes
     -----
-    -   Output *CIE XYZ* tristimulus values are normalised to range [0, 100].
+
+    +-----------+-----------------------+---------------+
+    | **Range** | **Scale - Reference** | **Scale - 1** |
+    +===========+=======================+===============+
+    | ``XYZ``   | [0, 100]              | [0, 1]        |
+    +-----------+-----------------------+---------------+
 
     References
     ----------
@@ -468,7 +469,7 @@ def spectral_to_XYZ_integration(
 
     XYZ = k * np.sum(np.array([X_p, Y_p, Z_p]), axis=-1)
 
-    return XYZ
+    return from_range_100(XYZ)
 
 
 def spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
@@ -495,13 +496,14 @@ def spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
     ndarray, (3,)
         *CIE XYZ* tristimulus values.
 
-    Warning
-    -------
-    The output range of that definition is non standard!
-
     Notes
     -----
-    -   Output *CIE XYZ* tristimulus values are normalised to range [0, 100].
+
+    +-----------+-----------------------+---------------+
+    | **Range** | **Scale - Reference** | **Scale - 1** |
+    +===========+=======================+===============+
+    | ``XYZ``   | [0, 100]              | [0, 1]        |
+    +-----------+-----------------------+---------------+
 
     References
     ----------
@@ -559,7 +561,7 @@ def spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
 
     XYZ = np.sum(W * R[..., np.newaxis], axis=0)
 
-    return XYZ
+    return from_range_100(XYZ)
 
 
 def spectral_to_XYZ_ASTME30815(
@@ -611,11 +613,15 @@ _TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their identifier key is
         Considering the above, one should be mindful that using similar colour
         matching functions and illuminant names but with different spectral
         data will lead to unexpected behaviour.
-    -   The output range of that definition is non standard!
 
     Notes
     -----
-    -   Output *CIE XYZ* tristimulus values are normalised to range [0, 100].
+
+    +-----------+-----------------------+---------------+
+    | **Range** | **Scale - Reference** | **Scale - 1** |
+    +===========+=======================+===============+
+    | ``XYZ``   | [0, 100]              | [0, 1]        |
+    +-----------+-----------------------+---------------+
 
     References
     ----------
@@ -771,13 +777,14 @@ def spectral_to_XYZ(
     ndarray, (3,)
         *CIE XYZ* tristimulus values.
 
-    Warning
-    -------
-    The output range of that definition is non standard!
-
     Notes
     -----
-    -   Output *CIE XYZ* tristimulus values are normalised to range [0, 100].
+
+    +-----------+-----------------------+---------------+
+    | **Range** | **Scale - Reference** | **Scale - 1** |
+    +===========+=======================+===============+
+    | ``XYZ``   | [0, 100]              | [0, 1]        |
+    +-----------+-----------------------+---------------+
 
     References
     ----------
@@ -857,6 +864,15 @@ def multi_spectral_to_XYZ_integration(
         *CIE XYZ* tristimulus values, for a 512x384 multi-spectral image with
         77 bins, the output shape will be (384, 512, 3).
 
+    Notes
+    -----
+
+    +-----------+-----------------------+---------------+
+    | **Range** | **Scale - Reference** | **Scale - 1** |
+    +===========+=======================+===============+
+    | ``XYZ``   | [0, 100]              | [0, 1]        |
+    +-----------+-----------------------+---------------+
+
     References
     ----------
     -   :cite:`Wyszecki2000bf`
@@ -924,7 +940,7 @@ def multi_spectral_to_XYZ_integration(
 
     XYZ = k * np.sum(np.array([X_p, Y_p, Z_p]), axis=-1)
 
-    return np.rollaxis(XYZ, 0, msa.ndim)
+    return from_range_100(np.rollaxis(XYZ, 0, msa.ndim))
 
 
 MULTI_SPECTRAL_TO_XYZ_METHODS = CaseInsensitiveMapping({
@@ -976,6 +992,15 @@ def multi_spectral_to_XYZ(
     array_like
         *CIE XYZ* tristimulus values, for a 512x384 multi-spectral image with
         77 bins, the output shape will be (384, 512, 3).
+
+    Notes
+    -----
+
+    +-----------+-----------------------+---------------+
+    | **Range** | **Scale - Reference** | **Scale - 1** |
+    +===========+=======================+===============+
+    | ``XYZ``   | [0, 100]              | [0, 1]        |
+    +-----------+-----------------------+---------------+
 
     References
     ----------
@@ -1056,7 +1081,12 @@ def wavelength_to_XYZ(
 
     Notes
     -----
-    -   Output *CIE XYZ* tristimulus values are normalised to range [0, 1].
+
+    +-----------+-----------------------+---------------+
+    | **Range** | **Scale - Reference** | **Scale - 1** |
+    +===========+=======================+===============+
+    | ``XYZ``   | [0, 1]                | [0, 1]        |
+    +-----------+-----------------------+---------------+
 
     Examples
     --------

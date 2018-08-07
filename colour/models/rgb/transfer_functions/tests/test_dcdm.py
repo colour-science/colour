@@ -10,7 +10,7 @@ import numpy as np
 import unittest
 
 from colour.models.rgb.transfer_functions import oetf_DCDM, eotf_DCDM
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -44,8 +44,8 @@ class TestOetf_DCDM(unittest.TestCase):
 
     def test_n_dimensional_oetf_DCDM(self):
         """
-        Tests :func:`colour.models.rgb.transfer_functions.dcdm.\
-oetf_DCDM` definition n-dimensional arrays support.
+        Tests :func:`colour.models.rgb.transfer_functions.dcdm.oetf_DCDM`
+        definition n-dimensional arrays support.
         """
 
         XYZ = 0.18
@@ -63,6 +63,21 @@ oetf_DCDM` definition n-dimensional arrays support.
         XYZ = np.reshape(XYZ, (2, 3, 1))
         XYZ_p = np.reshape(XYZ_p, (2, 3, 1))
         np.testing.assert_almost_equal(oetf_DCDM(XYZ), XYZ_p, decimal=7)
+
+    def test_domain_range_scale_oetf_DCDM(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.dcdm.oetf_DCDM`
+        definition domain and range scale support.
+        """
+
+        XYZ = 0.18
+        XYZ_p = oetf_DCDM(XYZ)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    oetf_DCDM(XYZ * factor), XYZ_p * factor, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_oetf_DCDM(self):
@@ -116,6 +131,21 @@ class TestEotf_DCDM(unittest.TestCase):
         XYZ_p = np.reshape(XYZ_p, (2, 3, 1))
         XYZ = np.reshape(XYZ, (2, 3, 1))
         np.testing.assert_almost_equal(eotf_DCDM(XYZ_p), XYZ, decimal=7)
+
+    def test_domain_range_scale_eotf_DCDM(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.dcdm.eotf_DCDM`
+        definition domain and range scale support.
+        """
+
+        XYZ_p = 0.11281861
+        XYZ = eotf_DCDM(XYZ_p)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    eotf_DCDM(XYZ_p * factor), XYZ * factor, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_eotf_DCDM(self):

@@ -9,9 +9,9 @@ import numpy as np
 import unittest
 
 from colour.characterisation import COLOURCHECKERS_SPDS
-from colour.colorimetry import (ILLUMINANTS_SPDS, constant_spd,
-                                ones_spd)
+from colour.colorimetry import (ILLUMINANTS_SPDS, constant_spd, ones_spd)
 from colour.models import ACES_RICD, spectral_to_aces_relative_exposure_values
+from colour.utilities import domain_range_scale
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -56,8 +56,8 @@ spectral_to_aces_relative_exposure_values` definition.
 
         dark_skin = COLOURCHECKERS_SPDS['ColorChecker N Ohta']['dark skin']
         np.testing.assert_almost_equal(
-            spectral_to_aces_relative_exposure_values(
-                dark_skin, ILLUMINANTS_SPDS['A']),
+            spectral_to_aces_relative_exposure_values(dark_skin,
+                                                      ILLUMINANTS_SPDS['A']),
             np.array([0.13584109, 0.09431910, 0.05928216]),
             decimal=7)
 
@@ -76,6 +76,26 @@ spectral_to_aces_relative_exposure_values` definition.
                 chromatic_adaptation_transform='Bradford'),
             np.array([0.11805856, 0.08688928, 0.05900204]),
             decimal=7)
+
+    def test_domain_range_scale_spectral_to_aces_relative_exposure_values(
+            self):
+        """
+        Tests :func:`colour.models.rgb.aces_it.
+spectral_to_aces_relative_exposure_values`  definition domain and range scale
+        support.
+        """
+
+        shape = ACES_RICD.shape
+        grey_reflector = constant_spd(0.18, shape)
+        RGB = spectral_to_aces_relative_exposure_values(grey_reflector)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    spectral_to_aces_relative_exposure_values(grey_reflector),
+                    RGB * factor,
+                    decimal=7)
 
 
 if __name__ == '__main__':

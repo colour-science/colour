@@ -25,6 +25,7 @@ from __future__ import division, unicode_literals
 
 from colour.algebra import euclidean_distance
 from colour.models import Lab_to_DIN99
+from colour.utilities import get_domain_range_scale
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -53,6 +54,25 @@ def delta_E_DIN99(Lab_1, Lab_2, textiles=False):
     numeric or ndarray
         Colour difference :math:`\Delta E_{DIN99}`.
 
+    Notes
+    -----
+
+    +------------+-----------------------+-------------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1**     |
+    +============+=======================+===================+
+    | ``Lab_1``  | ``L_1`` : [0, 100]    | ``L_1`` : [0, 1]  |
+    |            |                       |                   |
+    |            | ``a_1`` : [-100, 100] | ``a_1`` : [-1, 1] |
+    |            |                       |                   |
+    |            | ``b_1`` : [-100, 100] | ``b_1`` : [-1, 1] |
+    +------------+-----------------------+-------------------+
+    | ``Lab_2``  | ``L_2`` : [0, 100]    | ``L_2`` : [0, 1]  |
+    |            |                       |                   |
+    |            | ``a_2`` : [-100, 100] | ``a_2`` : [-1, 1] |
+    |            |                       |                   |
+    |            | ``b_2`` : [-100, 100] | ``b_2`` : [-1, 1] |
+    +------------+-----------------------+-------------------+
+
     References
     ----------
     -   :cite:`ASTMInternational2007`
@@ -69,7 +89,10 @@ def delta_E_DIN99(Lab_1, Lab_2, textiles=False):
     k_E = 2 if textiles else 1
     k_CH = 0.5 if textiles else 1
 
+    factor = 100 if get_domain_range_scale() == '1' else 1
+
     d_E = euclidean_distance(
-        Lab_to_DIN99(Lab_1, k_E, k_CH), Lab_to_DIN99(Lab_2, k_E, k_CH))
+        Lab_to_DIN99(Lab_1, k_E, k_CH) * factor,
+        Lab_to_DIN99(Lab_2, k_E, k_CH) * factor)
 
     return d_E

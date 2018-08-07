@@ -10,7 +10,7 @@ import unittest
 from itertools import permutations
 
 from colour.models import XYZ_to_OSA_UCS, OSA_UCS_to_XYZ
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -68,6 +68,21 @@ class TestXYZ_to_OSA_UCS(unittest.TestCase):
         XYZ = np.reshape(XYZ, (2, 3, 3))
         Ljg = np.reshape(Ljg, (2, 3, 3))
         np.testing.assert_almost_equal(XYZ_to_OSA_UCS(XYZ), Ljg, decimal=7)
+
+    def test_domain_range_scale_XYZ_to_OSA_UCS(self):
+        """
+        Tests :func:`colour.models.osa_ucs.XYZ_to_OSA_UCS` definition domain
+        and range scale support.
+        """
+
+        XYZ = np.array([0.07049534, 0.10080000, 0.09558313]) * 100
+        Ljg = XYZ_to_OSA_UCS(XYZ)
+
+        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    XYZ_to_OSA_UCS(XYZ * factor), Ljg * factor, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_XYZ_to_OSA_UCS(self):
@@ -131,6 +146,21 @@ class TestOSA_UCS_to_XYZ(unittest.TestCase):
         XYZ = np.reshape(XYZ, (2, 3, 3))
         np.testing.assert_allclose(
             OSA_UCS_to_XYZ(Ljg), XYZ, rtol=0.00001, atol=0.00001)
+
+    def test_domain_range_scale_OSA_UCS_to_XYZ(self):
+        """
+        Tests :func:`colour.models.osa_ucs.OSA_UCS_to_XYZ` definition domain
+        and range scale support.
+        """
+
+        Ljg = np.array([-4.49006830, 0.70305936, 3.03463664])
+        XYZ = OSA_UCS_to_XYZ(Ljg)
+
+        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    OSA_UCS_to_XYZ(Ljg * factor), XYZ * factor, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_OSA_UCS_to_XYZ(self):

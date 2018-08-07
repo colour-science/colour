@@ -11,7 +11,7 @@ import unittest
 
 from colour.models.rgb.transfer_functions import (eotf_reverse_BT1886,
                                                   eotf_BT1886)
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -64,6 +64,21 @@ eotf_reverse_BT1886` definition n-dimensional arrays support.
         V = np.reshape(V, (2, 3, 1))
         np.testing.assert_almost_equal(eotf_reverse_BT1886(L), V, decimal=7)
 
+    def test_domain_range_scale_eotf_reverse_BT1886(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_1886.\
+eotf_reverse_BT1886` definition domain and range scale support.
+        """
+
+        L = 0.18
+        V = eotf_reverse_BT1886(L)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    eotf_reverse_BT1886(L * factor), V * factor, decimal=7)
+
     @ignore_numpy_errors
     def test_nan_eotf_reverse_BT1886(self):
         """
@@ -114,6 +129,21 @@ eotf_BT1886` definition n-dimensional arrays support.
         V = np.reshape(V, (2, 3, 1))
         L = np.reshape(L, (2, 3, 1))
         np.testing.assert_almost_equal(eotf_BT1886(V), L, decimal=7)
+
+    def test_domain_range_scale_eotf_BT1886(self):
+        """
+        Tests :func:`colour.models.rgb.transfer_functions.itur_bt_1886.\
+eotf_BT1886` definition domain and range scale support.
+        """
+
+        V = 0.016317514686316
+        L = eotf_BT1886(V)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    eotf_BT1886(V * factor), L * factor, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_eotf_BT1886(self):

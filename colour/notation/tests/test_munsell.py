@@ -30,7 +30,7 @@ from colour.notation import (munsell_value_Priest1920,
                              munsell_value_Saunderson1944,
                              munsell_value_Ladd1955, munsell_value_McCamy1987,
                              munsell_value_ASTMD153508)
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -316,20 +316,33 @@ MUNSELL_SPECIFICATIONS = np.array([
 MUNSELL_GREYS_SPECIFICATIONS = np.array(
     list(
         zip(
-            np.linspace(0, 10, 25)[:, np.newaxis],
-            ([0.31006, 0.31616, 0.00000000], [0.31006, 0.31616, 0.00473582],
-             [0.31006, 0.31616, 0.00961944], [0.31006, 0.31616, 0.01545756],
-             [0.31006, 0.31616, 0.02293343], [0.31006, 0.31616, 0.03261914],
-             [0.31006, 0.31616, 0.04498800], [0.31006, 0.31616, 0.06042690],
-             [0.31006, 0.31616, 0.07924864], [0.31006, 0.31616, 0.10170428],
-             [0.31006, 0.31616, 0.12799549], [0.31006, 0.31616, 0.15828689],
-             [0.31006, 0.31616, 0.19271844], [0.31006, 0.31616, 0.23141772],
-             [0.31006, 0.31616, 0.27451233], [0.31006, 0.31616, 0.32214224],
-             [0.31006, 0.31616, 0.37447210], [0.31006, 0.31616, 0.43170362],
-             [0.31006, 0.31616, 0.49408790], [0.31006, 0.31616, 0.56193781],
-             [0.31006, 0.31616, 0.63564030], [0.31006, 0.31616, 0.71566876],
-             [0.31006, 0.31616, 0.80259539], [0.31006, 0.31616, 0.89710353],
-             [0.31006, 0.31616, 1.00000000], ))))
+            np.linspace(0, 10, 25)[:, np.newaxis], (
+                [0.31006, 0.31616, 0.00000000],
+                [0.31006, 0.31616, 0.00473582],
+                [0.31006, 0.31616, 0.00961944],
+                [0.31006, 0.31616, 0.01545756],
+                [0.31006, 0.31616, 0.02293343],
+                [0.31006, 0.31616, 0.03261914],
+                [0.31006, 0.31616, 0.04498800],
+                [0.31006, 0.31616, 0.06042690],
+                [0.31006, 0.31616, 0.07924864],
+                [0.31006, 0.31616, 0.10170428],
+                [0.31006, 0.31616, 0.12799549],
+                [0.31006, 0.31616, 0.15828689],
+                [0.31006, 0.31616, 0.19271844],
+                [0.31006, 0.31616, 0.23141772],
+                [0.31006, 0.31616, 0.27451233],
+                [0.31006, 0.31616, 0.32214224],
+                [0.31006, 0.31616, 0.37447210],
+                [0.31006, 0.31616, 0.43170362],
+                [0.31006, 0.31616, 0.49408790],
+                [0.31006, 0.31616, 0.56193781],
+                [0.31006, 0.31616, 0.63564030],
+                [0.31006, 0.31616, 0.71566876],
+                [0.31006, 0.31616, 0.80259539],
+                [0.31006, 0.31616, 0.89710353],
+                [0.31006, 0.31616, 1.00000000],
+            ))))
 
 MUNSELL_EVEN_SPECIFICATIONS = np.array([
     [(7.5, 6.0, 16.0, 3), [0.18320000, 0.44140000, 0.29301153]],
@@ -796,6 +809,23 @@ class TestMunsellValuePriest1920(unittest.TestCase):
         np.testing.assert_almost_equal(
             munsell_value_Priest1920(Y), V, decimal=7)
 
+    def test_domain_range_scale_munsell_value_Priest1920(self):
+        """
+        Tests :func:`colour.notation.munsell.munsell_value_Priest1920`
+        definition domain and range scale support.
+        """
+
+        Y = 10.08
+        V = munsell_value_Priest1920(Y)
+
+        d_r = (('reference', 1, 1), (1, 0.01, 0.1), (100, 1, 10))
+        for scale, factor_a, factor_b in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    munsell_value_Priest1920(Y * factor_a),
+                    V * factor_b,
+                    decimal=7)
+
     @ignore_numpy_errors
     def test_nan_munsell_value_Priest1920(self):
         """
@@ -854,6 +884,23 @@ class TestMunsellValueMunsell1933(unittest.TestCase):
         np.testing.assert_almost_equal(
             munsell_value_Munsell1933(Y), V, decimal=7)
 
+    def test_domain_range_scale_munsell_value_Munsell1933(self):
+        """
+        Tests :func:`colour.notation.munsell.munsell_value_Munsell1933`
+        definition domain and range scale support.
+        """
+
+        Y = 10.08
+        V = munsell_value_Munsell1933(Y)
+
+        d_r = (('reference', 1, 1), (1, 0.01, 0.1), (100, 1, 10))
+        for scale, factor_a, factor_b in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    munsell_value_Munsell1933(Y * factor_a),
+                    V * factor_b,
+                    decimal=7)
+
     @ignore_numpy_errors
     def test_nan_munsell_value_Munsell1933(self):
         """
@@ -907,6 +954,23 @@ class TestMunsellValueMoon1943(unittest.TestCase):
         V = np.reshape(V, (2, 3, 1))
         Y = np.reshape(Y, (2, 3, 1))
         np.testing.assert_almost_equal(munsell_value_Moon1943(Y), V, decimal=7)
+
+    def test_domain_range_scale_munsell_value_Moon1943(self):
+        """
+        Tests :func:`colour.notation.munsell.munsell_value_Moon1943`
+        definition domain and range scale support.
+        """
+
+        Y = 10.08
+        V = munsell_value_Moon1943(Y)
+
+        d_r = (('reference', 1, 1), (1, 0.01, 0.1), (100, 1, 10))
+        for scale, factor_a, factor_b in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    munsell_value_Moon1943(Y * factor_a),
+                    V * factor_b,
+                    decimal=7)
 
     @ignore_numpy_errors
     def test_nan_munsell_value_Moon1943(self):
@@ -966,6 +1030,23 @@ class TestMunsellValueSaunderson1944(unittest.TestCase):
         np.testing.assert_almost_equal(
             munsell_value_Saunderson1944(Y), V, decimal=7)
 
+    def test_domain_range_scale_munsell_value_Saunderson1944(self):
+        """
+        Tests :func:`colour.notation.munsell.munsell_value_Saunderson1944`
+        definition domain and range scale support.
+        """
+
+        Y = 10.08
+        V = munsell_value_Saunderson1944(Y)
+
+        d_r = (('reference', 1, 1), (1, 0.01, 0.1), (100, 1, 10))
+        for scale, factor_a, factor_b in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    munsell_value_Saunderson1944(Y * factor_a),
+                    V * factor_b,
+                    decimal=7)
+
     @ignore_numpy_errors
     def test_nan_munsell_value_Saunderson1944(self):
         """
@@ -1019,6 +1100,23 @@ class TestMunsellValueLadd1955(unittest.TestCase):
         V = np.reshape(V, (2, 3, 1))
         Y = np.reshape(Y, (2, 3, 1))
         np.testing.assert_almost_equal(munsell_value_Ladd1955(Y), V, decimal=7)
+
+    def test_domain_range_scale_munsell_value_Ladd1955(self):
+        """
+        Tests :func:`colour.notation.munsell.munsell_value_Ladd1955`
+        definition domain and range scale support.
+        """
+
+        Y = 10.08
+        V = munsell_value_Ladd1955(Y)
+
+        d_r = (('reference', 1, 1), (1, 0.01, 0.1), (100, 1, 10))
+        for scale, factor_a, factor_b in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    munsell_value_Ladd1955(Y * factor_a),
+                    V * factor_b,
+                    decimal=7)
 
     @ignore_numpy_errors
     def test_nan_munsell_value_Ladd1955(self):
@@ -1078,6 +1176,23 @@ class TestMunsellValueMcCamy1992(unittest.TestCase):
         np.testing.assert_almost_equal(
             munsell_value_McCamy1987(Y), V, decimal=7)
 
+    def test_domain_range_scale_munsell_value_McCamy1987(self):
+        """
+        Tests :func:`colour.notation.munsell.munsell_value_McCamy1987`
+        definition domain and range scale support.
+        """
+
+        Y = 10.08
+        V = munsell_value_McCamy1987(Y)
+
+        d_r = (('reference', 1, 1), (1, 0.01, 0.1), (100, 1, 10))
+        for scale, factor_a, factor_b in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    munsell_value_McCamy1987(Y * factor_a),
+                    V * factor_b,
+                    decimal=7)
+
     @ignore_numpy_errors
     def test_nan_munsell_value_McCamy1987(self):
         """
@@ -1136,6 +1251,23 @@ class TestMunsellValueASTMD153508(unittest.TestCase):
         np.testing.assert_almost_equal(
             munsell_value_ASTMD153508(Y), V, decimal=7)
 
+    def test_domain_range_scale_munsell_value_ASTMD153508(self):
+        """
+        Tests :func:`colour.notation.munsell.munsell_value_ASTMD153508`
+        definition domain and range scale support.
+        """
+
+        Y = 10.08
+        V = munsell_value_ASTMD153508(Y)
+
+        d_r = (('reference', 1, 1), (1, 0.01, 0.1), (100, 1, 10))
+        for scale, factor_a, factor_b in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    munsell_value_ASTMD153508(Y * factor_a),
+                    V * factor_b,
+                    decimal=7)
+
     @ignore_numpy_errors
     def test_nan_munsell_value_ASTMD153508(self):
         """
@@ -1166,6 +1298,28 @@ class TestMunsellSpecification_to_xyY(unittest.TestCase):
         for specification, xyY in MUNSELL_GREYS_SPECIFICATIONS:
             np.testing.assert_almost_equal(
                 munsell_specification_to_xyY(specification[0]), xyY, decimal=7)
+
+    def test_domain_range_scale_munsell_specification_to_xyY(self):
+        """
+        Tests :func:`colour.notation.munsell.munsell_specification_to_xyY`
+        definition domain and range scale support.
+        """
+
+        specification = np.array(
+            [7.18927191, 5.34025196, 16.05861170, 3.00000000])
+        xyY = munsell_specification_to_xyY(specification)
+
+        d_r = (
+            ('reference', 1, 1),
+            (1, np.array([0.1, 0.1, 1 / 50, 0.1]), 1),
+            (100, np.array([10, 10, 2, 10]), np.array([1, 1, 100])),
+        )
+        for scale, factor_a, factor_b in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    munsell_specification_to_xyY(specification * factor_a),
+                    xyY * factor_b,
+                    decimal=7)
 
 
 class TestMunsellColour_to_xyY(unittest.TestCase):
@@ -1210,6 +1364,28 @@ class TestxyY_to_munsell_specification(unittest.TestCase):
                 specification[0],
                 rtol=0.00001,
                 atol=0.00001)
+
+    def test_domain_range_scale_munsell_specification_to_xyY(self):
+        """
+        Tests :func:`colour.notation.munsell.xyY_to_munsell_specification`
+        definition domain and range scale support.
+        """
+
+        xyY = [0.16623068, 0.45684550, 0.22399519]
+        specification = xyY_to_munsell_specification(xyY)
+
+        d_r = (
+            ('reference', 1, 1),
+            (1, 1, np.array([0.1, 0.1, 1 / 50, 0.1])),
+            (100, np.array([1, 1, 100]), np.array([10, 10, 2, 10])),
+        )
+        for scale, factor_a, factor_b in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_allclose(
+                    xyY_to_munsell_specification(xyY * factor_a),
+                    specification * factor_b,
+                    rtol=0.00001,
+                    atol=0.00001)
 
 
 class TestxyY_to_munsell_colour(unittest.TestCase):
@@ -1282,16 +1458,16 @@ class TestNormalizeMunsellSpecification(unittest.TestCase):
         """
 
         self.assertTupleEqual(
-            normalize_munsell_specification((0.0, 2.0, 4.0, 6)), (10.0, 2.0,
-                                                                  4.0, 7))
+            normalize_munsell_specification((0.0, 2.0, 4.0, 6)),
+            (10.0, 2.0, 4.0, 7))
 
         self.assertTupleEqual(
-            normalize_munsell_specification((0.0, 2.0, 4.0, 8)), (10.0, 2.0,
-                                                                  4.0, 9))
+            normalize_munsell_specification((0.0, 2.0, 4.0, 8)),
+            (10.0, 2.0, 4.0, 9))
 
         self.assertTupleEqual(
-            normalize_munsell_specification((0, 2.0, 4.0, 10)), (10.0, 2.0,
-                                                                 4.0, 1))
+            normalize_munsell_specification((0, 2.0, 4.0, 10)),
+            (10.0, 2.0, 4.0, 1))
 
         self.assertEqual(normalize_munsell_specification((0, 2.0, 0, 10)), 2)
 

@@ -300,10 +300,6 @@ def XYZ_to_plotting_colourspace(XYZ,
         :attr:`colour.plotting.DEFAULT_PLOTTING_COLOURSPACE` colourspace colour
         array.
 
-    Notes
-    -----
-    -   Input *CIE XYZ* tristimulus values are normalised to domain [0, 1].
-
     Examples
     --------
     >>> import numpy as np

@@ -10,7 +10,7 @@ import unittest
 from itertools import permutations
 
 from colour.models.rgb import RGB_to_Prismatic, Prismatic_to_RGB
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -60,6 +60,21 @@ class TestRGB_to_Prismatic(unittest.TestCase):
         RGB = np.reshape(RGB, (2, 3, 3))
         Lrgb = np.reshape(Lrgb, (2, 3, 4))
         np.testing.assert_almost_equal(RGB_to_Prismatic(RGB), Lrgb, decimal=7)
+
+    def test_domain_range_scale_RGB_to_Prismatic(self):
+        """
+        Tests :func:`colour.models.rgb.prismatic.RGB_to_Prismatic` definition
+        domain and range scale support.
+        """
+
+        RGB = np.array([0.25000000, 0.60000000, 0.05000000])
+        Lrgb = RGB_to_Prismatic(RGB)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    RGB_to_Prismatic(RGB * factor), Lrgb * factor, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_RGB_to_Prismatic(self):
@@ -114,6 +129,21 @@ class TestPrismatic_to_RGB(unittest.TestCase):
         Lrgb = np.reshape(Lrgb, (2, 3, 4))
         RGB = np.reshape(RGB, (2, 3, 3))
         np.testing.assert_almost_equal(Prismatic_to_RGB(Lrgb), RGB, decimal=7)
+
+    def test_domain_range_scale_Prismatic_to_RGB(self):
+        """
+        Tests :func:`colour.models.rgb.prismatic.Prismatic_to_RGB` definition
+        domain and range scale support.
+        """
+
+        Lrgb = np.array([0.7500000, 0.1666667, 0.3333333, 0.5000000])
+        RGB = Prismatic_to_RGB(Lrgb)
+
+        d_r = (('reference', 1), (1, 1), (100, 100))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    Prismatic_to_RGB(Lrgb * factor), RGB * factor, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_Prismatic_to_RGB(self):

@@ -25,7 +25,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.adaptation import VON_KRIES_CAT
-from colour.utilities import dot_vector, tsplit, tstack, warning
+from colour.utilities import (dot_vector, from_range_100, to_domain_100,
+                              tsplit, tstack, warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -67,8 +68,7 @@ def chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2, n=1):
     Parameters
     ----------
     XYZ_1 : array_like
-        *CIE XYZ* tristimulus values of test sample / stimulus normalised to
-        domain [0, 100].
+        *CIE XYZ* tristimulus values of test sample / stimulus.
     xy_o1 : array_like
         Chromaticity coordinates :math:`x_{o1}` and :math:`y_{o1}` of test
         illuminant and background.
@@ -77,7 +77,7 @@ def chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2, n=1):
         illuminant and background.
     Y_o : numeric
         Luminance factor :math:`Y_o` of achromatic background as percentage
-        normalised to domain [18, 100].
+        normalised to domain [18, 100] in **'Reference'** domain-range scale.
     E_o1 : numeric
         Test illuminance :math:`E_{o1}` in :math:`cd/m^2`.
     E_o2 : numeric
@@ -90,14 +90,22 @@ def chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2, n=1):
     ndarray
         Adapted *CIE XYZ_2* tristimulus values of test stimulus.
 
-    Warning
-    -------
-    The input domain and output range of that definition are non standard!
-
     Notes
     -----
-    -   Input *CIE XYZ_1* tristimulus values are normalised to domain [0, 100].
-    -   Output *CIE XYZ_2* tristimulus values are normalised to range [0, 100].
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ_1``  | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
+    | ``Y_o``    | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ_2``  | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
@@ -116,7 +124,8 @@ def chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2, n=1):
     array([ 24.0337952...,  21.1562121...,  17.6430119...])
     """
 
-    Y_o = np.asarray(Y_o)
+    XYZ_1 = to_domain_100(XYZ_1)
+    Y_o = to_domain_100(Y_o)
     E_o1 = np.asarray(E_o1)
     E_o2 = np.asarray(E_o2)
 
@@ -141,7 +150,7 @@ def chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2, n=1):
                                  n)
     XYZ_2 = RGB_to_XYZ_CIE1994(RGB_2)
 
-    return XYZ_2
+    return from_range_100(XYZ_2)
 
 
 def XYZ_to_RGB_CIE1994(XYZ):
@@ -238,7 +247,7 @@ def effective_adapting_responses(xez, Y_o, E_o):
         Test or reference illuminance :math:`E_{o}` in lux.
     Y_o : numeric
         Luminance factor :math:`Y_o` of achromatic background as percentage
-        normalised to domain [18, 100].
+        normalised to domain [18, 100] in **'Reference'** domain-range scale.
 
     Returns
     -------
@@ -368,7 +377,7 @@ def K_coefficient(xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, n=1):
         sample.
     Y_o : numeric or array_like
         Luminance factor :math:`Y_o` of achromatic background as percentage
-        normalised to domain [18, 100].
+        normalised to domain [18, 100] in **'Reference'** domain-range scale.
     n : numeric or array_like, optional
         Noise component in fundamental primary system.
 
@@ -427,7 +436,7 @@ def corresponding_colour(RGB_1, xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, K, n=1):
         sample.
     Y_o : numeric or array_like
         Luminance factor :math:`Y_o` of achromatic background as percentage
-        normalised to domain [18, 100].
+        normalised to domain [18, 100] in **'Reference'** domain-range scale.
     K : numeric or array_like
         Coefficient :math:`K`.
     n : numeric or array_like, optional

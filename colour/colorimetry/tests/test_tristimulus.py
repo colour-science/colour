@@ -16,8 +16,8 @@ import unittest
 
 from colour.algebra import LinearInterpolator
 from colour.colorimetry import (CMFS, CIE_standard_illuminant_A_function,
-                                ILLUMINANTS_SPDS,
-                                SpectralPowerDistribution, SpectralShape)
+                                ILLUMINANTS_SPDS, SpectralPowerDistribution,
+                                SpectralShape)
 from colour.colorimetry import (
     lagrange_coefficients_ASTME202211,
     tristimulus_weighting_factors_ASTME202211,
@@ -26,6 +26,7 @@ from colour.colorimetry import (
     spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815,
     spectral_to_XYZ_ASTME30815, multi_spectral_to_XYZ_integration,
     wavelength_to_XYZ)
+from colour.utilities import domain_range_scale
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -453,6 +454,25 @@ spectral_to_XYZ_integration`
             np.array([11.57834054, 9.98738373, 3.95462625]),
             decimal=7)
 
+    def test_domain_range_scale_spectral_to_XYZ_integration(self):
+        """
+        Tests :func:`colour.colorimetry.tristimulus.\
+spectral_to_XYZ_integration` definition domain and range scale support.
+        """
+
+        cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
+        XYZ = spectral_to_XYZ_integration(SAMPLE_SPD, cmfs,
+                                          ILLUMINANTS_SPDS['A'])
+
+        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    spectral_to_XYZ_integration(SAMPLE_SPD, cmfs,
+                                                ILLUMINANTS_SPDS['A']),
+                    XYZ * factor,
+                    decimal=7)
+
 
 class TestSpectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
         unittest.TestCase):
@@ -509,6 +529,26 @@ spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815`
                 cmfs, ILLUMINANTS_SPDS['A']),
             np.array([14.38356848, 10.74613294, 2.01526418]),
             decimal=7)
+
+    def test_domain_range_scale_spectral_to_XYZ_twf_ASTME30815(self):
+        """
+        Tests :func:`colour.colorimetry.tristimulus.\
+spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815` definition domain and
+range scale support.
+        """
+
+        cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
+        XYZ = spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
+            SAMPLE_SPD, cmfs, ILLUMINANTS_SPDS['A'])
+
+        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
+                        SAMPLE_SPD, cmfs, ILLUMINANTS_SPDS['A']),
+                    XYZ * factor,
+                    decimal=7)
 
 
 class TestSpectral_to_XYZ_ASTME30815(unittest.TestCase):
@@ -765,10 +805,29 @@ multi_spectral_to_XYZ_integration`
 
         cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
         np.testing.assert_almost_equal(
-            multi_spectral_to_XYZ_integration(MSA, SpectralShape(
-                400, 700, 60), cmfs, ILLUMINANTS_SPDS['D65']),
+            multi_spectral_to_XYZ_integration(MSA, SpectralShape(400, 700, 60),
+                                              cmfs, ILLUMINANTS_SPDS['D65']),
             XYZ_D65,
             decimal=7)
+
+    def test_domain_range_scale_multi_spectral_to_XYZ_integration(self):
+        """
+        Tests :func:`colour.colorimetry.tristimulus.\
+multi_spectral_to_XYZ_integration` definition domain and range scale support.
+        """
+
+        cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
+
+        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    multi_spectral_to_XYZ_integration(MSA,
+                                                      SpectralShape(
+                                                          400, 700, 60), cmfs,
+                                                      ILLUMINANTS_SPDS['D65']),
+                    XYZ_D65 * factor,
+                    decimal=7)
 
 
 class TestWavelength_to_XYZ(unittest.TestCase):

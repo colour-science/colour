@@ -31,7 +31,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import HUNTERLAB_ILLUMINANTS
-from colour.utilities import tsplit, tstack
+from colour.utilities import from_range_100, to_domain_100, tsplit, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -61,10 +61,6 @@ def XYZ_to_K_ab_HunterLab1966(XYZ):
     ndarray
         *Hunter L,a,b* :math:`K_{a}` and :math:`K_{b}` chromaticity
         coefficients.
-
-    Notes
-    -----
-    -   Input *CIE XYZ* tristimulus values are normalised to domain [0, 100].
 
     References
     ----------
@@ -113,9 +109,24 @@ def XYZ_to_Hunter_Lab(XYZ,
 
     Notes
     -----
-    -   Input *CIE XYZ* and reference *illuminant* tristimulus values are
-        normalised to domain [0, 100].
-    -   Output *Lightness* :math:`L^*` is normalised to range [0, 100].
+
+    +------------+-----------------------+-----------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1**   |
+    +============+=======================+=================+
+    | ``XYZ``    | [0, 100]              | [0, 1]          |
+    +------------+-----------------------+-----------------+
+    | ``XYZ_n``  | [0, 100]              | [0, 1]          |
+    +------------+-----------------------+-----------------+
+
+    +------------+-----------------------+-----------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1**   |
+    +============+=======================+=================+
+    | ``Lab``    | ``L`` : [0, 100]      | ``L`` : [0, 1]  |
+    |            |                       |                 |
+    |            | ``a`` : [-100, 100]   | ``a`` : [-1, 1] |
+    |            |                       |                 |
+    |            | ``b`` : [-100, 100]   | ``b`` : [-1, 1] |
+    +------------+-----------------------+-----------------+
 
     References
     ----------
@@ -130,8 +141,8 @@ def XYZ_to_Hunter_Lab(XYZ,
     array([ 31.7490157..., -15.1146262...,  -2.7866075...])
     """
 
-    X, Y, Z = tsplit(XYZ)
-    X_n, Y_n, Z_n = tsplit(XYZ_n)
+    X, Y, Z = tsplit(to_domain_100(XYZ))
+    X_n, Y_n, Z_n = tsplit(to_domain_100(XYZ_n))
     K_a, K_b = (tsplit(XYZ_to_K_ab_HunterLab1966(XYZ_n))
                 if K_ab is None else tsplit(K_ab))
 
@@ -144,7 +155,7 @@ def XYZ_to_Hunter_Lab(XYZ,
 
     Lab = tstack((L, a, b))
 
-    return Lab
+    return from_range_100(Lab)
 
 
 def Hunter_Lab_to_XYZ(Lab,
@@ -173,10 +184,24 @@ def Hunter_Lab_to_XYZ(Lab,
 
     Notes
     -----
-    -   Input *Lightness* :math:`L^*` is normalised to domain [0, 100].
-    -   Input *CIE XYZ* and reference *illuminant* tristimulus values are
-        normalised to domain [0, 100].
-    -   Output *CIE XYZ* tristimulus values are normalised to range [0, 100].
+
+    +------------+-----------------------+-----------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1**   |
+    +============+=======================+=================+
+    | ``Lab``    | ``L`` : [0, 100]      | ``L`` : [0, 1]  |
+    |            |                       |                 |
+    |            | ``a`` : [-100, 100]   | ``a`` : [-1, 1] |
+    |            |                       |                 |
+    |            | ``b`` : [-100, 100]   | ``b`` : [-1, 1] |
+    +------------+-----------------------+-----------------+
+    | ``XYZ_n``  | [0, 100]              | [0, 1]          |
+    +------------+-----------------------+-----------------+
+
+    +------------+-----------------------+-----------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1**   |
+    +============+=======================+=================+
+    | ``XYZ``    | [0, 100]              | [0, 1]          |
+    +------------+-----------------------+-----------------+
 
     References
     ----------
@@ -191,8 +216,8 @@ def Hunter_Lab_to_XYZ(Lab,
     array([  7.049534,  10.08    ,   9.558313])
     """
 
-    L, a, b = tsplit(Lab)
-    X_n, Y_n, Z_n = tsplit(XYZ_n)
+    L, a, b = tsplit(to_domain_100(Lab))
+    X_n, Y_n, Z_n = tsplit(to_domain_100(XYZ_n))
     K_a, K_b = (tsplit(XYZ_to_K_ab_HunterLab1966(XYZ_n))
                 if K_ab is None else tsplit(K_ab))
 
@@ -205,4 +230,4 @@ def Hunter_Lab_to_XYZ(Lab,
 
     XYZ = tstack((X, Y, Z))
 
-    return XYZ
+    return from_range_100(XYZ)

@@ -2,19 +2,19 @@ p {
     margin-bottom: 8px !important;
 }
 
-.wy-table-responsive table td {
+table.docutils {
+    width: 100% !important;
+}
+
+table.longtable.docutils td {
     background-color: rgb(252, 252, 252) !important;
     border: 0 !important;
-    padding: 2px 4px 2px 0px !important;
+    padding: 4px 4px 4px 0px !important;
     vertical-align: top !important;
     white-space: normal !important;
 }
 
-.wy-table-responsive {
-    overflow: visible !important;
-}
-
-.wy-table-bordered-all, .rst-content table.docutils {
+table.longtable.docutils {
     border: 0 !important;
 }
 

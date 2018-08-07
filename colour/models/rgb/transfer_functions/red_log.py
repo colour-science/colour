@@ -36,6 +36,8 @@ import numpy as np
 from colour.models.rgb.transfer_functions import (log_encoding_Cineon,
                                                   log_decoding_Cineon)
 
+from colour.utilities import from_range_1, to_domain_1
+
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
@@ -67,6 +69,21 @@ def log_encoding_REDLog(x, black_offset=10 ** ((0 - 1023) / 511)):
     numeric or ndarray
         Non-linear data :math:`y`.
 
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``x``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``y``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     References
     ----------
     -   :cite:`SonyImageworks2012a`
@@ -77,10 +94,11 @@ def log_encoding_REDLog(x, black_offset=10 ** ((0 - 1023) / 511)):
     0.6376218...
     """
 
-    x = np.asarray(x)
+    x = to_domain_1(x)
 
-    return ((
-        1023 + 511 * np.log10(x * (1 - black_offset) + black_offset)) / 1023)
+    y = (1023 + 511 * np.log10(x * (1 - black_offset) + black_offset)) / 1023
+
+    return from_range_1(y)
 
 
 def log_decoding_REDLog(y, black_offset=10 ** ((0 - 1023) / 511)):
@@ -100,6 +118,21 @@ def log_decoding_REDLog(y, black_offset=10 ** ((0 - 1023) / 511)):
     numeric or ndarray
         Linear data :math:`x`.
 
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``y``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``x``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     References
     ----------
     -   :cite:`SonyImageworks2012a`
@@ -110,10 +143,11 @@ def log_decoding_REDLog(y, black_offset=10 ** ((0 - 1023) / 511)):
     0.1...
     """
 
-    y = np.asarray(y)
+    y = to_domain_1(y)
 
-    return (((10 ** ((1023 * y - 1023) / 511)) - black_offset) /
-            (1 - black_offset))
+    x = ((10 ** ((1023 * y - 1023) / 511)) - black_offset) / (1 - black_offset)
+
+    return from_range_1(x)
 
 
 def log_encoding_REDLogFilm(x, black_offset=10 ** ((95 - 685) / 300)):
@@ -132,6 +166,21 @@ def log_encoding_REDLogFilm(x, black_offset=10 ** ((95 - 685) / 300)):
     -------
     numeric or ndarray
         Non-linear data :math:`y`.
+
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``x``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``y``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
@@ -162,6 +211,21 @@ def log_decoding_REDLogFilm(y, black_offset=10 ** ((95 - 685) / 300)):
     -------
     numeric or ndarray
         Linear data :math:`x`.
+
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``y``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``x``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
@@ -195,6 +259,19 @@ def log_encoding_Log3G10(x, legacy_curve=False):
 
     Notes
     -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``x``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``y``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     -   The v1 *Log3G10* log encoding curve is the one used in *REDCINE-X beta
         42*. *Resolve 12.5.2* also uses the v1 curve. *RED* is planning to use
         v2 *Log3G10* log encoding curve in the release version of the
@@ -239,13 +316,15 @@ def log_encoding_Log3G10(x, legacy_curve=False):
     0.0915514...
     """
 
-    x = np.asarray(x)
+    x = to_domain_1(x)
 
     if legacy_curve:
-        return np.sign(x) * 0.222497 * np.log10((np.abs(x) * 169.379333) + 1)
+        y = np.sign(x) * 0.222497 * np.log10((np.abs(x) * 169.379333) + 1)
     else:
-        return (np.sign(x + 0.01) * 0.224282 *
-                np.log10((np.abs(x + 0.01) * 155.975327) + 1))
+        y = (np.sign(x + 0.01) * 0.224282 *
+             np.log10((np.abs(x + 0.01) * 155.975327) + 1))
+
+    return from_range_1(y)
 
 
 def log_decoding_Log3G10(y, legacy_curve=False):
@@ -265,6 +344,21 @@ def log_decoding_Log3G10(y, legacy_curve=False):
     numeric or ndarray
         Linear data :math:`x`.
 
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``y``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``x``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     References
     ----------
     -   :cite:`Nattress2016a`
@@ -277,14 +371,17 @@ def log_decoding_Log3G10(y, legacy_curve=False):
     184.3223476...
     """
 
-    y = np.asarray(y)
+    y = to_domain_1(y)
 
     if legacy_curve:
-        return (np.sign(y) *
-                (np.power(10.0, np.abs(y) / 0.222497) - 1) / 169.379333)
+        x = (np.sign(y) * (np.power(10.0,
+                                    np.abs(y) / 0.222497) - 1) / 169.379333)
     else:
-        return (np.sign(y) *
-                (np.power(10.0, np.abs(y) / 0.224282) - 1) / 155.975327) - 0.01
+        x = (np.sign(y) *
+             (np.power(10.0,
+                       np.abs(y) / 0.224282) - 1) / 155.975327) - 0.01
+
+    return from_range_1(x)
 
 
 def log_encoding_Log3G12(x):
@@ -302,6 +399,21 @@ def log_encoding_Log3G12(x):
     numeric or ndarray
         Non-linear data :math:`y`.
 
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``x``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``y``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     References
     ----------
     -   :cite:`Nattress2016a`
@@ -312,9 +424,11 @@ def log_encoding_Log3G12(x):
     0.3333326...
     """
 
-    x = np.asarray(x)
+    x = to_domain_1(x)
 
-    return np.sign(x) * 0.184904 * np.log10((np.abs(x) * 347.189667) + 1)
+    y = np.sign(x) * 0.184904 * np.log10((np.abs(x) * 347.189667) + 1)
+
+    return from_range_1(y)
 
 
 def log_decoding_Log3G12(y):
@@ -332,6 +446,21 @@ def log_decoding_Log3G12(y):
     numeric or ndarray
         Linear data :math:`x`.
 
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``y``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``x``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     References
     ----------
     -   :cite:`Nattress2016a`
@@ -342,7 +471,8 @@ def log_decoding_Log3G12(y):
     0.1800015...
     """
 
-    y = np.asarray(y)
+    y = to_domain_1(y)
 
-    return (np.sign(y) *
-            (np.power(10.0, np.abs(y) / 0.184904) - 1) / 347.189667)
+    x = np.sign(y) * (np.power(10.0, np.abs(y) / 0.184904) - 1) / 347.189667
+
+    return from_range_1(x)

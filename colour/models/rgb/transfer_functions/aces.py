@@ -60,8 +60,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.constants import DEFAULT_FLOAT_DTYPE
-from colour.utilities import Structure, as_numeric
+from colour.utilities import Structure, as_numeric, from_range_1, to_domain_1
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -150,6 +149,24 @@ def log_encoding_ACESproxy(lin_AP1,
     numeric or ndarray
         *ACESproxy* non-linear value.
 
+    Notes
+    -----
+
+    +---------------+-----------------------+---------------+
+    | **Domain \*** | **Scale - Reference** | **Scale - 1** |
+    +===============+=======================+===============+
+    | ``lin_AP1``   | [0, 1]                | [0, 1]        |
+    +---------------+-----------------------+---------------+
+
+    +---------------+-----------------------+---------------+
+    | **Range \***  | **Scale - Reference** | **Scale - 1** |
+    +===============+=======================+===============+
+    | ``ACESproxy`` | [0, 1]                | [0, 1]        |
+    +---------------+-----------------------+---------------+
+
+    -   \* This definition has an output integer switch, thus the domain-range
+        scale information is only given for the floating point mode.
+
     References
     ----------
     -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
@@ -165,7 +182,7 @@ def log_encoding_ACESproxy(lin_AP1,
     426
     """
 
-    lin_AP1 = np.asarray(lin_AP1)
+    lin_AP1 = to_domain_1(lin_AP1)
 
     constants = constants[bit_depth]
 
@@ -179,16 +196,16 @@ def log_encoding_ACESproxy(lin_AP1,
 
         return np.maximum(CV_min, np.minimum(CV_max, np.round(x)))
 
-    output = np.where(
+    ACESproxy = np.where(
         lin_AP1 > 2 ** -9.72,
         float_2_cv((np.log2(lin_AP1) + constants.mid_log_offset
                     ) * constants.steps_per_stop + constants.mid_CV_offset),
         np.resize(CV_min, lin_AP1.shape))
 
     if out_int:
-        return as_numeric(np.round(output), np.int_)
+        return as_numeric(np.round(ACESproxy), np.int_)
     else:
-        return as_numeric(output / (2 ** bit_depth - 1))
+        return as_numeric(from_range_1(ACESproxy / (2 ** bit_depth - 1)))
 
 
 def log_decoding_ACESproxy(ACESproxy,
@@ -217,6 +234,24 @@ def log_decoding_ACESproxy(ACESproxy,
     numeric or ndarray
         *lin_AP1* value.
 
+    Notes
+    -----
+
+    +---------------+-----------------------+---------------+
+    | **Domain \*** | **Scale - Reference** | **Scale - 1** |
+    +===============+=======================+===============+
+    | ``ACESproxy`` | [0, 1]                | [0, 1]        |
+    +---------------+-----------------------+---------------+
+
+    +---------------+-----------------------+---------------+
+    | **Range \***  | **Scale - Reference** | **Scale - 1** |
+    +===============+=======================+===============+
+    | ``lin_AP1``   | [0, 1]                | [0, 1]        |
+    +---------------+-----------------------+---------------+
+
+    -   \* This definition has an input integer switch, thus the domain-range
+        scale information is only given for the floating point mode.
+
     References
     ----------
     -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
@@ -232,18 +267,18 @@ def log_decoding_ACESproxy(ACESproxy,
     0.1...
     """
 
-    ACESproxy = np.asarray(ACESproxy, dtype=DEFAULT_FLOAT_DTYPE)
+    ACESproxy = to_domain_1(ACESproxy)
 
     constants = constants[bit_depth]
 
     if not in_int:
         ACESproxy = ACESproxy * (2 ** bit_depth - 1)
 
-    output = (2 ** (
+    lin_AP1 = (2 ** (
         ((ACESproxy - constants.mid_CV_offset) / constants.steps_per_stop -
          constants.mid_log_offset)))
 
-    return output
+    return from_range_1(lin_AP1)
 
 
 def log_encoding_ACEScc(lin_AP1):
@@ -261,6 +296,21 @@ def log_encoding_ACEScc(lin_AP1):
     numeric or ndarray
         *ACEScc* non-linear value.
 
+    Notes
+    -----
+
+    +-------------+-----------------------+---------------+
+    | **Domain**  | **Scale - Reference** | **Scale - 1** |
+    +=============+=======================+===============+
+    | ``lin_AP1`` | [0, 1]                | [0, 1]        |
+    +-------------+-----------------------+---------------+
+
+    +-------------+-----------------------+---------------+
+    | **Range**   | **Scale - Reference** | **Scale - 1** |
+    +=============+=======================+===============+
+    | ``ACEScc``  | [0, 1]                | [0, 1]        |
+    +-------------+-----------------------+---------------+
+
     References
     ----------
     -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
@@ -274,14 +324,14 @@ def log_encoding_ACEScc(lin_AP1):
     0.4135884...
     """
 
-    lin_AP1 = np.asarray(lin_AP1)
+    lin_AP1 = to_domain_1(lin_AP1)
 
-    output = np.where(lin_AP1 < 0, (np.log2(2 ** -16) + 9.72) / 17.52,
+    ACEScc = np.where(lin_AP1 < 0, (np.log2(2 ** -16) + 9.72) / 17.52,
                       (np.log2(2 ** -16 + lin_AP1 * 0.5) + 9.72) / 17.52)
-    output = np.where(lin_AP1 >= 2 ** -15, (np.log2(lin_AP1) + 9.72) / 17.52,
-                      output)
+    ACEScc = np.where(lin_AP1 >= 2 ** -15, (np.log2(lin_AP1) + 9.72) / 17.52,
+                      ACEScc)
 
-    return as_numeric(output)
+    return as_numeric(from_range_1(ACEScc))
 
 
 def log_decoding_ACEScc(ACEScc):
@@ -299,6 +349,21 @@ def log_decoding_ACEScc(ACEScc):
     numeric or ndarray
         *lin_AP1* value.
 
+    Notes
+    -----
+
+    +-------------+-----------------------+---------------+
+    | **Domain**  | **Scale - Reference** | **Scale - 1** |
+    +=============+=======================+===============+
+    | ``ACEScc``  | [0, 1]                | [0, 1]        |
+    +-------------+-----------------------+---------------+
+
+    +-------------+-----------------------+---------------+
+    | **Range**   | **Scale - Reference** | **Scale - 1** |
+    +=============+=======================+===============+
+    | ``lin_AP1`` | [0, 1]                | [0, 1]        |
+    +-------------+-----------------------+---------------+
+
     References
     ----------
     -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
@@ -312,14 +377,15 @@ def log_decoding_ACEScc(ACEScc):
     0.1799999...
     """
 
-    ACEScc = np.asarray(ACEScc)
+    ACEScc = to_domain_1(ACEScc)
 
-    output = np.where(ACEScc < (9.72 - 15) / 17.52,
-                      (2 ** (ACEScc * 17.52 - 9.72) - 2 ** -16) * 2, 2
-                      ** (ACEScc * 17.52 - 9.72))
-    output = np.where(ACEScc >= (np.log2(65504) + 9.72) / 17.52, 65504, output)
+    lin_AP1 = np.where(ACEScc < (9.72 - 15) / 17.52,
+                       (2 ** (ACEScc * 17.52 - 9.72) - 2 ** -16) * 2, 2
+                       ** (ACEScc * 17.52 - 9.72))
+    lin_AP1 = np.where(ACEScc >= (np.log2(65504) + 9.72) / 17.52, 65504,
+                       lin_AP1)
 
-    return as_numeric(output)
+    return as_numeric(from_range_1(lin_AP1))
 
 
 def log_encoding_ACEScct(lin_AP1, constants=ACES_CCT_CONSTANTS):
@@ -339,6 +405,21 @@ def log_encoding_ACEScct(lin_AP1, constants=ACES_CCT_CONSTANTS):
     numeric or ndarray
         *ACEScct* non-linear value.
 
+    Notes
+    -----
+
+    +-------------+-----------------------+---------------+
+    | **Domain**  | **Scale - Reference** | **Scale - 1** |
+    +=============+=======================+===============+
+    | ``lin_AP1`` | [0, 1]                | [0, 1]        |
+    +-------------+-----------------------+---------------+
+
+    +-------------+-----------------------+---------------+
+    | **Range**   | **Scale - Reference** | **Scale - 1** |
+    +=============+=======================+===============+
+    | ``ACEScct`` | [0, 1]                | [0, 1]        |
+    +-------------+-----------------------+---------------+
+
     References
     ----------
     -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
@@ -352,13 +433,13 @@ def log_encoding_ACEScct(lin_AP1, constants=ACES_CCT_CONSTANTS):
     0.4135884...
     """
 
-    lin_AP1 = np.asarray(lin_AP1)
+    lin_AP1 = to_domain_1(lin_AP1)
 
-    output = np.where(lin_AP1 <= constants.X_BRK,
-                      constants.A * lin_AP1 + constants.B,
-                      (np.log2(lin_AP1) + 9.72) / 17.52)
+    ACEScct = np.where(lin_AP1 <= constants.X_BRK,
+                       constants.A * lin_AP1 + constants.B,
+                       (np.log2(lin_AP1) + 9.72) / 17.52)
 
-    return as_numeric(output)
+    return as_numeric(from_range_1(ACEScct))
 
 
 def log_decoding_ACEScct(ACEScct, constants=ACES_CCT_CONSTANTS):
@@ -385,15 +466,31 @@ def log_decoding_ACEScct(ACEScct, constants=ACES_CCT_CONSTANTS):
     -   :cite:`TheAcademyofMotionPictureArtsandSciences2016c`
     -   :cite:`TheAcademyofMotionPictureArtsandSciencese`
 
+    Notes
+    -----
+
+    +-------------+-----------------------+---------------+
+    | **Domain**  | **Scale - Reference** | **Scale - 1** |
+    +=============+=======================+===============+
+    | ``ACEScct`` | [0, 1]                | [0, 1]        |
+    +-------------+-----------------------+---------------+
+
+    +-------------+-----------------------+---------------+
+    | **Range**   | **Scale - Reference** | **Scale - 1** |
+    +=============+=======================+===============+
+    | ``lin_AP1`` | [0, 1]                | [0, 1]        |
+    +-------------+-----------------------+---------------+
+
     Examples
     --------
     >>> log_decoding_ACEScct(0.413588402492442)  # doctest: +ELLIPSIS
     0.1799999...
     """
 
-    ACEScct = np.asarray(ACEScct)
+    ACEScct = to_domain_1(ACEScct)
 
-    output = np.where(ACEScct > constants.Y_BRK, 2 ** (ACEScct * 17.52 - 9.72),
-                      (ACEScct - constants.B) / constants.A)
+    lin_AP1 = np.where(ACEScct > constants.Y_BRK, 2
+                       ** (ACEScct * 17.52 - 9.72),
+                       (ACEScct - constants.B) / constants.A)
 
-    return as_numeric(output)
+    return as_numeric(from_range_1(lin_AP1))

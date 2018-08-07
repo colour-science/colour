@@ -31,7 +31,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import Structure
+from colour.utilities import Structure, from_range_1, to_domain_1
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -74,10 +74,24 @@ def oetf_ST2084(C, L_p=10000, constants=ST2084_CONSTANTS):
     Returns
     -------
     numeric or ndarray
-        Color value abbreviated as :math:`N`, normalised to range [0, 1],
-        that is directly proportional to the encoded signal representation,
-        and which is not directly proportional to the optical output of a
-        display device.
+        Color value abbreviated as :math:`N`, that is directly proportional to
+        the encoded signal representation, and which is not directly
+        proportional to the optical output of a display device.
+
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``C``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``N``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
@@ -90,14 +104,14 @@ def oetf_ST2084(C, L_p=10000, constants=ST2084_CONSTANTS):
     0.5080784...
     """
 
-    C = np.asarray(C)
+    C = to_domain_1(C)
 
     Y_p = (C / L_p) ** constants.m_1
 
     N = ((constants.c_1 + constants.c_2 * Y_p) /
          (constants.c_3 * Y_p + 1)) ** constants.m_2
 
-    return N
+    return from_range_1(N)
 
 
 def eotf_ST2084(N, L_p=10000, constants=ST2084_CONSTANTS):
@@ -111,10 +125,9 @@ def eotf_ST2084(N, L_p=10000, constants=ST2084_CONSTANTS):
     Parameters
     ----------
     N : numeric or array_like
-        Color value abbreviated as :math:`N`, normalised to range [0, 1],
-        that is directly proportional to the encoded signal representation,
-        and which is not directly proportional to the optical output of a
-        display device.
+        Color value abbreviated as :math:`N`, that is directly proportional to
+        the encoded signal representation, and which is not directly
+        proportional to the optical output of a display device.
     L_p : numeric, optional
         Display peak luminance :math:`cd/m^2`.
     constants : Structure, optional
@@ -125,6 +138,21 @@ def eotf_ST2084(N, L_p=10000, constants=ST2084_CONSTANTS):
     numeric or ndarray
           Target optical output :math:`C` in :math:`cd/m^2` of the ideal
           reference display.
+
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``N``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``C``      | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
@@ -137,7 +165,7 @@ def eotf_ST2084(N, L_p=10000, constants=ST2084_CONSTANTS):
     100.0000000...
     """
 
-    N = np.asarray(N)
+    N = to_domain_1(N)
 
     m_1_d = 1 / constants.m_1
     m_2_d = 1 / constants.m_2
@@ -151,4 +179,4 @@ def eotf_ST2084(N, L_p=10000, constants=ST2084_CONSTANTS):
     L = (n / (constants.c_2 - constants.c_3 * V_p)) ** m_1_d
     C = L_p * L
 
-    return C
+    return from_range_1(C)

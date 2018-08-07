@@ -151,3 +151,39 @@ message_box(('Parameters:\n\n'
              '\nE_o2:\n\n{5}'.format(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)))
 print(colour.adaptation.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o,
                                                      E_o1, E_o2))
+
+print('\n')
+
+message_box('Domain-Range Scales')
+
+message_box(('"Colour" uses two different domain-range scales: \n\n'
+             '- "Reference"\n'
+             '- "1"'))
+
+print('\n')
+
+message_box('Printing the current domain-range scale:')
+
+print(colour.get_domain_range_scale())
+
+print('\n')
+
+message_box('Setting the current domain-range scale to "1":')
+
+colour.set_domain_range_scale('1')
+
+XYZ_1 = np.array([0.2800, 0.2126, 0.0527])
+xy_o1 = np.array([0.4476, 0.4074])
+xy_o2 = np.array([0.3127, 0.3290])
+Y_o = 0.2
+E_o1 = 1000
+E_o2 = 1000
+message_box(('Parameters:\n\n'
+             'XYZ_1:\n\n{0}\n\n'
+             '\nxy_o1:\n\n{1}\n\n'
+             '\nxy_o2:\n\n{2}\n\n'
+             '\nY_o:\n\n{3}\n\n'
+             '\nE_o1:\n\n{4}\n\n'
+             '\nE_o2:\n\n{5}'.format(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2)))
+print(colour.adaptation.chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o,
+                                                     E_o1, E_o2))

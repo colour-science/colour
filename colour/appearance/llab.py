@@ -37,7 +37,9 @@ import numpy as np
 from collections import namedtuple
 
 from colour.algebra import polar_to_cartesian
-from colour.utilities import CaseInsensitiveMapping, dot_vector, tsplit, tstack
+from colour.utilities import (CaseInsensitiveMapping, dot_vector,
+                              from_range_degrees, to_domain_100, tsplit,
+                              tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -64,8 +66,7 @@ class LLAB_InductionFactors(
     Parameters
     ----------
     D : numeric or array_like
-         *Discounting-the-Illuminant* factor :math:`D` normalised to domain
-         [0, 1].
+         *Discounting-the-Illuminant* factor :math:`D`.
     F_S : numeric or array_like
         Surround induction factor :math:`F_S`.
     F_L : numeric or array_like
@@ -243,11 +244,9 @@ def XYZ_to_LLAB(
     Parameters
     ----------
     XYZ : array_like
-        *CIE XYZ* tristimulus values of test sample / stimulus normalised to
-        domain [0, 100].
+        *CIE XYZ* tristimulus values of test sample / stimulus.
     XYZ_0 : array_like
-        *CIE XYZ* tristimulus values of reference white normalised to domain
-        [0, 100].
+        *CIE XYZ* tristimulus values of reference white.
     Y_b : numeric or array_like
         Luminance factor of the background in :math:`cd/m^2`.
     L : numeric or array_like
@@ -260,14 +259,22 @@ def XYZ_to_LLAB(
     LLAB_Specification
         *LLAB(l:c)* colour appearance model specification.
 
-    Warning
-    -------
-    The output range of that definition is non standard!
-
     Notes
     -----
-    -   Input *CIE XYZ* tristimulus values are normalised to domain [0, 100].
-    -   Input *CIE XYZ_0* tristimulus values are normalised to domain [0, 100].
+
+    +--------------------------+-----------------------+---------------+
+    | **Domain**               | **Scale - Reference** | **Scale - 1** |
+    +==========================+=======================+===============+
+    | ``XYZ``                  | [0, 100]              | [0, 1]        |
+    +--------------------------+-----------------------+---------------+
+    | ``XYZ_0``                | [0, 100]              | [0, 1]        |
+    +--------------------------+-----------------------+---------------+
+
+    +--------------------------+-----------------------+---------------+
+    | **Range**                | **Scale - Reference** | **Scale - 1** |
+    +==========================+=======================+===============+
+    | ``LLAB_Specification.h`` | [0, 360]              | [0, 1]        |
+    +--------------------------+-----------------------+---------------+
 
     References
     ----------
@@ -287,9 +294,9 @@ def XYZ_to_LLAB(
 s=0.0002395..., M=0.0190185..., HC=None, a=..., b=-0.0190185...)
     """
 
-    _X, Y, _Z = tsplit(XYZ)
-    RGB = XYZ_to_RGB_LLAB(XYZ)
-    RGB_0 = XYZ_to_RGB_LLAB(XYZ_0)
+    _X, Y, _Z = tsplit(to_domain_100(XYZ))
+    RGB = XYZ_to_RGB_LLAB(to_domain_100(XYZ))
+    RGB_0 = XYZ_to_RGB_LLAB(to_domain_100(XYZ_0))
 
     # Reference illuminant *CIE Standard Illuminant D Series* *D65*.
     XYZ_0r = np.array([95.05, 100.00, 108.88])
@@ -332,7 +339,8 @@ s=0.0002395..., M=0.0190185..., HC=None, a=..., b=-0.0190185...)
     # -------------------------------------------------------------------------
     A_L, B_L = tsplit(final_opponent_signals(C_L, h_L))
 
-    return LLAB_Specification(L_L, Ch_L, h_L, s_L, C_L, None, A_L, B_L)
+    return LLAB_Specification(L_L, Ch_L, from_range_degrees(h_L), s_L, C_L,
+                              None, A_L, B_L)
 
 
 def XYZ_to_RGB_LLAB(XYZ):

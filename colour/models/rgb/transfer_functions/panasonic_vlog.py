@@ -26,7 +26,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
-from colour.utilities import Structure, as_numeric
+from colour.utilities import Structure, as_numeric, from_range_1, to_domain_1
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -74,6 +74,21 @@ def log_encoding_VLog(L_in,
     numeric or ndarray
         Non-linear data :math:`V_{out}`.
 
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``L_in``   | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``V_out``  | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     References
     ----------
     -   :cite:`Panasonic2014a`
@@ -84,7 +99,7 @@ def log_encoding_VLog(L_in,
     0.4233114...
     """
 
-    L_in = np.asarray(L_in)
+    L_in = to_domain_1(L_in)
 
     if not in_reflection:
         L_in = L_in * 0.9
@@ -99,7 +114,7 @@ def log_encoding_VLog(L_in,
 
     V_out = V_out if out_legal else legal_to_full(V_out, bit_depth)
 
-    return as_numeric(V_out)
+    return as_numeric(from_range_1(V_out))
 
 
 def log_decoding_VLog(V_out,
@@ -130,6 +145,21 @@ def log_decoding_VLog(V_out,
     numeric or ndarray
         Linear reflection data :math`L_{in}`.
 
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``V_out``  | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``L_in``   | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     References
     ----------
     -   :cite:`Panasonic2014a`
@@ -140,7 +170,7 @@ def log_decoding_VLog(V_out,
     0.1799999...
     """
 
-    V_out = np.asarray(V_out)
+    V_out = to_domain_1(V_out)
 
     V_out = V_out if in_legal else full_to_legal(V_out, bit_depth)
 
@@ -155,4 +185,4 @@ def log_decoding_VLog(V_out,
     if not out_reflection:
         L_in = L_in / 0.9
 
-    return as_numeric(L_in)
+    return as_numeric(from_range_1(L_in))

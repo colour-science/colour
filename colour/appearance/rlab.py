@@ -32,7 +32,8 @@ from collections import namedtuple
 
 from colour.appearance.hunt import XYZ_TO_HPE_MATRIX, XYZ_to_rgb
 from colour.utilities import (CaseInsensitiveMapping, dot_matrix, dot_vector,
-                              tsplit, row_as_diagonal)
+                              from_range_degrees, to_domain_100, tsplit,
+                              row_as_diagonal)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -186,11 +187,9 @@ def XYZ_to_RLAB(XYZ,
     Parameters
     ----------
     XYZ : array_like
-        *CIE XYZ* tristimulus values of test sample / stimulus normalised to
-        domain [0, 100].
+        *CIE XYZ* tristimulus values of test sample / stimulus.
     XYZ_n : array_like
-        *CIE XYZ* tristimulus values of reference white normalised to domain
-        [0, 100].
+        *CIE XYZ* tristimulus values of reference white.
     Y_n : numeric or array_like
         Absolute adapting luminance in :math:`cd/m^2`.
     sigma : numeric or array_like, optional
@@ -204,14 +203,22 @@ def XYZ_to_RLAB(XYZ,
     RLAB_Specification
         *RLAB* colour appearance model specification.
 
-    Warning
-    -------
-    The input domain of that definition is non standard!
-
     Notes
     -----
-    -   Input *CIE XYZ* tristimulus values are normalised to domain [0, 100].
-    -   Input *CIE XYZ_n* tristimulus values are normalised to domain [0, 100].
+
+    +--------------------------+-----------------------+---------------+
+    | **Domain**               | **Scale - Reference** | **Scale - 1** |
+    +==========================+=======================+===============+
+    | ``XYZ``                  | [0, 100]              | [0, 1]        |
+    +--------------------------+-----------------------+---------------+
+    | ``XYZ_n``                | [0, 100]              | [0, 1]        |
+    +--------------------------+-----------------------+---------------+
+
+    +--------------------------+-----------------------+---------------+
+    | **Range**                | **Scale - Reference** | **Scale - 1** |
+    +==========================+=======================+===============+
+    | ``RLAB_Specification.h`` | [0, 360]              | [0, 1]        |
+    +--------------------------+-----------------------+---------------+
 
     References
     ----------
@@ -230,6 +237,8 @@ def XYZ_to_RLAB(XYZ,
 s=1.1010410..., HC=None, a=15.5711021..., b=-52.6142956...)
     """
 
+    XYZ = to_domain_100(XYZ)
+    XYZ_n = to_domain_100(XYZ_n)
     Y_n = np.asarray(Y_n)
     D = np.asarray(D)
     sigma = np.asarray(sigma)
@@ -266,4 +275,4 @@ s=1.1010410..., HC=None, a=15.5711021..., b=-52.6142956...)
     # Computing the correlate of *saturation* :math:`s^R`.
     sR = CR / LR
 
-    return RLAB_Specification(LR, CR, hR, sR, None, aR, bR)
+    return RLAB_Specification(LR, CR, from_range_degrees(hR), sR, None, aR, bR)

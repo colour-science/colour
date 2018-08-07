@@ -33,7 +33,8 @@ import numpy as np
 from collections import namedtuple
 
 from colour.adaptation import CMCCAT2000_CAT
-from colour.utilities import CaseInsensitiveMapping, dot_vector
+from colour.utilities import (CaseInsensitiveMapping, dot_vector,
+                              from_range_100, to_domain_100)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -125,15 +126,24 @@ def chromatic_adaptation_forward_CMCCAT2000(
     ndarray
         *CIE XYZ_c* tristimulus values of the stimulus corresponding colour.
 
-    Warning
-    -------
-    The input domain and output range of that definition are non standard!
-
     Notes
     -----
-    -   Input *CIE XYZ*, *CIE XYZ_w* and *CIE XYZ_wr* tristimulus values are
-        normalised to domain [0, 100].
-    -   Output *CIE XYZ_c* tristimulus values are normalised to range [0, 100].
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ``    | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
+    | ``XYZ_w``  | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
+    | ``XYZ_wr`` | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ_c``  | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
@@ -152,9 +162,9 @@ def chromatic_adaptation_forward_CMCCAT2000(
     array([ 19.5269832...,  23.0683396...,  24.9717522...])
     """
 
-    XYZ = np.asarray(XYZ)
-    XYZ_w = np.asarray(XYZ_w)
-    XYZ_wr = np.asarray(XYZ_wr)
+    XYZ = to_domain_100(XYZ)
+    XYZ_w = to_domain_100(XYZ_w)
+    XYZ_wr = to_domain_100(XYZ_wr)
     L_A1 = np.asarray(L_A1)
     L_A2 = np.asarray(L_A2)
 
@@ -172,7 +182,7 @@ def chromatic_adaptation_forward_CMCCAT2000(
                     (RGB_wr / RGB_w) + 1 - D[..., np.newaxis]))
     XYZ_c = dot_vector(CMCCAT2000_INVERSE_CAT, RGB_c)
 
-    return XYZ_c
+    return from_range_100(XYZ_c)
 
 
 def chromatic_adaptation_reverse_CMCCAT2000(
@@ -208,15 +218,24 @@ def chromatic_adaptation_reverse_CMCCAT2000(
     ndarray
         *CIE XYZ_c* tristimulus values of the adapted stimulus.
 
-    Warning
-    -------
-    The input domain and output range of that definition are non standard!
-
     Notes
     -----
-    -   Input *CIE XYZ_c*, *CIE XYZ_w* and *CIE XYZ_wr* tristimulus values
-        are normalised to domain [0, 100].
-    -   Output *CIE XYZ* tristimulus values are normalised to range [0, 100].
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ_c``  | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
+    | ``XYZ_w``  | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
+    | ``XYZ_wr`` | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ``    | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
@@ -236,9 +255,9 @@ def chromatic_adaptation_reverse_CMCCAT2000(
     array([ 22.4839876...,  22.7419485...,   8.5393392...])
     """
 
-    XYZ_c = np.asarray(XYZ_c)
-    XYZ_w = np.asarray(XYZ_w)
-    XYZ_wr = np.asarray(XYZ_wr)
+    XYZ_c = to_domain_100(XYZ_c)
+    XYZ_w = to_domain_100(XYZ_w)
+    XYZ_wr = to_domain_100(XYZ_wr)
     L_A1 = np.asarray(L_A1)
     L_A2 = np.asarray(L_A2)
 
@@ -256,7 +275,7 @@ def chromatic_adaptation_reverse_CMCCAT2000(
                     (RGB_wr / RGB_w) + 1 - D[..., np.newaxis]))
     XYZ = dot_vector(CMCCAT2000_INVERSE_CAT, RGB)
 
-    return XYZ
+    return from_range_100(XYZ)
 
 
 def chromatic_adaptation_CMCCAT2000(
@@ -300,15 +319,24 @@ def chromatic_adaptation_CMCCAT2000(
     ndarray
         Adapted stimulus *CIE XYZ* tristimulus values.
 
-    Warning
-    -------
-    The input domain and output range of that definition are non standard!
-
     Notes
     -----
-    -   Input *CIE XYZ*, *CIE XYZ_w* and *CIE XYZ_wr* tristimulus values are
-        normalised to domain [0, 100].
-    -   Output *CIE XYZ* tristimulus values are normalised to range [0, 100].
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ``    | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
+    | ``XYZ_w``  | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
+    | ``XYZ_wr`` | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ``    | [0, 100]              | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------

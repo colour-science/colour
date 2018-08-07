@@ -27,7 +27,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.constants import DEFAULT_FLOAT_DTYPE
+from colour.utilities import from_range_1, to_domain_1
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -56,6 +56,24 @@ def oetf_DCDM(XYZ, out_int=False):
     numeric or ndarray
         Non-linear *CIE XYZ'* tristimulus values.
 
+    Notes
+    -----
+
+    +---------------+-----------------------+---------------+
+    | **Domain \*** | **Scale - Reference** | **Scale - 1** |
+    +===============+=======================+===============+
+    | ``XYZ``       | [0, 1]                | [0, 1]        |
+    +---------------+-----------------------+---------------+
+
+    +---------------+-----------------------+---------------+
+    | **Range \***  | **Scale - Reference** | **Scale - 1** |
+    +===============+=======================+===============+
+    | ``XYZ_p``     | [0, 1]                | [0, 1]        |
+    +---------------+-----------------------+---------------+
+
+    -   \* This definition has an output integer switch, thus the domain-range
+        scale information is only given for the floating point mode.
+
     References
     ----------
     -   :cite:`DigitalCinemaInitiatives2007b`
@@ -68,14 +86,14 @@ def oetf_DCDM(XYZ, out_int=False):
     462
     """
 
-    XYZ = np.asarray(XYZ)
+    XYZ = to_domain_1(XYZ)
 
     XYZ_p = (XYZ / 52.37) ** (1 / 2.6)
 
     if out_int:
-        XYZ_p = np.round(4095 * XYZ_p).astype(np.int_)
-
-    return XYZ_p
+        return np.round(4095 * XYZ_p).astype(np.int_)
+    else:
+        return from_range_1(XYZ_p)
 
 
 def eotf_DCDM(XYZ_p, in_int=False):
@@ -95,6 +113,24 @@ def eotf_DCDM(XYZ_p, in_int=False):
     numeric or ndarray
         *CIE XYZ* tristimulus values.
 
+    Notes
+    -----
+
+    +---------------+-----------------------+---------------+
+    | **Domain \*** | **Scale - Reference** | **Scale - 1** |
+    +===============+=======================+===============+
+    | ``XYZ_p``     | [0, 1]                | [0, 1]        |
+    +---------------+-----------------------+---------------+
+
+    +---------------+-----------------------+---------------+
+    | **Range \***  | **Scale - Reference** | **Scale - 1** |
+    +===============+=======================+===============+
+    | ``XYZ``       | [0, 1]                | [0, 1]        |
+    +---------------+-----------------------+---------------+
+
+    -   \* This definition has an input integer switch, thus the domain-range
+        scale information is only given for the floating point mode.
+
     References
     ----------
     -   :cite:`DigitalCinemaInitiatives2007b`
@@ -107,9 +143,11 @@ def eotf_DCDM(XYZ_p, in_int=False):
     0.18...
     """
 
-    XYZ_p = np.asarray(XYZ_p, dtype=DEFAULT_FLOAT_DTYPE)
+    XYZ_p = to_domain_1(XYZ_p)
 
     if in_int:
         XYZ_p = XYZ_p / 4095
 
-    return 52.37 * XYZ_p ** 2.6
+    XYZ = 52.37 * XYZ_p ** 2.6
+
+    return from_range_1(XYZ)

@@ -55,7 +55,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import tsplit, tstack
+from colour.utilities import from_range_1, to_domain_1, tsplit, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -86,8 +86,18 @@ def RGB_to_HSV(RGB):
 
     Notes
     -----
-    -   Input *RGB* colourspace array is normalised to domain [0, 1].
-    -   Output *HSV* colourspace array is normalised to range [0, 1].
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``RGB``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``HSV``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
@@ -101,6 +111,8 @@ def RGB_to_HSV(RGB):
     >>> RGB_to_HSV(RGB)  # doctest: +ELLIPSIS
     array([ 0.2786738...,  0.744     ,  0.98039216])
     """
+
+    RGB = to_domain_1(RGB)
 
     maximum = np.amax(RGB, -1)
     delta = np.ptp(RGB, -1)
@@ -125,7 +137,7 @@ def RGB_to_HSV(RGB):
 
     HSV = tstack((H, S, V))
 
-    return HSV
+    return from_range_1(HSV)
 
 
 def HSV_to_RGB(HSV):
@@ -144,8 +156,18 @@ def HSV_to_RGB(HSV):
 
     Notes
     -----
-    -   Input *HSV* colourspace array is normalised to domain [0, 1].
-    -   Output *RGB* colourspace array is normalised to range [0, 1].
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``HSV``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``RGB``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
@@ -160,7 +182,7 @@ def HSV_to_RGB(HSV):
     array([ 0.4901960...,  0.9803921...,  0.2509803...])
     """
 
-    H, S, V = tsplit(HSV)
+    H, S, V = tsplit(to_domain_1(HSV))
 
     h = np.asarray(H * 6)
     h[np.asarray(h == 6)] = 0
@@ -183,7 +205,7 @@ def HSV_to_RGB(HSV):
         ],
         mode='clip')
 
-    return RGB
+    return from_range_1(RGB)
 
 
 def RGB_to_HSL(RGB):
@@ -202,8 +224,18 @@ def RGB_to_HSL(RGB):
 
     Notes
     -----
-    -   Input *RGB* colourspace array is normalised to domain [0, 1].
-    -   Output *HSL* colourspace array is normalised to range [0, 1].
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``RGB``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``HSL``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
@@ -217,6 +249,8 @@ def RGB_to_HSL(RGB):
     >>> RGB_to_HSL(RGB)  # doctest: +ELLIPSIS
     array([ 0.2786738...,  0.9489796...,  0.6156862...])
     """
+
+    RGB = to_domain_1(RGB)
 
     minimum = np.amin(RGB, -1)
     maximum = np.amax(RGB, -1)
@@ -243,7 +277,7 @@ def RGB_to_HSL(RGB):
 
     HSL = tstack((H, S, L))
 
-    return HSL
+    return from_range_1(HSL)
 
 
 def HSL_to_RGB(HSL):
@@ -262,8 +296,18 @@ def HSL_to_RGB(HSL):
 
     Notes
     -----
-    -   Input *HSL* colourspace array is normalised to domain [0, 1].
-    -   Output *RGB* colourspace array is normalised to range [0, 1].
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``HSL``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``RGB``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
@@ -278,7 +322,7 @@ def HSL_to_RGB(HSL):
     array([ 0.4901960...,  0.9803921...,  0.2509803...])
     """
 
-    H, S, L = tsplit(HSL)
+    H, S, L = tsplit(to_domain_1(HSL))
 
     def H_to_RGB(vi, vj, vH):
         """
@@ -316,7 +360,7 @@ def HSL_to_RGB(HSL):
 
     RGB = tstack((R, G, B))
 
-    return RGB
+    return from_range_1(RGB)
 
 
 def RGB_to_CMY(RGB):
@@ -335,8 +379,18 @@ def RGB_to_CMY(RGB):
 
     Notes
     -----
-    -   Input *RGB* colourspace array is normalised to domain [0, 1].
-    -   Output *CMY* colourspace array is normalised to range [0, 1].
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``RGB``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``CMY``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
@@ -349,9 +403,9 @@ def RGB_to_CMY(RGB):
     array([ 0.5098039...,  0.0196078...,  0.7490196...])
     """
 
-    CMY = 1 - np.asarray(RGB)
+    CMY = 1 - to_domain_1(RGB)
 
-    return CMY
+    return from_range_1(CMY)
 
 
 def CMY_to_RGB(CMY):
@@ -370,8 +424,18 @@ def CMY_to_RGB(CMY):
 
     Notes
     -----
-    -   Input *CMY* colourspace array is normalised to domain [0, 1].
-    -   Output *RGB* colourspace array is normalised to range [0, 1].
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``CMY``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``RGB``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
@@ -384,9 +448,9 @@ def CMY_to_RGB(CMY):
     array([ 0.4901960...,  0.9803921...,  0.2509803...])
     """
 
-    RGB = 1 - np.asarray(CMY)
+    RGB = 1 - to_domain_1(CMY)
 
-    return RGB
+    return from_range_1(RGB)
 
 
 def CMY_to_CMYK(CMY):
@@ -405,8 +469,18 @@ def CMY_to_CMYK(CMY):
 
     Notes
     -----
-    -   Input *CMY* colourspace array is normalised to domain [0, 1].
-    -   Output*CMYK* colourspace array is normalised to range [0, 1].
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``CMY``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``CMYK``   | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
@@ -419,7 +493,7 @@ def CMY_to_CMYK(CMY):
     array([ 0.5       ,  0.        ,  0.744     ,  0.0196078...])
     """
 
-    C, M, Y = tsplit(CMY)
+    C, M, Y = tsplit(to_domain_1(CMY))
 
     K = np.ones(C.shape)
     K = np.where(C < K, C, K)
@@ -436,7 +510,7 @@ def CMY_to_CMYK(CMY):
 
     CMYK = tstack((C, M, Y, K))
 
-    return CMYK
+    return from_range_1(CMYK)
 
 
 def CMYK_to_CMY(CMYK):
@@ -455,8 +529,18 @@ def CMYK_to_CMY(CMYK):
 
     Notes
     -----
-    -   Input *CMYK* colourspace array is normalised to domain [0, 1].
-    -   Output *CMY* colourspace array is normalised to range [0, 1].
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``CMYK``   | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``CMY``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
@@ -469,8 +553,8 @@ def CMYK_to_CMY(CMYK):
     array([ 0.5098039...,  0.0196078...,  0.7490196...])
     """
 
-    C, M, Y, K = tsplit(CMYK)
+    C, M, Y, K = tsplit(to_domain_1(CMYK))
 
     CMY = tstack((C * (1 - K) + K, M * (1 - K) + K, Y * (1 - K) + K))
 
-    return CMY
+    return from_range_1(CMY)

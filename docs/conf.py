@@ -12,7 +12,27 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
+import functools
 import re
+
+
+def no_op_wraps(function):
+    """
+    Replaces functools.wraps in order to undo wrapping when generating Sphinx
+    documentation.
+    """
+
+    if function.__module__ is None or 'colour' not in function.__module__:
+        return functools._wraps(function)
+
+    def wrapper(*args):
+        return function
+
+    return wrapper
+
+
+functools._wraps = functools.wraps
+functools.wraps = no_op_wraps
 
 import colour as package
 
@@ -223,9 +243,8 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    ('index', '{0}.tex'.format(basename),
-     u'{0} Documentation'.format(package.__application_name__),
-     package.__author__, 'manual'),
+    ('index', '{0}.tex'.format(basename), u'{0} Documentation'.format(
+        package.__application_name__), package.__author__, 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -252,9 +271,8 @@ latex_logo = '_static/Logo_Medium_001.png'
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
-man_pages = [('index', basename,
-              u'{0} Documentation'.format(package.__application_name__),
-              [package.__author__], 1)]
+man_pages = [('index', basename, u'{0} Documentation'.format(
+    package.__application_name__), [package.__author__], 1)]
 
 # If true, show URL addresses after external links.
 # man_show_urls = False
@@ -265,10 +283,9 @@ man_pages = [('index', basename,
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    ('index', basename,
-     u'{0} Documentation'.format(package.__application_name__),
-     package.__author__, package.__application_name__, basename,
-     'Miscellaneous'),
+    ('index', basename, u'{0} Documentation'.format(
+        package.__application_name__), package.__author__,
+     package.__application_name__, basename, 'Miscellaneous'),
 ]
 
 # Documents to append as an appendix to all manuals.
@@ -402,10 +419,10 @@ def _case_insensitive_mapping_repr(self):
         Ellipsis string representation.
     """
 
-    return "{0}({1})".format(
-        self.__class__.__name__,
-        repr(dict(zip(self.keys(), ['...'] * len(self)))).replace(
-            "'...'", '...'))
+    return "{0}({1})".format(self.__class__.__name__,
+                             repr(dict(zip(self.keys(),
+                                           ['...'] * len(self)))).replace(
+                                               "'...'", '...'))
 
 
 package.utilities.CaseInsensitiveMapping.__repr__ = (

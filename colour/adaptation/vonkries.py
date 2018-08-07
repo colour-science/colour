@@ -26,7 +26,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.adaptation import CHROMATIC_ADAPTATION_TRANSFORMS
-from colour.utilities import dot_matrix, dot_vector, row_as_diagonal
+from colour.utilities import (dot_matrix, dot_vector, from_range_1,
+                              row_as_diagonal, to_domain_1)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -60,12 +61,23 @@ def chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
     Returns
     -------
     ndarray
-        Chromatic adaptation matrix.
+        Chromatic adaptation matrix :math:`M_{cat}`.
 
     Raises
     ------
     KeyError
         If chromatic adaptation method is not defined.
+
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ_w``  | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+    | ``XYZ_wr`` | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
 
     References
     ----------
@@ -92,6 +104,9 @@ def chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
            [-0.1366408...,  1.1041236...,  0.1291981...],
            [ 0.0798671..., -0.1349315...,  3.1928829...]])
     """
+
+    XYZ_w = to_domain_1(XYZ_w)
+    XYZ_wr = to_domain_1(XYZ_wr)
 
     M = CHROMATIC_ADAPTATION_TRANSFORMS.get(transform)
 
@@ -138,6 +153,25 @@ def chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, transform='CAT02'):
     ndarray
         *CIE XYZ_c* tristimulus values of the stimulus corresponding colour.
 
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+    | ``XYZ_n``  | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+    | ``XYZ_r``  | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    +------------+-----------------------+---------------+
+    | **Range**  | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``XYZ_c``  | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     References
     ----------
     -   :cite:`Fairchild2013t`
@@ -161,7 +195,9 @@ def chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, transform='CAT02'):
     array([ 0.0854032...,  0.1140122...,  0.2972149...])
     """
 
+    XYZ = to_domain_1(XYZ)
+
     M_CAT = chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform)
     XYZ_a = dot_vector(M_CAT, XYZ)
 
-    return XYZ_a
+    return from_range_1(XYZ_a)

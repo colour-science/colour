@@ -10,7 +10,7 @@ message_box('Correlated Colour Temperature Computations')
 
 cmfs = colour.CMFS['CIE 1931 2 Degree Standard Observer']
 illuminant = colour.ILLUMINANTS_SPDS['D65']
-xy = colour.XYZ_to_xy(colour.spectral_to_XYZ(illuminant, cmfs))
+xy = colour.XYZ_to_xy(colour.spectral_to_XYZ(illuminant, cmfs) / 100)
 uv = colour.UCS_to_uv(colour.XYZ_to_UCS(colour.xy_to_XYZ(xy)))
 message_box(('Converting to "CCT" and "D_uv" from given "CIE UCS" colourspace '
              '"uv" chromaticity coordinates using "Ohno (2013)" method:\n'

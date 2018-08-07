@@ -42,7 +42,8 @@ from colour.appearance.ciecam02 import (
     saturation_correlate, temporary_magnitude_quantity_reverse,
     viewing_condition_dependent_parameters)
 from colour.utilities import (CaseInsensitiveMapping, as_namedtuple,
-                              dot_vector, tsplit)
+                              dot_vector, from_range_100, from_range_degrees,
+                              to_domain_100, to_domain_degrees, tsplit)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2015-2018 - Colour Developers'
@@ -110,8 +111,8 @@ CAM16_VIEWING_CONDITIONS : CaseInsensitiveMapping
 
 
 class CAM16_Specification(
-        namedtuple('CAM16_Specification', ('J', 'C', 'h', 's', 'Q', 'M', 'H',
-                                           'HC'))):
+        namedtuple('CAM16_Specification',
+                   ('J', 'C', 'h', 's', 'Q', 'M', 'H', 'HC'))):
     """
     Defines the *CAM16* colour appearance model specification.
 
@@ -172,11 +173,9 @@ def XYZ_to_CAM16(XYZ,
     Parameters
     ----------
     XYZ : array_like
-        *CIE XYZ* tristimulus values of test sample / stimulus normalised to
-        domain [0, 100].
+        *CIE XYZ* tristimulus values of test sample / stimulus.
     XYZ_w : array_like
-        *CIE XYZ* tristimulus values of reference white normalised to domain
-        [0, 100].
+        *CIE XYZ* tristimulus values of reference white.
     L_A : numeric or array_like
         Adapting field *luminance* :math:`L_A` in :math:`cd/m^2`, (often taken
         to be 20% of the luminance of a white object in the scene).
@@ -192,14 +191,24 @@ def XYZ_to_CAM16(XYZ,
     CAM16_Specification
         *CAM16* colour appearance model specification.
 
-    Warning
-    -------
-    The input domain of that definition is non standard!
-
     Notes
     -----
-    -   Input *CIE XYZ* tristimulus values are normalised to domain [0, 100].
-    -   Input *CIE XYZ_w* tristimulus values are normalised to domain [0, 100].
+
+    +---------------------------+-----------------------+---------------+
+    | **Domain**                | **Scale - Reference** | **Scale - 1** |
+    +===========================+=======================+===============+
+    | ``XYZ``                   | [0, 100]              | [0, 1]        |
+    +---------------------------+-----------------------+---------------+
+    | ``XYZ_w``                 | [0, 100]              | [0, 1]        |
+    +---------------------------+-----------------------+---------------+
+
+    +---------------------------+-----------------------+---------------+
+    | **Range**                 | **Scale - Reference** | **Scale - 1** |
+    +===========================+=======================+===============+
+    | ``CAM16_Specification.h`` | [0, 360]              | [0, 1]        |
+    +---------------------------+-----------------------+---------------+
+    | ``CAM16_Specification.H`` | [0, 360]              | [0, 1]        |
+    +---------------------------+-----------------------+---------------+
 
     References
     ----------
@@ -217,6 +226,8 @@ def XYZ_to_CAM16(XYZ,
 s=2.3450150..., Q=195.3717089..., M=0.1074367..., H=275.5949861..., HC=None)
     """
 
+    XYZ = to_domain_100(XYZ)
+    XYZ_w = to_domain_100(XYZ_w)
     _X_w, Y_w, _Z_w = tsplit(XYZ_w)
     L_A = np.asarray(L_A)
     Y_b = np.asarray(Y_b)
@@ -291,7 +302,8 @@ s=2.3450150..., Q=195.3717089..., M=0.1074367..., H=275.5949861..., HC=None)
     # Computing the correlate of *saturation* :math:`s`.
     s = saturation_correlate(M, Q)
 
-    return CAM16_Specification(J, C, h, s, Q, M, H, None)
+    return CAM16_Specification(J, C, from_range_degrees(h), s, Q, M,
+                               from_range_degrees(H), None)
 
 
 def CAM16_to_XYZ(CAM16_specification,
@@ -335,16 +347,27 @@ def CAM16_to_XYZ(CAM16_specification,
         If neither *C* or *M* correlates have been defined in the
         ``CAM16_specification`` argument.
 
-    Warning
-    -------
-    The output range of that definition is non standard!
-
     Notes
     -----
+
+    +---------------------------+-----------------------+---------------+
+    | **Domain**                | **Scale - Reference** | **Scale - 1** |
+    +===========================+=======================+===============+
+    | ``CAM16_specification.h`` | [0, 360]              | [0, 1]        |
+    +---------------------------+-----------------------+---------------+
+    | ``CAM16_specification.H`` | [0, 360]              | [0, 1]        |
+    +---------------------------+-----------------------+---------------+
+    | ``XYZ_w``                 | [0, 100]              | [0, 1]        |
+    +---------------------------+-----------------------+---------------+
+
+    +---------------------------+-----------------------+---------------+
+    | **Range**                 | **Scale - Reference** | **Scale - 1** |
+    +===========================+=======================+===============+
+    | ``XYZ``                   | [0, 100]              | [0, 1]        |
+    +---------------------------+-----------------------+---------------+
+
     -   ``CAM16_specification`` can also be passed as a compatible argument
-        :func:`colour.utilities.as_namedtuple` definition.
-    -   Input *CIE XYZ_w* tristimulus values are normalised to domain [0, 100].
-    -   Output *CIE XYZ* tristimulus values are normalised to range [0, 100].
+        to :func:`colour.utilities.as_namedtuple` definition.
 
     References
     ----------
@@ -366,7 +389,9 @@ def CAM16_to_XYZ(CAM16_specification,
                                                 CAM16_Specification)
     L_A = np.asarray(L_A)
 
-    _X_w, Y_w, _Zw = tsplit(XYZ_w)
+    h = to_domain_degrees(h)
+    XYZ_w = to_domain_100(XYZ_w)
+    _X_w, Y_w, _Z_w = tsplit(XYZ_w)
 
     # Step 0
     # Converting *CIE XYZ* tristimulus values to sharpened *RGB* values.
@@ -429,4 +454,4 @@ def CAM16_to_XYZ(CAM16_specification,
     # Step 7
     XYZ = dot_vector(M_16_INVERSE, RGB)
 
-    return XYZ
+    return from_range_100(XYZ)

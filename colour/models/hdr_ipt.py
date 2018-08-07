@@ -35,7 +35,8 @@ from colour.colorimetry import (
     luminance_Fairchild2011)
 from colour.models.ipt import (IPT_XYZ_TO_LMS_MATRIX, IPT_LMS_TO_XYZ_MATRIX,
                                IPT_LMS_TO_IPT_MATRIX, IPT_IPT_TO_LMS_MATRIX)
-from colour.utilities import dot_vector
+from colour.utilities import (domain_range_scale, from_range_1, from_range_100,
+                              to_domain_1, to_domain_100, dot_vector)
 from colour.utilities.documentation import DocstringTuple
 
 __author__ = 'Colour Developers'
@@ -71,8 +72,7 @@ def exponent_hdr_IPT(Y_s, Y_abs, method='Fairchild 2011'):
     Parameters
     ----------
     Y_s : numeric or array_like
-        Relative luminance :math:`Y_s` of the surround normalised to domain
-        [0, 1].
+        Relative luminance :math:`Y_s` of the surround.
     Y_abs : numeric or array_like
         Absolute luminance :math:`Y_{abs}` of the scene diffuse white in
         :math:`cd/m^2`.
@@ -85,6 +85,15 @@ def exponent_hdr_IPT(Y_s, Y_abs, method='Fairchild 2011'):
     array_like
         *hdr-IPT* colourspace *Lightness* :math:`\epsilon` exponent.
 
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``Y_s``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
     Examples
     --------
     >>> exponent_hdr_IPT(0.2, 100)  # doctest: +ELLIPSIS
@@ -94,7 +103,7 @@ def exponent_hdr_IPT(Y_s, Y_abs, method='Fairchild 2011'):
     1.6891383...
     """
 
-    Y_s = np.asarray(Y_s)
+    Y_s = to_domain_1(Y_s)
     Y_abs = np.asarray(Y_abs)
 
     method_l = method.lower()
@@ -127,8 +136,7 @@ def XYZ_to_hdr_IPT(XYZ, Y_s=0.2, Y_abs=100, method='Fairchild 2011'):
     XYZ : array_like
         *CIE XYZ* tristimulus values.
     Y_s : numeric or array_like
-        Relative luminance :math:`Y_s` of the surround normalised to domain
-        [0, 1].
+        Relative luminance :math:`Y_s` of the surround.
     Y_abs : numeric or array_like
         Absolute luminance :math:`Y_{abs}` of the scene diffuse white in
         :math:`cd/m^2`.
@@ -143,6 +151,25 @@ def XYZ_to_hdr_IPT(XYZ, Y_s=0.2, Y_abs=100, method='Fairchild 2011'):
 
     Notes
     -----
+
+    +-------------+-------------------------+---------------------+
+    | **Domain**  | **Scale - Reference**   | **Scale - 1**       |
+    +=============+=========================+=====================+
+    | ``XYZ``     | [0, 1]                  | [0, 1]              |
+    +-------------+-------------------------+---------------------+
+    | ``Y_s``     | [0, 1]                  | [0, 1]              |
+    +-------------+-------------------------+---------------------+
+
+    +-------------+-------------------------+---------------------+
+    | **Range**   | **Scale - Reference**   | **Scale - 1**       |
+    +=============+=========================+=====================+
+    | ``IPT_hdr`` | ``I_hdr`` : [0, 100]    | ``I_hdr`` : [0, 1]  |
+    |             |                         |                     |
+    |             | ``P_hdr`` : [-100, 100] | ``P_hdr`` : [-1, 1] |
+    |             |                         |                     |
+    |             | ``T_hdr`` : [-100, 100] | ``T_hdr`` : [-1, 1] |
+    +-------------+-------------------------+---------------------+
+
     -   Input *CIE XYZ* tristimulus values needs to be adapted for
         *CIE Standard Illuminant D Series* *D65*.
 
@@ -160,6 +187,8 @@ def XYZ_to_hdr_IPT(XYZ, Y_s=0.2, Y_abs=100, method='Fairchild 2011'):
     array([ 94.6592917...,   0.3804177...,  -0.2673118...])
     """
 
+    XYZ = to_domain_1(XYZ)
+
     method_l = method.lower()
     assert method.lower() in [
         m.lower() for m in HDR_IPT_METHODS
@@ -174,10 +203,14 @@ def XYZ_to_hdr_IPT(XYZ, Y_s=0.2, Y_abs=100, method='Fairchild 2011'):
     e = exponent_hdr_IPT(Y_s, Y_abs, method)[..., np.newaxis]
 
     LMS = dot_vector(IPT_XYZ_TO_LMS_MATRIX, XYZ)
-    LMS_prime = np.sign(LMS) * np.abs(lightness_callable(LMS, e))
-    IPT = dot_vector(IPT_LMS_TO_IPT_MATRIX, LMS_prime)
 
-    return IPT
+    # Domain and range scaling has already be handled.
+    with domain_range_scale('ignore'):
+        LMS_prime = np.sign(LMS) * np.abs(lightness_callable(LMS, e))
+
+    IPT_hdr = dot_vector(IPT_LMS_TO_IPT_MATRIX, LMS_prime)
+
+    return from_range_100(IPT_hdr)
 
 
 def hdr_IPT_to_XYZ(IPT_hdr, Y_s=0.2, Y_abs=100, method='Fairchild 2011'):
@@ -189,8 +222,7 @@ def hdr_IPT_to_XYZ(IPT_hdr, Y_s=0.2, Y_abs=100, method='Fairchild 2011'):
     IPT_hdr : array_like
         *hdr-IPT* colourspace array.
     Y_s : numeric or array_like
-        Relative luminance :math:`Y_s` of the surround normalised to domain
-        [0, 1].
+        Relative luminance :math:`Y_s` of the surround.
     Y_abs : numeric or array_like
         Absolute luminance :math:`Y_{abs}` of the scene diffuse white in
         :math:`cd/m^2`.
@@ -202,6 +234,27 @@ def hdr_IPT_to_XYZ(IPT_hdr, Y_s=0.2, Y_abs=100, method='Fairchild 2011'):
     -------
     ndarray
         *CIE XYZ* tristimulus values.
+
+    Notes
+    -----
+
+    +-------------+-------------------------+---------------------+
+    | **Domain**  | **Scale - Reference**   | **Scale - 1**       |
+    +=============+=========================+=====================+
+    | ``IPT_hdr`` | ``I_hdr`` : [0, 100]    | ``I_hdr`` : [0, 1]  |
+    |             |                         |                     |
+    |             | ``P_hdr`` : [-100, 100] | ``P_hdr`` : [-1, 1] |
+    |             |                         |                     |
+    |             | ``T_hdr`` : [-100, 100] | ``T_hdr`` : [-1, 1] |
+    +-------------+-------------------------+---------------------+
+    | ``Y_s``     | [0, 1]                  | [0, 1]              |
+    +-------------+-------------------------+---------------------+
+
+    +-------------+-------------------------+---------------------+
+    | **Range**   | **Scale - Reference**   | **Scale - 1**       |
+    +=============+=========================+=====================+
+    | ``XYZ``     | [0, 1]                  | [0, 1]              |
+    +-------------+-------------------------+---------------------+
 
     References
     ----------
@@ -219,6 +272,8 @@ def hdr_IPT_to_XYZ(IPT_hdr, Y_s=0.2, Y_abs=100, method='Fairchild 2011'):
     array([ 0.9690723...,  1.        ,  1.1217921...])
     """
 
+    IPT_hdr = to_domain_100(IPT_hdr)
+
     method_l = method.lower()
     assert method.lower() in [
         m.lower() for m in HDR_IPT_METHODS
@@ -233,7 +288,11 @@ def hdr_IPT_to_XYZ(IPT_hdr, Y_s=0.2, Y_abs=100, method='Fairchild 2011'):
     e = exponent_hdr_IPT(Y_s, Y_abs, method)[..., np.newaxis]
 
     LMS = dot_vector(IPT_IPT_TO_LMS_MATRIX, IPT_hdr)
-    LMS_prime = np.sign(LMS) * np.abs(luminance_callable(LMS, e))
+
+    # Domain and range scaling has already be handled.
+    with domain_range_scale('ignore'):
+        LMS_prime = np.sign(LMS) * np.abs(luminance_callable(LMS, e))
+
     XYZ = dot_vector(IPT_LMS_TO_XYZ_MATRIX, LMS_prime)
 
-    return XYZ
+    return from_range_1(XYZ)

@@ -13,7 +13,7 @@ from colour.colorimetry import HUNTERLAB_ILLUMINANTS
 from colour.models import (XYZ_to_K_ab_HunterLab1966, XYZ_to_Hunter_Lab,
                            Hunter_Lab_to_XYZ)
 
-from colour.utilities import ignore_numpy_errors
+from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -179,6 +179,28 @@ class TestXYZ_to_Hunter_Lab(unittest.TestCase):
         np.testing.assert_almost_equal(
             XYZ_to_Hunter_Lab(XYZ, XYZ_n, K_ab), Lab, decimal=7)
 
+    def test_domain_range_scale_XYZ_to_Hunter_Lab(self):
+        """
+        Tests :func:`colour.models.hunter_lab.XYZ_to_Hunter_Lab` definition
+        domain and range scale support.
+        """
+
+        h_i = HUNTERLAB_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
+        D50 = h_i['D50']
+
+        XYZ = np.array([0.07049534, 0.10080000, 0.09558313]) * 100
+        XYZ_n = D50.XYZ_n
+        K_ab = D50.K_ab
+        Lab = XYZ_to_Hunter_Lab(XYZ, XYZ_n, K_ab)
+
+        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    XYZ_to_Hunter_Lab(XYZ * factor, XYZ_n * factor, K_ab),
+                    Lab * factor,
+                    decimal=7)
+
     @ignore_numpy_errors
     def test_nan_XYZ_to_Hunter_Lab(self):
         """
@@ -281,6 +303,28 @@ class TestHunter_Lab_to_XYZ(unittest.TestCase):
         XYZ = np.reshape(XYZ, (2, 3, 3))
         np.testing.assert_almost_equal(
             Hunter_Lab_to_XYZ(Lab, XYZ_n, K_ab), XYZ, decimal=7)
+
+    def test_domain_range_scale_Hunter_Lab_to_XYZ(self):
+        """
+        Tests :func:`colour.models.hunter_lab.Hunter_Lab_to_XYZ` definition
+        domain and range scale support.
+        """
+
+        h_i = HUNTERLAB_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
+        D50 = h_i['D50']
+
+        Lab = np.array([31.74901573, -15.11462629, -2.78660758])
+        XYZ_n = D50.XYZ_n
+        K_ab = D50.K_ab
+        XYZ = Hunter_Lab_to_XYZ(Lab, XYZ_n, K_ab)
+
+        d_r = (('reference', 1), (1, 0.01), (100, 1))
+        for scale, factor in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    Hunter_Lab_to_XYZ(Lab * factor, XYZ_n * factor, K_ab),
+                    XYZ * factor,
+                    decimal=7)
 
     @ignore_numpy_errors
     def test_nan_Hunter_Lab_to_XYZ(self):

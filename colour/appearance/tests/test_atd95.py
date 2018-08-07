@@ -11,7 +11,7 @@ from itertools import permutations
 
 from colour.appearance import XYZ_to_ATD95
 from colour.appearance.tests.common import ColourAppearanceModelTest
-from colour.utilities import ignore_numpy_errors, tstack
+from colour.utilities import domain_range_scale, ignore_numpy_errors, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -66,6 +66,33 @@ class TestATD95ColourAppearanceModel(ColourAppearanceModelTest):
                                      data['K_2'], data['sigma'])
 
         return specification
+
+    @ignore_numpy_errors
+    def test_domain_range_scale_XYZ_to_ATD95(self):
+        """
+        Tests :func:`colour.appearance.atd95.XYZ_to_ATD95` definition domain
+        and range scale support.
+        """
+
+        XYZ = np.array([19.01, 20.00, 21.78])
+        XYZ_0 = np.array([95.05, 100.00, 108.88])
+        Y_0 = 318.31
+        k_1 = 0.0
+        k_2 = 50.0
+        specification = XYZ_to_ATD95(XYZ, XYZ_0, Y_0, k_1, k_2)
+
+        d_r = (
+            ('reference', 1, 1),
+            (1, 0.01, np.array([1 / 360, 1, 1, 1, 1, 1, 1, 1, 1])),
+            (100, 1, np.array([100 / 360, 1, 1, 1, 1, 1, 1, 1, 1])),
+        )
+        for scale, factor_a, factor_b in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    XYZ_to_ATD95(XYZ * factor_a, XYZ_0 * factor_a, Y_0, k_1,
+                                 k_2),
+                    specification * factor_b,
+                    decimal=7)
 
     @ignore_numpy_errors
     def test_nan_XYZ_to_ATD95(self):

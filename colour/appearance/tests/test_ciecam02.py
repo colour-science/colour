@@ -9,11 +9,12 @@ from __future__ import division, unicode_literals
 import numpy as np
 from itertools import permutations
 
-from colour.appearance import (CIECAM02_InductionFactors,
-                               CIECAM02_Specification, XYZ_to_CIECAM02,
-                               CIECAM02_to_XYZ)
+from colour.appearance import (
+    CIECAM02_VIEWING_CONDITIONS, CIECAM02_InductionFactors,
+    CIECAM02_Specification, XYZ_to_CIECAM02, CIECAM02_to_XYZ)
 from colour.appearance.tests.common import ColourAppearanceModelTest
-from colour.utilities import as_namedtuple, ignore_numpy_errors, tsplit, tstack
+from colour.utilities import (as_namedtuple, domain_range_scale,
+                              ignore_numpy_errors, tsplit, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -70,6 +71,33 @@ class TestCIECAM02ColourAppearanceModelForward(ColourAppearanceModelTest):
                                             data['F'], data['c'], data['N_c']))
 
         return specification
+
+    @ignore_numpy_errors
+    def test_domain_range_scale_XYZ_to_CIECAM02(self):
+        """
+        Tests :func:`colour.appearance.cam16.XYZ_to_CIECAM02` definition domain
+        and range scale support.
+        """
+
+        XYZ = np.array([19.01, 20.00, 21.78])
+        XYZ_w = np.array([95.05, 100.00, 108.88])
+        L_A = 318.31
+        Y_b = 20.0
+        surround = CIECAM02_VIEWING_CONDITIONS['Average']
+        specification = XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b, surround)[:-1]
+
+        d_r = (
+            ('reference', 1, 1),
+            (1, 0.01, np.array([1, 1, 1 / 360, 1, 1, 1, 1 / 360])),
+            (100, 1, np.array([1, 1, 100 / 360, 1, 1, 1, 100 / 360])),
+        )
+        for scale, factor_a, factor_b in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    XYZ_to_CIECAM02(XYZ * factor_a, XYZ_w * factor_a, L_A, Y_b,
+                                    surround)[:-1],
+                    specification * factor_b,
+                    decimal=7)
 
     @ignore_numpy_errors
     def test_nan_XYZ_to_CIECAM02(self):
@@ -192,6 +220,34 @@ class TestCIECAM02ColourAppearanceModelReverse(ColourAppearanceModelTest):
 
             np.testing.assert_almost_equal(
                 value, expected, decimal=1, err_msg=error_message)
+
+    @ignore_numpy_errors
+    def test_domain_range_scale_CIECAM02_to_XYZ(self):
+        """
+        Tests :func:`colour.appearance.cam16.CIECAM02_to_XYZ` definition domain
+        and range scale support.
+        """
+
+        XYZ_i = np.array([19.01, 20.00, 21.78])
+        XYZ_w = np.array([95.05, 100.00, 108.88])
+        L_A = 318.31
+        Y_b = 20.0
+        surround = CIECAM02_VIEWING_CONDITIONS['Average']
+        specification = XYZ_to_CIECAM02(XYZ_i, XYZ_w, L_A, Y_b, surround)
+        XYZ = CIECAM02_to_XYZ(specification, XYZ_w, L_A, Y_b, surround)
+
+        d_r = (
+            ('reference', 1, 1, 1),
+            (1, np.array([1, 1, 1 / 360, 1, 1, 1, 1 / 360]), 0.01, 0.01),
+            (100, np.array([1, 1, 100 / 360, 1, 1, 1, 100 / 360]), 1, 1),
+        )
+        for scale, factor_a, factor_b, factor_c in d_r:
+            with domain_range_scale(scale):
+                np.testing.assert_almost_equal(
+                    CIECAM02_to_XYZ(specification[:-1] * factor_a,
+                                    XYZ_w * factor_b, L_A, Y_b, surround),
+                    XYZ * factor_c,
+                    decimal=7)
 
     @ignore_numpy_errors
     def test_nan_CIECAM02_to_XYZ(self):
