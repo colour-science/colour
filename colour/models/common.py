@@ -8,10 +8,10 @@ Defines various colour models common utilities.
 
 from __future__ import division, unicode_literals
 
-from colour.models import (Lab_to_LCHab, Luv_to_LCHuv, Luv_to_uv, UCS_to_uv,
-                           XYZ_to_IPT, XYZ_to_Hunter_Lab, XYZ_to_Hunter_Rdab,
-                           XYZ_to_Lab, XYZ_to_Luv, XYZ_to_UCS, XYZ_to_UVW,
-                           XYZ_to_xy, XYZ_to_xyY, xy_to_XYZ)
+from colour.models import (
+    Lab_to_DIN99, Lab_to_LCHab, Luv_to_LCHuv, Luv_to_uv, UCS_to_uv, XYZ_to_IPT,
+    XYZ_to_Hunter_Lab, XYZ_to_Hunter_Rdab, XYZ_to_Lab, XYZ_to_Luv, XYZ_to_UCS,
+    XYZ_to_UVW, XYZ_to_xy, XYZ_to_xyY, xy_to_XYZ)
 from colour.utilities import domain_range_scale
 
 __author__ = 'Colour Developers'
@@ -28,7 +28,7 @@ __all__ = [
 
 COLOURSPACE_MODELS = ('CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE LCHab', 'CIE Luv',
                       'CIE Luv uv', 'CIE LCHuv', 'CIE UCS', 'CIE UCS uv',
-                      'CIE UVW', 'IPT', 'Hunter Lab', 'Hunter Rdab')
+                      'CIE UVW', 'DIN 99', 'IPT', 'Hunter Lab', 'Hunter Rdab')
 
 COLOURSPACE_MODELS_LABELS = {
     'CIE XYZ': ('X', 'Y', 'Z'),
@@ -41,6 +41,7 @@ COLOURSPACE_MODELS_LABELS = {
     'CIE UCS': ('U', 'V', 'W'),
     'CIE UCS uv': ('$u$', '$v$'),
     'CIE UVW': ('U', 'V', 'W'),
+    'DIN 99': ('a99', 'b99', 'L99'),
     'IPT': ('P', 'T', 'I'),
     'Hunter Lab': ('$a^*$', '$b^*$', '$L^*$'),
     'Hunter Rdab': ('$a$', '$b$', '$Rd$')
@@ -50,12 +51,12 @@ Colourspace models labels mapping.
 
 COLOURSPACE_MODELS_LABELS : dict
     **{'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE LCHab, 'CIE Luv', 'CIE Luv uv',
-    'CIE LCHuv', 'CIE UCS', 'CIE UCS uv', 'CIE UVW', 'IPT', 'Hunter Lab',
-    'Hunter Rdab'}**
+    'CIE LCHuv', 'CIE UCS', 'CIE UCS uv', 'CIE UVW', 'DIN 99', 'IPT',
+    'Hunter Lab', 'Hunter Rdab'}**
 """
 
 
-def XYZ_to_colourspace_model(XYZ, illuminant, model):
+def XYZ_to_colourspace_model(XYZ, illuminant, model, **kwargs):
     """
     Converts from *CIE XYZ* tristimulus values to given colourspace model.
 
@@ -68,8 +69,8 @@ def XYZ_to_colourspace_model(XYZ, illuminant, model):
         coordinates.
     model : unicode
         **{'CIE XYZ', 'CIE xyY', 'CIE xy', 'CIE Lab', 'CIE LCHab', 'CIE Luv',
-        'CIE Luv uv', 'CIE LCHuv', 'CIE UCS', 'CIE UCS uv', 'CIE UVW', 'IPT',
-        'Hunter Lab', 'Hunter Rdab'}**,
+        'CIE Luv uv', 'CIE LCHuv', 'CIE UCS', 'CIE UCS uv', 'CIE UVW',
+        'DIN 99', 'IPT', 'Hunter Lab', 'Hunter Rdab'}**,
         Colourspace model to convert the *CIE XYZ* tristimulus values to.
 
     Returns
@@ -113,6 +114,9 @@ def XYZ_to_colourspace_model(XYZ, illuminant, model):
     ... XYZ, W, 'CIE UVW')
     array([-0.2805797..., -0.0088194...,  0.3700411...])
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
+    ... XYZ, W, 'DIN 99')
+    array([ 0.4960101..., -0.1623145...,  0.0107618...])
+    >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
     ... XYZ, W, 'IPT')
     array([ 0.3657112..., -0.1111479...,  0.0159474...])
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
@@ -147,6 +151,8 @@ def XYZ_to_colourspace_model(XYZ, illuminant, model):
             values = UCS_to_uv(XYZ_to_UCS(XYZ))
         elif model == 'CIE UVW':
             values = XYZ_to_UVW(XYZ, illuminant)
+        elif model == 'DIN 99':
+            values = Lab_to_DIN99(XYZ_to_Lab(XYZ, illuminant))
         elif model == 'IPT':
             values = XYZ_to_IPT(XYZ)
         elif model == 'Hunter Lab':

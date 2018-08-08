@@ -49,8 +49,9 @@ def common_colourspace_model_axis_reorder(a, model=None):
     a : array_like
         Colourspace model :math:`a` array.
     model : unicode, optional
-        **{'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE Luv', 'CIE UCS', 'CIE UVW',
-        'IPT', 'Hunter Lab', 'Hunter Rdab'}**
+        **{'CIE XYZ', 'CIE xyY', 'CIE xy', 'CIE Lab', 'CIE LCHab', 'CIE Luv',
+        'CIE Luv uv', 'CIE LCHuv', 'CIE UCS', 'CIE UCS uv', 'CIE UVW',
+        'DIN 99', 'IPT', 'Hunter Lab', 'Hunter Rdab'}**,
         Colourspace model.
 
     Returns
@@ -71,12 +72,14 @@ def common_colourspace_model_axis_reorder(a, model=None):
     array([1, 2, 0])
     >>> common_colourspace_model_axis_reorder(a, 'CIE LCHab')
     array([1, 2, 0])
+    >>> common_colourspace_model_axis_reorder(a, 'DIN 99')
+    array([1, 2, 0])
     >>> common_colourspace_model_axis_reorder(a, 'IPT')
     array([1, 2, 0])
     """
 
-    if model in ('CIE Lab', 'CIE LCHab', 'CIE Luv', 'CIE LCHuv', 'IPT',
-                 'Hunter Lab', 'Hunter Rdab'):
+    if model in ('CIE Lab', 'CIE LCHab', 'CIE Luv', 'CIE LCHuv', 'DIN 99',
+                 'IPT', 'Hunter Lab', 'Hunter Rdab'):
         i, j, k = tsplit(a)
         a = tstack((j, k, i))
 
@@ -421,8 +424,9 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
     colourspaces : array_like, optional
         *RGB* colourspaces to plot the gamuts.
     reference_colourspace : unicode, optional
-        **{'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE Luv', 'CIE UCS', 'CIE UVW',
-        'IPT', 'Hunter Lab', 'Hunter Rdab'}**,
+        **{'CIE XYZ', 'CIE xyY', 'CIE xy', 'CIE Lab', 'CIE LCHab', 'CIE Luv',
+        'CIE Luv uv', 'CIE LCHuv', 'CIE UCS', 'CIE UCS uv', 'CIE UVW',
+        'DIN 99', 'IPT', 'Hunter Lab', 'Hunter Rdab'}**,
         Reference colourspace to plot the gamuts into.
     segments : int, optional
         Edge segments count for each *RGB* colourspace cubes.
@@ -629,8 +633,9 @@ def RGB_scatter_plot(RGB,
     colourspace : RGB_Colourspace
         *RGB* colourspace of the *RGB* array.
     reference_colourspace : unicode, optional
-        **{'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE Luv', 'CIE UCS', 'CIE UVW',
-        'IPT', 'Hunter Lab', 'Hunter Rdab'}**,
+        **{'CIE XYZ', 'CIE xyY', 'CIE xy', 'CIE Lab', 'CIE LCHab', 'CIE Luv',
+        'CIE Luv uv', 'CIE LCHuv', 'CIE UCS', 'CIE UCS uv', 'CIE UVW',
+        'DIN 99', 'IPT', 'Hunter Lab', 'Hunter Rdab'}**,
         Reference colourspace for colour conversion.
     colourspaces : array_like, optional
         *RGB* colourspaces to plot the gamuts.
