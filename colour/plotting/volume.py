@@ -51,8 +51,8 @@ def common_colourspace_model_axis_reorder(a, model=None):
     model : unicode, optional
         **{'CIE XYZ', 'CIE xyY', 'CIE xy', 'CIE Lab', 'CIE LCHab', 'CIE Luv',
         'CIE Luv uv', 'CIE LCHuv', 'CIE UCS', 'CIE UCS uv', 'CIE UVW',
-        'DIN 99', 'IPT', 'JzAzBz', 'Hunter Lab', 'Hunter Rdab', 'hdr-CIELAB',
-        'hdr-IPT'}**,
+        'DIN 99', 'IPT', 'JzAzBz', 'Hunter Lab', 'Hunter Rdab', 'OSA UCS',
+        'hdr-CIELAB', 'hdr-IPT'}**,
         Colourspace model.
 
     Returns
@@ -83,6 +83,8 @@ def common_colourspace_model_axis_reorder(a, model=None):
     array([1, 2, 0])
     >>> common_colourspace_model_axis_reorder(a, 'Hunter Rdab')
     array([1, 2, 0])
+    >>> common_colourspace_model_axis_reorder(a, 'OSA UCS')
+    array([1, 2, 0])
     >>> common_colourspace_model_axis_reorder(a, 'hdr-CIELAB')
     array([1, 2, 0])
     >>> common_colourspace_model_axis_reorder(a, 'hdr-IPT')
@@ -90,8 +92,8 @@ def common_colourspace_model_axis_reorder(a, model=None):
     """
 
     if model in ('CIE Lab', 'CIE LCHab', 'CIE Luv', 'CIE LCHuv', 'DIN 99',
-                 'IPT', 'JzAzBz', 'Hunter Lab', 'Hunter Rdab', 'hdr-CIELAB',
-                 'hdr-IPT'):
+                 'IPT', 'JzAzBz', 'Hunter Lab', 'Hunter Rdab', 'OSA UCS',
+                 'hdr-CIELAB', 'hdr-IPT'):
         i, j, k = tsplit(a)
         a = tstack((j, k, i))
 
@@ -438,8 +440,8 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
     reference_colourspace : unicode, optional
         **{'CIE XYZ', 'CIE xyY', 'CIE xy', 'CIE Lab', 'CIE LCHab', 'CIE Luv',
         'CIE Luv uv', 'CIE LCHuv', 'CIE UCS', 'CIE UCS uv', 'CIE UVW',
-        'DIN 99', 'IPT', 'JzAzBz', 'Hunter Lab', 'Hunter Rdab', 'hdr-CIELAB',
-        'hdr-IPT'}**,
+        'DIN 99', 'IPT', 'JzAzBz', 'Hunter Lab', 'Hunter Rdab', 'OSA UCS',
+        'hdr-CIELAB', 'hdr-IPT'}**,
         Reference colourspace to plot the gamuts into.
     segments : int, optional
         Edge segments count for each *RGB* colourspace cubes.
@@ -648,8 +650,8 @@ def RGB_scatter_plot(RGB,
     reference_colourspace : unicode, optional
         **{'CIE XYZ', 'CIE xyY', 'CIE xy', 'CIE Lab', 'CIE LCHab', 'CIE Luv',
         'CIE Luv uv', 'CIE LCHuv', 'CIE UCS', 'CIE UCS uv', 'CIE UVW',
-        'DIN 99', 'IPT', 'JzAzBz', 'Hunter Lab', 'Hunter Rdab', 'hdr-CIELAB',
-        'hdr-IPT'}**,
+        'DIN 99', 'IPT', 'JzAzBz', 'Hunter Lab', 'Hunter Rdab', 'OSA UCS',
+        'hdr-CIELAB', 'hdr-IPT'}**,
         Reference colourspace for colour conversion.
     colourspaces : array_like, optional
         *RGB* colourspaces to plot the gamuts.
