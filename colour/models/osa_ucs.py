@@ -124,7 +124,7 @@ def XYZ_to_OSA_UCS(XYZ):
     Lambda = 5.9 * (Y_0_es + np.sign(Y_0_s) * 0.042 * np.abs(Y_0_s) ** o_3)
 
     RGB = dot_vector(M_XYZ_TO_RGB_OSA_UCS, XYZ)
-    RGB_3 = RGB ** (1 / 3)
+    RGB_3 = np.sign(RGB) * np.abs(RGB) ** (1 / 3)
 
     C = Lambda / (5.9 * Y_0_es)
     L = (Lambda - 14.4) / 2 ** (1 / 2)
