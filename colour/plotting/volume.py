@@ -470,11 +470,12 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
     if colourspaces is None:
         colourspaces = ('ITU-R BT.709', 'ACEScg')
 
-    colourspaces = list(OrderedDict.fromkeys(
-        itertools.chain.from_iterable([
-            filter_RGB_colourspaces(colourspace)
-            for colourspace in colourspaces
-        ])))
+    colourspaces = list(
+        OrderedDict.fromkeys(
+            itertools.chain.from_iterable([
+                filter_RGB_colourspaces(colourspace)
+                for colourspace in colourspaces
+            ])))
 
     count_c = len(colourspaces)
 

@@ -50,4 +50,5 @@ message_box(
 print(colour.RGB_to_RGB(
     RGB,
     colour.RGB_COLOURSPACES['ITU-R BT.709'],
-    colour.RGB_COLOURSPACES['ACEScg'], ))
+    colour.RGB_COLOURSPACES['ACEScg'],
+))

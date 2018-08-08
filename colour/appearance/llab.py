@@ -191,8 +191,8 @@ class LLAB_ReferenceSpecification(
 
 
 class LLAB_Specification(
-        namedtuple('LLAB_Specification', ('J', 'C', 'h', 's', 'M', 'HC', 'a',
-                                          'b'))):
+        namedtuple('LLAB_Specification',
+                   ('J', 'C', 'h', 's', 'M', 'HC', 'a', 'b'))):
     """
     Defines the *LLAB(l:c)* colour appearance model specification.
 
@@ -454,8 +454,7 @@ def f(x, F_S):
     x = np.asarray(x)
     F_S = np.asarray(F_S)
 
-    x_m = np.where(x > 0.008856,
-                   x ** (1 / F_S),
+    x_m = np.where(x > 0.008856, x ** (1 / F_S),
                    ((((0.008856 ** (1 / F_S)) - (16 / 116)) / 0.008856) * x +
                     (16 / 116)))
 

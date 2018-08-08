@@ -133,12 +133,11 @@ print('\n')
 
 RGB = np.array([0.17224810, 0.09170660, 0.06416938])
 
-message_box((
-    'Colour correct given "RGB" colourspace array with matrix mapping a '
-    '"M_T" "ColorChecker" colour rendition chart to a "M_R" one using '
-    '"Cheung, Westland, Connah and Ripamonti (2004)" method with 3 terms '
-    'polynomial.'
-))
+message_box(
+    ('Colour correct given "RGB" colourspace array with matrix mapping a '
+     '"M_T" "ColorChecker" colour rendition chart to a "M_R" one using '
+     '"Cheung, Westland, Connah and Ripamonti (2004)" method with 3 terms '
+     'polynomial.'))
 
 print(colour.characterisation.colour_correction_Cheung2004(RGB, M_T, M_R))
 print(colour.colour_correction(RGB, M_T, M_R, method='Cheung 2004'))

@@ -101,7 +101,8 @@ PROTUNE_NATIVE_COLOURSPACE = RGB_Colourspace(
     PROTUNE_NATIVE_TO_XYZ_MATRIX,
     XYZ_TO_PROTUNE_NATIVE_MATRIX,
     log_encoding_Protune,
-    log_decoding_Protune, )
+    log_decoding_Protune,
+)
 PROTUNE_NATIVE_COLOURSPACE.__doc__ = """
 *Protune Native* colourspace.
 

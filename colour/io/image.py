@@ -26,14 +26,14 @@ __all__ = [
     'BIT_DEPTH_MAPPING', 'read_image', 'write_image'
 ]
 
-BitDepth_Specification = namedtuple('BitDepth_Specification',
-                                    ('name', 'numpy', 'openimageio', 'domain',
-                                     'clip'))
+BitDepth_Specification = namedtuple(
+    'BitDepth_Specification',
+    ('name', 'numpy', 'openimageio', 'domain', 'clip'))
 
 
 class ImageAttribute_Specification(
-        namedtuple('ImageAttribute_Specification', ('name', 'value',
-                                                    'type_'))):
+        namedtuple('ImageAttribute_Specification',
+                   ('name', 'value', 'type_'))):
     """
     Defines the an image specification attribute.
 

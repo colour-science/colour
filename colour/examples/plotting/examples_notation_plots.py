@@ -3,8 +3,7 @@
 Showcases colour notation systems plotting examples.
 """
 
-from colour.plotting import (colour_style,
-                             multi_munsell_value_function_plot,
+from colour.plotting import (colour_style, multi_munsell_value_function_plot,
                              single_munsell_value_function_plot)
 from colour.utilities import message_box
 

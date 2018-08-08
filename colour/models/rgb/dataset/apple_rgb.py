@@ -90,7 +90,8 @@ APPLE_RGB_COLOURSPACE = RGB_Colourspace(
     APPLE_RGB_TO_XYZ_MATRIX,
     XYZ_TO_APPLE_RGB_MATRIX,
     partial(function_gamma, exponent=1 / 1.8),
-    partial(function_gamma, exponent=1.8), )
+    partial(function_gamma, exponent=1.8),
+)
 APPLE_RGB_COLOURSPACE.__doc__ = """
 *Apple RGB* colourspace.
 

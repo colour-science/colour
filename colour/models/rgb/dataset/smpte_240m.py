@@ -96,7 +96,8 @@ SMPTE_240M_COLOURSPACE = RGB_Colourspace(
     SMPTE_240M_TO_XYZ_MATRIX,
     XYZ_TO_SMPTE_240M_MATRIX,
     oetf_SMPTE240M,
-    eotf_SMPTE240M, )
+    eotf_SMPTE240M,
+)
 SMPTE_240M_COLOURSPACE.__doc__ = """
 *SMPTE 240M* colourspace.
 

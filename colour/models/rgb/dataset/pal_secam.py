@@ -84,7 +84,8 @@ PAL_SECAM_COLOURSPACE = RGB_Colourspace(
     PAL_SECAM_TO_XYZ_MATRIX,
     XYZ_TO_PAL_SECAM_MATRIX,
     BT470_625_COLOURSPACE.encoding_cctf,
-    BT470_625_COLOURSPACE.decoding_cctf, )
+    BT470_625_COLOURSPACE.decoding_cctf,
+)
 PAL_SECAM_COLOURSPACE.__doc__ = """
 *Pal/Secam* colourspace.
 

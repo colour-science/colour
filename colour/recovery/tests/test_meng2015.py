@@ -77,8 +77,7 @@ class TestXYZ_to_spectral_Meng2015(unittest.TestCase):
         """
 
         XYZ_i = np.array([0.07049534, 0.10080000, 0.09558313])
-        XYZ_o = spectral_to_XYZ_integration(
-            XYZ_to_spectral_Meng2015(XYZ_i))
+        XYZ_o = spectral_to_XYZ_integration(XYZ_to_spectral_Meng2015(XYZ_i))
 
         d_r = (('reference', 1, 1), (1, 1, 0.01), (100, 100, 1))
         for scale, factor_a, factor_b in d_r:

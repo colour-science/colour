@@ -765,9 +765,9 @@ multi_signal_unpack_data` method.
 
             data = dict(zip(['a', 'b', 'c'], tsplit(self._range_2)))
             assert MultiSignal(
-                self._range_2, self._domain_2, labels=[
-                    'a', 'b', 'c'
-                ]).to_dataframe().equals(DataFrame(data, self._domain_2))
+                self._range_2, self._domain_2,
+                labels=['a', 'b', 'c']).to_dataframe().equals(
+                    DataFrame(data, self._domain_2))
 
 
 if __name__ == '__main__':

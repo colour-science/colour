@@ -280,7 +280,7 @@ Planckian_Locus_Chromaticity_Diagram_Plot.png
     title = (('{0} Illuminants - Planckian Locus\n'
               '{1} Chromaticity Diagram - '
               'CIE 1931 2 Degree Standard Observer').format(
-        ', '.join(illuminants), method) if illuminants else
+                  ', '.join(illuminants), method) if illuminants else
              ('Planckian Locus\n{0} Chromaticity Diagram - '
               'CIE 1931 2 Degree Standard Observer'.format(method)))
 
@@ -300,7 +300,7 @@ def planckian_locus_chromaticity_diagram_plot_CIE1931(
         illuminants=None,
         annotate_parameters=None,
         chromaticity_diagram_callable_CIE1931=(
-                chromaticity_diagram_plot_CIE1931),
+            chromaticity_diagram_plot_CIE1931),
         **kwargs):
     """
     Plots the *Planckian Locus* and given illuminants in
@@ -363,7 +363,7 @@ def planckian_locus_chromaticity_diagram_plot_CIE1960UCS(
         illuminants=None,
         annotate_parameters=None,
         chromaticity_diagram_callable_CIE1960UCS=(
-                chromaticity_diagram_plot_CIE1960UCS),
+            chromaticity_diagram_plot_CIE1960UCS),
         **kwargs):
     """
     Plots the *Planckian Locus* and given illuminants in

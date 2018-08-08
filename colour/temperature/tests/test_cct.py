@@ -165,9 +165,8 @@ class TestPlanckianTable(unittest.TestCase):
         cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
 
         np.testing.assert_almost_equal(
-            [(x.Ti, x.ui, x.vi, x.di)
-             for x in planckian_table(
-                 np.array([0.1978, 0.3122]), cmfs, 1000, 1010, 10)],
+            [(x.Ti, x.ui, x.vi, x.di) for x in planckian_table(
+                np.array([0.1978, 0.3122]), cmfs, 1000, 1010, 10)],
             PLANCKIAN_TABLE)
 
 

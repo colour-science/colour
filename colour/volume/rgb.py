@@ -135,7 +135,8 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
         colourspace.XYZ_to_RGB_matrix,
         chromatic_adaptation_transform=(chromatic_adaptation_method))
     RGB_w = RGB[np.logical_and(
-        np.min(RGB, axis=-1) >= 0, np.max(RGB, axis=-1) <= 1)]
+        np.min(RGB, axis=-1) >= 0,
+        np.max(RGB, axis=-1) <= 1)]
     return len(RGB_w)
 
 
@@ -313,7 +314,8 @@ def RGB_colourspace_volume_coverage_MonteCarlo(
                      colourspace.XYZ_to_RGB_matrix)
 
     RGB_c = RGB[np.logical_and(
-        np.min(RGB, axis=-1) >= 0, np.max(RGB, axis=-1) <= 1)]
+        np.min(RGB, axis=-1) >= 0,
+        np.max(RGB, axis=-1) <= 1)]
 
     return 100 * RGB_c.size / XYZ_vs.size
 

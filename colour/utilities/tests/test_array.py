@@ -83,8 +83,8 @@ class TestAsNametuple(unittest.TestCase):
                              'c': a_c
                          }, NamedTuple))
 
-        self.assertEqual(named_tuple,
-                         as_namedtuple([a_a, a_b, a_c], NamedTuple))
+        self.assertEqual(named_tuple, as_namedtuple([a_a, a_b, a_c],
+                                                    NamedTuple))
 
         a_r = np.array(
             [tuple(a) for a in np.transpose((a_a, a_b, a_c)).tolist()],
@@ -176,9 +176,9 @@ class TestNormaliseMaximum(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             normalise_maximum(
-                np.array([[0.11518475, 0.10080000, 0.05089373], [
-                    0.07049534, 0.10080000, 0.09558313
-                ], [0.17501358, 0.38818795, 0.32161955]])),
+                np.array([[0.11518475, 0.10080000,
+                           0.05089373], [0.07049534, 0.10080000, 0.09558313],
+                          [0.17501358, 0.38818795, 0.32161955]])),
             np.array([
                 [0.29672418, 0.25966803, 0.13110589],
                 [0.18160105, 0.25966803, 0.246229],

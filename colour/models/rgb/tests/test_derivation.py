@@ -64,7 +64,8 @@ class Testxy_to_z(unittest.TestCase):
         xy = np.tile(xy, (6, 1))
         z = np.tile(
             z,
-            6, )
+            6,
+        )
         np.testing.assert_almost_equal(xy_to_z(xy), z, decimal=7)
 
         xy = np.reshape(xy, (2, 3, 2))
@@ -175,8 +176,8 @@ chromatically_adapted_primaries` definition.
         np.testing.assert_almost_equal(
             chromatically_adapted_primaries(
                 np.array([0.640, 0.330, 0.300, 0.600, 0.150, 0.060]),
-                np.array([0.31270, 0.32900]),
-                np.array([0.34570, 0.35850]), 'Bradford'),
+                np.array([0.31270, 0.32900]), np.array([0.34570, 0.35850]),
+                'Bradford'),
             np.array([
                 [0.64844144, 0.33085331],
                 [0.32119518, 0.59784434],

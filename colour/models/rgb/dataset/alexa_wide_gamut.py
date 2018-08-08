@@ -96,7 +96,8 @@ ALEXA_WIDE_GAMUT_COLOURSPACE = RGB_Colourspace(
     ALEXA_WIDE_GAMUT_TO_XYZ_MATRIX,
     XYZ_TO_ALEXA_WIDE_GAMUT_MATRIX,
     log_encoding_ALEXALogC,
-    log_decoding_ALEXALogC, )
+    log_decoding_ALEXALogC,
+)
 ALEXA_WIDE_GAMUT_COLOURSPACE.__doc__ = """
 *ALEXA Wide Gamut* colourspace.
 

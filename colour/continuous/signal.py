@@ -251,9 +251,9 @@ class Signal(AbstractContinuousFunction):
 
             assert value in float_dtypes, ((
                 '"{0}" attribute: "{1}" type is not in "{2}"!').format(
-                    'dtype', value, ', '.join(
-                        [float_dtype.__name__
-                         for float_dtype in float_dtypes])))
+                    'dtype', value, ', '.join([
+                        float_dtype.__name__ for float_dtype in float_dtypes
+                    ])))
 
             self._dtype = value
 
@@ -746,8 +746,8 @@ class Signal(AbstractContinuousFunction):
 
         return np.all(
             np.where(
-                np.logical_and(x >= np.min(self._domain), x <=
-                               np.max(self._domain)), True, False))
+                np.logical_and(x >= np.min(self._domain),
+                               x <= np.max(self._domain)), True, False))
 
     def __eq__(self, other):
         """

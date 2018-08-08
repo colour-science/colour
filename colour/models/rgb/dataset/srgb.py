@@ -103,7 +103,8 @@ sRGB_COLOURSPACE = RGB_Colourspace(
     sRGB_TO_XYZ_MATRIX,
     XYZ_TO_sRGB_MATRIX,
     oetf_sRGB,
-    oetf_reverse_sRGB, )
+    oetf_reverse_sRGB,
+)
 sRGB_COLOURSPACE.__doc__ = """
 *sRGB* colourspace.
 

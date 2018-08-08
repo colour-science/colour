@@ -153,34 +153,36 @@ class IES_TM2714_Header(object):
                  document_creation_date=None,
                  comments=None):
 
-        self._mapping = Structure(**{
-            'element':
-                'Header',
-            'elements': (IES_TM2714_ElementSpecification(
-                'Manufacturer',
-                'manufacturer'), IES_TM2714_ElementSpecification(
-                    'CatalogNumber',
-                    'catalog_number'), IES_TM2714_ElementSpecification(
-                        'Description', 'description',
-                        required=True), IES_TM2714_ElementSpecification(
-                            'DocumentCreator',
-                            'document_creator',
-                            required=True), IES_TM2714_ElementSpecification(
-                                'UniqueIdentifier', 'unique_identifier'),
-                         IES_TM2714_ElementSpecification(
-                             'MeasurementEquipment', 'measurement_equipment'),
-                         IES_TM2714_ElementSpecification(
-                             'Laboratory',
-                             'laboratory'), IES_TM2714_ElementSpecification(
-                                 'ReportNumber', 'report_number'),
-                         IES_TM2714_ElementSpecification(
-                             'ReportDate', 'report_date'),
-                         IES_TM2714_ElementSpecification(
-                             'DocumentCreationDate',
-                             'document_creation_date',
-                             required=True), IES_TM2714_ElementSpecification(
-                                 'Comments', 'comments', False))
-        })
+        self._mapping = Structure(
+            **{
+                'element':
+                    'Header',
+                'elements':
+                    (IES_TM2714_ElementSpecification('Manufacturer',
+                                                     'manufacturer'),
+                     IES_TM2714_ElementSpecification('CatalogNumber',
+                                                     'catalog_number'),
+                     IES_TM2714_ElementSpecification(
+                         'Description', 'description', required=True),
+                     IES_TM2714_ElementSpecification(
+                         'DocumentCreator', 'document_creator', required=True),
+                     IES_TM2714_ElementSpecification('UniqueIdentifier',
+                                                     'unique_identifier'),
+                     IES_TM2714_ElementSpecification('MeasurementEquipment',
+                                                     'measurement_equipment'),
+                     IES_TM2714_ElementSpecification('Laboratory',
+                                                     'laboratory'),
+                     IES_TM2714_ElementSpecification('ReportNumber',
+                                                     'report_number'),
+                     IES_TM2714_ElementSpecification('ReportDate',
+                                                     'report_date'),
+                     IES_TM2714_ElementSpecification(
+                         'DocumentCreationDate',
+                         'document_creation_date',
+                         required=True),
+                     IES_TM2714_ElementSpecification('Comments', 'comments',
+                                                     False))
+            })
 
         self._manufacturer = None
         self.manufacturer = manufacturer
@@ -656,30 +658,33 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
 
         super(IES_TM2714_Spd, self).__init__(data=None, domain=None)
 
-        self._mapping = Structure(**{
-            'element':
-                'SpectralDistribution',
-            'elements': (
-                IES_TM2714_ElementSpecification(
-                    'SpectralQuantity', 'spectral_quantity',
-                    required=True), IES_TM2714_ElementSpecification(
-                        'ReflectionGeometry', 'reflection_geometry'),
-                IES_TM2714_ElementSpecification(
-                    'TransmissionGeometry',
-                    'transmission_geometry'), IES_TM2714_ElementSpecification(
-                        'BandwidthFWHM',
-                        'bandwidth_FWHM',
-                        read_conversion=DEFAULT_FLOAT_DTYPE),
-                IES_TM2714_ElementSpecification(
-                    'BandwidthCorrected',
-                    'bandwidth_corrected',
-                    read_conversion=(lambda x: True if x == 'true' else False),
-                    write_conversion=(
-                        lambda x: 'true' if x is True else 'False'))),
-            'data':
-                IES_TM2714_ElementSpecification(
-                    'SpectralData', 'wavelength', required=True)
-        })
+        self._mapping = Structure(
+            **{
+                'element':
+                    'SpectralDistribution',
+                'elements':
+                    (IES_TM2714_ElementSpecification(
+                        'SpectralQuantity', 'spectral_quantity',
+                        required=True),
+                     IES_TM2714_ElementSpecification('ReflectionGeometry',
+                                                     'reflection_geometry'),
+                     IES_TM2714_ElementSpecification('TransmissionGeometry',
+                                                     'transmission_geometry'),
+                     IES_TM2714_ElementSpecification(
+                         'BandwidthFWHM',
+                         'bandwidth_FWHM',
+                         read_conversion=DEFAULT_FLOAT_DTYPE),
+                     IES_TM2714_ElementSpecification(
+                         'BandwidthCorrected',
+                         'bandwidth_corrected',
+                         read_conversion=(
+                             lambda x: True if x == 'true' else False),
+                         write_conversion=(
+                             lambda x: 'true' if x is True else 'False'))),
+                'data':
+                    IES_TM2714_ElementSpecification(
+                        'SpectralData', 'wavelength', required=True)
+            })
 
         self._path = None
         self.path = path
@@ -974,11 +979,11 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
         # Reading spectral data.
         wavelengths = []
         values = []
-        for spectral_data in iterator(
-                '{{{0}}}{1}'.format(namespace, self.mapping.data.element)):
+        for spectral_data in iterator('{{{0}}}{1}'.format(
+                namespace, self.mapping.data.element)):
             wavelengths.append(
-                DEFAULT_FLOAT_DTYPE(spectral_data.attrib[
-                    self.mapping.data.attribute]))
+                DEFAULT_FLOAT_DTYPE(
+                    spectral_data.attrib[self.mapping.data.attribute]))
             values.append(DEFAULT_FLOAT_DTYPE(spectral_data.text))
 
         self.wavelengths = wavelengths

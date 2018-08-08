@@ -5,8 +5,7 @@ examples.
 """
 
 from colour.plotting import (
-    colour_style,
-    planckian_locus_chromaticity_diagram_plot_CIE1931,
+    colour_style, planckian_locus_chromaticity_diagram_plot_CIE1931,
     planckian_locus_chromaticity_diagram_plot_CIE1960UCS)
 from colour.utilities import message_box
 

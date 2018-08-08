@@ -84,16 +84,14 @@ BrenemanExperimentResult` class.
         """
 
         return super(BrenemanExperimentResult, cls).__new__(
-            cls, name,
-            np.array(uvp_t),
-            np.array(uvp_m),
-            np.array(s_uvp), np.array(d_uvp_i), np.array(d_uvp_g))
+            cls, name, np.array(uvp_t), np.array(uvp_m), np.array(s_uvp),
+            np.array(d_uvp_i), np.array(d_uvp_g))
 
 
 class PrimariesChromaticityCoordinates(
-        namedtuple('PrimariesChromaticityCoordinates',
-                   ('experiment', 'illuminants', 'Y', 'P_uvp', 'D_uvp',
-                    'T_uvp'))):
+        namedtuple(
+            'PrimariesChromaticityCoordinates',
+            ('experiment', 'illuminants', 'Y', 'P_uvp', 'D_uvp', 'T_uvp'))):
     """
     Chromaticity coordinates of primaries.
 
@@ -127,10 +125,8 @@ PrimariesChromaticityCoordinates` class.
         """
 
         return super(PrimariesChromaticityCoordinates, cls).__new__(
-            cls, name,
-            np.array(uvp_t),
-            np.array(uvp_m),
-            np.array(s_uvp), np.array(d_uvp_i), np.array(d_uvp_g))
+            cls, name, np.array(uvp_t), np.array(uvp_m), np.array(s_uvp),
+            np.array(d_uvp_i), np.array(d_uvp_g))
 
 
 # yapf: disable

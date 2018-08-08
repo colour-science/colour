@@ -8,8 +8,7 @@ from __future__ import division, unicode_literals
 import unittest
 
 from colour.quality import colour_rendering_index
-from colour.colorimetry import (ILLUMINANTS_SPDS,
-                                SpectralPowerDistribution)
+from colour.colorimetry import (ILLUMINANTS_SPDS, SpectralPowerDistribution)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'

@@ -1318,9 +1318,12 @@ dict_like, optional
                 signals[0] = signal_type(data, **kwargs)
             elif isinstance(data, DataFrame):
                 domain_u = data.index.values
-                signals = OrderedDict(((label, signal_type(
-                    data[label], domain_u, name=label, **kwargs))
-                                       for label in data))
+                signals = OrderedDict(((label,
+                                        signal_type(
+                                            data[label],
+                                            domain_u,
+                                            name=label,
+                                            **kwargs)) for label in data))
 
         if domain is not None and signals is not None:
             for signal in signals.values():
