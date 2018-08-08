@@ -288,8 +288,9 @@ def lightness_Fairchild2010(Y, epsilon=1.836):
 
     maximum_perception = 100
 
-    L_hdr = reaction_rate_MichealisMenten(Y ** epsilon, maximum_perception,
-                                          0.184 ** epsilon) + 0.02
+    L_hdr = reaction_rate_MichealisMenten(
+        np.sign(Y) * np.abs(Y) ** epsilon, maximum_perception, 0.184 **
+        epsilon) + 0.02
 
     return from_range_100(L_hdr)
 
@@ -350,8 +351,9 @@ def lightness_Fairchild2011(Y, epsilon=0.474, method='hdr-CIELAB'):
     else:
         maximum_perception = 246
 
-    L_hdr = reaction_rate_MichealisMenten(Y ** epsilon, maximum_perception, 2
-                                          ** epsilon) + 0.02
+    L_hdr = reaction_rate_MichealisMenten(
+        np.sign(Y) * np.abs(Y) ** epsilon, maximum_perception, 2 **
+        epsilon) + 0.02
 
     return from_range_100(L_hdr)
 

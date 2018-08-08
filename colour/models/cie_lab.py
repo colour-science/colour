@@ -104,7 +104,7 @@ def XYZ_to_Lab(
 
     XYZ_f = np.where(
         XYZ_f > CIE_E,
-        np.power(XYZ_f, 1 / 3),
+        np.sign(XYZ_f) * np.abs(XYZ_f) ** (1 / 3),
         (CIE_K * XYZ_f + 16) / 116,
     )
 
