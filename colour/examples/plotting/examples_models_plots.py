@@ -69,7 +69,9 @@ print('\n')
 message_box('Plotting "RGB" chromaticity coordinates in '
             '"CIE 1976 UCS Chromaticity Diagram".')
 RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS(
-    RGB, 'ITU-R BT.709', colourspaces=['ACEScg', 'S-Gamut'],
+    RGB,
+    'ITU-R BT.709',
+    colourspaces=['ACEScg', 'S-Gamut'],
     show_pointer_gamut=True)
 
 print('\n')

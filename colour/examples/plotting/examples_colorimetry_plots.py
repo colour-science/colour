@@ -8,10 +8,10 @@ from pprint import pprint
 import colour
 from colour.plotting import (
     ASTM_G_173_ETR, blackbody_colours_plot, blackbody_spectral_radiance_plot,
-    colour_style, multi_cmfs_plot,
-    multi_illuminant_spd_plot, multi_lightness_function_plot,
-    multi_spd_plot, single_cmfs_plot, single_illuminant_spd_plot,
-    single_lightness_function_plot, single_spd_plot, visible_spectrum_plot)
+    colour_style, multi_cmfs_plot, multi_illuminant_spd_plot,
+    multi_lightness_function_plot, multi_spd_plot, single_cmfs_plot,
+    single_illuminant_spd_plot, single_lightness_function_plot,
+    single_spd_plot, visible_spectrum_plot)
 from colour.utilities import message_box
 
 message_box('Colorimetry Plots')
@@ -43,8 +43,7 @@ message_box(('Plotting "CIE Standard Illuminant D Series" "S" spectral power '
              'distributions.'))
 multi_spd_plot(
     [
-        value
-        for key, value in sorted(
+        value for key, value in sorted(
             colour.colorimetry.D_ILLUMINANTS_S_SPDS.items())
     ],
     title='CIE Standard Illuminant D Series - S Distributions')
@@ -939,9 +938,7 @@ ASTM_G_173_spd.interpolate(
 blackbody_spd = colour.blackbody_spd(5778, ASTM_G_173_spd.shape)
 blackbody_spd.name = 'The Sun - 5778K'
 
-multi_spd_plot(
-    (ASTM_G_173_spd, blackbody_spd),
-    y_label='W / (sr m$^2$) / m')
+multi_spd_plot((ASTM_G_173_spd, blackbody_spd), y_label='W / (sr m$^2$) / m')
 
 print('\n')
 

@@ -108,8 +108,7 @@ corresponding_chromaticities_prediction_Fairchild1990` definition.
 
         np.testing.assert_almost_equal(
             np.array(
-                [(p.uvp_m, p.uvp_p)
-                 for p in
+                [(p.uvp_m, p.uvp_p) for p in
                  corresponding_chromaticities_prediction_Fairchild1990()]),
             FAIRCHILD1990_PREDICTION_DATA,
             decimal=7)

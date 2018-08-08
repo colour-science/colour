@@ -81,8 +81,8 @@ class ColourAppearanceModelTest(object):
         """
 
         path = os.path.dirname(__file__)
-        with open(
-                os.path.join(path, fixtures_directory, file_name)) as in_file:
+        with open(os.path.join(path, fixtures_directory,
+                               file_name)) as in_file:
             result = []
             for case_data in csv.DictReader(in_file):
                 for key in case_data:

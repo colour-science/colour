@@ -77,8 +77,7 @@ log_encoding_Protune` definition domain and range scale support.
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    log_encoding_Protune(x * factor), y * factor,
-                    decimal=7)
+                    log_encoding_Protune(x * factor), y * factor, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_log_encoding_Protune(self):
@@ -145,8 +144,7 @@ log_decoding_Protune` definition domain and range scale support.
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    log_decoding_Protune(y * factor), x * factor,
-                    decimal=7)
+                    log_decoding_Protune(y * factor), x * factor, decimal=7)
 
     @ignore_numpy_errors
     def test_nan_log_decoding_Protune(self):

@@ -36,8 +36,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
-from colour.utilities import (dot_vector, from_range_degrees,
-                              to_domain_100, tsplit, tstack)
+from colour.utilities import (dot_vector, from_range_degrees, to_domain_100,
+                              tsplit, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'

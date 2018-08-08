@@ -89,7 +89,8 @@ MAX_RGB_COLOURSPACE = RGB_Colourspace(
     MAX_RGB_TO_XYZ_MATRIX,
     XYZ_TO_MAX_RGB_MATRIX,
     partial(function_gamma, exponent=1 / 2.2),
-    partial(function_gamma, exponent=2.2), )
+    partial(function_gamma, exponent=2.2),
+)
 MAX_RGB_COLOURSPACE.__doc__ = """
 *Max RGB* colourspace.
 

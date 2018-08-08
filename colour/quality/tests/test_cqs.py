@@ -8,8 +8,7 @@ from __future__ import division, unicode_literals
 import unittest
 
 from colour.quality import colour_quality_scale
-from colour.colorimetry import (ILLUMINANTS_SPDS,
-                                LIGHT_SOURCES_SPDS)
+from colour.colorimetry import (ILLUMINANTS_SPDS, LIGHT_SOURCES_SPDS)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -43,8 +42,7 @@ class TestColourQualityScale(unittest.TestCase):
             places=7)
 
         self.assertAlmostEqual(
-            colour_quality_scale(
-                LIGHT_SOURCES_SPDS['Neodimium Incandescent']),
+            colour_quality_scale(LIGHT_SOURCES_SPDS['Neodimium Incandescent']),
             87.655035241231985,
             places=7)
 
@@ -55,14 +53,12 @@ class TestColourQualityScale(unittest.TestCase):
             places=7)
 
         self.assertAlmostEqual(
-            colour_quality_scale(
-                LIGHT_SOURCES_SPDS['H38HT-100 (Mercury)']),
+            colour_quality_scale(LIGHT_SOURCES_SPDS['H38HT-100 (Mercury)']),
             22.860610106043985,
             places=7)
 
         self.assertAlmostEqual(
-            colour_quality_scale(
-                LIGHT_SOURCES_SPDS['Luxeon WW 2880']),
+            colour_quality_scale(LIGHT_SOURCES_SPDS['Luxeon WW 2880']),
             84.879524259605077,
             places=7)
 

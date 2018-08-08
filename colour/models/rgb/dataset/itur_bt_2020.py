@@ -91,7 +91,8 @@ BT2020_COLOURSPACE = RGB_Colourspace(
     BT2020_TO_XYZ_MATRIX,
     XYZ_TO_BT2020_MATRIX,
     oetf_BT2020,
-    eotf_BT2020, )
+    eotf_BT2020,
+)
 BT2020_COLOURSPACE.__doc__ = """
 *ITU-R BT.2020* colourspace.
 

@@ -169,9 +169,8 @@ def chromatically_adapted_primaries(primaries,
     primaries = np.reshape(primaries, (3, 2))
 
     XYZ_a = chromatic_adaptation_VonKries(
-        xy_to_XYZ(primaries),
-        xy_to_XYZ(whitepoint_t),
-        xy_to_XYZ(whitepoint_r), chromatic_adaptation_transform)
+        xy_to_XYZ(primaries), xy_to_XYZ(whitepoint_t), xy_to_XYZ(whitepoint_r),
+        chromatic_adaptation_transform)
 
     P_a = XYZ_to_xyY(XYZ_a)[..., 0:2]
 

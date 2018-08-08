@@ -115,8 +115,8 @@ __all__ = [
     'XY_TO_CCT_METHODS', 'xy_to_CCT', 'CCT_TO_XY_METHODS', 'CCT_to_xy'
 ]
 
-PLANCKIAN_TABLE_TUVD = namedtuple('PlanckianTable_Tuvdi', ('Ti', 'ui', 'vi',
-                                                           'di'))
+PLANCKIAN_TABLE_TUVD = namedtuple('PlanckianTable_Tuvdi',
+                                  ('Ti', 'ui', 'vi', 'di'))
 
 CCT_MINIMAL = 1000
 CCT_MAXIMAL = 100000
@@ -977,10 +977,11 @@ def CCT_to_xy_CIE_D(CCT):
         warning(('Correlated colour temperature must be in domain '
                  '[4000, 25000], unpredictable results may occur!'))
 
-    x = np.where(
-        CCT <= 7000, -4.607 * 10 ** 9 / CCT ** 3 + 2.9678 * 10 ** 6 / CCT ** 2
-        + 0.09911 * 10 ** 3 / CCT + 0.244063, -2.0064 * 10 ** 9 / CCT ** 3 +
-        1.9018 * 10 ** 6 / CCT ** 2 + 0.24748 * 10 ** 3 / CCT + 0.23704)
+    x = np.where(CCT <= 7000,
+                 -4.607 * 10 ** 9 / CCT ** 3 + 2.9678 * 10 ** 6 / CCT ** 2 +
+                 0.09911 * 10 ** 3 / CCT + 0.244063,
+                 -2.0064 * 10 ** 9 / CCT ** 3 + 1.9018 * 10 ** 6 / CCT ** 2 +
+                 0.24748 * 10 ** 3 / CCT + 0.23704)
 
     y = -3 * x ** 2 + 2.87 * x - 0.275
 

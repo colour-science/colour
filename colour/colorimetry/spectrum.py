@@ -461,8 +461,8 @@ class SpectralShape(object):
             if current_interval != self._interval:
                 self._interval = current_interval
                 warning(('"{0}" shape could not be honoured, using '
-                         '"{1}"!').format((self._start, self._end,
-                                           self._interval), self))
+                         '"{1}"!').format(
+                             (self._start, self._end, self._interval), self))
 
         return self._range
 
@@ -740,8 +740,8 @@ dict_like, optional
                      'using minimum interval!'.format(self.name)))
 
         return SpectralShape(
-            min(self.wavelengths),
-            max(self.wavelengths), as_numeric(min(wavelengths_interval)))
+            min(self.wavelengths), max(self.wavelengths),
+            as_numeric(min(wavelengths_interval)))
 
     def extrapolate(self, shape, extrapolator=None, extrapolator_args=None):
         """
@@ -1106,7 +1106,7 @@ dict_like, optional
         s_e_i = zip((shape.start, shape.end, shape.interval),
                     (self_shape.start, self_shape.end, self_shape.interval))
         shape = SpectralShape(
-            * [x[0] if x[0] is not None else x[1] for x in s_e_i])
+            *[x[0] if x[0] is not None else x[1] for x in s_e_i])
         # Defining proper interpolation bounds.
         # TODO: Provide support for fractional interval like 0.1, etc...
         if (round(self_shape.start) != self_shape.start or
@@ -1680,8 +1680,8 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
                 '"{0}" attribute: "{1}" is not an "iterable" like object!'.
                 format('strict_labels', value))
 
-            assert len(value) == len(self.labels), (
-                '"{0}" attribute: length must be "{1}"!'.format(
+            assert len(value) == len(
+                self.labels), ('"{0}" attribute: length must be "{1}"!'.format(
                     'strict_labels', len(self.labels)))
             self._strict_labels = value
 

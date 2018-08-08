@@ -1343,7 +1343,8 @@ RGB_CMFS = CaseInsensitiveMapping({
         RGB_ColourMatchingFunctions(
             RGB_CMFS_DATA['Wright & Guild 1931 2 Degree RGB CMFs'],
             name='Wright & Guild 1931 2 Degree RGB CMFs',
-            strict_name='Wright & Guild (1931) 2$^\\circ$ RGB CMFs', ),
+            strict_name='Wright & Guild (1931) 2$^\\circ$ RGB CMFs',
+        ),
     'Stiles & Burch 1955 2 Degree RGB CMFs':
         RGB_ColourMatchingFunctions(
             RGB_CMFS_DATA['Stiles & Burch 1955 2 Degree RGB CMFs'],

@@ -83,7 +83,8 @@ NTSC_COLOURSPACE = RGB_Colourspace(
     NTSC_TO_XYZ_MATRIX,
     XYZ_TO_NTSC_MATRIX,
     BT470_525_COLOURSPACE.encoding_cctf,
-    BT470_525_COLOURSPACE.decoding_cctf, )
+    BT470_525_COLOURSPACE.decoding_cctf,
+)
 NTSC_COLOURSPACE.__doc__ = """
 *NTSC* colourspace.
 

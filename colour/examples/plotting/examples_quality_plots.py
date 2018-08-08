@@ -16,8 +16,7 @@ message_box('Colour Quality Plots')
 colour_style()
 
 message_box('Plotting "F2" illuminant "Colour Rendering Index (CRI)".')
-single_spd_colour_rendering_index_bars_plot(
-    colour.ILLUMINANTS_SPDS['F2'])
+single_spd_colour_rendering_index_bars_plot(colour.ILLUMINANTS_SPDS['F2'])
 
 print('\n')
 
@@ -31,8 +30,7 @@ multi_spd_colour_rendering_index_bars_plot(
 print('\n')
 
 message_box('Plotting "F2" illuminant "Colour Quality Scale (CQS)".')
-single_spd_colour_quality_scale_bars_plot(
-    colour.ILLUMINANTS_SPDS['F2'])
+single_spd_colour_quality_scale_bars_plot(colour.ILLUMINANTS_SPDS['F2'])
 
 print('\n')
 

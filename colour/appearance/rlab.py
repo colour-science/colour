@@ -106,8 +106,8 @@ RLAB_D_FACTOR['projected_dark'] = (
 
 
 class RLAB_ReferenceSpecification(
-        namedtuple('RLAB_ReferenceSpecification', ('LR', 'CR', 'hR', 'sR',
-                                                   'HR', 'aR', 'bR'))):
+        namedtuple('RLAB_ReferenceSpecification',
+                   ('LR', 'CR', 'hR', 'sR', 'HR', 'aR', 'bR'))):
     """
     Defines the *RLAB* colour appearance model reference specification.
 
@@ -139,8 +139,8 @@ class RLAB_ReferenceSpecification(
 
 
 class RLAB_Specification(
-        namedtuple('RLAB_Specification', ('J', 'C', 'h', 's', 'HC', 'a',
-                                          'b'))):
+        namedtuple('RLAB_Specification',
+                   ('J', 'C', 'h', 's', 'HC', 'a', 'b'))):
     """
     Defines the *RLAB* colour appearance model specification.
 
