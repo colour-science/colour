@@ -11,7 +11,7 @@ from __future__ import division, unicode_literals
 from colour.models import (
     Lab_to_DIN99, Lab_to_LCHab, Luv_to_LCHuv, Luv_to_uv, UCS_to_uv, XYZ_to_IPT,
     XYZ_to_Hunter_Lab, XYZ_to_Hunter_Rdab, XYZ_to_Lab, XYZ_to_Luv, XYZ_to_UCS,
-    XYZ_to_UVW, XYZ_to_xy, XYZ_to_xyY, xy_to_XYZ)
+    XYZ_to_UVW, XYZ_to_hdr_CIELab, XYZ_to_xy, XYZ_to_xyY, xy_to_XYZ)
 from colour.utilities import domain_range_scale
 
 __author__ = 'Colour Developers'
@@ -28,7 +28,8 @@ __all__ = [
 
 COLOURSPACE_MODELS = ('CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE LCHab', 'CIE Luv',
                       'CIE Luv uv', 'CIE LCHuv', 'CIE UCS', 'CIE UCS uv',
-                      'CIE UVW', 'DIN 99', 'IPT', 'Hunter Lab', 'Hunter Rdab')
+                      'CIE UVW', 'DIN 99', 'IPT', 'Hunter Lab', 'Hunter Rdab',
+                      'hdr-CIELAB')
 
 COLOURSPACE_MODELS_LABELS = {
     'CIE XYZ': ('X', 'Y', 'Z'),
@@ -44,7 +45,8 @@ COLOURSPACE_MODELS_LABELS = {
     'DIN 99': ('a99', 'b99', 'L99'),
     'IPT': ('P', 'T', 'I'),
     'Hunter Lab': ('$a^*$', '$b^*$', '$L^*$'),
-    'Hunter Rdab': ('$a$', '$b$', '$Rd$')
+    'Hunter Rdab': ('$a$', '$b$', '$Rd$'),
+    'hdr-CIELAB': ('a hdr', 'b hdr', 'L hdr')
 }
 """
 Colourspace models labels mapping.
@@ -52,7 +54,7 @@ Colourspace models labels mapping.
 COLOURSPACE_MODELS_LABELS : dict
     **{'CIE XYZ', 'CIE xyY', 'CIE Lab', 'CIE LCHab, 'CIE Luv', 'CIE Luv uv',
     'CIE LCHuv', 'CIE UCS', 'CIE UCS uv', 'CIE UVW', 'DIN 99', 'IPT',
-    'Hunter Lab', 'Hunter Rdab'}**
+    'Hunter Lab', 'Hunter Rdab', 'hdr-CIELAB'}**
 """
 
 
@@ -70,7 +72,7 @@ def XYZ_to_colourspace_model(XYZ, illuminant, model, **kwargs):
     model : unicode
         **{'CIE XYZ', 'CIE xyY', 'CIE xy', 'CIE Lab', 'CIE LCHab', 'CIE Luv',
         'CIE Luv uv', 'CIE LCHuv', 'CIE UCS', 'CIE UCS uv', 'CIE UVW',
-        'DIN 99', 'IPT', 'Hunter Lab', 'Hunter Rdab'}**,
+        'DIN 99', 'IPT', 'Hunter Lab', 'Hunter Rdab', 'hdr-CIELAB'}**,
         Colourspace model to convert the *CIE XYZ* tristimulus values to.
 
     Returns
@@ -125,6 +127,9 @@ def XYZ_to_colourspace_model(XYZ, illuminant, model, **kwargs):
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
     ... XYZ, W, 'Hunter Rdab')
     array([ 0.1008..., -0.1870192..., -0.0342396...])
+    >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
+    ... XYZ, W, 'hdr-CIELAB')
+    array([ 0.4826598..., -0.2818550..., -0.0522082...])
     """
 
     with domain_range_scale(1):
@@ -159,6 +164,8 @@ def XYZ_to_colourspace_model(XYZ, illuminant, model, **kwargs):
             values = XYZ_to_Hunter_Lab(XYZ, xy_to_XYZ(illuminant))
         elif model == 'Hunter Rdab':
             values = XYZ_to_Hunter_Rdab(XYZ, xy_to_XYZ(illuminant))
+        elif model == 'hdr-CIELAB':
+            values = XYZ_to_hdr_CIELab(XYZ, illuminant, **kwargs)
 
         if values is None:
             raise ValueError(
