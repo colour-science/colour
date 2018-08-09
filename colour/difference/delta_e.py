@@ -288,7 +288,7 @@ def delta_E_CIE2000(Lab_1, Lab_2, textiles=False):
     c_2 = np.hypot(a_2, b_2)
 
     c_bar = 0.5 * (c_1 + c_2)
-    c_bar7 = np.power(c_bar, 7)
+    c_bar7 = c_bar ** 7
 
     g = 0.5 * (1 - np.sqrt(c_bar7 / (c_bar7 + 25 ** 7)))
 

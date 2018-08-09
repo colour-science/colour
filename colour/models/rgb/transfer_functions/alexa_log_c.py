@@ -304,7 +304,6 @@ def log_decoding_ALEXALogC(t,
     cut, a, b, c, d, e, f, _e_cut_f = (
         ALEXA_LOG_C_CURVE_CONVERSION_DATA[firmware][method][EI])
 
-    x = np.where(t > e * cut + f, (np.power(10, (t - d) / c) - b) / a,
-                 (t - f) / e)
+    x = np.where(t > e * cut + f, (10 ** ((t - d) / c) - b) / a, (t - f) / e)
 
     return as_numeric(from_range_1(x))

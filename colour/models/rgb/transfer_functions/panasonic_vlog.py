@@ -180,7 +180,7 @@ def log_decoding_VLog(V_out,
     d = constants.d
 
     L_in = np.where(V_out < cut2, (V_out - 0.125) / 5.6,
-                    np.power(10, ((V_out - d) / c)) - b)
+                    10 ** ((V_out - d) / c) - b)
 
     if not out_reflection:
         L_in = L_in / 0.9
