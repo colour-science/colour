@@ -26,6 +26,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.algebra import spow
 from colour.adaptation import VON_KRIES_CAT
 from colour.utilities import (dot_vector, from_range_100, row_as_diagonal,
                               to_domain_100, tsplit, tstack)
@@ -247,7 +248,7 @@ def degrees_of_adaptation(LMS, Y_n, v=1 / 3, discount_illuminant=False):
     LMS_E = dot_vector(VON_KRIES_CAT, np.ones(LMS.shape))  # E illuminant.
     L_E, M_E, S_E = tsplit(LMS_E)
 
-    Ye_n = Y_n ** v
+    Ye_n = spow(Y_n, v)
 
     def m_E(x, y):
         """

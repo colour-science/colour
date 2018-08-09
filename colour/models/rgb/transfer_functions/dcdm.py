@@ -27,6 +27,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.algebra import spow
 from colour.utilities import from_range_1, to_domain_1
 
 __author__ = 'Colour Developers'
@@ -88,7 +89,7 @@ def oetf_DCDM(XYZ, out_int=False):
 
     XYZ = to_domain_1(XYZ)
 
-    XYZ_p = (XYZ / 52.37) ** (1 / 2.6)
+    XYZ_p = spow(XYZ / 52.37, 1 / 2.6)
 
     if out_int:
         return np.round(4095 * XYZ_p).astype(np.int_)
@@ -148,6 +149,6 @@ def eotf_DCDM(XYZ_p, in_int=False):
     if in_int:
         XYZ_p = XYZ_p / 4095
 
-    XYZ = 52.37 * XYZ_p ** 2.6
+    XYZ = 52.37 * spow(XYZ_p, 2.6)
 
     return from_range_1(XYZ)

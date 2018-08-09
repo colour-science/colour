@@ -36,6 +36,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
+from colour.algebra import spow
 from colour.utilities import (dot_vector, from_range_degrees, to_domain_100,
                               tsplit, tstack)
 
@@ -225,10 +226,10 @@ T_2=0.0205377..., D_2=0.0107584...)
     A_1, T_1, D_1, A_2, T_2, D_2 = tsplit(opponent_colour_dimensions(LMS_g))
 
     # Computing the correlate of *brightness* :math:`Br`.
-    Br = (A_1 ** 2 + T_1 ** 2 + D_1 ** 2) ** 0.5
+    Br = spow(A_1 ** 2 + T_1 ** 2 + D_1 ** 2, 0.5)
 
     # Computing the correlate of *saturation* :math:`C`.
-    C = (T_2 ** 2 + D_2 ** 2) ** 0.5 / A_2
+    C = spow(T_2 ** 2 + D_2 ** 2, 0.5) / A_2
 
     # Computing the *hue* :math:`H`. Note that the reference does not take the
     # modulus of the :math:`H`, thus :math:`H` can exceed 360 degrees.
@@ -267,7 +268,7 @@ def luminance_to_retinal_illuminance(XYZ, Y_c):
     XYZ = np.asarray(XYZ)
     Y_c = np.asarray(Y_c)
 
-    return 18 * (Y_c[..., np.newaxis] * XYZ / 100) ** 0.8
+    return 18 * spow(Y_c[..., np.newaxis] * XYZ / 100, 0.8)
 
 
 def XYZ_to_LMS_ATD95(XYZ):
@@ -298,7 +299,7 @@ def XYZ_to_LMS_ATD95(XYZ):
     ], XYZ)
 
     LMS *= np.array([0.66, 1.0, 0.43])
-    LMS = np.sign(LMS) * np.abs(LMS) ** 0.7
+    LMS = spow(LMS, 0.7)
     LMS += np.array([0.024, 0.036, 0.31])
 
     return LMS

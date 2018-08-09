@@ -30,6 +30,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
+from colour.algebra import spow
 from colour.appearance.hunt import XYZ_TO_HPE_MATRIX, XYZ_to_rgb
 from colour.utilities import (CaseInsensitiveMapping, dot_matrix, dot_vector,
                               from_range_degrees, to_domain_100, tsplit,
@@ -248,8 +249,8 @@ s=1.1010410..., HC=None, a=15.5711021..., b=-52.6142956...)
 
     # Computing the :math:`A` matrix.
     LMS_l_E = (3 * LMS_n) / (LMS_n[0] + LMS_n[1] + LMS_n[2])
-    LMS_p_L = ((1 + (Y_n[..., np.newaxis] ** (1 / 3)) + LMS_l_E) /
-               (1 + (Y_n[..., np.newaxis] ** (1 / 3)) + (1 / LMS_l_E)))
+    LMS_p_L = ((1 + spow(Y_n[..., np.newaxis], 1 / 3) + LMS_l_E) /
+               (1 + spow(Y_n[..., np.newaxis], 1 / 3) + (1 / LMS_l_E)))
     LMS_a_L = (LMS_p_L + D[..., np.newaxis] * (1 - LMS_p_L)) / LMS_n
 
     aR = row_as_diagonal(LMS_a_L)
@@ -259,11 +260,11 @@ s=1.1010410..., HC=None, a=15.5711021..., b=-52.6142956...)
     X_ref, Y_ref, Z_ref = tsplit(XYZ_ref)
 
     # Computing the correlate of *Lightness* :math:`L^R`.
-    LR = 100 * (Y_ref ** sigma)
+    LR = 100 * spow(Y_ref, sigma)
 
     # Computing opponent colour dimensions :math:`a^R` and :math:`b^R`.
-    aR = 430 * ((X_ref ** sigma) - (Y_ref ** sigma))
-    bR = 170 * ((Y_ref ** sigma) - (Z_ref ** sigma))
+    aR = 430 * (spow(X_ref, sigma) - spow(Y_ref, sigma))
+    bR = 170 * (spow(Y_ref, sigma) - spow(Z_ref, sigma))
 
     # Computing the *hue* angle :math:`h^R`.
     hR = np.degrees(np.arctan2(bR, aR)) % 360

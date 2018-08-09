@@ -22,6 +22,7 @@ References
 
 from __future__ import division, unicode_literals
 
+from colour.algebra import spow
 from colour.colorimetry import ILLUMINANTS
 from colour.models import (UCS_to_uv, UCS_uv_to_xy, XYZ_to_UCS, XYZ_to_xyY,
                            xy_to_UCS_uv, xyY_to_XYZ, xyY_to_xy)
@@ -103,7 +104,7 @@ def XYZ_to_UVW(
     u, v = tsplit(UCS_to_uv(XYZ_to_UCS(XYZ)))
     u_0, v_0 = tsplit(xy_to_UCS_uv(xy))
 
-    W = 25 * Y ** (1 / 3) - 17
+    W = 25 * spow(Y, 1 / 3) - 17
     U = 13 * W * (u - u_0)
     V = 13 * W * (v - v_0)
 

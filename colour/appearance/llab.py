@@ -36,7 +36,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
-from colour.algebra import polar_to_cartesian
+from colour.algebra import polar_to_cartesian, spow
 from colour.utilities import (CaseInsensitiveMapping, dot_vector,
                               from_range_degrees, to_domain_100, tsplit,
                               tstack)
@@ -411,11 +411,11 @@ def chromatic_adaptation(RGB, RGB_0, RGB_0r, Y, D=1):
     R_0r, G_0r, B_0r = tsplit(RGB_0r)
     Y = np.asarray(Y)
 
-    beta = (B_0 / B_0r) ** 0.0834
+    beta = spow(B_0 / B_0r, 0.0834)
 
     R_r = (D * (R_0r / R_0) + 1 - D) * R
     G_r = (D * (G_0r / G_0) + 1 - D) * G
-    B_r = (D * (B_0r / (B_0 ** beta)) + 1 - D) * (abs(B) ** beta)
+    B_r = (D * (B_0r / spow(B_0, beta)) + 1 - D) * spow(B, beta)
 
     RGB_r = tstack((R_r, G_r, B_r))
 
@@ -454,8 +454,8 @@ def f(x, F_S):
     x = np.asarray(x)
     F_S = np.asarray(F_S)
 
-    x_m = np.where(x > 0.008856, x ** (1 / F_S),
-                   ((((0.008856 ** (1 / F_S)) - (16 / 116)) / 0.008856) * x +
+    x_m = np.where(x > 0.008856, spow(x, 1 / F_S),
+                   (((spow(0.008856, 1 / F_S) - (16 / 116)) / 0.008856) * x +
                     (16 / 116)))
 
     return x_m
@@ -501,10 +501,10 @@ def opponent_colour_dimensions(XYZ, Y_b, F_S, F_L):
     F_L = np.asarray(F_L)
 
     # Account for background lightness contrast.
-    z = 1 + F_L * ((Y_b / 100) ** 0.5)
+    z = 1 + F_L * spow(Y_b / 100, 0.5)
 
     # Computing modified *CIE L\*a\*b\** colourspace array.
-    L = 116 * (f(Y / 100, F_S) ** z) - 16
+    L = 116 * spow(f(Y / 100, F_S), z) - 16
     a = 500 * (f(X / 95.05, F_S) - f(Y / 100, F_S))
     b = 200 * (f(Y / 100, F_S) - f(Z / 108.88, F_S))
 
@@ -570,7 +570,7 @@ def chroma_correlate(a, b):
     a = np.asarray(a)
     b = np.asarray(b)
 
-    c = (a ** 2 + b ** 2) ** 0.5
+    c = spow(a ** 2 + b ** 2, 0.5)
     Ch_L = 25 * np.log(1 + 0.05 * c)
 
     return Ch_L

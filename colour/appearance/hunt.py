@@ -29,6 +29,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
+from colour.algebra import spow
 from colour.utilities import (CaseInsensitiveMapping, dot_vector,
                               from_range_degrees, to_domain_100, tsplit,
                               tstack, warning)
@@ -359,11 +360,11 @@ s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
                 'background "XYZ_b" as approximation!')
 
     if surround.N_cb is None:
-        N_cb = 0.725 * (Y_w / Y_b) ** 0.2
+        N_cb = 0.725 * spow(Y_w / Y_b, 0.2)
         warning('Unspecified "N_cb" argument, using approximation: '
                 '"{0}"'.format(N_cb))
     if surround.N_bb is None:
-        N_bb = 0.725 * (Y_w / Y_b) ** 0.2
+        N_bb = 0.725 * spow(Y_w / Y_b, 0.2)
         warning('Unspecified "N_bb" argument, using approximation: '
                 '"{0}"'.format(N_bb))
 
@@ -495,7 +496,7 @@ def luminance_level_adaptation_factor(L_A):
 
     k = 1 / (5 * L_A + 1)
     k4 = k ** 4
-    F_L = 0.2 * k4 * (5 * L_A) + 0.1 * (1 - k4) ** 2 * (5 * L_A) ** (1 / 3)
+    F_L = 0.2 * k4 * (5 * L_A) + 0.1 * (1 - k4) ** 2 * spow(5 * L_A, 1 / 3)
 
     return F_L
 
@@ -526,7 +527,7 @@ def illuminant_scotopic_luminance(L_A, CCT):
     L_A = np.asarray(L_A)
     CCT = np.asarray(CCT)
 
-    CCT = 2.26 * L_A * ((CCT / 4000) - 0.4) ** (1 / 3)
+    CCT = 2.26 * L_A * spow((CCT / 4000) - 0.4, 1 / 3)
 
     return CCT
 
@@ -581,7 +582,8 @@ def f_n(x):
 
     x = np.asarray(x)
 
-    x_m = 40 * ((x ** 0.73) / (x ** 0.73 + 2))
+    x_p = spow(x, 0.73)
+    x_m = 40 * (x_p / (x_p + 2))
 
     return x_m
 
@@ -653,8 +655,8 @@ def chromatic_adaptation(XYZ,
 
     # Computing chromatic adaptation factors.
     if not discount_illuminant:
-        F_rgb = ((1 + (L_A ** (1 / 3)) + h_rgb) / (1 + (L_A ** (1 / 3)) +
-                                                   (1 / h_rgb)))
+        L_A_p = spow(L_A, 1 / 3)
+        F_rgb = ((1 + L_A_p + h_rgb) / (1 + L_A_p + (1 / h_rgb)))
     else:
         F_rgb = np.ones(h_rgb.shape)
 
@@ -723,8 +725,8 @@ def adjusted_reference_white_signals(rgb_p, rgb_b, rgb_w, p):
     p = np.asarray(p)
 
     p_rgb = rgb_p / rgb_b
-    rgb_w = (rgb_w * (((1 - p) * p_rgb + (1 + p) / p_rgb) ** 0.5) /
-             (((1 + p) * p_rgb + (1 - p) / p_rgb) ** 0.5))
+    rgb_w = (rgb_w * (spow((1 - p) * p_rgb + (1 + p) / p_rgb, 0.5)) / (spow(
+        (1 + p) * p_rgb + (1 - p) / p_rgb, 0.5)))
 
     return rgb_w
 
@@ -1007,7 +1009,7 @@ def overall_chromatic_response(M_yb, M_rg):
     M_yb = np.asarray(M_yb)
     M_rg = np.asarray(M_rg)
 
-    M = ((M_yb ** 2) + (M_rg ** 2)) ** 0.5
+    M = spow((M_yb ** 2) + (M_rg ** 2), 0.5)
 
     return M
 
@@ -1088,10 +1090,10 @@ def achromatic_signal(L_AS, S, S_w, N_bb, A_a):
 
     # Computing scotopic luminance level adaptation factor :math:`F_{LS}`.
     F_LS = 3800 * (j ** 2) * (5 * L_AS / 2.26)
-    F_LS += 0.2 * ((1 - (j ** 2)) ** 0.4) * ((5 * L_AS / 2.26) ** (1 / 6))
+    F_LS += 0.2 * (spow(1 - (j ** 2), 0.4)) * (spow(5 * L_AS / 2.26, 1 / 6))
 
     # Computing cone bleach factors :math:`B_S`.
-    B_S = 0.5 / (1 + 0.3 * ((5 * L_AS / 2.26) * (S / S_w)) ** 0.3)
+    B_S = 0.5 / (1 + 0.3 * spow((5 * L_AS / 2.26) * (S / S_w), 0.3))
     B_S += 0.5 / (1 + 5 * (5 * L_AS / 2.26))
 
     # Computing adapted scotopic signal :math:`A_S`.
@@ -1138,10 +1140,11 @@ def brightness_correlate(A, A_w, M, N_b):
     M = np.asarray(M)
     N_b = np.asarray(N_b)
 
-    N_1 = ((7 * A_w) ** 0.5) / (5.33 * N_b ** 0.13)
-    N_2 = (7 * A_w * N_b ** 0.362) / 200
+    N_1 = (spow(7 * A_w, 0.5)) / (5.33 * spow(N_b, 0.13))
+    N_2 = (7 * A_w * spow(N_b, 0.362)) / 200
 
-    Q = ((7 * (A + (M / 100))) ** 0.6) * N_1 - N_2
+    Q = spow(7 * (A + (M / 100)), 0.6) * N_1 - N_2
+
     return Q
 
 
@@ -1180,8 +1183,8 @@ def lightness_correlate(Y_b, Y_w, Q, Q_w):
     Q = np.asarray(Q)
     Q_w = np.asarray(Q_w)
 
-    Z = 1 + (Y_b / Y_w) ** 0.5
-    J = 100 * (Q / Q_w) ** Z
+    Z = 1 + spow(Y_b / Y_w, 0.5)
+    J = 100 * spow(Q / Q_w, Z)
 
     return J
 
@@ -1225,8 +1228,8 @@ def chroma_correlate(s, Y_b, Y_w, Q, Q_w):
     Q = np.asarray(Q)
     Q_w = np.asarray(Q_w)
 
-    C_94 = (2.44 * (s ** 0.69) * ((Q / Q_w) ** (Y_b / Y_w)) * (1.64 - 0.29 **
-                                                               (Y_b / Y_w)))
+    C_94 = (2.44 * spow(s, 0.69) * (spow(Q / Q_w, Y_b / Y_w)) *
+            (1.64 - spow(0.29, Y_b / Y_w)))
 
     return C_94
 
@@ -1258,6 +1261,6 @@ def colourfulness_correlate(F_L, C_94):
     F_L = np.asarray(F_L)
     C_94 = np.asarray(C_94)
 
-    M_94 = F_L ** 0.15 * C_94
+    M_94 = spow(F_L, 0.15) * C_94
 
     return M_94

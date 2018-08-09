@@ -27,7 +27,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.algebra import cartesian_to_polar, polar_to_cartesian
+from colour.algebra import cartesian_to_polar, polar_to_cartesian, spow
 from colour.colorimetry import ILLUMINANTS
 from colour.constants import CIE_E, CIE_K
 from colour.models import xy_to_xyY, xyY_to_XYZ
@@ -104,7 +104,7 @@ def XYZ_to_Lab(
 
     XYZ_f = np.where(
         XYZ_f > CIE_E,
-        np.sign(XYZ_f) * np.abs(XYZ_f) ** (1 / 3),
+        spow(XYZ_f, 1 / 3),
         (CIE_K * XYZ_f + 16) / 116,
     )
 

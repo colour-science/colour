@@ -135,3 +135,15 @@ Regression
     :toctree: generated/
 
     least_square_mapping_MoorePenrose
+
+Common
+------
+
+``colour.algebra``
+
+.. currentmodule:: colour.algebra
+
+.. autosummary::
+    :toctree: generated/
+
+    spow
