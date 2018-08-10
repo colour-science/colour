@@ -41,7 +41,7 @@ class TestCV_range(unittest.TestCase):
         np.testing.assert_array_equal(
             CV_range(8, False, True), np.array([0, 255]))
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_almost_equal(
             CV_range(8, True, False),
             np.array([0.06274510, 0.92156863]),
             decimal=7)
@@ -55,7 +55,7 @@ class TestCV_range(unittest.TestCase):
         np.testing.assert_array_equal(
             CV_range(10, False, True), np.array([0, 1023]))
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_almost_equal(
             CV_range(10, True, False),
             np.array([0.06256109, 0.91886608]),
             decimal=7)

@@ -1668,7 +1668,7 @@ class Test_xy_fromRenotationOvoid(unittest.TestCase):
 
         for i, (specification, _xyY) in enumerate(MUNSELL_EVEN_SPECIFICATIONS):
             if is_specification_in_renotation(specification):
-                np.testing.assert_array_almost_equal(
+                np.testing.assert_almost_equal(
                     xy_from_renotation_ovoid(specification),
                     MUNSELL_XY_FROM_RENOTATION_OVOID[i],
                     decimal=7)
