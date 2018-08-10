@@ -31,6 +31,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 from scipy.optimize import fmin
 
+from colour.algebra import spow
 from colour.models import XYZ_to_xyY
 from colour.utilities import (domain_range_scale, dot_vector, from_range_100,
                               to_domain_100, tsplit, tstack)
@@ -118,16 +119,16 @@ def XYZ_to_OSA_UCS(XYZ):
                2.5643 * y + 1.8103)
 
     o_3 = 1 / 3
-    Y_0_es = Y_0 ** o_3 - 2 / 3
+    Y_0_es = spow(Y_0, o_3) - 2 / 3
     # Gracefully handles Y_0 < 30.
     Y_0_s = Y_0 - 30
-    Lambda = 5.9 * (Y_0_es + np.sign(Y_0_s) * 0.042 * np.abs(Y_0_s) ** o_3)
+    Lambda = 5.9 * (Y_0_es + 0.042 * spow(Y_0_s, o_3))
 
     RGB = dot_vector(M_XYZ_TO_RGB_OSA_UCS, XYZ)
-    RGB_3 = np.sign(RGB) * np.abs(RGB) ** (1 / 3)
+    RGB_3 = spow(RGB, 1 / 3)
 
     C = Lambda / (5.9 * Y_0_es)
-    L = (Lambda - 14.4) / 2 ** (1 / 2)
+    L = (Lambda - 14.4) / spow(2, 1 / 2)
     j = C * np.dot(RGB_3, np.array([1.7, 8, -9.7]))
     g = C * np.dot(RGB_3, np.array([-13.7, 17.7, -4]))
 

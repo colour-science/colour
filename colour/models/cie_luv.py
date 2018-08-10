@@ -38,7 +38,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.algebra import cartesian_to_polar, polar_to_cartesian
+from colour.algebra import cartesian_to_polar, polar_to_cartesian, spow
 from colour.colorimetry import ILLUMINANTS
 from colour.constants import CIE_E, CIE_K
 from colour.models import xy_to_xyY, xyY_to_XYZ
@@ -117,7 +117,7 @@ def XYZ_to_Luv(
 
     y_r = Y / Y_r
 
-    L = np.where(y_r > CIE_E, 116 * y_r ** (1 / 3) - 16, CIE_K * y_r)
+    L = np.where(y_r > CIE_E, 116 * spow(y_r, 1 / 3) - 16, CIE_K * y_r)
 
     u = (13 * L * ((4 * X / (X + 15 * Y + 3 * Z)) -
                    (4 * X_r / (X_r + 15 * Y_r + 3 * Z_r))))

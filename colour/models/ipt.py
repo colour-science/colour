@@ -28,6 +28,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.algebra import spow
 from colour.utilities import (from_range_1, from_range_degrees, to_domain_1,
                               dot_vector, tsplit)
 
@@ -130,7 +131,7 @@ def XYZ_to_IPT(XYZ):
     XYZ = to_domain_1(XYZ)
 
     LMS = dot_vector(IPT_XYZ_TO_LMS_MATRIX, XYZ)
-    LMS_prime = np.sign(LMS) * np.abs(LMS) ** 0.43
+    LMS_prime = spow(LMS, 0.43)
     IPT = dot_vector(IPT_LMS_TO_IPT_MATRIX, LMS_prime)
 
     return from_range_1(IPT)
@@ -183,7 +184,7 @@ def IPT_to_XYZ(IPT):
     IPT = to_domain_1(IPT)
 
     LMS = dot_vector(IPT_IPT_TO_LMS_MATRIX, IPT)
-    LMS_prime = np.sign(LMS) * np.abs(LMS) ** (1 / 0.43)
+    LMS_prime = spow(LMS, 1 / 0.43)
     XYZ = dot_vector(IPT_LMS_TO_XYZ_MATRIX, LMS_prime)
 
     return from_range_1(XYZ)

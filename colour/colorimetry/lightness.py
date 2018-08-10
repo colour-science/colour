@@ -61,6 +61,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.algebra import spow
 from colour.biochemistry import reaction_rate_MichealisMenten
 from colour.constants import CIE_E, CIE_K
 from colour.utilities import (
@@ -123,7 +124,7 @@ def lightness_Glasser1958(Y):
 
     Y = to_domain_100(Y)
 
-    L = 25.29 * (Y ** (1 / 3)) - 18.38
+    L = 25.29 * spow(Y, 1 / 3) - 18.38
 
     return from_range_100(L)
 
@@ -175,7 +176,7 @@ def lightness_Wyszecki1963(Y):
         warning(('"W*" Lightness computation is only applicable for '
                  '1% < "Y" < 98%, unpredictable results may occur!'))
 
-    W = 25 * (Y ** (1 / 3)) - 17
+    W = 25 * spow(Y, 1 / 3) - 17
 
     return from_range_100(W)
 
@@ -232,7 +233,7 @@ def lightness_CIE1976(Y, Y_n=100):
     Lstar = Y / Y_n
 
     Lstar = as_numeric(
-        np.where(Lstar <= CIE_E, CIE_K * Lstar, 116 * Lstar ** (1 / 3) - 16))
+        np.where(Lstar <= CIE_E, CIE_K * Lstar, 116 * spow(Lstar, 1 / 3) - 16))
 
     return from_range_100(Lstar)
 
@@ -289,8 +290,7 @@ def lightness_Fairchild2010(Y, epsilon=1.836):
     maximum_perception = 100
 
     L_hdr = reaction_rate_MichealisMenten(
-        np.sign(Y) * np.abs(Y) ** epsilon, maximum_perception, 0.184 **
-        epsilon) + 0.02
+        spow(Y, epsilon), maximum_perception, 0.184 ** epsilon) + 0.02
 
     return from_range_100(L_hdr)
 
@@ -352,8 +352,7 @@ def lightness_Fairchild2011(Y, epsilon=0.474, method='hdr-CIELAB'):
         maximum_perception = 246
 
     L_hdr = reaction_rate_MichealisMenten(
-        np.sign(Y) * np.abs(Y) ** epsilon, maximum_perception, 2 **
-        epsilon) + 0.02
+        spow(Y, epsilon), maximum_perception, 2 ** epsilon) + 0.02
 
     return from_range_100(L_hdr)
 

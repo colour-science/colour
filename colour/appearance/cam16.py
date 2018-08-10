@@ -30,6 +30,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
+from colour.algebra import spow
 from colour.appearance.ciecam02 import (
     CIECAM02_VIEWING_CONDITIONS, P, achromatic_response_forward,
     achromatic_response_reverse, brightness_correlate, chroma_correlate,
@@ -417,7 +418,7 @@ def CAM16_to_XYZ(CAM16_specification,
 
     # Step 1
     if C is None and M is not None:
-        C = M / F_L ** 0.25
+        C = M / spow(F_L, 0.25)
     elif C is None:
         raise ValueError('Either "C" or "M" correlate must be defined in '
                          'the "CAM16_specification" argument!')

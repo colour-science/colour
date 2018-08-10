@@ -30,6 +30,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
+from colour.algebra import spow
 from colour.adaptation.cie1994 import (CIE1994_XYZ_TO_RGB_MATRIX, beta_1,
                                        exponential_factors,
                                        intermediate_values)
@@ -831,8 +832,8 @@ def chroma_components(Lstar_P, S_RG, S_YB):
     S_RG = np.asarray(S_RG)
     S_YB = np.asarray(S_YB)
 
-    C_RG = ((Lstar_P / 50) ** 0.7) * S_RG
-    C_YB = ((Lstar_P / 50) ** 0.7) * S_YB
+    C_RG = spow(Lstar_P / 50, 0.7) * S_RG
+    C_YB = spow(Lstar_P / 50, 0.7) * S_YB
 
     return tstack((C_RG, C_YB))
 
@@ -864,7 +865,7 @@ def chroma_correlate(Lstar_P, S):
     Lstar_P = np.asarray(Lstar_P)
     S = np.asarray(S)
 
-    C = np.sign(Lstar_P) * ((np.abs(Lstar_P) / 50) ** 0.7) * S
+    C = spow(Lstar_P / 50, 0.7) * S
 
     return C
 

@@ -374,12 +374,10 @@ def log_decoding_Log3G10(y, legacy_curve=False):
     y = to_domain_1(y)
 
     if legacy_curve:
-        x = (np.sign(y) * (np.power(10.0,
-                                    np.abs(y) / 0.222497) - 1) / 169.379333)
+        x = (np.sign(y) * (10.0 ** (np.abs(y) / 0.222497) - 1) / 169.379333)
     else:
-        x = (np.sign(y) *
-             (np.power(10.0,
-                       np.abs(y) / 0.224282) - 1) / 155.975327) - 0.01
+        x = (np.sign(y) * (10.0 **
+                           (np.abs(y) / 0.224282) - 1) / 155.975327) - 0.01
 
     return from_range_1(x)
 
@@ -473,6 +471,6 @@ def log_decoding_Log3G12(y):
 
     y = to_domain_1(y)
 
-    x = np.sign(y) * (np.power(10.0, np.abs(y) / 0.184904) - 1) / 347.189667
+    x = np.sign(y) * (10.0 ** (np.abs(y) / 0.184904) - 1) / 347.189667
 
     return from_range_1(x)

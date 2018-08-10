@@ -28,6 +28,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.algebra import spow
 from colour.utilities import (as_numeric, domain_range_scale, from_range_1,
                               to_domain_1)
 
@@ -84,7 +85,7 @@ def oetf_SMPTE240M(L_c):
 
     L_c = to_domain_1(L_c)
 
-    V_c = np.where(L_c < 0.0228, 4 * L_c, 1.1115 * L_c ** 0.45 - 0.1115)
+    V_c = np.where(L_c < 0.0228, 4 * L_c, 1.1115 * spow(L_c, 0.45) - 0.1115)
 
     return as_numeric(from_range_1(V_c))
 
@@ -133,7 +134,10 @@ def eotf_SMPTE240M(V_r):
     V_r = to_domain_1(V_r)
 
     with domain_range_scale('ignore'):
-        L_r = np.where(V_r < oetf_SMPTE240M(0.0228), V_r / 4,
-                       ((V_r + 0.1115) / 1.1115) ** (1 / 0.45))
+        L_r = np.where(
+            V_r < oetf_SMPTE240M(0.0228),
+            V_r / 4,
+            spow((V_r + 0.1115) / 1.1115, 1 / 0.45),
+        )
 
     return as_numeric(from_range_1(L_r))

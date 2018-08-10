@@ -39,6 +39,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
+from colour.algebra import spow
 from colour.adaptation import CAT02_CAT
 from colour.appearance.hunt import (HPE_TO_XYZ_MATRIX, XYZ_TO_HPE_MATRIX,
                                     luminance_level_adaptation_factor)
@@ -419,7 +420,7 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
         viewing_condition_dependent_parameters(Y_b, Y_w, L_A))
 
     if C is None and M is not None:
-        C = M / F_L ** 0.25
+        C = M / spow(F_L, 0.25)
     elif C is None:
         raise ValueError('Either "C" or "M" correlate must be defined in '
                          'the "CIECAM02_specification" argument!')
@@ -502,7 +503,7 @@ def chromatic_induction_factors(n):
 
     n = np.asarray(n)
 
-    N_bb = N_cb = 0.725 * (1 / n) ** 0.2
+    N_bb = N_cb = 0.725 * spow(1 / n, 0.2)
     N_bbcb = tstack((N_bb, N_cb))
 
     return N_bbcb
@@ -779,8 +780,8 @@ def post_adaptation_non_linear_response_compression_forward(RGB, F_L):
     RGB = np.asarray(RGB)
     F_L = np.asarray(F_L)
 
-    F_L_RGB = (F_L[..., np.newaxis] * np.absolute(RGB) / 100) ** 0.42
-    RGB_c = ((400 * np.sign(RGB) * F_L_RGB) / (27.13 + F_L_RGB)) + 0.1
+    F_L_RGB = spow(F_L[..., np.newaxis] * RGB / 100, 0.42)
+    RGB_c = (400 * F_L_RGB) / (27.13 + F_L_RGB) + 0.1
 
     return RGB_c
 
@@ -814,9 +815,8 @@ def post_adaptation_non_linear_response_compression_reverse(RGB, F_L):
     RGB = np.asarray(RGB)
     F_L = np.asarray(F_L)
 
-    RGB_p = ((np.sign(RGB - 0.1) * (100 / F_L[..., np.newaxis]) *
-              ((27.13 * np.abs(RGB - 0.1)) /
-               (400 - np.abs(RGB - 0.1))) ** (1 / 0.42)))
+    RGB_p = (((100 / F_L[..., np.newaxis]) * spow(
+        (27.13 * (RGB - 0.1)) / (400 - (RGB - 0.1)), 1 / 0.42)))
 
     return RGB_p
 
@@ -1096,7 +1096,7 @@ def achromatic_response_reverse(A_w, J, c, z):
     c = np.asarray(c)
     z = np.asarray(z)
 
-    A = A_w * (J / 100) ** (1 / (c * z))
+    A = A_w * spow(J / 100, 1 / (c * z))
 
     return A
 
@@ -1136,7 +1136,7 @@ def lightness_correlate(A, A_w, c, z):
     c = np.asarray(c)
     z = np.asarray(z)
 
-    J = 100 * (A / A_w) ** (c * z)
+    J = 100 * spow(A / A_w, c * z)
 
     return J
 
@@ -1176,7 +1176,7 @@ def brightness_correlate(c, J, A_w, F_L):
     A_w = np.asarray(A_w)
     F_L = np.asarray(F_L)
 
-    Q = (4 / c) * np.sqrt(J / 100) * (A_w + 4) * F_L ** 0.25
+    Q = (4 / c) * np.sqrt(J / 100) * (A_w + 4) * spow(F_L, 0.25)
 
     return Q
 
@@ -1226,7 +1226,7 @@ def temporary_magnitude_quantity_forward(N_c, N_cb, e_t, a, b, RGB_a):
     b = np.asarray(b)
     Ra, Ga, Ba = tsplit(RGB_a)
 
-    t = (((50000 / 13) * N_c * N_cb) * (e_t * (a ** 2 + b ** 2) ** 0.5) /
+    t = (((50000 / 13) * N_c * N_cb) * (e_t * spow(a ** 2 + b ** 2, 0.5)) /
          (Ra + Ga + 21 * Ba / 20))
 
     return t
@@ -1269,7 +1269,7 @@ def temporary_magnitude_quantity_reverse(C, J, n):
     J = np.maximum(J, EPSILON)
     n = np.asarray(n)
 
-    t = (C / (np.sqrt(J / 100) * (1.64 - 0.29 ** n) ** 0.73)) ** (1 / 0.9)
+    t = spow(C / (np.sqrt(J / 100) * spow(1.64 - 0.29 ** n, 0.73)), 1 / 0.9)
 
     return t
 
@@ -1321,7 +1321,7 @@ def chroma_correlate(J, n, N_c, N_cb, e_t, a, b, RGB_a):
     n = np.asarray(n)
 
     t = temporary_magnitude_quantity_forward(N_c, N_cb, e_t, a, b, RGB_a)
-    C = t ** 0.9 * (J / 100) ** 0.5 * (1.64 - 0.29 ** n) ** 0.73
+    C = spow(t, 0.9) * spow(J / 100, 0.5) * spow(1.64 - 0.29 ** n, 0.73)
 
     return C
 
@@ -1353,7 +1353,7 @@ def colourfulness_correlate(C, F_L):
     C = np.asarray(C)
     F_L = np.asarray(F_L)
 
-    M = C * F_L ** 0.25
+    M = C * spow(F_L, 0.25)
 
     return M
 
@@ -1385,7 +1385,7 @@ def saturation_correlate(M, Q):
     M = np.asarray(M)
     Q = np.asarray(Q)
 
-    s = 100 * (M / Q) ** 0.5
+    s = 100 * spow(M / Q, 0.5)
 
     return s
 

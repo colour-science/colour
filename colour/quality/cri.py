@@ -26,7 +26,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 from collections import namedtuple
 
-from colour.algebra import euclidean_distance
+from colour.algebra import euclidean_distance, spow
 from colour.colorimetry import (
     ASTME30815_PRACTISE_SHAPE, D_illuminant_relative_spd,
     STANDARD_OBSERVERS_CMFS, blackbody_spd, spectral_to_XYZ)
@@ -224,7 +224,7 @@ def tcs_colorimetry_data(spd_t,
             v_tcs = (5.52 /
                      (16.518 + 1.481 * c_r / c_t * tcs_c - d_r / d_t * tcs_d))
 
-        W_tcs = 25 * xyY_tcs[-1] ** (1 / 3) - 17
+        W_tcs = 25 * spow(xyY_tcs[-1], 1 / 3) - 17
         U_tcs = 13 * W_tcs * (u_tcs - u_r)
         V_tcs = 13 * W_tcs * (v_tcs - v_r)
 

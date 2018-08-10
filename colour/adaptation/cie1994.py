@@ -24,6 +24,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.algebra import spow
 from colour.adaptation import VON_KRIES_CAT
 from colour.utilities import (dot_vector, from_range_100, to_domain_100,
                               tsplit, tstack, warning)
@@ -294,7 +295,7 @@ def beta_1(x):
     4.6106222...
     """
 
-    return (6.469 + 6.362 * (x ** 0.4495)) / (6.469 + (x ** 0.4495))
+    return (6.469 + 6.362 * spow(x, 0.4495)) / (6.469 + spow(x, 0.4495))
 
 
 def beta_2(x):
@@ -318,7 +319,8 @@ def beta_2(x):
     4.6522416...
     """
 
-    return 0.7844 * (8.414 + 8.091 * (x ** 0.5128)) / (8.414 + (x ** 0.5128))
+    return 0.7844 * (8.414 + 8.091 * spow(x, 0.5128)) / (
+        8.414 + spow(x, 0.5128))
 
 
 def exponential_factors(RGB_o):
@@ -403,11 +405,11 @@ def K_coefficient(xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, n=1):
     bR_o2, bG_o2, _bB_o2 = tsplit(bRGB_o2)
     Y_o = np.asarray(Y_o)
 
-    K = (((Y_o * xi_1 + n) / (20 * xi_1 + n)) ** ((2 / 3) * bR_o1) /
-         ((Y_o * xi_2 + n) / (20 * xi_2 + n)) ** ((2 / 3) * bR_o2))
+    K = (spow((Y_o * xi_1 + n) / (20 * xi_1 + n), (2 / 3) * bR_o1) / spow(
+        (Y_o * xi_2 + n) / (20 * xi_2 + n), (2 / 3) * bR_o2))
 
-    K *= (((Y_o * eta_1 + n) / (20 * eta_1 + n)) ** ((1 / 3) * bG_o1) /
-          ((Y_o * eta_2 + n) / (20 * eta_2 + n)) ** ((1 / 3) * bG_o2))
+    K *= (spow((Y_o * eta_1 + n) / (20 * eta_1 + n), (1 / 3) * bG_o1) / spow(
+        (Y_o * eta_2 + n) / (20 * eta_2 + n), (1 / 3) * bG_o2))
 
     return K
 
@@ -475,8 +477,8 @@ def corresponding_colour(RGB_1, xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, K, n=1):
         Computes the corresponding colour cone responses component.
         """
 
-        return ((Y_o * x_2 + n) * K ** (1 / y_2) *
-                ((z + n) / (Y_o * x_1 + n)) ** (y_1 / y_2) - n)
+        return ((Y_o * x_2 + n) * spow(K, 1 / y_2) * spow(
+            (z + n) / (Y_o * x_1 + n), y_1 / y_2) - n)
 
     R_2 = RGB_c(xi_1, xi_2, bR_o1, bR_o2, R_1)
     G_2 = RGB_c(eta_1, eta_2, bG_o1, bG_o2, G_1)

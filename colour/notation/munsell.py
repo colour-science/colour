@@ -123,8 +123,8 @@ import re
 from collections import OrderedDict
 
 from colour.algebra import (Extrapolator, LinearInterpolator,
-                            cartesian_to_cylindrical, polar_to_cartesian,
-                            euclidean_distance)
+                            cartesian_to_cylindrical, euclidean_distance,
+                            polar_to_cartesian, spow)
 from colour.colorimetry import ILLUMINANTS, luminance_ASTMD153508
 from colour.constants import (DEFAULT_FLOAT_DTYPE, INTEGER_THRESHOLD,
                               FLOATING_POINT_NUMBER_PATTERN)
@@ -424,7 +424,7 @@ def munsell_value_Moon1943(Y):
 
     Y = to_domain_100(Y)
 
-    V = 1.4 * Y ** 0.426
+    V = 1.4 * spow(Y, 0.426)
 
     return from_range_10(V)
 
@@ -471,7 +471,7 @@ def munsell_value_Saunderson1944(Y):
 
     Y = to_domain_100(Y)
 
-    V = 2.357 * (Y ** 0.343) - 1.52
+    V = 2.357 * spow(Y, 0.343) - 1.52
 
     return from_range_10(V)
 
@@ -518,7 +518,7 @@ def munsell_value_Ladd1955(Y):
 
     Y = to_domain_100(Y)
 
-    V = 2.468 * (Y ** (1 / 3)) - 1.636
+    V = 2.468 * spow(Y, 1 / 3) - 1.636
 
     return from_range_10(V)
 
@@ -565,13 +565,13 @@ def munsell_value_McCamy1987(Y):
 
     Y = to_domain_100(Y)
 
-    V = np.where(Y <= 0.9, 0.87445 * (Y ** 0.9967),
-                 (2.49268 * (Y ** (1 / 3)) - 1.5614 -
-                  (0.985 / (((0.1073 * Y - 3.084) ** 2) + 7.54)) +
-                  (0.0133 /
-                   (Y ** 2.3)) + 0.0084 * np.sin(4.1 * (Y ** (1 / 3)) + 1) +
-                  (0.0221 / Y) * np.sin(0.39 * (Y - 2)) -
-                  (0.0037 / (0.44 * Y)) * np.sin(1.28 * (Y - 0.53))))
+    V = np.where(
+        Y <= 0.9, 0.87445 * spow(Y, 0.9967),
+        (2.49268 * spow(Y, 1 / 3) - 1.5614 -
+         (0.985 / (((0.1073 * Y - 3.084) ** 2) + 7.54)) +
+         (0.0133 / spow(Y, 2.3)) + 0.0084 * np.sin(4.1 * spow(Y, 1 / 3) + 1) +
+         (0.0221 / Y) * np.sin(0.39 * (Y - 2)) -
+         (0.0037 / (0.44 * Y)) * np.sin(1.28 * (Y - 0.53))))
 
     return from_range_10(V)
 

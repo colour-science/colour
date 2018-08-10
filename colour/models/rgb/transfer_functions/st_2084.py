@@ -31,6 +31,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.algebra import spow
 from colour.utilities import Structure, from_range_1, to_domain_1
 
 __author__ = 'Colour Developers'
@@ -106,10 +107,10 @@ def oetf_ST2084(C, L_p=10000, constants=ST2084_CONSTANTS):
 
     C = to_domain_1(C)
 
-    Y_p = (C / L_p) ** constants.m_1
+    Y_p = spow(C / L_p, constants.m_1)
 
-    N = ((constants.c_1 + constants.c_2 * Y_p) /
-         (constants.c_3 * Y_p + 1)) ** constants.m_2
+    N = spow((constants.c_1 + constants.c_2 * Y_p) / (constants.c_3 * Y_p + 1),
+             constants.m_2)
 
     return from_range_1(N)
 
@@ -170,13 +171,13 @@ def eotf_ST2084(N, L_p=10000, constants=ST2084_CONSTANTS):
     m_1_d = 1 / constants.m_1
     m_2_d = 1 / constants.m_2
 
-    V_p = N ** m_2_d
+    V_p = spow(N, m_2_d)
 
     n = V_p - constants.c_1
-    # Preventing *nan*.
+    # Limiting negative values.
     n = np.where(n < 0, 0, n)
 
-    L = (n / (constants.c_2 - constants.c_3 * V_p)) ** m_1_d
+    L = spow((n / (constants.c_2 - constants.c_3 * V_p)), m_1_d)
     C = L_p * L
 
     return from_range_1(C)

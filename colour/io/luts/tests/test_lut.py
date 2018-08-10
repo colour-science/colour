@@ -10,7 +10,7 @@ import os
 import textwrap
 import unittest
 
-from colour.algebra import random_triplet_generator
+from colour.algebra import random_triplet_generator, spow
 from colour.io.luts.lut import AbstractLUT
 from colour.io.luts import LUT1D, LUT2D, LUT3D
 from colour.utilities import tsplit, tstack
@@ -425,7 +425,7 @@ class TestLUT(unittest.TestCase):
 
         # pylint: disable=E1102
         LUT_2 = self._LUT_factory(domain=self._domain_2)
-        LUT_2.table = np.sign(LUT_2.table) * np.abs(LUT_2.table) ** (1 / 2.2)
+        LUT_2.table = spow(LUT_2.table, 1 / 2.2)
 
         np.testing.assert_array_almost_equal(
             LUT_2.apply(RANDOM_TRIPLETS), self._applied_2, decimal=7)
@@ -526,7 +526,7 @@ class TestLUT2D(TestLUT):
 
         samples = np.linspace(0, 1, 10)
         self._table_1 = tstack([samples, samples, samples])
-        self._table_2 = self._table_1 ** (1 / 2.2)
+        self._table_2 = spow(self._table_1, 1 / 2.2)
         self._domain_1 = np.array([[0, 0, 0], [1, 1, 1]])
         self._domain_2 = np.array([[-0.1, -0.1, -0.1], [1.5, 1.5, 1.5]])
         self._dimensions = 2
@@ -600,7 +600,7 @@ class TestLUT3D(TestLUT):
         table_1 = np.meshgrid(*samples, indexing='ij')
         table_1 = np.transpose(table_1).reshape((size, size, size, 3))
         self._table_1 = np.flip(table_1, -1)
-        self._table_2 = self._table_1 ** (1 / 2.2)
+        self._table_2 = spow(self._table_1, 1 / 2.2)
         self._domain_1 = domain
         self._domain_2 = np.array([[-0.1, -0.1, -0.1], [1.5, 1.5, 1.5]])
         self._dimensions = 3

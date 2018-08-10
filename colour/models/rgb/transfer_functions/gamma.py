@@ -19,6 +19,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.algebra import spow
 from colour.utilities import as_numeric
 
 __author__ = 'Colour Developers'
@@ -89,10 +90,7 @@ def function_gamma(a, exponent=1, negative_number_handling='Indeterminate'):
     if negative_number_handling == 'indeterminate':
         return as_numeric(a ** exponent)
     elif negative_number_handling == 'mirror':
-        a = np.atleast_1d(a)
-        a_g = np.sign(a) * np.abs(a) ** exponent
-        a_g[a == 0] = 0
-        return as_numeric(a_g)
+        return spow(a, exponent)
     elif negative_number_handling == 'preserve':
         return as_numeric(np.where(a <= 0, a, a ** exponent))
     elif negative_number_handling == 'clamp':

@@ -35,6 +35,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.algebra import spow
 from colour.utilities import (as_numeric, domain_range_scale, from_range_1,
                               to_domain_1)
 
@@ -109,7 +110,7 @@ def oetf_ROMMRGB(X, bit_depth=8, out_int=False):
 
     E_t = 16 ** (1.8 / (1 - 1.8))
 
-    X_p = np.where(X < E_t, X * 16 * I_max, X ** (1 / 1.8) * I_max)
+    X_p = np.where(X < E_t, X * 16 * I_max, spow(X, 1 / 1.8) * I_max)
 
     if out_int:
         return as_numeric(np.round(X_p), np.int_)
@@ -177,8 +178,8 @@ def eotf_ROMMRGB(X_p, bit_depth=8, in_int=False):
 
     E_t = 16 ** (1.8 / (1 - 1.8))
 
-    X = np.where(X_p < 16 * E_t * I_max, X_p / (16 * I_max), (X_p / I_max)
-                 ** 1.8)
+    X = np.where(X_p < 16 * E_t * I_max, X_p / (16 * I_max),
+                 spow(X_p / I_max, 1.8))
 
     return as_numeric(from_range_1(X))
 
@@ -246,11 +247,11 @@ def oetf_RIMMRGB(X, bit_depth=8, out_int=False, E_clip=2.0):
 
     I_max = 2 ** bit_depth - 1
 
-    V_clip = 1.099 * E_clip ** 0.45 - 0.099
+    V_clip = 1.099 * spow(E_clip, 0.45) - 0.099
     q = I_max / V_clip
 
     X_p = q * np.select([X < 0.0, X < 0.018, X >= 0.018, X > E_clip],
-                        [0, 4.5 * X, 1.099 * (X ** 0.45) - 0.099, I_max])
+                        [0, 4.5 * X, 1.099 * spow(X, 0.45) - 0.099, I_max])
 
     if out_int:
         return as_numeric(np.round(X_p), np.int_)
@@ -317,14 +318,16 @@ def eotf_RIMMRGB(X_p, bit_depth=8, in_int=False, E_clip=2.0):
     if not in_int:
         X_p = X_p * I_max
 
-    V_clip = 1.099 * E_clip ** 0.45 - 0.099
+    V_clip = 1.099 * spow(E_clip, 0.45) - 0.099
 
     m = V_clip * X_p / I_max
 
     with domain_range_scale('ignore'):
         X = np.where(
             X_p / I_max < oetf_RIMMRGB(0.018, bit_depth, E_clip=E_clip),
-            m / 4.5, ((m + 0.099) / 1.099) ** (1 / 0.45))
+            m / 4.5,
+            spow((m + 0.099) / 1.099, 1 / 0.45),
+        )
 
     return as_numeric(from_range_1(X))
 
