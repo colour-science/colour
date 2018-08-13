@@ -80,6 +80,11 @@ def XYZ_to_colourspace_model(XYZ, illuminant, model, **kwargs):
         'hdr-CIELAB', 'hdr-IPT'}**,
         Colourspace model to convert the *CIE XYZ* tristimulus values to.
 
+    Other Parameters
+    ----------------
+    \**kwargs : dict, optional
+        Keywords arguments.
+
     Returns
     -------
     ndarray
