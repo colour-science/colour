@@ -11,7 +11,7 @@ import unittest
 import shutil
 import tempfile
 
-from colour.io import read_LUT_IridasCube, write_LUT_IridasCube
+from colour.io import LUTSequence, read_LUT_IridasCube, write_LUT_IridasCube
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -129,6 +129,13 @@ class TestWriteLUTIridasCube(unittest.TestCase):
                                           'ACES_Proxy_10_to_ACES.cube'))
 
         LUT_1_t = read_LUT_IridasCube(
+            os.path.join(self._temporary_directory,
+                         'ACES_Proxy_10_to_ACES.cube'))
+
+        self.assertEqual(LUT_1_r, LUT_1_t)
+
+        write_LUT_IridasCube(
+            LUTSequence(LUT_1_r),
             os.path.join(self._temporary_directory,
                          'ACES_Proxy_10_to_ACES.cube'))
 

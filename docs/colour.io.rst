@@ -40,6 +40,7 @@ Look Up Table (LUT) Data
     LUT1D
     LUT2D
     LUT3D
+    LUTSequence
     read_LUT
     write_LUT
 
@@ -52,6 +53,7 @@ Look Up Table (LUT) Data
 .. autosummary::
     :toctree: generated/
 
+    AbstractLUTSequenceOperator
     read_LUT_IridasCube
     write_LUT_IridasCube
     read_LUT_SonySPI1D
