@@ -152,7 +152,7 @@ class TestClosest(unittest.TestCase):
 
         self.assertEqual(closest(a, 24.90), 25.40026416)
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_almost_equal(
             closest(a, np.array([63.05, 51.15, 24.90])),
             np.array([62.70988028, 46.84480573, 25.40026416]),
             decimal=7)
@@ -685,10 +685,10 @@ class TestFillNan(unittest.TestCase):
         """
 
         a = np.array([0.1, 0.2, np.nan, 0.4, 0.5])
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_almost_equal(
             fill_nan(a), np.array([0.1, 0.2, 0.3, 0.4, 0.5]), decimal=7)
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_almost_equal(
             fill_nan(a, method='Constant', default=8.0),
             np.array([0.1, 0.2, 8.0, 0.4, 0.5]),
             decimal=7)

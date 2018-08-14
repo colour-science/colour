@@ -192,7 +192,7 @@ def OSA_UCS_to_XYZ(Ljg, optimisation_parameters=None):
     Examples
     --------
     >>> import numpy as np
-    >>> Ljg = np.array([-4.4900683 ,  0.70305936,  3.03463664])
+    >>> Ljg = np.array([-4.4900683, 0.70305936, 3.03463664])
     >>> OSA_UCS_to_XYZ(Ljg)  # doctest: +ELLIPSIS
     array([  7.0495049...,  10.0799723...,   9.5583020...])
     """

@@ -346,7 +346,7 @@ class TestKernelInterpolator(unittest.TestCase):
         x_i = np.linspace(11, 25, 25)
 
         kernel_interpolator = KernelInterpolator(x, y)
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_almost_equal(
             kernel_interpolator(x_i),
             np.array([
                 4.43848790, 4.26286480, 3.64640076, 2.77982023, 2.13474499,
@@ -358,7 +358,7 @@ class TestKernelInterpolator(unittest.TestCase):
             decimal=7)
 
         kernel_interpolator = KernelInterpolator(x, y, kernel=kernel_sinc)
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_almost_equal(
             kernel_interpolator(x_i),
             np.array([
                 4.43848790, 4.47570010, 3.84353906, 3.05959493, 2.53514958,
@@ -370,7 +370,7 @@ class TestKernelInterpolator(unittest.TestCase):
             decimal=7)
 
         kernel_interpolator = KernelInterpolator(x, y, window=1)
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_almost_equal(
             kernel_interpolator(x_i),
             np.array([
                 4.43848790, 4.96712277, 4.09584229, 3.23991575, 2.80418924,
@@ -383,7 +383,7 @@ class TestKernelInterpolator(unittest.TestCase):
 
         kernel_interpolator = KernelInterpolator(
             x, y, window=1, kernel_args={'a': 1})
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_almost_equal(
             kernel_interpolator(x_i),
             np.array([
                 4.43848790, 3.34379320, 3.62463711, 2.34585418, 2.04767083,
@@ -399,7 +399,7 @@ class TestKernelInterpolator(unittest.TestCase):
                 'pad_width': (3, 3),
                 'mode': 'mean'
             })
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_almost_equal(
             kernel_interpolator(x_i),
             np.array([
                 4.4384879, 4.35723245, 3.62918155, 2.77471295, 2.13474499,
@@ -416,12 +416,12 @@ class TestKernelInterpolator(unittest.TestCase):
         y = np.sin(x_1 / len(x_1) * np.pi * 6) / (x_1 / len(x_1))
         x_i = np.linspace(1, 9, 25)
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_almost_equal(
             KernelInterpolator(x_1, y)(x_i),
             KernelInterpolator(x_2, y)(x_i * 10),
             decimal=7)
 
-        np.testing.assert_array_almost_equal(
+        np.testing.assert_almost_equal(
             KernelInterpolator(x_1, y)(x_i),
             KernelInterpolator(x_3, y)(x_i / 10),
             decimal=7)
