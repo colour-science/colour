@@ -449,7 +449,7 @@ class TestLUT(unittest.TestCase):
 
 class TestLUT1D(TestLUT):
     """
-    Defines :func:`colour.io.luts.lut.LUT1D` class unit tests methods.
+    Defines :class:`colour.io.luts.lut.LUT1D` class unit tests methods.
     """
 
     def __init__(self, *args):
@@ -507,7 +507,7 @@ class TestLUT1D(TestLUT):
 
 class TestLUT2D(TestLUT):
     """
-    Defines :func:`colour.io.luts.lut.LUT2D` class unit tests methods.
+    Defines :class:`colour.io.luts.lut.LUT2D` class unit tests methods.
     """
 
     def __init__(self, *args):
@@ -576,7 +576,7 @@ class TestLUT2D(TestLUT):
 
 class TestLUT3D(TestLUT):
     """
-    Defines :func:`colour.io.luts.lut.LUT3D` class unit tests methods.
+    Defines :class:`colour.io.luts.lut.LUT3D` class unit tests methods.
     """
 
     def __init__(self, *args):
