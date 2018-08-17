@@ -12,13 +12,15 @@ from __future__ import absolute_import
 import os
 
 from colour.utilities import CaseInsensitiveMapping, filter_kwargs
-from .lut import AbstractLUTSequenceOperator, LUT1D, LUT2D, LUT3D, LUTSequence
+from .lut import (AbstractLUTSequenceOperator, LUT1D, LUT2D, LUT3D,
+                  LUTSequence, LUT_to_LUT)
 from .iridas_cube import read_LUT_IridasCube, write_LUT_IridasCube
 from .sony_spi1d import read_LUT_SonySPI1D, write_LUT_SonySPI1D
 from .sony_spi3d import read_LUT_SonySPI3D, write_LUT_SonySPI3D
 
 __all__ = [
-    'AbstractLUTSequenceOperator', 'LUT1D', 'LUT2D', 'LUT3D', 'LUTSequence'
+    'AbstractLUTSequenceOperator', 'LUT1D', 'LUT2D', 'LUT3D', 'LUTSequence',
+    'LUT_to_LUT'
 ]
 __all__ += ['read_LUT_IridasCube', 'write_LUT_IridasCube']
 __all__ += ['read_LUT_SonySPI1D', 'write_LUT_SonySPI1D']

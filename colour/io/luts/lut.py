@@ -3,12 +3,13 @@
 LUT Processing
 ==============
 
-Defines the classes handling *LUT* processing:
+Defines the classes and definitions handling *LUT* processing:
 
 -   :class:`colour.LUT1D`
 -   :class:`colour.LUT2D`
 -   :class:`colour.LUT3D`
 -   :class:`colour.LUTSequence`
+-   :class:`colour.io.LUT_to_LUT`
 """
 
 from __future__ import division, unicode_literals
@@ -44,8 +45,8 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'AbstractLUT', 'LUT1D', 'LUT2D', 'LUT3D', 'AbstractLUTSequenceOperator',
-    'LUTSequence'
+    'AbstractLUT', 'LUT1D', 'LUT2D', 'LUT3D', 'LUT_to_LUT',
+    'AbstractLUTSequenceOperator', 'LUTSequence'
 ]
 
 
@@ -104,6 +105,7 @@ class AbstractLUT:
     linear_table
     apply
     copy
+    as_LUT
     """
 
     def __init__(self,
@@ -686,6 +688,46 @@ class AbstractLUT:
 
         return deepcopy(self)
 
+    @abstractmethod
+    def as_LUT(self, cls, force_conversion, **kwargs):
+        """
+        Converts the *LUT* to given ``cls`` class instance.
+
+        Parameters
+        ----------
+        cls : LUT1D or LUT2D or LUT3D
+            *LUT* class instance.
+        force_conversion : bool, optional
+            Whether to force the conversion as it might be destructive.
+
+        Other Parameters
+        ----------------
+        interpolator : object, optional
+            Interpolator class type to use as interpolating function.
+        interpolator_args : dict_like, optional
+            Arguments to use when instantiating the interpolating function.
+        size : int, optional
+            Expected table size in case of an upcast to or a downcast from a
+            :class:`LUT3D` class instance.
+
+        Returns
+        -------
+        LUT1D or LUT2D or LUT3D
+            Converted *LUT* class instance.
+
+        Warning
+        -------
+        Some conversions are destructive and raise a :class:`ValueError`
+        exception by default.
+
+        Raises
+        ------
+        ValueError
+            If the conversion is destructive.
+        """
+
+        pass
+
 
 class LUT1D(AbstractLUT):
     """
@@ -709,6 +751,7 @@ class LUT1D(AbstractLUT):
     -------
     linear_table
     apply
+    as_LUT
 
     Examples
     --------
@@ -874,6 +917,72 @@ class LUT1D(AbstractLUT):
 
         return RGB_interpolator(RGB)
 
+    def as_LUT(self, cls, force_conversion=False, **kwargs):
+        """
+        Converts the *LUT* to given ``cls`` class instance.
+
+        Parameters
+        ----------
+        cls : LUT1D or LUT2D or LUT3D
+            *LUT* class instance.
+        force_conversion : bool, optional
+            Whether to force the conversion as it might be destructive.
+
+        Other Parameters
+        ----------------
+        interpolator : object, optional
+            Interpolator class type to use as interpolating function.
+        interpolator_args : dict_like, optional
+            Arguments to use when instantiating the interpolating function.
+        size : int, optional
+            Expected table size in case of an upcast to a :class:`LUT3D` class
+            instance.
+
+        Returns
+        -------
+        LUT1D or LUT2D or LUT3D
+            Converted *LUT* class instance.
+
+        Warning
+        -------
+        Some conversions are destructive and raise a :class:`ValueError`
+        exception by default.
+
+        Raises
+        ------
+        ValueError
+            If the conversion is destructive.
+
+        Examples
+        --------
+        >>> LUT = LUT1D()
+        >>> print(LUT.as_LUT(LUT1D))
+        LUT1D - Unity 10 - Converted 1D to 1D
+        -------------------------------------
+        <BLANKLINE>
+        Dimensions : 1
+        Domain     : [0 1]
+        Size       : (10,)
+        >>> print(LUT.as_LUT(LUT2D))
+        LUT2D - Unity 10 - Converted 1D to 2D
+        -------------------------------------
+        <BLANKLINE>
+        Dimensions : 2
+        Domain     : [[0 0 0]
+                      [1 1 1]]
+        Size       : (10, 3)
+        >>> print(LUT.as_LUT(LUT3D, force_conversion=True))
+        LUT3D - Unity 10 - Converted 1D to 3D
+        -------------------------------------
+        <BLANKLINE>
+        Dimensions : 3
+        Domain     : [[0 0 0]
+                      [1 1 1]]
+        Size       : (33, 33, 33, 3)
+        """
+
+        return LUT_to_LUT(self, cls, force_conversion, **kwargs)
+
 
 class LUT2D(AbstractLUT):
     """
@@ -897,6 +1006,7 @@ class LUT2D(AbstractLUT):
     -------
     linear_table
     apply
+    as_LUT
 
     Examples
     --------
@@ -1081,6 +1191,72 @@ class LUT2D(AbstractLUT):
 
         return tstack(RGB_i)
 
+    def as_LUT(self, cls, force_conversion=False, **kwargs):
+        """
+        Converts the *LUT* to given ``cls`` class instance.
+
+        Parameters
+        ----------
+        cls : LUT1D or LUT2D or LUT3D
+            *LUT* class instance.
+        force_conversion : bool, optional
+            Whether to force the conversion as it might be destructive.
+
+        Other Parameters
+        ----------------
+        interpolator : object, optional
+            Interpolator class type to use as interpolating function.
+        interpolator_args : dict_like, optional
+            Arguments to use when instantiating the interpolating function.
+        size : int, optional
+            Expected table size in case of an upcast to a :class:`LUT3D` class
+            instance.
+
+        Returns
+        -------
+        LUT1D or LUT2D or LUT3D
+            Converted *LUT* class instance.
+
+        Warning
+        -------
+        Some conversions are destructive and raise a :class:`ValueError`
+        exception by default.
+
+        Raises
+        ------
+        ValueError
+            If the conversion is destructive.
+
+        Examples
+        --------
+        >>> LUT = LUT2D()
+        >>> print(LUT.as_LUT(LUT1D, force_conversion=True))
+        LUT1D - Unity 10 - Converted 2D to 1D
+        -------------------------------------
+        <BLANKLINE>
+        Dimensions : 1
+        Domain     : [0 1]
+        Size       : (10,)
+        >>> print(LUT.as_LUT(LUT2D))
+        LUT2D - Unity 10 - Converted 2D to 2D
+        -------------------------------------
+        <BLANKLINE>
+        Dimensions : 2
+        Domain     : [[0 0 0]
+                      [1 1 1]]
+        Size       : (10, 3)
+        >>> print(LUT.as_LUT(LUT3D, force_conversion=True))
+        LUT3D - Unity 10 - Converted 2D to 3D
+        -------------------------------------
+        <BLANKLINE>
+        Dimensions : 3
+        Domain     : [[0 0 0]
+                      [1 1 1]]
+        Size       : (33, 33, 33, 3)
+        """
+
+        return LUT_to_LUT(self, cls, force_conversion, **kwargs)
+
 
 class LUT3D(AbstractLUT):
     """
@@ -1104,6 +1280,7 @@ class LUT3D(AbstractLUT):
     -------
     linear_table
     apply
+    as_LUT
 
     Examples
     --------
@@ -1319,6 +1496,199 @@ class LUT3D(AbstractLUT):
         ]
 
         return interpolator(tstack(RGB_l), self._table)
+
+    def as_LUT(self, cls, force_conversion=False, **kwargs):
+        """
+        Converts the *LUT* to given ``cls`` class instance.
+
+        Parameters
+        ----------
+        cls : LUT1D or LUT2D or LUT3D
+            *LUT* class instance.
+        force_conversion : bool, optional
+            Whether to force the conversion as it might be destructive.
+
+        Other Parameters
+        ----------------
+        interpolator : object, optional
+            Interpolator class type to use as interpolating function.
+        interpolator_args : dict_like, optional
+            Arguments to use when instantiating the interpolating function.
+        size : int, optional
+            Expected table size in case of a downcast from a :class:`LUT3D`
+            class instance.
+
+        Returns
+        -------
+        LUT1D or LUT2D or LUT3D
+            Converted *LUT* class instance.
+
+        Warning
+        -------
+        Some conversions are destructive and raise a :class:`ValueError`
+        exception by default.
+
+        Raises
+        ------
+        ValueError
+            If the conversion is destructive.
+
+        Examples
+        --------
+        >>> LUT = LUT3D()
+        >>> print(LUT.as_LUT(LUT1D, force_conversion=True))
+        LUT1D - Unity 33 - Converted 3D to 1D
+        -------------------------------------
+        <BLANKLINE>
+        Dimensions : 1
+        Domain     : [0 1]
+        Size       : (10,)
+        >>> print(LUT.as_LUT(LUT2D, force_conversion=True))
+        LUT2D - Unity 33 - Converted 3D to 2D
+        -------------------------------------
+        <BLANKLINE>
+        Dimensions : 2
+        Domain     : [[0 0 0]
+                      [1 1 1]]
+        Size       : (10, 3)
+        >>> print(LUT.as_LUT(LUT3D))
+        LUT3D - Unity 33 - Converted 3D to 3D
+        -------------------------------------
+        <BLANKLINE>
+        Dimensions : 3
+        Domain     : [[0 0 0]
+                      [1 1 1]]
+        Size       : (33, 33, 33, 3)
+        """
+
+        return LUT_to_LUT(self, cls, force_conversion, **kwargs)
+
+
+def LUT_to_LUT(LUT, cls, force_conversion=False, **kwargs):
+    """
+    Converts given *LUT* to given ``cls`` class instance.
+
+    Parameters
+    ----------
+    cls : LUT1D or LUT2D or LUT3D
+        *LUT* class instance.
+    force_conversion : bool, optional
+        Whether to force the conversion as it might be destructive.
+
+    Other Parameters
+    ----------------
+    interpolator : object, optional
+        Interpolator class type to use as interpolating function.
+    interpolator_args : dict_like, optional
+        Arguments to use when instantiating the interpolating function.
+    size : int, optional
+        Expected table size in case of an upcast to or a downcast from a
+        :class:`LUT3D` class instance.
+    channel_weights : array_like, optional
+        Channel weights in case of a downcast from a :class:`LUT2D` or
+        :class:`LUT3D` class instance.
+
+    Returns
+    -------
+    LUT1D or LUT2D or LUT3D
+        Converted *LUT* class instance.
+
+    Warning
+    -------
+    Some conversions are destructive and raise a :class:`ValueError` exception
+    by default.
+
+    Raises
+    ------
+    ValueError
+        If the conversion is destructive.
+
+    Examples
+    --------
+    >>> print(LUT_to_LUT(LUT1D(), LUT3D, force_conversion=True))
+    LUT3D - Unity 10 - Converted 1D to 3D
+    -------------------------------------
+    <BLANKLINE>
+    Dimensions : 3
+    Domain     : [[0 0 0]
+                  [1 1 1]]
+    Size       : (33, 33, 33, 3)
+    >>> print(LUT_to_LUT(LUT2D(), LUT1D, force_conversion=True))
+    LUT1D - Unity 10 - Converted 2D to 1D
+    -------------------------------------
+    <BLANKLINE>
+    Dimensions : 1
+    Domain     : [0 1]
+    Size       : (10,)
+    >>> print(LUT_to_LUT(LUT3D(), LUT1D, force_conversion=True))
+    LUT1D - Unity 33 - Converted 3D to 1D
+    -------------------------------------
+    <BLANKLINE>
+    Dimensions : 1
+    Domain     : [0 1]
+    Size       : (10,)
+    """
+
+    ranks = {LUT1D: 1, LUT2D: 2, LUT3D: 3}
+    path = (ranks[LUT.__class__], ranks[cls])
+    if path in ((1, 3), (2, 1), (2, 3), (3, 1), (3, 2)):
+        if not force_conversion:
+            raise ValueError(
+                'Conversion of a "LUT" {0}D to a "LUT" {1}D is destructive, '
+                'please use the "force_conversion" argument to proceed.'.
+                format(*path))
+
+    suffix = ' - Converted {0}D to {1}D'.format(*path)
+    name = '{0}{1}'.format(LUT.name, suffix)
+
+    # Same dimension conversion, returning a copy.
+    if len(set(path)) == 1:
+        LUT = LUT.copy()
+        LUT.name = name
+    else:
+        size = kwargs.get('size', 33 if cls is LUT3D else 10)
+        if 'size' in kwargs:
+            del kwargs['size']
+
+        channel_weights = np.asarray(
+            kwargs.get('channel_weights', np.full(3, 1 / 3)))
+        if 'channel_weights' in kwargs:
+            del kwargs['channel_weights']
+
+        if isinstance(LUT, LUT1D):
+            if cls is LUT2D:
+                domain = tstack([LUT.domain, LUT.domain, LUT.domain])
+                table = tstack([LUT.table, LUT.table, LUT.table])
+            elif cls is LUT3D:
+                domain = tstack([LUT.domain, LUT.domain, LUT.domain])
+                table = LUT3D.linear_table(size, domain)
+                table = LUT.apply(table, **kwargs)
+        elif isinstance(LUT, LUT2D):
+            if cls is LUT1D:
+                domain = np.array(
+                    [np.max(LUT.domain[0, ...]),
+                     np.min(LUT.domain[1, ...])])
+                table = np.sum(LUT.table * channel_weights, axis=-1)
+            elif cls is LUT3D:
+                domain = LUT.domain
+                table = LUT3D.linear_table(size, domain)
+                table = LUT.apply(table, **kwargs)
+        elif isinstance(LUT, LUT3D):
+            if cls is LUT1D:
+                domain = np.array(
+                    [np.max(LUT.domain[0, ...]),
+                     np.min(LUT.domain[1, ...])])
+                table = LUT1D.linear_table(size, domain)
+                table = LUT.apply(tstack([table, table, table]), **kwargs)
+                table = np.sum(table * channel_weights, axis=-1)
+            elif cls is LUT2D:
+                domain = LUT.domain
+                table = LUT2D.linear_table(size, domain)
+                table = LUT.apply(table, **kwargs)
+
+        LUT = cls(table, name, domain, table.shape[0], LUT.comments)
+
+    return LUT
 
 
 @add_metaclass(ABCMeta)

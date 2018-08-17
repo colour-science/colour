@@ -54,6 +54,7 @@ Look Up Table (LUT) Data
     :toctree: generated/
 
     AbstractLUTSequenceOperator
+    LUT_to_LUT
     read_LUT_IridasCube
     write_LUT_IridasCube
     read_LUT_SonySPI1D
