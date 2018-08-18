@@ -44,7 +44,7 @@ References
     2014, from http://www.cvrl.org/lumindex.htm
 -   :cite:`CVRLs` : CVRL. (n.d.). Older CIE Standards. Retrieved February 24,
     2014, from http://cvrl.ioo.ucl.ac.uk/cie.htm
--   :cite:``Wikipedia2005d` : Wikipedia. (2005). Mesopic weighting function.
+-   :cite:`Wikipedia2005d` : Wikipedia. (2005). Mesopic weighting function.
     Retrieved June 20, 2014, from http://en.wikipedia.org/wiki/\
 Mesopic_vision#Mesopic_weighting_function
 """
@@ -2844,7 +2844,7 @@ References
 ----------
 -   :cite:`CVRLq`
 -   :cite:`CVRLs`
--   :cite:``Wikipedia2005d`
+-   :cite:`Wikipedia2005d`
 
 LEFS : CaseInsensitiveMapping
     **{'CIE 1924 Photopic Standard Observer',

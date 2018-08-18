@@ -24,7 +24,7 @@ References
     February 24, 2014, from http://www.brucelindbloom.com/Eqn_XYZ_to_xyY.html
 -   :cite:`Lindbloom2009d` : Lindbloom, B. (2009). xyY to XYZ. Retrieved
     February 24, 2014, from http://www.brucelindbloom.com/Eqn_xyY_to_XYZ.html
--   :cite:``Wikipedia2005` : Wikipedia. (2005). CIE 1931 color space. Retrieved
+-   :cite:`Wikipedia2005` : Wikipedia. (2005). CIE 1931 color space. Retrieved
     February 24, 2014, from http://en.wikipedia.org/wiki/CIE_1931_color_space
 
 """
@@ -87,7 +87,7 @@ def XYZ_to_xyY(
     References
     ----------
     -   :cite:`Lindbloom2003e`
-    -   :cite:``Wikipedia2005`
+    -   :cite:`Wikipedia2005`
 
     Examples
     --------
@@ -144,7 +144,7 @@ def xyY_to_XYZ(xyY):
     References
     ----------
     -   :cite:`Lindbloom2009d`
-    -   :cite:``Wikipedia2005`
+    -   :cite:`Wikipedia2005`
 
     Examples
     --------
@@ -209,7 +209,7 @@ def xy_to_xyY(xy, Y=1):
 
     References
     ----------
-    -   :cite:``Wikipedia2005`
+    -   :cite:`Wikipedia2005`
 
     Examples
     --------
@@ -270,7 +270,7 @@ def xyY_to_xy(xyY):
 
     References
     ----------
-    -   :cite:``Wikipedia2005`
+    -   :cite:`Wikipedia2005`
 
     Examples
     --------
@@ -326,7 +326,7 @@ def xy_to_XYZ(xy):
 
     References
     ----------
-    -   :cite:``Wikipedia2005`
+    -   :cite:`Wikipedia2005`
 
     Examples
     --------
@@ -368,7 +368,7 @@ def XYZ_to_xy(
 
     References
     ----------
-    -   :cite:``Wikipedia2005`
+    -   :cite:`Wikipedia2005`
 
     Examples
     --------

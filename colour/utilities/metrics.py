@@ -10,11 +10,11 @@ Defines various metrics:
 
 References
 ----------
--   :cite:``Wikipedia2004` : Wikipedia. (2004). Peak signal-to-noise ratio.
+-   :cite:`Wikipedia2004` : Wikipedia. (2004). Peak signal-to-noise ratio.
     Retrieved March 5, 2018, from https://en.wikipedia.org/wiki/\
 Peak_signal-to-noise_ratio
--   :cite:``Wikipedia2003c` : Wikipedia. (2003). Mean squared error. Retrieved March
-    5, 2018, from https://en.wikipedia.org/wiki/Mean_squared_error
+-   :cite:`Wikipedia2003c` : Wikipedia. (2003). Mean squared error. Retrieved
+    March 5, 2018, from https://en.wikipedia.org/wiki/Mean_squared_error
 """
 
 from __future__ import division, unicode_literals
@@ -50,7 +50,7 @@ def metric_mse(a, b):
 
     References
     ----------
-    -   :cite:``Wikipedia2003c`
+    -   :cite:`Wikipedia2003c`
 
     Examples
     --------
@@ -84,7 +84,7 @@ def metric_psnr(a, b, max_a=1):
 
     References
     ----------
-    -   :cite:``Wikipedia2004`
+    -   :cite:`Wikipedia2004`
 
     Examples
     --------

@@ -30,7 +30,7 @@ References
     Color and Imaging Conference, (1), 23-27. Retrieved from
     http://www.ingentaconnect.com/\
 content/ist/cic/2002/00002002/00000001/art00006
--   :cite:``Wikipedia2007a` : Wikipedia. (2007). CIECAM02. Retrieved August 14,
+-   :cite:`Wikipedia2007a` : Wikipedia. (2007). CIECAM02. Retrieved August 14,
     2014, from http://en.wikipedia.org/wiki/CIECAM02
 """
 
@@ -103,7 +103,7 @@ class CIECAM02_InductionFactors(
     -   :cite:`Fairchild2004c`
     -   :cite:`Luo2013`
     -   :cite:`Moroneya`
-    -   :cite:``Wikipedia2007a`
+    -   :cite:`Wikipedia2007a`
     """
 
 
@@ -120,7 +120,7 @@ References
 -   :cite:`Fairchild2004c`
 -   :cite:`Luo2013`
 -   :cite:`Moroneya`
--   :cite:``Wikipedia2007a`
+-   :cite:`Wikipedia2007a`
 
 CIECAM02_VIEWING_CONDITIONS : CaseInsensitiveMapping
     **{'Average', 'Dim', 'Dark'}**
@@ -163,7 +163,7 @@ class CIECAM02_Specification(
     -   :cite:`Fairchild2004c`
     -   :cite:`Luo2013`
     -   :cite:`Moroneya`
-    -   :cite:``Wikipedia2007a`
+    -   :cite:`Wikipedia2007a`
     """
 
     def __new__(cls,
@@ -241,7 +241,7 @@ def XYZ_to_CIECAM02(XYZ,
     -   :cite:`Fairchild2004c`
     -   :cite:`Luo2013`
     -   :cite:`Moroneya`
-    -   :cite:``Wikipedia2007a`
+    -   :cite:`Wikipedia2007a`
 
     Examples
     --------
@@ -394,7 +394,7 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
     -   :cite:`Fairchild2004c`
     -   :cite:`Luo2013`
     -   :cite:`Moroneya`
-    -   :cite:``Wikipedia2007a`
+    -   :cite:`Wikipedia2007a`
 
     Examples
     --------

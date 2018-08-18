@@ -27,10 +27,10 @@ References
 -   :cite:`CIETC1-482004m` : CIE TC 1-48. (2004). CIE 1976 uniform colour
     spaces. In CIE 015:2004 Colorimetry, 3rd Edition (p. 24).
     ISBN:978-3-901-90633-6
--   :cite:``Wikipedia2007d` : Wikipedia. (2007). The reverse transformation.
+-   :cite:`Wikipedia2007d` : Wikipedia. (2007). The reverse transformation.
     Retrieved February 24, 2014, from http://en.wikipedia.org/wiki/\
 CIELUV#The_reverse_transformation
--   :cite:``Wikipedia2007b` : Wikipedia. (2007). CIELUV. Retrieved February 24,
+-   :cite:`Wikipedia2007b` : Wikipedia. (2007). CIELUV. Retrieved February 24,
     2014, from http://en.wikipedia.org/wiki/CIELUV
 """
 
@@ -102,7 +102,7 @@ def XYZ_to_Luv(
     References
     ----------
     -   :cite:`CIETC1-482004m`
-    -   :cite:``Wikipedia2007b`
+    -   :cite:`Wikipedia2007b`
 
     Examples
     --------
@@ -172,7 +172,7 @@ def Luv_to_XYZ(
     References
     ----------
     -   :cite:`CIETC1-482004m`
-    -   :cite:``Wikipedia2007b`
+    -   :cite:`Wikipedia2007b`
 
     Examples
     --------
@@ -274,7 +274,7 @@ def Luv_uv_to_xy(uv):
 
     References
     ----------
-    -   :cite:``Wikipedia2007d`
+    -   :cite:`Wikipedia2007d`
 
     Examples
     --------
@@ -308,7 +308,7 @@ def xy_to_Luv_uv(xy):
 
     References
     ----------
-    -   :cite:``Wikipedia2007b`
+    -   :cite:`Wikipedia2007b`
 
     Examples
     --------

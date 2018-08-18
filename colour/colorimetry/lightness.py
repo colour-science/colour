@@ -44,10 +44,8 @@ References
 -   :cite:`Lindbloom2003d` : Lindbloom, B. (2003). A Continuity Study of the
     CIE L* Function. Retrieved February 24, 2014, from
     http://brucelindbloom.com/LContinuity.html
--   :cite:``Wikipedia2007c` : Nayatani, Y., Sobagaki, H., & Yano, K. H. T. (1995).
-    Lightness dependency of chroma scales of a nonlinear color-appearance model
-    and its latest formulation. Color Research & Application, 20(3), 156-167.
-    doi:10.1002/col.5080200305
+-   :cite:`Wikipedia2007c` : ﻿Wikipedia. (2007). Lightness. Retrieved April
+    13, 2014, from http://en.wikipedia.org/wiki/Lightness
 -   :cite:`Wyszecki1963b` : Wyszecki, G. (1963). Proposal for a New
     Color-Difference Formula. Journal of the Optical Society of America,
     53(11), 1318. doi:10.1364/JOSA.53.001318
@@ -438,7 +436,7 @@ def lightness(Y, method='CIE 1976', **kwargs):
     -   :cite:`Fairchild2011`
     -   :cite:`Glasser1958a`
     -   :cite:`Lindbloom2003d`
-    -   :cite:``Wikipedia2007c`
+    -   :cite:`Wikipedia2007c`
     -   :cite:`Wyszecki1963b`
     -   :cite:`Wyszecki2000bd`
 

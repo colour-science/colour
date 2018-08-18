@@ -68,10 +68,10 @@ dng_temperature.cpp::dng_temperature::xy_coord. Retrieved from
     38-40. doi:10.1002/col.5080100109
 -   :cite:`Ohno2014a` : Ohno, Y. (2014). Practical Use and Calculation of CCT
     and Duv. LEUKOS, 10(1), 47-55. doi:10.1080/15502724.2014.839020
--   :cite:``Wikipedia2001` : Wikipedia. (2001). Approximation. Retrieved June 28,
-    2014, from http://en.wikipedia.org/wiki/Color_temperature#Approximation
--   :cite:``Wikipedia2001a` : Wikipedia. (2001). Color temperature. Retrieved June
-    28, 2014, from http://en.wikipedia.org/wiki/Color_temperature
+-   :cite:`Wikipedia2001` : Wikipedia. (2001). Approximation. Retrieved June
+    28, 2014, from http://en.wikipedia.org/wiki/Color_temperature#Approximation
+-   :cite:`Wikipedia2001a` : Wikipedia. (2001). Color temperature. Retrieved
+    June 28, 2014, from http://en.wikipedia.org/wiki/Color_temperature
 -   :cite:`Wyszecki2000x` : Wyszecki, G., & Stiles, W. S. (2000). Table 1(3.11)
     Isotemperature Lines. In Color Science: Concepts and Methods, Quantitative
     Data and Formulae (p. 228). Wiley. ISBN:978-0471399186
@@ -828,7 +828,7 @@ def xy_to_CCT_McCamy1992(xy):
 
     References
     ----------
-    -   :cite:``Wikipedia2001`
+    -   :cite:`Wikipedia2001`
 
     Examples
     --------
@@ -1001,8 +1001,8 @@ correlated colour temperature :math:`T_{cp}` computation methods.
 References
 ----------
 -   :cite:`Hernandez-Andres1999a`
--   :cite:``Wikipedia2001`
--   :cite:``Wikipedia2001a`
+-   :cite:`Wikipedia2001`
+-   :cite:`Wikipedia2001a`
 
 XY_TO_CCT_METHODS : CaseInsensitiveMapping
     **{'McCamy 1992', 'Hernandez 1999'}**
@@ -1038,8 +1038,8 @@ def xy_to_CCT(xy, method='McCamy 1992'):
     References
     ----------
     -   :cite:`Hernandez-Andres1999a`
-    -   :cite:``Wikipedia2001`
-    -   :cite:``Wikipedia2001a`
+    -   :cite:`Wikipedia2001`
+    -   :cite:`Wikipedia2001a`
     """
 
     return XY_TO_CCT_METHODS.get(method)(xy)
@@ -1056,7 +1056,7 @@ values *xy* chromaticity coordinates computation methods.
 References
 ----------
 -   :cite:`Kang2002a`
--   :cite:``Wikipedia2001a`
+-   :cite:`Wikipedia2001a`
 -   :cite:`Wyszecki2000z`
 
 CCT_TO_XY_METHODS : CaseInsensitiveMapping
@@ -1092,7 +1092,7 @@ def CCT_to_xy(CCT, method='Kang 2002'):
     References
     ----------
     -   :cite:`Kang2002a`
-    -   :cite:``Wikipedia2001a`
+    -   :cite:`Wikipedia2001a`
     -   :cite:`Wyszecki2000z`
     """
 

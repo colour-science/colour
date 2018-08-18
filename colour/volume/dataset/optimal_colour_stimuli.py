@@ -27,8 +27,8 @@ References
 -   :cite:`MacAdam1935a` : MacAdam, D. L. (1935). Maximum Visual Efficiency of
     Colored Materials. Journal of the Optical Society of America, 25(11),
     361-367. doi:10.1364/JOSA.25.000361
--   :cite:``Wikipedia2004a` : Wikipedia. (2004). Surfaces. Retrieved September 10,
-    2014, from http://en.wikipedia.org/wiki/Gamut#Surfaces
+-   :cite:`Wikipedia2004a` : Wikipedia. (2004). Surfaces. Retrieved September
+    10, 2014, from http://en.wikipedia.org/wiki/Gamut#Surfaces
 -   :cite:`Wyszecki2000bb` : Wyszecki, G., & Stiles, W. S. (2000).
     Table I(3.7). In Color Science: Concepts and Methods, Quantitative Data and
     Formulae (pp. 776-777). Wiley. ISBN:978-0471399186
@@ -758,7 +758,7 @@ Illuminants *Optimal Colour Stimuli*.
 
 References
 ----------
--   :cite:``Wikipedia2004a`
+-   :cite:`Wikipedia2004a`
 
 ILLUMINANTS_OPTIMAL_COLOUR_STIMULI : CaseInsensitiveMapping
     **{'A', 'C', 'D65'}**
