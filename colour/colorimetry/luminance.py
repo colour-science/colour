@@ -49,8 +49,8 @@ References
     Final Report of the OSA Subcommittee on the Spacing of the Munsell Colors.
     Journal of the Optical Society of America, 33(7), 385.
     doi:10.1364/JOSA.33.000385
--   :cite:``Wikipedia2001b` : Wikipedia. (2001). Luminance. Retrieved February 10,
-    2018, from https://en.wikipedia.org/wiki/Luminance
+-   :cite:`Wikipedia2001b` : Wikipedia. (2001). Luminance. Retrieved February
+    10, 2018, from https://en.wikipedia.org/wiki/Luminance
 -   :cite:`Wyszecki2000bd` : Wyszecki, G., & Stiles, W. S. (2000). CIE 1976
     (L*u*v*)-Space and Color-Difference Formula. In Color Science: Concepts and
     Methods, Quantitative Data and Formulae (p. 167). Wiley.
@@ -84,7 +84,7 @@ __all__ = [
 def luminance_Newhall1943(V):
     """
     Returns the *luminance* :math:`R_Y` of given *Munsell* value :math:`V`
-    using *Newhall et alii (1943)* method.
+    using *Newhall et al. (1943)* method.
 
     Parameters
     ----------
@@ -440,7 +440,7 @@ def luminance(LV, method='CIE 1976', **kwargs):
     -   :cite:`Fairchild2011`
     -   :cite:`Lindbloom2003d`
     -   :cite:`Newhall1943a`
-    -   :cite:``Wikipedia2001b`
+    -   :cite:`Wikipedia2001b`
     -   :cite:`Wyszecki2000bd`
 
     Examples

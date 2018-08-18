@@ -15,7 +15,7 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
--   :cite:``Wikipedia2004c` : Wikipedia. (2004). Wide-gamut RGB color space.
+-   :cite:`Wikipedia2004c` : Wikipedia. (2004). Wide-gamut RGB color space.
     Retrieved April 13, 2014, from
     http://en.wikipedia.org/wiki/Wide-gamut_RGB_color_space
 """
@@ -99,7 +99,7 @@ ADOBE_WIDE_GAMUT_RGB_COLOURSPACE.__doc__ = """
 
 References
 ----------
--   :cite:``Wikipedia2004c`
+-   :cite:`Wikipedia2004c`
 
 ADOBE_WIDE_GAMUT_RGB_COLOURSPACE : RGB_Colourspace
 """

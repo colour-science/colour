@@ -21,7 +21,7 @@ References
     Slusser, J. R. (1999). On Rayleigh Optical Depth Calculations. Journal of
     Atmospheric and Oceanic Technology, 16(11), 1854-1861.
     doi:10.1175/1520-0426(1999)016<1854:ORODC>2.0.CO;2
--   :cite:``Wikipedia2001c` : Wikipedia. (2001). Rayleigh scattering. Retrieved
+-   :cite:`Wikipedia2001c` : Wikipedia. (2001). Rayleigh scattering. Retrieved
     September 23, 2014, from http://en.wikipedia.org/wiki/Rayleigh_scattering
 """
 
@@ -560,7 +560,7 @@ def scattering_cross_section(wavelength,
     References
     ----------
     -   :cite:`Bodhaine1999a`
-    -   :cite:``Wikipedia2001c`
+    -   :cite:`Wikipedia2001c`
 
     Examples
     --------
@@ -637,7 +637,7 @@ def rayleigh_optical_depth(wavelength,
     References
     ----------
     -   :cite:`Bodhaine1999a`
-    -   :cite:``Wikipedia2001c`
+    -   :cite:`Wikipedia2001c`
 
     Examples
     --------
@@ -710,7 +710,7 @@ def rayleigh_scattering_spd(shape=DEFAULT_SPECTRAL_SHAPE,
     References
     ----------
     -   :cite:`Bodhaine1999a`
-    -   :cite:``Wikipedia2001c`
+    -   :cite:`Wikipedia2001c`
 
     Examples
     --------

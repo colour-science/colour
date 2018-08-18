@@ -32,7 +32,7 @@ def cvd_simulation_Machado2009_plot(RGB,
                                     **kwargs):
     """
     Performs colour vision deficiency simulation on given *RGB* colourspace
-    array using *Machado et alii (2009)* model.
+    array using *Machado et al. (2009)* model.
 
     Parameters
     ----------

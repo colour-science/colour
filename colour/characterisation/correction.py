@@ -13,16 +13,16 @@ Defines various objects for colour correction, like colour matching two images:
 -   :func:`colour.characterisation.polynomial_expansion_Vandermonde` :
     Polynomial expansion using *Vandermonde* method.
 -   :func:`colour.characterisation.colour_correction_matrix_Cheung2004` :
-    Colour correction matrix computation using *Cheung et alii (2004)* method.
+    Colour correction matrix computation using *Cheung et al. (2004)* method.
 -   :func:`colour.characterisation.colour_correction_matrix_Finlayson2015` :
-    Colour correction matrix computation using *Finlayson et alii (2015)*
+    Colour correction matrix computation using *Finlayson et al. (2015)*
     method.
 -   :func:`colour.characterisation.colour_correction_matrix_Vandermonde`
     Colour correction matrix computation using *Vandermonde* method.
 -   :func:`colour.characterisation.colour_correction_Cheung2004` :
-    Colour correction using *Cheung et alii (2004)* method.
+    Colour correction using *Cheung et al. (2004)* method.
 -   :func:`colour.characterisation.colour_correction_Finlayson2015` :
-    Colour correction using *Finlayson et alii (2015)* method.
+    Colour correction using *Finlayson et al. (2015)* method.
 -   :func:`colour.characterisation.colour_correction_Vandermonde` :
     Colour correction using *Vandermonde* method.
 
@@ -45,7 +45,7 @@ References
 -   :cite:`Westland2004` : Westland, S., & Ripamonti, C. (2004). Table 8.2. In
     Computational Colour Science Using MATLAB (1st ed., p. 137). Chichester,
     UK: John Wiley & Sons, Ltd. doi:10.1002/0470020326
--   :cite:``Wikipedia2003e` : Wikipedia. (2003). Vandermonde matrix. Retrieved
+-   :cite:`Wikipedia2003e` : Wikipedia. (2003). Vandermonde matrix. Retrieved
     May 2, 2018, from https://en.wikipedia.org/wiki/Vandermonde_matrix
 """
 
@@ -79,7 +79,7 @@ __all__ = [
 def augmented_matrix_Cheung2004(RGB, terms=3):
     """
     Performs polynomial expansion of given *RGB* colourspace array using
-    *Cheung et alii (2004)* method.
+    *Cheung et al. (2004)* method.
 
     Parameters
     ----------
@@ -179,7 +179,7 @@ def polynomial_expansion_Finlayson2015(RGB,
                                        root_polynomial_expansion=True):
     """
     Performs polynomial expansion of given *RGB* colourspace array using
-    *Finlayson et alii (2015)* method.
+    *Finlayson et al. (2015)* method.
 
     Parameters
     ----------
@@ -288,7 +288,7 @@ def polynomial_expansion_Vandermonde(a, degree=1):
 
     References
     ----------
-    -   :cite:``Wikipedia2003e`
+    -   :cite:`Wikipedia2003e`
 
     Examples
     --------
@@ -318,7 +318,7 @@ References
 -   :cite:`Cheung2004`
 -   :cite:`Finlayson2015`
 -   :cite:`Westland2004`
--   :cite:``Wikipedia2003e`
+-   :cite:`Wikipedia2003e`
 
 POLYNOMIAL_EXPANSION_METHODS : CaseInsensitiveMapping
     **{'Cheung 2004', 'Finlayson 2015', 'Vandermonde'}**
@@ -363,7 +363,7 @@ def polynomial_expansion(a, method='Cheung 2004', **kwargs):
     -   :cite:`Cheung2004`
     -   :cite:`Finlayson2015`
     -   :cite:`Westland2004`
-    -   :cite:``Wikipedia2003e`
+    -   :cite:`Wikipedia2003e`
 
     Examples
     --------
@@ -382,7 +382,7 @@ def polynomial_expansion(a, method='Cheung 2004', **kwargs):
 def colour_correction_matrix_Cheung2004(M_T, M_R, terms=3):
     """
     Computes a colour correction from given :math:`M_T` colour array to
-    :math:`M_R` colour array using *Cheung et alii (2004)* method.
+    :math:`M_R` colour array using *Cheung et al. (2004)* method.
 
     Parameters
     ----------
@@ -425,7 +425,7 @@ def colour_correction_matrix_Finlayson2015(M_T,
                                            root_polynomial_expansion=True):
     """
     Computes a colour correction from given :math:`M_T` colour array to
-    :math:`M_R` colour array using *Finlayson et alii (2015)* method.
+    :math:`M_R` colour array using *Finlayson et al. (2015)* method.
 
     Parameters
     ----------
@@ -484,7 +484,7 @@ def colour_correction_matrix_Vandermonde(M_T, M_R, degree=1):
 
     References
     ----------
-    -   :cite:``Wikipedia2003e`
+    -   :cite:`Wikipedia2003e`
 
     Examples
     --------
@@ -514,7 +514,7 @@ References
 -   :cite:`Cheung2004`
 -   :cite:`Finlayson2015`
 -   :cite:`Westland2004`
--   :cite:``Wikipedia2003e`
+-   :cite:`Wikipedia2003e`
 
 POLYNOMIAL_EXPANSION_METHODS : CaseInsensitiveMapping
     **{'Cheung 2004', 'Finlayson 2015', 'Vandermonde'}**
@@ -567,7 +567,7 @@ def colour_correction_matrix(M_T, M_R, method='Cheung 2004', **kwargs):
     -   :cite:`Cheung2004`
     -   :cite:`Finlayson2015`
     -   :cite:`Westland2004`
-    -   :cite:``Wikipedia2003e`
+    -   :cite:`Wikipedia2003e`
 
     Examples
     --------
@@ -638,7 +638,7 @@ def colour_correction_Cheung2004(RGB, M_T, M_R, terms=3):
     """
     Performs colour correction of given *RGB* colourspace array using the
     colour correction matrix from given :math:`M_T` colour array to
-    :math:`M_R` colour array using *Cheung et alii (2004)* method.
+    :math:`M_R` colour array using *Cheung et al. (2004)* method.
 
     Parameters
     ----------
@@ -687,7 +687,7 @@ def colour_correction_Finlayson2015(RGB,
     """
     Performs colour correction of given *RGB* colourspace array using the
     colour correction matrix from given :math:`M_T` colour array to
-    :math:`M_R` colour array using *Finlayson et alii (2015)* method.
+    :math:`M_R` colour array using *Finlayson et al. (2015)* method.
 
     Parameters
     ----------
@@ -754,7 +754,7 @@ def colour_correction_Vandermonde(RGB, M_T, M_R, degree=1):
 
     References
     ----------
-    -   :cite:``Wikipedia2003e`
+    -   :cite:`Wikipedia2003e`
 
     Examples
     --------
@@ -786,7 +786,7 @@ References
 -   :cite:`Cheung2004`
 -   :cite:`Finlayson2015`
 -   :cite:`Westland2004`
--   :cite:``Wikipedia2003e`
+-   :cite:`Wikipedia2003e`
 
 COLOUR_CORRECTION_METHODS : CaseInsensitiveMapping
     **{'Cheung 2004', 'Finlayson 2015', 'Vandermonde'}**
@@ -837,7 +837,7 @@ def colour_correction(RGB, M_T, M_R, method='Cheung 2004', **kwargs):
     -   :cite:`Cheung2004`
     -   :cite:`Finlayson2015`
     -   :cite:`Westland2004`
-    -   :cite:``Wikipedia2003e`
+    -   :cite:`Wikipedia2003e`
 
     Examples
     --------

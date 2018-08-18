@@ -20,7 +20,7 @@ chromaticity_coordinates.COLORCHECKER_2005`: Reference data from
     *GretagMacbeth* published in 2005.
 -   :attr:`colour.characterisation.dataset.colour_checkers.\
 chromaticity_coordinates.COLORCHECKER_1976`: *ColourChecker* developed by
-    *McCamy et alii* at Macbeth, a Division of Kollmorgen.
+    *McCamy et al.* at Macbeth, a Division of Kollmorgen.
 
 See Also
 --------
@@ -207,7 +207,7 @@ COLORCHECKER_1976_ILLUMINANT : ndarray
 COLORCHECKER_1976 = ColourChecker('ColorChecker 1976', COLORCHECKER_1976_DATA,
                                   COLORCHECKER_1976_ILLUMINANT)
 """
-*ColourChecker* developed by *McCamy et alii* at Macbeth, a Division of
+*ColourChecker* developed by *McCamy et al.* at Macbeth, a Division of
 Kollmorgen.
 
 COLORCHECKER_1976 : list

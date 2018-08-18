@@ -16,7 +16,7 @@ blob/master/notebooks/biochemistry/michaelis_menten.ipynb>`_
 
 References
 ----------
--   :cite:``Wikipedia2003d` : Wikipedia. (2003). Michaelis-Menten kinetics.
+-   :cite:`Wikipedia2003d` : Wikipedia. (2003). Michaelis-Menten kinetics.
     Retrieved April 29, 2017, from https://en.wikipedia.org/wiki/\
 Michaelis-Menten_kinetics
 """
@@ -60,7 +60,7 @@ def reaction_rate_MichealisMenten(S, V_max, K_m):
 
     References
     ----------
-    -   :cite:``Wikipedia2003d`
+    -   :cite:`Wikipedia2003d`
 
     Examples
     --------
@@ -100,7 +100,7 @@ def substrate_concentration_MichealisMenten(v, V_max, K_m):
 
     References
     ----------
-    -   :cite:``Wikipedia2003d`
+    -   :cite:`Wikipedia2003d`
 
     Examples
     --------

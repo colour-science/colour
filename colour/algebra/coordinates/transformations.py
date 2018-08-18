@@ -22,10 +22,10 @@ The following transformations are available:
 
 References
 ----------
--   :cite:``Wikipedia2006` : Wikipedia. (2006). List of common coordinate
+-   :cite:`Wikipedia2006` : Wikipedia. (2006). List of common coordinate
     transformations. Retrieved July 18, 2014, from http://en.wikipedia.org/\
 wiki/List_of_common_coordinate_transformations
--   :cite:``Wikipedia2005a` : Wikipedia. (2005). ISO 31-11. Retrieved July 31,
+-   :cite:`Wikipedia2005a` : Wikipedia. (2005). ISO 31-11. Retrieved July 31,
     2016, from https://en.wikipedia.org/wiki/ISO_31-11
 """
 
@@ -67,8 +67,8 @@ def cartesian_to_spherical(a):
 
     References
     ----------
-    -   :cite:``Wikipedia2006`
-    -   :cite:``Wikipedia2005a`
+    -   :cite:`Wikipedia2006`
+    -   :cite:`Wikipedia2005a`
 
     Examples
     --------
@@ -106,8 +106,8 @@ def spherical_to_cartesian(a):
 
     References
     ----------
-    -   :cite:``Wikipedia2006`
-    -   :cite:``Wikipedia2005a`
+    -   :cite:`Wikipedia2006`
+    -   :cite:`Wikipedia2005a`
 
     Examples
     --------
@@ -145,8 +145,8 @@ def cartesian_to_polar(a):
 
     References
     ----------
-    -   :cite:``Wikipedia2006`
-    -   :cite:``Wikipedia2005a`
+    -   :cite:`Wikipedia2006`
+    -   :cite:`Wikipedia2005a`
 
     Examples
     --------
@@ -180,8 +180,8 @@ def polar_to_cartesian(a):
 
     References
     ----------
-    -   :cite:``Wikipedia2006`
-    -   :cite:``Wikipedia2005a`
+    -   :cite:`Wikipedia2006`
+    -   :cite:`Wikipedia2005a`
 
     Examples
     --------
@@ -216,8 +216,8 @@ def cartesian_to_cylindrical(a):
 
     References
     ----------
-    -   :cite:``Wikipedia2006`
-    -   :cite:``Wikipedia2005a`
+    -   :cite:`Wikipedia2006`
+    -   :cite:`Wikipedia2005a`
 
     Examples
     --------
@@ -251,8 +251,8 @@ def cylindrical_to_cartesian(a):
 
     References
     ----------
-    -   :cite:``Wikipedia2006`
-    -   :cite:``Wikipedia2005a`
+    -   :cite:`Wikipedia2006`
+    -   :cite:`Wikipedia2005a`
 
     Examples
     --------

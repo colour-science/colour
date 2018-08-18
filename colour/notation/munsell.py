@@ -110,10 +110,8 @@ References
     Toolbox. Retrieved January 23, 2018, from
     http://www.munsellcolourscienceforpainters.com/\
 MunsellAndKubelkaMunkToolbox/MunsellAndKubelkaMunkToolbox.html
--   :cite:``Wikipedia2007c` : Nayatani, Y., Sobagaki, H., & Yano, K. H. T. (1995).
-    Lightness dependency of chroma scales of a nonlinear color-appearance model
-    and its latest formulation. Color Research & Application, 20(3), 156-167.
-    doi:10.1002/col.5080200305
+-   :cite:`Wikipedia2007c` : ﻿Wikipedia. (2007). Lightness. Retrieved April
+    13, 2014, from http://en.wikipedia.org/wiki/Lightness
 """
 
 from __future__ import division, unicode_literals
@@ -290,7 +288,7 @@ def _munsell_maximum_chromas_from_renotation():
 def munsell_value_Priest1920(Y):
     """
     Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
-    *Priest et alii (1920)* method.
+    *Priest et al. (1920)* method.
 
     Parameters
     ----------
@@ -319,7 +317,7 @@ def munsell_value_Priest1920(Y):
 
     References
     ----------
-    -   :cite:``Wikipedia2007c`
+    -   :cite:`Wikipedia2007c`
 
     Examples
     --------
@@ -337,7 +335,7 @@ def munsell_value_Priest1920(Y):
 def munsell_value_Munsell1933(Y):
     """
     Returns the *Munsell* value :math:`V` of given *luminance* :math:`Y` using
-    *Munsell et alii (1933)* method.
+    *Munsell et al. (1933)* method.
 
     Parameters
     ----------
@@ -366,7 +364,7 @@ def munsell_value_Munsell1933(Y):
 
     References
     ----------
-    -   :cite:``Wikipedia2007c`
+    -   :cite:`Wikipedia2007c`
 
     Examples
     --------
@@ -414,7 +412,7 @@ def munsell_value_Moon1943(Y):
 
     References
     ----------
-    -   :cite:``Wikipedia2007c`
+    -   :cite:`Wikipedia2007c`
 
     Examples
     --------
@@ -461,7 +459,7 @@ def munsell_value_Saunderson1944(Y):
 
     References
     ----------
-    -   :cite:``Wikipedia2007c`
+    -   :cite:`Wikipedia2007c`
 
     Examples
     --------
@@ -508,7 +506,7 @@ def munsell_value_Ladd1955(Y):
 
     References
     ----------
-    -   :cite:``Wikipedia2007c`
+    -   :cite:`Wikipedia2007c`
 
     Examples
     --------
@@ -638,7 +636,7 @@ Supported *Munsell* value computations methods.
 References
 ----------
 -   :cite:`ASTMInternational1989a`
--   :cite:``Wikipedia2007c`
+-   :cite:`Wikipedia2007c`
 
 MUNSELL_VALUE_METHODS : CaseInsensitiveMapping
     **{'Priest 1920', 'Munsell 1933', 'Moon 1943', 'Saunderson 1944',
@@ -688,7 +686,7 @@ def munsell_value(Y, method='ASTM D1535-08'):
     References
     ----------
     -   :cite:`ASTMInternational1989a`
-    -   :cite:``Wikipedia2007c`
+    -   :cite:`Wikipedia2007c`
 
     Examples
     --------

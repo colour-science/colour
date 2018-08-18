@@ -13,9 +13,9 @@ blob/master/notebooks/colorimetry/photometry.ipynb>`_
 
 References
 ----------
--   :cite:``Wikipedia2005c` : Wikipedia. (2005). Luminous Efficacy. Retrieved April
-    3, 2016, from https://en.wikipedia.org/wiki/Luminous_efficacy
--   :cite:``Wikipedia2003b` : Wikipedia. (2003). Luminosity function. Retrieved
+-   :cite:`Wikipedia2005c` : Wikipedia. (2005). Luminous Efficacy. Retrieved
+    April 3, 2016, from https://en.wikipedia.org/wiki/Luminous_efficacy
+-   :cite:`Wikipedia2003b` : Wikipedia. (2003). Luminosity function. Retrieved
     October 20, 2014, from https://en.wikipedia.org/wiki/\
 Luminosity_function#Details
 """
@@ -60,7 +60,7 @@ def luminous_flux(spd,
 
     References
     ----------
-    -   :cite:``Wikipedia2003b`
+    -   :cite:`Wikipedia2003b`
 
     Examples
     --------
@@ -104,7 +104,7 @@ def luminous_efficiency(
 
     References
     ----------
-    -   :cite:``Wikipedia2003b`
+    -   :cite:`Wikipedia2003b`
 
     Examples
     --------
@@ -149,7 +149,7 @@ def luminous_efficacy(
 
     References
     ----------
-    -   :cite:``Wikipedia2005c`
+    -   :cite:`Wikipedia2005c`
 
     Examples
     --------
