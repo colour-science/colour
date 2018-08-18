@@ -16,7 +16,7 @@ blob/master/notebooks/models/cie_uvw.ipynb>`_
 
 References
 ----------
--   :cite:`Wikipediacj` : Wikipedia. (n.d.). CIE 1964 color space. Retrieved
+-   :cite:``Wikipedia2008a` : Wikipedia. (2008). CIE 1964 color space. Retrieved
     June 10, 2014, from http://en.wikipedia.org/wiki/CIE_1964_color_space
 """
 
@@ -85,7 +85,7 @@ def XYZ_to_UVW(
 
     References
     ----------
-    -   :cite:`Wikipediacj`
+    -   :cite:``Wikipedia2008a`
 
     Examples
     --------
@@ -159,7 +159,7 @@ def UVW_to_XYZ(
 
     References
     ----------
-    -   :cite:`Wikipediacj`
+    -   :cite:``Wikipedia2008a`
 
     Examples
     --------

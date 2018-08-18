@@ -27,8 +27,8 @@ References
 -   :cite:`Melgosa2013b` : Melgosa, M. (2013). CIE / ISO new standard:
     CIEDE2000. Retrieved from http://www.color.org/events/colorimetry/\
 Melgosa_CIEDE2000_Workshop-July4.pdf
--   :cite:`Wikipediabu` : Wikipedia. (n.d.). Color difference. Retrieved
-    August 29, 2014, from http://en.wikipedia.org/wiki/Color_difference
+-   :cite:``Wikipedia2008b` : Wikipedia. (2008). Color difference. Retrieved August
+    29, 2014, from http://en.wikipedia.org/wiki/Color_difference
 """
 
 from __future__ import absolute_import
@@ -74,7 +74,7 @@ References
 -   :cite:`Lindbloom2009f`
 -   :cite:`Luo2006b`
 -   :cite:`Melgosa2013b`
--   :cite:`Wikipediabu`
+-   :cite:``Wikipedia2008b`
 
 DELTA_E_METHODS : CaseInsensitiveMapping
     **{'CIE 1976', 'CIE 1994', 'CIE 2000', 'CMC', 'CAM02-LCD', 'CAM02-SCD',
@@ -139,7 +139,7 @@ def delta_E(a, b, method='CIE 2000', **kwargs):
     -   :cite:`Lindbloom2009f`
     -   :cite:`Luo2006b`
     -   :cite:`Melgosa2013b`
-    -   :cite:`Wikipediabu`
+    -   :cite:``Wikipedia2008b`
 
     Examples
     --------

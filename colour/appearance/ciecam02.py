@@ -19,8 +19,8 @@ blob/master/notebooks/appearance/ciecam02.ipynb>`_
 
 References
 ----------
--   :cite:`Fairchild2004c` : Wikipedia. (n.d.). CIECAM02. Retrieved August 14,
-    2014, from http://en.wikipedia.org/wiki/CIECAM02
+-   :cite:`Fairchild2004c` : Fairchild, M. D. (2004). CIECAM02. In Color
+    Appearance Models (2nd ed., pp. 289-301). Wiley. ISBN:978-0470012161
 -   :cite:`Luo2013` : Luo, M. R., & Li, C. (2013). CIECAM02 and Its Recent
     Developments. In C. Fernandez-Maloigne (Ed.), Advanced Color Image
     Processing and Analysis (pp. 19-58). New York, NY: Springer New York.
@@ -30,7 +30,7 @@ References
     Color and Imaging Conference, (1), 23-27. Retrieved from
     http://www.ingentaconnect.com/\
 content/ist/cic/2002/00002002/00000001/art00006
--   :cite:`Wikipediach` : Wikipedia. (n.d.). CIECAM02. Retrieved August 14,
+-   :cite:``Wikipedia2007a` : Wikipedia. (2007). CIECAM02. Retrieved August 14,
     2014, from http://en.wikipedia.org/wiki/CIECAM02
 """
 
@@ -103,7 +103,7 @@ class CIECAM02_InductionFactors(
     -   :cite:`Fairchild2004c`
     -   :cite:`Luo2013`
     -   :cite:`Moroneya`
-    -   :cite:`Wikipediach`
+    -   :cite:``Wikipedia2007a`
     """
 
 
@@ -120,7 +120,7 @@ References
 -   :cite:`Fairchild2004c`
 -   :cite:`Luo2013`
 -   :cite:`Moroneya`
--   :cite:`Wikipediach`
+-   :cite:``Wikipedia2007a`
 
 CIECAM02_VIEWING_CONDITIONS : CaseInsensitiveMapping
     **{'Average', 'Dim', 'Dark'}**
@@ -163,7 +163,7 @@ class CIECAM02_Specification(
     -   :cite:`Fairchild2004c`
     -   :cite:`Luo2013`
     -   :cite:`Moroneya`
-    -   :cite:`Wikipediach`
+    -   :cite:``Wikipedia2007a`
     """
 
     def __new__(cls,
@@ -241,7 +241,7 @@ def XYZ_to_CIECAM02(XYZ,
     -   :cite:`Fairchild2004c`
     -   :cite:`Luo2013`
     -   :cite:`Moroneya`
-    -   :cite:`Wikipediach`
+    -   :cite:``Wikipedia2007a`
 
     Examples
     --------
@@ -394,7 +394,7 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
     -   :cite:`Fairchild2004c`
     -   :cite:`Luo2013`
     -   :cite:`Moroneya`
-    -   :cite:`Wikipediach`
+    -   :cite:``Wikipedia2007a`
 
     Examples
     --------
