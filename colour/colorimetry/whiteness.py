@@ -41,7 +41,7 @@ References
     iMatch Color Calculations Guide. Retrieved from
     https://www.xrite.com/-/media/xrite/files/\
 apps_engineering_techdocuments/c/09_color_calculations_en.pdf
--   :cite:`Wikipediaco` : Wikipedia. (n.d.). Whiteness. Retrieved September 17,
+-   :cite:``Wikipedia2004b` : Wikipedia. (2004). Whiteness. Retrieved September 17,
     2014, from http://en.wikipedia.org/wiki/Whiteness
 """
 
@@ -537,7 +537,7 @@ def whiteness(method='CIE 2004', **kwargs):
     -   :cite:`CIETC1-482004k`
     -   :cite:`Wyszecki2000ba`
     -   :cite:`X-Rite2012a`
-    -   :cite:`Wikipediaco`
+    -   :cite:``Wikipedia2004b`
 
     Examples
     --------

@@ -46,9 +46,9 @@ FL-TL-TN-0057-SoftwareLib.pdf
 -   :cite:`Westland2012h` : Westland, S., Ripamonti, C., & Cheung, V. (2012).
     Interpolation Methods. In Computational Colour Science Using MATLAB
     (2nd ed., pp. 29-37). ISBN:978-0-470-66569-5
--   :cite:`Wikipedia` : Wikipedia. (n.d.). Lanczos resampling. Retrieved
+-   :cite:``Wikipedia2005b` : Wikipedia. (2005). Lanczos resampling. Retrieved
     October 14, 2017, from https://en.wikipedia.org/wiki/Lanczos_resampling
--   :cite:`Wikipediacb` : Wikipedia. (n.d.). Lagrange polynomial - Definition.
+-   :cite:``Wikipedia2003a` : Wikipedia. (2003). Lagrange polynomial - Definition.
     Retrieved January 20, 2016, from https://en.wikipedia.org/wiki/\
 Lagrange_polynomial#Definition
 """
@@ -193,7 +193,7 @@ def kernel_lanczos(x, a=3):
 
     References
     ----------
-    -   :cite:`Wikipedia`
+    -   :cite:``Wikipedia2005b`
 
     Examples
     --------
@@ -304,7 +304,7 @@ class KernelInterpolator(object):
     References
     ----------
     -   :cite:`Burger2009b`
-    -   :cite:`Wikipedia`
+    -   :cite:``Wikipedia2005b`
 
     Examples
     --------
@@ -1503,7 +1503,7 @@ def lagrange_coefficients(r, n=4):
     References
     ----------
     -   :cite:`Fairman1985b`
-    -   :cite:`Wikipediacb`
+    -   :cite:``Wikipedia2003a`
 
     Examples
     --------

@@ -11,13 +11,13 @@ Defines the characterisation plotting objects:
 
 from __future__ import division
 
+import itertools
 import numpy as np
 
-from colour.characterisation import COLOURCHECKERS
 from colour.models import xyY_to_XYZ
-from colour.plotting import (ColourSwatch, COLOUR_STYLE_CONSTANTS,
-                             XYZ_to_plotting_colourspace, artist,
-                             multi_colour_swatch_plot, override_style, render)
+from colour.plotting import (
+    COLOUR_STYLE_CONSTANTS, ColourSwatch, XYZ_to_plotting_colourspace, artist,
+    filter_colour_checkers, multi_colour_swatch_plot, override_style, render)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -122,6 +122,16 @@ def multi_colour_checker_plot(colour_checkers=None, **kwargs):
         assert len(colour_checkers) <= 2, (
             'Only two colour checkers can be compared at a time!')
 
+    colour_checkers = list(
+        itertools.chain.from_iterable([
+            filter_colour_checkers(colour_checker)
+            for colour_checker in colour_checkers
+        ]))
+    colour_checkers = [
+        colour_checkers[i] for i in range(len(colour_checkers))
+        if i == colour_checkers.index(colour_checkers[i])
+    ]
+
     figure, axes = artist(**kwargs)
 
     compare_swatches = len(colour_checkers) == 2
@@ -129,14 +139,7 @@ def multi_colour_checker_plot(colour_checkers=None, **kwargs):
     colour_swatches = []
     colour_checker_names = []
     for colour_checker in colour_checkers:
-        colour_checker = COLOURCHECKERS.get(colour_checker)
         colour_checker_names.append(colour_checker.name)
-        if colour_checker is None:
-            raise KeyError(('Colour checker "{0}" not found in '
-                            'factory colour checkers: "{1}".').format(
-                                colour_checker.name,
-                                sorted(COLOURCHECKERS.keys())))
-
         for label, xyY in colour_checker.data.items():
             XYZ = xyY_to_XYZ(xyY)
             RGB = XYZ_to_plotting_colourspace(XYZ, colour_checker.illuminant)

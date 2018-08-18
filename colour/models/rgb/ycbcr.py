@@ -45,7 +45,7 @@ R-REC-BT.709-6-201506-I!!PDF-E.pdf
     Signal Parameters - 1125-Line High-Definition Production Systems. Retrieved
     from http://car.france3.mars.free.fr/HD/INA- 26 jan 06/\
 SMPTE normes et confs/s240m.pdf
--   :cite:`Wikipediaca` : Wikipedia. (n.d.). YCbCr. Retrieved February 29,
+-   :cite:``Wikipedia2004d` : Wikipedia. (2004). YCbCr. Retrieved February 29,
     2016, from https://en.wikipedia.org/wiki/YCbCr
 """
 
@@ -86,7 +86,7 @@ References
 -   :cite:`InternationalTelecommunicationUnion2015i`
 -   :cite:`InternationalTelecommunicationUnion2015h`
 -   :cite:`SocietyofMotionPictureandTelevisionEngineers1999b`
--   :cite:`Wikipediaca`
+-   :cite:``Wikipedia2004d`
 
 YCBCR_WEIGHTS : dict
     **{'ITU-R BT.601', 'ITU-R BT.709', 'ITU-R BT.2020', 'SMPTE-240M}**
@@ -240,7 +240,7 @@ def RGB_to_YCbCr(RGB,
     -   :cite:`InternationalTelecommunicationUnion2011e`
     -   :cite:`InternationalTelecommunicationUnion2015i`
     -   :cite:`SocietyofMotionPictureandTelevisionEngineers1999b`
-    -   :cite:`Wikipediaca`
+    -   :cite:``Wikipedia2004d`
 
     Examples
     --------
@@ -411,7 +411,7 @@ def YCbCr_to_RGB(YCbCr,
     -   :cite:`InternationalTelecommunicationUnion2011e`
     -   :cite:`InternationalTelecommunicationUnion2015i`
     -   :cite:`SocietyofMotionPictureandTelevisionEngineers1999b`
-    -   :cite:`Wikipediaca`
+    -   :cite:``Wikipedia2004d`
 
     Examples
     --------
@@ -520,7 +520,7 @@ def RGB_to_YcCbcCrc(RGB,
     References
     ----------
     -   :cite:`InternationalTelecommunicationUnion2015h`
-    -   :cite:`Wikipediaca`
+    -   :cite:``Wikipedia2004d`
 
     Examples
     --------
@@ -626,7 +626,7 @@ def YcCbcCrc_to_RGB(YcCbcCrc,
     References
     ----------
     -   :cite:`InternationalTelecommunicationUnion2015h`
-    -   :cite:`Wikipediaca`
+    -   :cite:``Wikipedia2004d`
 
     Examples
     --------

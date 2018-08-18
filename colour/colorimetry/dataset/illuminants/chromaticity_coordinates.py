@@ -39,7 +39,7 @@ matching spectral power distribution is Kinoton 75P projector.
 Notes
 -----
 -   *CIE* illuminants with chromaticity coordinates not defined in the
-    reference :cite:`Wikipediack` have been calculated using their correlated
+    reference :cite:``Wikipedia2006a` have been calculated using their correlated
     colour temperature and :func:`colour.temperature.CCT_to_xy_CIE_D`
     :func:`colour.D_illuminant_relative_spd` and / or
     :func:`colour.spectral_to_XYZ` definitions.
@@ -56,7 +56,7 @@ DCI_DCinema_System_Spec_v1_1.pdf
     Bulletin TB-2014-004 - Informative Notes on SMPTE ST 2065-1 - Academy Color
     Encoding Specification (ACES). Retrieved from
     https://github.com/ampas/aces-dev/tree/master/documents
--   :cite:`Wikipediack` : Wikipedia. (n.d.). White points of standard
+-   :cite:``Wikipedia2006a` : Wikipedia. (2006). White points of standard
     illuminants. Retrieved February 24, 2014, from http://en.wikipedia.org/\
 wiki/Standard_illuminant#White_points_of_standard_illuminants
 """
@@ -218,7 +218,7 @@ References
 ----------
 -   :cite:`DigitalCinemaInitiatives2007b`
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
--   :cite:`Wikipediack`
+-   :cite:``Wikipedia2006a`
 
 ILLUMINANTS : CaseInsensitiveMapping
     **{'CIE 1931 2 Degree Standard Observer',

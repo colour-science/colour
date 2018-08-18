@@ -19,10 +19,10 @@ blob/master/notebooks/models/cie_ucs.ipynb>`_
 
 References
 ----------
--   :cite:`Wikipediabr` : Wikipedia. (n.d.). Relation to CIE XYZ. Retrieved
+-   :cite:``Wikipedia2008c` : Wikipedia. (2008). Relation to CIE XYZ. Retrieved
     February 24, 2014, from http://en.wikipedia.org/wiki/\
 CIE_1960_color_space#Relation_to_CIE_XYZ
--   :cite:`Wikipediabw` : Wikipedia. (n.d.). CIE 1960 color space. Retrieved
+-   :cite:``Wikipedia2008` : Wikipedia. (2008). CIE 1960 color space. Retrieved
     February 24, 2014, from http://en.wikipedia.org/wiki/CIE_1960_color_space
 """
 
@@ -73,8 +73,8 @@ def XYZ_to_UCS(XYZ):
 
     References
     ----------
-    -   :cite:`Wikipediabr`
-    -   :cite:`Wikipediabw`
+    -   :cite:``Wikipedia2008c`
+    -   :cite:``Wikipedia2008`
 
     Examples
     --------
@@ -122,8 +122,8 @@ def UCS_to_XYZ(UVW):
 
     References
     ----------
-    -   :cite:`Wikipediabr`
-    -   :cite:`Wikipediabw`
+    -   :cite:``Wikipedia2008c`
+    -   :cite:``Wikipedia2008`
 
     Examples
     --------
@@ -166,7 +166,7 @@ def UCS_to_uv(UVW):
 
     References
     ----------
-    -   :cite:`Wikipediabr`
+    -   :cite:``Wikipedia2008c`
 
     Examples
     --------
@@ -200,7 +200,7 @@ def UCS_uv_to_xy(uv):
 
     References
     ----------
-    -   :cite:`Wikipediabr`
+    -   :cite:``Wikipedia2008c`
 
     Examples
     --------
@@ -235,7 +235,7 @@ def xy_to_UCS_uv(xy):
 
     References
     ----------
-    -   :cite:`Wikipediabr`
+    -   :cite:``Wikipedia2008c`
 
     Examples
     --------

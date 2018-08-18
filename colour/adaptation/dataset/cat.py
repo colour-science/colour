@@ -57,7 +57,7 @@ References
 -   :cite:`Westland2012k` : Westland, S., Ripamonti, C., & Cheung, V. (2012).
     CMCCAT2000. In Computational Colour Science Using MATLAB
     (2nd ed., pp. 83-86). ISBN:978-0-470-66569-5
--   :cite:`Wikipediabt` : Wikipedia. (n.d.). CAT02. Retrieved February 24,
+-   :cite:``Wikipedia2007` : Wikipedia. (2007). CAT02. Retrieved February 24,
     2014, from http://en.wikipedia.org/wiki/CIECAM02#CAT02
 """
 
@@ -191,7 +191,7 @@ CAT02_CAT = np.array([
 
 References
 ----------
--   :cite:`Wikipediabt`
+-   :cite:``Wikipedia2007`
 
 CAT02_CAT : array_like, (3, 3)
 """
@@ -272,7 +272,7 @@ References
 -   :cite:`Lindbloom2009g`
 -   :cite:`Westland2012g`
 -   :cite:`Westland2012k`
--   :cite:`Wikipediabt`
+-   :cite:``Wikipedia2007`
 
 CHROMATIC_ADAPTATION_TRANSFORMS : CaseInsensitiveMapping
     **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp', 'Fairchild,

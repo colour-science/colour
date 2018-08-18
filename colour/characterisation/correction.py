@@ -45,7 +45,7 @@ References
 -   :cite:`Westland2004` : Westland, S., & Ripamonti, C. (2004). Table 8.2. In
     Computational Colour Science Using MATLAB (1st ed., p. 137). Chichester,
     UK: John Wiley & Sons, Ltd. doi:10.1002/0470020326
--   :cite:`Wikipediad` : Wikipedia. (n.d.). Vandermonde matrix. Retrieved
+-   :cite:``Wikipedia2003e` : Wikipedia. (2003). Vandermonde matrix. Retrieved
     May 2, 2018, from https://en.wikipedia.org/wiki/Vandermonde_matrix
 """
 
@@ -288,7 +288,7 @@ def polynomial_expansion_Vandermonde(a, degree=1):
 
     References
     ----------
-    -   :cite:`Wikipediad`
+    -   :cite:``Wikipedia2003e`
 
     Examples
     --------
@@ -318,7 +318,7 @@ References
 -   :cite:`Cheung2004`
 -   :cite:`Finlayson2015`
 -   :cite:`Westland2004`
--   :cite:`Wikipediad`
+-   :cite:``Wikipedia2003e`
 
 POLYNOMIAL_EXPANSION_METHODS : CaseInsensitiveMapping
     **{'Cheung 2004', 'Finlayson 2015', 'Vandermonde'}**
@@ -363,7 +363,7 @@ def polynomial_expansion(a, method='Cheung 2004', **kwargs):
     -   :cite:`Cheung2004`
     -   :cite:`Finlayson2015`
     -   :cite:`Westland2004`
-    -   :cite:`Wikipediad`
+    -   :cite:``Wikipedia2003e`
 
     Examples
     --------
@@ -484,7 +484,7 @@ def colour_correction_matrix_Vandermonde(M_T, M_R, degree=1):
 
     References
     ----------
-    -   :cite:`Wikipediad`
+    -   :cite:``Wikipedia2003e`
 
     Examples
     --------
@@ -514,7 +514,7 @@ References
 -   :cite:`Cheung2004`
 -   :cite:`Finlayson2015`
 -   :cite:`Westland2004`
--   :cite:`Wikipediad`
+-   :cite:``Wikipedia2003e`
 
 POLYNOMIAL_EXPANSION_METHODS : CaseInsensitiveMapping
     **{'Cheung 2004', 'Finlayson 2015', 'Vandermonde'}**
@@ -567,7 +567,7 @@ def colour_correction_matrix(M_T, M_R, method='Cheung 2004', **kwargs):
     -   :cite:`Cheung2004`
     -   :cite:`Finlayson2015`
     -   :cite:`Westland2004`
-    -   :cite:`Wikipediad`
+    -   :cite:``Wikipedia2003e`
 
     Examples
     --------
@@ -754,7 +754,7 @@ def colour_correction_Vandermonde(RGB, M_T, M_R, degree=1):
 
     References
     ----------
-    -   :cite:`Wikipediad`
+    -   :cite:``Wikipedia2003e`
 
     Examples
     --------
@@ -786,7 +786,7 @@ References
 -   :cite:`Cheung2004`
 -   :cite:`Finlayson2015`
 -   :cite:`Westland2004`
--   :cite:`Wikipediad`
+-   :cite:``Wikipedia2003e`
 
 COLOUR_CORRECTION_METHODS : CaseInsensitiveMapping
     **{'Cheung 2004', 'Finlayson 2015', 'Vandermonde'}**
@@ -837,7 +837,7 @@ def colour_correction(RGB, M_T, M_R, method='Cheung 2004', **kwargs):
     -   :cite:`Cheung2004`
     -   :cite:`Finlayson2015`
     -   :cite:`Westland2004`
-    -   :cite:`Wikipediad`
+    -   :cite:``Wikipedia2003e`
 
     Examples
     --------

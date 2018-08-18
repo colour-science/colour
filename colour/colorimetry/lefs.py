@@ -13,7 +13,7 @@ blob/master/notebooks/colorimetry/lefs.ipynb>`_
 
 References
 ----------
--   :cite:`Wikipediacc` : Wikipedia. (n.d.). Mesopic weighting function.
+-   :cite:``Wikipedia2005d` : Wikipedia. (2005). Mesopic weighting function.
     Retrieved June 20, 2014, from http://en.wikipedia.org/wiki/\
 Mesopic_vision#Mesopic_weighting_function
 """
@@ -73,7 +73,7 @@ def mesopic_weighting_function(
 
     References
     ----------
-    -   :cite:`Wikipediacc`
+    -   :cite:``Wikipedia2005d`
 
     Examples
     --------
@@ -123,7 +123,7 @@ def mesopic_luminous_efficiency_function(
 
     References
     ----------
-    -   :cite:`Wikipediacc`
+    -   :cite:``Wikipedia2005d`
 
     Examples
     --------

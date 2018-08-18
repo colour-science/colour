@@ -3,4 +3,20 @@ colour.domain\_range\_scale
 
 .. currentmodule:: colour
 
-.. autofunction:: domain_range_scale
+.. autoclass:: domain_range_scale
+
+   
+   .. automethod:: __init__
+
+   
+   .. rubric:: Methods
+
+   .. autosummary::
+   
+      ~domain_range_scale.__init__
+   
+   
+
+   
+   
+   

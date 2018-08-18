@@ -34,6 +34,7 @@ import re
 from collections import namedtuple
 from matplotlib.colors import LinearSegmentedColormap
 
+from colour.characterisation import COLOURCHECKERS, ColourChecker
 from colour.colorimetry import (
     CMFS, ILLUMINANTS_SPDS, LMS_ConeFundamentals, RGB_ColourMatchingFunctions,
     SpectralPowerDistribution, XYZ_ColourMatchingFunctions)
@@ -52,7 +53,8 @@ __all__ = [
     'XYZ_to_plotting_colourspace', 'ColourSwatch', 'colour_cycle', 'artist',
     'camera', 'render', 'label_rectangles', 'uniform_axes3d',
     'filter_RGB_colourspaces', 'filter_cmfs', 'filter_illuminants',
-    'single_colour_swatch_plot', 'multi_colour_swatch_plot', 'image_plot'
+    'filter_colour_checkers', 'single_colour_swatch_plot',
+    'multi_colour_swatch_plot', 'image_plot'
 ]
 
 COLOUR_STYLE_CONSTANTS = Structure(
@@ -711,6 +713,34 @@ def filter_illuminants(filterer, flags=re.IGNORECASE):
         return [
             ILLUMINANTS_SPDS[illuminant] for illuminant in ILLUMINANTS_SPDS
             if re.search(filterer, illuminant, flags)
+        ]
+
+
+def filter_colour_checkers(filterer, flags=re.IGNORECASE):
+    """
+    Returns the colour checkers matching given filterer.
+
+    Parameters
+    ----------
+    filterer : unicode or ColourChecker
+        Colour checkers filterer or
+        :class:`colour.characterisation.ColourChecker` class instance which
+        will be passed through directly.
+    flags : int, optional
+        Regex flags.
+
+    Returns
+    -------
+    list
+        Filtered colour checkers.
+    """
+
+    if isinstance(filterer, ColourChecker):
+        return [filterer]
+    else:
+        return [
+            COLOURCHECKERS[colour_checker] for colour_checker in COLOURCHECKERS
+            if re.search(filterer, colour_checker, flags)
         ]
 
 
