@@ -3,7 +3,7 @@
 Simulation of CVD - Machado, Oliveira and Fernandes (2009)
 ==========================================================
 
-Defines *Machado et alii (2009)* objects for simulation of colour vision
+Defines *Machado et al. (2009)* objects for simulation of colour vision
 deficiency:
 
 -   :func:`colour.anomalous_trichromacy_cmfs_Machado2009`
@@ -12,7 +12,7 @@ deficiency:
 
 See Also
 --------
-`Machado et alii (2009) - CVD IPython Notebook
+`Machado et al. (2009) - CVD IPython Notebook
 <http://nbviewer.ipython.org/github/colour-science/colour-ipython/\
 blob/master/notebooks/cvd/Machado2009.ipynb>`_
 
@@ -70,7 +70,7 @@ LMS_TO_WSYBRG_MATRIX : array_like, (3, 3)
 def RGB_to_WSYBRG_matrix(cmfs, primaries):
     """
     Computes the matrix transforming from *RGB* colourspace to opponent-colour
-    space using *Machado et alii (2009)* method.
+    space using *Machado et al. (2009)* method.
 
     Parameters
     ----------
@@ -138,7 +138,7 @@ def anomalous_trichromacy_cmfs_Machado2009(cmfs, d_LMS):
     """
     Shifts given *LMS* cone fundamentals colour matching functions with given
     :math:`\Delta_{LMS}` shift amount in nanometers to simulate anomalous
-    trichromacy using *Machado et alii (2009)* method.
+    trichromacy using *Machado et al. (2009)* method.
 
     Parameters
     ----------
@@ -162,7 +162,7 @@ def anomalous_trichromacy_cmfs_Machado2009(cmfs, d_LMS):
 
     Warning
     -------
-    *Machado et alii (2009)* simulation of tritanomaly is based on the shift
+    *Machado et al. (2009)* simulation of tritanomaly is based on the shift
     paradigm as an approximation to the actual phenomenon and restrain the
     model from trying to model tritanopia.
     The pre-generated matrices are using a shift value in domain [5, 59]
@@ -198,7 +198,7 @@ def anomalous_trichromacy_cmfs_Machado2009(cmfs, d_LMS):
 
     if d_S != 0:
         warning(
-            '"Machado et alii (2009)" simulation of tritanomaly is based on '
+            '"Machado et al. (2009)" simulation of tritanomaly is based on '
             'the shift paradigm as an approximation to the actual phenomenon '
             'and restrain the model from trying to model tritanopia.\n'
             'The pre-generated matrices are using a shift value in domain '
@@ -235,7 +235,7 @@ def anomalous_trichromacy_cmfs_Machado2009(cmfs, d_LMS):
 
 def anomalous_trichromacy_matrix_Machado2009(cmfs, primaries, d_LMS):
     """
-    Computes *Machado et alii (2009)* *CVD* matrix for given *LMS* cone
+    Computes *Machado et al. (2009)* *CVD* matrix for given *LMS* cone
     fundamentals colour matching functions and display primaries tri-spectral
     power distributions with given :math:`\Delta_{LMS}` shift amount in
     nanometers to simulate anomalous trichromacy.
@@ -293,7 +293,7 @@ def anomalous_trichromacy_matrix_Machado2009(cmfs, primaries, d_LMS):
 
 def cvd_matrix_Machado2009(deficiency, severity):
     """
-    Computes *Machado et alii (2009)* *CVD* matrix for given deficiency and
+    Computes *Machado et al. (2009)* *CVD* matrix for given deficiency and
     severity using the pre-computed matrices dataset.
 
     Parameters
@@ -334,7 +334,7 @@ def cvd_matrix_Machado2009(deficiency, severity):
 
     if deficiency.lower() == 'tritanomaly':
         warning(
-            '"Machado et alii (2009)" simulation of tritanomaly is based on '
+            '"Machado et al. (2009)" simulation of tritanomaly is based on '
             'the shift paradigm as an approximation to the actual phenomenon '
             'and restrain the model from trying to model tritanopia.\n'
             'The pre-generated matrices are using a shift value in domain '

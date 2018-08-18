@@ -849,7 +849,7 @@ def xy_to_CCT_Hernandez1999(xy):
     """
     Returns the correlated colour temperature :math:`T_{cp}` from given
     *CIE XYZ* tristimulus values *xy* chromaticity coordinates using
-    *Hernandez-Andres et alii (1999)* method.
+    *Hernandez-Andres et al. (1999)* method.
 
     Parameters
     ----------
@@ -890,7 +890,7 @@ def CCT_to_xy_Kang2002(CCT):
     """
     Returns the *CIE XYZ* tristimulus values *xy* chromaticity coordinates from
     given correlated colour temperature :math:`T_{cp}` using
-    *Kang et alii (2002)* method.
+    *Kang et al. (2002)* method.
 
     Parameters
     ----------

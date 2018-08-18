@@ -13,16 +13,16 @@ Defines various objects for colour correction, like colour matching two images:
 -   :func:`colour.characterisation.polynomial_expansion_Vandermonde` :
     Polynomial expansion using *Vandermonde* method.
 -   :func:`colour.characterisation.colour_correction_matrix_Cheung2004` :
-    Colour correction matrix computation using *Cheung et alii (2004)* method.
+    Colour correction matrix computation using *Cheung et al. (2004)* method.
 -   :func:`colour.characterisation.colour_correction_matrix_Finlayson2015` :
-    Colour correction matrix computation using *Finlayson et alii (2015)*
+    Colour correction matrix computation using *Finlayson et al. (2015)*
     method.
 -   :func:`colour.characterisation.colour_correction_matrix_Vandermonde`
     Colour correction matrix computation using *Vandermonde* method.
 -   :func:`colour.characterisation.colour_correction_Cheung2004` :
-    Colour correction using *Cheung et alii (2004)* method.
+    Colour correction using *Cheung et al. (2004)* method.
 -   :func:`colour.characterisation.colour_correction_Finlayson2015` :
-    Colour correction using *Finlayson et alii (2015)* method.
+    Colour correction using *Finlayson et al. (2015)* method.
 -   :func:`colour.characterisation.colour_correction_Vandermonde` :
     Colour correction using *Vandermonde* method.
 
@@ -79,7 +79,7 @@ __all__ = [
 def augmented_matrix_Cheung2004(RGB, terms=3):
     """
     Performs polynomial expansion of given *RGB* colourspace array using
-    *Cheung et alii (2004)* method.
+    *Cheung et al. (2004)* method.
 
     Parameters
     ----------
@@ -179,7 +179,7 @@ def polynomial_expansion_Finlayson2015(RGB,
                                        root_polynomial_expansion=True):
     """
     Performs polynomial expansion of given *RGB* colourspace array using
-    *Finlayson et alii (2015)* method.
+    *Finlayson et al. (2015)* method.
 
     Parameters
     ----------
@@ -382,7 +382,7 @@ def polynomial_expansion(a, method='Cheung 2004', **kwargs):
 def colour_correction_matrix_Cheung2004(M_T, M_R, terms=3):
     """
     Computes a colour correction from given :math:`M_T` colour array to
-    :math:`M_R` colour array using *Cheung et alii (2004)* method.
+    :math:`M_R` colour array using *Cheung et al. (2004)* method.
 
     Parameters
     ----------
@@ -425,7 +425,7 @@ def colour_correction_matrix_Finlayson2015(M_T,
                                            root_polynomial_expansion=True):
     """
     Computes a colour correction from given :math:`M_T` colour array to
-    :math:`M_R` colour array using *Finlayson et alii (2015)* method.
+    :math:`M_R` colour array using *Finlayson et al. (2015)* method.
 
     Parameters
     ----------
@@ -638,7 +638,7 @@ def colour_correction_Cheung2004(RGB, M_T, M_R, terms=3):
     """
     Performs colour correction of given *RGB* colourspace array using the
     colour correction matrix from given :math:`M_T` colour array to
-    :math:`M_R` colour array using *Cheung et alii (2004)* method.
+    :math:`M_R` colour array using *Cheung et al. (2004)* method.
 
     Parameters
     ----------
@@ -687,7 +687,7 @@ def colour_correction_Finlayson2015(RGB,
     """
     Performs colour correction of given *RGB* colourspace array using the
     colour correction matrix from given :math:`M_T` colour array to
-    :math:`M_R` colour array using *Finlayson et alii (2015)* method.
+    :math:`M_R` colour array using *Finlayson et al. (2015)* method.
 
     Parameters
     ----------

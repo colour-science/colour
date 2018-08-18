@@ -84,7 +84,7 @@ __all__ = [
 def luminance_Newhall1943(V):
     """
     Returns the *luminance* :math:`R_Y` of given *Munsell* value :math:`V`
-    using *Newhall et alii (1943)* method.
+    using *Newhall et al. (1943)* method.
 
     Parameters
     ----------

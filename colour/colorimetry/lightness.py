@@ -83,7 +83,7 @@ __all__ = [
 def lightness_Glasser1958(Y):
     """
     Returns the *Lightness* :math:`L` of given *luminance* :math:`Y` using
-    *Glasser et alii (1958)* method.
+    *Glasser et al. (1958)* method.
 
     Parameters
     ----------
