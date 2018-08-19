@@ -119,8 +119,7 @@ COLOURCHECKER_N_OHTA_1 = {
 class TestReadSpectralDataFromCsvFile(unittest.TestCase):
     """
     Defines :func:`colour.io.tabular.read_spectral_data_from_csv_file`
-    definition unit tests
-    methods.
+    definition unit tests methods.
     """
 
     def test_read_spectral_data_from_csv_file(self):
