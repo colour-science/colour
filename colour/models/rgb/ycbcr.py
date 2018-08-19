@@ -53,7 +53,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.constants import DEFAULT_FLOAT_DTYPE
+from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
 from colour.models.rgb.transfer_functions import (CV_range, oetf_BT2020,
                                                   eotf_BT2020)
 from colour.utilities import (CaseInsensitiveMapping, domain_range_scale,
@@ -316,7 +316,8 @@ def RGB_to_YCbCr(RGB,
     Cr += (C_max + C_min) / 2
 
     YCbCr = tstack((Y, Cb, Cr))
-    YCbCr = np.round(YCbCr).astype(np.int_) if out_int else from_range_1(YCbCr)
+    YCbCr = np.round(YCbCr).astype(
+        DEFAULT_INT_DTYPE) if out_int else from_range_1(YCbCr)
 
     return YCbCr
 
@@ -446,7 +447,8 @@ def YCbCr_to_RGB(YCbCr,
     RGB = tstack((R, G, B))
     RGB *= RGB_max - RGB_min
     RGB += RGB_min
-    RGB = np.round(RGB).astype(np.int_) if out_int else from_range_1(RGB)
+    RGB = np.round(RGB).astype(DEFAULT_INT_DTYPE) if out_int else from_range_1(
+        RGB)
 
     return RGB
 
@@ -551,7 +553,7 @@ def RGB_to_YcCbcCrc(RGB,
     Crc += (C_max + C_min) / 2
 
     YcCbcCrc = tstack((Yc, Cbc, Crc))
-    YcCbcCrc = (np.round(YcCbcCrc).astype(np.int_)
+    YcCbcCrc = (np.round(YcCbcCrc).astype(DEFAULT_INT_DTYPE)
                 if out_int else from_range_1(YcCbcCrc))
 
     return YcCbcCrc

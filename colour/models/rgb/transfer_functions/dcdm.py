@@ -28,6 +28,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.algebra import spow
+from colour.constants import DEFAULT_INT_DTYPE
 from colour.utilities import from_range_1, to_domain_1
 
 __author__ = 'Colour Developers'
@@ -92,7 +93,7 @@ def oetf_DCDM(XYZ, out_int=False):
     XYZ_p = spow(XYZ / 52.37, 1 / 2.6)
 
     if out_int:
-        return np.round(4095 * XYZ_p).astype(np.int_)
+        return np.round(4095 * XYZ_p).astype(DEFAULT_INT_DTYPE)
     else:
         return from_range_1(XYZ_p)
 

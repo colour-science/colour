@@ -177,14 +177,14 @@ def luminance_ASTMD153508(V):
     return from_range_100(Y)
 
 
-def luminance_CIE1976(Lstar, Y_n=100):
+def luminance_CIE1976(L_star, Y_n=100):
     """
     Returns the *luminance* :math:`Y` of given *Lightness* :math:`L^*` with
     given reference white *luminance* :math:`Y_n`.
 
     Parameters
     ----------
-    Lstar : numeric or array_like
+    L_star : numeric or array_like
         *Lightness* :math:`L^*`
     Y_n : numeric or array_like
         White reference *luminance* :math:`Y_n`.
@@ -200,7 +200,7 @@ def luminance_CIE1976(Lstar, Y_n=100):
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``Lstar``  | [0, 100]              | [0, 1]        |
+    | ``L_star`` | [0, 100]              | [0, 1]        |
     +------------+-----------------------+---------------+
     | ``Y_n``    | [0, 100]              | [0, 1]        |
     +------------+-----------------------+---------------+
@@ -223,12 +223,12 @@ def luminance_CIE1976(Lstar, Y_n=100):
     9.5760000...
     """
 
-    Lstar = to_domain_100(Lstar)
+    L_star = to_domain_100(L_star)
     Y_n = to_domain_100(Y_n)
 
     Y = as_numeric(
-        np.where(Lstar > CIE_K * CIE_E,
-                 Y_n * ((Lstar + 16) / 116) ** 3, Y_n * (Lstar / CIE_K)))
+        np.where(L_star > CIE_K * CIE_E,
+                 Y_n * ((L_star + 16) / 116) ** 3, Y_n * (L_star / CIE_K)))
 
     return from_range_100(Y)
 

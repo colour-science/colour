@@ -70,7 +70,8 @@ NAYATANI95_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
 class Nayatani95_ReferenceSpecification(
         namedtuple(
             'Nayatani95_ReferenceSpecification',
-            ('Lstar_P', 'C', 'theta', 'S', 'B_r', 'M', 'H', 'H_C', 'Lstar_N'))
+            ('L_star_P', 'C', 'theta', 'S', 'B_r', 'M', 'H', 'H_C',
+             'L_star_N'))
 ):
     """
     Defines the *Nayatani (1995)* colour appearance model reference
@@ -81,7 +82,7 @@ class Nayatani95_ReferenceSpecification(
 
     Parameters
     ----------
-    Lstar_P : numeric or array_like
+    L_star_P : numeric or array_like
         Correlate of *achromatic Lightness* :math:`L_p^\star`.
     C : numeric or array_like
         Correlate of *chroma* :math:`C`.
@@ -97,7 +98,7 @@ class Nayatani95_ReferenceSpecification(
         *Hue* :math:`h` quadrature :math:`H`.
     H_C : numeric or array_like
         *Hue* :math:`h` composition :math:`H_C`.
-    Lstar_N : numeric or array_like
+    L_star_N : numeric or array_like
         Correlate of *normalised achromatic Lightness* :math:`L_n^\star`.
 
     References
@@ -109,7 +110,7 @@ class Nayatani95_ReferenceSpecification(
 class Nayatani95_Specification(
         namedtuple(
             'Nayatani95_Specification',
-            ('Lstar_P', 'C', 'h', 's', 'Q', 'M', 'H', 'HC', 'Lstar_N'))):
+            ('L_star_P', 'C', 'h', 's', 'Q', 'M', 'H', 'HC', 'L_star_N'))):
     """
     Defines the *Nayatani (1995)* colour appearance model specification.
 
@@ -119,7 +120,7 @@ class Nayatani95_Specification(
 
     Parameters
     ----------
-    Lstar_P : numeric or array_like
+    L_star_P : numeric or array_like
         Correlate of *achromatic Lightness* :math:`L_p^\star`.
     C : numeric or array_like
         Correlate of *chroma* :math:`C`.
@@ -135,7 +136,7 @@ class Nayatani95_Specification(
         *Hue* :math:`h` quadrature :math:`H`.
     HC : numeric or array_like
         *Hue* :math:`h` composition :math:`H_C`.
-    Lstar_N : numeric or array_like
+    L_star_N : numeric or array_like
         Correlate of *normalised achromatic Lightness* :math:`L_n^\star`.
 
     Notes
@@ -203,9 +204,9 @@ def XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or, n=1):
     >>> E_o = 5000.0
     >>> E_or = 1000.0
     >>> XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or)  # doctest: +ELLIPSIS
-    Nayatani95_Specification(Lstar_P=49.9998829..., C=0.0133550..., \
+    Nayatani95_Specification(L_star_P=49.9998829..., C=0.0133550..., \
 h=257.5232268..., s=0.0133550..., Q=62.6266734..., M=0.0167262..., H=None, \
-HC=None, Lstar_N=50.0039154...)
+HC=None, L_star_N=50.0039154...)
     """
 
     XYZ = to_domain_100(XYZ)
@@ -257,11 +258,11 @@ HC=None, Lstar_N=50.0039154...)
         bRGB_o, xez, bL_or, n)
 
     # Computing the correlate of achromatic *Lightness* :math:`L_p^\star`.
-    Lstar_P = (achromatic_lightness_correlate(Q_response))
+    L_star_P = (achromatic_lightness_correlate(Q_response))
 
     # Computing the correlate of normalised achromatic *Lightness*
     # :math:`L_n^\star`.
-    Lstar_N = (normalised_achromatic_lightness_correlate(
+    L_star_N = (normalised_achromatic_lightness_correlate(
         B_r, brightness_ideal_white))
 
     # Computing the *hue* angle :math:`\\theta`.
@@ -274,8 +275,8 @@ HC=None, Lstar_N=50.0039154...)
     S = saturation_correlate(S_RG, S_YB)
 
     # Computing the correlate of *chroma* :math:`C`.
-    # C_RG, C_YB = tsplit(chroma_components(Lstar_P, S_RG, S_YB))
-    C = chroma_correlate(Lstar_P, S)
+    # C_RG, C_YB = tsplit(chroma_components(L_star_P, S_RG, S_YB))
+    C = chroma_correlate(L_star_P, S)
 
     # Computing the correlate of *colourfulness* :math:`M`.
     # TODO: Investigate components usage.
@@ -283,8 +284,8 @@ HC=None, Lstar_N=50.0039154...)
     # brightness_ideal_white))
     M = colourfulness_correlate(C, brightness_ideal_white)
 
-    return Nayatani95_Specification(Lstar_P, C, from_range_degrees(theta), S,
-                                    B_r, M, None, None, Lstar_N)
+    return Nayatani95_Specification(L_star_P, C, from_range_degrees(theta), S,
+                                    B_r, M, None, None, L_star_N)
 
 
 def illuminance_to_luminance(E, Y_f):
@@ -798,13 +799,13 @@ def saturation_correlate(S_RG, S_YB):
     return S
 
 
-def chroma_components(Lstar_P, S_RG, S_YB):
+def chroma_components(L_star_P, S_RG, S_YB):
     """
     Returns the *chroma* components :math:`C_{RG}` and :math:`C_{YB}`.
 
     Parameters
     ----------
-    Lstar_P : numeric or array_like
+    L_star_P : numeric or array_like
         *Achromatic Lightness* correlate :math:`L_p^\star`.
     S_RG : numeric or array_like
         *Saturation* component :math:`S_{RG}`.
@@ -818,30 +819,30 @@ def chroma_components(Lstar_P, S_RG, S_YB):
 
     Examples
     --------
-    >>> Lstar_P = 49.99988297570504
+    >>> L_star_P = 49.99988297570504
     >>> S_RG = -0.002885271638197
     >>> S_YB = -0.013039632941332
-    >>> chroma_components(Lstar_P, S_RG, S_YB)  # doctest: +ELLIPSIS
+    >>> chroma_components(L_star_P, S_RG, S_YB)  # doctest: +ELLIPSIS
     array([-0.00288527, -0.01303961])
     """
 
-    Lstar_P = np.asarray(Lstar_P)
+    L_star_P = np.asarray(L_star_P)
     S_RG = np.asarray(S_RG)
     S_YB = np.asarray(S_YB)
 
-    C_RG = spow(Lstar_P / 50, 0.7) * S_RG
-    C_YB = spow(Lstar_P / 50, 0.7) * S_YB
+    C_RG = spow(L_star_P / 50, 0.7) * S_RG
+    C_YB = spow(L_star_P / 50, 0.7) * S_YB
 
     return tstack((C_RG, C_YB))
 
 
-def chroma_correlate(Lstar_P, S):
+def chroma_correlate(L_star_P, S):
     """
     Returns the correlate of *chroma* :math:`C`.
 
     Parameters
     ----------
-    Lstar_P : numeric or array_like
+    L_star_P : numeric or array_like
         *Achromatic Lightness* correlate :math:`L_p^\star`.
     S : numeric or array_like
         Correlate of *saturation* :math:`S`.
@@ -853,16 +854,16 @@ def chroma_correlate(Lstar_P, S):
 
     Examples
     --------
-    >>> Lstar_P = 49.99988297570504
+    >>> L_star_P = 49.99988297570504
     >>> S = 0.013355029751778
-    >>> chroma_correlate(Lstar_P, S)  # doctest: +ELLIPSIS
+    >>> chroma_correlate(L_star_P, S)  # doctest: +ELLIPSIS
     0.0133550...
     """
 
-    Lstar_P = np.asarray(Lstar_P)
+    L_star_P = np.asarray(L_star_P)
     S = np.asarray(S)
 
-    C = spow(Lstar_P / 50, 0.7) * S
+    C = spow(L_star_P / 50, 0.7) * S
 
     return C
 

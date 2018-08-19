@@ -35,6 +35,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.constants import DEFAULT_INT_DTYPE
 from colour.utilities import Structure, as_numeric, from_range_1, to_domain_1
 
 __author__ = 'Colour Developers'
@@ -136,7 +137,7 @@ def oetf_DICOMGSDF(L, out_int=False):
          F * L_lg ** 5 + G * L_lg ** 6 + H * L_lg ** 7 + I * L_lg ** 8)
 
     if out_int:
-        return np.round(J).astype(np.int_)
+        return np.round(J).astype(DEFAULT_INT_DTYPE)
     else:
         return as_numeric(from_range_1(J / 1023))
 

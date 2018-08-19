@@ -124,8 +124,8 @@ from colour.algebra import (Extrapolator, LinearInterpolator,
                             cartesian_to_cylindrical, euclidean_distance,
                             polar_to_cartesian, spow)
 from colour.colorimetry import ILLUMINANTS, luminance_ASTMD153508
-from colour.constants import (DEFAULT_FLOAT_DTYPE, INTEGER_THRESHOLD,
-                              FLOATING_POINT_NUMBER_PATTERN)
+from colour.constants import (DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE,
+                              INTEGER_THRESHOLD, FLOATING_POINT_NUMBER_PATTERN)
 from colour.models import Lab_to_LCHab, XYZ_to_Lab, XYZ_to_xy, xyY_to_XYZ
 from colour.volume import is_within_macadam_limits
 from colour.notation import MUNSELL_COLOURS_ALL
@@ -764,8 +764,8 @@ def munsell_specification_to_xyY(specification):
         specification = to_domain_10(specification,
                                      np.array([10, 10, chroma_scale, 10]))
         hue, value, chroma, code = (
-            [as_numeric(i)
-             for i in specification[0:3]] + [int(specification[-1])])
+            [as_numeric(i) for i in specification[0:3]] +
+            [DEFAULT_INT_DTYPE(specification[-1])])
 
         assert 0 <= hue <= 10, (
             '"{0}" specification hue must be normalised to domain '

@@ -17,7 +17,7 @@ import numpy as np
 from collections import OrderedDict
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
-from colour.constants import DEFAULT_FLOAT_DTYPE
+from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
 from colour.models import RGB_to_XYZ
 from colour.models.common import (COLOURSPACE_MODELS_LABELS,
                                   XYZ_to_colourspace_model)
@@ -294,7 +294,7 @@ def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
                 y = (tick if i else
                      limits[0, 1 if y_s == 1 else 0] + (y_s * extent / 25))
 
-                tick = int(tick) if DEFAULT_FLOAT_DTYPE(
+                tick = DEFAULT_INT_DTYPE(tick) if DEFAULT_FLOAT_DTYPE(
                     tick).is_integer() else tick
                 c = settings['{0}_ticks_colour'.format(axis)]
 

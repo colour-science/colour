@@ -60,6 +60,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.constants import DEFAULT_INT_DTYPE
 from colour.utilities import Structure, as_numeric, from_range_1, to_domain_1
 
 __author__ = 'Colour Developers'
@@ -203,7 +204,7 @@ def log_encoding_ACESproxy(lin_AP1,
         np.resize(CV_min, lin_AP1.shape))
 
     if out_int:
-        return as_numeric(np.round(ACESproxy), np.int_)
+        return as_numeric(np.round(ACESproxy), DEFAULT_INT_DTYPE)
     else:
         return as_numeric(from_range_1(ACESproxy / (2 ** bit_depth - 1)))
 

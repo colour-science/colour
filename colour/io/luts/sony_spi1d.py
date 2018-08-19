@@ -15,7 +15,7 @@ import numpy as np
 import os
 import re
 
-from colour.constants import DEFAULT_FLOAT_DTYPE
+from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
 from colour.io.luts import LUT1D, LUT2D
 
 __author__ = 'Colour Developers'
@@ -110,7 +110,7 @@ def read_LUT_SonySPI1D(path):
             elif tokens[0] == 'Length':
                 continue
             elif tokens[0] == 'Components':
-                component = int(tokens[1])
+                component = DEFAULT_INT_DTYPE(tokens[1])
                 assert component in (1, 3), (
                     'Only 1 or 3 components are supported!')
 

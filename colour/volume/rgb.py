@@ -26,6 +26,7 @@ import numpy as np
 
 from colour.algebra import random_triplet_generator
 from colour.colorimetry import ILLUMINANTS
+from colour.constants import DEFAULT_INT_DTYPE
 from colour.models import (Lab_to_XYZ, RGB_to_XYZ, XYZ_to_Lab, XYZ_to_RGB)
 from colour.volume import is_within_pointer_gamut, is_within_visible_spectrum
 
@@ -251,7 +252,7 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
     cpu_count = processes if processes else multiprocessing.cpu_count()
     pool = multiprocessing.Pool(processes=cpu_count)
 
-    process_samples = int(np.round(samples / cpu_count))
+    process_samples = DEFAULT_INT_DTYPE(np.round(samples / cpu_count))
 
     arguments = (colourspace, process_samples, limits, illuminant_Lab,
                  chromatic_adaptation_method, random_generator, random_state)

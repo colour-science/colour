@@ -21,7 +21,7 @@ __status__ = 'Production'
 
 __all__ = [
     'FLOATING_POINT_NUMBER_PATTERN', 'INTEGER_THRESHOLD', 'EPSILON',
-    'DEFAULT_FLOAT_DTYPE'
+    'DEFAULT_FLOAT_DTYPE', 'DEFAULT_INT_DTYPE'
 ]
 
 FLOATING_POINT_NUMBER_PATTERN = '[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?'
@@ -51,4 +51,11 @@ DEFAULT_FLOAT_DTYPE = np.float_
 Default floating point number dtype.
 
 DEFAULT_FLOAT_DTYPE : type
+"""
+
+DEFAULT_INT_DTYPE = np.int_
+"""
+Default integer number dtype.
+
+DEFAULT_INT_DTYPE : type
 """

@@ -36,6 +36,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.algebra import spow
+from colour.constants import DEFAULT_INT_DTYPE
 from colour.utilities import (as_numeric, domain_range_scale, from_range_1,
                               to_domain_1)
 
@@ -112,7 +113,7 @@ def oetf_ROMMRGB(X, bit_depth=8, out_int=False):
     X_p = np.where(X < E_t, X * 16 * I_max, spow(X, 1 / 1.8) * I_max)
 
     if out_int:
-        return as_numeric(np.round(X_p), np.int_)
+        return as_numeric(np.round(X_p), DEFAULT_INT_DTYPE)
     else:
         return as_numeric(from_range_1(X_p / I_max))
 
@@ -252,7 +253,7 @@ def oetf_RIMMRGB(X, bit_depth=8, out_int=False, E_clip=2.0):
                         [0, 4.5 * X, 1.099 * spow(X, 0.45) - 0.099, I_max])
 
     if out_int:
-        return as_numeric(np.round(X_p), np.int_)
+        return as_numeric(np.round(X_p), DEFAULT_INT_DTYPE)
     else:
         return as_numeric(from_range_1(X_p / I_max))
 
@@ -409,7 +410,7 @@ def log_encoding_ERIMMRGB(X,
     ])
 
     if out_int:
-        return as_numeric(np.round(X_p), np.int_)
+        return as_numeric(np.round(X_p), DEFAULT_INT_DTYPE)
     else:
         return as_numeric(from_range_1(X_p / I_max))
 

@@ -21,7 +21,7 @@ import numpy as np
 import os
 import re
 
-from colour.constants import DEFAULT_FLOAT_DTYPE
+from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
 from colour.io.luts import LUT2D, LUT3D
 
 __author__ = 'Colour Developers'
@@ -133,10 +133,10 @@ def read_LUT_IridasCube(path):
                 domain_max = _parse_array(tokens[1:])
             elif tokens[0] == 'LUT_1D_SIZE':
                 dimensions = 2
-                size = np.int_(tokens[1])
+                size = DEFAULT_INT_DTYPE(tokens[1])
             elif tokens[0] == 'LUT_3D_SIZE':
                 dimensions = 3
-                size = np.int_(tokens[1])
+                size = DEFAULT_INT_DTYPE(tokens[1])
             else:
                 table.append(_parse_array(tokens))
 
