@@ -40,6 +40,7 @@ __status__ = 'Production'
 __all__ = [
     'sample_RGB_colourspace_volume_MonteCarlo', 'RGB_colourspace_limits',
     'RGB_colourspace_volume_MonteCarlo',
+    'RGB_colourspace_volume_coverage_MonteCarlo',
     'RGB_colourspace_pointer_gamut_coverage_MonteCarlo',
     'RGB_colourspace_visible_spectrum_coverage_MonteCarlo'
 ]
