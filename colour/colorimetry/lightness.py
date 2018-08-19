@@ -211,7 +211,7 @@ def lightness_CIE1976(Y, Y_n=100):
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``Lstar``  | [0, 100]              | [0, 1]        |
+    | ``L_star`` | [0, 100]              | [0, 1]        |
     +------------+-----------------------+---------------+
 
     References
@@ -227,12 +227,13 @@ def lightness_CIE1976(Y, Y_n=100):
     Y = to_domain_100(Y)
     Y_n = to_domain_100(Y_n)
 
-    Lstar = Y / Y_n
+    L_star = Y / Y_n
 
-    Lstar = as_numeric(
-        np.where(Lstar <= CIE_E, CIE_K * Lstar, 116 * spow(Lstar, 1 / 3) - 16))
+    L_star = as_numeric(
+        np.where(L_star <= CIE_E, CIE_K * L_star,
+                 116 * spow(L_star, 1 / 3) - 16))
 
-    return from_range_100(Lstar)
+    return from_range_100(L_star)
 
 
 def lightness_Fairchild2010(Y, epsilon=1.836):

@@ -202,20 +202,20 @@ class TestLightnessCIE1976(unittest.TestCase):
         """
 
         Y = 10.08
-        Lstar = 37.98562910
-        np.testing.assert_almost_equal(lightness_CIE1976(Y), Lstar, decimal=7)
+        L_star = 37.98562910
+        np.testing.assert_almost_equal(lightness_CIE1976(Y), L_star, decimal=7)
 
         Y = np.tile(Y, 6)
-        Lstar = np.tile(Lstar, 6)
-        np.testing.assert_almost_equal(lightness_CIE1976(Y), Lstar, decimal=7)
+        L_star = np.tile(L_star, 6)
+        np.testing.assert_almost_equal(lightness_CIE1976(Y), L_star, decimal=7)
 
         Y = np.reshape(Y, (2, 3))
-        Lstar = np.reshape(Lstar, (2, 3))
-        np.testing.assert_almost_equal(lightness_CIE1976(Y), Lstar, decimal=7)
+        L_star = np.reshape(L_star, (2, 3))
+        np.testing.assert_almost_equal(lightness_CIE1976(Y), L_star, decimal=7)
 
         Y = np.reshape(Y, (2, 3, 1))
-        Lstar = np.reshape(Lstar, (2, 3, 1))
-        np.testing.assert_almost_equal(lightness_CIE1976(Y), Lstar, decimal=7)
+        L_star = np.reshape(L_star, (2, 3, 1))
+        np.testing.assert_almost_equal(lightness_CIE1976(Y), L_star, decimal=7)
 
     def test_domain_range_scale_lightness_CIE1976(self):
         """
@@ -223,14 +223,14 @@ class TestLightnessCIE1976(unittest.TestCase):
         definition domain and range scale support.
         """
 
-        Lstar = lightness_CIE1976(10.08, 100)
+        L_star = lightness_CIE1976(10.08, 100)
 
         d_r = (('reference', 1), (1, 0.01), (100, 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
                     lightness_CIE1976(10.08 * factor, 100 * factor),
-                    Lstar * factor,
+                    L_star * factor,
                     decimal=7)
 
     @ignore_numpy_errors

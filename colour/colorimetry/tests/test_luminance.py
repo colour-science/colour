@@ -204,21 +204,21 @@ class TestLuminanceCIE1976(unittest.TestCase):
         definition n-dimensional arrays support.
         """
 
-        Lstar = 37.98562910
+        L_star = 37.98562910
         Y = 10.080000000026304
-        np.testing.assert_almost_equal(luminance_CIE1976(Lstar), Y, decimal=7)
+        np.testing.assert_almost_equal(luminance_CIE1976(L_star), Y, decimal=7)
 
-        Lstar = np.tile(Lstar, 6)
+        L_star = np.tile(L_star, 6)
         Y = np.tile(Y, 6)
-        np.testing.assert_almost_equal(luminance_CIE1976(Lstar), Y, decimal=7)
+        np.testing.assert_almost_equal(luminance_CIE1976(L_star), Y, decimal=7)
 
-        Lstar = np.reshape(Lstar, (2, 3))
+        L_star = np.reshape(L_star, (2, 3))
         Y = np.reshape(Y, (2, 3))
-        np.testing.assert_almost_equal(luminance_CIE1976(Lstar), Y, decimal=7)
+        np.testing.assert_almost_equal(luminance_CIE1976(L_star), Y, decimal=7)
 
-        Lstar = np.reshape(Lstar, (2, 3, 1))
+        L_star = np.reshape(L_star, (2, 3, 1))
         Y = np.reshape(Y, (2, 3, 1))
-        np.testing.assert_almost_equal(luminance_CIE1976(Lstar), Y, decimal=7)
+        np.testing.assert_almost_equal(luminance_CIE1976(L_star), Y, decimal=7)
 
     def test_domain_range_scale_luminance_CIE1976(self):
         """
