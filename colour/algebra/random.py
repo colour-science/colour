@@ -12,6 +12,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.constants import DEFAULT_INT_DTYPE
 from colour.utilities import warning
 
 __author__ = 'Colour Developers'
@@ -75,7 +76,7 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
      array([ 0.1679721...,  0.7333801...,  0.4084438...]))
     """
 
-    integer_size = int(size)
+    integer_size = DEFAULT_INT_DTYPE(size)
     if integer_size != size:
         warning(('"size" has been cast to integer: {0}'.format(integer_size)))
 

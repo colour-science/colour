@@ -23,7 +23,7 @@ import numpy as np
 from collections import Mapping
 from contextlib import contextmanager
 
-from colour.constants import DEFAULT_FLOAT_DTYPE, EPSILON
+from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE, EPSILON
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -685,7 +685,7 @@ def centroid(a):
 
         a_ci.append(np.sum(axis * a) // a_s)
 
-    return np.array(a_ci).astype(np.int_)
+    return np.array(a_ci).astype(DEFAULT_INT_DTYPE)
 
 
 def linear_conversion(a, old_range, new_range):

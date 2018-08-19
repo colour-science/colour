@@ -15,7 +15,7 @@ import numpy as np
 import os
 import re
 
-from colour.constants import DEFAULT_FLOAT_DTYPE
+from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
 from colour.io.luts import LUT3D
 
 __author__ = 'Colour Developers'
@@ -91,14 +91,14 @@ def read_LUT_SonySPI3D(path):
                 assert len(set(tokens)) == 1, (
                     'Non-uniform "LUT" shape is unsupported!')
 
-                size = np.int_(tokens[0])
+                size = DEFAULT_INT_DTYPE(tokens[0])
             if len(tokens) == 6:
                 indexes.append(_parse_array(tokens[:3]))
                 table.append(_parse_array(tokens[3:]))
 
     assert np.array_equal(
         indexes,
-        np.int_(LUT3D.linear_table(size) * (size - 1)).reshape(
+        DEFAULT_INT_DTYPE(LUT3D.linear_table(size) * (size - 1)).reshape(
             (-1, 3))), 'Indexes do not match expected "LUT3D" indexes!'
 
     table = np.asarray(table).reshape((size, size, size, 3))
@@ -159,8 +159,8 @@ def write_LUT_SonySPI3D(LUT, path, decimals=7):
 
         spi3d_file.write('{0} {0} {0}\n'.format(LUT.size))
 
-        indexes = np.int_(LUT.linear_table(LUT.size) * (LUT.size - 1)).reshape(
-            (-1, 3))
+        indexes = DEFAULT_INT_DTYPE(
+            LUT.linear_table(LUT.size) * (LUT.size - 1)).reshape((-1, 3))
         table = LUT.table.reshape((-1, 3))
 
         for i, row in enumerate(indexes):

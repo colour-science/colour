@@ -37,6 +37,7 @@ import numpy as np
 from colour.algebra import lagrange_coefficients
 from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE, SpectralShape,
                                 STANDARD_OBSERVERS_CMFS, ones_spd)
+from colour.constants import DEFAULT_INT_DTYPE
 from colour.utilities import (CaseInsensitiveMapping, filter_kwargs,
                               from_range_100, tsplit, warning)
 
@@ -254,7 +255,7 @@ _TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their identifier key is
     Y = cmfs.values
     S = illuminant.values
 
-    interval_i = np.int_(shape.interval)
+    interval_i = DEFAULT_INT_DTYPE(shape.interval)
     W = S[::interval_i, np.newaxis] * Y[::interval_i, :]
 
     # First and last measurement intervals *Lagrange Coefficients*.
@@ -295,7 +296,8 @@ _TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their identifier key is
                 W[j + 3, i] = W[j + 3, i] + c_b[k, 3] * S[w_i] * Y[w_i, i]
 
         # Extrapolation of potential incomplete interval.
-        for j in range(int(w_c - ((w_c - 1) % interval_i)), w_c, 1):
+        for j in range(
+                DEFAULT_INT_DTYPE(w_c - ((w_c - 1) % interval_i)), w_c, 1):
             W[i_cm, i] = W[i_cm, i] + S[j] * Y[j, i]
 
     W *= 100 / np.sum(W, axis=0)[1]
@@ -368,11 +370,13 @@ def adjust_tristimulus_weighting_factors_ASTME30815(W, shape_r, shape_t):
 
     W = np.copy(W)
 
-    start_index = int((shape_t.start - shape_r.start) / shape_r.interval)
+    start_index = DEFAULT_INT_DTYPE(
+        (shape_t.start - shape_r.start) / shape_r.interval)
     for i in range(start_index):
         W[start_index] += W[i]
 
-    end_index = int((shape_r.end - shape_t.end) / shape_r.interval)
+    end_index = DEFAULT_INT_DTYPE(
+        (shape_r.end - shape_t.end) / shape_r.interval)
     for i in range(end_index):
         W[-end_index - 1] += W[-i - 1]
 

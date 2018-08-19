@@ -61,7 +61,7 @@ import scipy.interpolate
 from collections import OrderedDict, Mapping
 from six.moves import reduce
 
-from colour.constants import DEFAULT_FLOAT_DTYPE
+from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
 from colour.utilities import (CaseInsensitiveMapping, as_numeric, interval,
                               is_integer, is_numeric, closest_indexes, tsplit,
                               warning)
@@ -635,7 +635,7 @@ class KernelInterpolator(object):
         clip_l = min(self._x_p) / x_interval
         clip_h = max(self._x_p) / x_interval
         windows = np.clip(windows, clip_l, clip_h) - clip_l
-        windows = np.around(windows).astype(np.int_)
+        windows = np.around(windows).astype(DEFAULT_INT_DTYPE)
 
         return np.sum(
             self._y_p[windows] *
@@ -1600,7 +1600,7 @@ def vertices_and_relative_coordinates(V_xyz, table):
     # table axis, ``i_f`` and ``i_c`` respectively the floor and ceiling
     # indexes encompassing a given V_xyz value.
     i_m = np.array(table.shape[0:-1]) - 1
-    i_f = np.floor(V_xyz * i_m).astype(np.int_)
+    i_f = np.floor(V_xyz * i_m).astype(DEFAULT_INT_DTYPE)
     i_c = np.clip(i_f + 1, 0, i_m)
 
     # Relative to indexes ``V_xyz`` values.

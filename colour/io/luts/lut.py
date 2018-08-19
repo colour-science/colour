@@ -29,6 +29,7 @@ except ImportError:
 from six import add_metaclass
 
 from colour.algebra import LinearInterpolator, table_interpolation_trilinear
+from colour.constants import DEFAULT_INT_DTYPE
 from colour.utilities import (is_iterable, is_string, linear_conversion,
                               tsplit, tstack)
 
@@ -1064,7 +1065,7 @@ class LUT2D(AbstractLUT):
         R_t, G_t, B_t = tsplit(self._table)
         domain_min, domain_max = self.domain
 
-        size = np.int_(self._table.size / 3)
+        size = DEFAULT_INT_DTYPE(self._table.size / 3)
 
         RGB_i = [
             interpolator(
