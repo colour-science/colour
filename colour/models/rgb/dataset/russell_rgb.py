@@ -98,7 +98,7 @@ RUSSELL_RGB_COLOURSPACE.__doc__ = """
 
 References
 ----------
--   :cite:`Cottrella`
+:cite:`Cottrella`
 
 RUSSELL_RGB_COLOURSPACE : RGB_Colourspace
 """

@@ -175,9 +175,9 @@ images and archiving.
 
 References
 ----------
--   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
--   :cite:`TheAcademyofMotionPictureArtsandSciences2014r`
--   :cite:`TheAcademyofMotionPictureArtsandSciencese`
+:cite:`TheAcademyofMotionPictureArtsandSciences2014q`,
+:cite:`TheAcademyofMotionPictureArtsandSciences2014r`,
+:cite:`TheAcademyofMotionPictureArtsandSciencese`
 
 ACES_2065_1_COLOURSPACE : RGB_Colourspace
 """
@@ -198,10 +198,10 @@ don't support ACES2065-1 or ACEScc.
 
 References
 ----------
--   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
--   :cite:`TheAcademyofMotionPictureArtsandSciences2014r`
--   :cite:`TheAcademyofMotionPictureArtsandSciences2015b`
--   :cite:`TheAcademyofMotionPictureArtsandSciencese`
+:cite:`TheAcademyofMotionPictureArtsandSciences2014q`,
+:cite:`TheAcademyofMotionPictureArtsandSciences2014r`,
+:cite:`TheAcademyofMotionPictureArtsandSciences2015b`,
+:cite:`TheAcademyofMotionPictureArtsandSciencese`
 
 ACES_CG_COLOURSPACE : RGB_Colourspace
 """
@@ -222,10 +222,10 @@ values created on-set.
 
 References
 ----------
--   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
--   :cite:`TheAcademyofMotionPictureArtsandSciences2014r`
--   :cite:`TheAcademyofMotionPictureArtsandSciences2014t`
--   :cite:`TheAcademyofMotionPictureArtsandSciencese`
+:cite:`TheAcademyofMotionPictureArtsandSciences2014q`,
+:cite:`TheAcademyofMotionPictureArtsandSciences2014r`,
+:cite:`TheAcademyofMotionPictureArtsandSciences2014t`,
+:cite:`TheAcademyofMotionPictureArtsandSciencese`
 
 ACES_CC_COLOURSPACE : RGB_Colourspace
 """
@@ -247,10 +247,10 @@ and is specifically not intended for interchange or archiving.
 
 References
 ----------
--   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
--   :cite:`TheAcademyofMotionPictureArtsandSciences2014r`
--   :cite:`TheAcademyofMotionPictureArtsandSciences2016c`
--   :cite:`TheAcademyofMotionPictureArtsandSciencese`
+:cite:`TheAcademyofMotionPictureArtsandSciences2014q`,
+:cite:`TheAcademyofMotionPictureArtsandSciences2014r`,
+:cite:`TheAcademyofMotionPictureArtsandSciences2016c`,
+:cite:`TheAcademyofMotionPictureArtsandSciencese`
 
 ACES_CCT_COLOURSPACE : RGB_Colourspace
 """
@@ -273,10 +273,10 @@ grading / mastering.
 
 References
 ----------
--   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
--   :cite:`TheAcademyofMotionPictureArtsandSciences2014r`
--   :cite:`TheAcademyofMotionPictureArtsandSciences2014s`
--   :cite:`TheAcademyofMotionPictureArtsandSciencese`
+:cite:`TheAcademyofMotionPictureArtsandSciences2014q`,
+:cite:`TheAcademyofMotionPictureArtsandSciences2014r`,
+:cite:`TheAcademyofMotionPictureArtsandSciences2014s`,
+:cite:`TheAcademyofMotionPictureArtsandSciencese`
 
 ACES_PROXY_COLOURSPACE : RGB_Colourspace
 """

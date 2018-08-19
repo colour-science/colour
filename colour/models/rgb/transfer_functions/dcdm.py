@@ -77,7 +77,7 @@ def oetf_DCDM(XYZ, out_int=False):
 
     References
     ----------
-    -   :cite:`DigitalCinemaInitiatives2007b`
+    :cite:`DigitalCinemaInitiatives2007b`
 
     Examples
     --------
@@ -134,7 +134,7 @@ def eotf_DCDM(XYZ_p, in_int=False):
 
     References
     ----------
-    -   :cite:`DigitalCinemaInitiatives2007b`
+    :cite:`DigitalCinemaInitiatives2007b`
 
     Examples
     --------

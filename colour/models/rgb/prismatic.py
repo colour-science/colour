@@ -68,7 +68,7 @@ def RGB_to_Prismatic(RGB):
 
     References
     ----------
-    -   :cite:`Shirley2015a`
+    :cite:`Shirley2015a`
 
     Examples
     --------
@@ -130,7 +130,7 @@ def Prismatic_to_RGB(Lrgb):
 
     References
     ----------
-    -   :cite:`Shirley2015a`
+    :cite:`Shirley2015a`
 
     Examples
     --------

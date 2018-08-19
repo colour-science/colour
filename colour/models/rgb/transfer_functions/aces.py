@@ -169,10 +169,10 @@ def log_encoding_ACESproxy(lin_AP1,
 
     References
     ----------
-    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
-    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014r`
-    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014s`
-    -   :cite:`TheAcademyofMotionPictureArtsandSciencese`
+    :cite:`TheAcademyofMotionPictureArtsandSciences2014q`,
+    :cite:`TheAcademyofMotionPictureArtsandSciences2014r`,
+    :cite:`TheAcademyofMotionPictureArtsandSciences2014s`,
+    :cite:`TheAcademyofMotionPictureArtsandSciencese`
 
     Examples
     --------
@@ -254,10 +254,10 @@ def log_decoding_ACESproxy(ACESproxy,
 
     References
     ----------
-    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
-    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014r`
-    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014s`
-    -   :cite:`TheAcademyofMotionPictureArtsandSciencese`
+    :cite:`TheAcademyofMotionPictureArtsandSciences2014q`,
+    :cite:`TheAcademyofMotionPictureArtsandSciences2014r`,
+    :cite:`TheAcademyofMotionPictureArtsandSciences2014s`,
+    :cite:`TheAcademyofMotionPictureArtsandSciencese`
 
     Examples
     --------
@@ -313,10 +313,10 @@ def log_encoding_ACEScc(lin_AP1):
 
     References
     ----------
-    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
-    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014r`
-    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014t`
-    -   :cite:`TheAcademyofMotionPictureArtsandSciencese`
+    :cite:`TheAcademyofMotionPictureArtsandSciences2014q`,
+    :cite:`TheAcademyofMotionPictureArtsandSciences2014r`,
+    :cite:`TheAcademyofMotionPictureArtsandSciences2014t`,
+    :cite:`TheAcademyofMotionPictureArtsandSciencese`
 
     Examples
     --------
@@ -366,10 +366,10 @@ def log_decoding_ACEScc(ACEScc):
 
     References
     ----------
-    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
-    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014r`
-    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014t`
-    -   :cite:`TheAcademyofMotionPictureArtsandSciencese`
+    :cite:`TheAcademyofMotionPictureArtsandSciences2014q`,
+    :cite:`TheAcademyofMotionPictureArtsandSciences2014r`,
+    :cite:`TheAcademyofMotionPictureArtsandSciences2014t`,
+    :cite:`TheAcademyofMotionPictureArtsandSciencese`
 
     Examples
     --------
@@ -422,10 +422,10 @@ def log_encoding_ACEScct(lin_AP1, constants=ACES_CCT_CONSTANTS):
 
     References
     ----------
-    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
-    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014r`
-    -   :cite:`TheAcademyofMotionPictureArtsandSciences2016c`
-    -   :cite:`TheAcademyofMotionPictureArtsandSciencese`
+    :cite:`TheAcademyofMotionPictureArtsandSciences2014q`,
+    :cite:`TheAcademyofMotionPictureArtsandSciences2014r`,
+    :cite:`TheAcademyofMotionPictureArtsandSciences2016c`,
+    :cite:`TheAcademyofMotionPictureArtsandSciencese`
 
     Examples
     --------
@@ -461,10 +461,10 @@ def log_decoding_ACEScct(ACEScct, constants=ACES_CCT_CONSTANTS):
 
     References
     ----------
-    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
-    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014r`
-    -   :cite:`TheAcademyofMotionPictureArtsandSciences2016c`
-    -   :cite:`TheAcademyofMotionPictureArtsandSciencese`
+    :cite:`TheAcademyofMotionPictureArtsandSciences2014q`,
+    :cite:`TheAcademyofMotionPictureArtsandSciences2014r`,
+    :cite:`TheAcademyofMotionPictureArtsandSciences2016c`,
+    :cite:`TheAcademyofMotionPictureArtsandSciencese`
 
     Notes
     -----

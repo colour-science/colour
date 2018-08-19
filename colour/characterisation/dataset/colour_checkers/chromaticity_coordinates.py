@@ -223,8 +223,7 @@ Aggregated *ColourCheckers* chromaticity coordinates.
 
 References
 ----------
--   :cite:`BabelColor2012b`
--   :cite:`BabelColor2012c`
+:cite:`BabelColor2012b`, :cite:`BabelColor2012c`
 
 COLOURCHECKERS : CaseInsensitiveMapping
     **{'BabelColor Average', 'ColorChecker 2005', 'ColorChecker 1976'}**

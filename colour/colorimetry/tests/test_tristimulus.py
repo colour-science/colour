@@ -373,7 +373,7 @@ tristimulus_weighting_factors_ASTME202211` definition.
 
         References
         ----------
-        -   :cite:`ASTMInternational2015b`
+        :cite:`ASTMInternational2015b`
         """
 
         cmfs = CMFS['CIE 1964 10 Degree Standard Observer']

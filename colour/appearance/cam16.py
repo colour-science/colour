@@ -94,7 +94,7 @@ class CAM16_InductionFactors(
 
     References
     ----------
-    -   :cite:`Li2017`
+    :cite:`Li2017`
     """
 
 
@@ -104,7 +104,7 @@ Reference *CAM16* colour appearance model viewing conditions.
 
 References
 ----------
--   :cite:`Li2017`
+:cite:`Li2017`
 
 CAM16_VIEWING_CONDITIONS : CaseInsensitiveMapping
     **{'Average', 'Dim', 'Dark'}**
@@ -138,7 +138,7 @@ class CAM16_Specification(
 
     References
     ----------
-    -   :cite:`Li2017`
+    :cite:`Li2017`
     """
 
     def __new__(cls,
@@ -213,7 +213,7 @@ def XYZ_to_CAM16(XYZ,
 
     References
     ----------
-    -   :cite:`Li2017`
+    :cite:`Li2017`
 
     Examples
     --------
@@ -372,7 +372,7 @@ def CAM16_to_XYZ(CAM16_specification,
 
     References
     ----------
-    -   :cite:`Li2017`
+    :cite:`Li2017`
 
     Examples
     --------

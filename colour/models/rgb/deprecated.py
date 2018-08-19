@@ -101,9 +101,7 @@ def RGB_to_HSV(RGB):
 
     References
     ----------
-    -   :cite:`EasyRGBj`
-    -   :cite:`Smith1978b`
-    -   :cite:`Wikipedia2003`
+    :cite:`EasyRGBj`, :cite:`Smith1978b`, :cite:`Wikipedia2003`
 
     Examples
     --------
@@ -171,9 +169,7 @@ def HSV_to_RGB(HSV):
 
     References
     ----------
-    -   :cite:`EasyRGBn`
-    -   :cite:`Smith1978b`
-    -   :cite:`Wikipedia2003`
+    :cite:`EasyRGBn`, :cite:`Smith1978b`, :cite:`Wikipedia2003`
 
     Examples
     --------
@@ -239,9 +235,7 @@ def RGB_to_HSL(RGB):
 
     References
     ----------
-    -   :cite:`EasyRGBl`
-    -   :cite:`Smith1978b`
-    -   :cite:`Wikipedia2003`
+    :cite:`EasyRGBl`, :cite:`Smith1978b`, :cite:`Wikipedia2003`
 
     Examples
     --------
@@ -311,9 +305,7 @@ def HSL_to_RGB(HSL):
 
     References
     ----------
-    -   :cite:`EasyRGBk`
-    -   :cite:`Smith1978b`
-    -   :cite:`Wikipedia2003`
+    :cite:`EasyRGBk`, :cite:`Smith1978b`, :cite:`Wikipedia2003`
 
     Examples
     --------
@@ -394,7 +386,7 @@ def RGB_to_CMY(RGB):
 
     References
     ----------
-    -   :cite:`EasyRGBh`
+    :cite:`EasyRGBh`
 
     Examples
     --------
@@ -439,7 +431,7 @@ def CMY_to_RGB(CMY):
 
     References
     ----------
-    -   :cite:`EasyRGBi`
+    :cite:`EasyRGBi`
 
     Examples
     --------
@@ -484,7 +476,7 @@ def CMY_to_CMYK(CMY):
 
     References
     ----------
-    -   :cite:`EasyRGBo`
+    :cite:`EasyRGBo`
 
     Examples
     --------
@@ -544,7 +536,7 @@ def CMYK_to_CMY(CMYK):
 
     References
     ----------
-    -   :cite:`EasyRGBm`
+    :cite:`EasyRGBm`
 
     Examples
     --------

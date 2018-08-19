@@ -171,7 +171,7 @@ Notes
 
 References
 ----------
--   :cite:`Wyszecki2000x`
+:cite:`Wyszecki2000x`
 """
 
 ROBERTSON_ISOTEMPERATURE_LINES_RUVT = namedtuple('WyszeckiRobertson_ruvt',
@@ -324,7 +324,7 @@ def uv_to_CCT_Ohno2013(
 
     References
     ----------
-    -   :cite:`Ohno2014a`
+    :cite:`Ohno2014a`
 
     Examples
     --------
@@ -414,7 +414,7 @@ def CCT_to_uv_Ohno2013(
 
     References
     ----------
-    -   :cite:`Ohno2014a`
+    :cite:`Ohno2014a`
 
     Examples
     --------
@@ -474,8 +474,7 @@ def uv_to_CCT_Robertson1968(uv):
 
     References
     ----------
-    -   :cite:`AdobeSystems2013`
-    -   :cite:`Wyszecki2000y`
+    :cite:`AdobeSystems2013`, :cite:`Wyszecki2000y`
 
     Examples
     --------
@@ -557,8 +556,7 @@ def CCT_to_uv_Robertson1968(CCT, D_uv=0):
 
     References
     ----------
-    -   :cite:`AdobeSystems2013a`
-    -   :cite:`Wyszecki2000y`
+    :cite:`AdobeSystems2013a`, :cite:`Wyszecki2000y`
 
     Examples
     --------
@@ -628,7 +626,7 @@ def CCT_to_uv_Krystek1985(CCT):
 
     References
     ----------
-    -   :cite:`Krystek1985b`
+    :cite:`Krystek1985b`
 
     Examples
     --------
@@ -656,10 +654,8 @@ colour temperature :math:`T_{cp}` computation methods.
 
 References
 ----------
--   :cite:`AdobeSystems2013`
--   :cite:`AdobeSystems2013a`
--   :cite:`Ohno2014a`
--   :cite:`Wyszecki2000y`
+:cite:`AdobeSystems2013`, :cite:`AdobeSystems2013a`, :cite:`Ohno2014a`,
+:cite:`Wyszecki2000y`
 
 UV_TO_CCT_METHODS : CaseInsensitiveMapping
     **{'Ohno 2013', 'Robertson 1968'}**
@@ -712,10 +708,8 @@ def uv_to_CCT(uv, method='Ohno 2013', **kwargs):
 
     References
     ----------
-    -   :cite:`AdobeSystems2013`
-    -   :cite:`AdobeSystems2013a`
-    -   :cite:`Ohno2014a`
-    -   :cite:`Wyszecki2000y`
+    :cite:`AdobeSystems2013`, :cite:`AdobeSystems2013a`, :cite:`Ohno2014a`,
+    :cite:`Wyszecki2000y`
 
     Examples
     --------
@@ -742,11 +736,8 @@ Supported correlated colour temperature :math:`T_{cp}` to *CIE UCS* colourspace
 
 References
 ----------
--   :cite:`AdobeSystems2013`
--   :cite:`AdobeSystems2013a`
--   :cite:`Krystek1985b`
--   :cite:`Ohno2014a`
--   :cite:`Wyszecki2000y`
+:cite:`AdobeSystems2013`, :cite:`AdobeSystems2013a`, :cite:`Krystek1985b`,
+:cite:`Ohno2014a`, :cite:`Wyszecki2000y`
 
 CCT_TO_UV_METHODS : CaseInsensitiveMapping
     **{'Ohno 2013', 'Robertson 1968', 'Krystek 1985}**
@@ -789,11 +780,8 @@ def CCT_to_uv(CCT, method='Ohno 2013', **kwargs):
 
     References
     ----------
-    -   :cite:`AdobeSystems2013`
-    -   :cite:`AdobeSystems2013a`
-    -   :cite:`Krystek1985b`
-    -   :cite:`Ohno2014a`
-    -   :cite:`Wyszecki2000y`
+    :cite:`AdobeSystems2013`, :cite:`AdobeSystems2013a`, :cite:`Krystek1985b`,
+    :cite:`Ohno2014a`, :cite:`Wyszecki2000y`
 
     Examples
     --------
@@ -828,7 +816,7 @@ def xy_to_CCT_McCamy1992(xy):
 
     References
     ----------
-    -   :cite:`Wikipedia2001`
+    :cite:`Wikipedia2001`
 
     Examples
     --------
@@ -863,7 +851,7 @@ def xy_to_CCT_Hernandez1999(xy):
 
     References
     ----------
-    -   :cite:`Hernandez-Andres1999a`
+    :cite:`Hernandez-Andres1999a`
 
     Examples
     --------
@@ -909,7 +897,7 @@ def CCT_to_xy_Kang2002(CCT):
 
     References
     ----------
-    -   :cite:`Kang2002a`
+    :cite:`Kang2002a`
 
     Examples
     --------
@@ -963,7 +951,7 @@ def CCT_to_xy_CIE_D(CCT):
 
     References
     ----------
-    -   :cite:`Wyszecki2000z`
+    :cite:`Wyszecki2000z`
 
     Examples
     --------
@@ -1000,9 +988,7 @@ correlated colour temperature :math:`T_{cp}` computation methods.
 
 References
 ----------
--   :cite:`Hernandez-Andres1999a`
--   :cite:`Wikipedia2001`
--   :cite:`Wikipedia2001a`
+:cite:`Hernandez-Andres1999a`, :cite:`Wikipedia2001`, :cite:`Wikipedia2001a`
 
 XY_TO_CCT_METHODS : CaseInsensitiveMapping
     **{'McCamy 1992', 'Hernandez 1999'}**
@@ -1037,9 +1023,8 @@ def xy_to_CCT(xy, method='McCamy 1992'):
 
     References
     ----------
-    -   :cite:`Hernandez-Andres1999a`
-    -   :cite:`Wikipedia2001`
-    -   :cite:`Wikipedia2001a`
+    :cite:`Hernandez-Andres1999a`, :cite:`Wikipedia2001`,
+    :cite:`Wikipedia2001a`
     """
 
     return XY_TO_CCT_METHODS.get(method)(xy)
@@ -1055,9 +1040,7 @@ values *xy* chromaticity coordinates computation methods.
 
 References
 ----------
--   :cite:`Kang2002a`
--   :cite:`Wikipedia2001a`
--   :cite:`Wyszecki2000z`
+:cite:`Kang2002a`, :cite:`Wikipedia2001a`, :cite:`Wyszecki2000z`
 
 CCT_TO_XY_METHODS : CaseInsensitiveMapping
     **{'Kang 2002', 'CIE Illuminant D Series'}**
@@ -1091,9 +1074,7 @@ def CCT_to_xy(CCT, method='Kang 2002'):
 
     References
     ----------
-    -   :cite:`Kang2002a`
-    -   :cite:`Wikipedia2001a`
-    -   :cite:`Wyszecki2000z`
+    :cite:`Kang2002a`, :cite:`Wikipedia2001a`, :cite:`Wyszecki2000z`
     """
 
     return CCT_TO_XY_METHODS.get(method)(CCT)

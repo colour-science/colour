@@ -83,7 +83,7 @@ class CRI_Specification(
 
     References
     ----------
-    -   :cite:`Ohno2008a`
+    :cite:`Ohno2008a`
     """
 
 
@@ -106,7 +106,7 @@ def colour_rendering_index(spd_test, additional_data=False):
 
     References
     ----------
-    -   :cite:`Ohno2008a`
+    :cite:`Ohno2008a`
 
     Examples
     --------

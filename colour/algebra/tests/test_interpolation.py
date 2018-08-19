@@ -708,7 +708,7 @@ class TestLagrangeCoefficients(unittest.TestCase):
 
         References
         ----------
-        -   :cite:`Fairman1985b`
+        :cite:`Fairman1985b`
         """
 
         lc = [lagrange_coefficients(i, 3) for i in np.linspace(0.05, 0.95, 19)]

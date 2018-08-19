@@ -81,7 +81,7 @@ def log_encoding_CanonLog(x, bit_depth=10, out_legal=True, in_reflection=True):
 
     References
     ----------
-    -   :cite:`Thorpe2012a`
+    :cite:`Thorpe2012a`
 
     Notes
     -----
@@ -161,7 +161,7 @@ def log_decoding_CanonLog(clog,
 
     References
     ----------
-    -   :cite:`Thorpe2012a`
+    :cite:`Thorpe2012a`
 
     Examples
     --------
@@ -223,7 +223,7 @@ def log_encoding_CanonLog2(x, bit_depth=10, out_legal=True,
 
     References
     ----------
-    -   :cite:`Canona`
+    :cite:`Canona`
 
     Examples
     --------
@@ -289,7 +289,7 @@ def log_decoding_CanonLog2(clog2,
 
     References
     ----------
-    -   :cite:`Canona`
+    :cite:`Canona`
 
     Examples
     --------
@@ -366,7 +366,7 @@ def log_encoding_CanonLog3(x, bit_depth=10, out_legal=True,
 
     References
     ----------
-    -   :cite:`Canona`
+    :cite:`Canona`
 
     Examples
     --------
@@ -435,7 +435,7 @@ def log_decoding_CanonLog3(clog3,
 
     References
     ----------
-    -   :cite:`Canona`
+    :cite:`Canona`
 
     Examples
     --------

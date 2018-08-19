@@ -78,7 +78,7 @@ def eotf_reverse_BT1886(L, L_B=0, L_W=1):
 
     References
     ----------
-    -   :cite:`InternationalTelecommunicationUnion2011h`
+    :cite:`InternationalTelecommunicationUnion2011h`
 
     Examples
     --------
@@ -140,7 +140,7 @@ def eotf_BT1886(V, L_B=0, L_W=1):
 
     References
     ----------
-    -   :cite:`InternationalTelecommunicationUnion2011h`
+    :cite:`InternationalTelecommunicationUnion2011h`
 
     Examples
     --------

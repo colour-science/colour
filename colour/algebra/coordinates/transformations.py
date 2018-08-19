@@ -67,8 +67,7 @@ def cartesian_to_spherical(a):
 
     References
     ----------
-    -   :cite:`Wikipedia2006`
-    -   :cite:`Wikipedia2005a`
+    :cite:`Wikipedia2006`, :cite:`Wikipedia2005a`
 
     Examples
     --------
@@ -106,8 +105,7 @@ def spherical_to_cartesian(a):
 
     References
     ----------
-    -   :cite:`Wikipedia2006`
-    -   :cite:`Wikipedia2005a`
+    :cite:`Wikipedia2006`, :cite:`Wikipedia2005a`
 
     Examples
     --------
@@ -145,8 +143,7 @@ def cartesian_to_polar(a):
 
     References
     ----------
-    -   :cite:`Wikipedia2006`
-    -   :cite:`Wikipedia2005a`
+    :cite:`Wikipedia2006`, :cite:`Wikipedia2005a`
 
     Examples
     --------
@@ -180,8 +177,7 @@ def polar_to_cartesian(a):
 
     References
     ----------
-    -   :cite:`Wikipedia2006`
-    -   :cite:`Wikipedia2005a`
+    :cite:`Wikipedia2006`, :cite:`Wikipedia2005a`
 
     Examples
     --------
@@ -216,8 +212,7 @@ def cartesian_to_cylindrical(a):
 
     References
     ----------
-    -   :cite:`Wikipedia2006`
-    -   :cite:`Wikipedia2005a`
+    :cite:`Wikipedia2006`, :cite:`Wikipedia2005a`
 
     Examples
     --------
@@ -251,8 +246,7 @@ def cylindrical_to_cartesian(a):
 
     References
     ----------
-    -   :cite:`Wikipedia2006`
-    -   :cite:`Wikipedia2005a`
+    :cite:`Wikipedia2006`, :cite:`Wikipedia2005a`
 
     Examples
     --------

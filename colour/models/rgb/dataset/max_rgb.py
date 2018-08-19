@@ -96,7 +96,7 @@ MAX_RGB_COLOURSPACE.__doc__ = """
 
 References
 ----------
--   :cite:`HutchColorf`
+:cite:`HutchColorf`
 
 MAX_RGB_COLOURSPACE : RGB_Colourspace
 """

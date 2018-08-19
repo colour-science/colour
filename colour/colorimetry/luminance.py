@@ -113,7 +113,7 @@ def luminance_Newhall1943(V):
 
     References
     ----------
-    -   :cite:`Newhall1943a`
+    :cite:`Newhall1943a`
 
     Examples
     --------
@@ -161,7 +161,7 @@ def luminance_ASTMD153508(V):
 
     References
     ----------
-    -   :cite:`ASTMInternational2008a`
+    :cite:`ASTMInternational2008a`
 
     Examples
     --------
@@ -213,8 +213,7 @@ def luminance_CIE1976(Lstar, Y_n=100):
 
     References
     ----------
-    -   :cite:`Lindbloom2003d`
-    -   :cite:`Wyszecki2000bd`
+    :cite:`Lindbloom2003d`, :cite:`Wyszecki2000bd`
 
     Examples
     --------
@@ -273,7 +272,7 @@ def luminance_Fairchild2010(L_hdr, epsilon=1.836):
 
     References
     ----------
-    -   :cite:`Fairchild2010`
+    :cite:`Fairchild2010`
 
     Examples
     --------
@@ -330,7 +329,7 @@ def luminance_Fairchild2011(L_hdr, epsilon=0.474, method='hdr-CIELAB'):
 
     References
     ----------
-    -   :cite:`Fairchild2011`
+    :cite:`Fairchild2011`
 
     Examples
     --------
@@ -368,12 +367,8 @@ Supported *luminance* computations methods.
 
 References
 ----------
--   :cite:`ASTMInternational2008a`
--   :cite:`Fairchild2010`
--   :cite:`Fairchild2011`
--   :cite:`Lindbloom2003d`
--   :cite:`Newhall1943a`
--   :cite:`Wyszecki2000bd`
+:cite:`ASTMInternational2008a`, :cite:`Fairchild2010`, :cite:`Fairchild2011`,
+:cite:`Lindbloom2003d`, :cite:`Newhall1943a`, :cite:`Wyszecki2000bd`
 
 LUMINANCE_METHODS : CaseInsensitiveMapping
     **{'Newhall 1943', 'ASTM D1535-08', 'CIE 1976', 'Fairchild 2010'}**
@@ -435,13 +430,9 @@ def luminance(LV, method='CIE 1976', **kwargs):
 
     References
     ----------
-    -   :cite:`ASTMInternational2008a`
-    -   :cite:`Fairchild2010`
-    -   :cite:`Fairchild2011`
-    -   :cite:`Lindbloom2003d`
-    -   :cite:`Newhall1943a`
-    -   :cite:`Wikipedia2001b`
-    -   :cite:`Wyszecki2000bd`
+    :cite:`ASTMInternational2008a`, :cite:`Fairchild2010`,
+    :cite:`Fairchild2011`, :cite:`Lindbloom2003d`, :cite:`Newhall1943a`,
+    :cite:`Wikipedia2001b`, :cite:`Wyszecki2000bd`
 
     Examples
     --------

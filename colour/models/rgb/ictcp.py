@@ -126,8 +126,7 @@ def RGB_to_ICTCP(RGB, L_p=10000):
 
     References
     ----------
-    -   :cite:`Dolby2016a`
-    -   :cite:`Lu2016c`
+    :cite:`Dolby2016a`, :cite:`Lu2016c`
 
     Examples
     --------
@@ -187,8 +186,7 @@ def ICTCP_to_RGB(ICTCP, L_p=10000):
 
     References
     ----------
-    -   :cite:`Dolby2016a`
-    -   :cite:`Lu2016c`
+    :cite:`Dolby2016a`, :cite:`Lu2016c`
 
     Examples
     --------

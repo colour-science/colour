@@ -631,7 +631,7 @@ class IES_TM2714_Spd(SpectralPowerDistribution):
 
     References
     ----------
-    -   :cite:`IESComputerCommittee2014a`
+    :cite:`IESComputerCommittee2014a`
 
     Examples
     --------

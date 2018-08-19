@@ -100,10 +100,8 @@ class CIECAM02_InductionFactors(
 
     References
     ----------
-    -   :cite:`Fairchild2004c`
-    -   :cite:`Luo2013`
-    -   :cite:`Moroneya`
-    -   :cite:`Wikipedia2007a`
+    :cite:`Fairchild2004c`, :cite:`Luo2013`, :cite:`Moroneya`,
+    :cite:`Wikipedia2007a`
     """
 
 
@@ -117,10 +115,8 @@ Reference *CIECAM02* colour appearance model viewing conditions.
 
 References
 ----------
--   :cite:`Fairchild2004c`
--   :cite:`Luo2013`
--   :cite:`Moroneya`
--   :cite:`Wikipedia2007a`
+:cite:`Fairchild2004c`, :cite:`Luo2013`, :cite:`Moroneya`,
+:cite:`Wikipedia2007a`
 
 CIECAM02_VIEWING_CONDITIONS : CaseInsensitiveMapping
     **{'Average', 'Dim', 'Dark'}**
@@ -160,10 +156,8 @@ class CIECAM02_Specification(
 
     References
     ----------
-    -   :cite:`Fairchild2004c`
-    -   :cite:`Luo2013`
-    -   :cite:`Moroneya`
-    -   :cite:`Wikipedia2007a`
+    :cite:`Fairchild2004c`, :cite:`Luo2013`, :cite:`Moroneya`,
+    :cite:`Wikipedia2007a`
     """
 
     def __new__(cls,
@@ -238,10 +232,8 @@ def XYZ_to_CIECAM02(XYZ,
 
     References
     ----------
-    -   :cite:`Fairchild2004c`
-    -   :cite:`Luo2013`
-    -   :cite:`Moroneya`
-    -   :cite:`Wikipedia2007a`
+    :cite:`Fairchild2004c`, :cite:`Luo2013`, :cite:`Moroneya`,
+    :cite:`Wikipedia2007a`
 
     Examples
     --------
@@ -391,10 +383,8 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
 
     References
     ----------
-    -   :cite:`Fairchild2004c`
-    -   :cite:`Luo2013`
-    -   :cite:`Moroneya`
-    -   :cite:`Wikipedia2007a`
+    :cite:`Fairchild2004c`, :cite:`Luo2013`, :cite:`Moroneya`,
+    :cite:`Wikipedia2007a`
 
     Examples
     --------

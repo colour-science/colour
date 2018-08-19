@@ -58,7 +58,7 @@ def handle_numpy_errors(**kwargs):
 
     References
     ----------
-    -   :cite:`Kienzle2011a`
+    :cite:`Kienzle2011a`
 
     Examples
     --------

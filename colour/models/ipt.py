@@ -119,7 +119,7 @@ def XYZ_to_IPT(XYZ):
 
     References
     ----------
-    -   :cite:`Fairchild2013y`
+    :cite:`Fairchild2013y`
 
     Examples
     --------
@@ -172,7 +172,7 @@ def IPT_to_XYZ(IPT):
 
     References
     ----------
-    -   :cite:`Fairchild2013y`
+    :cite:`Fairchild2013y`
 
     Examples
     --------
@@ -225,7 +225,7 @@ def IPT_hue_angle(IPT):
 
     References
     ----------
-    -   :cite:`Fairchild2013y`
+    :cite:`Fairchild2013y`
 
     Examples
     --------

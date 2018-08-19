@@ -50,7 +50,7 @@ def read_LUT_IridasCube(path):
 
     References
     ----------
-    -   :cite:`AdobeSystems2013b`
+    :cite:`AdobeSystems2013b`
 
     Examples
     --------
@@ -181,7 +181,7 @@ def write_LUT_IridasCube(LUT, path, decimals=7):
 
     References
     ----------
-    -   :cite:`AdobeSystems2013b`
+    :cite:`AdobeSystems2013b`
 
     Examples
     --------

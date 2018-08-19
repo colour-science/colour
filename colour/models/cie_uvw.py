@@ -86,7 +86,7 @@ def XYZ_to_UVW(
 
     References
     ----------
-    -   :cite:`Wikipedia2008a`
+    :cite:`Wikipedia2008a`
 
     Examples
     --------
@@ -160,7 +160,7 @@ def UVW_to_XYZ(
 
     References
     ----------
-    -   :cite:`Wikipedia2008a`
+    :cite:`Wikipedia2008a`
 
     Examples
     --------

@@ -89,7 +89,7 @@ def XYZ_to_spectral_Meng2015(
 
     References
     ----------
-    -   :cite:`Meng2015c`
+    :cite:`Meng2015c`
 
     Examples
     --------

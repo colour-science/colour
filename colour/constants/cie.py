@@ -46,8 +46,7 @@ Notes
 
 References
 ----------
--   :cite:`Lindbloom2003d`
-
+:cite:`Lindbloom2003d`
 """
 
 CIE_K = DocstringFloat(24389 / 27)
@@ -68,7 +67,7 @@ Notes
 
 References
 ----------
--   :cite:`Lindbloom2003d`
+:cite:`Lindbloom2003d`
 """
 
 K_M = DocstringFloat(683)
@@ -85,7 +84,7 @@ Notes
 
 References
 ----------
--   :cite:`Wyszecki2000s`
+:cite:`Wyszecki2000s`
 """
 
 KP_M = DocstringFloat(1700)
@@ -102,5 +101,5 @@ Notes
 
 References
 ----------
--   :cite:`Wyszecki2000s`
+:cite:`Wyszecki2000s`
 """

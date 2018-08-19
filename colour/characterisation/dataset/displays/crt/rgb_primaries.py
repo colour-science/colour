@@ -140,7 +140,7 @@ CRT_DISPLAYS_RGB_PRIMARIES = CaseInsensitiveMapping({
 
 References
 ----------
--   :cite:`Machado2010a`
+:cite:`Machado2010a`
 
 CRT_DISPLAYS_RGB_PRIMARIES : CaseInsensitiveMapping
     **{'Typical CRT Brainard 1997'}**

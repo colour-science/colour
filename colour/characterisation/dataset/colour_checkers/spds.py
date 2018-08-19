@@ -3001,10 +3001,8 @@ Aggregated *ColourCheckers* spectral power distributions.
 
 References
 ----------
--   :cite:`Ohta1997a`
--   :cite:`BabelColor2012b`
--   :cite:`BabelColor2012c`
--   :cite:`MunsellColorScienceb`
+:cite:`Ohta1997a`, :cite:`BabelColor2012b`, :cite:`BabelColor2012c`,
+:cite:`MunsellColorScienceb`
 
 COLOURCHECKERS : CaseInsensitiveMapping
     **{'BabelColor Average', 'ColorChecker N Ohta'}**

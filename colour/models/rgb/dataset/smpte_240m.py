@@ -103,8 +103,8 @@ SMPTE_240M_COLOURSPACE.__doc__ = """
 
 References
 ----------
--   :cite:`SocietyofMotionPictureandTelevisionEngineers1999b`
--   :cite:`SocietyofMotionPictureandTelevisionEngineers2004a`
+:cite:`SocietyofMotionPictureandTelevisionEngineers1999b`,
+:cite:`SocietyofMotionPictureandTelevisionEngineers2004a`
 
 SMPTE_240M_COLOURSPACE : RGB_Colourspace
 """

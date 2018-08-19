@@ -112,7 +112,7 @@ def lightness_Glasser1958(Y):
 
     References
     ----------
-    -   :cite:`Glasser1958a`
+    :cite:`Glasser1958a`
 
     Examples
     --------
@@ -160,7 +160,7 @@ def lightness_Wyszecki1963(Y):
 
     References
     ----------
-    -   :cite:`Wyszecki1963b`
+    :cite:`Wyszecki1963b`
 
     Examples
     --------
@@ -216,8 +216,7 @@ def lightness_CIE1976(Y, Y_n=100):
 
     References
     ----------
-    -   :cite:`Lindbloom2003d`
-    -   :cite:`Wyszecki2000bd`
+    :cite:`Lindbloom2003d`, :cite:`Wyszecki2000bd`
 
     Examples
     --------
@@ -275,7 +274,7 @@ def lightness_Fairchild2010(Y, epsilon=1.836):
 
     References
     ----------
-    -   :cite:`Fairchild2010`
+    :cite:`Fairchild2010`
 
     Examples
     --------
@@ -331,7 +330,7 @@ def lightness_Fairchild2011(Y, epsilon=0.474, method='hdr-CIELAB'):
 
     References
     ----------
-    -   :cite:`Fairchild2011`
+    :cite:`Fairchild2011`
 
     Examples
     --------
@@ -367,12 +366,8 @@ Supported *Lightness* computations methods.
 
 References
 ----------
--   :cite:`Fairchild2010`
--   :cite:`Fairchild2011`
--   :cite:`Glasser1958a`
--   :cite:`Lindbloom2003d`
--   :cite:`Wyszecki1963b`
--   :cite:`Wyszecki2000bd`
+:cite:`Fairchild2010`, :cite:`Fairchild2011`, :cite:`Glasser1958a`,
+:cite:`Lindbloom2003d`, :cite:`Wyszecki1963b`, :cite:`Wyszecki2000bd`
 
 LIGHTNESS_METHODS : CaseInsensitiveMapping
     **{'Glasser 1958', 'Wyszecki 1963', 'CIE 1976', 'Fairchild 2010',
@@ -432,13 +427,9 @@ def lightness(Y, method='CIE 1976', **kwargs):
 
     References
     ----------
-    -   :cite:`Fairchild2010`
-    -   :cite:`Fairchild2011`
-    -   :cite:`Glasser1958a`
-    -   :cite:`Lindbloom2003d`
-    -   :cite:`Wikipedia2007c`
-    -   :cite:`Wyszecki1963b`
-    -   :cite:`Wyszecki2000bd`
+    :cite:`Fairchild2010`, :cite:`Fairchild2011`, :cite:`Glasser1958a`,
+    :cite:`Lindbloom2003d`, :cite:`Wikipedia2007c`, :cite:`Wyszecki1963b`,
+    :cite:`Wyszecki2000bd`
 
     Examples
     --------

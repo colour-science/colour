@@ -53,7 +53,7 @@ class Structure(dict):
 
     References
     ----------
-    -   :cite:`Mansencald`
+    :cite:`Mansencald`
 
     Examples
     --------
@@ -84,7 +84,7 @@ class Lookup(dict):
 
     References
     ----------
-    -   :cite:`Mansencalc`
+    :cite:`Mansencalc`
 
     Examples
     --------
@@ -169,7 +169,7 @@ class CaseInsensitiveMapping(MutableMapping):
 
     References
     ----------
-    -   :cite:`Reitza`
+    :cite:`Reitza`
 
     Examples
     --------

@@ -91,7 +91,7 @@ PAL_SECAM_COLOURSPACE.__doc__ = """
 
 References
 ----------
--   :cite:`InternationalTelecommunicationUnion1998a`
+:cite:`InternationalTelecommunicationUnion1998a`
 
 PAL_SECAM_COLOURSPACE : RGB_Colourspace
 """

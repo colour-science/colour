@@ -1453,7 +1453,7 @@ Test colour samples spectral power distributions.
 
 References
 ----------
--   :cite:`Ohno2008a`
+:cite:`Ohno2008a`
 
 TCS_SPDS : CaseInsensitiveMapping
 """

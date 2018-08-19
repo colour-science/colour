@@ -126,7 +126,7 @@ ECI_RGB_V2_COLOURSPACE.__doc__ = """
 
 References
 ----------
--   :cite:`EuropeanColorInitiative2002a`
+:cite:`EuropeanColorInitiative2002a`
 
 ECI_RGB_V2_COLOURSPACE : RGB_Colourspace
 """

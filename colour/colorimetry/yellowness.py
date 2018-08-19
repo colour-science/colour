@@ -82,7 +82,7 @@ def yellowness_ASTMD1925(XYZ):
 
     References
     ----------
-    -   :cite:`X-Rite2012a`
+    :cite:`X-Rite2012a`
 
     Examples
     --------
@@ -134,7 +134,7 @@ def yellowness_ASTME313(XYZ):
 
     References
     ----------
-    -   :cite:`X-Rite2012a`
+    :cite:`X-Rite2012a`
 
     Examples
     --------
@@ -160,7 +160,7 @@ Supported *yellowness* computations methods.
 
 References
 ----------
--   :cite:`X-Rite2012a`
+:cite:`X-Rite2012a`
 
 YELLOWNESS_METHODS : CaseInsensitiveMapping
     **{'ASTM E313', 'ASTM D1925'}**
@@ -201,7 +201,7 @@ def yellowness(XYZ, method='ASTM E313'):
 
     References
     ----------
-    -   :cite:`X-Rite2012a`
+    :cite:`X-Rite2012a`
 
     Examples
     --------

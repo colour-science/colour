@@ -66,15 +66,9 @@ Supported :math:`\Delta E_{ab}` computations methods.
 
 References
 ----------
--   :cite:`ASTMInternational2007`
--   :cite:`Li2017`
--   :cite:`Lindbloom2003c`
--   :cite:`Lindbloom2011a`
--   :cite:`Lindbloom2009e`
--   :cite:`Lindbloom2009f`
--   :cite:`Luo2006b`
--   :cite:`Melgosa2013b`
--   :cite:`Wikipedia2008b`
+:cite:`ASTMInternational2007`, :cite:`Li2017`, :cite:`Lindbloom2003c`,
+:cite:`Lindbloom2011a`, :cite:`Lindbloom2009e`, :cite:`Lindbloom2009f`,
+:cite:`Luo2006b`, :cite:`Melgosa2013b`, :cite:`Wikipedia2008b`
 
 DELTA_E_METHODS : CaseInsensitiveMapping
     **{'CIE 1976', 'CIE 1994', 'CIE 2000', 'CMC', 'CAM02-LCD', 'CAM02-SCD',
@@ -131,15 +125,9 @@ def delta_E(a, b, method='CIE 2000', **kwargs):
 
     References
     ----------
-    -   :cite:`ASTMInternational2007`
-    -   :cite:`Li2017`
-    -   :cite:`Lindbloom2003c`
-    -   :cite:`Lindbloom2011a`
-    -   :cite:`Lindbloom2009e`
-    -   :cite:`Lindbloom2009f`
-    -   :cite:`Luo2006b`
-    -   :cite:`Melgosa2013b`
-    -   :cite:`Wikipedia2008b`
+    :cite:`ASTMInternational2007`, :cite:`Li2017`, :cite:`Lindbloom2003c`,
+    :cite:`Lindbloom2011a`, :cite:`Lindbloom2009e`, :cite:`Lindbloom2009f`,
+    :cite:`Luo2006b`, :cite:`Melgosa2013b`, :cite:`Wikipedia2008b`
 
     Examples
     --------

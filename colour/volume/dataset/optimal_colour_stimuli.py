@@ -284,7 +284,7 @@ A_OPTIMAL_COLOUR_STIMULI : ndarray
 
 References
 ----------
--   :cite:`Wyszecki2000bb`
+:cite:`Wyszecki2000bb`
 """
 
 C_OPTIMAL_COLOUR_STIMULI = np.array([
@@ -493,7 +493,7 @@ C_OPTIMAL_COLOUR_STIMULI : ndarray
 
 References
 ----------
--   :cite:`MacAdam1935a`
+:cite:`MacAdam1935a`
 """
 
 D65_OPTIMAL_COLOUR_STIMULI = np.array([
@@ -745,7 +745,7 @@ D65_OPTIMAL_COLOUR_STIMULI : ndarray
 
 References
 ----------
--   :cite:`Wyszecki2000bh`
+:cite:`Wyszecki2000bh`
 """
 
 ILLUMINANTS_OPTIMAL_COLOUR_STIMULI = CaseInsensitiveMapping({
@@ -758,7 +758,7 @@ Illuminants *Optimal Colour Stimuli*.
 
 References
 ----------
--   :cite:`Wikipedia2004a`
+:cite:`Wikipedia2004a`
 
 ILLUMINANTS_OPTIMAL_COLOUR_STIMULI : CaseInsensitiveMapping
     **{'A', 'C', 'D65'}**

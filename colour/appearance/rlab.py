@@ -69,8 +69,7 @@ Reference *RLAB* colour appearance model viewing conditions.
 
 References
 ----------
--   :cite:`Fairchild1996a`
--   :cite:`Fairchild2013w`
+:cite:`Fairchild1996a`, :cite:`Fairchild2013w`
 
 RLAB_VIEWING_CONDITIONS : CaseInsensitiveMapping
     **{'Average', 'Dim', 'Dark'}**
@@ -86,8 +85,7 @@ RLAB_D_FACTOR.__doc__ = """
 
 References
 ----------
--   :cite:`Fairchild1996a`
--   :cite:`Fairchild2013w`
+:cite:`Fairchild1996a`, :cite:`Fairchild2013w`
 
 RLAB_D_FACTOR : CaseInsensitiveMapping
     **{'Hard Copy Images',
@@ -134,8 +132,7 @@ class RLAB_ReferenceSpecification(
 
     References
     ----------
-    -   :cite:`Fairchild1996a`
-    -   :cite:`Fairchild2013w`
+    :cite:`Fairchild1996a`, :cite:`Fairchild2013w`
     """
 
 
@@ -172,8 +169,7 @@ class RLAB_Specification(
 
     References
     ----------
-    -   :cite:`Fairchild1996a`
-    -   :cite:`Fairchild2013w`
+    :cite:`Fairchild1996a`, :cite:`Fairchild2013w`
     """
 
 
@@ -223,8 +219,7 @@ def XYZ_to_RLAB(XYZ,
 
     References
     ----------
-    -   :cite:`Fairchild1996a`
-    -   :cite:`Fairchild2013w`
+    :cite:`Fairchild1996a`, :cite:`Fairchild2013w`
 
     Examples
     --------

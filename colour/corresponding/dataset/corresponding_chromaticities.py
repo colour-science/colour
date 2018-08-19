@@ -823,7 +823,7 @@ BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES.__doc__ = """
 
 References
 ----------
--   :cite:`Breneman1987b`
+:cite:`Breneman1987b`
 
 BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES : dict
 """
@@ -847,7 +847,7 @@ BRENEMAN_EXPERIMENTS.__doc__ = """
 
 References
 ----------
--   :cite:`Breneman1987b`
+:cite:`Breneman1987b`
 
 BRENEMAN_EXPERIMENTS : dict
 """

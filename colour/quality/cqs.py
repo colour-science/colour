@@ -107,8 +107,7 @@ class CQS_Specification(
 
     References
     ----------
-    -   :cite:`Davis2010a`
-    -   :cite:`Ohno2008a`
+    :cite:`Davis2010a`, :cite:`Ohno2008a`
     """
 
 
@@ -131,8 +130,7 @@ def colour_quality_scale(spd_test, additional_data=False):
 
     References
     ----------
-    -   :cite:`Davis2010a`
-    -   :cite:`Ohno2008a`
+    :cite:`Davis2010a`, :cite:`Ohno2008a`
 
     Examples
     --------

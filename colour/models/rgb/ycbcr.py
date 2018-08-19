@@ -82,11 +82,11 @@ Luma weightings presets.
 
 References
 ----------
--   :cite:`InternationalTelecommunicationUnion2011e`
--   :cite:`InternationalTelecommunicationUnion2015i`
--   :cite:`InternationalTelecommunicationUnion2015h`
--   :cite:`SocietyofMotionPictureandTelevisionEngineers1999b`
--   :cite:`Wikipedia2004d`
+:cite:`InternationalTelecommunicationUnion2011e`,
+:cite:`InternationalTelecommunicationUnion2015i`,
+:cite:`InternationalTelecommunicationUnion2015h`,
+:cite:`SocietyofMotionPictureandTelevisionEngineers1999b`,
+:cite:`Wikipedia2004d`
 
 YCBCR_WEIGHTS : dict
     **{'ITU-R BT.601', 'ITU-R BT.709', 'ITU-R BT.2020', 'SMPTE-240M}**
@@ -237,10 +237,10 @@ def RGB_to_YCbCr(RGB,
 
     References
     ----------
-    -   :cite:`InternationalTelecommunicationUnion2011e`
-    -   :cite:`InternationalTelecommunicationUnion2015i`
-    -   :cite:`SocietyofMotionPictureandTelevisionEngineers1999b`
-    -   :cite:`Wikipedia2004d`
+    :cite:`InternationalTelecommunicationUnion2011e`,
+    :cite:`InternationalTelecommunicationUnion2015i`,
+    :cite:`SocietyofMotionPictureandTelevisionEngineers1999b`,
+    :cite:`Wikipedia2004d`
 
     Examples
     --------
@@ -408,10 +408,10 @@ def YCbCr_to_RGB(YCbCr,
 
     References
     ----------
-    -   :cite:`InternationalTelecommunicationUnion2011e`
-    -   :cite:`InternationalTelecommunicationUnion2015i`
-    -   :cite:`SocietyofMotionPictureandTelevisionEngineers1999b`
-    -   :cite:`Wikipedia2004d`
+    :cite:`InternationalTelecommunicationUnion2011e`,
+    :cite:`InternationalTelecommunicationUnion2015i`,
+    :cite:`SocietyofMotionPictureandTelevisionEngineers1999b`,
+    :cite:`Wikipedia2004d`
 
     Examples
     --------
@@ -519,8 +519,7 @@ def RGB_to_YcCbcCrc(RGB,
 
     References
     ----------
-    -   :cite:`InternationalTelecommunicationUnion2015h`
-    -   :cite:`Wikipedia2004d`
+    :cite:`InternationalTelecommunicationUnion2015h`, :cite:`Wikipedia2004d`
 
     Examples
     --------
@@ -625,8 +624,8 @@ def YcCbcCrc_to_RGB(YcCbcCrc,
 
     References
     ----------
-    -   :cite:`InternationalTelecommunicationUnion2015h`
-    -   :cite:`Wikipedia2004d`
+    :cite:`InternationalTelecommunicationUnion2015h`,
+    :cite:`Wikipedia2004d`
 
     Examples
     --------

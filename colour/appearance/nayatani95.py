@@ -102,8 +102,7 @@ class Nayatani95_ReferenceSpecification(
 
     References
     ----------
-    -   :cite:`Fairchild2013ba`
-    -   :cite:`Nayatani1995a`
+    :cite:`Fairchild2013ba`, :cite:`Nayatani1995a`
     """
 
 
@@ -145,8 +144,7 @@ class Nayatani95_Specification(
 
     References
     ----------
-    -   :cite:`Fairchild2013ba`
-    -   :cite:`Nayatani1995a`
+    :cite:`Fairchild2013ba`, :cite:`Nayatani1995a`
     """
 
 
@@ -195,8 +193,7 @@ def XYZ_to_Nayatani95(XYZ, XYZ_n, Y_o, E_o, E_or, n=1):
 
     References
     ----------
-    -   :cite:`Fairchild2013ba`
-    -   :cite:`Nayatani1995a`
+    :cite:`Fairchild2013ba`, :cite:`Nayatani1995a`
 
     Examples
     --------

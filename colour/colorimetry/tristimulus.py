@@ -64,7 +64,7 @@ Shape for *ASTM E308-15* practise: (360, 780, 1).
 
 References
 ----------
--   :cite:`ASTMInternational2015b`
+:cite:`ASTMInternational2015b`
 
 ASTME30815_PRACTISE_SHAPE : SpectralShape
 """
@@ -95,7 +95,7 @@ def lagrange_coefficients_ASTME202211(interval=10, interval_type='inner'):
 
     References
     ----------
-    -   :cite:`ASTMInternational2011a`
+    :cite:`ASTMInternational2011a`
 
     Examples
     --------
@@ -195,7 +195,7 @@ _TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their identifier key is
 
     References
     ----------
-    -   :cite:`ASTMInternational2011a`
+    :cite:`ASTMInternational2011a`
 
     Examples
     --------
@@ -330,7 +330,7 @@ def adjust_tristimulus_weighting_factors_ASTME30815(W, shape_r, shape_t):
 
     References
     ----------
-    -   :cite:`ASTMInternational2015b`
+    :cite:`ASTMInternational2015b`
 
     Examples
     --------
@@ -414,7 +414,7 @@ def spectral_to_XYZ_integration(
 
     References
     ----------
-    -   :cite:`Wyszecki2000bf`
+    :cite:`Wyszecki2000bf`
 
     Examples
     --------
@@ -507,7 +507,7 @@ def spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
 
     References
     ----------
-    -   :cite:`ASTMInternational2015b`
+    :cite:`ASTMInternational2015b`
 
     Examples
     --------
@@ -625,7 +625,7 @@ _TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their identifier key is
 
     References
     ----------
-    -   :cite:`ASTMInternational2015b`
+    :cite:`ASTMInternational2015b`
 
     Examples
     --------
@@ -718,9 +718,8 @@ conversion methods
 
 References
 ----------
--   :cite:`ASTMInternational2011a`
--   :cite:`ASTMInternational2015b`
--   :cite:`Wyszecki2000bf`
+:cite:`ASTMInternational2011a`, :cite:`ASTMInternational2015b`,
+:cite:`Wyszecki2000bf`
 
 SPECTRAL_TO_XYZ_METHODS : CaseInsensitiveMapping
     **{'ASTM E308-15', 'Integration'}**
@@ -788,9 +787,8 @@ def spectral_to_XYZ(
 
     References
     ----------
-    -   :cite:`ASTMInternational2011a`
-    -   :cite:`ASTMInternational2015b`
-    -   :cite:`Wyszecki2000bf`
+    :cite:`ASTMInternational2011a`, :cite:`ASTMInternational2015b`,
+    :cite:`Wyszecki2000bf`
 
     Examples
     --------
@@ -875,7 +873,7 @@ def multi_spectral_to_XYZ_integration(
 
     References
     ----------
-    -   :cite:`Wyszecki2000bf`
+    :cite:`Wyszecki2000bf`
 
     Examples
     --------
@@ -952,7 +950,7 @@ methods.
 
 References
 ----------
--   :cite:`Wyszecki2000bf`
+:cite:`Wyszecki2000bf`
 
 MULTI_SPECTRAL_TO_XYZ_METHODS : CaseInsensitiveMapping
     **{'Integration'}**
@@ -1004,7 +1002,7 @@ def multi_spectral_to_XYZ(
 
     References
     ----------
-    -   :cite:`Wyszecki2000bf`
+    :cite:`Wyszecki2000bf`
 
     Examples
     --------

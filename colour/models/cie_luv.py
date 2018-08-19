@@ -101,8 +101,7 @@ def XYZ_to_Luv(
 
     References
     ----------
-    -   :cite:`CIETC1-482004m`
-    -   :cite:`Wikipedia2007b`
+    :cite:`CIETC1-482004m`, :cite:`Wikipedia2007b`
 
     Examples
     --------
@@ -171,8 +170,7 @@ def Luv_to_XYZ(
 
     References
     ----------
-    -   :cite:`CIETC1-482004m`
-    -   :cite:`Wikipedia2007b`
+    :cite:`CIETC1-482004m`, :cite:`Wikipedia2007b`
 
     Examples
     --------
@@ -239,7 +237,7 @@ def Luv_to_uv(
 
     References
     ----------
-    -   :cite:`CIETC1-482004j`
+    :cite:`CIETC1-482004j`
 
     Examples
     --------
@@ -274,7 +272,7 @@ def Luv_uv_to_xy(uv):
 
     References
     ----------
-    -   :cite:`Wikipedia2007d`
+    :cite:`Wikipedia2007d`
 
     Examples
     --------
@@ -308,7 +306,7 @@ def xy_to_Luv_uv(xy):
 
     References
     ----------
-    -   :cite:`Wikipedia2007b`
+    :cite:`Wikipedia2007b`
 
     Examples
     --------
@@ -364,7 +362,7 @@ def Luv_to_LCHuv(Luv):
 
     References
     ----------
-    -   :cite:`CIETC1-482004m`
+    :cite:`CIETC1-482004m`
 
     Examples
     --------
@@ -421,7 +419,7 @@ def LCHuv_to_Luv(LCHuv):
 
     References
     ----------
-    -   :cite:`CIETC1-482004m`
+    :cite:`CIETC1-482004m`
 
     Examples
     --------

@@ -108,8 +108,7 @@ def oetf_BT2100_PQ(E):
 
     References
     ----------
-    -   :cite:`Borer2017a`
-    -   :cite:`InternationalTelecommunicationUnion2016a`
+    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2016a`
 
     Examples
     --------
@@ -154,8 +153,7 @@ def oetf_reverse_BT2100_PQ(E_p):
 
     References
     ----------
-    -   :cite:`Borer2017a`
-    -   :cite:`InternationalTelecommunicationUnion2016a`
+    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2016a`
 
     Examples
     --------
@@ -203,8 +201,7 @@ def eotf_BT2100_PQ(E_p):
 
     References
     ----------
-    -   :cite:`Borer2017a`
-    -   :cite:`InternationalTelecommunicationUnion2016a`
+    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2016a`
 
     Examples
     --------
@@ -250,8 +247,7 @@ def eotf_reverse_BT2100_PQ(F_D):
 
     References
     ----------
-    -   :cite:`Borer2017a`
-    -   :cite:`InternationalTelecommunicationUnion2016a`
+    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2016a`
 
     Examples
     --------
@@ -298,8 +294,7 @@ def ootf_BT2100_PQ(E):
 
     References
     ----------
-    -   :cite:`Borer2017a`
-    -   :cite:`InternationalTelecommunicationUnion2016a`
+    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2016a`
 
     Examples
     --------
@@ -346,8 +341,7 @@ def ootf_reverse_BT2100_PQ(F_D):
 
     References
     ----------
-    -   :cite:`Borer2017a`
-    -   :cite:`InternationalTelecommunicationUnion2016a`
+    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2016a`
 
     Examples
     --------
@@ -428,8 +422,7 @@ def oetf_BT2100_HLG(E):
 
     References
     ----------
-    -   :cite:`Borer2017a`
-    -   :cite:`InternationalTelecommunicationUnion2016a`
+    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2016a`
 
     Examples
     --------
@@ -474,8 +467,7 @@ def oetf_reverse_BT2100_HLG(E):
 
     References
     ----------
-    -   :cite:`Borer2017a`
-    -   :cite:`InternationalTelecommunicationUnion2016a`
+    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2016a`
 
     Examples
     --------
@@ -531,8 +523,7 @@ def eotf_BT2100_HLG(E_p, L_B=0, L_W=1000, gamma=None):
 
     References
     ----------
-    -   :cite:`Borer2017a`
-    -   :cite:`InternationalTelecommunicationUnion2016a`
+    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2016a`
 
     Examples
     --------
@@ -586,8 +577,7 @@ def eotf_reverse_BT2100_HLG(F_D, L_B=0, L_W=1000, gamma=None):
 
     References
     ----------
-    -   :cite:`Borer2017a`
-    -   :cite:`InternationalTelecommunicationUnion2016a`
+    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2016a`
 
     Examples
     --------
@@ -643,8 +633,7 @@ def ootf_BT2100_HLG(E, L_B=0, L_W=1000, gamma=None):
 
     References
     ----------
-    -   :cite:`Borer2017a`
-    -   :cite:`InternationalTelecommunicationUnion2016a`
+    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2016a`
 
     Examples
     --------
@@ -727,8 +716,7 @@ def ootf_reverse_BT2100_HLG(F_D, L_B=0, L_W=1000, gamma=None):
 
     References
     ----------
-    -   :cite:`Borer2017a`
-    -   :cite:`InternationalTelecommunicationUnion2016a`
+    :cite:`Borer2017a`, :cite:`InternationalTelecommunicationUnion2016a`
 
     Examples
     --------

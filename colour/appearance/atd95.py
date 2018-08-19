@@ -91,8 +91,7 @@ class ATD95_ReferenceSpecification(
 
     References
     ----------
-    -   :cite:`Fairchild2013v`
-    -   :cite:`Guth1995a`
+    :cite:`Fairchild2013v`, :cite:`Guth1995a`
     """
 
 
@@ -137,8 +136,7 @@ class ATD95_Specification(
 
     References
     ----------
-    -   :cite:`Fairchild2013v`
-    -   :cite:`Guth1995a`
+    :cite:`Fairchild2013v`, :cite:`Guth1995a`
     """
 
 
@@ -189,8 +187,7 @@ def XYZ_to_ATD95(XYZ, XYZ_0, Y_0, k_1, k_2, sigma=300):
 
     References
     ----------
-    -   :cite:`Fairchild2013v`
-    -   :cite:`Guth1995a`
+    :cite:`Fairchild2013v`, :cite:`Guth1995a`
 
     Examples
     --------

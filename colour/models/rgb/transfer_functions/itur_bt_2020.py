@@ -62,7 +62,7 @@ segments smoothly.
 
 References
 ----------
--   :cite:`InternationalTelecommunicationUnion2015h`
+:cite:`InternationalTelecommunicationUnion2015h`
 
 BT2020_CONSTANTS : Structure
 """
@@ -106,7 +106,7 @@ def oetf_BT2020(E, is_12_bits_system=False, constants=BT2020_CONSTANTS):
 
     References
     ----------
-    -   :cite:`InternationalTelecommunicationUnion2015h`
+    :cite:`InternationalTelecommunicationUnion2015h`
 
     Examples
     --------
@@ -160,7 +160,7 @@ def eotf_BT2020(E_p, is_12_bits_system=False, constants=BT2020_CONSTANTS):
 
     References
     ----------
-    -   :cite:`InternationalTelecommunicationUnion2015h`
+    :cite:`InternationalTelecommunicationUnion2015h`
 
     Examples
     --------

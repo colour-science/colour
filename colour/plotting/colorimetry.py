@@ -91,7 +91,7 @@ def single_spd_plot(spd,
 
     References
     ----------
-    -   :cite:`Spiker2015a`
+    :cite:`Spiker2015a`
 
     Examples
     --------
@@ -431,7 +431,7 @@ def single_illuminant_spd_plot(illuminant='A',
 
     References
     ----------
-    -   :cite:`Spiker2015a`
+    :cite:`Spiker2015a`
 
     Examples
     --------
@@ -540,7 +540,7 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
 
     References
     ----------
-    -   :cite:`Spiker2015a`
+    :cite:`Spiker2015a`
 
     Examples
     --------

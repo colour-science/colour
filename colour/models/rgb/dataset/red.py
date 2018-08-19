@@ -126,8 +126,7 @@ RED_COLOR_COLOURSPACE.__doc__ = """
 
 References
 ----------
--   :cite:`Mansencal2015d`
--   :cite:`SonyImageworks2012a`
+:cite:`Mansencal2015d`, :cite:`SonyImageworks2012a`
 
 RED_COLOR_COLOURSPACE : RGB_Colourspace
 """
@@ -187,8 +186,7 @@ RED_COLOR_2_COLOURSPACE.__doc__ = """
 
 References
 ----------
--   :cite:`Mansencal2015d`
--   :cite:`SonyImageworks2012a`
+:cite:`Mansencal2015d`, :cite:`SonyImageworks2012a`
 
 RED_COLOR_2_COLOURSPACE : RGB_Colourspace
 """
@@ -248,8 +246,7 @@ RED_COLOR_3_COLOURSPACE.__doc__ = """
 
 References
 ----------
--   :cite:`Mansencal2015d`
--   :cite:`SonyImageworks2012a`
+:cite:`Mansencal2015d`, :cite:`SonyImageworks2012a`
 
 RED_COLOR_3_COLOURSPACE : RGB_Colourspace
 """
@@ -309,8 +306,7 @@ RED_COLOR_4_COLOURSPACE.__doc__ = """
 
 References
 ----------
--   :cite:`Mansencal2015d`
--   :cite:`SonyImageworks2012a`
+:cite:`Mansencal2015d`, :cite:`SonyImageworks2012a`
 
 RED_COLOR_4_COLOURSPACE : RGB_Colourspace
 """
@@ -370,8 +366,7 @@ DRAGON_COLOR_COLOURSPACE.__doc__ = """
 
 References
 ----------
--   :cite:`Mansencal2015d`
--   :cite:`SonyImageworks2012a`
+:cite:`Mansencal2015d`, :cite:`SonyImageworks2012a`
 
 DRAGON_COLOR_COLOURSPACE : RGB_Colourspace
 """
@@ -431,8 +426,7 @@ DRAGON_COLOR_2_COLOURSPACE.__doc__ = """
 
 References
 ----------
--   :cite:`Mansencal2015d`
--   :cite:`SonyImageworks2012a`
+:cite:`Mansencal2015d`, :cite:`SonyImageworks2012a`
 
 DRAGON_COLOR_2_COLOURSPACE : RGB_Colourspace
 """
@@ -496,9 +490,7 @@ RED_WIDE_GAMUT_RGB_COLOURSPACE.__doc__ = """
 
 References
 ----------
--   :cite:`Mansencal2015d`
--   :cite:`Nattress2016a`
--   :cite:`SonyImageworks2012a`
+:cite:`Mansencal2015d`, :cite:`Nattress2016a`, :cite:`SonyImageworks2012a`
 
 RED_WIDE_GAMUT_RGB_COLOURSPACE : RGB_Colourspace
 """

@@ -108,7 +108,7 @@ def oetf_DICOMGSDF(L, out_int=False):
 
     References
     ----------
-    -   :cite:`NationalElectricalManufacturersAssociation2004b`
+    :cite:`NationalElectricalManufacturersAssociation2004b`
 
     Examples
     --------
@@ -176,7 +176,7 @@ def eotf_DICOMGSDF(J, in_int=False):
 
     References
     ----------
-    -   :cite:`NationalElectricalManufacturersAssociation2004b`
+    :cite:`NationalElectricalManufacturersAssociation2004b`
 
     Examples
     --------

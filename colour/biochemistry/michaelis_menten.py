@@ -60,7 +60,7 @@ def reaction_rate_MichealisMenten(S, V_max, K_m):
 
     References
     ----------
-    -   :cite:`Wikipedia2003d`
+    :cite:`Wikipedia2003d`
 
     Examples
     --------
@@ -100,7 +100,7 @@ def substrate_concentration_MichealisMenten(v, V_max, K_m):
 
     References
     ----------
-    -   :cite:`Wikipedia2003d`
+    :cite:`Wikipedia2003d`
 
     Examples
     --------

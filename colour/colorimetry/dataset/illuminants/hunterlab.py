@@ -77,8 +77,7 @@ HUNTERLAB_ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER = (
 
 References
 ----------
--   :cite:`HunterLab2008b`
--   :cite:`HunterLab2008c`
+:cite:`HunterLab2008b`, :cite:`HunterLab2008c`
 
 HUNTERLAB_ILLUMINANTS_CIE_1931_2_DEGREE_STANDARD_OBSERVER :
     CaseInsensitiveMapping
@@ -108,8 +107,7 @@ HUNTERLAB_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER = (
 
 References
 ----------
--   :cite:`HunterLab2008b`
--   :cite:`HunterLab2008c`
+:cite:`HunterLab2008b`, :cite:`HunterLab2008c`
 
 HUNTERLAB_ILLUMINANTS_CIE_1964_10_DEGREE_STANDARD_OBSERVER :
     CaseInsensitiveMapping
@@ -126,8 +124,7 @@ Aggregated *Hunter L,a,b* illuminant dataset.
 
 References
 ----------
--   :cite:`HunterLab2008b`
--   :cite:`HunterLab2008c`
+:cite:`HunterLab2008b`, :cite:`HunterLab2008c`
 
 HUNTERLAB_ILLUMINANTS : CaseInsensitiveMapping
     **{'CIE 1931 2 Degree Standard Observer',

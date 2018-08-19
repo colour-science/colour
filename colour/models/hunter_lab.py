@@ -64,7 +64,7 @@ def XYZ_to_K_ab_HunterLab1966(XYZ):
 
     References
     ----------
-    -   :cite:`HunterLab2008c`
+    :cite:`HunterLab2008c`
 
     Examples
     --------
@@ -130,7 +130,7 @@ def XYZ_to_Hunter_Lab(XYZ,
 
     References
     ----------
-    -   :cite:`HunterLab2008b`
+    :cite:`HunterLab2008b`
 
     Examples
     --------
@@ -205,7 +205,7 @@ def Hunter_Lab_to_XYZ(Lab,
 
     References
     ----------
-    -   :cite:`HunterLab2008b`
+    :cite:`HunterLab2008b`
 
     Examples
     --------

@@ -97,7 +97,7 @@ def normalised_primary_matrix(primaries, whitepoint):
 
     References
     ----------
-    -   :cite:`SocietyofMotionPictureandTelevisionEngineers1993a`
+    :cite:`SocietyofMotionPictureandTelevisionEngineers1993a`
 
     Examples
     --------
@@ -194,7 +194,7 @@ def primaries_whitepoint(npm):
 
     References
     ----------
-    -   :cite:`Trieu2015a`
+    :cite:`Trieu2015a`
 
     Examples
     --------

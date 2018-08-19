@@ -110,7 +110,7 @@ def chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2, n=1):
 
     References
     ----------
-    -   :cite:`CIETC1-321994b`
+    :cite:`CIETC1-321994b`
 
     Examples
     --------

@@ -110,8 +110,8 @@ sRGB_COLOURSPACE.__doc__ = """
 
 References
 ----------
--   :cite:`InternationalElectrotechnicalCommission1999a`
--   :cite:`InternationalTelecommunicationUnion2015i`
+:cite:`InternationalElectrotechnicalCommission1999a`,
+:cite:`InternationalTelecommunicationUnion2015i`
 
 sRGB_COLOURSPACE : RGB_Colourspace
 """

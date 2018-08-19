@@ -96,7 +96,7 @@ EKTA_SPACE_PS_5_COLOURSPACE.__doc__ = """
 
 References
 ----------
--   :cite:`Holmesa`
+:cite:`Holmesa`
 
 EKTA_SPACE_PS_5_COLOURSPACE : RGB_Colourspace
 """

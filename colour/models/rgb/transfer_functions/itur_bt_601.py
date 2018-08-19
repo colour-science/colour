@@ -75,7 +75,7 @@ def oetf_BT601(L):
 
     References
     ----------
-    -   :cite:`InternationalTelecommunicationUnion2011f`
+    :cite:`InternationalTelecommunicationUnion2011f`
 
     Examples
     --------
@@ -122,7 +122,7 @@ def oetf_reverse_BT601(E):
 
     References
     ----------
-    -   :cite:`InternationalTelecommunicationUnion2011f`
+    :cite:`InternationalTelecommunicationUnion2011f`
 
     Examples
     --------

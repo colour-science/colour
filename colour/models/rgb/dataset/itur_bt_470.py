@@ -102,7 +102,7 @@ BT470_525_COLOURSPACE.__doc__ = """
 
 References
 ----------
--   :cite:`InternationalTelecommunicationUnion1998a`
+:cite:`InternationalTelecommunicationUnion1998a`
 
 BT470_525_COLOURSPACE : RGB_Colourspace
 """
@@ -159,7 +159,7 @@ BT470_625_COLOURSPACE.__doc__ = """
 
 References
 ----------
--   :cite:`InternationalTelecommunicationUnion1998a`
+:cite:`InternationalTelecommunicationUnion1998a`
 
 BT470_625_COLOURSPACE : RGB_Colourspace
 """

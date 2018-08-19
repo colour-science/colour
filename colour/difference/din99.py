@@ -75,7 +75,7 @@ def delta_E_DIN99(Lab_1, Lab_2, textiles=False):
 
     References
     ----------
-    -   :cite:`ASTMInternational2007`
+    :cite:`ASTMInternational2007`
 
     Examples
     --------

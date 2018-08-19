@@ -93,8 +93,7 @@ def oetf_ROMMRGB(X, bit_depth=8, out_int=False):
 
     References
     ----------
-    -   :cite:`ANSI2003a`
-    -   :cite:`Spaulding2000b`
+    :cite:`ANSI2003a`, :cite:`Spaulding2000b`
 
     Examples
     --------
@@ -158,8 +157,7 @@ def eotf_ROMMRGB(X_p, bit_depth=8, in_int=False):
 
     References
     ----------
-    -   :cite:`ANSI2003a`
-    -   :cite:`Spaulding2000b`
+    :cite:`ANSI2003a`, :cite:`Spaulding2000b`
 
     Examples
     --------
@@ -233,7 +231,7 @@ def oetf_RIMMRGB(X, bit_depth=8, out_int=False, E_clip=2.0):
 
     References
     ----------
-    -   :cite:`Spaulding2000b`
+    :cite:`Spaulding2000b`
 
     Examples
     --------
@@ -301,7 +299,7 @@ def eotf_RIMMRGB(X_p, bit_depth=8, in_int=False, E_clip=2.0):
 
     References
     ----------
-    -   :cite:`Spaulding2000b`
+    :cite:`Spaulding2000b`
 
     Examples
     --------
@@ -380,7 +378,7 @@ def log_encoding_ERIMMRGB(X,
 
     References
     ----------
-    -   :cite:`Spaulding2000b`
+    :cite:`Spaulding2000b`
 
     Examples
     --------
@@ -464,7 +462,7 @@ def log_decoding_ERIMMRGB(X_p,
 
     References
     ----------
-    -   :cite:`Spaulding2000b`
+    :cite:`Spaulding2000b`
 
     Examples
     --------

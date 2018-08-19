@@ -90,7 +90,7 @@ NTSC_COLOURSPACE.__doc__ = """
 
 References
 ----------
--   :cite:`InternationalTelecommunicationUnion1998a`
+:cite:`InternationalTelecommunicationUnion1998a`
 
 NTSC_COLOURSPACE : RGB_Colourspace
 """

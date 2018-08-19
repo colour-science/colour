@@ -108,8 +108,7 @@ PROTUNE_NATIVE_COLOURSPACE.__doc__ = """
 
 References
 ----------
--   :cite:`GoPro2016a`
--   :cite:`Mansencal2015d`
+:cite:`GoPro2016a`, :cite:`Mansencal2015d`
 
 PROTUNE_NATIVE_COLOURSPACE : RGB_Colourspace
 """

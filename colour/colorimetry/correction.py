@@ -65,8 +65,7 @@ def bandpass_correction_Stearns1988(spd):
 
     References
     ----------
-    -   :cite:`Stearns1988a`
-    -   :cite:`Westland2012f`
+    :cite:`Stearns1988a`, :cite:`Westland2012f`
 
     Examples
     --------

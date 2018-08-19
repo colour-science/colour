@@ -1081,8 +1081,7 @@ LMS_CMFS.__doc__ = """
 
 References
 ----------
--   :cite:`CVRLu`
--   :cite:`Machado2010a`
+:cite:`CVRLu`, :cite:`Machado2010a`
 
 LMS_CMFS : CaseInsensitiveMapping
     {'Stockman & Sharpe 2 Degree Cone Fundamentals',
@@ -1361,9 +1360,7 @@ RGB_CMFS.__doc__ = """
 
 References
 ----------
--   :cite:`Broadbent2009a`
--   :cite:`CVRLt`
--   :cite:`CVRLw`
+:cite:`Broadbent2009a`, :cite:`CVRLt`, :cite:`CVRLw`
 
 RGB_CMFS : CaseInsensitiveMapping
     **{'Wright & Guild 1931 2 Degree RGB CMFs',
@@ -3237,8 +3234,7 @@ STANDARD_OBSERVERS_CMFS.__doc__ = """
 
 References
 ----------
--   :cite:`CVRLr`
--   :cite:`CVRLs`
+:cite:`CVRLr`, :cite:`CVRLs`
 
 STANDARD_OBSERVERS_CMFS : CaseInsensitiveMapping
     **{'CIE 1931 2 Degree Standard Observer',
@@ -3262,13 +3258,8 @@ Aggregated colour matching functions.
 
 References
 ----------
--   :cite:`Broadbent2009a`
--   :cite:`CVRLr`
--   :cite:`CVRLs`
--   :cite:`CVRLt`
--   :cite:`CVRLu`
--   :cite:`CVRLw`
--   :cite:`Machado2010a`
+:cite:`Broadbent2009a`, :cite:`CVRLr`, :cite:`CVRLs`, :cite:`CVRLt`,
+:cite:`CVRLu`, :cite:`CVRLw`, :cite:`Machado2010a`
 
 CMFS : CaseInsensitiveMapping
     **{'Stockman & Sharpe 10 Degree Cone Fundamentals',

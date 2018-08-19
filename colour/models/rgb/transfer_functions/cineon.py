@@ -71,7 +71,7 @@ def log_encoding_Cineon(x, black_offset=10 ** ((95 - 685) / 300)):
 
     References
     ----------
-    -   :cite:`SonyImageworks2012a`
+    :cite:`SonyImageworks2012a`
 
     Examples
     --------
@@ -120,7 +120,7 @@ def log_decoding_Cineon(y, black_offset=10 ** ((95 - 685) / 300)):
 
     References
     ----------
-    -   :cite:`SonyImageworks2012a`
+    :cite:`SonyImageworks2012a`
 
     Examples
     --------

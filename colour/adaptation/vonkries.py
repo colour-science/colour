@@ -81,7 +81,7 @@ def chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr, transform='CAT02'):
 
     References
     ----------
-    -   :cite:`Fairchild2013t`
+    :cite:`Fairchild2013t`
 
     Examples
     --------
@@ -174,7 +174,7 @@ def chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr, transform='CAT02'):
 
     References
     ----------
-    -   :cite:`Fairchild2013t`
+    :cite:`Fairchild2013t`
 
     Examples
     --------

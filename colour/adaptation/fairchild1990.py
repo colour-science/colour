@@ -111,8 +111,7 @@ def chromatic_adaptation_Fairchild1990(XYZ_1,
 
     References
     ----------
-    -   :cite:`Fairchild1991a`
-    -   :cite:`Fairchild2013s`
+    :cite:`Fairchild1991a`, :cite:`Fairchild2013s`
 
     Examples
     --------

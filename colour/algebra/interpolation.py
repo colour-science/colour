@@ -100,7 +100,7 @@ def kernel_nearest_neighbour(x):
 
     References
     ----------
-    -   :cite:`Burger2009b`
+    :cite:`Burger2009b`
 
     Examples
     --------
@@ -127,7 +127,7 @@ def kernel_linear(x):
 
     References
     ----------
-    -   :cite:`Burger2009b`
+    :cite:`Burger2009b`
 
     Examples
     --------
@@ -159,7 +159,7 @@ def kernel_sinc(x, a=3):
 
     References
     ----------
-    -   :cite:`Burger2009b`
+    :cite:`Burger2009b`
 
     Examples
     --------
@@ -193,7 +193,7 @@ def kernel_lanczos(x, a=3):
 
     References
     ----------
-    -   :cite:`Wikipedia2005b`
+    :cite:`Wikipedia2005b`
 
     Examples
     --------
@@ -235,7 +235,7 @@ def kernel_cardinal_spline(x, a=0.5, b=0.0):
 
     References
     ----------
-    -   :cite:`Burger2009b`
+    :cite:`Burger2009b`
 
     Examples
     --------
@@ -303,8 +303,7 @@ class KernelInterpolator(object):
 
     References
     ----------
-    -   :cite:`Burger2009b`
-    -   :cite:`Wikipedia2005b`
+    :cite:`Burger2009b`, :cite:`Wikipedia2005b`
 
     Examples
     --------
@@ -895,8 +894,7 @@ class SpragueInterpolator(object):
 
     References
     ----------
-    -   :cite:`CIETC1-382005f`
-    -   :cite:`Westland2012h`
+    :cite:`CIETC1-382005f`, :cite:`Westland2012h`
 
     Examples
     --------
@@ -929,7 +927,7 @@ class SpragueInterpolator(object):
 
     References
     ----------
-    -   :cite:`CIETC1-382005h`
+    :cite:`CIETC1-382005h`
     """
 
     def __init__(self, x, y, dtype=DEFAULT_FLOAT_DTYPE):
@@ -1502,8 +1500,7 @@ def lagrange_coefficients(r, n=4):
 
     References
     ----------
-    -   :cite:`Fairman1985b`
-    -   :cite:`Wikipedia2003a`
+    :cite:`Fairman1985b`, :cite:`Wikipedia2003a`
 
     Examples
     --------
@@ -1641,7 +1638,7 @@ def table_interpolation_trilinear(V_xyz, table):
 
     References
     ----------
-    -   :cite:`Bourkeb`
+    :cite:`Bourkeb`
 
     Examples
     --------
@@ -1702,7 +1699,7 @@ def table_interpolation_tetrahedral(V_xyz, table):
 
     References
     ----------
-    -   :cite:`Kirk2006`
+    :cite:`Kirk2006`
 
     Examples
     --------
@@ -1764,8 +1761,7 @@ Supported table interpolation methods.
 
 References
 ----------
-    -   :cite:`Bourkeb`
-    -   :cite:`Kirk2006`
+:cite:`Bourkeb`, :cite:`Kirk2006`
 
 TABLE_INTERPOLATION_METHODS : CaseInsensitiveMapping
     **{'Trilinear', 'Tetrahedral'}**
@@ -1794,8 +1790,7 @@ def table_interpolation(V_xyz, table, method='Trilinear'):
 
     References
     ----------
-    -   :cite:`Bourkeb`
-    -   :cite:`Kirk2006`
+    :cite:`Bourkeb`, :cite:`Kirk2006`
 
     Examples
     --------
