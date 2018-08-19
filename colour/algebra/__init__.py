@@ -11,11 +11,11 @@ from .geometry import (
     LineSegmentsIntersections_Specification, intersect_line_segments)
 from .interpolation import (
     kernel_nearest_neighbour, kernel_linear, kernel_sinc, kernel_lanczos,
-    kernel_cardinal_spline, KernelInterpolator, LinearInterpolator,
-    SpragueInterpolator, CubicSplineInterpolator, PchipInterpolator,
-    NullInterpolator, lagrange_coefficients, table_interpolation_trilinear,
-    table_interpolation_tetrahedral, TABLE_INTERPOLATION_METHODS,
-    table_interpolation)
+    kernel_cardinal_spline, KernelInterpolator, NearestNeighbourInterpolator,
+    LinearInterpolator, SpragueInterpolator, CubicSplineInterpolator,
+    PchipInterpolator, NullInterpolator, lagrange_coefficients,
+    table_interpolation_trilinear, table_interpolation_tetrahedral,
+    TABLE_INTERPOLATION_METHODS, table_interpolation)
 from .matrix import is_identity
 from .random import random_triplet_generator
 from .regression import least_square_mapping_MoorePenrose
@@ -31,8 +31,9 @@ __all__ += [
 __all__ += [
     'kernel_nearest_neighbour', 'kernel_linear', 'kernel_sinc',
     'kernel_lanczos', 'kernel_cardinal_spline', 'KernelInterpolator',
-    'LinearInterpolator', 'SpragueInterpolator', 'CubicSplineInterpolator',
-    'PchipInterpolator', 'NullInterpolator', 'lagrange_coefficients',
+    'NearestNeighbourInterpolator', 'LinearInterpolator',
+    'SpragueInterpolator', 'CubicSplineInterpolator', 'PchipInterpolator',
+    'NullInterpolator', 'lagrange_coefficients',
     'table_interpolation_trilinear', 'table_interpolation_tetrahedral',
     'TABLE_INTERPOLATION_METHODS', 'table_interpolation'
 ]
