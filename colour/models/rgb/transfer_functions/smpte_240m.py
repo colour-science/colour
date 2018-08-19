@@ -75,7 +75,7 @@ def oetf_SMPTE240M(L_c):
 
     References
     ----------
-    -   :cite:`SocietyofMotionPictureandTelevisionEngineers1999b`
+    :cite:`SocietyofMotionPictureandTelevisionEngineers1999b`
 
     Examples
     --------
@@ -123,7 +123,7 @@ def eotf_SMPTE240M(V_r):
 
     References
     ----------
-    -   :cite:`SocietyofMotionPictureandTelevisionEngineers1999b`
+    :cite:`SocietyofMotionPictureandTelevisionEngineers1999b`
 
     Examples
     --------

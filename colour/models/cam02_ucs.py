@@ -264,7 +264,7 @@ def JMh_CIECAM02_to_CAM02LCD(JMh):
 
     References
     ----------
-    -   :cite:`Luo2006b`
+    :cite:`Luo2006b`
 
     Examples
     --------
@@ -327,7 +327,7 @@ def CAM02LCD_to_JMh_CIECAM02(Jpapbp):
 
     References
     ----------
-    -   :cite:`Luo2006b`
+    :cite:`Luo2006b`
 
     Examples
     --------
@@ -380,7 +380,7 @@ def JMh_CIECAM02_to_CAM02SCD(JMh):
 
     References
     ----------
-    -   :cite:`Luo2006b`
+    :cite:`Luo2006b`
 
     Examples
     --------
@@ -443,7 +443,7 @@ def CAM02SCD_to_JMh_CIECAM02(Jpapbp):
 
     References
     ----------
-    -   :cite:`Luo2006b`
+    :cite:`Luo2006b`
 
     Examples
     --------
@@ -496,7 +496,7 @@ def JMh_CIECAM02_to_CAM02UCS(JMh):
 
     References
     ----------
-    -   :cite:`Luo2006b`
+    :cite:`Luo2006b`
 
     Examples
     --------
@@ -559,7 +559,7 @@ def CAM02UCS_to_JMh_CIECAM02(Jpapbp):
 
     References
     ----------
-    -   :cite:`Luo2006b`
+    :cite:`Luo2006b`
 
     Examples
     --------

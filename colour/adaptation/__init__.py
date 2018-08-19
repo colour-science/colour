@@ -64,12 +64,8 @@ Supported chromatic adaptation methods.
 
 References
 ----------
--   :cite:`CIETC1-321994b`
--   :cite:`Fairchild1991a`
--   :cite:`Fairchild2013s`
--   :cite:`Fairchild2013t`
--   :cite:`Li2002a`
--   :cite:`Westland2012k`
+:cite:`CIETC1-321994b`, :cite:`Fairchild1991a`, :cite:`Fairchild2013s`,
+:cite:`Fairchild2013t`, :cite:`Li2002a`, :cite:`Westland2012k`
 
 CHROMATIC_ADAPTATION_METHODS : CaseInsensitiveMapping
     **{'CIE 1994', 'CMCCAT2000', 'Fairchild 1990', 'Von Kries'}**
@@ -163,12 +159,8 @@ def chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method='Von Kries', **kwargs):
 
     References
     ----------
-    -   :cite:`CIETC1-321994b`
-    -   :cite:`Fairchild1991a`
-    -   :cite:`Fairchild2013s`
-    -   :cite:`Fairchild2013t`
-    -   :cite:`Li2002a`
-    -   :cite:`Westland2012k`
+    :cite:`CIETC1-321994b`, :cite:`Fairchild1991a`, :cite:`Fairchild2013s`,
+    :cite:`Fairchild2013t`, :cite:`Li2002a`, :cite:`Westland2012k`
 
     Examples
     --------

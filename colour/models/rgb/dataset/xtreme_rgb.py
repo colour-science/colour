@@ -97,7 +97,7 @@ XTREME_RGB_COLOURSPACE.__doc__ = """
 
 References
 ----------
--   :cite:`HutchColore`
+:cite:`HutchColore`
 
 XTREME_RGB_COLOURSPACE : RGB_Colourspace
 """

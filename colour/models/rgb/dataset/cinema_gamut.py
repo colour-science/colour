@@ -97,7 +97,7 @@ CINEMA_GAMUT_COLOURSPACE.__doc__ = """
 
 References
 ----------
--   :cite:`Canon2014a`
+:cite:`Canon2014a`
 
 CINEMA_GAMUT_COLOURSPACE : RGB_Colourspace
 """

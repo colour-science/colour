@@ -329,7 +329,7 @@ class TestDelta_E_CIE2000(unittest.TestCase):
 
         References
         ----------
-        -   :cite:`Sharma2005b`
+        :cite:`Sharma2005b`
         """
 
         Lab_1 = np.array([

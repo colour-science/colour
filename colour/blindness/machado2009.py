@@ -171,10 +171,8 @@ def anomalous_trichromacy_cmfs_Machado2009(cmfs, d_LMS):
 
     References
     ----------
-    -   :cite:`Colblindorb`
-    -   :cite:`Colblindora`
-    -   :cite:`Colblindorc`
-    -   :cite:`Machado2009`
+    :cite:`Colblindorb`, :cite:`Colblindora`, :cite:`Colblindorc`,
+    :cite:`Machado2009`
 
     Examples
     --------
@@ -263,10 +261,8 @@ def anomalous_trichromacy_matrix_Machado2009(cmfs, primaries, d_LMS):
 
     References
     ----------
-    -   :cite:`Colblindorb`
-    -   :cite:`Colblindora`
-    -   :cite:`Colblindorc`
-    -   :cite:`Machado2009`
+    :cite:`Colblindorb`, :cite:`Colblindora`, :cite:`Colblindorc`,
+    :cite:`Machado2009`
 
     Examples
     --------
@@ -319,10 +315,8 @@ def cvd_matrix_Machado2009(deficiency, severity):
 
     References
     ----------
-    -   :cite:`Colblindorb`
-    -   :cite:`Colblindora`
-    -   :cite:`Colblindorc`
-    -   :cite:`Machado2009`
+    :cite:`Colblindorb`, :cite:`Colblindora`, :cite:`Colblindorc`,
+    :cite:`Machado2009`
 
     Examples
     --------

@@ -85,7 +85,7 @@ def XYZ_to_Hunter_Rdab(XYZ,
 
     References
     ----------
-    -   :cite:`HunterLab2012a`
+    :cite:`HunterLab2012a`
 
     Examples
     --------
@@ -162,7 +162,7 @@ def Hunter_Rdab_to_XYZ(R_d_ab,
 
     References
     ----------
-    -   :cite:`HunterLab2012a`
+    :cite:`HunterLab2012a`
 
     Examples
     --------

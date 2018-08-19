@@ -5054,7 +5054,7 @@ MUNSELL_COLOURS_ALL = (
 
 References
 ----------
--   :cite:`MunsellColorSciencec`
+:cite:`MunsellColorSciencec`
 
 MUNSELL_COLOURS_ALL : tuple
    (('hue', 'value', 'chroma'), np.array(['x', 'y', 'Y']))

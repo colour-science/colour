@@ -91,7 +91,7 @@ def log_encoding_SLog(x, bit_depth=10, out_legal=True, in_reflection=True):
 
     References
     ----------
-    -   :cite:`SonyCorporation2012a`
+    :cite:`SonyCorporation2012a`
 
     Examples
     --------
@@ -157,7 +157,7 @@ def log_decoding_SLog(y, bit_depth=10, in_legal=True, out_reflection=True):
 
     References
     ----------
-    -   :cite:`SonyCorporation2012a`
+    :cite:`SonyCorporation2012a`
 
     Examples
     --------
@@ -226,7 +226,7 @@ def log_encoding_SLog2(x, bit_depth=10, out_legal=True, in_reflection=True):
 
     References
     ----------
-    -   :cite:`SonyCorporation2012a`
+    :cite:`SonyCorporation2012a`
 
     Examples
     --------
@@ -282,7 +282,7 @@ def log_decoding_SLog2(y, bit_depth=10, in_legal=True, out_reflection=True):
 
     References
     ----------
-    -   :cite:`SonyCorporation2012a`
+    :cite:`SonyCorporation2012a`
 
     Examples
     --------
@@ -340,7 +340,7 @@ def log_encoding_SLog3(x, bit_depth=10, out_legal=True, in_reflection=True):
 
     References
     ----------
-    -   :cite:`SonyCorporationd`
+    :cite:`SonyCorporationd`
 
     Examples
     --------
@@ -406,7 +406,7 @@ def log_decoding_SLog3(y, bit_depth=10, in_legal=True, out_reflection=True):
 
     References
     ----------
-    -   :cite:`SonyCorporationd`
+    :cite:`SonyCorporationd`
 
     Examples
     --------

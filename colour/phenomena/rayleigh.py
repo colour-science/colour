@@ -559,8 +559,7 @@ def scattering_cross_section(wavelength,
 
     References
     ----------
-    -   :cite:`Bodhaine1999a`
-    -   :cite:`Wikipedia2001c`
+    :cite:`Bodhaine1999a`, :cite:`Wikipedia2001c`
 
     Examples
     --------
@@ -636,8 +635,7 @@ def rayleigh_optical_depth(wavelength,
 
     References
     ----------
-    -   :cite:`Bodhaine1999a`
-    -   :cite:`Wikipedia2001c`
+    :cite:`Bodhaine1999a`, :cite:`Wikipedia2001c`
 
     Examples
     --------
@@ -709,8 +707,7 @@ def rayleigh_scattering_spd(shape=DEFAULT_SPECTRAL_SHAPE,
 
     References
     ----------
-    -   :cite:`Bodhaine1999a`
-    -   :cite:`Wikipedia2001c`
+    :cite:`Bodhaine1999a`, :cite:`Wikipedia2001c`
 
     Examples
     --------

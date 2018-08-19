@@ -105,7 +105,7 @@ ADOBE_RGB_1998_COLOURSPACE.__doc__ = """
 
 References
 ----------
--   :cite:`AdobeSystems2005a`
+:cite:`AdobeSystems2005a`
 
 ADOBE_RGB_1998_COLOURSPACE : RGB_Colourspace
 """

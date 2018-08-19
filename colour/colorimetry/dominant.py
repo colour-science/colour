@@ -157,8 +157,7 @@ def dominant_wavelength(xy,
 
     References
     ----------
-    -   :cite:`CIETC1-482004o`
-    -   :cite:`Erdogana`
+    :cite:`CIETC1-482004o`, :cite:`Erdogana`
 
     Examples
     --------
@@ -244,8 +243,7 @@ def complementary_wavelength(xy,
 
     References
     ----------
-    -   :cite:`CIETC1-482004o`
-    -   :cite:`Erdogana`
+    :cite:`CIETC1-482004o`, :cite:`Erdogana`
 
     Examples
     --------
@@ -296,8 +294,7 @@ def excitation_purity(xy,
 
     References
     ----------
-    -   :cite:`CIETC1-482004o`
-    -   :cite:`Erdogana`
+    :cite:`CIETC1-482004o`, :cite:`Erdogana`
 
     Examples
     --------
@@ -338,8 +335,7 @@ def colorimetric_purity(xy,
 
     References
     ----------
-    -   :cite:`CIETC1-482004o`
-    -   :cite:`Erdogana`
+    :cite:`CIETC1-482004o`, :cite:`Erdogana`
 
     Examples
     --------

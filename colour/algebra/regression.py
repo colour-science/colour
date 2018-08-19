@@ -50,7 +50,7 @@ def least_square_mapping_MoorePenrose(y, x):
 
     References
     ----------
-    -   :cite:`Finlayson2015`
+    :cite:`Finlayson2015`
 
     Examples
     --------

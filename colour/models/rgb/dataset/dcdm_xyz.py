@@ -97,7 +97,7 @@ DCDM_XYZ_COLOURSPACE.__doc__ = """
 
 References
 ----------
--   :cite:`DigitalCinemaInitiatives2007b`
+:cite:`DigitalCinemaInitiatives2007b`
 
 DCDM_XYZ_COLOURSPACE : RGB_Colourspace
 """

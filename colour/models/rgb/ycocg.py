@@ -82,7 +82,7 @@ def RGB_to_YCoCg(RGB):
 
     References
     ----------
-    -   :cite:`Malvar2003`
+    :cite:`Malvar2003`
 
     Examples
     --------
@@ -112,7 +112,7 @@ def YCoCg_to_RGB(YCoCg):
 
     References
     ----------
-    -   :cite:`Malvar2003`
+    :cite:`Malvar2003`
 
     Examples
     --------

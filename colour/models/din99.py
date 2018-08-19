@@ -84,7 +84,7 @@ def Lab_to_DIN99(Lab, k_E=1, k_CH=1):
 
     References
     ----------
-    -   :cite:`ASTMInternational2007`
+    :cite:`ASTMInternational2007`
 
     Examples
     --------
@@ -161,7 +161,7 @@ def DIN99_to_Lab(Lab_99, k_E=1, k_CH=1):
 
     References
     ----------
-    -   :cite:`ASTMInternational2007`
+    :cite:`ASTMInternational2007`
 
     Examples
     --------

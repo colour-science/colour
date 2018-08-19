@@ -123,8 +123,7 @@ S_GAMUT_COLOURSPACE.__doc__ = """
 
 References
 ----------
--   :cite:`Gaggioni`
--   :cite:`SonyCorporation`
+:cite:`Gaggioni`, :cite:`SonyCorporation`
 
 S_GAMUT_COLOURSPACE : RGB_Colourspace
 """
@@ -144,7 +143,7 @@ S_GAMUT3_COLOURSPACE.__doc__ = """
 
 References
 ----------
--   :cite:`SonyCorporationd`
+:cite:`SonyCorporationd`
 
 S_GAMUT3_COLOURSPACE : RGB_Colourspace
 """
@@ -211,7 +210,7 @@ S_GAMUT3_CINE_COLOURSPACE.__doc__ = """
 
 References
 ----------
--   :cite:`SonyCorporatione`
+:cite:`SonyCorporatione`
 
 S_GAMUT3_CINE_COLOURSPACE : RGB_Colourspace
 """

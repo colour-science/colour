@@ -98,7 +98,7 @@ BT2020_COLOURSPACE.__doc__ = """
 
 References
 ----------
--   :cite:`InternationalTelecommunicationUnion2015h`
+:cite:`InternationalTelecommunicationUnion2015h`
 
 BT2020_COLOURSPACE : RGB_Colourspace
 """

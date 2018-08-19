@@ -82,7 +82,7 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
 
     References
     ----------
-    -   :cite:`Wyszecki2000bg`
+    :cite:`Wyszecki2000bg`
 
     Examples
     --------
@@ -151,7 +151,7 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
 
     References
     ----------
-    -   :cite:`Wyszecki2000be`
+    :cite:`Wyszecki2000be`
 
     Examples
     --------
@@ -200,7 +200,7 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wavelength):
 
     References
     ----------
-    -   :cite:`CIETC1-362006a`
+    :cite:`CIETC1-362006a`
 
     Examples
     --------
@@ -249,7 +249,7 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
 
     References
     ----------
-    -   :cite:`CVRLv`
+    :cite:`CVRLv`
 
     Examples
     --------
@@ -297,7 +297,7 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
 
     References
     ----------
-    -   :cite:`CVRLp`
+    :cite:`CVRLp`
 
     Examples
     --------

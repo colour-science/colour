@@ -99,7 +99,7 @@ ADOBE_WIDE_GAMUT_RGB_COLOURSPACE.__doc__ = """
 
 References
 ----------
--   :cite:`Wikipedia2004c`
+:cite:`Wikipedia2004c`
 
 ADOBE_WIDE_GAMUT_RGB_COLOURSPACE : RGB_Colourspace
 """

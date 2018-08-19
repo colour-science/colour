@@ -217,9 +217,8 @@ computed as follows::
 
 References
 ----------
--   :cite:`DigitalCinemaInitiatives2007b`
--   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
--   :cite:`Wikipedia2006a`
+:cite:`DigitalCinemaInitiatives2007b`,
+:cite:`TheAcademyofMotionPictureArtsandSciences2014q`, :cite:`Wikipedia2006a`
 
 ILLUMINANTS : CaseInsensitiveMapping
     **{'CIE 1931 2 Degree Standard Observer',

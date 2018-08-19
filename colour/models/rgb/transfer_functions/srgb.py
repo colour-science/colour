@@ -80,8 +80,8 @@ def oetf_sRGB(L):
 
     References
     ----------
-    -   :cite:`InternationalElectrotechnicalCommission1999a`
-    -   :cite:`InternationalTelecommunicationUnion2015i`
+    :cite:`InternationalElectrotechnicalCommission1999a`,
+    :cite:`InternationalTelecommunicationUnion2015i`
 
     Examples
     --------
@@ -128,8 +128,8 @@ def oetf_reverse_sRGB(V):
 
     References
     ----------
-    -   :cite:`InternationalElectrotechnicalCommission1999a`
-    -   :cite:`InternationalTelecommunicationUnion2015i`
+    :cite:`InternationalElectrotechnicalCommission1999a`,
+    :cite:`InternationalTelecommunicationUnion2015i`
 
     Examples
     --------

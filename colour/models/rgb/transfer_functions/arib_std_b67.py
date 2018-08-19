@@ -88,7 +88,7 @@ def oetf_ARIBSTDB67(E, r=0.5, constants=ARIBSTDB67_CONSTANTS):
 
     References
     ----------
-    -   :cite:`AssociationofRadioIndustriesandBusinesses2015a`
+    :cite:`AssociationofRadioIndustriesandBusinesses2015a`
 
     Examples
     --------
@@ -145,7 +145,7 @@ def oetf_reverse_ARIBSTDB67(E_p, r=0.5, constants=ARIBSTDB67_CONSTANTS):
 
     References
     ----------
-    -   :cite:`AssociationofRadioIndustriesandBusinesses2015a`
+    :cite:`AssociationofRadioIndustriesandBusinesses2015a`
 
     Examples
     --------

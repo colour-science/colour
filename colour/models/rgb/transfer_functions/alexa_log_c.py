@@ -215,7 +215,7 @@ def log_encoding_ALEXALogC(x,
 
     References
     ----------
-    -   :cite:`ARRI2012a`
+    :cite:`ARRI2012a`
 
     Notes
     -----
@@ -291,7 +291,7 @@ def log_decoding_ALEXALogC(t,
 
     References
     ----------
-    -   :cite:`ARRI2012a`
+    :cite:`ARRI2012a`
 
     Examples
     --------

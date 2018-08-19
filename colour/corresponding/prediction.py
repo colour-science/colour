@@ -105,9 +105,7 @@ def corresponding_chromaticities_prediction_Fairchild1990(experiment=1):
 
     References
     ----------
-    -   :cite:`Breneman1987b`
-    -   :cite:`Fairchild1991a`
-    -   :cite:`Fairchild2013s`
+    :cite:`Breneman1987b`, :cite:`Fairchild1991a`, :cite:`Fairchild2013s`
 
     Examples
     --------
@@ -169,8 +167,7 @@ def corresponding_chromaticities_prediction_CIE1994(experiment=1):
 
     References
     ----------
-    -   :cite:`Breneman1987b`
-    -   :cite:`CIETC1-321994b`
+    :cite:`Breneman1987b`, :cite:`CIETC1-321994b`
 
     Examples
     --------
@@ -235,9 +232,7 @@ def corresponding_chromaticities_prediction_CMCCAT2000(experiment=1):
 
     References
     ----------
-    -   :cite:`Breneman1987b`
-    -   :cite:`Li2002a`
-    -   :cite:`Westland2012k`
+    :cite:`Breneman1987b`, :cite:`Li2002a`, :cite:`Westland2012k`
 
     Examples
     --------
@@ -306,8 +301,7 @@ def corresponding_chromaticities_prediction_VonKries(experiment=1,
 
     References
     ----------
-    -   :cite:`Breneman1987b`
-    -   :cite:`Fairchild2013t`
+    :cite:`Breneman1987b`, :cite:`Fairchild2013t`
 
     Examples
     --------
@@ -359,13 +353,9 @@ Aggregated corresponding chromaticities prediction models.
 
 References
 ----------
--   :cite:`Breneman1987b`
--   :cite:`CIETC1-321994b`
--   :cite:`Fairchild1991a`
--   :cite:`Fairchild2013s`
--   :cite:`Fairchild2013t`
--   :cite:`Li2002a`
--   :cite:`Westland2012k`
+:cite:`Breneman1987b`, :cite:`CIETC1-321994b`, :cite:`Fairchild1991a`,
+:cite:`Fairchild2013s`, :cite:`Fairchild2013t`, :cite:`Li2002a`,
+:cite:`Westland2012k`
 
 CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS : CaseInsensitiveMapping
     **{'CIE 1994', 'CMCCAT2000', 'Fairchild 1990', 'Von Kries'}**
@@ -410,13 +400,9 @@ def corresponding_chromaticities_prediction(experiment=1,
 
     References
     ----------
-    -   :cite:`Breneman1987b`
-    -   :cite:`CIETC1-321994b`
-    -   :cite:`Fairchild1991a`
-    -   :cite:`Fairchild2013s`
-    -   :cite:`Fairchild2013t`
-    -   :cite:`Li2002a`
-    -   :cite:`Westland2012k`
+    :cite:`Breneman1987b`, :cite:`CIETC1-321994b`, :cite:`Fairchild1991a`,
+    :cite:`Fairchild2013s`, :cite:`Fairchild2013t`, :cite:`Li2002a`,
+    :cite:`Westland2012k`
 
     Examples
     --------

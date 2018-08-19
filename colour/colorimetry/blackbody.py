@@ -82,7 +82,7 @@ def planck_law(wavelength, temperature, c1=C1, c2=C2, n=N):
 
     References
     ----------
-    -   :cite:`CIETC1-482004i`
+    :cite:`CIETC1-482004i`
 
     Examples
     --------

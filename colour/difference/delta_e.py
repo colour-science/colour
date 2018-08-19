@@ -93,7 +93,7 @@ def delta_E_CIE1976(Lab_1, Lab_2):
 
     References
     ----------
-    -   :cite:`Lindbloom2003c`
+    :cite:`Lindbloom2003c`
 
     Examples
     --------
@@ -155,7 +155,7 @@ def delta_E_CIE1994(Lab_1, Lab_2, textiles=False):
 
     References
     ----------
-    -   :cite:`Lindbloom2011a`
+    :cite:`Lindbloom2011a`
 
     Examples
     --------
@@ -259,8 +259,7 @@ def delta_E_CIE2000(Lab_1, Lab_2, textiles=False):
 
     References
     ----------
-    -   :cite:`Lindbloom2009e`
-    -   :cite:`Melgosa2013b`
+    :cite:`Lindbloom2009e`, :cite:`Melgosa2013b`
 
     Examples
     --------
@@ -388,7 +387,7 @@ def delta_E_CMC(Lab_1, Lab_2, l=2, c=1):  # noqa
 
     References
     ----------
-    -   :cite:`Lindbloom2009f`
+    :cite:`Lindbloom2009f`
 
     Examples
     --------

@@ -81,7 +81,7 @@ def log_encoding_PivotedLog(x,
 
     References
     ----------
-    -   :cite:`SonyImageworks2012a`
+    :cite:`SonyImageworks2012a`
 
     Examples
     --------
@@ -141,7 +141,7 @@ def log_decoding_PivotedLog(y,
 
     References
     ----------
-    -   :cite:`SonyImageworks2012a`
+    :cite:`SonyImageworks2012a`
 
     Examples
     --------

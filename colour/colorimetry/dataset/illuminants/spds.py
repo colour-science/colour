@@ -3731,8 +3731,7 @@ computed as follows::
 
 References
 ----------
--   :cite:`CIEce`
--   :cite:`CIEcf`
+:cite:`CIEce`, :cite:`CIEcf`
 
 ILLUMINANTS_SPDS : CaseInsensitiveMapping
 """

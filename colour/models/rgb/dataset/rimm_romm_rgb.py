@@ -119,8 +119,7 @@ ROMM_RGB_COLOURSPACE.__doc__ = """
 
 References
 ----------
--   :cite:`ANSI2003a`
--   :cite:`Spaulding2000b`
+:cite:`ANSI2003a`, :cite:`Spaulding2000b`
 
 ROMM_RGB_COLOURSPACE : RGB_Colourspace
 """
@@ -177,7 +176,7 @@ specific precision level, the notation *RIMM8 RGB*, *RIMM12 RGB* and
 
 References
 ----------
--   :cite:`Spaulding2000b`
+:cite:`Spaulding2000b`
 
 RIMM_RGB_COLOURSPACE : RGB_Colourspace
 """
@@ -232,7 +231,7 @@ ERIMM_RGB_COLOURSPACE.__doc__ = """
 
 References
 ----------
--   :cite:`Spaulding2000b`
+:cite:`Spaulding2000b`
 
 ERIMM_RGB_COLOURSPACE : RGB_Colourspace
 """
@@ -287,8 +286,7 @@ PROPHOTO_RGB_COLOURSPACE.__doc__ = """
 
 References
 ----------
--   :cite:`ANSI2003a`
--   :cite:`Spaulding2000b`
+:cite:`ANSI2003a`, :cite:`Spaulding2000b`
 
 PROPHOTO_RGB_COLOURSPACE : RGB_Colourspace
 """

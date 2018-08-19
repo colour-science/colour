@@ -73,7 +73,7 @@ def mesopic_weighting_function(
 
     References
     ----------
-    -   :cite:`Wikipedia2005d`
+    :cite:`Wikipedia2005d`
 
     Examples
     --------
@@ -123,7 +123,7 @@ def mesopic_luminous_efficiency_function(
 
     References
     ----------
-    -   :cite:`Wikipedia2005d`
+    :cite:`Wikipedia2005d`
 
     Examples
     --------

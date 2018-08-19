@@ -157,7 +157,7 @@ SMITS_1999_SPDS.__doc__ = """
 
 References
 ----------
--   :cite:`Smits1999a`
+:cite:`Smits1999a`
 
 SMITS_1999_SPDS : CaseInsensitiveMapping
 """

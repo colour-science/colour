@@ -2794,7 +2794,7 @@ MUNSELL_COLOURS_REAL = (
 
 References
 ----------
--   :cite:`MunsellColorSciencec`
+:cite:`MunsellColorSciencec`
 
 MUNSELL_COLOURS_REAL : tuple
 (('hue', 'value', 'chroma'), np.array(['x', 'y', 'Y'])))

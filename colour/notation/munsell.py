@@ -317,7 +317,7 @@ def munsell_value_Priest1920(Y):
 
     References
     ----------
-    -   :cite:`Wikipedia2007c`
+    :cite:`Wikipedia2007c`
 
     Examples
     --------
@@ -364,7 +364,7 @@ def munsell_value_Munsell1933(Y):
 
     References
     ----------
-    -   :cite:`Wikipedia2007c`
+    :cite:`Wikipedia2007c`
 
     Examples
     --------
@@ -412,7 +412,7 @@ def munsell_value_Moon1943(Y):
 
     References
     ----------
-    -   :cite:`Wikipedia2007c`
+    :cite:`Wikipedia2007c`
 
     Examples
     --------
@@ -459,7 +459,7 @@ def munsell_value_Saunderson1944(Y):
 
     References
     ----------
-    -   :cite:`Wikipedia2007c`
+    :cite:`Wikipedia2007c`
 
     Examples
     --------
@@ -506,7 +506,7 @@ def munsell_value_Ladd1955(Y):
 
     References
     ----------
-    -   :cite:`Wikipedia2007c`
+    :cite:`Wikipedia2007c`
 
     Examples
     --------
@@ -553,7 +553,7 @@ def munsell_value_McCamy1987(Y):
 
     References
     ----------
-    -   :cite:`ASTMInternational1989a`
+    :cite:`ASTMInternational1989a`
 
     Examples
     --------
@@ -606,7 +606,7 @@ def munsell_value_ASTMD153508(Y):
 
     References
     ----------
-    -   :cite:`ASTMInternational1989a`
+    :cite:`ASTMInternational1989a`
 
     Examples
     --------
@@ -635,8 +635,7 @@ Supported *Munsell* value computations methods.
 
 References
 ----------
--   :cite:`ASTMInternational1989a`
--   :cite:`Wikipedia2007c`
+:cite:`ASTMInternational1989a`, :cite:`Wikipedia2007c`
 
 MUNSELL_VALUE_METHODS : CaseInsensitiveMapping
     **{'Priest 1920', 'Munsell 1933', 'Moon 1943', 'Saunderson 1944',
@@ -685,8 +684,7 @@ def munsell_value(Y, method='ASTM D1535-08'):
 
     References
     ----------
-    -   :cite:`ASTMInternational1989a`
-    -   :cite:`Wikipedia2007c`
+    :cite:`ASTMInternational1989a`, :cite:`Wikipedia2007c`
 
     Examples
     --------
@@ -747,7 +745,7 @@ def munsell_specification_to_xyY(specification):
 
     References
     ----------
-    -   :cite:`Centore2014m`
+    :cite:`Centore2014m`
 
     Examples
     --------
@@ -834,8 +832,7 @@ def munsell_colour_to_xyY(munsell_colour):
 
     References
     ----------
-    -   :cite:`Centorea`
-    -   :cite:`Centore2012a`
+    :cite:`Centorea`, :cite:`Centore2012a`
 
     Examples
     --------
@@ -895,7 +892,7 @@ def xyY_to_munsell_specification(xyY):
 
     References
     ----------
-    -   :cite:`Centore2014p`
+    :cite:`Centore2014p`
 
     Examples
     --------
@@ -1149,8 +1146,7 @@ def xyY_to_munsell_colour(xyY,
 
     References
     ----------
-    -   :cite:`Centorea`
-    -   :cite:`Centore2012a`
+    :cite:`Centorea`, :cite:`Centore2012a`
 
     Examples
     --------
@@ -1452,7 +1448,7 @@ def bounding_hues_from_renotation(hue, code):
 
     References
     ----------
-    -   :cite:`Centore2014o`
+    :cite:`Centore2014o`
 
     Examples
     --------
@@ -1506,7 +1502,7 @@ def hue_to_hue_angle(hue, code):
 
     References
     ----------
-    -   :cite:`Centore2014s`
+    :cite:`Centore2014s`
 
     Examples
     --------
@@ -1538,7 +1534,7 @@ def hue_angle_to_hue(hue_angle):
 
     References
     ----------
-    -   :cite:`Centore2014t`
+    :cite:`Centore2014t`
 
     Examples
     --------
@@ -1597,7 +1593,7 @@ def hue_to_ASTM_hue(hue, code):
 
     References
     ----------
-    -   :cite:`Centore2014k`
+    :cite:`Centore2014k`
 
     Examples
     --------
@@ -1628,7 +1624,7 @@ def interpolation_method_from_renotation_ovoid(specification):
 
     References
     ----------
-    -   :cite:`Centore2014l`
+    :cite:`Centore2014l`
 
     Examples
     --------
@@ -1913,7 +1909,7 @@ def xy_from_renotation_ovoid(specification):
 
     References
     ----------
-    -   :cite:`Centore2014n`
+    :cite:`Centore2014n`
 
     Examples
     --------
@@ -2035,7 +2031,7 @@ def LCHab_to_munsell_specification(LCHab):
 
     References
     ----------
-    -   :cite:`Centore2014u`
+    :cite:`Centore2014u`
 
     Examples
     --------
@@ -2101,7 +2097,7 @@ def maximum_chroma_from_renotation(hue, value, code):
 
     References
     ----------
-    -   :cite:`Centore2014r`
+    :cite:`Centore2014r`
 
     Examples
     --------
@@ -2170,7 +2166,7 @@ def munsell_specification_to_xy(specification):
 
     References
     ----------
-    -   :cite:`Centore2014q`
+    :cite:`Centore2014q`
 
     Examples
     --------

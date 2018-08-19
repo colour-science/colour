@@ -70,7 +70,7 @@ def log_encoding_Protune(x):
 
     References
     ----------
-    -   :cite:`GoPro2016a`
+    :cite:`GoPro2016a`
 
     Examples
     --------
@@ -117,7 +117,7 @@ def log_decoding_Protune(y):
 
     References
     ----------
-    -   :cite:`GoPro2016a`
+    :cite:`GoPro2016a`
 
     Examples
     --------

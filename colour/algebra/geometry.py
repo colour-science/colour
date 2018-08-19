@@ -116,7 +116,7 @@ def extend_line_segment(a, b, distance=1):
 
     References
     ----------
-    -   :cite:`Saeedna`
+    :cite:`Saeedna`
 
     Notes
     -----
@@ -194,8 +194,7 @@ def intersect_line_segments(l_1, l_2):
 
     References
     ----------
-    -   :cite:`Bourkea`
-    -   :cite:`Erdema`
+    :cite:`Bourkea`, :cite:`Erdema`
 
     Notes
     -----

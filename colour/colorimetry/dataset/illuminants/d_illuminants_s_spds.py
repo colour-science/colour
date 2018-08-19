@@ -381,8 +381,7 @@ distributions
 
 References
 ----------
--   :cite:`Lindbloom2007a`
--   :cite:`Wyszecki2000z`
+:cite:`Lindbloom2007a`, :cite:`Wyszecki2000z`
 
 D_ILLUMINANTS_S_SPDS : CaseInsensitiveMapping
    **{'S0', 'S1', 'S1'}**

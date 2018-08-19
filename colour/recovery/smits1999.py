@@ -124,7 +124,7 @@ def RGB_to_spectral_Smits1999(RGB):
 
     References
     ----------
-    -   :cite:`Smits1999a`
+    :cite:`Smits1999a`
 
     Examples
     --------

@@ -98,7 +98,7 @@ COLOR_MATCH_RGB_COLOURSPACE.__doc__ = """
 
 References
 ----------
--   :cite:`Lindbloom2014a`
+:cite:`Lindbloom2014a`
 
 COLOR_MATCH_RGB_COLOURSPACE : RGB_Colourspace
 """

@@ -96,7 +96,7 @@ BEST_RGB_COLOURSPACE.__doc__ = """
 
 References
 ----------
--   :cite:`HutchColord`
+:cite:`HutchColord`
 
 BEST_RGB_COLOURSPACE : RGB_Colourspace
 """

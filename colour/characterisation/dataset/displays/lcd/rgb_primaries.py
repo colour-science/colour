@@ -144,8 +144,7 @@ LCD_DISPLAYS_RGB_PRIMARIES = CaseInsensitiveMapping({
 
 References
 ----------
--   :cite:`Fairchild1998b`
--   :cite:`Machado2010a`
+:cite:`Fairchild1998b`, :cite:`Machado2010a`
 
 LCD_DISPLAYS_RGB_PRIMARIES : CaseInsensitiveMapping
     **{'Apple Studio Display'}**

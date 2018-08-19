@@ -97,7 +97,7 @@ DON_RGB_4_COLOURSPACE.__doc__ = """
 
 References
 ----------
--   :cite:`HutchColorg`
+:cite:`HutchColorg`
 
 DON_RGB_4_COLOURSPACE : RGB_Colourspace
 """

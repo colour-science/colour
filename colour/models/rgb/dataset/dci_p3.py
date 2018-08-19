@@ -140,8 +140,8 @@ DCI_P3_COLOURSPACE.__doc__ = """
 
 References
 ----------
--   :cite:`DigitalCinemaInitiatives2007b`
--   :cite:`Hewlett-PackardDevelopmentCompany2009a`
+:cite:`DigitalCinemaInitiatives2007b`,
+:cite:`Hewlett-PackardDevelopmentCompany2009a`
 
 DCI_P3_COLOURSPACE : RGB_Colourspace
 """
@@ -161,7 +161,7 @@ DCI_P3_P_COLOURSPACE.__doc__ = """
 
 References
 ----------
--   :cite:`Canon2014a`
+:cite:`Canon2014a`
 
 DCI_P3_P_COLOURSPACE : RGB_Colourspace
 """

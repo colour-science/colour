@@ -106,7 +106,7 @@ CIE_RGB_COLOURSPACE.__doc__ = """
 
 References
 ----------
--   :cite:`Fairman1997`
+:cite:`Fairman1997`
 
 CIE_RGB_COLOURSPACE : RGB_Colourspace
 """

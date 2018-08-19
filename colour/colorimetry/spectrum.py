@@ -525,9 +525,7 @@ dict_like, optional
 
     References
     ----------
-    -   :cite:`CIETC1-382005e`
-    -   :cite:`CIETC1-382005g`
-    -   :cite:`CIETC1-482004l`
+    :cite:`CIETC1-382005e`, :cite:`CIETC1-382005g`, :cite:`CIETC1-482004l`
 
     Examples
     --------
@@ -765,8 +763,7 @@ dict_like, optional
 
         References
         ----------
-        -   :cite:`CIETC1-382005g`
-        -   :cite:`CIETC1-482004l`
+        :cite:`CIETC1-382005g`, :cite:`CIETC1-482004l`
 
         Examples
         --------
@@ -869,7 +866,7 @@ dict_like, optional
 
         References
         ----------
-        -   :cite:`CIETC1-382005e`
+        :cite:`CIETC1-382005e`
 
         Examples
         --------
@@ -1525,9 +1522,7 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
 
     References
     ----------
-    -   :cite:`CIETC1-382005e`
-    -   :cite:`CIETC1-382005g`
-    -   :cite:`CIETC1-482004l`
+    :cite:`CIETC1-382005e`, :cite:`CIETC1-382005g`, :cite:`CIETC1-482004l`
 
     Examples
     --------
@@ -1815,8 +1810,7 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
 
         References
         ----------
-        -   :cite:`CIETC1-382005g`
-        -   :cite:`CIETC1-482004l`
+        :cite:`CIETC1-382005g`, :cite:`CIETC1-482004l`
 
         Examples
         --------
@@ -1904,7 +1898,7 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
 
         References
         ----------
-        -   :cite:`CIETC1-382005e`
+        :cite:`CIETC1-382005e`
 
         Examples
         --------

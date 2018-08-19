@@ -103,7 +103,7 @@ def whiteness_Berger1959(XYZ, XYZ_0):
 
     References
     ----------
-    -   :cite:`X-Rite2012a`
+    :cite:`X-Rite2012a`
 
     Examples
     --------
@@ -161,7 +161,7 @@ def whiteness_Taube1960(XYZ, XYZ_0):
 
     References
     ----------
-    -   :cite:`X-Rite2012a`
+    :cite:`X-Rite2012a`
 
     Examples
     --------
@@ -219,7 +219,7 @@ def whiteness_Stensby1968(Lab):
 
     References
     ----------
-    -   :cite:`X-Rite2012a`
+    :cite:`X-Rite2012a`
 
     Examples
     --------
@@ -268,7 +268,7 @@ def whiteness_ASTME313(XYZ):
 
     References
     ----------
-    -   :cite:`X-Rite2012a`
+    :cite:`X-Rite2012a`
 
     Examples
     --------
@@ -330,7 +330,7 @@ def whiteness_Ganz1979(xy, Y):
 
     References
     ----------
-    -   :cite:`X-Rite2012a`
+    :cite:`X-Rite2012a`
 
     Examples
     --------
@@ -409,7 +409,7 @@ def whiteness_CIE2004(xy,
 
     References
     ----------
-    -   :cite:`CIETC1-482004k`
+    :cite:`CIETC1-482004k`
 
     Examples
     --------
@@ -445,8 +445,7 @@ Supported *whiteness* computations methods.
 
 References
 ----------
--   :cite:`CIETC1-482004k`
--   :cite:`X-Rite2012a`
+:cite:`CIETC1-482004k`, :cite:`X-Rite2012a`
 
 WHITENESS_METHODS : CaseInsensitiveMapping
     **{'CIE 2004', 'Berger 1959', 'Taube 1960', 'Stensby 1968', 'ASTM E313',
@@ -534,10 +533,8 @@ def whiteness(method='CIE 2004', **kwargs):
 
     References
     ----------
-    -   :cite:`CIETC1-482004k`
-    -   :cite:`Wyszecki2000ba`
-    -   :cite:`X-Rite2012a`
-    -   :cite:`Wikipedia2004b`
+    :cite:`CIETC1-482004k`, :cite:`Wyszecki2000ba`, :cite:`X-Rite2012a`,
+    :cite:`Wikipedia2004b`
 
     Examples
     --------

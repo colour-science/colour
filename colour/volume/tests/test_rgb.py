@@ -86,7 +86,7 @@ class TestRGB_colourspaceVolumeMonteCarlo(unittest.TestCase):
 
     References
     ----------
-    -   :cite:`Laurent2012a`
+    :cite:`Laurent2012a`
     """
 
     def test_RGB_colourspace_volume_MonteCarlo(self):
@@ -110,7 +110,7 @@ RGB_colourspace_volume_coverage_MonteCarlo` definition unit tests methods.
 
     References
     ----------
-    -   :cite:`Laurent2012a`
+    :cite:`Laurent2012a`
     """
 
     def test_RGB_colourspace_volume_coverage_MonteCarlo(self):
@@ -137,7 +137,7 @@ RGB_colourspace_pointer_gamut_coverage_MonteCarlo` definition unit tests
 
     References
     ----------
-    -   :cite:`Laurent2012a`
+    :cite:`Laurent2012a`
     """
 
     def test_RGB_colourspace_pointer_gamut_coverage_MonteCarlo(self):
@@ -162,7 +162,7 @@ RGB_colourspace_visible_spectrum_coverage_MonteCarlo` definition unit tests
 
     References
     ----------
-    -   :cite:`Laurent2012a`
+    :cite:`Laurent2012a`
     """
 
     def test_RGB_colourspace_visible_spectrum_coverage_MonteCarlo(self):

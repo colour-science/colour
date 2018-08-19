@@ -20,7 +20,7 @@ Cameras *RGB* spectral sensitivities.
 
 References
 ----------
--   :cite:`Darrodi2015a`
+:cite:`Darrodi2015a`
 
 CAMERAS_RGB_SPECTRAL_SENSITIVITIES : CaseInsensitiveMapping
     **{Nikon 5100 (NPL), Sigma SDMerill (NPL)}**

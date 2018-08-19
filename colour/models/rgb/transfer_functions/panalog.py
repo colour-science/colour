@@ -76,7 +76,7 @@ def log_encoding_Panalog(x, black_offset=10 ** ((64 - 681) / 444)):
 
     References
     ----------
-    -   :cite:`SonyImageworks2012a`
+    :cite:`SonyImageworks2012a`
 
     Examples
     --------
@@ -130,7 +130,7 @@ def log_decoding_Panalog(y, black_offset=10 ** ((64 - 681) / 444)):
 
     References
     ----------
-    -   :cite:`SonyImageworks2012a`
+    :cite:`SonyImageworks2012a`
 
     Examples
     --------

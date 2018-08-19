@@ -44,7 +44,7 @@ Supported *LUT* reading methods.
 
 References
 ----------
--   :cite:`AdobeSystems2013b`
+:cite:`AdobeSystems2013b`
 
 LUT_READ_METHODS : CaseInsensitiveMapping
     **{'Iridas Cube', 'Sony SPI1D', 'Sony SPI3D'}**
@@ -71,7 +71,7 @@ def read_LUT(path, method=None, **kwargs):
 
     References
     ----------
-    -   :cite:`AdobeSystems2013b`
+    :cite:`AdobeSystems2013b`
 
     Examples
     --------
@@ -138,7 +138,7 @@ Supported *LUT* reading methods.
 
 References
 ----------
--   :cite:`AdobeSystems2013b`
+:cite:`AdobeSystems2013b`
 
 LUT_WRITE_METHODS : CaseInsensitiveMapping
     **{'Iridas Cube', 'Sony SPI1D', 'Sony SPI3D'}**
@@ -170,7 +170,7 @@ def write_LUT(LUT, path, decimals=7, method=None, **kwargs):
 
     References
     ----------
-    -   :cite:`AdobeSystems2013b`
+    :cite:`AdobeSystems2013b`
 
     Examples
     --------

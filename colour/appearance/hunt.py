@@ -78,8 +78,7 @@ class Hunt_InductionFactors(
 
     References
     ----------
-    -   :cite:`Fairchild2013u`
-    -   :cite:`Hunt2004b`
+    :cite:`Fairchild2013u`, :cite:`Hunt2004b`
     """
 
     def __new__(cls, N_c, N_b, N_cb=None, N_bb=None):
@@ -109,8 +108,7 @@ Reference *Hunt* colour appearance model viewing conditions.
 
 References
 ----------
--   :cite:`Fairchild2013u`
--   :cite:`Hunt2004b`
+:cite:`Fairchild2013u`, :cite:`Hunt2004b`
 
 HUNT_VIEWING_CONDITIONS : CaseInsensitiveMapping
     **{'Small Areas, Uniform Background & Surrounds',
@@ -194,8 +192,7 @@ class Hunt_ReferenceSpecification(
 
     References
     ----------
-    -   :cite:`Fairchild2013u`
-    -   :cite:`Hunt2004b`
+    :cite:`Fairchild2013u`, :cite:`Hunt2004b`
     """
 
 
@@ -234,8 +231,7 @@ class Hunt_Specification(
 
     References
     ----------
-    -   :cite:`Fairchild2013u`
-    -   :cite:`Hunt2004b`
+    :cite:`Fairchild2013u`, :cite:`Hunt2004b`
     """
 
 
@@ -326,8 +322,7 @@ def XYZ_to_Hunt(XYZ,
 
     References
     ----------
-    -   :cite:`Fairchild2013u`
-    -   :cite:`Hunt2004b`
+    :cite:`Fairchild2013u`, :cite:`Hunt2004b`
 
     Examples
     --------

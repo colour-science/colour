@@ -101,8 +101,7 @@ def XYZ_to_OSA_UCS(XYZ):
 
     References
     ----------
-    -   :cite:`Cao2013`
-    -   :cite:`Moroney2003`
+    :cite:`Cao2013`, :cite:`Moroney2003`
 
     Examples
     --------
@@ -186,8 +185,7 @@ def OSA_UCS_to_XYZ(Ljg, optimisation_parameters=None):
 
     References
     ----------
-    -   :cite:`Cao2013`
-    -   :cite:`Moroney2003`
+    :cite:`Cao2013`, :cite:`Moroney2003`
 
     Examples
     --------

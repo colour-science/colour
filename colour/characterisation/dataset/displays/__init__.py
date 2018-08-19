@@ -24,8 +24,7 @@ Displays *RGB* primaries multi-spectral power distributions.
 
 References
 ----------
--   :cite:`Fairchild1998b`
--   :cite:`Machado2010a`
+:cite:`Fairchild1998b`, :cite:`Machado2010a`
 
 DISPLAYS_RGB_PRIMARIES : CaseInsensitiveMapping
     **{Apple Studio Display, Typical CRT Brainard 1997}**

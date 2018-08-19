@@ -76,8 +76,7 @@ class Extrapolator(object):
 
     References
     ----------
-    -   :cite:`Sastanina`
-    -   :cite:`Westland2012i`
+    :cite:`Sastanina`, :cite:`Westland2012i`
 
     Examples
     --------

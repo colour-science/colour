@@ -1016,7 +1016,7 @@ MUNSELL_COLOURS_1929 = (
 
 References
 ----------
--   :cite:`MunsellColorSciencec`
+:cite:`MunsellColorSciencec`
 
 MUNSELL_COLOURS_1929 : tuple
 (('hue', 'value', 'chroma'), np.array(['x', 'y', 'Y'])))

@@ -76,9 +76,7 @@ class LLAB_InductionFactors(
 
     References
     ----------
-    -   :cite:`Fairchild2013x`
-    -   :cite:`Luo1996b`
-    -   :cite:`Luo1996c`
+    :cite:`Fairchild2013x`, :cite:`Luo1996b`, :cite:`Luo1996c`
     """
 
 
@@ -99,9 +97,7 @@ Reference *LLAB(l:c)* colour appearance model viewing conditions.
 
 References
 ----------
--   :cite:`Fairchild2013x`
--   :cite:`Luo1996b`
--   :cite:`Luo1996c`
+:cite:`Fairchild2013x`, :cite:`Luo1996b`, :cite:`Luo1996c`
 
 LLAB_VIEWING_CONDITIONS : CaseInsensitiveMapping
     **{'Reference Samples & Images, Average Surround, Subtending > 4',
@@ -184,9 +180,7 @@ class LLAB_ReferenceSpecification(
 
     References
     ----------
-    -   :cite:`Fairchild2013x`
-    -   :cite:`Luo1996b`
-    -   :cite:`Luo1996c`
+    :cite:`Fairchild2013x`, :cite:`Luo1996b`, :cite:`Luo1996c`
     """
 
 
@@ -225,9 +219,7 @@ class LLAB_Specification(
 
     References
     ----------
-    -   :cite:`Fairchild2013x`
-    -   :cite:`Luo1996b`
-    -   :cite:`Luo1996c`
+    :cite:`Fairchild2013x`, :cite:`Luo1996b`, :cite:`Luo1996c`
     """
 
 
@@ -278,9 +270,7 @@ def XYZ_to_LLAB(
 
     References
     ----------
-    -   :cite:`Fairchild2013x`
-    -   :cite:`Luo1996b`
-    -   :cite:`Luo1996c`
+    :cite:`Fairchild2013x`, :cite:`Luo1996b`, :cite:`Luo1996c`
 
     Examples
     --------

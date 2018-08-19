@@ -2386,8 +2386,7 @@ Photopic luminous efficiency functions.
 
 References
 ----------
--   :cite:`CVRLq`
--   :cite:`CVRLs`
+:cite:`CVRLq`, :cite:`CVRLs`
 
 PHOTOPIC_LEFS : CaseInsensitiveMapping
     **{'CIE 1924 Photopic Standard Observer',
@@ -2824,7 +2823,7 @@ Scotopic luminous efficiency functions.
 
 References
 ----------
--   :cite:`CVRLs`
+:cite:`CVRLs`
 
 SCOTOPIC_LEFS : CaseInsensitiveMapping
     **{'CIE 1951 Scotopic Standard Observer', }**
@@ -2842,9 +2841,7 @@ Aggregated luminous efficiency functions.
 
 References
 ----------
--   :cite:`CVRLq`
--   :cite:`CVRLs`
--   :cite:`Wikipedia2005d`
+:cite:`CVRLq`, :cite:`CVRLs`, :cite:`Wikipedia2005d`
 
 LEFS : CaseInsensitiveMapping
     **{'CIE 1924 Photopic Standard Observer',

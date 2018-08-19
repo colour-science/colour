@@ -86,8 +86,7 @@ def XYZ_to_xyY(
 
     References
     ----------
-    -   :cite:`Lindbloom2003e`
-    -   :cite:`Wikipedia2005`
+    :cite:`Lindbloom2003e`, :cite:`Wikipedia2005`
 
     Examples
     --------
@@ -143,8 +142,7 @@ def xyY_to_XYZ(xyY):
 
     References
     ----------
-    -   :cite:`Lindbloom2009d`
-    -   :cite:`Wikipedia2005`
+    :cite:`Lindbloom2009d`, :cite:`Wikipedia2005`
 
     Examples
     --------
@@ -209,7 +207,7 @@ def xy_to_xyY(xy, Y=1):
 
     References
     ----------
-    -   :cite:`Wikipedia2005`
+    :cite:`Wikipedia2005`
 
     Examples
     --------
@@ -270,7 +268,7 @@ def xyY_to_xy(xyY):
 
     References
     ----------
-    -   :cite:`Wikipedia2005`
+    :cite:`Wikipedia2005`
 
     Examples
     --------
@@ -326,7 +324,7 @@ def xy_to_XYZ(xy):
 
     References
     ----------
-    -   :cite:`Wikipedia2005`
+    :cite:`Wikipedia2005`
 
     Examples
     --------
@@ -368,7 +366,7 @@ def XYZ_to_xy(
 
     References
     ----------
-    -   :cite:`Wikipedia2005`
+    :cite:`Wikipedia2005`
 
     Examples
     --------

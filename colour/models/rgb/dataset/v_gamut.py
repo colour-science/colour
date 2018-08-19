@@ -103,7 +103,7 @@ V_GAMUT_COLOURSPACE.__doc__ = """
 
 References
 ----------
--   :cite:`Panasonic2014a`
+:cite:`Panasonic2014a`
 
 V_GAMUT_COLOURSPACE : RGB_Colourspace
 """

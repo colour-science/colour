@@ -101,8 +101,7 @@ def augmented_matrix_Cheung2004(RGB, terms=3):
 
     References
     ----------
-    -   :cite:`Cheung2004`
-    -   :cite:`Westland2004`
+    :cite:`Cheung2004`, :cite:`Westland2004`
 
     Examples
     --------
@@ -197,7 +196,7 @@ def polynomial_expansion_Finlayson2015(RGB,
 
     References
     ----------
-    -   :cite:`Finlayson2015`
+    :cite:`Finlayson2015`
 
     Examples
     --------
@@ -288,7 +287,7 @@ def polynomial_expansion_Vandermonde(a, degree=1):
 
     References
     ----------
-    -   :cite:`Wikipedia2003e`
+    :cite:`Wikipedia2003e`
 
     Examples
     --------
@@ -315,10 +314,8 @@ Supported polynomial expansion methods.
 
 References
 ----------
--   :cite:`Cheung2004`
--   :cite:`Finlayson2015`
--   :cite:`Westland2004`
--   :cite:`Wikipedia2003e`
+:cite:`Cheung2004`, :cite:`Finlayson2015`, :cite:`Westland2004`,
+:cite:`Wikipedia2003e`
 
 POLYNOMIAL_EXPANSION_METHODS : CaseInsensitiveMapping
     **{'Cheung 2004', 'Finlayson 2015', 'Vandermonde'}**
@@ -360,10 +357,8 @@ def polynomial_expansion(a, method='Cheung 2004', **kwargs):
 
     References
     ----------
-    -   :cite:`Cheung2004`
-    -   :cite:`Finlayson2015`
-    -   :cite:`Westland2004`
-    -   :cite:`Wikipedia2003e`
+    :cite:`Cheung2004`, :cite:`Finlayson2015`, :cite:`Westland2004`,
+    :cite:`Wikipedia2003e`
 
     Examples
     --------
@@ -401,8 +396,7 @@ def colour_correction_matrix_Cheung2004(M_T, M_R, terms=3):
 
     References
     ----------
-    -   :cite:`Cheung2004`
-    -   :cite:`Westland2004`
+    :cite:`Cheung2004`, :cite:`Westland2004`
 
     Examples
     --------
@@ -445,7 +439,7 @@ def colour_correction_matrix_Finlayson2015(M_T,
 
     References
     ----------
-    -   :cite:`Finlayson2015`
+    :cite:`Finlayson2015`
 
     Examples
     --------
@@ -484,7 +478,7 @@ def colour_correction_matrix_Vandermonde(M_T, M_R, degree=1):
 
     References
     ----------
-    -   :cite:`Wikipedia2003e`
+    :cite:`Wikipedia2003e`
 
     Examples
     --------
@@ -511,10 +505,8 @@ Supported colour correction matrix methods.
 
 References
 ----------
--   :cite:`Cheung2004`
--   :cite:`Finlayson2015`
--   :cite:`Westland2004`
--   :cite:`Wikipedia2003e`
+:cite:`Cheung2004`, :cite:`Finlayson2015`, :cite:`Westland2004`,
+:cite:`Wikipedia2003e`
 
 POLYNOMIAL_EXPANSION_METHODS : CaseInsensitiveMapping
     **{'Cheung 2004', 'Finlayson 2015', 'Vandermonde'}**
@@ -564,10 +556,8 @@ def colour_correction_matrix(M_T, M_R, method='Cheung 2004', **kwargs):
 
     References
     ----------
-    -   :cite:`Cheung2004`
-    -   :cite:`Finlayson2015`
-    -   :cite:`Westland2004`
-    -   :cite:`Wikipedia2003e`
+    :cite:`Cheung2004`, :cite:`Finlayson2015`, :cite:`Westland2004`,
+    :cite:`Wikipedia2003e`
 
     Examples
     --------
@@ -659,8 +649,7 @@ def colour_correction_Cheung2004(RGB, M_T, M_R, terms=3):
 
     References
     ----------
-    -   :cite:`Cheung2004`
-    -   :cite:`Westland2004`
+    :cite:`Cheung2004`, :cite:`Westland2004`
 
     Examples
     --------
@@ -709,7 +698,7 @@ def colour_correction_Finlayson2015(RGB,
 
     References
     ----------
-    -   :cite:`Finlayson2015`
+    :cite:`Finlayson2015`
 
     Examples
     --------
@@ -754,7 +743,7 @@ def colour_correction_Vandermonde(RGB, M_T, M_R, degree=1):
 
     References
     ----------
-    -   :cite:`Wikipedia2003e`
+    :cite:`Wikipedia2003e`
 
     Examples
     --------
@@ -783,10 +772,8 @@ Supported colour correction methods.
 
 References
 ----------
--   :cite:`Cheung2004`
--   :cite:`Finlayson2015`
--   :cite:`Westland2004`
--   :cite:`Wikipedia2003e`
+:cite:`Cheung2004`, :cite:`Finlayson2015`, :cite:`Westland2004`,
+:cite:`Wikipedia2003e`
 
 COLOUR_CORRECTION_METHODS : CaseInsensitiveMapping
     **{'Cheung 2004', 'Finlayson 2015', 'Vandermonde'}**
@@ -834,10 +821,8 @@ def colour_correction(RGB, M_T, M_R, method='Cheung 2004', **kwargs):
 
     References
     ----------
-    -   :cite:`Cheung2004`
-    -   :cite:`Finlayson2015`
-    -   :cite:`Westland2004`
-    -   :cite:`Wikipedia2003e`
+    :cite:`Cheung2004`, :cite:`Finlayson2015`, :cite:`Westland2004`,
+    :cite:`Wikipedia2003e`
 
     Examples
     --------

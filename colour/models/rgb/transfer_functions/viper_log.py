@@ -69,7 +69,7 @@ def log_encoding_ViperLog(x):
 
     References
     ----------
-    -   :cite:`SonyImageworks2012a`
+    :cite:`SonyImageworks2012a`
 
     Examples
     --------
@@ -116,7 +116,7 @@ def log_decoding_ViperLog(y):
 
     References
     ----------
-    -   :cite:`SonyImageworks2012a`
+    :cite:`SonyImageworks2012a`
 
     Examples
     --------

@@ -35,8 +35,7 @@ Supported reflectance recovery methods.
 
 References
 ----------
--   :cite:`Meng2015c`
--   :cite:`Smits1999a`
+:cite:`Meng2015c`, :cite:`Smits1999a`
 
 REFLECTANCE_RECOVERY_METHODS : CaseInsensitiveMapping
     **{'Meng 2015', 'Smits 1999'}**
@@ -96,8 +95,7 @@ def XYZ_to_spectral(XYZ, method='Meng 2015', **kwargs):
 
     References
     ----------
-    -   :cite:`Meng2015c`
-    -   :cite:`Smits1999a`
+    :cite:`Meng2015c`, :cite:`Smits1999a`
 
     Examples
     --------

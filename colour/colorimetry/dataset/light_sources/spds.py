@@ -788,7 +788,7 @@ light source names cannot be accurately verified.
 
 References
 ----------
--   :cite:`Pointer1980a`
+:cite:`Pointer1980a`
 
 LIGHT_SOURCES_RIT_SPDS_DATA : CaseInsensitiveMapping
     **{'Natural', 'Philips TL-84', 'T8 Luxline Plus White', 'SA', 'SC',
@@ -1674,7 +1674,7 @@ spreadsheet.
 
 References
 ----------
--   :cite:`Ohno2008a`
+:cite:`Ohno2008a`
 
 LIGHT_SOURCES_NIST_TRADITIONAL_SPDS : CaseInsensitiveMapping
     **{'Cool White FL', 'Daylight FL', 'HPS', 'Incandescent', 'LPS', 'Mercury',
@@ -5153,7 +5153,7 @@ Projectors and Xenon Arc Lamps.
 
 References
 ----------
--   :cite:`Houston2015a`
+:cite:`Houston2015a`
 
 LIGHT_SOURCES_PROJECTORS_SPDS : CaseInsensitiveMapping
     **{'Kinoton 75P', }**

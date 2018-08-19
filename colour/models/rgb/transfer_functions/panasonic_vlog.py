@@ -91,7 +91,7 @@ def log_encoding_VLog(L_in,
 
     References
     ----------
-    -   :cite:`Panasonic2014a`
+    :cite:`Panasonic2014a`
 
     Examples
     --------
@@ -162,7 +162,7 @@ def log_decoding_VLog(V_out,
 
     References
     ----------
-    -   :cite:`Panasonic2014a`
+    :cite:`Panasonic2014a`
 
     Examples
     --------

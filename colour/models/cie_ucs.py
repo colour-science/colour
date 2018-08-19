@@ -73,8 +73,7 @@ def XYZ_to_UCS(XYZ):
 
     References
     ----------
-    -   :cite:`Wikipedia2008c`
-    -   :cite:`Wikipedia2008`
+    :cite:`Wikipedia2008c`, :cite:`Wikipedia2008`
 
     Examples
     --------
@@ -122,8 +121,7 @@ def UCS_to_XYZ(UVW):
 
     References
     ----------
-    -   :cite:`Wikipedia2008c`
-    -   :cite:`Wikipedia2008`
+    :cite:`Wikipedia2008c`, :cite:`Wikipedia2008`
 
     Examples
     --------
@@ -166,7 +164,7 @@ def UCS_to_uv(UVW):
 
     References
     ----------
-    -   :cite:`Wikipedia2008c`
+    :cite:`Wikipedia2008c`
 
     Examples
     --------
@@ -200,7 +198,7 @@ def UCS_uv_to_xy(uv):
 
     References
     ----------
-    -   :cite:`Wikipedia2008c`
+    :cite:`Wikipedia2008c`
 
     Examples
     --------
@@ -235,7 +233,7 @@ def xy_to_UCS_uv(xy):
 
     References
     ----------
-    -   :cite:`Wikipedia2008c`
+    :cite:`Wikipedia2008c`
 
     Examples
     --------

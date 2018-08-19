@@ -70,8 +70,7 @@ class CMCCAT2000_InductionFactors(
 
     References
     ----------
-    -   :cite:`Li2002a`
-    -   :cite:`Westland2012k`
+    :cite:`Li2002a`, :cite:`Westland2012k`
     """
 
 
@@ -85,8 +84,7 @@ Reference *CMCCAT2000* chromatic adaptation model viewing conditions.
 
 References
 ----------
--   :cite:`Li2002a`
--   :cite:`Westland2012k`
+:cite:`Li2002a`, :cite:`Westland2012k`
 
 CMCCAT2000_VIEWING_CONDITIONS : CaseInsensitiveMapping
     ('Average', 'Dim', 'Dark')
@@ -147,8 +145,7 @@ def chromatic_adaptation_forward_CMCCAT2000(
 
     References
     ----------
-    -   :cite:`Li2002a`
-    -   :cite:`Westland2012k`
+    :cite:`Li2002a`, :cite:`Westland2012k`
 
     Examples
     --------
@@ -239,8 +236,7 @@ def chromatic_adaptation_reverse_CMCCAT2000(
 
     References
     ----------
-    -   :cite:`Li2002a`
-    -   :cite:`Westland2012k`
+    :cite:`Li2002a`, :cite:`Westland2012k`
 
     Examples
     --------
@@ -340,8 +336,7 @@ def chromatic_adaptation_CMCCAT2000(
 
     References
     ----------
-    -   :cite:`Li2002a`
-    -   :cite:`Westland2012k`
+    :cite:`Li2002a`, :cite:`Westland2012k`
 
     Examples
     --------

@@ -144,7 +144,7 @@ def delta_E_CAM02LCD(Jpapbp_1, Jpapbp_2):
 
     References
     ----------
-    -   :cite:`Luo2006b`
+    :cite:`Luo2006b`
 
     Examples
     --------
@@ -197,7 +197,7 @@ def delta_E_CAM02SCD(Jpapbp_1, Jpapbp_2):
 
     References
     ----------
-    -   :cite:`Luo2006b`
+    :cite:`Luo2006b`
 
     Examples
     --------
@@ -250,7 +250,7 @@ def delta_E_CAM02UCS(Jpapbp_1, Jpapbp_2):
 
     References
     ----------
-    -   :cite:`Luo2006b`
+    :cite:`Luo2006b`
 
     Examples
     --------

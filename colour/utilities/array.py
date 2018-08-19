@@ -319,7 +319,7 @@ def in_array(a, b, tolerance=EPSILON):
 
     References
     ----------
-    -   :cite:`Yorke2014a`
+    :cite:`Yorke2014a`
 
     Examples
     --------
@@ -456,7 +456,7 @@ def row_as_diagonal(a):
 
     References
     ----------
-    -   :cite:`Castro2014a`
+    :cite:`Castro2014a`
 
     Examples
     --------

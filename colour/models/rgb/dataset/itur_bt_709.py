@@ -99,7 +99,7 @@ BT709_COLOURSPACE.__doc__ = """
 
 References
 ----------
--   :cite:`InternationalTelecommunicationUnion2015i`
+:cite:`InternationalTelecommunicationUnion2015i`
 
 BT709_COLOURSPACE : RGB_Colourspace
 """

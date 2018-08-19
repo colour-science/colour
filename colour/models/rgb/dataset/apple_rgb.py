@@ -97,7 +97,7 @@ APPLE_RGB_COLOURSPACE.__doc__ = """
 
 References
 ----------
--   :cite:`Susstrunk1999a`
+:cite:`Susstrunk1999a`
 
 APPLE_RGB_COLOURSPACE : RGB_Colourspace
 """

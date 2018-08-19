@@ -42,7 +42,7 @@ POINTER_GAMUT_ILLUMINANT = (
 
 References
 ----------
--   :cite:`Pointer1980a`
+:cite:`Pointer1980a`
 
 POINTER_GAMUT_ILLUMINANT : ndarray
 """
@@ -630,7 +630,7 @@ POINTER_GAMUT_DATA = np.array([
 
 References
 ----------
--   :cite:`Pointer1980a`
+:cite:`Pointer1980a`
 
 POINTER_GAMUT_DATA : ndarray
 """
@@ -674,7 +674,7 @@ POINTER_GAMUT_BOUNDARIES = np.array([
 
 References
 ----------
--   :cite:`Pointer1980a`
+:cite:`Pointer1980a`
 
 POINTER_GAMUT_BOUNDARIES : ndarray
 """

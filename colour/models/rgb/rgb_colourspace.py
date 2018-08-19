@@ -167,8 +167,8 @@ class RGB_Colourspace(object):
 
     References
     ----------
-    -   :cite:`InternationalElectrotechnicalCommission1999a`
-    -   :cite:`Panasonic2014a`
+    :cite:`InternationalElectrotechnicalCommission1999a`,
+    :cite:`Panasonic2014a`
 
     Examples
     --------

@@ -71,7 +71,7 @@ def oetf_BT709(L):
 
     References
     ----------
-    -   :cite:`InternationalTelecommunicationUnion2015i`
+    :cite:`InternationalTelecommunicationUnion2015i`
 
     Examples
     --------
@@ -114,7 +114,7 @@ def oetf_reverse_BT709(V):
 
     References
     ----------
-    -   :cite:`InternationalTelecommunicationUnion2015i`
+    :cite:`InternationalTelecommunicationUnion2015i`
 
     Examples
     --------

@@ -87,7 +87,7 @@ def XYZ_to_Lab(
 
     References
     ----------
-    -   :cite:`CIETC1-482004m`
+    :cite:`CIETC1-482004m`
 
     Examples
     --------
@@ -161,7 +161,7 @@ def Lab_to_XYZ(
 
     References
     ----------
-    -   :cite:`CIETC1-482004m`
+    :cite:`CIETC1-482004m`
 
     Examples
     --------
@@ -226,7 +226,7 @@ def Lab_to_LCHab(Lab):
 
     References
     ----------
-    -   :cite:`CIETC1-482004m`
+    :cite:`CIETC1-482004m`
 
     Examples
     --------
@@ -283,7 +283,7 @@ def LCHab_to_Lab(LCHab):
 
     References
     ----------
-    -   :cite:`CIETC1-482004m`
+    :cite:`CIETC1-482004m`
 
     Examples
     --------

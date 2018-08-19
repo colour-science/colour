@@ -73,8 +73,7 @@ def D_illuminant_relative_spd(xy, M1_M2_rounding=True):
 
     References
     ----------
-    -   :cite:`CIETC1-482004`
-    -   :cite:`Wyszecki2000z`
+    :cite:`CIETC1-482004`, :cite:`Wyszecki2000z`
 
     Examples
     --------
@@ -240,7 +239,7 @@ def CIE_standard_illuminant_A_function(wl):
 
     References
     ----------
-    -   :cite:`CIETC1-482004n`
+    :cite:`CIETC1-482004n`
 
     Examples
     --------

@@ -86,7 +86,7 @@ def log_encoding_REDLog(x, black_offset=10 ** ((0 - 1023) / 511)):
 
     References
     ----------
-    -   :cite:`SonyImageworks2012a`
+    :cite:`SonyImageworks2012a`
 
     Examples
     --------
@@ -135,7 +135,7 @@ def log_decoding_REDLog(y, black_offset=10 ** ((0 - 1023) / 511)):
 
     References
     ----------
-    -   :cite:`SonyImageworks2012a`
+    :cite:`SonyImageworks2012a`
 
     Examples
     --------
@@ -184,7 +184,7 @@ def log_encoding_REDLogFilm(x, black_offset=10 ** ((95 - 685) / 300)):
 
     References
     ----------
-    -   :cite:`SonyImageworks2012a`
+    :cite:`SonyImageworks2012a`
 
     Examples
     --------
@@ -229,7 +229,7 @@ def log_decoding_REDLogFilm(y, black_offset=10 ** ((95 - 685) / 300)):
 
     References
     ----------
-    -   :cite:`SonyImageworks2012a`
+    :cite:`SonyImageworks2012a`
 
     Examples
     --------
@@ -306,7 +306,7 @@ def log_encoding_Log3G10(x, legacy_curve=False):
 
     References
     ----------
-    -   :cite:`Nattress2016a`
+    :cite:`Nattress2016a`
 
     Examples
     --------
@@ -361,7 +361,7 @@ def log_decoding_Log3G10(y, legacy_curve=False):
 
     References
     ----------
-    -   :cite:`Nattress2016a`
+    :cite:`Nattress2016a`
 
     Examples
     --------
@@ -414,7 +414,7 @@ def log_encoding_Log3G12(x):
 
     References
     ----------
-    -   :cite:`Nattress2016a`
+    :cite:`Nattress2016a`
 
     Examples
     --------
@@ -461,7 +461,7 @@ def log_decoding_Log3G12(y):
 
     References
     ----------
-    -   :cite:`Nattress2016a`
+    :cite:`Nattress2016a`
 
     Examples
     --------

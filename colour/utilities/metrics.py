@@ -50,7 +50,7 @@ def metric_mse(a, b):
 
     References
     ----------
-    -   :cite:`Wikipedia2003c`
+    :cite:`Wikipedia2003c`
 
     Examples
     --------
@@ -84,7 +84,7 @@ def metric_psnr(a, b, max_a=1):
 
     References
     ----------
-    -   :cite:`Wikipedia2004`
+    :cite:`Wikipedia2004`
 
     Examples
     --------

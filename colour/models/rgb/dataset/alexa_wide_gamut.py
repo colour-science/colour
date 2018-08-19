@@ -103,7 +103,7 @@ ALEXA_WIDE_GAMUT_COLOURSPACE.__doc__ = """
 
 References
 ----------
--   :cite:`ARRI2012a`
+:cite:`ARRI2012a`
 
 ALEXA_WIDE_GAMUT_COLOURSPACE : RGB_Colourspace
 """

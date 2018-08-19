@@ -6059,7 +6059,7 @@ Earth-Sun distance.
 
 References
 ----------
--   :cite:`RenewableResourceDataCenter2003a`
+:cite:`RenewableResourceDataCenter2003a`
 
 ASTM_G_173_ETR : SpectralPowerDistribution
 """
@@ -6074,7 +6074,7 @@ ground on south facing surface tilted 37 degrees from horizontal.
 
 References
 ----------
--   :cite:`RenewableResourceDataCenter2003a`
+:cite:`RenewableResourceDataCenter2003a`
 
 ASTM_G_173_GLOBAL_TILT : SpectralPowerDistribution
 """
@@ -6092,7 +6092,7 @@ diameter solar disk, but excluding the radiation from the disk.
 
 References
 ----------
--   :cite:`RenewableResourceDataCenter2003a`
+:cite:`RenewableResourceDataCenter2003a`
 
 ASTM_G_173_DIRECT_CIRCUMSOLAR : SpectralPowerDistribution
 """

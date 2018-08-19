@@ -56,8 +56,7 @@ Supported *hdr-CIELAB* colourspace computation methods.
 
 References
 ----------
--   :cite:`Fairchild2010`
--   :cite:`Fairchild2011`
+:cite:`Fairchild2010`, :cite:`Fairchild2011`
 
 HDR_CIELAB_METHODS : tuple
     **{'Fairchild 2011', 'Fairchild 2010'}**
@@ -190,8 +189,7 @@ def XYZ_to_hdr_CIELab(
 
     References
     ----------
-    -   :cite:`Fairchild2010`
-    -   :cite:`Fairchild2011`
+    :cite:`Fairchild2010`, :cite:`Fairchild2011`
 
     Examples
     --------
@@ -285,8 +283,7 @@ def hdr_CIELab_to_XYZ(
 
     References
     ----------
-    -   :cite:`Fairchild2010`
-    -   :cite:`Fairchild2011`
+    :cite:`Fairchild2010`, :cite:`Fairchild2011`
 
     Examples
     --------

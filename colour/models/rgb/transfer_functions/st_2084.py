@@ -96,8 +96,8 @@ def oetf_ST2084(C, L_p=10000, constants=ST2084_CONSTANTS):
 
     References
     ----------
-    -   :cite:`Miller2014a`
-    -   :cite:`SocietyofMotionPictureandTelevisionEngineers2014a`
+    :cite:`Miller2014a`,
+    :cite:`SocietyofMotionPictureandTelevisionEngineers2014a`
 
     Examples
     --------
@@ -157,8 +157,8 @@ def eotf_ST2084(N, L_p=10000, constants=ST2084_CONSTANTS):
 
     References
     ----------
-    -   :cite:`Miller2014a`
-    -   :cite:`SocietyofMotionPictureandTelevisionEngineers2014a`
+    :cite:`Miller2014a`,
+    :cite:`SocietyofMotionPictureandTelevisionEngineers2014a`
 
     Examples
     --------

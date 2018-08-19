@@ -60,7 +60,7 @@ def luminous_flux(spd,
 
     References
     ----------
-    -   :cite:`Wikipedia2003b`
+    :cite:`Wikipedia2003b`
 
     Examples
     --------
@@ -104,7 +104,7 @@ def luminous_efficiency(
 
     References
     ----------
-    -   :cite:`Wikipedia2003b`
+    :cite:`Wikipedia2003b`
 
     Examples
     --------
@@ -149,7 +149,7 @@ def luminous_efficacy(
 
     References
     ----------
-    -   :cite:`Wikipedia2005c`
+    :cite:`Wikipedia2005c`
 
     Examples
     --------

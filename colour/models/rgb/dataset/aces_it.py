@@ -525,9 +525,9 @@ ACES_RICD = RGB_ColourMatchingFunctions(ACES_RICD_DATA, name='ACES RICD')
 
 References
 ----------
--   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
--   :cite:`TheAcademyofMotionPictureArtsandSciences2014r`
--   :cite:`TheAcademyofMotionPictureArtsandSciencese`
+:cite:`TheAcademyofMotionPictureArtsandSciences2014q`,
+:cite:`TheAcademyofMotionPictureArtsandSciences2014r`,
+:cite:`TheAcademyofMotionPictureArtsandSciencese`
 
 ACES_RICD : RGB_ColourMatchingFunctions
 """

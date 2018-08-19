@@ -106,10 +106,10 @@ def spectral_to_aces_relative_exposure_values(
 
     References
     ----------
-    -   :cite:`Forsythe2018`
-    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014q`
-    -   :cite:`TheAcademyofMotionPictureArtsandSciences2014r`
-    -   :cite:`TheAcademyofMotionPictureArtsandSciencese`
+    :cite:`Forsythe2018`,
+    :cite:`TheAcademyofMotionPictureArtsandSciences2014q`,
+    :cite:`TheAcademyofMotionPictureArtsandSciences2014r`,
+    :cite:`TheAcademyofMotionPictureArtsandSciencese`
 
     Examples
     --------

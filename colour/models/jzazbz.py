@@ -142,7 +142,7 @@ def XYZ_to_JzAzBz(XYZ_D65, constants=JZAZBZ_CONSTANTS):
 
     References
     ----------
-    -   :cite:`Safdar2017`
+    :cite:`Safdar2017`
 
     Examples
     --------
@@ -213,7 +213,7 @@ def JzAzBz_to_XYZ(JzAzBz, constants=JZAZBZ_CONSTANTS):
 
     References
     ----------
-    -   :cite:`Safdar2017`
+    :cite:`Safdar2017`
 
     Examples
     --------
