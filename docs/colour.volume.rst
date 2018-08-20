@@ -67,3 +67,15 @@ Visible Spectrum
     :toctree: generated/
 
     is_within_visible_spectrum
+
+**Ancillary Objects**
+
+``colour.volume``
+
+.. currentmodule:: colour.volume
+
+.. autosummary::
+    :toctree: generated/
+
+    generate_pulse_waves
+    XYZ_outer_surface

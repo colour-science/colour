@@ -394,7 +394,7 @@ def RGB_colourspace_visible_spectrum_coverage_MonteCarlo(
     >>> prng = np.random.RandomState(2)
     >>> RGB_colourspace_visible_spectrum_coverage_MonteCarlo(
     ...     sRGB, 10e3, random_state=prng)  # doctest: +ELLIPSIS
-    36...
+    49...
     """
 
     return RGB_colourspace_volume_coverage_MonteCarlo(
