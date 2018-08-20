@@ -32,9 +32,11 @@ VARICAM_V-Log_V-Gamut.pdf
 from __future__ import division, unicode_literals
 
 import numpy as np
+from copy import deepcopy
 
 from colour.models import xy_to_XYZ, xy_to_xyY, xyY_to_XYZ
-from colour.models.rgb import normalised_primary_matrix
+from colour.models.rgb import (chromatically_adapted_primaries,
+                               normalised_primary_matrix)
 from colour.adaptation import chromatic_adaptation_matrix_VonKries
 from colour.utilities import (domain_range_scale, dot_matrix, dot_vector,
                               from_range_1, to_domain_1, is_string)
@@ -154,6 +156,8 @@ class RGB_Colourspace(object):
     __str__
     __repr__
     use_derived_transformation_matrices
+    chromatically_adapt
+    copy
 
     Notes
     -----
@@ -754,6 +758,85 @@ class RGB_Colourspace(object):
         self.use_derived_XYZ_to_RGB_matrix = usage
 
         return True
+
+    def chromatically_adapt(self,
+                            whitepoint,
+                            chromatic_adaptation_transform='CAT02'):
+        """
+        Chromatically adapts the *RGB* colourspace *primaries* :math:`xy`
+        chromaticity coordinates from *RGB* colourspace whitepoint to reference
+        ``whitepoint``.
+
+        Parameters
+        ----------
+        whitepoint : array_like
+            Reference illuminant / whitepoint :math:`xy` chromaticity
+            coordinates.
+        chromatic_adaptation_transform : unicode, optional
+            **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
+            'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
+            'Bianco PC'}**,
+            *Chromatic adaptation* transform.
+
+        Returns
+        -------
+        Chromatically adapted *RGB* colourspace.
+
+        Examples
+        --------
+        >>> p = np.array(
+        ...     [0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
+        >>> w_t = np.array([0.32168, 0.33767])
+        >>> w_r = np.array([0.31270, 0.32900])
+        >>> colourspace = RGB_Colourspace('RGB Colourspace', p, w_t, 'D65')
+        >>> print(colourspace.chromatically_adapt(w_r, 'Bradford'))
+        ... # doctest: +ELLIPSIS
+        RGB Colourspace - C.A. [ 0.3127  0.329 ]
+        ----------------------------------------
+        <BLANKLINE>
+        Primaries          : [[ 0.7348552...  0.2642253...]
+                              [-0.0061709...  1.0113149...]
+                              [ 0.0159675... -0.0642355...]]
+        Whitepoint         : [ 0.3127  0.329 ]
+        Whitepoint Name    : D65
+        Encoding CCTF      : None
+        Decoding CCTF      : None
+        NPM                : None
+        NPM -1             : None
+        Derived NPM        : [[ 0.9382798... -0.0044514...  0.0166275...]
+                              [ 0.3373688...  0.7295215... -0.0668904...]
+                              [ 0.0011739... -0.0037107...  1.0915945...]]
+        Derived NPM -1     : [[ 1.0634954...  0.0064089... -0.0158067...]
+                              [-0.4920741...  1.3682234...  0.0913370...]
+                              [-0.0028164...  0.0046441...  0.9164185...]]
+        Use Derived NPM    : False
+        Use Derived NPM -1 : False
+        """
+
+        colourspace = self.copy()
+        colourspace.primaries = chromatically_adapted_primaries(
+            colourspace.primaries, colourspace.whitepoint, whitepoint,
+            chromatic_adaptation_transform)
+        colourspace.whitepoint = whitepoint
+
+        colourspace._derive_transformation_matrices()
+
+        colourspace.name = '{0} - C.A. {1}'.format(colourspace.name,
+                                                   whitepoint)
+
+        return colourspace
+
+    def copy(self):
+        """
+        Returns a copy of the *RGB* colourspace.
+
+        Returns
+        -------
+        RGB_Colourspace
+            *RGB* colourspace copy.
+        """
+
+        return deepcopy(self)
 
 
 def XYZ_to_RGB(XYZ,
