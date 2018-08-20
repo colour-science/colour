@@ -132,7 +132,6 @@ def chromatically_adapted_primaries(primaries,
     Chromatically adapts given *primaries* :math:`xy` chromaticity coordinates
     from test ``whitepoint_t`` to reference ``whitepoint_r``.
 
-
     Parameters
     ----------
     primaries : array_like, (3, 2)
