@@ -57,7 +57,7 @@ class TestSignal(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('__str__', '__repr__', '__getitem__',
+        required_methods = ('__str__', '__repr__', '__hash__', '__getitem__',
                             '__setitem__', '__contains__', '__eq__', '__ne__',
                             'arithmetical_operation', 'signal_unpack_data',
                             'fill_nan', 'domain_distance', 'to_series')
