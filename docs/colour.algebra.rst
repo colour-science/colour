@@ -26,6 +26,7 @@ Interpolation
     :toctree: generated/
 
     KernelInterpolator
+    NearestNeighbourInterpolator
     LinearInterpolator
     NullInterpolator
     PchipInterpolator

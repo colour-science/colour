@@ -48,11 +48,12 @@ from .adaptation import (CHROMATIC_ADAPTATION_METHODS,
                          CHROMATIC_ADAPTATION_TRANSFORMS,
                          CMCCAT2000_VIEWING_CONDITIONS, chromatic_adaptation)
 from .algebra import (CubicSplineInterpolator, Extrapolator,
-                      KernelInterpolator, LinearInterpolator, NullInterpolator,
-                      PchipInterpolator, SpragueInterpolator,
-                      TABLE_INTERPOLATION_METHODS, kernel_cardinal_spline,
-                      kernel_lanczos, kernel_linear, kernel_nearest_neighbour,
-                      kernel_sinc, table_interpolation, lagrange_coefficients)
+                      KernelInterpolator, NearestNeighbourInterpolator,
+                      LinearInterpolator, NullInterpolator, PchipInterpolator,
+                      SpragueInterpolator, TABLE_INTERPOLATION_METHODS,
+                      kernel_cardinal_spline, kernel_lanczos, kernel_linear,
+                      kernel_nearest_neighbour, kernel_sinc,
+                      table_interpolation, lagrange_coefficients)
 from .colorimetry import (
     ASTME30815_PRACTISE_SHAPE, BANDPASS_CORRECTION_METHODS,
     CIE_standard_illuminant_A_function, CMFS, DEFAULT_SPECTRAL_SHAPE,
@@ -156,8 +157,8 @@ __all__ += [
 ]
 __all__ += [
     'CubicSplineInterpolator', 'Extrapolator', 'KernelInterpolator',
-    'LinearInterpolator', 'NullInterpolator', 'PchipInterpolator',
-    'SpragueInterpolator', 'TABLE_INTERPOLATION_METHODS',
+    'NearestNeighbourInterpolator', 'LinearInterpolator', 'NullInterpolator',
+    'PchipInterpolator', 'SpragueInterpolator', 'TABLE_INTERPOLATION_METHODS',
     'kernel_cardinal_spline', 'kernel_lanczos', 'kernel_linear',
     'kernel_nearest_neighbour', 'kernel_sinc', 'table_interpolation',
     'lagrange_coefficients'

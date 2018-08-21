@@ -96,6 +96,7 @@ dict_like, optional
     -------
     __str__
     __repr__
+    __hash__
     __getitem__
     __setitem__
     __contains__
@@ -674,6 +675,18 @@ dict_like
             # TODO: Discuss what is the most suitable behaviour, either the
             # following or __str__ one.
             return '{0}()'.format(self.__class__.__name__)
+
+    def __hash__(self):
+        """
+        Returns the abstract continuous function hash.
+
+        Returns
+        -------
+        int
+            Object hash.
+        """
+
+        return hash(repr(self))
 
     def __getitem__(self, x):
         """

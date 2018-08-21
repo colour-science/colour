@@ -7,6 +7,8 @@ Defines classes and definitions for interpolating variables.
 
 -   :class:`colour.KernelInterpolator`: 1-D function generic interpolation with
     arbitrary kernel.
+-   :class:`colour.NearestNeighbourInterpolator`: 1-D function
+    nearest-neighbour interpolation.
 -   :class:`colour.LinearInterpolator`: 1-D function linear interpolation.
 -   :class:`colour.SpragueInterpolator`: 1-D function fifth-order polynomial
     interpolation using *Sprague (1880)* method.
@@ -76,8 +78,9 @@ __status__ = 'Production'
 __all__ = [
     'kernel_nearest_neighbour', 'kernel_linear', 'kernel_sinc',
     'kernel_lanczos', 'kernel_cardinal_spline', 'KernelInterpolator',
-    'LinearInterpolator', 'SpragueInterpolator', 'CubicSplineInterpolator',
-    'PchipInterpolator', 'NullInterpolator', 'lagrange_coefficients',
+    'NearestNeighbourInterpolator', 'LinearInterpolator',
+    'SpragueInterpolator', 'CubicSplineInterpolator', 'PchipInterpolator',
+    'NullInterpolator', 'lagrange_coefficients',
     'vertices_and_relative_coordinates', 'table_interpolation_trilinear',
     'table_interpolation_tetrahedral', 'TABLE_INTERPOLATION_METHODS',
     'table_interpolation'
@@ -667,6 +670,35 @@ class KernelInterpolator(object):
 
         if above_interpolation_range.any():
             raise ValueError('"{0}" is above interpolation range.'.format(x))
+
+
+class NearestNeighbourInterpolator(KernelInterpolator):
+    """
+    A nearest-neighbour interpolator.
+
+    Other Parameters
+    ----------------
+    x : array_like
+        Independent :math:`x` variable values corresponding with :math:`y`
+        variable.
+    y : array_like
+        Dependent and already known :math:`y` variable values to
+        interpolate.
+    window : int, optional
+        Width of the window in samples on each side.
+    padding_args : dict, optional
+         Arguments to use when padding :math:`y` variable values with the
+         :func:`np.pad` definition.
+    dtype : type
+        Data type used for internal conversions.
+    """
+
+    def __init__(self, *args, **kwargs):
+        kwargs['kernel'] = kernel_nearest_neighbour
+        if 'kernel_args' in kwargs:
+            del kwargs['kernel_args']
+
+        super(NearestNeighbourInterpolator, self).__init__(*args, **kwargs)
 
 
 class LinearInterpolator(object):

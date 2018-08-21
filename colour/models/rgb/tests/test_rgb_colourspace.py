@@ -196,7 +196,8 @@ class TestRGB_Colourspace(unittest.TestCase):
         """
 
         required_methods = ('__str__', '__repr__',
-                            'use_derived_transformation_matrices')
+                            'use_derived_transformation_matrices',
+                            'chromatically_adapt', 'copy')
 
         for method in required_methods:
             self.assertIn(method, dir(RGB_Colourspace))
@@ -271,7 +272,7 @@ __repr__` method.
 
     def test_use_derived_transformation_matrices(self):
         """
-        Tests :func:`colour.models.rgb.rgb_colourspace.RGB_Colourspace.range.\
+        Tests :func:`colour.models.rgb.rgb_colourspace.RGB_Colourspace.\
 use_derived_transformation_matrices` method.
         """
 
@@ -306,6 +307,31 @@ use_derived_transformation_matrices` method.
         self._colourspace.use_derived_XYZ_to_RGB_matrix = False
         np.testing.assert_array_equal(self._colourspace.XYZ_to_RGB_matrix,
                                       np.identity(3))
+
+    def test_chromatically_adapt(self):
+        """
+        Tests :func:`colour.models.rgb.rgb_colourspace.RGB_Colourspace.\
+chromatically_adapt` method.
+        """
+
+        colourspace = self._colourspace.chromatically_adapt(
+            np.array([0.31270, 0.32900]), 'Bradford')
+        np.testing.assert_array_almost_equal(colourspace.primaries,
+                                             np.array([
+                                                 [0.73485524, 0.26422533],
+                                                 [-0.00617091, 1.01131496],
+                                                 [0.01596756, -0.0642355],
+                                             ]))
+        np.testing.assert_array_almost_equal(colourspace.whitepoint,
+                                             np.array([0.31270, 0.32900]))
+
+    def test_copy(self):
+        """
+        Tests :func:`colour.models.rgb.rgb_colourspace.RGB_Colourspace.copy`
+        method.
+        """
+
+        self.assertIsNot(self._colourspace.copy(), self)
 
 
 class TestXYZ_to_RGB(unittest.TestCase):
