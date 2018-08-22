@@ -22,7 +22,8 @@ import os
 import re
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
-from colour.io.luts import LUT2D, LUT3D
+from colour.io.luts import LUT2D, LUT3D, LUTSequence
+from colour.utilities import warning
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -45,8 +46,8 @@ def read_LUT_IridasCube(path):
 
     Returns
     -------
-    LUT1D or LUT2D or LUT3d
-        :class:`LUT1D`, :class:`LUT2D` or :class:`LUT3D` class instance.
+    LUT2D or LUT3d
+        :class:`LUT2D` or :class:`LUT3D` class instance.
 
     References
     ----------
@@ -166,9 +167,9 @@ def write_LUT_IridasCube(LUT, path, decimals=7):
 
     Parameters
     ----------
-    LUT : LUT1D or LUT2D or LUT3d
-        :class:`LUT1D`, :class:`LUT2D` or :class:`LUT3D` class instance to
-        write at given path.
+    LUT : LUT2D or LUT3d or LUTSequence
+        :class:`LUT2D`, :class:`LUT3D` or :class:`LUTSequence` class instance
+        to write at given path.
     path : unicode
         *LUT* path.
     decimals : int, optional
@@ -178,6 +179,11 @@ def write_LUT_IridasCube(LUT, path, decimals=7):
     -------
     bool
         Definition success.
+
+    Warning
+    -------
+    -   If a :class:`LUTSequence` class instance is passed as ``LUT``, the
+        first *LUT* in the *LUT* sequence will be used.
 
     References
     ----------
@@ -203,6 +209,12 @@ def write_LUT_IridasCube(LUT, path, decimals=7):
     ...     comments=['A first comment.', 'A second comment.'])
     >>> write_LUT_IridasCube(LUT, 'My_LUT.cube')  # doctest: +SKIP
     """
+
+    if isinstance(LUT, LUTSequence):
+        LUT = LUT[0]
+        warning('"LUT" is a "LUTSequence" instance was passed, '
+                'using first sequence "LUT":\n'
+                '{0}'.format(LUT))
 
     assert (isinstance(LUT, LUT2D) or
             isinstance(LUT, LUT3D)), '"LUT" must be either a 2D or 3D "LUT"!'

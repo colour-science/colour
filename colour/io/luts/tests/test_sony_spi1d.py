@@ -11,7 +11,7 @@ import shutil
 import tempfile
 import unittest
 
-from colour.io import read_LUT_SonySPI1D, write_LUT_SonySPI1D
+from colour.io import LUTSequence, read_LUT_SonySPI1D, write_LUT_SonySPI1D
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -101,6 +101,13 @@ class TestWriteLUTSonySPI1D(unittest.TestCase):
                                          'oetf_reverse_sRGB_1D.spi1d'))
 
         LUT_1_t = read_LUT_SonySPI1D(
+            os.path.join(self._temporary_directory,
+                         'oetf_reverse_sRGB_1D.spi1d'))
+
+        self.assertEqual(LUT_1_r, LUT_1_t)
+
+        write_LUT_SonySPI1D(
+            LUTSequence(LUT_1_r),
             os.path.join(self._temporary_directory,
                          'oetf_reverse_sRGB_1D.spi1d'))
 

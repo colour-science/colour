@@ -11,7 +11,7 @@ import shutil
 import tempfile
 import unittest
 
-from colour.io import read_LUT_SonySPI3D, write_LUT_SonySPI3D
+from colour.io import LUTSequence, read_LUT_SonySPI3D, write_LUT_SonySPI3D
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -189,6 +189,12 @@ class TestWriteLUTSonySPI3D(unittest.TestCase):
                                          'ColourCorrect.spi3d'))
 
         LUT_t = read_LUT_SonySPI3D(
+            os.path.join(self._temporary_directory, 'ColourCorrect.spi3d'))
+
+        self.assertEqual(LUT_r, LUT_t)
+
+        write_LUT_SonySPI3D(
+            LUTSequence(LUT_r),
             os.path.join(self._temporary_directory, 'ColourCorrect.spi3d'))
 
         self.assertEqual(LUT_r, LUT_t)

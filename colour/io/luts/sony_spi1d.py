@@ -16,7 +16,8 @@ import os
 import re
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
-from colour.io.luts import LUT1D, LUT2D
+from colour.io.luts import LUT1D, LUT2D, LUTSequence
+from colour.utilities import warning
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -143,7 +144,8 @@ def write_LUT_SonySPI1D(LUT, path, decimals=7):
     Parameters
     ----------
     LUT : LUT1D or LUT2d
-        :class:`LUT1D` or :class:`LUT2D` class instance to write at given path.
+        :class:`LUT1D`, :class:`LUT2D` or :class:`LUTSequence` class instance
+        to write at given path.
     path : unicode
         *LUT* path.
     decimals : int, optional
@@ -153,6 +155,11 @@ def write_LUT_SonySPI1D(LUT, path, decimals=7):
     -------
     bool
         Definition success.
+
+    Warning
+    -------
+    -   If a :class:`LUTSequence` class instance is passed as ``LUT``, the
+        first *LUT* in the *LUT* sequence will be used.
 
     Examples
     --------
@@ -174,6 +181,12 @@ def write_LUT_SonySPI1D(LUT, path, decimals=7):
     ...     comments=['A first comment.', 'A second comment.'])
     >>> write_LUT_SonySPI1D(LUT, 'My_LUT.cube')  # doctest: +SKIP
     """
+
+    if isinstance(LUT, LUTSequence):
+        LUT = LUT[0]
+        warning('"LUT" is a "LUTSequence" instance was passed, '
+                'using first sequence "LUT":\n'
+                '{0}'.format(LUT))
 
     assert (isinstance(LUT, LUT1D) or
             isinstance(LUT, LUT2D)), '"LUT" must be either a 1D or 2D "LUT"!'
