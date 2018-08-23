@@ -216,6 +216,8 @@ def write_LUT(LUT, path, decimals=7, method=None, **kwargs):
 
     if method is None:
         method = EXTENSION_TO_LUT_FORMAT_MAPPING[os.path.splitext(path)[-1]]
+        if method == 'Iridas Cube' and isinstance(LUT, LUTSequence):
+            method = 'Resolve Cube'
 
     function = LUT_WRITE_METHODS[method]
 

@@ -20,7 +20,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['LUTS_DIRECTORY', 'TestReadLUTResolveCube', 'TestWriteLUTResolveCube']
+__all__ = ['LUTS_DIRECTORY',
+           'TestReadLUTResolveCube',
+           'TestWriteLUTResolveCube']
 
 LUTS_DIRECTORY = os.path.join(
     os.path.dirname(__file__), 'resources', 'resolve_cube')
@@ -94,11 +96,35 @@ class TestReadLUTResolveCube(unittest.TestCase):
         self.assertEqual(LUT_3.dimensions, 3)
         self.assertEqual(LUT_3.size, 2)
 
+        LUT_4 = read_LUT_ResolveCube(
+            os.path.join(LUTS_DIRECTORY, 'LogC_Video.cube'))
+        np.testing.assert_almost_equal(
+            LUT_4[0].table,
+            np.array([
+                 [0.000000, 0.000000, 0.000000],
+                 [0.027085, 0.027085, 0.027085],
+                 [0.063049, 0.063049, 0.063049],
+                 [0.113149, 0.113149, 0.113149],
+                 [0.183049, 0.183049, 0.183049],
+                 [0.289811, 0.289811, 0.289811],
+                 [0.417353, 0.417353, 0.417353],
+                 [0.545231, 0.545231, 0.545231],
+                 [0.670205, 0.670205, 0.670205],
+                 [0.789630, 0.789630, 0.789630],
+                 [0.886468, 0.886468, 0.886468],
+                 [0.945491, 0.945491, 0.945491],
+                 [0.976449, 0.976449, 0.976449],
+                 [0.989248, 0.989248, 0.989248],
+                 [0.993797, 0.993797, 0.993797],
+                 [1.000000, 1.000000, 1.000000]
+            ]))
+        self.assertEqual(LUT_4[1].size, 4)
+
 
 class TestWriteLUTResolveCube(unittest.TestCase):
     """
-    Defines :func:`colour.io.luts.resolve_cube.write_LUT_ResolveCube` definition
-    unit tests methods.
+    Defines :func:`colour.io.luts.resolve_cube.write_LUT_ResolveCube`
+    definition unit tests methods.
     """
 
     def setUp(self):
@@ -125,8 +151,8 @@ class TestWriteLUTResolveCube(unittest.TestCase):
             os.path.join(LUTS_DIRECTORY, 'ACES_Proxy_10_to_ACES.cube'))
 
         write_LUT_ResolveCube(LUT_1_r,
-                             os.path.join(self._temporary_directory,
-                                          'ACES_Proxy_10_to_ACES.cube'))
+                              os.path.join(self._temporary_directory,
+                                           'ACES_Proxy_10_to_ACES.cube'))
 
         LUT_1_t = read_LUT_ResolveCube(
             os.path.join(self._temporary_directory,
@@ -138,8 +164,8 @@ class TestWriteLUTResolveCube(unittest.TestCase):
             os.path.join(LUTS_DIRECTORY, 'Demo.cube'))
 
         write_LUT_ResolveCube(LUT_2_r,
-                             os.path.join(self._temporary_directory,
-                                          'Demo.cube'))
+                              os.path.join(self._temporary_directory,
+                                           'Demo.cube'))
 
         LUT_2_t = read_LUT_ResolveCube(
             os.path.join(self._temporary_directory, 'Demo.cube'))
@@ -151,8 +177,8 @@ class TestWriteLUTResolveCube(unittest.TestCase):
             os.path.join(LUTS_DIRECTORY, 'ThreeDimensionalTable.cube'))
 
         write_LUT_ResolveCube(LUT_3_r,
-                             os.path.join(self._temporary_directory,
-                                          'ThreeDimensionalTable.cube'))
+                              os.path.join(self._temporary_directory,
+                                           'ThreeDimensionalTable.cube'))
 
         LUT_3_t = read_LUT_ResolveCube(
             os.path.join(self._temporary_directory,
