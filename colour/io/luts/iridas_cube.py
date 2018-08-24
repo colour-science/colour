@@ -193,17 +193,20 @@ def write_LUT_IridasCube(LUT, path, decimals=7):
     --------
     Writing a 2D *Iridas* *.cube* *LUT*:
 
+    >>> from colour.algebra import spow
+    >>> domain = np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]])
     >>> LUT = LUT2D(
-    ...     LUT2D.linear_table(16) ** (1 / 2.2),
+    ...     spow(LUT2D.linear_table(16, domain), 1 / 2.2),
     ...     'My LUT',
-    ...     np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]]),
+    ...     domain,
     ...     comments=['A first comment.', 'A second comment.'])
     >>> write_LUT_IridasCube(LUT, 'My_LUT.cube')  # doctest: +SKIP
 
     Writing a 3D *Iridas* *.cube* *LUT*:
 
+    >>> domain = np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]])
     >>> LUT = LUT3D(
-    ...     LUT3D.linear_table(16) ** (1 / 2.2),
+    ...     spow(LUT3D.linear_table(16, domain), 1 / 2.2),
     ...     'My LUT',
     ...     np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]]),
     ...     comments=['A first comment.', 'A second comment.'])
