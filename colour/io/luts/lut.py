@@ -1132,11 +1132,11 @@ class LUT2D(AbstractLUT):
         --------
         >>> LUT2D.linear_table(
         ...     5, np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]]))
-        array([[-0.4, -0.2, -0.1],
-               [ 1.2,  0.6,  0.3],
-               [ 2.8,  1.4,  0.7],
-               [ 4.4,  2.2,  1.1],
-               [ 6. ,  3. ,  1.5]])
+        array([[-0.1, -0.2, -0.4],
+               [ 0.3,  0.6,  1.2],
+               [ 0.7,  1.4,  2.8],
+               [ 1.1,  2.2,  4.4],
+               [ 1.5,  3. ,  6. ]])
         """
 
         if domain is None:
@@ -1144,7 +1144,7 @@ class LUT2D(AbstractLUT):
         else:
             R, G, B = tsplit(domain)
 
-        samples = [np.linspace(a[0], a[1], size) for a in (B, G, R)]
+        samples = [np.linspace(a[0], a[1], size) for a in (R, G, B)]
 
         return tstack(samples)
 
