@@ -43,7 +43,7 @@ __all__ = [
 ]
 
 _XYZ_OUTER_SURFACE_CACHE = {}
-_XYZ_OUTER_SURFACE_TRIANGULATIONS_CACHE = {}
+_XYZ_OUTER_SURFACE_POINTS_CACHE = {}
 
 
 def generate_pulse_waves(bins):
@@ -267,12 +267,12 @@ def is_within_visible_spectrum(
     """
 
     key = (interval, hash(cmfs), hash(illuminant))
-    triangulation = _XYZ_OUTER_SURFACE_TRIANGULATIONS_CACHE.get(key)
-    if triangulation is None:
-        _XYZ_OUTER_SURFACE_TRIANGULATIONS_CACHE[key] = triangulation = (
+    vertices = _XYZ_OUTER_SURFACE_POINTS_CACHE.get(key)
+    if vertices is None:
+        _XYZ_OUTER_SURFACE_POINTS_CACHE[key] = vertices = (
             XYZ_outer_surface(
                 interval,
                 STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
                 illuminant))
 
-    return is_within_mesh_volume(XYZ, triangulation, tolerance)
+    return is_within_mesh_volume(XYZ, vertices, tolerance)

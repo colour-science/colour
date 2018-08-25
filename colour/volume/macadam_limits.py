@@ -56,11 +56,11 @@ def _XYZ_optimal_colour_stimuli(illuminant):
                            illuminant,
                            sorted(ILLUMINANTS_OPTIMAL_COLOUR_STIMULI.keys())))
 
-    cached_ocs = _XYZ_OPTIMAL_COLOUR_STIMULI_CACHE.get(illuminant)
-    if cached_ocs is None:
-        _XYZ_OPTIMAL_COLOUR_STIMULI_CACHE[illuminant] = cached_ocs = (
+    vertices = _XYZ_OPTIMAL_COLOUR_STIMULI_CACHE.get(illuminant)
+    if vertices is None:
+        _XYZ_OPTIMAL_COLOUR_STIMULI_CACHE[illuminant] = vertices = (
             xyY_to_XYZ(optimal_colour_stimuli) / 100)
-    return cached_ocs
+    return vertices
 
 
 def is_within_macadam_limits(xyY, illuminant, tolerance=None):
