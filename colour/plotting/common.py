@@ -1039,7 +1039,7 @@ def image_plot(image,
 
     settings = {
         'axes': axes,
-        'bounding_box': (0, width, 0, height),
+        'bounding_box': (-0.5, width - 0.5, -0.5, height - 0.5),
         'axes_visible': False,
     }
     settings.update(kwargs)
