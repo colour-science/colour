@@ -201,7 +201,8 @@ def log_encoding_ACESproxy(lin_AP1,
         lin_AP1 > 2 ** -9.72,
         float_2_cv((np.log2(lin_AP1) + constants.mid_log_offset
                     ) * constants.steps_per_stop + constants.mid_CV_offset),
-        np.resize(CV_min, lin_AP1.shape))
+        np.resize(CV_min, lin_AP1.shape),
+    )
 
     if out_int:
         return as_numeric(np.round(ACESproxy), DEFAULT_INT_DTYPE)
@@ -327,10 +328,16 @@ def log_encoding_ACEScc(lin_AP1):
 
     lin_AP1 = to_domain_1(lin_AP1)
 
-    ACEScc = np.where(lin_AP1 < 0, (np.log2(2 ** -16) + 9.72) / 17.52,
-                      (np.log2(2 ** -16 + lin_AP1 * 0.5) + 9.72) / 17.52)
-    ACEScc = np.where(lin_AP1 >= 2 ** -15, (np.log2(lin_AP1) + 9.72) / 17.52,
-                      ACEScc)
+    ACEScc = np.where(
+        lin_AP1 < 0,
+        (np.log2(2 ** -16) + 9.72) / 17.52,
+        (np.log2(2 ** -16 + lin_AP1 * 0.5) + 9.72) / 17.52,
+    )
+    ACEScc = np.where(
+        lin_AP1 >= 2 ** -15,
+        (np.log2(lin_AP1) + 9.72) / 17.52,
+        ACEScc,
+    )
 
     return as_numeric(from_range_1(ACEScc))
 
@@ -380,11 +387,16 @@ def log_decoding_ACEScc(ACEScc):
 
     ACEScc = to_domain_1(ACEScc)
 
-    lin_AP1 = np.where(ACEScc < (9.72 - 15) / 17.52,
-                       (2 ** (ACEScc * 17.52 - 9.72) - 2 ** -16) * 2, 2
-                       ** (ACEScc * 17.52 - 9.72))
-    lin_AP1 = np.where(ACEScc >= (np.log2(65504) + 9.72) / 17.52, 65504,
-                       lin_AP1)
+    lin_AP1 = np.where(
+        ACEScc < (9.72 - 15) / 17.52,
+        (2 ** (ACEScc * 17.52 - 9.72) - 2 ** -16) * 2,
+        2 ** (ACEScc * 17.52 - 9.72),
+    )
+    lin_AP1 = np.where(
+        ACEScc >= (np.log2(65504) + 9.72) / 17.52,
+        65504,
+        lin_AP1,
+    )
 
     return as_numeric(from_range_1(lin_AP1))
 
@@ -436,9 +448,11 @@ def log_encoding_ACEScct(lin_AP1, constants=ACES_CCT_CONSTANTS):
 
     lin_AP1 = to_domain_1(lin_AP1)
 
-    ACEScct = np.where(lin_AP1 <= constants.X_BRK,
-                       constants.A * lin_AP1 + constants.B,
-                       (np.log2(lin_AP1) + 9.72) / 17.52)
+    ACEScct = np.where(
+        lin_AP1 <= constants.X_BRK,
+        constants.A * lin_AP1 + constants.B,
+        (np.log2(lin_AP1) + 9.72) / 17.52,
+    )
 
     return as_numeric(from_range_1(ACEScct))
 
@@ -490,8 +504,10 @@ def log_decoding_ACEScct(ACEScct, constants=ACES_CCT_CONSTANTS):
 
     ACEScct = to_domain_1(ACEScct)
 
-    lin_AP1 = np.where(ACEScct > constants.Y_BRK, 2
-                       ** (ACEScct * 17.52 - 9.72),
-                       (ACEScct - constants.B) / constants.A)
+    lin_AP1 = np.where(
+        ACEScct > constants.Y_BRK,
+        2 ** (ACEScct * 17.52 - 9.72),
+        (ACEScct - constants.B) / constants.A,
+    )
 
     return as_numeric(from_range_1(lin_AP1))

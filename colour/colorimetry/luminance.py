@@ -227,8 +227,11 @@ def luminance_CIE1976(L_star, Y_n=100):
     Y_n = to_domain_100(Y_n)
 
     Y = as_numeric(
-        np.where(L_star > CIE_K * CIE_E,
-                 Y_n * ((L_star + 16) / 116) ** 3, Y_n * (L_star / CIE_K)))
+        np.where(
+            L_star > CIE_K * CIE_E,
+            Y_n * ((L_star + 16) / 116) ** 3,
+            Y_n * (L_star / CIE_K),
+        ))
 
     return from_range_100(Y)
 

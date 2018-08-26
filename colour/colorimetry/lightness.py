@@ -230,8 +230,11 @@ def lightness_CIE1976(Y, Y_n=100):
     L_star = Y / Y_n
 
     L_star = as_numeric(
-        np.where(L_star <= CIE_E, CIE_K * L_star,
-                 116 * spow(L_star, 1 / 3) - 16))
+        np.where(
+            L_star <= CIE_E,
+            CIE_K * L_star,
+            116 * spow(L_star, 1 / 3) - 16,
+        ))
 
     return from_range_100(L_star)
 
