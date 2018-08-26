@@ -1,0 +1,7 @@
+TITLE "Demo"
+# Comments can't go anywhere
+LUT_1D_SIZE 3
+LUT_1D_INPUT_RANGE 0 3
+0 0 0
+1.5 1.5 1.5
+3 3 3

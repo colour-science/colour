@@ -5,6 +5,9 @@ References
 -   :cite:`AdobeSystems2013b` : Adobe Systems. (2013). Cube LUT Specification.
     Retrieved from https://drive.google.com/\
 open?id=143Eh08ZYncCAMwJ1q4gWxVOqR_OSWYvs
+-   :cite:`﻿Chamberlain2015` :﻿Chamberlain, P. (2015). LUT documentation
+    (to create from another program). Retrieved August 23, 2018, from
+    https://forum.blackmagicdesign.com/viewtopic.php?f=21&t=40284#p232952
 """
 
 from __future__ import absolute_import
@@ -15,6 +18,7 @@ from colour.utilities import CaseInsensitiveMapping, filter_kwargs
 from .lut import (AbstractLUTSequenceOperator, LUT1D, LUT2D, LUT3D,
                   LUTSequence, LUT_to_LUT)
 from .iridas_cube import read_LUT_IridasCube, write_LUT_IridasCube
+from .resolve_cube import read_LUT_ResolveCube, write_LUT_ResolveCube
 from .sony_spi1d import read_LUT_SonySPI1D, write_LUT_SonySPI1D
 from .sony_spi3d import read_LUT_SonySPI3D, write_LUT_SonySPI3D
 
@@ -23,6 +27,7 @@ __all__ = [
     'LUT_to_LUT'
 ]
 __all__ += ['read_LUT_IridasCube', 'write_LUT_IridasCube']
+__all__ += ['read_LUT_ResolveCube', 'write_LUT_ResolveCube']
 __all__ += ['read_LUT_SonySPI1D', 'write_LUT_SonySPI1D']
 __all__ += ['read_LUT_SonySPI3D', 'write_LUT_SonySPI3D']
 
@@ -40,6 +45,7 @@ EXTENSION_TO_LUT_FORMAT_MAPPING : CaseInsensitiveMapping
 
 LUT_READ_METHODS = CaseInsensitiveMapping({
     'Iridas Cube': read_LUT_IridasCube,
+    'Resolve Cube': read_LUT_ResolveCube,
     'Sony SPI1D': read_LUT_SonySPI1D,
     'Sony SPI3D': read_LUT_SonySPI3D,
 })
@@ -48,10 +54,10 @@ Supported *LUT* reading methods.
 
 References
 ----------
-:cite:`AdobeSystems2013b`
+:cite:`AdobeSystems2013b`, :cite:`Chamberlain2015`
 
 LUT_READ_METHODS : CaseInsensitiveMapping
-    **{'Iridas Cube', 'Sony SPI1D', 'Sony SPI3D'}**
+    **{'Iridas Cube', 'Resolve Cube', 'Sony SPI1D', 'Sony SPI3D'}**
 """
 
 
@@ -64,18 +70,18 @@ def read_LUT(path, method=None, **kwargs):
     path : unicode
         *LUT* path.
     method : unicode, optional
-        **{None, 'Iridas Cube', 'Sony SPI1D', 'Sony SPI3D'}**,
+        **{None, 'Iridas Cube', 'Resolve Cube', 'Sony SPI1D', 'Sony SPI3D'}**,
         Reading method, if *None*, the method will be auto-detected according
         to extension.
 
     Returns
     -------
-    LUT1D or LUT2D or LUT3d
+    LUT1D or LUT2D or LUT3D
         :class:`LUT1D`, :class:`LUT2D` or :class:`LUT3D` class instance.
 
     References
     ----------
-    :cite:`AdobeSystems2013b`
+    :cite:`AdobeSystems2013b`, :cite:`Chamberlain2015`
 
     Examples
     --------
@@ -134,6 +140,7 @@ def read_LUT(path, method=None, **kwargs):
 
 LUT_WRITE_METHODS = CaseInsensitiveMapping({
     'Iridas Cube': write_LUT_IridasCube,
+    'Resolve Cube': write_LUT_ResolveCube,
     'Sony SPI1D': write_LUT_SonySPI1D,
     'Sony SPI3D': write_LUT_SonySPI3D,
 })
@@ -142,10 +149,10 @@ Supported *LUT* reading methods.
 
 References
 ----------
-:cite:`AdobeSystems2013b`
+:cite:`AdobeSystems2013b`, :cite:`Chamberlain2015`
 
 LUT_WRITE_METHODS : CaseInsensitiveMapping
-    **{'Iridas Cube', 'Sony SPI1D', 'Sony SPI3D'}**
+    **{'Iridas Cube', 'Resolve Cube', 'Sony SPI1D', 'Sony SPI3D'}**
 """
 
 
@@ -155,7 +162,7 @@ def write_LUT(LUT, path, decimals=7, method=None, **kwargs):
 
     Parameters
     ----------
-    LUT : LUT1D or LUT2D or LUT3d
+    LUT : LUT1D or LUT2D or LUT3D
         :class:`LUT1D`, :class:`LUT2D` or :class:`LUT3D` class instance to
         write at given path.
     path : unicode
@@ -163,7 +170,7 @@ def write_LUT(LUT, path, decimals=7, method=None, **kwargs):
     decimals : int, optional
         Formatting decimals.
     method : unicode, optional
-        **{None, 'Iridas Cube', 'Sony SPI1D', 'Sony SPI3D'}**,
+        **{None, 'Iridas Cube', 'Resolve Cube', 'Sony SPI1D', 'Sony SPI3D'}**,
         Writing method, if *None*, the method will be auto-detected according
         to extension.
 
@@ -174,7 +181,7 @@ def write_LUT(LUT, path, decimals=7, method=None, **kwargs):
 
     References
     ----------
-    :cite:`AdobeSystems2013b`
+    :cite:`AdobeSystems2013b`, :cite:`Chamberlain2015`
 
     Examples
     --------
@@ -209,6 +216,8 @@ def write_LUT(LUT, path, decimals=7, method=None, **kwargs):
 
     if method is None:
         method = EXTENSION_TO_LUT_FORMAT_MAPPING[os.path.splitext(path)[-1]]
+        if method == 'Iridas Cube' and isinstance(LUT, LUTSequence):
+            method = 'Resolve Cube'
 
     function = LUT_WRITE_METHODS[method]
 
