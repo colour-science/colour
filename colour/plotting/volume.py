@@ -583,8 +583,8 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
 
     if quads.size != 0:
         for i, axis in enumerate('xyz'):
-            min_a = np.min(np.vstack((quads[..., i], points[..., i])))
-            max_a = np.max(np.vstack((quads[..., i], points[..., i])))
+            min_a = min(np.min(quads[..., i]), np.min(points[..., i]))
+            max_a = max(np.max(quads[..., i]), np.max(points[..., i]))
             getattr(axes, 'set_{}lim'.format(axis))((min_a, max_a))
 
     labels = COLOURSPACE_MODELS_LABELS[reference_colourspace]
