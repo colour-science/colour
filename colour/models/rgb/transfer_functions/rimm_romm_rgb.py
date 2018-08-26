@@ -177,8 +177,11 @@ def eotf_ROMMRGB(X_p, bit_depth=8, in_int=False):
 
     E_t = 16 ** (1.8 / (1 - 1.8))
 
-    X = np.where(X_p < 16 * E_t * I_max, X_p / (16 * I_max),
-                 spow(X_p / I_max, 1.8))
+    X = np.where(
+        X_p < 16 * E_t * I_max,
+        X_p / (16 * I_max),
+        spow(X_p / I_max, 1.8),
+    )
 
     return as_numeric(from_range_1(X))
 
@@ -482,11 +485,13 @@ def log_decoding_ERIMMRGB(X_p,
 
     E_t = np.exp(1) * E_min
 
-    X = np.where(X_p <= I_max * ((np.log(E_t) - np.log(E_min)) /
-                                 (np.log(E_clip) - np.log(E_min))),
-                 (((np.log(E_clip) - np.log(E_min)) /
-                   (np.log(E_t) - np.log(E_min))) * ((X_p * E_t) / I_max)),
-                 np.exp((X_p / I_max) *
-                        (np.log(E_clip) - np.log(E_min)) + np.log(E_min)))
+    X = np.where(
+        X_p <= I_max * ((np.log(E_t) - np.log(E_min)) /
+                        (np.log(E_clip) - np.log(E_min))),
+        ((np.log(E_clip) - np.log(E_min)) / (np.log(E_t) - np.log(E_min))) *
+        ((X_p * E_t) / I_max),
+        np.exp((X_p / I_max) *
+               (np.log(E_clip) - np.log(E_min)) + np.log(E_min)),
+    )
 
     return as_numeric(from_range_1(X))

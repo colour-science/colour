@@ -109,8 +109,11 @@ def log_encoding_VLog(L_in,
     c = constants.c
     d = constants.d
 
-    V_out = np.where(L_in < cut1, 5.6 * L_in + 0.125,
-                     c * np.log10(L_in + b) + d)
+    V_out = np.where(
+        L_in < cut1,
+        5.6 * L_in + 0.125,
+        c * np.log10(L_in + b) + d,
+    )
 
     V_out = V_out if out_legal else legal_to_full(V_out, bit_depth)
 
@@ -179,8 +182,11 @@ def log_decoding_VLog(V_out,
     c = constants.c
     d = constants.d
 
-    L_in = np.where(V_out < cut2, (V_out - 0.125) / 5.6,
-                    10 ** ((V_out - d) / c) - b)
+    L_in = np.where(
+        V_out < cut2,
+        (V_out - 0.125) / 5.6,
+        10 ** ((V_out - d) / c) - b,
+    )
 
     if not out_reflection:
         L_in = L_in / 0.9

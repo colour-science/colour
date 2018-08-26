@@ -744,12 +744,24 @@ def ootf_reverse_BT2100_HLG(F_D, L_B=0, L_W=1000, gamma=None):
     if gamma is None:
         gamma = function_gamma_BT2100_HLG(L_W)
 
-    R_S = np.where(Y_D == beta, 0.0, (np.abs(
-        (Y_D - beta) / alpha) ** ((1 - gamma) / gamma)) * (R_D - beta) / alpha)
-    G_S = np.where(Y_D == beta, 0.0, (np.abs(
-        (Y_D - beta) / alpha) ** ((1 - gamma) / gamma)) * (G_D - beta) / alpha)
-    B_S = np.where(Y_D == beta, 0.0, (np.abs(
-        (Y_D - beta) / alpha) ** ((1 - gamma) / gamma)) * (B_D - beta) / alpha)
+    R_S = np.where(
+        Y_D == beta,
+        0.0,
+        (np.abs((Y_D - beta) / alpha) ** ((1 - gamma) / gamma)) *
+        (R_D - beta) / alpha,
+    )
+    G_S = np.where(
+        Y_D == beta,
+        0.0,
+        (np.abs((Y_D - beta) / alpha) ** ((1 - gamma) / gamma)) *
+        (G_D - beta) / alpha,
+    )
+    B_S = np.where(
+        Y_D == beta,
+        0.0,
+        (np.abs((Y_D - beta) / alpha) ** ((1 - gamma) / gamma)) *
+        (B_D - beta) / alpha,
+    )
 
     if F_D.shape[-1] != 3:
         return as_numeric(from_range_1(R_S))

@@ -444,9 +444,11 @@ def f(x, F_S):
     x = np.asarray(x)
     F_S = np.asarray(F_S)
 
-    x_m = np.where(x > 0.008856, spow(x, 1 / F_S),
-                   (((spow(0.008856, 1 / F_S) - (16 / 116)) / 0.008856) * x +
-                    (16 / 116)))
+    x_m = np.where(
+        x > 0.008856,
+        spow(x, 1 / F_S),
+        ((spow(0.008856, 1 / F_S) - (16 / 116)) / 0.008856) * x + (16 / 116),
+    )
 
     return x_m
 

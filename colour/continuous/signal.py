@@ -760,7 +760,10 @@ class Signal(AbstractContinuousFunction):
         return np.all(
             np.where(
                 np.logical_and(x >= np.min(self._domain),
-                               x <= np.max(self._domain)), True, False))
+                               x <= np.max(self._domain)),
+                True,
+                False,
+            ))
 
     def __eq__(self, other):
         """

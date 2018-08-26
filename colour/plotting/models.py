@@ -330,8 +330,11 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot.png
         # RGB colourspaces such as *ACES2065-1* have primaries with
         # chromaticity coordinates set to 0 thus we prevent nan from being
         # yield by zero division in later colour transformations.
-        P = np.where(colourspace.primaries == 0, EPSILON,
-                     colourspace.primaries)
+        P = np.where(
+            colourspace.primaries == 0,
+            EPSILON,
+            colourspace.primaries,
+        )
         P = xy_to_ij(P)
         W = xy_to_ij(colourspace.whitepoint)
 

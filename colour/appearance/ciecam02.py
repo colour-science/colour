@@ -889,20 +889,28 @@ def opponent_colour_dimensions_reverse(P_n, h):
     b = np.where(
         np.isfinite(P_1) * np.abs(sin_hr) >= np.abs(cos_hr),
         (n / (P_4 + (2 + P_3) * (220 / 1403) * (cos_hr / sin_hr) -
-              (27 / 1403) + P_3 * (6300 / 1403))), b)
+              (27 / 1403) + P_3 * (6300 / 1403))),
+        b,
+    )
 
     a = np.where(
         np.isfinite(P_1) * np.abs(sin_hr) >= np.abs(cos_hr),
-        b * (cos_hr / sin_hr), a)
+        b * (cos_hr / sin_hr),
+        a,
+    )
 
     a = np.where(
         np.isfinite(P_1) * np.abs(sin_hr) < np.abs(cos_hr),
         (n / (P_5 + (2 + P_3) * (220 / 1403) -
-              ((27 / 1403) - P_3 * (6300 / 1403)) * (sin_hr / cos_hr))), a)
+              ((27 / 1403) - P_3 * (6300 / 1403)) * (sin_hr / cos_hr))),
+        a,
+    )
 
     b = np.where(
         np.isfinite(P_1) * np.abs(sin_hr) < np.abs(cos_hr),
-        a * (sin_hr / cos_hr), b)
+        a * (sin_hr / cos_hr),
+        b,
+    )
 
     ab = tstack((a, b))
 
@@ -979,11 +987,17 @@ def hue_quadrature(h):
 
     H = H_ii + ((100 * (h - h_ii) / e_ii) / ((h - h_ii) / e_ii +
                                              (h_ii1 - h) / e_ii1))
-    H = np.where(h < 20.14, 385.9 + (14.1 * h / 0.856) /
-                 (h / 0.856 + (20.14 - h) / 0.8), H)
-    H = np.where(h >= 237.53, H_ii + ((85.9 * (h - h_ii) / e_ii) /
-                                      ((h - h_ii) / e_ii + (360 - h) / 0.856)),
-                 H)
+    H = np.where(
+        h < 20.14,
+        385.9 + (14.1 * h / 0.856) / (h / 0.856 + (20.14 - h) / 0.8),
+        H,
+    )
+    H = np.where(
+        h >= 237.53,
+        H_ii + ((85.9 * (h - h_ii) / e_ii) / ((h - h_ii) / e_ii +
+                                              (360 - h) / 0.856)),
+        H,
+    )
     return as_numeric(H)
 
 

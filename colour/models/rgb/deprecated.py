@@ -254,8 +254,11 @@ def RGB_to_HSL(RGB):
 
     L = (maximum + minimum) / 2
 
-    S = np.where(L < 0.5, delta / (maximum + minimum),
-                 delta / (2 - maximum - minimum))
+    S = np.where(
+        L < 0.5,
+        delta / (maximum + minimum),
+        delta / (2 - maximum - minimum),
+    )
     S[np.asarray(delta == 0)] = 0
 
     delta_R = (((maximum - R) / 6) + (delta / 2)) / delta
@@ -330,11 +333,15 @@ def HSL_to_RGB(HSL):
 
         v = np.where(
             np.logical_and(6 * vH < 1, np.isnan(v)),
-            vi + (vj - vi) * 6 * vH, v)  # yapf: disable
+            vi + (vj - vi) * 6 * vH,
+            v,
+        )
         v = np.where(np.logical_and(2 * vH < 1, np.isnan(v)), vj, v)
         v = np.where(
             np.logical_and(3 * vH < 2, np.isnan(v)),
-            vi + (vj - vi) * ((2 / 3) - vH) * 6, v)
+            vi + (vj - vi) * ((2 / 3) - vH) * 6,
+            v,
+        )
         v = np.where(np.isnan(v), vi, v)
 
         return v

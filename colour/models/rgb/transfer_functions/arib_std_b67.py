@@ -160,7 +160,10 @@ def oetf_reverse_ARIBSTDB67(E_p, r=0.5, constants=ARIBSTDB67_CONSTANTS):
     c = constants.c
 
     with domain_range_scale('ignore'):
-        E = np.where(E_p <= oetf_ARIBSTDB67(1), (E_p / r) ** 2,
-                     np.exp((E_p - c) / a) + b)
+        E = np.where(
+            E_p <= oetf_ARIBSTDB67(1),
+            (E_p / r) ** 2,
+            np.exp((E_p - c) / a) + b,
+        )
 
     return as_numeric(from_range_1(E))

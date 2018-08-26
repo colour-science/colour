@@ -301,8 +301,10 @@ def delta_E_CIE2000(Lab_1, Lab_2, textiles=False):
     h_2_prime = np.degrees(np.arctan2(b_2, a_2_prime)) % 360
 
     h_bar_prime = np.where(
-        np.fabs(h_1_prime - h_2_prime) <= 180, 0.5 * (h_1_prime + h_2_prime),
-        (0.5 * (h_1_prime + h_2_prime + 360)))
+        np.fabs(h_1_prime - h_2_prime) <= 180,
+        0.5 * (h_1_prime + h_2_prime),
+        (0.5 * (h_1_prime + h_2_prime + 360)),
+    )
 
     t = (1 - 0.17 * np.cos(np.deg2rad(h_bar_prime - 30)) +
          0.24 * np.cos(np.deg2rad(2 * h_bar_prime)) +
@@ -409,7 +411,8 @@ def delta_E_CMC(Lab_1, Lab_2, l=2, c=1):  # noqa
     t = np.where(
         np.logical_and(h_1 >= 164, h_1 <= 345),
         0.56 + np.fabs(0.2 * np.cos(np.deg2rad(h_1 + 168))),
-        0.36 + np.fabs(0.4 * np.cos(np.deg2rad(h_1 + 35))))
+        0.36 + np.fabs(0.4 * np.cos(np.deg2rad(h_1 + 35))),
+    )
 
     c_4 = c_1 * c_1 * c_1 * c_1
     f = np.sqrt(c_4 / (c_4 + 1900))

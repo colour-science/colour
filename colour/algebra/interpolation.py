@@ -250,10 +250,13 @@ def kernel_cardinal_spline(x, a=0.5, b=0.0):
     """
 
     x_abs = np.abs(x)
-    y = np.where(x_abs < 1, (-6 * a - 9 * b + 12) * x_abs ** 3 +
-                 (6 * a + 12 * b - 18) * x_abs ** 2 - 2 * b + 6,
-                 (-6 * a - b) * x_abs ** 3 + (30 * a + 6 * b) * x_abs ** 2 +
-                 (-48 * a - 12 * b) * x_abs + 24 * a + 8 * b)
+    y = np.where(
+        x_abs < 1,
+        (-6 * a - 9 * b + 12) * x_abs ** 3 +
+        (6 * a + 12 * b - 18) * x_abs ** 2 - 2 * b + 6,
+        (-6 * a - b) * x_abs ** 3 + (30 * a + 6 * b) * x_abs ** 2 +
+        (-48 * a - 12 * b) * x_abs + 24 * a + 8 * b,
+    )
     y[x_abs >= 2] = 0
 
     return 1 / 6 * y

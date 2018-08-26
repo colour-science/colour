@@ -108,9 +108,11 @@ def log_encoding_SLog(x, bit_depth=10, out_legal=True, in_reflection=True):
     if in_reflection:
         x = x / 0.9
 
-    y = np.where(x >= 0,
-                 ((0.432699 * np.log10(x + 0.037584) + 0.616596) + 0.03),
-                 x * 5 + 0.030001222851889303)
+    y = np.where(
+        x >= 0,
+        ((0.432699 * np.log10(x + 0.037584) + 0.616596) + 0.03),
+        x * 5 + 0.030001222851889303,
+    )
 
     y = full_to_legal(y, bit_depth) if out_legal else y
 
@@ -176,9 +178,11 @@ def log_decoding_SLog(y, bit_depth=10, in_legal=True, out_reflection=True):
     x = legal_to_full(y, bit_depth) if in_legal else y
 
     with domain_range_scale('ignore'):
-        x = np.where(y >= log_encoding_SLog(0.0, bit_depth, in_legal),
-                     10 ** ((x - 0.616596 - 0.03) / 0.432699) - 0.037584,
-                     (x - 0.030001222851889303) / 5.0)
+        x = np.where(
+            y >= log_encoding_SLog(0.0, bit_depth, in_legal),
+            10 ** ((x - 0.616596 - 0.03) / 0.432699) - 0.037584,
+            (x - 0.030001222851889303) / 5.0,
+        )
 
     if out_reflection:
         x = x * 0.9
@@ -357,9 +361,11 @@ def log_encoding_SLog3(x, bit_depth=10, out_legal=True, in_reflection=True):
     if not in_reflection:
         x = x * 0.9
 
-    y = np.where(x >= 0.01125000, (420 + np.log10(
-        (x + 0.01) / (0.18 + 0.01)) * 261.5) / 1023,
-                 (x * (171.2102946929 - 95) / 0.01125000 + 95) / 1023)
+    y = np.where(
+        x >= 0.01125000,
+        (420 + np.log10((x + 0.01) / (0.18 + 0.01)) * 261.5) / 1023,
+        (x * (171.2102946929 - 95) / 0.01125000 + 95) / 1023,
+    )
 
     y = y if out_legal else legal_to_full(y, bit_depth)
 
@@ -424,9 +430,11 @@ def log_decoding_SLog3(y, bit_depth=10, in_legal=True, out_reflection=True):
 
     y = y if in_legal else full_to_legal(y, bit_depth)
 
-    x = np.where(y >= 171.2102946929 / 1023,
-                 ((10 ** ((y * 1023 - 420) / 261.5)) * (0.18 + 0.01) - 0.01),
-                 (y * 1023 - 95) * 0.01125000 / (171.2102946929 - 95))
+    x = np.where(
+        y >= 171.2102946929 / 1023,
+        ((10 ** ((y * 1023 - 420) / 261.5)) * (0.18 + 0.01) - 0.01),
+        (y * 1023 - 95) * 0.01125000 / (171.2102946929 - 95),
+    )
 
     if not out_reflection:
         x = x / 0.9
