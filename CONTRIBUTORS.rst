@@ -28,7 +28,7 @@ Development & Technical Support
 
     Technical support.
 
--   **Kevin Wheatley**, *Head of Imaging at Framestore @ Framestore*
+-   **Kevin Wheatley**, *Head of Imaging @ Framestore*
 
     Technical support.
 
