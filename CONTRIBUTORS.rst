@@ -44,6 +44,10 @@ Development & Technical Support
 
     Documentation improvements.
 
+-   **Jean D. Vandenberg**, *Colour Scientist @ The Walt Disney Studios*
+
+    Technical support.
+
 Acknowledgements
 ----------------
 -   **Steve Agland**, *Supervising Lighting Technical Director @ Animal Logic*
