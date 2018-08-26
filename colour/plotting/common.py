@@ -1025,8 +1025,6 @@ def image_plot(image,
     axes.imshow(
         np.clip(image, 0, 1), interpolation=interpolation, cmap=colour_map)
 
-    width, height = image.shape[1], image.shape[0]
-
     if text_settings['text'] is not None:
         axes.text(
             text_offset,
@@ -1039,7 +1037,6 @@ def image_plot(image,
 
     settings = {
         'axes': axes,
-        'bounding_box': (-0.5, width - 0.5, -0.5, height - 0.5),
         'axes_visible': False,
     }
     settings.update(kwargs)
