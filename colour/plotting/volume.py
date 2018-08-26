@@ -424,9 +424,9 @@ def RGB_identity_cube(plane=None,
 def RGB_colourspaces_gamuts_plot(colourspaces=None,
                                  reference_colourspace='CIE xyY',
                                  segments=8,
-                                 display_grid=True,
+                                 show_grid=True,
                                  grid_segments=10,
-                                 spectral_locus=False,
+                                 show_spectral_locus=False,
                                  spectral_locus_colour=None,
                                  cmfs='CIE 1931 2 Degree Standard Observer',
                                  **kwargs):
@@ -445,14 +445,14 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
         Reference colourspace to plot the gamuts into.
     segments : int, optional
         Edge segments count for each *RGB* colourspace cubes.
-    display_grid : bool, optional
-        Display a grid at the bottom of the *RGB* colourspace cubes.
+    show_grid : bool, optional
+        Whether to show a grid at the bottom of the *RGB* colourspace cubes.
     grid_segments : bool, optional
         Edge segments count for the grid.
-    spectral_locus : bool, optional
-        Is spectral locus line plotted.
+    show_spectral_locus : bool, optional
+        Whether to show the spectral locus.
     spectral_locus_colour : array_like, optional
-        Spectral locus line colour.
+        Spectral locus colour.
     cmfs : unicode, optional
         Standard observer colour matching functions used for spectral locus.
 
@@ -519,7 +519,7 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
     illuminant = COLOUR_STYLE_CONSTANTS.colour.colourspace.whitepoint
 
     points = np.zeros((4, 3))
-    if spectral_locus:
+    if show_spectral_locus:
         cmfs = first_item(filter_cmfs(cmfs))
         XYZ = cmfs.values
 
@@ -591,7 +591,7 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
     for i, axis in enumerate('xyz'):
         getattr(axes, 'set_{}label'.format(axis))(labels[i])
 
-    if display_grid:
+    if show_grid:
         if reference_colourspace == 'CIE Lab':
             limits = np.array([[-450, 450], [-450, 450]])
         elif reference_colourspace == 'CIE Luv':
@@ -631,9 +631,9 @@ def RGB_scatter_plot(RGB,
                      reference_colourspace='CIE xyY',
                      colourspaces=None,
                      segments=8,
-                     display_grid=True,
+                     show_grid=True,
                      grid_segments=10,
-                     spectral_locus=False,
+                     show_spectral_locus=False,
                      spectral_locus_colour=None,
                      points_size=12,
                      cmfs='CIE 1931 2 Degree Standard Observer',
@@ -657,14 +657,14 @@ def RGB_scatter_plot(RGB,
         *RGB* colourspaces to plot the gamuts.
     segments : int, optional
         Edge segments count for each *RGB* colourspace cubes.
-    display_grid : bool, optional
-        Display a grid at the bottom of the *RGB* colourspace cubes.
+    show_grid : bool, optional
+        Whether to show a grid at the bottom of the *RGB* colourspace cubes.
     grid_segments : bool, optional
         Edge segments count for the grid.
-    spectral_locus : bool, optional
-        Is spectral locus line plotted.
+    show_spectral_locus : bool, optional
+        Whether to show the spectral locus.
     spectral_locus_colour : array_like, optional
-        Spectral locus line colour.
+        Spectral locus colour.
     points_size : numeric, optional
         Scatter points size.
     cmfs : unicode, optional
@@ -712,9 +712,9 @@ def RGB_scatter_plot(RGB,
         colourspaces=colourspaces,
         reference_colourspace=reference_colourspace,
         segments=segments,
-        display_grid=display_grid,
+        show_grid=show_grid,
         grid_segments=grid_segments,
-        spectral_locus=spectral_locus,
+        show_spectral_locus=show_spectral_locus,
         spectral_locus_colour=spectral_locus_colour,
         cmfs=cmfs,
         **settings)
