@@ -677,8 +677,9 @@ encoding functions (1 / 2.2, 1 / 2.4, 1 / 2.6).
 Warning
 -------
 For *ITU-R BT.2100*, only the reverse electro-optical transfer functions
-(EOTFs / EOCFs) are exposed by this attribute, please see :attr:`colour.OETFS`
-attribute for the opto-electronic transfer functions (OETF / OECF).
+(EOTFs / EOCFs) are exposed by this attribute, please refer to the
+:attr:`colour.OETFS` attribute for the opto-electronic transfer functions
+(OETF / OECF).
 
 ENCODING_CCTFS : CaseInsensitiveMapping
     {:attr:`colour.LOG_ENCODING_CURVES`, :attr:`colour.OETFS`,
@@ -708,7 +709,7 @@ def encoding_cctf(value, function='sRGB', **kwargs):
     Warning
     -------
     For *ITU-R BT.2100*, only the reverse electro-optical transfer functions
-    (EOTFs / EOCFs) are exposed by this definition, please see
+    (EOTFs / EOCFs) are exposed by this definition, please refer to the
     :func:`colour.oetf` definition for the opto-electronic transfer functions
     (OETF / OECF).
 
@@ -734,8 +735,8 @@ def encoding_cctf(value, function='sRGB', **kwargs):
         warning(
             'For "ITU-R BT.2100", only the reverse electro-optical transfer '
             'functions (EOTFs / EOCFs) are exposed by this definition, please '
-            'see "colour.oetf" definition for the opto-electronic transfer '
-            'functions (OETF / OECF).')
+            'refer to the "colour.oetf" definition for the opto-electronic '
+            'transfer functions (OETF / OECF).')
 
     function = ENCODING_CCTFS[function]
 
@@ -759,7 +760,7 @@ decoding functions (2.2, 2.4, 2.6).
 Warning
 -------
 For *ITU-R BT.2100*, only the electro-optical transfer functions
-(EOTFs / EOCFs) are exposed by this attribute, please see
+(EOTFs / EOCFs) are exposed by this attribute, please refer to the
 :attr:`colour.OETFS_REVERSE` attribute for the reverse opto-electronic
 transfer functions (OETF / OECF).
 
@@ -796,7 +797,7 @@ def decoding_cctf(value, function='Cineon', **kwargs):
     Warning
     -------
     For *ITU-R BT.2100*, only the electro-optical transfer functions
-    (EOTFs / EOCFs) are exposed by this definition, please see
+    (EOTFs / EOCFs) are exposed by this definition, please refer to the
     :func:`colour.oetf_reverse` definition for the reverse opto-electronic
     transfer functions (OETF / OECF).
 
@@ -821,9 +822,9 @@ def decoding_cctf(value, function='Cineon', **kwargs):
     if 'itu-r bt.2100' in function.lower():
         warning(
             'For "ITU-R BT.2100", only the electro-optical transfer functions '
-            '(EOTFs / EOCFs) are exposed by this definition, please see '
-            '"colour.oetf_reverse" definition for the reverse opto-electronic '
-            'transfer functions (OETF / OECF).')
+            '(EOTFs / EOCFs) are exposed by this definition, please refer to '
+            'the "colour.oetf_reverse" definition for the reverse '
+            'opto-electronic transfer functions (OETF / OECF).')
 
     function = DECODING_CCTFS[function]
 
