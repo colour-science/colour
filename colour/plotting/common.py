@@ -18,6 +18,8 @@ Defines the common plotting objects:
 -   :func:`colour.plotting.uniform_axes3d`
 -   :func:`colour.plotting.single_colour_swatch_plot`
 -   :func:`colour.plotting.multi_colour_swatch_plot`
+-   :func:`colour.plotting.single_function_plot`
+-   :func:`colour.plotting.multi_function_plot`
 -   :func:`colour.plotting.image_plot`
 """
 
@@ -32,6 +34,7 @@ import matplotlib.ticker
 import numpy as np
 import re
 from collections import namedtuple
+from functools import partial
 from matplotlib.colors import LinearSegmentedColormap
 
 from colour.characterisation import COLOURCHECKERS, ColourChecker
@@ -54,7 +57,8 @@ __all__ = [
     'camera', 'render', 'label_rectangles', 'uniform_axes3d',
     'filter_RGB_colourspaces', 'filter_cmfs', 'filter_illuminants',
     'filter_colour_checkers', 'single_colour_swatch_plot',
-    'multi_colour_swatch_plot', 'image_plot'
+    'multi_colour_swatch_plot', 'single_function_plot', 'multi_function_plot',
+    'image_plot'
 ]
 
 COLOUR_STYLE_CONSTANTS = Structure(
@@ -953,6 +957,156 @@ def multi_colour_swatch_plot(colour_swatches,
         'axes': axes,
         'bounding_box': bounding_box,
         'aspect': 'equal',
+    }
+    settings.update(kwargs)
+
+    return render(**settings)
+
+
+@override_style()
+def single_function_plot(function,
+                         samples=None,
+                         log_x=None,
+                         log_y=None,
+                         **kwargs):
+    """
+    Plots given function.
+
+    Parameters
+    ----------
+    function : callable, optional
+        Function to plot.
+    samples : array_like, optional,
+        Samples to evaluate the functions with.
+    log_x : int, optional
+        Log base to use for the *x* axis scale, if *None*, the *x* axis scale
+        will be linear.
+    log_y : int, optional
+        Log base to use for the *y* axis scale, if *None*, the *y* axis scale
+        will be linear.
+
+    Other Parameters
+    ----------------
+    \**kwargs : dict, optional
+        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
+
+    Returns
+    -------
+    tuple
+        Current figure and axes.
+
+    Examples
+    --------
+    >>> single_function_plot(partial(function_gamma, exponent=1 / 2.2))
+    ... # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_Single_Function_Plot.png
+        :align: center
+        :alt: single_function_plot
+    """
+
+    try:
+        name = function.__name__
+    except AttributeError:
+        name = 'Unnamed'
+
+    settings = {
+        'title': '{0} - Function'.format(name),
+        'legend': False,
+    }
+    settings.update(kwargs)
+
+    return multi_function_plot({
+        name: function
+    }, samples, log_x, log_y, **settings)
+
+
+@override_style()
+def multi_function_plot(functions,
+                        samples=None,
+                        log_x=None,
+                        log_y=None,
+                        **kwargs):
+    """
+    Plots given functions.
+
+    Parameters
+    ----------
+    functions : dict
+        Functions to plot.
+    samples : array_like, optional,
+        Samples to evaluate the functions with.
+    log_x : int, optional
+        Log base to use for the *x* axis scale, if *None*, the *x* axis scale
+        will be linear.
+    log_y : int, optional
+        Log base to use for the *y* axis scale, if *None*, the *y* axis scale
+        will be linear.
+
+    Other Parameters
+    ----------------
+    \**kwargs : dict, optional
+        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
+
+    Returns
+    -------
+    tuple
+        Current figure and axes.
+
+    Examples
+    --------
+    >>> functions = {
+    ...     'Gamma 2.2' : lambda x: x ** (1 / 2.2),
+    ...     'Gamma 2.4' : lambda x: x ** (1 / 2.4),
+    ...     'Gamma 2.6' : lambda x: x ** (1 / 2.6),
+    ... }
+    >>> multi_function_plot(functions)
+    ... # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_Multi_Function_Plot.png
+        :align: center
+        :alt: multi_function_plot
+    """
+
+    settings = {}
+    settings.update(kwargs)
+
+    figure, axes = artist(**settings)
+
+    if log_x is not None and log_y is not None:
+        assert log_x >= 2 and log_y >= 2, (
+            'Log base must be equal or greater than 2.')
+
+        plotting_function = partial(plt.loglog, basex=log_x, basey=log_y)
+    elif log_x is not None:
+        assert log_x >= 2, 'Log base must be equal or greater than 2.'
+
+        plotting_function = partial(plt.semilogx, basex=log_x)
+    elif log_y is not None:
+        assert log_y >= 2, 'Log base must be equal or greater than 2.'
+
+        plotting_function = partial(plt.semilogy, basey=log_y)
+    else:
+        plotting_function = plt.plot
+
+    if samples is None:
+        samples = np.linspace(0, 1, 1000)
+
+    for name, function in functions.items():
+        plotting_function(samples, function(samples), label='{0}'.format(name))
+
+    x_label = ('x - Log Base {0} Scale'.format(log_x)
+               if log_x is not None else 'x - Linear Scale')
+    y_label = ('y - Log Base {0} Scale'.format(log_y)
+               if log_y is not None else 'y - Linear Scale')
+    settings = {
+        'axes': axes,
+        'legend': True,
+        'title': '{0} - Functions'.format(', '.join(functions)),
+        'x_label': x_label,
+        'y_label': y_label
     }
     settings.update(kwargs)
 
