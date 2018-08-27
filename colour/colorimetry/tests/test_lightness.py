@@ -229,7 +229,7 @@ class TestLightnessCIE1976(unittest.TestCase):
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    lightness_CIE1976(10.08 * factor, 100 * factor),
+                    lightness_CIE1976(10.08 * factor, 100),
                     L_star * factor,
                     decimal=7)
 
@@ -430,7 +430,7 @@ class TestLightness(unittest.TestCase):
             for scale, factor in d_r:
                 with domain_range_scale(scale):
                     np.testing.assert_almost_equal(
-                        lightness(10.08 * factor, method, Y_n=100 * factor),
+                        lightness(10.08 * factor, method, Y_n=100),
                         value * factor,
                         decimal=7)
 

@@ -232,7 +232,7 @@ class TestLuminanceCIE1976(unittest.TestCase):
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    luminance_CIE1976(37.98562910 * factor, 100 * factor),
+                    luminance_CIE1976(37.98562910 * factor, 100),
                     Y * factor,
                     decimal=7)
 
@@ -446,7 +446,7 @@ class TestLuminance(unittest.TestCase):
                 with domain_range_scale(scale):
                     np.testing.assert_almost_equal(
                         luminance(
-                            37.98562910 * factor, method, Y_n=100 * factor),
+                            37.98562910 * factor, method, Y_n=100),
                         value * factor,
                         decimal=7)
 
