@@ -123,6 +123,7 @@ def message_box(message, width=79, padding=3, print_callable=print):
 
     print_callable(inner(''))
     print_callable('=' * width)
+
     return True
 
 
