@@ -17,7 +17,8 @@ from .array import (as_numeric, as_namedtuple, closest_indexes, closest,
 from .data_structures import Lookup, Structure, CaseInsensitiveMapping
 from .metrics import metric_mse, metric_psnr
 from .verbose import (ColourWarning, message_box, show_warning, warning,
-                      filter_warnings, suppress_warnings, numpy_print_options)
+                      filter_warnings, suppress_warnings, numpy_print_options,
+                      describe_environment)
 
 __all__ = [
     'handle_numpy_errors', 'ignore_numpy_errors', 'raise_numpy_errors',
@@ -39,5 +40,6 @@ __all__ += ['Lookup', 'Structure', 'CaseInsensitiveMapping']
 __all__ += ['metric_mse', 'metric_psnr']
 __all__ += [
     'ColourWarning', 'message_box', 'show_warning', 'warning',
-    'filter_warnings', 'suppress_warnings', 'numpy_print_options'
+    'filter_warnings', 'suppress_warnings', 'numpy_print_options',
+    'describe_environment'
 ]
