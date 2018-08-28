@@ -348,7 +348,7 @@ def describe_environment(runtime_packages=True,
 
     Examples
     --------
-    >>> _ = describe_environment(width=75)  # doctest: +SKIP
+    >>> environment = describe_environment(width=75)  # doctest: +SKIP
     ===========================================================================
     *                                                                         *
     *   Interpreter :                                                         *
@@ -365,7 +365,8 @@ def describe_environment(runtime_packages=True,
     *       ipywidgets : 7.2.1                                                *
     *                                                                         *
     ===========================================================================
-    >>> _ = describe_environment(True, True, width=75)  # doctest: +SKIP
+    >>> environment = describe_environment(True, True, width=75)
+    ... # doctest: +SKIP
     ===========================================================================
     *                                                                         *
     *   Interpreter :                                                         *
