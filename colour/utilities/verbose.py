@@ -356,6 +356,10 @@ def describe_environment(runtime_packages=True,
     *   2017, 01:18:54)                                                       *
     *                [GCC 4.2.1 Compatible Apple LLVM 6.1.0                   *
     *   (clang-602.0.53)]                                                     *
+    *                                                                         *
+    *   colour-science.org :                                                  *
+    *       colour : v0.3.11-323-g380c1838                                    *
+    *                                                                         *
     *   Runtime :                                                             *
     *       numpy : 1.14.3                                                    *
     *       scipy : 1.0.0                                                     *
@@ -374,6 +378,10 @@ def describe_environment(runtime_packages=True,
     *   2017, 01:18:54)                                                       *
     *                [GCC 4.2.1 Compatible Apple LLVM 6.1.0                   *
     *   (clang-602.0.53)]                                                     *
+    *                                                                         *
+    *   colour-science.org :                                                  *
+    *       colour : v0.3.11-323-g380c1838                                    *
+    *                                                                         *
     *   Runtime :                                                             *
     *       numpy : 1.14.3                                                    *
     *       scipy : 1.0.0                                                     *
@@ -412,7 +420,7 @@ def describe_environment(runtime_packages=True,
     except subprocess.CalledProcessError:
         version = colour.__version__
 
-    environment['colour'] = version
+    environment['colour-science.org']['colour'] = version
 
     if runtime_packages:
         for package in ('numpy', 'scipy', 'pandas', 'matplotlib', 'notebook',
@@ -452,7 +460,8 @@ def describe_environment(runtime_packages=True,
 
     if print_environment:
         message = str()
-        for categorie in ('Interpreter', 'Runtime', 'Development'):
+        for categorie in ('Interpreter', 'colour-science.org', 'Runtime',
+                          'Development'):
             elements = environment.get(categorie)
             if not elements:
                 continue
@@ -463,7 +472,7 @@ def describe_environment(runtime_packages=True,
                 message += '    {0} : {1}\n'.format(key, lines.pop(0))
                 indentation = len('    {0} : '.format(key))
                 for line in lines:
-                    message += '{0}{1}'.format(' ' * indentation, line)
+                    message += '{0}{1}\n'.format(' ' * indentation, line)
 
             message += '\n'
 
