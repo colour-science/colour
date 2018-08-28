@@ -123,6 +123,7 @@ Verbose
     filter_warnings
     suppress_warnings
     numpy_print_options
+    describe_environment
 
 **Ancillary Objects**
 
