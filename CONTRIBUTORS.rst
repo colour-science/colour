@@ -28,7 +28,7 @@ Development & Technical Support
 
     Technical support.
 
--   **Kevin Wheatley**, *Head of Imaging at Framestore @ Framestore*
+-   **Kevin Wheatley**, *Head of Imaging @ Framestore*
 
     Technical support.
 
@@ -43,6 +43,10 @@ Development & Technical Support
 -   **Katrin Leinweber**
 
     Documentation improvements.
+
+-   **Jean D. Vandenberg**, *Colour Scientist @ The Walt Disney Studios*
+
+    Technical support.
 
 Acknowledgements
 ----------------

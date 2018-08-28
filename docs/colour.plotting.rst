@@ -22,6 +22,8 @@ Common
     uniform_axes3d
     single_colour_swatch_plot
     multi_colour_swatch_plot
+    single_function_plot
+    multi_function_plot
     image_plot
 
 Colorimetry

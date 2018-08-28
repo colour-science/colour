@@ -2,7 +2,9 @@
 
 from __future__ import absolute_import
 
-from colour.utilities import CaseInsensitiveMapping, filter_kwargs
+from functools import partial
+
+from colour.utilities import CaseInsensitiveMapping, filter_kwargs, warning
 
 from .common import CV_range, legal_to_full, full_to_legal
 from .aces import (log_encoding_ACESproxy, log_decoding_ACESproxy,
@@ -657,6 +659,180 @@ def eotf_reverse(value, function='ITU-R BT.1886', **kwargs):
 
 __all__ += ['OETFS', 'OETFS_REVERSE', 'EOTFS', 'EOTFS_REVERSE']
 __all__ += ['oetf', 'oetf_reverse', 'eotf', 'eotf_reverse']
+
+ENCODING_CCTFS = CaseInsensitiveMapping(LOG_ENCODING_CURVES)
+ENCODING_CCTFS.update(OETFS)
+ENCODING_CCTFS.update(EOTFS_REVERSE)
+ENCODING_CCTFS.update({
+    'Gamma 2.2': partial(function_gamma, exponent=1 / 2.2),
+    'Gamma 2.4': partial(function_gamma, exponent=1 / 2.4),
+    'Gamma 2.6': partial(function_gamma, exponent=1 / 2.6),
+})
+ENCODING_CCTFS.__doc__ = """
+Supported encoding colour component transfer functions (Encoding CCTFs), a
+collection of the functions defined by :attr:`colour.LOG_ENCODING_CURVES`,
+:attr:`colour.OETFS`, :attr:`colour.EOTFS_REVERSE` attributes and 3 gamma
+encoding functions (1 / 2.2, 1 / 2.4, 1 / 2.6).
+
+Warning
+-------
+For *ITU-R BT.2100*, only the reverse electro-optical transfer functions
+(EOTFs / EOCFs) are exposed by this attribute, please refer to the
+:attr:`colour.OETFS` attribute for the opto-electronic transfer functions
+(OETF / OECF).
+
+ENCODING_CCTFS : CaseInsensitiveMapping
+    {:attr:`colour.LOG_ENCODING_CURVES`, :attr:`colour.OETFS`,
+    :attr:`colour.EOTFS_REVERSE`}
+"""
+
+
+def encoding_cctf(value, function='sRGB', **kwargs):
+    """
+    Encodes linear :math:`RGB` values to non linear :math:`R'G'B'` values using
+    given encoding colour component transfer function (Encoding CCTF).
+
+    Parameters
+    ----------
+    value : numeric or array_like
+        Linear :math:`RGB` values.
+    function : unicode, optional
+        {:attr:`colour.ENCODING_CCTFS`},
+        Computation function.
+
+    Other Parameters
+    ----------------
+    \**kwargs : dict, optional
+        Keywords arguments for the relevant encoding CCTF of the
+        :attr:`colour.ENCODING_CCTFS` attribute collection.
+
+    Warning
+    -------
+    For *ITU-R BT.2100*, only the reverse electro-optical transfer functions
+    (EOTFs / EOCFs) are exposed by this definition, please refer to the
+    :func:`colour.oetf` definition for the opto-electronic transfer functions
+    (OETF / OECF).
+
+    Returns
+    -------
+    numeric or ndarray
+        Non linear :math:`R'G'B'` values.
+
+    Examples
+    --------
+    >>> encoding_cctf(0.18, function='PLog', log_reference=400)
+    ... # doctest: +ELLIPSIS
+    0.3910068...
+    >>> encoding_cctf(0.18, function='ST 2084', L_p=1000)
+    ... # doctest: +ELLIPSIS
+    0.1820115...
+    >>> encoding_cctf(  # doctest: +ELLIPSIS
+    ...     0.11699185725296059, function='ITU-R BT.1886')
+    0.4090077...
+    """
+
+    if 'itu-r bt.2100' in function.lower():
+        warning(
+            'For "ITU-R BT.2100", only the reverse electro-optical transfer '
+            'functions (EOTFs / EOCFs) are exposed by this definition, please '
+            'refer to the "colour.oetf" definition for the opto-electronic '
+            'transfer functions (OETF / OECF).')
+
+    function = ENCODING_CCTFS[function]
+
+    return function(value, **filter_kwargs(function, **kwargs))
+
+
+DECODING_CCTFS = CaseInsensitiveMapping(LOG_DECODING_CURVES)
+DECODING_CCTFS.update(OETFS_REVERSE)
+DECODING_CCTFS.update(EOTFS)
+DECODING_CCTFS.update({
+    'Gamma 2.2': partial(function_gamma, exponent=2.2),
+    'Gamma 2.4': partial(function_gamma, exponent=2.4),
+    'Gamma 2.6': partial(function_gamma, exponent=2.6),
+})
+DECODING_CCTFS.__doc__ = """
+Supported decoding colour component transfer functions (Decoding CCTFs), a
+collection of the functions defined by :attr:`colour.LOG_DECODING_CURVES`,
+:attr:`colour.EOTFS`, :attr:`colour.OETFS_REVERSE` attributes and 3 gamma
+decoding functions (2.2, 2.4, 2.6).
+
+Warning
+-------
+For *ITU-R BT.2100*, only the electro-optical transfer functions
+(EOTFs / EOCFs) are exposed by this attribute, please refer to the
+:attr:`colour.OETFS_REVERSE` attribute for the reverse opto-electronic
+transfer functions (OETF / OECF).
+
+Notes
+-----
+-   The order by which this attribute is defined and updated is critically
+    important to ensure that *ITU-R BT.2100* definitions are reciprocal.
+
+DECODING_CCTFS : CaseInsensitiveMapping
+    {:attr:`colour.LOG_DECODING_CURVES`, :attr:`colour.EOTFS`,
+    :attr:`colour.OETFS_REVERSE`}
+"""
+
+
+def decoding_cctf(value, function='Cineon', **kwargs):
+    """
+    Decodes non-linear :math:`R'G'B'` values to linear :math:`RGB` values using
+    given decoding colour component transfer function (Decoding CCTF).
+
+    Parameters
+    ----------
+    value : numeric or array_like
+        Non-linear :math:`R'G'B'` values.
+    function : unicode, optional
+        {:attr:`colour.DECODING_CCTFS`},
+        Computation function.
+
+    Other Parameters
+    ----------------
+    \**kwargs : dict, optional
+        Keywords arguments for the relevant decoding CCTF of the
+        :attr:`colour.DECODING_CCTFS` attribute collection.
+
+    Warning
+    -------
+    For *ITU-R BT.2100*, only the electro-optical transfer functions
+    (EOTFs / EOCFs) are exposed by this definition, please refer to the
+    :func:`colour.oetf_reverse` definition for the reverse opto-electronic
+    transfer functions (OETF / OECF).
+
+    Returns
+    -------
+    numeric or ndarray
+        Linear :math:`RGB` values.
+
+    Examples
+    --------
+    >>> decoding_cctf(0.391006842619746, function='PLog', log_reference=400)
+    ... # doctest: +ELLIPSIS
+    0.1...
+    >>> decoding_cctf(0.182011532850008, function='ST 2084', L_p=1000)
+    ... # doctest: +ELLIPSIS
+    0.1...
+    >>> decoding_cctf(  # doctest: +ELLIPSIS
+    ...     0.461356129500442, function='ITU-R BT.1886')
+    0.1...
+    """
+
+    if 'itu-r bt.2100' in function.lower():
+        warning(
+            'For "ITU-R BT.2100", only the electro-optical transfer functions '
+            '(EOTFs / EOCFs) are exposed by this definition, please refer to '
+            'the "colour.oetf_reverse" definition for the reverse '
+            'opto-electronic transfer functions (OETF / OECF).')
+
+    function = DECODING_CCTFS[function]
+
+    return function(value, **filter_kwargs(function, **kwargs))
+
+
+__all__ += ['ENCODING_CCTFS', 'DECODING_CCTFS']
+__all__ += ['encoding_cctf', 'decoding_cctf']
 
 OOTFS = CaseInsensitiveMapping({
     'ITU-R BT.2100 HLG': ootf_BT2100_HLG,

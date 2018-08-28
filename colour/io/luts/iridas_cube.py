@@ -22,7 +22,7 @@ import os
 import re
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
-from colour.io.luts import LUT2D, LUT3D, LUTSequence
+from colour.io.luts import LUT1D, LUT2D, LUT3D, LUTSequence
 from colour.utilities import warning
 
 __author__ = 'Colour Developers'
@@ -219,8 +219,11 @@ def write_LUT_IridasCube(LUT, path, decimals=7):
                 'using first sequence "LUT":\n'
                 '{0}'.format(LUT))
 
+    if isinstance(LUT, LUT1D):
+        LUT = LUT.as_LUT(LUT2D)
+
     assert (isinstance(LUT, LUT2D) or
-            isinstance(LUT, LUT3D)), '"LUT" must be either a 2D or 3D "LUT"!'
+            isinstance(LUT, LUT3D)), '"LUT" must be a 1D, 2D or 3D "LUT"!'
 
     is_2D = isinstance(LUT, LUT2D)
 

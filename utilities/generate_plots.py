@@ -142,8 +142,8 @@ def generate_documentation_plots(output_directory):
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Examples_Plotting_CRI.png')
-    single_spd_colour_rendering_index_bars_plot(
-        colour.ILLUMINANTS_SPDS['F2'], **arguments)
+    single_spd_colour_rendering_index_bars_plot(colour.ILLUMINANTS_SPDS['F2'],
+                                                **arguments)
 
     # *************************************************************************
     # Documentation
@@ -249,6 +249,19 @@ def generate_documentation_plots(output_directory):
     multi_colour_swatch_plot([RGB_1, RGB_2], **arguments)
 
     arguments['filename'] = os.path.join(output_directory,
+                                         'Plotting_Single_Function_Plot.png')
+    single_function_plot(lambda x: x ** (1 / 2.2), **arguments)
+
+    arguments['filename'] = os.path.join(output_directory,
+                                         'Plotting_Single_Function_Plot.png')
+    functions = {
+        'Gamma 2.2': lambda x: x ** (1 / 2.2),
+        'Gamma 2.4': lambda x: x ** (1 / 2.4),
+        'Gamma 2.6': lambda x: x ** (1 / 2.6),
+    }
+    multi_function_plot(functions)
+
+    arguments['filename'] = os.path.join(output_directory,
                                          'Plotting_Image_Plot.png')
     path = os.path.join(colour.__path__[0], '..', 'docs', '_static',
                         'Logo_Medium_001.png')
@@ -305,9 +318,8 @@ def generate_documentation_plots(output_directory):
         'Plotting_SPDS_Chromaticity_Diagram_Plot_CIE1976UCS.png')
     spds_chromaticity_diagram_plot_CIE1976UCS([A, D65], **arguments)
 
-    arguments['filename'] = os.path.join(
-        output_directory,
-        'Plotting_Pointer_Gamut_Plot.png')
+    arguments['filename'] = os.path.join(output_directory,
+                                         'Plotting_Pointer_Gamut_Plot.png')
     pointer_gamut_plot(**arguments)
 
     arguments['filename'] = os.path.join(

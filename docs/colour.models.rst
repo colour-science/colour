@@ -346,6 +346,21 @@ RGB Colourspaces
     spectral_to_aces_relative_exposure_values
     ACES_RICD
 
+Colour Component Transfer Functions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    encoding_cctf
+    ENCODING_CCTFS
+    decoding_cctf
+    DECODING_CCTFS
+
 Opto-Electronic Transfer Functions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
