@@ -9,9 +9,11 @@ Defines verbose related objects.
 from __future__ import division, print_function, unicode_literals
 
 import numpy as np
+import os
 import sys
 import traceback
 import warnings
+from collections import OrderedDict, defaultdict
 from contextlib import contextmanager
 from itertools import chain
 from textwrap import TextWrapper
@@ -28,7 +30,8 @@ __status__ = 'Production'
 
 __all__ = [
     'ColourWarning', 'message_box', 'show_warning', 'warning',
-    'filter_warnings', 'suppress_warnings', 'numpy_print_options'
+    'filter_warnings', 'suppress_warnings', 'numpy_print_options',
+    'describe_environment'
 ]
 
 
@@ -123,6 +126,7 @@ def message_box(message, width=79, padding=3, print_callable=print):
 
     print_callable(inner(''))
     print_callable('=' * width)
+
     return True
 
 
@@ -306,3 +310,162 @@ def numpy_print_options(*args, **kwargs):
         yield
     finally:
         np.set_printoptions(**options)
+
+
+def describe_environment(runtime_packages=True,
+                         development_packages=False,
+                         print_environment=True,
+                         **kwargs):
+    """
+    Describes *Colour* running environment, i.e. interpreter, runtime and
+    development packages.
+
+    Parameters
+    ----------
+    runtime_packages : bool, optional
+        Whether to return the runtime packages versions.
+    development_packages : bool, optional
+        Whether to return the development packages versions.
+    print_environment : bool, optional
+        Whether to print the environment.
+
+    Other Parameters
+    ----------------
+    padding : unicode, optional
+        {:func:`colour.utilities.message_box`},
+        Padding on each sides of the message.
+    print_callable : callable, optional
+        {:func:`colour.utilities.message_box`},
+        Callable used to print the message box.
+    width : int, optional
+        {:func:`colour.utilities.message_box`},
+        Message box width.
+
+    Returns
+    -------
+    defaultdict
+        Environment.
+
+    Examples
+    --------
+    >>> _ = describe_environment(width=75)  # doctest: +SKIP
+    ===========================================================================
+    *                                                                         *
+    *   Interpreter :                                                         *
+    *       python : 2.7.14 | packaged by conda-forge | (default, Dec 25      *
+    *   2017, 01:18:54)                                                       *
+    *                [GCC 4.2.1 Compatible Apple LLVM 6.1.0                   *
+    *   (clang-602.0.53)]                                                     *
+    *   Runtime :                                                             *
+    *       numpy : 1.14.3                                                    *
+    *       scipy : 1.0.0                                                     *
+    *       pandas : 0.22.0                                                   *
+    *       matplotlib : 2.2.2                                                *
+    *       notebook : 5.4.0                                                  *
+    *       ipywidgets : 7.2.1                                                *
+    *                                                                         *
+    ===========================================================================
+    >>> _ = describe_environment(True, True, width=75)  # doctest: +SKIP
+    ===========================================================================
+    *                                                                         *
+    *   Interpreter :                                                         *
+    *       python : 2.7.14 | packaged by conda-forge | (default, Dec 25      *
+    *   2017, 01:18:54)                                                       *
+    *                [GCC 4.2.1 Compatible Apple LLVM 6.1.0                   *
+    *   (clang-602.0.53)]                                                     *
+    *   Runtime :                                                             *
+    *       numpy : 1.14.3                                                    *
+    *       scipy : 1.0.0                                                     *
+    *       pandas : 0.22.0                                                   *
+    *       matplotlib : 2.2.2                                                *
+    *       notebook : 5.4.0                                                  *
+    *       ipywidgets : 7.2.1                                                *
+    *                                                                         *
+    *   Development :                                                         *
+    *       coverage : 4.5.1                                                  *
+    *       flake8 : 3.5.0                                                    *
+    *       invoke : 0.22.1                                                   *
+    *       mock : 2.0.0                                                      *
+    *       nose : 1.3.7                                                      *
+    *       restructuredtext_lint : 1.1.3                                     *
+    *       six : 1.11.0                                                      *
+    *       sphinx : 1.7.5                                                    *
+    *       sphinx_rtd_theme : 0.2.4                                          *
+    *       twine : 1.10.0                                                    *
+    *       yapf : 0.20.2                                                     *
+    *                                                                         *
+    ===========================================================================
+    """
+
+    environment = defaultdict(OrderedDict)
+
+    environment['Interpreter']['python'] = sys.version
+
+    import subprocess
+
+    import colour
+
+    try:
+        version = subprocess.check_output(
+            ['git', 'describe'], cwd=colour.__path__[0]).strip()
+    except subprocess.CalledProcessError:
+        version = colour.__version__
+
+    environment['colour'] = version
+
+    if runtime_packages:
+        for package in ('numpy', 'scipy', 'pandas', 'matplotlib', 'notebook',
+                        'ipywidgets'):
+            try:
+                namespace = __import__(package)
+                environment['Runtime'][package] = namespace.__version__
+            except ImportError:
+                continue
+
+    if development_packages:
+        for package in ('coverage', 'flake8', 'invoke', 'mock', 'nose',
+                        'restructuredtext_lint', 'six', 'sphinx',
+                        'sphinxcontrib.bibtex', 'sphinx_rtd_theme', 'twine',
+                        'yapf'):
+            try:
+                namespace = __import__(package)
+                if package == 'restructuredtext_lint':
+                    with open(
+                            os.path.join(
+                                os.path.dirname(namespace.__file__),
+                                'VERSION'), 'r') as version_file:
+                        version = version_file.read().strip()
+                elif package == 'sphinxcontrib.bibtex':
+                    import pip
+
+                    for distribution in pip.get_installed_distributions():
+                        if distribution.name == package:
+                            version = distribution.version
+                            break
+                else:
+                    version = namespace.__version__
+
+                environment['Development'][package] = version
+            except (AttributeError, ImportError):
+                continue
+
+    if print_environment:
+        message = str()
+        for categorie in ('Interpreter', 'Runtime', 'Development'):
+            elements = environment.get(categorie)
+            if not elements:
+                continue
+
+            message += '{0} :\n'.format(categorie)
+            for key, value in elements.items():
+                lines = value.split('\n')
+                message += '    {0} : {1}\n'.format(key, lines.pop(0))
+                indentation = len('    {0} : '.format(key))
+                for line in lines:
+                    message += '{0}{1}'.format(' ' * indentation, line)
+
+            message += '\n'
+
+        message_box(message.strip(), **kwargs)
+
+    return environment
