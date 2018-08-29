@@ -34,8 +34,8 @@ from six import add_metaclass
 
 from colour.algebra import LinearInterpolator, table_interpolation_trilinear
 from colour.constants import DEFAULT_INT_DTYPE
-from colour.utilities import (filter_kwargs, is_iterable, is_string,
-                              linear_conversion, tsplit, tstack)
+from colour.utilities import (is_iterable, is_string, linear_conversion,
+                              tsplit, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -1992,7 +1992,12 @@ class LUTSequence(MutableSequence):
 
         self._sequence.insert(index, LUT)
 
-    def apply(self, RGB, **kwargs):
+    def apply(self,
+              RGB,
+              interpolator_1D=LinearInterpolator,
+              interpolator_1D_args=None,
+              interpolator_3D=table_interpolation_trilinear,
+              interpolator_3D_args=None):
         """
         Applies the *LUT* sequence sequentially to given *RGB* colourspace
         array.
@@ -2002,11 +2007,18 @@ class LUTSequence(MutableSequence):
         RGB : array_like
             *RGB* colourspace array to apply the *LUT* sequence sequentially
             onto.
-
-        Other Parameters
-        ----------------
-        \**kwargs : dict, optional
-            Keywords arguments.
+        interpolator_1D : object, optional
+            Interpolator object to use as interpolating function for
+            :class:`colour.LUT1D` (and :class:`colour.LUT2D`) class instances.
+        interpolator_1D_args : dict_like, optional
+            Arguments to use when calling the interpolating function for
+            :class:`colour.LUT1D` (and :class:`colour.LUT2D`) class instances.
+        interpolator_3D : object, optional
+            Interpolator object to use as interpolating function for
+            :class:`colour.LUT3D` class instances.
+        interpolator_3D_args : dict_like, optional
+            Arguments to use when calling the interpolating function for
+            :class:`colour.LUT3D` class instances.
 
         Returns
         -------
@@ -2030,8 +2042,14 @@ class LUTSequence(MutableSequence):
         """
 
         for operation in self:
-            RGB = operation.apply(RGB,
-                                  **filter_kwargs(operation.apply, **kwargs))
+            if isinstance(operation, (LUT1D, LUT2D)):
+                RGB = operation.apply(RGB, interpolator_1D,
+                                      interpolator_1D_args)
+            elif isinstance(operation, LUT3D):
+                RGB = operation.apply(RGB, interpolator_3D,
+                                      interpolator_3D_args)
+            else:
+                RGB = operation.apply(RGB)
 
         return RGB
 
