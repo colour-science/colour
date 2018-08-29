@@ -37,7 +37,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'DCDM_XYZ_PRIMARIES', 'DCDM_XYZ_ILLUMINANT', 'DCDM_XYZ_WHITEPOINT',
+    'DCDM_XYZ_PRIMARIES', 'DCDM_XYZ_WHITEPOINT_NAME', 'DCDM_XYZ_WHITEPOINT',
     'DCDM_XYZ_TO_XYZ_MATRIX', 'XYZ_TO_DCDM_XYZ_MATRIX', 'DCDM_XYZ_COLOURSPACE'
 ]
 
@@ -52,15 +52,15 @@ DCDM_XYZ_PRIMARIES = np.array([
 DCDM_XYZ_PRIMARIES : ndarray, (3, 2)
 """
 
-DCDM_XYZ_ILLUMINANT = 'E'
+DCDM_XYZ_WHITEPOINT_NAME = 'E'
 """
-*DCDM XYZ* colourspace whitepoint name as illuminant.
+*DCDM XYZ* colourspace whitepoint name.
 
-DCDM_XYZ_ILLUMINANT : unicode
+DCDM_XYZ_WHITEPOINT_NAME : unicode
 """
 
-DCDM_XYZ_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][DCDM_XYZ_ILLUMINANT])
+DCDM_XYZ_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+    DCDM_XYZ_WHITEPOINT_NAME])
 """
 *DCDM XYZ* colourspace whitepoint.
 
@@ -86,7 +86,7 @@ DCDM_XYZ_COLOURSPACE = RGB_Colourspace(
     'DCDM XYZ',
     DCDM_XYZ_PRIMARIES,
     DCDM_XYZ_WHITEPOINT,
-    DCDM_XYZ_ILLUMINANT,
+    DCDM_XYZ_WHITEPOINT_NAME,
     DCDM_XYZ_TO_XYZ_MATRIX,
     XYZ_TO_DCDM_XYZ_MATRIX,
     oetf_DCDM,

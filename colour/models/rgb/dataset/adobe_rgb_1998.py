@@ -36,7 +36,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'ADOBE_RGB_1998_PRIMARIES', 'ADOBE_RGB_1998_ILLUMINANT',
+    'ADOBE_RGB_1998_PRIMARIES', 'ADOBE_RGB_1998_WHITEPOINT_NAME',
     'ADOBE_RGB_1998_WHITEPOINT', 'ADOBE_RGB_1998_TO_XYZ_MATRIX',
     'XYZ_TO_ADOBE_RGB_1998_MATRIX', 'ADOBE_RGB_1998_COLOURSPACE'
 ]
@@ -52,15 +52,15 @@ ADOBE_RGB_1998_PRIMARIES = np.array([
 ADOBE_RGB_1998_PRIMARIES : ndarray, (3, 2)
 """
 
-ADOBE_RGB_1998_ILLUMINANT = 'D65'
+ADOBE_RGB_1998_WHITEPOINT_NAME = 'D65'
 """
-*Adobe RGB (1998)* colourspace whitepoint name as illuminant.
+*Adobe RGB (1998)* colourspace whitepoint name.
 
-ADOBE_RGB_1998_ILLUMINANT : unicode
+ADOBE_RGB_1998_WHITEPOINT_NAME : unicode
 """
 
 ADOBE_RGB_1998_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
-                             [ADOBE_RGB_1998_ILLUMINANT])
+                             [ADOBE_RGB_1998_WHITEPOINT_NAME])
 """
 *Adobe RGB (1998)* colourspace whitepoint.
 
@@ -94,7 +94,7 @@ ADOBE_RGB_1998_COLOURSPACE = RGB_Colourspace(
     'Adobe RGB (1998)',
     ADOBE_RGB_1998_PRIMARIES,
     ADOBE_RGB_1998_WHITEPOINT,
-    ADOBE_RGB_1998_ILLUMINANT,
+    ADOBE_RGB_1998_WHITEPOINT_NAME,
     ADOBE_RGB_1998_TO_XYZ_MATRIX,
     XYZ_TO_ADOBE_RGB_1998_MATRIX,
     partial(function_gamma, exponent=1 / (563 / 256)),

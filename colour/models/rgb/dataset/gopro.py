@@ -47,7 +47,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'PROTUNE_NATIVE_PRIMARIES', 'PROTUNE_NATIVE_ILLUMINANT',
+    'PROTUNE_NATIVE_PRIMARIES', 'PROTUNE_NATIVE_WHITEPOINT_NAME',
     'PROTUNE_NATIVE_WHITEPOINT', 'PROTUNE_NATIVE_TO_XYZ_MATRIX',
     'XYZ_TO_PROTUNE_NATIVE_MATRIX', 'PROTUNE_NATIVE_COLOURSPACE'
 ]
@@ -63,15 +63,15 @@ PROTUNE_NATIVE_PRIMARIES = np.array([
 PROTUNE_NATIVE_PRIMARIES : ndarray, (3, 2)
 """
 
-PROTUNE_NATIVE_ILLUMINANT = 'D65'
+PROTUNE_NATIVE_WHITEPOINT_NAME = 'D65'
 """
-*Protune Native* colourspace whitepoint name as illuminant.
+*Protune Native* colourspace whitepoint name.
 
-PROTUNE_NATIVE_ILLUMINANT : unicode
+PROTUNE_NATIVE_WHITEPOINT_NAME : unicode
 """
 
 PROTUNE_NATIVE_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
-                             [PROTUNE_NATIVE_ILLUMINANT])
+                             [PROTUNE_NATIVE_WHITEPOINT_NAME])
 """
 *Protune Native* colourspace whitepoint.
 
@@ -97,7 +97,7 @@ PROTUNE_NATIVE_COLOURSPACE = RGB_Colourspace(
     'Protune Native',
     PROTUNE_NATIVE_PRIMARIES,
     PROTUNE_NATIVE_WHITEPOINT,
-    PROTUNE_NATIVE_ILLUMINANT,
+    PROTUNE_NATIVE_WHITEPOINT_NAME,
     PROTUNE_NATIVE_TO_XYZ_MATRIX,
     XYZ_TO_PROTUNE_NATIVE_MATRIX,
     log_encoding_Protune,

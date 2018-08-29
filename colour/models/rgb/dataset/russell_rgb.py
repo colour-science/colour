@@ -37,7 +37,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'RUSSELL_RGB_PRIMARIES', 'RUSSELL_RGB_ILLUMINANT',
+    'RUSSELL_RGB_PRIMARIES', 'RUSSELL_RGB_WHITEPOINT_NAME',
     'RUSSELL_RGB_WHITEPOINT', 'RUSSELL_RGB_TO_XYZ_MATRIX',
     'XYZ_TO_RUSSELL_RGB_MATRIX', 'RUSSELL_RGB_COLOURSPACE'
 ]
@@ -53,15 +53,15 @@ RUSSELL_RGB_PRIMARIES = np.array([
 RUSSELL_RGB_PRIMARIES : ndarray, (3, 2)
 """
 
-RUSSELL_RGB_ILLUMINANT = 'D55'
+RUSSELL_RGB_WHITEPOINT_NAME = 'D55'
 """
-*Russell RGB* colourspace whitepoint name as illuminant.
+*Russell RGB* colourspace whitepoint name.
 
-RUSSELL_RGB_ILLUMINANT : unicode
+RUSSELL_RGB_WHITEPOINT_NAME : unicode
 """
 
-RUSSELL_RGB_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][RUSSELL_RGB_ILLUMINANT])
+RUSSELL_RGB_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+    RUSSELL_RGB_WHITEPOINT_NAME])
 """
 *Russell RGB* colourspace whitepoint.
 
@@ -87,7 +87,7 @@ RUSSELL_RGB_COLOURSPACE = RGB_Colourspace(
     'Russell RGB',
     RUSSELL_RGB_PRIMARIES,
     RUSSELL_RGB_WHITEPOINT,
-    RUSSELL_RGB_ILLUMINANT,
+    RUSSELL_RGB_WHITEPOINT_NAME,
     RUSSELL_RGB_TO_XYZ_MATRIX,
     XYZ_TO_RUSSELL_RGB_MATRIX,
     partial(function_gamma, exponent=1 / 2.2),

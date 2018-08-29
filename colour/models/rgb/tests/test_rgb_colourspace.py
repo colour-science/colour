@@ -14,10 +14,10 @@ import unittest
 from copy import deepcopy
 from itertools import permutations
 
-from colour.models import (RGB_COLOURSPACES, RGB_Colourspace, XYZ_to_RGB,
-                           RGB_to_XYZ, RGB_to_RGB_matrix, RGB_to_RGB,
-                           normalised_primary_matrix, oetf_sRGB,
-                           oetf_reverse_sRGB)
+from colour.models import (
+    RGB_COLOURSPACES, RGB_Colourspace, XYZ_to_RGB, RGB_to_XYZ,
+    RGB_to_RGB_matrix, RGB_to_RGB, chromatically_adapted_primaries,
+    normalised_primary_matrix, oetf_sRGB, oetf_reverse_sRGB)
 from colour.utilities import domain_range_scale, ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -181,9 +181,10 @@ class TestRGB_Colourspace(unittest.TestCase):
         Tests presence of required attributes.
         """
 
-        required_attributes = ('name', 'primaries', 'whitepoint', 'illuminant',
-                               'RGB_to_XYZ_matrix', 'XYZ_to_RGB_matrix',
-                               'encoding_cctf', 'decoding_cctf',
+        required_attributes = ('name', 'primaries', 'whitepoint',
+                               'whitepoint_name', 'RGB_to_XYZ_matrix',
+                               'XYZ_to_RGB_matrix', 'encoding_cctf',
+                               'decoding_cctf',
                                'use_derived_RGB_to_XYZ_matrix',
                                'use_derived_XYZ_to_RGB_matrix')
 
@@ -314,16 +315,42 @@ use_derived_transformation_matrices` method.
 chromatically_adapt` method.
         """
 
+        whitepoint_t = np.array([0.31270, 0.32900])
         colourspace = self._colourspace.chromatically_adapt(
-            np.array([0.31270, 0.32900]), 'Bradford')
-        np.testing.assert_array_almost_equal(colourspace.primaries,
-                                             np.array([
-                                                 [0.73485524, 0.26422533],
-                                                 [-0.00617091, 1.01131496],
-                                                 [0.01596756, -0.0642355],
-                                             ]))
-        np.testing.assert_array_almost_equal(colourspace.whitepoint,
-                                             np.array([0.31270, 0.32900]))
+            whitepoint_t, 'D50', 'Bradford')
+
+        np.testing.assert_array_almost_equal(
+            colourspace.primaries,
+            np.array([
+                [0.73485524, 0.26422533],
+                [-0.00617091, 1.01131496],
+                [0.01596756, -0.06423550],
+            ]),
+            decimal=7)
+        np.testing.assert_array_almost_equal(
+            colourspace.whitepoint, whitepoint_t, decimal=7)
+
+        self.assertEqual(colourspace.whitepoint_name, 'D50')
+
+        np.testing.assert_array_almost_equal(
+            colourspace.primaries,
+            chromatically_adapted_primaries(self._colourspace.primaries,
+                                            self._colourspace.whitepoint,
+                                            whitepoint_t, 'Bradford'),
+            decimal=7)
+
+        np.testing.assert_array_almost_equal(
+            colourspace.RGB_to_XYZ_matrix,
+            normalised_primary_matrix(colourspace.primaries,
+                                      colourspace.whitepoint),
+            decimal=7)
+
+        np.testing.assert_array_almost_equal(
+            colourspace.XYZ_to_RGB_matrix,
+            np.linalg.inv(
+                normalised_primary_matrix(colourspace.primaries,
+                                          colourspace.whitepoint)),
+            decimal=7)
 
     def test_copy(self):
         """

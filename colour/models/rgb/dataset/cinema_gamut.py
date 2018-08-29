@@ -36,7 +36,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'CINEMA_GAMUT_PRIMARIES', 'CINEMA_GAMUT_ILLUMINANT',
+    'CINEMA_GAMUT_PRIMARIES', 'CINEMA_GAMUT_WHITEPOINT_NAME',
     'CINEMA_GAMUT_WHITEPOINT', 'CINEMA_GAMUT_TO_XYZ_MATRIX',
     'XYZ_TO_CINEMA_GAMUT_MATRIX', 'CINEMA_GAMUT_COLOURSPACE'
 ]
@@ -52,15 +52,15 @@ CINEMA_GAMUT_PRIMARIES = np.array([
 CINEMA_GAMUT_PRIMARIES : ndarray, (3, 2)
 """
 
-CINEMA_GAMUT_ILLUMINANT = 'D65'
+CINEMA_GAMUT_WHITEPOINT_NAME = 'D65'
 """
-*Cinema Gamut* colourspace whitepoint name as illuminant.
+*Cinema Gamut* colourspace whitepoint name.
 
-CINEMA_GAMUT_ILLUMINANT : unicode
+CINEMA_GAMUT_WHITEPOINT_NAME : unicode
 """
 
 CINEMA_GAMUT_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
-    CINEMA_GAMUT_ILLUMINANT])
+    CINEMA_GAMUT_WHITEPOINT_NAME])
 """
 *Cinema Gamut* colourspace whitepoint.
 
@@ -86,7 +86,7 @@ CINEMA_GAMUT_COLOURSPACE = RGB_Colourspace(
     'Cinema Gamut',
     CINEMA_GAMUT_PRIMARIES,
     CINEMA_GAMUT_WHITEPOINT,
-    CINEMA_GAMUT_ILLUMINANT,
+    CINEMA_GAMUT_WHITEPOINT_NAME,
     CINEMA_GAMUT_TO_XYZ_MATRIX,
     XYZ_TO_CINEMA_GAMUT_MATRIX,
     function_linear,

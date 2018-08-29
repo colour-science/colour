@@ -39,10 +39,10 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'BT470_525_PRIMARIES', 'BT470_525_WHITEPOINT', 'BT470_525_ILLUMINANT',
+    'BT470_525_PRIMARIES', 'BT470_525_WHITEPOINT', 'BT470_525_WHITEPOINT_NAME',
     'BT470_525_TO_XYZ_MATRIX', 'XYZ_TO_BT470_525_MATRIX',
     'BT470_525_COLOURSPACE', 'BT470_625_PRIMARIES', 'BT470_625_WHITEPOINT',
-    'BT470_625_ILLUMINANT', 'BT470_625_TO_XYZ_MATRIX',
+    'BT470_625_WHITEPOINT_NAME', 'BT470_625_TO_XYZ_MATRIX',
     'XYZ_TO_BT470_625_MATRIX', 'BT470_625_COLOURSPACE'
 ]
 
@@ -57,15 +57,15 @@ BT470_525_PRIMARIES = np.array([
 BT470_525_PRIMARIES : ndarray, (3, 2)
 """
 
-BT470_525_ILLUMINANT = 'C'
+BT470_525_WHITEPOINT_NAME = 'C'
 """
-*ITU-R BT.470 - 525* colourspace whitepoint name as illuminant.
+*ITU-R BT.470 - 525* colourspace whitepoint name.
 
-BT470_525_ILLUMINANT : unicode
+BT470_525_WHITEPOINT_NAME : unicode
 """
 
-BT470_525_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][BT470_525_ILLUMINANT])
+BT470_525_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+    BT470_525_WHITEPOINT_NAME])
 """
 *ITU-R BT.470 - 525* colourspace whitepoint.
 
@@ -91,7 +91,7 @@ BT470_525_COLOURSPACE = RGB_Colourspace(
     'ITU-R BT.470 - 525',
     BT470_525_PRIMARIES,
     BT470_525_WHITEPOINT,
-    BT470_525_ILLUMINANT,
+    BT470_525_WHITEPOINT_NAME,
     BT470_525_TO_XYZ_MATRIX,
     XYZ_TO_BT470_525_MATRIX,
     partial(function_gamma, exponent=1 / 2.8),
@@ -114,15 +114,15 @@ BT470_625_PRIMARIES = np.array([[0.64, 0.33], [0.29, 0.60], [0.15, 0.06]], )
 BT470_625_PRIMARIES : ndarray, (3, 2)
 """
 
-BT470_625_ILLUMINANT = 'D65'
+BT470_625_WHITEPOINT_NAME = 'D65'
 """
-*ITU-R BT.470 - 625* colourspace whitepoint name as illuminant.
+*ITU-R BT.470 - 625* colourspace whitepoint name.
 
-BT470_625_ILLUMINANT : unicode
+BT470_625_WHITEPOINT_NAME : unicode
 """
 
-BT470_625_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][BT470_625_ILLUMINANT])
+BT470_625_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+    BT470_625_WHITEPOINT_NAME])
 """
 *ITU-R BT.470 - 625* colourspace whitepoint.
 
@@ -148,7 +148,7 @@ BT470_625_COLOURSPACE = RGB_Colourspace(
     'ITU-R BT.470 - 625',
     BT470_625_PRIMARIES,
     BT470_625_WHITEPOINT,
-    BT470_625_ILLUMINANT,
+    BT470_625_WHITEPOINT_NAME,
     BT470_625_TO_XYZ_MATRIX,
     XYZ_TO_BT470_625_MATRIX,
     partial(function_gamma, exponent=1 / 2.8),

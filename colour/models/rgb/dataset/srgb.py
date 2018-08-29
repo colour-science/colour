@@ -43,7 +43,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'sRGB_PRIMARIES', 'sRGB_ILLUMINANT', 'sRGB_WHITEPOINT',
+    'sRGB_PRIMARIES', 'sRGB_WHITEPOINT_NAME', 'sRGB_WHITEPOINT',
     'sRGB_TO_XYZ_MATRIX', 'XYZ_TO_sRGB_MATRIX', 'sRGB_COLOURSPACE'
 ]
 
@@ -58,15 +58,15 @@ sRGB_PRIMARIES = np.array([
 sRGB_PRIMARIES : ndarray, (3, 2)
 """
 
-sRGB_ILLUMINANT = 'D65'
+sRGB_WHITEPOINT_NAME = 'D65'
 """
-*sRGB* colourspace whitepoint name as illuminant.
+*sRGB* colourspace whitepoint name.
 
 sRGB_WHITEPOINT : unicode
 """
 
 sRGB_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][sRGB_ILLUMINANT])
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][sRGB_WHITEPOINT_NAME])
 """
 *sRGB* colourspace whitepoint.
 
@@ -99,7 +99,7 @@ sRGB_COLOURSPACE = RGB_Colourspace(
     'sRGB',
     sRGB_PRIMARIES,
     sRGB_WHITEPOINT,
-    sRGB_ILLUMINANT,
+    sRGB_WHITEPOINT_NAME,
     sRGB_TO_XYZ_MATRIX,
     XYZ_TO_sRGB_MATRIX,
     oetf_sRGB,

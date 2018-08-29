@@ -37,7 +37,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'BETA_RGB_PRIMARIES', 'BETA_RGB_ILLUMINANT', 'BETA_RGB_WHITEPOINT',
+    'BETA_RGB_PRIMARIES', 'BETA_RGB_WHITEPOINT_NAME', 'BETA_RGB_WHITEPOINT',
     'BETA_RGB_TO_XYZ_MATRIX', 'XYZ_TO_BETA_RGB_MATRIX', 'BETA_RGB_COLOURSPACE'
 ]
 
@@ -52,15 +52,15 @@ BETA_RGB_PRIMARIES = np.array([
 BETA_RGB_PRIMARIES : ndarray, (3, 2)
 """
 
-BETA_RGB_ILLUMINANT = 'D50'
+BETA_RGB_WHITEPOINT_NAME = 'D50'
 """
-*Beta RGB* colourspace whitepoint name as illuminant.
+*Beta RGB* colourspace whitepoint name.
 
-BETA_RGB_ILLUMINANT : unicode
+BETA_RGB_WHITEPOINT_NAME : unicode
 """
 
-BETA_RGB_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][BETA_RGB_ILLUMINANT])
+BETA_RGB_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+    BETA_RGB_WHITEPOINT_NAME])
 """
 *Beta RGB* colourspace whitepoint.
 
@@ -86,7 +86,7 @@ BETA_RGB_COLOURSPACE = RGB_Colourspace(
     'Beta RGB',
     BETA_RGB_PRIMARIES,
     BETA_RGB_WHITEPOINT,
-    BETA_RGB_ILLUMINANT,
+    BETA_RGB_WHITEPOINT_NAME,
     BETA_RGB_TO_XYZ_MATRIX,
     XYZ_TO_BETA_RGB_MATRIX,
     partial(function_gamma, exponent=1 / 2.2),

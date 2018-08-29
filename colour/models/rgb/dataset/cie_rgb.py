@@ -37,7 +37,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'CIE_RGB_PRIMARIES', 'CIE_RGB_ILLUMINANT', 'CIE_RGB_WHITEPOINT',
+    'CIE_RGB_PRIMARIES', 'CIE_RGB_WHITEPOINT_NAME', 'CIE_RGB_WHITEPOINT',
     'CIE_RGB_TO_XYZ_MATRIX', 'XYZ_TO_CIE_RGB_MATRIX', 'CIE_RGB_COLOURSPACE'
 ]
 
@@ -58,15 +58,15 @@ Notes
     and :func:`colour.primaries_whitepoint` definition.
 """
 
-CIE_RGB_ILLUMINANT = 'E'
+CIE_RGB_WHITEPOINT_NAME = 'E'
 """
-*CIE RGB* colourspace whitepoint name as illuminant.
+*CIE RGB* colourspace whitepoint name.
 
-CIE_RGB_ILLUMINANT : unicode
+CIE_RGB_WHITEPOINT_NAME : unicode
 """
 
-CIE_RGB_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][CIE_RGB_ILLUMINANT])
+CIE_RGB_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+    CIE_RGB_WHITEPOINT_NAME])
 """
 *CIE RGB* colourspace whitepoint.
 
@@ -95,7 +95,7 @@ CIE_RGB_COLOURSPACE = RGB_Colourspace(
     'CIE RGB',
     CIE_RGB_PRIMARIES,
     CIE_RGB_WHITEPOINT,
-    CIE_RGB_ILLUMINANT,
+    CIE_RGB_WHITEPOINT_NAME,
     CIE_RGB_TO_XYZ_MATRIX,
     XYZ_TO_CIE_RGB_MATRIX,
     partial(function_gamma, exponent=1 / 2.2),

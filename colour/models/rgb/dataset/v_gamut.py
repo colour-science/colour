@@ -36,7 +36,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'V_GAMUT_PRIMARIES', 'V_GAMUT_ILLUMINANT', 'V_GAMUT_WHITEPOINT',
+    'V_GAMUT_PRIMARIES', 'V_GAMUT_WHITEPOINT_NAME', 'V_GAMUT_WHITEPOINT',
     'V_GAMUT_TO_XYZ_MATRIX', 'XYZ_TO_V_GAMUT_MATRIX', 'V_GAMUT_COLOURSPACE'
 ]
 
@@ -51,15 +51,15 @@ V_GAMUT_PRIMARIES = np.array([
 V_GAMUT_PRIMARIES : ndarray, (3, 2)
 """
 
-V_GAMUT_ILLUMINANT = 'D65'
+V_GAMUT_WHITEPOINT_NAME = 'D65'
 """
-*V-Gamut* colourspace whitepoint name as illuminant.
+*V-Gamut* colourspace whitepoint name.
 
 V_GAMUT_WHITEPOINT : unicode
 """
 
-V_GAMUT_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][V_GAMUT_ILLUMINANT])
+V_GAMUT_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+    V_GAMUT_WHITEPOINT_NAME])
 """
 *V-Gamut* colourspace whitepoint.
 
@@ -92,7 +92,7 @@ V_GAMUT_COLOURSPACE = RGB_Colourspace(
     'V-Gamut',
     V_GAMUT_PRIMARIES,
     V_GAMUT_WHITEPOINT,
-    V_GAMUT_ILLUMINANT,
+    V_GAMUT_WHITEPOINT_NAME,
     V_GAMUT_TO_XYZ_MATRIX,
     XYZ_TO_V_GAMUT_MATRIX,
     log_encoding_VLog,

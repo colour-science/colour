@@ -35,7 +35,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'EKTA_SPACE_PS_5_PRIMARIES', 'EKTA_SPACE_PS_5_V_ILLUMINANT',
+    'EKTA_SPACE_PS_5_PRIMARIES', 'EKTA_SPACE_PS_5_V_WHITEPOINT_NAME',
     'EKTA_SPACE_PS_5_WHITEPOINT', 'EKTA_SPACE_PS_5_TO_XYZ_MATRIX',
     'XYZ_TO_EKTA_SPACE_PS_5_MATRIX', 'EKTA_SPACE_PS_5_COLOURSPACE'
 ]
@@ -51,15 +51,15 @@ EKTA_SPACE_PS_5_PRIMARIES = np.array([
 EKTA_SPACE_PS_5_PRIMARIES : ndarray, (3, 2)
 """
 
-EKTA_SPACE_PS_5_V_ILLUMINANT = 'D50'
+EKTA_SPACE_PS_5_V_WHITEPOINT_NAME = 'D50'
 """
-*Ekta Space PS 5* colourspace whitepoint name as illuminant.
+*Ekta Space PS 5* colourspace whitepoint name.
 
-EKTA_SPACE_PS_5_V_ILLUMINANT : unicode
+EKTA_SPACE_PS_5_V_WHITEPOINT_NAME : unicode
 """
 
 EKTA_SPACE_PS_5_WHITEPOINT = (ILLUMINANTS[
-    'CIE 1931 2 Degree Standard Observer'][EKTA_SPACE_PS_5_V_ILLUMINANT])
+    'CIE 1931 2 Degree Standard Observer'][EKTA_SPACE_PS_5_V_WHITEPOINT_NAME])
 """
 *Ekta Space PS 5* colourspace whitepoint.
 
@@ -85,7 +85,7 @@ EKTA_SPACE_PS_5_COLOURSPACE = RGB_Colourspace(
     'Ekta Space PS 5',
     EKTA_SPACE_PS_5_PRIMARIES,
     EKTA_SPACE_PS_5_WHITEPOINT,
-    EKTA_SPACE_PS_5_V_ILLUMINANT,
+    EKTA_SPACE_PS_5_V_WHITEPOINT_NAME,
     EKTA_SPACE_PS_5_TO_XYZ_MATRIX,
     XYZ_TO_EKTA_SPACE_PS_5_MATRIX,
     partial(function_gamma, exponent=1 / 2.2),

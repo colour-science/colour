@@ -39,7 +39,8 @@ from colour.models.rgb import (chromatically_adapted_primaries,
                                normalised_primary_matrix)
 from colour.adaptation import chromatic_adaptation_matrix_VonKries
 from colour.utilities import (domain_range_scale, dot_matrix, dot_vector,
-                              from_range_1, to_domain_1, is_string)
+                              from_range_1, to_domain_1, is_string, warning)
+from colour.utilities.deprecation import Renamed
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -115,8 +116,8 @@ class RGB_Colourspace(object):
         *RGB* colourspace primaries.
     whitepoint : array_like
         *RGB* colourspace whitepoint.
-    illuminant : unicode, optional
-        *RGB* colourspace whitepoint name as illuminant.
+    whitepoint_name : unicode, optional
+        *RGB* colourspace whitepoint name.
     RGB_to_XYZ_matrix : array_like, optional
         Transformation matrix from colourspace to *CIE XYZ* tristimulus values.
     XYZ_to_RGB_matrix : array_like, optional
@@ -143,7 +144,7 @@ class RGB_Colourspace(object):
     name
     primaries
     whitepoint
-    illuminant
+    whitepoint_name
     RGB_to_XYZ_matrix
     XYZ_to_RGB_matrix
     encoding_cctf
@@ -216,7 +217,7 @@ class RGB_Colourspace(object):
                  name,
                  primaries,
                  whitepoint,
-                 illuminant=None,
+                 whitepoint_name=None,
                  RGB_to_XYZ_matrix=None,
                  XYZ_to_RGB_matrix=None,
                  encoding_cctf=None,
@@ -232,8 +233,8 @@ class RGB_Colourspace(object):
         self.primaries = primaries
         self._whitepoint = None
         self.whitepoint = whitepoint
-        self._illuminant = None
-        self.illuminant = illuminant
+        self._whitepoint_name = None
+        self.whitepoint_name = whitepoint_name
         self._RGB_to_XYZ_matrix = None
         self.RGB_to_XYZ_matrix = RGB_to_XYZ_matrix
         self._XYZ_to_RGB_matrix = None
@@ -260,7 +261,7 @@ class RGB_Colourspace(object):
         Returns
         -------
         unicode
-            Name.
+            *RGB* colourspace name.
         """
 
         return self._name
@@ -290,7 +291,7 @@ class RGB_Colourspace(object):
         Returns
         -------
         array_like
-            Primaries.
+            *RGB* colourspace primaries.
         """
 
         return self._primaries
@@ -320,7 +321,7 @@ class RGB_Colourspace(object):
         Returns
         -------
         array_like
-            Whitepoint.
+            *RGB* colourspace whitepoint.
         """
 
         return self._whitepoint
@@ -341,34 +342,34 @@ class RGB_Colourspace(object):
         self._derive_transformation_matrices()
 
     @property
-    def illuminant(self):
+    def whitepoint_name(self):
         """
-        Getter and setter property for the illuminant.
+        Getter and setter property for the whitepoint_name.
 
         Parameters
         ----------
         value : unicode
-            Value to set the illuminant with.
+            Value to set the whitepoint_name with.
 
         Returns
         -------
         unicode
-            Illuminant.
+            *RGB* colourspace whitepoint name.
         """
 
-        return self._illuminant
+        return self._whitepoint_name
 
-    @illuminant.setter
-    def illuminant(self, value):
+    @whitepoint_name.setter
+    def whitepoint_name(self, value):
         """
-        Setter for the **self.whitepoint** property.
+        Setter for the **self.whitepoint_name** property.
         """
 
         if value is not None:
             assert is_string(value), (
                 '"{0}" attribute: "{1}" is not a "string" like object!'.format(
-                    'illuminant', value))
-        self._illuminant = value
+                    'whitepoint_name', value))
+        self._whitepoint_name = value
 
     @property
     def RGB_to_XYZ_matrix(self):
@@ -646,15 +647,20 @@ class RGB_Colourspace(object):
                 'Derived NPM -1     : {10}\n'
                 'Use Derived NPM    : {11}\n'
                 'Use Derived NPM -1 : {12}').format(
-                    self.name, '-' * len(self.name),
-                    _indent_array(self.primaries), self.whitepoint,
-                    self.illuminant, self.encoding_cctf, self.decoding_cctf,
+                    self.name,
+                    '-' * len(self.name),
+                    _indent_array(self.primaries),
+                    self.whitepoint,
+                    self.whitepoint_name,
+                    self.encoding_cctf,
+                    self.decoding_cctf,
                     _indent_array(self._RGB_to_XYZ_matrix),
                     _indent_array(self._XYZ_to_RGB_matrix),
                     _indent_array(self._derived_RGB_to_XYZ_matrix),
                     _indent_array(self._derived_XYZ_to_RGB_matrix),
                     self.use_derived_RGB_to_XYZ_matrix,
-                    self.use_derived_XYZ_to_RGB_matrix)
+                    self.use_derived_XYZ_to_RGB_matrix,
+                )
 
     def __repr__(self):
         """
@@ -716,12 +722,18 @@ class RGB_Colourspace(object):
                 '{1}{8},\n'
                 '{1}{9},\n'
                 '{1}{10})').format(
-                    self.name, ' ' * 16, _indent_array(self.primaries),
-                    _indent_array(self.whitepoint), self.illuminant,
+                    self.name,
+                    ' ' * 16,
+                    _indent_array(self.primaries),
+                    _indent_array(self.whitepoint),
+                    self.whitepoint_name,
                     _indent_array(self.RGB_to_XYZ_matrix),
-                    _indent_array(self.XYZ_to_RGB_matrix), self.encoding_cctf,
-                    self.decoding_cctf, self.use_derived_RGB_to_XYZ_matrix,
-                    self.use_derived_XYZ_to_RGB_matrix)
+                    _indent_array(self.XYZ_to_RGB_matrix),
+                    self.encoding_cctf,
+                    self.decoding_cctf,
+                    self.use_derived_RGB_to_XYZ_matrix,
+                    self.use_derived_XYZ_to_RGB_matrix,
+                )
 
     def _derive_transformation_matrices(self):
         """
@@ -761,6 +773,7 @@ class RGB_Colourspace(object):
 
     def chromatically_adapt(self,
                             whitepoint,
+                            whitepoint_name=None,
                             chromatic_adaptation_transform='CAT02'):
         """
         Chromatically adapts the *RGB* colourspace *primaries* :math:`xy`
@@ -772,6 +785,8 @@ class RGB_Colourspace(object):
         whitepoint : array_like
             Reference illuminant / whitepoint :math:`xy` chromaticity
             coordinates.
+        whitepoint_name : unicode, optional
+            Reference illuminant / whitepoint name.
         chromatic_adaptation_transform : unicode, optional
             **{'CAT02', 'XYZ Scaling', 'Von Kries', 'Bradford', 'Sharp',
             'Fairchild', 'CMCCAT97', 'CMCCAT2000', 'CAT02_BRILL_CAT', 'Bianco',
@@ -789,40 +804,45 @@ class RGB_Colourspace(object):
         >>> w_t = np.array([0.32168, 0.33767])
         >>> w_r = np.array([0.31270, 0.32900])
         >>> colourspace = RGB_Colourspace('RGB Colourspace', p, w_t, 'D65')
-        >>> print(colourspace.chromatically_adapt(w_r, 'Bradford'))
+        >>> print(colourspace.chromatically_adapt(w_r, 'D50', 'Bradford'))
         ... # doctest: +ELLIPSIS
-        RGB Colourspace - C.A. [ 0.3127  0.329 ]
-        ----------------------------------------
+        RGB Colourspace - Chromatically Adapted to [ 0.3127  0.329 ]
+        ------------------------------------------------------------
         <BLANKLINE>
-        Primaries          : [[ 0.7348552...  0.2642253...]
-                              [-0.0061709...  1.0113149...]
-                              [ 0.0159675... -0.0642355...]]
+        Primaries          : [[ 0.73485524  0.26422533]
+                              [-0.00617091  1.01131496]
+                              [ 0.01596756 -0.0642355 ]]
         Whitepoint         : [ 0.3127  0.329 ]
-        Whitepoint Name    : D65
+        Whitepoint Name    : D50
         Encoding CCTF      : None
         Decoding CCTF      : None
         NPM                : None
         NPM -1             : None
-        Derived NPM        : [[ 0.9382798... -0.0044514...  0.0166275...]
-                              [ 0.3373688...  0.7295215... -0.0668904...]
-                              [ 0.0011739... -0.0037107...  1.0915945...]]
-        Derived NPM -1     : [[ 1.0634954...  0.0064089... -0.0158067...]
-                              [-0.4920741...  1.3682234...  0.0913370...]
-                              [-0.0028164...  0.0046441...  0.9164185...]]
-        Use Derived NPM    : False
-        Use Derived NPM -1 : False
+        Derived NPM        : [[ 0.93827985 -0.00445145  0.01662752]
+                              [ 0.33736889  0.72952157 -0.06689046]
+                              [ 0.00117395 -0.00371071  1.09159451]]
+        Derived NPM -1     : [[ 1.06349549  0.00640891 -0.01580679]
+                              [-0.49207413  1.36822341  0.09133709]
+                              [-0.00281646  0.00464417  0.91641857]]
+        Use Derived NPM    : True
+        Use Derived NPM -1 : True
         """
 
         colourspace = self.copy()
+
         colourspace.primaries = chromatically_adapted_primaries(
             colourspace.primaries, colourspace.whitepoint, whitepoint,
             chromatic_adaptation_transform)
         colourspace.whitepoint = whitepoint
+        colourspace.whitepoint_name = whitepoint_name
 
+        colourspace._RGB_to_XYZ_matrix = None
+        colourspace._XYZ_to_RGB_matrix = None
         colourspace._derive_transformation_matrices()
+        colourspace.use_derived_transformation_matrices()
 
-        colourspace.name = '{0} - C.A. {1}'.format(colourspace.name,
-                                                   whitepoint)
+        colourspace.name = '{0} - Chromatically Adapted to {1}'.format(
+            colourspace.name, whitepoint)
 
         return colourspace
 
@@ -837,6 +857,29 @@ class RGB_Colourspace(object):
         """
 
         return deepcopy(self)
+
+    # ------------------------------------------------------------------------#
+    # ---              API Changes and Deprecation Management              ---#
+    # ------------------------------------------------------------------------#
+    @property
+    def illuminant(self):
+        # Docstrings are omitted for documentation purposes.
+        warning(
+            str(
+                Renamed('RGB_Colourspace.illuminant',
+                        'RGB_Colourspace.whitepoint_name')))
+
+        return self.whitepoint_name
+
+    @illuminant.setter
+    def illuminant(self, value):
+        # Docstrings are omitted for documentation purposes.
+        warning(
+            str(
+                Renamed('RGB_Colourspace.illuminant',
+                        'RGB_Colourspace.whitepoint_name')))
+
+        self.whitepoint_name = value
 
 
 def XYZ_to_RGB(XYZ,

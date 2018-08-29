@@ -80,10 +80,10 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'AP0', 'AP1', 'ACES_ILLUMINANT', 'ACES_WHITEPOINT', 'AP0_TO_XYZ_MATRIX',
-    'XYZ_TO_AP0_MATRIX', 'AP1_TO_XYZ_MATRIX', 'XYZ_TO_AP1_MATRIX',
-    'ACES_2065_1_COLOURSPACE', 'ACES_CG_COLOURSPACE', 'ACES_CC_COLOURSPACE',
-    'ACES_CCT_COLOURSPACE', 'ACES_PROXY_COLOURSPACE'
+    'AP0', 'AP1', 'ACES_WHITEPOINT_NAME', 'ACES_WHITEPOINT',
+    'AP0_TO_XYZ_MATRIX', 'XYZ_TO_AP0_MATRIX', 'AP1_TO_XYZ_MATRIX',
+    'XYZ_TO_AP1_MATRIX', 'ACES_2065_1_COLOURSPACE', 'ACES_CG_COLOURSPACE',
+    'ACES_CC_COLOURSPACE', 'ACES_CCT_COLOURSPACE', 'ACES_PROXY_COLOURSPACE'
 ]
 
 AP0 = np.array([
@@ -109,15 +109,15 @@ prior to *ACES* 1.0 release).
 AP1 : ndarray, (3, 2)
 """
 
-ACES_ILLUMINANT = 'ACES'
+ACES_WHITEPOINT_NAME = 'ACES'
 """
-*ACES2065-1* colourspace whitepoint name as illuminant.
+*ACES2065-1* colourspace whitepoint name.
 
-ACES_ILLUMINANT : unicode
+ACES_WHITEPOINT_NAME : unicode
 """
 
 ACES_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][ACES_ILLUMINANT])
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][ACES_WHITEPOINT_NAME])
 """
 *ACES2065-1* colourspace whitepoint.
 
@@ -163,7 +163,7 @@ ACES_2065_1_COLOURSPACE = RGB_Colourspace(
     'ACES2065-1',
     AP0,
     ACES_WHITEPOINT,
-    ACES_ILLUMINANT,
+    ACES_WHITEPOINT_NAME,
     AP0_TO_XYZ_MATRIX,
     XYZ_TO_AP0_MATRIX,
     function_linear,
@@ -186,7 +186,7 @@ ACES_CG_COLOURSPACE = RGB_Colourspace(
     'ACEScg',
     AP1,
     ACES_WHITEPOINT,
-    ACES_ILLUMINANT,
+    ACES_WHITEPOINT_NAME,
     AP1_TO_XYZ_MATRIX,
     XYZ_TO_AP1_MATRIX,
     function_linear,
@@ -210,7 +210,7 @@ ACES_CC_COLOURSPACE = RGB_Colourspace(
     'ACEScc',
     AP1,
     ACES_WHITEPOINT,
-    ACES_ILLUMINANT,
+    ACES_WHITEPOINT_NAME,
     AP1_TO_XYZ_MATRIX,
     XYZ_TO_AP1_MATRIX,
     log_encoding_ACEScc,
@@ -234,7 +234,7 @@ ACES_CCT_COLOURSPACE = RGB_Colourspace(
     'ACEScct',
     AP1,
     ACES_WHITEPOINT,
-    ACES_ILLUMINANT,
+    ACES_WHITEPOINT_NAME,
     AP1_TO_XYZ_MATRIX,
     XYZ_TO_AP1_MATRIX,
     log_encoding_ACEScct,
@@ -259,7 +259,7 @@ ACES_PROXY_COLOURSPACE = RGB_Colourspace(
     'ACESproxy',
     AP1,
     ACES_WHITEPOINT,
-    ACES_ILLUMINANT,
+    ACES_WHITEPOINT_NAME,
     AP1_TO_XYZ_MATRIX,
     XYZ_TO_AP1_MATRIX,
     log_encoding_ACESproxy,

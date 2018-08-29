@@ -37,9 +37,9 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'ECI_RGB_V2_PRIMARIES', 'ECI_RGB_V_ILLUMINANT', 'ECI_RGB_V2_WHITEPOINT',
-    'ECI_RGB_V2_TO_XYZ_MATRIX', 'XYZ_TO_ECI_RGB_V2_MATRIX',
-    'ECI_RGB_V2_COLOURSPACE'
+    'ECI_RGB_V2_PRIMARIES', 'ECI_RGB_V_WHITEPOINT_NAME',
+    'ECI_RGB_V2_WHITEPOINT', 'ECI_RGB_V2_TO_XYZ_MATRIX',
+    'XYZ_TO_ECI_RGB_V2_MATRIX', 'ECI_RGB_V2_COLOURSPACE'
 ]
 
 ECI_RGB_V2_PRIMARIES = np.array([
@@ -53,15 +53,15 @@ ECI_RGB_V2_PRIMARIES = np.array([
 ECI_RGB_V2_PRIMARIES : ndarray, (3, 2)
 """
 
-ECI_RGB_V_ILLUMINANT = 'D50'
+ECI_RGB_V_WHITEPOINT_NAME = 'D50'
 """
-*ECI RGB v2* colourspace whitepoint name as illuminant.
+*ECI RGB v2* colourspace whitepoint name.
 
-ECI_RGB_V_ILLUMINANT : unicode
+ECI_RGB_V_WHITEPOINT_NAME : unicode
 """
 
-ECI_RGB_V2_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][ECI_RGB_V_ILLUMINANT])
+ECI_RGB_V2_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+    ECI_RGB_V_WHITEPOINT_NAME])
 """
 *ECI RGB v2* colourspace whitepoint.
 
@@ -115,7 +115,7 @@ ECI_RGB_V2_COLOURSPACE = RGB_Colourspace(
     'ECI RGB v2',
     ECI_RGB_V2_PRIMARIES,
     ECI_RGB_V2_WHITEPOINT,
-    ECI_RGB_V_ILLUMINANT,
+    ECI_RGB_V_WHITEPOINT_NAME,
     ECI_RGB_V2_TO_XYZ_MATRIX,
     XYZ_TO_ECI_RGB_V2_MATRIX,
     partial(_scale_domain_0_100_range_0_1, callable_=lightness_CIE1976),

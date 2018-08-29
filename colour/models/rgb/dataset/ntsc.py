@@ -25,7 +25,7 @@ from __future__ import division, unicode_literals
 
 from colour.models.rgb import RGB_Colourspace
 from colour.models.rgb.dataset.itur_bt_470 import (
-    BT470_525_PRIMARIES, BT470_525_WHITEPOINT, BT470_525_ILLUMINANT,
+    BT470_525_PRIMARIES, BT470_525_WHITEPOINT, BT470_525_WHITEPOINT_NAME,
     BT470_525_TO_XYZ_MATRIX, XYZ_TO_BT470_525_MATRIX, BT470_525_COLOURSPACE)
 
 __author__ = 'Colour Developers'
@@ -36,7 +36,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'NTSC_PRIMARIES', 'NTSC_ILLUMINANT', 'NTSC_WHITEPOINT',
+    'NTSC_PRIMARIES', 'NTSC_WHITEPOINT_NAME', 'NTSC_WHITEPOINT',
     'NTSC_TO_XYZ_MATRIX', 'XYZ_TO_NTSC_MATRIX', 'NTSC_COLOURSPACE'
 ]
 
@@ -47,11 +47,11 @@ NTSC_PRIMARIES = BT470_525_PRIMARIES
 NTSC_PRIMARIES : ndarray, (3, 2)
 """
 
-NTSC_ILLUMINANT = BT470_525_ILLUMINANT
+NTSC_WHITEPOINT_NAME = BT470_525_WHITEPOINT_NAME
 """
-*NTSC* colourspace whitepoint name as illuminant.
+*NTSC* colourspace whitepoint name.
 
-NTSC_ILLUMINANT : unicode
+NTSC_WHITEPOINT_NAME : unicode
 """
 
 NTSC_WHITEPOINT = BT470_525_WHITEPOINT
@@ -79,7 +79,7 @@ NTSC_COLOURSPACE = RGB_Colourspace(
     'NTSC',
     NTSC_PRIMARIES,
     NTSC_WHITEPOINT,
-    NTSC_ILLUMINANT,
+    NTSC_WHITEPOINT_NAME,
     NTSC_TO_XYZ_MATRIX,
     XYZ_TO_NTSC_MATRIX,
     BT470_525_COLOURSPACE.encoding_cctf,

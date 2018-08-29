@@ -39,7 +39,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'BT709_PRIMARIES', 'BT709_WHITEPOINT', 'BT709_ILLUMINANT',
+    'BT709_PRIMARIES', 'BT709_WHITEPOINT', 'BT709_WHITEPOINT_NAME',
     'BT709_TO_XYZ_MATRIX', 'XYZ_TO_BT709_MATRIX', 'BT709_COLOURSPACE'
 ]
 
@@ -54,15 +54,15 @@ BT709_PRIMARIES = np.array([
 BT709_PRIMARIES : ndarray, (3, 2)
 """
 
-BT709_ILLUMINANT = 'D65'
+BT709_WHITEPOINT_NAME = 'D65'
 """
-*ITU-R BT.709* colourspace whitepoint name as illuminant.
+*ITU-R BT.709* colourspace whitepoint name.
 
-BT709_ILLUMINANT : unicode
+BT709_WHITEPOINT_NAME : unicode
 """
 
 BT709_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][BT709_ILLUMINANT])
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][BT709_WHITEPOINT_NAME])
 """
 *ITU-R BT.709* colourspace whitepoint.
 
@@ -88,7 +88,7 @@ BT709_COLOURSPACE = RGB_Colourspace(
     'ITU-R BT.709',
     BT709_PRIMARIES,
     BT709_WHITEPOINT,
-    BT709_ILLUMINANT,
+    BT709_WHITEPOINT_NAME,
     BT709_TO_XYZ_MATRIX,
     XYZ_TO_BT709_MATRIX,
     oetf_BT709,

@@ -36,7 +36,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'DON_RGB_4_PRIMARIES', 'DON_RGB_4_ILLUMINANT', 'DON_RGB_4_WHITEPOINT',
+    'DON_RGB_4_PRIMARIES', 'DON_RGB_4_WHITEPOINT_NAME', 'DON_RGB_4_WHITEPOINT',
     'DON_RGB_4_TO_XYZ_MATRIX', 'XYZ_TO_DON_RGB_4_MATRIX',
     'DON_RGB_4_COLOURSPACE'
 ]
@@ -52,15 +52,15 @@ DON_RGB_4_PRIMARIES = np.array([
 DON_RGB_4_PRIMARIES : ndarray, (3, 2)
 """
 
-DON_RGB_4_ILLUMINANT = 'D50'
+DON_RGB_4_WHITEPOINT_NAME = 'D50'
 """
-*Don RGB 4* colourspace whitepoint name as illuminant.
+*Don RGB 4* colourspace whitepoint name.
 
-DON_RGB_4_ILLUMINANT : unicode
+DON_RGB_4_WHITEPOINT_NAME : unicode
 """
 
-DON_RGB_4_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][DON_RGB_4_ILLUMINANT])
+DON_RGB_4_WHITEPOINT = (ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
+    DON_RGB_4_WHITEPOINT_NAME])
 """
 *Don RGB 4* colourspace whitepoint.
 
@@ -86,7 +86,7 @@ DON_RGB_4_COLOURSPACE = RGB_Colourspace(
     'Don RGB 4',
     DON_RGB_4_PRIMARIES,
     DON_RGB_4_WHITEPOINT,
-    DON_RGB_4_ILLUMINANT,
+    DON_RGB_4_WHITEPOINT_NAME,
     DON_RGB_4_TO_XYZ_MATRIX,
     XYZ_TO_DON_RGB_4_MATRIX,
     partial(function_gamma, exponent=1 / 2.2),

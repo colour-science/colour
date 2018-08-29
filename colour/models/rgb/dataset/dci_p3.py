@@ -46,7 +46,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'DCI_P3_PRIMARIES', 'DCI_P3_P_PRIMARIES', 'DCI_P3_ILLUMINANT',
+    'DCI_P3_PRIMARIES', 'DCI_P3_P_PRIMARIES', 'DCI_P3_WHITEPOINT_NAME',
     'DCI_P3_WHITEPOINT', 'DCI_P3_TO_XYZ_MATRIX', 'XYZ_TO_DCI_P3_MATRIX',
     'DCI_P3_P_TO_XYZ_MATRIX', 'XYZ_TO_DCI_P3_P_MATRIX', 'DCI_P3_COLOURSPACE',
     'DCI_P3_P_COLOURSPACE'
@@ -74,11 +74,11 @@ DCI_P3_P_PRIMARIES = np.array([
 DCI_P3_P_PRIMARIES : ndarray, (3, 2)
 """
 
-DCI_P3_ILLUMINANT = 'DCI-P3'
+DCI_P3_WHITEPOINT_NAME = 'DCI-P3'
 """
-*DCI-P3* colourspace whitepoint name as illuminant.
+*DCI-P3* colourspace whitepoint name.
 
-DCI_P3_ILLUMINANT : unicode
+DCI_P3_WHITEPOINT_NAME : unicode
 
 Warning
 -------
@@ -88,7 +88,7 @@ matching spectral power distribution is Kinoton 75P projector.
 """
 
 DCI_P3_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][DCI_P3_ILLUMINANT])
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][DCI_P3_WHITEPOINT_NAME])
 """
 *DCI-P3* colourspace whitepoint.
 
@@ -129,7 +129,7 @@ DCI_P3_COLOURSPACE = RGB_Colourspace(
     'DCI-P3',
     DCI_P3_PRIMARIES,
     DCI_P3_WHITEPOINT,
-    DCI_P3_ILLUMINANT,
+    DCI_P3_WHITEPOINT_NAME,
     DCI_P3_TO_XYZ_MATRIX,
     XYZ_TO_DCI_P3_MATRIX,
     partial(function_gamma, exponent=1 / 2.6),
@@ -150,7 +150,7 @@ DCI_P3_P_COLOURSPACE = RGB_Colourspace(
     'DCI-P3+',
     DCI_P3_P_PRIMARIES,
     DCI_P3_WHITEPOINT,
-    DCI_P3_ILLUMINANT,
+    DCI_P3_WHITEPOINT_NAME,
     DCI_P3_P_TO_XYZ_MATRIX,
     XYZ_TO_DCI_P3_P_MATRIX,
     partial(function_gamma, exponent=1 / 2.6),
