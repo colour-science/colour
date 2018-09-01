@@ -730,7 +730,7 @@ class LinearInterpolator(object):
 
     Notes
     -----
-    This class is a wrapper around *numpy.interp* definition.
+    -   This class is a wrapper around *numpy.interp* definition.
 
     Examples
     --------
@@ -924,8 +924,8 @@ class SpragueInterpolator(object):
 
     Notes
     -----
-    The minimum number :math:`k` of data points required along the
-    interpolation axis is :math:`k=6`.
+    -   The minimum number :math:`k` of data points required along the
+        interpolation axis is :math:`k=6`.
 
     References
     ----------
@@ -1163,7 +1163,7 @@ class CubicSplineInterpolator(scipy.interpolate.interp1d):
 
     Notes
     -----
-    This class is a wrapper around *scipy.interpolate.interp1d* class.
+    -   This class is a wrapper around *scipy.interpolate.interp1d* class.
     """
 
     def __init__(self, *args, **kwargs):

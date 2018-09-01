@@ -703,8 +703,8 @@ class TestLagrangeCoefficients(unittest.TestCase):
 
         Notes
         -----
-        :attr:`LAGRANGE_COEFFICIENTS_A` and :attr:`LAGRANGE_COEFFICIENTS_B`
-        attributes data is matching :cite:`Fairman1985b`.
+        -   :attr:`LAGRANGE_COEFFICIENTS_A` and :attr:`LAGRANGE_COEFFICIENTS_B`
+            attributes data is matching :cite:`Fairman1985b`.
 
         References
         ----------

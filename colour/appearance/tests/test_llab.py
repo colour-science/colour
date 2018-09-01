@@ -84,9 +84,9 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
 
         Notes
         -----
-        Reference data was computed using a rounded
-        :attr:`colour.appearance.llab.LLAB_RGB_TO_XYZ_MATRIX`, therefore a
-        patched version is used for unit tests.
+        -   Reference data was computed using a rounded
+            :attr:`colour.appearance.llab.LLAB_RGB_TO_XYZ_MATRIX`, therefore a
+            patched version is used for unit tests.
         """
 
         with mock.patch('colour.appearance.llab.LLAB_RGB_TO_XYZ_MATRIX',
@@ -108,9 +108,9 @@ class TestLLABColourAppearanceModel(ColourAppearanceModelTest):
 
         Notes
         -----
-        Reference data was computed using a rounded
-        :attr:`colour.appearance.llab.LLAB_RGB_TO_XYZ_MATRIX`, therefore a
-        patched version is used for unit tests.
+        -   Reference data was computed using a rounded
+            :attr:`colour.appearance.llab.LLAB_RGB_TO_XYZ_MATRIX`, therefore a
+            patched version is used for unit tests.
         """
 
         with mock.patch('colour.appearance.llab.LLAB_RGB_TO_XYZ_MATRIX',

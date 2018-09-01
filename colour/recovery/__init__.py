@@ -80,8 +80,6 @@ def XYZ_to_spectral(XYZ, method='Meng 2015', **kwargs):
 
     Notes
     -----
-    Notes
-    -----
 
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |

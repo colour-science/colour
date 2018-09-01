@@ -72,7 +72,7 @@ class Extrapolator(object):
 
     Notes
     -----
-    The interpolator must define *x* and *y* attributes.
+    -   The interpolator must define *x* and *y* attributes.
 
     References
     ----------
