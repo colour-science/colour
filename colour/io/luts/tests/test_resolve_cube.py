@@ -20,9 +20,9 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['LUTS_DIRECTORY',
-           'TestReadLUTResolveCube',
-           'TestWriteLUTResolveCube']
+__all__ = [
+    'LUTS_DIRECTORY', 'TestReadLUTResolveCube', 'TestWriteLUTResolveCube'
+]
 
 LUTS_DIRECTORY = os.path.join(
     os.path.dirname(__file__), 'resources', 'resolve_cube')
@@ -82,14 +82,14 @@ class TestReadLUTResolveCube(unittest.TestCase):
         self.assertEqual(LUT_1.name, 'ACES Proxy 10 to ACES')
         self.assertEqual(LUT_1.dimensions, 2)
         np.testing.assert_array_equal(LUT_1.domain,
-                                      np.array([[0, 0, 0], [1, 1, 1]]))
+                                      np.array([[0, 1], [0, 1], [0, 1]]))
         self.assertEqual(LUT_1.size, 32)
         self.assertListEqual(LUT_1.comments, [])
 
         LUT_2 = read_LUT_ResolveCube(os.path.join(LUTS_DIRECTORY, 'Demo.cube'))
         self.assertListEqual(LUT_2.comments, ["Comments can't go anywhere"])
         np.testing.assert_array_equal(LUT_2.domain,
-                                      np.array([[0, 0, 0], [3, 3, 3]]))
+                                      np.array([[0, 3], [0, 3], [0, 3]]))
 
         LUT_3 = read_LUT_ResolveCube(
             os.path.join(LUTS_DIRECTORY, 'ThreeDimensionalTable.cube'))
@@ -98,26 +98,28 @@ class TestReadLUTResolveCube(unittest.TestCase):
 
         LUT_4 = read_LUT_ResolveCube(
             os.path.join(LUTS_DIRECTORY, 'LogC_Video.cube'))
+
         np.testing.assert_almost_equal(
             LUT_4[0].table,
             np.array([
-                 [0.000000, 0.000000, 0.000000],
-                 [0.027085, 0.027085, 0.027085],
-                 [0.063049, 0.063049, 0.063049],
-                 [0.113149, 0.113149, 0.113149],
-                 [0.183049, 0.183049, 0.183049],
-                 [0.289811, 0.289811, 0.289811],
-                 [0.417353, 0.417353, 0.417353],
-                 [0.545231, 0.545231, 0.545231],
-                 [0.670205, 0.670205, 0.670205],
-                 [0.789630, 0.789630, 0.789630],
-                 [0.886468, 0.886468, 0.886468],
-                 [0.945491, 0.945491, 0.945491],
-                 [0.976449, 0.976449, 0.976449],
-                 [0.989248, 0.989248, 0.989248],
-                 [0.993797, 0.993797, 0.993797],
-                 [1.000000, 1.000000, 1.000000]
-            ]))
+                [0.00000000, 0.00000000, 0.00000000],
+                [0.02708500, 0.02708500, 0.02708500],
+                [0.06304900, 0.06304900, 0.06304900],
+                [0.11314900, 0.11314900, 0.11314900],
+                [0.18304900, 0.18304900, 0.18304900],
+                [0.28981100, 0.28981100, 0.28981100],
+                [0.41735300, 0.41735300, 0.41735300],
+                [0.54523100, 0.54523100, 0.54523100],
+                [0.67020500, 0.67020500, 0.67020500],
+                [0.78963000, 0.78963000, 0.78963000],
+                [0.88646800, 0.88646800, 0.88646800],
+                [0.94549100, 0.94549100, 0.94549100],
+                [0.97644900, 0.97644900, 0.97644900],
+                [0.98924800, 0.98924800, 0.98924800],
+                [0.99379700, 0.99379700, 0.99379700],
+                [1.00000000, 1.00000000, 1.00000000],
+            ]),
+        )
         self.assertEqual(LUT_4[1].size, 4)
 
 

@@ -968,16 +968,18 @@ class LUT1D(AbstractLUT):
         -------------------------------------
         <BLANKLINE>
         Dimensions : 2
-        Domain     : [[0 0 0]
-                      [1 1 1]]
+        Domain     : [[0 1]
+                      [0 1]
+                      [0 1]]
         Size       : (10, 3)
         >>> print(LUT.as_LUT(LUT3D, force_conversion=True))
         LUT3D - Unity 10 - Converted 1D to 3D
         -------------------------------------
         <BLANKLINE>
         Dimensions : 3
-        Domain     : [[0 0 0]
-                      [1 1 1]]
+        Domain     : [[0 1]
+                      [0 1]
+                      [0 1]]
         Size       : (33, 33, 33, 3)
         """
 
@@ -1017,8 +1019,9 @@ class LUT2D(AbstractLUT):
     ----------------
     <BLANKLINE>
     Dimensions : 2
-    Domain     : [[0 0 0]
-                  [1 1 1]]
+    Domain     : [[0 1]
+                  [0 1]
+                  [0 1]]
     Size       : (16, 3)
 
     Instantiating a LUT using a custom table with 16x3 elements:
@@ -1028,8 +1031,9 @@ class LUT2D(AbstractLUT):
     --------...
     <BLANKLINE>
     Dimensions : 2
-    Domain     : [[0 0 0]
-                  [1 1 1]]
+    Domain     : [[0 1]
+                  [0 1]
+                  [0 1]]
     Size       : (16, 3)
 
     Instantiating a LUT using a custom table with 16x3 elements, custom name,
@@ -1038,14 +1042,15 @@ class LUT2D(AbstractLUT):
     >>> print(LUT2D(
     ...     LUT2D.linear_table(16) ** (1 / 2.2),
     ...     'My LUT',
-    ...     np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]]),
+    ...     np.array([[-0.1, 1.5], [-0.2, 3.0], [-0.4, 6.0]]),
     ...     comments=['A first comment.', 'A second comment.']))
     LUT2D - My LUT
     --------------
     <BLANKLINE>
     Dimensions : 2
-    Domain     : [[-0.1 -0.2 -0.4]
-                  [ 1.5  3.   6. ]]
+    Domain     : [[-0.1  1.5]
+                  [-0.2  3. ]
+                  [-0.4  6. ]]
     Size       : (16, 3)
     Comment 01 : A first comment.
     Comment 02 : A second comment.
@@ -1058,7 +1063,7 @@ class LUT2D(AbstractLUT):
                  size=10,
                  comments=None):
         if domain is None:
-            domain = np.array([[0, 0, 0], [1, 1, 1]])
+            domain = np.array([[0, 1], [0, 1], [0, 1]])
 
         super(LUT2D, self).__init__(table, name, 2, domain, size, comments)
 
@@ -1104,8 +1109,8 @@ class LUT2D(AbstractLUT):
 
         domain = np.asarray(domain)
 
-        assert domain.shape == (2, 3), (
-            'The domain shape must be equal to (2, 3)!')
+        assert domain.shape == (3, 2), (
+            'The domain shape must be equal to (3, 2)!')
 
         return domain
 
@@ -1131,7 +1136,7 @@ class LUT2D(AbstractLUT):
         Examples
         --------
         >>> LUT2D.linear_table(
-        ...     5, np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]]))
+        ...     5, np.array([[-0.1, 1.5], [-0.2, 3.0], [-0.4, 6.0]]))
         array([[-0.1, -0.2, -0.4],
                [ 0.3,  0.6,  1.2],
                [ 0.7,  1.4,  2.8],
@@ -1142,7 +1147,7 @@ class LUT2D(AbstractLUT):
         if domain is None:
             R = G = B = [0, 1]
         else:
-            R, G, B = tsplit(domain)
+            R, G, B = domain
 
         samples = [np.linspace(a[0], a[1], size) for a in (R, G, B)]
 
@@ -1179,7 +1184,7 @@ class LUT2D(AbstractLUT):
 
         R, G, B = tsplit(RGB)
         R_t, G_t, B_t = tsplit(self._table)
-        domain_min, domain_max = self.domain
+        domain_min, domain_max = np.transpose(self.domain)
 
         size = DEFAULT_INT_DTYPE(self._table.size / 3)
 
@@ -1242,16 +1247,18 @@ class LUT2D(AbstractLUT):
         -------------------------------------
         <BLANKLINE>
         Dimensions : 2
-        Domain     : [[0 0 0]
-                      [1 1 1]]
+        Domain     : [[0 1]
+                      [0 1]
+                      [0 1]]
         Size       : (10, 3)
         >>> print(LUT.as_LUT(LUT3D, force_conversion=True))
         LUT3D - Unity 10 - Converted 2D to 3D
         -------------------------------------
         <BLANKLINE>
         Dimensions : 3
-        Domain     : [[0 0 0]
-                      [1 1 1]]
+        Domain     : [[0 1]
+                      [0 1]
+                      [0 1]]
         Size       : (33, 33, 33, 3)
         """
 
@@ -1291,8 +1298,9 @@ class LUT3D(AbstractLUT):
     ----------------
     <BLANKLINE>
     Dimensions : 3
-    Domain     : [[0 0 0]
-                  [1 1 1]]
+    Domain     : [[0 1]
+                  [0 1]
+                  [0 1]]
     Size       : (16, 16, 16, 3)
 
     Instantiating a LUT using a custom table with 16x16x16x3 elements:
@@ -1302,8 +1310,9 @@ class LUT3D(AbstractLUT):
     --------...
     <BLANKLINE>
     Dimensions : 3
-    Domain     : [[0 0 0]
-                  [1 1 1]]
+    Domain     : [[0 1]
+                  [0 1]
+                  [0 1]]
     Size       : (16, 16, 16, 3)
 
     Instantiating a LUT using a custom table with 16x16x16x3 elements, custom
@@ -1312,14 +1321,15 @@ class LUT3D(AbstractLUT):
     >>> print(LUT3D(
     ...     LUT3D.linear_table(16) ** (1 / 2.2),
     ...     'My LUT',
-    ...     np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]]),
+    ...     np.array([[-0.1, 1.5], [-0.2, 3.0], [-0.4, 6.0]]),
     ...     comments=['A first comment.', 'A second comment.']))
     LUT3D - My LUT
     --------------
     <BLANKLINE>
     Dimensions : 3
-    Domain     : [[-0.1 -0.2 -0.4]
-                  [ 1.5  3.   6. ]]
+    Domain     : [[-0.1  1.5]
+                  [-0.2  3. ]
+                  [-0.4  6. ]]
     Size       : (16, 16, 16, 3)
     Comment 01 : A first comment.
     Comment 02 : A second comment.
@@ -1332,7 +1342,7 @@ class LUT3D(AbstractLUT):
                  size=33,
                  comments=None):
         if domain is None:
-            domain = np.array([[0, 0, 0], [1, 1, 1]])
+            domain = np.array([[0, 1], [0, 1], [0, 1]])
 
         super(LUT3D, self).__init__(table, name, 3, domain, size, comments)
 
@@ -1380,8 +1390,8 @@ class LUT3D(AbstractLUT):
 
         domain = np.asarray(domain)
 
-        assert domain.shape == (2, 3), (
-            'The domain shape must be equal to (2, 3)!')
+        assert domain.shape == (3, 2), (
+            'The domain shape must be equal to (3, 2)!')
 
         return domain
 
@@ -1407,7 +1417,7 @@ class LUT3D(AbstractLUT):
         Examples
         --------
         >>> LUT3D.linear_table(
-        ...     3, np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]]))
+        ...     3, np.array([[-0.1, 1.5], [-0.2, 3.0], [-0.4, 6.0]]))
         array([[[[-0.1, -0.2, -0.4],
                  [-0.1, -0.2,  2.8],
                  [-0.1, -0.2,  6. ]],
@@ -1450,7 +1460,7 @@ class LUT3D(AbstractLUT):
         if domain is None:
             R = G = B = [0, 1]
         else:
-            R, G, B = tsplit(domain)
+            R, G, B = domain
 
         samples = [np.linspace(a[0], a[1], size) for a in (B, G, R)]
         table = np.meshgrid(*samples, indexing='ij')
@@ -1488,7 +1498,7 @@ class LUT3D(AbstractLUT):
         """
 
         R, G, B = tsplit(RGB)
-        domain_min, domain_max = self.domain
+        domain_min, domain_max = np.transpose(self.domain)
 
         RGB_l = [
             linear_conversion(j, (domain_min[i], domain_max[i]), (0, 1))
@@ -1548,16 +1558,18 @@ class LUT3D(AbstractLUT):
         -------------------------------------
         <BLANKLINE>
         Dimensions : 2
-        Domain     : [[0 0 0]
-                      [1 1 1]]
+        Domain     : [[0 1]
+                      [0 1]
+                      [0 1]]
         Size       : (10, 3)
         >>> print(LUT.as_LUT(LUT3D))
         LUT3D - Unity 33 - Converted 3D to 3D
         -------------------------------------
         <BLANKLINE>
         Dimensions : 3
-        Domain     : [[0 0 0]
-                      [1 1 1]]
+        Domain     : [[0 1]
+                      [0 1]
+                      [0 1]]
         Size       : (33, 33, 33, 3)
         """
 
@@ -1610,8 +1622,9 @@ def LUT_to_LUT(LUT, cls, force_conversion=False, **kwargs):
     -------------------------------------
     <BLANKLINE>
     Dimensions : 3
-    Domain     : [[0 0 0]
-                  [1 1 1]]
+    Domain     : [[0 1]
+                  [0 1]
+                  [0 1]]
     Size       : (33, 33, 33, 3)
     >>> print(LUT_to_LUT(LUT2D(), LUT1D, force_conversion=True))
     LUT1D - Unity 10 - Converted 2D to 1D
@@ -1657,17 +1670,17 @@ def LUT_to_LUT(LUT, cls, force_conversion=False, **kwargs):
 
         if isinstance(LUT, LUT1D):
             if cls is LUT2D:
-                domain = tstack([LUT.domain, LUT.domain, LUT.domain])
+                domain = np.vstack([LUT.domain, LUT.domain, LUT.domain])
                 table = tstack([LUT.table, LUT.table, LUT.table])
             elif cls is LUT3D:
-                domain = tstack([LUT.domain, LUT.domain, LUT.domain])
+                domain = np.vstack([LUT.domain, LUT.domain, LUT.domain])
                 table = LUT3D.linear_table(size, domain)
                 table = LUT.apply(table, **kwargs)
         elif isinstance(LUT, LUT2D):
             if cls is LUT1D:
                 domain = np.array(
-                    [np.max(LUT.domain[0, ...]),
-                     np.min(LUT.domain[1, ...])])
+                    [np.max(LUT.domain[..., 0]),
+                     np.min(LUT.domain[..., 1])])
                 table = np.sum(LUT.table * channel_weights, axis=-1)
             elif cls is LUT3D:
                 domain = LUT.domain
@@ -1676,8 +1689,8 @@ def LUT_to_LUT(LUT, cls, force_conversion=False, **kwargs):
         elif isinstance(LUT, LUT3D):
             if cls is LUT1D:
                 domain = np.array(
-                    [np.max(LUT.domain[0, ...]),
-                     np.min(LUT.domain[1, ...])])
+                    [np.max(LUT.domain[..., 0]),
+                     np.min(LUT.domain[..., 1])])
                 table = LUT1D.linear_table(size, domain)
                 table = LUT.apply(tstack([table, table, table]), **kwargs)
                 table = np.sum(table * channel_weights, axis=-1)
@@ -1780,16 +1793,18 @@ class LUTSequence(MutableSequence):
         ---------------
     <BLANKLINE>
         Dimensions : 3
-        Domain     : [[0 0 0]
-                      [1 1 1]]
+        Domain     : [[0 1]
+                      [0 1]
+                      [0 1]]
         Size       : (3, 3, 3, 3)
     <BLANKLINE>
         LUT2D - Unity 10
         ----------------
     <BLANKLINE>
         Dimensions : 2
-        Domain     : [[0 0 0]
-                      [1 1 1]]
+        Domain     : [[0 1]
+                      [0 1]
+                      [0 1]]
         Size       : (10, 3)
     """
 

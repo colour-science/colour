@@ -15,7 +15,7 @@ from colour.io.luts.lut import AbstractLUT
 from colour.io.luts import (AbstractLUTSequenceOperator, LUT1D, LUT2D, LUT3D,
                             LUTSequence, LUT_to_LUT)
 from colour.models import function_gamma
-from colour.utilities import tsplit, tstack
+from colour.utilities import tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -529,16 +529,17 @@ class TestLUT2D(TestLUT):
         samples = np.linspace(0, 1, 10)
         self._table_1 = tstack([samples, samples, samples])
         self._table_2 = spow(self._table_1, 1 / 2.2)
-        self._domain_1 = np.array([[0, 0, 0], [1, 1, 1]])
-        self._domain_2 = np.array([[-0.1, -0.1, -0.1], [1.5, 1.5, 1.5]])
+        self._domain_1 = np.array([[0, 1], [0, 1], [0, 1]])
+        self._domain_2 = np.array([[-0.1, 1.5], [-0.1, 1.5], [-0.1, 1.5]])
         self._dimensions = 2
         self._str = textwrap.dedent("""
             LUT2D - Nemo
             ------------
 
             Dimensions : 2
-            Domain     : [[0 0 0]
-                          [1 1 1]]
+            Domain     : [[0 1]
+                          [0 1]
+                          [0 1]]
             Size       : (10, 3)""")[1:]
         self._repr = textwrap.dedent("""
             LUT2D([[ 0.        ,  0.        ,  0.        ],
@@ -552,8 +553,9 @@ class TestLUT2D(TestLUT):
                    [ 0.88888889,  0.88888889,  0.88888889],
                    [ 1.        ,  1.        ,  1.        ]],
                   name='Nemo',
-                  domain=[[0, 0, 0],
-                          [1, 1, 1]])""")[1:]
+                  domain=[[0, 1],
+                          [0, 1],
+                          [0, 1]])""")[1:]
         self._applied_1 = np.array([
             [[0.98453144, 0.76000720, 0.98718436],
              [0.85784314, 0.84855994, 0.49723089]],
@@ -596,23 +598,24 @@ class TestLUT3D(TestLUT):
         self._LUT_factory = LUT3D
 
         size = 33
-        domain = np.array([[0, 0, 0], [1, 1, 1]])
-        R, G, B = tsplit(domain)
+        domain = np.array([[0, 1], [0, 1], [0, 1]])
+        R, G, B = domain
         samples = [np.linspace(a[0], a[1], size) for a in (B, G, R)]
         table_1 = np.meshgrid(*samples, indexing='ij')
         table_1 = np.transpose(table_1).reshape((size, size, size, 3))
         self._table_1 = np.flip(table_1, -1)
         self._table_2 = spow(self._table_1, 1 / 2.2)
         self._domain_1 = domain
-        self._domain_2 = np.array([[-0.1, -0.1, -0.1], [1.5, 1.5, 1.5]])
+        self._domain_2 = np.array([[-0.1, 1.5], [-0.1, 1.5], [-0.1, 1.5]])
         self._dimensions = 3
         self._str = textwrap.dedent("""
             LUT3D - Nemo
             ------------
 
             Dimensions : 3
-            Domain     : [[0 0 0]
-                          [1 1 1]]
+            Domain     : [[0 1]
+                          [0 1]
+                          [0 1]]
             Size       : (33, 33, 33, 3)""")[1:]
         self._repr = 'Undefined'
         self._applied_1 = np.array([
@@ -774,16 +777,18 @@ class TestLUTSequence(unittest.TestCase):
                 ---------------
 
                 Dimensions : 3
-                Domain     : [[0 0 0]
-                              [1 1 1]]
+                Domain     : [[0 1]
+                              [0 1]
+                              [0 1]]
                 Size       : (16, 16, 16, 3)
 
                 LUT2D - Nemo 2D
                 ---------------
 
                 Dimensions : 2
-                Domain     : [[0 0 0]
-                              [1 1 1]]
+                Domain     : [[0 1]
+                              [0 1]
+                              [0 1]]
                 Size       : (16, 3)""")[1:])
 
     def test__repr__(self):
@@ -957,8 +962,9 @@ class TestLUTSequence(unittest.TestCase):
                          [ 1.  ,  1.  ,  0.75],
                          [ 1.  ,  1.  ,  1.  ]]]],
                       name='Nemo 3D',
-                      domain=[[0, 0, 0],
-                              [1, 1, 1]]),
+                      domain=[[0, 1],
+                              [0, 1],
+                              [0, 1]]),
                 LUT2D([[ 0.  ,  0.  ,  0.  ],
                        [ 0.05,  0.05,  0.05],
                        [ 0.1 ,  0.1 ,  0.1 ],
@@ -976,8 +982,9 @@ class TestLUTSequence(unittest.TestCase):
                        [ 0.7 ,  0.7 ,  0.7 ],
                        [ 0.75,  0.75,  0.75]],
                       name='Nemo 2D',
-                      domain=[[0, 0, 0],
-                              [1, 1, 1]])
+                      domain=[[0, 1],
+                              [0, 1],
+                              [0, 1]])
             )""" [1:]))
 
     def test__eq__(self):
@@ -1079,7 +1086,7 @@ class TestLUT_to_LUT(unittest.TestCase):
         Initialises common tests attributes.
         """
 
-        self._domain = np.array([[0.0, -0.1, -0.2], [1.0, 1.5, 3.0]])
+        self._domain = np.array([[0.0, 1.0], [-0.1, 1.5], [-0.2, 3.0]])
 
         self._LUT_1 = LUT1D(LUT1D.linear_table(16) ** (1 / 2.2))
         self._LUT_2 = LUT2D(
@@ -1275,8 +1282,8 @@ class TestLUT_to_LUT(unittest.TestCase):
             channel_weights=channel_weights)
 
         domain = np.array(
-            [np.max(self._domain[0, ...]),
-             np.min(self._domain[1, ...])])
+            [np.max(self._domain[..., 0]),
+             np.min(self._domain[..., 1])])
 
         np.testing.assert_array_equal(LUT.domain, domain)
 
@@ -1287,11 +1294,12 @@ class TestLUT_to_LUT(unittest.TestCase):
             force_conversion=True,
             channel_weights=channel_weights)
 
-        self.assertEqual(LUT,
-                         LUT1D(
-                             np.sum(
-                                 self._LUT_2.table * channel_weights, axis=-1),
-                             domain=domain))
+        self.assertEqual(
+            LUT,
+            LUT1D(
+                np.sum(self._LUT_2.table * channel_weights, axis=-1),
+                domain=domain),
+        )
 
         # "LUT" 2D to "LUT" 2D.
         LUT = LUT_to_LUT(self._LUT_2, LUT2D)
@@ -1496,8 +1504,8 @@ class TestLUT_to_LUT(unittest.TestCase):
             ]))
 
         domain = np.array(
-            [np.max(self._domain[0, ...]),
-             np.min(self._domain[1, ...])])
+            [np.max(self._domain[..., 0]),
+             np.min(self._domain[..., 1])])
 
         np.testing.assert_array_equal(LUT.domain, domain)
 

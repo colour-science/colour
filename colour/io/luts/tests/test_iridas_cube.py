@@ -80,14 +80,14 @@ class TestReadLUTIridasCube(unittest.TestCase):
         self.assertEqual(LUT_1.name, 'ACES Proxy 10 to ACES')
         self.assertEqual(LUT_1.dimensions, 2)
         np.testing.assert_array_equal(LUT_1.domain,
-                                      np.array([[0, 0, 0], [1, 1, 1]]))
+                                      np.array([[0, 1], [0, 1], [0, 1]]))
         self.assertEqual(LUT_1.size, 32)
         self.assertListEqual(LUT_1.comments, [])
 
         LUT_2 = read_LUT_IridasCube(os.path.join(LUTS_DIRECTORY, 'Demo.cube'))
         self.assertListEqual(LUT_2.comments, ['Comments can go anywhere'])
         np.testing.assert_array_equal(LUT_2.domain,
-                                      np.array([[0, 0, 0], [1, 2, 3]]))
+                                      np.array([[0, 1], [0, 2], [0, 3]]))
 
         LUT_3 = read_LUT_IridasCube(
             os.path.join(LUTS_DIRECTORY, 'ThreeDimensionalTable.cube'))

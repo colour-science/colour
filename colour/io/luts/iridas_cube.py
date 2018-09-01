@@ -65,8 +65,9 @@ def read_LUT_IridasCube(path):
     -----------------------------
     <BLANKLINE>
     Dimensions : 2
-    Domain     : [[0 0 0]
-                  [1 1 1]]
+    Domain     : [[0 1]
+                  [0 1]
+                  [0 1]]
     Size       : (32, 3)
 
     Reading a 3D *Iridas* *.cube* *LUT*:
@@ -79,8 +80,9 @@ def read_LUT_IridasCube(path):
     ---------------------------------
     <BLANKLINE>
     Dimensions : 3
-    Domain     : [[0 0 0]
-                  [1 1 1]]
+    Domain     : [[0 1]
+                  [0 1]
+                  [0 1]]
     Size       : (4, 4, 4, 3)
 
     Reading a 3D *Iridas* *.cube* *LUT* with comments:
@@ -93,8 +95,9 @@ def read_LUT_IridasCube(path):
     ------------
     <BLANKLINE>
     Dimensions : 2
-    Domain     : [[ 0.  0.  0.]
-                  [ 1.  2.  3.]]
+    Domain     : [[ 0.  1.]
+                  [ 0.  2.]
+                  [ 0.  3.]]
     Size       : (3, 3)
     Comment 01 : Comments can go anywhere
     """
@@ -142,23 +145,17 @@ def read_LUT_IridasCube(path):
                 table.append(_parse_array(tokens))
 
     table = np.asarray(table)
+    domain = np.transpose(np.vstack([domain_min, domain_max]))
+
     if dimensions == 2:
-        return LUT2D(
-            table,
-            title,
-            np.vstack([domain_min, domain_max]),
-            comments=comments)
+        return LUT2D(table, title, domain, comments=comments)
     elif dimensions == 3:
         # The lines of table data shall be in ascending index order,
         # with the first component index (Red) changing most rapidly,
         # and the last component index (Blue) changing least rapidly.
         table = table.reshape((size, size, size, 3), order='F')
 
-        return LUT3D(
-            table,
-            title,
-            np.vstack([domain_min, domain_max]),
-            comments=comments)
+        return LUT3D(table, title, domain, comments=comments)
 
 
 def write_LUT_IridasCube(LUT, path, decimals=7):
@@ -194,7 +191,7 @@ def write_LUT_IridasCube(LUT, path, decimals=7):
     Writing a 2D *Iridas* *.cube* *LUT*:
 
     >>> from colour.algebra import spow
-    >>> domain = np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]])
+    >>> domain = np.array([[-0.1, 1.5], [-0.2, 3.0], [-0.4, 6.0]])
     >>> LUT = LUT2D(
     ...     spow(LUT2D.linear_table(16, domain), 1 / 2.2),
     ...     'My LUT',
@@ -204,11 +201,11 @@ def write_LUT_IridasCube(LUT, path, decimals=7):
 
     Writing a 3D *Iridas* *.cube* *LUT*:
 
-    >>> domain = np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]])
+    >>> domain = np.array([[-0.1, 1.5], [-0.2, 3.0], [-0.4, 6.0]])
     >>> LUT = LUT3D(
     ...     spow(LUT3D.linear_table(16, domain), 1 / 2.2),
     ...     'My LUT',
-    ...     np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]]),
+    ...     domain,
     ...     comments=['A first comment.', 'A second comment.'])
     >>> write_LUT_IridasCube(LUT, 'My_LUT.cube')  # doctest: +SKIP
     """
@@ -250,12 +247,13 @@ def write_LUT_IridasCube(LUT, path, decimals=7):
         cube_file.write('{0} {1}\n'.format('LUT_1D_SIZE' if is_2D else
                                            'LUT_3D_SIZE', LUT.table.shape[0]))
 
-        default_domain = np.array([[0, 0, 0], [1, 1, 1]])
+        default_domain = np.array([[0, 1], [0, 1], [0, 1]])
+
         if not np.array_equal(LUT.domain, default_domain):
             cube_file.write('DOMAIN_MIN {0}\n'.format(
-                _format_array(LUT.domain[0])))
+                _format_array(LUT.domain[..., 0])))
             cube_file.write('DOMAIN_MAX {0}\n'.format(
-                _format_array(LUT.domain[1])))
+                _format_array(LUT.domain[..., 1])))
 
         if not is_2D:
             table = LUT.table.reshape((-1, 3), order='F')
