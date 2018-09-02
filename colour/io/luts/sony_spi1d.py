@@ -191,6 +191,8 @@ def write_LUT_SonySPI1D(LUT, path, decimals=7):
                 'using first sequence "LUT":\n'
                 '{0}'.format(LUT))
 
+    assert not LUT.is_domain_explicit(), '"LUT" domain must be implicit!'
+
     assert (isinstance(LUT, LUT1D) or
             isinstance(LUT, LUT2D)), '"LUT" must be either a 1D or 2D "LUT"!'
 

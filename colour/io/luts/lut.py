@@ -102,10 +102,18 @@ class AbstractLUT:
     __pow__
     __ipow__
     arithmetical_operation
+    is_domain_explicit
     linear_table
     apply
     copy
     as_LUT
+    """
+
+    EXPLICIT_DOMAIN_SUPPORT = True
+    """
+    Whether the *LUT* class implements support for explicit domain.
+
+    EXPLICIT_DOMAIN_SUPPORT : bool
     """
 
     def __init__(self,
@@ -113,7 +121,7 @@ class AbstractLUT:
                  name=None,
                  dimensions=None,
                  domain=None,
-                 size=33,
+                 size=None,
                  comments=None):
         default_name = ('Unity {0}'.format(size)
                         if table is None else '{0}'.format(id(self)))
@@ -124,8 +132,14 @@ class AbstractLUT:
 
         self._domain = None
         self.domain = domain
-        # pylint: disable=E1121
-        self._table = self.linear_table(size, domain)
+        if self.is_domain_explicit():
+            assert table is not None, (
+                '"LUT" domain is explicitly defined thus the "LUT" table must '
+                'be also explicitly defined!')
+        else:
+            # pylint: disable=E1121
+            self._table = self.linear_table(size, domain)
+
         self.table = table
         self._comments = []
         self.comments = comments
@@ -595,7 +609,7 @@ class AbstractLUT:
             return copy
 
     @abstractmethod
-    def _validate_table(table):
+    def _validate_table(self, table):
         """
         Validates given table according to *LUT* dimensions.
 
@@ -613,7 +627,7 @@ class AbstractLUT:
         pass
 
     @abstractmethod
-    def _validate_domain(domain):
+    def _validate_domain(self, domain):
         """
         Validates given domain according to *LUT* dimensions.
 
@@ -631,7 +645,36 @@ class AbstractLUT:
         pass
 
     @abstractmethod
-    def linear_table(size=33, domain=None):
+    def is_domain_explicit(self):
+        """
+        Returns whether the *LUT* domain is explicit (or implicit).
+
+        An implicit domain is defined by its shape only::
+
+            [[0 1]
+             [0 1]
+             [0 1]]
+
+        While an explicit domain defines every single discrete samples::
+
+            [[0.0 0.0 0.0]
+             [0.1 0.1 0.1]
+             [0.2 0.2 0.2]
+             [0.3 0.3 0.3]
+             [0.4 0.4 0.4]
+             [0.8 0.8 0.8]
+             [1.0 1.0 1.0]]
+
+        Returns
+        -------
+        bool
+            Is *LUT* domain explicit.
+        """
+
+        pass
+
+    @abstractmethod
+    def linear_table(size=None, domain=None):
         """
         Returns a linear table of given size according to *LUT* dimensions.
 
@@ -749,6 +792,7 @@ class LUT1D(AbstractLUT):
 
     Methods
     -------
+    is_domain_explicit
     linear_table
     apply
     as_LUT
@@ -795,6 +839,13 @@ class LUT1D(AbstractLUT):
     Comment 02 : A second comment.
     """
 
+    EXPLICIT_DOMAIN_SUPPORT = True
+    """
+    Whether the *LUT* class implements support for explicit domain.
+
+    EXPLICIT_DOMAIN_SUPPORT : bool
+    """
+
     def __init__(self,
                  table=None,
                  name=None,
@@ -806,9 +857,7 @@ class LUT1D(AbstractLUT):
 
         super(LUT1D, self).__init__(table, name, 1, domain, size, comments)
 
-    # pylint: disable=W0221
-    @staticmethod
-    def _validate_table(table):
+    def _validate_table(self, table):
         """
         Validates given table is a 1D array.
 
@@ -829,11 +878,9 @@ class LUT1D(AbstractLUT):
 
         return table
 
-    # pylint: disable=W0221
-    @staticmethod
-    def _validate_domain(domain):
+    def _validate_domain(self, domain):
         """
-        Validates given domain shape is equal to (2, ).
+        Validates given domain.
 
         Parameters
         ----------
@@ -848,10 +895,40 @@ class LUT1D(AbstractLUT):
 
         domain = as_float_array(domain)
 
-        assert domain.shape == (2, ), (
-            'The domain shape must be equal to (2, )!')
+        assert len(domain.shape) == 1, 'The domain must be a 1D array!'
+
+        assert domain.shape[0] >= 2, (
+            'The domain column count must be equal or greater than 2!')
 
         return domain
+
+    def is_domain_explicit(self):
+        """
+        Returns whether the *LUT* domain is explicit (or implicit).
+
+        An implicit domain is defined by its shape only::
+
+            [0 1]
+
+        While an explicit domain defines every single discrete samples::
+
+            [0.0 0.1 0.2 0.4 0.8 1.0]
+
+        Returns
+        -------
+        bool
+            Is *LUT* domain explicit.
+
+        Examples
+        --------
+        >>> LUT1D().is_domain_explicit()
+        False
+        >>> table = domain = np.linspace(0, 1, 10)
+        >>> LUT1D(table, domain=domain).is_domain_explicit()
+        True
+        """
+
+        return len(self.domain) != 2
 
     # pylint: disable=W0221
     @staticmethod
@@ -911,9 +988,12 @@ class LUT1D(AbstractLUT):
         array([ 0.4529220...,  0.4529220...,  0.4529220...])
         """
 
-        domain_min, domain_max = self.domain
+        if self.is_domain_explicit():
+            samples = self.domain
+        else:
+            domain_min, domain_max = self.domain
 
-        samples = np.linspace(domain_min, domain_max, self._table.size)
+            samples = np.linspace(domain_min, domain_max, self._table.size)
 
         RGB_interpolator = interpolator(samples, self._table)
 
@@ -1006,6 +1086,7 @@ class LUT2D(AbstractLUT):
 
     Methods
     -------
+    is_domain_explicit
     linear_table
     apply
     as_LUT
@@ -1055,6 +1136,13 @@ class LUT2D(AbstractLUT):
     Comment 02 : A second comment.
     """
 
+    EXPLICIT_DOMAIN_SUPPORT = True
+    """
+    Whether the *LUT* class implements support for explicit domain.
+
+    EXPLICIT_DOMAIN_SUPPORT : bool
+    """
+
     def __init__(self,
                  table=None,
                  name=None,
@@ -1066,9 +1154,7 @@ class LUT2D(AbstractLUT):
 
         super(LUT2D, self).__init__(table, name, 2, domain, size, comments)
 
-    # pylint: disable=W0221
-    @staticmethod
-    def _validate_table(table):
+    def _validate_table(self, table):
         """
         Validates given table is a 2D array.
 
@@ -1089,11 +1175,9 @@ class LUT2D(AbstractLUT):
 
         return table
 
-    # pylint: disable=W0221
-    @staticmethod
-    def _validate_domain(domain):
+    def _validate_domain(self, domain):
         """
-        Validates given domain shape is equal to (2, 3).
+        Validates given domain.
 
         Parameters
         ----------
@@ -1108,8 +1192,13 @@ class LUT2D(AbstractLUT):
 
         domain = as_float_array(domain)
 
-        assert domain.shape == (2, 3), (
-            'The domain shape must be equal to (2, 3)!')
+        assert len(domain.shape) == 2, 'The domain must be a 2D array!'
+
+        assert domain.shape[0] >= 2, (
+            'The domain row count must be equal or greater than 2!')
+
+        assert domain.shape[1] == 3, (
+            'The domain column count must be equal to 3!')
 
         return domain
 
@@ -1152,6 +1241,43 @@ class LUT2D(AbstractLUT):
 
         return tstack(samples)
 
+    def is_domain_explicit(self):
+        """
+        Returns whether the *LUT* domain is explicit (or implicit).
+
+        An implicit domain is defined by its shape only::
+
+            [[0 1]
+             [0 1]
+             [0 1]]
+
+        While an explicit domain defines every single discrete samples::
+
+            [[0.0 0.0 0.0]
+             [0.1 0.1 0.1]
+             [0.2 0.2 0.2]
+             [0.3 0.3 0.3]
+             [0.4 0.4 0.4]
+             [0.8 0.8 0.8]
+             [1.0 1.0 1.0]]
+
+        Returns
+        -------
+        bool
+            Is *LUT* domain explicit.
+
+        Examples
+        --------
+        >>> LUT2D().is_domain_explicit()
+        False
+        >>> samples = np.linspace(0, 1, 10)
+        >>> table = domain = tstack([samples, samples, samples])
+        >>> LUT2D(table, domain=domain).is_domain_explicit()
+        True
+        """
+
+        return self.domain.shape != (2, 3)
+
     def apply(self,
               RGB,
               interpolator=LinearInterpolator,
@@ -1183,14 +1309,23 @@ class LUT2D(AbstractLUT):
 
         R, G, B = tsplit(RGB)
         R_t, G_t, B_t = tsplit(self._table)
-        domain_min, domain_max = self.domain
 
-        size = DEFAULT_INT_DTYPE(self._table.size / 3)
+        if self.is_domain_explicit():
+            s_R, s_G, s_B = tsplit(self.domain)
+        else:
+            domain_min, domain_max = self.domain
+            size = DEFAULT_INT_DTYPE(self._table.size / 3)
+
+            samples = [
+                np.linspace(domain_min[i], domain_max[i], size)
+                for i in range(3)
+            ]
+
+            s_R, s_G, s_B = samples
 
         RGB_i = [
-            interpolator(
-                np.linspace(domain_min[i], domain_max[i], size), j[1])(j[0])
-            for i, j in enumerate([(R, R_t), (G, G_t), (B, B_t)])
+            interpolator(a[0], a[1])(a[2])
+            for a in zip((s_R, s_G, s_B), (R_t, G_t, B_t), (R, G, B))
         ]
 
         return tstack(RGB_i)
@@ -1282,6 +1417,7 @@ class LUT3D(AbstractLUT):
 
     Methods
     -------
+    is_domain_explicit
     linear_table
     apply
     as_LUT
@@ -1331,6 +1467,13 @@ class LUT3D(AbstractLUT):
     Comment 02 : A second comment.
     """
 
+    EXPLICIT_DOMAIN_SUPPORT = False
+    """
+    Whether the *LUT* class implements support for explicit domain.
+
+    EXPLICIT_DOMAIN_SUPPORT : bool
+    """
+
     def __init__(self,
                  table=None,
                  name=None,
@@ -1342,9 +1485,7 @@ class LUT3D(AbstractLUT):
 
         super(LUT3D, self).__init__(table, name, 3, domain, size, comments)
 
-    # pylint: disable=W0221
-    @staticmethod
-    def _validate_table(table):
+    def _validate_table(self, table):
         """
         Validates given table is a 4D array and that its dimensions are equal.
 
@@ -1362,16 +1503,15 @@ class LUT3D(AbstractLUT):
         table = as_float_array(table)
 
         assert len(table.shape) == 4, 'The table must be a 4D array!'
+
         assert len(set(
             table.shape[:-1])) == 1, 'The table dimensions must be equal!'
 
         return table
 
-    # pylint: disable=W0221
-    @staticmethod
-    def _validate_domain(domain):
+    def _validate_domain(self, domain):
         """
-        Validates given domain is equal to (2, 3).
+        Validates given domain.
 
         Parameters
         ----------
@@ -1382,14 +1522,60 @@ class LUT3D(AbstractLUT):
         -------
         ndarray
             Validated domain as a :class:`ndarray` instance.
+
+        Notes
+        -----
+        -   A :class:`LUT3D` class instance must use an implicit domain.
         """
 
         domain = as_float_array(domain)
 
-        assert domain.shape == (2, 3), (
-            'The domain shape must be equal to (2, 3)!')
+        assert len(domain.shape) == 2, 'The domain must be a 2D array!'
+
+        assert domain.shape[0] == 2, (
+            'The domain row count must be equal to 2!')
+
+        assert domain.shape[1] == 3, (
+            'The domain column count must be equal to 3!')
 
         return domain
+
+    def is_domain_explicit(self):
+        """
+        Returns whether the *LUT* domain is explicit (or implicit).
+
+        An implicit domain is defined by its shape only::
+
+            [[0 0 0]
+             [1 1 1]]
+
+        While an explicit domain defines every single discrete samples::
+
+            [[0.0 0.0 0.0]
+             [0.1 0.1 0.1]
+             [0.2 0.2 0.2]
+             [0.3 0.3 0.3]
+             [0.4 0.4 0.4]
+             [0.8 0.8 0.8]
+             [1.0 1.0 1.0]]
+
+        Returns
+        -------
+        bool
+            Is *LUT* domain explicit.
+
+        Notes
+        -----
+        -   A :class:`LUT3D` class instance must use an implicit domain, thus
+            this method always return *False*.
+
+        Examples
+        --------
+        >>> LUT3D().is_domain_explicit()
+        False
+        """
+
+        return False
 
     # pylint: disable=W0221
     @staticmethod

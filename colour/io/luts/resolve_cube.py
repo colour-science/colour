@@ -223,9 +223,9 @@ def write_LUT_ResolveCube(LUT, path, decimals=7):
     has_3D, has_2D = False, False
 
     if isinstance(LUT, LUTSequence):
-        assert (len(LUT) == 2 and isinstance(LUT[0], (LUT1D, LUT2D)) and
-                isinstance(LUT[1],
-                           LUT3D)), 'LUTSequence must be 1D + 3D or 2D + 3D!'
+        assert (len(LUT) == 2 and
+                isinstance(LUT[0], (LUT1D, LUT2D)) and isinstance(
+                    LUT[1], LUT3D)), 'LUTSequence must be 1D + 3D or 2D + 3D!'
 
         if isinstance(LUT[0], LUT1D):
             LUT[0] = LUT[0].as_LUT(LUT2D)
@@ -247,6 +247,10 @@ def write_LUT_ResolveCube(LUT, path, decimals=7):
         has_3D = True
     else:
         raise ValueError('LUT must be 1D, 2D, 3D, 1D + 3D or 2D + 3D!')
+
+    for i in range(2):
+        assert not LUT[i].is_domain_explicit(), (
+            '"LUT" domain must be implicit!')
 
     assert (len(np.unique(LUT[0].domain)) == 2 and
             len(np.unique(LUT[1].domain)) == 2), 'LUT domain must be 1D!'

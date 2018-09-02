@@ -150,6 +150,8 @@ def write_LUT_SonySPI3D(LUT, path, decimals=7):
                 'using first sequence "LUT":\n'
                 '{0}'.format(LUT))
 
+    assert not LUT.is_domain_explicit(), '"LUT" domain must be implicit!'
+
     assert isinstance(LUT, LUT3D), '"LUT" must be either a 3D "LUT"!'
 
     assert np.array_equal(LUT.domain, np.array([

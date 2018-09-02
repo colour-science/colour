@@ -219,6 +219,8 @@ def write_LUT_IridasCube(LUT, path, decimals=7):
                 'using first sequence "LUT":\n'
                 '{0}'.format(LUT))
 
+    assert not LUT.is_domain_explicit(), '"LUT" domain must be implicit!'
+
     if isinstance(LUT, LUT1D):
         LUT = LUT.as_LUT(LUT2D)
 
