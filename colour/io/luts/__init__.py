@@ -188,19 +188,22 @@ def write_LUT(LUT, path, decimals=7, method=None, **kwargs):
     Writing a 2D *Iridas* *.cube* *LUT*:
 
     >>> import numpy as np
+    >>> from colour.algebra import spow
+    >>> domain = np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]])
     >>> LUT = LUT2D(
-    ...     LUT2D.linear_table(16) ** (1 / 2.2),
+    ...     spow(LUT2D.linear_table(16, domain), 1 / 2.2),
     ...     'My LUT',
-    ...     np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]]),
+    ...     domain,
     ...     comments=['A first comment.', 'A second comment.'])
     >>> write_LUT(LUT, 'My_LUT.cube')  # doctest: +SKIP
 
     Writing a 1D *Sony* *.spi1d* *LUT*:
 
+    >>> domain = np.array([-0.1, 1.5])
     >>> LUT = LUT1D(
-    ...     LUT1D.linear_table(16) ** (1 / 2.2),
+    ...     spow(LUT1D.linear_table(16, domain), 1 / 2.2),
     ...     'My LUT',
-    ...     np.array([-0.1, 1.5]),
+    ...     domain,
     ...     comments=['A first comment.', 'A second comment.'])
     >>> write_LUT(LUT, 'My_LUT.spi1d')  # doctest: +SKIP
 

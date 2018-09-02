@@ -165,19 +165,22 @@ def write_LUT_SonySPI1D(LUT, path, decimals=7):
     --------
     Writing a 1D *Sony* *.spi1d* *LUT*:
 
+    >>> from colour.algebra import spow
+    >>> domain = np.array([-0.1, 1.5])
     >>> LUT = LUT1D(
-    ...     LUT1D.linear_table(16) ** (1 / 2.2),
+    ...     spow(LUT1D.linear_table(16), 1 / 2.2),
     ...     'My LUT',
-    ...     np.array([-0.1, 1.5]),
+    ...     domain,
     ...     comments=['A first comment.', 'A second comment.'])
     >>> write_LUT_SonySPI1D(LUT, 'My_LUT.cube')  # doctest: +SKIP
 
     Writing a 2D *Sony* *.spi1d* *LUT*:
 
+    >>> domain = np.array([[-0.1, -0.1, -0.1], [1.5, 1.5, 1.5]])
     >>> LUT = LUT2D(
-    ...     LUT2D.linear_table(16) ** (1 / 2.2),
+    ...     spow(LUT2D.linear_table(16), 1 / 2.2),
     ...     'My LUT',
-    ...     np.array([[-0.1, -0.1, -0.1], [1.5, 1.5, 1.5]]),
+    ...     domain,
     ...     comments=['A first comment.', 'A second comment.'])
     >>> write_LUT_SonySPI1D(LUT, 'My_LUT.cube')  # doctest: +SKIP
     """

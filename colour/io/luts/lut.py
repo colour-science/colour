@@ -778,10 +778,12 @@ class LUT1D(AbstractLUT):
     Instantiating a LUT using a custom table with 16 elements, custom name,
     custom domain and comments:
 
+    >>> from colour.algebra import spow
+    >>> domain = np.array([-0.1, 1.5])
     >>> print(LUT1D(
-    ...     LUT1D.linear_table(16) ** (1 / 2.2),
+    ...     spow(LUT1D.linear_table(16, domain), 1 / 2.2),
     ...     'My LUT',
-    ...     np.array([-0.1, 1.5]),
+    ...     domain,
     ...     comments=['A first comment.', 'A second comment.']))
     LUT1D - My LUT
     --------------
@@ -1035,10 +1037,12 @@ class LUT2D(AbstractLUT):
     Instantiating a LUT using a custom table with 16x3 elements, custom name,
     custom domain and comments:
 
+    >>> from colour.algebra import spow
+    >>> domain = np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]])
     >>> print(LUT2D(
-    ...     LUT2D.linear_table(16) ** (1 / 2.2),
+    ...     spow(LUT2D.linear_table(16), 1 / 2.2),
     ...     'My LUT',
-    ...     np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]]),
+    ...     domain,
     ...     comments=['A first comment.', 'A second comment.']))
     LUT2D - My LUT
     --------------
@@ -1309,10 +1313,12 @@ class LUT3D(AbstractLUT):
     Instantiating a LUT using a custom table with 16x16x16x3 elements, custom
     name, custom domain and comments:
 
+    >>> from colour.algebra import spow
+    >>> domain = np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]])
     >>> print(LUT3D(
-    ...     LUT3D.linear_table(16) ** (1 / 2.2),
+    ...     spow(LUT3D.linear_table(16), 1 / 2.2),
     ...     'My LUT',
-    ...     np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]]),
+    ...     domain,
     ...     comments=['A first comment.', 'A second comment.']))
     LUT3D - My LUT
     --------------
