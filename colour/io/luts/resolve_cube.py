@@ -102,8 +102,7 @@ def read_LUT_ResolveCube(path):
     """
 
     title = re.sub('_|-|\\.', ' ', os.path.splitext(os.path.basename(path))[0])
-    size2D = 2
-    size3D = 2
+    size_2D = size_3D = 2
     table = []
     comments = []
     has_2D, has_3D = False, False
@@ -139,10 +138,10 @@ def read_LUT_ResolveCube(path):
                 LUT[1].domain = tstack([domain, domain, domain])
             elif tokens[0] == 'LUT_1D_SIZE':
                 has_2D = True
-                size2D = np.int_(tokens[1])
+                size_2D = np.int_(tokens[1])
             elif tokens[0] == 'LUT_3D_SIZE':
                 has_3D = True
-                size3D = np.int_(tokens[1])
+                size_3D = np.int_(tokens[1])
             else:
                 table.append(_parse_array(tokens))
 
@@ -151,12 +150,12 @@ def read_LUT_ResolveCube(path):
         LUT[0].name = '{0} - Shaper'.format(title)
         LUT[1].name = '{0} - Cube'.format(title)
         LUT[1].comments = comments
-        LUT[0].table = table[:size2D]
+        LUT[0].table = table[:size_2D]
         # The lines of table data shall be in ascending index order,
         # with the first component index (Red) changing most rapidly,
         # and the last component index (Blue) changing least rapidly.
-        LUT[1].table = table[size2D:].reshape(
-            (size3D, size3D, size3D, 3), order='F')
+        LUT[1].table = table[size_2D:].reshape(
+            (size_3D, size_3D, size_3D, 3), order='F')
         return LUT
     elif has_2D:
         LUT[0].name = title
@@ -169,7 +168,7 @@ def read_LUT_ResolveCube(path):
         # The lines of table data shall be in ascending index order,
         # with the first component index (Red) changing most rapidly,
         # and the last component index (Blue) changing least rapidly.
-        table = table.reshape([size3D, size3D, size3D, 3], order='F')
+        table = table.reshape([size_3D, size_3D, size_3D, 3], order='F')
         LUT[1].table = table
         return LUT[1]
 
@@ -201,7 +200,7 @@ def write_LUT_ResolveCube(LUT, path, decimals=7):
     --------
     Writing a 2D *Resolve* *.cube* *LUT*:
 
-   >>> from colour.algebra import spow
+    >>> from colour.algebra import spow
     >>> domain = np.array([[-0.1, -0.1, -0.1], [3.0, 3.0, 3.0]])
     >>> LUT = LUT2D(
     ...     spow(LUT2D.linear_table(16, domain), 1 / 2.2),
@@ -224,40 +223,37 @@ def write_LUT_ResolveCube(LUT, path, decimals=7):
     has_3D, has_2D = False, False
 
     if isinstance(LUT, LUTSequence):
-        assert (len(LUT) == 2 and
-                (isinstance(LUT[0], LUT1D) or isinstance(LUT[0], LUT2D)) and
-                isinstance(LUT[1], LUT3D)), \
-                'LUTSequence must be 1D+3D or 2D+3D!'
-        has_2D = True
-        has_3D = True
-        name = LUT[1].name
+        assert (len(LUT) == 2 and isinstance(LUT[0], (LUT1D, LUT2D)) and
+                isinstance(LUT[1],
+                           LUT3D)), 'LUTSequence must be 1D + 3D or 2D + 3D!'
+
         if isinstance(LUT[0], LUT1D):
             LUT[0] = LUT[0].as_LUT(LUT2D)
 
+        has_2D = True
+        has_3D = True
+        name = LUT[1].name
     elif isinstance(LUT, LUT1D):
         name = LUT.name
         LUT = LUTSequence(LUT.as_LUT(LUT2D), LUT3D())
         has_2D = True
-
     elif isinstance(LUT, LUT2D):
         name = LUT.name
         LUT = LUTSequence(LUT, LUT3D())
         has_2D = True
-
     elif isinstance(LUT, LUT3D):
         name = LUT.name
         LUT = LUTSequence(LUT2D(), LUT)
         has_3D = True
-
     else:
-        assert False, 'LUT must be 1D, 2D, 3D, 1D+3D or 2D+3D!'
+        raise ValueError('LUT must be 1D, 2D, 3D, 1D + 3D or 2D + 3D!')
 
     assert (len(np.unique(LUT[0].domain)) == 2 and
             len(np.unique(LUT[1].domain)) == 2), 'LUT domain must be 1D!'
 
     if has_2D:
-        assert 2 <= LUT[0].size <= 65536, \
-            'Shaper size must be in domain [2, 65536]!'
+        assert 2 <= LUT[0].size <= 65536, (
+            'Shaper size must be in domain [2, 65536]!')
     if has_3D:
         assert 2 <= LUT[1].size <= 256, 'Cube size must be in domain [2, 256]!'
 
@@ -270,7 +266,8 @@ def write_LUT_ResolveCube(LUT, path, decimals=7):
 
     def _format_tuple(array):
         """
-        Formats given array as 2 space separated values to *decimals* precison.
+        Formats given array as 2 space separated values to *decimals*
+        precision.
         """
 
         return '{1:0.{0}f} {2:0.{0}f}'.format(decimals, *array)
@@ -290,14 +287,14 @@ def write_LUT_ResolveCube(LUT, path, decimals=7):
 
         if has_2D:
             cube_file.write('{0} {1}\n'.format('LUT_1D_SIZE',
-                            LUT[0].table.shape[0]))
+                                               LUT[0].table.shape[0]))
             if not np.array_equal(LUT[0].domain, default_domain):
                 cube_file.write('LUT_1D_INPUT_RANGE {0}\n'.format(
                     _format_tuple([LUT[0].domain[0][0], LUT[0].domain[1][0]])))
 
         if has_3D:
             cube_file.write('{0} {1}\n'.format('LUT_3D_SIZE',
-                            LUT[1].table.shape[0]))
+                                               LUT[1].table.shape[0]))
             if not np.array_equal(LUT[1].domain, default_domain):
                 cube_file.write('LUT_3D_INPUT_RANGE {0}\n'.format(
                     _format_tuple([LUT[1].domain[0][0], LUT[1].domain[1][0]])))
