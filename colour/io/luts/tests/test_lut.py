@@ -62,7 +62,7 @@ class TestAbstractLUT(unittest.TestCase):
                             '__add__', '__iadd__', '__sub__', '__isub__',
                             '__mul__', '__imul__', '__div__', '__idiv__',
                             '__pow__', '__ipow__', 'arithmetical_operation',
-                            'linear_table', 'apply', 'copy')
+                            'linear_table', 'apply', 'copy', 'as_LUT')
 
         for method in required_methods:
             self.assertIn(method, dir(AbstractLUT))
@@ -104,7 +104,7 @@ class TestLUT(unittest.TestCase):
         Tests presence of required methods.
         """
 
-        required_methods = ('linear_table', )
+        required_methods = ('linear_table', 'apply', 'as_LUT')
 
         for method in required_methods:
             self.assertIn(method, dir(LUT1D))
