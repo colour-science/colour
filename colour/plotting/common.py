@@ -37,12 +37,10 @@ from collections import namedtuple
 from functools import partial
 from matplotlib.colors import LinearSegmentedColormap
 
-from colour.characterisation import COLOURCHECKERS, ColourChecker
-from colour.colorimetry import (
-    CMFS, ILLUMINANTS_SPDS, LMS_ConeFundamentals, RGB_ColourMatchingFunctions,
-    SpectralPowerDistribution, XYZ_ColourMatchingFunctions)
-from colour.models import RGB_COLOURSPACES, RGB_Colourspace, XYZ_to_RGB
-from colour.utilities import Structure
+from colour.characterisation import COLOURCHECKERS
+from colour.colorimetry import (CMFS, ILLUMINANTS_SPDS)
+from colour.models import RGB_COLOURSPACES, XYZ_to_RGB
+from colour.utilities import Structure, filter_mapping
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -634,7 +632,7 @@ def uniform_axes3d(axes):
     return True
 
 
-def filter_RGB_colourspaces(filterer, flags=re.IGNORECASE):
+def filter_RGB_colourspaces(filterer, anchors=True, flags=re.IGNORECASE):
     """
     Returns the *RGB* colourspaces matching given filterer.
 
@@ -643,6 +641,9 @@ def filter_RGB_colourspaces(filterer, flags=re.IGNORECASE):
     filterer : unicode or RGB_Colourspace
         *RGB* colourspace filterer or :class:`colour.RGB_Colourspace` class
         instance which will be passed through directly.
+    anchors : bool, optional
+        Whether to use Regex line anchors, i.e. *^* and *$* are added,
+        surrounding the filterer pattern.
     flags : int, optional
         Regex flags.
 
@@ -652,16 +653,10 @@ def filter_RGB_colourspaces(filterer, flags=re.IGNORECASE):
         Filtered *RGB* colourspaces.
     """
 
-    if isinstance(filterer, RGB_Colourspace):
-        return [filterer]
-    else:
-        return [
-            RGB_COLOURSPACES[colourspace] for colourspace in RGB_COLOURSPACES
-            if re.search(filterer, colourspace, flags)
-        ]
+    return filter_mapping(RGB_COLOURSPACES, filterer, anchors, flags)
 
 
-def filter_cmfs(filterer, flags=re.IGNORECASE):
+def filter_cmfs(filterer, anchors=True, flags=re.IGNORECASE):
     """
     Returns the colour matching functions matching given filterer.
 
@@ -674,6 +669,9 @@ or XYZ_ColourMatchingFunctions
         :class:`colour.RGB_ColourMatchingFunctions` or
         :class:`colour.XYZ_ColourMatchingFunctions` class instance which will
         be passed through directly.
+    anchors : bool, optional
+        Whether to use Regex line anchors, i.e. *^* and *$* are added,
+        surrounding the filterer pattern.
     flags : int, optional
         Regex flags.
 
@@ -683,16 +681,10 @@ or XYZ_ColourMatchingFunctions
         Filtered colour matching functions.
     """
 
-    if isinstance(filterer, (LMS_ConeFundamentals, RGB_ColourMatchingFunctions,
-                             XYZ_ColourMatchingFunctions)):
-        return [filterer]
-    else:
-        return [
-            CMFS[cmfs] for cmfs in CMFS if re.search(filterer, cmfs, flags)
-        ]
+    return filter_mapping(CMFS, filterer, anchors, flags)
 
 
-def filter_illuminants(filterer, flags=re.IGNORECASE):
+def filter_illuminants(filterer, anchors=True, flags=re.IGNORECASE):
     """
     Returns the illuminants matching given filterer.
 
@@ -702,6 +694,9 @@ def filter_illuminants(filterer, flags=re.IGNORECASE):
         Colour matching functions filterer or
         :class:`colour.SpectralPowerDistribution` class instance which will
         be passed through directly.
+    anchors : bool, optional
+        Whether to use Regex line anchors, i.e. *^* and *$* are added,
+        surrounding the filterer pattern.
     flags : int, optional
         Regex flags.
 
@@ -711,16 +706,10 @@ def filter_illuminants(filterer, flags=re.IGNORECASE):
         Filtered illuminants.
     """
 
-    if isinstance(filterer, SpectralPowerDistribution):
-        return [filterer]
-    else:
-        return [
-            ILLUMINANTS_SPDS[illuminant] for illuminant in ILLUMINANTS_SPDS
-            if re.search(filterer, illuminant, flags)
-        ]
+    return filter_mapping(ILLUMINANTS_SPDS, filterer, anchors, flags)
 
 
-def filter_colour_checkers(filterer, flags=re.IGNORECASE):
+def filter_colour_checkers(filterer, anchors=True, flags=re.IGNORECASE):
     """
     Returns the colour checkers matching given filterer.
 
@@ -730,6 +719,9 @@ def filter_colour_checkers(filterer, flags=re.IGNORECASE):
         Colour checkers filterer or
         :class:`colour.characterisation.ColourChecker` class instance which
         will be passed through directly.
+    anchors : bool, optional
+        Whether to use Regex line anchors, i.e. *^* and *$* are added,
+        surrounding the filterer pattern.
     flags : int, optional
         Regex flags.
 
@@ -739,13 +731,7 @@ def filter_colour_checkers(filterer, flags=re.IGNORECASE):
         Filtered colour checkers.
     """
 
-    if isinstance(filterer, ColourChecker):
-        return [filterer]
-    else:
-        return [
-            COLOURCHECKERS[colour_checker] for colour_checker in COLOURCHECKERS
-            if re.search(filterer, colour_checker, flags)
-        ]
+    return filter_mapping(COLOURCHECKERS, filterer, anchors, flags)
 
 
 @override_style(
