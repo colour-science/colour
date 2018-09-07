@@ -18,6 +18,7 @@ from __future__ import division, unicode_literals
 import inspect
 import functools
 import numpy as np
+import re
 import warnings
 from copy import deepcopy
 from six import string_types
@@ -35,11 +36,11 @@ __all__ = [
     'handle_numpy_errors', 'ignore_numpy_errors', 'raise_numpy_errors',
     'print_numpy_errors', 'warn_numpy_errors', 'ignore_python_warnings',
     'batch', 'is_openimageio_installed', 'is_pandas_installed', 'is_iterable',
-    'is_string', 'is_numeric', 'is_integer', 'filter_kwargs', 'first_item',
-    'get_domain_range_scale', 'set_domain_range_scale', 'domain_range_scale',
-    'to_domain_1', 'to_domain_10', 'to_domain_100', 'to_domain_degrees',
-    'to_domain_int', 'from_range_1', 'from_range_10', 'from_range_100',
-    'from_range_degrees', 'from_range_int'
+    'is_string', 'is_numeric', 'is_integer', 'filter_kwargs', 'filter_mapping',
+    'first_item', 'get_domain_range_scale', 'set_domain_range_scale',
+    'domain_range_scale', 'to_domain_1', 'to_domain_10', 'to_domain_100',
+    'to_domain_degrees', 'to_domain_int', 'from_range_1', 'from_range_10',
+    'from_range_100', 'from_range_degrees', 'from_range_int'
 ]
 
 
@@ -368,6 +369,61 @@ def filter_kwargs(function, **kwargs):
         kwargs.pop(key)
 
     return kwargs
+
+
+def filter_mapping(mapping, filterer, anchors=True, flags=re.IGNORECASE):
+    """
+    Filters given mapping with given filterer.
+
+    Parameters
+    ----------
+    mapping : dict
+        Mapping to filter.
+    filterer : unicode or object
+        Filterer pattern for given mapping element, either a unicode or a an
+        instance of any of the mapping elements class types in which case it is
+        returned directly.
+    anchors : bool, optional
+        Whether to use Regex line anchors, i.e. *^* and *$* are added,
+        surrounding the filterer pattern.
+    flags : int, optional
+        Regex flags.
+
+    Returns
+    -------
+    list
+        Filtered mapping elements.
+
+    Examples
+    --------
+    >>> class Element(object):
+    ...     pass
+    >>> mapping = {
+    ...     'Element A': Element(),
+    ...     'Element B': Element(),
+    ...     'Element C': Element(),
+    ...     'Not Element C': Element(),
+    ... }
+    >>> filter_mapping(mapping, '\w+\s+A')  # doctest: +ELLIPSIS
+    [<colour.utilities.common.Element object at 0x...>]
+    >>> filter_mapping(mapping, 'Element.*')  # doctest: +ELLIPSIS
+    [<colour.utilities.common.Element object at 0x...>, \
+<colour.utilities.common.Element object at 0x...>, \
+<colour.utilities.common.Element object at 0x...>]
+    """
+
+    if isinstance(filterer,
+                  tuple(set(type(element) for element in mapping.values()))):
+        return [filterer]
+    else:
+        if anchors:
+            filterer = '^{0}$'.format(filterer)
+            filterer = filterer.replace('^^', '^').replace('$$', '$')
+
+        return [
+            mapping[element] for element in mapping
+            if re.match(filterer, element, flags)
+        ]
 
 
 def first_item(a):

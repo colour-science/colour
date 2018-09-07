@@ -11,7 +11,7 @@ from collections import OrderedDict
 
 from colour.utilities import (
     batch, is_iterable, is_string, is_numeric, is_integer, filter_kwargs,
-    first_item, get_domain_range_scale, set_domain_range_scale,
+    filter_mapping, first_item, get_domain_range_scale, set_domain_range_scale,
     domain_range_scale, to_domain_1, to_domain_10, to_domain_100,
     to_domain_int, to_domain_degrees, from_range_1, from_range_10,
     from_range_100, from_range_int, from_range_degrees)
@@ -25,7 +25,7 @@ __status__ = 'Production'
 
 __all__ = [
     'TestBatch', 'TestIsIterable', 'TestIsString', 'TestIsNumeric',
-    'TestIsInteger', 'TestFilterKwargs', 'TestFirstItem'
+    'TestIsInteger', 'TestFilterKwargs', 'TestFilterMapping', 'TestFirstItem'
 ]
 
 
@@ -202,11 +202,42 @@ class TestFilterMapping(unittest.TestCase):
         Tests :func:`colour.utilities.common.filter_mapping` definition.
         """
 
-        class Element():
+        class Element(object):
             """
             :func:`filter_mapping` unit tests :class:`Element` class.
             """
-            pass
+
+            def __init__(self, name):
+                self.name = name
+
+        mapping = {
+            'Element A': Element('A'),
+            'Element B': Element('B'),
+            'Element C': Element('C'),
+            'Not Element C': Element('Not C'),
+        }
+
+        self.assertListEqual(
+            filter_mapping(mapping, '\w+\s+A'), [mapping['Element A']])
+
+        self.assertListEqual(
+            sorted(filter_mapping(mapping, 'Element.*'), key=lambda x: x.name),
+            [mapping['Element A'], mapping['Element B'], mapping['Element C']])
+
+        self.assertListEqual(
+            sorted(
+                filter_mapping(mapping, '^Element.*'), key=lambda x: x.name),
+            [mapping['Element A'], mapping['Element B'], mapping['Element C']])
+
+        self.assertListEqual(
+            sorted(
+                filter_mapping(mapping, '^Element.*', False),
+                key=lambda x: x.name),
+            [mapping['Element A'], mapping['Element B'], mapping['Element C']])
+
+        element = Element('D')
+        self.assertListEqual(filter_mapping(mapping, element), [element])
+
 
 class TestFirstItem(unittest.TestCase):
     """
