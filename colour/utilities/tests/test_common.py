@@ -165,20 +165,20 @@ class TestFilterKwargs(unittest.TestCase):
 
         def fn_a(a):
             """
-            :func:`filter_kwargs` unit tests :func:`fn_a`.
+            :func:`filter_kwargs` unit tests :func:`fn_a` definition.
             """
             return a
 
         def fn_b(a, b=0):
             """
-            :func:`filter_kwargs` unit tests :func:`fn_b`.
+            :func:`filter_kwargs` unit tests :func:`fn_b` definition.
             """
 
             return a, b
 
         def fn_c(a, b=0, c=0):
             """
-            :func:`filter_kwargs` unit tests :func:`fn_c`.
+            :func:`filter_kwargs` unit tests :func:`fn_c` definition.
             """
 
             return a, b, c
@@ -190,6 +190,23 @@ class TestFilterKwargs(unittest.TestCase):
         self.assertTupleEqual((1, 2, 3),
                               fn_c(1, **filter_kwargs(fn_c, b=2, c=3)))
 
+
+class TestFilterMapping(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.common.filter_mapping` definition units
+    tests methods.
+    """
+
+    def test_filter_mapping(self):
+        """
+        Tests :func:`colour.utilities.common.filter_mapping` definition.
+        """
+
+        class Element():
+            """
+            :func:`filter_mapping` unit tests :class:`Element` class.
+            """
+            pass
 
 class TestFirstItem(unittest.TestCase):
     """
