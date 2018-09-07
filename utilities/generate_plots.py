@@ -574,8 +574,8 @@ def generate_documentation_plots(output_directory):
     cmfs = colour.STANDARD_OBSERVERS_CMFS[
         'CIE 1931 2 Degree Standard Observer']
     illuminant = colour.ILLUMINANTS_SPDS['D65']
-    XYZ = colour.spectral_to_XYZ(spd, cmfs, illuminant)
     with domain_range_scale('1'):
+        XYZ = colour.spectral_to_XYZ(spd, cmfs, illuminant)
         RGB = colour.XYZ_to_sRGB(XYZ)
     single_colour_swatch_plot(
         ColourSwatch('Sample', RGB),
@@ -586,8 +586,8 @@ def generate_documentation_plots(output_directory):
                                          'Tutorial_Neutral5.png')
     patch_name = 'neutral 5 (.70 D)'
     patch_spd = colour.COLOURCHECKERS_SPDS['ColorChecker N Ohta'][patch_name]
-    XYZ = colour.spectral_to_XYZ(patch_spd, cmfs, illuminant)
     with domain_range_scale('1'):
+        XYZ = colour.spectral_to_XYZ(patch_spd, cmfs, illuminant)
         RGB = colour.XYZ_to_sRGB(XYZ)
     single_colour_swatch_plot(
         ColourSwatch(patch_name.title(), RGB),
