@@ -23,9 +23,7 @@ RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS`
 
 from __future__ import division
 
-import itertools
 import numpy as np
-from collections import OrderedDict
 
 from colour.constants import EPSILON
 from colour.models import (
@@ -243,12 +241,7 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot.png
     if colourspaces is None:
         colourspaces = ['ITU-R BT.709', 'ACEScg', 'S-Gamut']
 
-    colourspaces = list(
-        OrderedDict.fromkeys(
-            itertools.chain.from_iterable([
-                filter_RGB_colourspaces(colourspace)
-                for colourspace in colourspaces
-            ])))
+    colourspaces = filter_RGB_colourspaces(colourspaces).values()
 
     settings = {'uniform': True}
     settings.update(kwargs)
@@ -257,7 +250,7 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot.png
 
     method = method.upper()
 
-    cmfs = first_item(filter_cmfs(cmfs))
+    cmfs = first_item(filter_cmfs(cmfs).values())
 
     title = '{0}\n{1} - {2} Chromaticity Diagram'.format(
         ', '.join([colourspace.name for colourspace in colourspaces]),
@@ -607,7 +600,7 @@ RGB_Chromaticity_Coordinates_Chromaticity_Diagram_Plot.png
     settings = dict(kwargs)
     settings.update({'axes': axes, 'standalone': False})
 
-    colourspace = first_item(filter_RGB_colourspaces(colourspace))
+    colourspace = first_item(filter_RGB_colourspaces(colourspace).values())
     settings['colourspaces'] = (
         ['^{0}$'.format(colourspace.name)] + settings.get('colourspaces', []))
 
@@ -905,12 +898,7 @@ def multi_cctf_plot(colourspaces=None, decoding_cctf=False, **kwargs):
     if colourspaces is None:
         colourspaces = ('ITU-R BT.709', 'sRGB')
 
-    colourspaces = list(
-        OrderedDict.fromkeys(
-            itertools.chain.from_iterable([
-                filter_RGB_colourspaces(colourspace)
-                for colourspace in colourspaces
-            ])))
+    colourspaces = filter_RGB_colourspaces(colourspaces).values()
 
     settings = {'uniform': True}
     settings.update(kwargs)

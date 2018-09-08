@@ -25,10 +25,8 @@ References
 
 from __future__ import division
 
-import itertools
 import matplotlib.pyplot as plt
 import numpy as np
-from collections import OrderedDict
 from matplotlib.patches import Polygon
 from six.moves import reduce
 
@@ -36,10 +34,10 @@ from colour.algebra import LinearInterpolator
 from colour.colorimetry import (
     ILLUMINANTS, ILLUMINANTS_SPDS, LIGHTNESS_METHODS, SpectralShape,
     blackbody_spd, ones_spd, spectral_to_XYZ, wavelength_to_XYZ)
-from colour.plotting import (ColourSwatch, COLOUR_STYLE_CONSTANTS,
-                             XYZ_to_plotting_colourspace, artist, filter_cmfs,
-                             filter_illuminants, override_style, render,
-                             single_colour_swatch_plot)
+from colour.plotting import (
+    ColourSwatch, COLOUR_STYLE_CONSTANTS, XYZ_to_plotting_colourspace, artist,
+    filter_passthrough, filter_cmfs, filter_illuminants, override_style,
+    render, single_colour_swatch_plot, multi_function_plot)
 from colour.utilities import (domain_range_scale, first_item,
                               normalise_maximum, suppress_warnings, tstack)
 
@@ -114,7 +112,7 @@ def single_spd_plot(spd,
 
     figure, axes = artist(**kwargs)
 
-    cmfs = first_item(filter_cmfs(cmfs))
+    cmfs = first_item(filter_cmfs(cmfs).values())
 
     spd = spd.copy()
     spd.interpolator = LinearInterpolator
@@ -234,7 +232,7 @@ def multi_spd_plot(spds,
 
     figure, axes = artist(**kwargs)
 
-    cmfs = first_item(filter_cmfs(cmfs))
+    cmfs = first_item(filter_cmfs(cmfs).values())
 
     illuminant = ILLUMINANTS_SPDS[
         COLOUR_STYLE_CONSTANTS.colour.colourspace.illuminant]
@@ -307,7 +305,7 @@ def single_cmfs_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
         :alt: single_cmfs_plot
     """
 
-    cmfs = first_item(filter_cmfs(cmfs))
+    cmfs = first_item(filter_cmfs(cmfs).values())
     settings = {
         'title': '{0} - Colour Matching Functions'.format(cmfs.strict_name)
     }
@@ -352,10 +350,7 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
         cmfs = ('CIE 1931 2 Degree Standard Observer',
                 'CIE 1964 10 Degree Standard Observer')
 
-    cmfs = list(
-        OrderedDict.fromkeys(
-            itertools.chain.from_iterable(
-                [filter_cmfs(cmfs_i) for cmfs_i in cmfs])))
+    cmfs = filter_cmfs(cmfs).values()
 
     figure, axes = artist(**kwargs)
 
@@ -442,10 +437,10 @@ def single_illuminant_spd_plot(illuminant='A',
         :alt: single_illuminant_spd_plot
     """
 
-    cmfs = first_item(filter_cmfs(cmfs))
+    cmfs = first_item(filter_cmfs(cmfs).values())
     title = 'Illuminant {0} - {1}'.format(illuminant, cmfs.strict_name)
 
-    illuminant = first_item(filter_illuminants(illuminant))
+    illuminant = first_item(filter_illuminants(illuminant).values())
 
     settings = {'title': title, 'y_label': 'Relative Power'}
     settings.update(kwargs)
@@ -492,11 +487,7 @@ def multi_illuminant_spd_plot(illuminants=None, **kwargs):
     if illuminants is None:
         illuminants = ('A', 'B', 'C')
 
-    illuminants = list(
-        OrderedDict.fromkeys(
-            itertools.chain.from_iterable([
-                filter_illuminants(illuminant) for illuminant in illuminants
-            ])))
+    illuminants = filter_illuminants(illuminants).values()
 
     title = '{0} - Illuminants Spectral Power Distributions'.format(
         ', '.join([illuminant.strict_name for illuminant in illuminants]))
@@ -551,7 +542,7 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
         :alt: visible_spectrum_plot
     """
 
-    cmfs = first_item(filter_cmfs(cmfs))
+    cmfs = first_item(filter_cmfs(cmfs).values())
 
     bounding_box = (min(cmfs.wavelengths), max(cmfs.wavelengths), 0, 1)
 
@@ -655,23 +646,9 @@ def multi_lightness_function_plot(functions=None, **kwargs):
     if functions is None:
         functions = ('CIE 1976', 'Wyszecki 1963')
 
-    settings = {'uniform': True}
-    settings.update(kwargs)
-
-    figure, axes = artist(**settings)
-
-    samples = np.linspace(0, 100, 1000)
-    for function in functions:
-        function, name = LIGHTNESS_METHODS.get(function), function
-        if function is None:
-            raise KeyError(('"{0}" "Lightness" function not found in factory '
-                            '"Lightness" functions: "{1}".').format(
-                                name, sorted(LIGHTNESS_METHODS.keys())))
-
-        axes.plot(samples, function(samples), label='{0}'.format(name))
+    functions = filter_passthrough(LIGHTNESS_METHODS, functions)
 
     settings = {
-        'axes': axes,
         'aspect': 'equal',
         'bounding_box': (0, 100, 0, 100),
         'legend': True,
@@ -681,7 +658,8 @@ def multi_lightness_function_plot(functions=None, **kwargs):
     }
     settings.update(kwargs)
 
-    return render(**settings)
+    return multi_function_plot(
+        functions, samples=np.linspace(0, 100, 1000), **settings)
 
 
 @override_style()
@@ -727,7 +705,7 @@ def blackbody_spectral_radiance_plot(
 
     figure.subplots_adjust(hspace=COLOUR_STYLE_CONSTANTS.geometry.short / 2)
 
-    cmfs = first_item(filter_cmfs(cmfs))
+    cmfs = first_item(filter_cmfs(cmfs).values())
 
     spd = blackbody_spd(temperature, cmfs.shape)
 
@@ -812,7 +790,7 @@ def blackbody_colours_plot(
 
     figure, axes = artist(**kwargs)
 
-    cmfs = first_item(filter_cmfs(cmfs))
+    cmfs = first_item(filter_cmfs(cmfs).values())
 
     colours = []
     temperatures = []

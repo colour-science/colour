@@ -12,10 +12,10 @@ from . import dataset
 from .common import (COLOUR_STYLE_CONSTANTS, colour_style, override_style,
                      XYZ_to_plotting_colourspace, ColourSwatch, colour_cycle,
                      artist, camera, render, label_rectangles, uniform_axes3d,
-                     filter_RGB_colourspaces, filter_cmfs, filter_illuminants,
-                     filter_colour_checkers, single_colour_swatch_plot,
-                     multi_colour_swatch_plot, single_function_plot,
-                     multi_function_plot, image_plot)
+                     filter_passthrough, filter_RGB_colourspaces, filter_cmfs,
+                     filter_illuminants, filter_colour_checkers,
+                     single_colour_swatch_plot, multi_colour_swatch_plot,
+                     single_function_plot, multi_function_plot, image_plot)
 from .blindness import cvd_simulation_Machado2009_plot
 from .colorimetry import (
     single_spd_plot, multi_spd_plot, single_cmfs_plot, multi_cmfs_plot,
@@ -58,10 +58,10 @@ __all__ += [
     'COLOUR_STYLE_CONSTANTS', 'colour_style', 'override_style',
     'XYZ_to_plotting_colourspace', 'ColourSwatch', 'colour_cycle', 'artist',
     'camera', 'render', 'label_rectangles', 'uniform_axes3d',
-    'filter_RGB_colourspaces', 'filter_cmfs', 'filter_illuminants',
-    'filter_colour_checkers', 'single_colour_swatch_plot',
-    'multi_colour_swatch_plot', 'single_function_plot', 'multi_function_plot',
-    'image_plot'
+    'filter_passthrough', 'filter_RGB_colourspaces', 'filter_cmfs',
+    'filter_illuminants', 'filter_colour_checkers',
+    'single_colour_swatch_plot', 'multi_colour_swatch_plot',
+    'single_function_plot', 'multi_function_plot', 'image_plot'
 ]
 __all__ += ['cvd_simulation_Machado2009_plot']
 __all__ += [

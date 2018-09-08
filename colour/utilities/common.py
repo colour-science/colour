@@ -20,6 +20,7 @@ import functools
 import numpy as np
 import re
 import warnings
+from collections import OrderedDict
 from copy import deepcopy
 from six import string_types
 
@@ -412,8 +413,13 @@ def filter_mapping(mapping, filterers, anchors=True, flags=re.IGNORECASE):
 
     Returns
     -------
-    dict_like
+    OrderedDict
         Filtered mapping elements.
+
+    Notes
+    -----
+    -   To honour the filterers ordering, the return value is an
+        :class:`OrderedDict` class instance.
 
     Examples
     --------
@@ -451,7 +457,7 @@ def filter_mapping(mapping, filterers, anchors=True, flags=re.IGNORECASE):
 
         Returns
         -------
-        dict_like
+        OrderedDict
             Filtered mapping elements.
         """
 
@@ -466,13 +472,13 @@ def filter_mapping(mapping, filterers, anchors=True, flags=re.IGNORECASE):
 
         lookup = Lookup(mapping)
 
-        return type(mapping)((lookup.first_key_from_value(element), element)
-                             for element in elements)
+        return OrderedDict((lookup.first_key_from_value(element), element)
+                           for element in elements)
 
     if is_string(filterers):
         filterers = [filterers]
 
-    filtered_mapping = type(mapping)()
+    filtered_mapping = OrderedDict()
 
     for filterer in filterers:
         filtered_mapping.update(

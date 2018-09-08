@@ -11,10 +11,8 @@ Defines colour models volume and gamut plotting objects:
 
 from __future__ import division
 
-import itertools
 import matplotlib.pyplot as plt
 import numpy as np
-from collections import OrderedDict
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
@@ -489,12 +487,7 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
     if colourspaces is None:
         colourspaces = ('ITU-R BT.709', 'ACEScg')
 
-    colourspaces = list(
-        OrderedDict.fromkeys(
-            itertools.chain.from_iterable([
-                filter_RGB_colourspaces(colourspace)
-                for colourspace in colourspaces
-            ])))
+    colourspaces = filter_RGB_colourspaces(colourspaces).values()
 
     count_c = len(colourspaces)
 
@@ -520,7 +513,7 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
 
     points = np.zeros((4, 3))
     if show_spectral_locus:
-        cmfs = first_item(filter_cmfs(cmfs))
+        cmfs = first_item(filter_cmfs(cmfs).values())
         XYZ = cmfs.values
 
         points = common_colourspace_model_axis_reorder(
@@ -692,7 +685,7 @@ def RGB_scatter_plot(RGB,
         :alt: RGB_scatter_plot
     """
 
-    colourspace = first_item(filter_RGB_colourspaces(colourspace))
+    colourspace = first_item(filter_RGB_colourspaces(colourspace).values())
 
     if colourspaces is None:
         colourspaces = (colourspace.name, )

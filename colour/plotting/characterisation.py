@@ -11,7 +11,6 @@ Defines the characterisation plotting objects:
 
 from __future__ import division
 
-import itertools
 import numpy as np
 
 from colour.models import xyY_to_XYZ
@@ -122,11 +121,7 @@ def multi_colour_checker_plot(colour_checkers=None, **kwargs):
         assert len(colour_checkers) <= 2, (
             'Only two colour checkers can be compared at a time!')
 
-    colour_checkers = list(
-        itertools.chain.from_iterable([
-            filter_colour_checkers(colour_checker)
-            for colour_checker in colour_checkers
-        ]))
+    colour_checkers = filter_colour_checkers(colour_checkers).values()
     colour_checkers = [
         colour_checkers[i] for i in range(len(colour_checkers))
         if i == colour_checkers.index(colour_checkers[i])

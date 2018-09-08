@@ -40,7 +40,7 @@ from matplotlib.colors import LinearSegmentedColormap
 from colour.characterisation import COLOURCHECKERS
 from colour.colorimetry import (CMFS, ILLUMINANTS_SPDS)
 from colour.models import RGB_COLOURSPACES, XYZ_to_RGB
-from colour.utilities import (Structure, is_sibling,
+from colour.utilities import (Structure, is_sibling, is_string,
                               filter_mapping)
 
 __author__ = 'Colour Developers'
@@ -54,10 +54,10 @@ __all__ = [
     'COLOUR_STYLE_CONSTANTS', 'colour_style', 'override_style',
     'XYZ_to_plotting_colourspace', 'ColourSwatch', 'colour_cycle', 'artist',
     'camera', 'render', 'label_rectangles', 'uniform_axes3d',
-    'filter_RGB_colourspaces', 'filter_cmfs', 'filter_illuminants',
-    'filter_colour_checkers', 'single_colour_swatch_plot',
-    'multi_colour_swatch_plot', 'single_function_plot', 'multi_function_plot',
-    'image_plot'
+    'filter_passthrough', 'filter_RGB_colourspaces', 'filter_cmfs',
+    'filter_illuminants', 'filter_colour_checkers',
+    'single_colour_swatch_plot', 'multi_colour_swatch_plot',
+    'single_function_plot', 'multi_function_plot', 'image_plot'
 ]
 
 COLOUR_STYLE_CONSTANTS = Structure(
@@ -633,121 +633,159 @@ def uniform_axes3d(axes):
     return True
 
 
-def filter_RGB_colourspaces(filterer, anchors=True, flags=re.IGNORECASE):
+def filter_passthrough(mapping, filterers, anchors=True, flags=re.IGNORECASE):
     """
-    Returns the *RGB* colourspaces matching given filterer.
+    Returns mapping objects matching given filterers while passing through
+    class instances whose type is one of the mapping element types.
 
     Parameters
     ----------
-    filterer : unicode or RGB_Colourspace
-        *RGB* colourspace filterer or :class:`colour.RGB_Colourspace` class
-        instance which will be passed through directly.
+    mapping : dict_like
+        Mapping to filter.
+    filterers : unicode or object or array_like
+        Filterer or object class instance (which is passed through directly if
+        its type is one of the mapping element types) or list
+        of filterers.
     anchors : bool, optional
         Whether to use Regex line anchors, i.e. *^* and *$* are added,
-        surrounding the filterer pattern.
+        surrounding the filterers patterns.
     flags : int, optional
         Regex flags.
 
     Returns
     -------
-    list
+    dict_like
+        Filtered mapping.
+    """
+
+    if is_string(filterers):
+        filterers = [filterers]
+    elif not isinstance(filterers, (list, tuple)):
+        filterers = [filterers]
+
+    string_filterers = [
+        filterer for filterer in filterers if is_string(filterer)
+    ]
+
+    object_filterers = [
+        filterer for filterer in filterers if is_sibling(filterer, mapping)
+    ]
+
+    filtered_mapping = filter_mapping(mapping, string_filterers, anchors,
+                                      flags)
+
+    for filterer in object_filterers:
+        try:
+            name = filterer.name
+        except AttributeError:
+            name = id(filterer)
+
+        filtered_mapping[name] = filterer
+
+    return filtered_mapping
+
+
+def filter_RGB_colourspaces(filterers, anchors=True, flags=re.IGNORECASE):
+    """
+    Returns the *RGB* colourspaces matching given filterers.
+
+    Parameters
+    ----------
+    filterers : unicode or RGB_Colourspace or array_like
+        Filterer or :class:`colour.RGB_Colourspace` class instance (which is
+        passed through directly if its type is one of the mapping element
+        types) or list of filterers.
+    anchors : bool, optional
+        Whether to use Regex line anchors, i.e. *^* and *$* are added,
+        surrounding the filterers patterns.
+    flags : int, optional
+        Regex flags.
+
+    Returns
+    -------
+    dict_like
         Filtered *RGB* colourspaces.
     """
 
-    if is_sibling(RGB_COLOURSPACES, filterer):
-        return [filterer]
-    else:
-        return filter_mapping(RGB_COLOURSPACES, filterer, anchors,
-                              flags).values()
+    return filter_passthrough(RGB_COLOURSPACES, filterers, anchors, flags)
 
 
-def filter_cmfs(filterer, anchors=True, flags=re.IGNORECASE):
+def filter_cmfs(filterers, anchors=True, flags=re.IGNORECASE):
     """
-    Returns the colour matching functions matching given filterer.
+    Returns the colour matching functions matching given filterers.
 
     Parameters
     ----------
-    filterer : unicode or LMS_ConeFundamentals or RGB_ColourMatchingFunctions \
-or XYZ_ColourMatchingFunctions
-        Colour matching functions filterer or
-        :class:`colour.LMS_ConeFundamentals`,
+    filterers : unicode or LMS_ConeFundamentals or \
+RGB_ColourMatchingFunctions or XYZ_ColourMatchingFunctions or array_like
+        Filterer or :class:`colour.LMS_ConeFundamentals`,
         :class:`colour.RGB_ColourMatchingFunctions` or
-        :class:`colour.XYZ_ColourMatchingFunctions` class instance which will
-        be passed through directly.
+        :class:`colour.XYZ_ColourMatchingFunctions` class instance (which is
+        passed through directly if its type is one of the mapping element
+        types) or list of filterers.
     anchors : bool, optional
         Whether to use Regex line anchors, i.e. *^* and *$* are added,
-        surrounding the filterer pattern.
+        surrounding the filterers patterns.
     flags : int, optional
         Regex flags.
 
     Returns
     -------
-    list
+    dict_like
         Filtered colour matching functions.
     """
 
-    if is_sibling(CMFS, filterer):
-        return [filterer]
-    else:
-        return filter_mapping(CMFS, filterer, anchors, flags).values()
+    return filter_passthrough(CMFS, filterers, anchors, flags)
 
 
-def filter_illuminants(filterer, anchors=True, flags=re.IGNORECASE):
+def filter_illuminants(filterers, anchors=True, flags=re.IGNORECASE):
     """
-    Returns the illuminants matching given filterer.
+    Returns the illuminants matching given filterers.
 
     Parameters
     ----------
-    filterer : unicode or SpectralPowerDistribution
-        Colour matching functions filterer or
-        :class:`colour.SpectralPowerDistribution` class instance which will
-        be passed through directly.
+    filterers : unicode or SpectralPowerDistribution or array_like
+        Filterer or :class:`colour.SpectralPowerDistribution` class instance
+        (which is passed through directly if its type is one of the mapping
+        element types) or list of filterers.
     anchors : bool, optional
         Whether to use Regex line anchors, i.e. *^* and *$* are added,
-        surrounding the filterer pattern.
+        surrounding the filterers patterns.
     flags : int, optional
         Regex flags.
 
     Returns
     -------
-    list
+    dict_like
         Filtered illuminants.
     """
 
-    if is_sibling(CMFS, filterer):
-        return [filterer]
-    else:
-        return filter_mapping(ILLUMINANTS_SPDS, filterer, anchors,
-                              flags).values()
+    return filter_passthrough(ILLUMINANTS_SPDS, filterers, anchors, flags)
 
 
-def filter_colour_checkers(filterer, anchors=True, flags=re.IGNORECASE):
+def filter_colour_checkers(filterers, anchors=True, flags=re.IGNORECASE):
     """
-    Returns the colour checkers matching given filterer.
+    Returns the colour checkers matching given filterers.
 
     Parameters
     ----------
-    filterer : unicode or ColourChecker
-        Colour checkers filterer or
-        :class:`colour.characterisation.ColourChecker` class instance which
-        will be passed through directly.
+    filterers : unicode or ColourChecker or array_like
+        Filterer or :class:`colour.characterisation.ColourChecker` class
+        instance (which is passed through directly if its type is one of the
+        mapping element types) or list of filterers.
     anchors : bool, optional
         Whether to use Regex line anchors, i.e. *^* and *$* are added,
-        surrounding the filterer pattern.
+        surrounding the filterers patterns.
     flags : int, optional
         Regex flags.
 
     Returns
     -------
-    list
+    dict_like
         Filtered colour checkers.
     """
 
-    if is_sibling(CMFS, filterer):
-        return [filterer]
-    else:
-        return filter_mapping(COLOURCHECKERS, filterer, anchors,
-                              flags).values()
+    return filter_passthrough(COLOURCHECKERS, filterers, anchors, flags)
 
 
 @override_style(
