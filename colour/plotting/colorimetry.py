@@ -627,12 +627,6 @@ def multi_lightness_function_plot(functions=None, **kwargs):
     tuple
         Current figure and axes.
 
-    Raises
-    ------
-    KeyError
-        If one of the given *Lightness* function is not found in the factory
-        *Lightness* functions.
-
     Examples
     --------
     >>> multi_lightness_function_plot(['CIE 1976', 'Wyszecki 1963'])

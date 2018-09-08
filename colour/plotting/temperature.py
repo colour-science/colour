@@ -174,11 +174,6 @@ def planckian_locus_chromaticity_diagram_plot(
     tuple
         Current figure and axes.
 
-    Raises
-    ------
-    KeyError
-        If one of the given illuminant is not found in the factory illuminants.
-
     Examples
     --------
     >>> planckian_locus_chromaticity_diagram_plot(['A', 'B', 'C'])
@@ -334,11 +329,6 @@ planckian_locus_chromaticity_diagram_plot`,
     tuple
         Current figure and axes.
 
-    Raises
-    ------
-    KeyError
-        If one of the given illuminant is not found in the factory illuminants.
-
     Examples
     --------
     >>> planckian_locus_chromaticity_diagram_plot_CIE1931(['A', 'B', 'C'])
@@ -397,11 +387,6 @@ planckian_locus_chromaticity_diagram_plot`,
     -------
     tuple
         Current figure and axes.
-
-    Raises
-    ------
-    KeyError
-        If one of the given illuminant is not found in the factory illuminants.
 
     Examples
     --------

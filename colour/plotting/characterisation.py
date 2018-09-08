@@ -51,12 +51,6 @@ def single_colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
     tuple
         Current figure and axes.
 
-    Raises
-    ------
-    KeyError
-        If the given colour rendition chart is not found in the factory colour
-        rendition charts.
-
     Examples
     --------
     >>> colour_checker_plot('ColorChecker 2005')  # doctest: +SKIP
@@ -98,12 +92,6 @@ def multi_colour_checker_plot(colour_checkers=None, **kwargs):
     -------
     tuple
         Current figure and axes.
-
-    Raises
-    ------
-    KeyError
-        If the given colour rendition chart is not found in the factory colour
-        rendition charts.
 
     Examples
     --------
