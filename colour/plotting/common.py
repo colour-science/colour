@@ -40,7 +40,8 @@ from matplotlib.colors import LinearSegmentedColormap
 from colour.characterisation import COLOURCHECKERS
 from colour.colorimetry import (CMFS, ILLUMINANTS_SPDS)
 from colour.models import RGB_COLOURSPACES, XYZ_to_RGB
-from colour.utilities import Structure, filter_mapping
+from colour.utilities import (Structure, is_sibling,
+                              filter_mapping)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -653,7 +654,11 @@ def filter_RGB_colourspaces(filterer, anchors=True, flags=re.IGNORECASE):
         Filtered *RGB* colourspaces.
     """
 
-    return filter_mapping(RGB_COLOURSPACES, filterer, anchors, flags)
+    if is_sibling(RGB_COLOURSPACES, filterer):
+        return [filterer]
+    else:
+        return filter_mapping(RGB_COLOURSPACES, filterer, anchors,
+                              flags).values()
 
 
 def filter_cmfs(filterer, anchors=True, flags=re.IGNORECASE):
@@ -681,7 +686,10 @@ or XYZ_ColourMatchingFunctions
         Filtered colour matching functions.
     """
 
-    return filter_mapping(CMFS, filterer, anchors, flags)
+    if is_sibling(CMFS, filterer):
+        return [filterer]
+    else:
+        return filter_mapping(CMFS, filterer, anchors, flags).values()
 
 
 def filter_illuminants(filterer, anchors=True, flags=re.IGNORECASE):
@@ -706,7 +714,11 @@ def filter_illuminants(filterer, anchors=True, flags=re.IGNORECASE):
         Filtered illuminants.
     """
 
-    return filter_mapping(ILLUMINANTS_SPDS, filterer, anchors, flags)
+    if is_sibling(CMFS, filterer):
+        return [filterer]
+    else:
+        return filter_mapping(ILLUMINANTS_SPDS, filterer, anchors,
+                              flags).values()
 
 
 def filter_colour_checkers(filterer, anchors=True, flags=re.IGNORECASE):
@@ -731,7 +743,11 @@ def filter_colour_checkers(filterer, anchors=True, flags=re.IGNORECASE):
         Filtered colour checkers.
     """
 
-    return filter_mapping(COLOURCHECKERS, filterer, anchors, flags)
+    if is_sibling(CMFS, filterer):
+        return [filterer]
+    else:
+        return filter_mapping(COLOURCHECKERS, filterer, anchors,
+                              flags).values()
 
 
 @override_style(

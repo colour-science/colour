@@ -24,6 +24,7 @@ from copy import deepcopy
 from six import string_types
 
 from colour.constants import INTEGER_THRESHOLD, DEFAULT_FLOAT_DTYPE
+from colour.utilities import Lookup
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -326,6 +327,28 @@ def is_integer(a):
     return abs(a - round(a)) <= INTEGER_THRESHOLD
 
 
+def is_sibling(element, mapping):
+    """
+    Returns whether given element type is present in given mapping types.
+
+    Parameters
+    ----------
+    element : object
+        Element to check if its type is present in the mapping types.
+    mapping : dict
+        Mapping.
+
+    Returns
+    -------
+    bool
+        Whether given element type is present in given mapping types.
+    """
+
+    return isinstance(element,
+                      tuple(
+                          set(type(element) for element in mapping.values())))
+
+
 def filter_kwargs(function, **kwargs):
     """
     Filters keyword arguments incompatible with the given function signature.
@@ -377,7 +400,7 @@ def filter_mapping(mapping, filterer, anchors=True, flags=re.IGNORECASE):
 
     Parameters
     ----------
-    mapping : dict
+    mapping : dict_like
         Mapping to filter.
     filterer : unicode or object
         Filterer pattern for given mapping element, either a unicode or a an
@@ -391,7 +414,7 @@ def filter_mapping(mapping, filterer, anchors=True, flags=re.IGNORECASE):
 
     Returns
     -------
-    list
+    dict_like
         Filtered mapping elements.
 
     Examples
@@ -404,26 +427,27 @@ def filter_mapping(mapping, filterer, anchors=True, flags=re.IGNORECASE):
     ...     'Element C': Element(),
     ...     'Not Element C': Element(),
     ... }
-    >>> filter_mapping(mapping, '\w+\s+A')  # doctest: +ELLIPSIS
-    [<colour.utilities.common.Element object at 0x...>]
-    >>> filter_mapping(mapping, 'Element.*')  # doctest: +ELLIPSIS
-    [<colour.utilities.common.Element object at 0x...>, \
-<colour.utilities.common.Element object at 0x...>, \
-<colour.utilities.common.Element object at 0x...>]
+    >>> # Doctests skip for Python 2.x compatibility.
+    >>> filter_mapping(mapping, '\w+\s+A')  # doctest: +SKIP
+    {u'Element A': <colour.utilities.common.Element object at 0x...>}
+    >>> # Doctests skip for Python 2.x compatibility.
+    >>> sorted(filter_mapping(mapping, 'Element.*'))  # doctest: +SKIP
+    [u'Element A', u'Element B', u'Element C']
     """
 
-    if isinstance(filterer,
-                  tuple(set(type(element) for element in mapping.values()))):
-        return [filterer]
-    else:
-        if anchors:
-            filterer = '^{0}$'.format(filterer)
-            filterer = filterer.replace('^^', '^').replace('$$', '$')
+    if anchors:
+        filterer = '^{0}$'.format(filterer)
+        filterer = filterer.replace('^^', '^').replace('$$', '$')
 
-        return [
-            mapping[element] for element in mapping
-            if re.match(filterer, element, flags)
-        ]
+    elements = [
+        mapping[element] for element in mapping
+        if re.match(filterer, element, flags)
+    ]
+
+    lookup = Lookup(mapping)
+
+    return type(mapping)((lookup.first_key_from_value(element), element)
+                         for element in elements)
 
 
 def first_item(a):

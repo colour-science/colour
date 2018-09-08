@@ -10,11 +10,11 @@ import unittest
 from collections import OrderedDict
 
 from colour.utilities import (
-    batch, is_iterable, is_string, is_numeric, is_integer, filter_kwargs,
-    filter_mapping, first_item, get_domain_range_scale, set_domain_range_scale,
-    domain_range_scale, to_domain_1, to_domain_10, to_domain_100,
-    to_domain_int, to_domain_degrees, from_range_1, from_range_10,
-    from_range_100, from_range_int, from_range_degrees)
+    batch, is_iterable, is_string, is_numeric, is_integer, is_sibling,
+    filter_kwargs, filter_mapping, first_item, get_domain_range_scale,
+    set_domain_range_scale, domain_range_scale, to_domain_1, to_domain_10,
+    to_domain_100, to_domain_int, to_domain_degrees, from_range_1,
+    from_range_10, from_range_100, from_range_int, from_range_degrees)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -25,7 +25,8 @@ __status__ = 'Production'
 
 __all__ = [
     'TestBatch', 'TestIsIterable', 'TestIsString', 'TestIsNumeric',
-    'TestIsInteger', 'TestFilterKwargs', 'TestFilterMapping', 'TestFirstItem'
+    'TestIsInteger', 'TestIsSibling', 'TestFilterKwargs', 'TestFilterMapping',
+    'TestFirstItem'
 ]
 
 
@@ -152,6 +153,44 @@ class TestIsInteger(unittest.TestCase):
         self.assertFalse(is_integer(1.01))
 
 
+class TestIsSibling(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.common.is_sibling` definition units tests
+    methods.
+    """
+
+    def test_is_sibling(self):
+        """
+        Tests :func:`colour.utilities.common.is_sibling` definition.
+        """
+
+        class Element(object):
+            """
+            :func:`is_sibling` unit tests :class:`Element` class.
+            """
+
+            def __init__(self, name):
+                self.name = name
+
+        class NotElement(object):
+            """
+            :func:`is_sibling` unit tests :class:`NotElement` class.
+            """
+
+            def __init__(self, name):
+                self.name = name
+
+        mapping = {
+            'Element A': Element('A'),
+            'Element B': Element('B'),
+            'Element C': Element('C'),
+        }
+
+        self.assertTrue(is_sibling(Element('D'), mapping))
+
+        self.assertFalse(is_sibling(NotElement('Not D'), mapping))
+
+
 class TestFilterKwargs(unittest.TestCase):
     """
     Defines :func:`colour.utilities.common.filter_kwargs` definition units
@@ -218,25 +257,35 @@ class TestFilterMapping(unittest.TestCase):
         }
 
         self.assertListEqual(
-            filter_mapping(mapping, '\w+\s+A'), [mapping['Element A']])
+            sorted(filter_mapping(mapping, '\w+\s+A')), ['Element A'])
 
         self.assertListEqual(
-            sorted(filter_mapping(mapping, 'Element.*'), key=lambda x: x.name),
-            [mapping['Element A'], mapping['Element B'], mapping['Element C']])
+            sorted(filter_mapping(mapping, 'Element.*')), [
+                'Element A',
+                'Element B',
+                'Element C',
+            ])
 
         self.assertListEqual(
-            sorted(
-                filter_mapping(mapping, '^Element.*'), key=lambda x: x.name),
-            [mapping['Element A'], mapping['Element B'], mapping['Element C']])
+            sorted(filter_mapping(mapping, '^Element.*')), [
+                'Element A',
+                'Element B',
+                'Element C',
+            ])
 
         self.assertListEqual(
-            sorted(
-                filter_mapping(mapping, '^Element.*', False),
-                key=lambda x: x.name),
-            [mapping['Element A'], mapping['Element B'], mapping['Element C']])
+            sorted(filter_mapping(mapping, '^Element.*', False)), [
+                'Element A',
+                'Element B',
+                'Element C',
+            ])
 
-        element = Element('D')
-        self.assertListEqual(filter_mapping(mapping, element), [element])
+        self.assertIsInstance(
+            filter_mapping(mapping, '^Element.*', False), type(mapping))
+
+        self.assertIsInstance(
+            filter_mapping(OrderedDict(mapping), '^Element.*', False),
+            OrderedDict)
 
 
 class TestFirstItem(unittest.TestCase):
