@@ -280,6 +280,12 @@ class TestFilterMapping(unittest.TestCase):
                 'Element C',
             ])
 
+        self.assertListEqual(
+            sorted(filter_mapping(mapping, ['.*A', '.*B'])), [
+                'Element A',
+                'Element B',
+            ])
+
         self.assertIsInstance(
             filter_mapping(mapping, '^Element.*', False), type(mapping))
 

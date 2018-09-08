@@ -394,18 +394,16 @@ def filter_kwargs(function, **kwargs):
     return kwargs
 
 
-def filter_mapping(mapping, filterer, anchors=True, flags=re.IGNORECASE):
+def filter_mapping(mapping, filterers, anchors=True, flags=re.IGNORECASE):
     """
-    Filters given mapping with given filterer.
+    Filters given mapping with given filterers.
 
     Parameters
     ----------
     mapping : dict_like
         Mapping to filter.
-    filterer : unicode or object
-        Filterer pattern for given mapping element, either a unicode or a an
-        instance of any of the mapping elements class types in which case it is
-        returned directly.
+    filterers : unicode or object or array_like
+        Filterer pattern for given mapping elements or a list of filterers.
     anchors : bool, optional
         Whether to use Regex line anchors, i.e. *^* and *$* are added,
         surrounding the filterer pattern.
@@ -435,19 +433,52 @@ def filter_mapping(mapping, filterer, anchors=True, flags=re.IGNORECASE):
     [u'Element A', u'Element B', u'Element C']
     """
 
-    if anchors:
-        filterer = '^{0}$'.format(filterer)
-        filterer = filterer.replace('^^', '^').replace('$$', '$')
+    def filter_mapping_with_filter(mapping, filterer, anchors, flags):
+        """
+        Filters given mapping with given filterer.
 
-    elements = [
-        mapping[element] for element in mapping
-        if re.match(filterer, element, flags)
-    ]
+        Parameters
+        ----------
+        mapping : dict_like
+            Mapping to filter.
+        filterer : unicode or object
+            Filterer pattern for given mapping elements.
+        anchors : bool, optional
+            Whether to use Regex line anchors, i.e. *^* and *$* are added,
+            surrounding the filterer pattern.
+        flags : int, optional
+            Regex flags.
 
-    lookup = Lookup(mapping)
+        Returns
+        -------
+        dict_like
+            Filtered mapping elements.
+        """
 
-    return type(mapping)((lookup.first_key_from_value(element), element)
-                         for element in elements)
+        if anchors:
+            filterer = '^{0}$'.format(filterer)
+            filterer = filterer.replace('^^', '^').replace('$$', '$')
+
+        elements = [
+            mapping[element] for element in mapping
+            if re.match(filterer, element, flags)
+        ]
+
+        lookup = Lookup(mapping)
+
+        return type(mapping)((lookup.first_key_from_value(element), element)
+                             for element in elements)
+
+    if is_string(filterers):
+        filterers = [filterers]
+
+    filtered_mapping = type(mapping)()
+
+    for filterer in filterers:
+        filtered_mapping.update(
+            filter_mapping_with_filter(mapping, filterer, anchors, flags))
+
+    return filtered_mapping
 
 
 def first_item(a):
