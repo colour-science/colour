@@ -646,7 +646,6 @@ def multi_lightness_function_plot(functions=None, **kwargs):
     functions = filter_passthrough(LIGHTNESS_METHODS, functions)
 
     settings = {
-        'aspect': 'equal',
         'bounding_box': (0, 1, 0, 1),
         'legend': True,
         'title': '{0} - Lightness Functions'.format(', '.join(functions)),
@@ -732,7 +731,6 @@ def multi_luminance_function_plot(functions=None, **kwargs):
     functions = filter_passthrough(LUMINANCE_METHODS, functions)
 
     settings = {
-        'aspect': 'equal',
         'bounding_box': (0, 1, 0, 1),
         'legend': True,
         'title': '{0} - Luminance Functions'.format(', '.join(functions)),
