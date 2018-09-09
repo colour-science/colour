@@ -45,6 +45,8 @@ Colorimetry
     visible_spectrum_plot
     single_lightness_function_plot
     multi_lightness_function_plot
+    single_luminance_function_plot
+    multi_luminance_function_plot
     blackbody_spectral_radiance_plot
     blackbody_colours_plot
 

@@ -229,6 +229,14 @@ def generate_documentation_plots(output_directory):
     multi_lightness_function_plot(['CIE 1976', 'Wyszecki 1963'], **arguments)
 
     arguments['filename'] = os.path.join(
+        output_directory, 'Plotting_Single_Luminance_Function_Plot.png')
+    single_luminance_function_plot('CIE 1976', **arguments)
+
+    arguments['filename'] = os.path.join(
+        output_directory, 'Plotting_Multi_Luminance_Function_Plot.png')
+    multi_luminance_function_plot(['CIE 1976', 'Newhall 1943'], **arguments)
+
+    arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Blackbody_Spectral_Radiance_Plot.png')
     blackbody_spectral_radiance_plot(
         3500, blackbody='VY Canis Major', **arguments)

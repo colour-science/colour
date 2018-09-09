@@ -14,6 +14,8 @@ Defines the colorimetry plotting objects:
 -   :func:`colour.plotting.visible_spectrum_plot`
 -   :func:`colour.plotting.single_lightness_function_plot`
 -   :func:`colour.plotting.multi_lightness_function_plot`
+-   :func:`colour.plotting.single_luminance_function_plot`
+-   :func:`colour.plotting.multi_luminance_function_plot`
 -   :func:`colour.plotting.blackbody_spectral_radiance_plot`
 -   :func:`colour.plotting.blackbody_colours_plot`
 
@@ -32,8 +34,8 @@ from six.moves import reduce
 
 from colour.algebra import LinearInterpolator
 from colour.colorimetry import (
-    ILLUMINANTS, ILLUMINANTS_SPDS, LIGHTNESS_METHODS, SpectralShape,
-    blackbody_spd, ones_spd, spectral_to_XYZ, wavelength_to_XYZ)
+    ILLUMINANTS, ILLUMINANTS_SPDS, LIGHTNESS_METHODS, LUMINANCE_METHODS,
+    SpectralShape, blackbody_spd, ones_spd, spectral_to_XYZ, wavelength_to_XYZ)
 from colour.plotting import (
     ColourSwatch, COLOUR_STYLE_CONSTANTS, XYZ_to_plotting_colourspace, artist,
     filter_passthrough, filter_cmfs, filter_illuminants, override_style,
@@ -52,7 +54,8 @@ __all__ = [
     'single_spd_plot', 'multi_spd_plot', 'single_cmfs_plot', 'multi_cmfs_plot',
     'single_illuminant_spd_plot', 'multi_illuminant_spd_plot',
     'visible_spectrum_plot', 'single_lightness_function_plot',
-    'multi_lightness_function_plot', 'blackbody_spectral_radiance_plot',
+    'multi_lightness_function_plot', 'single_luminance_function_plot',
+    'multi_luminance_function_plot', 'blackbody_spectral_radiance_plot',
     'blackbody_colours_plot'
 ]
 
@@ -644,16 +647,102 @@ def multi_lightness_function_plot(functions=None, **kwargs):
 
     settings = {
         'aspect': 'equal',
-        'bounding_box': (0, 100, 0, 100),
+        'bounding_box': (0, 1, 0, 1),
         'legend': True,
         'title': '{0} - Lightness Functions'.format(', '.join(functions)),
-        'x_label': 'Relative Luminance Y',
-        'y_label': 'Lightness',
+        'x_label': 'Normalised Relative Luminance Y',
+        'y_label': 'Normalised Lightness',
     }
     settings.update(kwargs)
 
-    return multi_function_plot(
-        functions, samples=np.linspace(0, 100, 1000), **settings)
+    with domain_range_scale(1):
+        return multi_function_plot(functions, **settings)
+
+
+@override_style()
+def single_luminance_function_plot(function='CIE 1976', **kwargs):
+    """
+    Plots given *Luminance* function.
+
+    Parameters
+    ----------
+    function : unicode, optional
+        *Luminance* function to plot.
+
+    Other Parameters
+    ----------------
+    \**kwargs : dict, optional
+        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
+
+    Returns
+    -------
+    tuple
+        Current figure and axes.
+
+    Examples
+    --------
+    >>> single_luminance_function_plot('CIE 1976')  # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_Single_Luminance_Function_Plot.png
+        :align: center
+        :alt: single_luminance_function_plot
+    """
+
+    settings = {'title': '{0} - Luminance Function'.format(function)}
+    settings.update(kwargs)
+
+    return multi_luminance_function_plot((function, ), **settings)
+
+
+@override_style()
+def multi_luminance_function_plot(functions=None, **kwargs):
+    """
+    Plots given *Luminance* functions.
+
+    Parameters
+    ----------
+    functions : array_like, optional
+        *Luminance* functions to plot.
+
+    Other Parameters
+    ----------------
+    \**kwargs : dict, optional
+        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
+
+    Returns
+    -------
+    tuple
+        Current figure and axes.
+
+    Examples
+    --------
+    >>> multi_luminance_function_plot(['CIE 1976', 'Newhall 1943'])
+    ... # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_Multi_Luminance_Function_Plot.png
+        :align: center
+        :alt: multi_luminance_function_plot
+    """
+
+    if functions is None:
+        functions = ('CIE 1976', 'Newhall 1943')
+
+    functions = filter_passthrough(LUMINANCE_METHODS, functions)
+
+    settings = {
+        'aspect': 'equal',
+        'bounding_box': (0, 1, 0, 1),
+        'legend': True,
+        'title': '{0} - Luminance Functions'.format(', '.join(functions)),
+        'x_label': 'Normalised Munsell Value / Lightness',
+        'y_label': 'Normalised Relative Luminance Y',
+    }
+    settings.update(kwargs)
+
+    with domain_range_scale(1):
+        return multi_function_plot(functions, **settings)
 
 
 @override_style()
