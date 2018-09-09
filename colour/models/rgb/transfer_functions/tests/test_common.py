@@ -9,8 +9,9 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.models.rgb.transfer_functions import CV_range, legal_to_full, \
-    full_to_legal
+from colour.models.rgb.transfer_functions import (
+    CV_range, DECODING_CCTFS, ENCODING_CCTFS, OOTFS, OOTFS_REVERSE,
+    legal_to_full, full_to_legal)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -20,7 +21,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Development'
 
-__all__ = ['TestCV_range', 'TestLegalToFull', 'TestFullToLegal']
+__all__ = [
+    'TestCV_range', 'TestLegalToFull', 'TestFullToLegal', 'TestCctfs',
+    'TestOotfs'
+]
 
 
 class TestCV_range(unittest.TestCase):
@@ -194,6 +198,64 @@ class TestFullToLegal(unittest.TestCase):
         """
 
         full_to_legal(np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]), 10)
+
+
+class TestCctfs(unittest.TestCase):
+    """
+    Defines :attr:`colour.models.rgb.transfer_functions.ENCODING_CCTFS` and
+    :attr:`colour.models.rgb.transfer_functions.DECODING_CCTFS`
+    attributes unit tests methods.
+    """
+
+    def test_cctfs(self):
+        """
+        Tests :attr:`colour.models.rgb.transfer_functions.ENCODING_CCTFS` and
+        :attr:`colour.models.rgb.transfer_functions.DECODING_CCTFS`
+        attributes.
+        """
+
+        ignored_cctfs = ('ACESproxy', 'DICOM GSDF')
+
+        samples = np.hstack((np.linspace(0, 1, 1e5),
+                             np.linspace(0, 65504, 65504 * 10)))
+
+        for name in ENCODING_CCTFS:
+            if name in ignored_cctfs:
+                continue
+
+            encoding_cctf_s = ENCODING_CCTFS[name](samples)
+            decoding_cctf_s = DECODING_CCTFS[name](encoding_cctf_s)
+
+            np.testing.assert_almost_equal(samples, decoding_cctf_s, decimal=7)
+
+
+class TestOotfs(unittest.TestCase):
+    """
+    Defines :attr:`colour.models.rgb.transfer_functions.OOTFS` and
+    :attr:`colour.models.rgb.transfer_functions.OOTFS_REVERSE`
+    attributes unit tests methods.
+    """
+
+    def test_ootfs(self):
+        """
+        Tests :attr:`colour.models.rgb.transfer_functions.OOTFS` and
+        :attr:`colour.models.rgb.transfer_functions.OOTFS_REVERSE`
+        attributes.
+        """
+
+        ignored_ootfs = tuple()
+
+        samples = np.hstack((np.linspace(0, 1, 1e5),
+                             np.linspace(0, 65504, 65504 * 10)))
+
+        for name in OOTFS:
+            if name in ignored_ootfs:
+                continue
+
+            ootf_s = OOTFS[name](samples)
+            ootfs_reverse_s = OOTFS_REVERSE[name](ootf_s)
+
+            np.testing.assert_almost_equal(samples, ootfs_reverse_s, decimal=7)
 
 
 if __name__ == '__main__':
