@@ -88,7 +88,7 @@ def single_rayleigh_scattering_spd_plot(
 
     title = 'Rayleigh Scattering'
 
-    cmfs = first_item(filter_cmfs(cmfs))
+    cmfs = first_item(filter_cmfs(cmfs).values())
 
     settings = {'title': title, 'y_label': 'Optical Depth'}
     settings.update(kwargs)
@@ -133,7 +133,7 @@ def the_blue_sky_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
 
     figure.subplots_adjust(hspace=COLOUR_STYLE_CONSTANTS.geometry.short / 2)
 
-    cmfs = first_item(filter_cmfs(cmfs))
+    cmfs = first_item(filter_cmfs(cmfs).values())
 
     ASTM_G_173_spd = ASTM_G_173_ETR.copy()
     rayleigh_spd = rayleigh_scattering_spd()

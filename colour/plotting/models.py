@@ -23,22 +23,21 @@ RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS`
 
 from __future__ import division
 
-import itertools
 import numpy as np
-from collections import OrderedDict
 
 from colour.constants import EPSILON
-from colour.models import (
-    LCHab_to_Lab, Lab_to_XYZ, Luv_to_uv, POINTER_GAMUT_BOUNDARIES,
-    POINTER_GAMUT_DATA, POINTER_GAMUT_ILLUMINANT, RGB_to_RGB, RGB_to_XYZ,
-    UCS_to_uv, XYZ_to_Luv, XYZ_to_UCS, XYZ_to_xy, xy_to_Luv_uv, xy_to_UCS_uv)
+from colour.models import (ENCODING_CCTFS, DECODING_CCTFS, LCHab_to_Lab,
+                           Lab_to_XYZ, Luv_to_uv, POINTER_GAMUT_BOUNDARIES,
+                           POINTER_GAMUT_DATA, POINTER_GAMUT_ILLUMINANT,
+                           RGB_to_RGB, RGB_to_XYZ, UCS_to_uv, XYZ_to_Luv,
+                           XYZ_to_UCS, XYZ_to_xy, xy_to_Luv_uv, xy_to_UCS_uv)
 from colour.plotting import (
     COLOUR_STYLE_CONSTANTS, chromaticity_diagram_plot_CIE1931,
     chromaticity_diagram_plot_CIE1960UCS, chromaticity_diagram_plot_CIE1976UCS,
-    artist, colour_cycle, filter_RGB_colourspaces, filter_cmfs, override_style,
-    render)
+    artist, colour_cycle, filter_passthrough, filter_RGB_colourspaces,
+    filter_cmfs, multi_function_plot, override_style, render)
 from colour.plotting.diagrams import chromaticity_diagram_plot
-from colour.utilities import first_item
+from colour.utilities import domain_range_scale, first_item
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -243,12 +242,7 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot.png
     if colourspaces is None:
         colourspaces = ['ITU-R BT.709', 'ACEScg', 'S-Gamut']
 
-    colourspaces = list(
-        OrderedDict.fromkeys(
-            itertools.chain.from_iterable([
-                filter_RGB_colourspaces(colourspace)
-                for colourspace in colourspaces
-            ])))
+    colourspaces = filter_RGB_colourspaces(colourspaces).values()
 
     settings = {'uniform': True}
     settings.update(kwargs)
@@ -257,7 +251,7 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot.png
 
     method = method.upper()
 
-    cmfs = first_item(filter_cmfs(cmfs))
+    cmfs = first_item(filter_cmfs(cmfs).values())
 
     title = '{0}\n{1} - {2} Chromaticity Diagram'.format(
         ', '.join([colourspace.name for colourspace in colourspaces]),
@@ -607,7 +601,7 @@ RGB_Chromaticity_Coordinates_Chromaticity_Diagram_Plot.png
     settings = dict(kwargs)
     settings.update({'axes': axes, 'standalone': False})
 
-    colourspace = first_item(filter_RGB_colourspaces(colourspace))
+    colourspace = first_item(filter_RGB_colourspaces(colourspace).values())
     settings['colourspaces'] = (
         ['^{0}$'.format(colourspace.name)] + settings.get('colourspaces', []))
 
@@ -828,15 +822,14 @@ RGB_Chromaticity_Coordinates_Chromaticity_Diagram_Plot_CIE1976UCS.png
 
 
 @override_style()
-def single_cctf_plot(colourspace='ITU-R BT.709', decoding_cctf=False,
-                     **kwargs):
+def single_cctf_plot(cctf='ITU-R BT.709', decoding_cctf=False, **kwargs):
     """
     Plots given colourspace colour component transfer function.
 
     Parameters
     ----------
-    colourspace : unicode, optional
-        *RGB* Colourspace colour component transfer function to plot.
+    cctf : unicode, optional
+        Colour component transfer function to plot.
     decoding_cctf : bool
         Plot the decoding colour component transfer function instead.
 
@@ -862,23 +855,23 @@ def single_cctf_plot(colourspace='ITU-R BT.709', decoding_cctf=False,
 
     settings = {
         'title':
-            '{0} - {1} CCTF'.format(colourspace, 'Decoding'
+            '{0} - {1} CCTF'.format(cctf, 'Decoding'
                                     if decoding_cctf else 'Encoding')
     }
     settings.update(kwargs)
 
-    return multi_cctf_plot([colourspace], decoding_cctf, **settings)
+    return multi_cctf_plot([cctf], decoding_cctf, **settings)
 
 
 @override_style()
-def multi_cctf_plot(colourspaces=None, decoding_cctf=False, **kwargs):
+def multi_cctf_plot(cctfs=None, decoding_cctf=False, **kwargs):
     """
-    Plots given colourspaces colour component transfer functions.
+    Plots given colour component transfer functions.
 
     Parameters
     ----------
-    colourspaces : array_like, optional
-        Colourspaces colour component transfer function to plot.
+    cctfs : array_like, optional
+        Colour component transfer function to plot.
     decoding_cctf : bool
         Plot the decoding colour component transfer function instead.
 
@@ -902,35 +895,16 @@ def multi_cctf_plot(colourspaces=None, decoding_cctf=False, **kwargs):
         :alt: multi_cctf_plot
     """
 
-    if colourspaces is None:
-        colourspaces = ('ITU-R BT.709', 'sRGB')
+    if cctfs is None:
+        cctfs = ('ITU-R BT.709', 'sRGB')
 
-    colourspaces = list(
-        OrderedDict.fromkeys(
-            itertools.chain.from_iterable([
-                filter_RGB_colourspaces(colourspace)
-                for colourspace in colourspaces
-            ])))
-
-    settings = {'uniform': True}
-    settings.update(kwargs)
-
-    figure, axes = artist(**settings)
-
-    samples = np.linspace(0, 1, 1000)
-    for colourspace in colourspaces:
-        RGBs = (colourspace.decoding_cctf(samples)
-                if decoding_cctf else colourspace.encoding_cctf(samples))
-
-        axes.plot(samples, RGBs, label=u'{0}'.format(colourspace.name))
+    cctfs = filter_passthrough(DECODING_CCTFS
+                               if decoding_cctf else ENCODING_CCTFS, cctfs)
 
     mode = 'Decoding' if decoding_cctf else 'Encoding'
-    title = '{0} - {1} CCTFs'.format(', '.join(
-        [colourspace.name for colourspace in colourspaces]), mode)
+    title = '{0} - {1} CCTFs'.format(', '.join([cctf for cctf in cctfs]), mode)
 
     settings = {
-        'axes': axes,
-        'aspect': 'equal',
         'bounding_box': (0, 1, 0, 1),
         'legend': True,
         'title': title,
@@ -939,4 +913,5 @@ def multi_cctf_plot(colourspaces=None, decoding_cctf=False, **kwargs):
     }
     settings.update(kwargs)
 
-    return render(**settings)
+    with domain_range_scale(1):
+        return multi_function_plot(cctfs, **settings)

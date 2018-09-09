@@ -11,7 +11,6 @@ Defines the characterisation plotting objects:
 
 from __future__ import division
 
-import itertools
 import numpy as np
 
 from colour.models import xyY_to_XYZ
@@ -51,12 +50,6 @@ def single_colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
     -------
     tuple
         Current figure and axes.
-
-    Raises
-    ------
-    KeyError
-        If the given colour rendition chart is not found in the factory colour
-        rendition charts.
 
     Examples
     --------
@@ -100,12 +93,6 @@ def multi_colour_checker_plot(colour_checkers=None, **kwargs):
     tuple
         Current figure and axes.
 
-    Raises
-    ------
-    KeyError
-        If the given colour rendition chart is not found in the factory colour
-        rendition charts.
-
     Examples
     --------
     >>> multi_colour_checker_plot(['ColorChecker 1976', 'ColorChecker 2005'])
@@ -122,11 +109,7 @@ def multi_colour_checker_plot(colour_checkers=None, **kwargs):
         assert len(colour_checkers) <= 2, (
             'Only two colour checkers can be compared at a time!')
 
-    colour_checkers = list(
-        itertools.chain.from_iterable([
-            filter_colour_checkers(colour_checker)
-            for colour_checker in colour_checkers
-        ]))
+    colour_checkers = filter_colour_checkers(colour_checkers).values()
     colour_checkers = [
         colour_checkers[i] for i in range(len(colour_checkers))
         if i == colour_checkers.index(colour_checkers[i])

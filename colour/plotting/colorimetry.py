@@ -14,6 +14,8 @@ Defines the colorimetry plotting objects:
 -   :func:`colour.plotting.visible_spectrum_plot`
 -   :func:`colour.plotting.single_lightness_function_plot`
 -   :func:`colour.plotting.multi_lightness_function_plot`
+-   :func:`colour.plotting.single_luminance_function_plot`
+-   :func:`colour.plotting.multi_luminance_function_plot`
 -   :func:`colour.plotting.blackbody_spectral_radiance_plot`
 -   :func:`colour.plotting.blackbody_colours_plot`
 
@@ -25,21 +27,19 @@ References
 
 from __future__ import division
 
-import itertools
 import matplotlib.pyplot as plt
 import numpy as np
-from collections import OrderedDict
 from matplotlib.patches import Polygon
 from six.moves import reduce
 
 from colour.algebra import LinearInterpolator
 from colour.colorimetry import (
-    ILLUMINANTS, ILLUMINANTS_SPDS, LIGHTNESS_METHODS, SpectralShape,
-    blackbody_spd, ones_spd, spectral_to_XYZ, wavelength_to_XYZ)
-from colour.plotting import (ColourSwatch, COLOUR_STYLE_CONSTANTS,
-                             XYZ_to_plotting_colourspace, artist, filter_cmfs,
-                             filter_illuminants, override_style, render,
-                             single_colour_swatch_plot)
+    ILLUMINANTS, ILLUMINANTS_SPDS, LIGHTNESS_METHODS, LUMINANCE_METHODS,
+    SpectralShape, blackbody_spd, ones_spd, spectral_to_XYZ, wavelength_to_XYZ)
+from colour.plotting import (
+    ColourSwatch, COLOUR_STYLE_CONSTANTS, XYZ_to_plotting_colourspace, artist,
+    filter_passthrough, filter_cmfs, filter_illuminants, override_style,
+    render, single_colour_swatch_plot, multi_function_plot)
 from colour.utilities import (domain_range_scale, first_item,
                               normalise_maximum, suppress_warnings, tstack)
 
@@ -54,7 +54,8 @@ __all__ = [
     'single_spd_plot', 'multi_spd_plot', 'single_cmfs_plot', 'multi_cmfs_plot',
     'single_illuminant_spd_plot', 'multi_illuminant_spd_plot',
     'visible_spectrum_plot', 'single_lightness_function_plot',
-    'multi_lightness_function_plot', 'blackbody_spectral_radiance_plot',
+    'multi_lightness_function_plot', 'single_luminance_function_plot',
+    'multi_luminance_function_plot', 'blackbody_spectral_radiance_plot',
     'blackbody_colours_plot'
 ]
 
@@ -114,7 +115,7 @@ def single_spd_plot(spd,
 
     figure, axes = artist(**kwargs)
 
-    cmfs = first_item(filter_cmfs(cmfs))
+    cmfs = first_item(filter_cmfs(cmfs).values())
 
     spd = spd.copy()
     spd.interpolator = LinearInterpolator
@@ -234,7 +235,7 @@ def multi_spd_plot(spds,
 
     figure, axes = artist(**kwargs)
 
-    cmfs = first_item(filter_cmfs(cmfs))
+    cmfs = first_item(filter_cmfs(cmfs).values())
 
     illuminant = ILLUMINANTS_SPDS[
         COLOUR_STYLE_CONSTANTS.colour.colourspace.illuminant]
@@ -307,7 +308,7 @@ def single_cmfs_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
         :alt: single_cmfs_plot
     """
 
-    cmfs = first_item(filter_cmfs(cmfs))
+    cmfs = first_item(filter_cmfs(cmfs).values())
     settings = {
         'title': '{0} - Colour Matching Functions'.format(cmfs.strict_name)
     }
@@ -352,10 +353,7 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
         cmfs = ('CIE 1931 2 Degree Standard Observer',
                 'CIE 1964 10 Degree Standard Observer')
 
-    cmfs = list(
-        OrderedDict.fromkeys(
-            itertools.chain.from_iterable(
-                [filter_cmfs(cmfs_i) for cmfs_i in cmfs])))
+    cmfs = filter_cmfs(cmfs).values()
 
     figure, axes = artist(**kwargs)
 
@@ -442,10 +440,10 @@ def single_illuminant_spd_plot(illuminant='A',
         :alt: single_illuminant_spd_plot
     """
 
-    cmfs = first_item(filter_cmfs(cmfs))
+    cmfs = first_item(filter_cmfs(cmfs).values())
     title = 'Illuminant {0} - {1}'.format(illuminant, cmfs.strict_name)
 
-    illuminant = first_item(filter_illuminants(illuminant))
+    illuminant = first_item(filter_illuminants(illuminant).values())
 
     settings = {'title': title, 'y_label': 'Relative Power'}
     settings.update(kwargs)
@@ -492,11 +490,7 @@ def multi_illuminant_spd_plot(illuminants=None, **kwargs):
     if illuminants is None:
         illuminants = ('A', 'B', 'C')
 
-    illuminants = list(
-        OrderedDict.fromkeys(
-            itertools.chain.from_iterable([
-                filter_illuminants(illuminant) for illuminant in illuminants
-            ])))
+    illuminants = filter_illuminants(illuminants).values()
 
     title = '{0} - Illuminants Spectral Power Distributions'.format(
         ', '.join([illuminant.strict_name for illuminant in illuminants]))
@@ -551,7 +545,7 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
         :alt: visible_spectrum_plot
     """
 
-    cmfs = first_item(filter_cmfs(cmfs))
+    cmfs = first_item(filter_cmfs(cmfs).values())
 
     bounding_box = (min(cmfs.wavelengths), max(cmfs.wavelengths), 0, 1)
 
@@ -636,12 +630,6 @@ def multi_lightness_function_plot(functions=None, **kwargs):
     tuple
         Current figure and axes.
 
-    Raises
-    ------
-    KeyError
-        If one of the given *Lightness* function is not found in the factory
-        *Lightness* functions.
-
     Examples
     --------
     >>> multi_lightness_function_plot(['CIE 1976', 'Wyszecki 1963'])
@@ -655,33 +643,104 @@ def multi_lightness_function_plot(functions=None, **kwargs):
     if functions is None:
         functions = ('CIE 1976', 'Wyszecki 1963')
 
-    settings = {'uniform': True}
-    settings.update(kwargs)
-
-    figure, axes = artist(**settings)
-
-    samples = np.linspace(0, 100, 1000)
-    for function in functions:
-        function, name = LIGHTNESS_METHODS.get(function), function
-        if function is None:
-            raise KeyError(('"{0}" "Lightness" function not found in factory '
-                            '"Lightness" functions: "{1}".').format(
-                                name, sorted(LIGHTNESS_METHODS.keys())))
-
-        axes.plot(samples, function(samples), label='{0}'.format(name))
+    functions = filter_passthrough(LIGHTNESS_METHODS, functions)
 
     settings = {
-        'axes': axes,
-        'aspect': 'equal',
-        'bounding_box': (0, 100, 0, 100),
+        'bounding_box': (0, 1, 0, 1),
         'legend': True,
         'title': '{0} - Lightness Functions'.format(', '.join(functions)),
-        'x_label': 'Relative Luminance Y',
-        'y_label': 'Lightness',
+        'x_label': 'Normalised Relative Luminance Y',
+        'y_label': 'Normalised Lightness',
     }
     settings.update(kwargs)
 
-    return render(**settings)
+    with domain_range_scale(1):
+        return multi_function_plot(functions, **settings)
+
+
+@override_style()
+def single_luminance_function_plot(function='CIE 1976', **kwargs):
+    """
+    Plots given *Luminance* function.
+
+    Parameters
+    ----------
+    function : unicode, optional
+        *Luminance* function to plot.
+
+    Other Parameters
+    ----------------
+    \**kwargs : dict, optional
+        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
+
+    Returns
+    -------
+    tuple
+        Current figure and axes.
+
+    Examples
+    --------
+    >>> single_luminance_function_plot('CIE 1976')  # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_Single_Luminance_Function_Plot.png
+        :align: center
+        :alt: single_luminance_function_plot
+    """
+
+    settings = {'title': '{0} - Luminance Function'.format(function)}
+    settings.update(kwargs)
+
+    return multi_luminance_function_plot((function, ), **settings)
+
+
+@override_style()
+def multi_luminance_function_plot(functions=None, **kwargs):
+    """
+    Plots given *Luminance* functions.
+
+    Parameters
+    ----------
+    functions : array_like, optional
+        *Luminance* functions to plot.
+
+    Other Parameters
+    ----------------
+    \**kwargs : dict, optional
+        {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
+
+    Returns
+    -------
+    tuple
+        Current figure and axes.
+
+    Examples
+    --------
+    >>> multi_luminance_function_plot(['CIE 1976', 'Newhall 1943'])
+    ... # doctest: +SKIP
+
+    .. image:: ../_static/Plotting_Multi_Luminance_Function_Plot.png
+        :align: center
+        :alt: multi_luminance_function_plot
+    """
+
+    if functions is None:
+        functions = ('CIE 1976', 'Newhall 1943')
+
+    functions = filter_passthrough(LUMINANCE_METHODS, functions)
+
+    settings = {
+        'bounding_box': (0, 1, 0, 1),
+        'legend': True,
+        'title': '{0} - Luminance Functions'.format(', '.join(functions)),
+        'x_label': 'Normalised Munsell Value / Lightness',
+        'y_label': 'Normalised Relative Luminance Y',
+    }
+    settings.update(kwargs)
+
+    with domain_range_scale(1):
+        return multi_function_plot(functions, **settings)
 
 
 @override_style()
@@ -727,7 +786,7 @@ def blackbody_spectral_radiance_plot(
 
     figure.subplots_adjust(hspace=COLOUR_STYLE_CONSTANTS.geometry.short / 2)
 
-    cmfs = first_item(filter_cmfs(cmfs))
+    cmfs = first_item(filter_cmfs(cmfs).values())
 
     spd = blackbody_spd(temperature, cmfs.shape)
 
@@ -812,7 +871,7 @@ def blackbody_colours_plot(
 
     figure, axes = artist(**kwargs)
 
-    cmfs = first_item(filter_cmfs(cmfs))
+    cmfs = first_item(filter_cmfs(cmfs).values())
 
     colours = []
     temperatures = []

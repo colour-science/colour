@@ -229,6 +229,14 @@ def generate_documentation_plots(output_directory):
     multi_lightness_function_plot(['CIE 1976', 'Wyszecki 1963'], **arguments)
 
     arguments['filename'] = os.path.join(
+        output_directory, 'Plotting_Single_Luminance_Function_Plot.png')
+    single_luminance_function_plot('CIE 1976', **arguments)
+
+    arguments['filename'] = os.path.join(
+        output_directory, 'Plotting_Multi_Luminance_Function_Plot.png')
+    multi_luminance_function_plot(['CIE 1976', 'Newhall 1943'], **arguments)
+
+    arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Blackbody_Spectral_Radiance_Plot.png')
     blackbody_spectral_radiance_plot(
         3500, blackbody='VY Canis Major', **arguments)
@@ -574,8 +582,8 @@ def generate_documentation_plots(output_directory):
     cmfs = colour.STANDARD_OBSERVERS_CMFS[
         'CIE 1931 2 Degree Standard Observer']
     illuminant = colour.ILLUMINANTS_SPDS['D65']
-    XYZ = colour.spectral_to_XYZ(spd, cmfs, illuminant)
     with domain_range_scale('1'):
+        XYZ = colour.spectral_to_XYZ(spd, cmfs, illuminant)
         RGB = colour.XYZ_to_sRGB(XYZ)
     single_colour_swatch_plot(
         ColourSwatch('Sample', RGB),
@@ -586,8 +594,8 @@ def generate_documentation_plots(output_directory):
                                          'Tutorial_Neutral5.png')
     patch_name = 'neutral 5 (.70 D)'
     patch_spd = colour.COLOURCHECKERS_SPDS['ColorChecker N Ohta'][patch_name]
-    XYZ = colour.spectral_to_XYZ(patch_spd, cmfs, illuminant)
     with domain_range_scale('1'):
+        XYZ = colour.spectral_to_XYZ(patch_spd, cmfs, illuminant)
         RGB = colour.XYZ_to_sRGB(XYZ)
     single_colour_swatch_plot(
         ColourSwatch(patch_name.title(), RGB),

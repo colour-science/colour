@@ -12,16 +12,17 @@ from . import dataset
 from .common import (COLOUR_STYLE_CONSTANTS, colour_style, override_style,
                      XYZ_to_plotting_colourspace, ColourSwatch, colour_cycle,
                      artist, camera, render, label_rectangles, uniform_axes3d,
-                     filter_RGB_colourspaces, filter_cmfs, filter_illuminants,
-                     filter_colour_checkers, single_colour_swatch_plot,
-                     multi_colour_swatch_plot, single_function_plot,
-                     multi_function_plot, image_plot)
+                     filter_passthrough, filter_RGB_colourspaces, filter_cmfs,
+                     filter_illuminants, filter_colour_checkers,
+                     single_colour_swatch_plot, multi_colour_swatch_plot,
+                     single_function_plot, multi_function_plot, image_plot)
 from .blindness import cvd_simulation_Machado2009_plot
 from .colorimetry import (
     single_spd_plot, multi_spd_plot, single_cmfs_plot, multi_cmfs_plot,
     single_illuminant_spd_plot, multi_illuminant_spd_plot,
     visible_spectrum_plot, single_lightness_function_plot,
-    multi_lightness_function_plot, blackbody_spectral_radiance_plot,
+    multi_lightness_function_plot, single_luminance_function_plot,
+    multi_luminance_function_plot, blackbody_spectral_radiance_plot,
     blackbody_colours_plot)
 from .characterisation import (single_colour_checker_plot,
                                multi_colour_checker_plot)
@@ -58,17 +59,18 @@ __all__ += [
     'COLOUR_STYLE_CONSTANTS', 'colour_style', 'override_style',
     'XYZ_to_plotting_colourspace', 'ColourSwatch', 'colour_cycle', 'artist',
     'camera', 'render', 'label_rectangles', 'uniform_axes3d',
-    'filter_RGB_colourspaces', 'filter_cmfs', 'filter_illuminants',
-    'filter_colour_checkers', 'single_colour_swatch_plot',
-    'multi_colour_swatch_plot', 'single_function_plot', 'multi_function_plot',
-    'image_plot'
+    'filter_passthrough', 'filter_RGB_colourspaces', 'filter_cmfs',
+    'filter_illuminants', 'filter_colour_checkers',
+    'single_colour_swatch_plot', 'multi_colour_swatch_plot',
+    'single_function_plot', 'multi_function_plot', 'image_plot'
 ]
 __all__ += ['cvd_simulation_Machado2009_plot']
 __all__ += [
     'single_spd_plot', 'multi_spd_plot', 'single_cmfs_plot', 'multi_cmfs_plot',
     'single_illuminant_spd_plot', 'multi_illuminant_spd_plot',
     'visible_spectrum_plot', 'single_lightness_function_plot',
-    'multi_lightness_function_plot', 'blackbody_spectral_radiance_plot',
+    'multi_lightness_function_plot', 'single_luminance_function_plot',
+    'multi_luminance_function_plot', 'blackbody_spectral_radiance_plot',
     'blackbody_colours_plot'
 ]
 __all__ += ['single_colour_checker_plot', 'multi_colour_checker_plot']

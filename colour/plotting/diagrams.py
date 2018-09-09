@@ -104,7 +104,7 @@ def spectral_locus_plot(cmfs='CIE 1931 2 Degree Standard Observer',
 
     method = method.upper()
 
-    cmfs = first_item(filter_cmfs(cmfs))
+    cmfs = first_item(filter_cmfs(cmfs).values())
 
     illuminant = COLOUR_STYLE_CONSTANTS.colour.colourspace.whitepoint
 
@@ -254,7 +254,7 @@ def chromaticity_diagram_colours_plot(
 
     method = method.upper()
 
-    cmfs = first_item(filter_cmfs(cmfs))
+    cmfs = first_item(filter_cmfs(cmfs).values())
 
     illuminant = COLOUR_STYLE_CONSTANTS.colour.colourspace.whitepoint
 
@@ -352,7 +352,7 @@ def chromaticity_diagram_plot(cmfs='CIE 1931 2 Degree Standard Observer',
 
     method = method.upper()
 
-    cmfs = first_item(filter_cmfs(cmfs))
+    cmfs = first_item(filter_cmfs(cmfs).values())
 
     if show_diagram_colours:
         settings = {'axes': axes, 'method': method}

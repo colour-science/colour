@@ -38,7 +38,9 @@ Common
     is_string
     is_numeric
     is_integer
+    is_sibling
     filter_kwargs
+    filter_mapping
     first_item
     to_domain_1
     to_domain_10

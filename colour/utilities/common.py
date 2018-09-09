@@ -18,11 +18,14 @@ from __future__ import division, unicode_literals
 import inspect
 import functools
 import numpy as np
+import re
 import warnings
+from collections import OrderedDict
 from copy import deepcopy
 from six import string_types
 
 from colour.constants import INTEGER_THRESHOLD, DEFAULT_FLOAT_DTYPE
+from colour.utilities import Lookup
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -35,11 +38,11 @@ __all__ = [
     'handle_numpy_errors', 'ignore_numpy_errors', 'raise_numpy_errors',
     'print_numpy_errors', 'warn_numpy_errors', 'ignore_python_warnings',
     'batch', 'is_openimageio_installed', 'is_pandas_installed', 'is_iterable',
-    'is_string', 'is_numeric', 'is_integer', 'filter_kwargs', 'first_item',
-    'get_domain_range_scale', 'set_domain_range_scale', 'domain_range_scale',
-    'to_domain_1', 'to_domain_10', 'to_domain_100', 'to_domain_degrees',
-    'to_domain_int', 'from_range_1', 'from_range_10', 'from_range_100',
-    'from_range_degrees', 'from_range_int'
+    'is_string', 'is_numeric', 'is_integer', 'filter_kwargs', 'filter_mapping',
+    'first_item', 'get_domain_range_scale', 'set_domain_range_scale',
+    'domain_range_scale', 'to_domain_1', 'to_domain_10', 'to_domain_100',
+    'to_domain_degrees', 'to_domain_int', 'from_range_1', 'from_range_10',
+    'from_range_100', 'from_range_degrees', 'from_range_int'
 ]
 
 
@@ -325,6 +328,28 @@ def is_integer(a):
     return abs(a - round(a)) <= INTEGER_THRESHOLD
 
 
+def is_sibling(element, mapping):
+    """
+    Returns whether given element type is present in given mapping types.
+
+    Parameters
+    ----------
+    element : object
+        Element to check if its type is present in the mapping types.
+    mapping : dict
+        Mapping.
+
+    Returns
+    -------
+    bool
+        Whether given element type is present in given mapping types.
+    """
+
+    return isinstance(element,
+                      tuple(
+                          set(type(element) for element in mapping.values())))
+
+
 def filter_kwargs(function, **kwargs):
     """
     Filters keyword arguments incompatible with the given function signature.
@@ -368,6 +393,98 @@ def filter_kwargs(function, **kwargs):
         kwargs.pop(key)
 
     return kwargs
+
+
+def filter_mapping(mapping, filterers, anchors=True, flags=re.IGNORECASE):
+    """
+    Filters given mapping with given filterers.
+
+    Parameters
+    ----------
+    mapping : dict_like
+        Mapping to filter.
+    filterers : unicode or object or array_like
+        Filterer pattern for given mapping elements or a list of filterers.
+    anchors : bool, optional
+        Whether to use Regex line anchors, i.e. *^* and *$* are added,
+        surrounding the filterer pattern.
+    flags : int, optional
+        Regex flags.
+
+    Returns
+    -------
+    OrderedDict
+        Filtered mapping elements.
+
+    Notes
+    -----
+    -   To honour the filterers ordering, the return value is an
+        :class:`OrderedDict` class instance.
+
+    Examples
+    --------
+    >>> class Element(object):
+    ...     pass
+    >>> mapping = {
+    ...     'Element A': Element(),
+    ...     'Element B': Element(),
+    ...     'Element C': Element(),
+    ...     'Not Element C': Element(),
+    ... }
+    >>> # Doctests skip for Python 2.x compatibility.
+    >>> filter_mapping(mapping, '\w+\s+A')  # doctest: +SKIP
+    {u'Element A': <colour.utilities.common.Element object at 0x...>}
+    >>> # Doctests skip for Python 2.x compatibility.
+    >>> sorted(filter_mapping(mapping, 'Element.*'))  # doctest: +SKIP
+    [u'Element A', u'Element B', u'Element C']
+    """
+
+    def filter_mapping_with_filter(mapping, filterer, anchors, flags):
+        """
+        Filters given mapping with given filterer.
+
+        Parameters
+        ----------
+        mapping : dict_like
+            Mapping to filter.
+        filterer : unicode or object
+            Filterer pattern for given mapping elements.
+        anchors : bool, optional
+            Whether to use Regex line anchors, i.e. *^* and *$* are added,
+            surrounding the filterer pattern.
+        flags : int, optional
+            Regex flags.
+
+        Returns
+        -------
+        OrderedDict
+            Filtered mapping elements.
+        """
+
+        if anchors:
+            filterer = '^{0}$'.format(filterer)
+            filterer = filterer.replace('^^', '^').replace('$$', '$')
+
+        elements = [
+            mapping[element] for element in mapping
+            if re.match(filterer, element, flags)
+        ]
+
+        lookup = Lookup(mapping)
+
+        return OrderedDict((lookup.first_key_from_value(element), element)
+                           for element in elements)
+
+    if is_string(filterers):
+        filterers = [filterers]
+
+    filtered_mapping = OrderedDict()
+
+    for filterer in filterers:
+        filtered_mapping.update(
+            filter_mapping_with_filter(mapping, filterer, anchors, flags))
+
+    return filtered_mapping
 
 
 def first_item(a):

@@ -367,9 +367,9 @@ tristimulus_weighting_factors_ASTME202211` definition.
 
         Notes
         -----
-        :attr:`A_CIE_1964_10_10_TWF`, :attr:`A_CIE_1964_10_20_TWF` and
-        :attr:`D65_CIE_1931_2_20_TWF` attributes data is matching
-        :cite:`ASTMInternational2015b`.
+        -   :attr:`A_CIE_1964_10_10_TWF`, :attr:`A_CIE_1964_10_20_TWF` and
+            :attr:`D65_CIE_1931_2_20_TWF` attributes data is matching
+            :cite:`ASTMInternational2015b`.
 
         References
         ----------
