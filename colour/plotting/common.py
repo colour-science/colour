@@ -40,8 +40,7 @@ from matplotlib.colors import LinearSegmentedColormap
 from colour.characterisation import COLOURCHECKERS
 from colour.colorimetry import (CMFS, ILLUMINANTS_SPDS)
 from colour.models import RGB_COLOURSPACES, XYZ_to_RGB
-from colour.utilities import (Structure, is_sibling, is_string,
-                              filter_mapping)
+from colour.utilities import (Structure, is_sibling, is_string, filter_mapping)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -678,7 +677,10 @@ def filter_passthrough(mapping, filterers, anchors=True, flags=re.IGNORECASE):
         try:
             name = filterer.name
         except AttributeError:
-            name = id(filterer)
+            try:
+                name = filterer.__name__
+            except AttributeError:
+                name = str(id(filterer))
 
         filtered_mapping[name] = filterer
 
