@@ -97,11 +97,11 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
                              np.linspace(0, 65504, 65504 * 10)))
 
         for colourspace in RGB_COLOURSPACES.values():
-            encoding_cctf_s = colourspace.encoding_cctf(samples)
-            decoding_cctf_s = colourspace.decoding_cctf(encoding_cctf_s)
-
             if colourspace.name in ignored_colourspaces:
                 continue
+
+            encoding_cctf_s = colourspace.encoding_cctf(samples)
+            decoding_cctf_s = colourspace.decoding_cctf(encoding_cctf_s)
 
             np.testing.assert_almost_equal(samples, decoding_cctf_s, decimal=7)
 
