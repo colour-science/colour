@@ -489,6 +489,7 @@ RGB Colourspaces
      u'ColorMatch RGB',
      u'DCI-P3',
      u'DCI-P3+',
+     u'P3-D65',
      u'DRAGONcolor',
      u'DRAGONcolor2',
      u'Don RGB 4',
@@ -531,6 +532,7 @@ OETFs
     >>> sorted(colour.OETFS.keys())
     ['ARIB STD-B67',
      'DCI-P3',
+     'P3-D65',
      'DICOM GSDF',
      'ITU-R BT.2020',
      'ITU-R BT.2100 HLG',
