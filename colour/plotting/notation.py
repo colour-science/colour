@@ -14,7 +14,8 @@ from __future__ import division
 import numpy as np
 
 from colour.notation import MUNSELL_VALUE_METHODS
-from colour.plotting import artist, override_style, render
+from colour.plotting import (filter_passthrough, multi_function_plot,
+                             override_style)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -85,12 +86,6 @@ def multi_munsell_value_function_plot(functions=None, **kwargs):
     tuple
         Current figure and axes.
 
-    Raises
-    ------
-    KeyError
-        If one of the given *Munsell* value function is not found in the
-        factory *Munsell* value functions.
-
     Examples
     --------
     >>> multi_munsell_value_function_plot(['ASTM D1535-08', 'McCamy 1987'])
@@ -104,26 +99,9 @@ def multi_munsell_value_function_plot(functions=None, **kwargs):
     if functions is None:
         functions = ('ASTM D1535-08', 'McCamy 1987')
 
-    settings = {'uniform': True}
-    settings.update(kwargs)
-
-    figure, axes = artist(**settings)
-
-    samples = np.linspace(0, 100, 1000)
-    for function in functions:
-        function, name = MUNSELL_VALUE_METHODS.get(function), function
-        if function is None:
-            raise KeyError(
-                ('"{0}" "Munsell" value function not found in '
-                 'factory "Munsell" value functions: "{1}".').format(
-                     name, sorted(MUNSELL_VALUE_METHODS.keys())))
-
-        axes.plot(
-            samples, [function(x) for x in samples], label=u'{0}'.format(name))
+    functions = filter_passthrough(MUNSELL_VALUE_METHODS, functions)
 
     settings = {
-        'axes': axes,
-        'aspect': 10,
         'bounding_box': (0, 100, 0, 10),
         'legend': True,
         'title': '{0} - Munsell Functions'.format(', '.join(functions)),
@@ -132,4 +110,5 @@ def multi_munsell_value_function_plot(functions=None, **kwargs):
     }
     settings.update(kwargs)
 
-    return render(**settings)
+    return multi_function_plot(
+        functions, samples=np.linspace(0, 100, 1000), **settings)
