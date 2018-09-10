@@ -31,7 +31,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'P3_D65_PRIMARIES', 'P3_D65_ILLUMINANT', 'P3_D65_WHITEPOINT',
+    'P3_D65_PRIMARIES', 'P3_D65_WHITEPOINT_NAME', 'P3_D65_WHITEPOINT',
     'P3_D65_TO_XYZ_MATRIX', 'XYZ_TO_P3_D65_MATRIX', 'P3_D65_COLOURSPACE'
 ]
 
@@ -46,15 +46,15 @@ P3_D65_PRIMARIES = np.array([
 P3_D65_PRIMARIES : ndarray, (3, 2)
 """
 
-P3_D65_ILLUMINANT = 'D65'
+P3_D65_WHITEPOINT_NAME = 'D65'
 """
-*P3-D65* colourspace whitepoint name as illuminant.
+*P3-D65* colourspace whitepoint name.
 
-P3_D65_ILLUMINANT : unicode
+P3_D65_WHITEPOINT_NAME : unicode
 """
 
 P3_D65_WHITEPOINT = (
-    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][P3_D65_ILLUMINANT])
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][P3_D65_WHITEPOINT_NAME])
 """
 *P3-D65* colourspace whitepoint.
 
@@ -80,7 +80,7 @@ P3_D65_COLOURSPACE = RGB_Colourspace(
     'P3-D65',
     P3_D65_PRIMARIES,
     P3_D65_WHITEPOINT,
-    P3_D65_ILLUMINANT,
+    P3_D65_WHITEPOINT_NAME,
     P3_D65_TO_XYZ_MATRIX,
     XYZ_TO_P3_D65_MATRIX,
     partial(function_gamma, exponent=1 / 2.6),
