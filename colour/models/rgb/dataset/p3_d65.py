@@ -35,9 +35,8 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'P3_D65_PRIMARIES', 'P3_D65_ILLUMINANT',
-    'P3_D65_WHITEPOINT', 'P3_D65_TO_XYZ_MATRIX',
-    'XYZ_TO_P3_D65_MATRIX', 'P3_D65_COLOURSPACE'
+    'P3_D65_PRIMARIES', 'P3_D65_ILLUMINANT', 'P3_D65_WHITEPOINT',
+    'P3_D65_TO_XYZ_MATRIX', 'XYZ_TO_P3_D65_MATRIX', 'P3_D65_COLOURSPACE'
 ]
 
 P3_D65_PRIMARIES = np.array([
@@ -67,7 +66,7 @@ P3_D65_WHITEPOINT : ndarray
 """
 
 P3_D65_TO_XYZ_MATRIX = normalised_primary_matrix(P3_D65_PRIMARIES,
-                                                     P3_D65_WHITEPOINT)
+                                                 P3_D65_WHITEPOINT)
 """
 *P3-D65* colourspace to *CIE XYZ* tristimulus values matrix.
 
