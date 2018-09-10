@@ -152,7 +152,7 @@ def read_LUT_IridasCube(path):
         # The lines of table data shall be in ascending index order,
         # with the first component index (Red) changing most rapidly,
         # and the last component index (Blue) changing least rapidly.
-        table = table.reshape((size, size, size, 3), order='F')
+        table = table.reshape([size, size, size, 3], order='F')
 
         return LUT3D(
             table,
@@ -258,7 +258,7 @@ def write_LUT_IridasCube(LUT, path, decimals=7):
                 _format_array(LUT.domain[1])))
 
         if not is_2D:
-            table = LUT.table.reshape((-1, 3), order='F')
+            table = LUT.table.reshape([-1, 3], order='F')
         else:
             table = LUT.table
 

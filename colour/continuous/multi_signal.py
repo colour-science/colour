@@ -609,7 +609,7 @@ dict_like
         """
 
         try:
-            return str(np.hstack((self.domain[:, np.newaxis], self.range)))
+            return str(np.hstack([self.domain[:, np.newaxis], self.range]))
         except TypeError:
             return super(MultiSignal, self).__str__()
 
@@ -648,7 +648,7 @@ dict_like
 
         try:
             representation = repr(
-                np.hstack((self.domain[:, np.newaxis], self.range)))
+                np.hstack([self.domain[:, np.newaxis], self.range]))
             representation = representation.replace('array',
                                                     self.__class__.__name__)
             representation = representation.replace('       [', '{0}['.format(
@@ -1046,7 +1046,7 @@ dict_like
          [   8.  200.  220.  240.]
          [   9.  220.  240.  260.]]
 
-        >>> a = np.arange(0, 30, 1).reshape((10, 3))
+        >>> a = np.arange(0, 30, 1).reshape([10, 3])
         >>> print(multi_signal_1.arithmetical_operation(a, '+', True))
         [[   0.   40.   61.   82.]
          [   1.   63.   84.  105.]

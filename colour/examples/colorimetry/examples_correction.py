@@ -100,4 +100,4 @@ sample_spd_data = {
 
 spd = colour.SpectralPowerDistribution(sample_spd_data, name='Sample')
 uncorrected_values = spd.values
-print(np.dstack((uncorrected_values, colour.bandpass_correction(spd).values)))
+print(np.dstack([uncorrected_values, colour.bandpass_correction(spd).values]))
