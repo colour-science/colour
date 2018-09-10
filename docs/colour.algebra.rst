@@ -147,4 +147,7 @@ Common
 .. autosummary::
     :toctree: generated/
 
+    is_spow_enabled
+    set_spow_enable
+    spow_enable
     spow

@@ -11,6 +11,7 @@ category:
 
 from __future__ import division, unicode_literals
 
+import functools
 import numpy as np
 
 from colour.utilities import as_numeric
@@ -22,7 +23,106 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['spow']
+__all__ = ['is_spow_enabled', 'set_spow_enable', 'spow_enable', 'spow']
+
+_SPOW_ENABLED = True
+"""
+Global variable storing the current *Colour* safe / symmetrical power function
+enabled state.
+
+_SPOW_ENABLED : bool
+"""
+
+
+def is_spow_enabled():
+    """
+    Returns whether *Colour* safe / symmetrical power function is enabled.
+
+    Returns
+    -------
+    bool
+        Whether *Colour* safe / symmetrical power function is enabled.
+
+    Examples
+    --------
+    >>> with spow_enable(False):
+    ...     is_spow_enabled()
+    False
+    >>> with spow_enable(True):
+    ...     is_spow_enabled()
+    True
+    """
+
+    return _SPOW_ENABLED
+
+
+def set_spow_enable(enable):
+    """
+    Sets *Colour* safe / symmetrical power function enabled state.
+
+    Parameters
+    ----------
+    enable : bool
+        Whether to enable *Colour* safe / symmetrical power function.
+
+    Examples
+    --------
+    >>> with spow_enable(is_spow_enabled()):
+    ...     print(is_spow_enabled())
+    ...     set_spow_enable(False)
+    ...     print(is_spow_enabled())
+    True
+    False
+    """
+
+    global _SPOW_ENABLED
+
+    _SPOW_ENABLED = enable
+
+
+class spow_enable(object):
+    """
+    A context manager and decorator temporarily setting *Colour* safe /
+    symmetrical power function enabled state.
+
+    Parameters
+    ----------
+    enable : bool
+        Whether to enable or disable *Colour* safe / symmetrical power
+        function.
+    """
+
+    def __init__(self, enable):
+        self._enable = enable
+        self._previous_state = is_spow_enabled()
+
+    def __enter__(self):
+        """
+        Called upon entering the context manager and decorator.
+        """
+
+        set_spow_enable(self._enable)
+
+        return self
+
+    def __exit__(self, *args):
+        """
+        Called upon exiting the context manager and decorator.
+        """
+
+        set_spow_enable(self._previous_state)
+
+    def __call__(self, function):
+        """
+        Calls the wrapped definition.
+        """
+
+        @functools.wraps(function)
+        def wrapper(*args, **kwargs):
+            with self:
+                return function(*args, **kwargs)
+
+        return wrapper
 
 
 def spow(a, p):
@@ -54,6 +154,9 @@ def spow(a, p):
     >>> spow(0, 0)
     0.0
     """
+
+    if not _SPOW_ENABLED:
+        return np.power(a, p)
 
     a = np.atleast_1d(a)
     p = np.asarray(p)
