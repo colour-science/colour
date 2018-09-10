@@ -12,10 +12,6 @@ See Also
 `RGB Colourspaces Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/rgb.ipynb>`_
-
-References
-----------
-
 """
 
 from __future__ import division, unicode_literals
