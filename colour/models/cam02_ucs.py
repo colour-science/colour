@@ -150,9 +150,9 @@ def JMh_CIECAM02_to_UCS_Luo2006(JMh, coefficients):
     J_p = ((1 + 100 * c_1) * J) / (1 + c_1 * J)
     M_p = (1 / c_2) * np.log(1 + c_2 * M)
 
-    a_p, b_p = tsplit(polar_to_cartesian(tstack((M_p, np.radians(h)))))
+    a_p, b_p = tsplit(polar_to_cartesian(tstack([M_p, np.radians(h)])))
 
-    Jpapbp = tstack((J_p, a_p, b_p))
+    Jpapbp = tstack([J_p, a_p, b_p])
 
     return from_range_100(Jpapbp)
 
@@ -214,12 +214,12 @@ def UCS_Luo2006_to_JMh_CIECAM02(Jpapbp, coefficients):
 
     J = -J_p / (c_1 * J_p - 1 - 100 * c_1)
 
-    M_p, h = tsplit(cartesian_to_polar(tstack((a_p, b_p))))
+    M_p, h = tsplit(cartesian_to_polar(tstack([a_p, b_p])))
 
     M = (np.exp(M_p / (1 / c_2)) - 1) / c_2
 
-    JMh = tstack((from_range_100(J), from_range_100(M),
-                  from_range_degrees(np.degrees(h) % 360)))
+    JMh = tstack([from_range_100(J), from_range_100(M),
+                  from_range_degrees(np.degrees(h) % 360)])
 
     return JMh
 

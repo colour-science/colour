@@ -93,7 +93,7 @@ def common_colourspace_model_axis_reorder(a, model=None):
                  'Hunter Lab', 'Hunter Rdab', 'IPT', 'JzAzBz', 'OSA UCS',
                  'hdr-CIELAB', 'hdr-IPT'):
         i, j, k = tsplit(a)
-        a = tstack((j, k, i))
+        a = tstack([j, k, i])
 
     return a
 

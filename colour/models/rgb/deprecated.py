@@ -133,7 +133,7 @@ def RGB_to_HSV(RGB):
     H[np.asarray(H > 1)] -= 1
     H[np.asarray(delta == 0)] = 0
 
-    HSV = tstack((H, S, V))
+    HSV = tstack([H, S, V])
 
     return from_range_1(HSV)
 
@@ -188,16 +188,16 @@ def HSV_to_RGB(HSV):
     k = V * (1 - S * (h - i))
     l = V * (1 - S * (1 - (h - i)))  # noqa
 
-    i = tstack((i, i, i)).astype(np.uint8)
+    i = tstack([i, i, i]).astype(np.uint8)
 
     RGB = np.choose(
         i, [
-            tstack((V, l, j)),
-            tstack((k, V, j)),
-            tstack((j, V, l)),
-            tstack((j, k, V)),
-            tstack((l, j, V)),
-            tstack((V, j, k)),
+            tstack([V, l, j]),
+            tstack([k, V, j]),
+            tstack([j, V, l]),
+            tstack([j, k, V]),
+            tstack([l, j, V]),
+            tstack([V, j, k]),
         ],
         mode='clip')
 
@@ -272,7 +272,7 @@ def RGB_to_HSL(RGB):
     H[np.asarray(H > 1)] -= 1
     H[np.asarray(delta == 0)] = 0
 
-    HSL = tstack((H, S, L))
+    HSL = tstack([H, S, L])
 
     return from_range_1(HSL)
 
@@ -357,7 +357,7 @@ def HSL_to_RGB(HSL):
     G = np.where(S == 1, L, G)
     B = np.where(S == 1, L, B)
 
-    RGB = tstack((R, G, B))
+    RGB = tstack([R, G, B])
 
     return from_range_1(RGB)
 
@@ -507,7 +507,7 @@ def CMY_to_CMYK(CMY):
     M[np.asarray(K == 1)] = 0
     Y[np.asarray(K == 1)] = 0
 
-    CMYK = tstack((C, M, Y, K))
+    CMYK = tstack([C, M, Y, K])
 
     return from_range_1(CMYK)
 
@@ -554,6 +554,6 @@ def CMYK_to_CMY(CMYK):
 
     C, M, Y, K = tsplit(to_domain_1(CMYK))
 
-    CMY = tstack((C * (1 - K) + K, M * (1 - K) + K, Y * (1 - K) + K))
+    CMY = tstack([C * (1 - K) + K, M * (1 - K) + K, Y * (1 - K) + K])
 
     return from_range_1(CMY)

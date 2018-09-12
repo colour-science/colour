@@ -656,7 +656,7 @@ def ootf_BT2100_HLG(E, L_B=0, L_W=1000, gamma=None):
     alpha = L_W - L_B
     beta = L_B
 
-    Y_S = np.sum(BT2100_HLG_WEIGHTS * tstack((R_S, G_S, B_S)), axis=-1)
+    Y_S = np.sum(BT2100_HLG_WEIGHTS * tstack([R_S, G_S, B_S]), axis=-1)
 
     if gamma is None:
         gamma = function_gamma_BT2100_HLG(L_W)
@@ -668,7 +668,7 @@ def ootf_BT2100_HLG(E, L_B=0, L_W=1000, gamma=None):
     if E.shape[-1] != 3:
         return as_numeric(from_range_1(R_D))
     else:
-        RGB_D = tstack((R_D, G_D, B_D))
+        RGB_D = tstack([R_D, G_D, B_D])
 
         return from_range_1(RGB_D)
 
@@ -736,7 +736,7 @@ def ootf_reverse_BT2100_HLG(F_D, L_B=0, L_W=1000, gamma=None):
     else:
         R_D, G_D, B_D = tsplit(F_D)
 
-    Y_D = np.sum(BT2100_HLG_WEIGHTS * tstack((R_D, G_D, B_D)), axis=-1)
+    Y_D = np.sum(BT2100_HLG_WEIGHTS * tstack([R_D, G_D, B_D]), axis=-1)
 
     alpha = L_W - L_B
     beta = L_B
@@ -766,6 +766,6 @@ def ootf_reverse_BT2100_HLG(F_D, L_B=0, L_W=1000, gamma=None):
     if F_D.shape[-1] != 3:
         return as_numeric(from_range_1(R_S))
     else:
-        RGB_S = tstack((R_S, G_S, B_S))
+        RGB_S = tstack([R_S, G_S, B_S])
 
         return from_range_1(RGB_S)

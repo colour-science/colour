@@ -319,11 +319,11 @@ class TestTstack(unittest.TestCase):
         """
 
         a = 0
-        np.testing.assert_almost_equal(tstack((a, a, a)), np.array([0, 0, 0]))
+        np.testing.assert_almost_equal(tstack([a, a, a]), np.array([0, 0, 0]))
 
         a = np.arange(0, 6)
         np.testing.assert_almost_equal(
-            tstack((a, a, a)),
+            tstack([a, a, a]),
             np.array([
                 [0, 0, 0],
                 [1, 1, 1],
@@ -335,7 +335,7 @@ class TestTstack(unittest.TestCase):
 
         a = np.reshape(a, (1, 6))
         np.testing.assert_almost_equal(
-            tstack((a, a, a)),
+            tstack([a, a, a]),
             np.array([[
                 [0, 0, 0],
                 [1, 1, 1],
@@ -347,7 +347,7 @@ class TestTstack(unittest.TestCase):
 
         a = np.reshape(a, (1, 2, 3))
         np.testing.assert_almost_equal(
-            tstack((a, a, a)),
+            tstack([a, a, a]),
             np.array([[
                 [[0, 0, 0], [1, 1, 1], [2, 2, 2]],
                 [[3, 3, 3], [4, 4, 4], [5, 5, 5]],
@@ -616,7 +616,7 @@ class TestCentroid(unittest.TestCase):
         a = np.tile(np.linspace(0, 1, 10), (10, 1))
         np.testing.assert_array_equal(centroid(a), np.array([4, 6]))
 
-        a = tstack((a, a, a))
+        a = tstack([a, a, a])
         np.testing.assert_array_equal(centroid(a), np.array([4, 6, 1]))
 
 

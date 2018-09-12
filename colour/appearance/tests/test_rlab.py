@@ -57,8 +57,8 @@ class TestRLABColourAppearanceModel(ColourAppearanceModelTest):
             *RLAB* colour appearance model specification.
         """
 
-        XYZ = tstack((data['X'], data['Y'], data['Z']))
-        XYZ_n = tstack((data['X_n'], data['Y_n'], data['Z_n']))
+        XYZ = tstack([data['X'], data['Y'], data['Z']])
+        XYZ_n = tstack([data['X_n'], data['Y_n'], data['Z_n']])
 
         specification = XYZ_to_RLAB(XYZ, XYZ_n, data['Y_n2'], data['sigma'],
                                     data['D'])

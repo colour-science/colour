@@ -230,7 +230,7 @@ def intermediate_values(xy_o):
     eta = (-0.27200 * x_o + 1.11962 * y_o + 0.04570) / y_o
     zeta = (0.91822 * (1 - x_o - y_o)) / y_o
 
-    xez = tstack((xi, eta, zeta))
+    xez = tstack([xi, eta, zeta])
 
     return xez
 
@@ -352,7 +352,7 @@ def exponential_factors(RGB_o):
     bG_o = beta_1(G_o)
     bB_o = beta_2(B_o)
 
-    bRGB_o = tstack((bR_o, bG_o, bB_o))
+    bRGB_o = tstack([bR_o, bG_o, bB_o])
 
     return bRGB_o
 
@@ -484,6 +484,6 @@ def corresponding_colour(RGB_1, xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, K, n=1):
     G_2 = RGB_c(eta_1, eta_2, bG_o1, bG_o2, G_1)
     B_2 = RGB_c(zeta_1, zeta_2, bB_o1, bB_o2, B_1)
 
-    RGB_2 = tstack((R_2, G_2, B_2))
+    RGB_2 = tstack([R_2, G_2, B_2])
 
     return RGB_2

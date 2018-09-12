@@ -388,7 +388,7 @@ s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
                 'argument, model will not account for simultaneous chromatic '
                 'contrast!')
 
-    XYZ_p = tstack((X_p, Y_p, Z_p))
+    XYZ_p = tstack([X_p, Y_p, Z_p])
 
     # Computing luminance level adaptation factor :math:`F_L`.
     F_L = luminance_level_adaptation_factor(L_A)
@@ -784,7 +784,7 @@ def colour_difference_signals(rgb):
     C_2 = g - b
     C_3 = b - r
 
-    C = tstack((C_1, C_2, C_3))
+    C = tstack([C_1, C_2, C_3])
 
     return C
 

@@ -57,8 +57,8 @@ class TestNayatani95ColourAppearanceModel(ColourAppearanceModelTest):
             *Nayatani (1995)* colour appearance model specification.
         """
 
-        XYZ = tstack((data['X'], data['Y'], data['Z']))
-        XYZ_n = tstack((data['X_n'], data['Y_n'], data['Z_n']))
+        XYZ = tstack([data['X'], data['Y'], data['Z']])
+        XYZ_n = tstack([data['X_n'], data['Y_n'], data['Z_n']])
 
         specification = XYZ_to_Nayatani95(XYZ, XYZ_n, data['Y_o'], data['E_o'],
                                           data['E_or'])

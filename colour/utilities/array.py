@@ -357,10 +357,10 @@ def tstack(a):
     Examples
     --------
     >>> a = 0
-    >>> tstack((a, a, a))
+    >>> tstack([a, a, a])
     array([0, 0, 0])
     >>> a = np.arange(0, 6)
-    >>> tstack((a, a, a))
+    >>> tstack([a, a, a])
     array([[0, 0, 0],
            [1, 1, 1],
            [2, 2, 2],
@@ -368,7 +368,7 @@ def tstack(a):
            [4, 4, 4],
            [5, 5, 5]])
     >>> a = np.reshape(a, (1, 6))
-    >>> tstack((a, a, a))
+    >>> tstack([a, a, a])
     array([[[0, 0, 0],
             [1, 1, 1],
             [2, 2, 2],
@@ -376,7 +376,7 @@ def tstack(a):
             [4, 4, 4],
             [5, 5, 5]]])
     >>> a = np.reshape(a, (1, 1, 6))
-    >>> tstack((a, a, a))
+    >>> tstack([a, a, a])
     array([[[[0, 0, 0],
              [1, 1, 1],
              [2, 2, 2],

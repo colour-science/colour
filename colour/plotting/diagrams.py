@@ -260,7 +260,7 @@ def chromaticity_diagram_colours_plot(
 
     ii, jj = np.meshgrid(
         np.linspace(0, 1, samples), np.linspace(1, 0, samples))
-    ij = tstack((ii, jj))
+    ij = tstack([ii, jj])
 
     with suppress_warnings(False):
         if method == 'CIE 1931':

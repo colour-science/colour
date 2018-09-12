@@ -346,7 +346,7 @@ def whiteness_Ganz1979(xy, Y):
     W = Y - 1868.322 * x - 3695.690 * y + 1809.441
     T = -1001.223 * x + 748.366 * y + 68.261
 
-    WT = tstack((W, T))
+    WT = tstack([W, T])
 
     return from_range_100(WT)
 
@@ -427,7 +427,7 @@ def whiteness_CIE2004(xy,
     W = Y + 800 * (x_n - x) + 1700 * (y_n - y)
     T = (1000 if '1931' in observer else 900) * (x_n - x) - 650 * (y_n - y)
 
-    WT = tstack((W, T))
+    WT = tstack([W, T])
 
     return from_range_100(WT)
 

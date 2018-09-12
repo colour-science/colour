@@ -109,7 +109,7 @@ def XYZ_to_UVW(
     U = 13 * W * (u - u_0)
     V = 13 * W * (v - v_0)
 
-    UVW = tstack((U, V, W))
+    UVW = tstack([U, V, W])
 
     return from_range_100(UVW)
 
@@ -178,8 +178,8 @@ def UVW_to_XYZ(
     u = U / (13 * W) + u_0
     v = V / (13 * W) + v_0
 
-    x, y = tsplit(UCS_uv_to_xy(tstack((u, v))))
+    x, y = tsplit(UCS_uv_to_xy(tstack([u, v])))
 
-    XYZ = xyY_to_XYZ(tstack((x, y, Y)))
+    XYZ = xyY_to_XYZ(tstack([x, y, Y]))
 
     return from_range_100(XYZ)

@@ -339,7 +339,7 @@ def opponent_colour_dimensions(LMS_g):
     T_2 = final_response(T_2i)
     D_2 = final_response(D_2i)
 
-    return tstack((A_1, T_1, D_1, A_2, T_2, D_2))
+    return tstack([A_1, T_1, D_1, A_2, T_2, D_2])
 
 
 def final_response(value):

@@ -138,7 +138,7 @@ def extend_line_segment(a, b, distance=1):
     x_c = x_b + (x_b - x_a) / d * distance
     y_c = y_b + (y_b - y_a) / d * distance
 
-    xy_c = tstack((x_c, y_c))
+    xy_c = tstack([x_c, y_c])
 
     return xy_c
 
@@ -265,7 +265,7 @@ def intersect_line_segments(l_1, l_2):
     u_b = numerator_b / denominator
 
     intersect = np.logical_and.reduce((u_a >= 0, u_a <= 1, u_b >= 0, u_b <= 1))
-    xy = tstack((x_1 + x_2_x_1 * u_a, y_1 + y_2_y_1 * u_a))
+    xy = tstack([x_1 + x_2_x_1 * u_a, y_1 + y_2_y_1 * u_a])
     xy[~intersect] = np.nan
     parallel = denominator == 0
     coincident = np.logical_and.reduce((numerator_a == 0, numerator_b == 0,

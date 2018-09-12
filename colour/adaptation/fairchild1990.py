@@ -145,7 +145,7 @@ def chromatic_adaptation_Fairchild1990(XYZ_1,
     LMSp_1 = dot_vector(A_1, LMS_1)
 
     c = 0.219 - 0.0784 * np.log10(Y_n)
-    C = row_as_diagonal(tstack((c, c, c)))
+    C = row_as_diagonal(tstack([c, c, c]))
 
     LMS_a = dot_vector(C, LMSp_1)
     LMSp_2 = dot_vector(np.linalg.inv(C), LMS_a)
@@ -267,6 +267,6 @@ def degrees_of_adaptation(LMS, Y_n, v=1 / 3, discount_illuminant=False):
     p_M = P_c(m_E(M, M_E))
     p_S = P_c(m_E(S, S_E))
 
-    p_LMS = tstack((p_L, p_M, p_S))
+    p_LMS = tstack([p_L, p_M, p_S])
 
     return p_LMS

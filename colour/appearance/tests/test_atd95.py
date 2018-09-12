@@ -59,8 +59,8 @@ class TestATD95ColourAppearanceModel(ColourAppearanceModelTest):
             *ATD (1995)* colour vision model specification.
         """
 
-        XYZ = tstack((data['X'], data['Y'], data['Z']))
-        XYZ_0 = tstack((data['X_0'], data['Y_0'], data['Z_0']))
+        XYZ = tstack([data['X'], data['Y'], data['Z']])
+        XYZ_0 = tstack([data['X_0'], data['Y_0'], data['Z_0']])
 
         specification = XYZ_to_ATD95(XYZ, XYZ_0, data['Y_02'], data['K_1'],
                                      data['K_2'], data['sigma'])

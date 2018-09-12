@@ -315,7 +315,7 @@ def RGB_to_YCbCr(RGB,
     Cb += (C_max + C_min) / 2
     Cr += (C_max + C_min) / 2
 
-    YCbCr = tstack((Y, Cb, Cr))
+    YCbCr = tstack([Y, Cb, Cr])
     YCbCr = np.round(YCbCr).astype(
         DEFAULT_INT_DTYPE) if out_int else from_range_1(YCbCr)
 
@@ -444,7 +444,7 @@ def YCbCr_to_RGB(YCbCr,
     B = Y + (2 - 2 * Kb) * Cb
     G = (Y - Kr * R - Kb * B) / (1 - Kr - Kb)
 
-    RGB = tstack((R, G, B))
+    RGB = tstack([R, G, B])
     RGB *= RGB_max - RGB_min
     RGB += RGB_min
     RGB = np.round(RGB).astype(DEFAULT_INT_DTYPE) if out_int else from_range_1(
@@ -552,7 +552,7 @@ def RGB_to_YcCbcCrc(RGB,
     Cbc += (C_max + C_min) / 2
     Crc += (C_max + C_min) / 2
 
-    YcCbcCrc = tstack((Yc, Cbc, Crc))
+    YcCbcCrc = tstack([Yc, Cbc, Crc])
     YcCbcCrc = (np.round(YcCbcCrc).astype(DEFAULT_INT_DTYPE)
                 if out_int else from_range_1(YcCbcCrc))
 
@@ -664,6 +664,6 @@ def YcCbcCrc_to_RGB(YcCbcCrc,
 
     G = (Yc - 0.0593 * B - 0.2627 * R) / 0.6780
 
-    RGB = tstack((R, G, B))
+    RGB = tstack([R, G, B])
 
     return from_range_1(RGB)

@@ -133,10 +133,10 @@ def read_LUT_ResolveCube(path):
                 title = ' '.join(tokens[1:])[1:-1]
             elif tokens[0] == 'LUT_1D_INPUT_RANGE':
                 domain = _parse_array(tokens[1:])
-                LUT[0].domain = tstack((domain, domain, domain))
+                LUT[0].domain = tstack([domain, domain, domain])
             elif tokens[0] == 'LUT_3D_INPUT_RANGE':
                 domain = _parse_array(tokens[1:])
-                LUT[1].domain = tstack((domain, domain, domain))
+                LUT[1].domain = tstack([domain, domain, domain])
             elif tokens[0] == 'LUT_1D_SIZE':
                 has_2D = True
                 size2D = np.int_(tokens[1])

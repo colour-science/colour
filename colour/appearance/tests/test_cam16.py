@@ -67,8 +67,8 @@ class TestCAM16ColourAppearanceModelForward(ColourAppearanceModelTest):
             *CAM16* colour appearance model specification.
         """
 
-        XYZ = tstack((data['X'], data['Y'], data['Z']))
-        XYZ_w = tstack((data['X_w'], data['Y_w'], data['Z_w']))
+        XYZ = tstack([data['X'], data['Y'], data['Z']])
+        XYZ_w = tstack([data['X_w'], data['Y_w'], data['Z_w']])
 
         specification = XYZ_to_CAM16(XYZ, XYZ_w, data['L_A'], data['Y_b'],
                                      CAM16_InductionFactors(
@@ -167,7 +167,7 @@ class TestCAM16ColourAppearanceModelReverse(ColourAppearanceModelTest):
             *CIE XYZ* tristimulus values
         """
 
-        XYZ_w = tstack((data['X_w'], data['Y_w'], data['Z_w']))
+        XYZ_w = tstack([data['X_w'], data['Y_w'], data['Z_w']])
 
         i, j, k = correlates
         CAM16_specification = as_namedtuple({

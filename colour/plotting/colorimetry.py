@@ -142,7 +142,7 @@ def single_spd_plot(spd,
     polygon = Polygon(
         np.vstack([
             (x_min, 0),
-            tstack((wavelengths, values)),
+            tstack([wavelengths, values]),
             (x_max, 0),
         ]),
         facecolor='none',

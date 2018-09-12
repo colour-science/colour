@@ -223,7 +223,7 @@ def XYZ_to_hdr_CIELab(
         a_hdr = 5 * (lightness_callable(X / X_n, e) - L_hdr)
         b_hdr = 2 * (L_hdr - lightness_callable(Z / Z_n, e))
 
-    Lab_hdr = tstack((L_hdr, a_hdr, b_hdr))
+    Lab_hdr = tstack([L_hdr, a_hdr, b_hdr])
 
     return from_range_100(Lab_hdr)
 
@@ -319,6 +319,6 @@ def hdr_CIELab_to_XYZ(
         X = luminance_callable((a_hdr + 5 * L_hdr) / 5, e) * X_n
         Z = luminance_callable((-b_hdr + 2 * L_hdr) / 2, e) * Z_n
 
-    XYZ = tstack((X, Y, Z))
+    XYZ = tstack([X, Y, Z])
 
     return from_range_1(XYZ)

@@ -641,7 +641,7 @@ def CCT_to_uv_Krystek1985(CCT):
     v = ((0.317398726 + 4.22806245 * 10e-5 * T + 4.20481691 * 10e-8 * T ** 2) /
          (1 - 2.89741816 * 10e-5 * T + 1.61456053 * 10e-7 * T ** 2))
 
-    return tstack((u, v))
+    return tstack([u, v])
 
 
 UV_TO_CCT_METHODS = CaseInsensitiveMapping({
@@ -929,7 +929,7 @@ def CCT_to_xy_Kang2002(CCT):
     k = 3.0817580 * x ** 3 - 5.8733867 * x ** 2 + 3.75112997 * x - 0.37001483
     y = np.select(cnd_l, [i, j, k])
 
-    xy = tstack((x, y))
+    xy = tstack([x, y])
 
     return xy
 
@@ -981,7 +981,7 @@ def CCT_to_xy_CIE_D(CCT):
 
     y = -3 * x ** 2 + 2.87 * x - 0.275
 
-    xy = tstack((x, y))
+    xy = tstack([x, y])
 
     return xy
 

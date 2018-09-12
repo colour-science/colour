@@ -220,7 +220,7 @@ def anomalous_trichromacy_cmfs_Machado2009(cmfs, d_LMS):
     M_a = alpha(d_M) * M + 1 / 0.96 * area_M / area_L * (1 - alpha(d_M)) * L
     S_a = cmfs[cmfs.wavelengths - d_S][:, 2]
 
-    LMS_a = tstack((L_a, M_a, S_a))
+    LMS_a = tstack([L_a, M_a, S_a])
     cmfs[cmfs.wavelengths] = LMS_a
 
     severity = '{0}, {1}, {2}'.format(d_L, d_M, d_S)
