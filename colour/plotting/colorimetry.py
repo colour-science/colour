@@ -375,8 +375,8 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
                 cmfs_i.wavelengths,
                 values,
                 color=RGB,
-                label=u'{0} - {1}'.format(cmfs_i.strict_labels[j],
-                                          cmfs_i.strict_name))
+                label='{0} - {1}'.format(cmfs_i.strict_labels[j],
+                                         cmfs_i.strict_name))
 
     bounding_box = (min(x_limit_min), max(x_limit_max),
                     min(y_limit_min) - abs(min(y_limit_min)) * 0.05,
