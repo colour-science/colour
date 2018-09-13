@@ -299,12 +299,12 @@ class AbstractLUT:
                 '{2}\n\n'
                 'Dimensions : {3}\n'
                 'Domain     : {4}\n'
-                'Size       : {5}{6}').format(
+                'Size       : {5!s}{6}').format(
                     self.__class__.__name__, self.name,
                     '-' * (len(self.__class__.__name__) + 3 + len(self.name)),
-                    self.dimensions, _indent_array(
-                        self.domain), self.table.shape, '\n{0}'.format(
-                            '\n'.join(comments)) if comments else '')
+                    self.dimensions, _indent_array(self.domain),
+                    str(self.table.shape).replace("L", ""),
+                    '\n{0}'.format('\n'.join(comments)) if comments else '')
 
     def __repr__(self):
         """
