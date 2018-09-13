@@ -1519,6 +1519,7 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
     align
     trim
     normalise
+    to_spds
 
     References
     ----------
@@ -2297,6 +2298,67 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
             signal.normalise(factor)
 
         return self
+
+    def to_spds(self):
+        """
+        Converts the multi-spectral power distributions to a list of
+        spectral power distributions and update their name and strict name
+        using the labels and strict labels.
+
+        Returns
+        -------
+        list
+            List of spectral power distributions.
+
+        Examples
+        --------
+        >>> from colour.utilities import numpy_print_options
+        >>> data = {
+        ...     500: (0.004900, 0.323000, 0.272000),
+        ...     510: (0.009300, 0.503000, 0.158200),
+        ...     520: (0.063270, 0.710000, 0.078250),
+        ...     530: (0.165500, 0.862000, 0.042160),
+        ...     540: (0.290400, 0.954000, 0.020300),
+        ...     550: (0.433450, 0.994950, 0.008750),
+        ...     560: (0.594500, 0.995000, 0.003900)
+        ... }
+        >>> multi_spd = MultiSpectralPowerDistribution(data)
+        >>> with numpy_print_options(suppress=True):
+        ...     for spd in multi_spd.to_spds():
+        ...         print(spd)  # doctest: +ELLIPSIS
+        [[ 500.         0.0049 ...]
+         [ 510.         0.0093 ...]
+         [ 520.         0.06327...]
+         [ 530.         0.1655 ...]
+         [ 540.         0.2904 ...]
+         [ 550.         0.43345...]
+         [ 560.         0.5945 ...]]
+        [[ 500.         0.323  ...]
+         [ 510.         0.503  ...]
+         [ 520.         0.71   ...]
+         [ 530.         0.862  ...]
+         [ 540.         0.954  ...]
+         [ 550.         0.99495...]
+         [ 560.         0.995  ...]]
+        [[ 500.         0.272  ...]
+         [ 510.         0.1582 ...]
+         [ 520.         0.07825...]
+         [ 530.         0.04216...]
+         [ 540.         0.0203 ...]
+         [ 550.         0.00875...]
+         [ 560.         0.0039 ...]]
+        """
+
+        spds = []
+        for i, signal in enumerate(self.signals.values()):
+            signal = signal.copy()
+            signal.name = '{0} - {1}'.format(self.labels[i], signal.name)
+            signal.strict_name = '{0} - {1}'.format(self.strict_labels[i],
+                                                    signal.strict_name)
+
+            spds.append(signal)
+
+        return spds
 
     # ------------------------------------------------------------------------#
     # ---              API Changes and Deprecation Management              ---#

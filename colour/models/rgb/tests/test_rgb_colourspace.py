@@ -46,7 +46,7 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
         colourspace models.
         """
 
-        XYZ_r = np.array([0.5, 0.5, 0.5]).reshape((3, 1))
+        XYZ_r = np.array([0.5, 0.5, 0.5]).reshape([3, 1])
         for colourspace in RGB_COLOURSPACES.values():
             # Instantiation transformation matrices.
             if colourspace.name in ('ProPhoto RGB', 'ERIMM RGB', 'RIMM RGB',
@@ -93,8 +93,8 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
 
         ignored_colourspaces = ('ACESproxy', )
 
-        samples = np.hstack((np.linspace(0, 1, 1e5),
-                             np.linspace(0, 65504, 65504 * 10)))
+        samples = np.hstack([np.linspace(0, 1, 1e5),
+                             np.linspace(0, 65504, 65504 * 10)])
 
         for colourspace in RGB_COLOURSPACES.values():
             if colourspace.name in ignored_colourspaces:
@@ -493,7 +493,7 @@ class TestXYZ_to_RGB(unittest.TestCase):
             XYZ = np.array(case)
             W_R = np.array(case[0:2])
             W_T = np.array(case[0:2])
-            M = np.vstack((case, case, case)).reshape((3, 3))
+            M = np.vstack([case, case, case]).reshape([3, 3])
             XYZ_to_RGB(XYZ, W_R, W_T, M)
 
 
@@ -633,7 +633,7 @@ class TestRGB_to_XYZ(unittest.TestCase):
             RGB = np.array(case)
             W_R = np.array(case[0:2])
             W_T = np.array(case[0:2])
-            M = np.vstack((case, case, case)).reshape((3, 3))
+            M = np.vstack([case, case, case]).reshape((3, 3))
             RGB_to_XYZ(RGB, W_R, W_T, M)
 
 

@@ -221,8 +221,8 @@ class TestTransferFunctions(unittest.TestCase):
             (OOTFS, OOTFS_REVERSE),
         ]
 
-        samples = np.hstack((np.linspace(0, 1, 1e5),
-                             np.linspace(0, 65504, 65504 * 10)))
+        samples = np.hstack([np.linspace(0, 1, 1e5),
+                             np.linspace(0, 65504, 65504 * 10)])
 
         for encoding_mapping, decoding_mapping in reciprocal_mappings:
             for name in encoding_mapping:

@@ -79,10 +79,10 @@ def cartesian_to_spherical(a):
     x, y, z = tsplit(a)
 
     rho = np.linalg.norm(a, axis=-1)
-    theta = np.arctan2(z, np.linalg.norm(tstack((x, y)), axis=-1))
+    theta = np.arctan2(z, np.linalg.norm(tstack([x, y]), axis=-1))
     phi = np.arctan2(y, x)
 
-    rtp = tstack((rho, theta, phi))
+    rtp = tstack([rho, theta, phi])
 
     return rtp
 
@@ -120,7 +120,7 @@ def spherical_to_cartesian(a):
     y = rho * np.cos(theta) * np.sin(phi)
     z = rho * np.sin(theta)
 
-    xyz = tstack((x, y, z))
+    xyz = tstack([x, y, z])
 
     return xyz
 
@@ -157,7 +157,7 @@ def cartesian_to_polar(a):
     rho = np.hypot(x, y)
     phi = np.arctan2(y, x)
 
-    return tstack((rho, phi))
+    return tstack([rho, phi])
 
 
 def polar_to_cartesian(a):
@@ -191,7 +191,7 @@ def polar_to_cartesian(a):
     x = rho * np.cos(phi)
     y = rho * np.sin(phi)
 
-    return tstack((x, y))
+    return tstack([x, y])
 
 
 def cartesian_to_cylindrical(a):
@@ -225,7 +225,7 @@ def cartesian_to_cylindrical(a):
 
     rho, phi = tsplit(cartesian_to_polar(a[..., 0:2]))
 
-    return tstack((rho, phi, a[..., -1]))
+    return tstack([rho, phi, a[..., -1]])
 
 
 def cylindrical_to_cartesian(a):
@@ -259,4 +259,4 @@ def cylindrical_to_cartesian(a):
 
     x, y = tsplit(polar_to_cartesian(a[..., 0:2]))
 
-    return tstack((x, y, a[..., -1]))
+    return tstack([x, y, a[..., -1]])

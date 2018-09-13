@@ -123,7 +123,7 @@ def XYZ_to_Luv(
     v = (13 * L * ((9 * Y / (X + 15 * Y + 3 * Z)) -
                    (9 * Y_r / (X_r + 15 * Y_r + 3 * Z_r))))
 
-    Luv = tstack((L, u, v))
+    Luv = tstack([L, u, v])
 
     return from_range_100(Luv)
 
@@ -195,7 +195,7 @@ def Luv_to_XYZ(
     X = (d - b) / (a - c)
     Z = X * a + b
 
-    XYZ = tstack((X, Y, Z))
+    XYZ = tstack([X, Y, Z])
 
     return from_range_1(XYZ)
 
@@ -250,7 +250,7 @@ def Luv_to_uv(
 
     X, Y, Z = tsplit(Luv_to_XYZ(Luv, illuminant))
 
-    uv = tstack((4 * X / (X + 15 * Y + 3 * Z), 9 * Y / (X + 15 * Y + 3 * Z)))
+    uv = tstack([4 * X / (X + 15 * Y + 3 * Z), 9 * Y / (X + 15 * Y + 3 * Z)])
 
     return uv
 
@@ -284,7 +284,7 @@ def Luv_uv_to_xy(uv):
     u, v = tsplit(uv)
 
     d = 6 * u - 16 * v + 12
-    xy = tstack((9 * u / d, 4 * v / d))
+    xy = tstack([9 * u / d, 4 * v / d])
 
     return xy
 
@@ -318,7 +318,7 @@ def xy_to_Luv_uv(xy):
     x, y = tsplit(xy)
 
     d = -2 * x + 12 * y + 3
-    uv = tstack((4 * x / d, 9 * y / d))
+    uv = tstack([4 * x / d, 9 * y / d])
 
     return uv
 
@@ -373,9 +373,9 @@ def Luv_to_LCHuv(Luv):
 
     L, u, v = tsplit(Luv)
 
-    C, H = tsplit(cartesian_to_polar(tstack((u, v))))
+    C, H = tsplit(cartesian_to_polar(tstack([u, v])))
 
-    LCHuv = tstack((L, C, from_range_degrees(np.degrees(H) % 360)))
+    LCHuv = tstack([L, C, from_range_degrees(np.degrees(H) % 360)])
 
     return LCHuv
 
@@ -431,8 +431,8 @@ def LCHuv_to_Luv(LCHuv):
     L, C, H = tsplit(LCHuv)
 
     u, v = tsplit(
-        polar_to_cartesian(tstack((C, np.radians(to_domain_degrees(H))))))
+        polar_to_cartesian(tstack([C, np.radians(to_domain_degrees(H))])))
 
-    Luv = tstack((L, u, v))
+    Luv = tstack([L, u, v])
 
     return Luv

@@ -130,7 +130,7 @@ class TestNormalisedPrimaryMatrix(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=2))
         for case in cases:
-            P = np.array(np.vstack((case, case, case)))
+            P = np.array(np.vstack([case, case, case]))
             W = np.array(case)
             try:
                 normalised_primary_matrix(P, W)
@@ -195,7 +195,7 @@ chromatically_adapted_primaries` definition nan support.
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=2))
         for case in cases:
-            P = np.array(np.vstack((case, case, case)))
+            P = np.array(np.vstack([case, case, case]))
             W = np.array(case)
             chromatically_adapted_primaries(P, W, W)
 
@@ -256,7 +256,7 @@ class TestPrimariesWhitepoint(unittest.TestCase):
         cases = [-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]
         cases = set(permutations(cases * 3, r=3))
         for case in cases:
-            M = np.array(np.vstack((case, case, case)))
+            M = np.array(np.vstack([case, case, case]))
             primaries_whitepoint(M)
 
 
@@ -359,7 +359,7 @@ class TestRGBLuminance(unittest.TestCase):
         cases = set(permutations(cases * 3, r=3))
         for case in cases:
             RGB = np.array(case)
-            P = np.array(np.vstack((case[0:2], case[0:2], case[0:2])))
+            P = np.array(np.vstack([case[0:2], case[0:2], case[0:2]]))
             W = np.array(case[0:2])
             try:
                 RGB_luminance(RGB, P, W)

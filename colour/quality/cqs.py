@@ -245,7 +245,7 @@ def gamut_area(Lab):
 
     A = np.linalg.norm(Lab[..., 1:3], axis=-1)
     B = np.linalg.norm(Lab_s[..., 1:3], axis=-1)
-    C = np.linalg.norm(np.dstack((a_s - a, b_s - b)), axis=-1)
+    C = np.linalg.norm(np.dstack([a_s - a, b_s - b]), axis=-1)
     t = (A + B + C) / 2
     S = np.sqrt(t * (t - A) * (t - B) * (t - C))
 

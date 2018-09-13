@@ -98,11 +98,11 @@ def closest_spectral_locus_wavelength(xy, xy_n, xy_s, reverse=False):
             if reverse else extend_line_segment(xy_n, xy))
 
     # Closing horse-shoe shape to handle line of purples intersections.
-    xy_s = np.vstack((xy_s, xy_s[0, :]))
+    xy_s = np.vstack([xy_s, xy_s[0, :]])
 
     xy_wl = intersect_line_segments(
         np.concatenate((xy_n, xy_e), -1),
-        np.hstack((xy_s, np.roll(xy_s, 1, axis=0)))).xy
+        np.hstack([xy_s, np.roll(xy_s, 1, axis=0)])).xy
     xy_wl = xy_wl[~np.isnan(xy_wl).any(axis=-1)]
     if not len(xy_wl):
         raise ValueError(
@@ -194,8 +194,8 @@ def dominant_wavelength(xy,
     xy_e = (extend_line_segment(xy, xy_n)
             if reverse else extend_line_segment(xy_n, xy))
     intersect = intersect_line_segments(
-        np.concatenate((xy_n, xy_e), -1), np.hstack((xy_s[0],
-                                                     xy_s[-1]))).intersect
+        np.concatenate((xy_n, xy_e), -1), np.hstack([xy_s[0],
+                                                     xy_s[-1]])).intersect
     intersect = np.reshape(intersect, wl.shape)
 
     i_wl_r, xy_cwl_r = closest_spectral_locus_wavelength(

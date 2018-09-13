@@ -105,7 +105,7 @@ def XYZ_to_xyY(
     xyY = np.where(
         np.all(XYZ == 0, axis=-1)[..., np.newaxis],
         XYZ_n,
-        tstack((X / (X + Y + Z), Y / (X + Y + Z), from_range_1(Y))),
+        tstack([X / (X + Y + Z), Y / (X + Y + Z), from_range_1(Y)]),
     )
 
     return xyY
@@ -156,8 +156,8 @@ def xyY_to_XYZ(xyY):
 
     XYZ = np.where(
         (y == 0)[..., np.newaxis],
-        tstack((y, y, y)),
-        tstack((x * Y / y, Y, (1 - x - y) * Y / y)),
+        tstack([y, y, y]),
+        tstack([x * Y / y, Y, (1 - x - y) * Y / y]),
     )
 
     return from_range_1(XYZ)
@@ -234,7 +234,7 @@ def xy_to_xyY(xy, Y=1):
     x, y = tsplit(xy)
 
     Y = np.full(x.shape, from_range_1(Y), DEFAULT_FLOAT_DTYPE)
-    xyY = tstack((x, y, Y))
+    xyY = tstack([x, y, Y])
 
     return xyY
 

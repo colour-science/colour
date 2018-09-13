@@ -356,7 +356,7 @@ def XYZ_to_RGB_LLAB(XYZ):
 
     _X, Y, _Z = tsplit(XYZ)
 
-    Y = tstack((Y, Y, Y))
+    Y = tstack([Y, Y, Y])
     XYZ_n = XYZ / Y
 
     return dot_vector(LLAB_XYZ_TO_RGB_MATRIX, XYZ_n)
@@ -407,9 +407,9 @@ def chromatic_adaptation(RGB, RGB_0, RGB_0r, Y, D=1):
     G_r = (D * (G_0r / G_0) + 1 - D) * G
     B_r = (D * (B_0r / spow(B_0, beta)) + 1 - D) * spow(B, beta)
 
-    RGB_r = tstack((R_r, G_r, B_r))
+    RGB_r = tstack([R_r, G_r, B_r])
 
-    Y = tstack((Y, Y, Y))
+    Y = tstack([Y, Y, Y])
 
     XYZ_r = dot_vector(LLAB_RGB_TO_XYZ_MATRIX, RGB_r * Y)
 
@@ -500,7 +500,7 @@ def opponent_colour_dimensions(XYZ, Y_b, F_S, F_L):
     a = 500 * (f(X / 95.05, F_S) - f(Y / 100, F_S))
     b = 200 * (f(Y / 100, F_S) - f(Z / 108.88, F_S))
 
-    Lab = tstack((L, a, b))
+    Lab = tstack([L, a, b])
 
     return Lab
 
@@ -666,6 +666,6 @@ def final_opponent_signals(C_L, h_L):
     array([-0.0119478..., -0.0139711...])
     """
 
-    AB_L = polar_to_cartesian(tstack((C_L, np.radians(h_L))))
+    AB_L = polar_to_cartesian(tstack([C_L, np.radians(h_L)]))
 
     return AB_L

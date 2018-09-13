@@ -93,7 +93,7 @@ def RGB_to_Prismatic(RGB):
     one_s[s == 0] = 0
     r, g, b = tsplit(one_s * RGB)
 
-    Lrgb = tstack((L, r, g, b))
+    Lrgb = tstack([L, r, g, b])
 
     return from_range_1(Lrgb)
 

@@ -114,7 +114,7 @@ def XYZ_to_Lab(
     a = 500 * (X_f - Y_f)
     b = 200 * (Y_f - Z_f)
 
-    Lab = tstack((L, a, b))
+    Lab = tstack([L, a, b])
 
     return from_range_100(Lab)
 
@@ -182,7 +182,7 @@ def Lab_to_XYZ(
     y_r = np.where(L > CIE_K * CIE_E, ((L + 16) / 116) ** 3, L / CIE_K)
     z_r = np.where(f_z ** 3 > CIE_E, f_z ** 3, (116 * f_z - 16) / CIE_K)
 
-    XYZ = tstack((x_r, y_r, z_r)) * XYZ_r
+    XYZ = tstack([x_r, y_r, z_r]) * XYZ_r
 
     return from_range_1(XYZ)
 
@@ -237,9 +237,9 @@ def Lab_to_LCHab(Lab):
 
     L, a, b = tsplit(Lab)
 
-    C, H = tsplit(cartesian_to_polar(tstack((a, b))))
+    C, H = tsplit(cartesian_to_polar(tstack([a, b])))
 
-    LCHab = tstack((L, C, from_range_degrees(np.degrees(H) % 360)))
+    LCHab = tstack([L, C, from_range_degrees(np.degrees(H) % 360)])
 
     return LCHab
 
@@ -295,8 +295,8 @@ def LCHab_to_Lab(LCHab):
     L, C, H = tsplit(LCHab)
 
     a, b = tsplit(
-        polar_to_cartesian(tstack((C, np.radians(to_domain_degrees(H))))))
+        polar_to_cartesian(tstack([C, np.radians(to_domain_degrees(H))])))
 
-    Lab = tstack((L, a, b))
+    Lab = tstack([L, a, b])
 
     return Lab

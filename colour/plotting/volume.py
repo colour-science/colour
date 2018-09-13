@@ -93,7 +93,7 @@ def common_colourspace_model_axis_reorder(a, model=None):
                  'Hunter Lab', 'Hunter Rdab', 'IPT', 'JzAzBz', 'OSA UCS',
                  'hdr-CIELAB', 'hdr-IPT'):
         i, j, k = tsplit(a)
-        a = tstack((j, k, i))
+        a = tstack([j, k, i])
 
     return a
 
@@ -237,13 +237,13 @@ def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
 
     RGB_g = np.ones((quads_g.shape[0], quads_g.shape[-1]))
     RGB_gf = RGB_g * settings.grid_face_colours
-    RGB_gf = np.hstack((RGB_gf,
+    RGB_gf = np.hstack([RGB_gf,
                         np.full((RGB_gf.shape[0], 1), settings.grid_face_alpha,
-                                DEFAULT_FLOAT_DTYPE)))
+                                DEFAULT_FLOAT_DTYPE)])
     RGB_ge = RGB_g * settings.grid_edge_colours
-    RGB_ge = np.hstack((RGB_ge,
+    RGB_ge = np.hstack([RGB_ge,
                         np.full((RGB_ge.shape[0], 1), settings.grid_edge_alpha,
-                                DEFAULT_FLOAT_DTYPE)))
+                                DEFAULT_FLOAT_DTYPE)])
 
     # Inner grid.
     quads_gs = grid(
@@ -255,9 +255,9 @@ def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
 
     RGB_gs = np.ones((quads_gs.shape[0], quads_gs.shape[-1]))
     RGB_gsf = RGB_gs * 0
-    RGB_gsf = np.hstack((RGB_gsf,
+    RGB_gsf = np.hstack([RGB_gsf,
                          np.full((RGB_gsf.shape[0], 1), 0,
-                                 DEFAULT_FLOAT_DTYPE)))
+                                 DEFAULT_FLOAT_DTYPE)])
     RGB_gse = np.clip(RGB_gs * settings.grid_edge_colours * 1.5, 0, 1)
     RGB_gse = np.hstack(
         (RGB_gse,
@@ -331,9 +331,9 @@ def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
                 size=20,
                 clip_on=True)
 
-    quads = np.vstack((quads_g, quads_gs, quad_x, quad_y))
-    RGB_f = np.vstack((RGB_gf, RGB_gsf, RGB_x, RGB_y))
-    RGB_e = np.vstack((RGB_ge, RGB_gse, RGB_x, RGB_y))
+    quads = np.vstack([quads_g, quads_gs, quad_x, quad_y])
+    RGB_f = np.vstack([RGB_gf, RGB_gsf, RGB_x, RGB_y])
+    RGB_e = np.vstack([RGB_ge, RGB_gse, RGB_x, RGB_y])
 
     return quads, RGB_f, RGB_e
 
@@ -559,17 +559,17 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
             RGB = np.ones(RGB.shape) * settings.face_colours[i]
 
         RGB_f.extend(
-            np.hstack((RGB,
+            np.hstack([RGB,
                        np.full((RGB.shape[0], 1), settings.face_alpha[i],
-                               DEFAULT_FLOAT_DTYPE))))
+                               DEFAULT_FLOAT_DTYPE)]))
 
         if settings.edge_colours[i] is not None:
             RGB = np.ones(RGB.shape) * settings.edge_colours[i]
 
         RGB_e.extend(
-            np.hstack((RGB,
+            np.hstack([RGB,
                        np.full((RGB.shape[0], 1), settings.edge_alpha[i],
-                               DEFAULT_FLOAT_DTYPE))))
+                               DEFAULT_FLOAT_DTYPE)]))
 
     quads = np.asarray(quads)
     quads[np.isnan(quads)] = 0
@@ -598,9 +598,9 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
 
         quads_g, RGB_gf, RGB_ge = nadir_grid(limits, grid_segments, labels,
                                              axes, **settings)
-        quads = np.vstack((quads_g, quads))
-        RGB_f = np.vstack((RGB_gf, RGB_f))
-        RGB_e = np.vstack((RGB_ge, RGB_e))
+        quads = np.vstack([quads_g, quads])
+        RGB_f = np.vstack([RGB_gf, RGB_f])
+        RGB_e = np.vstack([RGB_ge, RGB_e])
 
     collection = Poly3DCollection(quads)
     collection.set_facecolors(RGB_f)

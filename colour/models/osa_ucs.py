@@ -131,7 +131,7 @@ def XYZ_to_OSA_UCS(XYZ):
     j = C * np.dot(RGB_3, np.array([1.7, 8, -9.7]))
     g = C * np.dot(RGB_3, np.array([-13.7, 17.7, -4]))
 
-    Ljg = tstack((L, j, g))
+    Ljg = tstack([L, j, g])
 
     return from_range_100(Ljg)
 
@@ -197,7 +197,7 @@ def OSA_UCS_to_XYZ(Ljg, optimisation_parameters=None):
 
     Ljg = to_domain_100(Ljg)
     shape = Ljg.shape
-    Ljg = np.atleast_1d(Ljg.reshape((-1, 3)))
+    Ljg = np.atleast_1d(Ljg.reshape([-1, 3]))
 
     optimisation_settings = {'disp': False}
     if optimisation_parameters is not None:

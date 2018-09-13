@@ -57,9 +57,9 @@ class TestHuntColourAppearanceModel(ColourAppearanceModelTest):
             Hunt colour appearance model specification.
         """
 
-        XYZ = tstack((data['X'], data['Y'], data['Z']))
-        XYZ_w = tstack((data['X_w'], data['Y_w'], data['Z_w']))
-        XYZ_b = tstack((data['X_w'], 0.2 * data['Y_w'], data['Z_w']))
+        XYZ = tstack([data['X'], data['Y'], data['Z']])
+        XYZ_w = tstack([data['X_w'], data['Y_w'], data['Z_w']])
+        XYZ_b = tstack([data['X_w'], 0.2 * data['Y_w'], data['Z_w']])
 
         specification = XYZ_to_Hunt(
             XYZ,

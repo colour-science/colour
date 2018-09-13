@@ -80,7 +80,7 @@ __all__ = [
     'CAT02_BRILL_CAT', 'BS_CAT', 'BS_PC_CAT', 'CHROMATIC_ADAPTATION_TRANSFORMS'
 ]
 
-XYZ_SCALING_CAT = np.array(np.identity(3)).reshape((3, 3))
+XYZ_SCALING_CAT = np.array(np.identity(3)).reshape([3, 3])
 """
 *XYZ Scaling* chromatic adaptation transform.
 

@@ -494,7 +494,7 @@ def chromatic_induction_factors(n):
     n = np.asarray(n)
 
     N_bb = N_cb = 0.725 * spow(1 / n, 0.2)
-    N_bbcb = tstack((N_bb, N_cb))
+    N_bbcb = tstack([N_bb, N_cb])
 
     return N_bbcb
 
@@ -560,7 +560,7 @@ def viewing_condition_dependent_parameters(Y_b, Y_w, L_A):
     N_bb, N_cb = tsplit(chromatic_induction_factors(n))
     z = base_exponential_non_linearity(n)
 
-    return tstack((n, F_L, N_bb, N_cb, z))
+    return tstack([n, F_L, N_bb, N_cb, z])
 
 
 def degree_of_adaptation(F, L_A):
@@ -838,7 +838,7 @@ def opponent_colour_dimensions_forward(RGB):
     a = R - 12 * G / 11 + B / 11
     b = (R + G - 2 * B) / 9
 
-    ab = tstack((a, b))
+    ab = tstack([a, b])
 
     return ab
 
@@ -912,7 +912,7 @@ def opponent_colour_dimensions_reverse(P_n, h):
         b,
     )
 
-    ab = tstack((a, b))
+    ab = tstack([a, b])
 
     return ab
 
@@ -1441,7 +1441,7 @@ def P(N_c, N_cb, e_t, t, A, N_bb):
     P_2 = A / N_bb + 0.305
     P_3 = np.ones(P_1.shape) * (21 / 20)
 
-    P_n = tstack((P_1, P_2, P_3))
+    P_n = tstack([P_1, P_2, P_3])
 
     return P_n
 
@@ -1482,6 +1482,6 @@ def post_adaptation_non_linear_response_compression_matrix(P_2, a, b):
     G_a = (460 * P_2 - 891 * a - 261 * b) / 1403
     B_a = (460 * P_2 - 220 * a - 6300 * b) / 1403
 
-    RGB_a = tstack((R_a, G_a, B_a))
+    RGB_a = tstack([R_a, G_a, B_a])
 
     return RGB_a

@@ -525,7 +525,7 @@ class Signal(AbstractContinuousFunction):
         """
 
         try:
-            return str(tstack((self.domain, self.range)))
+            return str(tstack([self.domain, self.range]))
         except TypeError:
             return super(Signal, self).__str__()
 
@@ -559,7 +559,7 @@ class Signal(AbstractContinuousFunction):
         """
 
         try:
-            representation = repr(tstack((self.domain, self.range)))
+            representation = repr(tstack([self.domain, self.range]))
             representation = representation.replace('array',
                                                     self.__class__.__name__)
             representation = representation.replace('       [', '{0}['.format(

@@ -91,6 +91,7 @@ dict_like, optional
     function
     signals
     labels
+    signal_type
 
     Methods
     -------
@@ -258,6 +259,8 @@ dict_like, optional
 
     def __init__(self, data=None, domain=None, labels=None, **kwargs):
         super(MultiSignal, self).__init__(kwargs.get('name'))
+
+        self._signal_type = kwargs.get('signal_type', Signal)
 
         self._signals = self.multi_signal_unpack_data(data, domain, labels,
                                                       **kwargs)
@@ -544,7 +547,8 @@ dict_like
         """
 
         if value is not None:
-            self._signals = self.multi_signal_unpack_data(value)
+            self._signals = self.multi_signal_unpack_data(
+                value, signal_type=self._signal_type)
 
     @property
     def labels(self):
@@ -580,6 +584,24 @@ dict_like
                 [(value[i], signal)
                  for i, (_key, signal) in enumerate(self._signals.items())])
 
+    @property
+    def signal_type(self):
+        """
+        Getter and setter property for the :class:`colour.continuous.Signal`
+        sub-class instances type.
+
+        Returns
+        -------
+        type
+            :class:`colour.continuous.Signal` sub-class instances type.
+
+        Notes
+        -----
+        -   This property is read only.
+        """
+
+        return self._signal_type
+
     def __str__(self):
         """
         Returns a formatted string representation of the multi-continuous
@@ -609,7 +631,7 @@ dict_like
         """
 
         try:
-            return str(np.hstack((self.domain[:, np.newaxis], self.range)))
+            return str(np.hstack([self.domain[:, np.newaxis], self.range]))
         except TypeError:
             return super(MultiSignal, self).__str__()
 
@@ -648,7 +670,7 @@ dict_like
 
         try:
             representation = repr(
-                np.hstack((self.domain[:, np.newaxis], self.range)))
+                np.hstack([self.domain[:, np.newaxis], self.range]))
             representation = representation.replace('array',
                                                     self.__class__.__name__)
             representation = representation.replace('       [', '{0}['.format(
@@ -1046,7 +1068,7 @@ dict_like
          [   8.  200.  220.  240.]
          [   9.  220.  240.  260.]]
 
-        >>> a = np.arange(0, 30, 1).reshape((10, 3))
+        >>> a = np.arange(0, 30, 1).reshape([10, 3])
         >>> print(multi_signal_1.arithmetical_operation(a, '+', True))
         [[   0.   40.   61.   82.]
          [   1.   63.   84.  105.]

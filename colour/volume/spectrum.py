@@ -124,7 +124,7 @@ def generate_pulse_waves(bins):
         for i in range(bins):
             square_waves.append(np.roll(square_wave_basis, i))
 
-    return np.vstack((np.zeros(bins), np.vstack(square_waves), np.ones(bins)))
+    return np.vstack([np.zeros(bins), np.vstack(square_waves), np.ones(bins)])
 
 
 def XYZ_outer_surface(

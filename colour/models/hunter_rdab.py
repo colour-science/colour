@@ -110,7 +110,7 @@ def XYZ_to_Hunter_Rdab(XYZ,
     a_Rd = K_a * f * (X / X_n - Y_Yn)
     b_Rd = K_b * f * (Y_Yn - Z / Z_n)
 
-    R_d_ab = tstack((R_d, a_Rd, b_Rd))
+    R_d_ab = tstack([R_d, a_Rd, b_Rd])
 
     return from_range_100(R_d_ab)
 
@@ -185,6 +185,6 @@ def Hunter_Rdab_to_XYZ(R_d_ab,
     X = (a_Rd / (K_a * f) + Rd_Yn) * X_n
     Z = -(b_Rd / (K_b * f) - Rd_Yn) * Z_n
 
-    XYZ = tstack((X, R_d, Z))
+    XYZ = tstack([X, R_d, Z])
 
     return from_range_100(XYZ)

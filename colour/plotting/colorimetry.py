@@ -35,7 +35,8 @@ from six.moves import reduce
 from colour.algebra import LinearInterpolator
 from colour.colorimetry import (
     ILLUMINANTS, ILLUMINANTS_SPDS, LIGHTNESS_METHODS, LUMINANCE_METHODS,
-    SpectralShape, blackbody_spd, ones_spd, spectral_to_XYZ, wavelength_to_XYZ)
+    MultiSpectralPowerDistribution, SpectralShape, blackbody_spd, ones_spd,
+    spectral_to_XYZ, wavelength_to_XYZ)
 from colour.plotting import (
     ColourSwatch, COLOUR_STYLE_CONSTANTS, XYZ_to_plotting_colourspace, artist,
     filter_passthrough, filter_cmfs, filter_illuminants, override_style,
@@ -142,7 +143,7 @@ def single_spd_plot(spd,
     polygon = Polygon(
         np.vstack([
             (x_min, 0),
-            tstack((wavelengths, values)),
+            tstack([wavelengths, values]),
             (x_max, 0),
         ]),
         facecolor='none',
@@ -183,8 +184,12 @@ def multi_spd_plot(spds,
 
     Parameters
     ----------
-    spds : list
-        Spectral power distributions to plot.
+    spds : array_like or MultiSpectralPowerDistribution
+        Spectral power distributions or multi-spectral power distributions to
+        plot. `spds` can be a single
+        :class:`colour.MultiSpectralPowerDistribution` class instance, a list
+        of :class:`colour.MultiSpectralPowerDistribution` class instances or a
+        list of :class:`colour.SpectralPowerDistribution` class instances.
     cmfs : unicode, optional
         Standard observer colour matching functions used for spectrum creation.
     use_spds_colours : bool, optional
@@ -234,6 +239,15 @@ def multi_spd_plot(spds,
     """
 
     figure, axes = artist(**kwargs)
+
+    if isinstance(spds, MultiSpectralPowerDistribution):
+        spds = spds.to_spds()
+    else:
+        spds = list(spds)
+        for i, spd in enumerate(spds[:]):
+            if isinstance(spd, MultiSpectralPowerDistribution):
+                spds.remove(spd)
+                spds[i:i] = spd.to_spds()
 
     cmfs = first_item(filter_cmfs(cmfs).values())
 
@@ -375,8 +389,8 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
                 cmfs_i.wavelengths,
                 values,
                 color=RGB,
-                label=u'{0} - {1}'.format(cmfs_i.strict_labels[j],
-                                          cmfs_i.strict_name))
+                label='{0} - {1}'.format(cmfs_i.strict_labels[j],
+                                         cmfs_i.strict_name))
 
     bounding_box = (min(x_limit_min), max(x_limit_max),
                     min(y_limit_min) - abs(min(y_limit_min)) * 0.05,

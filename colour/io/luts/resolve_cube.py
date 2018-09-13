@@ -133,10 +133,10 @@ def read_LUT_ResolveCube(path):
                 title = ' '.join(tokens[1:])[1:-1]
             elif tokens[0] == 'LUT_1D_INPUT_RANGE':
                 domain = _parse_array(tokens[1:])
-                LUT[0].domain = tstack((domain, domain, domain))
+                LUT[0].domain = tstack([domain, domain, domain])
             elif tokens[0] == 'LUT_3D_INPUT_RANGE':
                 domain = _parse_array(tokens[1:])
-                LUT[1].domain = tstack((domain, domain, domain))
+                LUT[1].domain = tstack([domain, domain, domain])
             elif tokens[0] == 'LUT_1D_SIZE':
                 has_2D = True
                 size2D = np.int_(tokens[1])
@@ -169,7 +169,7 @@ def read_LUT_ResolveCube(path):
         # The lines of table data shall be in ascending index order,
         # with the first component index (Red) changing most rapidly,
         # and the last component index (Blue) changing least rapidly.
-        table = table.reshape((size3D, size3D, size3D, 3), order='F')
+        table = table.reshape([size3D, size3D, size3D, 3], order='F')
         LUT[1].table = table
         return LUT[1]
 
@@ -309,7 +309,7 @@ def write_LUT_ResolveCube(LUT, path, decimals=7):
             cube_file.write('\n')
 
         if has_3D:
-            table = LUT[1].table.reshape((-1, 3), order='F')
+            table = LUT[1].table.reshape([-1, 3], order='F')
             for row in table:
                 cube_file.write('{0}\n'.format(_format_array(row)))
 

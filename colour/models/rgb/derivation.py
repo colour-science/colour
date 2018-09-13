@@ -112,7 +112,7 @@ def normalised_primary_matrix(primaries, whitepoint):
     primaries = np.reshape(primaries, (3, 2))
 
     z = xy_to_z(primaries)[..., np.newaxis]
-    primaries = np.transpose(np.hstack((primaries, z)))
+    primaries = np.transpose(np.hstack([primaries, z]))
 
     whitepoint = xy_to_XYZ(whitepoint)
 
@@ -209,7 +209,7 @@ def primaries_whitepoint(npm):
     array([ 0.32168,  0.33767])
     """
 
-    npm = npm.reshape((3, 3))
+    npm = npm.reshape([3, 3])
 
     primaries = XYZ_to_xy(np.transpose(np.dot(npm, np.identity(3))))
     whitepoint = np.squeeze(

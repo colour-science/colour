@@ -85,7 +85,7 @@ def XYZ_to_UCS(XYZ):
 
     X, Y, Z = tsplit(to_domain_1(XYZ))
 
-    UVW = tstack((2 / 3 * X, Y, 1 / 2 * (-X + 3 * Y + Z)))
+    UVW = tstack([2 / 3 * X, Y, 1 / 2 * (-X + 3 * Y + Z)])
 
     return from_range_1(UVW)
 
@@ -133,7 +133,7 @@ def UCS_to_XYZ(UVW):
 
     U, V, W = tsplit(to_domain_1(UVW))
 
-    XYZ = tstack((3 / 2 * U, V, 3 / 2 * U - (3 * V) + (2 * W)))
+    XYZ = tstack([3 / 2 * U, V, 3 / 2 * U - (3 * V) + (2 * W)])
 
     return from_range_1(XYZ)
 
@@ -176,7 +176,7 @@ def UCS_to_uv(UVW):
 
     U, V, W = tsplit(to_domain_1(UVW))
 
-    uv = tstack((U / (U + V + W), V / (U + V + W)))
+    uv = tstack([U / (U + V + W), V / (U + V + W)])
 
     return uv
 
@@ -211,7 +211,7 @@ def UCS_uv_to_xy(uv):
     u, v = tsplit(uv)
 
     d = 2 * u - 8 * v + 4
-    xy = tstack((3 * u / d, 2 * v / d))
+    xy = tstack([3 * u / d, 2 * v / d])
 
     return xy
 
@@ -246,6 +246,6 @@ def xy_to_UCS_uv(xy):
     x, y = tsplit(xy)
 
     d = 12 * y - 2 * x + 3
-    uv = tstack((4 * x / d, 6 * y / d))
+    uv = tstack([4 * x / d, 6 * y / d])
 
     return uv

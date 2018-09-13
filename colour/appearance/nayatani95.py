@@ -764,7 +764,7 @@ def saturation_components(h, bL_or, t, p):
     S_RG = (488.93 / bL_or) * E_s * t
     S_YB = (488.93 / bL_or) * E_s * p
 
-    return tstack((S_RG, S_YB))
+    return tstack([S_RG, S_YB])
 
 
 def saturation_correlate(S_RG, S_YB):
@@ -833,7 +833,7 @@ def chroma_components(L_star_P, S_RG, S_YB):
     C_RG = spow(L_star_P / 50, 0.7) * S_RG
     C_YB = spow(L_star_P / 50, 0.7) * S_YB
 
-    return tstack((C_RG, C_YB))
+    return tstack([C_RG, C_YB])
 
 
 def chroma_correlate(L_star_P, S):

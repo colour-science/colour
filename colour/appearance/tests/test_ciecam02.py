@@ -63,8 +63,8 @@ class TestCIECAM02ColourAppearanceModelForward(ColourAppearanceModelTest):
             *CIECAM02* colour appearance model specification.
         """
 
-        XYZ = tstack((data['X'], data['Y'], data['Z']))
-        XYZ_w = tstack((data['X_w'], data['Y_w'], data['Z_w']))
+        XYZ = tstack([data['X'], data['Y'], data['Z']])
+        XYZ_w = tstack([data['X_w'], data['Y_w'], data['Z_w']])
 
         specification = XYZ_to_CIECAM02(XYZ, XYZ_w, data['L_A'], data['Y_b'],
                                         CIECAM02_InductionFactors(
@@ -163,7 +163,7 @@ class TestCIECAM02ColourAppearanceModelReverse(ColourAppearanceModelTest):
             *CIE XYZ* tristimulus values
         """
 
-        XYZ_w = tstack((data['X_w'], data['Y_w'], data['Z_w']))
+        XYZ_w = tstack([data['X_w'], data['Y_w'], data['Z_w']])
 
         i, j, k = correlates
         CIECAM02_specification = as_namedtuple({

@@ -123,7 +123,7 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     y_bar = L
     z_bar = z / y * L
 
-    xyz_bar = tstack((x_bar, y_bar, z_bar))
+    xyz_bar = tstack([x_bar, y_bar, z_bar])
 
     return xyz_bar
 

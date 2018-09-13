@@ -1454,7 +1454,7 @@ class LUT3D(AbstractLUT):
 
         samples = [np.linspace(a[0], a[1], size) for a in (B, G, R)]
         table = np.meshgrid(*samples, indexing='ij')
-        table = np.transpose(table).reshape((size, size, size, 3))
+        table = np.transpose(table).reshape([size, size, size, 3])
 
         return np.flip(table, -1)
 

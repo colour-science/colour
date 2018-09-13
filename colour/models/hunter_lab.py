@@ -78,7 +78,7 @@ def XYZ_to_K_ab_HunterLab1966(XYZ):
     K_a = 175 * np.sqrt(X / 98.043)
     K_b = 70 * np.sqrt(Z / 118.115)
 
-    K_ab = tstack((K_a, K_b))
+    K_ab = tstack([K_a, K_b])
 
     return K_ab
 
@@ -153,7 +153,7 @@ def XYZ_to_Hunter_Lab(XYZ,
     a = K_a * ((X / X_n - Y_Y_n) / sqrt_Y_Y_n)
     b = K_b * ((Y_Y_n - Z / Z_n) / sqrt_Y_Y_n)
 
-    Lab = tstack((L, a, b))
+    Lab = tstack([L, a, b])
 
     return from_range_100(Lab)
 
@@ -228,6 +228,6 @@ def Hunter_Lab_to_XYZ(Lab,
     X = ((a / K_a) * L_100 + L_100_2) * X_n
     Z = -((b / K_b) * L_100 - L_100_2) * Z_n
 
-    XYZ = tstack((X, Y, Z))
+    XYZ = tstack([X, Y, Z])
 
     return from_range_100(XYZ)

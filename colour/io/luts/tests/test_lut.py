@@ -600,7 +600,7 @@ class TestLUT3D(TestLUT):
         R, G, B = tsplit(domain)
         samples = [np.linspace(a[0], a[1], size) for a in (B, G, R)]
         table_1 = np.meshgrid(*samples, indexing='ij')
-        table_1 = np.transpose(table_1).reshape((size, size, size, 3))
+        table_1 = np.transpose(table_1).reshape([size, size, size, 3])
         self._table_1 = np.flip(table_1, -1)
         self._table_2 = spow(self._table_1, 1 / 2.2)
         self._domain_1 = domain
