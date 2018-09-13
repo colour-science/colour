@@ -1509,7 +1509,11 @@ class TestMultiSpectralPowerDistribution(unittest.TestCase):
         domain = spd.domain
         range_ = tstack([spd.values, spd.values, spd.values])
         self._sample_multi_spd = MultiSpectralPowerDistribution(
-            range_, domain, name='Sample Observer', labels=self._labels)
+            range_,
+            domain,
+            name='Sample Observer',
+            labels=self._labels,
+        )
 
         spd = SpectralPowerDistribution(NON_UNIFORM_SAMPLE_SPD_DATA)
         domain = spd.domain
@@ -1541,7 +1545,7 @@ class TestMultiSpectralPowerDistribution(unittest.TestCase):
         """
 
         required_methods = ('__init__', 'extrapolate', 'interpolate', 'align',
-                            'trim', 'normalise')
+                            'trim', 'normalise', 'to_spds')
 
         for method in required_methods:
             self.assertIn(method, dir(MultiSpectralPowerDistribution))
@@ -1687,6 +1691,22 @@ MultiSpectralPowerDistribution.normalise` method.
         np.testing.assert_almost_equal(
             self._sample_multi_spd.copy().normalise(100).values,
             tstack([NORMALISED_SAMPLE_SPD_DATA] * 3))
+
+    def to_spds(self):
+        """
+        Tests :func:`colour.colorimetry.spectrum.\
+MultiSpectralPowerDistribution.to_spds` method.
+        """
+
+        spds = self._non_uniform_sample_multi_spd.to_spds()
+        self.assertEqual(len(spds), 3)
+
+        for i, spd in spds:
+            self.assertEqual(spd.name, '{0} - {1}'.format(
+                self._labels[i], self._non_uniform_sample_multi_spd.name))
+            self.assertEqual(spd.strict_name, '{0} - {1}'.format(
+                self._strict_labels[i],
+                self._non_uniform_sample_multi_spd.name))
 
 
 class TestConstantSpd(unittest.TestCase):
