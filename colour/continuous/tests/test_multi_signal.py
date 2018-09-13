@@ -51,7 +51,7 @@ class TestMultiSignal(unittest.TestCase):
         required_attributes = ('dtype', 'domain', 'range', 'interpolator',
                                'interpolator_args', 'extrapolator',
                                'extrapolator_args', 'function', 'signals',
-                               'labels')
+                               'labels', 'signal_type')
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(MultiSignal))
@@ -247,6 +247,16 @@ extrapolator_args` property.
         multi_signal.labels = ['a', 'b', 'c']
 
         self.assertListEqual(multi_signal.labels, ['a', 'b', 'c'])
+
+    def test_signal_type(self):
+        """
+        Tests :func:`colour.continuous.multi_signal.MultiSignal.signal_type`
+        property.
+        """
+
+        multi_signal = MultiSignal(signal_type=Signal)
+
+        self.assertEqual(multi_signal.signal_type, Signal)
 
     def test__init__(self):
         """

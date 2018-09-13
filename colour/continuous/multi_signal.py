@@ -91,6 +91,7 @@ dict_like, optional
     function
     signals
     labels
+    signal_type
 
     Methods
     -------
@@ -258,6 +259,8 @@ dict_like, optional
 
     def __init__(self, data=None, domain=None, labels=None, **kwargs):
         super(MultiSignal, self).__init__(kwargs.get('name'))
+
+        self._signal_type = kwargs.get('signal_type', Signal)
 
         self._signals = self.multi_signal_unpack_data(data, domain, labels,
                                                       **kwargs)
@@ -544,7 +547,8 @@ dict_like
         """
 
         if value is not None:
-            self._signals = self.multi_signal_unpack_data(value)
+            self._signals = self.multi_signal_unpack_data(
+                value, signal_type=self._signal_type)
 
     @property
     def labels(self):
@@ -579,6 +583,24 @@ dict_like
             self._signals = OrderedDict(
                 [(value[i], signal)
                  for i, (_key, signal) in enumerate(self._signals.items())])
+
+    @property
+    def signal_type(self):
+        """
+        Getter and setter property for the :class:`colour.continuous.Signal`
+        sub-class instances type.
+
+        Returns
+        -------
+        type
+            :class:`colour.continuous.Signal` sub-class instances type.
+
+        Notes
+        -----
+        -   This property is read only.
+        """
+
+        return self._signal_type
 
     def __str__(self):
         """
