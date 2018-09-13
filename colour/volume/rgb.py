@@ -187,7 +187,7 @@ def RGB_colourspace_limits(
 def RGB_colourspace_volume_MonteCarlo(
         colourspace,
         samples=10e6,
-        limits=np.array([[0, 100], [-150, 150], [-150, 150]]),
+        limits=np.array([[0, 100], [-150, 150], [-150, 150]], dtype=np.float),
         illuminant_Lab=ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
             'D50'],
         chromatic_adaptation_method='CAT02',

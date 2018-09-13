@@ -86,8 +86,11 @@ def closest_spectral_locus_wavelength(xy, xy_n, xy_s, reverse=False):
     >>> xy = np.array([0.26415, 0.37770])
     >>> xy_n = np.array([0.31270, 0.32900])
     >>> xy_s = XYZ_to_xy(CMFS['CIE 1931 2 Degree Standard Observer'].values)
-    >>> closest_spectral_locus_wavelength(xy, xy_n, xy_s)  # doctest: +ELLIPSIS
-    (array(144), array([ 0.0036969...,  0.6389577...]))
+    >>> ix, intersect = closest_spectral_locus_wavelength(xy, xy_n, xy_s)
+    >>> print(ix) #
+    144
+    >>> print(intersect) # doctest: +ELLIPSIS
+    [ 0.0036969...  0.6389577...]
     """
 
     xy = np.asarray(xy)

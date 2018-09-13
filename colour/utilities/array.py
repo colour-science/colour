@@ -139,10 +139,10 @@ def closest_indexes(a, b):
     --------
     >>> a = np.array([24.31357115, 63.62396289, 55.71528816,
     ...               62.70988028, 46.84480573, 25.40026416])
-    >>> closest_indexes(a, 63)
-    array([3])
-    >>> closest_indexes(a, [63, 25])
-    array([3, 5])
+    >>> print(closest_indexes(a, 63))
+    [3]
+    >>> print(closest_indexes(a, [63, 25]))
+    [3 5]
     """
 
     a = np.ravel(a)[:, np.newaxis]

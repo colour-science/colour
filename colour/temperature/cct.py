@@ -909,7 +909,7 @@ def CCT_to_xy_Kang2002(CCT):
     array([ 0.313426...,  0.3235959...])
     """
 
-    CCT = np.asarray(CCT)
+    CCT = np.asarray(CCT, dtype=np.float)
 
     if np.any(CCT[np.asarray(np.logical_or(CCT < 1667, CCT > 25000))]):
         warning(('Correlated colour temperature must be in domain '
@@ -965,7 +965,7 @@ def CCT_to_xy_CIE_D(CCT):
     array([ 0.3127077...,  0.3291128...])
     """
 
-    CCT = np.asarray(CCT)
+    CCT = np.asarray(CCT, dtype=np.float)
 
     if np.any(CCT[np.asarray(np.logical_or(CCT < 4000, CCT > 25000))]):
         warning(('Correlated colour temperature must be in domain '

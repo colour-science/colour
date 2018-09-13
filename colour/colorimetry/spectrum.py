@@ -340,8 +340,8 @@ class SpectralShape(object):
 
         return np.all(
             np.in1d(
-                np.around(wavelength / tolerance).astype(int),
-                np.around(self.range() / tolerance).astype(int)))
+                np.around(wavelength / tolerance).astype(np.int64),
+                np.around(self.range() / tolerance).astype(np.int64)))
 
     def __len__(self):
         """
@@ -462,7 +462,7 @@ class SpectralShape(object):
                 self._interval = current_interval
                 warning(('"{0}" shape could not be honoured, using '
                          '"{1}"!').format(
-                             (self._start, self._end, self._interval), self))
+                    (self._start, self._end, self._interval), self))
 
         return self._range
 

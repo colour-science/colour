@@ -494,12 +494,12 @@ def gravity_List1968(latitude=DEFAULT_LATITUDE, altitude=DEFAULT_ALTITUDE):
     --------
     >>> gravity_List1968()  # doctest: +ELLIPSIS
     978.0356070...
-    >>> gravity_List1968(0, 1500)  # doctest: +ELLIPSIS
+    >>> gravity_List1968(0.0, 1500.0)  # doctest: +ELLIPSIS
     977.5726106...
 
     Gravity :math:`g` for Paris:
 
-    >>> gravity_List1968(48.8567, 35)  # doctest: +ELLIPSIS
+    >>> gravity_List1968(48.8567, 35.0)  # doctest: +ELLIPSIS
     980.9524178...
     """
 

@@ -530,6 +530,11 @@ class TestCCT_to_xy_CIE_D(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
+            CCT_to_xy_CIE_D(4000.0),
+            np.array([0.382343625000000, 0.383766261015578]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
             CCT_to_xy_CIE_D(4000),
             np.array([0.382343625000000, 0.383766261015578]),
             decimal=7)
