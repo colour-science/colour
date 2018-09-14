@@ -495,7 +495,7 @@ def in_array(a, b, tolerance=EPSILON):
     return np.any(d <= tolerance, axis=0).reshape(a.shape)
 
 
-def tstack(a):
+def tstack(a, dtype=DEFAULT_FLOAT_DTYPE):
     """
     Stacks arrays in sequence along the last axis (tail).
 
@@ -505,6 +505,8 @@ def tstack(a):
     ----------
     a : array_like
         Array to perform the stacking.
+    dtype : object
+        Type to use for initial conversion to *ndarray*.
 
     Returns
     -------
@@ -514,39 +516,39 @@ def tstack(a):
     --------
     >>> a = 0
     >>> tstack([a, a, a])
-    array([0, 0, 0])
+    array([ 0.,  0.,  0.])
     >>> a = np.arange(0, 6)
     >>> tstack([a, a, a])
-    array([[0, 0, 0],
-           [1, 1, 1],
-           [2, 2, 2],
-           [3, 3, 3],
-           [4, 4, 4],
-           [5, 5, 5]])
+    array([[ 0.,  0.,  0.],
+           [ 1.,  1.,  1.],
+           [ 2.,  2.,  2.],
+           [ 3.,  3.,  3.],
+           [ 4.,  4.,  4.],
+           [ 5.,  5.,  5.]])
     >>> a = np.reshape(a, (1, 6))
     >>> tstack([a, a, a])
-    array([[[0, 0, 0],
-            [1, 1, 1],
-            [2, 2, 2],
-            [3, 3, 3],
-            [4, 4, 4],
-            [5, 5, 5]]])
+    array([[[ 0.,  0.,  0.],
+            [ 1.,  1.,  1.],
+            [ 2.,  2.,  2.],
+            [ 3.,  3.,  3.],
+            [ 4.,  4.,  4.],
+            [ 5.,  5.,  5.]]])
     >>> a = np.reshape(a, (1, 1, 6))
     >>> tstack([a, a, a])
-    array([[[[0, 0, 0],
-             [1, 1, 1],
-             [2, 2, 2],
-             [3, 3, 3],
-             [4, 4, 4],
-             [5, 5, 5]]]])
+    array([[[[ 0.,  0.,  0.],
+             [ 1.,  1.,  1.],
+             [ 2.,  2.,  2.],
+             [ 3.,  3.,  3.],
+             [ 4.,  4.,  4.],
+             [ 5.,  5.,  5.]]]])
     """
 
-    a = np.asarray(a)
+    a = as_array(a, dtype)
 
     return np.concatenate([x[..., np.newaxis] for x in a], axis=-1)
 
 
-def tsplit(a):
+def tsplit(a, dtype=DEFAULT_FLOAT_DTYPE):
     """
     Splits arrays in sequence along the last axis (tail).
 
@@ -554,6 +556,8 @@ def tsplit(a):
     ----------
     a : array_like
         Array to perform the splitting.
+    dtype : object
+        Type to use for initial conversion to *ndarray*.
 
     Returns
     -------
@@ -563,7 +567,7 @@ def tsplit(a):
     --------
     >>> a = np.array([0, 0, 0])
     >>> tsplit(a)
-    array([0, 0, 0])
+    array([ 0.,  0.,  0.])
     >>> a = np.array(
     ...     [[0, 0, 0],
     ...      [1, 1, 1],
@@ -573,9 +577,9 @@ def tsplit(a):
     ...      [5, 5, 5]]
     ... )
     >>> tsplit(a)
-    array([[0, 1, 2, 3, 4, 5],
-           [0, 1, 2, 3, 4, 5],
-           [0, 1, 2, 3, 4, 5]])
+    array([[ 0.,  1.,  2.,  3.,  4.,  5.],
+           [ 0.,  1.,  2.,  3.,  4.,  5.],
+           [ 0.,  1.,  2.,  3.,  4.,  5.]])
     >>> a = np.array(
     ...     [[[0, 0, 0],
     ...       [1, 1, 1],
@@ -585,14 +589,14 @@ def tsplit(a):
     ...       [5, 5, 5]]]
     ... )
     >>> tsplit(a)
-    array([[[0, 1, 2, 3, 4, 5]],
+    array([[[ 0.,  1.,  2.,  3.,  4.,  5.]],
     <BLANKLINE>
-           [[0, 1, 2, 3, 4, 5]],
+           [[ 0.,  1.,  2.,  3.,  4.,  5.]],
     <BLANKLINE>
-           [[0, 1, 2, 3, 4, 5]]])
+           [[ 0.,  1.,  2.,  3.,  4.,  5.]]])
     """
 
-    a = np.asarray(a)
+    a = as_array(a, dtype)
 
     return np.array([a[..., x] for x in range(a.shape[-1])])
 

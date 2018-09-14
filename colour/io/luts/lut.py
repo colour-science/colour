@@ -968,16 +968,16 @@ class LUT1D(AbstractLUT):
         -------------------------------------
         <BLANKLINE>
         Dimensions : 2
-        Domain     : [[0 0 0]
-                      [1 1 1]]
+        Domain     : [[ 0.  0.  0.]
+                      [ 1.  1.  1.]]
         Size       : (10, 3)
         >>> print(LUT.as_LUT(LUT3D, force_conversion=True))
         LUT3D - Unity 10 - Converted 1D to 3D
         -------------------------------------
         <BLANKLINE>
         Dimensions : 3
-        Domain     : [[0 0 0]
-                      [1 1 1]]
+        Domain     : [[ 0.  0.  0.]
+                      [ 1.  1.  1.]]
         Size       : (33, 33, 33, 3)
         """
 
@@ -1610,8 +1610,8 @@ def LUT_to_LUT(LUT, cls, force_conversion=False, **kwargs):
     -------------------------------------
     <BLANKLINE>
     Dimensions : 3
-    Domain     : [[0 0 0]
-                  [1 1 1]]
+    Domain     : [[ 0.  0.  0.]
+                  [ 1.  1.  1.]]
     Size       : (33, 33, 33, 3)
     >>> print(LUT_to_LUT(LUT2D(), LUT1D, force_conversion=True))
     LUT1D - Unity 10 - Converted 2D to 1D
