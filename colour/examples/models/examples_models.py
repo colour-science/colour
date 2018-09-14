@@ -10,7 +10,7 @@ from colour.utilities import message_box
 
 message_box('Colour Models Computations')
 
-XYZ = np.array([1.14176346, 1.00000000, 0.49815206])
+XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
 message_box(('Converting to "CIE xyY" colourspace from given "CIE XYZ" '
              'tristimulus values:\n'
              '\n\t{0}'.format(XYZ)))
@@ -32,7 +32,7 @@ print(colour.XYZ_to_xyY(
 
 print('\n')
 
-xyY = np.array([0.4325, 0.3788, 1.0000])
+xyY = np.array([0.26414772, 0.37770001, 0.10080000])
 message_box(('Converting to "CIE XYZ" tristimulus values from given "CIE xyY" '
              'colourspace values:\n'
              '\n\t{0}'.format(xyY)))
@@ -47,7 +47,7 @@ print(colour.XYZ_to_xy(XYZ))
 
 print('\n')
 
-xy = np.array([0.43250000, 0.37880000])
+xy = np.array([0.26414772, 0.37770001])
 message_box(('Converting to "CIE XYZ" tristimulus values from given "xy" '
              'chromaticity coordinates:\n'
              '\n\t{0}'.format(xy)))
@@ -70,7 +70,7 @@ print(colour.XYZ_to_RGB(
 
 print('\n')
 
-RGB = np.array([1.26651054, 0.91394181, 0.76936593])
+RGB = np.array([0.10615147, 0.39203586, 0.3754829])
 message_box(('Converting to "CIE XYZ" tristimulus values from given "RGB" '
              'colourspace values:\n'
              '\n\t{0}'.format(RGB)))
@@ -99,7 +99,7 @@ print(colour.XYZ_to_UCS(XYZ))
 
 print('\n')
 
-UCS = np.array([0.76117564, 1.00000000, 1.17819430])
+UCS = np.array([0.04699689, 0.10080000, 0.1637439])
 message_box(('Converting to "CIE XYZ" tristimulus values from given'
              '"CIE 1960 UCS" colourspace values:\n'
              '\n\t{0}'.format(UCS)))
@@ -114,7 +114,7 @@ print(colour.UCS_to_uv(UCS))
 
 print('\n')
 
-uv = np.array([0.25895878, 0.34020896])
+uv = np.array([0.15085309, 0.32355314])
 message_box(('Converting to "xy" chromaticity coordinates from given '
              '"CIE UCS" colourspace "uv" chromaticity coordinates:\n'
              '\n\t{0}'.format(uv)))
@@ -122,7 +122,7 @@ print(colour.UCS_uv_to_xy(uv))
 
 print('\n')
 
-xy = np.array([0.43250000, 0.37879999])
+xy = np.array([0.26414771, 0.37770001])
 message_box(('Converting to "CIE UCS" colourspace "uv" chromaticity '
              'coordinates from given "xy" chromaticity coordinates:\n'
              '\n\t{0}'.format(xy)))
@@ -137,7 +137,7 @@ print(colour.XYZ_to_UVW(XYZ * 100))
 
 print('\n')
 
-UVW = np.array([64.09202202, 19.08416353, 99.03972084])
+UVW = np.array([-28.05797333, -0.88194493, 37.00411491])
 message_box(('Converting to "CIE XYZ" tristimulus values from given'
              '"CIE 1964 U*V*W*" colourspace values:\n'
              '\n\t{0}'.format(UVW)))
@@ -152,7 +152,7 @@ print(colour.XYZ_to_Luv(XYZ))
 
 print('\n')
 
-Luv = np.array([100.00000000, 64.73951819, 28.90956141])
+Luv = np.array([37.9856291, -28.80219593, -1.35800706])
 message_box(('Converting to "CIE XYZ" tristimulus values from given '
              '"CIE L*u*v*" colourspace values:\n'
              '\n\t{0}'.format(Luv)))
@@ -167,7 +167,7 @@ print(colour.Luv_to_uv(Luv))
 
 print('\n')
 
-uv = np.array([0.25895878, 0.51031344])
+uv = np.array([0.1508531, 0.48532971])
 message_box(('Converting to "xy" chromaticity coordinates from given '
              '"CIE L*u*v*" colourspace "u"v"" chromaticity coordinates:\n'
              '\n\t{0}'.format(uv)))
@@ -175,7 +175,7 @@ print(colour.Luv_uv_to_xy(uv))
 
 print('\n')
 
-xy = np.array([0.43250000, 0.37879999])
+xy = np.array([0.26414771, 0.37770001])
 message_box(('Converting to "CIE L*u*v*" colourspace "u"v"" chromaticity '
              'coordinates from given "xy" chromaticity coordinates:\n'
              '\n\t{0}'.format(xy)))
@@ -190,7 +190,7 @@ print(colour.Luv_to_LCHuv(Luv))
 
 print('\n')
 
-LCHuv = np.array([100.00000000, 70.90111393, 24.06324597])
+LCHuv = np.array([37.9856291, 28.83419279, 182.69946404])
 message_box(('Converting to "CIE L*u*v*" colourspace from given "CIE L*C*Huv" '
              'colourspace values:\n'
              '\n\t{0}'.format(LCHuv)))
@@ -205,7 +205,7 @@ print(colour.XYZ_to_Lab(XYZ))
 
 print('\n')
 
-Lab = np.array([100.00000000, 28.97832184, 30.96902832])
+Lab = np.array([37.9856291, -23.62907688, -4.41746615])
 message_box(('Converting to "CIE XYZ" tristimulus values from given '
              '"CIE L*a*b*" colourspace values:\n'
              '\n\t{0}'.format(Lab)))
@@ -220,7 +220,7 @@ print(colour.Lab_to_LCHab(Lab))
 
 print('\n')
 
-LCHab = np.array([100.00000000, 42.41254357, 46.90195532])
+LCHab = np.array([37.9856291, 24.03845422, 190.58923377])
 message_box(('Converting to "CIE L*a*b*" colourspace from given "CIE L*C*Hab" '
              'colourspace values:\n'
              '\n\t{0}'.format(LCHab)))
@@ -228,7 +228,7 @@ print(colour.LCHab_to_Lab(LCHab))
 
 print('\n')
 
-XYZ = np.array([114.17634600, 100.00000000, 49.81520600])
+XYZ = np.array([0.07049534, 0.10080000, 0.09558313]) * 100
 message_box(('Converting to "Hunter L,a,b" colour scale from given "CIE XYZ" '
              'tristimulus values:\n'
              '\n\t{0}'.format(XYZ)))
@@ -236,7 +236,7 @@ print(colour.XYZ_to_Hunter_Lab(XYZ))
 
 print('\n')
 
-Lab = np.array([100.00000000, 32.03822364, 23.14715286])
+Lab = np.array([31.74901573, -15.11462629, -2.78660758])
 message_box(('Converting to "CIE XYZ" tristimulus values from given '
              '"Hunter L,a,b" colour scale values:\n'
              '\n\t{0}'.format(Lab)))
@@ -251,7 +251,7 @@ print(colour.XYZ_to_Hunter_Rdab(XYZ))
 
 print('\n')
 
-R_d_ab = np.array([100.00000000, 31.90091697, 23.04795077])
+R_d_ab = np.array([10.08, -18.67653764, -3.44329925])
 message_box(('Converting to "CIE XYZ" tristimulus values from given'
              '"Hunter Rd,a,b" colour scale values:\n'
              '\n\t{0}'.format(R_d_ab)))
@@ -259,7 +259,7 @@ print(colour.Hunter_Rdab_to_XYZ(R_d_ab))
 
 print('\n')
 
-XYZ = np.array([1.14176346, 1.00000000, 0.49815206])
+XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
 message_box(('Converting to "IPT" colourspace from given "CIE XYZ" '
              'tristimulus values:\n'
              '\n\t{0}'.format(XYZ)))
@@ -267,7 +267,7 @@ print(colour.XYZ_to_IPT(XYZ))
 
 print('\n')
 
-IPT = np.array([0.94948840, 0.28747522, 0.36109201])
+IPT = np.array([0.36571124, -0.11114798, 0.01594746])
 message_box(('Converting to "CIE XYZ" tristimulus values from given "IPT" '
              'colourspace values:\n'
              '\n\t{0}'.format(IPT)))
@@ -282,7 +282,7 @@ print(colour.XYZ_to_hdr_CIELab(XYZ))
 
 print('\n')
 
-Lab_hdr = np.array([95.74235944, 5.52263656, 11.72798167])
+Lab_hdr = np.array([48.26598942, -28.18550823, -5.22082042])
 message_box(('Converting to "CIE XYZ" tristimulus values from given '
              '"hdr-CIELab" colourspace values:\n'
              '\n\t{0}'.format(Lab_hdr)))
@@ -297,7 +297,7 @@ print(colour.XYZ_to_hdr_IPT(XYZ))
 
 print('\n')
 
-IPT_hdr = np.array([92.21400245, 3.0073719, 14.7243821])
+IPT_hdr = np.array([46.4993815, -12.82251566, 1.85029518])
 message_box(('Converting to "CIE XYZ" tristimulus values from given "hdr-IPT" '
              'colourspace values:\n'
              '\n\t{0}'.format(IPT_hdr)))
@@ -305,7 +305,6 @@ print(colour.hdr_IPT_to_XYZ(IPT_hdr))
 
 print('\n')
 
-XYZ = np.array([1.14176346, 1.00000000, 0.49815206])
 message_box(('Converting to "JzAzBz" colourspace from given "CIE XYZ" '
              'tristimulus values:\n'
              '\n\t{0}'.format(XYZ)))
@@ -313,7 +312,7 @@ print(colour.XYZ_to_JzAzBz(XYZ))
 
 print('\n')
 
-JzAzBz = np.array([0.01827801, 0.00887574, 0.0131831])
+JzAzBz = np.array([0.00357804, -0.00295507, 0.00038998])
 message_box(('Converting to "CIE XYZ" tristimulus values from given "JzAzBz" '
              'colourspace values:\n'
              '\n\t{0}'.format(JzAzBz)))
@@ -329,7 +328,7 @@ print(colour.XYZ_to_OSA_UCS(XYZ * 100))
 
 print('\n')
 
-Ljg = np.array([7.13638038, 6.86374936, -5.97563982])
+Ljg = np.array([-4.4900683, 0.70305936, 3.03463664])
 message_box(('Converting to "CIE XYZ" tristimulus values under the '
              '"CIE 1964 10 Degree Standard Observer" '
              'from "OSA UCS" colourspace:\n'
