@@ -9,12 +9,12 @@ import numpy as np
 import unittest
 from collections import namedtuple
 
-from colour.constants import DEFAULT_FLOAT_DTYPE
-from colour.utilities import (as_numeric, as_namedtuple, closest_indexes,
-                              closest, normalise_maximum, interval, is_uniform,
-                              in_array, tstack, tsplit, row_as_diagonal,
-                              dot_vector, dot_matrix, orient, centroid,
-                              linear_conversion, lerp, fill_nan, ndarray_write)
+from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
+from colour.utilities import (
+    as_array, as_int_array, as_float_array, as_numeric, as_namedtuple,
+    closest_indexes, closest, normalise_maximum, interval, is_uniform,
+    in_array, tstack, tsplit, row_as_diagonal, dot_vector, dot_matrix, orient,
+    centroid, linear_conversion, lerp, fill_nan, ndarray_write)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -24,12 +24,67 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'TestAsNumeric', 'TestAsNametuple', 'TestClosestIndexes', 'TestClosest',
+    'TestAsArray', 'TestAsIntArray', 'TestAsFloatArray', 'TestAsNumeric',
+    'TestAsNametuple', 'TestClosestIndexes', 'TestClosest',
     'TestNormaliseMaximum', 'TestInterval', 'TestIsUniform', 'TestInArray',
     'TestTstack', 'TestTsplit', 'TestRowAsDiagonal', 'TestDotVector',
     'TestDotMatrix', 'TestOrient', 'TestCentroid', 'TestLinearConversion',
     'TestLerp', 'TestFillNan', 'TestNdarrayWrite'
 ]
+
+
+class TestAsArray(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.array.as_array` definition unit tests
+    methods.
+    """
+
+    def test_as_array(self):
+        """
+        Tests :func:`colour.utilities.array.as_array` definition.
+        """
+
+        np.testing.assert_equal(as_array([1, 2, 3]), np.array([1, 2, 3]))
+
+        self.assertEqual(
+            as_array([1, 2, 3], DEFAULT_FLOAT_DTYPE).dtype,
+            DEFAULT_FLOAT_DTYPE)
+
+        self.assertEqual(
+            as_array([1, 2, 3], DEFAULT_INT_DTYPE).dtype, DEFAULT_INT_DTYPE)
+
+
+class TestAsIntArray(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.array.as_int_array` definition unit tests
+    methods.
+    """
+
+    def test_as_int_array(self):
+        """
+        Tests :func:`colour.utilities.array.as_int_array` definition.
+        """
+
+        np.testing.assert_equal(
+            as_int_array([1.0, 2.0, 3.0]), np.array([1, 2, 3]))
+
+        self.assertEqual(as_int_array([1, 2, 3]).dtype, DEFAULT_INT_DTYPE)
+
+
+class TestAsFloatArray(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.array.as_float_array` definition unit tests
+    methods.
+    """
+
+    def test_as_float_array(self):
+        """
+        Tests :func:`colour.utilities.array.as_float_array` definition.
+        """
+
+        np.testing.assert_equal(as_float_array([1, 2, 3]), np.array([1, 2, 3]))
+
+        self.assertEqual(as_float_array([1, 2, 3]).dtype, DEFAULT_FLOAT_DTYPE)
 
 
 class TestAsNumeric(unittest.TestCase):

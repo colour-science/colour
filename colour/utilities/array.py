@@ -33,11 +33,87 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'as_numeric', 'as_namedtuple', 'closest_indexes', 'closest',
-    'normalise_maximum', 'interval', 'is_uniform', 'in_array', 'tstack',
-    'tsplit', 'row_as_diagonal', 'dot_vector', 'dot_matrix', 'orient',
-    'centroid', 'linear_conversion', 'lerp', 'fill_nan', 'ndarray_write'
+    'as_array', 'as_int_array', 'as_float_array', 'as_numeric',
+    'as_namedtuple', 'closest_indexes', 'closest', 'normalise_maximum',
+    'interval', 'is_uniform', 'in_array', 'tstack', 'tsplit',
+    'row_as_diagonal', 'dot_vector', 'dot_matrix', 'orient', 'centroid',
+    'linear_conversion', 'lerp', 'fill_nan', 'ndarray_write'
 ]
+
+
+def as_array(a, dtype=DEFAULT_FLOAT_DTYPE):
+    """
+    Converts given :math:`a` variable to *ndarray* with given type.
+
+    Parameters
+    ----------
+    a : object
+        Variable to convert.
+    dtype : object
+        Type to use for conversion.
+
+    Returns
+    -------
+    ndarray
+        :math:`a` variable converted to *ndarray*.
+
+    Examples
+    --------
+    >>> as_array([1, 2, 3])
+    array([ 1.,  2.,  3.])
+    >>> as_array([1, 2, 3], dtype=DEFAULT_INT_DTYPE)
+    array([1, 2, 3])
+    """
+
+    return np.asarray(a, dtype)
+
+
+def as_int_array(a):
+    """
+    Converts given :math:`a` variable to *ndarray* using the type defined by
+    :attr:`colour.constant.DEFAULT_INT_DTYPE` attribute.
+
+    Parameters
+    ----------
+    a : object
+        Variable to convert.
+
+    Returns
+    -------
+    ndarray
+        :math:`a` variable converted to *ndarray*.
+
+    Examples
+    --------
+    >>> as_int_array([1.0, 2.0, 3.0])
+    array([1, 2, 3])
+    """
+
+    return as_array(a, DEFAULT_INT_DTYPE)
+
+
+def as_float_array(a):
+    """
+    Converts given :math:`a` variable to *ndarray* using the type defined by
+    :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute.
+
+    Parameters
+    ----------
+    a : object
+        Variable to convert.
+
+    Returns
+    -------
+    ndarray
+        :math:`a` variable converted to *ndarray*.
+
+    Examples
+    --------
+    >>> as_float_array([1, 2, 3])
+    array([ 1.,  2.,  3.])
+    """
+
+    return as_array(a, DEFAULT_FLOAT_DTYPE)
 
 
 def as_numeric(a, type_=DEFAULT_FLOAT_DTYPE):
