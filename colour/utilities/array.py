@@ -116,7 +116,7 @@ def as_float_array(a):
     return as_array(a, DEFAULT_FLOAT_DTYPE)
 
 
-def as_numeric(a, type_=DEFAULT_FLOAT_DTYPE):
+def as_numeric(a, dtype=DEFAULT_FLOAT_DTYPE):
     """
     Converts given :math:`a` variable to *numeric*. In the event where
     :math:`a` cannot be converted, it is passed as is.
@@ -125,7 +125,7 @@ def as_numeric(a, type_=DEFAULT_FLOAT_DTYPE):
     ----------
     a : object
         Variable to convert.
-    type_ : object
+    dtype : object
         Type to use for conversion.
 
     Returns
@@ -142,7 +142,7 @@ def as_numeric(a, type_=DEFAULT_FLOAT_DTYPE):
     """
 
     try:
-        return type_(a)
+        return dtype(a)
     except TypeError:
         return a
 
