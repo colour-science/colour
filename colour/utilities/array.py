@@ -33,11 +33,11 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'as_array', 'as_int_array', 'as_float_array', 'as_numeric',
-    'as_namedtuple', 'closest_indexes', 'closest', 'normalise_maximum',
-    'interval', 'is_uniform', 'in_array', 'tstack', 'tsplit',
-    'row_as_diagonal', 'dot_vector', 'dot_matrix', 'orient', 'centroid',
-    'linear_conversion', 'lerp', 'fill_nan', 'ndarray_write'
+    'as_array', 'as_int_array', 'as_float_array', 'as_numeric', 'as_int',
+    'as_float', 'as_namedtuple', 'closest_indexes', 'closest',
+    'normalise_maximum', 'interval', 'is_uniform', 'in_array', 'tstack',
+    'tsplit', 'row_as_diagonal', 'dot_vector', 'dot_matrix', 'orient',
+    'centroid', 'linear_conversion', 'lerp', 'fill_nan', 'ndarray_write'
 ]
 
 
@@ -145,6 +145,86 @@ def as_numeric(a, type_=DEFAULT_FLOAT_DTYPE):
         return type_(a)
     except TypeError:
         return a
+
+
+def as_int(a):
+    """
+    Converts given :math:`a` variable to *numeric* using the type defined by
+    :attr:`colour.constant.DEFAULT_INT_DTYPE` attribute. In the event where
+    :math:`a` cannot be converted, it is converted to *ndarray* using the type
+    defined by :attr:`colour.constant.DEFAULT_INT_DTYPE` attribute.
+
+    Parameters
+    ----------
+    a : object
+        Variable to convert.
+
+    Returns
+    -------
+    ndarray
+        :math:`a` variable converted to *numeric*.
+
+    Warnings
+    --------
+    The behaviour of this definition is different than
+    :func:`colour.utilities.as_numeric` definition when it comes to conversion
+    failure: the former will forcibly convert :math:`a` variable to *ndarray*
+    using the type defined by :attr:`colour.constant.DEFAULT_INT_DTYPE`
+    attribute while the later will pass the :math:`a` variable as is.
+
+    Examples
+    --------
+    >>> as_int(np.array([1]))
+    1
+    >>> as_int(np.arange(10))
+    array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+    """
+
+    try:
+        # TODO: Change to "DEFAULT_INT_DTYPE" when and if
+        # https://github.com/numpy/numpy/issues/11956 is addressed.
+        return int(a)
+    except TypeError:
+        return as_int_array(a)
+
+
+def as_float(a):
+    """
+    Converts given :math:`a` variable to *numeric* using the type defined by
+    :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute. In the event where
+    :math:`a` cannot be converted, it is converted to *ndarray* using the type
+    defined by :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute.
+
+    Parameters
+    ----------
+    a : object
+        Variable to convert.
+
+    Returns
+    -------
+    ndarray
+        :math:`a` variable converted to *numeric*.
+
+    Warnings
+    --------
+    The behaviour of this definition is different than
+    :func:`colour.utilities.as_numeric` definition when it comes to conversion
+    failure: the former will forcibly convert :math:`a` variable to *ndarray*
+    using the type defined by :attr:`colour.constant.DEFAULT_FLOAT_DTYPE`
+    attribute while the later will pass the :math:`a` variable as is.
+
+    Examples
+    --------
+    >>> as_float(np.array([1]))
+    1.0
+    >>> as_float(np.arange(10))
+    array([ 0.,  1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.])
+    """
+
+    try:
+        return DEFAULT_FLOAT_DTYPE(a)
+    except TypeError:
+        return as_float_array(a)
 
 
 def as_namedtuple(a, named_tuple):

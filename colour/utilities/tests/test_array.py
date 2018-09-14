@@ -11,10 +11,11 @@ from collections import namedtuple
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
 from colour.utilities import (
-    as_array, as_int_array, as_float_array, as_numeric, as_namedtuple,
-    closest_indexes, closest, normalise_maximum, interval, is_uniform,
-    in_array, tstack, tsplit, row_as_diagonal, dot_vector, dot_matrix, orient,
-    centroid, linear_conversion, lerp, fill_nan, ndarray_write)
+    as_array, as_int_array, as_float_array, as_numeric, as_int, as_float,
+    as_namedtuple, closest_indexes, closest, normalise_maximum, interval,
+    is_uniform, in_array, tstack, tsplit, row_as_diagonal, dot_vector,
+    dot_matrix, orient, centroid, linear_conversion, lerp, fill_nan,
+    ndarray_write)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -25,11 +26,11 @@ __status__ = 'Production'
 
 __all__ = [
     'TestAsArray', 'TestAsIntArray', 'TestAsFloatArray', 'TestAsNumeric',
-    'TestAsNametuple', 'TestClosestIndexes', 'TestClosest',
-    'TestNormaliseMaximum', 'TestInterval', 'TestIsUniform', 'TestInArray',
-    'TestTstack', 'TestTsplit', 'TestRowAsDiagonal', 'TestDotVector',
-    'TestDotMatrix', 'TestOrient', 'TestCentroid', 'TestLinearConversion',
-    'TestLerp', 'TestFillNan', 'TestNdarrayWrite'
+    'TestAsInt', 'TestAsFloat', 'TestAsNametuple', 'TestClosestIndexes',
+    'TestClosest', 'TestNormaliseMaximum', 'TestInterval', 'TestIsUniform',
+    'TestInArray', 'TestTstack', 'TestTsplit', 'TestRowAsDiagonal',
+    'TestDotVector', 'TestDotMatrix', 'TestOrient', 'TestCentroid',
+    'TestLinearConversion', 'TestLerp', 'TestFillNan', 'TestNdarrayWrite'
 ]
 
 
@@ -98,16 +99,64 @@ class TestAsNumeric(unittest.TestCase):
         Tests :func:`colour.utilities.array.as_numeric` definition.
         """
 
-        self.assertEqual(as_numeric(1), 1)
+        self.assertEqual(as_numeric(1), 1.0)
 
-        self.assertEqual(as_numeric(np.array([1])), 1)
+        self.assertEqual(as_numeric(np.array([1])), 1.0)
 
         np.testing.assert_almost_equal(
-            as_numeric(np.array([1, 2, 3])), np.array([1, 2, 3]))
+            as_numeric(np.array([1, 2, 3])), np.array([1.0, 2.0, 3.0]))
 
         self.assertIsInstance(as_numeric(1), DEFAULT_FLOAT_DTYPE)
 
         self.assertIsInstance(as_numeric(1, int), int)
+
+
+class TestAsInt(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.array.as_int` definition unit tests
+    methods.
+    """
+
+    def test_as_int(self):
+        """
+        Tests :func:`colour.utilities.array.as_int` definition.
+        """
+
+        self.assertEqual(as_int(1), 1)
+
+        self.assertEqual(as_int(np.array([1])), 1)
+
+        np.testing.assert_almost_equal(
+            as_int(np.array([1.0, 2.0, 3.0])), np.array([1, 2, 3]))
+
+        self.assertEqual(
+            as_int(np.array([1.0, 2.0, 3.0])).dtype, DEFAULT_INT_DTYPE)
+
+        self.assertIsInstance(as_int(1), int)
+
+
+class TestAsFloat(unittest.TestCase):
+    """
+    Defines :func:`colour.utilities.array.as_float` definition unit tests
+    methods.
+    """
+
+    def test_as_float(self):
+        """
+        Tests :func:`colour.utilities.array.as_float` definition.
+        """
+
+        self.assertEqual(as_float(1), 1.0)
+
+        self.assertEqual(as_float(np.array([1])), 1.0)
+
+        np.testing.assert_almost_equal(
+            as_float(np.array([1, 2, 3])), np.array([1.0, 2.0, 3.0]))
+
+        self.assertEqual(
+            as_float(np.array([1, 2, 3])).dtype, DEFAULT_FLOAT_DTYPE)
+
+        self.assertIsInstance(as_float(1), DEFAULT_FLOAT_DTYPE)
 
 
 class TestAsNametuple(unittest.TestCase):
