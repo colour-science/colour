@@ -123,9 +123,9 @@ def XYZ_to_IPT(XYZ):
 
     Examples
     --------
-    >>> XYZ = np.array([0.96907232, 1.00000000, 1.12179215])
+    >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
     >>> XYZ_to_IPT(XYZ)  # doctest: +ELLIPSIS
-    array([ 1.0030082...,  0.0190691..., -0.0136929...])
+    array([ 0.3657112..., -0.1111479...,  0.0159474...])
     """
 
     XYZ = to_domain_1(XYZ)
@@ -176,9 +176,9 @@ def IPT_to_XYZ(IPT):
 
     Examples
     --------
-    >>> IPT = np.array([1.00300825, 0.01906918, -0.01369292])
+    >>> IPT = np.array([0.36571124, -0.11114798, 0.01594746])
     >>> IPT_to_XYZ(IPT)  # doctest: +ELLIPSIS
-    array([ 0.9690723...,  1.        ,  1.1217921...])
+    array([ 0.0704953...,  0.1008    ,  0.0955831...])
     """
 
     IPT = to_domain_1(IPT)
