@@ -33,14 +33,90 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'as_numeric', 'as_namedtuple', 'closest_indexes', 'closest',
+    'as_array', 'as_int_array', 'as_float_array', 'as_numeric', 'as_int',
+    'as_float', 'as_namedtuple', 'closest_indexes', 'closest',
     'normalise_maximum', 'interval', 'is_uniform', 'in_array', 'tstack',
     'tsplit', 'row_as_diagonal', 'dot_vector', 'dot_matrix', 'orient',
     'centroid', 'linear_conversion', 'lerp', 'fill_nan', 'ndarray_write'
 ]
 
 
-def as_numeric(a, type_=DEFAULT_FLOAT_DTYPE):
+def as_array(a, dtype=DEFAULT_FLOAT_DTYPE):
+    """
+    Converts given :math:`a` variable to *ndarray* with given type.
+
+    Parameters
+    ----------
+    a : object
+        Variable to convert.
+    dtype : object
+        Type to use for conversion.
+
+    Returns
+    -------
+    ndarray
+        :math:`a` variable converted to *ndarray*.
+
+    Examples
+    --------
+    >>> as_array([1, 2, 3])
+    array([ 1.,  2.,  3.])
+    >>> as_array([1, 2, 3], dtype=DEFAULT_INT_DTYPE)
+    array([1, 2, 3])
+    """
+
+    return np.asarray(a, dtype)
+
+
+def as_int_array(a):
+    """
+    Converts given :math:`a` variable to *ndarray* using the type defined by
+    :attr:`colour.constant.DEFAULT_INT_DTYPE` attribute.
+
+    Parameters
+    ----------
+    a : object
+        Variable to convert.
+
+    Returns
+    -------
+    ndarray
+        :math:`a` variable converted to *ndarray*.
+
+    Examples
+    --------
+    >>> as_int_array([1.0, 2.0, 3.0])
+    array([1, 2, 3])
+    """
+
+    return as_array(a, DEFAULT_INT_DTYPE)
+
+
+def as_float_array(a):
+    """
+    Converts given :math:`a` variable to *ndarray* using the type defined by
+    :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute.
+
+    Parameters
+    ----------
+    a : object
+        Variable to convert.
+
+    Returns
+    -------
+    ndarray
+        :math:`a` variable converted to *ndarray*.
+
+    Examples
+    --------
+    >>> as_float_array([1, 2, 3])
+    array([ 1.,  2.,  3.])
+    """
+
+    return as_array(a, DEFAULT_FLOAT_DTYPE)
+
+
+def as_numeric(a, dtype=DEFAULT_FLOAT_DTYPE):
     """
     Converts given :math:`a` variable to *numeric*. In the event where
     :math:`a` cannot be converted, it is passed as is.
@@ -49,7 +125,7 @@ def as_numeric(a, type_=DEFAULT_FLOAT_DTYPE):
     ----------
     a : object
         Variable to convert.
-    type_ : object
+    dtype : object
         Type to use for conversion.
 
     Returns
@@ -66,9 +142,89 @@ def as_numeric(a, type_=DEFAULT_FLOAT_DTYPE):
     """
 
     try:
-        return type_(a)
+        return dtype(a)
     except TypeError:
         return a
+
+
+def as_int(a):
+    """
+    Converts given :math:`a` variable to *numeric* using the type defined by
+    :attr:`colour.constant.DEFAULT_INT_DTYPE` attribute. In the event where
+    :math:`a` cannot be converted, it is converted to *ndarray* using the type
+    defined by :attr:`colour.constant.DEFAULT_INT_DTYPE` attribute.
+
+    Parameters
+    ----------
+    a : object
+        Variable to convert.
+
+    Returns
+    -------
+    ndarray
+        :math:`a` variable converted to *numeric*.
+
+    Warnings
+    --------
+    The behaviour of this definition is different than
+    :func:`colour.utilities.as_numeric` definition when it comes to conversion
+    failure: the former will forcibly convert :math:`a` variable to *ndarray*
+    using the type defined by :attr:`colour.constant.DEFAULT_INT_DTYPE`
+    attribute while the later will pass the :math:`a` variable as is.
+
+    Examples
+    --------
+    >>> as_int(np.array([1]))
+    1
+    >>> as_int(np.arange(10))
+    array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
+    """
+
+    try:
+        # TODO: Change to "DEFAULT_INT_DTYPE" when and if
+        # https://github.com/numpy/numpy/issues/11956 is addressed.
+        return int(a)
+    except TypeError:
+        return as_int_array(a)
+
+
+def as_float(a):
+    """
+    Converts given :math:`a` variable to *numeric* using the type defined by
+    :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute. In the event where
+    :math:`a` cannot be converted, it is converted to *ndarray* using the type
+    defined by :attr:`colour.constant.DEFAULT_FLOAT_DTYPE` attribute.
+
+    Parameters
+    ----------
+    a : object
+        Variable to convert.
+
+    Returns
+    -------
+    ndarray
+        :math:`a` variable converted to *numeric*.
+
+    Warnings
+    --------
+    The behaviour of this definition is different than
+    :func:`colour.utilities.as_numeric` definition when it comes to conversion
+    failure: the former will forcibly convert :math:`a` variable to *ndarray*
+    using the type defined by :attr:`colour.constant.DEFAULT_FLOAT_DTYPE`
+    attribute while the later will pass the :math:`a` variable as is.
+
+    Examples
+    --------
+    >>> as_float(np.array([1]))
+    1.0
+    >>> as_float(np.arange(10))
+    array([ 0.,  1.,  2.,  3.,  4.,  5.,  6.,  7.,  8.,  9.])
+    """
+
+    try:
+        return DEFAULT_FLOAT_DTYPE(a)
+    except TypeError:
+        return as_float_array(a)
 
 
 def as_namedtuple(a, named_tuple):
@@ -139,10 +295,10 @@ def closest_indexes(a, b):
     --------
     >>> a = np.array([24.31357115, 63.62396289, 55.71528816,
     ...               62.70988028, 46.84480573, 25.40026416])
-    >>> closest_indexes(a, 63)
-    array([3])
-    >>> closest_indexes(a, [63, 25])
-    array([3, 5])
+    >>> print(closest_indexes(a, 63))
+    [3]
+    >>> print(closest_indexes(a, [63, 25]))
+    [3 5]
     """
 
     a = np.ravel(a)[:, np.newaxis]
@@ -211,7 +367,7 @@ def normalise_maximum(a, axis=None, factor=1, clip=True):
     array([ 1.        ,  0.6564384...,  0.4576822...])
     """
 
-    a = np.asarray(a)
+    a = as_float_array(a)
 
     maximum = np.max(a, axis=axis)
     a *= (1 / maximum[..., np.newaxis]) * factor
@@ -242,20 +398,20 @@ def interval(distribution, unique=True):
 
     >>> y = np.array([1, 2, 3, 4, 5])
     >>> interval(y)
-    array([1])
+    array([ 1.])
     >>> interval(y, False)
-    array([1, 1, 1, 1])
+    array([ 1.,  1.,  1.,  1.])
 
     Non-uniformly spaced variable:
 
     >>> y = np.array([1, 2, 3, 4, 8])
     >>> interval(y)
-    array([1, 4])
+    array([ 1.,  4.])
     >>> interval(y, False)
-    array([1, 1, 1, 4])
+    array([ 1.,  1.,  1.,  4.])
     """
 
-    distribution = np.asarray(distribution)
+    distribution = as_float_array(distribution)
     i = np.arange(distribution.size - 1)
 
     differences = np.abs(distribution[i + 1] - distribution[i])
@@ -331,15 +487,15 @@ def in_array(a, b, tolerance=EPSILON):
     array([ True,  True], dtype=bool)
     """
 
-    a = np.asarray(a)
-    b = np.asarray(b)
+    a = as_float_array(a)
+    b = as_float_array(b)
 
     d = np.abs(np.ravel(a) - b[..., np.newaxis])
 
     return np.any(d <= tolerance, axis=0).reshape(a.shape)
 
 
-def tstack(a):
+def tstack(a, dtype=DEFAULT_FLOAT_DTYPE):
     """
     Stacks arrays in sequence along the last axis (tail).
 
@@ -349,6 +505,8 @@ def tstack(a):
     ----------
     a : array_like
         Array to perform the stacking.
+    dtype : object
+        Type to use for initial conversion to *ndarray*.
 
     Returns
     -------
@@ -358,39 +516,39 @@ def tstack(a):
     --------
     >>> a = 0
     >>> tstack([a, a, a])
-    array([0, 0, 0])
+    array([ 0.,  0.,  0.])
     >>> a = np.arange(0, 6)
     >>> tstack([a, a, a])
-    array([[0, 0, 0],
-           [1, 1, 1],
-           [2, 2, 2],
-           [3, 3, 3],
-           [4, 4, 4],
-           [5, 5, 5]])
+    array([[ 0.,  0.,  0.],
+           [ 1.,  1.,  1.],
+           [ 2.,  2.,  2.],
+           [ 3.,  3.,  3.],
+           [ 4.,  4.,  4.],
+           [ 5.,  5.,  5.]])
     >>> a = np.reshape(a, (1, 6))
     >>> tstack([a, a, a])
-    array([[[0, 0, 0],
-            [1, 1, 1],
-            [2, 2, 2],
-            [3, 3, 3],
-            [4, 4, 4],
-            [5, 5, 5]]])
+    array([[[ 0.,  0.,  0.],
+            [ 1.,  1.,  1.],
+            [ 2.,  2.,  2.],
+            [ 3.,  3.,  3.],
+            [ 4.,  4.,  4.],
+            [ 5.,  5.,  5.]]])
     >>> a = np.reshape(a, (1, 1, 6))
     >>> tstack([a, a, a])
-    array([[[[0, 0, 0],
-             [1, 1, 1],
-             [2, 2, 2],
-             [3, 3, 3],
-             [4, 4, 4],
-             [5, 5, 5]]]])
+    array([[[[ 0.,  0.,  0.],
+             [ 1.,  1.,  1.],
+             [ 2.,  2.,  2.],
+             [ 3.,  3.,  3.],
+             [ 4.,  4.,  4.],
+             [ 5.,  5.,  5.]]]])
     """
 
-    a = np.asarray(a)
+    a = as_array(a, dtype)
 
     return np.concatenate([x[..., np.newaxis] for x in a], axis=-1)
 
 
-def tsplit(a):
+def tsplit(a, dtype=DEFAULT_FLOAT_DTYPE):
     """
     Splits arrays in sequence along the last axis (tail).
 
@@ -398,6 +556,8 @@ def tsplit(a):
     ----------
     a : array_like
         Array to perform the splitting.
+    dtype : object
+        Type to use for initial conversion to *ndarray*.
 
     Returns
     -------
@@ -407,7 +567,7 @@ def tsplit(a):
     --------
     >>> a = np.array([0, 0, 0])
     >>> tsplit(a)
-    array([0, 0, 0])
+    array([ 0.,  0.,  0.])
     >>> a = np.array(
     ...     [[0, 0, 0],
     ...      [1, 1, 1],
@@ -417,9 +577,9 @@ def tsplit(a):
     ...      [5, 5, 5]]
     ... )
     >>> tsplit(a)
-    array([[0, 1, 2, 3, 4, 5],
-           [0, 1, 2, 3, 4, 5],
-           [0, 1, 2, 3, 4, 5]])
+    array([[ 0.,  1.,  2.,  3.,  4.,  5.],
+           [ 0.,  1.,  2.,  3.,  4.,  5.],
+           [ 0.,  1.,  2.,  3.,  4.,  5.]])
     >>> a = np.array(
     ...     [[[0, 0, 0],
     ...       [1, 1, 1],
@@ -429,14 +589,14 @@ def tsplit(a):
     ...       [5, 5, 5]]]
     ... )
     >>> tsplit(a)
-    array([[[0, 1, 2, 3, 4, 5]],
+    array([[[ 0.,  1.,  2.,  3.,  4.,  5.]],
     <BLANKLINE>
-           [[0, 1, 2, 3, 4, 5]],
+           [[ 0.,  1.,  2.,  3.,  4.,  5.]],
     <BLANKLINE>
-           [[0, 1, 2, 3, 4, 5]]])
+           [[ 0.,  1.,  2.,  3.,  4.,  5.]]])
     """
 
-    a = np.asarray(a)
+    a = as_array(a, dtype)
 
     return np.array([a[..., x] for x in range(a.shape[-1])])
 
@@ -668,7 +828,7 @@ def centroid(a):
     array([2, 3])
     """
 
-    a = np.asarray(a)
+    a = as_float_array(a)
 
     a_s = np.sum(a)
 
@@ -714,7 +874,7 @@ def linear_conversion(a, old_range, new_range):
     array([  1.,   2.,   3.,   4.,   5.,   6.,   7.,   8.,   9.,  10.])
     """
 
-    a = np.asarray(a)
+    a = as_float_array(a)
 
     in_min, in_max = tsplit(old_range)
     out_min, out_max = tsplit(new_range)
@@ -749,9 +909,9 @@ def lerp(a, b, c):
     1.0
     """
 
-    a = np.asarray(a)
-    b = np.asarray(b)
-    c = np.asarray(c)
+    a = as_float_array(a)
+    b = as_float_array(b)
+    c = as_float_array(c)
 
     return (1 - c) * a + c * b
 
@@ -826,7 +986,7 @@ def ndarray_write(a):
     ...     a +=1
     """
 
-    a = np.asarray(a)
+    a = as_float_array(a)
 
     a.setflags(write=True)
 

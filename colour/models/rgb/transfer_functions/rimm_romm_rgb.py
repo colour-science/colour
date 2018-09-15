@@ -36,9 +36,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.algebra import spow
-from colour.constants import DEFAULT_INT_DTYPE
-from colour.utilities import (as_numeric, domain_range_scale, from_range_1,
-                              to_domain_1)
+from colour.utilities import (as_float, as_int, domain_range_scale,
+                              from_range_1, to_domain_1)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -113,9 +112,9 @@ def oetf_ROMMRGB(X, bit_depth=8, out_int=False):
     X_p = np.where(X < E_t, X * 16 * I_max, spow(X, 1 / 1.8) * I_max)
 
     if out_int:
-        return as_numeric(np.round(X_p), DEFAULT_INT_DTYPE)
+        return as_int(np.round(X_p))
     else:
-        return as_numeric(from_range_1(X_p / I_max))
+        return as_float(from_range_1(X_p / I_max))
 
 
 def eotf_ROMMRGB(X_p, bit_depth=8, in_int=False):
@@ -183,7 +182,7 @@ def eotf_ROMMRGB(X_p, bit_depth=8, in_int=False):
         spow(X_p / I_max, 1.8),
     )
 
-    return as_numeric(from_range_1(X))
+    return as_float(from_range_1(X))
 
 
 oetf_ProPhotoRGB = oetf_ROMMRGB
@@ -256,9 +255,9 @@ def oetf_RIMMRGB(X, bit_depth=8, out_int=False, E_clip=2.0):
                         [0, 4.5 * X, 1.099 * spow(X, 0.45) - 0.099, I_max])
 
     if out_int:
-        return as_numeric(np.round(X_p), DEFAULT_INT_DTYPE)
+        return as_int(np.round(X_p))
     else:
-        return as_numeric(from_range_1(X_p / I_max))
+        return as_float(from_range_1(X_p / I_max))
 
 
 def eotf_RIMMRGB(X_p, bit_depth=8, in_int=False, E_clip=2.0):
@@ -331,7 +330,7 @@ def eotf_RIMMRGB(X_p, bit_depth=8, in_int=False, E_clip=2.0):
             spow((m + 0.099) / 1.099, 1 / 0.45),
         )
 
-    return as_numeric(from_range_1(X))
+    return as_float(from_range_1(X))
 
 
 def log_encoding_ERIMMRGB(X,
@@ -413,9 +412,9 @@ def log_encoding_ERIMMRGB(X,
     ])
 
     if out_int:
-        return as_numeric(np.round(X_p), DEFAULT_INT_DTYPE)
+        return as_int(np.round(X_p))
     else:
-        return as_numeric(from_range_1(X_p / I_max))
+        return as_float(from_range_1(X_p / I_max))
 
 
 def log_decoding_ERIMMRGB(X_p,
@@ -494,4 +493,4 @@ def log_decoding_ERIMMRGB(X_p,
                (np.log(E_clip) - np.log(E_min)) + np.log(E_min)),
     )
 
-    return as_numeric(from_range_1(X))
+    return as_float(from_range_1(X))

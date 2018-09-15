@@ -37,7 +37,7 @@ from colour.plotting import (
     artist, colour_cycle, filter_passthrough, filter_RGB_colourspaces,
     filter_cmfs, multi_function_plot, override_style, render)
 from colour.plotting.diagrams import chromaticity_diagram_plot
-from colour.utilities import domain_range_scale, first_item
+from colour.utilities import as_float_array, domain_range_scale, first_item
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -157,7 +157,7 @@ def pointer_gamut_plot(method='CIE 1931', **kwargs):
             '{\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\'}'.format(
                 method))
 
-    ij = xy_to_ij(np.asarray(POINTER_GAMUT_BOUNDARIES))
+    ij = xy_to_ij(as_float_array(POINTER_GAMUT_BOUNDARIES))
     alpha_p = COLOUR_STYLE_CONSTANTS.opacity.high
     colour_p = COLOUR_STYLE_CONSTANTS.colour.brightest
     axes.plot(

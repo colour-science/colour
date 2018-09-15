@@ -37,9 +37,9 @@ import numpy as np
 from collections import namedtuple
 
 from colour.algebra import polar_to_cartesian, spow
-from colour.utilities import (CaseInsensitiveMapping, dot_vector,
-                              from_range_degrees, to_domain_100, tsplit,
-                              tstack)
+from colour.utilities import (CaseInsensitiveMapping, as_float_array,
+                              dot_vector, from_range_degrees, to_domain_100,
+                              tsplit, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -399,7 +399,7 @@ def chromatic_adaptation(RGB, RGB_0, RGB_0r, Y, D=1):
     R, G, B = tsplit(RGB)
     R_0, G_0, B_0 = tsplit(RGB_0)
     R_0r, G_0r, B_0r = tsplit(RGB_0r)
-    Y = np.asarray(Y)
+    Y = as_float_array(Y)
 
     beta = spow(B_0 / B_0r, 0.0834)
 
@@ -441,8 +441,8 @@ def f(x, F_S):
     array(0.5848125...)
     """
 
-    x = np.asarray(x)
-    F_S = np.asarray(F_S)
+    x = as_float_array(x)
+    F_S = as_float_array(F_S)
 
     x_m = np.where(
         x > 0.008856,
@@ -488,9 +488,9 @@ def opponent_colour_dimensions(XYZ, Y_b, F_S, F_L):
     """
 
     X, Y, Z = tsplit(XYZ)
-    Y_b = np.asarray(Y_b)
-    F_S = np.asarray(F_S)
-    F_L = np.asarray(F_L)
+    Y_b = as_float_array(Y_b)
+    F_S = as_float_array(F_S)
+    F_L = as_float_array(F_L)
 
     # Account for background lightness contrast.
     z = 1 + F_L * spow(Y_b / 100, 0.5)
@@ -527,8 +527,8 @@ def hue_angle(a, b):
     229.4635727...
     """
 
-    a = np.asarray(a)
-    b = np.asarray(b)
+    a = as_float_array(a)
+    b = as_float_array(b)
 
     h_L = np.degrees(np.arctan2(b, a)) % 360
 
@@ -559,8 +559,8 @@ def chroma_correlate(a, b):
     0.0086506...
     """
 
-    a = np.asarray(a)
-    b = np.asarray(b)
+    a = as_float_array(a)
+    b = as_float_array(b)
 
     c = spow(a ** 2 + b ** 2, 0.5)
     Ch_L = 25 * np.log(1 + 0.05 * c)
@@ -598,10 +598,10 @@ def colourfulness_correlate(L, L_L, Ch_L, F_C):
     0.0183832...
     """
 
-    L = np.asarray(L)
-    L_L = np.asarray(L_L)
-    Ch_L = np.asarray(Ch_L)
-    F_C = np.asarray(F_C)
+    L = as_float_array(L)
+    L_L = as_float_array(L_L)
+    Ch_L = as_float_array(Ch_L)
+    F_C = as_float_array(F_C)
 
     S_C = 1 + 0.47 * np.log10(L) - 0.057 * np.log10(L) ** 2
     S_M = 0.7 + 0.02 * L_L - 0.0002 * L_L ** 2
@@ -634,8 +634,8 @@ def saturation_correlate(Ch_L, L_L):
     0.0002314...
     """
 
-    Ch_L = np.asarray(Ch_L)
-    L_L = np.asarray(L_L)
+    Ch_L = as_float_array(Ch_L)
+    L_L = as_float_array(L_L)
 
     S_L = Ch_L / L_L
 

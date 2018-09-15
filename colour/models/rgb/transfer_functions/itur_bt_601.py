@@ -30,7 +30,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.algebra import spow
-from colour.utilities import (as_numeric, domain_range_scale, from_range_1,
+from colour.utilities import (as_float, domain_range_scale, from_range_1,
                               to_domain_1)
 
 __author__ = 'Colour Developers'
@@ -87,7 +87,7 @@ def oetf_BT601(L):
 
     E = np.where(L < 0.018, L * 4.5, 1.099 * spow(L, 0.45) - 0.099)
 
-    return as_numeric(from_range_1(E))
+    return as_float(from_range_1(E))
 
 
 def oetf_reverse_BT601(E):
@@ -139,4 +139,4 @@ def oetf_reverse_BT601(E):
             spow((E + 0.099) / 1.099, 1 / 0.45),
         )
 
-    return as_numeric(from_range_1(L))
+    return as_float(from_range_1(L))

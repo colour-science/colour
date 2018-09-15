@@ -40,7 +40,8 @@ from matplotlib.colors import LinearSegmentedColormap
 from colour.characterisation import COLOURCHECKERS
 from colour.colorimetry import (CMFS, ILLUMINANTS_SPDS)
 from colour.models import RGB_COLOURSPACES, XYZ_to_RGB
-from colour.utilities import (Structure, is_sibling, is_string, filter_mapping)
+from colour.utilities import (Structure, as_float_array, is_sibling, is_string,
+                              filter_mapping)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -1216,7 +1217,7 @@ def image_plot(image,
         text_settings.update(text_parameters)
     text_offset = text_settings.pop('offset')
 
-    image = np.asarray(image)
+    image = as_float_array(image)
 
     axes.imshow(
         np.clip(image, 0, 1), interpolation=interpolation, cmap=colour_map)

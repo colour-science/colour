@@ -24,7 +24,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import (CaseInsensitiveMapping, as_numeric, from_range_1,
+from colour.utilities import (CaseInsensitiveMapping, as_float, from_range_1,
                               to_domain_1)
 
 __author__ = 'Colour Developers'
@@ -245,7 +245,7 @@ def log_encoding_ALEXALogC(x,
 
     t = np.where(x > cut, c * np.log10(a * x + b) + d, e * x + f)
 
-    return as_numeric(from_range_1(t))
+    return as_float(from_range_1(t))
 
 
 def log_decoding_ALEXALogC(t,
@@ -306,4 +306,4 @@ def log_decoding_ALEXALogC(t,
 
     x = np.where(t > e * cut + f, (10 ** ((t - d) / c) - b) / a, (t - f) / e)
 
-    return as_numeric(from_range_1(x))
+    return as_float(from_range_1(x))

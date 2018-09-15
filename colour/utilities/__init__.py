@@ -12,7 +12,8 @@ from .common import (
     domain_range_scale, to_domain_1, to_domain_10, to_domain_100,
     to_domain_degrees, to_domain_int, from_range_1, from_range_10,
     from_range_100, from_range_degrees, from_range_int)
-from .array import (as_numeric, as_namedtuple, closest_indexes, closest,
+from .array import (as_array, as_int_array, as_float_array, as_numeric, as_int,
+                    as_float, as_namedtuple, closest_indexes, closest,
                     normalise_maximum, interval, is_uniform, in_array, tstack,
                     tsplit, row_as_diagonal, dot_vector, dot_matrix, orient,
                     centroid, linear_conversion, lerp, fill_nan, ndarray_write)
@@ -34,7 +35,8 @@ __all__ += [
     'from_range_int'
 ]
 __all__ += [
-    'as_numeric', 'as_namedtuple', 'closest_indexes', 'closest',
+    'as_array', 'as_int_array', 'as_float_array', 'as_numeric', 'as_int',
+    'as_float', 'as_namedtuple', 'closest_indexes', 'closest',
     'normalise_maximum', 'interval', 'is_uniform', 'in_array', 'tstack',
     'tsplit', 'row_as_diagonal', 'dot_vector', 'dot_matrix', 'orient',
     'centroid', 'linear_conversion', 'fill_nan', 'lerp', 'ndarray_write'

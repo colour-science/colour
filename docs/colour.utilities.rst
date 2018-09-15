@@ -63,7 +63,12 @@ Array
 .. autosummary::
     :toctree: generated/
 
+    as_array
+    as_int_array
+    as_float_array
     as_numeric
+    as_int
+    as_float
     as_namedtuple
     closest_indexes
     closest

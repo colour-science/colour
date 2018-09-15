@@ -33,7 +33,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import tsplit, tstack
+from colour.utilities import as_float_array, tsplit, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -221,7 +221,7 @@ def cartesian_to_cylindrical(a):
     array([ 3.1622776...,  0.3217505...,  6.        ])
     """
 
-    a = np.asarray(a)
+    a = as_float_array(a)
 
     rho, phi = tsplit(cartesian_to_polar(a[..., 0:2]))
 
@@ -255,7 +255,7 @@ def cylindrical_to_cartesian(a):
     array([ 3.        ,  0.9999999...,  6.        ])
     """
 
-    a = np.asarray(a)
+    a = as_float_array(a)
 
     x, y = tsplit(polar_to_cartesian(a[..., 0:2]))
 

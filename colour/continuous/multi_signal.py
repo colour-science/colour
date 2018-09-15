@@ -24,7 +24,8 @@ except ImportError:
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import AbstractContinuousFunction, Signal
-from colour.utilities import first_item, is_pandas_installed, tsplit, tstack
+from colour.utilities import (as_float_array, first_item, is_pandas_installed,
+                              tsplit, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -355,7 +356,7 @@ dict_like, optional
         """
 
         if value is not None:
-            value = np.asarray(value)
+            value = as_float_array(value)
 
             if value.ndim in (0, 1):
                 for signal in self._signals.values():
@@ -854,7 +855,7 @@ dict_like
          [   9.    100.    110.    120.  ]]
         """
 
-        y = np.asarray(y)
+        y = as_float_array(y)
 
         assert y.ndim in range(3), (
             'Corresponding "y" variable must be a numeric or a 1-dimensional '
@@ -1108,7 +1109,7 @@ dict_like
                                           a.signals.values()):
                 signal_a.arithmetical_operation(signal_b, operation, True)
         else:
-            a = np.asarray(a)
+            a = as_float_array(a)
 
             assert a.ndim in range(3), (
                 'Operand "a" variable must be a numeric or a 1-dimensional or '

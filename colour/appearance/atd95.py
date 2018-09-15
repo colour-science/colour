@@ -37,8 +37,8 @@ import numpy as np
 from collections import namedtuple
 
 from colour.algebra import spow
-from colour.utilities import (dot_vector, from_range_degrees, to_domain_100,
-                              tsplit, tstack)
+from colour.utilities import (as_float_array, dot_vector, from_range_degrees,
+                              to_domain_100, tsplit, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -204,10 +204,10 @@ T_2=0.0205377..., D_2=0.0107584...)
 
     XYZ = to_domain_100(XYZ)
     XYZ_0 = to_domain_100(XYZ_0)
-    Y_0 = np.asarray(Y_0)
-    k_1 = np.asarray(k_1)
-    k_2 = np.asarray(k_2)
-    sigma = np.asarray(sigma)
+    Y_0 = as_float_array(Y_0)
+    k_1 = as_float_array(k_1)
+    k_2 = as_float_array(k_2)
+    sigma = as_float_array(sigma)
 
     XYZ = luminance_to_retinal_illuminance(XYZ, Y_0)
     XYZ_0 = luminance_to_retinal_illuminance(XYZ_0, Y_0)
@@ -262,8 +262,8 @@ def luminance_to_retinal_illuminance(XYZ, Y_c):
     array([ 479.4445924...,  499.3174313...,  534.5631673...])
     """
 
-    XYZ = np.asarray(XYZ)
-    Y_c = np.asarray(Y_c)
+    XYZ = as_float_array(XYZ)
+    Y_c = as_float_array(Y_c)
 
     return 18 * spow(Y_c[..., np.newaxis] * XYZ / 100, 0.8)
 
@@ -362,6 +362,6 @@ def final_response(value):
     0.1787931...
     """
 
-    value = np.asarray(value)
+    value = as_float_array(value)
 
     return value / (200 + np.abs(value))

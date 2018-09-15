@@ -676,7 +676,7 @@ def to_domain_1(a, scale_factor=100, dtype=DEFAULT_FLOAT_DTYPE):
     array(0.01)
     """
 
-    a = np.asarray(a, dtype=dtype).copy()
+    a = np.asarray(a, dtype).copy()
 
     if _DOMAIN_RANGE_SCALE == '100':
         a /= scale_factor
@@ -734,7 +734,7 @@ def to_domain_10(a, scale_factor=10, dtype=DEFAULT_FLOAT_DTYPE):
     array(0.1)
     """
 
-    a = np.asarray(a, dtype=dtype).copy()
+    a = np.asarray(a, dtype).copy()
 
     if _DOMAIN_RANGE_SCALE == '1':
         a *= scale_factor
@@ -793,7 +793,7 @@ def to_domain_100(a, scale_factor=100, dtype=DEFAULT_FLOAT_DTYPE):
     array(1.0)
     """
 
-    a = np.asarray(a, dtype=dtype).copy()
+    a = np.asarray(a, dtype).copy()
 
     if _DOMAIN_RANGE_SCALE == '1':
         a *= scale_factor
@@ -851,7 +851,7 @@ def to_domain_degrees(a, scale_factor=360, dtype=DEFAULT_FLOAT_DTYPE):
     array(3.6)
     """
 
-    a = np.asarray(a, dtype=dtype).copy()
+    a = np.asarray(a, dtype).copy()
 
     if _DOMAIN_RANGE_SCALE == '1':
         a *= scale_factor
@@ -916,7 +916,7 @@ def to_domain_int(a, bit_depth=8, dtype=DEFAULT_FLOAT_DTYPE):
     array(2.55)
     """
 
-    a = np.asarray(a, dtype=dtype).copy()
+    a = np.asarray(a, dtype).copy()
 
     maximum_code_value = 2 ** bit_depth - 1
     if _DOMAIN_RANGE_SCALE == '1':
@@ -1197,11 +1197,11 @@ def from_range_int(a, bit_depth=8, dtype=DEFAULT_FLOAT_DTYPE):
 
     maximum_code_value = 2 ** bit_depth - 1
     if _DOMAIN_RANGE_SCALE == '1':
-        a = np.asarray(a).astype(dtype)
+        a = np.asarray(a, dtype)
         a /= maximum_code_value
 
     if _DOMAIN_RANGE_SCALE == '100':
-        a = np.asarray(a).astype(dtype)
+        a = np.asarray(a, dtype)
         a /= maximum_code_value / 100
 
     return a

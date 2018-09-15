@@ -26,7 +26,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
-from colour.utilities import Structure, as_numeric, from_range_1, to_domain_1
+from colour.utilities import Structure, as_float, from_range_1, to_domain_1
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -117,7 +117,7 @@ def log_encoding_VLog(L_in,
 
     V_out = V_out if out_legal else legal_to_full(V_out, bit_depth)
 
-    return as_numeric(from_range_1(V_out))
+    return as_float(from_range_1(V_out))
 
 
 def log_decoding_VLog(V_out,
@@ -191,4 +191,4 @@ def log_decoding_VLog(V_out,
     if not out_reflection:
         L_in = L_in / 0.9
 
-    return as_numeric(from_range_1(L_in))
+    return as_float(from_range_1(L_in))

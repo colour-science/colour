@@ -17,6 +17,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
+from colour.utilities import as_float_array
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -115,7 +116,7 @@ def legal_to_full(CV, bit_depth=10, in_int=False, out_int=False):
     1023
     """
 
-    CV = np.asarray(CV)
+    CV = as_float_array(CV)
 
     MV = 2 ** bit_depth - 1
 
@@ -174,7 +175,7 @@ def full_to_legal(CV, bit_depth=10, in_int=False, out_int=False):
     940
     """
 
-    CV = np.asarray(CV)
+    CV = as_float_array(CV)
 
     MV = 2 ** bit_depth - 1
 

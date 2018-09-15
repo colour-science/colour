@@ -31,7 +31,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import D_ILLUMINANTS_S_SPDS, SpectralPowerDistribution
-from colour.utilities import tsplit
+from colour.utilities import as_float_array, tsplit
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -248,7 +248,7 @@ def CIE_standard_illuminant_A_function(wl):
     array([ 100.        ,  114.4363383...,  115.5285063...])
     """
 
-    wl = np.asarray(wl)
+    wl = as_float_array(wl)
 
     return (100 * (560 / wl) ** 5 * (((np.exp(
         (1.435 * 10 ** 7) / (2848 * 560)) - 1) / (np.exp(

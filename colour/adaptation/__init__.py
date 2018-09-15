@@ -23,10 +23,8 @@ References
 
 from __future__ import absolute_import
 
-import numpy as np
-
 from colour.utilities import (CaseInsensitiveMapping, filter_kwargs,
-                              get_domain_range_scale)
+                              get_domain_range_scale, as_float_array)
 
 from .dataset import *  # noqa
 from . import dataset
@@ -216,9 +214,9 @@ def chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method='Von Kries', **kwargs):
                   chromatic_adaptation_Fairchild1990)
 
     if function in domain_100 and domain_range_reference:
-        XYZ = np.asarray(XYZ) * 100
-        XYZ_w = np.asarray(XYZ_w) * 100
-        XYZ_wr = np.asarray(XYZ_wr) * 100
+        XYZ = as_float_array(XYZ) * 100
+        XYZ_w = as_float_array(XYZ_w) * 100
+        XYZ_wr = as_float_array(XYZ_wr) * 100
         if kwargs.get('Y_o'):
             kwargs['Y_o'] = kwargs['Y_o'] * 100
 

@@ -26,8 +26,8 @@ import numpy as np
 
 from colour.algebra import spow
 from colour.adaptation import VON_KRIES_CAT
-from colour.utilities import (dot_vector, from_range_100, to_domain_100,
-                              tsplit, tstack, warning)
+from colour.utilities import (as_float_array, dot_vector, from_range_100,
+                              to_domain_100, tsplit, tstack, warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -127,8 +127,8 @@ def chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2, n=1):
 
     XYZ_1 = to_domain_100(XYZ_1)
     Y_o = to_domain_100(Y_o)
-    E_o1 = np.asarray(E_o1)
-    E_o2 = np.asarray(E_o2)
+    E_o1 = as_float_array(E_o1)
+    E_o2 = as_float_array(E_o2)
 
     if np.any(Y_o < 18) or np.any(Y_o > 100):
         warning(('"Y_o" luminance factor must be in [18, 100] domain, '
@@ -264,9 +264,9 @@ def effective_adapting_responses(xez, Y_o, E_o):
     array([ 71.2105020...,  59.3937790...,  20.8052937...])
     """
 
-    xez = np.asarray(xez)
-    Y_o = np.asarray(Y_o)
-    E_o = np.asarray(E_o)
+    xez = as_float_array(xez)
+    Y_o = as_float_array(Y_o)
+    E_o = as_float_array(E_o)
 
     RGB_o = (((Y_o[..., np.newaxis] * E_o[..., np.newaxis]) /
               (100 * np.pi)) * xez)
@@ -403,7 +403,7 @@ def K_coefficient(xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, n=1):
     xi_2, eta_2, _zeta_2 = tsplit(xez_2)
     bR_o1, bG_o1, _bB_o1 = tsplit(bRGB_o1)
     bR_o2, bG_o2, _bB_o2 = tsplit(bRGB_o2)
-    Y_o = np.asarray(Y_o)
+    Y_o = as_float_array(Y_o)
 
     K = (spow((Y_o * xi_1 + n) / (20 * xi_1 + n), (2 / 3) * bR_o1) / spow(
         (Y_o * xi_2 + n) / (20 * xi_2 + n), (2 / 3) * bR_o2))
@@ -469,8 +469,8 @@ def corresponding_colour(RGB_1, xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, K, n=1):
     xi_2, eta_2, zeta_2 = tsplit(xez_2)
     bR_o1, bG_o1, bB_o1 = tsplit(bRGB_o1)
     bR_o2, bG_o2, bB_o2 = tsplit(bRGB_o2)
-    Y_o = np.asarray(Y_o)
-    K = np.asarray(K)
+    Y_o = as_float_array(Y_o)
+    K = as_float_array(K)
 
     def RGB_c(x_1, x_2, y_1, y_2, z):
         """

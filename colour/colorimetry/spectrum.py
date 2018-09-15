@@ -36,7 +36,7 @@ from colour.algebra import (Extrapolator, CubicSplineInterpolator,
                             SpragueInterpolator)
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import Signal, MultiSignal
-from colour.utilities import (as_numeric, first_item, is_iterable, is_numeric,
+from colour.utilities import (as_float, first_item, is_iterable, is_numeric,
                               is_string, is_uniform, interval, warning)
 from colour.utilities.deprecation import Removed, Renamed
 
@@ -340,8 +340,8 @@ class SpectralShape(object):
 
         return np.all(
             np.in1d(
-                np.around(wavelength / tolerance).astype(int),
-                np.around(self.range() / tolerance).astype(int)))
+                np.around(wavelength / tolerance).astype(np.int64),
+                np.around(self.range() / tolerance).astype(np.int64)))
 
     def __len__(self):
         """
@@ -462,7 +462,7 @@ class SpectralShape(object):
                 self._interval = current_interval
                 warning(('"{0}" shape could not be honoured, using '
                          '"{1}"!').format(
-                             (self._start, self._end, self._interval), self))
+                    (self._start, self._end, self._interval), self))
 
         return self._range
 
@@ -739,7 +739,7 @@ dict_like, optional
 
         return SpectralShape(
             min(self.wavelengths), max(self.wavelengths),
-            as_numeric(min(wavelengths_interval)))
+            as_float(min(wavelengths_interval)))
 
     def extrapolate(self, shape, extrapolator=None, extrapolator_args=None):
         """

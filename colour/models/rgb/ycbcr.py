@@ -56,8 +56,9 @@ import numpy as np
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
 from colour.models.rgb.transfer_functions import (CV_range, oetf_BT2020,
                                                   eotf_BT2020)
-from colour.utilities import (CaseInsensitiveMapping, domain_range_scale,
-                              from_range_1, to_domain_1, tsplit, tstack)
+from colour.utilities import (CaseInsensitiveMapping, as_float_array,
+                              domain_range_scale, from_range_1, to_domain_1,
+                              tsplit, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -290,7 +291,7 @@ def RGB_to_YCbCr(RGB,
     """
 
     if in_int:
-        RGB = np.asarray(RGB)
+        RGB = as_float_array(RGB)
     else:
         RGB = to_domain_1(RGB)
 
@@ -422,7 +423,7 @@ def YCbCr_to_RGB(YCbCr,
     """
 
     if in_int:
-        YCbCr = np.asarray(YCbCr)
+        YCbCr = as_float_array(YCbCr)
     else:
         YCbCr = to_domain_1(YCbCr)
 
@@ -639,7 +640,7 @@ def YcCbcCrc_to_RGB(YcCbcCrc,
     """
 
     if in_int:
-        YcCbcCrc = np.asarray(YcCbcCrc)
+        YcCbcCrc = as_float_array(YcCbcCrc)
     else:
         YcCbcCrc = to_domain_1(YcCbcCrc)
 

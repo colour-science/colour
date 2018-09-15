@@ -37,7 +37,7 @@ from colour.models import (Lab_to_LCHab, UCS_to_uv, XYZ_to_Lab, XYZ_to_UCS,
                            XYZ_to_xy, xy_to_XYZ)
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Ohno2013
 from colour.adaptation import chromatic_adaptation_VonKries
-from colour.utilities import domain_range_scale, tsplit
+from colour.utilities import as_float_array, domain_range_scale, tsplit
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -237,7 +237,7 @@ def gamut_area(Lab):
     8335.9482018...
     """
 
-    Lab = np.asarray(Lab)
+    Lab = as_float_array(Lab)
     Lab_s = np.roll(np.copy(Lab), -3)
 
     _L, a, b = tsplit(Lab)

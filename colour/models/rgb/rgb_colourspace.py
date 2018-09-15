@@ -38,8 +38,9 @@ from colour.models import xy_to_XYZ, xy_to_xyY, xyY_to_XYZ
 from colour.models.rgb import (chromatically_adapted_primaries,
                                normalised_primary_matrix)
 from colour.adaptation import chromatic_adaptation_matrix_VonKries
-from colour.utilities import (domain_range_scale, dot_matrix, dot_vector,
-                              from_range_1, to_domain_1, is_string, warning)
+from colour.utilities import (as_float_array, domain_range_scale, dot_matrix,
+                              dot_vector, from_range_1, to_domain_1, is_string,
+                              warning)
 from colour.utilities.deprecation import Renamed
 
 __author__ = 'Colour Developers'
@@ -336,7 +337,7 @@ class RGB_Colourspace(object):
             assert isinstance(value, (tuple, list, np.ndarray, np.matrix)), (
                 '"{0}" attribute: "{1}" is not a "tuple", "list", "ndarray" '
                 'or "matrix" instance!'.format('whitepoint', value))
-            value = np.asarray(value)
+            value = as_float_array(value)
         self._whitepoint = value
 
         self._derive_transformation_matrices()
@@ -402,7 +403,7 @@ class RGB_Colourspace(object):
         """
 
         if value is not None:
-            value = np.asarray(value)
+            value = as_float_array(value)
         self._RGB_to_XYZ_matrix = value
 
     @property
@@ -436,7 +437,7 @@ class RGB_Colourspace(object):
         """
 
         if value is not None:
-            value = np.asarray(value)
+            value = as_float_array(value)
         self._XYZ_to_RGB_matrix = value
 
     @property

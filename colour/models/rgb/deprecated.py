@@ -55,7 +55,8 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import from_range_1, to_domain_1, tsplit, tstack
+from colour.utilities import (as_float_array, from_range_1, to_domain_1,
+                              tsplit, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -119,7 +120,7 @@ def RGB_to_HSV(RGB):
 
     R, G, B = tsplit(RGB)
 
-    S = np.asarray(delta / maximum)
+    S = as_float_array(delta / maximum)
     S[np.asarray(delta == 0)] = 0
 
     delta_R = (((maximum - R) / 6) + (delta / 2)) / delta
@@ -180,7 +181,7 @@ def HSV_to_RGB(HSV):
 
     H, S, V = tsplit(to_domain_1(HSV))
 
-    h = np.asarray(H * 6)
+    h = as_float_array(H * 6)
     h[np.asarray(h == 6)] = 0
 
     i = np.floor(h)
@@ -324,7 +325,7 @@ def HSL_to_RGB(HSL):
         Converts *hue* value to *RGB* colourspace.
         """
 
-        vH = np.asarray(vH)
+        vH = as_float_array(vH)
 
         vH[np.asarray(vH < 0)] += 1
         vH[np.asarray(vH > 1)] -= 1
@@ -499,9 +500,9 @@ def CMY_to_CMYK(CMY):
     K = np.where(M < K, M, K)
     K = np.where(Y < K, Y, K)
 
-    C = np.asarray((C - K) / (1 - K))
-    M = np.asarray((M - K) / (1 - K))
-    Y = np.asarray((Y - K) / (1 - K))
+    C = as_float_array((C - K) / (1 - K))
+    M = as_float_array((M - K) / (1 - K))
+    Y = as_float_array((Y - K) / (1 - K))
 
     C[np.asarray(K == 1)] = 0
     M[np.asarray(K == 1)] = 0

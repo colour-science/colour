@@ -35,8 +35,9 @@ from colour.colorimetry import (
     luminance_Fairchild2011)
 from colour.models.ipt import (IPT_XYZ_TO_LMS_MATRIX, IPT_LMS_TO_XYZ_MATRIX,
                                IPT_LMS_TO_IPT_MATRIX, IPT_IPT_TO_LMS_MATRIX)
-from colour.utilities import (domain_range_scale, from_range_1, from_range_100,
-                              to_domain_1, to_domain_100, dot_vector)
+from colour.utilities import (as_float_array, domain_range_scale, from_range_1,
+                              from_range_100, to_domain_1, to_domain_100,
+                              dot_vector)
 from colour.utilities.documentation import DocstringTuple
 
 __author__ = 'Colour Developers'
@@ -103,7 +104,7 @@ def exponent_hdr_IPT(Y_s, Y_abs, method='Fairchild 2011'):
     """
 
     Y_s = to_domain_1(Y_s)
-    Y_abs = np.asarray(Y_abs)
+    Y_abs = as_float_array(Y_abs)
 
     method_l = method.lower()
     assert method.lower() in [

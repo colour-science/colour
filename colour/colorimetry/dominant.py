@@ -37,6 +37,7 @@ from colour.algebra import (euclidean_distance, extend_line_segment,
                             intersect_line_segments)
 from colour.colorimetry import CMFS
 from colour.models import XYZ_to_xy
+from colour.utilities import as_float_array
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -86,13 +87,16 @@ def closest_spectral_locus_wavelength(xy, xy_n, xy_s, reverse=False):
     >>> xy = np.array([0.26415, 0.37770])
     >>> xy_n = np.array([0.31270, 0.32900])
     >>> xy_s = XYZ_to_xy(CMFS['CIE 1931 2 Degree Standard Observer'].values)
-    >>> closest_spectral_locus_wavelength(xy, xy_n, xy_s)  # doctest: +ELLIPSIS
-    (array(144), array([ 0.0036969...,  0.6389577...]))
+    >>> ix, intersect = closest_spectral_locus_wavelength(xy, xy_n, xy_s)
+    >>> print(ix) #
+    144
+    >>> print(intersect) # doctest: +ELLIPSIS
+    [ 0.0036969...  0.6389577...]
     """
 
-    xy = np.asarray(xy)
+    xy = as_float_array(xy)
     xy_n = np.resize(xy_n, xy.shape)
-    xy_s = np.asarray(xy_s)
+    xy_s = as_float_array(xy_s)
 
     xy_e = (extend_line_segment(xy, xy_n)
             if reverse else extend_line_segment(xy_n, xy))
@@ -182,7 +186,7 @@ def dominant_wavelength(xy,
      array([ 0.0743553...,  0.8338050...]))
     """
 
-    xy = np.asarray(xy)
+    xy = as_float_array(xy)
     xy_n = np.resize(xy_n, xy.shape)
 
     xy_s = XYZ_to_xy(cmfs.values)
@@ -346,7 +350,7 @@ def colorimetric_purity(xy,
     0.9705976...
     """
 
-    xy = np.asarray(xy)
+    xy = as_float_array(xy)
 
     _wl, xy_wl, _xy_cwl = dominant_wavelength(xy, xy_n, cmfs)
     P_e = excitation_purity(xy, xy_n, cmfs)

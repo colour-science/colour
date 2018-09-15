@@ -22,7 +22,8 @@ from colour.models.common import (COLOURSPACE_MODELS_LABELS,
 from colour.plotting import (COLOUR_STYLE_CONSTANTS, cube,
                              filter_RGB_colourspaces, filter_cmfs, grid,
                              override_style, render)
-from colour.utilities import Structure, first_item, tsplit, tstack
+from colour.utilities import (Structure, as_float_array, first_item, tsplit,
+                              tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -64,29 +65,29 @@ def common_colourspace_model_axis_reorder(a, model=None):
     >>> common_colourspace_model_axis_reorder(a)
     array([0, 1, 2])
     >>> common_colourspace_model_axis_reorder(a, 'CIE Lab')
-    array([1, 2, 0])
+    array([ 1.,  2.,  0.])
     >>> common_colourspace_model_axis_reorder(a, 'CIE LCHab')
-    array([1, 2, 0])
+    array([ 1.,  2.,  0.])
     >>> common_colourspace_model_axis_reorder(a, 'CIE Luv')
-    array([1, 2, 0])
+    array([ 1.,  2.,  0.])
     >>> common_colourspace_model_axis_reorder(a, 'CIE LCHab')
-    array([1, 2, 0])
+    array([ 1.,  2.,  0.])
     >>> common_colourspace_model_axis_reorder(a, 'DIN 99')
-    array([1, 2, 0])
+    array([ 1.,  2.,  0.])
     >>> common_colourspace_model_axis_reorder(a, 'Hunter Lab')
-    array([1, 2, 0])
+    array([ 1.,  2.,  0.])
     >>> common_colourspace_model_axis_reorder(a, 'Hunter Rdab')
-    array([1, 2, 0])
+    array([ 1.,  2.,  0.])
     >>> common_colourspace_model_axis_reorder(a, 'IPT')
-    array([1, 2, 0])
+    array([ 1.,  2.,  0.])
     >>> common_colourspace_model_axis_reorder(a, 'JzAzBz')
-    array([1, 2, 0])
+    array([ 1.,  2.,  0.])
     >>> common_colourspace_model_axis_reorder(a, 'OSA UCS')
-    array([1, 2, 0])
+    array([ 1.,  2.,  0.])
     >>> common_colourspace_model_axis_reorder(a, 'hdr-CIELAB')
-    array([1, 2, 0])
+    array([ 1.,  2.,  0.])
     >>> common_colourspace_model_axis_reorder(a, 'hdr-IPT')
-    array([1, 2, 0])
+    array([ 1.,  2.,  0.])
     """
 
     if model in ('CIE Lab', 'CIE LCHab', 'CIE Luv', 'CIE LCHuv', 'DIN 99',
@@ -571,7 +572,7 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
                        np.full((RGB.shape[0], 1), settings.edge_alpha[i],
                                DEFAULT_FLOAT_DTYPE)]))
 
-    quads = np.asarray(quads)
+    quads = as_float_array(quads)
     quads[np.isnan(quads)] = 0
 
     if quads.size != 0:

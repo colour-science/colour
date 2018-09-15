@@ -62,9 +62,10 @@ import numpy as np
 from colour.algebra import spow
 from colour.biochemistry import reaction_rate_MichealisMenten
 from colour.constants import CIE_E, CIE_K
-from colour.utilities import (
-    CaseInsensitiveMapping, as_numeric, filter_kwargs, from_range_100,
-    get_domain_range_scale, to_domain_1, to_domain_100, warning)
+from colour.utilities import (CaseInsensitiveMapping, as_float_array,
+                              as_float, filter_kwargs, from_range_100,
+                              get_domain_range_scale, to_domain_1,
+                              to_domain_100, warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -223,11 +224,11 @@ def lightness_CIE1976(Y, Y_n=100):
     """
 
     Y = to_domain_100(Y)
-    Y_n = np.asarray(Y_n)
+    Y_n = as_float_array(Y_n)
 
     L_star = Y / Y_n
 
-    L_star = as_numeric(
+    L_star = as_float(
         np.where(
             L_star <= CIE_E,
             CIE_K * L_star,
@@ -448,7 +449,7 @@ def lightness(Y, method='CIE 1976', **kwargs):
     24.9022902...
     """
 
-    Y = np.asarray(Y)
+    Y = as_float_array(Y)
 
     function = LIGHTNESS_METHODS[method]
 

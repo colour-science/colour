@@ -30,7 +30,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.algebra import spow
-from colour.utilities import (Structure, as_numeric, domain_range_scale,
+from colour.utilities import (Structure, as_float, domain_range_scale,
                               from_range_1, to_domain_1)
 
 __author__ = 'Colour Developers'
@@ -121,7 +121,7 @@ def oetf_BT2020(E, is_12_bits_system=False, constants=BT2020_CONSTANTS):
 
     E_p = np.where(E < b, E * 4.5, a * spow(E, 0.45) - (a - 1))
 
-    return as_numeric(from_range_1(E_p))
+    return as_float(from_range_1(E_p))
 
 
 def eotf_BT2020(E_p, is_12_bits_system=False, constants=BT2020_CONSTANTS):
@@ -180,4 +180,4 @@ def eotf_BT2020(E_p, is_12_bits_system=False, constants=BT2020_CONSTANTS):
             spow((E_p + (a - 1)) / a, 1 / 0.45),
         )
 
-    return as_numeric(from_range_1(E))
+    return as_float(from_range_1(E))

@@ -25,6 +25,7 @@ import numpy as np
 
 from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE,
                                 SpectralPowerDistribution)
+from colour.utilities import as_float_array
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -91,8 +92,8 @@ def planck_law(wavelength, temperature, c1=C1, c2=C2, n=N):
     20472701909806.5...
     """
 
-    l = np.asarray(wavelength)  # noqa
-    t = np.asarray(temperature)
+    l = as_float_array(wavelength)  # noqa
+    t = as_float_array(temperature)
 
     p = (((c1 * n ** -2 * l ** -5) / np.pi) * (np.exp(c2 /
                                                       (n * l * t)) - 1) ** -1)

@@ -64,9 +64,9 @@ from collections import OrderedDict, Mapping
 from six.moves import reduce
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
-from colour.utilities import (CaseInsensitiveMapping, as_numeric, interval,
-                              is_integer, is_numeric, closest_indexes, tsplit,
-                              warning)
+from colour.utilities import (CaseInsensitiveMapping, as_float_array,
+                              as_float, interval, is_integer, is_numeric,
+                              closest_indexes, tsplit, warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -611,7 +611,7 @@ class KernelInterpolator(object):
 
         x = np.atleast_1d(x).astype(self._dtype)
 
-        xi = as_numeric(self._evaluate(x))
+        xi = as_float(self._evaluate(x))
 
         return xi
 
@@ -844,7 +844,7 @@ class LinearInterpolator(object):
 
         x = np.atleast_1d(x).astype(self._dtype)
 
-        xi = as_numeric(self._evaluate(x))
+        xi = as_float(self._evaluate(x))
 
         return xi
 
@@ -1104,7 +1104,7 @@ class SpragueInterpolator(object):
             Interpolated point values.
         """
 
-        x = np.asarray(x)
+        x = as_float_array(x)
 
         self._validate_dimensions()
         self._validate_interpolation_range(x)
@@ -1459,7 +1459,7 @@ class NullInterpolator(object):
 
         x = np.atleast_1d(x).astype(self._dtype)
 
-        xi = as_numeric(self._evaluate(x))
+        xi = as_float(self._evaluate(x))
 
         return xi
 
@@ -1582,7 +1582,7 @@ def vertices_and_relative_coordinates(V_xyz, table):
     >>> table = LUT.table
     >>> prng = np.random.RandomState(4)
     >>> V_xyz = colour.algebra.random_triplet_generator(3, random_state=prng)
-    >>> V_xyz = np.asarray(list(V_xyz))
+    >>> V_xyz = as_float_array(list(V_xyz))
     >>> print(V_xyz)  # doctest: +ELLIPSIS
     [[ 0.9670298...  0.5472322...  0.9726843...]
      [ 0.7148159...  0.6977288...  0.2160895...]
@@ -1627,7 +1627,7 @@ def vertices_and_relative_coordinates(V_xyz, table):
     """
 
     V_xyz = np.clip(V_xyz, 0, 1)
-    table = np.asarray(table)
+    table = as_float_array(table)
 
     V_xyz = np.reshape(V_xyz, (-1, 3))
 
@@ -1686,7 +1686,7 @@ def table_interpolation_trilinear(V_xyz, table):
     >>> table = LUT.table
     >>> prng = np.random.RandomState(4)
     >>> V_xyz = colour.algebra.random_triplet_generator(3, random_state=prng)
-    >>> V_xyz = np.asarray(list(V_xyz))
+    >>> V_xyz = as_float_array(list(V_xyz))
     >>> print(V_xyz)  # doctest: +ELLIPSIS
     [[ 0.9670298...  0.5472322...  0.9726843...]
      [ 0.7148159...  0.6977288...  0.2160895...]
@@ -1697,7 +1697,7 @@ def table_interpolation_trilinear(V_xyz, table):
            [ 1.1407121..., -0.0429746...,  0.2557975...]])
     """
 
-    V_xyz = np.asarray(V_xyz)
+    V_xyz = as_float_array(V_xyz)
 
     vertices, V_xyzr = vertices_and_relative_coordinates(V_xyz, table)
 
@@ -1747,7 +1747,7 @@ def table_interpolation_tetrahedral(V_xyz, table):
     >>> table = LUT.table
     >>> prng = np.random.RandomState(4)
     >>> V_xyz = colour.algebra.random_triplet_generator(3, random_state=prng)
-    >>> V_xyz = np.asarray(list(V_xyz))
+    >>> V_xyz = as_float_array(list(V_xyz))
     >>> print(V_xyz)  # doctest: +ELLIPSIS
     [[ 0.9670298...  0.5472322...  0.9726843...]
      [ 0.7148159...  0.6977288...  0.2160895...]
@@ -1758,7 +1758,7 @@ def table_interpolation_tetrahedral(V_xyz, table):
            [ 1.1418628..., -0.0432636...,  0.2560367...]])
     """
 
-    V_xyz = np.asarray(V_xyz)
+    V_xyz = as_float_array(V_xyz)
 
     vertices, V_xyzr = vertices_and_relative_coordinates(V_xyz, table)
 
@@ -1838,7 +1838,7 @@ def table_interpolation(V_xyz, table, method='Trilinear'):
     >>> table = LUT.table
     >>> prng = np.random.RandomState(4)
     >>> V_xyz = colour.algebra.random_triplet_generator(3, random_state=prng)
-    >>> V_xyz = np.asarray(list(V_xyz))
+    >>> V_xyz = as_float_array(list(V_xyz))
     >>> print(V_xyz)  # doctest: +ELLIPSIS
     [[ 0.9670298...  0.5472322...  0.9726843...]
      [ 0.7148159...  0.6977288...  0.2160895...]

@@ -54,8 +54,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.algebra import least_square_mapping_MoorePenrose
-from colour.utilities import (CaseInsensitiveMapping, as_numeric, closest,
-                              filter_kwargs, tsplit, tstack)
+from colour.utilities import (CaseInsensitiveMapping, as_float_array, as_int,
+                              closest, filter_kwargs, tsplit, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -114,7 +114,7 @@ def augmented_matrix_Cheung2004(RGB, terms=3):
     ones = np.ones(R.shape)
 
     existing_terms = np.array([3, 5, 7, 8, 10, 11, 14, 16, 17, 19, 20, 22])
-    closest_terms = as_numeric(closest(existing_terms, terms))
+    closest_terms = as_int(closest(existing_terms, terms))
     if closest_terms != terms:
         raise ValueError('"Cheung et al. (2004)" method does not define '
                          'an augmented matrix with {0} terms, '
@@ -211,7 +211,7 @@ def polynomial_expansion_Finlayson2015(RGB,
 
     # TODO: Generalise polynomial expansion.
     existing_degrees = np.array([1, 2, 3, 4])
-    closest_degree = as_numeric(closest(existing_degrees, degree))
+    closest_degree = as_int(closest(existing_degrees, degree))
     if closest_degree != degree:
         raise ValueError('"Finlayson et al. (2015)" method does not define '
                          'a polynomial expansion for {0} degree, '
@@ -296,7 +296,7 @@ def polynomial_expansion_Vandermonde(a, degree=1):
     array([ 0.1722481 ,  0.0917066 ,  0.06416938,  1.        ])
     """
 
-    a = np.asarray(a)
+    a = as_float_array(a)
 
     a_e = np.transpose(np.vander(np.ravel(a), degree + 1))
     a_e = np.hstack(a_e.reshape(a_e.shape[0], -1, 3))
