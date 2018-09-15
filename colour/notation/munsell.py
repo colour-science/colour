@@ -751,8 +751,7 @@ def munsell_specification_to_xyY(specification):
 
     Examples
     --------
-    >>> spc = (2.1, 8.0, 17.9, 4)
-    >>> munsell_specification_to_xyY(spc)  # doctest: +ELLIPSIS
+    >>> munsell_specification_to_xyY((2.1, 8.0, 17.9, 4))  # doctest: +ELLIPSIS
     array([ 0.4400632...,  0.5522428...,  0.5761962...])
     >>> munsell_specification_to_xyY(8.9)  # doctest: +ELLIPSIS
     array([ 0.31006  ,  0.31616  ,  0.746134...])
@@ -1320,8 +1319,8 @@ def munsell_specification_to_munsell_colour(specification,
     >>> munsell_specification_to_munsell_colour(5.2)  # doctest: +SKIP
     'N5.2'
     >>> # Doctests skip for Python 2.x compatibility.
-    >>> spc = (10, 2.0, 4.0, 7)
-    >>> munsell_specification_to_munsell_colour(spc)  # doctest: +SKIP
+    >>> munsell_specification_to_munsell_colour((10, 2.0, 4.0, 7))
+    ... # doctest: +SKIP
     '10.0R 2.0/4.0'
     """
 
@@ -1630,9 +1629,9 @@ def interpolation_method_from_renotation_ovoid(specification):
 
     Examples
     --------
-    >>> spc = (2.5, 5.0, 12.0, 4)
     >>> # Doctests skip for Python 2.x compatibility.
-    >>> interpolation_method_from_renotation_ovoid()  # doctest: +SKIP
+    >>> interpolation_method_from_renotation_ovoid((2.5, 5.0, 12.0, 4))
+    ... # doctest: +SKIP
     'Radial'
     """
 
@@ -2126,17 +2125,17 @@ def maximum_chroma_from_renotation(hue, value, code):
     hue_ccw, code_ccw = hue_ccw
 
     maximum_chromas = _munsell_maximum_chromas_from_renotation()
-    spc_for_indexes = [chroma[0] for chroma in maximum_chromas]
+    specification_for_indexes = [chroma[0] for chroma in maximum_chromas]
 
-    ma_limit_mcw = maximum_chromas[spc_for_indexes.index((hue_cw, value_minus,
-                                                          code_cw))][1]
-    ma_limit_mccw = maximum_chromas[spc_for_indexes.index(
+    ma_limit_mcw = maximum_chromas[specification_for_indexes.index(
+        (hue_cw, value_minus, code_cw))][1]
+    ma_limit_mccw = maximum_chromas[specification_for_indexes.index(
         (hue_ccw, value_minus, code_ccw))][1]
 
     if value_plus <= 9:
-        ma_limit_pcw = maximum_chromas[spc_for_indexes.index(
+        ma_limit_pcw = maximum_chromas[specification_for_indexes.index(
             (hue_cw, value_plus, code_cw))][1]
-        ma_limit_pccw = maximum_chromas[spc_for_indexes.index(
+        ma_limit_pccw = maximum_chromas[specification_for_indexes.index(
             (hue_ccw, value_plus, code_ccw))][1]
         max_chroma = min(ma_limit_mcw, ma_limit_mccw, ma_limit_pcw,
                          ma_limit_pccw)
