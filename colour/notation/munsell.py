@@ -2125,17 +2125,17 @@ def maximum_chroma_from_renotation(hue, value, code):
     hue_ccw, code_ccw = hue_ccw
 
     maximum_chromas = _munsell_maximum_chromas_from_renotation()
-    spc_for_indexes = [chroma[0] for chroma in maximum_chromas]
+    specification_for_indexes = [chroma[0] for chroma in maximum_chromas]
 
-    ma_limit_mcw = maximum_chromas[spc_for_indexes.index((hue_cw, value_minus,
-                                                          code_cw))][1]
-    ma_limit_mccw = maximum_chromas[spc_for_indexes.index(
+    ma_limit_mcw = maximum_chromas[specification_for_indexes.index(
+        (hue_cw, value_minus, code_cw))][1]
+    ma_limit_mccw = maximum_chromas[specification_for_indexes.index(
         (hue_ccw, value_minus, code_ccw))][1]
 
     if value_plus <= 9:
-        ma_limit_pcw = maximum_chromas[spc_for_indexes.index(
+        ma_limit_pcw = maximum_chromas[specification_for_indexes.index(
             (hue_cw, value_plus, code_cw))][1]
-        ma_limit_pccw = maximum_chromas[spc_for_indexes.index(
+        ma_limit_pccw = maximum_chromas[specification_for_indexes.index(
             (hue_ccw, value_plus, code_ccw))][1]
         max_chroma = min(ma_limit_mcw, ma_limit_mccw, ma_limit_pcw,
                          ma_limit_pccw)
