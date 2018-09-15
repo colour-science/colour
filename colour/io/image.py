@@ -12,7 +12,8 @@ import numpy as np
 from collections import namedtuple
 from six import string_types
 
-from colour.utilities import CaseInsensitiveMapping, is_openimageio_installed
+from colour.utilities import (CaseInsensitiveMapping, as_float_array,
+                              is_openimageio_installed)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -192,7 +193,7 @@ def write_image(image, path, bit_depth='float32', attributes=None):
         bit_depth_specification = BIT_DEPTH_MAPPING[bit_depth]
         bit_depth = bit_depth_specification.openimageio
 
-        image = np.asarray(image)
+        image = as_float_array(image)
         image *= bit_depth_specification.domain
         if bit_depth_specification.clip:
             image = np.clip(image, 0, bit_depth_specification.domain)

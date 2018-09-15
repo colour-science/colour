@@ -93,8 +93,9 @@ from colour.colorimetry import (ASTME30815_PRACTISE_SHAPE,
                                 STANDARD_OBSERVERS_CMFS, blackbody_spd,
                                 spectral_to_XYZ)
 from colour.models import UCS_to_uv, XYZ_to_UCS
-from colour.utilities import (CaseInsensitiveMapping, as_numeric,
-                              filter_kwargs, tsplit, tstack, warning)
+from colour.utilities import (CaseInsensitiveMapping, as_float_array,
+                              as_numeric, filter_kwargs, tsplit, tstack,
+                              warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -634,7 +635,7 @@ def CCT_to_uv_Krystek1985(CCT):
     array([ 0.1837669...,  0.3093443...])
     """
 
-    T = np.asarray(CCT)
+    T = as_float_array(CCT)
 
     u = ((0.860117757 + 1.54118254 * 10e-4 * T + 1.28641212 * 10e-7 * T ** 2) /
          (1 + 8.42420235 * 10e-4 * T + 7.08145163 * 10e-7 * T ** 2))
@@ -909,7 +910,7 @@ def CCT_to_xy_Kang2002(CCT):
     array([ 0.313426...,  0.3235959...])
     """
 
-    CCT = np.asarray(CCT, dtype=np.float)
+    CCT = as_float_array(CCT)
 
     if np.any(CCT[np.asarray(np.logical_or(CCT < 1667, CCT > 25000))]):
         warning(('Correlated colour temperature must be in domain '
@@ -965,7 +966,7 @@ def CCT_to_xy_CIE_D(CCT):
     array([ 0.3127077...,  0.3291128...])
     """
 
-    CCT = np.asarray(CCT, dtype=np.float)
+    CCT = as_float_array(CCT)
 
     if np.any(CCT[np.asarray(np.logical_or(CCT < 4000, CCT > 25000))]):
         warning(('Correlated colour temperature must be in domain '

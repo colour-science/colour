@@ -28,8 +28,8 @@ import numpy as np
 
 from colour.algebra import spow
 from colour.adaptation import VON_KRIES_CAT
-from colour.utilities import (dot_vector, from_range_100, row_as_diagonal,
-                              to_domain_100, tsplit, tstack)
+from colour.utilities import (as_float_array, dot_vector, from_range_100,
+                              row_as_diagonal, to_domain_100, tsplit, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -127,7 +127,7 @@ def chromatic_adaptation_Fairchild1990(XYZ_1,
     XYZ_1 = to_domain_100(XYZ_1)
     XYZ_n = to_domain_100(XYZ_n)
     XYZ_r = to_domain_100(XYZ_r)
-    Y_n = np.asarray(Y_n)
+    Y_n = as_float_array(Y_n)
 
     LMS_1 = dot_vector(FAIRCHILD1990_XYZ_TO_RGB_MATRIX, XYZ_1)
     LMS_n = dot_vector(FAIRCHILD1990_XYZ_TO_RGB_MATRIX, XYZ_n)
@@ -235,12 +235,12 @@ def degrees_of_adaptation(LMS, Y_n, v=1 / 3, discount_illuminant=False):
     array([ 1.,  1.,  1.])
     """
 
-    LMS = np.asarray(LMS)
+    LMS = as_float_array(LMS)
     if discount_illuminant:
         return np.ones(LMS.shape)
 
-    Y_n = np.asarray(Y_n)
-    v = np.asarray(v)
+    Y_n = as_float_array(Y_n)
+    v = as_float_array(v)
 
     L, M, S = tsplit(LMS)
 

@@ -35,8 +35,8 @@ from colour.adaptation.cie1994 import (CIE1994_XYZ_TO_RGB_MATRIX, beta_1,
                                        exponential_factors,
                                        intermediate_values)
 from colour.models import XYZ_to_xy
-from colour.utilities import (dot_vector, from_range_degrees, to_domain_100,
-                              tsplit, tstack)
+from colour.utilities import (as_float_array, dot_vector, from_range_degrees,
+                              to_domain_100, tsplit, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -68,11 +68,9 @@ NAYATANI95_XYZ_TO_RGB_MATRIX : array_like, (3, 3)
 
 
 class Nayatani95_ReferenceSpecification(
-        namedtuple(
-            'Nayatani95_ReferenceSpecification',
-            ('L_star_P', 'C', 'theta', 'S', 'B_r', 'M', 'H', 'H_C',
-             'L_star_N'))
-):
+        namedtuple('Nayatani95_ReferenceSpecification',
+                   ('L_star_P', 'C', 'theta', 'S', 'B_r', 'M', 'H', 'H_C',
+                    'L_star_N'))):
     """
     Defines the *Nayatani (1995)* colour appearance model reference
     specification.
@@ -211,9 +209,9 @@ HC=None, L_star_N=50.0039154...)
 
     XYZ = to_domain_100(XYZ)
     XYZ_n = to_domain_100(XYZ_n)
-    Y_o = np.asarray(Y_o)
-    E_o = np.asarray(E_o)
-    E_or = np.asarray(E_or)
+    Y_o = as_float_array(Y_o)
+    E_o = as_float_array(E_o)
+    E_or = as_float_array(E_or)
 
     # Computing adapting luminance :math:`L_o` and normalising luminance
     # :math:`L_{or}` in in :math:`cd/m^2`.
@@ -311,8 +309,8 @@ def illuminance_to_luminance(E, Y_f):
     318.3098861...
     """
 
-    E = np.asarray(E)
-    Y_f = np.asarray(Y_f)
+    E = as_float_array(E)
+    Y_f = as_float_array(Y_f)
 
     return Y_f * E / (100 * np.pi)
 
@@ -365,8 +363,8 @@ def scaling_coefficient(x, y):
     array(1.0)
     """
 
-    x = np.asarray(x)
-    y = np.asarray(y)
+    x = as_float_array(x)
+    y = as_float_array(y)
 
     return np.where(x >= (20 * y), 1.758, 1)
 
@@ -417,9 +415,9 @@ def achromatic_response(RGB, bRGB_o, xez, bL_or, eR, eG, n=1):
     R, G, _B = tsplit(RGB)
     bR_o, bG_o, _bB_o = tsplit(bRGB_o)
     xi, eta, _zeta = tsplit(xez)
-    bL_or = np.asarray(bL_or)
-    eR = np.asarray(eR)
-    eG = np.asarray(eG)
+    bL_or = as_float_array(bL_or)
+    eR = as_float_array(eR)
+    eG = as_float_array(eG)
 
     Q = (2 / 3) * bR_o * eR * np.log10((R + n) / (20 * xi + n))
     Q += (1 / 3) * bG_o * eG * np.log10((G + n) / (20 * eta + n))
@@ -543,8 +541,8 @@ def brightness_correlate(bRGB_o, bL_or, Q):
     """
 
     bR_o, bG_o, _bB_o = tsplit(bRGB_o)
-    bL_or = np.asarray(bL_or)
-    Q = np.asarray(Q)
+    bL_or = as_float_array(bL_or)
+    Q = as_float_array(Q)
 
     B_r = (50 / bL_or) * ((2 / 3) * bR_o + (1 / 3) * bG_o) + Q
 
@@ -586,7 +584,7 @@ def ideal_white_brightness_correlate(bRGB_o, xez, bL_or, n):
 
     bR_o, bG_o, _bB_o = tsplit(bRGB_o)
     xi, eta, _zeta = tsplit(xez)
-    bL_or = np.asarray(bL_or)
+    bL_or = as_float_array(bL_or)
 
     B_rw = (2 / 3) * bR_o * 1.758 * np.log10((100 * xi + n) / (20 * xi + n))
     B_rw += (1 / 3) * bG_o * 1.758 * np.log10((100 * eta + n) / (20 * eta + n))
@@ -618,7 +616,7 @@ def achromatic_lightness_correlate(Q):
     49.9998829...
     """
 
-    Q = np.asarray(Q)
+    Q = as_float_array(Q)
 
     return Q + 50
 
@@ -648,8 +646,8 @@ def normalised_achromatic_lightness_correlate(B_r, B_rw):
     50.0039154...
     """
 
-    B_r = np.asarray(B_r)
-    B_rw = np.asarray(B_rw)
+    B_r = as_float_array(B_r)
+    B_rw = as_float_array(B_rw)
 
     return 100 * (B_r / B_rw)
 
@@ -678,8 +676,8 @@ def hue_angle(p, t):
     257.5250300...
     """
 
-    p = np.asarray(p)
-    t = np.asarray(t)
+    p = as_float_array(p)
+    t = as_float_array(t)
 
     h_L = np.degrees(np.arctan2(p, t)) % 360
 
@@ -755,10 +753,10 @@ def saturation_components(h, bL_or, t, p):
     array([-0.0028852..., -0.0130396...])
     """
 
-    h = np.asarray(h)
-    bL_or = np.asarray(bL_or)
-    t = np.asarray(t)
-    p = np.asarray(p)
+    h = as_float_array(h)
+    bL_or = as_float_array(bL_or)
+    t = as_float_array(t)
+    p = as_float_array(p)
 
     E_s = chromatic_strength_function(h)
     S_RG = (488.93 / bL_or) * E_s * t
@@ -791,8 +789,8 @@ def saturation_correlate(S_RG, S_YB):
     0.0133550...
     """
 
-    S_RG = np.asarray(S_RG)
-    S_YB = np.asarray(S_YB)
+    S_RG = as_float_array(S_RG)
+    S_YB = as_float_array(S_YB)
 
     S = np.hypot(S_RG, S_YB)
 
@@ -826,9 +824,9 @@ def chroma_components(L_star_P, S_RG, S_YB):
     array([-0.00288527, -0.01303961])
     """
 
-    L_star_P = np.asarray(L_star_P)
-    S_RG = np.asarray(S_RG)
-    S_YB = np.asarray(S_YB)
+    L_star_P = as_float_array(L_star_P)
+    S_RG = as_float_array(S_RG)
+    S_YB = as_float_array(S_YB)
 
     C_RG = spow(L_star_P / 50, 0.7) * S_RG
     C_YB = spow(L_star_P / 50, 0.7) * S_YB
@@ -860,8 +858,8 @@ def chroma_correlate(L_star_P, S):
     0.0133550...
     """
 
-    L_star_P = np.asarray(L_star_P)
-    S = np.asarray(S)
+    L_star_P = as_float_array(L_star_P)
+    S = as_float_array(S)
 
     C = spow(L_star_P / 50, 0.7) * S
 
@@ -895,9 +893,9 @@ def colourfulness_components(C_RG, C_YB, B_rw):
     (-0.0036136..., -0.0163312...)
     """
 
-    C_RG = np.asarray(C_RG)
-    C_YB = np.asarray(C_YB)
-    B_rw = np.asarray(B_rw)
+    C_RG = as_float_array(C_RG)
+    C_YB = as_float_array(C_YB)
+    B_rw = as_float_array(B_rw)
 
     M_RG = C_RG * B_rw / 100
     M_YB = C_YB * B_rw / 100
@@ -929,8 +927,8 @@ def colourfulness_correlate(C, B_rw):
     0.0167262...
     """
 
-    C = np.asarray(C)
-    B_rw = np.asarray(B_rw)
+    C = as_float_array(C)
+    B_rw = as_float_array(B_rw)
 
     M = C * B_rw / 100
 

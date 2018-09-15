@@ -63,9 +63,10 @@ import numpy as np
 
 from colour.biochemistry import substrate_concentration_MichealisMenten
 from colour.constants import CIE_E, CIE_K
-from colour.utilities import (
-    CaseInsensitiveMapping, as_numeric, filter_kwargs, from_range_1,
-    from_range_100, get_domain_range_scale, to_domain_10, to_domain_100)
+from colour.utilities import (CaseInsensitiveMapping, as_float_array,
+                              as_numeric, filter_kwargs, from_range_1,
+                              from_range_100, get_domain_range_scale,
+                              to_domain_10, to_domain_100)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -222,7 +223,7 @@ def luminance_CIE1976(L_star, Y_n=100):
     """
 
     L_star = to_domain_100(L_star)
-    Y_n = np.asarray(Y_n)
+    Y_n = as_float_array(Y_n)
 
     Y = as_numeric(
         np.where(

@@ -21,6 +21,8 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
+from colour.utilities import as_float_array
+
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
 __license__ = 'New BSD License - http://opensource.org/licenses/BSD-3-Clause'
@@ -60,7 +62,7 @@ def metric_mse(a, b):
     0.0012714...
     """
 
-    return np.mean((np.asarray(a) - np.asarray(b)) ** 2)
+    return np.mean((as_float_array(a) - as_float_array(b)) ** 2)
 
 
 def metric_psnr(a, b, max_a=1):

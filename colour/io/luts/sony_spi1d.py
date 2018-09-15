@@ -17,7 +17,7 @@ import re
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
 from colour.io.luts import LUT1D, LUT2D, LUTSequence
-from colour.utilities import warning
+from colour.utilities import as_float_array, warning
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -121,7 +121,7 @@ def read_LUT_SonySPI1D(path):
             else:
                 table.append(_parse_array(tokens))
 
-    table = np.asarray(table)
+    table = as_float_array(table)
     if dimensions == 1:
         return LUT1D(
             np.squeeze(table),

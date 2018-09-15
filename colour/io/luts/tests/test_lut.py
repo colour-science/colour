@@ -478,13 +478,13 @@ class TestLUT1D(TestLUT):
             ------------
 
             Dimensions : 1
-            Domain     : [0 1]
+            Domain     : [ 0.  1.]
             Size       : (10,)""")[1:]
         self._repr = textwrap.dedent("""
     LUT1D([ 0.        ,  0.11111111,  0.22222222,  0.33333333,  0.44444444,
             0.55555556,  0.66666667,  0.77777778,  0.88888889,  1.        ],
           name='Nemo',
-          domain=[0, 1])""")[1:]
+          domain=[ 0.,  1.])""")[1:]
         self._applied_1 = np.array([
             [[0.98453144, 0.76000720, 0.98718436],
              [0.85784314, 0.84855994, 0.49723089]],
@@ -537,8 +537,8 @@ class TestLUT2D(TestLUT):
             ------------
 
             Dimensions : 2
-            Domain     : [[0 0 0]
-                          [1 1 1]]
+            Domain     : [[ 0.  0.  0.]
+                          [ 1.  1.  1.]]
             Size       : (10, 3)""")[1:]
         self._repr = textwrap.dedent("""
             LUT2D([[ 0.        ,  0.        ,  0.        ],
@@ -552,8 +552,8 @@ class TestLUT2D(TestLUT):
                    [ 0.88888889,  0.88888889,  0.88888889],
                    [ 1.        ,  1.        ,  1.        ]],
                   name='Nemo',
-                  domain=[[0, 0, 0],
-                          [1, 1, 1]])""")[1:]
+                  domain=[[ 0.,  0.,  0.],
+                          [ 1.,  1.,  1.]])""")[1:]
         self._applied_1 = np.array([
             [[0.98453144, 0.76000720, 0.98718436],
              [0.85784314, 0.84855994, 0.49723089]],
@@ -611,8 +611,8 @@ class TestLUT3D(TestLUT):
             ------------
 
             Dimensions : 3
-            Domain     : [[0 0 0]
-                          [1 1 1]]
+            Domain     : [[ 0.  0.  0.]
+                          [ 1.  1.  1.]]
             Size       : (33, 33, 33, 3)""")[1:]
         self._repr = 'Undefined'
         self._applied_1 = np.array([
@@ -767,23 +767,23 @@ class TestLUTSequence(unittest.TestCase):
                 ---------------
 
                 Dimensions : 1
-                Domain     : [0 1]
+                Domain     : [ 0.  1.]
                 Size       : (16,)
 
                 LUT3D - Nemo 3D
                 ---------------
 
                 Dimensions : 3
-                Domain     : [[0 0 0]
-                              [1 1 1]]
+                Domain     : [[ 0.  0.  0.]
+                              [ 1.  1.  1.]]
                 Size       : (16, 16, 16, 3)
 
                 LUT2D - Nemo 2D
                 ---------------
 
                 Dimensions : 2
-                Domain     : [[0 0 0]
-                              [1 1 1]]
+                Domain     : [[ 0.  0.  0.]
+                              [ 1.  1.  1.]]
                 Size       : (16, 3)""")[1:])
 
     def test__repr__(self):
@@ -806,7 +806,7 @@ class TestLUTSequence(unittest.TestCase):
 1.05833333,
                         1.125     ],
                       name='Nemo 1D',
-                      domain=[0, 1]),
+                      domain=[ 0.,  1.]),
                 LUT3D([[[[ 0.  ,  0.  ,  0.  ],
                          [ 0.  ,  0.  ,  0.25],
                          [ 0.  ,  0.  ,  0.5 ],
@@ -957,8 +957,8 @@ class TestLUTSequence(unittest.TestCase):
                          [ 1.  ,  1.  ,  0.75],
                          [ 1.  ,  1.  ,  1.  ]]]],
                       name='Nemo 3D',
-                      domain=[[0, 0, 0],
-                              [1, 1, 1]]),
+                      domain=[[ 0.,  0.,  0.],
+                              [ 1.,  1.,  1.]]),
                 LUT2D([[ 0.  ,  0.  ,  0.  ],
                        [ 0.05,  0.05,  0.05],
                        [ 0.1 ,  0.1 ,  0.1 ],
@@ -976,8 +976,8 @@ class TestLUTSequence(unittest.TestCase):
                        [ 0.7 ,  0.7 ,  0.7 ],
                        [ 0.75,  0.75,  0.75]],
                       name='Nemo 2D',
-                      domain=[[0, 0, 0],
-                              [1, 1, 1]])
+                      domain=[[ 0.,  0.,  0.],
+                              [ 1.,  1.,  1.]])
             )""" [1:]))
 
     def test__eq__(self):

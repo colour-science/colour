@@ -45,8 +45,8 @@ import numpy as np
 from colour.models.rgb.transfer_functions import (
     eotf_BT1886, eotf_ST2084, eotf_reverse_BT1886, oetf_ARIBSTDB67, oetf_BT709,
     oetf_ST2084, oetf_reverse_ARIBSTDB67, oetf_reverse_BT709)
-from colour.utilities import (as_numeric, from_range_1, to_domain_1, tsplit,
-                              tstack, warning)
+from colour.utilities import (as_float_array, as_numeric, from_range_1,
+                              to_domain_1, tsplit, tstack, warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -302,7 +302,7 @@ def ootf_BT2100_PQ(E):
     779.9883608...
     """
 
-    E = np.asarray(E)
+    E = as_float_array(E)
 
     return 100 * eotf_BT1886(oetf_BT709(59.5208 * E))
 
@@ -349,7 +349,7 @@ def ootf_reverse_BT2100_PQ(F_D):
     0.1000000...
     """
 
-    F_D = np.asarray(F_D)
+    F_D = as_float_array(F_D)
 
     return oetf_reverse_BT709(eotf_reverse_BT1886(F_D / 100)) / 59.5208
 

@@ -35,7 +35,8 @@ import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
 from colour.constants import DEFAULT_FLOAT_DTYPE
-from colour.utilities import from_range_1, to_domain_1, tsplit, tstack
+from colour.utilities import (as_float_array, from_range_1, to_domain_1,
+                              tsplit, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -97,7 +98,7 @@ def XYZ_to_xyY(
 
     XYZ = to_domain_1(XYZ)
     X, Y, Z = tsplit(XYZ)
-    xy_w = np.asarray(illuminant)
+    xy_w = as_float_array(illuminant)
 
     XYZ_n = np.zeros(XYZ.shape)
     XYZ_n[..., 0:2] = xy_w
@@ -222,7 +223,7 @@ def xy_to_xyY(xy, Y=1):
     array([   0.2641477...,    0.3777000...,  100.        ])
     """
 
-    xy = np.asarray(xy)
+    xy = as_float_array(xy)
     Y = to_domain_1(Y)
 
     shape = xy.shape
@@ -280,7 +281,7 @@ def xyY_to_xy(xyY):
     array([ 0.2641477...,  0.3777000...])
     """
 
-    xyY = np.asarray(xyY)
+    xyY = as_float_array(xyY)
 
     # Assuming ``xyY`` is actually a *xy* chromaticity coordinates argument and
     # returning it directly.

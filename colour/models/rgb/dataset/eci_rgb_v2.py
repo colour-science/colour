@@ -28,6 +28,7 @@ from functools import partial
 from colour.colorimetry import (ILLUMINANTS, lightness_CIE1976,
                                 luminance_CIE1976)
 from colour.models.rgb import RGB_Colourspace, normalised_primary_matrix
+from colour.utilities import as_float_array
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -106,7 +107,7 @@ def _scale_domain_0_100_range_0_1(a, callable_):
         Scaled *luminance* :math:`Y` or *Lightness* :math:`L^*` array.
     """
 
-    a = np.asarray(a)
+    a = as_float_array(a)
 
     return callable_(a * 100, Y_n=100) / 100
 

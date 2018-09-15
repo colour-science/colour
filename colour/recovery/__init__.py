@@ -12,9 +12,8 @@ References
 
 from __future__ import absolute_import
 
-import numpy as np
-
-from colour.utilities import CaseInsensitiveMapping, filter_kwargs
+from colour.utilities import (CaseInsensitiveMapping, as_float_array,
+                              filter_kwargs)
 
 from .dataset import *  # noqa
 from . import dataset
@@ -100,6 +99,7 @@ def XYZ_to_spectral(XYZ, method='Meng 2015', **kwargs):
 
     *Meng (2015)* reflectance recovery:
 
+    >>> import numpy as np
     >>> from colour.utilities import numpy_print_options
     >>> from colour.colorimetry import spectral_to_XYZ_integration
     >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
@@ -184,7 +184,7 @@ def XYZ_to_spectral(XYZ, method='Meng 2015', **kwargs):
     array([ 0.0753341...,  0.1054586...,  0.0977855...])
     """
 
-    a = np.asarray(XYZ)
+    a = as_float_array(XYZ)
 
     function = REFLECTANCE_RECOVERY_METHODS[method]
 

@@ -26,8 +26,8 @@ except ImportError:
 from colour.algebra import Extrapolator, KernelInterpolator
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import AbstractContinuousFunction
-from colour.utilities import (fill_nan, is_pandas_installed, tsplit, tstack,
-                              warning)
+from colour.utilities import (as_array, fill_nan, is_pandas_installed, tsplit,
+                              tstack, warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -1130,10 +1130,10 @@ class Signal(AbstractContinuousFunction):
         if domain is not None and range_u is not None:
             assert len(domain) == len(range_u), (
                 'User "domain" is not compatible with unpacked range!')
-            domain_u = np.asarray(domain, dtype)
+            domain_u = as_array(domain, dtype)
 
         if range_u is not None:
-            range_u = np.asarray(range_u, dtype)
+            range_u = as_array(range_u, dtype)
 
         return domain_u, range_u
 

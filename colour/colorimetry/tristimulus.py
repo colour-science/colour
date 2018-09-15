@@ -38,8 +38,8 @@ from colour.algebra import lagrange_coefficients
 from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE, SpectralShape,
                                 STANDARD_OBSERVERS_CMFS, ones_spd)
 from colour.constants import DEFAULT_INT_DTYPE
-from colour.utilities import (CaseInsensitiveMapping, filter_kwargs,
-                              from_range_100, tsplit, warning)
+from colour.utilities import (CaseInsensitiveMapping, as_float_array,
+                              filter_kwargs, from_range_100, tsplit, warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -138,8 +138,8 @@ def lagrange_coefficients_ASTME202211(interval=10, interval_type='inner'):
         r_n += 1
         d = 4
 
-    lica = _LAGRANGE_INTERPOLATING_COEFFICIENTS_CACHE[name_lica] = (np.asarray(
-        [lagrange_coefficients(r, d) for r in r_n]))
+    lica = _LAGRANGE_INTERPOLATING_COEFFICIENTS_CACHE[name_lica] = (
+        as_float_array([lagrange_coefficients(r, d) for r in r_n]))
 
     return lica
 
@@ -919,7 +919,7 @@ def multi_spectral_to_XYZ_integration(
             [ 24.7830551...,  26.2221584...,  36.4430633...]]])
     """
 
-    msa = np.asarray(msa)
+    msa = as_float_array(msa)
 
     if cmfs.shape != shape:
         warning('Aligning "{0}" cmfs shape to "{1}".'.format(cmfs.name, shape))
@@ -1108,6 +1108,6 @@ def wavelength_to_XYZ(
                 wavelength, cmfs_shape.start, cmfs_shape.end))
 
     XYZ = np.reshape(cmfs[np.ravel(wavelength)],
-                     np.asarray(wavelength).shape + (3, ))
+                     as_float_array(wavelength).shape + (3, ))
 
     return XYZ

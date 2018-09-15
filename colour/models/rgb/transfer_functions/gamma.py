@@ -20,7 +20,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.algebra import spow
-from colour.utilities import as_numeric
+from colour.utilities import as_float_array, as_numeric
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -83,8 +83,8 @@ def function_gamma(a, exponent=1, negative_number_handling='Indeterminate'):
     0.0
     """
 
-    a = np.asarray(a)
-    exponent = np.asarray(exponent)
+    a = as_float_array(a)
+    exponent = as_float_array(exponent)
 
     negative_number_handling = negative_number_handling.lower()
     if negative_number_handling == 'indeterminate':

@@ -33,8 +33,8 @@ import numpy as np
 from collections import namedtuple
 
 from colour.adaptation import CMCCAT2000_CAT
-from colour.utilities import (CaseInsensitiveMapping, dot_vector,
-                              from_range_100, to_domain_100)
+from colour.utilities import (CaseInsensitiveMapping, as_float_array,
+                              dot_vector, from_range_100, to_domain_100)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -162,8 +162,8 @@ def chromatic_adaptation_forward_CMCCAT2000(
     XYZ = to_domain_100(XYZ)
     XYZ_w = to_domain_100(XYZ_w)
     XYZ_wr = to_domain_100(XYZ_wr)
-    L_A1 = np.asarray(L_A1)
-    L_A2 = np.asarray(L_A2)
+    L_A1 = as_float_array(L_A1)
+    L_A2 = as_float_array(L_A2)
 
     RGB = dot_vector(CMCCAT2000_CAT, XYZ)
     RGB_w = dot_vector(CMCCAT2000_CAT, XYZ_w)
@@ -254,8 +254,8 @@ def chromatic_adaptation_reverse_CMCCAT2000(
     XYZ_c = to_domain_100(XYZ_c)
     XYZ_w = to_domain_100(XYZ_w)
     XYZ_wr = to_domain_100(XYZ_wr)
-    L_A1 = np.asarray(L_A1)
-    L_A2 = np.asarray(L_A2)
+    L_A1 = as_float_array(L_A1)
+    L_A2 = as_float_array(L_A2)
 
     RGB_c = dot_vector(CMCCAT2000_CAT, XYZ_c)
     RGB_w = dot_vector(CMCCAT2000_CAT, XYZ_w)

@@ -367,7 +367,7 @@ def normalise_maximum(a, axis=None, factor=1, clip=True):
     array([ 1.        ,  0.6564384...,  0.4576822...])
     """
 
-    a = np.asarray(a)
+    a = as_float_array(a)
 
     maximum = np.max(a, axis=axis)
     a *= (1 / maximum[..., np.newaxis]) * factor
@@ -398,20 +398,20 @@ def interval(distribution, unique=True):
 
     >>> y = np.array([1, 2, 3, 4, 5])
     >>> interval(y)
-    array([1])
+    array([ 1.])
     >>> interval(y, False)
-    array([1, 1, 1, 1])
+    array([ 1.,  1.,  1.,  1.])
 
     Non-uniformly spaced variable:
 
     >>> y = np.array([1, 2, 3, 4, 8])
     >>> interval(y)
-    array([1, 4])
+    array([ 1.,  4.])
     >>> interval(y, False)
-    array([1, 1, 1, 4])
+    array([ 1.,  1.,  1.,  4.])
     """
 
-    distribution = np.asarray(distribution)
+    distribution = as_float_array(distribution)
     i = np.arange(distribution.size - 1)
 
     differences = np.abs(distribution[i + 1] - distribution[i])
@@ -487,8 +487,8 @@ def in_array(a, b, tolerance=EPSILON):
     array([ True,  True], dtype=bool)
     """
 
-    a = np.asarray(a)
-    b = np.asarray(b)
+    a = as_float_array(a)
+    b = as_float_array(b)
 
     d = np.abs(np.ravel(a) - b[..., np.newaxis])
 
@@ -828,7 +828,7 @@ def centroid(a):
     array([2, 3])
     """
 
-    a = np.asarray(a)
+    a = as_float_array(a)
 
     a_s = np.sum(a)
 
@@ -874,7 +874,7 @@ def linear_conversion(a, old_range, new_range):
     array([  1.,   2.,   3.,   4.,   5.,   6.,   7.,   8.,   9.,  10.])
     """
 
-    a = np.asarray(a)
+    a = as_float_array(a)
 
     in_min, in_max = tsplit(old_range)
     out_min, out_max = tsplit(new_range)
@@ -909,9 +909,9 @@ def lerp(a, b, c):
     1.0
     """
 
-    a = np.asarray(a)
-    b = np.asarray(b)
-    c = np.asarray(c)
+    a = as_float_array(a)
+    b = as_float_array(b)
+    c = as_float_array(c)
 
     return (1 - c) * a + c * b
 
@@ -986,7 +986,7 @@ def ndarray_write(a):
     ...     a +=1
     """
 
-    a = np.asarray(a)
+    a = as_float_array(a)
 
     a.setflags(write=True)
 

@@ -23,7 +23,7 @@ Michaelis-Menten_kinetics
 
 from __future__ import division, unicode_literals
 
-import numpy as np
+from colour.utilities import as_float_array
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -68,9 +68,9 @@ def reaction_rate_MichealisMenten(S, V_max, K_m):
     0.9615384...
     """
 
-    S = np.asarray(S)
-    V_max = np.asarray(V_max)
-    K_m = np.asarray(K_m)
+    S = as_float_array(S)
+    V_max = as_float_array(V_max)
+    K_m = as_float_array(K_m)
 
     v = (V_max * S) / (K_m + S)
 
@@ -109,9 +109,9 @@ def substrate_concentration_MichealisMenten(v, V_max, K_m):
     0.4999999...
     """
 
-    v = np.asarray(v)
-    V_max = np.asarray(V_max)
-    K_m = np.asarray(K_m)
+    v = as_float_array(v)
+    V_max = as_float_array(V_max)
+    K_m = as_float_array(K_m)
 
     S = (v * K_m) / (V_max - v)
 

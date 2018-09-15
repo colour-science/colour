@@ -34,8 +34,8 @@ from six import add_metaclass
 
 from colour.algebra import LinearInterpolator, table_interpolation_trilinear
 from colour.constants import DEFAULT_INT_DTYPE
-from colour.utilities import (is_iterable, is_string, linear_conversion,
-                              tsplit, tstack)
+from colour.utilities import (as_float_array, is_iterable, is_string,
+                              linear_conversion, tsplit, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -303,8 +303,8 @@ class AbstractLUT:
                     self.__class__.__name__, self.name,
                     '-' * (len(self.__class__.__name__) + 3 + len(self.name)),
                     self.dimensions, _indent_array(self.domain),
-                    str(self.table.shape).replace("L", ""),
-                    '\n{0}'.format('\n'.join(comments)) if comments else '')
+                    str(self.table.shape).replace("L", ""), '\n{0}'.format(
+                        '\n'.join(comments)) if comments else '')
 
     def __repr__(self):
         """
@@ -584,7 +584,7 @@ class AbstractLUT:
             if isinstance(a, AbstractLUT):
                 operand = a.table
             else:
-                operand = np.asarray(a)
+                operand = as_float_array(a)
 
             self.table = ioperator(self.table, operand)
 
@@ -762,7 +762,7 @@ class LUT1D(AbstractLUT):
     ----------------
     <BLANKLINE>
     Dimensions : 1
-    Domain     : [0 1]
+    Domain     : [ 0.  1.]
     Size       : (16,)
 
     Instantiating a LUT using a custom table with 16 elements:
@@ -772,7 +772,7 @@ class LUT1D(AbstractLUT):
     --------...
     <BLANKLINE>
     Dimensions : 1
-    Domain     : [0 1]
+    Domain     : [ 0.  1.]
     Size       : (16,)
 
     Instantiating a LUT using a custom table with 16 elements, custom name,
@@ -821,7 +821,7 @@ class LUT1D(AbstractLUT):
             Validated table as a :class:`ndarray` instance.
         """
 
-        table = np.asarray(table)
+        table = as_float_array(table)
 
         assert len(table.shape) == 1, 'The table must be a 1D array!'
 
@@ -844,7 +844,7 @@ class LUT1D(AbstractLUT):
             Validated domain as a :class:`ndarray` instance.
         """
 
-        domain = np.asarray(domain)
+        domain = as_float_array(domain)
 
         assert domain.shape == (2, ), (
             'The domain shape must be equal to (2, )!')
@@ -961,7 +961,7 @@ class LUT1D(AbstractLUT):
         -------------------------------------
         <BLANKLINE>
         Dimensions : 1
-        Domain     : [0 1]
+        Domain     : [ 0.  1.]
         Size       : (10,)
         >>> print(LUT.as_LUT(LUT2D))
         LUT2D - Unity 10 - Converted 1D to 2D
@@ -1017,8 +1017,8 @@ class LUT2D(AbstractLUT):
     ----------------
     <BLANKLINE>
     Dimensions : 2
-    Domain     : [[0 0 0]
-                  [1 1 1]]
+    Domain     : [[ 0.  0.  0.]
+                  [ 1.  1.  1.]]
     Size       : (16, 3)
 
     Instantiating a LUT using a custom table with 16x3 elements:
@@ -1028,8 +1028,8 @@ class LUT2D(AbstractLUT):
     --------...
     <BLANKLINE>
     Dimensions : 2
-    Domain     : [[0 0 0]
-                  [1 1 1]]
+    Domain     : [[ 0.  0.  0.]
+                  [ 1.  1.  1.]]
     Size       : (16, 3)
 
     Instantiating a LUT using a custom table with 16x3 elements, custom name,
@@ -1079,7 +1079,7 @@ class LUT2D(AbstractLUT):
             Validated table as a :class:`ndarray` instance.
         """
 
-        table = np.asarray(table)
+        table = as_float_array(table)
 
         assert len(table.shape) == 2, 'The table must be a 2D array!'
 
@@ -1102,7 +1102,7 @@ class LUT2D(AbstractLUT):
             Validated domain as a :class:`ndarray` instance.
         """
 
-        domain = np.asarray(domain)
+        domain = as_float_array(domain)
 
         assert domain.shape == (2, 3), (
             'The domain shape must be equal to (2, 3)!')
@@ -1235,23 +1235,23 @@ class LUT2D(AbstractLUT):
         -------------------------------------
         <BLANKLINE>
         Dimensions : 1
-        Domain     : [0 1]
+        Domain     : [ 0.  1.]
         Size       : (10,)
         >>> print(LUT.as_LUT(LUT2D))
         LUT2D - Unity 10 - Converted 2D to 2D
         -------------------------------------
         <BLANKLINE>
         Dimensions : 2
-        Domain     : [[0 0 0]
-                      [1 1 1]]
+        Domain     : [[ 0.  0.  0.]
+                      [ 1.  1.  1.]]
         Size       : (10, 3)
         >>> print(LUT.as_LUT(LUT3D, force_conversion=True))
         LUT3D - Unity 10 - Converted 2D to 3D
         -------------------------------------
         <BLANKLINE>
         Dimensions : 3
-        Domain     : [[0 0 0]
-                      [1 1 1]]
+        Domain     : [[ 0.  0.  0.]
+                      [ 1.  1.  1.]]
         Size       : (33, 33, 33, 3)
         """
 
@@ -1291,8 +1291,8 @@ class LUT3D(AbstractLUT):
     ----------------
     <BLANKLINE>
     Dimensions : 3
-    Domain     : [[0 0 0]
-                  [1 1 1]]
+    Domain     : [[ 0.  0.  0.]
+                  [ 1.  1.  1.]]
     Size       : (16, 16, 16, 3)
 
     Instantiating a LUT using a custom table with 16x16x16x3 elements:
@@ -1302,8 +1302,8 @@ class LUT3D(AbstractLUT):
     --------...
     <BLANKLINE>
     Dimensions : 3
-    Domain     : [[0 0 0]
-                  [1 1 1]]
+    Domain     : [[ 0.  0.  0.]
+                  [ 1.  1.  1.]]
     Size       : (16, 16, 16, 3)
 
     Instantiating a LUT using a custom table with 16x16x16x3 elements, custom
@@ -1353,7 +1353,7 @@ class LUT3D(AbstractLUT):
             Validated table as a :class:`ndarray` instance.
         """
 
-        table = np.asarray(table)
+        table = as_float_array(table)
 
         assert len(table.shape) == 4, 'The table must be a 4D array!'
         assert len(set(
@@ -1378,7 +1378,7 @@ class LUT3D(AbstractLUT):
             Validated domain as a :class:`ndarray` instance.
         """
 
-        domain = np.asarray(domain)
+        domain = as_float_array(domain)
 
         assert domain.shape == (2, 3), (
             'The domain shape must be equal to (2, 3)!')
@@ -1541,23 +1541,23 @@ class LUT3D(AbstractLUT):
         -------------------------------------
         <BLANKLINE>
         Dimensions : 1
-        Domain     : [0 1]
+        Domain     : [ 0.  1.]
         Size       : (10,)
         >>> print(LUT.as_LUT(LUT2D, force_conversion=True))
         LUT2D - Unity 33 - Converted 3D to 2D
         -------------------------------------
         <BLANKLINE>
         Dimensions : 2
-        Domain     : [[0 0 0]
-                      [1 1 1]]
+        Domain     : [[ 0.  0.  0.]
+                      [ 1.  1.  1.]]
         Size       : (10, 3)
         >>> print(LUT.as_LUT(LUT3D))
         LUT3D - Unity 33 - Converted 3D to 3D
         -------------------------------------
         <BLANKLINE>
         Dimensions : 3
-        Domain     : [[0 0 0]
-                      [1 1 1]]
+        Domain     : [[ 0.  0.  0.]
+                      [ 1.  1.  1.]]
         Size       : (33, 33, 33, 3)
         """
 
@@ -1618,14 +1618,14 @@ def LUT_to_LUT(LUT, cls, force_conversion=False, **kwargs):
     -------------------------------------
     <BLANKLINE>
     Dimensions : 1
-    Domain     : [0 1]
+    Domain     : [ 0.  1.]
     Size       : (10,)
     >>> print(LUT_to_LUT(LUT3D(), LUT1D, force_conversion=True))
     LUT1D - Unity 33 - Converted 3D to 1D
     -------------------------------------
     <BLANKLINE>
     Dimensions : 1
-    Domain     : [0 1]
+    Domain     : [ 0.  1.]
     Size       : (10,)
     """
 
@@ -1650,7 +1650,7 @@ def LUT_to_LUT(LUT, cls, force_conversion=False, **kwargs):
         if 'size' in kwargs:
             del kwargs['size']
 
-        channel_weights = np.asarray(
+        channel_weights = as_float_array(
             kwargs.get('channel_weights', np.full(3, 1 / 3)))
         if 'channel_weights' in kwargs:
             del kwargs['channel_weights']
@@ -1773,23 +1773,23 @@ class LUTSequence(MutableSequence):
         ----------------
     <BLANKLINE>
         Dimensions : 1
-        Domain     : [0 1]
+        Domain     : [ 0.  1.]
         Size       : (10,)
     <BLANKLINE>
         LUT3D - Unity 3
         ---------------
     <BLANKLINE>
         Dimensions : 3
-        Domain     : [[0 0 0]
-                      [1 1 1]]
+        Domain     : [[ 0.  0.  0.]
+                      [ 1.  1.  1.]]
         Size       : (3, 3, 3, 3)
     <BLANKLINE>
         LUT2D - Unity 10
         ----------------
     <BLANKLINE>
         Dimensions : 2
-        Domain     : [[0 0 0]
-                      [1 1 1]]
+        Domain     : [[ 0.  0.  0.]
+                      [ 1.  1.  1.]]
         Size       : (10, 3)
     """
 

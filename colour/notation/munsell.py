@@ -129,10 +129,11 @@ from colour.constants import (DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE,
 from colour.models import Lab_to_LCHab, XYZ_to_Lab, XYZ_to_xy, xyY_to_XYZ
 from colour.volume import is_within_macadam_limits
 from colour.notation import MUNSELL_COLOURS_ALL
-from colour.utilities import (
-    CaseInsensitiveMapping, Lookup, as_numeric, domain_range_scale,
-    from_range_1, from_range_10, get_domain_range_scale, to_domain_1,
-    to_domain_10, to_domain_100, is_integer, is_numeric, tsplit, warning)
+from colour.utilities import (CaseInsensitiveMapping, Lookup, as_float_array,
+                              as_numeric, domain_range_scale, from_range_1,
+                              from_range_10, get_domain_range_scale,
+                              to_domain_1, to_domain_10, to_domain_100,
+                              is_integer, is_numeric, tsplit, warning)
 
 __author__ = 'Colour Developers, Paul Centore'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -2006,7 +2007,7 @@ def xy_from_renotation_ovoid(specification):
                                      (rho_minus, rho_plus))(hue_angle)
 
             x, y = tsplit(
-                polar_to_cartesian((rho, np.radians(theta))) + np.asarray(
+                polar_to_cartesian((rho, np.radians(theta))) + as_float_array(
                     (x_grey, y_grey)))
         else:
             raise ValueError('Invalid interpolation method: "{0}"'.format(

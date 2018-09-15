@@ -44,10 +44,10 @@ from colour.adaptation import CAT02_CAT
 from colour.appearance.hunt import (HPE_TO_XYZ_MATRIX, XYZ_TO_HPE_MATRIX,
                                     luminance_level_adaptation_factor)
 from colour.constants import EPSILON
-from colour.utilities import (CaseInsensitiveMapping, as_namedtuple,
-                              as_numeric, from_range_degrees, dot_matrix,
-                              dot_vector, from_range_100, to_domain_100,
-                              to_domain_degrees, tsplit, tstack)
+from colour.utilities import (
+    CaseInsensitiveMapping, as_float_array, as_int_array, as_namedtuple,
+    as_numeric, from_range_degrees, dot_matrix, dot_vector, from_range_100,
+    to_domain_100, to_domain_degrees, tsplit, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -250,8 +250,8 @@ s=2.3603053..., Q=195.3713259..., M=0.1088421..., H=278.0607358..., HC=None)
     XYZ = to_domain_100(XYZ)
     XYZ_w = to_domain_100(XYZ_w)
     _X_w, Y_w, _Z_w = tsplit(XYZ_w)
-    L_A = np.asarray(L_A)
-    Y_b = np.asarray(Y_b)
+    L_A = as_float_array(L_A)
+    Y_b = as_float_array(Y_b)
 
     n, F_L, N_bb, N_cb, z = tsplit(
         viewing_condition_dependent_parameters(Y_b, Y_w, L_A))
@@ -400,7 +400,7 @@ def CIECAM02_to_XYZ(CIECAM02_specification,
 
     J, C, h, _s, _Q, M, _H, _HC = as_namedtuple(CIECAM02_specification,
                                                 CIECAM02_Specification)
-    L_A = np.asarray(L_A)
+    L_A = as_float_array(L_A)
 
     h = to_domain_degrees(h)
     XYZ_w = to_domain_100(XYZ_w)
@@ -491,7 +491,7 @@ def chromatic_induction_factors(n):
     array([ 1.000304...,  1.000304...])
     """
 
-    n = np.asarray(n)
+    n = as_float_array(n)
 
     N_bb = N_cb = 0.725 * spow(1 / n, 0.2)
     N_bbcb = tstack([N_bb, N_cb])
@@ -519,7 +519,7 @@ def base_exponential_non_linearity(n):
     1.9272135...
     """
 
-    n = np.asarray(n)
+    n = as_float_array(n)
 
     z = 1.48 + np.sqrt(n)
 
@@ -551,8 +551,8 @@ def viewing_condition_dependent_parameters(Y_b, Y_w, L_A):
     array([ 0.2...,  1.1675444...,  1.000304...,  1.000304...,  1.9272136...])
     """
 
-    Y_b = np.asarray(Y_b)
-    Y_w = np.asarray(Y_w)
+    Y_b = as_float_array(Y_b)
+    Y_w = as_float_array(Y_w)
 
     n = Y_b / Y_w
 
@@ -587,8 +587,8 @@ def degree_of_adaptation(F, L_A):
     0.9944687...
     """
 
-    F = np.asarray(F)
-    L_A = np.asarray(L_A)
+    F = as_float_array(F)
+    L_A = as_float_array(L_A)
 
     D = F * (1 - (1 / 3.6) * np.exp((-L_A - 42) / 92))
 
@@ -628,10 +628,10 @@ def full_chromatic_adaptation_forward(RGB, RGB_w, Y_w, D):
     array([ 19.9937078...,  20.0039363...,  20.0132638...])
     """
 
-    RGB = np.asarray(RGB)
-    RGB_w = np.asarray(RGB_w)
-    Y_w = np.asarray(Y_w)
-    D = np.asarray(D)
+    RGB = as_float_array(RGB)
+    RGB_w = as_float_array(RGB_w)
+    Y_w = as_float_array(Y_w)
+    D = as_float_array(D)
 
     RGB_c = (((Y_w[..., np.newaxis] * D[..., np.newaxis] / RGB_w) + 1 -
               D[..., np.newaxis]) * RGB)
@@ -671,10 +671,10 @@ def full_chromatic_adaptation_reverse(RGB, RGB_w, Y_w, D):
     array([ 18.985456,  20.707422,  21.747482])
     """
 
-    RGB = np.asarray(RGB)
-    RGB_w = np.asarray(RGB_w)
-    Y_w = np.asarray(Y_w)
-    D = np.asarray(D)
+    RGB = as_float_array(RGB)
+    RGB_w = as_float_array(RGB_w)
+    Y_w = as_float_array(Y_w)
+    D = as_float_array(D)
 
     RGB_c = (RGB / (Y_w[..., np.newaxis] *
                     (D[..., np.newaxis] / RGB_w) + 1 - D[..., np.newaxis]))
@@ -767,8 +767,8 @@ def post_adaptation_non_linear_response_compression_forward(RGB, F_L):
     array([ 7.9463202...,  7.9471152...,  7.9489959...])
     """
 
-    RGB = np.asarray(RGB)
-    F_L = np.asarray(F_L)
+    RGB = as_float_array(RGB)
+    F_L = as_float_array(F_L)
 
     F_L_RGB = spow(F_L[..., np.newaxis] * RGB / 100, 0.42)
     RGB_c = (400 * F_L_RGB) / (27.13 + F_L_RGB) + 0.1
@@ -802,8 +802,8 @@ def post_adaptation_non_linear_response_compression_reverse(RGB, F_L):
     array([ 19.9969397...,  20.0018612...,  20.0135052...])
     """
 
-    RGB = np.asarray(RGB)
-    F_L = np.asarray(F_L)
+    RGB = as_float_array(RGB)
+    F_L = as_float_array(F_L)
 
     RGB_p = (((100 / F_L[..., np.newaxis]) * spow(
         (27.13 * (RGB - 0.1)) / (400 - (RGB - 0.1)), 1 / 0.42)))
@@ -941,8 +941,8 @@ def hue_angle(a, b):
     219.0484326...
     """
 
-    a = np.asarray(a)
-    b = np.asarray(b)
+    a = as_float_array(a)
+    b = as_float_array(b)
 
     h = np.degrees(np.arctan2(b, a)) % 360
 
@@ -969,7 +969,7 @@ def hue_quadrature(h):
     278.0607358...
     """
 
-    h = np.asarray(h)
+    h = as_float_array(h)
 
     h_i = HUE_DATA_FOR_HUE_QUADRATURE['h_i']
     e_i = HUE_DATA_FOR_HUE_QUADRATURE['e_i']
@@ -977,7 +977,7 @@ def hue_quadrature(h):
 
     # *np.searchsorted* returns an erroneous index if a *nan* is used as input.
     h[np.asarray(np.isnan(h))] = 0
-    i = np.asarray(np.searchsorted(h_i, h, side='left') - 1)
+    i = as_int_array(np.searchsorted(h_i, h, side='left') - 1)
 
     h_ii = h_i[i]
     e_ii = e_i[i]
@@ -1022,7 +1022,7 @@ def eccentricity_factor(h):
     1.1740054...
     """
 
-    h = np.asarray(h)
+    h = as_float_array(h)
 
     e_t = 1 / 4 * (np.cos(2 + h * np.pi / 180) + 3.8)
 
@@ -1095,10 +1095,10 @@ def achromatic_response_reverse(A_w, J, c, z):
     23.9394809...
     """
 
-    A_w = np.asarray(A_w)
-    J = np.asarray(J)
-    c = np.asarray(c)
-    z = np.asarray(z)
+    A_w = as_float_array(A_w)
+    J = as_float_array(J)
+    c = as_float_array(c)
+    z = as_float_array(z)
 
     A = A_w * spow(J / 100, 1 / (c * z))
 
@@ -1135,10 +1135,10 @@ def lightness_correlate(A, A_w, c, z):
     41.7310911...
     """
 
-    A = np.asarray(A)
-    A_w = np.asarray(A_w)
-    c = np.asarray(c)
-    z = np.asarray(z)
+    A = as_float_array(A)
+    A_w = as_float_array(A_w)
+    c = as_float_array(c)
+    z = as_float_array(z)
 
     J = 100 * spow(A / A_w, c * z)
 
@@ -1175,10 +1175,10 @@ def brightness_correlate(c, J, A_w, F_L):
     195.3713259...
     """
 
-    c = np.asarray(c)
-    J = np.asarray(J)
-    A_w = np.asarray(A_w)
-    F_L = np.asarray(F_L)
+    c = as_float_array(c)
+    J = as_float_array(J)
+    A_w = as_float_array(A_w)
+    F_L = as_float_array(F_L)
 
     Q = (4 / c) * np.sqrt(J / 100) * (A_w + 4) * spow(F_L, 0.25)
 
@@ -1223,11 +1223,11 @@ def temporary_magnitude_quantity_forward(N_c, N_cb, e_t, a, b, RGB_a):
     0.1497462...
     """
 
-    N_c = np.asarray(N_c)
-    N_cb = np.asarray(N_cb)
-    e_t = np.asarray(e_t)
-    a = np.asarray(a)
-    b = np.asarray(b)
+    N_c = as_float_array(N_c)
+    N_cb = as_float_array(N_cb)
+    e_t = as_float_array(e_t)
+    a = as_float_array(a)
+    b = as_float_array(b)
     Ra, Ga, Ba = tsplit(RGB_a)
 
     t = (((50000 / 13) * N_c * N_cb) * (e_t * spow(a ** 2 + b ** 2, 0.5)) /
@@ -1269,9 +1269,9 @@ def temporary_magnitude_quantity_reverse(C, J, n):
     202.3873619...
    """
 
-    C = np.asarray(C)
+    C = as_float_array(C)
     J = np.maximum(J, EPSILON)
-    n = np.asarray(n)
+    n = as_float_array(n)
 
     t = spow(C / (np.sqrt(J / 100) * spow(1.64 - 0.29 ** n, 0.73)), 1 / 0.9)
 
@@ -1321,8 +1321,8 @@ def chroma_correlate(J, n, N_c, N_cb, e_t, a, b, RGB_a):
     0.1047077...
     """
 
-    J = np.asarray(J)
-    n = np.asarray(n)
+    J = as_float_array(J)
+    n = as_float_array(n)
 
     t = temporary_magnitude_quantity_forward(N_c, N_cb, e_t, a, b, RGB_a)
     C = spow(t, 0.9) * spow(J / 100, 0.5) * spow(1.64 - 0.29 ** n, 0.73)
@@ -1354,8 +1354,8 @@ def colourfulness_correlate(C, F_L):
     0.1088421...
     """
 
-    C = np.asarray(C)
-    F_L = np.asarray(F_L)
+    C = as_float_array(C)
+    F_L = as_float_array(F_L)
 
     M = C * spow(F_L, 0.25)
 
@@ -1386,8 +1386,8 @@ def saturation_correlate(M, Q):
     2.3603053...
     """
 
-    M = np.asarray(M)
-    Q = np.asarray(Q)
+    M = as_float_array(M)
+    Q = as_float_array(Q)
 
     s = 100 * spow(M / Q, 0.5)
 
@@ -1430,12 +1430,12 @@ def P(N_c, N_cb, e_t, t, A, N_bb):
     array([  3.0162890...e+04,   2.4237205...e+01,   1.0500000...e+00])
     """
 
-    N_c = np.asarray(N_c)
-    N_cb = np.asarray(N_cb)
-    e_t = np.asarray(e_t)
-    t = np.asarray(t)
-    A = np.asarray(A)
-    N_bb = np.asarray(N_bb)
+    N_c = as_float_array(N_c)
+    N_cb = as_float_array(N_cb)
+    e_t = as_float_array(e_t)
+    t = as_float_array(t)
+    A = as_float_array(A)
+    N_bb = as_float_array(N_bb)
 
     P_1 = ((50000 / 13) * N_c * N_cb * e_t) / t
     P_2 = A / N_bb + 0.305
@@ -1474,9 +1474,9 @@ def post_adaptation_non_linear_response_compression_matrix(P_2, a, b):
     array([ 7.9463202...,  7.9471152...,  7.9489959...])
     """
 
-    P_2 = np.asarray(P_2)
-    a = np.asarray(a)
-    b = np.asarray(b)
+    P_2 = as_float_array(P_2)
+    a = as_float_array(a)
+    b = as_float_array(b)
 
     R_a = (460 * P_2 + 451 * a + 288 * b) / 1403
     G_a = (460 * P_2 - 891 * a - 261 * b) / 1403

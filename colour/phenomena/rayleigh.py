@@ -32,7 +32,7 @@ import numpy as np
 from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE,
                                 SpectralPowerDistribution)
 from colour.constants import AVOGADRO_CONSTANT
-from colour.utilities import filter_kwargs
+from colour.utilities import as_float_array, filter_kwargs
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -110,7 +110,7 @@ def air_refraction_index_Penndorf1957(wavelength):
     1.0002777...
     """
 
-    wl = np.asarray(wavelength)
+    wl = as_float_array(wavelength)
 
     n = 6432.8 + 2949810 / (146 - wl ** (-2)) + 25540 / (41 - wl ** (-2))
     n /= 1.0e8
@@ -140,7 +140,7 @@ def air_refraction_index_Edlen1966(wavelength):
     1.0002777...
     """
 
-    wl = np.asarray(wavelength)
+    wl = as_float_array(wavelength)
 
     n = 8342.13 + 2406030 / (130 - wl ** (-2)) + 15997 / (38.9 - wl ** (-2))
     n /= 1.0e8
@@ -171,7 +171,7 @@ def air_refraction_index_Peck1972(wavelength):
     1.0002777...
     """
 
-    wl = np.asarray(wavelength)
+    wl = as_float_array(wavelength)
 
     n = (8060.51 + 2480990 / (132.274 - wl ** (-2)) + 17455.7 /
          (39.32957 - wl ** (-2)))
@@ -206,8 +206,8 @@ def air_refraction_index_Bodhaine1999(
     1.0002777...
     """
 
-    wl = np.asarray(wavelength)
-    CO2_c = np.asarray(CO2_concentration)
+    wl = as_float_array(wavelength)
+    CO2_c = as_float_array(CO2_concentration)
 
     n = ((1 + 0.54 * ((CO2_c * 1e-6) - 300e-6)) *
          (air_refraction_index_Peck1972(wl) - 1) + 1)
@@ -236,7 +236,7 @@ def N2_depolarisation(wavelength):
     1.0350291...
     """
 
-    wl = np.asarray(wavelength)
+    wl = as_float_array(wavelength)
 
     N2 = 1.034 + 3.17 * 1.0e-4 * (1 / wl ** 2)
 
@@ -264,7 +264,7 @@ def O2_depolarisation(wavelength):
     1.1020225...
     """
 
-    wl = np.asarray(wavelength)
+    wl = as_float_array(wavelength)
 
     O2 = (1.096 + 1.385 * 1.0e-3 * (1 / wl ** 2) + 1.448 * 1.0e-4 *
           (1 / wl ** 4))
@@ -299,7 +299,7 @@ def F_air_Penndorf1957(wavelength):
     array(1.0608)
     """
 
-    wl = np.asarray(wavelength)
+    wl = as_float_array(wavelength)
 
     return np.resize(np.array([1.0608]), wl.shape)
 
@@ -331,7 +331,7 @@ def F_air_Young1981(wavelength):
     array(1.048)
     """
 
-    wl = np.asarray(wavelength)
+    wl = as_float_array(wavelength)
 
     return np.resize(np.array([1.0480]), wl.shape)
 
@@ -397,7 +397,7 @@ def F_air_Bodhaine1999(wavelength,
 
     O2 = O2_depolarisation(wavelength)
     N2 = N2_depolarisation(wavelength)
-    CO2_c = np.asarray(CO2_concentration)
+    CO2_c = as_float_array(CO2_concentration)
 
     F_air = ((78.084 * N2 + 20.946 * O2 + 0.934 * 1 + CO2_c * 1.15) /
              (78.084 + 20.946 + 0.934 + CO2_c))
@@ -438,7 +438,7 @@ def molecular_density(temperature=STANDARD_AIR_TEMPERATURE,
     2.5468999...e+19
     """
 
-    T = np.asarray(temperature)
+    T = as_float_array(temperature)
 
     N_s = (avogadro_constant / 22.4141) * (273.15 / T) * (1 / 1000)
 
@@ -503,8 +503,8 @@ def gravity_List1968(latitude=DEFAULT_LATITUDE, altitude=DEFAULT_ALTITUDE):
     980.9524178...
     """
 
-    latitude = np.asarray(latitude)
-    altitude = np.asarray(altitude)
+    latitude = as_float_array(latitude)
+    altitude = as_float_array(altitude)
 
     cos2phi = np.cos(2 * np.radians(latitude))
 
@@ -567,9 +567,9 @@ def scattering_cross_section(wavelength,
     4.6613309...e-27
     """
 
-    wl = np.asarray(wavelength)
-    CO2_c = np.asarray(CO2_concentration)
-    temperature = np.asarray(temperature)
+    wl = as_float_array(wavelength)
+    CO2_c = as_float_array(CO2_concentration)
+    temperature = as_float_array(temperature)
 
     wl_micrometers = wl * 10e3
 
@@ -643,12 +643,12 @@ def rayleigh_optical_depth(wavelength,
     0.1004070...
     """
 
-    wavelength = np.asarray(wavelength)
-    CO2_c = np.asarray(CO2_concentration)
-    latitude = np.asarray(latitude)
-    altitude = np.asarray(altitude)
+    wavelength = as_float_array(wavelength)
+    CO2_c = as_float_array(CO2_concentration)
+    latitude = as_float_array(latitude)
+    altitude = as_float_array(altitude)
     # Conversion from pascal to dyne/cm2.
-    P = np.asarray(pressure * 10)
+    P = as_float_array(pressure * 10)
 
     sigma = scattering_cross_section(wavelength, CO2_c, temperature,
                                      avogadro_constant, n_s, F_air)

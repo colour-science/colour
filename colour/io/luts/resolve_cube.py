@@ -24,7 +24,7 @@ import re
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.io.luts import LUT1D, LUT2D, LUT3D, LUTSequence
-from colour.utilities import tstack
+from colour.utilities import as_float_array, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -67,8 +67,8 @@ def read_LUT_ResolveCube(path):
     -----------------------------
     <BLANKLINE>
     Dimensions : 2
-    Domain     : [[0 0 0]
-                  [1 1 1]]
+    Domain     : [[ 0.  0.  0.]
+                  [ 1.  1.  1.]]
     Size       : (32, 3)
 
     Reading a 3D *Resolve* *.cube* *LUT*:
@@ -81,8 +81,8 @@ def read_LUT_ResolveCube(path):
     ---------------------------------
     <BLANKLINE>
     Dimensions : 3
-    Domain     : [[0 0 0]
-                  [1 1 1]]
+    Domain     : [[ 0.  0.  0.]
+                  [ 1.  1.  1.]]
     Size       : (4, 4, 4, 3)
 
     Reading a 3D *Resolve* *.cube* *LUT* with comments:
@@ -146,7 +146,7 @@ def read_LUT_ResolveCube(path):
             else:
                 table.append(_parse_array(tokens))
 
-    table = np.asarray(table)
+    table = as_float_array(table)
     if has_2D and has_3D:
         LUT[0].name = '{0} - Shaper'.format(title)
         LUT[1].name = '{0} - Cube'.format(title)

@@ -22,7 +22,8 @@ from colour.models.common import (COLOURSPACE_MODELS_LABELS,
 from colour.plotting import (COLOUR_STYLE_CONSTANTS, cube,
                              filter_RGB_colourspaces, filter_cmfs, grid,
                              override_style, render)
-from colour.utilities import Structure, first_item, tsplit, tstack
+from colour.utilities import (Structure, as_float_array, first_item, tsplit,
+                              tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -571,7 +572,7 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
                        np.full((RGB.shape[0], 1), settings.edge_alpha[i],
                                DEFAULT_FLOAT_DTYPE)]))
 
-    quads = np.asarray(quads)
+    quads = as_float_array(quads)
     quads[np.isnan(quads)] = 0
 
     if quads.size != 0:

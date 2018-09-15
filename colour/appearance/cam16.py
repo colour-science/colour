@@ -42,9 +42,10 @@ from colour.appearance.ciecam02 import (
     post_adaptation_non_linear_response_compression_matrix,
     saturation_correlate, temporary_magnitude_quantity_reverse,
     viewing_condition_dependent_parameters)
-from colour.utilities import (CaseInsensitiveMapping, as_namedtuple,
-                              dot_vector, from_range_100, from_range_degrees,
-                              to_domain_100, to_domain_degrees, tsplit)
+from colour.utilities import (CaseInsensitiveMapping, as_float_array,
+                              as_namedtuple, dot_vector, from_range_100,
+                              from_range_degrees, to_domain_100,
+                              to_domain_degrees, tsplit)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2015-2018 - Colour Developers'
@@ -230,8 +231,8 @@ s=2.3450150..., Q=195.3717089..., M=0.1074367..., H=275.5949861..., HC=None)
     XYZ = to_domain_100(XYZ)
     XYZ_w = to_domain_100(XYZ_w)
     _X_w, Y_w, _Z_w = tsplit(XYZ_w)
-    L_A = np.asarray(L_A)
-    Y_b = np.asarray(Y_b)
+    L_A = as_float_array(L_A)
+    Y_b = as_float_array(Y_b)
 
     # Step 0
     # Converting *CIE XYZ* tristimulus values to sharpened *RGB* values.
@@ -388,7 +389,7 @@ def CAM16_to_XYZ(CAM16_specification,
 
     J, C, h, _s, _Q, M, _H, _HC = as_namedtuple(CAM16_specification,
                                                 CAM16_Specification)
-    L_A = np.asarray(L_A)
+    L_A = as_float_array(L_A)
 
     h = to_domain_degrees(h)
     XYZ_w = to_domain_100(XYZ_w)

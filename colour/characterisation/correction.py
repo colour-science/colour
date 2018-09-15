@@ -54,8 +54,9 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.algebra import least_square_mapping_MoorePenrose
-from colour.utilities import (CaseInsensitiveMapping, as_numeric, closest,
-                              filter_kwargs, tsplit, tstack)
+from colour.utilities import (CaseInsensitiveMapping, as_float_array,
+                              as_numeric, closest, filter_kwargs, tsplit,
+                              tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -296,7 +297,7 @@ def polynomial_expansion_Vandermonde(a, degree=1):
     array([ 0.1722481 ,  0.0917066 ,  0.06416938,  1.        ])
     """
 
-    a = np.asarray(a)
+    a = as_float_array(a)
 
     a_e = np.transpose(np.vander(np.ravel(a), degree + 1))
     a_e = np.hstack(a_e.reshape(a_e.shape[0], -1, 3))
