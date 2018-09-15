@@ -28,7 +28,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.utilities import (Structure, as_numeric, domain_range_scale,
+from colour.utilities import (Structure, as_float, domain_range_scale,
                               from_range_1, to_domain_1)
 
 __author__ = 'Colour Developers'
@@ -104,7 +104,7 @@ def oetf_ARIBSTDB67(E, r=0.5, constants=ARIBSTDB67_CONSTANTS):
 
     E_p = np.where(E <= 1, r * np.sqrt(E), a * np.log(E - b) + c)
 
-    return as_numeric(from_range_1(E_p))
+    return as_float(from_range_1(E_p))
 
 
 def oetf_reverse_ARIBSTDB67(E_p, r=0.5, constants=ARIBSTDB67_CONSTANTS):
@@ -166,4 +166,4 @@ def oetf_reverse_ARIBSTDB67(E_p, r=0.5, constants=ARIBSTDB67_CONSTANTS):
             np.exp((E_p - c) / a) + b,
         )
 
-    return as_numeric(from_range_1(E))
+    return as_float(from_range_1(E))

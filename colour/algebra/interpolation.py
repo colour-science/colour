@@ -65,7 +65,7 @@ from six.moves import reduce
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
 from colour.utilities import (CaseInsensitiveMapping, as_float_array,
-                              as_numeric, interval, is_integer, is_numeric,
+                              as_float, interval, is_integer, is_numeric,
                               closest_indexes, tsplit, warning)
 
 __author__ = 'Colour Developers'
@@ -611,7 +611,7 @@ class KernelInterpolator(object):
 
         x = np.atleast_1d(x).astype(self._dtype)
 
-        xi = as_numeric(self._evaluate(x))
+        xi = as_float(self._evaluate(x))
 
         return xi
 
@@ -844,7 +844,7 @@ class LinearInterpolator(object):
 
         x = np.atleast_1d(x).astype(self._dtype)
 
-        xi = as_numeric(self._evaluate(x))
+        xi = as_float(self._evaluate(x))
 
         return xi
 
@@ -1459,7 +1459,7 @@ class NullInterpolator(object):
 
         x = np.atleast_1d(x).astype(self._dtype)
 
-        xi = as_numeric(self._evaluate(x))
+        xi = as_float(self._evaluate(x))
 
         return xi
 

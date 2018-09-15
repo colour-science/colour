@@ -94,7 +94,7 @@ from colour.colorimetry import (ASTME30815_PRACTISE_SHAPE,
                                 spectral_to_XYZ)
 from colour.models import UCS_to_uv, XYZ_to_UCS
 from colour.utilities import (CaseInsensitiveMapping, as_float_array,
-                              as_numeric, filter_kwargs, tsplit, tstack,
+                              as_float, filter_kwargs, tsplit, tstack,
                               warning)
 
 __author__ = 'Colour Developers'
@@ -876,7 +876,7 @@ def xy_to_CCT_Hernandez1999(xy):
         CCT,
     )
 
-    return as_numeric(CCT)
+    return as_float(CCT)
 
 
 def CCT_to_xy_Kang2002(CCT):

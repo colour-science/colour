@@ -130,7 +130,7 @@ from colour.models import Lab_to_LCHab, XYZ_to_Lab, XYZ_to_xy, xyY_to_XYZ
 from colour.volume import is_within_macadam_limits
 from colour.notation import MUNSELL_COLOURS_ALL
 from colour.utilities import (CaseInsensitiveMapping, Lookup, as_float_array,
-                              as_numeric, domain_range_scale, from_range_1,
+                              as_float, domain_range_scale, from_range_1,
                               from_range_10, get_domain_range_scale,
                               to_domain_1, to_domain_10, to_domain_100,
                               is_integer, is_numeric, tsplit, warning)
@@ -759,14 +759,14 @@ def munsell_specification_to_xyY(specification):
     """
 
     if is_grey_munsell_colour(specification):
-        specification = as_numeric(to_domain_10(specification))
+        specification = as_float(to_domain_10(specification))
         value = specification
     else:
         chroma_scale = 50 if get_domain_range_scale() == '1' else 2
         specification = to_domain_10(specification,
                                      np.array([10, 10, chroma_scale, 10]))
         hue, value, chroma, code = (
-            [as_numeric(i) for i in specification[0:3]] +
+            [as_float(i) for i in specification[0:3]] +
             [DEFAULT_INT_DTYPE(specification[-1])])
 
         assert 0 <= hue <= 10, (

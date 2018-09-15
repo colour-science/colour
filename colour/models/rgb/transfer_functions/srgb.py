@@ -35,7 +35,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.algebra import spow
-from colour.utilities import (as_numeric, domain_range_scale, from_range_1,
+from colour.utilities import (as_float, domain_range_scale, from_range_1,
                               to_domain_1)
 
 __author__ = 'Colour Developers'
@@ -93,7 +93,7 @@ def oetf_sRGB(L):
 
     V = np.where(L <= 0.0031308, L * 12.92, 1.055 * spow(L, 1 / 2.4) - 0.055)
 
-    return as_numeric(from_range_1(V))
+    return as_float(from_range_1(V))
 
 
 def oetf_reverse_sRGB(V):
@@ -146,4 +146,4 @@ def oetf_reverse_sRGB(V):
             spow((V + 0.055) / 1.055, 2.4),
         )
 
-    return as_numeric(from_range_1(L))
+    return as_float(from_range_1(L))

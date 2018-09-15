@@ -40,7 +40,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
-from colour.utilities import (as_numeric, domain_range_scale, from_range_1,
+from colour.utilities import (as_float, domain_range_scale, from_range_1,
                               to_domain_1)
 
 __author__ = 'Colour Developers'
@@ -118,7 +118,7 @@ def log_encoding_CanonLog(x, bit_depth=10, out_legal=True, in_reflection=True):
 
     clog = full_to_legal(clog, bit_depth) if out_legal else clog
 
-    return as_numeric(from_range_1(clog))
+    return as_float(from_range_1(clog))
 
 
 def log_decoding_CanonLog(clog,
@@ -184,7 +184,7 @@ def log_decoding_CanonLog(clog,
     if out_reflection:
         x = x * 0.9
 
-    return as_numeric(from_range_1(x))
+    return as_float(from_range_1(x))
 
 
 def log_encoding_CanonLog2(x, bit_depth=10, out_legal=True,
@@ -249,7 +249,7 @@ def log_encoding_CanonLog2(x, bit_depth=10, out_legal=True,
 
     clog2 = full_to_legal(clog2, bit_depth) if out_legal else clog2
 
-    return as_numeric(from_range_1(clog2))
+    return as_float(from_range_1(clog2))
 
 
 def log_decoding_CanonLog2(clog2,
@@ -315,7 +315,7 @@ def log_decoding_CanonLog2(clog2,
     if out_reflection:
         x = x * 0.9
 
-    return as_numeric(from_range_1(x))
+    return as_float(from_range_1(x))
 
 
 def log_encoding_CanonLog3(x, bit_depth=10, out_legal=True,
@@ -395,7 +395,7 @@ def log_encoding_CanonLog3(x, bit_depth=10, out_legal=True,
 
     clog3 = full_to_legal(clog3, bit_depth) if out_legal else clog3
 
-    return as_numeric(from_range_1(clog3))
+    return as_float(from_range_1(clog3))
 
 
 def log_decoding_CanonLog3(clog3,
@@ -461,4 +461,4 @@ def log_decoding_CanonLog3(clog3,
     if out_reflection:
         x = x * 0.9
 
-    return as_numeric(from_range_1(x))
+    return as_float(from_range_1(x))

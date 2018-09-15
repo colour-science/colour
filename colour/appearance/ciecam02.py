@@ -46,7 +46,7 @@ from colour.appearance.hunt import (HPE_TO_XYZ_MATRIX, XYZ_TO_HPE_MATRIX,
 from colour.constants import EPSILON
 from colour.utilities import (
     CaseInsensitiveMapping, as_float_array, as_int_array, as_namedtuple,
-    as_numeric, from_range_degrees, dot_matrix, dot_vector, from_range_100,
+    as_float, from_range_degrees, dot_matrix, dot_vector, from_range_100,
     to_domain_100, to_domain_degrees, tsplit, tstack)
 
 __author__ = 'Colour Developers'
@@ -998,7 +998,7 @@ def hue_quadrature(h):
                                               (360 - h) / 0.856)),
         H,
     )
-    return as_numeric(H)
+    return as_float(H)
 
 
 def eccentricity_factor(h):

@@ -35,8 +35,8 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.constants import DEFAULT_INT_DTYPE
-from colour.utilities import Structure, as_numeric, from_range_1, to_domain_1
+from colour.utilities import (Structure, as_float, as_int, from_range_1,
+                              to_domain_1)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -137,9 +137,9 @@ def oetf_DICOMGSDF(L, out_int=False):
          F * L_lg ** 5 + G * L_lg ** 6 + H * L_lg ** 7 + I * L_lg ** 8)
 
     if out_int:
-        return np.round(J).astype(DEFAULT_INT_DTYPE)
+        return as_int(np.round(J))
     else:
-        return as_numeric(from_range_1(J / 1023))
+        return as_float(from_range_1(J / 1023))
 
 
 def eotf_DICOMGSDF(J, in_int=False):
@@ -213,4 +213,4 @@ def eotf_DICOMGSDF(J, in_int=False):
          (1 + b * J_ln + d * J_ln2 + f * J_ln3 + h * J_ln4 + k * J_ln5))
     L = 10 ** L
 
-    return as_numeric(from_range_1(L))
+    return as_float(from_range_1(L))

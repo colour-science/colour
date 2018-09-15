@@ -35,7 +35,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.models.rgb.transfer_functions import full_to_legal, legal_to_full
-from colour.utilities import (as_numeric, domain_range_scale, from_range_1,
+from colour.utilities import (as_float, domain_range_scale, from_range_1,
                               to_domain_1)
 
 __author__ = 'Colour Developers'
@@ -116,7 +116,7 @@ def log_encoding_SLog(x, bit_depth=10, out_legal=True, in_reflection=True):
 
     y = full_to_legal(y, bit_depth) if out_legal else y
 
-    return as_numeric(from_range_1(y))
+    return as_float(from_range_1(y))
 
 
 def log_decoding_SLog(y, bit_depth=10, in_legal=True, out_reflection=True):
@@ -187,7 +187,7 @@ def log_decoding_SLog(y, bit_depth=10, in_legal=True, out_reflection=True):
     if out_reflection:
         x = x * 0.9
 
-    return as_numeric(from_range_1(x))
+    return as_float(from_range_1(x))
 
 
 def log_encoding_SLog2(x, bit_depth=10, out_legal=True, in_reflection=True):
@@ -369,7 +369,7 @@ def log_encoding_SLog3(x, bit_depth=10, out_legal=True, in_reflection=True):
 
     y = y if out_legal else legal_to_full(y, bit_depth)
 
-    return as_numeric(from_range_1(y))
+    return as_float(from_range_1(y))
 
 
 def log_decoding_SLog3(y, bit_depth=10, in_legal=True, out_reflection=True):
@@ -439,4 +439,4 @@ def log_decoding_SLog3(y, bit_depth=10, in_legal=True, out_reflection=True):
     if not out_reflection:
         x = x / 0.9
 
-    return as_numeric(from_range_1(x))
+    return as_float(from_range_1(x))

@@ -14,7 +14,7 @@ from __future__ import division, unicode_literals
 import functools
 import numpy as np
 
-from colour.utilities import as_float_array, as_numeric
+from colour.utilities import as_float_array, as_float
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -165,4 +165,4 @@ def spow(a, p):
 
     a_p[np.isnan(a_p)] = 0
 
-    return as_numeric(a_p)
+    return as_float(a_p)

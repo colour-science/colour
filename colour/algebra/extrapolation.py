@@ -22,7 +22,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
-from colour.utilities import as_numeric, is_numeric, is_string
+from colour.utilities import as_float, is_numeric, is_string
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -275,7 +275,7 @@ class Extrapolator(object):
 
         x = np.atleast_1d(x).astype(self._dtype)
 
-        xe = as_numeric(self._evaluate(x))
+        xe = as_float(self._evaluate(x))
 
         return xe
 

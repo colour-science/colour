@@ -20,7 +20,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.algebra import spow
-from colour.utilities import as_float_array, as_numeric
+from colour.utilities import as_float_array, as_float
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -88,13 +88,13 @@ def function_gamma(a, exponent=1, negative_number_handling='Indeterminate'):
 
     negative_number_handling = negative_number_handling.lower()
     if negative_number_handling == 'indeterminate':
-        return as_numeric(a ** exponent)
+        return as_float(a ** exponent)
     elif negative_number_handling == 'mirror':
         return spow(a, exponent)
     elif negative_number_handling == 'preserve':
-        return as_numeric(np.where(a <= 0, a, a ** exponent))
+        return as_float(np.where(a <= 0, a, a ** exponent))
     elif negative_number_handling == 'clamp':
-        return as_numeric(np.where(a <= 0, 0, a ** exponent))
+        return as_float(np.where(a <= 0, 0, a ** exponent))
     else:
         raise ValueError(
             'Undefined negative number handling method: "{0}".'.format(

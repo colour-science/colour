@@ -25,7 +25,7 @@ except ImportError:
     idiv = itruediv
 from six import add_metaclass
 
-from colour.utilities import as_numeric, closest, is_uniform, is_string
+from colour.utilities import as_float, closest, is_uniform, is_string
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -768,7 +768,7 @@ class AbstractContinuousFunction:
 
         n = closest(self.domain, a)
 
-        return as_numeric(np.abs(a - n))
+        return as_float(np.abs(a - n))
 
     def is_uniform(self):
         """

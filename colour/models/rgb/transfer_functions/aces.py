@@ -60,8 +60,8 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.constants import DEFAULT_INT_DTYPE
-from colour.utilities import Structure, as_numeric, from_range_1, to_domain_1
+from colour.utilities import (Structure, as_float, as_int, from_range_1,
+                              to_domain_1)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -205,9 +205,9 @@ def log_encoding_ACESproxy(lin_AP1,
     )
 
     if out_int:
-        return as_numeric(np.round(ACESproxy), DEFAULT_INT_DTYPE)
+        return as_int(np.round(ACESproxy))
     else:
-        return as_numeric(from_range_1(ACESproxy / (2 ** bit_depth - 1)))
+        return as_float(from_range_1(ACESproxy / (2 ** bit_depth - 1)))
 
 
 def log_decoding_ACESproxy(ACESproxy,
@@ -339,7 +339,7 @@ def log_encoding_ACEScc(lin_AP1):
         ACEScc,
     )
 
-    return as_numeric(from_range_1(ACEScc))
+    return as_float(from_range_1(ACEScc))
 
 
 def log_decoding_ACEScc(ACEScc):
@@ -398,7 +398,7 @@ def log_decoding_ACEScc(ACEScc):
         lin_AP1,
     )
 
-    return as_numeric(from_range_1(lin_AP1))
+    return as_float(from_range_1(lin_AP1))
 
 
 def log_encoding_ACEScct(lin_AP1, constants=ACES_CCT_CONSTANTS):
@@ -454,7 +454,7 @@ def log_encoding_ACEScct(lin_AP1, constants=ACES_CCT_CONSTANTS):
         (np.log2(lin_AP1) + 9.72) / 17.52,
     )
 
-    return as_numeric(from_range_1(ACEScct))
+    return as_float(from_range_1(ACEScct))
 
 
 def log_decoding_ACEScct(ACEScct, constants=ACES_CCT_CONSTANTS):
@@ -510,4 +510,4 @@ def log_decoding_ACEScct(ACEScct, constants=ACES_CCT_CONSTANTS):
         (ACEScct - constants.B) / constants.A,
     )
 
-    return as_numeric(from_range_1(lin_AP1))
+    return as_float(from_range_1(lin_AP1))
