@@ -5,14 +5,17 @@ Colour Science for Python
 
 .. start-badges
 
-|gitter| |travis| |coveralls| |codacy| |version| |zenodo|
+|gitter| |travis| |azure| |coveralls| |codacy| |version| |zenodo|
 
 .. |gitter| image:: https://img.shields.io/gitter/room/colour-science/colour.svg?style=flat-square
     :target: https://gitter.im/colour-science/colour/
     :alt: Gitter
-.. |travis| image:: https://img.shields.io/travis/colour-science/colour/develop.svg?style=flat-square
+.. |travis| image:: https://img.shields.io/travis/colour-science/colour/develop.svg?style=flat-square&label=travis-ci+build
     :target: https://travis-ci.org/colour-science/colour
     :alt: Develop Build Status
+.. |azure| image:: https://img.shields.io/vso/build/colour-science/b0916647-91be-4025-951a-d791f64f3b96/1.svg?style=flat-square&label=azure+build
+    :target: https://dev.azure.com/colour-science/Colour/_build?definitionId=1 
+    :alt: Azure DevOps
 .. |coveralls| image:: http://img.shields.io/coveralls/colour-science/colour/develop.svg?style=flat-square
     :target: https://coveralls.io/r/colour-science/colour
     :alt: Coverage Status
