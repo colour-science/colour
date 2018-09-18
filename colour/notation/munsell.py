@@ -610,6 +610,9 @@ def munsell_value_ASTMD153508(Y):
     | ``V``      | [0, 10]               | [0, 1]        |
     +------------+-----------------------+---------------+
 
+    -   The *Munsell* value* computation with *ASTM D1535-08e1* method is only
+        defined for domain [0, 100].
+
     References
     ----------
     :cite:`ASTMInternational1989a`
