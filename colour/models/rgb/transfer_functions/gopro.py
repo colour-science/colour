@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-GoPro Encodings
-===============
+GoPro Encoding
+==============
 
-Defines the *GoPro* encodings:
+Defines the *GoPro* *Protune* encoding:
 
 -   :func:`colour.models.log_encoding_Protune`
 -   :func:`colour.models.log_decoding_Protune`
