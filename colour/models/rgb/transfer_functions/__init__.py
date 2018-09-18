@@ -18,6 +18,7 @@ from .canon_log import (log_encoding_CanonLog, log_decoding_CanonLog,
 from .cineon import log_encoding_Cineon, log_decoding_Cineon
 from .dcdm import oetf_DCDM, eotf_DCDM
 from .dicom_gsdf import oetf_DICOMGSDF, eotf_DICOMGSDF
+from .filmic_pro import log_encoding_FilmicPro6, log_decoding_FilmicPro6
 from .gamma import function_gamma
 from .gopro import log_encoding_Protune, log_decoding_Protune
 from .itur_bt_601 import oetf_BT601, oetf_reverse_BT601
@@ -63,6 +64,7 @@ __all__ += [
 __all__ += ['log_encoding_Cineon', 'log_decoding_Cineon']
 __all__ += ['oetf_DCDM', 'eotf_DCDM']
 __all__ += ['oetf_DICOMGSDF', 'eotf_DICOMGSDF']
+__all__ += ['log_encoding_FilmicPro6', 'log_decoding_FilmicPro6']
 __all__ += ['function_gamma']
 __all__ += ['log_encoding_Protune', 'log_decoding_Protune']
 __all__ += ['oetf_BT601', 'oetf_reverse_BT601']
@@ -108,6 +110,7 @@ LOG_ENCODING_CURVES = CaseInsensitiveMapping({
     'Canon Log': log_encoding_CanonLog,
     'Cineon': log_encoding_Cineon,
     'ERIMM RGB': log_encoding_ERIMMRGB,
+    'Filmic Pro 6': log_encoding_FilmicPro6,
     'Log3G10': log_encoding_Log3G10,
     'Log3G12': log_encoding_Log3G12,
     'Panalog': log_encoding_Panalog,
@@ -126,9 +129,9 @@ Supported *log* encoding curves.
 
 LOG_ENCODING_CURVES : CaseInsensitiveMapping
     **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
-    'Canon Log 3', 'Canon Log', 'Cineon', 'ERIMM RGB', 'Log3G10', 'Log3G12',
-    'Panalog', 'PLog', 'Protune', 'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2',
-    'S-Log3', 'V-Log', 'ViperLog'}**
+    'Canon Log 3', 'Canon Log', 'Cineon', 'ERIMM RGB', 'Filmic Pro 6',
+    'Log3G10', 'Log3G12', 'Panalog', 'PLog', 'Protune', 'REDLog', 'REDLogFilm',
+    'S-Log', 'S-Log2', 'S-Log3', 'V-Log', 'ViperLog'}**
 """
 
 
@@ -143,9 +146,10 @@ def log_encoding_curve(value, curve='Cineon', **kwargs):
         Value.
     curve : unicode, optional
         **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
-        'Canon Log 3', 'Canon Log', 'Cineon', 'ERIMM RGB', 'Log3G10',
-        'Log3G12', 'Panalog', 'PLog', 'Protune', 'REDLog', 'REDLogFilm',
-        'S-Log', 'S-Log2', 'S-Log3', 'V-Log', 'ViperLog'}**, Computation curve.
+        'Canon Log 3', 'Canon Log', 'Cineon', 'ERIMM RGB', 'Filmic Pro 6',
+        'Log3G10', 'Log3G12', 'Panalog', 'PLog', 'Protune', 'REDLog',
+        'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3', 'V-Log', 'ViperLog'}**,
+        Computation curve.
 
     Other Parameters
     ----------------
@@ -238,6 +242,7 @@ LOG_DECODING_CURVES = CaseInsensitiveMapping({
     'Canon Log': log_decoding_CanonLog,
     'Cineon': log_decoding_Cineon,
     'ERIMM RGB': log_decoding_ERIMMRGB,
+    'Filmic Pro 6': log_decoding_FilmicPro6,
     'Log3G10': log_decoding_Log3G10,
     'Log3G12': log_decoding_Log3G12,
     'Panalog': log_decoding_Panalog,
@@ -256,9 +261,9 @@ Supported *log* decoding curves.
 
 LOG_DECODING_CURVES : CaseInsensitiveMapping
     **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
-    'Canon Log 3', 'Canon Log', 'Cineon', 'ERIMM RGB', 'Log3G10', 'Log3G12',
-    'Panalog', 'PLog', 'Protune', 'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2',
-    'S-Log3', 'V-Log', 'ViperLog'}**
+    'Canon Log 3', 'Canon Log', 'Cineon', 'ERIMM RGB', 'Filmic Pro 6',
+    'Log3G10', 'Log3G12', 'Panalog', 'PLog', 'Protune', 'REDLog', 'REDLogFilm',
+    'S-Log', 'S-Log2', 'S-Log3', 'V-Log', 'ViperLog'}**
 """
 
 
@@ -273,9 +278,10 @@ def log_decoding_curve(value, curve='Cineon', **kwargs):
         Value.
     curve : unicode, optional
         **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
-        'Canon Log 3', 'Canon Log', 'Cineon', 'ERIMM RGB', 'Log3G10',
-        'Log3G12', 'Panalog', 'PLog', 'Protune', 'REDLog', 'REDLogFilm',
-        'S-Log', 'S-Log2', 'S-Log3', 'V-Log', 'ViperLog'}**, Computation curve.
+        'Canon Log 3', 'Canon Log', 'Cineon', 'ERIMM RGB', 'Filmic Pro 6',
+        'Log3G10', 'Log3G12', 'Panalog', 'PLog', 'Protune', 'REDLog',
+        'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3', 'V-Log', 'ViperLog'}**,
+        Computation curve.
 
     Other Parameters
     ----------------
