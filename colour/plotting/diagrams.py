@@ -681,7 +681,11 @@ def spds_chromaticity_diagram_plot(
         ij = XYZ_to_ij(XYZ)
 
         axes.plot(
-            ij[0], ij[1], 'o', color=COLOUR_STYLE_CONSTANTS.colour.brightest)
+            ij[0],
+            ij[1],
+            'o',
+            color=COLOUR_STYLE_CONSTANTS.colour.brightest,
+            label=spd.strict_name)
 
         if (spd.name is not None and
                 annotate_settings_collection[i]['annotate']):

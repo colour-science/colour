@@ -263,7 +263,11 @@ Planckian_Locus_Chromaticity_Diagram_Plot.png
         ij = xy_to_ij(xy)
 
         axes.plot(
-            ij[0], ij[1], 'o', color=COLOUR_STYLE_CONSTANTS.colour.brightest)
+            ij[0],
+            ij[1],
+            'o',
+            color=COLOUR_STYLE_CONSTANTS.colour.brightest,
+            label=illuminant)
 
         if (illuminant is not None and
                 annotate_settings_collection[i]['annotate']):
