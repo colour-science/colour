@@ -228,6 +228,7 @@ def _munsell_specifications():
     """
 
     global _MUNSELL_SPECIFICATIONS_CACHE
+
     if _MUNSELL_SPECIFICATIONS_CACHE is None:
         _MUNSELL_SPECIFICATIONS_CACHE = [
             munsell_colour_to_munsell_specification(
@@ -249,6 +250,7 @@ def _munsell_value_ASTMD153508_interpolator():
     """
 
     global _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE
+
     munsell_values = np.arange(0, 10, 0.001)
     if _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE is None:
         _MUNSELL_VALUE_ASTM_D1535_08_INTERPOLATOR_CACHE = Extrapolator(
@@ -270,6 +272,7 @@ def _munsell_maximum_chromas_from_renotation():
     """
 
     global _MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION_CACHE
+
     if _MUNSELL_MAXIMUM_CHROMAS_FROM_RENOTATION_CACHE is None:
         chromas = OrderedDict()
         for munsell_colour in MUNSELL_COLOURS_ALL:
@@ -606,6 +609,9 @@ def munsell_value_ASTMD153508(Y):
     +============+=======================+===============+
     | ``V``      | [0, 10]               | [0, 1]        |
     +------------+-----------------------+---------------+
+
+    -   The *Munsell* value* computation with *ASTM D1535-08e1* method is only
+        defined for domain [0, 100].
 
     References
     ----------
