@@ -526,9 +526,9 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
         c = ((0.0, 0.0, 0.0, 0.5)
              if spectral_locus_colour is None else spectral_locus_colour)
 
-        plt.plot(
+        axes.plot(
             points[..., 0], points[..., 1], points[..., 2], color=c, zorder=1)
-        plt.plot(
+        axes.plot(
             (points[-1][0], points[0][0]), (points[-1][1], points[0][1]),
             (points[-1][2], points[0][2]),
             color=c,
