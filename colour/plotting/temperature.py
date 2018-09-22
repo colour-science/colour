@@ -113,7 +113,7 @@ def planckian_locus_plot(planckian_locus_colours=None,
         for x in np.arange(start, end + 250, 250)
     ])
 
-    plt.plot(ij[..., 0], ij[..., 1], color=planckian_locus_colours)
+    axes.plot(ij[..., 0], ij[..., 1], color=planckian_locus_colours)
 
     for i in (1667, 2000, 2500, 3000, 4000, 6000, 10000):
         i0, j0 = uv_to_ij(CCT_to_uv(i, 'Robertson 1968', D_uv=-D_uv))
