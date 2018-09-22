@@ -417,6 +417,7 @@ def describe_environment(runtime_packages=True,
     try:
         version = subprocess.check_output(
             ['git', 'describe'], cwd=colour.__path__[0]).strip()
+        version = version.decode('utf-8')
     except subprocess.CalledProcessError:
         version = colour.__version__
 
