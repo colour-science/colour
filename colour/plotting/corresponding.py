@@ -105,6 +105,8 @@ Corresponding_Chromaticities_Prediction_Plot.png
             'o',
             color=COLOUR_STYLE_CONSTANTS.colour.brightest,
             markeredgecolor=COLOUR_STYLE_CONSTANTS.colour.dark,
+            markersize=(COLOUR_STYLE_CONSTANTS.geometry.short * 6 +
+                        COLOUR_STYLE_CONSTANTS.geometry.short * 0.75),
             markeredgewidth=COLOUR_STYLE_CONSTANTS.geometry.short * 0.75)
         axes.plot(
             uvp_m[0],
@@ -112,6 +114,8 @@ Corresponding_Chromaticities_Prediction_Plot.png
             '^',
             color=COLOUR_STYLE_CONSTANTS.colour.brightest,
             markeredgecolor=COLOUR_STYLE_CONSTANTS.colour.dark,
+            markersize=(COLOUR_STYLE_CONSTANTS.geometry.short * 6 +
+                        COLOUR_STYLE_CONSTANTS.geometry.short * 0.75),
             markeredgewidth=COLOUR_STYLE_CONSTANTS.geometry.short * 0.75)
         axes.plot(
             uvp_p[0], uvp_p[1], '^', color=COLOUR_STYLE_CONSTANTS.colour.dark)

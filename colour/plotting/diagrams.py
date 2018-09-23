@@ -657,8 +657,12 @@ def spds_chromaticity_diagram_plot(
         'xytext': (-50, 30),
         'textcoords': 'offset points',
         'arrowprops': {
-            'arrowstyle': '->',
-            'connectionstyle': 'arc3, rad=-0.2'
+            'color': COLOUR_STYLE_CONSTANTS.colour.dark,
+            'headwidth': COLOUR_STYLE_CONSTANTS.geometry.short * 4,
+            'headlength': COLOUR_STYLE_CONSTANTS.geometry.long,
+            'width': COLOUR_STYLE_CONSTANTS.geometry.short * 0.5,
+            'shrink': COLOUR_STYLE_CONSTANTS.geometry.short * 0.1,
+            'connectionstyle': 'arc3,rad=-0.2',
         }
     } for _ in range(len(spds))]
 
@@ -686,6 +690,8 @@ def spds_chromaticity_diagram_plot(
             'o',
             color=COLOUR_STYLE_CONSTANTS.colour.brightest,
             markeredgecolor=COLOUR_STYLE_CONSTANTS.colour.dark,
+            markersize=(COLOUR_STYLE_CONSTANTS.geometry.short * 6 +
+                        COLOUR_STYLE_CONSTANTS.geometry.short * 0.75),
             markeredgewidth=COLOUR_STYLE_CONSTANTS.geometry.short * 0.75,
             label=spd.strict_name)
 
