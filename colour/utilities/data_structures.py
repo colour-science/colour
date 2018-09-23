@@ -79,8 +79,8 @@ class Lookup(dict):
 
     Methods
     -------
-    first_key_from_value
     keys_from_value
+    first_key_from_value
 
     References
     ----------
@@ -96,24 +96,6 @@ class Lookup(dict):
     ['Jane', 'John']
     """
 
-    def first_key_from_value(self, value):
-        """
-        Gets the first key with given value.
-
-        Parameters
-        ----------
-        value : object
-            Value.
-        Returns
-        -------
-        object
-            Key.
-        """
-
-        for key, data in self.items():
-            if data == value:
-                return key
-
     def keys_from_value(self, value):
         """
         Gets the keys with given value.
@@ -128,7 +110,38 @@ class Lookup(dict):
             Keys.
         """
 
-        return [key for key, data in self.items() if data == value]
+        keys = []
+        for key, data in self.items():
+            matching = data == value
+            try:
+                matching = all(matching)
+
+            except TypeError:
+                matching = all((matching, ))
+
+            if matching:
+                keys.append(key)
+
+        return keys
+
+    def first_key_from_value(self, value):
+        """
+        Gets the first key with given value.
+
+        Parameters
+        ----------
+        value : object
+            Value.
+        Returns
+        -------
+        object
+            Key.
+        """
+
+        try:
+            return self.keys_from_value(value)[0]
+        except IndexError:
+            pass
 
 
 class CaseInsensitiveMapping(MutableMapping):
