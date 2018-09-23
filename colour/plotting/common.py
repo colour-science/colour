@@ -504,7 +504,7 @@ def render(**kwargs):
             'aspect': None,
             'axes_visible': True,
             'bounding_box': None,
-            'tight_layout': False,
+            'tight_layout': True,
             'legend': False,
             'legend_columns': 1,
             'transparent_background': True,

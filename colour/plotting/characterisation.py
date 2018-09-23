@@ -110,10 +110,6 @@ def multi_colour_checker_plot(colour_checkers=None, **kwargs):
             'Only two colour checkers can be compared at a time!')
 
     colour_checkers = filter_colour_checkers(colour_checkers).values()
-    colour_checkers = [
-        colour_checkers[i] for i in range(len(colour_checkers))
-        if i == colour_checkers.index(colour_checkers[i])
-    ]
 
     figure, axes = artist(**kwargs)
 
