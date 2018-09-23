@@ -686,7 +686,7 @@ def spds_chromaticity_diagram_plot(
             'o',
             color=COLOUR_STYLE_CONSTANTS.colour.brightest,
             markeredgecolor=COLOUR_STYLE_CONSTANTS.colour.dark,
-            markeredgewidth=COLOUR_STYLE_CONSTANTS.geometry.short * 0.5,
+            markeredgewidth=COLOUR_STYLE_CONSTANTS.geometry.short * 0.75,
             label=spd.strict_name)
 
         if (spd.name is not None and
