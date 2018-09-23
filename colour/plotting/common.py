@@ -468,6 +468,8 @@ def render(**kwargs):
     bounding_box : array_like, optional
         Array defining current axes limits such
         `bounding_box = (x min, x max, y min, y max)`.
+    tight_layout : bool, optional
+        Whether to invoke the :func:`plt.tight_layout` definition.
     legend : bool, optional
         Whether to display the legend. Default is *False*.
     legend_columns : int, optional
@@ -502,6 +504,7 @@ def render(**kwargs):
             'aspect': None,
             'axes_visible': True,
             'bounding_box': None,
+            'tight_layout': False,
             'legend': False,
             'legend_columns': 1,
             'transparent_background': True,
@@ -527,6 +530,9 @@ def render(**kwargs):
         axes.set_ylabel(settings.y_label)
     if settings.legend:
         axes.legend(ncol=settings.legend_columns)
+
+    if settings.tight_layout:
+        figure.tight_layout()
 
     if settings.transparent_background:
         figure.patch.set_alpha(0)
