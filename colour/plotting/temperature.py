@@ -19,9 +19,10 @@ import numpy as np
 from colour.colorimetry import CMFS, ILLUMINANTS
 from colour.models import (UCS_uv_to_xy, XYZ_to_UCS, UCS_to_uv, xy_to_XYZ)
 from colour.temperature import CCT_to_uv
-from colour.plotting import (
-    COLOUR_STYLE_CONSTANTS, artist, chromaticity_diagram_plot_CIE1931,
-    chromaticity_diagram_plot_CIE1960UCS, override_style, render)
+from colour.plotting import (COLOUR_STYLE_CONSTANTS, artist,
+                             chromaticity_diagram_plot_CIE1931,
+                             chromaticity_diagram_plot_CIE1960UCS,
+                             filter_passthrough, override_style, render)
 from colour.plotting.diagrams import chromaticity_diagram_plot
 
 __author__ = 'Colour Developers'
@@ -177,7 +178,7 @@ def planckian_locus_chromaticity_diagram_plot(
     Examples
     --------
     >>> planckian_locus_chromaticity_diagram_plot(['A', 'B', 'C'])
-    ... # doctest: +SKIP
+    # ... # doctest: +SKIP
 
     .. image:: ../_static/Plotting_\
 Planckian_Locus_Chromaticity_Diagram_Plot.png
@@ -185,8 +186,12 @@ Planckian_Locus_Chromaticity_Diagram_Plot.png
         :alt: planckian_locus_chromaticity_diagram_plot
     """
 
+    cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
+
     if illuminants is None:
         illuminants = ('A', 'B', 'C')
+
+    illuminants = filter_passthrough(ILLUMINANTS.get(cmfs.name), illuminants)
 
     settings = {'uniform': True}
     settings.update(kwargs)
@@ -194,8 +199,6 @@ Planckian_Locus_Chromaticity_Diagram_Plot.png
     figure, axes = artist(**settings)
 
     method = method.upper()
-
-    cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
 
     settings = {'axes': axes, 'method': method}
     settings.update(kwargs)
@@ -253,13 +256,7 @@ Planckian_Locus_Chromaticity_Diagram_Plot.png
             else:
                 annotate_settings.update(annotate_parameters[i])
 
-    for i, illuminant in enumerate(illuminants):
-        xy = ILLUMINANTS.get(cmfs.name).get(illuminant)
-        if xy is None:
-            raise KeyError(
-                ('Illuminant "{0}" not found in factory illuminants: '
-                 '"{1}".').format(illuminant,
-                                  sorted(ILLUMINANTS[cmfs.name].keys())))
+    for i, (illuminant, xy) in enumerate(illuminants.items()):
         ij = xy_to_ij(xy)
 
         axes.plot(
@@ -269,8 +266,7 @@ Planckian_Locus_Chromaticity_Diagram_Plot.png
             color=COLOUR_STYLE_CONSTANTS.colour.brightest,
             label=illuminant)
 
-        if (illuminant is not None and
-                annotate_settings_collection[i]['annotate']):
+        if annotate_settings_collection[i]['annotate']:
             annotate_settings = annotate_settings_collection[i]
             annotate_settings.pop('annotate')
 
