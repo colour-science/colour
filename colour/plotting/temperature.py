@@ -178,7 +178,7 @@ def planckian_locus_chromaticity_diagram_plot(
     Examples
     --------
     >>> planckian_locus_chromaticity_diagram_plot(['A', 'B', 'C'])
-    # ... # doctest: +SKIP
+    ... # doctest: +SKIP
 
     .. image:: ../_static/Plotting_\
 Planckian_Locus_Chromaticity_Diagram_Plot.png
@@ -264,6 +264,8 @@ Planckian_Locus_Chromaticity_Diagram_Plot.png
             ij[1],
             'o',
             color=COLOUR_STYLE_CONSTANTS.colour.brightest,
+            markeredgecolor=COLOUR_STYLE_CONSTANTS.colour.dark,
+            markeredgewidth=COLOUR_STYLE_CONSTANTS.geometry.short * 0.5,
             label=illuminant)
 
         if annotate_settings_collection[i]['annotate']:
