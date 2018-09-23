@@ -24,7 +24,7 @@ from colour.algebra import normalise_vector
 from colour.colorimetry import spectral_to_XYZ
 from colour.models import (Luv_to_uv, Luv_uv_to_xy, UCS_to_uv, UCS_uv_to_xy,
                            XYZ_to_Luv, XYZ_to_UCS, XYZ_to_xy, xy_to_XYZ)
-from colour.plotting import (COLOUR_STYLE_CONSTANTS,
+from colour.plotting import (COLOUR_STYLE_CONSTANTS, COLOUR_ARROW_STYLE,
                              XYZ_to_plotting_colourspace, artist, filter_cmfs,
                              override_style, render)
 from colour.utilities import (domain_range_scale, first_item, is_string,
@@ -656,14 +656,7 @@ def spds_chromaticity_diagram_plot(
         'annotate': True,
         'xytext': (-50, 30),
         'textcoords': 'offset points',
-        'arrowprops': {
-            'color': COLOUR_STYLE_CONSTANTS.colour.dark,
-            'headwidth': COLOUR_STYLE_CONSTANTS.geometry.short * 4,
-            'headlength': COLOUR_STYLE_CONSTANTS.geometry.long,
-            'width': COLOUR_STYLE_CONSTANTS.geometry.short * 0.5,
-            'shrink': COLOUR_STYLE_CONSTANTS.geometry.short * 0.1,
-            'connectionstyle': 'arc3,rad=-0.2',
-        }
+        'arrowprops': COLOUR_ARROW_STYLE,
     } for _ in range(len(spds))]
 
     if annotate_parameters is not None:

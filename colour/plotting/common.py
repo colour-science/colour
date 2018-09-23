@@ -51,11 +51,11 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'COLOUR_STYLE_CONSTANTS', 'colour_style', 'override_style',
-    'XYZ_to_plotting_colourspace', 'ColourSwatch', 'colour_cycle', 'artist',
-    'camera', 'render', 'label_rectangles', 'uniform_axes3d',
-    'filter_passthrough', 'filter_RGB_colourspaces', 'filter_cmfs',
-    'filter_illuminants', 'filter_colour_checkers',
+    'COLOUR_STYLE_CONSTANTS', 'COLOUR_ARROW_STYLE', 'colour_style',
+    'override_style', 'XYZ_to_plotting_colourspace', 'ColourSwatch',
+    'colour_cycle', 'artist', 'camera', 'render', 'label_rectangles',
+    'uniform_axes3d', 'filter_passthrough', 'filter_RGB_colourspaces',
+    'filter_cmfs', 'filter_illuminants', 'filter_colour_checkers',
     'single_colour_swatch_plot', 'multi_colour_swatch_plot',
     'single_function_plot', 'multi_function_plot', 'image_plot'
 ]
@@ -132,6 +132,21 @@ COLOUR_STYLE_CONSTANTS = Structure(
 Various defaults settings used across the plotting sub-package.
 
 COLOUR_STYLE_CONSTANTS : Structure
+"""
+
+COLOUR_ARROW_STYLE = Structure(
+    **{
+        'color': COLOUR_STYLE_CONSTANTS.colour.dark,
+        'headwidth': COLOUR_STYLE_CONSTANTS.geometry.short * 4,
+        'headlength': COLOUR_STYLE_CONSTANTS.geometry.long,
+        'width': COLOUR_STYLE_CONSTANTS.geometry.short * 0.5,
+        'shrink': COLOUR_STYLE_CONSTANTS.geometry.short * 0.1,
+        'connectionstyle': 'arc3,rad=-0.2',
+    })
+"""
+Annotation arrow settings used across the plotting sub-package.
+
+COLOUR_ARROW_STYLE : Structure
 """
 
 

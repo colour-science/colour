@@ -19,8 +19,8 @@ import numpy as np
 from colour.colorimetry import CMFS, ILLUMINANTS
 from colour.models import (UCS_uv_to_xy, XYZ_to_UCS, UCS_to_uv, xy_to_XYZ)
 from colour.temperature import CCT_to_uv
-from colour.plotting import (COLOUR_STYLE_CONSTANTS, artist,
-                             chromaticity_diagram_plot_CIE1931,
+from colour.plotting import (COLOUR_STYLE_CONSTANTS, COLOUR_ARROW_STYLE,
+                             artist, chromaticity_diagram_plot_CIE1931,
                              chromaticity_diagram_plot_CIE1960UCS,
                              filter_passthrough, override_style, render)
 from colour.plotting.diagrams import chromaticity_diagram_plot
@@ -238,14 +238,7 @@ Planckian_Locus_Chromaticity_Diagram_Plot.png
         'annotate': True,
         'xytext': (-50, 30),
         'textcoords': 'offset points',
-        'arrowprops': {
-            'color': COLOUR_STYLE_CONSTANTS.colour.dark,
-            'headwidth': COLOUR_STYLE_CONSTANTS.geometry.short * 4,
-            'headlength': COLOUR_STYLE_CONSTANTS.geometry.long,
-            'width': COLOUR_STYLE_CONSTANTS.geometry.short * 0.5,
-            'shrink': COLOUR_STYLE_CONSTANTS.geometry.short * 0.1,
-            'connectionstyle': 'arc3,rad=-0.2',
-        }
+        'arrowprops': COLOUR_ARROW_STYLE,
     } for _ in range(len(illuminants))]
 
     if annotate_parameters is not None:

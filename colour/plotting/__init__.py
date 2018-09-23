@@ -9,13 +9,14 @@ from colour.utilities.documentation import is_documentation_building
 
 from .dataset import *  # noqa
 from . import dataset
-from .common import (COLOUR_STYLE_CONSTANTS, colour_style, override_style,
-                     XYZ_to_plotting_colourspace, ColourSwatch, colour_cycle,
-                     artist, camera, render, label_rectangles, uniform_axes3d,
-                     filter_passthrough, filter_RGB_colourspaces, filter_cmfs,
-                     filter_illuminants, filter_colour_checkers,
-                     single_colour_swatch_plot, multi_colour_swatch_plot,
-                     single_function_plot, multi_function_plot, image_plot)
+from .common import (COLOUR_STYLE_CONSTANTS, COLOUR_ARROW_STYLE, colour_style,
+                     override_style, XYZ_to_plotting_colourspace, ColourSwatch,
+                     colour_cycle, artist, camera, render, label_rectangles,
+                     uniform_axes3d, filter_passthrough,
+                     filter_RGB_colourspaces, filter_cmfs, filter_illuminants,
+                     filter_colour_checkers, single_colour_swatch_plot,
+                     multi_colour_swatch_plot, single_function_plot,
+                     multi_function_plot, image_plot)
 from .blindness import cvd_simulation_Machado2009_plot
 from .colorimetry import (
     single_spd_plot, multi_spd_plot, single_cmfs_plot, multi_cmfs_plot,
@@ -56,11 +57,11 @@ from .volume import RGB_colourspaces_gamuts_plot, RGB_scatter_plot
 __all__ = []
 __all__ += dataset.__all__
 __all__ += [
-    'COLOUR_STYLE_CONSTANTS', 'colour_style', 'override_style',
-    'XYZ_to_plotting_colourspace', 'ColourSwatch', 'colour_cycle', 'artist',
-    'camera', 'render', 'label_rectangles', 'uniform_axes3d',
-    'filter_passthrough', 'filter_RGB_colourspaces', 'filter_cmfs',
-    'filter_illuminants', 'filter_colour_checkers',
+    'COLOUR_STYLE_CONSTANTS', 'COLOUR_ARROW_STYLE', 'colour_style',
+    'override_style', 'XYZ_to_plotting_colourspace', 'ColourSwatch',
+    'colour_cycle', 'artist', 'camera', 'render', 'label_rectangles',
+    'uniform_axes3d', 'filter_passthrough', 'filter_RGB_colourspaces',
+    'filter_cmfs', 'filter_illuminants', 'filter_colour_checkers',
     'single_colour_swatch_plot', 'multi_colour_swatch_plot',
     'single_function_plot', 'multi_function_plot', 'image_plot'
 ]
