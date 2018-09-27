@@ -35,6 +35,8 @@ Spectral Data Generation
     constant_spd
     ones_spd
     zeros_spd
+    single_led_spd_Ohno2005
+    multi_led_spd_Ohno2005
 
 ``colour.colorimetry``
 

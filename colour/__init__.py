@@ -65,10 +65,11 @@ from .colorimetry import (
     STANDARD_OBSERVERS_CMFS, SpectralPowerDistribution, SpectralShape,
     WHITENESS_METHODS, YELLOWNESS_METHODS, bandpass_correction, blackbody_spd,
     colorimetric_purity, complementary_wavelength, constant_spd,
-    dominant_wavelength, excitation_purity, lightness, luminance,
+    dominant_wavelength, excitation_purity, gaussian_spd, lightness, luminance,
     luminous_efficacy, luminous_efficiency, luminous_flux,
     mesopic_luminous_efficiency_function, multi_spectral_to_XYZ, ones_spd,
-    spectral_to_XYZ, wavelength_to_XYZ, whiteness, yellowness, zeros_spd)
+    single_led_spd_Ohno2005, spectral_to_XYZ, wavelength_to_XYZ, whiteness,
+    yellowness, zeros_spd)
 from .blindness import (
     CVD_MATRICES_MACHADO2010, anomalous_trichromacy_cmfs_Machado2009,
     anomalous_trichromacy_matrix_Machado2009, cvd_matrix_Machado2009)
@@ -175,11 +176,12 @@ __all__ += [
     'STANDARD_OBSERVERS_CMFS', 'SpectralPowerDistribution', 'SpectralShape',
     'WHITENESS_METHODS', 'YELLOWNESS_METHODS', 'bandpass_correction',
     'blackbody_spd', 'colorimetric_purity', 'complementary_wavelength',
-    'constant_spd', 'dominant_wavelength', 'excitation_purity', 'lightness',
-    'luminance', 'luminous_efficacy', 'luminous_efficiency', 'luminous_flux',
-    'multi_spectral_to_XYZ', 'mesopic_luminous_efficiency_function',
-    'ones_spd', 'spectral_to_XYZ', 'wavelength_to_XYZ', 'whiteness',
-    'yellowness', 'zeros_spd'
+    'constant_spd', 'dominant_wavelength', 'excitation_purity', 'gaussian_spd',
+    'lightness', 'luminance', 'luminous_efficacy', 'luminous_efficiency',
+    'luminous_flux', 'multi_spectral_to_XYZ',
+    'mesopic_luminous_efficiency_function', 'ones_spd',
+    'single_led_spd_Ohno2005', 'spectral_to_XYZ', 'wavelength_to_XYZ',
+    'whiteness', 'yellowness', 'zeros_spd'
 ]
 __all__ += [
     'CVD_MATRICES_MACHADO2010', 'anomalous_trichromacy_cmfs_Machado2009',
