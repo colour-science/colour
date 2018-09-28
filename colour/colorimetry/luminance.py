@@ -296,7 +296,7 @@ def luminance_Fairchild2010(L_hdr, epsilon=1.836):
 def luminance_Fairchild2011(L_hdr, epsilon=0.474, method='hdr-CIELAB'):
     """
     Computes *luminance* :math:`Y` of given *Lightness* :math:`L_{hdr}` using
-    *Fairchild and Chen (2011)* method accordingly to *Michealis-Menten*
+    *Fairchild and Chen (2011)* method according to *Michealis-Menten*
     kinetics.
 
     Parameters
