@@ -10,7 +10,9 @@ from .cmfs import (LMS_ConeFundamentals, RGB_ColourMatchingFunctions,
                    XYZ_ColourMatchingFunctions)
 from .dataset import *  # noqa
 from . import dataset
-from .generation import (constant_spd, zeros_spd, ones_spd, gaussian_spd,
+from .generation import (constant_spd, zeros_spd, ones_spd,
+                         gaussian_spd_normal, gaussian_spd_fwhm,
+                         GAUSSIAN_SPD_METHODS, gaussian_spd,
                          single_led_spd_Ohno2005, multi_led_spd_Ohno2005)
 from .tristimulus import (SPECTRAL_TO_XYZ_METHODS,
                           MULTI_SPECTRAL_TO_XYZ_METHODS)
@@ -68,7 +70,8 @@ __all__ += [
 ]
 __all__ += dataset.__all__
 __all__ += [
-    'constant_spd', 'zeros_spd', 'ones_spd', 'gaussian_spd',
+    'constant_spd', 'zeros_spd', 'ones_spd', 'gaussian_spd_normal',
+    'gaussian_spd_fwhm', 'GAUSSIAN_SPD_METHODS', 'gaussian_spd',
     'single_led_spd_Ohno2005', 'multi_led_spd_Ohno2005'
 ]
 __all__ += ['SPECTRAL_TO_XYZ_METHODS', 'MULTI_SPECTRAL_TO_XYZ_METHODS']

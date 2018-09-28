@@ -35,6 +35,8 @@ Spectral Data Generation
     constant_spd
     ones_spd
     zeros_spd
+    GAUSSIAN_SPD_METHODS
+    gaussian_spd
     single_led_spd_Ohno2005
     multi_led_spd_Ohno2005
 
@@ -45,6 +47,8 @@ Spectral Data Generation
 .. autosummary::
     :toctree: generated/
 
+    gaussian_spd_normal
+    gaussian_spd_fwhm
     blackbody_spectral_radiance
     planck_law
 

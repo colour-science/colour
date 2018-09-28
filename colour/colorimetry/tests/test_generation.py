@@ -9,8 +9,8 @@ import numpy as np
 import unittest
 
 from colour.colorimetry.generation import (
-    constant_spd, zeros_spd, ones_spd, gaussian_spd, single_led_spd_Ohno2005,
-    multi_led_spd_Ohno2005)
+    constant_spd, zeros_spd, ones_spd, gaussian_spd_normal, gaussian_spd_fwhm,
+    single_led_spd_Ohno2005, multi_led_spd_Ohno2005)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -20,8 +20,9 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'TestConstantSpd', 'TestZerosSpd', 'TestOnesSpd', 'TestGaussianSpd',
-    'TestSingleLedSpdOhno2005', 'TestMultiLedSpdOhno2005'
+    'TestConstantSpd', 'TestZerosSpd', 'TestOnesSpd', 'TestGaussianSpdNormal',
+    'TestGaussianSpdFwhm', 'TestSingleLedSpdOhno2005',
+    'TestMultiLedSpdOhno2005'
 ]
 
 
@@ -88,18 +89,40 @@ class TestOnesSpd(unittest.TestCase):
         self.assertEqual(spd[780], 1)
 
 
-class TestGaussianSpd(unittest.TestCase):
+class TestGaussianSpdNormal(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.generation.gaussian_spd` definition unit
-    tests methods.
+    Defines :func:`colour.colorimetry.generation.gaussian_spd_normal`
+    definition unit tests methods.
     """
 
-    def test_gaussian_spd(self):
+    def test_gaussian_spd_normal(self):
         """
-        Tests :func:`colour.colorimetry.generation.gaussian_spd` definition.
+        Tests :func:`colour.colorimetry.generation.gaussian_spd_normal`
+        definition.
         """
 
-        spd = gaussian_spd(555, 25)
+        spd = gaussian_spd_normal(555, 25)
+
+        self.assertAlmostEqual(spd[530], 0.606530659712633, places=7)
+
+        self.assertAlmostEqual(spd[555], 1, places=7)
+
+        self.assertAlmostEqual(spd[580], 0.606530659712633, places=7)
+
+
+class TestGaussianSpdFwhm(unittest.TestCase):
+    """
+    Defines :func:`colour.colorimetry.generation.gaussian_spd_fwhm` definition
+    unit tests methods.
+    """
+
+    def test_gaussian_spd_fwhm(self):
+        """
+        Tests :func:`colour.colorimetry.generation.gaussian_spd_fwhm`
+        definition.
+        """
+
+        spd = gaussian_spd_fwhm(555, 25)
 
         self.assertAlmostEqual(spd[530], 0.367879441171443, places=7)
 
