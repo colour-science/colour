@@ -10,10 +10,13 @@ from .cmfs import (LMS_ConeFundamentals, RGB_ColourMatchingFunctions,
                    XYZ_ColourMatchingFunctions)
 from .dataset import *  # noqa
 from . import dataset
-from .generation import (constant_spd, zeros_spd, ones_spd,
-                         gaussian_spd_normal, gaussian_spd_fwhm,
-                         GAUSSIAN_SPD_METHODS, gaussian_spd,
-                         single_led_spd_Ohno2005, multi_led_spd_Ohno2005)
+from .generation import constant_spd, zeros_spd, ones_spd
+from .generation import GAUSSIAN_SPD_METHODS
+from .generation import gaussian_spd, gaussian_spd_normal, gaussian_spd_fwhm
+from .generation import SINGLE_LED_SPD_METHODS
+from .generation import single_led_spd, single_led_spd_Ohno2005
+from .generation import MULTI_LED_SPD_METHODS
+from .generation import multi_led_spd, multi_led_spd_Ohno2005
 from .tristimulus import (SPECTRAL_TO_XYZ_METHODS,
                           MULTI_SPECTRAL_TO_XYZ_METHODS)
 from .tristimulus import spectral_to_XYZ, multi_spectral_to_XYZ
@@ -69,11 +72,13 @@ __all__ += [
     'XYZ_ColourMatchingFunctions'
 ]
 __all__ += dataset.__all__
-__all__ += [
-    'constant_spd', 'zeros_spd', 'ones_spd', 'gaussian_spd_normal',
-    'gaussian_spd_fwhm', 'GAUSSIAN_SPD_METHODS', 'gaussian_spd',
-    'single_led_spd_Ohno2005', 'multi_led_spd_Ohno2005'
-]
+__all__ += ['constant_spd', 'zeros_spd', 'ones_spd']
+__all__ += ['GAUSSIAN_SPD_METHODS']
+__all__ += ['gaussian_spd', 'gaussian_spd_normal', 'gaussian_spd_fwhm']
+__all__ += ['SINGLE_LED_SPD_METHODS']
+__all__ += ['single_led_spd', 'single_led_spd_Ohno2005']
+__all__ += ['MULTI_LED_SPD_METHODS']
+__all__ += ['multi_led_spd', 'multi_led_spd_Ohno2005']
 __all__ += ['SPECTRAL_TO_XYZ_METHODS', 'MULTI_SPECTRAL_TO_XYZ_METHODS']
 __all__ += ['spectral_to_XYZ', 'multi_spectral_to_XYZ']
 __all__ += [

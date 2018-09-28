@@ -10,8 +10,8 @@ Defines various objects performing spectral generation:
 -   :func:`colour.ones_spd`
 -   :func:`colour.colorimetry.gaussian_spd_normal`
 -   :func:`colour.colorimetry.gaussian_spd_fwhm`
--   :func:`colour.single_led_spd_Ohno2005`
--   :func:`colour.multi_led_spd_Ohno2005`
+-   :func:`colour.colorimetry.single_led_spd_Ohno2005`
+-   :func:`colour.colorimetry.multi_led_spd_Ohno2005`
 
 See Also
 --------
@@ -48,7 +48,8 @@ __status__ = 'Production'
 __all__ = [
     'constant_spd', 'zeros_spd', 'ones_spd', 'gaussian_spd_normal',
     'gaussian_spd_fwhm', 'GAUSSIAN_SPD_METHODS', 'gaussian_spd',
-    'single_led_spd_Ohno2005', 'multi_led_spd_Ohno2005'
+    'single_led_spd_Ohno2005', 'SINGLE_LED_SPD_METHODS', 'single_led_spd',
+    'multi_led_spd_Ohno2005', 'MULTI_LED_SPD_METHODS', 'multi_led_spd'
 ]
 
 
@@ -321,7 +322,7 @@ def single_led_spd_Ohno2005(peak_wavelength,
                             shape=DEFAULT_SPECTRAL_SHAPE):
     """
     Returns a single *LED* spectral power distribution of given spectral shape
-    at given peak wavelength and full width at half maximum accordingly to
+    at given peak wavelength and full width at half maximum according to
     *Ohno (2005)* method.
 
     Parameters
@@ -368,13 +369,73 @@ def single_led_spd_Ohno2005(peak_wavelength,
     return spd
 
 
+SINGLE_LED_SPD_METHODS = CaseInsensitiveMapping({
+    'Ohno 2005': single_led_spd_Ohno2005,
+})
+SINGLE_LED_SPD_METHODS.__doc__ = """
+Supported single *LED* spectral power distribution computation methods.
+
+SINGLE_LED_SPD_METHODS : CaseInsensitiveMapping
+    **{'Ohno 2005'}**
+"""
+
+
+def single_led_spd(peak_wavelength,
+                   fwhm,
+                   shape=DEFAULT_SPECTRAL_SHAPE,
+                   method='Ohno 2005'):
+    """
+    Returns a single *LED* spectral power distribution of given spectral shape
+    at given peak wavelength and full width at half maximum according to
+    given method.
+
+    Parameters
+    ----------
+    peak_wavelength : numeric
+        Wavelength the single *LED* spectral power distribution will peak at.
+    fwhm : numeric
+        Full width at half maximum, i.e. width of the underlying gaussian
+        spectral power distribution measured between those points on the *y*
+        axis which are half the maximum amplitude.
+    shape : SpectralShape, optional
+        Spectral shape used to create the spectral power distribution.
+    method : unicode, optional
+        **{'Ohno 2005'}**,
+        Computation method.
+
+    Returns
+    -------
+    SpectralPowerDistribution
+        Single *LED* spectral power distribution.
+
+    Notes
+    -----
+    -   By default, the spectral power distribution will use the shape given
+        by :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
+
+    References
+    ----------
+    :cite:`Ohno2005`, :cite:`Ohno2008a`
+
+    Examples
+    --------
+    >>> spd = single_led_spd(555, 25)
+    >>> spd.shape
+    SpectralShape(360.0, 780.0, 1.0)
+    >>> spd[555]  # doctest: +ELLIPSIS
+    1.0000000...
+    """
+
+    return SINGLE_LED_SPD_METHODS[method](peak_wavelength, fwhm, shape)
+
+
 def multi_led_spd_Ohno2005(peak_wavelengths,
                            fwhm,
                            peak_power_ratios=None,
                            shape=DEFAULT_SPECTRAL_SHAPE):
     """
     Returns a multi *LED* spectral power distribution of given spectral shape
-    at given peak wavelengths and full widths at half maximum accordingly to
+    at given peak wavelengths and full widths at half maximum according to
     *Ohno (2005)* method.
 
     The multi *LED* spectral power distribution is generated using many single
@@ -464,3 +525,74 @@ def multi_led_spd_Ohno2005(peak_wavelengths,
         ))
 
     return spd
+
+
+MULTI_LED_SPD_METHODS = CaseInsensitiveMapping({
+    'Ohno 2005': single_led_spd_Ohno2005,
+})
+MULTI_LED_SPD_METHODS.__doc__ = """
+Supported multi *LED* spectral power distribution computation methods.
+
+MULTI_LED_SPD_METHODS : CaseInsensitiveMapping
+    **{'Ohno 2005'}**
+"""
+
+
+def multi_led_spd(peak_wavelengths,
+                  fwhm,
+                  peak_power_ratios=None,
+                  shape=DEFAULT_SPECTRAL_SHAPE,
+                  method='Ohno 2015'):
+    """
+    Returns a multi *LED* spectral power distribution of given spectral shape
+    at given peak wavelengths and full widths at half maximum according to
+    given method.
+
+    Parameters
+    ----------
+    peak_wavelengths : array_like
+        Wavelengths the multi *LED* spectral power distribution will peak at,
+        i.e. the peaks for each generated single *LED* spectral power
+        distributions.
+    fwhm : array_like
+        Full widths at half maximum, i.e. widths of the underlying gaussian
+        spectral power distributions measured between those points on the *y*
+        axis which are half the maximum amplitude.
+    peak_power_ratios : array_like, optional
+        Peak power ratios for each generated single *LED* spectral power
+        distributions.
+    shape : SpectralShape, optional
+        Spectral shape used to create the spectral power distribution.
+    method : unicode, optional
+        **{'Ohno 2005'}**,
+        Computation method.
+
+    Returns
+    -------
+    SpectralPowerDistribution
+        Multi *LED* spectral power distribution.
+
+    Notes
+    -----
+    -   By default, the spectral power distribution will use the shape given
+        by :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
+
+    References
+    ----------
+    :cite:`Ohno2005`, :cite:`Ohno2008a`
+
+    Examples
+    --------
+    >>> spd = multi_led_spd_Ohno2005(
+    ...     np.array([457, 530, 615]),
+    ...     np.array([20, 30, 20]),
+    ...     np.array([0.731, 1.000, 1.660]),
+    ... )
+    >>> spd.shape
+    SpectralShape(360.0, 780.0, 1.0)
+    >>> spd[500]  # doctest: +ELLIPSIS
+    0.1295132...
+    """
+
+    return MULTI_LED_SPD_METHODS[method](peak_wavelengths, fwhm,
+                                         peak_power_ratios, shape)

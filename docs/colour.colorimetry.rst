@@ -37,8 +37,10 @@ Spectral Data Generation
     zeros_spd
     GAUSSIAN_SPD_METHODS
     gaussian_spd
-    single_led_spd_Ohno2005
-    multi_led_spd_Ohno2005
+    SINGLE_LED_SPD_METHODS
+    single_led_spd
+    MULTI_LED_SPD_METHODS
+    multi_led_spd
 
 ``colour.colorimetry``
 
@@ -49,6 +51,8 @@ Spectral Data Generation
 
     gaussian_spd_normal
     gaussian_spd_fwhm
+    single_led_spd_Ohno2005
+    multi_led_spd_Ohno2005
     blackbody_spectral_radiance
     planck_law
 
