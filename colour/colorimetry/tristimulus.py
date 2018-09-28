@@ -718,7 +718,7 @@ SPECTRAL_TO_XYZ_METHODS = CaseInsensitiveMapping({
 })
 SPECTRAL_TO_XYZ_METHODS.__doc__ = """
 Supported spectral power distribution to *CIE XYZ* tristimulus values
-conversion methods
+conversion methods.
 
 References
 ----------

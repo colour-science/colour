@@ -44,7 +44,7 @@ def planckian_locus_plot(planckian_locus_colours=None,
                          method='CIE 1931',
                          **kwargs):
     """
-    Plots the *Planckian Locus* accordingly to given method.
+    Plots the *Planckian Locus* according to given method.
 
     Parameters
     ----------
@@ -142,7 +142,7 @@ def planckian_locus_chromaticity_diagram_plot(
         **kwargs):
     """
     Plots the *Planckian Locus* and given illuminants in the
-    *Chromaticity Diagram* accordingly to given method.
+    *Chromaticity Diagram* according to given method.
 
     Parameters
     ----------
