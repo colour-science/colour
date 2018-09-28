@@ -48,9 +48,8 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'SpectralShape', 'SpectralPowerDistribution',
-    'MultiSpectralPowerDistribution', 'DEFAULT_SPECTRAL_SHAPE', 'constant_spd',
-    'zeros_spd', 'ones_spd'
+    'SpectralShape', 'DEFAULT_SPECTRAL_SHAPE', 'SpectralPowerDistribution',
+    'MultiSpectralPowerDistribution'
 ]
 
 
@@ -462,9 +461,17 @@ class SpectralShape(object):
                 self._interval = current_interval
                 warning(('"{0}" shape could not be honoured, using '
                          '"{1}"!').format(
-                    (self._start, self._end, self._interval), self))
+                             (self._start, self._end, self._interval), self))
 
         return self._range
+
+
+DEFAULT_SPECTRAL_SHAPE = SpectralShape(360, 780, 1)
+"""
+Default spectral shape according to *ASTM E308-15* practise shape.
+
+DEFAULT_SPECTRAL_SHAPE : SpectralShape
+"""
 
 
 class SpectralPowerDistribution(Signal):
@@ -2448,116 +2455,3 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
                         'MultiSpectralPowerDistribution.copy')))
 
         return self.copy()
-
-
-DEFAULT_SPECTRAL_SHAPE = SpectralShape(360, 780, 1)
-"""
-Default spectral shape according to *ASTM E308-15* practise shape.
-
-DEFAULT_SPECTRAL_SHAPE : SpectralShape
-"""
-
-
-def constant_spd(k, shape=DEFAULT_SPECTRAL_SHAPE, dtype=DEFAULT_FLOAT_DTYPE):
-    """
-    Returns a spectral power distribution of given spectral shape filled with
-    constant :math:`k` values.
-
-    Parameters
-    ----------
-    k : numeric
-        Constant :math:`k` to fill the spectral power distribution with.
-    shape : SpectralShape, optional
-        Spectral shape used to create the spectral power distribution.
-    dtype : type
-        Data type used for the spectral power distribution.
-
-    Returns
-    -------
-    SpectralPowerDistribution
-        Constant :math:`k` to filled spectral power distribution.
-
-    Notes
-    -----
-    -   By default, the spectral power distribution will use the shape given
-        by :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
-
-    Examples
-    --------
-    >>> spd = constant_spd(100)
-    >>> spd.shape
-    SpectralShape(360.0, 780.0, 1.0)
-    >>> spd[400]
-    100.0
-    """
-
-    wavelengths = shape.range(dtype)
-    values = np.full(len(wavelengths), k, dtype)
-
-    name = '{0} Constant'.format(k)
-    return SpectralPowerDistribution(
-        values, wavelengths, name=name, dtype=dtype)
-
-
-def zeros_spd(shape=DEFAULT_SPECTRAL_SHAPE):
-    """
-    Returns a spectral power distribution of given spectral shape filled with
-    zeros.
-
-    Parameters
-    ----------
-    shape : SpectralShape, optional
-        Spectral shape used to create the spectral power distribution.
-
-    Returns
-    -------
-    SpectralPowerDistribution
-        Zeros filled spectral power distribution.
-
-    Notes
-    -----
-    -   By default, the spectral power distribution will use the shape given
-        by :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
-
-    Examples
-    --------
-    >>> spd = zeros_spd()
-    >>> spd.shape
-    SpectralShape(360.0, 780.0, 1.0)
-    >>> spd[400]
-    0.0
-    """
-
-    return constant_spd(0, shape)
-
-
-def ones_spd(shape=DEFAULT_SPECTRAL_SHAPE):
-    """
-    Returns a spectral power distribution of given spectral shape filled with
-    ones.
-
-    Parameters
-    ----------
-    shape : SpectralShape, optional
-        Spectral shape used to create the spectral power distribution.
-
-    Returns
-    -------
-    SpectralPowerDistribution
-        Ones filled spectral power distribution.
-
-    Notes
-    -----
-    -   By default, the spectral power distribution will use the shape given
-        by :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
-
-    Examples
-    --------
-    >>> spd = ones_spd()
-    >>> spd.shape
-    SpectralShape(360.0, 780.0, 1.0)
-    >>> spd[400]
-    1.0
-    """
-
-    return constant_spd(1, shape)

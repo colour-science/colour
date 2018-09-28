@@ -2,14 +2,21 @@
 
 from __future__ import absolute_import
 
-from .spectrum import (SpectralShape, SpectralPowerDistribution,
-                       MultiSpectralPowerDistribution, DEFAULT_SPECTRAL_SHAPE,
-                       constant_spd, zeros_spd, ones_spd)
+from .spectrum import (SpectralShape, DEFAULT_SPECTRAL_SHAPE,
+                       SpectralPowerDistribution,
+                       MultiSpectralPowerDistribution)
 from .blackbody import (blackbody_spd, blackbody_spectral_radiance, planck_law)
 from .cmfs import (LMS_ConeFundamentals, RGB_ColourMatchingFunctions,
                    XYZ_ColourMatchingFunctions)
 from .dataset import *  # noqa
 from . import dataset
+from .generation import constant_spd, zeros_spd, ones_spd
+from .generation import GAUSSIAN_SPD_METHODS
+from .generation import gaussian_spd, gaussian_spd_normal, gaussian_spd_fwhm
+from .generation import SINGLE_LED_SPD_METHODS
+from .generation import single_led_spd, single_led_spd_Ohno2005
+from .generation import MULTI_LED_SPD_METHODS
+from .generation import multi_led_spd, multi_led_spd_Ohno2005
 from .tristimulus import (SPECTRAL_TO_XYZ_METHODS,
                           MULTI_SPECTRAL_TO_XYZ_METHODS)
 from .tristimulus import spectral_to_XYZ, multi_spectral_to_XYZ
@@ -56,9 +63,8 @@ from .yellowness import yellowness
 from .yellowness import yellowness_ASTMD1925, yellowness_ASTME313
 
 __all__ = [
-    'SpectralShape', 'SpectralPowerDistribution',
-    'MultiSpectralPowerDistribution', 'DEFAULT_SPECTRAL_SHAPE', 'constant_spd',
-    'zeros_spd', 'ones_spd'
+    'SpectralShape', 'DEFAULT_SPECTRAL_SHAPE', 'SpectralPowerDistribution',
+    'MultiSpectralPowerDistribution'
 ]
 __all__ += ['blackbody_spd', 'blackbody_spectral_radiance', 'planck_law']
 __all__ += [
@@ -66,6 +72,13 @@ __all__ += [
     'XYZ_ColourMatchingFunctions'
 ]
 __all__ += dataset.__all__
+__all__ += ['constant_spd', 'zeros_spd', 'ones_spd']
+__all__ += ['GAUSSIAN_SPD_METHODS']
+__all__ += ['gaussian_spd', 'gaussian_spd_normal', 'gaussian_spd_fwhm']
+__all__ += ['SINGLE_LED_SPD_METHODS']
+__all__ += ['single_led_spd', 'single_led_spd_Ohno2005']
+__all__ += ['MULTI_LED_SPD_METHODS']
+__all__ += ['multi_led_spd', 'multi_led_spd_Ohno2005']
 __all__ += ['SPECTRAL_TO_XYZ_METHODS', 'MULTI_SPECTRAL_TO_XYZ_METHODS']
 __all__ += ['spectral_to_XYZ', 'multi_spectral_to_XYZ']
 __all__ += [
