@@ -47,8 +47,8 @@ class TestAbstractLUT(unittest.TestCase):
         Tests presence of required attributes.
         """
 
-        required_attributes = ('EXPLICIT_DOMAIN_SUPPORT', 'table', 'name',
-                               'dimensions', 'domain', 'size', 'comments')
+        required_attributes = ('table', 'name', 'dimensions', 'domain', 'size',
+                               'comments')
 
         for attribute in required_attributes:
             self.assertIn(attribute, dir(AbstractLUT))
@@ -96,22 +96,15 @@ class TestLUT(unittest.TestCase):
         self._table_1 = None
         self._table_2 = None
         self._table_3 = None
+        self._table_1_kwargs = None
+        self._table_2_kwargs = None
+        self._table_3_kwargs = None
         self._dimensions = None
         self._str = None
         self._repr = None
         self._applied_1 = None
         self._applied_2 = None
         self._applied_3 = None
-
-    def test_required_attributes(self):
-        """
-        Tests presence of required attributes.
-        """
-
-        required_attributes = ('EXPLICIT_DOMAIN_SUPPORT', )
-
-        for attribute in required_attributes:
-            self.assertIn(attribute, dir(AbstractLUT))
 
     def test_required_methods(self):
         """
@@ -145,18 +138,9 @@ class TestLUT(unittest.TestCase):
 
         self.assertEqual(LUT.dimensions, self._dimensions)
 
-        if self._LUT_factory.EXPLICIT_DOMAIN_SUPPORT:
-            self.assertRaises(
-                AssertionError,
-                lambda: self._LUT_factory(domain=self._domain_3))
-
-            self.assertIsInstance(
-                self._LUT_factory(self._table_3, domain=self._domain_3),
-                self._LUT_factory)
-        else:
-            self.assertRaises(
-                AssertionError,
-                lambda: self._LUT_factory(domain=self._domain_3))
+        self.assertIsInstance(
+            self._LUT_factory(self._table_3, domain=self._domain_3),
+            self._LUT_factory)
 
     def test_table(self):
         """
@@ -355,10 +339,9 @@ class TestLUT(unittest.TestCase):
 
         self.assertFalse(self._LUT_factory().is_domain_explicit())
 
-        if self._LUT_factory.EXPLICIT_DOMAIN_SUPPORT:
-            self.assertTrue(
-                self._LUT_factory(self._table_3,
-                                  domain=self._domain_3).is_domain_explicit())
+        self.assertTrue(
+            self._LUT_factory(self._table_3,
+                              domain=self._domain_3).is_domain_explicit())
 
     def test_arithmetical_operation(self):
         """
@@ -454,6 +437,13 @@ class TestLUT(unittest.TestCase):
         np.testing.assert_almost_equal(
             LUT_1.linear_table(), self._table_1, decimal=7)
 
+        np.testing.assert_almost_equal(
+            spow(
+                self._LUT_factory.linear_table(**self._table_3_kwargs),
+                1 / 2.6),
+            self._table_3,
+            decimal=7)
+
     def test_apply(self):
         """
         Tests :class:`colour.io.luts.lut.LUT1D.apply`,
@@ -477,12 +467,11 @@ class TestLUT(unittest.TestCase):
         np.testing.assert_almost_equal(
             LUT_2.apply(RANDOM_TRIPLETS), self._applied_2, decimal=7)
 
-        if self._LUT_factory.EXPLICIT_DOMAIN_SUPPORT:
-            # pylint: disable=E1102
-            LUT_3 = self._LUT_factory(self._table_3, domain=self._domain_3)
+        # pylint: disable=E1102
+        LUT_3 = self._LUT_factory(self._table_3, domain=self._domain_3)
 
-            np.testing.assert_almost_equal(
-                LUT_3.apply(RANDOM_TRIPLETS), self._applied_3, decimal=7)
+        np.testing.assert_almost_equal(
+            LUT_3.apply(RANDOM_TRIPLETS), self._applied_3, decimal=7)
 
     def test_copy(self):
         """
@@ -522,10 +511,13 @@ class TestLUT1D(TestLUT):
 
         self._domain_1 = np.array([0, 1])
         self._domain_2 = np.array([-0.1, 1.5])
-        self._domain_3 = np.linspace(0, 1, 10)
+        self._domain_3 = np.linspace(-0.1, 1.5, 10)
         self._table_1 = np.linspace(0, 1, 10)
         self._table_2 = self._table_1 ** (1 / 2.2)
-        self._table_3 = self._table_1 ** (1 / 2.6)
+        self._table_3 = spow(np.linspace(-0.1, 1.5, 10), (1 / 2.6))
+        self._table_1_kwargs = {'size': 10, 'domain': self._domain_1}
+        self._table_2_kwargs = {'size': 10, 'domain': self._domain_2}
+        self._table_3_kwargs = {'size': 10, 'domain': self._domain_3}
         self._dimensions = 1
         self._str = textwrap.dedent("""
             LUT1D - Nemo
@@ -560,14 +552,14 @@ class TestLUT1D(TestLUT):
              [0.97606266, 0.89639002, 0.9356489]],
         ])
         self._applied_3 = np.array([
-            [[0.98685765, 0.7927465, 0.98911162],
-             [0.87825083, 0.8702138, 0.5535009]],
-            [[0.99054268, 0.02408419, 0.58694238],
-             [0.72539586, 0.90855635, 0.53176507]],
-            [[0.94455894, 0.99338329, 0.49179631],
-             [0.81944762, 0.0347374, 0.6921183]],
-            [[0.17070875, 0.98272129, 0.72633104],
-             [0.97966167, 0.91153742, 0.94597823]],
+            [[0.98718085, 0.79062078, 0.98928698],
+             [0.87725399, 0.86904691, 0.54348223]],
+            [[0.99062417, 0.05775947, 0.5885666],
+             [0.72580416, 0.90826591, 0.52099138]],
+            [[0.94376678, 0.99327846, 0.47963425],
+             [0.81950198, 0.06995805, 0.68991332]],
+            [[0.22565356, 0.98286533, 0.72658532],
+             [0.9796611, 0.9115911, 0.94514273]],
         ])
 
 
@@ -594,7 +586,7 @@ class TestLUT2D(TestLUT):
         samples_2 = np.linspace(-0.1, 1.5, 15)
         samples_3 = np.linspace(-0.1, 3.0, 20)
         self._domain_1 = np.array([[0, 0, 0], [1, 1, 1]])
-        self._domain_2 = np.array([[-0.1, -0.1, -0.1], [1.5, 1.5, 1.5]])
+        self._domain_2 = np.array([[0, -0.1, -0.2], [1, 1.5, 3.0]])
         self._domain_3 = tstack([
             np.hstack([samples_1, np.full(10, np.nan)]),
             np.hstack([samples_2, np.full(5, np.nan)]),
@@ -608,6 +600,12 @@ class TestLUT2D(TestLUT):
                 np.hstack([samples_2, np.full(5, np.nan)]),
                 samples_3,
             ]), 1 / 2.6)
+        self._table_1_kwargs = {'size': 10, 'domain': self._domain_1}
+        self._table_2_kwargs = {'size': 10, 'domain': self._domain_2}
+        self._table_3_kwargs = {
+            'size': np.array([10, 15, 20]),
+            'domain': self._domain_3
+        }
         self._dimensions = 2
         self._str = textwrap.dedent("""
             LUT2D - Nemo
@@ -642,14 +640,14 @@ class TestLUT2D(TestLUT):
              [0.97606176, 0.89633381, 0.93651642]],
         ])
         self._applied_2 = np.array([
-            [[0.98486877, 0.75787807, 0.98736681],
-             [0.85682563, 0.84736915, 0.4879954]],
-            [[0.98895283, 0.04585089, 0.53461565],
-             [0.68473291, 0.89255862, 0.46473837]],
-            [[0.93403795, 0.99210103, 0.42197234],
-             [0.79047033, 0.05614915, 0.64540281]],
-            [[0.18759013, 0.97981413, 0.68561444],
-             [0.97606266, 0.89639002, 0.9356489]],
+            [[0.98453144, 0.75787807, 0.98427891],
+             [0.85784314, 0.84736915, 0.48162761]],
+            [[0.98886872, 0.04585089, 0.51357067],
+             [0.68433298, 0.89255862, 0.46569246]],
+            [[0.93486051, 0.99210103, 0.43639023],
+             [0.7904097, 0.05614915, 0.62923633]],
+            [[0.14639477, 0.97981413, 0.67216031],
+             [0.97606176, 0.89639002, 0.93681229]],
         ])
         self._applied_3 = np.array([
             [[0.98685765, 0.79209027, 0.98858598],
@@ -686,25 +684,36 @@ class TestLUT3D(TestLUT):
         samples_2 = np.linspace(-0.1, 1.5, 15)
         samples_3 = np.linspace(-0.1, 3.0, 20)
         self._domain_1 = np.array([[0, 0, 0], [1, 1, 1]])
-        self._domain_2 = np.array([[-0.1, -0.1, -0.1], [1.5, 1.5, 1.5]])
+        self._domain_2 = np.array([[0, -0.1, -0.2], [1, 1.5, 3.0]])
         self._domain_3 = tstack([
             np.hstack([samples_1, np.full(10, np.nan)]),
             np.hstack([samples_2, np.full(5, np.nan)]),
             samples_3,
         ])
-        table_1 = np.meshgrid(
+        self._table_1 = np.meshgrid(
             *[
-                np.linspace(a[0], a[1], 33)
-                for a in reversed(tsplit(self._domain_1))
+                np.linspace(axes[0], axes[1], 33)
+                for axes in reversed(tsplit(self._domain_1))
             ],
             indexing='ij')
-        table_1 = np.transpose(table_1).reshape([33, 33, 33, 3])
-        table_2 = np.meshgrid(
-            *[a for a in reversed(tsplit(self._domain_3))], indexing='ij')
-        table_2 = np.transpose(table_2).reshape([20, 20, 20, 3])
-        self._table_1 = np.flip(table_1, -1)
-        self._table_2 = spow(self._table_1, 1 / 2.2)
-        self._table_3 = spow(np.flip(table_2, -1), 1 / 2.6)
+        self._table_1 = np.flip(
+            np.transpose(self._table_1).reshape([33, 33, 33, 3]), -1)
+        self._table_2 = self._table_1 ** (1 / 2.2)
+        self._table_3 = np.meshgrid(
+            *[
+                axes[:(~np.isnan(axes)).cumsum().argmax() + 1]
+                for axes in reversed(tsplit(self._domain_3))
+            ],
+            indexing='ij')
+        self._table_3 = spow(
+            np.flip(np.transpose(self._table_3).reshape([20, 15, 10, 3]), -1),
+            1 / 2.6)
+        self._table_1_kwargs = {'size': 33, 'domain': self._domain_1}
+        self._table_2_kwargs = {'size': 33, 'domain': self._domain_2}
+        self._table_3_kwargs = {
+            'size': np.array([10, 15, 20]),
+            'domain': self._domain_3
+        }
         self._dimensions = 3
         self._str = textwrap.dedent("""
             LUT3D - Nemo
@@ -726,16 +735,25 @@ class TestLUT3D(TestLUT):
              [0.97644600, 0.89645863, 0.93680839]],
         ])
         self._applied_2 = np.array([
-            [[0.98480377, 0.76026078, 0.98740998],
-             [0.85836205, 0.84905549, 0.49768493]],
-            [[0.98906469, 0.03192703, 0.53526504],
-             [0.68458573, 0.89277461, 0.47842591]],
-            [[0.93514331, 0.99234923, 0.4385062],
-             [0.79115345, 0.04604939, 0.64892459]],
-            [[0.22629886, 0.98002097, 0.68556852],
-             [0.97646946, 0.89639137, 0.9367549]],
+            [[0.98486974, 0.76026078, 0.98722654],
+             [0.85844632, 0.84905549, 0.49682383]],
+            [[0.98912224, 0.03192703, 0.53274867],
+             [0.68479344, 0.89277461, 0.47814624]],
+            [[0.935181, 0.99234923, 0.43413792],
+             [0.79116284, 0.04604939, 0.64850011]],
+            [[0.2385999, 0.98002097, 0.68479574],
+             [0.976446, 0.89639137, 0.93648599]],
         ])
-        self._applied_3 = None
+        self._applied_3 = np.array([
+            [[1.00000000, 0.71656043, 0.98618503],
+             [0.8859939, 0.77971901, 0.82556474]],
+            [[1.00000000, 0.31953429, 0.75156327],
+             [0.73205748, 0.7524962, 0.63990099]],
+            [[0.95570961, 0.86312496, 0.69548589],
+             [0.81790284, 0.45555398, 0.72926322]],
+            [[0.00000000, 1.0315533, 0.72369226],
+             [1.00000000, 0.66274325, 0.83497232]],
+        ])
 
 
 class TestAbstractLUTSequenceOperator(unittest.TestCase):

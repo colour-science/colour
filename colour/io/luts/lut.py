@@ -34,8 +34,9 @@ from six import add_metaclass
 
 from colour.algebra import LinearInterpolator, table_interpolation_trilinear
 from colour.constants import DEFAULT_INT_DTYPE
-from colour.utilities import (as_float_array, is_iterable, is_string,
-                              linear_conversion, tsplit, tstack)
+from colour.utilities import (as_float_array, is_numeric, is_iterable,
+                              is_string, linear_conversion, tsplit, tstack,
+                              warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -109,13 +110,6 @@ class AbstractLUT:
     as_LUT
     """
 
-    EXPLICIT_DOMAIN_SUPPORT = True
-    """
-    Whether the *LUT* class implements support for explicit domain.
-
-    EXPLICIT_DOMAIN_SUPPORT : bool
-    """
-
     def __init__(self,
                  table=None,
                  name=None,
@@ -130,17 +124,10 @@ class AbstractLUT:
 
         self._dimensions = dimensions
 
+        self._table = self.linear_table(size, domain)
+        self.table = table
         self._domain = None
         self.domain = domain
-        if self.is_domain_explicit():
-            assert table is not None, (
-                '"LUT" domain is explicitly defined thus the "LUT" table must '
-                'be also explicitly defined!')
-        else:
-            # pylint: disable=E1121
-            self._table = self.linear_table(size, domain)
-
-        self.table = table
         self._comments = []
         self.comments = comments
 
@@ -680,11 +667,12 @@ class AbstractLUT:
 
         Parameters
         ----------
-        size : int, optional
+        size : int or array_like, optional
             Expected table size, for a 1D *LUT*, the number of output samples
             :math:`n` is equal to ``size``, for a 2D *LUT* :math:`n` is equal
-            to ``size * 3``, for a 3D *LUT* :math:`n` is equal to
-            ``size**3 * 3``.
+            to ``size * 3`` or ``size[0] + size[1] + size[2]``, for a 3D *LUT*
+            :math:`n` is equal to ``size**3 * 3`` or
+            ``size[0] * size[1] * size[2] * 3``.
         domain : array_like, optional
             Domain of the table.
 
@@ -839,13 +827,6 @@ class LUT1D(AbstractLUT):
     Comment 02 : A second comment.
     """
 
-    EXPLICIT_DOMAIN_SUPPORT = True
-    """
-    Whether the *LUT* class implements support for explicit domain.
-
-    EXPLICIT_DOMAIN_SUPPORT : bool
-    """
-
     def __init__(self,
                  table=None,
                  name=None,
@@ -932,7 +913,7 @@ class LUT1D(AbstractLUT):
 
     # pylint: disable=W0221
     @staticmethod
-    def linear_table(size=10, domain=None):
+    def linear_table(size=10, domain=np.array([0, 1])):
         """
         Returns a linear table, the number of output samples :math:`n` is equal
         to ``size``.
@@ -953,11 +934,18 @@ class LUT1D(AbstractLUT):
         --------
         >>> LUT1D.linear_table(5, np.array([-0.1, 1.5]))
         array([-0.1,  0.3,  0.7,  1.1,  1.5])
+        >>> LUT1D.linear_table(domain=np.linspace(-0.1, 1.5, 5))
+        array([-0.1,  0.3,  0.7,  1.1,  1.5])
         """
 
-        x, y = (0, 1) if domain is None else domain
+        domain = as_float_array(domain)
 
-        return np.linspace(x, y, size)
+        if len(domain) != 2:
+            return domain
+        else:
+            assert is_numeric(size), 'Linear table size must be a numeric!'
+
+            return np.linspace(domain[0], domain[1], size)
 
     def apply(self,
               RGB,
@@ -1136,13 +1124,6 @@ class LUT2D(AbstractLUT):
     Comment 02 : A second comment.
     """
 
-    EXPLICIT_DOMAIN_SUPPORT = True
-    """
-    Whether the *LUT* class implements support for explicit domain.
-
-    EXPLICIT_DOMAIN_SUPPORT : bool
-    """
-
     def __init__(self,
                  table=None,
                  name=None,
@@ -1202,45 +1183,6 @@ class LUT2D(AbstractLUT):
 
         return domain
 
-    # pylint: disable=W0221
-    @staticmethod
-    def linear_table(size=10, domain=None):
-        """
-        Returns a linear table, the number of output samples :math:`n` is equal
-        to ``size * 3``.
-
-        Parameters
-        ----------
-        size : int, optional
-            Expected table size.
-        domain : array_like, optional
-            Domain of the table.
-
-        Returns
-        -------
-        ndarray
-            Linear table with ``size * 3`` samples.
-
-        Examples
-        --------
-        >>> LUT2D.linear_table(
-        ...     5, np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]]))
-        array([[-0.1, -0.2, -0.4],
-               [ 0.3,  0.6,  1.2],
-               [ 0.7,  1.4,  2.8],
-               [ 1.1,  2.2,  4.4],
-               [ 1.5,  3. ,  6. ]])
-        """
-
-        if domain is None:
-            R = G = B = [0, 1]
-        else:
-            R, G, B = tsplit(domain)
-
-        samples = [np.linspace(a[0], a[1], size) for a in (R, G, B)]
-
-        return tstack(samples)
-
     def is_domain_explicit(self):
         """
         Returns whether the *LUT* domain is explicit (or implicit).
@@ -1278,6 +1220,89 @@ class LUT2D(AbstractLUT):
 
         return self.domain.shape != (2, 3)
 
+    # pylint: disable=W0221
+    @staticmethod
+    def linear_table(size=10, domain=np.array([[0, 0, 0], [1, 1, 1]])):
+        """
+        Returns a linear table, the number of output samples :math:`n` is equal
+        to ``size * 3`` or ``size[0] + size[1] + size[2]``.
+
+        Parameters
+        ----------
+        size : int or array_like, optional
+            Expected table size.
+        domain : array_like, optional
+            Domain of the table.
+
+        Returns
+        -------
+        ndarray
+            Linear table with ``size * 3`` or ``size[0] + size[1] + size[2]``
+            samples.
+
+        Warnings
+        --------
+        If ``size`` is non uniform, the linear table will be padded
+        accordingly.
+
+        Examples
+        --------
+        >>> LUT2D.linear_table(
+        ...     5, np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]]))
+        array([[-0.1, -0.2, -0.4],
+               [ 0.3,  0.6,  1.2],
+               [ 0.7,  1.4,  2.8],
+               [ 1.1,  2.2,  4.4],
+               [ 1.5,  3. ,  6. ]])
+        >>> LUT2D.linear_table(
+        ...     np.array([5, 3, 2]),
+        ...     np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]]))
+        array([[-0.1, -0.2, -0.4],
+               [ 0.3,  1.4,  6. ],
+               [ 0.7,  3. ,  nan],
+               [ 1.1,  nan,  nan],
+               [ 1.5,  nan,  nan]])
+        >>> domain = np.array([[-0.1, -0.2, -0.4],
+        ...                    [0.3, 1.4, 6.0],
+        ...                    [0.7, 3.0, np.nan],
+        ...                    [1.1, np.nan, np.nan],
+        ...                    [1.5, np.nan, np.nan]])
+        >>> LUT2D.linear_table(domain=domain)
+        array([[-0.1, -0.2, -0.4],
+               [ 0.3,  1.4,  6. ],
+               [ 0.7,  3. ,  nan],
+               [ 1.1,  nan,  nan],
+               [ 1.5,  nan,  nan]])
+        """
+
+        domain = as_float_array(domain)
+
+        if domain.shape != (2, 3):
+            return domain
+        else:
+            if is_numeric(size):
+                size = np.tile(size, 3)
+
+            R, G, B = tsplit(domain)
+
+            samples = [
+                np.linspace(a[0], a[1], size[i])
+                for i, a in enumerate([R, G, B])
+            ]
+
+            if not len(np.unique(size)) == 1:
+                warning('Table is non uniform, axis will be '
+                        'padded with "NaNs" accordingly!')
+
+                samples = [
+                    np.pad(
+                        axis, (0, np.max(size) - len(axis)),
+                        mode='constant',
+                        constant_values=np.nan) for axis in samples
+                ]
+
+            return tstack(samples)
+
     def apply(self,
               RGB,
               interpolator=LinearInterpolator,
@@ -1305,23 +1330,47 @@ class LUT2D(AbstractLUT):
         >>> RGB = np.array([0.18, 0.18, 0.18])
         >>> LUT.apply(RGB)  # doctest: +ELLIPSIS
         array([ 0.4529220...,  0.4529220...,  0.4529220...])
+        >>> from colour.algebra import spow
+        >>> domain = np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]])
+        >>> table = spow(LUT2D.linear_table(domain=domain), 1 / 2.2)
+        >>> LUT = LUT2D(table, domain=domain)
+        >>> RGB = np.array([0.18, 0.18, 0.18])
+        >>> LUT.apply(RGB)  # doctest: +ELLIPSIS
+        array([ 0.4423903...,  0.4503801...,  0.3581625...])
+        >>> domain = np.array([[-0.1, -0.2, -0.4],
+        ...                    [0.3, 1.4, 6.0],
+        ...                    [0.7, 3.0, np.nan],
+        ...                    [1.1, np.nan, np.nan],
+        ...                    [1.5, np.nan, np.nan]])
+        >>> table = spow(LUT2D.linear_table(domain=domain), 1 / 2.2)
+        >>> LUT = LUT2D(table, domain=domain)
+        >>> RGB = np.array([0.18, 0.18, 0.18])
+        >>> LUT.apply(RGB)  # doctest: +ELLIPSIS
+        array([ 0.2996370..., -0.0901332..., -0.3949770...])
         """
 
         R, G, B = tsplit(RGB)
-        R_t, G_t, B_t = tsplit(self._table)
 
         if self.is_domain_explicit():
-            s_R, s_G, s_B = tsplit(self.domain)
+            samples = [
+                axes[:(~np.isnan(axes)).cumsum().argmax() + 1]
+                for axes in np.transpose(self.domain)
+            ]
+            R_t, G_t, B_t = [
+                axes[:len(samples[i])]
+                for i, axes in enumerate(np.transpose(self._table))
+            ]
         else:
             domain_min, domain_max = self.domain
             size = DEFAULT_INT_DTYPE(self._table.size / 3)
-
             samples = [
                 np.linspace(domain_min[i], domain_max[i], size)
                 for i in range(3)
             ]
 
-            s_R, s_G, s_B = samples
+            R_t, G_t, B_t = tsplit(self._table)
+
+        s_R, s_G, s_B = samples
 
         RGB_i = [
             interpolator(a[0], a[1])(a[2])
@@ -1467,13 +1516,6 @@ class LUT3D(AbstractLUT):
     Comment 02 : A second comment.
     """
 
-    EXPLICIT_DOMAIN_SUPPORT = False
-    """
-    Whether the *LUT* class implements support for explicit domain.
-
-    EXPLICIT_DOMAIN_SUPPORT : bool
-    """
-
     def __init__(self,
                  table=None,
                  name=None,
@@ -1504,9 +1546,6 @@ class LUT3D(AbstractLUT):
 
         assert len(table.shape) == 4, 'The table must be a 4D array!'
 
-        assert len(set(
-            table.shape[:-1])) == 1, 'The table dimensions must be equal!'
-
         return table
 
     def _validate_domain(self, domain):
@@ -1532,8 +1571,8 @@ class LUT3D(AbstractLUT):
 
         assert len(domain.shape) == 2, 'The domain must be a 2D array!'
 
-        assert domain.shape[0] == 2, (
-            'The domain row count must be equal to 2!')
+        assert domain.shape[0] >= 2, (
+            'The domain row count must be equal or greater than 2!')
 
         assert domain.shape[1] == 3, (
             'The domain column count must be equal to 3!')
@@ -1564,29 +1603,29 @@ class LUT3D(AbstractLUT):
         bool
             Is *LUT* domain explicit.
 
-        Notes
-        -----
-        -   A :class:`LUT3D` class instance must use an implicit domain, thus
-            this method always return *False*.
-
         Examples
         --------
         >>> LUT3D().is_domain_explicit()
         False
+        >>> domain = np.array([[-0.1, -0.2, -0.4],
+        ...                    [0.7, 1.4, 6.0],
+        ...                    [1.5, 3.0, np.nan]])
+        >>> LUT3D(domain=domain).is_domain_explicit()
+        True
         """
 
-        return False
+        return self.domain.shape != (2, 3)
 
     # pylint: disable=W0221
     @staticmethod
-    def linear_table(size=33, domain=None):
+    def linear_table(size=33, domain=np.array([[0, 0, 0], [1, 1, 1]])):
         """
         Returns a linear table, the number of output samples :math:`n` is equal
-        to ``size**3 * 3``.
+        to ``size**3 * 3`` or ``size[0] * size[1] * size[2] * 3``.
 
         Parameters
         ----------
-        size : int, optional
+        size : int or array_like, optional
             Expected table size.
         domain : array_like, optional
             Domain of the table.
@@ -1594,7 +1633,8 @@ class LUT3D(AbstractLUT):
         Returns
         -------
         ndarray
-            Linear table with ``size**3 * 3`` samples.
+            Linear table with ``size**3 * 3`` or
+            ``size[0] * size[1] * size[2] * 3`` samples.
 
         Examples
         --------
@@ -1637,18 +1677,87 @@ class LUT3D(AbstractLUT):
                 [[ 1.5,  3. , -0.4],
                  [ 1.5,  3. ,  2.8],
                  [ 1.5,  3. ,  6. ]]]])
+        >>> LUT3D.linear_table(
+        ...     np.array([3, 3, 2]),
+        ...     np.array([[-0.1, -0.2, -0.4], [1.5, 3.0, 6.0]]))
+        array([[[[-0.1, -0.2, -0.4],
+                 [-0.1, -0.2,  6. ],
+                 [-0.1,  1.4, -0.4]],
+        <BLANKLINE>
+                [[-0.1,  1.4,  6. ],
+                 [-0.1,  3. , -0.4],
+                 [-0.1,  3. ,  6. ]],
+        <BLANKLINE>
+                [[ 0.7, -0.2, -0.4],
+                 [ 0.7, -0.2,  6. ],
+                 [ 0.7,  1.4, -0.4]]],
+        <BLANKLINE>
+        <BLANKLINE>
+               [[[ 0.7,  1.4,  6. ],
+                 [ 0.7,  3. , -0.4],
+                 [ 0.7,  3. ,  6. ]],
+        <BLANKLINE>
+                [[ 1.5, -0.2, -0.4],
+                 [ 1.5, -0.2,  6. ],
+                 [ 1.5,  1.4, -0.4]],
+        <BLANKLINE>
+                [[ 1.5,  1.4,  6. ],
+                 [ 1.5,  3. , -0.4],
+                 [ 1.5,  3. ,  6. ]]]])
+        >>> domain = np.array([[-0.1, -0.2, -0.4],
+        ...                    [0.7, 1.4, 6.0],
+        ...                    [1.5, 3.0, np.nan]])
+        >>> LUT3D.linear_table(domain=domain)
+        array([[[[-0.1, -0.2, -0.4],
+                 [-0.1, -0.2,  6. ],
+                 [-0.1,  1.4, -0.4]],
+        <BLANKLINE>
+                [[-0.1,  1.4,  6. ],
+                 [-0.1,  3. , -0.4],
+                 [-0.1,  3. ,  6. ]],
+        <BLANKLINE>
+                [[ 0.7, -0.2, -0.4],
+                 [ 0.7, -0.2,  6. ],
+                 [ 0.7,  1.4, -0.4]]],
+        <BLANKLINE>
+        <BLANKLINE>
+               [[[ 0.7,  1.4,  6. ],
+                 [ 0.7,  3. , -0.4],
+                 [ 0.7,  3. ,  6. ]],
+        <BLANKLINE>
+                [[ 1.5, -0.2, -0.4],
+                 [ 1.5, -0.2,  6. ],
+                 [ 1.5,  1.4, -0.4]],
+        <BLANKLINE>
+                [[ 1.5,  1.4,  6. ],
+                 [ 1.5,  3. , -0.4],
+                 [ 1.5,  3. ,  6. ]]]])
         """
 
-        if domain is None:
-            R = G = B = [0, 1]
+        domain = as_float_array(domain)
+
+        if domain.shape != (2, 3):
+            samples = np.flip([
+                axes[:(~np.isnan(axes)).cumsum().argmax() + 1]
+                for axes in np.transpose(domain)
+            ], -1)
+            size = [len(axes) for axes in samples]
         else:
+            if is_numeric(size):
+                size = np.tile(size, 3)
+
             R, G, B = tsplit(domain)
 
-        samples = [np.linspace(a[0], a[1], size) for a in (B, G, R)]
-        table = np.meshgrid(*samples, indexing='ij')
-        table = np.transpose(table).reshape([size, size, size, 3])
+            size = np.flip(size, -1)
+            samples = [
+                np.linspace(a[0], a[1], size[i])
+                for i, a in enumerate([B, G, R])
+            ]
 
-        return np.flip(table, -1)
+        table = np.meshgrid(*samples, indexing='ij')
+        table = np.flip(np.transpose(table).reshape(np.hstack([size, 3])), -1)
+
+        return table
 
     def apply(self,
               RGB,
@@ -1677,10 +1786,33 @@ class LUT3D(AbstractLUT):
         >>> RGB = np.array([0.18, 0.18, 0.18])
         >>> LUT.apply(RGB)  # doctest: +ELLIPSIS
         array([ 0.4583277...,  0.4583277...,  0.4583277...])
+        >>> from colour.algebra import spow
+        >>> domain = np.array([[-0.1, -0.2, -0.4],
+        ...                    [0.3, 1.4, 6.0],
+        ...                    [0.7, 3.0, np.nan],
+        ...                    [1.1, np.nan, np.nan],
+        ...                    [1.5, np.nan, np.nan]])
+        >>> table = spow(LUT3D.linear_table(domain=domain), 1 / 2.2)
+        >>> LUT = LUT3D(table, domain=domain)
+        >>> RGB = np.array([0.18, 0.18, 0.18])
+        >>> LUT.apply(RGB)  # doctest: +ELLIPSIS
+        array([-0.0667733...,  0.0962148...,  0.6623913...])
         """
 
         R, G, B = tsplit(RGB)
-        domain_min, domain_max = self.domain
+
+        if self.is_domain_explicit():
+            domain_min = self.domain[0, ...]
+            domain_max = [
+                axes[:(~np.isnan(axes)).cumsum().argmax() + 1][-1]
+                for axes in np.transpose(self.domain)
+            ]
+            warning('"LUT" was defined with an explicit domain but requires '
+                    'an implicit domain to be applied. The following domain '
+                    'will be used: {0}'.format(
+                        np.vstack([domain_min, domain_max])))
+        else:
+            domain_min, domain_max = self.domain
 
         RGB_l = [
             linear_conversion(j, (domain_min[i], domain_max[i]), (0, 1))
