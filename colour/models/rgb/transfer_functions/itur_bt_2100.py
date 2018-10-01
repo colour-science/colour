@@ -45,8 +45,11 @@ import numpy as np
 from colour.models.rgb.transfer_functions import (
     eotf_BT1886, eotf_ST2084, eotf_reverse_BT1886, oetf_ARIBSTDB67, oetf_BT709,
     oetf_ST2084, oetf_reverse_ARIBSTDB67, oetf_reverse_BT709)
-from colour.utilities import (as_float_array, as_float, from_range_1,
-                              to_domain_1, tsplit, tstack, warning)
+from colour.models.rgb.transfer_functions.arib_std_b67 import (
+    ARIBSTDB67_CONSTANTS)
+from colour.utilities import (Structure, as_float_array, as_float,
+                              from_range_1, to_domain_1, tsplit, tstack,
+                              warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -56,19 +59,12 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'BT2100_HLG_WEIGHTS', 'oetf_BT2100_PQ', 'oetf_reverse_BT2100_PQ',
-    'eotf_BT2100_PQ', 'eotf_reverse_BT2100_PQ', 'ootf_BT2100_PQ',
-    'ootf_reverse_BT2100_PQ', 'function_gamma_BT2100_HLG', 'oetf_BT2100_HLG',
-    'oetf_reverse_BT2100_HLG', 'eotf_BT2100_HLG', 'eotf_reverse_BT2100_HLG',
-    'ootf_BT2100_HLG', 'ootf_reverse_BT2100_HLG'
+    'oetf_BT2100_PQ', 'oetf_reverse_BT2100_PQ', 'eotf_BT2100_PQ',
+    'eotf_reverse_BT2100_PQ', 'ootf_BT2100_PQ', 'ootf_reverse_BT2100_PQ',
+    'BT2100_HLG_WEIGHTS', 'BT2100_HLG_CONSTANTS', 'function_gamma_BT2100_HLG',
+    'oetf_BT2100_HLG', 'oetf_reverse_BT2100_HLG', 'eotf_BT2100_HLG',
+    'eotf_reverse_BT2100_HLG', 'ootf_BT2100_HLG', 'ootf_reverse_BT2100_HLG'
 ]
-
-BT2100_HLG_WEIGHTS = np.array([0.2627, 0.6780, 0.0593])
-"""
-Luminance weights for *Recommendation ITU-R BT.2100* *Reference HLG*.
-
-BT2100_HLG_WEIGHTS : ndarray
-"""
 
 
 def oetf_BT2100_PQ(E):
@@ -352,6 +348,32 @@ def ootf_reverse_BT2100_PQ(F_D):
     F_D = as_float_array(F_D)
 
     return oetf_reverse_BT709(eotf_reverse_BT1886(F_D / 100)) / 59.5208
+
+
+BT2100_HLG_WEIGHTS = np.array([0.2627, 0.6780, 0.0593])
+"""
+Luminance weights for *Recommendation ITU-R BT.2100* *Reference HLG*.
+
+BT2100_HLG_WEIGHTS : ndarray
+"""
+
+BT2100_HLG_CONSTANTS = Structure(
+    a=ARIBSTDB67_CONSTANTS.a,
+    b=1 - 4 * ARIBSTDB67_CONSTANTS.a,
+    c=0.5 - ARIBSTDB67_CONSTANTS.a * np.log(4 * ARIBSTDB67_CONSTANTS.a))
+"""
+*Recommendation ITU-R BT.2100* *Reference HLG* constants expressed in their
+analytical form in contrast to the *ARIB STD-B67 (Hybrid Log-Gamma)* numerical
+reference.
+
+Those constants are not currently in use and are provided as a reference only.
+
+References
+----------
+:cite:`InternationalTelecommunicationUnion2016a`
+
+BT2100_HLG_CONSTANTS : Structure
+"""
 
 
 def function_gamma_BT2100_HLG(L_W=1000):
