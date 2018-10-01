@@ -64,7 +64,7 @@ References
 ----------
 :cite:`InternationalTelecommunicationUnion2015h`
 
-BT2020_CONSTANTS : Structure
+BT2020_CONSTANTS_PRECISE : Structure
 """
 
 
