@@ -1104,7 +1104,7 @@ def wavelength_to_XYZ(
     if (np.min(wavelength) < cmfs_shape.start or
             np.max(wavelength) > cmfs_shape.end):
         raise ValueError(
-            '"{0} nm" wavelength is not in "[{1}, {2}]" domain!'.format(
+            '"{0}nm" wavelength is not in "[{1}, {2}]" domain!'.format(
                 wavelength, cmfs_shape.start, cmfs_shape.end))
 
     XYZ = np.reshape(cmfs[np.ravel(wavelength)],

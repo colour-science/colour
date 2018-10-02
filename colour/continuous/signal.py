@@ -291,17 +291,18 @@ class Signal(AbstractContinuousFunction):
 
         if value is not None:
             if not np.all(np.isfinite(value)):
-                warning('"domain" variable is not finite, '
-                        'unpredictable results may occur!\n{0}'.format(value))
+                warning('"{0}" new "domain" variable is not finite: {0}, '
+                        'unpredictable results may occur!'.format(
+                            self.name, value))
 
             value = np.copy(value).astype(self.dtype)
 
             if self._range is not None:
                 if value.size != self._range.size:
-                    warning(
-                        '"domain" and "range" variables have different size, '
-                        '"range" variable will be resized to '
-                        '"domain" variable shape!')
+                    warning('"{0}" new "domain" and current "range" variables '
+                            'have different size, "range" variable will be '
+                            'resized to "domain" variable shape!'.format(
+                                self.name))
                     self._range = np.resize(self._range, value.shape)
 
             self._domain = value
@@ -335,8 +336,9 @@ class Signal(AbstractContinuousFunction):
 
         if value is not None:
             if not np.all(np.isfinite(value)):
-                warning('"range" variable is not finite, '
-                        'unpredictable results may occur!\n{0}'.format(value))
+                warning('"{0}" new "range" variable is not finite: {0}, '
+                        'unpredictable results may occur!'.format(
+                            self.name, value))
 
             value = np.copy(value).astype(self.dtype)
 
