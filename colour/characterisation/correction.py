@@ -661,11 +661,16 @@ def colour_correction_Cheung2004(RGB, M_T, M_R, terms=3):
     array([ 0.1793456...,  0.1003392...,  0.0617218...])
     """
 
+    RGB = as_float_array(RGB)
+    shape = RGB.shape
+
+    RGB = np.reshape(RGB, (-1, 3))
+
     RGB_e = augmented_matrix_Cheung2004(RGB, terms)
 
     CCM = colour_correction_matrix_Cheung2004(M_T, M_R, terms)
 
-    return np.transpose(np.dot(CCM, np.transpose(RGB_e)))
+    return np.reshape(np.transpose(np.dot(CCM, np.transpose(RGB_e))), shape)
 
 
 def colour_correction_Finlayson2015(RGB,
@@ -710,13 +715,18 @@ def colour_correction_Finlayson2015(RGB,
     array([ 0.1793456...,  0.1003392...,  0.0617218...])
     """
 
+    RGB = as_float_array(RGB)
+    shape = RGB.shape
+
+    RGB = np.reshape(RGB, (-1, 3))
+
     RGB_e = polynomial_expansion_Finlayson2015(RGB, degree,
                                                root_polynomial_expansion)
 
     CCM = colour_correction_matrix_Finlayson2015(M_T, M_R, degree,
                                                  root_polynomial_expansion)
 
-    return np.transpose(np.dot(CCM, np.transpose(RGB_e)))
+    return np.reshape(np.transpose(np.dot(CCM, np.transpose(RGB_e))), shape)
 
 
 def colour_correction_Vandermonde(RGB, M_T, M_R, degree=1):
@@ -755,11 +765,16 @@ def colour_correction_Vandermonde(RGB, M_T, M_R, degree=1):
     array([ 0.2128689...,  0.1106242...,  0.036213 ...])
     """
 
+    RGB = as_float_array(RGB)
+    shape = RGB.shape
+
+    RGB = np.reshape(RGB, (-1, 3))
+
     RGB_e = polynomial_expansion_Vandermonde(RGB, degree)
 
     CCM = colour_correction_matrix_Vandermonde(M_T, M_R, degree)
 
-    return np.transpose(np.dot(CCM, np.transpose(RGB_e)))
+    return np.reshape(np.transpose(np.dot(CCM, np.transpose(RGB_e))), shape)
 
 
 COLOUR_CORRECTION_METHODS = CaseInsensitiveMapping({
