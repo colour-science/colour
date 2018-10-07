@@ -136,7 +136,7 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
         illuminant_Lab,
         colourspace.whitepoint,
         colourspace.XYZ_to_RGB_matrix,
-        chromatic_adaptation_transform=(chromatic_adaptation_method))
+        chromatic_adaptation_transform=chromatic_adaptation_method)
     RGB_w = RGB[np.logical_and(
         np.min(RGB, axis=-1) >= 0,
         np.max(RGB, axis=-1) <= 1)]
