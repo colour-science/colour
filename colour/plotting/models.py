@@ -582,6 +582,8 @@ RGB_Chromaticity_Coordinates_Chromaticity_Diagram_Plot.png
         :alt: RGB_chromaticity_coordinates_chromaticity_diagram_plot
     """
 
+    RGB = as_float_array(RGB).reshape((-1, 3))
+
     settings = {'uniform': True}
     settings.update(kwargs)
 
