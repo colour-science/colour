@@ -35,12 +35,12 @@ References
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2014s` : The Academy of
     Motion Picture Arts and Sciences, Science and Technology Council, & Academy
     Color Encoding System (ACES) Project Subcommittee. (2014). Specification
-    S-2013-001 - ACESproxy , an Integer Log Encoding of ACES Image Data.
+    S-2013-001 - ACESproxy, an Integer Log Encoding of ACES Image Data.
     Retrieved from https://github.com/ampas/aces-dev/tree/master/documents
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2014t` : The Academy of
     Motion Picture Arts and Sciences, Science and Technology Council, & Academy
     Color Encoding System (ACES) Project Subcommittee. (2014). Specification
-    S-2014-003 - ACEScc , A Logarithmic Encoding of ACES Data for use within
+    S-2014-003 - ACEScc, A Logarithmic Encoding of ACES Data for use within
     Color Grading Systems. Retrieved from
     https://github.com/ampas/aces-dev/tree/master/documents
 -   :cite:`TheAcademyofMotionPictureArtsandSciences2016c` : The Academy of

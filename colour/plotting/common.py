@@ -41,7 +41,7 @@ from colour.characterisation import COLOURCHECKERS
 from colour.colorimetry import (CMFS, ILLUMINANTS_SPDS)
 from colour.models import RGB_COLOURSPACES, XYZ_to_RGB
 from colour.utilities import (Structure, as_float_array, is_sibling, is_string,
-                              filter_mapping)
+                              filter_mapping, warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -655,7 +655,11 @@ def uniform_axes3d(axes):
     return True
 
 
-def filter_passthrough(mapping, filterers, anchors=True, flags=re.IGNORECASE):
+def filter_passthrough(mapping,
+                       filterers,
+                       anchors=True,
+                       allow_non_siblings=True,
+                       flags=re.IGNORECASE):
     """
     Returns mapping objects matching given filterers while passing through
     class instances whose type is one of the mapping element types.
@@ -671,6 +675,8 @@ def filter_passthrough(mapping, filterers, anchors=True, flags=re.IGNORECASE):
     anchors : bool, optional
         Whether to use Regex line anchors, i.e. *^* and *$* are added,
         surrounding the filterers patterns.
+    allow_non_siblings : bool, optional
+        Whether to allow non-siblings to be also passed through.
     flags : int, optional
         Regex flags.
 
@@ -693,6 +699,19 @@ def filter_passthrough(mapping, filterers, anchors=True, flags=re.IGNORECASE):
         filterer for filterer in filterers if is_sibling(filterer, mapping)
     ]
 
+    if allow_non_siblings:
+        non_siblings = [
+            filterer for filterer in filterers
+            if filterer not in string_filterers and
+            filterer not in object_filterers
+        ]
+
+        if non_siblings:
+            warning('Non-sibling elements are passed-through: "{0}"'.format(
+                non_siblings))
+
+            object_filterers.extend(non_siblings)
+
     filtered_mapping = filter_mapping(mapping, string_filterers, anchors,
                                       flags)
 
@@ -710,7 +729,10 @@ def filter_passthrough(mapping, filterers, anchors=True, flags=re.IGNORECASE):
     return filtered_mapping
 
 
-def filter_RGB_colourspaces(filterers, anchors=True, flags=re.IGNORECASE):
+def filter_RGB_colourspaces(filterers,
+                            anchors=True,
+                            allow_non_siblings=True,
+                            flags=re.IGNORECASE):
     """
     Returns the *RGB* colourspaces matching given filterers.
 
@@ -723,6 +745,8 @@ def filter_RGB_colourspaces(filterers, anchors=True, flags=re.IGNORECASE):
     anchors : bool, optional
         Whether to use Regex line anchors, i.e. *^* and *$* are added,
         surrounding the filterers patterns.
+    allow_non_siblings : bool, optional
+        Whether to allow non-siblings to be also passed through.
     flags : int, optional
         Regex flags.
 
@@ -732,10 +756,14 @@ def filter_RGB_colourspaces(filterers, anchors=True, flags=re.IGNORECASE):
         Filtered *RGB* colourspaces.
     """
 
-    return filter_passthrough(RGB_COLOURSPACES, filterers, anchors, flags)
+    return filter_passthrough(RGB_COLOURSPACES, filterers, anchors,
+                              allow_non_siblings, flags)
 
 
-def filter_cmfs(filterers, anchors=True, flags=re.IGNORECASE):
+def filter_cmfs(filterers,
+                anchors=True,
+                allow_non_siblings=True,
+                flags=re.IGNORECASE):
     """
     Returns the colour matching functions matching given filterers.
 
@@ -751,6 +779,8 @@ RGB_ColourMatchingFunctions or XYZ_ColourMatchingFunctions or array_like
     anchors : bool, optional
         Whether to use Regex line anchors, i.e. *^* and *$* are added,
         surrounding the filterers patterns.
+    allow_non_siblings : bool, optional
+        Whether to allow non-siblings to be also passed through.
     flags : int, optional
         Regex flags.
 
@@ -760,10 +790,14 @@ RGB_ColourMatchingFunctions or XYZ_ColourMatchingFunctions or array_like
         Filtered colour matching functions.
     """
 
-    return filter_passthrough(CMFS, filterers, anchors, flags)
+    return filter_passthrough(CMFS, filterers, anchors, allow_non_siblings,
+                              flags)
 
 
-def filter_illuminants(filterers, anchors=True, flags=re.IGNORECASE):
+def filter_illuminants(filterers,
+                       anchors=True,
+                       allow_non_siblings=True,
+                       flags=re.IGNORECASE):
     """
     Returns the illuminants matching given filterers.
 
@@ -776,6 +810,8 @@ def filter_illuminants(filterers, anchors=True, flags=re.IGNORECASE):
     anchors : bool, optional
         Whether to use Regex line anchors, i.e. *^* and *$* are added,
         surrounding the filterers patterns.
+    allow_non_siblings : bool, optional
+        Whether to allow non-siblings to be also passed through.
     flags : int, optional
         Regex flags.
 
@@ -785,10 +821,14 @@ def filter_illuminants(filterers, anchors=True, flags=re.IGNORECASE):
         Filtered illuminants.
     """
 
-    return filter_passthrough(ILLUMINANTS_SPDS, filterers, anchors, flags)
+    return filter_passthrough(ILLUMINANTS_SPDS, filterers, anchors,
+                              allow_non_siblings, flags)
 
 
-def filter_colour_checkers(filterers, anchors=True, flags=re.IGNORECASE):
+def filter_colour_checkers(filterers,
+                           anchors=True,
+                           allow_non_siblings=True,
+                           flags=re.IGNORECASE):
     """
     Returns the colour checkers matching given filterers.
 
@@ -801,6 +841,8 @@ def filter_colour_checkers(filterers, anchors=True, flags=re.IGNORECASE):
     anchors : bool, optional
         Whether to use Regex line anchors, i.e. *^* and *$* are added,
         surrounding the filterers patterns.
+    allow_non_siblings : bool, optional
+        Whether to allow non-siblings to be also passed through.
     flags : int, optional
         Regex flags.
 
@@ -810,7 +852,8 @@ def filter_colour_checkers(filterers, anchors=True, flags=re.IGNORECASE):
         Filtered colour checkers.
     """
 
-    return filter_passthrough(COLOURCHECKERS, filterers, anchors, flags)
+    return filter_passthrough(COLOURCHECKERS, filterers, anchors,
+                              allow_non_siblings, flags)
 
 
 @override_style(
