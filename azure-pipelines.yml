@@ -29,7 +29,7 @@ jobs:
     maxParallel: 6
 
   pool:
-    vmImage: $(image)
+    vmImage: '$(image)'
 
   steps:
   - task: UsePythonVersion@0
