@@ -528,7 +528,7 @@ def multi_led_spd_Ohno2005(peak_wavelengths,
 
 
 MULTI_LED_SPD_METHODS = CaseInsensitiveMapping({
-    'Ohno 2005': single_led_spd_Ohno2005,
+    'Ohno 2005': multi_led_spd_Ohno2005,
 })
 MULTI_LED_SPD_METHODS.__doc__ = """
 Supported multi *LED* spectral power distribution computation methods.
