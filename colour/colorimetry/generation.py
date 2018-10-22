@@ -583,7 +583,7 @@ def multi_led_spd(peak_wavelengths,
 
     Examples
     --------
-    >>> spd = multi_led_spd_Ohno2005(
+    >>> spd = multi_led_spd(
     ...     np.array([457, 530, 615]),
     ...     np.array([20, 30, 20]),
     ...     np.array([0.731, 1.000, 1.660]),
