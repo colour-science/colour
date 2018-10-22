@@ -542,7 +542,7 @@ def multi_led_spd(peak_wavelengths,
                   fwhm,
                   peak_power_ratios=None,
                   shape=DEFAULT_SPECTRAL_SHAPE,
-                  method='Ohno 2015'):
+                  method='Ohno 2005'):
     """
     Returns a multi *LED* spectral power distribution of given spectral shape
     at given peak wavelengths and full widths at half maximum according to
