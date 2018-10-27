@@ -555,7 +555,7 @@ def render(**kwargs):
         if settings.filename is not None:
             figure.savefig(settings.filename)
         else:
-            figure.show()
+            plt.show()
 
     return figure, axes
 
