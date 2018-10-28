@@ -225,7 +225,7 @@ def intermediate_values(xy_o):
 
     x_o, y_o = tsplit(xy_o)
 
-    # Computing :math:`\xi`, :math:`\eta`, :math:`\zeta` values.
+    # Computing :math:`\\xi` :math:`\eta`, :math:`\zeta` values.
     xi = (0.48105 * x_o + 0.78841 * y_o - 0.08081) / y_o
     eta = (-0.27200 * x_o + 1.11962 * y_o + 0.04570) / y_o
     zeta = (0.91822 * (1 - x_o - y_o)) / y_o
