@@ -137,7 +137,7 @@ def RGB_to_WSYBRG_matrix(cmfs, primaries):
 def anomalous_trichromacy_cmfs_Machado2009(cmfs, d_LMS):
     """
     Shifts given *LMS* cone fundamentals colour matching functions with given
-    :math:`\Delta_{LMS}` shift amount in nanometers to simulate anomalous
+    :math:`\\Delta_{LMS}` shift amount in nanometers to simulate anomalous
     trichromacy using *Machado et al. (2009)* method.
 
     Parameters
@@ -145,14 +145,14 @@ def anomalous_trichromacy_cmfs_Machado2009(cmfs, d_LMS):
     cmfs : LMS_ConeFundamentals
         *LMS* cone fundamentals colour matching functions.
     d_LMS : array_like
-        :math:`\Delta_{LMS}` shift amount in nanometers.
+        :math:`\\Delta_{LMS}` shift amount in nanometers.
 
     Notes
     -----
     -   Input *LMS* cone fundamentals colour matching functions interval is
         expected to be 1 nanometer, incompatible input will be interpolated
         at 1 nanometer interval.
-    -   Input :math:`\Delta_{LMS}` shift amount is in domain [0, 20].
+    -   Input :math:`\\Delta_{LMS}` shift amount is in domain [0, 20].
 
     Returns
     -------
@@ -235,7 +235,7 @@ def anomalous_trichromacy_matrix_Machado2009(cmfs, primaries, d_LMS):
     """
     Computes *Machado et al. (2009)* *CVD* matrix for given *LMS* cone
     fundamentals colour matching functions and display primaries tri-spectral
-    power distributions with given :math:`\Delta_{LMS}` shift amount in
+    power distributions with given :math:`\\Delta_{LMS}` shift amount in
     nanometers to simulate anomalous trichromacy.
 
     Parameters
@@ -245,14 +245,14 @@ def anomalous_trichromacy_matrix_Machado2009(cmfs, primaries, d_LMS):
     primaries : RGB_DisplayPrimaries
         *RGB* display primaries tri-spectral power distributions.
     d_LMS : array_like
-        :math:`\Delta_{LMS}` shift amount in nanometers.
+        :math:`\\Delta_{LMS}` shift amount in nanometers.
 
     Notes
     -----
     -   Input *LMS* cone fundamentals colour matching functions interval is
         expected to be 1 nanometer, incompatible input will be interpolated
         at 1 nanometer interval.
-    -   Input :math:`\Delta_{LMS}` shift amount is in domain [0, 20].
+    -   Input :math:`\\Delta_{LMS}` shift amount is in domain [0, 20].
 
     Returns
     -------

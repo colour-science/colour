@@ -257,7 +257,7 @@ class TestFilterMapping(unittest.TestCase):
         }
 
         self.assertListEqual(
-            sorted(filter_mapping(mapping, '\w+\s+A')), ['Element A'])
+            sorted(filter_mapping(mapping, '\\w+\\s+A')), ['Element A'])
 
         self.assertListEqual(
             sorted(filter_mapping(mapping, 'Element.*')), [

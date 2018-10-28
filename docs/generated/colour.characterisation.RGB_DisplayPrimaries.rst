@@ -27,6 +27,7 @@ colour.characterisation.RGB\_DisplayPrimaries
       ~RGB_DisplayPrimaries.multi_signal_unpack_data
       ~RGB_DisplayPrimaries.normalise
       ~RGB_DisplayPrimaries.to_dataframe
+      ~RGB_DisplayPrimaries.to_spds
       ~RGB_DisplayPrimaries.trim
       ~RGB_DisplayPrimaries.trim_wavelengths
       ~RGB_DisplayPrimaries.zeros
@@ -53,6 +54,7 @@ colour.characterisation.RGB\_DisplayPrimaries
       ~RGB_DisplayPrimaries.name
       ~RGB_DisplayPrimaries.range
       ~RGB_DisplayPrimaries.shape
+      ~RGB_DisplayPrimaries.signal_type
       ~RGB_DisplayPrimaries.signals
       ~RGB_DisplayPrimaries.strict_labels
       ~RGB_DisplayPrimaries.strict_name

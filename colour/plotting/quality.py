@@ -62,7 +62,7 @@ def colour_quality_bars_plot(specifications,
 
     Other Parameters
     ----------------
-    \**kwargs : dict, optional
+    \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -178,7 +178,7 @@ def single_spd_colour_rendering_index_bars_plot(spd, **kwargs):
 
     Other Parameters
     ----------------
-    \**kwargs : dict, optional
+    \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
     labels : bool, optional
@@ -226,7 +226,7 @@ def multi_spd_colour_rendering_index_bars_plot(spds, **kwargs):
 
     Other Parameters
     ----------------
-    \**kwargs : dict, optional
+    \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
     labels : bool, optional
@@ -302,7 +302,7 @@ def single_spd_colour_quality_scale_bars_plot(spd, **kwargs):
 
     Other Parameters
     ----------------
-    \**kwargs : dict, optional
+    \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
     labels : bool, optional
@@ -350,7 +350,7 @@ def multi_spd_colour_quality_scale_bars_plot(spds, **kwargs):
 
     Other Parameters
     ----------------
-    \**kwargs : dict, optional
+    \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
     labels : bool, optional

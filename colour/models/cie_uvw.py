@@ -3,7 +3,7 @@
 CIE 1964 U*V*W* Colourspace
 ===========================
 
-Defines the *CIE 1964 U\*V\*W\** colourspace transformations:
+Defines the *CIE 1964 U\\*V\\*W\\** colourspace transformations:
 
 -   :func:`colour.XYZ_to_UVW`
 -   :func:`colour.UVW_to_XYZ`
@@ -43,7 +43,7 @@ def XYZ_to_UVW(
         XYZ,
         illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']):
     """
-    Converts from *CIE XYZ* tristimulus values to *CIE 1964 U\*V\*W\**
+    Converts from *CIE XYZ* tristimulus values to *CIE 1964 U\\*V\\*W\\**
     colourspace.
 
     Parameters
@@ -57,7 +57,7 @@ def XYZ_to_UVW(
     Returns
     -------
     ndarray
-        *CIE 1964 U\*V\*W\** colourspace array.
+        *CIE 1964 U\\*V\\*W\\** colourspace array.
 
     Warning
     -------
@@ -118,12 +118,13 @@ def UVW_to_XYZ(
         UVW,
         illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']):
     """
-    Converts *CIE 1964 U\*V\*W\** colourspace to *CIE XYZ* tristimulus values.
+    Converts *CIE 1964 U\\*V\\*W\\** colourspace to *CIE XYZ* tristimulus
+    values.
 
     Parameters
     ----------
     UVW : array_like
-        *CIE 1964 U\*V\*W\** colourspace array.
+        *CIE 1964 U\\*V\\*W\\** colourspace array.
     illuminant : array_like, optional
         Reference *illuminant* *xy* chromaticity coordinates or *CIE xyY*
         colourspace array.

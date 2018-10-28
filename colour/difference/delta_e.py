@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-:math:`\Delta E_{ab}` - Delta E Colour Difference
+:math:`\\Delta E_{ab}` - Delta E Colour Difference
 =================================================
 
-Defines :math:`\Delta E_{ab}` colour difference computation objects:
+Defines :math:`\\Delta E_{ab}` colour difference computation objects:
 
 The following methods are available:
 
@@ -57,20 +57,20 @@ __all__ = [
 
 def delta_E_CIE1976(Lab_1, Lab_2):
     """
-    Returns the difference :math:`\Delta E_{76}` between two given
-    *CIE L\*a\*b\** colourspace arrays using *CIE 1976* recommendation.
+    Returns the difference :math:`\\Delta E_{76}` between two given
+    *CIE L\\*a\\*b\\** colourspace arrays using *CIE 1976* recommendation.
 
     Parameters
     ----------
     Lab_1 : array_like
-        *CIE L\*a\*b\** colourspace array 1.
+        *CIE L\\*a\\*b\\** colourspace array 1.
     Lab_2 : array_like
-        *CIE L\*a\*b\** colourspace array 2.
+        *CIE L\\*a\\*b\\** colourspace array 2.
 
     Returns
     -------
     numeric or ndarray
-        Colour difference :math:`\Delta E_{76}`.
+        Colour difference :math:`\\Delta E_{76}`.
 
     Notes
     -----
@@ -110,24 +110,24 @@ def delta_E_CIE1976(Lab_1, Lab_2):
 
 def delta_E_CIE1994(Lab_1, Lab_2, textiles=False):
     """
-    Returns the difference :math:`\Delta E_{94}` between two given
-    *CIE L\*a\*b\** colourspace arrays using *CIE 1994* recommendation.
+    Returns the difference :math:`\\Delta E_{94}` between two given
+    *CIE L\\*a\\*b\\** colourspace arrays using *CIE 1994* recommendation.
 
     Parameters
     ----------
     Lab_1 : array_like
-        *CIE L\*a\*b\** colourspace array 1.
+        *CIE L\\*a\\*b\\** colourspace array 1.
     Lab_2 : array_like
-        *CIE L\*a\*b\** colourspace array 2.
+        *CIE L\\*a\\*b\\** colourspace array 2.
     textiles : bool, optional
         Textiles application specific parametric factors
-        :math:`k_L=2,\ k_C=k_H=1,\ k_1=0.048,\ k_2=0.014` weights are used
-        instead of :math:`k_L=k_C=k_H=1,\ k_1=0.045,\ k_2=0.015`.
+        :math:`k_L=2,\\ k_C=k_H=1,\\ k_1=0.048,\\ k_2=0.014` weights are used
+        instead of :math:`k_L=k_C=k_H=1,\\ k_1=0.045,\\ k_2=0.015`.
 
     Returns
     -------
     numeric or ndarray
-        Colour difference :math:`\Delta E_{94}`.
+        Colour difference :math:`\\Delta E_{94}`.
 
     Notes
     -----
@@ -201,24 +201,24 @@ def delta_E_CIE1994(Lab_1, Lab_2, textiles=False):
 
 def delta_E_CIE2000(Lab_1, Lab_2, textiles=False):
     """
-    Returns the difference :math:`\Delta E_{00}` between two given
-    *CIE L\*a\*b\** colourspace arrays using *CIE 2000* recommendation.
+    Returns the difference :math:`\\Delta E_{00}` between two given
+    *CIE L\\*a\\*b\\** colourspace arrays using *CIE 2000* recommendation.
 
     Parameters
     ----------
     Lab_1 : array_like
-        *CIE L\*a\*b\** colourspace array 1.
+        *CIE L\\*a\\*b\\** colourspace array 1.
     Lab_2 : array_like
-        *CIE L\*a\*b\** colourspace array 2.
+        *CIE L\\*a\\*b\\** colourspace array 2.
     textiles : bool, optional
         Textiles application specific parametric factors
-        :math:`k_L=2,\ k_C=k_H=1` weights are used instead of
+        :math:`k_L=2,\\ k_C=k_H=1` weights are used instead of
         :math:`k_L=k_C=k_H=1`.
 
     Returns
     -------
     numeric or ndarray
-        Colour difference :math:`\Delta E_{00}`.
+        Colour difference :math:`\\Delta E_{00}`.
 
     Notes
     -----
@@ -254,7 +254,7 @@ def delta_E_CIE2000(Lab_1, Lab_2, textiles=False):
         -   Sample size: Greater than 4 degrees
         -   Sample separation: Direct edge contact
         -   Sample colour-difference magnitude: Lower than 5.0
-            :math:`\Delta E_{00}`
+            :math:`\\Delta E_{00}`
         -   Sample structure: Homogeneous (without texture)
 
     References
@@ -343,8 +343,8 @@ def delta_E_CIE2000(Lab_1, Lab_2, textiles=False):
 
 def delta_E_CMC(Lab_1, Lab_2, l=2, c=1):  # noqa
     """
-    Returns the difference :math:`\Delta E_{CMC}` between two given
-    *CIE L\*a\*b\** colourspace arrays using *Colour Measurement Committee*
+    Returns the difference :math:`\\Delta E_{CMC}` between two given
+    *CIE L\\*a\\*b\\** colourspace arrays using *Colour Measurement Committee*
     recommendation.
 
     The quasimetric has two parameters: *Lightness* (l) and *chroma* (c),
@@ -355,9 +355,9 @@ def delta_E_CMC(Lab_1, Lab_2, l=2, c=1):  # noqa
     Parameters
     ----------
     Lab_1 : array_like
-        *CIE L\*a\*b\** colourspace array 1.
+        *CIE L\\*a\\*b\\** colourspace array 1.
     Lab_2 : array_like
-        *CIE L\*a\*b\** colourspace array 2.
+        *CIE L\\*a\\*b\\** colourspace array 2.
     l : numeric, optional
         Lightness weighting factor.
     c : numeric, optional
@@ -366,7 +366,7 @@ def delta_E_CMC(Lab_1, Lab_2, l=2, c=1):  # noqa
     Returns
     -------
     numeric or ndarray
-        Colour difference :math:`\Delta E_{CMC}`.
+        Colour difference :math:`\\Delta E_{CMC}`.
 
     Notes
     -----

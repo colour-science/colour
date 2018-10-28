@@ -27,6 +27,7 @@ colour.characterisation.RGB\_SpectralSensitivities
       ~RGB_SpectralSensitivities.multi_signal_unpack_data
       ~RGB_SpectralSensitivities.normalise
       ~RGB_SpectralSensitivities.to_dataframe
+      ~RGB_SpectralSensitivities.to_spds
       ~RGB_SpectralSensitivities.trim
       ~RGB_SpectralSensitivities.trim_wavelengths
       ~RGB_SpectralSensitivities.zeros
@@ -53,6 +54,7 @@ colour.characterisation.RGB\_SpectralSensitivities
       ~RGB_SpectralSensitivities.name
       ~RGB_SpectralSensitivities.range
       ~RGB_SpectralSensitivities.shape
+      ~RGB_SpectralSensitivities.signal_type
       ~RGB_SpectralSensitivities.signals
       ~RGB_SpectralSensitivities.strict_labels
       ~RGB_SpectralSensitivities.strict_name

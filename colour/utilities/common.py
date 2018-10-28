@@ -53,7 +53,7 @@ def handle_numpy_errors(**kwargs):
 
     Other Parameters
     ----------------
-    \**kwargs : dict, optional
+    \\**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -362,7 +362,7 @@ def filter_kwargs(function, **kwargs):
 
     Other Parameters
     ----------------
-    \**kwargs : dict, optional
+    \\**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -433,7 +433,7 @@ def filter_mapping(mapping, filterers, anchors=True, flags=re.IGNORECASE):
     ...     'Not Element C': Element(),
     ... }
     >>> # Doctests skip for Python 2.x compatibility.
-    >>> filter_mapping(mapping, '\w+\s+A')  # doctest: +SKIP
+    >>> filter_mapping(mapping, '\\w+\\s+A')  # doctest: +SKIP
     {u'Element A': <colour.utilities.common.Element object at 0x...>}
     >>> # Doctests skip for Python 2.x compatibility.
     >>> sorted(filter_mapping(mapping, 'Element.*'))  # doctest: +SKIP
@@ -870,10 +870,10 @@ def to_domain_int(a, bit_depth=8, dtype=DEFAULT_FLOAT_DTYPE):
         definition is almost entirely by-passed and will just conveniently
         convert array :math:`a` to :class:`np.ndarray`.
     -   If *Colour* domain-range scale is **'1'**, array :math:`a` is
-        multiplied by :math:`2^{bit\_depth} - 1`.
+        multiplied by :math:`2^{bit\\_depth} - 1`.
     -   If *Colour* domain-range scale is **'100'** (currently unsupported
         private value only used for unit tests), array :math:`a` is
-        multiplied by :math:`2^{bit\_depth} - 1`.
+        multiplied by :math:`2^{bit\\_depth} - 1`.
 
     Parameters
     ----------
@@ -1149,10 +1149,10 @@ def from_range_int(a, bit_depth=8, dtype=DEFAULT_FLOAT_DTYPE):
     -   If *Colour* domain-range scale is **'Reference'**, the
         definition is entirely by-passed.
     -   If *Colour* domain-range scale is **'1'**, array :math:`a` is converted
-        to :class:`np.ndarray` and divided by :math:`2^{bit\_depth} - 1`.
+        to :class:`np.ndarray` and divided by :math:`2^{bit\\_depth} - 1`.
     -   If *Colour* domain-range scale is **'100'** (currently unsupported
         private value only used for unit tests), array :math:`a` is converted
-        to :class:`np.ndarray` and divided by :math:`2^{bit\_depth} - 1`.
+        to :class:`np.ndarray` and divided by :math:`2^{bit\\_depth} - 1`.
 
     Parameters
     ----------

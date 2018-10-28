@@ -58,13 +58,13 @@ def planck_law(wavelength, temperature, c1=C1, c2=C2, n=N):
     c1 : numeric or array_like, optional
         The official value of :math:`c1` is provided by the Committee on Data
         for Science and Technology (CODATA) and is
-        :math:`c1=3,741771x10.16\ W/m_2` *(Mohr and Taylor, 2000)*.
+        :math:`c1=3,741771x10.16\\ W/m_2` *(Mohr and Taylor, 2000)*.
     c2 : numeric or array_like, optional
         Since :math:`T` is measured on the International Temperature Scale,
         the value of :math:`c2` used in colorimetry should follow that adopted
         in the current International Temperature Scale (ITS-90)
         *(Preston-Thomas, 1990; Mielenz et aI., 1991)*, namely
-        :math:`c2=1,4388x10.2\ m/K`.
+        :math:`c2=1,4388x10.2\\ m/K`.
     n : numeric or array_like, optional
         Medium index of refraction. For dry air at 15C and 101 325 Pa,
         containing 0,03 percent by volume of carbon dioxide, it is
@@ -120,13 +120,13 @@ def blackbody_spd(temperature, shape=DEFAULT_SPECTRAL_SHAPE, c1=C1, c2=C2,
     c1 : numeric, optional
         The official value of :math:`c1` is provided by the Committee on Data
         for Science and Technology (CODATA) and is
-        :math:`c1=3,741771x10.16\ W/m_2` *(Mohr and Taylor, 2000)*.
+        :math:`c1=3,741771x10.16\\ W/m_2` *(Mohr and Taylor, 2000)*.
     c2 : numeric, optional
         Since :math:`T` is measured on the International Temperature Scale,
         the value of :math:`c2` used in colorimetry should follow that adopted
         in the current International Temperature Scale (ITS-90)
         *(Preston-Thomas, 1990; Mielenz et aI., 1991)*, namely
-        :math:`c2=1,4388x10.2\ m/K`.
+        :math:`c2=1,4388x10.2\\ m/K`.
     n : numeric, optional
         Medium index of refraction. For dry air at 15C and 101 325 Pa,
         containing 0,03 percent by volume of carbon dioxide, it is

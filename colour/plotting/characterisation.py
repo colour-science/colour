@@ -40,7 +40,7 @@ def single_colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
 
     Other Parameters
     ----------------
-    \**kwargs : dict, optional
+    \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.multi_colour_swatch_plot`,
         :func:`colour.plotting.render`},
@@ -82,7 +82,7 @@ def multi_colour_checker_plot(colour_checkers=None, **kwargs):
 
     Other Parameters
     ----------------
-    \**kwargs : dict, optional
+    \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.multi_colour_swatch_plot`,
         :func:`colour.plotting.render`},

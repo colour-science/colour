@@ -457,7 +457,7 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
 
     Other Parameters
     ----------------
-    \**kwargs : dict, optional
+    \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.volume.nadir_grid`},
         Please refer to the documentation of the previously listed definitions.
@@ -666,7 +666,7 @@ def RGB_scatter_plot(RGB,
 
     Other Parameters
     ----------------
-    \**kwargs : dict, optional
+    \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.RGB_colourspaces_gamuts_plot`},
         Please refer to the documentation of the previously listed definitions.

@@ -72,7 +72,7 @@ def pointer_gamut_plot(method='CIE 1931', **kwargs):
 
     Other Parameters
     ----------------
-    \**kwargs : dict, optional
+    \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -215,7 +215,7 @@ def RGB_colourspaces_chromaticity_diagram_plot(
 
     Other Parameters
     ----------------
-    \**kwargs : dict, optional
+    \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.pointer_gamut_plot`,
@@ -391,7 +391,7 @@ def RGB_colourspaces_chromaticity_diagram_plot_CIE1931(
 
     Other Parameters
     ----------------
-    \**kwargs : dict, optional
+    \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
@@ -444,7 +444,7 @@ def RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS(
 
     Other Parameters
     ----------------
-    \**kwargs : dict, optional
+    \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
@@ -498,7 +498,7 @@ def RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS(
 
     Other Parameters
     ----------------
-    \**kwargs : dict, optional
+    \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
@@ -558,7 +558,7 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot(
 
     Other Parameters
     ----------------
-    \**kwargs : dict, optional
+    \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
@@ -664,7 +664,7 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931(
 
     Other Parameters
     ----------------
-    \**kwargs : dict, optional
+    \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
@@ -726,7 +726,7 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS(
 
     Other Parameters
     ----------------
-    \**kwargs : dict, optional
+    \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
@@ -788,7 +788,7 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS(
 
     Other Parameters
     ----------------
-    \**kwargs : dict, optional
+    \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.render`},
@@ -837,7 +837,7 @@ def single_cctf_plot(cctf='ITU-R BT.709', decoding_cctf=False, **kwargs):
 
     Other Parameters
     ----------------
-    \**kwargs : dict, optional
+    \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -879,7 +879,7 @@ def multi_cctf_plot(cctfs=None, decoding_cctf=False, **kwargs):
 
     Other Parameters
     ----------------
-    \**kwargs : dict, optional
+    \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 

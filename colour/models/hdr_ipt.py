@@ -66,7 +66,7 @@ HDR_IPT_METHODS : tuple
 
 def exponent_hdr_IPT(Y_s, Y_abs, method='Fairchild 2011'):
     """
-    Computes *hdr-IPT* colourspace *Lightness* :math:`\epsilon` exponent using
+    Computes *hdr-IPT* colourspace *Lightness* :math:`\\epsilon` exponent using
     *Fairchild and Wyble (2010)* or *Fairchild and Chen (2011)* method.
 
     Parameters
@@ -83,7 +83,7 @@ def exponent_hdr_IPT(Y_s, Y_abs, method='Fairchild 2011'):
     Returns
     -------
     array_like
-        *hdr-IPT* colourspace *Lightness* :math:`\epsilon` exponent.
+        *hdr-IPT* colourspace *Lightness* :math:`\\epsilon` exponent.
 
     Notes
     -----

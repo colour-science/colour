@@ -27,8 +27,8 @@ colour.Nayatani95\_Specification
       ~Nayatani95_Specification.C
       ~Nayatani95_Specification.H
       ~Nayatani95_Specification.HC
-      ~Nayatani95_Specification.Lstar_N
-      ~Nayatani95_Specification.Lstar_P
+      ~Nayatani95_Specification.L_star_N
+      ~Nayatani95_Specification.L_star_P
       ~Nayatani95_Specification.M
       ~Nayatani95_Specification.Q
       ~Nayatani95_Specification.h

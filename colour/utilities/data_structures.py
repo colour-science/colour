@@ -45,9 +45,9 @@ class Structure(dict):
 
     Other Parameters
     ----------------
-    \*args : list, optional
+    \\*args : list, optional
         Arguments.
-    \**kwargs : dict, optional
+    \\**kwargs : dict, optional
         Key / Value pairs.
 
 
@@ -159,7 +159,7 @@ class CaseInsensitiveMapping(MutableMapping):
 
     Other Parameters
     ----------------
-    \**kwargs : dict, optional
+    \\**kwargs : dict, optional
         Key / Value pairs to store into the mapping at initialisation.
 
     Methods

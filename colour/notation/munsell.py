@@ -38,7 +38,7 @@ Notes
 -----
 -   The Munsell Renotation data commonly available within the all.dat,
     experimental.dat and real.dat files features *CIE xyY* colourspace values
-    that are scaled by a :math:`1 / 0.975 \simeq 1.02568` factor. If you are
+    that are scaled by a :math:`1 / 0.975 \\simeq 1.02568` factor. If you are
     performing conversions using *Munsell* *Colorlab* specification,
     e.g. *2.5R 9/2*, according to *ASTM D1535-08e1* method, you should not
     scale the output :math:`Y` Luminance. However, if you use directly the
@@ -170,10 +170,10 @@ __all__ = [
 ]
 
 MUNSELL_GRAY_PATTERN = 'N(?P<value>{0})'.format(FLOATING_POINT_NUMBER_PATTERN)
-MUNSELL_COLOUR_PATTERN = ('(?P<hue>{0})\s*'
-                          '(?P<letter>BG|GY|YR|RP|PB|B|G|Y|R|P)\s*'
-                          '(?P<value>{0})\s*\/\s*(?P<chroma>[-+]?{0})'.format(
-                              FLOATING_POINT_NUMBER_PATTERN))
+MUNSELL_COLOUR_PATTERN = ('(?P<hue>{0})\\s*'
+                          '(?P<letter>BG|GY|YR|RP|PB|B|G|Y|R|P)\\s*'
+                          '(?P<value>{0})\\s*\\/\\s*(?P<chroma>[-+]?{0})'.
+                          format(FLOATING_POINT_NUMBER_PATTERN))
 
 MUNSELL_GRAY_FORMAT = 'N{0}'
 MUNSELL_COLOUR_FORMAT = '{0} {1}/{2}'
@@ -771,9 +771,8 @@ def munsell_specification_to_xyY(specification):
         chroma_scale = 50 if get_domain_range_scale() == '1' else 2
         specification = to_domain_10(specification,
                                      np.array([10, 10, chroma_scale, 10]))
-        hue, value, chroma, code = (
-            [as_float(i) for i in specification[0:3]] +
-            [DEFAULT_INT_DTYPE(specification[-1])])
+        hue, value, chroma, code = ([as_float(i) for i in specification[0:3]] +
+                                    [DEFAULT_INT_DTYPE(specification[-1])])
 
         assert 0 <= hue <= 10, (
             '"{0}" specification hue must be normalised to domain '
@@ -2024,13 +2023,13 @@ def xy_from_renotation_ovoid(specification):
 
 def LCHab_to_munsell_specification(LCHab):
     """
-    Converts from *CIE L\*C\*Hab* colourspace to approximate *Munsell*
+    Converts from *CIE L\\*C\\*Hab* colourspace to approximate *Munsell*
     *Colorlab* specification.
 
     Parameters
     ----------
     LCHab : array_like, (3,)
-        *CIE L\*C\*Hab* colourspace array.
+        *CIE L\\*C\\*Hab* colourspace array.
 
     Returns
     -------

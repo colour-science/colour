@@ -27,6 +27,7 @@ colour.colorimetry.XYZ\_ColourMatchingFunctions
       ~XYZ_ColourMatchingFunctions.multi_signal_unpack_data
       ~XYZ_ColourMatchingFunctions.normalise
       ~XYZ_ColourMatchingFunctions.to_dataframe
+      ~XYZ_ColourMatchingFunctions.to_spds
       ~XYZ_ColourMatchingFunctions.trim
       ~XYZ_ColourMatchingFunctions.trim_wavelengths
       ~XYZ_ColourMatchingFunctions.zeros
@@ -53,6 +54,7 @@ colour.colorimetry.XYZ\_ColourMatchingFunctions
       ~XYZ_ColourMatchingFunctions.name
       ~XYZ_ColourMatchingFunctions.range
       ~XYZ_ColourMatchingFunctions.shape
+      ~XYZ_ColourMatchingFunctions.signal_type
       ~XYZ_ColourMatchingFunctions.signals
       ~XYZ_ColourMatchingFunctions.strict_labels
       ~XYZ_ColourMatchingFunctions.strict_name

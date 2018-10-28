@@ -154,18 +154,18 @@ def log_encoding_ACESproxy(lin_AP1,
     -----
 
     +---------------+-----------------------+---------------+
-    | **Domain \*** | **Scale - Reference** | **Scale - 1** |
+    | **Domain \\*** | **Scale - Reference** | **Scale - 1** |
     +===============+=======================+===============+
     | ``lin_AP1``   | [0, 1]                | [0, 1]        |
     +---------------+-----------------------+---------------+
 
     +---------------+-----------------------+---------------+
-    | **Range \***  | **Scale - Reference** | **Scale - 1** |
+    | **Range \\***  | **Scale - Reference** | **Scale - 1** |
     +===============+=======================+===============+
     | ``ACESproxy`` | [0, 1]                | [0, 1]        |
     +---------------+-----------------------+---------------+
 
-    -   \* This definition has an output integer switch, thus the domain-range
+    -   \\* This definition has an output integer switch, thus the domain-range
         scale information is only given for the floating point mode.
 
     References
@@ -240,18 +240,18 @@ def log_decoding_ACESproxy(ACESproxy,
     -----
 
     +---------------+-----------------------+---------------+
-    | **Domain \*** | **Scale - Reference** | **Scale - 1** |
+    | **Domain \\*** | **Scale - Reference** | **Scale - 1** |
     +===============+=======================+===============+
     | ``ACESproxy`` | [0, 1]                | [0, 1]        |
     +---------------+-----------------------+---------------+
 
     +---------------+-----------------------+---------------+
-    | **Range \***  | **Scale - Reference** | **Scale - 1** |
+    | **Range \\***  | **Scale - Reference** | **Scale - 1** |
     +===============+=======================+===============+
     | ``lin_AP1``   | [0, 1]                | [0, 1]        |
     +---------------+-----------------------+---------------+
 
-    -   \* This definition has an input integer switch, thus the domain-range
+    -   \\* This definition has an input integer switch, thus the domain-range
         scale information is only given for the floating point mode.
 
     References

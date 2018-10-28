@@ -214,7 +214,7 @@ class TestRGB_Colourspace(unittest.TestCase):
             return
 
         self.assertEqual(
-            re.sub(' at 0x\w+>', '', str(self._colourspace)),
+            re.sub(' at 0x\\w+>', '', str(self._colourspace)),
             textwrap.dedent("""
     RGB Colourspace
     ---------------
@@ -252,7 +252,7 @@ __repr__` method.
             return
 
         self.assertEqual(
-            re.sub(' at 0x\w+>', '', repr(self._colourspace)),
+            re.sub(' at 0x\\w+>', '', repr(self._colourspace)),
             textwrap.dedent("""
         RGB_Colourspace(RGB Colourspace,
                         [[  7.34700000e-01,   2.65300000e-01],

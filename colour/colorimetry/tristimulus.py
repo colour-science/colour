@@ -1054,10 +1054,10 @@ def wavelength_to_XYZ(
         wavelength,
         cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']):
     """
-    Converts given wavelength :math:`\lambda` to *CIE XYZ* tristimulus values
+    Converts given wavelength :math:`\\lambda` to *CIE XYZ* tristimulus values
     using given colour matching functions.
 
-    If the wavelength :math:`\lambda` is not available in the colour matching
+    If the wavelength :math:`\\lambda` is not available in the colour matching
     function, its value will be calculated according to *CIE 15:2004*
     recommendation: the method developed by *Sprague (1880)* will be used for
     interpolating functions having a uniformly spaced independent variable and
@@ -1066,7 +1066,7 @@ def wavelength_to_XYZ(
     Parameters
     ----------
     wavelength : numeric or array_like
-        Wavelength :math:`\lambda` in nm.
+        Wavelength :math:`\\lambda` in nm.
     cmfs : XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions.
 
@@ -1078,7 +1078,7 @@ def wavelength_to_XYZ(
     Raises
     ------
     ValueError
-        If wavelength :math:`\lambda` is not contained in the colour matching
+        If wavelength :math:`\\lambda` is not contained in the colour matching
         functions domain.
 
     Notes

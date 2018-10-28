@@ -213,18 +213,18 @@ def RGB_to_YCbCr(RGB,
     -----
 
     +---------------+-----------------------+---------------+
-    | **Domain \*** | **Scale - Reference** | **Scale - 1** |
+    | **Domain \\*** | **Scale - Reference** | **Scale - 1** |
     +===============+=======================+===============+
     | ``RGB``       | [0, 1]                | [0, 1]        |
     +---------------+-----------------------+---------------+
 
     +---------------+-----------------------+---------------+
-    | **Range \***  | **Scale - Reference** | **Scale - 1** |
+    | **Range \\***  | **Scale - Reference** | **Scale - 1** |
     +===============+=======================+===============+
     | ``YCbCr``     | [0, 1]                | [0, 1]        |
     +---------------+-----------------------+---------------+
 
-    -   \* This definition has input and output integer switches, thus the
+    -   \\* This definition has input and output integer switches, thus the
         domain-range scale information is only given for the floating point
         mode.
     -   The default arguments, ``**{'in_bits': 10, 'in_legal': False,
@@ -386,18 +386,18 @@ def YCbCr_to_RGB(YCbCr,
     -----
 
     +---------------+-----------------------+---------------+
-    | **Domain \*** | **Scale - Reference** | **Scale - 1** |
+    | **Domain \\*** | **Scale - Reference** | **Scale - 1** |
     +===============+=======================+===============+
     | ``YCbCr``     | [0, 1]                | [0, 1]        |
     +---------------+-----------------------+---------------+
 
     +---------------+-----------------------+---------------+
-    | **Range \***  | **Scale - Reference** | **Scale - 1** |
+    | **Range \\***  | **Scale - Reference** | **Scale - 1** |
     +===============+=======================+===============+
     | ``RGB``       | [0, 1]                | [0, 1]        |
     +---------------+-----------------------+---------------+
 
-    -   \* This definition has input and output integer switches, thus the
+    -   \\* This definition has input and output integer switches, thus the
         domain-range scale information is only given for the floating point
         mode.
 
@@ -499,18 +499,18 @@ def RGB_to_YcCbcCrc(RGB,
     -----
 
     +---------------+-----------------------+---------------+
-    | **Domain \*** | **Scale - Reference** | **Scale - 1** |
+    | **Domain \\*** | **Scale - Reference** | **Scale - 1** |
     +===============+=======================+===============+
     | ``RGB``       | [0, 1]                | [0, 1]        |
     +---------------+-----------------------+---------------+
 
     +---------------+-----------------------+---------------+
-    | **Range \***  | **Scale - Reference** | **Scale - 1** |
+    | **Range \\***  | **Scale - Reference** | **Scale - 1** |
     +===============+=======================+===============+
     | ``YcCbcCrc``  | [0, 1]                | [0, 1]        |
     +---------------+-----------------------+---------------+
 
-    -   \* This definition has input and output integer switches, thus the
+    -   \\* This definition has input and output integer switches, thus the
         domain-range scale information is only given for the floating point
         mode.
 
@@ -604,18 +604,18 @@ def YcCbcCrc_to_RGB(YcCbcCrc,
     -----
 
     +---------------+-----------------------+---------------+
-    | **Domain \*** | **Scale - Reference** | **Scale - 1** |
+    | **Domain \\*** | **Scale - Reference** | **Scale - 1** |
     +===============+=======================+===============+
     | ``YcCbcCrc``  | [0, 1]                | [0, 1]        |
     +---------------+-----------------------+---------------+
 
     +---------------+-----------------------+---------------+
-    | **Range \***  | **Scale - Reference** | **Scale - 1** |
+    | **Range \\***  | **Scale - Reference** | **Scale - 1** |
     +===============+=======================+===============+
     | ``RGB``       | [0, 1]                | [0, 1]        |
     +---------------+-----------------------+---------------+
 
-    -   \* This definition has input and output integer switches, thus the
+    -   \\* This definition has input and output integer switches, thus the
         domain-range scale information is only given for the floating point
         mode.
 

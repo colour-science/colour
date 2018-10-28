@@ -56,7 +56,7 @@ def planckian_locus_plot(planckian_locus_colours=None,
 
     Other Parameters
     ----------------
-    \**kwargs : dict, optional
+    \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -163,7 +163,7 @@ def planckian_locus_chromaticity_diagram_plot(
 
     Other Parameters
     ----------------
-    \**kwargs : dict, optional
+    \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
         :func:`colour.plotting.temperature.planckian_locus_plot`,
@@ -318,7 +318,7 @@ def planckian_locus_chromaticity_diagram_plot_CIE1931(
 
     Other Parameters
     ----------------
-    \**kwargs : dict, optional
+    \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.temperature.\
 planckian_locus_chromaticity_diagram_plot`,
@@ -377,7 +377,7 @@ def planckian_locus_chromaticity_diagram_plot_CIE1960UCS(
 
     Other Parameters
     ----------------
-    \**kwargs : dict, optional
+    \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.temperature.\
 planckian_locus_chromaticity_diagram_plot`,

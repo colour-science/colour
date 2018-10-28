@@ -81,7 +81,7 @@ class TestLUT(unittest.TestCase):
 
         Other Parameters
         ----------------
-        \*args : list, optional
+        \\*args : list, optional
             Arguments.
         """
 
@@ -460,7 +460,7 @@ class TestLUT1D(TestLUT):
 
         Other Parameters
         ----------------
-        \*args : list, optional
+        \\*args : list, optional
             Arguments.
         """
 
@@ -518,7 +518,7 @@ class TestLUT2D(TestLUT):
 
         Other Parameters
         ----------------
-        \*args : list, optional
+        \\*args : list, optional
             Arguments.
         """
 
@@ -587,7 +587,7 @@ class TestLUT3D(TestLUT):
 
         Other Parameters
         ----------------
-        \*args : list, optional
+        \\*args : list, optional
             Arguments.
         """
 

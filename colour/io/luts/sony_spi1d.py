@@ -77,7 +77,7 @@ def read_LUT_SonySPI1D(path):
     Comment 02 : "colour.models.oetf_reverse_sRGB".
     """
 
-    title = re.sub('_|-|\.', ' ', os.path.splitext(os.path.basename(path))[0])
+    title = re.sub('_|-|\\.', ' ', os.path.splitext(os.path.basename(path))[0])
     domain_min, domain_max = np.array([0, 1])
     dimensions = 1
     table = []

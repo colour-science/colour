@@ -16,6 +16,7 @@ colour.LUT1D
       ~LUT1D.__init__
       ~LUT1D.apply
       ~LUT1D.arithmetical_operation
+      ~LUT1D.as_LUT
       ~LUT1D.copy
       ~LUT1D.linear_table
    

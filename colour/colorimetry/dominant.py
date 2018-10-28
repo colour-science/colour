@@ -127,7 +127,7 @@ def dominant_wavelength(xy,
                         cmfs=CMFS['CIE 1931 2 Degree Standard Observer'],
                         reverse=False):
     """
-    Returns the *dominant wavelength* :math:`\lambda_d` for given colour
+    Returns the *dominant wavelength* :math:`\\lambda_d` for given colour
     stimulus :math:`xy` and the related :math:`xy_wl` first and :math:`xy_{cw}`
     second intersection coordinates with the spectral locus.
 
@@ -216,7 +216,7 @@ def complementary_wavelength(xy,
                              xy_n,
                              cmfs=CMFS['CIE 1931 2 Degree Standard Observer']):
     """
-    Returns the *complementary wavelength* :math:`\lambda_c` for given colour
+    Returns the *complementary wavelength* :math:`\\lambda_c` for given colour
     stimulus :math:`xy` and the related :math:`xy_wl` first and :math:`xy_{cw}`
     second intersection coordinates with the spectral locus.
 

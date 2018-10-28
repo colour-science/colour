@@ -62,7 +62,7 @@ DELTA_E_METHODS = CaseInsensitiveMapping({
     'DIN99': delta_E_DIN99,
 })
 DELTA_E_METHODS.__doc__ = """
-Supported :math:`\Delta E_{ab}` computations methods.
+Supported :math:`\\Delta E_{ab}` computations methods.
 
 References
 ----------
@@ -87,15 +87,15 @@ DELTA_E_METHODS['cie2000'] = DELTA_E_METHODS['CIE 2000']
 
 def delta_E(a, b, method='CIE 2000', **kwargs):
     """
-    Returns the difference :math:`\Delta E_{ab}` between two given
-    *CIE L\*a\*b\** or :math:`J'a'b'` colourspace arrays using given method.
+    Returns the difference :math:`\\Delta E_{ab}` between two given
+    *CIE L\\*a\\*b\\** or :math:`J'a'b'` colourspace arrays using given method.
 
     Parameters
     ----------
     a : array_like
-        *CIE L\*a\*b\** or :math:`J'a'b'` colourspace array :math:`a`.
+        *CIE L\\*a\\*b\\** or :math:`J'a'b'` colourspace array :math:`a`.
     b : array_like
-        *CIE L\*a\*b\** or :math:`J'a'b'` colourspace array :math:`b`.
+        *CIE L\\*a\\*b\\** or :math:`J'a'b'` colourspace array :math:`b`.
     method : unicode, optional
         **{'CIE 2000', 'CIE 1976', 'CIE 1994', 'CMC', 'CAM02-LCD', 'CAM02-SCD',
         'CAM02-UCS', 'CAM16-LCD', 'CAM16-SCD', 'CAM16-UCS', 'DIN99'}**
@@ -108,9 +108,9 @@ def delta_E(a, b, method='CIE 2000', **kwargs):
         :func:`colour.difference.delta_E_CIE2000`,
         :func:`colour.difference.delta_E_DIN99`},
         Textiles application specific parametric factors
-        :math:`k_L=2,\ k_C=k_H=1,\ k_1=0.048,\ k_2=0.014,\ k_E=2, \ k_CH=0.5`
-        weights are used instead of
-        :math:`k_L=k_C=k_H=1,\ k_1=0.045,\ k_2=0.015,\ k_E=k_CH=1.0`.
+        :math:`k_L=2,\\ k_C=k_H=1,\\ k_1=0.048,\\ k_2=0.014,\\ k_E=2,\
+\\ k_CH=0.5` weights are used instead of
+        :math:`k_L=k_C=k_H=1,\\ k_1=0.045,\\ k_2=0.015,\\ k_E=k_CH=1.0`.
     l : numeric, optional
         {:func:`colour.difference.delta_E_CIE2000`},
         Lightness weighting factor.
@@ -121,7 +121,7 @@ def delta_E(a, b, method='CIE 2000', **kwargs):
     Returns
     -------
     numeric or ndarray
-        Colour difference :math:`\Delta E_{ab}`.
+        Colour difference :math:`\\Delta E_{ab}`.
 
     References
     ----------

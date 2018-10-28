@@ -41,12 +41,12 @@ __all__ = ['Lab_to_DIN99', 'DIN99_to_Lab']
 
 def Lab_to_DIN99(Lab, k_E=1, k_CH=1):
     """
-    Converts from *CIE L\*a\*b\** colourspace to *DIN99* colourspace.
+    Converts from *CIE L\\*a\\*b\\** colourspace to *DIN99* colourspace.
 
     Parameters
     ----------
     Lab : array_like
-        *CIE L\*a\*b\** colourspace array.
+        *CIE L\\*a\\*b\\** colourspace array.
     k_E : numeric, optional
         Parametric factor :math:`K_E` used to compensate for texture and other
         specimen presentation effects.
@@ -118,7 +118,7 @@ def Lab_to_DIN99(Lab, k_E=1, k_CH=1):
 
 def DIN99_to_Lab(Lab_99, k_E=1, k_CH=1):
     """
-    Converts from *DIN99* colourspace to *CIE L\*a\*b\** colourspace.
+    Converts from *DIN99* colourspace to *CIE L\\*a\\*b\\** colourspace.
 
     Parameters
     ----------
@@ -134,7 +134,7 @@ def DIN99_to_Lab(Lab_99, k_E=1, k_CH=1):
     Returns
     -------
     ndarray
-        *CIE L\*a\*b\** colourspace array.
+        *CIE L\\*a\\*b\\** colourspace array.
 
     Notes
     -----

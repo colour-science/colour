@@ -6,19 +6,19 @@ Correlated Colour Temperature :math:`T_{cp}`
 Defines correlated colour temperature :math:`T_{cp}` computations objects:
 
 -   :func:`colour.temperature.uv_to_CCT_Ohno2013`: Correlated colour
-    temperature :math:`T_{cp}` and :math:`\Delta_{uv}` computation of given
+    temperature :math:`T_{cp}` and :math:`\\Delta_{uv}` computation of given
     *CIE UCS* colourspace *uv* chromaticity coordinates using *Ohno (2013)*
     method.
 -   :func:`colour.temperature.CCT_to_uv_Ohno2013`: *CIE UCS* colourspace *uv*
     chromaticity coordinates computation of given correlated colour temperature
-    :math:`T_{cp}`, :math:`\Delta_{uv}` using *Ohno (2013)* method.
+    :math:`T_{cp}`, :math:`\\Delta_{uv}` using *Ohno (2013)* method.
 -   :func:`colour.temperature.uv_to_CCT_Robertson1968`: Correlated colour
-    temperature :math:`T_{cp}` and :math:`\Delta_{uv}` computation of given
+    temperature :math:`T_{cp}` and :math:`\\Delta_{uv}` computation of given
     *CIE UCS* colourspace *uv* chromaticity coordinates using
     *Robertson (1968)* method.
 -   :func:`colour.temperature.CCT_to_uv_Robertson1968`: *CIE UCS* colourspace
     *uv* chromaticity coordinates computation of given correlated colour
-    temperature :math:`T_{cp}` and :math:`\Delta_{uv}` using
+    temperature :math:`T_{cp}` and :math:`\\Delta_{uv}` using
     *Robertson (1968)* method.
 -   :func:`colour.temperature.CCT_to_uv_Krystek1985`: *CIE UCS* colourspace
     *uv* chromaticity coordinates computation of given correlated colour
@@ -295,7 +295,7 @@ def uv_to_CCT_Ohno2013(
         iterations=CCT_CALCULATION_ITERATIONS):
     """
     Returns the correlated colour temperature :math:`T_{cp}` and
-    :math:`\Delta_{uv}` from given *CIE UCS* colourspace *uv* chromaticity
+    :math:`\\Delta_{uv}` from given *CIE UCS* colourspace *uv* chromaticity
     coordinates, colour matching functions and temperature range using
     *Ohno (2013)* method.
 
@@ -321,7 +321,7 @@ def uv_to_CCT_Ohno2013(
     Returns
     -------
     ndarray
-        Correlated colour temperature :math:`T_{cp}`, :math:`\Delta_{uv}`.
+        Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
 
     References
     ----------
@@ -396,7 +396,7 @@ def CCT_to_uv_Ohno2013(
         cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']):
     """
     Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
-    correlated colour temperature :math:`T_{cp}`, :math:`\Delta_{uv}` and
+    correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}` and
     colour matching functions using *Ohno (2013)* method.
 
     Parameters
@@ -404,7 +404,7 @@ def CCT_to_uv_Ohno2013(
     CCT : numeric
         Correlated colour temperature :math:`T_{cp}`.
     D_uv : numeric, optional
-        :math:`\Delta_{uv}`.
+        :math:`\\Delta_{uv}`.
     cmfs : XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions.
 
@@ -460,7 +460,7 @@ def CCT_to_uv_Ohno2013(
 def uv_to_CCT_Robertson1968(uv):
     """
     Returns the correlated colour temperature :math:`T_{cp}` and
-    :math:`\Delta_{uv}` from given *CIE UCS* colourspace *uv* chromaticity
+    :math:`\\Delta_{uv}` from given *CIE UCS* colourspace *uv* chromaticity
     coordinates using *Roberston (1968)* method.
 
     Parameters
@@ -471,7 +471,7 @@ def uv_to_CCT_Robertson1968(uv):
     Returns
     -------
     ndarray
-        Correlated colour temperature :math:`T_{cp}`, :math:`\Delta_{uv}`.
+        Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
 
     References
     ----------
@@ -540,7 +540,7 @@ def uv_to_CCT_Robertson1968(uv):
 def CCT_to_uv_Robertson1968(CCT, D_uv=0):
     """
     Returns the *CIE UCS* colourspace *uv* chromaticity coordinates from given
-    correlated colour temperature :math:`T_{cp}` and :math:`\Delta_{uv}` using
+    correlated colour temperature :math:`T_{cp}` and :math:`\\Delta_{uv}` using
     *Roberston (1968)* method.
 
     Parameters
@@ -548,7 +548,7 @@ def CCT_to_uv_Robertson1968(CCT, D_uv=0):
     CCT : numeric
         Correlated colour temperature :math:`T_{cp}`.
     D_uv : numeric
-        :math:`\Delta_{uv}`.
+        :math:`\\Delta_{uv}`.
 
     Returns
     -------
@@ -673,7 +673,7 @@ UV_TO_CCT_METHODS['robertson1968'] = UV_TO_CCT_METHODS['Robertson 1968']
 def uv_to_CCT(uv, method='Ohno 2013', **kwargs):
     """
     Returns the correlated colour temperature :math:`T_{cp}` and
-    :math:`\Delta_{uv}` from given *CIE UCS* colourspace *uv* chromaticity
+    :math:`\\Delta_{uv}` from given *CIE UCS* colourspace *uv* chromaticity
     coordinates using given method.
 
     Parameters
@@ -705,7 +705,7 @@ def uv_to_CCT(uv, method='Ohno 2013', **kwargs):
     Returns
     -------
     ndarray
-        Correlated colour temperature :math:`T_{cp}`, :math:`\Delta_{uv}`.
+        Correlated colour temperature :math:`T_{cp}`, :math:`\\Delta_{uv}`.
 
     References
     ----------
@@ -769,7 +769,7 @@ def CCT_to_uv(CCT, method='Ohno 2013', **kwargs):
     ----------------
     D_uv : numeric
        {:func:`CCT_to_uv_Ohno2013, CCT_to_uv_Robertson1968`},
-       :math:`\Delta_{uv}`.
+       :math:`\\Delta_{uv}`.
     cmfs : XYZ_ColourMatchingFunctions, optional
         {:func:`colour.temperature.CCT_to_uv_Ohno2013`},
         Standard observer colour matching functions.

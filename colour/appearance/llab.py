@@ -458,7 +458,7 @@ def opponent_colour_dimensions(XYZ, Y_b, F_S, F_L):
     Returns opponent colour dimensions from given adapted *CIE XYZ* tristimulus
     values.
 
-    The opponent colour dimensions are based on a modified *CIE L\*a\*b\**
+    The opponent colour dimensions are based on a modified *CIE L\\*a\\*b\\**
     colourspace formulae.
 
     Parameters
@@ -495,7 +495,7 @@ def opponent_colour_dimensions(XYZ, Y_b, F_S, F_L):
     # Account for background lightness contrast.
     z = 1 + F_L * spow(Y_b / 100, 0.5)
 
-    # Computing modified *CIE L\*a\*b\** colourspace array.
+    # Computing modified *CIE L\\*a\\*b\\** colourspace array.
     L = 116 * spow(f(Y / 100, F_S), z) - 16
     a = 500 * (f(X / 95.05, F_S) - f(Y / 100, F_S))
     b = 200 * (f(Y / 100, F_S) - f(Z / 108.88, F_S))

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-CIE Standard Illuminant D Series :math:`S_n(\lambda)` Distributions
+CIE Standard Illuminant D Series :math:`S_n(\\lambda)` Distributions
 ===================================================================
 
-Defines the *CIE Standard Illuminant D Series* :math:`S_n(\lambda)`
+Defines the *CIE Standard Illuminant D Series* :math:`S_n(\\lambda)`
 distributions involved in the computation of
 *CIE Standard Illuminant D Series* relative spectral power distributions.
 
@@ -376,7 +376,7 @@ D_ILLUMINANTS_S_SPDS = CaseInsensitiveMapping({
         SpectralPowerDistribution(D_ILLUMINANTS_S_SPDS_DATA['S2'], name='S2')
 })
 """
-*CIE Standard Illuminant D Series* :math:`S_n(\lambda)` spectral power
+*CIE Standard Illuminant D Series* :math:`S_n(\\lambda)` spectral power
 distributions
 
 References
