@@ -21,6 +21,14 @@ chromaticity_coordinates.COLORCHECKER_2005`: Reference data from
 -   :attr:`colour.characterisation.dataset.colour_checkers.\
 chromaticity_coordinates.BABELCOLOR_AVERAGE`: Average data derived from
     measurements of 30 *ColourChecker* charts.
+-   :attr:`colour.characterisation.dataset.colour_checkers.\
+chromaticity_coordinates.COLORCHECKER24_BEFORE_NOV2014`: Reference data from
+    *X-Rite* published in 2015 and matching the data from *GretagMacbeth*
+    published in 2005.
+-   :attr:`colour.characterisation.dataset.colour_checkers.\
+chromaticity_coordinates.COLORCHECKER24_AFTER_NOV2014`: Reference data from
+    *X-Rite* published in 2015 and matching the *ColourChecker* edition after
+    November 2014.
 
 See Also
 --------
@@ -36,6 +44,10 @@ References
 -   :cite:`BabelColor2012c` : BabelColor. (2012). ColorChecker RGB and spectra.
     Retrieved from http://www.babelcolor.com/download/\
 ColorChecker_RGB_and_spectra.xls
+-   :cite:`X-Rite2015` : X-Rite. (2015). New color specifications for
+    ColorChecker SG and Classic Charts. Retrieved October 29, 2018,
+    from http://xritephoto.com/ph_product_overview.aspx?\
+ID=938&Action=Support&SupportID=5884#
 """
 
 from __future__ import division, unicode_literals
@@ -44,6 +56,7 @@ import numpy as np
 from collections import OrderedDict, namedtuple
 
 from colour.colorimetry import ILLUMINANTS
+from colour.models import Lab_to_XYZ, XYZ_to_xyY
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers, Danny Pascale '
@@ -62,7 +75,13 @@ __all__ = [
     'COLORCHECKER_1976', 'COLORCHECKER_2005_DATA',
     'COLORCHECKER_2005_ILLUMINANT', 'COLORCHECKER_2005',
     'BABELCOLOR_AVERAGE_DATA', 'BABELCOLOR_AVERAGE_ILLUMINANT',
-    'BABELCOLOR_AVERAGE', 'COLOURCHECKERS'
+    'BABELCOLOR_AVERAGE', 'COLORCHECKER24_BEFORE_NOV2014_LAB_DATA',
+    'COLORCHECKER24_BEFORE_NOV2014_DATA',
+    'COLORCHECKER24_BEFORE_NOV2014_ILLUMINANT',
+    'COLORCHECKER24_BEFORE_NOV2014', 'COLORCHECKER24_AFTER_NOV2014_LAB_DATA',
+    'COLORCHECKER24_AFTER_NOV2014_DATA',
+    'COLORCHECKER24_AFTER_NOV2014_ILLUMINANT', 'COLORCHECKER24_AFTER_NOV2014',
+    'COLOURCHECKERS'
 ]
 
 
@@ -212,25 +231,167 @@ Average data derived from measurements of 30 *ColourChecker* charts.
 BABELCOLOR_AVERAGE : ColourChecker
 """
 
+COLORCHECKER24_BEFORE_NOV2014_LAB_DATA = OrderedDict((
+    ('dark skin', np.array([37.986, 13.555, 14.059])),
+    ('light skin', np.array([65.711, 18.13, 17.81])),
+    ('blue sky', np.array([49.927, -4.88, -21.905])),
+    ('foliage', np.array([43.139, -13.095, 21.905])),
+    ('blue flower', np.array([55.112, 8.844, -25.399])),
+    ('bluish green', np.array([70.719, -33.397, -0.199])),
+    ('orange', np.array([62.661, 36.067, 57.096])),
+    ('purplish blue', np.array([40.02, 10.41, -45.964])),
+    ('moderate red', np.array([51.124, 48.239, 16.248])),
+    ('purple', np.array([30.325, 22.976, -21.587])),
+    ('yellow green', np.array([72.532, -23.709, 57.255])),
+    ('orange yellow', np.array([71.941, 19.363, 67.857])),
+    ('blue', np.array([28.778, 14.179, -50.297])),
+    ('green', np.array([55.261, -38.342, 31.37])),
+    ('red', np.array([42.101, 53.378, 28.19])),
+    ('yellow', np.array([81.733, 4.039, 79.819])),
+    ('magenta', np.array([51.935, 49.986, -14.574])),
+    ('cyan', np.array([51.038, -28.631, -28.638])),
+    ('white 9.5 (.05 D)', np.array([96.539, -0.425, 1.186])),
+    ('neutral 8 (.23 D)', np.array([81.257, -0.638, -0.335])),
+    ('neutral 6.5 (.44 D)', np.array([66.766, -0.734, -0.504])),
+    ('neutral 5 (.70 D)', np.array([50.867, -0.153, -0.27])),
+    ('neutral 3.5 (1.05 D)', np.array([35.656, -0.421, -1.231])),
+    ('black 2 (1.5 D)', np.array([20.461, -0.079, -0.973])),
+))
+"""
+*ColorChecker24 - Before November 2014* illuminant.
+
+Notes
+-----
+-   *X-Rite* data is given as *CIE L\\*a\\*b\\** colourspace values under
+    *CIE Illuminant D Series D50* for the
+    *CIE 1931 2 Degree Standard Observer*.
+
+COLORCHECKER24_BEFORE_NOV2014_LAB_DATA : ndarray
+"""
+
+COLORCHECKER24_BEFORE_NOV2014_DATA = OrderedDict(
+    zip(COLORCHECKER24_BEFORE_NOV2014_LAB_DATA.keys(),
+        XYZ_to_xyY(
+            Lab_to_XYZ(
+                list(COLORCHECKER24_BEFORE_NOV2014_LAB_DATA.values()),
+                ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']))))
+
+COLORCHECKER24_BEFORE_NOV2014_ILLUMINANT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50'])
+"""
+*ColorChecker24 - Before November 2014* illuminant.
+
+COLORCHECKER24_BEFORE_NOV2014_ILLUMINANT : ndarray
+"""
+
+COLORCHECKER24_BEFORE_NOV2014 = ColourChecker(
+    'ColorChecker24 - Before November 2014',
+    COLORCHECKER24_BEFORE_NOV2014_DATA,
+    COLORCHECKER24_BEFORE_NOV2014_ILLUMINANT)
+"""
+Reference *ColourChecker* data from *X-Rite (2015)*.
+
+Notes
+-----
+-   The rounded *ColorChecker24 - Before November 2014* values should match the
+    *ColorChecker 2005* values. They are given for reference of the original
+    *CIE L\\*a\\*b\\** colourspace values.
+
+COLORCHECKER24_BEFORE_NOV2014 : ColourChecker
+"""
+
+COLORCHECKER24_AFTER_NOV2014_LAB_DATA = OrderedDict((
+    ('dark skin', np.array([37.54, 14.37, 14.92])),
+    ('light skin', np.array([64.66, 19.27, 17.5])),
+    ('blue sky', np.array([49.32, -3.82, -22.54])),
+    ('foliage', np.array([43.46, -12.74, 22.72])),
+    ('blue flower', np.array([54.94, 9.61, -24.79])),
+    ('bluish green', np.array([70.48, -32.26, -0.37])),
+    ('orange', np.array([62.73, 35.83, 56.5])),
+    ('purplish blue', np.array([39.43, 10.75, -45.17])),
+    ('moderate red', np.array([50.57, 48.64, 16.67])),
+    ('purple', np.array([30.1, 22.54, -20.87])),
+    ('yellow green', np.array([71.77, -24.13, 58.19])),
+    ('orange yellow', np.array([71.51, 18.24, 67.37])),
+    ('blue', np.array([28.37, 15.42, -49.8])),
+    ('green', np.array([54.38, -39.72, 32.27])),
+    ('red', np.array([42.43, 51.05, 28.62])),
+    ('yellow', np.array([81.8, 2.67, 80.41])),
+    ('magenta', np.array([50.63, 51.28, -14.12])),
+    ('cyan', np.array([49.57, -29.71, -28.32])),
+    ('white 9.5 (.05 D)', np.array([95.19, -1.03, 2.93])),
+    ('neutral 8 (.23 D)', np.array([81.29, -0.57, 0.44])),
+    ('neutral 6.5 (.44 D)', np.array([66.89, -0.75, -0.06])),
+    ('neutral 5 (.70 D)', np.array([50.76, -0.13, 0.14])),
+    ('neutral 3.5 (1.05 D)', np.array([35.63, -0.46, -0.48])),
+    ('black 2 (1.5 D)', np.array([20.64, 0.07, -0.46])),
+))
+"""
+*ColorChecker24 - After November 2014* illuminant.
+
+Notes
+-----
+-   *X-Rite* data is given as *CIE L\\*a\\*b\\** colourspace values under
+    *CIE Illuminant D Series D50* for the
+    *CIE 1931 2 Degree Standard Observer*.
+
+COLORCHECKER24_AFTER_NOV2014_LAB_DATA : ndarray
+"""
+
+COLORCHECKER24_AFTER_NOV2014_DATA = OrderedDict(
+    zip(COLORCHECKER24_AFTER_NOV2014_LAB_DATA.keys(),
+        XYZ_to_xyY(
+            Lab_to_XYZ(
+                list(COLORCHECKER24_AFTER_NOV2014_LAB_DATA.values()),
+                ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']))))
+
+COLORCHECKER24_AFTER_NOV2014_ILLUMINANT = (
+    ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50'])
+"""
+*ColorChecker24 - After November 2014* illuminant.
+
+COLORCHECKER24_AFTER_NOV2014_ILLUMINANT : ndarray
+"""
+
+COLORCHECKER24_AFTER_NOV2014 = ColourChecker(
+    'ColorChecker24 - After November 2014', COLORCHECKER24_AFTER_NOV2014_DATA,
+    COLORCHECKER24_AFTER_NOV2014_ILLUMINANT)
+"""
+Reference *ColourChecker* data from *X-Rite (2015)* and matching the
+*ColourChecker* edition after November 2014.
+
+COLORCHECKER24_AFTER_NOV2014 : ColourChecker
+"""
+
 COLOURCHECKERS = CaseInsensitiveMapping({
     'ColorChecker 1976': COLORCHECKER_1976,
     'ColorChecker 2005': COLORCHECKER_2005,
     'BabelColor Average': BABELCOLOR_AVERAGE,
+    'ColorChecker24 - Before November 2014': COLORCHECKER24_BEFORE_NOV2014,
+    'ColorChecker24 - After November 2014': COLORCHECKER24_AFTER_NOV2014,
 })
 COLOURCHECKERS.__doc__ = """
 Aggregated *ColourCheckers* chromaticity coordinates.
 
 References
 ----------
-:cite:`BabelColor2012b`, :cite:`BabelColor2012c`
+:cite:`BabelColor2012b`, :cite:`BabelColor2012c`, :cite:`X-Rite2015`
 
 COLOURCHECKERS : CaseInsensitiveMapping
-    **{'ColorChecker 1976', 'ColorChecker 2005', 'BabelColor Average'}**
+    **{'ColorChecker 1976', 'ColorChecker 2005', 'BabelColor Average',
+    'ColorChecker24 - Before November 2014',
+    'ColorChecker24 - After November 2014'}**
 
 Aliases:
 
 -   'babel_average': 'BabelColor Average'
 -   'cc2005': 'ColorChecker 2005'
+-   'ccb2014': 'ColorChecker24 - Before November 2014'
+-   'cca2014': 'ColorChecker24 - After November 2014'
 """
 COLOURCHECKERS['babel_average'] = COLOURCHECKERS['BabelColor Average']
 COLOURCHECKERS['cc2005'] = COLOURCHECKERS['ColorChecker 2005']
+COLOURCHECKERS['ccb2014'] = COLOURCHECKERS[
+    'ColorChecker24 - Before November 2014']
+COLOURCHECKERS['cca2014'] = COLOURCHECKERS[
+    'ColorChecker24 - After November 2014']
