@@ -46,12 +46,12 @@ def mesopic_weighting_function(
         scotopic_lef=SCOTOPIC_LEFS['CIE 1951 Scotopic Standard Observer']):
     """
     Calculates the mesopic weighting function factor at given wavelength
-    :math:`\lambda` using the photopic luminance :math:`L_p`.
+    :math:`\\lambda` using the photopic luminance :math:`L_p`.
 
     Parameters
     ----------
     wavelength : numeric or array_like
-        Wavelength :math:`\lambda` to calculate the mesopic weighting function
+        Wavelength :math:`\\lambda` to calculate the mesopic weighting function
         factor.
     Lp : numeric
         Photopic luminance :math:`L_p`.
@@ -62,9 +62,9 @@ def mesopic_weighting_function(
         **{'MOVE', 'LRC'}**,
         Method to calculate the weighting factor.
     photopic_lef : SpectralPowerDistribution, optional
-        :math:`V(\lambda)` photopic luminous efficiency function.
+        :math:`V(\\lambda)` photopic luminous efficiency function.
     scotopic_lef : SpectralPowerDistribution, optional
-        :math:`V^\prime(\lambda)` scotopic luminous efficiency function.
+        :math:`V^\\prime(\\lambda)` scotopic luminous efficiency function.
 
     Returns
     -------
@@ -98,7 +98,7 @@ def mesopic_luminous_efficiency_function(
         photopic_lef=PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer'],
         scotopic_lef=SCOTOPIC_LEFS['CIE 1951 Scotopic Standard Observer']):
     """
-    Returns the mesopic luminous efficiency function :math:`V_m(\lambda)` for
+    Returns the mesopic luminous efficiency function :math:`V_m(\\lambda)` for
     given photopic luminance :math:`L_p`.
 
     Parameters
@@ -112,14 +112,14 @@ def mesopic_luminous_efficiency_function(
         **{'MOVE', 'LRC'}**,
         Method to calculate the weighting factor.
     photopic_lef : SpectralPowerDistribution, optional
-        :math:`V(\lambda)` photopic luminous efficiency function.
+        :math:`V(\\lambda)` photopic luminous efficiency function.
     scotopic_lef : SpectralPowerDistribution, optional
-        :math:`V^\prime(\lambda)` scotopic luminous efficiency function.
+        :math:`V^\\prime(\\lambda)` scotopic luminous efficiency function.
 
     Returns
     -------
     SpectralPowerDistribution
-        Mesopic luminous efficiency function :math:`V_m(\lambda)`.
+        Mesopic luminous efficiency function :math:`V_m(\\lambda)`.
 
     References
     ----------

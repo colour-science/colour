@@ -81,7 +81,7 @@ class Nayatani95_ReferenceSpecification(
     Parameters
     ----------
     L_star_P : numeric or array_like
-        Correlate of *achromatic Lightness* :math:`L_p^\star`.
+        Correlate of *achromatic Lightness* :math:`L_p^\\star`.
     C : numeric or array_like
         Correlate of *chroma* :math:`C`.
     theta : numeric or array_like
@@ -97,7 +97,7 @@ class Nayatani95_ReferenceSpecification(
     H_C : numeric or array_like
         *Hue* :math:`h` composition :math:`H_C`.
     L_star_N : numeric or array_like
-        Correlate of *normalised achromatic Lightness* :math:`L_n^\star`.
+        Correlate of *normalised achromatic Lightness* :math:`L_n^\\star`.
 
     References
     ----------
@@ -119,7 +119,7 @@ class Nayatani95_Specification(
     Parameters
     ----------
     L_star_P : numeric or array_like
-        Correlate of *achromatic Lightness* :math:`L_p^\star`.
+        Correlate of *achromatic Lightness* :math:`L_p^\\star`.
     C : numeric or array_like
         Correlate of *chroma* :math:`C`.
     h : numeric or array_like
@@ -135,7 +135,7 @@ class Nayatani95_Specification(
     HC : numeric or array_like
         *Hue* :math:`h` composition :math:`H_C`.
     L_star_N : numeric or array_like
-        Correlate of *normalised achromatic Lightness* :math:`L_n^\star`.
+        Correlate of *normalised achromatic Lightness* :math:`L_n^\\star`.
 
     Notes
     -----
@@ -218,7 +218,7 @@ HC=None, L_star_N=50.0039154...)
     # L_o = illuminance_to_luminance(E_o, Y_o)
     L_or = illuminance_to_luminance(E_or, Y_o)
 
-    # Computing :math:`\xi`, :math:`\eta`, :math:`\zeta` values.
+    # Computing :math:`\\xi` :math:`\\eta`, :math:`\\zeta` values.
     xez = intermediate_values(XYZ_to_xy(XYZ_n / 100))
     xi, eta, _zeta = tsplit(xez)
 
@@ -255,11 +255,11 @@ HC=None, L_star_N=50.0039154...)
     brightness_ideal_white = ideal_white_brightness_correlate(
         bRGB_o, xez, bL_or, n)
 
-    # Computing the correlate of achromatic *Lightness* :math:`L_p^\star`.
+    # Computing the correlate of achromatic *Lightness* :math:`L_p^\\star`.
     L_star_P = (achromatic_lightness_correlate(Q_response))
 
     # Computing the correlate of normalised achromatic *Lightness*
-    # :math:`L_n^\star`.
+    # :math:`L_n^\\star`.
     L_star_N = (normalised_achromatic_lightness_correlate(
         B_r, brightness_ideal_white))
 
@@ -382,7 +382,7 @@ def achromatic_response(RGB, bRGB_o, xez, bL_or, eR, eG, n=1):
          Chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
          :math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)`.
     xez: ndarray
-        Intermediate values :math:`\\xi`, :math:`\eta`, :math:`\zeta`.
+        Intermediate values :math:`\\xi`, :math:`\\eta`, :math:`\\zeta`.
     bL_or: numeric or array_like
          Normalising chromatic adaptation exponential factor
          :math:`\\beta_1(B_or)`.
@@ -439,7 +439,7 @@ def tritanopic_response(RGB, bRGB_o, xez, n):
          Chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
          :math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)`.
     xez: ndarray
-        Intermediate values :math:`\\xi`, :math:`\eta`, :math:`\zeta`.
+        Intermediate values :math:`\\xi`, :math:`\\eta`, :math:`\\zeta`.
     n : numeric or array_like, optional
         Noise term used in the non linear chromatic adaptation model.
 
@@ -482,7 +482,7 @@ def protanopic_response(RGB, bRGB_o, xez, n):
          Chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
          :math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)`.
     xez: ndarray
-        Intermediate values :math:`\\xi`, :math:`\eta`, :math:`\zeta`.
+        Intermediate values :math:`\\xi`, :math:`\\eta`, :math:`\\zeta`.
     n : numeric or array_like, optional
         Noise term used in the non linear chromatic adaptation model.
 
@@ -559,7 +559,7 @@ def ideal_white_brightness_correlate(bRGB_o, xez, bL_or, n):
          Chromatic adaptation exponential factors :math:`\\beta_1(R_o)`,
          :math:`\\beta_1(G_o)` and :math:`\\beta_2(B_o)`.
     xez: ndarray
-        Intermediate values :math:`\\xi`, :math:`\eta`, :math:`\zeta`.
+        Intermediate values :math:`\\xi`, :math:`\\eta`, :math:`\\zeta`.
     bL_or: numeric or array_like
          Normalising chromatic adaptation exponential factor
          :math:`\\beta_1(B_or)`.
@@ -597,7 +597,7 @@ def ideal_white_brightness_correlate(bRGB_o, xez, bL_or, n):
 
 def achromatic_lightness_correlate(Q):
     """
-    Returns the *achromatic Lightness* correlate :math:`L_p^\star`.
+    Returns the *achromatic Lightness* correlate :math:`L_p^\\star`.
 
     Parameters
     ----------
@@ -607,7 +607,7 @@ def achromatic_lightness_correlate(Q):
     Returns
     -------
     numeric or ndarray
-        *Achromatic Lightness* correlate :math:`L_p^\star`.
+        *Achromatic Lightness* correlate :math:`L_p^\\star`.
 
     Examples
     --------
@@ -623,7 +623,7 @@ def achromatic_lightness_correlate(Q):
 
 def normalised_achromatic_lightness_correlate(B_r, B_rw):
     """
-    Returns the *normalised achromatic Lightness* correlate :math:`L_n^\star`.
+    Returns the *normalised achromatic Lightness* correlate :math:`L_n^\\star`.
 
     Parameters
     ----------
@@ -635,7 +635,7 @@ def normalised_achromatic_lightness_correlate(B_r, B_rw):
     Returns
     -------
     numeric or ndarray
-        *Normalised achromatic Lightness* correlate :math:`L_n^\star`.
+        *Normalised achromatic Lightness* correlate :math:`L_n^\\star`.
 
     Examples
     --------
@@ -804,7 +804,7 @@ def chroma_components(L_star_P, S_RG, S_YB):
     Parameters
     ----------
     L_star_P : numeric or array_like
-        *Achromatic Lightness* correlate :math:`L_p^\star`.
+        *Achromatic Lightness* correlate :math:`L_p^\\star`.
     S_RG : numeric or array_like
         *Saturation* component :math:`S_{RG}`.
     S_YB : numeric or array_like
@@ -841,7 +841,7 @@ def chroma_correlate(L_star_P, S):
     Parameters
     ----------
     L_star_P : numeric or array_like
-        *Achromatic Lightness* correlate :math:`L_p^\star`.
+        *Achromatic Lightness* correlate :math:`L_p^\\star`.
     S : numeric or array_like
         Correlate of *saturation* :math:`S`.
 

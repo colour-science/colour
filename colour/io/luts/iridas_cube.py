@@ -99,7 +99,7 @@ def read_LUT_IridasCube(path):
     Comment 01 : Comments can go anywhere
     """
 
-    title = re.sub('_|-|\.', ' ', os.path.splitext(os.path.basename(path))[0])
+    title = re.sub('_|-|\\.', ' ', os.path.splitext(os.path.basename(path))[0])
     domain_min, domain_max = np.array([0, 0, 0]), np.array([1, 1, 1])
     dimensions = 3
     size = 2

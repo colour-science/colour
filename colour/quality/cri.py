@@ -97,7 +97,7 @@ def colour_rendering_index(spd_test, additional_data=False):
     spd_test : SpectralPowerDistribution
         Test spectral power distribution.
     additional_data : bool, optional
-        Output additional data.
+        Whether to output additional data.
 
     Returns
     -------

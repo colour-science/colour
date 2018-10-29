@@ -38,7 +38,7 @@ __all__ = ['RGB_to_Prismatic', 'Prismatic_to_RGB']
 
 def RGB_to_Prismatic(RGB):
     """
-    Converts from *RGB* colourspace to *Prismatic* :math:`L\\rho\gamma\\beta`
+    Converts from *RGB* colourspace to *Prismatic* :math:`L\\rho\\gamma\\beta`
     colourspace array.
 
     Parameters
@@ -49,7 +49,7 @@ def RGB_to_Prismatic(RGB):
     Returns
     -------
     ndarray
-        *Prismatic* :math:`L\\rho\gamma\\beta` colourspace array.
+        *Prismatic* :math:`L\\rho\\gamma\\beta` colourspace array.
 
     Notes
     -----
@@ -100,13 +100,13 @@ def RGB_to_Prismatic(RGB):
 
 def Prismatic_to_RGB(Lrgb):
     """
-    Converts from *Prismatic* :math:`L\\rho\gamma\\beta` colourspace array to
+    Converts from *Prismatic* :math:`L\\rho\\gamma\\beta` colourspace array to
     *RGB* colourspace.
 
     Parameters
     ----------
     Lrgb : array_like
-        *Prismatic* :math:`L\\rho\gamma\\beta` colourspace array.
+        *Prismatic* :math:`L\\rho\\gamma\\beta` colourspace array.
 
     Returns
     -------

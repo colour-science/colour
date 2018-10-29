@@ -3,7 +3,7 @@
 CIE L*a*b* Colourspace
 ======================
 
-Defines the *CIE L\*a\*b\** colourspace transformations:
+Defines the *CIE L\\*a\\*b\\** colourspace transformations:
 
 -   :func:`colour.XYZ_to_Lab`
 -   :func:`colour.Lab_to_XYZ`
@@ -49,7 +49,8 @@ def XYZ_to_Lab(
         XYZ,
         illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']):
     """
-    Converts from *CIE XYZ* tristimulus values to *CIE L\*a\*b\** colourspace.
+    Converts from *CIE XYZ* tristimulus values to *CIE L\\*a\\*b\\**
+    colourspace.
 
     Parameters
     ----------
@@ -62,7 +63,7 @@ def XYZ_to_Lab(
     Returns
     -------
     ndarray
-        *CIE L\*a\*b\** colourspace array.
+        *CIE L\\*a\\*b\\** colourspace array.
 
     Notes
     -----
@@ -123,12 +124,13 @@ def Lab_to_XYZ(
         Lab,
         illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']):
     """
-    Converts from *CIE L\*a\*b\** colourspace to *CIE XYZ* tristimulus values.
+    Converts from *CIE L\\*a\\*b\\** colourspace to *CIE XYZ* tristimulus
+    values.
 
     Parameters
     ----------
     Lab : array_like
-        *CIE L\*a\*b\** colourspace array.
+        *CIE L\\*a\\*b\\** colourspace array.
     illuminant : array_like, optional
         Reference *illuminant* *xy* chromaticity coordinates or *CIE xyY*
         colourspace array.
@@ -189,17 +191,18 @@ def Lab_to_XYZ(
 
 def Lab_to_LCHab(Lab):
     """
-    Converts from *CIE L\*a\*b\** colourspace to *CIE L\*C\*Hab* colourspace.
+    Converts from *CIE L\\*a\\*b\\** colourspace to *CIE L\\*C\\*Hab*
+    colourspace.
 
     Parameters
     ----------
     Lab : array_like
-        *CIE L\*a\*b\** colourspace array.
+        *CIE L\\*a\\*b\\** colourspace array.
 
     Returns
     -------
     ndarray
-        *CIE L\*C\*Hab* colourspace array.
+        *CIE L\\*C\\*Hab* colourspace array.
 
     Notes
     -----
@@ -246,17 +249,18 @@ def Lab_to_LCHab(Lab):
 
 def LCHab_to_Lab(LCHab):
     """
-    Converts from *CIE L\*C\*Hab* colourspace to *CIE L\*a\*b\** colourspace.
+    Converts from *CIE L\\*C\\*Hab* colourspace to *CIE L\\*a\\*b\\**
+    colourspace.
 
     Parameters
     ----------
     LCHab : array_like
-        *CIE L\*C\*Hab* colourspace array.
+        *CIE L\\*C\\*Hab* colourspace array.
 
     Returns
     -------
     ndarray
-        *CIE L\*a\*b\** colourspace array.
+        *CIE L\\*a\\*b\\** colourspace array.
 
     Notes
     -----

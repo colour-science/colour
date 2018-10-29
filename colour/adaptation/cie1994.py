@@ -204,7 +204,8 @@ def RGB_to_XYZ_CIE1994(RGB):
 
 def intermediate_values(xy_o):
     """
-    Returns the intermediate values :math:`\\xi`, :math:`\eta`, :math:`\zeta`.
+    Returns the intermediate values :math:`\\xi`, :math:`\\eta`,
+    :math:`\\zeta`.
 
     Parameters
     ----------
@@ -214,7 +215,7 @@ def intermediate_values(xy_o):
     Returns
     -------
     ndarray
-        Intermediate values :math:`\\xi`, :math:`\eta`, :math:`\zeta`.
+        Intermediate values :math:`\\xi`, :math:`\\eta`, :math:`\\zeta`.
 
     Examples
     --------
@@ -225,7 +226,7 @@ def intermediate_values(xy_o):
 
     x_o, y_o = tsplit(xy_o)
 
-    # Computing :math:`\xi`, :math:`\eta`, :math:`\zeta` values.
+    # Computing :math:`\\xi` :math:`\\eta`, :math:`\\zeta` values.
     xi = (0.48105 * x_o + 0.78841 * y_o - 0.08081) / y_o
     eta = (-0.27200 * x_o + 1.11962 * y_o + 0.04570) / y_o
     zeta = (0.91822 * (1 - x_o - y_o)) / y_o
@@ -243,7 +244,7 @@ def effective_adapting_responses(xez, Y_o, E_o):
     Parameters
     ----------
     xez: ndarray
-        Intermediate values :math:`\\xi`, :math:`\eta`, :math:`\zeta`.
+        Intermediate values :math:`\\xi`, :math:`\\eta`, :math:`\\zeta`.
     E_o : numeric
         Test or reference illuminance :math:`E_{o}` in lux.
     Y_o : numeric
@@ -365,11 +366,11 @@ def K_coefficient(xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, n=1):
     Parameters
     ----------
     xez_1: array_like
-        Intermediate values :math:`\\xi_1`, :math:`\eta_1`, :math:`\zeta_1` for
-        the test illuminant and background.
+        Intermediate values :math:`\\xi_1`, :math:`\\eta_1`, :math:`\\zeta_1`
+        for the test illuminant and background.
     xez_2: array_like
-        Intermediate values :math:`\\xi_2`, :math:`\eta_2`, :math:`\zeta_2` for
-        the reference illuminant and background.
+        Intermediate values :math:`\\xi_2`, :math:`\\eta_2`, :math:`\\zeta_2`
+        for the reference illuminant and background.
     bRGB_o1: array_like
         Chromatic adaptation exponential factors :math:`\\beta_1(R_{o1})`,
         :math:`\\beta_1(G_{o1})` and :math:`\\beta_2(B_{o1})` of test sample.
@@ -424,11 +425,11 @@ def corresponding_colour(RGB_1, xez_1, xez_2, bRGB_o1, bRGB_o2, Y_o, K, n=1):
     RGB_1: array_like
         Test sample cone responses :math:`RGB_1`.
     xez_1: array_like
-        Intermediate values :math:`\\xi_1`, :math:`\eta_1`, :math:`\zeta_1` for
-        the test illuminant and background.
+        Intermediate values :math:`\\xi_1`, :math:`\\eta_1`, :math:`\\zeta_1`
+        for the test illuminant and background.
     xez_2: array_like
-        Intermediate values :math:`\\xi_2`, :math:`\eta_2`, :math:`\zeta_2` for
-        the reference illuminant and background.
+        Intermediate values :math:`\\xi_2`, :math:`\\eta_2`, :math:`\\zeta_2`
+        for the reference illuminant and background.
     bRGB_o1: array_like
         Chromatic adaptation exponential factors :math:`\\beta_1(R_{o1})`,
         :math:`\\beta_1(G_{o1})` and :math:`\\beta_2(B_{o1})` of test sample.

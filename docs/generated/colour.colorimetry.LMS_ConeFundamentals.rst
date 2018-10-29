@@ -27,6 +27,7 @@ colour.colorimetry.LMS\_ConeFundamentals
       ~LMS_ConeFundamentals.multi_signal_unpack_data
       ~LMS_ConeFundamentals.normalise
       ~LMS_ConeFundamentals.to_dataframe
+      ~LMS_ConeFundamentals.to_spds
       ~LMS_ConeFundamentals.trim
       ~LMS_ConeFundamentals.trim_wavelengths
       ~LMS_ConeFundamentals.zeros
@@ -53,6 +54,7 @@ colour.colorimetry.LMS\_ConeFundamentals
       ~LMS_ConeFundamentals.name
       ~LMS_ConeFundamentals.range
       ~LMS_ConeFundamentals.shape
+      ~LMS_ConeFundamentals.signal_type
       ~LMS_ConeFundamentals.signals
       ~LMS_ConeFundamentals.strict_labels
       ~LMS_ConeFundamentals.strict_name

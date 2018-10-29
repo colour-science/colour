@@ -62,18 +62,18 @@ def oetf_DCDM(XYZ, out_int=False):
     -----
 
     +---------------+-----------------------+---------------+
-    | **Domain \*** | **Scale - Reference** | **Scale - 1** |
+    | **Domain \\*** | **Scale - Reference** | **Scale - 1** |
     +===============+=======================+===============+
     | ``XYZ``       | [0, 1]                | [0, 1]        |
     +---------------+-----------------------+---------------+
 
     +---------------+-----------------------+---------------+
-    | **Range \***  | **Scale - Reference** | **Scale - 1** |
+    | **Range \\***  | **Scale - Reference** | **Scale - 1** |
     +===============+=======================+===============+
     | ``XYZ_p``     | [0, 1]                | [0, 1]        |
     +---------------+-----------------------+---------------+
 
-    -   \* This definition has an output integer switch, thus the domain-range
+    -   \\* This definition has an output integer switch, thus the domain-range
         scale information is only given for the floating point mode.
 
     References
@@ -119,18 +119,18 @@ def eotf_DCDM(XYZ_p, in_int=False):
     -----
 
     +---------------+-----------------------+---------------+
-    | **Domain \*** | **Scale - Reference** | **Scale - 1** |
+    | **Domain \\*** | **Scale - Reference** | **Scale - 1** |
     +===============+=======================+===============+
     | ``XYZ_p``     | [0, 1]                | [0, 1]        |
     +---------------+-----------------------+---------------+
 
     +---------------+-----------------------+---------------+
-    | **Range \***  | **Scale - Reference** | **Scale - 1** |
+    | **Range \\***  | **Scale - Reference** | **Scale - 1** |
     +===============+=======================+===============+
     | ``XYZ``       | [0, 1]                | [0, 1]        |
     +---------------+-----------------------+---------------+
 
-    -   \* This definition has an input integer switch, thus the domain-range
+    -   \\* This definition has an input integer switch, thus the domain-range
         scale information is only given for the floating point mode.
 
     References

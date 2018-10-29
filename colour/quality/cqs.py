@@ -96,7 +96,7 @@ class CQS_Specification(
     Q_g : numeric
          Gamut area scale :math:`Q_g` representing the relative gamut formed
          by the (:math:`a^*`, :math:`b^*`) coordinates of the 15 samples
-         illuminated by the test light source in the *CIE L\*a\*b\** object
+         illuminated by the test light source in the *CIE L\\*a\\*b\\** object
          colourspace.
     Q_d : numeric
         Relative gamut area scale :math:`Q_d`.
@@ -121,7 +121,7 @@ def colour_quality_scale(spd_test, additional_data=False):
     spd_test : SpectralPowerDistribution
         Test spectral power distribution.
     additional_data : bool, optional
-        Output additional data.
+        Whether to output additional data.
 
     Returns
     -------
@@ -202,12 +202,13 @@ def colour_quality_scale(spd_test, additional_data=False):
 
 def gamut_area(Lab):
     """
-    Returns the gamut area :math:`G` covered by given *CIE L\*a\*b\** matrices.
+    Returns the gamut area :math:`G` covered by given *CIE L\\*a\\*b\\**
+    matrices.
 
     Parameters
     ----------
     Lab : array_like
-        *CIE L\*a\*b\** colourspace matrices.
+        *CIE L\\*a\\*b\\** colourspace matrices.
 
     Returns
     -------
@@ -342,13 +343,13 @@ def CCT_factor(reference_data, XYZ_r):
 
 def scale_conversion(D_E_ab, CCT_f, scaling_f=3.104):
     """
-    Returns the *Colour Quality Scale* (CQS) for given :math:`\Delta E_{ab}`
+    Returns the *Colour Quality Scale* (CQS) for given :math:`\\Delta E_{ab}`
     value and given correlated colour temperature penalizing factor.
 
     Parameters
     ----------
     D_E_ab : numeric
-        :math:`\Delta E_{ab}` value.
+        :math:`\\Delta E_{ab}` value.
     CCT_f : numeric
         Correlated colour temperature penalizing factor.
     scaling_f : numeric, optional

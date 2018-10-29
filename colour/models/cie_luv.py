@@ -3,7 +3,7 @@
 CIE L*u*v* Colourspace
 ======================
 
-Defines the *CIE L\*u\*v\** colourspace transformations:
+Defines the *CIE L\\*u\\*v\\** colourspace transformations:
 
 -   :func:`colour.XYZ_to_Luv`
 -   :func:`colour.Luv_to_XYZ`
@@ -63,7 +63,8 @@ def XYZ_to_Luv(
         XYZ,
         illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']):
     """
-    Converts from *CIE XYZ* tristimulus values to *CIE L\*u\*v\** colourspace.
+    Converts from *CIE XYZ* tristimulus values to *CIE L\\*u\\*v\\**
+    colourspace.
 
     Parameters
     ----------
@@ -76,7 +77,7 @@ def XYZ_to_Luv(
     Returns
     -------
     ndarray
-        *CIE L\*u\*v\** colourspace array.
+        *CIE L\\*u\\*v\\** colourspace array.
 
     Notes
     -----
@@ -132,12 +133,13 @@ def Luv_to_XYZ(
         Luv,
         illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']):
     """
-    Converts from *CIE L\*u\*v\** colourspace to *CIE XYZ* tristimulus values.
+    Converts from *CIE L\\*u\\*v\\** colourspace to *CIE XYZ* tristimulus
+    values.
 
     Parameters
     ----------
     Luv : array_like
-        *CIE L\*u\*v\** colourspace array.
+        *CIE L\\*u\\*v\\** colourspace array.
     illuminant : array_like, optional
         Reference *illuminant* *xy* chromaticity coordinates or *CIE xyY*
         colourspace array.
@@ -205,12 +207,12 @@ def Luv_to_uv(
         illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']):
     """
     Returns the :math:`uv^p` chromaticity coordinates from given
-    *CIE L\*u\*v\** colourspace array.
+    *CIE L\\*u\\*v\\** colourspace array.
 
     Parameters
     ----------
     Luv : array_like
-        *CIE L\*u\*v\** colourspace array.
+        *CIE L\\*u\\*v\\** colourspace array.
     illuminant : array_like, optional
         Reference *illuminant* *xy* chromaticity coordinates or *CIE xyY*
         colourspace array.
@@ -257,13 +259,13 @@ def Luv_to_uv(
 
 def Luv_uv_to_xy(uv):
     """
-    Returns the *xy* chromaticity coordinates from given *CIE L\*u\*v\**
+    Returns the *xy* chromaticity coordinates from given *CIE L\\*u\\*v\\**
     colourspace :math:`uv^p` chromaticity coordinates.
 
     Parameters
     ----------
     uv : array_like
-        *CIE L\*u\*v\* u"v"* chromaticity coordinates.
+        *CIE L\\*u\\*v\\* u"v"* chromaticity coordinates.
 
     Returns
     -------
@@ -291,7 +293,7 @@ def Luv_uv_to_xy(uv):
 
 def xy_to_Luv_uv(xy):
     """
-    Returns the *CIE L\*u\*v\** colourspace :math:`uv^p` chromaticity
+    Returns the *CIE L\\*u\\*v\\** colourspace :math:`uv^p` chromaticity
     coordinates from given *xy* chromaticity coordinates.
 
     Parameters
@@ -302,7 +304,7 @@ def xy_to_Luv_uv(xy):
     Returns
     -------
     ndarray
-        *CIE L\*u\*v\* u"v"* chromaticity coordinates.
+        *CIE L\\*u\\*v\\* u"v"* chromaticity coordinates.
 
     References
     ----------
@@ -325,17 +327,18 @@ def xy_to_Luv_uv(xy):
 
 def Luv_to_LCHuv(Luv):
     """
-    Converts from *CIE L\*u\*v\** colourspace to *CIE L\*C\*Huv* colourspace.
+    Converts from *CIE L\\*u\\*v\\** colourspace to *CIE L\\*C\\*Huv*
+    colourspace.
 
     Parameters
     ----------
     Luv : array_like
-        *CIE L\*u\*v\** colourspace array.
+        *CIE L\\*u\\*v\\** colourspace array.
 
     Returns
     -------
     ndarray
-        *CIE L\*C\*Huv* colourspace array.
+        *CIE L\\*C\\*Huv* colourspace array.
 
     Notes
     -----
@@ -382,17 +385,18 @@ def Luv_to_LCHuv(Luv):
 
 def LCHuv_to_Luv(LCHuv):
     """
-    Converts from *CIE L\*C\*Huv* colourspace to *CIE L\*u\*v\** colourspace.
+    Converts from *CIE L\\*C\\*Huv* colourspace to *CIE L\\*u\\*v\\**
+    colourspace.
 
     Parameters
     ----------
     LCHuv : array_like
-        *CIE L\*C\*Huv* colourspace array.
+        *CIE L\\*C\\*Huv* colourspace array.
 
     Returns
     -------
     ndarray
-        *CIE L\*u\*v\** colourspace array.
+        *CIE L\\*u\\*v\\** colourspace array.
 
     Notes
     -----

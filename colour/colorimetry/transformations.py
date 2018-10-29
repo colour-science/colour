@@ -68,7 +68,7 @@ def RGB_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     Parameters
     ----------
     wavelength : numeric or array_like
-        Wavelength :math:`\lambda` in nm.
+        Wavelength :math:`\\lambda` in nm.
 
     Returns
     -------
@@ -137,7 +137,7 @@ def RGB_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     Parameters
     ----------
     wavelength : numeric or array_like
-        Wavelength :math:`\lambda` in nm.
+        Wavelength :math:`\\lambda` in nm.
 
     Returns
     -------
@@ -185,7 +185,7 @@ def RGB_10_degree_cmfs_to_LMS_10_degree_cmfs(wavelength):
     Parameters
     ----------
     wavelength : numeric or array_like
-        Wavelength :math:`\lambda` in nm.
+        Wavelength :math:`\\lambda` in nm.
 
     Returns
     -------
@@ -235,7 +235,7 @@ def LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs(wavelength):
     Parameters
     ----------
     wavelength : numeric or array_like
-        Wavelength :math:`\lambda` in nm.
+        Wavelength :math:`\\lambda` in nm.
 
     Returns
     -------
@@ -283,7 +283,7 @@ def LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs(wavelength):
     Parameters
     ----------
     wavelength : numeric or array_like
-        Wavelength :math:`\lambda` in nm.
+        Wavelength :math:`\\lambda` in nm.
 
     Returns
     -------

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-:math:`\Delta E_{99}` DIN99 - Colour Difference Formula
+:math:`\\Delta E_{99}` DIN99 - Colour Difference Formula
 =======================================================
 
-Defines the :math:`\Delta E_{99}` *DIN99* colour difference formula:
+Defines the :math:`\\Delta E_{99}` *DIN99* colour difference formula:
 
 -   :func:`colour.difference.delta_E_DIN99`
 
@@ -39,20 +39,20 @@ __all__ = ['delta_E_DIN99']
 
 def delta_E_DIN99(Lab_1, Lab_2, textiles=False):
     """
-    Returns the difference :math:`\Delta E_{DIN99}` between two given
-    *CIE L\*a\*b\** colourspace arrays using *DIN99* formula.
+    Returns the difference :math:`\\Delta E_{DIN99}` between two given
+    *CIE L\\*a\\*b\\** colourspace arrays using *DIN99* formula.
 
     Parameters
     ----------
     Lab_1 : array_like
-        *CIE L\*a\*b\** colourspace array 1.
+        *CIE L\\*a\\*b\\** colourspace array 1.
     Lab_2 : array_like
-        *CIE L\*a\*b\** colourspace array 2.
+        *CIE L\\*a\\*b\\** colourspace array 2.
 
     Returns
     -------
     numeric or ndarray
-        Colour difference :math:`\Delta E_{DIN99}`.
+        Colour difference :math:`\\Delta E_{DIN99}`.
 
     Notes
     -----

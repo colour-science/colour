@@ -249,7 +249,7 @@ def override_style(**kwargs):
 
     Other Parameters
     ----------------
-    \**kwargs : dict, optional
+    \\**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -555,7 +555,7 @@ def render(**kwargs):
         if settings.filename is not None:
             figure.savefig(settings.filename)
         else:
-            figure.show()
+            plt.show()
 
     return figure, axes
 
@@ -875,7 +875,7 @@ def single_colour_swatch_plot(colour_swatch, **kwargs):
 
     Other Parameters
     ----------------
-    \**kwargs : dict, optional
+    \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
     width : numeric, optional
@@ -963,7 +963,7 @@ def multi_colour_swatch_plot(colour_swatches,
 
     Other Parameters
     ----------------
-    \**kwargs : dict, optional
+    \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -1095,7 +1095,7 @@ def single_function_plot(function,
 
     Other Parameters
     ----------------
-    \**kwargs : dict, optional
+    \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -1154,7 +1154,7 @@ def multi_function_plot(functions,
 
     Other Parameters
     ----------------
-    \**kwargs : dict, optional
+    \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -1247,7 +1247,7 @@ def image_plot(image,
 
     Other Parameters
     ----------------
-    \**kwargs : dict, optional
+    \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 

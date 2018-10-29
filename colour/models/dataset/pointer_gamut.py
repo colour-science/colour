@@ -626,7 +626,7 @@ POINTER_GAMUT_DATA = np.array([
     [90, 6, 350],
 ])
 """
-*Pointer's Gamut* data as a tuple of *CIE L\*C\*Hab* colourspace matrices.
+*Pointer's Gamut* data as a tuple of *CIE L\\*C\\*Hab* colourspace matrices.
 
 References
 ----------

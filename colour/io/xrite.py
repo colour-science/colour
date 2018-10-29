@@ -78,7 +78,7 @@ def read_spds_from_xrite_file(path):
             if is_spectral_data_format:
                 wavelengths = [
                     DEFAULT_FLOAT_DTYPE(x)
-                    for x in re.findall('nm(\d+)', line)
+                    for x in re.findall('nm(\\d+)', line)
                 ]
                 index = len(wavelengths)
 

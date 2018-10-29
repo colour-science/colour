@@ -61,13 +61,13 @@ class BrenemanExperimentResult(
     uvp_m : array_like, (2,)
         Chromaticity coordinates :math:`uv_m^p` of matching colour.
     s_uvp : array_like, (2,), optional
-        Interobserver variation (:math:`x10^3`) :math:`\sigma_uv^p`.
+        Interobserver variation (:math:`x10^3`) :math:`\\sigma_uv^p`.
     d_uvp_i : array_like, (2,), optional
         Deviation of individual linear transformation (:math:`x10^3`)
-        :math:`\delta_uv_i^p`.
+        :math:`\\delta_uv_i^p`.
     d_uvp_g : array_like, (2,), optional
         Deviation of individual linear transformation (:math:`x10^3`)
-        :math:`\delta_uv_g^p`.
+        :math:`\\delta_uv_g^p`.
     """
 
     def __new__(cls,

@@ -708,7 +708,7 @@ def encoding_cctf(value, function='sRGB', **kwargs):
 
     Other Parameters
     ----------------
-    \**kwargs : dict, optional
+    \\**kwargs : dict, optional
         Keywords arguments for the relevant encoding CCTF of the
         :attr:`colour.ENCODING_CCTFS` attribute collection.
 
@@ -796,7 +796,7 @@ def decoding_cctf(value, function='Cineon', **kwargs):
 
     Other Parameters
     ----------------
-    \**kwargs : dict, optional
+    \\**kwargs : dict, optional
         Keywords arguments for the relevant decoding CCTF of the
         :attr:`colour.DECODING_CCTFS` attribute collection.
 

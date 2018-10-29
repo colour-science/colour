@@ -60,11 +60,11 @@ class SpectralShape(object):
     Parameters
     ----------
     start : numeric, optional
-        Wavelength :math:`\lambda_{i}` range start in nm.
+        Wavelength :math:`\\lambda_{i}` range start in nm.
     end : numeric, optional
-        Wavelength :math:`\lambda_{i}` range end in nm.
+        Wavelength :math:`\\lambda_{i}` range end in nm.
     interval : numeric, optional
-        Wavelength :math:`\lambda_{i}` range interval.
+        Wavelength :math:`\\lambda_{i}` range interval.
 
     Attributes
     ----------
@@ -309,17 +309,17 @@ class SpectralShape(object):
     def __contains__(self, wavelength):
         """
         Returns if the spectral shape contains given wavelength
-        :math:`\lambda`.
+        :math:`\\lambda`.
 
         Parameters
         ----------
         wavelength : numeric or array_like
-            Wavelength :math:`\lambda`.
+            Wavelength :math:`\\lambda`.
 
         Returns
         -------
         bool
-            Is wavelength :math:`\lambda` contained in the spectral shape.
+            Is wavelength :math:`\\lambda` contained in the spectral shape.
 
         Examples
         --------
@@ -344,12 +344,12 @@ class SpectralShape(object):
 
     def __len__(self):
         """
-        Returns the spectral shape wavelength :math:`\lambda_n` count.
+        Returns the spectral shape wavelength :math:`\\lambda_n` count.
 
         Returns
         -------
         int
-            Spectral shape wavelength :math:`\lambda_n` count.
+            Spectral shape wavelength :math:`\\lambda_n` count.
 
         Examples
         --------
@@ -643,18 +643,18 @@ dict_like, optional
     def wavelengths(self):
         """
         Getter and setter property for the spectral power distribution
-        wavelengths :math:`\lambda_n`.
+        wavelengths :math:`\\lambda_n`.
 
         Parameters
         ----------
         value : array_like
             Value to set the spectral power distribution wavelengths
-            :math:`\lambda_n` with.
+            :math:`\\lambda_n` with.
 
         Returns
         -------
         ndarray
-            Spectral power distribution wavelengths :math:`\lambda_n`.
+            Spectral power distribution wavelengths :math:`\\lambda_n`.
         """
 
         return self.domain
@@ -867,9 +867,9 @@ dict_like, optional
         Warning
         -------
         -   *Cubic Spline* interpolator requires at least 3 wavelengths
-            :math:`\lambda_n` for interpolation.
+            :math:`\\lambda_n` for interpolation.
         -   *Sprague (1880)* interpolator requires at least 6 wavelengths
-            :math:`\lambda_n` for interpolation.
+            :math:`\\lambda_n` for interpolation.
 
         References
         ----------
@@ -1692,18 +1692,18 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
     def wavelengths(self):
         """
         Getter and setter property for the multi-spectral power distribution
-        wavelengths :math:`\lambda_n`.
+        wavelengths :math:`\\lambda_n`.
 
         Parameters
         ----------
         value : array_like
             Value to set the multi-spectral power distribution wavelengths
-            :math:`\lambda_n` with.
+            :math:`\\lambda_n` with.
 
         Returns
         -------
         ndarray
-            Multi-spectral power distribution wavelengths :math:`\lambda_n`.
+            Multi-spectral power distribution wavelengths :math:`\\lambda_n`.
         """
 
         return self.domain

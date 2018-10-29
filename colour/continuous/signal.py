@@ -44,8 +44,8 @@ class Signal(AbstractContinuousFunction):
     Defines the base class for continuous signal.
 
     The class implements the :meth:`Signal.function` method so that evaluating
-    the function for any independent domain :math:`x \in \mathbb{R}` variable
-    returns a corresponding range :math:`y \in \mathbb{R}` variable.
+    the function for any independent domain :math:`x \\in\\mathbb{R}` variable
+    returns a corresponding range :math:`y \\in\\mathbb{R}` variable.
     It adopts an interpolating function encapsulated inside an extrapolating
     function. The resulting function independent domain, stored as discrete
     values in the :attr:`colour.continuous.Signal.domain` attribute corresponds
@@ -867,9 +867,9 @@ class Signal(AbstractContinuousFunction):
 
                 Other Parameters
                 ----------------
-                \*args : list, optional
+                \\*args : list, optional
                     Arguments.
-                \**kwargs : dict, optional
+                \\**kwargs : dict, optional
                     Keywords arguments.
 
                 Raises

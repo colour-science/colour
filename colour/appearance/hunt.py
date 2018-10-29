@@ -148,15 +148,15 @@ XYZ_TO_HPE_MATRIX = np.array([
 ])
 """
 *Hunt* colour appearance model *CIE XYZ* tristimulus values to
-*Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` colourspace matrix.
+*Hunt-Pointer-Estevez* :math:`\\rho\\gamma\\beta` colourspace matrix.
 
 XYZ_TO_HPE_MATRIX : array_like, (3, 3)
 """
 
 HPE_TO_XYZ_MATRIX = np.linalg.inv(XYZ_TO_HPE_MATRIX)
 """
-*Hunt* colour appearance model *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta`
-colourspace to *CIE XYZ* tristimulus values matrix.
+*Hunt* colour appearance model *Hunt-Pointer-Estevez*
+:math:`\\rho\\gamma\\beta` colourspace to *CIE XYZ* tristimulus values matrix.
 
 HPE_TO_XYZ_MATRIX : array_like, (3, 3)
 """
@@ -530,7 +530,7 @@ def illuminant_scotopic_luminance(L_A, CCT):
 def XYZ_to_rgb(XYZ):
     """
     Converts from *CIE XYZ* tristimulus values to *Hunt-Pointer-Estevez*
-    :math:`\\rho\gamma\\beta` colourspace.
+    :math:`\\rho\\gamma\\beta` colourspace.
 
     Parameters
     ----------
@@ -540,7 +540,7 @@ def XYZ_to_rgb(XYZ):
     Returns
     -------
     ndarray
-        *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` colourspace.
+        *Hunt-Pointer-Estevez* :math:`\\rho\\gamma\\beta` colourspace.
 
     Examples
     --------
@@ -684,13 +684,13 @@ def adjusted_reference_white_signals(rgb_p, rgb_b, rgb_w, p):
     Parameters
     ----------
     rgb_p :  array_like
-        Cone signals *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta`
+        Cone signals *Hunt-Pointer-Estevez* :math:`\\rho\\gamma\\beta`
         colourspace array of the proximal field.
     rgb_b :  array_like
-        Cone signals *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta`
+        Cone signals *Hunt-Pointer-Estevez* :math:`\\rho\\gamma\\beta`
         colourspace array of the background.
     rgb_w :  array_like
-        Cone signals array *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta`
+        Cone signals array *Hunt-Pointer-Estevez* :math:`\\rho\\gamma\\beta`
         colourspace array of the reference white.
     p : numeric or array_like
         Simultaneous contrast / assimilation factor :math:`p` with value
@@ -700,7 +700,7 @@ def adjusted_reference_white_signals(rgb_p, rgb_b, rgb_w, p):
     Returns
     -------
     ndarray
-        Adjusted cone signals *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta`
+        Adjusted cone signals *Hunt-Pointer-Estevez* :math:`\\rho\\gamma\\beta`
         colourspace array of the reference white.
 
     Examples
@@ -729,12 +729,12 @@ def adjusted_reference_white_signals(rgb_p, rgb_b, rgb_w, p):
 def achromatic_post_adaptation_signal(rgb):
     """
     Returns the achromatic post adaptation signal :math:`A` from given
-    *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` colourspace array.
+    *Hunt-Pointer-Estevez* :math:`\\rho\\gamma\\beta` colourspace array.
 
     Parameters
     ----------
     rgb : array_like
-        *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` colourspace array.
+        *Hunt-Pointer-Estevez* :math:`\\rho\\gamma\\beta` colourspace array.
 
     Returns
     -------
@@ -758,13 +758,13 @@ def achromatic_post_adaptation_signal(rgb):
 def colour_difference_signals(rgb):
     """
     Returns the colour difference signals :math:`C_1`, :math:`C_2` and
-    :math:`C_3` from given *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta`
+    :math:`C_3` from given *Hunt-Pointer-Estevez* :math:`\\rho\\gamma\\beta`
     colourspace array.
 
     Parameters
     ----------
     rgb : array_like
-        *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` colourspace array.
+        *Hunt-Pointer-Estevez* :math:`\\rho\\gamma\\beta` colourspace array.
 
     Returns
     -------
@@ -1018,7 +1018,7 @@ def saturation_correlate(M, rgb_a):
     M : numeric or array_like
          Overall chromatic response :math:`M`.
     rgb_a : array_like
-        Adapted *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` colourspace
+        Adapted *Hunt-Pointer-Estevez* :math:`\\rho\\gamma\\beta` colourspace
         array.
 
     Returns

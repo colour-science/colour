@@ -30,19 +30,19 @@ __all__ = ['CIE_E', 'CIE_K', 'K_M', 'KP_M']
 
 CIE_E = DocstringFloat(216 / 24389)
 CIE_E.__doc__ = """
-*CIE* :math:`\epsilon` constant.
+*CIE* :math:`\\epsilon` constant.
 
 CIE_E : numeric
 
 Notes
 -----
--   The original *CIE* value for :math:`\epsilon` is :math:`\epsilon=0.008856`,
-    Lindbloom (2003) has shown that this value is causing a discontinuity
-    at the junction point of the two functions grafted together to create the
-    *Lightness* :math:`L^*` function.
+-   The original *CIE* value for :math:`\\epsilon` is
+    :math:`\\epsilon=0.008856`, Lindbloom (2003) has shown that this value is
+    causing a discontinuity at the junction point of the two functions grafted
+    together to create the *Lightness* :math:`L^*` function.
 
     That discontinuity can be avoided by using the rational representation as
-    follows: :math:`\epsilon=216\ /\ 24389`.
+    follows: :math:`\\epsilon=216\\ /\\24389`.
 
 References
 ----------
@@ -51,19 +51,19 @@ References
 
 CIE_K = DocstringFloat(24389 / 27)
 CIE_K.__doc__ = """
-*CIE* :math:`\kappa` constant.
+*CIE* :math:`\\kappa` constant.
 
 CIE_K : numeric
 
 Notes
 -----
--   The original *CIE* value for :math:`\kappa` is :math:`\kappa=903.3`,
+-   The original *CIE* value for :math:`\\kappa` is :math:`\\kappa=903.3`,
     Lindbloom (2003) has shown that this value is causing a discontinuity
     at the junction point of the two functions grafted together to create the
     *Lightness* :math:`L^*` function.
 
     That discontinuity can be avoided by using the rational representation as
-    follows: :math:`k=24389\ /\ 27`.
+    follows: :math:`k=24389\\ /\\27`.
 
 References
 ----------
@@ -73,7 +73,7 @@ References
 K_M = DocstringFloat(683)
 K_M.__doc__ = """
 Rounded maximum photopic luminous efficiency :math:`K_m` value in
-:math:`lm\cdot W^{-1}`.
+:math:`lm\\cdot W^{-1}`.
 
 K_M : numeric
 
@@ -89,14 +89,14 @@ References
 
 KP_M = DocstringFloat(1700)
 KP_M.__doc__ = """
-Rounded maximum scotopic luminous efficiency :math:`K^{\prime}_m` value in
-:math:`lm\cdot W^{-1}`.
+Rounded maximum scotopic luminous efficiency :math:`K^{\\prime}_m` value in
+:math:`lm\\cdot W^{-1}`.
 
 KP_M : numeric
 
 Notes
 -----
--   To be adequate for all practical applications the :math:`K^{\prime}_m`
+-   To be adequate for all practical applications the :math:`K^{\\prime}_m`
     value has been rounded from the original 1700.06 value.
 
 References

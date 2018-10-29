@@ -12,7 +12,7 @@ Defines *whiteness* index :math:`W` computation objects:
     :math:`WI` computation of given sample *CIE XYZ* tristimulus values using
     *Taube (1960)* method.
 -   :func:`colour.colorimetry.whiteness_Stensby1968`: *Whiteness* index
-    :math:`WI` computation of given sample *CIE L\*a\*b\** colourspace array
+    :math:`WI` computation of given sample *CIE L\\*a\\*b\\** colourspace array
     using *Stensby (1968)* method.
 -   :func:`colour.colorimetry.whiteness_ASTME313`: *Whiteness* index :math:`WI`
     of given sample *CIE XYZ* tristimulus values using *ASTM E313* method.
@@ -182,13 +182,13 @@ def whiteness_Taube1960(XYZ, XYZ_0):
 
 def whiteness_Stensby1968(Lab):
     """
-    Returns the *whiteness* index :math:`WI` of given sample *CIE L\*a\*b\**
+    Returns the *whiteness* index :math:`WI` of given sample *CIE L\\*a\\*b\\**
     colourspace array using *Stensby (1968)* method.
 
     Parameters
     ----------
     Lab : array_like
-        *CIE L\*a\*b\** colourspace array of sample.
+        *CIE L\\*a\\*b\\** colourspace array of sample.
 
     Returns
     -------
@@ -482,7 +482,7 @@ def whiteness(method='CIE 2004', **kwargs):
         *CIE XYZ* tristimulus values of reference white.
     Lab : array_like
         {:func:`colour.colorimetry.whiteness_Stensby1968`},
-        *CIE L\*a\*b\** colourspace array of sample.
+        *CIE L\\*a\\*b\\** colourspace array of sample.
     xy : array_like
         {:func:`colour.colorimetry.whiteness_Ganz1979`,
         :func:`colour.colorimetry.whiteness_CIE2004`},

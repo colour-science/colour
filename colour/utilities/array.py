@@ -839,7 +839,7 @@ def centroid(a):
     for axis in coordinates:
         axis = np.transpose(axis)
         # Aligning axis for N-D arrays where N is normalised to
-        # range [3, :math:`\infty`]
+        # range [3, :math:`\\\infty`]
         for i in range(axis.ndim - 2, 0, -1):
             axis = np.rollaxis(axis, i - 1, axis.ndim)
 

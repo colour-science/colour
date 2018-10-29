@@ -37,8 +37,8 @@ COLOURSPACE_MODELS_LABELS = {
     'CIE xyY': ('x', 'y', 'Y'),
     'CIE Lab': ('$a^*$', '$b^*$', '$L^*$'),
     'CIE LCHab': ('CH', 'ab', '$L^*$'),
-    'CIE Luv': ('$u^\prime$', '$v^\prime$', '$L^*$'),
-    'CIE Luv uv': ('$u^\prime$', '$v^\prime$'),
+    'CIE Luv': ('$u^\\prime$', '$v^\\prime$', '$L^*$'),
+    'CIE Luv uv': ('$u^\\prime$', '$v^\\prime$'),
     'CIE LCHuv': ('CH', 'uv', '$L^*$'),
     'CIE UCS': ('U', 'V', 'W'),
     'CIE UCS uv': ('u', 'v'),
@@ -82,7 +82,7 @@ def XYZ_to_colourspace_model(XYZ, illuminant, model, **kwargs):
 
     Other Parameters
     ----------------
-    \**kwargs : dict, optional
+    \\**kwargs : dict, optional
         Keywords arguments.
 
     Returns

@@ -54,7 +54,7 @@ __all__ = [
 
 STANDARD_AIR_TEMPERATURE = 288.15
 """
-*Standard air* temperature :math:`T[K]` in kelvin degrees (:math:`15\circ C`).
+*Standard air* temperature :math:`T[K]` in kelvin degrees (:math:`15\\circ C`).
 
 STANDARD_AIR_TEMPERATURE : numeric
 """
@@ -91,13 +91,13 @@ DEFAULT_ALTITUDE : numeric
 def air_refraction_index_Penndorf1957(wavelength):
     """
     Returns the air refraction index :math:`n_s` from given wavelength
-    :math:`\lambda` in  micrometers (:math:`\mu m`) using *Penndorf (1957)*
+    :math:`\\lambda` in  micrometers (:math:`\\mu m`) using *Penndorf (1957)*
     method.
 
     Parameters
     ----------
     wavelength : numeric or array_like
-        Wavelength :math:`\lambda` in micrometers (:math:`\mu m`).
+        Wavelength :math:`\\lambda` in micrometers (:math:`\\mu m`).
 
     Returns
     -------
@@ -122,12 +122,13 @@ def air_refraction_index_Penndorf1957(wavelength):
 def air_refraction_index_Edlen1966(wavelength):
     """
     Returns the air refraction index :math:`n_s` from given wavelength
-    :math:`\lambda` in micrometers (:math:`\mu m`) using *Edlen (1966)* method.
+    :math:`\\lambda` in micrometers (:math:`\\mu m`) using *Edlen (1966)*
+    method.
 
     Parameters
     ----------
     wavelength : numeric or array_like
-        Wavelength :math:`\lambda` in micrometers (:math:`\mu m`).
+        Wavelength :math:`\\lambda` in micrometers (:math:`\\mu m`).
 
     Returns
     -------
@@ -152,13 +153,13 @@ def air_refraction_index_Edlen1966(wavelength):
 def air_refraction_index_Peck1972(wavelength):
     """
     Returns the air refraction index :math:`n_s` from given wavelength
-    :math:`\lambda` in micrometers (:math:`\mu m`) using
+    :math:`\\lambda` in micrometers (:math:`\\mu m`) using
     *Peck and Reeder (1972)* method.
 
     Parameters
     ----------
     wavelength : numeric or array_like
-        Wavelength :math:`\lambda` in micrometers (:math:`\mu m`).
+        Wavelength :math:`\\lambda` in micrometers (:math:`\\mu m`).
 
     Returns
     -------
@@ -185,13 +186,13 @@ def air_refraction_index_Bodhaine1999(
         wavelength, CO2_concentration=STANDARD_CO2_CONCENTRATION):
     """
     Returns the air refraction index :math:`n_s` from given wavelength
-    :math:`\lambda` in micrometers (:math:`\mu m`) using
+    :math:`\\lambda` in micrometers (:math:`\\mu m`) using
     *Bodhaine, Wood, Dutton and Slusser (1999)* method.
 
     Parameters
     ----------
     wavelength : numeric or array_like
-        Wavelength :math:`\lambda` in micrometers (:math:`\mu m`).
+        Wavelength :math:`\\lambda` in micrometers (:math:`\\mu m`).
     CO2_concentration : numeric or array_like
         :math:`CO_2` concentration in parts per million (ppm).
 
@@ -218,12 +219,12 @@ def air_refraction_index_Bodhaine1999(
 def N2_depolarisation(wavelength):
     """
     Returns the depolarisation of nitrogen :math:`N_2` as function of
-    wavelength :math:`\lambda` in micrometers (:math:`\mu m`).
+    wavelength :math:`\\lambda` in micrometers (:math:`\\mu m`).
 
     Parameters
     ----------
     wavelength : numeric or array_like
-        Wavelength :math:`\lambda` in micrometers (:math:`\mu m`).
+        Wavelength :math:`\\lambda` in micrometers (:math:`\\mu m`).
 
     Returns
     -------
@@ -246,12 +247,12 @@ def N2_depolarisation(wavelength):
 def O2_depolarisation(wavelength):
     """
     Returns the depolarisation of oxygen :math:`O_2` as function of
-    wavelength :math:`\lambda` in micrometers (:math:`\mu m`).
+    wavelength :math:`\\lambda` in micrometers (:math:`\\mu m`).
 
     Parameters
     ----------
     wavelength : numeric or array_like
-        Wavelength :math:`\lambda` in micrometers (:math:`\mu m`).
+        Wavelength :math:`\\lambda` in micrometers (:math:`\\mu m`).
 
     Returns
     -------
@@ -280,7 +281,7 @@ def F_air_Penndorf1957(wavelength):
     Parameters
     ----------
     wavelength : numeric or array_like
-        Wavelength :math:`\lambda` in micrometers (:math:`\mu m`).
+        Wavelength :math:`\\lambda` in micrometers (:math:`\\mu m`).
 
     Returns
     -------
@@ -312,7 +313,7 @@ def F_air_Young1981(wavelength):
     Parameters
     ----------
     wavelength : numeric or array_like
-        Wavelength :math:`\lambda` in micrometers (:math:`\mu m`).
+        Wavelength :math:`\\lambda` in micrometers (:math:`\\mu m`).
 
     Returns
     -------
@@ -339,13 +340,13 @@ def F_air_Young1981(wavelength):
 def F_air_Bates1984(wavelength):
     """
     Returns :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
-    *King Factor* as function of wavelength :math:`\lambda` in micrometers
-    (:math:`\mu m`) using *Bates (1984)* method.
+    *King Factor* as function of wavelength :math:`\\lambda` in micrometers
+    (:math:`\\mu m`) using *Bates (1984)* method.
 
     Parameters
     ----------
     wavelength : numeric or array_like
-        Wavelength :math:`\lambda` in micrometers (:math:`\mu m`).
+        Wavelength :math:`\\lambda` in micrometers (:math:`\\mu m`).
 
     Returns
     -------
@@ -373,14 +374,14 @@ def F_air_Bodhaine1999(wavelength,
                        CO2_concentration=STANDARD_CO2_CONCENTRATION):
     """
     Returns :math:`(6+3_p)/(6-7_p)`, the depolarisation term :math:`F(air)` or
-    *King Factor* as function of wavelength :math:`\lambda` in micrometers
-    (:math:`\mu m`) and :math:`CO_2` concentration in parts per million (ppm)
+    *King Factor* as function of wavelength :math:`\\lambda` in micrometers
+    (:math:`\\mu m`) and :math:`CO_2` concentration in parts per million (ppm)
     using *Bodhaine, Wood, Dutton and Slusser (1999)* method.
 
     Parameters
     ----------
     wavelength : numeric or array_like
-        Wavelength :math:`\lambda` in micrometers (:math:`\mu m`).
+        Wavelength :math:`\\lambda` in micrometers (:math:`\\mu m`).
     CO2_concentration : numeric or array_like, optional
         :math:`CO_2` concentration in parts per million (ppm).
 
@@ -525,15 +526,15 @@ def scattering_cross_section(wavelength,
                              n_s=air_refraction_index_Bodhaine1999,
                              F_air=F_air_Bodhaine1999):
     """
-    Returns the scattering cross section per molecule :math:`\sigma` of dry air
-    as function of wavelength :math:`\lambda` in centimeters (cm) using given
-    :math:`CO_2` concentration in parts per million (ppm) and temperature
+    Returns the scattering cross section per molecule :math:`\\sigma` of dry
+    air as function of wavelength :math:`\\lambda` in centimeters (cm) using
+    given :math:`CO_2` concentration in parts per million (ppm) and temperature
     :math:`T[K]` in kelvin degrees following *Van de Hulst (1957)* method.
 
     Parameters
     ----------
     wavelength : numeric or array_like
-        Wavelength :math:`\lambda` in centimeters (cm).
+        Wavelength :math:`\\lambda` in centimeters (cm).
     CO2_concentration : numeric or array_like, optional
         :math:`CO_2` concentration in parts per million (ppm).
     temperature : numeric or array_like, optional
@@ -549,12 +550,12 @@ def scattering_cross_section(wavelength,
     Returns
     -------
     numeric or ndarray
-        Scattering cross section per molecule :math:`\sigma` of dry air.
+        Scattering cross section per molecule :math:`\\sigma` of dry air.
 
     Warning
     -------
     Unlike most objects of :mod:`colour.phenomena.rayleigh` module,
-    :func:`colour.scattering_cross_section` expects wavelength :math:`\lambda`
+    :func:`colour.scattering_cross_section` expects wavelength :math:`\\lambda`
     to be expressed in centimeters (cm).
 
     References
@@ -597,13 +598,13 @@ def rayleigh_optical_depth(wavelength,
                            n_s=air_refraction_index_Bodhaine1999,
                            F_air=F_air_Bodhaine1999):
     """
-    Returns the *Rayleigh* optical depth :math:`T_r(\lambda)` as function of
-    wavelength :math:`\lambda` in centimeters (cm).
+    Returns the *Rayleigh* optical depth :math:`T_r(\\lambda)` as function of
+    wavelength :math:`\\lambda` in centimeters (cm).
 
     Parameters
     ----------
     wavelength : numeric or array_like
-        Wavelength :math:`\lambda` in centimeters (cm).
+        Wavelength :math:`\\lambda` in centimeters (cm).
     CO2_concentration : numeric or array_like, optional
         :math:`CO_2` concentration in parts per million (ppm).
     temperature : numeric or array_like, optional
@@ -625,13 +626,13 @@ def rayleigh_optical_depth(wavelength,
     Returns
     -------
     numeric or ndarray
-        *Rayleigh* optical depth :math:`T_r(\lambda)`.
+        *Rayleigh* optical depth :math:`T_r(\\lambda)`.
 
     Warning
     -------
     Unlike most objects of :mod:`colour.phenomena.rayleigh` module,
     :func:`colour.phenomena.rayleigh_optical_depth` expects wavelength
-    :math:`\lambda` to be expressed in centimeters (cm).
+    :math:`\\lambda` to be expressed in centimeters (cm).
 
     References
     ----------

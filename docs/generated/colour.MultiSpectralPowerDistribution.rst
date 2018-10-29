@@ -27,6 +27,7 @@ colour.MultiSpectralPowerDistribution
       ~MultiSpectralPowerDistribution.multi_signal_unpack_data
       ~MultiSpectralPowerDistribution.normalise
       ~MultiSpectralPowerDistribution.to_dataframe
+      ~MultiSpectralPowerDistribution.to_spds
       ~MultiSpectralPowerDistribution.trim
       ~MultiSpectralPowerDistribution.trim_wavelengths
       ~MultiSpectralPowerDistribution.zeros
@@ -53,6 +54,7 @@ colour.MultiSpectralPowerDistribution
       ~MultiSpectralPowerDistribution.name
       ~MultiSpectralPowerDistribution.range
       ~MultiSpectralPowerDistribution.shape
+      ~MultiSpectralPowerDistribution.signal_type
       ~MultiSpectralPowerDistribution.signals
       ~MultiSpectralPowerDistribution.strict_labels
       ~MultiSpectralPowerDistribution.strict_name

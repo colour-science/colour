@@ -40,6 +40,7 @@ colour.continuous.MultiSignal
       ~MultiSignal.labels
       ~MultiSignal.name
       ~MultiSignal.range
+      ~MultiSignal.signal_type
       ~MultiSignal.signals
    
    

@@ -99,7 +99,7 @@ def _scale_domain_0_100_range_0_1(a, callable_):
         *Luminance* :math:`Y` or *Lightness* :math:`L^*` computation
         definition, i.e., :func:`colour.colorimetry.lightness_CIE1976` or
         :func:`colour.colorimetry.luminance_CIE1976`. Reference white
-        *luminance* :math:`Y_n` has implicit value of :math:`100\ cd/m^2`.
+        *luminance* :math:`Y_n` has implicit value of :math:`100\\ cd/m^2`.
 
     Returns
     -------

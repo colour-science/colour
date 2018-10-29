@@ -193,9 +193,9 @@ def warning(*args, **kwargs):
 
     Other Parameters
     ----------------
-    \*args : list, optional
+    \\*args : list, optional
         Arguments.
-    \**kwargs : dict, optional
+    \\**kwargs : dict, optional
         Keywords arguments.
 
     Returns
@@ -290,9 +290,9 @@ def numpy_print_options(*args, **kwargs):
 
     Other Parameters
     ----------------
-    \*args : list, optional
+    \\*args : list, optional
         Arguments.
-    \**kwargs : dict, optional
+    \\**kwargs : dict, optional
         Keywords arguments.
 
     Examples

@@ -241,7 +241,7 @@ CVD_MATRICES_MACHADO2010 = CaseInsensitiveMapping({
     }
 })
 CVD_MATRICES_MACHADO2010.__doc__ = """
-Machado (2010) Simulation matrices :math:`\Phi_{CVD}`.
+Machado (2010) Simulation matrices :math:`\\Phi_{CVD}`.
 
 CVD_MATRICES_MACHADO2010 : CaseInsensitiveMapping
     {'Protanomaly', 'Deuteranomaly', 'Tritanomaly'}

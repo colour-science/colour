@@ -249,7 +249,7 @@ def lightness_Fairchild2010(Y, epsilon=1.836):
     Y : array_like
         *luminance* :math:`Y`.
     epsilon : numeric or array_like, optional
-        :math:`\epsilon` exponent.
+        :math:`\\epsilon` exponent.
 
     Returns
     -------
@@ -306,7 +306,7 @@ def lightness_Fairchild2011(Y, epsilon=0.474, method='hdr-CIELAB'):
     Y : array_like
         *luminance* :math:`Y`.
     epsilon : numeric or array_like, optional
-        :math:`\epsilon` exponent.
+        :math:`\\epsilon` exponent.
     method : unicode, optional
         **{'hdr-CIELAB', 'hdr-IPT'}**,
         *Lightness* :math:`L_{hdr}` computation method.
@@ -404,7 +404,7 @@ def lightness(Y, method='CIE 1976', **kwargs):
     epsilon : numeric or array_like, optional
         {:func:`colour.colorimetry.lightness_Fairchild2010`,
         :func:`colour.colorimetry.lightness_Fairchild2011`},
-        :math:`\epsilon` exponent.
+        :math:`\\epsilon` exponent.
 
     Returns
     -------

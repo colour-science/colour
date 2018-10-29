@@ -24,7 +24,7 @@ __all__ = [
     'DEFAULT_FLOAT_DTYPE', 'DEFAULT_INT_DTYPE'
 ]
 
-FLOATING_POINT_NUMBER_PATTERN = '[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?'
+FLOATING_POINT_NUMBER_PATTERN = '[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?'
 """
 Floating point number regex matching pattern.
 

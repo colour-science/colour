@@ -1732,7 +1732,7 @@ class LUTSequence(MutableSequence):
 
     Other Parameters
     ----------------
-    \*args : list, optional
+    \\*args : list, optional
         Sequence of `colour.LUT1D`, `colour.LUT2D`, `colour.LUT3D` or
         `colour.io.lut.l.AbstractLUTSequenceOperator` class instances.
 
@@ -1899,7 +1899,7 @@ class LUTSequence(MutableSequence):
             ' ' * 4,
             '\n\n'.join([str(a) for a in self._sequence]),
             flags=re.MULTILINE)
-        operations = re.sub('^\s+$', '', operations, flags=re.MULTILINE)
+        operations = re.sub('^\\s+$', '', operations, flags=re.MULTILINE)
 
         return ('LUT Sequence\n'
                 '------------\n\n'
@@ -1925,7 +1925,7 @@ class LUTSequence(MutableSequence):
             ' ' * 4,
             ',\n'.join([repr(a) for a in self._sequence]),
             flags=re.MULTILINE)
-        operations = re.sub('^\s+$', '', operations, flags=re.MULTILINE)
+        operations = re.sub('^\\s+$', '', operations, flags=re.MULTILINE)
 
         return '{0}(\n{1}\n)'.format(self.__class__.__name__, operations)
 

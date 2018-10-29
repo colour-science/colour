@@ -59,7 +59,7 @@ def XYZ_to_spectral_Meng2015(
     cmfs : XYZ_ColourMatchingFunctions
         Standard observer colour matching functions.
     interval : numeric, optional
-        Wavelength :math:`\lambda_{i}` range interval in nm. The smaller
+        Wavelength :math:`\\lambda_{i}` range interval in nm. The smaller
         ``interval`` is, the longer the computations will be.
     tolerance : numeric, optional
         Tolerance for termination. The lower ``tolerance`` is, the smoother

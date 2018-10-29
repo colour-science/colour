@@ -62,7 +62,7 @@ def XYZ_to_spectral(XYZ, method='Meng 2015', **kwargs):
         Standard observer colour matching functions.
     interval : numeric, optional
         {:func:`colour.recovery.XYZ_to_spectral_Meng2015`},
-        Wavelength :math:`\lambda_{i}` range interval in nm. The smaller
+        Wavelength :math:`\\lambda_{i}` range interval in nm. The smaller
         ``interval`` is, the longer the computations will be.
     tolerance : numeric, optional
         {:func:`colour.recovery.XYZ_to_spectral_Meng2015`},

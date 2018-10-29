@@ -685,7 +685,7 @@ def full_chromatic_adaptation_reverse(RGB, RGB_w, Y_w, D):
 def RGB_to_rgb(RGB):
     """
     Converts given *RGB* array to *Hunt-Pointer-Estevez*
-    :math:`\\rho\gamma\\beta` colourspace.
+    :math:`\\rho\\gamma\\beta` colourspace.
 
     Parameters
     ----------
@@ -695,7 +695,7 @@ def RGB_to_rgb(RGB):
     Returns
     -------
     ndarray
-        *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` colourspace array.
+        *Hunt-Pointer-Estevez* :math:`\\rho\\gamma\\beta` colourspace array.
 
     Examples
     --------
@@ -711,13 +711,13 @@ def RGB_to_rgb(RGB):
 
 def rgb_to_RGB(rgb):
     """
-    Converts given *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` colourspace
-    array to *RGB* array.
+    Converts given *Hunt-Pointer-Estevez* :math:`\\rho\\gamma\\beta`
+    colourspace array to *RGB* array.
 
     Parameters
     ----------
     rgb : array_like
-        *Hunt-Pointer-Estevez* :math:`\\rho\gamma\\beta` colourspace array.
+        *Hunt-Pointer-Estevez* :math:`\\rho\\gamma\\beta` colourspace array.
 
     Returns
     -------

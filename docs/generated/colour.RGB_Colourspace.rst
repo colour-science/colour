@@ -14,6 +14,8 @@ colour.RGB\_Colourspace
    .. autosummary::
    
       ~RGB_Colourspace.__init__
+      ~RGB_Colourspace.chromatically_adapt
+      ~RGB_Colourspace.copy
       ~RGB_Colourspace.use_derived_transformation_matrices
    
    
@@ -34,5 +36,6 @@ colour.RGB\_Colourspace
       ~RGB_Colourspace.use_derived_RGB_to_XYZ_matrix
       ~RGB_Colourspace.use_derived_XYZ_to_RGB_matrix
       ~RGB_Colourspace.whitepoint
+      ~RGB_Colourspace.whitepoint_name
    
    

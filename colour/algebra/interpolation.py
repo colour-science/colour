@@ -220,7 +220,7 @@ def kernel_cardinal_spline(x, a=0.5, b=0.0):
 
     -   *Catmull-Rom*: :math:`(a=0.5, b=0)`
     -   *Cubic B-Spline*: :math:`(a=0, b=1)`
-    -   *Mitchell-Netravalli*: :math:`(a=\cfrac{1}{3}, b=\cfrac{1}{3})`
+    -   *Mitchell-Netravalli*: :math:`(a=\\cfrac{1}{3}, b=\\cfrac{1}{3})`
 
     Parameters
     ----------
@@ -271,8 +271,8 @@ class KernelInterpolator(object):
     the given discrete function :math:`g(x)` with some continuous interpolation
     kernel :math:`k(w)`:
 
-    :math:`\hat{g}(w_0) = [k * g](w_0) = \
-\sum_{x=-\infty}^{\infty}k(w_0 - x)\cdot g(x)`
+    :math:`\\hat{g}(w_0) = [k * g](w_0) = \
+\\sum_{x=-\\infty}^{\\infty}k(w_0 - x)\\cdot g(x)`
 
     Parameters
     ----------

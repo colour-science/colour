@@ -49,9 +49,9 @@ def luminous_flux(spd,
     spd : SpectralPowerDistribution
         test spectral power distribution
     lef : SpectralPowerDistribution, optional
-        :math:`V(\lambda)` luminous efficiency function.
+        :math:`V(\\lambda)` luminous efficiency function.
     K_m : numeric, optional
-        :math:`lm\cdot W^{-1}` maximum photopic luminous efficiency
+        :math:`lm\\cdot W^{-1}` maximum photopic luminous efficiency
 
     Returns
     -------
@@ -95,7 +95,7 @@ def luminous_efficiency(
     spd : SpectralPowerDistribution
         test spectral power distribution
     lef : SpectralPowerDistribution, optional
-        :math:`V(\lambda)` luminous efficiency function.
+        :math:`V(\\lambda)` luminous efficiency function.
 
     Returns
     -------
@@ -132,20 +132,20 @@ def luminous_efficiency(
 def luminous_efficacy(
         spd, lef=PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer']):
     """
-    Returns the *luminous efficacy* in :math:`lm\cdot W^{-1}` of given spectral
-    power distribution using given luminous efficiency function.
+    Returns the *luminous efficacy* in :math:`lm\\cdot W^{-1}` of given
+    spectral power distribution using given luminous efficiency function.
 
     Parameters
     ----------
     spd : SpectralPowerDistribution
         test spectral power distribution
     lef : SpectralPowerDistribution, optional
-        :math:`V(\lambda)` luminous efficiency function.
+        :math:`V(\\lambda)` luminous efficiency function.
 
     Returns
     -------
     numeric
-        Luminous efficacy in :math:`lm\cdot W^{-1}`.
+        Luminous efficacy in :math:`lm\\cdot W^{-1}`.
 
     References
     ----------

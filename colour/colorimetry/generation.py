@@ -161,12 +161,12 @@ def ones_spd(shape=DEFAULT_SPECTRAL_SHAPE):
 def gaussian_spd_normal(mu, sigma, shape=DEFAULT_SPECTRAL_SHAPE):
     """
     Returns a gaussian spectral power distribution of given spectral shape at
-    given mean wavelength :math:`\mu` and standard deviation :math:`sigma`.
+    given mean wavelength :math:`\\mu` and standard deviation :math:`sigma`.
 
     Parameters
     ----------
     mu : numeric
-        Mean wavelength :math:`\mu` the gaussian spectral power distribution
+        Mean wavelength :math:`\\mu` the gaussian spectral power distribution
         will peak at.
     sigma : numeric
         Standard deviation :math:`sigma` of the gaussian spectral power
@@ -273,7 +273,7 @@ def gaussian_spd(mu_peak_wavelength,
     Parameters
     ----------
     mu_peak_wavelength : numeric
-        Mean wavelength :math:`\mu` the gaussian spectral power distribution
+        Mean wavelength :math:`\\mu` the gaussian spectral power distribution
         will peak at.
     sigma_fwhm : numeric
         Standard deviation :math:`sigma` of the gaussian spectral power

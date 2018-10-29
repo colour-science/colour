@@ -140,7 +140,7 @@ def XYZ_outer_surface(
     Parameters
     ----------
     interval : int, optional
-        Wavelength :math:`\lambda_{i}` range interval used to compute the
+        Wavelength :math:`\\lambda_{i}` range interval used to compute the
         pulse waves.
     cmfs : XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions.
@@ -232,7 +232,7 @@ def is_within_visible_spectrum(
     XYZ : array_like
         *CIE XYZ* tristimulus values.
     interval : int, optional
-        Wavelength :math:`\lambda_{i}` range interval used to compute the
+        Wavelength :math:`\\lambda_{i}` range interval used to compute the
         pulse waves for the *CIE XYZ* colourspace outer surface.
     cmfs : XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions.

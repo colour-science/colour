@@ -48,8 +48,8 @@ class AbstractContinuousFunction:
     The sub-classes are expected to implement the
     :meth:`colour.continuous.AbstractContinuousFunction.function` method so
     that evaluating the function for any independent domain
-    :math:`x \in \mathbb{R}` variable returns a corresponding range
-    :math:`y \in \mathbb{R}` variable. A conventional implementation adopts an
+    :math:`x \\in\\mathbb{R}` variable returns a corresponding range
+    :math:`y \\in\\mathbb{R}` variable. A conventional implementation adopts an
     interpolating function encapsulated inside an extrapolating function.
     The resulting function independent domain, stored as discrete values in the
     :attr:`colour.continuous.AbstractContinuousFunction.domain` attribute

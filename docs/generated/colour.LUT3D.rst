@@ -16,6 +16,7 @@ colour.LUT3D
       ~LUT3D.__init__
       ~LUT3D.apply
       ~LUT3D.arithmetical_operation
+      ~LUT3D.as_LUT
       ~LUT3D.copy
       ~LUT3D.linear_table
    

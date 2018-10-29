@@ -101,7 +101,7 @@ def read_LUT_ResolveCube(path):
     Comment 01 : Comments can't go anywhere
     """
 
-    title = re.sub('_|-|\.', ' ', os.path.splitext(os.path.basename(path))[0])
+    title = re.sub('_|-|\\.', ' ', os.path.splitext(os.path.basename(path))[0])
     size2D = 2
     size3D = 2
     table = []
