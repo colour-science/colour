@@ -123,7 +123,7 @@ BABELCOLOR_AVERAGE = ColourChecker('BabelColor Average',
 """
 Average data derived from measurements of 30 *ColourChecker* charts.
 
-BABELCOLOR_AVERAGE : list
+BABELCOLOR_AVERAGE : ColourChecker
 """
 
 COLORCHECKER_2005_DATA = OrderedDict((
@@ -166,7 +166,7 @@ COLORCHECKER_2005 = ColourChecker('ColorChecker 2005', COLORCHECKER_2005_DATA,
 """
 Reference data from *GretagMacbeth (2005)*.
 
-COLORCHECKER_2005 : list
+COLORCHECKER_2005 : ColourChecker
 """
 
 COLORCHECKER_1976_DATA = OrderedDict((
@@ -210,7 +210,7 @@ COLORCHECKER_1976 = ColourChecker('ColorChecker 1976', COLORCHECKER_1976_DATA,
 *ColourChecker* developed by *McCamy et al.* at Macbeth, a Division of
 Kollmorgen.
 
-COLORCHECKER_1976 : list
+COLORCHECKER_1976 : ColourChecker
 """
 
 COLOURCHECKERS = CaseInsensitiveMapping({
