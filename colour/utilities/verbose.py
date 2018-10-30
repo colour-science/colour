@@ -31,7 +31,8 @@ __status__ = 'Production'
 __all__ = [
     'ColourWarning', 'message_box', 'show_warning', 'warning',
     'filter_warnings', 'suppress_warnings', 'numpy_print_options',
-    'ANCILLARY_COLOUR_SCIENCE_PACKAGES', 'describe_environment'
+    'ANCILLARY_COLOUR_SCIENCE_PACKAGES', 'ANCILLARY_RUNTIME_PACKAGES',
+    'ANCILLARY_DEVELOPMENT_PACKAGES', 'describe_environment'
 ]
 
 
@@ -319,6 +320,20 @@ Ancillary *colour-science.org* packages to describe.
 ANCILLARY_COLOUR_SCIENCE_PACKAGES : OrderedDict
 """
 
+ANCILLARY_RUNTIME_PACKAGES = OrderedDict()
+"""
+Ancillary runtime packages to describe.
+
+ANCILLARY_RUNTIME_PACKAGES : OrderedDict
+"""
+
+ANCILLARY_DEVELOPMENT_PACKAGES = OrderedDict()
+"""
+Ancillary development packages to describe.
+
+ANCILLARY_DEVELOPMENT_PACKAGES : OrderedDict
+"""
+
 
 def describe_environment(runtime_packages=True,
                          development_packages=False,
@@ -441,6 +456,9 @@ def describe_environment(runtime_packages=True,
             except ImportError:
                 continue
 
+
+        environment['Runtime'].update(ANCILLARY_RUNTIME_PACKAGES)
+
     if development_packages:
         for package in ('coverage', 'flake8', 'invoke', 'mock', 'nose',
                         'restructuredtext_lint', 'six', 'sphinx',
@@ -467,6 +485,8 @@ def describe_environment(runtime_packages=True,
                 environment['Development'][package] = version
             except (AttributeError, ImportError):
                 continue
+
+        environment['Development'].update(ANCILLARY_DEVELOPMENT_PACKAGES)
 
     if print_environment:
         message = str()

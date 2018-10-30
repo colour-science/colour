@@ -20,7 +20,9 @@ from .array import (as_array, as_int_array, as_float_array, as_numeric, as_int,
 from .metrics import metric_mse, metric_psnr
 from .verbose import (ColourWarning, message_box, show_warning, warning,
                       filter_warnings, suppress_warnings, numpy_print_options,
-                      ANCILLARY_COLOUR_SCIENCE_PACKAGES, describe_environment)
+                      ANCILLARY_COLOUR_SCIENCE_PACKAGES,
+                      ANCILLARY_RUNTIME_PACKAGES,
+                      ANCILLARY_DEVELOPMENT_PACKAGES, describe_environment)
 
 __all__ = ['Lookup', 'Structure', 'CaseInsensitiveMapping']
 __all__ += [
@@ -45,5 +47,6 @@ __all__ += ['metric_mse', 'metric_psnr']
 __all__ += [
     'ColourWarning', 'message_box', 'show_warning', 'warning',
     'filter_warnings', 'suppress_warnings', 'numpy_print_options',
-    'ANCILLARY_COLOUR_SCIENCE_PACKAGES', 'describe_environment'
+    'ANCILLARY_COLOUR_SCIENCE_PACKAGES', 'ANCILLARY_RUNTIME_PACKAGES',
+    'ANCILLARY_DEVELOPMENT_PACKAGES', 'describe_environment'
 ]
