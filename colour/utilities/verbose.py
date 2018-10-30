@@ -31,7 +31,8 @@ __status__ = 'Production'
 __all__ = [
     'ColourWarning', 'message_box', 'show_warning', 'warning',
     'filter_warnings', 'suppress_warnings', 'numpy_print_options',
-    'describe_environment'
+    'ANCILLARY_COLOUR_SCIENCE_PACKAGES', 'ANCILLARY_RUNTIME_PACKAGES',
+    'ANCILLARY_DEVELOPMENT_PACKAGES', 'describe_environment'
 ]
 
 
@@ -312,6 +313,28 @@ def numpy_print_options(*args, **kwargs):
         np.set_printoptions(**options)
 
 
+ANCILLARY_COLOUR_SCIENCE_PACKAGES = OrderedDict()
+"""
+Ancillary *colour-science.org* packages to describe.
+
+ANCILLARY_COLOUR_SCIENCE_PACKAGES : OrderedDict
+"""
+
+ANCILLARY_RUNTIME_PACKAGES = OrderedDict()
+"""
+Ancillary runtime packages to describe.
+
+ANCILLARY_RUNTIME_PACKAGES : OrderedDict
+"""
+
+ANCILLARY_DEVELOPMENT_PACKAGES = OrderedDict()
+"""
+Ancillary development packages to describe.
+
+ANCILLARY_DEVELOPMENT_PACKAGES : OrderedDict
+"""
+
+
 def describe_environment(runtime_packages=True,
                          development_packages=False,
                          print_environment=True,
@@ -422,6 +445,7 @@ def describe_environment(runtime_packages=True,
         version = colour.__version__
 
     environment['colour-science.org']['colour'] = version
+    environment['colour-science.org'].update(ANCILLARY_COLOUR_SCIENCE_PACKAGES)
 
     if runtime_packages:
         for package in ('numpy', 'scipy', 'pandas', 'matplotlib', 'notebook',
@@ -431,6 +455,15 @@ def describe_environment(runtime_packages=True,
                 environment['Runtime'][package] = namespace.__version__
             except ImportError:
                 continue
+
+        # OpenImageIO
+        try:
+            namespace = __import__('OpenImageIO')
+            environment['Runtime']['OpenImageIO'] = namespace.VERSION_STRING
+        except ImportError:
+            pass
+
+        environment['Runtime'].update(ANCILLARY_RUNTIME_PACKAGES)
 
     if development_packages:
         for package in ('coverage', 'flake8', 'invoke', 'mock', 'nose',
@@ -458,6 +491,8 @@ def describe_environment(runtime_packages=True,
                 environment['Development'][package] = version
             except (AttributeError, ImportError):
                 continue
+
+        environment['Development'].update(ANCILLARY_DEVELOPMENT_PACKAGES)
 
     if print_environment:
         message = str()
