@@ -456,6 +456,12 @@ def describe_environment(runtime_packages=True,
             except ImportError:
                 continue
 
+        # OpenImageIO
+        try:
+            namespace = __import__('OpenImageIO')
+            environment['Runtime']['OpenImageIO'] = namespace.VERSION_STRING
+        except ImportError:
+            pass
 
         environment['Runtime'].update(ANCILLARY_RUNTIME_PACKAGES)
 
