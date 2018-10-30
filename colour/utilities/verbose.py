@@ -31,7 +31,7 @@ __status__ = 'Production'
 __all__ = [
     'ColourWarning', 'message_box', 'show_warning', 'warning',
     'filter_warnings', 'suppress_warnings', 'numpy_print_options',
-    'describe_environment'
+    'ANCILLARY_COLOUR_SCIENCE_PACKAGES', 'describe_environment'
 ]
 
 
@@ -312,6 +312,14 @@ def numpy_print_options(*args, **kwargs):
         np.set_printoptions(**options)
 
 
+ANCILLARY_COLOUR_SCIENCE_PACKAGES = OrderedDict()
+"""
+Ancillary *colour-science.org* packages to describe.
+
+ANCILLARY_COLOUR_SCIENCE_PACKAGES : OrderedDict
+"""
+
+
 def describe_environment(runtime_packages=True,
                          development_packages=False,
                          print_environment=True,
@@ -422,6 +430,7 @@ def describe_environment(runtime_packages=True,
         version = colour.__version__
 
     environment['colour-science.org']['colour'] = version
+    environment['colour-science.org'].update(ANCILLARY_COLOUR_SCIENCE_PACKAGES)
 
     if runtime_packages:
         for package in ('numpy', 'scipy', 'pandas', 'matplotlib', 'notebook',
