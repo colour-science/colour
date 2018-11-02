@@ -1725,7 +1725,7 @@ class AbstractLUTSequenceOperator:
 
 class LUTSequence(MutableSequence):
     """
-    Defines the base class for a *LUT* sequence, i.e. a series of *LUTs*.
+    Defines the base class for a *LUT* sequence, i.e., a series of *LUTs*.
 
     The `colour.LUTSequence` class can be used to model series of *LUTs* such
     as when a shaper *LUT* is combined with a 3D *LUT*.

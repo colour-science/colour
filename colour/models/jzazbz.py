@@ -54,8 +54,8 @@ quantizer (PQ) from Dolby Laboratories.
 
 Notes
 -----
--   The :math:`m2` constant, i.e. the power factor has been re-optimized during
-    the development of the :math:`J_zA_zB_z` colourspace.
+-   The :math:`m2` constant, i.e., the power factor has been re-optimized
+    during the development of the :math:`J_zA_zB_z` colourspace.
 
 JZAZBZ_CONSTANTS : Structure
 """

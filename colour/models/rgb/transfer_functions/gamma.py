@@ -50,10 +50,10 @@ def function_gamma(a, exponent=1, negative_number_handling='Indeterminate'):
         -   *Indeterminate*: The behaviour will be indeterminate and
             definition return value might contain *nans*.
         -   *Mirror*: The definition return value will be mirrored around
-            abscissa and ordinate axis, i.e. Blackmagic Design: Davinci Resolve
-            behaviour.
+            abscissa and ordinate axis, i.e., Blackmagic Design: Davinci
+            Resolve behaviour.
         -   *Preserve*: The definition will preserve any negative number in
-            ``a``, i.e. The Foundry Nuke behaviour.
+            ``a``, i.e., The Foundry Nuke behaviour.
         -   *Clamp*: The definition will clamp any negative number in ``a`` to
             0.
 

@@ -340,7 +340,7 @@ def describe_environment(runtime_packages=True,
                          print_environment=True,
                          **kwargs):
     """
-    Describes *Colour* running environment, i.e. interpreter, runtime and
+    Describes *Colour* running environment, i.e., interpreter, runtime and
     development packages.
 
     Parameters
