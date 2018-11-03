@@ -34,8 +34,8 @@ class TestRGB_to_HEX(unittest.TestCase):
         """
 
         self.assertEqual(
-            RGB_to_HEX(np.array([0.25000000, 0.60000000, 0.05000000])),
-            '#3f990c')
+            RGB_to_HEX(np.array([0.45620519, 0.03081071, 0.04091952])),
+            '#74070a')
 
         self.assertEqual(
             RGB_to_HEX(np.array([0.00000000, 0.00000000, 0.00000000])),
@@ -51,8 +51,8 @@ class TestRGB_to_HEX(unittest.TestCase):
         n-dimensional arrays support.
         """
 
-        RGB = np.array([0.25000000, 0.60000000, 0.05000000])
-        HEX = '#3f990c'
+        RGB = np.array([0.45620519, 0.03081071, 0.04091952])
+        HEX = '#74070a'
         self.assertEqual(RGB_to_HEX(RGB), HEX)
 
         RGB = np.tile(RGB, (6, 1))
@@ -69,7 +69,7 @@ class TestRGB_to_HEX(unittest.TestCase):
         range scale support.
         """
 
-        RGB = np.array([0.25000000, 0.60000000, 0.05000000])
+        RGB = np.array([0.45620519, 0.03081071, 0.04091952])
         HEX = RGB_to_HEX(RGB)
 
         d_r = (('reference', 1), (1, 1), (100, 100))
@@ -103,8 +103,8 @@ class TestHEX_to_RGB(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            HEX_to_RGB('#3f990c'),
-            np.array([0.25000000, 0.60000000, 0.05000000]),
+            HEX_to_RGB('#74070a'),
+            np.array([0.45620519, 0.03081071, 0.04091952]),
             decimal=2)
 
         np.testing.assert_almost_equal(
@@ -123,8 +123,8 @@ class TestHEX_to_RGB(unittest.TestCase):
         n-dimensional arrays support.
         """
 
-        HEX = '#3f990c'
-        RGB = np.array([0.25000000, 0.60000000, 0.05000000])
+        HEX = '#74070a'
+        RGB = np.array([0.45620519, 0.03081071, 0.04091952])
         np.testing.assert_almost_equal(HEX_to_RGB(HEX), RGB, decimal=2)
 
         HEX = np.tile(HEX, 6)
@@ -141,7 +141,7 @@ class TestHEX_to_RGB(unittest.TestCase):
         range scale support.
         """
 
-        HEX = '#3f990c'
+        HEX = '#74070a'
         RGB = HEX_to_RGB(HEX)
 
         d_r = (('reference', 1), (1, 1), (100, 100))

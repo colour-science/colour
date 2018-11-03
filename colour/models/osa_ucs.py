@@ -106,9 +106,9 @@ def XYZ_to_OSA_UCS(XYZ):
     Examples
     --------
     >>> import numpy as np
-    >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313]) * 100
+    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952]) * 100
     >>> XYZ_to_OSA_UCS(XYZ)  # doctest: +ELLIPSIS
-    array([-4.490068...,  0.7030593...,  3.0346366...])
+    array([-3.0049979...,  2.9971369..., -9.6678423...])
     """
 
     XYZ = to_domain_100(XYZ)
@@ -190,9 +190,9 @@ def OSA_UCS_to_XYZ(Ljg, optimisation_parameters=None):
     Examples
     --------
     >>> import numpy as np
-    >>> Ljg = np.array([-4.4900683, 0.70305936, 3.03463664])
+    >>> Ljg = np.array([-3.00499790, 2.99713697, -9.66784231])
     >>> OSA_UCS_to_XYZ(Ljg)  # doctest: +ELLIPSIS
-    array([  7.0495049...,  10.0799723...,   9.5583020...])
+    array([ 20.6540240...,  12.1972369...,   5.1369372...])
     """
 
     Ljg = to_domain_100(Ljg)

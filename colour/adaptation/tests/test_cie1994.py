@@ -38,8 +38,8 @@ class TestChromaticAdaptationCIE1994(unittest.TestCase):
         np.testing.assert_almost_equal(
             chromatic_adaptation_CIE1994(
                 XYZ_1=np.array([28.00, 21.26, 5.27]),
-                xy_o1=np.array([0.4476, 0.4074]),
-                xy_o2=np.array([0.3127, 0.3290]),
+                xy_o1=np.array([0.44760, 0.40740]),
+                xy_o2=np.array([0.31270, 0.32900]),
                 Y_o=20,
                 E_o1=1000,
                 E_o2=1000),
@@ -49,8 +49,8 @@ class TestChromaticAdaptationCIE1994(unittest.TestCase):
         np.testing.assert_almost_equal(
             chromatic_adaptation_CIE1994(
                 XYZ_1=np.array([21.77, 19.18, 16.73]),
-                xy_o1=np.array([0.3127, 0.3290]),
-                xy_o2=np.array([0.3127, 0.3290]),
+                xy_o1=np.array([0.31270, 0.32900]),
+                xy_o2=np.array([0.31270, 0.32900]),
                 Y_o=50,
                 E_o1=100,
                 E_o2=1000),
@@ -59,13 +59,13 @@ class TestChromaticAdaptationCIE1994(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             chromatic_adaptation_CIE1994(
-                XYZ_1=np.array([0.47097710, 0.34950000, 0.11301649]) * 100,
-                xy_o1=np.array([0.3127, 0.3290]),
-                xy_o2=np.array([0.4476, 0.4074]),
+                XYZ_1=np.array([0.07818780, 0.06157201, 0.28099326]) * 100,
+                xy_o1=np.array([0.31270, 0.32900]),
+                xy_o2=np.array([0.37208, 0.37529]),
                 Y_o=20,
                 E_o1=100,
                 E_o2=1000),
-            np.array([40.55293261, 28.95161939, 4.09480293]),
+            np.array([9.14287406, 9.35843355, 15.95753504]),
             decimal=7)
 
     def test_n_dimensional_chromatic_adaptation_CIE1994(self):
@@ -75,8 +75,8 @@ class TestChromaticAdaptationCIE1994(unittest.TestCase):
         """
 
         XYZ_1 = np.array([28.00, 21.26, 5.27])
-        xy_o1 = np.array([0.4476, 0.4074])
-        xy_o2 = np.array([0.3127, 0.3290])
+        xy_o1 = np.array([0.44760, 0.40740])
+        xy_o2 = np.array([0.31270, 0.32900])
         Y_o = 20
         E_o1 = 1000
         E_o2 = 1000
@@ -122,8 +122,8 @@ class TestChromaticAdaptationCIE1994(unittest.TestCase):
         """
 
         XYZ_1 = np.array([28.00, 21.26, 5.27])
-        xy_o1 = np.array([0.4476, 0.4074])
-        xy_o2 = np.array([0.3127, 0.3290])
+        xy_o1 = np.array([0.44760, 0.40740])
+        xy_o2 = np.array([0.31270, 0.32900])
         Y_o = 20
         E_o1 = 1000
         E_o2 = 1000

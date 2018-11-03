@@ -69,7 +69,7 @@ print(colour.primaries_whitepoint(npm))
 
 print('\n')
 
-RGB = np.array([56.00000000, 16.00000000, 100.00000000])
+RGB = np.array([0.45620519, 0.03081071, 0.04091952])
 message_box(('Computing "RGB" luminance of given "RGB" values:\n'
              '\n\t{0}'.format(RGB)))
 print(colour.RGB_luminance(

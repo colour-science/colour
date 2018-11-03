@@ -34,13 +34,13 @@ class TestXYZ_to_JzAzBz(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            XYZ_to_JzAzBz(np.array([0.07049534, 0.10080000, 0.09558313])),
-            np.array([0.00357804, -0.00295507, 0.00038998]),
+            XYZ_to_JzAzBz(np.array([0.20654008, 0.12197225, 0.05136952])),
+            np.array([0.00535048, 0.00924302, 0.00526007]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            XYZ_to_JzAzBz(np.array([0.47097710, 0.34950000, 0.11301649])),
-            np.array([0.01000728, 0.00979348, 0.01050826]),
+            XYZ_to_JzAzBz(np.array([0.14222010, 0.23042768, 0.10495772])),
+            np.array([0.00619681, -0.00608426, 0.00534077]),
             decimal=7)
 
         np.testing.assert_almost_equal(
@@ -54,8 +54,8 @@ class TestXYZ_to_JzAzBz(unittest.TestCase):
         n-dimensions support.
         """
 
-        XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
-        JzAzBz = np.array([0.00357804, -0.00295507, 0.00038998])
+        XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+        JzAzBz = np.array([0.00535048, 0.00924302, 0.00526007])
         np.testing.assert_almost_equal(XYZ_to_JzAzBz(XYZ), JzAzBz, decimal=7)
 
         XYZ = np.tile(XYZ, (6, 1))
@@ -72,7 +72,7 @@ class TestXYZ_to_JzAzBz(unittest.TestCase):
         range scale support.
         """
 
-        XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
+        XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
         JzAzBz = XYZ_to_JzAzBz(XYZ)
 
         d_r = (('reference', 1), (1, 1), (100, 100))
@@ -106,20 +106,23 @@ class TestJzAzBz_to_XYZ(unittest.TestCase):
         Tests :func:`colour.models.jzazbz.JzAzBz_to_XYZ` definition.
         """
 
-        np.testing.assert_almost_equal(
-            JzAzBz_to_XYZ(np.array([0.00357804, -0.00295507, 0.00038998])),
-            np.array([0.07049534, 0.10080000, 0.09558313]),
-            decimal=7)
+        np.testing.assert_allclose(
+            JzAzBz_to_XYZ(np.array([0.00535048, 0.00924302, 0.00526007])),
+            np.array([0.20654008, 0.12197225, 0.05136952]),
+            rtol=0.000001,
+            atol=0.000001)
 
-        np.testing.assert_almost_equal(
-            JzAzBz_to_XYZ(np.array([0.01000728, 0.00979348, 0.01050826])),
-            np.array([0.47097710, 0.34950000, 0.11301649]),
-            decimal=7)
+        np.testing.assert_allclose(
+            JzAzBz_to_XYZ(np.array([0.00619681, -0.00608426, 0.00534077])),
+            np.array([0.14222010, 0.23042768, 0.10495772]),
+            rtol=0.000001,
+            atol=0.000001)
 
-        np.testing.assert_almost_equal(
+        np.testing.assert_allclose(
             JzAzBz_to_XYZ(np.array([0.01766826, 0.00064174, -0.00052906])),
             np.array([0.96907232, 1.00000000, 1.12179215]),
-            decimal=7)
+            rtol=0.000001,
+            atol=0.000001)
 
     def test_n_dimensional_JzAzBz_to_XYZ(self):
         """
@@ -127,17 +130,20 @@ class TestJzAzBz_to_XYZ(unittest.TestCase):
         n-dimensions support.
         """
 
-        JzAzBz = np.array([0.00357804, -0.00295507, 0.00038998])
-        XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
-        np.testing.assert_almost_equal(JzAzBz_to_XYZ(JzAzBz), XYZ, decimal=7)
+        JzAzBz = np.array([0.00535048, 0.00924302, 0.00526007])
+        XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+        np.testing.assert_allclose(
+            JzAzBz_to_XYZ(JzAzBz), XYZ, rtol=0.000001, atol=0.000001)
 
         JzAzBz = np.tile(JzAzBz, (6, 1))
         XYZ = np.tile(XYZ, (6, 1))
-        np.testing.assert_almost_equal(JzAzBz_to_XYZ(JzAzBz), XYZ, decimal=7)
+        np.testing.assert_allclose(
+            JzAzBz_to_XYZ(JzAzBz), XYZ, rtol=0.000001, atol=0.000001)
 
         JzAzBz = np.reshape(JzAzBz, (2, 3, 3))
         XYZ = np.reshape(XYZ, (2, 3, 3))
-        np.testing.assert_almost_equal(JzAzBz_to_XYZ(JzAzBz), XYZ, decimal=7)
+        np.testing.assert_allclose(
+            JzAzBz_to_XYZ(JzAzBz), XYZ, rtol=0.000001, atol=0.000001)
 
     def test_domain_range_scale_JzAzBz_to_XYZ(self):
         """
@@ -145,14 +151,17 @@ class TestJzAzBz_to_XYZ(unittest.TestCase):
         range scale support.
         """
 
-        JzAzBz = np.array([0.00357804, -0.00295507, 0.00038998])
+        JzAzBz = np.array([0.00535048, 0.00924302, 0.00526007])
         XYZ = JzAzBz_to_XYZ(JzAzBz)
 
         d_r = (('reference', 1), (1, 1), (100, 100))
         for scale, factor in d_r:
             with domain_range_scale(scale):
-                np.testing.assert_almost_equal(
-                    JzAzBz_to_XYZ(JzAzBz * factor), XYZ * factor, decimal=7)
+                np.testing.assert_allclose(
+                    JzAzBz_to_XYZ(JzAzBz * factor),
+                    XYZ * factor,
+                    rtol=0.000001,
+                    atol=0.000001)
 
     @ignore_numpy_errors
     def test_nan_JzAzBz_to_XYZ(self):

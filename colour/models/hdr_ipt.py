@@ -179,11 +179,11 @@ def XYZ_to_hdr_IPT(XYZ, Y_s=0.2, Y_abs=100, method='Fairchild 2011'):
 
     Examples
     --------
-    >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
+    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_hdr_IPT(XYZ)  # doctest: +ELLIPSIS
-    array([ 46.4993815..., -12.8225156...,   1.8502951...])
+    array([ 48.3937634...,  42.4499020...,  22.0195403...])
     >>> XYZ_to_hdr_IPT(XYZ, method='Fairchild 2010')  # doctest: +ELLIPSIS
-    array([ 25.1826176..., -22.6211129...,   3.1851172...])
+    array([ 30.0287314...,  83.9384506...,  34.9028738...])
     """
 
     XYZ = to_domain_1(XYZ)
@@ -261,13 +261,13 @@ def hdr_IPT_to_XYZ(IPT_hdr, Y_s=0.2, Y_abs=100, method='Fairchild 2011'):
 
     Examples
     --------
-    >>> IPT_hdr = np.array([46.4993815, -12.82251566, 1.85029518])
+    >>> IPT_hdr = np.array([48.39376346, 42.44990202, 22.01954033])
     >>> hdr_IPT_to_XYZ(IPT_hdr)  # doctest: +ELLIPSIS
-    array([ 0.0704953...,  0.1008    ,  0.0955831...])
-    >>> IPT_hdr = np.array([25.18261761, -22.62111297, 3.18511729])
+    array([ 0.2065400...,  0.1219722...,  0.0513695...])
+    >>> IPT_hdr = np.array([30.02873147, 83.93845061, 34.90287382])
     >>> hdr_IPT_to_XYZ(IPT_hdr, method='Fairchild 2010')
     ... # doctest: +ELLIPSIS
-    array([ 0.0704953...,  0.1008    ,  0.0955831...])
+    array([ 0.2065400...,  0.1219722...,  0.0513695...])
     """
 
     IPT_hdr = to_domain_100(IPT_hdr)

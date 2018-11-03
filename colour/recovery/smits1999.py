@@ -84,9 +84,9 @@ def XYZ_to_RGB_Smits1999(XYZ):
 
     Examples
     --------
-    >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
+    >>> XYZ = np.array([0.21781186, 0.12541048, 0.04697113])
     >>> XYZ_to_RGB_Smits1999(XYZ)  # doctest: +ELLIPSIS
-    array([ 0.0214496...,  0.1315460...,  0.0928760...])
+    array([ 0.4063959...,  0.0275289...,  0.0398219...])
     """
 
     return XYZ_to_RGB(
@@ -129,19 +129,19 @@ def RGB_to_spectral_Smits1999(RGB):
     Examples
     --------
     >>> from colour.utilities import numpy_print_options
-    >>> RGB = np.array([0.02144962, 0.13154603, 0.09287601])
+    >>> RGB = np.array([0.40639599, 0.02752894, 0.03982193])
     >>> with numpy_print_options(suppress=True):
     ...     RGB_to_spectral_Smits1999(RGB)  # doctest: +ELLIPSIS
-    SpectralPowerDistribution([[ 380.        ,    0.0908046...],
-                               [ 417.7778    ,    0.0887761...],
-                               [ 455.5556    ,    0.0939795...],
-                               [ 493.3333    ,    0.1236033...],
-                               [ 531.1111    ,    0.1315788...],
-                               [ 568.8889    ,    0.1293411...],
-                               [ 606.6667    ,    0.0392680...],
-                               [ 644.4444    ,    0.0214496...],
-                               [ 682.2222    ,    0.0214496...],
-                               [ 720.        ,    0.0215463...]],
+    SpectralPowerDistribution([[ 380.        ,    0.0769192...],
+                               [ 417.7778    ,    0.0587004...],
+                               [ 455.5556    ,    0.0394319...],
+                               [ 493.3333    ,    0.0302497...],
+                               [ 531.1111    ,    0.0275069...],
+                               [ 568.8889    ,    0.0280864...],
+                               [ 606.6667    ,    0.3429898...],
+                               [ 644.4444    ,    0.4118579...],
+                               [ 682.2222    ,    0.4118579...],
+                               [ 720.        ,    0.4118075...]],
                               interpolator=CubicSplineInterpolator,
                               interpolator_args={},
                               extrapolator=Extrapolator,

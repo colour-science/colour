@@ -41,7 +41,7 @@ message_box('Overall "Colour" Examples')
 
 message_box('N-Dimensional Arrays Support')
 
-XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
+XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
 illuminant = np.array([0.31270, 0.32900])
 message_box('Using 1d "array_like" parameter:\n' '\n{0}'.format(XYZ))
 print(colour.XYZ_to_Lab(XYZ, illuminant=illuminant))

@@ -328,9 +328,9 @@ def XYZ_to_plotting_colourspace(XYZ,
     Examples
     --------
     >>> import numpy as np
-    >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
+    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_plotting_colourspace(XYZ)  # doctest: +ELLIPSIS
-    array([ 0.1749881...,  0.3881947...,  0.3216031...])
+    array([ 0.7057393...,  0.1924826...,  0.2235416...])
     """
 
     return XYZ_to_RGB(
@@ -902,7 +902,7 @@ def single_colour_swatch_plot(colour_swatch, **kwargs):
 
     Examples
     --------
-    >>> RGB = ColourSwatch(RGB=(0.32315746, 0.32983556, 0.33640183))
+    >>> RGB = ColourSwatch(RGB=(0.45620519, 0.03081071, 0.04091952))
     >>> single_colour_swatch_plot(RGB)  # doctest: +SKIP
 
     .. image:: ../_static/Plotting_Single_Colour_Swatch_Plot.png

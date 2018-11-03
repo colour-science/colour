@@ -39,8 +39,8 @@ class TestRGB_to_HSV(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            RGB_to_HSV(np.array([0.25000000, 0.60000000, 0.05000000])),
-            np.array([0.27272727, 0.91666667, 0.60000000]),
+            RGB_to_HSV(np.array([0.45620519, 0.03081071, 0.04091952])),
+            np.array([0.99603944, 0.93246304, 0.45620519]),
             decimal=7)
 
         np.testing.assert_almost_equal(
@@ -59,8 +59,8 @@ class TestRGB_to_HSV(unittest.TestCase):
         n-dimensional arrays support.
         """
 
-        RGB = np.array([0.25000000, 0.60000000, 0.05000000])
-        HSV = np.array([0.27272727, 0.91666667, 0.60000000])
+        RGB = np.array([0.45620519, 0.03081071, 0.04091952])
+        HSV = np.array([0.99603944, 0.93246304, 0.45620519])
         np.testing.assert_almost_equal(RGB_to_HSV(RGB), HSV, decimal=7)
 
         RGB = np.tile(RGB, (6, 1))
@@ -77,7 +77,7 @@ class TestRGB_to_HSV(unittest.TestCase):
         and range scale support.
         """
 
-        RGB = np.array([0.25000000, 0.60000000, 0.05000000])
+        RGB = np.array([0.45620519, 0.03081071, 0.04091952])
         HSV = RGB_to_HSV(RGB)
 
         d_r = (('reference', 1), (1, 1), (100, 100))
@@ -112,8 +112,8 @@ class TestHSV_to_RGB(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            HSV_to_RGB(np.array([0.27272727, 0.91666667, 0.60000000])),
-            np.array([0.25000000, 0.60000000, 0.05000000]),
+            HSV_to_RGB(np.array([0.99603944, 0.93246304, 0.45620519])),
+            np.array([0.45620519, 0.03081071, 0.04091952]),
             decimal=7)
 
         np.testing.assert_almost_equal(
@@ -132,8 +132,8 @@ class TestHSV_to_RGB(unittest.TestCase):
         n-dimensional arrays support.
         """
 
-        HSV = np.array([0.27272727, 0.91666667, 0.60000000])
-        RGB = np.array([0.25000000, 0.60000000, 0.05000000])
+        HSV = np.array([0.99603944, 0.93246304, 0.45620519])
+        RGB = np.array([0.45620519, 0.03081071, 0.04091952])
         np.testing.assert_almost_equal(HSV_to_RGB(HSV), RGB, decimal=7)
 
         HSV = np.tile(HSV, (6, 1))
@@ -150,7 +150,7 @@ class TestHSV_to_RGB(unittest.TestCase):
         and range scale support.
         """
 
-        HSV = np.array([0.27272727, 0.91666667, 0.60000000])
+        HSV = np.array([0.99603944, 0.93246304, 0.45620519])
         RGB = HSV_to_RGB(HSV)
 
         d_r = (('reference', 1), (1, 1), (100, 100))
@@ -185,8 +185,8 @@ class TestRGB_to_HSL(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            RGB_to_HSL(np.array([0.25000000, 0.60000000, 0.05000000])),
-            np.array([0.27272727, 0.84615385, 0.32500000]),
+            RGB_to_HSL(np.array([0.45620519, 0.03081071, 0.04091952])),
+            np.array([0.99603944, 0.87347144, 0.24350795]),
             decimal=7)
 
         np.testing.assert_almost_equal(
@@ -205,8 +205,8 @@ class TestRGB_to_HSL(unittest.TestCase):
         n-dimensional arrays support.
         """
 
-        RGB = np.array([0.25000000, 0.60000000, 0.05000000])
-        HSL = np.array([0.27272727, 0.84615385, 0.32500000])
+        RGB = np.array([0.45620519, 0.03081071, 0.04091952])
+        HSL = np.array([0.99603944, 0.87347144, 0.24350795])
         np.testing.assert_almost_equal(RGB_to_HSL(RGB), HSL, decimal=7)
 
         RGB = np.tile(RGB, (6, 1))
@@ -223,7 +223,7 @@ class TestRGB_to_HSL(unittest.TestCase):
         and range scale support.
         """
 
-        RGB = np.array([0.25000000, 0.60000000, 0.05000000])
+        RGB = np.array([0.45620519, 0.03081071, 0.04091952])
         HSL = RGB_to_HSL(RGB)
 
         d_r = (('reference', 1), (1, 1), (100, 100))
@@ -258,8 +258,8 @@ class TestHSL_to_RGB(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            HSL_to_RGB(np.array([0.27272727, 0.84615385, 0.3250000000000])),
-            np.array([0.25000000, 0.60000000, 0.05000000]),
+            HSL_to_RGB(np.array([0.99603944, 0.87347144, 0.24350795])),
+            np.array([0.45620519, 0.03081071, 0.04091952]),
             decimal=7)
 
         np.testing.assert_almost_equal(
@@ -278,8 +278,8 @@ class TestHSL_to_RGB(unittest.TestCase):
         n-dimensional arrays support.
         """
 
-        HSL = np.array([0.27272727, 0.84615385, 0.3250000000000])
-        RGB = np.array([0.25000000, 0.60000000, 0.05000000])
+        HSL = np.array([0.99603944, 0.87347144, 0.24350795])
+        RGB = np.array([0.45620519, 0.03081071, 0.04091952])
         np.testing.assert_almost_equal(HSL_to_RGB(HSL), RGB, decimal=7)
 
         HSL = np.tile(HSL, (6, 1))
@@ -296,7 +296,7 @@ class TestHSL_to_RGB(unittest.TestCase):
         and range scale support.
         """
 
-        HSL = np.array([0.27272727, 0.84615385, 0.32500000])
+        HSL = np.array([0.99603944, 0.87347144, 0.24350795])
         RGB = HSL_to_RGB(HSL)
 
         d_r = (('reference', 1), (1, 1), (100, 100))
@@ -331,8 +331,8 @@ class TestRGB_to_CMY(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            RGB_to_CMY(np.array([0.25000000, 0.60000000, 0.05000000])),
-            np.array([0.75000000, 0.40000000, 0.95000000]),
+            RGB_to_CMY(np.array([0.45620519, 0.03081071, 0.04091952])),
+            np.array([0.54379481, 0.96918929, 0.95908048]),
             decimal=7)
 
         np.testing.assert_almost_equal(
@@ -351,8 +351,8 @@ class TestRGB_to_CMY(unittest.TestCase):
         n-dimensional arrays support.
         """
 
-        RGB = np.array([0.25000000, 0.60000000, 0.05000000])
-        CMY = np.array([0.75000000, 0.40000000, 0.95000000])
+        RGB = np.array([0.45620519, 0.03081071, 0.04091952])
+        CMY = np.array([0.54379481, 0.96918929, 0.95908048])
         np.testing.assert_almost_equal(RGB_to_CMY(RGB), CMY, decimal=7)
 
         RGB = np.tile(RGB, (6, 1))
@@ -369,7 +369,7 @@ class TestRGB_to_CMY(unittest.TestCase):
         and range scale support.
         """
 
-        RGB = np.array([0.25000000, 0.60000000, 0.05000000])
+        RGB = np.array([0.45620519, 0.03081071, 0.04091952])
         CMY = RGB_to_CMY(RGB)
 
         d_r = (('reference', 1), (1, 1), (100, 100))
@@ -404,8 +404,8 @@ class TestCMY_to_RGB(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            CMY_to_RGB(np.array([0.75000000, 0.40000000, 0.95000000])),
-            np.array([0.25000000, 0.60000000, 0.05000000]),
+            CMY_to_RGB(np.array([0.54379481, 0.96918929, 0.95908048])),
+            np.array([0.45620519, 0.03081071, 0.04091952]),
             decimal=7)
 
         np.testing.assert_almost_equal(
@@ -424,8 +424,8 @@ class TestCMY_to_RGB(unittest.TestCase):
         n-dimensional arrays support.
         """
 
-        CMY = np.array([0.75000000, 0.40000000, 0.95000000])
-        RGB = np.array([0.25000000, 0.60000000, 0.05000000])
+        CMY = np.array([0.54379481, 0.96918929, 0.95908048])
+        RGB = np.array([0.45620519, 0.03081071, 0.04091952])
         np.testing.assert_almost_equal(CMY_to_RGB(CMY), RGB, decimal=7)
 
         CMY = np.tile(CMY, (6, 1))
@@ -442,7 +442,7 @@ class TestCMY_to_RGB(unittest.TestCase):
         and range scale support.
         """
 
-        CMY = np.array([0.75000000, 0.40000000, 0.95000000])
+        CMY = np.array([0.54379481, 0.96918929, 0.95908048])
         RGB = CMY_to_RGB(CMY)
 
         d_r = (('reference', 1), (1, 1), (100, 100))
@@ -477,8 +477,8 @@ class TestCMY_to_CMYK(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            CMY_to_CMYK(np.array([0.75000000, 0.40000000, 0.95000000])),
-            np.array([0.58333333, 0.00000000, 0.91666667, 0.40000000]),
+            CMY_to_CMYK(np.array([0.54379481, 0.96918929, 0.95908048])),
+            np.array([0.00000000, 0.93246304, 0.91030457, 0.54379481]),
             decimal=7)
 
         np.testing.assert_almost_equal(
@@ -497,8 +497,8 @@ class TestCMY_to_CMYK(unittest.TestCase):
         n-dimensional arrays support.
         """
 
-        CMY = np.array([0.75000000, 0.40000000, 0.95000000])
-        CMYK = np.array([0.58333333, 0.00000000, 0.91666667, 0.40000000])
+        CMY = np.array([0.54379481, 0.96918929, 0.95908048])
+        CMYK = np.array([0.00000000, 0.93246304, 0.91030457, 0.54379481])
         np.testing.assert_almost_equal(CMY_to_CMYK(CMY), CMYK, decimal=7)
 
         CMY = np.tile(CMY, (6, 1))
@@ -515,7 +515,7 @@ class TestCMY_to_CMYK(unittest.TestCase):
         domain and range scale support.
         """
 
-        CMY = np.array([0.75000000, 0.40000000, 0.95000000])
+        CMY = np.array([0.54379481, 0.96918929, 0.95908048])
         CMYK = CMY_to_CMYK(CMY)
 
         d_r = (('reference', 1), (1, 1), (100, 100))
@@ -551,8 +551,8 @@ class TestCMYK_to_CMY(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             CMYK_to_CMY(
-                np.array([0.58333333, 0.00000000, 0.91666667, 0.40000000])),
-            np.array([0.75000000, 0.40000000, 0.95000000]),
+                np.array([0.00000000, 0.93246304, 0.91030457, 0.54379481])),
+            np.array([0.54379481, 0.96918929, 0.95908048]),
             decimal=7)
 
         np.testing.assert_almost_equal(
@@ -573,8 +573,8 @@ class TestCMYK_to_CMY(unittest.TestCase):
         n-dimensional arrays support.
         """
 
-        CMYK = np.array([0.58333333, 0.00000000, 0.91666667, 0.40000000])
-        CMY = np.array([0.75000000, 0.40000000, 0.95000000])
+        CMYK = np.array([0.00000000, 0.93246304, 0.91030457, 0.54379481])
+        CMY = np.array([0.54379481, 0.96918929, 0.95908048])
         np.testing.assert_almost_equal(CMYK_to_CMY(CMYK), CMY, decimal=7)
 
         CMYK = np.tile(CMYK, (6, 1))
@@ -591,7 +591,7 @@ class TestCMYK_to_CMY(unittest.TestCase):
         domain and range scale support.
         """
 
-        CMYK = np.array([0.58333333, 0.00000000, 0.91666667, 0.40000000])
+        CMYK = np.array([0.00000000, 0.93246304, 0.91030457, 0.54379481])
         CMY = CMYK_to_CMY(CMYK)
 
         d_r = (('reference', 1), (1, 1), (100, 100))

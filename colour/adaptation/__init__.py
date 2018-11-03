@@ -166,12 +166,12 @@ def chromatic_adaptation(XYZ, XYZ_w, XYZ_wr, method='Von Kries', **kwargs):
     *Von Kries* chromatic adaptation:
 
     >>> import numpy as np
-    >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
-    >>> XYZ_w = np.array([1.09846607, 1.00000000, 0.35582280])
-    >>> XYZ_wr = np.array([0.95042855, 1.00000000, 1.08890037])
+    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+    >>> XYZ_w = np.array([0.95045593, 1.00000000, 1.08905775])
+    >>> XYZ_wr = np.array([0.96429568, 1.00000000, 0.82510460])
     >>> chromatic_adaptation(XYZ, XYZ_w, XYZ_wr)
     ... # doctest: +ELLIPSIS
-    array([ 0.0839746...,  0.1141321...,  0.2862554...])
+    array([ 0.2163881...,  0.1257    ,  0.0384749...])
 
     *CIE 1994* chromatic adaptation, requires extra *kwargs*:
 

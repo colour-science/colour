@@ -40,68 +40,69 @@ chromatic_adaptation_matrix_VonKries` definition.
 
         np.testing.assert_almost_equal(
             chromatic_adaptation_matrix_VonKries(
-                np.array([1.09846607, 1.00000000, 0.35582280]),
-                np.array([0.95042855, 1.00000000, 1.08890037])),
+                np.array([0.95045593, 1.00000000, 1.08905775]),
+                np.array([0.96429568, 1.00000000, 0.82510460])),
             np.array([
-                [0.86876537, -0.14165393, 0.38719611],
-                [-0.10300724, 1.05840142, 0.15386462],
-                [0.00781674, 0.02678750, 2.96081771],
+                [1.04257389, 0.03089108, -0.05281257],
+                [0.02219345, 1.00185663, -0.02107375],
+                [-0.00116488, -0.00342053, 0.76178907],
             ]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             chromatic_adaptation_matrix_VonKries(
-                np.array([0.99092745, 1.00000000, 0.85313273]),
-                np.array([1.01679082, 1.00000000, 0.67610122])),
+                np.array([0.95045593, 1.00000000, 1.08905775]),
+                np.array([1.09846607, 1.00000000, 0.35582280])),
             np.array([
-                [1.03379528, 0.03065322, -0.04486819],
-                [0.02195826, 0.99354348, -0.01793687],
-                [-0.00102726, -0.00281712, 0.79698769],
+                [1.17159793, 0.16088780, -0.16158366],
+                [0.11462057, 0.96182051, -0.06497572],
+                [-0.00413024, -0.00912739, 0.33871096],
             ]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             chromatic_adaptation_matrix_VonKries(
-                np.array([0.98070597, 1.00000000, 1.18224949]),
-                np.array([0.92833635, 1.00000000, 1.03664720])),
+                np.array([0.95045593, 1.00000000, 1.08905775]),
+                np.array([0.99144661, 1.00000000, 0.67315942])),
             np.linalg.inv(
                 chromatic_adaptation_matrix_VonKries(
-                    np.array([0.92833635, 1.00000000, 1.03664720]),
-                    np.array([0.98070597, 1.00000000, 1.18224949]))))
+                    np.array([0.99144661, 1.00000000, 0.67315942]),
+                    np.array([0.95045593, 1.00000000, 1.08905775]))),
+            decimal=7)
 
         np.testing.assert_almost_equal(
             chromatic_adaptation_matrix_VonKries(
-                np.array([1.09846607, 1.00000000, 0.35582280]),
-                np.array([0.95042855, 1.00000000, 1.08890037]),
+                np.array([0.95045593, 1.00000000, 1.08905775]),
+                np.array([0.96429568, 1.00000000, 0.82510460]),
                 transform='XYZ Scaling'),
             np.array([
-                [0.86523251, 0.00000000, 0.00000000],
+                [1.01456117, 0.00000000, 0.00000000],
                 [0.00000000, 1.00000000, 0.00000000],
-                [0.00000000, 0.00000000, 3.06023214],
+                [0.00000000, 0.00000000, 0.75763163],
             ]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             chromatic_adaptation_matrix_VonKries(
-                np.array([1.09846607, 1.00000000, 0.35582280]),
-                np.array([0.95042855, 1.00000000, 1.08890037]),
+                np.array([0.95045593, 1.00000000, 1.08905775]),
+                np.array([0.96429568, 1.00000000, 0.82510460]),
                 transform='Bradford'),
             np.array([
-                [0.84467949, -0.11793553, 0.39489408],
-                [-0.13664085, 1.10412369, 0.12919812],
-                [0.07986716, -0.13493155, 3.19288296],
+                [1.04792979, 0.02294687, -0.05019227],
+                [0.02962781, 0.99043443, -0.01707380],
+                [-0.00924304, 0.01505519, 0.75187428],
             ]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             chromatic_adaptation_matrix_VonKries(
-                np.array([1.09846607, 1.00000000, 0.35582280]),
-                np.array([0.95042855, 1.00000000, 1.08890037]),
+                np.array([0.95045593, 1.00000000, 1.08905775]),
+                np.array([0.96429568, 1.00000000, 0.82510460]),
                 transform='Von Kries'),
             np.array([
-                [0.93949221, -0.23393727, 0.42820614],
-                [-0.02569635, 1.02638463, 0.00517656],
-                [0.00000000, 0.00000000, 3.06023214],
+                [1.01611856, 0.05535971, -0.05219186],
+                [0.00608087, 0.99555604, -0.00122642],
+                [0.00000000, 0.00000000, 0.75763163],
             ]),
             decimal=7)
 
@@ -111,12 +112,12 @@ chromatic_adaptation_matrix_VonKries` definition.
 chromatic_adaptation_matrix_VonKries` definition n-dimensional arrays support.
         """
 
-        XYZ_w = np.array([1.09846607, 1.00000000, 0.35582280])
-        XYZ_wr = np.array([0.95042855, 1.00000000, 1.08890037])
+        XYZ_w = np.array([0.95045593, 1.00000000, 1.08905775])
+        XYZ_wr = np.array([0.96429568, 1.00000000, 0.82510460])
         M = np.array([
-            [0.86876537, -0.14165393, 0.38719611],
-            [-0.10300724, 1.05840142, 0.15386462],
-            [0.00781674, 0.02678750, 2.96081771],
+            [1.04257389, 0.03089108, -0.05281257],
+            [0.02219345, 1.00185663, -0.02107375],
+            [-0.00116488, -0.00342053, 0.76178907],
         ])
         np.testing.assert_almost_equal(
             chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr), M, decimal=7)
@@ -140,8 +141,8 @@ chromatic_adaptation_matrix_VonKries` definition domain and range scale
         support.
         """
 
-        XYZ_w = np.array([1.09846607, 1.00000000, 0.35582280])
-        XYZ_wr = np.array([0.95042855, 1.00000000, 1.08890037])
+        XYZ_w = np.array([0.95045593, 1.00000000, 1.08905775])
+        XYZ_wr = np.array([0.96429568, 1.00000000, 0.82510460])
         M = chromatic_adaptation_matrix_VonKries(XYZ_w, XYZ_wr)
 
         d_r = (('reference', 1), (1, 1), (100, 0.01))
@@ -182,53 +183,53 @@ class TestChromaticAdaptationVonKries(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             chromatic_adaptation_VonKries(
-                np.array([0.07049534, 0.10080000, 0.09558313]),
-                np.array([1.09846607, 1.00000000, 0.35582280]),
-                np.array([0.95042855, 1.00000000, 1.08890037])),
-            np.array([0.08397461, 0.11413219, 0.28625545]),
+                np.array([0.20654008, 0.12197225, 0.05136952]),
+                np.array([0.95045593, 1.00000000, 1.08905775]),
+                np.array([0.96429568, 1.00000000, 0.82510460])),
+            np.array([0.21638819, 0.12570000, 0.03847494]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             chromatic_adaptation_VonKries(
-                np.array([0.47097710, 0.34950000, 0.11301649]),
-                np.array([0.99092745, 1.00000000, 0.85313273]),
-                np.array([1.01679082, 1.00000000, 0.67610122])),
-            np.array([0.49253636, 0.35555812, 0.08860435]),
+                np.array([0.14222010, 0.23042768, 0.10495772]),
+                np.array([0.95045593, 1.00000000, 1.08905775]),
+                np.array([1.09846607, 1.00000000, 0.35582280])),
+            np.array([0.18673833, 0.23111171, 0.03285972]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             chromatic_adaptation_VonKries(
-                np.array([0.25506814, 0.19150000, 0.08849752]),
-                np.array([0.98070597, 1.00000000, 1.18224949]),
-                np.array([0.92833635, 1.00000000, 1.03664720])),
-            np.array([0.24731314, 0.19137674, 0.07734837]),
+                np.array([0.07818780, 0.06157201, 0.28099326]),
+                np.array([0.95045593, 1.00000000, 1.08905775]),
+                np.array([0.99144661, 1.00000000, 0.67315942])),
+            np.array([0.06385467, 0.05509729, 0.17506386]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             chromatic_adaptation_VonKries(
-                np.array([0.07049534, 0.10080000, 0.09558313]),
-                np.array([1.09846607, 1.00000000, 0.35582280]),
-                np.array([0.95042855, 1.00000000, 1.08890037]),
+                np.array([0.20654008, 0.12197225, 0.05136952]),
+                np.array([0.95045593, 1.00000000, 1.08905775]),
+                np.array([0.96429568, 1.00000000, 0.82510460]),
                 transform='XYZ Scaling'),
-            np.array([0.06099486, 0.10080000, 0.29250657]),
+            np.array([0.20954755, 0.12197225, 0.03891917]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             chromatic_adaptation_VonKries(
-                np.array([0.07049534, 0.10080000, 0.09558313]),
-                np.array([1.09846607, 1.00000000, 0.35582280]),
-                np.array([0.95042855, 1.00000000, 1.08890037]),
+                np.array([0.20654008, 0.12197225, 0.05136952]),
+                np.array([0.95045593, 1.00000000, 1.08905775]),
+                np.array([0.96429568, 1.00000000, 0.82510460]),
                 transform='Bradford'),
-            np.array([0.08540328, 0.11401229, 0.29721491]),
+            np.array([0.21666003, 0.12604777, 0.03855068]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             chromatic_adaptation_VonKries(
-                np.array([0.07049534, 0.10080000, 0.09558313]),
-                np.array([1.09846607, 1.00000000, 0.35582280]),
-                np.array([0.95042855, 1.00000000, 1.08890037]),
+                np.array([0.20654008, 0.12197225, 0.05136952]),
+                np.array([0.95045593, 1.00000000, 1.08905775]),
+                np.array([0.96429568, 1.00000000, 0.82510460]),
                 transform='Von Kries'),
-            np.array([0.08357823, 0.10214289, 0.29250657]),
+            np.array([0.21394049, 0.12262315, 0.03891917]),
             decimal=7)
 
     def test_n_dimensional_chromatic_adaptation_VonKries(self):
@@ -237,10 +238,10 @@ class TestChromaticAdaptationVonKries(unittest.TestCase):
         definition n-dimensional arrays support.
         """
 
-        XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
-        XYZ_w = np.array([1.09846607, 1.00000000, 0.35582280])
-        XYZ_wr = np.array([0.95042855, 1.00000000, 1.08890037])
-        XYZ_a = np.array([0.08397461, 0.11413219, 0.28625545])
+        XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+        XYZ_w = np.array([0.95045593, 1.00000000, 1.08905775])
+        XYZ_wr = np.array([0.96429568, 1.00000000, 0.82510460])
+        XYZ_a = np.array([0.21638819, 0.12570000, 0.03847494])
         np.testing.assert_almost_equal(
             chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr),
             XYZ_a,
@@ -270,9 +271,9 @@ class TestChromaticAdaptationVonKries(unittest.TestCase):
         definition domain and range scale support.
         """
 
-        XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
-        XYZ_w = np.array([1.09846607, 1.00000000, 0.35582280])
-        XYZ_wr = np.array([0.95042855, 1.00000000, 1.08890037])
+        XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+        XYZ_w = np.array([0.95045593, 1.00000000, 1.08905775])
+        XYZ_wr = np.array([0.96429568, 1.00000000, 0.82510460])
         XYZ_a = chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr)
 
         d_r = (('reference', 1), (1, 1), (100, 0.01))

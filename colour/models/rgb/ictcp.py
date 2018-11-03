@@ -130,9 +130,9 @@ def RGB_to_ICTCP(RGB, L_p=10000):
 
     Examples
     --------
-    >>> RGB = np.array([0.35181454, 0.26934757, 0.21288023])
+    >>> RGB = np.array([0.45620519, 0.03081071, 0.04091952])
     >>> RGB_to_ICTCP(RGB)  # doctest: +ELLIPSIS
-    array([ 0.0955407..., -0.0089063...,  0.0138928...])
+    array([ 0.0735136...,  0.0047525...,  0.0935159...])
     """
 
     RGB = to_domain_1(RGB)
@@ -190,9 +190,9 @@ def ICTCP_to_RGB(ICTCP, L_p=10000):
 
     Examples
     --------
-    >>> ICTCP = np.array([0.09554079, -0.00890639, 0.01389286])
+    >>> ICTCP = np.array([0.07351364, 0.00475253, 0.09351596])
     >>> ICTCP_to_RGB(ICTCP)  # doctest: +ELLIPSIS
-    array([ 0.3518145...,  0.2693475...,  0.2128802...])
+    array([ 0.4562052...,  0.0308107...,  0.0409195...])
     """
 
     ICTCP = to_domain_1(ICTCP)

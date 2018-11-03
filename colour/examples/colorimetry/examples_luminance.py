@@ -9,7 +9,7 @@ from colour.utilities import message_box
 
 message_box('"Luminance" Computations')
 
-V = 3.74629715
+V = 4.08244375
 message_box(('Computing "luminance" using '
              '"Newhall, Nickerson, and Judd (1943)" method for given '
              '"Munsell" value:\n'
@@ -19,7 +19,7 @@ print(colour.colorimetry.luminance_Newhall1943(V))
 
 print('\n')
 
-L = 37.98562910
+L = 41.527875844653451
 message_box(('Computing "luminance" using "CIE 1976" method for given '
              '"Lightness":\n'
              '\n\t{0}'.format(L)))
@@ -28,7 +28,7 @@ print(colour.colorimetry.luminance_CIE1976(L))
 
 print('\n')
 
-L = 24.90229027
+L = 31.996390226262736
 message_box(('Computing "luminance" using "Fairchild and Wyble (2010)" method '
              'for given "Lightness":\n'
              '\n\t{0}'.format(L)))
@@ -37,7 +37,7 @@ print(colour.colorimetry.luminance_Fairchild2010(L) * 100)
 
 print('\n')
 
-L = 26.45950982
+L = 51.852958445912506
 message_box(('Computing "luminance" using "Fairchild and Chen (2011)" method '
              'for given "Lightness":\n'
              '\n\t{0}'.format(L)))

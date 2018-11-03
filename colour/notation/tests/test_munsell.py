@@ -775,13 +775,19 @@ class TestMunsellValuePriest1920(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            munsell_value_Priest1920(10.08), 3.17490157, places=7)
+            munsell_value_Priest1920(12.23634268),
+            3.498048410185314,
+            places=7)
 
         self.assertAlmostEqual(
-            munsell_value_Priest1920(56.76), 7.53392328, places=7)
+            munsell_value_Priest1920(22.89399987),
+            4.7847674833788947,
+            places=7)
 
         self.assertAlmostEqual(
-            munsell_value_Priest1920(98.32), 9.91564420, places=7)
+            munsell_value_Priest1920(6.29022535),
+            2.5080321668591092,
+            places=7)
 
     def test_n_dimensional_munsell_value_Priest1920(self):
         """
@@ -789,8 +795,8 @@ class TestMunsellValuePriest1920(unittest.TestCase):
         definition n-dimensional arrays support.
         """
 
-        Y = 10.08
-        V = 3.17490157
+        Y = 12.23634268
+        V = 3.498048410185314
         np.testing.assert_almost_equal(
             munsell_value_Priest1920(Y), V, decimal=7)
 
@@ -815,7 +821,7 @@ class TestMunsellValuePriest1920(unittest.TestCase):
         definition domain and range scale support.
         """
 
-        Y = 10.08
+        Y = 12.23634268
         V = munsell_value_Priest1920(Y)
 
         d_r = (('reference', 1, 1), (1, 0.01, 0.1), (100, 1, 10))
@@ -850,13 +856,19 @@ class TestMunsellValueMunsell1933(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            munsell_value_Munsell1933(10.08), 3.79183555, places=7)
+            munsell_value_Munsell1933(12.23634268),
+            4.1627702416858083,
+            places=7)
 
         self.assertAlmostEqual(
-            munsell_value_Munsell1933(56.76), 8.27013182, places=7)
+            munsell_value_Munsell1933(22.89399987),
+            5.5914543020790592,
+            places=7)
 
         self.assertAlmostEqual(
-            munsell_value_Munsell1933(98.32), 9.95457711, places=7)
+            munsell_value_Munsell1933(6.29022535),
+            3.0141971134091761,
+            places=7)
 
     def test_n_dimensional_munsell_value_Munsell1933(self):
         """
@@ -864,8 +876,8 @@ class TestMunsellValueMunsell1933(unittest.TestCase):
         definition n-dimensional arrays support.
         """
 
-        Y = 10.08
-        V = 3.79183555
+        Y = 12.23634268
+        V = 4.1627702416858083
         np.testing.assert_almost_equal(
             munsell_value_Munsell1933(Y), V, decimal=7)
 
@@ -890,7 +902,7 @@ class TestMunsellValueMunsell1933(unittest.TestCase):
         definition domain and range scale support.
         """
 
-        Y = 10.08
+        Y = 12.23634268
         V = munsell_value_Munsell1933(Y)
 
         d_r = (('reference', 1, 1), (1, 0.01, 0.1), (100, 1, 10))
@@ -925,13 +937,19 @@ class TestMunsellValueMoon1943(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            munsell_value_Moon1943(10.08), 3.74629715, places=7)
+            munsell_value_Moon1943(12.23634268),
+            4.0688120634976421,
+            places=7)
 
         self.assertAlmostEqual(
-            munsell_value_Moon1943(56.76), 7.82258143, places=7)
+            munsell_value_Moon1943(22.89399987),
+            5.3133627855494412,
+            places=7)
 
         self.assertAlmostEqual(
-            munsell_value_Moon1943(98.32), 9.88538236, places=7)
+            munsell_value_Moon1943(6.29022535),
+            3.0645015037679695,
+            places=7)
 
     def test_n_dimensional_munsell_value_Moon1943(self):
         """
@@ -939,8 +957,8 @@ class TestMunsellValueMoon1943(unittest.TestCase):
         definition n-dimensional arrays support.
         """
 
-        Y = 10.08
-        V = 3.74629715
+        Y = 12.23634268
+        V = 4.0688120634976421
         np.testing.assert_almost_equal(munsell_value_Moon1943(Y), V, decimal=7)
 
         V = np.tile(V, 6)
@@ -961,7 +979,7 @@ class TestMunsellValueMoon1943(unittest.TestCase):
         definition domain and range scale support.
         """
 
-        Y = 10.08
+        Y = 12.23634268
         V = munsell_value_Moon1943(Y)
 
         d_r = (('reference', 1, 1), (1, 0.01, 0.1), (100, 1, 10))
@@ -996,13 +1014,19 @@ class TestMunsellValueSaunderson1944(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            munsell_value_Saunderson1944(10.08), 3.68650806, places=7)
+            munsell_value_Saunderson1944(12.23634268),
+            4.0444736723175119,
+            places=7)
 
         self.assertAlmostEqual(
-            munsell_value_Saunderson1944(56.76), 7.89881184, places=7)
+            munsell_value_Saunderson1944(22.89399987),
+            5.3783324022305923,
+            places=7)
 
         self.assertAlmostEqual(
-            munsell_value_Saunderson1944(98.32), 9.85197101, places=7)
+            munsell_value_Saunderson1944(6.29022535),
+            2.9089633927316823,
+            places=7)
 
     def test_n_dimensional_munsell_value_Saunderson1944(self):
         """
@@ -1010,8 +1034,8 @@ class TestMunsellValueSaunderson1944(unittest.TestCase):
         definition n-dimensional arrays support.
         """
 
-        Y = 10.08
-        V = 3.68650806
+        Y = 12.23634268
+        V = 4.0444736723175119
         np.testing.assert_almost_equal(
             munsell_value_Saunderson1944(Y), V, decimal=7)
 
@@ -1036,7 +1060,7 @@ class TestMunsellValueSaunderson1944(unittest.TestCase):
         definition domain and range scale support.
         """
 
-        Y = 10.08
+        Y = 12.23634268
         V = munsell_value_Saunderson1944(Y)
 
         d_r = (('reference', 1, 1), (1, 0.01, 0.1), (100, 1, 10))
@@ -1071,13 +1095,19 @@ class TestMunsellValueLadd1955(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            munsell_value_Ladd1955(10.08), 3.69528622, places=7)
+            munsell_value_Ladd1955(12.23634268),
+            4.0511633044287088,
+            places=7)
 
         self.assertAlmostEqual(
-            munsell_value_Ladd1955(56.76), 7.84875137, places=7)
+            munsell_value_Ladd1955(22.89399987),
+            5.3718647913936772,
+            places=7)
 
         self.assertAlmostEqual(
-            munsell_value_Ladd1955(98.32), 9.75492814, places=7)
+            munsell_value_Ladd1955(6.29022535),
+            2.9198269939751613,
+            places=7)
 
     def test_n_dimensional_munsell_value_Ladd1955(self):
         """
@@ -1085,8 +1115,8 @@ class TestMunsellValueLadd1955(unittest.TestCase):
         definition n-dimensional arrays support.
         """
 
-        Y = 10.08
-        V = 3.69528622
+        Y = 12.23634268
+        V = 4.0511633044287088
         np.testing.assert_almost_equal(munsell_value_Ladd1955(Y), V, decimal=7)
 
         V = np.tile(V, 6)
@@ -1107,7 +1137,7 @@ class TestMunsellValueLadd1955(unittest.TestCase):
         definition domain and range scale support.
         """
 
-        Y = 10.08
+        Y = 12.23634268
         V = munsell_value_Ladd1955(Y)
 
         d_r = (('reference', 1, 1), (1, 0.01, 0.1), (100, 1, 10))
@@ -1142,13 +1172,19 @@ class TestMunsellValueMcCamy1992(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            munsell_value_McCamy1987(10.08), 3.734723525854632, places=7)
+            munsell_value_McCamy1987(12.23634268),
+            4.081434853194113,
+            places=7)
 
         self.assertAlmostEqual(
-            munsell_value_McCamy1987(56.76), 7.951693123402992, places=7)
+            munsell_value_McCamy1987(22.89399987),
+            5.394083970919982,
+            places=7)
 
         self.assertAlmostEqual(
-            munsell_value_McCamy1987(98.32), 9.935265378231314, places=7)
+            munsell_value_McCamy1987(6.29022535),
+            2.9750160800320096,
+            places=7)
 
     def test_n_dimensional_munsell_value_McCamy1987(self):
         """
@@ -1156,8 +1192,8 @@ class TestMunsellValueMcCamy1992(unittest.TestCase):
         definition n-dimensional arrays support.
         """
 
-        Y = 10.08
-        V = 3.734723525854632
+        Y = 12.23634268
+        V = 4.081434853194113
         np.testing.assert_almost_equal(
             munsell_value_McCamy1987(Y), V, decimal=7)
 
@@ -1182,7 +1218,7 @@ class TestMunsellValueMcCamy1992(unittest.TestCase):
         definition domain and range scale support.
         """
 
-        Y = 10.08
+        Y = 12.23634268
         V = munsell_value_McCamy1987(Y)
 
         d_r = (('reference', 1, 1), (1, 0.01, 0.1), (100, 1, 10))
@@ -1217,13 +1253,19 @@ class TestMunsellValueASTMD153508(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            munsell_value_ASTMD153508(10.08), 3.734476476931135, places=7)
+            munsell_value_ASTMD153508(12.23634268),
+            4.0824437076525664,
+            places=7)
 
         self.assertAlmostEqual(
-            munsell_value_ASTMD153508(56.76), 7.94992421, places=7)
+            munsell_value_ASTMD153508(22.89399987),
+            5.3913268228155395,
+            places=7)
 
         self.assertAlmostEqual(
-            munsell_value_ASTMD153508(98.32), 9.934372853115544, places=7)
+            munsell_value_ASTMD153508(6.29022535),
+            2.9761930839606454,
+            places=7)
 
     def test_n_dimensional_munsell_value_ASTMD153508(self):
         """
@@ -1231,8 +1273,8 @@ class TestMunsellValueASTMD153508(unittest.TestCase):
         definition n-dimensional arrays support.
         """
 
-        Y = 10.08
-        V = 3.734476476931135
+        Y = 12.23634268
+        V = 4.0824437076525664
         np.testing.assert_almost_equal(
             munsell_value_ASTMD153508(Y), V, decimal=7)
 
@@ -1257,7 +1299,7 @@ class TestMunsellValueASTMD153508(unittest.TestCase):
         definition domain and range scale support.
         """
 
-        Y = 10.08
+        Y = 12.23634268
         V = munsell_value_ASTMD153508(Y)
 
         d_r = (('reference', 1, 1), (1, 0.01, 0.1), (100, 1, 10))

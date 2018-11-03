@@ -39,7 +39,7 @@ class TestXYZ_to_spectral_Meng2015(unittest.TestCase):
         shape = SpectralShape(cmfs.shape.start, cmfs.shape.end, 5)
         cmfs_c = cmfs.copy().align(shape)
 
-        XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
+        XYZ = np.array([0.21781186, 0.12541048, 0.04697113])
         np.testing.assert_almost_equal(
             spectral_to_XYZ_integration(
                 XYZ_to_spectral_Meng2015(XYZ), cmfs=cmfs_c) / 100,
@@ -76,7 +76,7 @@ class TestXYZ_to_spectral_Meng2015(unittest.TestCase):
         definition domain and range scale support.
         """
 
-        XYZ_i = np.array([0.07049534, 0.10080000, 0.09558313])
+        XYZ_i = np.array([0.21781186, 0.12541048, 0.04697113])
         XYZ_o = spectral_to_XYZ_integration(XYZ_to_spectral_Meng2015(XYZ_i))
 
         d_r = (('reference', 1, 1), (1, 1, 0.01), (100, 100, 1))

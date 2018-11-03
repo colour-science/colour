@@ -34,18 +34,18 @@ class TestLab_to_DIN99(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            Lab_to_DIN99(np.array([37.98562910, -23.62907688, -4.41746615])),
-            np.array([49.60101649, -16.23145730, 1.07618123]),
+            Lab_to_DIN99(np.array([41.52787529, 52.63858304, 26.92317922])),
+            np.array([53.22821988, 28.41634656, 3.89839552]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            Lab_to_DIN99(np.array([60.25740000, -34.00990000, 36.26770000])),
-            np.array([70.57378525, -13.18189095, 17.98538208]),
+            Lab_to_DIN99(np.array([55.11636304, -41.08791787, 30.91825778])),
+            np.array([66.08943912, -17.35290106, 16.09690691]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            Lab_to_DIN99(np.array([22.72330000, 20.09040000, -46.69400000])),
-            np.array([32.36697919, 3.83443742, -21.01059563]),
+            Lab_to_DIN99(np.array([29.80565520, 20.01830466, -48.34913874])),
+            np.array([40.71533366, 3.48714163, -21.45321411]),
             decimal=7)
 
     def test_n_dimensional_Lab_to_DIN99(self):
@@ -54,8 +54,8 @@ class TestLab_to_DIN99(unittest.TestCase):
         support.
         """
 
-        Lab = np.array([37.98562910, -23.62907688, -4.41746615])
-        Lab_99 = np.array([49.60101649, -16.23145730, 1.07618123])
+        Lab = np.array([41.52787529, 52.63858304, 26.92317922])
+        Lab_99 = np.array([53.22821988, 28.41634656, 3.89839552])
         np.testing.assert_almost_equal(Lab_to_DIN99(Lab), Lab_99, decimal=7)
 
         Lab = np.tile(Lab, (6, 1))
@@ -72,7 +72,7 @@ class TestLab_to_DIN99(unittest.TestCase):
         range scale support.
         """
 
-        Lab = np.array([37.98562910, -23.62907688, -4.41746615])
+        Lab = np.array([41.52787529, 52.63858304, 26.92317922])
         Lab_99 = Lab_to_DIN99(Lab)
 
         d_r = (('reference', 1), (1, 0.01), (100, 1))
@@ -105,18 +105,18 @@ class TestDIN99_to_Lab(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            DIN99_to_Lab(np.array([49.60101649, -16.23145730, 1.07618123])),
-            np.array([37.98562910, -23.62907688, -4.41746615]),
+            DIN99_to_Lab(np.array([53.22821988, 28.41634656, 3.89839552])),
+            np.array([41.52787529, 52.63858304, 26.92317922]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            DIN99_to_Lab(np.array([70.57378525, -13.18189095, 17.98538208])),
-            np.array([60.25740000, -34.00990000, 36.26770000]),
+            DIN99_to_Lab(np.array([66.08943912, -17.35290106, 16.09690691])),
+            np.array([55.11636304, -41.08791787, 30.91825778]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            DIN99_to_Lab(np.array([32.36697919, 3.83443742, -21.01059563])),
-            np.array([22.72330000, 20.09040000, -46.69400000]),
+            DIN99_to_Lab(np.array([40.71533366, 3.48714163, -21.45321411])),
+            np.array([29.80565520, 20.01830466, -48.34913874]),
             decimal=7)
 
     def test_n_dimensional_DIN99_to_Lab(self):
@@ -125,8 +125,8 @@ class TestDIN99_to_Lab(unittest.TestCase):
         support.
         """
 
-        Lab_99 = np.array([49.60101649, -16.23145730, 1.07618123])
-        Lab = np.array([37.98562910, -23.62907688, -4.41746615])
+        Lab_99 = np.array([53.22821988, 28.41634656, 3.89839552])
+        Lab = np.array([41.52787529, 52.63858304, 26.92317922])
         np.testing.assert_almost_equal(DIN99_to_Lab(Lab_99), Lab, decimal=7)
 
         Lab_99 = np.tile(Lab_99, (6, 1))
@@ -143,7 +143,7 @@ class TestDIN99_to_Lab(unittest.TestCase):
         range scale support.
         """
 
-        Lab_99 = np.array([49.60101649, -16.23145730, 1.07618123])
+        Lab_99 = np.array([53.22821988, 28.41634656, 3.89839552])
         Lab = DIN99_to_Lab(Lab_99)
 
         d_r = (('reference', 1), (1, 0.01), (100, 1))

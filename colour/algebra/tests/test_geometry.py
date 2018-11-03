@@ -38,18 +38,18 @@ class TestNormaliseVector(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            normalise_vector(np.array([0.07049534, 0.10080000, 0.09558313])),
-            np.array([0.45254109, 0.64708025, 0.61359083]),
+            normalise_vector(np.array([0.20654008, 0.12197225, 0.05136952])),
+            np.array([0.84197033, 0.49722560, 0.20941026]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            normalise_vector(np.array([0.47097710, 0.34950000, 0.11301649])),
-            np.array([0.78853763, 0.58515351, 0.18921887]),
+            normalise_vector(np.array([0.14222010, 0.23042768, 0.10495772])),
+            np.array([0.48971705, 0.79344877, 0.36140872]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            normalise_vector(np.array([0.25506814, 0.19150000, 0.08849752])),
-            np.array([0.77058870, 0.57854241, 0.26736067]),
+            normalise_vector(np.array([0.07818780, 0.06157201, 0.28099326])),
+            np.array([0.26229003, 0.20655044, 0.94262445]),
             decimal=7)
 
 

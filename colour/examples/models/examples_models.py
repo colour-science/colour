@@ -10,7 +10,7 @@ from colour.utilities import message_box
 
 message_box('Colour Models Computations')
 
-XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
+XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
 message_box(('Converting to "CIE xyY" colourspace from given "CIE XYZ" '
              'tristimulus values:\n'
              '\n\t{0}'.format(XYZ)))
@@ -70,7 +70,7 @@ print(colour.XYZ_to_RGB(
 
 print('\n')
 
-RGB = np.array([0.17498817, 0.38819472, 0.32160312])
+RGB = np.array([0.45620519, 0.03081071, 0.04091952])
 message_box(('Converting to "CIE XYZ" tristimulus values from given "RGB" '
              'colourspace values:\n'
              '\n\t{0}'.format(RGB)))
@@ -228,7 +228,7 @@ print(colour.LCHab_to_Lab(LCHab))
 
 print('\n')
 
-XYZ = np.array([0.07049534, 0.10080000, 0.09558313]) * 100
+XYZ = np.array([0.20654008, 0.12197225, 0.05136952]) * 100
 message_box(('Converting to "Hunter L,a,b" colour scale from given "CIE XYZ" '
              'tristimulus values:\n'
              '\n\t{0}'.format(XYZ)))
@@ -259,7 +259,7 @@ print(colour.Hunter_Rdab_to_XYZ(R_d_ab))
 
 print('\n')
 
-XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
+XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
 message_box(('Converting to "IPT" colourspace from given "CIE XYZ" '
              'tristimulus values:\n'
              '\n\t{0}'.format(XYZ)))

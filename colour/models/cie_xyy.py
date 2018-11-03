@@ -7,10 +7,10 @@ Defines the *CIE xyY* colourspace transformations:
 
 -   :func:`colour.XYZ_to_xyY`
 -   :func:`colour.xyY_to_XYZ`
--   :func:`colour.xy_to_xyY`
 -   :func:`colour.xyY_to_xy`
--   :func:`colour.xy_to_XYZ`
+-   :func:`colour.xy_to_xyY`
 -   :func:`colour.XYZ_to_xy`
+-   :func:`colour.xy_to_XYZ`
 
 See Also
 --------
@@ -46,8 +46,8 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'XYZ_to_xyY', 'xyY_to_XYZ', 'xy_to_xyY', 'xyY_to_xy', 'xy_to_XYZ',
-    'XYZ_to_xy'
+    'XYZ_to_xyY', 'xyY_to_XYZ', 'xy_to_xyY', 'xyY_to_xy', 'XYZ_to_xy',
+    'xy_to_XYZ'
 ]
 
 
@@ -91,9 +91,9 @@ def XYZ_to_xyY(
 
     Examples
     --------
-    >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
+    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_xyY(XYZ)  # doctest: +ELLIPSIS
-    array([ 0.2641477...,  0.3777000...,  0.1008    ])
+    array([ 0.5436955...,  0.3210794...,  0.1219722...])
     """
 
     XYZ = to_domain_1(XYZ)
@@ -106,7 +106,8 @@ def XYZ_to_xyY(
     xyY = np.where(
         np.all(XYZ == 0, axis=-1)[..., np.newaxis],
         XYZ_n,
-        tstack([X / (X + Y + Z), Y / (X + Y + Z), from_range_1(Y)]),
+        tstack([X / (X + Y + Z), Y / (X + Y + Z),
+                from_range_1(Y)]),
     )
 
     return xyY
@@ -147,9 +148,9 @@ def xyY_to_XYZ(xyY):
 
     Examples
     --------
-    >>> xyY = np.array([0.26414772, 0.37770001, 0.10080000])
+    >>> xyY = np.array([0.54369557, 0.32107944, 0.12197225])
     >>> xyY_to_XYZ(xyY)  # doctest: +ELLIPSIS
-    array([ 0.0704953...,  0.1008    ,  0.0955831...])
+    array([ 0.2065400...,  0.1219722...,  0.0513695...])
     """
 
     x, y, Y = tsplit(xyY)
@@ -162,6 +163,59 @@ def xyY_to_XYZ(xyY):
     )
 
     return from_range_1(XYZ)
+
+
+def xyY_to_xy(xyY):
+    """
+    Converts from *CIE xyY* colourspace to *xy* chromaticity coordinates.
+
+    ``xyY`` argument with last dimension being equal to 2 will be assumed to be
+    a *xy* chromaticity coordinates argument and will be returned directly by
+    the definition.
+
+    Parameters
+    ----------
+    xyY : array_like
+        *CIE xyY* colourspace array or *xy* chromaticity coordinates.
+
+    Returns
+    -------
+    ndarray
+        *xy* chromaticity coordinates.
+
+    Notes
+    -----
+
+    +------------+-----------------------+---------------+
+    | **Domain** | **Scale - Reference** | **Scale - 1** |
+    +============+=======================+===============+
+    | ``xyY``    | [0, 1]                | [0, 1]        |
+    +------------+-----------------------+---------------+
+
+    References
+    ----------
+    :cite:`Wikipedia2005`
+
+    Examples
+    --------
+    >>> xyY = np.array([0.54369557, 0.32107944, 0.12197225])
+    >>> xyY_to_xy(xyY)  # doctest: +ELLIPSIS
+    array([ 0.54369557...,  0.32107944...])
+    >>> xy = np.array([0.54369557, 0.32107944])
+    >>> xyY_to_xy(xy)  # doctest: +ELLIPSIS
+    array([ 0.54369557...,  0.32107944...])
+    """
+
+    xyY = as_float_array(xyY)
+
+    # Assuming ``xyY`` is actually a *xy* chromaticity coordinates argument and
+    # returning it directly.
+    if xyY.shape[-1] == 2:
+        return xyY
+
+    xy = xyY[..., 0:2]
+
+    return xy
 
 
 def xy_to_xyY(xy, Y=1):
@@ -212,15 +266,15 @@ def xy_to_xyY(xy, Y=1):
 
     Examples
     --------
-    >>> xy = np.array([0.26414772, 0.37770001])
+    >>> xy = np.array([0.54369557, 0.32107944])
     >>> xy_to_xyY(xy)  # doctest: +ELLIPSIS
-    array([ 0.2641477...,  0.3777000...,  1.        ])
-    >>> xy = np.array([0.26414772, 0.37770001, 0.10080000])
+    array([ 0.5436955...,  0.3210794...,  1.        ])
+    >>> xy = np.array([0.54369557, 0.32107944, 1.00000000])
     >>> xy_to_xyY(xy)  # doctest: +ELLIPSIS
-    array([ 0.2641477...,  0.3777000...,  0.1008...])
-    >>> xy = np.array([0.26414772, 0.37770001])
+    array([ 0.5436955...,  0.3210794...,  1.        ])
+    >>> xy = np.array([0.54369557, 0.32107944])
     >>> xy_to_xyY(xy, 100)  # doctest: +ELLIPSIS
-    array([   0.2641477...,    0.3777000...,  100.        ])
+    array([   0.5436955...,    0.3210794...,  100.        ])
     """
 
     xy = as_float_array(xy)
@@ -240,18 +294,19 @@ def xy_to_xyY(xy, Y=1):
     return xyY
 
 
-def xyY_to_xy(xyY):
+def XYZ_to_xy(
+        XYZ,
+        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']):
     """
-    Converts from *CIE xyY* colourspace to *xy* chromaticity coordinates.
-
-    ``xyY`` argument with last dimension being equal to 2 will be assumed to be
-    a *xy* chromaticity coordinates argument and will be returned directly by
-    the definition.
+    Returns the *xy* chromaticity coordinates from given *CIE XYZ* tristimulus
+    values.
 
     Parameters
     ----------
-    xyY : array_like
-        *CIE xyY* colourspace array or *xy* chromaticity coordinates.
+    XYZ : array_like
+        *CIE XYZ* tristimulus values.
+    illuminant : array_like, optional
+        Reference *illuminant* chromaticity coordinates.
 
     Returns
     -------
@@ -264,7 +319,7 @@ def xyY_to_xy(xyY):
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``xyY``    | [0, 1]                | [0, 1]        |
+    | ``XYZ``    | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
 
     References
@@ -273,24 +328,12 @@ def xyY_to_xy(xyY):
 
     Examples
     --------
-    >>> xyY = np.array([0.26414772, 0.37770001, 0.10080000])
-    >>> xyY_to_xy(xyY)  # doctest: +ELLIPSIS
-    array([ 0.2641477...,  0.3777000...])
-    >>> xy = np.array([0.26414772, 0.37770001])
-    >>> xyY_to_xy(xy)  # doctest: +ELLIPSIS
-    array([ 0.2641477...,  0.3777000...])
+    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+    >>> XYZ_to_xy(XYZ)  # doctest: +ELLIPSIS
+    array([ 0.5436955...,  0.3210794...])
     """
 
-    xyY = as_float_array(xyY)
-
-    # Assuming ``xyY`` is actually a *xy* chromaticity coordinates argument and
-    # returning it directly.
-    if xyY.shape[-1] == 2:
-        return xyY
-
-    xy = xyY[..., 0:2]
-
-    return xy
+    return xyY_to_xy(XYZ_to_xyY(XYZ, illuminant))
 
 
 def xy_to_XYZ(xy):
@@ -329,51 +372,9 @@ def xy_to_XYZ(xy):
 
     Examples
     --------
-    >>> xy = np.array([0.26414772, 0.37770001])
+    >>> xy = np.array([0.54369557, 0.32107944])
     >>> xy_to_XYZ(xy)  # doctest: +ELLIPSIS
-    array([ 0.6993585...,  1.        ,  0.9482453...])
+    array([ 1.6933366...,  1.        ,  0.4211574...])
     """
 
     return xyY_to_XYZ(xy_to_xyY(xy))
-
-
-def XYZ_to_xy(
-        XYZ,
-        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']):
-    """
-    Returns the *xy* chromaticity coordinates from given *CIE XYZ* tristimulus
-    values.
-
-    Parameters
-    ----------
-    XYZ : array_like
-        *CIE XYZ* tristimulus values.
-    illuminant : array_like, optional
-        Reference *illuminant* chromaticity coordinates.
-
-    Returns
-    -------
-    ndarray
-        *xy* chromaticity coordinates.
-
-    Notes
-    -----
-
-    +------------+-----------------------+---------------+
-    | **Domain** | **Scale - Reference** | **Scale - 1** |
-    +============+=======================+===============+
-    | ``XYZ``    | [0, 1]                | [0, 1]        |
-    +------------+-----------------------+---------------+
-
-    References
-    ----------
-    :cite:`Wikipedia2005`
-
-    Examples
-    --------
-    >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
-    >>> XYZ_to_xy(XYZ)  # doctest: +ELLIPSIS
-    array([ 0.2641477...,  0.3777000...])
-    """
-
-    return xyY_to_xy(XYZ_to_xyY(XYZ, illuminant))

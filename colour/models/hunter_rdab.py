@@ -90,12 +90,12 @@ def XYZ_to_Hunter_Rdab(XYZ,
     Examples
     --------
     >>> import numpy as np
-    >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313]) * 100
+    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952]) * 100
     >>> D65 = HUNTERLAB_ILLUMINANTS[
     ...     'CIE 1931 2 Degree Standard Observer']['D65']
     >>> XYZ_to_Hunter_Rdab(XYZ, D65.XYZ_n, D65.K_ab)
     ... # doctest: +ELLIPSIS
-    array([ 10.08      , -17.8442708...,   3.3906045...])
+    array([ 12.197225 ...,  57.1253787...,  17.4624134...])
     """
 
     X, Y, Z = tsplit(to_domain_100(XYZ))
@@ -167,12 +167,11 @@ def Hunter_Rdab_to_XYZ(R_d_ab,
     Examples
     --------
     >>> import numpy as np
-    >>> R_d_ab = np.array([ 10.08000000, -17.84427080, 3.39060457])
+    >>> R_d_ab = np.array([12.19722500, 57.12537874, 17.46241341])
     >>> D65 = HUNTERLAB_ILLUMINANTS[
     ...     'CIE 1931 2 Degree Standard Observer']['D65']
     >>> Hunter_Rdab_to_XYZ(R_d_ab, D65.XYZ_n, D65.K_ab)
-    ... # doctest: +ELLIPSIS
-    array([  7.049534...,  10.08    ...,   9.558313...])
+    array([ 20.654008,  12.197225,   5.136952])
     """
 
     R_d, a_Rd, b_Rd = tsplit(to_domain_100(R_d_ab))

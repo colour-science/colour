@@ -84,14 +84,14 @@ def closest_spectral_locus_wavelength(xy, xy_n, xy_s, reverse=False):
 
     Examples
     --------
-    >>> xy = np.array([0.26415, 0.37770])
-    >>> xy_n = np.array([0.31270, 0.32900])
+    >>> xy = np.array([0.54369557, 0.32107944])
+    >>> xy_n = np.array([0.31270000, 0.32900000])
     >>> xy_s = XYZ_to_xy(CMFS['CIE 1931 2 Degree Standard Observer'].values)
     >>> ix, intersect = closest_spectral_locus_wavelength(xy, xy_n, xy_s)
     >>> print(ix) #
-    144
+    256
     >>> print(intersect) # doctest: +ELLIPSIS
-    [ 0.0036969...  0.6389577...]
+    [ 0.6835474...  0.3162840...]
     """
 
     xy = as_float_array(xy)
@@ -168,22 +168,22 @@ def dominant_wavelength(xy,
     *Dominant wavelength* computation:
 
     >>> from pprint import pprint
-    >>> xy = np.array([0.26415, 0.37770])
-    >>> xy_n = np.array([0.31270, 0.32900])
+    >>> xy = np.array([0.54369557, 0.32107944])
+    >>> xy_n = np.array([0.31270000, 0.32900000])
     >>> cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
     >>> pprint(dominant_wavelength(xy, xy_n, cmfs))  # doctest: +ELLIPSIS
-    (array(504...),
-     array([ 0.0036969...,  0.6389577...]),
-     array([ 0.0036969...,  0.6389577...]))
+    (array(616...),
+     array([ 0.6835474...,  0.3162840...]),
+     array([ 0.6835474...,  0.3162840...]))
 
     *Complementary dominant wavelength* is returned if the first intersection
     is located on the line of purples:
 
-    >>> xy = np.array([0.35000, 0.25000])
+    >>> xy = np.array([0.37605506, 0.24452225])
     >>> pprint(dominant_wavelength(xy, xy_n, cmfs))  # doctest: +ELLIPSIS
-    (array(-520...),
-     array([ 0.4133314...,  0.1158663...]),
-     array([ 0.0743553...,  0.8338050...]))
+    (array(-509.0),
+     array([ 0.4572314...,  0.1362814...]),
+     array([ 0.0104096...,  0.7320745...]))
     """
 
     xy = as_float_array(xy)
@@ -254,22 +254,22 @@ def complementary_wavelength(xy,
     *Complementary wavelength* computation:
 
     >>> from pprint import pprint
-    >>> xy = np.array([0.35000, 0.25000])
-    >>> xy_n = np.array([0.31270, 0.32900])
+    >>> xy = np.array([0.37605506, 0.24452225])
+    >>> xy_n = np.array([0.31270000, 0.32900000])
     >>> cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
     >>> pprint(complementary_wavelength(xy, xy_n, cmfs))  # doctest: +ELLIPSIS
-    (array(520...),
-     array([ 0.0743553...,  0.8338050...]),
-     array([ 0.0743553...,  0.8338050...]))
+    (array(509.0),
+     array([ 0.0104096...,  0.7320745...]),
+     array([ 0.0104096...,  0.7320745...]))
 
     *Dominant wavelength* is returned if the first intersection is located on
     the line of purples:
 
-    >>> xy = np.array([0.26415, 0.37770])
+    >>> xy = np.array([0.54369557, 0.32107944])
     >>> pprint(complementary_wavelength(xy, xy_n, cmfs))  # doctest: +ELLIPSIS
-    (array(-504...),
-     array([ 0.4897494...,  0.1514035...]),
-     array([ 0.0036969...,  0.6389577...]))
+    (array(492.0),
+     array([ 0.0364795 ,  0.3384712...]),
+     array([ 0.0364795 ,  0.3384712...]))
     """
 
     return dominant_wavelength(xy, xy_n, cmfs, True)
@@ -302,11 +302,11 @@ def excitation_purity(xy,
 
     Examples
     --------
-    >>> xy = np.array([0.28350, 0.68700])
-    >>> xy_n = np.array([0.31270, 0.32900])
+    >>> xy = np.array([0.54369557, 0.32107944])
+    >>> xy_n = np.array([0.31270000, 0.32900000])
     >>> cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
     >>> excitation_purity(xy, xy_n, cmfs)  # doctest: +ELLIPSIS
-    0.9386035...
+    0.6228856...
     """
 
     _wl, xy_wl, _xy_cwl = dominant_wavelength(xy, xy_n, cmfs)
@@ -343,11 +343,11 @@ def colorimetric_purity(xy,
 
     Examples
     --------
-    >>> xy = np.array([0.28350, 0.68700])
-    >>> xy_n = np.array([0.31270, 0.32900])
+    >>> xy = np.array([0.54369557, 0.32107944])
+    >>> xy_n = np.array([0.31270000, 0.32900000])
     >>> cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
     >>> colorimetric_purity(xy, xy_n, cmfs)  # doctest: +ELLIPSIS
-    0.9705976...
+    0.6135828...
     """
 
     xy = as_float_array(xy)

@@ -89,9 +89,9 @@ def Lab_to_DIN99(Lab, k_E=1, k_CH=1):
     Examples
     --------
     >>> import numpy as np
-    >>> Lab = np.array([37.98562910, -23.62907688, -4.41746615])
+    >>> Lab = np.array([41.52787529, 52.63858304, 26.92317922])
     >>> Lab_to_DIN99(Lab)  # doctest: +ELLIPSIS
-    array([ 49.6010164..., -16.2314573...,   1.0761812...])
+    array([ 53.2282198...,  28.4163465...,   3.8983955...])
     """
 
     L, a, b = tsplit(to_domain_100(Lab))
@@ -166,9 +166,9 @@ def DIN99_to_Lab(Lab_99, k_E=1, k_CH=1):
     Examples
     --------
     >>> import numpy as np
-    >>> Lab_99 = np.array([49.60101649, -16.2314573, 1.07618123])
+    >>> Lab_99 = np.array([53.22821988, 28.41634656, 3.89839552])
     >>> DIN99_to_Lab(Lab_99)  # doctest: +ELLIPSIS
-    array([ 37.9856291..., -23.6290768...,  -4.4174661...])
+    array([ 41.5278752...,  52.6385830...,  26.9231792...])
     """
 
     L_99, a_99, b_99 = tsplit(to_domain_100(Lab_99))

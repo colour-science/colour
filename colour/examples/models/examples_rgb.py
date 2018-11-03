@@ -42,7 +42,7 @@ print(np.dot(colour.RGB_COLOURSPACES['ITU-R BT.709'].XYZ_to_RGB_matrix,
 
 print('\n')
 
-RGB = np.array([0.35521588, 0.41000000, 0.24177934])
+RGB = np.array([0.45620519, 0.03081071, 0.04091952])
 message_box(
     ('Converting from "ITU-R BT.709" colourspace to "ACEScg" colourspace '
      'given "RGB" values:\n'

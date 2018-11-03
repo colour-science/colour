@@ -93,62 +93,62 @@ def XYZ_to_colourspace_model(XYZ, illuminant, model, **kwargs):
     Examples
     --------
     >>> import numpy as np
-    >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
+    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> W = np.array([0.31270, 0.32900])
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
     ... XYZ, W, 'CIE XYZ')
-    array([ 0.0704953...,  0.1008    ,  0.0955831...])
+    array([ 0.2065400...,  0.1219722...,  0.0513695...])
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
     ... XYZ, W, 'CIE xyY')
-    array([ 0.2641477...,  0.3777000...,  0.1008    ])
+    array([ 0.5436955...,  0.3210794...,  0.1219722...])
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
     ... XYZ, W, 'CIE xy')
-    array([ 0.2641477...,  0.3777000...])
+    array([ 0.5436955...,  0.3210794...])
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
     ... XYZ, W, 'CIE Lab')
-    array([ 0.3798562..., -0.2261920...,  0.0419811...])
+    array([ 0.4152787...,  0.5263858...,  0.2692317...])
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
     ... XYZ, W, 'CIE LCHab')
-    array([ 0.3798562...,  0.2300549...,  0.4707932...])
+    array([ 0.4152787...,  0.5912425...,  0.0752458...])
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
     ... XYZ, W, 'CIE Luv')
-    array([ 0.3798562..., -0.2319781...,  0.0839962...])
+    array([ 0.4152787...,  0.9683626...,  0.1775210...])
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
     ... XYZ, W, 'CIE Luv uv')
-    array([ 0.1508531...,  0.4853297...])
+    array([ 0.3772021...,  0.5012026...])
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
     ... XYZ, W, 'CIE LCHuv')
-    array([ 0.3798562...,  0.2467169...,  0.4447093...])
+    array([ 0.4152787...,  0.9844997...,  0.0288560...])
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
     ... XYZ, W, 'CIE UCS uv')
-    array([ 0.1508531...,  0.32355314...])
+    array([ 0.3772021...,  0.3341350...])
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
     ... XYZ, W, 'CIE UVW')
-    array([-0.2259840...,  0.0545505...,  0.3700411...])
+    array([ 0.9455035...,  0.1155536...,  0.4054757...])
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
     ... XYZ, W, 'DIN 99')
-    array([ 0.4960101..., -0.1434414...,  0.0500936...])
+    array([ 0.5322822...,  0.2841634...,  0.0389839...])
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
     ... XYZ, W, 'Hunter Lab')
-    array([ 0.3174901..., -0.1445192...,  0.0275860...])
+    array([ 0.3492452...,  0.4703302...,  0.1439330...])
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
     ... XYZ, W, 'Hunter Rdab')
-    array([ 0.1008    , -0.1785766...,  0.0340869...])
+    array([ 0.1219722...,  0.5709032...,  0.1747109...])
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
     ... XYZ, W, 'IPT')
-    array([ 0.3657112..., -0.1111479...,  0.0159474...])
+    array([ 0.3842619...,  0.3848730...,  0.1888683...])
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
     ... XYZ, W, 'JzAzBz')
-    array([ 0.0035780..., -0.0029550...,  0.0003899...])
+    array([ 0.0053504...,  0.0092430...,  0.0052600...])
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
     ... XYZ, W, 'OSA UCS')
-    array([-0.0449006...,  0.0070305...,  0.0303463...])
+    array([-0.0300499...,  0.0299713..., -0.0966784...])
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
     ... XYZ, W, 'hdr-CIELAB')
-    array([ 0.4826598..., -0.2697517...,  0.0499243...])
+    array([ 0.5187002...,  0.6047633...,  0.3214551...])
     >>> XYZ_to_colourspace_model(  # doctest: +ELLIPSIS
     ... XYZ, W, 'hdr-IPT')
-    array([ 0.4649938..., -0.1282251...,  0.0185029...])
+    array([ 0.4839376...,  0.4244990...,  0.2201954...])
     """
 
     with domain_range_scale(1):

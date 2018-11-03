@@ -34,46 +34,39 @@ class TestXYZ_to_UVW(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            XYZ_to_UVW(np.array([0.07049534, 0.10080000, 0.09558313]) * 100),
-            np.array([-22.5984056, 5.4550548, 37.0041149]),
+            XYZ_to_UVW(np.array([0.20654008, 0.12197225, 0.05136952]) * 100),
+            np.array([94.55035725, 11.55536523, 40.54757405]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            XYZ_to_UVW(np.array([0.47097710, 0.34950000, 0.11301649]) * 100),
-            np.array([95.46141455, 28.82744812, 64.73769793]),
+            XYZ_to_UVW(np.array([0.14222010, 0.23042768, 0.10495772]) * 100),
+            np.array([-36.92762376, 28.90425105, 54.14071478]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            XYZ_to_UVW(np.array([0.25506814, 0.19150000, 0.08849752]) * 100),
-            np.array([66.70791022, 17.13288996, 49.88513399]),
+            XYZ_to_UVW(np.array([0.07818780, 0.06157201, 0.28099326]) * 100),
+            np.array([-10.60111550, -41.94580000, 28.82134002]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_UVW(
-                np.array([0.07049534, 0.10080000, 0.09558313]) * 100,
+                np.array([0.20654008, 0.12197225, 0.05136952]) * 100,
                 np.array([0.44757, 0.40745])),
-            np.array([-50.56405108, -12.49600540, 37.00411491]),
+            np.array([63.90676310, -8.11466183, 40.54757405]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_UVW(
-                np.array([0.07049534, 0.10080000, 0.09558313]) * 100,
-                np.array([0.31270, 0.32900])),
-            np.array([-22.59840563, 5.45505477, 37.00411491]),
+                np.array([0.20654008, 0.12197225, 0.05136952]) * 100,
+                np.array([0.34570, 0.35850])),
+            np.array([88.56798946, 4.61154385, 40.54757405]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_UVW(
-                np.array([0.07049534, 0.10080000, 0.09558313]) * 100,
-                np.array([0.37208, 0.37529])),
-            np.array([-33.35371445, -4.60753245, 37.00411491]),
-            decimal=7)
-
-        np.testing.assert_almost_equal(
-            XYZ_to_UVW(
-                np.array([0.07049534, 0.10080000, 0.09558313]) * 100,
-                np.array([0.37208, 0.37529, 0.10080])),
-            np.array([-33.35371445, -4.60753245, 37.00411491]),
+                np.array([0.20654008, 0.12197225, 0.05136952]) * 100,
+                np.array([0.34570, 0.35850, 1.00000])),
+            np.array([88.56798946, 4.61154385, 40.54757405]),
             decimal=7)
 
     def test_n_dimensional_XYZ_to_UVW(self):
@@ -82,9 +75,9 @@ class TestXYZ_to_UVW(unittest.TestCase):
         support.
         """
 
-        XYZ = np.array([0.07049534, 0.10080000, 0.09558313]) * 100
+        XYZ = np.array([0.20654008, 0.12197225, 0.05136952]) * 100
         illuminant = np.array([0.31270, 0.32900])
-        UVW = np.array([-22.5984056, 5.4550548, 37.0041149])
+        UVW = np.array([94.55035725, 11.55536523, 40.54757405])
         np.testing.assert_almost_equal(
             XYZ_to_UVW(XYZ, illuminant), UVW, decimal=7)
 
@@ -109,7 +102,7 @@ class TestXYZ_to_UVW(unittest.TestCase):
         range scale support.
         """
 
-        XYZ = np.array([0.07049534, 0.10080000, 0.09558313]) * 100
+        XYZ = np.array([0.20654008, 0.12197225, 0.05136952]) * 100
         illuminant = np.array([0.31270, 0.32900])
         UVW = XYZ_to_UVW(XYZ, illuminant)
 
@@ -147,46 +140,39 @@ class TestUVW_to_XYZ(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            UVW_to_XYZ(np.array([-22.5984056, 5.4550548, 37.0041149])),
-            np.array([0.07049534, 0.10080000, 0.09558313]) * 100,
+            UVW_to_XYZ(np.array([94.55035725, 11.55536523, 40.54757405])),
+            np.array([0.20654008, 0.12197225, 0.05136952]) * 100,
             decimal=7)
 
         np.testing.assert_almost_equal(
-            UVW_to_XYZ(np.array([95.46141455, 28.82744812, 64.73769793])),
-            np.array([0.47097710, 0.34950000, 0.11301649]) * 100,
+            UVW_to_XYZ(np.array([-36.92762376, 28.90425105, 54.14071478])),
+            np.array([0.14222010, 0.23042768, 0.10495772]) * 100,
             decimal=7)
 
         np.testing.assert_almost_equal(
-            UVW_to_XYZ(np.array([66.70791022, 17.13288996, 49.88513399])),
-            np.array([0.25506814, 0.19150000, 0.08849752]) * 100,
+            UVW_to_XYZ(np.array([-10.60111550, -41.94580000, 28.82134002])),
+            np.array([0.07818780, 0.06157201, 0.28099326]) * 100,
             decimal=7)
 
         np.testing.assert_almost_equal(
             UVW_to_XYZ(
-                np.array([-50.56405108, -12.49600540, 37.00411491]),
+                np.array([63.90676310, -8.11466183, 40.54757405]),
                 np.array([0.44757, 0.40745])),
-            np.array([0.07049534, 0.10080000, 0.09558313]) * 100,
+            np.array([0.20654008, 0.12197225, 0.05136952]) * 100,
             decimal=7)
 
         np.testing.assert_almost_equal(
             UVW_to_XYZ(
-                np.array([-22.59840563, 5.45505477, 37.00411491]),
-                np.array([0.31270, 0.32900])),
-            np.array([0.07049534, 0.10080000, 0.09558313]) * 100,
+                np.array([88.56798946, 4.61154385, 40.54757405]),
+                np.array([0.34570, 0.35850])),
+            np.array([0.20654008, 0.12197225, 0.05136952]) * 100,
             decimal=7)
 
         np.testing.assert_almost_equal(
             UVW_to_XYZ(
-                np.array([-33.35371445, -4.60753245, 37.00411491]),
-                np.array([0.37208, 0.37529])),
-            np.array([0.07049534, 0.10080000, 0.09558313]) * 100,
-            decimal=7)
-
-        np.testing.assert_almost_equal(
-            UVW_to_XYZ(
-                np.array([-33.35371445, -4.60753245, 37.00411491]),
-                np.array([0.37208, 0.37529, 0.10080])),
-            np.array([0.07049534, 0.10080000, 0.09558313]) * 100,
+                np.array([88.56798946, 4.61154385, 40.54757405]),
+                np.array([0.34570, 0.35850, 1.00000])),
+            np.array([0.20654008, 0.12197225, 0.05136952]) * 100,
             decimal=7)
 
     def test_n_dimensional_UVW_to_XYZ(self):
@@ -195,9 +181,9 @@ class TestUVW_to_XYZ(unittest.TestCase):
         support.
         """
 
-        UVW = np.array([-22.5984056, 5.4550548, 37.0041149])
+        UVW = np.array([94.55035725, 11.55536523, 40.54757405])
         illuminant = np.array([0.31270, 0.32900])
-        XYZ = np.array([0.07049534, 0.10080000, 0.09558313]) * 100
+        XYZ = np.array([0.20654008, 0.12197225, 0.05136952]) * 100
         np.testing.assert_almost_equal(
             UVW_to_XYZ(UVW, illuminant), XYZ, decimal=7)
 
@@ -222,7 +208,7 @@ class TestUVW_to_XYZ(unittest.TestCase):
         range scale support.
         """
 
-        UVW = np.array([-22.5984056, 5.4550548, 37.0041149])
+        UVW = np.array([94.55035725, 11.55536523, 40.54757405])
         illuminant = np.array([0.31270, 0.32900])
         XYZ = UVW_to_XYZ(UVW, illuminant)
 

@@ -118,8 +118,8 @@ def luminance_Newhall1943(V):
 
     Examples
     --------
-    >>> luminance_Newhall1943(3.74629715382)  # doctest: +ELLIPSIS
-    10.4089874...
+    >>> luminance_Newhall1943(4.08244375)  # doctest: +ELLIPSIS
+    12.5500788...
     """
 
     V = to_domain_10(V)
@@ -166,8 +166,8 @@ def luminance_ASTMD153508(V):
 
     Examples
     --------
-    >>> luminance_ASTMD153508(3.74629715382)  # doctest: +ELLIPSIS
-    10.1488096...
+    >>> luminance_ASTMD153508(4.08244375)  # doctest: +ELLIPSIS
+    12.2363426...
     """
 
     V = to_domain_10(V)
@@ -216,10 +216,10 @@ def luminance_CIE1976(L_star, Y_n=100):
 
     Examples
     --------
-    >>> luminance_CIE1976(37.98562910)  # doctest: +ELLIPSIS
-    10.0800000...
-    >>> luminance_CIE1976(37.98562910, 95)  # doctest: +ELLIPSIS
-    9.5760000...
+    >>> luminance_CIE1976(41.527875844653451)  # doctest: +ELLIPSIS
+    12.1972253...
+    >>> luminance_CIE1976(41.527875844653451, 95)  # doctest: +ELLIPSIS
+    11.5873640...
     """
 
     L_star = to_domain_100(L_star)
@@ -278,9 +278,9 @@ def luminance_Fairchild2010(L_hdr, epsilon=1.836):
 
     Examples
     --------
-    >>> luminance_Fairchild2010(24.902290269546651, 1.836)
+    >>> luminance_Fairchild2010(31.996390226262736, 1.836)
     ... # doctest: +ELLIPSIS
-    0.1007999...
+    0.1219722...
     """
 
     L_hdr = to_domain_100(L_hdr)
@@ -335,11 +335,11 @@ def luminance_Fairchild2011(L_hdr, epsilon=0.474, method='hdr-CIELAB'):
 
     Examples
     --------
-    >>> luminance_Fairchild2011(26.459509817572265)  # doctest: +ELLIPSIS
-    0.0227726...
-    >>> luminance_Fairchild2011(26.352467267703549, method='hdr-IPT')
+    >>> luminance_Fairchild2011(51.852958445912506)  # doctest: +ELLIPSIS
+    0.1219722...
+    >>> luminance_Fairchild2011(51.643108411718522, method='hdr-IPT')
     ... # doctest: +ELLIPSIS
-    0.0227726...
+    0.1219722...
     """
 
     L_hdr = to_domain_100(L_hdr)
@@ -436,19 +436,21 @@ def luminance(LV, method='CIE 1976', **kwargs):
 
     Examples
     --------
-    >>> luminance(37.98562910)  # doctest: +ELLIPSIS
-    10.0800000...
-    >>> luminance(37.98562910, Y_n=100)  # doctest: +ELLIPSIS
-    10.0800000...
-    >>> luminance(37.98562910, Y_n=95)  # doctest: +ELLIPSIS
-    9.5760000...
-    >>> luminance(37.98562910, method='Newhall 1943')  # doctest: +ELLIPSIS
-    10.7248419...
-    >>> luminance(37.98562910, method='ASTM D1535-08')  # doctest: +ELLIPSIS
-    10.4567636...
-    >>> luminance(37.98562910, epsilon=0.710, method='Fairchild 2011')
+    >>> luminance(41.527875844653451)  # doctest: +ELLIPSIS
+    12.1972253...
+    >>> luminance(41.527875844653451, Y_n=100)  # doctest: +ELLIPSIS
+    12.1972253...
+    >>> luminance(42.51993072812094, Y_n=95)  # doctest: +ELLIPSIS
+    12.1972253...
+    >>> luminance(4.08244375 * 10, method='Newhall 1943')
     ... # doctest: +ELLIPSIS
-    18.0972065...
+    12.5500788...
+    >>> luminance(4.08244375 * 10, method='ASTM D1535-08')
+    ... # doctest: +ELLIPSIS
+    12.2363426...
+    >>> luminance(29.829510892279330, epsilon=0.710, method='Fairchild 2011')
+    ... # doctest: +ELLIPSIS
+    12.1972253...
     """
 
     function = LUMINANCE_METHODS[method]

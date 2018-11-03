@@ -34,12 +34,12 @@ class TestChromaticAdaptation(unittest.TestCase):
         Tests :func:`colour.adaptation.chromatic_adaptation` definition.
         """
 
-        XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
-        XYZ_w = np.array([1.09846607, 1.00000000, 0.35582280])
-        XYZ_wr = np.array([0.95042855, 1.00000000, 1.08890037])
+        XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+        XYZ_w = np.array([0.95045593, 1.00000000, 1.08905775])
+        XYZ_wr = np.array([0.96429568, 1.00000000, 0.82510460])
         np.testing.assert_almost_equal(
             chromatic_adaptation(XYZ, XYZ_w, XYZ_wr),
-            np.array([0.08397461, 0.11413219, 0.28625545]),
+            np.array([0.21638819, 0.12570000, 0.03847494]),
             decimal=7)
 
         Y_o = 0.2
@@ -53,21 +53,21 @@ class TestChromaticAdaptation(unittest.TestCase):
                 Y_o=Y_o,
                 E_o1=E_o,
                 E_o2=E_o),
-            np.array([0.07406828, 0.10209199, 0.26946623]),
+            np.array([0.21347453, 0.12252986, 0.03347887]),
             decimal=7)
 
         L_A = 200
         np.testing.assert_almost_equal(
             chromatic_adaptation(
                 XYZ, XYZ_w, XYZ_wr, method='CMCCAT2000', L_A1=L_A, L_A2=L_A),
-            np.array([0.08036038, 0.10915544, 0.27345224]),
+            np.array([0.21498829, 0.12474711, 0.03910138]),
             decimal=7)
 
         Y_n = 200
         np.testing.assert_almost_equal(
             chromatic_adaptation(
                 XYZ, XYZ_w, XYZ_wr, method='Fairchild 1990', Y_n=Y_n),
-            np.array([0.08357823, 0.10214289, 0.29250657]),
+            np.array([0.21394049, 0.12262315, 0.03891917]),
             decimal=7)
 
     def test_domain_range_scale_chromatic_adaptation(self):
@@ -76,9 +76,9 @@ class TestChromaticAdaptation(unittest.TestCase):
         and range scale support.
         """
 
-        XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
-        XYZ_w = np.array([1.09846607, 1.00000000, 0.35582280])
-        XYZ_wr = np.array([0.95042855, 1.00000000, 1.08890037])
+        XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+        XYZ_w = np.array([0.95045593, 1.00000000, 1.08905775])
+        XYZ_wr = np.array([0.96429568, 1.00000000, 0.82510460])
         Y_o = 0.2
         E_o = 1000
         L_A = 200
