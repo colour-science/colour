@@ -61,7 +61,7 @@ __all__ = [
 
 def XYZ_to_Luv(
         XYZ,
-        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']):
+        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']):
     """
     Converts from *CIE XYZ* tristimulus values to *CIE L\\*u\\*v\\**
     colourspace.
@@ -108,7 +108,7 @@ def XYZ_to_Luv(
     --------
     >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
     >>> XYZ_to_Luv(XYZ)  # doctest: +ELLIPSIS
-    array([ 37.9856291..., -28.8021959...,  -1.3580070...])
+    array([ 37.9856291..., -23.1978161...,   8.3996207...])
     """
 
     X, Y, Z = tsplit(to_domain_1(XYZ))
@@ -131,7 +131,7 @@ def XYZ_to_Luv(
 
 def Luv_to_XYZ(
         Luv,
-        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']):
+        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']):
     """
     Converts from *CIE L\\*u\\*v\\** colourspace to *CIE XYZ* tristimulus
     values.
@@ -176,7 +176,7 @@ def Luv_to_XYZ(
 
     Examples
     --------
-    >>> Luv = np.array([37.9856291, -28.80219593, -1.35800706])
+    >>> Luv = np.array([37.9856291, -23.19781615, 8.39962073])
     >>> Luv_to_XYZ(Luv)  # doctest: +ELLIPSIS
     array([ 0.0704953...,  0.1008    ,  0.0955831...])
     """
@@ -204,7 +204,7 @@ def Luv_to_XYZ(
 
 def Luv_to_uv(
         Luv,
-        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']):
+        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']):
     """
     Returns the :math:`uv^p` chromaticity coordinates from given
     *CIE L\\*u\\*v\\** colourspace array.
@@ -243,7 +243,7 @@ def Luv_to_uv(
 
     Examples
     --------
-    >>> Luv = np.array([37.9856291, -28.80219593, -1.35800706])
+    >>> Luv = np.array([37.9856291, -23.19781615, 8.39962073])
     >>> Luv_to_uv(Luv)  # doctest: +ELLIPSIS
     array([ 0.1508531...,  0.4853297...])
     """

@@ -35,17 +35,17 @@ class TestXYZ_to_UVW(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             XYZ_to_UVW(np.array([0.07049534, 0.10080000, 0.09558313]) * 100),
-            np.array([-28.05797333, -0.88194493, 37.00411491]),
+            np.array([-22.5984056, 5.4550548, 37.0041149]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_UVW(np.array([0.47097710, 0.34950000, 0.11301649]) * 100),
-            np.array([85.91004857, 17.74103859, 64.73769793]),
+            np.array([95.46141455, 28.82744812, 64.73769793]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_UVW(np.array([0.25506814, 0.19150000, 0.08849752]) * 100),
-            np.array([59.34788373, 8.59000007, 49.88513399]),
+            np.array([66.70791022, 17.13288996, 49.88513399]),
             decimal=7)
 
         np.testing.assert_almost_equal(
@@ -83,8 +83,8 @@ class TestXYZ_to_UVW(unittest.TestCase):
         """
 
         XYZ = np.array([0.07049534, 0.10080000, 0.09558313]) * 100
-        illuminant = np.array([0.34570, 0.35850])
-        UVW = np.array([-28.05797333, -0.88194493, 37.00411491])
+        illuminant = np.array([0.31270, 0.32900])
+        UVW = np.array([-22.5984056, 5.4550548, 37.0041149])
         np.testing.assert_almost_equal(
             XYZ_to_UVW(XYZ, illuminant), UVW, decimal=7)
 
@@ -110,7 +110,7 @@ class TestXYZ_to_UVW(unittest.TestCase):
         """
 
         XYZ = np.array([0.07049534, 0.10080000, 0.09558313]) * 100
-        illuminant = np.array([0.34570, 0.35850])
+        illuminant = np.array([0.31270, 0.32900])
         UVW = XYZ_to_UVW(XYZ, illuminant)
 
         d_r = (('reference', 1), (1, 0.01), (100, 1))
@@ -147,17 +147,17 @@ class TestUVW_to_XYZ(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            UVW_to_XYZ(np.array([-28.05797333, -0.88194493, 37.00411491])),
+            UVW_to_XYZ(np.array([-22.5984056, 5.4550548, 37.0041149])),
             np.array([0.07049534, 0.10080000, 0.09558313]) * 100,
             decimal=7)
 
         np.testing.assert_almost_equal(
-            UVW_to_XYZ(np.array([85.91004857, 17.74103859, 64.73769793])),
+            UVW_to_XYZ(np.array([95.46141455, 28.82744812, 64.73769793])),
             np.array([0.47097710, 0.34950000, 0.11301649]) * 100,
             decimal=7)
 
         np.testing.assert_almost_equal(
-            UVW_to_XYZ(np.array([59.34788373, 8.59000007, 49.88513399])),
+            UVW_to_XYZ(np.array([66.70791022, 17.13288996, 49.88513399])),
             np.array([0.25506814, 0.19150000, 0.08849752]) * 100,
             decimal=7)
 
@@ -195,8 +195,8 @@ class TestUVW_to_XYZ(unittest.TestCase):
         support.
         """
 
-        UVW = np.array([-28.05797333, -0.88194493, 37.00411491])
-        illuminant = np.array([0.34570, 0.35850])
+        UVW = np.array([-22.5984056, 5.4550548, 37.0041149])
+        illuminant = np.array([0.31270, 0.32900])
         XYZ = np.array([0.07049534, 0.10080000, 0.09558313]) * 100
         np.testing.assert_almost_equal(
             UVW_to_XYZ(UVW, illuminant), XYZ, decimal=7)
@@ -222,8 +222,8 @@ class TestUVW_to_XYZ(unittest.TestCase):
         range scale support.
         """
 
-        UVW = np.array([-28.05797333, -0.88194493, 37.00411491])
-        illuminant = np.array([0.34570, 0.35850])
+        UVW = np.array([-22.5984056, 5.4550548, 37.0041149])
+        illuminant = np.array([0.31270, 0.32900])
         XYZ = UVW_to_XYZ(UVW, illuminant)
 
         d_r = (('reference', 1), (1, 0.01), (100, 1))

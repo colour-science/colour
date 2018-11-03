@@ -47,7 +47,7 @@ __all__ = ['XYZ_to_Lab', 'Lab_to_XYZ', 'Lab_to_LCHab', 'LCHab_to_Lab']
 
 def XYZ_to_Lab(
         XYZ,
-        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']):
+        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']):
     """
     Converts from *CIE XYZ* tristimulus values to *CIE L\\*a\\*b\\**
     colourspace.
@@ -94,7 +94,7 @@ def XYZ_to_Lab(
     --------
     >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
     >>> XYZ_to_Lab(XYZ)  # doctest: +ELLIPSIS
-    array([ 37.9856291..., -23.6290768...,  -4.4174661...])
+    array([ 37.9856291..., -22.6192065...,   4.1981123...])
     """
 
     XYZ = to_domain_1(XYZ)
@@ -122,7 +122,7 @@ def XYZ_to_Lab(
 
 def Lab_to_XYZ(
         Lab,
-        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']):
+        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']):
     """
     Converts from *CIE L\\*a\\*b\\** colourspace to *CIE XYZ* tristimulus
     values.
@@ -167,7 +167,7 @@ def Lab_to_XYZ(
 
     Examples
     --------
-    >>> Lab = np.array([37.98562910, -23.62907688, -4.41746615])
+    >>> Lab = np.array([37.9856291, -22.61920654, 4.19811236])
     >>> Lab_to_XYZ(Lab)  # doctest: +ELLIPSIS
     array([ 0.0704953...,  0.1008    ,  0.0955831...])
     """

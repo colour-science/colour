@@ -40,9 +40,9 @@ __all__ = ['XYZ_to_Hunter_Rdab', 'Hunter_Rdab_to_XYZ']
 
 def XYZ_to_Hunter_Rdab(XYZ,
                        XYZ_n=HUNTERLAB_ILLUMINANTS[
-                           'CIE 1931 2 Degree Standard Observer']['D50'].XYZ_n,
+                           'CIE 1931 2 Degree Standard Observer']['D65'].XYZ_n,
                        K_ab=HUNTERLAB_ILLUMINANTS[
-                           'CIE 1931 2 Degree Standard Observer']['D50'].K_ab):
+                           'CIE 1931 2 Degree Standard Observer']['D65'].K_ab):
     """
     Converts from *CIE XYZ* tristimulus values to *Hunter Rd,a,b* colour scale.
 
@@ -91,11 +91,11 @@ def XYZ_to_Hunter_Rdab(XYZ,
     --------
     >>> import numpy as np
     >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313]) * 100
-    >>> D50 = HUNTERLAB_ILLUMINANTS[
-    ...     'CIE 1931 2 Degree Standard Observer']['D50']
-    >>> XYZ_to_Hunter_Rdab(XYZ, D50.XYZ_n, D50.K_ab)
+    >>> D65 = HUNTERLAB_ILLUMINANTS[
+    ...     'CIE 1931 2 Degree Standard Observer']['D65']
+    >>> XYZ_to_Hunter_Rdab(XYZ, D65.XYZ_n, D65.K_ab)
     ... # doctest: +ELLIPSIS
-    array([ 10.08      , -18.6765376...,  -3.4432992...])
+    array([ 10.08      , -17.8442708...,   3.3906045...])
     """
 
     X, Y, Z = tsplit(to_domain_100(XYZ))
@@ -117,9 +117,9 @@ def XYZ_to_Hunter_Rdab(XYZ,
 
 def Hunter_Rdab_to_XYZ(R_d_ab,
                        XYZ_n=HUNTERLAB_ILLUMINANTS[
-                           'CIE 1931 2 Degree Standard Observer']['D50'].XYZ_n,
+                           'CIE 1931 2 Degree Standard Observer']['D65'].XYZ_n,
                        K_ab=HUNTERLAB_ILLUMINANTS[
-                           'CIE 1931 2 Degree Standard Observer']['D50'].K_ab):
+                           'CIE 1931 2 Degree Standard Observer']['D65'].K_ab):
     """
     Converts from *Hunter Rd,a,b* colour scale to *CIE XYZ* tristimulus values.
 
@@ -167,10 +167,10 @@ def Hunter_Rdab_to_XYZ(R_d_ab,
     Examples
     --------
     >>> import numpy as np
-    >>> R_d_ab = np.array([10.08000000, -18.67653764, -3.44329925])
-    >>> D50 = HUNTERLAB_ILLUMINANTS[
-    ...     'CIE 1931 2 Degree Standard Observer']['D50']
-    >>> Hunter_Rdab_to_XYZ(R_d_ab, D50.XYZ_n, D50.K_ab)
+    >>> R_d_ab = np.array([ 10.08000000, -17.84427080, 3.39060457])
+    >>> D65 = HUNTERLAB_ILLUMINANTS[
+    ...     'CIE 1931 2 Degree Standard Observer']['D65']
+    >>> Hunter_Rdab_to_XYZ(R_d_ab, D65.XYZ_n, D65.K_ab)
     ... # doctest: +ELLIPSIS
     array([  7.049534...,  10.08    ...,   9.558313...])
     """

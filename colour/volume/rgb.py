@@ -72,7 +72,7 @@ def sample_RGB_colourspace_volume_MonteCarlo(
         samples=10e6,
         limits=np.array([[0, 100], [-150, 150], [-150, 150]]),
         illuminant_Lab=ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
-            'D50'],
+            'D65'],
         chromatic_adaptation_method='CAT02',
         random_generator=random_triplet_generator,
         random_state=None):
@@ -145,7 +145,7 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
 
 def RGB_colourspace_limits(
         colourspace,
-        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']):
+        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']):
     """
     Computes given *RGB* colourspace volume limits in *Lab* colourspace.
 
@@ -165,9 +165,9 @@ def RGB_colourspace_limits(
     --------
     >>> from colour import sRGB_COLOURSPACE as sRGB
     >>> RGB_colourspace_limits(sRGB)  # doctest: +ELLIPSIS
-    array([[   0...        ,  100.0000848...],
-           [ -79.2197012...,   94.6760011...],
-           [-114.7814393...,   96.7261797...]])
+    array([[   0.       ...,  100.       ...],
+           [ -86.182855 ...,   98.2563272...],
+           [-107.8503557...,   94.4894974...]])
     """
 
     Lab = []
@@ -190,7 +190,7 @@ def RGB_colourspace_volume_MonteCarlo(
         samples=10e6,
         limits=np.array([[0, 100], [-150, 150], [-150, 150]], dtype=np.float),
         illuminant_Lab=ILLUMINANTS['CIE 1931 2 Degree Standard Observer'][
-            'D50'],
+            'D65'],
         chromatic_adaptation_method='CAT02',
         random_generator=random_triplet_generator,
         random_state=None,
@@ -248,7 +248,7 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
     >>> RGB_colourspace_volume_MonteCarlo(sRGB, 10e3, random_state=prng,
     ...                                   processes=processes)
     ... # doctest: +ELLIPSIS
-    858...
+    821...
     """
 
     cpu_count = processes if processes else multiprocessing.cpu_count()

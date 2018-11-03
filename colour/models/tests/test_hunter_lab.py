@@ -106,19 +106,19 @@ class TestXYZ_to_Hunter_Lab(unittest.TestCase):
         np.testing.assert_almost_equal(
             XYZ_to_Hunter_Lab(
                 np.array([0.07049534, 0.10080000, 0.09558313]) * 100),
-            np.array([31.74901573, -15.11462629, -2.78660758]),
+            np.array([31.74901573, -14.44108591, 2.74396261]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_Hunter_Lab(
                 np.array([0.47097710, 0.34950000, 0.11301649]) * 100),
-            np.array([59.11852502, 40.84479160, 21.01328651]),
+            np.array([59.11852502, 42.59839622, 27.92230128]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_Hunter_Lab(
                 np.array([0.25506814, 0.19150000, 0.08849752]) * 100),
-            np.array([43.76071297, 29.00314048, 11.24749156]),
+            np.array([43.76071297, 30.29228214, 16.91878583]),
             decimal=7)
 
         h_i = HUNTERLAB_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
@@ -153,12 +153,12 @@ class TestXYZ_to_Hunter_Lab(unittest.TestCase):
         """
 
         h_i = HUNTERLAB_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
-        D50 = h_i['D50']
+        D65 = h_i['D65']
 
         XYZ = np.array([0.07049534, 0.10080000, 0.09558313]) * 100
-        XYZ_n = D50.XYZ_n
-        K_ab = D50.K_ab
-        Lab = np.array([31.74901573, -15.11462629, -2.78660758])
+        XYZ_n = D65.XYZ_n
+        K_ab = D65.K_ab
+        Lab = np.array([31.74901573, -14.44108591, 2.74396261])
         np.testing.assert_almost_equal(
             XYZ_to_Hunter_Lab(XYZ, XYZ_n, K_ab), Lab, decimal=7)
 
@@ -186,11 +186,11 @@ class TestXYZ_to_Hunter_Lab(unittest.TestCase):
         """
 
         h_i = HUNTERLAB_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
-        D50 = h_i['D50']
+        D65 = h_i['D65']
 
         XYZ = np.array([0.07049534, 0.10080000, 0.09558313]) * 100
-        XYZ_n = D50.XYZ_n
-        K_ab = D50.K_ab
+        XYZ_n = D65.XYZ_n
+        K_ab = D65.K_ab
         Lab = XYZ_to_Hunter_Lab(XYZ, XYZ_n, K_ab)
 
         d_r = (('reference', 1), (1, 0.01), (100, 1))
@@ -230,19 +230,19 @@ class TestHunter_Lab_to_XYZ(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             Hunter_Lab_to_XYZ(
-                np.array([31.74901573, -15.11462629, -2.78660758])),
+                np.array([31.74901573, -14.44108591, 2.74396261])),
             np.array([7.04953400, 10.08000000, 9.55831300]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             Hunter_Lab_to_XYZ(
-                np.array([59.11852502, 40.84479160, 21.01328651])),
+                np.array([59.11852502, 42.59839622, 27.92230128])),
             np.array([47.09771001, 34.95000001, 11.30164900]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             Hunter_Lab_to_XYZ(
-                np.array([43.76071297, 29.00314048, 11.24749156])),
+                np.array([43.76071297, 30.29228214, 16.91878583])),
             np.array([25.50681403, 19.15000002, 8.84975199]),
             decimal=7)
 
@@ -278,11 +278,11 @@ class TestHunter_Lab_to_XYZ(unittest.TestCase):
         """
 
         h_i = HUNTERLAB_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
-        D50 = h_i['D50']
+        D65 = h_i['D65']
 
-        Lab = np.array([31.74901573, -15.11462629, -2.78660758])
-        XYZ_n = D50.XYZ_n
-        K_ab = D50.K_ab
+        Lab = np.array([31.74901573, -14.44108591, 2.74396261])
+        XYZ_n = D65.XYZ_n
+        K_ab = D65.K_ab
         XYZ = np.array([0.07049534, 0.10080000, 0.09558313]) * 100
         np.testing.assert_almost_equal(
             Hunter_Lab_to_XYZ(Lab, XYZ_n, K_ab), XYZ, decimal=7)
@@ -311,11 +311,11 @@ class TestHunter_Lab_to_XYZ(unittest.TestCase):
         """
 
         h_i = HUNTERLAB_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
-        D50 = h_i['D50']
+        D65 = h_i['D65']
 
-        Lab = np.array([31.74901573, -15.11462629, -2.78660758])
-        XYZ_n = D50.XYZ_n
-        K_ab = D50.K_ab
+        Lab = np.array([31.74901573, -14.44108591, 2.74396261])
+        XYZ_n = D65.XYZ_n
+        K_ab = D65.K_ab
         XYZ = Hunter_Lab_to_XYZ(Lab, XYZ_n, K_ab)
 
         d_r = (('reference', 1), (1, 0.01), (100, 1))
