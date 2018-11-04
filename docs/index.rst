@@ -67,12 +67,12 @@ Chromatic Adaptation
 
 .. code-block:: python
 
-    >>> XYZ = [0.07049534, 0.10080000, 0.09558313]
-    >>> A = colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['A']
+    >>> XYZ = [0.20654008, 0.12197225, 0.05136952]
     >>> D65 = colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']
+    >>> A = colour.ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['A']
     >>> colour.chromatic_adaptation(
-    ...     XYZ, colour.xy_to_XYZ(A), colour.xy_to_XYZ(D65))
-    array([ 0.08398225,  0.11413379,  0.28629643])
+    ...     XYZ, colour.xy_to_XYZ(D65), colour.xy_to_XYZ(A))
+    array([ 0.2533053 ,  0.13765138,  0.01543307])
     >>> sorted(colour.CHROMATIC_ADAPTATION_METHODS.keys())
     ['CIE 1994', 'CMCCAT2000', 'Fairchild 1990', 'Von Kries']
 
@@ -168,20 +168,20 @@ Dominant, Complementary Wavelength & Colour Purity Computation
 
 .. code-block:: python
 
-    >>> xy = [0.26415, 0.37770]
-    >>> xy_n = [0.31270, 0.32900]
+    >>> xy = [0.54369557, 0.32107944]
+    >>> xy_n = [0.31270000, 0.32900000]
     >>> colour.dominant_wavelength(xy, xy_n)
-    (array(504.0),
-     array([ 0.00369694,  0.63895775]),
-     array([ 0.00369694,  0.63895775]))
+    (array(616.0),
+     array([ 0.68354746,  0.31628409]),
+     array([ 0.68354746,  0.31628409]))
 
 Lightness Computation
 ^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: python
 
-    >>> colour.lightness(10.08)
-    24.902290269546651
+    >>> colour.lightness(12.19722535)
+    41.527875844653451
     >>> sorted(colour.LIGHTNESS_METHODS.keys())
     [u'CIE 1976',
      u'Fairchild 2010',
@@ -195,8 +195,8 @@ Luminance Computation
 
 .. code-block:: python
 
-    >>> colour.luminance(37.98562910)
-    10.080000001314646
+    >>> colour.luminance(41.52787585)
+    12.197225353400775
     >>> sorted(colour.LUMINANCE_METHODS.keys())
     [u'ASTM D1535-08',
      u'CIE 1976',
@@ -271,64 +271,67 @@ CIE xyY Colourspace
 
 .. code-block:: python
 
-    >>> colour.XYZ_to_xyY([0.07049534, 0.10080000, 0.09558313])
-    array([ 0.26414772,  0.37770001,  0.1008    ])
+    >>> colour.XYZ_to_xyY([0.20654008, 0.12197225, 0.05136952])
+    array([ 0.54369557,  0.32107944,  0.12197225])
 
 CIE L*a*b* Colourspace
 **********************
 
 .. code-block:: python
 
-    >>> colour.XYZ_to_Lab([0.07049534, 0.10080000, 0.09558313])
-    array([ 37.9856291 , -23.62907688,  -4.41746615])
+    >>> colour.XYZ_to_Lab([0.20654008, 0.12197225, 0.05136952])
+    array([ 41.52787529,  52.63858304,  26.92317922])
 
 CIE L*u*v* Colourspace
 **********************
 
 .. code-block:: python
 
-    >>> colour.XYZ_to_Luv([0.07049534, 0.10080000, 0.09558313])
-    array([ 37.9856291 , -28.80219593,  -1.35800706])
+    >>> colour.XYZ_to_Luv([0.20654008, 0.12197225, 0.05136952])
+    array([ 41.52787529,  96.83626054,  17.75210149])
 
 CIE 1960 UCS Colourspace
 ************************
 
 .. code-block:: python
 
-    >>> colour.XYZ_to_UCS([0.07049534, 0.10080000, 0.09558313])
-    array([ 0.04699689,  0.1008    ,  0.1637439 ])
+    >>> colour.XYZ_to_UCS([0.20654008, 0.12197225, 0.05136952])
+    array([ 0.13769339,  0.12197225,  0.1053731 ])
 
 CIE 1964 U*V*W* Colourspace
 ***************************
 
 .. code-block:: python
 
-    >>> colour.XYZ_to_UVW([7.04953400, 10.08000000, 9.55831300])
-    array([-28.05797333,  -0.88194493,  37.00411491])
+    >>> XYZ = [0.20654008 * 100, 0.12197225 * 100, 0.05136952* 100]
+    >>> colour.XYZ_to_UVW(XYZ)
+    array([ 94.55035725,  11.55536523,  40.54757405])
 
 Hunter L,a,b Colour Scale
 *************************
 
 .. code-block:: python
 
-    >>> colour.XYZ_to_Hunter_Lab([7.049534, 10.080000, 9.558313])
-    array([ 31.74901573, -15.11462629,  -2.78660758])
+    >>> XYZ = [0.20654008 * 100, 0.12197225 * 100, 0.05136952* 100]
+    >>> colour.XYZ_to_Hunter_Lab(XYZ)
+    array([ 34.92452577,  47.06189858,  14.38615107])
 
 Hunter Rd,a,b Colour Scale
 **************************
 
 .. code-block:: python
 
-    >>> colour.XYZ_to_Hunter_Rdab([7.049534, 10.080000, 9.558313])
-    array([ 10.08      , -18.67653764,  -3.44329925])
+    >>> XYZ = [0.20654008 * 100, 0.12197225 * 100, 0.05136952* 100]
+    >>> colour.XYZ_to_Hunter_Rdab(XYZ)
+    array([ 12.197225  ,  57.12537874,  17.46241341])
 
 CAM02-LCD, CAM02-SCD, and CAM02-UCS Colourspaces - Luo, Cui and Li (2006)
 *************************************************************************
 
 .. code-block:: python
 
-    >>> XYZ = np.array([19.01, 20.00, 21.78])
-    >>> XYZ_w = np.array([95.05, 100.00, 108.88])
+    >>> XYZ = [0.20654008 * 100, 0.12197225 * 100, 0.05136952* 100]
+    >>> XYZ_w = [95.05, 100.00, 108.88]
     >>> L_A = 318.31
     >>> Y_b = 20.0
     >>> surround = colour.CIECAM02_VIEWING_CONDITIONS['Average']
@@ -336,15 +339,15 @@ CAM02-LCD, CAM02-SCD, and CAM02-UCS Colourspaces - Luo, Cui and Li (2006)
             XYZ, XYZ_w, L_A, Y_b, surround)
     >>> JMh = (specification.J, specification.M, specification.h)
     >>> colour.JMh_CIECAM02_to_CAM02UCS(JMh)
-    array([ 54.90433134,  -0.08442362,  -0.06848314])
+    array([ 47.16899898,  38.72623785,  15.8663383 ])
 
 CAM16-LCD, CAM16-SCD, and CAM16-UCS Colourspaces - Li et al. (2017)
 *******************************************************************
 
 .. code-block:: python
 
-    >>> XYZ = np.array([19.01, 20.00, 21.78])
-    >>> XYZ_w = np.array([95.05, 100.00, 108.88])
+    >>> XYZ = [0.20654008 * 100, 0.12197225 * 100, 0.05136952* 100]
+    >>> XYZ_w = [95.05, 100.00, 108.88]
     >>> L_A = 318.31
     >>> Y_b = 20.0
     >>> surround = colour.CAM16_VIEWING_CONDITIONS['Average']
@@ -352,30 +355,39 @@ CAM16-LCD, CAM16-SCD, and CAM16-UCS Colourspaces - Li et al. (2017)
             XYZ, XYZ_w, L_A, Y_b, surround)
     >>> JMh = (specification.J, specification.M, specification.h)
     >>> colour.JMh_CAM16_to_CAM16UCS(JMh)
-    array([ 54.90445024,  -0.08562125,  -0.0646796 ])
+    array([ 46.55542238,  40.22460974,  14.25288392]
 
 IPT Colourspace
 ***************
 
 .. code-block:: python
 
-    >>> colour.XYZ_to_IPT([0.07049534, 0.10080000, 0.09558313])
-    array([ 0.36571124, -0.11114798,  0.01594746])
+    >>> colour.XYZ_to_IPT([0.20654008, 0.12197225, 0.05136952])
+    array([ 0.38426191,  0.38487306,  0.18886838])
+
+DIN99 Colourspace
+*****************
+
+.. code-block:: python
+
+    >>> Lab = [41.52787529, 52.63858304, 26.92317922]
+    >>> colour.Lab_to_DIN99(Lab)
+    array([ 53.22821988,  28.41634656,   3.89839552])
 
 hdr-CIELAB Colourspace
 **********************
 
 .. code-block:: python
 
-    >>> colour.XYZ_to_hdr_CIELab([0.07049534, 0.10080000, 0.09558313])
-    array([ 24.90206646, -46.83127607, -10.14274843])
+    >>> colour.XYZ_to_hdr_CIELab([0.20654008, 0.12197225, 0.05136952])
+    array([ 51.87002062,  60.4763385 ,  32.14551912])
 
 hdr-IPT Colourspace
 *******************
 
 .. code-block:: python
 
-    >>> colour.XYZ_to_hdr_IPT([0.07049534, 0.10080000, 0.09558313])
+    >>> colour.XYZ_to_hdr_IPT([0.20654008, 0.12197225, 0.05136952])
     array([ 25.18261761, -22.62111297,   3.18511729])
 
 OSA UCS Colourspace
@@ -383,15 +395,24 @@ OSA UCS Colourspace
 
 .. code-block:: python
 
-    >>> colour.XYZ_to_OSA_UCS([7.04953400, 10.08000000, 9.55831300])
-    array([-4.4900683 ,  0.70305936,  3.03463664])
+    >>> XYZ = [0.20654008 * 100, 0.12197225 * 100, 0.05136952* 100]
+    >>> colour.XYZ_to_OSA_UCS(XYZ)
+    array([-3.0049979 ,  2.99713697, -9.66784231])
+
+JzAzBz Colourspace
+******************
+
+.. code-block:: python
+
+    >>> colour.XYZ_to_JzAzBz([0.20654008, 0.12197225, 0.05136952])
+    array([ 0.00535048,  0.00924302,  0.00526007])
 
 RGB Colourspace and Transformations
 ***********************************
 
 .. code-block:: python
 
-    >>> XYZ = [0.07049534, 0.10080000, 0.09558313]
+    >>> XYZ = [0.21638819, 0.12570000, 0.03847493]
     >>> illuminant_XYZ = [0.34570, 0.35850]
     >>> illuminant_RGB = [0.31270, 0.32900]
     >>> chromatic_adaptation_transform = 'Bradford'
@@ -405,7 +426,7 @@ RGB Colourspace and Transformations
              illuminant_RGB,
              XYZ_to_RGB_matrix,
              chromatic_adaptation_transform)
-    array([ 0.01100154,  0.12735048,  0.11632713])
+    array([ 0.45595571,  0.03039702,  0.04087245])
 
 RGB Colourspace Derivation
 **************************
@@ -440,24 +461,16 @@ ICTCP Colour Encoding
 
 .. code-block:: python
 
-    >>> colour.RGB_to_ICTCP([0.35181454, 0.26934757, 0.21288023])
-    array([ 0.09554079, -0.00890639,  0.01389286])
-
-JzAzBz Colourspace
-******************
-
-.. code-block:: python
-
-    >>> colour.XYZ_to_JzAzBz(XYZ)
-    array([ 0.00357804, -0.00295507,  0.00038998])
+    >>> colour.RGB_to_ICTCP([0.45620519, 0.03081071, 0.04091952])
+    array([ 0.07351364,  0.00475253,  0.09351596])
 
 HSV Colourspace
 ***************
 
 .. code-block:: python
 
-    >>> colour.RGB_to_HSV([0.49019608, 0.98039216, 0.25098039])
-    array([ 0.27867383,  0.744     ,  0.98039216])
+    >>> colour.RGB_to_HSV([0.45620519, 0.03081071, 0.04091952])
+    array([ 0.99603944,  0.93246304,  0.45620519])
 
 Prismatic Colourspace
 *********************
@@ -487,9 +500,9 @@ RGB Colourspaces
      u'CIE RGB',
      u'Cinema Gamut',
      u'ColorMatch RGB',
+     u'DCDM XYZ',
      u'DCI-P3',
      u'DCI-P3+',
-     u'P3-D65',
      u'DRAGONcolor',
      u'DRAGONcolor2',
      u'Don RGB 4',
@@ -502,6 +515,7 @@ RGB Colourspaces
      u'ITU-R BT.709',
      u'Max RGB',
      u'NTSC',
+     u'P3-D65',
      u'Pal/Secam',
      u'ProPhoto RGB',
      u'Protune Native',
@@ -517,6 +531,7 @@ RGB Colourspaces
      u'S-Gamut3',
      u'S-Gamut3.Cine',
      u'SMPTE 240M',
+     u'Sharp RGB',
      u'V-Gamut',
      u'Xtreme RGB',
      'aces',
@@ -605,23 +620,25 @@ Chromatic Adaptation Models
 
 .. code-block:: python
 
-    >>> XYZ = [0.07049534, 0.10080000, 0.09558313]
-    >>> XYZ_w = [1.09846607, 1.00000000, 0.35582280]
-    >>> XYZ_wr = [0.95042855, 1.00000000, 1.08890037]
+    >>> XYZ = [0.20654008, 0.12197225, 0.05136952]
+    >>> XYZ_w = [0.95045593, 1.00000000, 1.08905775]
+    >>> XYZ_wr = [1.09846607, 1.00000000, 0.35582280]
     >>> colour.chromatic_adaptation_VonKries(XYZ, XYZ_w, XYZ_wr)
-    array([ 0.08397461,  0.11413219,  0.28625545])
+    array([ 0.2533053 ,  0.13765138,  0.01543307])
+    >>> sorted(colour.CHROMATIC_ADAPTATION_METHODS.keys())
+    ['CIE 1994', 'CMCCAT2000', 'Fairchild 1990', 'Von Kries']
 
 Colour Appearance Models
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: python
 
-    >>> XYZ = [19.01, 20.00, 21.78]
+    >>> XYZ = [0.20654008 * 100, 0.12197225 * 100, 0.05136952* 100]
     >>> XYZ_w = [95.05, 100.00, 108.88]
     >>> L_A = 318.31
     >>> Y_b = 20.0
     >>> colour.XYZ_to_CIECAM02(XYZ, XYZ_w, L_A, Y_b)
-    CIECAM02_Specification(J=41.731091132513917, C=0.10470775717103062, h=219.04843265831178, s=2.3603053739196032, Q=195.37132596607671, M=0.10884217566914849, H=278.06073585667758, HC=None)
+    CIECAM02_Specification(J=34.434525727858997, C=67.365010921125915, h=22.279164147957076, s=62.814855853327131, Q=177.47124941102123, M=70.024939419291385, H=2.689608534423904, HC=None)
 
 Colour Difference
 ^^^^^^^^^^^^^^^^^
@@ -670,8 +687,8 @@ Munsell Value
 
 .. code-block:: python
 
-    >>> colour.munsell_value(10.1488096782)
-    3.7462971142584354
+    >>> colour.munsell_value(12.23634268)
+    4.0824437076525664
     >>> sorted(colour.MUNSELL_VALUE_METHODS.keys())
     [u'ASTM D1535-08',
      u'Ladd 1955',
@@ -750,18 +767,19 @@ Reflectance Recovery
 
 .. code-block:: python
 
-    >>> colour.XYZ_to_spectral([0.07049534, 0.10080000, 0.09558313])
-    SpectralPowerDistribution([[  3.60000000e+02,   7.96361498e-04],
-                               [  3.65000000e+02,   7.96489667e-04],
-                               [  3.70000000e+02,   7.96543669e-04],
+    >>> colour.XYZ_to_spectral([0.20654008, 0.12197225, 0.05136952])
+    SpectralPowerDistribution([[  3.60000000e+02,   7.73462151e-02],
+                               [  3.65000000e+02,   7.73632975e-02],
+                               [  3.70000000e+02,   7.74299705e-02],
                                ...
-                               [  8.20000000e+02,   1.71014294e-04],
-                               [  8.25000000e+02,   1.71621924e-04],
-                               [  8.30000000e+02,   1.72026883e-04]],
+                               [  8.20000000e+02,   3.93126353e-01],
+                               [  8.25000000e+02,   3.93158148e-01],
+                               [  8.30000000e+02,   3.93163548e-01]],
                               interpolator=SpragueInterpolator,
                               interpolator_args={},
                               extrapolator=Extrapolator,
                               extrapolator_args={u'right': None, u'method': u'Constant', u'left': None})
+
     >>> sorted(colour.REFLECTANCE_RECOVERY_METHODS.keys())
     ['Meng 2015', 'Smits 1999']
 
