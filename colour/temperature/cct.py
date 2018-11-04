@@ -907,7 +907,7 @@ def CCT_to_xy_Kang2002(CCT):
     Examples
     --------
     >>> CCT_to_xy_Kang2002(6504.38938305)  # doctest: +ELLIPSIS
-    array([ 0.313426...,  0.3235959...])
+    array([ 0.313426 ...,  0.3235959...])
     """
 
     CCT = as_float_array(CCT)

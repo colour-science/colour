@@ -762,7 +762,7 @@ def munsell_specification_to_xyY(specification):
     >>> munsell_specification_to_xyY((2.1, 8.0, 17.9, 4))  # doctest: +ELLIPSIS
     array([ 0.4400632...,  0.5522428...,  0.5761962...])
     >>> munsell_specification_to_xyY(8.9)  # doctest: +ELLIPSIS
-    array([ 0.31006  ,  0.31616  ,  0.746134...])
+    array([ 0.31006  ,  0.31616  ,  0.7461345...])
     """
 
     if is_grey_munsell_colour(specification):
@@ -847,7 +847,7 @@ def munsell_colour_to_xyY(munsell_colour):
     >>> munsell_colour_to_xyY('4.2YR 8.1/5.3')  # doctest: +ELLIPSIS
     array([ 0.3873694...,  0.3575165...,  0.59362   ])
     >>> munsell_colour_to_xyY('N8.9')  # doctest: +ELLIPSIS
-    array([ 0.31006  ,  0.31616  ,  0.746134...])
+    array([ 0.31006  ,  0.31616  ,  0.7461345...])
     """
 
     specification = munsell_colour_to_munsell_specification(munsell_colour)
@@ -2180,7 +2180,7 @@ def munsell_specification_to_xy(specification):
     --------
     >>> # Doctests ellipsis for Python 2.x compatibility.
     >>> munsell_specification_to_xy((2.1, 8.0, 17.9, 4))  # doctest: +ELLIPSIS
-    array([ 0.440063...,  0.5522428...])
+    array([ 0.4400632...,  0.5522428...])
     >>> munsell_specification_to_xy(8)  # doctest: +ELLIPSIS
     array([ 0.31006...,  0.31616...])
     """

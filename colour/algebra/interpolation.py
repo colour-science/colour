@@ -342,7 +342,7 @@ class KernelInterpolator(object):
     ...     kernel=kernel_lanczos,
     ...     kernel_args={'a': 16})
     >>> f([0.25, 0.75])  # doctest: +ELLIPSIS
-    array([ 5.396179...,  5.652109...])
+    array([ 5.3961792...,  5.6521093...])
     """
 
     def __init__(self,

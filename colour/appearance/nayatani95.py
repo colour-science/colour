@@ -333,7 +333,7 @@ def XYZ_to_RGB_Nayatani95(XYZ):
     --------
     >>> XYZ = np.array([19.01, 20.00, 21.78])
     >>> XYZ_to_RGB_Nayatani95(XYZ)  # doctest: +ELLIPSIS
-    array([ 20.000520...,  19.999783...,  19.998831...])
+    array([ 20.0005206...,  19.999783 ...,  19.9988316...])
     """
 
     return dot_vector(NAYATANI95_XYZ_TO_RGB_MATRIX, XYZ)

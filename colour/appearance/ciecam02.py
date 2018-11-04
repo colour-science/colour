@@ -488,7 +488,7 @@ def chromatic_induction_factors(n):
     Examples
     --------
     >>> chromatic_induction_factors(0.2)  # doctest: +ELLIPSIS
-    array([ 1.000304...,  1.000304...])
+    array([ 1.000304,  1.000304])
     """
 
     n = as_float_array(n)
@@ -548,7 +548,7 @@ def viewing_condition_dependent_parameters(Y_b, Y_w, L_A):
     --------
     >>> viewing_condition_dependent_parameters(20.0, 100.0, 318.31)
     ... # doctest: +ELLIPSIS
-    array([ 0.2...,  1.1675444...,  1.000304...,  1.000304...,  1.9272136...])
+    array([ 0.2...,  1.1675444...,  1.000304  ,  1.000304  ,  1.9272136...])
     """
 
     Y_b = as_float_array(Y_b)

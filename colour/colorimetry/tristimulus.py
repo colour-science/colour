@@ -1095,7 +1095,7 @@ def wavelength_to_XYZ(
     >>> from colour import CMFS
     >>> cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
     >>> wavelength_to_XYZ(480, cmfs)  # doctest: +ELLIPSIS
-    array([ 0.09564  ,  0.13902  ,  0.812950...])
+    array([ 0.09564  ,  0.13902  ,  0.8129501...])
     >>> wavelength_to_XYZ(480.5, cmfs)  # doctest: +ELLIPSIS
     array([ 0.0914287...,  0.1418350...,  0.7915726...])
     """
