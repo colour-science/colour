@@ -176,7 +176,7 @@ def XYZ_to_spectral(XYZ, method='Meng 2015', **kwargs):
                                [ 644.4444    ,    0.41185795],
                                [ 682.2222    ,    0.41185795],
                                [ 720.        ,    0.41180754]],
-                              interpolator=CubicSplineInterpolator,
+                              interpolator=LinearInterpolator,
                               interpolator_args={},
                               extrapolator=Extrapolator,
                               extrapolator_args={...})

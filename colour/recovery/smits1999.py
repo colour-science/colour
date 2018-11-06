@@ -142,7 +142,7 @@ def RGB_to_spectral_Smits1999(RGB):
                                [ 644.4444    ,    0.4118579...],
                                [ 682.2222    ,    0.4118579...],
                                [ 720.        ,    0.4118075...]],
-                              interpolator=CubicSplineInterpolator,
+                              interpolator=LinearInterpolator,
                               interpolator_args={},
                               extrapolator=Extrapolator,
                               extrapolator_args={...})
