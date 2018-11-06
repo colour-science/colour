@@ -205,7 +205,7 @@ def OSA_UCS_to_XYZ(Ljg, optimisation_parameters=None):
 
     def function_error(XYZ, Ljg):
         """
-        error function.
+        Error function.
         """
 
         # Error must be computed in "reference" domain and range.
