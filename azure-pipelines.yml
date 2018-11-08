@@ -10,26 +10,26 @@ jobs:
     matrix:
       Python27 Windows:
         python.version: '2.7'
-        image: 'vs2017-win2016'
+        vmImage: 'vs2017-win2016'
       Python36 Windows:
         python.version: '3.6'
-        image: 'vs2017-win2016'
+        vmImage: 'vs2017-win2016'
       Python37 Windows:
         python.version: '3.7'
-        image: 'vs2017-win2016'
+        vmImage: 'vs2017-win2016'
       Python27 macOS:
         python.version: '2.7'
-        image: 'xcode9-macos10.13'
+        vmImage: 'xcode9-macos10.13'
       Python36 macOS:
         python.version: '3.6'
-        image: 'xcode9-macos10.13'
+        vmImage: 'xcode9-macos10.13'
       Python37 macOS:
         python.version: '3.7'
-        image: 'xcode9-macos10.13'
+        vmImage: 'xcode9-macos10.13'
     maxParallel: 6
 
   pool:
-    vmImage: ${{ image }}
+    vmImage: ${{ vmImage }}
 
   steps:
   - task: UsePythonVersion@0
