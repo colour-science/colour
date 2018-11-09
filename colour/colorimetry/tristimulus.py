@@ -850,8 +850,8 @@ def multi_spectral_to_XYZ_integration(
     ----------
     msa : array_like
         Multi-spectral array :math:`msa`, the wavelengths are expected to be
-        in the last axis, e.g., for a 512x384 multi-spectral image with 77
-        bins, ``msa`` shape should be (384, 512, 77).
+        in the last axis, e.g. for a 512x384 multi-spectral image with 77 bins,
+        ``msa`` shape should be (384, 512, 77).
     shape : SpectralShape, optional
         Spectral shape of the multi-spectral array :math:`msa`, ``cmfs`` and
         ``illuminant`` will be aligned with it.
@@ -976,8 +976,8 @@ def multi_spectral_to_XYZ(
     ----------
     msa : array_like
         Multi-spectral array :math:`msa`, the wavelengths are expected to be
-        in the last axis, e.g., for a 512x384 multi-spectral image with 77
-        bins, ``msa`` shape should be (384, 512, 77).
+        in the last axis, e.g. for a 512x384 multi-spectral image with 77 bins,
+        ``msa`` shape should be (384, 512, 77).
     shape : SpectralShape, optional
         Spectral shape of the multi-spectral array :math:`msa`, ``cmfs`` and
         ``illuminant`` will be aligned with it.

@@ -214,7 +214,7 @@ def gaussian_spd_fwhm(peak_wavelength, fwhm, shape=DEFAULT_SPECTRAL_SHAPE):
     peak_wavelength : numeric
         Wavelength the gaussian spectral power distribution will peak at.
     fwhm : numeric
-        Full width at half maximum, i.e., width of the gaussian spectral power
+        Full width at half maximum, i.e. width of the gaussian spectral power
         distribution measured between those points on the *y* axis which are
         half the maximum amplitude.
     shape : SpectralShape, optional
@@ -277,9 +277,9 @@ def gaussian_spd(mu_peak_wavelength,
         will peak at.
     sigma_fwhm : numeric
         Standard deviation :math:`sigma` of the gaussian spectral power
-        distribution  or Full width at half maximum, i.e., width of the
-        gaussian spectral power distribution measured between those points on
-        the *y* axis which are half the maximum amplitude.
+        distribution  or Full width at half maximum, i.e. width of the gaussian
+        spectral power distribution measured between those points on the *y*
+        axis which are half the maximum amplitude.
     shape : SpectralShape, optional
         Spectral shape used to create the spectral power distribution.
     method : unicode, optional
@@ -330,7 +330,7 @@ def single_led_spd_Ohno2005(peak_wavelength,
     peak_wavelength : numeric
         Wavelength the single *LED* spectral power distribution will peak at.
     fwhm : numeric
-        Full width at half maximum, i.e., width of the underlying gaussian
+        Full width at half maximum, i.e. width of the underlying gaussian
         spectral power distribution measured between those points on the *y*
         axis which are half the maximum amplitude.
     shape : SpectralShape, optional
@@ -394,7 +394,7 @@ def single_led_spd(peak_wavelength,
     peak_wavelength : numeric
         Wavelength the single *LED* spectral power distribution will peak at.
     fwhm : numeric
-        Full width at half maximum, i.e., width of the underlying gaussian
+        Full width at half maximum, i.e. width of the underlying gaussian
         spectral power distribution measured between those points on the *y*
         axis which are half the maximum amplitude.
     shape : SpectralShape, optional
@@ -446,10 +446,10 @@ def multi_led_spd_Ohno2005(peak_wavelengths,
     ----------
     peak_wavelengths : array_like
         Wavelengths the multi *LED* spectral power distribution will peak at,
-        i.e., the peaks for each generated single *LED* spectral power
+        i.e. the peaks for each generated single *LED* spectral power
         distributions.
     fwhm : array_like
-        Full widths at half maximum, i.e., widths of the underlying gaussian
+        Full widths at half maximum, i.e. widths of the underlying gaussian
         spectral power distributions measured between those points on the *y*
         axis which are half the maximum amplitude.
     peak_power_ratios : array_like, optional
@@ -552,10 +552,10 @@ def multi_led_spd(peak_wavelengths,
     ----------
     peak_wavelengths : array_like
         Wavelengths the multi *LED* spectral power distribution will peak at,
-        i.e., the peaks for each generated single *LED* spectral power
+        i.e. the peaks for each generated single *LED* spectral power
         distributions.
     fwhm : array_like
-        Full widths at half maximum, i.e., widths of the underlying gaussian
+        Full widths at half maximum, i.e. widths of the underlying gaussian
         spectral power distributions measured between those points on the *y*
         axis which are half the maximum amplitude.
     peak_power_ratios : array_like, optional

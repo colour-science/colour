@@ -673,7 +673,7 @@ def filter_passthrough(mapping,
         its type is one of the mapping element types) or list
         of filterers.
     anchors : bool, optional
-        Whether to use Regex line anchors, i.e., *^* and *$* are added,
+        Whether to use Regex line anchors, i.e. *^* and *$* are added,
         surrounding the filterers patterns.
     allow_non_siblings : bool, optional
         Whether to allow non-siblings to be also passed through.
@@ -743,7 +743,7 @@ def filter_RGB_colourspaces(filterers,
         passed through directly if its type is one of the mapping element
         types) or list of filterers.
     anchors : bool, optional
-        Whether to use Regex line anchors, i.e., *^* and *$* are added,
+        Whether to use Regex line anchors, i.e. *^* and *$* are added,
         surrounding the filterers patterns.
     allow_non_siblings : bool, optional
         Whether to allow non-siblings to be also passed through.
@@ -777,7 +777,7 @@ RGB_ColourMatchingFunctions or XYZ_ColourMatchingFunctions or array_like
         passed through directly if its type is one of the mapping element
         types) or list of filterers.
     anchors : bool, optional
-        Whether to use Regex line anchors, i.e., *^* and *$* are added,
+        Whether to use Regex line anchors, i.e. *^* and *$* are added,
         surrounding the filterers patterns.
     allow_non_siblings : bool, optional
         Whether to allow non-siblings to be also passed through.
@@ -808,7 +808,7 @@ def filter_illuminants(filterers,
         (which is passed through directly if its type is one of the mapping
         element types) or list of filterers.
     anchors : bool, optional
-        Whether to use Regex line anchors, i.e., *^* and *$* are added,
+        Whether to use Regex line anchors, i.e. *^* and *$* are added,
         surrounding the filterers patterns.
     allow_non_siblings : bool, optional
         Whether to allow non-siblings to be also passed through.
@@ -839,7 +839,7 @@ def filter_colour_checkers(filterers,
         instance (which is passed through directly if its type is one of the
         mapping element types) or list of filterers.
     anchors : bool, optional
-        Whether to use Regex line anchors, i.e., *^* and *$* are added,
+        Whether to use Regex line anchors, i.e. *^* and *$* are added,
         surrounding the filterers patterns.
     allow_non_siblings : bool, optional
         Whether to allow non-siblings to be also passed through.

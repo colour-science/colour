@@ -146,11 +146,11 @@ Scale - Reference
 
 **'Reference'** is the default domain-range scale of
 `Colour <https://github.com/colour-science/Colour/>`__, objects adopt the
-implemented reference, i.e., paper, publication, etc.., domain-range scale.
+implemented reference, i.e. paper, publication, etc.., domain-range scale.
 
-The **'Reference'** domain-range scale is inconsistent, e.g., colour appearance
+The **'Reference'** domain-range scale is inconsistent, e.g. colour appearance
 models, spectral conversions are typically in domain-range `[0, 100]` while RGB
-models will operate in domain-range `[0, 1]`. Some objects, e.g.,
+models will operate in domain-range `[0, 1]`. Some objects, e.g.
 :func:`colour.colorimetry.lightness_Fairchild2011` definition have mismatched
 domain-range: input domain `[0, 1]` and output range `[0, 100]`.
 
@@ -172,8 +172,8 @@ domain-range `[0, 1]`:
 
     The conversion to **'1'** domain-range scale is a *soft* normalisation and
     similarly to the **'Reference'** domain-range scale it is normal that you
-    encounter values exceeding *1*, e.g., High Dynamic Range Imagery (HDRI) or
-    negative values, e.g., out-of-gamut RGB colourspace values.
+    encounter values exceeding *1*, e.g. High Dynamic Range Imagery (HDRI) or
+    negative values, e.g. out-of-gamut RGB colourspace values.
 
 Understanding the Domain-Range Scale of an Object
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -281,7 +281,7 @@ Setting the **'1'** domain-range scale has the following effect on the
 :func:`colour.adaptation.chromatic_adaptation_CIE1994` definition:
 
 As it expects values in domain `[0, 100]`, scaling occurs and the
-relevant input values, i.e., the values listed in the domain table, ``XYZ_1``
+relevant input values, i.e. the values listed in the domain table, ``XYZ_1``
 and ``Y_o`` are converted from domain `[0, 1]` to domain `[0, 100]` by
 :func:`colour.utilities.to_domain_100` definition and conversely
 return value ``XYZ_2`` is converted from range `[0, 100]` to range `[0, 1]` by

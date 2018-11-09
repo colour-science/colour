@@ -407,7 +407,7 @@ def filter_mapping(mapping, filterers, anchors=True, flags=re.IGNORECASE):
     filterers : unicode or object or array_like
         Filterer pattern for given mapping elements or a list of filterers.
     anchors : bool, optional
-        Whether to use Regex line anchors, i.e., *^* and *$* are added,
+        Whether to use Regex line anchors, i.e. *^* and *$* are added,
         surrounding the filterer pattern.
     flags : int, optional
         Regex flags.
@@ -451,7 +451,7 @@ def filter_mapping(mapping, filterers, anchors=True, flags=re.IGNORECASE):
         filterer : unicode or object
             Filterer pattern for given mapping elements.
         anchors : bool, optional
-            Whether to use Regex line anchors, i.e., *^* and *$* are added,
+            Whether to use Regex line anchors, i.e. *^* and *$* are added,
             surrounding the filterer pattern.
         flags : int, optional
             Regex flags.
@@ -530,7 +530,7 @@ def get_domain_range_scale():
     available:
 
     -   **'Reference'**, the default *Colour* domain-range scale which varies
-        depending on the referenced algorithm, e.g., [0, 1], [0, 10], [0, 100],
+        depending on the referenced algorithm, e.g. [0, 1], [0, 10], [0, 100],
         [0, 255], etc...
     -   **'1'**, a domain-range scale normalised to [0, 1], it is important to
         acknowledge that this is a soft normalisation and it is possible to
@@ -552,7 +552,7 @@ def set_domain_range_scale(scale='Reference'):
     available:
 
     -   **'Reference'**, the default *Colour* domain-range scale which varies
-        depending on the referenced algorithm, e.g., [0, 1], [0, 10], [0, 100],
+        depending on the referenced algorithm, e.g. [0, 1], [0, 10], [0, 100],
         [0, 255], etc...
     -   **'1'**, a domain-range scale normalised to [0, 1], it is important to
         acknowledge that this is a soft normalisation and it is possible to
@@ -581,7 +581,7 @@ class domain_range_scale(object):
     scale. The following scales are available:
 
     -   **'Reference'**, the default *Colour* domain-range scale which varies
-        depending on the referenced algorithm, e.g., [0, 1], [0, 10], [0, 100],
+        depending on the referenced algorithm, e.g. [0, 1], [0, 10], [0, 100],
         [0, 255], etc...
     -   **'1'**, a domain-range scale normalised to [0, 1], it is important to
         acknowledge that this is a soft normalisation and it is possible to

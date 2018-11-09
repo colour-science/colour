@@ -79,7 +79,7 @@ class Removed(namedtuple('Removed', ('name', ))):
 
 class FutureRename(namedtuple('FutureRename', ('name', 'new_name'))):
     """
-    A class used for future object name deprecation, i.e., object name will
+    A class used for future object name deprecation, i.e. object name will
     change in a future release.
 
     Parameters
@@ -133,7 +133,7 @@ class FutureRemove(namedtuple('FutureRemove', ('name', 'access'))):
 class FutureAccessChange(
         namedtuple('FutureAccessChange', ('access', 'new_access'))):
     """
-    A class used for future object access deprecation, i.e., object access will
+    A class used for future object access deprecation, i.e. object access will
     change in a future release.
 
     Parameters
@@ -161,7 +161,7 @@ class FutureAccessChange(
 
 class FutureAccessRemove(namedtuple('FutureAccessRemove', ('name', 'access'))):
     """
-    A class used for future object access removal, i.e., object access will
+    A class used for future object access removal, i.e. object access will
     be removed in a future release.
 
     Parameters
@@ -270,8 +270,8 @@ def get_attribute(attribute):
     Parameters
     ----------
     attribute : unicode
-        Attribute to retrieve, ``attribute`` must have a namespace module,
-        e.g., *colour.models.eotf_BT2020*.
+        Attribute to retrieve, ``attribute`` must have a namespace module, e.g.
+        *colour.models.eotf_BT2020*.
 
     Returns
     -------
