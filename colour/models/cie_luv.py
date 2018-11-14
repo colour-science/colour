@@ -61,7 +61,7 @@ __all__ = [
 
 def XYZ_to_Luv(
         XYZ,
-        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']):
+        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']):
     """
     Converts from *CIE XYZ* tristimulus values to *CIE L\\*u\\*v\\**
     colourspace.
@@ -106,9 +106,9 @@ def XYZ_to_Luv(
 
     Examples
     --------
-    >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
+    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_Luv(XYZ)  # doctest: +ELLIPSIS
-    array([ 37.9856291..., -28.8021959...,  -1.3580070...])
+    array([ 41.5278752...,  96.8362605...,  17.7521014...])
     """
 
     X, Y, Z = tsplit(to_domain_1(XYZ))
@@ -131,7 +131,7 @@ def XYZ_to_Luv(
 
 def Luv_to_XYZ(
         Luv,
-        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']):
+        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']):
     """
     Converts from *CIE L\\*u\\*v\\** colourspace to *CIE XYZ* tristimulus
     values.
@@ -176,9 +176,9 @@ def Luv_to_XYZ(
 
     Examples
     --------
-    >>> Luv = np.array([37.9856291, -28.80219593, -1.35800706])
+    >>> Luv = np.array([41.52787529, 96.83626054, 17.75210149])
     >>> Luv_to_XYZ(Luv)  # doctest: +ELLIPSIS
-    array([ 0.0704953...,  0.1008    ,  0.0955831...])
+    array([ 0.2065400...,  0.1219722...,  0.0513695...])
     """
 
     L, u, v = tsplit(to_domain_100(Luv))
@@ -204,7 +204,7 @@ def Luv_to_XYZ(
 
 def Luv_to_uv(
         Luv,
-        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']):
+        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']):
     """
     Returns the :math:`uv^p` chromaticity coordinates from given
     *CIE L\\*u\\*v\\** colourspace array.
@@ -243,9 +243,9 @@ def Luv_to_uv(
 
     Examples
     --------
-    >>> Luv = np.array([37.9856291, -28.80219593, -1.35800706])
+    >>> Luv = np.array([41.52787529, 96.83626054, 17.75210149])
     >>> Luv_to_uv(Luv)  # doctest: +ELLIPSIS
-    array([ 0.1508531...,  0.4853297...])
+    array([ 0.3772021...,  0.5012026...])
     """
 
     Luv = to_domain_100(Luv)
@@ -278,9 +278,9 @@ def Luv_uv_to_xy(uv):
 
     Examples
     --------
-    >>> uv = np.array([0.150853098829857, 0.485329708543180])
+    >>> uv = np.array([0.37720213, 0.50120264])
     >>> Luv_uv_to_xy(uv)  # doctest: +ELLIPSIS
-    array([ 0.2641477...,  0.3777000...])
+    array([ 0.5436955...,  0.3210794...])
     """
 
     u, v = tsplit(uv)
@@ -312,9 +312,9 @@ def xy_to_Luv_uv(xy):
 
     Examples
     --------
-    >>> xy = np.array([0.26414772, 0.37770001])
+    >>> xy = np.array([0.54369558, 0.32107944])
     >>> xy_to_Luv_uv(xy)  # doctest: +ELLIPSIS
-    array([ 0.1508531...,  0.4853297...])
+    array([ 0.3772021...,  0.5012026...])
     """
 
     x, y = tsplit(xy)
@@ -369,9 +369,9 @@ def Luv_to_LCHuv(Luv):
 
     Examples
     --------
-    >>> Luv = np.array([37.9856291, -28.80219593, -1.35800706])
+    >>> Luv = np.array([41.52787529, 96.83626054, 17.75210149])
     >>> Luv_to_LCHuv(Luv)  # doctest: +ELLIPSIS
-    array([  37.9856291...,   28.8341927...,  182.6994640...])
+    array([ 41.5278752...,  98.4499795...,  10.3881634...])
     """
 
     L, u, v = tsplit(Luv)
@@ -427,9 +427,9 @@ def LCHuv_to_Luv(LCHuv):
 
     Examples
     --------
-    >>> LCHuv = np.array([37.98562910, 28.83419279, 182.69946404])
+    >>> LCHuv = np.array([41.52787529, 98.44997950, 10.38816348])
     >>> LCHuv_to_Luv(LCHuv)  # doctest: +ELLIPSIS
-    array([ 37.9856291..., -28.8021959...,  -1.3580070...])
+    array([ 41.5278752...,  96.8362605...,  17.7521014...])
     """
 
     L, C, H = tsplit(LCHuv)

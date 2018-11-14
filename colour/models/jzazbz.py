@@ -146,9 +146,9 @@ def XYZ_to_JzAzBz(XYZ_D65, constants=JZAZBZ_CONSTANTS):
 
     Examples
     --------
-    >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
+    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_JzAzBz(XYZ)  # doctest: +ELLIPSIS
-    array([ 0.0035780..., -0.0029550...,  0.0003899...])
+    array([ 0.0053504...,  0.0092430...,  0.0052600...])
     """
 
     X_D65, Y_D65, Z_D65 = tsplit(to_domain_1(XYZ_D65))
@@ -217,9 +217,9 @@ def JzAzBz_to_XYZ(JzAzBz, constants=JZAZBZ_CONSTANTS):
 
     Examples
     --------
-    >>> JzAzBz = np.array([0.00357804, -0.00295507, 0.00038998])
+    >>> JzAzBz = np.array([0.00535048, 0.00924302, 0.00526007])
     >>> JzAzBz_to_XYZ(JzAzBz)  # doctest: +ELLIPSIS
-    array([ 0.0704953...,  0.1008000...,  0.0955831...])
+    array([ 0.2065402...,  0.1219723...,  0.0513696...])
     """
 
     J_z, A_z, B_z = tsplit(to_domain_1(JzAzBz))

@@ -304,29 +304,28 @@ class TestRGBLuminance(unittest.TestCase):
 
         self.assertAlmostEqual(
             RGB_luminance(
-                np.array([50.0, 50.0, 50.0]),
+                np.array([0.18, 0.18, 0.18]),
                 np.array(
                     [0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]),
                 np.array([0.32168, 0.33767])),
-            50.00000000,
+            0.18000000,
             places=7)
 
         self.assertAlmostEqual(
             RGB_luminance(
-                np.array([74.6, 16.1, 100.0]),
+                np.array([0.21959402, 0.06986677, 0.04703877]),
                 np.array(
                     [0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]),
                 np.array([0.32168, 0.33767])),
-            30.17011667,
+            0.123014562384318,
             places=7)
 
         self.assertAlmostEqual(
             RGB_luminance(
-                np.array([40.6, 4.2, 67.4]),
-                np.array(
-                    [0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]),
-                np.array([0.32168, 0.33767])),
-            12.16160184,
+                np.array([0.45620519, 0.03081071, 0.04091952]),
+                np.array([0.6400, 0.3300, 0.3000, 0.6000, 0.1500, 0.0600]),
+                np.array([0.31270, 0.32900])),
+            0.121995947729870,
             places=7)
 
     def test_n_dimensional_RGB_luminance(self):
@@ -335,10 +334,10 @@ class TestRGBLuminance(unittest.TestCase):
         n_dimensional arrays support.
         """
 
-        RGB = np.array([50.0, 50.0, 50.0]),
+        RGB = np.array([0.18, 0.18, 0.18]),
         P = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700]),
         W = np.array([0.32168, 0.33767])
-        Y = 50
+        Y = 0.18000000
         np.testing.assert_almost_equal(RGB_luminance(RGB, P, W), Y)
 
         RGB = np.tile(RGB, (6, 1))

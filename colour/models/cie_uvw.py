@@ -41,7 +41,7 @@ __all__ = ['XYZ_to_UVW', 'UVW_to_XYZ']
 
 def XYZ_to_UVW(
         XYZ,
-        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']):
+        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']):
     """
     Converts from *CIE XYZ* tristimulus values to *CIE 1964 U\\*V\\*W\\**
     colourspace.
@@ -91,9 +91,9 @@ def XYZ_to_UVW(
     Examples
     --------
     >>> import numpy as np
-    >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313]) * 100
+    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952]) * 100
     >>> XYZ_to_UVW(XYZ)  # doctest: +ELLIPSIS
-    array([-28.0579733...,  -0.8819449...,  37.0041149...])
+    array([ 94.5503572...,  11.5553652...,  40.5475740...])
     """
 
     XYZ = to_domain_100(XYZ)
@@ -116,7 +116,7 @@ def XYZ_to_UVW(
 
 def UVW_to_XYZ(
         UVW,
-        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']):
+        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']):
     """
     Converts *CIE 1964 U\\*V\\*W\\** colourspace to *CIE XYZ* tristimulus
     values.
@@ -166,9 +166,9 @@ def UVW_to_XYZ(
     Examples
     --------
     >>> import numpy as np
-    >>> UVW = np.array([-28.05797333, -0.88194493, 37.00411491])
-    >>> UVW_to_XYZ(UVW)  # doctest: +ELLIPSIS
-    array([  7.049534...,  10.08    ...,   9.558313...])
+    >>> UVW = np.array([94.55035725, 11.55536523, 40.54757405])
+    >>> UVW_to_XYZ(UVW)
+    array([ 20.654008,  12.197225,   5.136952])
     """
 
     U, V, W = tsplit(to_domain_100(UVW))

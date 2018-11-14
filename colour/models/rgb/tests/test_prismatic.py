@@ -67,7 +67,7 @@ class TestRGB_to_Prismatic(unittest.TestCase):
         domain and range scale support.
         """
 
-        RGB = np.array([0.25000000, 0.60000000, 0.05000000])
+        RGB = np.array([0.25, 0.50, 0.75])
         Lrgb = RGB_to_Prismatic(RGB)
 
         d_r = (('reference', 1), (1, 1), (100, 100))

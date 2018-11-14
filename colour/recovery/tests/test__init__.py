@@ -36,7 +36,7 @@ class TestXYZ_to_spectral(unittest.TestCase):
         and range scale support.
         """
 
-        XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
+        XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
         m = ('Smits 1999', 'Meng 2015')
         v = [
             spectral_to_XYZ_integration(XYZ_to_spectral(XYZ, method))

@@ -10,8 +10,8 @@ from colour.utilities import message_box
 
 message_box('"Von Kries" Chromatic Adaptation Model Computations')
 
-XYZ_w = np.array([1.09846607, 1.00000000, 0.35582280])
-XYZ_wr = np.array([0.95042855, 1.00000000, 1.08890037])
+XYZ_w = np.array([0.95045593, 1.00000000, 1.08905775])
+XYZ_wr = np.array([0.96429568, 1.00000000, 0.82510460])
 message_box(('Computing the chromatic adaptation matrix from two source '
              '"CIE XYZ" tristimulus values arrays, default CAT is "CAT02".\n'
              '\n\t"XYZ_w":\n\t\t{0}\n\t"XYZ_wr":\n\t\t{1}'.format(

@@ -37,45 +37,45 @@ class TestXYZ_to_Hunter_Rdab(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             XYZ_to_Hunter_Rdab(
-                np.array([0.07049534, 0.10080000, 0.09558313]) * 100),
-            np.array([10.08000000, -18.67653764, -3.44329925]),
+                np.array([0.20654008, 0.12197225, 0.05136952]) * 100),
+            np.array([12.19722500, 57.12537874, 17.46241341]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_Hunter_Rdab(
-                np.array([0.47097710, 0.34950000, 0.11301649]) * 100),
-            np.array([34.95000000, 43.14063862, 22.19442342]),
+                np.array([0.14222010, 0.23042768, 0.10495772]) * 100),
+            np.array([23.04276800, -32.40057474, 20.96542183]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_Hunter_Rdab(
-                np.array([0.25506814, 0.19150000, 0.08849752]) * 100),
-            np.array([19.15000000, 33.27585171, 12.90445983]),
+                np.array([0.07818780, 0.06157201, 0.28099326]) * 100),
+            np.array([6.15720100, 18.13400284, -67.14408607]),
             decimal=7)
 
         h_i = HUNTERLAB_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
         A = h_i['A']
         np.testing.assert_almost_equal(
             XYZ_to_Hunter_Rdab(
-                np.array([0.07049534, 0.10080000, 0.09558313]) * 100, A.XYZ_n,
+                np.array([0.20654008, 0.12197225, 0.05136952]) * 100, A.XYZ_n,
                 A.K_ab),
-            np.array([10.08000000, -26.39115518, -25.11822727]),
+            np.array([12.19722500, 42.53572838, -3.00653110]),
             decimal=7)
 
         D65 = h_i['D65']
         np.testing.assert_almost_equal(
             XYZ_to_Hunter_Rdab(
-                np.array([0.07049534, 0.10080000, 0.09558313]) * 100,
+                np.array([0.20654008, 0.12197225, 0.05136952]) * 100,
                 D65.XYZ_n, D65.K_ab),
-            np.array([10.08000000, -17.84427080, 3.39060457]),
+            np.array([12.19722500, 57.12537874, 17.46241341]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_Hunter_Rdab(
-                np.array([0.07049534, 0.10080000, 0.09558313]) * 100,
+                np.array([0.20654008, 0.12197225, 0.05136952]) * 100,
                 D65.XYZ_n,
                 K_ab=None),
-            np.array([10.08000000, -17.84229822, 3.39006280]),
+            np.array([12.19722500, 57.11906384, 17.45962317]),
             decimal=7)
 
     def test_n_dimensional_XYZ_to_Hunter_Rdab(self):
@@ -85,12 +85,12 @@ class TestXYZ_to_Hunter_Rdab(unittest.TestCase):
         """
 
         h_i = HUNTERLAB_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
-        D50 = h_i['D50']
+        D65 = h_i['D65']
 
-        XYZ = np.array([0.07049534, 0.10080000, 0.09558313]) * 100
-        XYZ_n = D50.XYZ_n
-        K_ab = D50.K_ab
-        R_d_ab = np.array([10.08000000, -18.67653764, -3.44329925])
+        XYZ = np.array([0.20654008, 0.12197225, 0.05136952]) * 100
+        XYZ_n = D65.XYZ_n
+        K_ab = D65.K_ab
+        R_d_ab = np.array([12.19722500, 57.12537874, 17.46241341])
         np.testing.assert_almost_equal(
             XYZ_to_Hunter_Rdab(XYZ, XYZ_n, K_ab), R_d_ab, decimal=7)
 
@@ -118,11 +118,11 @@ class TestXYZ_to_Hunter_Rdab(unittest.TestCase):
         """
 
         h_i = HUNTERLAB_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
-        D50 = h_i['D50']
+        D65 = h_i['D65']
 
-        XYZ = np.array([0.07049534, 0.10080000, 0.09558313]) * 100
-        XYZ_n = D50.XYZ_n
-        K_ab = D50.K_ab
+        XYZ = np.array([0.20654008, 0.12197225, 0.05136952]) * 100
+        XYZ_n = D65.XYZ_n
+        K_ab = D65.K_ab
         R_d_ab = XYZ_to_Hunter_Rdab(XYZ, XYZ_n, K_ab)
 
         d_r = (('reference', 1), (1, 0.01), (100, 1))
@@ -162,45 +162,45 @@ class TestHunter_Rdab_to_XYZ(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             Hunter_Rdab_to_XYZ(
-                np.array([10.08000000, -18.67653764, -3.44329925])),
-            np.array([0.07049534, 0.10080000, 0.09558313]) * 100,
+                np.array([12.19722500, 57.12537874, 17.46241341])),
+            np.array([0.20654008, 0.12197225, 0.05136952]) * 100,
             decimal=7)
 
         np.testing.assert_almost_equal(
             Hunter_Rdab_to_XYZ(
-                np.array([34.95000000, 43.14063862, 22.19442342])),
-            np.array([0.47097710, 0.34950000, 0.11301649]) * 100,
+                np.array([23.04276800, -32.40057474, 20.96542183])),
+            np.array([0.14222010, 0.23042768, 0.10495772]) * 100,
             decimal=7)
 
         np.testing.assert_almost_equal(
             Hunter_Rdab_to_XYZ(
-                np.array([19.15000000, 33.27585171, 12.90445983])),
-            np.array([0.25506814, 0.19150000, 0.08849752]) * 100,
+                np.array([6.15720100, 18.13400284, -67.14408607])),
+            np.array([0.07818780, 0.06157201, 0.28099326]) * 100,
             decimal=7)
 
         h_i = HUNTERLAB_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
         A = h_i['A']
         np.testing.assert_almost_equal(
             Hunter_Rdab_to_XYZ(
-                np.array([10.08000000, -26.39115518, -25.11822727]), A.XYZ_n,
+                np.array([12.19722500, 42.53572838, -3.00653110]), A.XYZ_n,
                 A.K_ab),
-            np.array([0.07049534, 0.10080000, 0.09558313]) * 100,
+            np.array([0.20654008, 0.12197225, 0.05136952]) * 100,
             decimal=7)
 
         D65 = h_i['D65']
         np.testing.assert_almost_equal(
             Hunter_Rdab_to_XYZ(
-                np.array([10.08000000, -17.84427080, 3.39060457]), D65.XYZ_n,
+                np.array([12.19722500, 57.12537874, 17.46241341]), D65.XYZ_n,
                 D65.K_ab),
-            np.array([0.07049534, 0.10080000, 0.09558313]) * 100,
+            np.array([0.20654008, 0.12197225, 0.05136952]) * 100,
             decimal=7)
 
         np.testing.assert_almost_equal(
             Hunter_Rdab_to_XYZ(
-                np.array([10.08000000, -17.84229822, 3.39006280]),
+                np.array([12.19722500, 57.11906384, 17.45962317]),
                 D65.XYZ_n,
                 K_ab=None),
-            np.array([0.07049534, 0.10080000, 0.09558313]) * 100,
+            np.array([0.20654008, 0.12197225, 0.05136952]) * 100,
             decimal=7)
 
     def test_n_dimensional_Hunter_Rdab_to_XYZ(self):
@@ -210,12 +210,12 @@ class TestHunter_Rdab_to_XYZ(unittest.TestCase):
         """
 
         h_i = HUNTERLAB_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
-        D50 = h_i['D50']
+        D65 = h_i['D65']
 
-        R_d_ab = np.array([10.08000000, -18.67653764, -3.44329925])
-        XYZ_n = D50.XYZ_n
-        K_ab = D50.K_ab
-        XYZ = np.array([0.07049534, 0.10080000, 0.09558313]) * 100
+        R_d_ab = np.array([12.19722500, 57.12537874, 17.46241341])
+        XYZ_n = D65.XYZ_n
+        K_ab = D65.K_ab
+        XYZ = np.array([0.20654008, 0.12197225, 0.05136952]) * 100
         np.testing.assert_almost_equal(
             Hunter_Rdab_to_XYZ(R_d_ab, XYZ_n, K_ab), XYZ, decimal=7)
 
@@ -243,11 +243,11 @@ class TestHunter_Rdab_to_XYZ(unittest.TestCase):
         """
 
         h_i = HUNTERLAB_ILLUMINANTS['CIE 1931 2 Degree Standard Observer']
-        D50 = h_i['D50']
+        D65 = h_i['D65']
 
-        R_d_ab = np.array([10.08000000, -18.67653764, -3.44329925])
-        XYZ_n = D50.XYZ_n
-        K_ab = D50.K_ab
+        R_d_ab = np.array([12.19722500, 57.12537874, 17.46241341])
+        XYZ_n = D65.XYZ_n
+        K_ab = D65.K_ab
         XYZ = Hunter_Rdab_to_XYZ(R_d_ab, XYZ_n, K_ab)
 
         d_r = (('reference', 1), (1, 0.01), (100, 1))

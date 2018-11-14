@@ -14,6 +14,7 @@ References
 
 from __future__ import division, unicode_literals
 
+from colour.algebra import LinearInterpolator
 from colour.colorimetry.spectrum import SpectralPowerDistribution
 from colour.utilities import CaseInsensitiveMapping, filter_warnings
 
@@ -164,3 +165,8 @@ SMITS_1999_SPDS : CaseInsensitiveMapping
 
 # Restoring warnings original state.
 filter_warnings(False)
+
+# Using linear interpolation to preserve the shape of the basis spectral
+# power distributions once combined and interpolated.
+for _spd in SMITS_1999_SPDS.values():
+    _spd.interpolator = LinearInterpolator

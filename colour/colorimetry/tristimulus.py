@@ -444,10 +444,10 @@ def spectral_to_XYZ_integration(
     ...     700: 0.2852
     ... }
     >>> spd = SpectralPowerDistribution(data)
-    >>> illuminant = ILLUMINANTS_SPDS['D50']
+    >>> illuminant = ILLUMINANTS_SPDS['D65']
     >>> spectral_to_XYZ_integration(spd, cmfs, illuminant)
     ... # doctest: +ELLIPSIS
-    array([ 11.5296285...,   9.9499467...,   4.7066079...])
+    array([ 10.8401846...,   9.6837311...,   6.2120912...])
     """
 
     if illuminant.shape != cmfs.shape:
@@ -537,10 +537,10 @@ def spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
     ...     700: 0.2852
     ... }
     >>> spd = SpectralPowerDistribution(data)
-    >>> illuminant = ILLUMINANTS_SPDS['D50']
+    >>> illuminant = ILLUMINANTS_SPDS['D65']
     >>> spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
     ...     spd, cmfs, illuminant)  # doctest: +ELLIPSIS
-    array([ 11.5296311...,   9.9505845...,   4.7098037...])
+    array([ 10.8402899...,   9.6843539...,   6.2160858...])
     """
 
     if illuminant.shape != cmfs.shape:
@@ -655,10 +655,10 @@ _TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their identifier key is
     ...     700: 0.2852
     ... }
     >>> spd = SpectralPowerDistribution(data)
-    >>> illuminant = ILLUMINANTS_SPDS['D50']
+    >>> illuminant = ILLUMINANTS_SPDS['D65']
     >>> spectral_to_XYZ_ASTME30815(spd, cmfs, illuminant)
     ... # doctest: +ELLIPSIS
-    array([ 11.5290265...,   9.9502091...,   4.7098882...])
+    array([ 10.8399031...,   9.6840375...,   6.2164159...])
     """
 
     if spd.shape.interval not in (1, 5, 10, 20):
@@ -818,16 +818,16 @@ def spectral_to_XYZ(
     ...     700: 0.2852
     ... }
     >>> spd = SpectralPowerDistribution(data)
-    >>> illuminant = ILLUMINANTS_SPDS['D50']
+    >>> illuminant = ILLUMINANTS_SPDS['D65']
     >>> spectral_to_XYZ(spd, cmfs, illuminant)
     ... # doctest: +ELLIPSIS
-    array([ 11.5290265...,   9.9502091...,   4.7098882...])
+    array([ 10.8399031...,   9.6840375...,   6.2164159...])
     >>> spectral_to_XYZ(spd, cmfs, illuminant, use_practice_range=False)
     ... # doctest: +ELLIPSIS
-    array([ 11.5291275...,   9.9502369...,   4.7098811...])
+    array([ 10.8399852...,   9.6840602...,   6.2164085...])
     >>> spectral_to_XYZ(spd, cmfs, illuminant, method='Integration')
     ... # doctest: +ELLIPSIS
-    array([ 11.5296285...,   9.9499467...,   4.7066079...])
+    array([ 10.8401846...,   9.6837311...,   6.2120912...])
     """
 
     function = SPECTRAL_TO_XYZ_METHODS[method]
@@ -1095,7 +1095,7 @@ def wavelength_to_XYZ(
     >>> from colour import CMFS
     >>> cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
     >>> wavelength_to_XYZ(480, cmfs)  # doctest: +ELLIPSIS
-    array([ 0.09564  ,  0.13902  ,  0.812950...])
+    array([ 0.09564  ,  0.13902  ,  0.8129501...])
     >>> wavelength_to_XYZ(480.5, cmfs)  # doctest: +ELLIPSIS
     array([ 0.0914287...,  0.1418350...,  0.7915726...])
     """

@@ -325,8 +325,8 @@ def munsell_value_Priest1920(Y):
 
     Examples
     --------
-    >>> munsell_value_Priest1920(10.08)  # doctest: +ELLIPSIS
-    3.1749015...
+    >>> munsell_value_Priest1920(12.23634268)  # doctest: +ELLIPSIS
+    3.4980484...
     """
 
     Y = to_domain_100(Y)
@@ -372,8 +372,8 @@ def munsell_value_Munsell1933(Y):
 
     Examples
     --------
-    >>> munsell_value_Munsell1933(10.08)  # doctest: +ELLIPSIS
-    3.7918355...
+    >>> munsell_value_Munsell1933(12.23634268)  # doctest: +ELLIPSIS
+    4.1627702...
     """
 
     Y = to_domain_100(Y)
@@ -420,8 +420,8 @@ def munsell_value_Moon1943(Y):
 
     Examples
     --------
-    >>> munsell_value_Moon1943(10.08)  # doctest: +ELLIPSIS
-    3.7462971...
+    >>> munsell_value_Moon1943(12.23634268)  # doctest: +ELLIPSIS
+    4.0688120...
     """
 
     Y = to_domain_100(Y)
@@ -467,8 +467,8 @@ def munsell_value_Saunderson1944(Y):
 
     Examples
     --------
-    >>> munsell_value_Saunderson1944(10.08)  # doctest: +ELLIPSIS
-    3.6865080...
+    >>> munsell_value_Saunderson1944(12.23634268)  # doctest: +ELLIPSIS
+    4.0444736...
     """
 
     Y = to_domain_100(Y)
@@ -514,8 +514,8 @@ def munsell_value_Ladd1955(Y):
 
     Examples
     --------
-    >>> munsell_value_Ladd1955(10.08)  # doctest: +ELLIPSIS
-    3.6952862...
+    >>> munsell_value_Ladd1955(12.23634268)  # doctest: +ELLIPSIS
+    4.0511633...
     """
 
     Y = to_domain_100(Y)
@@ -561,8 +561,8 @@ def munsell_value_McCamy1987(Y):
 
     Examples
     --------
-    >>> munsell_value_McCamy1987(10.08)  # doctest: +ELLIPSIS
-    array(3.7347235...)
+    >>> munsell_value_McCamy1987(12.23634268)  # doctest: +ELLIPSIS
+    array(4.0814348...)
     """
 
     Y = to_domain_100(Y)
@@ -619,8 +619,8 @@ def munsell_value_ASTMD153508(Y):
 
     Examples
     --------
-    >>> munsell_value_ASTMD153508(10.1488096782)  # doctest: +ELLIPSIS
-    3.7462971...
+    >>> munsell_value_ASTMD153508(12.23634268)  # doctest: +ELLIPSIS
+    4.0824437...
     """
 
     Y = to_domain_100(Y)
@@ -697,20 +697,21 @@ def munsell_value(Y, method='ASTM D1535-08'):
 
     Examples
     --------
-    >>> munsell_value(10.08)  # doctest: +ELLIPSIS
-    3.7344764...
-    >>> munsell_value(10.08, method='Priest 1920')  # doctest: +ELLIPSIS
-    3.1749015...
-    >>> munsell_value(10.08, method='Munsell 1933')  # doctest: +ELLIPSIS
-    3.7918355...
-    >>> munsell_value(10.08, method='Moon 1943')  # doctest: +ELLIPSIS
-    3.7462971...
-    >>> munsell_value(10.08, method='Saunderson 1944')  # doctest: +ELLIPSIS
-    3.6865080...
-    >>> munsell_value(10.08, method='Ladd 1955')  # doctest: +ELLIPSIS
-    3.6952862...
-    >>> munsell_value(10.08, method='McCamy 1987')  # doctest: +ELLIPSIS
-    array(3.7347235...)
+    >>> munsell_value(12.23634268)  # doctest: +ELLIPSIS
+    4.0824437...
+    >>> munsell_value(12.23634268, method='Priest 1920') # doctest: +ELLIPSIS
+    3.4980484...
+    >>> munsell_value(12.23634268, method='Munsell 1933') # doctest: +ELLIPSIS
+    4.1627702...
+    >>> munsell_value(12.23634268, method='Moon 1943') # doctest: +ELLIPSIS
+    4.0688120...
+    >>> munsell_value(12.23634268, method='Saunderson 1944')
+    ... # doctest: +ELLIPSIS
+    4.0444736...
+    >>> munsell_value(12.23634268, method='Ladd 1955') # doctest: +ELLIPSIS
+    4.0511633...
+    >>> munsell_value(12.23634268, method='McCamy 1987') # doctest: +ELLIPSIS
+    array(4.0814348...)
     """
 
     return MUNSELL_VALUE_METHODS.get(method)(Y)
@@ -761,7 +762,7 @@ def munsell_specification_to_xyY(specification):
     >>> munsell_specification_to_xyY((2.1, 8.0, 17.9, 4))  # doctest: +ELLIPSIS
     array([ 0.4400632...,  0.5522428...,  0.5761962...])
     >>> munsell_specification_to_xyY(8.9)  # doctest: +ELLIPSIS
-    array([ 0.31006  ,  0.31616  ,  0.746134...])
+    array([ 0.31006  ,  0.31616  ,  0.7461345...])
     """
 
     if is_grey_munsell_colour(specification):
@@ -846,7 +847,7 @@ def munsell_colour_to_xyY(munsell_colour):
     >>> munsell_colour_to_xyY('4.2YR 8.1/5.3')  # doctest: +ELLIPSIS
     array([ 0.3873694...,  0.3575165...,  0.59362   ])
     >>> munsell_colour_to_xyY('N8.9')  # doctest: +ELLIPSIS
-    array([ 0.31006  ,  0.31616  ,  0.746134...])
+    array([ 0.31006  ,  0.31616  ,  0.7461345...])
     """
 
     specification = munsell_colour_to_munsell_specification(munsell_colour)
@@ -2179,7 +2180,7 @@ def munsell_specification_to_xy(specification):
     --------
     >>> # Doctests ellipsis for Python 2.x compatibility.
     >>> munsell_specification_to_xy((2.1, 8.0, 17.9, 4))  # doctest: +ELLIPSIS
-    array([ 0.440063...,  0.5522428...])
+    array([ 0.4400632...,  0.5522428...])
     >>> munsell_specification_to_xy(8)  # doctest: +ELLIPSIS
     array([ 0.31006...,  0.31616...])
     """

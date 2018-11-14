@@ -106,9 +106,9 @@ def RGB_to_HSV(RGB):
 
     Examples
     --------
-    >>> RGB = np.array([0.49019608, 0.98039216, 0.25098039])
+    >>> RGB = np.array([0.45620519, 0.03081071, 0.04091952])
     >>> RGB_to_HSV(RGB)  # doctest: +ELLIPSIS
-    array([ 0.2786738...,  0.744     ,  0.98039216])
+    array([ 0.9960394...,  0.9324630...,  0.4562051...])
     """
 
     RGB = to_domain_1(RGB)
@@ -174,9 +174,9 @@ def HSV_to_RGB(HSV):
 
     Examples
     --------
-    >>> HSV = np.array([0.27867384, 0.74400000, 0.98039216])
+    >>> HSV = np.array([0.99603944, 0.93246304, 0.45620519])
     >>> HSV_to_RGB(HSV)  # doctest: +ELLIPSIS
-    array([ 0.4901960...,  0.9803921...,  0.2509803...])
+    array([ 0.4562051...,  0.0308107...,  0.0409195...])
     """
 
     H, S, V = tsplit(to_domain_1(HSV))
@@ -240,9 +240,9 @@ def RGB_to_HSL(RGB):
 
     Examples
     --------
-    >>> RGB = np.array([0.49019608, 0.98039216, 0.25098039])
+    >>> RGB = np.array([0.45620519, 0.03081071, 0.04091952])
     >>> RGB_to_HSL(RGB)  # doctest: +ELLIPSIS
-    array([ 0.2786738...,  0.9489796...,  0.6156862...])
+    array([ 0.9960394...,  0.8734714...,  0.2435079...])
     """
 
     RGB = to_domain_1(RGB)
@@ -313,9 +313,9 @@ def HSL_to_RGB(HSL):
 
     Examples
     --------
-    >>> HSL = np.array([0.27867384, 0.94897959, 0.61568627])
+    >>> HSL = np.array([0.99603944, 0.87347144, 0.24350795])
     >>> HSL_to_RGB(HSL)  # doctest: +ELLIPSIS
-    array([ 0.4901960...,  0.9803921...,  0.2509803...])
+    array([ 0.4562051...,  0.0308107...,  0.0409195...])
     """
 
     H, S, L = tsplit(to_domain_1(HSL))
@@ -398,9 +398,9 @@ def RGB_to_CMY(RGB):
 
     Examples
     --------
-    >>> RGB = np.array([0.49019608, 0.98039216, 0.25098039])
+    >>> RGB = np.array([0.45620519, 0.03081071, 0.04091952])
     >>> RGB_to_CMY(RGB)  # doctest: +ELLIPSIS
-    array([ 0.5098039...,  0.0196078...,  0.7490196...])
+    array([ 0.5437948...,  0.9691892...,  0.9590804...])
     """
 
     CMY = 1 - to_domain_1(RGB)
@@ -443,9 +443,9 @@ def CMY_to_RGB(CMY):
 
     Examples
     --------
-    >>> CMY = np.array([0.50980392, 0.01960784, 0.74901961])
+    >>> CMY = np.array([0.54379481, 0.96918929, 0.95908048])
     >>> CMY_to_RGB(CMY)  # doctest: +ELLIPSIS
-    array([ 0.4901960...,  0.9803921...,  0.2509803...])
+    array([ 0.4562051...,  0.0308107...,  0.0409195...])
     """
 
     RGB = 1 - to_domain_1(CMY)
@@ -488,9 +488,9 @@ def CMY_to_CMYK(CMY):
 
     Examples
     --------
-    >>> CMY = np.array([0.50980392, 0.01960784, 0.74901961])
+    >>> CMY = np.array([0.54379481, 0.96918929, 0.95908048])
     >>> CMY_to_CMYK(CMY)  # doctest: +ELLIPSIS
-    array([ 0.5       ,  0.        ,  0.744     ,  0.0196078...])
+    array([ 0.        ,  0.9324630...,  0.9103045...,  0.5437948...])
     """
 
     C, M, Y = tsplit(to_domain_1(CMY))

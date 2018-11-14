@@ -270,11 +270,11 @@ def RGB_luminance(RGB, primaries, whitepoint):
 
     Examples
     --------
-    >>> RGB = np.array([40.6, 4.2, 67.4])
+    >>> RGB = np.array([0.21959402, 0.06986677, 0.04703877])
     >>> p = np.array([0.73470, 0.26530, 0.00000, 1.00000, 0.00010, -0.07700])
     >>> whitepoint = np.array([0.32168, 0.33767])
     >>> RGB_luminance(RGB, p, whitepoint)  # doctest: +ELLIPSIS
-    12.1616018...
+    0.1230145...
     """
 
     Y = np.sum(

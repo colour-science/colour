@@ -62,8 +62,8 @@ import numpy as np
 from colour.algebra import spow
 from colour.biochemistry import reaction_rate_MichealisMenten
 from colour.constants import CIE_E, CIE_K
-from colour.utilities import (CaseInsensitiveMapping, as_float_array,
-                              as_float, filter_kwargs, from_range_100,
+from colour.utilities import (CaseInsensitiveMapping, as_float_array, as_float,
+                              filter_kwargs, from_range_100,
                               get_domain_range_scale, to_domain_1,
                               to_domain_100, warning)
 
@@ -117,8 +117,8 @@ def lightness_Glasser1958(Y):
 
     Examples
     --------
-    >>> lightness_Glasser1958(10.08)  # doctest: +ELLIPSIS
-    36.2505626...
+    >>> lightness_Glasser1958(12.19722535)  # doctest: +ELLIPSIS
+    39.8351264...
     """
 
     Y = to_domain_100(Y)
@@ -165,8 +165,8 @@ def lightness_Wyszecki1963(Y):
 
     Examples
     --------
-    >>> lightness_Wyszecki1963(10.08)  # doctest: +ELLIPSIS
-    37.0041149...
+    >>> lightness_Wyszecki1963(12.19722535)  # doctest: +ELLIPSIS
+    40.5475745...
     """
 
     Y = to_domain_100(Y)
@@ -219,8 +219,8 @@ def lightness_CIE1976(Y, Y_n=100):
 
     Examples
     --------
-    >>> lightness_CIE1976(10.08)  # doctest: +ELLIPSIS
-    37.9856290...
+    >>> lightness_CIE1976(12.19722535)  # doctest: +ELLIPSIS
+    41.5278758...
     """
 
     Y = to_domain_100(Y)
@@ -281,8 +281,8 @@ def lightness_Fairchild2010(Y, epsilon=1.836):
 
     Examples
     --------
-    >>> lightness_Fairchild2010(10.08 / 100)  # doctest: +ELLIPSIS
-    24.9022902...
+    >>> lightness_Fairchild2010(12.19722535 / 100)  # doctest: +ELLIPSIS
+    31.9963902...
     """
 
     Y = to_domain_1(Y)
@@ -337,11 +337,11 @@ def lightness_Fairchild2011(Y, epsilon=0.474, method='hdr-CIELAB'):
 
     Examples
     --------
-    >>> lightness_Fairchild2011(10.08 / 100)  # doctest: +ELLIPSIS
-    48.2487175...
-    >>> lightness_Fairchild2011(10.08 / 100, method='hdr-IPT')
+    >>> lightness_Fairchild2011(12.19722535 / 100)  # doctest: +ELLIPSIS
+    51.8529584...
+    >>> lightness_Fairchild2011(12.19722535 / 100, method='hdr-IPT')
     ... # doctest: +ELLIPSIS
-    48.0534596...
+    51.6431084...
     """
 
     Y = to_domain_1(Y)
@@ -434,19 +434,19 @@ def lightness(Y, method='CIE 1976', **kwargs):
 
     Examples
     --------
-    >>> lightness(10.08)  # doctest: +ELLIPSIS
-    37.9856290...
-    >>> lightness(10.08, Y_n=100)  # doctest: +ELLIPSIS
-    37.9856290...
-    >>> lightness(10.08, Y_n=95)  # doctest: +ELLIPSIS
-    38.9165987...
-    >>> lightness(10.08, method='Glasser 1958')  # doctest: +ELLIPSIS
-    36.2505626...
-    >>> lightness(10.08, method='Wyszecki 1963')  # doctest: +ELLIPSIS
-    37.0041149...
-    >>> lightness(10.08, epsilon=1.836, method='Fairchild 2010')
+    >>> lightness(12.19722535)  # doctest: +ELLIPSIS
+    41.5278758...
+    >>> lightness(12.19722535, Y_n=100)  # doctest: +ELLIPSIS
+    41.5278758...
+    >>> lightness(12.19722535, Y_n=95)  # doctest: +ELLIPSIS
+    42.5199307...
+    >>> lightness(12.19722535, method='Glasser 1958')  # doctest: +ELLIPSIS
+    39.8351264...
+    >>> lightness(12.19722535, method='Wyszecki 1963')  # doctest: +ELLIPSIS
+    40.5475745...
+    >>> lightness(12.19722535, epsilon=0.710, method='Fairchild 2011')
     ... # doctest: +ELLIPSIS
-    24.9022902...
+    29.8295108...
     """
 
     Y = as_float_array(Y)

@@ -118,27 +118,27 @@ class TestXYZ_to_hdr_IPT(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            XYZ_to_hdr_IPT(np.array([0.07049534, 0.10080000, 0.09558313])),
-            np.array([46.49938150, -12.82251566, 1.85029518]),
+            XYZ_to_hdr_IPT(np.array([0.20654008, 0.12197225, 0.05136952])),
+            np.array([48.39376346, 42.44990202, 22.01954033]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_hdr_IPT(
-                np.array([0.07049534, 0.10080000, 0.09558313]),
+                np.array([0.20654008, 0.12197225, 0.05136952]),
                 method='Fairchild 2010'),
-            np.array([25.18261761, -22.62111297, 3.18511729]),
+            np.array([30.02873147, 83.93845061, 34.90287382]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_hdr_IPT(
-                np.array([0.07049534, 0.10080000, 0.09558313]), Y_s=0.5),
-            np.array([18.66862134, -10.11827107, 1.43433623]),
+                np.array([0.20654008, 0.12197225, 0.05136952]), Y_s=0.5),
+            np.array([20.75088680, 37.98300971, 16.66974299]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_hdr_IPT(
-                np.array([0.25506814, 0.19150000, 0.08849752]), Y_abs=1000),
-            np.array([35.67605626, 28.50355645, 21.27621634]),
+                np.array([0.07818780, 0.06157201, 0.28099326]), Y_abs=1000),
+            np.array([23.83205010, -5.98739209, -32.74311745]),
             decimal=7)
 
     def test_n_dimensional_XYZ_to_hdr_IPT(self):
@@ -147,10 +147,10 @@ class TestXYZ_to_hdr_IPT(unittest.TestCase):
         n-dimensions support.
         """
 
-        XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
+        XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
         Y_s = 0.2
         Y_abs = 100
-        IPT_hdr = np.array([46.49938150, -12.82251566, 1.85029518])
+        IPT_hdr = np.array([48.39376346, 42.44990202, 22.01954033])
         np.testing.assert_almost_equal(
             XYZ_to_hdr_IPT(XYZ, Y_s, Y_abs), IPT_hdr, decimal=7)
 
@@ -177,7 +177,7 @@ class TestXYZ_to_hdr_IPT(unittest.TestCase):
         and range scale support.
         """
 
-        XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
+        XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
         Y_s = 0.2
         Y_abs = 100
         IPT_hdr = XYZ_to_hdr_IPT(XYZ, Y_s, Y_abs)
@@ -218,27 +218,28 @@ class TestHdr_IPT_to_XYZ(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            hdr_IPT_to_XYZ(np.array([46.49938150, -12.82251566, 1.85029518])),
-            np.array([0.07049534, 0.10080000, 0.09558313]),
+            hdr_IPT_to_XYZ(np.array([48.39376346, 42.44990202, 22.01954033])),
+            np.array([0.20654008, 0.12197225, 0.05136952]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             hdr_IPT_to_XYZ(
-                np.array([25.18261761, -22.62111297, 3.18511729]),
+                np.array([30.02873147, 83.93845061, 34.90287382]),
                 method='Fairchild 2010'),
-            np.array([0.07049534, 0.10080000, 0.09558313]),
+            np.array([0.20654008, 0.12197225, 0.05136952]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             hdr_IPT_to_XYZ(
-                np.array([18.66862134, -10.11827107, 1.43433623]), Y_s=0.5),
-            np.array([0.07049534, 0.10080000, 0.09558313]),
+                np.array([20.75088680, 37.98300971, 16.66974299]), Y_s=0.5),
+            np.array([0.20654008, 0.12197225, 0.05136952]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             hdr_IPT_to_XYZ(
-                np.array([35.67605626, 28.50355645, 21.27621634]), Y_abs=1000),
-            np.array([0.25506814, 0.19150000, 0.08849752]),
+                np.array([23.83205010, -5.98739209, -32.74311745]),
+                Y_abs=1000),
+            np.array([0.07818780, 0.06157201, 0.28099326]),
             decimal=7)
 
     def test_n_dimensional_hdr_IPT_to_XYZ(self):
@@ -247,10 +248,10 @@ class TestHdr_IPT_to_XYZ(unittest.TestCase):
         n-dimensions support.
         """
 
-        IPT_hdr = np.array([46.49938150, -12.82251566, 1.85029518])
+        IPT_hdr = np.array([48.39376346, 42.44990202, 22.01954033])
         Y_s = 0.2
         Y_abs = 100
-        XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
+        XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
         np.testing.assert_almost_equal(
             hdr_IPT_to_XYZ(IPT_hdr, Y_s, Y_abs), XYZ, decimal=7)
 

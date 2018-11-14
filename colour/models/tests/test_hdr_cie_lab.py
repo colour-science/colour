@@ -123,35 +123,35 @@ class TestXYZ_to_hdr_CIELab(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            XYZ_to_hdr_CIELab(np.array([0.07049534, 0.10080000, 0.09558313])),
-            np.array([48.26598942, -28.18550823, -5.22082042]),
+            XYZ_to_hdr_CIELab(np.array([0.20654008, 0.12197225, 0.05136952])),
+            np.array([51.87002062, 60.47633850, 32.14551912]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_hdr_CIELab(
-                np.array([0.07049534, 0.10080000, 0.09558313]),
+                np.array([0.20654008, 0.12197225, 0.05136952]),
                 np.array([0.44757, 0.40745])),
-            np.array([48.26598942, -38.84903886, -41.14843669]),
+            np.array([51.87002062, 44.49667330, -6.69619196]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_hdr_CIELab(
-                np.array([0.07049534, 0.10080000, 0.09558313]),
+                np.array([0.20654008, 0.12197225, 0.05136952]),
                 np.array([0.44757, 0.40745]),
                 method='Fairchild 2010'),
-            np.array([24.90206646, -61.24983919, -83.63902870]),
+            np.array([31.99621114, 95.08564341, -14.14047055]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_hdr_CIELab(
-                np.array([0.07049534, 0.10080000, 0.09558313]), Y_s=0.5),
-            np.array([20.06063623, -21.54852194, -4.36342250]),
+                np.array([0.20654008, 0.12197225, 0.05136952]), Y_s=0.5),
+            np.array([23.10388654, 59.31425004, 23.69960142]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             XYZ_to_hdr_CIELab(
-                np.array([0.07049534, 0.10080000, 0.09558313]), Y_abs=1000),
-            np.array([26.40477826, -24.58978787, -4.84444153]),
+                np.array([0.20654008, 0.12197225, 0.05136952]), Y_abs=1000),
+            np.array([29.77261805, 62.58315675, 27.31232673]),
             decimal=7)
 
     def test_n_dimensional_XYZ_to_hdr_CIELab(self):
@@ -160,11 +160,11 @@ class TestXYZ_to_hdr_CIELab(unittest.TestCase):
         n-dimensions support.
         """
 
-        XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
-        illuminant = np.array([0.34570, 0.35850])
+        XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+        illuminant = np.array([0.31270, 0.32900])
         Y_s = 0.2
         Y_abs = 100
-        Lab_hdr = np.array([48.26598942, -28.18550823, -5.22082042])
+        Lab_hdr = np.array([51.87002062, 60.47633850, 32.14551912])
         np.testing.assert_almost_equal(
             XYZ_to_hdr_CIELab(XYZ, illuminant, Y_s, Y_abs), Lab_hdr, decimal=7)
 
@@ -193,8 +193,8 @@ class TestXYZ_to_hdr_CIELab(unittest.TestCase):
         domain and range scale support.
         """
 
-        XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
-        illuminant = np.array([0.34570, 0.35850])
+        XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
+        illuminant = np.array([0.31270, 0.32900])
         Y_s = 0.2
         Y_abs = 100
         Lab_hdr = XYZ_to_hdr_CIELab(XYZ, illuminant, Y_s, Y_abs)
@@ -238,28 +238,35 @@ class TestHdr_CIELab_to_XYZ(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             hdr_CIELab_to_XYZ(
-                np.array([48.26598942, -28.18550823, -5.22082042])),
-            np.array([0.07049534, 0.10080000, 0.09558313]),
+                np.array([51.87002062, 60.47633850, 32.14551912])),
+            np.array([0.20654008, 0.12197225, 0.05136952]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             hdr_CIELab_to_XYZ(
-                np.array([48.26598942, -38.84903886, -41.14843669]),
+                np.array([51.87002062, 44.49667330, -6.69619196]),
                 np.array([0.44757, 0.40745])),
-            np.array([0.07049534, 0.10080000, 0.09558313]),
+            np.array([0.20654008, 0.12197225, 0.05136952]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             hdr_CIELab_to_XYZ(
-                np.array([20.06063623, -21.54852194, -4.36342250]), Y_s=0.5),
-            np.array([0.07049534, 0.10080000, 0.09558313]),
+                np.array([31.99621114, 95.08564341, -14.14047055]),
+                np.array([0.44757, 0.40745]),
+                method='Fairchild 2010'),
+            np.array([0.20654008, 0.12197225, 0.05136952]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             hdr_CIELab_to_XYZ(
-                np.array([26.40477826, -24.58978787, -4.84444153]),
-                Y_abs=1000),
-            np.array([0.07049534, 0.10080000, 0.09558313]),
+                np.array([23.10388654, 59.31425004, 23.69960142]), Y_s=0.5),
+            np.array([0.20654008, 0.12197225, 0.05136952]),
+            decimal=7)
+
+        np.testing.assert_almost_equal(
+            hdr_CIELab_to_XYZ(
+                np.array([29.77261805, 62.58315675, 27.31232673]), Y_abs=1000),
+            np.array([0.20654008, 0.12197225, 0.05136952]),
             decimal=7)
 
     def test_n_dimensional_hdr_CIELab_to_XYZ(self):
@@ -268,11 +275,11 @@ class TestHdr_CIELab_to_XYZ(unittest.TestCase):
         n-dimensions support.
         """
 
-        Lab_hdr = np.array([48.26598942, -28.18550823, -5.22082042])
-        illuminant = np.array([0.34570, 0.35850])
+        Lab_hdr = np.array([51.87002062, 60.47633850, 32.14551912])
+        illuminant = np.array([0.31270, 0.32900])
         Y_s = 0.2
         Y_abs = 100
-        XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
+        XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
         np.testing.assert_almost_equal(
             hdr_CIELab_to_XYZ(Lab_hdr, illuminant, Y_s, Y_abs), XYZ, decimal=7)
 
@@ -302,7 +309,7 @@ class TestHdr_CIELab_to_XYZ(unittest.TestCase):
         """
 
         Lab_hdr = np.array([26.46461067, -24.61332600, -4.84796811])
-        illuminant = np.array([0.34570, 0.35850])
+        illuminant = np.array([0.31270, 0.32900])
         Y_s = 0.2
         Y_abs = 100
         XYZ = hdr_CIELab_to_XYZ(Lab_hdr, illuminant, Y_s, Y_abs)

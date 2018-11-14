@@ -59,9 +59,9 @@ def normalise_vector(a):
 
     Examples
     --------
-    >>> a = np.array([0.07049534, 0.10080000, 0.09558313])
+    >>> a = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> normalise_vector(a)  # doctest: +ELLIPSIS
-    array([ 0.4525410...,  0.6470802...,  0.6135908...])
+    array([ 0.8419703...,  0.4972256...,  0.2094102...])
     """
 
     return a / np.linalg.norm(a)

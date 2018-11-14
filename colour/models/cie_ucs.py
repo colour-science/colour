@@ -78,9 +78,9 @@ def XYZ_to_UCS(XYZ):
     Examples
     --------
     >>> import numpy as np
-    >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
+    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_UCS(XYZ)  # doctest: +ELLIPSIS
-    array([ 0.0469968...,  0.1008    ,  0.1637439...])
+    array([ 0.1376933...,  0.1219722...,  0.1053731...])
     """
 
     X, Y, Z = tsplit(to_domain_1(XYZ))
@@ -126,9 +126,9 @@ def UCS_to_XYZ(UVW):
     Examples
     --------
     >>> import numpy as np
-    >>> UVW = np.array([0.04699689, 0.10080000, 0.16374390])
+    >>> UVW = np.array([0.13769339, 0.12197225, 0.10537310])
     >>> UCS_to_XYZ(UVW)  # doctest: +ELLIPSIS
-    array([ 0.0704953...,  0.1008    ,  0.0955831...])
+    array([ 0.2065400...,  0.1219722...,  0.0513695...])
     """
 
     U, V, W = tsplit(to_domain_1(UVW))
@@ -169,9 +169,9 @@ def UCS_to_uv(UVW):
     Examples
     --------
     >>> import numpy as np
-    >>> UCS = np.array([0.04699689, 0.10080000, 0.16374390])
-    >>> UCS_to_uv(UCS)  # doctest: +ELLIPSIS
-    array([ 0.1508530...,  0.3235531...])
+    >>> UVW = np.array([0.13769339, 0.12197225, 0.10537310])
+    >>> UCS_to_uv(UVW)  # doctest: +ELLIPSIS
+    array([ 0.3772021...,  0.3341350...])
     """
 
     U, V, W = tsplit(to_domain_1(UVW))
@@ -203,9 +203,9 @@ def UCS_uv_to_xy(uv):
     Examples
     --------
     >>> import numpy as np
-    >>> uv = np.array([0.150853087327666, 0.323553137295440])
+    >>> uv = np.array([0.37720213, 0.33413508])
     >>> UCS_uv_to_xy(uv)  # doctest: +ELLIPSIS
-    array([ 0.2641477...,  0.3777000...])
+    array([ 0.5436955...,  0.3210794...])
     """
 
     u, v = tsplit(uv)
@@ -238,9 +238,9 @@ def xy_to_UCS_uv(xy):
     Examples
     --------
     >>> import numpy as np
-    >>> xy = np.array([0.2641477, 0.37770001])
+    >>> xy = np.array([0.54369555, 0.32107941])
     >>> xy_to_UCS_uv(xy)  # doctest: +ELLIPSIS
-    array([ 0.1508530...,  0.3235531...])
+    array([ 0.3772021...,  0.3341350...])
     """
 
     x, y = tsplit(xy)

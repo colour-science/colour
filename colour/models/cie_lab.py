@@ -47,7 +47,7 @@ __all__ = ['XYZ_to_Lab', 'Lab_to_XYZ', 'Lab_to_LCHab', 'LCHab_to_Lab']
 
 def XYZ_to_Lab(
         XYZ,
-        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']):
+        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']):
     """
     Converts from *CIE XYZ* tristimulus values to *CIE L\\*a\\*b\\**
     colourspace.
@@ -92,9 +92,9 @@ def XYZ_to_Lab(
 
     Examples
     --------
-    >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
+    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_Lab(XYZ)  # doctest: +ELLIPSIS
-    array([ 37.9856291..., -23.6290768...,  -4.4174661...])
+    array([ 41.5278752...,  52.6385830...,  26.9231792...])
     """
 
     XYZ = to_domain_1(XYZ)
@@ -122,7 +122,7 @@ def XYZ_to_Lab(
 
 def Lab_to_XYZ(
         Lab,
-        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50']):
+        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65']):
     """
     Converts from *CIE L\\*a\\*b\\** colourspace to *CIE XYZ* tristimulus
     values.
@@ -167,9 +167,9 @@ def Lab_to_XYZ(
 
     Examples
     --------
-    >>> Lab = np.array([37.98562910, -23.62907688, -4.41746615])
+    >>> Lab = np.array([41.52787529, 52.63858304, 26.92317922])
     >>> Lab_to_XYZ(Lab)  # doctest: +ELLIPSIS
-    array([ 0.0704953...,  0.1008    ,  0.0955831...])
+    array([ 0.2065400...,  0.1219722...,  0.0513695...])
     """
 
     L, a, b = tsplit(to_domain_100(Lab))
@@ -233,9 +233,9 @@ def Lab_to_LCHab(Lab):
 
     Examples
     --------
-    >>> Lab = np.array([37.98562910, -23.62907688, -4.41746615])
+    >>> Lab = np.array([41.52787529, 52.63858304, 26.92317922])
     >>> Lab_to_LCHab(Lab)  # doctest: +ELLIPSIS
-    array([  37.9856291...,   24.0384542...,  190.5892337...])
+    array([ 41.5278752...,  59.1242590...,  27.0884878...])
     """
 
     L, a, b = tsplit(Lab)
@@ -291,9 +291,9 @@ def LCHab_to_Lab(LCHab):
 
     Examples
     --------
-    >>> LCHab = np.array([37.98562910, 24.03845422, 190.58923377])
+    >>> LCHab = np.array([41.52787529, 59.12425901, 27.08848784])
     >>> LCHab_to_Lab(LCHab)  # doctest: +ELLIPSIS
-    array([ 37.9856291..., -23.6290768...,  -4.4174661...])
+    array([ 41.5278752...,  52.6385830...,  26.9231792...])
     """
 
     L, C, H = tsplit(LCHab)

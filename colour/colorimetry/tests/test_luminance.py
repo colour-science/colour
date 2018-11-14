@@ -41,13 +41,19 @@ class TestLuminanceNewhall1943(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            luminance_Newhall1943(3.74629715), 10.40898746, places=7)
+            luminance_Newhall1943(4.08244375),
+            12.550078816731881,
+            places=7)
 
         self.assertAlmostEqual(
-            luminance_Newhall1943(8.64728711), 71.31748010, places=7)
+            luminance_Newhall1943(5.39132685),
+            23.481252371310738,
+            places=7)
 
         self.assertAlmostEqual(
-            luminance_Newhall1943(1.52569022), 2.06998750, places=7)
+            luminance_Newhall1943(2.97619312),
+            6.4514266875601924,
+            places=7)
 
     def test_n_dimensional_luminance_Newhall1943(self):
         """
@@ -55,8 +61,8 @@ class TestLuminanceNewhall1943(unittest.TestCase):
         definition n-dimensional arrays support.
         """
 
-        V = 3.74629715
-        Y = 10.408987457743208
+        V = 4.08244375
+        Y = 12.550078816731881
         np.testing.assert_almost_equal(luminance_Newhall1943(V), Y, decimal=7)
 
         V = np.tile(V, 6)
@@ -77,13 +83,13 @@ class TestLuminanceNewhall1943(unittest.TestCase):
         definition domain and range scale support.
         """
 
-        Y = luminance_Newhall1943(3.74629715)
+        Y = luminance_Newhall1943(4.08244375)
 
         d_r = (('reference', 1, 1), (1, 0.1, 0.01), (100, 10, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    luminance_Newhall1943(3.74629715 * factor_a),
+                    luminance_Newhall1943(4.08244375 * factor_a),
                     Y * factor_b,
                     decimal=7)
 
@@ -111,13 +117,19 @@ class TestLuminanceASTMD153508(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            luminance_ASTMD153508(3.74629715), 10.14880968, places=7)
+            luminance_ASTMD153508(4.08244375),
+            12.236342675366036,
+            places=7)
 
         self.assertAlmostEqual(
-            luminance_ASTMD153508(8.64728711), 69.53240916, places=7)
+            luminance_ASTMD153508(5.39132685),
+            22.893999867280378,
+            places=7)
 
         self.assertAlmostEqual(
-            luminance_ASTMD153508(1.52569022), 2.01830631, places=7)
+            luminance_ASTMD153508(2.97619312),
+            6.2902253509053132,
+            places=7)
 
     def test_n_dimensional_luminance_ASTMD153508(self):
         """
@@ -125,8 +137,8 @@ class TestLuminanceASTMD153508(unittest.TestCase):
         definition n-dimensional arrays support.
         """
 
-        V = 3.74629715
-        Y = 10.148809678226682
+        V = 4.08244375
+        Y = 12.236342675366036
         np.testing.assert_almost_equal(luminance_ASTMD153508(V), Y, decimal=7)
 
         V = np.tile(V, 6)
@@ -147,13 +159,13 @@ class TestLuminanceASTMD153508(unittest.TestCase):
         definition domain and range scale support.
         """
 
-        Y = luminance_ASTMD153508(3.74629715)
+        Y = luminance_ASTMD153508(4.08244375)
 
         d_r = (('reference', 1, 1), (1, 0.1, 0.01), (100, 10, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    luminance_ASTMD153508(3.74629715 * factor_a),
+                    luminance_ASTMD153508(4.08244375 * factor_a),
                     Y * factor_b,
                     decimal=7)
 
@@ -181,22 +193,32 @@ class TestLuminanceCIE1976(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            luminance_CIE1976(37.98562910), 10.08000000, places=7)
+            luminance_CIE1976(41.527875844653451),
+            12.197225350000002,
+            places=7)
 
         self.assertAlmostEqual(
-            luminance_CIE1976(80.04441556), 56.76000000, places=7)
+            luminance_CIE1976(55.116362849525402),
+            23.042767810000004,
+            places=7)
 
         self.assertAlmostEqual(
-            luminance_CIE1976(99.34672790), 98.32000000, places=7)
+            luminance_CIE1976(29.805654680097106), 6.157200790000001, places=7)
 
         self.assertAlmostEqual(
-            luminance_CIE1976(37.98562910, 50), 5.04000000, places=7)
+            luminance_CIE1976(56.480581732417676, 50),
+            12.197225349999998,
+            places=7)
 
         self.assertAlmostEqual(
-            luminance_CIE1976(37.98562910, 75), 7.56000000, places=7)
+            luminance_CIE1976(47.317620274162735, 75),
+            12.197225350000002,
+            places=7)
 
         self.assertAlmostEqual(
-            luminance_CIE1976(37.98562910, 95), 9.57600000, places=7)
+            luminance_CIE1976(42.519930728120940, 95),
+            12.197225350000005,
+            places=7)
 
     def test_n_dimensional_luminance_CIE1976(self):
         """
@@ -204,8 +226,8 @@ class TestLuminanceCIE1976(unittest.TestCase):
         definition n-dimensional arrays support.
         """
 
-        L_star = 37.98562910
-        Y = 10.080000000026304
+        L_star = 41.527875844653451
+        Y = 12.197225350000002
         np.testing.assert_almost_equal(luminance_CIE1976(L_star), Y, decimal=7)
 
         L_star = np.tile(L_star, 6)
@@ -226,13 +248,13 @@ class TestLuminanceCIE1976(unittest.TestCase):
         definition domain and range scale support.
         """
 
-        Y = luminance_CIE1976(37.98562910, 100)
+        Y = luminance_CIE1976(41.527875844653451, 100)
 
         d_r = (('reference', 1), (1, 0.01), (100, 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    luminance_CIE1976(37.98562910 * factor, 100),
+                    luminance_CIE1976(41.527875844653451 * factor, 100),
                     Y * factor,
                     decimal=7)
 
@@ -259,17 +281,23 @@ class TestLuminanceFairchild2010(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            luminance_Fairchild2010(24.902290269546651), 0.10079999, places=7)
+            luminance_Fairchild2010(31.996390226262736),
+            0.12197225350000002,
+            places=7)
 
         self.assertAlmostEqual(
-            luminance_Fairchild2010(88.797568871771162), 0.56759999, places=7)
+            luminance_Fairchild2010(60.203153682783302),
+            0.23042767809999998,
+            places=7)
 
         self.assertAlmostEqual(
-            luminance_Fairchild2010(95.613018520289828), 0.98319999, places=7)
+            luminance_Fairchild2010(11.836517240976489),
+            0.06157200790000001,
+            places=7)
 
         self.assertAlmostEqual(
-            luminance_Fairchild2010(16.064202706248068, 2.75),
-            0.10079999,
+            luminance_Fairchild2010(24.424283249379986, 2.75),
+            0.12197225350000002,
             places=7)
 
         self.assertAlmostEqual(
@@ -288,8 +316,8 @@ class TestLuminanceFairchild2010(unittest.TestCase):
         definition n-dimensional arrays support.
         """
 
-        L_hdr = 24.902290269546651
-        Y = 10.08 / 100
+        L_hdr = 31.996390226262736
+        Y = 0.12197225350000002
         np.testing.assert_almost_equal(
             luminance_Fairchild2010(L_hdr), Y, decimal=7)
 
@@ -314,13 +342,13 @@ class TestLuminanceFairchild2010(unittest.TestCase):
         definition domain and range scale support.
         """
 
-        Y = luminance_Fairchild2010(24.902290269546651)
+        Y = luminance_Fairchild2010(31.996390226262736)
 
         d_r = (('reference', 1, 1), (1, 0.01, 1), (100, 1, 100))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    luminance_Fairchild2010(24.902290269546651 * factor_a),
+                    luminance_Fairchild2010(31.996390226262736 * factor_a),
                     Y * factor_b,
                     decimal=7)
 
@@ -348,17 +376,23 @@ class TestLuminanceFairchild2011(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            luminance_Fairchild2011(48.248717574425029), 0.10079999, places=7)
+            luminance_Fairchild2011(51.852958445912506),
+            0.12197225350000007,
+            places=7)
 
         self.assertAlmostEqual(
-            luminance_Fairchild2011(87.712714139420314), 0.56759999, places=7)
+            luminance_Fairchild2011(65.275207956353853),
+            0.23042767809999998,
+            places=7)
 
         self.assertAlmostEqual(
-            luminance_Fairchild2011(102.9300402996804), 0.98319999, places=7)
+            luminance_Fairchild2011(39.818935510715917),
+            0.061572007900000038,
+            places=7)
 
         self.assertAlmostEqual(
-            luminance_Fairchild2011(0.08672116154998, 2.75),
-            0.10079999,
+            luminance_Fairchild2011(0.13268968410139345, 2.75),
+            0.12197225350000002,
             places=7)
 
         self.assertAlmostEqual(
@@ -377,8 +411,8 @@ class TestLuminanceFairchild2011(unittest.TestCase):
         definition n-dimensional arrays support.
         """
 
-        L_hdr = 48.248717574425029
-        Y = 10.08 / 100
+        L_hdr = 51.852958445912506
+        Y = 0.12197225350000007
         np.testing.assert_almost_equal(
             luminance_Fairchild2011(L_hdr), Y, decimal=7)
 
@@ -438,7 +472,7 @@ class TestLuminance(unittest.TestCase):
 
         m = ('Newhall 1943', 'ASTM D1535-08', 'CIE 1976', 'Fairchild 2010',
              'Fairchild 2011')
-        v = [luminance(37.98562910, method, Y_n=100) for method in m]
+        v = [luminance(41.527875844653451, method, Y_n=100) for method in m]
 
         d_r = (('reference', 1), (1, 0.01), (100, 1))
         for method, value in zip(m, v):
@@ -446,7 +480,7 @@ class TestLuminance(unittest.TestCase):
                 with domain_range_scale(scale):
                     np.testing.assert_almost_equal(
                         luminance(
-                            37.98562910 * factor, method, Y_n=100),
+                            41.527875844653451 * factor, method, Y_n=100),
                         value * factor,
                         decimal=7)
 

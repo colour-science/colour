@@ -129,7 +129,7 @@ def exponent_hdr_CIELab(Y_s, Y_abs, method='Fairchild 2011'):
 
 def XYZ_to_hdr_CIELab(
         XYZ,
-        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50'],
+        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65'],
         Y_s=0.2,
         Y_abs=100,
         method='Fairchild 2011'):
@@ -194,11 +194,11 @@ def XYZ_to_hdr_CIELab(
 
     Examples
     --------
-    >>> XYZ = np.array([0.07049534, 0.10080000, 0.09558313])
+    >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
     >>> XYZ_to_hdr_CIELab(XYZ)  # doctest: +ELLIPSIS
-    array([ 48.2659894..., -28.1855082...,  -5.2208204...])
+    array([ 51.8700206...,  60.4763385...,  32.1455191...])
     >>> XYZ_to_hdr_CIELab(XYZ, method='Fairchild 2010')  # doctest: +ELLIPSIS
-    array([ 24.9020664..., -46.8312760..., -10.1427484...])
+    array([  31.9962111...,  128.0076303...,   48.7695230...])
     """
 
     X, Y, Z = tsplit(to_domain_1(XYZ))
@@ -231,7 +231,7 @@ def XYZ_to_hdr_CIELab(
 
 def hdr_CIELab_to_XYZ(
         Lab_hdr,
-        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D50'],
+        illuminant=ILLUMINANTS['CIE 1931 2 Degree Standard Observer']['D65'],
         Y_s=0.2,
         Y_abs=100,
         method='Fairchild 2011'):
@@ -288,13 +288,13 @@ def hdr_CIELab_to_XYZ(
 
     Examples
     --------
-    >>> Lab_hdr = np.array([48.26598942, -28.18550823, -5.22082042])
+    >>> Lab_hdr = np.array([51.87002062, 60.4763385, 32.14551912])
     >>> hdr_CIELab_to_XYZ(Lab_hdr)  # doctest: +ELLIPSIS
-    array([ 0.0704953...,  0.1008    ,  0.0955831...])
-    >>> Lab_hdr = np.array([24.90206646, -46.83127607, -10.14274843])
+    array([ 0.2065400...,  0.1219722...,  0.0513695...])
+    >>> Lab_hdr = np.array([31.99621114, 128.00763036, 48.76952309])
     >>> hdr_CIELab_to_XYZ(Lab_hdr, method='Fairchild 2010')
     ... # doctest: +ELLIPSIS
-    array([ 0.0704953...,  0.1008    ,  0.0955831...])
+    array([ 0.2065400...,  0.1219722...,  0.0513695...])
     """
 
     L_hdr, a_hdr, b_hdr = tsplit(to_domain_100(Lab_hdr))
