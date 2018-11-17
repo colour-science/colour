@@ -13,6 +13,11 @@ See Also
 `RGB Colourspaces Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/rgb.ipynb>`_
+
+References
+----------
+-   :cite:`Siragusano2018a` : Siragusano, D (2018). Private Discussion with
+    Shaw, N.
 """
 
 from __future__ import division, unicode_literals
@@ -31,7 +36,7 @@ __status__ = 'Production'
 __all__ = ['log_encoding_FilmLight_T_Log', 'log_decoding_FilmLight_T_Log']
 
 
-def log_encoding_FilmLight_T_Log(x):
+def log_encoding_FilmLight_T_Log(x, w=128.0, g=16.0, o=0.075):
     """
     Defines the *FilmLight T-Log* log encoding curve.
 
@@ -39,11 +44,21 @@ def log_encoding_FilmLight_T_Log(x):
     ----------
     x : numeric or array_like
         Linear reflection data :math`x`.
+    w : numeric, optional
+        Value of :math:`x` for :math:`t = 1.0`.
+    g : numeric, optional
+        Gradient at :math:`x = 0.0`.
+    o : numeric, optional
+        Value of :math:`t` for :math:`x = 0.0`.
 
     Returns
     -------
     numeric or ndarray
         *FilmLight T-Log* encoded data :math:`t`.
+
+    References
+    ----------
+    :cite:`Siragusano2018a`
 
     Notes
     -----
@@ -66,9 +81,6 @@ def log_encoding_FilmLight_T_Log(x):
     0.3965678...
     """
 
-    w = 128.0
-    g = 16.0
-    o = 0.075
     b = 1.0 / (0.7107 + 1.2359 * np.log(w * g))
     gs = g / (1.0 - o)
     C = b / gs
@@ -90,7 +102,7 @@ def log_encoding_FilmLight_T_Log(x):
     return as_float(from_range_1(t))
 
 
-def log_decoding_FilmLight_T_Log(t):
+def log_decoding_FilmLight_T_Log(t, w=128.0, g=16.0, o=0.075):
     """
     Defines the *FilmLight T-Log* log decoding curve.
 
@@ -98,11 +110,21 @@ def log_decoding_FilmLight_T_Log(t):
     ----------
     t : numeric or array_like
         Non-linear data :math:`t`.
+    w : numeric, optional
+        Value of :math:`x` for :math:`t = 1.0`.
+    g : numeric, optional
+        Gradient at :math:`x = 0.0`.
+    o : numeric, optional
+        Value of :math:`t` for :math:`x = 0.0`.
 
     Returns
     -------
     numeric or ndarray
         Linear reflection data :math`x`.
+
+    References
+    ----------
+    :cite:`Siragusano2018a`
 
     Notes
     -----
@@ -125,9 +147,6 @@ def log_decoding_FilmLight_T_Log(t):
     0.1800000...
     """
 
-    w = 128.0
-    g = 16.0
-    o = 0.075
     b = 1.0 / (0.7107 + 1.2359 * np.log(w * g))
     gs = g / (1.0 - o)
     C = b / gs

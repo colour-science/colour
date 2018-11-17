@@ -12,6 +12,11 @@ See Also
 `RGB Colourspaces Jupyter Notebook
 <http://nbviewer.jupyter.org/github/colour-science/colour-notebooks/\
 blob/master/notebooks/models/rgb.ipynb>`_
+
+References
+----------
+-   :cite:`Siragusano2018a` : Siragusano, D (2018). Private Discussion with
+    Shaw, N.
 """
 
 from __future__ import division, unicode_literals
@@ -92,6 +97,10 @@ FILMLIGHT_E_GAMUT_COLOURSPACE = RGB_Colourspace(
 )
 FILMLIGHT_E_GAMUT_COLOURSPACE.__doc__ = """
 *FilmLight E-Gamut* colourspace.
+
+    References
+    ----------
+    :cite:`Siragusano2018a`
 
 FILMLIGHT_E_GAMUT_COLOURSPACE : RGB_Colourspace
 """
