@@ -16,8 +16,8 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
--   :cite:`Siragusano2018a` : Siragusano, D (2018). Private Discussion with
-    Shaw, N.
+-   :cite:`Siragusano2018a` : Siragusano, D. (2018). Private Discussion with
+    Shaw, Nick.
 """
 
 from __future__ import division, unicode_literals
@@ -74,6 +74,30 @@ def log_encoding_FilmLight_T_Log(x, w=128.0, g=16.0, o=0.075):
     +============+=======================+===============+
     | ``t``      | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
+
+    -   The following is an excerpt from the FilmLight colour space file
+        `./etc/colourspaces/FilmLight_TLog_EGamut.flspace` which can be
+        obtained by installing the free Baselight for Nuke plugin::
+
+            T-Log, a cineon driven log tone-curve developed by FilmLight.
+            The colour space is designed to be used as *Working Colour Space*.
+
+            Version 10.0
+            This is similar to Cineon LogC function.
+
+            The formula is... 
+            y = A + B*log(x + C)
+            ...where x,y are the log and linear values.
+
+            A,B,C are constants calculated from...
+            w = x value for y = 1.0
+            g = the gradient at x=0
+            o = y value for x = 0.0
+
+            We do not have an exact solution but the
+            formula for b gives an approximation. The
+            gradient is not g, but should be within a 
+            few percent for most sensible values of (w*g).
 
     Examples
     --------
@@ -140,6 +164,30 @@ def log_decoding_FilmLight_T_Log(t, w=128.0, g=16.0, o=0.075):
     +============+=======================+===============+
     | ``x``   | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
+
+    -   The following is an excerpt from the FilmLight colour space file
+        `./etc/colourspaces/FilmLight_TLog_EGamut.flspace` which can be
+        obtained by installing the free Baselight for Nuke plugin::
+
+            T-Log, a cineon driven log tone-curve developed by FilmLight.
+            The colour space is designed to be used as *Working Colour Space*.
+
+            Version 10.0
+            This is similar to Cineon LogC function.
+
+            The formula is... 
+            y = A + B*log(x + C)
+            ...where x,y are the log and linear values.
+
+            A,B,C are constants calculated from...
+            w = x value for y = 1.0
+            g = the gradient at x=0
+            o = y value for x = 0.0
+
+            We do not have an exact solution but the
+            formula for b gives an approximation. The
+            gradient is not g, but should be within a 
+            few percent for most sensible values of (w*g).
 
     Examples
     --------

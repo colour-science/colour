@@ -15,8 +15,8 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
--   :cite:`Siragusano2018a` : Siragusano, D (2018). Private Discussion with
-    Shaw, N.
+-   :cite:`Siragusano2018a` : Siragusano, D. (2018). Private Discussion with
+    Shaw, Nick.
 """
 
 from __future__ import division, unicode_literals
