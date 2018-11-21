@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 FilmLight E-Gamut Colourspace
-============================
+=============================
 
 Defines the *FilmLight E-Gamut* colourspace:
 
@@ -25,8 +25,8 @@ import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
 from colour.models.rgb import (RGB_Colourspace,
-                               log_encoding_FilmLight_T_Log,
-                               log_decoding_FilmLight_T_Log,
+                               log_encoding_FilmLightTLog,
+                               log_decoding_FilmLightTLog,
                                normalised_primary_matrix)
 
 __author__ = 'Colour Developers'
@@ -92,8 +92,8 @@ FILMLIGHT_E_GAMUT_COLOURSPACE = RGB_Colourspace(
     FILMLIGHT_E_GAMUT_WHITEPOINT_NAME,
     FILMLIGHT_E_GAMUT_TO_XYZ_MATRIX,
     XYZ_TO_FILMLIGHT_E_GAMUT_MATRIX,
-    log_encoding_FilmLight_T_Log,
-    log_decoding_FilmLight_T_Log,
+    log_encoding_FilmLightTLog,
+    log_decoding_FilmLightTLog,
 )
 FILMLIGHT_E_GAMUT_COLOURSPACE.__doc__ = """
 *FilmLight E-Gamut* colourspace.

@@ -5,8 +5,8 @@ FilmLight T-Log Log Encoding
 
 Defines the *FilmLight T-Log* log encoding:
 
--   :func:`colour.models.log_encoding_FilmLight_T_Log`
--   :func:`colour.models.log_decoding_FilmLight_T_Log`
+-   :func:`colour.models.log_encoding_FilmLightTLog`
+-   :func:`colour.models.log_decoding_FilmLightTLog`
 
 See Also
 --------
@@ -33,10 +33,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['log_encoding_FilmLight_T_Log', 'log_decoding_FilmLight_T_Log']
+__all__ = ['log_encoding_FilmLightTLog', 'log_decoding_FilmLightTLog']
 
 
-def log_encoding_FilmLight_T_Log(x, w=128.0, g=16.0, o=0.075):
+def log_encoding_FilmLightTLog(x, w=128.0, g=16.0, o=0.075):
     """
     Defines the *FilmLight T-Log* log encoding curve.
 
@@ -85,7 +85,7 @@ def log_encoding_FilmLight_T_Log(x, w=128.0, g=16.0, o=0.075):
             Version 10.0
             This is similar to Cineon LogC function.
 
-            The formula is... 
+            The formula is...
             y = A + B*log(x + C)
             ...where x,y are the log and linear values.
 
@@ -96,14 +96,16 @@ def log_encoding_FilmLight_T_Log(x, w=128.0, g=16.0, o=0.075):
 
             We do not have an exact solution but the
             formula for b gives an approximation. The
-            gradient is not g, but should be within a 
+            gradient is not g, but should be within a
             few percent for most sensible values of (w*g).
 
     Examples
     --------
-    >>> log_encoding_FilmLight_T_Log(0.18)  # doctest: +ELLIPSIS
+    >>> log_encoding_FilmLightTLog(0.18)  # doctest: +ELLIPSIS
     0.3965678...
     """
+
+    x = to_domain_1(x)
 
     b = 1.0 / (0.7107 + 1.2359 * np.log(w * g))
     gs = g / (1.0 - o)
@@ -115,8 +117,6 @@ def log_encoding_FilmLight_T_Log(x, w=128.0, g=16.0, o=0.075):
     B = b * s
     G = gs * s
 
-    x = to_domain_1(x)
-
     t = np.where(
         x < 0.0,
         G * x + o,
@@ -126,7 +126,7 @@ def log_encoding_FilmLight_T_Log(x, w=128.0, g=16.0, o=0.075):
     return as_float(from_range_1(t))
 
 
-def log_decoding_FilmLight_T_Log(t, w=128.0, g=16.0, o=0.075):
+def log_decoding_FilmLightTLog(t, w=128.0, g=16.0, o=0.075):
     """
     Defines the *FilmLight T-Log* log decoding curve.
 
@@ -156,13 +156,13 @@ def log_decoding_FilmLight_T_Log(t, w=128.0, g=16.0, o=0.075):
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``t``  | [0, 1]                | [0, 1]        |
+    | ``t``      | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``   | [0, 1]                | [0, 1]        |
+    | ``x``      | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
 
     -   The following is an excerpt from the FilmLight colour space file
@@ -175,7 +175,7 @@ def log_decoding_FilmLight_T_Log(t, w=128.0, g=16.0, o=0.075):
             Version 10.0
             This is similar to Cineon LogC function.
 
-            The formula is... 
+            The formula is...
             y = A + B*log(x + C)
             ...where x,y are the log and linear values.
 
@@ -186,14 +186,16 @@ def log_decoding_FilmLight_T_Log(t, w=128.0, g=16.0, o=0.075):
 
             We do not have an exact solution but the
             formula for b gives an approximation. The
-            gradient is not g, but should be within a 
+            gradient is not g, but should be within a
             few percent for most sensible values of (w*g).
 
     Examples
     --------
-    >>> log_decoding_FilmLight_T_Log(0.39656780129833191)
+    >>> log_decoding_FilmLightTLog(0.39656780129833191)
     0.1800000...
     """
+
+    t = to_domain_1(t)
 
     b = 1.0 / (0.7107 + 1.2359 * np.log(w * g))
     gs = g / (1.0 - o)
@@ -204,8 +206,6 @@ def log_decoding_FilmLight_T_Log(t, w=128.0, g=16.0, o=0.075):
     A = 1.0 + (a - 1.0) * s
     B = b * s
     G = gs * s
-
-    t = to_domain_1(t)
 
     x = np.where(
         t < o,

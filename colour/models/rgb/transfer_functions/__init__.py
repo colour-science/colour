@@ -20,8 +20,8 @@ from .dcdm import oetf_DCDM, eotf_DCDM
 from .dicom_gsdf import oetf_DICOMGSDF, eotf_DICOMGSDF
 from .filmic_pro import log_encoding_FilmicPro6, log_decoding_FilmicPro6
 from .filmlight_tlog import (
-    log_encoding_FilmLight_T_Log,
-    log_decoding_FilmLight_T_Log)
+    log_encoding_FilmLightTLog,
+    log_decoding_FilmLightTLog)
 from .gamma import function_gamma
 from .gopro import log_encoding_Protune, log_decoding_Protune
 from .itur_bt_601 import oetf_BT601, oetf_reverse_BT601
@@ -68,7 +68,7 @@ __all__ += ['log_encoding_Cineon', 'log_decoding_Cineon']
 __all__ += ['oetf_DCDM', 'eotf_DCDM']
 __all__ += ['oetf_DICOMGSDF', 'eotf_DICOMGSDF']
 __all__ += ['log_encoding_FilmicPro6', 'log_decoding_FilmicPro6']
-__all__ += ['log_encoding_FilmLight_T_Log', 'log_decoding_FilmLight_T_Log']
+__all__ += ['log_encoding_FilmLightTLog', 'log_decoding_FilmLightTLog']
 __all__ += ['function_gamma']
 __all__ += ['log_encoding_Protune', 'log_decoding_Protune']
 __all__ += ['oetf_BT601', 'oetf_reverse_BT601']
@@ -115,7 +115,6 @@ LOG_ENCODING_CURVES = CaseInsensitiveMapping({
     'Cineon': log_encoding_Cineon,
     'ERIMM RGB': log_encoding_ERIMMRGB,
     'Filmic Pro 6': log_encoding_FilmicPro6,
-    'T-Log': log_encoding_FilmLight_T_Log,
     'Log3G10': log_encoding_Log3G10,
     'Log3G12': log_encoding_Log3G12,
     'Panalog': log_encoding_Panalog,
@@ -126,6 +125,7 @@ LOG_ENCODING_CURVES = CaseInsensitiveMapping({
     'S-Log': log_encoding_SLog,
     'S-Log2': log_encoding_SLog2,
     'S-Log3': log_encoding_SLog3,
+    'T-Log': log_encoding_FilmLightTLog,
     'V-Log': log_encoding_VLog,
     'ViperLog': log_encoding_ViperLog
 })
@@ -249,7 +249,6 @@ LOG_DECODING_CURVES = CaseInsensitiveMapping({
     'Cineon': log_decoding_Cineon,
     'ERIMM RGB': log_decoding_ERIMMRGB,
     'Filmic Pro 6': log_decoding_FilmicPro6,
-    'T-Log': log_decoding_FilmLight_T_Log,
     'Log3G10': log_decoding_Log3G10,
     'Log3G12': log_decoding_Log3G12,
     'Panalog': log_decoding_Panalog,
@@ -260,6 +259,7 @@ LOG_DECODING_CURVES = CaseInsensitiveMapping({
     'S-Log': log_decoding_SLog,
     'S-Log2': log_decoding_SLog2,
     'S-Log3': log_decoding_SLog3,
+    'T-Log': log_decoding_FilmLightTLog,
     'V-Log': log_decoding_VLog,
     'ViperLog': log_decoding_ViperLog
 })
