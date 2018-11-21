@@ -497,6 +497,10 @@ def render(**kwargs):
         *X* axis label.
     y_label : unicode, optional
         *Y* axis label.
+    x_ticker : bool, optional
+        Whether to display the *X* axis ticker. Default is *True*.
+    y_ticker : bool, optional
+        Whether to display the *Y* axis ticker. Default is *True*.
 
     Returns
     -------
@@ -526,6 +530,8 @@ def render(**kwargs):
             'title': None,
             'x_label': None,
             'y_label': None,
+            'x_ticker': True,
+            'y_ticker': True,
         })
     settings.update(kwargs)
 
@@ -543,6 +549,10 @@ def render(**kwargs):
         axes.set_xlabel(settings.x_label)
     if settings.y_label:
         axes.set_ylabel(settings.y_label)
+    if not settings.x_ticker:
+        axes.set_xticks([])
+    if not settings.y_ticker:
+        axes.set_yticks([])
     if settings.legend:
         axes.legend(ncol=settings.legend_columns)
 
