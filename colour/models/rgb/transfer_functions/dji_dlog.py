@@ -5,8 +5,8 @@ DJI D-Log Log Encoding
 
 Defines the *DJI D-Log* log encoding:
 
--   :func:`colour.models.log_encoding_DJI_D_Log`
--   :func:`colour.models.log_decoding_DJI_D_Log`
+-   :func:`colour.models.log_encoding_DJIDLog`
+-   :func:`colour.models.log_decoding_DJIDLog`
 
 See Also
 --------
@@ -34,10 +34,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['log_encoding_DJI_D_Log', 'log_decoding_DJI_D_Log']
+__all__ = ['log_encoding_DJIDLog', 'log_decoding_DJIDLog']
 
 
-def log_encoding_DJI_D_Log(x):
+def log_encoding_DJIDLog(x):
     """
     Defines the *DJI D-Log* log encoding curve.
 
@@ -72,7 +72,7 @@ def log_encoding_DJI_D_Log(x):
 
     Examples
     --------
-    >>> log_encoding_DJI_D_Log(0.18)  # doctest: +ELLIPSIS
+    >>> log_encoding_DJIDLog(0.18)  # doctest: +ELLIPSIS
     0.3987645...
     """
 
@@ -87,7 +87,7 @@ def log_encoding_DJI_D_Log(x):
     return as_float(from_range_1(y))
 
 
-def log_decoding_DJI_D_Log(y):
+def log_decoding_DJIDLog(y):
     """
     Defines the *DJI D-Log* log decoding curve.
 
@@ -111,18 +111,18 @@ def log_decoding_DJI_D_Log(y):
     +------------+-----------------------+---------------+
     | **Domain** | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``y``  | [0, 1]                | [0, 1]        |
+    | ``y``      | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
 
     +------------+-----------------------+---------------+
     | **Range**  | **Scale - Reference** | **Scale - 1** |
     +============+=======================+===============+
-    | ``x``   | [0, 1]                | [0, 1]        |
+    | ``x``      | [0, 1]                | [0, 1]        |
     +------------+-----------------------+---------------+
 
     Examples
     --------
-    >>> log_decoding_DJI_D_Log(0.3987645561893306)
+    >>> log_decoding_DJIDLog(0.3987645561893306)
     0.1799998...
     """
 

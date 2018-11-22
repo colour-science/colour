@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 DJI D-Gamut Colourspace
-============================
+=======================
 
 Defines the *DJI D-Gamut* colourspace:
 
@@ -26,8 +26,8 @@ import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
 from colour.models.rgb import (RGB_Colourspace,
-                               log_encoding_DJI_D_Log,
-                               log_decoding_DJI_D_Log)
+                               log_encoding_DJIDLog,
+                               log_decoding_DJIDLog)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -97,8 +97,8 @@ DJI_D_GAMUT_COLOURSPACE = RGB_Colourspace(
     DJI_D_GAMUT_WHITEPOINT_NAME,
     DJI_D_GAMUT_TO_XYZ_MATRIX,
     XYZ_TO_DJI_D_GAMUT_MATRIX,
-    log_encoding_DJI_D_Log,
-    log_decoding_DJI_D_Log,
+    log_encoding_DJIDLog,
+    log_decoding_DJIDLog,
 )
 DJI_D_GAMUT_COLOURSPACE.__doc__ = """
 *DJI_D-Gamut* colourspace.
