@@ -19,9 +19,8 @@ from .cineon import log_encoding_Cineon, log_decoding_Cineon
 from .dcdm import oetf_DCDM, eotf_DCDM
 from .dicom_gsdf import oetf_DICOMGSDF, eotf_DICOMGSDF
 from .filmic_pro import log_encoding_FilmicPro6, log_decoding_FilmicPro6
-from .filmlight_tlog import (
-    log_encoding_FilmLightTLog,
-    log_decoding_FilmLightTLog)
+from .filmlight_tlog import (log_encoding_FilmLightTLog,
+                             log_decoding_FilmLightTLog)
 from .gamma import function_gamma
 from .gopro import log_encoding_Protune, log_decoding_Protune
 from .itur_bt_601 import oetf_BT601, oetf_reverse_BT601
