@@ -43,9 +43,9 @@ __all__ = [
 ]
 
 FILMLIGHT_E_GAMUT_PRIMARIES = np.array([
-    [0.8, 0.3177],
-    [0.18, 0.9],
-    [0.065, -0.0805],
+    [0.8000, 0.3177],
+    [0.1800, 0.9000],
+    [0.0650, -0.0805],
 ])
 """
 *FilmLight E-Gamut* colourspace primaries.
