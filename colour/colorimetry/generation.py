@@ -47,7 +47,7 @@ __status__ = 'Production'
 
 __all__ = [
     'spd_constant', 'spd_zeros', 'spd_ones', 'spd_gaussian_normal',
-    'spd_gaussian_fwhm', 'GAUSSIAN_SPD_METHODS', 'gaussian_spd',
+    'spd_gaussian_fwhm', 'GAUSSIAN_SPD_METHODS', 'spd_gaussian',
     'spd_single_led_Ohno2005', 'SINGLE_LED_SPD_METHODS', 'single_led_spd',
     'spd_multi_led_Ohno2005', 'MULTI_LED_SPD_METHODS', 'multi_led_spd'
 ]
@@ -262,7 +262,7 @@ GAUSSIAN_SPD_METHODS : CaseInsensitiveMapping
 """
 
 
-def gaussian_spd(mu_peak_wavelength,
+def spd_gaussian(mu_peak_wavelength,
                  sigma_fwhm,
                  shape=DEFAULT_SPECTRAL_SHAPE,
                  method='Normal'):
@@ -298,14 +298,14 @@ def gaussian_spd(mu_peak_wavelength,
 
     Examples
     --------
-    >>> spd = gaussian_spd(555, 25)
+    >>> spd = spd_gaussian(555, 25)
     >>> spd.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> spd[555]  # doctest: +ELLIPSIS
     1.0000000...
     >>> spd[530]  # doctest: +ELLIPSIS
     0.6065306...
-    >>> spd = gaussian_spd(555, 25, method='FWHM')
+    >>> spd = spd_gaussian(555, 25, method='FWHM')
     >>> spd.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> spd[555]

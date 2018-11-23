@@ -36,7 +36,7 @@ Spectral Data Generation
     spd_ones
     spd_zeros
     GAUSSIAN_SPD_METHODS
-    gaussian_spd
+    spd_gaussian
     SINGLE_LED_SPD_METHODS
     single_led_spd
     MULTI_LED_SPD_METHODS
