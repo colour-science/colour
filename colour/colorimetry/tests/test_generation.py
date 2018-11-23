@@ -9,7 +9,7 @@ import numpy as np
 import unittest
 
 from colour.colorimetry.generation import (
-    spd_constant, spd_zeros, spd_ones, gaussian_spd_normal, gaussian_spd_fwhm,
+    spd_constant, spd_zeros, spd_ones, spd_gaussian_normal, gaussian_spd_fwhm,
     single_led_spd_Ohno2005, multi_led_spd_Ohno2005)
 
 __author__ = 'Colour Developers'
@@ -20,7 +20,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'TestSpdConstant', 'TestZerosSpd', 'TestSpdOnes', 'TestGaussianSpdNormal',
+    'TestSpdConstant', 'TestZerosSpd', 'TestSpdOnes', 'TestSpdGaussianNormal',
     'TestGaussianSpdFwhm', 'TestSingleLedSpdOhno2005',
     'TestMultiLedSpdOhno2005'
 ]
@@ -87,19 +87,19 @@ class TestSpdOnes(unittest.TestCase):
         self.assertEqual(spd[780], 1)
 
 
-class TestGaussianSpdNormal(unittest.TestCase):
+class TestSpdGaussianNormal(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.generation.gaussian_spd_normal`
+    Defines :func:`colour.colorimetry.generation.spd_gaussian_normal`
     definition unit tests methods.
     """
 
-    def test_gaussian_spd_normal(self):
+    def test_spd_gaussian_normal(self):
         """
-        Tests :func:`colour.colorimetry.generation.gaussian_spd_normal`
+        Tests :func:`colour.colorimetry.generation.spd_gaussian_normal`
         definition.
         """
 
-        spd = gaussian_spd_normal(555, 25)
+        spd = spd_gaussian_normal(555, 25)
 
         self.assertAlmostEqual(spd[530], 0.606530659712633, places=7)
 

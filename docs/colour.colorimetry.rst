@@ -49,7 +49,7 @@ Spectral Data Generation
 .. autosummary::
     :toctree: generated/
 
-    gaussian_spd_normal
+    spd_gaussian_normal
     gaussian_spd_fwhm
     single_led_spd_Ohno2005
     multi_led_spd_Ohno2005

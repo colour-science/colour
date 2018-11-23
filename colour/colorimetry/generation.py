@@ -8,7 +8,7 @@ Defines various objects performing spectral generation:
 -   :func:`colour.spd_constant`
 -   :func:`colour.spd_zeros`
 -   :func:`colour.spd_ones`
--   :func:`colour.colorimetry.gaussian_spd_normal`
+-   :func:`colour.colorimetry.spd_gaussian_normal`
 -   :func:`colour.colorimetry.gaussian_spd_fwhm`
 -   :func:`colour.colorimetry.single_led_spd_Ohno2005`
 -   :func:`colour.colorimetry.multi_led_spd_Ohno2005`
@@ -46,7 +46,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'spd_constant', 'spd_zeros', 'spd_ones', 'gaussian_spd_normal',
+    'spd_constant', 'spd_zeros', 'spd_ones', 'spd_gaussian_normal',
     'gaussian_spd_fwhm', 'GAUSSIAN_SPD_METHODS', 'gaussian_spd',
     'single_led_spd_Ohno2005', 'SINGLE_LED_SPD_METHODS', 'single_led_spd',
     'multi_led_spd_Ohno2005', 'MULTI_LED_SPD_METHODS', 'multi_led_spd'
@@ -158,7 +158,7 @@ def spd_ones(shape=DEFAULT_SPECTRAL_SHAPE):
     return spd_constant(1, shape)
 
 
-def gaussian_spd_normal(mu, sigma, shape=DEFAULT_SPECTRAL_SHAPE):
+def spd_gaussian_normal(mu, sigma, shape=DEFAULT_SPECTRAL_SHAPE):
     """
     Returns a gaussian spectral power distribution of given spectral shape at
     given mean wavelength :math:`\\mu` and standard deviation :math:`sigma`.
@@ -186,7 +186,7 @@ def gaussian_spd_normal(mu, sigma, shape=DEFAULT_SPECTRAL_SHAPE):
 
     Examples
     --------
-    >>> spd = gaussian_spd_normal(555, 25)
+    >>> spd = spd_gaussian_normal(555, 25)
     >>> spd.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> spd[555]  # doctest: +ELLIPSIS
@@ -251,7 +251,7 @@ def gaussian_spd_fwhm(peak_wavelength, fwhm, shape=DEFAULT_SPECTRAL_SHAPE):
 
 
 GAUSSIAN_SPD_METHODS = CaseInsensitiveMapping({
-    'Normal': gaussian_spd_normal,
+    'Normal': spd_gaussian_normal,
     'FWHM': gaussian_spd_fwhm
 })
 GAUSSIAN_SPD_METHODS.__doc__ = """
