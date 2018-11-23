@@ -182,4 +182,4 @@ print(colour.zeros_spd()[400])
 print('\n')
 
 message_box('Ones filled spectral power distribution.')
-print(colour.ones_spd()[400])
+print(colour.spd_ones()[400])

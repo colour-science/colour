@@ -327,7 +327,7 @@ for spectral related computations and many others:
      'DEFAULT_SPECTRAL_SHAPE',
      'spd_constant',
      'zeros_spd',
-     'ones_spd',
+     'spd_ones',
      'spd_blackbody',
      'blackbody_spectral_radiance',
      'planck_law',
@@ -708,7 +708,7 @@ convenient objects to create constant spectral power distributions:
 
 -  ``colour.spd_constant``
 -  ``colour.zeros_spd``
--  ``colour.ones_spd``
+-  ``colour.spd_ones``
 
 .. code:: python
 
@@ -726,9 +726,9 @@ convenient objects to create constant spectral power distributions:
 
     # Defining a ones filled spectral power distribution.
     print('\n"Ones Filled Spectral Power Distribution"')
-    ones_spd = colour.ones_spd()
-    print(ones_spd.shape)
-    print(ones_spd[400])
+    spd_ones = colour.spd_ones()
+    print(spd_ones.shape)
+    print(spd_ones[400])
 
 
 .. code-block:: text
@@ -747,7 +747,7 @@ convenient objects to create constant spectral power distributions:
 
 
 By default the shape used by ``colour.spd_constant``,
-``colour.zeros_spd`` and ``colour.ones_spd`` is the one defined by
+``colour.zeros_spd`` and ``colour.spd_ones`` is the one defined by
 ``colour.DEFAULT_SPECTRAL_SHAPE`` attribute using the *CIE 1931 2°
 Standard Observer* shape.
 
@@ -766,7 +766,7 @@ distribution with user defined dimensions:
 
 .. code:: python
 
-    colour.ones_spd(colour.SpectralShape(400, 700, 5))[450]
+    colour.spd_ones(colour.SpectralShape(400, 700, 5))[450]
 
 
 
@@ -787,7 +787,7 @@ arithmetical operations:
 
 .. code:: python
 
-    spd1 = colour.ones_spd()
+    spd1 = colour.spd_ones()
     print('"Ones Filled Spectral Power Distribution"')
     print(spd1[400])
 
@@ -795,7 +795,7 @@ arithmetical operations:
     print((spd1 * 2)[400])
 
     print('\n"+ Spectral Power Distribution"')
-    print((spd1 + colour.ones_spd())[400])
+    print((spd1 + colour.spd_ones())[400])
 
 
 .. code-block:: text

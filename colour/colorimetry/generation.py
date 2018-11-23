@@ -7,7 +7,7 @@ Defines various objects performing spectral generation:
 
 -   :func:`colour.spd_constant`
 -   :func:`colour.zeros_spd`
--   :func:`colour.ones_spd`
+-   :func:`colour.spd_ones`
 -   :func:`colour.colorimetry.gaussian_spd_normal`
 -   :func:`colour.colorimetry.gaussian_spd_fwhm`
 -   :func:`colour.colorimetry.single_led_spd_Ohno2005`
@@ -46,7 +46,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'spd_constant', 'zeros_spd', 'ones_spd', 'gaussian_spd_normal',
+    'spd_constant', 'zeros_spd', 'spd_ones', 'gaussian_spd_normal',
     'gaussian_spd_fwhm', 'GAUSSIAN_SPD_METHODS', 'gaussian_spd',
     'single_led_spd_Ohno2005', 'SINGLE_LED_SPD_METHODS', 'single_led_spd',
     'multi_led_spd_Ohno2005', 'MULTI_LED_SPD_METHODS', 'multi_led_spd'
@@ -126,7 +126,7 @@ def zeros_spd(shape=DEFAULT_SPECTRAL_SHAPE):
     return spd_constant(0, shape)
 
 
-def ones_spd(shape=DEFAULT_SPECTRAL_SHAPE):
+def spd_ones(shape=DEFAULT_SPECTRAL_SHAPE):
     """
     Returns a spectral power distribution of given spectral shape filled with
     ones.
@@ -148,7 +148,7 @@ def ones_spd(shape=DEFAULT_SPECTRAL_SHAPE):
 
     Examples
     --------
-    >>> spd = ones_spd()
+    >>> spd = spd_ones()
     >>> spd.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> spd[400]

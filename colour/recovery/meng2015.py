@@ -28,7 +28,7 @@ from scipy.optimize import minimize
 
 from colour.colorimetry import (STANDARD_OBSERVERS_CMFS,
                                 SpectralPowerDistribution, SpectralShape,
-                                ones_spd, spectral_to_XYZ_integration)
+                                spd_ones, spectral_to_XYZ_integration)
 from colour.utilities import to_domain_1, from_range_100
 
 __author__ = 'Colour Developers'
@@ -157,8 +157,8 @@ def XYZ_to_spectral_Meng2015(
     XYZ = to_domain_1(XYZ)
     shape = SpectralShape(cmfs.shape.start, cmfs.shape.end, interval)
     cmfs = cmfs.copy().align(shape)
-    illuminant = ones_spd(shape)
-    spd = ones_spd(shape)
+    illuminant = spd_ones(shape)
+    spd = spd_ones(shape)
 
     def function_objective(a):
         """

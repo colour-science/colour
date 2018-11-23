@@ -9,7 +9,7 @@ import numpy as np
 import unittest
 
 from colour.colorimetry.generation import (
-    spd_constant, zeros_spd, ones_spd, gaussian_spd_normal, gaussian_spd_fwhm,
+    spd_constant, zeros_spd, spd_ones, gaussian_spd_normal, gaussian_spd_fwhm,
     single_led_spd_Ohno2005, multi_led_spd_Ohno2005)
 
 __author__ = 'Colour Developers'
@@ -20,7 +20,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'TestSpdConstant', 'TestZerosSpd', 'TestOnesSpd', 'TestGaussianSpdNormal',
+    'TestSpdConstant', 'TestZerosSpd', 'TestSpdOnes', 'TestGaussianSpdNormal',
     'TestGaussianSpdFwhm', 'TestSingleLedSpdOhno2005',
     'TestMultiLedSpdOhno2005'
 ]
@@ -67,19 +67,18 @@ class TestZerosSpd(unittest.TestCase):
         self.assertEqual(spd[780], 0)
 
 
-class TestOnesSpd(unittest.TestCase):
+class TestSpdOnes(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.generation.ones_spd` definition unit
+    Defines :func:`colour.colorimetry.generation.spd_ones` definition unit
     tests methods.
     """
 
-    def test_ones_spd(self):
+    def test_spd_ones(self):
         """
-        Tests :func:`colour.colorimetry.generation.ones_spd`
-        definition.
+        Tests :func:`colour.colorimetry.generation.spd_ones` definition.
         """
 
-        spd = ones_spd()
+        spd = spd_ones()
 
         self.assertEqual(spd[360], 1)
 

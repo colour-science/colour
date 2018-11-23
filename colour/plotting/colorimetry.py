@@ -35,7 +35,7 @@ from six.moves import reduce
 from colour.algebra import LinearInterpolator
 from colour.colorimetry import (
     ILLUMINANTS, ILLUMINANTS_SPDS, LIGHTNESS_METHODS, LUMINANCE_METHODS,
-    MultiSpectralPowerDistribution, SpectralShape, spd_blackbody, ones_spd,
+    MultiSpectralPowerDistribution, SpectralShape, spd_blackbody, spd_ones,
     spectral_to_XYZ, wavelength_to_XYZ)
 from colour.plotting import (
     ColourSwatch, COLOUR_STYLE_CONSTANTS, XYZ_to_plotting_colourspace, artist,
@@ -568,7 +568,7 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
     settings['standalone'] = False
 
     figure, axes = single_spd_plot(
-        ones_spd(cmfs.shape),
+        spd_ones(cmfs.shape),
         cmfs=cmfs,
         out_of_gamut_clipping=out_of_gamut_clipping,
         **settings)

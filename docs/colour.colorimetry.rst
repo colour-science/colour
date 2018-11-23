@@ -33,7 +33,7 @@ Spectral Data Generation
     spd_CIE_illuminant_D_series
     spd_blackbody
     spd_constant
-    ones_spd
+    spd_ones
     zeros_spd
     GAUSSIAN_SPD_METHODS
     gaussian_spd
