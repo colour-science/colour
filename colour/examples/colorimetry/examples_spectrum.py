@@ -172,7 +172,7 @@ print(clone_spd[400], clone_spd[700])
 print('\n')
 
 message_box('Constant value filled spectral power distribution.')
-print(colour.constant_spd(3.1415)[400])
+print(colour.spd_constant(3.1415)[400])
 
 print('\n')
 

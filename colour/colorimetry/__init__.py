@@ -10,7 +10,7 @@ from .cmfs import (LMS_ConeFundamentals, RGB_ColourMatchingFunctions,
                    XYZ_ColourMatchingFunctions)
 from .dataset import *  # noqa
 from . import dataset
-from .generation import constant_spd, zeros_spd, ones_spd
+from .generation import spd_constant, zeros_spd, ones_spd
 from .generation import GAUSSIAN_SPD_METHODS
 from .generation import gaussian_spd, gaussian_spd_normal, gaussian_spd_fwhm
 from .generation import SINGLE_LED_SPD_METHODS
@@ -72,7 +72,7 @@ __all__ += [
     'XYZ_ColourMatchingFunctions'
 ]
 __all__ += dataset.__all__
-__all__ += ['constant_spd', 'zeros_spd', 'ones_spd']
+__all__ += ['spd_constant', 'zeros_spd', 'ones_spd']
 __all__ += ['GAUSSIAN_SPD_METHODS']
 __all__ += ['gaussian_spd', 'gaussian_spd_normal', 'gaussian_spd_fwhm']
 __all__ += ['SINGLE_LED_SPD_METHODS']

@@ -64,11 +64,11 @@ from .colorimetry import (
     SINGLE_LED_SPD_METHODS, SPECTRAL_TO_XYZ_METHODS, STANDARD_OBSERVERS_CMFS,
     SpectralPowerDistribution, SpectralShape, WHITENESS_METHODS,
     YELLOWNESS_METHODS, bandpass_correction, colorimetric_purity,
-    complementary_wavelength, constant_spd, dominant_wavelength,
-    excitation_purity, gaussian_spd, lightness, luminance, luminous_efficacy,
-    luminous_efficiency, luminous_flux, mesopic_luminous_efficiency_function,
-    multi_led_spd, multi_spectral_to_XYZ, ones_spd, single_led_spd,
-    spd_CIE_illuminant_D_series, spd_blackbody, spectral_to_XYZ,
+    complementary_wavelength, dominant_wavelength, excitation_purity,
+    gaussian_spd, lightness, luminance, luminous_efficacy, luminous_efficiency,
+    luminous_flux, mesopic_luminous_efficiency_function, multi_led_spd,
+    multi_spectral_to_XYZ, ones_spd, single_led_spd,
+    spd_CIE_illuminant_D_series, spd_blackbody, spd_constant, spectral_to_XYZ,
     wavelength_to_XYZ, whiteness, yellowness, zeros_spd)
 from .blindness import (
     CVD_MATRICES_MACHADO2010, anomalous_trichromacy_cmfs_Machado2009,
@@ -176,13 +176,13 @@ __all__ += [
     'SPECTRAL_TO_XYZ_METHODS', 'STANDARD_OBSERVERS_CMFS',
     'SpectralPowerDistribution', 'SpectralShape', 'WHITENESS_METHODS',
     'YELLOWNESS_METHODS', 'bandpass_correction', 'colorimetric_purity',
-    'complementary_wavelength', 'constant_spd', 'dominant_wavelength',
-    'excitation_purity', 'gaussian_spd', 'lightness', 'luminance',
-    'luminous_efficacy', 'luminous_efficiency', 'luminous_flux',
-    'multi_led_spd', 'multi_spectral_to_XYZ',
-    'mesopic_luminous_efficiency_function', 'ones_spd', 'single_led_spd',
-    'spd_CIE_illuminant_D_series', 'spd_blackbody', 'spectral_to_XYZ',
-    'wavelength_to_XYZ', 'whiteness', 'yellowness', 'zeros_spd'
+    'complementary_wavelength', 'dominant_wavelength', 'excitation_purity',
+    'gaussian_spd', 'lightness', 'luminance', 'luminous_efficacy',
+    'luminous_efficiency', 'luminous_flux', 'multi_led_spd',
+    'multi_spectral_to_XYZ', 'mesopic_luminous_efficiency_function',
+    'ones_spd', 'single_led_spd', 'spd_CIE_illuminant_D_series',
+    'spd_blackbody', 'spd_constant', 'spectral_to_XYZ', 'wavelength_to_XYZ',
+    'whiteness', 'yellowness', 'zeros_spd'
 ]
 __all__ += [
     'CVD_MATRICES_MACHADO2010', 'anomalous_trichromacy_cmfs_Machado2009',
@@ -1612,6 +1612,10 @@ API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
     [
         'colour.blackbody_spd',
         'colour.spd_blackbody',
+    ],
+    [
+        'colour.constant_spd',
+        'colour.spd_constant',
     ],
 ]
 

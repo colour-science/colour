@@ -148,7 +148,7 @@ The various sub-packages also expose their public API:
      'SpectralPowerDistribution',
      'MultiSpectralPowerDistribution',
      'DEFAULT_SPECTRAL_SHAPE',
-     'constant_spd',
+     'spd_constant',
      '...']
 
 
@@ -325,7 +325,7 @@ for spectral related computations and many others:
      'SpectralPowerDistribution',
      'MultiSpectralPowerDistribution',
      'DEFAULT_SPECTRAL_SHAPE',
-     'constant_spd',
+     'spd_constant',
      'zeros_spd',
      'ones_spd',
      'spd_blackbody',
@@ -706,17 +706,17 @@ spectral dimensions and is instantiated as follows:
 `Colour <https://github.com/colour-science/Colour/>`__ defines three
 convenient objects to create constant spectral power distributions:
 
--  ``colour.constant_spd``
+-  ``colour.spd_constant``
 -  ``colour.zeros_spd``
 -  ``colour.ones_spd``
 
 .. code:: python
 
     # Defining a constant spectral power distribution.
-    constant_spd = colour.constant_spd(100)
+    spd_constant = colour.spd_constant(100)
     print('"Constant Spectral Power Distribution"')
-    print(constant_spd.shape)
-    print(constant_spd[400])
+    print(spd_constant.shape)
+    print(spd_constant[400])
 
     # Defining a zeros filled spectral power distribution.
     print('\n"Zeros Filled Spectral Power Distribution"')
@@ -746,7 +746,7 @@ convenient objects to create constant spectral power distributions:
     1.0
 
 
-By default the shape used by ``colour.constant_spd``,
+By default the shape used by ``colour.spd_constant``,
 ``colour.zeros_spd`` and ``colour.ones_spd`` is the one defined by
 ``colour.DEFAULT_SPECTRAL_SHAPE`` attribute using the *CIE 1931 2°
 Standard Observer* shape.
@@ -1028,7 +1028,7 @@ or *division* with *numeric* and *array_like* variables or other
     print((spd.copy() + 1).values)
     print((spd.copy() * 2).values)
     print((spd * [0.35, 1.55, 0.75, 2.55, 0.95, 0.65, 0.15]).values)
-    print((spd * colour.constant_spd(2, spd.shape) * colour.constant_spd(3, spd.shape)).values)
+    print((spd * colour.spd_constant(2, spd.shape) * colour.spd_constant(3, spd.shape)).values)
 
 
 .. code-block:: text

@@ -5,7 +5,7 @@ Spectral Generation
 
 Defines various objects performing spectral generation:
 
--   :func:`colour.constant_spd`
+-   :func:`colour.spd_constant`
 -   :func:`colour.zeros_spd`
 -   :func:`colour.ones_spd`
 -   :func:`colour.colorimetry.gaussian_spd_normal`
@@ -46,14 +46,14 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'constant_spd', 'zeros_spd', 'ones_spd', 'gaussian_spd_normal',
+    'spd_constant', 'zeros_spd', 'ones_spd', 'gaussian_spd_normal',
     'gaussian_spd_fwhm', 'GAUSSIAN_SPD_METHODS', 'gaussian_spd',
     'single_led_spd_Ohno2005', 'SINGLE_LED_SPD_METHODS', 'single_led_spd',
     'multi_led_spd_Ohno2005', 'MULTI_LED_SPD_METHODS', 'multi_led_spd'
 ]
 
 
-def constant_spd(k, shape=DEFAULT_SPECTRAL_SHAPE, dtype=DEFAULT_FLOAT_DTYPE):
+def spd_constant(k, shape=DEFAULT_SPECTRAL_SHAPE, dtype=DEFAULT_FLOAT_DTYPE):
     """
     Returns a spectral power distribution of given spectral shape filled with
     constant :math:`k` values.
@@ -79,7 +79,7 @@ def constant_spd(k, shape=DEFAULT_SPECTRAL_SHAPE, dtype=DEFAULT_FLOAT_DTYPE):
 
     Examples
     --------
-    >>> spd = constant_spd(100)
+    >>> spd = spd_constant(100)
     >>> spd.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> spd[400]
@@ -123,7 +123,7 @@ def zeros_spd(shape=DEFAULT_SPECTRAL_SHAPE):
     0.0
     """
 
-    return constant_spd(0, shape)
+    return spd_constant(0, shape)
 
 
 def ones_spd(shape=DEFAULT_SPECTRAL_SHAPE):
@@ -155,7 +155,7 @@ def ones_spd(shape=DEFAULT_SPECTRAL_SHAPE):
     1.0
     """
 
-    return constant_spd(1, shape)
+    return spd_constant(1, shape)
 
 
 def gaussian_spd_normal(mu, sigma, shape=DEFAULT_SPECTRAL_SHAPE):
