@@ -191,7 +191,7 @@ def log_decoding_FilmLightTLog(t, w=128.0, g=16.0, o=0.075):
 
     Examples
     --------
-    >>> log_decoding_FilmLightTLog(0.39656780129833191)
+    >>> log_decoding_FilmLightTLog(0.396567801298332)  # doctest: +ELLIPSIS
     0.1800000...
     """
 
