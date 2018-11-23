@@ -49,7 +49,7 @@ __all__ = [
     'spd_constant', 'spd_zeros', 'spd_ones', 'spd_gaussian_normal',
     'spd_gaussian_fwhm', 'SPD_GAUSSIAN_METHODS', 'spd_gaussian',
     'spd_single_led_Ohno2005', 'SPD_SINGLE_LED_METHODS', 'spd_single_led',
-    'spd_multi_led_Ohno2005', 'MULTI_LED_SPD_METHODS', 'multi_led_spd'
+    'spd_multi_led_Ohno2005', 'MULTI_LED_SPD_METHODS', 'spd_multi_led'
 ]
 
 
@@ -538,7 +538,7 @@ MULTI_LED_SPD_METHODS : CaseInsensitiveMapping
 """
 
 
-def multi_led_spd(peak_wavelengths,
+def spd_multi_led(peak_wavelengths,
                   fwhm,
                   peak_power_ratios=None,
                   shape=DEFAULT_SPECTRAL_SHAPE,
@@ -583,7 +583,7 @@ def multi_led_spd(peak_wavelengths,
 
     Examples
     --------
-    >>> spd = multi_led_spd(
+    >>> spd = spd_multi_led(
     ...     np.array([457, 530, 615]),
     ...     np.array([20, 30, 20]),
     ...     np.array([0.731, 1.000, 1.660]),

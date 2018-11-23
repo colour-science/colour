@@ -40,7 +40,7 @@ Spectral Data Generation
     SPD_SINGLE_LED_METHODS
     spd_single_led
     MULTI_LED_SPD_METHODS
-    multi_led_spd
+    spd_multi_led
 
 ``colour.colorimetry``
 
