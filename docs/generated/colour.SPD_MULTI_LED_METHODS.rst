@@ -3,4 +3,4 @@ colour.MULTI\_LED\_SPD\_METHODS
 
 .. currentmodule:: colour
 
-.. autodata:: MULTI_LED_SPD_METHODS
+.. autodata:: SPD_MULTI_LED_METHODS

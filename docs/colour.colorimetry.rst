@@ -39,7 +39,7 @@ Spectral Data Generation
     spd_gaussian
     SPD_SINGLE_LED_METHODS
     spd_single_led
-    MULTI_LED_SPD_METHODS
+    SPD_MULTI_LED_METHODS
     spd_multi_led
 
 ``colour.colorimetry``
