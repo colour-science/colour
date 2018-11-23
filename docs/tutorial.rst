@@ -351,7 +351,7 @@ for spectral related computations and many others:
      'bandpass_correction',
      'bandpass_correction_Stearns1988',
      'spd_CIE_illuminant_D_series',
-     'CIE_standard_illuminant_A_function',
+     'spd_CIE_standard_illuminant_A',
      'mesopic_luminous_efficiency_function',
      'mesopic_weighting_function',
      'LIGHTNESS_METHODS',

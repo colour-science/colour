@@ -5,8 +5,8 @@ Illuminants
 
 Defines *CIE* illuminants computation related objects:
 
+-   :func:`colour.spd_CIE_standard_illuminant_A`
 -   :func:`colour.spd_CIE_illuminant_D_series`
--   :func:`colour.CIE_standard_illuminant_A_function`
 
 See Also
 --------
@@ -30,8 +30,9 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import D_ILLUMINANTS_S_SPDS, SpectralPowerDistribution
-from colour.utilities import as_float_array, tsplit
+from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE, D_ILLUMINANTS_S_SPDS,
+                                SpectralPowerDistribution)
+from colour.utilities import tsplit
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -40,7 +41,84 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['spd_CIE_illuminant_D_series', 'CIE_standard_illuminant_A_function']
+__all__ = ['spd_CIE_standard_illuminant_A', 'spd_CIE_illuminant_D_series']
+
+
+def spd_CIE_standard_illuminant_A(shape=DEFAULT_SPECTRAL_SHAPE):
+    """
+    *CIE Standard Illuminant A* is intended to represent typical, domestic,
+    tungsten-filament lighting.
+
+    Its relative spectral power distribution is that of a Planckian radiator
+    at a temperature of approximately 2856 K. *CIE Standard Illuminant A*
+    should be used in all applications of colorimetry involving the use of
+    incandescent lighting, unless there are specific reasons for using
+    a different illuminant.
+
+    Parameters
+    ----------
+    shape : SpectralShape, optional
+        Spectral shape used to create the spectral power distribution of the
+        *CIE Standard Illuminant A*.
+
+    Returns
+    -------
+    SpectralPowerDistribution
+        *CIE Standard Illuminant A*. spectral power distribution.
+
+    References
+    ----------
+    :cite:`CIETC1-482004n`
+
+    Examples
+    --------
+    >>> from colour import SpectralShape
+    >>> spd_CIE_standard_illuminant_A(SpectralShape(400, 700, 10))
+    ... # doctest: +ELLIPSIS
+    SpectralPowerDistribution([[ 400.        ,   14.7080384...],
+                               [ 410.        ,   17.6752521...],
+                               [ 420.        ,   20.9949572...],
+                               [ 430.        ,   24.6709226...],
+                               [ 440.        ,   28.7027304...],
+                               [ 450.        ,   33.0858929...],
+                               [ 460.        ,   37.8120566...],
+                               [ 470.        ,   42.8692762...],
+                               [ 480.        ,   48.2423431...],
+                               [ 490.        ,   53.9131532...],
+                               [ 500.        ,   59.8610989...],
+                               [ 510.        ,   66.0634727...],
+                               [ 520.        ,   72.4958719...],
+                               [ 530.        ,   79.1325945...],
+                               [ 540.        ,   85.9470183...],
+                               [ 550.        ,   92.9119589...],
+                               [ 560.        ,  100.       ...],
+                               [ 570.        ,  107.1837952...],
+                               [ 580.        ,  114.4363383...],
+                               [ 590.        ,  121.7312009...],
+                               [ 600.        ,  129.0427389...],
+                               [ 610.        ,  136.3462674...],
+                               [ 620.        ,  143.6182057...],
+                               [ 630.        ,  150.8361944...],
+                               [ 640.        ,  157.9791857...],
+                               [ 650.        ,  165.0275098...],
+                               [ 660.        ,  171.9629200...],
+                               [ 670.        ,  178.7686175...],
+                               [ 680.        ,  185.4292591...],
+                               [ 690.        ,  191.9309499...],
+                               [ 700.        ,  198.2612232...]],
+                              interpolator=SpragueInterpolator,
+                              interpolator_args={},
+                              extrapolator=Extrapolator,
+                              extrapolator_args={...})
+    """
+
+    wavelengths = shape.range()
+    values = (100 * (560 / wavelengths) ** 5 * (((np.exp(
+        (1.435 * 10 ** 7) / (2848 * 560)) - 1) / (np.exp(
+            (1.435 * 10 ** 7) / (2848 * wavelengths)) - 1))))
+
+    return SpectralPowerDistribution(
+        values, wavelengths, name='CIE Standard Illuminant A')
 
 
 def spd_CIE_illuminant_D_series(xy, M1_M2_rounding=True):
@@ -214,42 +292,3 @@ def spd_CIE_illuminant_D_series(xy, M1_M2_rounding=True):
 
     return SpectralPowerDistribution(
         distribution, S0.wavelengths, name='CIE Illuminant D Series')
-
-
-def CIE_standard_illuminant_A_function(wl):
-    """
-    *CIE Standard Illuminant A* is intended to represent typical, domestic,
-    tungsten-filament lighting.
-
-    Its relative spectral power distribution is that of a Planckian radiator
-    at a temperature of approximately 2856 K. *CIE Standard Illuminant A*
-    should be used in all applications of colorimetry involving the use of
-    incandescent lighting, unless there are specific reasons for using
-    a different illuminant.
-
-    Parameters
-    ----------
-    wl : array_like
-        Wavelength to evaluate the function at.
-
-    Returns
-    -------
-    ndarray
-        *CIE Standard Illuminant A* value at given wavelength.
-
-    References
-    ----------
-    :cite:`CIETC1-482004n`
-
-    Examples
-    --------
-    >>> wl = np.array([560, 580, 581.5])
-    >>> CIE_standard_illuminant_A_function(wl)  # doctest: +ELLIPSIS
-    array([ 100.        ,  114.4363383...,  115.5285063...])
-    """
-
-    wl = as_float_array(wl)
-
-    return (100 * (560 / wl) ** 5 * (((np.exp(
-        (1.435 * 10 ** 7) / (2848 * 560)) - 1) / (np.exp(
-            (1.435 * 10 ** 7) / (2848 * wl)) - 1))))

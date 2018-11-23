@@ -200,13 +200,10 @@ _TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their identifier key is
 
     Examples
     --------
-    >>> from colour import (CMFS, CIE_standard_illuminant_A_function,
+    >>> from colour import (CMFS, spd_CIE_standard_illuminant_A,
     ...     SpectralPowerDistribution, SpectralShape, numpy_print_options)
     >>> cmfs = CMFS['CIE 1964 10 Degree Standard Observer']
-    >>> wl = cmfs.shape.range()
-    >>> A = SpectralPowerDistribution(
-    ...     dict(zip(wl, CIE_standard_illuminant_A_function(wl))),
-    ...     name='A (360, 830, 1)')
+    >>> A = spd_CIE_standard_illuminant_A(cmfs.shape)
     >>> with numpy_print_options(suppress=True):
     ...     tristimulus_weighting_factors_ASTME202211(
     ...         cmfs, A, SpectralShape(360, 830, 20))
@@ -336,14 +333,11 @@ def adjust_tristimulus_weighting_factors_ASTME30815(W, shape_r, shape_t):
 
     Examples
     --------
-    >>> from colour import (CMFS, CIE_standard_illuminant_A_function,
+    >>> from colour import (CMFS, spd_CIE_standard_illuminant_A,
     ...     SpectralPowerDistribution, SpectralShape)
     >>> from colour.utilities import numpy_print_options
     >>> cmfs = CMFS['CIE 1964 10 Degree Standard Observer']
-    >>> wl = cmfs.shape.range()
-    >>> A = SpectralPowerDistribution(
-    ...     dict(zip(wl, CIE_standard_illuminant_A_function(wl))),
-    ...     name='A (360, 830, 1)')
+    >>> A = spd_CIE_standard_illuminant_A(cmfs.shape)
     >>> W = tristimulus_weighting_factors_ASTME202211(
     ...     cmfs, A, SpectralShape(360, 830, 20))
     >>> with numpy_print_options(suppress=True):

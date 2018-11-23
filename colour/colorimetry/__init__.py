@@ -31,8 +31,8 @@ from .tristimulus import (
 from .correction import BANDPASS_CORRECTION_METHODS
 from .correction import bandpass_correction
 from .correction import bandpass_correction_Stearns1988
-from .illuminants import (spd_CIE_illuminant_D_series,
-                          CIE_standard_illuminant_A_function)
+from .illuminants import (spd_CIE_standard_illuminant_A,
+                          spd_CIE_illuminant_D_series)
 from .lefs import (mesopic_luminous_efficiency_function,
                    mesopic_weighting_function)
 from .lightness import LIGHTNESS_METHODS
@@ -94,7 +94,8 @@ __all__ += ['BANDPASS_CORRECTION_METHODS']
 __all__ += ['bandpass_correction']
 __all__ += ['bandpass_correction_Stearns1988']
 __all__ += [
-    'spd_CIE_illuminant_D_series', 'CIE_standard_illuminant_A_function'
+    'spd_CIE_standard_illuminant_A',
+    'spd_CIE_illuminant_D_series',
 ]
 __all__ += [
     'mesopic_luminous_efficiency_function', 'mesopic_weighting_function'
