@@ -48,7 +48,7 @@ __status__ = 'Production'
 __all__ = [
     'spd_constant', 'spd_zeros', 'spd_ones', 'spd_gaussian_normal',
     'spd_gaussian_fwhm', 'SPD_GAUSSIAN_METHODS', 'spd_gaussian',
-    'spd_single_led_Ohno2005', 'SINGLE_LED_SPD_METHODS', 'single_led_spd',
+    'spd_single_led_Ohno2005', 'SINGLE_LED_SPD_METHODS', 'spd_single_led',
     'spd_multi_led_Ohno2005', 'MULTI_LED_SPD_METHODS', 'multi_led_spd'
 ]
 
@@ -380,7 +380,7 @@ SINGLE_LED_SPD_METHODS : CaseInsensitiveMapping
 """
 
 
-def single_led_spd(peak_wavelength,
+def spd_single_led(peak_wavelength,
                    fwhm,
                    shape=DEFAULT_SPECTRAL_SHAPE,
                    method='Ohno 2005'):
@@ -419,7 +419,7 @@ def single_led_spd(peak_wavelength,
 
     Examples
     --------
-    >>> spd = single_led_spd(555, 25)
+    >>> spd = spd_single_led(555, 25)
     >>> spd.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> spd[555]  # doctest: +ELLIPSIS

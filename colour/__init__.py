@@ -67,10 +67,9 @@ from .colorimetry import (
     colorimetric_purity, complementary_wavelength, dominant_wavelength,
     excitation_purity, lightness, luminance, luminous_efficacy,
     luminous_efficiency, luminous_flux, mesopic_luminous_efficiency_function,
-    multi_led_spd, multi_spectral_to_XYZ, single_led_spd,
-    spd_CIE_illuminant_D_series, spd_blackbody, spd_constant, spd_gaussian,
-    spd_ones, spd_zeros, spectral_to_XYZ, wavelength_to_XYZ, whiteness,
-    yellowness)
+    multi_led_spd, multi_spectral_to_XYZ, spd_CIE_illuminant_D_series,
+    spd_blackbody, spd_constant, spd_gaussian, spd_ones, spd_single_led,
+    spd_zeros, spectral_to_XYZ, wavelength_to_XYZ, whiteness, yellowness)
 from .blindness import (
     CVD_MATRICES_MACHADO2010, anomalous_trichromacy_cmfs_Machado2009,
     anomalous_trichromacy_matrix_Machado2009, cvd_matrix_Machado2009)
@@ -181,9 +180,9 @@ __all__ += [
     'excitation_purity', 'lightness', 'luminance', 'luminous_efficacy',
     'luminous_efficiency', 'luminous_flux', 'multi_led_spd',
     'multi_spectral_to_XYZ', 'mesopic_luminous_efficiency_function',
-    'single_led_spd', 'spd_CIE_illuminant_D_series', 'spd_blackbody',
-    'spd_constant', 'spd_gaussian', 'spd_ones', 'spd_zeros', 'spectral_to_XYZ',
-    'wavelength_to_XYZ', 'whiteness', 'yellowness'
+    'spd_CIE_illuminant_D_series', 'spd_blackbody', 'spd_constant',
+    'spd_gaussian', 'spd_ones', 'spd_zeros', 'spd_single_led',
+    'spectral_to_XYZ', 'wavelength_to_XYZ', 'whiteness', 'yellowness'
 ]
 __all__ += [
     'CVD_MATRICES_MACHADO2010', 'anomalous_trichromacy_cmfs_Machado2009',
