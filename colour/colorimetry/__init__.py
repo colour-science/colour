@@ -11,7 +11,7 @@ from .cmfs import (LMS_ConeFundamentals, RGB_ColourMatchingFunctions,
 from .dataset import *  # noqa
 from . import dataset
 from .generation import spd_constant, spd_zeros, spd_ones
-from .generation import GAUSSIAN_SPD_METHODS
+from .generation import SPD_GAUSSIAN_METHODS
 from .generation import spd_gaussian, spd_gaussian_normal, spd_gaussian_fwhm
 from .generation import SINGLE_LED_SPD_METHODS
 from .generation import single_led_spd, spd_single_led_Ohno2005
@@ -73,7 +73,7 @@ __all__ += [
 ]
 __all__ += dataset.__all__
 __all__ += ['spd_constant', 'spd_zeros', 'spd_ones']
-__all__ += ['GAUSSIAN_SPD_METHODS']
+__all__ += ['SPD_GAUSSIAN_METHODS']
 __all__ += ['spd_gaussian', 'spd_gaussian_normal', 'spd_gaussian_fwhm']
 __all__ += ['SINGLE_LED_SPD_METHODS']
 __all__ += ['single_led_spd', 'spd_single_led_Ohno2005']

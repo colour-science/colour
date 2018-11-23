@@ -47,7 +47,7 @@ __status__ = 'Production'
 
 __all__ = [
     'spd_constant', 'spd_zeros', 'spd_ones', 'spd_gaussian_normal',
-    'spd_gaussian_fwhm', 'GAUSSIAN_SPD_METHODS', 'spd_gaussian',
+    'spd_gaussian_fwhm', 'SPD_GAUSSIAN_METHODS', 'spd_gaussian',
     'spd_single_led_Ohno2005', 'SINGLE_LED_SPD_METHODS', 'single_led_spd',
     'spd_multi_led_Ohno2005', 'MULTI_LED_SPD_METHODS', 'multi_led_spd'
 ]
@@ -250,14 +250,14 @@ def spd_gaussian_fwhm(peak_wavelength, fwhm, shape=DEFAULT_SPECTRAL_SHAPE):
     return SpectralPowerDistribution(values, wavelengths, name=name)
 
 
-GAUSSIAN_SPD_METHODS = CaseInsensitiveMapping({
+SPD_GAUSSIAN_METHODS = CaseInsensitiveMapping({
     'Normal': spd_gaussian_normal,
     'FWHM': spd_gaussian_fwhm
 })
-GAUSSIAN_SPD_METHODS.__doc__ = """
+SPD_GAUSSIAN_METHODS.__doc__ = """
 Supported gaussian spectral power distribution computation methods.
 
-GAUSSIAN_SPD_METHODS : CaseInsensitiveMapping
+SPD_GAUSSIAN_METHODS : CaseInsensitiveMapping
     **{'Normal', 'FWHM'}**
 """
 
@@ -314,7 +314,7 @@ def spd_gaussian(mu_peak_wavelength,
     0.3678794...
     """
 
-    return GAUSSIAN_SPD_METHODS[method](mu_peak_wavelength, sigma_fwhm, shape)
+    return SPD_GAUSSIAN_METHODS[method](mu_peak_wavelength, sigma_fwhm, shape)
 
 
 def spd_single_led_Ohno2005(peak_wavelength,
