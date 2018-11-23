@@ -11,7 +11,7 @@ Defines various objects performing spectral generation:
 -   :func:`colour.colorimetry.spd_gaussian_normal`
 -   :func:`colour.colorimetry.spd_gaussian_fwhm`
 -   :func:`colour.colorimetry.spd_single_led_Ohno2005`
--   :func:`colour.colorimetry.multi_led_spd_Ohno2005`
+-   :func:`colour.colorimetry.spd_multi_led_Ohno2005`
 
 See Also
 --------
@@ -49,7 +49,7 @@ __all__ = [
     'spd_constant', 'spd_zeros', 'spd_ones', 'spd_gaussian_normal',
     'spd_gaussian_fwhm', 'GAUSSIAN_SPD_METHODS', 'gaussian_spd',
     'spd_single_led_Ohno2005', 'SINGLE_LED_SPD_METHODS', 'single_led_spd',
-    'multi_led_spd_Ohno2005', 'MULTI_LED_SPD_METHODS', 'multi_led_spd'
+    'spd_multi_led_Ohno2005', 'MULTI_LED_SPD_METHODS', 'multi_led_spd'
 ]
 
 
@@ -429,7 +429,7 @@ def single_led_spd(peak_wavelength,
     return SINGLE_LED_SPD_METHODS[method](peak_wavelength, fwhm, shape)
 
 
-def multi_led_spd_Ohno2005(peak_wavelengths,
+def spd_multi_led_Ohno2005(peak_wavelengths,
                            fwhm,
                            peak_power_ratios=None,
                            shape=DEFAULT_SPECTRAL_SHAPE):
@@ -474,7 +474,7 @@ def multi_led_spd_Ohno2005(peak_wavelengths,
 
     Examples
     --------
-    >>> spd = multi_led_spd_Ohno2005(
+    >>> spd = spd_multi_led_Ohno2005(
     ...     np.array([457, 530, 615]),
     ...     np.array([20, 30, 20]),
     ...     np.array([0.731, 1.000, 1.660]),
@@ -528,7 +528,7 @@ def multi_led_spd_Ohno2005(peak_wavelengths,
 
 
 MULTI_LED_SPD_METHODS = CaseInsensitiveMapping({
-    'Ohno 2005': multi_led_spd_Ohno2005,
+    'Ohno 2005': spd_multi_led_Ohno2005,
 })
 MULTI_LED_SPD_METHODS.__doc__ = """
 Supported multi *LED* spectral power distribution computation methods.

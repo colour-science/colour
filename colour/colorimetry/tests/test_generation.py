@@ -10,7 +10,7 @@ import unittest
 
 from colour.colorimetry.generation import (
     spd_constant, spd_zeros, spd_ones, spd_gaussian_normal, spd_gaussian_fwhm,
-    spd_single_led_Ohno2005, multi_led_spd_Ohno2005)
+    spd_single_led_Ohno2005, spd_multi_led_Ohno2005)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -22,7 +22,7 @@ __status__ = 'Production'
 __all__ = [
     'TestSpdConstant', 'TestZerosSpd', 'TestSpdOnes', 'TestSpdGaussianNormal',
     'TestSpdGaussianFwhm', 'TestSpdSingleLedOhno2005',
-    'TestMultiLedSpdOhno2005'
+    'TestSpdMultiLedOhno2005'
 ]
 
 
@@ -150,19 +150,19 @@ class TestSpdSingleLedOhno2005(unittest.TestCase):
         self.assertAlmostEqual(spd[580], 0.127118445056538, places=7)
 
 
-class TestMultiLedSpdOhno2005(unittest.TestCase):
+class TestSpdMultiLedOhno2005(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.generation.multi_led_spd_Ohno2005`
+    Defines :func:`colour.colorimetry.generation.spd_multi_led_Ohno2005`
     definition unit tests methods.
     """
 
-    def test_multi_led_spd_Ohno2005(self):
+    def test_spd_multi_led_Ohno2005(self):
         """
-        Tests :func:`colour.colorimetry.generation.multi_led_spd_Ohno2005`
+        Tests :func:`colour.colorimetry.generation.spd_multi_led_Ohno2005`
         definition.
         """
 
-        spd = multi_led_spd_Ohno2005(
+        spd = spd_multi_led_Ohno2005(
             np.array([457, 530, 615]),
             np.array([20, 30, 20]),
             np.array([0.731, 1.000, 1.660]),
@@ -174,7 +174,7 @@ class TestMultiLedSpdOhno2005(unittest.TestCase):
 
         self.assertAlmostEqual(spd[640], 0.116433257970624, places=7)
 
-        spd = multi_led_spd_Ohno2005(
+        spd = spd_multi_led_Ohno2005(
             np.array([457, 530, 615]),
             np.array([20, 30, 20]),
         )
