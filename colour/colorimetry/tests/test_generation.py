@@ -9,7 +9,7 @@ import numpy as np
 import unittest
 
 from colour.colorimetry.generation import (
-    spd_constant, spd_zeros, spd_ones, spd_gaussian_normal, gaussian_spd_fwhm,
+    spd_constant, spd_zeros, spd_ones, spd_gaussian_normal, spd_gaussian_fwhm,
     single_led_spd_Ohno2005, multi_led_spd_Ohno2005)
 
 __author__ = 'Colour Developers'
@@ -21,7 +21,7 @@ __status__ = 'Production'
 
 __all__ = [
     'TestSpdConstant', 'TestZerosSpd', 'TestSpdOnes', 'TestSpdGaussianNormal',
-    'TestGaussianSpdFwhm', 'TestSingleLedSpdOhno2005',
+    'TestSpdGaussianFwhm', 'TestSingleLedSpdOhno2005',
     'TestMultiLedSpdOhno2005'
 ]
 
@@ -108,19 +108,19 @@ class TestSpdGaussianNormal(unittest.TestCase):
         self.assertAlmostEqual(spd[580], 0.606530659712633, places=7)
 
 
-class TestGaussianSpdFwhm(unittest.TestCase):
+class TestSpdGaussianFwhm(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.generation.gaussian_spd_fwhm` definition
+    Defines :func:`colour.colorimetry.generation.spd_gaussian_fwhm` definition
     unit tests methods.
     """
 
-    def test_gaussian_spd_fwhm(self):
+    def test_spd_gaussian_fwhm(self):
         """
-        Tests :func:`colour.colorimetry.generation.gaussian_spd_fwhm`
+        Tests :func:`colour.colorimetry.generation.spd_gaussian_fwhm`
         definition.
         """
 
-        spd = gaussian_spd_fwhm(555, 25)
+        spd = spd_gaussian_fwhm(555, 25)
 
         self.assertAlmostEqual(spd[530], 0.367879441171443, places=7)
 

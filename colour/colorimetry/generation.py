@@ -9,7 +9,7 @@ Defines various objects performing spectral generation:
 -   :func:`colour.spd_zeros`
 -   :func:`colour.spd_ones`
 -   :func:`colour.colorimetry.spd_gaussian_normal`
--   :func:`colour.colorimetry.gaussian_spd_fwhm`
+-   :func:`colour.colorimetry.spd_gaussian_fwhm`
 -   :func:`colour.colorimetry.single_led_spd_Ohno2005`
 -   :func:`colour.colorimetry.multi_led_spd_Ohno2005`
 
@@ -47,7 +47,7 @@ __status__ = 'Production'
 
 __all__ = [
     'spd_constant', 'spd_zeros', 'spd_ones', 'spd_gaussian_normal',
-    'gaussian_spd_fwhm', 'GAUSSIAN_SPD_METHODS', 'gaussian_spd',
+    'spd_gaussian_fwhm', 'GAUSSIAN_SPD_METHODS', 'gaussian_spd',
     'single_led_spd_Ohno2005', 'SINGLE_LED_SPD_METHODS', 'single_led_spd',
     'multi_led_spd_Ohno2005', 'MULTI_LED_SPD_METHODS', 'multi_led_spd'
 ]
@@ -204,7 +204,7 @@ def spd_gaussian_normal(mu, sigma, shape=DEFAULT_SPECTRAL_SHAPE):
     return SpectralPowerDistribution(values, wavelengths, name=name)
 
 
-def gaussian_spd_fwhm(peak_wavelength, fwhm, shape=DEFAULT_SPECTRAL_SHAPE):
+def spd_gaussian_fwhm(peak_wavelength, fwhm, shape=DEFAULT_SPECTRAL_SHAPE):
     """
     Returns a gaussian spectral power distribution of given spectral shape at
     given peak wavelength and full width at half maximum.
@@ -232,7 +232,7 @@ def gaussian_spd_fwhm(peak_wavelength, fwhm, shape=DEFAULT_SPECTRAL_SHAPE):
 
     Examples
     --------
-    >>> spd = gaussian_spd_fwhm(555, 25)
+    >>> spd = spd_gaussian_fwhm(555, 25)
     >>> spd.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> spd[555]
@@ -252,7 +252,7 @@ def gaussian_spd_fwhm(peak_wavelength, fwhm, shape=DEFAULT_SPECTRAL_SHAPE):
 
 GAUSSIAN_SPD_METHODS = CaseInsensitiveMapping({
     'Normal': spd_gaussian_normal,
-    'FWHM': gaussian_spd_fwhm
+    'FWHM': spd_gaussian_fwhm
 })
 GAUSSIAN_SPD_METHODS.__doc__ = """
 Supported gaussian spectral power distribution computation methods.
@@ -359,7 +359,7 @@ def single_led_spd_Ohno2005(peak_wavelength,
     1.0000000...
     """
 
-    spd = gaussian_spd_fwhm(peak_wavelength, fwhm, shape)
+    spd = spd_gaussian_fwhm(peak_wavelength, fwhm, shape)
 
     spd.values = (spd.values + 2 * spd.values ** 5) / 3
 

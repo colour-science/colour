@@ -50,7 +50,7 @@ Spectral Data Generation
     :toctree: generated/
 
     spd_gaussian_normal
-    gaussian_spd_fwhm
+    spd_gaussian_fwhm
     single_led_spd_Ohno2005
     multi_led_spd_Ohno2005
     blackbody_spectral_radiance
