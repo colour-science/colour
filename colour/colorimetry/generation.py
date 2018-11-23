@@ -48,7 +48,7 @@ __status__ = 'Production'
 __all__ = [
     'spd_constant', 'spd_zeros', 'spd_ones', 'spd_gaussian_normal',
     'spd_gaussian_fwhm', 'SPD_GAUSSIAN_METHODS', 'spd_gaussian',
-    'spd_single_led_Ohno2005', 'SINGLE_LED_SPD_METHODS', 'spd_single_led',
+    'spd_single_led_Ohno2005', 'SPD_SINGLE_LED_METHODS', 'spd_single_led',
     'spd_multi_led_Ohno2005', 'MULTI_LED_SPD_METHODS', 'multi_led_spd'
 ]
 
@@ -369,13 +369,13 @@ def spd_single_led_Ohno2005(peak_wavelength,
     return spd
 
 
-SINGLE_LED_SPD_METHODS = CaseInsensitiveMapping({
+SPD_SINGLE_LED_METHODS = CaseInsensitiveMapping({
     'Ohno 2005': spd_single_led_Ohno2005,
 })
-SINGLE_LED_SPD_METHODS.__doc__ = """
+SPD_SINGLE_LED_METHODS.__doc__ = """
 Supported single *LED* spectral power distribution computation methods.
 
-SINGLE_LED_SPD_METHODS : CaseInsensitiveMapping
+SPD_SINGLE_LED_METHODS : CaseInsensitiveMapping
     **{'Ohno 2005'}**
 """
 
@@ -426,7 +426,7 @@ def spd_single_led(peak_wavelength,
     1.0000000...
     """
 
-    return SINGLE_LED_SPD_METHODS[method](peak_wavelength, fwhm, shape)
+    return SPD_SINGLE_LED_METHODS[method](peak_wavelength, fwhm, shape)
 
 
 def spd_multi_led_Ohno2005(peak_wavelengths,

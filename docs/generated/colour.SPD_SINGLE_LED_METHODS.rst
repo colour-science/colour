@@ -3,4 +3,4 @@ colour.SINGLE\_LED\_SPD\_METHODS
 
 .. currentmodule:: colour
 
-.. autodata:: SINGLE_LED_SPD_METHODS
+.. autodata:: SPD_SINGLE_LED_METHODS
