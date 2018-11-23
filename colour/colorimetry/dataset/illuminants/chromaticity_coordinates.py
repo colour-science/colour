@@ -42,7 +42,7 @@ Notes
     reference :cite:`Wikipedia2006a` have been calculated using their
     correlated colour temperature and
     :func:`colour.temperature.CCT_to_xy_CIE_D`
-    :func:`colour.D_illuminant_relative_spd` and / or
+    :func:`colour.spd_CIE_illuminant_D_series` and / or
     :func:`colour.spectral_to_XYZ` definitions.
 
 References
@@ -209,7 +209,7 @@ computed as follows::
     CCT = 6000 * 1.4388 / 1.438
     xy = colour.temperature.CCT_to_xy_CIE_D(CCT)
 
-    spd = colour.D_illuminant_relative_spd(xy)
+    spd = colour.spd_CIE_illuminant_D_series(xy)
     spd.interpolator = colour.LinearInterpolator
     colour.XYZ_to_xy(
         colour.spectral_to_XYZ(

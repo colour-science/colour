@@ -28,7 +28,7 @@ from collections import namedtuple
 
 from colour.algebra import euclidean_distance, spow
 from colour.colorimetry import (
-    ASTME30815_PRACTISE_SHAPE, D_illuminant_relative_spd,
+    ASTME30815_PRACTISE_SHAPE, spd_CIE_illuminant_D_series,
     STANDARD_OBSERVERS_CMFS, blackbody_spd, spectral_to_XYZ)
 from colour.quality.dataset.tcs import TCS_INDEXES_TO_NAMES, TCS_SPDS
 from colour.models import UCS_to_uv, XYZ_to_UCS, XYZ_to_xyY
@@ -133,7 +133,7 @@ def colour_rendering_index(spd_test, additional_data=False):
         spd_reference = blackbody_spd(CCT, shape)
     else:
         xy = CCT_to_xy_CIE_D(CCT)
-        spd_reference = D_illuminant_relative_spd(xy)
+        spd_reference = spd_CIE_illuminant_D_series(xy)
         spd_reference.align(shape)
 
     test_tcs_colorimetry_data = tcs_colorimetry_data(

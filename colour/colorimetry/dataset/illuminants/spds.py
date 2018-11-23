@@ -34,7 +34,7 @@ Notes
 -   The relative spectral power distributions are provided at 5 nm interval.
 -   *CIE Illuminant D Series* *D60* relative spectral power
     distribution is calculated using
-    :func:`colour.colorimetry.illuminants.D_illuminant_relative_spd`
+    :func:`colour.colorimetry.illuminants.spd_CIE_illuminant_D_series`
     definition.
 
 References
@@ -3727,7 +3727,7 @@ computed as follows::
     CCT = 6000 * 1.4388 / 1.438
     xy = colour.temperature.CCT_to_xy_CIE_D(CCT)
 
-    spd = colour.D_illuminant_relative_spd(xy)
+    spd = colour.spd_CIE_illuminant_D_series(xy)
 
 References
 ----------

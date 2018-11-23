@@ -31,7 +31,7 @@ Spectral Data Generation
 
     blackbody_spd
     CIE_standard_illuminant_A_function
-    D_illuminant_relative_spd
+    spd_CIE_illuminant_D_series
     constant_spd
     ones_spd
     zeros_spd

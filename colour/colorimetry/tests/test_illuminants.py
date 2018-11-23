@@ -8,7 +8,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.colorimetry import (D_illuminant_relative_spd,
+from colour.colorimetry import (spd_CIE_illuminant_D_series,
                                 CIE_standard_illuminant_A_function,
                                 ILLUMINANTS_SPDS)
 from colour.temperature import CCT_to_xy_CIE_D
@@ -21,7 +21,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'A_DATA', 'TestD_illuminantRelativeSpd',
+    'A_DATA', 'TestSpd_CIEIlluminantDSeries',
     'TestCIEStandardIlluminantAFunction'
 ]
 
@@ -123,16 +123,16 @@ A_DATA = np.array([
 ])
 
 
-class TestD_illuminantRelativeSpd(unittest.TestCase):
+class TestSpd_CIEIlluminantDSeries(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.illuminants.D_illuminant_relative_spd`
+    Defines :func:`colour.colorimetry.illuminants.spd_CIE_illuminant_D_series`
     definition unit tests methods.
     """
 
-    def test_D_illuminant_relative_spd(self):
+    def test_spd_CIE_illuminant_D_series(self):
         """
-        Tests :func:`colour.colorimetry.illuminants.D_illuminant_relative_spd`
-        definition.
+        Tests :func:`colour.colorimetry.illuminants.\
+spd_CIE_illuminant_D_series` definition.
         """
 
         for name, CCT, tolerance in (
@@ -144,7 +144,7 @@ class TestD_illuminantRelativeSpd(unittest.TestCase):
             CCT = CCT * 1.4388 / 1.4380
             xy = CCT_to_xy_CIE_D(CCT)
             spd_r = ILLUMINANTS_SPDS[name]
-            spd_t = D_illuminant_relative_spd(xy)
+            spd_t = spd_CIE_illuminant_D_series(xy)
 
             np.testing.assert_allclose(
                 spd_r.values,

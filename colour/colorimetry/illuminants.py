@@ -5,7 +5,7 @@ Illuminants
 
 Defines *CIE* illuminants computation related objects:
 
--   :func:`colour.D_illuminant_relative_spd`
+-   :func:`colour.spd_CIE_illuminant_D_series`
 -   :func:`colour.CIE_standard_illuminant_A_function`
 
 See Also
@@ -40,13 +40,13 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['D_illuminant_relative_spd', 'CIE_standard_illuminant_A_function']
+__all__ = ['spd_CIE_illuminant_D_series', 'CIE_standard_illuminant_A_function']
 
 
-def D_illuminant_relative_spd(xy, M1_M2_rounding=True):
+def spd_CIE_illuminant_D_series(xy, M1_M2_rounding=True):
     """
     Returns the relative spectral power distribution of given
-    *CIE Standard Illuminant D Series* using given *xy* chromaticity
+    *CIE Illuminant D Series* using given *xy* chromaticity
     coordinates.
 
     Parameters
@@ -60,7 +60,7 @@ def D_illuminant_relative_spd(xy, M1_M2_rounding=True):
     Returns
     -------
     SpectralPowerDistribution
-        *CIE Standard Illuminant D Series* relative spectral power
+        *CIE Illuminant D Series* relative spectral power
         distribution.
 
     Notes
@@ -82,7 +82,7 @@ def D_illuminant_relative_spd(xy, M1_M2_rounding=True):
     >>> CCT_D65 = 6500 * 1.4388 / 1.4380
     >>> xy = CCT_to_xy_CIE_D(CCT_D65)
     >>> with numpy_print_options(suppress=True):
-    ...     D_illuminant_relative_spd(xy)  # doctest: +ELLIPSIS
+    ...     spd_CIE_illuminant_D_series(xy)  # doctest: +ELLIPSIS
     SpectralPowerDistribution([[ 300.     ,    0.0341...],
                                [ 305.     ,    1.6643...],
                                [ 310.     ,    3.2945...],
@@ -213,7 +213,7 @@ def D_illuminant_relative_spd(xy, M1_M2_rounding=True):
     distribution = S0.values + M1 * S1.values + M2 * S2.values
 
     return SpectralPowerDistribution(
-        distribution, S0.wavelengths, name='CIE Standard Illuminant D Series')
+        distribution, S0.wavelengths, name='CIE Illuminant D Series')
 
 
 def CIE_standard_illuminant_A_function(wl):
