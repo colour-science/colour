@@ -9,7 +9,7 @@ import numpy as np
 import unittest
 
 from colour.colorimetry.generation import (
-    spd_constant, zeros_spd, spd_ones, gaussian_spd_normal, gaussian_spd_fwhm,
+    spd_constant, spd_zeros, spd_ones, gaussian_spd_normal, gaussian_spd_fwhm,
     single_led_spd_Ohno2005, multi_led_spd_Ohno2005)
 
 __author__ = 'Colour Developers'
@@ -48,17 +48,17 @@ class TestSpdConstant(unittest.TestCase):
 
 class TestZerosSpd(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.generation.zeros_spd` definition unit
+    Defines :func:`colour.colorimetry.generation.spd_zeros` definition unit
     tests methods.
     """
 
     def test_zeros_spd(self):
         """
-        Tests :func:`colour.colorimetry.generation.zeros_spd`
+        Tests :func:`colour.colorimetry.generation.spd_zeros`
         definition.
         """
 
-        spd = zeros_spd()
+        spd = spd_zeros()
 
         self.assertEqual(spd[360], 0)
 

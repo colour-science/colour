@@ -326,7 +326,7 @@ for spectral related computations and many others:
      'MultiSpectralPowerDistribution',
      'DEFAULT_SPECTRAL_SHAPE',
      'spd_constant',
-     'zeros_spd',
+     'spd_zeros',
      'spd_ones',
      'spd_blackbody',
      'blackbody_spectral_radiance',
@@ -707,7 +707,7 @@ spectral dimensions and is instantiated as follows:
 convenient objects to create constant spectral power distributions:
 
 -  ``colour.spd_constant``
--  ``colour.zeros_spd``
+-  ``colour.spd_zeros``
 -  ``colour.spd_ones``
 
 .. code:: python
@@ -720,9 +720,9 @@ convenient objects to create constant spectral power distributions:
 
     # Defining a zeros filled spectral power distribution.
     print('\n"Zeros Filled Spectral Power Distribution"')
-    zeros_spd = colour.zeros_spd()
-    print(zeros_spd.shape)
-    print(zeros_spd[400])
+    spd_zeros = colour.spd_zeros()
+    print(spd_zeros.shape)
+    print(spd_zeros[400])
 
     # Defining a ones filled spectral power distribution.
     print('\n"Ones Filled Spectral Power Distribution"')
@@ -747,7 +747,7 @@ convenient objects to create constant spectral power distributions:
 
 
 By default the shape used by ``colour.spd_constant``,
-``colour.zeros_spd`` and ``colour.spd_ones`` is the one defined by
+``colour.spd_zeros`` and ``colour.spd_ones`` is the one defined by
 ``colour.DEFAULT_SPECTRAL_SHAPE`` attribute using the *CIE 1931 2°
 Standard Observer* shape.
 

@@ -6,7 +6,7 @@ Spectral Generation
 Defines various objects performing spectral generation:
 
 -   :func:`colour.spd_constant`
--   :func:`colour.zeros_spd`
+-   :func:`colour.spd_zeros`
 -   :func:`colour.spd_ones`
 -   :func:`colour.colorimetry.gaussian_spd_normal`
 -   :func:`colour.colorimetry.gaussian_spd_fwhm`
@@ -46,7 +46,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'spd_constant', 'zeros_spd', 'spd_ones', 'gaussian_spd_normal',
+    'spd_constant', 'spd_zeros', 'spd_ones', 'gaussian_spd_normal',
     'gaussian_spd_fwhm', 'GAUSSIAN_SPD_METHODS', 'gaussian_spd',
     'single_led_spd_Ohno2005', 'SINGLE_LED_SPD_METHODS', 'single_led_spd',
     'multi_led_spd_Ohno2005', 'MULTI_LED_SPD_METHODS', 'multi_led_spd'
@@ -94,7 +94,7 @@ def spd_constant(k, shape=DEFAULT_SPECTRAL_SHAPE, dtype=DEFAULT_FLOAT_DTYPE):
         values, wavelengths, name=name, dtype=dtype)
 
 
-def zeros_spd(shape=DEFAULT_SPECTRAL_SHAPE):
+def spd_zeros(shape=DEFAULT_SPECTRAL_SHAPE):
     """
     Returns a spectral power distribution of given spectral shape filled with
     zeros.
@@ -116,7 +116,7 @@ def zeros_spd(shape=DEFAULT_SPECTRAL_SHAPE):
 
     Examples
     --------
-    >>> spd = zeros_spd()
+    >>> spd = spd_zeros()
     >>> spd.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> spd[400]
@@ -493,7 +493,7 @@ def multi_led_spd_Ohno2005(peak_wavelengths,
         peak_power_ratios = np.resize(peak_power_ratios,
                                       peak_wavelengths.shape)
 
-    spd = zeros_spd(shape)
+    spd = spd_zeros(shape)
 
     for (peak_wavelength, fwhm_s, peak_power_ratio) in zip(
             peak_wavelengths, fwhm, peak_power_ratios):

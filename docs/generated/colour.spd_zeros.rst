@@ -3,4 +3,4 @@ colour.zeros\_spd
 
 .. currentmodule:: colour
 
-.. autofunction:: zeros_spd
+.. autofunction:: spd_zeros

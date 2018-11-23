@@ -34,7 +34,7 @@ Spectral Data Generation
     spd_blackbody
     spd_constant
     spd_ones
-    zeros_spd
+    spd_zeros
     GAUSSIAN_SPD_METHODS
     gaussian_spd
     SINGLE_LED_SPD_METHODS
