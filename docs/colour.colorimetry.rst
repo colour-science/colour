@@ -51,7 +51,7 @@ Spectral Data Generation
 
     spd_gaussian_normal
     spd_gaussian_fwhm
-    single_led_spd_Ohno2005
+    spd_single_led_Ohno2005
     multi_led_spd_Ohno2005
     blackbody_spectral_radiance
     planck_law

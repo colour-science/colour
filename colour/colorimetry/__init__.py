@@ -14,7 +14,7 @@ from .generation import spd_constant, spd_zeros, spd_ones
 from .generation import GAUSSIAN_SPD_METHODS
 from .generation import gaussian_spd, spd_gaussian_normal, spd_gaussian_fwhm
 from .generation import SINGLE_LED_SPD_METHODS
-from .generation import single_led_spd, single_led_spd_Ohno2005
+from .generation import single_led_spd, spd_single_led_Ohno2005
 from .generation import MULTI_LED_SPD_METHODS
 from .generation import multi_led_spd, multi_led_spd_Ohno2005
 from .tristimulus import (SPECTRAL_TO_XYZ_METHODS,
@@ -76,7 +76,7 @@ __all__ += ['spd_constant', 'spd_zeros', 'spd_ones']
 __all__ += ['GAUSSIAN_SPD_METHODS']
 __all__ += ['gaussian_spd', 'spd_gaussian_normal', 'spd_gaussian_fwhm']
 __all__ += ['SINGLE_LED_SPD_METHODS']
-__all__ += ['single_led_spd', 'single_led_spd_Ohno2005']
+__all__ += ['single_led_spd', 'spd_single_led_Ohno2005']
 __all__ += ['MULTI_LED_SPD_METHODS']
 __all__ += ['multi_led_spd', 'multi_led_spd_Ohno2005']
 __all__ += ['SPECTRAL_TO_XYZ_METHODS', 'MULTI_SPECTRAL_TO_XYZ_METHODS']

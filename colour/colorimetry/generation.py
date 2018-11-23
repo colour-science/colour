@@ -10,7 +10,7 @@ Defines various objects performing spectral generation:
 -   :func:`colour.spd_ones`
 -   :func:`colour.colorimetry.spd_gaussian_normal`
 -   :func:`colour.colorimetry.spd_gaussian_fwhm`
--   :func:`colour.colorimetry.single_led_spd_Ohno2005`
+-   :func:`colour.colorimetry.spd_single_led_Ohno2005`
 -   :func:`colour.colorimetry.multi_led_spd_Ohno2005`
 
 See Also
@@ -48,7 +48,7 @@ __status__ = 'Production'
 __all__ = [
     'spd_constant', 'spd_zeros', 'spd_ones', 'spd_gaussian_normal',
     'spd_gaussian_fwhm', 'GAUSSIAN_SPD_METHODS', 'gaussian_spd',
-    'single_led_spd_Ohno2005', 'SINGLE_LED_SPD_METHODS', 'single_led_spd',
+    'spd_single_led_Ohno2005', 'SINGLE_LED_SPD_METHODS', 'single_led_spd',
     'multi_led_spd_Ohno2005', 'MULTI_LED_SPD_METHODS', 'multi_led_spd'
 ]
 
@@ -317,7 +317,7 @@ def gaussian_spd(mu_peak_wavelength,
     return GAUSSIAN_SPD_METHODS[method](mu_peak_wavelength, sigma_fwhm, shape)
 
 
-def single_led_spd_Ohno2005(peak_wavelength,
+def spd_single_led_Ohno2005(peak_wavelength,
                             fwhm,
                             shape=DEFAULT_SPECTRAL_SHAPE):
     """
@@ -352,7 +352,7 @@ def single_led_spd_Ohno2005(peak_wavelength,
 
     Examples
     --------
-    >>> spd = single_led_spd_Ohno2005(555, 25)
+    >>> spd = spd_single_led_Ohno2005(555, 25)
     >>> spd.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> spd[555]  # doctest: +ELLIPSIS
@@ -370,7 +370,7 @@ def single_led_spd_Ohno2005(peak_wavelength,
 
 
 SINGLE_LED_SPD_METHODS = CaseInsensitiveMapping({
-    'Ohno 2005': single_led_spd_Ohno2005,
+    'Ohno 2005': spd_single_led_Ohno2005,
 })
 SINGLE_LED_SPD_METHODS.__doc__ = """
 Supported single *LED* spectral power distribution computation methods.
@@ -440,7 +440,7 @@ def multi_led_spd_Ohno2005(peak_wavelengths,
 
     The multi *LED* spectral power distribution is generated using many single
     *LED* spectral power distributions generated with
-    :func:`colour.single_led_spd_Ohno2005` definition.
+    :func:`colour.spd_single_led_Ohno2005` definition.
 
     Parameters
     ----------
@@ -497,7 +497,7 @@ def multi_led_spd_Ohno2005(peak_wavelengths,
 
     for (peak_wavelength, fwhm_s, peak_power_ratio) in zip(
             peak_wavelengths, fwhm, peak_power_ratios):
-        spd += single_led_spd_Ohno2005(peak_wavelength,
+        spd += spd_single_led_Ohno2005(peak_wavelength,
                                        fwhm_s) * peak_power_ratio
 
     def _format_array(a):
