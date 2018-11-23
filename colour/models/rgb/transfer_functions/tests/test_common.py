@@ -214,6 +214,7 @@ class TestTransferFunctions(unittest.TestCase):
         ignored_transfer_functions = (
             'ACESproxy',
             'DICOM GSDF',
+            'D-Log',
             'Filmic Pro 6',
         )
 

@@ -52,7 +52,7 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
             if colourspace.name in ('ProPhoto RGB', 'ERIMM RGB', 'RIMM RGB',
                                     'ROMM RGB'):
                 tolerance = 1e-3
-            elif colourspace.name in ('sRGB', ):
+            elif colourspace.name in ('sRGB', 'DJI D-Gamut'):
                 tolerance = 1e-4
             elif colourspace.name in ('Adobe RGB (1998)', ):
                 tolerance = 1e-5
@@ -91,7 +91,7 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
         colourspace models.
         """
 
-        ignored_colourspaces = ('ACESproxy', )
+        ignored_colourspaces = ('ACESproxy', 'DJI D-Gamut')
 
         samples = np.hstack(
             [np.linspace(0, 1, 1e5),
@@ -114,26 +114,31 @@ class TestRGB_COLOURSPACES(unittest.TestCase):
         """
 
         for colourspace in RGB_COLOURSPACES.values():
+            if colourspace.name in ('DJI D-Gamut', ):
+                decimal = 6
+            else:
+                decimal = 7
+
             value_encoding_cctf = 0.5
             value_decoding_cctf = colourspace.decoding_cctf(
                 colourspace.encoding_cctf(value_encoding_cctf))
             np.testing.assert_almost_equal(
-                value_encoding_cctf, value_decoding_cctf, decimal=7)
+                value_encoding_cctf, value_decoding_cctf, decimal=decimal)
 
             value_encoding_cctf = np.tile(value_encoding_cctf, 6)
             value_decoding_cctf = np.tile(value_decoding_cctf, 6)
             np.testing.assert_almost_equal(
-                value_encoding_cctf, value_decoding_cctf, decimal=7)
+                value_encoding_cctf, value_decoding_cctf, decimal=decimal)
 
             value_encoding_cctf = np.reshape(value_encoding_cctf, (3, 2))
             value_decoding_cctf = np.reshape(value_decoding_cctf, (3, 2))
             np.testing.assert_almost_equal(
-                value_encoding_cctf, value_decoding_cctf, decimal=7)
+                value_encoding_cctf, value_decoding_cctf, decimal=decimal)
 
             value_encoding_cctf = np.reshape(value_encoding_cctf, (3, 2, 1))
             value_decoding_cctf = np.reshape(value_decoding_cctf, (3, 2, 1))
             np.testing.assert_almost_equal(
-                value_encoding_cctf, value_decoding_cctf, decimal=7)
+                value_encoding_cctf, value_decoding_cctf, decimal=decimal)
 
     @ignore_numpy_errors
     def test_nan_cctf(self):
