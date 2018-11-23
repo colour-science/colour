@@ -5,7 +5,7 @@ from __future__ import absolute_import
 from .spectrum import (SpectralShape, DEFAULT_SPECTRAL_SHAPE,
                        SpectralPowerDistribution,
                        MultiSpectralPowerDistribution)
-from .blackbody import (blackbody_spd, blackbody_spectral_radiance, planck_law)
+from .blackbody import (spd_blackbody, blackbody_spectral_radiance, planck_law)
 from .cmfs import (LMS_ConeFundamentals, RGB_ColourMatchingFunctions,
                    XYZ_ColourMatchingFunctions)
 from .dataset import *  # noqa
@@ -66,7 +66,7 @@ __all__ = [
     'SpectralShape', 'DEFAULT_SPECTRAL_SHAPE', 'SpectralPowerDistribution',
     'MultiSpectralPowerDistribution'
 ]
-__all__ += ['blackbody_spd', 'blackbody_spectral_radiance', 'planck_law']
+__all__ += ['spd_blackbody', 'blackbody_spectral_radiance', 'planck_law']
 __all__ += [
     'LMS_ConeFundamentals', 'RGB_ColourMatchingFunctions',
     'XYZ_ColourMatchingFunctions'

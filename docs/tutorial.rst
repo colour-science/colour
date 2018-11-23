@@ -328,7 +328,7 @@ for spectral related computations and many others:
      'constant_spd',
      'zeros_spd',
      'ones_spd',
-     'blackbody_spd',
+     'spd_blackbody',
      'blackbody_spectral_radiance',
      'planck_law',
      'LMS_ConeFundamentals',

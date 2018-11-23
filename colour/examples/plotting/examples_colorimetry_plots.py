@@ -935,7 +935,7 @@ ASTM_G_173_spd = ASTM_G_173_ETR.copy() * 1.37905559e+13
 ASTM_G_173_spd.interpolate(
     colour.SpectralShape(interval=5), interpolator=colour.LinearInterpolator)
 
-blackbody_spd = colour.blackbody_spd(5778, ASTM_G_173_spd.shape)
+blackbody_spd = colour.spd_blackbody(5778, ASTM_G_173_spd.shape)
 blackbody_spd.name = 'The Sun - 5778K'
 
 multi_spd_plot((ASTM_G_173_spd, blackbody_spd), y_label='W / (sr m$^2$) / m')
@@ -944,7 +944,7 @@ print('\n')
 
 message_box('Plotting various "blackbody" spectral power distributions.')
 blackbody_spds = [
-    colour.blackbody_spd(i, colour.SpectralShape(0, 10000, 10))
+    colour.spd_blackbody(i, colour.SpectralShape(0, 10000, 10))
     for i in range(1000, 15000, 1000)
 ]
 

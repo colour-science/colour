@@ -176,7 +176,7 @@ Blackbody Spectral Radiance Computation
 
 .. code-block:: python
 
-    >>> colour.blackbody_spd(5000)
+    >>> colour.spd_blackbody(5000)
     SpectralPowerDistribution([[  3.60000000e+02,   6.65427827e+12],
                                [  3.61000000e+02,   6.70960528e+12],
                                [  3.62000000e+02,   6.76482512e+12],
@@ -892,7 +892,7 @@ Blackbody
 .. code-block:: python
 
     >>> blackbody_spds = [
-    ...     colour.blackbody_spd(i, colour.SpectralShape(0, 10000, 10))
+    ...     colour.spd_blackbody(i, colour.SpectralShape(0, 10000, 10))
     ...     for i in range(1000, 15000, 1000)
     ... ]
     >>> multi_spd_plot(

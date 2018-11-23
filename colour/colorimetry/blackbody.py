@@ -36,7 +36,7 @@ __status__ = 'Production'
 
 __all__ = [
     'C1', 'C2', 'N', 'planck_law', 'blackbody_spectral_radiance',
-    'blackbody_spd'
+    'spd_blackbody'
 ]
 
 C1 = 3.741771e-16  # 2 * math.pi * PLANCK_CONSTANT * LIGHT_SPEED ** 2
@@ -104,7 +104,7 @@ def planck_law(wavelength, temperature, c1=C1, c2=C2, n=N):
 blackbody_spectral_radiance = planck_law
 
 
-def blackbody_spd(temperature, shape=DEFAULT_SPECTRAL_SHAPE, c1=C1, c2=C2,
+def spd_blackbody(temperature, shape=DEFAULT_SPECTRAL_SHAPE, c1=C1, c2=C2,
                   n=N):
     """
     Returns the spectral power distribution of the planckian radiator for given
@@ -144,7 +144,7 @@ def blackbody_spd(temperature, shape=DEFAULT_SPECTRAL_SHAPE, c1=C1, c2=C2,
     >>> from colour.utilities import numpy_print_options
     >>> cmfs = STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
     >>> with numpy_print_options(suppress=True):
-    ...     blackbody_spd(5000, cmfs.shape)  # doctest: +ELLIPSIS
+    ...     spd_blackbody(5000, cmfs.shape)  # doctest: +ELLIPSIS
     SpectralPowerDistribution([[  3.60000000e+02,   6.65427827e+12],
                                [  3.61000000e+02,   6.70960528e+12],
                                [  3.62000000e+02,   6.76482512e+12],

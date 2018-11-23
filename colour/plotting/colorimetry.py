@@ -35,7 +35,7 @@ from six.moves import reduce
 from colour.algebra import LinearInterpolator
 from colour.colorimetry import (
     ILLUMINANTS, ILLUMINANTS_SPDS, LIGHTNESS_METHODS, LUMINANCE_METHODS,
-    MultiSpectralPowerDistribution, SpectralShape, blackbody_spd, ones_spd,
+    MultiSpectralPowerDistribution, SpectralShape, spd_blackbody, ones_spd,
     spectral_to_XYZ, wavelength_to_XYZ)
 from colour.plotting import (
     ColourSwatch, COLOUR_STYLE_CONSTANTS, XYZ_to_plotting_colourspace, artist,
@@ -802,7 +802,7 @@ def blackbody_spectral_radiance_plot(
 
     cmfs = first_item(filter_cmfs(cmfs).values())
 
-    spd = blackbody_spd(temperature, cmfs.shape)
+    spd = spd_blackbody(temperature, cmfs.shape)
 
     axes = figure.add_subplot(211)
     settings = {
@@ -892,7 +892,7 @@ def blackbody_colours_plot(
 
     with suppress_warnings():
         for temperature in shape:
-            spd = blackbody_spd(temperature, cmfs.shape)
+            spd = spd_blackbody(temperature, cmfs.shape)
 
             with domain_range_scale('1'):
                 XYZ = spectral_to_XYZ(spd, cmfs)

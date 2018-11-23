@@ -29,9 +29,9 @@ Spectral Data Generation
 .. autosummary::
     :toctree: generated/
 
-    blackbody_spd
     CIE_standard_illuminant_A_function
     spd_CIE_illuminant_D_series
+    spd_blackbody
     constant_spd
     ones_spd
     zeros_spd

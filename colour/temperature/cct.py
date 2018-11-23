@@ -90,7 +90,7 @@ import numpy as np
 from collections import namedtuple
 
 from colour.colorimetry import (ASTME30815_PRACTISE_SHAPE,
-                                STANDARD_OBSERVERS_CMFS, blackbody_spd,
+                                STANDARD_OBSERVERS_CMFS, spd_blackbody,
                                 spectral_to_XYZ)
 from colour.models import UCS_to_uv, XYZ_to_UCS
 from colour.utilities import (CaseInsensitiveMapping, as_float_array,
@@ -246,7 +246,7 @@ ui=0.4456351..., vi=0.3548306..., di=0.2514749...)]
 
     table = []
     for Ti in np.linspace(start, end, count):
-        spd = blackbody_spd(Ti, shape)
+        spd = spd_blackbody(Ti, shape)
         XYZ = spectral_to_XYZ(spd, cmfs)
         XYZ /= np.max(XYZ)
         UVW = XYZ_to_UCS(XYZ)
@@ -433,7 +433,7 @@ def CCT_to_uv_Ohno2013(
 
     delta = 0.01
 
-    spd = blackbody_spd(CCT, shape)
+    spd = spd_blackbody(CCT, shape)
     XYZ = spectral_to_XYZ(spd, cmfs)
     XYZ *= 1 / np.max(XYZ)
     UVW = XYZ_to_UCS(XYZ)
@@ -442,7 +442,7 @@ def CCT_to_uv_Ohno2013(
     if D_uv == 0:
         return np.array([u0, v0])
     else:
-        spd = blackbody_spd(CCT + delta, shape)
+        spd = spd_blackbody(CCT + delta, shape)
         XYZ = spectral_to_XYZ(spd, cmfs)
         XYZ *= 1 / np.max(XYZ)
         UVW = XYZ_to_UCS(XYZ)

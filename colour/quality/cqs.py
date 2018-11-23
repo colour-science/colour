@@ -31,7 +31,7 @@ from collections import namedtuple
 from colour.algebra import euclidean_distance
 from colour.colorimetry import (
     ASTME30815_PRACTISE_SHAPE, spd_CIE_illuminant_D_series, ILLUMINANTS,
-    STANDARD_OBSERVERS_CMFS, blackbody_spd, spectral_to_XYZ)
+    STANDARD_OBSERVERS_CMFS, spd_blackbody, spectral_to_XYZ)
 from colour.quality.dataset.vs import VS_INDEXES_TO_NAMES, VS_SPDS
 from colour.models import (Lab_to_LCHab, UCS_to_uv, XYZ_to_Lab, XYZ_to_UCS,
                            XYZ_to_xy, xy_to_XYZ)
@@ -154,7 +154,7 @@ def colour_quality_scale(spd_test, additional_data=False):
     CCT, _D_uv = uv_to_CCT_Ohno2013(uv)
 
     if CCT < 5000:
-        spd_reference = blackbody_spd(CCT, shape)
+        spd_reference = spd_blackbody(CCT, shape)
     else:
         xy = CCT_to_xy_CIE_D(CCT)
         spd_reference = spd_CIE_illuminant_D_series(xy)
