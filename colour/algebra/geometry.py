@@ -295,7 +295,7 @@ def ellipse_coefficients_general_form(coefficients):
     The canonical form ellipse coefficients are as follows: the center
     coordinates :math:`x_c` and :math:`y_c`, semi-major axis length
     :math:`a_a`, semi-minor axis length :math:`a_b` and rotation angle
-    :math:`\\theta` in degrees from its semi-major axis :math:`a_a`.
+    :math:`\\theta` in degrees of its semi-major axis :math:`a_a`.
 
     Parameters
     ----------
@@ -415,7 +415,7 @@ def point_at_angle_on_ellipse(phi, coefficients):
         General form ellipse coefficients as follows: the center coordinates
         :math:`x_c` and :math:`y_c`, semi-major axis length :math:`a_a`,
         semi-minor axis length :math:`a_b` and rotation angle :math:`\\theta`
-        in degrees from its semi-major axis :math:`a_a`.
+        in degrees of its semi-major axis :math:`a_a`.
 
     Returns
     -------
@@ -549,6 +549,9 @@ def ellipse_fitting(a, method='Halir 1998'):
     ----------
     a : array_like
         Point array :math:`a` to be fitted.
+    method : unicode, optional
+        **{'Halir 1998'}**,
+        Computation method.
 
     Returns
     -------
