@@ -174,7 +174,7 @@ def colour_style(use_style=True):
         'savefig.bbox': 'standard',
 
         # Font Settings
-        'font.size': 12,
+        # 'font.size': 12,
         'axes.titlesize': 'x-large',
         'axes.labelsize': 'larger',
         'legend.fontsize': 'small',
@@ -207,7 +207,7 @@ def colour_style(use_style=True):
         'axes.edgecolor': constants.colour.dark,
 
         # Title Settings
-        'axes.titlepad': 12 * 0.75,
+        # 'axes.titlepad': 12 * 0.75,
 
         # Axes Settings
         'axes.facecolor': constants.colour.brightest,
