@@ -42,6 +42,9 @@ from .models import (
     RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931,
     RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS,
     RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS,
+    ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1931,
+    ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1960UCS,
+    ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1976UCS,
     single_cctf_plot, multi_cctf_plot)
 from .notation import (single_munsell_value_function_plot,
                        multi_munsell_value_function_plot)
@@ -92,6 +95,9 @@ __all__ += [
     'RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931',
     'RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS',
     'RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS',
+    'ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1931',
+    'ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1960UCS',
+    'ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1976UCS',
     'single_cctf_plot', 'multi_cctf_plot'
 ]
 __all__ += [
