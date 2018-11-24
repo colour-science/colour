@@ -18,6 +18,7 @@ from .canon_log import (log_encoding_CanonLog, log_decoding_CanonLog,
 from .cineon import log_encoding_Cineon, log_decoding_Cineon
 from .dcdm import oetf_DCDM, eotf_DCDM
 from .dicom_gsdf import oetf_DICOMGSDF, eotf_DICOMGSDF
+from .dji_dlog import log_encoding_DJIDLog, log_decoding_DJIDLog
 from .filmic_pro import log_encoding_FilmicPro6, log_decoding_FilmicPro6
 from .filmlight_tlog import (log_encoding_FilmLightTLog,
                              log_decoding_FilmLightTLog)
@@ -66,6 +67,7 @@ __all__ += [
 __all__ += ['log_encoding_Cineon', 'log_decoding_Cineon']
 __all__ += ['oetf_DCDM', 'eotf_DCDM']
 __all__ += ['oetf_DICOMGSDF', 'eotf_DICOMGSDF']
+__all__ += ['log_encoding_DJIDLog', 'log_decoding_DJIDLog']
 __all__ += ['log_encoding_FilmicPro6', 'log_decoding_FilmicPro6']
 __all__ += ['log_encoding_FilmLightTLog', 'log_decoding_FilmLightTLog']
 __all__ += ['function_gamma']
@@ -112,6 +114,7 @@ LOG_ENCODING_CURVES = CaseInsensitiveMapping({
     'Canon Log 3': log_encoding_CanonLog3,
     'Canon Log': log_encoding_CanonLog,
     'Cineon': log_encoding_Cineon,
+    'D-Log': log_encoding_DJIDLog,
     'ERIMM RGB': log_encoding_ERIMMRGB,
     'Filmic Pro 6': log_encoding_FilmicPro6,
     'Log3G10': log_encoding_Log3G10,
@@ -133,9 +136,9 @@ Supported *log* encoding curves.
 
 LOG_ENCODING_CURVES : CaseInsensitiveMapping
     **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
-    'Canon Log 3', 'Canon Log', 'Cineon', 'ERIMM RGB', 'Filmic Pro 6',
-    'T-Log', 'Log3G10', 'Log3G12', 'Panalog', 'PLog', 'Protune','REDLog',
-    'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3', 'V-Log', 'ViperLog'}**
+    'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB', 'Filmic Pro 6',
+    'Log3G10', 'Log3G12', 'Panalog', 'PLog', 'Protune', 'REDLog', 'REDLogFilm',
+    'S-Log', 'S-Log2', 'S-Log3', 'T-Log', 'V-Log', 'ViperLog'}**
 """
 
 
@@ -150,10 +153,10 @@ def log_encoding_curve(value, curve='Cineon', **kwargs):
         Value.
     curve : unicode, optional
         **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
-        'Canon Log 3', 'Canon Log', 'Cineon', 'ERIMM RGB', 'Filmic Pro 6',
-        'T-Log', 'Log3G10', 'Log3G12', 'Panalog', 'PLog', 'Protune', 'REDLog',
-        'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3', 'V-Log',
-        'ViperLog'}**,
+        'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB',
+        'Filmic Pro 6', 'Log3G10', 'Log3G12', 'Panalog', 'PLog', 'Protune',
+        'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3', 'T-Log',
+        'V-Log', 'ViperLog'}**,
         Computation curve.
 
     Other Parameters
@@ -246,6 +249,7 @@ LOG_DECODING_CURVES = CaseInsensitiveMapping({
     'Canon Log 3': log_decoding_CanonLog3,
     'Canon Log': log_decoding_CanonLog,
     'Cineon': log_decoding_Cineon,
+    'D-Log': log_decoding_DJIDLog,
     'ERIMM RGB': log_decoding_ERIMMRGB,
     'Filmic Pro 6': log_decoding_FilmicPro6,
     'Log3G10': log_decoding_Log3G10,
@@ -267,9 +271,9 @@ Supported *log* decoding curves.
 
 LOG_DECODING_CURVES : CaseInsensitiveMapping
     **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
-    'Canon Log 3', 'Canon Log', 'Cineon', 'ERIMM RGB', 'Filmic Pro 6', 'T-Log',
+    'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB', 'Filmic Pro 6',
     'Log3G10', 'Log3G12', 'Panalog', 'PLog', 'Protune', 'REDLog', 'REDLogFilm',
-    'S-Log', 'S-Log2', 'S-Log3', 'V-Log', 'ViperLog'}**
+    'S-Log', 'S-Log2', 'S-Log3', 'T-Log', 'V-Log', 'ViperLog'}**
 """
 
 
@@ -284,9 +288,10 @@ def log_decoding_curve(value, curve='Cineon', **kwargs):
         Value.
     curve : unicode, optional
         **{'ACEScc', 'ACEScct', 'ACESproxy', 'ALEXA Log C', 'Canon Log 2',
-        'Canon Log 3', 'Canon Log', 'Cineon', 'ERIMM RGB', 'Filmic Pro 6',
-        'T-Log', 'Log3G10', 'Log3G12', 'Panalog', 'PLog', 'Protune', 'REDLog',
-        'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3', 'V-Log', 'ViperLog'}**,
+        'Canon Log 3', 'Canon Log', 'Cineon', 'D-Log', 'ERIMM RGB',
+        'Filmic Pro 6', 'Log3G10', 'Log3G12', 'Panalog', 'PLog', 'Protune',
+        'REDLog', 'REDLogFilm', 'S-Log', 'S-Log2', 'S-Log3', 'T-Log',
+        'V-Log', 'ViperLog'}**,
         Computation curve.
 
     Other Parameters
