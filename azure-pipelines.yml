@@ -4,14 +4,14 @@
 # https://docs.microsoft.com/vsts/pipelines/languages/python
 
 jobs:
-- job: 'Test Windows'
+- job: 'Test_Windows'
   strategy:
     matrix:
       Python27:
         python.version: '2.7'
-      Python36 Windows:
+      Python36:
         python.version: '3.6'
-      Python37 Windows:
+      Python37:
         python.version: '3.7'
     maxParallel: 3
   pool:
@@ -36,14 +36,14 @@ jobs:
       testResultsFiles: '**/nosetests.xml'
       testRunTitle: 'Python $(python.version)'
     condition: succeededOrFailed()
-- job: 'Test macOS'
+- job: 'Test_macOS'
   strategy:
     matrix:
       Python27:
         python.version: '2.7'
-      Python36 Windows:
+      Python36:
         python.version: '3.6'
-      Python37 Windows:
+      Python37:
         python.version: '3.7'
     maxParallel: 3
   pool:
