@@ -16,7 +16,7 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
--   :cite:`DJI2017` : DJI. (2017). White Paper on D-Log and D-Gamut of DJI\
+-   :cite:`DJI2017` : Dji. (2017). White Paper on D-Log and D-Gamut of DJI
     Cinema Color System. Retrieved from https://dl.djicdn.com/downloads/\
 zenmuse+x7/20171010/D-Log_D-Gamut_Whitepaper.pdf
 """
