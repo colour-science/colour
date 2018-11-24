@@ -49,15 +49,20 @@ jobs:
   pool:
     vmImage: 'xcode9-macos10.13'
   steps:
-  - task: UsePythonVersion@0
-    inputs:
-      versionSpec: '$(python.version)'
-      architecture: 'x64'
   - script: |
-      python -m pip install --upgrade pip
-      pip install matplotlib numpy scipy
-      pip install pyqt
-      pip install nose six coveralls flake8 mock==1.0.1
+      sudo chmod -R 777 /usr/local/miniconda/envs
+    displayName: 'Fix for conda error on macOS'
+  - task: CondaEnvironment@1
+    inputs:
+      createCustomEnvironment: true
+      environmentName: 'colour_env'
+      packageSpecs: 'python=$(python.version)'
+      installOptions: -y
+  - script: |
+      conda activate colour_env
+      conda install -y matplotlib numpy scipy
+      conda install -y pyqt
+      conda install -y nose six coveralls flake8 mock==1.0.1
     displayName: 'Install dependencies'
   - script: flake8 colour
     displayName: 'flake8'
