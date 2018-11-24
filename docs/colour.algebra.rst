@@ -91,6 +91,11 @@ Geometry
     euclidean_distance
     extend_line_segment
     intersect_line_segments
+    ellipse_coefficients_general_form
+    ellipse_coefficients_canonical_form
+    point_at_angle_on_ellipse
+    ELLIPSE_FITTING_METHODS
+    ellipse_fitting
 
 **Ancillary Objects**
 
@@ -100,6 +105,7 @@ Geometry
     :toctree: generated/
 
     LineSegmentsIntersections_Specification
+    ellipse_fitting_Halir1998
 
 Matrix
 ------
