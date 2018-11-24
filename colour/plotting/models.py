@@ -17,6 +17,12 @@ RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931`
 RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS`
 -   :func:`colour.plotting.\
 RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS`
+-   :func:`colour.plotting.\
+ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1931`
+-   :func:`colour.plotting.\
+ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1960UCS`
+-   :func:`colour.plotting.\
+ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1976UCS`
 -   :func:`colour.plotting.single_cctf_plot`
 -   :func:`colour.plotting.multi_cctf_plot`
 """
@@ -24,20 +30,25 @@ RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS`
 from __future__ import division
 
 import numpy as np
+from matplotlib.patches import Ellipse
 
 from colour.constants import EPSILON
-from colour.models import (ENCODING_CCTFS, DECODING_CCTFS, LCHab_to_Lab,
-                           Lab_to_XYZ, Luv_to_uv, POINTER_GAMUT_BOUNDARIES,
-                           POINTER_GAMUT_DATA, POINTER_GAMUT_ILLUMINANT,
-                           RGB_to_RGB, RGB_to_XYZ, UCS_to_uv, XYZ_to_Luv,
-                           XYZ_to_UCS, XYZ_to_xy, xy_to_Luv_uv, xy_to_UCS_uv)
+from colour.algebra import (point_at_angle_on_ellipse,
+                            ellipse_coefficients_canonical_form,
+                            ellipse_fitting)
+from colour.models import (
+    ENCODING_CCTFS, DECODING_CCTFS, LCHab_to_Lab, Lab_to_XYZ, Luv_to_uv,
+    MACADAM_1942_ELLIPSES_DATA, POINTER_GAMUT_BOUNDARIES, POINTER_GAMUT_DATA,
+    POINTER_GAMUT_ILLUMINANT, RGB_to_RGB, RGB_to_XYZ, UCS_to_uv, XYZ_to_Luv,
+    XYZ_to_UCS, XYZ_to_xy, xy_to_Luv_uv, xy_to_UCS_uv)
 from colour.plotting import (
-    COLOUR_STYLE_CONSTANTS, chromaticity_diagram_plot_CIE1931,
+    COLOUR_STYLE_CONSTANTS, chromaticity_diagram_plot_CIE1931, artist,
     chromaticity_diagram_plot_CIE1960UCS, chromaticity_diagram_plot_CIE1976UCS,
-    artist, colour_cycle, filter_passthrough, filter_RGB_colourspaces,
+    colour_cycle, colour_style, filter_passthrough, filter_RGB_colourspaces,
     filter_cmfs, multi_function_plot, override_style, render)
 from colour.plotting.diagrams import chromaticity_diagram_plot
-from colour.utilities import as_float_array, domain_range_scale, first_item
+from colour.utilities import (as_float_array, domain_range_scale, first_item,
+                              tsplit)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -55,6 +66,10 @@ __all__ = [
     'RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931',
     'RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS',
     'RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS',
+    'ellipses_MacAdam1942', 'ellipses_MacAdam1942_chromaticity_diagram_plot',
+    'ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1931',
+    'ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1960UCS',
+    'ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1976UCS',
     'single_cctf_plot', 'multi_cctf_plot'
 ]
 
@@ -539,7 +554,8 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot(
         scatter_parameters=None,
         **kwargs):
     """
-    Plots given *RGB* colourspace array in the *CIE 1931 Chromaticity Diagram*.
+    Plots given *RGB* colourspace array in the *Chromaticity Diagram* according
+    to given method.
 
     Parameters
     ----------
@@ -820,6 +836,364 @@ RGB_Chromaticity_Coordinates_Chromaticity_Diagram_Plot_CIE1976UCS.png
         colourspace,
         chromaticity_diagram_callable_CIE1976UCS,
         scatter_parameters=scatter_parameters,
+        **settings)
+
+
+def ellipses_MacAdam1942(method='CIE 1931'):
+    """
+    Returns *MacAdam (1942) Ellipses (Observer PGN)* coefficients according to
+    given method.
+
+    Parameters
+    ----------
+    method : unicode, optional
+        **{'CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'}**,
+        Computation method.
+
+    Returns
+    -------
+    tuple
+        Current figure and axes.
+
+    Examples
+    --------
+    >>> ellipses_MacAdam1942()[0]  # doctest: +SKIP
+    array([  1.60000000e-01,   5.70000000e-02,   5.00000023e-03,
+             1.56666660e-02,  -2.77000015e+01])
+    """
+
+    method = method.upper()
+
+    if method == 'CIE 1931':
+
+        def xy_to_ij(xy):
+            """
+            Converts given *xy* chromaticity coordinates to *ij* chromaticity
+            coordinates.
+            """
+
+            return xy
+
+    elif method == 'CIE 1960 UCS':
+
+        def xy_to_ij(xy):
+            """
+            Converts given *xy* chromaticity coordinates to *ij* chromaticity
+            coordinates.
+            """
+
+            return xy_to_UCS_uv(xy)
+
+    elif method == 'CIE 1976 UCS':
+
+        def xy_to_ij(xy):
+            """
+            Converts given *xy* chromaticity coordinates to *ij* chromaticity
+            coordinates.
+            """
+
+            return xy_to_Luv_uv(xy)
+
+    else:
+        raise ValueError(
+            'Invalid method: "{0}", must be one of '
+            '{\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\'}'.format(
+                method))
+
+    x, y, _a, _b, _theta, a, b, theta = tsplit(MACADAM_1942_ELLIPSES_DATA)
+
+    ellipses_coefficients = []
+    for i in range(len(theta)):
+        xy = point_at_angle_on_ellipse(
+            np.linspace(0, 360, 36),
+            [x[i], y[i], a[i] / 60, b[i] / 60, theta[i]],
+        )
+        ij = xy_to_ij(xy)
+        ellipses_coefficients.append(
+            ellipse_coefficients_canonical_form(ellipse_fitting(ij)))
+
+    return ellipses_coefficients
+
+
+@override_style()
+def ellipses_MacAdam1942_chromaticity_diagram_plot(
+        chromaticity_diagram_callable=chromaticity_diagram_plot,
+        method='CIE 1931',
+        chromaticity_diagram_clipping=False,
+        ellipse_parameters=None,
+        **kwargs):
+    """
+    Plots *MacAdam (1942) Ellipses (Observer PGN)* in the
+    *Chromaticity Diagram* according to given method.
+
+    Parameters
+    ----------
+    chromaticity_diagram_callable : callable, optional
+        Callable responsible for drawing the *Chromaticity Diagram*.
+    method : unicode, optional
+        **{'CIE 1931', 'CIE 1960 UCS', 'CIE 1976 UCS'}**,
+        *Chromaticity Diagram* method.
+    chromaticity_diagram_clipping : bool, optional,
+        Whether to clip the *Chromaticity Diagram* colours with the ellipses.
+    ellipse_parameters : dict or array_like, optional
+        Parameters for the :class:`Ellipse` class, ``ellipse_parameters`` can
+        be either a single dictionary applied to all the ellipses with same
+        settings or a sequence of dictionaries with different settings for each
+        ellipse.
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
+
+    Returns
+    -------
+    tuple
+        Current figure and axes.
+
+    Examples
+    --------
+    >>> ellipses_MacAdam1942_chromaticity_diagram_plot()  # doctest: +SKIP
+
+    .. image:: ../_static/\
+Plotting_Ellipses_MacAdam1942_Chromaticity_Diagram_Plot.png
+        :align: center
+        :alt: ellipses_MacAdam1942_chromaticity_diagram_plot
+    """
+
+    settings = {'uniform': True}
+    settings.update(kwargs)
+
+    figure, axes = artist(**settings)
+
+    settings = dict(kwargs)
+    settings.update({'axes': axes, 'standalone': False})
+
+    ellipses_coefficients = ellipses_MacAdam1942(method=method)
+
+    if chromaticity_diagram_clipping:
+        diagram_clipping_path = []
+        for coefficients in ellipses_coefficients:
+            diagram_clipping_path.append(
+                point_at_angle_on_ellipse(
+                    np.linspace(0, 360, 36),
+                    coefficients,
+                ))
+            diagram_clipping_path.append([np.nan, np.nan])
+
+        # TODO: Update accordingly to
+        # https://github.com/matplotlib/matplotlib/issues/12875
+        # settings.update({'diagram_clipping_path': diagram_clipping_path})
+
+    chromaticity_diagram_callable(**settings)
+
+    ellipse_settings_collection = [{
+        'color': COLOUR_STYLE_CONSTANTS.colour.cycle[4],
+        'alpha': 0.4,
+        'edgecolor': COLOUR_STYLE_CONSTANTS.colour.cycle[1],
+        'linewidth': colour_style()['lines.linewidth']
+    } for _ in range(len(ellipses_coefficients))]
+
+    if ellipse_parameters is not None:
+        if not isinstance(ellipse_parameters, dict):
+            assert len(ellipse_parameters) == len(ellipses_coefficients), (
+                'Multiple ellipse parameters defined, but they do not match '
+                'the ellipses count!')
+
+        for i, ellipse_settings in enumerate(ellipse_settings_collection):
+            if isinstance(ellipse_parameters, dict):
+                ellipse_settings.update(ellipse_parameters)
+            else:
+                ellipse_settings.update(ellipse_parameters[i])
+
+    for i, coefficients in enumerate(ellipses_coefficients):
+        x_c, y_c, a_a, a_b, theta_e = coefficients
+        ellipse = Ellipse((x_c, y_c), a_a, a_b, theta_e,
+                          **ellipse_settings_collection[i])
+        axes.add_artist(ellipse)
+
+    settings.update({'standalone': True})
+    settings.update(kwargs)
+
+    return render(**settings)
+
+
+@override_style()
+def ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1931(
+        chromaticity_diagram_callable_CIE1931=(
+            chromaticity_diagram_plot_CIE1931),
+        chromaticity_diagram_clipping=False,
+        ellipse_parameters=None,
+        **kwargs):
+    """
+    Plots *MacAdam (1942) Ellipses (Observer PGN)* in the
+    *CIE 1931 Chromaticity Diagram*.
+
+    Parameters
+    ----------
+    chromaticity_diagram_callable_CIE1931 : callable, optional
+        Callable responsible for drawing the *CIE 1931 Chromaticity Diagram*.
+    chromaticity_diagram_clipping : bool, optional,
+        Whether to clip the *CIE 1931 Chromaticity Diagram* colours with the
+        ellipses.
+    ellipse_parameters : dict or array_like, optional
+        Parameters for the :class:`Ellipse` class, ``ellipse_parameters`` can
+        be either a single dictionary applied to all the ellipses with same
+        settings or a sequence of dictionaries with different settings for each
+        ellipse.
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
+
+    Returns
+    -------
+    tuple
+        Current figure and axes.
+
+    Examples
+    --------
+    >>> ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1931()
+    ... # doctest: +SKIP
+
+    .. image:: ../_static/\
+Plotting_Ellipses_MacAdam1942_Chromaticity_Diagram_Plot_CIE1931.png
+        :align: center
+        :alt: ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1931
+    """
+
+    settings = dict(kwargs)
+    settings.update({'method': 'CIE 1931'})
+
+    return ellipses_MacAdam1942_chromaticity_diagram_plot(
+        chromaticity_diagram_callable_CIE1931,
+        chromaticity_diagram_clipping=chromaticity_diagram_clipping,
+        ellipse_parameters=ellipse_parameters,
+        **settings)
+
+
+@override_style()
+def ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1960UCS(
+        chromaticity_diagram_callable_CIE1960UCS=(
+            chromaticity_diagram_plot_CIE1960UCS),
+        chromaticity_diagram_clipping=False,
+        ellipse_parameters=None,
+        **kwargs):
+    """
+    Plots *MacAdam (1942) Ellipses (Observer PGN)* in the
+    *CIE 1960 UCS Chromaticity Diagram*.
+
+    Parameters
+    ----------
+    chromaticity_diagram_callable_CIE1960UCS : callable, optional
+        Callable responsible for drawing the
+        *CIE 1960 UCS Chromaticity Diagram*.
+    chromaticity_diagram_clipping : bool, optional,
+        Whether to clip the *CIE 1960 UCS Chromaticity Diagram* colours with
+        the ellipses.
+    ellipse_parameters : dict or array_like, optional
+        Parameters for the :class:`Ellipse` class, ``ellipse_parameters`` can
+        be either a single dictionary applied to all the ellipses with same
+        settings or a sequence of dictionaries with different settings for each
+        ellipse.
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
+
+    Returns
+    -------
+    tuple
+        Current figure and axes.
+
+    Examples
+    --------
+    >>> ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1960UCS()
+    ... # doctest: +SKIP
+
+    .. image:: ../_static/\
+Plotting_Ellipses_MacAdam1942_Chromaticity_Diagram_Plot_CIE1960UCS.png
+        :align: center
+        :alt: ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1960UCS
+    """
+
+    settings = dict(kwargs)
+    settings.update({'method': 'CIE 1960 UCS'})
+
+    return ellipses_MacAdam1942_chromaticity_diagram_plot(
+        chromaticity_diagram_callable_CIE1960UCS,
+        chromaticity_diagram_clipping=chromaticity_diagram_clipping,
+        ellipse_parameters=ellipse_parameters,
+        **settings)
+
+
+@override_style()
+def ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1976UCS(
+        chromaticity_diagram_callable_CIE1976UCS=(
+            chromaticity_diagram_plot_CIE1976UCS),
+        chromaticity_diagram_clipping=False,
+        ellipse_parameters=None,
+        **kwargs):
+    """
+    Plots *MacAdam (1942) Ellipses (Observer PGN)* in the
+    *CIE 1976 UCS Chromaticity Diagram*.
+
+    Parameters
+    ----------
+    chromaticity_diagram_callable_CIE1976UCS : callable, optional
+        Callable responsible for drawing the
+        *CIE 1976 UCS Chromaticity Diagram*.
+    chromaticity_diagram_clipping : bool, optional,
+        Whether to clip the *CIE 1976 UCS Chromaticity Diagram* colours with
+        the ellipses.
+    ellipse_parameters : dict or array_like, optional
+        Parameters for the :class:`Ellipse` class, ``ellipse_parameters`` can
+        be either a single dictionary applied to all the ellipses with same
+        settings or a sequence of dictionaries with different settings for each
+        ellipse.
+
+    Other Parameters
+    ----------------
+    \\**kwargs : dict, optional
+        {:func:`colour.plotting.artist`,
+        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        :func:`colour.plotting.render`},
+        Please refer to the documentation of the previously listed definitions.
+
+    Returns
+    -------
+    tuple
+        Current figure and axes.
+
+    Examples
+    --------
+    >>> ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1976UCS()
+    ... # doctest: +SKIP
+
+    .. image:: ../_static/\
+Plotting_Ellipses_MacAdam1942_Chromaticity_Diagram_Plot_CIE1976UCS.png
+        :align: center
+        :alt: ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1976UCS
+    """
+
+    settings = dict(kwargs)
+    settings.update({'method': 'CIE 1976 UCS'})
+
+    return ellipses_MacAdam1942_chromaticity_diagram_plot(
+        chromaticity_diagram_callable_CIE1976UCS,
+        chromaticity_diagram_clipping=chromaticity_diagram_clipping,
+        ellipse_parameters=ellipse_parameters,
         **settings)
 
 

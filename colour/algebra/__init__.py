@@ -8,7 +8,10 @@ from .common import is_spow_enabled, set_spow_enable, spow_enable, spow
 from .extrapolation import Extrapolator
 from .geometry import (
     normalise_vector, euclidean_distance, extend_line_segment,
-    LineSegmentsIntersections_Specification, intersect_line_segments)
+    LineSegmentsIntersections_Specification, intersect_line_segments,
+    ellipse_coefficients_general_form, ellipse_coefficients_canonical_form,
+    point_at_angle_on_ellipse, ellipse_fitting_Halir1998,
+    ELLIPSE_FITTING_METHODS, ellipse_fitting)
 from .interpolation import (
     kernel_nearest_neighbour, kernel_linear, kernel_sinc, kernel_lanczos,
     kernel_cardinal_spline, KernelInterpolator, NearestNeighbourInterpolator,
@@ -26,7 +29,10 @@ __all__ += ['is_spow_enabled', 'set_spow_enable', 'spow_enable', 'spow']
 __all__ += ['Extrapolator']
 __all__ += [
     'normalise_vector', 'euclidean_distance', 'extend_line_segment',
-    'LineSegmentsIntersections_Specification', 'intersect_line_segments'
+    'LineSegmentsIntersections_Specification', 'intersect_line_segments',
+    'ellipse_coefficients_general_form', 'ellipse_coefficients_canonical_form',
+    'point_at_angle_on_ellipse', 'ellipse_fitting_Halir1998',
+    'ELLIPSE_FITTING_METHODS', 'ellipse_fitting'
 ]
 __all__ += [
     'kernel_nearest_neighbour', 'kernel_linear', 'kernel_sinc',

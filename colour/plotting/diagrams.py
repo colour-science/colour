@@ -208,6 +208,7 @@ def spectral_locus_plot(cmfs='CIE 1931 2 Degree Standard Observer',
 def chromaticity_diagram_colours_plot(
         samples=256,
         diagram_opacity=1.0,
+        diagram_clipping_path=None,
         cmfs='CIE 1931 2 Degree Standard Observer',
         method='CIE 1931',
         **kwargs):
@@ -220,6 +221,8 @@ def chromaticity_diagram_colours_plot(
         Samples count on one axis.
     diagram_opacity : numeric, optional
         Opacity of the *Chromaticity Diagram* colours.
+    diagram_clipping_path : array_like, optional
+        Path of points used to clip the *Chromaticity Diagram* colours.
     cmfs : unicode, optional
         Standard observer colour matching functions used for
         *Chromaticity Diagram* bounds.
@@ -282,7 +285,11 @@ def chromaticity_diagram_colours_plot(
         RGB = normalise_maximum(
             XYZ_to_plotting_colourspace(XYZ, illuminant), axis=-1)
 
-    polygon = Polygon(spectral_locus, facecolor='none', edgecolor='none')
+    polygon = Polygon(
+        spectral_locus
+        if diagram_clipping_path is None else diagram_clipping_path,
+        facecolor='none',
+        edgecolor='none')
     axes.add_patch(polygon)
     # Preventing bounding box related issues as per
     # https://github.com/matplotlib/matplotlib/issues/10529

@@ -18,7 +18,8 @@ from colour.plotting.diagrams import (
     chromaticity_diagram_plot, spds_chromaticity_diagram_plot)
 from colour.plotting.models import (
     RGB_colourspaces_chromaticity_diagram_plot,
-    RGB_chromaticity_coordinates_chromaticity_diagram_plot)
+    RGB_chromaticity_coordinates_chromaticity_diagram_plot,
+    ellipses_MacAdam1942_chromaticity_diagram_plot)
 from colour.plotting.quality import colour_quality_bars_plot
 from colour.plotting.temperature import (
     planckian_locus_plot, planckian_locus_chromaticity_diagram_plot)
@@ -378,6 +379,26 @@ def generate_documentation_plots(output_directory):
         'Chromaticity_Diagram_Plot_CIE1976UCS.png')
     RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS(
         RGB, 'ITU-R BT.709', **arguments)
+
+    arguments['filename'] = os.path.join(output_directory,
+                                         'Plotting_Ellipses_MacAdam1942_'
+                                         'Chromaticity_Diagram_Plot.png')
+    ellipses_MacAdam1942_chromaticity_diagram_plot(**arguments)
+
+    arguments['filename'] = os.path.join(
+        output_directory, 'Plotting_Ellipses_MacAdam1942_'
+        'Chromaticity_Diagram_Plot_CIE1931.png')
+    ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1931(**arguments)
+
+    arguments['filename'] = os.path.join(
+        output_directory, 'Plotting_Ellipses_MacAdam1942_'
+        'Chromaticity_Diagram_Plot_CIE1960UCS.png')
+    ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1960UCS(**arguments)
+
+    arguments['filename'] = os.path.join(
+        output_directory, 'Plotting_Ellipses_MacAdam1942_'
+        'Chromaticity_Diagram_Plot_CIE1976UCS.png')
+    ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1976UCS(**arguments)
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Plotting_Single_CCTF_Plot.png')
