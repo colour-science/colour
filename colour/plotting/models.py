@@ -539,7 +539,8 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot(
         scatter_parameters=None,
         **kwargs):
     """
-    Plots given *RGB* colourspace array in the *CIE 1931 Chromaticity Diagram*.
+    Plots given *RGB* colourspace array in the *Chromaticity Diagram* according
+    to given method.
 
     Parameters
     ----------
