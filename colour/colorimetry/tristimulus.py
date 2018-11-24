@@ -36,7 +36,7 @@ import numpy as np
 
 from colour.algebra import lagrange_coefficients
 from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE, SpectralShape,
-                                STANDARD_OBSERVERS_CMFS, ones_spd)
+                                STANDARD_OBSERVERS_CMFS, spd_ones)
 from colour.constants import DEFAULT_INT_DTYPE
 from colour.utilities import (CaseInsensitiveMapping, as_float_array,
                               filter_kwargs, from_range_100, tsplit, warning)
@@ -200,13 +200,10 @@ _TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their identifier key is
 
     Examples
     --------
-    >>> from colour import (CMFS, CIE_standard_illuminant_A_function,
+    >>> from colour import (CMFS, spd_CIE_standard_illuminant_A,
     ...     SpectralPowerDistribution, SpectralShape, numpy_print_options)
     >>> cmfs = CMFS['CIE 1964 10 Degree Standard Observer']
-    >>> wl = cmfs.shape.range()
-    >>> A = SpectralPowerDistribution(
-    ...     dict(zip(wl, CIE_standard_illuminant_A_function(wl))),
-    ...     name='A (360, 830, 1)')
+    >>> A = spd_CIE_standard_illuminant_A(cmfs.shape)
     >>> with numpy_print_options(suppress=True):
     ...     tristimulus_weighting_factors_ASTME202211(
     ...         cmfs, A, SpectralShape(360, 830, 20))
@@ -336,14 +333,11 @@ def adjust_tristimulus_weighting_factors_ASTME30815(W, shape_r, shape_t):
 
     Examples
     --------
-    >>> from colour import (CMFS, CIE_standard_illuminant_A_function,
+    >>> from colour import (CMFS, spd_CIE_standard_illuminant_A,
     ...     SpectralPowerDistribution, SpectralShape)
     >>> from colour.utilities import numpy_print_options
     >>> cmfs = CMFS['CIE 1964 10 Degree Standard Observer']
-    >>> wl = cmfs.shape.range()
-    >>> A = SpectralPowerDistribution(
-    ...     dict(zip(wl, CIE_standard_illuminant_A_function(wl))),
-    ...     name='A (360, 830, 1)')
+    >>> A = spd_CIE_standard_illuminant_A(cmfs.shape)
     >>> W = tristimulus_weighting_factors_ASTME202211(
     ...     cmfs, A, SpectralShape(360, 830, 20))
     >>> with numpy_print_options(suppress=True):
@@ -386,7 +380,7 @@ def adjust_tristimulus_weighting_factors_ASTME30815(W, shape_r, shape_t):
 def spectral_to_XYZ_integration(
         spd,
         cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
-        illuminant=ones_spd(STANDARD_OBSERVERS_CMFS[
+        illuminant=spd_ones(STANDARD_OBSERVERS_CMFS[
             'CIE 1931 2 Degree Standard Observer'].shape)):
     """
     Converts given spectral power distribution to *CIE XYZ* tristimulus values
@@ -479,7 +473,7 @@ def spectral_to_XYZ_integration(
 def spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
         spd,
         cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
-        illuminant=ones_spd(ASTME30815_PRACTISE_SHAPE)):
+        illuminant=spd_ones(ASTME30815_PRACTISE_SHAPE)):
     """
     Converts given spectral power distribution to *CIE XYZ* tristimulus values
     using given colour matching functions and illuminant using a table
@@ -571,7 +565,7 @@ def spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
 def spectral_to_XYZ_ASTME30815(
         spd,
         cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
-        illuminant=ones_spd(ASTME30815_PRACTISE_SHAPE),
+        illuminant=spd_ones(ASTME30815_PRACTISE_SHAPE),
         use_practice_range=True,
         mi_5nm_omission_method=True,
         mi_20nm_interpolation_method=True):
@@ -738,7 +732,7 @@ SPECTRAL_TO_XYZ_METHODS['astm2015'] = (SPECTRAL_TO_XYZ_METHODS['ASTM E308-15'])
 def spectral_to_XYZ(
         spd,
         cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
-        illuminant=ones_spd(ASTME30815_PRACTISE_SHAPE),
+        illuminant=spd_ones(ASTME30815_PRACTISE_SHAPE),
         method='ASTM E308-15',
         **kwargs):
     """
@@ -839,7 +833,7 @@ def multi_spectral_to_XYZ_integration(
         msa,
         shape,
         cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
-        illuminant=ones_spd(STANDARD_OBSERVERS_CMFS[
+        illuminant=spd_ones(STANDARD_OBSERVERS_CMFS[
             'CIE 1931 2 Degree Standard Observer'].shape)):
     """
     Converts given multi-spectral array :math:`msa` with given spectral shape
@@ -965,7 +959,7 @@ def multi_spectral_to_XYZ(
         msa,
         shape=DEFAULT_SPECTRAL_SHAPE,
         cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
-        illuminant=ones_spd(ASTME30815_PRACTISE_SHAPE),
+        illuminant=spd_ones(ASTME30815_PRACTISE_SHAPE),
         method='Integration'):
     """
     Converts given multi-spectral array :math:`msa` with given spectral shape

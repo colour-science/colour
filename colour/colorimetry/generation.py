@@ -5,13 +5,13 @@ Spectral Generation
 
 Defines various objects performing spectral generation:
 
--   :func:`colour.constant_spd`
--   :func:`colour.zeros_spd`
--   :func:`colour.ones_spd`
--   :func:`colour.colorimetry.gaussian_spd_normal`
--   :func:`colour.colorimetry.gaussian_spd_fwhm`
--   :func:`colour.colorimetry.single_led_spd_Ohno2005`
--   :func:`colour.colorimetry.multi_led_spd_Ohno2005`
+-   :func:`colour.spd_constant`
+-   :func:`colour.spd_zeros`
+-   :func:`colour.spd_ones`
+-   :func:`colour.colorimetry.spd_gaussian_normal`
+-   :func:`colour.colorimetry.spd_gaussian_fwhm`
+-   :func:`colour.colorimetry.spd_single_led_Ohno2005`
+-   :func:`colour.colorimetry.spd_multi_led_Ohno2005`
 
 See Also
 --------
@@ -46,14 +46,14 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'constant_spd', 'zeros_spd', 'ones_spd', 'gaussian_spd_normal',
-    'gaussian_spd_fwhm', 'GAUSSIAN_SPD_METHODS', 'gaussian_spd',
-    'single_led_spd_Ohno2005', 'SINGLE_LED_SPD_METHODS', 'single_led_spd',
-    'multi_led_spd_Ohno2005', 'MULTI_LED_SPD_METHODS', 'multi_led_spd'
+    'spd_constant', 'spd_zeros', 'spd_ones', 'spd_gaussian_normal',
+    'spd_gaussian_fwhm', 'SPD_GAUSSIAN_METHODS', 'spd_gaussian',
+    'spd_single_led_Ohno2005', 'SPD_SINGLE_LED_METHODS', 'spd_single_led',
+    'spd_multi_led_Ohno2005', 'SPD_MULTI_LED_METHODS', 'spd_multi_led'
 ]
 
 
-def constant_spd(k, shape=DEFAULT_SPECTRAL_SHAPE, dtype=DEFAULT_FLOAT_DTYPE):
+def spd_constant(k, shape=DEFAULT_SPECTRAL_SHAPE, dtype=DEFAULT_FLOAT_DTYPE):
     """
     Returns a spectral power distribution of given spectral shape filled with
     constant :math:`k` values.
@@ -79,7 +79,7 @@ def constant_spd(k, shape=DEFAULT_SPECTRAL_SHAPE, dtype=DEFAULT_FLOAT_DTYPE):
 
     Examples
     --------
-    >>> spd = constant_spd(100)
+    >>> spd = spd_constant(100)
     >>> spd.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> spd[400]
@@ -94,7 +94,7 @@ def constant_spd(k, shape=DEFAULT_SPECTRAL_SHAPE, dtype=DEFAULT_FLOAT_DTYPE):
         values, wavelengths, name=name, dtype=dtype)
 
 
-def zeros_spd(shape=DEFAULT_SPECTRAL_SHAPE):
+def spd_zeros(shape=DEFAULT_SPECTRAL_SHAPE):
     """
     Returns a spectral power distribution of given spectral shape filled with
     zeros.
@@ -116,17 +116,17 @@ def zeros_spd(shape=DEFAULT_SPECTRAL_SHAPE):
 
     Examples
     --------
-    >>> spd = zeros_spd()
+    >>> spd = spd_zeros()
     >>> spd.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> spd[400]
     0.0
     """
 
-    return constant_spd(0, shape)
+    return spd_constant(0, shape)
 
 
-def ones_spd(shape=DEFAULT_SPECTRAL_SHAPE):
+def spd_ones(shape=DEFAULT_SPECTRAL_SHAPE):
     """
     Returns a spectral power distribution of given spectral shape filled with
     ones.
@@ -148,17 +148,17 @@ def ones_spd(shape=DEFAULT_SPECTRAL_SHAPE):
 
     Examples
     --------
-    >>> spd = ones_spd()
+    >>> spd = spd_ones()
     >>> spd.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> spd[400]
     1.0
     """
 
-    return constant_spd(1, shape)
+    return spd_constant(1, shape)
 
 
-def gaussian_spd_normal(mu, sigma, shape=DEFAULT_SPECTRAL_SHAPE):
+def spd_gaussian_normal(mu, sigma, shape=DEFAULT_SPECTRAL_SHAPE):
     """
     Returns a gaussian spectral power distribution of given spectral shape at
     given mean wavelength :math:`\\mu` and standard deviation :math:`sigma`.
@@ -186,7 +186,7 @@ def gaussian_spd_normal(mu, sigma, shape=DEFAULT_SPECTRAL_SHAPE):
 
     Examples
     --------
-    >>> spd = gaussian_spd_normal(555, 25)
+    >>> spd = spd_gaussian_normal(555, 25)
     >>> spd.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> spd[555]  # doctest: +ELLIPSIS
@@ -204,7 +204,7 @@ def gaussian_spd_normal(mu, sigma, shape=DEFAULT_SPECTRAL_SHAPE):
     return SpectralPowerDistribution(values, wavelengths, name=name)
 
 
-def gaussian_spd_fwhm(peak_wavelength, fwhm, shape=DEFAULT_SPECTRAL_SHAPE):
+def spd_gaussian_fwhm(peak_wavelength, fwhm, shape=DEFAULT_SPECTRAL_SHAPE):
     """
     Returns a gaussian spectral power distribution of given spectral shape at
     given peak wavelength and full width at half maximum.
@@ -232,7 +232,7 @@ def gaussian_spd_fwhm(peak_wavelength, fwhm, shape=DEFAULT_SPECTRAL_SHAPE):
 
     Examples
     --------
-    >>> spd = gaussian_spd_fwhm(555, 25)
+    >>> spd = spd_gaussian_fwhm(555, 25)
     >>> spd.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> spd[555]
@@ -250,19 +250,19 @@ def gaussian_spd_fwhm(peak_wavelength, fwhm, shape=DEFAULT_SPECTRAL_SHAPE):
     return SpectralPowerDistribution(values, wavelengths, name=name)
 
 
-GAUSSIAN_SPD_METHODS = CaseInsensitiveMapping({
-    'Normal': gaussian_spd_normal,
-    'FWHM': gaussian_spd_fwhm
+SPD_GAUSSIAN_METHODS = CaseInsensitiveMapping({
+    'Normal': spd_gaussian_normal,
+    'FWHM': spd_gaussian_fwhm
 })
-GAUSSIAN_SPD_METHODS.__doc__ = """
+SPD_GAUSSIAN_METHODS.__doc__ = """
 Supported gaussian spectral power distribution computation methods.
 
-GAUSSIAN_SPD_METHODS : CaseInsensitiveMapping
+SPD_GAUSSIAN_METHODS : CaseInsensitiveMapping
     **{'Normal', 'FWHM'}**
 """
 
 
-def gaussian_spd(mu_peak_wavelength,
+def spd_gaussian(mu_peak_wavelength,
                  sigma_fwhm,
                  shape=DEFAULT_SPECTRAL_SHAPE,
                  method='Normal'):
@@ -298,14 +298,14 @@ def gaussian_spd(mu_peak_wavelength,
 
     Examples
     --------
-    >>> spd = gaussian_spd(555, 25)
+    >>> spd = spd_gaussian(555, 25)
     >>> spd.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> spd[555]  # doctest: +ELLIPSIS
     1.0000000...
     >>> spd[530]  # doctest: +ELLIPSIS
     0.6065306...
-    >>> spd = gaussian_spd(555, 25, method='FWHM')
+    >>> spd = spd_gaussian(555, 25, method='FWHM')
     >>> spd.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> spd[555]
@@ -314,10 +314,10 @@ def gaussian_spd(mu_peak_wavelength,
     0.3678794...
     """
 
-    return GAUSSIAN_SPD_METHODS[method](mu_peak_wavelength, sigma_fwhm, shape)
+    return SPD_GAUSSIAN_METHODS[method](mu_peak_wavelength, sigma_fwhm, shape)
 
 
-def single_led_spd_Ohno2005(peak_wavelength,
+def spd_single_led_Ohno2005(peak_wavelength,
                             fwhm,
                             shape=DEFAULT_SPECTRAL_SHAPE):
     """
@@ -352,14 +352,14 @@ def single_led_spd_Ohno2005(peak_wavelength,
 
     Examples
     --------
-    >>> spd = single_led_spd_Ohno2005(555, 25)
+    >>> spd = spd_single_led_Ohno2005(555, 25)
     >>> spd.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> spd[555]  # doctest: +ELLIPSIS
     1.0000000...
     """
 
-    spd = gaussian_spd_fwhm(peak_wavelength, fwhm, shape)
+    spd = spd_gaussian_fwhm(peak_wavelength, fwhm, shape)
 
     spd.values = (spd.values + 2 * spd.values ** 5) / 3
 
@@ -369,18 +369,18 @@ def single_led_spd_Ohno2005(peak_wavelength,
     return spd
 
 
-SINGLE_LED_SPD_METHODS = CaseInsensitiveMapping({
-    'Ohno 2005': single_led_spd_Ohno2005,
+SPD_SINGLE_LED_METHODS = CaseInsensitiveMapping({
+    'Ohno 2005': spd_single_led_Ohno2005,
 })
-SINGLE_LED_SPD_METHODS.__doc__ = """
+SPD_SINGLE_LED_METHODS.__doc__ = """
 Supported single *LED* spectral power distribution computation methods.
 
-SINGLE_LED_SPD_METHODS : CaseInsensitiveMapping
+SPD_SINGLE_LED_METHODS : CaseInsensitiveMapping
     **{'Ohno 2005'}**
 """
 
 
-def single_led_spd(peak_wavelength,
+def spd_single_led(peak_wavelength,
                    fwhm,
                    shape=DEFAULT_SPECTRAL_SHAPE,
                    method='Ohno 2005'):
@@ -419,17 +419,17 @@ def single_led_spd(peak_wavelength,
 
     Examples
     --------
-    >>> spd = single_led_spd(555, 25)
+    >>> spd = spd_single_led(555, 25)
     >>> spd.shape
     SpectralShape(360.0, 780.0, 1.0)
     >>> spd[555]  # doctest: +ELLIPSIS
     1.0000000...
     """
 
-    return SINGLE_LED_SPD_METHODS[method](peak_wavelength, fwhm, shape)
+    return SPD_SINGLE_LED_METHODS[method](peak_wavelength, fwhm, shape)
 
 
-def multi_led_spd_Ohno2005(peak_wavelengths,
+def spd_multi_led_Ohno2005(peak_wavelengths,
                            fwhm,
                            peak_power_ratios=None,
                            shape=DEFAULT_SPECTRAL_SHAPE):
@@ -440,7 +440,7 @@ def multi_led_spd_Ohno2005(peak_wavelengths,
 
     The multi *LED* spectral power distribution is generated using many single
     *LED* spectral power distributions generated with
-    :func:`colour.single_led_spd_Ohno2005` definition.
+    :func:`colour.spd_single_led_Ohno2005` definition.
 
     Parameters
     ----------
@@ -474,7 +474,7 @@ def multi_led_spd_Ohno2005(peak_wavelengths,
 
     Examples
     --------
-    >>> spd = multi_led_spd_Ohno2005(
+    >>> spd = spd_multi_led_Ohno2005(
     ...     np.array([457, 530, 615]),
     ...     np.array([20, 30, 20]),
     ...     np.array([0.731, 1.000, 1.660]),
@@ -493,11 +493,11 @@ def multi_led_spd_Ohno2005(peak_wavelengths,
         peak_power_ratios = np.resize(peak_power_ratios,
                                       peak_wavelengths.shape)
 
-    spd = zeros_spd(shape)
+    spd = spd_zeros(shape)
 
     for (peak_wavelength, fwhm_s, peak_power_ratio) in zip(
             peak_wavelengths, fwhm, peak_power_ratios):
-        spd += single_led_spd_Ohno2005(peak_wavelength,
+        spd += spd_single_led_Ohno2005(peak_wavelength,
                                        fwhm_s) * peak_power_ratio
 
     def _format_array(a):
@@ -527,18 +527,18 @@ def multi_led_spd_Ohno2005(peak_wavelengths,
     return spd
 
 
-MULTI_LED_SPD_METHODS = CaseInsensitiveMapping({
-    'Ohno 2005': multi_led_spd_Ohno2005,
+SPD_MULTI_LED_METHODS = CaseInsensitiveMapping({
+    'Ohno 2005': spd_multi_led_Ohno2005,
 })
-MULTI_LED_SPD_METHODS.__doc__ = """
+SPD_MULTI_LED_METHODS.__doc__ = """
 Supported multi *LED* spectral power distribution computation methods.
 
-MULTI_LED_SPD_METHODS : CaseInsensitiveMapping
+SPD_MULTI_LED_METHODS : CaseInsensitiveMapping
     **{'Ohno 2005'}**
 """
 
 
-def multi_led_spd(peak_wavelengths,
+def spd_multi_led(peak_wavelengths,
                   fwhm,
                   peak_power_ratios=None,
                   shape=DEFAULT_SPECTRAL_SHAPE,
@@ -583,7 +583,7 @@ def multi_led_spd(peak_wavelengths,
 
     Examples
     --------
-    >>> spd = multi_led_spd(
+    >>> spd = spd_multi_led(
     ...     np.array([457, 530, 615]),
     ...     np.array([20, 30, 20]),
     ...     np.array([0.731, 1.000, 1.660]),
@@ -594,5 +594,5 @@ def multi_led_spd(peak_wavelengths,
     0.1295132...
     """
 
-    return MULTI_LED_SPD_METHODS[method](peak_wavelengths, fwhm,
+    return SPD_MULTI_LED_METHODS[method](peak_wavelengths, fwhm,
                                          peak_power_ratios, shape)

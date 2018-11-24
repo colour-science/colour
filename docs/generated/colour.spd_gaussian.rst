@@ -3,4 +3,4 @@ colour.gaussian\_spd
 
 .. currentmodule:: colour
 
-.. autofunction:: gaussian_spd
+.. autofunction:: spd_gaussian

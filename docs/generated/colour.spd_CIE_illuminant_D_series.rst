@@ -3,4 +3,4 @@ colour.D\_illuminant\_relative\_spd
 
 .. currentmodule:: colour
 
-.. autofunction:: D_illuminant_relative_spd
+.. autofunction:: spd_CIE_illuminant_D_series

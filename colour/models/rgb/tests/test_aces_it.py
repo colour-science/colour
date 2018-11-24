@@ -9,7 +9,7 @@ import numpy as np
 import unittest
 
 from colour.characterisation import COLOURCHECKERS_SPDS
-from colour.colorimetry import (ILLUMINANTS_SPDS, constant_spd, ones_spd)
+from colour.colorimetry import (ILLUMINANTS_SPDS, spd_constant, spd_ones)
 from colour.models import ACES_RICD, spectral_to_aces_relative_exposure_values
 from colour.utilities import domain_range_scale
 
@@ -36,13 +36,13 @@ spectral_to_aces_relative_exposure_values` definition.
         """
 
         shape = ACES_RICD.shape
-        grey_reflector = constant_spd(0.18, shape)
+        grey_reflector = spd_constant(0.18, shape)
         np.testing.assert_almost_equal(
             spectral_to_aces_relative_exposure_values(grey_reflector),
             np.array([0.18, 0.18, 0.18]),
             decimal=7)
 
-        perfect_reflector = ones_spd(shape)
+        perfect_reflector = spd_ones(shape)
         np.testing.assert_almost_equal(
             spectral_to_aces_relative_exposure_values(perfect_reflector),
             np.array([0.97783784, 0.97783784, 0.97783784]),
@@ -86,7 +86,7 @@ spectral_to_aces_relative_exposure_values`  definition domain and range scale
         """
 
         shape = ACES_RICD.shape
-        grey_reflector = constant_spd(0.18, shape)
+        grey_reflector = spd_constant(0.18, shape)
         RGB = spectral_to_aces_relative_exposure_values(grey_reflector)
 
         d_r = (('reference', 1), (1, 1), (100, 100))

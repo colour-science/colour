@@ -5,18 +5,18 @@ from __future__ import absolute_import
 from .spectrum import (SpectralShape, DEFAULT_SPECTRAL_SHAPE,
                        SpectralPowerDistribution,
                        MultiSpectralPowerDistribution)
-from .blackbody import (blackbody_spd, blackbody_spectral_radiance, planck_law)
+from .blackbody import (spd_blackbody, blackbody_spectral_radiance, planck_law)
 from .cmfs import (LMS_ConeFundamentals, RGB_ColourMatchingFunctions,
                    XYZ_ColourMatchingFunctions)
 from .dataset import *  # noqa
 from . import dataset
-from .generation import constant_spd, zeros_spd, ones_spd
-from .generation import GAUSSIAN_SPD_METHODS
-from .generation import gaussian_spd, gaussian_spd_normal, gaussian_spd_fwhm
-from .generation import SINGLE_LED_SPD_METHODS
-from .generation import single_led_spd, single_led_spd_Ohno2005
-from .generation import MULTI_LED_SPD_METHODS
-from .generation import multi_led_spd, multi_led_spd_Ohno2005
+from .generation import spd_constant, spd_zeros, spd_ones
+from .generation import SPD_GAUSSIAN_METHODS
+from .generation import spd_gaussian, spd_gaussian_normal, spd_gaussian_fwhm
+from .generation import SPD_SINGLE_LED_METHODS
+from .generation import spd_single_led, spd_single_led_Ohno2005
+from .generation import SPD_MULTI_LED_METHODS
+from .generation import spd_multi_led, spd_multi_led_Ohno2005
 from .tristimulus import (SPECTRAL_TO_XYZ_METHODS,
                           MULTI_SPECTRAL_TO_XYZ_METHODS)
 from .tristimulus import spectral_to_XYZ, multi_spectral_to_XYZ
@@ -31,8 +31,8 @@ from .tristimulus import (
 from .correction import BANDPASS_CORRECTION_METHODS
 from .correction import bandpass_correction
 from .correction import bandpass_correction_Stearns1988
-from .illuminants import (D_illuminant_relative_spd,
-                          CIE_standard_illuminant_A_function)
+from .illuminants import (spd_CIE_standard_illuminant_A,
+                          spd_CIE_illuminant_D_series)
 from .lefs import (mesopic_luminous_efficiency_function,
                    mesopic_weighting_function)
 from .lightness import LIGHTNESS_METHODS
@@ -66,19 +66,19 @@ __all__ = [
     'SpectralShape', 'DEFAULT_SPECTRAL_SHAPE', 'SpectralPowerDistribution',
     'MultiSpectralPowerDistribution'
 ]
-__all__ += ['blackbody_spd', 'blackbody_spectral_radiance', 'planck_law']
+__all__ += ['spd_blackbody', 'blackbody_spectral_radiance', 'planck_law']
 __all__ += [
     'LMS_ConeFundamentals', 'RGB_ColourMatchingFunctions',
     'XYZ_ColourMatchingFunctions'
 ]
 __all__ += dataset.__all__
-__all__ += ['constant_spd', 'zeros_spd', 'ones_spd']
-__all__ += ['GAUSSIAN_SPD_METHODS']
-__all__ += ['gaussian_spd', 'gaussian_spd_normal', 'gaussian_spd_fwhm']
-__all__ += ['SINGLE_LED_SPD_METHODS']
-__all__ += ['single_led_spd', 'single_led_spd_Ohno2005']
-__all__ += ['MULTI_LED_SPD_METHODS']
-__all__ += ['multi_led_spd', 'multi_led_spd_Ohno2005']
+__all__ += ['spd_constant', 'spd_zeros', 'spd_ones']
+__all__ += ['SPD_GAUSSIAN_METHODS']
+__all__ += ['spd_gaussian', 'spd_gaussian_normal', 'spd_gaussian_fwhm']
+__all__ += ['SPD_SINGLE_LED_METHODS']
+__all__ += ['spd_single_led', 'spd_single_led_Ohno2005']
+__all__ += ['SPD_MULTI_LED_METHODS']
+__all__ += ['spd_multi_led', 'spd_multi_led_Ohno2005']
 __all__ += ['SPECTRAL_TO_XYZ_METHODS', 'MULTI_SPECTRAL_TO_XYZ_METHODS']
 __all__ += ['spectral_to_XYZ', 'multi_spectral_to_XYZ']
 __all__ += [
@@ -93,7 +93,10 @@ __all__ += [
 __all__ += ['BANDPASS_CORRECTION_METHODS']
 __all__ += ['bandpass_correction']
 __all__ += ['bandpass_correction_Stearns1988']
-__all__ += ['D_illuminant_relative_spd', 'CIE_standard_illuminant_A_function']
+__all__ += [
+    'spd_CIE_standard_illuminant_A',
+    'spd_CIE_illuminant_D_series',
+]
 __all__ += [
     'mesopic_luminous_efficiency_function', 'mesopic_weighting_function'
 ]

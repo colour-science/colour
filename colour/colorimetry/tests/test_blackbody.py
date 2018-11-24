@@ -9,7 +9,7 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.colorimetry import (SpectralShape, planck_law, blackbody_spd)
+from colour.colorimetry import (SpectralShape, planck_law, spd_blackbody)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -21,7 +21,7 @@ __status__ = 'Production'
 
 __all__ = [
     'PLANCK_LAW_DATA', 'BLACKBODY_SPD_DATA', 'TestPlanckLaw',
-    'TestBlackbodySpd'
+    'TestSpdBlackbody'
 ]
 
 PLANCK_LAW_DATA = {
@@ -4560,22 +4560,21 @@ class TestPlanckLaw(unittest.TestCase):
             planck_law(case, case),
 
 
-class TestBlackbodySpd(unittest.TestCase):
+class TestSpdBlackbody(unittest.TestCase):
     """
     Defines
-    :func:`colour.colorimetry.blackbody.blackbody_spd`
-    definition unit tests methods.
+    :func:`colour.colorimetry.blackbody.spd_blackbody` definition unit tests
+    methods.
     """
 
-    def test_blackbody_spd(self):
+    def test_spd_blackbody(self):
         """
         Tests
-        :func:`colour.colorimetry.blackbody.blackbody_spd`
-        definition.
+        :func:`colour.colorimetry.blackbody.spd_blackbody` definition.
         """
 
         np.testing.assert_allclose(
-            blackbody_spd(5000, SpectralShape(360, 830, 1)).values,
+            spd_blackbody(5000, SpectralShape(360, 830, 1)).values,
             BLACKBODY_SPD_DATA,
             rtol=0.0000001,
             atol=0.0000001)

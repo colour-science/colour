@@ -148,7 +148,7 @@ The various sub-packages also expose their public API:
      'SpectralPowerDistribution',
      'MultiSpectralPowerDistribution',
      'DEFAULT_SPECTRAL_SHAPE',
-     'constant_spd',
+     'spd_constant',
      '...']
 
 
@@ -325,10 +325,10 @@ for spectral related computations and many others:
      'SpectralPowerDistribution',
      'MultiSpectralPowerDistribution',
      'DEFAULT_SPECTRAL_SHAPE',
-     'constant_spd',
-     'zeros_spd',
-     'ones_spd',
-     'blackbody_spd',
+     'spd_constant',
+     'spd_zeros',
+     'spd_ones',
+     'spd_blackbody',
      'blackbody_spectral_radiance',
      'planck_law',
      'LMS_ConeFundamentals',
@@ -350,8 +350,8 @@ for spectral related computations and many others:
      'BANDPASS_CORRECTION_METHODS',
      'bandpass_correction',
      'bandpass_correction_Stearns1988',
-     'D_illuminant_relative_spd',
-     'CIE_standard_illuminant_A_function',
+     'spd_CIE_illuminant_D_series',
+     'spd_CIE_standard_illuminant_A',
      'mesopic_luminous_efficiency_function',
      'mesopic_weighting_function',
      'LIGHTNESS_METHODS',
@@ -706,29 +706,29 @@ spectral dimensions and is instantiated as follows:
 `Colour <https://github.com/colour-science/Colour/>`__ defines three
 convenient objects to create constant spectral power distributions:
 
--  ``colour.constant_spd``
--  ``colour.zeros_spd``
--  ``colour.ones_spd``
+-  ``colour.spd_constant``
+-  ``colour.spd_zeros``
+-  ``colour.spd_ones``
 
 .. code:: python
 
     # Defining a constant spectral power distribution.
-    constant_spd = colour.constant_spd(100)
+    spd_constant = colour.spd_constant(100)
     print('"Constant Spectral Power Distribution"')
-    print(constant_spd.shape)
-    print(constant_spd[400])
+    print(spd_constant.shape)
+    print(spd_constant[400])
 
     # Defining a zeros filled spectral power distribution.
     print('\n"Zeros Filled Spectral Power Distribution"')
-    zeros_spd = colour.zeros_spd()
-    print(zeros_spd.shape)
-    print(zeros_spd[400])
+    spd_zeros = colour.spd_zeros()
+    print(spd_zeros.shape)
+    print(spd_zeros[400])
 
     # Defining a ones filled spectral power distribution.
     print('\n"Ones Filled Spectral Power Distribution"')
-    ones_spd = colour.ones_spd()
-    print(ones_spd.shape)
-    print(ones_spd[400])
+    spd_ones = colour.spd_ones()
+    print(spd_ones.shape)
+    print(spd_ones[400])
 
 
 .. code-block:: text
@@ -746,8 +746,8 @@ convenient objects to create constant spectral power distributions:
     1.0
 
 
-By default the shape used by ``colour.constant_spd``,
-``colour.zeros_spd`` and ``colour.ones_spd`` is the one defined by
+By default the shape used by ``colour.spd_constant``,
+``colour.spd_zeros`` and ``colour.spd_ones`` is the one defined by
 ``colour.DEFAULT_SPECTRAL_SHAPE`` attribute using the *CIE 1931 2°
 Standard Observer* shape.
 
@@ -766,7 +766,7 @@ distribution with user defined dimensions:
 
 .. code:: python
 
-    colour.ones_spd(colour.SpectralShape(400, 700, 5))[450]
+    colour.spd_ones(colour.SpectralShape(400, 700, 5))[450]
 
 
 
@@ -787,7 +787,7 @@ arithmetical operations:
 
 .. code:: python
 
-    spd1 = colour.ones_spd()
+    spd1 = colour.spd_ones()
     print('"Ones Filled Spectral Power Distribution"')
     print(spd1[400])
 
@@ -795,7 +795,7 @@ arithmetical operations:
     print((spd1 * 2)[400])
 
     print('\n"+ Spectral Power Distribution"')
-    print((spd1 + colour.ones_spd())[400])
+    print((spd1 + colour.spd_ones())[400])
 
 
 .. code-block:: text
@@ -1028,7 +1028,7 @@ or *division* with *numeric* and *array_like* variables or other
     print((spd.copy() + 1).values)
     print((spd.copy() * 2).values)
     print((spd * [0.35, 1.55, 0.75, 2.55, 0.95, 0.65, 0.15]).values)
-    print((spd * colour.constant_spd(2, spd.shape) * colour.constant_spd(3, spd.shape)).values)
+    print((spd * colour.spd_constant(2, spd.shape) * colour.spd_constant(3, spd.shape)).values)
 
 
 .. code-block:: text

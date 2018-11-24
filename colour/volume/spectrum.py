@@ -28,7 +28,7 @@ import numpy as np
 from colour.algebra import NearestNeighbourInterpolator
 from colour.colorimetry import (
     DEFAULT_SPECTRAL_SHAPE, STANDARD_OBSERVERS_CMFS,
-    multi_spectral_to_XYZ_integration, SpectralShape, ones_spd)
+    multi_spectral_to_XYZ_integration, SpectralShape, spd_ones)
 from colour.volume import is_within_mesh_volume
 
 __author__ = 'Colour Developers'
@@ -130,7 +130,7 @@ def generate_pulse_waves(bins):
 def XYZ_outer_surface(
         interval=10,
         cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
-        illuminant=ones_spd(STANDARD_OBSERVERS_CMFS[
+        illuminant=spd_ones(STANDARD_OBSERVERS_CMFS[
             'CIE 1931 2 Degree Standard Observer'].shape)):
     """
     Generates the *CIE XYZ* colourspace outer surface for given colour matching
@@ -220,7 +220,7 @@ def is_within_visible_spectrum(
         XYZ,
         interval=10,
         cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
-        illuminant=ones_spd(STANDARD_OBSERVERS_CMFS[
+        illuminant=spd_ones(STANDARD_OBSERVERS_CMFS[
             'CIE 1931 2 Degree Standard Observer'].shape),
         tolerance=None):
     """

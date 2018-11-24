@@ -35,9 +35,8 @@ log_encoding_FilmLightTLog` definition unit tests methods.
 log_encoding_FilmLightTLog` definition.
         """
 
-        self.assertAlmostEqual(log_encoding_FilmLightTLog(0.0),
-                               0.075,
-                               places=7)
+        self.assertAlmostEqual(
+            log_encoding_FilmLightTLog(0.0), 0.075, places=7)
 
         self.assertAlmostEqual(
             log_encoding_FilmLightTLog(0.18), 0.396567801298332, places=7)
@@ -95,12 +94,8 @@ log_encoding_FilmLightTLog` definition domain and range scale support.
 log_encoding_FilmLightTLog` definition nan support.
         """
 
-        log_encoding_FilmLightTLog(np.array([-1.0,
-                                             0.0,
-                                             1.0,
-                                             -np.inf,
-                                             np.inf,
-                                             np.nan]))
+        log_encoding_FilmLightTLog(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 class TestLogDecoding_FilmLightTLog(unittest.TestCase):
@@ -115,9 +110,8 @@ log_decoding_FilmLightTLog` definition unit tests methods.
 log_decoding_FilmLightTLog` definition.
         """
 
-        self.assertAlmostEqual(log_decoding_FilmLightTLog(0.075),
-                               0.0,
-                               places=7)
+        self.assertAlmostEqual(
+            log_decoding_FilmLightTLog(0.075), 0.0, places=7)
 
         self.assertAlmostEqual(
             log_decoding_FilmLightTLog(0.396567801298332), 0.18, places=7)
@@ -175,12 +169,8 @@ log_decoding_FilmLightTLog` definition domain and range scale support.
 log_decoding_FilmLightTLog` definition nan support.
         """
 
-        log_decoding_FilmLightTLog(np.array([-1.0,
-                                             0.0,
-                                             1.0,
-                                             -np.inf,
-                                             np.inf,
-                                             np.nan]))
+        log_decoding_FilmLightTLog(
+            np.array([-1.0, 0.0, 1.0, -np.inf, np.inf, np.nan]))
 
 
 if __name__ == '__main__':

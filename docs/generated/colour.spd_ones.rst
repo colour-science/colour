@@ -3,4 +3,4 @@ colour.ones\_spd
 
 .. currentmodule:: colour
 
-.. autofunction:: ones_spd
+.. autofunction:: spd_ones

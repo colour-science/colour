@@ -70,7 +70,7 @@ def generate_documentation_plots(output_directory):
     arguments['filename'] = os.path.join(output_directory,
                                          'Examples_Plotting_Blackbodies.png')
     blackbody_spds = [
-        colour.blackbody_spd(i, colour.SpectralShape(0, 10000, 10))
+        colour.spd_blackbody(i, colour.SpectralShape(0, 10000, 10))
         for i in range(1000, 15000, 1000)
     ]
     multi_spd_plot(

@@ -9,7 +9,7 @@ import unittest
 
 from colour.colorimetry import (ILLUMINANTS_SPDS, LIGHT_SOURCES_SPDS,
                                 luminous_flux, luminous_efficiency,
-                                luminous_efficacy, zeros_spd)
+                                luminous_efficacy, spd_zeros)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -106,7 +106,7 @@ class TestLuminousEfficacy(unittest.TestCase):
             348.88267549,
             places=7)
 
-        spd = zeros_spd()
+        spd = spd_zeros()
         spd[555] = 1
         self.assertAlmostEqual(luminous_efficacy(spd), 683.00000000, places=7)
 

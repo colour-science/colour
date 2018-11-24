@@ -120,7 +120,7 @@ def log_encoding_FilmLightTLog(x, w=128.0, g=16.0, o=0.075):
     t = np.where(
         x < 0.0,
         G * x + o,
-        np.log(x + C)*B + A
+        np.log(x + C) * B + A,
     )
 
     return as_float(from_range_1(t))
@@ -191,7 +191,7 @@ def log_decoding_FilmLightTLog(t, w=128.0, g=16.0, o=0.075):
 
     Examples
     --------
-    >>> log_decoding_FilmLightTLog(0.39656780129833191)
+    >>> log_decoding_FilmLightTLog(0.396567801298332)  # doctest: +ELLIPSIS
     0.1800000...
     """
 
@@ -210,7 +210,7 @@ def log_decoding_FilmLightTLog(t, w=128.0, g=16.0, o=0.075):
     x = np.where(
         t < o,
         (t - o) / G,
-        np.exp((t - A) / B) - C
+        np.exp((t - A) / B) - C,
     )
 
     return as_float(from_range_1(x))

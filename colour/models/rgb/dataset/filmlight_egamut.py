@@ -24,8 +24,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.colorimetry import ILLUMINANTS
-from colour.models.rgb import (RGB_Colourspace,
-                               log_encoding_FilmLightTLog,
+from colour.models.rgb import (RGB_Colourspace, log_encoding_FilmLightTLog,
                                log_decoding_FilmLightTLog,
                                normalised_primary_matrix)
 
@@ -43,9 +42,9 @@ __all__ = [
 ]
 
 FILMLIGHT_E_GAMUT_PRIMARIES = np.array([
-    [0.8, 0.3177],
-    [0.18, 0.9],
-    [0.065, -0.0805],
+    [0.8000, 0.3177],
+    [0.1800, 0.9000],
+    [0.0650, -0.0805],
 ])
 """
 *FilmLight E-Gamut* colourspace primaries.
@@ -68,9 +67,8 @@ FILMLIGHT_E_GAMUT_WHITEPOINT = (ILLUMINANTS[
 FILMLIGHT_E_GAMUT_WHITEPOINT : ndarray
 """
 
-FILMLIGHT_E_GAMUT_TO_XYZ_MATRIX = (
-    normalised_primary_matrix(FILMLIGHT_E_GAMUT_PRIMARIES,
-                              FILMLIGHT_E_GAMUT_WHITEPOINT))
+FILMLIGHT_E_GAMUT_TO_XYZ_MATRIX = (normalised_primary_matrix(
+    FILMLIGHT_E_GAMUT_PRIMARIES, FILMLIGHT_E_GAMUT_WHITEPOINT))
 """
 *FilmLight E-Gamut* colourspace to *CIE XYZ* tristimulus values matrix.
 

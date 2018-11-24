@@ -29,18 +29,18 @@ Spectral Data Generation
 .. autosummary::
     :toctree: generated/
 
-    blackbody_spd
-    CIE_standard_illuminant_A_function
-    D_illuminant_relative_spd
-    constant_spd
-    ones_spd
-    zeros_spd
-    GAUSSIAN_SPD_METHODS
-    gaussian_spd
-    SINGLE_LED_SPD_METHODS
-    single_led_spd
-    MULTI_LED_SPD_METHODS
-    multi_led_spd
+    spd_CIE_standard_illuminant_A
+    spd_CIE_illuminant_D_series
+    spd_blackbody
+    spd_constant
+    spd_ones
+    spd_zeros
+    SPD_GAUSSIAN_METHODS
+    spd_gaussian
+    SPD_SINGLE_LED_METHODS
+    spd_single_led
+    SPD_MULTI_LED_METHODS
+    spd_multi_led
 
 ``colour.colorimetry``
 
@@ -49,10 +49,10 @@ Spectral Data Generation
 .. autosummary::
     :toctree: generated/
 
-    gaussian_spd_normal
-    gaussian_spd_fwhm
-    single_led_spd_Ohno2005
-    multi_led_spd_Ohno2005
+    spd_gaussian_normal
+    spd_gaussian_fwhm
+    spd_single_led_Ohno2005
+    spd_multi_led_Ohno2005
     blackbody_spectral_radiance
     planck_law
 

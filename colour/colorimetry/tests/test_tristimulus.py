@@ -15,7 +15,7 @@ import numpy as np
 import unittest
 
 from colour.algebra import LinearInterpolator
-from colour.colorimetry import (CMFS, CIE_standard_illuminant_A_function,
+from colour.colorimetry import (CMFS, spd_CIE_standard_illuminant_A,
                                 ILLUMINANTS_SPDS, SpectralPowerDistribution,
                                 SpectralShape)
 from colour.colorimetry import (
@@ -377,10 +377,7 @@ tristimulus_weighting_factors_ASTME202211` definition.
         """
 
         cmfs = CMFS['CIE 1964 10 Degree Standard Observer']
-        wl = cmfs.shape.range()
-        A = SpectralPowerDistribution(
-            dict(zip(wl, CIE_standard_illuminant_A_function(wl))),
-            name='A (360, 830, 1)')
+        A = spd_CIE_standard_illuminant_A(cmfs.shape)
 
         twf = tristimulus_weighting_factors_ASTME202211(
             cmfs, A, SpectralShape(360, 830, 10))
@@ -564,10 +561,7 @@ class TestSpectral_to_XYZ_ASTME30815(unittest.TestCase):
 
         self._spd = SAMPLE_SPD.copy()
         self._cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
-        wl = self._cmfs.shape.range()
-        self._A = SpectralPowerDistribution(
-            dict(zip(wl, CIE_standard_illuminant_A_function(wl))),
-            name='A (360, 830, 1)')
+        self._A = spd_CIE_standard_illuminant_A(self._cmfs.shape)
 
     def test_spectral_to_XYZ_ASTME30815_mi_1nm(self):
         """
