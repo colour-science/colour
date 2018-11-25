@@ -207,7 +207,7 @@ def colour_style(use_style=True):
         'axes.edgecolor': constants.colour.dark,
 
         # Title Settings
-        # 'axes.titlepad': 12 * 0.75,
+        'axes.titlepad': plt.rcParams['font.size'] * 0.75,
 
         # Axes Settings
         'axes.facecolor': constants.colour.brightest,
