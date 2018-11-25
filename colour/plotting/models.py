@@ -31,6 +31,7 @@ from __future__ import division
 
 import numpy as np
 from matplotlib.patches import Ellipse
+from matplotlib.path import Path
 
 from colour.constants import EPSILON
 from colour.algebra import (point_at_angle_on_ellipse,
@@ -975,18 +976,26 @@ Plotting_Ellipses_MacAdam1942_Chromaticity_Diagram_Plot.png
     ellipses_coefficients = ellipses_MacAdam1942(method=method)
 
     if chromaticity_diagram_clipping:
-        diagram_clipping_path = []
+        diagram_clipping_path_x = []
+        diagram_clipping_path_y = []
         for coefficients in ellipses_coefficients:
-            diagram_clipping_path.append(
+            coefficients = np.copy(coefficients)
+
+            coefficients[2:4] /= 2
+
+            x, y = tsplit(
                 point_at_angle_on_ellipse(
                     np.linspace(0, 360, 36),
                     coefficients,
                 ))
-            diagram_clipping_path.append([np.nan, np.nan])
+            diagram_clipping_path_x.append(x)
+            diagram_clipping_path_y.append(y)
 
-        # TODO: Update accordingly to
-        # https://github.com/matplotlib/matplotlib/issues/12875
-        # settings.update({'diagram_clipping_path': diagram_clipping_path})
+        diagram_clipping_path = np.rollaxis(
+            np.array([diagram_clipping_path_x, diagram_clipping_path_y]), 0, 3)
+        diagram_clipping_path = Path.make_compound_path_from_polys(
+            diagram_clipping_path).vertices
+        settings.update({'diagram_clipping_path': diagram_clipping_path})
 
     chromaticity_diagram_callable(**settings)
 
