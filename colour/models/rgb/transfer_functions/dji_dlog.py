@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 DJI D-Log Log Encoding
-============================
+======================
 
 Defines the *DJI D-Log* log encoding:
 
@@ -16,7 +16,7 @@ blob/master/notebooks/models/rgb.ipynb>`_
 
 References
 ----------
--   :cite:`DJI2017` : DJI. (2017). White Paper on D-Log and D-Gamut of DJI\
+-   :cite:`DJI2017` : Dji. (2017). White Paper on D-Log and D-Gamut of DJI
     Cinema Color System. Retrieved from https://dl.djicdn.com/downloads/\
 zenmuse+x7/20171010/D-Log_D-Gamut_Whitepaper.pdf
 """
@@ -78,11 +78,8 @@ def log_encoding_DJIDLog(x):
 
     x = to_domain_1(x)
 
-    y = np.where(
-        x <= 0.0078,
-        6.025 * x + 0.0929,
-        (np.log10(x * 0.9892 + 0.0108)) * 0.256663 + 0.584555
-    )
+    y = np.where(x <= 0.0078, 6.025 * x + 0.0929,
+                 (np.log10(x * 0.9892 + 0.0108)) * 0.256663 + 0.584555)
 
     return as_float(from_range_1(y))
 
@@ -128,10 +125,7 @@ def log_decoding_DJIDLog(y):
 
     y = to_domain_1(y)
 
-    x = np.where(
-        y <= 0.14,
-        (y - 0.0929) / 6.025,
-        (10**(3.89616 * y - 2.27752) - 0.0108)/0.9892
-    )
+    x = np.where(y <= 0.14, (y - 0.0929) / 6.025,
+                 (10 ** (3.89616 * y - 2.27752) - 0.0108) / 0.9892)
 
     return as_float(from_range_1(x))
