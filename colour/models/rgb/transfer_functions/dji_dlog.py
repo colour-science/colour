@@ -119,7 +119,7 @@ def log_decoding_DJIDLog(y):
 
     Examples
     --------
-    >>> log_decoding_DJIDLog(0.3987645561893306)
+    >>> log_decoding_DJIDLog(0.3987645561893306)  # doctest: +ELLIPSIS
     0.1799998...
     """
 
