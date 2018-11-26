@@ -107,7 +107,7 @@ class TestRGB_colourspaceVolumeMonteCarlo(unittest.TestCase):
                 BT709_COLOURSPACE,
                 10e3,
                 random_state=np.random.RandomState(2),
-                processes=1), 821700.0)
+                processes=1), 816300.0)
 
 
 class TestRGB_colourspace_volume_coverage_MonteCarlo(unittest.TestCase):
@@ -132,7 +132,7 @@ RGB_colourspace_volume_coverage_MonteCarlo` definition.
                 is_within_pointer_gamut,
                 10e3,
                 random_state=np.random.RandomState(2)),
-            83.02013423,
+            81.044349070100140,
             decimal=7)
 
 
@@ -157,7 +157,7 @@ RGB_colourspace_pointer_gamut_coverage_MonteCarlo` definition.
             RGB_colourspace_pointer_gamut_coverage_MonteCarlo(
                 BT709_COLOURSPACE, 10e3,
                 random_state=np.random.RandomState(2)),
-            83.02013423,
+            81.044349070100140,
             decimal=7)
 
 
@@ -182,7 +182,7 @@ RGB_colourspace_visible_spectrum_coverage_MonteCarlo` definition.
             RGB_colourspace_visible_spectrum_coverage_MonteCarlo(
                 BT709_COLOURSPACE, 10e3,
                 random_state=np.random.RandomState(2)),
-            49.35538798,
+            47.158403869407500,
             decimal=7)
 
 

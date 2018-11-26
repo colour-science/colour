@@ -248,7 +248,7 @@ reproducibility-of-python-pseudo-random-numbers-across-systems-and-versions
     >>> RGB_colourspace_volume_MonteCarlo(sRGB, 10e3, random_state=prng,
     ...                                   processes=processes)
     ... # doctest: +ELLIPSIS
-    821...
+    816...
     """
 
     cpu_count = processes if processes else multiprocessing.cpu_count()
@@ -302,7 +302,7 @@ def RGB_colourspace_volume_coverage_MonteCarlo(
     >>> RGB_colourspace_volume_coverage_MonteCarlo(
     ...     sRGB, is_within_pointer_gamut, 10e3, random_state=prng)
     ... # doctest: +ELLIPSIS
-    83...
+    81...
     """
 
     random_state = (random_state
@@ -355,7 +355,7 @@ def RGB_colourspace_pointer_gamut_coverage_MonteCarlo(
     >>> prng = np.random.RandomState(2)
     >>> RGB_colourspace_pointer_gamut_coverage_MonteCarlo(
     ...     sRGB, 10e3, random_state=prng)  # doctest: +ELLIPSIS
-    83...
+    81...
     """
 
     return RGB_colourspace_volume_coverage_MonteCarlo(
@@ -395,7 +395,7 @@ def RGB_colourspace_visible_spectrum_coverage_MonteCarlo(
     >>> prng = np.random.RandomState(2)
     >>> RGB_colourspace_visible_spectrum_coverage_MonteCarlo(
     ...     sRGB, 10e3, random_state=prng)  # doctest: +ELLIPSIS
-    49...
+    47...
     """
 
     return RGB_colourspace_volume_coverage_MonteCarlo(
