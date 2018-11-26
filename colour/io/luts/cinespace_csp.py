@@ -80,10 +80,7 @@ def read_LUT_Cinespace(path):
     """
 
     title = re.sub('_|-|\.', ' ', os.path.splitext(os.path.basename(path))[0])
-    preLUT = []
-    preLUT_size = 0
-    table = []
-    comments = []
+    unity_range = np.array([[0., 0., 0.], [1., 1., 1.]])
 
     def _parse_array(array):
         """
@@ -92,131 +89,106 @@ def read_LUT_Cinespace(path):
 
         return np.array(list(map(DEFAULT_FLOAT_DTYPE, array)))
 
-    with open(path) as cube_file:
-        unity_range = np.array([[0., 0., 0.], [1., 1., 1.]])
-        lines = cube_file.readlines()
-        section = 0
-        if len(lines) == 0:
-            raise ValueError('LUT file empty!')
-        if lines[0].strip() != 'CSPLUTV100':
-            raise ValueError('Cinespace LUT must begin with "CSPLUTV100"!')
-        for line in lines:
-            line = line.strip()
+    def _parse_metadata_section(lines):
+        if len(metadata) > 0:
+            title = metadata[0]
+            comments = metadata[1:]
+        else:
+            title = ''
+            comments = []
+        return title, comments
 
-            if len(line) == 0:
-                continue
-
-            if line == 'CSPLUTV100':
-                continue
-
-            if line == '3D':
-                is_3D = True
-                continue
-
-            if line == '1D':
-                is_3D = False
-                continue
-
-            if line == 'BEGIN METADATA':
-                section = 1
-                continue
-
-            if line == 'END METADATA':
-                section = 2
-                continue
-
-            if section == 1:  # comments
-                comments.append(line.strip())
-                continue
-
-            tokens = _parse_array(line.split())
-
-            if section in [2, 5, 8]:  # preLUT sizes
-                if len(tokens) == 1:
-                    preLUT_size = max(preLUT_size, tokens[0].astype(int))
-                    section += 1
-                    continue
-                else:
-                    raise ValueError('LUT formatting error!')
-
-            if section in [3, 4, 6, 7, 9, 10]:  # preLUT
-                preLUT.append(tokens)
-                section += 1
-                continue
-
-            if section == 11:  # main table size
-                size = tokens.astype(int)
-                section += 1
-                continue
-
-            if section == 12:  # main table
-                table.append(tokens)
-
-        if 'is_3D' not in locals():
-            raise ValueError('LUT dimensions token not found!')
-        if 'size' not in locals():
-            raise ValueError('LUT formatting error!')
-        if np.product(size) != len(table):
-            raise ValueError('Incorrect number of lines in table!')
+    def _parse_domain_section(lines):
+        preLUT_size = max([int(lines[i]) for i in [0, 3, 6]])
+        preLUT = [_parse_array(lines[i].split()) for i in [1, 2, 4, 5, 7, 8]]
         preLUT_padded = []
         for row in preLUT:
             if len(row) != preLUT_size:
-                preLUT_padded.append(np.pad(row,
-                                            (0, preLUT_size - row.shape[0]),
-                                            mode='constant',
-                                            constant_values=np.nan))
+                preLUT_padded.append(
+                    np.pad(
+                        row, (0, preLUT_size - row.shape[0]),
+                        mode='constant',
+                        constant_values=np.nan))
             else:
                 preLUT_padded.append(row)
         preLUT = np.asarray(preLUT_padded)
-        table = np.asarray(table)
-        if len(comments) > 0:
-            title = comments[0]
-            del comments[0]
+        return preLUT
 
-        if (is_3D and
-            preLUT.shape == (6, 2) and
-            np.array_equal(preLUT.reshape(3, 4).transpose()[2:4],
-                           unity_range)):
-                table = table.reshape((size[0], size[1], size[2], 3),
-                                      order='F')
-                LUT = LUT3D(domain=preLUT.reshape(3, 4).transpose()[0:2],
-                            name=title,
-                            comments=comments,
-                            table=table)
-                return LUT
+    def _parse_table_section(lines):
+        size = _parse_array(lines[0].split()).astype(int)
+        table = np.array([_parse_array(line.split()) for line in lines[1:]])
+        return size, table
 
-        if (not is_3D and
-            preLUT.shape == (6, 2) and
-            np.array_equal(preLUT.reshape(3, 4).transpose()[2:4],
-                           unity_range)):
-                LUT = LUT2D(domain=preLUT.reshape(3, 4).transpose()[0:2],
-                            name=title,
-                            comments=comments,
-                            table=table)
-                return LUT
+    with open(path) as csp_file:
+        lines = csp_file.readlines()
+        assert len(lines) > 0, 'LUT file empty!'
+        lines = [line.strip() for line in lines if line.strip()]
+
+        header = lines[0]
+        assert header == 'CSPLUTV100', 'Invalid header!'
+
+        kind = lines[1]
+        assert kind in ('1D', '3D'), 'Invalid kind!'
+
+        is_3D = kind == '3D'
+
+        seek = 2
+        metadata = []
+        is_metadata = False
+        for i, line in enumerate(lines[2:]):
+            line = line.strip()
+            if line == 'BEGIN METADATA':
+                is_metadata = True
+                continue
+            elif line == 'END METADATA':
+                seek += i
+                break
+
+            if is_metadata:
+                metadata.append(line)
+
+        title, comments = _parse_metadata_section(metadata)
+
+        seek += 1
+        preLUT = _parse_domain_section(lines[seek:seek + 9])
+
+        seek += 9
+        size, table = _parse_table_section(lines[seek:])
+
+        assert np.product(size) == len(table), 'Invalid table size!'
+
+        if (is_3D and preLUT.shape == (6, 2) and np.array_equal(
+                preLUT.reshape(3, 4).transpose()[2:4], unity_range)):
+            table = table.reshape((size[0], size[1], size[2], 3), order='F')
+            LUT = LUT3D(
+                domain=preLUT.reshape(3, 4).transpose()[0:2],
+                name=title,
+                comments=comments,
+                table=table)
+            return LUT
+
+        if (not is_3D and preLUT.shape == (6, 2) and np.array_equal(
+                preLUT.reshape(3, 4).transpose()[2:4], unity_range)):
+            LUT = LUT2D(
+                domain=preLUT.reshape(3, 4).transpose()[0:2],
+                name=title,
+                comments=comments,
+                table=table)
+            return LUT
 
         if is_3D:
-            pre_domain = tstack((preLUT[0],
-                                 preLUT[2],
-                                 preLUT[4]))
-            pre_table = tstack((preLUT[1],
-                                preLUT[3],
-                                preLUT[5]))
+            pre_domain = tstack((preLUT[0], preLUT[2], preLUT[4]))
+            pre_table = tstack((preLUT[1], preLUT[3], preLUT[5]))
             shaper_name = '{0} - Shaper'.format(title)
             cube_name = '{0} - Cube'.format(title)
-            table = table.reshape((size[0], size[1], size[2], 3),
-                                  order='F')
+            table = table.reshape((size[0], size[1], size[2], 3), order='F')
             LUT_A = LUT2D(pre_table, shaper_name, pre_domain)
             LUT_B = LUT3D(table, cube_name, comments=comments)
             return LUTSequence(LUT_A, LUT_B)
 
         if not is_3D:
-            pre_domain = tstack((preLUT[0],
-                                 preLUT[2],
-                                 preLUT[4]))
-            pre_table = tstack((preLUT[1],
-                                preLUT[3],
-                                preLUT[5]))
+            pre_domain = tstack((preLUT[0], preLUT[2], preLUT[4]))
+            pre_table = tstack((preLUT[1], preLUT[3], preLUT[5]))
             if np.array_equal(table, unity_range):
                 return LUT2D(pre_table, title, pre_domain, comments=comments)
             elif table.shape == (2, 3):
@@ -373,10 +345,10 @@ def write_LUT_Cinespace(LUT, path, decimals=7):
                         if LUT[0].is_domain_explicit():
                             entry = LUT[0].domain[j][i]
                         else:
-                            entry = (LUT[0].domain[0][i] + j *
-                                     (LUT[0].domain[1][i] -
-                                     LUT[0].domain[0][i]) /
-                                     (LUT[0].size - 1))
+                            entry = (
+                                LUT[0].domain[0][i] + j *
+                                (LUT[0].domain[1][i] - LUT[0].domain[0][i]) /
+                                (LUT[0].size - 1))
                         csp_file.write('{0:.{1}f} '.format(entry, decimals))
                     csp_file.write('\n')
                     for j in range(size):
@@ -390,11 +362,10 @@ def write_LUT_Cinespace(LUT, path, decimals=7):
                 for i in range(3):
                     csp_file.write('2\n')
                     csp_file.write('{0}\n'.format(
-                                   _format_tuple([LUT[1].domain[0][i],
-                                                 LUT[1].domain[1][i]])))
-                    csp_file.write('{0:.{2}f} {1:.{2}f}\n'.format(0,
-                                                                  1,
-                                                                  decimals))
+                        _format_tuple(
+                            [LUT[1].domain[0][i], LUT[1].domain[1][i]])))
+                    csp_file.write(
+                        '{0:.{2}f} {1:.{2}f}\n'.format(0, 1, decimals))
             if non_uniform:
                 csp_file.write('\n{0}\n'.format(2))
                 row = [table_min, table_min, table_min]
@@ -402,9 +373,9 @@ def write_LUT_Cinespace(LUT, path, decimals=7):
                 row = [table_max, table_max, table_max]
                 csp_file.write('{0}\n'.format(_format_array(row)))
             else:
-                csp_file.write('\n{0} {1} {2}\n'.format(LUT[1].table.shape[0],
-                                                        LUT[1].table.shape[1],
-                                                        LUT[1].table.shape[2]))
+                csp_file.write(
+                    '\n{0} {1} {2}\n'.format(LUT[1].table.shape[0], LUT[
+                        1].table.shape[1], LUT[1].table.shape[2]))
                 table = LUT[1].table.reshape((-1, 3), order='F')
                 for row in table:
                     csp_file.write('{0}\n'.format(_format_array(row)))
@@ -413,8 +384,7 @@ def write_LUT_Cinespace(LUT, path, decimals=7):
             for i in range(3):
                 csp_file.write('2\n')
                 csp_file.write('{0}\n'.format(
-                               _format_tuple([LUT[0].domain[0][i],
-                                             LUT[0].domain[1][i]])))
+                    _format_tuple([LUT[0].domain[0][i], LUT[0].domain[1][i]])))
                 csp_file.write('0.0 1.0\n')
             csp_file.write('\n{0}\n'.format(LUT[0].size))
             table = LUT[0].table
