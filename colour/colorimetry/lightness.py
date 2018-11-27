@@ -172,8 +172,8 @@ def lightness_Wyszecki1963(Y):
     Y = to_domain_100(Y)
 
     if np.any(Y < 1) or np.any(Y > 98):
-        warning(('"W*" Lightness computation is only applicable for '
-                 '1% < "Y" < 98%, unpredictable results may occur!'))
+        warning('"W*" Lightness computation is only applicable for '
+                '1% < "Y" < 98%, unpredictable results may occur!')
 
     W = 25 * spow(Y, 1 / 3) - 17
 
