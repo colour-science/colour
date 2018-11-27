@@ -42,13 +42,6 @@ class ColourWarning(Warning):
     :class:`Warning`.
     """
 
-    DOMAIN_INSPECTION = DocstringInt(1)
-    DOMAIN_INSPECTION.__doc__ = """
-    Enables or disables domain inspection warnings.
-
-    DOMAIN_INSPECTION : bool
-    """
-
 
 def message_box(message, width=79, padding=3, print_callable=print):
     """
@@ -243,15 +236,6 @@ def filter_warnings(state=True, colour_warnings_only=True):
     >>> filter_warnings(colour_warnings_only=False)
     True
     """
-
-    if not hasattr(ColourWarning, '_DOMAIN_INSPECTION'):
-        ColourWarning._DOMAIN_INSPECTION = ColourWarning.DOMAIN_INSPECTION
-
-    if state:
-        ColourWarning._DOMAIN_INSPECTION = ColourWarning.DOMAIN_INSPECTION
-        ColourWarning.DOMAIN_INSPECTION = False
-    else:
-        ColourWarning.DOMAIN_INSPECTION = ColourWarning._DOMAIN_INSPECTION
 
     filterwarnings(
         'ignore' if state else 'default',
