@@ -175,7 +175,7 @@ def pointer_gamut_plot(method='CIE 1931', **kwargs):
 
     ij = xy_to_ij(as_float_array(POINTER_GAMUT_BOUNDARIES))
     alpha_p = COLOUR_STYLE_CONSTANTS.opacity.high
-    colour_p = COLOUR_STYLE_CONSTANTS.colour.brightest
+    colour_p = COLOUR_STYLE_CONSTANTS.colour.darkest
     axes.plot(
         ij[..., 0],
         ij[..., 1],
