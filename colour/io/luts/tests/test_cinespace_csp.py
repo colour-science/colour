@@ -196,5 +196,6 @@ class TestWriteLUTCinespace(unittest.TestCase):
                                        LUT_4_r.table,
                                        decimal=6)
 
+
 if __name__ == '__main__':
     unittest.main()

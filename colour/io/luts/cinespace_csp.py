@@ -60,8 +60,8 @@ def read_LUT_Cinespace(path):
     -----------------------------
     <BLANKLINE>
     Dimensions : 2
-    Domain     : [[0 0 0]
-                  [1 1 1]]
+    Domain     : [[ 0.  0.  0.]
+                  [ 1.  1.  1.]]
     Size       : (32, 3)
 
     Reading a 3D *Cinespace* *.csp* *LUT*:
@@ -74,12 +74,12 @@ def read_LUT_Cinespace(path):
     ---------------------------------
     <BLANKLINE>
     Dimensions : 3
-    Domain     : [[0 0 0]
-                  [1 1 1]]
+    Domain     : [[ 0.  0.  0.]
+                  [ 1.  1.  1.]]
     Size       : (4, 4, 4, 3)
     """
 
-    title = re.sub('_|-|\.', ' ', os.path.splitext(os.path.basename(path))[0])
+    title = re.sub('_|-|\\.', ' ', os.path.splitext(os.path.basename(path))[0])
     unity_range = np.array([[0., 0., 0.], [1., 1., 1.]])
 
     def _parse_array(array):
