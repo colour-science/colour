@@ -8,6 +8,9 @@ open?id=143Eh08ZYncCAMwJ1q4gWxVOqR_OSWYvs
 -   :cite:`Chamberlain2015` :﻿Chamberlain, P. (2015). LUT documentation
     (to create from another program). Retrieved August 23, 2018, from
     https://forum.blackmagicdesign.com/viewtopic.php?f=21&t=40284#p232952
+-   :cite:`RisingSunResearch` : Rising Sun Research. (n.d.). cineSpace LUT
+    Library. Retrieved November 30, 2018, from
+    https://sourceforge.net/projects/cinespacelutlib/
 """
 
 from __future__ import absolute_import
@@ -89,7 +92,8 @@ def read_LUT(path, method=None, **kwargs):
 
     References
     ----------
-    :cite:`AdobeSystems2013b`, :cite:`Chamberlain2015`
+    :cite:`AdobeSystems2013b`, :cite:`Chamberlain2015`,
+    :cite:`RisingSunResearch`
 
     Examples
     --------
@@ -194,7 +198,8 @@ def write_LUT(LUT, path, decimals=7, method=None, **kwargs):
 
     References
     ----------
-    :cite:`AdobeSystems2013b`, :cite:`Chamberlain2015`
+    :cite:`AdobeSystems2013b`, :cite:`Chamberlain2015`,
+    :cite:`RisingSunResearch`
 
     Examples
     --------

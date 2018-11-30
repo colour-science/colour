@@ -10,7 +10,9 @@ objects.
 
 References
 ----------
--   :cite: https://sourceforge.net/p/cinespacelutlib/code/HEAD/tree/trunk/
+-   :cite:`RisingSunResearch` : Rising Sun Research. (n.d.). cineSpace LUT
+    Library. Retrieved November 30, 2018, from
+    https://sourceforge.net/projects/cinespacelutlib/
 """
 
 from __future__ import division, unicode_literals
@@ -47,6 +49,10 @@ def read_LUT_Cinespace(path):
     LUT2D or LUT3D or LUTSequence
         :class:`LUT2D` or :class:`LUT3D` or :class:`LUTSequence` class
         instance.
+
+    References
+    ----------
+    :cite:`RisingSunResearch`
 
     Examples
     --------
@@ -223,6 +229,10 @@ def write_LUT_Cinespace(LUT, path, decimals=7):
     -------
     bool
         Definition success.
+
+    References
+    ----------
+    :cite:`RisingSunResearch`
 
     Examples
     --------
