@@ -55,6 +55,8 @@ Look Up Table (LUT) Data
 
     AbstractLUTSequenceOperator
     LUT_to_LUT
+    read_LUT_Cinespace
+    write_LUT_Cinespace
     read_LUT_IridasCube
     write_LUT_IridasCube
     read_LUT_SonySPI1D

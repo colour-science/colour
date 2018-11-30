@@ -5,9 +5,12 @@ References
 -   :cite:`AdobeSystems2013b` : Adobe Systems. (2013). Cube LUT Specification.
     Retrieved from https://drive.google.com/\
 open?id=143Eh08ZYncCAMwJ1q4gWxVOqR_OSWYvs
--   :cite:`﻿Chamberlain2015` :﻿Chamberlain, P. (2015). LUT documentation
+-   :cite:`Chamberlain2015` :﻿Chamberlain, P. (2015). LUT documentation
     (to create from another program). Retrieved August 23, 2018, from
     https://forum.blackmagicdesign.com/viewtopic.php?f=21&t=40284#p232952
+-   :cite:`RisingSunResearch` : Rising Sun Research. (n.d.). cineSpace LUT
+    Library. Retrieved November 30, 2018, from
+    https://sourceforge.net/projects/cinespacelutlib/
 """
 
 from __future__ import absolute_import
@@ -47,11 +50,11 @@ EXTENSION_TO_LUT_FORMAT_MAPPING : CaseInsensitiveMapping
 """
 
 LUT_READ_METHODS = CaseInsensitiveMapping({
+    'Cinespace': read_LUT_Cinespace,
     'Iridas Cube': read_LUT_IridasCube,
     'Resolve Cube': read_LUT_ResolveCube,
     'Sony SPI1D': read_LUT_SonySPI1D,
     'Sony SPI3D': read_LUT_SonySPI3D,
-    'Cinespace': read_LUT_Cinespace,
 })
 LUT_READ_METHODS.__doc__ = """
 Supported *LUT* reading methods.
@@ -61,11 +64,8 @@ References
 :cite:`AdobeSystems2013b`, :cite:`Chamberlain2015`
 
 LUT_READ_METHODS : CaseInsensitiveMapping
-    **{'Iridas Cube',
-    'Resolve Cube',
-    'Sony SPI1D',
-    'Sony SPI3D',
-    'Cinespace'}**
+    **{'Cinespace', 'Iridas Cube', 'Resolve Cube', 'Sony SPI1D',
+    'Sony SPI3D'}**
 """
 
 
@@ -78,9 +78,9 @@ def read_LUT(path, method=None, **kwargs):
     path : unicode
         *LUT* path.
     method : unicode, optional
-        **{None, 'Iridas Cube', 'Resolve Cube', 'Sony SPI1D', 'Sony SPI3D'}**,
-        Reading method, if *None*, the method will be auto-detected according
-        to extension.
+        **{None, 'Cinespace', 'Iridas Cube', 'Resolve Cube', 'Sony SPI1D',
+        'Sony SPI3D'}**, Reading method, if *None*, the method will be
+        auto-detected according to extension.
 
     Returns
     -------
@@ -89,7 +89,8 @@ def read_LUT(path, method=None, **kwargs):
 
     References
     ----------
-    :cite:`AdobeSystems2013b`, :cite:`Chamberlain2015`
+    :cite:`AdobeSystems2013b`, :cite:`Chamberlain2015`,
+    :cite:`RisingSunResearch`
 
     Examples
     --------
@@ -161,11 +162,8 @@ References
 :cite:`AdobeSystems2013b`, :cite:`Chamberlain2015`
 
 LUT_WRITE_METHODS : CaseInsensitiveMapping
-    **{'Iridas Cube',
-    'Resolve Cube',
-    'Sony SPI1D',
-    'Sony SPI3D'
-    'Cinespace'}**
+    **{'Cinespace', 'Iridas Cube', 'Resolve Cube', 'Sony SPI1D',
+    'Sony SPI3D'}**
 """
 
 
@@ -183,9 +181,9 @@ def write_LUT(LUT, path, decimals=7, method=None, **kwargs):
     decimals : int, optional
         Formatting decimals.
     method : unicode, optional
-        **{None, 'Iridas Cube', 'Resolve Cube', 'Sony SPI1D', 'Sony SPI3D'}**,
-        Writing method, if *None*, the method will be auto-detected according
-        to extension.
+        **{None, 'Cinespace', 'Iridas Cube', 'Resolve Cube', 'Sony SPI1D',
+        'Sony SPI3D'}**, Writing method, if *None*, the method will be
+        auto-detected according to extension.
 
     Returns
     -------
@@ -194,7 +192,8 @@ def write_LUT(LUT, path, decimals=7, method=None, **kwargs):
 
     References
     ----------
-    :cite:`AdobeSystems2013b`, :cite:`Chamberlain2015`
+    :cite:`AdobeSystems2013b`, :cite:`Chamberlain2015`,
+    :cite:`RisingSunResearch`
 
     Examples
     --------

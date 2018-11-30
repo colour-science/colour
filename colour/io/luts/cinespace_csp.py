@@ -6,11 +6,14 @@ Cinespace .csp LUT Format Input / Output Utilities
 Defines *Cinespace* *.csp* *LUT* Format related input / output utilities
 objects.
 
+-   :func:`colour.io.read_LUT_Cinespace`
 -   :func:`colour.io.write_LUT_Cinespace`
 
 References
 ----------
--   :cite: https://sourceforge.net/p/cinespacelutlib/code/HEAD/tree/trunk/
+-   :cite:`RisingSunResearch` : Rising Sun Research. (n.d.). cineSpace LUT
+    Library. Retrieved November 30, 2018, from
+    https://sourceforge.net/projects/cinespacelutlib/
 """
 
 from __future__ import division, unicode_literals
@@ -47,6 +50,10 @@ def read_LUT_Cinespace(path):
     LUT2D or LUT3D or LUTSequence
         :class:`LUT2D` or :class:`LUT3D` or :class:`LUTSequence` class
         instance.
+
+    References
+    ----------
+    :cite:`RisingSunResearch`
 
     Examples
     --------
@@ -96,12 +103,14 @@ def read_LUT_Cinespace(path):
         else:
             title = ''
             comments = []
+
         return title, comments
 
     def _parse_domain_section(lines):
         preLUT_size = max([int(lines[i]) for i in [0, 3, 6]])
         preLUT = [_parse_array(lines[i].split()) for i in [1, 2, 4, 5, 7, 8]]
         preLUT_padded = []
+
         for row in preLUT:
             if len(row) != preLUT_size:
                 preLUT_padded.append(
@@ -112,11 +121,13 @@ def read_LUT_Cinespace(path):
             else:
                 preLUT_padded.append(row)
         preLUT = np.asarray(preLUT_padded)
+
         return preLUT
 
     def _parse_table_section(lines):
         size = _parse_array(lines[0].split()).astype(int)
         table = np.array([_parse_array(line.split()) for line in lines[1:]])
+
         return size, table
 
     with open(path) as csp_file:
@@ -174,6 +185,7 @@ def read_LUT_Cinespace(path):
                 name=title,
                 comments=comments,
                 table=table)
+
             return LUT
 
         if is_3D:
@@ -184,11 +196,13 @@ def read_LUT_Cinespace(path):
             table = table.reshape((size[0], size[1], size[2], 3), order='F')
             LUT_A = LUT2D(pre_table, shaper_name, pre_domain)
             LUT_B = LUT3D(table, cube_name, comments=comments)
+
             return LUTSequence(LUT_A, LUT_B)
 
         if not is_3D:
             pre_domain = tstack((preLUT[0], preLUT[2], preLUT[4]))
             pre_table = tstack((preLUT[1], preLUT[3], preLUT[5]))
+
             if np.array_equal(table, unity_range):
                 return LUT2D(pre_table, title, pre_domain, comments=comments)
             elif table.shape == (2, 3):
@@ -202,6 +216,7 @@ def read_LUT_Cinespace(path):
                 table_name = '{0} - table'.format(title)
                 LUT_A = LUT2D(pre_table, pre_name, pre_domain)
                 LUT_B = LUT2D(table, table_name, comments=comments)
+
                 return LUTSequence(LUT_A, LUT_B)
 
 
@@ -223,6 +238,10 @@ def write_LUT_Cinespace(LUT, path, decimals=7):
     -------
     bool
         Definition success.
+
+    References
+    ----------
+    :cite:`RisingSunResearch`
 
     Examples
     --------
@@ -253,8 +272,8 @@ def write_LUT_Cinespace(LUT, path, decimals=7):
     if isinstance(LUT, LUTSequence):
         assert (len(LUT) == 2 and
                 (isinstance(LUT[0], LUT1D) or isinstance(LUT[0], LUT2D)) and
-                isinstance(LUT[1], LUT3D)), \
-                'LUTSequence must be 1D+3D or 2D+3D!'
+                isinstance(LUT[1],
+                           LUT3D)), ('LUTSequence must be 1D+3D or 2D+3D!')
         has_2D = True
         has_3D = True
         name = LUT[1].name
@@ -284,16 +303,21 @@ def write_LUT_Cinespace(LUT, path, decimals=7):
         assert False, 'LUT must be 1D, 2D, 3D, 1D+3D or 2D+3D!'
 
     if has_2D:
-        assert 2 <= LUT[0].size <= 65536, \
-            'Shaper size must be in domain [2, 65536]!'
+        assert 2 <= LUT[0].size <= 65536, (
+            'Shaper size must be in domain [2, 65536]!')
     if has_3D:
         assert 2 <= LUT[1].size <= 256, 'Cube size must be in domain [2, 256]!'
 
     def _ragged_size(table):
+        """
+        Return the ragged size of given table.
+        """
+
         r, g, b = tsplit(table)
         r_len = r.shape[-1] - np.sum(np.isnan(r))
         g_len = g.shape[-1] - np.sum(np.isnan(g))
         b_len = b.shape[-1] - np.sum(np.isnan(b))
+
         return [r_len, g_len, b_len]
 
     def _format_array(array):
@@ -340,7 +364,9 @@ def write_LUT_Cinespace(LUT, path, decimals=7):
                         table_max = np.nanmax(LUT[0].table)
                     else:
                         size = LUT[0].size
+
                     csp_file.write('{0}\n'.format(size))
+
                     for j in range(size):
                         if LUT[0].is_domain_explicit():
                             entry = LUT[0].domain[j][i]
@@ -350,13 +376,16 @@ def write_LUT_Cinespace(LUT, path, decimals=7):
                                 (LUT[0].domain[1][i] - LUT[0].domain[0][i]) /
                                 (LUT[0].size - 1))
                         csp_file.write('{0:.{1}f} '.format(entry, decimals))
+
                     csp_file.write('\n')
+
                     for j in range(size):
                         entry = LUT[0].table[j][i]
                         if non_uniform:
                             entry -= table_min
                             entry /= (table_max - table_min)
                         csp_file.write('{0:.{1}f} '.format(entry, decimals))
+
                     csp_file.write('\n')
             else:
                 for i in range(3):
@@ -364,8 +393,8 @@ def write_LUT_Cinespace(LUT, path, decimals=7):
                     csp_file.write('{0}\n'.format(
                         _format_tuple(
                             [LUT[1].domain[0][i], LUT[1].domain[1][i]])))
-                    csp_file.write(
-                        '{0:.{2}f} {1:.{2}f}\n'.format(0, 1, decimals))
+                    csp_file.write('{0:.{2}f} {1:.{2}f}\n'.format(
+                        0, 1, decimals))
             if non_uniform:
                 csp_file.write('\n{0}\n'.format(2))
                 row = [table_min, table_min, table_min]
@@ -373,10 +402,11 @@ def write_LUT_Cinespace(LUT, path, decimals=7):
                 row = [table_max, table_max, table_max]
                 csp_file.write('{0}\n'.format(_format_array(row)))
             else:
-                csp_file.write(
-                    '\n{0} {1} {2}\n'.format(LUT[1].table.shape[0], LUT[
-                        1].table.shape[1], LUT[1].table.shape[2]))
+                csp_file.write('\n{0} {1} {2}\n'.format(
+                    LUT[1].table.shape[0], LUT[1].table.shape[1],
+                    LUT[1].table.shape[2]))
                 table = LUT[1].table.reshape((-1, 3), order='F')
+
                 for row in table:
                     csp_file.write('{0}\n'.format(_format_array(row)))
 
@@ -388,6 +418,7 @@ def write_LUT_Cinespace(LUT, path, decimals=7):
                 csp_file.write('0.0 1.0\n')
             csp_file.write('\n{0}\n'.format(LUT[0].size))
             table = LUT[0].table
+
             for row in table:
                 csp_file.write('{0}\n'.format(_format_array(row)))
 
