@@ -75,7 +75,7 @@ def random_triplet_generator(size,
 
     integer_size = DEFAULT_INT_DTYPE(size)
     if integer_size != size:
-        warning(('"size" has been cast to integer: {0}'.format(integer_size)))
+        warning('"size" has been cast to integer: {0}'.format(integer_size))
 
     return tstack([
         random_state.uniform(*limits[0], size=integer_size),
