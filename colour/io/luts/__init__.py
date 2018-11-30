@@ -21,6 +21,7 @@ from .iridas_cube import read_LUT_IridasCube, write_LUT_IridasCube
 from .resolve_cube import read_LUT_ResolveCube, write_LUT_ResolveCube
 from .sony_spi1d import read_LUT_SonySPI1D, write_LUT_SonySPI1D
 from .sony_spi3d import read_LUT_SonySPI3D, write_LUT_SonySPI3D
+from .cinespace_csp import read_LUT_Cinespace, write_LUT_Cinespace
 
 __all__ = [
     'AbstractLUTSequenceOperator', 'LUT1D', 'LUT2D', 'LUT3D', 'LUTSequence',
@@ -30,11 +31,13 @@ __all__ += ['read_LUT_IridasCube', 'write_LUT_IridasCube']
 __all__ += ['read_LUT_ResolveCube', 'write_LUT_ResolveCube']
 __all__ += ['read_LUT_SonySPI1D', 'write_LUT_SonySPI1D']
 __all__ += ['read_LUT_SonySPI3D', 'write_LUT_SonySPI3D']
+__all__ += ['read_LUT_Cinespace', 'write_LUT_Cinespace']
 
 EXTENSION_TO_LUT_FORMAT_MAPPING = CaseInsensitiveMapping({
     '.cube': 'Iridas Cube',
     '.spi1d': 'Sony SPI1D',
-    '.spi3d': 'Sony SPI3D'
+    '.spi3d': 'Sony SPI3D',
+    '.csp': 'Cinespace'
 })
 """
 Extension to *LUT* format.
@@ -48,6 +51,7 @@ LUT_READ_METHODS = CaseInsensitiveMapping({
     'Resolve Cube': read_LUT_ResolveCube,
     'Sony SPI1D': read_LUT_SonySPI1D,
     'Sony SPI3D': read_LUT_SonySPI3D,
+    'Cinespace': read_LUT_Cinespace,
 })
 LUT_READ_METHODS.__doc__ = """
 Supported *LUT* reading methods.
@@ -57,7 +61,11 @@ References
 :cite:`AdobeSystems2013b`, :cite:`Chamberlain2015`
 
 LUT_READ_METHODS : CaseInsensitiveMapping
-    **{'Iridas Cube', 'Resolve Cube', 'Sony SPI1D', 'Sony SPI3D'}**
+    **{'Iridas Cube',
+    'Resolve Cube',
+    'Sony SPI1D',
+    'Sony SPI3D',
+    'Cinespace'}**
 """
 
 
@@ -143,6 +151,7 @@ LUT_WRITE_METHODS = CaseInsensitiveMapping({
     'Resolve Cube': write_LUT_ResolveCube,
     'Sony SPI1D': write_LUT_SonySPI1D,
     'Sony SPI3D': write_LUT_SonySPI3D,
+    'Cinespace': write_LUT_Cinespace,
 })
 LUT_WRITE_METHODS.__doc__ = """
 Supported *LUT* reading methods.
@@ -152,7 +161,11 @@ References
 :cite:`AdobeSystems2013b`, :cite:`Chamberlain2015`
 
 LUT_WRITE_METHODS : CaseInsensitiveMapping
-    **{'Iridas Cube', 'Resolve Cube', 'Sony SPI1D', 'Sony SPI3D'}**
+    **{'Iridas Cube',
+    'Resolve Cube',
+    'Sony SPI1D',
+    'Sony SPI3D'
+    'Cinespace'}**
 """
 
 
