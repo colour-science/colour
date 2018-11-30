@@ -50,11 +50,11 @@ EXTENSION_TO_LUT_FORMAT_MAPPING : CaseInsensitiveMapping
 """
 
 LUT_READ_METHODS = CaseInsensitiveMapping({
+    'Cinespace': read_LUT_Cinespace,
     'Iridas Cube': read_LUT_IridasCube,
     'Resolve Cube': read_LUT_ResolveCube,
     'Sony SPI1D': read_LUT_SonySPI1D,
     'Sony SPI3D': read_LUT_SonySPI3D,
-    'Cinespace': read_LUT_Cinespace,
 })
 LUT_READ_METHODS.__doc__ = """
 Supported *LUT* reading methods.
@@ -64,11 +64,8 @@ References
 :cite:`AdobeSystems2013b`, :cite:`Chamberlain2015`
 
 LUT_READ_METHODS : CaseInsensitiveMapping
-    **{'Iridas Cube',
-    'Resolve Cube',
-    'Sony SPI1D',
-    'Sony SPI3D',
-    'Cinespace'}**
+    **{'Cinespace', 'Iridas Cube', 'Resolve Cube', 'Sony SPI1D',
+    'Sony SPI3D'}**
 """
 
 
@@ -81,9 +78,9 @@ def read_LUT(path, method=None, **kwargs):
     path : unicode
         *LUT* path.
     method : unicode, optional
-        **{None, 'Iridas Cube', 'Resolve Cube', 'Sony SPI1D', 'Sony SPI3D'}**,
-        Reading method, if *None*, the method will be auto-detected according
-        to extension.
+        **{None, 'Cinespace', 'Iridas Cube', 'Resolve Cube', 'Sony SPI1D',
+        'Sony SPI3D'}**, Reading method, if *None*, the method will be
+        auto-detected according to extension.
 
     Returns
     -------
@@ -165,11 +162,8 @@ References
 :cite:`AdobeSystems2013b`, :cite:`Chamberlain2015`
 
 LUT_WRITE_METHODS : CaseInsensitiveMapping
-    **{'Iridas Cube',
-    'Resolve Cube',
-    'Sony SPI1D',
-    'Sony SPI3D'
-    'Cinespace'}**
+    **{'Cinespace', 'Iridas Cube', 'Resolve Cube', 'Sony SPI1D',
+    'Sony SPI3D'}**
 """
 
 
@@ -187,9 +181,9 @@ def write_LUT(LUT, path, decimals=7, method=None, **kwargs):
     decimals : int, optional
         Formatting decimals.
     method : unicode, optional
-        **{None, 'Iridas Cube', 'Resolve Cube', 'Sony SPI1D', 'Sony SPI3D'}**,
-        Writing method, if *None*, the method will be auto-detected according
-        to extension.
+        **{None, 'Cinespace', 'Iridas Cube', 'Resolve Cube', 'Sony SPI1D',
+        'Sony SPI3D'}**, Writing method, if *None*, the method will be
+        auto-detected according to extension.
 
     Returns
     -------
