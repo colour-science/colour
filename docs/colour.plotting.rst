@@ -229,7 +229,7 @@ Colour Temperature & Correlated Colour Temperature
     :toctree: generated/
 
     plot_planckian_locus
-    planckian_locus_chromaticity_diagram_plot
+    plot_planckian_locus_in_chromaticity_diagram
 
 Colour Models Volume
 --------------------
