@@ -4,7 +4,7 @@ Showcases optical phenomena plotting examples.
 """
 
 from colour.phenomena import rayleigh_scattering_spd
-from colour.plotting import (colour_style, multi_spd_plot,
+from colour.plotting import (colour_style, plot_multi_spds,
                              single_rayleigh_scattering_spd_plot,
                              the_blue_sky_plot)
 from colour.utilities import message_box
@@ -27,7 +27,7 @@ for ppm in (0, 50, 300):
     rayleigh_spd = rayleigh_scattering_spd(CO2_concentration=ppm)
     rayleigh_spd.name = name_template.format(ppm)
     rayleigh_spds.append(rayleigh_spd)
-multi_spd_plot(
+plot_multi_spds(
     rayleigh_spds,
     title=('Rayleigh Optical Depth - '
            'Comparing "C02" Concentration Influence'),

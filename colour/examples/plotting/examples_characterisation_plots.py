@@ -7,7 +7,7 @@ from pprint import pprint
 
 import colour
 from colour.plotting import (colour_style, plot_single_colour_checker,
-                             multi_spd_plot)
+                             plot_multi_spds)
 from colour.utilities import message_box
 
 message_box('Characterisation Plots')
@@ -28,7 +28,7 @@ print('\n')
 
 message_box(('Plotting "BabelColor Average" colour rendition charts spectral '
              'power distributions.'))
-multi_spd_plot(
+plot_multi_spds(
     colour.COLOURCHECKERS_SPDS['BabelColor Average'].values(),
     use_spds_colours=True,
     title=('BabelColor Average - '

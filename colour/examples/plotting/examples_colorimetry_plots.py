@@ -9,7 +9,7 @@ import colour
 from colour.plotting import (
     ASTM_G_173_ETR, blackbody_colours_plot, blackbody_spectral_radiance_plot,
     colour_style, multi_cmfs_plot, multi_illuminant_spd_plot,
-    multi_lightness_function_plot, multi_spd_plot, single_cmfs_plot,
+    multi_lightness_function_plot, plot_multi_spds, single_cmfs_plot,
     single_illuminant_spd_plot, single_lightness_function_plot,
     plot_single_spd, visible_spectrum_plot)
 from colour.utilities import message_box
@@ -41,7 +41,7 @@ print('\n')
 
 message_box(('Plotting "CIE Standard Illuminant D Series" "S" spectral power '
              'distributions.'))
-multi_spd_plot(
+plot_multi_spds(
     [
         value for key, value in sorted(
             colour.colorimetry.D_ILLUMINANTS_S_SPDS.items())
@@ -598,7 +598,7 @@ plot_single_spd(
 print('\n')
 
 message_box('Plotting multiple spectral power distributions.')
-multi_spd_plot((colour.SpectralPowerDistribution(
+plot_multi_spds((colour.SpectralPowerDistribution(
     galvanized_steel_metal_spd_data, name='Galvanized Steel Metal'),
                 colour.SpectralPowerDistribution(
                     white_marble_spd_data, name='White Marble')))
@@ -818,7 +818,7 @@ bandpass_corrected_street_light_spd.name = 'Street Light (Bandpass Corrected)'
 bandpass_corrected_street_light_spd = colour.bandpass_correction(
     bandpass_corrected_street_light_spd, method='Stearns 1988')
 
-multi_spd_plot(
+plot_multi_spds(
     (street_light_spd, bandpass_corrected_street_light_spd),
     title='Stearns Bandpass Correction')
 
@@ -879,7 +879,7 @@ visible_spectrum_plot('CIE 2012 2 Degree Standard Observer')
 print('\n')
 
 message_box('Plotting photopic luminous efficiency functions.')
-multi_spd_plot(
+plot_multi_spds(
     colour.PHOTOPIC_LEFS.values(),
     title='Luminous Efficiency Functions',
     y_label='Luminous Efficiency')
@@ -887,7 +887,7 @@ multi_spd_plot(
 print('\n')
 
 message_box('Comparing photopic and scotopic luminous efficiency functions.')
-multi_spd_plot(
+plot_multi_spds(
     (colour.PHOTOPIC_LEFS['CIE 2008 2 Degree Physiologically Relevant LEF'],
      colour.SCOTOPIC_LEFS['CIE 1951 Scotopic Standard Observer']),
     title='Photopic & Scotopic Luminous Efficiency Functions',
@@ -901,7 +901,7 @@ message_box(('Plotting a mesopic luminous efficiency function with given '
 mesopic_luminous_efficiency_function = (
     colour.mesopic_luminous_efficiency_function(0.2))
 
-multi_spd_plot(
+plot_multi_spds(
     (mesopic_luminous_efficiency_function,
      colour.PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer'],
      colour.SCOTOPIC_LEFS['CIE 1951 Scotopic Standard Observer']),
@@ -938,7 +938,7 @@ ASTM_G_173_spd.interpolate(
 blackbody_spd = colour.spd_blackbody(5778, ASTM_G_173_spd.shape)
 blackbody_spd.name = 'The Sun - 5778K'
 
-multi_spd_plot((ASTM_G_173_spd, blackbody_spd), y_label='W / (sr m$^2$) / m')
+plot_multi_spds((ASTM_G_173_spd, blackbody_spd), y_label='W / (sr m$^2$) / m')
 
 print('\n')
 
@@ -948,7 +948,7 @@ blackbody_spds = [
     for i in range(1000, 15000, 1000)
 ]
 
-multi_spd_plot(
+plot_multi_spds(
     blackbody_spds,
     y_label='W / (sr m$^2$) / m',
     use_spds_colours=True,

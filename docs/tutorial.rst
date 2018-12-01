@@ -868,7 +868,7 @@ interpolator.
 .. code:: python
 
     # Comparing the interpolated spectral power distribution with the original one.
-    multi_spd_plot([spd, spd_copy], bounding_box=[730,780, 0.25, 0.5])
+    plot_multi_spds([spd, spd_copy], bounding_box=[730,780, 0.25, 0.5])
 
 
 

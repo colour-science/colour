@@ -37,7 +37,7 @@ Colorimetry
     :toctree: generated/
 
     plot_single_spd
-    multi_spd_plot
+    plot_multi_spds
     single_cmfs_plot
     multi_cmfs_plot
     single_illuminant_spd_plot

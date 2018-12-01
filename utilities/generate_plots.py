@@ -74,7 +74,7 @@ def generate_documentation_plots(output_directory):
         colour.spd_blackbody(i, colour.SpectralShape(0, 10000, 10))
         for i in range(1000, 15000, 1000)
     ]
-    multi_spd_plot(
+    plot_multi_spds(
         blackbody_spds,
         y_label='W / (sr m$^2$) / m',
         use_spds_colours=True,
@@ -95,7 +95,7 @@ def generate_documentation_plots(output_directory):
         output_directory, 'Examples_Plotting_Luminous_Efficiency.png')
     mesopic_luminous_efficiency_function = (
         colour.mesopic_luminous_efficiency_function(0.2))
-    multi_spd_plot(
+    plot_multi_spds(
         (mesopic_luminous_efficiency_function,
          colour.PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer'],
          colour.SCOTOPIC_LEFS['CIE 1951 Scotopic Standard Observer']),
@@ -107,7 +107,7 @@ def generate_documentation_plots(output_directory):
 
     arguments['filename'] = os.path.join(
         output_directory, 'Examples_Plotting_BabelColor_Average.png')
-    multi_spd_plot(
+    plot_multi_spds(
         colour.COLOURCHECKERS_SPDS['BabelColor Average'].values(),
         use_spds_colours=True,
         title=('BabelColor Average - '
@@ -176,7 +176,7 @@ def generate_documentation_plots(output_directory):
     plot_single_spd(spd, **arguments)
 
     arguments['filename'] = os.path.join(output_directory,
-                                         'Plotting_Multi_SPD_Plot.png')
+                                         'Plotting_Plot_Multi_SPDs.png')
     data_1 = {
         500: 0.004900,
         510: 0.009300,
@@ -197,7 +197,7 @@ def generate_documentation_plots(output_directory):
     }
     spd1 = colour.SpectralPowerDistribution(data_1, name='Custom 1')
     spd2 = colour.SpectralPowerDistribution(data_2, name='Custom 2')
-    multi_spd_plot([spd1, spd2], **arguments)
+    plot_multi_spds([spd1, spd2], **arguments)
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Plotting_Single_CMFS_Plot.png')
@@ -594,7 +594,7 @@ def generate_documentation_plots(output_directory):
                                          'Tutorial_SPD_Interpolation.png')
     spd_copy = spd.copy()
     spd_copy.interpolate(colour.SpectralShape(400, 770, 1))
-    multi_spd_plot(
+    plot_multi_spds(
         [spd, spd_copy], bounding_box=[730, 780, 0.25, 0.5], **arguments)
 
     arguments['filename'] = os.path.join(output_directory,

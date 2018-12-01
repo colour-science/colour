@@ -895,7 +895,7 @@ Blackbody
     ...     colour.spd_blackbody(i, colour.SpectralShape(0, 10000, 10))
     ...     for i in range(1000, 15000, 1000)
     ... ]
-    >>> multi_spd_plot(
+    >>> plot_multi_spds(
     ...     blackbody_spds,
     ...     y_label='W / (sr m$^2$) / m',
     ...     use_spds_colours=True,
@@ -924,7 +924,7 @@ Luminous Efficiency
 
     >>> mesopic_luminous_efficiency_function = (
     ...     colour.mesopic_luminous_efficiency_function(0.2))
-    >>> multi_spd_plot(
+    >>> plot_multi_spds(
     ...     (mesopic_luminous_efficiency_function,
     ...      colour.PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer'],
     ...      colour.SCOTOPIC_LEFS['CIE 1951 Scotopic Standard Observer']),
@@ -942,7 +942,7 @@ Colour Checker
 
     >>> from colour.characterisation.dataset.colour_checkers.spds import (
     ...     COLOURCHECKER_INDEXES_TO_NAMES_MAPPING)
-    >>> multi_spd_plot(
+    >>> plot_multi_spds(
     ...     [
     ...         colour.COLOURCHECKERS_SPDS['BabelColor Average'][value]
     ...         for key, value in sorted(

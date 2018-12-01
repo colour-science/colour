@@ -6,7 +6,7 @@ Colorimetry Plotting
 Defines the colorimetry plotting objects:
 
 -   :func:`colour.plotting.plot_single_spd`
--   :func:`colour.plotting.multi_spd_plot`
+-   :func:`colour.plotting.plot_multi_spds`
 -   :func:`colour.plotting.single_cmfs_plot`
 -   :func:`colour.plotting.multi_cmfs_plot`
 -   :func:`colour.plotting.single_illuminant_spd_plot`
@@ -52,12 +52,12 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'plot_single_spd', 'multi_spd_plot', 'single_cmfs_plot', 'multi_cmfs_plot',
-    'single_illuminant_spd_plot', 'multi_illuminant_spd_plot',
-    'visible_spectrum_plot', 'single_lightness_function_plot',
-    'multi_lightness_function_plot', 'single_luminance_function_plot',
-    'multi_luminance_function_plot', 'blackbody_spectral_radiance_plot',
-    'blackbody_colours_plot'
+    'plot_single_spd', 'plot_multi_spds', 'single_cmfs_plot',
+    'multi_cmfs_plot', 'single_illuminant_spd_plot',
+    'multi_illuminant_spd_plot', 'visible_spectrum_plot',
+    'single_lightness_function_plot', 'multi_lightness_function_plot',
+    'single_luminance_function_plot', 'multi_luminance_function_plot',
+    'blackbody_spectral_radiance_plot', 'blackbody_colours_plot'
 ]
 
 
@@ -174,11 +174,11 @@ def plot_single_spd(spd,
 
 
 @override_style()
-def multi_spd_plot(spds,
-                   cmfs='CIE 1931 2 Degree Standard Observer',
-                   use_spds_colours=False,
-                   normalise_spds_colours=False,
-                   **kwargs):
+def plot_multi_spds(spds,
+                    cmfs='CIE 1931 2 Degree Standard Observer',
+                    use_spds_colours=False,
+                    normalise_spds_colours=False,
+                    **kwargs):
     """
     Plots given spectral power distributions.
 
@@ -231,11 +231,11 @@ def multi_spd_plot(spds,
     ... }
     >>> spd1 = SpectralPowerDistribution(data_1, name='Custom 1')
     >>> spd2 = SpectralPowerDistribution(data_2, name='Custom 2')
-    >>> multi_spd_plot([spd1, spd2])  # doctest: +SKIP
+    >>> plot_multi_spds([spd1, spd2])  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Multi_SPD_Plot.png
+    .. image:: ../_static/Plotting_Plot_Multi_SPDs.png
         :align: center
-        :alt: multi_spd_plot
+        :alt: plot_multi_spds
     """
 
     figure, axes = artist(**kwargs)
@@ -481,10 +481,10 @@ def multi_illuminant_spd_plot(illuminants=None, **kwargs):
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
     use_spds_colours : bool, optional
-        {:func:`colour.plotting.multi_spd_plot`}
+        {:func:`colour.plotting.plot_multi_spds`}
         Whether to use spectral power distributions colours.
     normalise_spds_colours : bool
-        {:func:`colour.plotting.multi_spd_plot`}
+        {:func:`colour.plotting.plot_multi_spds`}
         Whether to normalise spectral power distributions colours.
 
     Returns
@@ -512,7 +512,7 @@ def multi_illuminant_spd_plot(illuminants=None, **kwargs):
     settings = {'title': title, 'y_label': 'Relative Power'}
     settings.update(kwargs)
 
-    return multi_spd_plot(illuminants, **settings)
+    return plot_multi_spds(illuminants, **settings)
 
 
 @override_style(**{
