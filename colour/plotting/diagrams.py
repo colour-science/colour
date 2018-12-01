@@ -39,7 +39,7 @@ __status__ = 'Production'
 
 __all__ = [
     'plot_spectral_locus', 'plot_chromaticity_diagram_colours',
-    'chromaticity_diagram_plot', 'chromaticity_diagram_plot_CIE1931',
+    'plot_chromaticity_diagram', 'chromaticity_diagram_plot_CIE1931',
     'chromaticity_diagram_plot_CIE1960UCS',
     'chromaticity_diagram_plot_CIE1976UCS', 'spds_chromaticity_diagram_plot',
     'spds_chromaticity_diagram_plot_CIE1931',
@@ -308,7 +308,7 @@ def plot_chromaticity_diagram_colours(
 
 
 @override_style()
-def chromaticity_diagram_plot(cmfs='CIE 1931 2 Degree Standard Observer',
+def plot_chromaticity_diagram(cmfs='CIE 1931 2 Degree Standard Observer',
                               show_diagram_colours=True,
                               show_spectral_locus=True,
                               method='CIE 1931',
@@ -345,11 +345,11 @@ def chromaticity_diagram_plot(cmfs='CIE 1931 2 Degree Standard Observer',
 
     Examples
     --------
-    >>> chromaticity_diagram_plot()  # doctest: +SKIP
+    >>> plot_chromaticity_diagram()  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Chromaticity_Diagram_Plot.png
+    .. image:: ../_static/Plotting_Plot_Chromaticity_Diagram.png
         :align: center
-        :alt: chromaticity_diagram_plot
+        :alt: plot_chromaticity_diagram
     """
 
     settings = {'uniform': True}
@@ -425,7 +425,7 @@ def chromaticity_diagram_plot_CIE1931(
     ----------------
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
-        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -446,7 +446,7 @@ def chromaticity_diagram_plot_CIE1931(
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1931'})
 
-    return chromaticity_diagram_plot(cmfs, show_diagram_colours,
+    return plot_chromaticity_diagram(cmfs, show_diagram_colours,
                                      show_spectral_locus, **settings)
 
 
@@ -473,7 +473,7 @@ def chromaticity_diagram_plot_CIE1960UCS(
     ----------------
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
-        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -494,7 +494,7 @@ def chromaticity_diagram_plot_CIE1960UCS(
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1960 UCS'})
 
-    return chromaticity_diagram_plot(cmfs, show_diagram_colours,
+    return plot_chromaticity_diagram(cmfs, show_diagram_colours,
                                      show_spectral_locus, **settings)
 
 
@@ -521,7 +521,7 @@ def chromaticity_diagram_plot_CIE1976UCS(
     ----------------
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
-        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -542,7 +542,7 @@ def chromaticity_diagram_plot_CIE1976UCS(
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1976 UCS'})
 
-    return chromaticity_diagram_plot(cmfs, show_diagram_colours,
+    return plot_chromaticity_diagram(cmfs, show_diagram_colours,
                                      show_spectral_locus, **settings)
 
 
@@ -551,7 +551,7 @@ def spds_chromaticity_diagram_plot(
         spds,
         cmfs='CIE 1931 2 Degree Standard Observer',
         annotate_parameters=None,
-        chromaticity_diagram_callable=chromaticity_diagram_plot,
+        chromaticity_diagram_callable=plot_chromaticity_diagram,
         method='CIE 1931',
         **kwargs):
     """
@@ -582,7 +582,7 @@ def spds_chromaticity_diagram_plot(
     ----------------
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
-        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -741,7 +741,7 @@ def spds_chromaticity_diagram_plot_CIE1931(
     ----------------
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
-        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -804,7 +804,7 @@ def spds_chromaticity_diagram_plot_CIE1960UCS(
     ----------------
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
-        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -868,7 +868,7 @@ def spds_chromaticity_diagram_plot_CIE1976UCS(
     ----------------
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
-        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 

@@ -116,7 +116,7 @@ CIE Chromaticity Diagrams
 
     plot_spectral_locus
     plot_chromaticity_diagram_colours
-    chromaticity_diagram_plot
+    plot_chromaticity_diagram
 
 Colour Models
 -------------

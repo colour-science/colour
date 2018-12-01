@@ -23,7 +23,7 @@ from colour.plotting import (COLOUR_STYLE_CONSTANTS, COLOUR_ARROW_STYLE,
                              artist, chromaticity_diagram_plot_CIE1931,
                              chromaticity_diagram_plot_CIE1960UCS,
                              filter_passthrough, override_style, render)
-from colour.plotting.diagrams import chromaticity_diagram_plot
+from colour.plotting.diagrams import plot_chromaticity_diagram
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -137,7 +137,7 @@ def planckian_locus_plot(planckian_locus_colours=None,
 def planckian_locus_chromaticity_diagram_plot(
         illuminants=None,
         annotate_parameters=None,
-        chromaticity_diagram_callable=chromaticity_diagram_plot,
+        chromaticity_diagram_callable=plot_chromaticity_diagram,
         method='CIE 1931',
         **kwargs):
     """
@@ -165,7 +165,7 @@ def planckian_locus_chromaticity_diagram_plot(
     ----------------
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
-        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.temperature.planckian_locus_plot`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
