@@ -22,7 +22,7 @@ from colour.plotting.models import (
     plot_ellipses_MacAdam1942_in_chromaticity_diagram)
 from colour.plotting.quality import plot_colour_quality_bars
 from colour.plotting.temperature import (
-    planckian_locus_plot, planckian_locus_chromaticity_diagram_plot)
+    plot_planckian_locus, planckian_locus_chromaticity_diagram_plot)
 from colour.utilities import domain_range_scale
 
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -461,8 +461,8 @@ def generate_documentation_plots(output_directory):
                                              **arguments)
 
     arguments['filename'] = os.path.join(output_directory,
-                                         'Plotting_Planckian_Locus_Plot.png')
-    planckian_locus_plot(**arguments)
+                                         'Plotting_Plot_Planckian_Locus.png')
+    plot_planckian_locus(**arguments)
 
     arguments['filename'] = os.path.join(
         output_directory,

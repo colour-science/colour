@@ -33,14 +33,14 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'planckian_locus_plot', 'planckian_locus_chromaticity_diagram_plot',
+    'plot_planckian_locus', 'planckian_locus_chromaticity_diagram_plot',
     'planckian_locus_chromaticity_diagram_plot_CIE1931',
     'planckian_locus_chromaticity_diagram_plot_CIE1960UCS'
 ]
 
 
 @override_style()
-def planckian_locus_plot(planckian_locus_colours=None,
+def plot_planckian_locus(planckian_locus_colours=None,
                          method='CIE 1931',
                          **kwargs):
     """
@@ -67,11 +67,11 @@ def planckian_locus_plot(planckian_locus_colours=None,
 
     Examples
     --------
-    >>> planckian_locus_plot()  # doctest: +SKIP
+    >>> plot_planckian_locus()  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Planckian_Locus_Plot.png
+    .. image:: ../_static/Plotting_Plot_Planckian_Locus.png
         :align: center
-        :alt: planckian_locus_plot
+        :alt: plot_planckian_locus
     """
 
     if planckian_locus_colours is None:
@@ -166,7 +166,7 @@ def planckian_locus_chromaticity_diagram_plot(
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
-        :func:`colour.plotting.temperature.planckian_locus_plot`,
+        :func:`colour.plotting.temperature.plot_planckian_locus`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -206,7 +206,7 @@ Planckian_Locus_Chromaticity_Diagram_Plot.png
 
     chromaticity_diagram_callable(**settings)
 
-    planckian_locus_plot(**settings)
+    plot_planckian_locus(**settings)
 
     if method == 'CIE 1931':
 
