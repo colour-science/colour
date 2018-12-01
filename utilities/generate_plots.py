@@ -85,7 +85,7 @@ def generate_documentation_plots(output_directory):
 
     arguments['filename'] = os.path.join(
         output_directory, 'Examples_Plotting_Cone_Fundamentals.png')
-    single_cmfs_plot(
+    plot_single_cmfs(
         'Stockman & Sharpe 2 Degree Cone Fundamentals',
         y_label='Sensitivity',
         bounding_box=(390, 870, 0, 1.1),
@@ -200,8 +200,8 @@ def generate_documentation_plots(output_directory):
     plot_multi_spds([spd1, spd2], **arguments)
 
     arguments['filename'] = os.path.join(output_directory,
-                                         'Plotting_Single_CMFS_Plot.png')
-    single_cmfs_plot('CIE 1931 2 Degree Standard Observer', **arguments)
+                                         'Plotting_Plot_Single_CMFS.png')
+    plot_single_cmfs('CIE 1931 2 Degree Standard Observer', **arguments)
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Plotting_Multi_CMFS_Plot.png')

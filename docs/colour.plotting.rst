@@ -38,7 +38,7 @@ Colorimetry
 
     plot_single_spd
     plot_multi_spds
-    single_cmfs_plot
+    plot_single_cmfs
     multi_cmfs_plot
     single_illuminant_spd_plot
     multi_illuminant_spd_plot

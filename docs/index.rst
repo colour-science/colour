@@ -884,7 +884,7 @@ Colour Matching Functions
 
 .. code-block:: python
 
-    >>> single_cmfs_plot(
+    >>> plot_single_cmfs(
     ...     'Stockman & Sharpe 2 Degree Cone Fundamentals',
     ...     y_label='Sensitivity',
     ...     bounding_box=(390, 870, 0, 1.1))

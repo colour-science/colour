@@ -19,7 +19,7 @@ from .common import (COLOUR_STYLE_CONSTANTS, COLOUR_ARROW_STYLE, colour_style,
                      multi_function_plot, image_plot)
 from .blindness import plot_cvd_simulation_Machado2009
 from .colorimetry import (
-    plot_single_spd, plot_multi_spds, single_cmfs_plot, multi_cmfs_plot,
+    plot_single_spd, plot_multi_spds, plot_single_cmfs, multi_cmfs_plot,
     single_illuminant_spd_plot, multi_illuminant_spd_plot,
     visible_spectrum_plot, single_lightness_function_plot,
     multi_lightness_function_plot, single_luminance_function_plot,
@@ -70,12 +70,12 @@ __all__ += [
 ]
 __all__ += ['plot_cvd_simulation_Machado2009']
 __all__ += [
-    'plot_single_spd', 'plot_multi_spds', 'single_cmfs_plot', 'multi_cmfs_plot',
-    'single_illuminant_spd_plot', 'multi_illuminant_spd_plot',
-    'visible_spectrum_plot', 'single_lightness_function_plot',
-    'multi_lightness_function_plot', 'single_luminance_function_plot',
-    'multi_luminance_function_plot', 'blackbody_spectral_radiance_plot',
-    'blackbody_colours_plot'
+    'plot_single_spd', 'plot_multi_spds', 'plot_single_cmfs',
+    'multi_cmfs_plot', 'single_illuminant_spd_plot',
+    'multi_illuminant_spd_plot', 'visible_spectrum_plot',
+    'single_lightness_function_plot', 'multi_lightness_function_plot',
+    'single_luminance_function_plot', 'multi_luminance_function_plot',
+    'blackbody_spectral_radiance_plot', 'blackbody_colours_plot'
 ]
 __all__ += ['plot_single_colour_checker', 'plot_multi_colour_checkers']
 __all__ += [

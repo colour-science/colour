@@ -7,7 +7,7 @@ Defines the colorimetry plotting objects:
 
 -   :func:`colour.plotting.plot_single_spd`
 -   :func:`colour.plotting.plot_multi_spds`
--   :func:`colour.plotting.single_cmfs_plot`
+-   :func:`colour.plotting.plot_single_cmfs`
 -   :func:`colour.plotting.multi_cmfs_plot`
 -   :func:`colour.plotting.single_illuminant_spd_plot`
 -   :func:`colour.plotting.multi_illuminant_spd_plot`
@@ -52,7 +52,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'plot_single_spd', 'plot_multi_spds', 'single_cmfs_plot',
+    'plot_single_spd', 'plot_multi_spds', 'plot_single_cmfs',
     'multi_cmfs_plot', 'single_illuminant_spd_plot',
     'multi_illuminant_spd_plot', 'visible_spectrum_plot',
     'single_lightness_function_plot', 'multi_lightness_function_plot',
@@ -292,7 +292,7 @@ def plot_multi_spds(spds,
 
 
 @override_style()
-def single_cmfs_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
+def plot_single_cmfs(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     """
     Plots given colour matching functions.
 
@@ -314,12 +314,12 @@ def single_cmfs_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
 
     Examples
     --------
-    >>> single_cmfs_plot('CIE 1931 2 Degree Standard Observer')
+    >>> plot_single_cmfs('CIE 1931 2 Degree Standard Observer')
     ... # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Single_CMFS_Plot.png
+    .. image:: ../_static/Plotting_Plot_Single_CMFS.png
         :align: center
-        :alt: single_cmfs_plot
+        :alt: plot_single_cmfs
     """
 
     cmfs = first_item(filter_cmfs(cmfs).values())

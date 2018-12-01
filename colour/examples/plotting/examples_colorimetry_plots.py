@@ -9,7 +9,7 @@ import colour
 from colour.plotting import (
     ASTM_G_173_ETR, blackbody_colours_plot, blackbody_spectral_radiance_plot,
     colour_style, multi_cmfs_plot, multi_illuminant_spd_plot,
-    multi_lightness_function_plot, plot_multi_spds, single_cmfs_plot,
+    multi_lightness_function_plot, plot_multi_spds, plot_single_cmfs,
     single_illuminant_spd_plot, single_lightness_function_plot,
     plot_single_spd, visible_spectrum_plot)
 from colour.utilities import message_box
@@ -825,7 +825,7 @@ plot_multi_spds(
 print('\n')
 
 message_box('Plotting a single "cone fundamentals" colour matching functions.')
-single_cmfs_plot(
+plot_single_cmfs(
     'Stockman & Sharpe 2 Degree Cone Fundamentals',
     y_label='Sensitivity',
     bounding_box=(390, 870, 0, 1.1))
@@ -845,12 +845,12 @@ print('\n')
 
 message_box('Plotting various single colour matching functions.')
 pprint(sorted(colour.CMFS.keys()))
-single_cmfs_plot('CIE 1931 2 Degree Standard Observer')
-single_cmfs_plot('CIE 1964 10 Degree Standard Observer')
-single_cmfs_plot(
+plot_single_cmfs('CIE 1931 2 Degree Standard Observer')
+plot_single_cmfs('CIE 1964 10 Degree Standard Observer')
+plot_single_cmfs(
     'Stiles & Burch 1955 2 Degree RGB CMFs',
     bounding_box=(390, 830, -0.5, 3.5))
-single_cmfs_plot(
+plot_single_cmfs(
     'Stiles & Burch 1959 10 Degree RGB CMFs',
     bounding_box=(390, 830, -0.5, 3.5))
 
