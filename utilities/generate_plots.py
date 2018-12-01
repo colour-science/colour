@@ -409,8 +409,8 @@ def generate_documentation_plots(output_directory):
     plot_multi_cctfs(['ITU-R BT.709', 'sRGB'], **arguments)
 
     arguments['filename'] = os.path.join(
-        output_directory, 'Plotting_Single_Munsell_Value_Function_Plot.png')
-    single_munsell_value_function_plot('ASTM D1535-08', **arguments)
+        output_directory, 'Plotting_Plot_Single_Munsell_Value_Function.png')
+    plot_single_munsell_value_function('ASTM D1535-08', **arguments)
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Multi_Munsell_Value_Function_Plot.png')

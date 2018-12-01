@@ -5,7 +5,7 @@ Colour Notation Systems Plotting
 
 Defines the colour notation systems plotting objects:
 
--   :func:`colour.plotting.single_munsell_value_function_plot`
+-   :func:`colour.plotting.plot_single_munsell_value_function`
 -   :func:`colour.plotting.multi_munsell_value_function_plot`
 """
 
@@ -25,12 +25,12 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'single_munsell_value_function_plot', 'multi_munsell_value_function_plot'
+    'plot_single_munsell_value_function', 'multi_munsell_value_function_plot'
 ]
 
 
 @override_style()
-def single_munsell_value_function_plot(function='ASTM D1535-08', **kwargs):
+def plot_single_munsell_value_function(function='ASTM D1535-08', **kwargs):
     """
     Plots given *Lightness* function.
 
@@ -52,11 +52,11 @@ def single_munsell_value_function_plot(function='ASTM D1535-08', **kwargs):
 
     Examples
     --------
-    >>> single_munsell_value_function_plot('ASTM D1535-08')  # doctest: +SKIP
+    >>> plot_single_munsell_value_function('ASTM D1535-08')  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Single_Munsell_Value_Function_Plot.png
+    .. image:: ../_static/Plotting_Plot_Single_Munsell_Value_Function.png
         :align: center
-        :alt: single_munsell_value_function_plot
+        :alt: plot_single_munsell_value_function
     """
 
     settings = {'title': '{0} - Munsell Value Function'.format(function)}
