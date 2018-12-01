@@ -27,7 +27,7 @@ import numpy as np
 from colour.algebra import spow
 from colour.adaptation import VON_KRIES_CAT
 from colour.utilities import (as_float_array, dot_vector, from_range_100,
-                              to_domain_100, tsplit, tstack, warning)
+                              to_domain_100, tsplit, tstack, usage_warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -131,8 +131,8 @@ def chromatic_adaptation_CIE1994(XYZ_1, xy_o1, xy_o2, Y_o, E_o1, E_o2, n=1):
     E_o2 = as_float_array(E_o2)
 
     if np.any(Y_o < 18) or np.any(Y_o > 100):
-        warning(('"Y_o" luminance factor must be in [18, 100] domain, '
-                 'unpredictable results may occur!'))
+        usage_warning(('"Y_o" luminance factor must be in [18, 100] domain, '
+                       'unpredictable results may occur!'))
 
     RGB_1 = XYZ_to_RGB_CIE1994(XYZ_1)
 

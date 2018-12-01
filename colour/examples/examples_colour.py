@@ -7,13 +7,14 @@ import numpy as np
 import warnings
 
 import colour
-from colour.utilities import message_box, warning
+from colour.utilities import (message_box, warning, runtime_warning,
+                              usage_warning)
 
 message_box('Filter "Colour" Warnings')
 
 warning('This is a first warning and it can be filtered!')
 
-colour.filter_warnings(True)
+colour.filter_warnings()
 
 warning('This is a second warning and it has been filtered!')
 
@@ -22,18 +23,28 @@ colour.filter_warnings(False)
 warning('This is a third warning and it has not been filtered!')
 
 message_box('All Python can be filtered by setting the '
-            '"colour.filter_warnings" definition "colour_warnings_only" '
+            '"colour.filter_warnings" definition "python_warnings" '
             'argument.')
 
 warnings.warn('This is a fourth warning and it has not been filtered!')
 
-colour.filter_warnings(True, colour_warnings_only=False)
+colour.filter_warnings(python_warnings=False)
 
 warning('This is a fifth warning and it has been filtered!')
 
-colour.filter_warnings(False, colour_warnings_only=False)
+colour.filter_warnings(False, python_warnings=False)
 
 warning('This is a sixth warning and it has not been filtered!')
+
+colour.filter_warnings(False, python_warnings=False)
+
+colour.filter_warnings(colour_warnings=False, colour_runtime_warnings=True)
+
+runtime_warning('This is a first runtime warning and it has been filtered!')
+
+colour.filter_warnings(colour_warnings=False, colour_usage_warnings=True)
+
+usage_warning('This is a first usage warning and it has been filtered!')
 
 print('\n')
 

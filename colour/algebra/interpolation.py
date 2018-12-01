@@ -64,9 +64,9 @@ from collections import OrderedDict, Mapping
 from six.moves import reduce
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
-from colour.utilities import (CaseInsensitiveMapping, as_float_array,
-                              as_float, interval, is_integer, is_numeric,
-                              closest_indexes, tsplit, warning)
+from colour.utilities import (CaseInsensitiveMapping, as_float_array, as_float,
+                              closest_indexes, interval, is_integer,
+                              is_numeric, runtime_warning, tsplit)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -407,8 +407,8 @@ class KernelInterpolator(object):
             value_interval = interval(value)
 
             if value_interval.size != 1:
-                warning(('"x" independent variable is not uniform, '
-                         'unpredictable results may occur!'))
+                runtime_warning(('"x" independent variable is not uniform, '
+                                 'unpredictable results may occur!'))
 
             self._x = value
 

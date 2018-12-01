@@ -65,7 +65,7 @@ from colour.constants import CIE_E, CIE_K
 from colour.utilities import (CaseInsensitiveMapping, as_float_array, as_float,
                               filter_kwargs, from_range_100,
                               get_domain_range_scale, to_domain_1,
-                              to_domain_100, warning)
+                              to_domain_100, usage_warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -172,8 +172,8 @@ def lightness_Wyszecki1963(Y):
     Y = to_domain_100(Y)
 
     if np.any(Y < 1) or np.any(Y > 98):
-        warning('"W*" Lightness computation is only applicable for '
-                '1% < "Y" < 98%, unpredictable results may occur!')
+        usage_warning('"W*" Lightness computation is only applicable for '
+                      '1% < "Y" < 98%, unpredictable results may occur!')
 
     W = 25 * spow(Y, 1 / 3) - 17
 

@@ -44,7 +44,7 @@ def generate_documentation_plots(output_directory):
         Output directory.
     """
 
-    colour.utilities.filter_warnings(True, False)
+    colour.utilities.filter_warnings()
 
     colour_style()
 

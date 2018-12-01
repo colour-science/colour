@@ -93,9 +93,9 @@ from colour.colorimetry import (ASTME30815_PRACTISE_SHAPE,
                                 STANDARD_OBSERVERS_CMFS, spd_blackbody,
                                 spectral_to_XYZ)
 from colour.models import UCS_to_uv, XYZ_to_UCS
-from colour.utilities import (CaseInsensitiveMapping, as_float_array,
-                              as_float, filter_kwargs, tsplit, tstack,
-                              warning)
+from colour.utilities import (CaseInsensitiveMapping, as_float_array, as_float,
+                              filter_kwargs, runtime_warning, tsplit, tstack,
+                              usage_warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -344,12 +344,12 @@ def uv_to_CCT_Ohno2013(
         table = planckian_table(uv, cmfs, start, end, count)
         index = planckian_table_minimal_distance_index(table)
         if index == 0:
-            warning(
+            runtime_warning(
                 ('Minimal distance index is on lowest planckian table bound, '
                  'unpredictable results may occur!'))
             index += 1
         elif index == len(table) - 1:
-            warning(
+            runtime_warning(
                 ('Minimal distance index is on highest planckian table bound, '
                  'unpredictable results may occur!'))
             index -= 1
@@ -913,8 +913,8 @@ def CCT_to_xy_Kang2002(CCT):
     CCT = as_float_array(CCT)
 
     if np.any(CCT[np.asarray(np.logical_or(CCT < 1667, CCT > 25000))]):
-        warning(('Correlated colour temperature must be in domain '
-                 '[1667, 25000], unpredictable results may occur!'))
+        usage_warning(('Correlated colour temperature must be in domain '
+                       '[1667, 25000], unpredictable results may occur!'))
 
     x = np.where(
         CCT <= 4000,
@@ -969,8 +969,8 @@ def CCT_to_xy_CIE_D(CCT):
     CCT = as_float_array(CCT)
 
     if np.any(CCT[np.asarray(np.logical_or(CCT < 4000, CCT > 25000))]):
-        warning(('Correlated colour temperature must be in domain '
-                 '[4000, 25000], unpredictable results may occur!'))
+        usage_warning(('Correlated colour temperature must be in domain '
+                       '[4000, 25000], unpredictable results may occur!'))
 
     x = np.where(
         CCT <= 7000,

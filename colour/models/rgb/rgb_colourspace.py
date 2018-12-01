@@ -40,7 +40,7 @@ from colour.models.rgb import (chromatically_adapted_primaries,
 from colour.adaptation import chromatic_adaptation_matrix_VonKries
 from colour.utilities import (as_float_array, domain_range_scale, dot_matrix,
                               dot_vector, from_range_1, to_domain_1, is_string,
-                              warning)
+                              runtime_warning)
 from colour.utilities.deprecation import Renamed
 
 __author__ = 'Colour Developers'
@@ -865,7 +865,7 @@ class RGB_Colourspace(object):
     @property
     def illuminant(self):
         # Docstrings are omitted for documentation purposes.
-        warning(
+        runtime_warning(
             str(
                 Renamed('RGB_Colourspace.illuminant',
                         'RGB_Colourspace.whitepoint_name')))
@@ -875,7 +875,7 @@ class RGB_Colourspace(object):
     @illuminant.setter
     def illuminant(self, value):
         # Docstrings are omitted for documentation purposes.
-        warning(
+        runtime_warning(
             str(
                 Renamed('RGB_Colourspace.illuminant',
                         'RGB_Colourspace.whitepoint_name')))

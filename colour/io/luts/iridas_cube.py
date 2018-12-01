@@ -23,7 +23,7 @@ import re
 
 from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
 from colour.io.luts import LUT1D, LUT2D, LUT3D, LUTSequence
-from colour.utilities import as_float_array, warning
+from colour.utilities import as_float_array, usage_warning
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -215,9 +215,9 @@ def write_LUT_IridasCube(LUT, path, decimals=7):
 
     if isinstance(LUT, LUTSequence):
         LUT = LUT[0]
-        warning('"LUT" is a "LUTSequence" instance was passed, '
-                'using first sequence "LUT":\n'
-                '{0}'.format(LUT))
+        usage_warning('"LUT" is a "LUTSequence" instance was passed, '
+                      'using first sequence "LUT":\n'
+                      '{0}'.format(LUT))
 
     assert not LUT.is_domain_explicit(), '"LUT" domain must be implicit!'
 

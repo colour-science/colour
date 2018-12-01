@@ -142,3 +142,5 @@ Verbose
     :toctree: generated/
 
     ColourWarning
+    ColourUsageWarning
+    ColourRuntimeWarning

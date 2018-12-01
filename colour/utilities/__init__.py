@@ -18,9 +18,10 @@ from .array import (as_array, as_int_array, as_float_array, as_numeric, as_int,
                     tsplit, row_as_diagonal, dot_vector, dot_matrix, orient,
                     centroid, linear_conversion, lerp, fill_nan, ndarray_write)
 from .metrics import metric_mse, metric_psnr
-from .verbose import (ColourWarning, message_box, show_warning, warning,
-                      filter_warnings, suppress_warnings, numpy_print_options,
-                      ANCILLARY_COLOUR_SCIENCE_PACKAGES,
+from .verbose import (ColourWarning, ColourUsageWarning, ColourRuntimeWarning,
+                      message_box, show_warning, warning, runtime_warning,
+                      usage_warning, filter_warnings, suppress_warnings,
+                      numpy_print_options, ANCILLARY_COLOUR_SCIENCE_PACKAGES,
                       ANCILLARY_RUNTIME_PACKAGES,
                       ANCILLARY_DEVELOPMENT_PACKAGES, describe_environment)
 
@@ -45,8 +46,10 @@ __all__ += [
 ]
 __all__ += ['metric_mse', 'metric_psnr']
 __all__ += [
-    'ColourWarning', 'message_box', 'show_warning', 'warning',
-    'filter_warnings', 'suppress_warnings', 'numpy_print_options',
-    'ANCILLARY_COLOUR_SCIENCE_PACKAGES', 'ANCILLARY_RUNTIME_PACKAGES',
-    'ANCILLARY_DEVELOPMENT_PACKAGES', 'describe_environment'
+    'ColourWarning', 'ColourUsageWarning', 'ColourRuntimeWarning',
+    'message_box', 'show_warning', 'warning', 'runtime_warning',
+    'usage_warning', 'filter_warnings', 'suppress_warnings',
+    'numpy_print_options', 'ANCILLARY_COLOUR_SCIENCE_PACKAGES',
+    'ANCILLARY_RUNTIME_PACKAGES', 'ANCILLARY_DEVELOPMENT_PACKAGES',
+    'describe_environment'
 ]

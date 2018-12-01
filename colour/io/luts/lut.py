@@ -35,8 +35,8 @@ from six import add_metaclass
 from colour.algebra import LinearInterpolator, table_interpolation_trilinear
 from colour.constants import DEFAULT_INT_DTYPE
 from colour.utilities import (as_float_array, is_numeric, is_iterable,
-                              is_string, linear_conversion, tsplit, tstack,
-                              warning)
+                              is_string, linear_conversion, runtime_warning,
+                              tsplit, tstack, usage_warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -1291,8 +1291,8 @@ class LUT2D(AbstractLUT):
             ]
 
             if not len(np.unique(size)) == 1:
-                warning('Table is non uniform, axis will be '
-                        'padded with "NaNs" accordingly!')
+                runtime_warning('Table is non uniform, axis will be '
+                                'padded with "NaNs" accordingly!')
 
                 samples = [
                     np.pad(
@@ -1816,10 +1816,11 @@ class LUT3D(AbstractLUT):
                 axes[:(~np.isnan(axes)).cumsum().argmax() + 1][-1]
                 for axes in np.transpose(self.domain)
             ]
-            warning('"LUT" was defined with an explicit domain but requires '
-                    'an implicit domain to be applied. The following domain '
-                    'will be used: {0}'.format(
-                        np.vstack([domain_min, domain_max])))
+            usage_warning(
+                '"LUT" was defined with an explicit domain but requires '
+                'an implicit domain to be applied. The following domain '
+                'will be used: {0}'.format(
+                    np.vstack([domain_min, domain_max])))
         else:
             domain_min, domain_max = self.domain
 

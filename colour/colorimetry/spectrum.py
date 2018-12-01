@@ -37,7 +37,7 @@ from colour.algebra import (Extrapolator, CubicSplineInterpolator,
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import Signal, MultiSignal
 from colour.utilities import (as_float, first_item, is_iterable, is_numeric,
-                              is_string, is_uniform, interval, warning)
+                              is_string, is_uniform, interval, runtime_warning)
 from colour.utilities.deprecation import Removed, Renamed
 
 __author__ = 'Colour Developers'
@@ -459,9 +459,10 @@ class SpectralShape(object):
 
             if current_interval != self._interval:
                 self._interval = current_interval
-                warning(('"{0}" shape could not be honoured, using '
-                         '"{1}"!').format(
-                             (self._start, self._end, self._interval), self))
+                runtime_warning(
+                    ('"{0}" shape could not be honoured, using '
+                     '"{1}"!').format((self._start, self._end, self._interval),
+                                      self))
 
         return self._range
 
@@ -741,8 +742,9 @@ dict_like, optional
 
         wavelengths_interval = interval(self.wavelengths)
         if wavelengths_interval.size != 1:
-            warning(('"{0}" spectral power distribution is not uniform, '
-                     'using minimum interval!'.format(self.name)))
+            runtime_warning(
+                ('"{0}" spectral power distribution is not uniform, '
+                 'using minimum interval!'.format(self.name)))
 
         return SpectralShape(
             min(self.wavelengths), max(self.wavelengths),
@@ -1115,7 +1117,8 @@ dict_like, optional
         # TODO: Provide support for fractional interval like 0.1, etc...
         if (round(self_shape.start) != self_shape.start or
                 round(self_shape.end) != self_shape.end):
-            warning('Fractional bound encountered, rounding will occur!')
+            runtime_warning(
+                'Fractional bound encountered, rounding will occur!')
 
         shape.start = max(shape.start, np.ceil(self_shape.start))
         shape.end = min(shape.end, np.floor(self_shape.end))
@@ -1403,7 +1406,7 @@ dict_like, optional
     @property
     def title(self):
         # Docstrings are omitted for documentation purposes.
-        warning(
+        runtime_warning(
             str(
                 Renamed('SpectralPowerDistribution.title',
                         'SpectralPowerDistribution.strict_name')))
@@ -1413,7 +1416,7 @@ dict_like, optional
     @title.setter
     def title(self, value):
         # Docstrings are omitted for documentation purposes.
-        warning(
+        runtime_warning(
             str(
                 Renamed('SpectralPowerDistribution.title',
                         'SpectralPowerDistribution.strict_name')))
@@ -1445,7 +1448,7 @@ dict_like, optional
 
     def trim_wavelengths(self, shape):
         # Docstrings are omitted for documentation purposes.
-        warning(
+        runtime_warning(
             str(
                 Renamed('SpectralPowerDistribution.trim_wavelengths',
                         'SpectralPowerDistribution.trim')))
@@ -1454,7 +1457,7 @@ dict_like, optional
 
     def clone(self):
         # Docstrings are omitted for documentation purposes.
-        warning(
+        runtime_warning(
             str(
                 Renamed('SpectralPowerDistribution.clone',
                         'SpectralPowerDistribution.copy')))
@@ -2373,7 +2376,7 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
     @property
     def title(self):
         # Docstrings are omitted for documentation purposes.
-        warning(
+        runtime_warning(
             str(
                 Renamed('SpectralPowerDistribution.title',
                         'SpectralPowerDistribution.strict_name')))
@@ -2383,7 +2386,7 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
     @title.setter
     def title(self, value):
         # Docstrings are omitted for documentation purposes.
-        warning(
+        runtime_warning(
             str(
                 Renamed('SpectralPowerDistribution.title',
                         'SpectralPowerDistribution.strict_name')))
@@ -2440,7 +2443,7 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
 
     def trim_wavelengths(self, shape):
         # Docstrings are omitted for documentation purposes.
-        warning(
+        runtime_warning(
             str(
                 Renamed('MultiSpectralPowerDistribution.trim_wavelengths',
                         'MultiSpectralPowerDistribution.trim')))
@@ -2449,7 +2452,7 @@ MultiSpectralPowerDistribution or array_like or dict_like, optional
 
     def clone(self):
         # Docstrings are omitted for documentation purposes.
-        warning(
+        runtime_warning(
             str(
                 Renamed('MultiSpectralPowerDistribution.clone',
                         'MultiSpectralPowerDistribution.copy')))

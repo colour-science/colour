@@ -39,7 +39,8 @@ from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE, SpectralShape,
                                 STANDARD_OBSERVERS_CMFS, spd_ones)
 from colour.constants import DEFAULT_INT_DTYPE
 from colour.utilities import (CaseInsensitiveMapping, as_float_array,
-                              filter_kwargs, from_range_100, tsplit, warning)
+                              filter_kwargs, from_range_100, runtime_warning,
+                              tsplit)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -445,13 +446,15 @@ def spectral_to_XYZ_integration(
     """
 
     if illuminant.shape != cmfs.shape:
-        warning('Aligning "{0}" illuminant shape to "{1}" colour matching '
-                'functions shape.'.format(illuminant.name, cmfs.name))
+        runtime_warning(
+            'Aligning "{0}" illuminant shape to "{1}" colour matching '
+            'functions shape.'.format(illuminant.name, cmfs.name))
         illuminant = illuminant.copy().align(cmfs.shape)
 
     if spd.shape != cmfs.shape:
-        warning('Aligning "{0}" spectral power distribution shape to "{1}" '
-                'colour matching functions shape.'.format(spd.name, cmfs.name))
+        runtime_warning(
+            'Aligning "{0}" spectral power distribution shape to "{1}" '
+            'colour matching functions shape.'.format(spd.name, cmfs.name))
         spd = spd.copy().align(cmfs.shape)
 
     S = illuminant.values
@@ -538,14 +541,16 @@ def spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
     """
 
     if illuminant.shape != cmfs.shape:
-        warning('Aligning "{0}" illuminant shape to "{1}" colour matching '
-                'functions shape.'.format(illuminant.name, cmfs.name))
+        runtime_warning(
+            'Aligning "{0}" illuminant shape to "{1}" colour matching '
+            'functions shape.'.format(illuminant.name, cmfs.name))
         illuminant = illuminant.copy().align(cmfs.shape)
 
     if spd.shape.boundaries != cmfs.shape.boundaries:
-        warning('Trimming "{0}" spectral power distribution shape to "{1}" '
-                'colour matching functions shape.'.format(
-                    illuminant.name, cmfs.name))
+        runtime_warning(
+            'Trimming "{0}" spectral power distribution shape to "{1}" '
+            'colour matching functions shape.'.format(illuminant.name,
+                                                      cmfs.name))
         spd = spd.copy().trim(cmfs.shape)
 
     W = tristimulus_weighting_factors_ASTME202211(
@@ -674,7 +679,7 @@ _TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their identifier key is
     elif spd.shape.interval == 20 and mi_20nm_interpolation_method:
         spd = spd.copy()
         if spd.shape.boundaries != cmfs.shape.boundaries:
-            warning(
+            runtime_warning(
                 'Trimming "{0}" spectral power distribution shape to "{1}" '
                 'colour matching functions shape.'.format(
                     illuminant.name, cmfs.name))
@@ -916,11 +921,12 @@ def multi_spectral_to_XYZ_integration(
     msa = as_float_array(msa)
 
     if cmfs.shape != shape:
-        warning('Aligning "{0}" cmfs shape to "{1}".'.format(cmfs.name, shape))
+        runtime_warning('Aligning "{0}" cmfs shape to "{1}".'.format(
+            cmfs.name, shape))
         cmfs = cmfs.copy().align(shape)
 
     if illuminant.shape != shape:
-        warning('Aligning "{0}" illuminant shape to "{1}".'.format(
+        runtime_warning('Aligning "{0}" illuminant shape to "{1}".'.format(
             illuminant.name, shape))
         illuminant = illuminant.copy().align(shape)
 

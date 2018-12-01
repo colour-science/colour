@@ -27,17 +27,33 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'ColourWarning', 'message_box', 'show_warning', 'warning',
-    'filter_warnings', 'suppress_warnings', 'numpy_print_options',
-    'ANCILLARY_COLOUR_SCIENCE_PACKAGES', 'ANCILLARY_RUNTIME_PACKAGES',
-    'ANCILLARY_DEVELOPMENT_PACKAGES', 'describe_environment'
+    'ColourWarning', 'ColourUsageWarning', 'ColourRuntimeWarning',
+    'message_box', 'show_warning', 'warning', 'runtime_warning',
+    'usage_warning', 'filter_warnings', 'suppress_warnings',
+    'numpy_print_options', 'ANCILLARY_COLOUR_SCIENCE_PACKAGES',
+    'ANCILLARY_RUNTIME_PACKAGES', 'ANCILLARY_DEVELOPMENT_PACKAGES',
+    'describe_environment'
 ]
 
 
 class ColourWarning(Warning):
     """
     This is the base class of *Colour* warnings. It is a subclass of
-    :class:`Warning`.
+    :class:`Warning` class.
+    """
+
+
+class ColourUsageWarning(ColourWarning):
+    """
+    This is the base class of *Colour* usage warnings. It is a subclass
+    of :class:`colour.utilities.ColourWarning` class.
+    """
+
+
+class ColourRuntimeWarning(ColourWarning):
+    """
+    This is the base class of *Colour* runtime warnings. It is a subclass
+    of :class:`colour.utilities.ColourWarning` class.
     """
 
 
@@ -198,26 +214,25 @@ def warning(*args, **kwargs):
     Examples
     --------
     >>> warning('This is a warning!')  # doctest: +SKIP
-    /Users/.../colour/utilities/verbose.py:132: UserWarning: This is a warning!
     """
 
-    kwargs['category'] = ColourWarning
+    kwargs['category'] = kwargs.get('category', ColourWarning)
+
     warn(*args, **kwargs)
 
     return True
 
 
-def filter_warnings(state=True, colour_warnings_only=True):
+def runtime_warning(*args, **kwargs):
     """
-    Filters *Colour* and also optionally overall Python warnings.
+    Issues a runtime warning.
 
-    Parameters
-    ----------
-    state : bool, optional
-        Warnings filter state.
-    colour_warnings_only : bool, optional
-        Whether to only filter *Colour* warnings or also overall Python
-        warnings.
+    Other Parameters
+    ----------------
+    \\*args : list, optional
+        Arguments.
+    \\**kwargs : dict, optional
+        Keywords arguments.
 
     Returns
     -------
@@ -226,39 +241,141 @@ def filter_warnings(state=True, colour_warnings_only=True):
 
     Examples
     --------
-    # Filtering *Colour* only warnings:
-    >>> filter_warnings()
-    True
-
-    # Filtering *Colour* and also Python warnings:
-    >>> filter_warnings(colour_warnings_only=False)
-    True
+    >>> usage_warning('This is a runtime warning!')  # doctest: +SKIP
     """
 
-    filterwarnings(
-        'ignore' if state else 'default',
-        category=ColourWarning if colour_warnings_only else Warning)
+    kwargs['category'] = ColourRuntimeWarning
+
+    warning(*args, **kwargs)
 
     return True
 
 
+def usage_warning(*args, **kwargs):
+    """
+    Issues an usage warning.
+
+    Other Parameters
+    ----------------
+    \\*args : list, optional
+        Arguments.
+    \\**kwargs : dict, optional
+        Keywords arguments.
+
+    Returns
+    -------
+    bool
+        Definition success.
+
+    Examples
+    --------
+    >>> usage_warning('This is an usage warning!')  # doctest: +SKIP
+    """
+
+    kwargs['category'] = ColourUsageWarning
+
+    warning(*args, **kwargs)
+
+    return True
+
+
+def filter_warnings(state=True,
+                    colour_warnings=True,
+                    colour_runtime_warnings=False,
+                    colour_usage_warnings=False,
+                    python_warnings=False):
+    """
+    Filters *Colour* and also optionally overall Python warnings.
+
+    Parameters
+    ----------
+    state : bool, optional
+        Warnings filter state.
+    colour_warnings : bool, optional
+        Whether to filter *Colour* warnings, this also filters *Colour* usage
+        and runtime warnings.
+    colour_runtime_warnings : bool, optional
+        Whether to filter *Colour* runtime warnings.
+    colour_usage_warnings : bool, optional
+        Whether to filter *Colour* usage warnings.
+    python_warnings : bool, optional
+        Whether to filter *Python* warnings.
+
+    Returns
+    -------
+    bool
+        Definition success.
+
+    Examples
+    --------
+    # Filtering *Colour* warnings:
+    >>> filter_warnings()
+    True
+
+    # Filtering *Colour* runtime warnings:
+    >>> filter_warnings(colour_warnings=False, colour_runtime_warnings=True)
+    True
+
+    # Filtering *Colour* usage warnings:
+    >>> filter_warnings(colour_warnings=False, colour_usage_warnings=True)
+    True
+
+    # Filtering *Colour* and also Python warnings:
+    >>> filter_warnings(python_warnings=True)
+    True
+    """
+
+    action = 'ignore' if state else 'default'
+
+    if colour_warnings:
+        filterwarnings(action, category=ColourWarning)
+
+    if colour_runtime_warnings:
+        filterwarnings(action, category=ColourRuntimeWarning)
+
+    if colour_usage_warnings:
+        filterwarnings(action, category=ColourUsageWarning)
+
+    if python_warnings:
+        filterwarnings(action, category=Warning)
+
+    return True
+
+
+# Defaulting to filter *Colour* runtime warnings.
+filter_warnings(colour_warnings=True, colour_runtime_warnings=True)
+
+
 @contextmanager
-def suppress_warnings(colour_warnings_only=True):
+def suppress_warnings(colour_warnings=True,
+                      colour_usage_warnings=False,
+                      colour_runtime_warnings=False,
+                      python_warnings=False):
     """
     A context manager filtering *Colour* and also optionally overall Python
     warnings.
 
     Parameters
     ----------
-    colour_warnings_only : bool, optional
-        Whether to only filter *Colour* warnings or also overall Python
-        warnings.
+    colour_warnings : bool, optional
+        Whether to filter *Colour* warnings, this also filters *Colour* usage
+        and runtime warnings.
+    colour_runtime_warnings : bool, optional
+        Whether to filter *Colour* runtime warnings.
+    colour_usage_warnings : bool, optional
+        Whether to filter *Colour* usage warnings.
+    python_warnings : bool, optional
+        Whether to filter *Python* warnings.
     """
 
     filters = warnings.filters
     show_warnings = warnings.showwarning
 
-    filter_warnings(colour_warnings_only=colour_warnings_only)
+    filter_warnings(
+        colour_warnings=colour_warnings,
+        colour_runtime_warnings=colour_runtime_warnings,
+        colour_usage_warnings=colour_usage_warnings,
+        python_warnings=python_warnings)
     try:
         yield
     finally:

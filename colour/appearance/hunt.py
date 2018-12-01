@@ -32,7 +32,7 @@ from collections import namedtuple
 from colour.algebra import spow
 from colour.utilities import (CaseInsensitiveMapping, as_float_array,
                               dot_vector, from_range_degrees, to_domain_100,
-                              tsplit, tstack, warning)
+                              tsplit, tstack, usage_warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -351,17 +351,17 @@ s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
         X_p = X_b
         Y_p = Y_b
         Z_p = Y_b
-        warning('Unspecified proximal field "XYZ_p" argument, using '
-                'background "XYZ_b" as approximation!')
+        usage_warning('Unspecified proximal field "XYZ_p" argument, using '
+                      'background "XYZ_b" as approximation!')
 
     if surround.N_cb is None:
         N_cb = 0.725 * spow(Y_w / Y_b, 0.2)
-        warning('Unspecified "N_cb" argument, using approximation: '
-                '"{0}"'.format(N_cb))
+        usage_warning('Unspecified "N_cb" argument, using approximation: '
+                      '"{0}"'.format(N_cb))
     if surround.N_bb is None:
         N_bb = 0.725 * spow(Y_w / Y_b, 0.2)
-        warning('Unspecified "N_bb" argument, using approximation: '
-                '"{0}"'.format(N_bb))
+        usage_warning('Unspecified "N_bb" argument, using approximation: '
+                      '"{0}"'.format(N_bb))
 
     if L_AS is None and CCT_w is None:
         raise ValueError('Either the scotopic luminance "L_AS" of the '
@@ -369,8 +369,9 @@ s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
                          '"CCT_w" must be specified!')
     if L_AS is None:
         L_AS = illuminant_scotopic_luminance(L_A, CCT_w)
-        warning('Unspecified "L_AS" argument, using approximation from "CCT": '
-                '"{0}"'.format(L_AS))
+        usage_warning(
+            'Unspecified "L_AS" argument, using approximation from "CCT": '
+            '"{0}"'.format(L_AS))
 
     if (S is None and S_w is not None) or (S is not None and S_w is None):
         raise ValueError('Either both stimulus scotopic response "S" and '
@@ -379,14 +380,16 @@ s=0.0199093..., Q=22.2097654..., M=0.1238964..., H=None, HC=None)
     elif S is None and S_w is None:
         S = Y
         S_w = Y_w
-        warning('Unspecified stimulus scotopic response "S" and reference '
-                'white scotopic response "S_w" arguments, using '
-                'approximation: "{0}", "{1}"'.format(S, S_w))
+        usage_warning(
+            'Unspecified stimulus scotopic response "S" and reference '
+            'white scotopic response "S_w" arguments, using '
+            'approximation: "{0}", "{1}"'.format(S, S_w))
 
     if p is None:
-        warning('Unspecified simultaneous contrast / assimilation "p" '
-                'argument, model will not account for simultaneous chromatic '
-                'contrast!')
+        usage_warning(
+            'Unspecified simultaneous contrast / assimilation "p" '
+            'argument, model will not account for simultaneous chromatic '
+            'contrast!')
 
     XYZ_p = tstack([X_p, Y_p, Z_p])
 

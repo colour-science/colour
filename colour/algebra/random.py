@@ -13,7 +13,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.constants import DEFAULT_INT_DTYPE
-from colour.utilities import warning, tstack
+from colour.utilities import runtime_warning, tstack
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -75,7 +75,8 @@ def random_triplet_generator(size,
 
     integer_size = DEFAULT_INT_DTYPE(size)
     if integer_size != size:
-        warning('"size" has been cast to integer: {0}'.format(integer_size))
+        runtime_warning(
+            '"size" has been cast to integer: {0}'.format(integer_size))
 
     return tstack([
         random_state.uniform(*limits[0], size=integer_size),

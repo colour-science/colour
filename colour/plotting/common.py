@@ -41,7 +41,7 @@ from colour.characterisation import COLOURCHECKERS
 from colour.colorimetry import (CMFS, ILLUMINANTS_SPDS)
 from colour.models import RGB_COLOURSPACES, XYZ_to_RGB
 from colour.utilities import (Structure, as_float_array, is_sibling, is_string,
-                              filter_mapping, warning)
+                              filter_mapping, runtime_warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -717,8 +717,9 @@ def filter_passthrough(mapping,
         ]
 
         if non_siblings:
-            warning('Non-sibling elements are passed-through: "{0}"'.format(
-                non_siblings))
+            runtime_warning(
+                'Non-sibling elements are passed-through: "{0}"'.format(
+                    non_siblings))
 
             object_filterers.extend(non_siblings)
 

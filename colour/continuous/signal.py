@@ -26,8 +26,8 @@ except ImportError:
 from colour.algebra import Extrapolator, KernelInterpolator
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.continuous import AbstractContinuousFunction
-from colour.utilities import (as_array, fill_nan, is_pandas_installed, tsplit,
-                              tstack, warning)
+from colour.utilities import (as_array, fill_nan, is_pandas_installed,
+                              runtime_warning, tsplit, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -291,18 +291,20 @@ class Signal(AbstractContinuousFunction):
 
         if value is not None:
             if not np.all(np.isfinite(value)):
-                warning('"{0}" new "domain" variable is not finite: {0}, '
-                        'unpredictable results may occur!'.format(
-                            self.name, value))
+                runtime_warning(
+                    '"{0}" new "domain" variable is not finite: {0}, '
+                    'unpredictable results may occur!'.format(
+                        self.name, value))
 
             value = np.copy(value).astype(self.dtype)
 
             if self._range is not None:
                 if value.size != self._range.size:
-                    warning('"{0}" new "domain" and current "range" variables '
-                            'have different size, "range" variable will be '
-                            'resized to "domain" variable shape!'.format(
-                                self.name))
+                    runtime_warning(
+                        '"{0}" new "domain" and current "range" variables '
+                        'have different size, "range" variable will be '
+                        'resized to "domain" variable shape!'.format(
+                            self.name))
                     self._range = np.resize(self._range, value.shape)
 
             self._domain = value
@@ -336,9 +338,10 @@ class Signal(AbstractContinuousFunction):
 
         if value is not None:
             if not np.all(np.isfinite(value)):
-                warning('"{0}" new "range" variable is not finite: {0}, '
-                        'unpredictable results may occur!'.format(
-                            self.name, value))
+                runtime_warning(
+                    '"{0}" new "range" variable is not finite: {0}, '
+                    'unpredictable results may occur!'.format(
+                        self.name, value))
 
             value = np.copy(value).astype(self.dtype)
 

@@ -39,7 +39,8 @@ import numpy as np
 
 from colour.blindness import CVD_MATRICES_MACHADO2010
 from colour.colorimetry import SpectralShape
-from colour.utilities import dot_matrix, dot_vector, tsplit, tstack, warning
+from colour.utilities import (dot_matrix, dot_vector, tsplit, tstack,
+                              usage_warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -195,7 +196,7 @@ def anomalous_trichromacy_cmfs_Machado2009(cmfs, d_LMS):
     d_L, d_M, d_S = tsplit(d_LMS)
 
     if d_S != 0:
-        warning(
+        usage_warning(
             '"Machado et al. (2009)" simulation of tritanomaly is based on '
             'the shift paradigm as an approximation to the actual phenomenon '
             'and restrain the model from trying to model tritanopia.\n'
@@ -327,7 +328,7 @@ def cvd_matrix_Machado2009(deficiency, severity):
     """
 
     if deficiency.lower() == 'tritanomaly':
-        warning(
+        usage_warning(
             '"Machado et al. (2009)" simulation of tritanomaly is based on '
             'the shift paradigm as an approximation to the actual phenomenon '
             'and restrain the model from trying to model tritanopia.\n'

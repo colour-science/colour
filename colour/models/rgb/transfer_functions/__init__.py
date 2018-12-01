@@ -4,7 +4,8 @@ from __future__ import absolute_import
 
 from functools import partial
 
-from colour.utilities import CaseInsensitiveMapping, filter_kwargs, warning
+from colour.utilities import (CaseInsensitiveMapping, filter_kwargs,
+                              usage_warning)
 
 from .common import CV_range, legal_to_full, full_to_legal
 from .aces import (log_encoding_ACESproxy, log_decoding_ACESproxy,
@@ -749,7 +750,7 @@ def encoding_cctf(value, function='sRGB', **kwargs):
     """
 
     if 'itu-r bt.2100' in function.lower():
-        warning(
+        usage_warning(
             'For "ITU-R BT.2100", only the reverse electro-optical transfer '
             'functions (EOTFs / EOCFs) are exposed by this definition, please '
             'refer to the "colour.oetf" definition for the opto-electronic '
@@ -837,7 +838,7 @@ def decoding_cctf(value, function='Cineon', **kwargs):
     """
 
     if 'itu-r bt.2100' in function.lower():
-        warning(
+        usage_warning(
             'For "ITU-R BT.2100", only the electro-optical transfer functions '
             '(EOTFs / EOCFs) are exposed by this definition, please refer to '
             'the "colour.oetf_reverse" definition for the reverse '

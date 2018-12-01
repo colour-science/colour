@@ -133,7 +133,7 @@ from colour.utilities import (CaseInsensitiveMapping, Lookup, as_float_array,
                               as_float, domain_range_scale, from_range_1,
                               from_range_10, get_domain_range_scale,
                               to_domain_1, to_domain_10, to_domain_100,
-                              is_integer, is_numeric, tsplit, warning)
+                              is_integer, is_numeric, tsplit, usage_warning)
 
 __author__ = 'Colour Developers, Paul Centore'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -913,8 +913,8 @@ def xyY_to_munsell_specification(xyY):
     Y = to_domain_1(Y)
 
     if not is_within_macadam_limits(xyY, MUNSELL_DEFAULT_ILLUMINANT):
-        warning('"{0}" is not within "MacAdam" limits for illuminant '
-                '"{1}"!'.format(xyY, MUNSELL_DEFAULT_ILLUMINANT))
+        usage_warning('"{0}" is not within "MacAdam" limits for illuminant '
+                      '"{1}"!'.format(xyY, MUNSELL_DEFAULT_ILLUMINANT))
 
     with domain_range_scale('ignore'):
         value = munsell_value_ASTMD153508(Y * 100)

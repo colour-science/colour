@@ -49,7 +49,7 @@ from colour.models.rgb.transfer_functions.arib_std_b67 import (
     ARIBSTDB67_CONSTANTS)
 from colour.utilities import (Structure, as_float_array, as_float,
                               from_range_1, to_domain_1, tsplit, tstack,
-                              warning)
+                              usage_warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -666,7 +666,7 @@ def ootf_BT2100_HLG(E, L_B=0, L_W=1000, gamma=None):
     E = np.atleast_1d(to_domain_1(E))
 
     if E.shape[-1] != 3:
-        warning(
+        usage_warning(
             '"Recommendation ITU-R BT.2100" "Reference HLG OOTF" uses '
             'RGB Luminance in computations and expects a vector input, thus '
             'the given input array will be stacked to compose a vector for '
@@ -749,7 +749,7 @@ def ootf_reverse_BT2100_HLG(F_D, L_B=0, L_W=1000, gamma=None):
     F_D = np.atleast_1d(to_domain_1(F_D))
 
     if F_D.shape[-1] != 3:
-        warning(
+        usage_warning(
             '"Recommendation ITU-R BT.2100" "Reference HLG OOTF" uses '
             'RGB Luminance in computations and expects a vector input, thus '
             'the given input array will be stacked to compose a vector for '
