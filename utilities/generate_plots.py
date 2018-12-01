@@ -449,9 +449,9 @@ def generate_documentation_plots(output_directory):
 
     arguments['filename'] = os.path.join(
         output_directory,
-        'Plotting_Single_SPD_Colour_Quality_Scale_Bars_Plot.png')
+        'Plotting_Plot_Single_SPD_Colour_Quality_Scale_Bars.png')
     illuminant = colour.ILLUMINANTS_SPDS['F2']
-    single_spd_colour_quality_scale_bars_plot(illuminant, **arguments)
+    plot_single_spd_colour_quality_scale_bars(illuminant, **arguments)
 
     arguments['filename'] = os.path.join(
         output_directory,

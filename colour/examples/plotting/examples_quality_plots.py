@@ -7,7 +7,7 @@ import colour
 from colour.plotting import (colour_style,
                              multi_spd_colour_quality_scale_bars_plot,
                              plot_multi_spds_colour_rendering_indexes_bars,
-                             single_spd_colour_quality_scale_bars_plot,
+                             plot_single_spd_colour_quality_scale_bars,
                              plot_single_spd_colour_rendering_index_bars)
 from colour.utilities import message_box
 
@@ -30,7 +30,7 @@ plot_multi_spds_colour_rendering_indexes_bars(
 print('\n')
 
 message_box('Plotting "F2" illuminant "Colour Quality Scale (CQS)".')
-single_spd_colour_quality_scale_bars_plot(colour.ILLUMINANTS_SPDS['F2'])
+plot_single_spd_colour_quality_scale_bars(colour.ILLUMINANTS_SPDS['F2'])
 
 print('\n')
 

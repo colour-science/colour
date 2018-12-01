@@ -51,7 +51,7 @@ from .notation import (plot_single_munsell_value_function,
 from .phenomena import plot_single_rayleigh_scattering_spd, plot_the_blue_sky
 from .quality import (plot_single_spd_colour_rendering_index_bars,
                       plot_multi_spds_colour_rendering_indexes_bars,
-                      single_spd_colour_quality_scale_bars_plot,
+                      plot_single_spd_colour_quality_scale_bars,
                       multi_spd_colour_quality_scale_bars_plot)
 from .temperature import (planckian_locus_chromaticity_diagram_plot_CIE1931,
                           planckian_locus_chromaticity_diagram_plot_CIE1960UCS)
@@ -108,7 +108,7 @@ __all__ += ['plot_single_rayleigh_scattering_spd', 'plot_the_blue_sky']
 __all__ += [
     'plot_single_spd_colour_rendering_index_bars',
     'plot_multi_spds_colour_rendering_indexes_bars',
-    'single_spd_colour_quality_scale_bars_plot',
+    'plot_single_spd_colour_quality_scale_bars',
     'multi_spd_colour_quality_scale_bars_plot'
 ]
 __all__ += [
