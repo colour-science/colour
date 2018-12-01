@@ -18,7 +18,7 @@ Defines the common plotting objects:
 -   :func:`colour.plotting.uniform_axes3d`
 -   :func:`colour.plotting.plot_single_colour_swatch`
 -   :func:`colour.plotting.plot_multi_colour_swatches`
--   :func:`colour.plotting.single_function_plot`
+-   :func:`colour.plotting.plot_single_function`
 -   :func:`colour.plotting.multi_function_plot`
 -   :func:`colour.plotting.image_plot`
 """
@@ -57,7 +57,7 @@ __all__ = [
     'uniform_axes3d', 'filter_passthrough', 'filter_RGB_colourspaces',
     'filter_cmfs', 'filter_illuminants', 'filter_colour_checkers',
     'plot_single_colour_swatch', 'plot_multi_colour_swatches',
-    'single_function_plot', 'multi_function_plot', 'image_plot'
+    'plot_single_function', 'multi_function_plot', 'image_plot'
 ]
 
 COLOUR_STYLE_CONSTANTS = Structure(
@@ -1083,7 +1083,7 @@ def plot_multi_colour_swatches(colour_swatches,
 
 
 @override_style()
-def single_function_plot(function,
+def plot_single_function(function,
                          samples=None,
                          log_x=None,
                          log_y=None,
@@ -1117,12 +1117,12 @@ def single_function_plot(function,
 
     Examples
     --------
-    >>> single_function_plot(partial(function_gamma, exponent=1 / 2.2))
+    >>> plot_single_function(partial(function_gamma, exponent=1 / 2.2))
     ... # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Single_Function_Plot.png
+    .. image:: ../_static/Plotting_Plot_Single_Function.png
         :align: center
-        :alt: single_function_plot
+        :alt: plot_single_function
     """
 
     try:

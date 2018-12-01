@@ -22,7 +22,7 @@ Common
     uniform_axes3d
     plot_single_colour_swatch
     plot_multi_colour_swatches
-    single_function_plot
+    plot_single_function
     multi_function_plot
     image_plot
 

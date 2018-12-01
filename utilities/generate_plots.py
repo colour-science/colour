@@ -258,11 +258,11 @@ def generate_documentation_plots(output_directory):
     plot_multi_colour_swatches([RGB_1, RGB_2], **arguments)
 
     arguments['filename'] = os.path.join(output_directory,
-                                         'Plotting_Single_Function_Plot.png')
-    single_function_plot(lambda x: x ** (1 / 2.2), **arguments)
+                                         'Plotting_Plot_Single_Function.png')
+    plot_single_function(lambda x: x ** (1 / 2.2), **arguments)
 
     arguments['filename'] = os.path.join(output_directory,
-                                         'Plotting_Single_Function_Plot.png')
+                                         'Plotting_Plot_Single_Function.png')
     functions = {
         'Gamma 2.2': lambda x: x ** (1 / 2.2),
         'Gamma 2.4': lambda x: x ** (1 / 2.4),
