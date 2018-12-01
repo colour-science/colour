@@ -15,7 +15,7 @@ import colour
 from colour.plotting import *
 from colour.plotting.diagrams import (
     plot_spectral_locus, plot_chromaticity_diagram_colours,
-    plot_chromaticity_diagram, spds_chromaticity_diagram_plot)
+    plot_chromaticity_diagram, plot_spds_in_chromaticity_diagram)
 from colour.plotting.models import (
     RGB_colourspaces_chromaticity_diagram_plot,
     RGB_chromaticity_coordinates_chromaticity_diagram_plot,
@@ -307,10 +307,10 @@ def generate_documentation_plots(output_directory):
     plot_chromaticity_diagram_CIE1976UCS(**arguments)
 
     arguments['filename'] = os.path.join(
-        output_directory, 'Plotting_SPDS_Chromaticity_Diagram_Plot.png')
+        output_directory, 'Plotting_Plot_SPDS_In_Chromaticity_Diagram.png')
     A = colour.ILLUMINANTS_SPDS['A']
     D65 = colour.ILLUMINANTS_SPDS['D65']
-    spds_chromaticity_diagram_plot([A, D65], **arguments)
+    plot_spds_in_chromaticity_diagram([A, D65], **arguments)
 
     arguments['filename'] = os.path.join(
         output_directory,

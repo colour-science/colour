@@ -41,7 +41,8 @@ __all__ = [
     'plot_spectral_locus', 'plot_chromaticity_diagram_colours',
     'plot_chromaticity_diagram', 'plot_chromaticity_diagram_CIE1931',
     'plot_chromaticity_diagram_CIE1960UCS',
-    'plot_chromaticity_diagram_CIE1976UCS', 'spds_chromaticity_diagram_plot',
+    'plot_chromaticity_diagram_CIE1976UCS',
+    'plot_spds_in_chromaticity_diagram',
     'spds_chromaticity_diagram_plot_CIE1931',
     'spds_chromaticity_diagram_plot_CIE1960UCS',
     'spds_chromaticity_diagram_plot_CIE1976UCS'
@@ -547,7 +548,7 @@ def plot_chromaticity_diagram_CIE1976UCS(
 
 
 @override_style()
-def spds_chromaticity_diagram_plot(
+def plot_spds_in_chromaticity_diagram(
         spds,
         cmfs='CIE 1931 2 Degree Standard Observer',
         annotate_parameters=None,
@@ -596,11 +597,11 @@ def spds_chromaticity_diagram_plot(
     >>> from colour import ILLUMINANTS_SPDS
     >>> A = ILLUMINANTS_SPDS['A']
     >>> D65 = ILLUMINANTS_SPDS['D65']
-    >>> spds_chromaticity_diagram_plot([A, D65])  # doctest: +SKIP
+    >>> plot_spds_in_chromaticity_diagram([A, D65])  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_SPDS_Chromaticity_Diagram_Plot.png
+    .. image:: ../_static/Plotting_Plot_SPDS_In_Chromaticity_Diagram.png
         :align: center
-        :alt: spds_chromaticity_diagram_plot
+        :alt: plot_spds_in_chromaticity_diagram
     """
 
     settings = {'uniform': True}
@@ -765,7 +766,7 @@ def spds_chromaticity_diagram_plot_CIE1931(
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1931'})
 
-    return spds_chromaticity_diagram_plot(
+    return plot_spds_in_chromaticity_diagram(
         spds, cmfs, annotate_parameters, chromaticity_diagram_callable_CIE1931,
         **settings)
 
@@ -829,7 +830,7 @@ SPDS_Chromaticity_Diagram_Plot_CIE1960UCS.png
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1960 UCS'})
 
-    return spds_chromaticity_diagram_plot(
+    return plot_spds_in_chromaticity_diagram(
         spds, cmfs, annotate_parameters,
         chromaticity_diagram_callable_CIE1960UCS, **settings)
 
@@ -893,6 +894,6 @@ SPDS_Chromaticity_Diagram_Plot_CIE1976UCS.png
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1976 UCS'})
 
-    return spds_chromaticity_diagram_plot(
+    return plot_spds_in_chromaticity_diagram(
         spds, cmfs, annotate_parameters,
         chromaticity_diagram_callable_CIE1976UCS, **settings)
