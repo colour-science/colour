@@ -6,7 +6,7 @@ Colour Models Volume Plotting
 Defines colour models volume and gamut plotting objects:
 
 -   :func:`colour.plotting.plot_RGB_colourspaces_gamuts`
--   :func:`colour.plotting.RGB_scatter_plot`
+-   :func:`colour.plotting.plot_RGB_scatter`
 """
 
 from __future__ import division
@@ -34,7 +34,7 @@ __status__ = 'Production'
 
 __all__ = [
     'common_colourspace_model_axis_reorder', 'nadir_grid', 'RGB_identity_cube',
-    'plot_RGB_colourspaces_gamuts', 'RGB_scatter_plot'
+    'plot_RGB_colourspaces_gamuts', 'plot_RGB_scatter'
 ]
 
 
@@ -620,7 +620,7 @@ def plot_RGB_colourspaces_gamuts(colourspaces=None,
 
 
 @override_style()
-def RGB_scatter_plot(RGB,
+def plot_RGB_scatter(RGB,
                      colourspace,
                      reference_colourspace='CIE xyY',
                      colourspaces=None,
@@ -679,11 +679,11 @@ def RGB_scatter_plot(RGB,
     Examples
     --------
     >>> RGB = np.random.random((128, 128, 3))
-    >>> RGB_scatter_plot(RGB, 'ITU-R BT.709')  # doctest: +SKIP
+    >>> plot_RGB_scatter(RGB, 'ITU-R BT.709')  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_RGB_Scatter_Plot.png
+    .. image:: ../_static/Plotting_Plot_RGB_Scatter.png
         :align: center
-        :alt: RGB_scatter_plot
+        :alt: plot_RGB_scatter
     """
 
     colourspace = first_item(filter_RGB_colourspaces(colourspace).values())

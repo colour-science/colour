@@ -491,8 +491,8 @@ def generate_documentation_plots(output_directory):
                                  **arguments)
 
     arguments['filename'] = os.path.join(output_directory,
-                                         'Plotting_RGB_Scatter_Plot.png')
-    RGB_scatter_plot(RGB, 'ITU-R BT.709', **arguments)
+                                         'Plotting_Plot_RGB_Scatter.png')
+    plot_RGB_scatter(RGB, 'ITU-R BT.709', **arguments)
 
     # *************************************************************************
     # "tutorial.rst"

@@ -242,7 +242,7 @@ Colour Models Volume
     :toctree: generated/
 
     plot_RGB_colourspaces_gamuts
-    RGB_scatter_plot
+    plot_RGB_scatter
 
 Geometry Plotting Utilities
 ---------------------------

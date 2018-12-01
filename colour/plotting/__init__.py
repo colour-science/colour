@@ -56,7 +56,7 @@ from .quality import (plot_single_spd_colour_rendering_index_bars,
 from .temperature import (
     plot_planckian_locus_in_chromaticity_diagram_CIE1931,
     plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS)
-from .volume import plot_RGB_colourspaces_gamuts, RGB_scatter_plot
+from .volume import plot_RGB_colourspaces_gamuts, plot_RGB_scatter
 
 __all__ = []
 __all__ += dataset.__all__
@@ -116,7 +116,7 @@ __all__ += [
     'plot_planckian_locus_in_chromaticity_diagram_CIE1931',
     'plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS'
 ]
-__all__ += ['plot_RGB_colourspaces_gamuts', 'RGB_scatter_plot']
+__all__ += ['plot_RGB_colourspaces_gamuts', 'plot_RGB_scatter']
 
 
 # ----------------------------------------------------------------------------#
