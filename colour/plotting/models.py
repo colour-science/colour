@@ -59,7 +59,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'plot_pointer_gamut', 'RGB_colourspaces_chromaticity_diagram_plot',
+    'plot_pointer_gamut', 'plot_RGB_colourspaces_in_chromaticity_diagram',
     'RGB_colourspaces_chromaticity_diagram_plot_CIE1931',
     'RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS',
     'RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS',
@@ -200,7 +200,7 @@ def plot_pointer_gamut(method='CIE 1931', **kwargs):
 
 
 @override_style()
-def RGB_colourspaces_chromaticity_diagram_plot(
+def plot_RGB_colourspaces_in_chromaticity_diagram(
         colourspaces=None,
         cmfs='CIE 1931 2 Degree Standard Observer',
         chromaticity_diagram_callable=plot_chromaticity_diagram,
@@ -245,14 +245,14 @@ def RGB_colourspaces_chromaticity_diagram_plot(
 
     Examples
     --------
-    >>> RGB_colourspaces_chromaticity_diagram_plot(
+    >>> plot_RGB_colourspaces_in_chromaticity_diagram(
     ...     ['ITU-R BT.709', 'ACEScg', 'S-Gamut'])
     ... # doctest: +SKIP
 
     .. image:: ../_static/Plotting_\
-RGB_Colourspaces_Chromaticity_Diagram_Plot.png
+Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
         :align: center
-        :alt: RGB_colourspaces_chromaticity_diagram_plot
+        :alt: plot_RGB_colourspaces_in_chromaticity_diagram
     """
 
     if colourspaces is None:
@@ -433,7 +433,7 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot_CIE1931.png
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1931'})
 
-    return RGB_colourspaces_chromaticity_diagram_plot(
+    return plot_RGB_colourspaces_in_chromaticity_diagram(
         colourspaces, cmfs, chromaticity_diagram_callable_CIE1931, **settings)
 
 
@@ -486,7 +486,7 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot_CIE1960UCS.png
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1960 UCS'})
 
-    return RGB_colourspaces_chromaticity_diagram_plot(
+    return plot_RGB_colourspaces_in_chromaticity_diagram(
         colourspaces, cmfs, chromaticity_diagram_callable_CIE1960UCS,
         **settings)
 
@@ -540,7 +540,7 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot_CIE1976UCS.png
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1976 UCS'})
 
-    return RGB_colourspaces_chromaticity_diagram_plot(
+    return plot_RGB_colourspaces_in_chromaticity_diagram(
         colourspaces, cmfs, chromaticity_diagram_callable_CIE1976UCS,
         **settings)
 
@@ -550,7 +550,7 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot(
         RGB,
         colourspace='sRGB',
         chromaticity_diagram_callable=(
-            RGB_colourspaces_chromaticity_diagram_plot),
+            plot_RGB_colourspaces_in_chromaticity_diagram),
         method='CIE 1931',
         scatter_parameters=None,
         **kwargs):

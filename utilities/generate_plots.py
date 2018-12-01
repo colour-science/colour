@@ -17,7 +17,7 @@ from colour.plotting.diagrams import (
     plot_spectral_locus, plot_chromaticity_diagram_colours,
     plot_chromaticity_diagram, plot_spds_in_chromaticity_diagram)
 from colour.plotting.models import (
-    RGB_colourspaces_chromaticity_diagram_plot,
+    plot_RGB_colourspaces_in_chromaticity_diagram,
     RGB_chromaticity_coordinates_chromaticity_diagram_plot,
     ellipses_MacAdam1942_chromaticity_diagram_plot)
 from colour.plotting.quality import colour_quality_bars_plot
@@ -333,8 +333,8 @@ def generate_documentation_plots(output_directory):
 
     arguments['filename'] = os.path.join(
         output_directory,
-        'Plotting_RGB_Colourspaces_Chromaticity_Diagram_Plot.png')
-    RGB_colourspaces_chromaticity_diagram_plot(
+        'Plotting_Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png')
+    plot_RGB_colourspaces_in_chromaticity_diagram(
         ['ITU-R BT.709', 'ACEScg', 'S-Gamut'], **arguments)
 
     arguments['filename'] = os.path.join(

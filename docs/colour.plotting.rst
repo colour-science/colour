@@ -151,7 +151,7 @@ Colour Models
     :toctree: generated/
 
     plot_pointer_gamut
-    RGB_colourspaces_chromaticity_diagram_plot
+    plot_RGB_colourspaces_in_chromaticity_diagram
     RGB_chromaticity_coordinates_chromaticity_diagram_plot
 
 Colour Notation Systems
