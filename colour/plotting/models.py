@@ -10,7 +10,7 @@ plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931`
 -   :func:`colour.plotting.\
 plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS`
 -   :func:`colour.plotting.\
-RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS`
+plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS`
 -   :func:`colour.plotting.\
 RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931`
 -   :func:`colour.plotting.\
@@ -62,7 +62,7 @@ __all__ = [
     'plot_pointer_gamut', 'plot_RGB_colourspaces_in_chromaticity_diagram',
     'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931',
     'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS',
-    'RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS',
+    'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS',
     'RGB_chromaticity_coordinates_chromaticity_diagram_plot',
     'RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931',
     'RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS',
@@ -492,7 +492,7 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram_CIE1960UCS.png
 
 
 @override_style()
-def RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS(
+def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS(
         colourspaces=None,
         cmfs='CIE 1931 2 Degree Standard Observer',
         chromaticity_diagram_callable_CIE1976UCS=(
@@ -527,14 +527,14 @@ def RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS(
 
     Examples
     --------
-    >>> RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS((
+    >>> plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS((
     ...     ['ITU-R BT.709', 'ACEScg', 'S-Gamut'])
     ... # doctest: +SKIP
 
     .. image:: ../_static/Plotting_\
-RGB_Colourspaces_Chromaticity_Diagram_Plot_CIE1976UCS.png
+Plot_RGB_Colourspaces_In_Chromaticity_Diagram_CIE1976UCS.png
         :align: center
-        :alt: RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS
+        :alt: plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS
     """
 
     settings = dict(kwargs)
@@ -783,7 +783,7 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS(
         RGB,
         colourspace='sRGB',
         chromaticity_diagram_callable_CIE1976UCS=(
-            RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS),
+            plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS),
         scatter_parameters=None,
         **kwargs):
     """

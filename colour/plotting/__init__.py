@@ -38,7 +38,7 @@ from .geometry import quad, grid, cube
 from .models import (
     plot_pointer_gamut, plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931,
     plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS,
-    RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS,
+    plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS,
     RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931,
     RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS,
     RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS,
@@ -92,7 +92,7 @@ __all__ += [
     'plot_pointer_gamut',
     'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931',
     'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS',
-    'RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS',
+    'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS',
     'RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931',
     'RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS',
     'RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS',
@@ -169,7 +169,7 @@ API_CHANGES = {
             'colour.plotting.'
             'RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot',
             'colour.plotting.'
-            'RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS',
+            'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS',
         ],
         [
             'colour.plotting.'
