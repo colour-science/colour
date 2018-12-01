@@ -8,7 +8,7 @@ from pprint import pprint
 import colour
 from colour.plotting import (
     ASTM_G_173_ETR, blackbody_colours_plot, blackbody_spectral_radiance_plot,
-    colour_style, multi_cmfs_plot, multi_illuminant_spd_plot,
+    colour_style, plot_multi_cmfs, multi_illuminant_spd_plot,
     multi_lightness_function_plot, plot_multi_spds, plot_single_cmfs,
     single_illuminant_spd_plot, single_lightness_function_plot,
     plot_single_spd, visible_spectrum_plot)
@@ -833,7 +833,7 @@ plot_single_cmfs(
 print('\n')
 
 message_box('Plotting multiple "cone fundamentals" colour matching functions.')
-multi_cmfs_plot(
+plot_multi_cmfs(
     [
         'Stockman & Sharpe 2 Degree Cone Fundamentals',
         'Stockman & Sharpe 10 Degree Cone Fundamentals'
@@ -857,15 +857,15 @@ plot_single_cmfs(
 print('\n')
 
 message_box('Comparing various colour matching functions.')
-multi_cmfs_plot([
+plot_multi_cmfs([
     'CIE 1931 2 Degree Standard Observer',
     'CIE 1964 10 Degree Standard Observer'
 ])
-multi_cmfs_plot([
+plot_multi_cmfs([
     'CIE 2012 10 Degree Standard Observer',
     'CIE 1964 10 Degree Standard Observer'
 ])
-multi_cmfs_plot([
+plot_multi_cmfs([
     'Wright & Guild 1931 2 Degree RGB CMFs',
     'Stiles & Burch 1955 2 Degree RGB CMFs'
 ])

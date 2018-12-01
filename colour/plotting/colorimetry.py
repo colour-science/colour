@@ -8,7 +8,7 @@ Defines the colorimetry plotting objects:
 -   :func:`colour.plotting.plot_single_spd`
 -   :func:`colour.plotting.plot_multi_spds`
 -   :func:`colour.plotting.plot_single_cmfs`
--   :func:`colour.plotting.multi_cmfs_plot`
+-   :func:`colour.plotting.plot_multi_cmfs`
 -   :func:`colour.plotting.single_illuminant_spd_plot`
 -   :func:`colour.plotting.multi_illuminant_spd_plot`
 -   :func:`colour.plotting.visible_spectrum_plot`
@@ -53,7 +53,7 @@ __status__ = 'Production'
 
 __all__ = [
     'plot_single_spd', 'plot_multi_spds', 'plot_single_cmfs',
-    'multi_cmfs_plot', 'single_illuminant_spd_plot',
+    'plot_multi_cmfs', 'single_illuminant_spd_plot',
     'multi_illuminant_spd_plot', 'visible_spectrum_plot',
     'single_lightness_function_plot', 'multi_lightness_function_plot',
     'single_luminance_function_plot', 'multi_luminance_function_plot',
@@ -328,11 +328,11 @@ def plot_single_cmfs(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     }
     settings.update(kwargs)
 
-    return multi_cmfs_plot((cmfs.name, ), **settings)
+    return plot_multi_cmfs((cmfs.name, ), **settings)
 
 
 @override_style()
-def multi_cmfs_plot(cmfs=None, **kwargs):
+def plot_multi_cmfs(cmfs=None, **kwargs):
     """
     Plots given colour matching functions.
 
@@ -356,11 +356,11 @@ def multi_cmfs_plot(cmfs=None, **kwargs):
     --------
     >>> cmfs = ('CIE 1931 2 Degree Standard Observer',
     ...         'CIE 1964 10 Degree Standard Observer')
-    >>> multi_cmfs_plot(cmfs)  # doctest: +SKIP
+    >>> plot_multi_cmfs(cmfs)  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Multi_CMFS_Plot.png
+    .. image:: ../_static/Plotting_Plot_Multi_CMFS.png
         :align: center
-        :alt: multi_cmfs_plot
+        :alt: plot_multi_cmfs
     """
 
     if cmfs is None:

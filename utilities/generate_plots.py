@@ -204,10 +204,10 @@ def generate_documentation_plots(output_directory):
     plot_single_cmfs('CIE 1931 2 Degree Standard Observer', **arguments)
 
     arguments['filename'] = os.path.join(output_directory,
-                                         'Plotting_Multi_CMFS_Plot.png')
+                                         'Plotting_Plot_Multi_CMFS.png')
     cmfs = ('CIE 1931 2 Degree Standard Observer',
             'CIE 1964 10 Degree Standard Observer')
-    multi_cmfs_plot(cmfs, **arguments)
+    plot_multi_cmfs(cmfs, **arguments)
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Single_Illuminant_SPD_Plot.png')
