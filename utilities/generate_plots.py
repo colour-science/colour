@@ -295,8 +295,8 @@ def generate_documentation_plots(output_directory):
     plot_chromaticity_diagram(**arguments)
 
     arguments['filename'] = os.path.join(
-        output_directory, 'Plotting_Chromaticity_Diagram_Plot_CIE1931.png')
-    chromaticity_diagram_plot_CIE1931(**arguments)
+        output_directory, 'Plotting_Plot_Chromaticity_Diagram_CIE1931.png')
+    plot_chromaticity_diagram_CIE1931(**arguments)
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Chromaticity_Diagram_Plot_CIE1960UCS.png')
@@ -633,7 +633,7 @@ def generate_documentation_plots(output_directory):
     arguments['filename'] = os.path.join(
         output_directory, 'Tutorial_CIE_1931_Chromaticity_Diagram.png')
     xy = colour.XYZ_to_xy(XYZ)
-    chromaticity_diagram_plot_CIE1931(standalone=False)
+    plot_chromaticity_diagram_CIE1931(standalone=False)
     x, y = xy
     plt.plot(x, y, 'o-', color='white')
     # Annotating the plot.

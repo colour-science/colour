@@ -5,7 +5,7 @@ CIE Chromaticity Diagrams Plotting
 
 Defines the *CIE* chromaticity diagrams plotting objects:
 
--   :func:`colour.plotting.chromaticity_diagram_plot_CIE1931`
+-   :func:`colour.plotting.plot_chromaticity_diagram_CIE1931`
 -   :func:`colour.plotting.chromaticity_diagram_plot_CIE1960UCS`
 -   :func:`colour.plotting.chromaticity_diagram_plot_CIE1976UCS`
 -   :func:`colour.plotting.spds_chromaticity_diagram_plot_CIE1931`
@@ -39,7 +39,7 @@ __status__ = 'Production'
 
 __all__ = [
     'plot_spectral_locus', 'plot_chromaticity_diagram_colours',
-    'plot_chromaticity_diagram', 'chromaticity_diagram_plot_CIE1931',
+    'plot_chromaticity_diagram', 'plot_chromaticity_diagram_CIE1931',
     'chromaticity_diagram_plot_CIE1960UCS',
     'chromaticity_diagram_plot_CIE1976UCS', 'spds_chromaticity_diagram_plot',
     'spds_chromaticity_diagram_plot_CIE1931',
@@ -403,7 +403,7 @@ def plot_chromaticity_diagram(cmfs='CIE 1931 2 Degree Standard Observer',
 
 
 @override_style()
-def chromaticity_diagram_plot_CIE1931(
+def plot_chromaticity_diagram_CIE1931(
         cmfs='CIE 1931 2 Degree Standard Observer',
         show_diagram_colours=True,
         show_spectral_locus=True,
@@ -436,11 +436,11 @@ def chromaticity_diagram_plot_CIE1931(
 
     Examples
     --------
-    >>> chromaticity_diagram_plot_CIE1931()  # doctest: +SKIP
+    >>> plot_chromaticity_diagram_CIE1931()  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Chromaticity_Diagram_Plot_CIE1931.png
+    .. image:: ../_static/Plotting_Plot_Chromaticity_Diagram_CIE1931.png
         :align: center
-        :alt: chromaticity_diagram_plot_CIE1931
+        :alt: plot_chromaticity_diagram_CIE1931
     """
 
     settings = dict(kwargs)
@@ -714,7 +714,7 @@ def spds_chromaticity_diagram_plot_CIE1931(
         cmfs='CIE 1931 2 Degree Standard Observer',
         annotate_parameters=None,
         chromaticity_diagram_callable_CIE1931=(
-            chromaticity_diagram_plot_CIE1931),
+            plot_chromaticity_diagram_CIE1931),
         **kwargs):
     """
     Plots given spectral power distribution chromaticity coordinates into the
