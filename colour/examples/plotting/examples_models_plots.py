@@ -11,7 +11,7 @@ from colour.plotting import (
     plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931,
     plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS,
     plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS,
-    RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931,
+    plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931,
     RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS,
     RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS,
     colour_style, multi_cctf_plot, single_cctf_plot)
@@ -48,7 +48,7 @@ RGB = np.random.random((32, 32, 3))
 
 message_box('Plotting "RGB" chromaticity coordinates in '
             '"CIE 1931 Chromaticity Diagram".')
-RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931(
+plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
     RGB,
     'ITU-R BT.709',
     colourspaces=['ACEScg', 'S-Gamut'],

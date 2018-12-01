@@ -986,7 +986,7 @@ Chromaticities
 
     >>> import numpy as np
     >>> RGB = np.random.random((32, 32, 3))
-    >>> RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931(
+    >>> plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
     ...     RGB, 'ITU-R BT.709', colourspaces=['ACEScg', 'S-Gamut', 'Pointer Gamut'])
 
 ..  image:: docs/_static/Examples_Plotting_Chromaticities_CIE_1931_Chromaticity_Diagram.png

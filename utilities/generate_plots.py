@@ -134,7 +134,7 @@ def generate_documentation_plots(output_directory):
         output_directory,
         'Examples_Plotting_Chromaticities_CIE_1931_Chromaticity_Diagram.png')
     RGB = np.random.random((32, 32, 3))
-    RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931(
+    plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
         RGB,
         'ITU-R BT.709',
         colourspaces=['ACEScg', 'S-Gamut'],
@@ -366,9 +366,9 @@ def generate_documentation_plots(output_directory):
         RGB, 'ITU-R BT.709', **arguments)
 
     arguments['filename'] = os.path.join(
-        output_directory, 'Plotting_RGB_Chromaticity_Coordinates_'
-        'Chromaticity_Diagram_Plot_CIE1931.png')
-    RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931(
+        output_directory, 'Plotting_Plot_RGB_Chromaticities_In_'
+        'Chromaticity_Diagram_CIE1931.png')
+    plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
         RGB, 'ITU-R BT.709', **arguments)
 
     arguments['filename'] = os.path.join(

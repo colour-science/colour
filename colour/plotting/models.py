@@ -12,7 +12,7 @@ plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS`
 -   :func:`colour.plotting.\
 plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS`
 -   :func:`colour.plotting.\
-RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931`
+plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931`
 -   :func:`colour.plotting.\
 RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS`
 -   :func:`colour.plotting.\
@@ -64,7 +64,7 @@ __all__ = [
     'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS',
     'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS',
     'plot_RGB_chromaticities_in_chromaticity_diagram',
-    'RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931',
+    'plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931',
     'RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS',
     'RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS',
     'ellipses_MacAdam1942', 'ellipses_MacAdam1942_chromaticity_diagram_plot',
@@ -657,7 +657,7 @@ Plot_RGB_Chromaticities_In_Chromaticity_Diagram_Plot.png
 
 
 @override_style()
-def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931(
+def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
         RGB,
         colourspace='sRGB',
         chromaticity_diagram_callable_CIE1931=(
@@ -695,14 +695,14 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931(
     Examples
     --------
     >>> RGB = np.random.random((128, 128, 3))
-    >>> RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931(
+    >>> plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
     ...     RGB, 'ITU-R BT.709')
     ... # doctest: +SKIP
 
     .. image:: ../_static/Plotting_\
-RGB_Chromaticity_Coordinates_Chromaticity_Diagram_Plot_CIE1931.png
+Plot_RGB_Chromaticities_In_Chromaticity_Diagram_CIE1931.png
         :align: center
-        :alt: RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931
+        :alt: plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931
     """
 
     settings = dict(kwargs)
