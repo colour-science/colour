@@ -62,7 +62,7 @@ def generate_documentation_plots(output_directory):
             os.path.join(output_directory,
                          'Examples_Plotting_Visible_Spectrum.png')
     }
-    visible_spectrum_plot('CIE 1931 2 Degree Standard Observer', **arguments)
+    plot_visible_spectrum('CIE 1931 2 Degree Standard Observer', **arguments)
 
     arguments['filename'] = os.path.join(
         output_directory, 'Examples_Plotting_Illuminant_F1_SPD.png')
@@ -218,8 +218,8 @@ def generate_documentation_plots(output_directory):
     plot_multi_illuminant_spds(['A', 'B', 'C'], **arguments)
 
     arguments['filename'] = os.path.join(output_directory,
-                                         'Plotting_Visible_Spectrum_Plot.png')
-    visible_spectrum_plot(**arguments)
+                                         'Plotting_Plot_Visible_Spectrum.png')
+    plot_visible_spectrum(**arguments)
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Single_Lightness_Function_Plot.png')
@@ -499,7 +499,7 @@ def generate_documentation_plots(output_directory):
     # *************************************************************************
     arguments['filename'] = os.path.join(output_directory,
                                          'Tutorial_Visible_Spectrum.png')
-    visible_spectrum_plot(**arguments)
+    plot_visible_spectrum(**arguments)
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Tutorial_Sample_SPD.png')

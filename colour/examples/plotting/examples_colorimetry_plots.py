@@ -11,7 +11,7 @@ from colour.plotting import (
     colour_style, plot_multi_cmfs, plot_multi_illuminant_spds,
     multi_lightness_function_plot, plot_multi_spds, plot_single_cmfs,
     plot_single_illuminant_spd, single_lightness_function_plot,
-    plot_single_spd, visible_spectrum_plot)
+    plot_single_spd, plot_visible_spectrum)
 from colour.utilities import message_box
 
 message_box('Colorimetry Plots')
@@ -873,8 +873,8 @@ plot_multi_cmfs([
 print('\n')
 
 message_box('Plotting visible colours under given standard observer.')
-visible_spectrum_plot('CIE 1931 2 Degree Standard Observer')
-visible_spectrum_plot('CIE 2012 2 Degree Standard Observer')
+plot_visible_spectrum('CIE 1931 2 Degree Standard Observer')
+plot_visible_spectrum('CIE 2012 2 Degree Standard Observer')
 
 print('\n')
 

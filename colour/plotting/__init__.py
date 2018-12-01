@@ -21,7 +21,7 @@ from .blindness import plot_cvd_simulation_Machado2009
 from .colorimetry import (
     plot_single_spd, plot_multi_spds, plot_single_cmfs, plot_multi_cmfs,
     plot_single_illuminant_spd, plot_multi_illuminant_spds,
-    visible_spectrum_plot, single_lightness_function_plot,
+    plot_visible_spectrum, single_lightness_function_plot,
     multi_lightness_function_plot, single_luminance_function_plot,
     multi_luminance_function_plot, blackbody_spectral_radiance_plot,
     blackbody_colours_plot)
@@ -72,7 +72,7 @@ __all__ += ['plot_cvd_simulation_Machado2009']
 __all__ += [
     'plot_single_spd', 'plot_multi_spds', 'plot_single_cmfs',
     'plot_multi_cmfs', 'plot_single_illuminant_spd',
-    'plot_multi_illuminant_spds', 'visible_spectrum_plot',
+    'plot_multi_illuminant_spds', 'plot_visible_spectrum',
     'single_lightness_function_plot', 'multi_lightness_function_plot',
     'single_luminance_function_plot', 'multi_luminance_function_plot',
     'blackbody_spectral_radiance_plot', 'blackbody_colours_plot'

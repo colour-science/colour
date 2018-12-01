@@ -873,7 +873,7 @@ Visible Spectrum
 
 .. code-block:: python
 
-    >>> visible_spectrum_plot('CIE 1931 2 Degree Standard Observer')
+    >>> plot_visible_spectrum('CIE 1931 2 Degree Standard Observer')
 
 ..  image:: docs/_static/Examples_Plotting_Visible_Spectrum.png
 

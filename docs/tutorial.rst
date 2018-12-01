@@ -20,7 +20,7 @@ API but will still be a good introduction.
 
     colour_style()
 
-    visible_spectrum_plot()
+    plot_visible_spectrum()
 
 
 

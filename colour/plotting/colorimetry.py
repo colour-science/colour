@@ -11,7 +11,7 @@ Defines the colorimetry plotting objects:
 -   :func:`colour.plotting.plot_multi_cmfs`
 -   :func:`colour.plotting.plot_single_illuminant_spd`
 -   :func:`colour.plotting.plot_multi_illuminant_spds`
--   :func:`colour.plotting.visible_spectrum_plot`
+-   :func:`colour.plotting.plot_visible_spectrum`
 -   :func:`colour.plotting.single_lightness_function_plot`
 -   :func:`colour.plotting.multi_lightness_function_plot`
 -   :func:`colour.plotting.single_luminance_function_plot`
@@ -54,7 +54,7 @@ __status__ = 'Production'
 __all__ = [
     'plot_single_spd', 'plot_multi_spds', 'plot_single_cmfs',
     'plot_multi_cmfs', 'plot_single_illuminant_spd',
-    'plot_multi_illuminant_spds', 'visible_spectrum_plot',
+    'plot_multi_illuminant_spds', 'plot_visible_spectrum',
     'single_lightness_function_plot', 'multi_lightness_function_plot',
     'single_luminance_function_plot', 'multi_luminance_function_plot',
     'blackbody_spectral_radiance_plot', 'blackbody_colours_plot'
@@ -519,7 +519,7 @@ def plot_multi_illuminant_spds(illuminants=None, **kwargs):
     'ytick.left': False,
     'ytick.labelleft': False,
 })
-def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
+def plot_visible_spectrum(cmfs='CIE 1931 2 Degree Standard Observer',
                           out_of_gamut_clipping=True,
                           **kwargs):
     """
@@ -552,11 +552,11 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
 
     Examples
     --------
-    >>> visible_spectrum_plot()  # doctest: +SKIP
+    >>> plot_visible_spectrum()  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Visible_Spectrum_Plot.png
+    .. image:: ../_static/Plotting_Plot_Visible_Spectrum.png
         :align: center
-        :alt: visible_spectrum_plot
+        :alt: plot_visible_spectrum
     """
 
     cmfs = first_item(filter_cmfs(cmfs).values())
