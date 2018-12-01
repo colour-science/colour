@@ -190,7 +190,7 @@ Colour Quality
 .. autosummary::
     :toctree: generated/
 
-    single_spd_colour_rendering_index_bars_plot
+    plot_single_spd_colour_rendering_index_bars
     multi_spd_colour_rendering_index_bars_plot
     single_spd_colour_quality_scale_bars_plot
     multi_spd_colour_quality_scale_bars_plot

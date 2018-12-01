@@ -970,7 +970,7 @@ Colour Rendering Index
 
 .. code-block:: python
 
-    >>> single_spd_colour_rendering_index_bars_plot(
+    >>> plot_single_spd_colour_rendering_index_bars(
     ...     colour.ILLUMINANTS_SPDS['F2'])
 
 ..  image:: _static/Examples_Plotting_CRI.png

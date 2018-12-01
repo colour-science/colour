@@ -5,7 +5,7 @@ Colour Quality Plotting
 
 Defines the colour quality plotting objects:
 
--   :func:`colour.plotting.single_spd_colour_rendering_index_bars_plot`
+-   :func:`colour.plotting.plot_single_spd_colour_rendering_index_bars`
 -   :func:`colour.plotting.multi_spd_colour_rendering_index_bars_plot`
 -   :func:`colour.plotting.single_spd_colour_quality_scale_bars_plot`
 -   :func:`colour.plotting.multi_spd_colour_quality_scale_bars_plot`
@@ -32,7 +32,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'plot_colour_quality_bars', 'single_spd_colour_rendering_index_bars_plot',
+    'plot_colour_quality_bars', 'plot_single_spd_colour_rendering_index_bars',
     'multi_spd_colour_rendering_index_bars_plot',
     'single_spd_colour_quality_scale_bars_plot',
     'multi_spd_colour_quality_scale_bars_plot'
@@ -165,7 +165,7 @@ def plot_colour_quality_bars(specifications,
 
 
 @override_style()
-def single_spd_colour_rendering_index_bars_plot(spd, **kwargs):
+def plot_single_spd_colour_rendering_index_bars(spd, **kwargs):
     """
     Plots the *Colour Rendering Index* (CRI) of given illuminant or light
     source spectral power distribution.
@@ -200,13 +200,13 @@ def single_spd_colour_rendering_index_bars_plot(spd, **kwargs):
     --------
     >>> from colour import ILLUMINANTS_SPDS
     >>> illuminant = ILLUMINANTS_SPDS['F2']
-    >>> single_spd_colour_rendering_index_bars_plot(illuminant)
+    >>> plot_single_spd_colour_rendering_index_bars(illuminant)
     ... # doctest: +SKIP
 
     .. image:: ../_static/Plotting_\
-Single_SPD_Colour_Rendering_Index_Bars_Plot.png
+Plot_Single_SPD_Colour_Rendering_Index_Bars.png
         :align: center
-        :alt: single_spd_colour_rendering_index_bars_plot
+        :alt: plot_single_spd_colour_rendering_index_bars
     """
 
     return multi_spd_colour_rendering_index_bars_plot([spd], **kwargs)

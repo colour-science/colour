@@ -49,7 +49,7 @@ from .models import (
 from .notation import (plot_single_munsell_value_function,
                        plot_multi_munsell_value_functions)
 from .phenomena import plot_single_rayleigh_scattering_spd, plot_the_blue_sky
-from .quality import (single_spd_colour_rendering_index_bars_plot,
+from .quality import (plot_single_spd_colour_rendering_index_bars,
                       multi_spd_colour_rendering_index_bars_plot,
                       single_spd_colour_quality_scale_bars_plot,
                       multi_spd_colour_quality_scale_bars_plot)
@@ -106,7 +106,7 @@ __all__ += [
 ]
 __all__ += ['plot_single_rayleigh_scattering_spd', 'plot_the_blue_sky']
 __all__ += [
-    'single_spd_colour_rendering_index_bars_plot',
+    'plot_single_spd_colour_rendering_index_bars',
     'multi_spd_colour_rendering_index_bars_plot',
     'single_spd_colour_quality_scale_bars_plot',
     'multi_spd_colour_quality_scale_bars_plot'

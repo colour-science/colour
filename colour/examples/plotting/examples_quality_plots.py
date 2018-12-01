@@ -8,7 +8,7 @@ from colour.plotting import (colour_style,
                              multi_spd_colour_quality_scale_bars_plot,
                              multi_spd_colour_rendering_index_bars_plot,
                              single_spd_colour_quality_scale_bars_plot,
-                             single_spd_colour_rendering_index_bars_plot)
+                             plot_single_spd_colour_rendering_index_bars)
 from colour.utilities import message_box
 
 message_box('Colour Quality Plots')
@@ -16,7 +16,7 @@ message_box('Colour Quality Plots')
 colour_style()
 
 message_box('Plotting "F2" illuminant "Colour Rendering Index (CRI)".')
-single_spd_colour_rendering_index_bars_plot(colour.ILLUMINANTS_SPDS['F2'])
+plot_single_spd_colour_rendering_index_bars(colour.ILLUMINANTS_SPDS['F2'])
 
 print('\n')
 

@@ -143,7 +143,7 @@ def generate_documentation_plots(output_directory):
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Examples_Plotting_CRI.png')
-    single_spd_colour_rendering_index_bars_plot(colour.ILLUMINANTS_SPDS['F2'],
+    plot_single_spd_colour_rendering_index_bars(colour.ILLUMINANTS_SPDS['F2'],
                                                 **arguments)
 
     # *************************************************************************
@@ -436,9 +436,9 @@ def generate_documentation_plots(output_directory):
 
     arguments['filename'] = os.path.join(
         output_directory,
-        'Plotting_Single_SPD_Colour_Rendering_Index_Bars_Plot.png')
+        'Plotting_Plot_Single_SPD_Colour_Rendering_Index_Bars.png')
     illuminant = colour.ILLUMINANTS_SPDS['F2']
-    single_spd_colour_rendering_index_bars_plot(illuminant, **arguments)
+    plot_single_spd_colour_rendering_index_bars(illuminant, **arguments)
 
     arguments['filename'] = os.path.join(
         output_directory,
