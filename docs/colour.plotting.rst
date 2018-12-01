@@ -193,7 +193,7 @@ Colour Quality
     plot_single_spd_colour_rendering_index_bars
     plot_multi_spds_colour_rendering_indexes_bars
     plot_single_spd_colour_quality_scale_bars
-    multi_spd_colour_quality_scale_bars_plot
+    plot_multi_spds_colour_quality_scales_bars
 
 **Ancillary Objects**
 

@@ -455,9 +455,9 @@ def generate_documentation_plots(output_directory):
 
     arguments['filename'] = os.path.join(
         output_directory,
-        'Plotting_Multi_Spd_Colour_Quality_Scale_Bars_Plot.png')
+        'Plotting_Plot_Multi_SPDs_Colour_Quality_Scales_Bars.png')
     light_source = colour.LIGHT_SOURCES_SPDS['Kinoton 75P']
-    multi_spd_colour_quality_scale_bars_plot([illuminant, light_source],
+    plot_multi_spds_colour_quality_scales_bars([illuminant, light_source],
                                              **arguments)
 
     arguments['filename'] = os.path.join(output_directory,

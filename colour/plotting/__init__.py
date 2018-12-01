@@ -52,7 +52,7 @@ from .phenomena import plot_single_rayleigh_scattering_spd, plot_the_blue_sky
 from .quality import (plot_single_spd_colour_rendering_index_bars,
                       plot_multi_spds_colour_rendering_indexes_bars,
                       plot_single_spd_colour_quality_scale_bars,
-                      multi_spd_colour_quality_scale_bars_plot)
+                      plot_multi_spds_colour_quality_scales_bars)
 from .temperature import (planckian_locus_chromaticity_diagram_plot_CIE1931,
                           planckian_locus_chromaticity_diagram_plot_CIE1960UCS)
 from .volume import RGB_colourspaces_gamuts_plot, RGB_scatter_plot
@@ -109,7 +109,7 @@ __all__ += [
     'plot_single_spd_colour_rendering_index_bars',
     'plot_multi_spds_colour_rendering_indexes_bars',
     'plot_single_spd_colour_quality_scale_bars',
-    'multi_spd_colour_quality_scale_bars_plot'
+    'plot_multi_spds_colour_quality_scales_bars'
 ]
 __all__ += [
     'planckian_locus_chromaticity_diagram_plot_CIE1931',

@@ -8,7 +8,7 @@ Defines the colour quality plotting objects:
 -   :func:`colour.plotting.plot_single_spd_colour_rendering_index_bars`
 -   :func:`colour.plotting.plot_multi_spds_colour_rendering_indexes_bars`
 -   :func:`colour.plotting.plot_single_spd_colour_quality_scale_bars`
--   :func:`colour.plotting.multi_spd_colour_quality_scale_bars_plot`
+-   :func:`colour.plotting.plot_multi_spds_colour_quality_scales_bars`
 """
 
 from __future__ import division
@@ -35,7 +35,7 @@ __all__ = [
     'plot_colour_quality_bars', 'plot_single_spd_colour_rendering_index_bars',
     'plot_multi_spds_colour_rendering_indexes_bars',
     'plot_single_spd_colour_quality_scale_bars',
-    'multi_spd_colour_quality_scale_bars_plot'
+    'plot_multi_spds_colour_quality_scales_bars'
 ]
 
 
@@ -333,11 +333,11 @@ Plot_Single_SPD_Colour_Quality_Scale_Bars.png
         :alt: plot_single_spd_colour_quality_scale_bars
     """
 
-    return multi_spd_colour_quality_scale_bars_plot([spd], **kwargs)
+    return plot_multi_spds_colour_quality_scales_bars([spd], **kwargs)
 
 
 @override_style()
-def multi_spd_colour_quality_scale_bars_plot(spds, **kwargs):
+def plot_multi_spds_colour_quality_scales_bars(spds, **kwargs):
     """
     Plots the *Colour Quality Scale* (CQS) of given illuminants or light
     sources spectral power distributions.
@@ -374,13 +374,13 @@ def multi_spd_colour_quality_scale_bars_plot(spds, **kwargs):
     ...                     LIGHT_SOURCES_SPDS)
     >>> illuminant = ILLUMINANTS_SPDS['F2']
     >>> light_source = LIGHT_SOURCES_SPDS['Kinoton 75P']
-    >>> multi_spd_colour_quality_scale_bars_plot([illuminant, light_source])
+    >>> plot_multi_spds_colour_quality_scales_bars([illuminant, light_source])
     ... # doctest: +SKIP
 
     .. image:: ../_static/Plotting_\
-Multi_Spd_Colour_Quality_Scale_Bars_Plot.png
+Plot_Multi_SPDs_Colour_Quality_Scales_Bars.png
         :align: center
-        :alt: multi_spd_colour_quality_scale_bars_plot
+        :alt: plot_multi_spds_colour_quality_scales_bars
     """
 
     settings = dict(kwargs)
