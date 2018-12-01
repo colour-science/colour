@@ -7,7 +7,7 @@ from pprint import pprint
 
 import colour
 from colour.plotting import (
-    ASTM_G_173_ETR, blackbody_colours_plot, blackbody_spectral_radiance_plot,
+    ASTM_G_173_ETR, blackbody_colours_plot, plot_blackbody_spectral_radiance,
     colour_style, plot_multi_cmfs, plot_multi_illuminant_spds,
     plot_multi_lightness_functions, plot_multi_spds, plot_single_cmfs,
     plot_single_illuminant_spd, plot_single_lightness_function,
@@ -920,10 +920,10 @@ plot_multi_lightness_functions(['CIE 1976', 'Glasser 1958'])
 print('\n')
 
 message_box('Plotting various blackbody spectral radiance.')
-blackbody_spectral_radiance_plot(
+plot_blackbody_spectral_radiance(
     temperature=3500, blackbody='VY Canis Majoris')
-blackbody_spectral_radiance_plot(temperature=5778, blackbody='The Sun')
-blackbody_spectral_radiance_plot(temperature=12130, blackbody='Rigel')
+plot_blackbody_spectral_radiance(temperature=5778, blackbody='The Sun')
+plot_blackbody_spectral_radiance(temperature=12130, blackbody='Rigel')
 
 print('\n')
 

@@ -16,7 +16,7 @@ Defines the colorimetry plotting objects:
 -   :func:`colour.plotting.plot_multi_lightness_functions`
 -   :func:`colour.plotting.plot_single_luminance_function`
 -   :func:`colour.plotting.plot_multi_luminance_functions`
--   :func:`colour.plotting.blackbody_spectral_radiance_plot`
+-   :func:`colour.plotting.plot_blackbody_spectral_radiance`
 -   :func:`colour.plotting.blackbody_colours_plot`
 
 References
@@ -57,7 +57,7 @@ __all__ = [
     'plot_multi_illuminant_spds', 'plot_visible_spectrum',
     'plot_single_lightness_function', 'plot_multi_lightness_functions',
     'plot_single_luminance_function', 'plot_multi_luminance_functions',
-    'blackbody_spectral_radiance_plot', 'blackbody_colours_plot'
+    'plot_blackbody_spectral_radiance', 'blackbody_colours_plot'
 ]
 
 
@@ -758,7 +758,7 @@ def plot_multi_luminance_functions(functions=None, **kwargs):
 
 
 @override_style()
-def blackbody_spectral_radiance_plot(
+def plot_blackbody_spectral_radiance(
         temperature=3500,
         cmfs='CIE 1931 2 Degree Standard Observer',
         blackbody='VY Canis Major',
@@ -788,12 +788,12 @@ def blackbody_spectral_radiance_plot(
 
     Examples
     --------
-    >>> blackbody_spectral_radiance_plot(3500, blackbody='VY Canis Major')
+    >>> plot_blackbody_spectral_radiance(3500, blackbody='VY Canis Major')
     ... # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Blackbody_Spectral_Radiance_Plot.png
+    .. image:: ../_static/Plotting_Plot_Blackbody_Spectral_Radiance.png
         :align: center
-        :alt: blackbody_spectral_radiance_plot
+        :alt: plot_blackbody_spectral_radiance
     """
 
     figure = plt.figure()
