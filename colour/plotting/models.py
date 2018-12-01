@@ -8,7 +8,7 @@ Defines the colour models plotting objects:
 -   :func:`colour.plotting.\
 plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931`
 -   :func:`colour.plotting.\
-RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS`
+plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS`
 -   :func:`colour.plotting.\
 RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS`
 -   :func:`colour.plotting.\
@@ -61,7 +61,7 @@ __status__ = 'Production'
 __all__ = [
     'plot_pointer_gamut', 'plot_RGB_colourspaces_in_chromaticity_diagram',
     'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931',
-    'RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS',
+    'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS',
     'RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS',
     'RGB_chromaticity_coordinates_chromaticity_diagram_plot',
     'RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931',
@@ -438,7 +438,7 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram_CIE1931.png
 
 
 @override_style()
-def RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS(
+def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(
         colourspaces=None,
         cmfs='CIE 1931 2 Degree Standard Observer',
         chromaticity_diagram_callable_CIE1960UCS=(
@@ -473,14 +473,14 @@ def RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS(
 
     Examples
     --------
-    >>> RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS((
+    >>> plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS((
     ...     ['ITU-R BT.709', 'ACEScg', 'S-Gamut'])
     ... # doctest: +SKIP
 
     .. image:: ../_static/Plotting_\
-RGB_Colourspaces_Chromaticity_Diagram_Plot_CIE1960UCS.png
+Plot_RGB_Colourspaces_In_Chromaticity_Diagram_CIE1960UCS.png
         :align: center
-        :alt: RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS
+        :alt: plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS
     """
 
     settings = dict(kwargs)
@@ -721,7 +721,7 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS(
         RGB,
         colourspace='sRGB',
         chromaticity_diagram_callable_CIE1960UCS=(
-            RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS),
+            plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS),
         scatter_parameters=None,
         **kwargs):
     """

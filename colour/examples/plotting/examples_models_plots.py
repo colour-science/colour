@@ -9,7 +9,7 @@ from pprint import pprint
 import colour
 from colour.plotting import (
     plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931,
-    RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS,
+    plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS,
     RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS,
     RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931,
     RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS,
@@ -31,7 +31,7 @@ print('\n')
 message_box(('Plotting "RGB" colourspaces in '
              '"CIE 1960 UCS Chromaticity Diagram".'))
 pprint(sorted(colour.RGB_COLOURSPACES.keys()))
-RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS(
+plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(
     ['ITU-R BT.709', 'ACEScg', 'S-Gamut'], show_pointer_gamut=True)
 
 print('\n')
