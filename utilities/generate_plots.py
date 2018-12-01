@@ -328,8 +328,8 @@ def generate_documentation_plots(output_directory):
     plot_spds_in_chromaticity_diagram_CIE1976UCS([A, D65], **arguments)
 
     arguments['filename'] = os.path.join(output_directory,
-                                         'Plotting_Pointer_Gamut_Plot.png')
-    pointer_gamut_plot(**arguments)
+                                         'Plotting_Plot_Pointer_Gamut.png')
+    plot_pointer_gamut(**arguments)
 
     arguments['filename'] = os.path.join(
         output_directory,

@@ -150,6 +150,7 @@ Colour Models
 .. autosummary::
     :toctree: generated/
 
+    plot_pointer_gamut
     RGB_colourspaces_chromaticity_diagram_plot
     RGB_chromaticity_coordinates_chromaticity_diagram_plot
 

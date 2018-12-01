@@ -59,7 +59,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'pointer_gamut_plot', 'RGB_colourspaces_chromaticity_diagram_plot',
+    'plot_pointer_gamut', 'RGB_colourspaces_chromaticity_diagram_plot',
     'RGB_colourspaces_chromaticity_diagram_plot_CIE1931',
     'RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS',
     'RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS',
@@ -76,7 +76,7 @@ __all__ = [
 
 
 @override_style()
-def pointer_gamut_plot(method='CIE 1931', **kwargs):
+def plot_pointer_gamut(method='CIE 1931', **kwargs):
     """
     Plots *Pointer's Gamut* according to given method.
 
@@ -99,11 +99,11 @@ def pointer_gamut_plot(method='CIE 1931', **kwargs):
 
     Examples
     --------
-    >>> pointer_gamut_plot()  # doctest: +SKIP
+    >>> plot_pointer_gamut()  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Pointer_Gamut_Plot.png
+    .. image:: ../_static/Plotting_Plot_Pointer_Gamut.png
         :align: center
-        :alt: pointer_gamut_plot
+        :alt: plot_pointer_gamut
     """
 
     settings = {'uniform': True}
@@ -234,7 +234,7 @@ def RGB_colourspaces_chromaticity_diagram_plot(
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
-        :func:`colour.plotting.pointer_gamut_plot`,
+        :func:`colour.plotting.plot_pointer_gamut`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -284,7 +284,7 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot.png
         settings.update(kwargs)
         settings['standalone'] = False
 
-        pointer_gamut_plot(**settings)
+        plot_pointer_gamut(**settings)
 
     if method == 'CIE 1931':
 
