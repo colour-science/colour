@@ -243,8 +243,8 @@ def generate_documentation_plots(output_directory):
         3500, blackbody='VY Canis Major', **arguments)
 
     arguments['filename'] = os.path.join(output_directory,
-                                         'Plotting_Blackbody_Colours_Plot.png')
-    blackbody_colours_plot(colour.SpectralShape(150, 12500, 50), **arguments)
+                                         'Plotting_Plot_Blackbody_Colours.png')
+    plot_blackbody_colours(colour.SpectralShape(150, 12500, 50), **arguments)
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Single_Colour_Swatch_Plot.png')

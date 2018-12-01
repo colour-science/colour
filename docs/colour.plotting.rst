@@ -48,7 +48,7 @@ Colorimetry
     plot_single_luminance_function
     plot_multi_luminance_functions
     plot_blackbody_spectral_radiance
-    blackbody_colours_plot
+    plot_blackbody_colours
 
 Colour Vision Deficiency
 ------------------------

@@ -24,7 +24,7 @@ from .colorimetry import (
     plot_visible_spectrum, plot_single_lightness_function,
     plot_multi_lightness_functions, plot_single_luminance_function,
     plot_multi_luminance_functions, plot_blackbody_spectral_radiance,
-    blackbody_colours_plot)
+    plot_blackbody_colours)
 from .characterisation import (plot_single_colour_checker,
                                plot_multi_colour_checkers)
 from .diagrams import (chromaticity_diagram_plot_CIE1931,
@@ -75,7 +75,7 @@ __all__ += [
     'plot_multi_illuminant_spds', 'plot_visible_spectrum',
     'plot_single_lightness_function', 'plot_multi_lightness_functions',
     'plot_single_luminance_function', 'plot_multi_luminance_functions',
-    'plot_blackbody_spectral_radiance', 'blackbody_colours_plot'
+    'plot_blackbody_spectral_radiance', 'plot_blackbody_colours'
 ]
 __all__ += ['plot_single_colour_checker', 'plot_multi_colour_checkers']
 __all__ += [

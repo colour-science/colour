@@ -17,7 +17,7 @@ Defines the colorimetry plotting objects:
 -   :func:`colour.plotting.plot_single_luminance_function`
 -   :func:`colour.plotting.plot_multi_luminance_functions`
 -   :func:`colour.plotting.plot_blackbody_spectral_radiance`
--   :func:`colour.plotting.blackbody_colours_plot`
+-   :func:`colour.plotting.plot_blackbody_colours`
 
 References
 ----------
@@ -57,7 +57,7 @@ __all__ = [
     'plot_multi_illuminant_spds', 'plot_visible_spectrum',
     'plot_single_lightness_function', 'plot_multi_lightness_functions',
     'plot_single_luminance_function', 'plot_multi_luminance_functions',
-    'plot_blackbody_spectral_radiance', 'blackbody_colours_plot'
+    'plot_blackbody_spectral_radiance', 'plot_blackbody_colours'
 ]
 
 
@@ -849,7 +849,7 @@ def plot_blackbody_spectral_radiance(
     'ytick.left': False,
     'ytick.labelleft': False,
 })
-def blackbody_colours_plot(
+def plot_blackbody_colours(
         shape=SpectralShape(150, 12500, 50),
         cmfs='CIE 1931 2 Degree Standard Observer',
         **kwargs):
@@ -876,11 +876,11 @@ def blackbody_colours_plot(
 
     Examples
     --------
-    >>> blackbody_colours_plot(SpectralShape(150, 12500, 50))  # doctest: +SKIP
+    >>> plot_blackbody_colours(SpectralShape(150, 12500, 50))  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Blackbody_Colours_Plot.png
+    .. image:: ../_static/Plotting_Plot_Blackbody_Colours.png
         :align: center
-        :alt: blackbody_colours_plot
+        :alt: plot_blackbody_colours
     """
 
     figure, axes = artist(**kwargs)

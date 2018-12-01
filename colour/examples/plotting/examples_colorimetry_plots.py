@@ -7,7 +7,7 @@ from pprint import pprint
 
 import colour
 from colour.plotting import (
-    ASTM_G_173_ETR, blackbody_colours_plot, plot_blackbody_spectral_radiance,
+    ASTM_G_173_ETR, plot_blackbody_colours, plot_blackbody_spectral_radiance,
     colour_style, plot_multi_cmfs, plot_multi_illuminant_spds,
     plot_multi_lightness_functions, plot_multi_spds, plot_single_cmfs,
     plot_single_illuminant_spd, plot_single_lightness_function,
@@ -958,4 +958,4 @@ plot_multi_spds(
 print('\n')
 
 message_box('Plotting "blackbody" colours.')
-blackbody_colours_plot()
+plot_blackbody_colours()
