@@ -226,8 +226,8 @@ def generate_documentation_plots(output_directory):
     plot_single_lightness_function('CIE 1976', **arguments)
 
     arguments['filename'] = os.path.join(
-        output_directory, 'Plotting_Multi_Lightness_Function_Plot.png')
-    multi_lightness_function_plot(['CIE 1976', 'Wyszecki 1963'], **arguments)
+        output_directory, 'Plotting_Plot_Multi_Lightness_Functions.png')
+    plot_multi_lightness_functions(['CIE 1976', 'Wyszecki 1963'], **arguments)
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Single_Luminance_Function_Plot.png')

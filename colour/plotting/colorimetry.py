@@ -13,7 +13,7 @@ Defines the colorimetry plotting objects:
 -   :func:`colour.plotting.plot_multi_illuminant_spds`
 -   :func:`colour.plotting.plot_visible_spectrum`
 -   :func:`colour.plotting.plot_single_lightness_function`
--   :func:`colour.plotting.multi_lightness_function_plot`
+-   :func:`colour.plotting.plot_multi_lightness_functions`
 -   :func:`colour.plotting.single_luminance_function_plot`
 -   :func:`colour.plotting.multi_luminance_function_plot`
 -   :func:`colour.plotting.blackbody_spectral_radiance_plot`
@@ -55,7 +55,7 @@ __all__ = [
     'plot_single_spd', 'plot_multi_spds', 'plot_single_cmfs',
     'plot_multi_cmfs', 'plot_single_illuminant_spd',
     'plot_multi_illuminant_spds', 'plot_visible_spectrum',
-    'plot_single_lightness_function', 'multi_lightness_function_plot',
+    'plot_single_lightness_function', 'plot_multi_lightness_functions',
     'single_luminance_function_plot', 'multi_luminance_function_plot',
     'blackbody_spectral_radiance_plot', 'blackbody_colours_plot'
 ]
@@ -620,11 +620,11 @@ def plot_single_lightness_function(function='CIE 1976', **kwargs):
     settings = {'title': '{0} - Lightness Function'.format(function)}
     settings.update(kwargs)
 
-    return multi_lightness_function_plot((function, ), **settings)
+    return plot_multi_lightness_functions((function, ), **settings)
 
 
 @override_style()
-def multi_lightness_function_plot(functions=None, **kwargs):
+def plot_multi_lightness_functions(functions=None, **kwargs):
     """
     Plots given *Lightness* functions.
 
@@ -646,12 +646,12 @@ def multi_lightness_function_plot(functions=None, **kwargs):
 
     Examples
     --------
-    >>> multi_lightness_function_plot(['CIE 1976', 'Wyszecki 1963'])
+    >>> plot_multi_lightness_functions(['CIE 1976', 'Wyszecki 1963'])
     ... # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Multi_Lightness_Function_Plot.png
+    .. image:: ../_static/Plotting_Plot_Multi_Lightness_Functions.png
         :align: center
-        :alt: multi_lightness_function_plot
+        :alt: plot_multi_lightness_functions
     """
 
     if functions is None:

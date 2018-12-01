@@ -9,7 +9,7 @@ import colour
 from colour.plotting import (
     ASTM_G_173_ETR, blackbody_colours_plot, blackbody_spectral_radiance_plot,
     colour_style, plot_multi_cmfs, plot_multi_illuminant_spds,
-    multi_lightness_function_plot, plot_multi_spds, plot_single_cmfs,
+    plot_multi_lightness_functions, plot_multi_spds, plot_single_cmfs,
     plot_single_illuminant_spd, plot_single_lightness_function,
     plot_single_spd, plot_visible_spectrum)
 from colour.utilities import message_box
@@ -915,7 +915,7 @@ plot_single_lightness_function('CIE 1976')
 print('\n')
 
 message_box('Plotting multiple "Lightness" functions.')
-multi_lightness_function_plot(['CIE 1976', 'Glasser 1958'])
+plot_multi_lightness_functions(['CIE 1976', 'Glasser 1958'])
 
 print('\n')
 
