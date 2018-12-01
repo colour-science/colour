@@ -479,6 +479,8 @@ def _setup_api_changes():
 
 
 if not is_documentation_building():
+    _setup_api_changes()
+
     del ModuleAPI
     del Renamed
     del is_documentation_building
