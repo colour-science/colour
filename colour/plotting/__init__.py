@@ -22,7 +22,7 @@ from .colorimetry import (
     plot_single_spd, plot_multi_spds, plot_single_cmfs, plot_multi_cmfs,
     plot_single_illuminant_spd, plot_multi_illuminant_spds,
     plot_visible_spectrum, plot_single_lightness_function,
-    plot_multi_lightness_functions, single_luminance_function_plot,
+    plot_multi_lightness_functions, plot_single_luminance_function,
     multi_luminance_function_plot, blackbody_spectral_radiance_plot,
     blackbody_colours_plot)
 from .characterisation import (plot_single_colour_checker,
@@ -74,7 +74,7 @@ __all__ += [
     'plot_multi_cmfs', 'plot_single_illuminant_spd',
     'plot_multi_illuminant_spds', 'plot_visible_spectrum',
     'plot_single_lightness_function', 'plot_multi_lightness_functions',
-    'single_luminance_function_plot', 'multi_luminance_function_plot',
+    'plot_single_luminance_function', 'multi_luminance_function_plot',
     'blackbody_spectral_radiance_plot', 'blackbody_colours_plot'
 ]
 __all__ += ['plot_single_colour_checker', 'plot_multi_colour_checkers']

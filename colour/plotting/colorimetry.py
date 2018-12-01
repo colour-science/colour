@@ -14,7 +14,7 @@ Defines the colorimetry plotting objects:
 -   :func:`colour.plotting.plot_visible_spectrum`
 -   :func:`colour.plotting.plot_single_lightness_function`
 -   :func:`colour.plotting.plot_multi_lightness_functions`
--   :func:`colour.plotting.single_luminance_function_plot`
+-   :func:`colour.plotting.plot_single_luminance_function`
 -   :func:`colour.plotting.multi_luminance_function_plot`
 -   :func:`colour.plotting.blackbody_spectral_radiance_plot`
 -   :func:`colour.plotting.blackbody_colours_plot`
@@ -56,7 +56,7 @@ __all__ = [
     'plot_multi_cmfs', 'plot_single_illuminant_spd',
     'plot_multi_illuminant_spds', 'plot_visible_spectrum',
     'plot_single_lightness_function', 'plot_multi_lightness_functions',
-    'single_luminance_function_plot', 'multi_luminance_function_plot',
+    'plot_single_luminance_function', 'multi_luminance_function_plot',
     'blackbody_spectral_radiance_plot', 'blackbody_colours_plot'
 ]
 
@@ -673,7 +673,7 @@ def plot_multi_lightness_functions(functions=None, **kwargs):
 
 
 @override_style()
-def single_luminance_function_plot(function='CIE 1976', **kwargs):
+def plot_single_luminance_function(function='CIE 1976', **kwargs):
     """
     Plots given *Luminance* function.
 
@@ -695,11 +695,11 @@ def single_luminance_function_plot(function='CIE 1976', **kwargs):
 
     Examples
     --------
-    >>> single_luminance_function_plot('CIE 1976')  # doctest: +SKIP
+    >>> plot_single_luminance_function('CIE 1976')  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Single_Luminance_Function_Plot.png
+    .. image:: ../_static/Plotting_Plot_Single_Luminance_Function.png
         :align: center
-        :alt: single_luminance_function_plot
+        :alt: plot_single_luminance_function
     """
 
     settings = {'title': '{0} - Luminance Function'.format(function)}
