@@ -939,7 +939,7 @@ Chromaticities Prediction
 
 .. code-block:: python
 
-    >>> corresponding_chromaticities_prediction_plot(2, 'Von Kries', 'Bianco')
+    >>> plot_corresponding_chromaticities_prediction(2, 'Von Kries', 'Bianco')
 
 ..  image:: _static/Examples_Plotting_Chromaticities_Prediction.png
 

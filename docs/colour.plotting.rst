@@ -86,7 +86,7 @@ Corresponding Chromaticities
 .. autosummary::
     :toctree: generated/
 
-    corresponding_chromaticities_prediction_plot
+    plot_corresponding_chromaticities_prediction
 
 CIE Chromaticity Diagrams
 -------------------------

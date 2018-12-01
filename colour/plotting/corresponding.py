@@ -5,7 +5,7 @@ Corresponding Chromaticities Prediction Plotting
 
 Defines corresponding chromaticities prediction plotting objects:
 
--   :func:`colour.plotting.corresponding_chromaticities_prediction_plot`
+-   :func:`colour.plotting.plot_corresponding_chromaticities_prediction`
 """
 
 from __future__ import division
@@ -22,11 +22,11 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['corresponding_chromaticities_prediction_plot']
+__all__ = ['plot_corresponding_chromaticities_prediction']
 
 
 @override_style()
-def corresponding_chromaticities_prediction_plot(experiment=1,
+def plot_corresponding_chromaticities_prediction(experiment=1,
                                                  model='Von Kries',
                                                  transform='CAT02',
                                                  **kwargs):
@@ -58,13 +58,13 @@ def corresponding_chromaticities_prediction_plot(experiment=1,
 
     Examples
     --------
-    >>> corresponding_chromaticities_prediction_plot(1, 'Von Kries', 'CAT02')
+    >>> plot_corresponding_chromaticities_prediction(1, 'Von Kries', 'CAT02')
     ... # doctest: +SKIP
 
     .. image:: ../_static/Plotting_\
-Corresponding_Chromaticities_Prediction_Plot.png
+Plot_Corresponding_Chromaticities_Prediction.png
         :align: center
-        :alt: corresponding_chromaticities_prediction_plot
+        :alt: plot_corresponding_chromaticities_prediction
     """
 
     settings = {'uniform': True}
