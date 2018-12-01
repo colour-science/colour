@@ -38,7 +38,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'spectral_locus_plot', 'chromaticity_diagram_colours_plot',
+    'plot_spectral_locus', 'chromaticity_diagram_colours_plot',
     'chromaticity_diagram_plot', 'chromaticity_diagram_plot_CIE1931',
     'chromaticity_diagram_plot_CIE1960UCS',
     'chromaticity_diagram_plot_CIE1976UCS', 'spds_chromaticity_diagram_plot',
@@ -49,7 +49,7 @@ __all__ = [
 
 
 @override_style()
-def spectral_locus_plot(cmfs='CIE 1931 2 Degree Standard Observer',
+def plot_spectral_locus(cmfs='CIE 1931 2 Degree Standard Observer',
                         spectral_locus_colours=None,
                         spectral_locus_labels=None,
                         method='CIE 1931',
@@ -87,11 +87,11 @@ def spectral_locus_plot(cmfs='CIE 1931 2 Degree Standard Observer',
 
     Examples
     --------
-    >>> spectral_locus_plot(spectral_locus_colours='RGB')  # doctest: +SKIP
+    >>> plot_spectral_locus(spectral_locus_colours='RGB')  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Spectral_Locus_Plot.png
+    .. image:: ../_static/Plotting_Plot_Spectral_Locus.png
         :align: center
-        :alt: spectral_locus_plot
+        :alt: plot_spectral_locus
     """
 
     if spectral_locus_colours is None:
@@ -333,7 +333,7 @@ def chromaticity_diagram_plot(cmfs='CIE 1931 2 Degree Standard Observer',
     ----------------
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
-        :func:`colour.plotting.diagrams.spectral_locus_plot`,
+        :func:`colour.plotting.diagrams.plot_spectral_locus`,
         :func:`colour.plotting.diagrams.chromaticity_diagram_colours_plot`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
@@ -373,7 +373,7 @@ def chromaticity_diagram_plot(cmfs='CIE 1931 2 Degree Standard Observer',
         settings.update(kwargs)
         settings['standalone'] = False
 
-        spectral_locus_plot(**settings)
+        plot_spectral_locus(**settings)
 
     if method == 'CIE 1931':
         x_label, y_label = 'CIE x', 'CIE y'

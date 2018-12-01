@@ -14,7 +14,7 @@ import os
 import colour
 from colour.plotting import *
 from colour.plotting.diagrams import (
-    spectral_locus_plot, chromaticity_diagram_colours_plot,
+    plot_spectral_locus, chromaticity_diagram_colours_plot,
     chromaticity_diagram_plot, spds_chromaticity_diagram_plot)
 from colour.plotting.models import (
     RGB_colourspaces_chromaticity_diagram_plot,
@@ -283,8 +283,8 @@ def generate_documentation_plots(output_directory):
                                                  **arguments)
 
     arguments['filename'] = os.path.join(output_directory,
-                                         'Plotting_Spectral_Locus_Plot.png')
-    spectral_locus_plot(spectral_locus_colours='RGB', **arguments)
+                                         'Plotting_Plot_Spectral_Locus.png')
+    plot_spectral_locus(spectral_locus_colours='RGB', **arguments)
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Chromaticity_Diagram_Colours_Plot.png')
