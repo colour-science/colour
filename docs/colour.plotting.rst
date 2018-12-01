@@ -204,7 +204,7 @@ Colour Quality
 .. autosummary::
     :toctree: generated/
 
-    colour_quality_bars_plot
+    plot_colour_quality_bars
 
 Colour Temperature & Correlated Colour Temperature
 --------------------------------------------------

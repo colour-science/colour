@@ -20,7 +20,7 @@ from colour.plotting.models import (
     plot_RGB_colourspaces_in_chromaticity_diagram,
     plot_RGB_chromaticities_in_chromaticity_diagram,
     plot_ellipses_MacAdam1942_in_chromaticity_diagram)
-from colour.plotting.quality import colour_quality_bars_plot
+from colour.plotting.quality import plot_colour_quality_bars
 from colour.plotting.temperature import (
     planckian_locus_plot, planckian_locus_chromaticity_diagram_plot)
 from colour.utilities import domain_range_scale
@@ -426,13 +426,13 @@ def generate_documentation_plots(output_directory):
     plot_the_blue_sky(**arguments)
 
     arguments['filename'] = os.path.join(
-        output_directory, 'Plotting_Colour_Quality_Bars_Plot.png')
+        output_directory, 'Plotting_Plot_Colour_Quality_Bars.png')
     illuminant = colour.ILLUMINANTS_SPDS['F2']
     light_source = colour.LIGHT_SOURCES_SPDS['Kinoton 75P']
     light_source = light_source.copy().align(colour.SpectralShape(360, 830, 1))
     cqs_i = colour.colour_quality_scale(illuminant, additional_data=True)
     cqs_l = colour.colour_quality_scale(light_source, additional_data=True)
-    colour_quality_bars_plot([cqs_i, cqs_l], **arguments)
+    plot_colour_quality_bars([cqs_i, cqs_l], **arguments)
 
     arguments['filename'] = os.path.join(
         output_directory,

@@ -32,7 +32,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'colour_quality_bars_plot', 'single_spd_colour_rendering_index_bars_plot',
+    'plot_colour_quality_bars', 'single_spd_colour_rendering_index_bars_plot',
     'multi_spd_colour_rendering_index_bars_plot',
     'single_spd_colour_quality_scale_bars_plot',
     'multi_spd_colour_quality_scale_bars_plot'
@@ -40,7 +40,7 @@ __all__ = [
 
 
 @override_style()
-def colour_quality_bars_plot(specifications,
+def plot_colour_quality_bars(specifications,
                              labels=True,
                              hatching=None,
                              hatching_repeat=2,
@@ -80,11 +80,11 @@ def colour_quality_bars_plot(specifications,
     >>> light_source = light_source.copy().align(SpectralShape(360, 830, 1))
     >>> cqs_i = colour_quality_scale(illuminant, additional_data=True)
     >>> cqs_l = colour_quality_scale(light_source, additional_data=True)
-    >>> colour_quality_bars_plot([cqs_i, cqs_l])  # doctest: +SKIP
+    >>> plot_colour_quality_bars([cqs_i, cqs_l])  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Colour_Quality_Bars_Plot.png
+    .. image:: ../_static/Plotting_Plot_Colour_Quality_Bars.png
         :align: center
-        :alt: colour_quality_bars_plot
+        :alt: plot_colour_quality_bars
     """
 
     settings = {'uniform': True}
@@ -182,13 +182,13 @@ def single_spd_colour_rendering_index_bars_plot(spd, **kwargs):
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
     labels : bool, optional
-        {:func:`colour.plotting.quality.colour_quality_bars_plot`},
+        {:func:`colour.plotting.quality.plot_colour_quality_bars`},
         Add labels above bars.
     hatching : bool or None, optional
-        {:func:`colour.plotting.quality.colour_quality_bars_plot`},
+        {:func:`colour.plotting.quality.plot_colour_quality_bars`},
         Use hatching for the bars.
     hatching_repeat : int, optional
-        {:func:`colour.plotting.quality.colour_quality_bars_plot`},
+        {:func:`colour.plotting.quality.plot_colour_quality_bars`},
         Hatching pattern repeat.
 
     Returns
@@ -230,13 +230,13 @@ def multi_spd_colour_rendering_index_bars_plot(spds, **kwargs):
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
     labels : bool, optional
-        {:func:`colour.plotting.quality.colour_quality_bars_plot`},
+        {:func:`colour.plotting.quality.plot_colour_quality_bars`},
         Add labels above bars.
     hatching : bool or None, optional
-        {:func:`colour.plotting.quality.colour_quality_bars_plot`},
+        {:func:`colour.plotting.quality.plot_colour_quality_bars`},
         Use hatching for the bars.
     hatching_repeat : int, optional
-        {:func:`colour.plotting.quality.colour_quality_bars_plot`},
+        {:func:`colour.plotting.quality.plot_colour_quality_bars`},
         Hatching pattern repeat.
 
     Returns
@@ -267,8 +267,8 @@ Multi_Spd_Colour_Rendering_Index_Bars_Plot.png
     ]
 
     # *colour rendering index* colorimetry data tristimulus values are
-    # computed in [0, 100] domain however `colour_quality_bars_plot` expects
-    # [0, 1] domain. As we want to keep `colour_quality_bars_plot` definition
+    # computed in [0, 100] domain however `plot_colour_quality_bars` expects
+    # [0, 1] domain. As we want to keep `plot_colour_quality_bars` definition
     # agnostic from the colour quality data, we update the test spd
     # colorimetry data tristimulus values domain.
     for specification in specifications:
@@ -277,7 +277,7 @@ Multi_Spd_Colour_Rendering_Index_Bars_Plot.png
             colorimetry_data[0][i] = TCS_ColorimetryData(
                 c_d.name, c_d.XYZ / 100, c_d.uv, c_d.UVW)
 
-    figure, axes = colour_quality_bars_plot(specifications, **settings)
+    figure, axes = plot_colour_quality_bars(specifications, **settings)
 
     title = 'Colour Rendering Index - {0}'.format(', '.join(
         [spd.strict_name for spd in spds]))
@@ -306,13 +306,13 @@ def single_spd_colour_quality_scale_bars_plot(spd, **kwargs):
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
     labels : bool, optional
-        {:func:`colour.plotting.quality.colour_quality_bars_plot`},
+        {:func:`colour.plotting.quality.plot_colour_quality_bars`},
         Add labels above bars.
     hatching : bool or None, optional
-        {:func:`colour.plotting.quality.colour_quality_bars_plot`},
+        {:func:`colour.plotting.quality.plot_colour_quality_bars`},
         Use hatching for the bars.
     hatching_repeat : int, optional
-        {:func:`colour.plotting.quality.colour_quality_bars_plot`},
+        {:func:`colour.plotting.quality.plot_colour_quality_bars`},
         Hatching pattern repeat.
 
     Returns
@@ -354,13 +354,13 @@ def multi_spd_colour_quality_scale_bars_plot(spds, **kwargs):
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
     labels : bool, optional
-        {:func:`colour.plotting.quality.colour_quality_bars_plot`},
+        {:func:`colour.plotting.quality.plot_colour_quality_bars`},
         Add labels above bars.
     hatching : bool or None, optional
-        {:func:`colour.plotting.quality.colour_quality_bars_plot`},
+        {:func:`colour.plotting.quality.plot_colour_quality_bars`},
         Use hatching for the bars.
     hatching_repeat : int, optional
-        {:func:`colour.plotting.quality.colour_quality_bars_plot`},
+        {:func:`colour.plotting.quality.plot_colour_quality_bars`},
         Hatching pattern repeat.
 
     Returns
@@ -390,7 +390,7 @@ Multi_Spd_Colour_Quality_Scale_Bars_Plot.png
         colour_quality_scale(spd, additional_data=True) for spd in spds
     ]
 
-    figure, axes = colour_quality_bars_plot(specifications, **settings)
+    figure, axes = plot_colour_quality_bars(specifications, **settings)
 
     title = 'Colour Quality Scale - {0}'.format(', '.join(
         [spd.strict_name for spd in spds]))
