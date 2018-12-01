@@ -372,9 +372,9 @@ def generate_documentation_plots(output_directory):
         RGB, 'ITU-R BT.709', **arguments)
 
     arguments['filename'] = os.path.join(
-        output_directory, 'Plotting_RGB_Chromaticity_Coordinates_'
-        'Chromaticity_Diagram_Plot_CIE1960UCS.png')
-    RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS(
+        output_directory, 'Plotting_Plot_RGB_Chromaticities_In_'
+        'Chromaticity_Diagram_CIE1960UCS.png')
+    plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS(
         RGB, 'ITU-R BT.709', **arguments)
 
     arguments['filename'] = os.path.join(

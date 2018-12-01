@@ -40,7 +40,7 @@ from .models import (
     plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS,
     plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS,
     plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931,
-    RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS,
+    plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS,
     RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS,
     ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1931,
     ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1960UCS,
@@ -94,7 +94,7 @@ __all__ += [
     'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS',
     'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS',
     'plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931',
-    'RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS',
+    'plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS',
     'RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS',
     'ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1931',
     'ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1960UCS',
@@ -180,7 +180,7 @@ API_CHANGES = {
         [
             'colour.plotting.RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot',  # noqa
             'colour.plotting.'
-            'RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS',  # noqa
+            'plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS',  # noqa
         ],
         [
             'colour.plotting.RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot',  # noqa
