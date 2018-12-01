@@ -67,7 +67,8 @@ __all__ = [
     'plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931',
     'plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS',
     'plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS',
-    'ellipses_MacAdam1942', 'ellipses_MacAdam1942_chromaticity_diagram_plot',
+    'ellipses_MacAdam1942',
+    'plot_ellipses_MacAdam1942_in_chromaticity_diagram',
     'ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1931',
     'ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1960UCS',
     'ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1976UCS',
@@ -917,7 +918,7 @@ def ellipses_MacAdam1942(method='CIE 1931'):
 
 
 @override_style()
-def ellipses_MacAdam1942_chromaticity_diagram_plot(
+def plot_ellipses_MacAdam1942_in_chromaticity_diagram(
         chromaticity_diagram_callable=plot_chromaticity_diagram,
         method='CIE 1931',
         chromaticity_diagram_clipping=False,
@@ -957,12 +958,12 @@ def ellipses_MacAdam1942_chromaticity_diagram_plot(
 
     Examples
     --------
-    >>> ellipses_MacAdam1942_chromaticity_diagram_plot()  # doctest: +SKIP
+    >>> plot_ellipses_MacAdam1942_in_chromaticity_diagram()  # doctest: +SKIP
 
     .. image:: ../_static/\
-Plotting_Ellipses_MacAdam1942_Chromaticity_Diagram_Plot.png
+Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram.png
         :align: center
-        :alt: ellipses_MacAdam1942_chromaticity_diagram_plot
+        :alt: plot_ellipses_MacAdam1942_in_chromaticity_diagram
     """
 
     settings = {'uniform': True}
@@ -1081,7 +1082,7 @@ Plotting_Ellipses_MacAdam1942_Chromaticity_Diagram_Plot_CIE1931.png
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1931'})
 
-    return ellipses_MacAdam1942_chromaticity_diagram_plot(
+    return plot_ellipses_MacAdam1942_in_chromaticity_diagram(
         chromaticity_diagram_callable_CIE1931,
         chromaticity_diagram_clipping=chromaticity_diagram_clipping,
         ellipse_parameters=ellipse_parameters,
@@ -1140,7 +1141,7 @@ Plotting_Ellipses_MacAdam1942_Chromaticity_Diagram_Plot_CIE1960UCS.png
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1960 UCS'})
 
-    return ellipses_MacAdam1942_chromaticity_diagram_plot(
+    return plot_ellipses_MacAdam1942_in_chromaticity_diagram(
         chromaticity_diagram_callable_CIE1960UCS,
         chromaticity_diagram_clipping=chromaticity_diagram_clipping,
         ellipse_parameters=ellipse_parameters,
@@ -1199,7 +1200,7 @@ Plotting_Ellipses_MacAdam1942_Chromaticity_Diagram_Plot_CIE1976UCS.png
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1976 UCS'})
 
-    return ellipses_MacAdam1942_chromaticity_diagram_plot(
+    return plot_ellipses_MacAdam1942_in_chromaticity_diagram(
         chromaticity_diagram_callable_CIE1976UCS,
         chromaticity_diagram_clipping=chromaticity_diagram_clipping,
         ellipse_parameters=ellipse_parameters,
