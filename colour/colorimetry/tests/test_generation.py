@@ -20,7 +20,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'TestSpdConstant', 'TestZerosSpd', 'TestSpdOnes', 'TestSpdGaussianNormal',
+    'TestSpdConstant', 'TestSpdZeros', 'TestSpdOnes', 'TestSpdGaussianNormal',
     'TestSpdGaussianFwhm', 'TestSpdSingleLedOhno2005',
     'TestSpdMultiLedOhno2005'
 ]
@@ -46,13 +46,13 @@ class TestSpdConstant(unittest.TestCase):
         self.assertAlmostEqual(spd[780], np.pi, places=7)
 
 
-class TestZerosSpd(unittest.TestCase):
+class TestSpdZeros(unittest.TestCase):
     """
     Defines :func:`colour.colorimetry.generation.spd_zeros` definition unit
     tests methods.
     """
 
-    def test_zeros_spd(self):
+    def test_spd_zeros(self):
         """
         Tests :func:`colour.colorimetry.generation.spd_zeros`
         definition.
