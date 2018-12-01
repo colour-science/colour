@@ -6,7 +6,7 @@ Colour Notation Systems Plotting
 Defines the colour notation systems plotting objects:
 
 -   :func:`colour.plotting.plot_single_munsell_value_function`
--   :func:`colour.plotting.multi_munsell_value_function_plot`
+-   :func:`colour.plotting.plot_multi_munsell_value_functions`
 """
 
 from __future__ import division
@@ -25,7 +25,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'plot_single_munsell_value_function', 'multi_munsell_value_function_plot'
+    'plot_single_munsell_value_function', 'plot_multi_munsell_value_functions'
 ]
 
 
@@ -62,11 +62,11 @@ def plot_single_munsell_value_function(function='ASTM D1535-08', **kwargs):
     settings = {'title': '{0} - Munsell Value Function'.format(function)}
     settings.update(kwargs)
 
-    return multi_munsell_value_function_plot((function, ), **settings)
+    return plot_multi_munsell_value_functions((function, ), **settings)
 
 
 @override_style()
-def multi_munsell_value_function_plot(functions=None, **kwargs):
+def plot_multi_munsell_value_functions(functions=None, **kwargs):
     """
     Plots given *Munsell* value functions.
 
@@ -88,12 +88,12 @@ def multi_munsell_value_function_plot(functions=None, **kwargs):
 
     Examples
     --------
-    >>> multi_munsell_value_function_plot(['ASTM D1535-08', 'McCamy 1987'])
+    >>> plot_multi_munsell_value_functions(['ASTM D1535-08', 'McCamy 1987'])
     ... # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Multi_Munsell_Value_Function_Plot.png
+    .. image:: ../_static/Plotting_Plot_Multi_Munsell_Value_Functions.png
         :align: center
-        :alt: multi_munsell_value_function_plot
+        :alt: plot_multi_munsell_value_functions
     """
 
     if functions is None:

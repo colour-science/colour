@@ -3,7 +3,7 @@
 Showcases colour notation systems plotting examples.
 """
 
-from colour.plotting import (colour_style, multi_munsell_value_function_plot,
+from colour.plotting import (colour_style, plot_multi_munsell_value_functions,
                              plot_single_munsell_value_function)
 from colour.utilities import message_box
 
@@ -17,4 +17,4 @@ plot_single_munsell_value_function('Ladd 1955')
 print('\n')
 
 message_box('Plotting multiple "Munsell" value functions.')
-multi_munsell_value_function_plot(['Ladd 1955', 'Saunderson 1944'])
+plot_multi_munsell_value_functions(['Ladd 1955', 'Saunderson 1944'])

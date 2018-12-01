@@ -165,7 +165,7 @@ Colour Notation Systems
     :toctree: generated/
 
     plot_single_munsell_value_function
-    multi_munsell_value_function_plot
+    plot_multi_munsell_value_functions
 
 Optical Phenomena
 -----------------
