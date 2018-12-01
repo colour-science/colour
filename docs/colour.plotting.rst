@@ -41,7 +41,7 @@ Colorimetry
     plot_single_cmfs
     plot_multi_cmfs
     plot_single_illuminant_spd
-    multi_illuminant_spd_plot
+    plot_multi_illuminant_spds
     visible_spectrum_plot
     single_lightness_function_plot
     multi_lightness_function_plot

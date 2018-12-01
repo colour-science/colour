@@ -214,8 +214,8 @@ def generate_documentation_plots(output_directory):
     plot_single_illuminant_spd('A', **arguments)
 
     arguments['filename'] = os.path.join(
-        output_directory, 'Plotting_Multi_Illuminant_SPD_Plot.png')
-    multi_illuminant_spd_plot(['A', 'B', 'C'], **arguments)
+        output_directory, 'Plotting_Plot_Multi_Illuminant_SPDs.png')
+    plot_multi_illuminant_spds(['A', 'B', 'C'], **arguments)
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Plotting_Visible_Spectrum_Plot.png')
