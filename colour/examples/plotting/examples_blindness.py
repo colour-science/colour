@@ -7,7 +7,7 @@ import numpy as np
 import os
 
 import colour
-from colour.plotting import (colour_style, cvd_simulation_Machado2009_plot,
+from colour.plotting import (colour_style, plot_cvd_simulation_Machado2009,
                              image_plot)
 from colour.utilities.verbose import message_box
 
@@ -32,7 +32,7 @@ print('\n')
 message_box('Simulating average "Protanomaly" on '
             '"Ishihara Colour Blindness Test - Plate 3" with Machado (2010) '
             'model and pre-computed matrix.')
-cvd_simulation_Machado2009_plot(
+plot_cvd_simulation_Machado2009(
     ISHIHARA_CBT_3_IMAGE, 'Protanomaly', 0.5, label_colour='black')
 
 print('\n')
@@ -46,7 +46,7 @@ message_box('Simulating average "Protanomaly" on '
             '"Ishihara Colour Blindness Test - Plate 3" with Machado (2010) '
             'model using "Stockman & Sharpe 2 Degree Cone Fundamentals" and '
             '"Typical CRT Brainard 1997" "RGB" display primaries.')
-cvd_simulation_Machado2009_plot(
+plot_cvd_simulation_Machado2009(
     ISHIHARA_CBT_3_IMAGE, M_a=M_a, label=label, label_colour='black')
 
 print('\n')
@@ -60,5 +60,5 @@ message_box('Simulating "Protanopia" on '
             '"Ishihara Colour Blindness Test - Plate 3" with Machado (2010) '
             'model using "Stockman & Sharpe 2 Degree Cone Fundamentals" and '
             '"Typical CRT Brainard 1997" "RGB" display primaries.')
-cvd_simulation_Machado2009_plot(
+plot_cvd_simulation_Machado2009(
     ISHIHARA_CBT_3_IMAGE, M_a=M_a, label=label, label_colour='black')

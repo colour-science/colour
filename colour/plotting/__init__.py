@@ -17,7 +17,7 @@ from .common import (COLOUR_STYLE_CONSTANTS, COLOUR_ARROW_STYLE, colour_style,
                      filter_colour_checkers, single_colour_swatch_plot,
                      multi_colour_swatch_plot, single_function_plot,
                      multi_function_plot, image_plot)
-from .blindness import cvd_simulation_Machado2009_plot
+from .blindness import plot_cvd_simulation_Machado2009
 from .colorimetry import (
     single_spd_plot, multi_spd_plot, single_cmfs_plot, multi_cmfs_plot,
     single_illuminant_spd_plot, multi_illuminant_spd_plot,
@@ -68,7 +68,7 @@ __all__ += [
     'single_colour_swatch_plot', 'multi_colour_swatch_plot',
     'single_function_plot', 'multi_function_plot', 'image_plot'
 ]
-__all__ += ['cvd_simulation_Machado2009_plot']
+__all__ += ['plot_cvd_simulation_Machado2009']
 __all__ += [
     'single_spd_plot', 'multi_spd_plot', 'single_cmfs_plot', 'multi_cmfs_plot',
     'single_illuminant_spd_plot', 'multi_illuminant_spd_plot',

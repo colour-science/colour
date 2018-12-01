@@ -60,7 +60,7 @@ Colour Vision Deficiency
 .. autosummary::
     :toctree: generated/
 
-    cvd_simulation_Machado2009_plot
+    plot_cvd_simulation_Machado2009
 
 
 Colour Characterisation
