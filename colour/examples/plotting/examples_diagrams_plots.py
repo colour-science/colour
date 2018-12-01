@@ -9,7 +9,7 @@ from colour.plotting import (colour_style, plot_chromaticity_diagram_CIE1931,
                              plot_chromaticity_diagram_CIE1976UCS,
                              plot_spds_in_chromaticity_diagram_CIE1931,
                              plot_spds_in_chromaticity_diagram_CIE1960UCS,
-                             spds_chromaticity_diagram_plot_CIE1976UCS)
+                             plot_spds_in_chromaticity_diagram_CIE1976UCS)
 from colour.utilities import message_box
 
 message_box('"CIE" Chromaticity Diagrams Plots')
@@ -53,4 +53,4 @@ message_box(('Plotting "CIE Standard Illuminant A" and '
              '"CIE Standard Illuminant D65" relative spectral power '
              'distribution chromaticity coordinates in '
              '"CIE 1976 UCS Chromaticity Diagram".'))
-spds_chromaticity_diagram_plot_CIE1976UCS((A, D65))
+plot_spds_in_chromaticity_diagram_CIE1976UCS((A, D65))
