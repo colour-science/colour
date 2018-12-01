@@ -16,7 +16,7 @@ Defines the common plotting objects:
 -   :func:`colour.plotting.render`
 -   :func:`colour.plotting.label_rectangles`
 -   :func:`colour.plotting.uniform_axes3d`
--   :func:`colour.plotting.single_colour_swatch_plot`
+-   :func:`colour.plotting.plot_single_colour_swatch`
 -   :func:`colour.plotting.multi_colour_swatch_plot`
 -   :func:`colour.plotting.single_function_plot`
 -   :func:`colour.plotting.multi_function_plot`
@@ -56,7 +56,7 @@ __all__ = [
     'colour_cycle', 'artist', 'camera', 'render', 'label_rectangles',
     'uniform_axes3d', 'filter_passthrough', 'filter_RGB_colourspaces',
     'filter_cmfs', 'filter_illuminants', 'filter_colour_checkers',
-    'single_colour_swatch_plot', 'multi_colour_swatch_plot',
+    'plot_single_colour_swatch', 'multi_colour_swatch_plot',
     'single_function_plot', 'multi_function_plot', 'image_plot'
 ]
 
@@ -875,7 +875,7 @@ def filter_colour_checkers(filterers,
         'xtick.labelbottom': False,
         'ytick.labelleft': False,
     })
-def single_colour_swatch_plot(colour_swatch, **kwargs):
+def plot_single_colour_swatch(colour_swatch, **kwargs):
     """
     Plots given colour swatch.
 
@@ -914,11 +914,11 @@ def single_colour_swatch_plot(colour_swatch, **kwargs):
     Examples
     --------
     >>> RGB = ColourSwatch(RGB=(0.45620519, 0.03081071, 0.04091952))
-    >>> single_colour_swatch_plot(RGB)  # doctest: +SKIP
+    >>> plot_single_colour_swatch(RGB)  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Single_Colour_Swatch_Plot.png
+    .. image:: ../_static/Plotting_Plot_Single_Colour_Swatch.png
         :align: center
-        :alt: single_colour_swatch_plot
+        :alt: plot_single_colour_swatch
     """
 
     return multi_colour_swatch_plot((colour_swatch, ), **kwargs)

@@ -247,9 +247,9 @@ def generate_documentation_plots(output_directory):
     plot_blackbody_colours(colour.SpectralShape(150, 12500, 50), **arguments)
 
     arguments['filename'] = os.path.join(
-        output_directory, 'Plotting_Single_Colour_Swatch_Plot.png')
+        output_directory, 'Plotting_Plot_Single_Colour_Swatch.png')
     RGB = ColourSwatch(RGB=(0.32315746, 0.32983556, 0.33640183))
-    single_colour_swatch_plot(RGB, **arguments)
+    plot_single_colour_swatch(RGB, **arguments)
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Multi_Colour_Swatch_Plot.png')
@@ -606,7 +606,7 @@ def generate_documentation_plots(output_directory):
     with domain_range_scale('1'):
         XYZ = colour.spectral_to_XYZ(spd, cmfs, illuminant)
         RGB = colour.XYZ_to_sRGB(XYZ)
-    single_colour_swatch_plot(
+    plot_single_colour_swatch(
         ColourSwatch('Sample', RGB),
         text_parameters={'size': 'x-large'},
         **arguments)
@@ -618,7 +618,7 @@ def generate_documentation_plots(output_directory):
     with domain_range_scale('1'):
         XYZ = colour.spectral_to_XYZ(patch_spd, cmfs, illuminant)
         RGB = colour.XYZ_to_sRGB(XYZ)
-    single_colour_swatch_plot(
+    plot_single_colour_swatch(
         ColourSwatch(patch_name.title(), RGB),
         text_parameters={'size': 'x-large'},
         **arguments)

@@ -40,7 +40,7 @@ from colour.colorimetry import (
 from colour.plotting import (
     ColourSwatch, COLOUR_STYLE_CONSTANTS, XYZ_to_plotting_colourspace, artist,
     filter_passthrough, filter_cmfs, filter_illuminants, override_style,
-    render, single_colour_swatch_plot, multi_function_plot)
+    render, plot_single_colour_swatch, multi_function_plot)
 from colour.utilities import (domain_range_scale, first_item,
                               normalise_maximum, suppress_warnings, tstack)
 
@@ -832,7 +832,7 @@ def plot_blackbody_spectral_radiance(
     settings.update(kwargs)
     settings['standalone'] = False
 
-    figure, axes = single_colour_swatch_plot(
+    figure, axes = plot_single_colour_swatch(
         ColourSwatch(name='', RGB=RGB), **settings)
 
     # Removing "x" and "y" ticks.

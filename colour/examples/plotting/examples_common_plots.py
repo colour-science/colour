@@ -5,7 +5,7 @@ Showcases common plotting examples.
 
 from colour.plotting import (ColourSwatch, colour_style,
                              multi_colour_swatch_plot,
-                             single_colour_swatch_plot)
+                             plot_single_colour_swatch)
 from colour.utilities import message_box
 
 message_box('Common Plots')
@@ -13,7 +13,7 @@ message_box('Common Plots')
 colour_style()
 
 message_box('Plotting a single colour.')
-single_colour_swatch_plot(
+plot_single_colour_swatch(
     ColourSwatch(
         'Neutral 5 (.70 D)', RGB=(0.32315746, 0.32983556, 0.33640183)),
     text_size=32)

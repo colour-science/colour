@@ -1200,7 +1200,7 @@ We can for instance converts the *CIE XYZ* tristimulus values into
 .. code:: python
 
     # Plotting the *sRGB* colourspace colour of the *Sample* spectral power distribution.
-    single_colour_swatch_plot(
+    plot_single_colour_swatch(
         ColourSwatch('Sample', RGB),
         text_parameters={'size': 'x-large'})
 
@@ -1255,7 +1255,7 @@ various colour rendition charts:
     XYZ = colour.spectral_to_XYZ(patch_spd, cmfs, illuminant)
     RGB = colour.XYZ_to_sRGB(XYZ / 100)
 
-    single_colour_swatch_plot(
+    plot_single_colour_swatch(
         ColourSwatch(patch_name.title(), RGB),
         text_parameters={'size': 'x-large'})
 

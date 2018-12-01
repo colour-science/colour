@@ -21,7 +21,7 @@ from colour.phenomena.rayleigh import (
 from colour.plotting import (ASTM_G_173_ETR, COLOUR_STYLE_CONSTANTS,
                              ColourSwatch, XYZ_to_plotting_colourspace,
                              filter_cmfs, override_style, render,
-                             single_colour_swatch_plot, plot_single_spd)
+                             plot_single_colour_swatch, plot_single_spd)
 from colour.utilities import first_item, normalise_maximum
 
 __author__ = 'Colour Developers'
@@ -173,7 +173,7 @@ def the_blue_sky_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
 
     blue_sky_color = XYZ_to_plotting_colourspace(spectral_to_XYZ(spd))
 
-    figure, axes = single_colour_swatch_plot(
+    figure, axes = plot_single_colour_swatch(
         ColourSwatch('', normalise_maximum(blue_sky_color)), **settings)
 
     # Removing "x" and "y" ticks.

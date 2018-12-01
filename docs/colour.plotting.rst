@@ -20,7 +20,7 @@ Common
     render
     label_rectangles
     uniform_axes3d
-    single_colour_swatch_plot
+    plot_single_colour_swatch
     multi_colour_swatch_plot
     single_function_plot
     multi_function_plot
