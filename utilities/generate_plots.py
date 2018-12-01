@@ -116,7 +116,7 @@ def generate_documentation_plots(output_directory):
 
     arguments['filename'] = os.path.join(
         output_directory, 'Examples_Plotting_ColorChecker_2005.png')
-    single_colour_checker_plot(
+    plot_single_colour_checker(
         'ColorChecker 2005', text_parameters={'visible': False}, **arguments)
 
     arguments['filename'] = os.path.join(
@@ -154,8 +154,8 @@ def generate_documentation_plots(output_directory):
     plot_cvd_simulation_Machado2009(RGB, **arguments)
 
     arguments['filename'] = os.path.join(
-        output_directory, 'Plotting_Single_Colour_Checker_Plot.png')
-    single_colour_checker_plot('ColorChecker 2005', **arguments)
+        output_directory, 'Plotting_Plot_Single_Colour_Checker.png')
+    plot_single_colour_checker('ColorChecker 2005', **arguments)
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Multi_Colour_Checker_Plot.png')
@@ -625,7 +625,7 @@ def generate_documentation_plots(output_directory):
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Tutorial_Colour_Checker.png')
-    single_colour_checker_plot(
+    plot_single_colour_checker(
         colour_checker='ColorChecker 2005',
         text_parameters={'visible': False},
         **arguments)

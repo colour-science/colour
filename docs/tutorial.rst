@@ -1270,7 +1270,7 @@ figures:
 
 .. code:: python
 
-    colour_checker_plot(colour_checker='ColorChecker 2005', text_parameters={'visible': False})
+    plot_single_colour_checker(colour_checker='ColorChecker 2005', text_parameters={'visible': False})
 
 
 

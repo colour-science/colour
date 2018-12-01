@@ -5,7 +5,7 @@ Characterisation Plotting
 
 Defines the characterisation plotting objects:
 
--   :func:`colour.plotting.single_colour_checker_plot`
+-   :func:`colour.plotting.plot_single_colour_checker`
 -   :func:`colour.plotting.multi_colour_checker_plot`
 """
 
@@ -25,11 +25,11 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['single_colour_checker_plot', 'multi_colour_checker_plot']
+__all__ = ['plot_single_colour_checker', 'multi_colour_checker_plot']
 
 
 @override_style()
-def single_colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
+def plot_single_colour_checker(colour_checker='ColorChecker 2005', **kwargs):
     """
     Plots given colour checker.
 
@@ -53,11 +53,11 @@ def single_colour_checker_plot(colour_checker='ColorChecker 2005', **kwargs):
 
     Examples
     --------
-    >>> colour_checker_plot('ColorChecker 2005')  # doctest: +SKIP
+    >>> plot_single_colour_checker('ColorChecker 2005')  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Single_Colour_Checker_Plot.png
+    .. image:: ../_static/Plotting_Plot_Single_Colour_Checker.png
         :align: center
-        :alt: colour_checker_plot
+        :alt: plot_single_colour_checker
     """
 
     return multi_colour_checker_plot([colour_checker], **kwargs)
@@ -100,7 +100,7 @@ def multi_colour_checker_plot(colour_checkers=None, **kwargs):
 
     .. image:: ../_static/Plotting_Multi_Colour_Checker_Plot.png
         :align: center
-        :alt: colour_checker_plot
+        :alt: plot_single_colour_checker
     """
 
     if colour_checkers is None:
