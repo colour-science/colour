@@ -241,7 +241,7 @@ Colour Models Volume
 .. autosummary::
     :toctree: generated/
 
-    RGB_colourspaces_gamuts_plot
+    plot_RGB_colourspaces_gamuts
     RGB_scatter_plot
 
 Geometry Plotting Utilities

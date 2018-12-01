@@ -481,13 +481,13 @@ def generate_documentation_plots(output_directory):
     plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(['A', 'B', 'C'],
                                                          **arguments)
     arguments['filename'] = os.path.join(
-        output_directory, 'Plotting_RGB_Colourspaces_Gamuts_Plot.png')
-    RGB_colourspaces_gamuts_plot(['ITU-R BT.709', 'ACEScg', 'S-Gamut'],
+        output_directory, 'Plotting_Plot_RGB_Colourspaces_Gamuts.png')
+    plot_RGB_colourspaces_gamuts(['ITU-R BT.709', 'ACEScg', 'S-Gamut'],
                                  **arguments)
 
     arguments['filename'] = os.path.join(
-        output_directory, 'Plotting_RGB_Colourspaces_Gamuts_Plot.png')
-    RGB_colourspaces_gamuts_plot(['ITU-R BT.709', 'ACEScg', 'S-Gamut'],
+        output_directory, 'Plotting_Plot_RGB_Colourspaces_Gamuts.png')
+    plot_RGB_colourspaces_gamuts(['ITU-R BT.709', 'ACEScg', 'S-Gamut'],
                                  **arguments)
 
     arguments['filename'] = os.path.join(output_directory,

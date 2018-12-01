@@ -5,7 +5,7 @@ Colour Models Volume Plotting
 
 Defines colour models volume and gamut plotting objects:
 
--   :func:`colour.plotting.RGB_colourspaces_gamuts_plot`
+-   :func:`colour.plotting.plot_RGB_colourspaces_gamuts`
 -   :func:`colour.plotting.RGB_scatter_plot`
 """
 
@@ -34,7 +34,7 @@ __status__ = 'Production'
 
 __all__ = [
     'common_colourspace_model_axis_reorder', 'nadir_grid', 'RGB_identity_cube',
-    'RGB_colourspaces_gamuts_plot', 'RGB_scatter_plot'
+    'plot_RGB_colourspaces_gamuts', 'RGB_scatter_plot'
 ]
 
 
@@ -420,7 +420,7 @@ def RGB_identity_cube(plane=None,
 
 
 @override_style()
-def RGB_colourspaces_gamuts_plot(colourspaces=None,
+def plot_RGB_colourspaces_gamuts(colourspaces=None,
                                  reference_colourspace='CIE xyY',
                                  segments=8,
                                  show_grid=True,
@@ -477,12 +477,12 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
 
     Examples
     --------
-    >>> RGB_colourspaces_gamuts_plot(['ITU-R BT.709', 'ACEScg', 'S-Gamut'])
+    >>> plot_RGB_colourspaces_gamuts(['ITU-R BT.709', 'ACEScg', 'S-Gamut'])
     ... # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_RGB_Colourspaces_Gamuts_Plot.png
+    .. image:: ../_static/Plotting_Plot_RGB_Colourspaces_Gamuts.png
         :align: center
-        :alt: RGB_colourspaces_gamuts_plot
+        :alt: plot_RGB_colourspaces_gamuts
     """
 
     if colourspaces is None:
@@ -668,7 +668,7 @@ def RGB_scatter_plot(RGB,
     ----------------
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
-        :func:`colour.plotting.RGB_colourspaces_gamuts_plot`},
+        :func:`colour.plotting.plot_RGB_colourspaces_gamuts`},
         Please refer to the documentation of the previously listed definitions.
 
     Returns
@@ -702,7 +702,7 @@ def RGB_scatter_plot(RGB,
     settings.update(kwargs)
     settings['standalone'] = False
 
-    RGB_colourspaces_gamuts_plot(
+    plot_RGB_colourspaces_gamuts(
         colourspaces=colourspaces,
         reference_colourspace=reference_colourspace,
         segments=segments,
