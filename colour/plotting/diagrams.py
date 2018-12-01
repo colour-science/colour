@@ -38,7 +38,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'plot_spectral_locus', 'chromaticity_diagram_colours_plot',
+    'plot_spectral_locus', 'plot_chromaticity_diagram_colours',
     'chromaticity_diagram_plot', 'chromaticity_diagram_plot_CIE1931',
     'chromaticity_diagram_plot_CIE1960UCS',
     'chromaticity_diagram_plot_CIE1976UCS', 'spds_chromaticity_diagram_plot',
@@ -205,7 +205,7 @@ def plot_spectral_locus(cmfs='CIE 1931 2 Degree Standard Observer',
 
 
 @override_style()
-def chromaticity_diagram_colours_plot(
+def plot_chromaticity_diagram_colours(
         samples=256,
         diagram_opacity=1.0,
         diagram_clipping_path=None,
@@ -243,11 +243,11 @@ def chromaticity_diagram_colours_plot(
 
     Examples
     --------
-    >>> chromaticity_diagram_colours_plot()  # doctest: +SKIP
+    >>> plot_chromaticity_diagram_colours()  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Chromaticity_Diagram_Colours_Plot.png
+    .. image:: ../_static/Plotting_Plot_Chromaticity_Diagram_Colours.png
         :align: center
-        :alt: chromaticity_diagram_colours_plot
+        :alt: plot_chromaticity_diagram_colours
     """
 
     settings = {'uniform': True}
@@ -334,7 +334,7 @@ def chromaticity_diagram_plot(cmfs='CIE 1931 2 Degree Standard Observer',
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.diagrams.plot_spectral_locus`,
-        :func:`colour.plotting.diagrams.chromaticity_diagram_colours_plot`,
+        :func:`colour.plotting.diagrams.plot_chromaticity_diagram_colours`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -366,7 +366,7 @@ def chromaticity_diagram_plot(cmfs='CIE 1931 2 Degree Standard Observer',
         settings.update(kwargs)
         settings['standalone'] = False
 
-        chromaticity_diagram_colours_plot(**settings)
+        plot_chromaticity_diagram_colours(**settings)
 
     if show_spectral_locus:
         settings = {'axes': axes, 'method': method}

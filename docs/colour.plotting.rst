@@ -115,7 +115,7 @@ CIE Chromaticity Diagrams
     :toctree: generated/
 
     plot_spectral_locus
-    chromaticity_diagram_colours_plot
+    plot_chromaticity_diagram_colours
     chromaticity_diagram_plot
 
 Colour Models
