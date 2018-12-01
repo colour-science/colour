@@ -7,7 +7,7 @@ Defines the *CIE* chromaticity diagrams plotting objects:
 
 -   :func:`colour.plotting.plot_chromaticity_diagram_CIE1931`
 -   :func:`colour.plotting.plot_chromaticity_diagram_CIE1960UCS`
--   :func:`colour.plotting.chromaticity_diagram_plot_CIE1976UCS`
+-   :func:`colour.plotting.plot_chromaticity_diagram_CIE1976UCS`
 -   :func:`colour.plotting.spds_chromaticity_diagram_plot_CIE1931`
 -   :func:`colour.plotting.spds_chromaticity_diagram_plot_CIE1960UCS`
 -   :func:`colour.plotting.spds_chromaticity_diagram_plot_CIE1976UCS`
@@ -41,7 +41,7 @@ __all__ = [
     'plot_spectral_locus', 'plot_chromaticity_diagram_colours',
     'plot_chromaticity_diagram', 'plot_chromaticity_diagram_CIE1931',
     'plot_chromaticity_diagram_CIE1960UCS',
-    'chromaticity_diagram_plot_CIE1976UCS', 'spds_chromaticity_diagram_plot',
+    'plot_chromaticity_diagram_CIE1976UCS', 'spds_chromaticity_diagram_plot',
     'spds_chromaticity_diagram_plot_CIE1931',
     'spds_chromaticity_diagram_plot_CIE1960UCS',
     'spds_chromaticity_diagram_plot_CIE1976UCS'
@@ -499,7 +499,7 @@ def plot_chromaticity_diagram_CIE1960UCS(
 
 
 @override_style()
-def chromaticity_diagram_plot_CIE1976UCS(
+def plot_chromaticity_diagram_CIE1976UCS(
         cmfs='CIE 1931 2 Degree Standard Observer',
         show_diagram_colours=True,
         show_spectral_locus=True,
@@ -532,11 +532,11 @@ def chromaticity_diagram_plot_CIE1976UCS(
 
     Examples
     --------
-    >>> chromaticity_diagram_plot_CIE1976UCS()  # doctest: +SKIP
+    >>> plot_chromaticity_diagram_CIE1976UCS()  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Chromaticity_Diagram_Plot_CIE1976UCS.png
+    .. image:: ../_static/Plotting_Plot_Chromaticity_Diagram_CIE1976UCS.png
         :align: center
-        :alt: chromaticity_diagram_plot_CIE1976UCS
+        :alt: plot_chromaticity_diagram_CIE1976UCS
     """
 
     settings = dict(kwargs)
@@ -840,7 +840,7 @@ def spds_chromaticity_diagram_plot_CIE1976UCS(
         cmfs='CIE 1931 2 Degree Standard Observer',
         annotate_parameters=None,
         chromaticity_diagram_callable_CIE1976UCS=(
-            chromaticity_diagram_plot_CIE1976UCS),
+            plot_chromaticity_diagram_CIE1976UCS),
         **kwargs):
     """
     Plots given spectral power distribution chromaticity coordinates into the

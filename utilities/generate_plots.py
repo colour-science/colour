@@ -303,8 +303,8 @@ def generate_documentation_plots(output_directory):
     plot_chromaticity_diagram_CIE1960UCS(**arguments)
 
     arguments['filename'] = os.path.join(
-        output_directory, 'Plotting_Chromaticity_Diagram_Plot_CIE1976UCS.png')
-    chromaticity_diagram_plot_CIE1976UCS(**arguments)
+        output_directory, 'Plotting_Plot_Chromaticity_Diagram_CIE1976UCS.png')
+    plot_chromaticity_diagram_CIE1976UCS(**arguments)
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_SPDS_Chromaticity_Diagram_Plot.png')

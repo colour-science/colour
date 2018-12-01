@@ -12,7 +12,7 @@ from __future__ import division
 
 from colour.corresponding import corresponding_chromaticities_prediction
 from colour.plotting import (COLOUR_STYLE_CONSTANTS, artist,
-                             chromaticity_diagram_plot_CIE1976UCS,
+                             plot_chromaticity_diagram_CIE1976UCS,
                              override_style, render)
 
 __author__ = 'Colour Developers'
@@ -84,7 +84,7 @@ Plot_Corresponding_Chromaticities_Prediction.png
     settings.update(kwargs)
     settings['standalone'] = False
 
-    chromaticity_diagram_plot_CIE1976UCS(**settings)
+    plot_chromaticity_diagram_CIE1976UCS(**settings)
 
     results = corresponding_chromaticities_prediction(
         experiment, transform=transform)

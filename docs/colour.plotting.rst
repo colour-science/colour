@@ -100,7 +100,7 @@ CIE Chromaticity Diagrams
 
     plot_chromaticity_diagram_CIE1931
     plot_chromaticity_diagram_CIE1960UCS
-    chromaticity_diagram_plot_CIE1976UCS
+    plot_chromaticity_diagram_CIE1976UCS
     spds_chromaticity_diagram_plot_CIE1931
     spds_chromaticity_diagram_plot_CIE1960UCS
     spds_chromaticity_diagram_plot_CIE1976UCS

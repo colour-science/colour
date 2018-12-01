@@ -44,7 +44,7 @@ from colour.models import (
     XYZ_to_UCS, XYZ_to_xy, xy_to_Luv_uv, xy_to_UCS_uv)
 from colour.plotting import (
     COLOUR_STYLE_CONSTANTS, plot_chromaticity_diagram_CIE1931, artist,
-    plot_chromaticity_diagram_CIE1960UCS, chromaticity_diagram_plot_CIE1976UCS,
+    plot_chromaticity_diagram_CIE1960UCS, plot_chromaticity_diagram_CIE1976UCS,
     colour_cycle, colour_style, filter_passthrough, filter_RGB_colourspaces,
     filter_cmfs, plot_multi_functions, override_style, render)
 from colour.plotting.diagrams import plot_chromaticity_diagram
@@ -496,7 +496,7 @@ def RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS(
         colourspaces=None,
         cmfs='CIE 1931 2 Degree Standard Observer',
         chromaticity_diagram_callable_CIE1976UCS=(
-            chromaticity_diagram_plot_CIE1976UCS),
+            plot_chromaticity_diagram_CIE1976UCS),
         **kwargs):
     """
     Plots given *RGB* colourspaces in the *CIE 1976 UCS Chromaticity Diagram*.
@@ -1150,7 +1150,7 @@ Plotting_Ellipses_MacAdam1942_Chromaticity_Diagram_Plot_CIE1960UCS.png
 @override_style()
 def ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1976UCS(
         chromaticity_diagram_callable_CIE1976UCS=(
-            chromaticity_diagram_plot_CIE1976UCS),
+            plot_chromaticity_diagram_CIE1976UCS),
         chromaticity_diagram_clipping=False,
         ellipse_parameters=None,
         **kwargs):
