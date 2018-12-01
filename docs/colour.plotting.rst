@@ -43,7 +43,7 @@ Colorimetry
     plot_single_illuminant_spd
     plot_multi_illuminant_spds
     plot_visible_spectrum
-    single_lightness_function_plot
+    plot_single_lightness_function
     multi_lightness_function_plot
     single_luminance_function_plot
     multi_luminance_function_plot

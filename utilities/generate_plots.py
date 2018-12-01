@@ -222,8 +222,8 @@ def generate_documentation_plots(output_directory):
     plot_visible_spectrum(**arguments)
 
     arguments['filename'] = os.path.join(
-        output_directory, 'Plotting_Single_Lightness_Function_Plot.png')
-    single_lightness_function_plot('CIE 1976', **arguments)
+        output_directory, 'Plotting_Plot_Single_Lightness_Function.png')
+    plot_single_lightness_function('CIE 1976', **arguments)
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Multi_Lightness_Function_Plot.png')

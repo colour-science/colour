@@ -12,7 +12,7 @@ Defines the colorimetry plotting objects:
 -   :func:`colour.plotting.plot_single_illuminant_spd`
 -   :func:`colour.plotting.plot_multi_illuminant_spds`
 -   :func:`colour.plotting.plot_visible_spectrum`
--   :func:`colour.plotting.single_lightness_function_plot`
+-   :func:`colour.plotting.plot_single_lightness_function`
 -   :func:`colour.plotting.multi_lightness_function_plot`
 -   :func:`colour.plotting.single_luminance_function_plot`
 -   :func:`colour.plotting.multi_luminance_function_plot`
@@ -55,7 +55,7 @@ __all__ = [
     'plot_single_spd', 'plot_multi_spds', 'plot_single_cmfs',
     'plot_multi_cmfs', 'plot_single_illuminant_spd',
     'plot_multi_illuminant_spds', 'plot_visible_spectrum',
-    'single_lightness_function_plot', 'multi_lightness_function_plot',
+    'plot_single_lightness_function', 'multi_lightness_function_plot',
     'single_luminance_function_plot', 'multi_luminance_function_plot',
     'blackbody_spectral_radiance_plot', 'blackbody_colours_plot'
 ]
@@ -588,7 +588,7 @@ def plot_visible_spectrum(cmfs='CIE 1931 2 Degree Standard Observer',
 
 
 @override_style()
-def single_lightness_function_plot(function='CIE 1976', **kwargs):
+def plot_single_lightness_function(function='CIE 1976', **kwargs):
     """
     Plots given *Lightness* function.
 
@@ -610,11 +610,11 @@ def single_lightness_function_plot(function='CIE 1976', **kwargs):
 
     Examples
     --------
-    >>> single_lightness_function_plot('CIE 1976')  # doctest: +SKIP
+    >>> plot_single_lightness_function('CIE 1976')  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Single_Lightness_Function_Plot.png
+    .. image:: ../_static/Plotting_Plot_Single_Lightness_Function.png
         :align: center
-        :alt: single_lightness_function_plot
+        :alt: plot_single_lightness_function
     """
 
     settings = {'title': '{0} - Lightness Function'.format(function)}
