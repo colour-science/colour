@@ -14,7 +14,7 @@ from colour.plotting import (
     plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931,
     plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS,
     plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS,
-    colour_style, multi_cctf_plot, plot_single_cctf)
+    colour_style, plot_multi_cctfs, plot_single_cctf)
 from colour.utilities import message_box
 
 message_box('Colour Models Plots')
@@ -100,8 +100,8 @@ print('\n')
 
 message_box(('Plotting multiple "RGB" colourspaces encoding colour component '
              'transfer functions.'))
-multi_cctf_plot(['ITU-R BT.709', 'sRGB'])
+plot_multi_cctfs(['ITU-R BT.709', 'sRGB'])
 
 message_box(('Plotting multiple "RGB" colourspaces decoding colour component '
              'transfer functions.'))
-multi_cctf_plot(['ACES2065-1', 'ProPhoto RGB'], decoding_cctf=True)
+plot_multi_cctfs(['ACES2065-1', 'ProPhoto RGB'], decoding_cctf=True)

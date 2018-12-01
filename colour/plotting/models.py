@@ -24,7 +24,7 @@ plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1960UCS`
 -   :func:`colour.plotting.\
 plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS`
 -   :func:`colour.plotting.plot_single_cctf`
--   :func:`colour.plotting.multi_cctf_plot`
+-   :func:`colour.plotting.plot_multi_cctfs`
 """
 
 from __future__ import division
@@ -72,7 +72,7 @@ __all__ = [
     'plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931',
     'plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1960UCS',
     'plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS',
-    'plot_single_cctf', 'multi_cctf_plot'
+    'plot_single_cctf', 'plot_multi_cctfs'
 ]
 
 
@@ -1246,11 +1246,11 @@ def plot_single_cctf(cctf='ITU-R BT.709', decoding_cctf=False, **kwargs):
     }
     settings.update(kwargs)
 
-    return multi_cctf_plot([cctf], decoding_cctf, **settings)
+    return plot_multi_cctfs([cctf], decoding_cctf, **settings)
 
 
 @override_style()
-def multi_cctf_plot(cctfs=None, decoding_cctf=False, **kwargs):
+def plot_multi_cctfs(cctfs=None, decoding_cctf=False, **kwargs):
     """
     Plots given colour component transfer functions.
 
@@ -1274,11 +1274,11 @@ def multi_cctf_plot(cctfs=None, decoding_cctf=False, **kwargs):
 
     Examples
     --------
-    >>> multi_cctf_plot(['ITU-R BT.709', 'sRGB'])  # doctest: +SKIP
+    >>> plot_multi_cctfs(['ITU-R BT.709', 'sRGB'])  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Multi_CCTF_Plot.png
+    .. image:: ../_static/Plotting_Plot_Multi_CCTFs.png
         :align: center
-        :alt: multi_cctf_plot
+        :alt: plot_multi_cctfs
     """
 
     if cctfs is None:

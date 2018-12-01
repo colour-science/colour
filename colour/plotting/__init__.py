@@ -45,7 +45,7 @@ from .models import (
     plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931,
     plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1960UCS,
     plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS,
-    plot_single_cctf, multi_cctf_plot)
+    plot_single_cctf, plot_multi_cctfs)
 from .notation import (single_munsell_value_function_plot,
                        multi_munsell_value_function_plot)
 from .phenomena import single_rayleigh_scattering_spd_plot, the_blue_sky_plot
@@ -99,7 +99,7 @@ __all__ += [
     'plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931',
     'plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1960UCS',
     'plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS',
-    'plot_single_cctf', 'multi_cctf_plot'
+    'plot_single_cctf', 'plot_multi_cctfs'
 ]
 __all__ += [
     'single_munsell_value_function_plot', 'multi_munsell_value_function_plot'
