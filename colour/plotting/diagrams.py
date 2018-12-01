@@ -9,7 +9,7 @@ Defines the *CIE* chromaticity diagrams plotting objects:
 -   :func:`colour.plotting.plot_chromaticity_diagram_CIE1960UCS`
 -   :func:`colour.plotting.plot_chromaticity_diagram_CIE1976UCS`
 -   :func:`colour.plotting.plot_spds_in_chromaticity_diagram_CIE1931`
--   :func:`colour.plotting.spds_chromaticity_diagram_plot_CIE1960UCS`
+-   :func:`colour.plotting.plot_spds_in_chromaticity_diagram_CIE1960UCS`
 -   :func:`colour.plotting.spds_chromaticity_diagram_plot_CIE1976UCS`
 """
 
@@ -44,7 +44,7 @@ __all__ = [
     'plot_chromaticity_diagram_CIE1976UCS',
     'plot_spds_in_chromaticity_diagram',
     'plot_spds_in_chromaticity_diagram_CIE1931',
-    'spds_chromaticity_diagram_plot_CIE1960UCS',
+    'plot_spds_in_chromaticity_diagram_CIE1960UCS',
     'spds_chromaticity_diagram_plot_CIE1976UCS'
 ]
 
@@ -773,7 +773,7 @@ _Plot_SPDS_In_Chromaticity_Diagram_CIE1931.png
 
 
 @override_style()
-def spds_chromaticity_diagram_plot_CIE1960UCS(
+def plot_spds_in_chromaticity_diagram_CIE1960UCS(
         spds,
         cmfs='CIE 1931 2 Degree Standard Observer',
         annotate_parameters=None,
@@ -820,12 +820,13 @@ def spds_chromaticity_diagram_plot_CIE1960UCS(
     >>> from colour import ILLUMINANTS_SPDS
     >>> A = ILLUMINANTS_SPDS['A']
     >>> D65 = ILLUMINANTS_SPDS['D65']
-    >>> spds_chromaticity_diagram_plot_CIE1960UCS([A, D65])  # doctest: +SKIP
+    >>> plot_spds_in_chromaticity_diagram_CIE1960UCS([A, D65])
+    ... # doctest: +SKIP
 
     .. image:: ../_static/Plotting_\
-SPDS_Chromaticity_Diagram_Plot_CIE1960UCS.png
+Plot_SPDS_In_Chromaticity_Diagram_CIE1960UCS.png
         :align: center
-        :alt: spds_chromaticity_diagram_plot_CIE1960UCS
+        :alt: plot_spds_in_chromaticity_diagram_CIE1960UCS
     """
 
     settings = dict(kwargs)

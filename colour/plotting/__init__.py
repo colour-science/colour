@@ -31,7 +31,7 @@ from .diagrams import (plot_chromaticity_diagram_CIE1931,
                        plot_chromaticity_diagram_CIE1960UCS,
                        plot_chromaticity_diagram_CIE1976UCS,
                        plot_spds_in_chromaticity_diagram_CIE1931,
-                       spds_chromaticity_diagram_plot_CIE1960UCS,
+                       plot_spds_in_chromaticity_diagram_CIE1960UCS,
                        spds_chromaticity_diagram_plot_CIE1976UCS)
 from .corresponding import plot_corresponding_chromaticities_prediction
 from .geometry import quad, grid, cube
@@ -83,7 +83,7 @@ __all__ += [
     'plot_chromaticity_diagram_CIE1960UCS',
     'plot_chromaticity_diagram_CIE1976UCS',
     'plot_spds_in_chromaticity_diagram_CIE1931',
-    'spds_chromaticity_diagram_plot_CIE1960UCS',
+    'plot_spds_in_chromaticity_diagram_CIE1960UCS',
     'spds_chromaticity_diagram_plot_CIE1976UCS'
 ]
 __all__ += ['plot_corresponding_chromaticities_prediction']
@@ -146,7 +146,7 @@ API_CHANGES = {
         ],
         [
             'colour.plotting.spds_CIE_1960_UCS_chromaticity_diagram_plot',
-            'colour.plotting.spds_chromaticity_diagram_plot_CIE1960UCS',
+            'colour.plotting.plot_spds_in_chromaticity_diagram_CIE1960UCS',
         ],
         [
             'colour.plotting.spds_CIE_1976_UCS_chromaticity_diagram_plot',
