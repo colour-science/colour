@@ -8,7 +8,7 @@ import os
 
 import colour
 from colour.plotting import (colour_style, plot_cvd_simulation_Machado2009,
-                             image_plot)
+                             plot_image)
 from colour.utilities.verbose import message_box
 
 RESOURCES_DIRECTORY = os.path.join(
@@ -25,7 +25,7 @@ ISHIHARA_CBT_3_IMAGE = colour.oetf_reverse(
 message_box('Colour Blindness Plots')
 
 message_box('Displaying "Ishihara Colour Blindness Test - Plate 3".')
-image_plot(ISHIHARA_CBT_3_IMAGE, 'Normal Trichromat', label_colour='black')
+plot_image(ISHIHARA_CBT_3_IMAGE, 'Normal Trichromat', label_colour='black')
 
 print('\n')
 

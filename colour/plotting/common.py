@@ -20,7 +20,7 @@ Defines the common plotting objects:
 -   :func:`colour.plotting.plot_multi_colour_swatches`
 -   :func:`colour.plotting.plot_single_function`
 -   :func:`colour.plotting.plot_multi_functions`
--   :func:`colour.plotting.image_plot`
+-   :func:`colour.plotting.plot_image`
 """
 
 from __future__ import division
@@ -57,7 +57,7 @@ __all__ = [
     'uniform_axes3d', 'filter_passthrough', 'filter_RGB_colourspaces',
     'filter_cmfs', 'filter_illuminants', 'filter_colour_checkers',
     'plot_single_colour_swatch', 'plot_multi_colour_swatches',
-    'plot_single_function', 'plot_multi_functions', 'image_plot'
+    'plot_single_function', 'plot_multi_functions', 'plot_image'
 ]
 
 COLOUR_STYLE_CONSTANTS = Structure(
@@ -1233,7 +1233,7 @@ def plot_multi_functions(functions,
 
 
 @override_style()
-def image_plot(image,
+def plot_image(image,
                text_parameters=None,
                interpolation='nearest',
                colour_map=matplotlib.cm.Greys_r,
@@ -1274,11 +1274,11 @@ def image_plot(image,
     >>> from colour import read_image
     >>> path = os.path.join(
     ...     colour.__path__[0], '..', 'docs', '_static', 'Logo_Medium_001.png')
-    >>> image_plot(read_image(path))  # doctest: +SKIP
+    >>> plot_image(read_image(path))  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Image_Plot.png
+    .. image:: ../_static/Plotting_Plot_Image.png
         :align: center
-        :alt: image_plot
+        :alt: plot_image
     """
 
     figure, axes = artist(**kwargs)

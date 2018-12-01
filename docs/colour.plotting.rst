@@ -24,7 +24,7 @@ Common
     plot_multi_colour_swatches
     plot_single_function
     plot_multi_functions
-    image_plot
+    plot_image
 
 Colorimetry
 -----------

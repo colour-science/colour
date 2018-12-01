@@ -271,10 +271,10 @@ def generate_documentation_plots(output_directory):
     plot_multi_functions(functions)
 
     arguments['filename'] = os.path.join(output_directory,
-                                         'Plotting_Image_Plot.png')
+                                         'Plotting_Plot_Image.png')
     path = os.path.join(colour.__path__[0], '..', 'docs', '_static',
                         'Logo_Medium_001.png')
-    image_plot(colour.read_image(str(path)), **arguments)
+    plot_image(colour.read_image(str(path)), **arguments)
 
     arguments['filename'] = os.path.join(
         output_directory,
@@ -658,7 +658,7 @@ def generate_documentation_plots(output_directory):
     RGB = colour.read_image(
         os.path.join(output_directory, 'Logo_Small_001.png'))[..., 0:3]
     XYZ = colour.sRGB_to_XYZ(RGB)
-    colour.plotting.image_plot(
+    colour.plotting.plot_image(
         XYZ, text_parameters={'text': 'sRGB to XYZ'}, **arguments)
 
 
