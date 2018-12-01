@@ -18,7 +18,7 @@ plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS`
 -   :func:`colour.plotting.\
 plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS`
 -   :func:`colour.plotting.\
-ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1931`
+plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931`
 -   :func:`colour.plotting.\
 ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1960UCS`
 -   :func:`colour.plotting.\
@@ -69,7 +69,7 @@ __all__ = [
     'plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS',
     'ellipses_MacAdam1942',
     'plot_ellipses_MacAdam1942_in_chromaticity_diagram',
-    'ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1931',
+    'plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931',
     'ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1960UCS',
     'ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1976UCS',
     'single_cctf_plot', 'multi_cctf_plot'
@@ -1032,7 +1032,7 @@ Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram.png
 
 
 @override_style()
-def ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1931(
+def plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931(
         chromaticity_diagram_callable_CIE1931=(
             plot_chromaticity_diagram_CIE1931),
         chromaticity_diagram_clipping=False,
@@ -1070,13 +1070,13 @@ def ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1931(
 
     Examples
     --------
-    >>> ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1931()
+    >>> plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931()
     ... # doctest: +SKIP
 
     .. image:: ../_static/\
-Plotting_Ellipses_MacAdam1942_Chromaticity_Diagram_Plot_CIE1931.png
+Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram_CIE1931.png
         :align: center
-        :alt: ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1931
+        :alt: plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931
     """
 
     settings = dict(kwargs)
