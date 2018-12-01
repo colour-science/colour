@@ -3,4 +3,4 @@ colour.plotting.models.RGB\_chromaticity\_coordinates\_chromaticity\_diagram\_pl
 
 .. currentmodule:: colour.plotting.models
 
-.. autofunction:: RGB_chromaticity_coordinates_chromaticity_diagram_plot
+.. autofunction:: plot_RGB_chromaticities_in_chromaticity_diagram

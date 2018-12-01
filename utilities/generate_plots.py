@@ -18,7 +18,7 @@ from colour.plotting.diagrams import (
     plot_chromaticity_diagram, plot_spds_in_chromaticity_diagram)
 from colour.plotting.models import (
     plot_RGB_colourspaces_in_chromaticity_diagram,
-    RGB_chromaticity_coordinates_chromaticity_diagram_plot,
+    plot_RGB_chromaticities_in_chromaticity_diagram,
     ellipses_MacAdam1942_chromaticity_diagram_plot)
 from colour.plotting.quality import colour_quality_bars_plot
 from colour.plotting.temperature import (
@@ -359,9 +359,10 @@ def generate_documentation_plots(output_directory):
 
     arguments['filename'] = os.path.join(
         output_directory,
-        'Plotting_RGB_Chromaticity_Coordinates_Chromaticity_Diagram_Plot.png')
+        'Plotting_Plot_RGB_Chromaticities_In_'
+        'Chromaticity_Diagram_Plot.png')
     RGB = np.random.random((128, 128, 3))
-    RGB_chromaticity_coordinates_chromaticity_diagram_plot(
+    plot_RGB_chromaticities_in_chromaticity_diagram(
         RGB, 'ITU-R BT.709', **arguments)
 
     arguments['filename'] = os.path.join(

@@ -63,7 +63,7 @@ __all__ = [
     'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931',
     'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS',
     'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS',
-    'RGB_chromaticity_coordinates_chromaticity_diagram_plot',
+    'plot_RGB_chromaticities_in_chromaticity_diagram',
     'RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931',
     'RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS',
     'RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS',
@@ -546,7 +546,7 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram_CIE1976UCS.png
 
 
 @override_style()
-def RGB_chromaticity_coordinates_chromaticity_diagram_plot(
+def plot_RGB_chromaticities_in_chromaticity_diagram(
         RGB,
         colourspace='sRGB',
         chromaticity_diagram_callable=(
@@ -589,14 +589,14 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot(
     Examples
     --------
     >>> RGB = np.random.random((128, 128, 3))
-    >>> RGB_chromaticity_coordinates_chromaticity_diagram_plot(
+    >>> plot_RGB_chromaticities_in_chromaticity_diagram(
     ...     RGB, 'ITU-R BT.709')
     ... # doctest: +SKIP
 
     .. image:: ../_static/Plotting_\
-RGB_Chromaticity_Coordinates_Chromaticity_Diagram_Plot.png
+Plot_RGB_Chromaticities_In_Chromaticity_Diagram_Plot.png
         :align: center
-        :alt: RGB_chromaticity_coordinates_chromaticity_diagram_plot
+        :alt: plot_RGB_chromaticities_in_chromaticity_diagram
     """
 
     RGB = as_float_array(RGB).reshape(-1, 3)
@@ -708,7 +708,7 @@ RGB_Chromaticity_Coordinates_Chromaticity_Diagram_Plot_CIE1931.png
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1931'})
 
-    return RGB_chromaticity_coordinates_chromaticity_diagram_plot(
+    return plot_RGB_chromaticities_in_chromaticity_diagram(
         RGB,
         colourspace,
         chromaticity_diagram_callable_CIE1931,
@@ -770,7 +770,7 @@ RGB_Chromaticity_Coordinates_Chromaticity_Diagram_Plot_CIE1960UCS.png
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1960 UCS'})
 
-    return RGB_chromaticity_coordinates_chromaticity_diagram_plot(
+    return plot_RGB_chromaticities_in_chromaticity_diagram(
         RGB,
         colourspace,
         chromaticity_diagram_callable_CIE1960UCS,
@@ -832,7 +832,7 @@ RGB_Chromaticity_Coordinates_Chromaticity_Diagram_Plot_CIE1976UCS.png
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1976 UCS'})
 
-    return RGB_chromaticity_coordinates_chromaticity_diagram_plot(
+    return plot_RGB_chromaticities_in_chromaticity_diagram(
         RGB,
         colourspace,
         chromaticity_diagram_callable_CIE1976UCS,

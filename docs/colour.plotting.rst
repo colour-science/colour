@@ -152,7 +152,7 @@ Colour Models
 
     plot_pointer_gamut
     plot_RGB_colourspaces_in_chromaticity_diagram
-    RGB_chromaticity_coordinates_chromaticity_diagram_plot
+    plot_RGB_chromaticities_in_chromaticity_diagram
 
 Colour Notation Systems
 -----------------------
