@@ -7,7 +7,7 @@ from colour import ILLUMINANTS_SPDS
 from colour.plotting import (colour_style, plot_chromaticity_diagram_CIE1931,
                              plot_chromaticity_diagram_CIE1960UCS,
                              plot_chromaticity_diagram_CIE1976UCS,
-                             spds_chromaticity_diagram_plot_CIE1931,
+                             plot_spds_in_chromaticity_diagram_CIE1931,
                              spds_chromaticity_diagram_plot_CIE1960UCS,
                              spds_chromaticity_diagram_plot_CIE1976UCS)
 from colour.utilities import message_box
@@ -37,7 +37,7 @@ message_box(('Plotting "CIE Standard Illuminant A" and '
              '"CIE 1931 Chromaticity Diagram".'))
 A = ILLUMINANTS_SPDS['A']
 D65 = ILLUMINANTS_SPDS['D65']
-spds_chromaticity_diagram_plot_CIE1931((A, D65))
+plot_spds_in_chromaticity_diagram_CIE1931((A, D65))
 
 print('\n')
 

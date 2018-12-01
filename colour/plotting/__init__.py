@@ -30,7 +30,7 @@ from .characterisation import (plot_single_colour_checker,
 from .diagrams import (plot_chromaticity_diagram_CIE1931,
                        plot_chromaticity_diagram_CIE1960UCS,
                        plot_chromaticity_diagram_CIE1976UCS,
-                       spds_chromaticity_diagram_plot_CIE1931,
+                       plot_spds_in_chromaticity_diagram_CIE1931,
                        spds_chromaticity_diagram_plot_CIE1960UCS,
                        spds_chromaticity_diagram_plot_CIE1976UCS)
 from .corresponding import plot_corresponding_chromaticities_prediction
@@ -82,7 +82,7 @@ __all__ += [
     'plot_chromaticity_diagram_CIE1931',
     'plot_chromaticity_diagram_CIE1960UCS',
     'plot_chromaticity_diagram_CIE1976UCS',
-    'spds_chromaticity_diagram_plot_CIE1931',
+    'plot_spds_in_chromaticity_diagram_CIE1931',
     'spds_chromaticity_diagram_plot_CIE1960UCS',
     'spds_chromaticity_diagram_plot_CIE1976UCS'
 ]
@@ -142,7 +142,7 @@ API_CHANGES = {
         ],
         [
             'colour.plotting.spds_CIE_1931_chromaticity_diagram_plot',
-            'colour.plotting.spds_chromaticity_diagram_plot_CIE1931',
+            'colour.plotting.plot_spds_in_chromaticity_diagram_CIE1931',
         ],
         [
             'colour.plotting.spds_CIE_1960_UCS_chromaticity_diagram_plot',
