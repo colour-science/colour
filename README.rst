@@ -974,7 +974,7 @@ Colour Temperature
 
 .. code-block:: python
 
-    >>> planckian_locus_chromaticity_diagram_plot_CIE1960UCS(['A', 'B', 'C'])
+    >>> plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(['A', 'B', 'C'])
 
 ..  image:: docs/_static/Examples_Plotting_CCT_CIE_1960_UCS_Chromaticity_Diagram.png
 

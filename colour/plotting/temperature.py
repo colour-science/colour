@@ -9,7 +9,7 @@ objects:
 -   :func:`colour.plotting.\
 plot_planckian_locus_in_chromaticity_diagram_CIE1931`
 -   :func:`colour.plotting.\
-planckian_locus_chromaticity_diagram_plot_CIE1960UCS`
+plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS`
 """
 
 from __future__ import division
@@ -36,7 +36,7 @@ __status__ = 'Production'
 __all__ = [
     'plot_planckian_locus', 'plot_planckian_locus_in_chromaticity_diagram',
     'plot_planckian_locus_in_chromaticity_diagram_CIE1931',
-    'planckian_locus_chromaticity_diagram_plot_CIE1960UCS'
+    'plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS'
 ]
 
 
@@ -351,7 +351,7 @@ Plot_Planckian_Locus_In_Chromaticity_Diagram_CIE1931.png
 
 
 @override_style()
-def planckian_locus_chromaticity_diagram_plot_CIE1960UCS(
+def plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
         illuminants=None,
         annotate_parameters=None,
         chromaticity_diagram_callable_CIE1960UCS=(
@@ -392,13 +392,13 @@ plot_planckian_locus_in_chromaticity_diagram`,
 
     Examples
     --------
-    >>> planckian_locus_chromaticity_diagram_plot_CIE1960UCS(['A', 'C', 'E'])
-    ... # doctest: +SKIP
+    >>> plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
+    ...     ['A', 'C', 'E'])  # doctest: +SKIP
 
     .. image:: ../_static/Plotting_\
-Planckian_Locus_Chromaticity_Diagram_Plot_CIE1960UCS.png
+Plot_Planckian_Locus_In_Chromaticity_Diagram_CIE1960UCS.png
         :align: center
-        :alt: planckian_locus_chromaticity_diagram_plot_CIE1960UCS
+        :alt: plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS
     """
 
     settings = dict(kwargs)

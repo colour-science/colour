@@ -127,7 +127,7 @@ def generate_documentation_plots(output_directory):
     arguments['filename'] = os.path.join(
         output_directory,
         'Examples_Plotting_CCT_CIE_1960_UCS_Chromaticity_Diagram.png')
-    planckian_locus_chromaticity_diagram_plot_CIE1960UCS(['A', 'B', 'C'],
+    plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(['A', 'B', 'C'],
                                                          **arguments)
 
     arguments['filename'] = os.path.join(
@@ -477,8 +477,8 @@ def generate_documentation_plots(output_directory):
 
     arguments['filename'] = os.path.join(
         output_directory,
-        'Plotting_Planckian_Locus_Chromaticity_Diagram_Plot_CIE1960UCS.png')
-    planckian_locus_chromaticity_diagram_plot_CIE1960UCS(['A', 'B', 'C'],
+        'Plotting_Plot_Planckian_Locus_In_Chromaticity_Diagram_CIE1960UCS.png')
+    plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(['A', 'B', 'C'],
                                                          **arguments)
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_RGB_Colourspaces_Gamuts_Plot.png')
