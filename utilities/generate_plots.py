@@ -401,8 +401,8 @@ def generate_documentation_plots(output_directory):
     plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS(**arguments)
 
     arguments['filename'] = os.path.join(output_directory,
-                                         'Plotting_Single_CCTF_Plot.png')
-    single_cctf_plot('ITU-R BT.709', **arguments)
+                                         'Plotting_Plot_Single_CCTF.png')
+    plot_single_cctf('ITU-R BT.709', **arguments)
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Plotting_Multi_CCTF_Plot.png')

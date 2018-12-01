@@ -138,7 +138,7 @@ Colour Models
     plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931
     plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1960UCS
     plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS
-    single_cctf_plot
+    plot_single_cctf
     multi_cctf_plot
 
 **Ancillary Objects**
