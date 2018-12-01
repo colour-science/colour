@@ -16,7 +16,7 @@ import numpy as np
 from colour.models import xyY_to_XYZ
 from colour.plotting import (
     COLOUR_STYLE_CONSTANTS, ColourSwatch, XYZ_to_plotting_colourspace, artist,
-    filter_colour_checkers, multi_colour_swatch_plot, override_style, render)
+    filter_colour_checkers, plot_multi_colour_swatches, override_style, render)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -42,7 +42,7 @@ def plot_single_colour_checker(colour_checker='ColorChecker 2005', **kwargs):
     ----------------
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
-        :func:`colour.plotting.multi_colour_swatch_plot`,
+        :func:`colour.plotting.plot_multi_colour_swatches`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -84,7 +84,7 @@ def plot_multi_colour_checkers(colour_checkers=None, **kwargs):
     ----------------
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
-        :func:`colour.plotting.multi_colour_swatch_plot`,
+        :func:`colour.plotting.plot_multi_colour_swatches`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -153,7 +153,7 @@ def plot_multi_colour_checkers(colour_checkers=None, **kwargs):
     settings.update(kwargs)
     settings['standalone'] = False
 
-    multi_colour_swatch_plot(colour_swatches, **settings)
+    plot_multi_colour_swatches(colour_swatches, **settings)
 
     axes.text(
         0.5,

@@ -252,10 +252,10 @@ def generate_documentation_plots(output_directory):
     plot_single_colour_swatch(RGB, **arguments)
 
     arguments['filename'] = os.path.join(
-        output_directory, 'Plotting_Multi_Colour_Swatch_Plot.png')
+        output_directory, 'Plotting_Plot_Multi_Colour_Swatches.png')
     RGB_1 = ColourSwatch(RGB=(0.45293517, 0.31732158, 0.26414773))
     RGB_2 = ColourSwatch(RGB=(0.77875824, 0.57726450, 0.50453169))
-    multi_colour_swatch_plot([RGB_1, RGB_2], **arguments)
+    plot_multi_colour_swatches([RGB_1, RGB_2], **arguments)
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Plotting_Single_Function_Plot.png')

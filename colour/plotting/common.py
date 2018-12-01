@@ -17,7 +17,7 @@ Defines the common plotting objects:
 -   :func:`colour.plotting.label_rectangles`
 -   :func:`colour.plotting.uniform_axes3d`
 -   :func:`colour.plotting.plot_single_colour_swatch`
--   :func:`colour.plotting.multi_colour_swatch_plot`
+-   :func:`colour.plotting.plot_multi_colour_swatches`
 -   :func:`colour.plotting.single_function_plot`
 -   :func:`colour.plotting.multi_function_plot`
 -   :func:`colour.plotting.image_plot`
@@ -56,7 +56,7 @@ __all__ = [
     'colour_cycle', 'artist', 'camera', 'render', 'label_rectangles',
     'uniform_axes3d', 'filter_passthrough', 'filter_RGB_colourspaces',
     'filter_cmfs', 'filter_illuminants', 'filter_colour_checkers',
-    'plot_single_colour_swatch', 'multi_colour_swatch_plot',
+    'plot_single_colour_swatch', 'plot_multi_colour_swatches',
     'single_function_plot', 'multi_function_plot', 'image_plot'
 ]
 
@@ -890,19 +890,19 @@ def plot_single_colour_swatch(colour_swatch, **kwargs):
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
     width : numeric, optional
-        {:func:`colour.plotting.multi_colour_swatch_plot`},
+        {:func:`colour.plotting.plot_multi_colour_swatches`},
         Colour swatch width.
     height : numeric, optional
-        {:func:`colour.plotting.multi_colour_swatch_plot`},
+        {:func:`colour.plotting.plot_multi_colour_swatches`},
         Colour swatch height.
     spacing : numeric, optional
-        {:func:`colour.plotting.multi_colour_swatch_plot`},
+        {:func:`colour.plotting.plot_multi_colour_swatches`},
         Colour swatches spacing.
     columns : int, optional
-        {:func:`colour.plotting.multi_colour_swatch_plot`},
+        {:func:`colour.plotting.plot_multi_colour_swatches`},
         Colour swatches columns count.
     text_parameters : dict, optional
-        {:func:`colour.plotting.multi_colour_swatch_plot`},
+        {:func:`colour.plotting.plot_multi_colour_swatches`},
         Parameters for the :func:`plt.text` definition, ``offset`` can be
         set to define the text offset.
 
@@ -921,7 +921,7 @@ def plot_single_colour_swatch(colour_swatch, **kwargs):
         :alt: plot_single_colour_swatch
     """
 
-    return multi_colour_swatch_plot((colour_swatch, ), **kwargs)
+    return plot_multi_colour_swatches((colour_swatch, ), **kwargs)
 
 
 @override_style(
@@ -932,15 +932,15 @@ def plot_single_colour_swatch(colour_swatch, **kwargs):
         'xtick.labelbottom': False,
         'ytick.labelleft': False,
     })
-def multi_colour_swatch_plot(colour_swatches,
-                             width=1,
-                             height=1,
-                             spacing=0,
-                             columns=None,
-                             text_parameters=None,
-                             background_colour=(1.0, 1.0, 1.0),
-                             compare_swatches=None,
-                             **kwargs):
+def plot_multi_colour_swatches(colour_swatches,
+                               width=1,
+                               height=1,
+                               spacing=0,
+                               columns=None,
+                               text_parameters=None,
+                               background_colour=(1.0, 1.0, 1.0),
+                               compare_swatches=None,
+                               **kwargs):
     """
     Plots given colours swatches.
 
@@ -987,11 +987,11 @@ def multi_colour_swatch_plot(colour_swatches,
     --------
     >>> RGB_1 = ColourSwatch(RGB=(0.45293517, 0.31732158, 0.26414773))
     >>> RGB_2 = ColourSwatch(RGB=(0.77875824, 0.57726450, 0.50453169))
-    >>> multi_colour_swatch_plot([RGB_1, RGB_2])  # doctest: +SKIP
+    >>> plot_multi_colour_swatches([RGB_1, RGB_2])  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Multi_Colour_Swatch_Plot.png
+    .. image:: ../_static/Plotting_Plot_Multi_Colour_Swatches.png
         :align: center
-        :alt: multi_colour_swatch_plot
+        :alt: plot_multi_colour_swatches
     """
 
     figure, axes = artist(**kwargs)

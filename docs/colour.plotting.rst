@@ -21,7 +21,7 @@ Common
     label_rectangles
     uniform_axes3d
     plot_single_colour_swatch
-    multi_colour_swatch_plot
+    plot_multi_colour_swatches
     single_function_plot
     multi_function_plot
     image_plot
