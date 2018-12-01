@@ -21,7 +21,7 @@ from colour.phenomena.rayleigh import (
 from colour.plotting import (ASTM_G_173_ETR, COLOUR_STYLE_CONSTANTS,
                              ColourSwatch, XYZ_to_plotting_colourspace,
                              filter_cmfs, override_style, render,
-                             single_colour_swatch_plot, single_spd_plot)
+                             single_colour_swatch_plot, plot_single_spd)
 from colour.utilities import first_item, normalise_maximum
 
 __author__ = 'Colour Developers'
@@ -67,7 +67,7 @@ def single_rayleigh_scattering_spd_plot(
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
     out_of_gamut_clipping : bool, optional
-        {:func:`colour.plotting.single_spd_plot`},
+        {:func:`colour.plotting.plot_single_spd`},
         Whether to clip out of gamut colours otherwise, the colours will be
         offset by the absolute minimal colour leading to a rendering on
         gray background, less saturated and smoother.
@@ -96,7 +96,7 @@ def single_rayleigh_scattering_spd_plot(
     spd = rayleigh_scattering_spd(cmfs.shape, CO2_concentration, temperature,
                                   pressure, latitude, altitude)
 
-    return single_spd_plot(spd, **settings)
+    return plot_single_spd(spd, **settings)
 
 
 @override_style()
@@ -151,7 +151,7 @@ def the_blue_sky_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     settings.update(kwargs)
     settings['standalone'] = False
 
-    single_spd_plot(spd, cmfs, **settings)
+    plot_single_spd(spd, cmfs, **settings)
 
     axes = figure.add_subplot(212)
 

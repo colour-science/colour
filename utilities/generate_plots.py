@@ -163,7 +163,7 @@ def generate_documentation_plots(output_directory):
                               **arguments)
 
     arguments['filename'] = os.path.join(output_directory,
-                                         'Plotting_Single_SPD_Plot.png')
+                                         'Plotting_Plot_Single_SPD.png')
     data = {
         500: 0.0651,
         520: 0.0705,
@@ -173,7 +173,7 @@ def generate_documentation_plots(output_directory):
         600: 0.1360
     }
     spd = colour.SpectralPowerDistribution(data, name='Custom')
-    single_spd_plot(spd, **arguments)
+    plot_single_spd(spd, **arguments)
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Plotting_Multi_SPD_Plot.png')
@@ -588,7 +588,7 @@ def generate_documentation_plots(output_directory):
     }
 
     spd = colour.SpectralPowerDistribution(sample_spd_data, name='Sample')
-    single_spd_plot(spd, **arguments)
+    plot_single_spd(spd, **arguments)
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Tutorial_SPD_Interpolation.png')

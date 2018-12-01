@@ -5,7 +5,7 @@ Colorimetry Plotting
 
 Defines the colorimetry plotting objects:
 
--   :func:`colour.plotting.single_spd_plot`
+-   :func:`colour.plotting.plot_single_spd`
 -   :func:`colour.plotting.multi_spd_plot`
 -   :func:`colour.plotting.single_cmfs_plot`
 -   :func:`colour.plotting.multi_cmfs_plot`
@@ -52,7 +52,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'single_spd_plot', 'multi_spd_plot', 'single_cmfs_plot', 'multi_cmfs_plot',
+    'plot_single_spd', 'multi_spd_plot', 'single_cmfs_plot', 'multi_cmfs_plot',
     'single_illuminant_spd_plot', 'multi_illuminant_spd_plot',
     'visible_spectrum_plot', 'single_lightness_function_plot',
     'multi_lightness_function_plot', 'single_luminance_function_plot',
@@ -62,7 +62,7 @@ __all__ = [
 
 
 @override_style()
-def single_spd_plot(spd,
+def plot_single_spd(spd,
                     cmfs='CIE 1931 2 Degree Standard Observer',
                     out_of_gamut_clipping=True,
                     **kwargs):
@@ -107,11 +107,11 @@ def single_spd_plot(spd,
     ...     600: 0.1360
     ... }
     >>> spd = SpectralPowerDistribution(data, name='Custom')
-    >>> single_spd_plot(spd)  # doctest: +SKIP
+    >>> plot_single_spd(spd)  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Single_SPD_Plot.png
+    .. image:: ../_static/Plotting_Plot_Single_SPD.png
         :align: center
-        :alt: single_spd_plot
+        :alt: plot_single_spd
     """
 
     figure, axes = artist(**kwargs)
@@ -431,7 +431,7 @@ def single_illuminant_spd_plot(illuminant='A',
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
     out_of_gamut_clipping : bool, optional
-        {:func:`colour.plotting.single_spd_plot`},
+        {:func:`colour.plotting.plot_single_spd`},
         Whether to clip out of gamut colours otherwise, the colours will be
         offset by the absolute minimal colour leading to a rendering on
         gray background, less saturated and smoother.
@@ -462,7 +462,7 @@ def single_illuminant_spd_plot(illuminant='A',
     settings = {'title': title, 'y_label': 'Relative Power'}
     settings.update(kwargs)
 
-    return single_spd_plot(illuminant, **settings)
+    return plot_single_spd(illuminant, **settings)
 
 
 @override_style()
@@ -567,7 +567,7 @@ def visible_spectrum_plot(cmfs='CIE 1931 2 Degree Standard Observer',
     settings.update(kwargs)
     settings['standalone'] = False
 
-    figure, axes = single_spd_plot(
+    figure, axes = plot_single_spd(
         spd_ones(cmfs.shape),
         cmfs=cmfs,
         out_of_gamut_clipping=out_of_gamut_clipping,
@@ -813,7 +813,7 @@ def blackbody_spectral_radiance_plot(
     settings.update(kwargs)
     settings['standalone'] = False
 
-    single_spd_plot(spd, cmfs.name, **settings)
+    plot_single_spd(spd, cmfs.name, **settings)
 
     axes = figure.add_subplot(212)
 

@@ -11,7 +11,7 @@ from colour.plotting import (
     colour_style, multi_cmfs_plot, multi_illuminant_spd_plot,
     multi_lightness_function_plot, multi_spd_plot, single_cmfs_plot,
     single_illuminant_spd_plot, single_lightness_function_plot,
-    single_spd_plot, visible_spectrum_plot)
+    plot_single_spd, visible_spectrum_plot)
 from colour.utilities import message_box
 
 message_box('Colorimetry Plots')
@@ -589,9 +589,9 @@ white_marble_spd_data = {
 }
 
 message_box('Plotting various single spectral power distributions.')
-single_spd_plot(
+plot_single_spd(
     colour.SpectralPowerDistribution(sample_spd_data, name='Custom'))
-single_spd_plot(
+plot_single_spd(
     colour.SpectralPowerDistribution(
         galvanized_steel_metal_spd_data, name='Galvanized Steel Metal'))
 

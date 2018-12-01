@@ -626,7 +626,7 @@ visible spectrum:
 .. code:: python
 
     # Plotting the sample spectral power distribution.
-    single_spd_plot(spd)
+    plot_single_spd(spd)
 
 
 
