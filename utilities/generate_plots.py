@@ -391,9 +391,9 @@ def generate_documentation_plots(output_directory):
     plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931(**arguments)
 
     arguments['filename'] = os.path.join(
-        output_directory, 'Plotting_Ellipses_MacAdam1942_'
-        'Chromaticity_Diagram_Plot_CIE1960UCS.png')
-    ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1960UCS(**arguments)
+        output_directory, 'Plotting_Plot_Ellipses_MacAdam1942_In_'
+        'Chromaticity_Diagram_CIE1960UCS.png')
+    plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1960UCS(**arguments)
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Ellipses_MacAdam1942_'
