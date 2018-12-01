@@ -6,7 +6,7 @@ Colour Models Plotting
 Defines the colour models plotting objects:
 
 -   :func:`colour.plotting.\
-RGB_colourspaces_chromaticity_diagram_plot_CIE1931`
+plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931`
 -   :func:`colour.plotting.\
 RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS`
 -   :func:`colour.plotting.\
@@ -60,7 +60,7 @@ __status__ = 'Production'
 
 __all__ = [
     'plot_pointer_gamut', 'plot_RGB_colourspaces_in_chromaticity_diagram',
-    'RGB_colourspaces_chromaticity_diagram_plot_CIE1931',
+    'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931',
     'RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS',
     'RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS',
     'RGB_chromaticity_coordinates_chromaticity_diagram_plot',
@@ -386,7 +386,7 @@ Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
 
 
 @override_style()
-def RGB_colourspaces_chromaticity_diagram_plot_CIE1931(
+def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
         colourspaces=None,
         cmfs='CIE 1931 2 Degree Standard Observer',
         chromaticity_diagram_callable_CIE1931=(
@@ -420,14 +420,14 @@ def RGB_colourspaces_chromaticity_diagram_plot_CIE1931(
 
     Examples
     --------
-    >>> RGB_colourspaces_chromaticity_diagram_plot_CIE1931(
+    >>> plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
     ...     ['ITU-R BT.709', 'ACEScg', 'S-Gamut'])
     ... # doctest: +SKIP
 
     .. image:: ../_static/Plotting_\
-RGB_Colourspaces_Chromaticity_Diagram_Plot_CIE1931.png
+Plot_RGB_Colourspaces_In_Chromaticity_Diagram_CIE1931.png
         :align: center
-        :alt: RGB_colourspaces_chromaticity_diagram_plot_CIE1931
+        :alt: plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931
     """
 
     settings = dict(kwargs)
@@ -661,7 +661,7 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931(
         RGB,
         colourspace='sRGB',
         chromaticity_diagram_callable_CIE1931=(
-            RGB_colourspaces_chromaticity_diagram_plot_CIE1931),
+            plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931),
         scatter_parameters=None,
         **kwargs):
     """

@@ -129,7 +129,7 @@ Colour Models
 .. autosummary::
     :toctree: generated/
 
-    RGB_colourspaces_chromaticity_diagram_plot_CIE1931
+    plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931
     RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS
     RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS
     RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931

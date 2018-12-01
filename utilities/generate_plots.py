@@ -339,8 +339,8 @@ def generate_documentation_plots(output_directory):
 
     arguments['filename'] = os.path.join(
         output_directory,
-        'Plotting_RGB_Colourspaces_Chromaticity_Diagram_Plot_CIE1931.png')
-    RGB_colourspaces_chromaticity_diagram_plot_CIE1931(
+        'Plotting_Plot_RGB_Colourspaces_In_Chromaticity_Diagram_CIE1931.png')
+    plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
         ['ITU-R BT.709', 'ACEScg', 'S-Gamut'], **arguments)
 
     arguments['filename'] = os.path.join(
