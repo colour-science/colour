@@ -177,7 +177,7 @@ Optical Phenomena
 .. autosummary::
     :toctree: generated/
 
-    single_rayleigh_scattering_spd_plot
+    plot_single_rayleigh_scattering_spd
     the_blue_sky_plot
 
 Colour Quality

@@ -418,8 +418,8 @@ def generate_documentation_plots(output_directory):
                                       **arguments)
 
     arguments['filename'] = os.path.join(
-        output_directory, 'Plotting_Single_Rayleigh_Scattering_SPD_Plot.png')
-    single_rayleigh_scattering_spd_plot(**arguments)
+        output_directory, 'Plotting_Plot_Single_Rayleigh_Scattering_SPD.png')
+    plot_single_rayleigh_scattering_spd(**arguments)
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Plotting_The_Blue_Sky_Plot.png')

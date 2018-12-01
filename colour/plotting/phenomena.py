@@ -5,7 +5,7 @@ Optical Phenomenon Plotting
 
 Defines the optical phenomena plotting objects:
 
--   :func:`colour.plotting.single_rayleigh_scattering_spd_plot`
+-   :func:`colour.plotting.plot_single_rayleigh_scattering_spd`
 -   :func:`colour.plotting.the_blue_sky_plot`
 """
 
@@ -31,11 +31,11 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['single_rayleigh_scattering_spd_plot', 'the_blue_sky_plot']
+__all__ = ['plot_single_rayleigh_scattering_spd', 'the_blue_sky_plot']
 
 
 @override_style()
-def single_rayleigh_scattering_spd_plot(
+def plot_single_rayleigh_scattering_spd(
         CO2_concentration=STANDARD_CO2_CONCENTRATION,
         temperature=STANDARD_AIR_TEMPERATURE,
         pressure=AVERAGE_PRESSURE_MEAN_SEA_LEVEL,
@@ -79,11 +79,11 @@ def single_rayleigh_scattering_spd_plot(
 
     Examples
     --------
-    >>> single_rayleigh_scattering_spd_plot()  # doctest: +SKIP
+    >>> plot_single_rayleigh_scattering_spd()  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Single_Rayleigh_Scattering_SPD_Plot.png
+    .. image:: ../_static/Plotting_Plot_Single_Rayleigh_Scattering_SPD.png
         :align: center
-        :alt: single_rayleigh_scattering_spd_plot
+        :alt: plot_single_rayleigh_scattering_spd
     """
 
     title = 'Rayleigh Scattering'
