@@ -14,7 +14,7 @@ from __future__ import division
 import numpy as np
 
 from colour.notation import MUNSELL_VALUE_METHODS
-from colour.plotting import (filter_passthrough, multi_function_plot,
+from colour.plotting import (filter_passthrough, plot_multi_functions,
                              override_style)
 
 __author__ = 'Colour Developers'
@@ -110,5 +110,5 @@ def multi_munsell_value_function_plot(functions=None, **kwargs):
     }
     settings.update(kwargs)
 
-    return multi_function_plot(
+    return plot_multi_functions(
         functions, samples=np.linspace(0, 100, 1000), **settings)

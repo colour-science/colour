@@ -40,7 +40,7 @@ from colour.colorimetry import (
 from colour.plotting import (
     ColourSwatch, COLOUR_STYLE_CONSTANTS, XYZ_to_plotting_colourspace, artist,
     filter_passthrough, filter_cmfs, filter_illuminants, override_style,
-    render, plot_single_colour_swatch, multi_function_plot)
+    render, plot_single_colour_swatch, plot_multi_functions)
 from colour.utilities import (domain_range_scale, first_item,
                               normalise_maximum, suppress_warnings, tstack)
 
@@ -669,7 +669,7 @@ def plot_multi_lightness_functions(functions=None, **kwargs):
     settings.update(kwargs)
 
     with domain_range_scale(1):
-        return multi_function_plot(functions, **settings)
+        return plot_multi_functions(functions, **settings)
 
 
 @override_style()
@@ -754,7 +754,7 @@ def plot_multi_luminance_functions(functions=None, **kwargs):
     settings.update(kwargs)
 
     with domain_range_scale(1):
-        return multi_function_plot(functions, **settings)
+        return plot_multi_functions(functions, **settings)
 
 
 @override_style()

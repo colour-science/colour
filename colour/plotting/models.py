@@ -46,7 +46,7 @@ from colour.plotting import (
     COLOUR_STYLE_CONSTANTS, chromaticity_diagram_plot_CIE1931, artist,
     chromaticity_diagram_plot_CIE1960UCS, chromaticity_diagram_plot_CIE1976UCS,
     colour_cycle, colour_style, filter_passthrough, filter_RGB_colourspaces,
-    filter_cmfs, multi_function_plot, override_style, render)
+    filter_cmfs, plot_multi_functions, override_style, render)
 from colour.plotting.diagrams import chromaticity_diagram_plot
 from colour.utilities import (as_float_array, domain_range_scale, first_item,
                               tsplit)
@@ -1299,4 +1299,4 @@ def multi_cctf_plot(cctfs=None, decoding_cctf=False, **kwargs):
     settings.update(kwargs)
 
     with domain_range_scale(1):
-        return multi_function_plot(cctfs, **settings)
+        return plot_multi_functions(cctfs, **settings)

@@ -3,4 +3,4 @@ colour.plotting.multi\_function\_plot
 
 .. currentmodule:: colour.plotting
 
-.. autofunction:: multi_function_plot
+.. autofunction:: plot_multi_functions

@@ -268,7 +268,7 @@ def generate_documentation_plots(output_directory):
         'Gamma 2.4': lambda x: x ** (1 / 2.4),
         'Gamma 2.6': lambda x: x ** (1 / 2.6),
     }
-    multi_function_plot(functions)
+    plot_multi_functions(functions)
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Plotting_Image_Plot.png')

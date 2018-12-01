@@ -23,7 +23,7 @@ Common
     plot_single_colour_swatch
     plot_multi_colour_swatches
     plot_single_function
-    multi_function_plot
+    plot_multi_functions
     image_plot
 
 Colorimetry

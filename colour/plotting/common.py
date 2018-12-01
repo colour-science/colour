@@ -19,7 +19,7 @@ Defines the common plotting objects:
 -   :func:`colour.plotting.plot_single_colour_swatch`
 -   :func:`colour.plotting.plot_multi_colour_swatches`
 -   :func:`colour.plotting.plot_single_function`
--   :func:`colour.plotting.multi_function_plot`
+-   :func:`colour.plotting.plot_multi_functions`
 -   :func:`colour.plotting.image_plot`
 """
 
@@ -57,7 +57,7 @@ __all__ = [
     'uniform_axes3d', 'filter_passthrough', 'filter_RGB_colourspaces',
     'filter_cmfs', 'filter_illuminants', 'filter_colour_checkers',
     'plot_single_colour_swatch', 'plot_multi_colour_swatches',
-    'plot_single_function', 'multi_function_plot', 'image_plot'
+    'plot_single_function', 'plot_multi_functions', 'image_plot'
 ]
 
 COLOUR_STYLE_CONSTANTS = Structure(
@@ -1136,17 +1136,17 @@ def plot_single_function(function,
     }
     settings.update(kwargs)
 
-    return multi_function_plot({
+    return plot_multi_functions({
         name: function
     }, samples, log_x, log_y, **settings)
 
 
 @override_style()
-def multi_function_plot(functions,
-                        samples=None,
-                        log_x=None,
-                        log_y=None,
-                        **kwargs):
+def plot_multi_functions(functions,
+                         samples=None,
+                         log_x=None,
+                         log_y=None,
+                         **kwargs):
     """
     Plots given functions.
 
@@ -1181,12 +1181,12 @@ def multi_function_plot(functions,
     ...     'Gamma 2.4' : lambda x: x ** (1 / 2.4),
     ...     'Gamma 2.6' : lambda x: x ** (1 / 2.6),
     ... }
-    >>> multi_function_plot(functions)
+    >>> plot_multi_functions(functions)
     ... # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Multi_Function_Plot.png
+    .. image:: ../_static/Plotting_Plot_Multi_Functions.png
         :align: center
-        :alt: multi_function_plot
+        :alt: plot_multi_functions
     """
 
     settings = {}
