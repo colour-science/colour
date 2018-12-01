@@ -48,7 +48,7 @@ from .models import (
     plot_single_cctf, plot_multi_cctfs)
 from .notation import (plot_single_munsell_value_function,
                        plot_multi_munsell_value_functions)
-from .phenomena import plot_single_rayleigh_scattering_spd, plot_the_blue_sky
+from .phenomena import plot_single_spd_rayleigh_scattering, plot_the_blue_sky
 from .quality import (plot_single_spd_colour_rendering_index_bars,
                       plot_multi_spds_colour_rendering_indexes_bars,
                       plot_single_spd_colour_quality_scale_bars,
@@ -105,7 +105,7 @@ __all__ += [
 __all__ += [
     'plot_single_munsell_value_function', 'plot_multi_munsell_value_functions'
 ]
-__all__ += ['plot_single_rayleigh_scattering_spd', 'plot_the_blue_sky']
+__all__ += ['plot_single_spd_rayleigh_scattering', 'plot_the_blue_sky']
 __all__ += [
     'plot_single_spd_colour_rendering_index_bars',
     'plot_multi_spds_colour_rendering_indexes_bars',
@@ -409,8 +409,8 @@ API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
         'colour.plotting.plot_multi_munsell_value_functions',
     ],
     [
-        'colour.plotting.single_rayleigh_scattering_spd_plot',
-        'colour.plotting.plot_single_rayleigh_scattering_spd',
+        'colour.plotting.single_spd_rayleigh_scattering_plot',
+        'colour.plotting.plot_single_spd_rayleigh_scattering',
     ],
     [
         'colour.plotting.the_blue_sky_plot',

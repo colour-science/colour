@@ -16,7 +16,7 @@ from colour.phenomena.rayleigh import (
     F_air_Bates1984, F_air_Bodhaine1999, molecular_density,
     mean_molecular_weights, gravity_List1968)
 from colour.phenomena import (scattering_cross_section, rayleigh_optical_depth,
-                              rayleigh_scattering_spd)
+                              spd_rayleigh_scattering)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -34,7 +34,7 @@ __all__ = [
     'TestF_airBates1984', 'TestF_airBodhaine1999', 'TestMolecularDensity',
     'TestMeanMolecularWeights', 'TestGravityList1968',
     'TestScatteringCrossSection', 'TestRayleighOpticalDepth',
-    'TestRayleighScatteringSpd'
+    'TestSpdRayleighScattering'
 ]
 
 RAYLEIGH_SCATTERING_SPD_DATA = (
@@ -1430,20 +1430,20 @@ class TestRayleighOpticalDepth(unittest.TestCase):
                                    latitude, altitude)
 
 
-class TestRayleighScatteringSpd(unittest.TestCase):
+class TestSpdRayleighScattering(unittest.TestCase):
     """
-    Defines :func:`colour.phenomena.rayleigh.rayleigh_scattering_spd`
+    Defines :func:`colour.phenomena.rayleigh.spd_rayleigh_scattering`
     definition unit tests methods.
     """
 
-    def test_rayleigh_scattering_spd(self):
+    def test_spd_rayleigh_scattering(self):
         """
-        Tests :func:`colour.phenomena.rayleigh.rayleigh_scattering_spd`
+        Tests :func:`colour.phenomena.rayleigh.spd_rayleigh_scattering`
         definition.
         """
 
         np.testing.assert_almost_equal(
-            rayleigh_scattering_spd().values,
+            spd_rayleigh_scattering().values,
             RAYLEIGH_SCATTERING_SPD_DATA,
             decimal=7)
 

@@ -11,7 +11,7 @@ message_box('"Rayleigh" Optical Depth Computations')
 message_box(('Creating a "Rayleigh" spectral power distribution with default '
              'spectral shape:\n'
              '\n\t{0}'.format(colour.DEFAULT_SPECTRAL_SHAPE)))
-spd = colour.rayleigh_scattering_spd()
+spd = colour.spd_rayleigh_scattering()
 print(spd[555])
 
 print('\n')

@@ -665,7 +665,7 @@ def rayleigh_optical_depth(wavelength,
 rayleigh_scattering = rayleigh_optical_depth
 
 
-def rayleigh_scattering_spd(shape=DEFAULT_SPECTRAL_SHAPE,
+def spd_rayleigh_scattering(shape=DEFAULT_SPECTRAL_SHAPE,
                             CO2_concentration=STANDARD_CO2_CONCENTRATION,
                             temperature=STANDARD_AIR_TEMPERATURE,
                             pressure=AVERAGE_PRESSURE_MEAN_SEA_LEVEL,
@@ -714,7 +714,7 @@ def rayleigh_scattering_spd(shape=DEFAULT_SPECTRAL_SHAPE,
     --------
     >>> from colour.utilities import numpy_print_options
     >>> with numpy_print_options(suppress=True):
-    ...     rayleigh_scattering_spd()  # doctest: +ELLIPSIS
+    ...     spd_rayleigh_scattering()  # doctest: +ELLIPSIS
     SpectralPowerDistribution([[ 360.        ,    0.5991013...],
                                [ 361.        ,    0.5921706...],
                                [ 362.        ,    0.5853410...],

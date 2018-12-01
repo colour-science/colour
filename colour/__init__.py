@@ -126,8 +126,8 @@ from .corresponding import (BRENEMAN_EXPERIMENTS,
                             BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES,
                             CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS,
                             corresponding_chromaticities_prediction)
-from .phenomena import (rayleigh_scattering, rayleigh_scattering_spd,
-                        scattering_cross_section)
+from .phenomena import (rayleigh_scattering, scattering_cross_section,
+                        spd_rayleigh_scattering)
 from .notation import (MUNSELL_COLOURS, MUNSELL_VALUE_METHODS,
                        munsell_colour_to_xyY, munsell_value,
                        xyY_to_munsell_colour)
@@ -253,8 +253,8 @@ __all__ += [
     'corresponding_chromaticities_prediction'
 ]
 __all__ += [
-    'rayleigh_scattering', 'rayleigh_scattering_spd',
-    'scattering_cross_section'
+    'rayleigh_scattering', 'scattering_cross_section',
+    'spd_rayleigh_scattering'
 ]
 __all__ += [
     'MUNSELL_COLOURS', 'MUNSELL_VALUE_METHODS', 'munsell_colour_to_xyY',
@@ -1629,6 +1629,10 @@ API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
     [
         'colour.zeros_spd',
         'colour.spd_zeros',
+    ],
+    [
+        'colour.rayleigh_scattering_spd',
+        'colour.spd_rayleigh_scattering',
     ],
 ]
 

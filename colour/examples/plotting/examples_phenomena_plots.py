@@ -3,9 +3,9 @@
 Showcases optical phenomena plotting examples.
 """
 
-from colour.phenomena import rayleigh_scattering_spd
+from colour.phenomena import spd_rayleigh_scattering
 from colour.plotting import (colour_style, plot_multi_spds,
-                             plot_single_rayleigh_scattering_spd,
+                             plot_single_spd_rayleigh_scattering,
                              plot_the_blue_sky)
 from colour.utilities import message_box
 
@@ -15,7 +15,7 @@ colour_style()
 
 message_box(('Plotting a single "Rayleigh" scattering spectral power '
              'distribution.'))
-plot_single_rayleigh_scattering_spd()
+plot_single_spd_rayleigh_scattering()
 
 print('\n')
 
@@ -24,7 +24,7 @@ message_box(('Comparing multiple "Rayleigh" scattering spectral power '
 name_template = 'Rayleigh Scattering - CO2: {0} ppm'
 rayleigh_spds = []
 for ppm in (0, 50, 300):
-    rayleigh_spd = rayleigh_scattering_spd(CO2_concentration=ppm)
+    rayleigh_spd = spd_rayleigh_scattering(CO2_concentration=ppm)
     rayleigh_spd.name = name_template.format(ppm)
     rayleigh_spds.append(rayleigh_spd)
 plot_multi_spds(
