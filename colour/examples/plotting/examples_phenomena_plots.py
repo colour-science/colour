@@ -6,7 +6,7 @@ Showcases optical phenomena plotting examples.
 from colour.phenomena import rayleigh_scattering_spd
 from colour.plotting import (colour_style, plot_multi_spds,
                              plot_single_rayleigh_scattering_spd,
-                             the_blue_sky_plot)
+                             plot_the_blue_sky)
 from colour.utilities import message_box
 
 message_box('Optical Phenomenons Plots')
@@ -36,4 +36,4 @@ plot_multi_spds(
 print('\n')
 
 message_box('Plotting "The Blue Sky".')
-the_blue_sky_plot()
+plot_the_blue_sky()

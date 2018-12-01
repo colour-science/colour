@@ -6,7 +6,7 @@ Optical Phenomenon Plotting
 Defines the optical phenomena plotting objects:
 
 -   :func:`colour.plotting.plot_single_rayleigh_scattering_spd`
--   :func:`colour.plotting.the_blue_sky_plot`
+-   :func:`colour.plotting.plot_the_blue_sky`
 """
 
 from __future__ import division
@@ -31,7 +31,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['plot_single_rayleigh_scattering_spd', 'the_blue_sky_plot']
+__all__ = ['plot_single_rayleigh_scattering_spd', 'plot_the_blue_sky']
 
 
 @override_style()
@@ -100,7 +100,7 @@ def plot_single_rayleigh_scattering_spd(
 
 
 @override_style()
-def the_blue_sky_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
+def plot_the_blue_sky(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     """
     Plots the blue sky.
 
@@ -122,11 +122,11 @@ def the_blue_sky_plot(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
 
     Examples
     --------
-    >>> the_blue_sky_plot()  # doctest: +SKIP
+    >>> plot_the_blue_sky()  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_The_Blue_Sky_Plot.png
+    .. image:: ../_static/Plotting_Plot_The_Blue_Sky.png
         :align: center
-        :alt: the_blue_sky_plot
+        :alt: plot_the_blue_sky
     """
 
     figure = plt.figure()
