@@ -5,7 +5,7 @@ examples.
 """
 
 from colour.plotting import (
-    colour_style, planckian_locus_chromaticity_diagram_plot_CIE1931,
+    colour_style, plot_planckian_locus_in_chromaticity_diagram_CIE1931,
     planckian_locus_chromaticity_diagram_plot_CIE1960UCS)
 from colour.utilities import message_box
 
@@ -14,7 +14,7 @@ message_box('Colour Temperature and Correlated Colour Temperature Plots')
 colour_style()
 
 message_box('Plotting planckian locus in "CIE 1931 Chromaticity Diagram".')
-planckian_locus_chromaticity_diagram_plot_CIE1931(['A', 'B', 'C'])
+plot_planckian_locus_in_chromaticity_diagram_CIE1931(['A', 'B', 'C'])
 
 print('\n')
 

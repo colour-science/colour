@@ -471,8 +471,8 @@ def generate_documentation_plots(output_directory):
 
     arguments['filename'] = os.path.join(
         output_directory,
-        'Plotting_Planckian_Locus_Chromaticity_Diagram_Plot_CIE1931.png')
-    planckian_locus_chromaticity_diagram_plot_CIE1931(['A', 'B', 'C'],
+        'Plotting_Plot_Planckian_Locus_In_Chromaticity_Diagram_CIE1931.png')
+    plot_planckian_locus_in_chromaticity_diagram_CIE1931(['A', 'B', 'C'],
                                                       **arguments)
 
     arguments['filename'] = os.path.join(
