@@ -10,7 +10,7 @@ from colour.plotting import (
     ASTM_G_173_ETR, blackbody_colours_plot, blackbody_spectral_radiance_plot,
     colour_style, plot_multi_cmfs, multi_illuminant_spd_plot,
     multi_lightness_function_plot, plot_multi_spds, plot_single_cmfs,
-    single_illuminant_spd_plot, single_lightness_function_plot,
+    plot_single_illuminant_spd, single_lightness_function_plot,
     plot_single_spd, visible_spectrum_plot)
 from colour.utilities import message_box
 
@@ -20,7 +20,7 @@ colour_style()
 
 message_box(('Plotting a single illuminant relative spectral power '
              'distribution.'))
-single_illuminant_spd_plot('F1')
+plot_single_illuminant_spd('F1')
 
 print('\n')
 

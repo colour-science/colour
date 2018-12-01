@@ -9,7 +9,7 @@ Defines the colorimetry plotting objects:
 -   :func:`colour.plotting.plot_multi_spds`
 -   :func:`colour.plotting.plot_single_cmfs`
 -   :func:`colour.plotting.plot_multi_cmfs`
--   :func:`colour.plotting.single_illuminant_spd_plot`
+-   :func:`colour.plotting.plot_single_illuminant_spd`
 -   :func:`colour.plotting.multi_illuminant_spd_plot`
 -   :func:`colour.plotting.visible_spectrum_plot`
 -   :func:`colour.plotting.single_lightness_function_plot`
@@ -53,7 +53,7 @@ __status__ = 'Production'
 
 __all__ = [
     'plot_single_spd', 'plot_multi_spds', 'plot_single_cmfs',
-    'plot_multi_cmfs', 'single_illuminant_spd_plot',
+    'plot_multi_cmfs', 'plot_single_illuminant_spd',
     'multi_illuminant_spd_plot', 'visible_spectrum_plot',
     'single_lightness_function_plot', 'multi_lightness_function_plot',
     'single_luminance_function_plot', 'multi_luminance_function_plot',
@@ -412,7 +412,7 @@ def plot_multi_cmfs(cmfs=None, **kwargs):
 
 
 @override_style()
-def single_illuminant_spd_plot(illuminant='A',
+def plot_single_illuminant_spd(illuminant='A',
                                cmfs='CIE 1931 2 Degree Standard Observer',
                                **kwargs):
     """
@@ -447,11 +447,11 @@ def single_illuminant_spd_plot(illuminant='A',
 
     Examples
     --------
-    >>> single_illuminant_spd_plot('A')  # doctest: +SKIP
+    >>> plot_single_illuminant_spd('A')  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Single_Illuminant_SPD_Plot.png
+    .. image:: ../_static/Plotting_Plot_Single_Illuminant_SPD.png
         :align: center
-        :alt: single_illuminant_spd_plot
+        :alt: plot_single_illuminant_spd
     """
 
     cmfs = first_item(filter_cmfs(cmfs).values())
