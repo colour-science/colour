@@ -5,7 +5,7 @@ Showcases *CIE* chromaticity diagrams plotting examples.
 
 from colour import ILLUMINANTS_SPDS
 from colour.plotting import (colour_style, plot_chromaticity_diagram_CIE1931,
-                             chromaticity_diagram_plot_CIE1960UCS,
+                             plot_chromaticity_diagram_CIE1960UCS,
                              chromaticity_diagram_plot_CIE1976UCS,
                              spds_chromaticity_diagram_plot_CIE1931,
                              spds_chromaticity_diagram_plot_CIE1960UCS,
@@ -22,7 +22,7 @@ plot_chromaticity_diagram_CIE1931()
 print('\n')
 
 message_box('Plotting "CIE 1960 UCS Chromaticity Diagram".')
-chromaticity_diagram_plot_CIE1960UCS()
+plot_chromaticity_diagram_CIE1960UCS()
 
 print('\n')
 

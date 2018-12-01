@@ -6,7 +6,7 @@ CIE Chromaticity Diagrams Plotting
 Defines the *CIE* chromaticity diagrams plotting objects:
 
 -   :func:`colour.plotting.plot_chromaticity_diagram_CIE1931`
--   :func:`colour.plotting.chromaticity_diagram_plot_CIE1960UCS`
+-   :func:`colour.plotting.plot_chromaticity_diagram_CIE1960UCS`
 -   :func:`colour.plotting.chromaticity_diagram_plot_CIE1976UCS`
 -   :func:`colour.plotting.spds_chromaticity_diagram_plot_CIE1931`
 -   :func:`colour.plotting.spds_chromaticity_diagram_plot_CIE1960UCS`
@@ -40,7 +40,7 @@ __status__ = 'Production'
 __all__ = [
     'plot_spectral_locus', 'plot_chromaticity_diagram_colours',
     'plot_chromaticity_diagram', 'plot_chromaticity_diagram_CIE1931',
-    'chromaticity_diagram_plot_CIE1960UCS',
+    'plot_chromaticity_diagram_CIE1960UCS',
     'chromaticity_diagram_plot_CIE1976UCS', 'spds_chromaticity_diagram_plot',
     'spds_chromaticity_diagram_plot_CIE1931',
     'spds_chromaticity_diagram_plot_CIE1960UCS',
@@ -451,7 +451,7 @@ def plot_chromaticity_diagram_CIE1931(
 
 
 @override_style()
-def chromaticity_diagram_plot_CIE1960UCS(
+def plot_chromaticity_diagram_CIE1960UCS(
         cmfs='CIE 1931 2 Degree Standard Observer',
         show_diagram_colours=True,
         show_spectral_locus=True,
@@ -484,11 +484,11 @@ def chromaticity_diagram_plot_CIE1960UCS(
 
     Examples
     --------
-    >>> chromaticity_diagram_plot_CIE1960UCS()  # doctest: +SKIP
+    >>> plot_chromaticity_diagram_CIE1960UCS()  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Chromaticity_Diagram_Plot_CIE1960UCS.png
+    .. image:: ../_static/Plotting_Plot_Chromaticity_Diagram_CIE1960UCS.png
         :align: center
-        :alt: chromaticity_diagram_plot_CIE1960UCS
+        :alt: plot_chromaticity_diagram_CIE1960UCS
     """
 
     settings = dict(kwargs)
@@ -776,7 +776,7 @@ def spds_chromaticity_diagram_plot_CIE1960UCS(
         cmfs='CIE 1931 2 Degree Standard Observer',
         annotate_parameters=None,
         chromaticity_diagram_callable_CIE1960UCS=(
-            chromaticity_diagram_plot_CIE1960UCS),
+            plot_chromaticity_diagram_CIE1960UCS),
         **kwargs):
     """
     Plots given spectral power distribution chromaticity coordinates into the

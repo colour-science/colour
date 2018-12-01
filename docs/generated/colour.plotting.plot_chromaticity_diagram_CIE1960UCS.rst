@@ -3,4 +3,4 @@ colour.plotting.chromaticity\_diagram\_plot\_CIE1960UCS
 
 .. currentmodule:: colour.plotting
 
-.. autofunction:: chromaticity_diagram_plot_CIE1960UCS
+.. autofunction:: plot_chromaticity_diagram_CIE1960UCS
