@@ -6,7 +6,7 @@ Characterisation Plotting
 Defines the characterisation plotting objects:
 
 -   :func:`colour.plotting.plot_single_colour_checker`
--   :func:`colour.plotting.multi_colour_checker_plot`
+-   :func:`colour.plotting.plot_multi_colour_checkers`
 """
 
 from __future__ import division
@@ -25,7 +25,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['plot_single_colour_checker', 'multi_colour_checker_plot']
+__all__ = ['plot_single_colour_checker', 'plot_multi_colour_checkers']
 
 
 @override_style()
@@ -60,7 +60,7 @@ def plot_single_colour_checker(colour_checker='ColorChecker 2005', **kwargs):
         :alt: plot_single_colour_checker
     """
 
-    return multi_colour_checker_plot([colour_checker], **kwargs)
+    return plot_multi_colour_checkers([colour_checker], **kwargs)
 
 
 @override_style(
@@ -71,7 +71,7 @@ def plot_single_colour_checker(colour_checker='ColorChecker 2005', **kwargs):
         'xtick.labelbottom': False,
         'ytick.labelleft': False,
     })
-def multi_colour_checker_plot(colour_checkers=None, **kwargs):
+def plot_multi_colour_checkers(colour_checkers=None, **kwargs):
     """
     Plots and compares given colour checkers.
 
@@ -95,12 +95,12 @@ def multi_colour_checker_plot(colour_checkers=None, **kwargs):
 
     Examples
     --------
-    >>> multi_colour_checker_plot(['ColorChecker 1976', 'ColorChecker 2005'])
+    >>> plot_multi_colour_checkers(['ColorChecker 1976', 'ColorChecker 2005'])
     ... # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Multi_Colour_Checker_Plot.png
+    .. image:: ../_static/Plotting_Plot_Multi_Colour_Checkers.png
         :align: center
-        :alt: plot_single_colour_checker
+        :alt: plot_multi_colour_checkers
     """
 
     if colour_checkers is None:

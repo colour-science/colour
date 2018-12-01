@@ -26,7 +26,7 @@ from .colorimetry import (
     multi_luminance_function_plot, blackbody_spectral_radiance_plot,
     blackbody_colours_plot)
 from .characterisation import (plot_single_colour_checker,
-                               multi_colour_checker_plot)
+                               plot_multi_colour_checkers)
 from .diagrams import (chromaticity_diagram_plot_CIE1931,
                        chromaticity_diagram_plot_CIE1960UCS,
                        chromaticity_diagram_plot_CIE1976UCS,
@@ -77,7 +77,7 @@ __all__ += [
     'multi_luminance_function_plot', 'blackbody_spectral_radiance_plot',
     'blackbody_colours_plot'
 ]
-__all__ += ['plot_single_colour_checker', 'multi_colour_checker_plot']
+__all__ += ['plot_single_colour_checker', 'plot_multi_colour_checkers']
 __all__ += [
     'chromaticity_diagram_plot_CIE1931',
     'chromaticity_diagram_plot_CIE1960UCS',

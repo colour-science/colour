@@ -158,8 +158,8 @@ def generate_documentation_plots(output_directory):
     plot_single_colour_checker('ColorChecker 2005', **arguments)
 
     arguments['filename'] = os.path.join(
-        output_directory, 'Plotting_Multi_Colour_Checker_Plot.png')
-    multi_colour_checker_plot(['ColorChecker 1976', 'ColorChecker 2005'],
+        output_directory, 'Plotting_Plot_Multi_Colour_Checkers.png')
+    plot_multi_colour_checkers(['ColorChecker 1976', 'ColorChecker 2005'],
                               **arguments)
 
     arguments['filename'] = os.path.join(output_directory,
