@@ -18,6 +18,7 @@ colour.LUT1D
       ~LUT1D.arithmetical_operation
       ~LUT1D.as_LUT
       ~LUT1D.copy
+      ~LUT1D.is_domain_explicit
       ~LUT1D.linear_table
    
    

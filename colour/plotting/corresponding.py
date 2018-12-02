@@ -5,14 +5,14 @@ Corresponding Chromaticities Prediction Plotting
 
 Defines corresponding chromaticities prediction plotting objects:
 
--   :func:`colour.plotting.corresponding_chromaticities_prediction_plot`
+-   :func:`colour.plotting.plot_corresponding_chromaticities_prediction`
 """
 
 from __future__ import division
 
 from colour.corresponding import corresponding_chromaticities_prediction
 from colour.plotting import (COLOUR_STYLE_CONSTANTS, artist,
-                             chromaticity_diagram_plot_CIE1976UCS,
+                             plot_chromaticity_diagram_CIE1976UCS,
                              override_style, render)
 
 __author__ = 'Colour Developers'
@@ -22,11 +22,11 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['corresponding_chromaticities_prediction_plot']
+__all__ = ['plot_corresponding_chromaticities_prediction']
 
 
 @override_style()
-def corresponding_chromaticities_prediction_plot(experiment=1,
+def plot_corresponding_chromaticities_prediction(experiment=1,
                                                  model='Von Kries',
                                                  transform='CAT02',
                                                  **kwargs):
@@ -47,7 +47,7 @@ def corresponding_chromaticities_prediction_plot(experiment=1,
     ----------------
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
-        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -58,13 +58,13 @@ def corresponding_chromaticities_prediction_plot(experiment=1,
 
     Examples
     --------
-    >>> corresponding_chromaticities_prediction_plot(1, 'Von Kries', 'CAT02')
+    >>> plot_corresponding_chromaticities_prediction(1, 'Von Kries', 'CAT02')
     ... # doctest: +SKIP
 
     .. image:: ../_static/Plotting_\
-Corresponding_Chromaticities_Prediction_Plot.png
+Plot_Corresponding_Chromaticities_Prediction.png
         :align: center
-        :alt: corresponding_chromaticities_prediction_plot
+        :alt: plot_corresponding_chromaticities_prediction
     """
 
     settings = {'uniform': True}
@@ -84,7 +84,7 @@ Corresponding_Chromaticities_Prediction_Plot.png
     settings.update(kwargs)
     settings['standalone'] = False
 
-    chromaticity_diagram_plot_CIE1976UCS(**settings)
+    plot_chromaticity_diagram_CIE1976UCS(**settings)
 
     results = corresponding_chromaticities_prediction(
         experiment, transform=transform)

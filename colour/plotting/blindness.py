@@ -5,13 +5,13 @@ Colour Blindness Plotting
 
 Defines the colour blindness plotting objects:
 
--   :func:`cvd_simulation_Machado2009_plot`
+-   :func:`plot_cvd_simulation_Machado2009`
 """
 
 from __future__ import division
 
 from colour.blindness import cvd_matrix_Machado2009
-from colour.plotting import COLOUR_STYLE_CONSTANTS, image_plot, override_style
+from colour.plotting import COLOUR_STYLE_CONSTANTS, plot_image, override_style
 from colour.utilities import dot_vector
 
 __author__ = 'Colour Developers'
@@ -21,11 +21,11 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['cvd_simulation_Machado2009_plot']
+__all__ = ['plot_cvd_simulation_Machado2009']
 
 
 @override_style()
-def cvd_simulation_Machado2009_plot(RGB,
+def plot_cvd_simulation_Machado2009(RGB,
                                     deficiency='Protanomaly',
                                     severity=0.5,
                                     M_a=None,
@@ -66,11 +66,11 @@ def cvd_simulation_Machado2009_plot(RGB,
     --------
     >>> import numpy as np
     >>> RGB = np.random.rand(32, 32, 3)
-    >>> cvd_simulation_Machado2009_plot(RGB)  # doctest: +SKIP
+    >>> plot_cvd_simulation_Machado2009(RGB)  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_CVD_Simulation_Machado2009_Plot.png
+    .. image:: ../_static/Plotting_Plot_CVD_Simulation_Machado2009.png
         :align: center
-        :alt: cvd_simulation_Machado2009_plot
+        :alt: plot_cvd_simulation_Machado2009
     """
 
     if M_a is None:
@@ -81,6 +81,6 @@ def cvd_simulation_Machado2009_plot(RGB,
     settings = {'text_parameters': {'text': None if M_a is None else text}}
     settings.update(kwargs)
 
-    return image_plot(
+    return plot_image(
         COLOUR_STYLE_CONSTANTS.colour.colourspace.encoding_cctf(
             dot_vector(M_a, RGB)), **settings)

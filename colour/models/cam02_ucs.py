@@ -218,8 +218,11 @@ def UCS_Luo2006_to_JMh_CIECAM02(Jpapbp, coefficients):
 
     M = (np.exp(M_p / (1 / c_2)) - 1) / c_2
 
-    JMh = tstack([from_range_100(J), from_range_100(M),
-                  from_range_degrees(np.degrees(h) % 360)])
+    JMh = tstack([
+        from_range_100(J),
+        from_range_100(M),
+        from_range_degrees(np.degrees(h) % 360)
+    ])
 
     return JMh
 

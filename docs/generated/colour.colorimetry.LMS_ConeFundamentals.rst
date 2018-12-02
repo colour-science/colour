@@ -27,7 +27,7 @@ colour.colorimetry.LMS\_ConeFundamentals
       ~LMS_ConeFundamentals.multi_signal_unpack_data
       ~LMS_ConeFundamentals.normalise
       ~LMS_ConeFundamentals.to_dataframe
-      ~LMS_ConeFundamentals.to_spds
+      ~LMS_ConeFundamentals.to_sds
       ~LMS_ConeFundamentals.trim
       ~LMS_ConeFundamentals.trim_wavelengths
       ~LMS_ConeFundamentals.zeros

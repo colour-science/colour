@@ -27,7 +27,7 @@ colour.colorimetry.XYZ\_ColourMatchingFunctions
       ~XYZ_ColourMatchingFunctions.multi_signal_unpack_data
       ~XYZ_ColourMatchingFunctions.normalise
       ~XYZ_ColourMatchingFunctions.to_dataframe
-      ~XYZ_ColourMatchingFunctions.to_spds
+      ~XYZ_ColourMatchingFunctions.to_sds
       ~XYZ_ColourMatchingFunctions.trim
       ~XYZ_ColourMatchingFunctions.trim_wavelengths
       ~XYZ_ColourMatchingFunctions.zeros

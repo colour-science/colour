@@ -41,8 +41,8 @@ def format_spectral_data(data):
     >>> from colour import read_spectral_data_from_csv_file
     >>> csv_file = os.path.join(os.path.dirname(__file__), 'tests',
     ...                         'resources', 'colorchecker_n_ohta.csv')
-    >>> spds_data = {'1': read_spectral_data_from_csv_file(csv_file)['1']}
-    >>> print(format_spectral_data(spds_data['1']))  # doctest: +ELLIPSIS
+    >>> sds_data = {'1': read_spectral_data_from_csv_file(csv_file)['1']}
+    >>> print(format_spectral_data(sds_data['1']))  # doctest: +ELLIPSIS
     {380.0: 0.0...,
      385.0: 0.0...,
      390.0: 0.0...,

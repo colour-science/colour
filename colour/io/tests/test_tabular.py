@@ -12,9 +12,9 @@ import unittest
 import tempfile
 from six import PY2, text_type
 
-from colour.colorimetry import SpectralPowerDistribution
+from colour.colorimetry import SpectralDistribution
 from colour.io import (read_spectral_data_from_csv_file,
-                       read_spds_from_csv_file, write_spds_to_csv_file)
+                       read_sds_from_csv_file, write_sds_to_csv_file)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -25,8 +25,8 @@ __status__ = 'Production'
 
 __all__ = [
     'RESOURCES_DIRECTORY', 'COLOURCHECKER_N_OHTA_1',
-    'TestReadSpectralDataFromCsvFile', 'TestReadSpdsFromCsvFile',
-    'TestWriteSpdsToCsvFile'
+    'TestReadSpectralDataFromCsvFile', 'TestReadSdsFromCsvFile',
+    'TestWriteSdsToCsvFile'
 ]
 
 RESOURCES_DIRECTORY = os.path.join(os.path.dirname(__file__), 'resources')
@@ -147,31 +147,31 @@ class TestReadSpectralDataFromCsvFile(unittest.TestCase):
         self.assertEqual(data['s_bar'][760], -1)
 
 
-class TestReadSpdsFromCsvFile(unittest.TestCase):
+class TestReadSdsFromCsvFile(unittest.TestCase):
     """
-    Defines :func:`colour.io.tabular.read_spds_from_csv_file` definition units
+    Defines :func:`colour.io.tabular.read_sds_from_csv_file` definition units
     tests methods.
     """
 
-    def test_read_spds_from_csv_file(self):
+    def test_read_sds_from_csv_file(self):
         """
-        Tests :func:`colour.io.tabular.read_spds_from_csv_file` definition.
+        Tests :func:`colour.io.tabular.read_sds_from_csv_file` definition.
         """
 
         colour_checker_n_ohta = os.path.join(RESOURCES_DIRECTORY,
                                              'colorchecker_n_ohta.csv')
-        spds = read_spds_from_csv_file(colour_checker_n_ohta)
-        for spd in spds.values():
-            self.assertIsInstance(spd, SpectralPowerDistribution)
+        sds = read_sds_from_csv_file(colour_checker_n_ohta)
+        for sd in sds.values():
+            self.assertIsInstance(sd, SpectralDistribution)
 
-        self.assertEqual(spds['1'],
-                         SpectralPowerDistribution(
+        self.assertEqual(sds['1'],
+                         SpectralDistribution(
                              COLOURCHECKER_N_OHTA_1, name='1'))
 
 
-class TestWriteSpdsToCsvFile(unittest.TestCase):
+class TestWriteSdsToCsvFile(unittest.TestCase):
     """
-    Defines :func:`colour.io.tabular.write_spds_to_csv_file` definition units
+    Defines :func:`colour.io.tabular.write_sds_to_csv_file` definition units
     tests methods.
     """
 
@@ -189,34 +189,34 @@ class TestWriteSpdsToCsvFile(unittest.TestCase):
 
         shutil.rmtree(self._temporary_directory)
 
-    def test_write_spds_to_csv_file(self):
+    def test_write_sds_to_csv_file(self):
         """
-        Tests :func:`colour.io.tabular.write_spds_to_csv_file` definition.
+        Tests :func:`colour.io.tabular.write_sds_to_csv_file` definition.
         """
 
         colour_checker_n_ohta = os.path.join(RESOURCES_DIRECTORY,
                                              'colorchecker_n_ohta.csv')
-        spds = read_spds_from_csv_file(colour_checker_n_ohta)
+        sds = read_sds_from_csv_file(colour_checker_n_ohta)
         colour_checker_n_ohta_test = os.path.join(self._temporary_directory,
                                                   'colorchecker_n_ohta.csv')
-        write_spds_to_csv_file(spds, colour_checker_n_ohta_test)
-        spds_test = read_spds_from_csv_file(colour_checker_n_ohta_test)
-        for key, value in spds.items():
+        write_sds_to_csv_file(sds, colour_checker_n_ohta_test)
+        sds_test = read_sds_from_csv_file(colour_checker_n_ohta_test)
+        for key, value in sds.items():
             if PY2:
                 # Running into precision issues with Python 2.x, applying
                 # conservative rounding.
                 value.wavelengths = np.around(value.wavelengths, decimals=7)
                 value.values = np.around(value.values, decimals=7)
-                spds_test[key].wavelengths = np.around(
-                    spds_test[key].wavelengths, decimals=7)
-                spds_test[key].values = np.around(
-                    spds_test[key].values, decimals=7)
+                sds_test[key].wavelengths = np.around(
+                    sds_test[key].wavelengths, decimals=7)
+                sds_test[key].values = np.around(
+                    sds_test[key].values, decimals=7)
 
-            self.assertEqual(value, spds_test[key])
+            self.assertEqual(value, sds_test[key])
 
-        write_spds_to_csv_file(spds, colour_checker_n_ohta_test, fields=['1'])
-        spds_test = read_spds_from_csv_file(colour_checker_n_ohta_test)
-        self.assertEqual(len(spds_test), 1)
+        write_sds_to_csv_file(sds, colour_checker_n_ohta_test, fields=['1'])
+        sds_test = read_sds_from_csv_file(colour_checker_n_ohta_test)
+        self.assertEqual(len(sds_test), 1)
 
 
 if __name__ == '__main__':

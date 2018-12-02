@@ -40,7 +40,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import ILLUMINANTS_SPDS, spectral_to_XYZ
+from colour.colorimetry import ILLUMINANTS_SDS, sd_to_XYZ
 from colour.models import XYZ_to_xy
 from colour.models.rgb import (ACES_2065_1_COLOURSPACE, ACES_RICD, RGB_to_XYZ,
                                XYZ_to_RGB, normalised_primary_matrix)
@@ -63,20 +63,20 @@ S_FLARE_FACTOR = 0.18000 / (0.18000 + FLARE_PERCENTAGE)
 
 
 def spectral_to_aces_relative_exposure_values(
-        spd,
-        illuminant=ILLUMINANTS_SPDS['D65'],
+        sd,
+        illuminant=ILLUMINANTS_SDS['D65'],
         apply_chromatic_adaptation=False,
         chromatic_adaptation_transform='CAT02'):
     """
-    Converts given spectral power distribution to *ACES2065-1* colourspace
-    relative exposure values.
+    Converts given spectral distribution to *ACES2065-1* colourspace relative
+    exposure values.
 
     Parameters
     ----------
-    spd : SpectralPowerDistribution
-        Spectral power distribution.
-    illuminant : SpectralPowerDistribution, optional
-        *Illuminant* spectral power distribution.
+    sd : SpectralDistribution
+        Spectral distribution.
+    illuminant : SpectralDistribution, optional
+        *Illuminant* spectral distribution.
     apply_chromatic_adaptation : bool, optional
         Whether to apply chromatic adaptation using given transform.
     chromatic_adaptation_transform : unicode, optional
@@ -102,7 +102,7 @@ def spectral_to_aces_relative_exposure_values(
     -   The chromatic adaptation method implemented here is a bit unusual
         as it involves building a new colourspace based on *ACES2065-1*
         colourspace primaries but using the whitepoint of the illuminant that
-        the spectral power distribution was measured under.
+        the spectral distribution was measured under.
 
     References
     ----------
@@ -113,23 +113,23 @@ def spectral_to_aces_relative_exposure_values(
 
     Examples
     --------
-    >>> from colour import COLOURCHECKERS_SPDS
-    >>> spd = COLOURCHECKERS_SPDS['ColorChecker N Ohta']['dark skin']
-    >>> spectral_to_aces_relative_exposure_values(spd)  # doctest: +ELLIPSIS
+    >>> from colour import COLOURCHECKERS_SDS
+    >>> sd = COLOURCHECKERS_SDS['ColorChecker N Ohta']['dark skin']
+    >>> spectral_to_aces_relative_exposure_values(sd)  # doctest: +ELLIPSIS
     array([ 0.1171785...,  0.0866347...,  0.0589707...])
-    >>> spectral_to_aces_relative_exposure_values(spd,
+    >>> spectral_to_aces_relative_exposure_values(sd,
     ...     apply_chromatic_adaptation=True)  # doctest: +ELLIPSIS
     array([ 0.1180766...,  0.0869023...,  0.0589104...])
     """
 
     shape = ACES_RICD.shape
-    if spd.shape != ACES_RICD.shape:
-        spd = spd.copy().align(shape)
+    if sd.shape != ACES_RICD.shape:
+        sd = sd.copy().align(shape)
 
     if illuminant.shape != ACES_RICD.shape:
         illuminant = illuminant.copy().align(shape)
 
-    s_v = spd.values
+    s_v = sd.values
     i_v = illuminant.values
 
     r_bar, g_bar, b_bar = tsplit(ACES_RICD.values)
@@ -156,7 +156,7 @@ def spectral_to_aces_relative_exposure_values(
     E_rgb *= S_FLARE_FACTOR
 
     if apply_chromatic_adaptation:
-        xy = XYZ_to_xy(spectral_to_XYZ(illuminant) / 100)
+        xy = XYZ_to_xy(sd_to_XYZ(illuminant) / 100)
         NPM = normalised_primary_matrix(ACES_2065_1_COLOURSPACE.primaries, xy)
         XYZ = RGB_to_XYZ(E_rgb, xy, ACES_2065_1_COLOURSPACE.whitepoint, NPM,
                          chromatic_adaptation_transform)

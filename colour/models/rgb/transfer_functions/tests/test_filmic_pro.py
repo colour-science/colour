@@ -107,8 +107,7 @@ log_decoding_FilmicPro6` definition unit tests methods.
 log_decoding_FilmicPro6` definition.
         """
 
-        np.testing.assert_array_equal(
-            log_decoding_FilmicPro6(-np.inf), np.nan)
+        np.testing.assert_array_equal(log_decoding_FilmicPro6(-np.inf), np.nan)
 
         self.assertAlmostEqual(
             log_decoding_FilmicPro6(0.606634519924703), 0.18, places=7)

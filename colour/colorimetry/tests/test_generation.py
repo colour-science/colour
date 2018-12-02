@@ -9,8 +9,8 @@ import numpy as np
 import unittest
 
 from colour.colorimetry.generation import (
-    spd_constant, spd_zeros, spd_ones, spd_gaussian_normal, spd_gaussian_fwhm,
-    spd_single_led_Ohno2005, spd_multi_led_Ohno2005)
+    sd_constant, sd_zeros, sd_ones, sd_gaussian_normal, sd_gaussian_fwhm,
+    sd_single_led_Ohno2005, sd_multi_led_Ohno2005)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -20,170 +20,169 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'TestSpdConstant', 'TestZerosSpd', 'TestSpdOnes', 'TestSpdGaussianNormal',
-    'TestSpdGaussianFwhm', 'TestSpdSingleLedOhno2005',
-    'TestSpdMultiLedOhno2005'
+    'TestSdConstant', 'TestSdZeros', 'TestSdOnes', 'TestSdGaussianNormal',
+    'TestSdGaussianFwhm', 'TestSdSingleLedOhno2005', 'TestSdMultiLedOhno2005'
 ]
 
 
-class TestSpdConstant(unittest.TestCase):
+class TestSdConstant(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.generation.spd_constant` definition unit
+    Defines :func:`colour.colorimetry.generation.sd_constant` definition unit
     tests methods.
     """
 
-    def test_spd_constant(self):
+    def test_sd_constant(self):
         """
-        Tests :func:`colour.colorimetry.generation.spd_constant` definition.
+        Tests :func:`colour.colorimetry.generation.sd_constant` definition.
         """
 
-        spd = spd_constant(np.pi)
+        sd = sd_constant(np.pi)
 
-        self.assertAlmostEqual(spd[360], np.pi, places=7)
+        self.assertAlmostEqual(sd[360], np.pi, places=7)
 
-        self.assertAlmostEqual(spd[555], np.pi, places=7)
+        self.assertAlmostEqual(sd[555], np.pi, places=7)
 
-        self.assertAlmostEqual(spd[780], np.pi, places=7)
+        self.assertAlmostEqual(sd[780], np.pi, places=7)
 
 
-class TestZerosSpd(unittest.TestCase):
+class TestSdZeros(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.generation.spd_zeros` definition unit
+    Defines :func:`colour.colorimetry.generation.sd_zeros` definition unit
     tests methods.
     """
 
-    def test_zeros_spd(self):
+    def test_sd_zeros(self):
         """
-        Tests :func:`colour.colorimetry.generation.spd_zeros`
+        Tests :func:`colour.colorimetry.generation.sd_zeros`
         definition.
         """
 
-        spd = spd_zeros()
+        sd = sd_zeros()
 
-        self.assertEqual(spd[360], 0)
+        self.assertEqual(sd[360], 0)
 
-        self.assertEqual(spd[555], 0)
+        self.assertEqual(sd[555], 0)
 
-        self.assertEqual(spd[780], 0)
+        self.assertEqual(sd[780], 0)
 
 
-class TestSpdOnes(unittest.TestCase):
+class TestSdOnes(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.generation.spd_ones` definition unit
+    Defines :func:`colour.colorimetry.generation.sd_ones` definition unit
     tests methods.
     """
 
-    def test_spd_ones(self):
+    def test_sd_ones(self):
         """
-        Tests :func:`colour.colorimetry.generation.spd_ones` definition.
+        Tests :func:`colour.colorimetry.generation.sd_ones` definition.
         """
 
-        spd = spd_ones()
+        sd = sd_ones()
 
-        self.assertEqual(spd[360], 1)
+        self.assertEqual(sd[360], 1)
 
-        self.assertEqual(spd[555], 1)
+        self.assertEqual(sd[555], 1)
 
-        self.assertEqual(spd[780], 1)
+        self.assertEqual(sd[780], 1)
 
 
-class TestSpdGaussianNormal(unittest.TestCase):
+class TestSdGaussianNormal(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.generation.spd_gaussian_normal`
+    Defines :func:`colour.colorimetry.generation.sd_gaussian_normal`
     definition unit tests methods.
     """
 
-    def test_spd_gaussian_normal(self):
+    def test_sd_gaussian_normal(self):
         """
-        Tests :func:`colour.colorimetry.generation.spd_gaussian_normal`
+        Tests :func:`colour.colorimetry.generation.sd_gaussian_normal`
         definition.
         """
 
-        spd = spd_gaussian_normal(555, 25)
+        sd = sd_gaussian_normal(555, 25)
 
-        self.assertAlmostEqual(spd[530], 0.606530659712633, places=7)
+        self.assertAlmostEqual(sd[530], 0.606530659712633, places=7)
 
-        self.assertAlmostEqual(spd[555], 1, places=7)
+        self.assertAlmostEqual(sd[555], 1, places=7)
 
-        self.assertAlmostEqual(spd[580], 0.606530659712633, places=7)
+        self.assertAlmostEqual(sd[580], 0.606530659712633, places=7)
 
 
-class TestSpdGaussianFwhm(unittest.TestCase):
+class TestSdGaussianFwhm(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.generation.spd_gaussian_fwhm` definition
+    Defines :func:`colour.colorimetry.generation.sd_gaussian_fwhm` definition
     unit tests methods.
     """
 
-    def test_spd_gaussian_fwhm(self):
+    def test_sd_gaussian_fwhm(self):
         """
-        Tests :func:`colour.colorimetry.generation.spd_gaussian_fwhm`
+        Tests :func:`colour.colorimetry.generation.sd_gaussian_fwhm`
         definition.
         """
 
-        spd = spd_gaussian_fwhm(555, 25)
+        sd = sd_gaussian_fwhm(555, 25)
 
-        self.assertAlmostEqual(spd[530], 0.367879441171443, places=7)
+        self.assertAlmostEqual(sd[530], 0.367879441171443, places=7)
 
-        self.assertAlmostEqual(spd[555], 1, places=7)
+        self.assertAlmostEqual(sd[555], 1, places=7)
 
-        self.assertAlmostEqual(spd[580], 0.367879441171443, places=7)
+        self.assertAlmostEqual(sd[580], 0.367879441171443, places=7)
 
 
-class TestSpdSingleLedOhno2005(unittest.TestCase):
+class TestSdSingleLedOhno2005(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.generation.spd_single_led_Ohno2005`
+    Defines :func:`colour.colorimetry.generation.sd_single_led_Ohno2005`
     definition unit tests methods.
     """
 
-    def test_spd_single_led_Ohno2005(self):
+    def test_sd_single_led_Ohno2005(self):
         """
-        Tests :func:`colour.colorimetry.generation.spd_single_led_Ohno2005`
+        Tests :func:`colour.colorimetry.generation.sd_single_led_Ohno2005`
         definition.
         """
 
-        spd = spd_single_led_Ohno2005(555, 25)
+        sd = sd_single_led_Ohno2005(555, 25)
 
-        self.assertAlmostEqual(spd[530], 0.127118445056538, places=7)
+        self.assertAlmostEqual(sd[530], 0.127118445056538, places=7)
 
-        self.assertAlmostEqual(spd[555], 1, places=7)
+        self.assertAlmostEqual(sd[555], 1, places=7)
 
-        self.assertAlmostEqual(spd[580], 0.127118445056538, places=7)
+        self.assertAlmostEqual(sd[580], 0.127118445056538, places=7)
 
 
-class TestSpdMultiLedOhno2005(unittest.TestCase):
+class TestSdMultiLedOhno2005(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.generation.spd_multi_led_Ohno2005`
+    Defines :func:`colour.colorimetry.generation.sd_multi_led_Ohno2005`
     definition unit tests methods.
     """
 
-    def test_spd_multi_led_Ohno2005(self):
+    def test_sd_multi_led_Ohno2005(self):
         """
-        Tests :func:`colour.colorimetry.generation.spd_multi_led_Ohno2005`
+        Tests :func:`colour.colorimetry.generation.sd_multi_led_Ohno2005`
         definition.
         """
 
-        spd = spd_multi_led_Ohno2005(
+        sd = sd_multi_led_Ohno2005(
             np.array([457, 530, 615]),
             np.array([20, 30, 20]),
             np.array([0.731, 1.000, 1.660]),
         )
 
-        self.assertAlmostEqual(spd[500], 0.129513248576116, places=7)
+        self.assertAlmostEqual(sd[500], 0.129513248576116, places=7)
 
-        self.assertAlmostEqual(spd[570], 0.059932156222703, places=7)
+        self.assertAlmostEqual(sd[570], 0.059932156222703, places=7)
 
-        self.assertAlmostEqual(spd[640], 0.116433257970624, places=7)
+        self.assertAlmostEqual(sd[640], 0.116433257970624, places=7)
 
-        spd = spd_multi_led_Ohno2005(
+        sd = sd_multi_led_Ohno2005(
             np.array([457, 530, 615]),
             np.array([20, 30, 20]),
         )
 
-        self.assertAlmostEqual(spd[500], 0.130394510062799, places=7)
+        self.assertAlmostEqual(sd[500], 0.130394510062799, places=7)
 
-        self.assertAlmostEqual(spd[570], 0.058539618824187, places=7)
+        self.assertAlmostEqual(sd[570], 0.058539618824187, places=7)
 
-        self.assertAlmostEqual(spd[640], 0.070140708922879, places=7)
+        self.assertAlmostEqual(sd[640], 0.070140708922879, places=7)
 
 
 if __name__ == '__main__':

@@ -5,8 +5,8 @@ Colour Models Volume Plotting
 
 Defines colour models volume and gamut plotting objects:
 
--   :func:`colour.plotting.RGB_colourspaces_gamuts_plot`
--   :func:`colour.plotting.RGB_scatter_plot`
+-   :func:`colour.plotting.plot_RGB_colourspaces_gamuts`
+-   :func:`colour.plotting.plot_RGB_scatter`
 """
 
 from __future__ import division
@@ -34,7 +34,7 @@ __status__ = 'Production'
 
 __all__ = [
     'common_colourspace_model_axis_reorder', 'nadir_grid', 'RGB_identity_cube',
-    'RGB_colourspaces_gamuts_plot', 'RGB_scatter_plot'
+    'plot_RGB_colourspaces_gamuts', 'plot_RGB_scatter'
 ]
 
 
@@ -238,13 +238,17 @@ def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
 
     RGB_g = np.ones((quads_g.shape[0], quads_g.shape[-1]))
     RGB_gf = RGB_g * settings.grid_face_colours
-    RGB_gf = np.hstack([RGB_gf,
-                        np.full((RGB_gf.shape[0], 1), settings.grid_face_alpha,
-                                DEFAULT_FLOAT_DTYPE)])
+    RGB_gf = np.hstack([
+        RGB_gf,
+        np.full((RGB_gf.shape[0], 1), settings.grid_face_alpha,
+                DEFAULT_FLOAT_DTYPE)
+    ])
     RGB_ge = RGB_g * settings.grid_edge_colours
-    RGB_ge = np.hstack([RGB_ge,
-                        np.full((RGB_ge.shape[0], 1), settings.grid_edge_alpha,
-                                DEFAULT_FLOAT_DTYPE)])
+    RGB_ge = np.hstack([
+        RGB_ge,
+        np.full((RGB_ge.shape[0], 1), settings.grid_edge_alpha,
+                DEFAULT_FLOAT_DTYPE)
+    ])
 
     # Inner grid.
     quads_gs = grid(
@@ -256,9 +260,9 @@ def nadir_grid(limits=None, segments=10, labels=None, axes=None, **kwargs):
 
     RGB_gs = np.ones((quads_gs.shape[0], quads_gs.shape[-1]))
     RGB_gsf = RGB_gs * 0
-    RGB_gsf = np.hstack([RGB_gsf,
-                         np.full((RGB_gsf.shape[0], 1), 0,
-                                 DEFAULT_FLOAT_DTYPE)])
+    RGB_gsf = np.hstack(
+        [RGB_gsf,
+         np.full((RGB_gsf.shape[0], 1), 0, DEFAULT_FLOAT_DTYPE)])
     RGB_gse = np.clip(RGB_gs * settings.grid_edge_colours * 1.5, 0, 1)
     RGB_gse = np.hstack(
         (RGB_gse,
@@ -420,7 +424,7 @@ def RGB_identity_cube(plane=None,
 
 
 @override_style()
-def RGB_colourspaces_gamuts_plot(colourspaces=None,
+def plot_RGB_colourspaces_gamuts(colourspaces=None,
                                  reference_colourspace='CIE xyY',
                                  segments=8,
                                  show_grid=True,
@@ -477,12 +481,12 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
 
     Examples
     --------
-    >>> RGB_colourspaces_gamuts_plot(['ITU-R BT.709', 'ACEScg', 'S-Gamut'])
+    >>> plot_RGB_colourspaces_gamuts(['ITU-R BT.709', 'ACEScg', 'S-Gamut'])
     ... # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_RGB_Colourspaces_Gamuts_Plot.png
+    .. image:: ../_static/Plotting_Plot_RGB_Colourspaces_Gamuts.png
         :align: center
-        :alt: RGB_colourspaces_gamuts_plot
+        :alt: plot_RGB_colourspaces_gamuts
     """
 
     if colourspaces is None:
@@ -560,17 +564,21 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
             RGB = np.ones(RGB.shape) * settings.face_colours[i]
 
         RGB_f.extend(
-            np.hstack([RGB,
-                       np.full((RGB.shape[0], 1), settings.face_alpha[i],
-                               DEFAULT_FLOAT_DTYPE)]))
+            np.hstack([
+                RGB,
+                np.full((RGB.shape[0], 1), settings.face_alpha[i],
+                        DEFAULT_FLOAT_DTYPE)
+            ]))
 
         if settings.edge_colours[i] is not None:
             RGB = np.ones(RGB.shape) * settings.edge_colours[i]
 
         RGB_e.extend(
-            np.hstack([RGB,
-                       np.full((RGB.shape[0], 1), settings.edge_alpha[i],
-                               DEFAULT_FLOAT_DTYPE)]))
+            np.hstack([
+                RGB,
+                np.full((RGB.shape[0], 1), settings.edge_alpha[i],
+                        DEFAULT_FLOAT_DTYPE)
+            ]))
 
     quads = as_float_array(quads)
     quads[np.isnan(quads)] = 0
@@ -620,7 +628,7 @@ def RGB_colourspaces_gamuts_plot(colourspaces=None,
 
 
 @override_style()
-def RGB_scatter_plot(RGB,
+def plot_RGB_scatter(RGB,
                      colourspace,
                      reference_colourspace='CIE xyY',
                      colourspaces=None,
@@ -668,7 +676,7 @@ def RGB_scatter_plot(RGB,
     ----------------
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
-        :func:`colour.plotting.RGB_colourspaces_gamuts_plot`},
+        :func:`colour.plotting.plot_RGB_colourspaces_gamuts`},
         Please refer to the documentation of the previously listed definitions.
 
     Returns
@@ -679,11 +687,11 @@ def RGB_scatter_plot(RGB,
     Examples
     --------
     >>> RGB = np.random.random((128, 128, 3))
-    >>> RGB_scatter_plot(RGB, 'ITU-R BT.709')  # doctest: +SKIP
+    >>> plot_RGB_scatter(RGB, 'ITU-R BT.709')  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_RGB_Scatter_Plot.png
+    .. image:: ../_static/Plotting_Plot_RGB_Scatter.png
         :align: center
-        :alt: RGB_scatter_plot
+        :alt: plot_RGB_scatter
     """
 
     colourspace = first_item(filter_RGB_colourspaces(colourspace).values())
@@ -702,7 +710,7 @@ def RGB_scatter_plot(RGB,
     settings.update(kwargs)
     settings['standalone'] = False
 
-    RGB_colourspaces_gamuts_plot(
+    plot_RGB_colourspaces_gamuts(
         colourspaces=colourspaces,
         reference_colourspace=reference_colourspace,
         segments=segments,

@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 """
-Test Colour Samples Spectral Power Distributions
+Test Colour Samples Spectral Distributions
 ================================================
 
-Defines the *CIE 1995* test colour samples spectral power distributions.
+Defines the *CIE 1995* test colour samples spectral distributions.
 
 The *CIE 1995* test colour samples data is in the form of a *dict* of
-:class:`colour.SpectralPowerDistribution` classes as follows::
+:class:`colour.SpectralDistribution` classes as follows::
 
-    {'name': SpectralPowerDistribution, ..., 'name': SpectralPowerDistribution}
+    {'name': SpectralDistribution, ..., 'name': SpectralDistribution}
 
 See Also
 --------
@@ -25,7 +25,7 @@ References
 
 from __future__ import division, unicode_literals
 
-from colour.colorimetry import SpectralPowerDistribution
+from colour.colorimetry import SpectralDistribution
 from colour.utilities import CaseInsensitiveMapping
 
 __author__ = 'Colour Developers'
@@ -37,7 +37,7 @@ __status__ = 'Production'
 
 __all__ = [
     'TCS_INDEXES_TO_NAMES', 'TCS_APPROXIMATE_MUNSELL_NOTATIONS',
-    'TCS_SPDS_DATA', 'TCS_SPDS'
+    'TCS_SDS_DATA', 'TCS_SDS'
 ]
 
 TCS_INDEXES_TO_NAMES = {
@@ -84,7 +84,7 @@ Test colour samples *Munsell* colour approximations.
 TCS_APPROXIMATE_MUNSELL_NOTATIONS : CaseInsensitiveMapping
 """
 
-TCS_SPDS_DATA = {
+TCS_SDS_DATA = {
     'TCS01': {
         360: 0.116,
         365: 0.136,
@@ -1445,15 +1445,15 @@ TCS_SPDS_DATA = {
     }
 }
 
-TCS_SPDS = CaseInsensitiveMapping(
-    dict((key, SpectralPowerDistribution(value, name=key))
-         for key, value in TCS_SPDS_DATA.items()))
+TCS_SDS = CaseInsensitiveMapping(
+    dict((key, SpectralDistribution(value, name=key))
+         for key, value in TCS_SDS_DATA.items()))
 """
-Test colour samples spectral power distributions.
+Test colour samples spectral distributions.
 
 References
 ----------
 :cite:`Ohno2008a`
 
-TCS_SPDS : CaseInsensitiveMapping
+TCS_SDS : CaseInsensitiveMapping
 """

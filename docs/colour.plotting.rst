@@ -20,11 +20,11 @@ Common
     render
     label_rectangles
     uniform_axes3d
-    single_colour_swatch_plot
-    multi_colour_swatch_plot
-    single_function_plot
-    multi_function_plot
-    image_plot
+    plot_single_colour_swatch
+    plot_multi_colour_swatches
+    plot_single_function
+    plot_multi_functions
+    plot_image
 
 Colorimetry
 -----------
@@ -36,19 +36,19 @@ Colorimetry
 .. autosummary::
     :toctree: generated/
 
-    single_spd_plot
-    multi_spd_plot
-    single_cmfs_plot
-    multi_cmfs_plot
-    single_illuminant_spd_plot
-    multi_illuminant_spd_plot
-    visible_spectrum_plot
-    single_lightness_function_plot
-    multi_lightness_function_plot
-    single_luminance_function_plot
-    multi_luminance_function_plot
-    blackbody_spectral_radiance_plot
-    blackbody_colours_plot
+    plot_single_sd
+    plot_multi_sds
+    plot_single_cmfs
+    plot_multi_cmfs
+    plot_single_illuminant_sd
+    plot_multi_illuminant_sds
+    plot_visible_spectrum
+    plot_single_lightness_function
+    plot_multi_lightness_functions
+    plot_single_luminance_function
+    plot_multi_luminance_functions
+    plot_blackbody_spectral_radiance
+    plot_blackbody_colours
 
 Colour Vision Deficiency
 ------------------------
@@ -60,7 +60,7 @@ Colour Vision Deficiency
 .. autosummary::
     :toctree: generated/
 
-    cvd_simulation_Machado2009_plot
+    plot_cvd_simulation_Machado2009
 
 
 Colour Characterisation
@@ -73,8 +73,8 @@ Colour Characterisation
 .. autosummary::
     :toctree: generated/
 
-    single_colour_checker_plot
-    multi_colour_checker_plot
+    plot_single_colour_checker
+    plot_multi_colour_checkers
 
 Corresponding Chromaticities
 ----------------------------
@@ -86,7 +86,7 @@ Corresponding Chromaticities
 .. autosummary::
     :toctree: generated/
 
-    corresponding_chromaticities_prediction_plot
+    plot_corresponding_chromaticities_prediction
 
 CIE Chromaticity Diagrams
 -------------------------
@@ -98,12 +98,12 @@ CIE Chromaticity Diagrams
 .. autosummary::
     :toctree: generated/
 
-    chromaticity_diagram_plot_CIE1931
-    chromaticity_diagram_plot_CIE1960UCS
-    chromaticity_diagram_plot_CIE1976UCS
-    spds_chromaticity_diagram_plot_CIE1931
-    spds_chromaticity_diagram_plot_CIE1960UCS
-    spds_chromaticity_diagram_plot_CIE1976UCS
+    plot_chromaticity_diagram_CIE1931
+    plot_chromaticity_diagram_CIE1960UCS
+    plot_chromaticity_diagram_CIE1976UCS
+    plot_sds_in_chromaticity_diagram_CIE1931
+    plot_sds_in_chromaticity_diagram_CIE1960UCS
+    plot_sds_in_chromaticity_diagram_CIE1976UCS
 
 **Ancillary Objects**
 
@@ -114,9 +114,10 @@ CIE Chromaticity Diagrams
 .. autosummary::
     :toctree: generated/
 
-    spectral_locus_plot
-    chromaticity_diagram_colours_plot
-    chromaticity_diagram_plot
+    plot_spectral_locus
+    plot_chromaticity_diagram_colours
+    plot_chromaticity_diagram
+    plot_sds_in_chromaticity_diagram
 
 Colour Models
 -------------
@@ -128,17 +129,17 @@ Colour Models
 .. autosummary::
     :toctree: generated/
 
-    RGB_colourspaces_chromaticity_diagram_plot_CIE1931
-    RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS
-    RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS
-    RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931
-    RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS
-    RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS
-    ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1931
-    ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1960UCS
-    ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1976UCS
-    single_cctf_plot
-    multi_cctf_plot
+    plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931
+    plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS
+    plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS
+    plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931
+    plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS
+    plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS
+    plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931
+    plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1960UCS
+    plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS
+    plot_single_cctf
+    plot_multi_cctfs
 
 **Ancillary Objects**
 
@@ -149,8 +150,9 @@ Colour Models
 .. autosummary::
     :toctree: generated/
 
-    RGB_colourspaces_chromaticity_diagram_plot
-    RGB_chromaticity_coordinates_chromaticity_diagram_plot
+    plot_pointer_gamut
+    plot_RGB_colourspaces_in_chromaticity_diagram
+    plot_RGB_chromaticities_in_chromaticity_diagram
 
 Colour Notation Systems
 -----------------------
@@ -162,8 +164,8 @@ Colour Notation Systems
 .. autosummary::
     :toctree: generated/
 
-    single_munsell_value_function_plot
-    multi_munsell_value_function_plot
+    plot_single_munsell_value_function
+    plot_multi_munsell_value_functions
 
 Optical Phenomena
 -----------------
@@ -175,8 +177,8 @@ Optical Phenomena
 .. autosummary::
     :toctree: generated/
 
-    single_rayleigh_scattering_spd_plot
-    the_blue_sky_plot
+    plot_single_sd_rayleigh_scattering
+    plot_the_blue_sky
 
 Colour Quality
 --------------
@@ -188,10 +190,10 @@ Colour Quality
 .. autosummary::
     :toctree: generated/
 
-    single_spd_colour_rendering_index_bars_plot
-    multi_spd_colour_rendering_index_bars_plot
-    single_spd_colour_quality_scale_bars_plot
-    multi_spd_colour_quality_scale_bars_plot
+    plot_single_sd_colour_rendering_index_bars
+    plot_multi_sds_colour_rendering_indexes_bars
+    plot_single_sd_colour_quality_scale_bars
+    plot_multi_sds_colour_quality_scales_bars
 
 **Ancillary Objects**
 
@@ -202,7 +204,7 @@ Colour Quality
 .. autosummary::
     :toctree: generated/
 
-    colour_quality_bars_plot
+    plot_colour_quality_bars
 
 Colour Temperature & Correlated Colour Temperature
 --------------------------------------------------
@@ -214,8 +216,8 @@ Colour Temperature & Correlated Colour Temperature
 .. autosummary::
     :toctree: generated/
 
-    planckian_locus_chromaticity_diagram_plot_CIE1931
-    planckian_locus_chromaticity_diagram_plot_CIE1960UCS
+    plot_planckian_locus_in_chromaticity_diagram_CIE1931
+    plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS
 
 **Ancillary Objects**
 
@@ -226,8 +228,8 @@ Colour Temperature & Correlated Colour Temperature
 .. autosummary::
     :toctree: generated/
 
-    planckian_locus_plot
-    planckian_locus_chromaticity_diagram_plot
+    plot_planckian_locus
+    plot_planckian_locus_in_chromaticity_diagram
 
 Colour Models Volume
 --------------------
@@ -239,8 +241,8 @@ Colour Models Volume
 .. autosummary::
     :toctree: generated/
 
-    RGB_colourspaces_gamuts_plot
-    RGB_scatter_plot
+    plot_RGB_colourspaces_gamuts
+    plot_RGB_scatter
 
 Geometry Plotting Utilities
 ---------------------------

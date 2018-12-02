@@ -41,19 +41,13 @@ class TestLuminanceNewhall1943(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            luminance_Newhall1943(4.08244375),
-            12.550078816731881,
-            places=7)
+            luminance_Newhall1943(4.08244375), 12.550078816731881, places=7)
 
         self.assertAlmostEqual(
-            luminance_Newhall1943(5.39132685),
-            23.481252371310738,
-            places=7)
+            luminance_Newhall1943(5.39132685), 23.481252371310738, places=7)
 
         self.assertAlmostEqual(
-            luminance_Newhall1943(2.97619312),
-            6.4514266875601924,
-            places=7)
+            luminance_Newhall1943(2.97619312), 6.4514266875601924, places=7)
 
     def test_n_dimensional_luminance_Newhall1943(self):
         """
@@ -117,19 +111,13 @@ class TestLuminanceASTMD153508(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            luminance_ASTMD153508(4.08244375),
-            12.236342675366036,
-            places=7)
+            luminance_ASTMD153508(4.08244375), 12.236342675366036, places=7)
 
         self.assertAlmostEqual(
-            luminance_ASTMD153508(5.39132685),
-            22.893999867280378,
-            places=7)
+            luminance_ASTMD153508(5.39132685), 22.893999867280378, places=7)
 
         self.assertAlmostEqual(
-            luminance_ASTMD153508(2.97619312),
-            6.2902253509053132,
-            places=7)
+            luminance_ASTMD153508(2.97619312), 6.2902253509053132, places=7)
 
     def test_n_dimensional_luminance_ASTMD153508(self):
         """

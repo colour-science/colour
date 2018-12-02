@@ -100,7 +100,7 @@ Which enables image processing:
     RGB = colour.read_image('_static/Logo_Small_001.png')
     RGB = RGB[..., 0:3]  # Discarding alpha channel.
     XYZ = colour.sRGB_to_XYZ(RGB)
-    colour.plotting.image_plot(XYZ, text_parameters={'text': 'sRGB to XYZ'})
+    colour.plotting.plot_image(XYZ, text_parameters={'text': 'sRGB to XYZ'})
 
 
 .. image:: _static/Basics_Logo_Small_001_CIE_XYZ.png

@@ -5,8 +5,8 @@ Colour Notation Systems Plotting
 
 Defines the colour notation systems plotting objects:
 
--   :func:`colour.plotting.single_munsell_value_function_plot`
--   :func:`colour.plotting.multi_munsell_value_function_plot`
+-   :func:`colour.plotting.plot_single_munsell_value_function`
+-   :func:`colour.plotting.plot_multi_munsell_value_functions`
 """
 
 from __future__ import division
@@ -14,7 +14,7 @@ from __future__ import division
 import numpy as np
 
 from colour.notation import MUNSELL_VALUE_METHODS
-from colour.plotting import (filter_passthrough, multi_function_plot,
+from colour.plotting import (filter_passthrough, plot_multi_functions,
                              override_style)
 
 __author__ = 'Colour Developers'
@@ -25,12 +25,12 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'single_munsell_value_function_plot', 'multi_munsell_value_function_plot'
+    'plot_single_munsell_value_function', 'plot_multi_munsell_value_functions'
 ]
 
 
 @override_style()
-def single_munsell_value_function_plot(function='ASTM D1535-08', **kwargs):
+def plot_single_munsell_value_function(function='ASTM D1535-08', **kwargs):
     """
     Plots given *Lightness* function.
 
@@ -52,21 +52,21 @@ def single_munsell_value_function_plot(function='ASTM D1535-08', **kwargs):
 
     Examples
     --------
-    >>> single_munsell_value_function_plot('ASTM D1535-08')  # doctest: +SKIP
+    >>> plot_single_munsell_value_function('ASTM D1535-08')  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Single_Munsell_Value_Function_Plot.png
+    .. image:: ../_static/Plotting_Plot_Single_Munsell_Value_Function.png
         :align: center
-        :alt: single_munsell_value_function_plot
+        :alt: plot_single_munsell_value_function
     """
 
     settings = {'title': '{0} - Munsell Value Function'.format(function)}
     settings.update(kwargs)
 
-    return multi_munsell_value_function_plot((function, ), **settings)
+    return plot_multi_munsell_value_functions((function, ), **settings)
 
 
 @override_style()
-def multi_munsell_value_function_plot(functions=None, **kwargs):
+def plot_multi_munsell_value_functions(functions=None, **kwargs):
     """
     Plots given *Munsell* value functions.
 
@@ -88,12 +88,12 @@ def multi_munsell_value_function_plot(functions=None, **kwargs):
 
     Examples
     --------
-    >>> multi_munsell_value_function_plot(['ASTM D1535-08', 'McCamy 1987'])
+    >>> plot_multi_munsell_value_functions(['ASTM D1535-08', 'McCamy 1987'])
     ... # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Multi_Munsell_Value_Function_Plot.png
+    .. image:: ../_static/Plotting_Plot_Multi_Munsell_Value_Functions.png
         :align: center
-        :alt: multi_munsell_value_function_plot
+        :alt: plot_multi_munsell_value_functions
     """
 
     if functions is None:
@@ -110,5 +110,5 @@ def multi_munsell_value_function_plot(functions=None, **kwargs):
     }
     settings.update(kwargs)
 
-    return multi_function_plot(
+    return plot_multi_functions(
         functions, samples=np.linspace(0, 100, 1000), **settings)

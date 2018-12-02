@@ -6,9 +6,10 @@ Colour Temperature & Correlated Colour Temperature Plotting
 Defines the colour temperature and correlated colour temperature plotting
 objects:
 
--   :func:`colour.plotting.planckian_locus_chromaticity_diagram_plot_CIE1931`
 -   :func:`colour.plotting.\
-planckian_locus_chromaticity_diagram_plot_CIE1960UCS`
+plot_planckian_locus_in_chromaticity_diagram_CIE1931`
+-   :func:`colour.plotting.\
+plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS`
 """
 
 from __future__ import division
@@ -20,10 +21,10 @@ from colour.colorimetry import CMFS, ILLUMINANTS
 from colour.models import (UCS_uv_to_xy, XYZ_to_UCS, UCS_to_uv, xy_to_XYZ)
 from colour.temperature import CCT_to_uv
 from colour.plotting import (COLOUR_STYLE_CONSTANTS, COLOUR_ARROW_STYLE,
-                             artist, chromaticity_diagram_plot_CIE1931,
-                             chromaticity_diagram_plot_CIE1960UCS,
+                             artist, plot_chromaticity_diagram_CIE1931,
+                             plot_chromaticity_diagram_CIE1960UCS,
                              filter_passthrough, override_style, render)
-from colour.plotting.diagrams import chromaticity_diagram_plot
+from colour.plotting.diagrams import plot_chromaticity_diagram
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -33,14 +34,14 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'planckian_locus_plot', 'planckian_locus_chromaticity_diagram_plot',
-    'planckian_locus_chromaticity_diagram_plot_CIE1931',
-    'planckian_locus_chromaticity_diagram_plot_CIE1960UCS'
+    'plot_planckian_locus', 'plot_planckian_locus_in_chromaticity_diagram',
+    'plot_planckian_locus_in_chromaticity_diagram_CIE1931',
+    'plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS'
 ]
 
 
 @override_style()
-def planckian_locus_plot(planckian_locus_colours=None,
+def plot_planckian_locus(planckian_locus_colours=None,
                          method='CIE 1931',
                          **kwargs):
     """
@@ -67,11 +68,11 @@ def planckian_locus_plot(planckian_locus_colours=None,
 
     Examples
     --------
-    >>> planckian_locus_plot()  # doctest: +SKIP
+    >>> plot_planckian_locus()  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Planckian_Locus_Plot.png
+    .. image:: ../_static/Plotting_Plot_Planckian_Locus.png
         :align: center
-        :alt: planckian_locus_plot
+        :alt: plot_planckian_locus
     """
 
     if planckian_locus_colours is None:
@@ -134,10 +135,10 @@ def planckian_locus_plot(planckian_locus_colours=None,
 
 
 @override_style()
-def planckian_locus_chromaticity_diagram_plot(
+def plot_planckian_locus_in_chromaticity_diagram(
         illuminants=None,
         annotate_parameters=None,
-        chromaticity_diagram_callable=chromaticity_diagram_plot,
+        chromaticity_diagram_callable=plot_chromaticity_diagram,
         method='CIE 1931',
         **kwargs):
     """
@@ -165,8 +166,8 @@ def planckian_locus_chromaticity_diagram_plot(
     ----------------
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
-        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
-        :func:`colour.plotting.temperature.planckian_locus_plot`,
+        :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
+        :func:`colour.plotting.temperature.plot_planckian_locus`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -177,13 +178,13 @@ def planckian_locus_chromaticity_diagram_plot(
 
     Examples
     --------
-    >>> planckian_locus_chromaticity_diagram_plot(['A', 'B', 'C'])
+    >>> plot_planckian_locus_in_chromaticity_diagram(['A', 'B', 'C'])
     ... # doctest: +SKIP
 
     .. image:: ../_static/Plotting_\
-Planckian_Locus_Chromaticity_Diagram_Plot.png
+Plot_Planckian_Locus_In_Chromaticity_Diagram.png
         :align: center
-        :alt: planckian_locus_chromaticity_diagram_plot
+        :alt: plot_planckian_locus_in_chromaticity_diagram
     """
 
     cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
@@ -206,7 +207,7 @@ Planckian_Locus_Chromaticity_Diagram_Plot.png
 
     chromaticity_diagram_callable(**settings)
 
-    planckian_locus_plot(**settings)
+    plot_planckian_locus(**settings)
 
     if method == 'CIE 1931':
 
@@ -292,11 +293,11 @@ Planckian_Locus_Chromaticity_Diagram_Plot.png
 
 
 @override_style()
-def planckian_locus_chromaticity_diagram_plot_CIE1931(
+def plot_planckian_locus_in_chromaticity_diagram_CIE1931(
         illuminants=None,
         annotate_parameters=None,
         chromaticity_diagram_callable_CIE1931=(
-            chromaticity_diagram_plot_CIE1931),
+            plot_chromaticity_diagram_CIE1931),
         **kwargs):
     """
     Plots the *Planckian Locus* and given illuminants in
@@ -321,7 +322,7 @@ def planckian_locus_chromaticity_diagram_plot_CIE1931(
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.temperature.\
-planckian_locus_chromaticity_diagram_plot`,
+plot_planckian_locus_in_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -332,29 +333,29 @@ planckian_locus_chromaticity_diagram_plot`,
 
     Examples
     --------
-    >>> planckian_locus_chromaticity_diagram_plot_CIE1931(['A', 'B', 'C'])
+    >>> plot_planckian_locus_in_chromaticity_diagram_CIE1931(['A', 'B', 'C'])
     ... # doctest: +SKIP
 
     .. image:: ../_static/Plotting_\
-Planckian_Locus_Chromaticity_Diagram_Plot_CIE1931.png
+Plot_Planckian_Locus_In_Chromaticity_Diagram_CIE1931.png
         :align: center
-        :alt: planckian_locus_chromaticity_diagram_plot_CIE1931
+        :alt: plot_planckian_locus_in_chromaticity_diagram_CIE1931
     """
 
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1931'})
 
-    return planckian_locus_chromaticity_diagram_plot(
+    return plot_planckian_locus_in_chromaticity_diagram(
         illuminants, annotate_parameters,
         chromaticity_diagram_callable_CIE1931, **settings)
 
 
 @override_style()
-def planckian_locus_chromaticity_diagram_plot_CIE1960UCS(
+def plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
         illuminants=None,
         annotate_parameters=None,
         chromaticity_diagram_callable_CIE1960UCS=(
-            chromaticity_diagram_plot_CIE1960UCS),
+            plot_chromaticity_diagram_CIE1960UCS),
         **kwargs):
     """
     Plots the *Planckian Locus* and given illuminants in
@@ -380,7 +381,7 @@ def planckian_locus_chromaticity_diagram_plot_CIE1960UCS(
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
         :func:`colour.plotting.temperature.\
-planckian_locus_chromaticity_diagram_plot`,
+plot_planckian_locus_in_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -391,18 +392,18 @@ planckian_locus_chromaticity_diagram_plot`,
 
     Examples
     --------
-    >>> planckian_locus_chromaticity_diagram_plot_CIE1960UCS(['A', 'C', 'E'])
-    ... # doctest: +SKIP
+    >>> plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(
+    ...     ['A', 'C', 'E'])  # doctest: +SKIP
 
     .. image:: ../_static/Plotting_\
-Planckian_Locus_Chromaticity_Diagram_Plot_CIE1960UCS.png
+Plot_Planckian_Locus_In_Chromaticity_Diagram_CIE1960UCS.png
         :align: center
-        :alt: planckian_locus_chromaticity_diagram_plot_CIE1960UCS
+        :alt: plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS
     """
 
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1960 UCS'})
 
-    return planckian_locus_chromaticity_diagram_plot(
+    return plot_planckian_locus_in_chromaticity_diagram(
         illuminants, annotate_parameters,
         chromaticity_diagram_callable_CIE1960UCS, **settings)

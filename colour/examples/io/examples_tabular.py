@@ -27,7 +27,7 @@ print(format_spectral_data(data))
 print('\n')
 
 message_box(('Reading spectral data from a "CSV" file directly as spectral '
-             'power distributions.'))
-spds = colour.read_spds_from_csv_file(
+             'distributions.'))
+sds = colour.read_sds_from_csv_file(
     os.path.join(RESOURCES_DIRECTORY, 'babelcolor_average.csv'))
-pprint(spds)
+pprint(sds)

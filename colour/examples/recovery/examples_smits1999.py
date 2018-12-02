@@ -16,8 +16,8 @@ RGB = XYZ_to_RGB_Smits1999(XYZ)
 message_box(('Recovering reflectance using "Smits (1999)" method from '
              'given "RGB" colourspace array:\n'
              '\n\tRGB: {0}'.format(RGB)))
-print(colour.XYZ_to_spectral(XYZ, method='Smits 1999'))
-print(colour.recovery.RGB_to_spectral_Smits1999(RGB))
+print(colour.XYZ_to_sd(XYZ, method='Smits 1999'))
+print(colour.recovery.RGB_to_sd_Smits1999(RGB))
 
 print('\n')
 

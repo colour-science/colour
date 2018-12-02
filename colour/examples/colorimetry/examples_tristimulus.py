@@ -10,7 +10,7 @@ from colour.utilities import message_box
 
 message_box('"CIE XYZ" Tristimulus Values Computations')
 
-sample_spd_data = {
+sample_sd_data = {
     380: 0.048,
     385: 0.051,
     390: 0.055,
@@ -94,20 +94,20 @@ sample_spd_data = {
     780: 0.421
 }
 
-spd = colour.SpectralPowerDistribution(sample_spd_data, name='Sample')
+sd = colour.SpectralDistribution(sample_sd_data, name='Sample')
 
 cmfs = colour.CMFS['CIE 1931 2 Degree Standard Observer']
-illuminant = colour.ILLUMINANTS_SPDS['A']
+illuminant = colour.ILLUMINANTS_SDS['A']
 
 message_box(('Computing *CIE XYZ* tristimulus values for sample spectral '
-             'power distribution and "CIE Standard Illuminant A".'))
-print(colour.spectral_to_XYZ(spd, cmfs, illuminant))
+             'distribution and "CIE Standard Illuminant A".'))
+print(colour.sd_to_XYZ(sd, cmfs, illuminant))
 
 print('\n')
 
 message_box(('Computing "CIE Standard Illuminant A" chromaticity coordinates '
-             'from its relative spectral power distribution.'))
-print(colour.XYZ_to_xy(colour.spectral_to_XYZ(illuminant, cmfs) / 100))
+             'from its spectral distribution.'))
+print(colour.XYZ_to_xy(colour.sd_to_XYZ(illuminant, cmfs) / 100))
 
 print('\n')
 
@@ -132,5 +132,5 @@ msa = np.array([
      [0.06321812, 0.41898224, 0.15190357, 0.24591440, 0.55301750, 0.00657664],
      [0.00305180, 0.11288624, 0.11357290, 0.12924391, 0.00195315, 0.21771573]],
 ])
-print(colour.multi_spectral_to_XYZ(msa, colour.SpectralShape(400, 700, 60),
-                                   cmfs, illuminant))
+print(colour.multi_sd_to_XYZ(msa, colour.SpectralShape(400, 700, 60), cmfs,
+                             illuminant))

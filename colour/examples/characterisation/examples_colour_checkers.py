@@ -16,8 +16,8 @@ pprint(sorted(colour.COLOURCHECKERS.keys()))
 
 print('\n')
 
-message_box('Colour rendition charts spectral power distributions dataset.')
-pprint(colour.COLOURCHECKERS_SPDS.keys())
+message_box('Colour rendition charts spectral distributions dataset.')
+pprint(colour.COLOURCHECKERS_SDS.keys())
 
 print('\n')
 

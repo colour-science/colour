@@ -402,9 +402,9 @@ def _continuous_signal_repr(self):
     return "{0}(name='{1}', ...)".format(self.__class__.__name__, self.name)
 
 
-package.colorimetry.SpectralPowerDistribution.__repr__ = (
+package.colorimetry.SpectralDistribution.__repr__ = (
     _continuous_signal_repr)
-package.colorimetry.MultiSpectralPowerDistribution.__repr__ = (
+package.colorimetry.MultiSpectralDistribution.__repr__ = (
     _continuous_signal_repr)
 
 

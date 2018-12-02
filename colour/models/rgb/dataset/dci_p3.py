@@ -82,9 +82,9 @@ DCI_P3_WHITEPOINT_NAME : unicode
 
 Warning
 -------
-DCI-P3 illuminant has no associated spectral power distribution. DCI has no
+DCI-P3 illuminant has no associated spectral distribution. DCI has no
 official reference spectral measurement for this whitepoint. The closest
-matching spectral power distribution is Kinoton 75P projector.
+matching spectral distribution is Kinoton 75P projector.
 """
 
 DCI_P3_WHITEPOINT = (

@@ -5,13 +5,13 @@ Spectral Generation
 
 Defines various objects performing spectral generation:
 
--   :func:`colour.spd_constant`
--   :func:`colour.spd_zeros`
--   :func:`colour.spd_ones`
--   :func:`colour.colorimetry.spd_gaussian_normal`
--   :func:`colour.colorimetry.spd_gaussian_fwhm`
--   :func:`colour.colorimetry.spd_single_led_Ohno2005`
--   :func:`colour.colorimetry.spd_multi_led_Ohno2005`
+-   :func:`colour.sd_constant`
+-   :func:`colour.sd_zeros`
+-   :func:`colour.sd_ones`
+-   :func:`colour.colorimetry.sd_gaussian_normal`
+-   :func:`colour.colorimetry.sd_gaussian_fwhm`
+-   :func:`colour.colorimetry.sd_single_led_Ohno2005`
+-   :func:`colour.colorimetry.sd_multi_led_Ohno2005`
 
 See Also
 --------
@@ -34,8 +34,7 @@ from __future__ import division, unicode_literals
 import numpy as np
 
 from colour.constants import DEFAULT_FLOAT_DTYPE
-from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE,
-                                SpectralPowerDistribution)
+from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE, SpectralDistribution)
 from colour.utilities import CaseInsensitiveMapping, as_float_array
 
 __author__ = 'Colour Developers'
@@ -46,43 +45,43 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'spd_constant', 'spd_zeros', 'spd_ones', 'spd_gaussian_normal',
-    'spd_gaussian_fwhm', 'SPD_GAUSSIAN_METHODS', 'spd_gaussian',
-    'spd_single_led_Ohno2005', 'SPD_SINGLE_LED_METHODS', 'spd_single_led',
-    'spd_multi_led_Ohno2005', 'SPD_MULTI_LED_METHODS', 'spd_multi_led'
+    'sd_constant', 'sd_zeros', 'sd_ones', 'sd_gaussian_normal',
+    'sd_gaussian_fwhm', 'SD_GAUSSIAN_METHODS', 'sd_gaussian',
+    'sd_single_led_Ohno2005', 'SD_SINGLE_LED_METHODS', 'sd_single_led',
+    'sd_multi_led_Ohno2005', 'SD_MULTI_LED_METHODS', 'sd_multi_led'
 ]
 
 
-def spd_constant(k, shape=DEFAULT_SPECTRAL_SHAPE, dtype=DEFAULT_FLOAT_DTYPE):
+def sd_constant(k, shape=DEFAULT_SPECTRAL_SHAPE, dtype=DEFAULT_FLOAT_DTYPE):
     """
-    Returns a spectral power distribution of given spectral shape filled with
+    Returns a spectral distribution of given spectral shape filled with
     constant :math:`k` values.
 
     Parameters
     ----------
     k : numeric
-        Constant :math:`k` to fill the spectral power distribution with.
+        Constant :math:`k` to fill the spectral distribution with.
     shape : SpectralShape, optional
-        Spectral shape used to create the spectral power distribution.
+        Spectral shape used to create the spectral distribution.
     dtype : type
-        Data type used for the spectral power distribution.
+        Data type used for the spectral distribution.
 
     Returns
     -------
-    SpectralPowerDistribution
-        Constant :math:`k` to filled spectral power distribution.
+    SpectralDistribution
+        Constant :math:`k` to filled spectral distribution.
 
     Notes
     -----
-    -   By default, the spectral power distribution will use the shape given
-        by :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
+    -   By default, the spectral distribution will use the shape given by
+        :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
 
     Examples
     --------
-    >>> spd = spd_constant(100)
-    >>> spd.shape
+    >>> sd = sd_constant(100)
+    >>> sd.shape
     SpectralShape(360.0, 780.0, 1.0)
-    >>> spd[400]
+    >>> sd[400]
     100.0
     """
 
@@ -90,108 +89,104 @@ def spd_constant(k, shape=DEFAULT_SPECTRAL_SHAPE, dtype=DEFAULT_FLOAT_DTYPE):
     values = np.full(len(wavelengths), k, dtype)
 
     name = '{0} Constant'.format(k)
-    return SpectralPowerDistribution(
-        values, wavelengths, name=name, dtype=dtype)
+    return SpectralDistribution(values, wavelengths, name=name, dtype=dtype)
 
 
-def spd_zeros(shape=DEFAULT_SPECTRAL_SHAPE):
+def sd_zeros(shape=DEFAULT_SPECTRAL_SHAPE):
     """
-    Returns a spectral power distribution of given spectral shape filled with
-    zeros.
+    Returns a spectral distribution of given spectral shape filled with zeros.
 
     Parameters
     ----------
     shape : SpectralShape, optional
-        Spectral shape used to create the spectral power distribution.
+        Spectral shape used to create the spectral distribution.
 
     Returns
     -------
-    SpectralPowerDistribution
-        Zeros filled spectral power distribution.
+    SpectralDistribution
+        Zeros filled spectral distribution.
 
     Notes
     -----
-    -   By default, the spectral power distribution will use the shape given
-        by :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
+    -   By default, the spectral distribution will use the shape given by
+        :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
 
     Examples
     --------
-    >>> spd = spd_zeros()
-    >>> spd.shape
+    >>> sd = sd_zeros()
+    >>> sd.shape
     SpectralShape(360.0, 780.0, 1.0)
-    >>> spd[400]
+    >>> sd[400]
     0.0
     """
 
-    return spd_constant(0, shape)
+    return sd_constant(0, shape)
 
 
-def spd_ones(shape=DEFAULT_SPECTRAL_SHAPE):
+def sd_ones(shape=DEFAULT_SPECTRAL_SHAPE):
     """
-    Returns a spectral power distribution of given spectral shape filled with
-    ones.
+    Returns a spectral distribution of given spectral shape filled with ones.
 
     Parameters
     ----------
     shape : SpectralShape, optional
-        Spectral shape used to create the spectral power distribution.
+        Spectral shape used to create the spectral distribution.
 
     Returns
     -------
-    SpectralPowerDistribution
-        Ones filled spectral power distribution.
+    SpectralDistribution
+        Ones filled spectral distribution.
 
     Notes
     -----
-    -   By default, the spectral power distribution will use the shape given
-        by :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
+    -   By default, the spectral distribution will use the shape given by
+        :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
 
     Examples
     --------
-    >>> spd = spd_ones()
-    >>> spd.shape
+    >>> sd = sd_ones()
+    >>> sd.shape
     SpectralShape(360.0, 780.0, 1.0)
-    >>> spd[400]
+    >>> sd[400]
     1.0
     """
 
-    return spd_constant(1, shape)
+    return sd_constant(1, shape)
 
 
-def spd_gaussian_normal(mu, sigma, shape=DEFAULT_SPECTRAL_SHAPE):
+def sd_gaussian_normal(mu, sigma, shape=DEFAULT_SPECTRAL_SHAPE):
     """
-    Returns a gaussian spectral power distribution of given spectral shape at
+    Returns a gaussian spectral distribution of given spectral shape at
     given mean wavelength :math:`\\mu` and standard deviation :math:`sigma`.
 
     Parameters
     ----------
     mu : numeric
-        Mean wavelength :math:`\\mu` the gaussian spectral power distribution
-        will peak at.
+        Mean wavelength :math:`\\mu` the gaussian spectral distribution will
+        peak at.
     sigma : numeric
-        Standard deviation :math:`sigma` of the gaussian spectral power
-        distribution.
+        Standard deviation :math:`sigma` of the gaussian spectral distribution.
     shape : SpectralShape, optional
-        Spectral shape used to create the spectral power distribution.
+        Spectral shape used to create the spectral distribution.
 
     Returns
     -------
-    SpectralPowerDistribution
-        Gaussian spectral power distribution.
+    SpectralDistribution
+        Gaussian spectral distribution.
 
     Notes
     -----
-    -   By default, the spectral power distribution will use the shape given
-        by :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
+    -   By default, the spectral distribution will use the shape given by
+        :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
 
     Examples
     --------
-    >>> spd = spd_gaussian_normal(555, 25)
-    >>> spd.shape
+    >>> sd = sd_gaussian_normal(555, 25)
+    >>> sd.shape
     SpectralShape(360.0, 780.0, 1.0)
-    >>> spd[555]  # doctest: +ELLIPSIS
+    >>> sd[555]  # doctest: +ELLIPSIS
     1.0000000...
-    >>> spd[530]  # doctest: +ELLIPSIS
+    >>> sd[530]  # doctest: +ELLIPSIS
     0.6065306...
     """
 
@@ -201,43 +196,43 @@ def spd_gaussian_normal(mu, sigma, shape=DEFAULT_SPECTRAL_SHAPE):
 
     name = '{0}nm - {1} Sigma - Gaussian'.format(mu, sigma)
 
-    return SpectralPowerDistribution(values, wavelengths, name=name)
+    return SpectralDistribution(values, wavelengths, name=name)
 
 
-def spd_gaussian_fwhm(peak_wavelength, fwhm, shape=DEFAULT_SPECTRAL_SHAPE):
+def sd_gaussian_fwhm(peak_wavelength, fwhm, shape=DEFAULT_SPECTRAL_SHAPE):
     """
-    Returns a gaussian spectral power distribution of given spectral shape at
-    given peak wavelength and full width at half maximum.
+    Returns a gaussian spectral distribution of given spectral shape at given
+    peak wavelength and full width at half maximum.
 
     Parameters
     ----------
     peak_wavelength : numeric
-        Wavelength the gaussian spectral power distribution will peak at.
+        Wavelength the gaussian spectral distribution will peak at.
     fwhm : numeric
-        Full width at half maximum, i.e. width of the gaussian spectral power
+        Full width at half maximum, i.e. width of the gaussian spectral
         distribution measured between those points on the *y* axis which are
         half the maximum amplitude.
     shape : SpectralShape, optional
-        Spectral shape used to create the spectral power distribution.
+        Spectral shape used to create the spectral distribution.
 
     Returns
     -------
-    SpectralPowerDistribution
-        Gaussian spectral power distribution.
+    SpectralDistribution
+        Gaussian spectral distribution.
 
     Notes
     -----
-    -   By default, the spectral power distribution will use the shape given
-        by :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
+    -   By default, the spectral distribution will use the shape given by
+        :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
 
     Examples
     --------
-    >>> spd = spd_gaussian_fwhm(555, 25)
-    >>> spd.shape
+    >>> sd = sd_gaussian_fwhm(555, 25)
+    >>> sd.shape
     SpectralShape(360.0, 780.0, 1.0)
-    >>> spd[555]
+    >>> sd[555]
     1.0
-    >>> spd[530]  # doctest: +ELLIPSIS
+    >>> sd[530]  # doctest: +ELLIPSIS
     0.3678794...
     """
 
@@ -247,104 +242,103 @@ def spd_gaussian_fwhm(peak_wavelength, fwhm, shape=DEFAULT_SPECTRAL_SHAPE):
 
     name = '{0}nm - {1} FWHM - Gaussian'.format(peak_wavelength, fwhm)
 
-    return SpectralPowerDistribution(values, wavelengths, name=name)
+    return SpectralDistribution(values, wavelengths, name=name)
 
 
-SPD_GAUSSIAN_METHODS = CaseInsensitiveMapping({
-    'Normal': spd_gaussian_normal,
-    'FWHM': spd_gaussian_fwhm
+SD_GAUSSIAN_METHODS = CaseInsensitiveMapping({
+    'Normal': sd_gaussian_normal,
+    'FWHM': sd_gaussian_fwhm
 })
-SPD_GAUSSIAN_METHODS.__doc__ = """
-Supported gaussian spectral power distribution computation methods.
+SD_GAUSSIAN_METHODS.__doc__ = """
+Supported gaussian spectral distribution computation methods.
 
-SPD_GAUSSIAN_METHODS : CaseInsensitiveMapping
+SD_GAUSSIAN_METHODS : CaseInsensitiveMapping
     **{'Normal', 'FWHM'}**
 """
 
 
-def spd_gaussian(mu_peak_wavelength,
-                 sigma_fwhm,
-                 shape=DEFAULT_SPECTRAL_SHAPE,
-                 method='Normal'):
+def sd_gaussian(mu_peak_wavelength,
+                sigma_fwhm,
+                shape=DEFAULT_SPECTRAL_SHAPE,
+                method='Normal'):
     """
-    Returns a gaussian spectral power distribution of given spectral shape
-    using given method.
+    Returns a gaussian spectral distribution of given spectral shape using
+    given method.
 
     Parameters
     ----------
     mu_peak_wavelength : numeric
-        Mean wavelength :math:`\\mu` the gaussian spectral power distribution
-        will peak at.
+        Mean wavelength :math:`\\mu` the gaussian spectral distribution will
+        peak at.
     sigma_fwhm : numeric
-        Standard deviation :math:`sigma` of the gaussian spectral power
-        distribution  or Full width at half maximum, i.e. width of the gaussian
-        spectral power distribution measured between those points on the *y*
-        axis which are half the maximum amplitude.
+        Standard deviation :math:`sigma` of the gaussian spectral distribution
+        or Full width at half maximum, i.e. width of the gaussian spectral
+        distribution measured between those points on the *y* axis which are
+        half the maximum amplitude.
     shape : SpectralShape, optional
-        Spectral shape used to create the spectral power distribution.
+        Spectral shape used to create the spectral distribution.
     method : unicode, optional
         **{'Normal', 'FWHM'}**,
         Computation method.
 
     Returns
     -------
-    SpectralPowerDistribution
-        Gaussian spectral power distribution.
+    SpectralDistribution
+        Gaussian spectral distribution.
 
     Notes
     -----
-    -   By default, the spectral power distribution will use the shape given
-        by :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
+    -   By default, the spectral distribution will use the shape given by
+        :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
 
     Examples
     --------
-    >>> spd = spd_gaussian(555, 25)
-    >>> spd.shape
+    >>> sd = sd_gaussian(555, 25)
+    >>> sd.shape
     SpectralShape(360.0, 780.0, 1.0)
-    >>> spd[555]  # doctest: +ELLIPSIS
+    >>> sd[555]  # doctest: +ELLIPSIS
     1.0000000...
-    >>> spd[530]  # doctest: +ELLIPSIS
+    >>> sd[530]  # doctest: +ELLIPSIS
     0.6065306...
-    >>> spd = spd_gaussian(555, 25, method='FWHM')
-    >>> spd.shape
+    >>> sd = sd_gaussian(555, 25, method='FWHM')
+    >>> sd.shape
     SpectralShape(360.0, 780.0, 1.0)
-    >>> spd[555]
+    >>> sd[555]
     1.0
-    >>> spd[530]  # doctest: +ELLIPSIS
+    >>> sd[530]  # doctest: +ELLIPSIS
     0.3678794...
     """
 
-    return SPD_GAUSSIAN_METHODS[method](mu_peak_wavelength, sigma_fwhm, shape)
+    return SD_GAUSSIAN_METHODS[method](mu_peak_wavelength, sigma_fwhm, shape)
 
 
-def spd_single_led_Ohno2005(peak_wavelength,
-                            fwhm,
-                            shape=DEFAULT_SPECTRAL_SHAPE):
+def sd_single_led_Ohno2005(peak_wavelength, fwhm,
+                           shape=DEFAULT_SPECTRAL_SHAPE):
     """
-    Returns a single *LED* spectral power distribution of given spectral shape
-    at given peak wavelength and full width at half maximum according to
+    Returns a single *LED* spectral distribution of given spectral shape at
+    given peak wavelength and full width at half maximum according to
     *Ohno (2005)* method.
 
     Parameters
     ----------
     peak_wavelength : numeric
-        Wavelength the single *LED* spectral power distribution will peak at.
+        Wavelength the single *LED* spectral distribution will peak at.
     fwhm : numeric
         Full width at half maximum, i.e. width of the underlying gaussian
-        spectral power distribution measured between those points on the *y*
-        axis which are half the maximum amplitude.
+        spectral distribution measured between those points on the *y* axis
+        which are half the maximum amplitude.
     shape : SpectralShape, optional
-        Spectral shape used to create the spectral power distribution.
+        Spectral shape used to create the spectral distribution.
 
     Returns
     -------
-    SpectralPowerDistribution
-        Single *LED* spectral power distribution.
+    SpectralDistribution
+        Single *LED* spectral distribution.
 
     Notes
     -----
-    -   By default, the spectral power distribution will use the shape given
-        by :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
+    -   By default, the spectral distribution will use the shape given by
+        :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
 
     References
     ----------
@@ -352,66 +346,66 @@ def spd_single_led_Ohno2005(peak_wavelength,
 
     Examples
     --------
-    >>> spd = spd_single_led_Ohno2005(555, 25)
-    >>> spd.shape
+    >>> sd = sd_single_led_Ohno2005(555, 25)
+    >>> sd.shape
     SpectralShape(360.0, 780.0, 1.0)
-    >>> spd[555]  # doctest: +ELLIPSIS
+    >>> sd[555]  # doctest: +ELLIPSIS
     1.0000000...
     """
 
-    spd = spd_gaussian_fwhm(peak_wavelength, fwhm, shape)
+    sd = sd_gaussian_fwhm(peak_wavelength, fwhm, shape)
 
-    spd.values = (spd.values + 2 * spd.values ** 5) / 3
+    sd.values = (sd.values + 2 * sd.values ** 5) / 3
 
-    spd.name = '{0}nm - {1} FWHM LED - Ohno (2005)'.format(
+    sd.name = '{0}nm - {1} FWHM LED - Ohno (2005)'.format(
         peak_wavelength, fwhm)
 
-    return spd
+    return sd
 
 
-SPD_SINGLE_LED_METHODS = CaseInsensitiveMapping({
-    'Ohno 2005': spd_single_led_Ohno2005,
+SD_SINGLE_LED_METHODS = CaseInsensitiveMapping({
+    'Ohno 2005': sd_single_led_Ohno2005,
 })
-SPD_SINGLE_LED_METHODS.__doc__ = """
-Supported single *LED* spectral power distribution computation methods.
+SD_SINGLE_LED_METHODS.__doc__ = """
+Supported single *LED* spectral distribution computation methods.
 
-SPD_SINGLE_LED_METHODS : CaseInsensitiveMapping
+SD_SINGLE_LED_METHODS : CaseInsensitiveMapping
     **{'Ohno 2005'}**
 """
 
 
-def spd_single_led(peak_wavelength,
-                   fwhm,
-                   shape=DEFAULT_SPECTRAL_SHAPE,
-                   method='Ohno 2005'):
+def sd_single_led(peak_wavelength,
+                  fwhm,
+                  shape=DEFAULT_SPECTRAL_SHAPE,
+                  method='Ohno 2005'):
     """
-    Returns a single *LED* spectral power distribution of given spectral shape
-    at given peak wavelength and full width at half maximum according to
-    given method.
+    Returns a single *LED* spectral distribution of given spectral shape at
+    given peak wavelength and full width at half maximum according to given
+    method.
 
     Parameters
     ----------
     peak_wavelength : numeric
-        Wavelength the single *LED* spectral power distribution will peak at.
+        Wavelength the single *LED* spectral distribution will peak at.
     fwhm : numeric
         Full width at half maximum, i.e. width of the underlying gaussian
-        spectral power distribution measured between those points on the *y*
+        spectral distribution measured between those points on the *y*
         axis which are half the maximum amplitude.
     shape : SpectralShape, optional
-        Spectral shape used to create the spectral power distribution.
+        Spectral shape used to create the spectral distribution.
     method : unicode, optional
         **{'Ohno 2005'}**,
         Computation method.
 
     Returns
     -------
-    SpectralPowerDistribution
-        Single *LED* spectral power distribution.
+    SpectralDistribution
+        Single *LED* spectral distribution.
 
     Notes
     -----
-    -   By default, the spectral power distribution will use the shape given
-        by :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
+    -   By default, the spectral distribution will use the shape given by
+        :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
 
     References
     ----------
@@ -419,54 +413,53 @@ def spd_single_led(peak_wavelength,
 
     Examples
     --------
-    >>> spd = spd_single_led(555, 25)
-    >>> spd.shape
+    >>> sd = sd_single_led(555, 25)
+    >>> sd.shape
     SpectralShape(360.0, 780.0, 1.0)
-    >>> spd[555]  # doctest: +ELLIPSIS
+    >>> sd[555]  # doctest: +ELLIPSIS
     1.0000000...
     """
 
-    return SPD_SINGLE_LED_METHODS[method](peak_wavelength, fwhm, shape)
+    return SD_SINGLE_LED_METHODS[method](peak_wavelength, fwhm, shape)
 
 
-def spd_multi_led_Ohno2005(peak_wavelengths,
-                           fwhm,
-                           peak_power_ratios=None,
-                           shape=DEFAULT_SPECTRAL_SHAPE):
+def sd_multi_led_Ohno2005(peak_wavelengths,
+                          fwhm,
+                          peak_power_ratios=None,
+                          shape=DEFAULT_SPECTRAL_SHAPE):
     """
-    Returns a multi *LED* spectral power distribution of given spectral shape
-    at given peak wavelengths and full widths at half maximum according to
+    Returns a multi *LED* spectral distribution of given spectral shape at
+    given peak wavelengths and full widths at half maximum according to
     *Ohno (2005)* method.
 
-    The multi *LED* spectral power distribution is generated using many single
-    *LED* spectral power distributions generated with
-    :func:`colour.spd_single_led_Ohno2005` definition.
+    The multi *LED* spectral distribution is generated using many single
+    *LED* spectral distributions generated with
+    :func:`colour.sd_single_led_Ohno2005` definition.
 
     Parameters
     ----------
     peak_wavelengths : array_like
-        Wavelengths the multi *LED* spectral power distribution will peak at,
-        i.e. the peaks for each generated single *LED* spectral power
-        distributions.
+        Wavelengths the multi *LED* spectral distribution will peak at, i.e.
+        the peaks for each generated single *LED* spectral distributions.
     fwhm : array_like
         Full widths at half maximum, i.e. widths of the underlying gaussian
-        spectral power distributions measured between those points on the *y*
-        axis which are half the maximum amplitude.
+        spectral distributions measured between those points on the *y* axis
+        which are half the maximum amplitude.
     peak_power_ratios : array_like, optional
-        Peak power ratios for each generated single *LED* spectral power
+        Peak power ratios for each generated single *LED* spectral
         distributions.
     shape : SpectralShape, optional
-        Spectral shape used to create the spectral power distribution.
+        Spectral shape used to create the spectral distribution.
 
     Returns
     -------
-    SpectralPowerDistribution
-        Multi *LED* spectral power distribution.
+    SpectralDistribution
+        Multi *LED* spectral distribution.
 
     Notes
     -----
-    -   By default, the spectral power distribution will use the shape given
-        by :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
+    -   By default, the spectral distribution will use the shape given by
+        :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
 
     References
     ----------
@@ -474,14 +467,14 @@ def spd_multi_led_Ohno2005(peak_wavelengths,
 
     Examples
     --------
-    >>> spd = spd_multi_led_Ohno2005(
+    >>> sd = sd_multi_led_Ohno2005(
     ...     np.array([457, 530, 615]),
     ...     np.array([20, 30, 20]),
     ...     np.array([0.731, 1.000, 1.660]),
     ... )
-    >>> spd.shape
+    >>> sd.shape
     SpectralShape(360.0, 780.0, 1.0)
-    >>> spd[500]  # doctest: +ELLIPSIS
+    >>> sd[500]  # doctest: +ELLIPSIS
     0.1295132...
     """
 
@@ -493,12 +486,12 @@ def spd_multi_led_Ohno2005(peak_wavelengths,
         peak_power_ratios = np.resize(peak_power_ratios,
                                       peak_wavelengths.shape)
 
-    spd = spd_zeros(shape)
+    sd = sd_zeros(shape)
 
     for (peak_wavelength, fwhm_s, peak_power_ratio) in zip(
             peak_wavelengths, fwhm, peak_power_ratios):
-        spd += spd_single_led_Ohno2005(peak_wavelength,
-                                       fwhm_s) * peak_power_ratio
+        sd += sd_single_led_Ohno2005(peak_wavelength,
+                                     fwhm_s) * peak_power_ratio
 
     def _format_array(a):
         """
@@ -517,65 +510,64 @@ def spd_multi_led_Ohno2005(peak_wavelengths,
 
         return ', '.join([str(e) for e in a])
 
-    spd.name = (
+    sd.name = (
         '{0}nm - {1}FWHM - {2} Peak Power Ratios - LED - Ohno (2005)'.format(
             _format_array(peak_wavelengths),
             _format_array(fwhm),
             _format_array(peak_power_ratios),
         ))
 
-    return spd
+    return sd
 
 
-SPD_MULTI_LED_METHODS = CaseInsensitiveMapping({
-    'Ohno 2005': spd_multi_led_Ohno2005,
+SD_MULTI_LED_METHODS = CaseInsensitiveMapping({
+    'Ohno 2005': sd_multi_led_Ohno2005,
 })
-SPD_MULTI_LED_METHODS.__doc__ = """
-Supported multi *LED* spectral power distribution computation methods.
+SD_MULTI_LED_METHODS.__doc__ = """
+Supported multi *LED* spectral distribution computation methods.
 
-SPD_MULTI_LED_METHODS : CaseInsensitiveMapping
+SD_MULTI_LED_METHODS : CaseInsensitiveMapping
     **{'Ohno 2005'}**
 """
 
 
-def spd_multi_led(peak_wavelengths,
-                  fwhm,
-                  peak_power_ratios=None,
-                  shape=DEFAULT_SPECTRAL_SHAPE,
-                  method='Ohno 2005'):
+def sd_multi_led(peak_wavelengths,
+                 fwhm,
+                 peak_power_ratios=None,
+                 shape=DEFAULT_SPECTRAL_SHAPE,
+                 method='Ohno 2005'):
     """
-    Returns a multi *LED* spectral power distribution of given spectral shape
-    at given peak wavelengths and full widths at half maximum according to
-    given method.
+    Returns a multi *LED* spectral distribution of given spectral shape at
+    given peak wavelengths and full widths at half maximum according to given
+    method.
 
     Parameters
     ----------
     peak_wavelengths : array_like
-        Wavelengths the multi *LED* spectral power distribution will peak at,
-        i.e. the peaks for each generated single *LED* spectral power
-        distributions.
+        Wavelengths the multi *LED* spectral distribution will peak at, i.e.
+        the peaks for each generated single *LED* spectral distributions.
     fwhm : array_like
         Full widths at half maximum, i.e. widths of the underlying gaussian
-        spectral power distributions measured between those points on the *y*
-        axis which are half the maximum amplitude.
+        spectral distributions measured between those points on the *y* axis
+        which are half the maximum amplitude.
     peak_power_ratios : array_like, optional
-        Peak power ratios for each generated single *LED* spectral power
+        Peak power ratios for each generated single *LED* spectral
         distributions.
     shape : SpectralShape, optional
-        Spectral shape used to create the spectral power distribution.
+        Spectral shape used to create the spectral distribution.
     method : unicode, optional
         **{'Ohno 2005'}**,
         Computation method.
 
     Returns
     -------
-    SpectralPowerDistribution
-        Multi *LED* spectral power distribution.
+    SpectralDistribution
+        Multi *LED* spectral distribution.
 
     Notes
     -----
-    -   By default, the spectral power distribution will use the shape given
-        by :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
+    -   By default, the spectral distribution will use the shape given by
+        :attr:`colour.DEFAULT_SPECTRAL_SHAPE` attribute.
 
     References
     ----------
@@ -583,16 +575,16 @@ def spd_multi_led(peak_wavelengths,
 
     Examples
     --------
-    >>> spd = spd_multi_led(
+    >>> sd = sd_multi_led(
     ...     np.array([457, 530, 615]),
     ...     np.array([20, 30, 20]),
     ...     np.array([0.731, 1.000, 1.660]),
     ... )
-    >>> spd.shape
+    >>> sd.shape
     SpectralShape(360.0, 780.0, 1.0)
-    >>> spd[500]  # doctest: +ELLIPSIS
+    >>> sd[500]  # doctest: +ELLIPSIS
     0.1295132...
     """
 
-    return SPD_MULTI_LED_METHODS[method](peak_wavelengths, fwhm,
-                                         peak_power_ratios, shape)
+    return SD_MULTI_LED_METHODS[method](peak_wavelengths, fwhm,
+                                        peak_power_ratios, shape)

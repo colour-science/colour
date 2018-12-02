@@ -18,6 +18,7 @@ colour.LUT3D
       ~LUT3D.arithmetical_operation
       ~LUT3D.as_LUT
       ~LUT3D.copy
+      ~LUT3D.is_domain_explicit
       ~LUT3D.linear_table
    
    

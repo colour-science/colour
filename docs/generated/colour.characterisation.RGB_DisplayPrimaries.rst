@@ -27,7 +27,7 @@ colour.characterisation.RGB\_DisplayPrimaries
       ~RGB_DisplayPrimaries.multi_signal_unpack_data
       ~RGB_DisplayPrimaries.normalise
       ~RGB_DisplayPrimaries.to_dataframe
-      ~RGB_DisplayPrimaries.to_spds
+      ~RGB_DisplayPrimaries.to_sds
       ~RGB_DisplayPrimaries.trim
       ~RGB_DisplayPrimaries.trim_wavelengths
       ~RGB_DisplayPrimaries.zeros

@@ -16,11 +16,11 @@ Defines the common plotting objects:
 -   :func:`colour.plotting.render`
 -   :func:`colour.plotting.label_rectangles`
 -   :func:`colour.plotting.uniform_axes3d`
--   :func:`colour.plotting.single_colour_swatch_plot`
--   :func:`colour.plotting.multi_colour_swatch_plot`
--   :func:`colour.plotting.single_function_plot`
--   :func:`colour.plotting.multi_function_plot`
--   :func:`colour.plotting.image_plot`
+-   :func:`colour.plotting.plot_single_colour_swatch`
+-   :func:`colour.plotting.plot_multi_colour_swatches`
+-   :func:`colour.plotting.plot_single_function`
+-   :func:`colour.plotting.plot_multi_functions`
+-   :func:`colour.plotting.plot_image`
 """
 
 from __future__ import division
@@ -38,7 +38,7 @@ from functools import partial
 from matplotlib.colors import LinearSegmentedColormap
 
 from colour.characterisation import COLOURCHECKERS
-from colour.colorimetry import (CMFS, ILLUMINANTS_SPDS)
+from colour.colorimetry import (CMFS, ILLUMINANTS_SDS)
 from colour.models import RGB_COLOURSPACES, XYZ_to_RGB
 from colour.utilities import (Structure, as_float_array, is_sibling, is_string,
                               filter_mapping, runtime_warning)
@@ -56,8 +56,8 @@ __all__ = [
     'colour_cycle', 'artist', 'camera', 'render', 'label_rectangles',
     'uniform_axes3d', 'filter_passthrough', 'filter_RGB_colourspaces',
     'filter_cmfs', 'filter_illuminants', 'filter_colour_checkers',
-    'single_colour_swatch_plot', 'multi_colour_swatch_plot',
-    'single_function_plot', 'multi_function_plot', 'image_plot'
+    'plot_single_colour_swatch', 'plot_multi_colour_swatches',
+    'plot_single_function', 'plot_multi_functions', 'plot_image'
 ]
 
 COLOUR_STYLE_CONSTANTS = Structure(
@@ -814,8 +814,8 @@ def filter_illuminants(filterers,
 
     Parameters
     ----------
-    filterers : unicode or SpectralPowerDistribution or array_like
-        Filterer or :class:`colour.SpectralPowerDistribution` class instance
+    filterers : unicode or SpectralDistribution or array_like
+        Filterer or :class:`colour.SpectralDistribution` class instance
         (which is passed through directly if its type is one of the mapping
         element types) or list of filterers.
     anchors : bool, optional
@@ -832,7 +832,7 @@ def filter_illuminants(filterers,
         Filtered illuminants.
     """
 
-    return filter_passthrough(ILLUMINANTS_SPDS, filterers, anchors,
+    return filter_passthrough(ILLUMINANTS_SDS, filterers, anchors,
                               allow_non_siblings, flags)
 
 
@@ -875,7 +875,7 @@ def filter_colour_checkers(filterers,
         'xtick.labelbottom': False,
         'ytick.labelleft': False,
     })
-def single_colour_swatch_plot(colour_swatch, **kwargs):
+def plot_single_colour_swatch(colour_swatch, **kwargs):
     """
     Plots given colour swatch.
 
@@ -890,19 +890,19 @@ def single_colour_swatch_plot(colour_swatch, **kwargs):
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
     width : numeric, optional
-        {:func:`colour.plotting.multi_colour_swatch_plot`},
+        {:func:`colour.plotting.plot_multi_colour_swatches`},
         Colour swatch width.
     height : numeric, optional
-        {:func:`colour.plotting.multi_colour_swatch_plot`},
+        {:func:`colour.plotting.plot_multi_colour_swatches`},
         Colour swatch height.
     spacing : numeric, optional
-        {:func:`colour.plotting.multi_colour_swatch_plot`},
+        {:func:`colour.plotting.plot_multi_colour_swatches`},
         Colour swatches spacing.
     columns : int, optional
-        {:func:`colour.plotting.multi_colour_swatch_plot`},
+        {:func:`colour.plotting.plot_multi_colour_swatches`},
         Colour swatches columns count.
     text_parameters : dict, optional
-        {:func:`colour.plotting.multi_colour_swatch_plot`},
+        {:func:`colour.plotting.plot_multi_colour_swatches`},
         Parameters for the :func:`plt.text` definition, ``offset`` can be
         set to define the text offset.
 
@@ -914,14 +914,14 @@ def single_colour_swatch_plot(colour_swatch, **kwargs):
     Examples
     --------
     >>> RGB = ColourSwatch(RGB=(0.45620519, 0.03081071, 0.04091952))
-    >>> single_colour_swatch_plot(RGB)  # doctest: +SKIP
+    >>> plot_single_colour_swatch(RGB)  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Single_Colour_Swatch_Plot.png
+    .. image:: ../_static/Plotting_Plot_Single_Colour_Swatch.png
         :align: center
-        :alt: single_colour_swatch_plot
+        :alt: plot_single_colour_swatch
     """
 
-    return multi_colour_swatch_plot((colour_swatch, ), **kwargs)
+    return plot_multi_colour_swatches((colour_swatch, ), **kwargs)
 
 
 @override_style(
@@ -932,15 +932,15 @@ def single_colour_swatch_plot(colour_swatch, **kwargs):
         'xtick.labelbottom': False,
         'ytick.labelleft': False,
     })
-def multi_colour_swatch_plot(colour_swatches,
-                             width=1,
-                             height=1,
-                             spacing=0,
-                             columns=None,
-                             text_parameters=None,
-                             background_colour=(1.0, 1.0, 1.0),
-                             compare_swatches=None,
-                             **kwargs):
+def plot_multi_colour_swatches(colour_swatches,
+                               width=1,
+                               height=1,
+                               spacing=0,
+                               columns=None,
+                               text_parameters=None,
+                               background_colour=(1.0, 1.0, 1.0),
+                               compare_swatches=None,
+                               **kwargs):
     """
     Plots given colours swatches.
 
@@ -987,11 +987,11 @@ def multi_colour_swatch_plot(colour_swatches,
     --------
     >>> RGB_1 = ColourSwatch(RGB=(0.45293517, 0.31732158, 0.26414773))
     >>> RGB_2 = ColourSwatch(RGB=(0.77875824, 0.57726450, 0.50453169))
-    >>> multi_colour_swatch_plot([RGB_1, RGB_2])  # doctest: +SKIP
+    >>> plot_multi_colour_swatches([RGB_1, RGB_2])  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Multi_Colour_Swatch_Plot.png
+    .. image:: ../_static/Plotting_Plot_Multi_Colour_Swatches.png
         :align: center
-        :alt: multi_colour_swatch_plot
+        :alt: plot_multi_colour_swatches
     """
 
     figure, axes = artist(**kwargs)
@@ -1083,7 +1083,7 @@ def multi_colour_swatch_plot(colour_swatches,
 
 
 @override_style()
-def single_function_plot(function,
+def plot_single_function(function,
                          samples=None,
                          log_x=None,
                          log_y=None,
@@ -1117,12 +1117,12 @@ def single_function_plot(function,
 
     Examples
     --------
-    >>> single_function_plot(partial(function_gamma, exponent=1 / 2.2))
+    >>> plot_single_function(partial(function_gamma, exponent=1 / 2.2))
     ... # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Single_Function_Plot.png
+    .. image:: ../_static/Plotting_Plot_Single_Function.png
         :align: center
-        :alt: single_function_plot
+        :alt: plot_single_function
     """
 
     try:
@@ -1136,17 +1136,17 @@ def single_function_plot(function,
     }
     settings.update(kwargs)
 
-    return multi_function_plot({
+    return plot_multi_functions({
         name: function
     }, samples, log_x, log_y, **settings)
 
 
 @override_style()
-def multi_function_plot(functions,
-                        samples=None,
-                        log_x=None,
-                        log_y=None,
-                        **kwargs):
+def plot_multi_functions(functions,
+                         samples=None,
+                         log_x=None,
+                         log_y=None,
+                         **kwargs):
     """
     Plots given functions.
 
@@ -1181,12 +1181,12 @@ def multi_function_plot(functions,
     ...     'Gamma 2.4' : lambda x: x ** (1 / 2.4),
     ...     'Gamma 2.6' : lambda x: x ** (1 / 2.6),
     ... }
-    >>> multi_function_plot(functions)
+    >>> plot_multi_functions(functions)
     ... # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Multi_Function_Plot.png
+    .. image:: ../_static/Plotting_Plot_Multi_Functions.png
         :align: center
-        :alt: multi_function_plot
+        :alt: plot_multi_functions
     """
 
     settings = {}
@@ -1233,7 +1233,7 @@ def multi_function_plot(functions,
 
 
 @override_style()
-def image_plot(image,
+def plot_image(image,
                text_parameters=None,
                interpolation='nearest',
                colour_map=matplotlib.cm.Greys_r,
@@ -1274,11 +1274,11 @@ def image_plot(image,
     >>> from colour import read_image
     >>> path = os.path.join(
     ...     colour.__path__[0], '..', 'docs', '_static', 'Logo_Medium_001.png')
-    >>> image_plot(read_image(path))  # doctest: +SKIP
+    >>> plot_image(read_image(path))  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Image_Plot.png
+    .. image:: ../_static/Plotting_Plot_Image.png
         :align: center
-        :alt: image_plot
+        :alt: plot_image
     """
 
     figure, axes = artist(**kwargs)

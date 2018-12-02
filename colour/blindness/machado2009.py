@@ -78,7 +78,7 @@ def RGB_to_WSYBRG_matrix(cmfs, primaries):
     cmfs : LMS_ConeFundamentals
         *LMS* cone fundamentals colour matching functions.
     primaries : RGB_DisplayPrimaries
-        *RGB* display primaries tri-spectral power distributions.
+        *RGB* display primaries tri-spectral distributions.
 
     Returns
     -------
@@ -236,15 +236,15 @@ def anomalous_trichromacy_matrix_Machado2009(cmfs, primaries, d_LMS):
     """
     Computes *Machado et al. (2009)* *CVD* matrix for given *LMS* cone
     fundamentals colour matching functions and display primaries tri-spectral
-    power distributions with given :math:`\\Delta_{LMS}` shift amount in
-    nanometers to simulate anomalous trichromacy.
+    distributions with given :math:`\\Delta_{LMS}` shift amount in nanometers
+    to simulate anomalous trichromacy.
 
     Parameters
     ----------
     cmfs : LMS_ConeFundamentals
         *LMS* cone fundamentals colour matching functions.
     primaries : RGB_DisplayPrimaries
-        *RGB* display primaries tri-spectral power distributions.
+        *RGB* display primaries tri-spectral distributions.
     d_LMS : array_like
         :math:`\\Delta_{LMS}` shift amount in nanometers.
 

@@ -11,8 +11,9 @@ import shutil
 import unittest
 import tempfile
 
-from colour.colorimetry import SpectralPowerDistribution
-from colour.io.ies_tm2714 import IES_TM2714_Header, IES_TM2714_Spd
+from colour.colorimetry import SpectralDistribution
+from colour.io.ies_tm2714 import (IES_TM2714_Header,
+                                  SpectralDistribution_IESTM2714)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -24,7 +25,7 @@ __status__ = 'Production'
 __all__ = [
     'RESOURCES_DIRECTORY', 'FLUORESCENT_FILE_HEADER',
     'FLUORESCENT_FILE_SPECTRAL_DESCRIPTION', 'FLUORESCENT_FILE_SPECTRAL_DATA',
-    'TestIES_TM2714_Header', 'TestIES_TM2714_Spd'
+    'TestIES_TM2714_Header', 'TestIES_TM2714_Sd'
 ]
 
 RESOURCES_DIRECTORY = os.path.join(os.path.dirname(__file__), 'resources')
@@ -158,10 +159,10 @@ class TestIES_TM2714_Header(unittest.TestCase):
             self.assertIn(attribute, dir(IES_TM2714_Header))
 
 
-class TestIES_TM2714_Spd(unittest.TestCase):
+class TestIES_TM2714_Sd(unittest.TestCase):
     """
-    Defines :class:`colour.io.iestm2714.IES_TM2714_Spd` class unit tests
-    methods.
+    Defines :class:`colour.io.iestm2714.SpectralDistribution_IESTM2714` class
+    unit tests methods.
     """
 
     def setUp(self):
@@ -189,7 +190,7 @@ class TestIES_TM2714_Spd(unittest.TestCase):
                                'bandwidth_corrected')
 
         for attribute in required_attributes:
-            self.assertIn(attribute, dir(IES_TM2714_Spd))
+            self.assertIn(attribute, dir(SpectralDistribution_IESTM2714))
 
     def test_required_methods(self):
         """
@@ -199,31 +200,32 @@ class TestIES_TM2714_Spd(unittest.TestCase):
         required_methods = ('read', )
 
         for method in required_methods:
-            self.assertIn(method, dir(IES_TM2714_Spd))
+            self.assertIn(method, dir(SpectralDistribution_IESTM2714))
 
-    def test_read(self, spd=None):
+    def test_read(self, sd=None):
         """
-        Tests :attr:`colour.io.iestm2714.IES_TM2714_Spd.read` method.
+        Tests :attr:`colour.io.iestm2714.SpectralDistribution_IESTM2714.read`
+        method.
 
         Parameters
         ----------
-        spd : IES_TM2714_Spd, optional
-            Optional *IES TM-27-14* spectral power distribution for read tests.
+        sd : SpectralDistribution_IESTM2714, optional
+            Optional *IES TM-27-14* spectral distribution for read tests.
         """
 
-        if spd is None:
-            spd = IES_TM2714_Spd(
+        if sd is None:
+            sd = SpectralDistribution_IESTM2714(
                 os.path.join(RESOURCES_DIRECTORY, 'Fluorescent.spdx'))
 
-        self.assertTrue(spd.read())
+        self.assertTrue(sd.read())
 
-        spd_r = SpectralPowerDistribution(FLUORESCENT_FILE_SPECTRAL_DATA)
+        sd_r = SpectralDistribution(FLUORESCENT_FILE_SPECTRAL_DATA)
 
-        np.testing.assert_array_equal(spd_r.domain, spd.domain)
-        np.testing.assert_almost_equal(spd_r.values, spd.values, decimal=7)
+        np.testing.assert_array_equal(sd_r.domain, sd.domain)
+        np.testing.assert_almost_equal(sd_r.values, sd.values, decimal=7)
 
-        for test, read in ((FLUORESCENT_FILE_HEADER, spd.header),
-                           (FLUORESCENT_FILE_SPECTRAL_DESCRIPTION, spd)):
+        for test, read in ((FLUORESCENT_FILE_HEADER, sd.header),
+                           (FLUORESCENT_FILE_SPECTRAL_DESCRIPTION, sd)):
             for key, value in test.items():
                 for specification in read.mapping.elements:
                     if key == specification.element:
@@ -232,21 +234,21 @@ class TestIES_TM2714_Spd(unittest.TestCase):
 
     def test_write(self):
         """
-        Tests :attr:`colour.io.iestm2714.IES_TM2714_Spd.write` method.
+        Tests :attr:`colour.io.iestm2714.SpectralDistribution_IESTM2714.write`
+        method.
         """
 
-        spd_r = IES_TM2714_Spd(
+        sd_r = SpectralDistribution_IESTM2714(
             os.path.join(RESOURCES_DIRECTORY, 'Fluorescent.spdx'))
 
-        spd_r.read()
+        sd_r.read()
 
-        spd_r.path = os.path.join(self._temporary_directory,
-                                  'Fluorescent.spdx')
-        self.assertTrue(spd_r.write())
-        spd_t = IES_TM2714_Spd(spd_r.path)
+        sd_r.path = os.path.join(self._temporary_directory, 'Fluorescent.spdx')
+        self.assertTrue(sd_r.write())
+        sd_t = SpectralDistribution_IESTM2714(sd_r.path)
 
-        self.test_read(spd_t)
-        self.assertEquals(spd_r, spd_t)
+        self.test_read(sd_t)
+        self.assertEquals(sd_r, sd_t)
 
 
 if __name__ == '__main__':

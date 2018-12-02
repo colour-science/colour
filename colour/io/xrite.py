@@ -5,7 +5,7 @@ X-Rite Data Input
 
 Defines input object for *X-Rite* spectral data files:
 
--   :func:`colour.read_spds_from_xrite_file`
+-   :func:`colour.read_sds_from_xrite_file`
 """
 
 from __future__ import division, unicode_literals
@@ -14,7 +14,7 @@ import codecs
 import re
 from collections import OrderedDict
 
-from colour.colorimetry import SpectralPowerDistribution
+from colour.colorimetry import SpectralDistribution
 from colour.constants import DEFAULT_FLOAT_DTYPE
 
 __author__ = 'Colour Developers'
@@ -24,15 +24,15 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['XRITE_FILE_ENCODING', 'read_spds_from_xrite_file']
+__all__ = ['XRITE_FILE_ENCODING', 'read_sds_from_xrite_file']
 
 XRITE_FILE_ENCODING = 'utf-8'
 
 
-def read_spds_from_xrite_file(path):
+def read_sds_from_xrite_file(path):
     """
     Reads the spectral data from given *X-Rite* file and returns it as an
-    *OrderedDict* of :class:`colour.SpectralPowerDistribution` classes.
+    *OrderedDict* of :class:`colour.SpectralDistribution` classes.
 
     Parameters
     ----------
@@ -42,7 +42,7 @@ def read_spds_from_xrite_file(path):
     Returns
     -------
     OrderedDict
-        :class:`colour.SpectralPowerDistribution` classes of given *X-Rite*
+        :class:`colour.SpectralDistribution` classes of given *X-Rite*
         file.
 
     Notes
@@ -56,15 +56,15 @@ def read_spds_from_xrite_file(path):
     >>> xrite_file = os.path.join(os.path.dirname(__file__), 'tests',
     ...                           'resources',
     ...                           'xrite_digital_colour_checker.txt')
-    >>> spds_data = read_spds_from_xrite_file(xrite_file)
-    >>> pprint(list(spds_data.keys()))  # doctest: +SKIP
+    >>> sds_data = read_sds_from_xrite_file(xrite_file)
+    >>> pprint(list(sds_data.keys()))  # doctest: +SKIP
     ['X1', 'X2', 'X3', 'X4', 'X5', 'X6', 'X7', 'X8', 'X9', 'X10']
     """
 
     with codecs.open(path, encoding=XRITE_FILE_ENCODING) as xrite_file:
         lines = xrite_file.read().strip().split('\n')
 
-        xrite_spds = OrderedDict()
+        xrite_sds = OrderedDict()
         is_spectral_data_format, is_spectral_data = False, False
         for line in lines:
             line = line.strip()
@@ -85,7 +85,7 @@ def read_spds_from_xrite_file(path):
             if is_spectral_data:
                 tokens = line.split()
                 values = [DEFAULT_FLOAT_DTYPE(x) for x in tokens[-index:]]
-                xrite_spds[tokens[1]] = (SpectralPowerDistribution(
+                xrite_sds[tokens[1]] = (SpectralDistribution(
                     dict(zip(wavelengths, values)), name=tokens[1]))
 
             if line == 'BEGIN_DATA_FORMAT':
@@ -94,4 +94,4 @@ def read_spds_from_xrite_file(path):
             if line == 'BEGIN_DATA':
                 is_spectral_data = True
 
-        return xrite_spds
+        return xrite_sds

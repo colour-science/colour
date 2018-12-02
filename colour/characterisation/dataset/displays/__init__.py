@@ -20,7 +20,7 @@ from colour.utilities import CaseInsensitiveMapping
 DISPLAYS_RGB_PRIMARIES = CaseInsensitiveMapping(CRT_DISPLAYS_RGB_PRIMARIES)
 DISPLAYS_RGB_PRIMARIES.update(LCD_DISPLAYS_RGB_PRIMARIES)
 DISPLAYS_RGB_PRIMARIES.__doc__ = """
-Displays *RGB* primaries multi-spectral power distributions.
+Displays *RGB* primaries multi-spectral distributions.
 
 References
 ----------

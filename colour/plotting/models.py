@@ -6,25 +6,25 @@ Colour Models Plotting
 Defines the colour models plotting objects:
 
 -   :func:`colour.plotting.\
-RGB_colourspaces_chromaticity_diagram_plot_CIE1931`
+plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931`
 -   :func:`colour.plotting.\
-RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS`
+plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS`
 -   :func:`colour.plotting.\
-RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS`
+plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS`
 -   :func:`colour.plotting.\
-RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931`
+plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931`
 -   :func:`colour.plotting.\
-RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS`
+plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS`
 -   :func:`colour.plotting.\
-RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS`
+plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS`
 -   :func:`colour.plotting.\
-ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1931`
+plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931`
 -   :func:`colour.plotting.\
-ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1960UCS`
+plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1960UCS`
 -   :func:`colour.plotting.\
-ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1976UCS`
--   :func:`colour.plotting.single_cctf_plot`
--   :func:`colour.plotting.multi_cctf_plot`
+plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS`
+-   :func:`colour.plotting.plot_single_cctf`
+-   :func:`colour.plotting.plot_multi_cctfs`
 """
 
 from __future__ import division
@@ -43,11 +43,11 @@ from colour.models import (
     POINTER_GAMUT_ILLUMINANT, RGB_to_RGB, RGB_to_XYZ, UCS_to_uv, XYZ_to_Luv,
     XYZ_to_UCS, XYZ_to_xy, xy_to_Luv_uv, xy_to_UCS_uv)
 from colour.plotting import (
-    COLOUR_STYLE_CONSTANTS, chromaticity_diagram_plot_CIE1931, artist,
-    chromaticity_diagram_plot_CIE1960UCS, chromaticity_diagram_plot_CIE1976UCS,
+    COLOUR_STYLE_CONSTANTS, plot_chromaticity_diagram_CIE1931, artist,
+    plot_chromaticity_diagram_CIE1960UCS, plot_chromaticity_diagram_CIE1976UCS,
     colour_cycle, colour_style, filter_passthrough, filter_RGB_colourspaces,
-    filter_cmfs, multi_function_plot, override_style, render)
-from colour.plotting.diagrams import chromaticity_diagram_plot
+    filter_cmfs, plot_multi_functions, override_style, render)
+from colour.plotting.diagrams import plot_chromaticity_diagram
 from colour.utilities import (as_float_array, domain_range_scale, first_item,
                               tsplit)
 
@@ -59,24 +59,25 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'pointer_gamut_plot', 'RGB_colourspaces_chromaticity_diagram_plot',
-    'RGB_colourspaces_chromaticity_diagram_plot_CIE1931',
-    'RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS',
-    'RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS',
-    'RGB_chromaticity_coordinates_chromaticity_diagram_plot',
-    'RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931',
-    'RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS',
-    'RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS',
-    'ellipses_MacAdam1942', 'ellipses_MacAdam1942_chromaticity_diagram_plot',
-    'ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1931',
-    'ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1960UCS',
-    'ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1976UCS',
-    'single_cctf_plot', 'multi_cctf_plot'
+    'plot_pointer_gamut', 'plot_RGB_colourspaces_in_chromaticity_diagram',
+    'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931',
+    'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS',
+    'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS',
+    'plot_RGB_chromaticities_in_chromaticity_diagram',
+    'plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931',
+    'plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS',
+    'plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS',
+    'ellipses_MacAdam1942',
+    'plot_ellipses_MacAdam1942_in_chromaticity_diagram',
+    'plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931',
+    'plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1960UCS',
+    'plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS',
+    'plot_single_cctf', 'plot_multi_cctfs'
 ]
 
 
 @override_style()
-def pointer_gamut_plot(method='CIE 1931', **kwargs):
+def plot_pointer_gamut(method='CIE 1931', **kwargs):
     """
     Plots *Pointer's Gamut* according to given method.
 
@@ -99,11 +100,11 @@ def pointer_gamut_plot(method='CIE 1931', **kwargs):
 
     Examples
     --------
-    >>> pointer_gamut_plot()  # doctest: +SKIP
+    >>> plot_pointer_gamut()  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Pointer_Gamut_Plot.png
+    .. image:: ../_static/Plotting_Plot_Pointer_Gamut.png
         :align: center
-        :alt: pointer_gamut_plot
+        :alt: plot_pointer_gamut
     """
 
     settings = {'uniform': True}
@@ -200,10 +201,10 @@ def pointer_gamut_plot(method='CIE 1931', **kwargs):
 
 
 @override_style()
-def RGB_colourspaces_chromaticity_diagram_plot(
+def plot_RGB_colourspaces_in_chromaticity_diagram(
         colourspaces=None,
         cmfs='CIE 1931 2 Degree Standard Observer',
-        chromaticity_diagram_callable=chromaticity_diagram_plot,
+        chromaticity_diagram_callable=plot_chromaticity_diagram,
         method='CIE 1931',
         show_whitepoints=True,
         show_pointer_gamut=False,
@@ -233,8 +234,8 @@ def RGB_colourspaces_chromaticity_diagram_plot(
     ----------------
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
-        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
-        :func:`colour.plotting.pointer_gamut_plot`,
+        :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
+        :func:`colour.plotting.plot_pointer_gamut`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -245,14 +246,14 @@ def RGB_colourspaces_chromaticity_diagram_plot(
 
     Examples
     --------
-    >>> RGB_colourspaces_chromaticity_diagram_plot(
+    >>> plot_RGB_colourspaces_in_chromaticity_diagram(
     ...     ['ITU-R BT.709', 'ACEScg', 'S-Gamut'])
     ... # doctest: +SKIP
 
     .. image:: ../_static/Plotting_\
-RGB_Colourspaces_Chromaticity_Diagram_Plot.png
+Plot_RGB_Colourspaces_In_Chromaticity_Diagram.png
         :align: center
-        :alt: RGB_colourspaces_chromaticity_diagram_plot
+        :alt: plot_RGB_colourspaces_in_chromaticity_diagram
     """
 
     if colourspaces is None:
@@ -284,7 +285,7 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot.png
         settings.update(kwargs)
         settings['standalone'] = False
 
-        pointer_gamut_plot(**settings)
+        plot_pointer_gamut(**settings)
 
     if method == 'CIE 1931':
 
@@ -386,11 +387,11 @@ RGB_Colourspaces_Chromaticity_Diagram_Plot.png
 
 
 @override_style()
-def RGB_colourspaces_chromaticity_diagram_plot_CIE1931(
+def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
         colourspaces=None,
         cmfs='CIE 1931 2 Degree Standard Observer',
         chromaticity_diagram_callable_CIE1931=(
-            chromaticity_diagram_plot_CIE1931),
+            plot_chromaticity_diagram_CIE1931),
         **kwargs):
     """
     Plots given *RGB* colourspaces in the *CIE 1931 Chromaticity Diagram*.
@@ -409,7 +410,7 @@ def RGB_colourspaces_chromaticity_diagram_plot_CIE1931(
     ----------------
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
-        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -420,29 +421,29 @@ def RGB_colourspaces_chromaticity_diagram_plot_CIE1931(
 
     Examples
     --------
-    >>> RGB_colourspaces_chromaticity_diagram_plot_CIE1931(
+    >>> plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931(
     ...     ['ITU-R BT.709', 'ACEScg', 'S-Gamut'])
     ... # doctest: +SKIP
 
     .. image:: ../_static/Plotting_\
-RGB_Colourspaces_Chromaticity_Diagram_Plot_CIE1931.png
+Plot_RGB_Colourspaces_In_Chromaticity_Diagram_CIE1931.png
         :align: center
-        :alt: RGB_colourspaces_chromaticity_diagram_plot_CIE1931
+        :alt: plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931
     """
 
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1931'})
 
-    return RGB_colourspaces_chromaticity_diagram_plot(
+    return plot_RGB_colourspaces_in_chromaticity_diagram(
         colourspaces, cmfs, chromaticity_diagram_callable_CIE1931, **settings)
 
 
 @override_style()
-def RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS(
+def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS(
         colourspaces=None,
         cmfs='CIE 1931 2 Degree Standard Observer',
         chromaticity_diagram_callable_CIE1960UCS=(
-            chromaticity_diagram_plot_CIE1960UCS),
+            plot_chromaticity_diagram_CIE1960UCS),
         **kwargs):
     """
     Plots given *RGB* colourspaces in the *CIE 1960 UCS Chromaticity Diagram*.
@@ -462,7 +463,7 @@ def RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS(
     ----------------
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
-        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -473,30 +474,30 @@ def RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS(
 
     Examples
     --------
-    >>> RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS((
+    >>> plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS((
     ...     ['ITU-R BT.709', 'ACEScg', 'S-Gamut'])
     ... # doctest: +SKIP
 
     .. image:: ../_static/Plotting_\
-RGB_Colourspaces_Chromaticity_Diagram_Plot_CIE1960UCS.png
+Plot_RGB_Colourspaces_In_Chromaticity_Diagram_CIE1960UCS.png
         :align: center
-        :alt: RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS
+        :alt: plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS
     """
 
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1960 UCS'})
 
-    return RGB_colourspaces_chromaticity_diagram_plot(
+    return plot_RGB_colourspaces_in_chromaticity_diagram(
         colourspaces, cmfs, chromaticity_diagram_callable_CIE1960UCS,
         **settings)
 
 
 @override_style()
-def RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS(
+def plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS(
         colourspaces=None,
         cmfs='CIE 1931 2 Degree Standard Observer',
         chromaticity_diagram_callable_CIE1976UCS=(
-            chromaticity_diagram_plot_CIE1976UCS),
+            plot_chromaticity_diagram_CIE1976UCS),
         **kwargs):
     """
     Plots given *RGB* colourspaces in the *CIE 1976 UCS Chromaticity Diagram*.
@@ -516,7 +517,7 @@ def RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS(
     ----------------
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
-        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -527,30 +528,30 @@ def RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS(
 
     Examples
     --------
-    >>> RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS((
+    >>> plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS((
     ...     ['ITU-R BT.709', 'ACEScg', 'S-Gamut'])
     ... # doctest: +SKIP
 
     .. image:: ../_static/Plotting_\
-RGB_Colourspaces_Chromaticity_Diagram_Plot_CIE1976UCS.png
+Plot_RGB_Colourspaces_In_Chromaticity_Diagram_CIE1976UCS.png
         :align: center
-        :alt: RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS
+        :alt: plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS
     """
 
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1976 UCS'})
 
-    return RGB_colourspaces_chromaticity_diagram_plot(
+    return plot_RGB_colourspaces_in_chromaticity_diagram(
         colourspaces, cmfs, chromaticity_diagram_callable_CIE1976UCS,
         **settings)
 
 
 @override_style()
-def RGB_chromaticity_coordinates_chromaticity_diagram_plot(
+def plot_RGB_chromaticities_in_chromaticity_diagram(
         RGB,
         colourspace='sRGB',
         chromaticity_diagram_callable=(
-            RGB_colourspaces_chromaticity_diagram_plot),
+            plot_RGB_colourspaces_in_chromaticity_diagram),
         method='CIE 1931',
         scatter_parameters=None,
         **kwargs):
@@ -577,7 +578,7 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot(
     ----------------
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
-        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -589,14 +590,14 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot(
     Examples
     --------
     >>> RGB = np.random.random((128, 128, 3))
-    >>> RGB_chromaticity_coordinates_chromaticity_diagram_plot(
+    >>> plot_RGB_chromaticities_in_chromaticity_diagram(
     ...     RGB, 'ITU-R BT.709')
     ... # doctest: +SKIP
 
     .. image:: ../_static/Plotting_\
-RGB_Chromaticity_Coordinates_Chromaticity_Diagram_Plot.png
+Plot_RGB_Chromaticities_In_Chromaticity_Diagram_Plot.png
         :align: center
-        :alt: RGB_chromaticity_coordinates_chromaticity_diagram_plot
+        :alt: plot_RGB_chromaticities_in_chromaticity_diagram
     """
 
     RGB = as_float_array(RGB).reshape(-1, 3)
@@ -657,11 +658,11 @@ RGB_Chromaticity_Coordinates_Chromaticity_Diagram_Plot.png
 
 
 @override_style()
-def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931(
+def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
         RGB,
         colourspace='sRGB',
         chromaticity_diagram_callable_CIE1931=(
-            RGB_colourspaces_chromaticity_diagram_plot_CIE1931),
+            plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931),
         scatter_parameters=None,
         **kwargs):
     """
@@ -683,7 +684,7 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931(
     ----------------
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
-        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -695,20 +696,20 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931(
     Examples
     --------
     >>> RGB = np.random.random((128, 128, 3))
-    >>> RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931(
+    >>> plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931(
     ...     RGB, 'ITU-R BT.709')
     ... # doctest: +SKIP
 
     .. image:: ../_static/Plotting_\
-RGB_Chromaticity_Coordinates_Chromaticity_Diagram_Plot_CIE1931.png
+Plot_RGB_Chromaticities_In_Chromaticity_Diagram_CIE1931.png
         :align: center
-        :alt: RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931
+        :alt: plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931
     """
 
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1931'})
 
-    return RGB_chromaticity_coordinates_chromaticity_diagram_plot(
+    return plot_RGB_chromaticities_in_chromaticity_diagram(
         RGB,
         colourspace,
         chromaticity_diagram_callable_CIE1931,
@@ -717,11 +718,11 @@ RGB_Chromaticity_Coordinates_Chromaticity_Diagram_Plot_CIE1931.png
 
 
 @override_style()
-def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS(
+def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS(
         RGB,
         colourspace='sRGB',
         chromaticity_diagram_callable_CIE1960UCS=(
-            RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS),
+            plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS),
         scatter_parameters=None,
         **kwargs):
     """
@@ -745,7 +746,7 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS(
     ----------------
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
-        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -757,20 +758,20 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS(
     Examples
     --------
     >>> RGB = np.random.random((128, 128, 3))
-    >>> RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS(
+    >>> plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS(
     ...     RGB, 'ITU-R BT.709')
     ... # doctest: +SKIP
 
     .. image:: ../_static/Plotting_\
-RGB_Chromaticity_Coordinates_Chromaticity_Diagram_Plot_CIE1960UCS.png
+Plot_RGB_Chromaticities_In_Chromaticity_Diagram_CIE1960UCS.png
         :align: center
-        :alt: RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS
+        :alt: plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS
     """
 
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1960 UCS'})
 
-    return RGB_chromaticity_coordinates_chromaticity_diagram_plot(
+    return plot_RGB_chromaticities_in_chromaticity_diagram(
         RGB,
         colourspace,
         chromaticity_diagram_callable_CIE1960UCS,
@@ -779,11 +780,11 @@ RGB_Chromaticity_Coordinates_Chromaticity_Diagram_Plot_CIE1960UCS.png
 
 
 @override_style()
-def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS(
+def plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS(
         RGB,
         colourspace='sRGB',
         chromaticity_diagram_callable_CIE1976UCS=(
-            RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS),
+            plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS),
         scatter_parameters=None,
         **kwargs):
     """
@@ -807,7 +808,7 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS(
     ----------------
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
-        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -819,20 +820,20 @@ def RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS(
     Examples
     --------
     >>> RGB = np.random.random((128, 128, 3))
-    >>> RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS(
+    >>> plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS(
     ...     RGB, 'ITU-R BT.709')
     ... # doctest: +SKIP
 
     .. image:: ../_static/Plotting_\
-RGB_Chromaticity_Coordinates_Chromaticity_Diagram_Plot_CIE1976UCS.png
+Plot_RGB_Chromaticities_In_Chromaticity_Diagram_CIE1976UCS.png
         :align: center
-        :alt: RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS
+        :alt: plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS
     """
 
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1976 UCS'})
 
-    return RGB_chromaticity_coordinates_chromaticity_diagram_plot(
+    return plot_RGB_chromaticities_in_chromaticity_diagram(
         RGB,
         colourspace,
         chromaticity_diagram_callable_CIE1976UCS,
@@ -917,8 +918,8 @@ def ellipses_MacAdam1942(method='CIE 1931'):
 
 
 @override_style()
-def ellipses_MacAdam1942_chromaticity_diagram_plot(
-        chromaticity_diagram_callable=chromaticity_diagram_plot,
+def plot_ellipses_MacAdam1942_in_chromaticity_diagram(
+        chromaticity_diagram_callable=plot_chromaticity_diagram,
         method='CIE 1931',
         chromaticity_diagram_clipping=False,
         ellipse_parameters=None,
@@ -946,7 +947,7 @@ def ellipses_MacAdam1942_chromaticity_diagram_plot(
     ----------------
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
-        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -957,12 +958,12 @@ def ellipses_MacAdam1942_chromaticity_diagram_plot(
 
     Examples
     --------
-    >>> ellipses_MacAdam1942_chromaticity_diagram_plot()  # doctest: +SKIP
+    >>> plot_ellipses_MacAdam1942_in_chromaticity_diagram()  # doctest: +SKIP
 
     .. image:: ../_static/\
-Plotting_Ellipses_MacAdam1942_Chromaticity_Diagram_Plot.png
+Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram.png
         :align: center
-        :alt: ellipses_MacAdam1942_chromaticity_diagram_plot
+        :alt: plot_ellipses_MacAdam1942_in_chromaticity_diagram
     """
 
     settings = {'uniform': True}
@@ -1031,9 +1032,9 @@ Plotting_Ellipses_MacAdam1942_Chromaticity_Diagram_Plot.png
 
 
 @override_style()
-def ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1931(
+def plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931(
         chromaticity_diagram_callable_CIE1931=(
-            chromaticity_diagram_plot_CIE1931),
+            plot_chromaticity_diagram_CIE1931),
         chromaticity_diagram_clipping=False,
         ellipse_parameters=None,
         **kwargs):
@@ -1058,7 +1059,7 @@ def ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1931(
     ----------------
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
-        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -1069,19 +1070,19 @@ def ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1931(
 
     Examples
     --------
-    >>> ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1931()
+    >>> plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931()
     ... # doctest: +SKIP
 
     .. image:: ../_static/\
-Plotting_Ellipses_MacAdam1942_Chromaticity_Diagram_Plot_CIE1931.png
+Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram_CIE1931.png
         :align: center
-        :alt: ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1931
+        :alt: plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1931
     """
 
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1931'})
 
-    return ellipses_MacAdam1942_chromaticity_diagram_plot(
+    return plot_ellipses_MacAdam1942_in_chromaticity_diagram(
         chromaticity_diagram_callable_CIE1931,
         chromaticity_diagram_clipping=chromaticity_diagram_clipping,
         ellipse_parameters=ellipse_parameters,
@@ -1089,9 +1090,9 @@ Plotting_Ellipses_MacAdam1942_Chromaticity_Diagram_Plot_CIE1931.png
 
 
 @override_style()
-def ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1960UCS(
+def plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1960UCS(
         chromaticity_diagram_callable_CIE1960UCS=(
-            chromaticity_diagram_plot_CIE1960UCS),
+            plot_chromaticity_diagram_CIE1960UCS),
         chromaticity_diagram_clipping=False,
         ellipse_parameters=None,
         **kwargs):
@@ -1117,7 +1118,7 @@ def ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1960UCS(
     ----------------
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
-        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -1128,19 +1129,19 @@ def ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1960UCS(
 
     Examples
     --------
-    >>> ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1960UCS()
+    >>> plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1960UCS()
     ... # doctest: +SKIP
 
     .. image:: ../_static/\
-Plotting_Ellipses_MacAdam1942_Chromaticity_Diagram_Plot_CIE1960UCS.png
+Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram_CIE1960UCS.png
         :align: center
-        :alt: ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1960UCS
+        :alt: plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1960UCS
     """
 
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1960 UCS'})
 
-    return ellipses_MacAdam1942_chromaticity_diagram_plot(
+    return plot_ellipses_MacAdam1942_in_chromaticity_diagram(
         chromaticity_diagram_callable_CIE1960UCS,
         chromaticity_diagram_clipping=chromaticity_diagram_clipping,
         ellipse_parameters=ellipse_parameters,
@@ -1148,9 +1149,9 @@ Plotting_Ellipses_MacAdam1942_Chromaticity_Diagram_Plot_CIE1960UCS.png
 
 
 @override_style()
-def ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1976UCS(
+def plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS(
         chromaticity_diagram_callable_CIE1976UCS=(
-            chromaticity_diagram_plot_CIE1976UCS),
+            plot_chromaticity_diagram_CIE1976UCS),
         chromaticity_diagram_clipping=False,
         ellipse_parameters=None,
         **kwargs):
@@ -1176,7 +1177,7 @@ def ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1976UCS(
     ----------------
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`,
-        :func:`colour.plotting.diagrams.chromaticity_diagram_plot`,
+        :func:`colour.plotting.diagrams.plot_chromaticity_diagram`,
         :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
 
@@ -1187,19 +1188,19 @@ def ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1976UCS(
 
     Examples
     --------
-    >>> ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1976UCS()
+    >>> plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS()
     ... # doctest: +SKIP
 
     .. image:: ../_static/\
-Plotting_Ellipses_MacAdam1942_Chromaticity_Diagram_Plot_CIE1976UCS.png
+Plotting_Plot_Ellipses_MacAdam1942_In_Chromaticity_Diagram_CIE1976UCS.png
         :align: center
-        :alt: ellipses_MacAdam1942_chromaticity_diagram_plot_CIE1976UCS
+        :alt: plot_ellipses_MacAdam1942_in_chromaticity_diagram_CIE1976UCS
     """
 
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1976 UCS'})
 
-    return ellipses_MacAdam1942_chromaticity_diagram_plot(
+    return plot_ellipses_MacAdam1942_in_chromaticity_diagram(
         chromaticity_diagram_callable_CIE1976UCS,
         chromaticity_diagram_clipping=chromaticity_diagram_clipping,
         ellipse_parameters=ellipse_parameters,
@@ -1207,7 +1208,7 @@ Plotting_Ellipses_MacAdam1942_Chromaticity_Diagram_Plot_CIE1976UCS.png
 
 
 @override_style()
-def single_cctf_plot(cctf='ITU-R BT.709', decoding_cctf=False, **kwargs):
+def plot_single_cctf(cctf='ITU-R BT.709', decoding_cctf=False, **kwargs):
     """
     Plots given colourspace colour component transfer function.
 
@@ -1231,11 +1232,11 @@ def single_cctf_plot(cctf='ITU-R BT.709', decoding_cctf=False, **kwargs):
 
     Examples
     --------
-    >>> single_cctf_plot('ITU-R BT.709')  # doctest: +SKIP
+    >>> plot_single_cctf('ITU-R BT.709')  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Single_CCTF_Plot.png
+    .. image:: ../_static/Plotting_Plot_Single_CCTF.png
         :align: center
-        :alt: single_cctf_plot
+        :alt: plot_single_cctf
     """
 
     settings = {
@@ -1245,11 +1246,11 @@ def single_cctf_plot(cctf='ITU-R BT.709', decoding_cctf=False, **kwargs):
     }
     settings.update(kwargs)
 
-    return multi_cctf_plot([cctf], decoding_cctf, **settings)
+    return plot_multi_cctfs([cctf], decoding_cctf, **settings)
 
 
 @override_style()
-def multi_cctf_plot(cctfs=None, decoding_cctf=False, **kwargs):
+def plot_multi_cctfs(cctfs=None, decoding_cctf=False, **kwargs):
     """
     Plots given colour component transfer functions.
 
@@ -1273,11 +1274,11 @@ def multi_cctf_plot(cctfs=None, decoding_cctf=False, **kwargs):
 
     Examples
     --------
-    >>> multi_cctf_plot(['ITU-R BT.709', 'sRGB'])  # doctest: +SKIP
+    >>> plot_multi_cctfs(['ITU-R BT.709', 'sRGB'])  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Multi_CCTF_Plot.png
+    .. image:: ../_static/Plotting_Plot_Multi_CCTFs.png
         :align: center
-        :alt: multi_cctf_plot
+        :alt: plot_multi_cctfs
     """
 
     if cctfs is None:
@@ -1299,4 +1300,4 @@ def multi_cctf_plot(cctfs=None, decoding_cctf=False, **kwargs):
     settings.update(kwargs)
 
     with domain_range_scale(1):
-        return multi_function_plot(cctfs, **settings)
+        return plot_multi_functions(cctfs, **settings)

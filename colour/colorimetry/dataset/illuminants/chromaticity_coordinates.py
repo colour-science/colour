@@ -32,9 +32,9 @@ blob/master/notebooks/colorimetry/illuminants.ipynb>`_
 
 Warning
 -------
-DCI-P3 illuminant has no associated spectral power distribution. DCI has no
+DCI-P3 illuminant has no associated spectral distribution. DCI has no
 official reference spectral measurement for this whitepoint. The closest
-matching spectral power distribution is Kinoton 75P projector.
+matching spectral distribution is Kinoton 75P projector.
 
 Notes
 -----
@@ -42,8 +42,8 @@ Notes
     reference :cite:`Wikipedia2006a` have been calculated using their
     correlated colour temperature and
     :func:`colour.temperature.CCT_to_xy_CIE_D`
-    :func:`colour.spd_CIE_illuminant_D_series` and / or
-    :func:`colour.spectral_to_XYZ` definitions.
+    :func:`colour.sd_CIE_illuminant_D_series` and / or
+    :func:`colour.sd_to_XYZ` definitions.
 
 References
 ----------
@@ -209,11 +209,11 @@ computed as follows::
     CCT = 6000 * 1.4388 / 1.438
     xy = colour.temperature.CCT_to_xy_CIE_D(CCT)
 
-    spd = colour.spd_CIE_illuminant_D_series(xy)
-    spd.interpolator = colour.LinearInterpolator
+    sd = colour.sd_CIE_illuminant_D_series(xy)
+    sd.interpolator = colour.LinearInterpolator
     colour.XYZ_to_xy(
-        colour.spectral_to_XYZ(
-            spd, colour.CMFS['CIE 1964 10 Degree Standard Observer']) / 100.0)
+        colour.sd_to_XYZ(
+            sd, colour.CMFS['CIE 1964 10 Degree Standard Observer']) / 100.0)
 
 References
 ----------

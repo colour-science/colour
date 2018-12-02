@@ -48,20 +48,20 @@ __all__ = [
 ALPHA_STEARNS = 0.083
 
 
-def bandpass_correction_Stearns1988(spd):
+def bandpass_correction_Stearns1988(sd):
     """
-    Implements spectral bandpass dependence correction on given spectral power
+    Implements spectral bandpass dependence correction on given spectral
     distribution using *Stearns and Stearns (1988)* method.
 
     Parameters
     ----------
-    spd : SpectralPowerDistribution
-        Spectral power distribution.
+    sd : SpectralDistribution
+        Spectral distribution.
 
     Returns
     -------
-    SpectralPowerDistribution
-        Spectral bandpass dependence corrected spectral power distribution.
+    SpectralDistribution
+        Spectral bandpass dependence corrected spectral distribution.
 
     References
     ----------
@@ -69,7 +69,7 @@ def bandpass_correction_Stearns1988(spd):
 
     Examples
     --------
-    >>> from colour import SpectralPowerDistribution
+    >>> from colour import SpectralDistribution
     >>> from colour.utilities import numpy_print_options
     >>> data = {
     ...     500: 0.0651,
@@ -81,21 +81,21 @@ def bandpass_correction_Stearns1988(spd):
     ... }
     >>> with numpy_print_options(suppress=True):
     ...     bandpass_correction_Stearns1988(
-    ...         SpectralPowerDistribution(data))
+    ...         SpectralDistribution(data))
     ... # doctest: +ELLIPSIS
-    SpectralPowerDistribution([[ 500.        ,    0.0646518...],
-                               [ 520.        ,    0.0704293...],
-                               [ 540.        ,    0.0769485...],
-                               [ 560.        ,    0.0856928...],
-                               [ 580.        ,    0.1129644...],
-                               [ 600.        ,    0.1379256...]],
-                              interpolator=SpragueInterpolator,
-                              interpolator_args={},
-                              extrapolator=Extrapolator,
-                              extrapolator_args={...})
+    SpectralDistribution([[ 500.        ,    0.0646518...],
+                          [ 520.        ,    0.0704293...],
+                          [ 540.        ,    0.0769485...],
+                          [ 560.        ,    0.0856928...],
+                          [ 580.        ,    0.1129644...],
+                          [ 600.        ,    0.1379256...]],
+                         interpolator=SpragueInterpolator,
+                         interpolator_args={},
+                         extrapolator=Extrapolator,
+                         extrapolator_args={...})
     """
 
-    values = np.copy(spd.values)
+    values = np.copy(sd.values)
     values[0] = (1 + ALPHA_STEARNS) * values[0] - ALPHA_STEARNS * values[1]
     values[-1] = (1 + ALPHA_STEARNS) * values[-1] - ALPHA_STEARNS * values[-2]
     for i in range(1, len(values) - 1):
@@ -103,9 +103,9 @@ def bandpass_correction_Stearns1988(spd):
                      (1 + 2 * ALPHA_STEARNS) * values[i] -
                      ALPHA_STEARNS * values[i + 1])
 
-    spd.values = values
+    sd.values = values
 
-    return spd
+    return sd
 
 
 BANDPASS_CORRECTION_METHODS = CaseInsensitiveMapping({
@@ -119,23 +119,23 @@ BANDPASS_CORRECTION_METHODS : CaseInsensitiveMapping
 """
 
 
-def bandpass_correction(spd, method='Stearns 1988'):
+def bandpass_correction(sd, method='Stearns 1988'):
     """
-    Implements spectral bandpass dependence correction on given spectral power
+    Implements spectral bandpass dependence correction on given spectral
     distribution using given method.
 
     Parameters
     ----------
-    spd : SpectralPowerDistribution
-        Spectral power distribution.
+    sd : SpectralDistribution
+        Spectral distribution.
     method : unicode, optional
         ('Stearns 1988', )
         Correction method.
 
     Returns
     -------
-    SpectralPowerDistribution
-        Spectral bandpass dependence corrected spectral power distribution.
+    SpectralDistribution
+        Spectral bandpass dependence corrected spectral distribution.
     """
 
-    return BANDPASS_CORRECTION_METHODS.get(method)(spd)
+    return BANDPASS_CORRECTION_METHODS.get(method)(sd)
