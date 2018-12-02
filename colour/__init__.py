@@ -119,9 +119,9 @@ from .models import (
     eotf_reverse, full_to_legal, function_gamma, function_linear,
     hdr_CIELab_to_XYZ, hdr_IPT_to_XYZ, legal_to_full, log_decoding_curve,
     log_encoding_curve, normalised_primary_matrix, oetf, oetf_reverse, ootf,
-    ootf_reverse, primaries_whitepoint, sRGB_to_XYZ,
-    spectral_to_aces_relative_exposure_values, xyY_to_XYZ, xyY_to_xy,
-    xy_to_Luv_uv, xy_to_UCS_uv, xy_to_XYZ, xy_to_xyY)
+    ootf_reverse, primaries_whitepoint, sd_to_aces_relative_exposure_values,
+    sRGB_to_XYZ, xyY_to_XYZ, xyY_to_xy, xy_to_Luv_uv, xy_to_UCS_uv, xy_to_XYZ,
+    xy_to_xyY)
 from .corresponding import (BRENEMAN_EXPERIMENTS,
                             BRENEMAN_EXPERIMENTS_PRIMARIES_CHROMATICITIES,
                             CORRESPONDING_CHROMATICITIES_PREDICTION_MODELS,
@@ -243,7 +243,7 @@ __all__ += [
     'function_linear', 'hdr_CIELab_to_XYZ', 'hdr_IPT_to_XYZ', 'legal_to_full',
     'log_decoding_curve', 'log_encoding_curve', 'normalised_primary_matrix',
     'oetf', 'oetf_reverse', 'ootf', 'ootf_reverse', 'primaries_whitepoint',
-    'sRGB_to_XYZ', 'spectral_to_aces_relative_exposure_values', 'xyY_to_XYZ',
+    'sd_to_aces_relative_exposure_values', 'sRGB_to_XYZ', 'xyY_to_XYZ',
     'xyY_to_xy', 'xy_to_Luv_uv', 'xy_to_UCS_uv', 'xy_to_XYZ', 'xy_to_xyY'
 ]
 __all__ += [
@@ -1667,6 +1667,10 @@ API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
     [
         'colour.read_spds_from_xrite_file',
         'colour.read_sds_from_xrite_file',
+    ],
+    [
+        'colour.spectral_to_aces_relative_exposure_values',
+        'colour.sd_to_aces_relative_exposure_values',
     ],
     [
         'colour.spectral_to_XYZ',

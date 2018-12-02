@@ -13,9 +13,9 @@ message_box(('Computing "ACES" relative exposure '
              'values for some colour rendition chart spectral '
              'distributions:\n'
              '\n\t("dark skin", \n\t"blue sky")'))
-print(colour.spectral_to_aces_relative_exposure_values(
+print(colour.sd_to_aces_relative_exposure_values(
     colour.COLOURCHECKERS_SDS['ColorChecker N Ohta']['dark skin']))
-print(colour.spectral_to_aces_relative_exposure_values(
+print(colour.sd_to_aces_relative_exposure_values(
     colour.COLOURCHECKERS_SDS['ColorChecker N Ohta']['blue sky']))
 
 print('\n')
@@ -26,8 +26,8 @@ message_box(('Computing "ACES" relative exposure values for various ideal '
 wavelengths = colour.models.ACES_RICD.wavelengths
 gray_reflector = colour.SpectralDistribution(
     dict(zip(wavelengths, [0.18] * len(wavelengths))), name='18%')
-print(repr(colour.spectral_to_aces_relative_exposure_values(gray_reflector)))
+print(repr(colour.sd_to_aces_relative_exposure_values(gray_reflector)))
 
 perfect_reflector = colour.SpectralDistribution(
     dict(zip(wavelengths, [1.] * len(wavelengths))), name='100%')
-print(colour.spectral_to_aces_relative_exposure_values(perfect_reflector))
+print(colour.sd_to_aces_relative_exposure_values(perfect_reflector))

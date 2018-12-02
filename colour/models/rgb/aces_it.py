@@ -5,7 +5,7 @@ Academy Color Encoding System - Input Transform
 
 Defines the *Academy Color Encoding System* (ACES) *Input Transform* utilities:
 
--   :func:`colour.spectral_to_aces_relative_exposure_values`
+-   :func:`colour.sd_to_aces_relative_exposure_values`
 
 See Also
 --------
@@ -55,14 +55,14 @@ __status__ = 'Production'
 
 __all__ = [
     'FLARE_PERCENTAGE', 'S_FLARE_FACTOR',
-    'spectral_to_aces_relative_exposure_values'
+    'sd_to_aces_relative_exposure_values'
 ]
 
 FLARE_PERCENTAGE = 0.00500
 S_FLARE_FACTOR = 0.18000 / (0.18000 + FLARE_PERCENTAGE)
 
 
-def spectral_to_aces_relative_exposure_values(
+def sd_to_aces_relative_exposure_values(
         sd,
         illuminant=ILLUMINANTS_SDS['D65'],
         apply_chromatic_adaptation=False,
@@ -115,9 +115,9 @@ def spectral_to_aces_relative_exposure_values(
     --------
     >>> from colour import COLOURCHECKERS_SDS
     >>> sd = COLOURCHECKERS_SDS['ColorChecker N Ohta']['dark skin']
-    >>> spectral_to_aces_relative_exposure_values(sd)  # doctest: +ELLIPSIS
+    >>> sd_to_aces_relative_exposure_values(sd)  # doctest: +ELLIPSIS
     array([ 0.1171785...,  0.0866347...,  0.0589707...])
-    >>> spectral_to_aces_relative_exposure_values(sd,
+    >>> sd_to_aces_relative_exposure_values(sd,
     ...     apply_chromatic_adaptation=True)  # doctest: +ELLIPSIS
     array([ 0.1180766...,  0.0869023...,  0.0589104...])
     """

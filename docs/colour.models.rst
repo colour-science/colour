@@ -335,18 +335,6 @@ RGB Colourspaces
     V_GAMUT_COLOURSPACE
     XTREME_RGB_COLOURSPACE
 
-**Ancillary Objects**
-
-``colour.models``
-
-.. currentmodule:: colour.models
-
-.. autosummary::
-    :toctree: generated/
-
-    spectral_to_aces_relative_exposure_values
-    ACES_RICD
-
 Colour Component Transfer Functions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -546,6 +534,29 @@ Log Encoding and Decoding Curves
     log_decoding_VLog
     log_encoding_ViperLog
     log_decoding_ViperLog
+
+ACES Spectral Conversion
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+``colour``
+
+.. currentmodule:: colour
+
+.. autosummary::
+    :toctree: generated/
+
+    sd_to_aces_relative_exposure_values
+
+**Ancillary Objects**
+
+``colour.models``
+
+.. currentmodule:: colour.models
+
+.. autosummary::
+    :toctree: generated/
+
+    ACES_RICD
 
 Colour Encodings
 ~~~~~~~~~~~~~~~~
