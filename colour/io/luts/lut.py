@@ -10,6 +10,9 @@ Defines the classes and definitions handling *LUT* processing:
 -   :class:`colour.LUT3D`
 -   :class:`colour.LUTSequence`
 -   :class:`colour.io.LUT_to_LUT`
+-   :class:`colour.io.Range`
+-   :class:`colour.io.Matrix`
+-   :class:`colour.io.ASC_CDL`
 """
 
 from __future__ import division, unicode_literals
@@ -37,9 +40,10 @@ from six import add_metaclass
 
 from colour.algebra import LinearInterpolator, table_interpolation_trilinear
 from colour.constants import DEFAULT_INT_DTYPE
-from colour.utilities import (as_float_array, is_numeric, is_iterable,
-                              is_string, linear_conversion, runtime_warning,
-                              tsplit, tstack, usage_warning)
+from colour.models import function_gamma
+from colour.utilities import (as_float_array, dot_vector, is_numeric,
+                              is_iterable, is_string, linear_conversion,
+                              runtime_warning, tsplit, tstack, usage_warning)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2020 - Colour Developers'
@@ -50,7 +54,7 @@ __status__ = 'Production'
 
 __all__ = [
     'AbstractLUT', 'LUT1D', 'LUT3x1D', 'LUT3D', 'LUT_to_LUT',
-    'AbstractLUTSequenceOperator', 'LUTSequence'
+    'AbstractLUTSequenceOperator', 'LUTSequence', 'Range', 'Matrix', 'ASC_CDL'
 ]
 
 
@@ -2428,3 +2432,443 @@ class LUTSequence(MutableSequence):
         """
 
         return deepcopy(self)
+
+class Range(AbstractLUTSequenceOperator):
+    """
+    Defines the base class for a *Range* scale.
+
+    Parameters
+    ----------
+    minInValue : numeric, optional
+        Input value which will be mapped to minOutValue.
+    maxInValue : numeric, optional
+        Input value which will be mapped to maxOutValue.
+    minOutValue : numeric, optional
+        Output value to which minInValue will be mapped.
+    maxOutValue : numeric, optional
+        Output value to which maxInValue will be mapped.
+    noClamp : boolean, option. Default is *True*.
+    name : unicode, optional
+        *Range* name.
+    comments : array_like, optional
+        Comments to add to the *Range*.
+
+    Methods
+    -------
+    apply
+
+    Examples
+    --------
+    A full to legal scale:
+
+    >>> print(Range(name='Full to Legal',
+                    minOutValue=64./1023,
+                    maxOutValue=940./1023))
+    Range - Full to Legal
+    ---------------------
+    <BLANKLINE>
+    Input      : 0.0 - 1.0
+    Output     : 0.0625610948192 - 0.918866080156
+    <BLANKLINE>
+    Clamping   : No
+    """
+    def __init__(self,
+                 minInValue=0.0,
+                 maxInValue=1.0,
+                 minOutValue=0.0,
+                 maxOutValue=1.0,
+                 noClamp=True,
+                 name='',
+                 comments=None):
+        self.minInValue = minInValue
+        self.maxInValue = maxInValue
+        self.minOutValue = minOutValue
+        self.maxOutValue = maxOutValue
+        self.noClamp = noClamp
+        self.name = name
+        self.comments = comments
+
+    def apply(self, RGB):
+        """
+        Applies the *Range* scale to given *RGB* array.
+
+        Parameters
+        ----------
+        RGB : array_like
+            *RGB* array to apply the *Range* scale to.
+
+        Returns
+        -------
+        ndarray
+            Scaled *RGB* array.
+
+        Examples
+        --------
+        >>> R = Range(name='Legal to Full',
+        ...           minInValue=64./1023,
+        ...           maxInValue=940./1023,
+        ...           noClamp=False)
+        >>> RGB = [0.8, 0.9, 1.0]
+        >>> R.apply(RGB)
+        array([ 0.86118721,  0.97796804,  1.        ])
+        """
+        RGB = np.asarray(RGB)
+
+        scale = ((self.maxOutValue - self.minOutValue) /
+                 (self.maxInValue - self.minInValue))
+        RGB_out = RGB * scale + self.minOutValue - self.minInValue * scale
+        if not self.noClamp:
+            RGB_out = np.clip(RGB_out, self.minOutValue, self.maxOutValue)
+        return RGB_out
+
+    def __str__(self):
+        """
+        Returns a formatted string representation of the *Range* operation.
+
+        Returns
+        -------
+        unicode
+            Formatted string representation.
+        """
+        def _indent_array(a):
+            """
+            Indents given array string representation.
+            """
+
+            return str(a).replace(' [', ' ' * 14 + '[')
+
+        return ('{0} - {1}\n'
+                '{2}\n\n'
+                'Input      : {3} - {4}\n'
+                'Output     : {5} - {6}\n\n'
+                'Clamping   : {7}'
+                '{8}'.format(
+                    self.__class__.__name__, self.name,
+                    '-' * (len(self.__class__.__name__) + 3 + len(self.name)),
+                    self.minInValue, self.maxInValue,
+                    self.minOutValue, self.maxOutValue,
+                    'No' if self.noClamp else 'Yes',
+                    '\n\n{0}'.format(
+                        '\n'.join(self.comments)) if self.comments else ''))
+
+
+class Matrix(AbstractLUTSequenceOperator):
+    """
+    Defines the base class for a *Matrix* transform.
+
+    Parameters
+    ----------
+    array : array_like, optional
+        3x3 or 3x4 matrix for the transform.
+    name : unicode, optional
+        *Matrix* name.
+    comments : array_like, optional
+        Comments to add to the *Matrix*.
+
+    Methods
+    -------
+    apply
+
+    Examples
+    --------
+    Instantiating an identity matrix:
+
+    >>> print(Matrix(name='Identity'))
+    Matrix - Identity
+    -----------------
+    <BLANKLINE>
+    Dimensions : (3, 3)
+    Matrix     : [[ 1.  0.  0.]
+                  [ 0.  1.  0.]
+                  [ 0.  0.  1.]]
+
+    Instantiating a matrix with comments:
+
+    >>> array = np.array([[ 1.45143932, -0.23651075, -0.21492857],
+        ...                   [-0.07655377,  1.1762297 , -0.09967593],
+        ...                   [ 0.00831615, -0.00603245,  0.9977163 ]])
+    >>> print(Matrix(array=array,
+    ...       name='AP0 to AP1',
+    ...       comments=['A first comment.', 'A second comment.']))
+    Matrix - AP0 to AP1
+    -------------------
+    <BLANKLINE>
+    Dimensions : (3, 3)
+    Matrix     : [[ 1.45143932 -0.23651075 -0.21492857]
+                  [-0.07655377  1.1762297  -0.09967593]
+                  [ 0.00831615 -0.00603245  0.9977163 ]]
+    <BLANKLINE>
+    A first comment.
+    A second comment.
+    """
+    def __init__(self, array=np.identity(3), name='', comments=None):
+        self.array = array
+        self.name = name
+        self.comments = comments
+
+    @staticmethod
+    def _validate_array(array):
+        assert array.shape in [(3, 4), (3, 3)], 'Matrix shape error!'
+        return array
+
+    def apply(self, RGB):
+        """
+        Applies the *Matrix* transform to given *RGB* array.
+
+        Parameters
+        ----------
+        RGB : array_like
+            *RGB* array to apply the *Matrix* transform to.
+
+        Returns
+        -------
+        ndarray
+            Transformed *RGB* array.
+
+        Examples
+        --------
+        >>> array = np.array([[ 1.45143932, -0.23651075, -0.21492857],
+        ...                   [-0.07655377,  1.1762297 , -0.09967593],
+        ...                   [ 0.00831615, -0.00603245,  0.9977163 ]])
+        >>> M = Matrix(array=array)
+        >>> RGB = [0.3, 0.4, 0.5]
+        >>> M.apply(RGB)
+        array([ 0.23336321,  0.39768778,  0.49894002])
+        """
+        RGB = np.asarray(RGB)
+        if self.array.shape == (3, 4):
+            r, g, b = tsplit(RGB)
+            RGB = tstack((r, g, b, 1.))
+        return dot_vector(self.array, RGB)
+
+    def __str__(self):
+        """
+        Returns a formatted string representation of the *Matrix*.
+
+        Returns
+        -------
+        unicode
+            Formatted string representation.
+        """
+        def _indent_array(a):
+            """
+            Indents given array string representation.
+            """
+
+            return str(a).replace(' [', ' ' * 14 + '[')
+
+        return ('{0} - {1}\n'
+                '{2}\n\n'
+                'Dimensions : {3}\n'
+                'Matrix     : {4}'
+                '{5}'.format(
+                    self.__class__.__name__, self.name,
+                    '-' * (len(self.__class__.__name__) + 3 + len(self.name)),
+                    self.array.shape,
+                    _indent_array(self.array),
+                    '\n\n{0}'.format(
+                        '\n'.join(self.comments)) if self.comments else ''))
+
+
+class ASC_CDL(AbstractLUTSequenceOperator):
+    """
+    Defines the base class for a *CDL* correction.
+
+    Parameters
+    ----------
+    slope : array_like, optional
+        Multipliers for R, G and B.
+    offset : array_like, optional
+        Offsets added to for R, G and B.
+    power : array_like, optional
+        Exponents to which R, G and B are raised.
+    sat : array_like, optional
+        Saturation (Rec.709 weighted) applied to the RGB values.
+    name : unicode, optional
+        *CDL* name.
+    comments : array_like, optional
+        Comments to add to the *CDL*.
+    clamp : boolean, optional
+        Whether the output is clamped to 0-1. Default is *False*.
+    rev : boolean, optional
+        Whether to invert the correction. Default is *False*.
+    id : unicode, optional
+        ID of the correction.
+
+    Methods
+    -------
+    apply
+
+    Examples
+    --------
+    Instantiating an identity CDL:
+
+    >>> print(ASC_CDL(name='Identity'))
+    ASC CDL - Identity
+    ------------------
+    <BLANKLINE>
+    <ColorCorrection id="">
+    	<SOPNode>
+    		<Slope> 1.0 1.0 1.0 </Slope>
+     		<Offset> 0.0 0.0 0.0 </Offset>
+    		<Power> 1.0 1.0 1.0 </Power>
+    	</SOPNode>
+    	<SATNode>
+    		<Saturation> 1.0 </Saturation>
+    	</SATNode>
+    </ColorCorrection>
+    <BLANKLINE>
+    Clamping   : Yes
+    Reverse    : No
+
+    Instantiating a CDL with comments:
+
+    >>> print(ASC_CDL(slope=[1.1, 1.0, 0.9],
+    ...               offset=[-0.1, 0.0, 0.1],
+    ...               power=[0.9, 1.0, 1.1],
+    ...               sat=0.9,
+    ...               name='Correction_01',
+    ...               comments=['A first comment.', 'A second comment.']))
+    ASC CDL - Correction_01
+    -----------------------
+
+    <ColorCorrection id="">
+    	<SOPNode>
+    		<Slope> 1.1 1.0 0.9 </Slope>
+    		<Offset> -0.1 0.0 0.1 </Offset>
+    		<Power> 0.9 1.0 1.1 </Power>
+    	</SOPNode>
+    	<SATNode>
+    		<Saturation> 0.9 </Saturation>
+    	</SATNode>
+    </ColorCorrection>
+
+    Clamping   : Yes
+    Reverse    : No
+
+    Comment 01 : A first comment.
+    Comment 02 : A second comment.
+    """
+    def __init__(self,
+                 slope=[1., 1., 1.],
+                 offset=[0., 0., 0.],
+                 power=[1., 1., 1.],
+                 sat=1.0,
+                 name='',
+                 comments=None,
+                 clamp=True,
+                 rev=False,
+                 id=''):
+        self.slope = np.asarray(slope)
+        self.offset = np.asarray(offset)
+        self.power = np.asarray(power)
+        self.sat = sat
+        self.name = name
+        self.comments = comments
+        self.clamp = clamp
+        self.rev = rev
+        self.id = id
+
+    def __str__(self):
+        """
+        Returns a formatted string representation of the *CDL* correction.
+
+        Returns
+        -------
+        unicode
+            Formatted string representation.
+        """
+        def _format_array(array):
+            array = np.asarray(array)
+            if array.shape == (3,):
+                return '{0} {1} {2}'.format(array[0], array[1], array[2])
+            else:
+                return '{0} {0} {0}'.format(array)
+
+        if self.comments:
+            comments = [
+                'Comment {0} : {1}'.format(str(i + 1).zfill(2), comment)
+                for i, comment in enumerate(self.comments)
+            ]
+
+        return ('ASC CDL - {0}\n'
+                '{1}\n\n'
+                '<ColorCorrection id="{2}">\n'
+                '\t<SOPNode>\n'
+                '\t\t<Slope> {3} </Slope>\n'
+                '\t\t<Offset> {4} </Offset>\n'
+                '\t\t<Power> {5} </Power>\n'
+                '\t</SOPNode>\n'
+                '\t<SATNode>\n'
+                '\t\t<Saturation> {6} </Saturation>\n'
+                '\t</SATNode>\n'
+                '</ColorCorrection>\n\n'
+                'Clamping   : {7}\n'
+                'Reverse    : {8}'
+                '{9}'.format(
+                    self.name,
+                    '-' * (10 + len(self.name)),
+                    self.id,
+                    _format_array(self.slope),
+                    _format_array(self.offset),
+                    _format_array(self.power),
+                    self.sat,
+                    'Yes' if self.clamp else 'No',
+                    'Yes' if self.rev else 'No',
+                    '\n\n{0}'.format(
+                        '\n'.join(comments)) if self.comments else ''))
+
+    def apply(self, RGB):
+        """
+        Applies the *CDL* correction to given *RGB* array.
+
+        Parameters
+        ----------
+        RGB : array_like
+            *RGB* array to apply the *CDL* correction to.
+
+        Returns
+        -------
+        ndarray
+            Corrected *RGB* array.
+
+        Examples
+        --------
+        >>> CDL = ASC_CDL(slope=[1.1, 1.0, 0.9],
+        ...               offset=[-0.1, 0.0, 0.1],
+        ...               power=[0.9, 1.0, 1.1],
+        ...               sat=0.9)
+        >>> RGB = [0.18, 0.18, 0.18]
+        >>> CDL.apply(RGB)
+        array([ 0.12841813,  0.17915636,  0.22339685])
+        """
+        RGB = np.asarray(RGB)
+        if self.rev:
+            if self.clamp:
+                RGB = np.clip(RGB, 0, 1)
+            if self.sat != 1.0:
+                r, g, b = tsplit(RGB)
+                luma = 0.2126 * r + 0.7152 * g + 0.0722 * b
+                luma = tstack((luma, luma, luma))
+                RGB = luma + (1 / self.sat) * (RGB - luma)
+                if self.clamp:
+                    RGB = np.clip(RGB, 0, 1)
+            RGB = function_gamma(RGB, 1 / self.power, 'preserve')
+            RGB -= self.offset
+            RGB /= self.slope
+            if self.clamp:
+                RGB = np.clip(RGB, 0, 1)
+        else:
+            RGB *= self.slope
+            RGB += self.offset
+            RGB = function_gamma(RGB, self.power, 'preserve')
+            if self.clamp:
+                RGB = np.clip(RGB, 0, 1)
+            if self.sat != 1.0:
+                r, g, b = tsplit(RGB)
+                luma = 0.2126 * r + 0.7152 * g + 0.0722 * b
+                luma = tstack((luma, luma, luma))
+                RGB = luma + self.sat * (RGB - luma)
+                if self.clamp:
+                    RGB = np.clip(RGB, 0, 1)
+        return RGB
