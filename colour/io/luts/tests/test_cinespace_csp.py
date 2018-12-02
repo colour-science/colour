@@ -144,8 +144,7 @@ class TestWriteLUTCinespace(unittest.TestCase):
 
         self.assertEqual(LUT_1_r, LUT_1_t)
 
-        LUT_2_r = read_LUT_Cinespace(
-            os.path.join(LUTS_DIRECTORY, 'Demo.csp'))
+        LUT_2_r = read_LUT_Cinespace(os.path.join(LUTS_DIRECTORY, 'Demo.csp'))
 
         write_LUT_Cinespace(LUT_2_r,
                             os.path.join(self._temporary_directory,
@@ -172,8 +171,7 @@ class TestWriteLUTCinespace(unittest.TestCase):
 
         write_LUT_Cinespace(
             LUTSequence(LUT_1_r, LUT_3_r),
-            os.path.join(self._temporary_directory,
-                         'test_sequence.csp'))
+            os.path.join(self._temporary_directory, 'test_sequence.csp'))
 
         r = np.array([0.0, 0.1, 0.2, 0.4, 0.8, 1.2])
         g = np.array([-0.1, 0.5, 1.0, np.nan, np.nan, np.nan])
@@ -192,9 +190,7 @@ class TestWriteLUTCinespace(unittest.TestCase):
 
         np.testing.assert_almost_equal(LUT_4_t.domain, LUT_4_r.domain)
 
-        np.testing.assert_almost_equal(LUT_4_t.table,
-                                       LUT_4_r.table,
-                                       decimal=6)
+        np.testing.assert_almost_equal(LUT_4_t.table, LUT_4_r.table, decimal=6)
 
 
 if __name__ == '__main__':

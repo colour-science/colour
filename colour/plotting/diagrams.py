@@ -41,8 +41,7 @@ __all__ = [
     'plot_spectral_locus', 'plot_chromaticity_diagram_colours',
     'plot_chromaticity_diagram', 'plot_chromaticity_diagram_CIE1931',
     'plot_chromaticity_diagram_CIE1960UCS',
-    'plot_chromaticity_diagram_CIE1976UCS',
-    'plot_sds_in_chromaticity_diagram',
+    'plot_chromaticity_diagram_CIE1976UCS', 'plot_sds_in_chromaticity_diagram',
     'plot_sds_in_chromaticity_diagram_CIE1931',
     'plot_sds_in_chromaticity_diagram_CIE1960UCS',
     'plot_sds_in_chromaticity_diagram_CIE1976UCS'

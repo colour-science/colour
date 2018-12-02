@@ -1168,8 +1168,8 @@ class TestGravityList1968(unittest.TestCase):
         Tests :func:`colour.phenomena.rayleigh.gravity_List1968` definition.
         """
 
-        self.assertAlmostEqual(gravity_List1968(0.0, 0.0), 978.03560706,
-                               places=7)
+        self.assertAlmostEqual(
+            gravity_List1968(0.0, 0.0), 978.03560706, places=7)
 
         self.assertAlmostEqual(
             gravity_List1968(45.0, 1500.0), 980.15334386, places=7)

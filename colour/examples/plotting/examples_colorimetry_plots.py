@@ -10,22 +10,20 @@ from colour.plotting import (
     ASTM_G_173_ETR, plot_blackbody_colours, plot_blackbody_spectral_radiance,
     colour_style, plot_multi_cmfs, plot_multi_illuminant_sds,
     plot_multi_lightness_functions, plot_multi_sds, plot_single_cmfs,
-    plot_single_illuminant_sd, plot_single_lightness_function,
-    plot_single_sd, plot_visible_spectrum)
+    plot_single_illuminant_sd, plot_single_lightness_function, plot_single_sd,
+    plot_visible_spectrum)
 from colour.utilities import message_box
 
 message_box('Colorimetry Plots')
 
 colour_style()
 
-message_box(('Plotting a single illuminant spectral '
-             'distribution.'))
+message_box(('Plotting a single illuminant spectral ' 'distribution.'))
 plot_single_illuminant_sd('F1')
 
 print('\n')
 
-message_box(('Plotting multiple illuminants spectral '
-             'distributions.'))
+message_box(('Plotting multiple illuminants spectral ' 'distributions.'))
 pprint(sorted(colour.ILLUMINANTS_SDS.keys()))
 plot_multi_illuminant_sds(
     ['A', 'B', 'C', 'D50', 'D55', 'D60', 'D65', 'D75', 'F1'])
@@ -589,8 +587,7 @@ white_marble_sd_data = {
 }
 
 message_box('Plotting various single spectral distributions.')
-plot_single_sd(
-    colour.SpectralDistribution(sample_sd_data, name='Custom'))
+plot_single_sd(colour.SpectralDistribution(sample_sd_data, name='Custom'))
 plot_single_sd(
     colour.SpectralDistribution(
         galvanized_steel_metal_sd_data, name='Galvanized Steel Metal'))

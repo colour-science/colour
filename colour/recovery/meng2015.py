@@ -26,9 +26,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 from scipy.optimize import minimize
 
-from colour.colorimetry import (STANDARD_OBSERVERS_CMFS,
-                                SpectralDistribution, SpectralShape,
-                                sd_ones, sd_to_XYZ_integration)
+from colour.colorimetry import (STANDARD_OBSERVERS_CMFS, SpectralDistribution,
+                                SpectralShape, sd_ones, sd_to_XYZ_integration)
 from colour.utilities import to_domain_1, from_range_100
 
 __author__ = 'Colour Developers'

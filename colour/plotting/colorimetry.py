@@ -35,8 +35,8 @@ from six.moves import reduce
 from colour.algebra import LinearInterpolator
 from colour.colorimetry import (
     ILLUMINANTS, ILLUMINANTS_SDS, LIGHTNESS_METHODS, LUMINANCE_METHODS,
-    MultiSpectralDistribution, SpectralShape, sd_blackbody, sd_ones,
-    sd_to_XYZ, wavelength_to_XYZ)
+    MultiSpectralDistribution, SpectralShape, sd_blackbody, sd_ones, sd_to_XYZ,
+    wavelength_to_XYZ)
 from colour.plotting import (
     ColourSwatch, COLOUR_STYLE_CONSTANTS, XYZ_to_plotting_colourspace, artist,
     filter_passthrough, filter_cmfs, filter_illuminants, override_style,

@@ -13,8 +13,8 @@ from colour.plotting import (
     plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS,
     plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931,
     plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS,
-    plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS,
-    colour_style, plot_multi_cctfs, plot_single_cctf)
+    plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS, colour_style,
+    plot_multi_cctfs, plot_single_cctf)
 from colour.utilities import message_box
 
 message_box('Colour Models Plots')

@@ -41,8 +41,7 @@ class TestXYZ_to_sd_Meng2015(unittest.TestCase):
 
         XYZ = np.array([0.21781186, 0.12541048, 0.04697113])
         np.testing.assert_almost_equal(
-            sd_to_XYZ_integration(
-                XYZ_to_sd_Meng2015(XYZ), cmfs=cmfs_c) / 100,
+            sd_to_XYZ_integration(XYZ_to_sd_Meng2015(XYZ), cmfs=cmfs_c) / 100,
             XYZ,
             decimal=7)
 

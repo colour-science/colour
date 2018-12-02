@@ -775,9 +775,7 @@ class TestMunsellValuePriest1920(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            munsell_value_Priest1920(12.23634268),
-            3.498048410185314,
-            places=7)
+            munsell_value_Priest1920(12.23634268), 3.498048410185314, places=7)
 
         self.assertAlmostEqual(
             munsell_value_Priest1920(22.89399987),
@@ -785,9 +783,7 @@ class TestMunsellValuePriest1920(unittest.TestCase):
             places=7)
 
         self.assertAlmostEqual(
-            munsell_value_Priest1920(6.29022535),
-            2.5080321668591092,
-            places=7)
+            munsell_value_Priest1920(6.29022535), 2.5080321668591092, places=7)
 
     def test_n_dimensional_munsell_value_Priest1920(self):
         """
@@ -937,19 +933,13 @@ class TestMunsellValueMoon1943(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            munsell_value_Moon1943(12.23634268),
-            4.0688120634976421,
-            places=7)
+            munsell_value_Moon1943(12.23634268), 4.0688120634976421, places=7)
 
         self.assertAlmostEqual(
-            munsell_value_Moon1943(22.89399987),
-            5.3133627855494412,
-            places=7)
+            munsell_value_Moon1943(22.89399987), 5.3133627855494412, places=7)
 
         self.assertAlmostEqual(
-            munsell_value_Moon1943(6.29022535),
-            3.0645015037679695,
-            places=7)
+            munsell_value_Moon1943(6.29022535), 3.0645015037679695, places=7)
 
     def test_n_dimensional_munsell_value_Moon1943(self):
         """
@@ -1095,19 +1085,13 @@ class TestMunsellValueLadd1955(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            munsell_value_Ladd1955(12.23634268),
-            4.0511633044287088,
-            places=7)
+            munsell_value_Ladd1955(12.23634268), 4.0511633044287088, places=7)
 
         self.assertAlmostEqual(
-            munsell_value_Ladd1955(22.89399987),
-            5.3718647913936772,
-            places=7)
+            munsell_value_Ladd1955(22.89399987), 5.3718647913936772, places=7)
 
         self.assertAlmostEqual(
-            munsell_value_Ladd1955(6.29022535),
-            2.9198269939751613,
-            places=7)
+            munsell_value_Ladd1955(6.29022535), 2.9198269939751613, places=7)
 
     def test_n_dimensional_munsell_value_Ladd1955(self):
         """
@@ -1172,19 +1156,13 @@ class TestMunsellValueMcCamy1992(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            munsell_value_McCamy1987(12.23634268),
-            4.081434853194113,
-            places=7)
+            munsell_value_McCamy1987(12.23634268), 4.081434853194113, places=7)
 
         self.assertAlmostEqual(
-            munsell_value_McCamy1987(22.89399987),
-            5.394083970919982,
-            places=7)
+            munsell_value_McCamy1987(22.89399987), 5.394083970919982, places=7)
 
         self.assertAlmostEqual(
-            munsell_value_McCamy1987(6.29022535),
-            2.9750160800320096,
-            places=7)
+            munsell_value_McCamy1987(6.29022535), 2.9750160800320096, places=7)
 
     def test_n_dimensional_munsell_value_McCamy1987(self):
         """

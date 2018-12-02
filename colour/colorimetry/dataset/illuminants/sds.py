@@ -3659,50 +3659,35 @@ ILLUMINANTS_SDS = CaseInsensitiveMapping({
     'F12':
         SpectralDistribution(ILLUMINANTS_SDS_DATA['F12'], name='F12'),
     'FL3.1':
-        SpectralDistribution(
-            ILLUMINANTS_SDS_DATA['FL3.1'], name='FL3.1'),
+        SpectralDistribution(ILLUMINANTS_SDS_DATA['FL3.1'], name='FL3.1'),
     'FL3.2':
-        SpectralDistribution(
-            ILLUMINANTS_SDS_DATA['FL3.2'], name='FL3.2'),
+        SpectralDistribution(ILLUMINANTS_SDS_DATA['FL3.2'], name='FL3.2'),
     'FL3.3':
-        SpectralDistribution(
-            ILLUMINANTS_SDS_DATA['FL3.3'], name='FL3.3'),
+        SpectralDistribution(ILLUMINANTS_SDS_DATA['FL3.3'], name='FL3.3'),
     'FL3.4':
-        SpectralDistribution(
-            ILLUMINANTS_SDS_DATA['FL3.4'], name='FL3.4'),
+        SpectralDistribution(ILLUMINANTS_SDS_DATA['FL3.4'], name='FL3.4'),
     'FL3.5':
-        SpectralDistribution(
-            ILLUMINANTS_SDS_DATA['FL3.5'], name='FL3.5'),
+        SpectralDistribution(ILLUMINANTS_SDS_DATA['FL3.5'], name='FL3.5'),
     'FL3.6':
-        SpectralDistribution(
-            ILLUMINANTS_SDS_DATA['FL3.6'], name='FL3.6'),
+        SpectralDistribution(ILLUMINANTS_SDS_DATA['FL3.6'], name='FL3.6'),
     'FL3.7':
-        SpectralDistribution(
-            ILLUMINANTS_SDS_DATA['FL3.7'], name='FL3.7'),
+        SpectralDistribution(ILLUMINANTS_SDS_DATA['FL3.7'], name='FL3.7'),
     'FL3.8':
-        SpectralDistribution(
-            ILLUMINANTS_SDS_DATA['FL3.8'], name='FL3.8'),
+        SpectralDistribution(ILLUMINANTS_SDS_DATA['FL3.8'], name='FL3.8'),
     'FL3.9':
-        SpectralDistribution(
-            ILLUMINANTS_SDS_DATA['FL3.9'], name='FL3.9'),
+        SpectralDistribution(ILLUMINANTS_SDS_DATA['FL3.9'], name='FL3.9'),
     'FL3.10':
-        SpectralDistribution(
-            ILLUMINANTS_SDS_DATA['FL3.10'], name='FL3.10'),
+        SpectralDistribution(ILLUMINANTS_SDS_DATA['FL3.10'], name='FL3.10'),
     'FL3.11':
-        SpectralDistribution(
-            ILLUMINANTS_SDS_DATA['FL3.11'], name='FL3.11'),
+        SpectralDistribution(ILLUMINANTS_SDS_DATA['FL3.11'], name='FL3.11'),
     'FL3.12':
-        SpectralDistribution(
-            ILLUMINANTS_SDS_DATA['FL3.12'], name='FL3.12'),
+        SpectralDistribution(ILLUMINANTS_SDS_DATA['FL3.12'], name='FL3.12'),
     'FL3.13':
-        SpectralDistribution(
-            ILLUMINANTS_SDS_DATA['FL3.13'], name='FL3.13'),
+        SpectralDistribution(ILLUMINANTS_SDS_DATA['FL3.13'], name='FL3.13'),
     'FL3.14':
-        SpectralDistribution(
-            ILLUMINANTS_SDS_DATA['FL3.14'], name='FL3.14'),
+        SpectralDistribution(ILLUMINANTS_SDS_DATA['FL3.14'], name='FL3.14'),
     'FL3.15':
-        SpectralDistribution(
-            ILLUMINANTS_SDS_DATA['FL3.15'], name='FL3.15'),
+        SpectralDistribution(ILLUMINANTS_SDS_DATA['FL3.15'], name='FL3.15'),
     'HP1':
         SpectralDistribution(ILLUMINANTS_SDS_DATA['HP1'], name='HP1'),
     'HP2':

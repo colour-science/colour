@@ -21,8 +21,7 @@ __status__ = 'Production'
 
 __all__ = [
     'TestSdConstant', 'TestSdZeros', 'TestSdOnes', 'TestSdGaussianNormal',
-    'TestSdGaussianFwhm', 'TestSdSingleLedOhno2005',
-    'TestSdMultiLedOhno2005'
+    'TestSdGaussianFwhm', 'TestSdSingleLedOhno2005', 'TestSdMultiLedOhno2005'
 ]
 
 

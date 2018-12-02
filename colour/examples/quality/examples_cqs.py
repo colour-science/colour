@@ -19,8 +19,7 @@ message_box(('Computing "H38HT-100" mercury lamp "Colour Quality Scale (CQS)" '
              'with detailed output data.'))
 pprint(
     colour.colour_quality_scale(
-        colour.LIGHT_SOURCES_SDS['H38HT-100 (Mercury)'],
-        additional_data=True))
+        colour.LIGHT_SOURCES_SDS['H38HT-100 (Mercury)'], additional_data=True))
 
 print('\n')
 

@@ -739,9 +739,8 @@ dict_like, optional
 
         wavelengths_interval = interval(self.wavelengths)
         if wavelengths_interval.size != 1:
-            runtime_warning(
-                ('"{0}" spectral distribution is not uniform, '
-                 'using minimum interval!'.format(self.name)))
+            runtime_warning(('"{0}" spectral distribution is not uniform, '
+                             'using minimum interval!'.format(self.name)))
 
         return SpectralShape(
             min(self.wavelengths), max(self.wavelengths),

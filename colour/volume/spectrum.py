@@ -206,8 +206,8 @@ def XYZ_outer_surface(
             values.append(
                 NearestNeighbourInterpolator(wavelengths, wave)(domain))
 
-        XYZ = multi_sd_to_XYZ_integration(values, DEFAULT_SPECTRAL_SHAPE,
-                                          cmfs, illuminant)
+        XYZ = multi_sd_to_XYZ_integration(values, DEFAULT_SPECTRAL_SHAPE, cmfs,
+                                          illuminant)
 
         XYZ = XYZ / np.max(XYZ[-1, 1])
 
@@ -269,10 +269,9 @@ def is_within_visible_spectrum(
     key = (interval, hash(cmfs), hash(illuminant))
     vertices = _XYZ_OUTER_SURFACE_POINTS_CACHE.get(key)
     if vertices is None:
-        _XYZ_OUTER_SURFACE_POINTS_CACHE[key] = vertices = (
-            XYZ_outer_surface(
-                interval,
-                STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
-                illuminant))
+        _XYZ_OUTER_SURFACE_POINTS_CACHE[key] = vertices = (XYZ_outer_surface(
+            interval,
+            STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
+            illuminant))
 
     return is_within_mesh_volume(XYZ, vertices, tolerance)

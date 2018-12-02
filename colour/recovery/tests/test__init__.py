@@ -38,10 +38,7 @@ class TestXYZ_to_sd(unittest.TestCase):
 
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
         m = ('Smits 1999', 'Meng 2015')
-        v = [
-            sd_to_XYZ_integration(XYZ_to_sd(XYZ, method))
-            for method in m
-        ]
+        v = [sd_to_XYZ_integration(XYZ_to_sd(XYZ, method)) for method in m]
 
         d_r = (('reference', 1, 1), (1, 1, 0.01), (100, 100, 1))
         for method, value in zip(m, v):

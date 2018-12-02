@@ -3,8 +3,7 @@
 from __future__ import absolute_import
 
 from .spectrum import (SpectralShape, DEFAULT_SPECTRAL_SHAPE,
-                       SpectralDistribution,
-                       MultiSpectralDistribution)
+                       SpectralDistribution, MultiSpectralDistribution)
 from .blackbody import (sd_blackbody, blackbody_spectral_radiance, planck_law)
 from .cmfs import (LMS_ConeFundamentals, RGB_ColourMatchingFunctions,
                    XYZ_ColourMatchingFunctions)
@@ -17,17 +16,14 @@ from .generation import SD_SINGLE_LED_METHODS
 from .generation import sd_single_led, sd_single_led_Ohno2005
 from .generation import SD_MULTI_LED_METHODS
 from .generation import sd_multi_led, sd_multi_led_Ohno2005
-from .tristimulus import (SD_TO_XYZ_METHODS,
-                          MULTI_SD_TO_XYZ_METHODS)
+from .tristimulus import (SD_TO_XYZ_METHODS, MULTI_SD_TO_XYZ_METHODS)
 from .tristimulus import sd_to_XYZ, multi_sd_to_XYZ
 from .tristimulus import (
     ASTME30815_PRACTISE_SHAPE, lagrange_coefficients_ASTME202211,
     tristimulus_weighting_factors_ASTME202211,
-    adjust_tristimulus_weighting_factors_ASTME30815,
-    sd_to_XYZ_integration,
-    sd_to_XYZ_tristimulus_weighting_factors_ASTME30815,
-    sd_to_XYZ_ASTME30815, multi_sd_to_XYZ_integration,
-    wavelength_to_XYZ)
+    adjust_tristimulus_weighting_factors_ASTME30815, sd_to_XYZ_integration,
+    sd_to_XYZ_tristimulus_weighting_factors_ASTME30815, sd_to_XYZ_ASTME30815,
+    multi_sd_to_XYZ_integration, wavelength_to_XYZ)
 from .correction import BANDPASS_CORRECTION_METHODS
 from .correction import bandpass_correction
 from .correction import bandpass_correction_Stearns1988
@@ -84,11 +80,9 @@ __all__ += ['sd_to_XYZ', 'multi_sd_to_XYZ']
 __all__ += [
     'ASTME30815_PRACTISE_SHAPE', 'lagrange_coefficients_ASTME202211',
     'tristimulus_weighting_factors_ASTME202211',
-    'adjust_tristimulus_weighting_factors_ASTME30815',
-    'sd_to_XYZ_integration',
+    'adjust_tristimulus_weighting_factors_ASTME30815', 'sd_to_XYZ_integration',
     'sd_to_XYZ_tristimulus_weighting_factors_ASTME30815',
-    'sd_to_XYZ_ASTME30815', 'multi_sd_to_XYZ_integration',
-    'wavelength_to_XYZ'
+    'sd_to_XYZ_ASTME30815', 'multi_sd_to_XYZ_integration', 'wavelength_to_XYZ'
 ]
 __all__ += ['BANDPASS_CORRECTION_METHODS']
 __all__ += ['bandpass_correction']

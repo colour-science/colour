@@ -156,10 +156,7 @@ def colour_rendering_index(sd_test, additional_data=False):
         return Q_a
 
 
-def tcs_colorimetry_data(sd_t,
-                         sd_r,
-                         sds_tcs,
-                         cmfs,
+def tcs_colorimetry_data(sd_t, sd_r, sds_tcs, cmfs,
                          chromatic_adaptation=False):
     """
     Returns the *test colour samples* colorimetry data.

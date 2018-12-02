@@ -20,8 +20,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'PLANCK_LAW_DATA', 'BLACKBODY_SD_DATA', 'TestPlanckLaw',
-    'TestSdBlackbody'
+    'PLANCK_LAW_DATA', 'BLACKBODY_SD_DATA', 'TestPlanckLaw', 'TestSdBlackbody'
 ]
 
 PLANCK_LAW_DATA = {
