@@ -143,6 +143,38 @@ API_CHANGES = {
             'colour.plotting.plot_chromaticity_diagram_CIE1976UCS',
         ],
         [
+            'colour.plotting.RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot',  # noqa
+            'colour.plotting.plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931',  # noqa
+        ],
+        [
+            'colour.plotting.RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot',  # noqa
+            'colour.plotting.plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS',  # noqa
+        ],
+        [
+            'colour.plotting.RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot',  # noqa
+            'colour.plotting.plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS',  # noqa
+        ],
+        [
+            'colour.plotting.RGB_colourspaces_CIE_1931_chromaticity_diagram_plot',  # noqa
+            'colour.plotting.plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931',  # noqa
+        ],
+        [
+            'colour.plotting.RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot',  # noqa
+            'colour.plotting.plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS',  # noqa
+        ],
+        [
+            'colour.plotting.RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot',  # noqa
+            'colour.plotting.plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS',  # noqa
+        ],
+        [
+            'colour.plotting.planckian_locus_CIE_1931_chromaticity_diagram_plot',  # noqa
+            'colour.plotting.plot_planckian_locus_in_chromaticity_diagram_CIE1931',  # noqa
+        ],
+        [
+            'colour.plotting.planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot',  # noqa
+            'colour.plotting.plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS',  # noqa
+        ],
+        [
             'colour.plotting.spds_CIE_1931_chromaticity_diagram_plot',
             'colour.plotting.plot_sds_in_chromaticity_diagram_CIE1931',
         ],
@@ -152,53 +184,7 @@ API_CHANGES = {
         ],
         [
             'colour.plotting.spds_CIE_1976_UCS_chromaticity_diagram_plot',
-            'colour.plotting.plot_sds_in_chromaticity_diagram_CIE1976UCS',
-        ],
-        [
-            'colour.plotting.'
-            'RGB_colourspaces_CIE_1931_chromaticity_diagram_plot',
-            'colour.plotting.'
-            'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931',
-        ],
-        [
-            'colour.plotting.'
-            'RGB_colourspaces_CIE_1960_UCS_chromaticity_diagram_plot',
-            'colour.plotting.'
-            'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS',
-        ],
-        [
-            'colour.plotting.'
-            'RGB_colourspaces_CIE_1976_UCS_chromaticity_diagram_plot',
-            'colour.plotting.'
-            'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS',
-        ],
-        [
-            'colour.plotting.'
-            'RGB_chromaticity_coordinates_CIE_1931_chromaticity_diagram_plot',
-            'colour.plotting.'
-            'plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931',
-        ],
-        [
-            'colour.plotting.RGB_chromaticity_coordinates_CIE_1960_UCS_chromaticity_diagram_plot',  # noqa
-            'colour.plotting.'
-            'plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS',  # noqa
-        ],
-        [
-            'colour.plotting.RGB_chromaticity_coordinates_CIE_1976_UCS_chromaticity_diagram_plot',  # noqa
-            'colour.plotting.'
-            'plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS',  # noqa
-        ],
-        [
-            'colour.plotting.'
-            'planckian_locus_CIE_1931_chromaticity_diagram_plot',
-            'colour.plotting.'
-            'plot_planckian_locus_in_chromaticity_diagram_CIE1931',
-        ],
-        [
-            'colour.plotting.'
-            'planckian_locus_CIE_1960_UCS_chromaticity_diagram_plot',
-            'colour.plotting.'
-            'plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS',
+            'colour.plotting.plot_sds_in_chromaticity_diagram_CIE1976UCS'
         ],
     ]
 }
@@ -211,100 +197,52 @@ API_CHANGES : dict
 # v0.3.12
 API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
     [
-        'colour.plotting.colour_plotting_defaults',
-        'colour.plotting.colour_style',
+        'colour.plotting.RGB_chromaticity_coordinates_chromaticity_diagram_plot',  # noqa
+        'colour.plotting.plot_RGB_chromaticities_in_chromaticity_diagram',
     ],
     [
-        'colour.plotting.equal_axes3d',
-        'colour.plotting.uniform_axes3d',
+        'colour.plotting.RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931',  # noqa
+        'colour.plotting.plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931',  # noqa
     ],
     [
-        'colour.plotting.get_RGB_colourspace',
-        'colour.plotting.filter_RGB_colourspaces',
+        'colour.plotting.RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS',  # noqa
+        'colour.plotting.plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS',  # noqa
     ],
     [
-        'colour.plotting.get_cmfs',
-        'colour.plotting.filter_cmfs',
+        'colour.plotting.RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS',  # noqa
+        'colour.plotting.plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS',  # noqa
     ],
     [
-        'colour.plotting.get_illuminant',
-        'colour.plotting.filter_illuminants',
+        'colour.plotting.RGB_colourspaces_chromaticity_diagram_plot',
+        'colour.plotting.plot_RGB_colourspaces_in_chromaticity_diagram',
     ],
     [
-        'colour.plotting.cvd_simulation_Machado2009_plot',
-        'colour.plotting.plot_cvd_simulation_Machado2009',
+        'colour.plotting.RGB_colourspaces_chromaticity_diagram_plot_CIE1931',
+        'colour.plotting.plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931',  # noqa
     ],
     [
-        'colour.plotting.single_colour_checker_plot',
-        'colour.plotting.plot_single_colour_checker',
+        'colour.plotting.RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS',  # noqa
+        'colour.plotting.plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS',  # noqa
     ],
     [
-        'colour.plotting.multi_colour_checker_plot',
-        'colour.plotting.plot_multi_colour_checkers',
+        'colour.plotting.RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS',  # noqa
+        'colour.plotting.plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS',  # noqa
     ],
     [
-        'colour.plotting.single_spd_plot',
-        'colour.plotting.plot_single_sd',
+        'colour.plotting.RGB_colourspaces_gamuts_plot',
+        'colour.plotting.plot_RGB_colourspaces_gamuts',
     ],
     [
-        'colour.plotting.multi_spd_plot',
-        'colour.plotting.plot_multi_sds',
-    ],
-    [
-        'colour.plotting.single_cmfs_plot',
-        'colour.plotting.plot_single_cmfs',
-    ],
-    [
-        'colour.plotting.multi_cmfs_plot',
-        'colour.plotting.plot_multi_cmfs',
-    ],
-    [
-        'colour.plotting.single_illuminant_spd_plot',
-        'colour.plotting.plot_single_illuminant_sd',
-    ],
-    [
-        'colour.plotting.multi_illuminant_spd_plot',
-        'colour.plotting.plot_multi_illuminant_sds',
-    ],
-    [
-        'colour.plotting.visible_spectrum_plot',
-        'colour.plotting.plot_visible_spectrum',
-    ],
-    [
-        'colour.plotting.single_lightness_function_plot',
-        'colour.plotting.plot_single_lightness_function',
-    ],
-    [
-        'colour.plotting.multi_lightness_function_plot',
-        'colour.plotting.plot_multi_lightness_functions',
-    ],
-    [
-        'colour.plotting.blackbody_spectral_radiance_plot',
-        'colour.plotting.plot_blackbody_spectral_radiance',
+        'colour.plotting.RGB_scatter_plot',
+        'colour.plotting.plot_RGB_scatter',
     ],
     [
         'colour.plotting.blackbody_colours_plot',
         'colour.plotting.plot_blackbody_colours',
     ],
     [
-        'colour.plotting.single_colour_swatch_plot',
-        'colour.plotting.plot_single_colour_swatch',
-    ],
-    [
-        'colour.plotting.multi_colour_swatch_plot',
-        'colour.plotting.plot_multi_colour_swatches',
-    ],
-    [
-        'colour.plotting.image_plot',
-        'colour.plotting.plot_image',
-    ],
-    [
-        'colour.plotting.corresponding_chromaticities_prediction_plot',
-        'colour.plotting.plot_corresponding_chromaticities_prediction',
-    ],
-    [
-        'colour.plotting.spectral_locus_plot',
-        'colour.plotting.plot_spectral_locus',
+        'colour.plotting.blackbody_spectral_radiance_plot',
+        'colour.plotting.plot_blackbody_spectral_radiance',
     ],
     [
         'colour.plotting.chromaticity_diagram_colours_plot',
@@ -327,6 +265,146 @@ API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
         'colour.plotting.plot_chromaticity_diagram_CIE1976UCS',
     ],
     [
+        'colour.plotting.colour_plotting_defaults',
+        'colour.plotting.colour_style',
+    ],
+    [
+        'colour.plotting.colour_quality_bars_plot',
+        'colour.plotting.plot_colour_quality_bars',
+    ],
+    [
+        'colour.plotting.corresponding_chromaticities_prediction_plot',
+        'colour.plotting.plot_corresponding_chromaticities_prediction',
+    ],
+    [
+        'colour.plotting.cvd_simulation_Machado2009_plot',
+        'colour.plotting.plot_cvd_simulation_Machado2009',
+    ],
+    [
+        'colour.plotting.ellipses_MacAdam1942_chromaticity_diagram_plot',
+        'colour.plotting.plot_ellipses_MacAdam1942_in_chromaticity_diagram',
+    ],
+    [
+        'colour.plotting.equal_axes3d',
+        'colour.plotting.uniform_axes3d',
+    ],
+    [
+        'colour.plotting.get_RGB_colourspace',
+        'colour.plotting.filter_RGB_colourspaces',
+    ],
+    [
+        'colour.plotting.get_cmfs',
+        'colour.plotting.filter_cmfs',
+    ],
+    [
+        'colour.plotting.get_illuminant',
+        'colour.plotting.filter_illuminants',
+    ],
+    [
+        'colour.plotting.image_plot',
+        'colour.plotting.plot_image',
+    ],
+    [
+        'colour.plotting.multi_cctf_plot',
+        'colour.plotting.plot_multi_cctfs',
+    ],
+    [
+        'colour.plotting.multi_cmfs_plot',
+        'colour.plotting.plot_multi_cmfs',
+    ],
+    [
+        'colour.plotting.multi_colour_checker_plot',
+        'colour.plotting.plot_multi_colour_checkers',
+    ],
+    [
+        'colour.plotting.multi_colour_swatch_plot',
+        'colour.plotting.plot_multi_colour_swatches',
+    ],
+    [
+        'colour.plotting.multi_illuminant_spd_plot',
+        'colour.plotting.plot_multi_illuminant_sds',
+    ],
+    [
+        'colour.plotting.multi_lightness_function_plot',
+        'colour.plotting.plot_multi_lightness_functions',
+    ],
+    [
+        'colour.plotting.multi_munsell_value_function_plot',
+        'colour.plotting.plot_multi_munsell_value_functions',
+    ],
+    [
+        'colour.plotting.multi_spd_colour_quality_scale_bars_plot',
+        'colour.plotting.plot_multi_sds_colour_quality_scales_bars',
+    ],
+    [
+        'colour.plotting.multi_spd_colour_rendering_index_bars_plot',
+        'colour.plotting.plot_multi_sds_colour_rendering_indexes_bars',
+    ],
+    [
+        'colour.plotting.multi_spd_plot',
+        'colour.plotting.plot_multi_sds',
+    ],
+    [
+        'colour.plotting.planckian_locus_chromaticity_diagram_plot',
+        'colour.plotting.plot_planckian_locus_in_chromaticity_diagram',
+    ],
+    [
+        'colour.plotting.planckian_locus_chromaticity_diagram_plot_CIE1931',
+        'colour.plotting.plot_planckian_locus_in_chromaticity_diagram_CIE1931',
+    ],
+    [
+        'colour.plotting.planckian_locus_chromaticity_diagram_plot_CIE1960UCS',
+        'colour.plotting.plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS',  # noqa
+    ],
+    [
+        'colour.plotting.planckian_locus_plot',
+        'colour.plotting.plot_planckian_locus',
+    ],
+    [
+        'colour.plotting.single_cctf_plot',
+        'colour.plotting.plot_single_cctf',
+    ],
+    [
+        'colour.plotting.single_cmfs_plot',
+        'colour.plotting.plot_single_cmfs',
+    ],
+    [
+        'colour.plotting.single_colour_checker_plot',
+        'colour.plotting.plot_single_colour_checker',
+    ],
+    [
+        'colour.plotting.single_colour_swatch_plot',
+        'colour.plotting.plot_single_colour_swatch',
+    ],
+    [
+        'colour.plotting.single_illuminant_spd_plot',
+        'colour.plotting.plot_single_illuminant_sd',
+    ],
+    [
+        'colour.plotting.single_lightness_function_plot',
+        'colour.plotting.plot_single_lightness_function',
+    ],
+    [
+        'colour.plotting.single_munsell_value_function_plot',
+        'colour.plotting.plot_single_munsell_value_function',
+    ],
+    [
+        'colour.plotting.single_spd_colour_quality_scale_bars_plot',
+        'colour.plotting.plot_single_sd_colour_quality_scale_bars',
+    ],
+    [
+        'colour.plotting.single_spd_colour_rendering_index_bars_plot',
+        'colour.plotting.plot_single_sd_colour_rendering_index_bars',
+    ],
+    [
+        'colour.plotting.single_spd_plot',
+        'colour.plotting.plot_single_sd',
+    ],
+    [
+        'colour.plotting.single_spd_rayleigh_scattering_plot',
+        'colour.plotting.plot_single_sd_rayleigh_scattering',
+    ],
+    [
         'colour.plotting.spds_chromaticity_diagram_plot',
         'colour.plotting.plot_sds_in_chromaticity_diagram',
     ],
@@ -343,124 +421,16 @@ API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
         'colour.plotting.plot_sds_in_chromaticity_diagram_CIE1976UCS',
     ],
     [
-        'colour.plotting.RGB_colourspaces_chromaticity_diagram_plot',
-        'colour.plotting.plot_RGB_colourspaces_in_chromaticity_diagram',
-    ],
-    [
-        'colour.plotting.'
-        'RGB_colourspaces_chromaticity_diagram_plot_CIE1931',
-        'colour.plotting.'
-        'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1931',
-    ],
-    [
-        'colour.plotting.'
-        'RGB_colourspaces_chromaticity_diagram_plot_CIE1960UCS',
-        'colour.plotting.'
-        'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1960UCS',
-    ],
-    [
-        'colour.plotting.'
-        'RGB_colourspaces_chromaticity_diagram_plot_CIE1976UCS',
-        'colour.plotting.'
-        'plot_RGB_colourspaces_in_chromaticity_diagram_CIE1976UCS',
-    ],
-    [
-        'colour.plotting.'
-        'RGB_chromaticity_coordinates_chromaticity_diagram_plot',
-        'colour.plotting.'
-        'plot_RGB_chromaticities_in_chromaticity_diagram',
-    ],
-    [
-        'colour.plotting.'
-        'RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1931',
-        'colour.plotting.'
-        'plot_RGB_chromaticities_in_chromaticity_diagram_CIE1931',
-    ],
-    [
-        'colour.plotting.'
-        'RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1960UCS',
-        'colour.plotting.'
-        'plot_RGB_chromaticities_in_chromaticity_diagram_CIE1960UCS',
-    ],
-    [
-        'colour.plotting.'
-        'RGB_chromaticity_coordinates_chromaticity_diagram_plot_CIE1976UCS',
-        'colour.plotting.'
-        'plot_RGB_chromaticities_in_chromaticity_diagram_CIE1976UCS',
-    ],
-    [
-        'colour.plotting.ellipses_MacAdam1942_chromaticity_diagram_plot',
-        'colour.plotting.plot_ellipses_MacAdam1942_in_chromaticity_diagram',
-    ],
-    [
-        'colour.plotting.single_cctf_plot',
-        'colour.plotting.plot_single_cctf',
-    ],
-    [
-        'colour.plotting.multi_cctf_plot',
-        'colour.plotting.plot_multi_cctfs',
-    ],
-    [
-        'colour.plotting.single_munsell_value_function_plot',
-        'colour.plotting.plot_single_munsell_value_function',
-    ],
-    [
-        'colour.plotting.multi_munsell_value_function_plot',
-        'colour.plotting.plot_multi_munsell_value_functions',
-    ],
-    [
-        'colour.plotting.single_spd_rayleigh_scattering_plot',
-        'colour.plotting.plot_single_sd_rayleigh_scattering',
+        'colour.plotting.spectral_locus_plot',
+        'colour.plotting.plot_spectral_locus',
     ],
     [
         'colour.plotting.the_blue_sky_plot',
         'colour.plotting.plot_the_blue_sky',
     ],
     [
-        'colour.plotting.colour_quality_bars_plot',
-        'colour.plotting.plot_colour_quality_bars',
-    ],
-    [
-        'colour.plotting.single_spd_colour_rendering_index_bars_plot',
-        'colour.plotting.plot_single_sd_colour_rendering_index_bars',
-    ],
-    [
-        'colour.plotting.multi_spd_colour_rendering_index_bars_plot',
-        'colour.plotting.plot_multi_sds_colour_rendering_indexes_bars',
-    ],
-    [
-        'colour.plotting.single_spd_colour_quality_scale_bars_plot',
-        'colour.plotting.plot_single_sd_colour_quality_scale_bars',
-    ],
-    [
-        'colour.plotting.multi_spd_colour_quality_scale_bars_plot',
-        'colour.plotting.plot_multi_sds_colour_quality_scales_bars',
-    ],
-    [
-        'colour.plotting.planckian_locus_plot',
-        'colour.plotting.plot_planckian_locus',
-    ],
-    [
-        'colour.plotting.planckian_locus_chromaticity_diagram_plot',
-        'colour.plotting.plot_planckian_locus_in_chromaticity_diagram',
-    ],
-    [
-        'colour.plotting.planckian_locus_chromaticity_diagram_plot_CIE1931',
-        'colour.plotting.plot_planckian_locus_in_chromaticity_diagram_CIE1931',
-    ],
-    [
-        'colour.plotting.'
-        'planckian_locus_chromaticity_diagram_plot_CIE1960UCS',
-        'colour.plotting.'
-        'plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS',
-    ],
-    [
-        'colour.plotting.RGB_colourspaces_gamuts_plot',
-        'colour.plotting.plot_RGB_colourspaces_gamuts',
-    ],
-    [
-        'colour.plotting.RGB_scatter_plot',
-        'colour.plotting.plot_RGB_scatter',
+        'colour.plotting.visible_spectrum_plot',
+        'colour.plotting.plot_visible_spectrum'
     ],
 ]
 
