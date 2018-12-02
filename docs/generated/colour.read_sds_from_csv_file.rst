@@ -1,5 +1,5 @@
 colour.read\_sds\_from\_csv\_file
-==================================
+=================================
 
 .. currentmodule:: colour
 

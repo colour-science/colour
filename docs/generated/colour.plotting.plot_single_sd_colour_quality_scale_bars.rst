@@ -1,5 +1,5 @@
-colour.plotting.single\_sd\_colour\_quality\_scale\_bars\_plot
-===============================================================
+colour.plotting.plot\_single\_sd\_colour\_quality\_scale\_bars
+==============================================================
 
 .. currentmodule:: colour.plotting
 

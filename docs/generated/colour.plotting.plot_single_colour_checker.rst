@@ -1,4 +1,4 @@
-colour.plotting.single\_colour\_checker\_plot
+colour.plotting.plot\_single\_colour\_checker
 =============================================
 
 .. currentmodule:: colour.plotting

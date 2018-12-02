@@ -346,11 +346,11 @@ def ellipse_coefficients_canonical_form(coefficients):
     The general form ellipse coefficients are the coefficients of the implicit
     second-order polynomial/quadratic curve expressed as follows:
 
-    :math:`F\\left(x, y\\right) = ax^2 + bxy + cy^2 + dx + ey + f = 0`
+    :math:`F\\left(x, y\\right)` = ax^2 + bxy + cy^2 + dx + ey + f = 0`
 
     with an ellipse-specific constraint such as :math:`b^2 -4ac < 0` and where
     :math:`a, b, c, d, e, f` are coefficients of the ellipse and
-    :math:`F\\left(x, y\\right) are coordinates of points lying on it.
+    :math:`F\\left(x, y\\right)` are coordinates of points lying on it.
 
     Parameters
     ----------
@@ -452,11 +452,11 @@ def ellipse_fitting_Halir1998(a):
 
     The implicit second-order polynomial is expressed as follows::
 
-    :math:`F\\left(x, y\\right) = ax^2 + bxy + cy^2 + dx + ey + f = 0`
+    :math:`F\\left(x, y\\right)` = ax^2 + bxy + cy^2 + dx + ey + f = 0`
 
     with an ellipse-specific constraint such as :math:`b^2 -4ac < 0` and where
     :math:`a, b, c, d, e, f` are coefficients of the ellipse and
-    :math:`F\\left(x, y\\right) are coordinates of points lying on it.
+    :math:`F\\left(x, y\\right)` are coordinates of points lying on it.
 
     Parameters
     ----------
@@ -539,11 +539,11 @@ def ellipse_fitting(a, method='Halir 1998'):
 
     The implicit second-order polynomial is expressed as follows::
 
-    :math:`F\\left(x, y\\right) = ax^2 + bxy + cy^2 + dx + ey + f = 0`
+    :math:`F\\left(x, y\\right)` = ax^2 + bxy + cy^2 + dx + ey + f = 0`
 
     with an ellipse-specific constraint such as :math:`b^2 -4ac < 0` and where
     :math:`a, b, c, d, e, f` are coefficients of the ellipse and
-    :math:`F\\left(x, y\\right) are coordinates of points lying on it.
+    :math:`F\\left(x, y\\right)` are coordinates of points lying on it.
 
     Parameters
     ----------

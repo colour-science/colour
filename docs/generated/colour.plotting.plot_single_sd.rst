@@ -1,5 +1,5 @@
-colour.plotting.single\_sd\_plot
-=================================
+colour.plotting.plot\_single\_sd
+================================
 
 .. currentmodule:: colour.plotting
 

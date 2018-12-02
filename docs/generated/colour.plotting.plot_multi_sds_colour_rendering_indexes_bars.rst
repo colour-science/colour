@@ -1,5 +1,5 @@
-colour.plotting.multi\_sd\_colour\_rendering\_index\_bars\_plot
-================================================================
+colour.plotting.plot\_multi\_sds\_colour\_rendering\_indexes\_bars
+==================================================================
 
 .. currentmodule:: colour.plotting
 

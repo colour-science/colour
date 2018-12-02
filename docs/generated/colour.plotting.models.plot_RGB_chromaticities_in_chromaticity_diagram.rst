@@ -1,5 +1,5 @@
-colour.plotting.models.RGB\_chromaticity\_coordinates\_chromaticity\_diagram\_plot
-==================================================================================
+colour.plotting.models.plot\_RGB\_chromaticities\_in\_chromaticity\_diagram
+===========================================================================
 
 .. currentmodule:: colour.plotting.models
 

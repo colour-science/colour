@@ -1,5 +1,5 @@
 colour.write\_sds\_to\_csv\_file
-=================================
+================================
 
 .. currentmodule:: colour
 

@@ -1,4 +1,4 @@
-colour.plotting.cvd\_simulation\_Machado2009\_plot
+colour.plotting.plot\_cvd\_simulation\_Machado2009
 ==================================================
 
 .. currentmodule:: colour.plotting

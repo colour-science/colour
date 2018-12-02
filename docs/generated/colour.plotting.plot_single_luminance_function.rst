@@ -1,4 +1,4 @@
-colour.plotting.single\_luminance\_function\_plot
+colour.plotting.plot\_single\_luminance\_function
 =================================================
 
 .. currentmodule:: colour.plotting

@@ -182,7 +182,7 @@ def plot_planckian_locus_in_chromaticity_diagram(
     ... # doctest: +SKIP
 
     .. image:: ../_static/Plotting_\
-Planckian_Locus_Chromaticity_Diagram_Plot.png
+Plot_Planckian_Locus_In_Chromaticity_Diagram.png
         :align: center
         :alt: plot_planckian_locus_in_chromaticity_diagram
     """

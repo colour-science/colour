@@ -1,5 +1,5 @@
-colour.gaussian\_sd
-====================
+colour.sd\_gaussian
+===================
 
 .. currentmodule:: colour
 

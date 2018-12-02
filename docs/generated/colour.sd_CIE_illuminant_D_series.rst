@@ -1,5 +1,5 @@
-colour.D\_illuminant\_relative\_sd
-===================================
+colour.sd\_CIE\_illuminant\_D\_series
+=====================================
 
 .. currentmodule:: colour
 

@@ -1,5 +1,5 @@
-colour.MULTI\_LED\_SD\_METHODS
-===============================
+colour.SD\_MULTI\_LED\_METHODS
+==============================
 
 .. currentmodule:: colour
 

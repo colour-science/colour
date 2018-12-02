@@ -1,4 +1,4 @@
-colour.plotting.corresponding\_chromaticities\_prediction\_plot
+colour.plotting.plot\_corresponding\_chromaticities\_prediction
 ===============================================================
 
 .. currentmodule:: colour.plotting

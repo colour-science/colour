@@ -1,5 +1,5 @@
-colour.colorimetry.multi\_spectral\_to\_XYZ\_integration
-========================================================
+colour.colorimetry.multi\_sd\_to\_XYZ\_integration
+==================================================
 
 .. currentmodule:: colour.colorimetry
 

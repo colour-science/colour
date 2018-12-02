@@ -1,4 +1,4 @@
-colour.plotting.multi\_illuminant\_sd\_plot
+colour.plotting.plot\_multi\_illuminant\_sds
 ============================================
 
 .. currentmodule:: colour.plotting

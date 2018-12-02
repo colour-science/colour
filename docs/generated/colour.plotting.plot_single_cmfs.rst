@@ -1,4 +1,4 @@
-colour.plotting.single\_cmfs\_plot
+colour.plotting.plot\_single\_cmfs
 ==================================
 
 .. currentmodule:: colour.plotting

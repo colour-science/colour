@@ -1,5 +1,5 @@
-colour.plotting.multi\_munsell\_value\_function\_plot
-=====================================================
+colour.plotting.plot\_multi\_munsell\_value\_functions
+======================================================
 
 .. currentmodule:: colour.plotting
 

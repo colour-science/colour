@@ -1,5 +1,5 @@
-colour.colorimetry.single\_led\_sd\_Ohno2005
-=============================================
+colour.colorimetry.sd\_single\_led\_Ohno2005
+============================================
 
 .. currentmodule:: colour.colorimetry
 

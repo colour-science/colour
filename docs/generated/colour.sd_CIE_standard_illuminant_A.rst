@@ -1,5 +1,5 @@
-colour.CIE\_standard\_illuminant\_A\_function
-=============================================
+colour.sd\_CIE\_standard\_illuminant\_A
+=======================================
 
 .. currentmodule:: colour
 

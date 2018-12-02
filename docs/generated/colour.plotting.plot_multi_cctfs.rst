@@ -1,5 +1,5 @@
-colour.plotting.multi\_cctf\_plot
-=================================
+colour.plotting.plot\_multi\_cctfs
+==================================
 
 .. currentmodule:: colour.plotting
 

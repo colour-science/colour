@@ -1,5 +1,5 @@
 colour.SpectralDistribution
-================================
+===========================
 
 .. currentmodule:: colour
 

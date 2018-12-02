@@ -13,9 +13,9 @@ Spectral Data Structure
 .. autosummary::
     :toctree: generated/
 
+    SpectralShape
     SpectralDistribution
     MultiSpectralDistribution
-    SpectralShape
     DEFAULT_SPECTRAL_SHAPE
     ASTME30815_PRACTISE_SHAPE
 
@@ -49,12 +49,12 @@ Spectral Data Generation
 .. autosummary::
     :toctree: generated/
 
+    blackbody_spectral_radiance
+    planck_law
     sd_gaussian_normal
     sd_gaussian_fwhm
     sd_single_led_Ohno2005
     sd_multi_led_Ohno2005
-    blackbody_spectral_radiance
-    planck_law
 
 Conversion to Tristimulus Values
 --------------------------------
@@ -67,9 +67,9 @@ Conversion to Tristimulus Values
     :toctree: generated/
 
     sd_to_XYZ
-    SPECTRAL_TO_XYZ_METHODS
+    SD_TO_XYZ_METHODS
     multi_sd_to_XYZ
-    MULTI_SPECTRAL_TO_XYZ_METHODS
+    MULTI_SD_TO_XYZ_METHODS
     wavelength_to_XYZ
 
 ASTM E308-15

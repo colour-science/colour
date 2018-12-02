@@ -1,5 +1,5 @@
-colour.ones\_sd
-================
+colour.sd\_ones
+===============
 
 .. currentmodule:: colour
 

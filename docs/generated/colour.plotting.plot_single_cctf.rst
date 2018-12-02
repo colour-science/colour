@@ -1,4 +1,4 @@
-colour.plotting.single\_cctf\_plot
+colour.plotting.plot\_single\_cctf
 ==================================
 
 .. currentmodule:: colour.plotting

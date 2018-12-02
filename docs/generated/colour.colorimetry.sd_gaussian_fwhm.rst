@@ -1,5 +1,5 @@
-colour.colorimetry.gaussian\_sd\_fwhm
-======================================
+colour.colorimetry.sd\_gaussian\_fwhm
+=====================================
 
 .. currentmodule:: colour.colorimetry
 

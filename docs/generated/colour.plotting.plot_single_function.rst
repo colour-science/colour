@@ -1,4 +1,4 @@
-colour.plotting.single\_function\_plot
+colour.plotting.plot\_single\_function
 ======================================
 
 .. currentmodule:: colour.plotting

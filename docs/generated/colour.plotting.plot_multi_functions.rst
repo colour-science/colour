@@ -1,5 +1,5 @@
-colour.plotting.multi\_function\_plot
-=====================================
+colour.plotting.plot\_multi\_functions
+======================================
 
 .. currentmodule:: colour.plotting
 

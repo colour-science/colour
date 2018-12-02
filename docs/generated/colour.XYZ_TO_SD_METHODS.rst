@@ -1,6 +1,6 @@
-colour.REFLECTANCE\_RECOVERY\_METHODS
-=====================================
+colour.XYZ\_TO\_SD\_METHODS
+===========================
 
 .. currentmodule:: colour
 
-.. autodata:: REFLECTANCE_RECOVERY_METHODS
+.. autodata:: XYZ_TO_SD_METHODS

@@ -1,5 +1,5 @@
-colour.colorimetry.gaussian\_sd\_normal
-========================================
+colour.colorimetry.sd\_gaussian\_normal
+=======================================
 
 .. currentmodule:: colour.colorimetry
 

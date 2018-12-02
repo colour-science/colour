@@ -1,5 +1,5 @@
-colour.multi\_spectral\_to\_XYZ
-===============================
+colour.multi\_sd\_to\_XYZ
+=========================
 
 .. currentmodule:: colour
 

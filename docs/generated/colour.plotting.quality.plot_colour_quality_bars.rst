@@ -1,4 +1,4 @@
-colour.plotting.quality.colour\_quality\_bars\_plot
+colour.plotting.quality.plot\_colour\_quality\_bars
 ===================================================
 
 .. currentmodule:: colour.plotting.quality

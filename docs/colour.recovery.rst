@@ -14,7 +14,7 @@ CIE XYZ Colourspace to Spectral
     :toctree: generated/
 
     XYZ_to_sd
-    REFLECTANCE_RECOVERY_METHODS
+    XYZ_TO_SD_METHODS
 
 Smits (1999)
 ------------

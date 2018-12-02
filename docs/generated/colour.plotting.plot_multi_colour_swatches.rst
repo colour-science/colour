@@ -1,5 +1,5 @@
-colour.plotting.multi\_colour\_swatch\_plot
-===========================================
+colour.plotting.plot\_multi\_colour\_swatches
+=============================================
 
 .. currentmodule:: colour.plotting
 

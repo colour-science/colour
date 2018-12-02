@@ -1,5 +1,5 @@
-colour.plotting.planckian\_locus\_chromaticity\_diagram\_plot\_CIE1931
-======================================================================
+colour.plotting.plot\_planckian\_locus\_in\_chromaticity\_diagram\_CIE1931
+==========================================================================
 
 .. currentmodule:: colour.plotting
 

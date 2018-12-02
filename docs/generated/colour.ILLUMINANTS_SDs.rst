@@ -1,5 +1,5 @@
 colour.ILLUMINANTS\_SDS
-========================
+=======================
 
 .. currentmodule:: colour
 

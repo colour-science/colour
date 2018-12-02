@@ -1,5 +1,5 @@
 colour.COLOURCHECKERS\_SDS
-===========================
+==========================
 
 .. currentmodule:: colour
 

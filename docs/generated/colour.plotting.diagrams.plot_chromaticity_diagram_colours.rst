@@ -1,4 +1,4 @@
-colour.plotting.diagrams.chromaticity\_diagram\_colours\_plot
+colour.plotting.diagrams.plot\_chromaticity\_diagram\_colours
 =============================================================
 
 .. currentmodule:: colour.plotting.diagrams

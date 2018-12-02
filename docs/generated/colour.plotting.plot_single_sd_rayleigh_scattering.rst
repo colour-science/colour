@@ -1,5 +1,5 @@
-colour.plotting.single\_rayleigh\_scattering\_sd\_plot
-=======================================================
+colour.plotting.plot\_single\_sd\_rayleigh\_scattering
+======================================================
 
 .. currentmodule:: colour.plotting
 

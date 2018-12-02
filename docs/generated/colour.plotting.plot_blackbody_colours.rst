@@ -1,4 +1,4 @@
-colour.plotting.blackbody\_colours\_plot
+colour.plotting.plot\_blackbody\_colours
 ========================================
 
 .. currentmodule:: colour.plotting

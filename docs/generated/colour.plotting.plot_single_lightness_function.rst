@@ -1,4 +1,4 @@
-colour.plotting.single\_lightness\_function\_plot
+colour.plotting.plot\_single\_lightness\_function
 =================================================
 
 .. currentmodule:: colour.plotting

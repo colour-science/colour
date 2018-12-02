@@ -1,5 +1,5 @@
-colour.single\_led\_sd
-=======================
+colour.sd\_single\_led
+======================
 
 .. currentmodule:: colour
 

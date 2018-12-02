@@ -1,5 +1,5 @@
-colour.plotting.multi\_sd\_colour\_quality\_scale\_bars\_plot
-==============================================================
+colour.plotting.plot\_multi\_sds\_colour\_quality\_scales\_bars
+===============================================================
 
 .. currentmodule:: colour.plotting
 

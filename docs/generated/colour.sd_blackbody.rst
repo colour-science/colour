@@ -1,5 +1,5 @@
-colour.blackbody\_sd
-=====================
+colour.sd\_blackbody
+====================
 
 .. currentmodule:: colour
 

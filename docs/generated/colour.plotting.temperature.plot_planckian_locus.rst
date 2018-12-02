@@ -1,4 +1,4 @@
-colour.plotting.temperature.planckian\_locus\_plot
+colour.plotting.temperature.plot\_planckian\_locus
 ==================================================
 
 .. currentmodule:: colour.plotting.temperature

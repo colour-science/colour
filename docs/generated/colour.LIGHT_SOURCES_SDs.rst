@@ -1,5 +1,5 @@
 colour.LIGHT\_SOURCES\_SDS
-===========================
+==========================
 
 .. currentmodule:: colour
 

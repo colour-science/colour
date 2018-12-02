@@ -1,4 +1,4 @@
-colour.plotting.chromaticity\_diagram\_plot\_CIE1960UCS
+colour.plotting.plot\_chromaticity\_diagram\_CIE1960UCS
 =======================================================
 
 .. currentmodule:: colour.plotting

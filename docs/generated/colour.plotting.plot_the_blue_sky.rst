@@ -1,4 +1,4 @@
-colour.plotting.the\_blue\_sky\_plot
+colour.plotting.plot\_the\_blue\_sky
 ====================================
 
 .. currentmodule:: colour.plotting

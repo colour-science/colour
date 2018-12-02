@@ -1,5 +1,5 @@
 colour.MultiSpectralDistribution
-=====================================
+================================
 
 .. currentmodule:: colour
 

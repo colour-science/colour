@@ -1,4 +1,4 @@
-colour.plotting.RGB\_colourspaces\_gamuts\_plot
+colour.plotting.plot\_RGB\_colourspaces\_gamuts
 ===============================================
 
 .. currentmodule:: colour.plotting

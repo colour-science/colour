@@ -128,7 +128,7 @@ def generate_documentation_plots(output_directory):
         output_directory,
         'Examples_Plotting_CCT_CIE_1960_UCS_Chromaticity_Diagram.png')
     plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(['A', 'B', 'C'],
-                                                         **arguments)
+                                                            **arguments)
 
     arguments['filename'] = os.path.join(
         output_directory,
@@ -144,7 +144,7 @@ def generate_documentation_plots(output_directory):
     arguments['filename'] = os.path.join(output_directory,
                                          'Examples_Plotting_CRI.png')
     plot_single_sd_colour_rendering_index_bars(colour.ILLUMINANTS_SDS['F2'],
-                                                **arguments)
+                                               **arguments)
 
     # *************************************************************************
     # Documentation
@@ -262,13 +262,13 @@ def generate_documentation_plots(output_directory):
     plot_single_function(lambda x: x ** (1 / 2.2), **arguments)
 
     arguments['filename'] = os.path.join(output_directory,
-                                         'Plotting_Plot_Single_Function.png')
+                                         'Plotting_Plot_Multi_Functions.png')
     functions = {
         'Gamma 2.2': lambda x: x ** (1 / 2.2),
         'Gamma 2.4': lambda x: x ** (1 / 2.4),
         'Gamma 2.6': lambda x: x ** (1 / 2.6),
     }
-    plot_multi_functions(functions)
+    plot_multi_functions(functions, **arguments)
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Plotting_Plot_Image.png')
@@ -415,7 +415,7 @@ def generate_documentation_plots(output_directory):
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_Multi_Munsell_Value_Functions.png')
     plot_multi_munsell_value_functions(['ASTM D1535-08', 'McCamy 1987'],
-                                      **arguments)
+                                       **arguments)
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_Single_SD_Rayleigh_Scattering.png')
@@ -445,7 +445,7 @@ def generate_documentation_plots(output_directory):
         'Plotting_Plot_Multi_SDs_Colour_Rendering_Indexes_Bars.png')
     light_source = colour.LIGHT_SOURCES_SDS['Kinoton 75P']
     plot_multi_sds_colour_rendering_indexes_bars([illuminant, light_source],
-                                               **arguments)
+                                                 **arguments)
 
     arguments['filename'] = os.path.join(
         output_directory,
@@ -458,7 +458,7 @@ def generate_documentation_plots(output_directory):
         'Plotting_Plot_Multi_SDs_Colour_Quality_Scales_Bars.png')
     light_source = colour.LIGHT_SOURCES_SDS['Kinoton 75P']
     plot_multi_sds_colour_quality_scales_bars([illuminant, light_source],
-                                             **arguments)
+                                              **arguments)
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Plotting_Plot_Planckian_Locus.png')
@@ -473,13 +473,13 @@ def generate_documentation_plots(output_directory):
         output_directory,
         'Plotting_Plot_Planckian_Locus_In_Chromaticity_Diagram_CIE1931.png')
     plot_planckian_locus_in_chromaticity_diagram_CIE1931(['A', 'B', 'C'],
-                                                      **arguments)
+                                                         **arguments)
 
     arguments['filename'] = os.path.join(
         output_directory,
         'Plotting_Plot_Planckian_Locus_In_Chromaticity_Diagram_CIE1960UCS.png')
     plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS(['A', 'B', 'C'],
-                                                         **arguments)
+                                                            **arguments)
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_RGB_Colourspaces_Gamuts.png')
     plot_RGB_colourspaces_gamuts(['ITU-R BT.709', 'ACEScg', 'S-Gamut'],

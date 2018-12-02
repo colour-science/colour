@@ -1,5 +1,5 @@
-colour.zeros\_sd
-=================
+colour.sd\_zeros
+================
 
 .. currentmodule:: colour
 

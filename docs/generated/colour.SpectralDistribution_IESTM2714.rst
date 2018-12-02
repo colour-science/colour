@@ -1,5 +1,5 @@
-colour.IES\_TM2714\_Sd
-=======================
+colour.SpectralDistribution\_IESTM2714
+======================================
 
 .. currentmodule:: colour
 

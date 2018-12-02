@@ -1,5 +1,5 @@
-colour.XYZ\_to\_spectral
-========================
+colour.XYZ\_to\_sd
+==================
 
 .. currentmodule:: colour
 
