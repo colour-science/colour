@@ -31,7 +31,7 @@ from collections import namedtuple
 from colour.algebra import euclidean_distance
 from colour.colorimetry import (
     ASTME30815_PRACTISE_SHAPE, sd_CIE_illuminant_D_series, ILLUMINANTS,
-    STANDARD_OBSERVERS_CMFS, sd_blackbody, spectral_to_XYZ)
+    STANDARD_OBSERVERS_CMFS, sd_blackbody, sd_to_XYZ)
 from colour.quality.dataset.vs import VS_INDEXES_TO_NAMES, VS_SDS
 from colour.models import (Lab_to_LCHab, UCS_to_uv, XYZ_to_Lab, XYZ_to_UCS,
                            XYZ_to_xy, xy_to_XYZ)
@@ -148,7 +148,7 @@ def colour_quality_scale(sd_test, additional_data=False):
     vs_sds = {sd.name: sd.copy().align(shape) for sd in VS_SDS.values()}
 
     with domain_range_scale('1'):
-        XYZ = spectral_to_XYZ(sd_test, cmfs)
+        XYZ = sd_to_XYZ(sd_test, cmfs)
 
     uv = UCS_to_uv(XYZ_to_UCS(XYZ))
     CCT, _D_uv = uv_to_CCT_Ohno2013(uv)
@@ -166,7 +166,7 @@ def colour_quality_scale(sd_test, additional_data=False):
     reference_vs_colorimetry_data = vs_colorimetry_data(
         sd_reference, sd_reference, vs_sds, cmfs)
 
-    XYZ_r = spectral_to_XYZ(sd_reference, cmfs)
+    XYZ_r = sd_to_XYZ(sd_reference, cmfs)
     XYZ_r /= XYZ_r[1]
     CCT_f = CCT_factor(reference_vs_colorimetry_data, XYZ_r)
 
@@ -280,10 +280,10 @@ def vs_colorimetry_data(sd_test,
         *VS test colour samples* colorimetry data.
     """
 
-    XYZ_t = spectral_to_XYZ(sd_test, cmfs)
+    XYZ_t = sd_to_XYZ(sd_test, cmfs)
     XYZ_t /= XYZ_t[1]
 
-    XYZ_r = spectral_to_XYZ(sd_reference, cmfs)
+    XYZ_r = sd_to_XYZ(sd_reference, cmfs)
     XYZ_r /= XYZ_r[1]
     xy_r = XYZ_to_xy(XYZ_r)
 
@@ -292,7 +292,7 @@ def vs_colorimetry_data(sd_test,
         sd_vs = sds_vs[value]
 
         with domain_range_scale('1'):
-            XYZ_vs = spectral_to_XYZ(sd_vs, cmfs, sd_test)
+            XYZ_vs = sd_to_XYZ(sd_vs, cmfs, sd_test)
 
         if chromatic_adaptation:
             XYZ_vs = chromatic_adaptation_VonKries(

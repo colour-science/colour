@@ -40,7 +40,7 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import ILLUMINANTS_SDS, spectral_to_XYZ
+from colour.colorimetry import ILLUMINANTS_SDS, sd_to_XYZ
 from colour.models import XYZ_to_xy
 from colour.models.rgb import (ACES_2065_1_COLOURSPACE, ACES_RICD, RGB_to_XYZ,
                                XYZ_to_RGB, normalised_primary_matrix)
@@ -156,7 +156,7 @@ def spectral_to_aces_relative_exposure_values(
     E_rgb *= S_FLARE_FACTOR
 
     if apply_chromatic_adaptation:
-        xy = XYZ_to_xy(spectral_to_XYZ(illuminant) / 100)
+        xy = XYZ_to_xy(sd_to_XYZ(illuminant) / 100)
         NPM = normalised_primary_matrix(ACES_2065_1_COLOURSPACE.primaries, xy)
         XYZ = RGB_to_XYZ(E_rgb, xy, ACES_2065_1_COLOURSPACE.whitepoint, NPM,
                          chromatic_adaptation_transform)

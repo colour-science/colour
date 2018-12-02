@@ -13,7 +13,7 @@ from __future__ import division
 
 import matplotlib.pyplot as plt
 
-from colour.colorimetry import spectral_to_XYZ
+from colour.colorimetry import sd_to_XYZ
 from colour.phenomena import sd_rayleigh_scattering
 from colour.phenomena.rayleigh import (
     AVERAGE_PRESSURE_MEAN_SEA_LEVEL, DEFAULT_ALTITUDE, DEFAULT_LATITUDE,
@@ -171,7 +171,7 @@ def plot_the_blue_sky(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
     settings.update(kwargs)
     settings['standalone'] = False
 
-    blue_sky_color = XYZ_to_plotting_colourspace(spectral_to_XYZ(sd))
+    blue_sky_color = XYZ_to_plotting_colourspace(sd_to_XYZ(sd))
 
     figure, axes = plot_single_colour_swatch(
         ColourSwatch('', normalise_maximum(blue_sky_color)), **settings)

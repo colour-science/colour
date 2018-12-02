@@ -228,10 +228,10 @@ The various sub-packages also expose their public API:
 
     Recovery
     ['SMITS_1999_SDS',
-     'XYZ_to_spectral_Meng2015',
-     'RGB_to_spectral_Smits1999',
+     'XYZ_to_sd_Meng2015',
+     'RGB_to_sd_Smits1999',
      'REFLECTANCE_RECOVERY_METHODS',
-     'XYZ_to_spectral',
+     'XYZ_to_sd',
      '...']
 
 
@@ -381,14 +381,14 @@ for spectral related computations and many others:
      'LMS_2_degree_cmfs_to_XYZ_2_degree_cmfs',
      'LMS_10_degree_cmfs_to_XYZ_10_degree_cmfs',
      'SPECTRAL_TO_XYZ_METHODS',
-     'spectral_to_XYZ',
+     'sd_to_XYZ',
      'ASTME30815_PRACTISE_SHAPE',
      'lagrange_coefficients_ASTME202211',
      'tristimulus_weighting_factors_ASTME202211',
      'adjust_tristimulus_weighting_factors_ASTME30815',
-     'spectral_to_XYZ_integration',
-     'spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815',
-     'spectral_to_XYZ_ASTME30815',
+     'sd_to_XYZ_integration',
+     'sd_to_XYZ_tristimulus_weighting_factors_ASTME30815',
+     'sd_to_XYZ_ASTME30815',
      'wavelength_to_XYZ',
      'WHITENESS_METHODS',
      'whiteness',
@@ -1127,7 +1127,7 @@ can be calculated:
     illuminant = colour.ILLUMINANTS_SDS['D65']
 
     # Calculating the sample spectral distribution *CIE XYZ* tristimulus values.
-    XYZ = colour.spectral_to_XYZ(sd, cmfs, illuminant)
+    XYZ = colour.sd_to_XYZ(sd, cmfs, illuminant)
     print(XYZ)
 
 
@@ -1173,8 +1173,8 @@ computations are available, cascading to even more computations:
      'XYZ_to_colourspace_model',
      'XYZ_to_RGB',
      'XYZ_to_sRGB',
-     'XYZ_to_spectral_Meng2015',
-     'XYZ_to_spectral']
+     'XYZ_to_sd_Meng2015',
+     'XYZ_to_sd']
 
 
 Convert to Screen Colours
@@ -1185,7 +1185,7 @@ We can for instance converts the *CIE XYZ* tristimulus values into
 
 .. code:: python
 
-    # The output domain of *colour.spectral_to_XYZ* is [0, 100] and the input
+    # The output domain of *colour.sd_to_XYZ* is [0, 100] and the input
     # domain of *colour.XYZ_to_sRGB* is [0, 1]. We need to take it in account and
     # rescale the input *CIE XYZ* colourspace matrix.
     RGB = colour.XYZ_to_sRGB(XYZ / 100)
@@ -1252,7 +1252,7 @@ various colour rendition charts:
     # Plotting the *sRGB* colourspace colour of *neutral 5 (.70 D)* patch.
     patch_name = 'neutral 5 (.70 D)'
     patch_sd = colour.COLOURCHECKERS_SDS['ColorChecker N Ohta'][patch_name]
-    XYZ = colour.spectral_to_XYZ(patch_sd, cmfs, illuminant)
+    XYZ = colour.sd_to_XYZ(patch_sd, cmfs, illuminant)
     RGB = colour.XYZ_to_sRGB(XYZ / 100)
 
     plot_single_colour_swatch(

@@ -58,17 +58,17 @@ from .colorimetry import (
     ASTME30815_PRACTISE_SHAPE, BANDPASS_CORRECTION_METHODS, CMFS,
     DEFAULT_SPECTRAL_SHAPE, HUNTERLAB_ILLUMINANTS, ILLUMINANTS,
     ILLUMINANTS_SDS, LEFS, LIGHTNESS_METHODS, LIGHT_SOURCES, LIGHT_SOURCES_SDS,
-    LMS_CMFS, LUMINANCE_METHODS, MULTI_SPECTRAL_TO_XYZ_METHODS,
+    LMS_CMFS, LUMINANCE_METHODS, MULTI_SD_TO_XYZ_METHODS,
     MultiSpectralDistribution, PHOTOPIC_LEFS, RGB_CMFS, SCOTOPIC_LEFS,
     SD_GAUSSIAN_METHODS, SD_MULTI_LED_METHODS, SD_SINGLE_LED_METHODS,
-    SPECTRAL_TO_XYZ_METHODS, STANDARD_OBSERVERS_CMFS, SpectralDistribution,
+    SD_TO_XYZ_METHODS, STANDARD_OBSERVERS_CMFS, SpectralDistribution,
     SpectralShape, WHITENESS_METHODS, YELLOWNESS_METHODS, bandpass_correction,
     colorimetric_purity, complementary_wavelength, dominant_wavelength,
     excitation_purity, lightness, luminance, luminous_efficacy,
-    luminous_efficiency, luminous_flux, multi_spectral_to_XYZ,
+    luminous_efficiency, luminous_flux, multi_sd_to_XYZ,
     sd_CIE_standard_illuminant_A, sd_CIE_illuminant_D_series, sd_blackbody,
     sd_constant, sd_gaussian, sd_mesopic_luminous_efficiency_function,
-    sd_multi_led, sd_ones, sd_single_led, sd_zeros, spectral_to_XYZ,
+    sd_multi_led, sd_ones, sd_single_led, sd_zeros, sd_to_XYZ,
     wavelength_to_XYZ, whiteness, yellowness)
 from .blindness import (
     CVD_MATRICES_MACHADO2010, anomalous_trichromacy_cmfs_Machado2009,
@@ -87,8 +87,9 @@ from .characterisation import (
     DISPLAYS_RGB_PRIMARIES, POLYNOMIAL_EXPANSION_METHODS, polynomial_expansion,
     COLOUR_CORRECTION_MATRIX_METHODS, colour_correction_matrix,
     COLOUR_CORRECTION_METHODS, colour_correction)
-from .io import (IES_TM2714_Sd, LUT1D, LUT2D, LUT3D, LUTSequence, read_image,
-                 read_LUT, read_sds_from_csv_file, read_sds_from_xrite_file,
+from .io import (LUT1D, LUT2D, LUT3D, LUTSequence,
+                 SpectralDistribution_IESTM2714, read_image, read_LUT,
+                 read_sds_from_csv_file, read_sds_from_xrite_file,
                  read_spectral_data_from_csv_file, write_image, write_LUT,
                  write_sds_to_csv_file)
 from .models import (
@@ -131,7 +132,7 @@ from .notation import (MUNSELL_COLOURS, MUNSELL_VALUE_METHODS,
                        munsell_colour_to_xyY, munsell_value,
                        xyY_to_munsell_colour)
 from .quality import (colour_quality_scale, colour_rendering_index)
-from .recovery import (REFLECTANCE_RECOVERY_METHODS, XYZ_to_spectral)
+from .recovery import XYZ_TO_SD_METHODS, XYZ_to_sd
 from .temperature import (CCT_TO_UV_METHODS, CCT_TO_XY_METHODS, CCT_to_uv,
                           CCT_to_xy, UV_TO_CCT_METHODS, XY_TO_CCT_METHODS,
                           uv_to_CCT, xy_to_CCT)
@@ -170,19 +171,18 @@ __all__ += [
     'DEFAULT_SPECTRAL_SHAPE', 'HUNTERLAB_ILLUMINANTS', 'ILLUMINANTS',
     'ILLUMINANTS_SDS', 'LEFS', 'LIGHTNESS_METHODS', 'LIGHT_SOURCES',
     'LIGHT_SOURCES_SDS', 'LMS_CMFS', 'LUMINANCE_METHODS',
-    'MULTI_SPECTRAL_TO_XYZ_METHODS', 'MultiSpectralDistribution',
-    'PHOTOPIC_LEFS', 'RGB_CMFS', 'SCOTOPIC_LEFS', 'SD_GAUSSIAN_METHODS',
-    'SD_MULTI_LED_METHODS', 'SD_SINGLE_LED_METHODS', 'SPECTRAL_TO_XYZ_METHODS',
-    'STANDARD_OBSERVERS_CMFS', 'SpectralDistribution', 'SpectralShape',
-    'WHITENESS_METHODS', 'YELLOWNESS_METHODS', 'bandpass_correction',
-    'colorimetric_purity', 'complementary_wavelength', 'dominant_wavelength',
-    'excitation_purity', 'lightness', 'luminance', 'luminous_efficacy',
-    'luminous_efficiency', 'luminous_flux', 'multi_spectral_to_XYZ',
-    'sd_CIE_standard_illuminant_A', 'sd_CIE_illuminant_D_series',
-    'sd_blackbody', 'sd_constant', 'sd_gaussian',
+    'MULTI_SD_TO_XYZ_METHODS', 'MultiSpectralDistribution', 'PHOTOPIC_LEFS',
+    'RGB_CMFS', 'SCOTOPIC_LEFS', 'SD_GAUSSIAN_METHODS', 'SD_MULTI_LED_METHODS',
+    'SD_SINGLE_LED_METHODS', 'SD_TO_XYZ_METHODS', 'STANDARD_OBSERVERS_CMFS',
+    'SpectralDistribution', 'SpectralShape', 'WHITENESS_METHODS',
+    'YELLOWNESS_METHODS', 'bandpass_correction', 'colorimetric_purity',
+    'complementary_wavelength', 'dominant_wavelength', 'excitation_purity',
+    'lightness', 'luminance', 'luminous_efficacy', 'luminous_efficiency',
+    'luminous_flux', 'multi_sd_to_XYZ', 'sd_CIE_standard_illuminant_A',
+    'sd_CIE_illuminant_D_series', 'sd_blackbody', 'sd_constant', 'sd_gaussian',
     'sd_mesopic_luminous_efficiency_function', 'sd_multi_led', 'sd_ones',
-    'sd_zeros', 'sd_single_led', 'spectral_to_XYZ', 'wavelength_to_XYZ',
-    'whiteness', 'yellowness'
+    'sd_zeros', 'sd_single_led', 'sd_to_XYZ', 'wavelength_to_XYZ', 'whiteness',
+    'yellowness'
 ]
 __all__ += [
     'CVD_MATRICES_MACHADO2010', 'anomalous_trichromacy_cmfs_Machado2009',
@@ -207,10 +207,10 @@ __all__ += [
     'COLOUR_CORRECTION_METHODS', 'colour_correction'
 ]
 __all__ += [
-    'IES_TM2714_Sd', 'LUT1D', 'LUT2D', 'LUT3D', 'LUTSequence', 'read_image',
-    'read_LUT', 'read_sds_from_csv_file', 'read_sds_from_xrite_file',
-    'read_spectral_data_from_csv_file', 'write_image', 'write_LUT',
-    'write_sds_to_csv_file'
+    'LUT1D', 'LUT2D', 'LUT3D', 'LUTSequence', 'SpectralDistribution_IESTM2714',
+    'read_image', 'read_LUT', 'read_sds_from_csv_file',
+    'read_sds_from_xrite_file', 'read_spectral_data_from_csv_file',
+    'write_image', 'write_LUT', 'write_sds_to_csv_file'
 ]
 __all__ += [
     'CAM02LCD_to_JMh_CIECAM02', 'CAM02SCD_to_JMh_CIECAM02',
@@ -259,7 +259,7 @@ __all__ += [
     'munsell_value', 'xyY_to_munsell_colour'
 ]
 __all__ += ['colour_quality_scale', 'colour_rendering_index']
-__all__ += ['REFLECTANCE_RECOVERY_METHODS', 'XYZ_to_spectral']
+__all__ += ['XYZ_TO_SD_METHODS', 'XYZ_to_sd']
 __all__ += [
     'CCT_TO_UV_METHODS', 'CCT_TO_XY_METHODS', 'CCT_to_uv', 'CCT_to_xy',
     'UV_TO_CCT_METHODS', 'XY_TO_CCT_METHODS', 'uv_to_CCT', 'xy_to_CCT'
@@ -1277,8 +1277,8 @@ API_CHANGES = {
             'colour.characterisation.RGB_SpectralSensitivities',
         ],
         [
-            'colour.RGB_to_spectral_Smits1999',
-            'colour.recovery.RGB_to_spectral_Smits1999',
+            'colour.RGB_to_sd_Smits1999',
+            'colour.recovery.RGB_to_sd_Smits1999',
         ],
         [
             'colour.RIMM_RGB_COLOURSPACE',
@@ -1325,12 +1325,12 @@ API_CHANGES = {
             'colour.models.SMPTE_240M_COLOURSPACE',
         ],
         [
-            'colour.spectral_to_XYZ_ASTME30815',
-            'colour.colorimetry.spectral_to_XYZ_ASTME30815',
+            'colour.sd_to_XYZ_ASTME30815',
+            'colour.colorimetry.sd_to_XYZ_ASTME30815',
         ],
         [
-            'colour.spectral_to_XYZ_integration',
-            'colour.colorimetry.spectral_to_XYZ_integration',
+            'colour.sd_to_XYZ_integration',
+            'colour.colorimetry.sd_to_XYZ_integration',
         ],
         [
             'colour.spherical_to_cartesian',
@@ -1433,8 +1433,8 @@ API_CHANGES = {
             'colour.adaptation.XYZ_SCALING_CAT',
         ],
         [
-            'colour.XYZ_to_spectral_Meng2015',
-            'colour.recovery.XYZ_to_spectral_Meng2015',
+            'colour.XYZ_to_sd_Meng2015',
+            'colour.recovery.XYZ_to_sd_Meng2015',
         ],
         [
             'colour.yellowness_ASTMD1925',
@@ -1524,9 +1524,9 @@ API_CHANGES = {
             'colour.colorimetry.lagrange_coefficients_ASTME202211',
         ],
         [
-            'colour.spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815',
+            'colour.sd_to_XYZ_tristimulus_weighting_factors_ASTME30815',
             'colour.colorimetry.'
-            'spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815',
+            'sd_to_XYZ_tristimulus_weighting_factors_ASTME30815',
         ],
         [
             'colour.tristimulus_weighting_factors_ASTME202211',
@@ -1621,6 +1621,14 @@ API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
         'colour.MultiSpectralDistribution',
     ],
     [
+        'colour.REFLECTANCE_RECOVERY_METHODS',
+        'colour.XYZ_TO_SD_METHODS',
+    ],
+    [
+        'colour.SPECTRAL_TO_XYZ_METHODS',
+        'colour.SD_TO_XYZ_METHODS',
+    ],
+    [
         'colour.SpectralPowerDistribution',
         'colour.SpectralDistribution',
     ],
@@ -1635,6 +1643,10 @@ API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
     [
         'colour.first_order_colour_fit',
         'colour.colour_correction_matrix',
+    ],
+    [
+        'colour.IES_TM2714_Spd',
+        'colour.SpectralDistribution_IESTM2714',
     ],
     [
         'colour.mesopic_luminous_efficiency_function',
@@ -1657,8 +1669,16 @@ API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
         'colour.read_sds_from_xrite_file',
     ],
     [
+        'colour.spectral_to_XYZ',
+        'colour.sd_to_XYZ',
+    ],
+    [
         'colour.write_spds_to_csv_file',
         'colour.write_sds_to_csv_file',
+    ],
+    [
+        'colour.XYZ_to_spectral',
+        'colour.XYZ_to_sd',
     ],
     [
         'colour.zeros_spd',

@@ -91,7 +91,7 @@ from collections import namedtuple
 
 from colour.colorimetry import (ASTME30815_PRACTISE_SHAPE,
                                 STANDARD_OBSERVERS_CMFS, sd_blackbody,
-                                spectral_to_XYZ)
+                                sd_to_XYZ)
 from colour.models import UCS_to_uv, XYZ_to_UCS
 from colour.utilities import (CaseInsensitiveMapping, as_float_array, as_float,
                               filter_kwargs, runtime_warning, tsplit, tstack,
@@ -247,7 +247,7 @@ ui=0.4456351..., vi=0.3548306..., di=0.2514749...)]
     table = []
     for Ti in np.linspace(start, end, count):
         sd = sd_blackbody(Ti, shape)
-        XYZ = spectral_to_XYZ(sd, cmfs)
+        XYZ = sd_to_XYZ(sd, cmfs)
         XYZ /= np.max(XYZ)
         UVW = XYZ_to_UCS(XYZ)
         ui, vi = UCS_to_uv(UVW)
@@ -434,7 +434,7 @@ def CCT_to_uv_Ohno2013(
     delta = 0.01
 
     sd = sd_blackbody(CCT, shape)
-    XYZ = spectral_to_XYZ(sd, cmfs)
+    XYZ = sd_to_XYZ(sd, cmfs)
     XYZ *= 1 / np.max(XYZ)
     UVW = XYZ_to_UCS(XYZ)
     u0, v0 = UCS_to_uv(UVW)
@@ -443,7 +443,7 @@ def CCT_to_uv_Ohno2013(
         return np.array([u0, v0])
     else:
         sd = sd_blackbody(CCT + delta, shape)
-        XYZ = spectral_to_XYZ(sd, cmfs)
+        XYZ = sd_to_XYZ(sd, cmfs)
         XYZ *= 1 / np.max(XYZ)
         UVW = XYZ_to_UCS(XYZ)
         u1, v1 = UCS_to_uv(UVW)

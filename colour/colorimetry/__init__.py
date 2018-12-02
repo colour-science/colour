@@ -17,16 +17,16 @@ from .generation import SD_SINGLE_LED_METHODS
 from .generation import sd_single_led, sd_single_led_Ohno2005
 from .generation import SD_MULTI_LED_METHODS
 from .generation import sd_multi_led, sd_multi_led_Ohno2005
-from .tristimulus import (SPECTRAL_TO_XYZ_METHODS,
-                          MULTI_SPECTRAL_TO_XYZ_METHODS)
-from .tristimulus import spectral_to_XYZ, multi_spectral_to_XYZ
+from .tristimulus import (SD_TO_XYZ_METHODS,
+                          MULTI_SD_TO_XYZ_METHODS)
+from .tristimulus import sd_to_XYZ, multi_sd_to_XYZ
 from .tristimulus import (
     ASTME30815_PRACTISE_SHAPE, lagrange_coefficients_ASTME202211,
     tristimulus_weighting_factors_ASTME202211,
     adjust_tristimulus_weighting_factors_ASTME30815,
-    spectral_to_XYZ_integration,
-    spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815,
-    spectral_to_XYZ_ASTME30815, multi_spectral_to_XYZ_integration,
+    sd_to_XYZ_integration,
+    sd_to_XYZ_tristimulus_weighting_factors_ASTME30815,
+    sd_to_XYZ_ASTME30815, multi_sd_to_XYZ_integration,
     wavelength_to_XYZ)
 from .correction import BANDPASS_CORRECTION_METHODS
 from .correction import bandpass_correction
@@ -79,15 +79,15 @@ __all__ += ['SD_SINGLE_LED_METHODS']
 __all__ += ['sd_single_led', 'sd_single_led_Ohno2005']
 __all__ += ['SD_MULTI_LED_METHODS']
 __all__ += ['sd_multi_led', 'sd_multi_led_Ohno2005']
-__all__ += ['SPECTRAL_TO_XYZ_METHODS', 'MULTI_SPECTRAL_TO_XYZ_METHODS']
-__all__ += ['spectral_to_XYZ', 'multi_spectral_to_XYZ']
+__all__ += ['SD_TO_XYZ_METHODS', 'MULTI_SD_TO_XYZ_METHODS']
+__all__ += ['sd_to_XYZ', 'multi_sd_to_XYZ']
 __all__ += [
     'ASTME30815_PRACTISE_SHAPE', 'lagrange_coefficients_ASTME202211',
     'tristimulus_weighting_factors_ASTME202211',
     'adjust_tristimulus_weighting_factors_ASTME30815',
-    'spectral_to_XYZ_integration',
-    'spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815',
-    'spectral_to_XYZ_ASTME30815', 'multi_spectral_to_XYZ_integration',
+    'sd_to_XYZ_integration',
+    'sd_to_XYZ_tristimulus_weighting_factors_ASTME30815',
+    'sd_to_XYZ_ASTME30815', 'multi_sd_to_XYZ_integration',
     'wavelength_to_XYZ'
 ]
 __all__ += ['BANDPASS_CORRECTION_METHODS']

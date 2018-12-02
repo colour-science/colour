@@ -6,7 +6,7 @@ Meng et al. (2015) - Reflectance Recovery
 Defines objects for reflectance recovery using *Meng, Simon and Hanika (2015)*
 method:
 
--   :func:`colour.recovery.XYZ_to_spectral_Meng2015`
+-   :func:`colour.recovery.XYZ_to_sd_Meng2015`
 
 See Also
 --------
@@ -28,7 +28,7 @@ from scipy.optimize import minimize
 
 from colour.colorimetry import (STANDARD_OBSERVERS_CMFS,
                                 SpectralDistribution, SpectralShape,
-                                sd_ones, spectral_to_XYZ_integration)
+                                sd_ones, sd_to_XYZ_integration)
 from colour.utilities import to_domain_1, from_range_100
 
 __author__ = 'Colour Developers'
@@ -38,10 +38,10 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['XYZ_to_spectral_Meng2015']
+__all__ = ['XYZ_to_sd_Meng2015']
 
 
-def XYZ_to_spectral_Meng2015(
+def XYZ_to_sd_Meng2015(
         XYZ,
         cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
         interval=5,
@@ -83,7 +83,7 @@ def XYZ_to_spectral_Meng2015(
     -   The definition used to convert spectrum to *CIE XYZ* tristimulus
         values is :func:`colour.colorimetry.spectral_to_XYZ_integration`
         definition because it processes any measurement interval opposed to
-        :func:`colour.colorimetry.spectral_to_XYZ_ASTME30815` definition that
+        :func:`colour.colorimetry.sd_to_XYZ_ASTME30815` definition that
         handles only measurement interval of 1, 5, 10 or 20nm.
 
     References
@@ -94,7 +94,7 @@ def XYZ_to_spectral_Meng2015(
     --------
     >>> from colour.utilities import numpy_print_options
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
-    >>> sd = XYZ_to_spectral_Meng2015(XYZ, interval=10)
+    >>> sd = XYZ_to_sd_Meng2015(XYZ, interval=10)
     >>> with numpy_print_options(suppress=True):
     ...     sd  # doctest: +ELLIPSIS
     SpectralDistribution([[ 360.        ,    0.0780368...],
@@ -149,7 +149,7 @@ def XYZ_to_spectral_Meng2015(
                          interpolator_args={},
                          extrapolator=Extrapolator,
                          extrapolator_args={...})
-    >>> spectral_to_XYZ_integration(sd) / 100  # doctest: +ELLIPSIS
+    >>> sd_to_XYZ_integration(sd) / 100  # doctest: +ELLIPSIS
     array([ 0.2065817...,  0.1219754...,  0.0514131...])
     """
 
@@ -172,7 +172,7 @@ def XYZ_to_spectral_Meng2015(
         """
 
         sd[:] = a
-        return spectral_to_XYZ_integration(
+        return sd_to_XYZ_integration(
             sd, cmfs=cmfs, illuminant=illuminant) - XYZ
 
     wavelengths = sd.wavelengths

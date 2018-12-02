@@ -29,7 +29,7 @@ from collections import namedtuple
 from colour.algebra import euclidean_distance, spow
 from colour.colorimetry import (
     ASTME30815_PRACTISE_SHAPE, sd_CIE_illuminant_D_series,
-    STANDARD_OBSERVERS_CMFS, sd_blackbody, spectral_to_XYZ)
+    STANDARD_OBSERVERS_CMFS, sd_blackbody, sd_to_XYZ)
 from colour.quality.dataset.tcs import TCS_INDEXES_TO_NAMES, TCS_SDS
 from colour.models import UCS_to_uv, XYZ_to_UCS, XYZ_to_xyY
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Robertson1968
@@ -124,7 +124,7 @@ def colour_rendering_index(sd_test, additional_data=False):
     tcs_sds = {sd.name: sd.copy().align(shape) for sd in TCS_SDS.values()}
 
     with domain_range_scale('1'):
-        XYZ = spectral_to_XYZ(sd_test, cmfs)
+        XYZ = sd_to_XYZ(sd_test, cmfs)
 
     uv = UCS_to_uv(XYZ_to_UCS(XYZ))
     CCT, _D_uv = uv_to_CCT_Robertson1968(uv)
@@ -183,18 +183,18 @@ def tcs_colorimetry_data(sd_t,
         *Test colour samples* colorimetry data.
     """
 
-    XYZ_t = spectral_to_XYZ(sd_t, cmfs)
+    XYZ_t = sd_to_XYZ(sd_t, cmfs)
     uv_t = UCS_to_uv(XYZ_to_UCS(XYZ_t))
     u_t, v_t = uv_t[0], uv_t[1]
 
-    XYZ_r = spectral_to_XYZ(sd_r, cmfs)
+    XYZ_r = sd_to_XYZ(sd_r, cmfs)
     uv_r = UCS_to_uv(XYZ_to_UCS(XYZ_r))
     u_r, v_r = uv_r[0], uv_r[1]
 
     tcs_data = []
     for _key, value in sorted(TCS_INDEXES_TO_NAMES.items()):
         sd_tcs = sds_tcs[value]
-        XYZ_tcs = spectral_to_XYZ(sd_tcs, cmfs, sd_t)
+        XYZ_tcs = sd_to_XYZ(sd_tcs, cmfs, sd_t)
         xyY_tcs = XYZ_to_xyY(XYZ_tcs)
         uv_tcs = UCS_to_uv(XYZ_to_UCS(XYZ_tcs))
         u_tcs, v_tcs = uv_tcs[0], uv_tcs[1]

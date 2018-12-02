@@ -28,7 +28,7 @@ import numpy as np
 from colour.algebra import NearestNeighbourInterpolator
 from colour.colorimetry import (
     DEFAULT_SPECTRAL_SHAPE, STANDARD_OBSERVERS_CMFS,
-    multi_spectral_to_XYZ_integration, SpectralShape, sd_ones)
+    multi_sd_to_XYZ_integration, SpectralShape, sd_ones)
 from colour.volume import is_within_mesh_volume
 
 __author__ = 'Colour Developers'
@@ -206,8 +206,8 @@ def XYZ_outer_surface(
             values.append(
                 NearestNeighbourInterpolator(wavelengths, wave)(domain))
 
-        XYZ = multi_spectral_to_XYZ_integration(values, DEFAULT_SPECTRAL_SHAPE,
-                                                cmfs, illuminant)
+        XYZ = multi_sd_to_XYZ_integration(values, DEFAULT_SPECTRAL_SHAPE,
+                                          cmfs, illuminant)
 
         XYZ = XYZ / np.max(XYZ[-1, 1])
 

@@ -66,9 +66,9 @@ Conversion to Tristimulus Values
 .. autosummary::
     :toctree: generated/
 
-    spectral_to_XYZ
+    sd_to_XYZ
     SPECTRAL_TO_XYZ_METHODS
-    multi_spectral_to_XYZ
+    multi_sd_to_XYZ
     MULTI_SPECTRAL_TO_XYZ_METHODS
     wavelength_to_XYZ
 
@@ -82,7 +82,7 @@ ASTM E308-15
 .. autosummary::
     :toctree: generated/
 
-    spectral_to_XYZ_ASTME30815
+    sd_to_XYZ_ASTME30815
 
 **Ancillary Objects**
 
@@ -93,7 +93,7 @@ ASTM E308-15
 .. autosummary::
     :toctree: generated/
 
-    spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815
+    sd_to_XYZ_tristimulus_weighting_factors_ASTME30815
     adjust_tristimulus_weighting_factors_ASTME30815
     lagrange_coefficients_ASTME202211
     tristimulus_weighting_factors_ASTME202211
@@ -108,8 +108,8 @@ Integration
 .. autosummary::
     :toctree: generated/
 
-    spectral_to_XYZ_integration
-    multi_spectral_to_XYZ_integration
+    sd_to_XYZ_integration
+    multi_sd_to_XYZ_integration
 
 Spectral Bandpass Dependence Correction
 ---------------------------------------

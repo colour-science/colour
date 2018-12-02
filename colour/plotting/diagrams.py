@@ -21,7 +21,7 @@ from matplotlib.collections import LineCollection
 from matplotlib.patches import Polygon
 
 from colour.algebra import normalise_vector
-from colour.colorimetry import spectral_to_XYZ
+from colour.colorimetry import sd_to_XYZ
 from colour.models import (Luv_to_uv, Luv_uv_to_xy, UCS_to_uv, UCS_uv_to_xy,
                            XYZ_to_Luv, XYZ_to_UCS, XYZ_to_xy, xy_to_XYZ)
 from colour.plotting import (COLOUR_STYLE_CONSTANTS, COLOUR_ARROW_STYLE,
@@ -681,7 +681,7 @@ def plot_sds_in_chromaticity_diagram(
 
     for i, sd in enumerate(sds):
         with domain_range_scale('1'):
-            XYZ = spectral_to_XYZ(sd)
+            XYZ = sd_to_XYZ(sd)
 
         ij = XYZ_to_ij(XYZ)
 

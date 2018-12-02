@@ -38,7 +38,7 @@ __status__ = 'Production'
 __all__ = [
     'SMITS1999_PRIMARIES', 'SMITS1999_WHITEPOINT',
     'SMITS1999_XYZ_TO_RGB_MATRIX', 'XYZ_to_RGB_Smits1999',
-    'RGB_to_spectral_Smits1999'
+    'RGB_to_sd_Smits1999'
 ]
 
 SMITS1999_PRIMARIES = sRGB_COLOURSPACE.primaries
@@ -97,7 +97,7 @@ def XYZ_to_RGB_Smits1999(XYZ):
         encoding_cctf=None)
 
 
-def RGB_to_spectral_Smits1999(RGB):
+def RGB_to_sd_Smits1999(RGB):
     """
     Recovers the spectral distribution of given *RGB* colourspace array using
     *Smits (1999)* method.
@@ -130,7 +130,7 @@ def RGB_to_spectral_Smits1999(RGB):
     >>> from colour.utilities import numpy_print_options
     >>> RGB = np.array([0.40639599, 0.02752894, 0.03982193])
     >>> with numpy_print_options(suppress=True):
-    ...     RGB_to_spectral_Smits1999(RGB)  # doctest: +ELLIPSIS
+    ...     RGB_to_sd_Smits1999(RGB)  # doctest: +ELLIPSIS
     SpectralDistribution([[ 380.        ,    0.0769192...],
                           [ 417.7778    ,    0.0587004...],
                           [ 455.5556    ,    0.0394319...],

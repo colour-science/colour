@@ -43,7 +43,7 @@ Notes
     correlated colour temperature and
     :func:`colour.temperature.CCT_to_xy_CIE_D`
     :func:`colour.sd_CIE_illuminant_D_series` and / or
-    :func:`colour.spectral_to_XYZ` definitions.
+    :func:`colour.sd_to_XYZ` definitions.
 
 References
 ----------
@@ -212,7 +212,7 @@ computed as follows::
     sd = colour.sd_CIE_illuminant_D_series(xy)
     sd.interpolator = colour.LinearInterpolator
     colour.XYZ_to_xy(
-        colour.spectral_to_XYZ(
+        colour.sd_to_XYZ(
             sd, colour.CMFS['CIE 1964 10 Degree Standard Observer']) / 100.0)
 
 References

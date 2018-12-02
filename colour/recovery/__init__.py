@@ -17,31 +17,31 @@ from colour.utilities import (CaseInsensitiveMapping, as_float_array,
 
 from .dataset import *  # noqa
 from . import dataset
-from .meng2015 import XYZ_to_spectral_Meng2015
-from .smits1999 import RGB_to_spectral_Smits1999
+from .meng2015 import XYZ_to_sd_Meng2015
+from .smits1999 import RGB_to_sd_Smits1999
 
 __all__ = []
 __all__ += dataset.__all__
-__all__ += ['XYZ_to_spectral_Meng2015']
-__all__ += ['RGB_to_spectral_Smits1999']
+__all__ += ['XYZ_to_sd_Meng2015']
+__all__ += ['RGB_to_sd_Smits1999']
 
-REFLECTANCE_RECOVERY_METHODS = CaseInsensitiveMapping({
-    'Meng 2015': XYZ_to_spectral_Meng2015,
-    'Smits 1999': RGB_to_spectral_Smits1999,
+XYZ_TO_SD_METHODS = CaseInsensitiveMapping({
+    'Meng 2015': XYZ_to_sd_Meng2015,
+    'Smits 1999': RGB_to_sd_Smits1999,
 })
-REFLECTANCE_RECOVERY_METHODS.__doc__ = """
-Supported reflectance recovery methods.
+XYZ_TO_SD_METHODS.__doc__ = """
+Supported spectral distribution recovery methods.
 
 References
 ----------
 :cite:`Meng2015c`, :cite:`Smits1999a`
 
-REFLECTANCE_RECOVERY_METHODS : CaseInsensitiveMapping
+XYZ_TO_SD_METHODS : CaseInsensitiveMapping
     **{'Meng 2015', 'Smits 1999'}**
 """
 
 
-def XYZ_to_spectral(XYZ, method='Meng 2015', **kwargs):
+def XYZ_to_sd(XYZ, method='Meng 2015', **kwargs):
     """
     Recovers the spectral distribution of given *CIE XYZ* tristimulus
     values using given method.
@@ -58,18 +58,18 @@ def XYZ_to_spectral(XYZ, method='Meng 2015', **kwargs):
     Other Parameters
     ----------------
     cmfs : XYZ_ColourMatchingFunctions
-        {:func:`colour.recovery.XYZ_to_spectral_Meng2015`},
+        {:func:`colour.recovery.XYZ_to_sd_Meng2015`},
         Standard observer colour matching functions.
     interval : numeric, optional
-        {:func:`colour.recovery.XYZ_to_spectral_Meng2015`},
+        {:func:`colour.recovery.XYZ_to_sd_Meng2015`},
         Wavelength :math:`\\lambda_{i}` range interval in nm. The smaller
         ``interval`` is, the longer the computations will be.
     tolerance : numeric, optional
-        {:func:`colour.recovery.XYZ_to_spectral_Meng2015`},
+        {:func:`colour.recovery.XYZ_to_sd_Meng2015`},
         Tolerance for termination. The lower ``tolerance`` is, the smoother
         the recovered spectral distribution will be.
     maximum_iterations : int, optional
-        {:func:`colour.recovery.XYZ_to_spectral_Meng2015`},
+        {:func:`colour.recovery.XYZ_to_sd_Meng2015`},
         Maximum number of iterations to perform.
 
     Returns
@@ -101,9 +101,9 @@ def XYZ_to_spectral(XYZ, method='Meng 2015', **kwargs):
 
     >>> import numpy as np
     >>> from colour.utilities import numpy_print_options
-    >>> from colour.colorimetry import spectral_to_XYZ_integration
+    >>> from colour.colorimetry import sd_to_XYZ_integration
     >>> XYZ = np.array([0.21781186, 0.12541048, 0.04697113])
-    >>> sd = XYZ_to_spectral(XYZ, interval=10)
+    >>> sd = XYZ_to_sd(XYZ, interval=10)
     >>> with numpy_print_options(suppress=True):
     ...     sd  # doctest: +ELLIPSIS
     SpectralDistribution([[ 360.        ,    0.0741540...],
@@ -158,12 +158,12 @@ def XYZ_to_spectral(XYZ, method='Meng 2015', **kwargs):
                          interpolator_args={},
                          extrapolator=Extrapolator,
                          extrapolator_args={...})
-    >>> spectral_to_XYZ_integration(sd) / 100  # doctest: +ELLIPSIS
+    >>> sd_to_XYZ_integration(sd) / 100  # doctest: +ELLIPSIS
     array([ 0.2178552...,  0.1254142...,  0.0470105...])
 
     *Smits (1999)* reflectance recovery:
 
-    >>> sd = XYZ_to_spectral(XYZ, method='Smits 1999')
+    >>> sd = XYZ_to_sd(XYZ, method='Smits 1999')
     >>> with numpy_print_options(suppress=True):
     ...     sd  # doctest: +ELLIPSIS
     SpectralDistribution([[ 380.        ,    0.07691923],
@@ -180,15 +180,15 @@ def XYZ_to_spectral(XYZ, method='Meng 2015', **kwargs):
                          interpolator_args={},
                          extrapolator=Extrapolator,
                          extrapolator_args={...})
-    >>> spectral_to_XYZ_integration(sd) / 100  # doctest: +ELLIPSIS
+    >>> sd_to_XYZ_integration(sd) / 100  # doctest: +ELLIPSIS
     array([ 0.2004540...,  0.1105632...,  0.0420963...])
     """
 
     a = as_float_array(XYZ)
 
-    function = REFLECTANCE_RECOVERY_METHODS[method]
+    function = XYZ_TO_SD_METHODS[method]
 
-    if function is RGB_to_spectral_Smits1999:
+    if function is RGB_to_sd_Smits1999:
         from colour.recovery.smits1999 import XYZ_to_RGB_Smits1999
 
         a = XYZ_to_RGB_Smits1999(XYZ)
@@ -196,4 +196,4 @@ def XYZ_to_spectral(XYZ, method='Meng 2015', **kwargs):
     return function(a, **filter_kwargs(function, **kwargs))
 
 
-__all__ += ['REFLECTANCE_RECOVERY_METHODS', 'XYZ_to_spectral']
+__all__ += ['XYZ_TO_SD_METHODS', 'XYZ_to_sd']

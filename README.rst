@@ -130,7 +130,7 @@ Spectral Computations
 
 .. code-block:: python
 
-    >>> colour.spectral_to_XYZ(colour.LIGHT_SOURCES_SDS['Neodimium Incandescent'])
+    >>> colour.sd_to_XYZ(colour.LIGHT_SOURCES_SDS['Neodimium Incandescent'])
     array([ 36.94726204,  32.62076174,  13.0143849 ])
     >>> sorted(colour.SPECTRAL_TO_XYZ_METHODS.keys())
     [u'ASTM E308-15', u'Integration', u'astm2015']
@@ -154,7 +154,7 @@ Multi-Spectral Computations
     ...      [0.06321812, 0.41898224, 0.15190357, 0.24591440, 0.55301750, 0.00657664],
     ...      [0.00305180, 0.11288624, 0.11357290, 0.12924391, 0.00195315, 0.21771573]],
     ... ])
-    >>> colour.multi_spectral_to_XYZ(msa, colour.SpectralShape(400, 700, 60),
+    >>> colour.multi_sd_to_XYZ(msa, colour.SpectralShape(400, 700, 60),
     ...                              cmfs, illuminant))
     [[[  9.73192501   5.02105851   3.22790699]
       [ 16.08032168  24.47303359  10.28681006]
@@ -793,7 +793,7 @@ Reflectance Recovery
 
 .. code-block:: python
 
-    >>> colour.XYZ_to_spectral([0.20654008, 0.12197225, 0.05136952])
+    >>> colour.XYZ_to_sd([0.20654008, 0.12197225, 0.05136952])
     SpectralDistribution([[  3.60000000e+02,   7.73462151e-02],
                                [  3.65000000e+02,   7.73632975e-02],
                                [  3.70000000e+02,   7.74299705e-02],

@@ -36,7 +36,7 @@ from colour.algebra import LinearInterpolator
 from colour.colorimetry import (
     ILLUMINANTS, ILLUMINANTS_SDS, LIGHTNESS_METHODS, LUMINANCE_METHODS,
     MultiSpectralDistribution, SpectralShape, sd_blackbody, sd_ones,
-    spectral_to_XYZ, wavelength_to_XYZ)
+    sd_to_XYZ, wavelength_to_XYZ)
 from colour.plotting import (
     ColourSwatch, COLOUR_STYLE_CONSTANTS, XYZ_to_plotting_colourspace, artist,
     filter_passthrough, filter_cmfs, filter_illuminants, override_style,
@@ -266,7 +266,7 @@ def plot_multi_sds(sds,
 
         if use_sds_colours:
             with domain_range_scale('1'):
-                XYZ = spectral_to_XYZ(sd, cmfs, illuminant)
+                XYZ = sd_to_XYZ(sd, cmfs, illuminant)
 
             if normalise_sds_colours:
                 XYZ = normalise_maximum(XYZ, clip=False)
@@ -818,7 +818,7 @@ def plot_blackbody_spectral_radiance(
     axes = figure.add_subplot(212)
 
     with domain_range_scale('1'):
-        XYZ = spectral_to_XYZ(sd, cmfs)
+        XYZ = sd_to_XYZ(sd, cmfs)
 
     RGB = normalise_maximum(XYZ_to_plotting_colourspace(XYZ))
 
@@ -895,7 +895,7 @@ def plot_blackbody_colours(
             sd = sd_blackbody(temperature, cmfs.shape)
 
             with domain_range_scale('1'):
-                XYZ = spectral_to_XYZ(sd, cmfs)
+                XYZ = sd_to_XYZ(sd, cmfs)
 
             RGB = normalise_maximum(XYZ_to_plotting_colourspace(XYZ))
 

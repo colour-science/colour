@@ -14,7 +14,7 @@ message_box(('Computing the spectral distribution of a blackbody at '
 cmfs = colour.STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
 blackbody_sd = colour.sd_blackbody(5500, cmfs.shape)
 print(blackbody_sd)
-XYZ = colour.spectral_to_XYZ(blackbody_sd, cmfs)
+XYZ = colour.sd_to_XYZ(blackbody_sd, cmfs)
 print(XYZ)
 
 print('\n')

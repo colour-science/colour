@@ -10,8 +10,8 @@ import numpy as np
 import unittest
 from six.moves import zip
 
-from colour.colorimetry import spectral_to_XYZ_integration
-from colour.recovery import XYZ_to_spectral
+from colour.colorimetry import sd_to_XYZ_integration
+from colour.recovery import XYZ_to_sd
 from colour.utilities import domain_range_scale
 
 __author__ = 'Colour Developers'
@@ -21,25 +21,25 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestXYZ_to_spectral']
+__all__ = ['TestXYZ_to_sd']
 
 
-class TestXYZ_to_spectral(unittest.TestCase):
+class TestXYZ_to_sd(unittest.TestCase):
     """
-    Defines :func:`colour.recovery.XYZ_to_spectral` definition unit tests
+    Defines :func:`colour.recovery.XYZ_to_sd` definition unit tests
     methods.
     """
 
-    def test_domain_range_scale_XYZ_to_spectral(self):
+    def test_domain_range_scale_XYZ_to_sd(self):
         """
-        Tests :func:`colour.recovery.XYZ_to_spectral` definition domain
+        Tests :func:`colour.recovery.XYZ_to_sd` definition domain
         and range scale support.
         """
 
         XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
         m = ('Smits 1999', 'Meng 2015')
         v = [
-            spectral_to_XYZ_integration(XYZ_to_spectral(XYZ, method))
+            sd_to_XYZ_integration(XYZ_to_sd(XYZ, method))
             for method in m
         ]
 
@@ -48,8 +48,8 @@ class TestXYZ_to_spectral(unittest.TestCase):
             for scale, factor_a, factor_b in d_r:
                 with domain_range_scale(scale):
                     np.testing.assert_almost_equal(
-                        spectral_to_XYZ_integration(
-                            XYZ_to_spectral(XYZ * factor_a, method=method)),
+                        sd_to_XYZ_integration(
+                            XYZ_to_sd(XYZ * factor_a, method=method)),
                         value * factor_b,
                         decimal=7)
 

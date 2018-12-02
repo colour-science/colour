@@ -604,7 +604,7 @@ def generate_documentation_plots(output_directory):
         'CIE 1931 2 Degree Standard Observer']
     illuminant = colour.ILLUMINANTS_SDS['D65']
     with domain_range_scale('1'):
-        XYZ = colour.spectral_to_XYZ(sd, cmfs, illuminant)
+        XYZ = colour.sd_to_XYZ(sd, cmfs, illuminant)
         RGB = colour.XYZ_to_sRGB(XYZ)
     plot_single_colour_swatch(
         ColourSwatch('Sample', RGB),
@@ -616,7 +616,7 @@ def generate_documentation_plots(output_directory):
     patch_name = 'neutral 5 (.70 D)'
     patch_sd = colour.COLOURCHECKERS_SDS['ColorChecker N Ohta'][patch_name]
     with domain_range_scale('1'):
-        XYZ = colour.spectral_to_XYZ(patch_sd, cmfs, illuminant)
+        XYZ = colour.sd_to_XYZ(patch_sd, cmfs, illuminant)
         RGB = colour.XYZ_to_sRGB(XYZ)
     plot_single_colour_swatch(
         ColourSwatch(patch_name.title(), RGB),

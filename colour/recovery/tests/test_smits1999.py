@@ -8,8 +8,8 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.colorimetry import spectral_to_XYZ_integration
-from colour.recovery import RGB_to_spectral_Smits1999
+from colour.colorimetry import sd_to_XYZ_integration
+from colour.recovery import RGB_to_sd_Smits1999
 from colour.recovery.smits1999 import XYZ_to_RGB_Smits1999
 from colour.utilities import domain_range_scale
 
@@ -20,23 +20,23 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestRGB_to_spectral_Smits1999']
+__all__ = ['TestRGB_to_sd_Smits1999']
 
 
-class TestRGB_to_spectral_Smits1999(unittest.TestCase):
+class TestRGB_to_sd_Smits1999(unittest.TestCase):
     """
-    Defines :func:`colour.recovery.smits1999.RGB_to_spectral_Smits1999`
+    Defines :func:`colour.recovery.smits1999.RGB_to_sd_Smits1999`
     definition unit tests methods.
     """
 
-    def test_RGB_to_spectral_Smits1999(self):
+    def test_RGB_to_sd_Smits1999(self):
         """
-        Tests :func:`colour.recovery.smits1999.RGB_to_spectral_Smits1999`
+        Tests :func:`colour.recovery.smits1999.RGB_to_sd_Smits1999`
         definition.
         """
 
         np.testing.assert_almost_equal(
-            RGB_to_spectral_Smits1999(
+            RGB_to_sd_Smits1999(
                 XYZ_to_RGB_Smits1999(
                     np.array([0.21781186, 0.12541048, 0.04697113]))).values,
             np.array([
@@ -46,7 +46,7 @@ class TestRGB_to_spectral_Smits1999(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            RGB_to_spectral_Smits1999(
+            RGB_to_sd_Smits1999(
                 XYZ_to_RGB_Smits1999(
                     np.array([0.15434689, 0.22960951, 0.09620221]))).values,
             np.array([
@@ -56,7 +56,7 @@ class TestRGB_to_spectral_Smits1999(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            RGB_to_spectral_Smits1999(
+            RGB_to_sd_Smits1999(
                 XYZ_to_RGB_Smits1999(
                     np.array([0.07683480, 0.06006092, 0.25833845]))).values,
             np.array([
@@ -65,22 +65,22 @@ class TestRGB_to_spectral_Smits1999(unittest.TestCase):
             ]),
             decimal=7)
 
-    def test_domain_range_scale_RGB_to_spectral_Smits1999(self):
+    def test_domain_range_scale_RGB_to_sd_Smits1999(self):
         """
-        Tests :func:`colour.recovery.smits1999.RGB_to_spectral_Smits1999`
+        Tests :func:`colour.recovery.smits1999.RGB_to_sd_Smits1999`
         definition domain and range scale support.
         """
 
         RGB_i = XYZ_to_RGB_Smits1999(
             np.array([0.21781186, 0.12541048, 0.04697113]))
-        XYZ_o = spectral_to_XYZ_integration(RGB_to_spectral_Smits1999(RGB_i))
+        XYZ_o = sd_to_XYZ_integration(RGB_to_sd_Smits1999(RGB_i))
 
         d_r = (('reference', 1, 1), (1, 1, 0.01), (100, 100, 1))
         for scale, factor_a, factor_b in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    spectral_to_XYZ_integration(
-                        RGB_to_spectral_Smits1999(RGB_i * factor_a)),
+                    sd_to_XYZ_integration(
+                        RGB_to_sd_Smits1999(RGB_i * factor_a)),
                     XYZ_o * factor_b,
                     decimal=7)
 
