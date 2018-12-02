@@ -3,8 +3,8 @@
 IES TM-27-14 Data Input / Output
 ================================
 
-Defines the :class:`colour.IES_TM2714_Sd` class handling *IES TM-27-14*
-spectral data XML files.
+Defines the :class:`colour.SpectralDistribution_IESTM2714` class handling
+*IES TM-27-14* spectral data XML files.
 
 References
 ----------
@@ -34,7 +34,8 @@ __status__ = 'Production'
 
 __all__ = [
     'IES_TM2714_VERSION', 'IES_TM2714_NAMESPACE',
-    'IES_TM2714_ElementSpecification', 'IES_TM2714_Header', 'IES_TM2714_Sd'
+    'IES_TM2714_ElementSpecification', 'IES_TM2714_Header',
+    'SpectralDistribution_IESTM2714'
 ]
 
 IES_TM2714_VERSION = '1.0'
@@ -556,7 +557,7 @@ class IES_TM2714_Header(object):
         self._comments = value
 
 
-class IES_TM2714_Sd(SpectralDistribution):
+class SpectralDistribution_IESTM2714(SpectralDistribution):
     """
     Defines a *IES TM-27-14* spectral distribution.
 
@@ -637,7 +638,8 @@ class IES_TM2714_Sd(SpectralDistribution):
     --------
     >>> from os.path import dirname, join
     >>> directory = join(dirname(__file__), 'tests', 'resources')
-    >>> sd = IES_TM2714_Sd(join(directory, 'Fluorescent.spdx'))
+    >>> sd = SpectralDistribution_IESTM2714(
+    ...     join(directory, 'Fluorescent.spdx'))
     >>> sd.read()
     True
     >>> sd.header.manufacturer
@@ -656,7 +658,8 @@ class IES_TM2714_Sd(SpectralDistribution):
                  bandwidth_FWHM=None,
                  bandwidth_corrected=None):
 
-        super(IES_TM2714_Sd, self).__init__(data=None, domain=None)
+        super(SpectralDistribution_IESTM2714, self).__init__(
+            data=None, domain=None)
 
         self._mapping = Structure(
             **{
@@ -945,7 +948,8 @@ class IES_TM2714_Sd(SpectralDistribution):
         --------
         >>> from os.path import dirname, join
         >>> directory = join(dirname(__file__), 'tests', 'resources')
-        >>> sd = IES_TM2714_Sd(join(directory, 'Fluorescent.spdx'))
+        >>> sd = SpectralDistribution_IESTM2714(
+        ...     join(directory, 'Fluorescent.spdx'))
         >>> sd.read()
         True
         >>> sd.header.description
@@ -1006,7 +1010,8 @@ class IES_TM2714_Sd(SpectralDistribution):
         >>> from shutil import rmtree
         >>> from tempfile import mkdtemp
         >>> directory = join(dirname(__file__), 'tests', 'resources')
-        >>> sd = IES_TM2714_Sd(join(directory, 'Fluorescent.spdx'))
+        >>> sd = SpectralDistribution_IESTM2714(
+        ...     join(directory, 'Fluorescent.spdx'))
         >>> sd.read()
         True
         >>> temporary_directory = mkdtemp()

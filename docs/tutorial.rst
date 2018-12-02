@@ -179,7 +179,7 @@ The various sub-packages also expose their public API:
 
 
     Io
-    ['IES_TM2714_Sd',
+    ['SpectralDistribution_IESTM2714',
      'read_image',
      'write_image',
      'read_spectral_data_from_csv_file',

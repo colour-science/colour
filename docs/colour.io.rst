@@ -88,7 +88,7 @@ IES TM-27-14 Data
 .. autosummary::
     :toctree: generated/
 
-    IES_TM2714_Sd
+    SpectralDistribution_IESTM2714
 
 X-Rite Data
 -----------

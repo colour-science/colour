@@ -14,7 +14,7 @@ RESOURCES_DIRECTORY = os.path.join(os.path.dirname(__file__), 'resources')
 message_box('"IES TM-27-14" Spectral Data "XML" File IO')
 
 message_box('Reading spectral data from "IES TM-27-14" "XML" file.')
-sd = colour.IES_TM2714_Sd(
+sd = colour.SpectralDistribution_IESTM2714(
     os.path.join(RESOURCES_DIRECTORY, 'TM27 Sample Spectral Data.spdx'))
 sd.read()
 print(sd)
