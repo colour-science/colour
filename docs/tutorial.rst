@@ -145,10 +145,10 @@ The various sub-packages also expose their public API:
 
     Colorimetry
     ['SpectralShape',
-     'SpectralPowerDistribution',
-     'MultiSpectralPowerDistribution',
+     'SpectralDistribution',
+     'MultiSpectralDistribution',
      'DEFAULT_SPECTRAL_SHAPE',
-     'spd_constant',
+     'sd_constant',
      '...']
 
 
@@ -179,11 +179,11 @@ The various sub-packages also expose their public API:
 
 
     Io
-    ['IES_TM2714_Spd',
+    ['IES_TM2714_Sd',
      'read_image',
      'write_image',
      'read_spectral_data_from_csv_file',
-     'read_spds_from_csv_file',
+     'read_sds_from_csv_file',
      '...']
 
 
@@ -204,7 +204,7 @@ The various sub-packages also expose their public API:
     ['scattering_cross_section',
      'rayleigh_optical_depth',
      'rayleigh_scattering',
-     'rayleigh_scattering_spd',
+     'rayleigh_scattering_sd',
      '...']
 
 
@@ -218,8 +218,8 @@ The various sub-packages also expose their public API:
 
 
     Quality
-    ['TCS_SPDS',
-     'VS_SPDS',
+    ['TCS_SDS',
+     'VS_SDS',
      'CRI_Specification',
      'colour_rendering_index',
      'CQS_Specification',
@@ -227,7 +227,7 @@ The various sub-packages also expose their public API:
 
 
     Recovery
-    ['SMITS_1999_SPDS',
+    ['SMITS_1999_SDS',
      'XYZ_to_spectral_Meng2015',
      'RGB_to_spectral_Smits1999',
      'REFLECTANCE_RECOVERY_METHODS',
@@ -322,13 +322,13 @@ for spectral related computations and many others:
 .. code-block:: text
 
     ['SpectralShape',
-     'SpectralPowerDistribution',
-     'MultiSpectralPowerDistribution',
+     'SpectralDistribution',
+     'MultiSpectralDistribution',
      'DEFAULT_SPECTRAL_SHAPE',
-     'spd_constant',
-     'spd_zeros',
-     'spd_ones',
-     'spd_blackbody',
+     'sd_constant',
+     'sd_zeros',
+     'sd_ones',
+     'sd_blackbody',
      'blackbody_spectral_radiance',
      'planck_law',
      'LMS_ConeFundamentals',
@@ -339,20 +339,20 @@ for spectral related computations and many others:
      'RGB_CMFS',
      'STANDARD_OBSERVERS_CMFS',
      'ILLUMINANTS',
-     'D_ILLUMINANTS_S_SPDS',
+     'D_ILLUMINANTS_S_SDS',
      'HUNTERLAB_ILLUMINANTS',
-     'ILLUMINANTS_SPDS',
+     'ILLUMINANTS_SDS',
      'LIGHT_SOURCES',
-     'LIGHT_SOURCES_SPDS',
+     'LIGHT_SOURCES_SDS',
      'LEFS',
      'PHOTOPIC_LEFS',
      'SCOTOPIC_LEFS',
      'BANDPASS_CORRECTION_METHODS',
      'bandpass_correction',
      'bandpass_correction_Stearns1988',
-     'spd_CIE_illuminant_D_series',
-     'spd_CIE_standard_illuminant_A',
-     'mesopic_luminous_efficiency_function',
+     'sd_CIE_illuminant_D_series',
+     'sd_CIE_standard_illuminant_A',
+     'sd_mesopic_luminous_efficiency_function',
      'mesopic_weighting_function',
      'LIGHTNESS_METHODS',
      'lightness',
@@ -423,28 +423,28 @@ following data:
      'RGB_CMFS',
      'STANDARD_OBSERVERS_CMFS',
      'ILLUMINANTS',
-     'D_ILLUMINANTS_S_SPDS',
+     'D_ILLUMINANTS_S_SDS',
      'HUNTERLAB_ILLUMINANTS',
-     'ILLUMINANTS_SPDS',
+     'ILLUMINANTS_SDS',
      'LIGHT_SOURCES',
-     'LIGHT_SOURCES_SPDS',
+     'LIGHT_SOURCES_SDS',
      'LEFS',
      'PHOTOPIC_LEFS',
      'SCOTOPIC_LEFS']
 
 
-From Spectral Power Distribution
+From Spectral Distribution
 --------------------------------
 
-Whether it be a sample spectral power distribution, colour matching
+Whether it be a sample spectral distribution, colour matching
 functions or illuminants, spectral data is manipulated using an object
-built with the ``colour.SpectralPowerDistribution`` class or based on
+built with the ``colour.SpectralDistribution`` class or based on
 it:
 
 .. code:: python
 
-    # Defining a sample spectral power distribution data.
-    sample_spd_data = {
+    # Defining a sample spectral distribution data.
+    sample_sd_data = {
         380: 0.048,
         385: 0.051,
         390: 0.055,
@@ -527,13 +527,13 @@ it:
         775: 0.432,
         780: 0.421}
 
-    spd = colour.SpectralPowerDistribution(sample_spd_data, name='Sample')
-    print(repr(spd))
+    sd = colour.SpectralDistribution(sample_sd_data, name='Sample')
+    print(repr(sd))
 
 
 .. code-block:: text
 
-    SpectralPowerDistribution([[  3.80000000e+02,   4.80000000e-02],
+    SpectralDistribution([[  3.80000000e+02,   4.80000000e-02],
                                [  3.85000000e+02,   5.10000000e-02],
                                [  3.90000000e+02,   5.50000000e-02],
                                [  3.95000000e+02,   6.00000000e-02],
@@ -620,26 +620,26 @@ it:
                               extrapolator_args={u'right': None, u'method': u'Constant', u'left': None})
 
 
-The sample spectral power distribution can be easily plotted against the
+The sample spectral distribution can be easily plotted against the
 visible spectrum:
 
 .. code:: python
 
-    # Plotting the sample spectral power distribution.
-    plot_single_spd(spd)
+    # Plotting the sample spectral distribution.
+    plot_single_sd(sd)
 
 
 
-.. image:: _static/Tutorial_Sample_SPD.png
+.. image:: _static/Tutorial_Sample_SD.png
 
 
-With the sample spectral power distribution defined, we can retrieve its
+With the sample spectral distribution defined, we can retrieve its
 shape:
 
 .. code:: python
 
-    # Displaying the sample spectral power distribution shape.
-    print(spd.shape)
+    # Displaying the sample spectral distribution shape.
+    print(sd.shape)
 
 
 .. code-block:: text
@@ -651,7 +651,7 @@ The shape returned is an instance of ``colour.SpectralShape`` class:
 
 .. code:: python
 
-    repr(spd.shape)
+    repr(sd.shape)
 
 
 
@@ -704,50 +704,50 @@ spectral dimensions and is instantiated as follows:
 
 
 `Colour <https://github.com/colour-science/Colour/>`__ defines three
-convenient objects to create constant spectral power distributions:
+convenient objects to create constant spectral distributions:
 
--  ``colour.spd_constant``
--  ``colour.spd_zeros``
--  ``colour.spd_ones``
+-  ``colour.sd_constant``
+-  ``colour.sd_zeros``
+-  ``colour.sd_ones``
 
 .. code:: python
 
-    # Defining a constant spectral power distribution.
-    spd_constant = colour.spd_constant(100)
-    print('"Constant Spectral Power Distribution"')
-    print(spd_constant.shape)
-    print(spd_constant[400])
+    # Defining a constant spectral distribution.
+    sd_constant = colour.sd_constant(100)
+    print('"Constant Spectral Distribution"')
+    print(sd_constant.shape)
+    print(sd_constant[400])
 
-    # Defining a zeros filled spectral power distribution.
-    print('\n"Zeros Filled Spectral Power Distribution"')
-    spd_zeros = colour.spd_zeros()
-    print(spd_zeros.shape)
-    print(spd_zeros[400])
+    # Defining a zeros filled spectral distribution.
+    print('\n"Zeros Filled Spectral Distribution"')
+    sd_zeros = colour.sd_zeros()
+    print(sd_zeros.shape)
+    print(sd_zeros[400])
 
-    # Defining a ones filled spectral power distribution.
-    print('\n"Ones Filled Spectral Power Distribution"')
-    spd_ones = colour.spd_ones()
-    print(spd_ones.shape)
-    print(spd_ones[400])
+    # Defining a ones filled spectral distribution.
+    print('\n"Ones Filled Spectral Distribution"')
+    sd_ones = colour.sd_ones()
+    print(sd_ones.shape)
+    print(sd_ones[400])
 
 
 .. code-block:: text
 
-    "Constant Spectral Power Distribution"
+    "Constant Spectral Distribution"
     (360.0, 780.0, 1.0)
     100.0
 
-    "Zeros Filled Spectral Power Distribution"
+    "Zeros Filled Spectral Distribution"
     (360.0, 780.0, 1.0)
     0.0
 
-    "Ones Filled Spectral Power Distribution"
+    "Ones Filled Spectral Distribution"
     (360.0, 780.0, 1.0)
     1.0
 
 
-By default the shape used by ``colour.spd_constant``,
-``colour.spd_zeros`` and ``colour.spd_ones`` is the one defined by
+By default the shape used by ``colour.sd_constant``,
+``colour.sd_zeros`` and ``colour.sd_ones`` is the one defined by
 ``colour.DEFAULT_SPECTRAL_SHAPE`` attribute using the *CIE 1931 2°
 Standard Observer* shape.
 
@@ -761,12 +761,12 @@ Standard Observer* shape.
     SpectralShape(360, 780, 1)
 
 
-A custom shape can be passed to construct a constant spectral power
+A custom shape can be passed to construct a constant spectral
 distribution with user defined dimensions:
 
 .. code:: python
 
-    colour.spd_ones(colour.SpectralShape(400, 700, 5))[450]
+    colour.sd_ones(colour.SpectralShape(400, 700, 5))[450]
 
 
 
@@ -777,7 +777,7 @@ distribution with user defined dimensions:
 
 
 
-The ``colour.SpectralPowerDistribution`` class supports the following
+The ``colour.SpectralDistribution`` class supports the following
 arithmetical operations:
 
 -  *addition*
@@ -787,31 +787,31 @@ arithmetical operations:
 
 .. code:: python
 
-    spd1 = colour.spd_ones()
-    print('"Ones Filled Spectral Power Distribution"')
+    spd1 = colour.sd_ones()
+    print('"Ones Filled Spectral Distribution"')
     print(spd1[400])
 
     print('\n"x2 Constant Multiplied"')
     print((spd1 * 2)[400])
 
-    print('\n"+ Spectral Power Distribution"')
-    print((spd1 + colour.spd_ones())[400])
+    print('\n"+ Spectral Distribution"')
+    print((spd1 + colour.sd_ones())[400])
 
 
 .. code-block:: text
 
-    "Ones Filled Spectral Power Distribution"
+    "Ones Filled Spectral Distribution"
     1.0
 
     "x2 Constant Multiplied"
     2.0
 
-    "+ Spectral Power Distribution"
+    "+ Spectral Distribution"
     2.0
 
 
-Often interpolation of the spectral power distribution is needed, this
-is achieved with the ``colour.SpectralPowerDistribution.interpolate``
+Often interpolation of the spectral distribution is needed, this
+is achieved with the ``colour.SpectralDistribution.interpolate``
 method. Depending on the wavelengths uniformity, the default
 interpolation method will differ. Following *CIE 167:2005*
 recommendation: The method developed by *Sprague* (1880) should be used
@@ -819,12 +819,12 @@ for interpolating functions having a uniformly spaced independent
 variable and a *Cubic Spline* method for non-uniformly spaced
 independent variable  :cite:`CIETC1-382005e`.
 
-We can check the uniformity of the sample spectral power distribution:
+We can check the uniformity of the sample spectral distribution:
 
 .. code:: python
 
-    # Checking the sample spectral power distribution uniformity.
-    print(spd.is_uniform())
+    # Checking the sample spectral distribution uniformity.
+    print(sd.is_uniform())
 
 
 .. code-block:: text
@@ -832,15 +832,15 @@ We can check the uniformity of the sample spectral power distribution:
     True
 
 
-Since the sample spectral power distribution is uniform the
+Since the sample spectral distribution is uniform the
 interpolation will default to the ``colour.SpragueInterpolator``
 interpolator.
 
 .. note::
 
     Interpolation happens in place and may alter your original
-    data, use the ``colour.SpectralPowerDistribution.copy`` method to
-    produce a copy of your spectral power distribution before
+    data, use the ``colour.SpectralDistribution.copy`` method to
+    produce a copy of your spectral distribution before
     interpolation.
 
 
@@ -849,12 +849,12 @@ interpolator.
     # *Colour* can emit a substantial amount of warnings, we filter them.
     colour.utilities.filter_warnings(True, False)
 
-    # Copying the sample spectral power distribution.
-    spd_copy = spd.copy()
+    # Copying the sample spectral distribution.
+    sd_copy = sd.copy()
 
-    # Interpolating the copied sample spectral power distribution.
-    spd_copy.interpolate(colour.SpectralShape(400, 770, 1))
-    spd_copy[401]
+    # Interpolating the copied sample spectral distribution.
+    sd_copy.interpolate(colour.SpectralShape(400, 770, 1))
+    sd_copy[401]
 
 
 
@@ -867,24 +867,24 @@ interpolator.
 
 .. code:: python
 
-    # Comparing the interpolated spectral power distribution with the original one.
-    plot_multi_spds([spd, spd_copy], bounding_box=[730,780, 0.25, 0.5])
+    # Comparing the interpolated spectral distribution with the original one.
+    plot_multi_sds([sd, sd_copy], bounding_box=[730,780, 0.25, 0.5])
 
 
 
-.. image:: _static/Tutorial_SPD_Interpolation.png
+.. image:: _static/Tutorial_SD_Interpolation.png
 
 
 Extrapolation although dangerous can be used to help aligning two
-spectral power distributions together. *CIE publication CIE 15:2004
+spectral distributions together. *CIE publication CIE 15:2004
 “Colorimetry”* recommends that unmeasured values may be set equal to the
 nearest measured value of the appropriate quantity in truncation :cite:`CIETC1-482004h`:
 
 .. code:: python
 
-    # Extrapolating the copied sample spectral power distribution.
-    spd_copy.extrapolate(colour.SpectralShape(340, 830))
-    spd_copy[340], spd_copy[830]
+    # Extrapolating the copied sample spectral distribution.
+    sd_copy.extrapolate(colour.SpectralShape(340, 830))
+    sd_copy[340], sd_copy[830]
 
 
 
@@ -918,8 +918,8 @@ The underlying interpolator can be swapped for any of the
 
 .. code:: python
 
-    # Changing interpolator while trimming the copied spectral power distribution.
-    spd_copy.interpolate(
+    # Changing interpolator while trimming the copied spectral distribution.
+    sd_copy.interpolate(
         colour.SpectralShape(400, 700, 10), interpolator=colour.LinearInterpolator)
 
 
@@ -927,7 +927,7 @@ The underlying interpolator can be swapped for any of the
 
 .. code-block:: text
 
-    SpectralPowerDistribution([[  4.00000000e+02,   6.50000000e-02],
+    SpectralDistribution([[  4.00000000e+02,   6.50000000e-02],
                                [  4.10000000e+02,   6.80000000e-02],
                                [  4.20000000e+02,   6.40000000e-02],
                                [  4.30000000e+02,   5.90000000e-02],
@@ -971,12 +971,12 @@ and *right* values:
 
 .. code:: python
 
-    # Extrapolating the copied sample spectral power distribution with *Linear* method.
-    spd_copy.extrapolate(
+    # Extrapolating the copied sample spectral distribution with *Linear* method.
+    sd_copy.extrapolate(
         colour.SpectralShape(340, 830),
         extrapolator_args={'method': 'Linear',
                            'right': 0})
-    spd_copy[340], spd_copy[830]
+    sd_copy[340], sd_copy[830]
 
 
 
@@ -987,17 +987,17 @@ and *right* values:
 
 
 
-Aligning a spectral power distribution is a convenient way to first
+Aligning a spectral distribution is a convenient way to first
 interpolates the current data within its original bounds, then, if
 required, extrapolate any missing values to match the requested shape:
 
 .. code:: python
 
-    # Aligning the cloned sample spectral power distribution.
-    # We first trim the spectral power distribution as above.
-    spd_copy.interpolate(colour.SpectralShape(400, 700))
-    spd_copy.align(colour.SpectralShape(340, 830, 5))
-    spd_copy[340], spd_copy[830]
+    # Aligning the cloned sample spectral distribution.
+    # We first trim the spectral distribution as above.
+    sd_copy.interpolate(colour.SpectralShape(400, 700))
+    sd_copy.align(colour.SpectralShape(340, 830, 5))
+    sd_copy[340], sd_copy[830]
 
 
 
@@ -1008,14 +1008,14 @@ required, extrapolate any missing values to match the requested shape:
 
 
 
-The ``colour.SpectralPowerDistribution`` class also supports various
+The ``colour.SpectralDistribution`` class also supports various
 arithmetic operations like *addition*, *subtraction*, *multiplication*
 or *division* with *numeric* and *array_like* variables or other
-``colour.SpectralPowerDistribution`` class instances:
+``colour.SpectralDistribution`` class instances:
 
 .. code:: python
 
-    spd = colour.SpectralPowerDistribution({
+    sd = colour.SpectralDistribution({
         410: 0.25,
         420: 0.50,
         430: 0.75,
@@ -1025,10 +1025,10 @@ or *division* with *numeric* and *array_like* variables or other
         480: 0.25
     })
 
-    print((spd.copy() + 1).values)
-    print((spd.copy() * 2).values)
-    print((spd * [0.35, 1.55, 0.75, 2.55, 0.95, 0.65, 0.15]).values)
-    print((spd * colour.spd_constant(2, spd.shape) * colour.spd_constant(3, spd.shape)).values)
+    print((sd.copy() + 1).values)
+    print((sd.copy() * 2).values)
+    print((sd * [0.35, 1.55, 0.75, 2.55, 0.95, 0.65, 0.15]).values)
+    print((sd * colour.sd_constant(2, sd.shape) * colour.sd_constant(3, sd.shape)).values)
 
 
 .. code-block:: text
@@ -1039,13 +1039,13 @@ or *division* with *numeric* and *array_like* variables or other
     [ 1.5  3.   4.5  6.   4.5  3.   nan  1.5]
 
 
-The spectral power distribution can be normalised with an arbitrary
+The spectral distribution can be normalised with an arbitrary
 factor:
 
 .. code:: python
 
-    print(spd.normalise().values)
-    print(spd.normalise(100).values)
+    print(sd.normalise().values)
+    print(sd.normalise(100).values)
 
 
 .. code-block:: text
@@ -1054,7 +1054,7 @@ factor:
     [  25.   50.   75.  100.   75.   50.   25.]
 
 
-A the heart of the ``colour.SpectralPowerDistribution`` class is the
+A the heart of the ``colour.SpectralDistribution`` class is the
 ``colour.continuous.Signal`` class which implements the
 ``colour.continuous.Signal.function`` method.
 
@@ -1117,17 +1117,17 @@ this tutorial but we can illustrate its core capability.
 Convert to Tristimulus Values
 -----------------------------
 
-From a given spectral power distribution, *CIE XYZ* tristimulus values
+From a given spectral distribution, *CIE XYZ* tristimulus values
 can be calculated:
 
 .. code:: python
 
-    spd = colour.SpectralPowerDistribution(sample_spd_data)
+    sd = colour.SpectralDistribution(sample_sd_data)
     cmfs = colour.STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer']
-    illuminant = colour.ILLUMINANTS_SPDS['D65']
+    illuminant = colour.ILLUMINANTS_SDS['D65']
 
-    # Calculating the sample spectral power distribution *CIE XYZ* tristimulus values.
-    XYZ = colour.spectral_to_XYZ(spd, cmfs, illuminant)
+    # Calculating the sample spectral distribution *CIE XYZ* tristimulus values.
+    XYZ = colour.spectral_to_XYZ(sd, cmfs, illuminant)
     print(XYZ)
 
 
@@ -1199,7 +1199,7 @@ We can for instance converts the *CIE XYZ* tristimulus values into
 
 .. code:: python
 
-    # Plotting the *sRGB* colourspace colour of the *Sample* spectral power distribution.
+    # Plotting the *sRGB* colourspace colour of the *Sample* spectral distribution.
     plot_single_colour_swatch(
         ColourSwatch('Sample', RGB),
         text_parameters={'size': 'x-large'})
@@ -1230,8 +1230,8 @@ various colour rendition charts:
     # Colour rendition charts chromaticity coordinates.
     print(sorted(colour.characterisation.COLOURCHECKERS.keys()))
 
-    # Colour rendition charts spectral power distributions.
-    print(sorted(colour.characterisation.COLOURCHECKERS_SPDS.keys()))
+    # Colour rendition charts spectral distributions.
+    print(sorted(colour.characterisation.COLOURCHECKERS_SDS.keys()))
 
 
 .. code-block:: text
@@ -1251,8 +1251,8 @@ various colour rendition charts:
 
     # Plotting the *sRGB* colourspace colour of *neutral 5 (.70 D)* patch.
     patch_name = 'neutral 5 (.70 D)'
-    patch_spd = colour.COLOURCHECKERS_SPDS['ColorChecker N Ohta'][patch_name]
-    XYZ = colour.spectral_to_XYZ(patch_spd, cmfs, illuminant)
+    patch_sd = colour.COLOURCHECKERS_SDS['ColorChecker N Ohta'][patch_name]
+    XYZ = colour.spectral_to_XYZ(patch_sd, cmfs, illuminant)
     RGB = colour.XYZ_to_sRGB(XYZ / 100)
 
     plot_single_colour_swatch(
@@ -1280,7 +1280,7 @@ figures:
 Convert to Chromaticity Coordinates
 -----------------------------------
 
-Given a spectral power distribution, chromaticity coordinates *xy* can
+Given a spectral distribution, chromaticity coordinates *xy* can
 be computed using the ``colour.XYZ_to_xy`` definition:
 
 .. code:: python
@@ -1312,7 +1312,7 @@ Chromaticity Diagram*:
     plt.plot(x, y, 'o-', color='white')
 
     # Annotating the plot.
-    plt.annotate(patch_spd.name.title(),
+    plt.annotate(patch_sd.name.title(),
                  xy=xy,
                  xytext=(-50, 30),
                  textcoords='offset points',

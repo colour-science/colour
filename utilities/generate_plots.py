@@ -15,7 +15,7 @@ import colour
 from colour.plotting import *
 from colour.plotting.diagrams import (
     plot_spectral_locus, plot_chromaticity_diagram_colours,
-    plot_chromaticity_diagram, plot_spds_in_chromaticity_diagram)
+    plot_chromaticity_diagram, plot_sds_in_chromaticity_diagram)
 from colour.plotting.models import (
     plot_RGB_colourspaces_in_chromaticity_diagram,
     plot_RGB_chromaticities_in_chromaticity_diagram,
@@ -65,20 +65,20 @@ def generate_documentation_plots(output_directory):
     plot_visible_spectrum('CIE 1931 2 Degree Standard Observer', **arguments)
 
     arguments['filename'] = os.path.join(
-        output_directory, 'Examples_Plotting_Illuminant_F1_SPD.png')
-    plot_single_illuminant_spd('F1', **arguments)
+        output_directory, 'Examples_Plotting_Illuminant_F1_SD.png')
+    plot_single_illuminant_sd('F1', **arguments)
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Examples_Plotting_Blackbodies.png')
-    blackbody_spds = [
-        colour.spd_blackbody(i, colour.SpectralShape(0, 10000, 10))
+    blackbody_sds = [
+        colour.sd_blackbody(i, colour.SpectralShape(0, 10000, 10))
         for i in range(1000, 15000, 1000)
     ]
-    plot_multi_spds(
-        blackbody_spds,
+    plot_multi_sds(
+        blackbody_sds,
         y_label='W / (sr m$^2$) / m',
-        use_spds_colours=True,
-        normalise_spds_colours=True,
+        use_sds_colours=True,
+        normalise_sds_colours=True,
         legend_location='upper right',
         bounding_box=(0, 1250, 0, 2.5e15),
         **arguments)
@@ -93,10 +93,10 @@ def generate_documentation_plots(output_directory):
 
     arguments['filename'] = os.path.join(
         output_directory, 'Examples_Plotting_Luminous_Efficiency.png')
-    mesopic_luminous_efficiency_function = (
-        colour.mesopic_luminous_efficiency_function(0.2))
-    plot_multi_spds(
-        (mesopic_luminous_efficiency_function,
+    sd_mesopic_luminous_efficiency_function = (
+        colour.sd_mesopic_luminous_efficiency_function(0.2))
+    plot_multi_sds(
+        (sd_mesopic_luminous_efficiency_function,
          colour.PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer'],
          colour.SCOTOPIC_LEFS['CIE 1951 Scotopic Standard Observer']),
         y_label='Luminous Efficiency',
@@ -107,11 +107,11 @@ def generate_documentation_plots(output_directory):
 
     arguments['filename'] = os.path.join(
         output_directory, 'Examples_Plotting_BabelColor_Average.png')
-    plot_multi_spds(
-        colour.COLOURCHECKERS_SPDS['BabelColor Average'].values(),
-        use_spds_colours=True,
+    plot_multi_sds(
+        colour.COLOURCHECKERS_SDS['BabelColor Average'].values(),
+        use_sds_colours=True,
         title=('BabelColor Average - '
-               'Spectral Power Distributions'),
+               'Spectral Distributions'),
         **arguments)
 
     arguments['filename'] = os.path.join(
@@ -143,7 +143,7 @@ def generate_documentation_plots(output_directory):
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Examples_Plotting_CRI.png')
-    plot_single_spd_colour_rendering_index_bars(colour.ILLUMINANTS_SPDS['F2'],
+    plot_single_sd_colour_rendering_index_bars(colour.ILLUMINANTS_SDS['F2'],
                                                 **arguments)
 
     # *************************************************************************
@@ -163,7 +163,7 @@ def generate_documentation_plots(output_directory):
                                **arguments)
 
     arguments['filename'] = os.path.join(output_directory,
-                                         'Plotting_Plot_Single_SPD.png')
+                                         'Plotting_Plot_Single_SD.png')
     data = {
         500: 0.0651,
         520: 0.0705,
@@ -172,11 +172,11 @@ def generate_documentation_plots(output_directory):
         580: 0.1128,
         600: 0.1360
     }
-    spd = colour.SpectralPowerDistribution(data, name='Custom')
-    plot_single_spd(spd, **arguments)
+    sd = colour.SpectralDistribution(data, name='Custom')
+    plot_single_sd(sd, **arguments)
 
     arguments['filename'] = os.path.join(output_directory,
-                                         'Plotting_Plot_Multi_SPDs.png')
+                                         'Plotting_Plot_Multi_SDs.png')
     data_1 = {
         500: 0.004900,
         510: 0.009300,
@@ -195,9 +195,9 @@ def generate_documentation_plots(output_directory):
         550: 0.994950,
         560: 0.995000
     }
-    spd1 = colour.SpectralPowerDistribution(data_1, name='Custom 1')
-    spd2 = colour.SpectralPowerDistribution(data_2, name='Custom 2')
-    plot_multi_spds([spd1, spd2], **arguments)
+    spd1 = colour.SpectralDistribution(data_1, name='Custom 1')
+    spd2 = colour.SpectralDistribution(data_2, name='Custom 2')
+    plot_multi_sds([spd1, spd2], **arguments)
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Plotting_Plot_Single_CMFS.png')
@@ -210,12 +210,12 @@ def generate_documentation_plots(output_directory):
     plot_multi_cmfs(cmfs, **arguments)
 
     arguments['filename'] = os.path.join(
-        output_directory, 'Plotting_Plot_Single_Illuminant_SPD.png')
-    plot_single_illuminant_spd('A', **arguments)
+        output_directory, 'Plotting_Plot_Single_Illuminant_SD.png')
+    plot_single_illuminant_sd('A', **arguments)
 
     arguments['filename'] = os.path.join(
-        output_directory, 'Plotting_Plot_Multi_Illuminant_SPDs.png')
-    plot_multi_illuminant_spds(['A', 'B', 'C'], **arguments)
+        output_directory, 'Plotting_Plot_Multi_Illuminant_SDs.png')
+    plot_multi_illuminant_sds(['A', 'B', 'C'], **arguments)
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Plotting_Plot_Visible_Spectrum.png')
@@ -307,25 +307,25 @@ def generate_documentation_plots(output_directory):
     plot_chromaticity_diagram_CIE1976UCS(**arguments)
 
     arguments['filename'] = os.path.join(
-        output_directory, 'Plotting_Plot_SPDS_In_Chromaticity_Diagram.png')
-    A = colour.ILLUMINANTS_SPDS['A']
-    D65 = colour.ILLUMINANTS_SPDS['D65']
-    plot_spds_in_chromaticity_diagram([A, D65], **arguments)
+        output_directory, 'Plotting_Plot_SDs_In_Chromaticity_Diagram.png')
+    A = colour.ILLUMINANTS_SDS['A']
+    D65 = colour.ILLUMINANTS_SDS['D65']
+    plot_sds_in_chromaticity_diagram([A, D65], **arguments)
 
     arguments['filename'] = os.path.join(
         output_directory,
-        'Plotting_Plot_SPDS_In_Chromaticity_Diagram_CIE1931.png')
-    plot_spds_in_chromaticity_diagram_CIE1931([A, D65], **arguments)
+        'Plotting_Plot_SDs_In_Chromaticity_Diagram_CIE1931.png')
+    plot_sds_in_chromaticity_diagram_CIE1931([A, D65], **arguments)
 
     arguments['filename'] = os.path.join(
         output_directory,
-        'Plotting_Plot_SPDS_In_Chromaticity_Diagram_CIE1960UCS.png')
-    plot_spds_in_chromaticity_diagram_CIE1960UCS([A, D65], **arguments)
+        'Plotting_Plot_SDs_In_Chromaticity_Diagram_CIE1960UCS.png')
+    plot_sds_in_chromaticity_diagram_CIE1960UCS([A, D65], **arguments)
 
     arguments['filename'] = os.path.join(
         output_directory,
-        'Plotting_Plot_SPDS_In_Chromaticity_Diagram_CIE1976UCS.png')
-    plot_spds_in_chromaticity_diagram_CIE1976UCS([A, D65], **arguments)
+        'Plotting_Plot_SDs_In_Chromaticity_Diagram_CIE1976UCS.png')
+    plot_sds_in_chromaticity_diagram_CIE1976UCS([A, D65], **arguments)
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Plotting_Plot_Pointer_Gamut.png')
@@ -418,8 +418,8 @@ def generate_documentation_plots(output_directory):
                                       **arguments)
 
     arguments['filename'] = os.path.join(
-        output_directory, 'Plotting_Plot_Single_Rayleigh_Scattering_SPD.png')
-    plot_single_spd_rayleigh_scattering(**arguments)
+        output_directory, 'Plotting_Plot_Single_SD_Rayleigh_Scattering.png')
+    plot_single_sd_rayleigh_scattering(**arguments)
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Plotting_Plot_The_Blue_Sky.png')
@@ -427,8 +427,8 @@ def generate_documentation_plots(output_directory):
 
     arguments['filename'] = os.path.join(
         output_directory, 'Plotting_Plot_Colour_Quality_Bars.png')
-    illuminant = colour.ILLUMINANTS_SPDS['F2']
-    light_source = colour.LIGHT_SOURCES_SPDS['Kinoton 75P']
+    illuminant = colour.ILLUMINANTS_SDS['F2']
+    light_source = colour.LIGHT_SOURCES_SDS['Kinoton 75P']
     light_source = light_source.copy().align(colour.SpectralShape(360, 830, 1))
     cqs_i = colour.colour_quality_scale(illuminant, additional_data=True)
     cqs_l = colour.colour_quality_scale(light_source, additional_data=True)
@@ -436,28 +436,28 @@ def generate_documentation_plots(output_directory):
 
     arguments['filename'] = os.path.join(
         output_directory,
-        'Plotting_Plot_Single_SPD_Colour_Rendering_Index_Bars.png')
-    illuminant = colour.ILLUMINANTS_SPDS['F2']
-    plot_single_spd_colour_rendering_index_bars(illuminant, **arguments)
+        'Plotting_Plot_Single_SD_Colour_Rendering_Index_Bars.png')
+    illuminant = colour.ILLUMINANTS_SDS['F2']
+    plot_single_sd_colour_rendering_index_bars(illuminant, **arguments)
 
     arguments['filename'] = os.path.join(
         output_directory,
-        'Plotting_Plot_Multi_SPDs_Colour_Rendering_Indexes_Bars.png')
-    light_source = colour.LIGHT_SOURCES_SPDS['Kinoton 75P']
-    plot_multi_spds_colour_rendering_indexes_bars([illuminant, light_source],
+        'Plotting_Plot_Multi_SDs_Colour_Rendering_Indexes_Bars.png')
+    light_source = colour.LIGHT_SOURCES_SDS['Kinoton 75P']
+    plot_multi_sds_colour_rendering_indexes_bars([illuminant, light_source],
                                                **arguments)
 
     arguments['filename'] = os.path.join(
         output_directory,
-        'Plotting_Plot_Single_SPD_Colour_Quality_Scale_Bars.png')
-    illuminant = colour.ILLUMINANTS_SPDS['F2']
-    plot_single_spd_colour_quality_scale_bars(illuminant, **arguments)
+        'Plotting_Plot_Single_SD_Colour_Quality_Scale_Bars.png')
+    illuminant = colour.ILLUMINANTS_SDS['F2']
+    plot_single_sd_colour_quality_scale_bars(illuminant, **arguments)
 
     arguments['filename'] = os.path.join(
         output_directory,
-        'Plotting_Plot_Multi_SPDs_Colour_Quality_Scales_Bars.png')
-    light_source = colour.LIGHT_SOURCES_SPDS['Kinoton 75P']
-    plot_multi_spds_colour_quality_scales_bars([illuminant, light_source],
+        'Plotting_Plot_Multi_SDs_Colour_Quality_Scales_Bars.png')
+    light_source = colour.LIGHT_SOURCES_SDS['Kinoton 75P']
+    plot_multi_sds_colour_quality_scales_bars([illuminant, light_source],
                                              **arguments)
 
     arguments['filename'] = os.path.join(output_directory,
@@ -502,8 +502,8 @@ def generate_documentation_plots(output_directory):
     plot_visible_spectrum(**arguments)
 
     arguments['filename'] = os.path.join(output_directory,
-                                         'Tutorial_Sample_SPD.png')
-    sample_spd_data = {
+                                         'Tutorial_Sample_SD.png')
+    sample_sd_data = {
         380: 0.048,
         385: 0.051,
         390: 0.055,
@@ -587,24 +587,24 @@ def generate_documentation_plots(output_directory):
         780: 0.421
     }
 
-    spd = colour.SpectralPowerDistribution(sample_spd_data, name='Sample')
-    plot_single_spd(spd, **arguments)
+    sd = colour.SpectralDistribution(sample_sd_data, name='Sample')
+    plot_single_sd(sd, **arguments)
 
     arguments['filename'] = os.path.join(output_directory,
-                                         'Tutorial_SPD_Interpolation.png')
-    spd_copy = spd.copy()
-    spd_copy.interpolate(colour.SpectralShape(400, 770, 1))
-    plot_multi_spds(
-        [spd, spd_copy], bounding_box=[730, 780, 0.25, 0.5], **arguments)
+                                         'Tutorial_SD_Interpolation.png')
+    sd_copy = sd.copy()
+    sd_copy.interpolate(colour.SpectralShape(400, 770, 1))
+    plot_multi_sds(
+        [sd, sd_copy], bounding_box=[730, 780, 0.25, 0.5], **arguments)
 
     arguments['filename'] = os.path.join(output_directory,
                                          'Tutorial_Sample_Swatch.png')
-    spd = colour.SpectralPowerDistribution(sample_spd_data)
+    sd = colour.SpectralDistribution(sample_sd_data)
     cmfs = colour.STANDARD_OBSERVERS_CMFS[
         'CIE 1931 2 Degree Standard Observer']
-    illuminant = colour.ILLUMINANTS_SPDS['D65']
+    illuminant = colour.ILLUMINANTS_SDS['D65']
     with domain_range_scale('1'):
-        XYZ = colour.spectral_to_XYZ(spd, cmfs, illuminant)
+        XYZ = colour.spectral_to_XYZ(sd, cmfs, illuminant)
         RGB = colour.XYZ_to_sRGB(XYZ)
     plot_single_colour_swatch(
         ColourSwatch('Sample', RGB),
@@ -614,9 +614,9 @@ def generate_documentation_plots(output_directory):
     arguments['filename'] = os.path.join(output_directory,
                                          'Tutorial_Neutral5.png')
     patch_name = 'neutral 5 (.70 D)'
-    patch_spd = colour.COLOURCHECKERS_SPDS['ColorChecker N Ohta'][patch_name]
+    patch_sd = colour.COLOURCHECKERS_SDS['ColorChecker N Ohta'][patch_name]
     with domain_range_scale('1'):
-        XYZ = colour.spectral_to_XYZ(patch_spd, cmfs, illuminant)
+        XYZ = colour.spectral_to_XYZ(patch_sd, cmfs, illuminant)
         RGB = colour.XYZ_to_sRGB(XYZ)
     plot_single_colour_swatch(
         ColourSwatch(patch_name.title(), RGB),
@@ -638,7 +638,7 @@ def generate_documentation_plots(output_directory):
     plt.plot(x, y, 'o-', color='white')
     # Annotating the plot.
     plt.annotate(
-        patch_spd.name.title(),
+        patch_sd.name.title(),
         xy=xy,
         xytext=(-50, 30),
         textcoords='offset points',

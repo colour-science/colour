@@ -16,7 +16,7 @@ message_box('Interpolation Computations')
 message_box(('Comparing "Sprague (1880)" and "Cubic Spline" recommended '
              'interpolation methods to "Pchip" method.'))
 
-uniform_spd_data = {
+uniform_sd_data = {
     340: 0.0000,
     360: 0.0000,
     380: 0.0000,
@@ -44,7 +44,7 @@ uniform_spd_data = {
     820: 0.0000
 }
 
-non_uniform_spd_data = {
+non_uniform_sd_data = {
     340.1: 0.0000,
     360: 0.0000,
     380: 0.0000,
@@ -72,54 +72,54 @@ non_uniform_spd_data = {
     820.9: 0.0000
 }
 
-base_spd = colour.SpectralPowerDistribution(uniform_spd_data, name='Reference')
-uniform_interpolated_spd = colour.SpectralPowerDistribution(
-    uniform_spd_data, name='Uniform - Sprague Interpolation')
-uniform_pchip_interpolated_spd = colour.SpectralPowerDistribution(
-    uniform_spd_data, name='Uniform - Pchip Interpolation')
-non_uniform_interpolated_spd = colour.SpectralPowerDistribution(
-    non_uniform_spd_data, name='Non Uniform - Cubic Spline Interpolation')
+base_sd = colour.SpectralDistribution(uniform_sd_data, name='Reference')
+uniform_interpolated_sd = colour.SpectralDistribution(
+    uniform_sd_data, name='Uniform - Sprague Interpolation')
+uniform_pchip_interpolated_sd = colour.SpectralDistribution(
+    uniform_sd_data, name='Uniform - Pchip Interpolation')
+non_uniform_interpolated_sd = colour.SpectralDistribution(
+    non_uniform_sd_data, name='Non Uniform - Cubic Spline Interpolation')
 
-uniform_interpolated_spd.interpolate(colour.SpectralShape(interval=1))
-uniform_pchip_interpolated_spd.interpolate(
+uniform_interpolated_sd.interpolate(colour.SpectralShape(interval=1))
+uniform_pchip_interpolated_sd.interpolate(
     colour.SpectralShape(interval=1), interpolator=colour.PchipInterpolator)
-non_uniform_interpolated_spd.interpolate(colour.SpectralShape(interval=1))
+non_uniform_interpolated_sd.interpolate(colour.SpectralShape(interval=1))
 
-shape = base_spd.shape
+shape = base_sd.shape
 x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
 
 plt.plot(
-    base_spd.wavelengths,
-    base_spd.values,
+    base_sd.wavelengths,
+    base_sd.values,
     'ro-',
-    label=base_spd.name,
+    label=base_sd.name,
     linewidth=1)
 plt.plot(
-    uniform_interpolated_spd.wavelengths,
-    uniform_interpolated_spd.values,
-    label=uniform_interpolated_spd.name,
+    uniform_interpolated_sd.wavelengths,
+    uniform_interpolated_sd.values,
+    label=uniform_interpolated_sd.name,
     linewidth=1)
 plt.plot(
-    uniform_pchip_interpolated_spd.wavelengths,
-    uniform_pchip_interpolated_spd.values,
-    label=uniform_pchip_interpolated_spd.name,
+    uniform_pchip_interpolated_sd.wavelengths,
+    uniform_pchip_interpolated_sd.values,
+    label=uniform_pchip_interpolated_sd.name,
     linewidth=1)
 plt.plot(
-    non_uniform_interpolated_spd.wavelengths,
-    non_uniform_interpolated_spd.values,
-    label=non_uniform_interpolated_spd.name,
+    non_uniform_interpolated_sd.wavelengths,
+    non_uniform_interpolated_sd.values,
+    label=non_uniform_interpolated_sd.name,
     linewidth=1)
 
 x_limit_min.append(shape.start)
 x_limit_max.append(shape.end)
-y_limit_min.append(min(base_spd.values))
-y_limit_max.append(max(base_spd.values))
+y_limit_min.append(min(base_sd.values))
+y_limit_max.append(max(base_sd.values))
 
 settings = {
     'x_label':
         'Wavelength $\\lambda$ (nm)',
     'y_label':
-        'Spectral Power Distribution',
+        'Spectral Distribution',
     'legend':
         True,
     'legend_location':

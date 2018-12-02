@@ -36,7 +36,7 @@ import numpy as np
 
 from colour.algebra import lagrange_coefficients
 from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE, SpectralShape,
-                                STANDARD_OBSERVERS_CMFS, spd_ones)
+                                STANDARD_OBSERVERS_CMFS, sd_ones)
 from colour.constants import DEFAULT_INT_DTYPE
 from colour.utilities import (CaseInsensitiveMapping, as_float_array,
                               filter_kwargs, from_range_100, runtime_warning,
@@ -157,8 +157,8 @@ def tristimulus_weighting_factors_ASTME202211(cmfs, illuminant, shape):
     ----------
     cmfs : XYZ_ColourMatchingFunctions
         Standard observer colour matching functions.
-    illuminant : SpectralPowerDistribution
-        Illuminant spectral power distribution.
+    illuminant : SpectralDistribution
+        Illuminant spectral distribution.
     shape : SpectralShape
         Shape used to build the table, only the interval is needed.
 
@@ -201,10 +201,11 @@ _TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their identifier key is
 
     Examples
     --------
-    >>> from colour import (CMFS, spd_CIE_standard_illuminant_A,
-    ...     SpectralPowerDistribution, SpectralShape, numpy_print_options)
+    >>> from colour import (CMFS, sd_CIE_standard_illuminant_A,
+    ...     SpectralDistribution, SpectralShape)
+    >>> from colour.utilities import numpy_print_options
     >>> cmfs = CMFS['CIE 1964 10 Degree Standard Observer']
-    >>> A = spd_CIE_standard_illuminant_A(cmfs.shape)
+    >>> A = sd_CIE_standard_illuminant_A(cmfs.shape)
     >>> with numpy_print_options(suppress=True):
     ...     tristimulus_weighting_factors_ASTME202211(
     ...         cmfs, A, SpectralShape(360, 830, 20))
@@ -334,11 +335,11 @@ def adjust_tristimulus_weighting_factors_ASTME30815(W, shape_r, shape_t):
 
     Examples
     --------
-    >>> from colour import (CMFS, spd_CIE_standard_illuminant_A,
-    ...     SpectralPowerDistribution, SpectralShape)
+    >>> from colour import (CMFS, sd_CIE_standard_illuminant_A,
+    ...     SpectralDistribution, SpectralShape)
     >>> from colour.utilities import numpy_print_options
     >>> cmfs = CMFS['CIE 1964 10 Degree Standard Observer']
-    >>> A = spd_CIE_standard_illuminant_A(cmfs.shape)
+    >>> A = sd_CIE_standard_illuminant_A(cmfs.shape)
     >>> W = tristimulus_weighting_factors_ASTME202211(
     ...     cmfs, A, SpectralShape(360, 830, 20))
     >>> with numpy_print_options(suppress=True):
@@ -379,23 +380,23 @@ def adjust_tristimulus_weighting_factors_ASTME30815(W, shape_r, shape_t):
 
 
 def spectral_to_XYZ_integration(
-        spd,
+        sd,
         cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
-        illuminant=spd_ones(STANDARD_OBSERVERS_CMFS[
+        illuminant=sd_ones(STANDARD_OBSERVERS_CMFS[
             'CIE 1931 2 Degree Standard Observer'].shape)):
     """
-    Converts given spectral power distribution to *CIE XYZ* tristimulus values
-    using given colour matching functions and illuminant according to
-    classical integration method.
+    Converts given spectral distribution to *CIE XYZ* tristimulus values
+    using given colour matching functions and illuminant according to classical
+    integration method.
 
     Parameters
     ----------
-    spd : SpectralPowerDistribution
-        Spectral power distribution.
+    sd : SpectralDistribution
+        Spectral distribution.
     cmfs : XYZ_ColourMatchingFunctions
         Standard observer colour matching functions.
-    illuminant : SpectralPowerDistribution, optional
-        Illuminant spectral power distribution.
+    illuminant : SpectralDistribution, optional
+        Illuminant spectral distribution.
 
     Returns
     -------
@@ -418,7 +419,7 @@ def spectral_to_XYZ_integration(
     Examples
     --------
     >>> from colour import (
-    ...     CMFS, ILLUMINANTS_SPDS, SpectralPowerDistribution)
+    ...     CMFS, ILLUMINANTS_SDS, SpectralDistribution)
     >>> cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
     >>> data = {
     ...     400: 0.0641,
@@ -438,9 +439,9 @@ def spectral_to_XYZ_integration(
     ...     680: 0.2397,
     ...     700: 0.2852
     ... }
-    >>> spd = SpectralPowerDistribution(data)
-    >>> illuminant = ILLUMINANTS_SPDS['D65']
-    >>> spectral_to_XYZ_integration(spd, cmfs, illuminant)
+    >>> sd = SpectralDistribution(data)
+    >>> illuminant = ILLUMINANTS_SDS['D65']
+    >>> spectral_to_XYZ_integration(sd, cmfs, illuminant)
     ... # doctest: +ELLIPSIS
     array([ 10.8401846...,   9.6837311...,   6.2120912...])
     """
@@ -451,15 +452,15 @@ def spectral_to_XYZ_integration(
             'functions shape.'.format(illuminant.name, cmfs.name))
         illuminant = illuminant.copy().align(cmfs.shape)
 
-    if spd.shape != cmfs.shape:
+    if sd.shape != cmfs.shape:
         runtime_warning(
-            'Aligning "{0}" spectral power distribution shape to "{1}" '
-            'colour matching functions shape.'.format(spd.name, cmfs.name))
-        spd = spd.copy().align(cmfs.shape)
+            'Aligning "{0}" spectral distribution shape to "{1}" '
+            'colour matching functions shape.'.format(sd.name, cmfs.name))
+        sd = sd.copy().align(cmfs.shape)
 
     S = illuminant.values
     x_bar, y_bar, z_bar = tsplit(cmfs.values)
-    R = spd.values
+    R = sd.values
     dw = cmfs.shape.interval
 
     k = 100 / (np.sum(y_bar * S) * dw)
@@ -474,23 +475,22 @@ def spectral_to_XYZ_integration(
 
 
 def spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
-        spd,
+        sd,
         cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
-        illuminant=spd_ones(ASTME30815_PRACTISE_SHAPE)):
+        illuminant=sd_ones(ASTME30815_PRACTISE_SHAPE)):
     """
-    Converts given spectral power distribution to *CIE XYZ* tristimulus values
-    using given colour matching functions and illuminant using a table
-    of tristimulus weighting factors according to practise
-    *ASTM E308-15* method.
+    Converts given spectral distribution to *CIE XYZ* tristimulus values
+    using given colour matching functions and illuminant using a table of
+    tristimulus weighting factors according to practise *ASTM E308-15* method.
 
     Parameters
     ----------
-    spd : SpectralPowerDistribution
-        Spectral power distribution.
+    sd : SpectralDistribution
+        Spectral distribution.
     cmfs : XYZ_ColourMatchingFunctions
         Standard observer colour matching functions.
-    illuminant : SpectralPowerDistribution, optional
-        Illuminant spectral power distribution.
+    illuminant : SpectralDistribution, optional
+        Illuminant spectral distribution.
 
     Returns
     -------
@@ -513,7 +513,7 @@ def spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
     Examples
     --------
     >>> from colour import (
-    ...     CMFS, ILLUMINANTS_SPDS, SpectralPowerDistribution)
+    ...     CMFS, ILLUMINANTS_SDS, SpectralDistribution)
     >>> cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
     >>> data = {
     ...     400: 0.0641,
@@ -533,10 +533,10 @@ def spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
     ...     680: 0.2397,
     ...     700: 0.2852
     ... }
-    >>> spd = SpectralPowerDistribution(data)
-    >>> illuminant = ILLUMINANTS_SPDS['D65']
+    >>> sd = SpectralDistribution(data)
+    >>> illuminant = ILLUMINANTS_SDS['D65']
     >>> spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
-    ...     spd, cmfs, illuminant)  # doctest: +ELLIPSIS
+    ...     sd, cmfs, illuminant)  # doctest: +ELLIPSIS
     array([ 10.8402899...,   9.6843539...,   6.2160858...])
     """
 
@@ -546,21 +546,21 @@ def spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
             'functions shape.'.format(illuminant.name, cmfs.name))
         illuminant = illuminant.copy().align(cmfs.shape)
 
-    if spd.shape.boundaries != cmfs.shape.boundaries:
+    if sd.shape.boundaries != cmfs.shape.boundaries:
         runtime_warning(
-            'Trimming "{0}" spectral power distribution shape to "{1}" '
+            'Trimming "{0}" spectral distribution shape to "{1}" '
             'colour matching functions shape.'.format(illuminant.name,
                                                       cmfs.name))
-        spd = spd.copy().trim(cmfs.shape)
+        sd = sd.copy().trim(cmfs.shape)
 
     W = tristimulus_weighting_factors_ASTME202211(
         cmfs, illuminant,
-        SpectralShape(cmfs.shape.start, cmfs.shape.end, spd.shape.interval))
+        SpectralShape(cmfs.shape.start, cmfs.shape.end, sd.shape.interval))
     start_w = cmfs.shape.start
-    end_w = cmfs.shape.start + spd.shape.interval * (W.shape[0] - 1)
+    end_w = cmfs.shape.start + sd.shape.interval * (W.shape[0] - 1)
     W = adjust_tristimulus_weighting_factors_ASTME30815(
-        W, SpectralShape(start_w, end_w, spd.shape.interval), spd.shape)
-    R = spd.values
+        W, SpectralShape(start_w, end_w, sd.shape.interval), sd.shape)
+    R = sd.values
 
     XYZ = np.sum(W * R[..., np.newaxis], axis=0)
 
@@ -568,35 +568,35 @@ def spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
 
 
 def spectral_to_XYZ_ASTME30815(
-        spd,
+        sd,
         cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
-        illuminant=spd_ones(ASTME30815_PRACTISE_SHAPE),
+        illuminant=sd_ones(ASTME30815_PRACTISE_SHAPE),
         use_practice_range=True,
         mi_5nm_omission_method=True,
         mi_20nm_interpolation_method=True):
     """
-    Converts given spectral power distribution to *CIE XYZ* tristimulus values
-    using given colour matching functions and illuminant according to
-    practise *ASTM E308-15* method.
+    Converts given spectral distribution to *CIE XYZ* tristimulus values using
+    given colour matching functions and illuminant according to practise
+    *ASTM E308-15* method.
 
     Parameters
     ----------
-    spd : SpectralPowerDistribution
-        Spectral power distribution.
+    sd : SpectralDistribution
+        Spectral distribution.
     cmfs : XYZ_ColourMatchingFunctions
         Standard observer colour matching functions.
-    illuminant : SpectralPowerDistribution, optional
-        Illuminant spectral power distribution.
+    illuminant : SpectralDistribution, optional
+        Illuminant spectral distribution.
     use_practice_range : bool, optional
         Practise *ASTM E308-15* working wavelengths range is [360, 780],
         if *True* this argument will trim the colour matching functions
         appropriately.
     mi_5nm_omission_method : bool, optional
-        5 nm measurement intervals spectral power distribution conversion to
+        5 nm measurement intervals spectral distribution conversion to
         tristimulus values will use a 5 nm version of the colour matching
         functions instead of a table of tristimulus weighting factors.
     mi_20nm_interpolation_method : bool, optional
-        20 nm measurement intervals spectral power distribution conversion to
+        20 nm measurement intervals spectral distribution conversion to
         tristimulus values will use a dedicated interpolation method instead
         of a table of tristimulus weighting factors.
 
@@ -633,7 +633,7 @@ _TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their identifier key is
     Examples
     --------
     >>> from colour import (
-    ...     CMFS, ILLUMINANTS_SPDS, SpectralPowerDistribution)
+    ...     CMFS, ILLUMINANTS_SDS, SpectralDistribution)
     >>> cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
     >>> data = {
     ...     400: 0.0641,
@@ -653,14 +653,14 @@ _TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their identifier key is
     ...     680: 0.2397,
     ...     700: 0.2852
     ... }
-    >>> spd = SpectralPowerDistribution(data)
-    >>> illuminant = ILLUMINANTS_SPDS['D65']
-    >>> spectral_to_XYZ_ASTME30815(spd, cmfs, illuminant)
+    >>> sd = SpectralDistribution(data)
+    >>> illuminant = ILLUMINANTS_SDS['D65']
+    >>> spectral_to_XYZ_ASTME30815(sd, cmfs, illuminant)
     ... # doctest: +ELLIPSIS
     array([ 10.8399031...,   9.6840375...,   6.2164159...])
     """
 
-    if spd.shape.interval not in (1, 5, 10, 20):
+    if sd.shape.interval not in (1, 5, 10, 20):
         raise ValueError(
             'Tristimulus values conversion from spectral data according to '
             'practise "ASTM E308-15" should be performed on spectral data '
@@ -670,43 +670,43 @@ _TRISTIMULUS_WEIGHTING_FACTORS_CACHE` attribute. Their identifier key is
         cmfs = cmfs.copy().trim(ASTME30815_PRACTISE_SHAPE)
 
     method = spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815
-    if spd.shape.interval == 1:
+    if sd.shape.interval == 1:
         method = spectral_to_XYZ_integration
-    elif spd.shape.interval == 5 and mi_5nm_omission_method:
+    elif sd.shape.interval == 5 and mi_5nm_omission_method:
         if cmfs.shape.interval != 5:
             cmfs = cmfs.copy().interpolate(SpectralShape(interval=5))
         method = spectral_to_XYZ_integration
-    elif spd.shape.interval == 20 and mi_20nm_interpolation_method:
-        spd = spd.copy()
-        if spd.shape.boundaries != cmfs.shape.boundaries:
+    elif sd.shape.interval == 20 and mi_20nm_interpolation_method:
+        sd = sd.copy()
+        if sd.shape.boundaries != cmfs.shape.boundaries:
             runtime_warning(
-                'Trimming "{0}" spectral power distribution shape to "{1}" '
+                'Trimming "{0}" spectral distribution shape to "{1}" '
                 'colour matching functions shape.'.format(
                     illuminant.name, cmfs.name))
-            spd.trim(cmfs.shape)
+            sd.trim(cmfs.shape)
 
         # Extrapolation of additional 20nm padding intervals.
-        spd.align(SpectralShape(spd.shape.start - 20, spd.shape.end + 20, 10))
+        sd.align(SpectralShape(sd.shape.start - 20, sd.shape.end + 20, 10))
         for i in range(2):
-            spd[spd.wavelengths[i]] = (
-                3 * spd.values[i + 2] -
-                3 * spd.values[i + 4] + spd.values[i + 6])  # yapf: disable
-            i_e = len(spd.domain) - 1 - i
-            spd[spd.wavelengths[i_e]] = (
-                spd.values[i_e - 6] - 3 * spd.values[i_e - 4] +
-                3 * spd.values[i_e - 2])
+            sd[sd.wavelengths[i]] = (
+                3 * sd.values[i + 2] -
+                3 * sd.values[i + 4] + sd.values[i + 6])  # yapf: disable
+            i_e = len(sd.domain) - 1 - i
+            sd[sd.wavelengths[i_e]] = (
+                sd.values[i_e - 6] - 3 * sd.values[i_e - 4] +
+                3 * sd.values[i_e - 2])
 
         # Interpolating every odd numbered values.
         # TODO: Investigate code vectorisation.
-        for i in range(3, len(spd.domain) - 3, 2):
-            spd[spd.wavelengths[i]] = (
-                -0.0625 * spd.values[i - 3] + 0.5625 * spd.values[i - 1] +
-                0.5625 * spd.values[i + 1] - 0.0625 * spd.values[i + 3])
+        for i in range(3, len(sd.domain) - 3, 2):
+            sd[sd.wavelengths[i]] = (
+                -0.0625 * sd.values[i - 3] + 0.5625 * sd.values[i - 1] +
+                0.5625 * sd.values[i + 1] - 0.0625 * sd.values[i + 3])
 
         # Discarding the additional 20nm padding intervals.
-        spd.trim(SpectralShape(spd.shape.start + 20, spd.shape.end - 20, 10))
+        sd.trim(SpectralShape(sd.shape.start + 20, sd.shape.end - 20, 10))
 
-    XYZ = method(spd, cmfs, illuminant)
+    XYZ = method(sd, cmfs, illuminant)
 
     return XYZ
 
@@ -716,8 +716,8 @@ SPECTRAL_TO_XYZ_METHODS = CaseInsensitiveMapping({
     'Integration': spectral_to_XYZ_integration
 })
 SPECTRAL_TO_XYZ_METHODS.__doc__ = """
-Supported spectral power distribution to *CIE XYZ* tristimulus values
-conversion methods.
+Supported spectral distribution to *CIE XYZ* tristimulus values conversion
+methods.
 
 References
 ----------
@@ -735,23 +735,23 @@ SPECTRAL_TO_XYZ_METHODS['astm2015'] = (SPECTRAL_TO_XYZ_METHODS['ASTM E308-15'])
 
 
 def spectral_to_XYZ(
-        spd,
+        sd,
         cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
-        illuminant=spd_ones(ASTME30815_PRACTISE_SHAPE),
+        illuminant=sd_ones(ASTME30815_PRACTISE_SHAPE),
         method='ASTM E308-15',
         **kwargs):
     """
-    Converts given spectral power distribution to *CIE XYZ* tristimulus values
-    using given colour matching functions, illuminant and method.
+    Converts given spectral distribution to *CIE XYZ* tristimulus values using
+    given colour matching functions, illuminant and method.
 
     Parameters
     ----------
-    spd : SpectralPowerDistribution
-        Spectral power distribution.
+    sd : SpectralDistribution
+        Spectral distribution.
     cmfs : XYZ_ColourMatchingFunctions
         Standard observer colour matching functions.
-    illuminant : SpectralPowerDistribution, optional
-        Illuminant spectral power distribution.
+    illuminant : SpectralDistribution, optional
+        Illuminant spectral distribution.
     method : unicode, optional
         **{'ASTM E308-15', 'Integration'}**,
         Computation method.
@@ -760,12 +760,12 @@ def spectral_to_XYZ(
     ----------------
     mi_5nm_omission_method : bool, optional
         {:func:`colour.colorimetry.spectral_to_XYZ_ASTME30815`},
-        5 nm measurement intervals spectral power distribution conversion to
+        5 nm measurement intervals spectral distribution conversion to
         tristimulus values will use a 5 nm version of the colour matching
         functions instead of a table of tristimulus weighting factors.
     mi_20nm_interpolation_method : bool, optional
         {:func:`colour.colorimetry.spectral_to_XYZ_ASTME30815`},
-        20 nm measurement intervals spectral power distribution conversion to
+        20 nm measurement intervals spectral distribution conversion to
         tristimulus values will use a dedicated interpolation method instead
         of a table of tristimulus weighting factors.
     use_practice_range : bool, optional
@@ -796,7 +796,7 @@ def spectral_to_XYZ(
     Examples
     --------
     >>> from colour import (
-    ...     CMFS, ILLUMINANTS_SPDS, SpectralPowerDistribution)
+    ...     CMFS, ILLUMINANTS_SDS, SpectralDistribution)
     >>> cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
     >>> data = {
     ...     400: 0.0641,
@@ -816,29 +816,29 @@ def spectral_to_XYZ(
     ...     680: 0.2397,
     ...     700: 0.2852
     ... }
-    >>> spd = SpectralPowerDistribution(data)
-    >>> illuminant = ILLUMINANTS_SPDS['D65']
-    >>> spectral_to_XYZ(spd, cmfs, illuminant)
+    >>> sd = SpectralDistribution(data)
+    >>> illuminant = ILLUMINANTS_SDS['D65']
+    >>> spectral_to_XYZ(sd, cmfs, illuminant)
     ... # doctest: +ELLIPSIS
     array([ 10.8399031...,   9.6840375...,   6.2164159...])
-    >>> spectral_to_XYZ(spd, cmfs, illuminant, use_practice_range=False)
+    >>> spectral_to_XYZ(sd, cmfs, illuminant, use_practice_range=False)
     ... # doctest: +ELLIPSIS
     array([ 10.8399852...,   9.6840602...,   6.2164085...])
-    >>> spectral_to_XYZ(spd, cmfs, illuminant, method='Integration')
+    >>> spectral_to_XYZ(sd, cmfs, illuminant, method='Integration')
     ... # doctest: +ELLIPSIS
     array([ 10.8401846...,   9.6837311...,   6.2120912...])
     """
 
     function = SPECTRAL_TO_XYZ_METHODS[method]
 
-    return function(spd, cmfs, illuminant, **filter_kwargs(function, **kwargs))
+    return function(sd, cmfs, illuminant, **filter_kwargs(function, **kwargs))
 
 
 def multi_spectral_to_XYZ_integration(
         msa,
         shape,
         cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
-        illuminant=spd_ones(STANDARD_OBSERVERS_CMFS[
+        illuminant=sd_ones(STANDARD_OBSERVERS_CMFS[
             'CIE 1931 2 Degree Standard Observer'].shape)):
     """
     Converts given multi-spectral array :math:`msa` with given spectral shape
@@ -856,8 +856,8 @@ def multi_spectral_to_XYZ_integration(
         ``illuminant`` will be aligned with it.
     cmfs : XYZ_ColourMatchingFunctions
         Standard observer colour matching functions.
-    illuminant : SpectralPowerDistribution, optional
-        Illuminant spectral power distribution.
+    illuminant : SpectralDistribution, optional
+        Illuminant spectral distribution.
 
     Returns
     -------
@@ -880,7 +880,7 @@ def multi_spectral_to_XYZ_integration(
 
     Examples
     --------
-    >>> from colour import ILLUMINANTS_SPDS
+    >>> from colour import ILLUMINANTS_SDS
     >>> msa = np.array([
     ...     [
     ...         [0.0137, 0.0913, 0.0152, 0.0281, 0.1918, 0.0430],
@@ -899,7 +899,7 @@ def multi_spectral_to_XYZ_integration(
     ...         [0.0473, 0.3221, 0.2268, 0.3161, 0.1124, 0.0024],
     ...     ],
     ... ])
-    >>> D65 = ILLUMINANTS_SPDS['D65']
+    >>> D65 = ILLUMINANTS_SDS['D65']
     >>> multi_spectral_to_XYZ(
     ... msa, SpectralShape(400, 700, 60), illuminant=D65)
     ... # doctest: +ELLIPSIS
@@ -965,7 +965,7 @@ def multi_spectral_to_XYZ(
         msa,
         shape=DEFAULT_SPECTRAL_SHAPE,
         cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
-        illuminant=spd_ones(ASTME30815_PRACTISE_SHAPE),
+        illuminant=sd_ones(ASTME30815_PRACTISE_SHAPE),
         method='Integration'):
     """
     Converts given multi-spectral array :math:`msa` with given spectral shape
@@ -983,8 +983,8 @@ def multi_spectral_to_XYZ(
         ``illuminant`` will be aligned with it.
     cmfs : XYZ_ColourMatchingFunctions
         Standard observer colour matching functions.
-    illuminant : SpectralPowerDistribution, optional
-        Illuminant spectral power distribution.
+    illuminant : SpectralDistribution, optional
+        Illuminant spectral distribution.
     method : unicode, optional
         **{'Integration'}**,
         Computation method.

@@ -36,12 +36,12 @@ Colorimetry
 .. autosummary::
     :toctree: generated/
 
-    plot_single_spd
-    plot_multi_spds
+    plot_single_sd
+    plot_multi_sds
     plot_single_cmfs
     plot_multi_cmfs
-    plot_single_illuminant_spd
-    plot_multi_illuminant_spds
+    plot_single_illuminant_sd
+    plot_multi_illuminant_sds
     plot_visible_spectrum
     plot_single_lightness_function
     plot_multi_lightness_functions
@@ -101,9 +101,9 @@ CIE Chromaticity Diagrams
     plot_chromaticity_diagram_CIE1931
     plot_chromaticity_diagram_CIE1960UCS
     plot_chromaticity_diagram_CIE1976UCS
-    plot_spds_in_chromaticity_diagram_CIE1931
-    plot_spds_in_chromaticity_diagram_CIE1960UCS
-    plot_spds_in_chromaticity_diagram_CIE1976UCS
+    plot_sds_in_chromaticity_diagram_CIE1931
+    plot_sds_in_chromaticity_diagram_CIE1960UCS
+    plot_sds_in_chromaticity_diagram_CIE1976UCS
 
 **Ancillary Objects**
 
@@ -117,7 +117,7 @@ CIE Chromaticity Diagrams
     plot_spectral_locus
     plot_chromaticity_diagram_colours
     plot_chromaticity_diagram
-    plot_spds_in_chromaticity_diagram
+    plot_sds_in_chromaticity_diagram
 
 Colour Models
 -------------
@@ -177,7 +177,7 @@ Optical Phenomena
 .. autosummary::
     :toctree: generated/
 
-    plot_single_rayleigh_scattering_spd
+    plot_single_sd_rayleigh_scattering
     plot_the_blue_sky
 
 Colour Quality
@@ -190,10 +190,10 @@ Colour Quality
 .. autosummary::
     :toctree: generated/
 
-    plot_single_spd_colour_rendering_index_bars
-    plot_multi_spds_colour_rendering_indexes_bars
-    plot_single_spd_colour_quality_scale_bars
-    plot_multi_spds_colour_quality_scales_bars
+    plot_single_sd_colour_rendering_index_bars
+    plot_multi_sds_colour_rendering_indexes_bars
+    plot_single_sd_colour_quality_scale_bars
+    plot_multi_sds_colour_quality_scales_bars
 
 **Ancillary Objects**
 

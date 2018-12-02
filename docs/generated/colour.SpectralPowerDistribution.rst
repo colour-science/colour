@@ -1,9 +1,9 @@
-colour.SpectralPowerDistribution
+colour.SpectralDistribution
 ================================
 
 .. currentmodule:: colour
 
-.. autoclass:: SpectralPowerDistribution
+.. autoclass:: SpectralDistribution
 
    
    .. automethod:: __init__
@@ -13,23 +13,23 @@ colour.SpectralPowerDistribution
 
    .. autosummary::
    
-      ~SpectralPowerDistribution.__init__
-      ~SpectralPowerDistribution.align
-      ~SpectralPowerDistribution.arithmetical_operation
-      ~SpectralPowerDistribution.clone
-      ~SpectralPowerDistribution.copy
-      ~SpectralPowerDistribution.domain_distance
-      ~SpectralPowerDistribution.extrapolate
-      ~SpectralPowerDistribution.fill_nan
-      ~SpectralPowerDistribution.get
-      ~SpectralPowerDistribution.interpolate
-      ~SpectralPowerDistribution.is_uniform
-      ~SpectralPowerDistribution.normalise
-      ~SpectralPowerDistribution.signal_unpack_data
-      ~SpectralPowerDistribution.to_series
-      ~SpectralPowerDistribution.trim
-      ~SpectralPowerDistribution.trim_wavelengths
-      ~SpectralPowerDistribution.zeros
+      ~SpectralDistribution.__init__
+      ~SpectralDistribution.align
+      ~SpectralDistribution.arithmetical_operation
+      ~SpectralDistribution.clone
+      ~SpectralDistribution.copy
+      ~SpectralDistribution.domain_distance
+      ~SpectralDistribution.extrapolate
+      ~SpectralDistribution.fill_nan
+      ~SpectralDistribution.get
+      ~SpectralDistribution.interpolate
+      ~SpectralDistribution.is_uniform
+      ~SpectralDistribution.normalise
+      ~SpectralDistribution.signal_unpack_data
+      ~SpectralDistribution.to_series
+      ~SpectralDistribution.trim
+      ~SpectralDistribution.trim_wavelengths
+      ~SpectralDistribution.zeros
    
    
 
@@ -39,21 +39,21 @@ colour.SpectralPowerDistribution
 
    .. autosummary::
    
-      ~SpectralPowerDistribution.data
-      ~SpectralPowerDistribution.domain
-      ~SpectralPowerDistribution.dtype
-      ~SpectralPowerDistribution.extrapolator
-      ~SpectralPowerDistribution.extrapolator_args
-      ~SpectralPowerDistribution.function
-      ~SpectralPowerDistribution.interpolator
-      ~SpectralPowerDistribution.interpolator_args
-      ~SpectralPowerDistribution.items
-      ~SpectralPowerDistribution.name
-      ~SpectralPowerDistribution.range
-      ~SpectralPowerDistribution.shape
-      ~SpectralPowerDistribution.strict_name
-      ~SpectralPowerDistribution.title
-      ~SpectralPowerDistribution.values
-      ~SpectralPowerDistribution.wavelengths
+      ~SpectralDistribution.data
+      ~SpectralDistribution.domain
+      ~SpectralDistribution.dtype
+      ~SpectralDistribution.extrapolator
+      ~SpectralDistribution.extrapolator_args
+      ~SpectralDistribution.function
+      ~SpectralDistribution.interpolator
+      ~SpectralDistribution.interpolator_args
+      ~SpectralDistribution.items
+      ~SpectralDistribution.name
+      ~SpectralDistribution.range
+      ~SpectralDistribution.shape
+      ~SpectralDistribution.strict_name
+      ~SpectralDistribution.title
+      ~SpectralDistribution.values
+      ~SpectralDistribution.wavelengths
    
    

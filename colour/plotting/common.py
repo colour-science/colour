@@ -38,7 +38,7 @@ from functools import partial
 from matplotlib.colors import LinearSegmentedColormap
 
 from colour.characterisation import COLOURCHECKERS
-from colour.colorimetry import (CMFS, ILLUMINANTS_SPDS)
+from colour.colorimetry import (CMFS, ILLUMINANTS_SDS)
 from colour.models import RGB_COLOURSPACES, XYZ_to_RGB
 from colour.utilities import (Structure, as_float_array, is_sibling, is_string,
                               filter_mapping, runtime_warning)
@@ -814,8 +814,8 @@ def filter_illuminants(filterers,
 
     Parameters
     ----------
-    filterers : unicode or SpectralPowerDistribution or array_like
-        Filterer or :class:`colour.SpectralPowerDistribution` class instance
+    filterers : unicode or SpectralDistribution or array_like
+        Filterer or :class:`colour.SpectralDistribution` class instance
         (which is passed through directly if its type is one of the mapping
         element types) or list of filterers.
     anchors : bool, optional
@@ -832,7 +832,7 @@ def filter_illuminants(filterers,
         Filtered illuminants.
     """
 
-    return filter_passthrough(ILLUMINANTS_SPDS, filterers, anchors,
+    return filter_passthrough(ILLUMINANTS_SDS, filterers, anchors,
                               allow_non_siblings, flags)
 
 

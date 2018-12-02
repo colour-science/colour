@@ -5,10 +5,10 @@ Colour Quality Plotting
 
 Defines the colour quality plotting objects:
 
--   :func:`colour.plotting.plot_single_spd_colour_rendering_index_bars`
--   :func:`colour.plotting.plot_multi_spds_colour_rendering_indexes_bars`
--   :func:`colour.plotting.plot_single_spd_colour_quality_scale_bars`
--   :func:`colour.plotting.plot_multi_spds_colour_quality_scales_bars`
+-   :func:`colour.plotting.plot_single_sd_colour_rendering_index_bars`
+-   :func:`colour.plotting.plot_multi_sds_colour_rendering_indexes_bars`
+-   :func:`colour.plotting.plot_single_sd_colour_quality_scale_bars`
+-   :func:`colour.plotting.plot_multi_sds_colour_quality_scales_bars`
 """
 
 from __future__ import division
@@ -32,10 +32,10 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'plot_colour_quality_bars', 'plot_single_spd_colour_rendering_index_bars',
-    'plot_multi_spds_colour_rendering_indexes_bars',
-    'plot_single_spd_colour_quality_scale_bars',
-    'plot_multi_spds_colour_quality_scales_bars'
+    'plot_colour_quality_bars', 'plot_single_sd_colour_rendering_index_bars',
+    'plot_multi_sds_colour_rendering_indexes_bars',
+    'plot_single_sd_colour_quality_scale_bars',
+    'plot_multi_sds_colour_quality_scales_bars'
 ]
 
 
@@ -73,10 +73,10 @@ def plot_colour_quality_bars(specifications,
 
     Examples
     --------
-    >>> from colour import (ILLUMINANTS_SPDS,
-    ...                     LIGHT_SOURCES_SPDS, SpectralShape)
-    >>> illuminant = ILLUMINANTS_SPDS['F2']
-    >>> light_source = LIGHT_SOURCES_SPDS['Kinoton 75P']
+    >>> from colour import (ILLUMINANTS_SDS,
+    ...                     LIGHT_SOURCES_SDS, SpectralShape)
+    >>> illuminant = ILLUMINANTS_SDS['F2']
+    >>> light_source = LIGHT_SOURCES_SDS['Kinoton 75P']
     >>> light_source = light_source.copy().align(SpectralShape(360, 830, 1))
     >>> cqs_i = colour_quality_scale(illuminant, additional_data=True)
     >>> cqs_l = colour_quality_scale(light_source, additional_data=True)
@@ -165,15 +165,15 @@ def plot_colour_quality_bars(specifications,
 
 
 @override_style()
-def plot_single_spd_colour_rendering_index_bars(spd, **kwargs):
+def plot_single_sd_colour_rendering_index_bars(sd, **kwargs):
     """
     Plots the *Colour Rendering Index* (CRI) of given illuminant or light
-    source spectral power distribution.
+    source spectral distribution.
 
     Parameters
     ----------
-    spd : SpectralPowerDistribution
-        Illuminant or light source spectral power distribution to plot the
+    sd : SpectralDistribution
+        Illuminant or light source spectral distribution to plot the
         *Colour Rendering Index* (CRI).
 
     Other Parameters
@@ -198,30 +198,30 @@ def plot_single_spd_colour_rendering_index_bars(spd, **kwargs):
 
     Examples
     --------
-    >>> from colour import ILLUMINANTS_SPDS
-    >>> illuminant = ILLUMINANTS_SPDS['F2']
-    >>> plot_single_spd_colour_rendering_index_bars(illuminant)
+    >>> from colour import ILLUMINANTS_SDS
+    >>> illuminant = ILLUMINANTS_SDS['F2']
+    >>> plot_single_sd_colour_rendering_index_bars(illuminant)
     ... # doctest: +SKIP
 
     .. image:: ../_static/Plotting_\
-Plot_Single_SPD_Colour_Rendering_Index_Bars.png
+Plot_Single_SD_Colour_Rendering_Index_Bars.png
         :align: center
-        :alt: plot_single_spd_colour_rendering_index_bars
+        :alt: plot_single_sd_colour_rendering_index_bars
     """
 
-    return plot_multi_spds_colour_rendering_indexes_bars([spd], **kwargs)
+    return plot_multi_sds_colour_rendering_indexes_bars([sd], **kwargs)
 
 
 @override_style()
-def plot_multi_spds_colour_rendering_indexes_bars(spds, **kwargs):
+def plot_multi_sds_colour_rendering_indexes_bars(sds, **kwargs):
     """
     Plots the *Colour Rendering Index* (CRI) of given illuminants or light
-    sources spectral power distributions.
+    sources spectral distributions.
 
     Parameters
     ----------
-    spds : array_like
-        Array of illuminants or light sources spectral power distributions to
+    sds : array_like
+        Array of illuminants or light sources spectral distributions to
         plot the *Colour Rendering Index* (CRI).
 
     Other Parameters
@@ -246,30 +246,30 @@ def plot_multi_spds_colour_rendering_indexes_bars(spds, **kwargs):
 
     Examples
     --------
-    >>> from colour import (ILLUMINANTS_SPDS,
-    ...                     LIGHT_SOURCES_SPDS)
-    >>> illuminant = ILLUMINANTS_SPDS['F2']
-    >>> light_source = LIGHT_SOURCES_SPDS['Kinoton 75P']
-    >>> plot_multi_spds_colour_rendering_indexes_bars(
+    >>> from colour import (ILLUMINANTS_SDS,
+    ...                     LIGHT_SOURCES_SDS)
+    >>> illuminant = ILLUMINANTS_SDS['F2']
+    >>> light_source = LIGHT_SOURCES_SDS['Kinoton 75P']
+    >>> plot_multi_sds_colour_rendering_indexes_bars(
     ...     [illuminant, light_source])  # doctest: +SKIP
 
     .. image:: ../_static/Plotting_\
-Plot_Multi_SPDs_Colour_Rendering_Indexes_Bars.png
+Plot_Multi_SDs_Colour_Rendering_Indexes_Bars.png
         :align: center
-        :alt: plot_multi_spds_colour_rendering_indexes_bars
+        :alt: plot_multi_sds_colour_rendering_indexes_bars
     """
 
     settings = dict(kwargs)
     settings.update({'standalone': False})
 
     specifications = [
-        colour_rendering_index(spd, additional_data=True) for spd in spds
+        colour_rendering_index(sd, additional_data=True) for sd in sds
     ]
 
     # *colour rendering index* colorimetry data tristimulus values are
     # computed in [0, 100] domain however `plot_colour_quality_bars` expects
     # [0, 1] domain. As we want to keep `plot_colour_quality_bars` definition
-    # agnostic from the colour quality data, we update the test spd
+    # agnostic from the colour quality data, we update the test sd
     # colorimetry data tristimulus values domain.
     for specification in specifications:
         colorimetry_data = specification.colorimetry_data
@@ -280,7 +280,7 @@ Plot_Multi_SPDs_Colour_Rendering_Indexes_Bars.png
     figure, axes = plot_colour_quality_bars(specifications, **settings)
 
     title = 'Colour Rendering Index - {0}'.format(', '.join(
-        [spd.strict_name for spd in spds]))
+        [sd.strict_name for sd in sds]))
 
     settings = {'axes': axes, 'title': title}
     settings.update(kwargs)
@@ -289,15 +289,15 @@ Plot_Multi_SPDs_Colour_Rendering_Indexes_Bars.png
 
 
 @override_style()
-def plot_single_spd_colour_quality_scale_bars(spd, **kwargs):
+def plot_single_sd_colour_quality_scale_bars(sd, **kwargs):
     """
     Plots the *Colour Quality Scale* (CQS) of given illuminant or light source
-    spectral power distribution.
+    spectral distribution.
 
     Parameters
     ----------
-    spd : SpectralPowerDistribution
-        Illuminant or light source spectral power distribution to plot the
+    sd : SpectralDistribution
+        Illuminant or light source spectral distribution to plot the
         *Colour Quality Scale* (CQS).
 
     Other Parameters
@@ -322,30 +322,30 @@ def plot_single_spd_colour_quality_scale_bars(spd, **kwargs):
 
     Examples
     --------
-    >>> from colour import ILLUMINANTS_SPDS
-    >>> illuminant = ILLUMINANTS_SPDS['F2']
-    >>> plot_single_spd_colour_quality_scale_bars(illuminant)
+    >>> from colour import ILLUMINANTS_SDS
+    >>> illuminant = ILLUMINANTS_SDS['F2']
+    >>> plot_single_sd_colour_quality_scale_bars(illuminant)
     ... # doctest: +SKIP
 
     .. image:: ../_static/Plotting_\
-Plot_Single_SPD_Colour_Quality_Scale_Bars.png
+Plot_Single_SD_Colour_Quality_Scale_Bars.png
         :align: center
-        :alt: plot_single_spd_colour_quality_scale_bars
+        :alt: plot_single_sd_colour_quality_scale_bars
     """
 
-    return plot_multi_spds_colour_quality_scales_bars([spd], **kwargs)
+    return plot_multi_sds_colour_quality_scales_bars([sd], **kwargs)
 
 
 @override_style()
-def plot_multi_spds_colour_quality_scales_bars(spds, **kwargs):
+def plot_multi_sds_colour_quality_scales_bars(sds, **kwargs):
     """
     Plots the *Colour Quality Scale* (CQS) of given illuminants or light
-    sources spectral power distributions.
+    sources spectral distributions.
 
     Parameters
     ----------
-    spds : array_like
-        Array of illuminants or light sources spectral power distributions to
+    sds : array_like
+        Array of illuminants or light sources spectral distributions to
         plot the *Colour Quality Scale* (CQS).
 
     Other Parameters
@@ -370,30 +370,30 @@ def plot_multi_spds_colour_quality_scales_bars(spds, **kwargs):
 
     Examples
     --------
-    >>> from colour import (ILLUMINANTS_SPDS,
-    ...                     LIGHT_SOURCES_SPDS)
-    >>> illuminant = ILLUMINANTS_SPDS['F2']
-    >>> light_source = LIGHT_SOURCES_SPDS['Kinoton 75P']
-    >>> plot_multi_spds_colour_quality_scales_bars([illuminant, light_source])
+    >>> from colour import (ILLUMINANTS_SDS,
+    ...                     LIGHT_SOURCES_SDS)
+    >>> illuminant = ILLUMINANTS_SDS['F2']
+    >>> light_source = LIGHT_SOURCES_SDS['Kinoton 75P']
+    >>> plot_multi_sds_colour_quality_scales_bars([illuminant, light_source])
     ... # doctest: +SKIP
 
     .. image:: ../_static/Plotting_\
-Plot_Multi_SPDs_Colour_Quality_Scales_Bars.png
+Plot_Multi_SDs_Colour_Quality_Scales_Bars.png
         :align: center
-        :alt: plot_multi_spds_colour_quality_scales_bars
+        :alt: plot_multi_sds_colour_quality_scales_bars
     """
 
     settings = dict(kwargs)
     settings.update({'standalone': False})
 
     specifications = [
-        colour_quality_scale(spd, additional_data=True) for spd in spds
+        colour_quality_scale(sd, additional_data=True) for sd in sds
     ]
 
     figure, axes = plot_colour_quality_bars(specifications, **settings)
 
     title = 'Colour Quality Scale - {0}'.format(', '.join(
-        [spd.strict_name for spd in spds]))
+        [sd.strict_name for sd in sds]))
 
     settings = {'axes': axes, 'title': title}
     settings.update(kwargs)

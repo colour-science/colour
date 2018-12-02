@@ -14,7 +14,7 @@ Rayleigh Scattering
     :toctree: generated/
 
     rayleigh_scattering
-    rayleigh_scattering_spd
+    rayleigh_scattering_sd
     scattering_cross_section
 
 ``colour.phenomena``

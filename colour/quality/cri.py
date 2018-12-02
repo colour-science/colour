@@ -28,9 +28,9 @@ from collections import namedtuple
 
 from colour.algebra import euclidean_distance, spow
 from colour.colorimetry import (
-    ASTME30815_PRACTISE_SHAPE, spd_CIE_illuminant_D_series,
-    STANDARD_OBSERVERS_CMFS, spd_blackbody, spectral_to_XYZ)
-from colour.quality.dataset.tcs import TCS_INDEXES_TO_NAMES, TCS_SPDS
+    ASTME30815_PRACTISE_SHAPE, sd_CIE_illuminant_D_series,
+    STANDARD_OBSERVERS_CMFS, sd_blackbody, spectral_to_XYZ)
+from colour.quality.dataset.tcs import TCS_INDEXES_TO_NAMES, TCS_SDS
 from colour.models import UCS_to_uv, XYZ_to_UCS, XYZ_to_xyY
 from colour.temperature import CCT_to_xy_CIE_D, uv_to_CCT_Robertson1968
 from colour.utilities import domain_range_scale
@@ -73,7 +73,7 @@ class CRI_Specification(
     Parameters
     ----------
     name : unicode
-        Name of the test spectral power distribution.
+        Name of the test spectral distribution.
     Q_a : numeric
         *Colour Rendering Index* (CRI) :math:`Q_a`.
     Q_as : dict
@@ -87,15 +87,15 @@ class CRI_Specification(
     """
 
 
-def colour_rendering_index(spd_test, additional_data=False):
+def colour_rendering_index(sd_test, additional_data=False):
     """
     Returns the *Colour Rendering Index* (CRI) :math:`Q_a` of given spectral
-    power distribution.
+    distribution.
 
     Parameters
     ----------
-    spd_test : SpectralPowerDistribution
-        Test spectral power distribution.
+    sd_test : SpectralDistribution
+        Test spectral distribution.
     additional_data : bool, optional
         Whether to output additional data.
 
@@ -110,9 +110,9 @@ def colour_rendering_index(spd_test, additional_data=False):
 
     Examples
     --------
-    >>> from colour import ILLUMINANTS_SPDS
-    >>> spd = ILLUMINANTS_SPDS['F2']
-    >>> colour_rendering_index(spd)  # doctest: +ELLIPSIS
+    >>> from colour import ILLUMINANTS_SDS
+    >>> sd = ILLUMINANTS_SDS['F2']
+    >>> colour_rendering_index(sd)  # doctest: +ELLIPSIS
     64.1515202...
     """
 
@@ -120,27 +120,27 @@ def colour_rendering_index(spd_test, additional_data=False):
     ).trim(ASTME30815_PRACTISE_SHAPE)
 
     shape = cmfs.shape
-    spd_test = spd_test.copy().align(shape)
-    tcs_spds = {spd.name: spd.copy().align(shape) for spd in TCS_SPDS.values()}
+    sd_test = sd_test.copy().align(shape)
+    tcs_sds = {sd.name: sd.copy().align(shape) for sd in TCS_SDS.values()}
 
     with domain_range_scale('1'):
-        XYZ = spectral_to_XYZ(spd_test, cmfs)
+        XYZ = spectral_to_XYZ(sd_test, cmfs)
 
     uv = UCS_to_uv(XYZ_to_UCS(XYZ))
     CCT, _D_uv = uv_to_CCT_Robertson1968(uv)
 
     if CCT < 5000:
-        spd_reference = spd_blackbody(CCT, shape)
+        sd_reference = sd_blackbody(CCT, shape)
     else:
         xy = CCT_to_xy_CIE_D(CCT)
-        spd_reference = spd_CIE_illuminant_D_series(xy)
-        spd_reference.align(shape)
+        sd_reference = sd_CIE_illuminant_D_series(xy)
+        sd_reference.align(shape)
 
     test_tcs_colorimetry_data = tcs_colorimetry_data(
-        spd_test, spd_reference, tcs_spds, cmfs, chromatic_adaptation=True)
+        sd_test, sd_reference, tcs_sds, cmfs, chromatic_adaptation=True)
 
     reference_tcs_colorimetry_data = tcs_colorimetry_data(
-        spd_reference, spd_reference, tcs_spds, cmfs)
+        sd_reference, sd_reference, tcs_sds, cmfs)
 
     Q_as = colour_rendering_indexes(test_tcs_colorimetry_data,
                                     reference_tcs_colorimetry_data)
@@ -150,15 +150,15 @@ def colour_rendering_index(spd_test, additional_data=False):
 
     if additional_data:
         return CRI_Specification(
-            spd_test.name, Q_a, Q_as,
+            sd_test.name, Q_a, Q_as,
             (test_tcs_colorimetry_data, reference_tcs_colorimetry_data))
     else:
         return Q_a
 
 
-def tcs_colorimetry_data(spd_t,
-                         spd_r,
-                         spds_tcs,
+def tcs_colorimetry_data(sd_t,
+                         sd_r,
+                         sds_tcs,
                          cmfs,
                          chromatic_adaptation=False):
     """
@@ -166,12 +166,12 @@ def tcs_colorimetry_data(spd_t,
 
     Parameters
     ----------
-    spd_t : SpectralPowerDistribution
-        Test spectral power distribution.
-    spd_r : SpectralPowerDistribution
-        Reference spectral power distribution.
-    spds_tcs : dict
-        *Test colour samples* spectral power distributions.
+    sd_t : SpectralDistribution
+        Test spectral distribution.
+    sd_r : SpectralDistribution
+        Reference spectral distribution.
+    sds_tcs : dict
+        *Test colour samples* spectral distributions.
     cmfs : XYZ_ColourMatchingFunctions
         Standard observer colour matching functions.
     chromatic_adaptation : bool, optional
@@ -183,18 +183,18 @@ def tcs_colorimetry_data(spd_t,
         *Test colour samples* colorimetry data.
     """
 
-    XYZ_t = spectral_to_XYZ(spd_t, cmfs)
+    XYZ_t = spectral_to_XYZ(sd_t, cmfs)
     uv_t = UCS_to_uv(XYZ_to_UCS(XYZ_t))
     u_t, v_t = uv_t[0], uv_t[1]
 
-    XYZ_r = spectral_to_XYZ(spd_r, cmfs)
+    XYZ_r = spectral_to_XYZ(sd_r, cmfs)
     uv_r = UCS_to_uv(XYZ_to_UCS(XYZ_r))
     u_r, v_r = uv_r[0], uv_r[1]
 
     tcs_data = []
     for _key, value in sorted(TCS_INDEXES_TO_NAMES.items()):
-        spd_tcs = spds_tcs[value]
-        XYZ_tcs = spectral_to_XYZ(spd_tcs, cmfs, spd_t)
+        sd_tcs = sds_tcs[value]
+        XYZ_tcs = spectral_to_XYZ(sd_tcs, cmfs, sd_t)
         xyY_tcs = XYZ_to_xyY(XYZ_tcs)
         uv_tcs = UCS_to_uv(XYZ_to_UCS(XYZ_tcs))
         u_tcs, v_tcs = uv_tcs[0], uv_tcs[1]
@@ -229,7 +229,7 @@ def tcs_colorimetry_data(spd_t,
         V_tcs = 13 * W_tcs * (v_tcs - v_r)
 
         tcs_data.append(
-            TCS_ColorimetryData(spd_tcs.name, XYZ_tcs, uv_tcs,
+            TCS_ColorimetryData(sd_tcs.name, XYZ_tcs, uv_tcs,
                                 np.array([U_tcs, V_tcs, W_tcs])))
 
     return tcs_data

@@ -8,7 +8,7 @@ from __future__ import division, unicode_literals
 import unittest
 
 from colour.quality import colour_rendering_index
-from colour.colorimetry import (ILLUMINANTS_SPDS, SpectralPowerDistribution)
+from colour.colorimetry import (ILLUMINANTS_SDS, SpectralDistribution)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -19,7 +19,7 @@ __status__ = 'Production'
 
 __all__ = ['TestColourRenderingIndex']
 
-SAMPLE_SPD_DATA = {
+SAMPLE_SD_DATA = {
     380: 0.00588346,
     385: 0.00315377,
     390: 0.00242868,
@@ -116,17 +116,17 @@ class TestColourRenderingIndex(unittest.TestCase):
         """
 
         self.assertAlmostEqual(
-            colour_rendering_index(ILLUMINANTS_SPDS['F2']),
+            colour_rendering_index(ILLUMINANTS_SDS['F2']),
             64.151520202968015,
             places=7)
 
         self.assertAlmostEqual(
-            colour_rendering_index(ILLUMINANTS_SPDS['A']),
+            colour_rendering_index(ILLUMINANTS_SDS['A']),
             99.996732643006169,
             places=7)
 
         self.assertAlmostEqual(
-            colour_rendering_index(SpectralPowerDistribution(SAMPLE_SPD_DATA)),
+            colour_rendering_index(SpectralDistribution(SAMPLE_SD_DATA)),
             70.813839034481575,
             places=7)
 

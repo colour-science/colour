@@ -8,9 +8,9 @@ Defines the *CIE* chromaticity diagrams plotting objects:
 -   :func:`colour.plotting.plot_chromaticity_diagram_CIE1931`
 -   :func:`colour.plotting.plot_chromaticity_diagram_CIE1960UCS`
 -   :func:`colour.plotting.plot_chromaticity_diagram_CIE1976UCS`
--   :func:`colour.plotting.plot_spds_in_chromaticity_diagram_CIE1931`
--   :func:`colour.plotting.plot_spds_in_chromaticity_diagram_CIE1960UCS`
--   :func:`colour.plotting.plot_spds_in_chromaticity_diagram_CIE1976UCS`
+-   :func:`colour.plotting.plot_sds_in_chromaticity_diagram_CIE1931`
+-   :func:`colour.plotting.plot_sds_in_chromaticity_diagram_CIE1960UCS`
+-   :func:`colour.plotting.plot_sds_in_chromaticity_diagram_CIE1976UCS`
 """
 
 from __future__ import division
@@ -42,10 +42,10 @@ __all__ = [
     'plot_chromaticity_diagram', 'plot_chromaticity_diagram_CIE1931',
     'plot_chromaticity_diagram_CIE1960UCS',
     'plot_chromaticity_diagram_CIE1976UCS',
-    'plot_spds_in_chromaticity_diagram',
-    'plot_spds_in_chromaticity_diagram_CIE1931',
-    'plot_spds_in_chromaticity_diagram_CIE1960UCS',
-    'plot_spds_in_chromaticity_diagram_CIE1976UCS'
+    'plot_sds_in_chromaticity_diagram',
+    'plot_sds_in_chromaticity_diagram_CIE1931',
+    'plot_sds_in_chromaticity_diagram_CIE1960UCS',
+    'plot_sds_in_chromaticity_diagram_CIE1976UCS'
 ]
 
 
@@ -548,31 +548,31 @@ def plot_chromaticity_diagram_CIE1976UCS(
 
 
 @override_style()
-def plot_spds_in_chromaticity_diagram(
-        spds,
+def plot_sds_in_chromaticity_diagram(
+        sds,
         cmfs='CIE 1931 2 Degree Standard Observer',
         annotate_parameters=None,
         chromaticity_diagram_callable=plot_chromaticity_diagram,
         method='CIE 1931',
         **kwargs):
     """
-    Plots given spectral power distribution chromaticity coordinates into the
+    Plots given spectral distribution chromaticity coordinates into the
     *Chromaticity Diagram* using given method.
 
     Parameters
     ----------
-    spds : array_like, optional
-        Spectral power distributions to plot.
+    sds : array_like, optional
+        Spectral distributions to plot.
     cmfs : unicode, optional
         Standard observer colour matching functions used for
         *Chromaticity Diagram* bounds.
     annotate_parameters : dict or array_like, optional
         Parameters for the :func:`plt.annotate` definition, used to annotate
         the resulting chromaticity coordinates with their respective spectral
-        power distribution names if ``annotate`` is set to *True*.
+        distribution names if ``annotate`` is set to *True*.
         ``annotate_parameters`` can be either a single dictionary applied to
         all the arrows with same settings or a sequence of dictionaries with
-        different settings for each spectral power distribution.
+        different settings for each spectral distribution.
     chromaticity_diagram_callable : callable, optional
         Callable responsible for drawing the *Chromaticity Diagram*.
     method : unicode, optional
@@ -594,14 +594,14 @@ def plot_spds_in_chromaticity_diagram(
 
     Examples
     --------
-    >>> from colour import ILLUMINANTS_SPDS
-    >>> A = ILLUMINANTS_SPDS['A']
-    >>> D65 = ILLUMINANTS_SPDS['D65']
-    >>> plot_spds_in_chromaticity_diagram([A, D65])  # doctest: +SKIP
+    >>> from colour import ILLUMINANTS_SDS
+    >>> A = ILLUMINANTS_SDS['A']
+    >>> D65 = ILLUMINANTS_SDS['D65']
+    >>> plot_sds_in_chromaticity_diagram([A, D65])  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Plot_SPDS_In_Chromaticity_Diagram.png
+    .. image:: ../_static/Plotting_Plot_SDs_In_Chromaticity_Diagram.png
         :align: center
-        :alt: plot_spds_in_chromaticity_diagram
+        :alt: plot_sds_in_chromaticity_diagram
     """
 
     settings = {'uniform': True}
@@ -665,13 +665,13 @@ def plot_spds_in_chromaticity_diagram(
         'xytext': (-50, 30),
         'textcoords': 'offset points',
         'arrowprops': COLOUR_ARROW_STYLE,
-    } for _ in range(len(spds))]
+    } for _ in range(len(sds))]
 
     if annotate_parameters is not None:
         if not isinstance(annotate_parameters, dict):
-            assert len(annotate_parameters) == len(spds), (
+            assert len(annotate_parameters) == len(sds), (
                 'Multiple annotate parameters defined, but they do not match '
-                'the spectral power distributions count!')
+                'the spectral distributions count!')
 
         for i, annotate_settings in enumerate(annotate_settings_collection):
             if isinstance(annotate_parameters, dict):
@@ -679,9 +679,9 @@ def plot_spds_in_chromaticity_diagram(
             else:
                 annotate_settings.update(annotate_parameters[i])
 
-    for i, spd in enumerate(spds):
+    for i, sd in enumerate(sds):
         with domain_range_scale('1'):
-            XYZ = spectral_to_XYZ(spd)
+            XYZ = spectral_to_XYZ(sd)
 
         ij = XYZ_to_ij(XYZ)
 
@@ -694,14 +694,14 @@ def plot_spds_in_chromaticity_diagram(
             markersize=(COLOUR_STYLE_CONSTANTS.geometry.short * 6 +
                         COLOUR_STYLE_CONSTANTS.geometry.short * 0.75),
             markeredgewidth=COLOUR_STYLE_CONSTANTS.geometry.short * 0.75,
-            label=spd.strict_name)
+            label=sd.strict_name)
 
-        if (spd.name is not None and
+        if (sd.name is not None and
                 annotate_settings_collection[i]['annotate']):
             annotate_settings = annotate_settings_collection[i]
             annotate_settings.pop('annotate')
 
-            axes.annotate(spd.name, xy=ij, **annotate_settings)
+            axes.annotate(sd.name, xy=ij, **annotate_settings)
 
     settings.update({'standalone': True, 'bounding_box': bounding_box})
     settings.update(kwargs)
@@ -710,31 +710,31 @@ def plot_spds_in_chromaticity_diagram(
 
 
 @override_style()
-def plot_spds_in_chromaticity_diagram_CIE1931(
-        spds,
+def plot_sds_in_chromaticity_diagram_CIE1931(
+        sds,
         cmfs='CIE 1931 2 Degree Standard Observer',
         annotate_parameters=None,
         chromaticity_diagram_callable_CIE1931=(
             plot_chromaticity_diagram_CIE1931),
         **kwargs):
     """
-    Plots given spectral power distribution chromaticity coordinates into the
+    Plots given spectral distribution chromaticity coordinates into the
     *CIE 1931 Chromaticity Diagram*.
 
     Parameters
     ----------
-    spds : array_like, optional
-        Spectral power distributions to plot.
+    sds : array_like, optional
+        Spectral distributions to plot.
     cmfs : unicode, optional
         Standard observer colour matching functions used for
         *Chromaticity Diagram* bounds.
     annotate_parameters : dict or array_like, optional
         Parameters for the :func:`plt.annotate` definition, used to annotate
         the resulting chromaticity coordinates with their respective spectral
-        power distribution names if ``annotate`` is set to *True*.
+        distribution names if ``annotate`` is set to *True*.
         ``annotate_parameters`` can be either a single dictionary applied to
         all the arrows with same settings or a sequence of dictionaries with
-        different settings for each spectral power distribution.
+        different settings for each spectral distribution.
     chromaticity_diagram_callable_CIE1931 : callable, optional
         Callable responsible for drawing the *CIE 1931 Chromaticity Diagram*.
 
@@ -753,51 +753,51 @@ def plot_spds_in_chromaticity_diagram_CIE1931(
 
     Examples
     --------
-    >>> from colour import ILLUMINANTS_SPDS
-    >>> A = ILLUMINANTS_SPDS['A']
-    >>> D65 = ILLUMINANTS_SPDS['D65']
-    >>> plot_spds_in_chromaticity_diagram_CIE1931([A, D65])  # doctest: +SKIP
+    >>> from colour import ILLUMINANTS_SDS
+    >>> A = ILLUMINANTS_SDS['A']
+    >>> D65 = ILLUMINANTS_SDS['D65']
+    >>> plot_sds_in_chromaticity_diagram_CIE1931([A, D65])  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting\
-_Plot_SPDS_In_Chromaticity_Diagram_CIE1931.png
+    .. image:: ../_static/Plotting_\
+Plot_SDs_In_Chromaticity_Diagram_CIE1931.png
         :align: center
-        :alt: plot_spds_in_chromaticity_diagram_CIE1931
+        :alt: plot_sds_in_chromaticity_diagram_CIE1931
     """
 
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1931'})
 
-    return plot_spds_in_chromaticity_diagram(
-        spds, cmfs, annotate_parameters, chromaticity_diagram_callable_CIE1931,
+    return plot_sds_in_chromaticity_diagram(
+        sds, cmfs, annotate_parameters, chromaticity_diagram_callable_CIE1931,
         **settings)
 
 
 @override_style()
-def plot_spds_in_chromaticity_diagram_CIE1960UCS(
-        spds,
+def plot_sds_in_chromaticity_diagram_CIE1960UCS(
+        sds,
         cmfs='CIE 1931 2 Degree Standard Observer',
         annotate_parameters=None,
         chromaticity_diagram_callable_CIE1960UCS=(
             plot_chromaticity_diagram_CIE1960UCS),
         **kwargs):
     """
-    Plots given spectral power distribution chromaticity coordinates into the
+    Plots given spectral distribution chromaticity coordinates into the
     *CIE 1960 UCS Chromaticity Diagram*.
 
     Parameters
     ----------
-    spds : array_like, optional
-        Spectral power distributions to plot.
+    sds : array_like, optional
+        Spectral distributions to plot.
     cmfs : unicode, optional
         Standard observer colour matching functions used for
         *Chromaticity Diagram* bounds.
     annotate_parameters : dict or array_like, optional
         Parameters for the :func:`plt.annotate` definition, used to annotate
         the resulting chromaticity coordinates with their respective spectral
-        power distribution names if ``annotate`` is set to *True*.
+        distribution names if ``annotate`` is set to *True*.
         ``annotate_parameters`` can be either a single dictionary applied to
         all the arrows with same settings or a sequence of dictionaries with
-        different settings for each spectral power distribution.
+        different settings for each spectral distribution.
     chromaticity_diagram_callable_CIE1960UCS : callable, optional
         Callable responsible for drawing the
         *CIE 1960 UCS Chromaticity Diagram*.
@@ -817,52 +817,52 @@ def plot_spds_in_chromaticity_diagram_CIE1960UCS(
 
     Examples
     --------
-    >>> from colour import ILLUMINANTS_SPDS
-    >>> A = ILLUMINANTS_SPDS['A']
-    >>> D65 = ILLUMINANTS_SPDS['D65']
-    >>> plot_spds_in_chromaticity_diagram_CIE1960UCS([A, D65])
+    >>> from colour import ILLUMINANTS_SDS
+    >>> A = ILLUMINANTS_SDS['A']
+    >>> D65 = ILLUMINANTS_SDS['D65']
+    >>> plot_sds_in_chromaticity_diagram_CIE1960UCS([A, D65])
     ... # doctest: +SKIP
 
     .. image:: ../_static/Plotting_\
-Plot_SPDS_In_Chromaticity_Diagram_CIE1960UCS.png
+Plot_SDs_In_Chromaticity_Diagram_CIE1960UCS.png
         :align: center
-        :alt: plot_spds_in_chromaticity_diagram_CIE1960UCS
+        :alt: plot_sds_in_chromaticity_diagram_CIE1960UCS
     """
 
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1960 UCS'})
 
-    return plot_spds_in_chromaticity_diagram(
-        spds, cmfs, annotate_parameters,
+    return plot_sds_in_chromaticity_diagram(
+        sds, cmfs, annotate_parameters,
         chromaticity_diagram_callable_CIE1960UCS, **settings)
 
 
 @override_style()
-def plot_spds_in_chromaticity_diagram_CIE1976UCS(
-        spds,
+def plot_sds_in_chromaticity_diagram_CIE1976UCS(
+        sds,
         cmfs='CIE 1931 2 Degree Standard Observer',
         annotate_parameters=None,
         chromaticity_diagram_callable_CIE1976UCS=(
             plot_chromaticity_diagram_CIE1976UCS),
         **kwargs):
     """
-    Plots given spectral power distribution chromaticity coordinates into the
+    Plots given spectral distribution chromaticity coordinates into the
     *CIE 1976 UCS Chromaticity Diagram*.
 
     Parameters
     ----------
-    spds : array_like, optional
-        Spectral power distributions to plot.
+    sds : array_like, optional
+        Spectral distributions to plot.
     cmfs : unicode, optional
         Standard observer colour matching functions used for
         *Chromaticity Diagram* bounds.
     annotate_parameters : dict or array_like, optional
         Parameters for the :func:`plt.annotate` definition, used to annotate
         the resulting chromaticity coordinates with their respective spectral
-        power distribution names if ``annotate`` is set to *True*.
+        distribution names if ``annotate`` is set to *True*.
         ``annotate_parameters`` can be either a single dictionary applied to
         all the arrows with same settings or a sequence of dictionaries with
-        different settings for each spectral power distribution.
+        different settings for each spectral distribution.
     chromaticity_diagram_callable_CIE1976UCS : callable, optional
         Callable responsible for drawing the
         *CIE 1976 UCS Chromaticity Diagram*.
@@ -882,21 +882,21 @@ def plot_spds_in_chromaticity_diagram_CIE1976UCS(
 
     Examples
     --------
-    >>> from colour import ILLUMINANTS_SPDS
-    >>> A = ILLUMINANTS_SPDS['A']
-    >>> D65 = ILLUMINANTS_SPDS['D65']
-    >>> plot_spds_in_chromaticity_diagram_CIE1976UCS([A, D65])
+    >>> from colour import ILLUMINANTS_SDS
+    >>> A = ILLUMINANTS_SDS['A']
+    >>> D65 = ILLUMINANTS_SDS['D65']
+    >>> plot_sds_in_chromaticity_diagram_CIE1976UCS([A, D65])
     ... # doctest: +SKIP
 
     .. image:: ../_static/Plotting_\
-Plot_SPDS_In_Chromaticity_Diagram_CIE1976UCS.png
+Plot_SDs_In_Chromaticity_Diagram_CIE1976UCS.png
         :align: center
-        :alt: plot_spds_in_chromaticity_diagram_CIE1976UCS
+        :alt: plot_sds_in_chromaticity_diagram_CIE1976UCS
     """
 
     settings = dict(kwargs)
     settings.update({'method': 'CIE 1976 UCS'})
 
-    return plot_spds_in_chromaticity_diagram(
-        spds, cmfs, annotate_parameters,
+    return plot_sds_in_chromaticity_diagram(
+        sds, cmfs, annotate_parameters,
         chromaticity_diagram_callable_CIE1976UCS, **settings)

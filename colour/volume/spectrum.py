@@ -28,7 +28,7 @@ import numpy as np
 from colour.algebra import NearestNeighbourInterpolator
 from colour.colorimetry import (
     DEFAULT_SPECTRAL_SHAPE, STANDARD_OBSERVERS_CMFS,
-    multi_spectral_to_XYZ_integration, SpectralShape, spd_ones)
+    multi_spectral_to_XYZ_integration, SpectralShape, sd_ones)
 from colour.volume import is_within_mesh_volume
 
 __author__ = 'Colour Developers'
@@ -130,7 +130,7 @@ def generate_pulse_waves(bins):
 def XYZ_outer_surface(
         interval=10,
         cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
-        illuminant=spd_ones(STANDARD_OBSERVERS_CMFS[
+        illuminant=sd_ones(STANDARD_OBSERVERS_CMFS[
             'CIE 1931 2 Degree Standard Observer'].shape)):
     """
     Generates the *CIE XYZ* colourspace outer surface for given colour matching
@@ -144,8 +144,8 @@ def XYZ_outer_surface(
         pulse waves.
     cmfs : XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions.
-    illuminant : SpectralPowerDistribution, optional
-        Illuminant spectral power distribution.
+    illuminant : SpectralDistribution, optional
+        Illuminant spectral distribution.
 
     Returns
     -------
@@ -220,7 +220,7 @@ def is_within_visible_spectrum(
         XYZ,
         interval=10,
         cmfs=STANDARD_OBSERVERS_CMFS['CIE 1931 2 Degree Standard Observer'],
-        illuminant=spd_ones(STANDARD_OBSERVERS_CMFS[
+        illuminant=sd_ones(STANDARD_OBSERVERS_CMFS[
             'CIE 1931 2 Degree Standard Observer'].shape),
         tolerance=None):
     """
@@ -236,8 +236,8 @@ def is_within_visible_spectrum(
         pulse waves for the *CIE XYZ* colourspace outer surface.
     cmfs : XYZ_ColourMatchingFunctions, optional
         Standard observer colour matching functions.
-    illuminant : SpectralPowerDistribution, optional
-        Illuminant spectral power distribution.
+    illuminant : SpectralDistribution, optional
+        Illuminant spectral distribution.
     tolerance : numeric, optional
         Tolerance allowed in the inside-triangle check.
 

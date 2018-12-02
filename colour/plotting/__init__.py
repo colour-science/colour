@@ -19,8 +19,8 @@ from .common import (COLOUR_STYLE_CONSTANTS, COLOUR_ARROW_STYLE, colour_style,
                      plot_multi_functions, plot_image)
 from .blindness import plot_cvd_simulation_Machado2009
 from .colorimetry import (
-    plot_single_spd, plot_multi_spds, plot_single_cmfs, plot_multi_cmfs,
-    plot_single_illuminant_spd, plot_multi_illuminant_spds,
+    plot_single_sd, plot_multi_sds, plot_single_cmfs, plot_multi_cmfs,
+    plot_single_illuminant_sd, plot_multi_illuminant_sds,
     plot_visible_spectrum, plot_single_lightness_function,
     plot_multi_lightness_functions, plot_single_luminance_function,
     plot_multi_luminance_functions, plot_blackbody_spectral_radiance,
@@ -30,9 +30,9 @@ from .characterisation import (plot_single_colour_checker,
 from .diagrams import (plot_chromaticity_diagram_CIE1931,
                        plot_chromaticity_diagram_CIE1960UCS,
                        plot_chromaticity_diagram_CIE1976UCS,
-                       plot_spds_in_chromaticity_diagram_CIE1931,
-                       plot_spds_in_chromaticity_diagram_CIE1960UCS,
-                       plot_spds_in_chromaticity_diagram_CIE1976UCS)
+                       plot_sds_in_chromaticity_diagram_CIE1931,
+                       plot_sds_in_chromaticity_diagram_CIE1960UCS,
+                       plot_sds_in_chromaticity_diagram_CIE1976UCS)
 from .corresponding import plot_corresponding_chromaticities_prediction
 from .geometry import quad, grid, cube
 from .models import (
@@ -48,11 +48,11 @@ from .models import (
     plot_single_cctf, plot_multi_cctfs)
 from .notation import (plot_single_munsell_value_function,
                        plot_multi_munsell_value_functions)
-from .phenomena import plot_single_spd_rayleigh_scattering, plot_the_blue_sky
-from .quality import (plot_single_spd_colour_rendering_index_bars,
-                      plot_multi_spds_colour_rendering_indexes_bars,
-                      plot_single_spd_colour_quality_scale_bars,
-                      plot_multi_spds_colour_quality_scales_bars)
+from .phenomena import plot_single_sd_rayleigh_scattering, plot_the_blue_sky
+from .quality import (plot_single_sd_colour_rendering_index_bars,
+                      plot_multi_sds_colour_rendering_indexes_bars,
+                      plot_single_sd_colour_quality_scale_bars,
+                      plot_multi_sds_colour_quality_scales_bars)
 from .temperature import (
     plot_planckian_locus_in_chromaticity_diagram_CIE1931,
     plot_planckian_locus_in_chromaticity_diagram_CIE1960UCS)
@@ -71,9 +71,9 @@ __all__ += [
 ]
 __all__ += ['plot_cvd_simulation_Machado2009']
 __all__ += [
-    'plot_single_spd', 'plot_multi_spds', 'plot_single_cmfs',
-    'plot_multi_cmfs', 'plot_single_illuminant_spd',
-    'plot_multi_illuminant_spds', 'plot_visible_spectrum',
+    'plot_single_sd', 'plot_multi_sds', 'plot_single_cmfs',
+    'plot_multi_cmfs', 'plot_single_illuminant_sd',
+    'plot_multi_illuminant_sds', 'plot_visible_spectrum',
     'plot_single_lightness_function', 'plot_multi_lightness_functions',
     'plot_single_luminance_function', 'plot_multi_luminance_functions',
     'plot_blackbody_spectral_radiance', 'plot_blackbody_colours'
@@ -83,9 +83,9 @@ __all__ += [
     'plot_chromaticity_diagram_CIE1931',
     'plot_chromaticity_diagram_CIE1960UCS',
     'plot_chromaticity_diagram_CIE1976UCS',
-    'plot_spds_in_chromaticity_diagram_CIE1931',
-    'plot_spds_in_chromaticity_diagram_CIE1960UCS',
-    'plot_spds_in_chromaticity_diagram_CIE1976UCS'
+    'plot_sds_in_chromaticity_diagram_CIE1931',
+    'plot_sds_in_chromaticity_diagram_CIE1960UCS',
+    'plot_sds_in_chromaticity_diagram_CIE1976UCS'
 ]
 __all__ += ['plot_corresponding_chromaticities_prediction']
 __all__ += ['quad', 'grid', 'cube']
@@ -105,12 +105,12 @@ __all__ += [
 __all__ += [
     'plot_single_munsell_value_function', 'plot_multi_munsell_value_functions'
 ]
-__all__ += ['plot_single_spd_rayleigh_scattering', 'plot_the_blue_sky']
+__all__ += ['plot_single_sd_rayleigh_scattering', 'plot_the_blue_sky']
 __all__ += [
-    'plot_single_spd_colour_rendering_index_bars',
-    'plot_multi_spds_colour_rendering_indexes_bars',
-    'plot_single_spd_colour_quality_scale_bars',
-    'plot_multi_spds_colour_quality_scales_bars'
+    'plot_single_sd_colour_rendering_index_bars',
+    'plot_multi_sds_colour_rendering_indexes_bars',
+    'plot_single_sd_colour_quality_scale_bars',
+    'plot_multi_sds_colour_quality_scales_bars'
 ]
 __all__ += [
     'plot_planckian_locus_in_chromaticity_diagram_CIE1931',
@@ -144,15 +144,15 @@ API_CHANGES = {
         ],
         [
             'colour.plotting.spds_CIE_1931_chromaticity_diagram_plot',
-            'colour.plotting.plot_spds_in_chromaticity_diagram_CIE1931',
+            'colour.plotting.plot_sds_in_chromaticity_diagram_CIE1931',
         ],
         [
             'colour.plotting.spds_CIE_1960_UCS_chromaticity_diagram_plot',
-            'colour.plotting.plot_spds_in_chromaticity_diagram_CIE1960UCS',
+            'colour.plotting.plot_sds_in_chromaticity_diagram_CIE1960UCS',
         ],
         [
             'colour.plotting.spds_CIE_1976_UCS_chromaticity_diagram_plot',
-            'colour.plotting.plot_spds_in_chromaticity_diagram_CIE1976UCS',
+            'colour.plotting.plot_sds_in_chromaticity_diagram_CIE1976UCS',
         ],
         [
             'colour.plotting.'
@@ -244,11 +244,11 @@ API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
     ],
     [
         'colour.plotting.single_spd_plot',
-        'colour.plotting.plot_single_spd',
+        'colour.plotting.plot_single_sd',
     ],
     [
         'colour.plotting.multi_spd_plot',
-        'colour.plotting.plot_multi_spds',
+        'colour.plotting.plot_multi_sds',
     ],
     [
         'colour.plotting.single_cmfs_plot',
@@ -260,11 +260,11 @@ API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
     ],
     [
         'colour.plotting.single_illuminant_spd_plot',
-        'colour.plotting.plot_single_illuminant_spd',
+        'colour.plotting.plot_single_illuminant_sd',
     ],
     [
         'colour.plotting.multi_illuminant_spd_plot',
-        'colour.plotting.plot_multi_illuminant_spds',
+        'colour.plotting.plot_multi_illuminant_sds',
     ],
     [
         'colour.plotting.visible_spectrum_plot',
@@ -328,19 +328,19 @@ API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
     ],
     [
         'colour.plotting.spds_chromaticity_diagram_plot',
-        'colour.plotting.plot_spds_in_chromaticity_diagram',
+        'colour.plotting.plot_sds_in_chromaticity_diagram',
     ],
     [
         'colour.plotting.spds_chromaticity_diagram_plot_CIE1931',
-        'colour.plotting.plot_spds_in_chromaticity_diagram_CIE1931',
+        'colour.plotting.plot_sds_in_chromaticity_diagram_CIE1931',
     ],
     [
         'colour.plotting.spds_chromaticity_diagram_plot_CIE1960UCS',
-        'colour.plotting.plot_spds_in_chromaticity_diagram_CIE1960UCS',
+        'colour.plotting.plot_sds_in_chromaticity_diagram_CIE1960UCS',
     ],
     [
         'colour.plotting.spds_chromaticity_diagram_plot_CIE1976UCS',
-        'colour.plotting.plot_spds_in_chromaticity_diagram_CIE1976UCS',
+        'colour.plotting.plot_sds_in_chromaticity_diagram_CIE1976UCS',
     ],
     [
         'colour.plotting.RGB_colourspaces_chromaticity_diagram_plot',
@@ -410,7 +410,7 @@ API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
     ],
     [
         'colour.plotting.single_spd_rayleigh_scattering_plot',
-        'colour.plotting.plot_single_spd_rayleigh_scattering',
+        'colour.plotting.plot_single_sd_rayleigh_scattering',
     ],
     [
         'colour.plotting.the_blue_sky_plot',
@@ -422,19 +422,19 @@ API_CHANGES['Renamed'] = API_CHANGES['Renamed'] + [
     ],
     [
         'colour.plotting.single_spd_colour_rendering_index_bars_plot',
-        'colour.plotting.plot_single_spd_colour_rendering_index_bars',
+        'colour.plotting.plot_single_sd_colour_rendering_index_bars',
     ],
     [
         'colour.plotting.multi_spd_colour_rendering_index_bars_plot',
-        'colour.plotting.plot_multi_spds_colour_rendering_indexes_bars',
+        'colour.plotting.plot_multi_sds_colour_rendering_indexes_bars',
     ],
     [
         'colour.plotting.single_spd_colour_quality_scale_bars_plot',
-        'colour.plotting.plot_single_spd_colour_quality_scale_bars',
+        'colour.plotting.plot_single_sd_colour_quality_scale_bars',
     ],
     [
         'colour.plotting.multi_spd_colour_quality_scale_bars_plot',
-        'colour.plotting.plot_multi_spds_colour_quality_scales_bars',
+        'colour.plotting.plot_multi_sds_colour_quality_scales_bars',
     ],
     [
         'colour.plotting.planckian_locus_plot',

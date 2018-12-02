@@ -5,12 +5,12 @@ Colorimetry Plotting
 
 Defines the colorimetry plotting objects:
 
--   :func:`colour.plotting.plot_single_spd`
--   :func:`colour.plotting.plot_multi_spds`
+-   :func:`colour.plotting.plot_single_sd`
+-   :func:`colour.plotting.plot_multi_sds`
 -   :func:`colour.plotting.plot_single_cmfs`
 -   :func:`colour.plotting.plot_multi_cmfs`
--   :func:`colour.plotting.plot_single_illuminant_spd`
--   :func:`colour.plotting.plot_multi_illuminant_spds`
+-   :func:`colour.plotting.plot_single_illuminant_sd`
+-   :func:`colour.plotting.plot_multi_illuminant_sds`
 -   :func:`colour.plotting.plot_visible_spectrum`
 -   :func:`colour.plotting.plot_single_lightness_function`
 -   :func:`colour.plotting.plot_multi_lightness_functions`
@@ -34,8 +34,8 @@ from six.moves import reduce
 
 from colour.algebra import LinearInterpolator
 from colour.colorimetry import (
-    ILLUMINANTS, ILLUMINANTS_SPDS, LIGHTNESS_METHODS, LUMINANCE_METHODS,
-    MultiSpectralPowerDistribution, SpectralShape, spd_blackbody, spd_ones,
+    ILLUMINANTS, ILLUMINANTS_SDS, LIGHTNESS_METHODS, LUMINANCE_METHODS,
+    MultiSpectralDistribution, SpectralShape, sd_blackbody, sd_ones,
     spectral_to_XYZ, wavelength_to_XYZ)
 from colour.plotting import (
     ColourSwatch, COLOUR_STYLE_CONSTANTS, XYZ_to_plotting_colourspace, artist,
@@ -52,27 +52,27 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'plot_single_spd', 'plot_multi_spds', 'plot_single_cmfs',
-    'plot_multi_cmfs', 'plot_single_illuminant_spd',
-    'plot_multi_illuminant_spds', 'plot_visible_spectrum',
-    'plot_single_lightness_function', 'plot_multi_lightness_functions',
-    'plot_single_luminance_function', 'plot_multi_luminance_functions',
-    'plot_blackbody_spectral_radiance', 'plot_blackbody_colours'
+    'plot_single_sd', 'plot_multi_sds', 'plot_single_cmfs', 'plot_multi_cmfs',
+    'plot_single_illuminant_sd', 'plot_multi_illuminant_sds',
+    'plot_visible_spectrum', 'plot_single_lightness_function',
+    'plot_multi_lightness_functions', 'plot_single_luminance_function',
+    'plot_multi_luminance_functions', 'plot_blackbody_spectral_radiance',
+    'plot_blackbody_colours'
 ]
 
 
 @override_style()
-def plot_single_spd(spd,
-                    cmfs='CIE 1931 2 Degree Standard Observer',
-                    out_of_gamut_clipping=True,
-                    **kwargs):
+def plot_single_sd(sd,
+                   cmfs='CIE 1931 2 Degree Standard Observer',
+                   out_of_gamut_clipping=True,
+                   **kwargs):
     """
-    Plots given spectral power distribution.
+    Plots given spectral distribution.
 
     Parameters
     ----------
-    spd : SpectralPowerDistribution
-        Spectral power distribution to plot.
+    sd : SpectralDistribution
+        Spectral distribution to plot.
     out_of_gamut_clipping : bool, optional
         Whether to clip out of gamut colours otherwise, the colours will be
         offset by the absolute minimal colour leading to a rendering on
@@ -97,7 +97,7 @@ def plot_single_spd(spd,
 
     Examples
     --------
-    >>> from colour import SpectralPowerDistribution
+    >>> from colour import SpectralDistribution
     >>> data = {
     ...     500: 0.0651,
     ...     520: 0.0705,
@@ -106,25 +106,25 @@ def plot_single_spd(spd,
     ...     580: 0.1128,
     ...     600: 0.1360
     ... }
-    >>> spd = SpectralPowerDistribution(data, name='Custom')
-    >>> plot_single_spd(spd)  # doctest: +SKIP
+    >>> sd = SpectralDistribution(data, name='Custom')
+    >>> plot_single_sd(sd)  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Plot_Single_SPD.png
+    .. image:: ../_static/Plotting_Plot_Single_SD.png
         :align: center
-        :alt: plot_single_spd
+        :alt: plot_single_sd
     """
 
     figure, axes = artist(**kwargs)
 
     cmfs = first_item(filter_cmfs(cmfs).values())
 
-    spd = spd.copy()
-    spd.interpolator = LinearInterpolator
+    sd = sd.copy()
+    sd.interpolator = LinearInterpolator
     wavelengths = cmfs.wavelengths[np.logical_and(
-        cmfs.wavelengths >= max(min(cmfs.wavelengths), min(spd.wavelengths)),
-        cmfs.wavelengths <= min(max(cmfs.wavelengths), max(spd.wavelengths)),
+        cmfs.wavelengths >= max(min(cmfs.wavelengths), min(sd.wavelengths)),
+        cmfs.wavelengths <= min(max(cmfs.wavelengths), max(sd.wavelengths)),
     )]
-    values = spd[wavelengths]
+    values = sd[wavelengths]
 
     colours = XYZ_to_plotting_colourspace(
         wavelength_to_XYZ(wavelengths, cmfs),
@@ -164,9 +164,9 @@ def plot_single_spd(spd,
     settings = {
         'axes': axes,
         'bounding_box': (x_min, x_max, y_min, y_max),
-        'title': '{0} - {1}'.format(spd.strict_name, cmfs.strict_name),
+        'title': '{0} - {1}'.format(sd.strict_name, cmfs.strict_name),
         'x_label': 'Wavelength $\\lambda$ (nm)',
-        'y_label': 'Spectral Power Distribution',
+        'y_label': 'Spectral Distribution',
     }
     settings.update(kwargs)
 
@@ -174,28 +174,28 @@ def plot_single_spd(spd,
 
 
 @override_style()
-def plot_multi_spds(spds,
-                    cmfs='CIE 1931 2 Degree Standard Observer',
-                    use_spds_colours=False,
-                    normalise_spds_colours=False,
-                    **kwargs):
+def plot_multi_sds(sds,
+                   cmfs='CIE 1931 2 Degree Standard Observer',
+                   use_sds_colours=False,
+                   normalise_sds_colours=False,
+                   **kwargs):
     """
-    Plots given spectral power distributions.
+    Plots given spectral distributions.
 
     Parameters
     ----------
-    spds : array_like or MultiSpectralPowerDistribution
-        Spectral power distributions or multi-spectral power distributions to
-        plot. `spds` can be a single
-        :class:`colour.MultiSpectralPowerDistribution` class instance, a list
-        of :class:`colour.MultiSpectralPowerDistribution` class instances or a
-        list of :class:`colour.SpectralPowerDistribution` class instances.
+    sds : array_like or MultiSpectralDistribution
+        Spectral distributions or multi-spectral distributions to
+        plot. `sds` can be a single
+        :class:`colour.MultiSpectralDistribution` class instance, a list
+        of :class:`colour.MultiSpectralDistribution` class instances or a
+        list of :class:`colour.SpectralDistribution` class instances.
     cmfs : unicode, optional
         Standard observer colour matching functions used for spectrum creation.
-    use_spds_colours : bool, optional
-        Whether to use spectral power distributions colours.
-    normalise_spds_colours : bool
-        Whether to normalise spectral power distributions colours.
+    use_sds_colours : bool, optional
+        Whether to use spectral distributions colours.
+    normalise_sds_colours : bool
+        Whether to normalise spectral distributions colours.
 
     Other Parameters
     ----------------
@@ -210,7 +210,7 @@ def plot_multi_spds(spds,
 
     Examples
     --------
-    >>> from colour import SpectralPowerDistribution
+    >>> from colour import SpectralDistribution
     >>> data_1 = {
     ...     500: 0.004900,
     ...     510: 0.009300,
@@ -229,53 +229,53 @@ def plot_multi_spds(spds,
     ...     550: 0.994950,
     ...     560: 0.995000
     ... }
-    >>> spd1 = SpectralPowerDistribution(data_1, name='Custom 1')
-    >>> spd2 = SpectralPowerDistribution(data_2, name='Custom 2')
-    >>> plot_multi_spds([spd1, spd2])  # doctest: +SKIP
+    >>> spd1 = SpectralDistribution(data_1, name='Custom 1')
+    >>> spd2 = SpectralDistribution(data_2, name='Custom 2')
+    >>> plot_multi_sds([spd1, spd2])  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Plot_Multi_SPDs.png
+    .. image:: ../_static/Plotting_Plot_Multi_SDs.png
         :align: center
-        :alt: plot_multi_spds
+        :alt: plot_multi_sds
     """
 
     figure, axes = artist(**kwargs)
 
-    if isinstance(spds, MultiSpectralPowerDistribution):
-        spds = spds.to_spds()
+    if isinstance(sds, MultiSpectralDistribution):
+        sds = sds.to_sds()
     else:
-        spds = list(spds)
-        for i, spd in enumerate(spds[:]):
-            if isinstance(spd, MultiSpectralPowerDistribution):
-                spds.remove(spd)
-                spds[i:i] = spd.to_spds()
+        sds = list(sds)
+        for i, sd in enumerate(sds[:]):
+            if isinstance(sd, MultiSpectralDistribution):
+                sds.remove(sd)
+                sds[i:i] = sd.to_sds()
 
     cmfs = first_item(filter_cmfs(cmfs).values())
 
-    illuminant = ILLUMINANTS_SPDS[
+    illuminant = ILLUMINANTS_SDS[
         COLOUR_STYLE_CONSTANTS.colour.colourspace.illuminant]
 
     x_limit_min, x_limit_max, y_limit_min, y_limit_max = [], [], [], []
-    for spd in spds:
-        wavelengths, values = spd.wavelengths, spd.values
+    for sd in sds:
+        wavelengths, values = sd.wavelengths, sd.values
 
-        shape = spd.shape
+        shape = sd.shape
         x_limit_min.append(shape.start)
         x_limit_max.append(shape.end)
         y_limit_min.append(min(values))
         y_limit_max.append(max(values))
 
-        if use_spds_colours:
+        if use_sds_colours:
             with domain_range_scale('1'):
-                XYZ = spectral_to_XYZ(spd, cmfs, illuminant)
+                XYZ = spectral_to_XYZ(sd, cmfs, illuminant)
 
-            if normalise_spds_colours:
+            if normalise_sds_colours:
                 XYZ = normalise_maximum(XYZ, clip=False)
 
             RGB = np.clip(XYZ_to_plotting_colourspace(XYZ), 0, 1)
 
-            axes.plot(wavelengths, values, color=RGB, label=spd.strict_name)
+            axes.plot(wavelengths, values, color=RGB, label=sd.strict_name)
         else:
-            axes.plot(wavelengths, values, label=spd.strict_name)
+            axes.plot(wavelengths, values, label=sd.strict_name)
 
     bounding_box = (min(x_limit_min), max(x_limit_max), min(y_limit_min),
                     max(y_limit_max) + max(y_limit_max) * 0.05)
@@ -284,7 +284,7 @@ def plot_multi_spds(spds,
         'bounding_box': bounding_box,
         'legend': True,
         'x_label': 'Wavelength $\\lambda$ (nm)',
-        'y_label': 'Spectral Power Distribution',
+        'y_label': 'Spectral Distribution',
     }
     settings.update(kwargs)
 
@@ -412,11 +412,11 @@ def plot_multi_cmfs(cmfs=None, **kwargs):
 
 
 @override_style()
-def plot_single_illuminant_spd(illuminant='A',
-                               cmfs='CIE 1931 2 Degree Standard Observer',
-                               **kwargs):
+def plot_single_illuminant_sd(illuminant='A',
+                              cmfs='CIE 1931 2 Degree Standard Observer',
+                              **kwargs):
     """
-    Plots given single illuminant spectral power distribution.
+    Plots given single illuminant spectral distribution.
 
     Parameters
     ----------
@@ -431,7 +431,7 @@ def plot_single_illuminant_spd(illuminant='A',
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
     out_of_gamut_clipping : bool, optional
-        {:func:`colour.plotting.plot_single_spd`},
+        {:func:`colour.plotting.plot_single_sd`},
         Whether to clip out of gamut colours otherwise, the colours will be
         offset by the absolute minimal colour leading to a rendering on
         gray background, less saturated and smoother.
@@ -447,11 +447,11 @@ def plot_single_illuminant_spd(illuminant='A',
 
     Examples
     --------
-    >>> plot_single_illuminant_spd('A')  # doctest: +SKIP
+    >>> plot_single_illuminant_sd('A')  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Plot_Single_Illuminant_SPD.png
+    .. image:: ../_static/Plotting_Plot_Single_Illuminant_SD.png
         :align: center
-        :alt: plot_single_illuminant_spd
+        :alt: plot_single_illuminant_sd
     """
 
     cmfs = first_item(filter_cmfs(cmfs).values())
@@ -462,13 +462,13 @@ def plot_single_illuminant_spd(illuminant='A',
     settings = {'title': title, 'y_label': 'Relative Power'}
     settings.update(kwargs)
 
-    return plot_single_spd(illuminant, **settings)
+    return plot_single_sd(illuminant, **settings)
 
 
 @override_style()
-def plot_multi_illuminant_spds(illuminants=None, **kwargs):
+def plot_multi_illuminant_sds(illuminants=None, **kwargs):
     """
-    Plots given illuminants spectral power distributions.
+    Plots given illuminants spectral distributions.
 
     Parameters
     ----------
@@ -480,12 +480,12 @@ def plot_multi_illuminant_spds(illuminants=None, **kwargs):
     \\**kwargs : dict, optional
         {:func:`colour.plotting.artist`, :func:`colour.plotting.render`},
         Please refer to the documentation of the previously listed definitions.
-    use_spds_colours : bool, optional
-        {:func:`colour.plotting.plot_multi_spds`}
-        Whether to use spectral power distributions colours.
-    normalise_spds_colours : bool
-        {:func:`colour.plotting.plot_multi_spds`}
-        Whether to normalise spectral power distributions colours.
+    use_sds_colours : bool, optional
+        {:func:`colour.plotting.plot_multi_sds`}
+        Whether to use spectral distributions colours.
+    normalise_sds_colours : bool
+        {:func:`colour.plotting.plot_multi_sds`}
+        Whether to normalise spectral distributions colours.
 
     Returns
     -------
@@ -494,11 +494,11 @@ def plot_multi_illuminant_spds(illuminants=None, **kwargs):
 
     Examples
     --------
-    >>> plot_multi_illuminant_spds(['A', 'B', 'C'])  # doctest: +SKIP
+    >>> plot_multi_illuminant_sds(['A', 'B', 'C'])  # doctest: +SKIP
 
-    .. image:: ../_static/Plotting_Plot_Multi_Illuminant_SPDs.png
+    .. image:: ../_static/Plotting_Plot_Multi_Illuminant_SDs.png
         :align: center
-        :alt: plot_multi_illuminant_spds
+        :alt: plot_multi_illuminant_sds
     """
 
     if illuminants is None:
@@ -506,13 +506,13 @@ def plot_multi_illuminant_spds(illuminants=None, **kwargs):
 
     illuminants = filter_illuminants(illuminants).values()
 
-    title = '{0} - Illuminants Spectral Power Distributions'.format(
+    title = '{0} - Illuminants Spectral Distributions'.format(
         ', '.join([illuminant.strict_name for illuminant in illuminants]))
 
     settings = {'title': title, 'y_label': 'Relative Power'}
     settings.update(kwargs)
 
-    return plot_multi_spds(illuminants, **settings)
+    return plot_multi_sds(illuminants, **settings)
 
 
 @override_style(**{
@@ -567,8 +567,8 @@ def plot_visible_spectrum(cmfs='CIE 1931 2 Degree Standard Observer',
     settings.update(kwargs)
     settings['standalone'] = False
 
-    figure, axes = plot_single_spd(
-        spd_ones(cmfs.shape),
+    figure, axes = plot_single_sd(
+        sd_ones(cmfs.shape),
         cmfs=cmfs,
         out_of_gamut_clipping=out_of_gamut_clipping,
         **settings)
@@ -802,7 +802,7 @@ def plot_blackbody_spectral_radiance(
 
     cmfs = first_item(filter_cmfs(cmfs).values())
 
-    spd = spd_blackbody(temperature, cmfs.shape)
+    sd = sd_blackbody(temperature, cmfs.shape)
 
     axes = figure.add_subplot(211)
     settings = {
@@ -813,12 +813,12 @@ def plot_blackbody_spectral_radiance(
     settings.update(kwargs)
     settings['standalone'] = False
 
-    plot_single_spd(spd, cmfs.name, **settings)
+    plot_single_sd(sd, cmfs.name, **settings)
 
     axes = figure.add_subplot(212)
 
     with domain_range_scale('1'):
-        XYZ = spectral_to_XYZ(spd, cmfs)
+        XYZ = spectral_to_XYZ(sd, cmfs)
 
     RGB = normalise_maximum(XYZ_to_plotting_colourspace(XYZ))
 
@@ -892,10 +892,10 @@ def plot_blackbody_colours(
 
     with suppress_warnings():
         for temperature in shape:
-            spd = spd_blackbody(temperature, cmfs.shape)
+            sd = sd_blackbody(temperature, cmfs.shape)
 
             with domain_range_scale('1'):
-                XYZ = spectral_to_XYZ(spd, cmfs)
+                XYZ = spectral_to_XYZ(sd, cmfs)
 
             RGB = normalise_maximum(XYZ_to_plotting_colourspace(XYZ))
 

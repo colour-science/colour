@@ -8,9 +8,9 @@ from __future__ import division, unicode_literals
 import numpy as np
 import unittest
 
-from colour.colorimetry import (ILLUMINANTS_SPDS, SpectralShape,
-                                spd_CIE_standard_illuminant_A,
-                                spd_CIE_illuminant_D_series)
+from colour.colorimetry import (ILLUMINANTS_SDS, SpectralShape,
+                                sd_CIE_standard_illuminant_A,
+                                sd_CIE_illuminant_D_series)
 from colour.temperature import CCT_to_xy_CIE_D
 
 __author__ = 'Colour Developers'
@@ -21,7 +21,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'A_DATA', 'TestSpdCIEStandardIlluminantA', 'TestSpd_CIEIlluminantDSeries'
+    'A_DATA', 'TestSdCIEStandardIlluminantA', 'TestSd_CIEIlluminantDSeries'
 ]
 
 A_DATA = np.array([
@@ -123,34 +123,34 @@ A_DATA = np.array([
 ])
 
 
-class TestSpdCIEStandardIlluminantA(unittest.TestCase):
+class TestSdCIEStandardIlluminantA(unittest.TestCase):
     """
     Defines :func:`colour.colorimetry.illuminants.\
-spd_CIE_standard_illuminant_A` definition unit tests methods.
+sd_CIE_standard_illuminant_A` definition unit tests methods.
     """
 
-    def test_spd_CIE_standard_illuminant_A(self):
+    def test_sd_CIE_standard_illuminant_A(self):
         """
         Tests :func:`colour.colorimetry.illuminants.\
-spd_CIE_standard_illuminant_A` definition.
+sd_CIE_standard_illuminant_A` definition.
         """
 
         np.testing.assert_almost_equal(
-            spd_CIE_standard_illuminant_A(SpectralShape(360, 830, 5)).values,
+            sd_CIE_standard_illuminant_A(SpectralShape(360, 830, 5)).values,
             A_DATA,
             decimal=7)
 
 
-class TestSpd_CIEIlluminantDSeries(unittest.TestCase):
+class TestSd_CIEIlluminantDSeries(unittest.TestCase):
     """
-    Defines :func:`colour.colorimetry.illuminants.spd_CIE_illuminant_D_series`
+    Defines :func:`colour.colorimetry.illuminants.sd_CIE_illuminant_D_series`
     definition unit tests methods.
     """
 
-    def test_spd_CIE_illuminant_D_series(self):
+    def test_sd_CIE_illuminant_D_series(self):
         """
         Tests :func:`colour.colorimetry.illuminants.\
-spd_CIE_illuminant_D_series` definition.
+sd_CIE_illuminant_D_series` definition.
         """
 
         for name, CCT, tolerance in (
@@ -161,12 +161,12 @@ spd_CIE_illuminant_D_series` definition.
         ):
             CCT = CCT * 1.4388 / 1.4380
             xy = CCT_to_xy_CIE_D(CCT)
-            spd_r = ILLUMINANTS_SPDS[name]
-            spd_t = spd_CIE_illuminant_D_series(xy)
+            sd_r = ILLUMINANTS_SDS[name]
+            sd_t = sd_CIE_illuminant_D_series(xy)
 
             np.testing.assert_allclose(
-                spd_r.values,
-                spd_t[spd_r.wavelengths],
+                sd_r.values,
+                sd_t[sd_r.wavelengths],
                 rtol=tolerance,
                 atol=tolerance)
 

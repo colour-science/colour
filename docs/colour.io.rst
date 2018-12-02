@@ -74,9 +74,9 @@ CSV Tabular Data
 .. autosummary::
     :toctree: generated/
 
-    read_spds_from_csv_file
+    read_sds_from_csv_file
     read_spectral_data_from_csv_file
-    write_spds_to_csv_file
+    write_sds_to_csv_file
 
 IES TM-27-14 Data
 -----------------
@@ -88,7 +88,7 @@ IES TM-27-14 Data
 .. autosummary::
     :toctree: generated/
 
-    IES_TM2714_Spd
+    IES_TM2714_Sd
 
 X-Rite Data
 -----------
@@ -100,4 +100,4 @@ X-Rite Data
 .. autosummary::
     :toctree: generated/
 
-    read_spds_from_xrite_file
+    read_sds_from_xrite_file

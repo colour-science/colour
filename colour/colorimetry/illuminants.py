@@ -5,8 +5,8 @@ Illuminants
 
 Defines *CIE* illuminants computation related objects:
 
--   :func:`colour.spd_CIE_standard_illuminant_A`
--   :func:`colour.spd_CIE_illuminant_D_series`
+-   :func:`colour.sd_CIE_standard_illuminant_A`
+-   :func:`colour.sd_CIE_illuminant_D_series`
 
 See Also
 --------
@@ -30,8 +30,8 @@ from __future__ import division, unicode_literals
 
 import numpy as np
 
-from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE, D_ILLUMINANTS_S_SPDS,
-                                SpectralPowerDistribution)
+from colour.colorimetry import (DEFAULT_SPECTRAL_SHAPE, D_ILLUMINANTS_S_SDS,
+                                SpectralDistribution)
 from colour.utilities import tsplit
 
 __author__ = 'Colour Developers'
@@ -41,30 +41,29 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['spd_CIE_standard_illuminant_A', 'spd_CIE_illuminant_D_series']
+__all__ = ['sd_CIE_standard_illuminant_A', 'sd_CIE_illuminant_D_series']
 
 
-def spd_CIE_standard_illuminant_A(shape=DEFAULT_SPECTRAL_SHAPE):
+def sd_CIE_standard_illuminant_A(shape=DEFAULT_SPECTRAL_SHAPE):
     """
     *CIE Standard Illuminant A* is intended to represent typical, domestic,
     tungsten-filament lighting.
 
-    Its relative spectral power distribution is that of a Planckian radiator
-    at a temperature of approximately 2856 K. *CIE Standard Illuminant A*
-    should be used in all applications of colorimetry involving the use of
-    incandescent lighting, unless there are specific reasons for using
-    a different illuminant.
+    Its spectral distribution is that of a Planckian radiator at a temperature
+    of approximately 2856 K. *CIE Standard Illuminant A* should be used in all
+    applications of colorimetry involving the use of incandescent lighting,
+    unless there are specific reasons for using a different illuminant.
 
     Parameters
     ----------
     shape : SpectralShape, optional
-        Spectral shape used to create the spectral power distribution of the
+        Spectral shape used to create the spectral distribution of the
         *CIE Standard Illuminant A*.
 
     Returns
     -------
-    SpectralPowerDistribution
-        *CIE Standard Illuminant A*. spectral power distribution.
+    SpectralDistribution
+        *CIE Standard Illuminant A*. spectral distribution.
 
     References
     ----------
@@ -73,43 +72,43 @@ def spd_CIE_standard_illuminant_A(shape=DEFAULT_SPECTRAL_SHAPE):
     Examples
     --------
     >>> from colour import SpectralShape
-    >>> spd_CIE_standard_illuminant_A(SpectralShape(400, 700, 10))
+    >>> sd_CIE_standard_illuminant_A(SpectralShape(400, 700, 10))
     ... # doctest: +ELLIPSIS
-    SpectralPowerDistribution([[ 400.        ,   14.7080384...],
-                               [ 410.        ,   17.6752521...],
-                               [ 420.        ,   20.9949572...],
-                               [ 430.        ,   24.6709226...],
-                               [ 440.        ,   28.7027304...],
-                               [ 450.        ,   33.0858929...],
-                               [ 460.        ,   37.8120566...],
-                               [ 470.        ,   42.8692762...],
-                               [ 480.        ,   48.2423431...],
-                               [ 490.        ,   53.9131532...],
-                               [ 500.        ,   59.8610989...],
-                               [ 510.        ,   66.0634727...],
-                               [ 520.        ,   72.4958719...],
-                               [ 530.        ,   79.1325945...],
-                               [ 540.        ,   85.9470183...],
-                               [ 550.        ,   92.9119589...],
-                               [ 560.        ,  100.       ...],
-                               [ 570.        ,  107.1837952...],
-                               [ 580.        ,  114.4363383...],
-                               [ 590.        ,  121.7312009...],
-                               [ 600.        ,  129.0427389...],
-                               [ 610.        ,  136.3462674...],
-                               [ 620.        ,  143.6182057...],
-                               [ 630.        ,  150.8361944...],
-                               [ 640.        ,  157.9791857...],
-                               [ 650.        ,  165.0275098...],
-                               [ 660.        ,  171.9629200...],
-                               [ 670.        ,  178.7686175...],
-                               [ 680.        ,  185.4292591...],
-                               [ 690.        ,  191.9309499...],
-                               [ 700.        ,  198.2612232...]],
-                              interpolator=SpragueInterpolator,
-                              interpolator_args={},
-                              extrapolator=Extrapolator,
-                              extrapolator_args={...})
+    SpectralDistribution([[ 400.        ,   14.7080384...],
+                          [ 410.        ,   17.6752521...],
+                          [ 420.        ,   20.9949572...],
+                          [ 430.        ,   24.6709226...],
+                          [ 440.        ,   28.7027304...],
+                          [ 450.        ,   33.0858929...],
+                          [ 460.        ,   37.8120566...],
+                          [ 470.        ,   42.8692762...],
+                          [ 480.        ,   48.2423431...],
+                          [ 490.        ,   53.9131532...],
+                          [ 500.        ,   59.8610989...],
+                          [ 510.        ,   66.0634727...],
+                          [ 520.        ,   72.4958719...],
+                          [ 530.        ,   79.1325945...],
+                          [ 540.        ,   85.9470183...],
+                          [ 550.        ,   92.9119589...],
+                          [ 560.        ,  100.       ...],
+                          [ 570.        ,  107.1837952...],
+                          [ 580.        ,  114.4363383...],
+                          [ 590.        ,  121.7312009...],
+                          [ 600.        ,  129.0427389...],
+                          [ 610.        ,  136.3462674...],
+                          [ 620.        ,  143.6182057...],
+                          [ 630.        ,  150.8361944...],
+                          [ 640.        ,  157.9791857...],
+                          [ 650.        ,  165.0275098...],
+                          [ 660.        ,  171.9629200...],
+                          [ 670.        ,  178.7686175...],
+                          [ 680.        ,  185.4292591...],
+                          [ 690.        ,  191.9309499...],
+                          [ 700.        ,  198.2612232...]],
+                         interpolator=SpragueInterpolator,
+                         interpolator_args={},
+                         extrapolator=Extrapolator,
+                         extrapolator_args={...})
     """
 
     wavelengths = shape.range()
@@ -117,15 +116,14 @@ def spd_CIE_standard_illuminant_A(shape=DEFAULT_SPECTRAL_SHAPE):
         (1.435 * 10 ** 7) / (2848 * 560)) - 1) / (np.exp(
             (1.435 * 10 ** 7) / (2848 * wavelengths)) - 1))))
 
-    return SpectralPowerDistribution(
+    return SpectralDistribution(
         values, wavelengths, name='CIE Standard Illuminant A')
 
 
-def spd_CIE_illuminant_D_series(xy, M1_M2_rounding=True):
+def sd_CIE_illuminant_D_series(xy, M1_M2_rounding=True):
     """
-    Returns the relative spectral power distribution of given
-    *CIE Illuminant D Series* using given *xy* chromaticity
-    coordinates.
+    Returns the spectral distribution of given
+    *CIE Illuminant D Series* using given *xy* chromaticity coordinates.
 
     Parameters
     ----------
@@ -137,8 +135,8 @@ def spd_CIE_illuminant_D_series(xy, M1_M2_rounding=True):
 
     Returns
     -------
-    SpectralPowerDistribution
-        *CIE Illuminant D Series* relative spectral power
+    SpectralDistribution
+        *CIE Illuminant D Series* spectral
         distribution.
 
     Notes
@@ -160,118 +158,118 @@ def spd_CIE_illuminant_D_series(xy, M1_M2_rounding=True):
     >>> CCT_D65 = 6500 * 1.4388 / 1.4380
     >>> xy = CCT_to_xy_CIE_D(CCT_D65)
     >>> with numpy_print_options(suppress=True):
-    ...     spd_CIE_illuminant_D_series(xy)  # doctest: +ELLIPSIS
-    SpectralPowerDistribution([[ 300.     ,    0.0341...],
-                               [ 305.     ,    1.6643...],
-                               [ 310.     ,    3.2945...],
-                               [ 315.     ,   11.7652...],
-                               [ 320.     ,   20.236 ...],
-                               [ 325.     ,   28.6447...],
-                               [ 330.     ,   37.0535...],
-                               [ 335.     ,   38.5011...],
-                               [ 340.     ,   39.9488...],
-                               [ 345.     ,   42.4302...],
-                               [ 350.     ,   44.9117...],
-                               [ 355.     ,   45.775 ...],
-                               [ 360.     ,   46.6383...],
-                               [ 365.     ,   49.3637...],
-                               [ 370.     ,   52.0891...],
-                               [ 375.     ,   51.0323...],
-                               [ 380.     ,   49.9755...],
-                               [ 385.     ,   52.3118...],
-                               [ 390.     ,   54.6482...],
-                               [ 395.     ,   68.7015...],
-                               [ 400.     ,   82.7549...],
-                               [ 405.     ,   87.1204...],
-                               [ 410.     ,   91.486 ...],
-                               [ 415.     ,   92.4589...],
-                               [ 420.     ,   93.4318...],
-                               [ 425.     ,   90.0570...],
-                               [ 430.     ,   86.6823...],
-                               [ 435.     ,   95.7736...],
-                               [ 440.     ,  104.8649...],
-                               [ 445.     ,  110.9362...],
-                               [ 450.     ,  117.0076...],
-                               [ 455.     ,  117.4099...],
-                               [ 460.     ,  117.8122...],
-                               [ 465.     ,  116.3365...],
-                               [ 470.     ,  114.8609...],
-                               [ 475.     ,  115.3919...],
-                               [ 480.     ,  115.9229...],
-                               [ 485.     ,  112.3668...],
-                               [ 490.     ,  108.8107...],
-                               [ 495.     ,  109.0826...],
-                               [ 500.     ,  109.3545...],
-                               [ 505.     ,  108.5781...],
-                               [ 510.     ,  107.8017...],
-                               [ 515.     ,  106.2957...],
-                               [ 520.     ,  104.7898...],
-                               [ 525.     ,  106.2396...],
-                               [ 530.     ,  107.6895...],
-                               [ 535.     ,  106.0475...],
-                               [ 540.     ,  104.4055...],
-                               [ 545.     ,  104.2258...],
-                               [ 550.     ,  104.0462...],
-                               [ 555.     ,  102.0231...],
-                               [ 560.     ,  100.    ...],
-                               [ 565.     ,   98.1671...],
-                               [ 570.     ,   96.3342...],
-                               [ 575.     ,   96.0611...],
-                               [ 580.     ,   95.788 ...],
-                               [ 585.     ,   92.2368...],
-                               [ 590.     ,   88.6856...],
-                               [ 595.     ,   89.3459...],
-                               [ 600.     ,   90.0062...],
-                               [ 605.     ,   89.8026...],
-                               [ 610.     ,   89.5991...],
-                               [ 615.     ,   88.6489...],
-                               [ 620.     ,   87.6987...],
-                               [ 625.     ,   85.4936...],
-                               [ 630.     ,   83.2886...],
-                               [ 635.     ,   83.4939...],
-                               [ 640.     ,   83.6992...],
-                               [ 645.     ,   81.863 ...],
-                               [ 650.     ,   80.0268...],
-                               [ 655.     ,   80.1207...],
-                               [ 660.     ,   80.2146...],
-                               [ 665.     ,   81.2462...],
-                               [ 670.     ,   82.2778...],
-                               [ 675.     ,   80.281 ...],
-                               [ 680.     ,   78.2842...],
-                               [ 685.     ,   74.0027...],
-                               [ 690.     ,   69.7213...],
-                               [ 695.     ,   70.6652...],
-                               [ 700.     ,   71.6091...],
-                               [ 705.     ,   72.9790...],
-                               [ 710.     ,   74.349 ...],
-                               [ 715.     ,   67.9765...],
-                               [ 720.     ,   61.604 ...],
-                               [ 725.     ,   65.7448...],
-                               [ 730.     ,   69.8856...],
-                               [ 735.     ,   72.4863...],
-                               [ 740.     ,   75.087 ...],
-                               [ 745.     ,   69.3398...],
-                               [ 750.     ,   63.5927...],
-                               [ 755.     ,   55.0054...],
-                               [ 760.     ,   46.4182...],
-                               [ 765.     ,   56.6118...],
-                               [ 770.     ,   66.8054...],
-                               [ 775.     ,   65.0941...],
-                               [ 780.     ,   63.3828...],
-                               [ 785.     ,   63.8434...],
-                               [ 790.     ,   64.304 ...],
-                               [ 795.     ,   61.8779...],
-                               [ 800.     ,   59.4519...],
-                               [ 805.     ,   55.7054...],
-                               [ 810.     ,   51.959 ...],
-                               [ 815.     ,   54.6998...],
-                               [ 820.     ,   57.4406...],
-                               [ 825.     ,   58.8765...],
-                               [ 830.     ,   60.3125...]],
-                              interpolator=SpragueInterpolator,
-                              interpolator_args={},
-                              extrapolator=Extrapolator,
-                              extrapolator_args={...})
+    ...     sd_CIE_illuminant_D_series(xy)  # doctest: +ELLIPSIS
+    SpectralDistribution([[ 300.     ,    0.0341...],
+                          [ 305.     ,    1.6643...],
+                          [ 310.     ,    3.2945...],
+                          [ 315.     ,   11.7652...],
+                          [ 320.     ,   20.236 ...],
+                          [ 325.     ,   28.6447...],
+                          [ 330.     ,   37.0535...],
+                          [ 335.     ,   38.5011...],
+                          [ 340.     ,   39.9488...],
+                          [ 345.     ,   42.4302...],
+                          [ 350.     ,   44.9117...],
+                          [ 355.     ,   45.775 ...],
+                          [ 360.     ,   46.6383...],
+                          [ 365.     ,   49.3637...],
+                          [ 370.     ,   52.0891...],
+                          [ 375.     ,   51.0323...],
+                          [ 380.     ,   49.9755...],
+                          [ 385.     ,   52.3118...],
+                          [ 390.     ,   54.6482...],
+                          [ 395.     ,   68.7015...],
+                          [ 400.     ,   82.7549...],
+                          [ 405.     ,   87.1204...],
+                          [ 410.     ,   91.486 ...],
+                          [ 415.     ,   92.4589...],
+                          [ 420.     ,   93.4318...],
+                          [ 425.     ,   90.0570...],
+                          [ 430.     ,   86.6823...],
+                          [ 435.     ,   95.7736...],
+                          [ 440.     ,  104.8649...],
+                          [ 445.     ,  110.9362...],
+                          [ 450.     ,  117.0076...],
+                          [ 455.     ,  117.4099...],
+                          [ 460.     ,  117.8122...],
+                          [ 465.     ,  116.3365...],
+                          [ 470.     ,  114.8609...],
+                          [ 475.     ,  115.3919...],
+                          [ 480.     ,  115.9229...],
+                          [ 485.     ,  112.3668...],
+                          [ 490.     ,  108.8107...],
+                          [ 495.     ,  109.0826...],
+                          [ 500.     ,  109.3545...],
+                          [ 505.     ,  108.5781...],
+                          [ 510.     ,  107.8017...],
+                          [ 515.     ,  106.2957...],
+                          [ 520.     ,  104.7898...],
+                          [ 525.     ,  106.2396...],
+                          [ 530.     ,  107.6895...],
+                          [ 535.     ,  106.0475...],
+                          [ 540.     ,  104.4055...],
+                          [ 545.     ,  104.2258...],
+                          [ 550.     ,  104.0462...],
+                          [ 555.     ,  102.0231...],
+                          [ 560.     ,  100.    ...],
+                          [ 565.     ,   98.1671...],
+                          [ 570.     ,   96.3342...],
+                          [ 575.     ,   96.0611...],
+                          [ 580.     ,   95.788 ...],
+                          [ 585.     ,   92.2368...],
+                          [ 590.     ,   88.6856...],
+                          [ 595.     ,   89.3459...],
+                          [ 600.     ,   90.0062...],
+                          [ 605.     ,   89.8026...],
+                          [ 610.     ,   89.5991...],
+                          [ 615.     ,   88.6489...],
+                          [ 620.     ,   87.6987...],
+                          [ 625.     ,   85.4936...],
+                          [ 630.     ,   83.2886...],
+                          [ 635.     ,   83.4939...],
+                          [ 640.     ,   83.6992...],
+                          [ 645.     ,   81.863 ...],
+                          [ 650.     ,   80.0268...],
+                          [ 655.     ,   80.1207...],
+                          [ 660.     ,   80.2146...],
+                          [ 665.     ,   81.2462...],
+                          [ 670.     ,   82.2778...],
+                          [ 675.     ,   80.281 ...],
+                          [ 680.     ,   78.2842...],
+                          [ 685.     ,   74.0027...],
+                          [ 690.     ,   69.7213...],
+                          [ 695.     ,   70.6652...],
+                          [ 700.     ,   71.6091...],
+                          [ 705.     ,   72.9790...],
+                          [ 710.     ,   74.349 ...],
+                          [ 715.     ,   67.9765...],
+                          [ 720.     ,   61.604 ...],
+                          [ 725.     ,   65.7448...],
+                          [ 730.     ,   69.8856...],
+                          [ 735.     ,   72.4863...],
+                          [ 740.     ,   75.087 ...],
+                          [ 745.     ,   69.3398...],
+                          [ 750.     ,   63.5927...],
+                          [ 755.     ,   55.0054...],
+                          [ 760.     ,   46.4182...],
+                          [ 765.     ,   56.6118...],
+                          [ 770.     ,   66.8054...],
+                          [ 775.     ,   65.0941...],
+                          [ 780.     ,   63.3828...],
+                          [ 785.     ,   63.8434...],
+                          [ 790.     ,   64.304 ...],
+                          [ 795.     ,   61.8779...],
+                          [ 800.     ,   59.4519...],
+                          [ 805.     ,   55.7054...],
+                          [ 810.     ,   51.959 ...],
+                          [ 815.     ,   54.6998...],
+                          [ 820.     ,   57.4406...],
+                          [ 825.     ,   58.8765...],
+                          [ 830.     ,   60.3125...]],
+                         interpolator=SpragueInterpolator,
+                         interpolator_args={},
+                         extrapolator=Extrapolator,
+                         extrapolator_args={...})
     """
 
     x, y = tsplit(xy)
@@ -284,11 +282,11 @@ def spd_CIE_illuminant_D_series(xy, M1_M2_rounding=True):
         M1 = np.around(M1, 3)
         M2 = np.around(M2, 3)
 
-    S0 = D_ILLUMINANTS_S_SPDS['S0']
-    S1 = D_ILLUMINANTS_S_SPDS['S1']
-    S2 = D_ILLUMINANTS_S_SPDS['S2']
+    S0 = D_ILLUMINANTS_S_SDS['S0']
+    S1 = D_ILLUMINANTS_S_SDS['S1']
+    S2 = D_ILLUMINANTS_S_SDS['S2']
 
     distribution = S0.values + M1 * S1.values + M2 * S2.values
 
-    return SpectralPowerDistribution(
+    return SpectralDistribution(
         distribution, S0.wavelengths, name='CIE Illuminant D Series')

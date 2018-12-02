@@ -37,18 +37,18 @@ __status__ = 'Production'
 __all__ = ['luminous_flux', 'luminous_efficiency', 'luminous_efficacy']
 
 
-def luminous_flux(spd,
+def luminous_flux(sd,
                   lef=PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer'],
                   K_m=K_M):
     """
-    Returns the *luminous flux* for given spectral power distribution using
-    given luminous efficiency function.
+    Returns the *luminous flux* for given spectral distribution using given
+    luminous efficiency function.
 
     Parameters
     ----------
-    spd : SpectralPowerDistribution
-        test spectral power distribution
-    lef : SpectralPowerDistribution, optional
+    sd : SpectralDistribution
+        test spectral distribution
+    lef : SpectralDistribution, optional
         :math:`V(\\lambda)` luminous efficiency function.
     K_m : numeric, optional
         :math:`lm\\cdot W^{-1}` maximum photopic luminous efficiency
@@ -64,37 +64,37 @@ def luminous_flux(spd,
 
     Examples
     --------
-    >>> from colour import LIGHT_SOURCES_SPDS
-    >>> spd = LIGHT_SOURCES_SPDS['Neodimium Incandescent']
-    >>> luminous_flux(spd)  # doctest: +ELLIPSIS
+    >>> from colour import LIGHT_SOURCES_SDS
+    >>> sd = LIGHT_SOURCES_SDS['Neodimium Incandescent']
+    >>> luminous_flux(sd)  # doctest: +ELLIPSIS
     23807.6555273...
     """
 
     lef = lef.copy().align(
-        spd.shape,
+        sd.shape,
         extrapolator_args={
             'method': 'Constant',
             'left': 0,
             'right': 0
         })
-    spd = spd.copy() * lef
+    sd = sd.copy() * lef
 
-    flux = K_m * np.trapz(spd.values, spd.wavelengths)
+    flux = K_m * np.trapz(sd.values, sd.wavelengths)
 
     return flux
 
 
 def luminous_efficiency(
-        spd, lef=PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer']):
+        sd, lef=PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer']):
     """
-    Returns the *luminous efficiency* of given spectral power distribution
-    using given luminous efficiency function.
+    Returns the *luminous efficiency* of given spectral distribution using
+    given luminous efficiency function.
 
     Parameters
     ----------
-    spd : SpectralPowerDistribution
-        test spectral power distribution
-    lef : SpectralPowerDistribution, optional
+    sd : SpectralDistribution
+        test spectral distribution
+    lef : SpectralDistribution, optional
         :math:`V(\\lambda)` luminous efficiency function.
 
     Returns
@@ -108,38 +108,38 @@ def luminous_efficiency(
 
     Examples
     --------
-    >>> from colour import LIGHT_SOURCES_SPDS
-    >>> spd = LIGHT_SOURCES_SPDS['Neodimium Incandescent']
-    >>> luminous_efficiency(spd)  # doctest: +ELLIPSIS
+    >>> from colour import LIGHT_SOURCES_SDS
+    >>> sd = LIGHT_SOURCES_SDS['Neodimium Incandescent']
+    >>> luminous_efficiency(sd)  # doctest: +ELLIPSIS
     0.1994393...
     """
 
     lef = lef.copy().align(
-        spd.shape,
+        sd.shape,
         extrapolator_args={
             'method': 'Constant',
             'left': 0,
             'right': 0
         })
-    spd = spd.copy()
+    sd = sd.copy()
 
-    efficiency = (np.trapz(lef.values * spd.values, spd.wavelengths) /
-                  np.trapz(spd.values, spd.wavelengths))
+    efficiency = (np.trapz(lef.values * sd.values, sd.wavelengths) /
+                  np.trapz(sd.values, sd.wavelengths))
 
     return efficiency
 
 
 def luminous_efficacy(
-        spd, lef=PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer']):
+        sd, lef=PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer']):
     """
     Returns the *luminous efficacy* in :math:`lm\\cdot W^{-1}` of given
-    spectral power distribution using given luminous efficiency function.
+    spectral distribution using given luminous efficiency function.
 
     Parameters
     ----------
-    spd : SpectralPowerDistribution
-        test spectral power distribution
-    lef : SpectralPowerDistribution, optional
+    sd : SpectralDistribution
+        test spectral distribution
+    lef : SpectralDistribution, optional
         :math:`V(\\lambda)` luminous efficiency function.
 
     Returns
@@ -153,12 +153,12 @@ def luminous_efficacy(
 
     Examples
     --------
-    >>> from colour import LIGHT_SOURCES_SPDS
-    >>> spd = LIGHT_SOURCES_SPDS['Neodimium Incandescent']
-    >>> luminous_efficacy(spd)  # doctest: +ELLIPSIS
+    >>> from colour import LIGHT_SOURCES_SDS
+    >>> sd = LIGHT_SOURCES_SDS['Neodimium Incandescent']
+    >>> luminous_efficacy(sd)  # doctest: +ELLIPSIS
     136.2170803...
     """
 
-    efficacy = K_M * luminous_efficiency(spd, lef)
+    efficacy = K_M * luminous_efficiency(sd, lef)
 
     return efficacy

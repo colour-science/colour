@@ -27,8 +27,8 @@ import numpy as np
 from scipy.optimize import minimize
 
 from colour.colorimetry import (STANDARD_OBSERVERS_CMFS,
-                                SpectralPowerDistribution, SpectralShape,
-                                spd_ones, spectral_to_XYZ_integration)
+                                SpectralDistribution, SpectralShape,
+                                sd_ones, spectral_to_XYZ_integration)
 from colour.utilities import to_domain_1, from_range_100
 
 __author__ = 'Colour Developers'
@@ -48,14 +48,13 @@ def XYZ_to_spectral_Meng2015(
         tolerance=1e-10,
         maximum_iterations=2000):
     """
-    Recovers the spectral power distribution of given *CIE XYZ* tristimulus
-    values using *Meng et al. (2015)* method.
+    Recovers the spectral distribution of given *CIE XYZ* tristimulus values
+    using *Meng et al. (2015)* method.
 
     Parameters
     ----------
     XYZ : array_like, (3,)
-        *CIE XYZ* tristimulus values to recover the spectral power distribution
-        from.
+        *CIE XYZ* tristimulus values to recover the spectral distribution from.
     cmfs : XYZ_ColourMatchingFunctions
         Standard observer colour matching functions.
     interval : numeric, optional
@@ -63,14 +62,14 @@ def XYZ_to_spectral_Meng2015(
         ``interval`` is, the longer the computations will be.
     tolerance : numeric, optional
         Tolerance for termination. The lower ``tolerance`` is, the smoother
-        the recovered spectral power distribution will be.
+        the recovered spectral distribution will be.
     maximum_iterations : int, optional
         Maximum number of iterations to perform.
 
     Returns
     -------
-    SpectralPowerDistribution
-        Recovered spectral power distribution.
+    SpectralDistribution
+        Recovered spectral distribution.
 
     Notes
     -----
@@ -95,70 +94,70 @@ def XYZ_to_spectral_Meng2015(
     --------
     >>> from colour.utilities import numpy_print_options
     >>> XYZ = np.array([0.20654008, 0.12197225, 0.05136952])
-    >>> spd = XYZ_to_spectral_Meng2015(XYZ, interval=10)
+    >>> sd = XYZ_to_spectral_Meng2015(XYZ, interval=10)
     >>> with numpy_print_options(suppress=True):
-    ...     spd  # doctest: +ELLIPSIS
-    SpectralPowerDistribution([[ 360.        ,    0.0780368...],
-                               [ 370.        ,    0.0780387...],
-                               [ 380.        ,    0.0780469...],
-                               [ 390.        ,    0.0780894...],
-                               [ 400.        ,    0.0780285...],
-                               [ 410.        ,    0.0777034...],
-                               [ 420.        ,    0.0769175...],
-                               [ 430.        ,    0.0746243...],
-                               [ 440.        ,    0.0691410...],
-                               [ 450.        ,    0.0599949...],
-                               [ 460.        ,    0.04779  ...],
-                               [ 470.        ,    0.0337270...],
-                               [ 480.        ,    0.0196952...],
-                               [ 490.        ,    0.0078056...],
-                               [ 500.        ,    0.0004368...],
-                               [ 510.        ,    0.0000065...],
-                               [ 520.        ,    0.       ...],
-                               [ 530.        ,    0.       ...],
-                               [ 540.        ,    0.0124283...],
-                               [ 550.        ,    0.0389186...],
-                               [ 560.        ,    0.0774087...],
-                               [ 570.        ,    0.1246716...],
-                               [ 580.        ,    0.1765055...],
-                               [ 590.        ,    0.2281652...],
-                               [ 600.        ,    0.2751726...],
-                               [ 610.        ,    0.3141208...],
-                               [ 620.        ,    0.3434564...],
-                               [ 630.        ,    0.3636521...],
-                               [ 640.        ,    0.3765182...],
-                               [ 650.        ,    0.3841561...],
-                               [ 660.        ,    0.3884648...],
-                               [ 670.        ,    0.3906975...],
-                               [ 680.        ,    0.3918679...],
-                               [ 690.        ,    0.3924590...],
-                               [ 700.        ,    0.3927439...],
-                               [ 710.        ,    0.3928570...],
-                               [ 720.        ,    0.3928867...],
-                               [ 730.        ,    0.3929099...],
-                               [ 740.        ,    0.3928997...],
-                               [ 750.        ,    0.3928827...],
-                               [ 760.        ,    0.3928579...],
-                               [ 770.        ,    0.3927857...],
-                               [ 780.        ,    0.3927272...],
-                               [ 790.        ,    0.3926867...],
-                               [ 800.        ,    0.3926441...],
-                               [ 810.        ,    0.3926385...],
-                               [ 820.        ,    0.3926247...],
-                               [ 830.        ,    0.3926105...]],
-                              interpolator=SpragueInterpolator,
-                              interpolator_args={},
-                              extrapolator=Extrapolator,
-                              extrapolator_args={...})
-    >>> spectral_to_XYZ_integration(spd) / 100  # doctest: +ELLIPSIS
+    ...     sd  # doctest: +ELLIPSIS
+    SpectralDistribution([[ 360.        ,    0.0780368...],
+                          [ 370.        ,    0.0780387...],
+                          [ 380.        ,    0.0780469...],
+                          [ 390.        ,    0.0780894...],
+                          [ 400.        ,    0.0780285...],
+                          [ 410.        ,    0.0777034...],
+                          [ 420.        ,    0.0769175...],
+                          [ 430.        ,    0.0746243...],
+                          [ 440.        ,    0.0691410...],
+                          [ 450.        ,    0.0599949...],
+                          [ 460.        ,    0.04779  ...],
+                          [ 470.        ,    0.0337270...],
+                          [ 480.        ,    0.0196952...],
+                          [ 490.        ,    0.0078056...],
+                          [ 500.        ,    0.0004368...],
+                          [ 510.        ,    0.0000065...],
+                          [ 520.        ,    0.       ...],
+                          [ 530.        ,    0.       ...],
+                          [ 540.        ,    0.0124283...],
+                          [ 550.        ,    0.0389186...],
+                          [ 560.        ,    0.0774087...],
+                          [ 570.        ,    0.1246716...],
+                          [ 580.        ,    0.1765055...],
+                          [ 590.        ,    0.2281652...],
+                          [ 600.        ,    0.2751726...],
+                          [ 610.        ,    0.3141208...],
+                          [ 620.        ,    0.3434564...],
+                          [ 630.        ,    0.3636521...],
+                          [ 640.        ,    0.3765182...],
+                          [ 650.        ,    0.3841561...],
+                          [ 660.        ,    0.3884648...],
+                          [ 670.        ,    0.3906975...],
+                          [ 680.        ,    0.3918679...],
+                          [ 690.        ,    0.3924590...],
+                          [ 700.        ,    0.3927439...],
+                          [ 710.        ,    0.3928570...],
+                          [ 720.        ,    0.3928867...],
+                          [ 730.        ,    0.3929099...],
+                          [ 740.        ,    0.3928997...],
+                          [ 750.        ,    0.3928827...],
+                          [ 760.        ,    0.3928579...],
+                          [ 770.        ,    0.3927857...],
+                          [ 780.        ,    0.3927272...],
+                          [ 790.        ,    0.3926867...],
+                          [ 800.        ,    0.3926441...],
+                          [ 810.        ,    0.3926385...],
+                          [ 820.        ,    0.3926247...],
+                          [ 830.        ,    0.3926105...]],
+                         interpolator=SpragueInterpolator,
+                         interpolator_args={},
+                         extrapolator=Extrapolator,
+                         extrapolator_args={...})
+    >>> spectral_to_XYZ_integration(sd) / 100  # doctest: +ELLIPSIS
     array([ 0.2065817...,  0.1219754...,  0.0514131...])
     """
 
     XYZ = to_domain_1(XYZ)
     shape = SpectralShape(cmfs.shape.start, cmfs.shape.end, interval)
     cmfs = cmfs.copy().align(shape)
-    illuminant = spd_ones(shape)
-    spd = spd_ones(shape)
+    illuminant = sd_ones(shape)
+    sd = sd_ones(shape)
 
     def function_objective(a):
         """
@@ -172,11 +171,11 @@ def XYZ_to_spectral_Meng2015(
         Function defining the constraint.
         """
 
-        spd[:] = a
+        sd[:] = a
         return spectral_to_XYZ_integration(
-            spd, cmfs=cmfs, illuminant=illuminant) - XYZ
+            sd, cmfs=cmfs, illuminant=illuminant) - XYZ
 
-    wavelengths = spd.wavelengths
+    wavelengths = sd.wavelengths
     bins = wavelengths.size
 
     constraints = {'type': 'eq', 'fun': function_constraint}
@@ -185,7 +184,7 @@ def XYZ_to_spectral_Meng2015(
 
     result = minimize(
         function_objective,
-        spd.values,
+        sd.values,
         method='SLSQP',
         constraints=constraints,
         bounds=bounds,
@@ -199,7 +198,7 @@ def XYZ_to_spectral_Meng2015(
             'Optimization failed for {0} after {1} iterations: "{2}".'.format(
                 XYZ, result.nit, result.message))
 
-    return SpectralPowerDistribution(
+    return SpectralDistribution(
         from_range_100(result.x * 100),
         wavelengths,
         name='Meng (2015) - {0}'.format(XYZ))

@@ -27,7 +27,7 @@ colour.characterisation.RGB\_SpectralSensitivities
       ~RGB_SpectralSensitivities.multi_signal_unpack_data
       ~RGB_SpectralSensitivities.normalise
       ~RGB_SpectralSensitivities.to_dataframe
-      ~RGB_SpectralSensitivities.to_spds
+      ~RGB_SpectralSensitivities.to_sds
       ~RGB_SpectralSensitivities.trim
       ~RGB_SpectralSensitivities.trim_wavelengths
       ~RGB_SpectralSensitivities.zeros

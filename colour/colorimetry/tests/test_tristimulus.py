@@ -15,8 +15,8 @@ import numpy as np
 import unittest
 
 from colour.algebra import LinearInterpolator
-from colour.colorimetry import (CMFS, spd_CIE_standard_illuminant_A,
-                                ILLUMINANTS_SPDS, SpectralPowerDistribution,
+from colour.colorimetry import (CMFS, sd_CIE_standard_illuminant_A,
+                                ILLUMINANTS_SDS, SpectralDistribution,
                                 SpectralShape)
 from colour.colorimetry import (
     lagrange_coefficients_ASTME202211,
@@ -36,7 +36,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'SAMPLE_SPD', 'LAGRANGE_COEFFICIENTS_A', 'LAGRANGE_COEFFICIENTS_B',
+    'SAMPLE_SD', 'LAGRANGE_COEFFICIENTS_A', 'LAGRANGE_COEFFICIENTS_B',
     'A_CIE_1964_10_10_TWF', 'A_CIE_1964_10_20_TWF', 'D65_CIE_1931_2_20_TWF',
     'D65_CIE_1931_2_20_ATWF', 'MSA', 'XYZ_D65',
     'TestLagrangeCoefficientsASTME202211',
@@ -46,7 +46,7 @@ __all__ = [
     'TestMultiSpectral_to_XYZ_integration', 'TestWavelength_to_XYZ'
 ]
 
-SAMPLE_SPD = SpectralPowerDistribution({
+SAMPLE_SD = SpectralDistribution({
     340: 0.0000,
     345: 0.0000,
     350: 0.0000,
@@ -377,7 +377,7 @@ tristimulus_weighting_factors_ASTME202211` definition.
         """
 
         cmfs = CMFS['CIE 1964 10 Degree Standard Observer']
-        A = spd_CIE_standard_illuminant_A(cmfs.shape)
+        A = sd_CIE_standard_illuminant_A(cmfs.shape)
 
         twf = tristimulus_weighting_factors_ASTME202211(
             cmfs, A, SpectralShape(360, 830, 10))
@@ -390,7 +390,7 @@ tristimulus_weighting_factors_ASTME202211` definition.
             np.round(twf, 3), A_CIE_1964_10_20_TWF, decimal=3)
 
         cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
-        D65 = ILLUMINANTS_SPDS['D65'].copy().align(
+        D65 = ILLUMINANTS_SDS['D65'].copy().align(
             cmfs.shape, interpolator=LinearInterpolator)
         twf = tristimulus_weighting_factors_ASTME202211(
             cmfs, D65, SpectralShape(360, 830, 20))
@@ -433,21 +433,21 @@ spectral_to_XYZ_integration`
 
         cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
         np.testing.assert_almost_equal(
-            spectral_to_XYZ_integration(SAMPLE_SPD, cmfs,
-                                        ILLUMINANTS_SPDS['A']),
+            spectral_to_XYZ_integration(SAMPLE_SD, cmfs,
+                                        ILLUMINANTS_SDS['A']),
             np.array([14.46365624, 10.85827910, 2.04662343]),
             decimal=7)
 
         cmfs = CMFS['CIE 1964 10 Degree Standard Observer']
         np.testing.assert_almost_equal(
-            spectral_to_XYZ_integration(SAMPLE_SPD, cmfs,
-                                        ILLUMINANTS_SPDS['C']),
+            spectral_to_XYZ_integration(SAMPLE_SD, cmfs,
+                                        ILLUMINANTS_SDS['C']),
             np.array([10.77031004, 9.44863775, 6.62745989]),
             decimal=7)
 
         np.testing.assert_almost_equal(
-            spectral_to_XYZ_integration(SAMPLE_SPD, cmfs,
-                                        ILLUMINANTS_SPDS['F2']),
+            spectral_to_XYZ_integration(SAMPLE_SD, cmfs,
+                                        ILLUMINANTS_SDS['F2']),
             np.array([11.57834054, 9.98738373, 3.95462625]),
             decimal=7)
 
@@ -458,15 +458,15 @@ spectral_to_XYZ_integration` definition domain and range scale support.
         """
 
         cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
-        XYZ = spectral_to_XYZ_integration(SAMPLE_SPD, cmfs,
-                                          ILLUMINANTS_SPDS['A'])
+        XYZ = spectral_to_XYZ_integration(SAMPLE_SD, cmfs,
+                                          ILLUMINANTS_SDS['A'])
 
         d_r = (('reference', 1), (1, 0.01), (100, 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
-                    spectral_to_XYZ_integration(SAMPLE_SPD, cmfs,
-                                                ILLUMINANTS_SPDS['A']),
+                    spectral_to_XYZ_integration(SAMPLE_SD, cmfs,
+                                                ILLUMINANTS_SDS['A']),
                     XYZ * factor,
                     decimal=7)
 
@@ -489,41 +489,41 @@ spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815`
         cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
         np.testing.assert_almost_equal(
             spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
-                SAMPLE_SPD, cmfs, ILLUMINANTS_SPDS['A']),
+                SAMPLE_SD, cmfs, ILLUMINANTS_SDS['A']),
             np.array([14.46366344, 10.85828513, 2.04663792]),
             decimal=7)
 
         cmfs = CMFS['CIE 1964 10 Degree Standard Observer']
         np.testing.assert_almost_equal(
             spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
-                SAMPLE_SPD, cmfs, ILLUMINANTS_SPDS['C']),
+                SAMPLE_SD, cmfs, ILLUMINANTS_SDS['C']),
             np.array([10.77033881, 9.44864632, 6.62758924]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
-                SAMPLE_SPD, cmfs, ILLUMINANTS_SPDS['F2']),
+                SAMPLE_SD, cmfs, ILLUMINANTS_SDS['F2']),
             np.array([11.57837130, 9.98734511, 3.95499522]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
-                SAMPLE_SPD.copy().trim(SpectralShape(400, 700, 5)), cmfs,
-                ILLUMINANTS_SPDS['A']),
+                SAMPLE_SD.copy().trim(SpectralShape(400, 700, 5)), cmfs,
+                ILLUMINANTS_SDS['A']),
             np.array([14.38180830, 10.74512906, 2.01579131]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
-                SAMPLE_SPD.copy().interpolate(SpectralShape(400, 700, 10)),
-                cmfs, ILLUMINANTS_SPDS['A']),
+                SAMPLE_SD.copy().interpolate(SpectralShape(400, 700, 10)),
+                cmfs, ILLUMINANTS_SDS['A']),
             np.array([14.38284399, 10.74577954, 2.01553721]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
-                SAMPLE_SPD.copy().interpolate(SpectralShape(400, 700, 20)),
-                cmfs, ILLUMINANTS_SPDS['A']),
+                SAMPLE_SD.copy().interpolate(SpectralShape(400, 700, 20)),
+                cmfs, ILLUMINANTS_SDS['A']),
             np.array([14.38356848, 10.74613294, 2.01526418]),
             decimal=7)
 
@@ -536,14 +536,14 @@ range scale support.
 
         cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
         XYZ = spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
-            SAMPLE_SPD, cmfs, ILLUMINANTS_SPDS['A'])
+            SAMPLE_SD, cmfs, ILLUMINANTS_SDS['A'])
 
         d_r = (('reference', 1), (1, 0.01), (100, 1))
         for scale, factor in d_r:
             with domain_range_scale(scale):
                 np.testing.assert_almost_equal(
                     spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815(
-                        SAMPLE_SPD, cmfs, ILLUMINANTS_SPDS['A']),
+                        SAMPLE_SD, cmfs, ILLUMINANTS_SDS['A']),
                     XYZ * factor,
                     decimal=7)
 
@@ -559,9 +559,9 @@ class TestSpectral_to_XYZ_ASTME30815(unittest.TestCase):
         Initialises common tests attributes.
         """
 
-        self._spd = SAMPLE_SPD.copy()
+        self._sd = SAMPLE_SD.copy()
         self._cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
-        self._A = spd_CIE_standard_illuminant_A(self._cmfs.shape)
+        self._A = sd_CIE_standard_illuminant_A(self._cmfs.shape)
 
     def test_spectral_to_XYZ_ASTME30815_mi_1nm(self):
         """
@@ -570,14 +570,14 @@ class TestSpectral_to_XYZ_ASTME30815(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            spectral_to_XYZ_ASTME30815(self._spd.copy().align(
+            spectral_to_XYZ_ASTME30815(self._sd.copy().align(
                 self._cmfs.shape), self._cmfs, self._A),
             np.array([14.46372680, 10.85832950, 2.04663200]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             spectral_to_XYZ_ASTME30815(
-                self._spd.copy().align(self._cmfs.shape),
+                self._sd.copy().align(self._cmfs.shape),
                 self._cmfs,
                 self._A,
                 use_practice_range=False),
@@ -585,14 +585,14 @@ class TestSpectral_to_XYZ_ASTME30815(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            spectral_to_XYZ_ASTME30815(self._spd.copy().align(
+            spectral_to_XYZ_ASTME30815(self._sd.copy().align(
                 SpectralShape(400, 700, 1)), self._cmfs, self._A),
             np.array([14.54173397, 10.88628632, 2.04965822]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             spectral_to_XYZ_ASTME30815(
-                self._spd.copy().align(SpectralShape(400, 700, 1)),
+                self._sd.copy().align(SpectralShape(400, 700, 1)),
                 self._cmfs,
                 self._A,
                 use_practice_range=False),
@@ -606,14 +606,14 @@ class TestSpectral_to_XYZ_ASTME30815(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            spectral_to_XYZ_ASTME30815(self._spd.copy().align(
+            spectral_to_XYZ_ASTME30815(self._sd.copy().align(
                 SpectralShape(360, 830, 5)), self._cmfs, self._A),
             np.array([14.46372173, 10.85832502, 2.04664734]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             spectral_to_XYZ_ASTME30815(
-                self._spd.copy().align(SpectralShape(360, 830, 5)),
+                self._sd.copy().align(SpectralShape(360, 830, 5)),
                 self._cmfs,
                 self._A,
                 use_practice_range=False),
@@ -622,7 +622,7 @@ class TestSpectral_to_XYZ_ASTME30815(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             spectral_to_XYZ_ASTME30815(
-                self._spd.copy().align(SpectralShape(360, 830, 5)),
+                self._sd.copy().align(SpectralShape(360, 830, 5)),
                 self._cmfs,
                 self._A,
                 mi_5nm_omission_method=False),
@@ -630,14 +630,14 @@ class TestSpectral_to_XYZ_ASTME30815(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            spectral_to_XYZ_ASTME30815(self._spd.copy().align(
+            spectral_to_XYZ_ASTME30815(self._sd.copy().align(
                 SpectralShape(400, 700, 5)), self._cmfs, self._A),
             np.array([14.54025742, 10.88576251, 2.04950226]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             spectral_to_XYZ_ASTME30815(
-                self._spd.copy().align(SpectralShape(400, 700, 5)),
+                self._sd.copy().align(SpectralShape(400, 700, 5)),
                 self._cmfs,
                 self._A,
                 use_practice_range=False),
@@ -646,7 +646,7 @@ class TestSpectral_to_XYZ_ASTME30815(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             spectral_to_XYZ_ASTME30815(
-                self._spd.copy().align(SpectralShape(400, 700, 5)),
+                self._sd.copy().align(SpectralShape(400, 700, 5)),
                 self._cmfs,
                 self._A,
                 mi_5nm_omission_method=False),
@@ -655,7 +655,7 @@ class TestSpectral_to_XYZ_ASTME30815(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             spectral_to_XYZ_ASTME30815(
-                self._spd.copy().align(SpectralShape(360, 830, 5)),
+                self._sd.copy().align(SpectralShape(360, 830, 5)),
                 self._cmfs,
                 self._A,
                 use_practice_range=False,
@@ -665,7 +665,7 @@ class TestSpectral_to_XYZ_ASTME30815(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             spectral_to_XYZ_ASTME30815(
-                self._spd.copy().align(SpectralShape(400, 700, 5)),
+                self._sd.copy().align(SpectralShape(400, 700, 5)),
                 self._cmfs,
                 self._A,
                 use_practice_range=False,
@@ -680,14 +680,14 @@ class TestSpectral_to_XYZ_ASTME30815(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            spectral_to_XYZ_ASTME30815(self._spd.copy().align(
+            spectral_to_XYZ_ASTME30815(self._sd.copy().align(
                 SpectralShape(360, 830, 10)), self._cmfs, self._A),
             np.array([14.47779980, 10.86358645, 2.04751388]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             spectral_to_XYZ_ASTME30815(
-                self._spd.copy().align(SpectralShape(360, 830, 10)),
+                self._sd.copy().align(SpectralShape(360, 830, 10)),
                 self._cmfs,
                 self._A,
                 use_practice_range=False),
@@ -695,14 +695,14 @@ class TestSpectral_to_XYZ_ASTME30815(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            spectral_to_XYZ_ASTME30815(self._spd.copy().align(
+            spectral_to_XYZ_ASTME30815(self._sd.copy().align(
                 SpectralShape(400, 700, 10)), self._cmfs, self._A),
             np.array([14.54137532, 10.88641727, 2.04931318]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             spectral_to_XYZ_ASTME30815(
-                self._spd.copy().align(SpectralShape(400, 700, 10)),
+                self._sd.copy().align(SpectralShape(400, 700, 10)),
                 self._cmfs,
                 self._A,
                 use_practice_range=False),
@@ -716,14 +716,14 @@ class TestSpectral_to_XYZ_ASTME30815(unittest.TestCase):
         """
 
         np.testing.assert_almost_equal(
-            spectral_to_XYZ_ASTME30815(self._spd.copy().align(
+            spectral_to_XYZ_ASTME30815(self._sd.copy().align(
                 SpectralShape(360, 820, 20)), self._cmfs, self._A),
             np.array([14.50187464, 10.87217124, 2.04918305]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             spectral_to_XYZ_ASTME30815(
-                self._spd.copy().align(SpectralShape(360, 820, 20)),
+                self._sd.copy().align(SpectralShape(360, 820, 20)),
                 self._cmfs,
                 self._A,
                 use_practice_range=False),
@@ -732,7 +732,7 @@ class TestSpectral_to_XYZ_ASTME30815(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             spectral_to_XYZ_ASTME30815(
-                self._spd.copy().align(SpectralShape(360, 820, 20)),
+                self._sd.copy().align(SpectralShape(360, 820, 20)),
                 self._cmfs,
                 self._A,
                 mi_20nm_interpolation_method=False),
@@ -740,14 +740,14 @@ class TestSpectral_to_XYZ_ASTME30815(unittest.TestCase):
             decimal=7)
 
         np.testing.assert_almost_equal(
-            spectral_to_XYZ_ASTME30815(self._spd.copy().align(
+            spectral_to_XYZ_ASTME30815(self._sd.copy().align(
                 SpectralShape(400, 700, 20)), self._cmfs, self._A),
             np.array([14.54114025, 10.88634755, 2.04916445]),
             decimal=7)
 
         np.testing.assert_almost_equal(
             spectral_to_XYZ_ASTME30815(
-                self._spd.copy().align(SpectralShape(400, 700, 20)),
+                self._sd.copy().align(SpectralShape(400, 700, 20)),
                 self._cmfs,
                 self._A,
                 use_practice_range=False),
@@ -756,7 +756,7 @@ class TestSpectral_to_XYZ_ASTME30815(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             spectral_to_XYZ_ASTME30815(
-                self._spd.copy().align(SpectralShape(400, 700, 20)),
+                self._sd.copy().align(SpectralShape(400, 700, 20)),
                 self._cmfs,
                 self._A,
                 mi_20nm_interpolation_method=False),
@@ -765,7 +765,7 @@ class TestSpectral_to_XYZ_ASTME30815(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             spectral_to_XYZ_ASTME30815(
-                self._spd.copy().align(SpectralShape(360, 820, 20)),
+                self._sd.copy().align(SpectralShape(360, 820, 20)),
                 self._cmfs,
                 self._A,
                 use_practice_range=False,
@@ -775,7 +775,7 @@ class TestSpectral_to_XYZ_ASTME30815(unittest.TestCase):
 
         np.testing.assert_almost_equal(
             spectral_to_XYZ_ASTME30815(
-                self._spd.copy().align(SpectralShape(400, 700, 20)),
+                self._sd.copy().align(SpectralShape(400, 700, 20)),
                 self._cmfs,
                 self._A,
                 use_practice_range=False,
@@ -800,7 +800,7 @@ multi_spectral_to_XYZ_integration`
         cmfs = CMFS['CIE 1931 2 Degree Standard Observer']
         np.testing.assert_almost_equal(
             multi_spectral_to_XYZ_integration(MSA, SpectralShape(400, 700, 60),
-                                              cmfs, ILLUMINANTS_SPDS['D65']),
+                                              cmfs, ILLUMINANTS_SDS['D65']),
             XYZ_D65,
             decimal=7)
 
@@ -819,7 +819,7 @@ multi_spectral_to_XYZ_integration` definition domain and range scale support.
                     multi_spectral_to_XYZ_integration(MSA,
                                                       SpectralShape(
                                                           400, 700, 60), cmfs,
-                                                      ILLUMINANTS_SPDS['D65']),
+                                                      ILLUMINANTS_SDS['D65']),
                     XYZ_D65 * factor,
                     decimal=7)
 

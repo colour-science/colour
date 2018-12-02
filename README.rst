@@ -130,7 +130,7 @@ Spectral Computations
 
 .. code-block:: python
 
-    >>> colour.spectral_to_XYZ(colour.LIGHT_SOURCES_SPDS['Neodimium Incandescent'])
+    >>> colour.spectral_to_XYZ(colour.LIGHT_SOURCES_SDS['Neodimium Incandescent'])
     array([ 36.94726204,  32.62076174,  13.0143849 ])
     >>> sorted(colour.SPECTRAL_TO_XYZ_METHODS.keys())
     [u'ASTM E308-15', u'Integration', u'astm2015']
@@ -176,18 +176,18 @@ Blackbody Spectral Radiance Computation
 
 .. code-block:: python
 
-    >>> colour.spd_blackbody(5000)
-    SpectralPowerDistribution([[  3.60000000e+02,   6.65427827e+12],
-                               [  3.61000000e+02,   6.70960528e+12],
-                               [  3.62000000e+02,   6.76482512e+12],
-                               ...
-                               [  7.78000000e+02,   1.06068004e+13],
-                               [  7.79000000e+02,   1.05903327e+13],
-                               [  7.80000000e+02,   1.05738520e+13]],
-                              interpolator=SpragueInterpolator,
-                              interpolator_args={},
-                              extrapolator=Extrapolator,
-                              extrapolator_args={u'right': None, u'method': u'Constant', u'left': None})
+    >>> colour.sd_blackbody(5000)
+    SpectralDistribution([[  3.60000000e+02,   6.65427827e+12],
+                          [  3.61000000e+02,   6.70960528e+12],
+                          [  3.62000000e+02,   6.76482512e+12],
+                          ...
+                          [  7.78000000e+02,   1.06068004e+13],
+                          [  7.79000000e+02,   1.05903327e+13],
+                          [  7.80000000e+02,   1.05738520e+13]],
+                         interpolator=SpragueInterpolator,
+                         interpolator_args={},
+                         extrapolator=Extrapolator,
+                         extrapolator_args={u'right': None, u'method': u'Constant', u'left': None})
 
 Dominant, Complementary Wavelength & Colour Purity Computation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -267,8 +267,8 @@ Luminous Flux
 
 .. code-block:: python
 
-    >>> spd = colour.LIGHT_SOURCES_SPDS['Neodimium Incandescent']
-    >>> colour.luminous_flux(spd)
+    >>> sd = colour.LIGHT_SOURCES_SDS['Neodimium Incandescent']
+    >>> colour.luminous_flux(sd)
     3807.655527367202
 
 Luminous Efficiency
@@ -276,8 +276,8 @@ Luminous Efficiency
 
 .. code-block:: python
 
-    >>> spd = colour.LIGHT_SOURCES_SPDS['Neodimium Incandescent']
-    >>> colour.luminous_efficiency(spd)
+    >>> sd = colour.LIGHT_SOURCES_SDS['Neodimium Incandescent']
+    >>> colour.luminous_efficiency(sd)
     0.19943935624521045
 
 Luminous Efficacy
@@ -285,8 +285,8 @@ Luminous Efficacy
 
 .. code-block:: python
 
-    >>> spd = colour.LIGHT_SOURCES_SPDS['Neodimium Incandescent']
-    >>> colour.luminous_efficacy(spd)
+    >>> sd = colour.LIGHT_SOURCES_SDS['Neodimium Incandescent']
+    >>> colour.luminous_efficacy(sd)
     136.21708031547874
 
 Colour Models
@@ -756,8 +756,8 @@ Optical Phenomena
 
 .. code-block:: python
 
-    >>> colour.rayleigh_scattering_spd()
-    SpectralPowerDistribution([[  3.60000000e+02,   5.99101337e-01],
+    >>> colour.rayleigh_scattering_sd()
+    SpectralDistribution([[  3.60000000e+02,   5.99101337e-01],
                                [  3.61000000e+02,   5.92170690e-01],
                                [  3.62000000e+02,   5.85341006e-01],
                                ...
@@ -777,7 +777,7 @@ Colour Rendering Index
 
 .. code-block:: python
 
-    >>> colour.colour_quality_scale(colour.ILLUMINANTS_SPDS['F2'])
+    >>> colour.colour_quality_scale(colour.ILLUMINANTS_SDS['F2'])
     64.686416902221609
 
 Colour Quality Scale
@@ -785,7 +785,7 @@ Colour Quality Scale
 
 .. code-block:: python
 
-    >>> colour.colour_rendering_index(colour.ILLUMINANTS_SPDS['F2'])
+    >>> colour.colour_rendering_index(colour.ILLUMINANTS_SDS['F2'])
     64.151520202968015
 
 Reflectance Recovery
@@ -794,7 +794,7 @@ Reflectance Recovery
 .. code-block:: python
 
     >>> colour.XYZ_to_spectral([0.20654008, 0.12197225, 0.05136952])
-    SpectralPowerDistribution([[  3.60000000e+02,   7.73462151e-02],
+    SpectralDistribution([[  3.60000000e+02,   7.73462151e-02],
                                [  3.65000000e+02,   7.73632975e-02],
                                [  3.70000000e+02,   7.74299705e-02],
                                ...
@@ -877,29 +877,29 @@ Visible Spectrum
 
 ..  image:: docs/_static/Examples_Plotting_Visible_Spectrum.png
 
-Spectral Power Distribution
+Spectral Distribution
 ***************************
 
 .. code-block:: python
 
-    >>> plot_single_illuminant_spd('F1')
+    >>> plot_single_illuminant_sd('F1')
 
-..  image:: docs/_static/Examples_Plotting_Illuminant_F1_SPD.png
+..  image:: docs/_static/Examples_Plotting_Illuminant_F1_SD.png
 
 Blackbody
 *********
 
 .. code-block:: python
 
-    >>> blackbody_spds = [
-    ...     colour.spd_blackbody(i, colour.SpectralShape(0, 10000, 10))
+    >>> blackbody_sds = [
+    ...     colour.sd_blackbody(i, colour.SpectralShape(0, 10000, 10))
     ...     for i in range(1000, 15000, 1000)
     ... ]
-    >>> plot_multi_spds(
-    ...     blackbody_spds,
+    >>> plot_multi_sds(
+    ...     blackbody_sds,
     ...     y_label='W / (sr m$^2$) / m',
-    ...     use_spds_colours=True,
-    ...     normalise_spds_colours=True,
+    ...     use_sds_colours=True,
+    ...     normalise_sds_colours=True,
     ...     legend_location='upper right',
     ...     bounding_box=(0, 1250, 0, 2.5e15))
 
@@ -922,10 +922,10 @@ Luminous Efficiency
 
 .. code-block:: python
 
-    >>> mesopic_luminous_efficiency_function = (
-    ...     colour.mesopic_luminous_efficiency_function(0.2))
-    >>> plot_multi_spds(
-    ...     (mesopic_luminous_efficiency_function,
+    >>> sd_mesopic_luminous_efficiency_function = (
+    ...     colour.sd_mesopic_luminous_efficiency_function(0.2))
+    >>> plot_multi_sds(
+    ...     (sd_mesopic_luminous_efficiency_function,
     ...      colour.PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer'],
     ...      colour.SCOTOPIC_LEFS['CIE 1951 Scotopic Standard Observer']),
     ...     y_label='Luminous Efficiency',
@@ -940,17 +940,17 @@ Colour Checker
 
 .. code-block:: python
 
-    >>> from colour.characterisation.dataset.colour_checkers.spds import (
+    >>> from colour.characterisation.dataset.colour_checkers.sds import (
     ...     COLOURCHECKER_INDEXES_TO_NAMES_MAPPING)
-    >>> plot_multi_spds(
+    >>> plot_multi_sds(
     ...     [
-    ...         colour.COLOURCHECKERS_SPDS['BabelColor Average'][value]
+    ...         colour.COLOURCHECKERS_SDS['BabelColor Average'][value]
     ...         for key, value in sorted(
     ...             COLOURCHECKER_INDEXES_TO_NAMES_MAPPING.items())
     ...     ],
-    ...     use_spds_colours=True,
+    ...     use_sds_colours=True,
     ...     title=('BabelColor Average - '
-    ...            'Spectral Power Distributions'))
+    ...            'Spectral Distributions'))
 
 ..  image:: docs/_static/Examples_Plotting_BabelColor_Average.png
 
@@ -996,8 +996,8 @@ Colour Rendering Index
 
 .. code-block:: python
 
-    >>> plot_single_spd_colour_rendering_index_bars(
-    ...     colour.ILLUMINANTS_SPDS['F2'])
+    >>> plot_single_sd_colour_rendering_index_bars(
+    ...     colour.ILLUMINANTS_SDS['F2'])
 
 ..  image:: docs/_static/Examples_Plotting_CRI.png
 

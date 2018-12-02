@@ -25,7 +25,7 @@ import numpy as np
 from colour.colorimetry import ILLUMINANTS
 from colour.models import (XYZ_to_RGB, normalised_primary_matrix,
                            sRGB_COLOURSPACE)
-from colour.recovery import SMITS_1999_SPDS
+from colour.recovery import SMITS_1999_SDS
 from colour.utilities import to_domain_1
 
 __author__ = 'Colour Developers'
@@ -99,19 +99,18 @@ def XYZ_to_RGB_Smits1999(XYZ):
 
 def RGB_to_spectral_Smits1999(RGB):
     """
-    Recovers the spectral power distribution of given *RGB* colourspace array
-    using *Smits (1999)* method.
+    Recovers the spectral distribution of given *RGB* colourspace array using
+    *Smits (1999)* method.
 
     Parameters
     ----------
     RGB : array_like, (3,)
-        *RGB* colourspace array to recover the spectral power distribution
-        from.
+        *RGB* colourspace array to recover the spectral distribution from.
 
     Returns
     -------
-    SpectralPowerDistribution
-        Recovered spectral power distribution.
+    SpectralDistribution
+        Recovered spectral distribution.
 
     Notes
     -----
@@ -132,57 +131,57 @@ def RGB_to_spectral_Smits1999(RGB):
     >>> RGB = np.array([0.40639599, 0.02752894, 0.03982193])
     >>> with numpy_print_options(suppress=True):
     ...     RGB_to_spectral_Smits1999(RGB)  # doctest: +ELLIPSIS
-    SpectralPowerDistribution([[ 380.        ,    0.0769192...],
-                               [ 417.7778    ,    0.0587004...],
-                               [ 455.5556    ,    0.0394319...],
-                               [ 493.3333    ,    0.0302497...],
-                               [ 531.1111    ,    0.0275069...],
-                               [ 568.8889    ,    0.0280864...],
-                               [ 606.6667    ,    0.3429898...],
-                               [ 644.4444    ,    0.4118579...],
-                               [ 682.2222    ,    0.4118579...],
-                               [ 720.        ,    0.4118075...]],
-                              interpolator=LinearInterpolator,
-                              interpolator_args={},
-                              extrapolator=Extrapolator,
-                              extrapolator_args={...})
+    SpectralDistribution([[ 380.        ,    0.0769192...],
+                          [ 417.7778    ,    0.0587004...],
+                          [ 455.5556    ,    0.0394319...],
+                          [ 493.3333    ,    0.0302497...],
+                          [ 531.1111    ,    0.0275069...],
+                          [ 568.8889    ,    0.0280864...],
+                          [ 606.6667    ,    0.3429898...],
+                          [ 644.4444    ,    0.4118579...],
+                          [ 682.2222    ,    0.4118579...],
+                          [ 720.        ,    0.4118075...]],
+                         interpolator=LinearInterpolator,
+                         interpolator_args={},
+                         extrapolator=Extrapolator,
+                         extrapolator_args={...})
     """
 
-    white_spd = SMITS_1999_SPDS['white'].copy()
-    cyan_spd = SMITS_1999_SPDS['cyan'].copy()
-    magenta_spd = SMITS_1999_SPDS['magenta'].copy()
-    yellow_spd = SMITS_1999_SPDS['yellow'].copy()
-    red_spd = SMITS_1999_SPDS['red'].copy()
-    green_spd = SMITS_1999_SPDS['green'].copy()
-    blue_spd = SMITS_1999_SPDS['blue'].copy()
+    white_sd = SMITS_1999_SDS['white'].copy()
+    cyan_sd = SMITS_1999_SDS['cyan'].copy()
+    magenta_sd = SMITS_1999_SDS['magenta'].copy()
+    yellow_sd = SMITS_1999_SDS['yellow'].copy()
+    red_sd = SMITS_1999_SDS['red'].copy()
+    green_sd = SMITS_1999_SDS['green'].copy()
+    blue_sd = SMITS_1999_SDS['blue'].copy()
 
     R, G, B = to_domain_1(RGB)
-    spd = white_spd.copy() * 0
-    spd.name = 'Smits (1999) - {0}'.format(RGB)
+    sd = white_sd.copy() * 0
+    sd.name = 'Smits (1999) - {0}'.format(RGB)
 
     if R <= G and R <= B:
-        spd += white_spd * R
+        sd += white_sd * R
         if G <= B:
-            spd += cyan_spd * (G - R)
-            spd += blue_spd * (B - G)
+            sd += cyan_sd * (G - R)
+            sd += blue_sd * (B - G)
         else:
-            spd += cyan_spd * (B - R)
-            spd += green_spd * (G - B)
+            sd += cyan_sd * (B - R)
+            sd += green_sd * (G - B)
     elif G <= R and G <= B:
-        spd += white_spd * G
+        sd += white_sd * G
         if R <= B:
-            spd += magenta_spd * (R - G)
-            spd += blue_spd * (B - R)
+            sd += magenta_sd * (R - G)
+            sd += blue_sd * (B - R)
         else:
-            spd += magenta_spd * (B - G)
-            spd += red_spd * (R - B)
+            sd += magenta_sd * (B - G)
+            sd += red_sd * (R - B)
     else:
-        spd += white_spd * B
+        sd += white_sd * B
         if R <= G:
-            spd += yellow_spd * (R - B)
-            spd += green_spd * (G - R)
+            sd += yellow_sd * (R - B)
+            sd += green_sd * (G - R)
         else:
-            spd += yellow_spd * (G - B)
-            spd += red_spd * (R - G)
+            sd += yellow_sd * (G - B)
+            sd += red_sd * (R - G)
 
-    return spd
+    return sd

@@ -8,49 +8,49 @@ from pprint import pprint
 import colour
 from colour.plotting import (
     ASTM_G_173_ETR, plot_blackbody_colours, plot_blackbody_spectral_radiance,
-    colour_style, plot_multi_cmfs, plot_multi_illuminant_spds,
-    plot_multi_lightness_functions, plot_multi_spds, plot_single_cmfs,
-    plot_single_illuminant_spd, plot_single_lightness_function,
-    plot_single_spd, plot_visible_spectrum)
+    colour_style, plot_multi_cmfs, plot_multi_illuminant_sds,
+    plot_multi_lightness_functions, plot_multi_sds, plot_single_cmfs,
+    plot_single_illuminant_sd, plot_single_lightness_function,
+    plot_single_sd, plot_visible_spectrum)
 from colour.utilities import message_box
 
 message_box('Colorimetry Plots')
 
 colour_style()
 
-message_box(('Plotting a single illuminant relative spectral power '
+message_box(('Plotting a single illuminant spectral '
              'distribution.'))
-plot_single_illuminant_spd('F1')
+plot_single_illuminant_sd('F1')
 
 print('\n')
 
-message_box(('Plotting multiple illuminants relative spectral power '
+message_box(('Plotting multiple illuminants spectral '
              'distributions.'))
-pprint(sorted(colour.ILLUMINANTS_SPDS.keys()))
-plot_multi_illuminant_spds(
+pprint(sorted(colour.ILLUMINANTS_SDS.keys()))
+plot_multi_illuminant_sds(
     ['A', 'B', 'C', 'D50', 'D55', 'D60', 'D65', 'D75', 'F1'])
 
 print('\n')
 
 message_box(('Plotting "CIE Standard Illuminant "A", "B", and "C" with their '
              'normalised colours.'))
-plot_multi_illuminant_spds(
-    ['A', 'B', 'C'], use_spds_colours=True, normalise_spds_colours=True)
+plot_multi_illuminant_sds(
+    ['A', 'B', 'C'], use_sds_colours=True, normalise_sds_colours=True)
 
 print('\n')
 
-message_box(('Plotting "CIE Standard Illuminant D Series" "S" spectral power '
+message_box(('Plotting "CIE Standard Illuminant D Series" "S" spectral '
              'distributions.'))
-plot_multi_spds(
+plot_multi_sds(
     [
         value for key, value in sorted(
-            colour.colorimetry.D_ILLUMINANTS_S_SPDS.items())
+            colour.colorimetry.D_ILLUMINANTS_S_SDS.items())
     ],
     title='CIE Standard Illuminant D Series - S Distributions')
 
 print('\n')
 
-sample_spd_data = {
+sample_sd_data = {
     380: 0.048,
     385: 0.051,
     390: 0.055,
@@ -136,7 +136,7 @@ sample_spd_data = {
 
 # http://speclib.jpl.nasa.gov/speclibdata/
 # jhu.becknic.manmade.roofing.metal.solid.0525uuua.spectrum.txt  # noqa
-galvanized_steel_metal_spd_data = {
+galvanized_steel_metal_sd_data = {
     360: 2.24,
     362: 2.25,
     364: 2.26,
@@ -363,7 +363,7 @@ galvanized_steel_metal_spd_data = {
 
 # http://speclib.jpl.nasa.gov/speclibdata/
 # jhu.becknic.manmade.construction.marble.solid.0722uuu.spectrum.txt
-white_marble_spd_data = {
+white_marble_sd_data = {
     360: 40.93,
     362: 41.58,
     364: 42.25,
@@ -588,25 +588,25 @@ white_marble_spd_data = {
     820: 84.47
 }
 
-message_box('Plotting various single spectral power distributions.')
-plot_single_spd(
-    colour.SpectralPowerDistribution(sample_spd_data, name='Custom'))
-plot_single_spd(
-    colour.SpectralPowerDistribution(
-        galvanized_steel_metal_spd_data, name='Galvanized Steel Metal'))
+message_box('Plotting various single spectral distributions.')
+plot_single_sd(
+    colour.SpectralDistribution(sample_sd_data, name='Custom'))
+plot_single_sd(
+    colour.SpectralDistribution(
+        galvanized_steel_metal_sd_data, name='Galvanized Steel Metal'))
 
 print('\n')
 
-message_box('Plotting multiple spectral power distributions.')
-plot_multi_spds((colour.SpectralPowerDistribution(
-    galvanized_steel_metal_spd_data, name='Galvanized Steel Metal'),
-                colour.SpectralPowerDistribution(
-                    white_marble_spd_data, name='White Marble')))
+message_box('Plotting multiple spectral distributions.')
+plot_multi_sds((colour.SpectralDistribution(
+    galvanized_steel_metal_sd_data, name='Galvanized Steel Metal'),
+                colour.SpectralDistribution(
+                    white_marble_sd_data, name='White Marble')))
 
 print('\n')
 
 message_box('Plotting spectral bandpass dependence correction.')
-street_light_spd_data = {
+street_light_sd_data = {
     380: 8.9770000e-003,
     382: 5.8380000e-003,
     384: 8.3290000e-003,
@@ -810,16 +810,16 @@ street_light_spd_data = {
     780: 8.8190000e-002
 }
 
-street_light_spd = colour.SpectralPowerDistribution(
-    street_light_spd_data, name='Street Light')
+street_light_sd = colour.SpectralDistribution(
+    street_light_sd_data, name='Street Light')
 
-bandpass_corrected_street_light_spd = street_light_spd.copy()
-bandpass_corrected_street_light_spd.name = 'Street Light (Bandpass Corrected)'
-bandpass_corrected_street_light_spd = colour.bandpass_correction(
-    bandpass_corrected_street_light_spd, method='Stearns 1988')
+bandpass_corrected_street_light_sd = street_light_sd.copy()
+bandpass_corrected_street_light_sd.name = 'Street Light (Bandpass Corrected)'
+bandpass_corrected_street_light_sd = colour.bandpass_correction(
+    bandpass_corrected_street_light_sd, method='Stearns 1988')
 
-plot_multi_spds(
-    (street_light_spd, bandpass_corrected_street_light_spd),
+plot_multi_sds(
+    (street_light_sd, bandpass_corrected_street_light_sd),
     title='Stearns Bandpass Correction')
 
 print('\n')
@@ -879,7 +879,7 @@ plot_visible_spectrum('CIE 2012 2 Degree Standard Observer')
 print('\n')
 
 message_box('Plotting photopic luminous efficiency functions.')
-plot_multi_spds(
+plot_multi_sds(
     colour.PHOTOPIC_LEFS.values(),
     title='Luminous Efficiency Functions',
     y_label='Luminous Efficiency')
@@ -887,7 +887,7 @@ plot_multi_spds(
 print('\n')
 
 message_box('Comparing photopic and scotopic luminous efficiency functions.')
-plot_multi_spds(
+plot_multi_sds(
     (colour.PHOTOPIC_LEFS['CIE 2008 2 Degree Physiologically Relevant LEF'],
      colour.SCOTOPIC_LEFS['CIE 1951 Scotopic Standard Observer']),
     title='Photopic & Scotopic Luminous Efficiency Functions',
@@ -898,11 +898,11 @@ print('\n')
 message_box(('Plotting a mesopic luminous efficiency function with given '
              'photopic luminance value:\n'
              '\n\t0.2'))
-mesopic_luminous_efficiency_function = (
-    colour.mesopic_luminous_efficiency_function(0.2))
+sd_mesopic_luminous_efficiency_function = (
+    colour.sd_mesopic_luminous_efficiency_function(0.2))
 
-plot_multi_spds(
-    (mesopic_luminous_efficiency_function,
+plot_multi_sds(
+    (sd_mesopic_luminous_efficiency_function,
      colour.PHOTOPIC_LEFS['CIE 1924 Photopic Standard Observer'],
      colour.SCOTOPIC_LEFS['CIE 1951 Scotopic Standard Observer']),
     y_label='Luminous Efficiency')
@@ -930,29 +930,29 @@ print('\n')
 message_box('Comparing theoretical and measured "Sun" spectral distributions.')
 # Arbitrary ASTM_G_173_ETR scaling factor calculated with
 # :func:`colour.spectral_to_XYZ` definition.
-ASTM_G_173_spd = ASTM_G_173_ETR.copy() * 1.37905559e+13
+ASTM_G_173_sd = ASTM_G_173_ETR.copy() * 1.37905559e+13
 
-ASTM_G_173_spd.interpolate(
+ASTM_G_173_sd.interpolate(
     colour.SpectralShape(interval=5), interpolator=colour.LinearInterpolator)
 
-blackbody_spd = colour.spd_blackbody(5778, ASTM_G_173_spd.shape)
-blackbody_spd.name = 'The Sun - 5778K'
+blackbody_sd = colour.sd_blackbody(5778, ASTM_G_173_sd.shape)
+blackbody_sd.name = 'The Sun - 5778K'
 
-plot_multi_spds((ASTM_G_173_spd, blackbody_spd), y_label='W / (sr m$^2$) / m')
+plot_multi_sds((ASTM_G_173_sd, blackbody_sd), y_label='W / (sr m$^2$) / m')
 
 print('\n')
 
-message_box('Plotting various "blackbody" spectral power distributions.')
-blackbody_spds = [
-    colour.spd_blackbody(i, colour.SpectralShape(0, 10000, 10))
+message_box('Plotting various "blackbody" spectral distributions.')
+blackbody_sds = [
+    colour.sd_blackbody(i, colour.SpectralShape(0, 10000, 10))
     for i in range(1000, 15000, 1000)
 ]
 
-plot_multi_spds(
-    blackbody_spds,
+plot_multi_sds(
+    blackbody_sds,
     y_label='W / (sr m$^2$) / m',
-    use_spds_colours=True,
-    normalise_spds_colours=True,
+    use_sds_colours=True,
+    normalise_sds_colours=True,
     bounding_box=(0, 1250, 0, 2.5e15))
 
 print('\n')

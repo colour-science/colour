@@ -3,8 +3,8 @@
 ASTM G-173 Solar Spectral Irradiance
 ====================================
 
-Defines the solar spectral irradiance spectral power distribution used in
-various plotting objects.
+Defines the solar spectral irradiance spectral distribution used in various
+plotting objects.
 
 References
 ----------
@@ -17,7 +17,7 @@ References
 from __future__ import division, unicode_literals
 
 from colour.algebra import LinearInterpolator
-from colour.colorimetry import SpectralPowerDistribution
+from colour.colorimetry import SpectralDistribution
 from colour.utilities import suppress_warnings
 
 __author__ = 'Colour Developers'
@@ -6051,7 +6051,7 @@ ASTM_G_173_DIRECT_CIRCUMSOLAR_DATA = {
 # yapf: enable
 
 with suppress_warnings():
-    ASTM_G_173_ETR = SpectralPowerDistribution(
+    ASTM_G_173_ETR = SpectralDistribution(
         ASTM_G_173_ETR_DATA,
         name='ASTM G-173 ETR',
         interpolator=LinearInterpolator)
@@ -6063,10 +6063,10 @@ with suppress_warnings():
     ----------
     :cite:`RenewableResourceDataCenter2003a`
 
-    ASTM_G_173_ETR : SpectralPowerDistribution
+    ASTM_G_173_ETR : SpectralDistribution
     """
 
-    ASTM_G_173_GLOBAL_TILT = SpectralPowerDistribution(
+    ASTM_G_173_GLOBAL_TILT = SpectralDistribution(
         ASTM_G_173_GLOBAL_TILT_DATA,
         name='ASTM G-173 Global Tilt',
         interpolator=LinearInterpolator)
@@ -6078,10 +6078,10 @@ with suppress_warnings():
     ----------
     :cite:`RenewableResourceDataCenter2003a`
 
-    ASTM_G_173_GLOBAL_TILT : SpectralPowerDistribution
+    ASTM_G_173_GLOBAL_TILT : SpectralDistribution
     """
 
-    ASTM_G_173_DIRECT_CIRCUMSOLAR = SpectralPowerDistribution(
+    ASTM_G_173_DIRECT_CIRCUMSOLAR = SpectralDistribution(
         ASTM_G_173_DIRECT_CIRCUMSOLAR_DATA,
         name='ASTM G-173 Direct + Circumsolar',
         interpolator=LinearInterpolator)
@@ -6097,5 +6097,5 @@ with suppress_warnings():
     ----------
     :cite:`RenewableResourceDataCenter2003a`
 
-    ASTM_G_173_DIRECT_CIRCUMSOLAR : SpectralPowerDistribution
+    ASTM_G_173_DIRECT_CIRCUMSOLAR : SpectralDistribution
     """

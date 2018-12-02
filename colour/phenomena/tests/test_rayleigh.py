@@ -16,7 +16,7 @@ from colour.phenomena.rayleigh import (
     F_air_Bates1984, F_air_Bodhaine1999, molecular_density,
     mean_molecular_weights, gravity_List1968)
 from colour.phenomena import (scattering_cross_section, rayleigh_optical_depth,
-                              spd_rayleigh_scattering)
+                              sd_rayleigh_scattering)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -27,17 +27,17 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'RAYLEIGH_SCATTERING_SPD_DATA', 'TestAirRefractionIndexPenndorf1957',
+    'RAYLEIGH_SCATTERING_SD_DATA', 'TestAirRefractionIndexPenndorf1957',
     'TestAirRefractionIndexEdlen1966', 'TestAirRefractionIndexPeck1972',
     'TestAirRefractionIndexBodhaine1999', 'TestN2Depolarisation',
     'TestO2Depolarisation', 'TestF_airPenndorf1957', 'TestF_airYoung1981',
     'TestF_airBates1984', 'TestF_airBodhaine1999', 'TestMolecularDensity',
     'TestMeanMolecularWeights', 'TestGravityList1968',
     'TestScatteringCrossSection', 'TestRayleighOpticalDepth',
-    'TestSpdRayleighScattering'
+    'TestSdRayleighScattering'
 ]
 
-RAYLEIGH_SCATTERING_SPD_DATA = (
+RAYLEIGH_SCATTERING_SD_DATA = (
     0.59910134,
     0.59217069,
     0.58534101,
@@ -1430,21 +1430,21 @@ class TestRayleighOpticalDepth(unittest.TestCase):
                                    latitude, altitude)
 
 
-class TestSpdRayleighScattering(unittest.TestCase):
+class TestSdRayleighScattering(unittest.TestCase):
     """
-    Defines :func:`colour.phenomena.rayleigh.spd_rayleigh_scattering`
+    Defines :func:`colour.phenomena.rayleigh.sd_rayleigh_scattering`
     definition unit tests methods.
     """
 
-    def test_spd_rayleigh_scattering(self):
+    def test_sd_rayleigh_scattering(self):
         """
-        Tests :func:`colour.phenomena.rayleigh.spd_rayleigh_scattering`
+        Tests :func:`colour.phenomena.rayleigh.sd_rayleigh_scattering`
         definition.
         """
 
         np.testing.assert_almost_equal(
-            spd_rayleigh_scattering().values,
-            RAYLEIGH_SCATTERING_SPD_DATA,
+            sd_rayleigh_scattering().values,
+            RAYLEIGH_SCATTERING_SD_DATA,
             decimal=7)
 
 

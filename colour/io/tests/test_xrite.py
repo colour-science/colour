@@ -8,8 +8,8 @@ from __future__ import division, unicode_literals
 import os
 import unittest
 
-from colour.colorimetry import SpectralPowerDistribution
-from colour.io import read_spds_from_xrite_file
+from colour.colorimetry import SpectralDistribution
+from colour.io import read_sds_from_xrite_file
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -19,7 +19,7 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'RESOURCES_DIRECTORY', 'COLOURCHECKER_XRITE_1', 'TestReadSpdsFromXRiteFile'
+    'RESOURCES_DIRECTORY', 'COLOURCHECKER_XRITE_1', 'TestReadSdsFromXRiteFile'
 ]
 
 RESOURCES_DIRECTORY = os.path.join(os.path.dirname(__file__), 'resources')
@@ -64,25 +64,25 @@ COLOURCHECKER_XRITE_1 = {
 }
 
 
-class TestReadSpdsFromXRiteFile(unittest.TestCase):
+class TestReadSdsFromXRiteFile(unittest.TestCase):
     """
-    Defines :func:`colour.io.xrite.read_spds_from_xrite_file` definition units
+    Defines :func:`colour.io.xrite.read_sds_from_xrite_file` definition units
     tests methods.
     """
 
-    def test_read_spds_from_xrite_file(self):
+    def test_read_sds_from_xrite_file(self):
         """
-        Tests :func:`colour.io.xrite.read_spds_from_xrite_file` definition.
+        Tests :func:`colour.io.xrite.read_sds_from_xrite_file` definition.
         """
 
         colour_checker_xrite = os.path.join(RESOURCES_DIRECTORY,
                                             'xrite_digital_colour_checker.txt')
-        spds = read_spds_from_xrite_file(colour_checker_xrite)
-        for spd in spds.values():
-            self.assertIsInstance(spd, SpectralPowerDistribution)
+        sds = read_sds_from_xrite_file(colour_checker_xrite)
+        for sd in sds.values():
+            self.assertIsInstance(sd, SpectralDistribution)
 
-        self.assertEqual(spds['X1'],
-                         SpectralPowerDistribution(
+        self.assertEqual(sds['X1'],
+                         SpectralDistribution(
                              COLOURCHECKER_XRITE_1, name='X1'))
 
 

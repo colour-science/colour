@@ -9,7 +9,7 @@ import numpy as np
 import unittest
 from itertools import permutations
 
-from colour.colorimetry import (SpectralShape, planck_law, spd_blackbody)
+from colour.colorimetry import (SpectralShape, planck_law, sd_blackbody)
 from colour.utilities import ignore_numpy_errors
 
 __author__ = 'Colour Developers'
@@ -20,8 +20,8 @@ __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
 __all__ = [
-    'PLANCK_LAW_DATA', 'BLACKBODY_SPD_DATA', 'TestPlanckLaw',
-    'TestSpdBlackbody'
+    'PLANCK_LAW_DATA', 'BLACKBODY_SD_DATA', 'TestPlanckLaw',
+    'TestSdBlackbody'
 ]
 
 PLANCK_LAW_DATA = {
@@ -4031,7 +4031,7 @@ PLANCK_LAW_DATA = {
     }
 }
 
-BLACKBODY_SPD_DATA = (
+BLACKBODY_SD_DATA = (
     6654278270641.816406250000000,
     6709605279251.824218750000000,
     6764825121520.021484375000000,
@@ -4560,22 +4560,20 @@ class TestPlanckLaw(unittest.TestCase):
             planck_law(case, case),
 
 
-class TestSpdBlackbody(unittest.TestCase):
+class TestSdBlackbody(unittest.TestCase):
     """
-    Defines
-    :func:`colour.colorimetry.blackbody.spd_blackbody` definition unit tests
-    methods.
+    Defines :func:`colour.colorimetry.blackbody.sd_blackbody` definition unit
+    tests methods.
     """
 
-    def test_spd_blackbody(self):
+    def test_sd_blackbody(self):
         """
-        Tests
-        :func:`colour.colorimetry.blackbody.spd_blackbody` definition.
+        Tests :func:`colour.colorimetry.blackbody.sd_blackbody` definition.
         """
 
         np.testing.assert_allclose(
-            spd_blackbody(5000, SpectralShape(360, 830, 1)).values,
-            BLACKBODY_SPD_DATA,
+            sd_blackbody(5000, SpectralShape(360, 830, 1)).values,
+            BLACKBODY_SD_DATA,
             rtol=0.0000001,
             atol=0.0000001)
 
