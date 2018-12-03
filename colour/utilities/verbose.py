@@ -343,7 +343,7 @@ def filter_warnings(state=True,
 
 
 # Defaulting to filter *Colour* runtime warnings.
-filter_warnings(colour_warnings=True, colour_runtime_warnings=True)
+filter_warnings(colour_warnings=False, colour_runtime_warnings=True)
 
 
 @contextmanager
