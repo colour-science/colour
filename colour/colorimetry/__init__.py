@@ -2,6 +2,11 @@
 
 from __future__ import absolute_import
 
+import sys
+
+from colour.utilities.deprecation import ModuleAPI, Renamed
+from colour.utilities.documentation import is_documentation_building
+
 from .spectrum import (SpectralShape, DEFAULT_SPECTRAL_SHAPE,
                        SpectralDistribution, MultiSpectralDistribution)
 from .blackbody import (sd_blackbody, blackbody_spectral_radiance, planck_law)
@@ -125,3 +130,62 @@ __all__ += [
 __all__ += ['YELLOWNESS_METHODS']
 __all__ += ['yellowness']
 __all__ += ['yellowness_ASTMD1925', 'yellowness_ASTME313']
+
+
+# ----------------------------------------------------------------------------#
+# ---                API Changes and Deprecation Management                ---#
+# ----------------------------------------------------------------------------#
+class colorimetry(ModuleAPI):
+    def __getattr__(self, attribute):
+        return super(colorimetry, self).__getattr__(attribute)
+
+
+# v0.3.12
+API_CHANGES = {
+    'Renamed': [
+        [
+            'colour.colorimetry.spectral_to_XYZ_ASTME30815',
+            'colour.colorimetry.sd_to_XYZ_ASTME30815',
+        ],
+        [
+            'colour.colorimetry.spectral_to_XYZ_integration',
+            'colour.colorimetry.sd_to_XYZ_integration',
+        ],
+        [
+            'colour.colorimetry.spectral_to_XYZ_tristimulus_weighting_factors_ASTME30815',  # noqa
+            'colour.colorimetry.sd_to_XYZ_tristimulus_weighting_factors_ASTME30815',  # noqa
+        ],
+    ]
+}
+"""
+Defines *colour.plotting* sub-package API changes.
+
+API_CHANGES : dict
+"""
+
+
+def _setup_api_changes():
+    """
+    Setups *Colour* API changes.
+    """
+
+    global API_CHANGES
+
+    for renamed in API_CHANGES['Renamed']:
+        name, access = renamed
+        API_CHANGES[name.split('.')[-1]] = Renamed(name, access)  # noqa
+    API_CHANGES.pop('Renamed')
+
+
+if not is_documentation_building():
+    _setup_api_changes()
+
+    del ModuleAPI
+    del Renamed
+    del is_documentation_building
+    del _setup_api_changes
+
+    sys.modules['colour.colorimetry'] = colorimetry(
+        sys.modules['colour.colorimetry'], API_CHANGES)
+
+    del sys
