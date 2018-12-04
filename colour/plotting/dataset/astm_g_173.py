@@ -18,7 +18,6 @@ from __future__ import division, unicode_literals
 
 from colour.algebra import LinearInterpolator
 from colour.colorimetry import SpectralDistribution
-from colour.utilities import suppress_warnings
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -6050,52 +6049,51 @@ ASTM_G_173_DIRECT_CIRCUMSOLAR_DATA = {
 }
 # yapf: enable
 
-with suppress_warnings():
-    ASTM_G_173_ETR = SpectralDistribution(
-        ASTM_G_173_ETR_DATA,
-        name='ASTM G-173 ETR',
-        interpolator=LinearInterpolator)
-    """
-    Extraterrestrial Radiation (solar spectrum at top of atmosphere) at mean
-    Earth-Sun distance.
+ASTM_G_173_ETR = SpectralDistribution(
+    ASTM_G_173_ETR_DATA,
+    name='ASTM G-173 ETR',
+    interpolator=LinearInterpolator)
+"""
+Extraterrestrial Radiation (solar spectrum at top of atmosphere) at mean
+Earth-Sun distance.
 
-    References
-    ----------
-    :cite:`RenewableResourceDataCenter2003a`
+References
+----------
+:cite:`RenewableResourceDataCenter2003a`
 
-    ASTM_G_173_ETR : SpectralDistribution
-    """
+ASTM_G_173_ETR : SpectralDistribution
+"""
 
-    ASTM_G_173_GLOBAL_TILT = SpectralDistribution(
-        ASTM_G_173_GLOBAL_TILT_DATA,
-        name='ASTM G-173 Global Tilt',
-        interpolator=LinearInterpolator)
-    """
-    Spectral radiation from solar disk plus sky diffuse and diffuse reflected
-    from ground on south facing surface tilted 37 degrees from horizontal.
+ASTM_G_173_GLOBAL_TILT = SpectralDistribution(
+    ASTM_G_173_GLOBAL_TILT_DATA,
+    name='ASTM G-173 Global Tilt',
+    interpolator=LinearInterpolator)
+"""
+Spectral radiation from solar disk plus sky diffuse and diffuse reflected
+from ground on south facing surface tilted 37 degrees from horizontal.
 
-    References
-    ----------
-    :cite:`RenewableResourceDataCenter2003a`
+References
+----------
+:cite:`RenewableResourceDataCenter2003a`
 
-    ASTM_G_173_GLOBAL_TILT : SpectralDistribution
-    """
+ASTM_G_173_GLOBAL_TILT : SpectralDistribution
+"""
 
-    ASTM_G_173_DIRECT_CIRCUMSOLAR = SpectralDistribution(
-        ASTM_G_173_DIRECT_CIRCUMSOLAR_DATA,
-        name='ASTM G-173 Direct + Circumsolar',
-        interpolator=LinearInterpolator)
-    """
-    Direct Normal Irradiance Nearly parallel (0.5 degrees divergent cone)
-    radiation on surface with surface normal tracking (pointing to) the sun,
-    excluding scattered sky and reflected ground radiation plus spectral
-    irradiance within +/- 2.5 degrees (5 degrees diameter) field of view
-    centered on the 0.5 degrees diameter solar disk, but excluding the
-    radiation from the disk.
+ASTM_G_173_DIRECT_CIRCUMSOLAR = SpectralDistribution(
+    ASTM_G_173_DIRECT_CIRCUMSOLAR_DATA,
+    name='ASTM G-173 Direct + Circumsolar',
+    interpolator=LinearInterpolator)
+"""
+Direct Normal Irradiance Nearly parallel (0.5 degrees divergent cone)
+radiation on surface with surface normal tracking (pointing to) the sun,
+excluding scattered sky and reflected ground radiation plus spectral
+irradiance within +/- 2.5 degrees (5 degrees diameter) field of view
+centered on the 0.5 degrees diameter solar disk, but excluding the
+radiation from the disk.
 
-    References
-    ----------
-    :cite:`RenewableResourceDataCenter2003a`
+References
+----------
+:cite:`RenewableResourceDataCenter2003a`
 
-    ASTM_G_173_DIRECT_CIRCUMSOLAR : SpectralDistribution
-    """
+ASTM_G_173_DIRECT_CIRCUMSOLAR : SpectralDistribution
+"""

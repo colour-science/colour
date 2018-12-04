@@ -348,8 +348,8 @@ filter_warnings(colour_warnings=False, colour_runtime_warnings=True)
 
 @contextmanager
 def suppress_warnings(colour_warnings=True,
-                      colour_usage_warnings=False,
                       colour_runtime_warnings=False,
+                      colour_usage_warnings=False,
                       python_warnings=False):
     """
     A context manager filtering *Colour* and also optionally overall Python

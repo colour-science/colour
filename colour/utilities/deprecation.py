@@ -13,7 +13,7 @@ from importlib import import_module
 from collections import namedtuple
 from operator import attrgetter
 
-from colour.utilities import ColourUsageWarning, warning
+from colour.utilities import usage_warning
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -237,7 +237,7 @@ class ModuleAPI(object):
         change = self._changes.get(attribute)
         if change is not None:
             if not isinstance(change, Removed):
-                warning(str(change), category=ColourUsageWarning)
+                usage_warning(str(change))
                 return get_attribute(change[1])
             else:
                 raise AttributeError(str(change))

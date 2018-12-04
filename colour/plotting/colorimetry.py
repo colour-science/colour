@@ -42,7 +42,7 @@ from colour.plotting import (
     filter_passthrough, filter_cmfs, filter_illuminants, override_style,
     render, plot_single_colour_swatch, plot_multi_functions)
 from colour.utilities import (domain_range_scale, first_item,
-                              normalise_maximum, suppress_warnings, tstack)
+                              normalise_maximum, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -890,17 +890,16 @@ def plot_blackbody_colours(
     colours = []
     temperatures = []
 
-    with suppress_warnings():
-        for temperature in shape:
-            sd = sd_blackbody(temperature, cmfs.shape)
+    for temperature in shape:
+        sd = sd_blackbody(temperature, cmfs.shape)
 
-            with domain_range_scale('1'):
-                XYZ = sd_to_XYZ(sd, cmfs)
+        with domain_range_scale('1'):
+            XYZ = sd_to_XYZ(sd, cmfs)
 
-            RGB = normalise_maximum(XYZ_to_plotting_colourspace(XYZ))
+        RGB = normalise_maximum(XYZ_to_plotting_colourspace(XYZ))
 
-            colours.append(RGB)
-            temperatures.append(temperature)
+        colours.append(RGB)
+        temperatures.append(temperature)
 
     x_min, x_max = min(temperatures), max(temperatures)
     y_min, y_max = 0, 1

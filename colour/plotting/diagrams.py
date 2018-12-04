@@ -28,7 +28,7 @@ from colour.plotting import (COLOUR_STYLE_CONSTANTS, COLOUR_ARROW_STYLE,
                              XYZ_to_plotting_colourspace, artist, filter_cmfs,
                              override_style, render)
 from colour.utilities import (domain_range_scale, first_item, is_string,
-                              normalise_maximum, suppress_warnings, tstack)
+                              normalise_maximum, tstack)
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -265,25 +265,24 @@ def plot_chromaticity_diagram_colours(
         np.linspace(0, 1, samples), np.linspace(1, 0, samples))
     ij = tstack([ii, jj])
 
-    with suppress_warnings(False):
-        if method == 'CIE 1931':
-            XYZ = xy_to_XYZ(ij)
-            spectral_locus = XYZ_to_xy(cmfs.values, illuminant)
-        elif method == 'CIE 1960 UCS':
-            XYZ = xy_to_XYZ(UCS_uv_to_xy(ij))
-            spectral_locus = UCS_to_uv(XYZ_to_UCS(cmfs.values))
-        elif method == 'CIE 1976 UCS':
-            XYZ = xy_to_XYZ(Luv_uv_to_xy(ij))
-            spectral_locus = Luv_to_uv(
-                XYZ_to_Luv(cmfs.values, illuminant), illuminant)
-        else:
-            raise ValueError(
-                'Invalid method: "{0}", must be one of '
-                '{\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\'}'.format(
-                    method))
+    if method == 'CIE 1931':
+        XYZ = xy_to_XYZ(ij)
+        spectral_locus = XYZ_to_xy(cmfs.values, illuminant)
+    elif method == 'CIE 1960 UCS':
+        XYZ = xy_to_XYZ(UCS_uv_to_xy(ij))
+        spectral_locus = UCS_to_uv(XYZ_to_UCS(cmfs.values))
+    elif method == 'CIE 1976 UCS':
+        XYZ = xy_to_XYZ(Luv_uv_to_xy(ij))
+        spectral_locus = Luv_to_uv(
+            XYZ_to_Luv(cmfs.values, illuminant), illuminant)
+    else:
+        raise ValueError(
+            'Invalid method: "{0}", must be one of '
+            '{\'CIE 1931\', \'CIE 1960 UCS\', \'CIE 1976 UCS\'}'.format(
+                method))
 
-        RGB = normalise_maximum(
-            XYZ_to_plotting_colourspace(XYZ, illuminant), axis=-1)
+    RGB = normalise_maximum(
+        XYZ_to_plotting_colourspace(XYZ, illuminant), axis=-1)
 
     polygon = Polygon(
         spectral_locus
