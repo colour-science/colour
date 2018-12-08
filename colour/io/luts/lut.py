@@ -2842,33 +2842,33 @@ class ASC_CDL(AbstractLUTSequenceOperator):
         >>> CDL.apply(RGB)
         array([ 0.12841813,  0.17915636,  0.22339685])
         """
-        RGB = np.asarray(RGB)
+        RGB_out = as_float_array(np.copy(RGB))
         if self.rev:
             if self.clamp:
-                RGB = np.clip(RGB, 0, 1)
+                RGB_out = np.clip(RGB_out, 0, 1)
             if self.sat != 1.0:
-                r, g, b = tsplit(RGB)
+                r, g, b = tsplit(RGB_out)
                 luma = 0.2126 * r + 0.7152 * g + 0.0722 * b
                 luma = tstack((luma, luma, luma))
-                RGB = luma + (1 / self.sat) * (RGB - luma)
+                RGB_out = luma + (1 / self.sat) * (RGB_out - luma)
                 if self.clamp:
-                    RGB = np.clip(RGB, 0, 1)
-            RGB = function_gamma(RGB, 1 / self.power, 'preserve')
-            RGB -= self.offset
-            RGB /= self.slope
+                    RGB_out = np.clip(RGB_out, 0, 1)
+            RGB_out = function_gamma(RGB_out, 1 / self.power, 'preserve')
+            RGB_out -= self.offset
+            RGB_out /= self.slope
             if self.clamp:
-                RGB = np.clip(RGB, 0, 1)
+                RGB_out = np.clip(RGB, 0, 1)
         else:
-            RGB *= self.slope
-            RGB += self.offset
-            RGB = function_gamma(RGB, self.power, 'preserve')
+            RGB_out *= self.slope
+            RGB_out += self.offset
+            RGB_out = function_gamma(RGB_out, self.power, 'preserve')
             if self.clamp:
-                RGB = np.clip(RGB, 0, 1)
+                RGB_out = np.clip(RGB_out, 0, 1)
             if self.sat != 1.0:
-                r, g, b = tsplit(RGB)
+                r, g, b = tsplit(RGB_out)
                 luma = 0.2126 * r + 0.7152 * g + 0.0722 * b
                 luma = tstack((luma, luma, luma))
-                RGB = luma + self.sat * (RGB - luma)
+                RGB_out = luma + self.sat * (RGB_out - luma)
                 if self.clamp:
-                    RGB = np.clip(RGB, 0, 1)
-        return RGB
+                    RGB_out = np.clip(RGB_out, 0, 1)
+        return RGB_out
