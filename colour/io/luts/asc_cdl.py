@@ -41,10 +41,14 @@ def read_LUT_cdl_xml(path):
     corrections = data.getElementsByTagName('ColorCorrection')
     for idx, correction in enumerate(corrections):
         event = ASC_CDL()
-        slope = correction.getElementsByTagName('Slope')[0].firstChild.data
-        offset = correction.getElementsByTagName('Offset')[0].firstChild.data
-        power = correction.getElementsByTagName('Power')[0].firstChild.data
-        sat = correction.getElementsByTagName('Saturation')[0].firstChild.data
+        slope = correction.getElementsByTagName('Slope')
+        slope = '1 1 1' if not slope else slope[0].firstChild.data
+        offset = correction.getElementsByTagName('Offset')
+        offset = '0 0 0' if not offset else offset[0].firstChild.data
+        power = correction.getElementsByTagName('Power')
+        power = '1 1 1' if not power else power[0].firstChild.data
+        sat = correction.getElementsByTagName('Saturation')
+        sat = '1' if not sat else sat[0].firstChild.data
         if 'id' in correction.attributes.keys():
             event.id = correction.attributes['id'].value
         event.slope = _parse_array(slope)
