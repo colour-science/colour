@@ -828,16 +828,14 @@ def plot_blackbody_spectral_radiance(
         'title': '{0} - Colour'.format(blackbody),
         'x_label': '{0}K'.format(temperature),
         'y_label': '',
+        'x_ticker': False,
+        'y_ticker': False,
     }
     settings.update(kwargs)
     settings['standalone'] = False
 
     figure, axes = plot_single_colour_swatch(
         ColourSwatch(name='', RGB=RGB), **settings)
-
-    # Removing "x" and "y" ticks.
-    axes.set_xticks([])
-    axes.set_yticks([])
 
     settings = {'axes': axes, 'standalone': True}
     settings.update(kwargs)

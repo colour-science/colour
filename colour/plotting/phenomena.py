@@ -167,6 +167,8 @@ def plot_the_blue_sky(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
         'title': 'The Blue Sky - Colour',
         'x_label': x_label,
         'y_label': '',
+        'x_ticker': False,
+        'y_ticker': False,
     }
     settings.update(kwargs)
     settings['standalone'] = False
@@ -175,10 +177,6 @@ def plot_the_blue_sky(cmfs='CIE 1931 2 Degree Standard Observer', **kwargs):
 
     figure, axes = plot_single_colour_swatch(
         ColourSwatch('', normalise_maximum(blue_sky_color)), **settings)
-
-    # Removing "x" and "y" ticks.
-    axes.set_xticks([])
-    axes.set_yticks([])
 
     settings = {'axes': axes, 'standalone': True}
     settings.update(kwargs)
