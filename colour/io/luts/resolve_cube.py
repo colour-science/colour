@@ -19,11 +19,9 @@ References
 from __future__ import division, unicode_literals
 
 import numpy as np
-import os
-import re
 
-from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.io.luts import LUT1D, LUT2D, LUT3D, LUTSequence
+from colour.io.luts.common import parse_array, path_to_title
 from colour.utilities import as_float_array, tstack
 
 __author__ = 'Colour Developers'
@@ -59,6 +57,7 @@ def read_LUT_ResolveCube(path):
     --------
     Reading a 2D *Resolve* *.cube* *LUT*:
 
+    >>> import os
     >>> path = os.path.join(
     ...     os.path.dirname(__file__), 'tests', 'resources', 'resolve_cube',
     ...     'ACES_Proxy_10_to_ACES.cube')
@@ -101,18 +100,11 @@ def read_LUT_ResolveCube(path):
     Comment 01 : Comments can't go anywhere
     """
 
-    title = re.sub('_|-|\\.', ' ', os.path.splitext(os.path.basename(path))[0])
+    title = path_to_title(path)
     size_2D = size_3D = 2
     table = []
     comments = []
     has_2D, has_3D = False, False
-
-    def _parse_array(array):
-        """
-        Converts given string array to :class:`ndarray` class.
-        """
-
-        return np.array(list(map(DEFAULT_FLOAT_DTYPE, array)))
 
     with open(path) as cube_file:
         lines = cube_file.readlines()
@@ -131,10 +123,10 @@ def read_LUT_ResolveCube(path):
             if tokens[0] == 'TITLE':
                 title = ' '.join(tokens[1:])[1:-1]
             elif tokens[0] == 'LUT_1D_INPUT_RANGE':
-                domain = _parse_array(tokens[1:])
+                domain = parse_array(tokens[1:])
                 LUT[0].domain = tstack([domain, domain, domain])
             elif tokens[0] == 'LUT_3D_INPUT_RANGE':
-                domain = _parse_array(tokens[1:])
+                domain = parse_array(tokens[1:])
                 LUT[1].domain = tstack([domain, domain, domain])
             elif tokens[0] == 'LUT_1D_SIZE':
                 has_2D = True
@@ -143,7 +135,7 @@ def read_LUT_ResolveCube(path):
                 has_3D = True
                 size_3D = np.int_(tokens[1])
             else:
-                table.append(_parse_array(tokens))
+                table.append(parse_array(tokens))
 
     table = as_float_array(table)
     if has_2D and has_3D:

@@ -19,11 +19,9 @@ References
 from __future__ import division, unicode_literals
 
 import numpy as np
-import re
-import os
 
-from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.io.luts import LUT1D, LUT2D, LUT3D, LUTSequence
+from colour.io.luts.common import parse_array
 from colour.utilities import tsplit, tstack
 
 __author__ = 'Colour Developers'
@@ -59,6 +57,7 @@ def read_LUT_Cinespace(path):
     --------
     Reading a 2D *Cinespace* *.csp* *LUT*:
 
+    >>> import os
     >>> path = os.path.join(
     ...     os.path.dirname(__file__), 'tests', 'resources', 'cinespace',
     ...     'ACES_Proxy_10_to_ACES.csp')
@@ -86,17 +85,13 @@ def read_LUT_Cinespace(path):
     Size       : (4, 4, 4, 3)
     """
 
-    title = re.sub('_|-|\\.', ' ', os.path.splitext(os.path.basename(path))[0])
     unity_range = np.array([[0., 0., 0.], [1., 1., 1.]])
 
-    def _parse_array(array):
-        """
-        Converts given string array to :class:`ndarray` class.
-        """
-
-        return np.array(list(map(DEFAULT_FLOAT_DTYPE, array)))
-
     def _parse_metadata_section(lines):
+        """
+        Parses the metadata at given lines.
+        """
+
         if len(metadata) > 0:
             title = metadata[0]
             comments = metadata[1:]
@@ -107,26 +102,34 @@ def read_LUT_Cinespace(path):
         return title, comments
 
     def _parse_domain_section(lines):
-        preLUT_size = max([int(lines[i]) for i in [0, 3, 6]])
-        preLUT = [_parse_array(lines[i].split()) for i in [1, 2, 4, 5, 7, 8]]
-        preLUT_padded = []
+        """
+        Parses the domain at given lines.
+        """
 
-        for row in preLUT:
-            if len(row) != preLUT_size:
-                preLUT_padded.append(
+        pre_LUT_size = max([int(lines[i]) for i in [0, 3, 6]])
+        pre_LUT = [parse_array(lines[i]) for i in [1, 2, 4, 5, 7, 8]]
+        pre_LUT_padded = []
+
+        for row in pre_LUT:
+            if len(row) != pre_LUT_size:
+                pre_LUT_padded.append(
                     np.pad(
-                        row, (0, preLUT_size - row.shape[0]),
+                        row, (0, pre_LUT_size - row.shape[0]),
                         mode='constant',
                         constant_values=np.nan))
             else:
-                preLUT_padded.append(row)
-        preLUT = np.asarray(preLUT_padded)
+                pre_LUT_padded.append(row)
+        pre_LUT = np.asarray(pre_LUT_padded)
 
-        return preLUT
+        return pre_LUT
 
     def _parse_table_section(lines):
-        size = _parse_array(lines[0].split()).astype(int)
-        table = np.array([_parse_array(line.split()) for line in lines[1:]])
+        """
+        Parses the table at given lines.
+        """
+
+        size = parse_array(lines[0]).astype(int)
+        table = np.array([parse_array(line) for line in lines[1:]])
 
         return size, table
 
@@ -161,27 +164,27 @@ def read_LUT_Cinespace(path):
         title, comments = _parse_metadata_section(metadata)
 
         seek += 1
-        preLUT = _parse_domain_section(lines[seek:seek + 9])
+        pre_LUT = _parse_domain_section(lines[seek:seek + 9])
 
         seek += 9
         size, table = _parse_table_section(lines[seek:])
 
         assert np.product(size) == len(table), 'Invalid table size!'
 
-        if (is_3D and preLUT.shape == (6, 2) and np.array_equal(
-                preLUT.reshape(3, 4).transpose()[2:4], unity_range)):
+        if (is_3D and pre_LUT.shape == (6, 2) and np.array_equal(
+                pre_LUT.reshape(3, 4).transpose()[2:4], unity_range)):
             table = table.reshape((size[0], size[1], size[2], 3), order='F')
             LUT = LUT3D(
-                domain=preLUT.reshape(3, 4).transpose()[0:2],
+                domain=pre_LUT.reshape(3, 4).transpose()[0:2],
                 name=title,
                 comments=comments,
                 table=table)
             return LUT
 
-        if (not is_3D and preLUT.shape == (6, 2) and np.array_equal(
-                preLUT.reshape(3, 4).transpose()[2:4], unity_range)):
+        if (not is_3D and pre_LUT.shape == (6, 2) and np.array_equal(
+                pre_LUT.reshape(3, 4).transpose()[2:4], unity_range)):
             LUT = LUT2D(
-                domain=preLUT.reshape(3, 4).transpose()[0:2],
+                domain=pre_LUT.reshape(3, 4).transpose()[0:2],
                 name=title,
                 comments=comments,
                 table=table)
@@ -189,8 +192,8 @@ def read_LUT_Cinespace(path):
             return LUT
 
         if is_3D:
-            pre_domain = tstack((preLUT[0], preLUT[2], preLUT[4]))
-            pre_table = tstack((preLUT[1], preLUT[3], preLUT[5]))
+            pre_domain = tstack((pre_LUT[0], pre_LUT[2], pre_LUT[4]))
+            pre_table = tstack((pre_LUT[1], pre_LUT[3], pre_LUT[5]))
             shaper_name = '{0} - Shaper'.format(title)
             cube_name = '{0} - Cube'.format(title)
             table = table.reshape((size[0], size[1], size[2], 3), order='F')
@@ -200,8 +203,8 @@ def read_LUT_Cinespace(path):
             return LUTSequence(LUT_A, LUT_B)
 
         if not is_3D:
-            pre_domain = tstack((preLUT[0], preLUT[2], preLUT[4]))
-            pre_table = tstack((preLUT[1], preLUT[3], preLUT[5]))
+            pre_domain = tstack((pre_LUT[0], pre_LUT[2], pre_LUT[4]))
+            pre_table = tstack((pre_LUT[1], pre_LUT[3], pre_LUT[5]))
 
             if np.array_equal(table, unity_range):
                 return LUT2D(pre_table, title, pre_domain, comments=comments)
@@ -210,6 +213,7 @@ def read_LUT_Cinespace(path):
                 table_min = table[0]
                 pre_table *= (table_max - table_min)
                 pre_table += table_min
+
                 return LUT2D(pre_table, title, pre_domain, comments=comments)
             else:
                 pre_name = '{0} - preLUT'.format(title)
@@ -273,7 +277,7 @@ def write_LUT_Cinespace(LUT, path, decimals=7):
         assert (len(LUT) == 2 and
                 (isinstance(LUT[0], LUT1D) or isinstance(LUT[0], LUT2D)) and
                 isinstance(LUT[1],
-                           LUT3D)), ('LUTSequence must be 1D+3D or 2D+3D!')
+                           LUT3D)), 'LUTSequence must be 1D+3D or 2D+3D!'
         has_2D = True
         has_3D = True
         name = LUT[1].name
@@ -329,7 +333,8 @@ def write_LUT_Cinespace(LUT, path, decimals=7):
 
     def _format_tuple(array):
         """
-        Formats given array as 2 space separated values to *decimals* precison.
+        Formats given array as 2 space separated values to *decimals*
+        precision.
         """
 
         return '{1:0.{0}f} {2:0.{0}f}'.format(decimals, *array)

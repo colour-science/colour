@@ -12,11 +12,10 @@ Defines *Sony* *.spi1d* *LUT* Format related input / output utilities objects.
 from __future__ import division, unicode_literals
 
 import numpy as np
-import os
-import re
 
-from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
+from colour.constants import DEFAULT_INT_DTYPE
 from colour.io.luts import LUT1D, LUT2D, LUTSequence
+from colour.io.luts.common import parse_array, path_to_title
 from colour.utilities import as_float_array, usage_warning
 
 __author__ = 'Colour Developers'
@@ -47,6 +46,7 @@ def read_LUT_SonySPI1D(path):
     --------
     Reading a 1D *Sony* *.spi1d* *LUT*:
 
+    >>> import os
     >>> path = os.path.join(
     ...     os.path.dirname(__file__), 'tests', 'resources', 'sony_spi1d',
     ...     'oetf_reverse_sRGB_1D.spi1d')
@@ -77,19 +77,12 @@ def read_LUT_SonySPI1D(path):
     Comment 02 : "colour.models.oetf_reverse_sRGB".
     """
 
-    title = re.sub('_|-|\\.', ' ', os.path.splitext(os.path.basename(path))[0])
+    title = path_to_title(path)
     domain_min, domain_max = np.array([0, 1])
     dimensions = 1
     table = []
 
     comments = []
-
-    def _parse_array(array):
-        """
-        Converts given string array to :class:`ndarray` class.
-        """
-
-        return np.array(list(map(DEFAULT_FLOAT_DTYPE, array)))
 
     with open(path) as spi1d_file:
         lines = spi1d_file.readlines()
@@ -107,7 +100,7 @@ def read_LUT_SonySPI1D(path):
             if tokens[0] == 'Version':
                 continue
             if tokens[0] == 'From':
-                domain_min, domain_max = _parse_array(tokens[1:])
+                domain_min, domain_max = parse_array(tokens[1:])
             elif tokens[0] == 'Length':
                 continue
             elif tokens[0] == 'Components':
@@ -119,7 +112,7 @@ def read_LUT_SonySPI1D(path):
             elif tokens[0] in ('{', '}'):
                 continue
             else:
-                table.append(_parse_array(tokens))
+                table.append(parse_array(tokens))
 
     table = as_float_array(table)
     if dimensions == 1:
