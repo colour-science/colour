@@ -18,12 +18,10 @@ open?id=143Eh08ZYncCAMwJ1q4gWxVOqR_OSWYvs
 from __future__ import division, unicode_literals
 
 import numpy as np
-import os
-import re
 
 from colour.constants import DEFAULT_INT_DTYPE
 from colour.io.luts import LUT1D, LUT2D, LUT3D, LUTSequence
-from colour.io.luts.common import parse_array
+from colour.io.luts.common import parse_array, path_to_title
 from colour.utilities import as_float_array, usage_warning
 
 __author__ = 'Colour Developers'
@@ -58,6 +56,7 @@ def read_LUT_IridasCube(path):
     --------
     Reading a 2D *Iridas* *.cube* *LUT*:
 
+    >>> import os
     >>> path = os.path.join(
     ...     os.path.dirname(__file__), 'tests', 'resources', 'iridas_cube',
     ...     'ACES_Proxy_10_to_ACES.cube')
@@ -100,7 +99,7 @@ def read_LUT_IridasCube(path):
     Comment 01 : Comments can go anywhere
     """
 
-    title = re.sub('_|-|\\.', ' ', os.path.splitext(os.path.basename(path))[0])
+    title = path_to_title(path)
     domain_min, domain_max = np.array([0, 0, 0]), np.array([1, 1, 1])
     dimensions = 3
     size = 2

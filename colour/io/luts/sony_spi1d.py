@@ -12,12 +12,10 @@ Defines *Sony* *.spi1d* *LUT* Format related input / output utilities objects.
 from __future__ import division, unicode_literals
 
 import numpy as np
-import os
-import re
 
 from colour.constants import DEFAULT_INT_DTYPE
 from colour.io.luts import LUT1D, LUT2D, LUTSequence
-from colour.io.luts.common import parse_array
+from colour.io.luts.common import parse_array, path_to_title
 from colour.utilities import as_float_array, usage_warning
 
 __author__ = 'Colour Developers'
@@ -48,6 +46,7 @@ def read_LUT_SonySPI1D(path):
     --------
     Reading a 1D *Sony* *.spi1d* *LUT*:
 
+    >>> import os
     >>> path = os.path.join(
     ...     os.path.dirname(__file__), 'tests', 'resources', 'sony_spi1d',
     ...     'oetf_reverse_sRGB_1D.spi1d')
@@ -78,7 +77,7 @@ def read_LUT_SonySPI1D(path):
     Comment 02 : "colour.models.oetf_reverse_sRGB".
     """
 
-    title = re.sub('_|-|\\.', ' ', os.path.splitext(os.path.basename(path))[0])
+    title = path_to_title(path)
     domain_min, domain_max = np.array([0, 1])
     dimensions = 1
     table = []

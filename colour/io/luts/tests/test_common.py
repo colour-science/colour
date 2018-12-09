@@ -9,7 +9,7 @@ import numpy as np
 import unittest
 
 from colour.constants import DEFAULT_INT_DTYPE
-from colour.io.luts.common import parse_array
+from colour.io.luts.common import parse_array, path_to_title
 
 __author__ = 'Colour Developers'
 __copyright__ = 'Copyright (C) 2013-2018 - Colour Developers'
@@ -18,7 +18,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['TestParseArray']
+__all__ = ['TestParseArray', 'TestPathToTitle']
 
 
 class TestParseArray(unittest.TestCase):
@@ -62,6 +62,23 @@ class TestParseArray(unittest.TestCase):
         self.assertEqual(
             parse_array(['1', '2', '3'], dtype=DEFAULT_INT_DTYPE).dtype,
             DEFAULT_INT_DTYPE)
+
+
+class TestPathToTitle(unittest.TestCase):
+    """
+    Defines :func:`colour.io.luts.common.path_to_title` definition unit tests
+    methods.
+    """
+
+    def test_path_to_title(self):
+        """
+        Tests :func:`colour.io.luts.common.path_to_title` definition.
+        """
+
+        self.assertEqual(
+            path_to_title(
+                'colour/io/luts/tests/resources/cinespace/RGB_1_0.5_0.25.csp'),
+            'RGB 1 0 5 0 25')
 
 
 if __name__ == '__main__':

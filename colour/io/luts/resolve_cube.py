@@ -19,11 +19,9 @@ References
 from __future__ import division, unicode_literals
 
 import numpy as np
-import os
-import re
 
 from colour.io.luts import LUT1D, LUT2D, LUT3D, LUTSequence
-from colour.io.luts.common import parse_array
+from colour.io.luts.common import parse_array, path_to_title
 from colour.utilities import as_float_array, tstack
 
 __author__ = 'Colour Developers'
@@ -59,6 +57,7 @@ def read_LUT_ResolveCube(path):
     --------
     Reading a 2D *Resolve* *.cube* *LUT*:
 
+    >>> import os
     >>> path = os.path.join(
     ...     os.path.dirname(__file__), 'tests', 'resources', 'resolve_cube',
     ...     'ACES_Proxy_10_to_ACES.cube')
@@ -101,7 +100,7 @@ def read_LUT_ResolveCube(path):
     Comment 01 : Comments can't go anywhere
     """
 
-    title = re.sub('_|-|\\.', ' ', os.path.splitext(os.path.basename(path))[0])
+    title = path_to_title(path)
     size_2D = size_3D = 2
     table = []
     comments = []

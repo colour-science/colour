@@ -9,6 +9,9 @@ category.
 
 from __future__ import division, unicode_literals
 
+import os
+import re
+
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.utilities import as_array, is_string
 
@@ -19,7 +22,7 @@ __maintainer__ = 'Colour Developers'
 __email__ = 'colour-science@googlegroups.com'
 __status__ = 'Production'
 
-__all__ = ['parse_array']
+__all__ = ['parse_array', 'path_to_title']
 
 
 def parse_array(a, separator=' ', dtype=DEFAULT_FLOAT_DTYPE):
@@ -52,3 +55,29 @@ def parse_array(a, separator=' ', dtype=DEFAULT_FLOAT_DTYPE):
         a = a.split(separator)
 
     return as_array([dtype(token) for token in a], dtype)
+
+
+def path_to_title(path):
+    """
+    Converts given file path to title.
+
+    Parameters
+    ----------
+    path : unicode
+        File path to convert to title.
+
+    Returns
+    -------
+    unicode
+        File path converted to title.
+
+    Examples
+    --------
+    >>> # Doctests skip for Python 2.x compatibility.
+    >>> path_to_title(
+    ...     'colour/io/luts/tests/resources/sony_spi3d/ColourCorrect.spi3d'
+    ... )  # doctest: +SKIP
+    u'ColourCorrect'
+    """
+
+    return re.sub('_|-|\\.', ' ', os.path.splitext(os.path.basename(path))[0])

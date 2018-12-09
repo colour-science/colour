@@ -19,8 +19,6 @@ References
 from __future__ import division, unicode_literals
 
 import numpy as np
-import re
-import os
 
 from colour.io.luts import LUT1D, LUT2D, LUT3D, LUTSequence
 from colour.io.luts.common import parse_array
@@ -59,6 +57,7 @@ def read_LUT_Cinespace(path):
     --------
     Reading a 2D *Cinespace* *.csp* *LUT*:
 
+    >>> import os
     >>> path = os.path.join(
     ...     os.path.dirname(__file__), 'tests', 'resources', 'cinespace',
     ...     'ACES_Proxy_10_to_ACES.csp')
@@ -86,7 +85,6 @@ def read_LUT_Cinespace(path):
     Size       : (4, 4, 4, 3)
     """
 
-    title = re.sub('_|-|\\.', ' ', os.path.splitext(os.path.basename(path))[0])
     unity_range = np.array([[0., 0., 0.], [1., 1., 1.]])
 
     def _parse_metadata_section(lines):
