@@ -9,7 +9,7 @@ from colour.utilities.documentation import is_documentation_building
 
 from .spectrum import (SpectralShape, DEFAULT_SPECTRAL_SHAPE,
                        SpectralDistribution, MultiSpectralDistribution)
-from .blackbody import (sd_blackbody, blackbody_spectral_radiance, planck_law)
+from .blackbody import sd_blackbody, blackbody_spectral_radiance, planck_law
 from .cmfs import (LMS_ConeFundamentals, RGB_ColourMatchingFunctions,
                    XYZ_ColourMatchingFunctions)
 from .dataset import *  # noqa
@@ -21,7 +21,7 @@ from .generation import SD_SINGLE_LED_METHODS
 from .generation import sd_single_led, sd_single_led_Ohno2005
 from .generation import SD_MULTI_LED_METHODS
 from .generation import sd_multi_led, sd_multi_led_Ohno2005
-from .tristimulus import (SD_TO_XYZ_METHODS, MULTI_SD_TO_XYZ_METHODS)
+from .tristimulus import SD_TO_XYZ_METHODS, MULTI_SD_TO_XYZ_METHODS
 from .tristimulus import sd_to_XYZ, multi_sd_to_XYZ
 from .tristimulus import (
     ASTME30815_PRACTISE_SHAPE, lagrange_coefficients_ASTME202211,

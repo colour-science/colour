@@ -11,7 +11,7 @@ from .common import CV_range, legal_to_full, full_to_legal
 from .aces import (log_encoding_ACESproxy, log_decoding_ACESproxy,
                    log_encoding_ACEScc, log_decoding_ACEScc,
                    log_encoding_ACEScct, log_decoding_ACEScct)
-from .alexa_log_c import (log_encoding_ALEXALogC, log_decoding_ALEXALogC)
+from .alexa_log_c import log_encoding_ALEXALogC, log_decoding_ALEXALogC
 from .arib_std_b67 import oetf_ARIBSTDB67, oetf_reverse_ARIBSTDB67
 from .canon_log import (log_encoding_CanonLog, log_decoding_CanonLog,
                         log_encoding_CanonLog2, log_decoding_CanonLog2,
