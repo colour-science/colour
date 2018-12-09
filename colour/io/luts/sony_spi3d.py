@@ -15,8 +15,9 @@ import numpy as np
 import os
 import re
 
-from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
+from colour.constants import DEFAULT_INT_DTYPE
 from colour.io.luts import LUT3D, LUTSequence
+from colour.io.luts.common import parse_array
 from colour.utilities import as_float_array, usage_warning
 
 __author__ = 'Colour Developers'
@@ -68,13 +69,6 @@ def read_LUT_SonySPI3D(path):
     table = []
     comments = []
 
-    def _parse_array(array, dtype=DEFAULT_FLOAT_DTYPE):
-        """
-        Converts given string array to :class:`ndarray` class.
-        """
-
-        return np.array(list(map(dtype, array)))
-
     with open(path) as spi3d_file:
         lines = spi3d_file.readlines()
         for line in lines:
@@ -94,8 +88,8 @@ def read_LUT_SonySPI3D(path):
 
                 size = DEFAULT_INT_DTYPE(tokens[0])
             if len(tokens) == 6:
-                indexes.append(_parse_array(tokens[:3]))
-                table.append(_parse_array(tokens[3:]))
+                indexes.append(parse_array(tokens[:3]))
+                table.append(parse_array(tokens[3:]))
 
     assert np.array_equal(
         indexes,

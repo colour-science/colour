@@ -15,8 +15,9 @@ import numpy as np
 import os
 import re
 
-from colour.constants import DEFAULT_FLOAT_DTYPE, DEFAULT_INT_DTYPE
+from colour.constants import DEFAULT_INT_DTYPE
 from colour.io.luts import LUT1D, LUT2D, LUTSequence
+from colour.io.luts.common import parse_array
 from colour.utilities import as_float_array, usage_warning
 
 __author__ = 'Colour Developers'
@@ -84,13 +85,6 @@ def read_LUT_SonySPI1D(path):
 
     comments = []
 
-    def _parse_array(array):
-        """
-        Converts given string array to :class:`ndarray` class.
-        """
-
-        return np.array(list(map(DEFAULT_FLOAT_DTYPE, array)))
-
     with open(path) as spi1d_file:
         lines = spi1d_file.readlines()
         for line in lines:
@@ -107,7 +101,7 @@ def read_LUT_SonySPI1D(path):
             if tokens[0] == 'Version':
                 continue
             if tokens[0] == 'From':
-                domain_min, domain_max = _parse_array(tokens[1:])
+                domain_min, domain_max = parse_array(tokens[1:])
             elif tokens[0] == 'Length':
                 continue
             elif tokens[0] == 'Components':
@@ -119,7 +113,7 @@ def read_LUT_SonySPI1D(path):
             elif tokens[0] in ('{', '}'):
                 continue
             else:
-                table.append(_parse_array(tokens))
+                table.append(parse_array(tokens))
 
     table = as_float_array(table)
     if dimensions == 1:

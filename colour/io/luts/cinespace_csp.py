@@ -22,8 +22,8 @@ import numpy as np
 import re
 import os
 
-from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.io.luts import LUT1D, LUT2D, LUT3D, LUTSequence
+from colour.io.luts.common import parse_array
 from colour.utilities import tsplit, tstack
 
 __author__ = 'Colour Developers'
@@ -89,13 +89,6 @@ def read_LUT_Cinespace(path):
     title = re.sub('_|-|\\.', ' ', os.path.splitext(os.path.basename(path))[0])
     unity_range = np.array([[0., 0., 0.], [1., 1., 1.]])
 
-    def _parse_array(array):
-        """
-        Converts given string array to :class:`ndarray` class.
-        """
-
-        return np.array(list(map(DEFAULT_FLOAT_DTYPE, array)))
-
     def _parse_metadata_section(lines):
         """
         Parses the metadata at given lines.
@@ -116,7 +109,7 @@ def read_LUT_Cinespace(path):
         """
 
         pre_LUT_size = max([int(lines[i]) for i in [0, 3, 6]])
-        pre_LUT = [_parse_array(lines[i].split()) for i in [1, 2, 4, 5, 7, 8]]
+        pre_LUT = [parse_array(lines[i]) for i in [1, 2, 4, 5, 7, 8]]
         pre_LUT_padded = []
 
         for row in pre_LUT:
@@ -137,8 +130,8 @@ def read_LUT_Cinespace(path):
         Parses the table at given lines.
         """
 
-        size = _parse_array(lines[0].split()).astype(int)
-        table = np.array([_parse_array(line.split()) for line in lines[1:]])
+        size = parse_array(lines[0]).astype(int)
+        table = np.array([parse_array(line) for line in lines[1:]])
 
         return size, table
 
