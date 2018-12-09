@@ -4,7 +4,7 @@ import numpy as np
 import xml.etree.ElementTree as ET
 import re
 
-from colour.utilities import as_float_array, as_numeric
+from colour.utilities import as_float_array, as_numeric, tsplit, tstack
 from colour.constants import DEFAULT_FLOAT_DTYPE
 from colour.io.luts import (AbstractLUTSequenceOperator,
                             ASC_CDL,
@@ -15,8 +15,8 @@ from colour.io.luts import (AbstractLUTSequenceOperator,
                             Matrix,
                             Range)
 
-__all__ = ['half_to_uint16', 'uint16_to_half', 'halfDomain', 'read_IndexMap',
-           'string_to_array', 'simple_clf_parse']
+__all__ = ['half_to_uint16', 'uint16_to_half', 'halfDomain1D', 'halfDomain2D',
+           'read_IndexMap', 'string_to_array', 'simple_clf_parse']
 
 def half_to_uint16(x):
     x_half = np.copy(np.asarray(x)).astype(np.float16)
@@ -28,21 +28,24 @@ def uint16_to_half(y):
     return as_numeric(np.frombuffer(y_int.tobytes(),
         dtype=np.float16).reshape(y_int.shape).astype(DEFAULT_FLOAT_DTYPE))
 
-class halfDomain(AbstractLUTSequenceOperator):
+class halfDomain1D(AbstractLUTSequenceOperator):
     def __init__(self,
                  table=None,
                  name=None,
                  comments=None,
                  rawHalfs=False):
-        self.table = self.linear_table(rawHalfs=rawHalfs)
+        if table is not None:
+            self.table = table
+        else:
+            self.table = self.linear_table(rawHalfs=rawHalfs)
         self.name = name
         self.coments = comments
         self.rawHalfs = rawHalfs
 
     def _validate_table(self, table):
-        table = as_float_array(table)
+        table = np.asarray(table)
 
-        assert table.shape == (65536,), 'The table must be a 1 by 65536 array!'
+        assert table.shape == (65536,), 'The table must be 65536 lines!'
 
         return table
 
@@ -54,10 +57,53 @@ class halfDomain(AbstractLUTSequenceOperator):
             return uint16_to_half(np.arange(65536, dtype='uint16'))
 
     def apply(self, RGB):
+        RGB = as_float_array(RGB)
         if self.rawHalfs:
             return uint16_to_half(self.table[half_to_uint16(RGB)])
         else:
             return self.table[half_to_uint16(RGB)]
+
+class halfDomain2D(AbstractLUTSequenceOperator):
+    def __init__(self,
+                 table=None,
+                 name=None,
+                 comments=None,
+                 rawHalfs=False):
+        if table is not None:
+            self.table = table
+        else:
+            self.table = self.linear_table(rawHalfs=rawHalfs)
+        self.name = name
+        self.coments = comments
+        self.rawHalfs = rawHalfs
+
+    def _validate_table(self, table):
+        table = np.asarray(table)
+
+        assert table.shape == (65536, 3), 'The table must be 65536 x 3!'
+
+        return table
+
+    @staticmethod
+    def linear_table(rawHalfs=False):
+        if rawHalfs:
+            c = np.arange(65536, dtype='uint16')
+        else:
+            c = uint16_to_half(np.arange(65536, dtype='uint16'))
+        return tstack((c, c, c)).astype(np.uint16)
+
+    def apply(self, RGB):
+        r, g, b = tsplit(as_float_array(RGB))
+        table_r, table_g, table_b = tsplit(self.table)
+        if self.rawHalfs:
+            r =  uint16_to_half(table_r[half_to_uint16(r)])
+            g =  uint16_to_half(table_g[half_to_uint16(g)])
+            b =  uint16_to_half(table_b[half_to_uint16(b)])
+        else:
+            r = table_r[half_to_uint16(r)]
+            g = table_g[half_to_uint16(g)]
+            b = table_b[half_to_uint16(b)]
+        return tstack((r, g, b))
 
 def read_IndexMap(IndexMap):
     IndexMap = IndexMap.strip().split()
@@ -75,7 +121,11 @@ def ns_strip(s):
     return re.sub('{.+}', '', s)
 
 def add_LUT1D(LUT, node):
-    shaper = None
+    shaper, is_halfDomain, is_rawHalfs = None, None, None
+    if 'halfDomain' in node.keys():
+        is_halfDomain = bool(node.attrib['halfDomain'])
+        if 'rawHalfs' in node.keys():
+            is_rawHalfs = bool(node.attrib['rawHalfs'])
     for child in node:
         if child.tag.endswith('IndexMap'):
             shaper = read_IndexMap(child.text)
@@ -85,9 +135,16 @@ def add_LUT1D(LUT, node):
             c = int(dim.split()[1])
             array = string_to_array(child.text, dim=(r, c))
             if c == 1:
-                LUT_1 = LUT1D(table=array.reshape(-1))
+                if is_halfDomain:
+                    LUT_1 = halfDomain1D(table=array.reshape(-1),
+                                         rawHalfs=is_rawHalfs)
+                else:
+                    LUT_1 = LUT1D(table=array.reshape(-1))
             else:
-                LUT_1 = LUT2D(table=array)
+                if is_halfDomain:
+                    LUT_1 = halfDomain2D(table=array, rawHalfs=is_rawHalfs)
+                else:
+                    LUT_1 = LUT2D(table=array)
     if shaper:
         if np.all(shaper.table == np.arange(shaper.size)): #fully enumerated
             LUT_1.domain = shaper.domain
@@ -119,6 +176,11 @@ def add_LUT3D(LUT, node):
 
 def add_Range(LUT, node):
     range = Range()
+    if 'style' in node.keys():
+        if node.attrib['style'] == 'NoClamp':
+            range.noClamp = True
+        if node.attrib['style'] == 'Clamp':
+            range.noClamp = False
     for child in node:
         if child.tag.endswith('minInValue'):
             range.minInValue = float(child.text)
@@ -145,6 +207,15 @@ def add_Matrix(LUT, node):
 
 def add_ASC_CDL(LUT, node):
     cdl = ASC_CDL()
+    if 'style' in node.keys():
+        if node.attrib['style'] == 'FwdNoClamp':
+            cdl.clamp, cdl.rev = False, False
+        if node.attrib['style'] == 'RevNoClamp':
+            cdl.clamp, cdl.rev = False, True
+        if node.attrib['style'] == 'Fwd':
+            cdl.clamp, cdl.rev = True, False
+        if node.attrib['style'] == 'Rev':
+            cdl.clamp, cdl.rev = True, True
     for child in node:
         if child.tag.endswith('SOPNode'):
             for grandchild in child:
