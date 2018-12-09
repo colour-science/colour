@@ -36,6 +36,7 @@ class TestReadLUTSonySPI3D(unittest.TestCase):
         """
         Tests :func:`colour.io.luts.sony_spi3d.read_LUT_SonySPI3D` definition.
         """
+
         LUT = read_LUT_SonySPI3D(
             os.path.join(LUTS_DIRECTORY, 'ColourCorrect.spi3d'))
 

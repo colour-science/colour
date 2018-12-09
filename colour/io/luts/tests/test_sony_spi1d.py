@@ -36,6 +36,7 @@ class TestReadLUTSonySPI1D(unittest.TestCase):
         """
         Tests :func:`colour.io.luts.sony_spi1d.read_LUT_SonySPI1D` definition.
         """
+
         LUT_1 = read_LUT_SonySPI1D(
             os.path.join(LUTS_DIRECTORY, 'oetf_reverse_sRGB_1D.spi1d'))
 
