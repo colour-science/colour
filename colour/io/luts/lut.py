@@ -2635,7 +2635,7 @@ class Matrix(AbstractLUTSequenceOperator):
         RGB = np.asarray(RGB)
         if self.array.shape == (3, 4):
             r, g, b = tsplit(RGB)
-            RGB = tstack((r, g, b, 1.))
+            RGB = tstack((r, g, b, np.ones(r.shape)))
         return dot_vector(self.array, RGB)
 
     def __str__(self):
@@ -2854,7 +2854,7 @@ class ASC_CDL(AbstractLUTSequenceOperator):
             RGB_out -= self.offset
             RGB_out /= self.slope
             if self.clamp:
-                RGB_out = np.clip(RGB, 0, 1)
+                RGB_out = np.clip(RGB_out, 0, 1)
         else:
             RGB_out *= self.slope
             RGB_out += self.offset

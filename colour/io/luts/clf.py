@@ -117,6 +117,9 @@ def string_to_array(string, dim=None):
     assert not dim is None, 'dim must be set to dimensions of array!'
     return np.fromstring(string, count=dim[0]*dim[1], sep=' ').reshape(dim)
 
+def parse_array(array):
+    return np.array(array.strip().split()).astype(DEFAULT_FLOAT_DTYPE)
+
 def ns_strip(s):
     return re.sub('{.+}', '', s)
 
@@ -149,6 +152,7 @@ def add_LUT1D(LUT, node):
         if np.all(shaper.table == np.arange(shaper.size)): #fully enumerated
             LUT_1.domain = shaper.domain
         else:
+            shaper.table /= np.max(shaper.table)
             LUT.append(shaper)
     LUT.append(LUT_1)
     return LUT
@@ -158,7 +162,7 @@ def add_LUT3D(LUT, node):
     for child in node:
         if child.tag.endswith('IndexMap'):
             shaper = read_IndexMap(child.text)
-            shaper.table /= shaper.domain[-1]
+            shaper.table /= np.max(shaper.table)
         if child.tag.endswith('Array'):
             dim = child.attrib['dim']
             size_r = int(dim.split()[0])
@@ -220,12 +224,12 @@ def add_ASC_CDL(LUT, node):
         if child.tag.endswith('SOPNode'):
             for grandchild in child:
                 if grandchild.tag.endswith('Slope'):
-                    cdl.slope = string_to_array(grandchild.text, (3,))
+                    cdl.slope = parse_array(grandchild.text)
                 if grandchild.tag.endswith('Offset'):
-                    cdl.offset = string_to_array(grandchild.text, (3,))
+                    cdl.offset = parse_array(grandchild.text)
                 if grandchild.tag.endswith('Power'):
-                    cdl.power = string_to_array(grandchild.text, (3,))
-        if child.tag.endswith('SATNode'):
+                    cdl.power = parse_array(grandchild.text)
+        if child.tag.endswith('SatNode'):
             for grandchild in child:
                 if grandchild.tag.endswith('Saturation'):
                     cdl.sat = float(grandchild.text)
